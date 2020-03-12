@@ -2,191 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37829182AA8
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:09:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F36D182A17
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:01:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C7586EA7E;
-	Thu, 12 Mar 2020 08:08:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4104489C49;
+	Thu, 12 Mar 2020 08:01:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
- [149.117.73.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 772A46E093
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 07:56:03 +0000 (UTC)
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
- [10.192.0.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4074440144;
- Thu, 12 Mar 2020 07:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1583999762; bh=cZPI7fb5A27I29cln7T2XnI6pgXqRtc0a7Rlc9ngltY=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=ckZcdR6PgaiNWE5DEqYDw8Ly3Z3o13980yFkwgOfVUqt9XFnkbWZZB3q/SdjjMZnX
- lWXDQmpK4DlJ/89euZPpS/doMAxj9D6RRzT/Lm8JcWW64cdxnVjAYfVgUYIexzlYdn
- 1rIdLSycexjbk6gMkjkgLctXJpaiQ43BvI7kovuGUgHitycpm69RmcY7I1ZP0g49+x
- K/RcXc5bxEh6StyxOjbby4nnziY3oCXwCd8WYYEoJdUwMv+3iI6KOfviHzho/VSuFa
- TGK4bX3crRgNUQG4AlD0u4tgehgscdQsdfXYtVpAIfWhL3tdT645DQzovmmwy7bTHa
- fDngje9EAhoUA==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 85A00A00B4;
- Thu, 12 Mar 2020 07:56:01 +0000 (UTC)
-Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 12 Mar 2020 00:55:39 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Thu, 12 Mar 2020 00:55:35 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dn64XT+FvS1Hs93jnnmyPa/10nR/9adHZzumG7iII6ZLjqXWabD47QQNHeuU1WmBFfxVMk/8C8xNrpFSnLPxIS/mtNjuPhWhNMPIUUPHEZwuZyugUk07Hu8bmpR8SUkZD7nKa8tFW+TYC+kW5d7pUDhrRnW1CixzybgnkfMWkHewDfn4PmjBLIHOoQfAIMO2PIMw11u/92eNqlmwacWyXTq7F4Y/phg1yW7XdcGPKZK9el6rNQQ1M9Pq5BLH7IsOyVP2JxRfuuF4t1qWBeETfSUwX35Z6FJWwd7sLbwlJK07sFaMzMNbgk7hW6gzxsemUpMALnAXL2bowhkI8eMAEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cZPI7fb5A27I29cln7T2XnI6pgXqRtc0a7Rlc9ngltY=;
- b=VVtup3ajGaaje1ytazNc6/PfyQGhgenM/MxbgSjaHbxcwIROWnxmklTB9B9R5Cn31YPEr1Td3kpUXOnEthRJ58qseiv0jscZ5ubT/hxj+TK986X7P/6BYv7FKsrNZ4YcmhDUfkApTZmqkDO2U3J5C4IhOP3eYJOqGnztoTiYpUiiwgXw+94c8K/HsdUF76DmAo/fw99yj5Iks4t+Mb4AMXzSicHk++4cdrAI+n46FQjFLXkC7nFWpSu6FsUEng7ONpEFqh+GogcszEgqIAt5HN9bjlyEBEZYu0aTvdqQYUu+DlT+t0OXuoCXHpZWTPod3BeLd5wE8C2yA1BXkplnHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cZPI7fb5A27I29cln7T2XnI6pgXqRtc0a7Rlc9ngltY=;
- b=wZ59TBYSrvjSjAjyZM9nzqpM6pImMS5aDtUYJtl6c+N+GzraqdR7Mxis93SXfDYRZUUUOq4JqI/Rcewp9omAFt+k6qwfDkjYPeEJYKDyxyFrnXSwGPbGdJVVHMipVEpc9AZSIACKNyMCMLwgVjMS2rZ3oCDukjaprX+F6NuSvMQ=
-Received: from CY4PR1201MB0120.namprd12.prod.outlook.com
- (2603:10b6:910:1c::14) by CY4PR1201MB0182.namprd12.prod.outlook.com
- (2603:10b6:910:18::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.14; Thu, 12 Mar
- 2020 07:55:34 +0000
-Received: from CY4PR1201MB0120.namprd12.prod.outlook.com
- ([fe80::744c:4e95:39be:9d44]) by CY4PR1201MB0120.namprd12.prod.outlook.com
- ([fe80::744c:4e95:39be:9d44%12]) with mapi id 15.20.2793.018; Thu, 12 Mar
- 2020 07:55:34 +0000
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: Wambui Karuga <wambui.karugax@gmail.com>, "airlied@linux.ie"
- <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>
-Subject: RE: [PATCH v2 05/17] drm/arc: make arcgpu_debugfs_init() return 0.
-Thread-Topic: [PATCH v2 05/17] drm/arc: make arcgpu_debugfs_init() return 0.
-Thread-Index: AQHV9uBTV+yF1SOGF02GGi3fyWZd0ahEmR7g
-Date: Thu, 12 Mar 2020 07:55:34 +0000
-Message-ID: <CY4PR1201MB0120F8E7C1AECE8E4F52BA89A1FD0@CY4PR1201MB0120.namprd12.prod.outlook.com>
-References: <20200310133121.27913-1-wambui.karugax@gmail.com>
- <20200310133121.27913-6-wambui.karugax@gmail.com>
-In-Reply-To: <20200310133121.27913-6-wambui.karugax@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWJyb2RraW5c?=
- =?us-ascii?Q?YXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRi?=
- =?us-ascii?Q?YTI5ZTM1Ylxtc2dzXG1zZy1kODE2NDA2Yy02NDM2LTExZWEtODAzMi04OGIx?=
- =?us-ascii?Q?MTFjZGUyMTdcYW1lLXRlc3RcZDgxNjQwNmUtNjQzNi0xMWVhLTgwMzItODhi?=
- =?us-ascii?Q?MTExY2RlMjE3Ym9keS50eHQiIHN6PSIxMTUxIiB0PSIxMzIyODQ3MzMzMTUx?=
- =?us-ascii?Q?NjQ4NTMiIGg9IkoyVDdmUSt3cVhyUUtBQkVHL0V3UVR1NGRoZz0iIGlkPSIi?=
- =?us-ascii?Q?IGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk5DZ1VBQUJRSkFB?=
- =?us-ascii?Q?QzFLbldhUS9qVkFRcUQzYTlVT29OQkNvUGRyMVE2ZzBFT0FBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFIQUFBQUNrQ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFFQUFRQUJBQUFBTW9OL3h3QUFBQUFBQUFBQUFBQUFBSjRBQUFCbUFHa0Fi?=
- =?us-ascii?Q?Z0JoQUc0QVl3QmxBRjhBY0FCc0FHRUFiZ0J1QUdrQWJnQm5BRjhBZHdCaEFI?=
- =?us-ascii?Q?UUFaUUJ5QUcwQVlRQnlBR3NBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR1lBYndCMUFHNEFaQUJ5QUhrQVh3?=
- =?us-ascii?Q?QndBR0VBY2dCMEFHNEFaUUJ5QUhNQVh3Qm5BR1lBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFBQ0FB?=
- =?us-ascii?Q?QUFBQUNlQUFBQVpnQnZBSFVBYmdCa0FISUFlUUJmQUhBQVlRQnlBSFFBYmdC?=
- =?us-ascii?Q?bEFISUFjd0JmQUhNQVlRQnRBSE1BZFFCdUFHY0FYd0JqQUc4QWJnQm1BQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJtQUc4?=
- =?us-ascii?Q?QWRRQnVBR1FBY2dCNUFGOEFjQUJoQUhJQWRBQnVBR1VBY2dCekFGOEFjd0Jo?=
- =?us-ascii?Q?QUcwQWN3QjFBRzRBWndCZkFISUFaUUJ6QUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHWUFid0IxQUc0QVpBQnlBSGtB?=
- =?us-ascii?Q?WHdCd0FHRUFjZ0IwQUc0QVpRQnlBSE1BWHdCekFHMEFhUUJqQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFD?=
- =?us-ascii?Q?QUFBQUFBQ2VBQUFBWmdCdkFIVUFiZ0JrQUhJQWVRQmZBSEFBWVFCeUFIUUFi?=
- =?us-ascii?Q?Z0JsQUhJQWN3QmZBSE1BZEFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQm1B?=
- =?us-ascii?Q?RzhBZFFCdUFHUUFjZ0I1QUY4QWNBQmhBSElBZEFCdUFHVUFjZ0J6QUY4QWRB?=
- =?us-ascii?Q?QnpBRzBBWXdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdZQWJ3QjFBRzRBWkFCeUFI?=
- =?us-ascii?Q?a0FYd0J3QUdFQWNnQjBBRzRBWlFCeUFITUFYd0IxQUcwQVl3QUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFB?=
- =?us-ascii?Q?QUNBQUFBQUFDZUFBQUFad0IwQUhNQVh3QndBSElBYndCa0FIVUFZd0IwQUY4?=
- =?us-ascii?Q?QWRBQnlBR0VBYVFCdUFHa0FiZ0JuQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFC?=
- =?us-ascii?Q?ekFHRUFiQUJsQUhNQVh3QmhBR01BWXdCdkFIVUFiZ0IwQUY4QWNBQnNBR0VB?=
- =?us-ascii?Q?YmdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBSE1BWVFCc0FHVUFjd0Jm?=
- =?us-ascii?Q?QUhFQWRRQnZBSFFBWlFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFB?=
- =?us-ascii?Q?QUFBQ0FBQUFBQUNlQUFBQWN3QnVBSEFBY3dCZkFHd0FhUUJqQUdVQWJnQnpB?=
- =?us-ascii?Q?R1VBWHdCMEFHVUFjZ0J0QUY4QU1RQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFB?=
- =?us-ascii?Q?QUJ6QUc0QWNBQnpBRjhBYkFCcEFHTUFaUUJ1QUhNQVpRQmZBSFFBWlFCeUFH?=
- =?us-ascii?Q?MEFYd0J6QUhRQWRRQmtBR1VBYmdCMEFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFIWUFad0JmQUdzQVpR?=
- =?us-ascii?Q?QjVBSGNBYndCeUFHUUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFB?=
- =?us-ascii?Q?QUFBQUFDQUFBQUFBQT0iLz48L21ldGE+?=
-x-dg-rorf: true
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=abrodkin@synopsys.com; 
-x-originating-ip: [183.89.24.137]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 59f02c9c-a397-4ba7-1616-08d7c65abeb7
-x-ms-traffictypediagnostic: CY4PR1201MB0182:
-x-microsoft-antispam-prvs: <CY4PR1201MB018251F8B3331EB36F23FF9DA1FD0@CY4PR1201MB0182.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:935;
-x-forefront-prvs: 0340850FCD
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10001)(10019020)(39860400002)(376002)(136003)(346002)(396003)(366004)(199004)(81166006)(9686003)(55016002)(33656002)(8676002)(86362001)(26005)(4744005)(66556008)(81156014)(66946007)(66476007)(64756008)(186003)(76116006)(66446008)(4326008)(110136005)(2906002)(966005)(316002)(71200400001)(478600001)(52536014)(5660300002)(53546011)(6506007)(7696005)(54906003)(8936002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR1201MB0182;
- H:CY4PR1201MB0120.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: L/JHh8cp13kKgZADqHGd2SVaA7OduHS1sWykA9D1PeEP60XhB1ouH5lfYPw+48gAvaDJRQzqfq26V6zbWbkuk9UhO0GKbDfr8DBXAK/5gD/2YqDoDNMuE0zITWqUMplMisqklh6BxQC5eT1SDa/UX5c6OC4ozUgkZXMWQrY2VhX+AFFLyqIJy7ZdBYCJW8QfYK0WOXPHqB1IPxpyAZM8i+Yc7aB+6iWfB26otjvdj90Vg6f46c+Ky7Q+dqVt/D7frtb5Qrnxr/QLYifD9tFLdv5lhSnSov9awwgkHUqNJLmK3/TAM5ctB3VhoAekcwub1sWX+vPO1GX6n6AXzRXuRnXhp5SR1z3pJUeApDgxVx/lWPIXAVII/bUIaM8mz9JXyYPuNNo8OyqVTiJuVm5NnwH9nVN4OeRrKwVW3+l1A9gbPzMt4bHkoBNFg8ee7P++GYJspkroHqAIlcgh/gac9DWTIdBl3G16rmudMRRSm61Hj/xgKHpEOJrADAqHv4fTuA+al5DoceSrppjOjcgAL712SZF7Pnawj/I3hjgOlkk=
-x-ms-exchange-antispam-messagedata: jhdR4IaNr5Ie0v4EiPaPa96dIee+h0xMKpsMvW7S7oaecKLhG0SOyy3kmRug3cl+B9LD+vw3KjXd5v+Z8BUyFm/IauODAXQ6BA6KSgf5vOSop0UdnD7hgkKP4ap+OwF3FEqT8XBLGbNHQ3BTF9zfYg==
-x-ms-exchange-transport-forked: True
+Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net
+ [194.109.24.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C11D989C49
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 08:01:39 +0000 (UTC)
+Received: from [192.168.2.10] ([46.9.234.233])
+ by smtp-cloud9.xs4all.net with ESMTPA
+ id CImQjXGct9Im2CImTjipFx; Thu, 12 Mar 2020 09:01:37 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+ t=1584000098; bh=rlvXrsquCgOAoL6m3j4naIDiZk45jPg5qzfaHkH6ylc=;
+ h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=S5pQfgbOLIHhQdw0W7sV5AZx/O5rbzeyPt7bFpTNkwgO8Qy0BKq+Rvjmju5L2B424
+ ts5RJaST/5DSO90woF88XEKoVSWzdXA1+cYgXtZ9lrnSZ/voNQNCc/kNcDWB/9eH8q
+ oukXvG+APHr07xXyoiRVnfNAIu0NoRyJO4gRl7kMox10FOdeAVa4C86hGVXEgWIL1z
+ DHpeiiUb+PUHWBRHnftozp83wtSCPlDu/KR0wA5Tus7873ErMhZjEh0V/cX/LLr9QJ
+ GcvLzWg4JtL3YxsnzXI28YMgDuIhwtNvDRGPXfnFqtov7CBrtU3S5QfdwsKM1K25I6
+ WU1k8NIIoVM6w==
+Subject: Re: [RESEND PATCH v2 8/9] media: fsl-viu: Constify ioreadX() iomem
+ argument (as in generic implementation)
+To: Krzysztof Kozlowski <krzk@kernel.org>, Richard Henderson
+ <rth@twiddle.net>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Vineet Gupta <vgupta@synopsys.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Jiri Slaby
+ <jirislaby@gmail.com>, Nick Kossifidis <mickflemm@gmail.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
+ "David S. Miller" <davem@davemloft.net>, Dave Jiang <dave.jiang@intel.com>,
+ Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ linux-ntb@googlegroups.com, virtualization@lists.linux-foundation.org,
+ linux-arch@vger.kernel.org
+References: <20200219175007.13627-1-krzk@kernel.org>
+ <20200219175007.13627-9-krzk@kernel.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <1c4a11b5-5ca6-7555-de3c-ff30f707fac7@xs4all.nl>
+Date: Thu, 12 Mar 2020 09:01:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59f02c9c-a397-4ba7-1616-08d7c65abeb7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2020 07:55:34.4570 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RMenhQHnplzYvXY3ulb2IA2RSVn/fP8vpLb8nFVp6+Fpi1jCwWQrdVlpDUwiQlRx20ere5LoWf6+PGW65n1nUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0182
-X-OriginatorOrg: synopsys.com
-X-Mailman-Approved-At: Thu, 12 Mar 2020 08:08:13 +0000
+In-Reply-To: <20200219175007.13627-9-krzk@kernel.org>
+Content-Language: en-US
+X-CMAE-Envelope: MS4wfB1zxMJIE7wElbGm4sdMecyYLJ6LdsDMDpZDeSQuVKwPm0HLBt9h+mOdrGXFuIDkCI9Ox7ukCv0Xr+wsEhOQPNuuqPOa2tbCK6oF1PNdZVqk6thKvC3h
+ xE4aE9bNSUWOFhWxTazaeGPVr5hr0AhveAgdpPWZHpjhg5PxgtKgtRwcEM0X31YjusYjKeuEG9QF/4JOHzjohAIjiR+oAI0nyED+Jez9yI4FW1ZB3LXkp8TH
+ 7MMndY8iJadjMhsV5+oGTHeP7z8vzm/dZU83psQzhxRsPonohHX17/JsKF2l5MFAT9+97UKYOiKAsfrv1Cpys4Ae5wkTvdw4qsE49ssk4hjAoyha0QB9BVju
+ 9SGy1FrSenK0frRjbC8NaYY9ZERWNSiNH5LA36WXT5yWf3v+Qcv3MkgEimaOp41P2nlVLuOjtsbM7Oc0IE2oIVVfFA700ZJiP3znlyaVddewRuZDpRVP7LaM
+ BmiWSHGXgw8YtQmC7z4+FTtlDdPcaOnURURbGtwGqrG9ypYOfWaczdFyon9cFrdpqrNkvqRjWmqFa6YgsB57xqLqvFfcZaXIx/5GPRUQudUCvZPJzisakVQc
+ uttKYb/aM3WYuhJM4Wb1Pv6BrMYMIVXGCFsOBd7W/xp0N3iMBGSYj0Aa0rPNR8hHdzbHBC2fjWlNKKBiBqoznNqCGZ0CiVQoEM+QtyRRgiYnx6PeAm5PLOc4
+ VNFQmhkOpnD9IFKzOg7MDbXsSwg+OAG64qEuG/VscrSiDVQ1yjv5knp7CxhKGvYM4OpGHYT1Er7Bdx2FCmXu/yAwSbBDRagCD0kotDKUph18wrkxxeFljDJA
+ LSc1aSxY7WzE0MoB4x1WWy+jz94FDlyhtSMwiZ6y0dJP3+c2+Q5En242uHE069S9l+7oW8v5MGbWOStqt5f3vSjCb7LIzWN87JmuP89GFWwWLJsughS7GMyf
+ 9DHMMrFLvERXtynUPrxsXWOFJFYcfPWtUSuDRlT6lyW4OqviXxQxmuwWWPzBiEuN74qNtI+js8zLo4yvgjsgXCeSGNoTx+kuEqyjk5W1UzIpidGK0CRrnVbE
+ 6hD9Y/vETMZdaCRGTPOlU05njcJF+46w8BJ3SNj0Py3qBk1dX7c6nBfbFypmWYBFmuncdfgfV+GvZgph5pgPHOoQxVCf/tLCrfA6lP3T+1yMX4df+BQFRKLS
+ O4WmDF2MxF8KloewGsYz/rsmgB25E6V0YSDc8EvmqseT2P6A01f6bsdZt1AJnufocp+H44s+qhBR6buNUUMphP9KyIyYuNbtmFvkGTyK649jUP2q8Nik1rK1
+ 3AqiAYrtsks7Dqmq5Qj7chR5DBva/WjXbTAi9lRBeyrc1LiDTAHtFBMmOGm8QJ0PstgU+Qss/H31YuyO+vowQc/YkfqDiEmsIU7MZy0525QlKJCDuomrR9k/
+ pt0L69OpaODhDI2GKeTabUJfloUo1rGwDFifFZ3GiczPZsdGrTGULzWF8ZqXdk44Vxmf+o40QJa4goBPwv+YDuim0xPrbohAaaGJnTcviLLAbx0Be2IOpJK7
+ 066IFrJvKfz7/Wp2S67JJX5FtbO7VF+IrVN/N63uvfJb+FM6hLMjwGqczE7h5AhCTMRfIsHhAU9mTIYVyLN+UBlZ3WL3ahk0SjumGQqE2df8rbpt41Yx3WFA
+ IW77guEXBH/AFWkGJEIg2a3N91fXva0TdPJAF0YzlkCOnwCmb9/Naw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -199,38 +92,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Wambui,
-
-> -----Original Message-----
-> From: Wambui Karuga <wambui.karugax@gmail.com>
-> Sent: Tuesday, March 10, 2020 8:31 PM
-> To: airlied@linux.ie; daniel@ffwll.ch; Alexey Brodkin <abrodkin@synopsys.com>
-> Cc: dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; gregkh@linuxfoundation.org
-> Subject: [PATCH v2 05/17] drm/arc: make arcgpu_debugfs_init() return 0.
+On 2/19/20 6:50 PM, Krzysztof Kozlowski wrote:
+> The ioreadX() helpers have inconsistent interface.  On some architectures
+> void *__iomem address argument is a pointer to const, on some not.
 > 
-> Since commit 987d65d01356 (drm: debugfs: make
-> drm_debugfs_create_files() never fail), drm_debugfs_create_files() never
-> fails and should return void. Therefore, remove its use as the
-> return value of arcpgu_debugfs_init() and have the latter function return
-> 0 directly.
+> Implementations of ioreadX() do not modify the memory under the address
+> so they can be converted to a "const" version for const-safety and
+> consistency among architectures.
 > 
-> v2: convert the function to return 0 instead of void to avoid breaking
-> the build and ensure that this individual patch compiles properly.
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+Regards,
+
+	Hans
+
+> ---
+>  drivers/media/platform/fsl-viu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> References: https://lists.freedesktop.org/archives/dri-devel/2020-February/257183.html
-> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-
-Thanks for the patch!
-
-Acked-by: Alexey Brodkin <abrodkin@synopsys.com>
+> diff --git a/drivers/media/platform/fsl-viu.c b/drivers/media/platform/fsl-viu.c
+> index 81a8faedbba6..991d9dc82749 100644
+> --- a/drivers/media/platform/fsl-viu.c
+> +++ b/drivers/media/platform/fsl-viu.c
+> @@ -34,7 +34,7 @@
+>  /* Allow building this driver with COMPILE_TEST */
+>  #if !defined(CONFIG_PPC) && !defined(CONFIG_MICROBLAZE)
+>  #define out_be32(v, a)	iowrite32be(a, (void __iomem *)v)
+> -#define in_be32(a)	ioread32be((void __iomem *)a)
+> +#define in_be32(a)	ioread32be((const void __iomem *)a)
+>  #endif
+>  
+>  #define BUFFER_TIMEOUT		msecs_to_jiffies(500)  /* 0.5 seconds */
+> 
 
 _______________________________________________
 dri-devel mailing list
