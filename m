@@ -2,54 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EAA11832FD
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 15:28:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D04E184217
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 09:00:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C0796EAD0;
-	Thu, 12 Mar 2020 14:28:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD6756EB86;
+	Fri, 13 Mar 2020 08:00:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35D866E20D;
- Thu, 12 Mar 2020 14:28:48 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id n8so6320689wmc.4;
- Thu, 12 Mar 2020 07:28:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dY/RhFMUP0nQ5TAbXB37oNSJMhhJygxiAwBiWfEJ74A=;
- b=t3vlWoDN2RG9FJdNKId8QZcDeUw31SKq4nKNnGovgVG7xia7I1dZVWUWWa2f/vEd43
- NdEOZzIDZwwwOIUNG+BLRw/3m3BGFi8dy3nc9G+X7taOp/VK+EBrwAmD2G8B84H1VCuo
- S010Kc+PTnMaVGP9bjnyrNW55HhvLaU4z6RoYBNBAdj5cS9+lsgH831WLtegEhHni/1t
- 4H3TjD7dnseVcoOoWqf1q9rDzn3+55dyeW6qlPH0RTfrdTjb+i91EVSrwK2HUMGdTxZp
- VdVbEH+vkMQXwlcyaKdzvcgfBBZQ/qKzOEHOmoXmcz+m2bMbcdcw+lppsED7uadFkEGw
- tyGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dY/RhFMUP0nQ5TAbXB37oNSJMhhJygxiAwBiWfEJ74A=;
- b=dj9OGYMT21hXdisVPYD1Ul27rM1usVnA8iNGiMV8Mv25NMAY6c9cK8ng8gWyvtlf3c
- w0IErQLeMOEYQ71WtFVdK1IpohjBcPW0vUp83tThhZwbCP5CH5T6dydGRW1xbdqc0fXr
- dROqLuED22ITEJIwceqirV2dMDYUM74dbruVqDd03bFronieIkYvCLN8NZNwPYIb5976
- uTx9ItZM9zmCc0vx2/fV/vzhlMb2hcpUCPaVUUUFfhxn0XmT6Em/glYt1q07YMYe9CmY
- KSwBWk/ifCsiPpfvZ4zjpbthws+R1nM78KLR42obMC8nzI8aOXKslKqkQTYJo1fQwauy
- Z66Q==
-X-Gm-Message-State: ANhLgQ2CGPsOSvMmAGCiJUTuhr8XJ9x5ImtOwgIKIbihUn1X3jUmqITw
- Bpx5CmCfBjBGt5yIhgrssZMNslfdgkyu+idf+M1vcQ==
-X-Google-Smtp-Source: ADFU+vsXshP7RsY77gDiaFil4BUsOOPxIIdV/vB0PFEE91IG8O0YaxhLKjOpgVnaVm7DWBSYZyORgDrSf9xUmjEHvMI=
-X-Received: by 2002:a1c:f21a:: with SMTP id s26mr5139239wmc.39.1584023326879; 
- Thu, 12 Mar 2020 07:28:46 -0700 (PDT)
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E56B16E104
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 10:21:49 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02CAFK8W006286; Thu, 12 Mar 2020 11:21:43 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=rOsCtm6xQiY6Dcml/SJj0vQ67L0Bz1KTNnDxNlVUuCo=;
+ b=0Ht9fz8TfpB9BGgD8h2kczDR41temJrUywP/XPiVy7QUa2jOeOBewiLDVri07WmHeC7c
+ 1QiVzC/VVPFCFUnSGya4qbVFE+qm+ff9lj+1gAjsrRUXvwJHO2gfsTr7UpHGP6SN6Qjb
+ MJId57Hs7KAS4Cl24ZQfWosRUxAakelxJdueKn5Q7nHE2Fquat6EW/c+v8deTwV88eR9
+ MOoFj3H1uQ6fUadhSUwvC+mS0LwcMn4pzU2JqgKkYB9Q3K+2EvlQR0ZqJK+ckI+iAi5v
+ OcDdXbEX1b6UxnHaIfSGdnP6NI8bp1QQlLjlSFZ87Ux3jGKwPFd4moWccJqYkkh2vTAg 9A== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 2ynecdqu3h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Mar 2020 11:21:43 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0EDF010002A;
+ Thu, 12 Mar 2020 11:21:42 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id F1FC221F699;
+ Thu, 12 Mar 2020 11:21:41 +0100 (CET)
+Received: from SFHDAG3NODE3.st.com (10.75.127.9) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 12 Mar
+ 2020 11:21:41 +0100
+Received: from SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476]) by
+ SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476%20]) with mapi id
+ 15.00.1347.000; Thu, 12 Mar 2020 11:21:41 +0100
+From: Benjamin GAIGNARD <benjamin.gaignard@st.com>
+To: Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v1 1/1] dt-bindings: display: fix panel warnings
+Thread-Topic: [PATCH v1 1/1] dt-bindings: display: fix panel warnings
+Thread-Index: AQHV9T/Fg4JevMaLjkyYqXDOY+zmoqhEtMYA
+Date: Thu, 12 Mar 2020 10:21:41 +0000
+Message-ID: <e584e779-aab3-1a41-f198-a5585d9be2e8@st.com>
+References: <20200308115017.18563-1-sam@ravnborg.org>
+ <20200308115017.18563-2-sam@ravnborg.org>
+In-Reply-To: <20200308115017.18563-2-sam@ravnborg.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.45]
+Content-ID: <3E1A8AD3E367074F98E53AF73D1140DE@st.com>
 MIME-Version: 1.0
-References: <20200124010744.102849-1-lyude@redhat.com>
- <f9ab0fdf-b235-2709-8431-5a094b539531@amd.com>
-In-Reply-To: <f9ab0fdf-b235-2709-8431-5a094b539531@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 12 Mar 2020 10:28:34 -0400
-Message-ID: <CADnq5_MoWMHq_t4KozoqgxfFB1LUqh=Uz20pOREsiQXNE_5nBA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Stop using the DRIVER debugging flag for
- vblank debugging messages
-To: Harry Wentland <hwentlan@amd.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-12_01:2020-03-11,
+ 2020-03-12 signatures=0
+X-Mailman-Approved-At: Fri, 13 Mar 2020 08:00:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,89 +81,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, David Francis <David.Francis@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  thanks!
 
-Alex
 
-On Fri, Jan 24, 2020 at 9:48 AM Harry Wentland <hwentlan@amd.com> wrote:
+On 3/8/20 12:50 PM, Sam Ravnborg wrote:
+> Fix following type af warnings in the panel bindings:
 >
-> On 2020-01-23 8:07 p.m., Lyude Paul wrote:
-> > These are some very loud debug statements that get printed on every
-> > vblank when driver level debug printing is enabled in DRM, and doesn't
-> > really tell us anything that isn't related to vblanks. So let's move
-> > this over to the proper debug flag to be a little less spammy with our
-> > debug output.
-> >
-> > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Warning (unit_address_vs_reg): /example-0/dsi/panel: node has a reg or ranges property, but no unit name
+> Warning (unit_address_vs_reg): /example-0/dsi@ff450000: node has a unit name, but no reg property
 >
-> Thanks. Great change.
+> Removing the "@xxx" from the node name fixed first warning.
+> Adding a missing reg property fixed the second warning
 >
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+I will add W=1 in my command line when check the yaml files to not 
+reproduce this later.
+
+Reviewed-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+
+Thanks,
+Benjamin
+
+> ---
+>   .../devicetree/bindings/display/panel/elida,kd35t133.yaml     | 2 +-
+>   .../bindings/display/panel/leadtek,ltk500hd1829.yaml          | 2 +-
+>   .../devicetree/bindings/display/panel/novatek,nt35510.yaml    | 4 ++--
+>   .../devicetree/bindings/display/panel/orisetech,otm8009a.yaml | 2 +-
+>   .../devicetree/bindings/display/panel/panel-dpi.yaml          | 2 +-
+>   .../devicetree/bindings/display/panel/panel-simple-dsi.yaml   | 2 +-
+>   .../devicetree/bindings/display/panel/raydium,rm68200.yaml    | 2 +-
+>   .../devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml | 2 +-
+>   8 files changed, 9 insertions(+), 9 deletions(-)
 >
-> Harry
->
-> > ---
-> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 ++++++++------
-> >  1 file changed, 8 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > index 9402374d2466..3675e1c32707 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > @@ -407,8 +407,9 @@ static void dm_vupdate_high_irq(void *interrupt_params)
-> >       if (acrtc) {
-> >               acrtc_state = to_dm_crtc_state(acrtc->base.state);
-> >
-> > -             DRM_DEBUG_DRIVER("crtc:%d, vupdate-vrr:%d\n", acrtc->crtc_id,
-> > -                              amdgpu_dm_vrr_active(acrtc_state));
-> > +             DRM_DEBUG_VBL("crtc:%d, vupdate-vrr:%d\n",
-> > +                           acrtc->crtc_id,
-> > +                           amdgpu_dm_vrr_active(acrtc_state));
-> >
-> >               /* Core vblank handling is done here after end of front-porch in
-> >                * vrr mode, as vblank timestamping will give valid results
-> > @@ -458,8 +459,9 @@ static void dm_crtc_high_irq(void *interrupt_params)
-> >       if (acrtc) {
-> >               acrtc_state = to_dm_crtc_state(acrtc->base.state);
-> >
-> > -             DRM_DEBUG_DRIVER("crtc:%d, vupdate-vrr:%d\n", acrtc->crtc_id,
-> > -                              amdgpu_dm_vrr_active(acrtc_state));
-> > +             DRM_DEBUG_VBL("crtc:%d, vupdate-vrr:%d\n",
-> > +                           acrtc->crtc_id,
-> > +                           amdgpu_dm_vrr_active(acrtc_state));
-> >
-> >               /* Core vblank handling at start of front-porch is only possible
-> >                * in non-vrr mode, as only there vblank timestamping will give
-> > @@ -522,8 +524,8 @@ static void dm_dcn_crtc_high_irq(void *interrupt_params)
-> >
-> >       acrtc_state = to_dm_crtc_state(acrtc->base.state);
-> >
-> > -     DRM_DEBUG_DRIVER("crtc:%d, vupdate-vrr:%d\n", acrtc->crtc_id,
-> > -                             amdgpu_dm_vrr_active(acrtc_state));
-> > +     DRM_DEBUG_VBL("crtc:%d, vupdate-vrr:%d\n", acrtc->crtc_id,
-> > +                   amdgpu_dm_vrr_active(acrtc_state));
-> >
-> >       amdgpu_dm_crtc_handle_crc_irq(&acrtc->base);
-> >       drm_crtc_handle_vblank(&acrtc->base);
-> >
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> diff --git a/Documentation/devicetree/bindings/display/panel/elida,kd35t133.yaml b/Documentation/devicetree/bindings/display/panel/elida,kd35t133.yaml
+> index 4bd74eaa61be..aa761f697b7a 100644
+> --- a/Documentation/devicetree/bindings/display/panel/elida,kd35t133.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/elida,kd35t133.yaml
+> @@ -34,7 +34,7 @@ additionalProperties: false
+>   
+>   examples:
+>     - |
+> -    dsi@ff450000 {
+> +    dsi {
+>           #address-cells = <1>;
+>           #size-cells = <0>;
+>           panel@0 {
+> diff --git a/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml b/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
+> index 4ebcea7d0c63..2c9b8aa34815 100644
+> --- a/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
+> @@ -34,7 +34,7 @@ additionalProperties: false
+>   
+>   examples:
+>     - |
+> -    dsi@ff450000 {
+> +    dsi {
+>           #address-cells = <1>;
+>           #size-cells = <0>;
+>           panel@0 {
+> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+> index 791fc9daa68b..73d2ff3baaff 100644
+> --- a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+> @@ -40,10 +40,10 @@ examples:
+>     - |
+>       #include <dt-bindings/gpio/gpio.h>
+>   
+> -    dsi@a0351000 {
+> +    dsi {
+>           #address-cells = <1>;
+>           #size-cells = <0>;
+> -        panel {
+> +        panel@0 {
+>               compatible = "hydis,hva40wv1", "novatek,nt35510";
+>               reg = <0>;
+>               vdd-supply = <&ab8500_ldo_aux4_reg>;
+> diff --git a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
+> index 6e6ac995c27b..4b6dda6dbc0f 100644
+> --- a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
+> @@ -39,7 +39,7 @@ required:
+>   
+>   examples:
+>     - |
+> -    dsi@0 {
+> +    dsi {
+>         #address-cells = <1>;
+>         #size-cells = <0>;
+>         panel@0 {
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> index 5275d350f8cb..f63870384c00 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> @@ -48,7 +48,7 @@ additionalProperties: false
+>   
+>   examples:
+>     - |
+> -    panel@0 {
+> +    panel {
+>           compatible = "osddisplays,osd057T0559-34ts", "panel-dpi";
+>           label = "osddisplay";
+>           power-supply = <&vcc_supply>;
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> index 8b60368a2425..cefe19b6bf44 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> @@ -50,7 +50,7 @@ required:
+>   
+>   examples:
+>     - |
+> -    mdss_dsi@fd922800 {
+> +    mdss_dsi {
+>         #address-cells = <1>;
+>         #size-cells = <0>;
+>         panel@0 {
+> diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml b/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
+> index 09149f140d5f..a35ba16fc000 100644
+> --- a/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
+> @@ -42,7 +42,7 @@ required:
+>   
+>   examples:
+>     - |
+> -    dsi@0 {
+> +    dsi {
+>         #address-cells = <1>;
+>         #size-cells = <0>;
+>         panel@0 {
+> diff --git a/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
+> index 186e5e1c8fa3..39ec7ae525ad 100644
+> --- a/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
+> @@ -34,7 +34,7 @@ additionalProperties: false
+>   
+>   examples:
+>     - |
+> -    dsi@ff450000 {
+> +    dsi {
+>           #address-cells = <1>;
+>           #size-cells = <0>;
+>           panel@0 {
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
