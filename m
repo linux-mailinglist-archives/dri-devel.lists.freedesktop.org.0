@@ -2,38 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31CA8182F11
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 12:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAEBD18300E
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 13:19:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E9596E192;
-	Thu, 12 Mar 2020 11:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 191DF6E19A;
+	Thu, 12 Mar 2020 12:19:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 591676E16B
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 11:25:14 +0000 (UTC)
-Date: Thu, 12 Mar 2020 11:25:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1584012312;
- bh=0lzmC89L6l4u6zAMzrxO/D8PvkL5jMVmXbIJuuLya8o=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
- Feedback-ID:From;
- b=i+V+CsStrdcNARHpEYHDhmQvndAiJs/SyOhflhqg6YqEogIbmvLzqWwo6qXMBhRpA
- 64D31T3Q8hNa8JjuJ+kUNrBdCz+JLDKSew2wssjvJPVMe8ukN6dEoJFPFfXsmnEK6t
- 1z3cb6DVYTLcoS5wuBsrAg3vwaxRw1xhREROsuSA=
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: Variable Refresh Rate & flickering screens
-Message-ID: <tQBNlPxJxKY8FDg82d7XAuqLUkgBj4ATufP43APGI17BfwCiRpJCpUOSZiAq0V-6QONBC8S_dpI4sHsb-qQkhfkKX4usw6hSSUG_pXO3uX0=@emersion.fr>
-In-Reply-To: <647ff0e7-f186-4e16-f9b9-0908a3171051@daenzer.net>
-References: <bRy2hTFvMya3tNzlzsjQv6uzpsgC18d0NYQx1A9Otma6wCsYLHH9X6esb47-9KWzUjVNWTi3VXCVLVGX-dlW17P0YeCFCg4OZ4KEykC0Czw=@emersion.fr>
- <647ff0e7-f186-4e16-f9b9-0908a3171051@daenzer.net>
-Feedback-ID: FsVprHBOgyvh0T8bxcZ0CmvJCosWkwVUg658e_lOUQMnA9qynD8O1lGeniuBDfPSkDAUuhiKfOIXUZBfarMyvA==:Ext:ProtonMail
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F4BA6E19A;
+ Thu, 12 Mar 2020 12:19:09 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from build.alporthouse.com (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 20535604-1500050 
+ for multiple; Thu, 12 Mar 2020 12:19:02 +0000
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/mm: Use debugobject to track lifetimes
+Date: Thu, 12 Mar 2020 12:19:01 +0000
+Message-Id: <20200312121901.25569-1-chris@chris-wilson.co.uk>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200312103548.19962-1-chris@chris-wilson.co.uk>
+References: <20200312103548.19962-1-chris@chris-wilson.co.uk>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,59 +38,355 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Scott Anderson <scott@anderso.nz>, Harry Wentland <hwentlan@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- "Anthony.Koo@amd.com" <Anthony.Koo@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1cnNkYXksIE1hcmNoIDEyLCAyMDIwIDExOjQ1IEFNLCBNaWNoZWwgRMOkbnplciA8bWlj
-aGVsQGRhZW56ZXIubmV0PiB3cm90ZToKCj4gT24gMjAyMC0wMy0xMSA5OjA5IHAubS4sIFNpbW9u
-IFNlciB3cm90ZToKPgo+ID4gSGkgYWxsLAo+ID4gSSd2ZSBiZWVuIHdvcmtpbmcgb24gYWRkaW5n
-IFZSUiBzdXBwb3J0IHRvIFN3YXkgWzFdIChhIFdheWxhbmQKPiA+IGNvbXBvc2l0b3IpLiBUaGUg
-Y29tcG9zaXRvciBqdXN0IHNldHMgdGhlIFZSUl9FTkFCTEVEIHByb3BlcnR5Lgo+ID4gVGhpcyB3
-b3JrcyBmaW5lIGZvciBzb21lIHNjcmVlbnMsIGJ1dCBjYXVzZXMgZmxjaWtlcmluZyBmb3Igb3Ro
-ZXIKPiA+IHNjcmVlbnMgYXMgZXhwZWN0ZWQgWzJdLiBGaXhpbmcgdGhlIGZsaWNrZXJpbmcgaXMg
-c29tZXRoaW5nIHdlJ3ZlCj4gPiB0YWxrZWQgYWJvdXQgbGFzdCBYREMgWzNdLiBUaGUgZmxpY2tl
-cmluZyBpcyBjYXVzZWQgYnkgcGh5c2ljYWwKPiA+IGxpbWl0YXRpb25zIG9mIHRoZSBzY3JlZW46
-IGNoYW5naW5nIHRoZSByZWZyZXNoIHJhdGUgdG9vIHF1aWNrbHkKPiA+IHJlc3VsdHMgaW4gYnJp
-Z2h0bmVzcyBpc3N1ZXMuCj4gPiBUaGUgYXBwcm9hY2ggdGFrZW4gYnkgeGY4Ni12aWRlby1hbWRn
-cHUgaXMgdG8gb25seSBlbmFibGUgVlJSIGlmIGFuIGFwcAo+ID4gaXMgZnVsbHNjcmVlbiBhbmQg
-bm90IHByZXNlbnQgaW4gYSBzcGVjaWFsIE1lc2EgYmxhY2tsaXN0IChlLmcuIEZpcmVmb3gKPiA+
-IGlzIGluIHRoZSBibGFja2xpc3QgYmVjYXVzZSBpdCBkb2Vzbid0IHJlbmRlciBhdCBhIGZpeGVk
-IGludGVydmFsKS4KPiA+IEZvciBXYXlsYW5kLCBJJ2QgcHJlZmVyIHRvIGF2b2lkIGhhdmluZyBh
-IGJsYWNrbGlzdC4gSSdkIGxpa2UgdG8gYmUKPiA+IGFibGUgdG8gdXNlIFZSUiBpbiB0aGUgZ2Vu
-ZXJhbCBjYXNlIChub3QganVzdCBmb3IgZnVsbHNjcmVlbiBhcHBzKS4KPiA+IEEgd2F5IHRvIGZp
-eCB0aGUgZmxpY2tlcmluZyB3b3VsZCBiZSB0byBpbXBsZW1lbnQgYSBzbGV3IHJhdGUgYW5kIG1h
-a2UKPiA+IGl0IHNvIHJlZnJlc2ggcmF0ZSB2YXJpYXRpb25zIGFyZSBjYXBwZWQgYnkgdGhlIHNs
-ZXcgcmF0ZS4KPgo+IE9uZSBwb3RlbnRpYWwgaXNzdWUgSSBzZWUgd2l0aCB0aGlzIGlzIHRoZSBj
-dXJzb3IsIHdoaWNoIGNhbiBmZWVsCj4gYXdrd2FyZCBpZiBpdCBvbmx5IG1vdmVzIGF0IDMwIEh6
-LiBJIHdvbmRlciBpZiBhIHNsZXcgcmF0ZSB3aGljaCBjYW4KPiByZWxpYWJseSBwcmV2ZW50IGZs
-aWNrZXJpbmcgYWxsb3dzIHRoZSBmcmFtZXJhdGUgdG8gcmFtcCB1cCBxdWlja2x5Cj4gZW5vdWdo
-IGZvciB0aGlzIG5vdCB0byBiZSBhbm5veWluZy4KClRoYW5rcyBmb3IgcG9pbnRpbmcgdGhpcyBv
-dXQsIHRoYXQncyBhIHZhbGlkIGNvbmNlcm4uCgpNeSBWUlIgbW9uaXRvciBoYXMgYSA0MC02MEh6
-IFZSUiByYW5nZS4gV2l0aCB0aGUgY3VycmVudCBTd2F5CmltcGxlbWVudGF0aW9uIGFuZCBkcm1f
-bW9uaXRvciBbMV0sIEkgY2FuIGNoZWNrIHRoYXQgbW92aW5nIG15IG1vdXNlIG9uCnRoZSBtb25p
-dG9yIG1ha2VzIHRoZSByZWZyZXNoIGludGVydmFsIGdvIGZyb20gfjI1bXMgdG8gfjE2LjZtcyAo
-aWUuCjQwSHogdG8gNjBIeikuIFJpZ2h0IG5vdyB0aGVyZSdzIG5vIHNsZXcgcmF0ZSwgc28gaXQg
-Z29lcyBmcm9tIG1pbiB0bwptYXggaW5zdGFudGx5LiBJIGRvbid0IG5vdGljZSBhbnkgZmxpY2tl
-cmluZyBhbmQgdGhlcmUncyBubyBsYWcuCgpMb29raW5nIGF0IHRoZSBsaXN0IG9mIG1vbml0b3Jz
-IFsyXSBvbiBXaWtpcGVkaWEsIGl0IGRvZXNuJ3Qgc2VlbSBsaWtlCnRoZXJlJ3MgYW55IG1vbml0
-b3Igc3VwcG9ydGluZyBsZXNzIHRoYW4gMzVIei4KCldlJ2QgbmVlZCB0byBwZXJmb3JtIGV4cGVy
-aW1lbnRzIG9uIG1vcmUgaGFyZHdhcmUsIGJ1dCBmbGlja2VyaW5nIGhhcwpiZWVuIG5vdGljZWQg
-Ynkgb3VyIHVzZXJzIG9uIGhpZ2hlci1lbmQgbW9uaXRvcnMgd2hpY2ggc3VwcG9ydCAxNDRIei4K
-SSB0aGluayB0aGUgc2xldyByYXRlIHdvdWxkIHByZXZlbnQgZ29pbmcgZnJvbSAzNUh6IHRvIDE0
-NEh6IGRpcmVjdGx5LApidXQgcHJvYmFibHkgbm90IGZyb20gNDBIeiB0byA2MEh6LiBJIHRoaW5r
-IHRoYXQgd291bGQgYmUgYWNjZXB0YWJsZS4KCklmIGl0J3Mgbm90LCB3ZSBjYW4gYWx3YXlzIHR3
-ZWFrIHRoZSBtaW5pbXVtIHJlZnJlc2ggcmF0ZS4KCnRsO2RyIG5lZWQgdG8gdGVzdCBvbiBtb3Jl
-IGhhcmR3YXJlLCBidXQgc2hvdWxkIHByb2JhYmx5IGJlIGZpbmUuCgpbMV06IGh0dHBzOi8vZ2l0
-aHViLmNvbS9lbWVyc2lvbi9kcm1fbW9uaXRvcgpbMl06IGh0dHBzOi8vZW4ud2lraXBlZGlhLm9y
-Zy93aWtpL0ZyZWVTeW5jI0xpc3Rfb2Zfc3VwcG9ydGVkX21vbml0b3JzCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Since drm_mm_node are intended to be embedded into larger structs, we
+can use the DEBUG_OBJECTS facility to help track the lifetime of the
+drm_mm_node and ensure that they are not being used after the containing
+object has been freed, along with the usual verification that the
+drm_mm_nodes are being used correctly.
+
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+---
+And now switch on for CI. Expect failure from unmarked drm_mm_nodes.
+---
+ drivers/gpu/drm/Kconfig              |  13 +++
+ drivers/gpu/drm/drm_mm.c             | 113 +++++++++++++++++++++++----
+ drivers/gpu/drm/i915/Kconfig.debug   |   1 +
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c |   2 -
+ drivers/gpu/drm/i915/i915_vma.c      |  17 +++-
+ include/drm/drm_mm.h                 |  31 ++++++++
+ 6 files changed, 158 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 43594978958e..33ac38be55b0 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -54,6 +54,19 @@ config DRM_DEBUG_MM
+ 
+ 	  If in doubt, say "N".
+ 
++config DRM_DEBUG_MM_OBJECTS
++	bool "Use debugobjects to track live drm_mm_nodes"
++	default n
++	depends on DRM_DEBUG_MM
++	depends on DEBUG_OBJECTS
++	help
++	  Enable allocation tracking of memory manager and leak detection on
++	  shutdown.
++
++	  Recommended for driver developers only.
++
++	  If in doubt, say "N".
++
+ config DRM_DEBUG_SELFTEST
+ 	tristate "kselftests for DRM"
+ 	depends on DRM
+diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
+index bc6e208949e8..3cbee92f5832 100644
+--- a/drivers/gpu/drm/drm_mm.c
++++ b/drivers/gpu/drm/drm_mm.c
+@@ -116,38 +116,99 @@ static noinline void save_stack(struct drm_mm_node *node)
+ 	node->stack = stack_depot_save(entries, n, GFP_NOWAIT);
+ }
+ 
+-static void show_leaks(struct drm_mm *mm)
++static void __print_node(struct drm_mm_node *node,
++			 char *buf, int sz,
++			 const char *reason)
+ {
+-	struct drm_mm_node *node;
+ 	unsigned long *entries;
+ 	unsigned int nr_entries;
++
++	if (!node->stack) {
++		DRM_ERROR("node [%08llx + %08llx]: %s, unknown owner\n",
++			  node->start, node->size, reason);
++		return;
++	}
++
++	nr_entries = stack_depot_fetch(node->stack, &entries);
++	stack_trace_snprint(buf, sz, entries, nr_entries, 0);
++	DRM_ERROR("node [%08llx + %08llx]: %s, inserted at\n%s",
++		  node->start, node->size, reason, buf);
++}
++
++static void show_leaks(struct drm_mm *mm)
++{
++	struct drm_mm_node *node;
+ 	char *buf;
+ 
+ 	buf = kmalloc(BUFSZ, GFP_KERNEL);
+ 	if (!buf)
+ 		return;
+ 
+-	list_for_each_entry(node, drm_mm_nodes(mm), node_list) {
+-		if (!node->stack) {
+-			DRM_ERROR("node [%08llx + %08llx]: unknown owner\n",
+-				  node->start, node->size);
+-			continue;
+-		}
+-
+-		nr_entries = stack_depot_fetch(node->stack, &entries);
+-		stack_trace_snprint(buf, BUFSZ, entries, nr_entries, 0);
+-		DRM_ERROR("node [%08llx + %08llx]: inserted at\n%s",
+-			  node->start, node->size, buf);
+-	}
++	list_for_each_entry(node, drm_mm_nodes(mm), node_list)
++		__print_node(node, buf, BUFSZ, "leaked");
+ 
+ 	kfree(buf);
+ }
+ 
++static void show_node(struct drm_mm_node *node, const char *reason)
++{
++	char buf[128];
++
++	__print_node(node, buf, sizeof(buf), reason);
++}
++
+ #undef STACKDEPTH
+ #undef BUFSZ
+ #else
+ static void save_stack(struct drm_mm_node *node) { }
+ static void show_leaks(struct drm_mm *mm) { }
++
++static void show_node(struct drm_mm_node *node, const char *reason)
++{
++	DRM_ERROR("node [%08llx + %08llx]: %s\n",
++		  node->start, node->size, reason);
++}
++#endif
++
++#ifdef CONFIG_DRM_DEBUG_MM_OBJECTS
++
++static struct debug_obj_descr drm_mm_debug_descr = {
++	.name = "drm_mm_node",
++};
++
++static inline void debug_node_init(struct drm_mm_node *node)
++{
++	debug_object_init(node, &drm_mm_debug_descr);
++}
++
++static inline void debug_node_activate(struct drm_mm_node *node)
++{
++	debug_object_activate(node, &drm_mm_debug_descr);
++}
++
++static inline void debug_node_deactivate(struct drm_mm_node *node)
++{
++	debug_object_deactivate(node, &drm_mm_debug_descr);
++}
++
++static inline void debug_node_free(struct drm_mm_node *node)
++{
++	debug_object_free(node, &drm_mm_debug_descr);
++}
++
++static inline void debug_node_assert(struct drm_mm_node *node)
++{
++	debug_object_assert_init(node, &drm_mm_debug_descr);
++}
++
++#else
++
++static inline void debug_node_init(struct drm_mm_node *node) { }
++static inline void debug_node_activate(struct drm_mm_node *node) { }
++static inline void debug_node_deactivate(struct drm_mm_node *node) { }
++static inline void debug_node_free(struct drm_mm_node *node) { }
++static inline void debug_node_assert(struct drm_mm_node *node) { }
++
+ #endif
+ 
+ #define START(node) ((node)->start)
+@@ -428,6 +489,8 @@ int drm_mm_reserve_node(struct drm_mm *mm, struct drm_mm_node *node)
+ 	if (adj_start > node->start || adj_end < end)
+ 		return -ENOSPC;
+ 
++	debug_node_activate(node);
++
+ 	node->mm = mm;
+ 
+ 	__set_bit(DRM_MM_NODE_ALLOCATED_BIT, &node->flags);
+@@ -543,6 +606,8 @@ int drm_mm_insert_node_in_range(struct drm_mm * const mm,
+ 			}
+ 		}
+ 
++		debug_node_activate(node);
++
+ 		node->mm = mm;
+ 		node->size = size;
+ 		node->start = adj_start;
+@@ -587,6 +652,7 @@ void drm_mm_remove_node(struct drm_mm_node *node)
+ 
+ 	DRM_MM_BUG_ON(!drm_mm_node_allocated(node));
+ 	DRM_MM_BUG_ON(drm_mm_node_scanned_block(node));
++	debug_node_deactivate(node);
+ 
+ 	prev_node = list_prev_entry(node, node_list);
+ 
+@@ -618,6 +684,8 @@ void drm_mm_replace_node(struct drm_mm_node *old, struct drm_mm_node *new)
+ 	struct drm_mm *mm = old->mm;
+ 
+ 	DRM_MM_BUG_ON(!drm_mm_node_allocated(old));
++	debug_node_deactivate(old);
++	debug_node_activate(new);
+ 
+ 	*new = *old;
+ 
+@@ -639,6 +707,21 @@ void drm_mm_replace_node(struct drm_mm_node *old, struct drm_mm_node *new)
+ }
+ EXPORT_SYMBOL(drm_mm_replace_node);
+ 
++void __drm_mm_node_init(struct drm_mm_node *node)
++{
++	debug_node_init(node);
++}
++EXPORT_SYMBOL(__drm_mm_node_init);
++
++void __drm_mm_node_fini(struct drm_mm_node *node)
++{
++	if (unlikely(drm_mm_node_allocated(node)))
++		show_node(node, "use-after-free");
++
++	debug_node_free(node);
++}
++EXPORT_SYMBOL(__drm_mm_node_fini);
++
+ /**
+  * DOC: lru scan roster
+  *
+@@ -742,6 +825,7 @@ bool drm_mm_scan_add_block(struct drm_mm_scan *scan,
+ 	u64 col_start, col_end;
+ 	u64 adj_start, adj_end;
+ 
++	debug_node_assert(node);
+ 	DRM_MM_BUG_ON(node->mm != mm);
+ 	DRM_MM_BUG_ON(!drm_mm_node_allocated(node));
+ 	DRM_MM_BUG_ON(drm_mm_node_scanned_block(node));
+@@ -829,6 +913,7 @@ bool drm_mm_scan_remove_block(struct drm_mm_scan *scan,
+ {
+ 	struct drm_mm_node *prev_node;
+ 
++	debug_node_assert(node);
+ 	DRM_MM_BUG_ON(node->mm != scan->mm);
+ 	DRM_MM_BUG_ON(!drm_mm_node_scanned_block(node));
+ 	__clear_bit(DRM_MM_NODE_SCANNED_BIT, &node->flags);
+diff --git a/drivers/gpu/drm/i915/Kconfig.debug b/drivers/gpu/drm/i915/Kconfig.debug
+index 206882e154bc..21ecc4cb3e8b 100644
+--- a/drivers/gpu/drm/i915/Kconfig.debug
++++ b/drivers/gpu/drm/i915/Kconfig.debug
+@@ -35,6 +35,7 @@ config DRM_I915_DEBUG
+ 	select X86_MSR # used by igt/pm_rpm
+ 	select DRM_VGEM # used by igt/prime_vgem (dmabuf interop checks)
+ 	select DRM_DEBUG_MM if DRM=y
++	select DRM_DEBUG_MM_OBJECTS
+ 	select DRM_EXPORT_FOR_TESTS if m
+ 	select DRM_DEBUG_SELFTEST
+ 	select DMABUF_SELFTESTS
+diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+index f4fec7eb4064..0c34d4dd6458 100644
+--- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+@@ -359,8 +359,6 @@ static struct i915_vma *pd_vma_create(struct gen6_ppgtt *ppgtt, int size)
+ 
+ 	i915_active_init(&vma->active, NULL, NULL);
+ 
+-	kref_init(&vma->ref);
+-	mutex_init(&vma->pages_mutex);
+ 	vma->vm = i915_vm_get(&ggtt->vm);
+ 	vma->ops = &pd_vma_ops;
+ 	vma->private = ppgtt;
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 5b3efb43a8ef..64140d51ae2c 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -45,11 +45,24 @@ static struct i915_global_vma {
+ 
+ struct i915_vma *i915_vma_alloc(void)
+ {
+-	return kmem_cache_zalloc(global.slab_vmas, GFP_KERNEL);
++	struct i915_vma *vma;
++
++	vma = kmem_cache_zalloc(global.slab_vmas, GFP_KERNEL);
++	if (!vma)
++		return NULL;
++
++	kref_init(&vma->ref);
++	mutex_init(&vma->pages_mutex);
++	drm_mm_node_init(&vma->node);
++
++	return vma;
+ }
+ 
+ void i915_vma_free(struct i915_vma *vma)
+ {
++	drm_mm_node_fini(&vma->node);
++	mutex_destroy(&vma->pages_mutex);
++
+ 	return kmem_cache_free(global.slab_vmas, vma);
+ }
+ 
+@@ -114,8 +127,6 @@ vma_create(struct drm_i915_gem_object *obj,
+ 	if (vma == NULL)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	kref_init(&vma->ref);
+-	mutex_init(&vma->pages_mutex);
+ 	vma->vm = i915_vm_get(vm);
+ 	vma->ops = &vm->vma_ops;
+ 	vma->obj = obj;
+diff --git a/include/drm/drm_mm.h b/include/drm/drm_mm.h
+index d7939c054259..514685590603 100644
+--- a/include/drm/drm_mm.h
++++ b/include/drm/drm_mm.h
+@@ -275,6 +275,37 @@ static inline bool drm_mm_initialized(const struct drm_mm *mm)
+ 	return mm->hole_stack.next;
+ }
+ 
++/* stubs for external module compatiblity */
++void __drm_mm_node_init(struct drm_mm_node *node);
++void __drm_mm_node_fini(struct drm_mm_node *node);
++
++/**
++ * drm_mm_node_init - Prepare a node for use.
++ *
++ * Drivers should clear the drm_mm_node prior to use. If debug is enabled,
++ * the lifetime of the embedded drm_mm_node will be tracked.
++ */
++static inline void drm_mm_node_init(struct drm_mm_node *node)
++{
++#ifdef CONFIG_DRM_DEBUG_MM_OBJECTS
++	__drm_mm_node_init(node);
++#endif
++	memset(node, 0, sizeof(*node));
++}
++
++/**
++ * drm_mm_node_fini - Finalize a node for use.
++ *
++ * Drivers should indicate that the drm_mm_node is finished, and its
++ * state will then be verified by drm_mm.
++ */
++static inline void drm_mm_node_fini(struct drm_mm_node *node)
++{
++#ifdef CONFIG_DRM_DEBUG_MM_OBJECTS
++	__drm_mm_node_fini(node);
++#endif
++}
++
+ /**
+  * drm_mm_hole_follows - checks whether a hole follows this node
+  * @node: drm_mm_node to check
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
