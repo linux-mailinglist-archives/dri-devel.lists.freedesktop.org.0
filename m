@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FED71832ED
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 15:26:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EAA11832FD
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 15:28:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C40186E207;
-	Thu, 12 Mar 2020 14:26:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C0796EAD0;
+	Thu, 12 Mar 2020 14:28:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE5E36E207;
- Thu, 12 Mar 2020 14:26:05 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id v11so7730433wrm.9;
- Thu, 12 Mar 2020 07:26:05 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35D866E20D;
+ Thu, 12 Mar 2020 14:28:48 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id n8so6320689wmc.4;
+ Thu, 12 Mar 2020 07:28:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mran/SsFtCnhLMe88te8B5pjViLrFrhLBnL1J+NQyAQ=;
- b=n6o/1vazmKVd0JhI9n5ImHQjrTOPjoCP1UqJo1Oc61DcJUs9+3uf4dSbLtcev9basP
- CzN2bRt1m+tQu/pgVIjzqk8eGppzEomULwwr9lkYzK3790AbN9p8QXkk0GdzrU05FcW4
- OjIBe7J+jRR8eA81WIT+q/GEcz+rVVLeq+Hj2a2S1hwjTzFWmgzXYCFpFCABsxyxfN7V
- T5fbBXRg3X0+51IYEn0LMWLCDtnkmnVMPBjAmfZJTXiDOhAiETX8UErhfHXVBD0skffY
- 1Ln9CWLeabdkpqs+HyDvz2lFtBlmABXZhekAJ8xeFZ/s3adfJba6DZV/IrFrnfpTy3He
- xumg==
+ :cc; bh=dY/RhFMUP0nQ5TAbXB37oNSJMhhJygxiAwBiWfEJ74A=;
+ b=t3vlWoDN2RG9FJdNKId8QZcDeUw31SKq4nKNnGovgVG7xia7I1dZVWUWWa2f/vEd43
+ NdEOZzIDZwwwOIUNG+BLRw/3m3BGFi8dy3nc9G+X7taOp/VK+EBrwAmD2G8B84H1VCuo
+ S010Kc+PTnMaVGP9bjnyrNW55HhvLaU4z6RoYBNBAdj5cS9+lsgH831WLtegEhHni/1t
+ 4H3TjD7dnseVcoOoWqf1q9rDzn3+55dyeW6qlPH0RTfrdTjb+i91EVSrwK2HUMGdTxZp
+ VdVbEH+vkMQXwlcyaKdzvcgfBBZQ/qKzOEHOmoXmcz+m2bMbcdcw+lppsED7uadFkEGw
+ tyGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mran/SsFtCnhLMe88te8B5pjViLrFrhLBnL1J+NQyAQ=;
- b=TfxujPcrdfJUaYchDpUkkbDzZHmtQ4u8arWEMq9oYm08rrlTLo8Z3RYgNus49i9wpc
- 8UOFtmWz3OuqU+uz2rRO90qXMVXDBFHaEyLdP+acjk2ggf78erYuZYx87VEcNrPtwxHm
- isHr5mCdVBaqLzdbMDy5WyD/vj8W2o+awik+ZjB/d5B4404GHwgbvBHSoFzEzK5ntZe9
- CJhM0ORkiNaQrIXoxtyI3KXO3ecdQkToZGV6Md1VHdlYpxxNNUhXJkxfYcOrIoUvnbk+
- cSZ21JyPYXtVEOz2q/li6pf4GbuYsfyhsQW1FjSk+WnyLe2VypgcISI2CdNXFYn7B30T
- Im4w==
-X-Gm-Message-State: ANhLgQ0tC1mmDlx/0e5ntqHlvhnkrgW4fNyzVJehpX+jRseOk+O1LVW+
- 2utkBReAV05GlTFeKMRyZsqKJbrHbsIg37GwMvk=
-X-Google-Smtp-Source: ADFU+vuPb4lfUTKhpuKO6jLNj/1rsc2hVZhSeBBJVuHW3b9CdxlrbDf2pG80FVmy9+xL9+RFg6RpLt4xGyZ5+pCMLDk=
-X-Received: by 2002:adf:c5c8:: with SMTP id v8mr6984934wrg.111.1584023164466; 
- Thu, 12 Mar 2020 07:26:04 -0700 (PDT)
+ bh=dY/RhFMUP0nQ5TAbXB37oNSJMhhJygxiAwBiWfEJ74A=;
+ b=dj9OGYMT21hXdisVPYD1Ul27rM1usVnA8iNGiMV8Mv25NMAY6c9cK8ng8gWyvtlf3c
+ w0IErQLeMOEYQ71WtFVdK1IpohjBcPW0vUp83tThhZwbCP5CH5T6dydGRW1xbdqc0fXr
+ dROqLuED22ITEJIwceqirV2dMDYUM74dbruVqDd03bFronieIkYvCLN8NZNwPYIb5976
+ uTx9ItZM9zmCc0vx2/fV/vzhlMb2hcpUCPaVUUUFfhxn0XmT6Em/glYt1q07YMYe9CmY
+ KSwBWk/ifCsiPpfvZ4zjpbthws+R1nM78KLR42obMC8nzI8aOXKslKqkQTYJo1fQwauy
+ Z66Q==
+X-Gm-Message-State: ANhLgQ2CGPsOSvMmAGCiJUTuhr8XJ9x5ImtOwgIKIbihUn1X3jUmqITw
+ Bpx5CmCfBjBGt5yIhgrssZMNslfdgkyu+idf+M1vcQ==
+X-Google-Smtp-Source: ADFU+vsXshP7RsY77gDiaFil4BUsOOPxIIdV/vB0PFEE91IG8O0YaxhLKjOpgVnaVm7DWBSYZyORgDrSf9xUmjEHvMI=
+X-Received: by 2002:a1c:f21a:: with SMTP id s26mr5139239wmc.39.1584023326879; 
+ Thu, 12 Mar 2020 07:28:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200131045739.ault4d6yk2lqlbed@kili.mountain>
-In-Reply-To: <20200131045739.ault4d6yk2lqlbed@kili.mountain>
+References: <20200124010744.102849-1-lyude@redhat.com>
+ <f9ab0fdf-b235-2709-8431-5a094b539531@amd.com>
+In-Reply-To: <f9ab0fdf-b235-2709-8431-5a094b539531@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 12 Mar 2020 10:25:52 -0400
-Message-ID: <CADnq5_POLvoLi=1TprgH7jFn3TAJw37_P+1-VngxWtYTi1xmoA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Possible divide by zero in set_speed()
-To: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Thu, 12 Mar 2020 10:28:34 -0400
+Message-ID: <CADnq5_MoWMHq_t4KozoqgxfFB1LUqh=Uz20pOREsiQXNE_5nBA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Stop using the DRIVER debugging flag for
+ vblank debugging messages
+To: Harry Wentland <hwentlan@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,79 +62,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lewis Huang <Lewis.Huang@amd.com>, Jun Lei <Jun.Lei@amd.com>,
- Charlene Liu <charlene.liu@amd.com>, Leo Li <sunpeng.li@amd.com>,
- kernel-janitors@vger.kernel.org, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, David Airlie <airlied@linux.ie>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+Cc: Leo Li <sunpeng.li@amd.com>, David Francis <David.Francis@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Derek Lai <Derek.Lai@amd.com>,
- Tony Cheng <Tony.Cheng@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ Alex Deucher <alexander.deucher@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Applied.  thanks!
 
 Alex
 
-On Thu, Jan 30, 2020 at 11:58 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+On Fri, Jan 24, 2020 at 9:48 AM Harry Wentland <hwentlan@amd.com> wrote:
 >
-> If "speed" is zero then we use it as a divisor to find "prescale".  It's
-> better to move the check for zero to the very start of the function.
+> On 2020-01-23 8:07 p.m., Lyude Paul wrote:
+> > These are some very loud debug statements that get printed on every
+> > vblank when driver level debug printing is enabled in DRM, and doesn't
+> > really tell us anything that isn't related to vblanks. So let's move
+> > this over to the proper debug flag to be a little less spammy with our
+> > debug output.
+> >
+> > Signed-off-by: Lyude Paul <lyude@redhat.com>
 >
-> Fixes: 9eeec26a1339 ("drm/amd/display: Refine i2c frequency calculating sequence")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c | 23 ++++++++++++-----------
->  1 file changed, 12 insertions(+), 11 deletions(-)
+> Thanks. Great change.
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c b/drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c
-> index 066188ba7949..24adec407972 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c
-> @@ -267,6 +267,9 @@ static void set_speed(
->         uint32_t xtal_ref_div = 0;
->         uint32_t prescale = 0;
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 >
-> +       if (speed == 0)
-> +               return;
-> +
->         REG_GET(MICROSECOND_TIME_BASE_DIV, XTAL_REF_DIV, &xtal_ref_div);
+> Harry
 >
->         if (xtal_ref_div == 0)
-> @@ -274,17 +277,15 @@ static void set_speed(
->
->         prescale = ((dce_i2c_hw->reference_frequency * 2) / xtal_ref_div) / speed;
->
-> -       if (speed) {
-> -               if (dce_i2c_hw->masks->DC_I2C_DDC1_START_STOP_TIMING_CNTL)
-> -                       REG_UPDATE_N(SPEED, 3,
-> -                                    FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_PRESCALE), prescale,
-> -                                    FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_THRESHOLD), 2,
-> -                                    FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_START_STOP_TIMING_CNTL), speed > 50 ? 2:1);
-> -               else
-> -                       REG_UPDATE_N(SPEED, 2,
-> -                                    FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_PRESCALE), prescale,
-> -                                    FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_THRESHOLD), 2);
-> -       }
-> +       if (dce_i2c_hw->masks->DC_I2C_DDC1_START_STOP_TIMING_CNTL)
-> +               REG_UPDATE_N(SPEED, 3,
-> +                            FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_PRESCALE), prescale,
-> +                            FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_THRESHOLD), 2,
-> +                            FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_START_STOP_TIMING_CNTL), speed > 50 ? 2:1);
-> +       else
-> +               REG_UPDATE_N(SPEED, 2,
-> +                            FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_PRESCALE), prescale,
-> +                            FN(DC_I2C_DDC1_SPEED, DC_I2C_DDC1_THRESHOLD), 2);
->  }
->
->  static bool setup_engine(
-> --
-> 2.11.0
->
+> > ---
+> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 ++++++++------
+> >  1 file changed, 8 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > index 9402374d2466..3675e1c32707 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > @@ -407,8 +407,9 @@ static void dm_vupdate_high_irq(void *interrupt_params)
+> >       if (acrtc) {
+> >               acrtc_state = to_dm_crtc_state(acrtc->base.state);
+> >
+> > -             DRM_DEBUG_DRIVER("crtc:%d, vupdate-vrr:%d\n", acrtc->crtc_id,
+> > -                              amdgpu_dm_vrr_active(acrtc_state));
+> > +             DRM_DEBUG_VBL("crtc:%d, vupdate-vrr:%d\n",
+> > +                           acrtc->crtc_id,
+> > +                           amdgpu_dm_vrr_active(acrtc_state));
+> >
+> >               /* Core vblank handling is done here after end of front-porch in
+> >                * vrr mode, as vblank timestamping will give valid results
+> > @@ -458,8 +459,9 @@ static void dm_crtc_high_irq(void *interrupt_params)
+> >       if (acrtc) {
+> >               acrtc_state = to_dm_crtc_state(acrtc->base.state);
+> >
+> > -             DRM_DEBUG_DRIVER("crtc:%d, vupdate-vrr:%d\n", acrtc->crtc_id,
+> > -                              amdgpu_dm_vrr_active(acrtc_state));
+> > +             DRM_DEBUG_VBL("crtc:%d, vupdate-vrr:%d\n",
+> > +                           acrtc->crtc_id,
+> > +                           amdgpu_dm_vrr_active(acrtc_state));
+> >
+> >               /* Core vblank handling at start of front-porch is only possible
+> >                * in non-vrr mode, as only there vblank timestamping will give
+> > @@ -522,8 +524,8 @@ static void dm_dcn_crtc_high_irq(void *interrupt_params)
+> >
+> >       acrtc_state = to_dm_crtc_state(acrtc->base.state);
+> >
+> > -     DRM_DEBUG_DRIVER("crtc:%d, vupdate-vrr:%d\n", acrtc->crtc_id,
+> > -                             amdgpu_dm_vrr_active(acrtc_state));
+> > +     DRM_DEBUG_VBL("crtc:%d, vupdate-vrr:%d\n", acrtc->crtc_id,
+> > +                   amdgpu_dm_vrr_active(acrtc_state));
+> >
+> >       amdgpu_dm_crtc_handle_crc_irq(&acrtc->base);
+> >       drm_crtc_handle_vblank(&acrtc->base);
+> >
 > _______________________________________________
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
