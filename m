@@ -2,41 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5795F182F12
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 12:25:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEEA1182EDB
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 12:19:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0AEC6E1A8;
-	Thu, 12 Mar 2020 11:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C397A6E151;
+	Thu, 12 Mar 2020 11:19:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 050586E1A8;
- Thu, 12 Mar 2020 11:25:23 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2020 04:25:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,544,1574150400"; d="scan'208";a="354108344"
-Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 12 Mar 2020 04:25:17 -0700
-From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- ville.syrjala@linux.intel.com, daniels@collabora.com,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Imre Deak <imre.deak@intel.com>, Uma Shankar <uma.shankar@intel.com>
-Subject: [PATCH 5/5] drm/i915: Enable scaling filter for plane and CRTC
-Date: Thu, 12 Mar 2020 16:44:49 +0530
-Message-Id: <20200312111449.21202-6-pankaj.laxminarayan.bharadiya@intel.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200312111449.21202-1-pankaj.laxminarayan.bharadiya@intel.com>
-References: <20200312111449.21202-1-pankaj.laxminarayan.bharadiya@intel.com>
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9A6D6E151;
+ Thu, 12 Mar 2020 11:19:35 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from build.alporthouse.com (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 20533754-1500050 
+ for multiple; Thu, 12 Mar 2020 11:19:26 +0000
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/mm: Use debugobject to track lifetimes
+Date: Thu, 12 Mar 2020 11:19:25 +0000
+Message-Id: <20200312111925.30586-1-chris@chris-wilson.co.uk>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200312103548.19962-1-chris@chris-wilson.co.uk>
+References: <20200312103548.19962-1-chris@chris-wilson.co.uk>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,175 +38,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pankaj.laxminarayan.bharadiya@intel.com
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-GEN >= 10 hardware supports the programmable scaler filter.
+Since drm_mm_node are intended to be embedded into larger structs, we
+can use the DEBUG_OBJECTS facility to help track the lifetime of the
+drm_mm_node and ensure that they are not being used after the containing
+object has been freed, along with the usual verification that the
+drm_mm_nodes are being used correctly.
 
-Attach scaling filter property for CRTC and plane for GEN >= 10
-hardwares and program scaler filter based on the selected filter
-type.
-
-Changes since RFC:
-* Enable properties for GEN >= 10 platforms (Ville)
-* Do not round off the crtc co-ordinate (Danial Stone, Ville)
-* Add new functions to handle scaling filter setup (Ville)
-* Remove coefficient set 0 hardcoding.
-
-Signed-off-by: Shashank Sharma <shashank.sharma@intel.com>
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 32 ++++++++++++++++++--
- drivers/gpu/drm/i915/display/intel_sprite.c  | 31 ++++++++++++++++++-
- 2 files changed, 60 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/Kconfig              | 13 +++++++
+ drivers/gpu/drm/drm_mm.c             | 55 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c |  2 -
+ drivers/gpu/drm/i915/i915_vma.c      | 17 +++++++--
+ include/drm/drm_mm.h                 | 31 ++++++++++++++++
+ 5 files changed, 113 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 1f88fd5208e8..0fb2a9487593 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -6303,6 +6303,25 @@ void skl_scaler_setup_nearest_neighbor_filter(struct drm_i915_private *dev_priv,
- 	intel_de_write_fw(dev_priv, SKL_PS_COEF_DATA_SET(pipe, id, set), 0);
- }
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 43594978958e..33ac38be55b0 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -54,6 +54,19 @@ config DRM_DEBUG_MM
  
-+static u32
-+skl_scaler_crtc_setup_filter(struct drm_i915_private *dev_priv, enum pipe pipe,
-+			  int id, int set, enum drm_crtc_scaling_filter filter)
+ 	  If in doubt, say "N".
+ 
++config DRM_DEBUG_MM_OBJECTS
++	bool "Use debugobjects to track live drm_mm_nodes"
++	default n
++	depends on DRM_DEBUG_MM
++	depends on DEBUG_OBJECTS
++	help
++	  Enable allocation tracking of memory manager and leak detection on
++	  shutdown.
++
++	  Recommended for driver developers only.
++
++	  If in doubt, say "N".
++
+ config DRM_DEBUG_SELFTEST
+ 	tristate "kselftests for DRM"
+ 	depends on DRM
+diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
+index bc6e208949e8..073b417bdd7a 100644
+--- a/drivers/gpu/drm/drm_mm.c
++++ b/drivers/gpu/drm/drm_mm.c
+@@ -150,6 +150,41 @@ static void save_stack(struct drm_mm_node *node) { }
+ static void show_leaks(struct drm_mm *mm) { }
+ #endif
+ 
++#ifdef CONFIG_DRM_DEBUG_MM_OBJECTS
++
++static struct debug_obj_descr drm_mm_debug_descr = {
++	.name = "drm_mm_node",
++};
++
++static inline void debug_node_init(struct drm_mm_node *node)
 +{
-+	u32 scaler_filter_ctl = PS_FILTER_MEDIUM;
-+
-+	if (filter == DRM_CRTC_SCALING_FILTER_NEAREST_NEIGHBOR) {
-+		skl_scaler_setup_nearest_neighbor_filter(dev_priv, pipe, id,
-+							 set);
-+		scaler_filter_ctl = PS_FILTER_PROGRAMMED |
-+				PS_UV_VERT_FILTER_SELECT(set) |
-+				PS_UV_HORZ_FILTER_SELECT(set) |
-+				PS_Y_VERT_FILTER_SELECT(set) |
-+				PS_Y_HORZ_FILTER_SELECT(set);
-+
-+	}
-+	return scaler_filter_ctl;
++	debug_object_init(node, &drm_mm_debug_descr);
 +}
 +
- static void skl_pfit_enable(const struct intel_crtc_state *crtc_state)
++static inline void debug_node_activate(struct drm_mm_node *node)
++{
++	debug_object_activate(node, &drm_mm_debug_descr);
++}
++
++static inline void debug_node_deactivate(struct drm_mm_node *node)
++{
++	debug_object_deactivate(node, &drm_mm_debug_descr);
++}
++
++static inline void debug_node_free(struct drm_mm_node *node)
++{
++	debug_object_free(node, &drm_mm_debug_descr);
++}
++
++#else
++
++static inline void debug_node_init(struct drm_mm_node *node) { }
++static inline void debug_node_activate(struct drm_mm_node *node) { }
++static inline void debug_node_deactivate(struct drm_mm_node *node) { }
++static inline void debug_node_free(struct drm_mm_node *node) { }
++
++#endif
++
+ #define START(node) ((node)->start)
+ #define LAST(node)  ((node)->start + (node)->size - 1)
+ 
+@@ -428,6 +463,8 @@ int drm_mm_reserve_node(struct drm_mm *mm, struct drm_mm_node *node)
+ 	if (adj_start > node->start || adj_end < end)
+ 		return -ENOSPC;
+ 
++	debug_node_activate(node);
++
+ 	node->mm = mm;
+ 
+ 	__set_bit(DRM_MM_NODE_ALLOCATED_BIT, &node->flags);
+@@ -543,6 +580,8 @@ int drm_mm_insert_node_in_range(struct drm_mm * const mm,
+ 			}
+ 		}
+ 
++		debug_node_activate(node);
++
+ 		node->mm = mm;
+ 		node->size = size;
+ 		node->start = adj_start;
+@@ -587,6 +626,7 @@ void drm_mm_remove_node(struct drm_mm_node *node)
+ 
+ 	DRM_MM_BUG_ON(!drm_mm_node_allocated(node));
+ 	DRM_MM_BUG_ON(drm_mm_node_scanned_block(node));
++	debug_node_deactivate(node);
+ 
+ 	prev_node = list_prev_entry(node, node_list);
+ 
+@@ -618,6 +658,8 @@ void drm_mm_replace_node(struct drm_mm_node *old, struct drm_mm_node *new)
+ 	struct drm_mm *mm = old->mm;
+ 
+ 	DRM_MM_BUG_ON(!drm_mm_node_allocated(old));
++	debug_node_deactivate(old);
++	debug_node_activate(new);
+ 
+ 	*new = *old;
+ 
+@@ -639,6 +681,19 @@ void drm_mm_replace_node(struct drm_mm_node *old, struct drm_mm_node *new)
+ }
+ EXPORT_SYMBOL(drm_mm_replace_node);
+ 
++void __drm_mm_node_init(struct drm_mm_node *node)
++{
++	debug_node_init(node);
++}
++EXPORT_SYMBOL(__drm_mm_node_init);
++
++void __drm_mm_node_fini(struct drm_mm_node *node)
++{
++	DRM_MM_BUG_ON(drm_mm_node_allocated(node));
++	debug_node_free(node);
++}
++EXPORT_SYMBOL(__drm_mm_node_fini);
++
+ /**
+  * DOC: lru scan roster
+  *
+diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+index f4fec7eb4064..0c34d4dd6458 100644
+--- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+@@ -359,8 +359,6 @@ static struct i915_vma *pd_vma_create(struct gen6_ppgtt *ppgtt, int size)
+ 
+ 	i915_active_init(&vma->active, NULL, NULL);
+ 
+-	kref_init(&vma->ref);
+-	mutex_init(&vma->pages_mutex);
+ 	vma->vm = i915_vm_get(&ggtt->vm);
+ 	vma->ops = &pd_vma_ops;
+ 	vma->private = ppgtt;
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 5b3efb43a8ef..64140d51ae2c 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -45,11 +45,24 @@ static struct i915_global_vma {
+ 
+ struct i915_vma *i915_vma_alloc(void)
  {
- 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-@@ -6310,12 +6329,14 @@ static void skl_pfit_enable(const struct intel_crtc_state *crtc_state)
- 	enum pipe pipe = crtc->pipe;
- 	const struct intel_crtc_scaler_state *scaler_state =
- 		&crtc_state->scaler_state;
-+	const struct drm_crtc_state *state = &crtc_state->uapi;
- 
- 	if (crtc_state->pch_pfit.enabled) {
- 		u16 uv_rgb_hphase, uv_rgb_vphase;
- 		int pfit_w, pfit_h, hscale, vscale;
- 		unsigned long irqflags;
- 		int id;
-+		int scaler_filter_ctl;
- 
- 		if (drm_WARN_ON(&dev_priv->drm,
- 				crtc_state->scaler_state.scaler_id < 0))
-@@ -6334,8 +6355,12 @@ static void skl_pfit_enable(const struct intel_crtc_state *crtc_state)
- 
- 		spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
- 
--		intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, id), PS_SCALER_EN |
--				  PS_FILTER_MEDIUM | scaler_state->scalers[id].mode);
-+		scaler_filter_ctl =
-+			skl_scaler_crtc_setup_filter(dev_priv, pipe, id, 0,
-+						state->scaling_filter);
-+		intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, id),
-+				  PS_SCALER_EN | scaler_filter_ctl |
-+				  scaler_state->scalers[id].mode);
- 		intel_de_write_fw(dev_priv, SKL_PS_VPHASE(pipe, id),
- 				  PS_Y_PHASE(0) | PS_UV_RGB_PHASE(uv_rgb_vphase));
- 		intel_de_write_fw(dev_priv, SKL_PS_HPHASE(pipe, id),
-@@ -16771,6 +16796,9 @@ static int intel_crtc_init(struct drm_i915_private *dev_priv, enum pipe pipe)
- 		dev_priv->plane_to_crtc_mapping[i9xx_plane] = crtc;
- 	}
- 
-+	if (INTEL_GEN(dev_priv) >= 10)
-+		drm_crtc_enable_scaling_filter(&crtc->base);
+-	return kmem_cache_zalloc(global.slab_vmas, GFP_KERNEL);
++	struct i915_vma *vma;
 +
- 	intel_color_init(crtc);
- 
- 	intel_crtc_crc_init(crtc);
-diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c b/drivers/gpu/drm/i915/display/intel_sprite.c
-index deda351719db..ac3fd9843ace 100644
---- a/drivers/gpu/drm/i915/display/intel_sprite.c
-+++ b/drivers/gpu/drm/i915/display/intel_sprite.c
-@@ -395,6 +395,26 @@ skl_plane_max_stride(struct intel_plane *plane,
- 		return min(8192 * cpp, 32768);
++	vma = kmem_cache_zalloc(global.slab_vmas, GFP_KERNEL);
++	if (!vma)
++		return NULL;
++
++	kref_init(&vma->ref);
++	mutex_init(&vma->pages_mutex);
++	drm_mm_node_init(&vma->node);
++
++	return vma;
  }
  
-+static u32
-+skl_scaler_plane_setup_filter(struct drm_i915_private *dev_priv, enum pipe pipe,
-+			      int id, int set,
-+			      enum drm_plane_scaling_filter filter)
+ void i915_vma_free(struct i915_vma *vma)
+ {
++	drm_mm_node_fini(&vma->node);
++	mutex_destroy(&vma->pages_mutex);
++
+ 	return kmem_cache_free(global.slab_vmas, vma);
+ }
+ 
+@@ -114,8 +127,6 @@ vma_create(struct drm_i915_gem_object *obj,
+ 	if (vma == NULL)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	kref_init(&vma->ref);
+-	mutex_init(&vma->pages_mutex);
+ 	vma->vm = i915_vm_get(vm);
+ 	vma->ops = &vm->vma_ops;
+ 	vma->obj = obj;
+diff --git a/include/drm/drm_mm.h b/include/drm/drm_mm.h
+index d7939c054259..514685590603 100644
+--- a/include/drm/drm_mm.h
++++ b/include/drm/drm_mm.h
+@@ -275,6 +275,37 @@ static inline bool drm_mm_initialized(const struct drm_mm *mm)
+ 	return mm->hole_stack.next;
+ }
+ 
++/* stubs for external module compatiblity */
++void __drm_mm_node_init(struct drm_mm_node *node);
++void __drm_mm_node_fini(struct drm_mm_node *node);
++
++/**
++ * drm_mm_node_init - Prepare a node for use.
++ *
++ * Drivers should clear the drm_mm_node prior to use. If debug is enabled,
++ * the lifetime of the embedded drm_mm_node will be tracked.
++ */
++static inline void drm_mm_node_init(struct drm_mm_node *node)
 +{
-+	u32 scaler_filter_ctl = PS_FILTER_MEDIUM;
-+
-+	if (filter == DRM_PLANE_SCALING_FILTER_NEAREST_NEIGHBOR) {
-+		skl_scaler_setup_nearest_neighbor_filter(dev_priv, pipe, id,
-+							 set);
-+		scaler_filter_ctl = PS_FILTER_PROGRAMMED |
-+				PS_UV_VERT_FILTER_SELECT(set) |
-+				PS_UV_HORZ_FILTER_SELECT(set) |
-+				PS_Y_VERT_FILTER_SELECT(set) |
-+				PS_Y_HORZ_FILTER_SELECT(set);
-+
-+	}
-+	return scaler_filter_ctl;
++#ifdef CONFIG_DRM_DEBUG_MM_OBJECTS
++	__drm_mm_node_init(node);
++#endif
++	memset(node, 0, sizeof(*node));
 +}
 +
- static void
- skl_program_scaler(struct intel_plane *plane,
- 		   const struct intel_crtc_state *crtc_state,
-@@ -406,6 +426,7 @@ skl_program_scaler(struct intel_plane *plane,
- 	int scaler_id = plane_state->scaler_id;
- 	const struct intel_scaler *scaler =
- 		&crtc_state->scaler_state.scalers[scaler_id];
-+	const struct drm_plane_state *state = &plane_state->uapi;
- 	int crtc_x = plane_state->uapi.dst.x1;
- 	int crtc_y = plane_state->uapi.dst.y1;
- 	u32 crtc_w = drm_rect_width(&plane_state->uapi.dst);
-@@ -413,6 +434,7 @@ skl_program_scaler(struct intel_plane *plane,
- 	u16 y_hphase, uv_rgb_hphase;
- 	u16 y_vphase, uv_rgb_vphase;
- 	int hscale, vscale;
-+	int scaler_filter_ctl;
- 
- 	hscale = drm_rect_calc_hscale(&plane_state->uapi.src,
- 				      &plane_state->uapi.dst,
-@@ -439,8 +461,12 @@ skl_program_scaler(struct intel_plane *plane,
- 		uv_rgb_vphase = skl_scaler_calc_phase(1, vscale, false);
- 	}
- 
-+	scaler_filter_ctl =
-+		skl_scaler_plane_setup_filter(dev_priv, pipe, scaler_id, 0,
-+					      state->scaling_filter);
- 	intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, scaler_id),
--			  PS_SCALER_EN | PS_PLANE_SEL(plane->id) | scaler->mode);
-+			  PS_SCALER_EN | PS_PLANE_SEL(plane->id) |
-+			  scaler->mode | scaler_filter_ctl);
- 	intel_de_write_fw(dev_priv, SKL_PS_VPHASE(pipe, scaler_id),
- 			  PS_Y_PHASE(y_vphase) | PS_UV_RGB_PHASE(uv_rgb_vphase));
- 	intel_de_write_fw(dev_priv, SKL_PS_HPHASE(pipe, scaler_id),
-@@ -3121,6 +3147,9 @@ skl_universal_plane_create(struct drm_i915_private *dev_priv,
- 
- 	drm_plane_create_zpos_immutable_property(&plane->base, plane_id);
- 
-+	if (INTEL_GEN(dev_priv) >= 10)
-+		drm_plane_enable_scaling_filter(&plane->base);
++/**
++ * drm_mm_node_fini - Finalize a node for use.
++ *
++ * Drivers should indicate that the drm_mm_node is finished, and its
++ * state will then be verified by drm_mm.
++ */
++static inline void drm_mm_node_fini(struct drm_mm_node *node)
++{
++#ifdef CONFIG_DRM_DEBUG_MM_OBJECTS
++	__drm_mm_node_fini(node);
++#endif
++}
 +
- 	drm_plane_helper_add(&plane->base, &intel_plane_helper_funcs);
- 
- 	return plane;
+ /**
+  * drm_mm_hole_follows - checks whether a hole follows this node
+  * @node: drm_mm_node to check
 -- 
-2.23.0
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
