@@ -1,85 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F36D182A17
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:01:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBDE182B81
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 09:41:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4104489C49;
-	Thu, 12 Mar 2020 08:01:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A68B76E0A8;
+	Thu, 12 Mar 2020 08:40:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net
- [194.109.24.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C11D989C49
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 08:01:39 +0000 (UTC)
-Received: from [192.168.2.10] ([46.9.234.233])
- by smtp-cloud9.xs4all.net with ESMTPA
- id CImQjXGct9Im2CImTjipFx; Thu, 12 Mar 2020 09:01:37 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
- t=1584000098; bh=rlvXrsquCgOAoL6m3j4naIDiZk45jPg5qzfaHkH6ylc=;
- h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
- Subject;
- b=S5pQfgbOLIHhQdw0W7sV5AZx/O5rbzeyPt7bFpTNkwgO8Qy0BKq+Rvjmju5L2B424
- ts5RJaST/5DSO90woF88XEKoVSWzdXA1+cYgXtZ9lrnSZ/voNQNCc/kNcDWB/9eH8q
- oukXvG+APHr07xXyoiRVnfNAIu0NoRyJO4gRl7kMox10FOdeAVa4C86hGVXEgWIL1z
- DHpeiiUb+PUHWBRHnftozp83wtSCPlDu/KR0wA5Tus7873ErMhZjEh0V/cX/LLr9QJ
- GcvLzWg4JtL3YxsnzXI28YMgDuIhwtNvDRGPXfnFqtov7CBrtU3S5QfdwsKM1K25I6
- WU1k8NIIoVM6w==
-Subject: Re: [RESEND PATCH v2 8/9] media: fsl-viu: Constify ioreadX() iomem
- argument (as in generic implementation)
-To: Krzysztof Kozlowski <krzk@kernel.org>, Richard Henderson
- <rth@twiddle.net>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Alexey Brodkin <abrodkin@synopsys.com>,
- Vineet Gupta <vgupta@synopsys.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Jiri Slaby
- <jirislaby@gmail.com>, Nick Kossifidis <mickflemm@gmail.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
- "David S. Miller" <davem@davemloft.net>, Dave Jiang <dave.jiang@intel.com>,
- Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Andrew Morton <akpm@linux-foundation.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- linux-ntb@googlegroups.com, virtualization@lists.linux-foundation.org,
- linux-arch@vger.kernel.org
-References: <20200219175007.13627-1-krzk@kernel.org>
- <20200219175007.13627-9-krzk@kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <1c4a11b5-5ca6-7555-de3c-ff30f707fac7@xs4all.nl>
-Date: Thu, 12 Mar 2020 09:01:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7E056E0A8
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 08:40:54 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id f15so2268505pjq.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 01:40:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=B66v4eXPQ7K83ouJ2mPSLQXCELI/fDI8PZuRhUCkLnE=;
+ b=TYU7Fc2fKR+lYRhdC12JYyZExBYrzc3NrCl6ugsTHfm8MzFBfhvhUw+s6jbUgTo+R+
+ fDraAnZ+8JGEkVg+ImFpwiwiewaq+qaHw0CrmmgNCR8VyNfrVwQ/CQYEhIp493bdEoYP
+ m2F/HdSYgp9LccmIbihcO6NjIJ+omW9sm28hz+JjxXEBJerHu6L2FRWNID1pepwD5AYM
+ dIsldxeMszGF09fsj3Vc0AE+MZGMTmO6NQApXPZ2zaQrEo0mZ7Us6GxQa7p004K0mwkZ
+ xTnixzieTBUen4tV/j0C2YQM/sbdrtSc9S0NMMKAraw/NkxTB84MvcAqRD7AmOUJKAaS
+ d3gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=B66v4eXPQ7K83ouJ2mPSLQXCELI/fDI8PZuRhUCkLnE=;
+ b=BcPq3Qj7nmLQ9RimPYlFsZhE/3ZC23F2uNpv7cCMoOfb+yNiAQRCPB2PA/4vN+IsqX
+ 1rCHGHNkRv8NftC7sIz3icaE0dGNNMzqbqzN3NZGv6Te3V1vk8VzC9aTb767yt96SSDh
+ /hRBLmAG6dhNzdBMzhEEGyjCyRL+CB1bpS3pRwUJ0Sr1EIX3VtM20mfxSOmvXtLimbNl
+ AcCp11m6LHQ8ICMsagyRC0Fw6GADUCGa/8cxDhkDdddLtitpEBuuWJU2BaXNZwDnz+FU
+ mJL+59/7tWizt4cAG29lFhchwElVSZqumcehVFBbgBRsY6aUIDFI2ujnx/Kj91YR5Ee7
+ KQ1w==
+X-Gm-Message-State: ANhLgQ1Chb9cpCBFjm+MiQh/rNmEeTDr+IIfGViYwLvGxH+tIRun2M5E
+ xgNP5DDtSxLZdkF/VgjB03aH4F6NtZhYfSRqQ1I=
+X-Google-Smtp-Source: ADFU+vuCKsscjSBeYXkw3i4mhPJxhdDEyr6X9XyMUb7h5TIyA/i3v2HoTj6+Kfbm9VvcmM/QGsM3gb/gwmJ8NJ7ImUc=
+X-Received: by 2002:a17:90a:77c3:: with SMTP id
+ e3mr2939586pjs.143.1584002454410; 
+ Thu, 12 Mar 2020 01:40:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200219175007.13627-9-krzk@kernel.org>
-Content-Language: en-US
-X-CMAE-Envelope: MS4wfB1zxMJIE7wElbGm4sdMecyYLJ6LdsDMDpZDeSQuVKwPm0HLBt9h+mOdrGXFuIDkCI9Ox7ukCv0Xr+wsEhOQPNuuqPOa2tbCK6oF1PNdZVqk6thKvC3h
- xE4aE9bNSUWOFhWxTazaeGPVr5hr0AhveAgdpPWZHpjhg5PxgtKgtRwcEM0X31YjusYjKeuEG9QF/4JOHzjohAIjiR+oAI0nyED+Jez9yI4FW1ZB3LXkp8TH
- 7MMndY8iJadjMhsV5+oGTHeP7z8vzm/dZU83psQzhxRsPonohHX17/JsKF2l5MFAT9+97UKYOiKAsfrv1Cpys4Ae5wkTvdw4qsE49ssk4hjAoyha0QB9BVju
- 9SGy1FrSenK0frRjbC8NaYY9ZERWNSiNH5LA36WXT5yWf3v+Qcv3MkgEimaOp41P2nlVLuOjtsbM7Oc0IE2oIVVfFA700ZJiP3znlyaVddewRuZDpRVP7LaM
- BmiWSHGXgw8YtQmC7z4+FTtlDdPcaOnURURbGtwGqrG9ypYOfWaczdFyon9cFrdpqrNkvqRjWmqFa6YgsB57xqLqvFfcZaXIx/5GPRUQudUCvZPJzisakVQc
- uttKYb/aM3WYuhJM4Wb1Pv6BrMYMIVXGCFsOBd7W/xp0N3iMBGSYj0Aa0rPNR8hHdzbHBC2fjWlNKKBiBqoznNqCGZ0CiVQoEM+QtyRRgiYnx6PeAm5PLOc4
- VNFQmhkOpnD9IFKzOg7MDbXsSwg+OAG64qEuG/VscrSiDVQ1yjv5knp7CxhKGvYM4OpGHYT1Er7Bdx2FCmXu/yAwSbBDRagCD0kotDKUph18wrkxxeFljDJA
- LSc1aSxY7WzE0MoB4x1WWy+jz94FDlyhtSMwiZ6y0dJP3+c2+Q5En242uHE069S9l+7oW8v5MGbWOStqt5f3vSjCb7LIzWN87JmuP89GFWwWLJsughS7GMyf
- 9DHMMrFLvERXtynUPrxsXWOFJFYcfPWtUSuDRlT6lyW4OqviXxQxmuwWWPzBiEuN74qNtI+js8zLo4yvgjsgXCeSGNoTx+kuEqyjk5W1UzIpidGK0CRrnVbE
- 6hD9Y/vETMZdaCRGTPOlU05njcJF+46w8BJ3SNj0Py3qBk1dX7c6nBfbFypmWYBFmuncdfgfV+GvZgph5pgPHOoQxVCf/tLCrfA6lP3T+1yMX4df+BQFRKLS
- O4WmDF2MxF8KloewGsYz/rsmgB25E6V0YSDc8EvmqseT2P6A01f6bsdZt1AJnufocp+H44s+qhBR6buNUUMphP9KyIyYuNbtmFvkGTyK649jUP2q8Nik1rK1
- 3AqiAYrtsks7Dqmq5Qj7chR5DBva/WjXbTAi9lRBeyrc1LiDTAHtFBMmOGm8QJ0PstgU+Qss/H31YuyO+vowQc/YkfqDiEmsIU7MZy0525QlKJCDuomrR9k/
- pt0L69OpaODhDI2GKeTabUJfloUo1rGwDFifFZ3GiczPZsdGrTGULzWF8ZqXdk44Vxmf+o40QJa4goBPwv+YDuim0xPrbohAaaGJnTcviLLAbx0Be2IOpJK7
- 066IFrJvKfz7/Wp2S67JJX5FtbO7VF+IrVN/N63uvfJb+FM6hLMjwGqczE7h5AhCTMRfIsHhAU9mTIYVyLN+UBlZ3WL3ahk0SjumGQqE2df8rbpt41Yx3WFA
- IW77guEXBH/AFWkGJEIg2a3N91fXva0TdPJAF0YzlkCOnwCmb9/Naw==
+References: <20200311125135.30832-1-ple@baylibre.com>
+ <20200311125135.30832-4-ple@baylibre.com>
+ <20200311135535.GQ1922688@smile.fi.intel.com>
+ <20200312005333.GH1639@pendragon.ideasonboard.com>
+In-Reply-To: <20200312005333.GH1639@pendragon.ideasonboard.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 12 Mar 2020 10:40:46 +0200
+Message-ID: <CAHp75Vc8oREKpiz6pR_QiTDHbymh-KKEP5ZzcT8iDJhZs=0bMw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] drm: bridge: add it66121 driver
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,46 +64,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, narmstrong@baylibre.com,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, heiko.stuebner@theobroma-systems.com,
+ icenowy@aosc.io, devicetree <devicetree@vger.kernel.org>,
+ Stephan Gerhold <stephan@gerhold.net>, jonas@kwiboo.se,
+ Rob Herring <robh+dt@kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jernej.skrabec@siol.net,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Phong LE <ple@baylibre.com>, Mark Brown <broonie@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/19/20 6:50 PM, Krzysztof Kozlowski wrote:
-> The ioreadX() helpers have inconsistent interface.  On some architectures
-> void *__iomem address argument is a pointer to const, on some not.
-> 
-> Implementations of ioreadX() do not modify the memory under the address
-> so they can be converted to a "const" version for const-safety and
-> consistency among architectures.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+On Thu, Mar 12, 2020 at 2:56 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Wed, Mar 11, 2020 at 03:55:35PM +0200, Andy Shevchenko wrote:
+> > On Wed, Mar 11, 2020 at 01:51:34PM +0100, Phong LE wrote:
+> > > This commit is a simple driver for bridge HMDI it66121.
+> > > The input format is RBG and there is no color conversion.
+> > > Audio, HDCP and CEC are not supported yet.
+> >
+> > I guess you should have been told in your company how to use get_maintainer.pl
+> > to avoid spamming people.
+> >
+> > Hint:
+> >       scripts/get_maintainer.pl --git --git-min-percent=67 ...
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> I didn't even know about those options...
 
-Regards,
+Doesn't one usually look at the help of the tool they are using?
+How does one know what it does by default?
 
-	Hans
+> I don't think we can't expect
+> contributors to know about this if it's not even documented in
+> Documentation/process/.
 
-> ---
->  drivers/media/platform/fsl-viu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/fsl-viu.c b/drivers/media/platform/fsl-viu.c
-> index 81a8faedbba6..991d9dc82749 100644
-> --- a/drivers/media/platform/fsl-viu.c
-> +++ b/drivers/media/platform/fsl-viu.c
-> @@ -34,7 +34,7 @@
->  /* Allow building this driver with COMPILE_TEST */
->  #if !defined(CONFIG_PPC) && !defined(CONFIG_MICROBLAZE)
->  #define out_be32(v, a)	iowrite32be(a, (void __iomem *)v)
-> -#define in_be32(a)	ioread32be((void __iomem *)a)
-> +#define in_be32(a)	ioread32be((const void __iomem *)a)
->  #endif
->  
->  #define BUFFER_TIMEOUT		msecs_to_jiffies(500)  /* 0.5 seconds */
-> 
+This is indeed not good and there is room for improvement.
 
+> And even in that case, if this is what every
+> contribution should use by default, then those options should become the
+> default for the get_maintainer.pl script.
+
+I don't think so. There is a common sense rule in play.
+By default get_maintainer.pl shows the roles of the people, so, when
+one puts the name at least they may read what the role of the
+recipient in question. If I see too many people in the list (let's say
+4+), I definitely will start looking for the explanation why.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
