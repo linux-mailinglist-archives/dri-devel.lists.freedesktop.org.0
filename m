@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E449182BE1
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 10:06:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 096F4182C08
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 10:10:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 427146E09A;
-	Thu, 12 Mar 2020 09:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4993C6E0CF;
+	Thu, 12 Mar 2020 09:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 770C36E09A
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 09:06:16 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB0956E0CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 09:10:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584003975;
+ s=mimecast20190719; t=1584004221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VSFTzKd2uXF18UVZ1m0HzeIesfFwiODN5EoQthAooa8=;
- b=cKVX0VzsHvw8FcQXschllHchk+NN1jNr8wwRc9Kh5Nm7KHnTMifoDiA09IvGNGbNdNXT6i
- W6uf1MbzNK6Ses+0ItPN6Gms6vsM66WeFJL/rwEHqhmfI0SedU3P7go5iSH1y3cUJ2em2E
- 6nTvUb5xuEzOjJMXjsm2BuiRlZMwQOI=
+ bh=mFIadcbKRZ/irp2MSvAK1LiqlQwfpdHU9Rw7etvgfrA=;
+ b=CRKzsvTMPUTaCrHVqB/2sGU76UoR3yrZ0hSuVnL48vjkBPsn4ljfVDkSDgDyY8jU+BPa0O
+ 82S10FRpErIPbhwmi9URGpr84BgzQDumGAJCSfNrS0e9RDHzPUxirh37RjuS6xe1lVmX6Q
+ ae2iaqhzNRsw1tELuL4rXGhl+fkJ+r0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-YAFfaWFtPPaoXE2f7Fs7Ww-1; Thu, 12 Mar 2020 05:06:08 -0400
-X-MC-Unique: YAFfaWFtPPaoXE2f7Fs7Ww-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-111-Z-CPLOdDN1qHn-CBWviXNw-1; Thu, 12 Mar 2020 05:10:18 -0400
+X-MC-Unique: Z-CPLOdDN1qHn-CBWviXNw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E697D10838BA;
- Thu, 12 Mar 2020 09:06:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB7188017DF;
+ Thu, 12 Mar 2020 09:10:16 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
  [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 926A75C1C3;
- Thu, 12 Mar 2020 09:06:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B51760BF1;
+ Thu, 12 Mar 2020 09:10:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8591C17449; Thu, 12 Mar 2020 10:06:01 +0100 (CET)
-Date: Thu, 12 Mar 2020 10:06:01 +0100
+ id 74E6717449; Thu, 12 Mar 2020 10:10:11 +0100 (CET)
+Date: Thu, 12 Mar 2020 10:10:11 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Chia-I Wu <olvaffe@gmail.com>
 Subject: Re: [RFC PATCH 0/8] *** Per context fencing ***
-Message-ID: <20200312090601.mt3tc7d3horjd7gj@sirius.home.kraxel.org>
+Message-ID: <20200312091011.74gmdzljjbjmrhoa@sirius.home.kraxel.org>
 References: <20200310010818.569-1-gurchetansingh@chromium.org>
  <20200310074302.yx6anlvqvsg37yzs@sirius.home.kraxel.org>
  <CAAfnVB=sw=u80mHnZUPf_+WDW-hGNTDSBWLfV+7y3KFN=s6beQ@mail.gmail.com>
  <20200311103609.ei446gelkvbqrdzm@sirius.home.kraxel.org>
- <CAPaKu7SCquWkY3x3EeuvJvjmn1hV-rqeaq4KM5X0tcfVbqNojg@mail.gmail.com>
+ <CAAfnVBm1eoGZY7yB8eqEC1eLk=v4dq--O2biQOnWDHCkmguOeA@mail.gmail.com>
+ <CAPaKu7SjeN+8Grr_hopG=pDcigV52YQeUnAYmumTVY0=RBR5Ng@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAPaKu7SCquWkY3x3EeuvJvjmn1hV-rqeaq4KM5X0tcfVbqNojg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <CAPaKu7SjeN+8Grr_hopG=pDcigV52YQeUnAYmumTVY0=RBR5Ng@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
@@ -77,29 +78,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
   Hi,
 
-> Can virtqueues be added dynamically?
+> I will start with... how many timelines do we want to expose per
+> context?  In my mind, it goes like
+> 
+> V1: 1 timeline per virtqueue (there is one timeline for ctrlq right now)
+> V2: 1 timeline per context (VK and GL on different timelines)
+> V3: N timelines per context (each VkQueue in a VK context gets a timeline?)
+> V4: N+M timelines per context (each CPU thread also gets a timeline?!?!)
+> 
+> I certainly don't know if V4 is a good idea or not...
 
-No.
-
-> Or can we have
-> fixed but enough (e.g., 64) virtqueues?
-
-Well, I wouldn't bet that any specific number is enough.  When gtk
-starts rendering using vulkan by default the number of contexts of a
-standard gnome desktop will be pretty high I guess ...
-
-We can have a host-configurable number of virtqueues.  Typically the
-guest can figure the number of available queues from config space.  One
-common usage pattern (seen in block/net devices) is to have the number
-of virtqueues equal the number of vcpus, so each vcpu has dedicated
-virtqueue.
-
-For virtio-gpu it is probably more useful to bind contexts to
-virtqueues.  As long as we have enough virtqueues each context can
-have its own.  Once we run out of virtqueues we have to start sharing.
-
-On the host side it probably makes sense to have one process per
-virtqueue.
+I'd expect apps use one VkQueue per thread, so v3 makes sense but v4 not
+so much I think ...
 
 cheers,
   Gerd
