@@ -2,39 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0BFD18324B
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 15:04:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5021218327C
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 15:10:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 948186EACB;
-	Thu, 12 Mar 2020 14:04:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB2926EACD;
+	Thu, 12 Mar 2020 14:10:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A5A96E201;
- Thu, 12 Mar 2020 14:04:40 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2020 07:04:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,545,1574150400"; d="scan'208";a="232063290"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 12 Mar 2020 07:04:35 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 12 Mar 2020 16:04:34 +0200
-Date: Thu, 12 Mar 2020 16:04:34 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: Re: [RFC][PATCH 0/5] Introduce drm scaling filter property
-Message-ID: <20200312140434.GG13686@intel.com>
-References: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E36126E201;
+ Thu, 12 Mar 2020 14:10:26 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id m9so7631886wro.12;
+ Thu, 12 Mar 2020 07:10:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Z9pN5bnfB9UOGPPBmOZ+T30a1QO55ydc2k3sYdmcW5U=;
+ b=NR1rKwJFKCpKBdFOSixakBU1LfBZYgL1ja4b92wMexZSj1lE2q5+MuAeq7wwehzMnY
+ 8mQ1YXCriAfreO0PYg4YDJRnD4rf6rmCHuRhQRand0tnPQ3ETIZJFxRxp6CODcG0oSiV
+ alZbg1MInEptTSH0CgCpu2Czb3ME7Whpi2P6m05YH+tZh6HYIz8/vfrBn2bNrCfI4Tz1
+ qolgY8dyw1MuANUII0CPwrPGFuQtZ4ozioq4TyDoKqUSOt3V4dxlI+2CCxBMZlKq20aI
+ CDWJ0wNZeKSQPLYv42knyfiAoIOLLJrE/glxMsXynLHRF/ge7KbuHQ9D/+jgYxGK9q4S
+ lL5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z9pN5bnfB9UOGPPBmOZ+T30a1QO55ydc2k3sYdmcW5U=;
+ b=gT03Z4e06Cdr4h0GoB9WLQYpwYQ653AOe9+6kYCxCB7u0K/PlSG2GvZuE4HAzN9u4z
+ FsKK92X6iXvLyeEzWFhLV1EovGTH+HuXIF6epdeBoNgUicLnEW+Hm6eAZOpSIIB/YZU3
+ V/8XF67GpEAUKM5H3zFO2sa5t+4Z6xAb9WXh0d6QHC5wZO94vMWPgkKPKW9gQ1r78USy
+ Xfp2MQ8+fmkWhmJJgF2poB3aNjlcZ1w4iBMIb4WURzBxn360e3sxg8eGQRZPiLQEluUw
+ 2vXCaz4EmYRdHaaPNelHyaU+lhFcwZS9atOyjCs+5/bm1DRJfYhujNdJ62BH6MeQdIIl
+ ly1w==
+X-Gm-Message-State: ANhLgQ1omv/HFGEgzTs3Fr1da45qh1VknSF9B+3GVpnYEs0fM/pSFLbZ
+ kZcAeIxF2GDfa2xsBQREdZuvCEYuhsz8kmHtXeCjvQ==
+X-Google-Smtp-Source: ADFU+vvHHg5y26BwqZU/LzLm11ufz4kziAJw4cWQh+hWSa1c3vndABADeU8cnh7o+ogAxkbeq1ZNsRjRSjTYi1qMhII=
+X-Received: by 2002:adf:f74b:: with SMTP id z11mr11781048wrp.124.1584022225518; 
+ Thu, 12 Mar 2020 07:10:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1583896344.git.joe@perches.com>
+ <4ee79adcba4e5ea80b3ef6271caeef6df4bf8ca7.1583896349.git.joe@perches.com>
+In-Reply-To: <4ee79adcba4e5ea80b3ef6271caeef6df4bf8ca7.1583896349.git.joe@perches.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 12 Mar 2020 10:10:14 -0400
+Message-ID: <CADnq5_NA+9VhVUGxPcJ8swu=qqPpPA+3-HK9fy5jAg5ko8TfwA@mail.gmail.com>
+Subject: Re: [PATCH -next 024/491] AMD DISPLAY CORE: Use fallthrough;
+To: Joe Perches <joe@perches.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,104 +61,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ankit.k.nautiyal@intel.com, mihail.atanassov@arm.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Leo Li <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 25, 2020 at 12:35:40PM +0530, Pankaj Bharadiya wrote:
-> Integer scaling (IS) is a nearest-neighbor upscaling technique that
-> simply scales up the existing pixels by an integer (i.e., whole
-> number) multiplier. Nearest-neighbor (NN) interpolation works by
-> filling in the missing color values in the upscaled image with that of
-> the coordinate-mapped nearest source pixel value.
-> =
+Applied.  thanks! (link fixed locally).
 
-> Both IS and NN preserve the clarity of the original image. In
-> contrast, traditional upscaling algorithms, such as bilinear or
-> bicubic interpolation, result in blurry upscaled images because they
-> employ interpolation techniques that smooth out the transition from
-> one pixel to another.  Therefore, integer scaling is particularly
-> useful for pixel art games that rely on sharp, blocky images to
-> deliver their distinctive look.
-> =
+Alex
 
-> Many gaming communities have been asking for integer-mode scaling
-> support, some links and background:
-> =
-
-> https://software.intel.com/en-us/articles/integer-scaling-support-on-inte=
-l-graphics
-> http://tanalin.com/en/articles/lossless-scaling/
-> https://community.amd.com/thread/209107
-> https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/1002/fe=
-ature-request-nonblurry-upscaling-at-integer-rat/
-> =
-
-> This patch series -
->   - Introduces new scaling filter property to allow userspace to
->     select  the driver's default scaling filter or Nearest-neighbor(NN)
->     filter for scaling operations on crtc/plane.
->   - Implements and enable integer scaling for i915
-> =
-
-> Userspace patch series link: TBD.
-
-That needs to be done or this will go nowhere.
-
-> =
-
-> Thanks to Shashank for initiating this work. His initial RFC can be
-> found here [1]
-> =
-
-> [1] https://patchwork.freedesktop.org/patch/337082/
-> =
-
-> Modifications done in this series -
->    - refactored code and incorporated initial review comments and
->      added 2 scaling filter types (default and NN) to begin with.
->    - added scaling filter property support for planes and new API
->      helpers for drivers to setup this property.
->    - rewrote code to enable integer scaling and NN filter for i915
-> =
-
-> =
-
-> Pankaj Bharadiya (5):
->   drm: Introduce scaling filter property
->   drm/drm-kms.rst: Add Scaling filter property documentation
->   drm/i915: Enable scaling filter for plane and pipe
->   drm/i915: Introduce scaling filter related registers and bit fields.
->   drm/i915/display: Add Nearest-neighbor based integer scaling support
-> =
-
->  Documentation/gpu/drm-kms.rst                |   6 ++
->  drivers/gpu/drm/drm_atomic_uapi.c            |   8 ++
->  drivers/gpu/drm/drm_crtc.c                   |  16 +++
->  drivers/gpu/drm/drm_mode_config.c            |  13 +++
->  drivers/gpu/drm/drm_plane.c                  |  35 +++++++
->  drivers/gpu/drm/i915/display/intel_display.c | 100 ++++++++++++++++++-
->  drivers/gpu/drm/i915/display/intel_display.h |   2 +
->  drivers/gpu/drm/i915/display/intel_sprite.c  |  32 ++++--
->  drivers/gpu/drm/i915/i915_reg.h              |  21 ++++
->  include/drm/drm_crtc.h                       |  10 ++
->  include/drm/drm_mode_config.h                |   6 ++
->  include/drm/drm_plane.h                      |  14 +++
->  12 files changed, 252 insertions(+), 11 deletions(-)
-> =
-
-> -- =
-
-> 2.23.0
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+On Wed, Mar 11, 2020 at 1:07 AM Joe Perches <joe@perches.com> wrote:
+>
+> Convert the various uses of fallthrough comments to fallthrough;
+>
+> Done via script
+> Link: https://lore.kernel.org/lkml/b56602fcf79f849e733e7b521bb0e17895d390fa.1582230379.git.joe.com/
+>
+> Signed-off-by: Joe Perches <joe@perches.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c | 4 ++--
+>  drivers/gpu/drm/amd/display/dc/dce/dce_aux.c       | 2 +-
+>  drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c | 2 +-
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+> index 2f1c958..37fa7b 100644
+> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+> @@ -267,7 +267,7 @@ static struct atom_display_object_path_v2 *get_bios_object(
+>                                         && id.enum_id == obj_id.enum_id)
+>                                 return &bp->object_info_tbl.v1_4->display_path[i];
+>                 }
+> -               /* fall through */
+> +               fallthrough;
+>         case OBJECT_TYPE_CONNECTOR:
+>         case OBJECT_TYPE_GENERIC:
+>                 /* Both Generic and Connector Object ID
+> @@ -280,7 +280,7 @@ static struct atom_display_object_path_v2 *get_bios_object(
+>                                         && id.enum_id == obj_id.enum_id)
+>                                 return &bp->object_info_tbl.v1_4->display_path[i];
+>                 }
+> -               /* fall through */
+> +               fallthrough;
+>         default:
+>                 return NULL;
+>         }
+> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_aux.c b/drivers/gpu/drm/amd/display/dc/dce/dce_aux.c
+> index 68c4049..743042 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dce/dce_aux.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dce/dce_aux.c
+> @@ -645,7 +645,7 @@ bool dce_aux_transfer_with_retries(struct ddc_service *ddc,
+>                         case AUX_TRANSACTION_REPLY_AUX_DEFER:
+>                         case AUX_TRANSACTION_REPLY_I2C_OVER_AUX_DEFER:
+>                                 retry_on_defer = true;
+> -                               /* fall through */
+> +                               fallthrough;
+>                         case AUX_TRANSACTION_REPLY_I2C_OVER_AUX_NACK:
+>                                 if (++aux_defer_retries >= AUX_MAX_DEFER_RETRIES) {
+>                                         goto fail;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c b/drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c
+> index 8aa937f..51481e 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c
+> @@ -479,7 +479,7 @@ static void program_grph_pixel_format(
+>         case SURFACE_PIXEL_FORMAT_GRPH_ABGR16161616F:
+>                 sign = 1;
+>                 floating = 1;
+> -               /* fall through */
+> +               fallthrough;
+>         case SURFACE_PIXEL_FORMAT_GRPH_ARGB16161616F: /* shouldn't this get float too? */
+>         case SURFACE_PIXEL_FORMAT_GRPH_ARGB16161616:
+>                 grph_depth = 3;
+> --
+> 2.24.0
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
