@@ -2,45 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2A0183958
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 20:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 559B9184220
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 09:01:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42EF56E25A;
-	Thu, 12 Mar 2020 19:19:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 637AD890D2;
+	Fri, 13 Mar 2020 08:01:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0240.hostedemail.com
- [216.40.44.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2BC56E25A
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 19:19:07 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay06.hostedemail.com (Postfix) with ESMTP id 2162F1800EC2E;
- Thu, 12 Mar 2020 19:19:07 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:541:800:960:967:973:982:988:989:1260:1311:1314:1345:1359:1437:1515:1534:1541:1711:1730:1747:1777:1792:2393:2525:2560:2563:2682:2685:2859:2902:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3352:3865:3866:3867:3868:3870:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:5007:6119:6261:7903:9025:10004:10848:11026:11473:11658:11914:12043:12048:12297:12438:12555:12679:12895:12986:13069:13311:13357:13894:13972:14096:14181:14384:14394:14721:21080:21433:21627:21811:21939:21990:30054,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:2, LUA_SUMMARY:none
-X-HE-Tag: tank01_6c88f0addf926
-X-Filterd-Recvd-Size: 2400
-Received: from joe-laptop.perches.com (unknown [47.151.143.254])
- (Authenticated sender: joe@perches.com)
- by omf04.hostedemail.com (Postfix) with ESMTPA;
- Thu, 12 Mar 2020 19:19:05 +0000 (UTC)
-From: Joe Perches <joe@perches.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/3] drm: drm_vm: Use fallthrough;
-Date: Thu, 12 Mar 2020 12:17:12 -0700
-Message-Id: <398db73cdc8a584fd7f34f5013c04df13ba90f64.1584040050.git.joe@perches.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <cover.1584040050.git.joe@perches.com>
-References: <cover.1584040050.git.joe@perches.com>
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64A1E6EB31
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 19:33:12 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id z25so3421919qkj.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 12:33:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=is+aAM3kx5GKU9icuIhwFwERZb/T1GECd3Vc+iyHsrs=;
+ b=lRxPbdASo0evc/F+Ip6xqFmx6SR5Ep4C+HmDXCsADxBM/3Ke9ZrSnd8OLI9/+Ba18R
+ N5a2wgvLDNxgULstqz0noI6VPXtVwUu8JngxGZs1UC5YPlq2H93z9xSfSOPdldqeSa4/
+ hatJPBEgZOOseMT1S7YUlHG2jZYe0YM1TmYEuk89SVmxTdNfqS3h8ICchbxaNu8Q/cAZ
+ aEAKi7bYJ81g9JwKnY6ybmslylnp+c5JRQ3G98ykTev743ZLpqbGtV9REVg+YL86yupH
+ DXUhmmzZuEPGZDN7VLByJzgabZZQxQjNYMoTm2pezJL4F/dgTXcrObPWfXS38ruNqv42
+ nl8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=is+aAM3kx5GKU9icuIhwFwERZb/T1GECd3Vc+iyHsrs=;
+ b=NchFqyVGUMWteP7MWqFvm4ty7XSaWP78HIqE6Wqxt9vO05kDJG9F5D76zy66NgqB9T
+ mpCmaRhNMDYRFSiulZmXREnopf47olz4o/7CURLoRf7FKppvaZyrjja1cXnAYkIif+LJ
+ xAWYqN+cD8bwidaqlLg7AA0YRqhXLmQfb863XqKCi+lv/VK/Z7nyLP2hrnuC44+oAqlJ
+ 8IrgK0pBihZ7FFLCgPwyvPnVKYXizs+V/RBNqWKoTOXl7w8ZVv09MdwwIfnUAPV+WB4F
+ rU1VkwsRCiu8dJRUPL2Lvm7XxqLULTrx07ymIkKunnsLVswTv4WqhIVGyOVpjAV8+ZQp
+ 0LTQ==
+X-Gm-Message-State: ANhLgQ0TH5MCac23d2/ykGjF9fcqN31G8eQTCyhvvgCep0XVRerFeR5J
+ 9DDBAayvpM2qI1N5nc8+IBe7+bISAGI=
+X-Google-Smtp-Source: ADFU+vtXZiDTvpbqkqoe3aZfzQFFBVJratdXNcqXhW8TtJt9L1GxnDlVMfvoDpoJhcH5PsM3O8V7Jw==
+X-Received: by 2002:a37:5b81:: with SMTP id p123mr8518904qkb.284.1584041591327; 
+ Thu, 12 Mar 2020 12:33:11 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.57.212])
+ by smtp.gmail.com with ESMTPSA id o16sm28188049qke.35.2020.03.12.12.33.10
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 12 Mar 2020 12:33:10 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1jCTZu-0000QR-65; Thu, 12 Mar 2020 16:33:10 -0300
+Date: Thu, 12 Mar 2020 16:33:10 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Jerome Glisse <jglisse@redhat.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, Felix.Kuehling@amd.com
+Subject: Re: [PATCH hmm 9/8] mm/hmm: do not check pmd_protnone twice in
+ hmm_vma_handle_pmd()
+Message-ID: <20200312193310.GA1190@ziepe.ca>
+References: <20200311183506.3997-1-jgg@ziepe.ca>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200311183506.3997-1-jgg@ziepe.ca>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Fri, 13 Mar 2020 08:00:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,56 +75,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Philip Yang <Philip.Yang@amd.com>, John Hubbard <jhubbard@nvidia.com>,
+ amd-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert /* fallthrough */ style comments to fallthrough;
+pmd_to_hmm_pfn_flags() already checks it and makes the cpu flags 0. If no
+fault is requested then the pfns should be returned with the not valid
+flags.
 
-Convert the various uses of fallthrough comments to fallthrough;
+It should not unconditionally fault if faulting is not requested.
 
-Done via script
-Link: https://lore.kernel.org/lkml/b56602fcf79f849e733e7b521bb0e17895d390fa.1582230379.git.joe@perches.com/
-
-And by hand:
-
-This file has a fallthrough comment outside of an #ifdef block
-that causes gcc to emit a warning if converted in-place.
-
-So move the new fallthrough; inside the containing #ifdef/#endif too.
-
-Signed-off-by: Joe Perches <joe@perches.com>
+Fixes: 2aee09d8c116 ("mm/hmm: change hmm_vma_fault() to allow write fault on page basis")
+Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
 ---
- drivers/gpu/drm/drm_vm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ mm/hmm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_vm.c b/drivers/gpu/drm/drm_vm.c
-index 64619f..fd65c59 100644
---- a/drivers/gpu/drm/drm_vm.c
-+++ b/drivers/gpu/drm/drm_vm.c
-@@ -595,8 +595,8 @@ static int drm_mmap_locked(struct file *filp, struct vm_area_struct *vma)
- 			vma->vm_ops = &drm_vm_ops;
- 			break;
- 		}
-+		fallthrough;	/* to _DRM_FRAME_BUFFER... */
- #endif
--		/* fall through - to _DRM_FRAME_BUFFER... */
- 	case _DRM_FRAME_BUFFER:
- 	case _DRM_REGISTERS:
- 		offset = drm_core_get_reg_ofs(dev);
-@@ -621,7 +621,7 @@ static int drm_mmap_locked(struct file *filp, struct vm_area_struct *vma)
- 		    vma->vm_end - vma->vm_start, vma->vm_page_prot))
- 			return -EAGAIN;
- 		vma->vm_page_prot = drm_dma_prot(map->type, vma);
--		/* fall through - to _DRM_SHM */
-+		fallthrough;	/* to _DRM_SHM */
- 	case _DRM_SHM:
- 		vma->vm_ops = &drm_vm_shm_ops;
- 		vma->vm_private_data = (void *)map;
+Bonus patch, this one got found after I made the series..
+
+diff --git a/mm/hmm.c b/mm/hmm.c
+index ca33d086bdc190..6d9da4b0f0a9f8 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -226,7 +226,7 @@ static int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
+ 	hmm_range_need_fault(hmm_vma_walk, pfns, npages, cpu_flags,
+ 			     &fault, &write_fault);
+ 
+-	if (pmd_protnone(pmd) || fault || write_fault)
++	if (fault || write_fault)
+ 		return hmm_vma_walk_hole_(addr, end, fault, write_fault, walk);
+ 
+ 	pfn = pmd_pfn(pmd) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
 -- 
-2.24.0
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
