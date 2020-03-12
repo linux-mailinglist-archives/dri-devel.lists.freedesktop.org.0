@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5F0183112
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 14:18:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A149183119
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 14:19:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDAF16EAB5;
-	Thu, 12 Mar 2020 13:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 561866EAB7;
+	Thu, 12 Mar 2020 13:19:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 905236EAB5
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 13:18:04 +0000 (UTC)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 209E56EABD
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 13:19:29 +0000 (UTC)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 533DF206B1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 13:18:04 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DAC7620663
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 13:19:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1584019084;
- bh=9LvTzccs20EfwHRZkugVuiWmgd25bpPrRl6L8w4/Oz4=;
+ s=default; t=1584019169;
+ bh=+MMUU8Xne5+2eAsxkj1dA3qRhr6aXsgwB+rUXSYPzE0=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=zY0iaiEuq+94HEJNC+M3uNNqqWvIuL8LmuYCbrWbvB2ja1QjHiApBUHK6+3t2w3V3
- r2wjvYgMkprtz2WwMP/UCxCpanZ2I1A9xlCbVCUQS7wjr8zptKjLXjrHXhOmEI72K1
- j4fWFVMRwBFcA8StaO/AmvEoxFfHjdqyIJEyK6pk=
-Received: by mail-qt1-f182.google.com with SMTP id n5so4256245qtv.7
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 06:18:04 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ052HIExcqkF2dUgqJkAbcnHbxrpo0i332iO0x2CJA2J1/L3NjM
- uq5u1WvOXv9/UFCTExAlwWI1/dyQnifZOu3npg==
-X-Google-Smtp-Source: ADFU+vuLXMJHQEOc9yZQJjg2VBWDBilY6CR5xhZf9pkeq5kaczXg78bABk9trxq/40GZUQEb4VvUo1jtlgxUuKyHUpc=
-X-Received: by 2002:ac8:59:: with SMTP id i25mr7306219qtg.110.1584019083428;
- Thu, 12 Mar 2020 06:18:03 -0700 (PDT)
+ b=oBuxXTK+sOvN9xmpujdNIlPjbN6NqPJXk69SVa3NDAaf0FLoROg6xTNK5zAlm/mUZ
+ EitYitoXQEaQ2Q8iluxS4/D6etYlloiHcUKqBho2dEyI9YGo7UGXuFSTU5CcyQ8JP+
+ GB/KQk4RCmU037Rs58FLIATLrm38aCfCQZkw5tdE=
+Received: by mail-qk1-f179.google.com with SMTP id e16so6034658qkl.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 06:19:28 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ06sLYk/iQwDwr1dAMgwvjA5uf0m9BRTi7xJpQTqMuFqjw/lE+A
+ iWLYIsd5WMBMVb+LExKdw33WzvjjFaY6K5mE4Q==
+X-Google-Smtp-Source: ADFU+vvNInz9AlidtVdZ0P289xaWlWPKA9exqV+sPaM3Dd1PlNwUy5fkfYtGWYhui8BnHxUJyQeSQb/1xHXWoohpI+Q=
+X-Received: by 2002:a37:aa92:: with SMTP id t140mr6952437qke.119.1584019168038; 
+ Thu, 12 Mar 2020 06:19:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200311210001.5102-1-robh@kernel.org>
- <20200311214028.GA21800@ravnborg.org>
-In-Reply-To: <20200311214028.GA21800@ravnborg.org>
+References: <20200308115017.18563-1-sam@ravnborg.org>
+ <20200308115017.18563-2-sam@ravnborg.org>
+In-Reply-To: <20200308115017.18563-2-sam@ravnborg.org>
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 12 Mar 2020 08:17:50 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqK8n-YTsROL+XhjJVtFJzV-aGPxhLOxs1axHq5+TvE-Lg@mail.gmail.com>
-Message-ID: <CAL_JsqK8n-YTsROL+XhjJVtFJzV-aGPxhLOxs1axHq5+TvE-Lg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: Fix dtc unit-address warnings in
- examples
+Date: Thu, 12 Mar 2020 08:19:16 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqL75eu49C9cB4pSekXxow8oFPcPAjTQ8GRhjEH8zkA2jw@mail.gmail.com>
+Message-ID: <CAL_JsqL75eu49C9cB4pSekXxow8oFPcPAjTQ8GRhjEH8zkA2jw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] dt-bindings: display: fix panel warnings
 To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,45 +54,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Jyri Sarha <jsarha@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+Cc: devicetree@vger.kernel.org, Benjamin Gaignard <benjamin.gaignard@st.com>,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
  Thierry Reding <thierry.reding@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 11, 2020 at 4:40 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+On Sun, Mar 8, 2020 at 6:50 AM Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> On Wed, Mar 11, 2020 at 04:00:01PM -0500, Rob Herring wrote:
-> > Extra dtc warnings (roughly what W=1 enables) are now enabled by default
-> > when building the binding examples. These were fixed treewide in
-> > 5.6-rc5, but some new display bindings have been added with new
-> > warnings:
-> >
-> > Documentation/devicetree/bindings/display/panel/raydium,rm68200.example.dts:17.7-27.11: Warning (unit_address_vs_reg): /example-0/dsi@0: node has a unit name, but no reg property
-> > Documentation/devicetree/bindings/display/panel/panel-simple-dsi.example.dts:17.19-31.11: Warning (unit_address_vs_reg): /example-0/mdss_dsi@fd922800: node has a unit name, but no reg property
-> > Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.example.dts:17.7-26.11: Warning (unit_address_vs_reg): /example-0/dsi@0: node has a unit name, but no reg property
-> > Documentation/devicetree/bindings/display/ti/ti,am65x-dss.example.dts:21.27-49.11: Warning (unit_address_format): /example-0/dss@04a00000: unit name should not have leading 0s
-> > Documentation/devicetree/bindings/display/ti/ti,j721e-dss.example.dts:21.27-72.11: Warning (unit_address_format): /example-0/dss@04a00000: unit name should not have leading 0s
-> > Documentation/devicetree/bindings/display/ti/ti,k2g-dss.example.dts:20.27-42.11: Warning (unit_address_format): /example-0/dss@02540000: unit name should not have leading 0s
-> >
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Jyri Sarha <jsarha@ti.com>
-> > Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> Fix following type af warnings in the panel bindings:
 >
-> And I can drop my patch that only fixed the panel/ parts - good.
+> Warning (unit_address_vs_reg): /example-0/dsi/panel: node has a reg or ranges property, but no unit name
+> Warning (unit_address_vs_reg): /example-0/dsi@ff450000: node has a unit name, but no reg property
+>
+> Removing the "@xxx" from the node name fixed first warning.
+> Adding a missing reg property fixed the second warning
+>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  .../devicetree/bindings/display/panel/elida,kd35t133.yaml     | 2 +-
+>  .../bindings/display/panel/leadtek,ltk500hd1829.yaml          | 2 +-
+>  .../devicetree/bindings/display/panel/novatek,nt35510.yaml    | 4 ++--
+>  .../devicetree/bindings/display/panel/orisetech,otm8009a.yaml | 2 +-
+>  .../devicetree/bindings/display/panel/panel-dpi.yaml          | 2 +-
+>  .../devicetree/bindings/display/panel/panel-simple-dsi.yaml   | 2 +-
+>  .../devicetree/bindings/display/panel/raydium,rm68200.yaml    | 2 +-
+>  .../devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml | 2 +-
+>  8 files changed, 9 insertions(+), 9 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/panel/elida,kd35t133.yaml b/Documentation/devicetree/bindings/display/panel/elida,kd35t133.yaml
+> index 4bd74eaa61be..aa761f697b7a 100644
+> --- a/Documentation/devicetree/bindings/display/panel/elida,kd35t133.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/elida,kd35t133.yaml
+> @@ -34,7 +34,7 @@ additionalProperties: false
+>
+>  examples:
+>    - |
+> -    dsi@ff450000 {
+> +    dsi {
+>          #address-cells = <1>;
+>          #size-cells = <0>;
+>          panel@0 {
+> diff --git a/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml b/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
+> index 4ebcea7d0c63..2c9b8aa34815 100644
+> --- a/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
+> @@ -34,7 +34,7 @@ additionalProperties: false
+>
+>  examples:
+>    - |
+> -    dsi@ff450000 {
+> +    dsi {
+>          #address-cells = <1>;
+>          #size-cells = <0>;
+>          panel@0 {
+> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+> index 791fc9daa68b..73d2ff3baaff 100644
+> --- a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+> @@ -40,10 +40,10 @@ examples:
+>    - |
+>      #include <dt-bindings/gpio/gpio.h>
+>
+> -    dsi@a0351000 {
+> +    dsi {
+>          #address-cells = <1>;
+>          #size-cells = <0>;
+> -        panel {
+> +        panel@0 {
+>              compatible = "hydis,hva40wv1", "novatek,nt35510";
+>              reg = <0>;
+>              vdd-supply = <&ab8500_ldo_aux4_reg>;
+> diff --git a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
+> index 6e6ac995c27b..4b6dda6dbc0f 100644
+> --- a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
+> @@ -39,7 +39,7 @@ required:
+>
+>  examples:
+>    - |
+> -    dsi@0 {
+> +    dsi {
+>        #address-cells = <1>;
+>        #size-cells = <0>;
+>        panel@0 {
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> index 5275d350f8cb..f63870384c00 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> @@ -48,7 +48,7 @@ additionalProperties: false
+>
+>  examples:
+>    - |
+> -    panel@0 {
+> +    panel {
+>          compatible = "osddisplays,osd057T0559-34ts", "panel-dpi";
+>          label = "osddisplay";
+>          power-supply = <&vcc_supply>;
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> index 8b60368a2425..cefe19b6bf44 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> @@ -50,7 +50,7 @@ required:
+>
+>  examples:
+>    - |
+> -    mdss_dsi@fd922800 {
+> +    mdss_dsi {
 
-It seems I missed some panels. Perhaps ones that are in drm-misc, but
-not in linux-next yet? Keep yours and I'll respin with just the TI
-part.
+dsi {
 
-Rob
+With that,
+
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
