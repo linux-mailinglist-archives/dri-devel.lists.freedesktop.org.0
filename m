@@ -1,57 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E73182651
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 01:43:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5AD2182661
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 01:53:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 590B66E433;
-	Thu, 12 Mar 2020 00:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AD946E9A4;
+	Thu, 12 Mar 2020 00:53:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 404166E433
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 00:43:44 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id n21so3879962ioo.10
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Mar 2020 17:43:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zzNB0xA3OK0SH1M4BkXZlrlxOPjmKk37vBD806jKH5A=;
- b=IMQg4OtAfJsvpk+UobLiWpaCpQXUtAk4qW3LOnpPIByMtbLyzgrJ6q+MzODmTWtB0k
- CZ3CtQVgio+FJc4qgT6IrAuyFac1dV39NqN2zM5Dxlptro13BLFZi8pLJz4sk868Rrmp
- DG0Uts0EFDwZNbIixMjx8HeEB+R/zYl3jH7sIwhlQ9zp5oG8cMGamnWLXRhkGU/+YSPY
- mfhCYVO6XH0nKqrZmA767zn1vlwHhf1MSlad6vgvqbqgs+yG8brvVs7LrPXMon9Dr3A5
- ZUAxZuKxoml7JMnxYuXLaaQL7TE2nyQgrcj3F/GiRoIxEHcdOFpsprELQggVXLwj6g69
- CoLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zzNB0xA3OK0SH1M4BkXZlrlxOPjmKk37vBD806jKH5A=;
- b=aAYodF5emGyPuS0LW4PUmBxIUkx1FXIXEArG6z+SHqq6RiMyAKCxsM4+7CdenkPG8V
- lh8sWHZQXogUXSZIHDyhBGjiCWoQDMXsXksvW+iD/sOANiTDvTALStcRaEjNoJdWVUI+
- UMEzi9e1e8mJsJL2WJnUUfdrEEIOGUGRDo9a5tB51EbOahj/f/YAe8DtoT9Bq8EEk6CI
- RwPDbAsLqAuiXBWQqMUkoNKh6UpEfmdoPD3Aj66KpUravC0HPT5YvWZfII5N2KudnhRo
- ltuhhWFNLw4X6GI7Hg5t6mBsXkRca7yAtjsL5UEcw1FPZOUdpyiHZ3o0dM53ioCc0oTG
- Zz1A==
-X-Gm-Message-State: ANhLgQ1tIqVzpi92lMzBp59VgDLldxLggWcNfjYcmr7Tz8xiKN2FhGW9
- C3gER4P+v2TZH7N2OV5fNYX4fmJETGltlMBlm4A=
-X-Google-Smtp-Source: ADFU+vv7az+Hm+EbieZU71P1S8Z6MXbYPn+INaHiCnTblAH5u7rKi7YeesBrA2r5RrsofSZQBqd37UKhU7MaqJSKn9k=
-X-Received: by 2002:a6b:8fd8:: with SMTP id r207mr5211564iod.158.1583973823559; 
- Wed, 11 Mar 2020 17:43:43 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E36BE6E9A4
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 00:53:39 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 99BD65F;
+ Thu, 12 Mar 2020 01:53:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1583974416;
+ bh=EUzpDw/68ve6EUxi9eIlyhhTUCwfO//kEYEIkQotIhk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LZviI5IvGw4YdsCzpchksc2ughVqHAGk6WMwXJqbruQdshGcDKF6SlFyHsdZEbkMp
+ NmYZDFY0MdRQ7iombABb9ACMLzB5+rW2lszwxNkdp800LTeAqA53N0bRXYaB41X2Ym
+ 9y0ze1WXM/P0pf0maMhYhnR2VDFdFWZiucslsz9o=
+Date: Thu, 12 Mar 2020 02:53:33 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v2 3/4] drm: bridge: add it66121 driver
+Message-ID: <20200312005333.GH1639@pendragon.ideasonboard.com>
+References: <20200311125135.30832-1-ple@baylibre.com>
+ <20200311125135.30832-4-ple@baylibre.com>
+ <20200311135535.GQ1922688@smile.fi.intel.com>
 MIME-Version: 1.0
-References: <20200310010818.569-1-gurchetansingh@chromium.org>
- <20200310074302.yx6anlvqvsg37yzs@sirius.home.kraxel.org>
- <CAAfnVB=sw=u80mHnZUPf_+WDW-hGNTDSBWLfV+7y3KFN=s6beQ@mail.gmail.com>
- <20200311103609.ei446gelkvbqrdzm@sirius.home.kraxel.org>
- <CAAfnVBm1eoGZY7yB8eqEC1eLk=v4dq--O2biQOnWDHCkmguOeA@mail.gmail.com>
-In-Reply-To: <CAAfnVBm1eoGZY7yB8eqEC1eLk=v4dq--O2biQOnWDHCkmguOeA@mail.gmail.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Wed, 11 Mar 2020 17:43:32 -0700
-Message-ID: <CAPaKu7SjeN+8Grr_hopG=pDcigV52YQeUnAYmumTVY0=RBR5Ng@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/8] *** Per context fencing ***
-To: Gurchetan Singh <gurchetansingh@chromium.org>
+Content-Disposition: inline
+In-Reply-To: <20200311135535.GQ1922688@smile.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,75 +48,473 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chad Versace <chadversary@chromium.org>, Gerd Hoffmann <kraxel@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- John Bates <jbates@chromium.org>
+Cc: mark.rutland@arm.com, narmstrong@baylibre.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, a.hajda@samsung.com,
+ mchehab+samsung@kernel.org, sam@ravnborg.org,
+ heiko.stuebner@theobroma-systems.com, icenowy@aosc.io,
+ devicetree@vger.kernel.org, stephan@gerhold.net, jonas@kwiboo.se,
+ robh+dt@kernel.org, Jonathan.Cameron@huawei.com, jernej.skrabec@siol.net,
+ gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ Phong LE <ple@baylibre.com>, broonie@kernel.org, davem@davemloft.net
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 11, 2020 at 4:36 PM Gurchetan Singh
-<gurchetansingh@chromium.org> wrote:
->
->
->
-> On Wed, Mar 11, 2020 at 3:36 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->>
->>   Hi,
->>
->> > I should've been more clear -- this is an internal cleanup/preparation and
->> > the per-context changes are invisible to host userspace.
->>
->> Ok, it wasn't clear that you don't flip the switch yet.  In general the
->> commit messages could be a bit more verbose ...
->>
->> I'm wondering though why we need the new fence_id in the first place.
->> Isn't it enough to have per-context (instead of global) last_seq?
->
->
-> Heh, that was to leave open the possibility of multiple timelines per context.  Roughly speaking,
-Yeah, I think we will need multiple timelines per context.
+Hi Andy,
 
->
-> V2 -- multiple processes
-> V3 -- multiple processes and multiple threads (due to VK multi-threaded command buffers)
->
-> I think we all agree on V2.  It seems we still have to discuss V3 (multi-queue, thread pools, a fence context associated with each thread) a bit more before we start landing pieces.
-In addition to multiple threads, we should also consider multiple VkQueues.
+On Wed, Mar 11, 2020 at 03:55:35PM +0200, Andy Shevchenko wrote:
+> On Wed, Mar 11, 2020 at 01:51:34PM +0100, Phong LE wrote:
+> > This commit is a simple driver for bridge HMDI it66121.
+> > The input format is RBG and there is no color conversion.
+> > Audio, HDCP and CEC are not supported yet.
+> 
+> I guess you should have been told in your company how to use get_maintainer.pl
+> to avoid spamming people.
+> 
+> Hint:
+> 	scripts/get_maintainer.pl --git --git-min-percent=67 ...
 
-I will start with... how many timelines do we want to expose per
-context?  In my mind, it goes like
+I didn't even know about those options... I don't think we can't expect
+contributors to know about this if it's not even documented in
+Documentation/process/. And even in that case, if this is what every
+contribution should use by default, then those options should become the
+default for the get_maintainer.pl script.
 
-V1: 1 timeline per virtqueue (there is one timeline for ctrlq right now)
-V2: 1 timeline per context (VK and GL on different timelines)
-V3: N timelines per context (each VkQueue in a VK context gets a timeline?)
-V4: N+M timelines per context (each CPU thread also gets a timeline?!?!)
+> ...
+> 
+> > + * Copyright (C) 2020 BayLibre, SAS
+> > + * Author: Phong LE <ple@baylibre.com>
+> > + * Copyright (C) 2018-2019, Artem Mygaiev
+> > + * Copyright (C) 2017, Fresco Logic, Incorporated.
+> 
+> This too compact to read, perhaps squeeze blank line after your (c) note
+> followed by description how the rest (c) appear in the file.
+> 
+> > + *
+> 
+> Redundant line.
+> 
+> > + */
+> 
+> ...
+> 
+> > +#include <linux/of.h>
+> 
+> This can be replaced with property.h, see comments against ->probe().
+> 
+> > +#include <linux/of_device.h>
+> > +#include <linux/of_gpio.h>
+> 
+> I didn't find evidence of use of any of those.
+> 
+> ...
+> 
+> > +#define IT66121_MASTER_SEL_REG			0x10
+> 
+> > +#define IT66121_AFE_DRV_REG			0x61
+> 
+> > +#define IT66121_INPUT_MODE_REG			0x70
+> 
+> > +#define IT66121_INPUT_CSC_REG			0x72
+> 
+> > +#define IT66121_AFE_XP_REG			0x62
+> 
+> > +#define IT66121_AFE_IP_REG			0x64
+> 
+> > +#define IT66121_AFE_XP_EC1_REG			0x68
+> 
+> > +#define IT66121_SW_RST_REG			0x04
+> 
+> > +#define IT66121_DDC_COMMAND_REG			0x15
+> 
+> > +#define IT66121_HDCP_REG			0x20
+> 
+> > +#define IT66121_INT_STATUS1_REG			0x06
+> 
+> > +#define IT66121_DDC_HEADER_REG			0x11
+> 
+> > +#define IT66121_DDC_OFFSET_REG			0x12
+> > +#define IT66121_DDC_BYTE_REG			0x13
+> > +#define IT66121_DDC_SEGMENT_REG			0x14
+> > +#define IT66121_DDC_RD_FIFO_REG			0x17
+> 
+> > +#define IT66121_CLK_BANK_REG			0x0F
+> 
+> > +#define IT66121_INT_REG				0x05
+> 
+> > +#define IT66121_INT_MASK1_REG			0x09
+> 
+> > +#define IT66121_INT_CLR1_REG			0x0C
+> 
+> > +#define IT66121_AV_MUTE_REG			0xC1
+> 
+> > +#define IT66121_PKT_GEN_CTRL_REG		0xC6
+> 
+> > +#define IT66121_AVIINFO_DB1_REG			0x158
+> > +#define IT66121_AVIINFO_DB2_REG			0x159
+> > +#define IT66121_AVIINFO_DB3_REG			0x15A
+> > +#define IT66121_AVIINFO_DB4_REG			0x15B
+> > +#define IT66121_AVIINFO_DB5_REG			0x15C
+> > +#define IT66121_AVIINFO_CSUM_REG		0x15D
+> > +#define IT66121_AVIINFO_DB6_REG			0x15E
+> > +#define IT66121_AVIINFO_DB7_REG			0x15F
+> > +#define IT66121_AVIINFO_DB8_REG			0x160
+> > +#define IT66121_AVIINFO_DB9_REG			0x161
+> > +#define IT66121_AVIINFO_DB10_REG		0x162
+> > +#define IT66121_AVIINFO_DB11_REG		0x163
+> > +#define IT66121_AVIINFO_DB12_REG		0x164
+> > +#define IT66121_AVIINFO_DB13_REG		0x165
+> > +
+> > +#define IT66121_AVI_INFO_PKT_REG		0xCD
+> 
+> > +#define IT66121_HDMI_MODE_REG			0xC0
+> 
+> > +#define IT66121_SYS_STATUS_REG			0x0E
+> 
+> > +#define IT66121_DDC_STATUS_REG			0x16
+> 
+> It's better to
+> a) keep register sorted by value (easy to be oriented);
+> b) have them in fixed width, e.g. 0x0CD.
+> 
+> ...
+> 
+> > +#define IT66121_DEVICE_MASK			0x0F
+> 
+> GENMASK() ?
+> 
+> > +#define IT66121_EDID_SLEEP			20000
+> > +#define IT66121_EDID_TIMEOUT			200000
+> 
+> Care to add units?
+> 
+> > +#define IT66121_AFE_CLK_HIGH			80000
+> 
+> Also, what is the unit of this?
+> 
+> ...
+> 
+> > +	return regmap_write(ctx->regmap, IT66121_MASTER_SEL_REG,
+> > +				IT66121_MASTER_SEL_HOST);
+> 
+> Indentation?
+> Same for other similar places.
+> 
+> ...
+> 
+> > +static int it66121_configure_afe(struct it66121_ctx *ctx,
+> > +				 const struct drm_display_mode *mode)
+> 
+> ...like this.
+> 
+> ...
+> 
+> > +	if (val & (IT66121_DDC_STATUS_NOACK | IT66121_DDC_STATUS_WAIT_BUS |
+> > +	    IT66121_DDC_STATUS_ARBI_LOSE))
+> > +		return -EAGAIN;
+> 
+> Perhaps better to
+> 
+> 	u32 busy = IT66121_DDC_STATUS_NOACK | IT66121_DDC_STATUS_WAIT_BUS |
+> 		   IT66121_DDC_STATUS_ARBI_LOSE;
+> 
+> 
+> 	if (val & busy)
+> 		return -EAGAIN;
+> 
+> ?
+> 
+> > +
+> > +	return 0;
+> > +}
+> 
+> ...
+> 
+> > +static int it66121_abort_ddc_ops(struct it66121_ctx *ctx)
+> > +{
+> > +	int ret;
+> > +	unsigned int swreset, cpdesire;
+> > +
+> > +	ret = regmap_read(ctx->regmap, IT66121_SW_RST_REG, &swreset);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> 
+> > +	ret = regmap_read(ctx->regmap, IT66121_HDCP_REG, &cpdesire);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = regmap_write(ctx->regmap, IT66121_HDCP_REG,
+> > +			   cpdesire & (~IT66121_HDCP_CPDESIRED & 0xFF));
+> > +	if (ret)
+> > +		return ret;
+> 
+> regmap_update_bits() ?
+> 
+> > +
+> > +	ret = regmap_write(ctx->regmap, IT66121_SW_RST_REG,
+> > +			   swreset | IT66121_SW_RST_HDCP);
+> > +	if (ret)
+> > +		return ret;
+> 
+> This should surround the inner update, correct? Otherwise, regmap_update_bits()
+> can be used as well.
+> 
+> > +}
+> 
+> ...
+> 
+> > +static int it66121_get_edid_block(void *context, u8 *buf,
+> > +				  unsigned int block, size_t len)
+> > +{
+> 
+> > +		ret = regmap_write(ctx->regmap, IT66121_DDC_COMMAND_REG,
+> > +				   IT66121_DDC_COMMAND_EDID_READ);
+> > +		if (ret)
+> > +			return ret;
+> > +
+> > +		offset += cnt;
+> > +		remain -= cnt;
+> 
+> > +		msleep(20);
+> 
+> Should be explained.
+> 
+> > +
+> > +		ret = it66121_wait_ddc_ready(ctx);
+> > +		if (ret)
+> > +			return ret;
+> > +
+> 
+> > +		do {
+> > +			ret = regmap_read(ctx->regmap,
+> > +					  IT66121_DDC_RD_FIFO_REG, &val);
+> > +			if (ret)
+> > +				return ret;
+> > +			*(buf++) = val;
+> > +			cnt--;
+> > +		} while (cnt > 0);
+> 
+> I'm wondering if regmap API has a helper for above like cases.
+> 
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> 
+> ...
+> 
+> > +static int it66121_connector_get_modes(struct drm_connector *connector)
+> > +{
+> 
+> > +	struct it66121_ctx *ctx = container_of(connector, struct it66121_ctx,
+> > +			connector);
+> 
+> Seems like it can be an inline helper and in all places you can use
+> 
+> 	struct it66121_ctx *ctx = to_it66121_ctx(connector);
+> 
+> 
+> > +	ret = drm_connector_update_edid_property(connector,
+> > +						 ctx->edid);
+> 
+> It quite fits one line, perhaps configure your editor to see 80 limit sharp?
+> Applies to all similar cases as well.
+> 
+> > +	if (ret) {
+> > +		DRM_ERROR("Failed to update EDID property: %d\n", ret);
+> > +		goto unlock;
+> > +	}
+> 
+> > +}
+> 
+> ...
+> 
+> > +	return (val & IT66121_SYS_STATUS_HPDETECT);
+> 
+> Too many parentheses.
+> 
+> ...
+> 
+> > +	max_clock = ctx->dual_edge ? 74250 : 148500;
+> 
+> Magic numbers? Also, It seems one definition is enough.
+> 
+> ...
+> 
+> > +	msleep(50);
+> 
+> Should be explained.
+> 
+> ...
+> 
+> > +	val = mute ? IT66121_AV_MUTE_ON : (~IT66121_AV_MUTE_ON & 0xFF);
+> 
+> 	val = mute ? IT66121_AV_MUTE_ON : 0;
+> 
+> > +	ret = regmap_write_bits(ctx->regmap, IT66121_AV_MUTE_REG,
+> > +				IT66121_AV_MUTE_ON, val);
+> 
+> ...or even
+> 
+> 	mask = IT66121_AV_MUTE_ON;
+> 	val = mute ? mask : 0;
+> 
+> 	ret = regmap_write_bits(ctx->regmap, IT66121_AV_MUTE_REG, mask, val);
+> 
+> > +	if (ret)
+> > +		return ret;
+> 
+> ...
+> 
+> > +	regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
+> > +			  IT66121_CLK_BANK_PWROFF_TXCLK,
+> > +			  ~IT66121_CLK_BANK_PWROFF_TXCLK & 0xFF);
+> 
+> Same idea. What the point of all this operations in the value parameter?
+> Please, fix over the code.
+> 
+> ...
+> 
+> 
+> > +	if (val & IT66121_SYS_STATUS_ACTIVE_IRQ) {
+> 
+> 	if (!(val & IT66121_SYS_STATUS_ACTIVE_IRQ))
+> 		goto unlock;
+> 
+> > +		ret = regmap_read(ctx->regmap, IT66121_INT_STATUS1_REG, &val);
+> > +		if (ret) {
+> > +			dev_err(dev, "Cannot read STATUS1_REG %d\n", ret);
+> > +		} else {
+> > +			if (val & IT66121_INT_STATUS1_DDC_FIFOERR)
+> > +				it66121_clear_ddc_fifo(ctx);
+> 
+> > +			if (val & (IT66121_INT_STATUS1_DDC_BUSHANG |
+> > +					IT66121_INT_STATUS1_DDC_NOACK))
+> 
+> Indentation.
+> 
+> > +				it66121_abort_ddc_ops(ctx);
+> > +			if (val & IT66121_INT_STATUS1_HPD_STATUS) {
+> > +				regmap_write_bits(ctx->regmap,
+> > +						  IT66121_INT_CLR1_REG,
+> > +						  IT66121_INT_CLR1_HPD,
+> > +						  IT66121_INT_CLR1_HPD);
+> > +
+> > +				if (!it66121_is_hpd_detect(ctx)) {
+> > +					kfree(ctx->edid);
+> > +					ctx->edid = NULL;
+> > +				}
+> > +				event = true;
+> > +			}
+> > +		}
+> > +
+> > +		regmap_write_bits(ctx->regmap, IT66121_SYS_STATUS_REG,
+> > +				  IT66121_SYS_STATUS_CLEAR_IRQ,
+> > +				  IT66121_SYS_STATUS_CLEAR_IRQ);
+> > +	}
+> > +
+> > +unlock:
+> > +	mutex_unlock(&ctx->lock);
+> 
+> ...
+> 
+> > +static int it66121_probe(struct i2c_client *client,
+> > +			 const struct i2c_device_id *id)
+> > +{
+> 
+> > +	u8 ids[4];
+> 
+> Magic, also see below.
+> 
+> > +	int i, ret;
+> > +	struct it66121_ctx *ctx;
+> > +	struct device *dev = &client->dev;
+> 
+> > +	ctx->conf = (struct it66121_conf *)of_device_get_match_data(dev);
+> 
+> device_get_match_data()
+> 
+> In any case why explicit casting?
+> 
+> > +	if (!ctx->conf)
+> > +		return -ENODEV;
+> > +
+> 
+> > +	ctx->dual_edge = of_property_read_bool(dev->of_node, "pclk-dual-edge");
+> 
+> device_property_read_bool()
+> 
+> > +	for (i = 0; i < 4; i++) {
+> 
+> Magic.
+> 
+> > +		regmap_read(ctx->regmap, i, &ret);
+> > +		ids[i] = ret;
+> > +	}
+> 
+> > +
+> > +	if (ids[0] != IT66121_VENDOR_ID0 ||
+> > +	    ids[1] != IT66121_VENDOR_ID1 ||
+> > +	    ids[2] != IT66121_DEVICE_ID0 ||
+> > +	    ((ids[3] & IT66121_DEVICE_MASK) != IT66121_DEVICE_ID1)) {
+> > +		ite66121_power_off(ctx);
+> > +		return -ENODEV;
+> > +	}
+> > +
+> > +	ctx->bridge.funcs = &it66121_bridge_funcs;
+> > +	ctx->bridge.of_node = dev->of_node;
+> > +
+> > +	ret = devm_request_threaded_irq(dev, client->irq, NULL,
+> > +					it66121_irq_threaded_handler,
+> 
+> > +					IRQF_SHARED | IRQF_TRIGGER_LOW |
+> > +					IRQF_ONESHOT,
+> 
+> Shouldn't flags come from appropriate resource provider (DT / ACPI / etc)?
+> 
+> > +					dev_name(dev),
+> > +					ctx);
+> > +	if (ret < 0) {
+> > +		dev_err(dev, "Failed to request irq %d:%d\n", client->irq, ret);
+> > +		ite66121_power_off(ctx);
+> > +		return ret;
+> > +	}
+> > +
+> > +	drm_bridge_add(&ctx->bridge);
+> > +
+> > +	return 0;
+> > +}
+> 
+> ...
+> 
+> > +static const struct of_device_id it66121_dt_match[] = {
+> > +	{ .compatible = "ite,it66121",
+> > +	  .data = &it66121_conf_simple,
+> > +	},
+> 
+> > +	{ },
+> 
+> Terminator line doesn't need comma.
+> 
+> > +};
+> 
+> ...
+> 
+> > +static const struct i2c_device_id it66121_id[] = {
+> > +	{ "it66121", 0 },
+> 
+> > +	{ },
+> 
+> Ditto.
+> 
+> > +};
 
-I certainly don't know if V4 is a good idea or not...
+-- 
+Regards,
 
-
-
->
->>
->> > Multi-queue sounds very interesting indeed, especially with VK
->> > multi-threaded command submission.  That to me is V3 rather than V2.. let's
->> > start easy!
->>
->> Having v2 if we plan to obsolete it with v3 soon doesn't look like a
->> good plan to me.  It'll make backward compatibility more complex for
->> no good reason ...
->>
->> Also: Does virglrenderer render different contexts in parallel today?
->> Only in case it does we'll actually get benefits from per-context
->> fences.  But I think it doesn't, so there is no need to rush.
->>
->> I think we should better have a rough plan for parallel rendering first,
->> then go start implementing the pieces needed.
->>
->> cheers,
->>   Gerd
->>
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
