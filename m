@@ -2,71 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D60184218
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 09:01:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22C6184211
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 09:00:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB08B6EB85;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20D646EB7D;
 	Fri, 13 Mar 2020 08:00:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA3696EAD0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 14:19:30 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id f28so6368226qkk.13
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 07:19:30 -0700 (PDT)
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FBE16EADA
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 14:24:31 +0000 (UTC)
+Received: by mail-qt1-x841.google.com with SMTP id e20so4467355qto.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 07:24:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=/PiOEjdfEsvpkbgsNHwc4L+xx9dbsNuqU5VlQ2ohpBk=;
- b=ZonOAvybTTy9G0fas0xnfVjqsxzR6h2MsglRumsufuK5H0bPkKui9zy//gFhDEujcE
- rcu2rHdhYfAKlqzxn54gEygj4/mJ4Ngx76T7ejJOuWZDBrPO6KE3IdHGDNCIEW9j3X2b
- UT4A+6Wsw1o1w0H/GgVCefRWWDgwiYoBZZjCSvUgv5DiU+0cj1M0GWCqTmfbQme+YNE3
- Sz6416+QFbJT7u+ukLN2zRp02hSOCN1mU9w7OD1FEwy/fuh+qKAwyRvO1wIe+dnKqpiL
- dXA6u1L/iEBCrPtbuc/yvKCxoUdkoJusnyaYe5CW+K4XmJ71kSUgLp+06e8eIQZa4DJn
- JwzA==
+ :content-disposition:in-reply-to:user-agent;
+ bh=52ZZzeEs2+/pEqqEqbFCeogGP38EHvEOX2S5bgO8/Z8=;
+ b=jrATH5N4qry8StY9pugG0+Ke0KycR/1N2zDWcpjLUXgUtOruYPniperiSYRi0PgRPj
+ SA/RFmVPGSlhzzKalOXPR0wertWcVSG882vtQ2Cb6na8jnpL+druFTgZ5rlV3/rhUbNR
+ lBLtmLQ1Jmh979ccU6Nu63pbpXDGsGFS0JF+pa9lXCzdlUkAAyPxh5G6stEAb8ATAYVp
+ pnCFpbfZDe6kcdMTTjIAgUds7v/kbayqFnGX1B9S65GsHbTW48wQL1N0dsUqgn962TjC
+ CYCsxlb/EMUAediX8rr0bMIgCbFMCrldcF5fA6z+Y/Cj0v/0e1bbYt+cKkQmCOSHYlon
+ 64Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=/PiOEjdfEsvpkbgsNHwc4L+xx9dbsNuqU5VlQ2ohpBk=;
- b=HaU9dft6mZzUEWgTvlZdw9mLxchIvYDAAPQLaL7GuD1HSmo+GM3yvD6GE7Eo3aLbVn
- LbaH5vBr3L8qCL16dc0b2xmVu6lxcseqBUWInIbH7OSMvMQ+MAIn9IrnwfsfvcCoKSHZ
- EFLAadRhM9NAgl0eeiQuAua4INt6CpIqfvfnbfUEz+6BR5oDLz7LrqvAF2KkzCGaYjUQ
- ps2z0hT/rq7LjGkNh6DdcdhffjTlePMNvYVzMfTfRo6xkFDeMhKMQcLuzRtnHUob0Hu8
- Vlt3EMKZoTjjl4kOEPTQDDiD+enS2fOBarrr7oOFIM1D6NcTntHM1BkWKWRKpBgtgNUT
- 2awA==
-X-Gm-Message-State: ANhLgQ0uwAhhdCAKnS0CMTGg0d6m9+fxE5r1JJ2BP32qdIpfEUnIcW3N
- tcAOuKlDap0CwYo1uHClSae1Vw==
-X-Google-Smtp-Source: ADFU+vvXg4EGGVemK34kljHZQvgXNrPxNkZ51/3+Zl/oJQuvks201klMSzaKEE/bcFqFKbGz1GRKnQ==
-X-Received: by 2002:a05:620a:388:: with SMTP id
- q8mr7659390qkm.488.1584022769797; 
- Thu, 12 Mar 2020 07:19:29 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=52ZZzeEs2+/pEqqEqbFCeogGP38EHvEOX2S5bgO8/Z8=;
+ b=NAuFO3wKoh7TuQNnaddE0ps4S05WUiAO4MLA9aLfiqkuPwoFJvtnR4c8gOLadZiwL+
+ skuB22pgOviLpfJxHFFUZyTppj/9zUr2Ibs6TP1yDiQ6NH/LdqxHprUw6/wpxKp64wOJ
+ w2I0+pr6C5U00y4Cthsk9IPe10o1jKt43/JtSfnBn4+mX28vpbbFy5ykh2jon7bjGd7u
+ +FULNqrFsJgMk/ZNL21y4MuKQoRC9rHnKADeLG6nYoaRQ5KiT3GmuM+nmWTqtmI2b9JL
+ mSVavnLMG0Z3czJmqC6b3uAsnnYogi6W6+c3hK34spz/o9GEM4WENfHMlOW8jzwZ5Nyd
+ 2Pkg==
+X-Gm-Message-State: ANhLgQ3qCD49noBixH6i2zSwten43H7GAGV/znyfCm3Db74fa+HND0dU
+ 57Sx0n92Po95rqVpmT23phLiVw==
+X-Google-Smtp-Source: ADFU+vu5Fkd5eDw/Rl+GHYbcM47zQEIC0ZRocx7GR91XzXr+d17sBdhNME00hrVEuCo/+2TJubSNAw==
+X-Received: by 2002:aed:2535:: with SMTP id v50mr1091436qtc.354.1584023070460; 
+ Thu, 12 Mar 2020 07:24:30 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id o7sm9510761qtg.63.2020.03.12.07.19.29
+ by smtp.gmail.com with ESMTPSA id l13sm12836457qke.116.2020.03.12.07.24.29
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 12 Mar 2020 07:19:29 -0700 (PDT)
+ Thu, 12 Mar 2020 07:24:29 -0700 (PDT)
 Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
  (envelope-from <jgg@ziepe.ca>)
- id 1jCOgK-0006SS-L5; Thu, 12 Mar 2020 11:19:28 -0300
-Date: Thu, 12 Mar 2020 11:19:28 -0300
+ id 1jCOlB-0006Wf-C8; Thu, 12 Mar 2020 11:24:29 -0300
+Date: Thu, 12 Mar 2020 11:24:29 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH 1/6] lib/scatterlist: add sg_set_dma_addr() function
-Message-ID: <20200312141928.GK31668@ziepe.ca>
-References: <20200311135158.3310-1-christian.koenig@amd.com>
- <20200311135158.3310-2-christian.koenig@amd.com>
- <20200311152838.GA24280@infradead.org>
- <f2b46f49-a8d0-9d43-3120-e1ed36fc3a80@gmail.com>
- <20200312101943.GA14618@infradead.org>
- <b5db44eb-1dde-1671-feb0-9e47d120f172@amd.com>
- <20200312104729.GA26031@infradead.org>
+To: Ralph Campbell <rcampbell@nvidia.com>
+Subject: Re: [PATCH hmm 1/8] mm/hmm: add missing unmaps of the ptep during
+ hmm_vma_handle_pte()
+Message-ID: <20200312142429.GL31668@ziepe.ca>
+References: <20200311183506.3997-1-jgg@ziepe.ca>
+ <20200311183506.3997-2-jgg@ziepe.ca>
+ <1cfdfdff-6d41-b73a-fe48-c7a10c221482@nvidia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200312104729.GA26031@infradead.org>
+In-Reply-To: <1cfdfdff-6d41-b73a-fe48-c7a10c221482@nvidia.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Fri, 13 Mar 2020 08:00:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,59 +76,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Logan Gunthorpe <logang@deltatee.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Philip Yang <Philip.Yang@amd.com>, John Hubbard <jhubbard@nvidia.com>,
+ Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ Jerome Glisse <jglisse@redhat.com>, dri-devel@lists.freedesktop.org,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBNYXIgMTIsIDIwMjAgYXQgMDM6NDc6MjlBTSAtMDcwMCwgQ2hyaXN0b3BoIEhlbGx3
-aWcgd3JvdGU6Cj4gT24gVGh1LCBNYXIgMTIsIDIwMjAgYXQgMTE6MzE6MzVBTSArMDEwMCwgQ2hy
-aXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+IEJ1dCBob3cgc2hvdWxkIHdlIHRoZW4gZGVhbCB3aXRo
-IGFsbCB0aGUgZXhpc3RpbmcgaW50ZXJmYWNlcyB3aGljaCBhbHJlYWR5Cj4gPiB0YWtlIGEgc2Nh
-dHRlcmxpc3Qvc2dfdGFibGUgPwo+ID4KPiA+IFRoZSB3aG9sZSBETUEtYnVmIGRlc2lnbiBhbmQg
-YSBsb3Qgb2YgZHJpdmVycyBhcmUgYnVpbGQgYXJvdW5kCj4gPiBzY2F0dGVybGlzdC9zZ190YWJs
-ZSBhbmQgdG8gbWUgdGhhdCBhY3R1YWxseSBtYWtlcyBxdWl0ZSBhIGxvdCBvZiBzZW5zZS4KPiA+
-IAo+IAo+IFJlcGxhY2UgdGhlbSB3aXRoIGEgc2FuZXIgaW50ZXJmYWNlIHRoYXQgZG9lc24ndCB0
-YWtlIGEgc2NhdHRlcmxpc3QuCj4gQXQgdmVyeSBsZWFzdCBmb3IgbmV3IGZ1bmN0aW9uYWxpdHkg
-bGlrZSBwZWVyIHRvIHBlZXIgRE1BLCBidXQKPiBlc3BlY2lhbGx5IHRoaXMgY29kZSB3b3VsZCBh
-bHNvIGJlbmVmaXQgZnJvbSBhIGdlbmVyYWwgbW92ZSBhd2F5Cj4gZnJvbSB0aGUgc2NhdHRlcmxp
-c3QuCgpJZiBkbWEgYnVmIGNhbiBkbyBQMlAgSSdkIGxpa2UgdG8gc2VlIHN1cHBvcnQgZm9yIGNv
-bnN1bWluZyBhIGRtYWJ1ZgppbiBSRE1BLiBMb29raW5nIGF0IGhvdy4uIHRoZXJlIGlzIGFuIGV4
-aXN0aW5nIHNnbCBiYXNlZCBwYXRoIHN0YXJ0aW5nCmZyb20gZ2V0X3VzZXJfcGFnZXMgdGhyb3Vn
-aCBkbWEgbWFwIHRvIHRoZSBkcml2ZXJzLiAoaWJfdW1lbSkKCkkgY2FuIHJlcGxhY2UgdGhlIGRy
-aXZlciBwYXJ0IHdpdGggc29tZXRoaW5nIGVsc2UgKGRtYV9zZyksIGJ1dCBub3QKdW50aWwgd2Ug
-Z2V0IGEgd2F5IHRvIERNQSBtYXAgcGFnZXMgZGlyZWN0bHkgaW50byB0aGF0IHNvbWV0aGluZwpl
-bHNlLi4KClRoZSBub24tcGFnZSBzY2F0dGVybGlzdCBpcyBhbHNvIGEgYmlnIGNvbmNlcm4gZm9y
-IFJETUEgYXMgd2UgaGF2ZQpkcml2ZXJzIHRoYXQgd2FudCB0aGUgcGFnZSBsaXN0LCBzbyBldmVu
-IGlmIHdlIGRpZCBhcyB0aGlzIHNlcmllcwpjb250ZW1wbGF0ZXMgSSdkIGhhdmUgc3RpbGwgaGF2
-ZSB0byBzcGxpdCB0aGUgZHJpdmVycyBhbmQgY3JlYXRlIHRoZQpub3Rpb24gb2YgYSBkbWEtb25s
-eSBTR0wuCgo+ID4gSSBtZWFuIHdlIGNvdWxkIGNvbWUgdXAgd2l0aCBhIG5ldyBzdHJ1Y3R1cmUg
-Zm9yIHRoaXMsIGJ1dCB0byBtZSB0aGF0IGp1c3QKPiA+IGxvb2tzIGxpa2UgcmVpbnZlbnRpbmcg
-dGhlIHdoZWVsLiBFc3BlY2lhbGx5IHNpbmNlIGRyaXZlcnMgbmVlZCB0byBiZSBhYmxlCj4gPiB0
-byBoYW5kbGUgYm90aCBJL08gdG8gc3lzdGVtIG1lbW9yeSBhbmQgSS9PIHRvIFBDSWUgQkFScy4K
-PiAKPiBUaGUgc3RydWN0dXJlIGZvciBob2xkaW5nIHRoZSBzdHJ1Y3QgcGFnZSBzaWRlIG9mIHRo
-ZSBzY2F0dGVybGlzdCBpcwo+IGNhbGxlZCBzdHJ1Y3QgYmlvX3ZlYywgc28gZmFyIG1vc3RseSB1
-c2VkIGJ5IHRoZSBibG9jayBhbmQgbmV0d29ya2luZwo+IGNvZGUuCgpJIGhhdmVuJ3QgdXNlZCBi
-aW9fdmVjcyBiZWZvcmUsIGRvIHRoZXkgc3VwcG9ydCBjaGFpbmluZyBsaWtlIFNHTCBzbwp0aGV5
-IGNhbiBiZSB2ZXJ5IGJpZz8gUkRNQSBkbWEgbWFwcyBnaWdhYnl0ZXMgb2YgbWVtb3J5Cgo+IFRo
-ZSBzdHJ1Y3R1cmUgZm9yIGhvbGRpbmcgZG1hIGFkZHJlc3NlcyBkb2Vzbid0IHJlYWxseSBleGlz
-dAo+IGluIGEgZ2VuZXJpYyBmb3JtLCBidXQgd291bGQgYmUgYW4gYXJyYXkgb2YgdGhlc2Ugc3Ry
-dWN0dXJlczoKPiAKPiBzdHJ1Y3QgZG1hX3NnIHsKPiAJZG1hX2FkZHJfdAlhZGRyOwo+IAl1MzIJ
-CWxlbjsKPiB9OwoKU2FtZSBxdWVzdGlvbiwgUkRNQSBuZWVkcyB0byByZXByZXNlbnQgZ2lnYWJ5
-dGVzIG9mIHBhZ2VzIGluIGEgRE1BCmxpc3QsIHdlIHdpbGwgbmVlZCBzb21lIGdlbmVyaWMgd2F5
-IHRvIGhhbmRsZSB0aGF0LiBJIHN1c3BlY3QgR1BVIGhhcwphIHNpbWlsYXIgbmVlZD8gQ2FuIGl0
-IGJlIGFjY29taWRhdGVkIGluIHNvbWUgZ2VuZXJpYyBkbWFfc2c/CgpTbyBJJ20gZ3Vlc3Npbmcg
-dGhlIHBhdGggZm9yd2FyZCBpcyBzb21ldGhpbmcgbGlrZQoKIC0gQWRkIHNvbWUgZ2VuZXJpYyBk
-bWFfc2cgZGF0YSBzdHJ1Y3R1cmUgYW5kIGhlbHBlcgogLSBBZGQgZG1hIG1hcHBpbmcgY29kZSB0
-byBnbyBmcm9tIHBhZ2VzIHRvIGRtYV9zZwogLSBSZXdvcmsgUkRNQSB0byB1c2UgZG1hX3NnIGFu
-ZCB0aGUgbmV3IGRtYSBtYXBwaW5nIGNvZGUKIC0gUmV3b3JrIGRtYWJ1ZiB0byBzdXBwb3J0IGRt
-YSBtYXBwaW5nIHRvIGEgZG1hX3NnCiAtIFJld29yayBHUFUgZHJpdmVycyB0byB1c2UgZG1hX3Nn
-CiAtIFRlYWNoIHAycGRtYSB0byBnZW5lcmF0ZSBhIGRtYV9zZyBmcm9tIGEgQkFSIHBhZ2UgbGlz
-dAogLSBUaGlzIHNlcmllcwoKPwoKSmFzb24KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+On Wed, Mar 11, 2020 at 06:28:30PM -0700, Ralph Campbell wrote:
+> >   mm/hmm.c | 8 ++++++--
+> >   1 file changed, 6 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/mm/hmm.c b/mm/hmm.c
+> > index 72e5a6d9a41756..35f85424176d14 100644
+> > +++ b/mm/hmm.c
+> > @@ -325,6 +325,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+> >   		}
+> >   		/* Report error for everything else */
+> > +		pte_unmap(ptep);
+> >   		*pfn = range->values[HMM_PFN_ERROR];
+> >   		return -EFAULT;
+> >   	} else {
+> > @@ -339,10 +340,13 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+> >   	if (pte_devmap(pte)) {
+> >   		hmm_vma_walk->pgmap = get_dev_pagemap(pte_pfn(pte),
+> >   					      hmm_vma_walk->pgmap);
+> > -		if (unlikely(!hmm_vma_walk->pgmap))
+> > +		if (unlikely(!hmm_vma_walk->pgmap)) {
+> > +			pte_unmap(ptep);
+> >   			return -EBUSY;
+> > +		}
+> >   	} else if (IS_ENABLED(CONFIG_ARCH_HAS_PTE_SPECIAL) && pte_special(pte)) {
+> >   		if (!is_zero_pfn(pte_pfn(pte))) {
+> > +			pte_unmap(ptep);
+> >   			*pfn = range->values[HMM_PFN_SPECIAL];
+> >   			return -EFAULT;
+> >   		}
+> > @@ -437,7 +441,7 @@ static int hmm_vma_walk_pmd(pmd_t *pmdp,
+> >   		r = hmm_vma_handle_pte(walk, addr, end, pmdp, ptep, &pfns[i]);
+> >   		if (r) {
+> > -			/* hmm_vma_handle_pte() did unmap pte directory */
+> > +			/* hmm_vma_handle_pte() did pte_unmap() */
+> >   			hmm_vma_walk->last = addr;
+> >   			return r;
+> >   		}
+> > 
+> 
+> I think there is a case where hmm_vma_handle_pte() is called, a fault is requested,
+> pte_unmap() and hmm_vma_walk_hole_() are called, the latter returns zero (the fault
+> was handled OK)
+
+Not quite, hmm_vma_walk_hole_() never returns 0 if called with fault:
+
+        return (fault || write_fault) ? -EBUSY : 0;
+
+And all the call sites of hmm_vma_walk_hole_() in hmm_vma_handle_pte()
+are structured as:
+
+                if (fault || write_fault)
+                        goto fault;
+fault:
+        return hmm_vma_walk_hole_(addr, end, fault, write_fault, walk);
+
+So, it never returns 0.
+
+I already made a patch making this less twisty while fixing something
+else:
+
+https://github.com/jgunthorpe/linux/commit/078e10ca5919f2c263c245784fb5fe63ddbb61f4
+
+Thanks,
+Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
