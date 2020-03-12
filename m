@@ -1,30 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEEA1182EDB
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 12:19:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C127A182F04
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 12:24:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C397A6E151;
-	Thu, 12 Mar 2020 11:19:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38B476E157;
+	Thu, 12 Mar 2020 11:24:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9A6D6E151;
- Thu, 12 Mar 2020 11:19:35 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from build.alporthouse.com (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 20533754-1500050 
- for multiple; Thu, 12 Mar 2020 11:19:26 +0000
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/mm: Use debugobject to track lifetimes
-Date: Thu, 12 Mar 2020 11:19:25 +0000
-Message-Id: <20200312111925.30586-1-chris@chris-wilson.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200312103548.19962-1-chris@chris-wilson.co.uk>
-References: <20200312103548.19962-1-chris@chris-wilson.co.uk>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9046E16D;
+ Thu, 12 Mar 2020 11:24:30 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2020 04:24:30 -0700
+X-IronPort-AV: E=Sophos;i="5.70,544,1574150400"; d="scan'208";a="236799482"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2020 04:24:21 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Rajat Jain <rajatja@google.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Chris
+ Wilson
+ <chris@chris-wilson.co.uk>, Imre Deak <imre.deak@intel.com>, =?utf-8?Q?Jo?=
+ =?utf-8?Q?s=C3=A9?= Roberto
+ de Souza <jose.souza@intel.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>, intel-gfx@lists.freedesktop.org, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Mat King <mathewk@google.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Jonathan Corbet
+ <corbet@lwn.net>, Pavel Machek <pavel@denx.de>, Sean Paul
+ <seanpaul@google.com>, Duncan Laurie <dlaurie@google.com>, Jesse Barnes
+ <jsbarnes@google.com>, Thierry Reding <thierry.reding@gmail.com>, Mark
+ Pearson <mpearson@lenovo.com>, Nitin Joshi1 <njoshi1@lenovo.com>,
+ Sugumaran Lacshiminarayanan <slacshiminar@lenovo.com>, Tomoki Maruichi
+ <maruichit@lenovo.com>
+Subject: Re: [PATCH v7 4/4] drm/i915: Add support for integrated privacy screen
+In-Reply-To: <CACK8Z6F7CZckWP_98h=WERmnDgQL3e65VSiLpaks+biWQ1nk7A@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200310000617.20662-1-rajatja@google.com>
+ <20200310000617.20662-5-rajatja@google.com>
+ <CACK8Z6FsN2WNF8z0OrKv-1sPPwJFeJVYf8taHMZn0QpwLj+t=Q@mail.gmail.com>
+ <CACK8Z6F7CZckWP_98h=WERmnDgQL3e65VSiLpaks+biWQ1nk7A@mail.gmail.com>
+Date: Thu, 12 Mar 2020 13:24:18 +0200
+Message-ID: <87v9n9n7dp.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -38,249 +64,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Rajat Jain <rajatxjain@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since drm_mm_node are intended to be embedded into larger structs, we
-can use the DEBUG_OBJECTS facility to help track the lifetime of the
-drm_mm_node and ensure that they are not being used after the containing
-object has been freed, along with the usual verification that the
-drm_mm_nodes are being used correctly.
+On Wed, 11 Mar 2020, Rajat Jain <rajatja@google.com> wrote:
+> I got a "failed to apply" email from the patchwork. Can you please let
+> me know on which branch is it trying to apply it? I have currently
+> rebased my patchset to drm-intel-next-queued.
 
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
----
- drivers/gpu/drm/Kconfig              | 13 +++++++
- drivers/gpu/drm/drm_mm.c             | 55 ++++++++++++++++++++++++++++
- drivers/gpu/drm/i915/gt/gen6_ppgtt.c |  2 -
- drivers/gpu/drm/i915/i915_vma.c      | 17 +++++++--
- include/drm/drm_mm.h                 | 31 ++++++++++++++++
- 5 files changed, 113 insertions(+), 5 deletions(-)
+drm-tip branch of https://cgit.freedesktop.org/drm/drm-tip
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 43594978958e..33ac38be55b0 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -54,6 +54,19 @@ config DRM_DEBUG_MM
- 
- 	  If in doubt, say "N".
- 
-+config DRM_DEBUG_MM_OBJECTS
-+	bool "Use debugobjects to track live drm_mm_nodes"
-+	default n
-+	depends on DRM_DEBUG_MM
-+	depends on DEBUG_OBJECTS
-+	help
-+	  Enable allocation tracking of memory manager and leak detection on
-+	  shutdown.
-+
-+	  Recommended for driver developers only.
-+
-+	  If in doubt, say "N".
-+
- config DRM_DEBUG_SELFTEST
- 	tristate "kselftests for DRM"
- 	depends on DRM
-diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
-index bc6e208949e8..073b417bdd7a 100644
---- a/drivers/gpu/drm/drm_mm.c
-+++ b/drivers/gpu/drm/drm_mm.c
-@@ -150,6 +150,41 @@ static void save_stack(struct drm_mm_node *node) { }
- static void show_leaks(struct drm_mm *mm) { }
- #endif
- 
-+#ifdef CONFIG_DRM_DEBUG_MM_OBJECTS
-+
-+static struct debug_obj_descr drm_mm_debug_descr = {
-+	.name = "drm_mm_node",
-+};
-+
-+static inline void debug_node_init(struct drm_mm_node *node)
-+{
-+	debug_object_init(node, &drm_mm_debug_descr);
-+}
-+
-+static inline void debug_node_activate(struct drm_mm_node *node)
-+{
-+	debug_object_activate(node, &drm_mm_debug_descr);
-+}
-+
-+static inline void debug_node_deactivate(struct drm_mm_node *node)
-+{
-+	debug_object_deactivate(node, &drm_mm_debug_descr);
-+}
-+
-+static inline void debug_node_free(struct drm_mm_node *node)
-+{
-+	debug_object_free(node, &drm_mm_debug_descr);
-+}
-+
-+#else
-+
-+static inline void debug_node_init(struct drm_mm_node *node) { }
-+static inline void debug_node_activate(struct drm_mm_node *node) { }
-+static inline void debug_node_deactivate(struct drm_mm_node *node) { }
-+static inline void debug_node_free(struct drm_mm_node *node) { }
-+
-+#endif
-+
- #define START(node) ((node)->start)
- #define LAST(node)  ((node)->start + (node)->size - 1)
- 
-@@ -428,6 +463,8 @@ int drm_mm_reserve_node(struct drm_mm *mm, struct drm_mm_node *node)
- 	if (adj_start > node->start || adj_end < end)
- 		return -ENOSPC;
- 
-+	debug_node_activate(node);
-+
- 	node->mm = mm;
- 
- 	__set_bit(DRM_MM_NODE_ALLOCATED_BIT, &node->flags);
-@@ -543,6 +580,8 @@ int drm_mm_insert_node_in_range(struct drm_mm * const mm,
- 			}
- 		}
- 
-+		debug_node_activate(node);
-+
- 		node->mm = mm;
- 		node->size = size;
- 		node->start = adj_start;
-@@ -587,6 +626,7 @@ void drm_mm_remove_node(struct drm_mm_node *node)
- 
- 	DRM_MM_BUG_ON(!drm_mm_node_allocated(node));
- 	DRM_MM_BUG_ON(drm_mm_node_scanned_block(node));
-+	debug_node_deactivate(node);
- 
- 	prev_node = list_prev_entry(node, node_list);
- 
-@@ -618,6 +658,8 @@ void drm_mm_replace_node(struct drm_mm_node *old, struct drm_mm_node *new)
- 	struct drm_mm *mm = old->mm;
- 
- 	DRM_MM_BUG_ON(!drm_mm_node_allocated(old));
-+	debug_node_deactivate(old);
-+	debug_node_activate(new);
- 
- 	*new = *old;
- 
-@@ -639,6 +681,19 @@ void drm_mm_replace_node(struct drm_mm_node *old, struct drm_mm_node *new)
- }
- EXPORT_SYMBOL(drm_mm_replace_node);
- 
-+void __drm_mm_node_init(struct drm_mm_node *node)
-+{
-+	debug_node_init(node);
-+}
-+EXPORT_SYMBOL(__drm_mm_node_init);
-+
-+void __drm_mm_node_fini(struct drm_mm_node *node)
-+{
-+	DRM_MM_BUG_ON(drm_mm_node_allocated(node));
-+	debug_node_free(node);
-+}
-+EXPORT_SYMBOL(__drm_mm_node_fini);
-+
- /**
-  * DOC: lru scan roster
-  *
-diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-index f4fec7eb4064..0c34d4dd6458 100644
---- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-@@ -359,8 +359,6 @@ static struct i915_vma *pd_vma_create(struct gen6_ppgtt *ppgtt, int size)
- 
- 	i915_active_init(&vma->active, NULL, NULL);
- 
--	kref_init(&vma->ref);
--	mutex_init(&vma->pages_mutex);
- 	vma->vm = i915_vm_get(&ggtt->vm);
- 	vma->ops = &pd_vma_ops;
- 	vma->private = ppgtt;
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 5b3efb43a8ef..64140d51ae2c 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -45,11 +45,24 @@ static struct i915_global_vma {
- 
- struct i915_vma *i915_vma_alloc(void)
- {
--	return kmem_cache_zalloc(global.slab_vmas, GFP_KERNEL);
-+	struct i915_vma *vma;
-+
-+	vma = kmem_cache_zalloc(global.slab_vmas, GFP_KERNEL);
-+	if (!vma)
-+		return NULL;
-+
-+	kref_init(&vma->ref);
-+	mutex_init(&vma->pages_mutex);
-+	drm_mm_node_init(&vma->node);
-+
-+	return vma;
- }
- 
- void i915_vma_free(struct i915_vma *vma)
- {
-+	drm_mm_node_fini(&vma->node);
-+	mutex_destroy(&vma->pages_mutex);
-+
- 	return kmem_cache_free(global.slab_vmas, vma);
- }
- 
-@@ -114,8 +127,6 @@ vma_create(struct drm_i915_gem_object *obj,
- 	if (vma == NULL)
- 		return ERR_PTR(-ENOMEM);
- 
--	kref_init(&vma->ref);
--	mutex_init(&vma->pages_mutex);
- 	vma->vm = i915_vm_get(vm);
- 	vma->ops = &vm->vma_ops;
- 	vma->obj = obj;
-diff --git a/include/drm/drm_mm.h b/include/drm/drm_mm.h
-index d7939c054259..514685590603 100644
---- a/include/drm/drm_mm.h
-+++ b/include/drm/drm_mm.h
-@@ -275,6 +275,37 @@ static inline bool drm_mm_initialized(const struct drm_mm *mm)
- 	return mm->hole_stack.next;
- }
- 
-+/* stubs for external module compatiblity */
-+void __drm_mm_node_init(struct drm_mm_node *node);
-+void __drm_mm_node_fini(struct drm_mm_node *node);
-+
-+/**
-+ * drm_mm_node_init - Prepare a node for use.
-+ *
-+ * Drivers should clear the drm_mm_node prior to use. If debug is enabled,
-+ * the lifetime of the embedded drm_mm_node will be tracked.
-+ */
-+static inline void drm_mm_node_init(struct drm_mm_node *node)
-+{
-+#ifdef CONFIG_DRM_DEBUG_MM_OBJECTS
-+	__drm_mm_node_init(node);
-+#endif
-+	memset(node, 0, sizeof(*node));
-+}
-+
-+/**
-+ * drm_mm_node_fini - Finalize a node for use.
-+ *
-+ * Drivers should indicate that the drm_mm_node is finished, and its
-+ * state will then be verified by drm_mm.
-+ */
-+static inline void drm_mm_node_fini(struct drm_mm_node *node)
-+{
-+#ifdef CONFIG_DRM_DEBUG_MM_OBJECTS
-+	__drm_mm_node_fini(node);
-+#endif
-+}
-+
- /**
-  * drm_mm_hole_follows - checks whether a hole follows this node
-  * @node: drm_mm_node to check
+It's kind of like linux-next of drm.
+
+BR,
+Jani.
+
+
 -- 
-2.20.1
-
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
