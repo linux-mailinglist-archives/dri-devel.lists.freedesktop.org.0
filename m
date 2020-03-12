@@ -2,69 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0DD184224
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 09:01:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7DC9183359
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Mar 2020 15:40:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 140A86EB88;
-	Fri, 13 Mar 2020 08:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2D366EAB2;
+	Thu, 12 Mar 2020 14:40:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 955E66E20D
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 14:35:23 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id u25so6528881qkk.3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 07:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Tqmo4Ss6J1xwONYAXrPu9XD0oNKXjQdv9HqBeUdgnS4=;
- b=e/OtmdQOKUz3UT7x9D0c5pN1gX2+j3NRWnOIewgqqlHYYa4xrbLRa2rejJCyBjoLGd
- CtXzD+0tDlBT3FepW68JtBZW2VtUEGYpOA+hPOZcelXPvaI6IWWLIAbeK7fTaC4pvkbG
- v9VSdOuSxUyaV0AAWFUkLE1GP6kVva/fdivF/eegDmgCAd70yCoX0vixMCHg7mQYiK7I
- 1x+80UnL3LG9s/Ij8yJqIu1+oWsHmzsnBZJjfocsaXZSAXlMx4Br9SGykYliXgQPmrhE
- wIf+XwI3yGiXWFLNH9kAphb+yaXJD0wSxvrO1frleWQM1j9fKg0mIbR4BAlbe55Fhxe0
- tLkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Tqmo4Ss6J1xwONYAXrPu9XD0oNKXjQdv9HqBeUdgnS4=;
- b=eZ1pL62TkjHTyVOQvylIfqiLBc/pL2DvLsRXqKEf7VuivQZRKVWSYlEM2SsDoNHBRv
- /jtE2qh6f0cHZyrRYsy4OiQHTEytMggDh+deQfv+3phL5GvUJc3P1NHMf1Sf/fQMb76l
- 2FE5UaylqCofk5jl0+a9bwF+4w9duzRb2ktwmERufds+gNPDQ6dOknScJ09OQD9CBul0
- GccVhVS9oTRj12FHccVeS/ZauXOLcQK/mPbiDSb9/Ld59Rlp7RgL/+CThxfcUXj9/Iqx
- hav46TzKE5oaKzzuIol72JJXjhIjnnwmctP01Cklsb4sObZOUvPvlM8iaLs0iY1yGTRm
- fklA==
-X-Gm-Message-State: ANhLgQ3w+e8ezh4Ot8EhRbtS5VfFm8Ti7JUNLO/+ov37LemNVK+95FOO
- AlEt1m4VEeTuU86SivNvN3b0uA==
-X-Google-Smtp-Source: ADFU+vvYf2U2kHAIQUg76/wWMu87VRsHRi/YQXlzdDhQg3wFhjTOM0AZzwj/e/xzDoVeSpoHdhRj4A==
-X-Received: by 2002:a05:620a:a0d:: with SMTP id
- i13mr8096034qka.333.1584023722704; 
- Thu, 12 Mar 2020 07:35:22 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id q8sm8335388qkm.73.2020.03.12.07.35.22
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 12 Mar 2020 07:35:22 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1jCOvh-0006e4-Mp; Thu, 12 Mar 2020 11:35:21 -0300
-Date: Thu, 12 Mar 2020 11:35:21 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Ralph Campbell <rcampbell@nvidia.com>
-Subject: Re: [PATCH hmm 7/8] mm/hmm: return -EFAULT when setting
- HMM_PFN_ERROR on requested valid pages
-Message-ID: <20200312143521.GN31668@ziepe.ca>
-References: <20200311183506.3997-1-jgg@ziepe.ca>
- <20200311183506.3997-8-jgg@ziepe.ca>
- <910ae485-5400-3795-4353-ce4d47e3ae52@nvidia.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DCFBA6EAB2;
+ Thu, 12 Mar 2020 14:40:17 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4D1D130E;
+ Thu, 12 Mar 2020 07:40:17 -0700 (PDT)
+Received: from [10.57.15.252] (unknown [10.57.15.252])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 92E703F534;
+ Thu, 12 Mar 2020 07:40:13 -0700 (PDT)
+Subject: Re: [PATCH] mm/hmm: Simplify hmm_vma_walk_pud slightly
+To: Jason Gunthorpe <jgg@ziepe.ca>
+References: <5bd778fa-51e5-3e0c-d9bb-b38539b03c8d@arm.com>
+ <20200312102813.56699-1-steven.price@arm.com>
+ <20200312142749.GM31668@ziepe.ca>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <58e296a6-d32b-bb37-28ce-ade0f784454d@arm.com>
+Date: Thu, 12 Mar 2020 14:40:08 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <910ae485-5400-3795-4353-ce4d47e3ae52@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Fri, 13 Mar 2020 08:00:36 +0000
+In-Reply-To: <20200312142749.GM31668@ziepe.ca>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,60 +43,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>, John Hubbard <jhubbard@nvidia.com>,
- Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- Jerome Glisse <jglisse@redhat.com>, dri-devel@lists.freedesktop.org,
+Cc: Philip Yang <Philip.Yang@amd.com>, Ralph Campbell <rcampbell@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>,
+ "Felix.Kuehling@amd.com" <Felix.Kuehling@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Jerome Glisse <jglisse@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 11, 2020 at 06:36:47PM -0700, Ralph Campbell wrote:
-> > @@ -390,8 +384,15 @@ static int hmm_vma_walk_pmd(pmd_t *pmdp,
-> >   			return -EBUSY;
-> >   		}
-> >   		return hmm_pfns_fill(start, end, range, HMM_PFN_NONE);
-> > -	} else if (!pmd_present(pmd))
-> > +	}
-> > +
-> > +	if (!pmd_present(pmd)) {
-> > +		hmm_range_need_fault(hmm_vma_walk, pfns, npages, 0, &fault,
-> > +				     &write_fault);
-> > +		if (fault || write_fault)
-> > +			return -EFAULT;
-> >   		return hmm_pfns_fill(start, end, range, HMM_PFN_ERROR);
+On 12/03/2020 14:27, Jason Gunthorpe wrote:
+> On Thu, Mar 12, 2020 at 10:28:13AM +0000, Steven Price wrote:
+>> By refactoring to deal with the !pud_huge(pud) || !pud_devmap(pud)
+>> condition early it's possible to remove the 'ret' variable and remove a
+>> level of indentation from half the function making the code easier to
+>> read.
+>>
+>> No functional change.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>> Thanks to Jason's changes there were only two code paths left using
+>> the out_unlock label so it seemed like a good opportunity to
+>> refactor.
 > 
-> Shouldn't this fill with HMM_PFN_NONE instead of HMM_PFN_ERROR?
-> Otherwise, when a THP is swapped out, you will get a different
-> value than if a PTE is swapped out and you are prefetching/snapshotting.
+> Yes, I made something very similar, what do you think of this:
+> 
+> https://github.com/jgunthorpe/linux/commit/93f0ed42ab3f9ceb27b58fb7c7c3ecaf60f16b36
 
-If this is the case then the problem is that the return -EFAULT path
-needs to do something else.. ie since the above code can't trigger
-swap in, it is correct to return PFN_ERROR.
+Even better! Sorry I didn't realise you'd already done this. I just saw 
+that the function was needlessly complicated after your fix, so I 
+thought I'd do a drive-by cleanup since part of the mess was my fault! :)
 
-I'm completely guessing, but do we need to call pmd_to_swp_entry() and
-handle things similarly to the pte? What swp_entries are valid for a
-pmd?
+Thanks,
 
-Do you understand this better, or know how to trigger a !pmd_present
-for test?
-
-I suppose another option would be this:
-
-	if (!pmd_present(pmd)) {
-		hmm_range_need_fault(hmm_vma_walk, pfns, npages, 0, &fault,
-				     &write_fault);
-                /* We can't handle this. Cause the PMD to be split and
-		 * handle it in the pte handler. */
-		if (fault || write_fault)
- 		        return 0;
-  		return hmm_pfns_fill(start, end, range, HMM_PFN_NONE);
-        }
-
-Which, I think, must be correct, but inefficient?
-
-Jason
+Steve
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
