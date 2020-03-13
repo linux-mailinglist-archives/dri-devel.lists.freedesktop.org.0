@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A178818501C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 21:18:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714B21850EC
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 22:20:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6602E6EC69;
-	Fri, 13 Mar 2020 20:18:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE2786EC70;
+	Fri, 13 Mar 2020 21:20:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 497FC6EC6A;
- Fri, 13 Mar 2020 20:18:04 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id 5so1810296lfr.2;
- Fri, 13 Mar 2020 13:18:04 -0700 (PDT)
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE0726EC70
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 21:20:40 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id d8so11003147ion.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 14:20:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BOrKdqp0xX849tkbGYoL5GifZ0fJWuSnmKvneHoBEPI=;
- b=SFHap9SA3MQWq/rDzTcpj95GukhT+WmakBXzY2/W/iVbaG3CYS78HgdDNCnklu2dLE
- kFU0QDG9SImIs7hlVZiJyUAgm7YUizziMveCoCVIzJ9O8cqrKgolPpoV6am7DfhU89XJ
- ltxCH8nvbIYs393MHpsDO6BhvtaKdvLKO1cCTYQMgnrpgZsHazgpH66LACi+70HhiJ6l
- AJYv+s/W3gch6gNZXXxxbLFCll+TfRRcrcTxa5xQeHRhtYaQSbszeLTX6zP5G5Jz7Jm/
- gUDVBMvSktGH2MZ2dnKv8dJAIQub63dYzfpzuua04+X6h9+JvUqOMVK/Ctt+DZXCV3Yi
- OCig==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pEBtwxY29YeCp/Amy8qiIRIT+WeHuX6rknq9yRt8ir0=;
+ b=CuW8TZw51FX2OtMEZtWAc1HqKy3xHHtGdrgUjQgVdBnGDzQHS9XsGoaIfKtw1L0cPX
+ 6tS59huqbvovlQ69YQNk5c4M9Dqxl1+1LLR4EjRm//E26XOxySIffdXiME7hGxsJgz0d
+ +pvN2fxrQ0/iBADdwHrtceMS7nNznXfUwvjF4PnWzHuEa7yKK1YAwWvhO+vMpV0BKjSN
+ cJvIgOrNSck0yk3ICVAidN2LoHx8vTDoJNKuo8WVUri1MCLdPadz+PVRTuC7JghSZJg0
+ QYs/+N6U+3mG7Sh9lEmslKsEiW8UHEbvCjTY3aC+ayIoCfIQ71peoQRjOrlh/WgOLdSa
+ yKbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BOrKdqp0xX849tkbGYoL5GifZ0fJWuSnmKvneHoBEPI=;
- b=sNgEe6sL5fmsJvZg6DENjvlvAbH7W9tUFEMsbqmj4tM2yhOWqgIQdPkAPP6Pu2sgcW
- J2ymXhb+aWulex4AiLGksIVilwnhF6S5fg65oYkqyMOqyTVr92rih92xIxMoWDrWDm+M
- KQfn9JW2YE4MUz3cicr1fQFszUMaqnvm2p7WFv0kz6hJlSLMn5mj558Dvf/Q5vZMpKz1
- BIdx/vMgui+sQVkry75haJZOAMgFS7yxkJigvtXHQpBwwo0Y53tKmMeY/GOpMsGtqShf
- 2EXHljWctpLukVSoxYN+N/yGC/j1fPg7fN5pTBFwY/28+LTNqJpNf/5VB1BDab73RloZ
- OEUw==
-X-Gm-Message-State: ANhLgQ12ZGewcw6wIbx0ApZqogI+ynRapw1wqycQZMJ2QT6NDlb+jP+6
- OOXyqPseLc7Sa5TRfhKXf7k=
-X-Google-Smtp-Source: ADFU+vuWMe8I2528Uyu2tKaIGPqCCGIWF6uu2OphKJd6rnCU8MYCRJ3bIyFwbbl07L6oMFBFxGQoig==
-X-Received: by 2002:a19:7d04:: with SMTP id y4mr9463704lfc.111.1584130682588; 
- Fri, 13 Mar 2020 13:18:02 -0700 (PDT)
-Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
- by smtp.gmail.com with ESMTPSA id
- v10sm30774074lfb.61.2020.03.13.13.18.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 13:18:01 -0700 (PDT)
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 3/3] drm/atmel-hlcdc: Use drm_encoder_init()
-Date: Fri, 13 Mar 2020 21:17:44 +0100
-Message-Id: <20200313201744.19773-4-sam@ravnborg.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200313201744.19773-1-sam@ravnborg.org>
-References: <20200313201744.19773-1-sam@ravnborg.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pEBtwxY29YeCp/Amy8qiIRIT+WeHuX6rknq9yRt8ir0=;
+ b=XaM8hCLp49KussbDI9m0DOSmMXhAtRDX48mvgQMs6HMFAgMjz/IyKsSiIllP9Swqkm
+ R6I4vHeQF8iO81iLKyD6uoq57JJzefaGs/zpWe0BCmS81copq9YvT8ZaNsmZ/mhV06/q
+ 6Pta6psJ6efLDnop4FQJ50xN3ANk7tZtwmFu1qPY79pwDmXKTulSwFg/drcnhA6RCJVI
+ Z74mfOTlhJcPITfSwKh1VvRW/ENGwkyLi/2UBKqxx0r7mFPt8ZEXx2POujU/pJXHHcQ4
+ 3i21JXS3lA9sBf/uh+NI996YKT6RwOpkrg8BjfgPTqOy8+KtS7TGXtXM+llp4+8EFFuZ
+ 9ylQ==
+X-Gm-Message-State: ANhLgQ3U9aizLfMY4vE2N70RXY+iFXFUxjMHToU/yy65ZvHFPKBoDm1K
+ 4EEuMJ7CwUcJnNyrOV15rCbvv+vk4nwNHXM3nRw=
+X-Google-Smtp-Source: ADFU+vtxOvLCinqhOTsTkJzm1vPxMJBxTptqqRzwzoagB9CgLrNC0BCvx6JPSHFOgkjmhh2bKym/cAf8x/gIYfLyo/A=
+X-Received: by 2002:a5d:8f96:: with SMTP id l22mr14137639iol.19.1584134440036; 
+ Fri, 13 Mar 2020 14:20:40 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200310010818.569-1-gurchetansingh@chromium.org>
+ <20200310074302.yx6anlvqvsg37yzs@sirius.home.kraxel.org>
+ <CAAfnVB=sw=u80mHnZUPf_+WDW-hGNTDSBWLfV+7y3KFN=s6beQ@mail.gmail.com>
+ <20200311103609.ei446gelkvbqrdzm@sirius.home.kraxel.org>
+ <CAAfnVBm1eoGZY7yB8eqEC1eLk=v4dq--O2biQOnWDHCkmguOeA@mail.gmail.com>
+ <20200312092940.xioyjloil3f25ccv@sirius.home.kraxel.org>
+ <CAAfnVBkTWy2pohv5kWWYwAa1yq14fRJrtN4GD7sF-h4inabH6Q@mail.gmail.com>
+In-Reply-To: <CAAfnVBkTWy2pohv5kWWYwAa1yq14fRJrtN4GD7sF-h4inabH6Q@mail.gmail.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 13 Mar 2020 14:20:27 -0700
+Message-ID: <CAPaKu7SgkdBaFcDU1O7T+mMyzqO5iR8qYJxFJmcYGp_Hfe3S0g@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/8] *** Per context fencing ***
+To: Gurchetan Singh <gurchetansingh@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,69 +66,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- David Airlie <airlied@linux.ie>, Jose Roberto de Souza <jose.souza@intel.com>,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-stm32@st-md-mailman.stormreply.com,
- Emil Velikov <emil.velikov@collabora.com>, linux-samsung-soc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- NXP Linux Team <linux-imx@nxp.com>, Dave Airlie <airlied@redhat.com>,
- linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Boris Brezillon <bbrezillon@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- linux-renesas-soc@vger.kernel.org
+Cc: Chad Versace <chadversary@chromium.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ David Stevens <stevensd@chromium.org>, John Bates <jbates@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-atmel-hlcdc has no need to extend the functionality of the
-encoder, so use drm_encoder_init().
+On Thu, Mar 12, 2020 at 4:08 PM Gurchetan Singh
+<gurchetansingh@chromium.org> wrote:
+>
+>
+>
+> On Thu, Mar 12, 2020 at 2:29 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>>
+>> On Wed, Mar 11, 2020 at 04:36:16PM -0700, Gurchetan Singh wrote:
+>> > On Wed, Mar 11, 2020 at 3:36 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>> >
+>> > >   Hi,
+>> > >
+>> > > > I should've been more clear -- this is an internal cleanup/preparation
+>> > > and
+>> > > > the per-context changes are invisible to host userspace.
+>> > >
+>> > > Ok, it wasn't clear that you don't flip the switch yet.  In general the
+>> > > commit messages could be a bit more verbose ...
+>> > >
+>> > > I'm wondering though why we need the new fence_id in the first place.
+>> > > Isn't it enough to have per-context (instead of global) last_seq?
+>> > >
+>> >
+>> > Heh, that was to leave open the possibility of multiple timelines per
+>> > context.  Roughly speaking,
+>> >
+>> > V2 -- multiple processes
+>> > V3 -- multiple processes and multiple threads (due to VK multi-threaded
+>> > command buffers)
+>> >
+>> > I think we all agree on V2.  It seems we still have to discuss V3
+>> > (multi-queue, thread pools, a fence context associated with each thread) a
+>> > bit more before we start landing pieces.
+>>
+>> While thinking about the whole thing a bit more ...
+>> Do we need virtio_gpu_ctrl_hdr->fence_id at all?
+>
+>
+> A fence ID could be useful for sharing fences across virtio devices.  Think FENCE_ASSIGN_UUID, akin to  RESOURCE_ASSIGN_UUID (+dstevens@).
+>
+>>
+>> At virtio level it is pretty simple:  The host completes the SUBMIT_3D
+>> virtio command when it finished rendering, period.
+>>
+>>
+>> On the guest side we don't need the fence_id.  The completion callback
+>> gets passed the virtio_gpu_vbuffer, so it can figure which command did
+>> actually complete without looking at virtio_gpu_ctrl_hdr->fence_id.
+>>
+>> On the host side we depend on the fence_id right now, but only because
+>> that is the way the virgl_renderer_callbacks->write_fence interface is
+>> designed.  We have to change that anyway for per-context (or whatever)
+>> fences, so it should not be a problem to drop the fence_id dependency
+>> too and just pass around an opaque pointer instead.
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Boris Brezillon <bbrezillon@kernel.org>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+I am still catching up, but IIUC, indeed I don't think the host needs
+to depend on fence_id.  We should be able to repurpose fence_id.  On
+the other hand, the VIRTIO_GPU_FLAG_FENCE flag is interesting, and it
+indicates that the vbuf is on the host GPU timeline instead of the
+host CPU timeline.
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-index a845d587c315..96e0d85748d2 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-@@ -22,10 +22,6 @@ struct atmel_hlcdc_rgb_output {
- 	int bus_fmt;
- };
- 
--static const struct drm_encoder_funcs atmel_hlcdc_panel_encoder_funcs = {
--	.destroy = drm_encoder_cleanup,
--};
--
- static struct atmel_hlcdc_rgb_output *
- atmel_hlcdc_encoder_to_rgb_output(struct drm_encoder *encoder)
- {
-@@ -98,9 +94,7 @@ static int atmel_hlcdc_attach_endpoint(struct drm_device *dev, int endpoint)
- 		return -EINVAL;
- 	}
- 
--	ret = drm_encoder_init_funcs(dev, &output->encoder,
--				     &atmel_hlcdc_panel_encoder_funcs,
--				     DRM_MODE_ENCODER_NONE, NULL);
-+	ret = drm_encoder_init(dev, &output->encoder, DRM_MODE_ENCODER_NONE);
- 	if (ret)
- 		return ret;
- 
--- 
-2.20.1
+>
+>
+> For multiple GPU timelines per context, the (process local) sync object handle looks interesting:
+>
+> https://patchwork.kernel.org/patch/9758565/
+>
+> Some have extended EXECBUFFER to support this flow:
+>
+> https://patchwork.freedesktop.org/patch/msgid/1499289202-25441-1-git-send-email-jason.ekstrand@intel.com
 
+I think this only affects the kernel/userspace interface?  I know
+there were works being done to support VK_KHR_timeline semaphore,
+which is something we definitely want.  I don't know if it is the only
+way for the userspace to gain the extension support.  I need to do my
+homework...
+
+
+
+>
+>>
+>> cheers,
+>>   Gerd
+>>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
