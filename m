@@ -2,50 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95F21842D6
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 09:42:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEBF1842DE
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 09:45:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 193FC6EB94;
-	Fri, 13 Mar 2020 08:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF666EB92;
+	Fri, 13 Mar 2020 08:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAD366EB9C
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 08:42:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584088920;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Q1pZ4Lhma5LPVEqgVqJfCI4f3LH9j99dnRUjzZXge/Y=;
- b=eI+P4eEJD1fNr+BtsiMn2A9T2MAT3EpMWLxHRZpbhF9QrwQhty3nKTnEq85Vl/8spSnzM0
- 0JyKfClKCAUwtejYL2sFthGYfYPJEYSYzZ/OXvKYsUgMVPI7vMU0FYa50AgLF3wbf8YOzp
- s5PFPJMofVyBQnCbXn317+7IStp1dIw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-Jmc8h6G_PcarGr57YALgWQ-1; Fri, 13 Mar 2020 04:41:58 -0400
-X-MC-Unique: Jmc8h6G_PcarGr57YALgWQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E45B18C8C00;
- Fri, 13 Mar 2020 08:41:57 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
- [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC24160C99;
- Fri, 13 Mar 2020 08:41:53 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C8AC717444; Fri, 13 Mar 2020 09:41:52 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/bochs: downgrade pci_request_region failure from error
- to warning
-Date: Fri, 13 Mar 2020 09:41:52 +0100
-Message-Id: <20200313084152.2734-1-kraxel@redhat.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A2586EB92;
+ Fri, 13 Mar 2020 08:45:44 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2020 01:45:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,548,1574150400"; d="scan'208";a="232354775"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+ by orsmga007.jf.intel.com with ESMTP; 13 Mar 2020 01:45:43 -0700
+Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
+ FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 13 Mar 2020 01:45:41 -0700
+Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 13 Mar 2020 01:45:40 -0700
+Received: from bgsmsx153.gar.corp.intel.com (10.224.23.4) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Fri, 13 Mar 2020 01:45:39 -0700
+Received: from BGSMSX107.gar.corp.intel.com ([169.254.9.15]) by
+ BGSMSX153.gar.corp.intel.com ([169.254.2.116]) with mapi id 14.03.0439.000;
+ Fri, 13 Mar 2020 14:15:36 +0530
+From: "Laxminarayan Bharadiya, Pankaj"
+ <pankaj.laxminarayan.bharadiya@intel.com>
+To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: RE: [RFC][PATCH 5/5] drm/i915/display: Add Nearest-neighbor based
+ integer scaling support
+Thread-Topic: [RFC][PATCH 5/5] drm/i915/display: Add Nearest-neighbor based
+ integer scaling support
+Thread-Index: AQHV66uZeA9shQKOjUiF9Sh/Uqx6m6hBuziAgAMGXKD///ZrAIABlqsQ
+Date: Fri, 13 Mar 2020 08:45:35 +0000
+Message-ID: <E92BA18FDE0A5B43B7B3DA7FCA031286057B474F@BGSMSX107.gar.corp.intel.com>
+References: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200225070545.4482-6-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200310161723.GK13686@intel.com>
+ <E92BA18FDE0A5B43B7B3DA7FCA031286057B2C55@BGSMSX107.gar.corp.intel.com>
+ <20200312135438.GF13686@intel.com>
+In-Reply-To: <20200312135438.GF13686@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.10]
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,36 +72,286 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marmarek@invisiblethingslab.com, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR BOCHS VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@linux.ie" <airlied@linux.ie>, "De Marchi,
+ Lucas" <lucas.demarchi@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Shankar,
+ Uma" <uma.shankar@intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "Souza,
+ Jose" <jose.souza@intel.com>, "Nautiyal,
+ Ankit K" <ankit.k.nautiyal@intel.com>,
+ "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2h1dGRvd24gb2YgZmlybXdhcmUgZnJhbWVidWZmZXIgaGFzIGEgYnVuY2ggb2YgcHJvYmxlbXMu
-ICBCZWNhdXNlCm9mIHRoaXMgdGhlIGZyYW1lYnVmZmVyIHJlZ2lvbiBtaWdodCBzdGlsbCBiZSBy
-ZXNlcnZlZCBldmVuIGFmdGVyCmRybV9mYl9oZWxwZXJfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9m
-cmFtZWJ1ZmZlcnMoKSByZXR1cm5lZC4KCkRvbid0IGNvbnNpZGVyIHBjaV9yZXF1ZXN0X3JlZ2lv
-bigpIGZhaWx1cmUgZm9yIHRoZSBmcmFtZWJ1ZmZlcgpyZWdpb24gYXMgZmF0YWwgZXJyb3IgdG8g
-d29ya2Fyb3VuZCB0aGlzIGlzc3VlLgoKUmVwb3J0ZWQtYnk6IE1hcmVrIE1hcmN6eWtvd3NraS1H
-w7NyZWNraSA8bWFybWFyZWtAaW52aXNpYmxldGhpbmdzbGFiLmNvbT4KU2lnbmVkLW9mZi1ieTog
-R2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2Jv
-Y2hzL2JvY2hzX2h3LmMgfCA2ICsrLS0tLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
-KSwgNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9j
-aHNfaHcuYyBiL2RyaXZlcnMvZ3B1L2RybS9ib2Nocy9ib2Noc19ody5jCmluZGV4IDk1MjE5OWNj
-MDQ2Mi4uZGNlNDY3MmUzZmM4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9j
-aHNfaHcuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHNfaHcuYwpAQCAtMTU3LDEw
-ICsxNTcsOCBAQCBpbnQgYm9jaHNfaHdfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQogCQlz
-aXplID0gbWluKHNpemUsIG1lbSk7CiAJfQogCi0JaWYgKHBjaV9yZXF1ZXN0X3JlZ2lvbihwZGV2
-LCAwLCAiYm9jaHMtZHJtIikgIT0gMCkgewotCQlEUk1fRVJST1IoIkNhbm5vdCByZXF1ZXN0IGZy
-YW1lYnVmZmVyXG4iKTsKLQkJcmV0dXJuIC1FQlVTWTsKLQl9CisJaWYgKHBjaV9yZXF1ZXN0X3Jl
-Z2lvbihwZGV2LCAwLCAiYm9jaHMtZHJtIikgIT0gMCkKKwkJRFJNX1dBUk4oIkNhbm5vdCByZXF1
-ZXN0IGZyYW1lYnVmZmVyLCBib290IGZiIHN0aWxsIGFjdGl2ZT9cbiIpOwogCiAJYm9jaHMtPmZi
-X21hcCA9IGlvcmVtYXAoYWRkciwgc2l6ZSk7CiAJaWYgKGJvY2hzLT5mYl9tYXAgPT0gTlVMTCkg
-ewotLSAKMi4xOC4yCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+
+
+> -----Original Message-----
+> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Sent: 12 March 2020 19:25
+> To: Laxminarayan Bharadiya, Pankaj
+> <pankaj.laxminarayan.bharadiya@intel.com>
+> Cc: jani.nikula@linux.intel.com; daniel@ffwll.ch; intel-
+> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; airlied@linux=
+.ie;
+> maarten.lankhorst@linux.intel.com; tzimmermann@suse.de;
+> mripard@kernel.org; mihail.atanassov@arm.com; Joonas Lahtinen
+> <joonas.lahtinen@linux.intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.com>;
+> Chris Wilson <chris@chris-wilson.co.uk>; Souza, Jose <jose.souza@intel.co=
+m>;
+> De Marchi, Lucas <lucas.demarchi@intel.com>; Roper, Matthew D
+> <matthew.d.roper@intel.com>; Deak, Imre <imre.deak@intel.com>; Shankar,
+> Uma <uma.shankar@intel.com>; linux-kernel@vger.kernel.org; Nautiyal, Anki=
+t K
+> <ankit.k.nautiyal@intel.com>
+> Subject: Re: [RFC][PATCH 5/5] drm/i915/display: Add Nearest-neighbor based
+> integer scaling support
+> =
+
+> On Thu, Mar 12, 2020 at 09:13:24AM +0000, Laxminarayan Bharadiya, Pankaj
+> wrote:
+> >
+> >
+> > > -----Original Message-----
+> > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > Sent: 10 March 2020 21:47
+> > > To: Laxminarayan Bharadiya, Pankaj
+> > > <pankaj.laxminarayan.bharadiya@intel.com>
+> > > Cc: jani.nikula@linux.intel.com; daniel@ffwll.ch; intel-
+> > > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org;
+> > > airlied@linux.ie; maarten.lankhorst@linux.intel.com;
+> > > tzimmermann@suse.de; mripard@kernel.org; mihail.atanassov@arm.com;
+> > > Joonas Lahtinen <joonas.lahtinen@linux.intel.com>; Vivi, Rodrigo
+> > > <rodrigo.vivi@intel.com>; Chris Wilson <chris@chris-wilson.co.uk>;
+> > > Souza, Jose <jose.souza@intel.com>; De Marchi, Lucas
+> > > <lucas.demarchi@intel.com>; Roper, Matthew D
+> > > <matthew.d.roper@intel.com>; Deak, Imre <imre.deak@intel.com>;
+> > > Shankar, Uma <uma.shankar@intel.com>; linux- kernel@vger.kernel.org;
+> > > Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
+> > > Subject: Re: [RFC][PATCH 5/5] drm/i915/display: Add Nearest-neighbor
+> > > based integer scaling support
+> > >
+> > > On Tue, Feb 25, 2020 at 12:35:45PM +0530, Pankaj Bharadiya wrote:
+> > > > Integer scaling (IS) is a nearest-neighbor upscaling technique
+> > > > that simply scales up the existing pixels by an integer (i.e.,
+> > > > whole
+> > > > number) multiplier.Nearest-neighbor (NN) interpolation works by
+> > > > filling in the missing color values in the upscaled image with
+> > > > that of the coordinate-mapped nearest source pixel value.
+> > > >
+> > > > Both IS and NN preserve the clarity of the original image. Integer
+> > > > scaling is particularly useful for pixel art games that rely on
+> > > > sharp, blocky images to deliver their distinctive look.
+> > > >
+> > > > Program the scaler filter coefficients to enable the NN filter if
+> > > > scaling filter property is set to
+> > > > DRM_SCALING_FILTER_NEAREST_NEIGHBOR
+> > > > and enable integer scaling.
+> > > >
+> > > > Bspec: 49247
+> > > >
+> > > > Signed-off-by: Pankaj Bharadiya
+> > > > <pankaj.laxminarayan.bharadiya@intel.com>
+> > > > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> > > > ---
+> > > >  drivers/gpu/drm/i915/display/intel_display.c | 83
+> > > > +++++++++++++++++++-  drivers/gpu/drm/i915/display/intel_display.h
+> > > > +++++++++++++++++++|
+> > > > 2 +  drivers/gpu/drm/i915/display/intel_sprite.c  | 20 +++--
+> > > >  3 files changed, 97 insertions(+), 8 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/display/intel_display.c
+> > > > b/drivers/gpu/drm/i915/display/intel_display.c
+> > > > index b5903ef3c5a0..6d5f59203258 100644
+> > > > --- a/drivers/gpu/drm/i915/display/intel_display.c
+> > > > +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> > > > @@ -6237,6 +6237,73 @@ void skl_scaler_disable(const struct
+> > > intel_crtc_state *old_crtc_state)
+> > > >  		skl_detach_scaler(crtc, i);
+> > > >  }
+> > > >
+> > > > +/**
+> > > > + *  Theory behind setting nearest-neighbor integer scaling:
+> > > > + *
+> > > > + *  17 phase of 7 taps requires 119 coefficients in 60 dwords per =
+set.
+> > > > + *  The letter represents the filter tap (D is the center tap)
+> > > > +and the number
+> > > > + *  represents the coefficient set for a phase (0-16).
+> > > > + *
+> > > > + *         +------------+------------------------+----------------=
+--------+
+> > > > + *         |Index value | Data value coeffient 1 | Data value coef=
+fient 2 |
+> > > > + *         +------------+------------------------+----------------=
+--------+
+> > > > + *         |   00h      |          B0            |          A0    =
+        |
+> > > > + *         +------------+------------------------+----------------=
+--------+
+> > > > + *         |   01h      |          D0            |          C0    =
+        |
+> > > > + *         +------------+------------------------+----------------=
+--------+
+> > > > + *         |   02h      |          F0            |          E0    =
+        |
+> > > > + *         +------------+------------------------+----------------=
+--------+
+> > > > + *         |   03h      |          A1            |          G0    =
+        |
+> > > > + *         +------------+------------------------+----------------=
+--------+
+> > > > + *         |   04h      |          C1            |          B1    =
+        |
+> > > > + *         +------------+------------------------+----------------=
+--------+
+> > > > + *         |   ...      |          ...           |          ...   =
+        |
+> > > > + *         +------------+------------------------+----------------=
+--------+
+> > > > + *         |   38h      |          B16           |          A16   =
+        |
+> > > > + *         +------------+------------------------+----------------=
+--------+
+> > > > + *         |   39h      |          D16           |          C16   =
+        |
+> > > > + *         +------------+------------------------+----------------=
+--------+
+> > > > + *         |   3Ah      |          F16           |          C16   =
+        |
+> > > > + *         +------------+------------------------+----------------=
+--------+
+> > > > + *         |   3Bh      |        Reserved        |          G16   =
+        |
+> > > > + *         +------------+------------------------+----------------=
+--------+
+> > > > + *
+> > > > + *  To enable nearest-neighbor scaling:  program scaler
+> > > > +coefficents with
+> > > > + *  the center tap (Dxx) values set to 1 and all other values set
+> > > > +to
+> > > > +0 as per
+> > > > + *  SCALER_COEFFICIENT_FORMAT
+> > > > + *
+> > > > + */
+> > > > +void skl_setup_nearest_neighbor_filter(struct drm_i915_private
+> > > *dev_priv,
+> > > > +				  enum pipe pipe, int scaler_id)
+> > >
+> > > skl_scaler_...
+> > >
+> > > > +{
+> > > > +
+> > > > +	int coeff =3D 0;
+> > > > +	int phase =3D 0;
+> > > > +	int tap;
+> > > > +	int val =3D 0;
+> > >
+> > > Needlessly wide scope for most of these.
+> > >
+> > > > +
+> > > > +	/*enable the index auto increment.*/
+> > > > +	intel_de_write_fw(dev_priv, SKL_PS_COEF_INDEX_SET0(pipe,
+> > > scaler_id),
+> > > > +			  _PS_COEE_INDEX_AUTO_INC);
+> > > > +
+> > > > +	for (phase =3D 0; phase < 17; phase++) {
+> > > > +		for (tap =3D 0; tap < 7; tap++) {
+> > > > +			coeff++;
+> > >
+> > > Can be part of the % check.
+> >
+> > OK.
+> >
+> > >
+> > > > +			if (tap =3D=3D 3)
+> > > > +				val =3D (phase % 2) ? (0x800) : (0x800 << 16);
+> > >
+> > > Parens overload.
+> >
+> > OK. Will remove.
+> > >
+> > > > +
+> > > > +			if (coeff % 2 =3D=3D 0) {
+> > > > +				intel_de_write_fw(dev_priv,
+> > > SKL_PS_COEF_DATA_SET0(pipe, scaler_id), val);
+> > > > +				val =3D 0;
+> > >
+> > > Can drop this val=3D0 if you move the variable into tight scope and
+> > > initialize there.
+> >
+> > Moving val=3D0 initialization to the tight scope will not work here as
+> > we need to retain "val" and write only when 2 coefficients are ready
+> > (since 2 coefficients are packed in 1 dword).
+> >
+> > e.g. for (12th , 11th)  coefficients, coefficient reg value should be (=
+ (0 << 16) |
+> 0x800).
+> > If we initialize val =3D 0 in tight loop, 0 will be written to  coeffic=
+ient register.
+> =
+
+> Hmm, right. I guess I'd try to rearrange this to iterate the registers di=
+rectly
+> instead of the phases and taps. Something like this perhaps:
+> =
+
+> static int cnl_coef_tap(int i)
+> {
+> 	return i % 7;
+> }
+> =
+
+> static u16 cnl_coef(int t)
+
+cnl_coef -> cnl_nearest_filter_coef.  Right?
+
+> {
+> 	return t =3D=3D 3 ? 0x0800 : 0x3000;
+> }
+> =
+
+> static void cnl_program_nearest_filter_coefs(void)
+> {
+> 	int i;
+> =
+
+> 	for (i =3D 0; i < 17 * 7; i +=3D 2) {
+> 		uint32_t tmp;
+> 		int t;
+> =
+
+> 		t =3D cnl_coef_tap(i);
+> 		tmp =3D cnl_nearest_filter_coef(t);
+> =
+
+> 		t =3D cnl_coef_tap(i + 1);
+> 		tmp |=3D cnl_nearest_filter_coef(t) << 16;
+> =
+
+> 		intel_de_write_fw(tmp);
+> 	}
+> }
+> =
+
+> More readable I think. The downside being all those modulo operations but
+> hopefully that's all in the noise when it comes to performance.
+
+Looks better, thanks for spending time on this.
+I will try this out.
+
+Thanks,
+Pankaj =
+
+> =
+
+> --
+> Ville Syrj=E4l=E4
+> Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
