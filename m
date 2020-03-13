@@ -1,51 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2E0183E15
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 01:59:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 574DF183E20
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 02:01:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 356286E03A;
-	Fri, 13 Mar 2020 00:59:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 724276E279;
+	Fri, 13 Mar 2020 01:01:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A91596E03A
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 00:59:03 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id g15so8409407otr.0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Mar 2020 17:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=TnpQ6V6taC2d+5gH+3qWxA+XUrG8et4gYzT+TRKC6CU=;
- b=X5UuVhX6/uQ1KACRX2V1YK5gQz5EqyEwnRhe9FyB0OwldFZt4L9krlHNmGA+FayGdB
- b5ZEma3NGnqntvJf9MXnUPTkWPZJ8w8XZ99Nw0x0/Gzl7Pd9AubdeFrhYVJ6Kk7nzqyi
- BHOpcJXUrTjb0fT3vAruIHlkvO9aWGs5unWQKr/NDiZo5PqYnJpUMLcEf2ZzwYb44jaZ
- adjwBRQSHSGnypDNGkYlrN9vHNXAASjqqfaD2CRUHOwdHCvLFL/Rr2IWvrPpSCOd7EYR
- Yf1pc5ZBqPMyOzL9xnBUNjk8C+naGbFuOZYx0FMFNvfpoc2XsXeVERaDUpImZpduCuXv
- HUfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=TnpQ6V6taC2d+5gH+3qWxA+XUrG8et4gYzT+TRKC6CU=;
- b=n7NAUnw8rUakigvzi/PnNSIcVZAgmXp1rI5Foz6WY4Wf54U9YSXZN46hPUgfPvwNRC
- kbi6YbKWWJkRYcO0t27G2Y3laBGKCEhpUE10K15hf3Jt8a5XgL5dyaQmbDOgrYGlsqkA
- 77IzP9eDEMZZDgY//vwAo1ovK5apVTb9hnbfn9aIcyu3FLi5gCqPBCNjB/9rp/SpMM4k
- Kha+R9LF5wBkc4Hxk1QcKxd51zSXpNASWgRWoBpmO+V+tUxaGWgA8kNV8A7zBVOcmwkX
- 5nTo8L6tGJefCDT2xdsKpmTWzElgDSkVvTRTG1h8wHC9G7bXbNSn6FJ3tyNwPaKh7JGj
- 0gyA==
-X-Gm-Message-State: ANhLgQ3JNB8TWwgEd1f7ash9/DElsDPyQaiiD80mDfcaj7poDjtwasy0
- mgSvMvkFSoOjZmBpB2JI+qpVv4rJu3WFqAPxDq4=
-X-Google-Smtp-Source: ADFU+vu0h+sm6tuAYmid4Oy1/UoWBnDMBLwzuPZY48BisLtyMz8xLfoEleQV5Xynh6jPjyoZ6SKT2LditCYeptJsd/w=
-X-Received: by 2002:a9d:69d3:: with SMTP id v19mr8860958oto.320.1584061142725; 
- Thu, 12 Mar 2020 17:59:02 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C10526E26F
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 01:01:00 +0000 (UTC)
+Received: from kernel.org (unknown [104.132.0.74])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7F27620637;
+ Fri, 13 Mar 2020 01:01:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1584061260;
+ bh=uy2OXM73oGUesqzxIxuGWbUgIsrh1BViYety9ik44ic=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=we+k4V9lzqruvFLtqWB8xUS0uM6m3loDgI5ykV4MA6/qVEsIJ4FoazOCXo3sheqUs
+ sSKld74yTBvSmF5NmECSVX8YJNH4g3t/aBR1ZtUykLsz32eEIE+ryxDzeM84gJG5DM
+ QEyHcbC3597nFJuFP5EtLRoNe3Ed4HeJBOFGX4NI=
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 13 Mar 2020 10:58:51 +1000
-Message-ID: <CAPM=9tyX3+Qk05feqP=5SbePrg7kWvZu1O0J1pxZk+8Yj=Xjew@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.6-rc6
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+In-Reply-To: <6dd6bd48e894c1e8ee85c29a30ba1b18041d83c4.1582533919.git-series.maxime@cerno.tech>
+References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
+ <6dd6bd48e894c1e8ee85c29a30ba1b18041d83c4.1582533919.git-series.maxime@cerno.tech>
+Subject: Re: [PATCH 27/89] clk: bcm: Add BCM2711 DVP driver
+From: Stephen Boyd <sboyd@kernel.org>
+To: Eric Anholt <eric@anholt.net>, Maxime Ripard <maxime@cerno.tech>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Date: Thu, 12 Mar 2020 18:00:59 -0700
+Message-ID: <158406125965.149997.13919203635322854760@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,164 +47,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+Quoting Maxime Ripard (2020-02-24 01:06:29)
+> diff --git a/drivers/clk/bcm/clk-bcm2711-dvp.c b/drivers/clk/bcm/clk-bcm2711-dvp.c
+> new file mode 100644
+> index 000000000000..f4773cc92724
+> --- /dev/null
+> +++ b/drivers/clk/bcm/clk-bcm2711-dvp.c
+> @@ -0,0 +1,113 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +// Copyright 2020 Cerno
+> +
+> +#include <linux/clk-provider.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/reset-controller.h>
+> +#include <linux/reset/reset-simple.h>
+> +
+> +#define DVP_HT_RPI_SW_INIT     0x04
+> +#define DVP_HT_RPI_MISC_CONFIG 0x08
+> +
+> +#define NR_CLOCKS      2
+> +#define NR_RESETS      6
+> +
+> +struct clk_dvp {
+> +       struct clk                      *clks[NR_CLOCKS];
+> +       struct clk_onecell_data         clk_data;
+> +       struct reset_simple_data        reset;
+> +};
+> +
+> +static int clk_dvp_probe(struct platform_device *pdev)
+> +{
+> +       struct resource *res;
+> +       struct clk_dvp *dvp;
+> +       void __iomem *base;
+> +       const char *parent;
+> +       int ret;
+> +
+> +       dvp = devm_kzalloc(&pdev->dev, sizeof(*dvp), GFP_KERNEL);
+> +       if (!dvp)
+> +               return -ENOMEM;
+> +       platform_set_drvdata(pdev, dvp);
+> +
+> +       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +       base = devm_ioremap_resource(&pdev->dev, res);
+> +       if (IS_ERR(base))
+> +               return PTR_ERR(base);
+> +
+> +       dvp->reset.rcdev.owner = THIS_MODULE;
+> +       dvp->reset.rcdev.nr_resets = NR_RESETS;
+> +       dvp->reset.rcdev.ops = &reset_simple_ops;
+> +       dvp->reset.rcdev.of_node = pdev->dev.of_node;
+> +       dvp->reset.membase = base + DVP_HT_RPI_SW_INIT;
+> +       spin_lock_init(&dvp->reset.lock);
+> +
+> +       ret = reset_controller_register(&dvp->reset.rcdev);
+> +       if (ret)
+> +               return ret;
+> +
+> +       parent = of_clk_get_parent_name(pdev->dev.of_node, 0);
+> +       if (!parent)
+> +               goto unregister_reset;
+> +
+> +       dvp->clks[0] = clk_register_gate(&pdev->dev, "hdmi0-108MHz",
+> +                                        parent, CLK_IS_CRITICAL,
+> +                                        base + DVP_HT_RPI_MISC_CONFIG, 3,
+> +                                        CLK_GATE_SET_TO_DISABLE, &dvp->reset.lock);
+> +       if (IS_ERR(dvp->clks[0])) {
+> +               ret = PTR_ERR(dvp->clks[0]);
+> +               goto unregister_reset;
+> +       }
+> +
+> +       dvp->clks[1] = clk_register_gate(&pdev->dev, "hdmi1-108MHz",
+> +                                        parent, CLK_IS_CRITICAL,
+> +                                        base + DVP_HT_RPI_MISC_CONFIG, 4,
+> +                                        CLK_GATE_SET_TO_DISABLE, &dvp->reset.lock);
 
-It's a bit quieter, probably not as much as it could be. There is on
-large regression fix in here from Lyude for displayport bandwidth
-calculations, there've been reports of multi-monitor in docks not
-working since -rc1 and this has been tested to fix those.
-
-Otherwise it's a bunch of i915 (with some GVT fixes), a set of amdgpu
-watermark + bios fixes, and an exynos iommu cleanup fix.
-
-I'm in for dental surgery early next week but I think I should have
-recovered enough to send fixes as regular.
-
-Regards,
-Dave.
-drm-fixes-2020-03-13:
-drm fixes for 5.6-rc6
-
-core:
-- DP MST bandwidth regression fix.
-
-i915:
-- hard lockup fix
-- GVT fixes
-- 32-bit alignment issue fix
-- timeline wait fixes
-- cacheline_retire and free
-
-amdgpu:
-- Update the display watermark bounding box for navi14
-- Fix fetching vbios directly from rom on vega20/arcturus
-- Navi and renoir watermark fixes
-
-exynos:
-- iommu object cleanup fix
-
-The following changes since commit 2c523b344dfa65a3738e7039832044aa133c75fb:
-
-  Linux 5.6-rc5 (2020-03-08 17:44:44 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-03-13
-
-for you to fetch changes up to 16b78f052d0129cd2998305480da6c4e3ac220a8:
-
-  Merge tag 'topic/mst-bw-check-fixes-for-airlied-2020-03-12-2' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2020-03-13
-10:38:25 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.6-rc6
-
-core:
-- DP MST bandwidth regression fix.
-
-i915:
-- hard lockup fix
-- GVT fixes
-- 32-bit alignment issue fix
-- timeline wait fixes
-- cacheline_retire and free
-
-amdgpu:
-- Update the display watermark bounding box for navi14
-- Fix fetching vbios directly from rom on vega20/arcturus
-- Navi and renoir watermark fixes
-
-exynos:
-- iommu object cleanup fix
+Can we use clk_hw APIs, document why CLK_IS_CRITICAL, and use something
+like clk_hw_register_gate_parent_data() so that we don't have to use
+of_clk_get_parent_name() above?
 
 
-----------------------------------------------------------------
-Chris Wilson (5):
-      drm/i915: Actually emit the await_start
-      drm/i915: Return early for await_start on same timeline
-      drm/i915/execlists: Enable timeslice on partial virtual engine dequeue
-      drm/i915/gt: Close race between cacheline_retire and free
-      drm/i915: Defer semaphore priority bumping to a workqueue
+> +       if (IS_ERR(dvp->clks[1])) {
+> +               ret = PTR_ERR(dvp->clks[1]);
+> +               goto unregister_clk0;
+> +       }
+> +
+> +       dvp->clk_data.clks = dvp->clks;
+> +       dvp->clk_data.clk_num = NR_CLOCKS;
+> +       of_clk_add_provider(pdev->dev.of_node, of_clk_src_onecell_get,
+> +                           &dvp->clk_data);
 
-Dave Airlie (4):
-      Merge tag 'exynos-drm-fixes-for-v5.6-rc5-v2' of
-git://git.kernel.org/.../daeinki/drm-exynos into drm-fixes
-      Merge tag 'amd-drm-fixes-5.6-2020-03-11' of
-git://people.freedesktop.org/~agd5f/linux into drm-fixes
-      Merge tag 'drm-intel-fixes-2020-03-12' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'topic/mst-bw-check-fixes-for-airlied-2020-03-12-2' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+This can fail. Please recover. Also, please use clk_hw based APIs.
 
-Hawking Zhang (1):
-      drm/amdgpu: correct ROM_INDEX/DATA offset for VEGA20
+> +
+> +       return 0;
+> +
+> +
+> +unregister_clk0:
+> +       clk_unregister_gate(dvp->clks[0]);
+> +
+> +unregister_reset:
+> +       reset_controller_unregister(&dvp->reset.rcdev);
+> +       return ret;
+> +};
+> +
+> +static int clk_dvp_remove(struct platform_device *pdev)
+> +{
+> +       struct clk_dvp *dvp = platform_get_drvdata(pdev);
+> +
+> +       clk_unregister_gate(dvp->clks[1]);
+> +       clk_unregister_gate(dvp->clks[0]);
+> +       reset_controller_unregister(&dvp->reset.rcdev);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct of_device_id clk_dvp_dt_ids[] = {
+> +       { .compatible = "brcm,brcm2711-dvp", },
+> +       { /* sentinel */ },
 
-Hersen Wu (1):
-      drm/amdgpu/powerplay: nv1x, renior copy dcn clock settings of
-watermark to smu during boot up
+Please drop comma after this so we can't put anything after lest it
+cause a compiler error.
 
-Jani Nikula (1):
-      Merge tag 'gvt-fixes-2020-03-10' of
-https://github.com/intel/gvt-linux into drm-intel-fixes
-
-Lyude Paul (4):
-      drm/dp_mst: Rename drm_dp_mst_is_dp_mst_end_device() to be less redundant
-      drm/dp_mst: Use full_pbn instead of available_pbn for bandwidth checks
-      drm/dp_mst: Reprobe path resources in CSN handler
-      drm/dp_mst: Rewrite and fix bandwidth limit checks
-
-Marek Szyprowski (1):
-      drm/exynos: Fix cleanup of IOMMU related objects
-
-Martin Leung (1):
-      drm/amd/display: update soc bb for nv14
-
-Matthew Auld (1):
-      drm/i915: be more solid in checking the alignment
-
-Tina Zhang (2):
-      drm/i915/gvt: Fix emulated vbt size issue
-      drm/i915/gvt: Fix dma-buf display blur issue on CFL
-
-Zhenyu Wang (1):
-      drm/i915/gvt: Fix unnecessary schedule timer when no vGPU exits
-
- drivers/gpu/drm/amd/amdgpu/soc15.c                 |  25 ++-
- .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.c  | 114 +++++++++++++
- drivers/gpu/drm/amd/powerplay/amdgpu_smu.c         |   7 +-
- drivers/gpu/drm/amd/powerplay/navi10_ppt.c         |  22 ++-
- drivers/gpu/drm/amd/powerplay/renoir_ppt.c         |   5 +-
- drivers/gpu/drm/drm_dp_mst_topology.c              | 184 ++++++++++++++-------
- drivers/gpu/drm/exynos/exynos5433_drm_decon.c      |   5 +-
- drivers/gpu/drm/exynos/exynos7_drm_decon.c         |   5 +-
- drivers/gpu/drm/exynos/exynos_drm_dma.c            |  28 +++-
- drivers/gpu/drm/exynos/exynos_drm_drv.h            |   6 +-
- drivers/gpu/drm/exynos/exynos_drm_fimc.c           |   5 +-
- drivers/gpu/drm/exynos/exynos_drm_fimd.c           |   5 +-
- drivers/gpu/drm/exynos/exynos_drm_g2d.c            |   5 +-
- drivers/gpu/drm/exynos/exynos_drm_gsc.c            |   5 +-
- drivers/gpu/drm/exynos/exynos_drm_rotator.c        |   5 +-
- drivers/gpu/drm/exynos/exynos_drm_scaler.c         |   6 +-
- drivers/gpu/drm/exynos/exynos_mixer.c              |   7 +-
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   3 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c                |  29 ++--
- drivers/gpu/drm/i915/gt/intel_timeline.c           |   8 +-
- drivers/gpu/drm/i915/gvt/display.c                 |   3 +-
- drivers/gpu/drm/i915/gvt/opregion.c                |   5 +-
- drivers/gpu/drm/i915/gvt/vgpu.c                    |  12 +-
- drivers/gpu/drm/i915/i915_request.c                |  28 +++-
- drivers/gpu/drm/i915/i915_request.h                |   2 +
- drivers/gpu/drm/i915/i915_utils.h                  |   5 +
- include/drm/drm_dp_mst_helper.h                    |   4 +-
- 27 files changed, 405 insertions(+), 133 deletions(-)
+> +};
+> +
+> +static struct platform_driver clk_dvp_driver = {
+> +       .probe  = clk_dvp_probe,
+> +       .remove = clk_dvp_remove,
+> +       .driver = {
+> +               .name           = "brcm2711-dvp",
+> +               .of_match_table = clk_dvp_dt_ids,
+> +       },
+> +};
+> +module_platform_driver(clk_dvp_driver);
+> -- 
+> git-series 0.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
