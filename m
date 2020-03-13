@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8CC1183E63
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 02:11:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DCD183E65
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 02:11:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD9836E183;
-	Fri, 13 Mar 2020 01:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A26B06E153;
+	Fri, 13 Mar 2020 01:11:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43E796E153
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 01:11:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F88F6E153
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 01:11:54 +0000 (UTC)
 Received: from kernel.org (unknown [104.132.0.74])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 134B9206EB;
- Fri, 13 Mar 2020 01:11:40 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3FB56206EB;
+ Fri, 13 Mar 2020 01:11:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1584061900;
- bh=IVJisS2GXrsxrK9O9HPwtS0E/pajmPEpiboizL+NXBk=;
+ s=default; t=1584061914;
+ bh=h4bPyPm/Sm9lF/OmxTJ07z1JAhtZcaucXFkueOwMQYs=;
  h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=Yyd3MsF7QPgOVGGT/yNCY9vzU56TCnh7wEzl/aelJHdYI/NE8WNuOdQmAyh5sPB3O
- 6YFk69qvOs6vVxKqaggWyf2G1033dkXPkrtP2JXyGV93b5q9BuQqOKJJ4gebKVUJ7j
- 3UlUQwnLGlCtjLY6+JejUCpMGE2V/Yo/2VhMaj+Q=
+ b=L8gWd01GOJPLWBVOF2VUOqULsENOZVKgTTlgP2cq0rv9AN0rHPu+bxidHlYK1d6C1
+ j+cNuzFZInccS5X8889e7tsruGdB4ychm5pD8yNYJm5D5BXpjfiG86rJtFkmB+EwVt
+ lessXmkSmrbMv01nOr02JpXVmh/oOC4RLs8du0eI=
 MIME-Version: 1.0
-In-Reply-To: <adc5810f9ed6400940f36be6e0a3a7255c557687.1582533919.git-series.maxime@cerno.tech>
+In-Reply-To: <1779dd1489125be571fb3c2ee3e04c32f9875420.1582533919.git-series.maxime@cerno.tech>
 References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
- <adc5810f9ed6400940f36be6e0a3a7255c557687.1582533919.git-series.maxime@cerno.tech>
-Subject: Re: [PATCH 15/89] clk: bcm: rpi: Create a data structure for the
- clocks
+ <1779dd1489125be571fb3c2ee3e04c32f9875420.1582533919.git-series.maxime@cerno.tech>
+Subject: Re: [PATCH 14/89] clk: bcm: rpi: Make sure the clkdev lookup is
+ removed
 From: Stephen Boyd <sboyd@kernel.org>
 To: Eric Anholt <eric@anholt.net>, Maxime Ripard <maxime@cerno.tech>,
  Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Date: Thu, 12 Mar 2020 18:11:39 -0700
-Message-ID: <158406189924.149997.7523053804639833250@swboyd.mtv.corp.google.com>
+Date: Thu, 12 Mar 2020 18:11:53 -0700
+Message-ID: <158406191350.149997.7619291875265095634@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,13 +60,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Maxime Ripard (2020-02-24 01:06:17)
-> So far the driver has really only been providing a single clock, and stored
-> both the data associated to that clock in particular with the data
-> associated to the "controller".
+Quoting Maxime Ripard (2020-02-24 01:06:16)
+> The clkdev lookup created for the cpufreq device is never removed if
+> there's an issue later in probe or at module removal time.
 > 
-> Since we will change that in the future, let's decouple the clock data from
-> the provider data.
+> Let's convert to the managed variant of the clk_hw_register_clkdev function
+> to make sure it happens.
 > 
 > Cc: Michael Turquette <mturquette@baylibre.com>
 > Cc: Stephen Boyd <sboyd@kernel.org>
