@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E624718493C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 15:25:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB287184976
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 15:35:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0AEF6E2A9;
-	Fri, 13 Mar 2020 14:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 004966EBDD;
+	Fri, 13 Mar 2020 14:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F06666E2A9
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 14:25:50 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id 6so10170344wmi.5
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 07:25:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fJxYPXTZkxZeXDnLHJfsq7ba/Z2QXWMal012Z0GSXYY=;
- b=cPQ0jRhmQugC2kPvPAhHV+jO5eTwlusf1XudDjYpsLW8QcdF49RDUWZpWmcEyeC+KJ
- EQmRe8l4SCkQm4IbVuLzaE7ZWSbrLAX/4DKWfeCVfzgJlydC9PoCTE4AWSJ3OJJ786ss
- 4mdp5/YxaviyEU9RwtC0ohmgg0abnGNogZwGjKSHmzRUPxjMtaacXgVAQLVSrk6WjB+C
- W4iHeXrdFfD7BZL57HjWxYmb/z/JAu2cSBPce0Zn+sQB/5EHxzIKlJFOD5Xi+3Ubr6UR
- kyRveuSVQFuv27ud0QnHLfHWR6mYMFcaVAOCecWWyXXSup4EuH/n7bJ3Lkk3e8vwfuMr
- VJaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fJxYPXTZkxZeXDnLHJfsq7ba/Z2QXWMal012Z0GSXYY=;
- b=SMxAE8OzIOCfbQYWT+2UYeBlxxCrvaXUZtVcEwbb0G9dBHje3nZMfStee8nbJMg3G3
- 5PQj1Rnj3qrfSdUs4v9dlws3rTCiBm9nFvaaxs99RQxZ5ygvuIcKJwHKEhiKrslvgddG
- up5K/K3XqHrqQNcbcLx/GVhcpYu0ierqOjpTejuQAxe0L5W2k0ZiD/kf1Mug03FBZtgF
- eoZYR0iQ/yFclXdDv8YOOGonZ8+DirQ/syq6qe8HssRCde4774XRYkpBT3+SM5RQoJr9
- ECOsWPoPccb+zGQMPFiFaSxeRtjvWFmeNkr39tAcO07ODUGq2rGV1vARC8Ys078RLf9v
- m8aQ==
-X-Gm-Message-State: ANhLgQ1PLfRosJTSPAeLPqSdUk28LtvzoZgdm29Xp0cggv4CRdfQfzMP
- MFjkcvSMIKnOMwiCP3TLjLuLmXxnTN427S20+EM=
-X-Google-Smtp-Source: ADFU+vvaYzBM6m7r/O9x/m9s6shqXrP+Czv/TelOivS8EbwEFQXEPCFYZ6r3ciojP45BNaf04KuhQPGVlFQNLv3qZ2k=
-X-Received: by 2002:a1c:de82:: with SMTP id v124mr10884078wmg.70.1584109548709; 
- Fri, 13 Mar 2020 07:25:48 -0700 (PDT)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC3376EBDD
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 14:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584110137;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WezdpOlVzbaVEs6vfCIvevGk8ide+y5ytNMFt7/McDI=;
+ b=X0yoriU/GQVt30+og+FfEZO9L7NEBiDEwHDpNfNGDq8kth8YBkX9FFWujMPXa6ZteI9/St
+ UnxCi8LaDp8VR6Q0GyFe+AkjXQobj+2t6T0nIaHJJACuRXp3BvKZBzVMz72Ni2ioLBN5VC
+ IUpm3drEBaBG0eHznzHfJ5AjMxXrAhc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-2q7-IqrANO65NjR6AP5ocw-1; Fri, 13 Mar 2020 10:35:33 -0400
+X-MC-Unique: 2q7-IqrANO65NjR6AP5ocw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF02E1005509;
+ Fri, 13 Mar 2020 14:35:31 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
+ [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 225AF907F7;
+ Fri, 13 Mar 2020 14:35:31 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 1C1A29DB3; Fri, 13 Mar 2020 15:35:30 +0100 (CET)
+Date: Fri, 13 Mar 2020 15:35:30 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v3] drm/bochs: downgrade pci_request_region failure from
+ error to warning
+Message-ID: <20200313143530.6aoagldak3kpe3xv@sirius.home.kraxel.org>
+References: <20200313084152.2734-1-kraxel@redhat.com>
+ <20200313090338.GA31815@ravnborg.org>
 MIME-Version: 1.0
-References: <20200313095640.17967-1-l.stach@pengutronix.de>
- <8a3cd453-4351-af4a-93df-9b290fa1e582@amd.com>
-In-Reply-To: <8a3cd453-4351-af4a-93df-9b290fa1e582@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 13 Mar 2020 10:25:37 -0400
-Message-ID: <CADnq5_Mpq=zr9hte+V1Fo1Kmd0_u0JCtiAOhwGrcgjuv_Lwaig@mail.gmail.com>
-Subject: Re: [PATCH] drm/sched: add run job trace
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <20200313090338.GA31815@ravnborg.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,75 +62,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Beckett <bob.beckett@collabora.com>, patchwork-lst@pengutronix.de,
- Sascha Hauer <kernel@pengutronix.de>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR BOCHS VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>, marmarek@invisiblethingslab.com,
+ dri-devel@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXIgMTMsIDIwMjAgYXQgNjoxOCBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
-YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMTMuMDMuMjAgdW0gMTA6NTYgc2Nocmll
-YiBMdWNhcyBTdGFjaDoKPiA+IEZyb206IFJvYmVydCBCZWNrZXR0IDxib2IuYmVja2V0dEBjb2xs
-YWJvcmEuY29tPgo+ID4KPiA+IEFkZCBhIG5ldyB0cmFjZSBldmVudCB0byBzaG93IHdoZW4gam9i
-cyBhcmUgcnVuIG9uIHRoZSBIVy4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBSb2JlcnQgQmVja2V0
-dCA8Ym9iLmJlY2tldHRAY29sbGFib3JhLmNvbT4KPiA+IFNpZ25lZC1vZmYtYnk6IEx1Y2FzIFN0
-YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4LmRlPgo+Cj4gVGhlcmUgaXMgYWxzbyB0aGUgc2NoZWR1
-bGVkIGZlbmNlIHdlIGNvdWxkIHVzZWQgZm9yIHRoaXMsIGJ1dCB0aGlzIHRyYWNlCj4gcG9pbnQg
-YWRkcyBhIGZldyBleHRyYSBmaWVsZHMgd2hpY2ggbWlnaHQgYmUgdXNlZnVsLgo+Cj4gQWNrZWQt
-Ynk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KCkFwcGxpZWQu
-ICB0aGFua3MhCgpBbGV4Cgo+Cj4gPiAtLS0KPiA+ICAgLi4uL2dwdS9kcm0vc2NoZWR1bGVyL2dw
-dV9zY2hlZHVsZXJfdHJhY2UuaCAgIHwgMjcgKysrKysrKysrKysrKysrKysrKwo+ID4gICBkcml2
-ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyAgICAgICAgfCAgMSArCj4gPiAgIDIg
-ZmlsZXMgY2hhbmdlZCwgMjggaW5zZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL2dwdV9zY2hlZHVsZXJfdHJhY2UuaCBiL2RyaXZlcnMvZ3B1
-L2RybS9zY2hlZHVsZXIvZ3B1X3NjaGVkdWxlcl90cmFjZS5oCj4gPiBpbmRleCBkNzkwODY0OThh
-ZmYuLjg3N2NlOWIxMjdmMSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVs
-ZXIvZ3B1X3NjaGVkdWxlcl90cmFjZS5oCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1
-bGVyL2dwdV9zY2hlZHVsZXJfdHJhY2UuaAo+ID4gQEAgLTU5LDYgKzU5LDMzIEBAIFRSQUNFX0VW
-RU5UKGRybV9zY2hlZF9qb2IsCj4gPiAgICAgICAgICAgICAgICAgICAgIF9fZW50cnktPmpvYl9j
-b3VudCwgX19lbnRyeS0+aHdfam9iX2NvdW50KQo+ID4gICApOwo+ID4KPiA+ICtUUkFDRV9FVkVO
-VChkcm1fcnVuX2pvYiwKPiA+ICsgICAgICAgICBUUF9QUk9UTyhzdHJ1Y3QgZHJtX3NjaGVkX2pv
-YiAqc2NoZWRfam9iLCBzdHJ1Y3QgZHJtX3NjaGVkX2VudGl0eSAqZW50aXR5KSwKPiA+ICsgICAg
-ICAgICBUUF9BUkdTKHNjaGVkX2pvYiwgZW50aXR5KSwKPiA+ICsgICAgICAgICBUUF9TVFJVQ1Rf
-X2VudHJ5KAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgX19maWVsZChzdHJ1Y3QgZHJt
-X3NjaGVkX2VudGl0eSAqLCBlbnRpdHkpCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICBf
-X2ZpZWxkKHN0cnVjdCBkbWFfZmVuY2UgKiwgZmVuY2UpCj4gPiArICAgICAgICAgICAgICAgICAg
-ICAgICAgICBfX2ZpZWxkKGNvbnN0IGNoYXIgKiwgbmFtZSkKPiA+ICsgICAgICAgICAgICAgICAg
-ICAgICAgICAgIF9fZmllbGQodWludDY0X3QsIGlkKQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgX19maWVsZCh1MzIsIGpvYl9jb3VudCkKPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
-ICAgIF9fZmllbGQoaW50LCBod19qb2JfY291bnQpCj4gPiArICAgICAgICAgICAgICAgICAgICAg
-ICAgICApLAo+ID4gKwo+ID4gKyAgICAgICAgIFRQX2Zhc3RfYXNzaWduKAo+ID4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgIF9fZW50cnktPmVudGl0eSA9IGVudGl0eTsKPiA+ICsgICAgICAgICAg
-ICAgICAgICAgICAgICBfX2VudHJ5LT5pZCA9IHNjaGVkX2pvYi0+aWQ7Cj4gPiArICAgICAgICAg
-ICAgICAgICAgICAgICAgX19lbnRyeS0+ZmVuY2UgPSAmc2NoZWRfam9iLT5zX2ZlbmNlLT5maW5p
-c2hlZDsKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICBfX2VudHJ5LT5uYW1lID0gc2NoZWRf
-am9iLT5zY2hlZC0+bmFtZTsKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICBfX2VudHJ5LT5q
-b2JfY291bnQgPSBzcHNjX3F1ZXVlX2NvdW50KCZlbnRpdHktPmpvYl9xdWV1ZSk7Cj4gPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgX19lbnRyeS0+aHdfam9iX2NvdW50ID0gYXRvbWljX3JlYWQo
-Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAmc2NoZWRfam9iLT5zY2hlZC0+
-aHdfcnFfY291bnQpOwo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICksCj4gPiArICAgICAg
-ICAgVFBfcHJpbnRrKCJlbnRpdHk9JXAsIGlkPSVsbHUsIGZlbmNlPSVwLCByaW5nPSVzLCBqb2Ig
-Y291bnQ6JXUsIGh3IGpvYiBjb3VudDolZCIsCj4gPiArICAgICAgICAgICAgICAgICAgIF9fZW50
-cnktPmVudGl0eSwgX19lbnRyeS0+aWQsCj4gPiArICAgICAgICAgICAgICAgICAgIF9fZW50cnkt
-PmZlbmNlLCBfX2VudHJ5LT5uYW1lLAo+ID4gKyAgICAgICAgICAgICAgICAgICBfX2VudHJ5LT5q
-b2JfY291bnQsIF9fZW50cnktPmh3X2pvYl9jb3VudCkKPiA+ICspOwo+ID4gKwo+ID4gICBUUkFD
-RV9FVkVOVChkcm1fc2NoZWRfcHJvY2Vzc19qb2IsCj4gPiAgICAgICAgICAgVFBfUFJPVE8oc3Ry
-dWN0IGRybV9zY2hlZF9mZW5jZSAqZmVuY2UpLAo+ID4gICAgICAgICAgIFRQX0FSR1MoZmVuY2Up
-LAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5j
-IGIvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKPiA+IGluZGV4IDcxY2U2
-MjE1OTU2Zi4uMzQyMzFiNzE2M2NjIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Nj
-aGVkdWxlci9zY2hlZF9tYWluLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIv
-c2NoZWRfbWFpbi5jCj4gPiBAQCAtNzczLDYgKzc3Myw3IEBAIHN0YXRpYyBpbnQgZHJtX3NjaGVk
-X21haW4odm9pZCAqcGFyYW0pCj4gPiAgICAgICAgICAgICAgIGF0b21pY19pbmMoJnNjaGVkLT5o
-d19ycV9jb3VudCk7Cj4gPiAgICAgICAgICAgICAgIGRybV9zY2hlZF9qb2JfYmVnaW4oc2NoZWRf
-am9iKTsKPiA+Cj4gPiArICAgICAgICAgICAgIHRyYWNlX2RybV9ydW5fam9iKHNjaGVkX2pvYiwg
-ZW50aXR5KTsKPiA+ICAgICAgICAgICAgICAgZmVuY2UgPSBzY2hlZC0+b3BzLT5ydW5fam9iKHNj
-aGVkX2pvYik7Cj4gPiAgICAgICAgICAgICAgIGRybV9zY2hlZF9mZW5jZV9zY2hlZHVsZWQoc19m
-ZW5jZSk7Cj4gPgo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+  Hi,
+
+> > +	if (pci_request_region(pdev, 0, "bochs-drm") != 0)
+> > +		DRM_WARN("Cannot request framebuffer, boot fb still active?\n");
+> So you could use drm_WARN() which is what is preferred these days.
+
+Nope, this isn't yet in -fixes.
+
+cheers,
+  Gerd
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
