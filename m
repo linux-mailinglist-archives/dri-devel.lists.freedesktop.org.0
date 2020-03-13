@@ -2,45 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41E2184F9A
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 20:53:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1EF9184FE3
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 21:05:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85B536EC54;
-	Fri, 13 Mar 2020 19:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80E026EC5B;
+	Fri, 13 Mar 2020 20:05:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF8D6E045;
- Fri, 13 Mar 2020 19:53:08 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2020 12:53:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,549,1574150400"; d="scan'208";a="278346361"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga002.fm.intel.com with SMTP; 13 Mar 2020 12:53:02 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 13 Mar 2020 21:53:01 +0200
-Date: Fri, 13 Mar 2020 21:53:01 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: "Laxminarayan Bharadiya, Pankaj" <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: Re: [RFC][PATCH 5/5] drm/i915/display: Add Nearest-neighbor based
- integer scaling support
-Message-ID: <20200313195301.GQ13686@intel.com>
-References: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200225070545.4482-6-pankaj.laxminarayan.bharadiya@intel.com>
- <20200310161723.GK13686@intel.com>
- <E92BA18FDE0A5B43B7B3DA7FCA031286057B2C55@BGSMSX107.gar.corp.intel.com>
- <20200312135438.GF13686@intel.com>
- <E92BA18FDE0A5B43B7B3DA7FCA031286057B474F@BGSMSX107.gar.corp.intel.com>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2056C6EC52;
+ Fri, 13 Mar 2020 20:05:13 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id a25so13688820wrd.0;
+ Fri, 13 Mar 2020 13:05:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=H06rmW1/h+wDAsSD+e9fhzMuZrpU0IMfQUePRjRdDAs=;
+ b=vSxW34N/nTt737dx/Ruyo6Noe+DuLJW4yxyH1BO/fvtxpJtt/WnDCLLRb2iyjizMCJ
+ J0tUVWw3rF3dqGWiyyl7CqwX7D2s1XdYRWKPOUyB6x611f+ptTLdm7eL0wYBZ/wR0xLK
+ SF2MCPkFBEZq78ILuDw16zNhE3Y8j3Gye/GF9+SBx3mhjiaJTLGSycAQvIB3JTWpwWJw
+ Sl0U7d+AD5pcHpEwuWjBOkK4MfM2ncmeOBSFtv5V374IBCBOKv52KgM9bYzvkc177z+0
+ fvYgrqhHwfQsTUYezNqiPbNu4Ju824Y/Vait1Hflqo3EfExXMxqiwL4GWaOO/3sxfBxY
+ LeJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=H06rmW1/h+wDAsSD+e9fhzMuZrpU0IMfQUePRjRdDAs=;
+ b=YXsmWCXFcYETz3pfoJKkiG4qTk9+rYF6RLeysjdhbAYUmDHTzVB0lj/BVnkvztweIm
+ 5K5fcwf2mYjkx0EYC95AKENzxqlxJ9DUcYn7pgOVvfa9rcfe0FM7k6HSO4jKdUVwV2vb
+ ewUhIf3RpEVLhmLo6iT7MHspvG5zQZOrY3+Sr3KZxbmgb+PF7idCPTLgV5nF4iLWLSED
+ 66h8V5tqKI6cOUG3OOadrY760KIEd3ofsl+dlJg+6/BrPmCwdO4RHO8Y6+/LmnohJn51
+ LByiUShyosvqp9ZzEeTPLInjo6YUdSdEExCpbo1otkGgCbePpcARTOjkJN4glBj+xVHh
+ 8ufQ==
+X-Gm-Message-State: ANhLgQ1oVApv74pbJGDhUYRQz50y4jPhYizQgJ+thxbDaLYQNttNBk0q
+ pVv0fCizDyZ+iAaNwX14sMScCzWjhCX15IgYdGyHrA==
+X-Google-Smtp-Source: ADFU+vtt6sGS1SESoNiaUvQKq/C+U4e5vsrMG/aND6Tvciab7HyceykbfjgALYfFTYAwWHvlBYtAQKz+iePFInNy5jw=
+X-Received: by 2002:adf:c5c8:: with SMTP id v8mr15025869wrg.111.1584129911796; 
+ Fri, 13 Mar 2020 13:05:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <E92BA18FDE0A5B43B7B3DA7FCA031286057B474F@BGSMSX107.gar.corp.intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200313162054.16009-1-ville.syrjala@linux.intel.com>
+ <20200313162054.16009-2-ville.syrjala@linux.intel.com>
+In-Reply-To: <20200313162054.16009-2-ville.syrjala@linux.intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 13 Mar 2020 16:05:00 -0400
+Message-ID: <CADnq5_OsVawW3RV+8UhSf-wF0eG4Tp-fOMzsuLfJGJj_aPu-HA@mail.gmail.com>
+Subject: Re: [PATCH 1/9] drm: Constify topology id
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,304 +62,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@linux.ie" <airlied@linux.ie>, "De Marchi,
- Lucas" <lucas.demarchi@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Shankar,
- Uma" <uma.shankar@intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "Souza,
- Jose" <jose.souza@intel.com>, "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 13, 2020 at 08:45:35AM +0000, Laxminarayan Bharadiya, Pankaj wr=
-ote:
-> =
-
-> =
-
-> > -----Original Message-----
-> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > Sent: 12 March 2020 19:25
-> > To: Laxminarayan Bharadiya, Pankaj
-> > <pankaj.laxminarayan.bharadiya@intel.com>
-> > Cc: jani.nikula@linux.intel.com; daniel@ffwll.ch; intel-
-> > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; airlied@lin=
-ux.ie;
-> > maarten.lankhorst@linux.intel.com; tzimmermann@suse.de;
-> > mripard@kernel.org; mihail.atanassov@arm.com; Joonas Lahtinen
-> > <joonas.lahtinen@linux.intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.co=
-m>;
-> > Chris Wilson <chris@chris-wilson.co.uk>; Souza, Jose <jose.souza@intel.=
-com>;
-> > De Marchi, Lucas <lucas.demarchi@intel.com>; Roper, Matthew D
-> > <matthew.d.roper@intel.com>; Deak, Imre <imre.deak@intel.com>; Shankar,
-> > Uma <uma.shankar@intel.com>; linux-kernel@vger.kernel.org; Nautiyal, An=
-kit K
-> > <ankit.k.nautiyal@intel.com>
-> > Subject: Re: [RFC][PATCH 5/5] drm/i915/display: Add Nearest-neighbor ba=
-sed
-> > integer scaling support
-> > =
-
-> > On Thu, Mar 12, 2020 at 09:13:24AM +0000, Laxminarayan Bharadiya, Pankaj
-> > wrote:
-> > >
-> > >
-> > > > -----Original Message-----
-> > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > Sent: 10 March 2020 21:47
-> > > > To: Laxminarayan Bharadiya, Pankaj
-> > > > <pankaj.laxminarayan.bharadiya@intel.com>
-> > > > Cc: jani.nikula@linux.intel.com; daniel@ffwll.ch; intel-
-> > > > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org;
-> > > > airlied@linux.ie; maarten.lankhorst@linux.intel.com;
-> > > > tzimmermann@suse.de; mripard@kernel.org; mihail.atanassov@arm.com;
-> > > > Joonas Lahtinen <joonas.lahtinen@linux.intel.com>; Vivi, Rodrigo
-> > > > <rodrigo.vivi@intel.com>; Chris Wilson <chris@chris-wilson.co.uk>;
-> > > > Souza, Jose <jose.souza@intel.com>; De Marchi, Lucas
-> > > > <lucas.demarchi@intel.com>; Roper, Matthew D
-> > > > <matthew.d.roper@intel.com>; Deak, Imre <imre.deak@intel.com>;
-> > > > Shankar, Uma <uma.shankar@intel.com>; linux- kernel@vger.kernel.org;
-> > > > Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
-> > > > Subject: Re: [RFC][PATCH 5/5] drm/i915/display: Add Nearest-neighbor
-> > > > based integer scaling support
-> > > >
-> > > > On Tue, Feb 25, 2020 at 12:35:45PM +0530, Pankaj Bharadiya wrote:
-> > > > > Integer scaling (IS) is a nearest-neighbor upscaling technique
-> > > > > that simply scales up the existing pixels by an integer (i.e.,
-> > > > > whole
-> > > > > number) multiplier.Nearest-neighbor (NN) interpolation works by
-> > > > > filling in the missing color values in the upscaled image with
-> > > > > that of the coordinate-mapped nearest source pixel value.
-> > > > >
-> > > > > Both IS and NN preserve the clarity of the original image. Integer
-> > > > > scaling is particularly useful for pixel art games that rely on
-> > > > > sharp, blocky images to deliver their distinctive look.
-> > > > >
-> > > > > Program the scaler filter coefficients to enable the NN filter if
-> > > > > scaling filter property is set to
-> > > > > DRM_SCALING_FILTER_NEAREST_NEIGHBOR
-> > > > > and enable integer scaling.
-> > > > >
-> > > > > Bspec: 49247
-> > > > >
-> > > > > Signed-off-by: Pankaj Bharadiya
-> > > > > <pankaj.laxminarayan.bharadiya@intel.com>
-> > > > > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/i915/display/intel_display.c | 83
-> > > > > +++++++++++++++++++-  drivers/gpu/drm/i915/display/intel_display.h
-> > > > > +++++++++++++++++++|
-> > > > > 2 +  drivers/gpu/drm/i915/display/intel_sprite.c  | 20 +++--
-> > > > >  3 files changed, 97 insertions(+), 8 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/i915/display/intel_display.c
-> > > > > b/drivers/gpu/drm/i915/display/intel_display.c
-> > > > > index b5903ef3c5a0..6d5f59203258 100644
-> > > > > --- a/drivers/gpu/drm/i915/display/intel_display.c
-> > > > > +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> > > > > @@ -6237,6 +6237,73 @@ void skl_scaler_disable(const struct
-> > > > intel_crtc_state *old_crtc_state)
-> > > > >  		skl_detach_scaler(crtc, i);
-> > > > >  }
-> > > > >
-> > > > > +/**
-> > > > > + *  Theory behind setting nearest-neighbor integer scaling:
-> > > > > + *
-> > > > > + *  17 phase of 7 taps requires 119 coefficients in 60 dwords pe=
-r set.
-> > > > > + *  The letter represents the filter tap (D is the center tap)
-> > > > > +and the number
-> > > > > + *  represents the coefficient set for a phase (0-16).
-> > > > > + *
-> > > > > + *         +------------+------------------------+--------------=
-----------+
-> > > > > + *         |Index value | Data value coeffient 1 | Data value co=
-effient 2 |
-> > > > > + *         +------------+------------------------+--------------=
-----------+
-> > > > > + *         |   00h      |          B0            |          A0  =
-          |
-> > > > > + *         +------------+------------------------+--------------=
-----------+
-> > > > > + *         |   01h      |          D0            |          C0  =
-          |
-> > > > > + *         +------------+------------------------+--------------=
-----------+
-> > > > > + *         |   02h      |          F0            |          E0  =
-          |
-> > > > > + *         +------------+------------------------+--------------=
-----------+
-> > > > > + *         |   03h      |          A1            |          G0  =
-          |
-> > > > > + *         +------------+------------------------+--------------=
-----------+
-> > > > > + *         |   04h      |          C1            |          B1  =
-          |
-> > > > > + *         +------------+------------------------+--------------=
-----------+
-> > > > > + *         |   ...      |          ...           |          ... =
-          |
-> > > > > + *         +------------+------------------------+--------------=
-----------+
-> > > > > + *         |   38h      |          B16           |          A16 =
-          |
-> > > > > + *         +------------+------------------------+--------------=
-----------+
-> > > > > + *         |   39h      |          D16           |          C16 =
-          |
-> > > > > + *         +------------+------------------------+--------------=
-----------+
-> > > > > + *         |   3Ah      |          F16           |          C16 =
-          |
-> > > > > + *         +------------+------------------------+--------------=
-----------+
-> > > > > + *         |   3Bh      |        Reserved        |          G16 =
-          |
-> > > > > + *         +------------+------------------------+--------------=
-----------+
-> > > > > + *
-> > > > > + *  To enable nearest-neighbor scaling:  program scaler
-> > > > > +coefficents with
-> > > > > + *  the center tap (Dxx) values set to 1 and all other values set
-> > > > > +to
-> > > > > +0 as per
-> > > > > + *  SCALER_COEFFICIENT_FORMAT
-> > > > > + *
-> > > > > + */
-> > > > > +void skl_setup_nearest_neighbor_filter(struct drm_i915_private
-> > > > *dev_priv,
-> > > > > +				  enum pipe pipe, int scaler_id)
-> > > >
-> > > > skl_scaler_...
-> > > >
-> > > > > +{
-> > > > > +
-> > > > > +	int coeff =3D 0;
-> > > > > +	int phase =3D 0;
-> > > > > +	int tap;
-> > > > > +	int val =3D 0;
-> > > >
-> > > > Needlessly wide scope for most of these.
-> > > >
-> > > > > +
-> > > > > +	/*enable the index auto increment.*/
-> > > > > +	intel_de_write_fw(dev_priv, SKL_PS_COEF_INDEX_SET0(pipe,
-> > > > scaler_id),
-> > > > > +			  _PS_COEE_INDEX_AUTO_INC);
-> > > > > +
-> > > > > +	for (phase =3D 0; phase < 17; phase++) {
-> > > > > +		for (tap =3D 0; tap < 7; tap++) {
-> > > > > +			coeff++;
-> > > >
-> > > > Can be part of the % check.
-> > >
-> > > OK.
-> > >
-> > > >
-> > > > > +			if (tap =3D=3D 3)
-> > > > > +				val =3D (phase % 2) ? (0x800) : (0x800 << 16);
-> > > >
-> > > > Parens overload.
-> > >
-> > > OK. Will remove.
-> > > >
-> > > > > +
-> > > > > +			if (coeff % 2 =3D=3D 0) {
-> > > > > +				intel_de_write_fw(dev_priv,
-> > > > SKL_PS_COEF_DATA_SET0(pipe, scaler_id), val);
-> > > > > +				val =3D 0;
-> > > >
-> > > > Can drop this val=3D0 if you move the variable into tight scope and
-> > > > initialize there.
-> > >
-> > > Moving val=3D0 initialization to the tight scope will not work here as
-> > > we need to retain "val" and write only when 2 coefficients are ready
-> > > (since 2 coefficients are packed in 1 dword).
-> > >
-> > > e.g. for (12th , 11th)  coefficients, coefficient reg value should be=
- ( (0 << 16) |
-> > 0x800).
-> > > If we initialize val =3D 0 in tight loop, 0 will be written to  coeff=
-icient register.
-> > =
-
-> > Hmm, right. I guess I'd try to rearrange this to iterate the registers =
-directly
-> > instead of the phases and taps. Something like this perhaps:
-> > =
-
-> > static int cnl_coef_tap(int i)
-> > {
-> > 	return i % 7;
-> > }
-> > =
-
-> > static u16 cnl_coef(int t)
-> =
-
-> cnl_coef -> cnl_nearest_filter_coef.  Right?
-
-Right.
-
-> =
-
-> > {
-> > 	return t =3D=3D 3 ? 0x0800 : 0x3000;
-> > }
-> > =
-
-> > static void cnl_program_nearest_filter_coefs(void)
-> > {
-> > 	int i;
-> > =
-
-> > 	for (i =3D 0; i < 17 * 7; i +=3D 2) {
-> > 		uint32_t tmp;
-> > 		int t;
-> > =
-
-> > 		t =3D cnl_coef_tap(i);
-> > 		tmp =3D cnl_nearest_filter_coef(t);
-> > =
-
-> > 		t =3D cnl_coef_tap(i + 1);
-> > 		tmp |=3D cnl_nearest_filter_coef(t) << 16;
-> > =
-
-> > 		intel_de_write_fw(tmp);
-> > 	}
-> > }
-> > =
-
-> > More readable I think. The downside being all those modulo operations b=
-ut
-> > hopefully that's all in the noise when it comes to performance.
-> =
-
-> Looks better, thanks for spending time on this.
-> I will try this out.
-> =
-
-> Thanks,
-> Pankaj =
-
-> > =
-
-> > --
-> > Ville Syrj=E4l=E4
-> > Intel
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBNYXIgMTMsIDIwMjAgYXQgMTI6MjEgUE0gVmlsbGUgU3lyamFsYQo8dmlsbGUuc3ly
+amFsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+Cj4gRnJvbTogVmlsbGUgU3lyasOkbMOkIDx2
+aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPgo+IE1ha2UgdGhlIHRvcG9sb2d5IGlkIGNv
+bnN0IHNpbmNlIHdlIGRvbid0IHdhbnQgdG8gY2hhbmdlIGl0Lgo+Cj4gU2lnbmVkLW9mZi1ieTog
+VmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClNlcmllcyBp
+czoKUmV2aWV3ZWQtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4K
+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMgfCA0ICsrLS0KPiAgaW5j
+bHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oICAgICB8IDQgKystLQo+ICAyIGZpbGVzIGNoYW5nZWQs
+IDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3Iu
+Ywo+IGluZGV4IDY0NGYwYWQxMDY3MS4uNDYyZDhjYWE2ZTcyIDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nv
+bm5lY3Rvci5jCj4gQEAgLTIzOTIsNyArMjM5Miw3IEBAIEVYUE9SVF9TWU1CT0woZHJtX21vZGVf
+cHV0X3RpbGVfZ3JvdXApOwo+ICAgKiB0aWxlIGdyb3VwIG9yIE5VTEwgaWYgbm90IGZvdW5kLgo+
+ICAgKi8KPiAgc3RydWN0IGRybV90aWxlX2dyb3VwICpkcm1fbW9kZV9nZXRfdGlsZV9ncm91cChz
+dHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgY2hhciB0b3BvbG9neVs4XSkKPiArICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0IGNoYXIgdG9wb2xvZ3lbOF0pCj4gIHsKPiAg
+ICAgICAgIHN0cnVjdCBkcm1fdGlsZV9ncm91cCAqdGc7Cj4gICAgICAgICBpbnQgaWQ7Cj4gQEAg
+LTI0MjIsNyArMjQyMiw3IEBAIEVYUE9SVF9TWU1CT0woZHJtX21vZGVfZ2V0X3RpbGVfZ3JvdXAp
+Owo+ICAgKiBuZXcgdGlsZSBncm91cCBvciBOVUxMLgo+ICAgKi8KPiAgc3RydWN0IGRybV90aWxl
+X2dyb3VwICpkcm1fbW9kZV9jcmVhdGVfdGlsZV9ncm91cChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+LAo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY2hh
+ciB0b3BvbG9neVs4XSkKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIGNvbnN0IGNoYXIgdG9wb2xvZ3lbOF0pCj4gIHsKPiAgICAgICAgIHN0cnVjdCBk
+cm1fdGlsZV9ncm91cCAqdGc7Cj4gICAgICAgICBpbnQgcmV0Owo+IGRpZmYgLS1naXQgYS9pbmNs
+dWRlL2RybS9kcm1fY29ubmVjdG9yLmggYi9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmgKPiBp
+bmRleCAxOWFlNmJiNWM4NWIuLmZkNTQzZDFkYjliMiAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2Ry
+bS9kcm1fY29ubmVjdG9yLmgKPiArKysgYi9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmgKPiBA
+QCAtMTYxNyw5ICsxNjE3LDkgQEAgc3RydWN0IGRybV90aWxlX2dyb3VwIHsKPiAgfTsKPgo+ICBz
+dHJ1Y3QgZHJtX3RpbGVfZ3JvdXAgKmRybV9tb2RlX2NyZWF0ZV90aWxlX2dyb3VwKHN0cnVjdCBk
+cm1fZGV2aWNlICpkZXYsCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBjaGFyIHRvcG9sb2d5WzhdKTsKPiArICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0IGNoYXIgdG9wb2xvZ3lbOF0pOwo+ICBzdHJ1
+Y3QgZHJtX3RpbGVfZ3JvdXAgKmRybV9tb2RlX2dldF90aWxlX2dyb3VwKHN0cnVjdCBkcm1fZGV2
+aWNlICpkZXYsCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBjaGFyIHRvcG9sb2d5WzhdKTsKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIGNvbnN0IGNoYXIgdG9wb2xvZ3lbOF0pOwo+ICB2b2lkIGRybV9tb2RlX3B1
+dF90aWxlX2dyb3VwKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBzdHJ1Y3QgZHJtX3RpbGVfZ3JvdXAgKnRnKTsKPgo+IC0tCj4gMi4yNC4xCj4K
+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
