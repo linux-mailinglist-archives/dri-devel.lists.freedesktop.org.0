@@ -1,73 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 673FF186086
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 00:20:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E0E18607B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 00:20:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA3236E2DA;
-	Sun, 15 Mar 2020 23:19:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A49FA6E28B;
+	Sun, 15 Mar 2020 23:19:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62FAE6E290
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 12:17:45 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id m33so7245973qtb.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 05:17:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=aqslJJ5bOf4ey2RANXL60FLOBW00NolP+CogM9HtYzU=;
- b=fnLvydTyvgwKngHoJknFmEckFBQX2TR0x0WgLYgJaIP2ICqATNg9WQ9cP/lfj4yVwh
- 6mSSjRuG8nN+xIg2fA3Wd7Xt1BuckJTkHy5pwwlzksrBV2ZaY3FQvZpwWhr3ygDLDNAu
- vd67ky4AC/TpUDHBms5GP5WwHKK0QuHePWyU5pAXvMtzJwXELqz+UHhRHgKztLdSw7xT
- z9yD2/kP/N3e9eeVkrTyN4ecuy111HRBS030woDmFrAHJwyhiisQS0w+p64Q+vE4KqFb
- kFZ6v1pjSxCFLj4rKECs4vbLkU3eWHuyBdsVqrNKA3EQmpLAhIwVsZho0dP4f4DWiRMK
- AzKA==
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2146C6E2B0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 13:22:56 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id nu11so1090880pjb.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 06:22:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=B+9gQRKH0r6cXrfSn2IAMlVbz7jd8cPpe3Mc+AzVAAg=;
+ b=ICsrXM2dNwzQtNfxw6Ct49D3FdvkapjvgQxEsIe7DVVUinaTsw+rGzqbQ4/OMqE1qV
+ ZYOzVfKlz3hXZ5adK1jLKTXrLPLuszdauaU67pYT4zoIi466tMYkjeDTsbsp9YJC1y55
+ 45xvl6QuxMv82/jxVlwEP9XAgaC0rPvV1I0Nl9mIeumsrAsNx70jOqJ1jVnyVwpOZRgD
+ UIeMUH+H3xHn8oNKmAtOIzpZUguWpHx254IGabDmHMoQtJ6qpgv1GNbXD2L03ylfJ54+
+ PfEl37h1IR84SeFCsoRPYmSIlqV14N5c45Fxf1zc06NIm5A2KjksBAH2nMAKpeBXQPcn
+ GFEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=aqslJJ5bOf4ey2RANXL60FLOBW00NolP+CogM9HtYzU=;
- b=FDK8t/qtOvoSdYAXWR5cmgAZAzdZMun5bw3mMVQ0+BZ/YMeCITcK+UJDsfP430FBO/
- 2mmTDnObyWsb2E5OkTDJrLueYMyuCA0auNvcLE+0bC3LARX0917lEwB2hvOmA+qugL6E
- WoFqbuD0FFb/A1KZfPJScFbtO+kQwppVWHknxkPVxk8+/pekro6QPxh0BK2AFs6+7+u+
- m835o9DOuzaLVolYprH1gXaITYxgoNORUGY/aJHiYWdjYljK/LAnjSQjo38kTMzvFHdP
- WS5ppQlO9LIdu2TQSPHzwZDHYuuSGtM4+pRSnHSNDpfMRdd0fDcBAECf0OO9YzhlTo+z
- Yr1g==
-X-Gm-Message-State: ANhLgQ3yQ+zRWHwmPmRiQOXuK7sTpF6m7EA2alCMge3Sap9LS2BW3bk6
- 8yvuS3z7UXHDX7rfugmO+2UHWg==
-X-Google-Smtp-Source: ADFU+vvnZ++eeJohQNCGbL8UURJNf+LwktEkIgtg9LmyZVqXbslskSadTwZYDIFrd8k/gWvAv2Asig==
-X-Received: by 2002:ac8:3659:: with SMTP id n25mr12061900qtb.254.1584101864517; 
- Fri, 13 Mar 2020 05:17:44 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id e2sm362936qkg.63.2020.03.13.05.17.43
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 13 Mar 2020 05:17:43 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1jCjG2-0001qS-KQ; Fri, 13 Mar 2020 09:17:42 -0300
-Date: Fri, 13 Mar 2020 09:17:42 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH 1/6] lib/scatterlist: add sg_set_dma_addr() function
-Message-ID: <20200313121742.GZ31668@ziepe.ca>
-References: <20200311135158.3310-1-christian.koenig@amd.com>
- <20200311135158.3310-2-christian.koenig@amd.com>
- <20200311152838.GA24280@infradead.org>
- <f2b46f49-a8d0-9d43-3120-e1ed36fc3a80@gmail.com>
- <20200312101943.GA14618@infradead.org>
- <b5db44eb-1dde-1671-feb0-9e47d120f172@amd.com>
- <20200312104729.GA26031@infradead.org>
- <20200312141928.GK31668@ziepe.ca>
- <20200313112139.GA4913@infradead.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200313112139.GA4913@infradead.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=B+9gQRKH0r6cXrfSn2IAMlVbz7jd8cPpe3Mc+AzVAAg=;
+ b=gCXJE+L9SpSdNVYoltp3cDhN4PgQMBOQ4LS+uy/umc1efrCjt3jn2jYbCymaF8jNaG
+ cLsgv0G4AjEMndYYGctnJ38SAcjt1EqfYUkITYVXb/3dLziM1MYsEx4Xj1ylJOdZB9bI
+ o7ZXxpw2RiI8Vb5Bvdj66PEJZ2qb5oYelPAnyDpYZKW2FoqPsjJKe8a3d+6d8/LQd535
+ koq7fadlqJCfyikkHqxOl4tze2denKgmUaWUmhnD/EhqwH8RxTn9K5w4JagolFQd5Bn6
+ NPZSOZ6B7mE5VaBvFZfoaWhNmC7Ws2/dNg4f+9v/N3VaZq4uKzO7yVHlkM80ZCg30zIT
+ yI9w==
+X-Gm-Message-State: ANhLgQ0eafy8ut7N+pRI3zjRrDgpInFUBqA5GCH6kQHegnXM4fCsuZtv
+ 2/6uz+S3ON6c/dAq6rqQnHU=
+X-Google-Smtp-Source: ADFU+vvkNmSROGv02RNoyVIvfloDQHMJsqZVJr1oCEoJL9YjYVrt/guXHtKUwzoma+CRCV+oP87w4A==
+X-Received: by 2002:a17:90a:1697:: with SMTP id
+ o23mr9762300pja.62.1584105775598; 
+ Fri, 13 Mar 2020 06:22:55 -0700 (PDT)
+Received: from nj08008nbu.spreadtrum.com ([117.18.48.82])
+ by smtp.gmail.com with ESMTPSA id y9sm21490296pgo.80.2020.03.13.06.22.51
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Fri, 13 Mar 2020 06:22:54 -0700 (PDT)
+From: Kevin Tang <kevin3.tang@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run,
+ airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ mark.rutland@arm.com, kevin3.tang@gmail.com
+Subject: [PATCH RFC v5 0/6] Add Unisoc's drm kms module
+Date: Fri, 13 Mar 2020 21:22:41 +0800
+Message-Id: <1584105767-11963-1-git-send-email-kevin3.tang@gmail.com>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Sun, 15 Mar 2020 23:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,51 +65,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Logan Gunthorpe <logang@deltatee.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: orsonzhai@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, zhang.lyra@gmail.com, baolin.wang@linaro.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 13, 2020 at 04:21:39AM -0700, Christoph Hellwig wrote:
-> On Thu, Mar 12, 2020 at 11:19:28AM -0300, Jason Gunthorpe wrote:
-> > The non-page scatterlist is also a big concern for RDMA as we have
-> > drivers that want the page list, so even if we did as this series
-> > contemplates I'd have still have to split the drivers and create the
-> > notion of a dma-only SGL.
-> 
-> The drivers I looked at want a list of IOVA address, aligned to the
-> device "page size".  What other data do drivers want?  Execept for the
-> software protocol stack drivers, which of couse need pages for the
-> stack futher down.
+ChangeList:
+v1:
+1. only upstream modeset and atomic at first commit. 
+2. remove some unused code;
+3. use alpha and blend_mode properties;
+3. add yaml support;
+4. remove auto-adaptive panel driver;
+5. bugfix
 
-In principle it is possible to have just an aligned page list -
-however the page size is variable, following certain rules, and today
-the drivers still determine the correct page size largely on their
-own.  
+v2:
+1. add sprd crtc and plane module for KMS, preparing for multi crtc&encoder
+2. remove gem drivers, use generic CMA handlers
+3. remove redundant "module_init", all the sub modules loading by KMS
 
-Some progress was made recently to consolidate this, but more is
-needed.
+v3:
+1. multi crtc&encoder design have problem, so rollback to v1
 
-If the common code doesn't know the device page size in advance then
-today's approach of sending largest possible dma mapped SGLs into the
-device driver is best. The driver only has to do splitting.
+v4:
+1. update to gcc-linaro-7.5.0
+2. update to Linux 5.6-rc3
+3. remove pm_runtime support
+4. add COMPILE_TEST, remove unused kconfig
+5. "drm_dev_put" on drm_unbind
+6. fix some naming convention issue
+7. remove semaphore lock for crtc flip
+8. remove static variables
 
-> > I haven't used bio_vecs before, do they support chaining like SGL so
-> > they can be very big? RDMA dma maps gigabytes of memory
-> 
-> bio_vecs itself don't have the chaining, but the bios build around them
-> do.  But each entry can map a huge pile.  If needed we could use the
-> same chaining scheme we use for scatterlists for bio_vecs as well, but
-> lets see if we really end up needing that.
+v5:
+1. optimize encoder and connector code implementation
+2. use "platform_get_irq" and "platform_get_resource"
+3. drop useless function return type, drop unless debug log
+4. custom properties should be separate, so drop it
+5. use DRM_XXX replase pr_xxx
+6. drop dsi&dphy hal callback ops
+7. drop unless callback ops checking
+8. add comments for sprd dpu structure
 
-RDMA surely needs something to generate huge lists of dma mapped
-memory. MRs are very big objects
+Kevin Tang (6):
+  dt-bindings: display: add Unisoc's drm master bindings
+  drm/sprd: add Unisoc's drm kms master
+  dt-bindings: display: add Unisoc's dpu bindings
+  drm/sprd: add Unisoc's drm display controller driver
+  dt-bindings: display: add Unisoc's mipi dsi&dphy bindings
+  drm/sprd: add Unisoc's drm mipi dsi&dphy driver
 
-Jason
+ .../devicetree/bindings/display/sprd/dphy.yaml     |   75 +
+ .../devicetree/bindings/display/sprd/dpu.yaml      |   82 ++
+ .../devicetree/bindings/display/sprd/drm.yaml      |   36 +
+ .../devicetree/bindings/display/sprd/dsi.yaml      |   98 ++
+ drivers/gpu/drm/Kconfig                            |    2 +
+ drivers/gpu/drm/Makefile                           |    1 +
+ drivers/gpu/drm/sprd/Kconfig                       |   12 +
+ drivers/gpu/drm/sprd/Makefile                      |   13 +
+ drivers/gpu/drm/sprd/disp_lib.c                    |   57 +
+ drivers/gpu/drm/sprd/disp_lib.h                    |   16 +
+ drivers/gpu/drm/sprd/dphy/Makefile                 |    7 +
+ drivers/gpu/drm/sprd/dphy/pll/Makefile             |    3 +
+ drivers/gpu/drm/sprd/dphy/pll/megacores_sharkle.c  |  473 +++++++
+ drivers/gpu/drm/sprd/dphy/sprd_dphy_api.c          |  201 +++
+ drivers/gpu/drm/sprd/dphy/sprd_dphy_api.h          |   22 +
+ drivers/gpu/drm/sprd/dpu/Makefile                  |    7 +
+ drivers/gpu/drm/sprd/dpu/dpu_r2p0.c                |  750 ++++++++++
+ drivers/gpu/drm/sprd/dsi/Makefile                  |    8 +
+ drivers/gpu/drm/sprd/dsi/core/Makefile             |    4 +
+ drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c      |  964 +++++++++++++
+ drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.h      | 1477 ++++++++++++++++++++
+ drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c  |  328 +++++
+ drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.h  |   32 +
+ drivers/gpu/drm/sprd/dsi/sprd_dsi_api.c            |  590 ++++++++
+ drivers/gpu/drm/sprd/dsi/sprd_dsi_api.h            |   26 +
+ drivers/gpu/drm/sprd/sprd_dphy.c                   |  209 +++
+ drivers/gpu/drm/sprd/sprd_dphy.h                   |   50 +
+ drivers/gpu/drm/sprd/sprd_dpu.c                    |  526 +++++++
+ drivers/gpu/drm/sprd/sprd_dpu.h                    |  173 +++
+ drivers/gpu/drm/sprd/sprd_drm.c                    |  227 +++
+ drivers/gpu/drm/sprd/sprd_drm.h                    |   18 +
+ drivers/gpu/drm/sprd/sprd_dsi.c                    |  571 ++++++++
+ drivers/gpu/drm/sprd/sprd_dsi.h                    |  108 ++
+ 33 files changed, 7166 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/dphy.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/dpu.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/drm.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/dsi.yaml
+ create mode 100644 drivers/gpu/drm/sprd/Kconfig
+ create mode 100644 drivers/gpu/drm/sprd/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/disp_lib.c
+ create mode 100644 drivers/gpu/drm/sprd/disp_lib.h
+ create mode 100644 drivers/gpu/drm/sprd/dphy/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dphy/pll/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dphy/pll/megacores_sharkle.c
+ create mode 100644 drivers/gpu/drm/sprd/dphy/sprd_dphy_api.c
+ create mode 100644 drivers/gpu/drm/sprd/dphy/sprd_dphy_api.h
+ create mode 100644 drivers/gpu/drm/sprd/dpu/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dpu/dpu_r2p0.c
+ create mode 100644 drivers/gpu/drm/sprd/dsi/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dsi/core/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c
+ create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.h
+ create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c
+ create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.h
+ create mode 100644 drivers/gpu/drm/sprd/dsi/sprd_dsi_api.c
+ create mode 100644 drivers/gpu/drm/sprd/dsi/sprd_dsi_api.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dphy.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dphy.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
+
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
