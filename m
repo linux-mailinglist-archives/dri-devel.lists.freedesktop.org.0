@@ -2,41 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A9E184911
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 15:17:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E624718493C
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 15:25:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A5666EBD8;
-	Fri, 13 Mar 2020 14:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0AEF6E2A9;
+	Fri, 13 Mar 2020 14:25:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB4B6EBD8
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 14:17:18 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 548C75F;
- Fri, 13 Mar 2020 15:17:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1584109036;
- bh=cNWnjF6VI23jiFmMB2Z9kPjXU1GPF9FYUM8c0rkqsfs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sq4XHVmjlbnnW+wogjp1YdiXGbDHSx42KHhulBqivBzTCxtqFKJ8mFo0dlzHTI9ar
- 9Cn1ADG+fwz17GazAhlgeNdfuDglKJiKysVreka8tsoddZZ9lLKGEhEGt5OkqwC8RU
- bPX/VD6oJDBoujSTb8b7SL+xL1BOwc//jiVaDlRg=
-Date: Fri, 13 Mar 2020 16:17:13 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH v2 2/4] dt-bindings: display: bridge: add it66121 bindings
-Message-ID: <20200313141713.GG4751@pendragon.ideasonboard.com>
-References: <20200311125135.30832-1-ple@baylibre.com>
- <20200311125135.30832-3-ple@baylibre.com>
- <20200313134013.GC4751@pendragon.ideasonboard.com>
- <03d5bb7f-db1b-79df-bd46-3ac0f3b4feb1@baylibre.com>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F06666E2A9
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 14:25:50 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id 6so10170344wmi.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 07:25:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=fJxYPXTZkxZeXDnLHJfsq7ba/Z2QXWMal012Z0GSXYY=;
+ b=cPQ0jRhmQugC2kPvPAhHV+jO5eTwlusf1XudDjYpsLW8QcdF49RDUWZpWmcEyeC+KJ
+ EQmRe8l4SCkQm4IbVuLzaE7ZWSbrLAX/4DKWfeCVfzgJlydC9PoCTE4AWSJ3OJJ786ss
+ 4mdp5/YxaviyEU9RwtC0ohmgg0abnGNogZwGjKSHmzRUPxjMtaacXgVAQLVSrk6WjB+C
+ W4iHeXrdFfD7BZL57HjWxYmb/z/JAu2cSBPce0Zn+sQB/5EHxzIKlJFOD5Xi+3Ubr6UR
+ kyRveuSVQFuv27ud0QnHLfHWR6mYMFcaVAOCecWWyXXSup4EuH/n7bJ3Lkk3e8vwfuMr
+ VJaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fJxYPXTZkxZeXDnLHJfsq7ba/Z2QXWMal012Z0GSXYY=;
+ b=SMxAE8OzIOCfbQYWT+2UYeBlxxCrvaXUZtVcEwbb0G9dBHje3nZMfStee8nbJMg3G3
+ 5PQj1Rnj3qrfSdUs4v9dlws3rTCiBm9nFvaaxs99RQxZ5ygvuIcKJwHKEhiKrslvgddG
+ up5K/K3XqHrqQNcbcLx/GVhcpYu0ierqOjpTejuQAxe0L5W2k0ZiD/kf1Mug03FBZtgF
+ eoZYR0iQ/yFclXdDv8YOOGonZ8+DirQ/syq6qe8HssRCde4774XRYkpBT3+SM5RQoJr9
+ ECOsWPoPccb+zGQMPFiFaSxeRtjvWFmeNkr39tAcO07ODUGq2rGV1vARC8Ys078RLf9v
+ m8aQ==
+X-Gm-Message-State: ANhLgQ1PLfRosJTSPAeLPqSdUk28LtvzoZgdm29Xp0cggv4CRdfQfzMP
+ MFjkcvSMIKnOMwiCP3TLjLuLmXxnTN427S20+EM=
+X-Google-Smtp-Source: ADFU+vvaYzBM6m7r/O9x/m9s6shqXrP+Czv/TelOivS8EbwEFQXEPCFYZ6r3ciojP45BNaf04KuhQPGVlFQNLv3qZ2k=
+X-Received: by 2002:a1c:de82:: with SMTP id v124mr10884078wmg.70.1584109548709; 
+ Fri, 13 Mar 2020 07:25:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <03d5bb7f-db1b-79df-bd46-3ac0f3b4feb1@baylibre.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200313095640.17967-1-l.stach@pengutronix.de>
+ <8a3cd453-4351-af4a-93df-9b290fa1e582@amd.com>
+In-Reply-To: <8a3cd453-4351-af4a-93df-9b290fa1e582@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 13 Mar 2020 10:25:37 -0400
+Message-ID: <CADnq5_Mpq=zr9hte+V1Fo1Kmd0_u0JCtiAOhwGrcgjuv_Lwaig@mail.gmail.com>
+Subject: Re: [PATCH] drm/sched: add run job trace
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,161 +62,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com, mchehab+samsung@kernel.org, sam@ravnborg.org,
- heiko.stuebner@theobroma-systems.com, icenowy@aosc.io,
- devicetree@vger.kernel.org, stephan@gerhold.net, jonas@kwiboo.se,
- robh+dt@kernel.org, Jonathan.Cameron@huawei.com,
- andriy.shevchenko@linux.intel.com, jernej.skrabec@siol.net,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- Phong LE <ple@baylibre.com>, broonie@kernel.org, davem@davemloft.net
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Robert Beckett <bob.beckett@collabora.com>, patchwork-lst@pengutronix.de,
+ Sascha Hauer <kernel@pengutronix.de>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
-
-On Fri, Mar 13, 2020 at 03:12:13PM +0100, Neil Armstrong wrote:
-> On 13/03/2020 14:40, Laurent Pinchart wrote:
-> > On Wed, Mar 11, 2020 at 01:51:33PM +0100, Phong LE wrote:
-> >> Add the ITE bridge HDMI it66121 bindings.
-> >>
-> >> Signed-off-by: Phong LE <ple@baylibre.com>
-> >> ---
-> >>  .../bindings/display/bridge/ite,it66121.yaml  | 98 +++++++++++++++++++
-> >>  1 file changed, 98 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> >> new file mode 100644
-> >> index 000000000000..1717e880d130
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
-> >> @@ -0,0 +1,98 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/display/bridge/ite,it66121.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: ITE it66121 HDMI bridge Device Tree Bindings
-> >> +
-> >> +maintainers:
-> >> +  - Phong LE <ple@baylibre.com>
-> >> +  - Neil Armstrong <narmstrong@baylibre.com>
-> >> +
-> >> +description: |
-> >> +  The IT66121 is a high-performance and low-power single channel HDMI
-> >> +  transmitter, fully compliant with HDMI 1.3a, HDCP 1.2 and backward compatible
-> >> +  to DVI 1.0 specifications.
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: ite,it66121
-> >> +
-> >> +  reg:
-> >> +    maxItems: 1
-> >> +    description: base I2C address of the device
-> >> +
-> >> +  reset-gpios:
-> >> +    maxItems: 1
-> >> +    description: GPIO connected to active low reset
-> >> +
-> >> +  vrf12-supply:
-> >> +    maxItems: 1
-> >> +    description: Regulator for 1.2V analog core power.
-> >> +
-> >> +  vcn33-supply:
-> >> +    maxItems: 1
-> >> +    description: Regulator for 3.3V digital core power.
-> >> +
-> >> +  vcn18-supply:
-> >> +    maxItems: 1
-> >> +    description: Regulator for 1.8V IO core power.
-> >> +
-> >> +  interrupts:
-> >> +    maxItems: 1
-> >> +
-> >> +  pclk-dual-edge:
-> >> +    maxItems: 1
-> >> +    description: enable pclk dual edge mode.
-> > 
-> > I'm having a bit of trouble understanding how this operates. Looking at
-> > the driver code the property is only taken into account to calculate the
-> > maximum allowed frequency. How is the IT66121 configured for single vs.
-> > dual pixel clock edge mode ?
-> 
-> Dual edge mode is Dual-Data-Rate mode, the normal mode is MEDIA_BUS_FMT_RGB888_1X24 and dual edge is
-> MEDIA_BUS_FMT_RGB888_2X12_LE (or MEDIA_BUS_FMT_RGB888_2X12_BE, not sure) on a single clock period.
-> 
-> This should be negociated at runtime, but the bus width should be specified somewhere to select
-> one of the modes.
-
-How about replacing this property by bus-width to report the connected
-bus width ? It should then become an endpoint property.
-
-> >> +
-> >> +  port:
-> >> +    type: object
-> >> +
-> >> +    properties:
-> >> +      endpoint:
-> >> +        type: object
-> >> +        description: |
-> >> +          Input endpoints of the bridge.
-> >> +
-> >> +    required:
-> >> +      - endpoint
-> > 
-> > You should have two ports, one for the bridge input, and one for the
-> > bridge output.
-> > 
-> >> +
-> >> +required:
-> >> +  - compatible
-> >> +  - reg
-> >> +  - reset-gpios
-> >> +  - vrf12-supply
-> >> +  - vcn33-supply
-> >> +  - vcn18-supply
-> >> +  - interrupts
-> >> +  - port
-> >> +
-> >> +additionalProperties: false
-> >> +
-> >> +examples:
-> >> +  - |
-> >> +    i2c6 {
-> >> +      #address-cells = <1>;
-> >> +      #size-cells = <0>;
-> >> +
-> >> +      it66121hdmitx: it66121hdmitx@4c {
-> >> +        compatible = "ite,it66121";
-> >> +        pinctrl-names = "default";
-> >> +        pinctrl-0 = <&ite_pins_default>;
-> >> +        vcn33-supply = <&mt6358_vcn33_wifi_reg>;
-> >> +        vcn18-supply = <&mt6358_vcn18_reg>;
-> >> +        vrf12-supply = <&mt6358_vrf12_reg>;
-> >> +        reset-gpios = <&pio 160 1 /* GPIO_ACTIVE_LOW */>;
-> >> +        interrupt-parent = <&pio>;
-> >> +        interrupts = <4 8 /* IRQ_TYPE_LEVEL_LOW */>;
-> >> +        reg = <0x4c>;
-> >> +        pclk-dual-edge;
-> >> +
-> >> +        port {
-> >> +          it66121_in: endpoint {
-> >> +            remote-endpoint = <&display_out>;
-> >> +          };
-> >> +        };
-> >> +      };
-> >> +    };
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBNYXIgMTMsIDIwMjAgYXQgNjoxOCBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMTMuMDMuMjAgdW0gMTA6NTYgc2Nocmll
+YiBMdWNhcyBTdGFjaDoKPiA+IEZyb206IFJvYmVydCBCZWNrZXR0IDxib2IuYmVja2V0dEBjb2xs
+YWJvcmEuY29tPgo+ID4KPiA+IEFkZCBhIG5ldyB0cmFjZSBldmVudCB0byBzaG93IHdoZW4gam9i
+cyBhcmUgcnVuIG9uIHRoZSBIVy4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBSb2JlcnQgQmVja2V0
+dCA8Ym9iLmJlY2tldHRAY29sbGFib3JhLmNvbT4KPiA+IFNpZ25lZC1vZmYtYnk6IEx1Y2FzIFN0
+YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4LmRlPgo+Cj4gVGhlcmUgaXMgYWxzbyB0aGUgc2NoZWR1
+bGVkIGZlbmNlIHdlIGNvdWxkIHVzZWQgZm9yIHRoaXMsIGJ1dCB0aGlzIHRyYWNlCj4gcG9pbnQg
+YWRkcyBhIGZldyBleHRyYSBmaWVsZHMgd2hpY2ggbWlnaHQgYmUgdXNlZnVsLgo+Cj4gQWNrZWQt
+Ynk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KCkFwcGxpZWQu
+ICB0aGFua3MhCgpBbGV4Cgo+Cj4gPiAtLS0KPiA+ICAgLi4uL2dwdS9kcm0vc2NoZWR1bGVyL2dw
+dV9zY2hlZHVsZXJfdHJhY2UuaCAgIHwgMjcgKysrKysrKysrKysrKysrKysrKwo+ID4gICBkcml2
+ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyAgICAgICAgfCAgMSArCj4gPiAgIDIg
+ZmlsZXMgY2hhbmdlZCwgMjggaW5zZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL2dwdV9zY2hlZHVsZXJfdHJhY2UuaCBiL2RyaXZlcnMvZ3B1
+L2RybS9zY2hlZHVsZXIvZ3B1X3NjaGVkdWxlcl90cmFjZS5oCj4gPiBpbmRleCBkNzkwODY0OThh
+ZmYuLjg3N2NlOWIxMjdmMSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVs
+ZXIvZ3B1X3NjaGVkdWxlcl90cmFjZS5oCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1
+bGVyL2dwdV9zY2hlZHVsZXJfdHJhY2UuaAo+ID4gQEAgLTU5LDYgKzU5LDMzIEBAIFRSQUNFX0VW
+RU5UKGRybV9zY2hlZF9qb2IsCj4gPiAgICAgICAgICAgICAgICAgICAgIF9fZW50cnktPmpvYl9j
+b3VudCwgX19lbnRyeS0+aHdfam9iX2NvdW50KQo+ID4gICApOwo+ID4KPiA+ICtUUkFDRV9FVkVO
+VChkcm1fcnVuX2pvYiwKPiA+ICsgICAgICAgICBUUF9QUk9UTyhzdHJ1Y3QgZHJtX3NjaGVkX2pv
+YiAqc2NoZWRfam9iLCBzdHJ1Y3QgZHJtX3NjaGVkX2VudGl0eSAqZW50aXR5KSwKPiA+ICsgICAg
+ICAgICBUUF9BUkdTKHNjaGVkX2pvYiwgZW50aXR5KSwKPiA+ICsgICAgICAgICBUUF9TVFJVQ1Rf
+X2VudHJ5KAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgX19maWVsZChzdHJ1Y3QgZHJt
+X3NjaGVkX2VudGl0eSAqLCBlbnRpdHkpCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICBf
+X2ZpZWxkKHN0cnVjdCBkbWFfZmVuY2UgKiwgZmVuY2UpCj4gPiArICAgICAgICAgICAgICAgICAg
+ICAgICAgICBfX2ZpZWxkKGNvbnN0IGNoYXIgKiwgbmFtZSkKPiA+ICsgICAgICAgICAgICAgICAg
+ICAgICAgICAgIF9fZmllbGQodWludDY0X3QsIGlkKQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgX19maWVsZCh1MzIsIGpvYl9jb3VudCkKPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgIF9fZmllbGQoaW50LCBod19qb2JfY291bnQpCj4gPiArICAgICAgICAgICAgICAgICAgICAg
+ICAgICApLAo+ID4gKwo+ID4gKyAgICAgICAgIFRQX2Zhc3RfYXNzaWduKAo+ID4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgIF9fZW50cnktPmVudGl0eSA9IGVudGl0eTsKPiA+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICBfX2VudHJ5LT5pZCA9IHNjaGVkX2pvYi0+aWQ7Cj4gPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgX19lbnRyeS0+ZmVuY2UgPSAmc2NoZWRfam9iLT5zX2ZlbmNlLT5maW5p
+c2hlZDsKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICBfX2VudHJ5LT5uYW1lID0gc2NoZWRf
+am9iLT5zY2hlZC0+bmFtZTsKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICBfX2VudHJ5LT5q
+b2JfY291bnQgPSBzcHNjX3F1ZXVlX2NvdW50KCZlbnRpdHktPmpvYl9xdWV1ZSk7Cj4gPiArICAg
+ICAgICAgICAgICAgICAgICAgICAgX19lbnRyeS0+aHdfam9iX2NvdW50ID0gYXRvbWljX3JlYWQo
+Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAmc2NoZWRfam9iLT5zY2hlZC0+
+aHdfcnFfY291bnQpOwo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICksCj4gPiArICAgICAg
+ICAgVFBfcHJpbnRrKCJlbnRpdHk9JXAsIGlkPSVsbHUsIGZlbmNlPSVwLCByaW5nPSVzLCBqb2Ig
+Y291bnQ6JXUsIGh3IGpvYiBjb3VudDolZCIsCj4gPiArICAgICAgICAgICAgICAgICAgIF9fZW50
+cnktPmVudGl0eSwgX19lbnRyeS0+aWQsCj4gPiArICAgICAgICAgICAgICAgICAgIF9fZW50cnkt
+PmZlbmNlLCBfX2VudHJ5LT5uYW1lLAo+ID4gKyAgICAgICAgICAgICAgICAgICBfX2VudHJ5LT5q
+b2JfY291bnQsIF9fZW50cnktPmh3X2pvYl9jb3VudCkKPiA+ICspOwo+ID4gKwo+ID4gICBUUkFD
+RV9FVkVOVChkcm1fc2NoZWRfcHJvY2Vzc19qb2IsCj4gPiAgICAgICAgICAgVFBfUFJPVE8oc3Ry
+dWN0IGRybV9zY2hlZF9mZW5jZSAqZmVuY2UpLAo+ID4gICAgICAgICAgIFRQX0FSR1MoZmVuY2Up
+LAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5j
+IGIvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKPiA+IGluZGV4IDcxY2U2
+MjE1OTU2Zi4uMzQyMzFiNzE2M2NjIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Nj
+aGVkdWxlci9zY2hlZF9tYWluLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIv
+c2NoZWRfbWFpbi5jCj4gPiBAQCAtNzczLDYgKzc3Myw3IEBAIHN0YXRpYyBpbnQgZHJtX3NjaGVk
+X21haW4odm9pZCAqcGFyYW0pCj4gPiAgICAgICAgICAgICAgIGF0b21pY19pbmMoJnNjaGVkLT5o
+d19ycV9jb3VudCk7Cj4gPiAgICAgICAgICAgICAgIGRybV9zY2hlZF9qb2JfYmVnaW4oc2NoZWRf
+am9iKTsKPiA+Cj4gPiArICAgICAgICAgICAgIHRyYWNlX2RybV9ydW5fam9iKHNjaGVkX2pvYiwg
+ZW50aXR5KTsKPiA+ICAgICAgICAgICAgICAgZmVuY2UgPSBzY2hlZC0+b3BzLT5ydW5fam9iKHNj
+aGVkX2pvYik7Cj4gPiAgICAgICAgICAgICAgIGRybV9zY2hlZF9mZW5jZV9zY2hlZHVsZWQoc19m
+ZW5jZSk7Cj4gPgo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
