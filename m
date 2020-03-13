@@ -2,62 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A19186072
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 00:19:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 673FF186086
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 00:20:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 732FA6E2F2;
-	Sun, 15 Mar 2020 23:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA3236E2DA;
+	Sun, 15 Mar 2020 23:19:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E8476EBAC
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 10:15:30 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id 6so9252361wmi.5
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 03:15:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62FAE6E290
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 12:17:45 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id m33so7245973qtb.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 05:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=A2S0VguwI+vPRoafp0n7H/FnoxCrEJkQC7JvYKj1Y0s=;
- b=GVMDp2vZE2aQwlKRTXncVtfN/X+6h48E0TlmseeRuAA107vTByb4SPEwMedGts2FpH
- 0TL7glG8mEnbMDZ+queQzD2z8DhUOZNdJH7ieZjOQnso4/ztWA4Zn75c65eSChADubSd
- 0cXZHBjArc0TCK17CXch9WBT9JSoawEIY9faPIiTiyZVLh7CB+EXTkP4tDkHsfeB1+R2
- YXRhfNpkpNTIcVQmQ/Elu9NY3FwXfyvYutM+MW2tImKrOwQKW22UE3kEC/U09RRMs36N
- k87s/4AcSbJhgTuxTtpxn6vzTgZzEV/FulMOW4LM8nYmHWyTFOvERzjfZVu+JYlP2r9S
- epPA==
+ bh=aqslJJ5bOf4ey2RANXL60FLOBW00NolP+CogM9HtYzU=;
+ b=fnLvydTyvgwKngHoJknFmEckFBQX2TR0x0WgLYgJaIP2ICqATNg9WQ9cP/lfj4yVwh
+ 6mSSjRuG8nN+xIg2fA3Wd7Xt1BuckJTkHy5pwwlzksrBV2ZaY3FQvZpwWhr3ygDLDNAu
+ vd67ky4AC/TpUDHBms5GP5WwHKK0QuHePWyU5pAXvMtzJwXELqz+UHhRHgKztLdSw7xT
+ z9yD2/kP/N3e9eeVkrTyN4ecuy111HRBS030woDmFrAHJwyhiisQS0w+p64Q+vE4KqFb
+ kFZ6v1pjSxCFLj4rKECs4vbLkU3eWHuyBdsVqrNKA3EQmpLAhIwVsZho0dP4f4DWiRMK
+ AzKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=A2S0VguwI+vPRoafp0n7H/FnoxCrEJkQC7JvYKj1Y0s=;
- b=FIzIFY9PR3dHmiV5hord3dB8VhkrjuYP3VIePAxtkL42fuQKlNNx+4JeWBJ5ZjP09Q
- D/kIm9EGOWs1UzPORr3f05/jbderB0zg+AsHdP8KR5pLkhDPqDnNkAs0tJ8qBZANUd5j
- 6nTxBfxxbTNfYcGyikYgKGMrJ6owNtARDDkdE/4EGrhrYYx9ddU7FbPoHxlfMKa0RtYy
- sdNZ41XMfy2nEE1vuH6+DdEo3U8cI8p5Cqhibp3IKl7tVVxuP/YXxL0p3rUvy1mxc3/o
- jWrpRrfLGFnqYPCtKJX+nhncHJ+inTOINQsVL1aarqNM+W2RbGJbl2TRbQYx1ANPZmko
- mm2g==
-X-Gm-Message-State: ANhLgQ2t/BiOxZpv7dxsLGy4H47O6+ZhrGlmL3tsdB3ld+LEOoN/xOvu
- lle4K++8baksSMR9nR9R4IJE3A==
-X-Google-Smtp-Source: ADFU+vvfNiM0lhbIk+4DF69YACHaSoOD2UzvSXjcbL/Yevz/3tgRAyjOYY4bwXeZHBIHemSgOn8+hQ==
-X-Received: by 2002:a1c:9e85:: with SMTP id h127mr9702121wme.145.1584094528850; 
- Fri, 13 Mar 2020 03:15:28 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
- by smtp.gmail.com with ESMTPSA id a73sm280921wme.47.2020.03.13.03.15.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 03:15:28 -0700 (PDT)
-Date: Fri, 13 Mar 2020 10:15:24 +0000
-From: Quentin Perret <qperret@google.com>
-To: Lukasz Luba <lukasz.luba@arm.com>
-Subject: Re: [PATCH v4 2/4] OPP: change parameter to device pointer in
- dev_pm_opp_of_register_em()
-Message-ID: <20200313101524.GA150397@google.com>
-References: <20200309134117.2331-1-lukasz.luba@arm.com>
- <20200309134117.2331-3-lukasz.luba@arm.com>
+ bh=aqslJJ5bOf4ey2RANXL60FLOBW00NolP+CogM9HtYzU=;
+ b=FDK8t/qtOvoSdYAXWR5cmgAZAzdZMun5bw3mMVQ0+BZ/YMeCITcK+UJDsfP430FBO/
+ 2mmTDnObyWsb2E5OkTDJrLueYMyuCA0auNvcLE+0bC3LARX0917lEwB2hvOmA+qugL6E
+ WoFqbuD0FFb/A1KZfPJScFbtO+kQwppVWHknxkPVxk8+/pekro6QPxh0BK2AFs6+7+u+
+ m835o9DOuzaLVolYprH1gXaITYxgoNORUGY/aJHiYWdjYljK/LAnjSQjo38kTMzvFHdP
+ WS5ppQlO9LIdu2TQSPHzwZDHYuuSGtM4+pRSnHSNDpfMRdd0fDcBAECf0OO9YzhlTo+z
+ Yr1g==
+X-Gm-Message-State: ANhLgQ3yQ+zRWHwmPmRiQOXuK7sTpF6m7EA2alCMge3Sap9LS2BW3bk6
+ 8yvuS3z7UXHDX7rfugmO+2UHWg==
+X-Google-Smtp-Source: ADFU+vvnZ++eeJohQNCGbL8UURJNf+LwktEkIgtg9LmyZVqXbslskSadTwZYDIFrd8k/gWvAv2Asig==
+X-Received: by 2002:ac8:3659:: with SMTP id n25mr12061900qtb.254.1584101864517; 
+ Fri, 13 Mar 2020 05:17:44 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.57.212])
+ by smtp.gmail.com with ESMTPSA id e2sm362936qkg.63.2020.03.13.05.17.43
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 13 Mar 2020 05:17:43 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1jCjG2-0001qS-KQ; Fri, 13 Mar 2020 09:17:42 -0300
+Date: Fri, 13 Mar 2020 09:17:42 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH 1/6] lib/scatterlist: add sg_set_dma_addr() function
+Message-ID: <20200313121742.GZ31668@ziepe.ca>
+References: <20200311135158.3310-1-christian.koenig@amd.com>
+ <20200311135158.3310-2-christian.koenig@amd.com>
+ <20200311152838.GA24280@infradead.org>
+ <f2b46f49-a8d0-9d43-3120-e1ed36fc3a80@gmail.com>
+ <20200312101943.GA14618@infradead.org>
+ <b5db44eb-1dde-1671-feb0-9e47d120f172@amd.com>
+ <20200312104729.GA26031@infradead.org>
+ <20200312141928.GK31668@ziepe.ca>
+ <20200313112139.GA4913@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200309134117.2331-3-lukasz.luba@arm.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
-X-Mailman-Approved-At: Sun, 15 Mar 2020 23:19:06 +0000
+In-Reply-To: <20200313112139.GA4913@infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Sun, 15 Mar 2020 23:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,53 +81,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
- viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, bsegall@google.com,
- alyssa.rosenzweig@collabora.com, Morten.Rasmussen@arm.com,
- amit.kucheria@verdurent.com, lorenzo.pieralisi@arm.com,
- vincent.guittot@linaro.org, khilman@kernel.org, agross@kernel.org,
- daniel.lezcano@linaro.org, steven.price@arm.com, cw00.choi@samsung.com,
- mingo@redhat.com, linux-imx@nxp.com, rui.zhang@intel.com, mgorman@suse.de,
- orjan.eide@arm.com, linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- s.hauer@pengutronix.de, rostedt@goodmis.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
- linux-arm-kernel@lists.infradead.org, airlied@linux.ie, javi.merino@arm.com,
- tomeu.vizoso@collabora.com, sboyd@kernel.org, rdunlap@infradead.org,
- rjw@rjwysocki.net, linux-kernel@vger.kernel.org, b.zolnierkie@samsung.com,
- kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
- shawnguo@kernel.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Logan Gunthorpe <logang@deltatee.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday 09 Mar 2020 at 13:41:15 (+0000), Lukasz Luba wrote:
-> diff --git a/drivers/cpufreq/cpufreq-dt.c b/drivers/cpufreq/cpufreq-dt.c
-> index d2b5f062a07b..676b56424886 100644
-> --- a/drivers/cpufreq/cpufreq-dt.c
-> +++ b/drivers/cpufreq/cpufreq-dt.c
-> @@ -275,7 +275,9 @@ static int cpufreq_init(struct cpufreq_policy *policy)
->  	policy->cpuinfo.transition_latency = transition_latency;
->  	policy->dvfs_possible_from_any_cpu = true;
->  
-> -	dev_pm_opp_of_register_em(policy->cpus);
-> +	ret = dev_pm_opp_of_register_em(cpu_dev, policy->cpus);
-> +	if (ret)
-> +		dev_dbg(cpu_dev, "Couldn't register Energy Model %d\n", ret);
->  
->  	return 0;
+On Fri, Mar 13, 2020 at 04:21:39AM -0700, Christoph Hellwig wrote:
+> On Thu, Mar 12, 2020 at 11:19:28AM -0300, Jason Gunthorpe wrote:
+> > The non-page scatterlist is also a big concern for RDMA as we have
+> > drivers that want the page list, so even if we did as this series
+> > contemplates I'd have still have to split the drivers and create the
+> > notion of a dma-only SGL.
+> 
+> The drivers I looked at want a list of IOVA address, aligned to the
+> device "page size".  What other data do drivers want?  Execept for the
+> software protocol stack drivers, which of couse need pages for the
+> stack futher down.
 
-Ah, that answers my comment on patch 01. You're adding the error
-messages here.
+In principle it is possible to have just an aligned page list -
+however the page size is variable, following certain rules, and today
+the drivers still determine the correct page size largely on their
+own.  
 
-Isn't this more boilerplate for the drivers ? All they do is print the
-same debug message. Maybe just move it inside dev_pm_opp_of_register_em
-directly ?
+Some progress was made recently to consolidate this, but more is
+needed.
 
-Thanks,
-Quentin
+If the common code doesn't know the device page size in advance then
+today's approach of sending largest possible dma mapped SGLs into the
+device driver is best. The driver only has to do splitting.
+
+> > I haven't used bio_vecs before, do they support chaining like SGL so
+> > they can be very big? RDMA dma maps gigabytes of memory
+> 
+> bio_vecs itself don't have the chaining, but the bios build around them
+> do.  But each entry can map a huge pile.  If needed we could use the
+> same chaining scheme we use for scatterlists for bio_vecs as well, but
+> lets see if we really end up needing that.
+
+RDMA surely needs something to generate huge lists of dma mapped
+memory. MRs are very big objects
+
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
