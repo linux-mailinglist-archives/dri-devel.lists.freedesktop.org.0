@@ -2,56 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31310184D4C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 18:10:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EEF1184D61
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 18:15:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 250056EC39;
-	Fri, 13 Mar 2020 17:10:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6F76EC3B;
+	Fri, 13 Mar 2020 17:15:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B1FE6EC39
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 17:10:45 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id s5so13111829wrg.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 10:10:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tdb2mFLTWBsI5o+oIoQjLHbItACHhPQ4U5Gl27b7t0I=;
- b=b5LtUyvYcaPt/25D/uGbyW9tRGXLz+JpY7ph7XJRep6cngkbEueabaU0ji2XUDe2/G
- 0mKzNlsmQqRjQIvVMSRyJsMBvTHSl8u9zyFT+DOn0wevpEHeMFYRxPaUary9tofClv3N
- JeOs3WJJ4QtyQauHqPUBCq8dn24hUjyiB80emGPKNDeOxZkUfFwgZOupI+Fuad7mNaSu
- VKuJxGcy0efp5/3uUFwoVayPuXRMelq1wCXlsYeydp4OpY/xthBxd8tPn3Fgp1+5u0fg
- vxQsBCgQlTu3SdD1HX1lxe0vorI0WdVIqV3DcdnaqZKSagAYV7Sx7N97w9IfoBed8QVI
- 5V5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tdb2mFLTWBsI5o+oIoQjLHbItACHhPQ4U5Gl27b7t0I=;
- b=uBr4fm5rl3K0lg8WqPTUf8VQ6xaUfb5ACSigWse4y5ZEO/L1QUSBJJGLmwnVDM/0UQ
- c5Q/9OnytRryjax1/eBozvq/25ubaJ33xrsxEN3tAn418utmc2FA9WuAoIfVKh6HLVLB
- /UedzIBM5zz4qMbsoDTc6BNDG7+tbFMFx3hQKQmZAdiNF4LtiwZdYE0C9zbAfeoguezS
- fJqokkDnNi5/MVs6np5SukRwIoRAQxIuEp7nGr+KKG2YF/QEMwGfUHSyGrj2GFmZrgJn
- 94HEkfjV4j+BTUvhO2U5klmK0qm536Cex/XcOlQYm+ufUW3L9OEbNAigCW5sH5d/jwZf
- 4CfQ==
-X-Gm-Message-State: ANhLgQ2kaF35cH2ZEByhumvREhfKz9beWLL0XIGwP4XBF1MziAmewZ1L
- 1ZJr+xdaewA1ZgF9M9S4qpc=
-X-Google-Smtp-Source: ADFU+vtZiUmrNqKbLc2BlE0O/gbSVFFhhgSKhyOz5oFO5bE/9gj9Yc5QFwFpou47EO+a+BdAW3xZzw==
-X-Received: by 2002:adf:eacf:: with SMTP id o15mr18471467wrn.319.1584119444211; 
- Fri, 13 Mar 2020 10:10:44 -0700 (PDT)
-Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
- by smtp.gmail.com with ESMTPSA id a73sm1621805wme.47.2020.03.13.10.10.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 10:10:43 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dave Airlie <airlied@gmail.com>
-Subject: [GIT PULL] drm/tegra: Changes for v5.7-rc1
-Date: Fri, 13 Mar 2020 18:10:42 +0100
-Message-Id: <20200313171042.2924890-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21ED86EC3D
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 17:15:47 +0000 (UTC)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net
+ [24.9.64.241])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 89F2C206B7;
+ Fri, 13 Mar 2020 17:15:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1584119746;
+ bh=DKVElybsjLDvAU1zHyX3rQlN2QwCuWEYTxh2dGG82oY=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=S3EXNcORNhvHYil3IrQUOmh+G4aQjFVNfj+/5coCCPOZEAGFzPS/ZRFQtcmPh9AH6
+ ynJBLiSZCIa2l3dgeCF4mXngPhlgzBNz19kAm/2djRuSFgJwG5NdTBG31wdtT76qV4
+ J6zZH4XMtE6cskhNhzI1lTgIKRWz8zn39au6Nj3E=
+Subject: Re: [v2] dma-buf: heaps: bugfix for selftest failure
+To: Leon He <hexiaolong2008@gmail.com>, sumit.semwal@linaro.org
+References: <1583589765-19344-1-git-send-email-hexiaolong2008@gmail.com>
+From: shuah <shuah@kernel.org>
+Message-ID: <8613a6fb-1f3f-81e9-54c9-7356ce99cf87@kernel.org>
+Date: Fri, 13 Mar 2020 11:15:45 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <1583589765-19344-1-git-send-email-hexiaolong2008@gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,44 +48,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Leon He <leon.he@unisoc.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kselftest@vger.kernel.org, shuah <shuah@kernel.org>,
+ linux-media@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+On 3/7/20 7:02 AM, Leon He wrote:
+> From: Leon He <leon.he@unisoc.com>
+> 
+> There are two errors in the dmabuf-heap selftest:
+> 1. The 'char name[5]' was not initialized to zero, which will cause
+>     strcmp(name, "vgem") failed in check_vgem().
+> 2. The return value of test_alloc_errors() should be reversed, other-
+>     wise the while loop in main() will be broken.
+> 
+> Signed-off-by: Leon He <leon.he@unisoc.com>
+> ---
+>   tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
+> index cd5e1f6..836b185 100644
+> --- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
+> +++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
+> @@ -22,7 +22,7 @@
+>   static int check_vgem(int fd)
+>   {
+>   	drm_version_t version = { 0 };
+> -	char name[5];
+> +	char name[5] = { 0 };
+>   	int ret;
+>   
+>   	version.name_len = 4;
 
-The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
+Please see my comment on v1 for this.
 
-  Linux 5.6-rc1 (2020-02-09 16:08:48 -0800)
+> @@ -357,7 +357,7 @@ static int test_alloc_errors(char *heap_name)
+>   	if (heap_fd >= 0)
+>   		close(heap_fd);
+>   
+> -	return ret;
+> +	return !ret;
 
-are available in the Git repository at:
+This change doesn't make sense. Initializing ret to 0 is a better
+way to go.
 
-  git://anongit.freedesktop.org/tegra/linux tags/drm/tegra/for-5.7-rc1
-
-for you to fetch changes up to e32c8c2a5fbe1514e4ae9063a49e76ecf486ffb8:
-
-  drm/tegra: hdmi: Silence deferred-probe error (2020-03-13 18:03:06 +0100)
-
-Thanks,
-Thierry
-
-----------------------------------------------------------------
-drm/tegra: Changes for v5.7-rc1
-
-This contains some minor cleanups, nothing too exciting.
-
-----------------------------------------------------------------
-Dmitry Osipenko (4):
-      drm/tegra: dc: Use devm_platform_ioremap_resource
-      drm/tegra: dc: Release PM and RGB output when client's registration fails
-      drm/tegra: dc: Silence RGB output deferred-probe error
-      drm/tegra: hdmi: Silence deferred-probe error
-
- drivers/gpu/drm/tegra/dc.c   | 20 +++++++++++++++-----
- drivers/gpu/drm/tegra/hdmi.c | 34 +++++++++++++++++++++++++---------
- 2 files changed, 40 insertions(+), 14 deletions(-)
+thanks,
+-- Shuah
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
