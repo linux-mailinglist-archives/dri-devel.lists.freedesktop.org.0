@@ -1,61 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C2C184502
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 11:35:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C12331846C9
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Mar 2020 13:24:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB77D6EBBB;
-	Fri, 13 Mar 2020 10:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB7776E290;
+	Fri, 13 Mar 2020 12:24:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34D956EBB7;
- Fri, 13 Mar 2020 10:35:35 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id a10so9900673ljp.11;
- Fri, 13 Mar 2020 03:35:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=Yu1F07KiJM4zIMHBA/pTlCdX8C+5JeBe8NdK0WwqpMw=;
- b=t+DAYhG7qZya+mMgPgPjsh25iLsJVCgbs+G4lIpa+jQ/t+gwC0XyKU9111l5Ud5ggW
- lvM8s2jbJGjk+4kF4IidIE84LiwApQuL/y3Mt3d/vLpyaO7TLfdWOXMbdpOe71sPUd9y
- 6o3HiXTc4TAINGsjZebsAug10a591bEG17xVACJQsnjeS/t9F79rtps6uM2mJyHBE/CL
- 7PEqOwW6lJw0X3sAGl/nqDKHVctgdGPStxW2OERM1jfrn/22y03rtXtRs0b3ZNd2VQB3
- chXAYtm/hmjt9DZbVaIzBLEFEh1uA03LTSISDBrTijxybRbLwXzt+PEMCpZMptQkcdXi
- CEdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=Yu1F07KiJM4zIMHBA/pTlCdX8C+5JeBe8NdK0WwqpMw=;
- b=iqJJIFGFfMAnCEIkJskFkGL0ylWYHrW0GHL8JDXHNLn417yHicOEgn0fynb8sUEpoN
- FEDtmOs/G775LdxXuxP5831Cr7OXppAwt1LpkcvBCHYyRN7zA5f5rmNjJTL5d+7YF1oz
- /rzC8RLEIho7MA5nyS3t+N3jNi673kVH6EpBETHJVLmr68IRqNVcXjDAaSH1JVu+C5hy
- lPI/rbgFYBgFYnl9L0WwsIjxoJ+CIFwqXsbubhjceH1VundWsy3aCC9J79uiAVinwaLf
- xLKrISeBJ0PTcHBKtJs5rDjwCHA6f9UvxLi6kb7JFp9Cr20MrY8CrAVcdKBUS9F35cf8
- qWUQ==
-X-Gm-Message-State: ANhLgQ07f3DpYdnD9ho5SXy/rKq0pZmZZRnGsoQ5fr9zrX7WymC+9Z7A
- WHivH0HSuyhAiU0FhMfm/5w=
-X-Google-Smtp-Source: ADFU+vto44cpoVqc4nWPUxh+obdJN6ABIsMjrXCuH3BwP5Yhu+r3lWqTufRf5vf4Olqo4LnXNcLrjg==
-X-Received: by 2002:a2e:860e:: with SMTP id a14mr5458220lji.218.1584095733534; 
- Fri, 13 Mar 2020 03:35:33 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id m15sm2389533ljo.8.2020.03.13.03.35.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 03:35:33 -0700 (PDT)
-Date: Fri, 13 Mar 2020 12:35:21 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [RFC][PATCH 0/5] Introduce drm scaling filter property
-Message-ID: <20200313123521.6de3ce48@eldfell.localdomain>
-In-Reply-To: <20200312160112.GH13686@intel.com>
-References: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200312140434.GG13686@intel.com>
- <E92BA18FDE0A5B43B7B3DA7FCA031286057B3798@BGSMSX107.gar.corp.intel.com>
- <20200312160112.GH13686@intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D62736E290
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Mar 2020 12:24:20 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02DCOG7s043307;
+ Fri, 13 Mar 2020 07:24:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1584102256;
+ bh=4LC52G3Dlu+AliRKNpbA2YnEyulkoxZ5we+H6bAWuTM=;
+ h=From:To:CC:Subject:Date;
+ b=PYX/DNr3PxOQokC7Ewc9jMIMj4Fa4dgdCaSfVaotS9DTj31O1/XHgAyLQL59uXPlo
+ 4f1YIX8/KCrHs1WF6NRkSNBPgeP0KhB+qNd08KedX1l/qRzFfUnxK5EWe4i2/oU373
+ wALqUTXJ9sNBW279zBpsPk7ZVMJ3uxRb3VN4p0jU=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02DCOGnB073291
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 13 Mar 2020 07:24:16 -0500
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 13
+ Mar 2020 07:24:16 -0500
+Received: from localhost.localdomain (10.64.41.19) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Fri, 13 Mar 2020 07:24:16 -0500
+Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
+ by localhost.localdomain (8.15.2/8.15.2) with ESMTP id 02DCOEgv126921;
+ Fri, 13 Mar 2020 07:24:14 -0500
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] omapfb: Remove unused writeback code
+Date: Fri, 13 Mar 2020 14:24:10 +0200
+Message-ID: <20200313122410.7528-1-tomi.valkeinen@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,137 +58,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@linux.ie" <airlied@linux.ie>, "Laxminarayan Bharadiya,
- Pankaj" <pankaj.laxminarayan.bharadiya@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Kunche,
- Kishore" <kishore.kunche@intel.com>, "Lattannavar,
- Sameer" <sameer.lattannavar@intel.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, "Nautiyal,
- Ankit K" <ankit.k.nautiyal@intel.com>,
- "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>
-Content-Type: multipart/mixed; boundary="===============2114456493=="
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2114456493==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/vMWhQLKRKGPaem0p/lu3FKo"; protocol="application/pgp-signature"
+Remove unused writeback code. This code will never be used, as omapfb is
+being deprecated.
 
---Sig_/vMWhQLKRKGPaem0p/lu3FKo
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+---
+ drivers/video/fbdev/omap2/omapfb/dss/dispc.c | 114 -------------------
+ drivers/video/fbdev/omap2/omapfb/dss/dss.h   |  20 ----
+ 2 files changed, 134 deletions(-)
 
-On Thu, 12 Mar 2020 18:01:12 +0200
-Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
-
-> On Thu, Mar 12, 2020 at 03:37:03PM +0000, Laxminarayan Bharadiya, Pankaj =
-wrote:
-> >=20
-> >  =20
-> > > -----Original Message-----
-> > > From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> > > Sent: 12 March 2020 19:35
-> > > To: Laxminarayan Bharadiya, Pankaj
-> > > <pankaj.laxminarayan.bharadiya@intel.com>
-> > > Cc: jani.nikula@linux.intel.com; daniel@ffwll.ch; intel-
-> > > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; airlied@l=
-inux.ie;
-> > > maarten.lankhorst@linux.intel.com; tzimmermann@suse.de;
-> > > mripard@kernel.org; mihail.atanassov@arm.com; linux-
-> > > kernel@vger.kernel.org; Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
-> > > Subject: Re: [RFC][PATCH 0/5] Introduce drm scaling filter property
-> > >=20
-> > > On Tue, Feb 25, 2020 at 12:35:40PM +0530, Pankaj Bharadiya wrote: =20
-> > > > Integer scaling (IS) is a nearest-neighbor upscaling technique that
-> > > > simply scales up the existing pixels by an integer (i.e., whole
-> > > > number) multiplier. Nearest-neighbor (NN) interpolation works by
-> > > > filling in the missing color values in the upscaled image with that=
- of
-> > > > the coordinate-mapped nearest source pixel value.
-> > > >
-> > > > Both IS and NN preserve the clarity of the original image. In
-> > > > contrast, traditional upscaling algorithms, such as bilinear or
-> > > > bicubic interpolation, result in blurry upscaled images because they
-> > > > employ interpolation techniques that smooth out the transition from
-> > > > one pixel to another.  Therefore, integer scaling is particularly
-> > > > useful for pixel art games that rely on sharp, blocky images to
-> > > > deliver their distinctive look.
-> > > >
-> > > > Many gaming communities have been asking for integer-mode scaling
-> > > > support, some links and background:
-> > > >
-> > > > https://software.intel.com/en-us/articles/integer-scaling-support-o=
-n-i
-> > > > ntel-graphics http://tanalin.com/en/articles/lossless-scaling/
-> > > > https://community.amd.com/thread/209107
-> > > > https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/1=
-002
-> > > > /feature-request-nonblurry-upscaling-at-integer-rat/
-> > > >
-> > > > This patch series -
-> > > >   - Introduces new scaling filter property to allow userspace to
-> > > >     select  the driver's default scaling filter or Nearest-neighbor=
-(NN)
-> > > >     filter for scaling operations on crtc/plane.
-> > > >   - Implements and enable integer scaling for i915
-> > > >
-> > > > Userspace patch series link: TBD. =20
-> > >=20
-> > > That needs to be done or this will go nowhere. =20
-> >=20
-> > Yes, Sameer is working on enabling this feature in Kodi.=20
-> > Sameer, please share link here once you post patches. =20
->=20
-> And who is doing it for other stuff? I think this would be most useful
-> for games/emulators and such so IMO we should find a way to get it to
-> the hands of users doing those things.
->=20
-
-Hi,
-
-FWIW, being able to tell KMS to use nearest-neighbor filtering could be
-useful for
-https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/394
-as a follow-up.
-
-
-Thanks,
-pq
-
---Sig_/vMWhQLKRKGPaem0p/lu3FKo
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl5rYekACgkQI1/ltBGq
-qqfTpQ//W/9o7NNQ0qIjJ0FzcNtolpUfAaokRetxnFtvjd2lG4v3D5wrTvXVfctR
-Dtl709DyxtciqtUnE527NbCbW4qbAVhbhamgMHkweMRhw2WyxtzUmLTAbIRd63Z8
-0Wd/RpHUaZrlqnzPkuOJC61cK/8vzWO1+p++1pzCI6EnvQvx38QGFaQRq5MEEICp
-RQC+zBx8A+n1dbWorM4Fc31ZD4AUL2IFFIztLWSd2XMrZfFUH3QwqPM9HYnjpjDy
-Qm/tKnFUp7WsfBnK92xG8y3kSNFu4fumU1U/EMybspbhU1L1w3AtkadWExDU6xmS
-i5w237YKaaYZxNvMMwmzMSXKpDrfIQLWAlNg1RLU+GVjwXWxUZsCOsU9IQD9fGxC
-wKp2yVUJnCh7h/5XdlEEjBcnmUz2weusORX+yp00MLc9ujgleZxm1qqnUPR04AWD
-LHV7wP9qmaNYW+1qxEZyAfBRszqhDIvzkRv4zWynqGrRvOfyvb2kgt7MoHpfK+EY
-OuDPJtSSPhMvYuJFlFTM6P88WrFdOMF2quhKHLfoNpAbJYp7dHFAZty9D4ouf+Rn
-0vdMsOkPm9Cp/4T4N49An9jguyozTaqax1tFlbkuRwBK47V6KGUWhiSir0x/OYYK
-XIJjZ6PY3+MDKpfVT1RlnVcSJfO8rt++VnNymrJBO/vHZnt2Uuo=
-=3GVp
------END PGP SIGNATURE-----
-
---Sig_/vMWhQLKRKGPaem0p/lu3FKo--
-
---===============2114456493==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dispc.c b/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
+index ce37da85cc45..4a16798b2ecd 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
+@@ -557,11 +557,6 @@ u32 dispc_mgr_get_sync_lost_irq(enum omap_channel channel)
+ }
+ EXPORT_SYMBOL(dispc_mgr_get_sync_lost_irq);
+ 
+-u32 dispc_wb_get_framedone_irq(void)
+-{
+-	return DISPC_IRQ_FRAMEDONEWB;
+-}
+-
+ bool dispc_mgr_go_busy(enum omap_channel channel)
+ {
+ 	return mgr_fld_read(channel, DISPC_MGR_FLD_GO) == 1;
+@@ -579,30 +574,6 @@ void dispc_mgr_go(enum omap_channel channel)
+ }
+ EXPORT_SYMBOL(dispc_mgr_go);
+ 
+-bool dispc_wb_go_busy(void)
+-{
+-	return REG_GET(DISPC_CONTROL2, 6, 6) == 1;
+-}
+-
+-void dispc_wb_go(void)
+-{
+-	enum omap_plane plane = OMAP_DSS_WB;
+-	bool enable, go;
+-
+-	enable = REG_GET(DISPC_OVL_ATTRIBUTES(plane), 0, 0) == 1;
+-
+-	if (!enable)
+-		return;
+-
+-	go = REG_GET(DISPC_CONTROL2, 6, 6) == 1;
+-	if (go) {
+-		DSSERR("GO bit not down for WB\n");
+-		return;
+-	}
+-
+-	REG_FLD_MOD(DISPC_CONTROL2, 1, 6, 6);
+-}
+-
+ static void dispc_ovl_write_firh_reg(enum omap_plane plane, int reg, u32 value)
+ {
+ 	dispc_write_reg(DISPC_OVL_FIR_COEF_H(plane, reg), value);
+@@ -1028,13 +999,6 @@ static enum omap_channel dispc_ovl_get_channel_out(enum omap_plane plane)
+ 	}
+ }
+ 
+-void dispc_wb_set_channel_in(enum dss_writeback_channel channel)
+-{
+-	enum omap_plane plane = OMAP_DSS_WB;
+-
+-	REG_FLD_MOD(DISPC_OVL_ATTRIBUTES(plane), channel, 18, 16);
+-}
+-
+ static void dispc_ovl_set_burst_size(enum omap_plane plane,
+ 		enum omap_burst_size burst_size)
+ {
+@@ -2805,74 +2769,6 @@ int dispc_ovl_setup(enum omap_plane plane, const struct omap_overlay_info *oi,
+ }
+ EXPORT_SYMBOL(dispc_ovl_setup);
+ 
+-int dispc_wb_setup(const struct omap_dss_writeback_info *wi,
+-		bool mem_to_mem, const struct omap_video_timings *mgr_timings)
+-{
+-	int r;
+-	u32 l;
+-	enum omap_plane plane = OMAP_DSS_WB;
+-	const int pos_x = 0, pos_y = 0;
+-	const u8 zorder = 0, global_alpha = 0;
+-	const bool replication = false;
+-	bool truncation;
+-	int in_width = mgr_timings->x_res;
+-	int in_height = mgr_timings->y_res;
+-	enum omap_overlay_caps caps =
+-		OMAP_DSS_OVL_CAP_SCALE | OMAP_DSS_OVL_CAP_PRE_MULT_ALPHA;
+-
+-	DSSDBG("dispc_wb_setup, pa %x, pa_uv %x, %d,%d -> %dx%d, cmode %x, "
+-		"rot %d, mir %d\n", wi->paddr, wi->p_uv_addr, in_width,
+-		in_height, wi->width, wi->height, wi->color_mode, wi->rotation,
+-		wi->mirror);
+-
+-	r = dispc_ovl_setup_common(plane, caps, wi->paddr, wi->p_uv_addr,
+-		wi->buf_width, pos_x, pos_y, in_width, in_height, wi->width,
+-		wi->height, wi->color_mode, wi->rotation, wi->mirror, zorder,
+-		wi->pre_mult_alpha, global_alpha, wi->rotation_type,
+-		replication, mgr_timings, mem_to_mem);
+-
+-	switch (wi->color_mode) {
+-	case OMAP_DSS_COLOR_RGB16:
+-	case OMAP_DSS_COLOR_RGB24P:
+-	case OMAP_DSS_COLOR_ARGB16:
+-	case OMAP_DSS_COLOR_RGBA16:
+-	case OMAP_DSS_COLOR_RGB12U:
+-	case OMAP_DSS_COLOR_ARGB16_1555:
+-	case OMAP_DSS_COLOR_XRGB16_1555:
+-	case OMAP_DSS_COLOR_RGBX16:
+-		truncation = true;
+-		break;
+-	default:
+-		truncation = false;
+-		break;
+-	}
+-
+-	/* setup extra DISPC_WB_ATTRIBUTES */
+-	l = dispc_read_reg(DISPC_OVL_ATTRIBUTES(plane));
+-	l = FLD_MOD(l, truncation, 10, 10);	/* TRUNCATIONENABLE */
+-	l = FLD_MOD(l, mem_to_mem, 19, 19);	/* WRITEBACKMODE */
+-	if (mem_to_mem)
+-		l = FLD_MOD(l, 1, 26, 24);	/* CAPTUREMODE */
+-	else
+-		l = FLD_MOD(l, 0, 26, 24);	/* CAPTUREMODE */
+-	dispc_write_reg(DISPC_OVL_ATTRIBUTES(plane), l);
+-
+-	if (mem_to_mem) {
+-		/* WBDELAYCOUNT */
+-		REG_FLD_MOD(DISPC_OVL_ATTRIBUTES2(plane), 0, 7, 0);
+-	} else {
+-		int wbdelay;
+-
+-		wbdelay = min(mgr_timings->vfp + mgr_timings->vsw +
+-			mgr_timings->vbp, 255);
+-
+-		/* WBDELAYCOUNT */
+-		REG_FLD_MOD(DISPC_OVL_ATTRIBUTES2(plane), wbdelay, 7, 0);
+-	}
+-
+-	return r;
+-}
+-
+ int dispc_ovl_enable(enum omap_plane plane, bool enable)
+ {
+ 	DSSDBG("dispc_enable_plane %d, %d\n", plane, enable);
+@@ -2903,16 +2799,6 @@ bool dispc_mgr_is_enabled(enum omap_channel channel)
+ }
+ EXPORT_SYMBOL(dispc_mgr_is_enabled);
+ 
+-void dispc_wb_enable(bool enable)
+-{
+-	dispc_ovl_enable(OMAP_DSS_WB, enable);
+-}
+-
+-bool dispc_wb_is_enabled(void)
+-{
+-	return dispc_ovl_enabled(OMAP_DSS_WB);
+-}
+-
+ static void dispc_lcd_enable_signal_polarity(bool act_high)
+ {
+ 	if (!dss_has_feature(FEAT_LCDENABLEPOL))
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss.h b/drivers/video/fbdev/omap2/omapfb/dss/dss.h
+index a2269008590f..21cfcbf74a6d 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/dss.h
++++ b/drivers/video/fbdev/omap2/omapfb/dss/dss.h
+@@ -89,17 +89,6 @@ enum dss_dsi_content_type {
+ 	DSS_DSI_CONTENT_GENERIC,
+ };
+ 
+-enum dss_writeback_channel {
+-	DSS_WB_LCD1_MGR =	0,
+-	DSS_WB_LCD2_MGR =	1,
+-	DSS_WB_TV_MGR =		2,
+-	DSS_WB_OVL0 =		3,
+-	DSS_WB_OVL1 =		4,
+-	DSS_WB_OVL2 =		5,
+-	DSS_WB_OVL3 =		6,
+-	DSS_WB_LCD3_MGR =	7,
+-};
+-
+ enum dss_pll_id {
+ 	DSS_PLL_DSI1,
+ 	DSS_PLL_DSI2,
+@@ -403,15 +392,6 @@ int dispc_mgr_get_clock_div(enum omap_channel channel,
+ 		struct dispc_clock_info *cinfo);
+ void dispc_set_tv_pclk(unsigned long pclk);
+ 
+-u32 dispc_wb_get_framedone_irq(void);
+-bool dispc_wb_go_busy(void);
+-void dispc_wb_go(void);
+-void dispc_wb_enable(bool enable);
+-bool dispc_wb_is_enabled(void);
+-void dispc_wb_set_channel_in(enum dss_writeback_channel channel);
+-int dispc_wb_setup(const struct omap_dss_writeback_info *wi,
+-		bool mem_to_mem, const struct omap_video_timings *timings);
+-
+ u32 dispc_read_irqstatus(void);
+ void dispc_clear_irqstatus(u32 mask);
+ u32 dispc_read_irqenable(void);
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2114456493==--
