@@ -1,43 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B686185512
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Mar 2020 08:38:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FE4185513
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Mar 2020 08:41:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC9C06E103;
-	Sat, 14 Mar 2020 07:38:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D054E8929B;
+	Sat, 14 Mar 2020 07:41:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 842DC6E103
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Mar 2020 07:38:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B9E28929B
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Mar 2020 07:41:25 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 8E42D804EB;
- Sat, 14 Mar 2020 08:38:14 +0100 (CET)
-Date: Sat, 14 Mar 2020 08:38:12 +0100
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 2594B80501;
+ Sat, 14 Mar 2020 08:41:19 +0100 (CET)
+Date: Sat, 14 Mar 2020 08:41:18 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: display: Add idk-1110wr binding
-Message-ID: <20200314073812.GC5783@ravnborg.org>
-References: <1583957020-16359-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1583957020-16359-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Icenowy Zheng <icenowy@aosc.io>
+Subject: Re: [PATCH 2/5] dt-bindings: panel: add binding for Xingbangda
+ XBD599 panel
+Message-ID: <20200314074118.GD5783@ravnborg.org>
+References: <20200311163329.221840-1-icenowy@aosc.io>
+ <20200311163329.221840-3-icenowy@aosc.io>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1583957020-16359-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200311163329.221840-3-icenowy@aosc.io>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=yC-0_ovQAAAA:8
- a=NcFk6D9gAAAA:8 a=VwQbUJbxAAAA:8 a=P1BnusSwAAAA:8 a=gEfo2CItAAAA:8
- a=pGLkceISAAAA:8 a=rdn2N8ET07tcJGP0fp8A:9 a=CjuIK1q_8ugA:10
- a=woH39XMaDYAA:10 a=-FEs8UIgK8oA:10 a=CojVow1nldcA:10 a=NWVoK91CQyQA:10
- a=QsnFDINu91a9xkgZirup:22 a=dT0RXAwTRpxWjiziVLXF:22
- a=AjGcO6oz07-iQ99wixmX:22 a=D0XLA9XvdZm18NrgonBM:22
- a=sptkURWiP4Gy88Gu7hUp:22
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=gEfo2CItAAAA:8
+ a=NVUcaYqSR25QaaNNWYIA:9 a=CjuIK1q_8ugA:10 a=sptkURWiP4Gy88Gu7hUp:22
+ a=pHzHmUro8NiASowvMSCR:22 a=nt3jZW36AmriUCFCBwmW:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,118 +47,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
+ linux-sunxi@googlegroups.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar
+Hi Icenowy
 
-On Wed, Mar 11, 2020 at 08:03:39PM +0000, Lad Prabhakar wrote:
-> From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> 
-> Add binding for the idk-1110wr LVDS panel from Advantech.
-> 
-> Some panel-specific documentation can be found here:
-> https://buy.advantech.eu/Displays/Embedded-LCD-Kits-LCD-Kit-Modules/model-IDK-1110WR-55WSA1E.htm
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Applied, and pushed to drm-misc-next.
+A few comment below.
 
 	Sam
 
-> ---
->  .../display/panel/advantech,idk-1110wr.yaml        | 69 ++++++++++++++++++++++
->  1 file changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
+On Thu, Mar 12, 2020 at 12:33:26AM +0800, Icenowy Zheng wrote:
+> Xingbangda XBD599 is a 5.99" 720x1440 MIPI-DSI LCD panel.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml b/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
+> Add its device tree binding.
+> 
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+> ---
+>  .../display/panel/xingbangda,xbd599.yaml      | 50 +++++++++++++++++++
+>  1 file changed, 50 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/xingbangda,xbd599.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/xingbangda,xbd599.yaml b/Documentation/devicetree/bindings/display/panel/xingbangda,xbd599.yaml
 > new file mode 100644
-> index 0000000..93878c2
+> index 000000000000..62816b34de31
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
-> @@ -0,0 +1,69 @@
+> +++ b/Documentation/devicetree/bindings/display/panel/xingbangda,xbd599.yaml
+> @@ -0,0 +1,50 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/panel/advantech,idk-1110wr.yaml#
+> +$id: http://devicetree.org/schemas/display/panel/xingbangda,xbd599.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Advantech IDK-1110WR 10.1" WSVGA LVDS Display Panel
+> +title: Xingbangda XBD599 5.99in MIPI-DSI LCD panel
 > +
 > +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> +  - Thierry Reding <thierry.reding@gmail.com>
+> +  - Icenowy Zheng <icenowy@aosc.io>
 > +
 > +allOf:
-> +  - $ref: lvds.yaml#
+> +  - $ref: panel-common.yaml#
 > +
 > +properties:
 > +  compatible:
-> +    items:
-> +      - const: advantech,idk-1110wr
-> +      - {} # panel-lvds, but not listed here to avoid false select
-> +
-> +  data-mapping:
-> +    const: jeida-24
-> +
-> +  width-mm:
-> +    const: 223
-> +
-> +  height-mm:
-> +    const: 125
-> +
-> +  panel-timing: true
-> +  port: true
-> +
-> +additionalProperties: false
+> +    const: xingbangda,xbd599
+> +  reg: true
+> +  backlight: true
+> +  reset-gpios: true
+> +  vcc-supply:
+> +     description: regulator that supplies the VCC voltage
+Fix indent - two chars, not three
+
+> +  iovcc-supply:
+> +     description: regulator that supplies the IOVCC voltage
+Same here
+
 > +
 > +required:
 > +  - compatible
+> +  - reg
+> +  - backlight
+> +  - vcc-supply
+> +  - iovcc-supply
+> +
+> +additionalProperties: false
 > +
 > +examples:
-> +  - |+
-> +    panel {
-> +      compatible = "advantech,idk-1110wr", "panel-lvds";
+> +  - |
+> +    &dsi {
+Remove '&' - dt_binding_check will fail otherwise
+
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
 > +
-> +      width-mm = <223>;
-> +      height-mm = <125>;
-> +
-> +      data-mapping = "jeida-24";
-> +
-> +      panel-timing {
-> +        /* 1024x600 @60Hz */
-> +        clock-frequency = <51200000>;
-> +        hactive = <1024>;
-> +        vactive = <600>;
-> +        hsync-len = <240>;
-> +        hfront-porch = <40>;
-> +        hback-porch = <40>;
-> +        vsync-len = <10>;
-> +        vfront-porch = <15>;
-> +        vback-porch = <10>;
-> +      };
-> +
-> +      port {
-> +        panel_in: endpoint {
-> +          remote-endpoint = <&lvds_encoder>;
+> +        panel@0 {
+> +            compatible = "xingbangda,xbd599";
+> +            reg = <0>;
+> +            backlight = <&backlight>;
+> +            iovcc-supply = <&reg_dldo2>;
+> +            vcc-supply = <&reg_ldo_io0>;
 > +        };
-> +      };
 > +    };
 > +
 > +...
 > -- 
-> 2.7.4
+> 2.24.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
