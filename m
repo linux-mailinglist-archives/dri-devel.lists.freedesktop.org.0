@@ -1,62 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0F71855EB
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Mar 2020 16:31:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A51D185626
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Mar 2020 19:16:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27DA48937C;
-	Sat, 14 Mar 2020 15:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E26F76E02D;
+	Sat, 14 Mar 2020 18:16:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 472B86E17C
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Mar 2020 15:31:01 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id n20so7017451lfl.10
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Mar 2020 08:31:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9oaTRbmXh8YDwKHKnzGVIS7f6wuqtnZ7xd23oLTEEto=;
- b=jiH9bpypMJvdPe8XlrGt2qIBH0ac9i0GdP9NUU8Dbj21jnOYrHb0bpgF+yR2ExaTYd
- NAzRvP5rwXw9qS1pTlpVkDL1uK1h23pv4kRIx7rjoVJlKJ4JGKbRFRzPcCVKSHyr0Exa
- QYfrr56GTgIxZP4PKS3KLmbx2h8wu8mhnBIfesQ90NCsMIdxbmKKElN3L5ZdH/gmbfBb
- +mKXbkpKXgh37oIgvXP29B9BlEW9ZNN3qEa89bFCLbLLvpJ23EET2a315DQkHekpY87W
- PJnlFxnqdeB7VyXFW1bKPwiALokrPnjTfWn9E+nLuatsB2E1UE6hGwgIdU1DjH+yWgJ5
- EaAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9oaTRbmXh8YDwKHKnzGVIS7f6wuqtnZ7xd23oLTEEto=;
- b=rUYoNE1R1xYaajlNSIxRa9yztNc339b01tRAMR5z/mUbk1y9DsrBZ/2u2y5RhZUxjv
- Rd45xNMaVP9VIEGUYHdYeaQcVhXiGxhy+C3CxwEHBDlJ5TWfrWALivbNSobqy8PBF8zy
- FY4uR6PkIWyb8vd5OWoZoG6GAPO/KWd3kE1+6AA5NUDss++6chWwWGg72Yw0XqmEoukq
- 5/BgSfm5uSb2x4wk2Hp676SiP+Ak3/M0rfF/PwMFsa7Xr3hclalnle0inO7pb08WUkDA
- oSRt3TmJgbo8t3u18UMjGhaFgsQG5Q+DYnBQbRrfnYyG6gfv30OvKkg3s8Zg8GETJKxk
- 2lfA==
-X-Gm-Message-State: ANhLgQ2iBBC2dAWjB3s4gb9x+JyDFRxFDc+R3iaeNh5ML3Xf9+C7k896
- FS627AJT3WHkY3SfmwZb85M=
-X-Google-Smtp-Source: ADFU+vvH1iIivBsmhWr5uHtWe7gtlRpbjBV0BUayRn5Pu0EOIMWSnmqA2h3aU7ENFknpE70YCgDJCQ==
-X-Received: by 2002:a05:6512:10c4:: with SMTP id
- k4mr11585029lfg.98.1584199859650; 
- Sat, 14 Mar 2020 08:30:59 -0700 (PDT)
-Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
- by smtp.gmail.com with ESMTPSA id
- n200sm15650418lfa.50.2020.03.14.08.30.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Mar 2020 08:30:59 -0700 (PDT)
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Rob Herring <robh@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: [PATCH v1 3/3] dt-bindings: display: grammar fixes in panel/
-Date: Sat, 14 Mar 2020 16:30:47 +0100
-Message-Id: <20200314153047.2486-4-sam@ravnborg.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200314153047.2486-1-sam@ravnborg.org>
-References: <20200314153047.2486-1-sam@ravnborg.org>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD0836E02D
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Mar 2020 18:16:36 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02EIGXJJ057712;
+ Sat, 14 Mar 2020 13:16:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1584209793;
+ bh=1lwJPvwq3CWt6lu29dsx5P0wKL1ky88ljQV85C0kOk0=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=f/bl7Gzgbcnd3eMLfvWxPNyl/ky5CJ0W2N/4ATfZ30oW4ndD5ECenql2F53YUBqxB
+ UZP0B+1dV62iPIKhcczvEDn6kTI8OAqQOKHJFzhXmABPkm8fA8MbC3Dd4+O/CvyMLW
+ +nB1k/M/k6Mh2vhjPd/pHFSyWM9b2DVdoIfEmIZw=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02EIGXGo005896;
+ Sat, 14 Mar 2020 13:16:33 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Sat, 14
+ Mar 2020 13:16:33 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Sat, 14 Mar 2020 13:16:33 -0500
+Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02EIGVZR040802;
+ Sat, 14 Mar 2020 13:16:31 -0500
+Subject: Re: [PATCH v2] dt-bindings: display: ti: Fix dtc unit-address
+ warnings in examples
+To: Rob Herring <robh@kernel.org>, <dri-devel@lists.freedesktop.org>
+References: <20200313180727.23044-1-robh@kernel.org>
+From: Jyri Sarha <jsarha@ti.com>
+Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <0699349c-83a8-fb34-2287-ed02b26bfe4d@ti.com>
+Date: Sat, 14 Mar 2020 20:16:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <20200313180727.23044-1-robh@kernel.org>
+Content-Language: en-GB
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,75 +103,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix a few grammar/editorial issues spotted by Laurent Pinchart.
+On 13/03/2020 20:07, Rob Herring wrote:
+> Extra dtc warnings (roughly what W=1 enables) are now enabled by default
+> when building the binding examples. These were fixed treewide in
+> 5.6-rc5, but some new display bindings have been added with new
+> warnings:
+> 
+> Documentation/devicetree/bindings/display/ti/ti,am65x-dss.example.dts:21.27-49.11: Warning (unit_address_format): /example-0/dss@04a00000: unit name should not have leading 0s
+> Documentation/devicetree/bindings/display/ti/ti,j721e-dss.example.dts:21.27-72.11: Warning (unit_address_format): /example-0/dss@04a00000: unit name should not have leading 0s
+> Documentation/devicetree/bindings/display/ti/ti,k2g-dss.example.dts:20.27-42.11: Warning (unit_address_format): /example-0/dss@02540000: unit name should not have leading 0s
+> 
+> Cc: Jyri Sarha <jsarha@ti.com>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Rob Herring <robh@kernel.org>
----
- .../bindings/display/panel/display-timings.yaml           | 8 ++++----
- .../devicetree/bindings/display/panel/panel-common.yaml   | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+Acked-by: Jyri Sarha <jsarha@ti.com>
 
-diff --git a/Documentation/devicetree/bindings/display/panel/display-timings.yaml b/Documentation/devicetree/bindings/display/panel/display-timings.yaml
-index c8c0c9cb0492..56903ded005e 100644
---- a/Documentation/devicetree/bindings/display/panel/display-timings.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/display-timings.yaml
-@@ -4,7 +4,7 @@
- $id: http://devicetree.org/schemas/display/panel/display-timings.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: display timing bindings
-+title: display timings bindings
- 
- maintainers:
-   - Thierry Reding <thierry.reding@gmail.com>
-@@ -14,7 +14,7 @@ maintainers:
- description: |
-   A display panel may be able to handle several display timings,
-   with different resolutions.
--  The display-timings node makes it possible to specify the timing
-+  The display-timings node makes it possible to specify the timings
-   and to specify the timing that is native for the display.
- 
- properties:
-@@ -25,8 +25,8 @@ properties:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description: |
-       The default display timing is the one specified as native-mode.
--      If no native-mode is specified then the first node is assumed the
--      native mode.
-+      If no native-mode is specified then the first node is assumed
-+      to be the native mode.
- 
- patternProperties:
-   "^timing":
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-common.yaml b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-index ed051ba12084..dee4faffd204 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-@@ -63,9 +63,9 @@ properties:
- 
-   display-timings:
-     description:
--      Some display panels supports several resolutions with different timing.
-+      Some display panels supports several resolutions with different timings.
-       The display-timings bindings supports specifying several timings and
--      optional specify which is the native mode.
-+      optionally specify which is the native mode.
-     allOf:
-       - $ref: display-timings.yaml#
- 
+> ---
+> v2:
+>  - Drop panel fixes as there's another patch fixing the 3 panels plus
+>    others.
+> ---
+>  Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml | 2 +-
+>  Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml | 2 +-
+>  Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml   | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> index cac61a998203..aa5543a64526 100644
+> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> @@ -121,7 +121,7 @@ examples:
+>      #include <dt-bindings/interrupt-controller/irq.h>
+>      #include <dt-bindings/soc/ti,sci_pm_domain.h>
+>  
+> -    dss: dss@04a00000 {
+> +    dss: dss@4a00000 {
+>              compatible = "ti,am65x-dss";
+>              reg =   <0x0 0x04a00000 0x0 0x1000>, /* common */
+>                      <0x0 0x04a02000 0x0 0x1000>, /* vidl1 */
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
+> index ade9b2f513f5..6d47cd7206c2 100644
+> --- a/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
+> @@ -154,7 +154,7 @@ examples:
+>      #include <dt-bindings/interrupt-controller/irq.h>
+>      #include <dt-bindings/soc/ti,sci_pm_domain.h>
+>  
+> -    dss: dss@04a00000 {
+> +    dss: dss@4a00000 {
+>              compatible = "ti,j721e-dss";
+>              reg =   <0x00 0x04a00000 0x00 0x10000>, /* common_m */
+>                      <0x00 0x04a10000 0x00 0x10000>, /* common_s0*/
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+> index 385bd060ccf9..7cb37053e95b 100644
+> --- a/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+> @@ -81,7 +81,7 @@ examples:
+>      #include <dt-bindings/interrupt-controller/arm-gic.h>
+>      #include <dt-bindings/interrupt-controller/irq.h>
+>  
+> -    dss: dss@02540000 {
+> +    dss: dss@2540000 {
+>              compatible = "ti,k2g-dss";
+>              reg =   <0x02540000 0x400>,
+>                      <0x02550000 0x1000>,
+> 
+
+
 -- 
-2.20.1
-
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
