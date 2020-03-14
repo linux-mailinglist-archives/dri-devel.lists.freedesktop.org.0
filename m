@@ -1,35 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA815185333
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Mar 2020 01:15:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D031853F0
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Mar 2020 03:03:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B19A66EC7E;
-	Sat, 14 Mar 2020 00:15:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20E266E0AF;
+	Sat, 14 Mar 2020 02:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F5086E083;
- Sat, 14 Mar 2020 00:15:05 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2020 17:15:03 -0700
-X-IronPort-AV: E=Sophos;i="5.70,550,1574150400"; d="scan'208";a="322942159"
-Received: from rdvivi-losangeles.jf.intel.com (HELO intel.com)
- ([10.165.21.202])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2020 17:15:03 -0700
-Date: Fri, 13 Mar 2020 17:15:35 -0700
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-next for 5.7-rc1
-Message-ID: <20200314001535.GA2969344@intel.com>
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 496EE6E0AF;
+ Sat, 14 Mar 2020 02:03:20 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id x2so6012147pfn.9;
+ Fri, 13 Mar 2020 19:03:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=asx2f/wghQYDxy4C8wodVXu758gJRU00t8tbvL8En7Q=;
+ b=JnjHZoIChkrrxDIotdWhRffkshbv7Ld6agAjanZIj1byCwCIaPiAODDmHwjuZZb7mh
+ mtTFk0QPIe4mziC9sd9Zg4IfXmPAR13tfpLSYVDfVJesCIw18oKgRFdYvvOITCANgbFa
+ rYUmDdKP4rLXG6wBlCLGvfL/rAJLYfkQae82j9pWCZS0592bCa5WXswd71OK9WUNA1vF
+ vPRTE/vGyVflfIq6FDPnaPSjKAoq/gfY9SxGb82DGNmelzvLBF45R5MDzemvCGCT63dy
+ cHfyGmzVFC9/6Sr97yS/h/nDtQTQG82Iu6+fxXPV5JCLtn2tdJW/ONiPM7eEnIk3TOjd
+ GIEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=asx2f/wghQYDxy4C8wodVXu758gJRU00t8tbvL8En7Q=;
+ b=C3B0jQePpPVJXfJIlsMSLxQjJQmm1nYkEjE5gcLJsNoBh5rVgxqBtevq1Hx+RiMAxX
+ GFRZ3n+7M6TvuQmqa5BCKqs0C/7tUhRrNsj3KOsnDbwwcnL+FwNvsr05r64mp+oIdSsx
+ pmrwkageJwtiW7n83arZBTtu+nsi6QOraklIMtnJgUeRXEBItQ/iiSt8iSYSA5yYEOsA
+ IIrTacXY+Xhj5A7OdKiFLrggeAsvO9T39tYDI65voRA/0vfKyJ4lXcwLduFVEqPS4IFp
+ R69hmJL7rK50ZeNquFmvbOldbO5W6GDqJEGdizBAKcrQojAcmAZYJYVITyUrmHhXmEP1
+ ga+Q==
+X-Gm-Message-State: ANhLgQ1LWQudvrNFkF4LqXaj4ikyHcO0EZwLLiFt4M7rCeJYixQ4iMHZ
+ MDFAyUL8ftLwobBbKzESHR/d2z5XIZiz3KHOXFo=
+X-Google-Smtp-Source: ADFU+vtocP/XQ/y4CARQoAtgJUPo1mbIRHcXpJ3B6pJqOY8oEqUvIpKJVijRGrnSBoN39IeG2v3qfHA1Myfd4C80amo=
+X-Received: by 2002:a62:3604:: with SMTP id d4mr16756843pfa.82.1584151399847; 
+ Fri, 13 Mar 2020 19:03:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
+References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
+In-Reply-To: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Fri, 13 Mar 2020 22:02:43 -0400
+Message-ID: <CAAxE2A4q9sZDz8vSLAvT0HH4BGukf8Ug68eqSV1ojqrm_5uFFg@mail.gmail.com>
+Subject: Re: [Mesa-dev] Plumbing explicit synchronization through the Linux
+ ecosystem
+To: Jason Ekstrand <jason@jlekstrand.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,638 +61,612 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, xorg-devel <xorg-devel@lists.x.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ "wayland-devel @ lists . freedesktop . org"
+ <wayland-devel@lists.freedesktop.org>,
+ Discussion of the development of and with GStreamer
+ <gstreamer-devel@lists.freedesktop.org>,
+ ML mesa-dev <mesa-dev@lists.freedesktop.org>, linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0347172660=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+--===============0347172660==
+Content-Type: multipart/alternative; boundary="000000000000755a1105a0c6fdb0"
 
-Here goes drm-intel-next-2020-03-13:
+--000000000000755a1105a0c6fdb0
+Content-Type: text/plain; charset="UTF-8"
 
-UAPI Changes:
+There is no synchronization between processes (e.g. 3D app and compositor)
+within X on AMD hw. It works because of some hacks in Mesa.
 
-On i915 we have a new UAPI to allow userspace to specify CS ring buffer siz=
-e on
-construction (I915_CONTEXT_PARAM_RINGSIZE) and also new sysfs entries expos=
-ing
-various engine properties
+Marek
 
-GVT Changes:
+On Wed, Mar 11, 2020 at 1:31 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
 
-On GVT we have VFIO edid getting expanded to all platforms and a big cleanu=
-p around attr
-group, unused vblank complete, kvmgt, Intel engine and dev_priv usages.
+> All,
+>
+> Sorry for casting such a broad net with this one. I'm sure most people
+> who reply will get at least one mailing list rejection.  However, this
+> is an issue that affects a LOT of components and that's why it's
+> thorny to begin with.  Please pardon the length of this e-mail as
+> well; I promise there's a concrete point/proposal at the end.
+>
+>
+> Explicit synchronization is the future of graphics and media.  At
+> least, that seems to be the consensus among all the graphics people
+> I've talked to.  I had a chat with one of the lead Android graphics
+> engineers recently who told me that doing explicit sync from the start
+> was one of the best engineering decisions Android ever made.  It's
+> also the direction being taken by more modern APIs such as Vulkan.
+>
+>
+> ## What are implicit and explicit synchronization?
+>
+> For those that aren't familiar with this space, GPUs, media encoders,
+> etc. are massively parallel and synchronization of some form is
+> required to ensure that everything happens in the right order and
+> avoid data races.  Implicit synchronization is when bits of work (3D,
+> compute, video encode, etc.) are implicitly based on the absolute
+> CPU-time order in which API calls occur.  Explicit synchronization is
+> when the client (whatever that means in any given context) provides
+> the dependency graph explicitly via some sort of synchronization
+> primitives.  If you're still confused, consider the following
+> examples:
+>
+> With OpenGL and EGL, almost everything is implicit sync.  Say you have
+> two OpenGL contexts sharing an image where one writes to it and the
+> other textures from it.  The way the OpenGL spec works, the client has
+> to make the API calls to render to the image before (in CPU time) it
+> makes the API calls which texture from the image.  As long as it does
+> this (and maybe inserts a glFlush?), the driver will ensure that the
+> rendering completes before the texturing happens and you get correct
+> contents.
+>
+> Implicit synchronization can also happen across processes.  Wayland,
+> for instance, is currently built on implicit sync where the client
+> does their rendering and then does a hand-off (via wl_surface::commit)
+> to tell the compositor it's done at which point the compositor can now
+> texture from the surface.  The hand-off ensures that the client's
+> OpenGL API calls happen before the server's OpenGL API calls.
+>
+> A good example of explicit synchronization is the Vulkan API.  There,
+> a client (or multiple clients) can simultaneously build command
+> buffers in different threads where one of those command buffers
+> renders to an image and the other textures from it and then submit
+> both of them at the same time with instructions to the driver for
+> which order to execute them in.  The execution order is described via
+> the VkSemaphore primitive.  With the new VK_KHR_timeline_semaphore
+> extension, you can even submit the work which does the texturing
+> BEFORE the work which does the rendering and the driver will sort it
+> out.
+>
+> The #1 problem with implicit synchronization (which explicit solves)
+> is that it leads to a lot of over-synchronization both in client space
+> and in driver/device space.  The client has to synchronize a lot more
+> because it has to ensure that the API calls happen in a particular
+> order.  The driver/device have to synchronize a lot more because they
+> never know what is going to end up being a synchronization point as an
+> API call on another thread/process may occur at any time.  As we move
+> to more and more multi-threaded programming this synchronization (on
+> the client-side especially) becomes more and more painful.
+>
+>
+> ## Current status in Linux
+>
+> Implicit synchronization in Linux works via a the kernel's internal
+> dma_buf and dma_fence data structures.  A dma_fence is a tiny object
+> which represents the "done" status for some bit of work.  Typically,
+> dma_fences are created as a by-product of someone submitting some bit
+> of work (say, 3D rendering) to the kernel.  The dma_buf object has a
+> set of dma_fences on it representing shared (read) and exclusive
+> (write) access to the object.  When work is submitted which, for
+> instance renders to the dma_buf, it's queued waiting on all the fences
+> on the dma_buf and and a dma_fence is created representing the end of
+> said rendering work and it's installed as the dma_buf's exclusive
+> fence.  This way, the kernel can manage all its internal queues (3D
+> rendering, display, video encode, etc.) and know which things to
+> submit in what order.
+>
+> For the last few years, we've had sync_file in the kernel and it's
+> plumbed into some drivers.  A sync_file is just a wrapper around a
+> single dma_fence.  A sync_file is typically created as a by-product of
+> submitting work (3D, compute, etc.) to the kernel and is signaled when
+> that work completes.  When a sync_file is created, it is guaranteed by
+> the kernel that it will become signaled in finite time and, once it's
+> signaled, it remains signaled for the rest of time.  A sync_file is
+> represented in UAPIs as a file descriptor and can be used with normal
+> file APIs such as dup().  It can be passed into another UAPI which
+> does some bit of queue'd work and the submitted work will wait for the
+> sync_file to be triggered before executing.  A sync_file also supports
+> poll() if  you want to wait on it manually.
+>
+> Unfortunately, sync_file is not broadly used and not all kernel GPU
+> drivers support it.  Here's a very quick overview of my understanding
+> of the status of various components (I don't know the status of
+> anything in the media world):
+>
+>  - Vulkan: Explicit synchronization all the way but we have to go
+> implicit as soon as we interact with a window-system.  Vulkan has APIs
+> to import/export sync_files to/from it's VkSemaphore and VkFence
+> synchronization primitives.
+>  - OpenGL: Implicit all the way.  There are some EGL extensions to
+> enable some forms of explicit sync via sync_file but OpenGL itself is
+> still implicit.
+>  - Wayland: Currently depends on implicit sync in the kernel (accessed
+> via EGL/OpenGL).  There is an unstable extension to allow passing
+> sync_files around but it's questionable how useful it is right now
+> (more on that later).
+>  - X11: With present, it has these "explicit" fence objects but
+> they're always a shmfence which lets the X server and client do a
+> userspace CPU-side hand-off without going over the socket (and
+> round-tripping through the kernel).  However, the only thing that
+> fence does is order the OpenGL API calls in the client and server and
+> the real synchronization is still implicit.
+>  - linux/i915/gem: Fully supports using sync_file or syncobj for explicit
+> sync.
+>  - linux/amdgpu: Supports sync_file and syncobj but it still
+> implicitly syncs sometimes due to it's internal memory residency
+> handling which can lead to over-synchronization.
+>  - KMS: Implicit sync all the way.  There are no KMS APIs which take
+> explicit sync primitives.
+>  - v4l: ???
+>  - gstreamer: ???
+>  - Media APIs such as vaapi etc.:  ???
+>
+>
+> ## Chicken and egg problems
+>
+> Ok, this is where it starts getting depressing.  I made the claim
+> above that Wayland has an explicit synchronization protocol that's of
+> questionable usefulness.  I would claim that basically any bit of
+> plumbing we do through window systems is currently of questionable
+> usefulness.  Why?
+>
+> From my perspective, as a Vulkan driver developer, I have to deal with
+> the fact that Vulkan is an explicit sync API but Wayland and X11
+> aren't.  Unfortunately, the Wayland extension solves zero problems for
+> me because I can't really use it unless it's implemented in all of the
+> compositors.  Until every Wayland compositor I care about my users
+> being able to use (which is basically all of them) supports the
+> extension, I have to continue carry around my pile of hacks to keep
+> implicit sync and Vulkan working nicely together.
+>
+> From the perspective of a Wayland compositor (I used to play in this
+> space), they'd love to implement the new explicit sync extension but
+> can't.  Sure, they could wire up the extension, but the moment they go
+> to flip a client buffer to the screen directly, they discover that KMS
+> doesn't support any explicit sync APIs.  So, yes, they can technically
+> implement the extension assuming the EGL stack they're running on has
+> the sync_file extensions but any client buffers which come in using
+> the explicit sync Wayland extension have to be composited and can't be
+> scanned out directly.  As a 3D driver developer, I absolutely don't
+> want compositors doing that because my users will complain about
+> performance issues due to the extra blit.
+>
+> Ok, so let's say we get KMS wired up with implicit sync.  That solves
+> all our problems, right?  It does, right up until someone decides that
+> they wan to screen capture their Wayland session via some hardware
+> media encoder that doesn't support explicit sync.  Now we have to
+> plumb it all the way through the media stack, gstreamer, etc.  Great,
+> so let's do that!  Oh, but gstreamer won't want to plumb it through
+> until they're guaranteed that they can use explicit sync when
+> displaying on X11 or Wayland.  Are you seeing the problem?
+>
+> To make matters worse, since most things are doing implicit
+> synchronization today, it's really easy to get your explicit
+> synchronization wrong and never notice.  If you forget to pass a
+> sync_file into one place (say you never notice KMS doesn't support
+> them), it will probably work anyway thanks to all the implicit sync
+> that's going on elsewhere.
+>
+> So, clearly, we all need to go write piles of code that we can't
+> actually properly test until everyone else has written their piece and
+> then we use explicit sync if and only if all components support it.
+> Really?  We're going to do multiple years of development and then just
+> hope it works when we finally flip the switch?  That doesn't sound
+> like a good plan to me.
+>
+>
+> ## A proposal: Implicit and explicit sync together
+>
+> How to solve all these chicken-and-egg problems is something I've been
+> giving quite a bit of thought (and talking with many others about) in
+> the last couple of years.  One motivation for this is that we have to
+> deal with a mismatch in Vulkan.  Another motivation is that I'm
+> becoming increasingly unhappy with the way that synchronization,
+> memory residency, and command submission are inherently intertwined in
+> i915 and would like to break things apart.  Towards that end, I have
+> an actual proposal.
+>
+> A couple weeks ago, I sent a series of patches to the dri-devel
+> mailing list which adds a pair of new ioctls to dma-buf which allow
+> userspace to manually import or export a sync_file from a dma-buf.
+> The idea is that something like a Wayland compositor can switch to
+> 100% explicit sync internally once the ioctl is available.  If it gets
+> buffers in from a client that doesn't use the explicit sync extension,
+> it can pull a sync_file from the dma-buf and use that exactly as it
+> would a sync_file passed via the explicit sync extension.  When it
+> goes to scan out a user buffer and discovers that KMS doesn't accept
+> sync_files (or if it tries to use that pesky media encoder no one has
+> converted), it can take it's sync_file for display and stuff it into
+> the dma-buf before handing it to KMS.
+>
+> Along with the kernel patches, I've also implemented support for this
+> in the Vulkan WSI code used by ANV and RADV.  With those patches, the
+> only requirement on the Vulkan drivers is that you be able to export
+> any VkSemaphore as a sync_file and temporarily import a sync_file into
+> any VkFence or VkSemaphore.  As long as that works, the core Vulkan
+> driver only ever sees explicit synchronization via sync_file.  The WSI
+> code uses these new ioctls to translate the implicit sync of X11 and
+> Wayland to the explicit sync the Vulkan driver wants.
+>
+> I'm hoping (and here's where I want a sanity check) that a simple API
+> like this will allow us to finally start moving the Linux ecosystem
+> over to explicit synchronization one piece at a time in a way that's
+> actually correct.  (No Wayland explicit sync with compositors hoping
+> KMS magically works even though it doesn't have a sync_file API.)
+> Once some pieces in the ecosystem start moving, there will be
+> motivation to start moving others and maybe we can actually build the
+> momentum to get most everything converted.
+>
+> For reference, you can find the kernel RFC patches and mesa MR here:
+>
+> https://lists.freedesktop.org/archives/dri-devel/2020-March/258833.html
+>
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4037
+>
+> At this point, I welcome your thoughts, comments, objections, and
+> maybe even help/review. :-)
+>
+> --Jason Ekstrand
+> _______________________________________________
+> mesa-dev mailing list
+> mesa-dev@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/mesa-dev
+>
 
-i915 Changes:
+--000000000000755a1105a0c6fdb0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It's also important to highlight a big chunk of work to stabilize Tiger Lak=
-e,
-which is now out of require_force_probe protection so it gets probed by
-default.
+<div dir=3D"ltr"><div>There is no synchronization between processes (e.g. 3=
+D app and compositor) within X on AMD hw. It works because of some hacks in=
+ Mesa.</div><div><br></div><div>Marek<br></div></div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 11, 2020 at 1:31=
+ PM Jason Ekstrand &lt;<a href=3D"mailto:jason@jlekstrand.net">jason@jlekst=
+rand.net</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">All,<br>
+<br>
+Sorry for casting such a broad net with this one. I&#39;m sure most people<=
+br>
+who reply will get at least one mailing list rejection.=C2=A0 However, this=
+<br>
+is an issue that affects a LOT of components and that&#39;s why it&#39;s<br=
+>
+thorny to begin with.=C2=A0 Please pardon the length of this e-mail as<br>
+well; I promise there&#39;s a concrete point/proposal at the end.<br>
+<br>
+<br>
+Explicit synchronization is the future of graphics and media.=C2=A0 At<br>
+least, that seems to be the consensus among all the graphics people<br>
+I&#39;ve talked to.=C2=A0 I had a chat with one of the lead Android graphic=
+s<br>
+engineers recently who told me that doing explicit sync from the start<br>
+was one of the best engineering decisions Android ever made.=C2=A0 It&#39;s=
+<br>
+also the direction being taken by more modern APIs such as Vulkan.<br>
+<br>
+<br>
+## What are implicit and explicit synchronization?<br>
+<br>
+For those that aren&#39;t familiar with this space, GPUs, media encoders,<b=
+r>
+etc. are massively parallel and synchronization of some form is<br>
+required to ensure that everything happens in the right order and<br>
+avoid data races.=C2=A0 Implicit synchronization is when bits of work (3D,<=
+br>
+compute, video encode, etc.) are implicitly based on the absolute<br>
+CPU-time order in which API calls occur.=C2=A0 Explicit synchronization is<=
+br>
+when the client (whatever that means in any given context) provides<br>
+the dependency graph explicitly via some sort of synchronization<br>
+primitives.=C2=A0 If you&#39;re still confused, consider the following<br>
+examples:<br>
+<br>
+With OpenGL and EGL, almost everything is implicit sync.=C2=A0 Say you have=
+<br>
+two OpenGL contexts sharing an image where one writes to it and the<br>
+other textures from it.=C2=A0 The way the OpenGL spec works, the client has=
+<br>
+to make the API calls to render to the image before (in CPU time) it<br>
+makes the API calls which texture from the image.=C2=A0 As long as it does<=
+br>
+this (and maybe inserts a glFlush?), the driver will ensure that the<br>
+rendering completes before the texturing happens and you get correct<br>
+contents.<br>
+<br>
+Implicit synchronization can also happen across processes.=C2=A0 Wayland,<b=
+r>
+for instance, is currently built on implicit sync where the client<br>
+does their rendering and then does a hand-off (via wl_surface::commit)<br>
+to tell the compositor it&#39;s done at which point the compositor can now<=
+br>
+texture from the surface.=C2=A0 The hand-off ensures that the client&#39;s<=
+br>
+OpenGL API calls happen before the server&#39;s OpenGL API calls.<br>
+<br>
+A good example of explicit synchronization is the Vulkan API.=C2=A0 There,<=
+br>
+a client (or multiple clients) can simultaneously build command<br>
+buffers in different threads where one of those command buffers<br>
+renders to an image and the other textures from it and then submit<br>
+both of them at the same time with instructions to the driver for<br>
+which order to execute them in.=C2=A0 The execution order is described via<=
+br>
+the VkSemaphore primitive.=C2=A0 With the new VK_KHR_timeline_semaphore<br>
+extension, you can even submit the work which does the texturing<br>
+BEFORE the work which does the rendering and the driver will sort it<br>
+out.<br>
+<br>
+The #1 problem with implicit synchronization (which explicit solves)<br>
+is that it leads to a lot of over-synchronization both in client space<br>
+and in driver/device space.=C2=A0 The client has to synchronize a lot more<=
+br>
+because it has to ensure that the API calls happen in a particular<br>
+order.=C2=A0 The driver/device have to synchronize a lot more because they<=
+br>
+never know what is going to end up being a synchronization point as an<br>
+API call on another thread/process may occur at any time.=C2=A0 As we move<=
+br>
+to more and more multi-threaded programming this synchronization (on<br>
+the client-side especially) becomes more and more painful.<br>
+<br>
+<br>
+## Current status in Linux<br>
+<br>
+Implicit synchronization in Linux works via a the kernel&#39;s internal<br>
+dma_buf and dma_fence data structures.=C2=A0 A dma_fence is a tiny object<b=
+r>
+which represents the &quot;done&quot; status for some bit of work.=C2=A0 Ty=
+pically,<br>
+dma_fences are created as a by-product of someone submitting some bit<br>
+of work (say, 3D rendering) to the kernel.=C2=A0 The dma_buf object has a<b=
+r>
+set of dma_fences on it representing shared (read) and exclusive<br>
+(write) access to the object.=C2=A0 When work is submitted which, for<br>
+instance renders to the dma_buf, it&#39;s queued waiting on all the fences<=
+br>
+on the dma_buf and and a dma_fence is created representing the end of<br>
+said rendering work and it&#39;s installed as the dma_buf&#39;s exclusive<b=
+r>
+fence.=C2=A0 This way, the kernel can manage all its internal queues (3D<br=
+>
+rendering, display, video encode, etc.) and know which things to<br>
+submit in what order.<br>
+<br>
+For the last few years, we&#39;ve had sync_file in the kernel and it&#39;s<=
+br>
+plumbed into some drivers.=C2=A0 A sync_file is just a wrapper around a<br>
+single dma_fence.=C2=A0 A sync_file is typically created as a by-product of=
+<br>
+submitting work (3D, compute, etc.) to the kernel and is signaled when<br>
+that work completes.=C2=A0 When a sync_file is created, it is guaranteed by=
+<br>
+the kernel that it will become signaled in finite time and, once it&#39;s<b=
+r>
+signaled, it remains signaled for the rest of time.=C2=A0 A sync_file is<br=
+>
+represented in UAPIs as a file descriptor and can be used with normal<br>
+file APIs such as dup().=C2=A0 It can be passed into another UAPI which<br>
+does some bit of queue&#39;d work and the submitted work will wait for the<=
+br>
+sync_file to be triggered before executing.=C2=A0 A sync_file also supports=
+<br>
+poll() if=C2=A0 you want to wait on it manually.<br>
+<br>
+Unfortunately, sync_file is not broadly used and not all kernel GPU<br>
+drivers support it.=C2=A0 Here&#39;s a very quick overview of my understand=
+ing<br>
+of the status of various components (I don&#39;t know the status of<br>
+anything in the media world):<br>
+<br>
+=C2=A0- Vulkan: Explicit synchronization all the way but we have to go<br>
+implicit as soon as we interact with a window-system.=C2=A0 Vulkan has APIs=
+<br>
+to import/export sync_files to/from it&#39;s VkSemaphore and VkFence<br>
+synchronization primitives.<br>
+=C2=A0- OpenGL: Implicit all the way.=C2=A0 There are some EGL extensions t=
+o<br>
+enable some forms of explicit sync via sync_file but OpenGL itself is<br>
+still implicit.<br>
+=C2=A0- Wayland: Currently depends on implicit sync in the kernel (accessed=
+<br>
+via EGL/OpenGL).=C2=A0 There is an unstable extension to allow passing<br>
+sync_files around but it&#39;s questionable how useful it is right now<br>
+(more on that later).<br>
+=C2=A0- X11: With present, it has these &quot;explicit&quot; fence objects =
+but<br>
+they&#39;re always a shmfence which lets the X server and client do a<br>
+userspace CPU-side hand-off without going over the socket (and<br>
+round-tripping through the kernel).=C2=A0 However, the only thing that<br>
+fence does is order the OpenGL API calls in the client and server and<br>
+the real synchronization is still implicit.<br>
+=C2=A0- linux/i915/gem: Fully supports using sync_file or syncobj for expli=
+cit sync.<br>
+=C2=A0- linux/amdgpu: Supports sync_file and syncobj but it still<br>
+implicitly syncs sometimes due to it&#39;s internal memory residency<br>
+handling which can lead to over-synchronization.<br>
+=C2=A0- KMS: Implicit sync all the way.=C2=A0 There are no KMS APIs which t=
+ake<br>
+explicit sync primitives.<br>
+=C2=A0- v4l: ???<br>
+=C2=A0- gstreamer: ???<br>
+=C2=A0- Media APIs such as vaapi etc.:=C2=A0 ???<br>
+<br>
+<br>
+## Chicken and egg problems<br>
+<br>
+Ok, this is where it starts getting depressing.=C2=A0 I made the claim<br>
+above that Wayland has an explicit synchronization protocol that&#39;s of<b=
+r>
+questionable usefulness.=C2=A0 I would claim that basically any bit of<br>
+plumbing we do through window systems is currently of questionable<br>
+usefulness.=C2=A0 Why?<br>
+<br>
+From my perspective, as a Vulkan driver developer, I have to deal with<br>
+the fact that Vulkan is an explicit sync API but Wayland and X11<br>
+aren&#39;t.=C2=A0 Unfortunately, the Wayland extension solves zero problems=
+ for<br>
+me because I can&#39;t really use it unless it&#39;s implemented in all of =
+the<br>
+compositors.=C2=A0 Until every Wayland compositor I care about my users<br>
+being able to use (which is basically all of them) supports the<br>
+extension, I have to continue carry around my pile of hacks to keep<br>
+implicit sync and Vulkan working nicely together.<br>
+<br>
+From the perspective of a Wayland compositor (I used to play in this<br>
+space), they&#39;d love to implement the new explicit sync extension but<br=
+>
+can&#39;t.=C2=A0 Sure, they could wire up the extension, but the moment the=
+y go<br>
+to flip a client buffer to the screen directly, they discover that KMS<br>
+doesn&#39;t support any explicit sync APIs.=C2=A0 So, yes, they can technic=
+ally<br>
+implement the extension assuming the EGL stack they&#39;re running on has<b=
+r>
+the sync_file extensions but any client buffers which come in using<br>
+the explicit sync Wayland extension have to be composited and can&#39;t be<=
+br>
+scanned out directly.=C2=A0 As a 3D driver developer, I absolutely don&#39;=
+t<br>
+want compositors doing that because my users will complain about<br>
+performance issues due to the extra blit.<br>
+<br>
+Ok, so let&#39;s say we get KMS wired up with implicit sync.=C2=A0 That sol=
+ves<br>
+all our problems, right?=C2=A0 It does, right up until someone decides that=
+<br>
+they wan to screen capture their Wayland session via some hardware<br>
+media encoder that doesn&#39;t support explicit sync.=C2=A0 Now we have to<=
+br>
+plumb it all the way through the media stack, gstreamer, etc.=C2=A0 Great,<=
+br>
+so let&#39;s do that!=C2=A0 Oh, but gstreamer won&#39;t want to plumb it th=
+rough<br>
+until they&#39;re guaranteed that they can use explicit sync when<br>
+displaying on X11 or Wayland.=C2=A0 Are you seeing the problem?<br>
+<br>
+To make matters worse, since most things are doing implicit<br>
+synchronization today, it&#39;s really easy to get your explicit<br>
+synchronization wrong and never notice.=C2=A0 If you forget to pass a<br>
+sync_file into one place (say you never notice KMS doesn&#39;t support<br>
+them), it will probably work anyway thanks to all the implicit sync<br>
+that&#39;s going on elsewhere.<br>
+<br>
+So, clearly, we all need to go write piles of code that we can&#39;t<br>
+actually properly test until everyone else has written their piece and<br>
+then we use explicit sync if and only if all components support it.<br>
+Really?=C2=A0 We&#39;re going to do multiple years of development and then =
+just<br>
+hope it works when we finally flip the switch?=C2=A0 That doesn&#39;t sound=
+<br>
+like a good plan to me.<br>
+<br>
+<br>
+## A proposal: Implicit and explicit sync together<br>
+<br>
+How to solve all these chicken-and-egg problems is something I&#39;ve been<=
+br>
+giving quite a bit of thought (and talking with many others about) in<br>
+the last couple of years.=C2=A0 One motivation for this is that we have to<=
+br>
+deal with a mismatch in Vulkan.=C2=A0 Another motivation is that I&#39;m<br=
+>
+becoming increasingly unhappy with the way that synchronization,<br>
+memory residency, and command submission are inherently intertwined in<br>
+i915 and would like to break things apart.=C2=A0 Towards that end, I have<b=
+r>
+an actual proposal.<br>
+<br>
+A couple weeks ago, I sent a series of patches to the dri-devel<br>
+mailing list which adds a pair of new ioctls to dma-buf which allow<br>
+userspace to manually import or export a sync_file from a dma-buf.<br>
+The idea is that something like a Wayland compositor can switch to<br>
+100% explicit sync internally once the ioctl is available.=C2=A0 If it gets=
+<br>
+buffers in from a client that doesn&#39;t use the explicit sync extension,<=
+br>
+it can pull a sync_file from the dma-buf and use that exactly as it<br>
+would a sync_file passed via the explicit sync extension.=C2=A0 When it<br>
+goes to scan out a user buffer and discovers that KMS doesn&#39;t accept<br=
+>
+sync_files (or if it tries to use that pesky media encoder no one has<br>
+converted), it can take it&#39;s sync_file for display and stuff it into<br=
+>
+the dma-buf before handing it to KMS.<br>
+<br>
+Along with the kernel patches, I&#39;ve also implemented support for this<b=
+r>
+in the Vulkan WSI code used by ANV and RADV.=C2=A0 With those patches, the<=
+br>
+only requirement on the Vulkan drivers is that you be able to export<br>
+any VkSemaphore as a sync_file and temporarily import a sync_file into<br>
+any VkFence or VkSemaphore.=C2=A0 As long as that works, the core Vulkan<br=
+>
+driver only ever sees explicit synchronization via sync_file.=C2=A0 The WSI=
+<br>
+code uses these new ioctls to translate the implicit sync of X11 and<br>
+Wayland to the explicit sync the Vulkan driver wants.<br>
+<br>
+I&#39;m hoping (and here&#39;s where I want a sanity check) that a simple A=
+PI<br>
+like this will allow us to finally start moving the Linux ecosystem<br>
+over to explicit synchronization one piece at a time in a way that&#39;s<br=
+>
+actually correct.=C2=A0 (No Wayland explicit sync with compositors hoping<b=
+r>
+KMS magically works even though it doesn&#39;t have a sync_file API.)<br>
+Once some pieces in the ecosystem start moving, there will be<br>
+motivation to start moving others and maybe we can actually build the<br>
+momentum to get most everything converted.<br>
+<br>
+For reference, you can find the kernel RFC patches and mesa MR here:<br>
+<br>
+<a href=3D"https://lists.freedesktop.org/archives/dri-devel/2020-March/2588=
+33.html" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org=
+/archives/dri-devel/2020-March/258833.html</a><br>
+<br>
+<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4037" =
+rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/mesa/me=
+sa/-/merge_requests/4037</a><br>
+<br>
+At this point, I welcome your thoughts, comments, objections, and<br>
+maybe even help/review. :-)<br>
+<br>
+--Jason Ekstrand<br>
+_______________________________________________<br>
+mesa-dev mailing list<br>
+<a href=3D"mailto:mesa-dev@lists.freedesktop.org" target=3D"_blank">mesa-de=
+v@lists.freedesktop.org</a><br>
+<a href=3D"https://lists.freedesktop.org/mailman/listinfo/mesa-dev" rel=3D"=
+noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/listinf=
+o/mesa-dev</a><br>
+</blockquote></div>
 
-As usual, I tried to organize the 215 patches in some buckets of changes:
+--000000000000755a1105a0c6fdb0--
 
-- new UAPI to allow userspace to specify CS ring buffer size on construction
-  (I915_CONTEXT_PARAM_RINGSIZE) -  (Chris)
-- New sysfs entries exposing various engine properties (Chris)
-- Tiger Lake is out of require_force_probe protection (Jose)
-- Changes in many places around active requests, reset and heartbeat (Chris)
-- Stop assigning drm-dev_private pointer (Jani)
-- Many code refactor in many places, including intel_modeset_init,
-  increasing use of intel_uncore_*, vgpu, and gvt stuff (Jani)
-- Fixes around display pipe iterators (Anshuman)
-- Tigerlake enabling work (Matt Ropper, Matt Atwood, Ville, Lucas, Daniele,
-  Jose, Anusha, Vivek, Swathi, Caz. Kai)
-- Code clean-up like reducing use of drm/i915_drv.h, removing unused
-  registers, removing garbage warns, and some other code polishing (Jani, L=
-ucas,
-  Ville)
-- Selftests fixes, improvements and additions (Chris, Dan, Aditya, Matt Aul=
-d)
-- Fix plane possible_crtcs bit mask (Anshuman)
-- Fixes and cleanup on GLK pre production identification and w/a (Ville)
-- Fix display orientation on few cases (Hans, Ville)
-- dbuf clean-up and improvements for slice arrays handling (Ville)
-- Improvement around min cdclk calculation (Stanislav)
-- Fixes and refactor around display PLLs (Imre)
-- Other execlists and perf fixes (Chris)
-- Documentation fixes (Jani, Chris)
-- Fix build issue (Anshuman)
-- Many more fixes around the locking mechanisms (Chris)
-- Other fixes and debugability info around preemption (Chris, Tvrtko)
-- Add mechanism to submit a context WA on ring submission (Mika)
-- Clear all Eu/L3 resitual context (Prathap)
-- More changes around local memory (Abdiel, Matt, Chris)
-- Fix RPS (Chris)
-- DP MST fix (Lyude)
-- Display FBC fixes (Jose, RK)
-- debugfs cleanup (Tvrtko)
-- More convertion towards drm_debive based loggin (Wambui, Ram)
-- Avoid potential buffer overflow (Takashi)
-- Ice Lake and Elkhart Lake workarounds (Matt Roper)
+--===============0347172660==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Thanks,
-Rodrigo.
-
-The following changes since commit 53e3ca6749186b5c147964bddc4eb47ba8b5f69e:
-
-  drm/i915: Update DRIVER_DATE to 20200225 (2020-02-25 10:41:22 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-2020-03-13
-
-for you to fetch changes up to 217a485c8399634abacd2f138b3524d2e78e8aad:
-
-  drm/i915: Update DRIVER_DATE to 20200313 (2020-03-13 17:09:52 -0700)
-
-----------------------------------------------------------------
-UAPI Changes:
-
-On i915 we have a new UAPI to allow userspace to specify CS ring buffer siz=
-e on
-construction (I915_CONTEXT_PARAM_RINGSIZE) and also new sysfs entries expos=
-ing
-various engine properties
-
-GVT Changes:
-
-VFIO edid getting expanded to all platforms and a big cleanup around attr
-group, unused vblank complete, kvmgt, Intel engine and dev_priv usages.
-
-i915 Changes:
-
-- new UAPI to allow userspace to specify CS ring buffer size on construction
-  (I915_CONTEXT_PARAM_RINGSIZE) -  (Chris)
-- New sysfs entries exposing various engine properties (Chris)
-- Tiger Lake is out of require_force_probe protection (Jose)
-- Changes in many places around active requests, reset and heartbeat (Chris)
-- Stop assigning drm-dev_private pointer (Jani)
-- Many code refactor in many places, including intel_modeset_init,
-  increasing use of intel_uncore_*, vgpu, and gvt stuff (Jani)
-- Fixes around display pipe iterators (Anshuman)
-- Tigerlake enabling work (Matt Ropper, Matt Atwood, Ville, Lucas, Daniele,
-  Jose, Anusha, Vivek, Swathi, Caz. Kai)
-- Code clean-up like reducing use of drm/i915_drv.h, removing unused
-  registers, removing garbage warns, and some other code polishing (Jani, L=
-ucas,
-  Ville)
-- Selftests fixes, improvements and additions (Chris, Dan, Aditya, Matt Aul=
-d)
-- Fix plane possible_crtcs bit mask (Anshuman)
-- Fixes and cleanup on GLK pre production identification and w/a (Ville)
-- Fix display orientation on few cases (Hans, Ville)
-- dbuf clean-up and improvements for slice arrays handling (Ville)
-- Improvement around min cdclk calculation (Stanislav)
-- Fixes and refactor around display PLLs (Imre)
-- Other execlists and perf fixes (Chris)
-- Documentation fixes (Jani, Chris)
-- Fix build issue (Anshuman)
-- Many more fixes around the locking mechanisms (Chris)
-- Other fixes and debugability info around preemption (Chris, Tvrtko)
-- Add mechanism to submit a context WA on ring submission (Mika)
-- Clear all Eu/L3 resitual context (Prathap)
-- More changes around local memory (Abdiel, Matt, Chris)
-- Fix RPS (Chris)
-- DP MST fix (Lyude)
-- Display FBC fixes (Jose, RK)
-- debugfs cleanup (Tvrtko)
-- More convertion towards drm_debive based loggin (Wambui, Ram)
-- Avoid potential buffer overflow (Takashi)
-- Ice Lake and Elkhart Lake workarounds (Matt Roper)
-
-----------------------------------------------------------------
-Abdiel Janulgue (1):
-      drm/i915/phys: unconditionally call release_memory_region
-
-Aditya Swarup (1):
-      drm/i915/selftests: Fix uninitialized variable
-
-Anshuman Gupta (10):
-      drm/i915: Iterate over pipes and skip the disabled one
-      drm/i915: Remove (pipe =3D=3D crtc->index) assumption
-      drm/i915: Fix broken transcoder err state
-      drm/i915: Get first crtc instead of PIPE_A crtc
-      drm/i915: Add WARN_ON in intel_get_crtc_for_pipe()
-      drm/i915: Fix broken num_entries in skl_ddb_allocation_overlaps
-      drm/i915: Fix wrongly populated plane possible_crtcs bit mask
-      drm/i915: Fix kbuild test robot build error
-      drm/i915/hdcp: Mandate (seq_num_V=3D=3D0) at first RecvId msg
-      drm/i915/hdcp: Fix config_stream_type() ret value
-
-Anusha Srivatsa (1):
-      drm/i915/tgl: Extend Wa_1606931601 for all steppings
-
-Caz Yokoyama (1):
-      Revert "drm/i915/tgl: Add extra hdc flush workaround"
-
-Chris Wilson (76):
-      drm/i915: Flush idle barriers when waiting
-      drm/i915: Allow userspace to specify ringsize on construction
-      drm/i915/gem: Honour O_NONBLOCK before throttling execbuf submissions
-      drm/i915: Skip barriers inside waits
-      drm/i915/selftests: Disable heartbeat around manual pulse tests
-      drm/i915/gt: Check engine-is-awake on reset later
-      drm/i915/gt: Pull marking vm as closed underneath the vm->mutex
-      drm/i915/selftests: Verify LRC isolation
-      drm/i915/selftests: Check recovery from corrupted LRC
-      drm/i915: Protect i915_request_await_start from early waits
-      drm/i915/perf: Mark up the racy use of perf->exclusive_stream
-      drm/i915/perf: Manually acquire engine-wakeref around use of kernel_c=
-ontext
-      drm/i915/selftests: Wait for the context switch
-      drm/i915/selftests: Be a little more lenient for reset workers
-      drm/i915/gt: Reset queue_priority_hint after wedging
-      drm/i915/gt: Expose engine properties via sysfs
-      drm/i915/gt: Expose engine->mmio_base via sysfs
-      drm/i915/gt: Expose timeslice duration to sysfs
-      drm/i915/gt: Expose busywait duration to sysfs
-      drm/i915/gt: Expose reset stop timeout via sysfs
-      drm/i915/gt: Expose preempt reset timeout via sysfs
-      drm/i915/gt: Expose heartbeat interval via sysfs
-      drm/i915/perf: Reintroduce wait on OA configuration completion
-      drm/i915/execlists: Check the sentinel is alone in the ELSP
-      drm/i915: Fix doclinks
-      drm/i915/gem: Consolidate ctx->engines[] release
-      drm/i915/gt: Prevent allocation on a banned context
-      drm/i915/gem: Check that the context wasn't closed during setup
-      drm/i915: Drop vma is-closed assertion on insert
-      drm/i915/gt: Drop the timeline->mutex as we wait for retirement
-      drm/i915: Drop inspection of execbuf flags during evict
-      drm/i915/gem: Extract transient execbuf flags from i915_vma
-      drm/i915/gem: Only call eb_lookup_vma once during execbuf ioctl
-      drm/i915/gvt: Inlcude intel_gvt.h where needed
-      drm/i915: Apply i915_request_skip() on submission
-      drm/i915/gt: Propagate change in error status to children on unhold
-      drm/i915/gt: Cancel banned contexts after GT reset
-      drm/i915: Actually emit the await_start
-      drm/i915: Return early for await_start on same timeline
-      drm/i915/execlists: Show the "switch priority hint" in dumps
-      drm/i915/gvt: cleanup debugfs scan_nonprivbb
-      drm/i915/gvt: Wean gvt off dev_priv->engine[]
-      drm/i915/gvt: Wean gvt off using dev_priv
-      drm/i915: Assert requests within a context are submitted in order
-      drm/i915: Always propagate the invocation to i915_schedule
-      drm/i915/gem: Limit struct_mutex to eb_reserve
-      drm/i915: Do not poison i915_request.link on removal
-      drm/i915/selftests: Apply a heavy handed flush to i915_active
-      drm/i915/execlists: Enable timeslice on partial virtual engine dequeue
-      drm/i915/gt: Close race between cacheline_retire and free
-      drm/i915/gt: Wait for the wa batch to be pinned
-      drm/i915/gt: Mark up intel_rps.active for racy reads
-      drm/i915: Mark racy read of intel_engine_cs.saturated
-      drm/i915/execlists: Mark up the racy access to switch_priority_hint
-      drm/i915: Mark up unlocked update of i915_request.hwsp_seqno
-      drm/i915/gt: Mark up racy check of last list element
-      drm/i915/execlists: Mark up read of i915_request.fence.flags
-      drm/i915/execlsts: Mark up racy inspection of current i915_request pr=
-iority
-      drm/i915/gt: Mark up intel_rps.active for racy reads
-      drm/i915/gt: Defend against concurrent updates to execlists->active
-      drm/i915: Improve the start alignment of bonded pairs
-      drm/i915: Defer semaphore priority bumping to a workqueue
-      drm/i915: Tweak scheduler's kick_submission()
-      drm/i915/gt: Mark up racy reads for intel_context.inflight
-      drm/i915: Mark up racy read of active rq->engine
-      drm/i915/execlists: Mark up data-races in virtual engines
-      drm/i915: Extend i915_request_await_active to use all timelines
-      drm/i915/gt: Pull checking rps->pm_events under the irq_lock
-      drm/i915/execlists: Track active elements during dequeue
-      drm/i915/gem: Mark up the racy read of the mmap_singleton
-      drm/i915/gem: Mark up sw-fence notify function
-      drm/i915/gem: Take a copy of the engines for context_barrier_task
-      drm/i915/gem: Drop relocation slowpath
-      drm/i915/selftests: Use igt_random_offset()
-      drm/i915/gt: Wait for RCUs frees before asserting idle on unload
-      drm/i915/selftest: Add more poison patterns
-
-Dan Carpenter (1):
-      drm/i915/selftests: Fix return in assert_mmap_offset()
-
-Daniele Ceraolo Spurio (2):
-      drm/i915/ggtt: do not set bits 1-11 in gen12 ptes
-      drm/i915/huc: update TGL HuC to v7.0.12
-
-Hans de Goede (4):
-      drm/i915/dsi: Remove readback of panel orientation on BYT / CHT
-      drm/i915/dp: Use BDB_GENERAL_FEATURES VBT block info for builtin pane=
-l-orientation
-      drm/i915: panel: Use intel_panel_compute_brightness() from pwm_setup_=
-backlight()
-      drm/i915: Add invert-brightness quirk for Thundersoft TST178 tablet
-
-Imre Deak (14):
-      drm/i915: Fix bounds check in intel_get_shared_dpll_id()
-      drm/i915: Move DPLL HW readout/sanitize fns to intel_dpll_mgr.c
-      drm/i915: Keep the global DPLL state in a DPLL specific struct
-      drm/i915: Move the DPLL vfunc inits after the func defines
-      drm/i915/hsw: Use the DPLL ID when calculating DPLL clock
-      drm/i915: Move DPLL frequency calculation to intel_dpll_mgr.c
-      drm/i915/skl: Parametrize the DPLL ref clock instead of open-coding it
-      drm/i915/hsw: Rename the get HDMI/DP DPLL funcs to get WRPLL/LCPLL
-      drm/i915/hsw: Split out the SPLL parameter calculation
-      drm/i915/hsw: Split out the WRPLL, LCPLL, SPLL frequency calculation
-      drm/i915/skl, cnl: Split out the WRPLL/LCPLL frequency calculation
-      drm/i915/hsw: Use the read-out WRPLL/SPLL state instead of reading ou=
-t again
-      drm/i915: Unify the DPLL ref clock frequency tracking
-      drm/i915: Fix documentation for intel_dpll_get_freq()
-
-Jani Nikula (15):
-      drm/i915: stop assigning drm->dev_private pointer
-      drm/i915: split intel_modeset_init() to pre/post irq install
-      drm/i915: significantly reduce the use of <drm/i915_drm.h>
-      drm/i915: split out intel_dram.[ch] from i915_drv.c
-      drm/i915/dram: use intel_uncore_*() functions for register access
-      drm/i915/drv: use intel_uncore_write() for register access
-      drm/i915/crc: move pipe_crc from drm_i915_private to intel_crtc
-      drm/i915/dram: hide the dram structs better
-      drm/i915: add i915_ioc32.h for compat
-      drm/i915: remove unused orig_clock i915 member
-      drm/i915: fix documentation build after rename
-      drm/i915: move watermark structs more towards usage
-      drm/i915/vgpu: improve vgpu abstractions
-      drm/i915/gvt: make intel_gvt_active internal to intel_gvt
-      drm/i915/gvt: only include intel_gvt.h where needed
-
-Jos=E9 Roberto de Souza (12):
-      drm/i915/tgl: Implement Wa_1409804808
-      drm/i915/tgl: Implement Wa_1806527549
-      drm/i915/tgl: Add note to Wa_1607297627
-      drm/i915/tgl: Add note about Wa_1607063988
-      drm/i915/tgl: Fix the Wa number of a fix
-      drm/i915/tgl: Add note about Wa_1409142259
-      drm/i915/tgl: Add Wa number to WaAllowPMDepthAndInvocationCountAccess=
-FromUMD
-      drm/i915/dmc: Use firmware v2.06 for TGL
-      drm/i915/gen11: Moving WAs to rcs_engine_wa_init()
-      drm/i915/tgl: Move and restrict Wa_1408615072
-      drm/i915/display: Deactive FBC in fastsets when disabled by parameter
-      drm/i915/tgl: Remove require_force_probe protection
-
-Julian Stecklina (2):
-      drm/i915/gvt: remove unused vblank_done completion
-      drm/i915/gvt: make gvt oblivious of kvmgt data structures
-
-Kai Vehmanen (1):
-      drm/i915: Add missing HDMI audio pixel clocks for gen12
-
-Lucas De Marchi (2):
-      drm/i915: remove ICP_PP_CONTROL
-      drm/i915/tgl: Add Wa_1608008084
-
-Lyude Paul (4):
-      drm/dp: Introduce EDID-based quirks
-      drm/i915: Force DPCD backlight mode on X1 Extreme 2nd Gen 4K AMOLED p=
-anel
-      drm/i915: Force DPCD backlight mode for some Dell CML 2020 panels
-      drm/i915/mst: Hookup DRM DP MST late_register/early_unregister callba=
-cks
-
-Matt Atwood (2):
-      drm/i915/tgl: Add Wa_1606054188:tgl
-      drm/i915/tgl: Add Wa_1409085225, Wa_14010229206
-
-Matt Roper (9):
-      drm/i915/tgl: Allow DC5/DC6 entry while PG2 is active
-      drm/i915/ehl: Check PHY type before reading DPLL frequency
-      drm/i915/tgl: Don't treat unslice registers as masked
-      drm/i915: Handle all MCR ranges
-      drm/i915: Add Wa_1209644611:icl,ehl
-      drm/i915: Add Wa_1604278689:icl,ehl
-      drm/i915: Add Wa_1406306137:icl,ehl
-      drm/i915: Apply Wa_1406680159:icl,ehl as an engine workaround
-      drm/i915: Add Wa_1605460711 / Wa_1408767742 to ICL and EHL
-
-Matthew Auld (4):
-      drm/i915: be more solid in checking the alignment
-      drm/i915: properly sanity check batch_start_offset
-      drm/i915/buddy: avoid double list_add
-      drm/i915/selftests: try to rein in alloc_smoke
-
-Mika Kuoppala (1):
-      drm/i915: Add mechanism to submit a context WA on ring submission
-
-Pankaj Bharadiya (2):
-      drm/i915/gvt: Make WARN* drm specific where drm_priv ptr is available
-      drm/i915/gvt: Make WARN* drm specific where vgpu ptr is available
-
-Prathap Kumar Valsan (1):
-      drm/i915/gen7: Clear all EU/L3 residual contexts
-
-Radhakrishna Sripada (1):
-      drm/i915/display: Do not write in removed FBC fence registers
-
-Ramalingam C (1):
-      drm/i915/hdcp: conversion to struct drm_device based logging macros.
-
-Rodrigo Vivi (3):
-      Merge tag 'gvt-next-2020-02-26' of https://github.com/intel/gvt-linux=
- into drm-intel-next-queued
-      Merge tag 'gvt-next-2020-03-10' of https://github.com/intel/gvt-linux=
- into drm-intel-next-queued
-      drm/i915: Update DRIVER_DATE to 20200313
-
-Stanislav Lisovskiy (1):
-      drm/i915: Use intel_plane_data_rate for min_cdclk calculation
-
-Swathi Dhanavanthri (1):
-      drm/i915/tgl: Make Wa_1606700617 permanent
-
-Swati Sharma (1):
-      drm/i915/display: Decrease log level
-
-Takashi Iwai (1):
-      drm/i915/gt: Use scnprintf() for avoiding potential buffer overflow
-
-Tina Zhang (2):
-      drm/i915/gvt: Fix drm_WARN issue where vgpu ptr is unavailable
-      drm/i915/gvt: Fix dma-buf display blur issue on CFL
-
-Tvrtko Ursulin (3):
-      drm/i915/tgl: WaDisableGPGPUMidThreadPreemption
-      drm/i915: Remove debugfs i915_drpc_info and i915_forcewake_domains
-      drm/i915/gen12: Disable preemption timeout
-
-Ville Syrj=E4l=E4 (25):
-      drm/i915: Set up PIPE_MISC truncate bit on tgl+
-      drm/i915: Add glk to intel_detect_preproduction_hw()
-      drm/i915: Nuke pre-production GLK HDMI w/a 1139
-      drm/i915: Limit display Wa_1405510057 to gen11
-      drm/i915: Drop WaDDIIOTimeout:glk
-      drm/i915: Fix 90/270 degree rotated RGB565 src coord checks
-      drm/i915: Handle some leftover s/intel_crtc/crtc/
-      drm/i915: Remove garbage WARNs
-      drm/i915: Add missing commas to dbuf tables
-      drm/i915: Use a sentinel to terminate the dbuf slice arrays
-      drm/i915: Polish CHV .load_luts() a bit
-      drm/i915: Don't check uv_wm in skl_plane_wm_equals()
-      drm/i915: Don't check for wm changes until we've compute the wms fully
-      drm/i915: Enable transition watermarks for glk
-      drm/i915: Implement display w/a 1140 for glk/cnl
-      drm/i915: Polish CHV CGM CSC loading
-      drm/i915: Clean up i9xx_load_luts_internal()
-      drm/i915: Split i9xx_read_lut_8() to gmch vs. ilk variants
-      drm/i915: s/blob_data/lut/
-      drm/i915: s/chv_read_cgm_lut/chv_read_cgm_gamma/
-      drm/i915: Clean up integer types in color code
-      drm/i915: Refactor LUT read functions
-      drm/i915: Fix readout of PIPEGCMAX
-      drm/i915: Pass the crtc to the low level read_lut() funcs
-      drm/i915: Lock gmbus/aux mutexes while changing cdclk
-
-Vivek Kasireddy (1):
-      drm/i915/hotplug: Use phy to get the hpd_pin instead of the port (v5)
-
-Wambui Karuga (7):
-      drm/i915/dsb: convert to drm_device based logging macros.
-      drm/i915/fifo_underrun: convert to drm_device based logging.
-      drm/i915/gmbus: convert to drm_device based logging,
-      drm/i915/hotplug: convert to drm_device based logging.
-      drm/i915/lpe_audio: convert to drm_device based logging macros.
-      drm/i915/lvds: convert to drm_device based logging macros.
-      drm/i915/overlay: convert to drm_device based logging.
-
-Zhenyu Wang (3):
-      drm/i915/gvt: remove unused type attributes
-      drm/i915/gvt: Enable vfio edid for all GVT supported platform
-      Merge drm-intel-next-queued into gvt-next
-
- Documentation/gpu/i915.rst                         |   8 +-
- drivers/gpu/drm/drm_dp_helper.c                    |  79 ++
- drivers/gpu/drm/drm_dp_mst_topology.c              |   3 +-
- drivers/gpu/drm/i915/Kconfig.profile               |  25 +-
- drivers/gpu/drm/i915/Makefile                      |   6 +-
- drivers/gpu/drm/i915/display/icl_dsi.c             |  18 +-
- drivers/gpu/drm/i915/display/intel_atomic_plane.c  |  24 +-
- drivers/gpu/drm/i915/display/intel_atomic_plane.h  |   3 +
- drivers/gpu/drm/i915/display/intel_audio.c         |  10 +-
- drivers/gpu/drm/i915/display/intel_bios.c          |   1 -
- drivers/gpu/drm/i915/display/intel_bios.h          |   2 -
- drivers/gpu/drm/i915/display/intel_cdclk.c         |  22 +
- drivers/gpu/drm/i915/display/intel_color.c         | 434 ++++++-----
- drivers/gpu/drm/i915/display/intel_crt.c           |   1 -
- drivers/gpu/drm/i915/display/intel_csr.c           |   4 +-
- drivers/gpu/drm/i915/display/intel_ddi.c           | 461 +----------
- drivers/gpu/drm/i915/display/intel_ddi.h           |   4 -
- drivers/gpu/drm/i915/display/intel_display.c       | 131 ++--
- drivers/gpu/drm/i915/display/intel_display.h       |  10 +-
- .../gpu/drm/i915/display/intel_display_debugfs.c   |   9 +-
- drivers/gpu/drm/i915/display/intel_display_power.c |  18 +-
- drivers/gpu/drm/i915/display/intel_display_power.h |   1 +
- drivers/gpu/drm/i915/display/intel_display_types.h |  63 +-
- drivers/gpu/drm/i915/display/intel_dp.c            |  21 +-
- drivers/gpu/drm/i915/display/intel_dp.h            |   2 -
- .../gpu/drm/i915/display/intel_dp_aux_backlight.c  |  24 +-
- drivers/gpu/drm/i915/display/intel_dp_mst.c        |  35 +-
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c      | 848 +++++++++++++++++=
-----
- drivers/gpu/drm/i915/display/intel_dpll_mgr.h      |  14 +-
- drivers/gpu/drm/i915/display/intel_dsb.c           |  28 +-
- drivers/gpu/drm/i915/display/intel_dsi_vbt.c       |   1 -
- drivers/gpu/drm/i915/display/intel_dvo.c           |   1 -
- drivers/gpu/drm/i915/display/intel_fbc.c           |  62 +-
- drivers/gpu/drm/i915/display/intel_fbdev.c         |   1 -
- drivers/gpu/drm/i915/display/intel_fifo_underrun.c |  29 +-
- drivers/gpu/drm/i915/display/intel_gmbus.c         |  34 +-
- drivers/gpu/drm/i915/display/intel_hdcp.c          | 115 +--
- drivers/gpu/drm/i915/display/intel_hdcp.h          |   2 -
- drivers/gpu/drm/i915/display/intel_hdmi.c          |  10 +-
- drivers/gpu/drm/i915/display/intel_hdmi.h          |   2 -
- drivers/gpu/drm/i915/display/intel_hotplug.c       |  73 +-
- drivers/gpu/drm/i915/display/intel_hotplug.h       |   2 -
- drivers/gpu/drm/i915/display/intel_lpe_audio.c     |  23 +-
- drivers/gpu/drm/i915/display/intel_lvds.c          |  44 +-
- drivers/gpu/drm/i915/display/intel_opregion.c      |   2 -
- drivers/gpu/drm/i915/display/intel_overlay.c       |  12 +-
- drivers/gpu/drm/i915/display/intel_panel.c         |  18 +-
- drivers/gpu/drm/i915/display/intel_pipe_crc.c      |  17 +-
- drivers/gpu/drm/i915/display/intel_pipe_crc.h      |   4 +-
- drivers/gpu/drm/i915/display/intel_psr.c           |   2 +-
- drivers/gpu/drm/i915/display/intel_quirks.c        |  10 +
- drivers/gpu/drm/i915/display/intel_sdvo.c          |   1 -
- drivers/gpu/drm/i915/display/intel_sdvo.h          |   2 -
- drivers/gpu/drm/i915/display/intel_sprite.c        |  80 +-
- drivers/gpu/drm/i915/display/intel_tv.c            |   1 -
- drivers/gpu/drm/i915/display/intel_vdsc.c          |   2 -
- drivers/gpu/drm/i915/display/vlv_dsi.c             |  55 +-
- drivers/gpu/drm/i915/gem/i915_gem_client_blt.c     |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_context.c        | 362 ++++++---
- drivers/gpu/drm/i915/gem/i915_gem_context.h        |   1 -
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     | 734 +++++++-----------
- drivers/gpu/drm/i915/gem/i915_gem_internal.c       |   2 -
- drivers/gpu/drm/i915/gem/i915_gem_mman.c           |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.h         |   2 -
- drivers/gpu/drm/i915/gem/i915_gem_object_blt.c     |  18 +-
- drivers/gpu/drm/i915/gem/i915_gem_phys.c           |   7 +-
- drivers/gpu/drm/i915/gem/i915_gem_shrinker.c       |   1 -
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c         |   1 +
- drivers/gpu/drm/i915/gem/i915_gem_tiling.c         |   1 -
- drivers/gpu/drm/i915/gem/i915_gem_userptr.c        |   2 -
- .../gpu/drm/i915/gem/selftests/i915_gem_context.c  |  15 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |   2 +-
- drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.c |   2 +-
- drivers/gpu/drm/i915/gem/selftests/mock_context.c  |   3 +
- drivers/gpu/drm/i915/gt/gen7_renderclear.c         | 402 ++++++++++
- drivers/gpu/drm/i915/gt/gen7_renderclear.h         |  15 +
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |  27 +
- drivers/gpu/drm/i915/gt/hsw_clear_kernel.c         |  61 ++
- drivers/gpu/drm/i915/gt/intel_context.c            |   5 +
- drivers/gpu/drm/i915/gt/intel_context_param.c      |  63 ++
- drivers/gpu/drm/i915/gt/intel_context_param.h      |  14 +
- drivers/gpu/drm/i915/gt/intel_context_types.h      |   4 +-
- drivers/gpu/drm/i915/gt/intel_engine.h             |  15 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          |  37 +-
- drivers/gpu/drm/i915/gt/intel_engine_types.h       |   1 +
- drivers/gpu/drm/i915/gt/intel_ggtt.c               |  15 +-
- drivers/gpu/drm/i915/gt/intel_gpu_commands.h       |  17 +-
- drivers/gpu/drm/i915/gt/intel_gt.c                 |   3 +
- drivers/gpu/drm/i915/gt/intel_gt_requests.c        |  14 +-
- drivers/gpu/drm/i915/gt/intel_gtt.c                |  29 +-
- drivers/gpu/drm/i915/gt/intel_gtt.h                |   7 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c                | 178 +++--
- drivers/gpu/drm/i915/gt/intel_rc6.c                |   9 +-
- drivers/gpu/drm/i915/gt/intel_reset.c              |  21 +-
- drivers/gpu/drm/i915/gt/intel_ring_submission.c    | 149 +++-
- drivers/gpu/drm/i915/gt/intel_rps.c                |  45 +-
- drivers/gpu/drm/i915/gt/intel_timeline.c           |   8 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c        | 154 +++-
- drivers/gpu/drm/i915/gt/ivb_clear_kernel.c         |  61 ++
- drivers/gpu/drm/i915/gt/mock_engine.c              |   4 +-
- .../gpu/drm/i915/gt/selftest_engine_heartbeat.c    |  30 +-
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c       |   2 +-
- drivers/gpu/drm/i915/gt/selftest_lrc.c             | 790 +++++++++++++++++=
-+-
- drivers/gpu/drm/i915/gt/selftest_ring_submission.c | 296 +++++++
- drivers/gpu/drm/i915/gt/sysfs_engines.c            | 445 +++++++++++
- drivers/gpu/drm/i915/gt/sysfs_engines.h            |  13 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |   4 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |   2 +-
- drivers/gpu/drm/i915/gvt/aperture_gm.c             |  84 +-
- drivers/gpu/drm/i915/gvt/cfg_space.c               |  27 +-
- drivers/gpu/drm/i915/gvt/cmd_parser.c              | 208 +++--
- drivers/gpu/drm/i915/gvt/debugfs.c                 |  45 +-
- drivers/gpu/drm/i915/gvt/display.c                 |  25 +-
- drivers/gpu/drm/i915/gvt/dmabuf.c                  |   8 +-
- drivers/gpu/drm/i915/gvt/edid.c                    |  25 +-
- drivers/gpu/drm/i915/gvt/execlist.c                | 103 ++-
- drivers/gpu/drm/i915/gvt/execlist.h                |   5 +-
- drivers/gpu/drm/i915/gvt/fb_decoder.c              |   6 +-
- drivers/gpu/drm/i915/gvt/firmware.c                |  16 +-
- drivers/gpu/drm/i915/gvt/gtt.c                     |  63 +-
- drivers/gpu/drm/i915/gvt/gvt.c                     |  43 +-
- drivers/gpu/drm/i915/gvt/gvt.h                     |  62 +-
- drivers/gpu/drm/i915/gvt/handlers.c                | 203 ++---
- drivers/gpu/drm/i915/gvt/interrupt.c               |  21 +-
- drivers/gpu/drm/i915/gvt/kvmgt.c                   | 309 +++++---
- drivers/gpu/drm/i915/gvt/mmio.c                    |  32 +-
- drivers/gpu/drm/i915/gvt/mmio.h                    |   4 +-
- drivers/gpu/drm/i915/gvt/mmio_context.c            | 127 ++-
- drivers/gpu/drm/i915/gvt/mmio_context.h            |   5 +-
- drivers/gpu/drm/i915/gvt/sched_policy.c            |  25 +-
- drivers/gpu/drm/i915/gvt/scheduler.c               | 253 +++---
- drivers/gpu/drm/i915/gvt/scheduler.h               |   9 +-
- drivers/gpu/drm/i915/gvt/vgpu.c                    |  18 +-
- drivers/gpu/drm/i915/i915_active.c                 | 123 ++-
- drivers/gpu/drm/i915/i915_active.h                 |   8 +-
- drivers/gpu/drm/i915/i915_buddy.c                  |   3 +-
- drivers/gpu/drm/i915/i915_debugfs.c                | 216 ------
- drivers/gpu/drm/i915/i915_drv.c                    | 517 +------------
- drivers/gpu/drm/i915/i915_drv.h                    | 143 +---
- drivers/gpu/drm/i915/i915_gem.c                    |   1 -
- drivers/gpu/drm/i915/i915_gem_evict.c              |  17 +-
- drivers/gpu/drm/i915/i915_gem_fence_reg.c          |   3 +-
- drivers/gpu/drm/i915/i915_gem_gtt.c                |   2 -
- drivers/gpu/drm/i915/i915_ioc32.c                  |   7 +-
- drivers/gpu/drm/i915/i915_ioc32.h                  |  17 +
- drivers/gpu/drm/i915/i915_irq.c                    |  31 +-
- drivers/gpu/drm/i915/i915_pci.c                    |   2 +-
- drivers/gpu/drm/i915/i915_perf.c                   |  73 +-
- drivers/gpu/drm/i915/i915_perf_types.h             |   3 +-
- drivers/gpu/drm/i915/i915_pmu.h                    |   2 +-
- drivers/gpu/drm/i915/i915_reg.h                    |  26 +-
- drivers/gpu/drm/i915/i915_request.c                | 273 ++++---
- drivers/gpu/drm/i915/i915_request.h                |  14 +-
- drivers/gpu/drm/i915/i915_scheduler.c              |  10 +-
- drivers/gpu/drm/i915/i915_suspend.c                |   2 -
- drivers/gpu/drm/i915/i915_sysfs.c                  |   3 +
- drivers/gpu/drm/i915/i915_utils.c                  |   1 -
- drivers/gpu/drm/i915/i915_utils.h                  |  27 +-
- drivers/gpu/drm/i915/i915_vgpu.c                   |  31 +-
- drivers/gpu/drm/i915/i915_vgpu.h                   |  25 +-
- drivers/gpu/drm/i915/i915_vma.c                    |   3 +-
- drivers/gpu/drm/i915/i915_vma_types.h              |  11 -
- drivers/gpu/drm/i915/intel_device_info.c           |   1 +
- drivers/gpu/drm/i915/intel_dram.c                  | 500 ++++++++++++
- drivers/gpu/drm/i915/intel_dram.h                  |  14 +
- drivers/gpu/drm/i915/intel_gvt.c                   |   6 +
- drivers/gpu/drm/i915/intel_pm.c                    | 257 +++----
- drivers/gpu/drm/i915/selftests/i915_active.c       |  78 +-
- drivers/gpu/drm/i915/selftests/i915_buddy.c        |  25 +-
- .../gpu/drm/i915/selftests/i915_live_selftests.h   |   1 +
- drivers/gpu/drm/i915/selftests/igt_spinner.c       |   2 +-
- drivers/gpu/drm/i915/selftests/mock_gem_device.c   |   1 -
- include/drm/drm_dp_helper.h                        |  21 +-
- include/drm/i915_mei_hdcp_interface.h              |   1 -
- include/uapi/drm/i915_drm.h                        |  21 +
- 175 files changed, 7081 insertions(+), 4178 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/gen7_renderclear.c
- create mode 100644 drivers/gpu/drm/i915/gt/gen7_renderclear.h
- create mode 100644 drivers/gpu/drm/i915/gt/hsw_clear_kernel.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_context_param.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_context_param.h
- create mode 100644 drivers/gpu/drm/i915/gt/ivb_clear_kernel.c
- create mode 100644 drivers/gpu/drm/i915/gt/selftest_ring_submission.c
- create mode 100644 drivers/gpu/drm/i915/gt/sysfs_engines.c
- create mode 100644 drivers/gpu/drm/i915/gt/sysfs_engines.h
- create mode 100644 drivers/gpu/drm/i915/i915_ioc32.h
- create mode 100644 drivers/gpu/drm/i915/intel_dram.c
- create mode 100644 drivers/gpu/drm/i915/intel_dram.h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0347172660==--
