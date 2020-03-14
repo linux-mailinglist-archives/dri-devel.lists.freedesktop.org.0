@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A87185581
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Mar 2020 11:59:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13BC18558E
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Mar 2020 12:03:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63D3E6E291;
-	Sat, 14 Mar 2020 10:59:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EAE26E149;
+	Sat, 14 Mar 2020 11:03:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
- [209.85.208.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2886E6E291;
- Sat, 14 Mar 2020 10:59:51 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id g19so15229850eds.11;
- Sat, 14 Mar 2020 03:59:51 -0700 (PDT)
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB7C56E149;
+ Sat, 14 Mar 2020 11:03:04 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id b21so4912628edy.9;
+ Sat, 14 Mar 2020 04:03:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=g01xlTcHoCeW8HA/Zoij0G1oenw325gwe1o5DluyjVk=;
- b=PaFKiIfFtTnsFkdtWrrCo0Bs2+zoLhGVhZqTnPjgTJ/fN7OcbrjVbGaIaT7GNNKinD
- UJgDu2i28dDtdvXJaPIsnNHTW6pkI4Dvt5i649RCKU6lQ6rN6R6VQPSGE+J0Kf31blI2
- IbqUEY9OpkhiHvJJaQqzy6MeE90gm799JCYdwxwA5YvqwtcT5k0reLn2yaK7XX59VRY5
- 13voD54Ke2VtSzJJyz9FQ4m0ihEKlacXMX5u7ZzMm9aS6tOPM7VUulbg2ekgLnTzk4wS
- 4jV9492DxDqpJvS3/w4As4cnuIY+Xjywdl4yOt/xKABzwlJiSgGCcB6069ShxMiVS35c
- DWTg==
-X-Gm-Message-State: ANhLgQ0Ebq2g5nlk+mz9pnkIUy6SDCfUm6mlqCFrM8qjxYgqKRJtfHx8
- VP55ThMfra88ktBuV4nfmhw=
-X-Google-Smtp-Source: ADFU+vv1WkKB0u07WBdUm4ghC+dsxjEf7g/P9HdfFTe2RSYc3zQrfQ3xU1TFNHiCqZRBtceL52pXBQ==
-X-Received: by 2002:a17:906:2181:: with SMTP id
- 1mr15328632eju.131.1584183589584; 
- Sat, 14 Mar 2020 03:59:49 -0700 (PDT)
+ bh=HXvNDpxcelYwn8PoDas8bnx/K7bC0ycG2928PB68YGs=;
+ b=HMg+8Lmt9yc6CZsDTwQ4OiCPaRg0d1bBQ0eUJvp4Lun4FlVhuppRe6/pPCkY0tDnxf
+ 9/v73KT0EPoWwqqP+PHekCIGhjaM/hcxU7GCkryRt/z1/Zp5GyscJW3/qK4DSUPWWJw+
+ kor/OA6cCnHSVoXyV5becg3wIY1iV7E7GCdzl62588XVQ4nwg7oBN5S5+LmK3cVyTFHg
+ 5A4GsTHp4eKM5LBTMybMPJE7SlQzqIDrUYbok0qQU1sCF02mlcjgvRW29qbfZKh/vXmj
+ DV4PmHHwYUnaUPn6UOheBW6iA8y2QcFQkwArc7ub0IudM04Nm18RnkOOClHt7XPjjqJt
+ apsg==
+X-Gm-Message-State: ANhLgQ2lEFRqxfUGu0FtQAcE4BmD/GamPthIYlWrIzR/BwmX0WsWp3q8
+ EOkm5EqANq60xKnnPd05/HM=
+X-Google-Smtp-Source: ADFU+vv8nT7z/vEu1bvfu6+AMeellIORI/K4LaHKfZcEsgQyhBKLzYnFTNlP0g88C9JmPdb6eGvarg==
+X-Received: by 2002:a17:907:429c:: with SMTP id
+ ny20mr14725961ejb.278.1584183783358; 
+ Sat, 14 Mar 2020 04:03:03 -0700 (PDT)
 Received: from kozik-lap ([194.230.155.125])
- by smtp.googlemail.com with ESMTPSA id f21sm1538993ejx.41.2020.03.14.03.59.46
+ by smtp.googlemail.com with ESMTPSA id 94sm2657013eda.7.2020.03.14.04.03.00
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sat, 14 Mar 2020 03:59:48 -0700 (PDT)
-Date: Sat, 14 Mar 2020 11:59:44 +0100
+ Sat, 14 Mar 2020 04:03:02 -0700 (PDT)
+Date: Sat, 14 Mar 2020 12:02:58 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [RESEND PATCH v2 6/9] drm/mgag200: Constify ioreadX() iomem
- argument (as in generic implementation)
-Message-ID: <20200314105944.GA16044@kozik-lap>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [RESEND PATCH v2 1/9] iomap: Constify ioreadX() iomem argument
+ (as in generic implementation)
+Message-ID: <20200314110258.GA16135@kozik-lap>
 References: <20200219175007.13627-1-krzk@kernel.org>
- <20200219175007.13627-7-krzk@kernel.org>
- <90baef2d-25fe-fac4-6a7e-b103b4b6721e@suse.de>
+ <20200219175007.13627-2-krzk@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <90baef2d-25fe-fac4-6a7e-b103b4b6721e@suse.de>
+In-Reply-To: <20200219175007.13627-2-krzk@kernel.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,8 +74,8 @@ Cc: Rich Felker <dalias@libc.org>, Jiri Slaby <jirislaby@gmail.com>,
  Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
  Dave Airlie <airlied@redhat.com>, Matt Turner <mattst88@gmail.com>,
  linux-snps-arc@lists.infradead.org, Nick Kossifidis <mickflemm@gmail.com>,
- Allen Hubbe <allenbh@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- linux-alpha@vger.kernel.org, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Allen Hubbe <allenbh@gmail.com>, linux-alpha@vger.kernel.org,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
  Thomas Gleixner <tglx@linutronix.de>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
  Richard Henderson <rth@twiddle.net>, linux-parisc@vger.kernel.org,
@@ -90,21 +89,61 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 12, 2020 at 11:49:05AM +0100, Thomas Zimmermann wrote:
-> Hi Krzysztof,
+On Wed, Feb 19, 2020 at 06:49:59PM +0100, Krzysztof Kozlowski wrote:
+> The ioreadX() and ioreadX_rep() helpers have inconsistent interface.  On
+> some architectures void *__iomem address argument is a pointer to const,
+> on some not.
 > 
-> I just received a resend email from 3 weeks ago :/
+> Implementations of ioreadX() do not modify the memory under the address
+> so they can be converted to a "const" version for const-safety and
+> consistency among architectures.
 > 
-> Do you want me to merge the mgag200 patch into drm-misc-next?
+> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 
-Thanks but it depends on the first patch in the series so either it
-could go with your ack through other tree or I will send it later (once
-1st patch gets to mainline).
+Hi Arnd,
 
+This patch touches multipel file systems so no one is brave enough to
+pick it up. However you are mentioned as maintainer of generic asm
+headers so maybe you could apply it to arm-soc?
 
 Best regards,
 Krzysztof
 
+
+> 
+> ---
+> 
+> Changes since v1:
+> 1. Constify also ioreadX_rep() and mmio_insX(),
+> 2. Squash lib+alpha+powerpc+parisc+sh into one patch for bisectability,
+> 3. Add Geert's review.
+> 4. Add Arnd's review.
+> ---
+>  arch/alpha/include/asm/core_apecs.h   |  6 +--
+>  arch/alpha/include/asm/core_cia.h     |  6 +--
+>  arch/alpha/include/asm/core_lca.h     |  6 +--
+>  arch/alpha/include/asm/core_marvel.h  |  4 +-
+>  arch/alpha/include/asm/core_mcpcia.h  |  6 +--
+>  arch/alpha/include/asm/core_t2.h      |  2 +-
+>  arch/alpha/include/asm/io.h           | 12 ++---
+>  arch/alpha/include/asm/io_trivial.h   | 16 +++---
+>  arch/alpha/include/asm/jensen.h       |  2 +-
+>  arch/alpha/include/asm/machvec.h      |  6 +--
+>  arch/alpha/kernel/core_marvel.c       |  2 +-
+>  arch/alpha/kernel/io.c                | 12 ++---
+>  arch/parisc/include/asm/io.h          |  4 +-
+>  arch/parisc/lib/iomap.c               | 72 +++++++++++++--------------
+>  arch/powerpc/kernel/iomap.c           | 28 +++++------
+>  arch/sh/kernel/iomap.c                | 22 ++++----
+>  include/asm-generic/iomap.h           | 28 +++++------
+>  include/linux/io-64-nonatomic-hi-lo.h |  4 +-
+>  include/linux/io-64-nonatomic-lo-hi.h |  4 +-
+>  lib/iomap.c                           | 30 +++++------
+>  20 files changed, 136 insertions(+), 136 deletions(-)
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
