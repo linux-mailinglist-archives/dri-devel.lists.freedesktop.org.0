@@ -1,43 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F05918607C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 00:20:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9443718607D
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 00:20:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 280A96E2D3;
-	Sun, 15 Mar 2020 23:19:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1DE16E22B;
+	Sun, 15 Mar 2020 23:19:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from shell.v3.sk (mail.v3.sk [167.172.186.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D8E76E12F
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Mar 2020 10:16:38 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id 8945BE020D;
- Sat, 14 Mar 2020 10:16:57 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
- by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id HJfpNnV0ju6k; Sat, 14 Mar 2020 10:16:54 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id 39FFEDFF03;
- Sat, 14 Mar 2020 10:16:54 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
- by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id H0phPU7lEaB5; Sat, 14 Mar 2020 10:16:53 +0000 (UTC)
-Received: from furthur.lan (unknown [109.183.109.54])
- by zimbra.v3.sk (Postfix) with ESMTPSA id EF38AE020E;
- Sat, 14 Mar 2020 10:16:52 +0000 (UTC)
-From: Lubomir Rintel <lkundrak@v3.sk>
-To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: [PATCH v3 3/3] drm/bridge: chrontel-ch7033: Add a new driver
-Date: Sat, 14 Mar 2020 11:16:27 +0100
-Message-Id: <20200314101627.336939-4-lkundrak@v3.sk>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200314101627.336939-1-lkundrak@v3.sk>
-References: <20200314101627.336939-1-lkundrak@v3.sk>
+X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
+ Sat, 14 Mar 2020 22:14:49 UTC
+Received: from esa2.mentor.iphmx.com (esa2.mentor.iphmx.com [68.232.141.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D18D36E0D6
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Mar 2020 22:14:49 +0000 (UTC)
+IronPort-SDR: 9Shd0RdUQpg6LrFwDWcapYEkAoRbPaPtRPE6sM4jkHqzOsnpGqPdyiqcBqdS7fAFjFCCjXBwjM
+ R6FoiswyEHa8e/hjmWx0haKvt/aL7wOphtQxn1pKF+xDnU3nLEQFxy6IX1kB9oaz57Zn1raWX8
+ j6htZLKvwCpD7b+ng1he7nbGcEqPIlQdd+btngRTTb8a+K2floUATDyyTvMlkqr5LIoYk5gdFm
+ js90vits+XKDQRNRi9x8la695rWbvoremYoWF/6oAkSs/Ug6gMPqGtLBXdunC+lrNXu7b0Yqcm
+ zIw=
+X-IronPort-AV: E=Sophos;i="5.70,554,1574150400"; 
+ d="asc'?scan'208";a="46661253"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+ by esa2.mentor.iphmx.com with ESMTP; 14 Mar 2020 14:07:40 -0800
+IronPort-SDR: /RLQV7rNI7rWdaYuKuF0cHArVKFRjEu3Tv94u7m/K2L7NdynM7zDqi0boFnq57eiBBY8L7GtUH
+ NpJVTMq3D4wlJugDwW3hVty+K2rzVGXdcXxGcZ6GFFhudEFzCazyXxiP6amkMb3sSLRt34LtTR
+ YLvK8Ow1OVEJHfmjniyO2bNyR22k9cstAmocZxu+/VZ1aHpt7jGodTFdGPDR37WnESP+tbfMBs
+ zy6FCUn+XFrI+xQkDObNMiV/3OtKIvJNASwHYbJpsrT8dWB9LesnEBfZlajvyvIckgXvrM6EHO
+ dpA=
+From: Thomas Schwinge <thomas@codesourcery.com>
+To: Woody Suwalski <terraluna977@gmail.com>, Christian =?utf-8?Q?K=C3=B6ni?=
+ =?utf-8?Q?g?= <christian.koenig@amd.com>, Christoph Hellwig <hch@lst.de>
+Subject: Re: Regression in 5.4 kernel on 32-bit Radeon IBM T40
+In-Reply-To: <66a6b0ea-4ee8-1a0d-b259-568059d54e09@gmail.com>
+References: <400f6ce9-e360-0860-ca2a-fb8bccdcdc9b@gmail.com>
+ <20200109141436.GA22111@lst.de>
+ <9ad75215-3ff1-ee76-9985-12fd78d6aa5f@amd.com>
+ <67f60d13-a245-5561-1372-7d68f35969f3@gmail.com>
+ <66a6b0ea-4ee8-1a0d-b259-568059d54e09@gmail.com>
+User-Agent: Notmuch/0.29.1+93~g67ed7df (https://notmuchmail.org) Emacs/26.1
+ (i686-pc-linux-gnu)
+Date: Sat, 14 Mar 2020 23:06:51 +0100
+Message-ID: <87imj6si9w.fsf@dirichlet.schwinge.homeip.net>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sun, 15 Mar 2020 23:19:06 +0000
+Content-Type: multipart/mixed;
+ boundary="_41aa890b-3091-490d-b17c-395cfbf074d0_"
+X-Mailman-Approved-At: Sun, 15 Mar 2020 23:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,768 +58,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Lubomir Rintel <lkundrak@v3.sk>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Meelis Roos <mroos@linux.ee>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
+ Alexander Deucher <alexander.deucher@amd.com>,
+ Thomas Backlund <tmb@mageia.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a driver for video encoder with VGA and DVI/HDMI outputs.
+--_41aa890b-3091-490d-b17c-395cfbf074d0_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-There is no documentation for the chip -- the operation was guessed from
-what was sniffed on a Dell Wyse 3020 ThinOS terminal, the register names
-come from the ch7035 driver in Mediatek's GPL code dump.
+-----------------
+Mentor Graphics (Deutschland) GmbH, Arnulfstra=DFe 201, 80634 M=FCnchen / G=
+ermany
+Registergericht M=FCnchen HRB 106955, Gesch=E4ftsf=FChrer: Thomas Heurung, =
+Alexander Walter
 
-Only bare minimum is implemented -- no fancy stuff, such as scaling. That
-would only worsen our misery. We don't load the firmware and we don't need
-to even bother enabling the MCU.  There are probably no distributable
-firmware images anyway.
+--_41aa890b-3091-490d-b17c-395cfbf074d0_
+Content-Type: message/rfc822
 
-Just like the tda998x driver, this one uses the component framework and
-adds an encoder on component bind, so that it works with the Armada DRM
-driver.
+Received: from SVR-ORW-MBX-07.mgc.mentorg.com (147.34.90.207) by
+ SVR-ORW-MBX-05.mgc.mentorg.com (147.34.90.205) with Microsoft SMTP Server
+ (TLS) id 15.0.1473.3; Sat, 14 Mar 2020 15:07:30 -0700
+Received: from tftp-cs (147.34.91.1) by SVR-ORW-MBX-07.mgc.mentorg.com
+ (147.34.90.207) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Sat, 14 Mar 2020 15:07:30 -0700
+Received: by tftp-cs (Postfix, from userid 49978)
+	id CA0ECC2296; Sat, 14 Mar 2020 15:07:36 -0700 (PDT)
+From: Thomas Schwinge <thomas@codesourcery.com>
+To: Woody Suwalski <terraluna977@gmail.com>, Christian =?utf-8?Q?K=C3=B6ni?=
+ =?utf-8?Q?g?= <christian.koenig@amd.com>, Christoph Hellwig <hch@lst.de>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+	Alexander Deucher <alexander.deucher@amd.com>, Pavel Machek <pavel@ucw.cz>,
+	Thomas Backlund <tmb@mageia.org>, Meelis Roos <mroos@linux.ee>
+Subject: Re: Regression in 5.4 kernel on 32-bit Radeon IBM T40
+In-Reply-To: <66a6b0ea-4ee8-1a0d-b259-568059d54e09@gmail.com>
+References: <400f6ce9-e360-0860-ca2a-fb8bccdcdc9b@gmail.com>
+ <20200109141436.GA22111@lst.de>
+ <9ad75215-3ff1-ee76-9985-12fd78d6aa5f@amd.com>
+ <67f60d13-a245-5561-1372-7d68f35969f3@gmail.com>
+ <66a6b0ea-4ee8-1a0d-b259-568059d54e09@gmail.com>
+User-Agent: Notmuch/0.29.1+93~g67ed7df (https://notmuchmail.org) Emacs/26.1 (i686-pc-linux-gnu)
+Date: Sat, 14 Mar 2020 23:06:51 +0100
+Message-ID: <87imj6si9w.fsf@dirichlet.schwinge.homeip.net>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="=-=-="; micalg=pgp-sha512;
+	protocol="application/pgp-signature"
+Return-Path: tschwing@mentor.com
+X-MS-Exchange-Organization-OriginalArrivalTime: 14 Mar 2020 22:07:30.5302
+ (UTC)
+X-MS-Exchange-Forest-ArrivalHubServer: SVR-ORW-MBX-07.mgc.mentorg.com
+X-MS-Exchange-Organization-AuthSource: SVR-ORW-MBX-07.mgc.mentorg.com
+X-MS-Exchange-Organization-AuthAs: Internal
+X-MS-Exchange-Organization-AuthMechanism: 10
+X-MS-Exchange-Organization-Cross-Premises-Headers-Processed: SVR-ORW-MBX-07.mgc.mentorg.com
+X-MS-Exchange-Organization-MessageHighPrecisionLatencyInProgress: LSRV=SVR-ORW-MBX-07.mgc.mentorg.com:TOTAL-FE=0.203|SMRPI-FrontendProxyAgent=0.005|SMRPI=0.005|SMR=0.160;2020-03-14T22:07:30.733Z
+X-MS-Exchange-Organization-OriginalClientIPAddress: 147.34.90.207
+X-MS-Exchange-Organization-OriginalServerIPAddress: 147.34.90.205
+X-MS-Exchange-Organization-Network-Message-Id: 3dcc8ff0-c08c-4576-6a04-08d7c864172f
+X-MS-Exchange-Organization-OriginalSize: 6329
+X-MS-Exchange-Organization-HygienePolicy: Standard
+X-MS-Exchange-Organization-MessageLatency: SRV=SVR-ORW-MBX-07.mgc.mentorg.com:TOTAL-FE=0.218|SMRPI-FrontendProxyAgent=0.005|SMRPI=0.005|SMR=0.160|SMS=0.015
+X-MS-Exchange-Organization-AVStamp-Enterprise: 1.0
+X-MS-Exchange-Organization-Recipient-Limit-Verified: True
+X-MS-Exchange-Organization-Transport-Properties: DeliveryPriority=Normal
+X-MS-Exchange-Organization-Prioritization: 1
+X-MS-Exchange-Organization-Rules-Execution-History: TransportVersioned.Tamer
+ Ahmed
 
-Tested with a handful of monitors ranging from 1024x768@75 to 1400x1050@60,
-with VGA as well as DVI.
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+Hi!
 
----
-Changes since v1:
-- Sort the includes
-- Drop a useless model id read
-- Chain to the bridge-connector instead of dealing with the HPD/EDID
-  readout machinery ourselves
-- Utilize regmap to access the registers
+Has any progress been made regarding the issue reported here?
 
- drivers/gpu/drm/bridge/Kconfig           |  10 +
- drivers/gpu/drm/bridge/Makefile          |   1 +
- drivers/gpu/drm/bridge/chrontel-ch7033.c | 675 +++++++++++++++++++++++
- 3 files changed, 686 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/chrontel-ch7033.c
+Having updated the software (here: Linux kernel), I'm running into the
+same issue on my venerable ;-) Thinkpad T42 with:
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index aaed2347ace9d..0ebc72d62a5b2 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -27,6 +27,16 @@ config DRM_CDNS_DSI
- 	  Support Cadence DPI to DSI bridge. This is an internal
- 	  bridge and is meant to be directly embedded in a SoC.
- 
-+config DRM_CHRONTEL_CH7033
-+	tristate "Chrontel CH7033 Video Encoder"
-+	depends on OF
-+	select DRM_KMS_HELPER
-+	help
-+	  Enable support for the Chrontel CH7033 VGA/DVI/HDMI Encoder, as
-+	  found in the Dell Wyse 3020 thin client.
-+
-+	  If in doubt, say "N".
-+
- config DRM_DISPLAY_CONNECTOR
- 	tristate "Display connector support"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 6fb062b5b0f04..a844315feddb4 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
-+obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
- obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
- obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
- obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
-diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-new file mode 100644
-index 0000000000000..342b2e2bd2b1c
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-@@ -0,0 +1,675 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Chrontel CH7033 Video Encoder Driver
-+ *
-+ * Copyright (C) 2019,2020 Lubomir Rintel
-+ */
-+
-+#include <linux/component.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_edid.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_print.h>
-+#include <drm/drm_probe_helper.h>
-+
-+/* Page 0, Register 0x07 */
-+enum {
-+	DRI_PD		= BIT(3),
-+	IO_PD		= BIT(5),
-+};
-+
-+/* Page 0, Register 0x08 */
-+enum {
-+	DRI_PDDRI	= GENMASK(7, 4),
-+	PDDAC		= GENMASK(3, 1),
-+	PANEN		= BIT(0),
-+};
-+
-+/* Page 0, Register 0x09 */
-+enum {
-+	DPD		= BIT(7),
-+	GCKOFF		= BIT(6),
-+	TV_BP		= BIT(5),
-+	SCLPD		= BIT(4),
-+	SDPD		= BIT(3),
-+	VGA_PD		= BIT(2),
-+	HDBKPD		= BIT(1),
-+	HDMI_PD		= BIT(0),
-+};
-+
-+/* Page 0, Register 0x0a */
-+enum {
-+	MEMINIT		= BIT(7),
-+	MEMIDLE		= BIT(6),
-+	MEMPD		= BIT(5),
-+	STOP		= BIT(4),
-+	LVDS_PD		= BIT(3),
-+	HD_DVIB		= BIT(2),
-+	HDCP_PD		= BIT(1),
-+	MCU_PD		= BIT(0),
-+};
-+
-+/* Page 0, Register 0x18 */
-+enum {
-+	IDF		= GENMASK(7, 4),
-+	INTEN		= BIT(3),
-+	SWAP		= GENMASK(2, 0),
-+};
-+
-+enum {
-+	BYTE_SWAP_RGB	= 0,
-+	BYTE_SWAP_RBG	= 1,
-+	BYTE_SWAP_GRB	= 2,
-+	BYTE_SWAP_GBR	= 3,
-+	BYTE_SWAP_BRG	= 4,
-+	BYTE_SWAP_BGR	= 5,
-+};
-+
-+/* Page 0, Register 0x19 */
-+enum {
-+	HPO_I		= BIT(5),
-+	VPO_I		= BIT(4),
-+	DEPO_I		= BIT(3),
-+	CRYS_EN		= BIT(2),
-+	GCLKFREQ	= GENMASK(2, 0),
-+};
-+
-+/* Page 0, Register 0x2e */
-+enum {
-+	HFLIP		= BIT(7),
-+	VFLIP		= BIT(6),
-+	DEPO_O		= BIT(5),
-+	HPO_O		= BIT(4),
-+	VPO_O		= BIT(3),
-+	TE		= GENMASK(2, 0),
-+};
-+
-+/* Page 0, Register 0x2b */
-+enum {
-+	SWAPS		= GENMASK(7, 4),
-+	VFMT		= GENMASK(3, 0),
-+};
-+
-+/* Page 0, Register 0x54 */
-+enum {
-+	COMP_BP		= BIT(7),
-+	DAC_EN_T	= BIT(6),
-+	HWO_HDMI_HI	= GENMASK(5, 3),
-+	HOO_HDMI_HI	= GENMASK(2, 0),
-+};
-+
-+/* Page 0, Register 0x57 */
-+enum {
-+	FLDSEN		= BIT(7),
-+	VWO_HDMI_HI	= GENMASK(5, 3),
-+	VOO_HDMI_HI	= GENMASK(2, 0),
-+};
-+
-+/* Page 0, Register 0x7e */
-+enum {
-+	HDMI_LVDS_SEL	= BIT(7),
-+	DE_GEN		= BIT(6),
-+	PWM_INDEX_HI	= BIT(5),
-+	USE_DE		= BIT(4),
-+	R_INT		= GENMASK(3, 0),
-+};
-+
-+/* Page 1, Register 0x07 */
-+enum {
-+	BPCKSEL		= BIT(7),
-+	DRI_CMFB_EN	= BIT(6),
-+	CEC_PUEN	= BIT(5),
-+	CEC_T		= BIT(3),
-+	CKINV		= BIT(2),
-+	CK_TVINV	= BIT(1),
-+	DRI_CKS2	= BIT(0),
-+};
-+
-+/* Page 1, Register 0x08 */
-+enum {
-+	DACG		= BIT(6),
-+	DACKTST		= BIT(5),
-+	DEDGEB		= BIT(4),
-+	SYO		= BIT(3),
-+	DRI_IT_LVDS	= GENMASK(2, 1),
-+	DISPON		= BIT(0),
-+};
-+
-+/* Page 1, Register 0x0c */
-+enum {
-+	DRI_PLL_CP	= GENMASK(7, 6),
-+	DRI_PLL_DIVSEL	= BIT(5),
-+	DRI_PLL_N1_1	= BIT(4),
-+	DRI_PLL_N1_0	= BIT(3),
-+	DRI_PLL_N3_1	= BIT(2),
-+	DRI_PLL_N3_0	= BIT(1),
-+	DRI_PLL_CKTSTEN = BIT(0),
-+};
-+
-+/* Page 1, Register 0x6b */
-+enum {
-+	VCO3CS		= GENMASK(7, 6),
-+	ICPGBK2_0	= GENMASK(5, 3),
-+	DRI_VCO357SC	= BIT(2),
-+	PDPLL2		= BIT(1),
-+	DRI_PD_SER	= BIT(0),
-+};
-+
-+/* Page 1, Register 0x6c */
-+enum {
-+	PLL2N11		= GENMASK(7, 4),
-+	PLL2N5_4	= BIT(3),
-+	PLL2N5_TOP	= BIT(2),
-+	DRI_PLL_PD	= BIT(1),
-+	PD_I2CM		= BIT(0),
-+};
-+
-+/* Page 3, Register 0x28 */
-+enum {
-+	DIFF_EN		= GENMASK(7, 6),
-+	CORREC_EN	= GENMASK(5, 4),
-+	VGACLK_BP	= BIT(3),
-+	HM_LV_SEL	= BIT(2),
-+	HD_VGA_SEL	= BIT(1),
-+};
-+
-+/* Page 3, Register 0x2a */
-+enum {
-+	LVDSCLK_BP	= BIT(7),
-+	HDTVCLK_BP	= BIT(6),
-+	HDMICLK_BP	= BIT(5),
-+	HDTV_BP		= BIT(4),
-+	HDMI_BP		= BIT(3),
-+	THRWL		= GENMASK(2, 0),
-+};
-+
-+/* Page 4, Register 0x52 */
-+enum {
-+	PGM_ARSTB	= BIT(7),
-+	MCU_ARSTB	= BIT(6),
-+	MCU_RETB	= BIT(2),
-+	RESETIB		= BIT(1),
-+	RESETDB		= BIT(0),
-+};
-+
-+struct ch7033_priv {
-+	struct regmap *regmap;
-+	struct drm_bridge *next_bridge;
-+	struct drm_encoder encoder;
-+	struct drm_bridge bridge;
-+	struct drm_connector connector;
-+};
-+
-+#define conn_to_ch7033_priv(x) \
-+	container_of(x, struct ch7033_priv, connector)
-+#define bridge_to_ch7033_priv(x) \
-+	container_of(x, struct ch7033_priv, bridge)
-+
-+
-+static enum drm_connector_status ch7033_connector_detect(
-+	struct drm_connector *connector, bool force)
-+{
-+	struct ch7033_priv *priv = conn_to_ch7033_priv(connector);
-+
-+	return drm_bridge_detect(priv->next_bridge);
-+}
-+
-+static const struct drm_connector_funcs ch7033_connector_funcs = {
-+	.reset = drm_atomic_helper_connector_reset,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.detect = ch7033_connector_detect,
-+	.destroy = drm_connector_cleanup,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static int ch7033_connector_get_modes(struct drm_connector *connector)
-+{
-+	struct ch7033_priv *priv = conn_to_ch7033_priv(connector);
-+	struct edid *edid;
-+	int ret;
-+
-+	edid = drm_bridge_get_edid(priv->next_bridge, connector);
-+	drm_connector_update_edid_property(connector, edid);
-+	if (edid) {
-+		ret = drm_add_edid_modes(connector, edid);
-+		kfree(edid);
-+	} else {
-+		ret = drm_add_modes_noedid(connector, 1920, 1080);
-+		drm_set_preferred_mode(connector, 1024, 768);
-+	}
-+
-+	return ret;
-+}
-+
-+static struct drm_encoder *ch7033_connector_best_encoder(
-+			struct drm_connector *connector)
-+{
-+	struct ch7033_priv *priv = conn_to_ch7033_priv(connector);
-+
-+	return priv->bridge.encoder;
-+}
-+
-+static const struct drm_connector_helper_funcs ch7033_connector_helper_funcs = {
-+	.get_modes = ch7033_connector_get_modes,
-+	.best_encoder = ch7033_connector_best_encoder,
-+};
-+
-+static void ch7033_hpd_event(void *arg, enum drm_connector_status status)
-+{
-+	struct ch7033_priv *priv = arg;
-+
-+	if (priv->bridge.dev)
-+		drm_helper_hpd_irq_event(priv->connector.dev);
-+}
-+
-+static int ch7033_bridge_attach(struct drm_bridge *bridge,
-+				enum drm_bridge_attach_flags flags)
-+{
-+	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-+	struct drm_connector *connector = &priv->connector;
-+	int ret;
-+
-+	ret = drm_bridge_attach(bridge->encoder, priv->next_bridge, bridge,
-+				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-+		return 0;
-+
-+	if (priv->next_bridge->ops & DRM_BRIDGE_OP_DETECT) {
-+		connector->polled = DRM_CONNECTOR_POLL_HPD;
-+	} else {
-+		connector->polled = DRM_CONNECTOR_POLL_CONNECT |
-+				    DRM_CONNECTOR_POLL_DISCONNECT;
-+	}
-+
-+	if (priv->next_bridge->ops & DRM_BRIDGE_OP_HPD) {
-+		drm_bridge_hpd_enable(priv->next_bridge, ch7033_hpd_event,
-+				      priv);
-+	}
-+
-+	drm_connector_helper_add(connector,
-+				 &ch7033_connector_helper_funcs);
-+	ret = drm_connector_init_with_ddc(bridge->dev, &priv->connector,
-+					  &ch7033_connector_funcs,
-+					  priv->next_bridge->type,
-+					  priv->next_bridge->ddc);
-+	if (ret) {
-+		DRM_ERROR("Failed to initialize connector\n");
-+		return ret;
-+	}
-+
-+	drm_connector_attach_encoder(&priv->connector, bridge->encoder);
-+	return 0;
-+}
-+
-+static void ch7033_bridge_detach(struct drm_bridge *bridge)
-+{
-+	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-+
-+	if (priv->next_bridge->ops & DRM_BRIDGE_OP_HPD)
-+		drm_bridge_hpd_disable(priv->next_bridge);
-+	drm_connector_cleanup(&priv->connector);
-+}
-+
-+static enum drm_mode_status ch7033_bridge_mode_valid(struct drm_bridge *bridge,
-+				     const struct drm_display_mode *mode)
-+{
-+	if (mode->clock > 165000)
-+		return MODE_CLOCK_HIGH;
-+	if (mode->hdisplay >= 1920)
-+		return MODE_BAD_HVALUE;
-+	if (mode->vdisplay >= 1080)
-+		return MODE_BAD_VVALUE;
-+	return MODE_OK;
-+}
-+
-+static void ch7033_bridge_disable(struct drm_bridge *bridge)
-+{
-+	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-+
-+	regmap_write(priv->regmap, 0x03, 0x04);
-+	regmap_update_bits(priv->regmap, 0x52, RESETDB, 0x00);
-+}
-+
-+static void ch7033_bridge_enable(struct drm_bridge *bridge)
-+{
-+	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-+
-+	regmap_write(priv->regmap, 0x03, 0x04);
-+	regmap_update_bits(priv->regmap, 0x52, RESETDB, RESETDB);
-+}
-+
-+static void ch7033_bridge_mode_set(struct drm_bridge *bridge,
-+				   const struct drm_display_mode *mode,
-+				   const struct drm_display_mode *adjusted_mode)
-+{
-+	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-+	int hbporch = mode->hsync_start - mode->hdisplay;
-+	int hsynclen = mode->hsync_end - mode->hsync_start;
-+	int vbporch = mode->vsync_start - mode->vdisplay;
-+	int vsynclen = mode->vsync_end - mode->vsync_start;
-+
-+	/*
-+	 * Page 4
-+	 */
-+	regmap_write(priv->regmap, 0x03, 0x04);
-+
-+	/* Turn everything off to set all the registers to their defaults. */
-+	regmap_write(priv->regmap, 0x52, 0x00);
-+	/* Bring I/O block up. */
-+	regmap_write(priv->regmap, 0x52, RESETIB);
-+
-+	/*
-+	 * Page 0
-+	 */
-+	regmap_write(priv->regmap, 0x03, 0x00);
-+
-+	/* Bring up parts we need from the power down. */
-+	regmap_update_bits(priv->regmap, 0x07, DRI_PD | IO_PD, 0);
-+	regmap_update_bits(priv->regmap, 0x08, DRI_PDDRI | PDDAC | PANEN, 0);
-+	regmap_update_bits(priv->regmap, 0x09, DPD | GCKOFF |
-+					       HDMI_PD | VGA_PD, 0);
-+	regmap_update_bits(priv->regmap, 0x0a, HD_DVIB, 0);
-+
-+	/* Horizontal input timing. */
-+	regmap_write(priv->regmap, 0x0b, (mode->htotal >> 8) << 3 |
-+					 (mode->hdisplay >> 8));
-+	regmap_write(priv->regmap, 0x0c, mode->hdisplay);
-+	regmap_write(priv->regmap, 0x0d, mode->htotal);
-+	regmap_write(priv->regmap, 0x0e, (hsynclen >> 8) << 3 |
-+					 (hbporch >> 8));
-+	regmap_write(priv->regmap, 0x0f, hbporch);
-+	regmap_write(priv->regmap, 0x10, hsynclen);
-+
-+	/* Vertical input timing. */
-+	regmap_write(priv->regmap, 0x11, (mode->vtotal >> 8) << 3 |
-+					 (mode->vdisplay >> 8));
-+	regmap_write(priv->regmap, 0x12, mode->vdisplay);
-+	regmap_write(priv->regmap, 0x13, mode->vtotal);
-+	regmap_write(priv->regmap, 0x14, ((vsynclen >> 8) << 3) |
-+					 (vbporch >> 8));
-+	regmap_write(priv->regmap, 0x15, vbporch);
-+	regmap_write(priv->regmap, 0x16, vsynclen);
-+
-+	/* Input color swap. */
-+	regmap_update_bits(priv->regmap, 0x18, SWAP, BYTE_SWAP_BGR);
-+
-+	/* Input clock and sync polarity. */
-+	regmap_update_bits(priv->regmap, 0x19, 0x1, mode->clock >> 16);
-+	regmap_update_bits(priv->regmap, 0x19, HPO_I | VPO_I | GCLKFREQ,
-+			   (mode->flags & DRM_MODE_FLAG_PHSYNC) ? HPO_I : 0 |
-+			   (mode->flags & DRM_MODE_FLAG_PVSYNC) ? VPO_I : 0 |
-+			   mode->clock >> 16);
-+	regmap_write(priv->regmap, 0x1a, mode->clock >> 8);
-+	regmap_write(priv->regmap, 0x1b, mode->clock);
-+
-+	/* Horizontal output timing. */
-+	regmap_write(priv->regmap, 0x1f, (mode->htotal >> 8) << 3 |
-+					 (mode->hdisplay >> 8));
-+	regmap_write(priv->regmap, 0x20, mode->hdisplay);
-+	regmap_write(priv->regmap, 0x21, mode->htotal);
-+
-+	/* Vertical output timing. */
-+	regmap_write(priv->regmap, 0x25, (mode->vtotal >> 8) << 3 |
-+					 (mode->vdisplay >> 8));
-+	regmap_write(priv->regmap, 0x26, mode->vdisplay);
-+	regmap_write(priv->regmap, 0x27, mode->vtotal);
-+
-+	/* VGA channel bypass */
-+	regmap_update_bits(priv->regmap, 0x2b, VFMT, 9);
-+
-+	/* Output sync polarity. */
-+	regmap_update_bits(priv->regmap, 0x2e, HPO_O | VPO_O,
-+			   (mode->flags & DRM_MODE_FLAG_PHSYNC) ? HPO_O : 0 |
-+			   (mode->flags & DRM_MODE_FLAG_PVSYNC) ? VPO_O : 0);
-+
-+	/* HDMI horizontal output timing. */
-+	regmap_update_bits(priv->regmap, 0x54, HWO_HDMI_HI | HOO_HDMI_HI,
-+					       (hsynclen >> 8) << 3 |
-+					       (hbporch >> 8));
-+	regmap_write(priv->regmap, 0x55, hbporch);
-+	regmap_write(priv->regmap, 0x56, hsynclen);
-+
-+	/* HDMI vertical output timing. */
-+	regmap_update_bits(priv->regmap, 0x57, VWO_HDMI_HI | VOO_HDMI_HI,
-+					       (vsynclen >> 8) << 3 |
-+					       (vbporch >> 8));
-+	regmap_write(priv->regmap, 0x58, vbporch);
-+	regmap_write(priv->regmap, 0x59, vsynclen);
-+
-+	/* Pick HDMI, not LVDS. */
-+	regmap_update_bits(priv->regmap, 0x7e, HDMI_LVDS_SEL, HDMI_LVDS_SEL);
-+
-+	/*
-+	 * Page 1
-+	 */
-+	regmap_write(priv->regmap, 0x03, 0x01);
-+
-+	/* No idea what these do, but VGA is wobbly and blinky without them. */
-+	regmap_update_bits(priv->regmap, 0x07, CKINV, CKINV);
-+	regmap_update_bits(priv->regmap, 0x08, DISPON, DISPON);
-+
-+	/* DRI PLL */
-+	regmap_update_bits(priv->regmap, 0x0c, DRI_PLL_DIVSEL, DRI_PLL_DIVSEL);
-+	if (mode->clock <= 40000) {
-+		regmap_update_bits(priv->regmap, 0x0c, DRI_PLL_N1_1 |
-+						       DRI_PLL_N1_0 |
-+						       DRI_PLL_N3_1 |
-+						       DRI_PLL_N3_0,
-+						       0);
-+	} else if (mode->clock < 80000) {
-+		regmap_update_bits(priv->regmap, 0x0c, DRI_PLL_N1_1 |
-+						       DRI_PLL_N1_0 |
-+						       DRI_PLL_N3_1 |
-+						       DRI_PLL_N3_0,
-+						       DRI_PLL_N3_0 |
-+						       DRI_PLL_N1_0);
-+	} else {
-+		regmap_update_bits(priv->regmap, 0x0c, DRI_PLL_N1_1 |
-+						       DRI_PLL_N1_0 |
-+						       DRI_PLL_N3_1 |
-+						       DRI_PLL_N3_0,
-+						       DRI_PLL_N3_1 |
-+						       DRI_PLL_N1_1);
-+	}
-+
-+	/* This seems to be color calibration for VGA. */
-+	regmap_write(priv->regmap, 0x64, 0x29); /* LSB Blue */
-+	regmap_write(priv->regmap, 0x65, 0x29); /* LSB Green */
-+	regmap_write(priv->regmap, 0x66, 0x29); /* LSB Red */
-+	regmap_write(priv->regmap, 0x67, 0x00); /* MSB Blue */
-+	regmap_write(priv->regmap, 0x68, 0x00); /* MSB Green */
-+	regmap_write(priv->regmap, 0x69, 0x00); /* MSB Red */
-+
-+	regmap_update_bits(priv->regmap, 0x6b, DRI_PD_SER, 0x00);
-+	regmap_update_bits(priv->regmap, 0x6c, DRI_PLL_PD, 0x00);
-+
-+	/*
-+	 * Page 3
-+	 */
-+	regmap_write(priv->regmap, 0x03, 0x03);
-+
-+	/* More bypasses and apparently another HDMI/LVDS selector. */
-+	regmap_update_bits(priv->regmap, 0x28, VGACLK_BP | HM_LV_SEL,
-+					       VGACLK_BP | HM_LV_SEL);
-+	regmap_update_bits(priv->regmap, 0x2a, HDMICLK_BP | HDMI_BP,
-+					       HDMICLK_BP | HDMI_BP);
-+
-+	/*
-+	 * Page 4
-+	 */
-+	regmap_write(priv->regmap, 0x03, 0x04);
-+
-+	/* Output clock. */
-+	regmap_write(priv->regmap, 0x10, mode->clock >> 16);
-+	regmap_write(priv->regmap, 0x11, mode->clock >> 8);
-+	regmap_write(priv->regmap, 0x12, mode->clock);
-+}
-+
-+static const struct drm_bridge_funcs ch7033_bridge_funcs = {
-+	.attach = ch7033_bridge_attach,
-+	.detach = ch7033_bridge_detach,
-+	.mode_valid = ch7033_bridge_mode_valid,
-+	.disable = ch7033_bridge_disable,
-+	.enable = ch7033_bridge_enable,
-+	.mode_set = ch7033_bridge_mode_set,
-+};
-+
-+static void ch7033_encoder_destroy(struct drm_encoder *encoder)
-+{
-+	drm_encoder_cleanup(encoder);
-+}
-+
-+static const struct drm_encoder_funcs ch7033_encoder_funcs = {
-+	.destroy = ch7033_encoder_destroy,
-+};
-+
-+static int ch7033_bind(struct device *dev, struct device *master,
-+		       void *data)
-+{
-+	struct drm_device *drm = data;
-+	struct ch7033_priv *priv = dev_get_drvdata(dev);
-+	uint32_t crtcs;
-+	int ret;
-+
-+	crtcs = drm_of_find_possible_crtcs(drm, dev->of_node);
-+	priv->encoder.possible_crtcs = crtcs;
-+
-+	ret = drm_encoder_init(drm, &priv->encoder, &ch7033_encoder_funcs,
-+			       DRM_MODE_ENCODER_TMDS, NULL);
-+	if (ret)
-+		return ret;
-+
-+	ret = drm_bridge_attach(&priv->encoder, &priv->bridge, NULL, 0);
-+	if (ret)
-+		drm_encoder_cleanup(&priv->encoder);
-+
-+	return ret;
-+}
-+
-+static void ch7033_unbind(struct device *dev, struct device *master,
-+			  void *data)
-+{
-+	struct ch7033_priv *priv = dev_get_drvdata(dev);
-+
-+	drm_encoder_cleanup(&priv->encoder);
-+}
-+
-+static const struct regmap_config ch7033_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 0x7f,
-+};
-+
-+static const struct component_ops ch7033_ops = {
-+	.bind = ch7033_bind,
-+	.unbind = ch7033_unbind,
-+};
-+
-+static int ch7033_probe(struct i2c_client *client,
-+			const struct i2c_device_id *id)
-+{
-+	struct device *dev = &client->dev;
-+	struct ch7033_priv *priv;
-+	unsigned int val;
-+	int ret;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(dev, priv);
-+
-+	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, -1, NULL,
-+					  &priv->next_bridge);
-+	if (ret)
-+		return ret;
-+
-+	priv->regmap = devm_regmap_init_i2c(client, &ch7033_regmap_config);
-+	if (IS_ERR(priv->regmap)) {
-+		dev_err(&client->dev, "regmap init failed\n");
-+		return PTR_ERR(priv->regmap);
-+	}
-+
-+	ret = regmap_read(priv->regmap, 0x00, &val);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "error reading the model id: %d\n", ret);
-+		return ret;
-+	}
-+	if ((val & 0xf7) != 0x56) {
-+		dev_err(&client->dev, "the device is not a ch7033\n");
-+		return -ENODEV;
-+	}
-+
-+	regmap_write(priv->regmap, 0x03, 0x04);
-+	ret = regmap_read(priv->regmap, 0x51, &val);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "error reading the model id: %d\n", ret);
-+		return ret;
-+	}
-+	if ((val & 0x0f) != 3) {
-+		dev_err(&client->dev, "unknown revision %u\n", val);
-+		return -ENODEV;
-+	}
-+
-+	INIT_LIST_HEAD(&priv->bridge.list);
-+	priv->bridge.funcs = &ch7033_bridge_funcs;
-+	priv->bridge.of_node = dev->of_node;
-+	drm_bridge_add(&priv->bridge);
-+
-+	ret = component_add(dev, &ch7033_ops);
-+	if (ret) {
-+		drm_bridge_remove(&priv->bridge);
-+		return ret;
-+	}
-+
-+	dev_info(dev, "Chrontel CH7033 Video Encoder\n");
-+	return 0;
-+}
-+
-+static int ch7033_remove(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct ch7033_priv *priv = dev_get_drvdata(dev);
-+
-+	component_del(dev, &ch7033_ops);
-+	drm_bridge_remove(&priv->bridge);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ch7033_dt_ids[] = {
-+	{ .compatible = "chrontel,ch7033", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ch7033_dt_ids);
-+
-+static const struct i2c_device_id ch7033_ids[] = {
-+	{ "ch7033", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, ch7033_ids);
-+
-+static struct i2c_driver ch7033_driver = {
-+	.probe = ch7033_probe,
-+	.remove = ch7033_remove,
-+	.driver = {
-+		.name = "ch7033",
-+		.of_match_table = of_match_ptr(ch7033_dt_ids),
-+	},
-+	.id_table = ch7033_ids,
-+};
-+
-+module_i2c_driver(ch7033_driver);
-+
-+MODULE_AUTHOR("Lubomir Rintel <lkundrak@v3.sk>");
-+MODULE_DESCRIPTION("Chrontel CH7033 Video Encoder Driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.25.1
+    01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/AT=
+I] RV200/M7 [Mobility Radeon 7500]
+
+I lack knowledge of the specific graphics hardware/memory interface as
+well as Linux kernel graphics/memory stack at that level, but I'll be
+happy to try any suggestions, or test patches etc.
+
+On 2020-01-09T21:40:50-0500, Woody Suwalski <terraluna977@gmail.com> wrote:
+> Woody Suwalski wrote:
+>> Christian K=C3=B6nig wrote:
+>>> Am 09.01.20 um 15:14 schrieb Christoph Hellwig:
+>>>> On Sat, Dec 14, 2019 at 10:17:15PM -0500, Woody Suwalski wrote:
+>>>>> Regression in 5.4 kernel on 32-bit Radeon IBM T40
+>>>>> triggered by
+>>>>> commit 33b3ad3788aba846fc8b9a065fe2685a0b64f713
+>>>>> Author: Christoph Hellwig <hch@lst.de>
+>>>>> Date:=C2=A0=C2=A0 Thu Aug 15 09:27:00 2019 +0200
+>>>>>
+>>>>> The above patch has triggered a display problem on IBM Thinkpad=20
+>>>>> T40, where
+>>>>> the screen is covered with a lots of random short black horizontal=20
+>>>>> lines,
+>>>>> or distorted letters in X terms.
+>>>>>
+>>>>> The culprit seems to be that the dma_get_required_mask() is=20
+>>>>> returning a
+>>>>> value 0x3fffffff
+>>>>> which is smaller than dma_get_mask()0xffffffff.That results in
+>>>>> dma_addressing_limited()=3D=3D0 in ttm_bo_device(), and using 40-bits=
+ dma
+>>>>> instead of 32-bits.
+>>>> Which is the intended behavior assuming your system has 1GB of memory.
+>>>> Does it?
+>>>
+>>> Assuming the system doesn't have the 1GB split up somehow crazy over=20
+>>> the address space that should indeed work as intended.
+>>>
+>>>>
+>>>>> If I hardcode "1" as the last parameter to ttm_bo_device_init() in=20
+>>>>> place of
+>>>>> a call to dma_addressing_limited(),the problem goes away.
+
+I'm confirming that hack "resolves" the issue.
+
+>>>> I'll need some help from the drm / radeon / TTM maintainers if there=20
+>>>> are
+>>>> any other side effects from not passing the need_dma32 paramters.
+>>>> Obviously if the device doesn't have more than 32-bits worth of dram=20
+>>>> and
+>>>> no DMA offset we can't feed unaddressable memory to the device.
+>>>> Unfortunately I have a very hard time following the implementation of
+>>>> the TTM pool if it does anything else in this case.
+>>>
+>>> The only other thing which comes to mind is using huge pages. Can you=20
+>>> try a kernel with CONFIG_TRANSPARENT_HUGEPAGE disabled?
+>>
+>> Yes, the box has 1G of RAM, and unfortunately nope,=20
+>> TRANSPARENT_HUGEPAGE is not on. I am attaching the .config, maybe you=20
+>> can find some insanity there... Also - for reference - a minimalistic=20
+>> patch fixing symptoms (but not addressing the root cause=C2=A0 :-( )
+>>
+>> I can try to rebuild the kernel with HIGHMEM off, although I am not=20
+>> optimistic it will change anything. But at least it should simplify=20
+>> the 1G split...
+>>
+>> So if you have any other ideas - pls let me know..
+>>
+> Interesting. Rebuilding the kernel with HIMEM disabled actually solves=20
+> the display problem. The debug lines show exactly same values for=20
+> dma_get_required_mask() and dma_get_mask(), yet now it works OK... So=20
+> what has solved it???
+
+That I have not yet tried.
+
+
+Gr=C3=BC=C3=9Fe
+ Thomas
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEE7KZCCFfzmIiKFvCOphHFmisdAgYFAl5tVXwACgkQphHFmisd
+AgY3wAwAoOYpUrZ/3xFY2GaefxB27TuNulTAMNP8Ggb2tSZfAjvc8s/e+HRuxRjL
+Ri4DFsZ38Is6OlXONfak24tZeXaxEDNqiDbib0+mFXD6saGECbNCkvpujaaT+wsf
+E8Uph7Olh9mwL6C6I65w049voxw+T2pz79wIp8Y71sIBf1N5rONY9oYyBe9BhYTu
+BbQaV6zZ7PY0ZisL1Pb61kBNtEdoUBubJHCbsuPGU5SKTWeG1M6o4h2+Co/T7dvF
+ggfqx1vGu+RWQgHSiNTEmZqKrcMGgM9npeBU5Kb6fdeIyZZmnuZyXo734XGiDGD+
+va2JTFLJLlqoh8TtbD7icyRPYj0rdGYG6rm1IqRs6/BUBnrHnYak1wylBkDPkLbq
+3ssTN1+wMmv3HV4KLvAv9bhcP31l3gDAPqhJL7FxPvuYuZmtK7T7ugBsWuDlqLJh
+NFSb6jSP1yLPbaHsU1aWIB2QMsYj5L7MCKVyG0O/v05MLZf0OGfNAHnn1tZ74b5R
+Zh8E+AOl
+=JFLI
+-----END PGP SIGNATURE-----
+--=-=-=--
+
+--_41aa890b-3091-490d-b17c-395cfbf074d0_
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--_41aa890b-3091-490d-b17c-395cfbf074d0_--
