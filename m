@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9CBE185CDA
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:44:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7303F185CDF
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:44:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAA016E177;
-	Sun, 15 Mar 2020 13:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F6366E186;
+	Sun, 15 Mar 2020 13:44:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E3EA6E179
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:44:49 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id r9so6194364lff.13
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:44:49 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95D166E181
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:44:51 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id 5so4601162lfr.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:44:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zmqWqwwj9+Xd7JsaiFF8KfpTIci7pCIkgyUayONmZn8=;
- b=fYhyZxUYQQ4A31HUuS/1vlTKGroCvMGAaME+rIRviZhTzcS1G9swkC/Oi6BHB/TI0B
- FKdFZ3ly/tUmoq+rbdyse9zm8zvRtWD+7kQ9rfqVCaczOIVl1M+eUArrMnF6YeBDteuj
- Lt4v6PuR1tYDi5hOfi27m+4Jr9YFAyhNdSYn0MxFg3vgXlw5GjG5oYefwvKc4zsfEXm2
- Biy3pNzfHO/kph+2Mp1NsVC+8R0HcEz7fJ+EoZNFIvnmtgQfgO/DYDrDWlTk7Dhlm4OR
- ZBI04cMncsOyAMc2tXQTJrSNgzL/9uXPJozsC/Drc3WSl5Q5qlAvu9gLTBoyc7w48aY5
- KhrQ==
+ bh=DKFWNzm+inHvUnuFaBbTyPTrAd4h6YpCxucuZ+VVDvg=;
+ b=nKQkRbs6p7IU6GKjqEAoG/cl1CtIpH+L/FrvbrTmJCLaV2cNEYHISe0/xnBO2pnCoi
+ tm25uzNnyMFSpPnNrAbUugYBn7ixSlcl7XtqS6N2cD9nz7IJCm+CPPK9Dj4E/sQmm0Z1
+ br7eDuzTfyk+VVm+L+T2vSOJ249dlsCTvZha1x60RHoCCaSyvaVnUZ8TGFxgFT5FY1Dz
+ ndve/sIQpzM9HJ7ubT8+f3MoVRL5it674tni+OL0RzSOAwr7Ny7ChiPqwoAxtOFekX2n
+ Ch0ZYff0Dm1FLo1o801LkUTwCVqZojTf/D+SpivzJR8GkiohK9wbY97Ult8LleZBvaYp
+ 5t2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zmqWqwwj9+Xd7JsaiFF8KfpTIci7pCIkgyUayONmZn8=;
- b=A7PYYp3SZAULqxjDwaV3FhnmFoZKCDOoWQ9KtKPtprHinsDs+OfbkPPAySGvjHNxvl
- rvpifw2i25/Chp1hPu8vMkNYq9a3Zm/ynCdm4H8CYAlK+gI3M2O50aDIRnjUbMutqrtH
- V5wbTL87jMRdwm2UT1Ez3FN3q9sdYvlheT5oZl1uStiiELe2X7ey0QQbT08VIG/7UbyZ
- JpMZOTjikyDIL8+eEChdZjPk0dlim5l6zfxsSodoBUhMjtu/1WMI/IO/cIlfzRcWZKpS
- nxyY6W6+8YRi1mTTmluOjazytoPF2eCHdcB28HGRqb0LEbzLKKumNiSK8MiqeAQjmPEd
- Y7pA==
-X-Gm-Message-State: ANhLgQ1fL5/9MM1Tp7xhHpSGDWeJKRTGUJDVQslFU86lJwrL2tmvC9NE
- IBx/o518PBBjWZbxsT4HuTiYSiTGFtg=
-X-Google-Smtp-Source: ADFU+vu8mDyzwYKm+GWNx575bjhBRZT6xdr6t6LXfxJ16I5/GZF3rwPg85UQQpBvN2KubxQa5A2lXQ==
-X-Received: by 2002:a19:6e0f:: with SMTP id j15mr13943660lfc.76.1584279887761; 
- Sun, 15 Mar 2020 06:44:47 -0700 (PDT)
+ bh=DKFWNzm+inHvUnuFaBbTyPTrAd4h6YpCxucuZ+VVDvg=;
+ b=hiaBDEFGrLv+RKOlqJL8BOjalcLxTCoG4UNu99sxWlQH7JlyU6rbdreub+R4uS6kqG
+ nUQZm4zromtvPr1WyvtCeBzcK9hKQG+p7fq2aKwlHDGQ7avugR2MOHDb9qUkNKtaih4z
+ 0qGVk5p9S5PRiQvjQKgwldGb1EzSnV8X/j4JPfM5Zu5YYTRqAPMQH0kL3cl3qN9Bp7vG
+ InSOht7TGXdViePYT+EXavTllV8E8bgiKSSharUGRF2F1pKs0he3m8EwuNzrWg55bKx2
+ sbLQ3w5uGCO9K+mJbKq39PxX8u38D1UrELj10dgks+i93+B9SDEBX0+XI8oEYyH6fVdE
+ CCOw==
+X-Gm-Message-State: ANhLgQ1jwnWsecJP6gtECetnf6uf3C6Pz2YQP9fWhSZ4bmWm8EkoYkjw
+ a7T2zfEt3/e/5l0Bey2iYG63gnhBXME=
+X-Google-Smtp-Source: ADFU+vs0IGyQy3vzYGDlnv9TvE4khDaBhV7yBGIAFb8i07P4mBDYkpaUXJBq/gHEcKsW7v9UOYK1uQ==
+X-Received: by 2002:a19:a415:: with SMTP id q21mr13918816lfc.21.1584279889723; 
+ Sun, 15 Mar 2020 06:44:49 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- a9sm23025212lfb.21.2020.03.15.06.44.45
+ a9sm23025212lfb.21.2020.03.15.06.44.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 06:44:47 -0700 (PDT)
+ Sun, 15 Mar 2020 06:44:49 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v1 09/36] dt-bindings: display: convert innolux,
- p079zca to DT Schema
-Date: Sun, 15 Mar 2020 14:43:49 +0100
-Message-Id: <20200315134416.16527-10-sam@ravnborg.org>
+Subject: [PATCH v1 10/36] dt-bindings: display: convert innolux,
+ p097pfg to DT Schema
+Date: Sun, 15 Mar 2020 14:43:50 +0100
+Message-Id: <20200315134416.16527-11-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200315134416.16527-1-sam@ravnborg.org>
 References: <20200315134416.16527-1-sam@ravnborg.org>
@@ -94,32 +94,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As the binding matches panel-simple, added the compatible to the
-panel-simple list.
-With this change enable-gpios is now optional.
-
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Chris Zhong <zyw@rock-chips.com>
+Cc: Lin Huang <hl@rock-chips.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../display/panel/innolux,p079zca.txt         | 22 -------------------
- .../bindings/display/panel/panel-simple.yaml  |  2 ++
- 2 files changed, 2 insertions(+), 22 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/innolux,p079zca.txt
+ .../display/panel/innolux,p097pfg.txt         | 24 --------
+ .../display/panel/innolux,p097pfg.yaml        | 56 +++++++++++++++++++
+ 2 files changed, 56 insertions(+), 24 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/innolux,p097pfg.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/innolux,p097pfg.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/panel/innolux,p079zca.txt b/Documentation/devicetree/bindings/display/panel/innolux,p079zca.txt
+diff --git a/Documentation/devicetree/bindings/display/panel/innolux,p097pfg.txt b/Documentation/devicetree/bindings/display/panel/innolux,p097pfg.txt
 deleted file mode 100644
-index 3ab8c7412cf6..000000000000
---- a/Documentation/devicetree/bindings/display/panel/innolux,p079zca.txt
+index d1cab3a8f0fb..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/innolux,p097pfg.txt
 +++ /dev/null
-@@ -1,22 +0,0 @@
--Innolux P079ZCA 7.85" 768x1024 TFT LCD panel
+@@ -1,24 +0,0 @@
+-Innolux P097PFG 9.7" 1536x2048 TFT LCD panel
 -
 -Required properties:
--- compatible: should be "innolux,p079zca"
+-- compatible: should be "innolux,p097pfg"
 -- reg: DSI virtual channel of the peripheral
--- power-supply: phandle of the regulator that provides the supply voltage
+-- avdd-supply: phandle of the regulator that provides positive voltage
+-- avee-supply: phandle of the regulator that provides negative voltage
 -- enable-gpios: panel enable gpio
 -
 -Optional properties:
@@ -131,24 +129,74 @@ index 3ab8c7412cf6..000000000000
 -		panel@0 {
 -			compatible = "innolux,p079zca";
 -			reg = <0>;
--			power-supply = <...>;
+-			avdd-supply = <...>;
+-			avee-supply = <...>;
 -			backlight = <&backlight>;
 -			enable-gpios = <&gpio1 13 GPIO_ACTIVE_HIGH>;
 -		};
 -	};
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 393ffc6acbba..5088fe81d025 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -143,6 +143,8 @@ properties:
-       - innolux,n116bge
-         # InnoLux 15.6" WXGA TFT LCD panel
-       - innolux,n156bge-l21
-+        # Innolux P079ZCA 7.85" 768x1024 TFT LCD panel
-+      - innolux,p079zca
-         # Innolux Corporation 7.0" WSVGA (1024x600) TFT LCD panel
-       - innolux,zj070na-01p
-         # Kaohsiung Opto-Electronics Inc. 5.7" QVGA (320 x 240) TFT LCD panel
+diff --git a/Documentation/devicetree/bindings/display/panel/innolux,p097pfg.yaml b/Documentation/devicetree/bindings/display/panel/innolux,p097pfg.yaml
+new file mode 100644
+index 000000000000..5a5f071627fb
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/innolux,p097pfg.yaml
+@@ -0,0 +1,56 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/innolux,p097pfg.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Innolux P097PFG 9.7" 1536x2048 TFT LCD panel
++
++maintainers:
++  - Lin Huang <hl@rock-chips.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: innolux,p097pfg
++
++  backlight: true
++  enable-gpios: true
++  reg: true
++
++  avdd-supply:
++    description: The regulator that provides positive voltage
++
++  avee-supply:
++    description: The regulator that provides negative voltage
++
++required:
++  - compatible
++  - reg
++  - avdd-supply
++  - avee-supply
++  - enable-gpios
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "innolux,p097pfg";
++            reg = <0>;
++            avdd-supply = <&avdd>;
++            avee-supply = <&avee>;
++            backlight = <&backlight>;
++            enable-gpios = <&gpio1 13 GPIO_ACTIVE_HIGH>;
++        };
++    };
++
++...
 -- 
 2.20.1
 
