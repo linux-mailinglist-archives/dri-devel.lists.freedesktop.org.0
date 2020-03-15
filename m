@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5F4185CDD
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBB4185CD7
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:44:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E61426E179;
-	Sun, 15 Mar 2020 13:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC8CD6E176;
+	Sun, 15 Mar 2020 13:44:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 630B96E177
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:44:45 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id o10so15591966ljc.8
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:44:45 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 579006E176
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:44:47 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id j15so11739026lfk.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pgEXQsDcjOHsYIv9nRQRc/r4cOy9yFXdgKqPV0CnCk8=;
- b=oHWDnNCQT47agrp2O3QeiJSxC/Xin3q9XIDhN9NkD5V0vzdx5EhSYeLMHHZWqK1znH
- vR2G2kdbnxstwPI79gskId/5hTb0WpW817qpWYTsk3vd6OUdPM+NF3es9i1UdRNgHgnS
- vMzfav/4a35ffNF0z1780uLQY/dXPnDk+8gujM+3oP9pEJStYJCWH7vhJg+smmFYSnnZ
- mq5HWaLWPh9+f/kwQlz5CkYDaD0sEoRHskgWut9RABQMXaJkQR4B+DFZFahiOZaN7Hos
- /SWx6qJGiaNHwgHGp+IjwxUeAawKwEpCJN3p97fdMShWx8oWTos+enqtq0hvPMuZ4Rqx
- gs2g==
+ bh=OWdCcK1waThtoepd7BYaq8MoQGbRPjR7ssIGl9jD1xY=;
+ b=YSDzbdm4qZdmbd9LTRerOaVNxCvdNWkRyn/yU3TbuIPImFjaM6FXupe/cBOTPgfatz
+ ci66uHuB16rB+LKkyoRJlDaheIF3gaVQIk2rW+wtqmrIcj3s+LoLf7BXvY22wI3Ue02U
+ 9Xq8YK1Xc8E0Ppac1XGbHpoK9keUbfb0G3zs+cehLapMQT+I/maKaPKWMLcrYYr0XpDK
+ MxHaTxvpC/oxqq29BwiXfTNBLkm2N179/isspU3vWjuxeJn263d0d96zPH4K+N07zBix
+ CyAZBPVAPXO92Kpha7Ri2zuWPjgRKHC4PnNB5hFk2WmfZP5IibycdLeuMXsYyQ6ySjwm
+ Zu0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=pgEXQsDcjOHsYIv9nRQRc/r4cOy9yFXdgKqPV0CnCk8=;
- b=Mer+Hyly+AlSimhN3HlA9xa/2juU9Xc325o6tacFRC0H7M8oeDwwTPUx8KZ1F3i1mF
- 2ZLtAvIZyx5dCOpFFCPoww9po1Q+ba8l7Y7kTMk6l9VeY8K0Zzgw5mCFXVPzaA7bH+Zl
- v2U8pbH6BuAwpErMCeYFEaBGXZfCSErfvay114oMQEEC9o2om4XjpUng49TXqm22rnDu
- a4S7Jgig46ztqp+5wongN+GfMMxd9DTUHcAnKRPS2Tbwhn8Ib26/iRxT5XQBOdQge5vJ
- 9pi0sVXr7B8EWBX5QdN2uuF92EdFNFaGZr+KFP8JQIgRD4PvQlLxc7/vCp3KI89y6CFN
- PF1g==
-X-Gm-Message-State: ANhLgQ0TNqToj7OjhBIzd3miUlD6WJbIaktpKP2VL29gH+x8UiArsLio
- jOMDS3GS3vJB/yyubMlEqDC6Xq4xLis=
-X-Google-Smtp-Source: ADFU+vuCyi5ubtfFG28TZfhRyYRqzodmur8BQI0nkoClJCFFJcM5vZi+/T5l7TzlRyRKvba6IPp8uQ==
-X-Received: by 2002:a2e:92d6:: with SMTP id k22mr1256904ljh.18.1584279883480; 
- Sun, 15 Mar 2020 06:44:43 -0700 (PDT)
+ bh=OWdCcK1waThtoepd7BYaq8MoQGbRPjR7ssIGl9jD1xY=;
+ b=UmiL1yKgMD159hn9wGqDwiY7OfrsheP58aO4clvzEc/Bz1dUFmth2FYGBSA4PR4Vkk
+ r2637ljtoJpWpqIsIwemiidNSe2E+b8X2Fc9NxL9VQFok1E2Dz+tObrnwONY08LyINNp
+ Q7kYDH3IGKx76y+sWQVAth8tQohuFq2iVgWok272OlEfMXLyKSAWn5LIpv6MnOXzoIlC
+ AQFEbw//iuf+Zyf2J6dOy+4e+zYOPygnGiONro95pm1Q3kjreAbqvwnT68S6xElsY+2C
+ 4KT2CJ/vFHYnjBCbry20koKAhUQD4RHIv+k/cKU8kQO02otzugSr1QWDMYWjj4xbN72z
+ tskw==
+X-Gm-Message-State: ANhLgQ1nlBmqgaBARa/c2GNCnv8nbEDaamUm/p4nkAsMFC1mwcJmb2B5
+ ZsatyKrYwLG21GQSXKr+Omanx/JMYo0=
+X-Google-Smtp-Source: ADFU+vvMNL4/OCBcGRfP86JCNs0Uu0s4FaODwXFU6z2OwE94xN979qCQv/xlOUmU0/daCIjp3W2TBQ==
+X-Received: by 2002:a19:80e:: with SMTP id 14mr13714096lfi.206.1584279885499; 
+ Sun, 15 Mar 2020 06:44:45 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- a9sm23025212lfb.21.2020.03.15.06.44.41
+ a9sm23025212lfb.21.2020.03.15.06.44.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 06:44:43 -0700 (PDT)
+ Sun, 15 Mar 2020 06:44:45 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v1 07/36] dt-bindings: display: convert ilitek,
- ili9881c to DT Schema
-Date: Sun, 15 Mar 2020 14:43:47 +0100
-Message-Id: <20200315134416.16527-8-sam@ravnborg.org>
+Subject: [PATCH v1 08/36] dt-bindings: display: convert feiyang,
+ fy07024di26a30d to DT Schema
+Date: Sun, 15 Mar 2020 14:43:48 +0100
+Message-Id: <20200315134416.16527-9-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200315134416.16527-1-sam@ravnborg.org>
 References: <20200315134416.16527-1-sam@ravnborg.org>
@@ -95,77 +95,82 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../display/panel/ilitek,ili9881c.txt         | 20 --------
- .../display/panel/ilitek,ili9881c.yaml        | 50 +++++++++++++++++++
- 2 files changed, 50 insertions(+), 20 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+ .../display/panel/feiyang,fy07024di26a30d.txt | 20 -------
+ .../panel/feiyang,fy07024di26a30d.yaml        | 56 +++++++++++++++++++
+ 2 files changed, 56 insertions(+), 20 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.txt b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.txt
+diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
 deleted file mode 100644
-index 4a041acb4e18..000000000000
---- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.txt
+index 82caa7b65ae8..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
 +++ /dev/null
 @@ -1,20 +0,0 @@
--Ilitek ILI9881c based MIPI-DSI panels
+-Feiyang FY07024DI26A30-D 7" MIPI-DSI LCD Panel
 -
 -Required properties:
--  - compatible: must be "ilitek,ili9881c" and one of:
--    * "bananapi,lhr050h41"
--  - reg: DSI virtual channel used by that screen
--  - power-supply: phandle to the power regulator
--  - reset-gpios: a GPIO phandle for the reset pin
+-- compatible: must be "feiyang,fy07024di26a30d"
+-- reg: DSI virtual channel used by that screen
+-- avdd-supply: analog regulator dc1 switch
+-- dvdd-supply: 3v3 digital regulator
+-- reset-gpios: a GPIO phandle for the reset pin
 -
 -Optional properties:
--  - backlight: phandle to the backlight used
+-- backlight: phandle for the backlight control.
 -
--Example:
 -panel@0 {
--	compatible = "bananapi,lhr050h41", "ilitek,ili9881c";
+-	compatible = "feiyang,fy07024di26a30d";
 -	reg = <0>;
--	power-supply = <&reg_display>;
--	reset-gpios = <&r_pio 0 5 GPIO_ACTIVE_LOW>; /* PL05 */
--	backlight = <&pwm_bl>;
+-	avdd-supply = <&reg_dc1sw>;
+-	dvdd-supply = <&reg_dldo2>;
+-	reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
+-	backlight = <&backlight>;
 -};
-diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
 new file mode 100644
-index 000000000000..a39332276bab
+index 000000000000..4bf4498d007a
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-@@ -0,0 +1,50 @@
++++ b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+@@ -0,0 +1,56 @@
 +# SPDX-License-Identifier: GPL-2.0
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/panel/ilitek,ili9881c.yaml#
++$id: http://devicetree.org/schemas/display/panel/feiyang,fy07024di26a30d.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Ilitek ILI9881c based MIPI-DSI panels
++title: Feiyang FY07024DI26A30-D 7" MIPI-DSI LCD Panel
 +
 +maintainers:
-+  - Maxime Ripard <mripard@kernel.org>
++  - Jagan Teki <jagan@amarulasolutions.com>
++
++allOf:
++  - $ref: panel-common.yaml#
 +
 +properties:
 +  compatible:
-+    items:
-+      - enum:
-+        - bananapi,lhr050h41
-+
-+      - const: ilitek,ili9881c
++    const: feiyang,fy07024di26a30d
 +
 +  backlight: true
-+  power-supply: true
-+  reg: true
++  reg : true
 +  reset-gpios: true
 +
++  avdd-supply:
++    description: analog regulator dc1 switch
++
++  dvdd-supply:
++    description: 3v3 digital regulator
++
 +required:
-+  - compatible
-+  - power-supply
-+  - reg
-+  - reset-gpios
++ - compatible
++ - reg
++ - reset-gpios
++ - avdd-supply
++ - dvdd-supply
 +
 +additionalProperties: false
 +
@@ -178,11 +183,12 @@ index 000000000000..a39332276bab
 +        #size-cells = <0>;
 +
 +        panel@0 {
-+            compatible = "bananapi,lhr050h41", "ilitek,ili9881c";
++            compatible = "feiyang,fy07024di26a30d";
 +            reg = <0>;
-+            power-supply = <&reg_display>;
-+            reset-gpios = <&r_pio 0 5 GPIO_ACTIVE_LOW>; /* PL05 */
-+            backlight = <&pwm_bl>;
++            avdd-supply = <&reg_dc1sw>;
++            dvdd-supply = <&reg_dldo2>;
++            reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
++            backlight = <&backlight>;
 +        };
 +    };
 +
