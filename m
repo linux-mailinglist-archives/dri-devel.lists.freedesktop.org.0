@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8F5185CC8
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:44:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A864185CCB
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:44:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC09B6E14D;
-	Sun, 15 Mar 2020 13:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A4D26E156;
+	Sun, 15 Mar 2020 13:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE0AC6E156
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:44:34 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id g12so15626464ljj.3
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:44:34 -0700 (PDT)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC6806E156
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:44:36 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id j11so11717268lfg.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=X45tw5KJlXhhJ3R6ynp7V7JRLgh1AOjgAQ5sYiJA7gQ=;
- b=Oqq5zZmQwYobC/AnUgTbv+2yNqZC1ysfOc2s7Dq7jJeMNanIhWjon9tWa5pfztJ6Oy
- Pej2RybnxI+89G9uHBa5IkXk6CoAIE/puDgRbN4dc3gybEtjgASgzlhLXnxUkEg0N53g
- jQkIaV4mdCElNhUzuuB1FR8JWCm8miXnIcYViF/mUf+gziC95xg6kXReV9Lx4NYnRMs5
- A6OfsMYAdo36YXPL913Pb/T2v3A1vCVSEDCufLgZM8jA9Lj0wSarOW5f4eT8/GmzkkJ4
- I81/N2rLrQxHi7Ren4MnSl5o1/9CHex0yrqCyUS74kwQsglYxMu2soNbKK/M2VHfol5A
- P5Xg==
+ bh=2nNoHF8rJC/nOf5M8UDCn0+951QJCRTbyZ2ThPvlf0w=;
+ b=peaSA7XXfInnOlxZwHMfXxgxh99b4MF4RSH4zmci46aJTfHAih6Ks3JleLT1XNLKXG
+ tfiESYeF9CeV4mxStON58h1mDB4iz2RF84TVh+5jyM/MK1olmp3EnXLQuyzW4rOJ/PHr
+ T2RkT5PavJJhRaXkMvdxQjd8P0M3ZsZ0APYHq+DAwytpMGagy46rdlv4h/njIPy+iDuL
+ LJT6BzKaAnOr6dhcwwhBcm4V3D9Y109REnC5uSzp+hGLeCkFiHEHYH8KIKhG9E9BQcQA
+ C1n7QwXOVKK7UQDY/ZNCEnfslAIDSct4tK1Jkjxqgcqb9ngMMVpdYtv+uLbQTU6VXqJJ
+ BOPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=X45tw5KJlXhhJ3R6ynp7V7JRLgh1AOjgAQ5sYiJA7gQ=;
- b=nEpzZMnnHrSl9+b2zEBGF0qSI91uL3Gx+ZHR1+Ukh9cqIN/J72GaOBlURiXCcZPSWb
- gWH9iwFQ9rzuz8uybcFg0AKfCqQYY8nCzp3OtfoQ1VWYU8Vgb/4aE/I2OFlwi0vBomg8
- el8NEmZU7meXUXexQexOPiuxs/EX7MJWNqs4lh9AszOtFwyOOriDIwL2PTXq5Fm/gZwl
- 0EOPqbyUWU8DoMQ8k74usVjlutI/dMUbhH9D1xzwC3/3f+8Drd7ZdBh/0yYl1WF/R8tJ
- i/mpVrgLwvLHGm0w4niASuG6KypqHjObxM4rl0dTJUhSTpdnwJtNiVi8sM+y0yvIv1jb
- udzA==
-X-Gm-Message-State: ANhLgQ3QASJYstOmw4z7B40yQmke3XFWZTshC/liur5ih0AfbS/to4HJ
- 0+H2HVLu2/tMSUc1PbGqnJQhXCDdmMI=
-X-Google-Smtp-Source: ADFU+vvKezVrr5pKhPKFDDiDBtGVr/h70AHssvhC8VNZHgZJoJYzPcWqdWCvDfcTSWr33npk2S7GtA==
-X-Received: by 2002:a2e:3002:: with SMTP id w2mr10976729ljw.82.1584279872839; 
- Sun, 15 Mar 2020 06:44:32 -0700 (PDT)
+ bh=2nNoHF8rJC/nOf5M8UDCn0+951QJCRTbyZ2ThPvlf0w=;
+ b=fvKC0ZjBXJhtRnkl0WQgahcE5DFFOJ8RhHWqn97BfKZPIrFbJH2ibx20AWz0DPAfx0
+ Q6rRsk9w+bYqEy9gHm3YWhPi4sHKpV2NBtomEQonDIBG5fzZxS70kA0kdLLP5/Ww9vxx
+ ZPIhVjXrX7vxmWqZBgQ/LYdemcUuM5im3BNNBz9MOqjudY7v+H1KRsfxonQmWDceNJJ6
+ Upy4gH6o8yu2PTP9MEPq++fWWxvHKQKgubLb132wAwQwFxvnPXO5OSDhJjsuuE9OTYCA
+ AVEI5QRTxMtV3sizJOR258EPFxm7y+PGYys5iTgx9sipXUDX0Kkx8V43vPtgWRGP1rjl
+ onzQ==
+X-Gm-Message-State: ANhLgQ34KgB9NHGgICWLpfT7CO5pXE/JHUuJI+gXmGXMEGd2XIvjsY9i
+ KlrQVRg6XFwTiZGwN7REcQhWQGqGPU8=
+X-Google-Smtp-Source: ADFU+vsRGsioJ1VqqB8qQWTmMk8FSUPBYKCqg6o0VA9Tjps9bftz2BrCNELrmgSTrx0twM5iMuyksg==
+X-Received: by 2002:ac2:5e7b:: with SMTP id a27mr5597020lfr.61.1584279874961; 
+ Sun, 15 Mar 2020 06:44:34 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- a9sm23025212lfb.21.2020.03.15.06.44.31
+ a9sm23025212lfb.21.2020.03.15.06.44.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 06:44:32 -0700 (PDT)
+ Sun, 15 Mar 2020 06:44:34 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v1 02/36] dt-bindings: spi: support non-spi bindings as SPI
- slaves
-Date: Sun, 15 Mar 2020 14:43:42 +0100
-Message-Id: <20200315134416.16527-3-sam@ravnborg.org>
+Subject: [PATCH v1 03/36] dt-bindings: display: convert samsung,
+ s6e63m0 to DT Schema
+Date: Sun, 15 Mar 2020 14:43:43 +0100
+Message-Id: <20200315134416.16527-4-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200315134416.16527-1-sam@ravnborg.org>
 References: <20200315134416.16527-1-sam@ravnborg.org>
@@ -94,190 +94,122 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Independent bindings can be SPI slaves which for example is
-the case for several panel bindings.
-
-Move SPI slave properties to spi-slave.yaml so the independent
-SPI slave bindings can include spi-slave.yaml rather than
-duplicating the properties.
+The binding for this panel is a SPI slave.
+Reference spi-slave.yaml
+to avoid duplicating all properties.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: linux-spi@vger.kernel.org
+Cc: Jonathan Bakker <xc-racer2@live.ca>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../bindings/spi/spi-controller.yaml          | 63 +-------------
- .../devicetree/bindings/spi/spi-slave.yaml    | 83 +++++++++++++++++++
- 2 files changed, 86 insertions(+), 60 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/spi/spi-slave.yaml
+ .../display/panel/samsung,s6e63m0.txt         | 33 -----------
+ .../display/panel/samsung,s6e63m0.yaml        | 58 +++++++++++++++++++
+ 2 files changed, 58 insertions(+), 33 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml
 
-diff --git a/Documentation/devicetree/bindings/spi/spi-controller.yaml b/Documentation/devicetree/bindings/spi/spi-controller.yaml
-index 1e0ca6ccf64b..99531c8d10dd 100644
---- a/Documentation/devicetree/bindings/spi/spi-controller.yaml
-+++ b/Documentation/devicetree/bindings/spi/spi-controller.yaml
-@@ -67,71 +67,14 @@ patternProperties:
-   "^.*@[0-9a-f]+$":
-     type: object
- 
-+    allOf:
-+      - $ref: spi-slave.yaml#
-+
-     properties:
-       compatible:
-         description:
-           Compatible of the SPI device.
- 
--      reg:
--        minimum: 0
--        maximum: 256
--        description:
--          Chip select used by the device.
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.txt b/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.txt
+deleted file mode 100644
+index 9fb9ebeef8e4..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.txt
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Samsung s6e63m0 AMOLED LCD panel
 -
--      spi-3wire:
--        $ref: /schemas/types.yaml#/definitions/flag
--        description:
--          The device requires 3-wire mode.
+-Required properties:
+-  - compatible: "samsung,s6e63m0"
+-  - reset-gpios: GPIO spec for reset pin
+-  - vdd3-supply: VDD regulator
+-  - vci-supply: VCI regulator
 -
--      spi-cpha:
--        $ref: /schemas/types.yaml#/definitions/flag
--        description:
--          The device requires shifted clock phase (CPHA) mode.
+-The panel must obey rules for SPI slave device specified in document [1].
 -
--      spi-cpol:
--        $ref: /schemas/types.yaml#/definitions/flag
--        description:
--          The device requires inverse clock polarity (CPOL) mode.
+-The device node can contain one 'port' child node with one child
+-'endpoint' node, according to the bindings defined in [2]. This
+-node should describe panel's video bus.
 -
--      spi-cs-high:
--        $ref: /schemas/types.yaml#/definitions/flag
--        description:
--          The device requires the chip select active high.
+-[1]: Documentation/devicetree/bindings/spi/spi-bus.txt
+-[2]: Documentation/devicetree/bindings/media/video-interfaces.txt
 -
--      spi-lsb-first:
--        $ref: /schemas/types.yaml#/definitions/flag
--        description:
--          The device requires the LSB first mode.
+-Example:
 -
--      spi-max-frequency:
--        $ref: /schemas/types.yaml#/definitions/uint32
--        description:
--          Maximum SPI clocking speed of the device in Hz.
+-		s6e63m0: display@0 {
+-			compatible = "samsung,s6e63m0";
+-			reg = <0>;
+-			reset-gpio = <&mp05 5 1>;
+-			vdd3-supply = <&ldo12_reg>;
+-			vci-supply = <&ldo11_reg>;
+-			spi-max-frequency = <1200000>;
 -
--      spi-rx-bus-width:
--        allOf:
--          - $ref: /schemas/types.yaml#/definitions/uint32
--          - enum: [ 1, 2, 4, 8 ]
--          - default: 1
--        description:
--          Bus width to the SPI bus used for MISO.
--
--      spi-rx-delay-us:
--        description:
--          Delay, in microseconds, after a read transfer.
--
--      spi-tx-bus-width:
--        allOf:
--          - $ref: /schemas/types.yaml#/definitions/uint32
--          - enum: [ 1, 2, 4, 8 ]
--          - default: 1
--        description:
--          Bus width to the SPI bus used for MOSI.
--
--      spi-tx-delay-us:
--        description:
--          Delay, in microseconds, after a write transfer.
--
-     required:
-       - compatible
-       - reg
-diff --git a/Documentation/devicetree/bindings/spi/spi-slave.yaml b/Documentation/devicetree/bindings/spi/spi-slave.yaml
+-			port {
+-				lcd_ep: endpoint {
+-					remote-endpoint = <&fimd_ep>;
+-				};
+-			};
+-		};
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml
 new file mode 100644
-index 000000000000..fa50d9dfab41
+index 000000000000..204ed76da84d
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/spi/spi-slave.yaml
-@@ -0,0 +1,83 @@
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml
+@@ -0,0 +1,58 @@
 +# SPDX-License-Identifier: GPL-2.0
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/spi/spi-slave.yaml#
++$id: http://devicetree.org/schemas/display/panel/samsung,s6e63m0.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: SPI slave generic binding
++title: Samsung s6e63m0 AMOLED LCD panel
 +
 +maintainers:
-+  - Mark Brown <broonie@kernel.org>
++  - Jonathan Bakker <xc-racer2@live.ca>
 +
-+description: |
-+  This document defines device tree properties common to SPI slaves.
-+  It doesn't constitue a device tree binding specification by
-+  itself but is meant to be referenced by device tree bindings.
-+
-+  When referenced from device tree bindings the properties defined in this
-+  document are defined as follows. The device tree bindings are responsible
-+  for defining whether each property is required or optional.
++allOf:
++  - $ref: ../../spi/spi-slave.yaml#
++  - $ref: panel-common.yaml#
 +
 +properties:
++  compatible:
++    const: samsung,s6e63m0
 +
-+  reg:
-+    minimum: 0
-+    maximum: 256
-+    description:
-+      Chip select used by the device.
++  reg: true
++  reset-gpios: true
++  port: true
 +
-+  spi-3wire:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      The device requires 3-wire mode.
++  vdd3-supply:
++    description: VDD regulator
 +
-+  spi-cpha:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      The device requires shifted clock phase (CPHA) mode.
++  vci-supply:
++    description: VCI regulator
 +
-+  spi-cpol:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      The device requires inverse clock polarity (CPOL) mode.
++required:
++  - compatible
++  - reset-gpios
++  - vdd3-supply
++  - vci-supply
 +
-+  spi-cs-high:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      The device requires the chip select active high.
++examples:
++  - |
++    spi {
++        reg = <0xf00 0x20>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++        display@0 {
++            compatible = "samsung,s6e63m0";
++            reg = <0>;
++            reset-gpios = <&mp05 5 1>;
++            vdd3-supply = <&ldo12_reg>;
++            vci-supply = <&ldo11_reg>;
++            spi-max-frequency = <1200000>;
 +
-+  spi-lsb-first:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      The device requires the LSB first mode.
-+
-+  spi-max-frequency:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      Maximum SPI clocking speed of the device in Hz.
-+
-+  spi-rx-bus-width:
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - enum: [ 1, 2, 4, 8 ]
-+      - default: 1
-+    description:
-+      Bus width to the SPI bus used for MISO.
-+
-+  spi-rx-delay-us:
-+    description:
-+      Delay, in microseconds, after a read transfer.
-+
-+  spi-tx-bus-width:
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - enum: [ 1, 2, 4, 8 ]
-+      - default: 1
-+    description:
-+      Bus width to the SPI bus used for MOSI.
-+
-+  spi-tx-delay-us:
-+    description:
-+      Delay, in microseconds, after a write transfer.
++            port {
++                lcd_ep: endpoint {
++                    remote-endpoint = <&fimd_ep>;
++                };
++            };
++        };
++    };
 +
 +...
 -- 
