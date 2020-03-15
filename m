@@ -1,41 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADF6185F96
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 20:25:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60EF4186053
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 23:55:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 282036E1B7;
-	Sun, 15 Mar 2020 19:25:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A646A6E191;
+	Sun, 15 Mar 2020 22:55:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F0FA6E1B7
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 19:25:01 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 92E482003A;
- Sun, 15 Mar 2020 20:24:53 +0100 (CET)
-Date: Sun, 15 Mar 2020 20:24:52 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v1 06/36] dt-bindings: display: convert ilitek, ili9322 to
- DT Schema
-Message-ID: <20200315192452.GA29182@ravnborg.org>
-References: <20200315134416.16527-1-sam@ravnborg.org>
- <20200315134416.16527-7-sam@ravnborg.org>
- <CACRpkdYVrTBKxuHSGpd9=03oD4=JVxzJf8fOcQ8uu5eRt9PgAg@mail.gmail.com>
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC49B6E191
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 22:55:31 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id t17so1289357qkm.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 15:55:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FxhoUoo60hHirpNjZjgUcRQ8tvG6+IwwwDsSTyR3B+w=;
+ b=rgOgNSdIhvq47D9ZYw+Ow7eIUBiPyyX6RhnIosmcHYxyPQqnH8b4GFi9O9PcFXczX9
+ LGeFpNfWS/ByKQQ62MSAEEXUoUv+pOFao7u1O2G5McJZlZGQOClxOWDxtcIspByC7d+M
+ o8G6eJYk9yl/0R16m+yatbdvOq1yF7jR1l2BF8oQi7DpLZqD1c7ig3Z663PWbzbQ7Thd
+ Rj+BGmXlkBi4zf3dPjk5pVgfANXsCH6bHVhcmMy11gPhGDyKq5hBPblh/Q0yyGMC9fd9
+ 5YR/q+wnbZ1UT25x3b0WqPa/Y7vXc5Hfd4Yj/2kUZU5eUcAumsGgkInOR2Ux9JmpqYrT
+ y+sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FxhoUoo60hHirpNjZjgUcRQ8tvG6+IwwwDsSTyR3B+w=;
+ b=gXL3OSpjmUaMrJIxZlJCCh60rgnMsglbSWstYpufrm17qJfnUsVBN1xa7rRb4Bjads
+ vRGBzz7J7EZAoYhKNeHbjcF/CqQGGikyIysjbelZ05Ea/qyJHZGSE1iM4E0wQAjBQTSV
+ aEPfWmSY3PRxT6tixKfqKzmfo7HQZKw38NwDyul8W1EAwkKxzwp2+Ycf9WoZALQHkDmV
+ geFORmCbz3wSAgwFCW1JXsCE7rYniIiqyz5gL8Xjrn277V5IvEmA2JJWdF/UTbHs9TmH
+ iO2ZoM7SX0SvkuHRb4nKyw4lEkZNDMw6IXJKSt868dBD4hrIZZV+RoxnsLhq/h5DRrfY
+ s0rQ==
+X-Gm-Message-State: ANhLgQ2DFZsYamwMgldFTG3xZJDl64kpMU11a/VCShQNwVkJNLFvuxOL
+ hZP3x9bSM924JZIwhwmfDI0f27I28TajxQ==
+X-Google-Smtp-Source: ADFU+vu+A5Tb816va7urfXmHt0y45DRvzKpZRrXHsaF7iyC5SzJVpF4J5oIY4cKfFLjYuo5K4Rc+xw==
+X-Received: by 2002:a37:80c7:: with SMTP id
+ b190mr23288317qkd.255.1584312930898; 
+ Sun, 15 Mar 2020 15:55:30 -0700 (PDT)
+Received: from localhost.localdomain ([68.202.211.176])
+ by smtp.gmail.com with ESMTPSA id l18sm9231602qke.132.2020.03.15.15.55.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Mar 2020 15:55:30 -0700 (PDT)
+From: Daniel Rodriguez <danielcrodriguez2012@gmail.com>
+To: eric@anholt.net, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/v3d: fix Kconfig ARCH_BCMSTB typo preventing compile
+Date: Sun, 15 Mar 2020 22:54:55 +0000
+Message-Id: <20200315225455.116260-1-danielcrodriguez2012@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACRpkdYVrTBKxuHSGpd9=03oD4=JVxzJf8fOcQ8uu5eRt9PgAg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=KKAkSRfTAAAA:8 a=pGLkceISAAAA:8 a=WN0NcwN0bJFRE13tjSgA:9
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=cvBusfyB2V15izCimMoJ:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,82 +66,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
- Sandeep Panda <spanda@codeaurora.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
- Stefan Mavrodiev <stefan@olimex.com>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
- Nickey Yang <nickey.yang@rock-chips.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
- Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
- Heiko Schocher <hs@denx.de>, Guido Gunther <agx@sigxcpu.org>,
- Brian Masney <masneyb@onstation.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Werner Johansson <werner.johansson@sonymobile.com>,
- Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
- linux-spi <linux-spi@vger.kernel.org>, Peter Rosin <peda@axentia.se>
+Cc: Daniel Rodriguez <danielcrodriguez2012@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus.
+The Kconfig for v3d includes a depend on ARCH_BRCMSTB. It is misspelled;
+as ARCH_BCMSTB. This misspelling makes CONFIG_DRM_V3D not show up at all
+on Linux menuconfig and breaks manual kernel compilation with
+it manually set in .config (during compile CONFIG_DRM_V3D is transparently
+removed as the non-existent depend is not satisfied)
 
-On Sun, Mar 15, 2020 at 07:54:38PM +0100, Linus Walleij wrote:
-> On Sun, Mar 15, 2020 at 2:44 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> 
-> > The .txt binding explains:
-> >
-> > "
-> >     The following optional properties only apply to
-> >     RGB and YUV input modes and
-> >     can be omitted for BT.656 input modes:
-> > "
-> >
-> > This constraint is not implmented in the DT Schema.
-> >
-> > The original binding from the .txt file referenced
-> > properties that is included in panel-timing.yaml.
-> > These properties are kept here as we want as close to a 1:1
-> > conversion as we can. If the properties should be dropped
-> > from the binding then this is a follow-up patch.
-> >
-> > The properties in question are:
-> >   - pixelclk-active
-> >   - de-active
-> >   - hsync-active
-> >   - vsync-active
-> 
-> Sorry about that. They should be dropped, but certainly it
-> is fine to do with a follow up patch.
+Thus, v3d will (transparently) never compile into a kernel, even if
+forcibly enabled in .config.
 
-I changed my mind - lets try to avoid too many patches.
-So if you do not mind I will do it in this patch - and note it in the
-changelog.
+This patch corrects the typo, thus fixing menuconfig and kernel
+compilation with v3d.
 
-	Sam
+Signed-off-by: Daniel Rodriguez <danielcrodriguez2012@gmail.com>
+---
+ drivers/gpu/drm/v3d/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> >
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> 
-> Yours,
-> Linus Walleij
+diff --git a/drivers/gpu/drm/v3d/Kconfig b/drivers/gpu/drm/v3d/Kconfig
+index 9a5c44606337..e973ec487484 100644
+--- a/drivers/gpu/drm/v3d/Kconfig
++++ b/drivers/gpu/drm/v3d/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_V3D
+ 	tristate "Broadcom V3D 3.x and newer"
+-	depends on ARCH_BCM || ARCH_BCMSTB || COMPILE_TEST
++	depends on ARCH_BCM || ARCH_BRCMSTB || COMPILE_TEST
+ 	depends on DRM
+ 	depends on COMMON_CLK
+ 	depends on MMU
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
