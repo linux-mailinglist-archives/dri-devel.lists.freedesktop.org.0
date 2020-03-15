@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE964185CF1
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:45:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E2F185CF5
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:45:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ADC66E0A1;
-	Sun, 15 Mar 2020 13:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4A7F6E19B;
+	Sun, 15 Mar 2020 13:45:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 308E36E0A1
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:45:02 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id w1so15632186ljh.5
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:45:01 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45DF66E0A1
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:45:05 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id f10so15604049ljn.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:45:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qN/9TVll9OnjC2lIp1h0DvEoxIN84PT8tMaUxK86Nu0=;
- b=pjGBsm8jINEB8YBz2M8v8kWuZJJGJ1/X56U09V6uBb6EcdGyxWjpbfILIGnEPGuM7h
- rRYHkWxaqkowItY3LbShkGPDh89SVXTucFDCpuOdUuhrHX3L0Mk7DXQuvyZcrTrIwRd5
- l6i46gHlGF/EWHDnHS9bhmP39Rd87Qm6NuL7eirKQlCapTr8xJpC/Cdc7Q4iHv3DrptH
- HHy3sd52FkB+8jykczWG2uDxQFKwsNpkEi/geRkH2PDTRRCQLNIaQJG8+pXsipTnjgjS
- sYaVP3WYkDc1Q6JQCmT5e55RJ3w1gZU4SvyiKmRooqnwSQfv9SIvk53drlp93RH53xw2
- p9tA==
+ bh=nu/r+Huhn6AYJOGmQ6c5zAmhio2Nquq+BTmg7Je8VJM=;
+ b=m1HCMOwaFHZJcQOdFpg0mAHY0vsRfDWBU9O9sekPG3fDXSGhoFCaa1kbavjJru4FZP
+ ORqnY6LlsdmHLqRG9KAzOcbOMDWIA05+DxP7C5ob8WPsAZckqD2joyrVST3aA3q4vVH2
+ kZNHEtfjjbdShYc5WkQPWyqEGBGLRYui3eCHUgQxJjqwYpedh9ndLBBkXoLnGuVBuQF8
+ x+PwZj0juwgKKy3/8t4rN7IQrW7vkZNju3+7sYmGAy+k0I8Ji2zejZNg38kudL/ywxn1
+ jHiea+QwEm0Sfj5Yu2Tal1gQFsIxBck1aFy1M8B0b+QcOuTSGA9Ogjy/VvUogpMiNJzb
+ c0GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qN/9TVll9OnjC2lIp1h0DvEoxIN84PT8tMaUxK86Nu0=;
- b=FbrWHlyejNMMfzJe62Kuyj90HsBO2bS7YwG9Avd8fXXC3sdRuTstgODHqrsb5RIbMt
- sqHaygEeQU1S0yR+XIsumsHlxKfKOnVahaXhfY5/1vqLs/89SMFqMj0rk+7wL0XPnfZe
- 6YPRWF99hlc85cA1wJYGiR1l5M0Mvo57cSxKXiXgLs+CnLUpYCcrxTjyyTRyMb8IvMpW
- 3mnZVjhT1IyuQgr2dz264HbcBTMzw0oxSf8f0vtAPiYn/gIgHGyAi60oKEgG8k6kSL1S
- cA+psOFelUTkme9WI0TPcACtJwtakN+CsnJibmN0FQq9W6eImxxgAgYc4imPOuEW7hK/
- DLoA==
-X-Gm-Message-State: ANhLgQ3J3BFHRRMUJ1nIceoj5x7AgO22XMSe2z5DyQT0heVb0rELzKlA
- ob3bvXzEN8qymvMg8FgCtNCFmtXqXyM=
-X-Google-Smtp-Source: ADFU+vuiHyiDdXgdytvRxo7AC/xDdcYCpzOFgj091tqpF80M/Pq616xfbTWH0emRYXfcg/fT+l9JWQ==
-X-Received: by 2002:a2e:9852:: with SMTP id e18mr10716837ljj.249.1584279900063; 
- Sun, 15 Mar 2020 06:45:00 -0700 (PDT)
+ bh=nu/r+Huhn6AYJOGmQ6c5zAmhio2Nquq+BTmg7Je8VJM=;
+ b=GIeAtIU3BPFe4Z2J6dqj7G4JccLFsGIKmkFlR8M/llAFswF9wxuY+LJfg0gw5dQv1k
+ kYPa8RD00ZtzocWR3deQwIlf6EI3ztwEg0y/m3s8RLtE7GKmYAPiWetSk4sOPWLCbom0
+ nouWsV1AqNk+YpyjJA/oWEBEVXcNTHsNZ9h6vbCcwhei549HQ+8GvxmdOtpGECz79UYe
+ sJgZe/i4+5gZPVmAx6geusVek20NelX2lyNtLr0j3uWoD0vP0k7VyJmYvzZh3Xjttv98
+ 1EB/dIRYxoW7Y49fl3mMGWmeMUVH4SM33xX9XkFKaTOQaQMny8hxv0otXhnZqXQAyspe
+ qDHw==
+X-Gm-Message-State: ANhLgQ17rXKOG890azqO0McUVJY5yi27EEvmE1U18u5zLdJJc719KaUd
+ zxx0wdaFPUBu371pVpmsG4h2sewB2+o=
+X-Google-Smtp-Source: ADFU+vvlJTe4GHQcEV/ZdV0DbLDKFm/ZvBiA+whjD5EOIPP7wCtCV7p8oGshivkflNE/azzSGlNeVw==
+X-Received: by 2002:a2e:87d7:: with SMTP id v23mr12712633ljj.10.1584279902237; 
+ Sun, 15 Mar 2020 06:45:02 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- a9sm23025212lfb.21.2020.03.15.06.44.58
+ a9sm23025212lfb.21.2020.03.15.06.45.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 06:44:59 -0700 (PDT)
+ Sun, 15 Mar 2020 06:45:01 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v1 15/36] dt-bindings: display: convert simple lg panels to DT
- Schema
-Date: Sun, 15 Mar 2020 14:43:55 +0100
-Message-Id: <20200315134416.16527-16-sam@ravnborg.org>
+Subject: [PATCH v1 16/36] dt-bindings: display: convert lg, lg4573 to DT Schema
+Date: Sun, 15 Mar 2020 14:43:56 +0100
+Message-Id: <20200315134416.16527-17-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200315134416.16527-1-sam@ravnborg.org>
 References: <20200315134416.16527-1-sam@ravnborg.org>
@@ -89,72 +88,98 @@ Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
  Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
  Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
  linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIHRoZSBsZyBwYW5lbHMgdGhhdCBtYXRjaGVzIHRoZSBwYW5lbC1zaW1wbGUgYmluZGluZyB0
-bwpwYW5lbC1zaW1wbGUueWFtbAoKU2lnbmVkLW9mZi1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2
-bmJvcmcub3JnPgpDYzogQWxleGFuZHJlIENvdXJib3QgPGFjb3VyYm90QG52aWRpYS5jb20+CkNj
-OiBCcmlhbiBNYXNuZXkgPG1hc25leWJAb25zdGF0aW9uLm9yZz4KQ2M6IFRoaWVycnkgUmVkaW5n
-IDx0aGllcnJ5LnJlZGluZ0BnbWFpbC5jb20+CkNjOiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9y
-Zy5vcmc+Ci0tLQogLi4uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9sZyxhY3g0
-Njdha20tNy50eHQgICB8IDcgLS0tLS0tLQogLi4uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxh
-eS9wYW5lbC9sZyxsZDA3MHd4My1zbDAxLnR4dCB8IDcgLS0tLS0tLQogLi4uL2RldmljZXRyZWUv
-YmluZGluZ3MvZGlzcGxheS9wYW5lbC9sZyxsaDUwMHd4MS1zZDAzLnR4dCB8IDcgLS0tLS0tLQog
-Li4uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9wYW5lbC1zaW1wbGUueWFtbCAg
-ICB8IDYgKysrKysrCiA0IGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMjEgZGVsZXRp
-b25zKC0pCiBkZWxldGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL2Rpc3BsYXkvcGFuZWwvbGcsYWN4NDY3YWttLTcudHh0CiBkZWxldGUgbW9kZSAxMDA2NDQg
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbGcsbGQwNzB3
-eDMtc2wwMS50eHQKIGRlbGV0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
-YmluZGluZ3MvZGlzcGxheS9wYW5lbC9sZyxsaDUwMHd4MS1zZDAzLnR4dAoKZGlmZiAtLWdpdCBh
-L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2xnLGFjeDQ2
-N2FrbS03LnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3Bh
-bmVsL2xnLGFjeDQ2N2FrbS03LnR4dApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggZmMx
-ZTFiMzI1ZTQ5Li4wMDAwMDAwMDAwMDAKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2Rpc3BsYXkvcGFuZWwvbGcsYWN4NDY3YWttLTcudHh0CisrKyAvZGV2L251bGwKQEAg
-LTEsNyArMCwwIEBACi1MRyBBQ1g0NjdBS00tNyA0Ljk1IiAxMDgww5cxOTIwIExDRCBQYW5lbAot
-Ci1SZXF1aXJlZCBwcm9wZXJ0aWVzOgotLSBjb21wYXRpYmxlOiBtdXN0IGJlICJsZyxhY3g0Njdh
-a20tNyIKLQotVGhpcyBiaW5kaW5nIGlzIGNvbXBhdGlibGUgd2l0aCB0aGUgc2ltcGxlLXBhbmVs
-IGJpbmRpbmcsIHdoaWNoIGlzIHNwZWNpZmllZAotaW4gc2ltcGxlLXBhbmVsLnR4dCBpbiB0aGlz
-IGRpcmVjdG9yeS4KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
-cy9kaXNwbGF5L3BhbmVsL2xnLGxkMDcwd3gzLXNsMDEudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbGcsbGQwNzB3eDMtc2wwMS50eHQKZGVsZXRl
-ZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDVlNjQ5Y2I5YWExYS4uMDAwMDAwMDAwMDAwCi0tLSBh
-L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2xnLGxkMDcw
-d3gzLXNsMDEudHh0CisrKyAvZGV2L251bGwKQEAgLTEsNyArMCwwIEBACi1MRyBDb3Jwb3JhdGlv
-biA3IiBXWEdBIFRGVCBMQ0QgcGFuZWwKLQotUmVxdWlyZWQgcHJvcGVydGllczoKLS0gY29tcGF0
-aWJsZTogc2hvdWxkIGJlICJsZyxsZDA3MHd4My1zbDAxIgotCi1UaGlzIGJpbmRpbmcgaXMgY29t
-cGF0aWJsZSB3aXRoIHRoZSBzaW1wbGUtcGFuZWwgYmluZGluZywgd2hpY2ggaXMgc3BlY2lmaWVk
-Ci1pbiBzaW1wbGUtcGFuZWwudHh0IGluIHRoaXMgZGlyZWN0b3J5LgpkaWZmIC0tZ2l0IGEvRG9j
-dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbGcsbGg1MDB3eDEt
-c2QwMy50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5l
-bC9sZyxsaDUwMHd4MS1zZDAzLnR4dApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggYTA0
-ZmQyYjJlNzNkLi4wMDAwMDAwMDAwMDAKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2Rpc3BsYXkvcGFuZWwvbGcsbGg1MDB3eDEtc2QwMy50eHQKKysrIC9kZXYvbnVsbApA
-QCAtMSw3ICswLDAgQEAKLUxHIENvcnBvcmF0aW9uIDUiIEhEIFRGVCBMQ0QgcGFuZWwKLQotUmVx
-dWlyZWQgcHJvcGVydGllczoKLS0gY29tcGF0aWJsZTogc2hvdWxkIGJlICJsZyxsaDUwMHd4MS1z
-ZDAzIgotCi1UaGlzIGJpbmRpbmcgaXMgY29tcGF0aWJsZSB3aXRoIHRoZSBzaW1wbGUtcGFuZWwg
-YmluZGluZywgd2hpY2ggaXMgc3BlY2lmaWVkCi1pbiBzaW1wbGUtcGFuZWwudHh0IGluIHRoaXMg
-ZGlyZWN0b3J5LgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9wYW5lbC1zaW1wbGUueWFtbAppbmRleCA1MDg4ZmU4
-MWQwMjUuLmIxYjhkMGVkYWRlZiAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLnlhbWwKKysrIGIvRG9jdW1lbnRh
-dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLnlhbWwK
-QEAgLTE1NSw4ICsxNTUsMTQgQEAgcHJvcGVydGllczoKICAgICAgIC0ga3lvLHRjZzEyMXhnbHAK
-ICAgICAgICAgIyBMZU1ha2VyIEJMMDM1LVJHQi0wMDIgMy41IiBRVkdBIFRGVCBMQ0QgcGFuZWwK
-ICAgICAgIC0gbGVtYWtlcixibDAzNS1yZ2ItMDAyCisgICAgICAgICMgTEcgQUNYNDY3QUtNLTcg
-NC45NSIgMTA4MMOXMTkyMCBMQ0QgUGFuZWwKKyAgICAgIC0gbGcsYWN4NDY3YWttLTcKICAgICAg
-ICAgIyBMRyA3IiAoODAweDQ4MCBwaXhlbHMpIFRGVCBMQ0QgcGFuZWwKICAgICAgIC0gbGcsbGIw
-NzB3djgKKyAgICAgICAgIyBMRyBDb3Jwb3JhdGlvbiA3IiBXWEdBIFRGVCBMQ0QgcGFuZWwKKyAg
-ICAgIC0gbGcsbGQwNzB3eDMtc2wwMQorICAgICAgICAjIExHIENvcnBvcmF0aW9uIDUiIEhEIFRG
-VCBMQ0QgcGFuZWwKKyAgICAgIC0gbGcsbGg1MDB3eDEtc2QwMwogICAgICAgICAjIExHIExQMDc5
-UVgxLVNQMFYgNy45IiAoMTUzNngyMDQ4IHBpeGVscykgVEZUIExDRCBwYW5lbAogICAgICAgLSBs
-ZyxscDA3OXF4MS1zcDB2CiAgICAgICAgICMgTEcgOS43IiAoMjA0OHgxNTM2IHBpeGVscykgVEZU
-IExDRCBwYW5lbAotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Heiko Schocher <hs@denx.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+---
+ .../bindings/display/panel/lg,lg4573.txt      | 19 ---------
+ .../bindings/display/panel/lg,lg4573.yaml     | 41 +++++++++++++++++++
+ 2 files changed, 41 insertions(+), 19 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/lg,lg4573.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/lg,lg4573.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/panel/lg,lg4573.txt b/Documentation/devicetree/bindings/display/panel/lg,lg4573.txt
+deleted file mode 100644
+index 824441f4e95a..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/lg,lg4573.txt
++++ /dev/null
+@@ -1,19 +0,0 @@
+-LG LG4573 TFT Liquid Crystal Display with SPI control bus
+-
+-Required properties:
+-  - compatible: "lg,lg4573"
+-  - reg: address of the panel on the SPI bus
+-
+-The panel must obey rules for SPI slave device specified in document [1].
+-
+-[1]: Documentation/devicetree/bindings/spi/spi-bus.txt
+-
+-Example:
+-
+-	lcd_panel: display@0 {
+-		#address-cells = <1>;
+-		#size-cells = <1>;
+-		compatible = "lg,lg4573";
+-		spi-max-frequency = <10000000>;
+-		reg = <0>;
+-	};
+diff --git a/Documentation/devicetree/bindings/display/panel/lg,lg4573.yaml b/Documentation/devicetree/bindings/display/panel/lg,lg4573.yaml
+new file mode 100644
+index 000000000000..b5b475cf8406
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/lg,lg4573.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/lg,lg4573.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LG LG4573 TFT Liquid Crystal Display with SPI control bus
++
++maintainers:
++  - Heiko Schocher <hs@denx.de>
++
++allOf:
++  - $ref: ../../spi/spi-slave.yaml#
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: lg,lg4573
++
++  reg: true
++  spi-max-frequency: true
++
++required:
++  - compatible
++  - reg
++
++examples:
++  - |
++    spi {
++        compatible = "fsl,imx6q-ecspi", "fsl,imx51-ecspi";
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        lcd_panel: display@0 {
++            compatible = "lg,lg4573";
++            spi-max-frequency = <10000000>;
++            reg = <0>;
++        };
++    };
++
++...
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
