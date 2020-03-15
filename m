@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B074B185CD4
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:44:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5F4185CDD
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:44:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33D026E171;
-	Sun, 15 Mar 2020 13:44:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E61426E179;
+	Sun, 15 Mar 2020 13:44:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4081E6E15C
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:44:43 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id 5so4600961lfr.2
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:44:43 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 630B96E177
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:44:45 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id o10so15591966ljc.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:44:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jtMrDxJy31xrdFsGU2391ZwFHhJDxHO6W5BAOG9U3Fo=;
- b=JagdCvMAfAnowjwNJiUB8Fgt8YKQloYwbMaMzzhc/SMID1feWlvGbPBuGEs3C/2fKR
- 4pReNO67WL6Kfl0j8YXno0IJHNIV0TyphX07WkjZSMPs8tFN23Qf5llY8/9cJjLAL2Ph
- i6BuXLS920OPJnTGZe9fgBuXno06GLPcg3PedtvNRA1ItSWqZ7b8rvXTnSkhjimgz+WW
- b4HA8OH5fQL+IcBSK2rlxUHX2ToUpdPZyNbn2kHMU0o+UGIYC64K/BAk5UD0lSiqm1qC
- NaoI6h5pwrfcBd9naMpMUwmILeRj7C4XKMrJgI+YjQGaEPEMWw0iM4CSR+exdRPhZ+BA
- Z0Ew==
+ bh=pgEXQsDcjOHsYIv9nRQRc/r4cOy9yFXdgKqPV0CnCk8=;
+ b=oHWDnNCQT47agrp2O3QeiJSxC/Xin3q9XIDhN9NkD5V0vzdx5EhSYeLMHHZWqK1znH
+ vR2G2kdbnxstwPI79gskId/5hTb0WpW817qpWYTsk3vd6OUdPM+NF3es9i1UdRNgHgnS
+ vMzfav/4a35ffNF0z1780uLQY/dXPnDk+8gujM+3oP9pEJStYJCWH7vhJg+smmFYSnnZ
+ mq5HWaLWPh9+f/kwQlz5CkYDaD0sEoRHskgWut9RABQMXaJkQR4B+DFZFahiOZaN7Hos
+ /SWx6qJGiaNHwgHGp+IjwxUeAawKwEpCJN3p97fdMShWx8oWTos+enqtq0hvPMuZ4Rqx
+ gs2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jtMrDxJy31xrdFsGU2391ZwFHhJDxHO6W5BAOG9U3Fo=;
- b=CKWQtAw+lSfWf2HLZwWMjjYOWflKlcSEfUo6Kr007fjwUhIS5qipkWRYYn5/zF4+Nr
- GK1tmQOes2sA9ZfD3c7tFaMiQXdFNF0eLrGGtzlTTij8eF13EKQuXtvgMUQnUKAq/o4E
- CPTplvhcW87Ne6Yq4FVEDvZmuHeX1i6kgJO8/5PR+12ueIRskpJpst/98HYTu+Q5Bow6
- g0EdA04HTljUNnWEdklTtvGb23P6l9q3mZnAcl0xZjPegcrmHYQ+9QTXJtDbI2SGZapz
- uvfFP1e3X8IE1KcxOrrbTiHzQuykEb5BqcnDzZxDnCGkcNv6QQ9g8bMpCuAu8JqltLIc
- doTQ==
-X-Gm-Message-State: ANhLgQ3rlEwLq9ZD1joja9xuWGKpc81rfeVRQRazARbEX4By6kH2nex+
- IKmLLe9wYGHh+PfRXqCv7Jc1YaZa+iw=
-X-Google-Smtp-Source: ADFU+vsXaWoLrxW4M5P16M5cGROxxT7ByHuzAkUsaafQRyocd8t0+QlpF0GSnF0ZUp8vJUYIo7AsOQ==
-X-Received: by 2002:ac2:5465:: with SMTP id e5mr12477956lfn.210.1584279881255; 
- Sun, 15 Mar 2020 06:44:41 -0700 (PDT)
+ bh=pgEXQsDcjOHsYIv9nRQRc/r4cOy9yFXdgKqPV0CnCk8=;
+ b=Mer+Hyly+AlSimhN3HlA9xa/2juU9Xc325o6tacFRC0H7M8oeDwwTPUx8KZ1F3i1mF
+ 2ZLtAvIZyx5dCOpFFCPoww9po1Q+ba8l7Y7kTMk6l9VeY8K0Zzgw5mCFXVPzaA7bH+Zl
+ v2U8pbH6BuAwpErMCeYFEaBGXZfCSErfvay114oMQEEC9o2om4XjpUng49TXqm22rnDu
+ a4S7Jgig46ztqp+5wongN+GfMMxd9DTUHcAnKRPS2Tbwhn8Ib26/iRxT5XQBOdQge5vJ
+ 9pi0sVXr7B8EWBX5QdN2uuF92EdFNFaGZr+KFP8JQIgRD4PvQlLxc7/vCp3KI89y6CFN
+ PF1g==
+X-Gm-Message-State: ANhLgQ0TNqToj7OjhBIzd3miUlD6WJbIaktpKP2VL29gH+x8UiArsLio
+ jOMDS3GS3vJB/yyubMlEqDC6Xq4xLis=
+X-Google-Smtp-Source: ADFU+vuCyi5ubtfFG28TZfhRyYRqzodmur8BQI0nkoClJCFFJcM5vZi+/T5l7TzlRyRKvba6IPp8uQ==
+X-Received: by 2002:a2e:92d6:: with SMTP id k22mr1256904ljh.18.1584279883480; 
+ Sun, 15 Mar 2020 06:44:43 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- a9sm23025212lfb.21.2020.03.15.06.44.39
+ a9sm23025212lfb.21.2020.03.15.06.44.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 06:44:40 -0700 (PDT)
+ Sun, 15 Mar 2020 06:44:43 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v1 06/36] dt-bindings: display: convert ilitek,
- ili9322 to DT Schema
-Date: Sun, 15 Mar 2020 14:43:46 +0100
-Message-Id: <20200315134416.16527-7-sam@ravnborg.org>
+Subject: [PATCH v1 07/36] dt-bindings: display: convert ilitek,
+ ili9881c to DT Schema
+Date: Sun, 15 Mar 2020 14:43:47 +0100
+Message-Id: <20200315134416.16527-8-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200315134416.16527-1-sam@ravnborg.org>
 References: <20200315134416.16527-1-sam@ravnborg.org>
@@ -94,186 +94,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The .txt binding explains:
-
-"
-    The following optional properties only apply to
-    RGB and YUV input modes and
-    can be omitted for BT.656 input modes:
-"
-
-This constraint is not implmented in the DT Schema.
-
-The original binding from the .txt file referenced
-properties that is included in panel-timing.yaml.
-These properties are kept here as we want as close to a 1:1
-conversion as we can. If the properties should be dropped
-from the binding then this is a follow-up patch.
-
-The properties in question are:
-  - pixelclk-active
-  - de-active
-  - hsync-active
-  - vsync-active
-
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../bindings/display/panel/ilitek,ili9322.txt | 49 ----------
- .../display/panel/ilitek,ili9322.yaml         | 90 +++++++++++++++++++
- 2 files changed, 90 insertions(+), 49 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9322.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9322.yaml
+ .../display/panel/ilitek,ili9881c.txt         | 20 --------
+ .../display/panel/ilitek,ili9881c.yaml        | 50 +++++++++++++++++++
+ 2 files changed, 50 insertions(+), 20 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9322.txt b/Documentation/devicetree/bindings/display/panel/ilitek,ili9322.txt
+diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.txt b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.txt
 deleted file mode 100644
-index 3d5ce6ad6ec7..000000000000
---- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9322.txt
+index 4a041acb4e18..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.txt
 +++ /dev/null
-@@ -1,49 +0,0 @@
--Ilitek ILI9322 TFT panel driver with SPI control bus
--
--This is a driver for 320x240 TFT panels, accepting a variety of input
--streams that get adapted and scaled to the panel. The panel output has
--960 TFT source driver pins and 240 TFT gate driver pins, VCOM, VCOML and
--VCOMH outputs.
+@@ -1,20 +0,0 @@
+-Ilitek ILI9881c based MIPI-DSI panels
 -
 -Required properties:
--  - compatible: "dlink,dir-685-panel", "ilitek,ili9322"
--    (full system-specific compatible is always required to look up configuration)
--  - reg: address of the panel on the SPI bus
+-  - compatible: must be "ilitek,ili9881c" and one of:
+-    * "bananapi,lhr050h41"
+-  - reg: DSI virtual channel used by that screen
+-  - power-supply: phandle to the power regulator
+-  - reset-gpios: a GPIO phandle for the reset pin
 -
 -Optional properties:
--  - vcc-supply: core voltage supply, see regulator/regulator.txt
--  - iovcc-supply: voltage supply for the interface input/output signals,
--    see regulator/regulator.txt
--  - vci-supply: voltage supply for analog parts, see regulator/regulator.txt
--  - reset-gpios: a GPIO spec for the reset pin, see gpio/gpio.txt
--
--  The following optional properties only apply to RGB and YUV input modes and
--  can be omitted for BT.656 input modes:
--
--  - pixelclk-active: see display/panel/display-timing.txt
--  - de-active: see display/panel/display-timing.txt
--  - hsync-active: see display/panel/display-timing.txt
--  - vsync-active: see display/panel/display-timing.txt
--
--The panel must obey the rules for a SPI slave device as specified in
--spi/spi-bus.txt
--
--The device node can contain one 'port' child node with one child
--'endpoint' node, according to the bindings defined in
--media/video-interfaces.txt. This node should describe panel's video bus.
+-  - backlight: phandle to the backlight used
 -
 -Example:
--
--panel: display@0 {
--	compatible = "dlink,dir-685-panel", "ilitek,ili9322";
+-panel@0 {
+-	compatible = "bananapi,lhr050h41", "ilitek,ili9881c";
 -	reg = <0>;
--	vcc-supply = <&vdisp>;
--	iovcc-supply = <&vdisp>;
--	vci-supply = <&vdisp>;
--
--	port {
--		panel_in: endpoint {
--			remote-endpoint = <&display_out>;
--		};
--	};
+-	power-supply = <&reg_display>;
+-	reset-gpios = <&r_pio 0 5 GPIO_ACTIVE_LOW>; /* PL05 */
+-	backlight = <&pwm_bl>;
 -};
-diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9322.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9322.yaml
+diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
 new file mode 100644
-index 000000000000..9f165f12fc32
+index 000000000000..a39332276bab
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9322.yaml
-@@ -0,0 +1,90 @@
++++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+@@ -0,0 +1,50 @@
 +# SPDX-License-Identifier: GPL-2.0
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/panel/ilitek,ili9322.yaml#
++$id: http://devicetree.org/schemas/display/panel/ilitek,ili9881c.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Ilitek ILI9322 TFT panel driver with SPI control bus
++title: Ilitek ILI9881c based MIPI-DSI panels
 +
 +maintainers:
-+  - Linus Walleij <linus.walleij@linaro.org>
-+
-+description: |
-+  This is a driver for 320x240 TFT panels, accepting a variety of input
-+  streams that get adapted and scaled to the panel. The panel output has
-+  960 TFT source driver pins and 240 TFT gate driver pins, VCOM, VCOML and
-+  VCOMH outputs.
-+
-+  The panel must obey the rules for a SPI slave device as specified in
-+  spi/spi-bus.txt
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+  - $ref: ../../spi/spi-slave.yaml#
++  - Maxime Ripard <mripard@kernel.org>
 +
 +properties:
 +  compatible:
 +    items:
 +      - enum:
-+        - dlink,dir-685-panel
-+      
-+      - const: ilitek,ili9322
++        - bananapi,lhr050h41
 +
++      - const: ilitek,ili9881c
++
++  backlight: true
++  power-supply: true
++  reg: true
 +  reset-gpios: true
-+  port: true
-+
-+  vcc-supply:
-+    description: Core voltage supply
-+
-+  iovcc-supply:
-+    description: Voltage supply for the interface input/output signals
-+
-+  vci-supply:
-+    description: Voltage supply for analog parts
-+
-+  pixelclk-active:
-+    description: |
-+      Optional property, applies only to RGB and YUV input modes and
-+      can be omitted for BT.656 input modes
-+
-+  de-active:
-+    description: |
-+      Optional property, applies only to RGB and YUV input modes and
-+      can be omitted for BT.656 input modes
-+
-+  hsync-active:
-+    description: |
-+      Optional property, applies only to RGB and YUV input modes and
-+      can be omitted for BT.656 input modes
-+
-+  vsync-active:
-+    description: |
-+      Optional property, applies only to RGB and YUV input modes and
-+      can be omitted for BT.656 input modes
 +
 +required:
 +  - compatible
++  - power-supply
 +  - reg
++  - reset-gpios
++
++additionalProperties: false
 +
 +examples:
 +  - |
-+    spi {
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
 +        #address-cells = <1>;
 +        #size-cells = <0>;
 +
-+        panel: display@0 {
-+            compatible = "dlink,dir-685-panel", "ilitek,ili9322";
++        panel@0 {
++            compatible = "bananapi,lhr050h41", "ilitek,ili9881c";
 +            reg = <0>;
-+            vcc-supply = <&vdisp>;
-+            iovcc-supply = <&vdisp>;
-+            vci-supply = <&vdisp>;
-+
-+            port {
-+                panel_in: endpoint {
-+                    remote-endpoint = <&display_out>;
-+                };
-+            };
++            power-supply = <&reg_display>;
++            reset-gpios = <&r_pio 0 5 GPIO_ACTIVE_LOW>; /* PL05 */
++            backlight = <&pwm_bl>;
 +        };
 +    };
 +
