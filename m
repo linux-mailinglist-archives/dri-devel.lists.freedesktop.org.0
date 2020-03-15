@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD39A186071
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 00:19:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC91718607A
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 00:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 998ED6E2E5;
-	Sun, 15 Mar 2020 23:19:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 976836E2F8;
+	Sun, 15 Mar 2020 23:19:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 987AC8911B
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 07:21:25 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id z3so198371edq.11
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 00:21:25 -0700 (PDT)
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3A796E0BF
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 15:25:10 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id c8so14014853ilm.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 08:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=uc3tUPFRMKpOBHISvMn5YQ4zt6tuto3i0ER6vMBt8yA=;
- b=kTyejLGY2WPpBLC4/mkBzwppvQ0gbvnKLPnUh4tlFKU7VQNZ4DxfGjB1z2kbyR+o3v
- FN9i9wirp9hu9AeiSwpyqol3haVRchFjCGPvj/se3QmBeTNkJdsi1ut7wabk0dwO+/zH
- EpMCIC0dzNdAvEgY9sLvFUFsxvNAtM85IRnwYsL71ux4lXpY1svBRRaF7WQLBU+/ev+6
- 5grnvMsxUxIy/EA22XeXM51LwOnDZztyctSa5fpwi2bLNh6q8xG7c1ZBzmrC3hJj2x3A
- v0iJdE/8/cQuAYHqCKce7CR+wJKHLrH+et1OKbPVIhr4igoZAzRD0IrPqjuhpHf7R71K
- VghQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8oElHQLKFLOVtRHqu7xiZ6PSJACuRnWmCrjsIOT03/4=;
+ b=RsMP5ZfF9Kle+rjBS3Bso6AHBFITrbE13HUp2ObAa4PaLpubX0IyO20urbKNQZ8QzO
+ zyawLivUZMOXmEf4KS1gockamB5ifWcK8RDanr4T91XtPkH5uqz3rQkJuTN29cfWqPbo
+ UetMtw8CUEnybaWElSX6cG1rLsDBv9M8fdTLj8NPJFE16pwbaVq9cVWA4uz7b76daa0o
+ JOFelYtJ96GsHGmlh0CnSFIMH+ubQ4nER8Nckilais8GLUoMFOPtDNa0hT5zBIWZUkDE
+ 7TeitOReluipDTZmFIWdjKp9FiDr+lWqjIq0utvdsGanqMtRlVOq6xPtcmqtTp0FDcdD
+ QTvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=uc3tUPFRMKpOBHISvMn5YQ4zt6tuto3i0ER6vMBt8yA=;
- b=QztVkdiLqgyfV/8e7mAAiPV92KGvnKqcrgEpdOS3jAGTvz6kUh3eSWfiGsun7MsdKV
- D8P2f6KQH5BOpwWLDEwOvi+ssrfA/3lQc8HfrmR96PTcHeZYibydeE07UGXPUvZzwwbq
- LVWJ6NDCb1ZFR9gsvsg+h5Ge59fzvTgJJ0CDuh95dkHl/G8MyZQ/ozd6enLebUyg9Bu3
- jJbNSgNquK63VuF4ZDDSQS+Zw3CWHE/MFXP+OhT5R4BTOMV5scyldn/uM7xan9QuaCNa
- X1kxMoyG4ZnQuRfrRdCOcTk+yV+YARaZmP0KRfMFmBP/GZdVpk80RdoWl548CZ3imdS/
- yNKQ==
-X-Gm-Message-State: ANhLgQ1YRHHVKW0uFOSRLKeUWfDZf9Kw96GBCGfvk4/Kmkz/aD3Q5O4R
- 6KDDsdMdB/ObOEPK8UX+fC4=
-X-Google-Smtp-Source: ADFU+vuNwPtaanANlsW3pFS/owgZW33ZS8LHiCmmEX3cDJcX+ZdUwMopIn2grErjKpqQ6uaVWEE5fg==
-X-Received: by 2002:a17:906:7a54:: with SMTP id
- i20mr18547767ejo.100.1584256884059; 
- Sun, 15 Mar 2020 00:21:24 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2d6c:6c00:888a:952a:33bc:a081])
- by smtp.gmail.com with ESMTPSA id k8sm119650ejq.36.2020.03.15.00.21.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 00:21:23 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Benjamin Gaignard <benjamin.gaignard@st.com>, Rob Herring <robh@kernel.org>
-Subject: [PATCH] MAINTAINERS: adjust to VIVANTE GPU schema conversion
-Date: Sun, 15 Mar 2020 08:21:09 +0100
-Message-Id: <20200315072109.6815-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Mailman-Approved-At: Sun, 15 Mar 2020 23:19:06 +0000
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8oElHQLKFLOVtRHqu7xiZ6PSJACuRnWmCrjsIOT03/4=;
+ b=uZA/sJ25vMpCJknCVlzZkuuY+3jyRbBnAihnLpUeROD0MQcgvWD/j6lZdI4Uo4I5Iy
+ wno9zyINpRxY1hjxhYZAE8wyuebtgjJStV5H2aLEnMsfOPN5MaJDrk9LsSqYdG3PM8B2
+ WPZEkQMD9c4YH5vIT3Zm3+6xCQqD8/njU/pHsjtyrUk5qt2M+/f0rbUahE2xyzpy7zB8
+ u5i/kmpVGxJBA9ePYC0hD72thEmIxl+v3EBcUuuxDCqSPLIoy6ZPa/eHoEuzpj5YpmUH
+ 93JFNCJKZne0SCMkZvmT/suyAIz2MjGw8gDjYP+nb/4s0ULJX2kv+AkK/lp7CPi1nrdu
+ P+iw==
+X-Gm-Message-State: ANhLgQ2foQqxYrKlrmI/wMVRU72gNQCni91al6M4nhrsezC4LMTaXOmF
+ OnadTNMljKvemdOUQbJGSpSu+qePyiah/YrItzM=
+X-Google-Smtp-Source: ADFU+vt9/0tLT5TMHQJuvt7jSFZQO9BbU2DRVErpzh0iupQQjp//EFou6F5rBpQO/z0gYMAYYRnt+hMR7/PR6UXiFmE=
+X-Received: by 2002:a92:8f53:: with SMTP id j80mr17379957ild.171.1584285909944; 
+ Sun, 15 Mar 2020 08:25:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <1583920112-2680-1-git-send-email-simhavcs@gmail.com>
+ <20200312151752.GA7490@bogus>
+In-Reply-To: <20200312151752.GA7490@bogus>
+From: Vinay Simha B N <simhavcs@gmail.com>
+Date: Sun, 15 Mar 2020 20:54:58 +0530
+Message-ID: <CAGWqDJ7DP3DuR7EWT6Ni8YxN3Adg3RgJZut6+AtpAak_HB=QCQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-binding: Add DSI/LVDS tc358775 bridge bindings
+To: Rob Herring <robh@kernel.org>
+X-Mailman-Approved-At: Sun, 15 Mar 2020 23:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,53 +62,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Joe Perches <joe@perches.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>
-MIME-Version: 1.0
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 90aeca875f8a ("dt-bindings: display: Convert etnaviv to
-json-schema") missed to adjust the DRM DRIVERS FOR VIVANTE GPU IP entry
-in MAINTAINERS.
+rob,
 
-Since then, ./scripts/get_maintainer.pl --self-test complains:
+i do not get the error when running 'make dt_binding_check' in my
+build environment
+Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml
 
-  warning: no file matches \
-  F: Documentation/devicetree/bindings/display/etnaviv/
+is there any tool available similar to  scripts/checkpatch.pl -f
+<file> , for yaml files?
 
-Update MAINTAINERS entry to location of converted schema.
+On Thu, Mar 12, 2020 at 8:47 PM Rob Herring <robh@kernel.org> wrote:
+>
+> On Wed, 11 Mar 2020 15:18:24 +0530, Vinay Simha BN wrote:
+> > Add yaml documentation for DSI/LVDS tc358775 bridge
+> >
+> > Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
+> >
+> > ---
+> > v1:
+> >  Initial version
+> > ---
+> >  .../bindings/display/bridge/toshiba-tc358775.yaml  | 174 +++++++++++++++++++++
+> >  1 file changed, 174 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml
+> >
+>
+> My bot found errors running 'make dt_binding_check' on your patch:
+>
+> Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml:  while scanning for the next token
+> found character that cannot start any token
+>   in "<unicode string>", line 11, column 1
+> Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.example.dts' failed
+> make[1]: *** [Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.example.dts] Error 1
+> make[1]: *** Waiting for unfinished jobs....
+> warning: no schema found in file: Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml: ignoring, error parsing file
+> Makefile:1262: recipe for target 'dt_binding_check' failed
+> make: *** [dt_binding_check] Error 2
+>
+> See https://patchwork.ozlabs.org/patch/1252753
+> Please check and re-submit.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on next-20200313
-
-Benjamin, please ack.
-Rob, please pick this patch (it is not urgent, though)
 
 
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 77eede976d0f..50a7a6d62e06 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5766,7 +5766,7 @@ L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- F:	drivers/gpu/drm/etnaviv/
- F:	include/uapi/drm/etnaviv_drm.h
--F:	Documentation/devicetree/bindings/display/etnaviv/
-+F:	Documentation/devicetree/bindings/gpu/vivante,gc.yaml
- 
- DRM DRIVERS FOR ZTE ZX
- M:	Shawn Guo <shawnguo@kernel.org>
 -- 
-2.17.1
-
+regards,
+vinaysimha
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
