@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB05185D17
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:45:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A968185D1B
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:45:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEBCD6E1CD;
-	Sun, 15 Mar 2020 13:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32F476E1D2;
+	Sun, 15 Mar 2020 13:45:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 791E86E1CD
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:45:28 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id q10so11697127lfo.8
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:45:28 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FBA96E1CD
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:45:30 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id f10so15604667ljn.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:45:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aR/Y4J4Ng2nITnp6C8iQx7gJZtioK1x7f06y6fKkYkk=;
- b=ZMRhjKqUaC80StOG54UvNQgF+2E0CQ3QZOhh5eJ/xi7zKaFNawvj7dSxdg11bFH2gA
- lwE020oqkVe2MCC2OXxDACEVJ31ssC2nyWfhXD3SOi51tc6UJxfjDc8Vh6b+22NMxReX
- qlDpVcdTszxMiuB089pkzcWwFGC6LN+80sCozrzJtRfNpT+gqIDPrYxRQ/d2okiGzYlh
- Fm/fjoIHFWZDhHGiZqniB2oH5BcnZoV6Yv4Fyl0TvnbiHTP5tQti///Wsm36aNjvNU3H
- 5jr8HiMF5ORYQPTsamwC6osPs2L7BXDu0uthtdgUEwL/+AUSWbkpKilgLVD3HpUWqunf
- 3V7w==
+ bh=6D6qYDVAoDX49O3pqM7t4Fg8LndWENhGAQHVsmY5Z5o=;
+ b=Z3lR7wSu95RLPE8X/9z5nbJdYyfKLoqS9TzFiG+Q+tfPehq1P95WyiAlxeU1Nwapxc
+ H9CqELCn6hZRSwR74G/qaLM0VjUFPnUq8J8p59WoRsAxYsp8ucqBBfWJaLvl5gcklSR9
+ dkH+IkaqkbPBpk9p7ss3gT5eB0IoTUA53nLbo+dv3ZEidt+wDUquCo64Gpsv21lP8R/H
+ Bie6HSoex0YSrJldtxZS1RXWaORFX473B99nyzSRDaEKHTpmeY66phILlVWYBHcDSXTq
+ lAq6gk1KpbeBHRuNnxGe++oP5rt9a4sEy3Xt7WUU02by3ECEEEyZtRQnCMunLmvFZzzu
+ CUVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=aR/Y4J4Ng2nITnp6C8iQx7gJZtioK1x7f06y6fKkYkk=;
- b=XyTdWWqoJCQxjqjhDjUfbyg99iz/jKMq123Il9fs6CqkjKHqPTjkOwX/djjLYM30B+
- NqJwjOINfPwhyQUs4YUyPpUMAnSicnuwX2tMoxlgJmSV4jeKjllu9t6A1/zEjrjum0Fc
- Bmz0moSdA0ASc5jO614V/3n6u70kl/R9Xh8oQqjGZKFJ66LwIBt4cKwZwssWWfiSB2Cf
- 0rBfvu1QCaFbzxFUlkMsITg1hL4VT24vMdn14/TFvWJ6Xre9tMMH4uOPfb2eAz8D31x8
- fVCjJ4ElQUs/tCaFQHP5QmyL2ichylWzFmDnz7mi4xlXyGDfvPsWkzyI20INAlhyGgTA
- V0og==
-X-Gm-Message-State: ANhLgQ2yrErNnVsTEklnNHnvKFztsnYI7s/ozUYrm2Ef6jTTbauOvXeY
- q8NwfBEv63F97zjFrzl8r2PHx2AMxX0=
-X-Google-Smtp-Source: ADFU+vsiDKQKYVVpPhUH+Vnj06nnM5ycCAm89/6lk2djQ+UTdRQdN3NDg0MtLJIY1xx1om9ZRncTvQ==
-X-Received: by 2002:a19:c34e:: with SMTP id t75mr13297771lff.197.1584279926572; 
- Sun, 15 Mar 2020 06:45:26 -0700 (PDT)
+ bh=6D6qYDVAoDX49O3pqM7t4Fg8LndWENhGAQHVsmY5Z5o=;
+ b=rkuobUXG16dFNb7Pnk7x2XcGAxtxKDccldd84Ben+Vf45lTWs23FIuSy1T3PdWKDl1
+ UxdvO1vd7dyQvUIRrnvGu3ilq2kvucnCGKp7ZHjM78iSv9BHVxIUO4Z4T471qd74Eo3t
+ AdIvCO317sYIpxbrl4qn/NC8MLD6wKhZQAco6j/jCi9GzMUZOS06q5LImeVpgkTMA9lt
+ slLpzMnJLIHDJPQVjX8YtJ/r4q4encFbP6GWsUhhbYn3Ruf1DAGlO/kFMMRvbQGLbOFN
+ 3nC1W3+7dtXywxu3PT2oFq43QLe7NpAtGgoc6uXIcopHoBWyoXLnEoq6dFC9AGldVtNA
+ lBDw==
+X-Gm-Message-State: ANhLgQ275NFqQeyU+r0zSMQrCgG9cZrXsLSsFJ1vg4V6u3Y2H8CgIcmA
+ MrG69tzIQjfWSLchww/OiaNmeNbTwmE=
+X-Google-Smtp-Source: ADFU+vtooqsG2bH83FWIuLOJneXqDQ/gelH/BnjWZx7/xYxCAc4rrgoy5QfSuinhYEu3uCPsVtj9nA==
+X-Received: by 2002:a2e:b00c:: with SMTP id y12mr12528704ljk.167.1584279928664; 
+ Sun, 15 Mar 2020 06:45:28 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- a9sm23025212lfb.21.2020.03.15.06.45.24
+ a9sm23025212lfb.21.2020.03.15.06.45.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 06:45:26 -0700 (PDT)
+ Sun, 15 Mar 2020 06:45:28 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v1 28/36] dt-bindings: display: convert sitronix,
- st7789v to DT Schema
-Date: Sun, 15 Mar 2020 14:44:08 +0100
-Message-Id: <20200315134416.16527-29-sam@ravnborg.org>
+Subject: [PATCH v1 29/36] dt-bindings: display: drop unused simple-panel.txt
+Date: Sun, 15 Mar 2020 14:44:09 +0100
+Message-Id: <20200315134416.16527-30-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200315134416.16527-1-sam@ravnborg.org>
 References: <20200315134416.16527-1-sam@ravnborg.org>
@@ -94,124 +93,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There are no more references to simple-panel.txt.
+Delete it.
+
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../display/panel/sitronix,st7789v.txt        | 37 ------------
- .../display/panel/sitronix,st7789v.yaml       | 58 +++++++++++++++++++
- 2 files changed, 58 insertions(+), 37 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/sitronix,st7789v.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
+ Documentation/devicetree/bindings/display/panel/simple-panel.txt | 1 -
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/simple-panel.txt
 
-diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.txt b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.txt
+diff --git a/Documentation/devicetree/bindings/display/panel/simple-panel.txt b/Documentation/devicetree/bindings/display/panel/simple-panel.txt
 deleted file mode 100644
-index c6995dde641b..000000000000
---- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.txt
+index e11208fb7da8..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/simple-panel.txt
 +++ /dev/null
-@@ -1,37 +0,0 @@
--Sitronix ST7789V RGB panel with SPI control bus
--
--Required properties:
--  - compatible: "sitronix,st7789v"
--  - reg: Chip select of the panel on the SPI bus
--  - reset-gpios: a GPIO phandle for the reset pin
--  - power-supply: phandle of the regulator that provides the supply voltage
--
--Optional properties:
--  - backlight: phandle to the backlight used
--
--The generic bindings for the SPI slaves documented in [1] also applies
--
--The device node can contain one 'port' child node with one child
--'endpoint' node, according to the bindings defined in [2]. This
--node should describe panel's video bus.
--
--[1]: Documentation/devicetree/bindings/spi/spi-bus.txt
--[2]: Documentation/devicetree/bindings/graph.txt
--
--Example:
--
--panel@0 {
--	compatible = "sitronix,st7789v";
--	reg = <0>;
--	reset-gpios = <&pio 6 11 GPIO_ACTIVE_LOW>;
--	backlight = <&pwm_bl>;
--	spi-max-frequency = <100000>;
--	spi-cpol;
--	spi-cpha;
--
--	port {
--		panel_input: endpoint {
--			remote-endpoint = <&tcon0_out_panel>;
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-new file mode 100644
-index 000000000000..493006a52c5e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-@@ -0,0 +1,58 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/sitronix,st7789v.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Sitronix ST7789V RGB panel with SPI control bus
-+
-+maintainers:
-+  - Maxime Ripard <mripard@kernel.org>
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+  - $ref: ../../spi/spi-slave.yaml#
-+
-+properties:
-+  compatible:
-+    const: sitronix,st7789v
-+
-+  reg: true
-+  reset-gpios: true
-+  power-supply: true
-+  backlight: true
-+  port: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - reset-gpios
-+  - power-supply
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        panel@0 {
-+            compatible = "sitronix,st7789v";
-+            reg = <0>;
-+            reset-gpios = <&pio 6 11 GPIO_ACTIVE_LOW>;
-+            backlight = <&pwm_bl>;
-+            power-supply = <&power>;
-+            spi-max-frequency = <100000>;
-+            spi-cpol;
-+            spi-cpha;
-+
-+            port {
-+                panel_input: endpoint {
-+                    remote-endpoint = <&tcon0_out_panel>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
+@@ -1 +0,0 @@
+-See panel-common.yaml in this directory.
 -- 
 2.20.1
 
