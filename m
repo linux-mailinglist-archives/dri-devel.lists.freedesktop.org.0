@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F36185D22
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:45:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 869FE185D28
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Mar 2020 14:45:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5832A6E181;
-	Sun, 15 Mar 2020 13:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE456E1DE;
+	Sun, 15 Mar 2020 13:45:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EC436E1D6
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:45:38 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id b13so11702049lfb.12
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:45:38 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A99F76E1D3
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 13:45:40 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id c20so11746511lfb.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Mar 2020 06:45:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oOzyULiNbeFY2/JVqESTmUOi0tZ1RaKtlAJLXAU+LTo=;
- b=jVKh2KC4mKUFqX3k/JW6TS/U7j/YIxHjIFQ7M43CDa5qqWOHKX1aj/xt+WV+FnuBb+
- IPf6kD5dUG264S3EVkYQ2trKmgL74MyI3Zva5tWaFzkW9BdJo84tJsgm9jE9LXb3GsFJ
- BIoEnmvTYCCqmx2Tr5rs5Krsf34i+LhnaXhCRgVXjXkGVnmM77duQGYgcEupqC8qYPBo
- LewMeyxMNxfZZWElHlwUbn4GcVJjkoJmhI8G/QjtLu/DJXL+TUyACsBc4yhdAYdLhQ1Y
- Jexqjsdd1nIKjW8bFDNiS23SJ0+NS84BttZafjMQ52X4gpE4a3SdZpNgPad7Gw235hKN
- dsnQ==
+ bh=qBUTf9GpIdfXPTFTOtKhRJPsPUGuxMdiWCVmQGYT+2k=;
+ b=Ws97P9zpToL4JcvpOFuzbNwuodP493lrUIGqjz7Zcvs5p1A1/gKzilbW1uym66jyLE
+ ymvI8jhc9OblLE25BPqkdYMIgojPct7I1RJIH8jos/4GD8pzzT7Anik8FH2g/8Nf2jkP
+ 1ZeKH2CuFjRedUyUfdqmv81EUOyhQLeChEURQvA9P4ZF5GVf8xR5XJIYupNmYYWHrtpb
+ M2WiYmSyD935LzvIqFZmiGbSjOW1WoJjabQlueBLHI0q+OO5TVYTbFuTZRJHiQXaWFht
+ MYgttYKSf3dVIGDtITV1xogzvEc2JenZJaNpYY8jQHi5NdA0qTJDgolpkkhO8xP5US/b
+ /3FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oOzyULiNbeFY2/JVqESTmUOi0tZ1RaKtlAJLXAU+LTo=;
- b=TbBUUBzJ5YXl523ajW3MTf57FiaKF/iaiVhwX1hkggt2L85G15SfOETOJ7xvtHb0As
- Yis99BvOk8BJUCLz2pDnPvdqmmudC0B7azhM3px3Nm9GIuNP3MFXEfVZJbInURLAlk2K
- 9rR0XGk35NIorVptS4/MXl6yPgzjVqbwbbaKfHKL6w46AQTSx19uzTUIjd30bcFl0ffg
- Ws2CHg4/UULgN+1oZEQn1qqdZg/cB4plVcpkYZV5knvrde1iBZCIVcMY/biWxQU8koj/
- Iw14ROnW7WIs51WG1EkYC2ByCzTqH78VR2AXmCOJcRu4Q54JJeire1fH4qBe+Bb/uuai
- KuIg==
-X-Gm-Message-State: ANhLgQ0LoiPhXSFUwVBeYCtT/uCNNZFJ/s3xJiOQz2nXERmroKoTWr78
- uujvsg1vp5G2LqcCip8zQRRRqDRtw5A=
-X-Google-Smtp-Source: ADFU+vtr+LHEQowdAfWSKJxhIwCC8cDfNuCiUTXYchSZ2Y3hSfen41VNdYjJLibo6depjha7ND3oEw==
-X-Received: by 2002:ac2:5465:: with SMTP id e5mr12479598lfn.210.1584279936692; 
- Sun, 15 Mar 2020 06:45:36 -0700 (PDT)
+ bh=qBUTf9GpIdfXPTFTOtKhRJPsPUGuxMdiWCVmQGYT+2k=;
+ b=G0/vFAY99pLn4+a/47a+K57vBrxVVRDXF+ddrpf4QaLFSBuplWHA+i0LzUR4jh55e0
+ 79jBwnddvzUCw0P2reSmBe6m4sqy4CB4jJyjTLXvtp5F933dDN5dPjHmyhZTKaGovi6C
+ Ds3Wv6grIg1uV3SzI40FXbrQJgg0EHa1zC6LrYI3zStmjJ5dxEldsEGxikiGfdDpe4lS
+ AnAeiBzyHNJJ9PDCUWuniJm9W38TMGHlcpr0yqZFEXXjZQFVDCM2U0CygGjcWuvhyg8c
+ g8+vZyvgOSlcRSRcJCvuZ5BzgyzdsexQS9Xd8NKGTu+ua7IqNsE+3KGa6CRPftZ7Ptda
+ BNjQ==
+X-Gm-Message-State: ANhLgQ1NXhlqmXtm3QCeYsvNVLf6+B69ylS1l2t5j1+fO5XkidOT61iZ
+ MeS5Vda2gdu6Eg+kv6ZPI6tt7Egv11s=
+X-Google-Smtp-Source: ADFU+vvTQEq/cvWDAYSQIlZsIN9Cs1P+wx3lsx1bi54HOkveLS6awGenZ0u5wIN3aYPyVsmSKYSUxQ==
+X-Received: by 2002:a05:6512:31d3:: with SMTP id
+ j19mr13911445lfe.178.1584279938846; 
+ Sun, 15 Mar 2020 06:45:38 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- a9sm23025212lfb.21.2020.03.15.06.45.34
+ a9sm23025212lfb.21.2020.03.15.06.45.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 06:45:36 -0700 (PDT)
+ Sun, 15 Mar 2020 06:45:38 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v1 33/36] dt-bindings: display: convert sharp,
- lq150x1lg11 to DT Schema
-Date: Sun, 15 Mar 2020 14:44:13 +0100
-Message-Id: <20200315134416.16527-34-sam@ravnborg.org>
+Subject: [PATCH v1 34/36] dt-bindings: display: convert seiko,
+ 43wvf1g to DT Schema
+Date: Sun, 15 Mar 2020 14:44:14 +0100
+Message-Id: <20200315134416.16527-35-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200315134416.16527-1-sam@ravnborg.org>
 References: <20200315134416.16527-1-sam@ravnborg.org>
@@ -95,119 +96,97 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Peter Rosin <peda@axentia.se>
+Cc: Marco Franchi <marco.franchi@nxp.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../display/panel/sharp,lq150x1lg11.txt       | 36 ------------
- .../display/panel/sharp,lq150x1lg11.yaml      | 58 +++++++++++++++++++
- 2 files changed, 58 insertions(+), 36 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.yaml
+ .../bindings/display/panel/seiko,43wvf1g.txt  | 23 ---------
+ .../bindings/display/panel/seiko,43wvf1g.yaml | 49 +++++++++++++++++++
+ 2 files changed, 49 insertions(+), 23 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/seiko,43wvf1g.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/seiko,43wvf1g.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.txt b/Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.txt
+diff --git a/Documentation/devicetree/bindings/display/panel/seiko,43wvf1g.txt b/Documentation/devicetree/bindings/display/panel/seiko,43wvf1g.txt
 deleted file mode 100644
-index 0f57c3143506..000000000000
---- a/Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.txt
+index aae57ef36cdd..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/seiko,43wvf1g.txt
 +++ /dev/null
-@@ -1,36 +0,0 @@
--Sharp 15" LQ150X1LG11 XGA TFT LCD panel
+@@ -1,23 +0,0 @@
+-Seiko Instruments Inc. 4.3" WVGA (800 x RGB x 480) TFT with Touch-Panel
 -
 -Required properties:
--- compatible: should be "sharp,lq150x1lg11"
--- power-supply: regulator to provide the VCC supply voltage (3.3 volts)
+-- compatible: should be "sii,43wvf1g".
+-- "dvdd-supply": 3v3 digital regulator.
+-- "avdd-supply": 5v analog regulator.
 -
 -Optional properties:
--- backlight: phandle of the backlight device
--- rlud-gpios: a single GPIO for the RL/UD (rotate 180 degrees) pin.
--- sellvds-gpios: a single GPIO for the SELLVDS pin.
--
--If rlud-gpios and/or sellvds-gpios are not specified, the RL/UD and/or SELLVDS
--pins are assumed to be handled appropriately by the hardware.
+-- backlight: phandle for the backlight control.
 -
 -Example:
 -
--	backlight: backlight {
--		compatible = "pwm-backlight";
--		pwms = <&pwm 0 100000>;                      /* VBR */
--
--		brightness-levels = <0 20 40 60 80 100>;
--		default-brightness-level = <2>;
--
--		power-supply = <&vdd_12v_reg>;               /* VDD */
--		enable-gpios = <&gpio 42 GPIO_ACTIVE_HIGH>;  /* XSTABY */
--	};
--
 -	panel {
--		compatible = "sharp,lq150x1lg11";
--
--		power-supply = <&vcc_3v3_reg>;               /* VCC */
--
--		backlight = <&backlight>;
--		rlud-gpios = <&gpio 17 GPIO_ACTIVE_HIGH>;    /* RL/UD */
--		sellvds-gpios = <&gpio 18 GPIO_ACTIVE_HIGH>; /* SELLVDS */
+-		compatible = "sii,43wvf1g";
+-		backlight = <&backlight_display>;
+-		dvdd-supply = <&reg_lcd_3v3>;
+-		avdd-supply = <&reg_lcd_5v>;
+-		port {
+-			panel_in: endpoint {
+-				remote-endpoint = <&display_out>;
+-			};
+-		};
 -	};
-diff --git a/Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.yaml b/Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.yaml
+diff --git a/Documentation/devicetree/bindings/display/panel/seiko,43wvf1g.yaml b/Documentation/devicetree/bindings/display/panel/seiko,43wvf1g.yaml
 new file mode 100644
-index 000000000000..92f2d12f4f4c
+index 000000000000..9195de40b21b
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.yaml
-@@ -0,0 +1,58 @@
++++ b/Documentation/devicetree/bindings/display/panel/seiko,43wvf1g.yaml
+@@ -0,0 +1,49 @@
 +# SPDX-License-Identifier: GPL-2.0
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/panel/sharp,lq150x1lg11.yaml#
++$id: http://devicetree.org/schemas/display/panel/seiko,43wvf1g.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Sharp 15" LQ150X1LG11 XGA TFT LCD panel
++title: Seiko Instruments Inc. 4.3" WVGA (800 x RGB x 480) TFT with Touch-Panel
 +
 +maintainers:
-+  - Peter Rosin <peda@axentia.se>
++  - Marco Franchi <marco.franchi@nxp.com>
 +
 +allOf:
 +  - $ref: panel-common.yaml#
 +
 +properties:
 +  compatible:
-+    const: sharp,lq150x1lg11
++    const: sii,43wvf1g
 +
-+  power-supply: true
 +  backlight: true
++  port: true
 +
-+  rlud-gpios:
-+    maxItems: 1
-+    description: |
-+      GPIO for the RL/UD (rotate 180 degrees) pin.
-+      If rlud-gpios and/or sellvds-gpios are not specified,
-+      the RL/UD and/or SELLVDS pins are assumed to be handled
-+      appropriately by the hardware.
++  dvdd-supply:
++    description: 3v3 digital regulator
 +
-+  sellvds-gpios:
-+    maxItems: 1
-+    description: |
-+      GPIO for the SELLVDS pin.
-+      If rlud-gpios and/or sellvds-gpios are not specified,
-+      the RL/UD and/or SELLVDS pins are assumed to be handled
-+      appropriately by the hardware.
++  avdd-supply:
++    description: 5v analog regulator
 +
 +required:
 +  - compatible
-+  - power-supply
++  - dvdd-supply
++  - avdd-supply
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
 +    panel {
-+        compatible = "sharp,lq150x1lg11";
-+
-+        power-supply = <&vcc_3v3_reg>;               /* VCC */
-+
-+        backlight = <&backlight>;
-+        rlud-gpios = <&gpio 17 GPIO_ACTIVE_HIGH>;    /* RL/UD */
-+        sellvds-gpios = <&gpio 18 GPIO_ACTIVE_HIGH>; /* SELLVDS */
++        compatible = "sii,43wvf1g";
++        backlight = <&backlight_display>;
++        dvdd-supply = <&reg_lcd_3v3>;
++        avdd-supply = <&reg_lcd_5v>;
++        port {
++            panel_in: endpoint {
++                remote-endpoint = <&display_out>;
++            };
++        };
 +    };
 +
 +...
