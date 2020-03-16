@@ -2,41 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D42A1872D9
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 19:57:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A0F1873B4
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 20:57:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC186E49F;
-	Mon, 16 Mar 2020 18:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94A1A6E05D;
+	Mon, 16 Mar 2020 19:57:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6B776E49F
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 18:57:42 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id A800C804DA;
- Mon, 16 Mar 2020 19:57:34 +0100 (CET)
-Date: Mon, 16 Mar 2020 19:57:33 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v1 02/36] dt-bindings: spi: support non-spi bindings as
- SPI slaves
-Message-ID: <20200316185733.GA18307@ravnborg.org>
-References: <20200315134416.16527-1-sam@ravnborg.org>
- <20200315134416.16527-3-sam@ravnborg.org>
- <20200316120239.GC5010@sirena.org.uk>
- <20200316132844.GA22822@ravnborg.org>
- <20200316163538.GJ5010@sirena.org.uk>
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03F596E4CA;
+ Mon, 16 Mar 2020 19:56:59 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e6fd9db0000>; Mon, 16 Mar 2020 12:56:11 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 16 Mar 2020 12:56:59 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Mon, 16 Mar 2020 12:56:59 -0700
+Received: from rcampbell-dev.nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Mar
+ 2020 19:56:59 +0000
+Subject: Re: [PATCH 2/2] mm: remove device private page support from
+ hmm_range_fault
+To: Christoph Hellwig <hch@lst.de>
+References: <20200316175259.908713-1-hch@lst.de>
+ <20200316175259.908713-3-hch@lst.de>
+ <c099cc3c-c19f-9d61-4297-2e83df899ca4@nvidia.com>
+ <20200316184935.GA25322@lst.de>
+X-Nvconfidentiality: public
+From: Ralph Campbell <rcampbell@nvidia.com>
+Message-ID: <7e9e22be-dea2-4862-1d05-5285bfc6c066@nvidia.com>
+Date: Mon, 16 Mar 2020 12:56:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200316163538.GJ5010@sirena.org.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=lAQgYEA6ThzcfdfRarEA:9 a=CjuIK1q_8ugA:10
+In-Reply-To: <20200316184935.GA25322@lst.de>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1584388571; bh=hX1AWS8RbjQrpRYPPUApwzR7/6Orzl3RZ5t2Aw26Qm8=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=FWkXqqOomcKpXFpXokXAQN5N4mNXWyUHpZWFwwkjyvP4rXqR8SXCZY+hQqUPSOLVZ
+ lIwFVC/PnO6ZESSZGvb5N09xZelYetpUgXDLKuounPcdHpIMiNkjnBP3ymfYmbVkon
+ 6Xdvsp6ObAjmHrkBYcIH0f5lXfGrufLmg/ag3XzNL/XSgPLFXL3ZiyEr7thCnBXkVG
+ noZ7FBf2bxJTZ8/q2a33eRbxwmkWTCHEqGDdT1t9gxZjyeRISiDcKXcP/fRGAjazcp
+ /JQnegdK4OF5thEKhVwu3+T85PcM63IhaOKdEInsu0S44w6/F1TlhoRR/oapispC+p
+ 01vrqwl4yEjhw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,100 +67,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
- Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
- Stefan Mavrodiev <stefan@olimex.com>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
- Nickey Yang <nickey.yang@rock-chips.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
- Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
- Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
- devicetree@vger.kernel.org, Guido Gunther <agx@sigxcpu.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Werner Johansson <werner.johansson@sonymobile.com>,
- Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
- linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
-Content-Type: text/plain; charset="us-ascii"
+Cc: amd-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kvm-ppc@vger.kernel.org, Bharata B Rao <bharata@linux.ibm.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jerome Glisse <jglisse@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mark.
 
-On Mon, Mar 16, 2020 at 04:35:38PM +0000, Mark Brown wrote:
-> On Mon, Mar 16, 2020 at 02:28:44PM +0100, Sam Ravnborg wrote:
-> > On Mon, Mar 16, 2020 at 12:02:41PM +0000, Mark Brown wrote:
-> > > On Sun, Mar 15, 2020 at 02:43:42PM +0100, Sam Ravnborg wrote:
+On 3/16/20 11:49 AM, Christoph Hellwig wrote:
+> On Mon, Mar 16, 2020 at 11:42:19AM -0700, Ralph Campbell wrote:
+>>
+>> On 3/16/20 10:52 AM, Christoph Hellwig wrote:
+>>> No driver has actually used properly wire up and support this feature.
+>>> There is various code related to it in nouveau, but as far as I can tell
+>>> it never actually got turned on, and the only changes since the initial
+>>> commit are global cleanups.
+>>
+>> This is not actually true. OpenCL 2.x does support SVM with nouveau and
+>> device private memory via clEnqueueSVMMigrateMem().
+>> Also, Ben Skeggs has accepted a set of patches to map GPU memory after being
+>> migrated and this change would conflict with that.
 > 
-> > > > Independent bindings can be SPI slaves which for example is
-> > > > the case for several panel bindings.
+> Can you explain me how we actually invoke this code?
+
+GPU memory is allocated when the device private memory "struct page" is
+allocated. See where nouveau_dmem_chunk_alloc() calls nouveau_bo_new().
+Then when a page is migrated to the GPU, the GPU memory physical address
+is just the offset into the "fake" PFN range allocated by
+devm_request_free_mem_region().
+
+I'm looking into allocating GPU memory at the time of migration instead of when
+the device private memory struct pages are allocated but that is a future
+improvement.
+
+System memory is migrated to GPU memory:
+# mesa
+clEnqueueSVMMigrateMem()
+   svm_migrate_op()
+     q.svm_migrate()
+       pipe->svm_migrate() // really nvc0_svm_migrate()
+         drmCommandWrite() // in libdrm
+           drmIoctl()
+             ioctl()
+               nouveau_drm_ioctl() // nouveau_drm.c
+                 drm_ioctl()
+                   nouveau_svmm_bind()
+                     nouveau_dmem_migrate_vma()
+                       migrate_vma_setup()
+                       nouveau_dmem_migrate_chunk()
+                         nouveau_dmem_migrate_copy_one()
+                           // allocate device private struct page
+                           dpage = nouveau_dmem_page_alloc_locked()
+                             dpage = nouveau_dmem_pages_alloc()
+                             // Get GPU VRAM physical address
+                             nouveau_dmem_page_addr(dpage)
+                             // This does the DMA to GPU memory
+                             drm->dmem->migrate.copy_func()
+                       migrate_vma_pages()
+                       migrate_vma_finalize()
+
+Without my recent patch set, there is no GPU page table entry created for
+this migrated memory so there will be a GPU fault which is handled in a
+worker thread:
+nouveau_svm_fault()
+   // examine fault buffer entries and compute range of pages
+   nouveau_range_fault()
+     // This will fill in the pfns array with a device private entry PFN
+     hmm_range_fault()
+     // This sees the range->flags[HMM_PFN_DEVICE_PRIVATE] flag
+     // and converts the HMM PFN to a GPU physical address
+     nouveau_dmem_convert_pfn()
+     // This sets up the GPU page tables
+     nvif_object_ioctl()
+
+> For that we'd need HMM_PFN_DEVICE_PRIVATE NVIF_VMM_PFNMAP_V0_VRAM
+> set in ->pfns before calling hmm_range_fault, which isn't happening.
 > 
-> > > What is an "independent binding"?
-> 
-> > For several panels we have device trees that looks like this:
-> 
-> So what you're trying to do is define a generic class for SPI slaves
-> which are just normal children of SPI nodes?  I really can't get to
-> there from your changelog so we need some work there - in particular
-> "non-spi bindings" is *very* confusing as as far as I can see these are
-> bindings for SPI devices.
-> 
-> > The bindings are child of the spi controller node, but not specified
-> > in the same binding file as the spi controller node.
-> 
-> Of course not, this how all buses work isn't it?
-> 
-> > So SPI slaves can now reference spi-slave.yaml to get access to
-> > the SPI slave properties - and the copies can be avoided.
-> > Likewise spi-controller.yml now references spi-slave.yaml.
-> 
-> > This was the best way I saw it could be done.
-> 
-> Rob didn't do the binding conversion but he did review it - I'm a bit
-> surprised that there's issues here?
 
-For panels we have panel-common.yaml that list all the
-typical properties used by a panel - so the individual
-panel bindings shall not repeat them.
-This is also aligned with the principle of re-using properties rather
-than inventing new properties all over.
-
-And with a number of bindings describing HW that is SPI slaves
-the idea is to do something like we do for panels.
-
-I look forward for Rob's feedback - but as he is on vacation this week
-we may have to wait a week for that.
-
-The simple way forward had been to do like we do in many other places
-and include a few SPI properties and be done with it.
-This is an attempt to do something better.
-If there is push-back or a nack, then we can always do like we do in
-other places and just duplicate the properties.
-
-> Also shouldn't there be some constraint that these devices have to be
-> the child of a SPI controller or something?  Just including a file
-> doesn't look right for something like class definition.
-
-It was the best I could come up with - and this patch was called out
-for review in the hope there is a better way than this patch.
-
-We have similar examples like:
-  - pincfg-node.yaml
-  - regulatro.yaml
-  - dma-common.yaml
-
-They are not exactly 1:1 to what we do with spi-slave.yaml, but they
-served as inspiration.
-
-	Sam
+It is set by hmm_range_fault() via the range->flags[HMM_PFN_DEVICE_PRIVATE] entry
+when hmm_range_fault() sees a device private struct page. The call to
+nouveau_dmem_convert_pfn() is just replacing the "fake" PFN with the real PFN
+but not clearing/changing the read/write or VRAM/system memory PTE bits.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
