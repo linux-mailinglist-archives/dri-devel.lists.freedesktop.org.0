@@ -1,69 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B93518873C
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:18:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 138E918873D
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:18:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E8486E58A;
-	Tue, 17 Mar 2020 14:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB9E76E1B8;
+	Tue, 17 Mar 2020 14:16:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 400B06E4CA
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 20:09:31 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id f17so14134238qtq.6
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 13:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=PDNAD6S4KTd0gVi/XavugH3SkseCvoY3JtPvtDkTohU=;
- b=nsCUT+96D3VjNsrl2Pj9woIM6G1+L/e49spoRATL4fYjDKCmMd79hBVnO7MFyaCD1E
- H69sQ7R6uU7FU1kcv0npVCqHpzMBtsvzDK28Pfw8oN0s3CNOZ7+TbImmjH8HhEb/Yvdx
- ZG3uBlKT8XbAsY+s/pCfiSC3PXRh+bHBVMDz5a3bPc3ch47yOIAYnLcRAYKXiXB3N6I2
- jKc2tog/kKDGW+zuxi6eIrzxrsWorBN3cVgs8d7fBlFPY8tOruUkf6N4YQJhaUkJ8eHZ
- Memms57s9EmDz1lMImGj4va9n96e8vXoFpeBuA+HvVvzgW9e98ej1R2E3nBP0qv2Md/p
- Yt2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=PDNAD6S4KTd0gVi/XavugH3SkseCvoY3JtPvtDkTohU=;
- b=Ik6C6S9Ue7F8SQnYma6jiqxfk58S8oKbwjT7LJXrzHSryBfy3/9jt8EorFi6qINX5L
- 5g0vFDKVHHxsRuyELnHqTsCFZc/Ph8kIIIYPZyM//M+IevKUIYVd85JQD02P9tMG+QOG
- 8Ou/uLYTSI0Jrbks7i4Gl+Z7gMj9ydUIAWlicuqOm+duSjL4rjfM0bBdQW03XEwZj17C
- KYkt+WWWvrT3+pVZDNPKe3/pMY7gX5el4u65aOqzZarMXc3gu+YEl2I81e1TClF2xndm
- FqyYCesWuDgXnLS3n1VVOUrjekJ9NTS9GbrgZ13EvUAiOiptee95aK1muWu44n+k5jmf
- fn/w==
-X-Gm-Message-State: ANhLgQ2mI9RJ/X7KtCVcyBsCz3E55jkG41PkXU4Kaj9OtMHmUIstrpIA
- QQ/U7R20Jg0ZCVV/TG/lJediuQ==
-X-Google-Smtp-Source: ADFU+vvdX8KgG8/0KMMaE8Eeq2N9rxxz03kyvkaJo4ff8RQccEfxQBSqW5ZD+n9+Mwx3iLq3b9YiFA==
-X-Received: by 2002:ac8:5193:: with SMTP id c19mr1934353qtn.204.1584389370366; 
- Mon, 16 Mar 2020 13:09:30 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id t7sm516565qtr.88.2020.03.16.13.09.29
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 16 Mar 2020 13:09:29 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1jDw3F-0007G3-BI; Mon, 16 Mar 2020 17:09:29 -0300
-Date: Mon, 16 Mar 2020 17:09:29 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 2/2] mm: remove device private page support from
- hmm_range_fault
-Message-ID: <20200316200929.GB20010@ziepe.ca>
-References: <20200316175259.908713-1-hch@lst.de>
- <20200316175259.908713-3-hch@lst.de>
- <c099cc3c-c19f-9d61-4297-2e83df899ca4@nvidia.com>
- <20200316184935.GA25322@lst.de>
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 436B36E4D0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 20:49:00 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 6699B58089A;
+ Mon, 16 Mar 2020 16:48:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 16 Mar 2020 16:48:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=2tglQQZWc8w8BFYHHOuQ8FRIUWK
+ jMyItVwVW13flha0=; b=LP1I9ll8CV/bx8h+KXkGxkFpvuXfPfTPSCZq1455SA6
+ oW1thhFn4p2zGNFDMWx6loA246ZNaggiWkI2PMPcUKyYdptl0DIh8jL8C/kRJY44
+ tARF8LnwNGRM6Gl3v8ramNfHvpTJ+SGRAoqEtU6BYb+izeX2sTJSlbbue1XNw9bp
+ qvuyRXX1KXurx5LuxJLI+zEl9TmtS50a4RpvGn/qEP24jJm2sekECVQdrzxxFLnT
+ iPCB/Y/Rh7IErGSNZmDvJDePWHTUK2OFFMx1HvdI9IDQmVnR8XSsMYVk81T8c96R
+ Pqyb03DlVavmgxAqFnifFpV00TF6BQwDRw9cLPkCSow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=2tglQQ
+ ZWc8w8BFYHHOuQ8FRIUWKjMyItVwVW13flha0=; b=WAc3H/gWQdr3elcEYWxvbq
+ wslSbdrMrxGnWftrdLz+1T+t/F//9bAbg65T7dsIxWHugJtMIliNktmFEjm1Bfp/
+ za2nvaGjmUE+uPZJaDQyJRWAj8eX8x+nTeIB7EPm+tFyNab6f/t+Kkjic8UGX7VA
+ CbjcelqmPy5gAjtyfJ1UbZp/g+ejTPdYvIhyrzIbvokKPdgos+7j9sgrq7Q/sVdB
+ FJHAJ37alG/F7T/2W2Crv/aePS63mAe4fFN6nX4Uf+SFXbparBLXLO1Mms/CCeBO
+ UGkWo8ZhsfGrSWc+B9iatHK2tuE+17Z1ueJx+J5tBLraJSNCmtBI41arNQVj5F6A
+ ==
+X-ME-Sender: <xms:NeZvXqEn8Yf3bXeXC3UMNn3qvRCzfhoScIVtjkKaAQU9CCJo01LcHA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedgudegtdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkpheple
+ dtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+ ihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:NeZvXp2YuEvGoIbgs0Ic0o4EgHdl36nnXGba5HsJJcytNmTq_-qchA>
+ <xmx:NeZvXq1-KzfBBuOObXdDCJjb3fRRRMLkjdk61uB3pTZ8jmVxQK0bhA>
+ <xmx:NeZvXjNIBev9Y-1WVwT_s8ght3MAxgU8dnxvXiaVq14ne5oJBvP4FQ>
+ <xmx:OeZvXuCXIHbp6weyKnjMyZRj7vq_Y4094xNFyiPTfefEWaio9uF2tQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D21533280060;
+ Mon, 16 Mar 2020 16:48:52 -0400 (EDT)
+Date: Mon, 16 Mar 2020 21:48:50 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v1 02/36] dt-bindings: spi: support non-spi bindings as
+ SPI slaves
+Message-ID: <20200316204850.gggeyjulgiy53i7x@gilmour.lan>
+References: <20200315134416.16527-1-sam@ravnborg.org>
+ <20200315134416.16527-3-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200316184935.GA25322@lst.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200315134416.16527-3-sam@ravnborg.org>
 X-Mailman-Approved-At: Tue, 17 Mar 2020 14:16:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,63 +78,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ralph Campbell <rcampbell@nvidia.com>, amd-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kvm-ppc@vger.kernel.org, Bharata B Rao <bharata@linux.ibm.com>,
- linux-mm@kvack.org, Jerome Glisse <jglisse@redhat.com>,
- Ben Skeggs <bskeggs@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
+ Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
+ Stefan Mavrodiev <stefan@olimex.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
+ Nickey Yang <nickey.yang@rock-chips.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
+ Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
+ Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
+ devicetree@vger.kernel.org, Guido Gunther <agx@sigxcpu.org>,
+ Mark Brown <broonie@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ Werner Johansson <werner.johansson@sonymobile.com>,
+ Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
+ linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 16, 2020 at 07:49:35PM +0100, Christoph Hellwig wrote:
-> On Mon, Mar 16, 2020 at 11:42:19AM -0700, Ralph Campbell wrote:
-> >
-> > On 3/16/20 10:52 AM, Christoph Hellwig wrote:
-> >> No driver has actually used properly wire up and support this feature.
-> >> There is various code related to it in nouveau, but as far as I can tell
-> >> it never actually got turned on, and the only changes since the initial
-> >> commit are global cleanups.
-> >
-> > This is not actually true. OpenCL 2.x does support SVM with nouveau and
-> > device private memory via clEnqueueSVMMigrateMem().
-> > Also, Ben Skeggs has accepted a set of patches to map GPU memory after being
-> > migrated and this change would conflict with that.
-> 
-> Can you explain me how we actually invoke this code?
-> 
-> For that we'd need HMM_PFN_DEVICE_PRIVATE NVIF_VMM_PFNMAP_V0_VRAM
-> set in ->pfns before calling hmm_range_fault, which isn't happening.
+Hi Sam,
 
-Oh, I got tripped on this too
+On Sun, Mar 15, 2020 at 02:43:42PM +0100, Sam Ravnborg wrote:
+> Independent bindings can be SPI slaves which for example is
+> the case for several panel bindings.
+>
+> Move SPI slave properties to spi-slave.yaml so the independent
+> SPI slave bindings can include spi-slave.yaml rather than
+> duplicating the properties.
+>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Maxime Ripard <maxime.ripard@bootlin.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: linux-spi@vger.kernel.org
+> ---
+>  .../bindings/spi/spi-controller.yaml          | 63 +-------------
+>  .../devicetree/bindings/spi/spi-slave.yaml    | 83 +++++++++++++++++++
+>  2 files changed, 86 insertions(+), 60 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/spi/spi-slave.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/spi/spi-controller.yaml b/Documentation/devicetree/bindings/spi/spi-controller.yaml
+> index 1e0ca6ccf64b..99531c8d10dd 100644
+> --- a/Documentation/devicetree/bindings/spi/spi-controller.yaml
+> +++ b/Documentation/devicetree/bindings/spi/spi-controller.yaml
+> @@ -67,71 +67,14 @@ patternProperties:
+>    "^.*@[0-9a-f]+$":
+>      type: object
+>
+> +    allOf:
+> +      - $ref: spi-slave.yaml#
+> +
+>      properties:
+>        compatible:
+>          description:
+>            Compatible of the SPI device.
+>
+> -      reg:
+> -        minimum: 0
+> -        maximum: 256
+> -        description:
+> -          Chip select used by the device.
+> -
+> -      spi-3wire:
+> -        $ref: /schemas/types.yaml#/definitions/flag
+> -        description:
+> -          The device requires 3-wire mode.
+> -
+> -      spi-cpha:
+> -        $ref: /schemas/types.yaml#/definitions/flag
+> -        description:
+> -          The device requires shifted clock phase (CPHA) mode.
+> -
+> -      spi-cpol:
+> -        $ref: /schemas/types.yaml#/definitions/flag
+> -        description:
+> -          The device requires inverse clock polarity (CPOL) mode.
+> -
+> -      spi-cs-high:
+> -        $ref: /schemas/types.yaml#/definitions/flag
+> -        description:
+> -          The device requires the chip select active high.
+> -
+> -      spi-lsb-first:
+> -        $ref: /schemas/types.yaml#/definitions/flag
+> -        description:
+> -          The device requires the LSB first mode.
+> -
+> -      spi-max-frequency:
+> -        $ref: /schemas/types.yaml#/definitions/uint32
+> -        description:
+> -          Maximum SPI clocking speed of the device in Hz.
+> -
+> -      spi-rx-bus-width:
+> -        allOf:
+> -          - $ref: /schemas/types.yaml#/definitions/uint32
+> -          - enum: [ 1, 2, 4, 8 ]
+> -          - default: 1
+> -        description:
+> -          Bus width to the SPI bus used for MISO.
+> -
+> -      spi-rx-delay-us:
+> -        description:
+> -          Delay, in microseconds, after a read transfer.
+> -
+> -      spi-tx-bus-width:
+> -        allOf:
+> -          - $ref: /schemas/types.yaml#/definitions/uint32
+> -          - enum: [ 1, 2, 4, 8 ]
+> -          - default: 1
+> -        description:
+> -          Bus width to the SPI bus used for MOSI.
+> -
+> -      spi-tx-delay-us:
+> -        description:
+> -          Delay, in microseconds, after a write transfer.
+> -
 
-The logic is backwards from what you'd think.. If you *set*
-HMM_PFN_DEVICE_PRIVATE then this triggers:
+I can see what you're trying to do, but you don't really need to.
 
-hmm_pte_need_fault():
-	if ((cpu_flags & range->flags[HMM_PFN_DEVICE_PRIVATE])) {
-		/* Do we fault on device memory ? */
-		if (pfns & range->flags[HMM_PFN_DEVICE_PRIVATE]) {
-			*write_fault = pfns & range->flags[HMM_PFN_WRITE];
-			*fault = true;
-		}
-		return;
-	}
+All the SPI devices will be declared under a spi controller node that
+will validate its child nodes (and thus the devices) already.
 
-Ie if the cpu page is a DEVICE_PRIVATE and the caller sets
-HMM_PFN_DEVICE_PRIVATE in the input flags (pfns) then it always faults
-it and never sets HMM_PFN_DEVICE_PRIVATE in the output flags.
+Doing it this way would actually make all the checks happen twice,
+once as part of the SPI controller, once as part of the SPI device
+binding, without any good reason.
 
-So setting 0 enabled device_private support, and nouveau is Ok.
-
-AMDGPU is broken because it can't handle device private and can't set
-the flag to supress it.
-
-I was going to try and sort this out as part of getting rid of range->flags
-
-Jason
+Maxime
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
