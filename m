@@ -1,60 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A439188715
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:17:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4879B188713
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:17:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42F5A6E151;
-	Tue, 17 Mar 2020 14:16:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B58A6E14E;
+	Tue, 17 Mar 2020 14:16:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com
- [IPv6:2607:f8b0:4864:20::941])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF57789F61;
- Mon, 16 Mar 2020 17:11:29 +0000 (UTC)
-Received: by mail-ua1-x941.google.com with SMTP id h35so3744085uae.5;
- Mon, 16 Mar 2020 10:11:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TIQbkhWW1CshXc560+02Ghxg2S580YLkWlLvER5vpd4=;
- b=ZfMif4klLvwsM7JIVwgZ8xUYv4ww1dNAWZ3NN/29laKybTlQ9lai/F9s3j0oHql5XG
- pdvwT7/opAURS/pzfdOQT/tQROffq3gCPagPf3QotTKjlDo2PB6WkUjlbq67LnO4cTj6
- nfQqJ9a3qFGn/40wS1grRWQ9Pspgoimd37x4TUgsJmnbr1zaR7yybSU0KJV7lPv+P81p
- qH6rpes/aCfy7V/GGdzDmVIR8EoSVRv1QxMDnKt7E2MArEvFNmNUAx0vge1B8zXyPKge
- UxTYeMHlK4uxf8MARgVIeWJNE3aFF5zZ6SYIXIKag1FwVicoAg9zxRUnxY1mOt772eGx
- ekmA==
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FAD96E210
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 18:07:15 +0000 (UTC)
+Received: by mail-qk1-x744.google.com with SMTP id s11so16532321qks.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 11:07:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=BL4dn+rFA5hNgcpGIcpSUF3dGv9P3+nzjxB+rkZXdM4=;
+ b=DKEnDkSOlfzjpgSnrXBEjUC1923pN4NQuhu8yekYIb9Cl/gcjD29oe7Zwom9ayo1l6
+ ii/cMSB9TjmDtSmwKOfTrPDuuuDeMFvopq04LstsyTdRjPRJ3uMeZZgL6GohqV80EcBA
+ ckySb0cXjAfeZzaSxXhVL0vckuNrSqYx+CTuNhNhQ8glRsJSUgFoipt9jfreFxXj+wzr
+ +6+mSPQyLs/j+LIHlg/ZEFHwtEkLK/uwwz06tBZw7JOq2pDMUDodMqQ78UusyshS4ecy
+ 0YdLlpeOTbhQpt6Btu4zmOeR/h1+J13FplibFTzuwj/MzVZ3OTbxBvz9zD/JX6ulW387
+ iQvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TIQbkhWW1CshXc560+02Ghxg2S580YLkWlLvER5vpd4=;
- b=DlM1rPhNRzrXxe9A46MSn6UnjCHYaeAZDzJMiCbSsNPyPGNJm5XS5PWNuZ0d14UwVM
- 3Bd8rSWXYzOGjWy3mVfGpMf3GbQNUaChs7dMbzPaDfa+yzmmfxTerqAlUVpxOJ6UV9Kd
- v02fiiJmvgTlNybve1Rnw/FhPc2ctH+RCeQF8Jzj5cBrBMIlqCI+7V+UHAxIa0qwbSS4
- 0yowmguw5lg70f2WSg3oMd+C13v4L7Jo1KIOPHuWglKxiLdJApl1lAD+n6sqrZPUBFne
- x1IChh/hwkO5QLHalixsSgQ+K1i5UbLYTEv7LiJeSAYdG+R6VGzr2TmASpU1Z8JyihK2
- AsVQ==
-X-Gm-Message-State: ANhLgQ3eCufJdVQ+IhYh4DW9GsHSqNiIypcRen5dPkUGqH/fBAs78xlM
- w+oTp69FfrEONndWTebz3EMD/WRDWvb+5FKdjCI=
-X-Google-Smtp-Source: ADFU+vtFOnReKy7mdHcw0alejs5WzaKUcLq3Ev3Ze9kGweyUw3cPoIkVFp3QdIv9Fyu36RwsDuUzN35lyUVOnM8eFhY=
-X-Received: by 2002:ab0:67:: with SMTP id 94mr794846uai.139.1584378688957;
- Mon, 16 Mar 2020 10:11:28 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=BL4dn+rFA5hNgcpGIcpSUF3dGv9P3+nzjxB+rkZXdM4=;
+ b=kMN3MLJX8qOmP6MwfDj7Uglwg0RHfTEEweFjtaanM+4e6bGbLx6nmpCOMAmuYf4Vqb
+ Zy+C3hjUodXEUGHIdu4uS10NrJaLg1AqpCYIs8fxZJICiv61nV0oN9VtEWhzmpD8Iwnb
+ ehg672UfPA1ngPxqUj28d7NZQmw11v6iuANTCwbioj/b1/5gd/cBEvFOu8Ycw6O+dK2p
+ a53bBKJDSiKicJ7RBhBtWd4Zes9eGOzUxiElN0i2YTntRW6JGbSq0Qg4LPXCdSW5pgJN
+ /dx6rouzBkSf2PBjRwMH89CZnnMwDBuFSohw1P7ak080ToUoGtnI/ZACb1TT5Adp/ojr
+ HRFg==
+X-Gm-Message-State: ANhLgQ1aobTSuHthroGjCfmSn+EW+NX/WK+egy645asAikAC1V21SFTA
+ 0+6ZcpMEL+gFDWarZIqDi7k0Ag==
+X-Google-Smtp-Source: ADFU+vtIq8ax1/sBMUy0L6xn/rwaL8F9DxFBkYRulC2VO6q8JD8eKOdnZIYjW2re88h1P9q0ynL8UA==
+X-Received: by 2002:a37:9d8f:: with SMTP id g137mr902005qke.133.1584382034472; 
+ Mon, 16 Mar 2020 11:07:14 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.57.212])
+ by smtp.gmail.com with ESMTPSA id 68sm254723qkh.75.2020.03.16.11.07.13
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 16 Mar 2020 11:07:13 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1jDu8v-0005Nz-7D; Mon, 16 Mar 2020 15:07:13 -0300
+Date: Mon, 16 Mar 2020 15:07:13 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH  hmm 2/8] mm/hmm: don't free the cached pgmap while
+ scanning
+Message-ID: <20200316180713.GI20941@ziepe.ca>
+References: <20200311183506.3997-1-jgg@ziepe.ca>
+ <20200311183506.3997-3-jgg@ziepe.ca>
+ <20200316090250.GB12439@lst.de>
 MIME-Version: 1.0
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
- <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca>
- <20200316102034.GA30883@pendragon.ideasonboard.com>
- <CAO1ALz=us11a8=M6MWGdLwXakeR3Ltd=iyAN4G5-GkvNXctGeA@mail.gmail.com>
- <CAPj87rPnk6181unams0vBT3ZpdNY=gMM5iFf=E5iPuj=eG28yQ@mail.gmail.com>
- <CAO1ALzmghMQo31noEBW_0gVzJp=BZrNaNtXE+86TR0hR86Y1Jw@mail.gmail.com>
- <CAPj87rM-kmKH6yJZE5vbiQv3KTKXsywe88Na6sGm+Guew++ZfA@mail.gmail.com>
-In-Reply-To: <CAPj87rM-kmKH6yJZE5vbiQv3KTKXsywe88Na6sGm+Guew++ZfA@mail.gmail.com>
-From: Tomek Bury <tomek.bury@gmail.com>
-Date: Mon, 16 Mar 2020 17:11:17 +0000
-Message-ID: <CAO1ALzn+D-gj93d49BGsu7X+2oKnDobhi9cMeVfR25yAu14Vjw@mail.gmail.com>
-Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
-To: Daniel Stone <daniel@fooishbar.org>
+Content-Disposition: inline
+In-Reply-To: <20200316090250.GB12439@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Tue, 17 Mar 2020 14:16:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,46 +76,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, xorg-devel <xorg-devel@lists.x.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "wayland-devel @ lists . freedesktop . org"
- <wayland-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Discussion of the development of and with GStreamer
- <gstreamer-devel@lists.freedesktop.org>
+Cc: Philip Yang <Philip.Yang@amd.com>, Ralph Campbell <rcampbell@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>, Felix.Kuehling@amd.com,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Jerome Glisse <jglisse@redhat.com>, amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> That's not true; you can post back a sync token every time the client
-> buffer is used by the compositor.
-Technically, yes but it's very cumbersome and invasive to the point
-where it becomes impractical. Explicit sync is much cleaner solution.
+On Mon, Mar 16, 2020 at 10:02:50AM +0100, Christoph Hellwig wrote:
+> On Wed, Mar 11, 2020 at 03:35:00PM -0300, Jason Gunthorpe wrote:
+> > @@ -694,6 +672,15 @@ long hmm_range_fault(struct hmm_range *range, unsigned int flags)
+> >  			return -EBUSY;
+> >  		ret = walk_page_range(mm, hmm_vma_walk.last, range->end,
+> >  				      &hmm_walk_ops, &hmm_vma_walk);
+> > +		/*
+> > +		 * A pgmap is kept cached in the hmm_vma_walk to avoid expensive
+> > +		 * searching in the probably common case that the pgmap is the
+> > +		 * same for the entire requested range.
+> > +		 */
+> > +		if (hmm_vma_walk.pgmap) {
+> > +			put_dev_pagemap(hmm_vma_walk.pgmap);
+> > +			hmm_vma_walk.pgmap = NULL;
+> > +		}
+> >  	} while (ret == -EBUSY);
+> 
+> In which case it should only be put on return, and not for every loop.
 
-> For instance, Mesa adds the `wl_drm` extension, which is
-> used for bidirectional communication between the EGL implementations
-> in the client and compositor address spaces, without modifying either.
-Broadcom driver adds "wl_nexus" extension which servers similar
-purpose for both EGL and Vulkan WSI
+I chose this to be simple without having to goto unwind it.
 
-> OK. As it stands, everyone else has the kernel mechanism (e.g. via
-> dmabuf resv), so in this case if you are reinventing the underlying
-> platform in a proprietary stack, you get to solve the same problems
-> yourselves.
-That's an important point. In the explicit synchronisation scenario
-the sync token is passed with the buffer. It becomes irrelevant where
-the token originated from, as long as it's a commonly used type of
-token, i.e. dma_fence in kernel space or sync_fd in user space. That
-allows for greater flexibility and works with and without dma
-reservation objects.
+So, instead like this:
 
-Cheers,
-Tomek
+@@ -683,21 +661,33 @@ long hmm_range_fault(struct hmm_range *range, unsigned int flags)
+ 		.flags = flags,
+ 	};
+ 	struct mm_struct *mm = range->notifier->mm;
+-	int ret;
++	long ret;
+ 
+ 	lockdep_assert_held(&mm->mmap_sem);
+ 
+ 	do {
+ 		/* If range is no longer valid force retry. */
+ 		if (mmu_interval_check_retry(range->notifier,
+-					     range->notifier_seq))
+-			return -EBUSY;
++					     range->notifier_seq)) {
++			ret = -EBUSY;
++			goto out;
++		}
+ 		ret = walk_page_range(mm, hmm_vma_walk.last, range->end,
+ 				      &hmm_walk_ops, &hmm_vma_walk);
+ 	} while (ret == -EBUSY);
+ 
+ 	if (ret)
+-		return ret;
+-	return (hmm_vma_walk.last - range->start) >> PAGE_SHIFT;
++		goto out;
++	ret = (hmm_vma_walk.last - range->start) >> PAGE_SHIFT;
++
++out:
++	/*
++	 * A pgmap is kept cached in the hmm_vma_walk to avoid expensive
++	 * searching in the probably common case that the pgmap is the
++	 * same for the entire requested range.
++	 */
++	if (hmm_vma_walk.pgmap)
++		put_dev_pagemap(hmm_vma_walk.pgmap);
++	return ret;
+ }
+ EXPORT_SYMBOL(hmm_range_fault);
+
+?
+
+> I still think the right fix is to just delete all the unused and broken
+> pgmap handling code.  If we ever need to add it back it can be added
+> in a proper understood and tested way.
+
+What I want to add is something like
+
+ if (pgmap != walk->required_pgmap)
+     cpu_flags = 0
+ hmm_range_need_fault(..., cpu_flags, ...)
+
+Which will fix a bug in nouveau where it blindly assumes any device
+pages are its own, IIRC.
+
+I think Ralph observed it needs to be here, because if the pgmap
+doesn't match then it should trigger migration, in a single call,
+rather than iterating.
+
+I'm mostly expecting to replace all the other pgmap code, but keep the
+pgmap caching. The existing pgmap stuff seems approx right, but
+useless..
+
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
