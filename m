@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232A618742B
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 21:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C4A18744E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 21:55:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21C2389CFA;
-	Mon, 16 Mar 2020 20:41:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 425376E4DD;
+	Mon, 16 Mar 2020 20:55:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
- [IPv6:2607:f8b0:4864:20::e44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 592AA89CFA
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 20:41:14 +0000 (UTC)
-Received: by mail-vs1-xe44.google.com with SMTP id p7so10102598vso.6
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 13:41:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pfmXc3xr7dDVUscjphZ9PfgG1CkRdszrgoIMj+cYGiM=;
- b=m0zS/nz+dh5DzW7OJtY1OyEysBJG0asBfU/zhzlY3bVTir7wJr8IvHqzL2txO7u8OP
- TwCkv0SgavWRtAimFcwroX34kVJs0fx7PJqKmCrABErjMKZa0rezx/rliFEMdBF3BhM0
- LpUHV4yhDEXst5xYr3keONwo+bCtPHQ/IdU0M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pfmXc3xr7dDVUscjphZ9PfgG1CkRdszrgoIMj+cYGiM=;
- b=S4RxGOSsok4X8xbBLz4HnK7BDcXK2bl4aiB42aNGHQt+UYZpF+ULZQTzBqWZHC6fyT
- v5QL54pHNg2okL1JLvLAoXn1TrR9/LdAVjDcCeKtvcP6ixE01U+IVc4tBX0pcR3vrYFn
- Ojc4jA/r+M9SB6ttLUug1BbrOjmebJGUhs+YhkBw1FWXN2bAsasyKk8MwOIBvaaris1Z
- i6lRAdlW1xzYxbs3c6sfuqQf+9U5/2NUXOlYJ5yKH9eEM7jAARiAm8FtK12DO6xW6sgF
- ijBYT1pqTOtFnVfifqSQtbTUd55SWphVHH7ZuaXlgldWphvwJYjxkT3goH94eJyXwehs
- +/pw==
-X-Gm-Message-State: ANhLgQ1s4Aws6udzhSlV1jF8xk/jBj9eC2eZyKsAbky386zzzwcRzR1z
- 9q7Y1CRHLxBsctNEcw0Q1YBYcIwZHXQ=
-X-Google-Smtp-Source: ADFU+vs9thf2Qrc0We7V/rn0bmjs0PQYNlQ/9AgWP9hsIopfm+C/FeNlAPQO6Jli8aQPp1nOorgl5w==
-X-Received: by 2002:a67:de97:: with SMTP id r23mr1254951vsk.23.1584391273474; 
- Mon, 16 Mar 2020 13:41:13 -0700 (PDT)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com.
- [209.85.217.51])
- by smtp.gmail.com with ESMTPSA id q128sm298571vkh.54.2020.03.16.13.41.11
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 13:41:13 -0700 (PDT)
-Received: by mail-vs1-f51.google.com with SMTP id n6so12318424vsc.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 13:41:11 -0700 (PDT)
-X-Received: by 2002:a05:6102:7c7:: with SMTP id
- y7mr1256780vsg.198.1584391271488; 
- Mon, 16 Mar 2020 13:41:11 -0700 (PDT)
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8548F6E4DD;
+ Mon, 16 Mar 2020 20:55:43 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e6fe7c10000>; Mon, 16 Mar 2020 13:55:30 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Mon, 16 Mar 2020 13:55:43 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Mon, 16 Mar 2020 13:55:43 -0700
+Received: from rcampbell-dev.nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Mar
+ 2020 20:55:42 +0000
+Subject: Re: [PATCH 1/4] memremap: add an owner field to struct dev_pagemap
+To: Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>, Dan
+ Williams <dan.j.williams@intel.com>, Bharata B Rao <bharata@linux.ibm.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, Ben Skeggs
+ <bskeggs@redhat.com>
+References: <20200316193216.920734-1-hch@lst.de>
+ <20200316193216.920734-2-hch@lst.de>
+X-Nvconfidentiality: public
+From: Ralph Campbell <rcampbell@nvidia.com>
+Message-ID: <afaadfde-94b1-5b7d-802b-812b0b448b78@nvidia.com>
+Date: Mon, 16 Mar 2020 13:55:40 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20200315134416.16527-1-sam@ravnborg.org>
- <20200315134416.16527-12-sam@ravnborg.org>
-In-Reply-To: <20200315134416.16527-12-sam@ravnborg.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 16 Mar 2020 13:41:00 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U--vZ7bZ-RMGVbqxwpo9C8pBDtbmU2moUcu73kBHqm-A@mail.gmail.com>
-Message-ID: <CAD=FV=U--vZ7bZ-RMGVbqxwpo9C8pBDtbmU2moUcu73kBHqm-A@mail.gmail.com>
-Subject: Re: [PATCH v1 11/36] dt-bindings: display: convert
- innolux,p120zdg-bf1 to DT Schema
-To: Sam Ravnborg <sam@ravnborg.org>
+In-Reply-To: <20200316193216.920734-2-hch@lst.de>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1584392130; bh=0aYvPtJbjqch4ne24GuhOWD+PoFcLm231x6U+7kZWAs=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=DITaQRakDsVSmGgSZKi1PGUUH+bPNs/QPdDH6im7uTaWf10+4t1ICJeKBx2iGGrjO
+ D1Nm4+XFyD1CTkESpqEJCLF5vL6O6R9u4RqmGc6sQkE1lfAn0DcpTCCVa6soJ+nrXj
+ 47qWJWoqGKXcox8VntW4qx/9NaOhfRYGMtzwQF5Bx3muX+BK1gGKH1b/mORuFsz1gw
+ DSW+RtOQ7304OqeICUUdFZqcg71Na861f/VbjiE+o3bFI53V1SgzsCf1SDFF1jhxpH
+ NyEgrQwVohlRMiOS7pNX9UKWoLGWUSQC4lnW9zknTBG9RsCtbJHttoiKllzaf6fRzH
+ D4VSBo4TyProQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,49 +67,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
- Sandeep Panda <spanda@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
- Stefan Mavrodiev <stefan@olimex.com>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
- Nickey Yang <nickey.yang@rock-chips.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
- Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
- Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Guido Gunther <agx@sigxcpu.org>,
- Mark Brown <broonie@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
- Werner Johansson <werner.johansson@sonymobile.com>,
- Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Lin Huang <hl@rock-chips.com>, linux-spi <linux-spi@vger.kernel.org>,
- Peter Rosin <peda@axentia.se>
-Content-Type: text/plain; charset="us-ascii"
+Cc: kvm-ppc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Jerome Glisse <jglisse@redhat.com>, amd-gfx@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Sun, Mar 15, 2020 at 6:44 AM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Sandeep Panda <spanda@codeaurora.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
+On 3/16/20 12:32 PM, Christoph Hellwig wrote:
+> Add a new opaque owner field to struct dev_pagemap, which will allow
+> the hmm and migrate_vma code to identify who owns ZONE_DEVICE memory,
+> and refuse to work on mappings not owned by the calling entity.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+This looks like a reasonable approach to take.
+Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
+
 > ---
->  .../display/panel/innolux,p120zdg-bf1.txt     | 22 ----------
->  .../display/panel/innolux,p120zdg-bf1.yaml    | 43 +++++++++++++++++++
->  2 files changed, 43 insertions(+), 22 deletions(-)
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>   arch/powerpc/kvm/book3s_hv_uvmem.c     | 2 ++
+>   drivers/gpu/drm/nouveau/nouveau_dmem.c | 1 +
+>   include/linux/memremap.h               | 4 ++++
+>   mm/memremap.c                          | 4 ++++
+>   4 files changed, 11 insertions(+)
+> 
+> diff --git a/arch/powerpc/kvm/book3s_hv_uvmem.c b/arch/powerpc/kvm/book3s_hv_uvmem.c
+> index 79b1202b1c62..67fefb03b9b7 100644
+> --- a/arch/powerpc/kvm/book3s_hv_uvmem.c
+> +++ b/arch/powerpc/kvm/book3s_hv_uvmem.c
+> @@ -779,6 +779,8 @@ int kvmppc_uvmem_init(void)
+>   	kvmppc_uvmem_pgmap.type = MEMORY_DEVICE_PRIVATE;
+>   	kvmppc_uvmem_pgmap.res = *res;
+>   	kvmppc_uvmem_pgmap.ops = &kvmppc_uvmem_ops;
+> +	/* just one global instance: */
+> +	kvmppc_uvmem_pgmap.owner = &kvmppc_uvmem_pgmap;
+>   	addr = memremap_pages(&kvmppc_uvmem_pgmap, NUMA_NO_NODE);
+>   	if (IS_ERR(addr)) {
+>   		ret = PTR_ERR(addr);
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> index 0ad5d87b5a8e..a4682272586e 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> @@ -526,6 +526,7 @@ nouveau_dmem_init(struct nouveau_drm *drm)
+>   	drm->dmem->pagemap.type = MEMORY_DEVICE_PRIVATE;
+>   	drm->dmem->pagemap.res = *res;
+>   	drm->dmem->pagemap.ops = &nouveau_dmem_pagemap_ops;
+> +	drm->dmem->pagemap.owner = drm->dev;
+>   	if (IS_ERR(devm_memremap_pages(device, &drm->dmem->pagemap)))
+>   		goto out_free;
+>   
+> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+> index 6fefb09af7c3..60d97e8fd3c0 100644
+> --- a/include/linux/memremap.h
+> +++ b/include/linux/memremap.h
+> @@ -103,6 +103,9 @@ struct dev_pagemap_ops {
+>    * @type: memory type: see MEMORY_* in memory_hotplug.h
+>    * @flags: PGMAP_* flags to specify defailed behavior
+>    * @ops: method table
+> + * @owner: an opaque pointer identifying the entity that manages this
+> + *	instance.  Used by various helpers to make sure that no
+> + *	foreign ZONE_DEVICE memory is accessed.
+>    */
+>   struct dev_pagemap {
+>   	struct vmem_altmap altmap;
+> @@ -113,6 +116,7 @@ struct dev_pagemap {
+>   	enum memory_type type;
+>   	unsigned int flags;
+>   	const struct dev_pagemap_ops *ops;
+> +	void *owner;
+>   };
+>   
+>   static inline struct vmem_altmap *pgmap_altmap(struct dev_pagemap *pgmap)
+> diff --git a/mm/memremap.c b/mm/memremap.c
+> index 09b5b7adc773..9b2c97ceb775 100644
+> --- a/mm/memremap.c
+> +++ b/mm/memremap.c
+> @@ -181,6 +181,10 @@ void *memremap_pages(struct dev_pagemap *pgmap, int nid)
+>   			WARN(1, "Missing migrate_to_ram method\n");
+>   			return ERR_PTR(-EINVAL);
+>   		}
+> +		if (!pgmap->owner) {
+> +			WARN(1, "Missing owner\n");
+> +			return ERR_PTR(-EINVAL);
+> +		}
+>   		break;
+>   	case MEMORY_DEVICE_FS_DAX:
+>   		if (!IS_ENABLED(CONFIG_ZONE_DEVICE) ||
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
