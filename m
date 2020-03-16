@@ -2,49 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20305188727
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:17:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B59188714
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:17:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56FE96E1E5;
-	Tue, 17 Mar 2020 14:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E84D56E14C;
+	Tue, 17 Mar 2020 14:16:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dodo.xh.is (dodo.xh.is
- [IPv6:2001:19f0:8001:184d:5400:2ff:fe7b:e8bd])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ADB789DA6
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 13:38:11 +0000 (UTC)
-X-Spam: yes
-X-Spam-Score: 6.6 / 99999
-X-Spam-Symbols: FREEMAIL_ENVRCPT, TO_MATCH_ENVRCPT_SOME, FROM_EQ_ENVFROM,
- RCVD_VIA_SMTP_AUTH, FREEMAIL_TO, RCVD_COUNT_TWO, ARC_NA,
- FROM_HAS_DN, TO_DN_SOME, RCPT_COUNT_TWELVE, RCVD_NO_TLS_LAST,
- MIME_TRACE, R_MISSING_CHARSET, TAGGED_RCPT,
- BROKEN_CONTENT_TYPE, MID_CONTAINS_FROM, ASN, SUSPICIOUS_RECIPS
-Received: by dodo.xh.is (OpenSMTPD) with ESMTPSA id 3f67ee70
- (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO); 
- Mon, 16 Mar 2020 06:38:10 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1]) (Authenticated sender:
- icenowy@aosc.io)
- by hermes.aosc.io (Postfix) with ESMTPSA id 718DE4CA5E;
- Mon, 16 Mar 2020 13:38:00 +0000 (UTC)
-From: Icenowy Zheng <icenowy@aosc.io>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <megous@megous.com>
-Subject: [PATCH v2 5/5] arm64: allwinner: dts: a64: add LCD-related device
- nodes for PinePhone
-Date: Mon, 16 Mar 2020 21:35:03 +0800
-Message-Id: <20200316133503.144650-6-icenowy@aosc.io>
-In-Reply-To: <20200316133503.144650-1-icenowy@aosc.io>
-References: <20200316133503.144650-1-icenowy@aosc.io>
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8EE46E430
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 14:14:12 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id dc19so22161454edb.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 07:14:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OwToYVWaEK6VL/y7v+GZ4hvZA1A5DwHh7kUhyVdEMPU=;
+ b=M7c+7CHqcgg2JiKf/d4zB/cGy5yFuBbXo6AhGT84FKbF+R04FSYQMfZT4Gksg19pqc
+ btl1J4JhvOrD5ebUSRTPu6v9rAOjs49a2vBdyyXfvAAz7zCKGATQMnvddg2rkMMEOjEB
+ jS+bWZqPzDwu7OgzXTzxbHVEwWMkmj/HqdhMwt73PgdsSl5RqxWyfM0LIc8zIJHyM31y
+ O+9xeCCY3RmC5rN5hurEIZ5V/3HQSkzmE9WWeiTcqnBdQvAkZ9w5/EocZl6GjUOkWHma
+ OW/vY6CVYjeQ/7QpirppH/KsYSaQPHbYRWeTUjPG0xDU/3UGUbPEIvFOsaNS12obxm+A
+ 2B6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OwToYVWaEK6VL/y7v+GZ4hvZA1A5DwHh7kUhyVdEMPU=;
+ b=EG6NPUoQZTwj11cVU4IhhXifjCZWqm2uM7PzGSitCd5VfDoeS0TM3piefR4BN8kEUz
+ Yw3rg2I7Ntqqts5Z9i7JQA++sWqucGt1x/GT7MZnGuhJFPVVX/7eq9Bw0WTK6vgFo7Cx
+ E5Hu8CEEDeaPIkHwtX4i8nUYsDLjYaooKazPP1ITFLsAjJ9dDHL8eIdOsLLHvHRJ2LL6
+ uHK7pFLZrn9PecawiA+ygVedQWcGuOm4BHCOokxtuAsl9xLETA96nyu6P1Xm3RGNN4UA
+ X/AB6BCJsJhayohKArbx7a/oXY4Bu0Y39wP6gy4l9ZlLLHaSAxDnNEgPDDSASPmBMSP4
+ n84g==
+X-Gm-Message-State: ANhLgQ3es2StumA89AOwiRZGDUIPWFgmizbcUWGZjt2Dwx/0Q6TbUDrO
+ gomuwNL6+UUyrrS2/2+YrneXShb5bjsJ9pMKNCA=
+X-Google-Smtp-Source: ADFU+vuxEhVCZ8KAiHewV6zkcegOAnJ6ALNhLqBSDxCWr2JZoxEL/0iMkVhWM2tBk59EfjWV8M2Pop+P+ba1nlykrlQ=
+X-Received: by 2002:a50:e44a:: with SMTP id e10mr124658edm.210.1584368051443; 
+ Mon, 16 Mar 2020 07:14:11 -0700 (PDT)
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aosc.io; s=dkim;
- t=1584365889;
- h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding:in-reply-to:references;
- bh=vdJB1xaYREfjx8A1fc+UP5D7fCK/5ZczA3DRbH+hq08=;
- b=gvv4Mt/ppP1U5dpUHA5n8qTEzN2afgaBkT+M0HHnD2QpiRBO0b4PVtnd5WiFOkLgnHm3Cm
- uS+WljMpibhdzup+UJWKXGt9n3IFyflFgVAqemHSAFN5h+VJ1vskMjGMiiu1teCs1nUAhP
- zGvHhAcI1EY4J2t587DsvuxH/d6lNFs=
+References: <20200315134416.16527-1-sam@ravnborg.org>
+ <20200315134416.16527-35-sam@ravnborg.org>
+In-Reply-To: <20200315134416.16527-35-sam@ravnborg.org>
+From: Marco Franchi <marcofrk@gmail.com>
+Date: Mon, 16 Mar 2020 11:13:53 -0300
+Message-ID: <CAM4PwSXXatgpV18OZRdHRyX7mrbq9_8Xdye9mJz_vvXvPByf0w@mail.gmail.com>
+Subject: Re: [PATCH v1 34/36] dt-bindings: display: convert seiko,43wvf1g to
+ DT Schema
+To: Sam Ravnborg <sam@ravnborg.org>
 X-Mailman-Approved-At: Tue, 17 Mar 2020 14:16:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,92 +63,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@googlegroups.com,
- linux-arm-kernel@lists.infradead.org, Icenowy Zheng <icenowy@aosc.io>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
+ Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
+ Stefan Mavrodiev <stefan@olimex.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
+ Nickey Yang <nickey.yang@rock-chips.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
+ Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
+ Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Guido Gunther <agx@sigxcpu.org>,
+ Mark Brown <broonie@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ Werner Johansson <werner.johansson@sonymobile.com>,
+ Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
+ linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
+Content-Type: multipart/mixed; boundary="===============0026151170=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PinePhone uses PWM backlight and a XBD599 LCD panel over DSI for
-display.
+--===============0026151170==
+Content-Type: multipart/alternative; boundary="000000000000e65c5205a0f96e37"
 
-Add its device nodes.
+--000000000000e65c5205a0f96e37
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
----
-No changes in v2.
+Em dom., 15 de mar. de 2020 =C3=A0s 10:46, Sam Ravnborg <sam@ravnborg.org>
+escreveu:
 
- .../dts/allwinner/sun50i-a64-pinephone.dtsi   | 37 +++++++++++++++++++
- 1 file changed, 37 insertions(+)
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Marco Franchi <marco.franchi@nxp.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-index cefda145c3c9..96d9150423e0 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-@@ -16,6 +16,15 @@ aliases {
- 		serial0 = &uart0;
- 	};
- 
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pwms = <&r_pwm 0 50000 PWM_POLARITY_INVERTED>;
-+		brightness-levels = <0 16 18 20 22 24 26 29 32 35 38 42 46 51 56 62 68 75 83 91 100>;
-+		default-brightness-level = <15>;
-+		enable-gpios = <&pio 7 10 GPIO_ACTIVE_HIGH>; /* PH10 */
-+		power-supply = <&reg_ldo_io0>;
-+	};
-+
- 	chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
-@@ -84,6 +93,30 @@ &dai {
- 	status = "okay";
- };
- 
-+&de {
-+	status = "okay";
-+};
-+
-+&dphy {
-+	status = "okay";
-+};
-+
-+&dsi {
-+	vcc-dsi-supply = <&reg_dldo1>;
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+
-+	panel@0 {
-+		compatible = "xingbangda,xbd599";
-+		reg = <0>;
-+		reset-gpios = <&pio 3 23 GPIO_ACTIVE_LOW>; /* PD23 */
-+		iovcc-supply = <&reg_dldo2>;
-+		vcc-supply = <&reg_ldo_io0>;
-+		backlight = <&backlight>;
-+	};
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
-@@ -188,6 +221,10 @@ &r_pio {
- 	 */
- };
- 
-+&r_pwm {
-+	status = "okay";
-+};
-+
- &r_rsb {
- 	status = "okay";
- 
--- 
-2.24.1
+Thanks!
+
+Reviewed-by: Marco Franchi <marco.franchi@nxp.com>
+
+--000000000000e65c5205a0f96e37
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Em dom., 15 de mar. de 2020 =C3=A0s 1=
+0:46, Sam Ravnborg &lt;<a href=3D"mailto:sam@ravnborg.org">sam@ravnborg.org=
+</a>&gt; escreveu:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">Signed-off-by: Sam Ravnborg &lt;<a href=3D"mailto:sam@ravnborg.org" targ=
+et=3D"_blank">sam@ravnborg.org</a>&gt;<br>
+Cc: Marco Franchi &lt;<a href=3D"mailto:marco.franchi@nxp.com" target=3D"_b=
+lank">marco.franchi@nxp.com</a>&gt;<br>
+Cc: Thierry Reding &lt;<a href=3D"mailto:thierry.reding@gmail.com" target=
+=3D"_blank">thierry.reding@gmail.com</a>&gt;<br>
+Cc: Sam Ravnborg &lt;<a href=3D"mailto:sam@ravnborg.org" target=3D"_blank">=
+sam@ravnborg.org</a>&gt;<br>
+---<br></blockquote><div><br></div><div><font size=3D"2"><span style=3D"fon=
+t-size:11pt">Thanks!<br>
+
+<br>
+
+Reviewed-by: Marco Franchi &lt;<a href=3D"mailto:marco.franchi@nxp.com">mar=
+co.franchi@nxp.com</a>&gt;</span></font> <br></div></div></div>
+
+--000000000000e65c5205a0f96e37--
+
+--===============0026151170==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0026151170==--
