@@ -1,38 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E895F1861C4
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 03:34:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DA01861C5
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 03:35:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE7E96E303;
-	Mon, 16 Mar 2020 02:34:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45EB86E31A;
+	Mon, 16 Mar 2020 02:35:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8A1A6E303
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 02:34:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 331FB6E31A
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 02:35:04 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B1A1E206EB;
- Mon, 16 Mar 2020 02:34:54 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 22A7520748;
+ Mon, 16 Mar 2020 02:35:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1584326095;
- bh=2r/XNzVFSWap5ZGR8e9lGlA6d7DtrmjBgB/Zzu8NrGo=;
- h=From:To:Cc:Subject:Date:From;
- b=crJnaWAjQnP0Z7GMiDBa7yymQzc3f00ZmhB/pZV6th1BRm2QjCE7qaGhPy87Cr7Uw
- 4+H1qg2zESjtjSLdAhWUr5/A4FpNTJInbM6qvaj18fUWEhCrBtPaiJhg7sXVIx/zIU
- hAb9tC66EseDFGMcICHdHi8mKIfB9fx7sMWduq90=
+ s=default; t=1584326104;
+ bh=vjeyVOZ8r7fLQaPgWARy2KOlGNvFE/u6K6vP7RGqdLQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ADp1fMb7qijwAjaFqP1Wh+0jhR5PVCaUoDBWHuIpRz887T9vFXl2zZFiWjoPVLCtO
+ /F597Udn4iuT3fGjktc/rwlMKGUDxVnKWU/5Nmt+MGJlsHuZ3mg1gFtF0bxh1OhqPc
+ Z3rQF70efZzSzqyYfn7hm7sExGTE3cgFrSlNCxAg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 01/20] drm/mediatek: Find the cursor plane
- instead of hard coding it
-Date: Sun, 15 Mar 2020 22:34:34 -0400
-Message-Id: <20200316023453.1800-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 08/20] drm/exynos: dsi: propagate error value and
+ silence meaningless warning
+Date: Sun, 15 Mar 2020 22:34:41 -0400
+Message-Id: <20200316023453.1800-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200316023453.1800-1-sashal@kernel.org>
+References: <20200316023453.1800-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -48,66 +50,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
- Evan Benn <evanbenn@chromium.org>, linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Evan Benn <evanbenn@chromium.org>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
 
-[ Upstream commit 318caac7c81cdf5806df30c3d72385659a5f0f53 ]
+[ Upstream commit 0a9d1e3f3f038785ebc72d53f1c409d07f6b4ff5 ]
 
-The cursor and primary planes were hard coded.
-Now search for them for passing to drm_crtc_init_with_planes
+Properly propagate error value from devm_regulator_bulk_get() and don't
+confuse user with meaningless warning about failure in getting regulators
+in case of deferred probe.
 
-Signed-off-by: Evan Benn <evanbenn@chromium.org>
-Reviewed-by: Sean Paul <seanpaul@chromium.org>
-Signed-off-by: CK Hu <ck.hu@mediatek.com>
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index b86ee7d25af36..eac9caf322f90 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -506,10 +506,18 @@ static const struct drm_crtc_helper_funcs mtk_crtc_helper_funcs = {
- 
- static int mtk_drm_crtc_init(struct drm_device *drm,
- 			     struct mtk_drm_crtc *mtk_crtc,
--			     struct drm_plane *primary,
--			     struct drm_plane *cursor, unsigned int pipe)
-+			     unsigned int pipe)
- {
--	int ret;
-+	struct drm_plane *primary = NULL;
-+	struct drm_plane *cursor = NULL;
-+	int i, ret;
-+
-+	for (i = 0; i < mtk_crtc->layer_nr; i++) {
-+		if (mtk_crtc->planes[i].type == DRM_PLANE_TYPE_PRIMARY)
-+			primary = &mtk_crtc->planes[i];
-+		else if (mtk_crtc->planes[i].type == DRM_PLANE_TYPE_CURSOR)
-+			cursor = &mtk_crtc->planes[i];
-+	}
- 
- 	ret = drm_crtc_init_with_planes(drm, &mtk_crtc->base, primary, cursor,
- 					&mtk_crtc_funcs, NULL);
-@@ -622,9 +630,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 			goto unprepare;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+index 781b82c2c579b..b23adce9d00a7 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+@@ -1722,8 +1722,9 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+ 	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(dsi->supplies),
+ 				      dsi->supplies);
+ 	if (ret) {
+-		dev_info(dev, "failed to get regulators: %d\n", ret);
+-		return -EPROBE_DEFER;
++		if (ret != -EPROBE_DEFER)
++			dev_info(dev, "failed to get regulators: %d\n", ret);
++		return ret;
  	}
  
--	ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, &mtk_crtc->planes[0],
--				mtk_crtc->layer_nr > 1 ? &mtk_crtc->planes[1] :
--				NULL, pipe);
-+	ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, pipe);
- 	if (ret < 0)
- 		goto unprepare;
- 	drm_mode_crtc_set_gamma_size(&mtk_crtc->base, MTK_LUT_SIZE);
+ 	dsi->clks = devm_kcalloc(dev,
 -- 
 2.20.1
 
