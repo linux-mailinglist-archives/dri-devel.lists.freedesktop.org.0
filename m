@@ -1,69 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0802188740
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:18:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED33188716
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:17:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A89FC6E187;
-	Tue, 17 Mar 2020 14:16:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B75626E16B;
+	Tue, 17 Mar 2020 14:16:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2F4989F69
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 19:23:10 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id i26so5519634qtq.8
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 12:23:10 -0700 (PDT)
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
+ [IPv6:2607:f8b0:4864:20::843])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 398566E40C
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 19:49:22 +0000 (UTC)
+Received: by mail-qt1-x843.google.com with SMTP id n5so15373305qtv.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 12:49:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=japvuDOw9SGBqSZApCc07hbPuberx25oVTkg1eTKZyE=;
- b=CFIdmYKPQbgW8rXZ3LC8dolLHGk7btoV/9hlvb5sqVhK0DUjJDXu0iZhOjxeCn2MXG
- /GdpkxMBbg8aF1rAo+EIq7OH9mCMBe/2T+Mh4ULqx3GrLCMKdXErAZkN3EWgrvUYiE/9
- YOsEl53+z1kUZvnp9AIkcpOSLh2XFfGBeR7YGg5KYZoOCJ6Llm4hGbCu+XkywWZBzH6h
- lD7jhCnLSACgr36Z/dqlVpfUUV//Vd/IFcrfepwwWKxrbVILimo/2vBi7XDedG9mtfvN
- spfwCyQk9XfHm7OxqBw8vX0OWPo5Guzt+vsjlAGKsVxpRbMFXYbmNK2g1DeKIpHUtd2q
- IWtQ==
+ :content-disposition:in-reply-to:user-agent;
+ bh=o7JqLPPCRpGtDbfSiR++DTgayckzFt0qLULy0U0IXIw=;
+ b=GGJyf40oBvUn3UsnYOHO6ftCMOlhlUE53mKdQJAM3RZ49VrR7NfNu6vFSbIJg0Vrp+
+ nKaEHE/9u/3vvjCCe8WwHh8SthbR1oMP/lq3mlydxzkJGNn/tuTNACX8TZxQceM/9mon
+ YIOCmCOQYTnLI6cUij9NQ1KEjPZ6YzkCBGaFSk2yslH5PGKF31RBGv+LalaZ8j2uIFLh
+ bC7emlaCft8W3JdiciO0idkiwtVoNDBdFG9zx0aEVhvj80fXi5TE1dCzgDd5RWL/YOhG
+ YYChBQ/vDVC92ft0WvWlgaDNuQmhJ1/CKwgNKV4aCfjmwGoqd/IKybrQhzqaZzus/5a5
+ BRgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=japvuDOw9SGBqSZApCc07hbPuberx25oVTkg1eTKZyE=;
- b=G3sTgLFEXUAkJY/yx7ZwzDrUjzsvd/NNg32xMF1jybhlrPKyfidtugBuDEqwFbYrDO
- n/cS937jULoGdtHFEwoXeJNgDXG0AVAB5vdagll6lTQ38QuOWJM4qT8UY2og4355U0Bc
- WBUQCRWXebK00U6kAWBsxwBUd+qS4WiOOOB5s7HEQoJGVbrERxVLQfAKFrtP5BJCp3L7
- hApaMTivqOoSIykFItK0PqMV13feuNgg/KuUjEAtft7NaCZzsKToJDd9mORBKY7OakzL
- wCmBHFRTTPWeWHcwMcSybze1ABjGZKiXq/KZ8XFMtCYDogCiALyBCPIksEw36qyqwhu2
- bJSg==
-X-Gm-Message-State: ANhLgQ1Kj3/+94DovXq98RkvD34w+jkMHWxWiSe0Fw/LYw0Y9PinhcJ0
- MU7lJCNT7fKmpId4sbo12M2EWQ==
-X-Google-Smtp-Source: ADFU+vvVMnfIMif/CgGrxSyHwE3QBkrQjxwCDJ989v5erqtbWFOprWqGIpfeC4BCoYoIRoAt/XoJLQ==
-X-Received: by 2002:aed:32e7:: with SMTP id z94mr1723801qtd.382.1584386589754; 
- Mon, 16 Mar 2020 12:23:09 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=o7JqLPPCRpGtDbfSiR++DTgayckzFt0qLULy0U0IXIw=;
+ b=RrS2GooYamzKebGEveXiuAeRup5YZ2SRdxmSt+DCb0NE+RYf22zNaeSR3/B0fBB0XC
+ SU1urw8Nd5zt3yCfprB9mHMG9IzyAUFCekgFN6jQqMzTSobydbSOeguQegCgp9ZFYyFo
+ f9x8gCtUdA8zdG8FPljeXUtE/+i9dBaVY7d4vdfkhCUXIOLCN4HHEV4Ww17eKoHqj0PZ
+ H0AErGzk3dPmQPDy59+vcj/WQ51i5N64tu9ITlBjFBfYPO3hNOMx+SC18lKqMYItWeXr
+ YMlbC1Brd/WtyrPyQRl0XMkAOCfttJ+Cr7P4rI458L3CDHMtb8dHqNLaLNTYMgp033Fb
+ q/xg==
+X-Gm-Message-State: ANhLgQ3CPdWPGqX5GXS0bgNcRBw8LvZ1680DVMtV0ti+O0r6Xv6LBops
+ 5Dxe/Sg20g+qPRTbGv8zZBawWw==
+X-Google-Smtp-Source: ADFU+vtYiqHgSFb/FCS3+UBgOOiW2jlaSoZd/0nI0+DDGOjwoiONzmkAwxqo+x9vqhMLJgCeBnROrw==
+X-Received: by 2002:ac8:5209:: with SMTP id r9mr1812897qtn.61.1584388161299;
+ Mon, 16 Mar 2020 12:49:21 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id w30sm528758qtw.21.2020.03.16.12.23.09
+ by smtp.gmail.com with ESMTPSA id m67sm406383qke.101.2020.03.16.12.49.20
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 16 Mar 2020 12:23:09 -0700 (PDT)
+ Mon, 16 Mar 2020 12:49:20 -0700 (PDT)
 Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
  (envelope-from <jgg@ziepe.ca>)
- id 1jDvKO-0006vf-S6; Mon, 16 Mar 2020 16:23:08 -0300
-Date: Mon, 16 Mar 2020 16:23:08 -0300
+ id 1jDvjk-00071k-6b; Mon, 16 Mar 2020 16:49:20 -0300
+Date: Mon, 16 Mar 2020 16:49:20 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH  hmm 2/8] mm/hmm: don't free the cached pgmap while
- scanning
-Message-ID: <20200316192308.GO20941@ziepe.ca>
-References: <20200311183506.3997-1-jgg@ziepe.ca>
- <20200311183506.3997-3-jgg@ziepe.ca>
- <20200316090250.GB12439@lst.de> <20200316180713.GI20941@ziepe.ca>
- <20200316181324.GA24533@lst.de>
+Subject: Re: [PATCH 4/4] mm: check the device private page owner in
+ hmm_range_fault
+Message-ID: <20200316194920.GA20010@ziepe.ca>
+References: <20200316193216.920734-1-hch@lst.de>
+ <20200316193216.920734-5-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200316181324.GA24533@lst.de>
+In-Reply-To: <20200316193216.920734-5-hch@lst.de>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Tue, 17 Mar 2020 14:16:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,30 +75,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>, Ralph Campbell <rcampbell@nvidia.com>,
- John Hubbard <jhubbard@nvidia.com>, Felix.Kuehling@amd.com,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Jerome Glisse <jglisse@redhat.com>, amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kvm-ppc@vger.kernel.org,
+ Bharata B Rao <bharata@linux.ibm.com>, linux-mm@kvack.org,
+ Jerome Glisse <jglisse@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBNYXIgMTYsIDIwMjAgYXQgMDc6MTM6MjRQTSArMDEwMCwgQ2hyaXN0b3BoIEhlbGx3
-aWcgd3JvdGU6Cj4gT24gTW9uLCBNYXIgMTYsIDIwMjAgYXQgMDM6MDc6MTNQTSAtMDMwMCwgSmFz
-b24gR3VudGhvcnBlIHdyb3RlOgo+ID4gSSBjaG9zZSB0aGlzIHRvIGJlIHNpbXBsZSB3aXRob3V0
-IGhhdmluZyB0byBnb3RvIHVud2luZCBpdC4KPiA+IAo+ID4gU28sIGluc3RlYWQgbGlrZSB0aGlz
-Ogo+IAo+IEFzINGVYWlkLCBhbmQgcGVyIHRoZSBwcmV2aW91cyBkaXNjdXNzaW9uOiAgSSB0aGlu
-ayBqdXN0IHJlbW92aW5nIHRoZQo+IHBnbWFwIGxvb2t1cCBpcyB0aGUgcmlnaHQgdGhpbmcgdG8g
-ZG8gaGVyZS4gIFNvbWV0aGluZyBsaWtlIHRoaXMgcGF0Y2g6CgpPSy4gSSB0aGluayBJIGdldCBp
-dCBub3cuCgpXZSBkb24ndCBldmVuIHNpZ25hbCB0aGF0IHRoZSBwZm4gaXMgYSBwZ21hcCB0byB0
-aGUgY2FsbGVyLCBzbyB0aGUKY2FsbGVyIG11c3QgYXNzdW1lIHRoZSBwZm4gaXMgQ1BVIG1lbW9y
-eSBhbmQgY2FuIGJlIGRtYSBtYXBwZWQuIEF0CnRoYXQgcG9pbnQgaXQgZG9lc24ndCBtYXR0ZXIg
-d2hhdCBraW5kIG9mIHBnbWFwIGl0IGlzLgoKUmFjZXMgaGVyZSBhcmUgcmVzb2x2ZWQgYnkgbm90
-aWZpZXJzIGFzIHdlIGNhbid0IGRlc3Ryb3kgdGhlIHBnbWFwCndpdGhvdXQgdHJpZ2dlcmluZyBp
-bnZhbGlkYXRpb24gb2YgdGhlIHB0ZQoKU28gcmVtb3ZpbmcgaXMgdGhlIHJpZ2h0IHRoaW5nIHRv
-IGRvLCBhbmQgdGhlIGZpeGluZyBmb3IgdGhlCmRldmljZV9wcml2YXRlIGNhc2UgaXMgY2xvc2Vy
-IHRvIHRoZSBodW5rIEkganVzdCBzZW50LgoKSmFzb24KX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Mar 16, 2020 at 08:32:16PM +0100, Christoph Hellwig wrote:
+> Hmm range fault will succeed for any kind of device private memory,
+> even if it doesn't belong to the calling entity.  While nouveau
+> has some crude checks for that, they are broken because they assume
+> nouveau is the only user of device private memory.  Fix this by
+> passing in an expected pgmap owner in the hmm_range_fault structure.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Fixes: 4ef589dc9b10 ("mm/hmm/devmem: device memory hotplug using ZONE_DEVICE")
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_dmem.c | 12 ------------
+>  include/linux/hmm.h                    |  2 ++
+>  mm/hmm.c                               | 10 +++++++++-
+>  3 files changed, 11 insertions(+), 13 deletions(-)
+
+Nice
+
+Reviewed-by: Jason Gunthorpe <jgg@mellanox.com>
+
+Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
