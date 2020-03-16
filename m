@@ -1,47 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BDB186853
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 10:57:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DAD1186882
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 11:03:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 073D26E3C6;
-	Mon, 16 Mar 2020 09:57:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91DC56E3BB;
+	Mon, 16 Mar 2020 10:03:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 666B389FC5;
- Mon, 16 Mar 2020 09:57:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 104992A6042;
- Mon, 16 Mar 2020 10:57:48 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 2PtkzY5dlS6y; Mon, 16 Mar 2020 10:57:47 +0100 (CET)
-Received: from thor (252.80.76.83.dynamic.wline.res.cust.swisscom.ch
- [83.76.80.252])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 8F0442A6016;
- Mon, 16 Mar 2020 10:57:47 +0100 (CET)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.93)
- (envelope-from <michel@daenzer.net>)
- id 1jDmVH-000X4G-3f; Mon, 16 Mar 2020 10:57:47 +0100
-Subject: Re: [Mesa-dev] Plumbing explicit synchronization through the Linux
- ecosystem
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- Jason Ekstrand <jason@jlekstrand.net>
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAAxE2A4q9sZDz8vSLAvT0HH4BGukf8Ug68eqSV1ojqrm_5uFFg@mail.gmail.com>
- <170e13edbb0.27ad.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
- <CAAxE2A6hMs2Ngd4zEv+hEJnEUKmPDuXmeWUaUU-4YCTRHNzr1w@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Message-ID: <e470a1d0-cf91-5811-d280-322e005888a8@daenzer.net>
-Date: Mon, 16 Mar 2020 10:57:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4016E3BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 10:03:44 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id f11so3574084wrp.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 03:03:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=AcRSHSdiOyqt1hfLF4oq0FUotM9AVIQhsg3GLo4T9TA=;
+ b=B2USPv5KbpHIGhkfFrJQCuShva+t1YuJ9supVSZJi7SmeRkQ+Ok1KYee9YtHwBKrRJ
+ yl9Kx1VkDMtstyjHEa8hNZcH1bbmZ1PSKNLF8Wfi1VdxCwTEMpEDz/+R+LbQcMd387Ub
+ aRmOwj1y8nIqpvf7WZqqHh9pJdmqcn05LP20o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=AcRSHSdiOyqt1hfLF4oq0FUotM9AVIQhsg3GLo4T9TA=;
+ b=rdj1kh6OhGi0f/VcdLd++xEA88Jtn6lO5dWhDCgRCDo8i7hJAEKd+9+MGeHZ4C39rk
+ +D5aCMEhXvDTGEntlgdtujD2kqqIdVC4A86ZOQ6pIkZDVkWfzXk+IwcpTE0c7bAadeaI
+ Poiehx6M75O7EKtQQd3efEQD4xNEgoA3UCz94DeqgdDRsmNfqekWZBBFFXOqMwnT+j1A
+ M8CrascFVatK1Dcq+f9+DS1PScA5uorhWMmc0EyxPEhoRWASg0ozMFM0nWD8xmEG1baJ
+ dm2y5lIr9iPboQI0pIVuyWEmQvcK6ODAjVoA+9BJGyq6fXbywIO/Qh/lnu8IEOAaB3Za
+ TB6A==
+X-Gm-Message-State: ANhLgQ3nyGEjN/MnnEdoI3Bh4+FrN3TZqS0BY2tYk0QHRFh7mN7HCz0t
+ 7AMEGrhXhnj6sL36JcW6vB31LA==
+X-Google-Smtp-Source: ADFU+vtSU5e+h6WkNw2sJ6apKMD24Minuj5xZyJFTkMlwMWGN+xpvYH0bJgEK7m2Qk/CueY//LMKFg==
+X-Received: by 2002:adf:fc81:: with SMTP id g1mr36703578wrr.410.1584353023220; 
+ Mon, 16 Mar 2020 03:03:43 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v2sm23290034wme.2.2020.03.16.03.03.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Mar 2020 03:03:42 -0700 (PDT)
+Date: Mon, 16 Mar 2020 11:03:40 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH] drm: Mark up racy check of drm_gem_object.handle_count
+Message-ID: <20200316100340.GL2363188@phenom.ffwll.local>
+References: <20200309120151.7675-1-chris@chris-wilson.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <CAAxE2A6hMs2Ngd4zEv+hEJnEUKmPDuXmeWUaUU-4YCTRHNzr1w@mail.gmail.com>
-Content-Language: en-CA
+Content-Disposition: inline
+In-Reply-To: <20200309120151.7675-1-chris@chris-wilson.co.uk>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,42 +64,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, xorg-devel <xorg-devel@lists.x.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "wayland-devel @ lists . freedesktop . org"
- <wayland-devel@lists.freedesktop.org>,
- Discussion of the development of and with GStreamer
- <gstreamer-devel@lists.freedesktop.org>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mika.kuoppala@linux.intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wMy0xNiA0OjUwIGEubS4sIE1hcmVrIE9sxaHDoWsgd3JvdGU6Cj4gVGhlIHN5bmNo
-cm9uaXphdGlvbiB3b3JrcyBiZWNhdXNlIHRoZSBNZXNhIGRyaXZlciB3YWl0cyBmb3IgaWRsZSAo
-ZHJhaW5zCj4gdGhlIEdGWCBwaXBlbGluZSkgYXQgdGhlIGVuZCBvZiBjb21tYW5kIGJ1ZmZlcnMg
-YW5kIHRoZXJlIGlzIG9ubHkgMQo+IGdyYXBoaWNzIHF1ZXVlLCBzbyBldmVyeXRoaW5nIGlzIG9y
-ZGVyZWQuCj4gCj4gVGhlIEdGWCBwaXBlbGluZSBydW5zIGFzeW5jaHJvbm91c2x5IHRvIHRoZSBj
-b21tYW5kIGJ1ZmZlciwgbWVhbmluZyB0aGUKPiBjb21tYW5kIGJ1ZmZlciBvbmx5IHN0YXJ0cyBk
-cmF3cyBhbmQgZG9lc24ndCB3YWl0IGZvciBjb21wbGV0aW9uLiBJZiB0aGUKPiBNZXNhIGRyaXZl
-ciBkaWRuJ3Qgd2FpdCBhdCB0aGUgZW5kIG9mIHRoZSBjb21tYW5kIGJ1ZmZlciwgdGhlIGNvbW1h
-bmQKPiBidWZmZXIgd291bGQgZmluaXNoIGFuZCBhIGRpZmZlcmVudCBwcm9jZXNzIGNvdWxkIHN0
-YXJ0IGV4ZWN1dGlvbiBvZiBpdHMKPiBvd24gY29tbWFuZCBidWZmZXIgd2hpbGUgc2hhZGVycyBv
-ZiB0aGUgcHJldmlvdXMgcHJvY2VzcyBhcmUgc3RpbGwgcnVubmluZy4KPiAKPiBJZiB0aGUgTWVz
-YSBkcml2ZXIgc3VibWl0cyBhIGNvbW1hbmQgYnVmZmVyIGludGVybmFsbHkgKGJlY2F1c2UgaXQn
-cyBmdWxsKSwKPiBpdCBkb2Vzbid0IHdhaXQsIHNvIHRoZSBHRlggcGlwZWxpbmUgZG9lc24ndCBu
-b3RpY2UgdGhhdCBhIGNvbW1hbmQgYnVmZmVyCj4gZW5kZWQgYW5kIGEgbmV3IG9uZSBzdGFydGVk
-Lgo+IAo+IFRoZSB3YWl0aW5nIGF0IHRoZSBlbmQgb2YgY29tbWFuZCBidWZmZXJzIGhhcHBlbnMg
-b25seSB3aGVuIHRoZSBmbHVzaCBpcwo+IGV4dGVybmFsIChTd2FwIGJ1ZmZlcnMsIGdsRmx1c2gp
-Lgo+IAo+IEl0J3MgYSBwZXJmb3JtYW5jZSBwcm9ibGVtLCBiZWNhdXNlIHRoZSBHRlggcXVldWUg
-aXMgYmxvY2tlZCB1bnRpbCB0aGUgR0ZYCj4gcGlwZWxpbmUgaXMgZHJhaW5lZCBhdCB0aGUgZW5k
-IG9mIGV2ZXJ5IGZyYW1lIGF0IGxlYXN0Lgo+IAo+IFNvIGV4cGxpY2l0IGZlbmNlcyBmb3IgU3dh
-cEJ1ZmZlcnMgd291bGQgaGVscC4KCk5vdCBzdXJlIHdoYXQgZGlmZmVyZW5jZSBpdCB3b3VsZCBt
-YWtlLCBzaW5jZSB0aGUgc2FtZSB0aGluZyBuZWVkcyB0byBiZQpkb25lIGZvciBleHBsaWNpdCBm
-ZW5jZXMgYXMgd2VsbCwgZG9lc24ndCBpdD8KCgotLSAKRWFydGhsaW5nIE1pY2hlbCBEw6RuemVy
-ICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgIGh0dHBzOi8vcmVkaGF0LmNvbQpMaWJyZSBz
-b2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAgICAgICAgTWVzYSBhbmQgWCBk
-ZXZlbG9wZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Mar 09, 2020 at 12:01:51PM +0000, Chris Wilson wrote:
+> [ 1715.899800] BUG: KCSAN: data-race in drm_gem_handle_create_tail / drm_gem_object_handle_put_unlocked
+> [ 1715.899838]
+> [ 1715.899861] write to 0xffff8881830f3604 of 4 bytes by task 7834 on cpu 1:
+> [ 1715.899896]  drm_gem_handle_create_tail+0x62/0x250
+> [ 1715.899927]  drm_gem_open_ioctl+0xc1/0x160
+> [ 1715.899956]  drm_ioctl_kernel+0xe4/0x120
+> [ 1715.899981]  drm_ioctl+0x297/0x4c7
+> [ 1715.900003]  ksys_ioctl+0x89/0xb0
+> [ 1715.900027]  __x64_sys_ioctl+0x42/0x60
+> [ 1715.900052]  do_syscall_64+0x6e/0x2c0
+> [ 1715.900079]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> [ 1715.900100]
+> [ 1715.900119] read to 0xffff8881830f3604 of 4 bytes by task 8137 on cpu 0:
+> [ 1715.900149]  drm_gem_object_handle_put_unlocked+0x31/0x130
+> [ 1715.900180]  drm_gem_object_release_handle+0x93/0xe0
+> [ 1715.900208]  drm_gem_handle_delete+0x7b/0xe0
+> [ 1715.900235]  drm_gem_close_ioctl+0x61/0x80
+> [ 1715.900264]  drm_ioctl_kernel+0xe4/0x120
+> [ 1715.900291]  drm_ioctl+0x297/0x4c7
+> [ 1715.900316]  ksys_ioctl+0x89/0xb0
+> [ 1715.900340]  __x64_sys_ioctl+0x42/0x60
+> [ 1715.900363]  do_syscall_64+0x6e/0x2c0
+> [ 1715.900388]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+
+I'm impressed. The dream that we all get replaced by some scripts might be
+real :-)
+
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> ---
+>  drivers/gpu/drm/drm_gem.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index a9e4a610445a..37627d06fb06 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -218,7 +218,7 @@ drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+>  	struct drm_device *dev = obj->dev;
+>  	bool final = false;
+>  
+> -	if (WARN_ON(obj->handle_count == 0))
+> +	if (WARN_ON(READ_ONCE(obj->handle_count) == 0))
+>  		return;
+>  
+>  	/*
+> -- 
+> 2.20.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
