@@ -1,45 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8C1186BA9
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 14:01:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D826B186C08
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 14:29:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A65A89804;
-	Mon, 16 Mar 2020 13:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 044AB6E43A;
+	Mon, 16 Mar 2020 13:28:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 9652 seconds by postgrey-1.36 at gabe;
- Mon, 16 Mar 2020 13:01:32 UTC
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC5389803;
- Mon, 16 Mar 2020 13:01:32 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D796A3B;
- Mon, 16 Mar 2020 14:01:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1584363690;
- bh=1V1sKsfdxrhZLhq7sVC0NonWtNyOzyBM3s3HfRmhCvU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cXFzTWMZxFg/g9Y0jXJHkK1tDgLjh4IiWsYVysO1SnnrCEbAt7/e4OW5IfzeFL/Md
- ztuEz+KoJUEMpC46Ic5z7El5yC6ve8JpKk7zUuRV/HUT4IjeqbJBoZwDJ5uYq6twi6
- mFraoaRezdE50aUgAYrFP53SrmsJTI9ddqiiOfbs=
-Date: Mon, 16 Mar 2020 15:01:25 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomek Bury <tomek.bury@gmail.com>
-Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
-Message-ID: <20200316130125.GK4732@pendragon.ideasonboard.com>
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
- <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca>
- <20200316102034.GA30883@pendragon.ideasonboard.com>
- <CAO1ALz=us11a8=M6MWGdLwXakeR3Ltd=iyAN4G5-GkvNXctGeA@mail.gmail.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E92C6E43A
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 13:28:56 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 1788080475;
+ Mon, 16 Mar 2020 14:28:46 +0100 (CET)
+Date: Mon, 16 Mar 2020 14:28:44 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v1 02/36] dt-bindings: spi: support non-spi bindings as
+ SPI slaves
+Message-ID: <20200316132844.GA22822@ravnborg.org>
+References: <20200315134416.16527-1-sam@ravnborg.org>
+ <20200315134416.16527-3-sam@ravnborg.org>
+ <20200316120239.GC5010@sirena.org.uk>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAO1ALz=us11a8=M6MWGdLwXakeR3Ltd=iyAN4G5-GkvNXctGeA@mail.gmail.com>
+In-Reply-To: <20200316120239.GC5010@sirena.org.uk>
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=vD5-ug2-evzQM-DbIjUA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,79 +47,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, xorg-devel <xorg-devel@lists.x.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "wayland-devel @ lists . freedesktop . org"
- <wayland-devel@lists.freedesktop.org>,
- Discussion of the development of and with GStreamer
- <gstreamer-devel@lists.freedesktop.org>, Jason Ekstrand <jason@jlekstrand.net>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
+ Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
+ Stefan Mavrodiev <stefan@olimex.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
+ Nickey Yang <nickey.yang@rock-chips.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
+ Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
+ Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
+ devicetree@vger.kernel.org, Guido Gunther <agx@sigxcpu.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Werner Johansson <werner.johansson@sonymobile.com>,
+ Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
+ linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVG9tZWssCgpPbiBNb24sIE1hciAxNiwgMjAyMCBhdCAxMjo1NToyN1BNICswMDAwLCBUb21l
-ayBCdXJ5IHdyb3RlOgo+IEhpIEphc29uLAo+IAo+IEkndmUgYmVlbiB3cmVzdGxpbmcgd2l0aCB0
-aGUgc3luYyBwcm9ibGVtcyBpbiBXYXlsYW5kIHNvbWUgdGltZSBhZ28swqBidXQgb25seQo+IHdp
-dGggcmVnYXJkcyB0byAzRCBkcml2ZXJzLgo+IAo+IFRoZSBndWFyYW50ZWUgZ2l2ZW4gYnkgdGhl
-IEdML0dMRVMgc3BlYyBpcyBsaW1pdGVkIHRvIGEgc2luZ2xlIGdyYXBoaWNzCj4gY29udGV4dC4g
-SWYgdGhlIHNhbWUgYnVmZmVyIGlzIGFjY2Vzc2VkIGJ5IDIgY29udGV4dHMgdGhlIG91dGNvbWUg
-aXMKPiB1bnNwZWNpZmllZC4gVGhlIGNyb3NzLWNvbnRleHQgYW5kIGNyb3NzLXByb2Nlc3Mgc3lu
-Y2hyb25pc2F0aW9uIGlzIG5vdAo+IGd1YXJhbnRlZWQuwqBJdCBoYXBwZW5zIHRvIHdvcmsgb24g
-TWVzYSwgYmVjYXVzZSB0aGUgcmVhZC93cml0ZSBsb2NraW5nIGlzCj4gaW1wbGVtZW50ZWQgaW4g
-dGhlIGtlcm5lbCBzcGFjZSwgYnV0IGl0IGRpZG4ndCB3b3JrIG9uIEJyb2FkY29tIGRyaXZlciwg
-d2hpY2gKPiBoYXMgcmVhZC13cml0ZSBpbnRlcmxvY2tzIGluIHVzZXIgc3BhY2UuCj4gCj4gwqBB
-IFZ1bGthbiBjbGllbnQgbWFrZXMgaXQgZXZlbiB3b3JzZSBiZWNhdXNlIG9mIGNvbmZsaWN0aW5n
-IHJlcXVpcmVtZW50czoKPiBWdWxrYW4nc8KgdmtRdWV1ZVByZXNlbnRLSFIoKSBwYXNzZXMgaW4g
-YSBudW1iZXIgb2Ygc2VtYXBob3JlcyBidXQgZGlzYWxsb3dzCj4gd2FpdGluZy4gV2F5bGFuZCBX
-U0kgcmVxdWlyZXPCoHdsX3N1cmZhY2VfY29tbWl0KCkgdG8gYmUgY2FsbGVkIGZyb20KPiB2a1F1
-ZXVlUHJlc2VudEtIUigpIHdoaWNoIGRvZXMgcmVxdWlyZSBhIHdhaXQsIHVubGVzcyBhIHN5bmNo
-cm9uaXNhdGlvbgo+IHByaW1pdGl2ZSByZXByZXNlbnRpbmcgVnVsa2FuIHNhbWFwaG9yZXPCoGlz
-IHBhc3NlZCBiZXR3ZWVuIFZ1bGthbiBjbGllbnQgYW5kCj4gdGhlIGNvbXBvc2l0b3IuCj4gCj4g
-VGhlIG1vc3QgdHJvdWJsZXNvbWUgcGFydCB3YXMgV2F5bGFuZCBidWZmZXIgcmVsZWFzZSBtZWNo
-YW5pc20sIGFzIGl0IG9ubHkKPiBpbnZvbHZlcyBhIENQVSBzaWduYWxsaW5nIG92ZXIgV2F5bGFu
-ZCBJUEMsIHdpdGhvdXQgYW55IDNEIGRyaXZlciBpbnZvbHZlbWVudC4KPiBUaGUgY2hvaWNlcyB3
-ZXJlOiBleHBsaWNpdCBzeW5jaHJvbmlzYXRpb24gZXh0ZW5zaW9uIG9yIGEgYnVmZmVyIGNvcHkg
-aW4gdGhlCj4gY29tcG9zaXRvciAoaS5lLiBjb21wb3NpdG9yIHRleHR1cmVzIGZyb20gdGhlIGNv
-cHksIHNvIHRoZSBjbGllbnQgY2FuIHJlLXdyaXRlCj4gdGhlIG9yaWdpbmFsKSwgb3Igc29tZcKg
-aW1wbGljaXQgc3luY2hyb25pc2F0aW9uIGluIGtlcm5lbCBzcGFjZSAoYnV0IHRoYXQKPiB3YXNu
-J3QgYW4gb3B0aW9uIGluIEJyb2FkY29tIGRyaXZlcikuCj4gCj4gV2l0aCByZWdhcmRzIHRvIFY0
-TDIsIEkgYmVsaWV2ZSBpdCBjb3VsZCBlYXNpbHkgd29yayB0aGUgc2FtZSB3YXkgYXMgM0QKPiBk
-cml2ZXJzLCBpLmUuIHBhc3MgYSBidWZmZXIrZmVuY2UgcGFpciB0byB0aGUgbmV4dCBzdGFnZS4g
-VGhlIGVuY29kZSBhbHdheXMKPiBzdWNjZWVkcywgYnV0IGZvciBjYXB0dXJlIG9yIGRlY29kZSwg
-dGhlIG1haW4gcHJvYmxlbSBpcyB0aGUgdW5jZXJ0YWluIG91dGNvbWUsCj4gSSBiZWxpZXZlPyBJ
-ZiB3ZSdyZSBmaW5lIHdpdGggcmVuZGVyaW5nIG9yIGRpc3BsYXlpbmcgYW4gb2NjYXNpb25hbCBi
-cm9rZW4KPiBmcmFtZSwgdGhlbiBidWZmZXIrZmVuY2UgcGFpciB3b3VsZCB3b3JrIHRvby4gVGhl
-IGJyb2tlbiBmcmFtZSB3aWxsIGdvIGludG8gdGhlCj4gcGlwZWxpbmUsIGJ1dCBhcHBsaWNhdGlv
-biBjYW4gZHJhaW4gdGhlIHBpcGVsaW5lIGFuZCBzdGFydCBvdmVyIG9uY2UgdGhlCj4gY2FwdHVy
-ZSB3b3JrcyBhZ2Fpbi4KPiAKPiBUbyBhbnN3ZXIgc29tZSBwb2ludHMgcmFpc2VkIGJ5IExhdXJl
-bnQgKGFsdGhvdWdoIEknbSB1bmZhbWlsaWFyIHdpdGggdGhlCj4gY2FtZXJhIGRyaXZlcnMpOgo+
-IAo+ID4geW91wqBkb24ndCBrbm93IHVudGlsIGNhcHR1cmUgY29tcGxldGUgaW4gd2hpY2ggYnVm
-ZmVyIHRoZSBmcmFtZSBoYXMKPiA+IGJlZW7CoGNhcHR1cmVkCj4KPiBTdXJlbHkgeW91IGRvLCB5
-b3Ugb25seSBkb24ndCBrbm93IGluIGFkdmFuY2UgaWYgdGhlIGNhcHR1cmUgd2lsbCBiZSBzdWNj
-ZXNzZnVsCgpZb3UgZG8gaW4ga2VybmVsc3BhY2UsIGJ1dCBub3QgaW4gdXNlcnNwYWNlIGF0IHRo
-ZSBtb21lbnQsIGR1ZSB0byBidWZmZXIKcmVjeWNsaW5nLgoKPiA+IGJ1dCBpZsKgYW4gZXJyb3Ig
-b2NjdXJzIGR1cmluZyBjYXB0dXJlLCB0aGV5IGNhbiBiZSByZWN5Y2xlZCBpbnRlcm5hbGx5IGFu
-ZAo+ID4gcHV0IHRvIHRoZSBiYWNrIG9mIHRoZSBxdWV1ZS4KPgo+IFRoYXQgd291bGQgaGF2ZSB0
-byBjaGFuZ2UgaW4gb3JkZXIgdG8gdXNlIGV4cGxpY2l0IHN5bmNocm9uaXNhdGlvbi4gRXZlcnkK
-PiBzdGFydGVkIGNhcHR1cmUgYmVjb21lcyBpbW1lZGlhdGVseSBhdmFpbGFibGUgYXMgYSBidWZm
-ZXIrZmVuY2UgcGFpci4gRmVuY2UgaXMKPiBzaWduYWxsZWQgb25jZSB0aGUgY2FwdHVyZSBpcyBm
-aW5pc2hlZCAoc3VjY2Vzc2Z1bGx5IG9yIG90aGVyd2lzZSkuIFRoZSBidWZmZXIKPiBtdXN0IG5v
-dCBiZSByZXVzZWQgdW50aWwgaXQncyByZWxlYXNlZCwgcG9zc2libHkgd2l0aCBhbm90aGVyIGZl
-bmNlIC0gaW4gdGhhdAo+IGNhc2UgdGhlIGJ1ZmZlciBtdXN0IG5vdCBiZSByZXVzZWQgdW50aWwg
-dGhlIHJlbGVhc2UgZmVuY2UgaXMgc2lnbmFsbGVkLgoKV2UgY291bGQgY2VydGFpbmx5IGNoYW5n
-ZSB0aGlzIGF0IGxlYXN0IGluIHNvbWUgY2FzZXMsIGJ1dCBpdCB3b3VsZApicmVhayBleGlzdGlu
-ZyB1c2Vyc3BhY2UgdGhhdCBkb2Vzbid0IGV4cGVjdCBpbmNvcnJlY3QgZnJhbWVzLgoKSSdtIGhv
-d2V2ZXIgbm90IHN1cmUgd2UgY291bGQgY2hhbmdlIHRoaXMgYmVoYXZpb3VyIGluIGV2ZXJ5IGNh
-c2UsIHRoZXJlCm1heSBiZSBoYXJkd2FyZSB0aGF0IGNhbid0IHByb3ZpZGUgYSBndWFyYW50ZWUg
-b24gdGhlIG9yZGVyIGluIHdoaWNoCmJ1ZmZlcnMgd2lsbCBiZSB1c2VkLiBJJ20gYXdhcmUgdGhp
-cyB3b3VsZG4ndCBiZSBjb21wYXRpYmxlIHdpdGgKZXhwbGljaXQgc3luY2hyb25pemF0aW9uLCBh
-bmQgdGhhdCdzIG15IHBvaW50OiBjYW1lcmEgaGFyZHdhcmUgbWF5IG5vdAphbHdheXMgc3VwcG9y
-dCBleHBsaWNpdCBzeW5jaHJvbml6YXRpb24uIEFzIGxvbmcgYXMgd2UgY2FuIGZhbGwgYmFjayB0
-bwpub3QgdXNpbmcgZmVuY2VzIHRoZW4gd2Ugc2hvdWxkIGJlIGZpbmUuCgotLSAKUmVnYXJkcywK
-CkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+Hi Mark.
+
+On Mon, Mar 16, 2020 at 12:02:41PM +0000, Mark Brown wrote:
+> On Sun, Mar 15, 2020 at 02:43:42PM +0100, Sam Ravnborg wrote:
+> 
+> > Independent bindings can be SPI slaves which for example is
+> > the case for several panel bindings.
+> 
+> What is an "independent binding"?
+
+For several panels we have device trees that looks like this:
+
+spi {
+    #address-cells = <1>;
+    #size-cells = <0>;
+
+    panel@0 {
+        compatible = "kingdisplay,kd035g6-54nt";
+        reg = <0>;
+
+        spi-max-frequency = <3125000>;
+        spi-3wire;
+        spi-cs-high;
+	...
+
+
+The bindings are child of the spi controller node, but not specified
+in the same binding file as the spi controller node.
+
+A lot of bindings repeats the descriptions of (some of) the
+pi-slave properties.
+To avoid introducing yet another set of redundant and maybe incomplete
+SPI slave property descriptions I moved the relevant properties
+from spi-controller.yaml to spi-slave.yaml.
+
+So SPI slaves can now reference spi-slave.yaml to get access to
+the SPI slave properties - and the copies can be avoided.
+Likewise spi-controller.yml now references spi-slave.yaml.
+
+This was the best way I saw it could be done.
+
+This approach is used in several bindings in this patch set.
+
+	Sam
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
