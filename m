@@ -1,58 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC783186979
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 11:52:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF73186A7F
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 13:02:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3359489DB8;
-	Mon, 16 Mar 2020 10:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0485C6E3C7;
+	Mon, 16 Mar 2020 12:02:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
- [213.80.101.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC8FB89DB8
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 10:52:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id C4D863F72C;
- Mon, 16 Mar 2020 11:52:41 +0100 (CET)
-Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=RWm20K94; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: 0.4
-X-Spam-Level: 
-X-Spam-Status: No, score=0.4 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SORTED_RECIPS=2.499,
- URIBL_BLOCKED=0.001] autolearn=no autolearn_force=no
-Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mpqOfJWLxtke; Mon, 16 Mar 2020 11:52:40 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 3AB7C3F6A3;
- Mon, 16 Mar 2020 11:52:39 +0100 (CET)
-Received: from linlap1.host.shipmail.org.com (unknown [94.191.152.149])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 313143607D5;
- Mon, 16 Mar 2020 11:52:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1584355959; bh=uKHEYIvIsU0sJI1yd/nNU+aQlR5CTpV5n/pWHwj9jSs=;
- h=From:To:Cc:Subject:Date:From;
- b=RWm20K94Y5SfLaP7x+Mfm7XVcqoDIjf3VqSt/B7GQhsDgm2Hs0nsEA74rg7kMHrY+
- awheanTpq3e/TmuT387XkHaUThmAmXV+kZMX1dTLEz55xYfN8VWHBtDe7xC8iNxv/l
- 0exGuierzgVEJ9gs/+TozzJ60xPHcY0BcbwTOl3w=
-From: "Thomas Hellstrom (VMware)" <thomas_os@shipmail.org>
-To: airlied@gmail.com, airlied@redhat.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org
-Subject: [git-pull] vmwgfx-next
-Date: Mon, 16 Mar 2020 11:52:12 +0100
-Message-Id: <20200316105212.26504-1-thomas_os@shipmail.org>
-X-Mailer: git-send-email 2.21.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 957856E3C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 12:02:43 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A45430E;
+ Mon, 16 Mar 2020 05:02:43 -0700 (PDT)
+Received: from localhost (unknown [10.37.6.21])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8686A3F52E;
+ Mon, 16 Mar 2020 05:02:42 -0700 (PDT)
+Date: Mon, 16 Mar 2020 12:02:41 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v1 02/36] dt-bindings: spi: support non-spi bindings as
+ SPI slaves
+Message-ID: <20200316120239.GC5010@sirena.org.uk>
+References: <20200315134416.16527-1-sam@ravnborg.org>
+ <20200315134416.16527-3-sam@ravnborg.org>
 MIME-Version: 1.0
+In-Reply-To: <20200315134416.16527-3-sam@ravnborg.org>
+X-Cookie: I thought YOU silenced the guard!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,60 +42,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pv-drivers@vmware.com, Thomas Hellstrom <thomas_os@shipmail.org>,
- linux-graphics-maintainer@vmware.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
+ Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
+ Stefan Mavrodiev <stefan@olimex.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
+ Nickey Yang <nickey.yang@rock-chips.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
+ Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
+ Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
+ devicetree@vger.kernel.org, Guido Gunther <agx@sigxcpu.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Werner Johansson <werner.johansson@sonymobile.com>,
+ Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
+ linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
+Content-Type: multipart/mixed; boundary="===============1862748530=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dave, Daniel,
 
-The first vmwgfx-next pull for 5.7. Roland Scheidegger will follow up with
-a larger pull request for functionality needed for GL4 support.
+--===============1862748530==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="+xNpyl7Qekk2NvDX"
+Content-Disposition: inline
 
-- Disable DMA when using SEV encryption
-- An -RT fix
-- Code cleanups
 
-Thanks,
-Thomas
+--+xNpyl7Qekk2NvDX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The following changes since commit d3bd37f587b4438d47751d0f1d5aaae3d39bd416:
+On Sun, Mar 15, 2020 at 02:43:42PM +0100, Sam Ravnborg wrote:
 
-  Merge v5.6-rc5 into drm-next (2020-03-11 07:27:21 +1000)
+> Independent bindings can be SPI slaves which for example is
+> the case for several panel bindings.
 
-are available in the Git repository at:
+What is an "independent binding"?
 
-  git://people.freedesktop.org/~thomash/linux vmwgfx-next
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-for you to fetch changes up to 6b656755428dc0c96d21d7af697dc2a10c7ff175:
+--+xNpyl7Qekk2NvDX
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  drm/vmwgfx: Replace zero-length array with flexible-array member (2020-03-16 10:42:01 +0100)
+-----BEGIN PGP SIGNATURE-----
 
-----------------------------------------------------------------
-Gustavo A. R. Silva (1):
-      drm/vmwgfx: Replace zero-length array with flexible-array member
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5vat4ACgkQJNaLcl1U
+h9AzOAf/XEkdCuffpd/fsgpdHL+Pu3NzYZp3ZwNogHMb+wwTBF8GC/tL3YSIIxcf
+MO6mdBel6u+/s4Zya5lkw2GBpJN5MY90y1Y+vEL2bsbDfclCnwYiblydUrAMAjQF
+LDXmkRdQd48tqNuGFGQQVovfmBiLYTQs6IcQSuPpnqNmr/Wh/gQYYbcYpCOEglsJ
+vhKGOjMb18xL6AQqPnBP9lS05klYBqNol3lRSqrmpBJP7GGaA1XE0EknPN6RWhzF
+A2RNjN45VXZ2T1WJCGhj7WnjRp7crxKgFASHzIkjJo7evwQ+N4JvWub42Y0nkXvM
+0/hXKAWxwiKrox0ehS7OL1qwBMADQg==
+=7Ips
+-----END PGP SIGNATURE-----
 
-Sebastian Andrzej Siewior (2):
-      drm/vmwgfx: Drop preempt_disable() in vmw_fifo_ping_host()
-      drm/vmwgfx: Remove a few unused functions
+--+xNpyl7Qekk2NvDX--
 
-Thomas Hellstrom (2):
-      drm/vmwgfx: Fix the refuse_dma mode when using guest-backed objects
-      drm/vmwgfx: Refuse DMA operation when SEV encryption is active
+--===============1862748530==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c     |  3 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        | 11 +++-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        | 28 -----------
- drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c       |  2 -
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c        | 81 ------------------------------
- drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c    | 31 ------------
- drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c       |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c    |  2 +-
- 9 files changed, 14 insertions(+), 148 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1862748530==--
