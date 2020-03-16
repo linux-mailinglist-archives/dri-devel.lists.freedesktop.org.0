@@ -1,61 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D577186432
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 05:24:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7909B186453
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 06:04:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E96866E32F;
-	Mon, 16 Mar 2020 04:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E5966E33E;
+	Mon, 16 Mar 2020 05:04:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E34C6E32C;
- Mon, 16 Mar 2020 04:24:00 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id f3so12446527wrw.7;
- Sun, 15 Mar 2020 21:24:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BFbGXoNRkYhu7pj0FHhokhuVS4Fb4wpUfdzOgdNP9tw=;
- b=JceIzu66t4zKvbngDbCNiU9prpEQgCoNncoNTWT9e5qQCfqAXSLBR+u+irIlQImbaq
- mH8Flvz7Jda5wSnVk6MD4thogX2hRbZ7nDKRg9NevYo/4whe3+cAPs6wdJqvb7Epf7mf
- V4Q2X2RaXnT70Rw7/sKAbGOtDaQv7RglM8XHDxjM/+BRpOLSw31D3HCdA9CY2R67c+d0
- BzuVleLM4Pe/Vvt1W1bu4QQzijmpnaxR0GXrNkp1coCsy7dDiikUKjE7NEKUlyiXqxcw
- wBQdSOi3Bg4lBk/fW9BKbYtGe8+JAxLOG13lzPjaKf7mQagGoRUNEhFEQcrAYfoLArMa
- Z48w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BFbGXoNRkYhu7pj0FHhokhuVS4Fb4wpUfdzOgdNP9tw=;
- b=Sk1iH4ldrqwo7Xjt9oflvyV0pL/F7oeoxDJMeLH7NapGS6QYvAiPW0T1ubY1htM0r/
- Nffylk6MxauOdd8+rSiomFOqUMDxq5YgTeyQ29QnJtHUDTCbiHawsRmVkz68FpIYX/z5
- vK0Mj9AZr6pLBmiCX4XYgRdZxjiZov+E74MJA4IxDO/cSnuXIBG49S5PyGtZ2JdV4toD
- GatS7VgAUywjWj7FbwCe2s6JtonX3meHelNZOXeiAWzFLYrUQL9h8NOMuIiQJ2EAuv+Q
- mSm7zTq6RRmYQUyCmanGRgku/hlpCCShfFq5ovlsusP48SSrOGpuVOen99VhXbSzpT6J
- lRZQ==
-X-Gm-Message-State: ANhLgQ2yEbE/NY8yT094a7Nyu2s4DiiV6l5Md2lWMfwDEiovb9gR8JOj
- gyxhFXF1ViKUXuDTMzw1NC2lfGtM
-X-Google-Smtp-Source: ADFU+vuFizVUnwKp8sjSDX41wgN++nnQlDMw0iE9GI80KOjHDHLrH3E/muuzK5R8PzwKKrzIOx/n9w==
-X-Received: by 2002:adf:e581:: with SMTP id l1mr19504126wrm.395.1584332638795; 
- Sun, 15 Mar 2020 21:23:58 -0700 (PDT)
-Received: from groovy.localdomain
- (dynamic-2a01-0c23-7803-8800-a85c-f091-4474-9511.c23.pool.telefonica.de.
- [2a01:c23:7803:8800:a85c:f091:4474:9511])
- by smtp.gmail.com with ESMTPSA id z4sm5909800wrr.6.2020.03.15.21.23.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 21:23:58 -0700 (PDT)
-From: Mario Kleiner <mario.kleiner.de@gmail.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/dp: Add dpcd link_rate quirk for Apple 15" MBP 2017
- (v3)
-Date: Mon, 16 Mar 2020 05:23:40 +0100
-Message-Id: <20200316042340.4783-1-mario.kleiner.de@gmail.com>
-X-Mailer: git-send-email 2.20.1
+X-Greylist: delayed 441 seconds by postgrey-1.36 at gabe;
+ Mon, 16 Mar 2020 05:04:04 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69A026E33E
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 05:04:04 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 48gkY22Jb2z1qrM1;
+ Mon, 16 Mar 2020 05:56:38 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 48gkY15Zwkz1qqkM;
+ Mon, 16 Mar 2020 05:56:37 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id r1eVNSGjUDpK; Mon, 16 Mar 2020 05:56:33 +0100 (CET)
+X-Auth-Info: q7tQX9kw8z3PrLvPIf9NChxZimQNyci6qXMkVkfXiBA=
+Received: from [192.168.1.106] (91-82-211-124.pool.digikabel.hu
+ [91.82.211.124])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Mon, 16 Mar 2020 05:56:33 +0100 (CET)
+Subject: Re: [PATCH v1 16/36] dt-bindings: display: convert lg,lg4573 to DT
+ Schema
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200315134416.16527-1-sam@ravnborg.org>
+ <20200315134416.16527-17-sam@ravnborg.org>
+From: Heiko Schocher <hs@denx.de>
+Message-ID: <d8f1a9cf-915a-24df-4ad7-edc0eab98c4f@denx.de>
+Date: Mon, 16 Mar 2020 05:56:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.5.2
 MIME-Version: 1.0
+In-Reply-To: <20200315134416.16527-17-sam@ravnborg.org>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,104 +57,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+Reply-To: hs@denx.de
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
+ Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
+ Stefan Mavrodiev <stefan@olimex.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
+ Nickey Yang <nickey.yang@rock-chips.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
+ Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
+ Brian Masney <masneyb@onstation.org>, devicetree@vger.kernel.org,
+ Guido Gunther <agx@sigxcpu.org>, Mark Brown <broonie@kernel.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Werner Johansson <werner.johansson@sonymobile.com>,
+ Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
+ linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This fixes a problem found on the MacBookPro 2017 Retina panel.
+Hello Sam,
 
-The panel reports 10 bpc color depth in its EDID, and the
-firmware chooses link settings at boot which support enough
-bandwidth for 10 bpc (324000 kbit/sec = multiplier 0xc),
-but the DP_MAX_LINK_RATE dpcd register only reports
-2.7 Gbps (multiplier value 0xa) as possible, in direct
-contradiction of what the firmware successfully set up.
+Am 15.03.2020 um 14:43 schrieb Sam Ravnborg:
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Heiko Schocher <hs@denx.de>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>   .../bindings/display/panel/lg,lg4573.txt      | 19 ---------
+>   .../bindings/display/panel/lg,lg4573.yaml     | 41 +++++++++++++++++++
+>   2 files changed, 41 insertions(+), 19 deletions(-)
+>   delete mode 100644 Documentation/devicetree/bindings/display/panel/lg,lg4573.txt
+>   create mode 100644 Documentation/devicetree/bindings/display/panel/lg,lg4573.yaml
 
-This restricts the panel to 8 bpc, not providing the full
-color depth of the panel.
+Reviewed-by: Heiko Schocher <hs@denx.de>
 
-This patch adds a quirk specific to the MBP 2017 15" Retina
-panel to add the additiional 324000 kbps link rate during
-edp setup.
+Thanks!
 
-Link to previous discussion of a different attempted fix
-with Ville and Jani:
-
-https://patchwork.kernel.org/patch/11325935/
-
-v2: Follow Jani's proposal of defining quirk_rates[] instead
-    of just appending 324000. This for better clarity.
-
-v3: Rebased onto current drm-tip, as of 16-March-2020. Adapt
-    to new edid_quirks parameter of drm_dp_has_quirk().
-
-Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
-Tested-by: Mario Kleiner <mario.kleiner.de@gmail.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/drm_dp_helper.c         |  2 ++
- drivers/gpu/drm/i915/display/intel_dp.c | 11 +++++++++++
- include/drm/drm_dp_helper.h             |  7 +++++++
- 3 files changed, 20 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index c6fbe6e6bc9d..8ba4531e808d 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -1238,6 +1238,8 @@ static const struct dpcd_quirk dpcd_quirk_list[] = {
- 	{ OUI(0x00, 0x00, 0x00), DEVICE_ID('C', 'H', '7', '5', '1', '1'), false, BIT(DP_DPCD_QUIRK_NO_SINK_COUNT) },
- 	/* Synaptics DP1.4 MST hubs can support DSC without virtual DPCD */
- 	{ OUI(0x90, 0xCC, 0x24), DEVICE_ID_ANY, true, BIT(DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD) },
-+	/* Apple MacBookPro 2017 15 inch eDP Retina panel reports too low DP_MAX_LINK_RATE */
-+	{ OUI(0x00, 0x10, 0xfa), DEVICE_ID(101, 68, 21, 101, 98, 97), false, BIT(DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS) },
- };
- 
- #undef OUI
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 0a417cd2af2b..ef2e06e292d5 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -164,6 +164,17 @@ static void intel_dp_set_sink_rates(struct intel_dp *intel_dp)
- 	};
- 	int i, max_rate;
- 
-+	if (drm_dp_has_quirk(&intel_dp->desc, 0,
-+			     DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS)) {
-+		/* Needed, e.g., for Apple MBP 2017, 15 inch eDP Retina panel */
-+		static const int quirk_rates[] = { 162000, 270000, 324000 };
-+
-+		memcpy(intel_dp->sink_rates, quirk_rates, sizeof(quirk_rates));
-+		intel_dp->num_sink_rates = ARRAY_SIZE(quirk_rates);
-+
-+		return;
-+	}
-+
- 	max_rate = drm_dp_bw_code_to_link_rate(intel_dp->dpcd[DP_MAX_LINK_RATE]);
- 
- 	for (i = 0; i < ARRAY_SIZE(dp_rates); i++) {
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index c6119e4c169a..9d87cdf2740a 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1548,6 +1548,13 @@ enum drm_dp_quirk {
- 	 * capabilities advertised.
- 	 */
- 	DP_QUIRK_FORCE_DPCD_BACKLIGHT,
-+	/**
-+	 * @DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS:
-+	 *
-+	 * The device supports a link rate of 3.24 Gbps (multiplier 0xc) despite
-+	 * the DP_MAX_LINK_RATE register reporting a lower max multiplier.
-+	 */
-+	DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS,
- };
- 
- /**
+bye,
+Heiko
 -- 
-2.20.1
-
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: +49-8142-66989-52   Fax: +49-8142-66989-80   Email: hs@denx.de
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
