@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFC618644C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 06:03:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0CD186456
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 06:06:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96C5E6E340;
-	Mon, 16 Mar 2020 05:03:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5087789F2A;
+	Mon, 16 Mar 2020 05:06:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 888C86E33D;
- Mon, 16 Mar 2020 05:03:09 +0000 (UTC)
-IronPort-SDR: MIAZt1N9eKP3N6u/6iyF/8+4dRMySJDYPQ3ROpKTmNfs5TTun/KqF0j7OIpb1b99CCSrPxtiKD
- MsjJ8B/H4wng==
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F272389F2A;
+ Mon, 16 Mar 2020 05:06:28 +0000 (UTC)
+IronPort-SDR: smRh18TCOA4YGvxqhmvfZeEiQycqHR3aNJ+N4MPyDXMIkn7xTfAIY9ffXj2oDHY3740KRg0Jk0
+ gyotD/CjdLYQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2020 22:03:08 -0700
-IronPort-SDR: lhuvBZviN35VdEsvvOj/2qWTCRt8udAuVE1rjS5YSbiYAYX5LDmWusE9qEAOAO2VehSOR12MwC
- 7rsJEZ/muKog==
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2020 22:06:28 -0700
+IronPort-SDR: QfbKEqkQqYKjEBHq30/I0AruEliWWzib0nhCCG0vD/dCvfLzYOeXBjIdvfmE5g8272XaoKcjTG
+ xSggWcIjpGOQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,559,1574150400"; d="scan'208";a="233059048"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
- by orsmga007.jf.intel.com with ESMTP; 15 Mar 2020 22:03:08 -0700
-Received: from bgsmsx153.gar.corp.intel.com (10.224.23.4) by
- FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Sun, 15 Mar 2020 22:03:07 -0700
+X-IronPort-AV: E=Sophos;i="5.70,559,1574150400"; d="scan'208";a="290600081"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by FMSMGA003.fm.intel.com with ESMTP; 15 Mar 2020 22:06:28 -0700
+Received: from fmsmsx154.amr.corp.intel.com (10.18.116.70) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Sun, 15 Mar 2020 22:06:28 -0700
+Received: from bgsmsx103.gar.corp.intel.com (10.223.4.130) by
+ FMSMSX154.amr.corp.intel.com (10.18.116.70) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Sun, 15 Mar 2020 22:06:27 -0700
 Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.111]) by
- BGSMSX153.gar.corp.intel.com ([169.254.2.116]) with mapi id 14.03.0439.000;
- Mon, 16 Mar 2020 10:33:05 +0530
+ BGSMSX103.gar.corp.intel.com ([169.254.4.56]) with mapi id 14.03.0439.000;
+ Mon, 16 Mar 2020 10:36:26 +0530
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v7 01/18] drm: Add DP1.4 VSC SDP Payload related Data
- Structures
-Thread-Topic: [PATCH v7 01/18] drm: Add DP1.4 VSC SDP Payload related Data
- Structures
-Thread-Index: AQHV4K97AyUt9viiqE2Ijgjpo3PKW6hK3s1Q
-Date: Mon, 16 Mar 2020 05:03:04 +0000
-Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F824324B9@BGSMSX104.gar.corp.intel.com>
+Subject: RE: [PATCH v7 04/18] drm/i915/dp: Add writing of DP SDPs
+Thread-Topic: [PATCH v7 04/18] drm/i915/dp: Add writing of DP SDPs
+Thread-Index: AQHV4K9/6Q/msMwB80C6vW+UfZwCG6hK36sQ
+Date: Mon, 16 Mar 2020 05:06:25 +0000
+Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F824324D8@BGSMSX104.gar.corp.intel.com>
 References: <20200211074657.231405-1-gwan-gyeong.mun@intel.com>
- <20200211074657.231405-2-gwan-gyeong.mun@intel.com>
-In-Reply-To: <20200211074657.231405-2-gwan-gyeong.mun@intel.com>
+ <20200211074657.231405-5-gwan-gyeong.mun@intel.com>
+In-Reply-To: <20200211074657.231405-5-gwan-gyeong.mun@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -67,204 +68,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-> -----Original Message-----
-> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Gwan-
-> gyeong Mun
-> Sent: Tuesday, February 11, 2020 1:17 PM
-> To: intel-gfx@lists.freedesktop.org
-> Cc: linux-fbdev@vger.kernel.org; dri-devel@lists.freedesktop.org
-> Subject: [PATCH v7 01/18] drm: Add DP1.4 VSC SDP Payload related Data Structures
-> 
-> It adds new enumeration definitions for VSC SDP Payload for Pixel
-> Encoding/Colorimetry Format.
-> And it adds a new drm data structure for DP VSC SDP.
-> 
-> enum dp_colorspace and enum dp_colorimetry correspond "Pixel Encoding and
-> Colorimetry Formats". enum dp_dynamic_range corresponds "Dynamic Range".
-> And enum dp_content_type corresponds "Content Type"
-> All of them are based on DP 1.4 spec [Table 2-117: VSC SDP Payload for
-> DB16 through DB18].
-> 
-> v3: Add a new drm data structure for DP VSC SDP
-> v5: Addressed review comments from Uma
->     - Add kernel docs for added data structures
->     - Rename enum dp_colorspace to dp_pixelformat
->     - Polish commit message
->     - Fix typos
->     - Drop self-explanatory comments
-
-Changes look good.
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-
-> Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> ---
->  include/drm/drm_dp_helper.h | 130 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 130 insertions(+)
-> 
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h index
-> 262faf9e5e94..e332f54013d7 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -1209,6 +1209,136 @@ struct dp_sdp {
->  #define EDP_VSC_PSR_UPDATE_RFB		(1<<1)
->  #define EDP_VSC_PSR_CRC_VALUES_VALID	(1<<2)
-> 
-> +/**
-> + * enum dp_pixelformat - drm DP Pixel encoding formats
-> + *
-> + * This enum is used to indicate DP VSC SDP Pixel encoding formats.
-> + * It is based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16
-> +through
-> + * DB18]
-> + *
-> + * @DP_PIXELFORMAT_RGB: RGB pixel encoding format
-> + * @DP_PIXELFORMAT_YUV444: YCbCr 4:4:4 pixel encoding format
-> + * @DP_PIXELFORMAT_YUV422: YCbCr 4:2:2 pixel encoding format
-> + * @DP_PIXELFORMAT_YUV420: YCbCr 4:2:0 pixel encoding format
-> + * @DP_PIXELFORMAT_Y_ONLY: Y Only pixel encoding format
-> + * @DP_PIXELFORMAT_RAW: RAW pixel encoding format
-> + * @DP_PIXELFORMAT_RESERVED: Reserved pixel encoding format  */ enum
-> +dp_pixelformat {
-> +	DP_PIXELFORMAT_RGB = 0,
-> +	DP_PIXELFORMAT_YUV444 = 0x1,
-> +	DP_PIXELFORMAT_YUV422 = 0x2,
-> +	DP_PIXELFORMAT_YUV420 = 0x3,
-> +	DP_PIXELFORMAT_Y_ONLY = 0x4,
-> +	DP_PIXELFORMAT_RAW = 0x5,
-> +	DP_PIXELFORMAT_RESERVED = 0x6,
-> +};
-> +
-> +/**
-> + * enum dp_colorimetry - drm DP Colorimetry formats
-> + *
-> + * This enum is used to indicate DP VSC SDP Colorimetry formats.
-> + * It is based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16
-> +through
-> + * DB18] and a name of enum member follows DRM_MODE_COLORIMETRY
-> definition.
-> + *
-> + * @DP_COLORIMETRY_DEFAULT: sRGB (IEC 61966-2-1) or
-> + *                          ITU-R BT.601 colorimetry format
-> + * @DP_COLORIMETRY_RGB_WIDE_FIXED: RGB wide gamut fixed point
-> +colorimetry format
-> + * @DP_COLORIMETRY_BT709_YCC: ITU-R BT.709 colorimetry format
-> + * @DP_COLORIMETRY_RGB_WIDE_FLOAT: RGB wide gamut floating point
-> + *                                 (scRGB (IEC 61966-2-2)) colorimetry format
-> + * @DP_COLORIMETRY_XVYCC_601: xvYCC601 colorimetry format
-> + * @DP_COLORIMETRY_OPRGB: OpRGB colorimetry format
-> + * @DP_COLORIMETRY_XVYCC_709: xvYCC709 colorimetry format
-> + * @DP_COLORIMETRY_DCI_P3_RGB: DCI-P3 (SMPTE RP 431-2) colorimetry
-> +format
-> + * @DP_COLORIMETRY_SYCC_601: sYCC601 colorimetry format
-> + * @DP_COLORIMETRY_RGB_CUSTOM: RGB Custom Color Profile colorimetry
-> +format
-> + * @DP_COLORIMETRY_OPYCC_601: opYCC601 colorimetry format
-> + * @DP_COLORIMETRY_BT2020_RGB: ITU-R BT.2020 R' G' B' colorimetry
-> +format
-> + * @DP_COLORIMETRY_BT2020_CYCC: ITU-R BT.2020 Y'c C'bc C'rc colorimetry
-> +format
-> + * @DP_COLORIMETRY_BT2020_YCC: ITU-R BT.2020 Y' C'b C'r colorimetry
-> +format  */ enum dp_colorimetry {
-> +	DP_COLORIMETRY_DEFAULT = 0,
-> +	DP_COLORIMETRY_RGB_WIDE_FIXED = 0x1,
-> +	DP_COLORIMETRY_BT709_YCC = 0x1,
-> +	DP_COLORIMETRY_RGB_WIDE_FLOAT = 0x2,
-> +	DP_COLORIMETRY_XVYCC_601 = 0x2,
-> +	DP_COLORIMETRY_OPRGB = 0x3,
-> +	DP_COLORIMETRY_XVYCC_709 = 0x3,
-> +	DP_COLORIMETRY_DCI_P3_RGB = 0x4,
-> +	DP_COLORIMETRY_SYCC_601 = 0x4,
-> +	DP_COLORIMETRY_RGB_CUSTOM = 0x5,
-> +	DP_COLORIMETRY_OPYCC_601 = 0x5,
-> +	DP_COLORIMETRY_BT2020_RGB = 0x6,
-> +	DP_COLORIMETRY_BT2020_CYCC = 0x6,
-> +	DP_COLORIMETRY_BT2020_YCC = 0x7,
-> +};
-> +
-> +/**
-> + * enum dp_dynamic_range - drm DP Dynamic Range
-> + *
-> + * This enum is used to indicate DP VSC SDP Dynamic Range.
-> + * It is based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16
-> +through
-> + * DB18]
-> + *
-> + * @DP_DYNAMIC_RANGE_VESA: VESA range
-> + * @DP_DYNAMIC_RANGE_CTA: CTA range
-> + */
-> +enum dp_dynamic_range {
-> +	DP_DYNAMIC_RANGE_VESA = 0,
-> +	DP_DYNAMIC_RANGE_CTA = 1,
-> +};
-> +
-> +/**
-> + * enum dp_content_type - drm DP Content Type
-> + *
-> + * This enum is used to indicate DP VSC SDP Content Types.
-> + * It is based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16
-> +through
-> + * DB18]
-> + * CTA-861-G defines content types and expected processing by a sink
-> +device
-> + *
-> + * @DP_CONTENT_TYPE_NOT_DEFINED: Not defined type
-> + * @DP_CONTENT_TYPE_GRAPHICS: Graphics type
-> + * @DP_CONTENT_TYPE_PHOTO: Photo type
-> + * @DP_CONTENT_TYPE_VIDEO: Video type
-> + * @DP_CONTENT_TYPE_GAME: Game type
-> + */
-> +enum dp_content_type {
-> +	DP_CONTENT_TYPE_NOT_DEFINED = 0x00,
-> +	DP_CONTENT_TYPE_GRAPHICS = 0x01,
-> +	DP_CONTENT_TYPE_PHOTO = 0x02,
-> +	DP_CONTENT_TYPE_VIDEO = 0x03,
-> +	DP_CONTENT_TYPE_GAME = 0x04,
-> +};
-> +
-> +/**
-> + * struct drm_dp_vsc_sdp - drm DP VSC SDP
-> + *
-> + * This structure represents a DP VSC SDP of drm
-> + * It is based on DP 1.4 spec [Table 2-116: VSC SDP Header Bytes] and
-> + * [Table 2-117: VSC SDP Payload for DB16 through DB18]
-> + *
-> + * @sdp_type: secondary-data packet type
-> + * @revision: revision number
-> + * @length: number of valid data bytes
-> + * @pixelformat: pixel encoding format
-> + * @colorimetry: colorimetry format
-> + * @bpc: bit per color
-> + * @dynamic_range: dynamic range information
-> + * @content_type: CTA-861-G defines content types and expected
-> +processing by a sink device  */ struct drm_dp_vsc_sdp {
-> +	unsigned char sdp_type;
-> +	unsigned char revision;
-> +	unsigned char length;
-> +	enum dp_pixelformat pixelformat;
-> +	enum dp_colorimetry colorimetry;
-> +	int bpc;
-> +	enum dp_dynamic_range dynamic_range;
-> +	enum dp_content_type content_type;
-> +};
-> +
->  int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
-> 
->  static inline int
-> --
-> 2.25.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogZHJpLWRldmVsIDxkcmkt
+ZGV2ZWwtYm91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBPZiBHd2FuLQ0K
+PiBneWVvbmcgTXVuDQo+IFNlbnQ6IFR1ZXNkYXksIEZlYnJ1YXJ5IDExLCAyMDIwIDE6MTcgUE0N
+Cj4gVG86IGludGVsLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4gQ2M6IGxpbnV4LWZiZGV2
+QHZnZXIua2VybmVsLm9yZzsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBTdWJq
+ZWN0OiBbUEFUQ0ggdjcgMDQvMThdIGRybS9pOTE1L2RwOiBBZGQgd3JpdGluZyBvZiBEUCBTRFBz
+DQo+IA0KPiBJdCBhZGRzIHJvdXRpbmVzIHRoYXQgd3JpdGUgRFAgVlNDIFNEUCBhbmQgRFAgSERS
+IE1ldGFkYXRhIEluZm9mcmFtZSBTRFAuDQo+IEluIG9yZGVyIHRvIHBhY2sgRFAgVlNDIFNEUCwg
+aXQgYWRkcyBpbnRlbF9kcF92c2Nfc2RwX3BhY2soKSBmdW5jdGlvbi4NCj4gSXQgZm9sbG93cyBE
+UCAxLjRhIHNwZWMuIFtUYWJsZSAyLTExNjogVlNDIFNEUCBIZWFkZXIgQnl0ZXNdIGFuZCBbVGFi
+bGUgMi0xMTc6IFZTQw0KPiBTRFAgUGF5bG9hZCBmb3IgREIxNiB0aHJvdWdoIERCMThdDQo+IA0K
+PiBJbiBvcmRlciB0byBwYWNrIERQIEhEUiBNZXRhZGF0YSBJbmZvZnJhbWUgU0RQLCBpdCBhZGRz
+DQo+IGludGVsX2RwX2hkcl9tZXRhZGF0YV9pbmZvZnJhbWVfc2RwX3BhY2soKSBmdW5jdGlvbi4N
+Cj4gQW5kIGl0IGZvbGxvd3MgRFAgMS40YSBzcGVjLg0KPiAoW1RhYmxlIDItMTI1OiBJTkZPRlJB
+TUUgU0RQIHYxLjIgSGVhZGVyIEJ5dGVzXSBhbmQgW1RhYmxlIDItMTI2OiBJTkZPRlJBTUUNCj4g
+U0RQIHYxLjIgUGF5bG9hZCBEYXRhIEJ5dGVzIC0gREIwIHRocm91Z2ggREIzMV0pIGFuZCBDVEEt
+ODYxLUcgc3BlYy4gW1RhYmxlLTQyDQo+IER5bmFtaWMgUmFuZ2UgYW5kIE1hc3RlcmluZyBJbmZv
+RnJhbWVdLg0KPiANCj4gQSBtZWNoYW5pc20gYW5kIGEgbmFtaW5nIHJ1bGUgb2YgaW50ZWxfZHBf
+c2V0X2luZm9mcmFtZXMoKSBmdW5jdGlvbiByZWZlcmVuY2VzDQo+IGludGVsX2VuY29kZXItPnNl
+dF9pbmZvZnJhbWVzKCkgb2YgaW50ZWxfaGRtaS5jIC4NCj4gVlNDIFNEUCBpcyB1c2VkIGZvciBQ
+U1IgYW5kIFBpeGVsIEVuY29kaW5nIGFuZCBDb2xvcmltZXRyeSBGb3JtYXRzIGNhc2VzLg0KPiBC
+ZWNhdXNlIFBTUiByb3V0aW5lIGhhcyBpdHMgb3duIHJvdXRpbmUgb2Ygd3JpdGluZyBhIFZTQyBT
+RFAsIHdoZW4gdGhlIFBTUiBpcw0KPiBlbmFibGVkLCBpbnRlbF9kcF9zZXRfaW5mb2ZyYW1lcygp
+IGRvZXMgbm90IHdyaXRlIGEgVlNDIFNEUC4NCj4gDQo+IHYzOg0KPiAgIC0gRXhwbGljaXRseSBk
+aXNhYmxlIHVudXNlZCBESVBzIChBVkksIEdDUCwgVlMsIFNQRCwgRFJNLiBUaGV5IHdpbGwgYmUN
+Cj4gICAgIHVzZWQgZm9yIEhETUkpLCB3aGVuIGludGVsX2RwX3NldF9pbmZvZnJhbWVzKCkgZnVu
+Y3Rpb24gd2lsbCBiZSBjYWxsZWQuDQo+ICAgLSBSZXBsYWNlIGEgc3RydWN0dXJlIG5hbWUgdG8g
+ZHJtX2RwX3ZzY19zZHAgZnJvbSBpbnRlbF9kcF92c2Nfc2RwLg0KPiB2NDogVXNlIHN0cnVjdCBk
+cm1fZGV2aWNlIGxvZ2dpbmcgbWFjcm9zDQo+IHY1Og0KPiAgIC0gdXNlIGludGVsX2RlXyooKSBm
+dW5jdGlvbnMgZm9yIHJlZ2lzdGVyIGFjY2Vzcw0KPiAgIC0gQWRkcmVzc2VkIHJldmlldyBjb21t
+ZW50cyBmcm9tIFVtYQ0KPiAgICAgUG9saXNoIGNvbW1pdCBtZXNzYWdlIGFuZCBjb21tZW50cw0K
+PiAgICAgQWRkIDZicGMgdG8gcGFja2luZyBvZiBWU0MgU0RQDQoNCkxvb2tzIGdvb2QgdG8gbWUu
+DQpSZXZpZXdlZC1ieTogVW1hIFNoYW5rYXIgPHVtYS5zaGFua2FyQGludGVsLmNvbT4NCg0KPiBT
+aWduZWQtb2ZmLWJ5OiBHd2FuLWd5ZW9uZyBNdW4gPGd3YW4tZ3llb25nLm11bkBpbnRlbC5jb20+
+DQo+IC0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jIHwgMTk5
+ICsrKysrKysrKysrKysrKysrKysrKysrKw0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
+eS9pbnRlbF9kcC5oIHwgICAzICsNCj4gIDIgZmlsZXMgY2hhbmdlZCwgMjAyIGluc2VydGlvbnMo
+KykNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
+X2RwLmMNCj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMNCj4gaW5k
+ZXggZmIwMDgxNjhjYTgzLi41YmJjNTUxMTMzMjUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkx
+NS9kaXNwbGF5L2ludGVsX2RwLmMNCj4gQEAgLTQ3NDEsNiArNDc0MSwyMDUgQEAgaW50ZWxfZHBf
+bmVlZHNfdnNjX3NkcChjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZQ0KPiAqY3J0Y19zdGF0
+ZSwNCj4gIAlyZXR1cm4gZmFsc2U7DQo+ICB9DQo+IA0KPiArc3RhdGljIHNzaXplX3QgaW50ZWxf
+ZHBfdnNjX3NkcF9wYWNrKGNvbnN0IHN0cnVjdCBkcm1fZHBfdnNjX3NkcCAqdnNjLA0KPiArCQkJ
+CSAgICAgc3RydWN0IGRwX3NkcCAqc2RwLCBzaXplX3Qgc2l6ZSkgew0KPiArCXNpemVfdCBsZW5n
+dGggPSBzaXplb2Yoc3RydWN0IGRwX3NkcCk7DQo+ICsNCj4gKwlpZiAoc2l6ZSA8IGxlbmd0aCkN
+Cj4gKwkJcmV0dXJuIC1FTk9TUEM7DQo+ICsNCj4gKwltZW1zZXQoc2RwLCAwLCBzaXplKTsNCj4g
+Kw0KPiArCS8qDQo+ICsJICogUHJlcGFyZSBWU0MgSGVhZGVyIGZvciBTVSBhcyBwZXIgRFAgMS40
+YSBzcGVjLCBUYWJsZSAyLTExOQ0KPiArCSAqIFZTQyBTRFAgSGVhZGVyIEJ5dGVzDQo+ICsJICov
+DQo+ICsJc2RwLT5zZHBfaGVhZGVyLkhCMCA9IDA7IC8qIFNlY29uZGFyeS1EYXRhIFBhY2tldCBJ
+RCA9IDAgKi8NCj4gKwlzZHAtPnNkcF9oZWFkZXIuSEIxID0gdnNjLT5zZHBfdHlwZTsgLyogU2Vj
+b25kYXJ5LWRhdGEgUGFja2V0IFR5cGUgKi8NCj4gKwlzZHAtPnNkcF9oZWFkZXIuSEIyID0gdnNj
+LT5yZXZpc2lvbjsgLyogUmV2aXNpb24gTnVtYmVyICovDQo+ICsJc2RwLT5zZHBfaGVhZGVyLkhC
+MyA9IHZzYy0+bGVuZ3RoOyAvKiBOdW1iZXIgb2YgVmFsaWQgRGF0YSBCeXRlcyAqLw0KPiArDQo+
+ICsJLyogVlNDIFNEUCBQYXlsb2FkIGZvciBEQjE2IHRocm91Z2ggREIxOCAqLw0KPiArCS8qIFBp
+eGVsIEVuY29kaW5nIGFuZCBDb2xvcmltZXRyeSBGb3JtYXRzICAqLw0KPiArCXNkcC0+ZGJbMTZd
+ID0gKHZzYy0+cGl4ZWxmb3JtYXQgJiAweGYpIDw8IDQ7IC8qIERCMTZbNzo0XSAqLw0KPiArCXNk
+cC0+ZGJbMTZdIHw9IHZzYy0+Y29sb3JpbWV0cnkgJiAweGY7IC8qIERCMTZbMzowXSAqLw0KPiAr
+DQo+ICsJc3dpdGNoICh2c2MtPmJwYykgew0KPiArCWNhc2UgNjoNCj4gKwkJLyogNmJwYzogMHgw
+ICovDQo+ICsJCWJyZWFrOw0KPiArCWNhc2UgODoNCj4gKwkJc2RwLT5kYlsxN10gPSAweDE7IC8q
+IERCMTdbMzowXSAqLw0KPiArCQlicmVhazsNCj4gKwljYXNlIDEwOg0KPiArCQlzZHAtPmRiWzE3
+XSA9IDB4MjsNCj4gKwkJYnJlYWs7DQo+ICsJY2FzZSAxMjoNCj4gKwkJc2RwLT5kYlsxN10gPSAw
+eDM7DQo+ICsJCWJyZWFrOw0KPiArCWNhc2UgMTY6DQo+ICsJCXNkcC0+ZGJbMTddID0gMHg0Ow0K
+PiArCQlicmVhazsNCj4gKwlkZWZhdWx0Og0KPiArCQlNSVNTSU5HX0NBU0UodnNjLT5icGMpOw0K
+PiArCQlicmVhazsNCj4gKwl9DQo+ICsJLyogRHluYW1pYyBSYW5nZSBhbmQgQ29tcG9uZW50IEJp
+dCBEZXB0aCAqLw0KPiArCWlmICh2c2MtPmR5bmFtaWNfcmFuZ2UgPT0gRFBfRFlOQU1JQ19SQU5H
+RV9DVEEpDQo+ICsJCXNkcC0+ZGJbMTddIHw9IDB4ODA7ICAvKiBEQjE3WzddICovDQo+ICsNCj4g
+KwkvKiBDb250ZW50IFR5cGUgKi8NCj4gKwlzZHAtPmRiWzE4XSA9IHZzYy0+Y29udGVudF90eXBl
+ICYgMHg3Ow0KPiArDQo+ICsJcmV0dXJuIGxlbmd0aDsNCj4gK30NCj4gKw0KPiArc3RhdGljIHNz
+aXplX3QNCj4gK2ludGVsX2RwX2hkcl9tZXRhZGF0YV9pbmZvZnJhbWVfc2RwX3BhY2soY29uc3Qg
+c3RydWN0IGhkbWlfZHJtX2luZm9mcmFtZQ0KPiAqZHJtX2luZm9mcmFtZSwNCj4gKwkJCQkJIHN0
+cnVjdCBkcF9zZHAgKnNkcCwNCj4gKwkJCQkJIHNpemVfdCBzaXplKQ0KPiArew0KPiArCXNpemVf
+dCBsZW5ndGggPSBzaXplb2Yoc3RydWN0IGRwX3NkcCk7DQo+ICsJY29uc3QgaW50IGluZm9mcmFt
+ZV9zaXplID0gSERNSV9JTkZPRlJBTUVfSEVBREVSX1NJWkUgKw0KPiBIRE1JX0RSTV9JTkZPRlJB
+TUVfU0laRTsNCj4gKwl1bnNpZ25lZCBjaGFyIGJ1ZltIRE1JX0lORk9GUkFNRV9IRUFERVJfU0la
+RSArDQo+IEhETUlfRFJNX0lORk9GUkFNRV9TSVpFXTsNCj4gKwlzc2l6ZV90IGxlbjsNCj4gKw0K
+PiArCWlmIChzaXplIDwgbGVuZ3RoKQ0KPiArCQlyZXR1cm4gLUVOT1NQQzsNCj4gKw0KPiArCW1l
+bXNldChzZHAsIDAsIHNpemUpOw0KPiArDQo+ICsJbGVuID0gaGRtaV9kcm1faW5mb2ZyYW1lX3Bh
+Y2tfb25seShkcm1faW5mb2ZyYW1lLCBidWYsIHNpemVvZihidWYpKTsNCj4gKwlpZiAobGVuIDwg
+MCkgew0KPiArCQlEUk1fREVCVUdfS01TKCJidWZmZXIgc2l6ZSBpcyBzbWFsbGVyIHRoYW4gaGRy
+IG1ldGFkYXRhDQo+IGluZm9mcmFtZVxuIik7DQo+ICsJCXJldHVybiAtRU5PU1BDOw0KPiArCX0N
+Cj4gKw0KPiArCWlmIChsZW4gIT0gaW5mb2ZyYW1lX3NpemUpIHsNCj4gKwkJRFJNX0RFQlVHX0tN
+Uygid3Jvbmcgc3RhdGljIGhkciBtZXRhZGF0YSBzaXplXG4iKTsNCj4gKwkJcmV0dXJuIC1FTk9T
+UEM7DQo+ICsJfQ0KPiArDQo+ICsJLyoNCj4gKwkgKiBTZXQgdXAgdGhlIGluZm9mcmFtZSBzZHAg
+cGFja2V0IGZvciBIRFIgc3RhdGljIG1ldGFkYXRhLg0KPiArCSAqIFByZXBhcmUgVlNDIEhlYWRl
+ciBmb3IgU1UgYXMgcGVyIERQIDEuNGEgc3BlYywNCj4gKwkgKiBUYWJsZSAyLTEwMCBhbmQgVGFi
+bGUgMi0xMDENCj4gKwkgKi8NCj4gKw0KPiArCS8qIFNlY29uZGFyeS1EYXRhIFBhY2tldCBJRCwg
+MDBoIGZvciBub24tQXVkaW8gSU5GT0ZSQU1FICovDQo+ICsJc2RwLT5zZHBfaGVhZGVyLkhCMCA9
+IDA7DQo+ICsJLyoNCj4gKwkgKiBQYWNrZXQgVHlwZSA4MGggKyBOb24tYXVkaW8gSU5GT0ZSQU1F
+IFR5cGUgdmFsdWUNCj4gKwkgKiBIRE1JX0lORk9GUkFNRV9UWVBFX0RSTTogMHg4Nw0KPiArCSAq
+IC0gODBoICsgTm9uLWF1ZGlvIElORk9GUkFNRSBUeXBlIHZhbHVlDQo+ICsJICogLSBJbmZvRnJh
+bWUgVHlwZTogMHgwNw0KPiArCSAqICAgIFtDVEEtODYxLUcgVGFibGUtNDIgRHluYW1pYyBSYW5n
+ZSBhbmQgTWFzdGVyaW5nIEluZm9GcmFtZV0NCj4gKwkgKi8NCj4gKwlzZHAtPnNkcF9oZWFkZXIu
+SEIxID0gZHJtX2luZm9mcmFtZS0+dHlwZTsNCj4gKwkvKg0KPiArCSAqIExlYXN0IFNpZ25pZmlj
+YW50IEVpZ2h0IEJpdHMgb2YgKERhdGEgQnl0ZSBDb3VudCDigJMgMSkNCj4gKwkgKiBpbmZvZnJh
+bWVfc2l6ZSAtIDENCj4gKwkgKi8NCj4gKwlzZHAtPnNkcF9oZWFkZXIuSEIyID0gMHgxRDsNCj4g
+KwkvKiBJTkZPRlJBTUUgU0RQIFZlcnNpb24gTnVtYmVyICovDQo+ICsJc2RwLT5zZHBfaGVhZGVy
+LkhCMyA9ICgweDEzIDw8IDIpOw0KPiArCS8qIENUQSBIZWFkZXIgQnl0ZSAyIChJTkZPRlJBTUUg
+VmVyc2lvbiBOdW1iZXIpICovDQo+ICsJc2RwLT5kYlswXSA9IGRybV9pbmZvZnJhbWUtPnZlcnNp
+b247DQo+ICsJLyogQ1RBIEhlYWRlciBCeXRlIDMgKExlbmd0aCBvZiBJTkZPRlJBTUUpOg0KPiBI
+RE1JX0RSTV9JTkZPRlJBTUVfU0laRSAqLw0KPiArCXNkcC0+ZGJbMV0gPSBkcm1faW5mb2ZyYW1l
+LT5sZW5ndGg7DQo+ICsJLyoNCj4gKwkgKiBDb3B5IEhETUlfRFJNX0lORk9GUkFNRV9TSVpFIHNp
+emUgZnJvbSBhIGJ1ZmZlciBhZnRlcg0KPiArCSAqIEhETUlfSU5GT0ZSQU1FX0hFQURFUl9TSVpF
+DQo+ICsJICovDQo+ICsJQlVJTERfQlVHX09OKHNpemVvZihzZHAtPmRiKSA8IEhETUlfRFJNX0lO
+Rk9GUkFNRV9TSVpFICsgMik7DQo+ICsJbWVtY3B5KCZzZHAtPmRiWzJdLCAmYnVmW0hETUlfSU5G
+T0ZSQU1FX0hFQURFUl9TSVpFXSwNCj4gKwkgICAgICAgSERNSV9EUk1fSU5GT0ZSQU1FX1NJWkUp
+Ow0KPiArDQo+ICsJLyoNCj4gKwkgKiBTaXplIG9mIERQIGluZm9mcmFtZSBzZHAgcGFja2V0IGZv
+ciBIRFIgc3RhdGljIG1ldGFkYXRhIGNvbnNpc3RzIG9mDQo+ICsJICogLSBEUCBTRFAgSGVhZGVy
+KHN0cnVjdCBkcF9zZHBfaGVhZGVyKTogNCBieXRlcw0KPiArCSAqIC0gVHdvIERhdGEgQmxvY2tz
+OiAyIGJ5dGVzDQo+ICsJICogICAgQ1RBIEhlYWRlciBCeXRlMiAoSU5GT0ZSQU1FIFZlcnNpb24g
+TnVtYmVyKQ0KPiArCSAqICAgIENUQSBIZWFkZXIgQnl0ZTMgKExlbmd0aCBvZiBJTkZPRlJBTUUp
+DQo+ICsJICogLSBIRE1JX0RSTV9JTkZPRlJBTUVfU0laRTogMjYgYnl0ZXMNCj4gKwkgKg0KPiAr
+CSAqIFByaW9yIHRvIEdFTjExJ3MgR01QIHJlZ2lzdGVyIHNpemUgaXMgaWRlbnRpY2FsIHRvIERQ
+IEhEUiBzdGF0aWMgbWV0YWRhdGENCj4gKwkgKiBpbmZvZnJhbWUgc2l6ZS4gQnV0IEdFTjExKyBo
+YXMgbGFyZ2VyIHRoYW4gdGhhdCBzaXplLCB3cml0ZV9pbmZvZnJhbWUNCj4gKwkgKiB3aWxsIHBh
+ZCByZXN0IG9mIHRoZSBzaXplLg0KPiArCSAqLw0KPiArCXJldHVybiBzaXplb2Yoc3RydWN0IGRw
+X3NkcF9oZWFkZXIpICsgMiArIEhETUlfRFJNX0lORk9GUkFNRV9TSVpFOyB9DQo+ICsNCj4gK3N0
+YXRpYyB2b2lkIGludGVsX3dyaXRlX2RwX3NkcChzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2Rl
+ciwNCj4gKwkJCSAgICAgICBjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0
+ZSwNCj4gKwkJCSAgICAgICB1bnNpZ25lZCBpbnQgdHlwZSkNCj4gK3sNCj4gKwlzdHJ1Y3QgaW50
+ZWxfZGlnaXRhbF9wb3J0ICppbnRlbF9kaWdfcG9ydCA9IGVuY190b19kaWdfcG9ydChlbmNvZGVy
+KTsNCj4gKwlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYgPSB0b19pOTE1KGVuY29k
+ZXItPmJhc2UuZGV2KTsNCj4gKwlzdHJ1Y3QgZHBfc2RwIHNkcCA9IHt9Ow0KPiArCXNzaXplX3Qg
+bGVuOw0KPiArDQo+ICsJaWYgKChjcnRjX3N0YXRlLT5pbmZvZnJhbWVzLmVuYWJsZSAmDQo+ICsJ
+ICAgICBpbnRlbF9oZG1pX2luZm9mcmFtZV9lbmFibGUodHlwZSkpID09IDApDQo+ICsJCXJldHVy
+bjsNCj4gKw0KPiArCXN3aXRjaCAodHlwZSkgew0KPiArCWNhc2UgRFBfU0RQX1ZTQzoNCj4gKwkJ
+bGVuID0gaW50ZWxfZHBfdnNjX3NkcF9wYWNrKCZjcnRjX3N0YXRlLT5pbmZvZnJhbWVzLnZzYywg
+JnNkcCwNCj4gKwkJCQkJICAgIHNpemVvZihzZHApKTsNCj4gKwkJYnJlYWs7DQo+ICsJY2FzZSBI
+RE1JX1BBQ0tFVF9UWVBFX0dBTVVUX01FVEFEQVRBOg0KPiArCQlsZW4gPSBpbnRlbF9kcF9oZHJf
+bWV0YWRhdGFfaW5mb2ZyYW1lX3NkcF9wYWNrKCZjcnRjX3N0YXRlLQ0KPiA+aW5mb2ZyYW1lcy5k
+cm0uZHJtLA0KPiArCQkJCQkJCSAgICAgICAmc2RwLCBzaXplb2Yoc2RwKSk7DQo+ICsJCWJyZWFr
+Ow0KPiArCWRlZmF1bHQ6DQo+ICsJCU1JU1NJTkdfQ0FTRSh0eXBlKTsNCj4gKwkJYnJlYWs7DQo+
+ICsJfQ0KPiArDQo+ICsJaWYgKGRybV9XQVJOX09OKCZkZXZfcHJpdi0+ZHJtLCBsZW4gPCAwKSkN
+Cj4gKwkJcmV0dXJuOw0KPiArDQo+ICsJaW50ZWxfZGlnX3BvcnQtPndyaXRlX2luZm9mcmFtZShl
+bmNvZGVyLCBjcnRjX3N0YXRlLCB0eXBlLCAmc2RwLCBsZW4pOw0KPiArfQ0KPiArDQo+ICt2b2lk
+IGludGVsX2RwX3NldF9pbmZvZnJhbWVzKHN0cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVyLA0K
+PiArCQkJICAgICBib29sIGVuYWJsZSwNCj4gKwkJCSAgICAgY29uc3Qgc3RydWN0IGludGVsX2Ny
+dGNfc3RhdGUgKmNydGNfc3RhdGUsDQo+ICsJCQkgICAgIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVj
+dG9yX3N0YXRlICpjb25uX3N0YXRlKSB7DQo+ICsJc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRl
+dl9wcml2ID0gdG9faTkxNShlbmNvZGVyLT5iYXNlLmRldik7DQo+ICsJc3RydWN0IGludGVsX2Rw
+ICppbnRlbF9kcCA9IGVuY190b19pbnRlbF9kcChlbmNvZGVyKTsNCj4gKwlpOTE1X3JlZ190IHJl
+ZyA9IEhTV19UVklERU9fRElQX0NUTChjcnRjX3N0YXRlLT5jcHVfdHJhbnNjb2Rlcik7DQo+ICsJ
+dTMyIGRpcF9lbmFibGUgPSBWSURFT19ESVBfRU5BQkxFX0FWSV9IU1cgfA0KPiBWSURFT19ESVBf
+RU5BQkxFX0dDUF9IU1cgfA0KPiArCQkJIFZJREVPX0RJUF9FTkFCTEVfVlNfSFNXIHwNCj4gVklE
+RU9fRElQX0VOQUJMRV9HTVBfSFNXIHwNCj4gKwkJCSBWSURFT19ESVBfRU5BQkxFX1NQRF9IU1cg
+fA0KPiBWSURFT19ESVBfRU5BQkxFX0RSTV9HTEs7DQo+ICsJdTMyIHZhbCA9IGludGVsX2RlX3Jl
+YWQoZGV2X3ByaXYsIHJlZyk7DQo+ICsNCj4gKwkvKiBUT0RPOiBBZGQgRFNDIGNhc2UgKERJUF9F
+TkFCTEVfUFBTKSAqLw0KPiArCS8qIFdoZW4gUFNSIGlzIGVuYWJsZWQsIHRoaXMgcm91dGluZSBk
+b2Vzbid0IGRpc2FibGUgVlNDIERJUCAqLw0KPiArCWlmIChpbnRlbF9wc3JfZW5hYmxlZChpbnRl
+bF9kcCkpDQo+ICsJCXZhbCAmPSB+ZGlwX2VuYWJsZTsNCj4gKwllbHNlDQo+ICsJCXZhbCAmPSB+
+KGRpcF9lbmFibGUgfCBWSURFT19ESVBfRU5BQkxFX1ZTQ19IU1cpOw0KPiArDQo+ICsJaWYgKCFl
+bmFibGUpIHsNCj4gKwkJaW50ZWxfZGVfd3JpdGUoZGV2X3ByaXYsIHJlZywgdmFsKTsNCj4gKwkJ
+aW50ZWxfZGVfcG9zdGluZ19yZWFkKGRldl9wcml2LCByZWcpOw0KPiArCQlyZXR1cm47DQo+ICsJ
+fQ0KPiArDQo+ICsJaW50ZWxfZGVfd3JpdGUoZGV2X3ByaXYsIHJlZywgdmFsKTsNCj4gKwlpbnRl
+bF9kZV9wb3N0aW5nX3JlYWQoZGV2X3ByaXYsIHJlZyk7DQo+ICsNCj4gKwkvKiBXaGVuIFBTUiBp
+cyBlbmFibGVkLCBWU0MgU0RQIGlzIGhhbmRsZWQgYnkgUFNSIHJvdXRpbmUgKi8NCj4gKwlpZiAo
+IWludGVsX3Bzcl9lbmFibGVkKGludGVsX2RwKSkNCj4gKwkJaW50ZWxfd3JpdGVfZHBfc2RwKGVu
+Y29kZXIsIGNydGNfc3RhdGUsIERQX1NEUF9WU0MpOw0KPiArDQo+ICsJaW50ZWxfd3JpdGVfZHBf
+c2RwKGVuY29kZXIsIGNydGNfc3RhdGUsDQo+ICtIRE1JX1BBQ0tFVF9UWVBFX0dBTVVUX01FVEFE
+QVRBKTsgfQ0KPiArDQo+ICBzdGF0aWMgdm9pZA0KPiAgaW50ZWxfZHBfc2V0dXBfdnNjX3NkcChz
+dHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwLA0KPiAgCQkgICAgICAgY29uc3Qgc3RydWN0IGludGVs
+X2NydGNfc3RhdGUgKmNydGNfc3RhdGUsIGRpZmYgLS1naXQNCj4gYS9kcml2ZXJzL2dwdS9kcm0v
+aTkxNS9kaXNwbGF5L2ludGVsX2RwLmgNCj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
+L2ludGVsX2RwLmgNCj4gaW5kZXggM2RhMTY2MDU0Nzg4Li4wZGMwOWE0NjNlZTEgMTAwNjQ0DQo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuaA0KPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmgNCj4gQEAgLTExNiw2ICsxMTYs
+OSBAQCB2b2lkIGludGVsX2RwX3ZzY19lbmFibGUoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCwg
+IHZvaWQNCj4gaW50ZWxfZHBfaGRyX21ldGFkYXRhX2VuYWJsZShzdHJ1Y3QgaW50ZWxfZHAgKmlu
+dGVsX2RwLA0KPiAgCQkJCSAgY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3Rh
+dGUsDQo+ICAJCQkJICBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqY29ubl9zdGF0
+ZSk7DQo+ICt2b2lkIGludGVsX2RwX3NldF9pbmZvZnJhbWVzKHN0cnVjdCBpbnRlbF9lbmNvZGVy
+ICplbmNvZGVyLCBib29sIGVuYWJsZSwNCj4gKwkJCSAgICAgY29uc3Qgc3RydWN0IGludGVsX2Ny
+dGNfc3RhdGUgKmNydGNfc3RhdGUsDQo+ICsJCQkgICAgIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVj
+dG9yX3N0YXRlICpjb25uX3N0YXRlKTsNCj4gIGJvb2wgaW50ZWxfZGlnaXRhbF9wb3J0X2Nvbm5l
+Y3RlZChzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2Rlcik7DQo+IA0KPiAgc3RhdGljIGlubGlu
+ZSB1bnNpZ25lZCBpbnQgaW50ZWxfZHBfdW51c2VkX2xhbmVfbWFzayhpbnQgbGFuZV9jb3VudCkN
+Cj4gLS0NCj4gMi4yNS4wDQo+IA0KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXw0KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0DQo+IGRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcNCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
