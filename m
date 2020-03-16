@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35AC187269
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 19:34:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 118BA187290
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 19:42:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 854A36E4AF;
-	Mon, 16 Mar 2020 18:34:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25D0989F6D;
+	Mon, 16 Mar 2020 18:42:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59FA089FD7;
- Mon, 16 Mar 2020 18:34:24 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id 7so10229947pgr.2;
- Mon, 16 Mar 2020 11:34:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=S5zX4l1j9CvPAej0RNLGJyLbn7LUFM/EsYy2Sfoppio=;
- b=DZ5b7JGngDSc2wD44AZDvXRpMx22MFJZCqVYvPBkW2EBmVeWxPNRXj0r6apgYT7AOm
- vR38poaOd1Qx4ajOXqpvLmiHKvuo9oBA+Y4Z4H94pQC0VAvwdv3bld5L0I0UJdfLPN/e
- jOJoA3cvC4xayx6uBOsC1UBDsbRC6oPckrYuqCLYpgCp8M4nRHNZCxwEEHvl+HXu5yCD
- QCVrM8eZ3zklOiSSR0AF+DX8yAqXGcwN0pNM75aK/3G+/3/LpoOIM97EYPlyqlia3bi3
- D1Ufns3b949bay5WHUmn0js3kQoLYil7UdEN/Z6KnpqGVqtUgNr2fMp6H/h+wrzhRd7U
- 5icw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=S5zX4l1j9CvPAej0RNLGJyLbn7LUFM/EsYy2Sfoppio=;
- b=tBecSHIyikeX5UGbZOpNTrhxVJix7kQ7R8udy9MyHzSGEF53/sRAq8YO5eO+K0p44B
- 4GY7wwscs28FAZBF8jcvliBdbK5TXYkIScpMZVUUm/LrdxmX6yDarMou524iN9wvLu3Q
- pv09zUL9Aak26msRQd43FamaXMguP0s/DyYBu1mALwbGHzGsxzYtIAQ/4Ltl1gwysNvZ
- ckgCaZx/+nbu3Fgpf85+DMBpGD1C1nPVEfE6X+LUNcuqo+NorZnWEsOOVrdNvfJhbzgD
- yYVZtk5H1pmNXfeofA9IFBIi45HfvVxdiP3V3R0KM4kPM7yfyDAQQVNj4IblheqHhI5s
- JyEA==
-X-Gm-Message-State: ANhLgQ3mtPtc/ABuZb0iWDPVXjCQmPr6hoM4LaZgQgZ+Xwq7IwNzuut0
- K669jDvW4N8o4cdxeV1UoON9okiwwQqeSAi7X+o=
-X-Google-Smtp-Source: ADFU+vvzEzwLS1SS4ZC9wPYXkqYWIDapbf3VNaPrQudO0+hRb8PlW9SYSH2sLdZC1QlahxWNMUxggtzm7Y1s/8in15o=
-X-Received: by 2002:a62:5c87:: with SMTP id q129mr999169pfb.82.1584383663870; 
- Mon, 16 Mar 2020 11:34:23 -0700 (PDT)
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A110389FD4;
+ Mon, 16 Mar 2020 18:42:43 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e6fc8950001>; Mon, 16 Mar 2020 11:42:29 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 16 Mar 2020 11:42:42 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Mon, 16 Mar 2020 11:42:42 -0700
+Received: from rcampbell-dev.nvidia.com (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+ Mon, 16 Mar 2020 18:42:42 +0000
+Subject: Re: [PATCH 2/2] mm: remove device private page support from
+ hmm_range_fault
+To: Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>, Dan
+ Williams <dan.j.williams@intel.com>, Bharata B Rao <bharata@linux.ibm.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, Ben Skeggs
+ <bskeggs@redhat.com>
+References: <20200316175259.908713-1-hch@lst.de>
+ <20200316175259.908713-3-hch@lst.de>
+X-Nvconfidentiality: public
+From: Ralph Campbell <rcampbell@nvidia.com>
+Message-ID: <c099cc3c-c19f-9d61-4297-2e83df899ca4@nvidia.com>
+Date: Mon, 16 Mar 2020 11:42:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAAxE2A4q9sZDz8vSLAvT0HH4BGukf8Ug68eqSV1ojqrm_5uFFg@mail.gmail.com>
- <170e13edbb0.27ad.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
- <CAAxE2A6hMs2Ngd4zEv+hEJnEUKmPDuXmeWUaUU-4YCTRHNzr1w@mail.gmail.com>
- <e470a1d0-cf91-5811-d280-322e005888a8@daenzer.net>
-In-Reply-To: <e470a1d0-cf91-5811-d280-322e005888a8@daenzer.net>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Mon, 16 Mar 2020 14:33:47 -0400
-Message-ID: <CAAxE2A5D2HaqjS52jymMbwOUEsaXG_cMeeA9_esqaC54-52Kgw@mail.gmail.com>
-Subject: Re: [Mesa-dev] Plumbing explicit synchronization through the Linux
- ecosystem
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+In-Reply-To: <20200316175259.908713-3-hch@lst.de>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1584384149; bh=B94TV8X7ko7Pix5Sd8galzczCBn2KhQ2ZY6X5Asx6X8=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=j4e7ucJv25vdvLHdnyJRo/nbNWu7R7E5t+GpT69/n/YRNYsFKNv6jPGbT9PDij1Yv
+ 32sPUxUPadDensRW6JTdPjtHyc0ZDNBTc/urNzfCIJD5uiF+nB39iIN6DJlyPSLK9k
+ BOAEBXVIx4Iuru7wnTT6qRjULqd2skJbh73AZjcQHiSv/eQO5aIlw9YbO8lKWY7eos
+ YUrv1eL/Ji/8ZfuUop+bKlpuwfRU7Mwt/qb3f45XaPKxdxmOYePs7XugFLt1ovcxeC
+ ZiY1XBR43/FSV3x/gGWSjIYVhU9YePPg5rFbTmgk7Bo1prHtDtCIRf/a/KYaZMt2jH
+ VyO1pKjAVdq2w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,134 +68,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, xorg-devel <xorg-devel@lists.x.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "wayland-devel @ lists . freedesktop . org"
- <wayland-devel@lists.freedesktop.org>,
- Discussion of the development of and with GStreamer
- <gstreamer-devel@lists.freedesktop.org>, Jason Ekstrand <jason@jlekstrand.net>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>, linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1916475863=="
+Cc: kvm-ppc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Jerome Glisse <jglisse@redhat.com>, amd-gfx@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1916475863==
-Content-Type: multipart/alternative; boundary="00000000000079165e05a0fd11da"
 
---00000000000079165e05a0fd11da
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 3/16/20 10:52 AM, Christoph Hellwig wrote:
+> No driver has actually used properly wire up and support this feature.
+> There is various code related to it in nouveau, but as far as I can tell
+> it never actually got turned on, and the only changes since the initial
+> commit are global cleanups.
 
-On Mon, Mar 16, 2020 at 5:57 AM Michel D=C3=A4nzer <michel@daenzer.net> wro=
-te:
+This is not actually true. OpenCL 2.x does support SVM with nouveau and
+device private memory via clEnqueueSVMMigrateMem().
+Also, Ben Skeggs has accepted a set of patches to map GPU memory after being
+migrated and this change would conflict with that.
 
-> On 2020-03-16 4:50 a.m., Marek Ol=C5=A1=C3=A1k wrote:
-> > The synchronization works because the Mesa driver waits for idle (drain=
-s
-> > the GFX pipeline) at the end of command buffers and there is only 1
-> > graphics queue, so everything is ordered.
-> >
-> > The GFX pipeline runs asynchronously to the command buffer, meaning the
-> > command buffer only starts draws and doesn't wait for completion. If th=
-e
-> > Mesa driver didn't wait at the end of the command buffer, the command
-> > buffer would finish and a different process could start execution of it=
-s
-> > own command buffer while shaders of the previous process are still
-> running.
-> >
-> > If the Mesa driver submits a command buffer internally (because it's
-> full),
-> > it doesn't wait, so the GFX pipeline doesn't notice that a command buff=
-er
-> > ended and a new one started.
-> >
-> > The waiting at the end of command buffers happens only when the flush i=
-s
-> > external (Swap buffers, glFlush).
-> >
-> > It's a performance problem, because the GFX queue is blocked until the
-> GFX
-> > pipeline is drained at the end of every frame at least.
-> >
-> > So explicit fences for SwapBuffers would help.
->
-> Not sure what difference it would make, since the same thing needs to be
-> done for explicit fences as well, doesn't it?
->
 
-No. Explicit fences don't require userspace to wait for idle in the command
-buffer. Fences are signalled when the last draw is complete and caches are
-flushed. Before that happens, any command buffer that is not dependent on
-the fence can start execution. There is never a need for the GPU to be idle
-if there is enough independent work to do.
-
-Marek
-
---00000000000079165e05a0fd11da
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"></div><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Mon, Mar 16, 2020 at 5:57 AM Michel D=C3=
-=A4nzer &lt;<a href=3D"mailto:michel@daenzer.net" target=3D"_blank">michel@=
-daenzer.net</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On 2020-03-16 4:50 a.m., Marek Ol=C5=A1=C3=A1k wrote:<br>
-&gt; The synchronization works because the Mesa driver waits for idle (drai=
-ns<br>
-&gt; the GFX pipeline) at the end of command buffers and there is only 1<br=
->
-&gt; graphics queue, so everything is ordered.<br>
-&gt; <br>
-&gt; The GFX pipeline runs asynchronously to the command buffer, meaning th=
-e<br>
-&gt; command buffer only starts draws and doesn&#39;t wait for completion. =
-If the<br>
-&gt; Mesa driver didn&#39;t wait at the end of the command buffer, the comm=
-and<br>
-&gt; buffer would finish and a different process could start execution of i=
-ts<br>
-&gt; own command buffer while shaders of the previous process are still run=
-ning.<br>
-&gt; <br>
-&gt; If the Mesa driver submits a command buffer internally (because it&#39=
-;s full),<br>
-&gt; it doesn&#39;t wait, so the GFX pipeline doesn&#39;t notice that a com=
-mand buffer<br>
-&gt; ended and a new one started.<br>
-&gt; <br>
-&gt; The waiting at the end of command buffers happens only when the flush =
-is<br>
-&gt; external (Swap buffers, glFlush).<br>
-&gt; <br>
-&gt; It&#39;s a performance problem, because the GFX queue is blocked until=
- the GFX<br>
-&gt; pipeline is drained at the end of every frame at least.<br>
-&gt; <br>
-&gt; So explicit fences for SwapBuffers would help.<br>
-<br>
-Not sure what difference it would make, since the same thing needs to be<br=
->
-done for explicit fences as well, doesn&#39;t it?<br></blockquote><div><br>=
-</div><div>No. Explicit fences don&#39;t require userspace to wait for idle=
- in the command buffer. Fences are signalled when the last draw is complete=
- and caches are flushed. Before that happens, any command buffer that is no=
-t dependent on the fence can start execution. There is never a need for the=
- GPU to be idle if there is enough independent work to do.<br></div><div><b=
-r></div><div>Marek<br></div></div></div>
-
---00000000000079165e05a0fd11da--
-
---===============1916475863==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  1 -
+>   drivers/gpu/drm/nouveau/nouveau_dmem.c  | 37 -------------------------
+>   drivers/gpu/drm/nouveau/nouveau_dmem.h  |  2 --
+>   drivers/gpu/drm/nouveau/nouveau_svm.c   |  3 --
+>   include/linux/hmm.h                     |  2 --
+>   mm/hmm.c                                | 28 -------------------
+>   6 files changed, 73 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index dee446278417..90821ce5e6ca 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -776,7 +776,6 @@ struct amdgpu_ttm_tt {
+>   static const uint64_t hmm_range_flags[HMM_PFN_FLAG_MAX] = {
+>   	(1 << 0), /* HMM_PFN_VALID */
+>   	(1 << 1), /* HMM_PFN_WRITE */
+> -	0 /* HMM_PFN_DEVICE_PRIVATE */
+>   };
+>   
+>   static const uint64_t hmm_range_values[HMM_PFN_VALUE_MAX] = {
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> index 7605c4c48985..42808efceaf2 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> @@ -671,40 +671,3 @@ nouveau_dmem_migrate_vma(struct nouveau_drm *drm,
+>   out:
+>   	return ret;
+>   }
+> -
+> -static inline bool
+> -nouveau_dmem_page(struct nouveau_drm *drm, struct page *page)
+> -{
+> -	return is_device_private_page(page) && drm->dmem == page_to_dmem(page);
+> -}
+> -
+> -void
+> -nouveau_dmem_convert_pfn(struct nouveau_drm *drm,
+> -			 struct hmm_range *range)
+> -{
+> -	unsigned long i, npages;
+> -
+> -	npages = (range->end - range->start) >> PAGE_SHIFT;
+> -	for (i = 0; i < npages; ++i) {
+> -		struct page *page;
+> -		uint64_t addr;
+> -
+> -		page = hmm_device_entry_to_page(range, range->pfns[i]);
+> -		if (page == NULL)
+> -			continue;
+> -
+> -		if (!(range->pfns[i] & range->flags[HMM_PFN_DEVICE_PRIVATE])) {
+> -			continue;
+> -		}
+> -
+> -		if (!nouveau_dmem_page(drm, page)) {
+> -			WARN(1, "Some unknown device memory !\n");
+> -			range->pfns[i] = 0;
+> -			continue;
+> -		}
+> -
+> -		addr = nouveau_dmem_page_addr(page);
+> -		range->pfns[i] &= ((1UL << range->pfn_shift) - 1);
+> -		range->pfns[i] |= (addr >> PAGE_SHIFT) << range->pfn_shift;
+> -	}
+> -}
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.h b/drivers/gpu/drm/nouveau/nouveau_dmem.h
+> index 92394be5d649..1ac620b3d4fb 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.h
+> @@ -38,8 +38,6 @@ int nouveau_dmem_migrate_vma(struct nouveau_drm *drm,
+>   			     unsigned long start,
+>   			     unsigned long end);
+>   
+> -void nouveau_dmem_convert_pfn(struct nouveau_drm *drm,
+> -			      struct hmm_range *range);
+>   #else /* IS_ENABLED(CONFIG_DRM_NOUVEAU_SVM) */
+>   static inline void nouveau_dmem_init(struct nouveau_drm *drm) {}
+>   static inline void nouveau_dmem_fini(struct nouveau_drm *drm) {}
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> index df9bf1fd1bc0..7e0376dca137 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> @@ -367,7 +367,6 @@ static const u64
+>   nouveau_svm_pfn_flags[HMM_PFN_FLAG_MAX] = {
+>   	[HMM_PFN_VALID         ] = NVIF_VMM_PFNMAP_V0_V,
+>   	[HMM_PFN_WRITE         ] = NVIF_VMM_PFNMAP_V0_W,
+> -	[HMM_PFN_DEVICE_PRIVATE] = NVIF_VMM_PFNMAP_V0_VRAM,
+>   };
+>   
+>   static const u64
+> @@ -558,8 +557,6 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+>   		break;
+>   	}
+>   
+> -	nouveau_dmem_convert_pfn(drm, &range);
+> -
+>   	svmm->vmm->vmm.object.client->super = true;
+>   	ret = nvif_object_ioctl(&svmm->vmm->vmm.object, data, size, NULL);
+>   	svmm->vmm->vmm.object.client->super = false;
+> diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+> index 4bf8d6997b12..5e6034f105c3 100644
+> --- a/include/linux/hmm.h
+> +++ b/include/linux/hmm.h
+> @@ -74,7 +74,6 @@
+>    * Flags:
+>    * HMM_PFN_VALID: pfn is valid. It has, at least, read permission.
+>    * HMM_PFN_WRITE: CPU page table has write permission set
+> - * HMM_PFN_DEVICE_PRIVATE: private device memory (ZONE_DEVICE)
+>    *
+>    * The driver provides a flags array for mapping page protections to device
+>    * PTE bits. If the driver valid bit for an entry is bit 3,
+> @@ -86,7 +85,6 @@
+>   enum hmm_pfn_flag_e {
+>   	HMM_PFN_VALID = 0,
+>   	HMM_PFN_WRITE,
+> -	HMM_PFN_DEVICE_PRIVATE,
+>   	HMM_PFN_FLAG_MAX
+>   };
+>   
+> diff --git a/mm/hmm.c b/mm/hmm.c
+> index 180e398170b0..3d10485bf323 100644
+> --- a/mm/hmm.c
+> +++ b/mm/hmm.c
+> @@ -118,15 +118,6 @@ static inline void hmm_pte_need_fault(const struct hmm_vma_walk *hmm_vma_walk,
+>   	/* We aren't ask to do anything ... */
+>   	if (!(pfns & range->flags[HMM_PFN_VALID]))
+>   		return;
+> -	/* If this is device memory then only fault if explicitly requested */
+> -	if ((cpu_flags & range->flags[HMM_PFN_DEVICE_PRIVATE])) {
+> -		/* Do we fault on device memory ? */
+> -		if (pfns & range->flags[HMM_PFN_DEVICE_PRIVATE]) {
+> -			*write_fault = pfns & range->flags[HMM_PFN_WRITE];
+> -			*fault = true;
+> -		}
+> -		return;
+> -	}
+>   
+>   	/* If CPU page table is not valid then we need to fault */
+>   	*fault = !(cpu_flags & range->flags[HMM_PFN_VALID]);
+> @@ -259,25 +250,6 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+>   	if (!pte_present(pte)) {
+>   		swp_entry_t entry = pte_to_swp_entry(pte);
+>   
+> -		/*
+> -		 * This is a special swap entry, ignore migration, use
+> -		 * device and report anything else as error.
+> -		 */
+> -		if (is_device_private_entry(entry)) {
+> -			cpu_flags = range->flags[HMM_PFN_VALID] |
+> -				range->flags[HMM_PFN_DEVICE_PRIVATE];
+> -			cpu_flags |= is_write_device_private_entry(entry) ?
+> -				range->flags[HMM_PFN_WRITE] : 0;
+> -			hmm_pte_need_fault(hmm_vma_walk, orig_pfn, cpu_flags,
+> -					   &fault, &write_fault);
+> -			if (fault || write_fault)
+> -				goto fault;
+> -			*pfn = hmm_device_entry_from_pfn(range,
+> -					    swp_offset(entry));
+> -			*pfn |= cpu_flags;
+> -			return 0;
+> -		}
+> -
+>   		hmm_pte_need_fault(hmm_vma_walk, orig_pfn, 0, &fault,
+>   				   &write_fault);
+>   		if (!fault && !write_fault)
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1916475863==--
