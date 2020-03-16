@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879A61861C7
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 03:35:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BC11861CA
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 03:35:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 710876E2F9;
-	Mon, 16 Mar 2020 02:35:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 440726E320;
+	Mon, 16 Mar 2020 02:35:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0D96E31D
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 02:35:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EECF6E31D;
+ Mon, 16 Mar 2020 02:35:12 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 71F5520746;
- Mon, 16 Mar 2020 02:35:04 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6493820724;
+ Mon, 16 Mar 2020 02:35:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1584326105;
- bh=yEm+bPkEssu7lWbm5fa+e+1MSUeVRmGISf37J3P8OEY=;
+ s=default; t=1584326112;
+ bh=FZJ3xZ9ae5OurjTmaBC7YYgiX0P79dkyoFkNdoPyLZE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=w2L9gaabmJPS5vdWrsHyiyLXCBendBKY5oG/98DwJZwnA4uC0YpYreQE+tyOmbbbh
- NhGsAL2gpH6eTA4reNJeHs1lUbSLMzVBrPcWeU9e4c3K2tSKRSc6twE22qoUEHzxR7
- u4BF5hGkETx/rNieKJIuta28gGJgMeosxavUeN10=
+ b=KgrNCb4QgUVvG6oDe6AUWEYwXnOGE5jUMaBiWqiFbbYFEWHKovdJTWo8DBDJ6g43q
+ VOipWT44dYhvMa0HbCdfhqItWEdYeC98GtL8Df1z2l0ja3DwfFJSFbL1I2HAkpaCuB
+ vbmbGK3yfEtI/QpB6eLftsErZIcUTy5s2EJyMc5M=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 09/20] drm/exynos: dsi: fix workaround for the
- legacy clock name
-Date: Sun, 15 Mar 2020 22:34:42 -0400
-Message-Id: <20200316023453.1800-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 15/20] drm/amd/display: Clear link settings on
+ MST disable connector
+Date: Sun, 15 Mar 2020 22:34:48 -0400
+Message-Id: <20200316023453.1800-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200316023453.1800-1-sashal@kernel.org>
 References: <20200316023453.1800-1-sashal@kernel.org>
@@ -50,81 +50,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marek Szyprowski <m.szyprowski@samsung.com>
+From: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
 
-[ Upstream commit c0fd99d659ba5582e09625c7a985d63fc2ca74b5 ]
+[ Upstream commit 5ac7fd2f597b88ee81f4748ee50cab06192a8dc3 ]
 
-Writing to the built-in strings arrays doesn't work if driver is loaded
-as kernel module. This is also considered as a bad pattern. Fix this by
-adding a call to clk_get() with legacy clock name. This fixes following
-kernel oops if driver is loaded as module:
+[Why]
+If we have a single MST display and we disconnect it, we dont disable that
+link. This causes the old link settings to still exist
 
-Unable to handle kernel paging request at virtual address bf047978
- pgd = (ptrval)
- [bf047978] *pgd=59344811, *pte=5903c6df, *ppte=5903c65f
- Internal error: Oops: 80f [#1] SMP ARM
- Modules linked in: mc exynosdrm(+) analogix_dp rtc_s3c exynos_ppmu i2c_gpio
- CPU: 1 PID: 212 Comm: systemd-udevd Not tainted 5.6.0-rc2-next-20200219 #326
- videodev: Linux video capture interface: v2.00
- Hardware name: Samsung Exynos (Flattened Device Tree)
- PC is at exynos_dsi_probe+0x1f0/0x384 [exynosdrm]
- LR is at exynos_dsi_probe+0x1dc/0x384 [exynosdrm]
- ...
- Process systemd-udevd (pid: 212, stack limit = 0x(ptrval))
- ...
- [<bf03cf14>] (exynos_dsi_probe [exynosdrm]) from [<c09b1ca0>] (platform_drv_probe+0x6c/0xa4)
- [<c09b1ca0>] (platform_drv_probe) from [<c09afcb8>] (really_probe+0x210/0x350)
- [<c09afcb8>] (really_probe) from [<c09aff74>] (driver_probe_device+0x60/0x1a0)
- [<c09aff74>] (driver_probe_device) from [<c09b0254>] (device_driver_attach+0x58/0x60)
- [<c09b0254>] (device_driver_attach) from [<c09b02dc>] (__driver_attach+0x80/0xbc)
- [<c09b02dc>] (__driver_attach) from [<c09ade00>] (bus_for_each_dev+0x68/0xb4)
- [<c09ade00>] (bus_for_each_dev) from [<c09aefd8>] (bus_add_driver+0x130/0x1e8)
- [<c09aefd8>] (bus_add_driver) from [<c09b0d64>] (driver_register+0x78/0x110)
- [<c09b0d64>] (driver_register) from [<bf038558>] (exynos_drm_init+0xe8/0x11c [exynosdrm])
- [<bf038558>] (exynos_drm_init [exynosdrm]) from [<c0302fa8>] (do_one_initcall+0x50/0x220)
- [<c0302fa8>] (do_one_initcall) from [<c03dd02c>] (do_init_module+0x60/0x210)
- [<c03dd02c>] (do_init_module) from [<c03dbf44>] (load_module+0x1c0c/0x2310)
- [<c03dbf44>] (load_module) from [<c03dc85c>] (sys_finit_module+0xac/0xbc)
- [<c03dc85c>] (sys_finit_module) from [<c0301000>] (ret_fast_syscall+0x0/0x54)
- Exception stack(0xd979bfa8 to 0xd979bff0)
- ...
- ---[ end trace db16efe05faab470 ]---
+Now on a replug for MST we think its a link loss and will try to reallocate
+mst payload which will fail, throwing warning below.
 
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
+[  129.374192] [drm] Failed to updateMST allocation table forpipe idx:0
+[  129.374206] ------------[ cut here ]------------
+[  129.374284] WARNING: CPU: 14 PID: 1710 at
+drivers/gpu/drm/amd/amdgpu/../dal-dev/dc/core/dc_link.c:3153
+dc_link_allocate_mst_payload+0x1f7/0x220 [amdgpu]
+
+[  129.374285] Modules linked in: amdgpu(OE) amd_iommu_v2 gpu_sched ttm
+drm_kms_helper drm fb_sys_fops syscopyarea sysfillrect sysimgblt
+binfmt_misc nls_iso8859_1 edac_mce_amd snd_hda_codec_realtek
+snd_hda_codec_generic ledtrig_audio kvm snd_hda_codec_hdmi snd_hda_intel
+snd_intel_nhlt snd_hda_codec irqbypass snd_hda_core snd_hwdep snd_pcm
+snd_seq_midi snd_seq_midi_event snd_rawmidi crct10dif_pclmul snd_seq
+crc32_pclmul ghash_clmulni_intel snd_seq_device snd_timer snd aesni_intel
+eeepc_wmi crypto_simd asus_wmi joydev cryptd sparse_keymap input_leds
+soundcore video glue_helper wmi_bmof mxm_wmi k10temp ccp mac_hid
+sch_fq_codel parport_pc ppdev lp parport ip_tables x_tables autofs4
+hid_generic usbhid hid igb i2c_algo_bit ahci dca i2c_piix4 libahci
+gpio_amdpt wmi gpio_generic
+
+[  129.374318] CPU: 14 PID: 1710 Comm: kworker/14:2 Tainted: G        W  OE     5.4.0-rc7bhawan+ #480
+[  129.374318] Hardware name: System manufacturer System Product Name/PRIME X370-PRO, BIOS 0515 03/30/2017
+[  129.374397] Workqueue: events dm_irq_work_func [amdgpu]
+[  129.374468] RIP: 0010:dc_link_allocate_mst_payload+0x1f7/0x220 [amdgpu]
+[  129.374470] Code: 52 20 e8 1c 63 ad f4 48 8b 5d d0 65 48 33 1c 25 28 00
+00 00 b8 01 00 00 00 75 16 48 8d 65 d8 5b 41 5c 41 5d 41 5e 41 5f 5d c3
+<0f> 0b e9 fa fe ff ff e8 ed 5b d6 f3 41 0f b6 b6 c4 02 00 00 48 c7
+[  129.374471] RSP: 0018:ffff9f9141e7fcc0 EFLAGS: 00010246
+[  129.374472] RAX: 0000000000000000 RBX: ffff91ef0762f800 RCX: 0000000000000000
+[  129.374473] RDX: 0000000000000005 RSI: ffffffffc0c4a988 RDI: 0000000000000004
+[  129.374474] RBP: ffff9f9141e7fd10 R08: 0000000000000005 R09: 0000000000000000
+[  129.374475] R10: 0000000000000002 R11: 0000000000000001 R12: ffff91eebd510c00
+[  129.374475] R13: ffff91eebd510e58 R14: ffff91ef052c01b8 R15: 0000000000000006
+[  129.374476] FS:  0000000000000000(0000) GS:ffff91ef0ef80000(0000) knlGS:0000000000000000
+[  129.374477] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  129.374478] CR2: 000055623ea01d50 CR3: 0000000408a8c000 CR4: 00000000003406e0
+[  129.374479] Call Trace:
+[  129.374550]  dc_link_reallocate_mst_payload+0x12e/0x150 [amdgpu]
+[  129.374617]  dc_link_handle_hpd_rx_irq+0x6d4/0x6e0 [amdgpu]
+[  129.374693]  handle_hpd_rx_irq+0x77/0x310 [amdgpu]
+[  129.374768]  dm_irq_work_func+0x53/0x70 [amdgpu]
+[  129.374774]  process_one_work+0x1fd/0x3f0
+[  129.374776]  worker_thread+0x255/0x410
+[  129.374778]  kthread+0x121/0x140
+[  129.374780]  ? process_one_work+0x3f0/0x3f0
+[  129.374781]  ? kthread_park+0x90/0x90
+[  129.374785]  ret_from_fork+0x22/0x40
+
+[How]
+when we disable MST we should clear the cur link settings (lane_count=0 is
+good enough). This will cause us to not reallocate payloads earlier than
+expected and not throw the warning
+
+Signed-off-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Reviewed-by: Hersen Wu <hersenxs.wu@amd.com>
+Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index b23adce9d00a7..8d776070913da 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -1737,9 +1737,10 @@ static int exynos_dsi_probe(struct platform_device *pdev)
- 		dsi->clks[i] = devm_clk_get(dev, clk_names[i]);
- 		if (IS_ERR(dsi->clks[i])) {
- 			if (strcmp(clk_names[i], "sclk_mipi") == 0) {
--				strcpy(clk_names[i], OLD_SCLK_MIPI_CLK_NAME);
--				i--;
--				continue;
-+				dsi->clks[i] = devm_clk_get(dev,
-+							OLD_SCLK_MIPI_CLK_NAME);
-+				if (!IS_ERR(dsi->clks[i]))
-+					continue;
- 			}
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index c85bea70d9652..ad9561853d8e3 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -419,6 +419,7 @@ static void dm_dp_destroy_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
+ 		dc_link_remove_remote_sink(aconnector->dc_link, aconnector->dc_sink);
+ 		dc_sink_release(aconnector->dc_sink);
+ 		aconnector->dc_sink = NULL;
++		aconnector->dc_link->cur_link_settings.lane_count = 0;
+ 	}
  
- 			dev_info(dev, "failed to get the clock: %s\n",
+ 	drm_connector_unregister(connector);
 -- 
 2.20.1
 
