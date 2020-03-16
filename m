@@ -2,50 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5466186E5F
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 16:14:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85DB8186E73
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 16:24:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28A886E20F;
-	Mon, 16 Mar 2020 15:14:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A65F6E202;
+	Mon, 16 Mar 2020 15:24:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DAFC6E20F;
- Mon, 16 Mar 2020 15:14:17 +0000 (UTC)
-IronPort-SDR: JQjZWIqPBAg6mIhZDLf+0cIxMtsru+9d3oFUpfERRXtojuTAnexHLbX7hPJsG/3mibgsCwPzQB
- LAVGK5Euskzg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2020 08:14:16 -0700
-IronPort-SDR: SMrdSI+w47upSYJuzeWVXhH/NRV+HgwXOk6Ud/Sh2F8w0MinBcB7rAYKoAxxq9j0TzGHZ6Hr+B
- TSJzpG6GYyYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,560,1574150400"; d="scan'208";a="262705244"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga002.jf.intel.com with SMTP; 16 Mar 2020 08:14:12 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 16 Mar 2020 17:14:12 +0200
-Date: Mon, 16 Mar 2020 17:14:12 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- jani.nikula@linux.intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, airlied@linux.ie,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
- mripard@kernel.org, mihail.atanassov@arm.com,
- linux-kernel@vger.kernel.org, ankit.k.nautiyal@intel.com
-Subject: Re: [RFC][PATCH 1/5] drm: Introduce scaling filter property
-Message-ID: <20200316151412.GS13686@intel.com>
-References: <20200225070545.4482-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200225070545.4482-2-pankaj.laxminarayan.bharadiya@intel.com>
- <20200310160106.GH13686@intel.com>
- <20200316083132.GC2363188@phenom.ffwll.local>
+Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 970D06E202
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 15:24:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id B89793F6F5;
+ Mon, 16 Mar 2020 16:24:43 +0100 (CET)
+Authentication-Results: pio-pvt-msa3.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=Yxwz0OuS; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+ autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id xl9vV7p1JUBb; Mon, 16 Mar 2020 16:24:42 +0100 (CET)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35]) (Authenticated sender: mb878879)
+ by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id E48693F71B;
+ Mon, 16 Mar 2020 16:24:32 +0100 (CET)
+Received: from linlap1.host.shipmail.org (unknown [94.191.152.149])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 6659236044C;
+ Mon, 16 Mar 2020 16:24:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1584372272; bh=Zx64ANFWAXny81LonXtbdHLC72j6+QdgVCTHhsAyJ8s=;
+ h=To:Cc:From:Subject:Date:From;
+ b=Yxwz0OuSt//0A1K1nNas6YYz0cbLutJ2A146s8UquROIs1VEA4PXf7jlF3HVkj+1A
+ QK2Wm1+6D63fhGtX8rLqvBr43IXNEBbHfx9kAexW405aWoF2yxdZcic9boV7I9U89U
+ BZvockfGfJQRvFN63Ejo71HVYGaQZilUHb47cc6U=
+To: Christoph Hellwig <hch@infradead.org>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
+Subject: DMA, TTM and memory encryption
+Organization: VMware Inc.
+Message-ID: <3d2317cd-bc40-47cb-3dae-8caa80acd767@shipmail.org>
+Date: Mon, 16 Mar 2020 16:24:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200316083132.GC2363188@phenom.ffwll.local>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,79 +64,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <deathsimple@vodafone.de>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 16, 2020 at 09:31:32AM +0100, Daniel Vetter wrote:
-> On Tue, Mar 10, 2020 at 06:01:06PM +0200, Ville Syrj=E4l=E4 wrote:
-> > On Tue, Feb 25, 2020 at 12:35:41PM +0530, Pankaj Bharadiya wrote:
-> > > Introduce new scaling filter property to allow userspace to select
-> > > the driver's default scaling filter or Nearest-neighbor(NN) filter
-> > > for upscaling operations on crtc/plane.
-> > > =
+Hi, Christoph,
 
-> > > Drivers can set up this property for a plane by calling
-> > > drm_plane_enable_scaling_filter() and for a CRTC by calling
-> > > drm_crtc_enable_scaling_filter().
-> > > =
+It would be good to revisit this to see if we could set a direction for 
+supporting user-space mapping of dma-coherent memory with TTM.
 
-> > > NN filter works by filling in the missing color values in the upscaled
-> > > image with that of the coordinate-mapped nearest source pixel value.
-> > > =
+I think in the end, what TTM needs is a DMA interface similar to the one 
+outlined here:
 
-> > > NN filter for integer multiple scaling can be particularly useful for
-> > > for pixel art games that rely on sharp, blocky images to deliver their
-> > > distinctive look.
-> > > =
+https://lore.kernel.org/lkml/b811f66d-2353-23c6-c9fa-e279cdb0f832@shipmail.org/
 
-> > > Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.=
-com>
-> > > Signed-off-by: Shashank Sharma <shashank.sharma@intel.com>
-> > > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_atomic_uapi.c |  8 +++++++
-> > >  drivers/gpu/drm/drm_crtc.c        | 16 ++++++++++++++
-> > >  drivers/gpu/drm/drm_mode_config.c | 13 ++++++++++++
-> > >  drivers/gpu/drm/drm_plane.c       | 35 +++++++++++++++++++++++++++++=
-++
-> > >  include/drm/drm_crtc.h            | 10 +++++++++
-> > >  include/drm/drm_mode_config.h     |  6 ++++++
-> > >  include/drm/drm_plane.h           | 14 +++++++++++++
-> > >  7 files changed, 102 insertions(+)
-> > > =
+That could without too much effort be implemented for all architectures 
+TTM supports and also for those weird architectures you've described 
+that need special treatment, it would probably suffice with a more 
+elaborate definition of the dma_pfn_t together with the dma coherent 
+fault work you were suggesting earlier.
 
-> > > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_=
-atomic_uapi.c
-> > > index a1e5e262bae2..4e3c1f3176e4 100644
-> > > --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> > > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> > > @@ -435,6 +435,8 @@ static int drm_atomic_crtc_set_property(struct dr=
-m_crtc *crtc,
-> > >  		return ret;
-> > >  	} else if (property =3D=3D config->prop_vrr_enabled) {
-> > >  		state->vrr_enabled =3D val;
-> > > +	} else if (property =3D=3D config->scaling_filter_property) {
-> > > +		state->scaling_filter =3D val;
-> > =
+Regardless, once this patchset is in,
 
-> > I think we want a per-plane/per-crtc prop for this. If we start adding
-> > more filters we are surely going to need different sets for different hw
-> > blocks.
-> =
+https://lore.kernel.org/lkml/20200304114527.3636-1-thomas_os@shipmail.org/
 
-> In the past we've only done that once we have a demonstrated need. Usually
-> the patch to move the property to a per-object location isn't a lot of
-> churn.
+a short term solution would be to export the dma_pgprot() function and 
+have TTM use it to set the pgprot for dma-coherent memory.
 
-Seems silly to not do it from the start when we already know there is
-hardware out there that has different capabilities per hw block.
+What do you think about this?
 
--- =
+Thanks,
 
-Ville Syrj=E4l=E4
-Intel
+Thomas
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
