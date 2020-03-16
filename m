@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42F31865D3
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 08:44:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CEB21865F3
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 08:52:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4106D6E0DB;
-	Mon, 16 Mar 2020 07:44:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1837089895;
+	Mon, 16 Mar 2020 07:52:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 301FA6E0DB
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 07:44:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584344652;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9+Ca7nx06WVVrHXuOF/wYuoPrpxcujp2mFndSp4vTV8=;
- b=TlM0MvRFnPR+jxu8fA4THxIXkzSy6JvsGIE+l0uQjueRzUAOce3jjWt8XpwADDvGE1D9Ff
- KZuAV0jnn8q+2TevKM9dnJ0zAAy3Dow0wcvy+RHYY8uYLkhDa16Y60r4LegCtFoKpr+F0X
- WSJCHC9fc1A25Dklxud1Lz70p9sLJwY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-ci0cghDfMBCDG84UXl9etQ-1; Mon, 16 Mar 2020 03:44:08 -0400
-X-MC-Unique: ci0cghDfMBCDG84UXl9etQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3250718C43C4;
- Mon, 16 Mar 2020 07:44:07 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
- [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F17B4907F9;
- Mon, 16 Mar 2020 07:44:05 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9055C9D12; Mon, 16 Mar 2020 08:44:04 +0100 (CET)
-Date: Mon, 16 Mar 2020 08:44:04 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Chia-I Wu <olvaffe@gmail.com>
-Subject: Re: [RFC PATCH 0/8] *** Per context fencing ***
-Message-ID: <20200316074404.z4xbta6qyrm74oxo@sirius.home.kraxel.org>
-References: <20200310010818.569-1-gurchetansingh@chromium.org>
- <20200310074302.yx6anlvqvsg37yzs@sirius.home.kraxel.org>
- <CAAfnVB=sw=u80mHnZUPf_+WDW-hGNTDSBWLfV+7y3KFN=s6beQ@mail.gmail.com>
- <20200311103609.ei446gelkvbqrdzm@sirius.home.kraxel.org>
- <CAAfnVBm1eoGZY7yB8eqEC1eLk=v4dq--O2biQOnWDHCkmguOeA@mail.gmail.com>
- <20200312092940.xioyjloil3f25ccv@sirius.home.kraxel.org>
- <CAAfnVBkTWy2pohv5kWWYwAa1yq14fRJrtN4GD7sF-h4inabH6Q@mail.gmail.com>
- <CAPaKu7SgkdBaFcDU1O7T+mMyzqO5iR8qYJxFJmcYGp_Hfe3S0g@mail.gmail.com>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DDF389895
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 07:52:04 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02G7pVFU121421;
+ Mon, 16 Mar 2020 02:51:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1584345091;
+ bh=tUIWeE6wTF7kCSGUpgk9HSr6sbbooooEIteBm0rJUOU=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=oNuENwEVVlOwGWmecnzyywBUjXG5rMGYbA9JQcNA0MgB0TUGOUyQMa5x0AUKjd6AF
+ TgnEOsGtgg+9XBrzjjQg2/Aze1e/MqRCgtqOMEjPRNtVGpUwlz8Jo115JvpeIG93Lz
+ /PpOQZw5XXYirRN6mG38Wobs92qC5f4TBRxF+Km4=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02G7pVYL028172
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 16 Mar 2020 02:51:31 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 16
+ Mar 2020 02:51:30 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 16 Mar 2020 02:51:30 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02G7pN07077415;
+ Mon, 16 Mar 2020 02:51:23 -0500
+Subject: Re: [PATCH v1 17/36] dt-bindings: display: convert
+ osddisplays,osd101t2587-53ts to DT Schema
+To: Sam Ravnborg <sam@ravnborg.org>, <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Rob Herring <robh@kernel.org>, <devicetree@vger.kernel.org>
+References: <20200315134416.16527-1-sam@ravnborg.org>
+ <20200315134416.16527-18-sam@ravnborg.org>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <9c5cba3a-ff9e-dad9-fbdf-d6a9a4431aa6@ti.com>
+Date: Mon, 16 Mar 2020 09:51:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <CAPaKu7SgkdBaFcDU1O7T+mMyzqO5iR8qYJxFJmcYGp_Hfe3S0g@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+In-Reply-To: <20200315134416.16527-18-sam@ravnborg.org>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,47 +65,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chad Versace <chadversary@chromium.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- David Stevens <stevensd@chromium.org>, John Bates <jbates@chromium.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
+ Sandeep Panda <spanda@codeaurora.org>, Paul Cercueil <paul@crapouillou.net>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
+ Stefan Mavrodiev <stefan@olimex.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
+ Nickey Yang <nickey.yang@rock-chips.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
+ Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
+ Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
+ Guido Gunther <agx@sigxcpu.org>, Mark Brown <broonie@kernel.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Werner Johansson <werner.johansson@sonymobile.com>,
+ Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
+ linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
-
-> >> At virtio level it is pretty simple:  The host completes the SUBMIT_3D
-> >> virtio command when it finished rendering, period.
-> >>
-> >>
-> >> On the guest side we don't need the fence_id.  The completion callback
-> >> gets passed the virtio_gpu_vbuffer, so it can figure which command did
-> >> actually complete without looking at virtio_gpu_ctrl_hdr->fence_id.
-> >>
-> >> On the host side we depend on the fence_id right now, but only because
-> >> that is the way the virgl_renderer_callbacks->write_fence interface is
-> >> designed.  We have to change that anyway for per-context (or whatever)
-> >> fences, so it should not be a problem to drop the fence_id dependency
-> >> too and just pass around an opaque pointer instead.
+On 15/03/2020 15:43, Sam Ravnborg wrote:
+> osddisplays,osd101t2587-53ts is compatible with panel-simple binding,
+> so list the compatible in the panel-simple binding file.
 > 
-> I am still catching up, but IIUC, indeed I don't think the host needs
-> to depend on fence_id.  We should be able to repurpose fence_id.
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Peter Ujfalusi <peter.ujfalusi@ti.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>   .../display/panel/osddisplays,osd101t2587-53ts.txt | 14 --------------
+>   .../bindings/display/panel/panel-simple.yaml       |  2 ++
+>   2 files changed, 2 insertions(+), 14 deletions(-)
+>   delete mode 100644 Documentation/devicetree/bindings/display/panel/osddisplays,osd101t2587-53ts.txt
 
-I'd rather ignore it altogether for FENCE_V2 (or whatever we call the
-feature flag).
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-> On the other hand, the VIRTIO_GPU_FLAG_FENCE flag is interesting, and
-> it indicates that the vbuf is on the host GPU timeline instead of the
-> host CPU timeline.
+  Tomi
 
-Yep, we have to keep that (unless we do command completion on GPU
-timeline unconditionally with FENCE_V2).
-
-cheers,
-  Gerd
-
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
