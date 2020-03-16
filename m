@@ -1,99 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1649186811
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 10:41:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 767F418682D
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 10:50:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D18736E3B0;
-	Mon, 16 Mar 2020 09:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E1126E3B2;
+	Mon, 16 Mar 2020 09:50:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2040.outbound.protection.outlook.com [40.107.92.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35EDE6E3B0;
- Mon, 16 Mar 2020 09:41:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J3BWMDmUQNSZYM0FNTzsfYX9g9INCvUuA5V+1llH1TrUyGDeHVJaJq4LaGRbpHTb+5dXo235wIebeFnSAQg+ZbIniLmVEnBYfJp2amBSGR9akgZ2ZUWpT1f7KxE9IhweHYayIO+TdIRJ8tvx+rdK0hfta+SAsuWkru/3VNXQqSr2zww52pyLaNQp2R3Q81Po27xppeMzMwM6sSGzwNRuoAIy02SgkDcAE4BmzMF47Lca7JTvGYd5LiuL7sh3AQ/jIsOXO/4pLFTvIh/RP7OBUxSnNzN1ufGHoMtxhPwsqFAzejAvbbubwYRYVxB58TWQXwKF5fBsUbwNL7pXwZe9qA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tE/ehu1roYRqkIQBrMNoQ+RZ2LuRlp/+thwnapVYCeg=;
- b=Zb9KIfEYn9CIeDpcM3xl5edi4QRKZsYMXzz+7qrSvOOHR5ZOUI2lIQYGWPpamNJbjtSSORUhrBAoxGjVNDdLHLG/Zf/j33CIKrJwzWu4+xDVPJ+2HfmdaazDOIYPTlBosDyzm1dFDczVrKrq9z1MIlqRm4K5aAX3QR0c/JvSuqWzaGm3+3mjI+Tm/zkSEgBtG6uEYfyBBLzvYHdLoeGylMBdq0HmP9iXpOwqOL5ODabLlHKF8dmACVvtcBE1Xp8Vrta9ayUj3eD4cZqM+hfSk91EJJ+C/a6qEz/aqGBfy2iJgDLEjCXNDVRSyU2hTy3alHVnKCoIeOQBqfVVNHREQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tE/ehu1roYRqkIQBrMNoQ+RZ2LuRlp/+thwnapVYCeg=;
- b=M3W9OCYujWN6GtXOl4JkmRIbitsCUAWAcEGbel8zWE1LQhKsMPKMSJKpCN58Lwrfa4Wr9vWPDFwRoCUvgTCU0W//15AG9bZ4AQfxqId9gwz9Ib0vI4jmRZrTvnS/v8Efr5f0lumaoYt7gcIQzcIQdegeYqK12OapFQxzK7W8IFs=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-Received: from DM5PR12MB1578.namprd12.prod.outlook.com (2603:10b6:4:e::7) by
- DM5PR12MB1593.namprd12.prod.outlook.com (2603:10b6:4:10::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2814.13; Mon, 16 Mar 2020 09:41:48 +0000
-Received: from DM5PR12MB1578.namprd12.prod.outlook.com
- ([fe80::50f0:a148:4f52:701f]) by DM5PR12MB1578.namprd12.prod.outlook.com
- ([fe80::50f0:a148:4f52:701f%11]) with mapi id 15.20.2814.021; Mon, 16 Mar
- 2020 09:41:48 +0000
-Subject: Re: [PATCH 1/6] lib/scatterlist: add sg_set_dma_addr() function
-To: Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>
-References: <20200311135158.3310-1-christian.koenig@amd.com>
- <20200311135158.3310-2-christian.koenig@amd.com>
- <20200311152838.GA24280@infradead.org>
- <f2b46f49-a8d0-9d43-3120-e1ed36fc3a80@gmail.com>
- <20200312101943.GA14618@infradead.org>
- <b5db44eb-1dde-1671-feb0-9e47d120f172@amd.com>
- <20200312104729.GA26031@infradead.org> <20200312141928.GK31668@ziepe.ca>
- <20200313112139.GA4913@infradead.org> <20200313121742.GZ31668@ziepe.ca>
- <20200316085642.GC1831@infradead.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <eb567569-426a-0845-b443-a20155897705@amd.com>
-Date: Mon, 16 Mar 2020 10:41:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <20200316085642.GC1831@infradead.org>
-Content-Language: en-US
-X-ClientProxiedBy: AM4PR07CA0031.eurprd07.prod.outlook.com
- (2603:10a6:205:1::44) To DM5PR12MB1578.namprd12.prod.outlook.com
- (2603:10b6:4:e::7)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1B606E3B2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 09:50:11 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id t2so10246065wrx.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 02:50:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=ERTY/dO2K1SPKjMbktdMeysHG0XO9+huCKvmnpNOLJI=;
+ b=ibTHYW+ifSOK/LTwiOq9PvvBipE99KOth2lQwB2NBbuHnYCQ/NlKS7NdOgfiitP9Tq
+ woUhVB3QTfB09JULKmuFEYCYBDCGqSp1vXFLBUFiLq7vXw0x41Q53oQG0oOLLcEwBghC
+ iPXOUGNazW7XgLId9HV2Cylcj4oKabBf930Vs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=ERTY/dO2K1SPKjMbktdMeysHG0XO9+huCKvmnpNOLJI=;
+ b=LJCJkQz1KHzFIPqReUkAuXgM2pSTtyLUY9wIb9lTFrPKPzlKO9fre8ARgBHIHiH1e7
+ KWbcuHVNwQqufv1Dwlm1wFYq5j9g1ExZY0jlREyz46pY/8lsCXuOhyLClT2gb/GuSs3g
+ Cp0iDD2wxiLcCS1A54GuZDnSToFPMEyO2MX27c7Xpq6q9m4bPBMkNuZmnuEk0bc1L2nQ
+ +/+KbTJGH2fLn2V2v79HSQ+hPyTQHifHfLrjQB2SjfxPxuOjCrDdfUKiPYvHvtrlsDkJ
+ rkaVRZcSkbrBELLZbcdBhrvTccRd0BBVZVwjl4XVPBlO6G2RabR6aygSAySjHdaX0z9Y
+ X+fQ==
+X-Gm-Message-State: ANhLgQ3hsvho2u9HmT5QK1WXFYxmxN7eNBKK+TIH/uWLRH7a1VRWSBBs
+ 427ZppdofgbGWuW6Sw6UGYg8vQ==
+X-Google-Smtp-Source: ADFU+vtGDKyYyg/j1KSDufUqygL0smsKl8gN9P6w7ZHoyArqQzjHnMTkautF3tAyQ2ZQ3DB2aaFDeg==
+X-Received: by 2002:a5d:6ca7:: with SMTP id a7mr17894725wra.157.1584352210573; 
+ Mon, 16 Mar 2020 02:50:10 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id x6sm6531641wrm.29.2020.03.16.02.50.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Mar 2020 02:50:09 -0700 (PDT)
+Date: Mon, 16 Mar 2020 10:50:07 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Joe Perches <joe@perches.com>
+Subject: Re: [Intel-gfx] [PATCH] MAINTAINERS: adjust to reservation.h renaming
+Message-ID: <20200316095007.GI2363188@phenom.ffwll.local>
+Mail-Followup-To: Joe Perches <joe@perches.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sebastian Duda <sebastian.duda@fau.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+References: <20200304120711.12117-1-lukas.bulwahn@gmail.com>
+ <b0296e3a-31f8-635a-f26d-8b0bc490aae3@amd.com>
+ <20200306103946.GT2363188@phenom.ffwll.local>
+ <155f99baffe11836fc9d794ff297bdcee7831050.camel@perches.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM4PR07CA0031.eurprd07.prod.outlook.com (2603:10a6:205:1::44) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.12 via Frontend Transport; Mon, 16 Mar 2020 09:41:46 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d3f1327c-a7c8-4225-4309-08d7c98e3f56
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1593:|DM5PR12MB1593:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB15933899057C5EF833D5E53D83F90@DM5PR12MB1593.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 03449D5DD1
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(366004)(136003)(39860400002)(346002)(376002)(199004)(2616005)(110136005)(5660300002)(4326008)(31686004)(2906002)(52116002)(186003)(16526019)(316002)(36756003)(6666004)(478600001)(8936002)(31696002)(81166006)(66476007)(81156014)(8676002)(86362001)(66946007)(6486002)(66556008);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1593;
- H:DM5PR12MB1578.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4CuLZSlaTdMeSayUaDNpWYMGYQ4Koo8AMZ7G8vkTDQYFW8J/jFj6Qa5uVCRBYcEfNr+AJJ8xtw3OJNvgUrQlHYVVU8BRu7D+pQnkekGwlkhDj03sucbyWZzktGQ/ktENFiQmMVmIJNYZsD6936fG91Rmn45Ue69b0kNPsY0f8B07u1LglZTF625blOIyh5M3DXIgDoY6b52GiZxqW0gFAKM6/+yMGu4EgVIYbNlix5riWy8k306ORIuaC9JnYJp3x8px7utAWRsi8LKl+gvBBFXaFwc39SZLrwyErfla5QLL2IpMu3MGIxlWM6ToAuBwVLj91EH6mbiOyGYDXSLucK+VJr2zwIG+TRuafwmLp7yLeXxBoiqao68cp3itedkYfJsMwNd6WQ3C0rk3QpxZRYnzi90LlZh0LbxrZYwB8WjEgtigQVJKmgL0Td2CxRKm
-X-MS-Exchange-AntiSpam-MessageData: D3I2axjs0aokLlh64gy5DIOCMwyZld//r8xbziSbaBLahNsWmG2sy4jel3uOJ8qk5OBCYkgut+CDCmb4fpvsQcwcm9ABgfoVhGQNRQFLUP6Ed2I4PU3fw5nGou+O/w7pDF4fobSVL9vuoUdP3NoO/aLz2wUnxKZ62+3TVRMyt/qd+m12x0vU/75g9TvZNCAbGmQY1jsC9S5c8dnb4l1hGQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3f1327c-a7c8-4225-4309-08d7c98e3f56
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2020 09:41:48.5949 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sSzmZQjxDdLhuiMuSaU4W38H3Kh7ZveDP5R3q9shkPYhMIHo6IxQ/bAqRoRjRUGg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1593
+Content-Disposition: inline
+In-Reply-To: <155f99baffe11836fc9d794ff297bdcee7831050.camel@perches.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,48 +75,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Logan Gunthorpe <logang@deltatee.com>,
+Cc: intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Sebastian Duda <sebastian.duda@fau.de>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  linux-media@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 16.03.20 um 09:56 schrieb Christoph Hellwig:
-> On Fri, Mar 13, 2020 at 09:17:42AM -0300, Jason Gunthorpe wrote:
->> On Fri, Mar 13, 2020 at 04:21:39AM -0700, Christoph Hellwig wrote:
->>> On Thu, Mar 12, 2020 at 11:19:28AM -0300, Jason Gunthorpe wrote:
->>>> The non-page scatterlist is also a big concern for RDMA as we have
->>>> drivers that want the page list, so even if we did as this series
->>>> contemplates I'd have still have to split the drivers and create the
->>>> notion of a dma-only SGL.
->>> The drivers I looked at want a list of IOVA address, aligned to the
->>> device "page size".  What other data do drivers want?  Execept for the
->>> software protocol stack drivers, which of couse need pages for the
->>> stack futher down.
->> In principle it is possible to have just an aligned page list -
->> however the page size is variable, following certain rules, and today
->> the drivers still determine the correct page size largely on their
->> own.
->>
->> Some progress was made recently to consolidate this, but more is
->> needed.
->>
->> If the common code doesn't know the device page size in advance then
->> today's approach of sending largest possible dma mapped SGLs into the
->> device driver is best. The driver only has to do splitting.
-> The point was that drivers don't need pages, drivers need IOVAs.  In
-> what form they are stuffed into the hardware is the drivers problem.
+On Fri, Mar 06, 2020 at 02:56:06AM -0800, Joe Perches wrote:
+> On Fri, 2020-03-06 at 11:39 +0100, Daniel Vetter wrote:
+> > On Wed, Mar 04, 2020 at 01:08:32PM +0100, Christian K=F6nig wrote:
+> > > Am 04.03.20 um 13:07 schrieb Lukas Bulwahn:
+> > > > Commit 52791eeec1d9 ("dma-buf: rename reservation_object to dma_res=
+v")
+> > > > renamed include/linux/reservation.h to include/linux/dma-resv.h, but
+> > > > missed the reference in the MAINTAINERS entry.
+> > > > =
 
-Well I would prefer if the drivers can somehow express their 
-requirements and get IOVA structures already in the form they need.
+> > > > Since then, ./scripts/get_maintainer.pl --self-test complains:
+> > > > =
 
-Converting the IOVA data from one form to another is sometimes quite 
-costly. Especially when it is only temporarily needed.
+> > > >    warning: no file matches F: include/linux/reservation.h
+> > > > =
 
-Regards,
-Christian.
+> > > > Adjust the DMA BUFFER SHARING FRAMEWORK entry in MAINTAINERS.
+> > > > =
+
+> > > > Co-developed-by: Sebastian Duda <sebastian.duda@fau.de>
+> > > > Signed-off-by: Sebastian Duda <sebastian.duda@fau.de>
+> > > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > > =
+
+> > > Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
+> > =
+
+> > You'll push this too?
+> > -Daniel
+> > =
+
+> > > > ---
+> > > > Christian, please pick this patch.
+> > > > applies cleanly on current master and next-20200303
+> > > > =
+
+> > > >   MAINTAINERS | 2 +-
+> > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > =
+
+> > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > index 6158a143a13e..3d6cb2789c9e 100644
+> > > > --- a/MAINTAINERS
+> > > > +++ b/MAINTAINERS
+> > > > @@ -5022,7 +5022,7 @@ L:	dri-devel@lists.freedesktop.org
+> > > >   L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
+> > > >   F:	drivers/dma-buf/
+> > > >   F:	include/linux/dma-buf*
+> > > > -F:	include/linux/reservation.h
+> > > > +F:	include/linux/dma-resv.h
+> > > >   F:	include/linux/*fence.h
+> > > >   F:	Documentation/driver-api/dma-buf.rst
+> > > >   K:	dma_(buf|fence|resv)
+> =
+
+> Slightly unrelated:
+> =
+
+> The K: entry matches a lot of other things
+> and may have a lot of false positive matches
+> like any variable named dma_buffer
+> =
+
+> This should also use (?:...) to avoid a perl
+> capture group.
+> =
+
+> Perhaps:
+> =
+
+> K:	'\bdma_(?:buf|fence|resv)\b'
+
+Hm either people aren't using get_maintainers.pl consistently, or it
+doesn't seem to be a real world problem. I'm not seeing any unrelated
+patches on dri-devel at least.
+
+But happy to merge such a patch if it shows up ofc, it's definitely the
+more correct thing :-)
+-Daniel
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
