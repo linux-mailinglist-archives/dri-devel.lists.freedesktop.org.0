@@ -1,53 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9F0188738
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:17:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E27B718872E
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:17:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D32D6E5A0;
-	Tue, 17 Mar 2020 14:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F6756E217;
+	Tue, 17 Mar 2020 14:16:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
- [IPv6:2607:f8b0:4864:20::d44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F8086E22D
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 21:08:42 +0000 (UTC)
-Received: by mail-io1-xd44.google.com with SMTP id v3so8559182iot.11
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 14:08:42 -0700 (PDT)
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63F4F6E33C
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 21:17:04 +0000 (UTC)
+Received: by mail-qt1-x842.google.com with SMTP id f17so14324340qtq.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 14:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=wo/9APspSS4rS8U7tPjTfOlMhhXQoedRA6pFf3mKLzc=;
- b=gvXxxq4eLbgX/cPLAsiokviC3qVCimOU3/1nAMTvGdeDxSt+Cc76u4X6EBYePwHGQe
- 8YfPVXYkdv6iQeuvkBLtbc2X9Rckcj8geo7gjvS2ZduAZh5A6B3LSvwXFfeDHXOdx3CR
- MTIQKrXrVUOsTI2emQVK3kRMLLGWfu45536CYGCWy87/MUrYPXfH6zhkolsji+HA0zBM
- fDItfoTymm7Ysd+lM7JofWVHmyfqa202ZNhSPN6vG1VAwHR2LbjLWuQoSX9xX5TJDNt6
- 8++1rWrtVuX4oGNcA/jgCrAUd0tY9+Alz5YCIKlsPHFbdU4M11rIWjvQkbb8I708p7i+
- ZctA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6FuZZoVTFoFF+1kD/gUu0wVHL7she4RE1ISWVv5X9/Y=;
+ b=vS3P/SI72Ul6DR1lMgGssHto6g2grnX9qlthgAH3MQfmuXC8X32mBEV5vRMILYFoOq
+ 4onAUSdTQuBwhU0RuSci5/PTf1r4JBaUP8Pw0DyYOWja6pAkXMATZKnLyjyFZEGi+GA/
+ eCDQlvBCRoEzFSHEzjyIod/Hajg3WiKRzy1Y3Ojd8TGeVi2RTyLkv2JxJXW+vsx5GDYY
+ WNg2Xvb6E7w7rb+ylM+6oO9aGCkI3rJhKrXAXeRNMiFn7ivrSzDCkzvRnvwc/qzEBWn0
+ IBtQ02xNfhoR+D4fAsK7NATVfiG+qj8CTzFQe2nPxlmTI1GBmzEoljvP0picHIgld4qx
+ JMkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=wo/9APspSS4rS8U7tPjTfOlMhhXQoedRA6pFf3mKLzc=;
- b=rdCeDW9YjOHgrhhZk/YGipy+PsNsvCWHPsBPczZS7IDbSy3FBXR8C/QL77zwLx/PVw
- khJz5SxVBicvyJ7TMpB3alEJOHxUeRYwFmssy//T5IteZVQ7/4xVgjsucymrM9nUSRpd
- UeIH8jGyCRxqqBZgzY5AKGbRnUFV/OpFLqALcQiTs4fIxJonAoZTbUS7Y5EpnLariFeW
- WOOttMcP8gMudlXRTAtwKifyXsicLbJlFyPtAAYCnQuO2x1se24ksV67eabP+uXjp9eW
- /DppJXMwYzIB+2IlQJi0n+e822na8trcAMqWmHQ9T2w+9q96z1HLEGY7qs7v4vkvc3KA
- s+jA==
-X-Gm-Message-State: ANhLgQ19uN2xDm8rr32y0KibzO7ocmCKPUbcFKafx4j0tgqYgOE1I4HW
- oH1HwTAJv6Lgu2Xdr1L70UpS35kwUYXcz/5elGPQqOqXW80=
-X-Google-Smtp-Source: ADFU+vtnZS1z06s/sRuSr1sqUdpn/OyTwqxSSRSKz51wBJptlzst9Dfi44pbvpSf+iOwfm2xByQ5ShW5wxTMT2xD1nM=
-X-Received: by 2002:a02:7b13:: with SMTP id q19mr1823904jac.73.1584392921533; 
- Mon, 16 Mar 2020 14:08:41 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6FuZZoVTFoFF+1kD/gUu0wVHL7she4RE1ISWVv5X9/Y=;
+ b=h+dLpGz85pZzWQ9GG8BG+AARE7/IQgSjpAyQeQcPc6dt7i458m/cQSN7eIlp8iMh40
+ IcDyBVXF7lhJee1xJ7rkfCn5RF2PPTIFaJEminTCmqS3Fz7JVrrE4cEmXsFsp91znELh
+ 4n9a2GI7q9zXpx5QAzWPsFxigqRqaaFx2rpBhDHanE3uEZYKDRHtvbiuTo9IfcxuYVoC
+ tT+kUmVatVrWnyTepw0Mn7832jf0jIRtwy1TekDZzfzjMyHn3plPMVcIp4JJWrn5q7D7
+ IRFnLTKccveICYPaPwUc9BL/eodbgPaSOrtayb820XnHGCdrdKScTZc3fFJxcOJMB3XC
+ 23HA==
+X-Gm-Message-State: ANhLgQ0sgx2CCHOwFZgHuklFDfuPnP4p5cnyLiVP2vBcTlLBPwa5M14V
+ Osz2y1dt0ciJM0poDWEoB2U=
+X-Google-Smtp-Source: ADFU+vvhoV+Um0FzZrMDfLcuJCaJUEsDuGqA2Mhz9ejyhF6zsDn0DKV3vmnWwROYKPClMo1LTYQOsA==
+X-Received: by 2002:ac8:481a:: with SMTP id g26mr2174747qtq.267.1584393423506; 
+ Mon, 16 Mar 2020 14:17:03 -0700 (PDT)
+Received: from localhost.localdomain ([179.159.236.147])
+ by smtp.googlemail.com with ESMTPSA id p23sm579055qkm.39.2020.03.16.14.17.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Mar 2020 14:17:02 -0700 (PDT)
+From: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run,
+ airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Staging: drm_gem: Fix a misaligned comment block
+Date: Mon, 16 Mar 2020 18:15:53 -0300
+Message-Id: <20200316211553.2506-1-igormtorrente@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200316210413.2321-1-igormtorrente@gmail.com>
-In-Reply-To: <20200316210413.2321-1-igormtorrente@gmail.com>
-From: Igor Torrente <igormtorrente@gmail.com>
-Date: Mon, 16 Mar 2020 18:08:30 -0300
-Message-ID: <CAOA8r4HieupER-gW4BU9U8YYC+6eLkSzoS2z-KRrbq4XZb40Ww@mail.gmail.com>
-Subject: Fwd: [PATCH] Staging: drm_gem: Fix a typo in a function comment
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailman-Approved-At: Tue, 17 Mar 2020 14:16:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,118 +67,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0244567273=="
+Cc: andrealmeid@collabora.com, Rodrigo.Siqueira@amd.com,
+ rodrigosiqueiramelo@gmail.com,
+ Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0244567273==
-Content-Type: multipart/alternative; boundary="00000000000045d1e805a0ff393d"
-
---00000000000045d1e805a0ff393d
-Content-Type: text/plain; charset="UTF-8"
-
-Ccing dri-devel and linux-kernel.
-
----------- Forwarded message ---------
-From: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-Date: Mon, Mar 16, 2020 at 6:04 PM
-Subject: [PATCH] Staging: drm_gem: Fix a typo in a function comment
-To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
-<sean@poorly.run>, <airlied@linux.ie>, <daniel@ffwll.ch>, <
-sumit.semwal@linaro.org>
-Cc: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>, <
-Rodrigo.Siqueira@amd.com>, <rodrigosiqueiramelo@gmail.com>, <
-andrealmeid@collabora.com>
-
-
-Replace "pionter" with "pointer" in the
-drm_gem_handle_create description.
+Fix a checkpatch warning caused by a misaligned comment block.
 
 Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 ---
- drivers/gpu/drm/drm_gem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_gem.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 6e960d57371e..c356379f5e97 100644
+index 000fa4a1899f..6e960d57371e 100644
 --- a/drivers/gpu/drm/drm_gem.c
 +++ b/drivers/gpu/drm/drm_gem.c
-@@ -432,7 +432,7 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
-  * drm_gem_handle_create - create a gem handle for an object
-  * @file_priv: drm file-private structure to register the handle for
-  * @obj: object to register
-- * @handlep: pionter to return the created handle to the caller
-+ * @handlep: pointer to return the created handle to the caller
-  *
-  * Create a handle for this object. This adds a handle reference to the
-object,
-  * which includes a regular reference count. Callers will likely want to
+@@ -222,10 +222,10 @@ drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+ 		return;
+ 
+ 	/*
+-	* Must bump handle count first as this may be the last
+-	* ref, in which case the object would disappear before we
+-	* checked for a name
+-	*/
++	 * Must bump handle count first as this may be the last
++	 * ref, in which case the object would disappear before we
++	 * checked for a name
++	 */
+ 
+ 	mutex_lock(&dev->object_name_lock);
+ 	if (--obj->handle_count == 0) {
 -- 
 2.20.1
-
---00000000000045d1e805a0ff393d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Ccing dri-devel and linux-kernel.<br><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">---------- Forwarded messag=
-e ---------<br>From: <b class=3D"gmail_sendername" dir=3D"auto">Igor Matheu=
-s Andrade Torrente</b> <span dir=3D"auto">&lt;<a href=3D"mailto:igormtorren=
-te@gmail.com">igormtorrente@gmail.com</a>&gt;</span><br>Date: Mon, Mar 16, =
-2020 at 6:04 PM<br>Subject: [PATCH] Staging: drm_gem: Fix a typo in a funct=
-ion comment<br>To:  &lt;<a href=3D"mailto:maarten.lankhorst@linux.intel.com=
-">maarten.lankhorst@linux.intel.com</a>&gt;,  &lt;<a href=3D"mailto:mripard=
-@kernel.org">mripard@kernel.org</a>&gt;,  &lt;sean@poorly.run&gt;,  &lt;<a =
-href=3D"mailto:airlied@linux.ie">airlied@linux.ie</a>&gt;,  &lt;<a href=3D"=
-mailto:daniel@ffwll.ch">daniel@ffwll.ch</a>&gt;,  &lt;<a href=3D"mailto:sum=
-it.semwal@linaro.org">sumit.semwal@linaro.org</a>&gt;<br>Cc: Igor Matheus A=
-ndrade Torrente &lt;<a href=3D"mailto:igormtorrente@gmail.com">igormtorrent=
-e@gmail.com</a>&gt;,  &lt;<a href=3D"mailto:Rodrigo.Siqueira@amd.com">Rodri=
-go.Siqueira@amd.com</a>&gt;,  &lt;<a href=3D"mailto:rodrigosiqueiramelo@gma=
-il.com">rodrigosiqueiramelo@gmail.com</a>&gt;,  &lt;<a href=3D"mailto:andre=
-almeid@collabora.com">andrealmeid@collabora.com</a>&gt;<br></div><br><br>Re=
-place &quot;pionter&quot; with &quot;pointer&quot; in the<br>
-drm_gem_handle_create description.<br>
-<br>
-Signed-off-by: Igor Matheus Andrade Torrente &lt;<a href=3D"mailto:igormtor=
-rente@gmail.com" target=3D"_blank">igormtorrente@gmail.com</a>&gt;<br>
----<br>
-=C2=A0drivers/gpu/drm/drm_gem.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c<br>
-index 6e960d57371e..c356379f5e97 100644<br>
---- a/drivers/gpu/drm/drm_gem.c<br>
-+++ b/drivers/gpu/drm/drm_gem.c<br>
-@@ -432,7 +432,7 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,<=
-br>
-=C2=A0 * drm_gem_handle_create - create a gem handle for an object<br>
-=C2=A0 * @file_priv: drm file-private structure to register the handle for<=
-br>
-=C2=A0 * @obj: object to register<br>
-- * @handlep: pionter to return the created handle to the caller<br>
-+ * @handlep: pointer to return the created handle to the caller<br>
-=C2=A0 *<br>
-=C2=A0 * Create a handle for this object. This adds a handle reference to t=
-he object,<br>
-=C2=A0 * which includes a regular reference count. Callers will likely want=
- to<br>
--- <br>
-2.20.1<br>
-<br>
-</div></div>
-
---00000000000045d1e805a0ff393d--
-
---===============0244567273==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0244567273==--
