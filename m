@@ -2,60 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118BA187290
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 19:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D42A1872D9
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Mar 2020 19:57:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25D0989F6D;
-	Mon, 16 Mar 2020 18:42:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC186E49F;
+	Mon, 16 Mar 2020 18:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A110389FD4;
- Mon, 16 Mar 2020 18:42:43 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e6fc8950001>; Mon, 16 Mar 2020 11:42:29 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Mon, 16 Mar 2020 11:42:42 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Mon, 16 Mar 2020 11:42:42 -0700
-Received: from rcampbell-dev.nvidia.com (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
- Mon, 16 Mar 2020 18:42:42 +0000
-Subject: Re: [PATCH 2/2] mm: remove device private page support from
- hmm_range_fault
-To: Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>, Dan
- Williams <dan.j.williams@intel.com>, Bharata B Rao <bharata@linux.ibm.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, Ben Skeggs
- <bskeggs@redhat.com>
-References: <20200316175259.908713-1-hch@lst.de>
- <20200316175259.908713-3-hch@lst.de>
-X-Nvconfidentiality: public
-From: Ralph Campbell <rcampbell@nvidia.com>
-Message-ID: <c099cc3c-c19f-9d61-4297-2e83df899ca4@nvidia.com>
-Date: Mon, 16 Mar 2020 11:42:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6B776E49F
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 18:57:42 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id A800C804DA;
+ Mon, 16 Mar 2020 19:57:34 +0100 (CET)
+Date: Mon, 16 Mar 2020 19:57:33 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v1 02/36] dt-bindings: spi: support non-spi bindings as
+ SPI slaves
+Message-ID: <20200316185733.GA18307@ravnborg.org>
+References: <20200315134416.16527-1-sam@ravnborg.org>
+ <20200315134416.16527-3-sam@ravnborg.org>
+ <20200316120239.GC5010@sirena.org.uk>
+ <20200316132844.GA22822@ravnborg.org>
+ <20200316163538.GJ5010@sirena.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <20200316175259.908713-3-hch@lst.de>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1584384149; bh=B94TV8X7ko7Pix5Sd8galzczCBn2KhQ2ZY6X5Asx6X8=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=j4e7ucJv25vdvLHdnyJRo/nbNWu7R7E5t+GpT69/n/YRNYsFKNv6jPGbT9PDij1Yv
- 32sPUxUPadDensRW6JTdPjtHyc0ZDNBTc/urNzfCIJD5uiF+nB39iIN6DJlyPSLK9k
- BOAEBXVIx4Iuru7wnTT6qRjULqd2skJbh73AZjcQHiSv/eQO5aIlw9YbO8lKWY7eos
- YUrv1eL/Ji/8ZfuUop+bKlpuwfRU7Mwt/qb3f45XaPKxdxmOYePs7XugFLt1ovcxeC
- ZiY1XBR43/FSV3x/gGWSjIYVhU9YePPg5rFbTmgk7Bo1prHtDtCIRf/a/KYaZMt2jH
- VyO1pKjAVdq2w==
+Content-Disposition: inline
+In-Reply-To: <20200316163538.GJ5010@sirena.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=lAQgYEA6ThzcfdfRarEA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,195 +49,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm-ppc@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Jerome Glisse <jglisse@redhat.com>, amd-gfx@lists.freedesktop.org
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
+ Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
+ Stefan Mavrodiev <stefan@olimex.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
+ Nickey Yang <nickey.yang@rock-chips.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
+ Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
+ Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
+ devicetree@vger.kernel.org, Guido Gunther <agx@sigxcpu.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Werner Johansson <werner.johansson@sonymobile.com>,
+ Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
+ linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Mark.
 
-On 3/16/20 10:52 AM, Christoph Hellwig wrote:
-> No driver has actually used properly wire up and support this feature.
-> There is various code related to it in nouveau, but as far as I can tell
-> it never actually got turned on, and the only changes since the initial
-> commit are global cleanups.
-
-This is not actually true. OpenCL 2.x does support SVM with nouveau and
-device private memory via clEnqueueSVMMigrateMem().
-Also, Ben Skeggs has accepted a set of patches to map GPU memory after being
-migrated and this change would conflict with that.
-
-
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  1 -
->   drivers/gpu/drm/nouveau/nouveau_dmem.c  | 37 -------------------------
->   drivers/gpu/drm/nouveau/nouveau_dmem.h  |  2 --
->   drivers/gpu/drm/nouveau/nouveau_svm.c   |  3 --
->   include/linux/hmm.h                     |  2 --
->   mm/hmm.c                                | 28 -------------------
->   6 files changed, 73 deletions(-)
+On Mon, Mar 16, 2020 at 04:35:38PM +0000, Mark Brown wrote:
+> On Mon, Mar 16, 2020 at 02:28:44PM +0100, Sam Ravnborg wrote:
+> > On Mon, Mar 16, 2020 at 12:02:41PM +0000, Mark Brown wrote:
+> > > On Sun, Mar 15, 2020 at 02:43:42PM +0100, Sam Ravnborg wrote:
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index dee446278417..90821ce5e6ca 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -776,7 +776,6 @@ struct amdgpu_ttm_tt {
->   static const uint64_t hmm_range_flags[HMM_PFN_FLAG_MAX] = {
->   	(1 << 0), /* HMM_PFN_VALID */
->   	(1 << 1), /* HMM_PFN_WRITE */
-> -	0 /* HMM_PFN_DEVICE_PRIVATE */
->   };
->   
->   static const uint64_t hmm_range_values[HMM_PFN_VALUE_MAX] = {
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> index 7605c4c48985..42808efceaf2 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> @@ -671,40 +671,3 @@ nouveau_dmem_migrate_vma(struct nouveau_drm *drm,
->   out:
->   	return ret;
->   }
-> -
-> -static inline bool
-> -nouveau_dmem_page(struct nouveau_drm *drm, struct page *page)
-> -{
-> -	return is_device_private_page(page) && drm->dmem == page_to_dmem(page);
-> -}
-> -
-> -void
-> -nouveau_dmem_convert_pfn(struct nouveau_drm *drm,
-> -			 struct hmm_range *range)
-> -{
-> -	unsigned long i, npages;
-> -
-> -	npages = (range->end - range->start) >> PAGE_SHIFT;
-> -	for (i = 0; i < npages; ++i) {
-> -		struct page *page;
-> -		uint64_t addr;
-> -
-> -		page = hmm_device_entry_to_page(range, range->pfns[i]);
-> -		if (page == NULL)
-> -			continue;
-> -
-> -		if (!(range->pfns[i] & range->flags[HMM_PFN_DEVICE_PRIVATE])) {
-> -			continue;
-> -		}
-> -
-> -		if (!nouveau_dmem_page(drm, page)) {
-> -			WARN(1, "Some unknown device memory !\n");
-> -			range->pfns[i] = 0;
-> -			continue;
-> -		}
-> -
-> -		addr = nouveau_dmem_page_addr(page);
-> -		range->pfns[i] &= ((1UL << range->pfn_shift) - 1);
-> -		range->pfns[i] |= (addr >> PAGE_SHIFT) << range->pfn_shift;
-> -	}
-> -}
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.h b/drivers/gpu/drm/nouveau/nouveau_dmem.h
-> index 92394be5d649..1ac620b3d4fb 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.h
-> @@ -38,8 +38,6 @@ int nouveau_dmem_migrate_vma(struct nouveau_drm *drm,
->   			     unsigned long start,
->   			     unsigned long end);
->   
-> -void nouveau_dmem_convert_pfn(struct nouveau_drm *drm,
-> -			      struct hmm_range *range);
->   #else /* IS_ENABLED(CONFIG_DRM_NOUVEAU_SVM) */
->   static inline void nouveau_dmem_init(struct nouveau_drm *drm) {}
->   static inline void nouveau_dmem_fini(struct nouveau_drm *drm) {}
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> index df9bf1fd1bc0..7e0376dca137 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> @@ -367,7 +367,6 @@ static const u64
->   nouveau_svm_pfn_flags[HMM_PFN_FLAG_MAX] = {
->   	[HMM_PFN_VALID         ] = NVIF_VMM_PFNMAP_V0_V,
->   	[HMM_PFN_WRITE         ] = NVIF_VMM_PFNMAP_V0_W,
-> -	[HMM_PFN_DEVICE_PRIVATE] = NVIF_VMM_PFNMAP_V0_VRAM,
->   };
->   
->   static const u64
-> @@ -558,8 +557,6 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
->   		break;
->   	}
->   
-> -	nouveau_dmem_convert_pfn(drm, &range);
-> -
->   	svmm->vmm->vmm.object.client->super = true;
->   	ret = nvif_object_ioctl(&svmm->vmm->vmm.object, data, size, NULL);
->   	svmm->vmm->vmm.object.client->super = false;
-> diff --git a/include/linux/hmm.h b/include/linux/hmm.h
-> index 4bf8d6997b12..5e6034f105c3 100644
-> --- a/include/linux/hmm.h
-> +++ b/include/linux/hmm.h
-> @@ -74,7 +74,6 @@
->    * Flags:
->    * HMM_PFN_VALID: pfn is valid. It has, at least, read permission.
->    * HMM_PFN_WRITE: CPU page table has write permission set
-> - * HMM_PFN_DEVICE_PRIVATE: private device memory (ZONE_DEVICE)
->    *
->    * The driver provides a flags array for mapping page protections to device
->    * PTE bits. If the driver valid bit for an entry is bit 3,
-> @@ -86,7 +85,6 @@
->   enum hmm_pfn_flag_e {
->   	HMM_PFN_VALID = 0,
->   	HMM_PFN_WRITE,
-> -	HMM_PFN_DEVICE_PRIVATE,
->   	HMM_PFN_FLAG_MAX
->   };
->   
-> diff --git a/mm/hmm.c b/mm/hmm.c
-> index 180e398170b0..3d10485bf323 100644
-> --- a/mm/hmm.c
-> +++ b/mm/hmm.c
-> @@ -118,15 +118,6 @@ static inline void hmm_pte_need_fault(const struct hmm_vma_walk *hmm_vma_walk,
->   	/* We aren't ask to do anything ... */
->   	if (!(pfns & range->flags[HMM_PFN_VALID]))
->   		return;
-> -	/* If this is device memory then only fault if explicitly requested */
-> -	if ((cpu_flags & range->flags[HMM_PFN_DEVICE_PRIVATE])) {
-> -		/* Do we fault on device memory ? */
-> -		if (pfns & range->flags[HMM_PFN_DEVICE_PRIVATE]) {
-> -			*write_fault = pfns & range->flags[HMM_PFN_WRITE];
-> -			*fault = true;
-> -		}
-> -		return;
-> -	}
->   
->   	/* If CPU page table is not valid then we need to fault */
->   	*fault = !(cpu_flags & range->flags[HMM_PFN_VALID]);
-> @@ -259,25 +250,6 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
->   	if (!pte_present(pte)) {
->   		swp_entry_t entry = pte_to_swp_entry(pte);
->   
-> -		/*
-> -		 * This is a special swap entry, ignore migration, use
-> -		 * device and report anything else as error.
-> -		 */
-> -		if (is_device_private_entry(entry)) {
-> -			cpu_flags = range->flags[HMM_PFN_VALID] |
-> -				range->flags[HMM_PFN_DEVICE_PRIVATE];
-> -			cpu_flags |= is_write_device_private_entry(entry) ?
-> -				range->flags[HMM_PFN_WRITE] : 0;
-> -			hmm_pte_need_fault(hmm_vma_walk, orig_pfn, cpu_flags,
-> -					   &fault, &write_fault);
-> -			if (fault || write_fault)
-> -				goto fault;
-> -			*pfn = hmm_device_entry_from_pfn(range,
-> -					    swp_offset(entry));
-> -			*pfn |= cpu_flags;
-> -			return 0;
-> -		}
-> -
->   		hmm_pte_need_fault(hmm_vma_walk, orig_pfn, 0, &fault,
->   				   &write_fault);
->   		if (!fault && !write_fault)
+> > > > Independent bindings can be SPI slaves which for example is
+> > > > the case for several panel bindings.
 > 
+> > > What is an "independent binding"?
+> 
+> > For several panels we have device trees that looks like this:
+> 
+> So what you're trying to do is define a generic class for SPI slaves
+> which are just normal children of SPI nodes?  I really can't get to
+> there from your changelog so we need some work there - in particular
+> "non-spi bindings" is *very* confusing as as far as I can see these are
+> bindings for SPI devices.
+> 
+> > The bindings are child of the spi controller node, but not specified
+> > in the same binding file as the spi controller node.
+> 
+> Of course not, this how all buses work isn't it?
+> 
+> > So SPI slaves can now reference spi-slave.yaml to get access to
+> > the SPI slave properties - and the copies can be avoided.
+> > Likewise spi-controller.yml now references spi-slave.yaml.
+> 
+> > This was the best way I saw it could be done.
+> 
+> Rob didn't do the binding conversion but he did review it - I'm a bit
+> surprised that there's issues here?
+
+For panels we have panel-common.yaml that list all the
+typical properties used by a panel - so the individual
+panel bindings shall not repeat them.
+This is also aligned with the principle of re-using properties rather
+than inventing new properties all over.
+
+And with a number of bindings describing HW that is SPI slaves
+the idea is to do something like we do for panels.
+
+I look forward for Rob's feedback - but as he is on vacation this week
+we may have to wait a week for that.
+
+The simple way forward had been to do like we do in many other places
+and include a few SPI properties and be done with it.
+This is an attempt to do something better.
+If there is push-back or a nack, then we can always do like we do in
+other places and just duplicate the properties.
+
+> Also shouldn't there be some constraint that these devices have to be
+> the child of a SPI controller or something?  Just including a file
+> doesn't look right for something like class definition.
+
+It was the best I could come up with - and this patch was called out
+for review in the hope there is a better way than this patch.
+
+We have similar examples like:
+  - pincfg-node.yaml
+  - regulatro.yaml
+  - dma-common.yaml
+
+They are not exactly 1:1 to what we do with spi-slave.yaml, but they
+served as inspiration.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
