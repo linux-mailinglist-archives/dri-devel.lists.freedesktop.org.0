@@ -1,67 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCAAB18872D
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:17:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AAAE18877A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:27:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 928C56E1E8;
-	Tue, 17 Mar 2020 14:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CAC66E145;
+	Tue, 17 Mar 2020 14:27:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com
- [IPv6:2607:f8b0:4864:20::f43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E3F56E125
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 13:25:59 +0000 (UTC)
-Received: by mail-qv1-xf43.google.com with SMTP id q73so1373349qvq.2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 06:25:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=149vrDC6Ny5kXlZ3c9yb3Ff3i3SdoOBmg7pfld3LKGI=;
- b=MGDRAHHwM4nroOOuiUdxwzeDLPsUSxkKGB1ZBFk85k2dwJdJTHMO8PEvHSg2fVErKC
- xbyOzKDkvp5ST2WwzC+GHN4a0yqFAY4pquPxURWoEm5babHrmv41sG04VZtMii9smFBi
- npONJDDXJCv1pMi4ZyGmSrpR4itL6lpn//Whw93FEmcsdwIhQaGMygrv0IxYCF/CIf6e
- A5KYy2R78gVt9xaczD36OBsEfKo76u/YveXPSIXg1stdm9llUXaTvmmz7+djHoeqj25m
- k6WX9vZgfDVYYUp8MszMkTZpAxuWbQ5QLXn6OJXFdneBqng5r8BZ7FIMyRYxs+n/udis
- UKfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=149vrDC6Ny5kXlZ3c9yb3Ff3i3SdoOBmg7pfld3LKGI=;
- b=MmGpV6BwziJsaxCu6u11x9rG5O9IcninvEMvaoGdM6lr2SDPfdQ/Jnw0w0TbC7a/8H
- YsKM/qFZF2O9jUUn3+S0T9+Srp++G23SKtQvurkdUgHmZWv8zuUojb1gek9lxAzE2F5r
- kS8dMZa45Uc3+V3+RSUYF6JKrGUIuMd8xrlL+Z9MQzpgBW5wJv9VgCFSri5QLPPmiedm
- +gzRszLToGNJv7r6xW23qdVGcYzZ+VnMTpOqmhWqMI1iDf5b/HrXY1KRimnpE8MAGHnh
- EFaquYCvPLQ0+qEQnYp9bE49vpDKFvvr/Ld7V/WHMJRNa/EQdtAQZf190YZBQCXNr0VJ
- ZZsw==
-X-Gm-Message-State: ANhLgQ2xuEmpbY0xVeFa81gAtcOnkgC3jdhKoZrkEr4zJQtArCZm4gFz
- ge4KjbiXWOLFE32WAuhzU0PlGg==
-X-Google-Smtp-Source: ADFU+vud8ckGfbpq7RFxGRUQtjLFosMM5WbNx995vqc+P+Orw+3LIFDIv/yLP5SnzTRZvkDSJttSbw==
-X-Received: by 2002:a0c:bf46:: with SMTP id b6mr4911822qvj.47.1584451558143;
- Tue, 17 Mar 2020 06:25:58 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id u77sm1882170qka.134.2020.03.17.06.25.57
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 17 Mar 2020 06:25:57 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1jECEH-00027w-2X; Tue, 17 Mar 2020 10:25:57 -0300
-Date: Tue, 17 Mar 2020 10:25:57 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 08/12] docs: fix broken references to text files
-Message-ID: <20200317132557.GS20941@ziepe.ca>
-References: <cover.1584450500.git.mchehab+huawei@kernel.org>
- <35dcbefd50875b92aaf5b7671d4c57c50b4274fe.1584450500.git.mchehab+huawei@kernel.org>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD8016E145
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 14:27:08 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 2158F20031;
+ Tue, 17 Mar 2020 15:27:04 +0100 (CET)
+Date: Tue, 17 Mar 2020 15:27:02 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Vinay Simha B N <simhavcs@gmail.com>
+Subject: Re: [PATCH 1/2] dt-binding: Add DSI/LVDS tc358775 bridge bindings
+Message-ID: <20200317142702.GA16338@ravnborg.org>
+References: <1583920112-2680-1-git-send-email-simhavcs@gmail.com>
+ <20200312151752.GA7490@bogus>
+ <CAGWqDJ7DP3DuR7EWT6Ni8YxN3Adg3RgJZut6+AtpAak_HB=QCQ@mail.gmail.com>
+ <CAGWqDJ4cAU98_xMk6f-bsT5LF5cD2JJk8_JCykwM=cd6CCfWtw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <35dcbefd50875b92aaf5b7671d4c57c50b4274fe.1584450500.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Tue, 17 Mar 2020 14:16:40 +0000
+In-Reply-To: <CAGWqDJ4cAU98_xMk6f-bsT5LF5cD2JJk8_JCykwM=cd6CCfWtw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=gEfo2CItAAAA:8
+ a=pGLkceISAAAA:8 a=KY18R1YYeKRrVLQ61OwA:9 a=5V_uxFQuYriqKHR4:21
+ a=H5yeRiyAWD2ozbk7:21 a=CjuIK1q_8ugA:10 a=sptkURWiP4Gy88Gu7hUp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,72 +48,243 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Akira Yokosawa <akiyks@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-unionfs@vger.kernel.org,
- Paul Mackerras <paulus@ozlabs.org>, linux-mm@kvack.org,
- Harry Wei <harryxiyou@gmail.com>, Alex Shi <alex.shi@linux.alibaba.com>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- linux-arch@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- kvm-ppc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Doug Ledford <dledford@redhat.com>, Alan Stern <stern@rowland.harvard.edu>,
- linux-arm-kernel@lists.infradead.org, Federico Vaga <federico.vaga@vaga.pv.it>,
- Jade Alglave <j.alglave@ucl.ac.uk>, Daniel Lustig <dlustig@nvidia.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>,
- Mike Leach <mike.leach@linaro.org>, Andrea Parri <parri.andrea@gmail.com>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Boqun Feng <boqun.feng@gmail.com>,
- Nicholas Piggin <npiggin@gmail.com>, Luc Maranget <luc.maranget@inria.fr>,
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
- David Howells <dhowells@redhat.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- James Morse <james.morse@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Marc Zyngier <maz@kernel.org>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 17, 2020 at 02:10:47PM +0100, Mauro Carvalho Chehab wrote:
-> Several references got broken due to txt to ReST conversion.
-> 
-> Several of them can be automatically fixed with:
-> 
-> 	scripts/documentation-file-ref-check --fix
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->  Documentation/admin-guide/kernel-parameters.txt      |  2 +-
->  Documentation/memory-barriers.txt                    |  2 +-
->  Documentation/process/submit-checklist.rst           |  2 +-
->  .../translations/it_IT/process/submit-checklist.rst  |  2 +-
->  Documentation/translations/ko_KR/memory-barriers.txt |  2 +-
->  .../translations/zh_CN/filesystems/sysfs.txt         |  2 +-
->  .../translations/zh_CN/process/submit-checklist.rst  |  2 +-
->  Documentation/virt/kvm/arm/pvtime.rst                |  2 +-
->  Documentation/virt/kvm/devices/vcpu.rst              |  2 +-
->  Documentation/virt/kvm/hypercalls.rst                |  4 ++--
->  arch/powerpc/include/uapi/asm/kvm_para.h             |  2 +-
->  drivers/gpu/drm/Kconfig                              |  2 +-
->  drivers/gpu/drm/drm_ioctl.c                          |  2 +-
->  drivers/hwtracing/coresight/Kconfig                  |  2 +-
->  fs/fat/Kconfig                                       |  8 ++++----
->  fs/fuse/Kconfig                                      |  2 +-
->  fs/fuse/dev.c                                        |  2 +-
->  fs/overlayfs/Kconfig                                 |  6 +++---
->  include/linux/mm.h                                   |  4 ++--
->  include/uapi/linux/ethtool_netlink.h                 |  2 +-
->  include/uapi/rdma/rdma_user_ioctl_cmds.h             |  2 +-
+Hi Vinay.
 
-For the rdma files
+On Tue, Mar 17, 2020 at 12:25:42PM +0530, Vinay Simha B N wrote:
+> sam,
+> 
+> i need some inputs on the below  error. I had created this file
+> Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml
+> by using vim editor. Do we have any tool to create yaml file?
 
-Acked-by: Jason Gunthorpe <jgg@mellanox.com>
+I use vim myself, but is careful to follow the right syntax.
 
-Jason
+> 
+> i do not get the error when running 'make dt_binding_check' in my
+> build environment
+> Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml
+> 
+> is there any tool available similar to  scripts/checkpatch.pl -f
+> <file> , for yaml files?
+
+Please read Documentation/devicetree/writing-schema.
+Here you can find general info + instruction how to install the tools
+required for "make dt_binding_check".
+
+I could reproduce the error reported by Rob.
+I gave your binding file a shot - there were a lot of smaller issues:
+
+- do not use tabs in yaml files
+- be consistent in indent
+- vendor prefixed properties needed some extra care
+- example was full of bugs
+  - "..."
+  - no need for status = "okay";
+  - properties spelled wrong
+
+For the example I adjusted it to use indent of 4 spaces, which IMO
+is more readable than the two spaces used in the other parts of the 
+file.
+
+I have attached the updated binding file - please review and fix.
+This is just a quick shot, I did not do a proper review.
+
+Please rename the file, other files in same dir are named "toshiba,xxx",
+so replace '-' with ','.
+
+And try to introduce bugs in the example - and check that the tooling
+catches the bug.
+
+hint:
+
+    make DT=.../foo.yaml dt_binding_check
+
+is a qucik way to check only your binding.
+
+And for new bindings the preferred license is: (GPL-2.0-only OR BSD-2-Clause)
+
+	Sam
+
+# SPDX-License-Identifier: GPL-2.0
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/display/bridge/toshiba-tc358775.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+
+title: Toshiba TC358775 DSI to LVDS bridge bindings
+
+maintainers:
+  - Vinay Simha BN <simhavcs@gmail.com>
+
+description: |
+  This binding supports DSI to LVDS bridge TC358775
+
+properties:
+  compatible:
+    const: toshiba,tc358775
+
+  reg:
+    maxItems: 1
+    description: i2c address of the bridge, 0x0f
+
+  toshiba,dsi-lanes:
+    allOf:
+      - $ref: /schemas/types.yaml#/definitions/uint32
+      - minimum: 1
+        maximum: 4
+        default: 1
+    description: bla bla
+
+  toshiba,dual-link:
+    $ref: /schemas/types.yaml#definitions/flag
+    description: bla bla
+
+  vdd-supply:
+    maxItems: 1
+    description: 1.2V LVDS Power Supply
+
+  vddio-supply:
+    maxItems: 1
+    description: 1.8V IO Power Supply
+
+  stby-gpios:
+    maxItems: 1
+    description: Standby pin, Low active
+
+  reset-gpios:
+    maxItems: 1
+    description: Hardware reset, Low active
+
+  ports:
+    type: object
+
+    properties:
+      port@0:
+        type: object
+        description: |
+          DSI Input. The remote endpoint phandle should be a
+          reference to a valid mipi_dsi_host device node.
+      port@1:
+        type: object
+        description: |
+          Video port for LVDS output (panel or connector).
+
+    required:
+      - port@0
+      - port@1
+
+required:
+ - compatible
+ - reg
+ - tc,dsi-lanes
+ - vdd-supply
+ - vddio-supply
+ - stby-gpios
+ - reset-gpios
+ - ports
+
+examples:
+  - |+
+    #include <dt-bindings/gpio/gpio.h>
+
+    i2c@78b8000 {
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        /* On High speed expansion */
+        label = "HS-I2C2";
+        status = "okay";
+
+        tc_bridge: bridge@f {
+            compatible = "toshiba,tc358775";
+            reg = <0x0f>;
+
+            tc,dsi-lanes = <4>;
+            tc,dual-link = <0>;
+
+            vdd-supply = <&pm8916_l2>;
+            vddio-supply = <&pm8916_l6>;
+
+            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
+            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
+
+            ports {
+                #address-cells = <1>;
+                #size-cells = <0>;
+
+                port@0 {
+                    reg = <0>;
+                    d2l_in: endpoint {
+                        remote-endpoint = <&dsi0_out>;
+                    };
+                };
+
+                port@1 {
+                    reg = <1>;
+                    d2l_out: endpoint {
+                        remote-endpoint = <&panel_in>;
+                    };
+                };
+            };
+        };
+    };
+
+    panel: auo,b101xtn01 {
+        status = "okay";
+        compatible = "auo,b101xtn01", "panel-lvds";
+        power-supply = <&pm8916_l14>;
+
+        width-mm = <223>;
+        height-mm = <125>;
+
+        data-mapping = "jeida-24";
+
+        panel-timing {
+            /* 1366x768 @60Hz */
+            clock-frequency = <72000000>;
+            hactive = <1366>;
+            vactive = <768>;
+            hsync-len = <70>;
+            hfront-porch = <20>;
+            hback-porch = <0>;
+            vsync-len = <42>;
+            vfront-porch = <14>;
+            vback-porch = <0>;
+        };
+
+        port {
+            panel_in: endpoint {
+                remote-endpoint = <&d2l_out>;
+            };
+        };
+    };
+
+    mdss {
+        dsi@1a98000 {
+            ports {
+                port@1 {
+                    dsi0_out: endpoint {
+                        remote-endpoint = <&d2l_in>;
+                        data-lanes = <0 1 2 3>;
+                    };
+                };
+            };
+        };
+    };
+
+...
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
