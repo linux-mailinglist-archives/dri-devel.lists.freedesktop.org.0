@@ -1,47 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B83188C11
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 18:30:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51EF9188BF6
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 18:27:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 789DC6E7DA;
-	Tue, 17 Mar 2020 17:29:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00DF86E5CF;
+	Tue, 17 Mar 2020 17:27:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 500 seconds by postgrey-1.36 at gabe;
- Tue, 17 Mar 2020 17:29:55 UTC
-Received: from lynxeye.de (ns.lynxeye.de [87.118.118.114])
- by gabe.freedesktop.org (Postfix) with ESMTP id 64D306E7D0;
- Tue, 17 Mar 2020 17:29:55 +0000 (UTC)
-Received: by lynxeye.de (Postfix, from userid 501)
- id D2D43E74222; Tue, 17 Mar 2020 18:21:03 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on lynxeye.de
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=ham version=3.3.1
-Received: from antimon.fritz.box (a89-183-68-130.net-htp.de [89.183.68.130])
- by lynxeye.de (Postfix) with ESMTPSA id A68C0E741C4;
- Tue, 17 Mar 2020 18:21:02 +0100 (CET)
-Message-ID: <3e522876ec0287b69483c65aa1e7ba1ded536ec6.camel@lynxeye.de>
-Subject: Re: [Mesa-dev] Plumbing explicit synchronization through the Linux
- ecosystem
-From: Lucas Stach <dev@lynxeye.de>
-To: Jacob Lifshay <programmerjake@gmail.com>, Jason Ekstrand
- <jason@jlekstrand.net>
-Date: Tue, 17 Mar 2020 18:21:02 +0100
-In-Reply-To: <CAC2bXD5qJgT9sWJgL_ej5OY42a-xzYaeLrwioKUreQuPJ1idpg@mail.gmail.com>
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
- <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca>
- <20200316102034.GA30883@pendragon.ideasonboard.com>
- <CAOFGe95JUUBCuE=dWKtZVXjTLqxyf2oybpqAZ7hZhpBEKQ=Y-Q@mail.gmail.com>
- <20200316211502.GW4732@pendragon.ideasonboard.com>
- <74477a20fa78758dd6cf8c32d7a77d1cccf2646f.camel@ndufresne.ca>
- <CAOFGe963WUB+rkA=FURuXEk6BVjsP18yk4sJ3y_7VxKmscShrA@mail.gmail.com>
- <CAC2bXD5qJgT9sWJgL_ej5OY42a-xzYaeLrwioKUreQuPJ1idpg@mail.gmail.com>
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com
+ [IPv6:2607:f8b0:4864:20::942])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 885696E5CF
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 17:27:10 +0000 (UTC)
+Received: by mail-ua1-x942.google.com with SMTP id o16so8317329uap.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 10:27:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kYxhd4YbdvKna+Hk3H++oy2r+2XxoGCrQ2OcQrBquQI=;
+ b=VWLDmipX7IFDQ/yHjCAzFxlk/+VluSSJwe4qv5jpHr4e6B0U7gp1YOW3C9Csk4kZHd
+ NXgx0kZ6qhPzwcHQS3y9Qvp7AMowj6bjIngubmHTjWmVhTh0fc8O7LbAKQh0NHGA4pJV
+ mU73ACIJwkVyGoLSZZRtAPc2yjx+8+foKjquI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kYxhd4YbdvKna+Hk3H++oy2r+2XxoGCrQ2OcQrBquQI=;
+ b=ZhQZp+rlMpi9wWqX40pdP1BCMVhvNAMrkdrsrwbJg3WtE/JOLnWDXmF0lDvFDmsLCO
+ g4e/883ftUO+zrB0BVHqDrC+myYirEttAi3Y+inA56GoKHV6sW9BY5HHN6cGXsMazlB+
+ aRgoP5lFe8ZOZcnCig3YezByQDXUZF48nEDaD6/YjSxo8QqGgoI1Rj7jmzXxkjA774j/
+ YoFUyEUXG/LmWIZQ+wgl7fYv+w4hTevLQj2UhhXh6HzXr59QVgZEqoR/gKmacSlpl9U2
+ 5i+CmlK1P+TtVXB1BkQZ9pKNIkGoxbnJ+4YpKSeAJpZEK7eX9EkGE3KZ3O5SkrQPQH+n
+ YHTA==
+X-Gm-Message-State: ANhLgQ1Xwp/7Kv57dCr/nGJLRnUHZpeKGsyHtKdY0Z7+sroHGJZXbP1v
+ shmnpHGxiI/8gCBjfx3NXHSYs2UUpTs=
+X-Google-Smtp-Source: ADFU+vvqkH0W6XPz8Mcy0os+8+Tfxj9wZS4fdSeNcR7Yp5aBWnpkVq1CvNPpr/hv6h627d18E4513Q==
+X-Received: by 2002:a9f:2f08:: with SMTP id x8mr43742uaj.49.1584466029086;
+ Tue, 17 Mar 2020 10:27:09 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com.
+ [209.85.217.48])
+ by smtp.gmail.com with ESMTPSA id n25sm1591910vkk.56.2020.03.17.10.27.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Mar 2020 10:27:08 -0700 (PDT)
+Received: by mail-vs1-f48.google.com with SMTP id m9so14486903vso.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 10:27:07 -0700 (PDT)
+X-Received: by 2002:a67:e951:: with SMTP id p17mr22233vso.106.1584466026884;
+ Tue, 17 Mar 2020 10:27:06 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200315194239.28785-1-christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20200315194239.28785-1-christophe.jaillet@wanadoo.fr>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 17 Mar 2020 10:26:55 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WrncW_y+dtXHU7Lj1J0Lh7w8Kw+d28KZF52-OMs=0pSQ@mail.gmail.com>
+Message-ID: <CAD=FV=WrncW_y+dtXHU7Lj1J0Lh7w8Kw+d28KZF52-OMs=0pSQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Fix an error handling path 'msm_drm_init()'
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,51 +68,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, xorg-devel <xorg-devel@lists.x.org>,
- linux-media@vger.kernel.org,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "wayland-devel @ lists . freedesktop .
- org" <wayland-devel@lists.freedesktop.org>,
- Discussion of the development of and with GStreamer
- <gstreamer-devel@lists.freedesktop.org>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Dienstag, den 17.03.2020, 10:12 -0700 schrieb Jacob Lifshay:
-> One related issue with explicit sync using sync_file is that combined
-> CPUs/GPUs (the CPU cores *are* the GPU cores) that do all the
-> rendering in userspace (like llvmpipe but for Vulkan and with extra
-> instructions for GPU tasks) but need to synchronize with other
-> drivers/processes is that there should be some way to create an
-> explicit fence/semaphore from userspace and later signal it. This
-> seems to conflict with the requirement for a sync_file to complete in
-> finite time, since the user process could be stopped or killed.
-> 
-> Any ideas?
+Hi,
 
-Finite just means "not infinite". If you stop the process that's doing
-part of the pipeline processing you block the pipeline, you get to keep
-the pieces in that case. That's one of the issues with implicit sync
-that explicit may solve: a single client taking way too much time to
-render something can block the whole pipeline up until the display
-flip. With explicit sync the compositor can just decide to use the last
-client buffer if the latest buffer isn't ready by some deadline.
+On Sun, Mar 15, 2020 at 12:42 PM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+>
+> If this memory allocation fails, we have to go through the error handling
+> path to perform some clean-up, as already done in other other paths of
+> this function.
+>
+> Fixes: db735fc4036b ("drm/msm: Set dma maximum segment size for mdss")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>  drivers/gpu/drm/msm/msm_drv.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 
-With regard to the process getting killed: whatever you sync primitive
-is, you need to make sure to signal the fence (possibly with an error
-condition set) when you are not going to make progress anymore. So
-whatever your means to creating the sync_fd from your software renderer
-is, it needs to signal any outstanding fences on the sync_fd when the
-fd is closed.
+This has already been posted as:
 
-Regards,
-Lucas
-
+https://lore.kernel.org/r/20200309101410.GA18031@duo.ucw.cz
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
