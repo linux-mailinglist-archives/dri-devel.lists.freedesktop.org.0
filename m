@@ -2,45 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3DC188CED
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 19:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A52D7188D15
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 19:25:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75BBF6E7E6;
-	Tue, 17 Mar 2020 18:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7107B6E7EF;
+	Tue, 17 Mar 2020 18:25:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lynxeye.de (ns.lynxeye.de [87.118.118.114])
- by gabe.freedesktop.org (Postfix) with ESMTP id D30C06E7E6;
- Tue, 17 Mar 2020 18:14:40 +0000 (UTC)
-Received: by lynxeye.de (Postfix, from userid 501)
- id 27D12E74222; Tue, 17 Mar 2020 19:14:10 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on lynxeye.de
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=ham version=3.3.1
-Received: from antimon.fritz.box (a89-183-68-130.net-htp.de [89.183.68.130])
- by lynxeye.de (Postfix) with ESMTPSA id 8C60AE741C4;
- Tue, 17 Mar 2020 19:14:08 +0100 (CET)
-Message-ID: <949b8373908a9895e97981e872d6e35dcaaba632.camel@lynxeye.de>
-Subject: Re: [Mesa-dev] Plumbing explicit synchronization through the Linux
- ecosystem
-From: Lucas Stach <dev@lynxeye.de>
-To: Jacob Lifshay <programmerjake@gmail.com>
-Date: Tue, 17 Mar 2020 19:14:08 +0100
-In-Reply-To: <CAC2bXD6f2LiJ9_S0V8gZdrczRzH8oNqyLprzzFnGYTMzGe5gUQ@mail.gmail.com>
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
- <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca>
- <20200316102034.GA30883@pendragon.ideasonboard.com>
- <CAOFGe95JUUBCuE=dWKtZVXjTLqxyf2oybpqAZ7hZhpBEKQ=Y-Q@mail.gmail.com>
- <20200316211502.GW4732@pendragon.ideasonboard.com>
- <74477a20fa78758dd6cf8c32d7a77d1cccf2646f.camel@ndufresne.ca>
- <CAOFGe963WUB+rkA=FURuXEk6BVjsP18yk4sJ3y_7VxKmscShrA@mail.gmail.com>
- <CAC2bXD5qJgT9sWJgL_ej5OY42a-xzYaeLrwioKUreQuPJ1idpg@mail.gmail.com>
- <3e522876ec0287b69483c65aa1e7ba1ded536ec6.camel@lynxeye.de>
- <CAC2bXD6f2LiJ9_S0V8gZdrczRzH8oNqyLprzzFnGYTMzGe5gUQ@mail.gmail.com>
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
+ [IPv6:2607:f8b0:4864:20::f42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97D956E7EF
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 18:25:39 +0000 (UTC)
+Received: by mail-qv1-xf42.google.com with SMTP id ca9so11431070qvb.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 11:25:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:cc:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+AAQtfeIKBe0J7G95dlHW6pF6+WjC1g407eOME3dVmQ=;
+ b=Mf1Rjvoj1Hz4uD1TS8jI5XGcSfMC0Sb41aJWgC7Hdp1LTHxwnJwMhRaIKMbTF2Z8SK
+ TZf5jcidxHYMwYfVVbHhWxmkNJkSLXpYPXQDdKaMT23GgPWgwIi6xoBgddC06mi0ox72
+ W8LcTn5aLUqp6YmsWCtORXmjFOP4IgHs+8mzCS7w2fmLYNGQCQrgbipqbkTI1GA9Yca5
+ m8R769UcY/PZDbdM9P7RM/B/n72F0MrEgM4jyl2WoSDLaAqHZzLNZAtLftQMq1ZNLtZn
+ fCmda3y9u7PlpsXz/T8EsHlveXypVhtXkeda95FZkFeBLVOfujT1yQ655aqdoe0xnnl/
+ cxOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:cc:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+AAQtfeIKBe0J7G95dlHW6pF6+WjC1g407eOME3dVmQ=;
+ b=Xcwb4Gqi15cIPjN6sePx+Fd+MtuQr/NIfWD5g1KotlMmcBTBe5JPKWgPnrk6jL6NWs
+ 5ARtkakaVS1g70yec39QChC3U80bMtTPcCi+kp3yc/o+xAPu2cn8exdxaYfeELRYkmWb
+ OCZduJAgjN92HdSwnHCRL7ECX86YpfhzYp0f+90dOm+npoUrx6IloYrrEQfQu7L73oGo
+ i5Blo0X0Z2QFL3vMUzpq8vEl+PNImEkCyf3laZZ4jzZg1FjL6vYQAlr1Ypbmajq9zHxs
+ BFQwdX9qXpbIlahhhh/A1zn4aq2lnVW+yYH2x+QGbiUuL3/gmNg+TA6iD2ezJHmDslNR
+ o/iQ==
+X-Gm-Message-State: ANhLgQ2oW4aYf/NksZTrs63HtwuSikAqm3Gepd0ATHtWdm0qDok4I++D
+ LiN+JlQQm4/ku40uuMfH4Ys=
+X-Google-Smtp-Source: ADFU+vuU60GOS1xr2J0Mk1zFtlfxGhEDCOoNN64m+qEW9JiEemWjJy7kaMnD+fNXCIW9DoS4Gu/bAA==
+X-Received: by 2002:a0c:f786:: with SMTP id s6mr479455qvn.224.1584469538665;
+ Tue, 17 Mar 2020 11:25:38 -0700 (PDT)
+Received: from [172.16.13.2] ([68.202.211.176])
+ by smtp.gmail.com with ESMTPSA id f13sm2449947qka.83.2020.03.17.11.25.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Mar 2020 11:25:38 -0700 (PDT)
+Subject: Re: [PATCH 87/89] drm/vc4: hdmi: Support the BCM2711 HDMI controllers
+To: dri-devel@lists.freedesktop.org, maxime@cerno.tech
+References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
+ <35ec1082e5597a1c6d48d2ebfa0964a7ae1e335c.1582533919.git-series.maxime@cerno.tech>
+From: Daniel Rodriguez <danielcrodriguez2012@gmail.com>
+Message-ID: <a70fc5c5-b4a9-5f91-ceb3-f6cbdca417b1@gmail.com>
+Date: Tue, 17 Mar 2020 14:25:36 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <35ec1082e5597a1c6d48d2ebfa0964a7ae1e335c.1582533919.git-series.maxime@cerno.tech>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,75 +70,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, xorg-devel <xorg-devel@lists.x.org>,
- linux-media@vger.kernel.org,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "wayland-devel @ lists
- . freedesktop . org" <wayland-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Discussion of the development of and with GStreamer
- <gstreamer-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: tim.gover@raspberrypi.com, dave.stevenson@raspberrypi.com,
+ nsaenzjulienne@suse.de, linux-kernel@vger.kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ phil@raspberrypi.com, linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Dienstag, den 17.03.2020, 10:59 -0700 schrieb Jacob Lifshay:
-> On Tue, Mar 17, 2020 at 10:21 AM Lucas Stach <dev@lynxeye.de> wrote:
-> > Am Dienstag, den 17.03.2020, 10:12 -0700 schrieb Jacob Lifshay:
-> > > One related issue with explicit sync using sync_file is that combined
-> > > CPUs/GPUs (the CPU cores *are* the GPU cores) that do all the
-> > > rendering in userspace (like llvmpipe but for Vulkan and with extra
-> > > instructions for GPU tasks) but need to synchronize with other
-> > > drivers/processes is that there should be some way to create an
-> > > explicit fence/semaphore from userspace and later signal it. This
-> > > seems to conflict with the requirement for a sync_file to complete in
-> > > finite time, since the user process could be stopped or killed.
-> > > 
-> > > Any ideas?
-> > 
-> > Finite just means "not infinite". If you stop the process that's doing
-> > part of the pipeline processing you block the pipeline, you get to keep
-> > the pieces in that case.
-> 
-> Seems reasonable.
-> 
-> > That's one of the issues with implicit sync
-> > that explicit may solve: a single client taking way too much time to
-> > render something can block the whole pipeline up until the display
-> > flip. With explicit sync the compositor can just decide to use the last
-> > client buffer if the latest buffer isn't ready by some deadline.
-> > 
-> > With regard to the process getting killed: whatever you sync primitive
-> > is, you need to make sure to signal the fence (possibly with an error
-> > condition set) when you are not going to make progress anymore. So
-> > whatever your means to creating the sync_fd from your software renderer
-> > is, it needs to signal any outstanding fences on the sync_fd when the
-> > fd is closed.
-> 
-> I think I found a userspace-accessible way to create sync_files and
-> dma_fences that would fulfill the requirements:
-> https://github.com/torvalds/linux/blob/master/drivers/dma-buf/sw_sync.c
-> 
-> I'm just not sure if that's a good interface to use, since it appears
-> to be designed only for debugging. Will have to check for additional
-> requirements of signalling an error when the process that created the
-> fence is killed.
+On 2/24/20 4:07 AM, Maxime Ripard wrote:
 
-Something like that can certainly be lifted for general use if it makes
-sense. But then with a software renderer I don't really see how fences
-help you at all. With a software renderer you know exactly when the
-frame is finished and you can just defer pushing it over to the next
-pipeline element until that time. You won't gain any parallelism by
-using fences as the CPU is busy doing the rendering and will not run
-other stuff concurrently, right?
+>   static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+>   {
+>   	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+> @@ -1314,6 +1438,92 @@ static int vc4_hdmi_init_resources(struct vc4_hdmi *vc4_hdmi)
+>   	return 0;
+>   }
+>   
+This function fails on my Raspberry Pi 4 running patched 5.6-rc6. The 
+errors printed to syslog are as follows:
 
-Regards,
-Lucas
+[   15.167559] vc4-drm gpu: [drm] *ERROR* fbdev: Failed to setup generic 
+emulation (ret=-22)
 
+[   46.116273] WARNING: CPU: 2 PID: 1057 at 
+drivers/gpu/drm/vc4/vc4_hdmi_phy.c:414 vc5_hdmi_phy_init+0x7b4/0x2078 [vc4]
+
+
+[   47.127798] Timeout waiting for VC4_HDMI_SCHEDULER_CONTROL_HDMI_ACTIVE
+
+[   47.127865] WARNING: CPU: 1 PID: 1057 at 
+drivers/gpu/drm/vc4/vc4_hdmi.c:652 vc4_hdmi_encoder_enable+0x1518/0x1e10 
+[vc4]
+
+[   47.128353] WARNING: CPU: 1 PID: 1057 at 
+drivers/gpu/drm/vc4/vc4_hdmi.c:671 vc4_hdmi_encoder_enable+0x18c8/0x1e10 
+[vc4]
+
+
+-----------------------------------------------------------------
+
+Backtrace:
+
+[   46.116373] pc : vc5_hdmi_phy_init+0x7b4/0x2078 [vc4]
+
+[   46.116386] lr : vc4_hdmi_encoder_enable+0x1cc/0x1e10 [vc4]
+
+[   46.116440]  vc5_hdmi_phy_init+0x7b4/0x2078 [vc4]
+
+[   46.116451]  vc4_hdmi_encoder_enable+0x1cc/0x1e10 [vc4]
+
+[   46.116497]  vc4_atomic_complete_commit+0x3f0/0x530 [vc4]
+
+[   46.116508]  vc4_atomic_commit+0x1d8/0x1f8 [vc4]
+
+The specific offending conditional (before the warning on line 652) 
+under vc4_hdmi_encoder_enable() in drm/vc4/vc4_hdmi.c:
+
+645  if (vc4_encoder->hdmi_monitor) {
+
+646          HDMI_WRITE(HDMI_SCHEDULER_CONTROL,
+
+647                     HDMI_READ(HDMI_SCHEDULER_CONTROL) |
+
+648                     VC4_HDMI_SCHEDULER_CONTROL_MODE_HDMI);
+
+
+649
+650          ret = wait_for(HDMI_READ(HDMI_SCHEDULER_CONTROL) &
+
+651                     VC4_HDMI_SCHEDULER_CONTROL_HDMI_ACTIVE, 1000);
+
+652          WARN_ONCE(ret, "Timeout waiting for "
+
+653                 "VC4_HDMI_SCHEDULER_CONTROL_HDMI_ACTIVE\n");
+
+Which causes vc4_hdmi_encoder_enable() to fail.
+
+The failure of vc5_hdmi_phy_init() earlier left the phy inactive, 
+causing the encoder enabling function above to fail.
+
+The offending code around line 414 in vc4_hdmi_phy.c, under 
+vc5_hdmi_phy_init() reads
+
+411     HDMI_WRITE(HDMI_TX_PHY_TMDS_CLK_WORD_SEL, word_sel);
+
+
+412
+413     HDMI_WRITE(HDMI_TX_PHY_CTL_3,
+
+414                VC4_SET_FIELD(phy_get_cp_current(vco_freq),
+
+415                              VC4_HDMI_TX_PHY_CTL_3_ICP) |
+
+416                VC4_SET_FIELD(1, VC4_HDMI_TX_PHY_CTL_3_CP) |
+
+417                VC4_SET_FIELD(1, VC4_HDMI_TX_PHY_CTL_3_CP1) |
+
+418                VC4_SET_FIELD(3, VC4_HDMI_TX_PHY_CTL_3_CZ) |
+
+419                VC4_SET_FIELD(4, VC4_HDMI_TX_PHY_CTL_3_RP) |
+
+420                VC4_SET_FIELD(6, VC4_HDMI_TX_PHY_CTL_3_RZ));
+
+
+
+As the hdmi-related timeout occurs 30 seconds after the drm failure, I'm 
+bound to believe that the timeout occurs due to the drm setup failure 
+leaving nothing for the phy functions to act on.
+
+Earlier in the syslog an error potentially related to the 
+VC4_SET_FIELD(phy_get_cp_current(vco_freq) failure:
+
+[    3.729745] raspberrypi-clk raspberrypi-clk: Missing firmware node
+
+[    3.743915] raspberrypi-clk: probe of raspberrypi-clk failed with 
+error -2
+
+
+I thought the patch series added the firmware node? Perhaps the bcm2835 
+clock stub in the bcm2835 common dts is not being imported in the 
+bcm2711 devicetree?
+
+The result is a connected hdmi monitor has signal from the simple 
+framebuffer until the failed modeswitch, upon which it loses signal.
+
+I'm looking around for these possibilities in the kernel tree, though I 
+thought the code worked as it was?
+
+I did have to disable CONFIG_DRM_VC4_HDMI_CEC in Kconfig to get the 
+patches to compile as another user in linux-arm-kernel discovered the 
+CEC code relied on removed functions (Jian-Hong Pan).
+
+I still hope these patches can be cleaned up/fixed to make the 5.7 merge 
+window.
+
+Daniel Rodriguez
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
