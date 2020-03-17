@@ -1,42 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65AE01881FA
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 12:22:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 433FF18825D
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 12:39:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8BE089272;
-	Tue, 17 Mar 2020 11:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFCC898E4;
+	Tue, 17 Mar 2020 11:39:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83C8B89272
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 11:22:36 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 690B880475;
- Tue, 17 Mar 2020 12:22:33 +0100 (CET)
-Date: Tue, 17 Mar 2020 12:22:31 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v1 1/3] dt-bindings: display: drop data-mapping from
- panel-dpi
-Message-ID: <20200317112231.GA7981@ravnborg.org>
-References: <20200314153047.2486-1-sam@ravnborg.org>
- <20200314153047.2486-2-sam@ravnborg.org>
- <20200317084959.atqs2anx56kamrsy@gilmour.lan>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F2727898E4
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 11:39:04 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 42FBE1FB;
+ Tue, 17 Mar 2020 04:39:04 -0700 (PDT)
+Received: from localhost (unknown [10.37.6.21])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C22AE3F534;
+ Tue, 17 Mar 2020 04:39:03 -0700 (PDT)
+Date: Tue, 17 Mar 2020 11:39:02 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v1 02/36] dt-bindings: spi: support non-spi bindings as
+ SPI slaves
+Message-ID: <20200317113902.GA3971@sirena.org.uk>
+References: <20200315134416.16527-1-sam@ravnborg.org>
+ <20200315134416.16527-3-sam@ravnborg.org>
+ <20200316204850.gggeyjulgiy53i7x@gilmour.lan>
+ <20200316214346.GA23637@ravnborg.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200317084959.atqs2anx56kamrsy@gilmour.lan>
+In-Reply-To: <20200316214346.GA23637@ravnborg.org>
+X-Cookie: There's only one everything.
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=P1BnusSwAAAA:8 a=VwQbUJbxAAAA:8 a=QAgE-FV-s0_cZOTFy9cA:9
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=D0XLA9XvdZm18NrgonBM:22
- a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,81 +44,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
+ Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
+ Stefan Mavrodiev <stefan@olimex.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
+ Nickey Yang <nickey.yang@rock-chips.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
+ Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
+ Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
+ devicetree@vger.kernel.org, Guido Gunther <agx@sigxcpu.org>,
+ Alexandre Courbot <acourbot@nvidia.com>, Maxime Ripard <maxime@cerno.tech>,
+ Werner Johansson <werner.johansson@sonymobile.com>,
+ Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
+ linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
+Content-Type: multipart/mixed; boundary="===============1054706137=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime.
 
-On Tue, Mar 17, 2020 at 09:49:59AM +0100, Maxime Ripard wrote:
-> Hi Sam,
-> 
-> On Sat, Mar 14, 2020 at 04:30:45PM +0100, Sam Ravnborg wrote:
-> > data-mapping may not be the best way to describe the
-> > data format used between panels and display interface.
-> >
-> > Drop it from the panel-dpi binding so we do not start to rely on it.
-> > We can then work out how to best describe this mapping and when
-> > we know it, we can add it to this binding.
-> >
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Rob Herring <robh@kernel.org>
-> 
-> I can't say whether it's the right decision or not, but if you want to
-> go forward with this, you should maintain the backward compatibility,
-> so leave the code to deal with this as a fallback solution...
+--===============1054706137==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="h31gzZEtNLTqOjlF"
+Content-Disposition: inline
 
-This was all introduced very recently and is for now only present in
-drm-misc-next.
-The idea was to revert is *before* people started to rely on this new
-mapping. So we avoid all the backward compatibility fun.
-I had hoped the revert could land before the 5.7 pull, alas that was not
-the case.
 
-	Sam
+--h31gzZEtNLTqOjlF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> 
-> > ---
-> >  .../devicetree/bindings/display/panel/panel-dpi.yaml   | 10 ----------
-> >  1 file changed, 10 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > index f63870384c00..0cd74c8dab42 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > @@ -21,15 +21,6 @@ properties:
-> >        - {}
-> >        - const: panel-dpi
-> >
-> > -  data-mapping:
-> > -    enum:
-> > -      - rgb24
-> > -      - rgb565
-> > -      - bgr666
-> > -    description: |
-> > -      Describes the media format, how the display panel is connected
-> > -      to the display interface.
-> > -
-> 
-> And keep that DT property documented too.
-> 
-> You can express that it's only here for compatibility using the
-> deprecated keyword though.
-> 
-> It doesn't do anything at the moment, but the next spec of the schema
-> language uses it, so as soon as the library implements it we'll report
-> it.
-> 
-> Maxime
+On Mon, Mar 16, 2020 at 10:43:46PM +0100, Sam Ravnborg wrote:
+> On Mon, Mar 16, 2020 at 09:48:50PM +0100, Maxime Ripard wrote:
 
+> > All the SPI devices will be declared under a spi controller node that
+> > will validate its child nodes (and thus the devices) already.
+
+> This was the missing piece - thanks.
+> And as Mark put it "why is this suddenly an issue"?
+> Turns out this is already properly handled and I made up an issue.
+> Maybe Mark tried to explian it to me already...
+
+No, I didn't actually understand how it worked - I was just pretty sure
+that it should and trusted that Rob and Maxime had got it right.
+
+--h31gzZEtNLTqOjlF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5wttMACgkQJNaLcl1U
+h9BF/Qf/e1f3FiL65tLxhJHgSVGWUtvYFUQ6BgqVznQPLNNNIGBfYV1AQsue7zDt
+t4vHT0WIpuT/meGsf6ZOMs/tQlq7gQK2+tZzTJEyFCpV1oRmUjdxX63sJtsPVV3T
+6rcE1CWMOlAAWIPfegrrkfLvK/LjS7bzRLhYYo7NCgqiRnCMOjsAZawCJtyWYep7
+ffPIaxTv+73EvIDvy7/CYjsJRHUGbHtta8CiKb3cm0urAvtvLbcx0ppLHhyr9GcJ
+L8uBdMkWd3DRDQM/fPUNmyuWSqGRZwBJmhU+z+jN9bKlQqIC4Iw7JytoE6IOgtg8
+9AoTLBvS4BqnlQTGit3CFa6sWdqwIg==
+=Df56
+-----END PGP SIGNATURE-----
+
+--h31gzZEtNLTqOjlF--
+
+--===============1054706137==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1054706137==--
