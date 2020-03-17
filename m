@@ -1,37 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433FF18825D
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 12:39:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FFDB188274
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 12:47:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFCC898E4;
-	Tue, 17 Mar 2020 11:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC91789CE2;
+	Tue, 17 Mar 2020 11:47:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id F2727898E4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 11:39:04 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 42FBE1FB;
- Tue, 17 Mar 2020 04:39:04 -0700 (PDT)
-Received: from localhost (unknown [10.37.6.21])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C22AE3F534;
- Tue, 17 Mar 2020 04:39:03 -0700 (PDT)
-Date: Tue, 17 Mar 2020 11:39:02 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v1 02/36] dt-bindings: spi: support non-spi bindings as
- SPI slaves
-Message-ID: <20200317113902.GA3971@sirena.org.uk>
-References: <20200315134416.16527-1-sam@ravnborg.org>
- <20200315134416.16527-3-sam@ravnborg.org>
- <20200316204850.gggeyjulgiy53i7x@gilmour.lan>
- <20200316214346.GA23637@ravnborg.org>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5308C89CE2;
+ Tue, 17 Mar 2020 11:47:51 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1jEAhI-0001oQ-SQ; Tue, 17 Mar 2020 11:47:49 +0000
+From: Colin King <colin.king@canonical.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm: amd: fix spelling mistake "shoudn't" -> "shouldn't"
+Date: Tue, 17 Mar 2020 11:47:48 +0000
+Message-Id: <20200317114748.388420-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200316214346.GA23637@ravnborg.org>
-X-Cookie: There's only one everything.
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,82 +41,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
- Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
- Stefan Mavrodiev <stefan@olimex.com>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
- Nickey Yang <nickey.yang@rock-chips.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
- Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
- Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
- devicetree@vger.kernel.org, Guido Gunther <agx@sigxcpu.org>,
- Alexandre Courbot <acourbot@nvidia.com>, Maxime Ripard <maxime@cerno.tech>,
- Werner Johansson <werner.johansson@sonymobile.com>,
- Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
- linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
-Content-Type: multipart/mixed; boundary="===============1054706137=="
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Colin Ian King <colin.king@canonical.com>
 
---===============1054706137==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="h31gzZEtNLTqOjlF"
-Content-Disposition: inline
+There are spelling mistakes in pr_err messages and a comment. Fix these.
 
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c       | 2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c        | 2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
---h31gzZEtNLTqOjlF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Mar 16, 2020 at 10:43:46PM +0100, Sam Ravnborg wrote:
-> On Mon, Mar 16, 2020 at 09:48:50PM +0100, Maxime Ripard wrote:
-
-> > All the SPI devices will be declared under a spi controller node that
-> > will validate its child nodes (and thus the devices) already.
-
-> This was the missing piece - thanks.
-> And as Mark put it "why is this suddenly an issue"?
-> Turns out this is already properly handled and I made up an issue.
-> Maybe Mark tried to explian it to me already...
-
-No, I didn't actually understand how it worked - I was just pretty sure
-that it should and trusted that Rob and Maxime had got it right.
-
---h31gzZEtNLTqOjlF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5wttMACgkQJNaLcl1U
-h9BF/Qf/e1f3FiL65tLxhJHgSVGWUtvYFUQ6BgqVznQPLNNNIGBfYV1AQsue7zDt
-t4vHT0WIpuT/meGsf6ZOMs/tQlq7gQK2+tZzTJEyFCpV1oRmUjdxX63sJtsPVV3T
-6rcE1CWMOlAAWIPfegrrkfLvK/LjS7bzRLhYYo7NCgqiRnCMOjsAZawCJtyWYep7
-ffPIaxTv+73EvIDvy7/CYjsJRHUGbHtta8CiKb3cm0urAvtvLbcx0ppLHhyr9GcJ
-L8uBdMkWd3DRDQM/fPUNmyuWSqGRZwBJmhU+z+jN9bKlQqIC4Iw7JytoE6IOgtg8
-9AoTLBvS4BqnlQTGit3CFa6sWdqwIg==
-=Df56
------END PGP SIGNATURE-----
-
---h31gzZEtNLTqOjlF--
-
---===============1054706137==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+index d1cdcb404f7c..4bdf425ca6d8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+@@ -246,7 +246,7 @@ static void gfx_v10_rlcg_wreg(struct amdgpu_device *adev, u32 offset, u32 v)
+ 	grbm_idx = adev->reg_offset[GC_HWIP][0][mmGRBM_GFX_INDEX_BASE_IDX] + mmGRBM_GFX_INDEX;
+ 
+ 	if (amdgpu_sriov_runtime(adev)) {
+-		pr_err("shoudn't call rlcg write register during runtime\n");
++		pr_err("shouldn't call rlcg write register during runtime\n");
+ 		return;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+index 7bc2486167e7..2dd40f23ce83 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+@@ -747,7 +747,7 @@ void gfx_v9_0_rlcg_wreg(struct amdgpu_device *adev, u32 offset, u32 v)
+ 	grbm_idx = adev->reg_offset[GC_HWIP][0][mmGRBM_GFX_INDEX_BASE_IDX] + mmGRBM_GFX_INDEX;
+ 
+ 	if (amdgpu_sriov_runtime(adev)) {
+-		pr_err("shoudn't call rlcg write register during runtime\n");
++		pr_err("shouldn't call rlcg write register during runtime\n");
+ 		return;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c b/drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c
+index bb77b8890e77..78714f9a8b11 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c
+@@ -316,7 +316,7 @@ static void kfd_init_apertures_vi(struct kfd_process_device *pdd, uint8_t id)
+ {
+ 	/*
+ 	 * node id couldn't be 0 - the three MSB bits of
+-	 * aperture shoudn't be 0
++	 * aperture shouldn't be 0
+ 	 */
+ 	pdd->lds_base = MAKE_LDS_APP_BASE_VI();
+ 	pdd->lds_limit = MAKE_LDS_APP_LIMIT(pdd->lds_base);
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1054706137==--
