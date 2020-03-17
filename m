@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CEDC188F02
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 21:32:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE7B188FE2
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 21:56:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9068A89E33;
-	Tue, 17 Mar 2020 20:32:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FB9C6E0C6;
+	Tue, 17 Mar 2020 20:56:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37E9989E33
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 20:32:36 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id v3so22525977iom.13
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 13:32:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VrS9C3IZxKyoBCQ3Rk/A9DYkASncibCkp6b8/UIfrLo=;
- b=fev5dJibBNWDmWNlafH/nMNdF2riSYIWdtdFZwdm3ORjmQWJzifwBywYuOEr71ygZ4
- LQ+k/9trxUJfUCNYxYdkDHHKOWs8ZAfGCsNSI3eD57oLJ9cXLoGuzgauIueASJpBZekY
- gCKSEdHO9k4dNhxI0dWhtl7Y9olSAf59raq54smlQMi7ap5nq9/a9Rw+lU4u+jqqK69b
- Z5/rPWQBaICL3zqRNM7l99ogJLBtLIdQRh8ExV+px44ISvt44jq7ajdxD/Pb2hLSRyOu
- 0BneQoDQOfQI3hHARZCDF9aPn5F3SFcDE7xLNuNoKn3ZfM5jwce1rB+oEYEJpyG+pPo1
- /lZg==
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3866E0C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 20:56:51 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id a132so850774wme.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 13:56:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=E11XKxa+99XAxvsaAYOAf6rfWCpejdmI/dGXHU0ftc4=;
+ b=LtZPNzC6b/uYz7/iUpiw4siGA1/q7YWPE+zfz3twoBvPQpx87qtHSALZBiZeL12ZLB
+ Imh6HbyxUGSl9PaF8mzSd8TqKqBVGmyAsUnwY4seGnW1QDV+7QM1PLV4RnQPyIevWQms
+ vOdKcRPlc295M1IIdcx2FS6vWg5JFGnE5Ynt0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VrS9C3IZxKyoBCQ3Rk/A9DYkASncibCkp6b8/UIfrLo=;
- b=WOSzKQ+CrOQ4U01a8kmOX1jcGhZ01ZDfCGmKWttWcl9m8hBQEVhBTvBOFPgYk8N3yR
- r8s9toWXtN2yIPoerKJvFCPfG2boKO3jFp+3TK6Tbmq+6XXfwRl5s/Vi5/g2/N1DECp4
- J1VYD5uSAski7lUfMF81VMvGHyFfZ6v277Iebi2ymotz7Lpl3yoqZ53NlTmlddYG8+du
- 5JfE673mbYKBV4Fyoyd2ioclozVOW05N7/NEjyLdJ2ZWApnxkwppaFPUKuw/hJg7wrPu
- /FzuGRZkpOLePTk35w7Hqn2XwaRN8N/DY5b6sjg280SwKcAojziCExTSJ6CGP1x7cZ3S
- FcaQ==
-X-Gm-Message-State: ANhLgQ3oM+HFyBRhTVFVxE3eHnKIKtamt0toyFCgOOZSCBTDKm2jPXGl
- yVCO3oqDqxr89G5q/KsdQHMJyQveNSnuQMrCJH0=
-X-Google-Smtp-Source: ADFU+vuzPAqK4ah9KVXwVfeMcuulYCzflCTDkxJ0H81BUPQ5Q4SWzHynI17S9NQ22dymxGlzlrBINJXS19VltiluRA8=
-X-Received: by 2002:a6b:d609:: with SMTP id w9mr575226ioa.41.1584477155411;
- Tue, 17 Mar 2020 13:32:35 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=E11XKxa+99XAxvsaAYOAf6rfWCpejdmI/dGXHU0ftc4=;
+ b=D9p1phWl+IlXclxFIFQ/TVOjm+FvMGcUi0vl4dr6a2twrtiYBAWt4JEzBF6Vs9X7sM
+ 9DPrxasqWq0iCfYG1uelRQ4FlU088YA/4AlojlmeFNdIjoWZ99vjBBTXRVelxW1uvDZH
+ 8wdGlKFiFONW+RxpdT/7+Gbvlfd9F4Xa1mkxKm4R1nqq92SFvnJGUdi3hWjOZC7cKPgS
+ /Pi7TbIWSdCjhHr3YTZKFUpMwzJHHN/MBAhzseeNvA0LSjasomMGsULycW9Gr7+tPRRy
+ 2KuefnRzjfIhf583Es92/09O80W3nmwvNYvaHEJN02cyMXr4PJHbvqxeoyJzI3Qt9p95
+ TpNw==
+X-Gm-Message-State: ANhLgQ2u2qP3uTBG4XIYRywbtKlCUW2RwaYkqSwY2kT12FwqfPCDNbBB
+ GZplwpZu1nrpX2zXk+GgBcSBng==
+X-Google-Smtp-Source: ADFU+vuxLqsX9OOC+HCC5UGSBRT3kQGp9W/anxdsF8DdeGYqstJOLR7/CQB+Sbpa2yhBPeKJsCDERA==
+X-Received: by 2002:a05:600c:14d5:: with SMTP id
+ i21mr894439wmh.82.1584478609782; 
+ Tue, 17 Mar 2020 13:56:49 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id a73sm703837wme.47.2020.03.17.13.56.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Mar 2020 13:56:48 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] MAINTAINERS: Better regex for dma_buf|fence|resv
+Date: Tue, 17 Mar 2020 21:56:43 +0100
+Message-Id: <20200317205643.1028398-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200310010818.569-1-gurchetansingh@chromium.org>
- <20200310074302.yx6anlvqvsg37yzs@sirius.home.kraxel.org>
- <CAAfnVB=sw=u80mHnZUPf_+WDW-hGNTDSBWLfV+7y3KFN=s6beQ@mail.gmail.com>
- <20200311103609.ei446gelkvbqrdzm@sirius.home.kraxel.org>
- <CAAfnVBm1eoGZY7yB8eqEC1eLk=v4dq--O2biQOnWDHCkmguOeA@mail.gmail.com>
- <20200312092940.xioyjloil3f25ccv@sirius.home.kraxel.org>
- <CAAfnVBkTWy2pohv5kWWYwAa1yq14fRJrtN4GD7sF-h4inabH6Q@mail.gmail.com>
- <CAPaKu7SgkdBaFcDU1O7T+mMyzqO5iR8qYJxFJmcYGp_Hfe3S0g@mail.gmail.com>
- <20200316074404.z4xbta6qyrm74oxo@sirius.home.kraxel.org>
-In-Reply-To: <20200316074404.z4xbta6qyrm74oxo@sirius.home.kraxel.org>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Wed, 18 Mar 2020 04:32:24 +0800
-Message-ID: <CAPaKu7S=fmsGDY+txgFBcYDaBE9VaBubtEvVMEWj2yQ_UL04bQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/8] *** Per context fencing ***
-To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,62 +62,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chad Versace <chadversary@chromium.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- David Stevens <stevensd@chromium.org>, John Bates <jbates@chromium.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Joe Perches <joe@perches.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 16, 2020 at 3:44 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->   Hi,
->
-> > >> At virtio level it is pretty simple:  The host completes the SUBMIT_3D
-> > >> virtio command when it finished rendering, period.
-> > >>
-> > >>
-> > >> On the guest side we don't need the fence_id.  The completion callback
-> > >> gets passed the virtio_gpu_vbuffer, so it can figure which command did
-> > >> actually complete without looking at virtio_gpu_ctrl_hdr->fence_id.
-> > >>
-> > >> On the host side we depend on the fence_id right now, but only because
-> > >> that is the way the virgl_renderer_callbacks->write_fence interface is
-> > >> designed.  We have to change that anyway for per-context (or whatever)
-> > >> fences, so it should not be a problem to drop the fence_id dependency
-> > >> too and just pass around an opaque pointer instead.
-> >
-> > I am still catching up, but IIUC, indeed I don't think the host needs
-> > to depend on fence_id.  We should be able to repurpose fence_id.
->
-> I'd rather ignore it altogether for FENCE_V2 (or whatever we call the
-> feature flag).
+We're getting some random other stuff that we're not really interested
+in, so match only word boundaries. Also avoid the capture group while
+at it.
 
-That's fine when one assumes each virtqueue has one host GPU timeline.
-But when there are multiple (e.g., multiplexing multiple contexts over
-one virtqueue, or multiple VkQueues), fence_id can be repurposed as
-the host timeline id.
+Suggested by Joe Perches.
 
->
-> > On the other hand, the VIRTIO_GPU_FLAG_FENCE flag is interesting, and
-> > it indicates that the vbuf is on the host GPU timeline instead of the
-> > host CPU timeline.
->
-> Yep, we have to keep that (unless we do command completion on GPU
-> timeline unconditionally with FENCE_V2).
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: Joe Perches <joe@perches.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+v2: No single quotes in MAINTAINERS (Joe)
+v3: Fix typo in commit message (Sam)
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think it will be useful when EXECBUFFER is used for metadata query
-and write the metadata directly to a guest BO's sg list.  We want the
-query to be on the CPU timeline.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3005be638c2c..ed6088a01bfe 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5025,7 +5025,7 @@ F:	include/linux/dma-buf*
+ F:	include/linux/reservation.h
+ F:	include/linux/*fence.h
+ F:	Documentation/driver-api/dma-buf.rst
+-K:	dma_(buf|fence|resv)
++K:	\bdma_(?:buf|fence|resv)\b
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ 
+ DMA-BUF HEAPS FRAMEWORK
+-- 
+2.25.1
 
-
-
-
-> cheers,
->   Gerd
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
