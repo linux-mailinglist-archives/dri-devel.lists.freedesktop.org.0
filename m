@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71BB4188724
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:17:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E194188732
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:17:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26F436E1CF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 147A86E1BE;
 	Tue, 17 Mar 2020 14:16:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5948997A
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 21:41:36 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id bo3so7951579pjb.5
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 14:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96BA06E4E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 06:55:54 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id n21so19796314ioo.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 23:55:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9wf0Koz5Hqawzf6JsmYQiKszzPagSKBiZUUlt5oOYqk=;
- b=bygEw+utdMG3J5vWZUoZSaS7LmV6Z5HdtyZV/VdNtbOd9xdi8xc0AugHxl6FD6zUyE
- DYho48lurJEKOQsrXUCvVHgqwG5nzSQ9hCveGYqzxMmXyXHZZj4TSZj7imlQc1nxdiHm
- AetbRzqEN6m4JOEDas4VlK2MDkOXsuAz8ba+zYfeZwrZ08d7nqfZUL7MWZDs3SuIb6Fg
- hDEBTGIAwM7cIXBIUMAgMZeQtZQgPsr1VNX0Zbnn0UONxvqrcD7hzeT7XNNc1nrkrD6L
- XWgo9QJuNS7GdyhnuwxaexJq3QG/5dIbA2yuW1NwoXOE95YUbvsI1GJ3JTlDNV/gN9oV
- 203Q==
+ :cc; bh=xWR9GR9zXt7FMFLwHnM9DNzADB3xyA+rYdWNj2AqhMs=;
+ b=I1UzqDi1CI7BgLIIpE9p97OJKAijExbglYmN6z+rzZ+aGvdTYh1gw27m8JTkITzPxT
+ Rilz8tMl3pOmagIK5plERd6lxmTFAtxgBRCz41ZDo/k0lfz/7mO6m6k/4hYhut0HhyXd
+ cDIA4BqZ+8+i3tYMVWtC8e7WgWFF2/7IPXft4JrXPm+SFW8cPUe2NSkyIwAPd0u0UZZs
+ FTRYP2iMLHSLfQEAn+MqzefPVG7v4E+zNbzK6HlRzc1Qw9o/YnazXDt/JNuyO3jlPOWk
+ RipUqhWIyVOhokA39kwlbbAcfJXbAuAtFEpF6dgFz8Q0irkAJoR/ui8mXoLWqo7me+7S
+ +vqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9wf0Koz5Hqawzf6JsmYQiKszzPagSKBiZUUlt5oOYqk=;
- b=Igy8v7moQu5FZhNl+rdVPzDS7rHCsfvdO4Zmf6Ooz888KZOJjj5VQTzG08LXafsnem
- ftQFrx5t8NpHo3ULG5E1utrdYJ4MZbzPUNlAZRGTbhr1fCH/EFnSdRJEmr9TmbIQmZqc
- kdy4aXR9flJe8Geyi3vyMU5LNwOY2tm4S9z8zCzq+00gZVLPwv4S8bkIcXT9Vg7fi61w
- wlyMQlKxPViSDhU7pPxE6BKWS66zsdw/GgobRvNje358+c4gwVXSLs3gTK4qkGIjg2kX
- I5Z4TmR60M6aTuzgSR+yehPd5gJSt9CkwWdkxgknq/BB1/MFwDd9AVmk9de39laGNMZx
- Sylw==
-X-Gm-Message-State: ANhLgQ09jX937UG9IQzajeqOFtlTro5sUuLF3N3boWMezcY6wMMzpDgM
- Ia6BCTHyjAFoATVLhApp0j3QFpXpI2gpqB5IfBeUSQ==
-X-Google-Smtp-Source: ADFU+vtTQK5TD1ku2W52cwb9IcN2NIxSX4pkJHwb1CiOr27o/QEwR2bJm0JvInszSDbMqcrpiTnEbBwxyDyJBxR5jGk=
-X-Received: by 2002:a17:902:8a88:: with SMTP id
- p8mr1121105plo.179.1584394895359; 
- Mon, 16 Mar 2020 14:41:35 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=xWR9GR9zXt7FMFLwHnM9DNzADB3xyA+rYdWNj2AqhMs=;
+ b=TiTvE5eH39NiPsw7EbZSpI6gzWP9I5h7frG/O1A0cMOWWZkAzCSRz4Ln0Zt5jmUIUm
+ 3BZ/yojktkCvtMS1zO3eW4cGzHIfp8TpbVlLpuK7HfjxRbi43UaH1HH/C56BusC5QUs6
+ wY8gRScEuxg2uuPoykn+MGrRNUQKsy6k3bjddQaRhivvg3onxxdt2irufHnPR3/ToXAg
+ fcygwrtR15Ph/Bsb3p8NGUrCrHcZbE6yw/EES0wbvKmik+2WeCgUiNfLVHMsF9FEWISU
+ x6wZaLYogfprvc4BWyHKFQ9+ym8tLxN9leqDNsd/PvV/u1DFyVTbfUNQaOm8uQ4eFrW/
+ SBAw==
+X-Gm-Message-State: ANhLgQ3VS9qgCdylPnGMLWbcO1lip28HxXE9XaIwLK2fpAX7VtQAhpVN
+ qlEgArOKU7M9H/Q6hsX33oG4GHyPJOj49UAKvoE=
+X-Google-Smtp-Source: ADFU+vsXQb/pFKtMWJ3JxvgCpZZOO72lwsnc1rP4K5qxjjSEXrdkUflkKDvQQlk2khti5gYEuUfJLY5cws3XT4bGDto=
+X-Received: by 2002:a05:6638:f01:: with SMTP id
+ h1mr3578763jas.36.1584428153800; 
+ Mon, 16 Mar 2020 23:55:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200214054706.33870-1-natechancellor@gmail.com>
- <87v9o965gg.fsf@intel.com>
- <158166913989.4660.10674824117292988120@skylake-alporthouse-com>
- <87o8u1wfqs.fsf@intel.com> <ff302c03-d012-a80d-b818-b7feababb86b@daenzer.net>
-In-Reply-To: <ff302c03-d012-a80d-b818-b7feababb86b@daenzer.net>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Mon, 16 Mar 2020 14:41:23 -0700
-Message-ID: <CAKwvOdnaRG=7mib9vtWX4wkjQXHeUiioonTaZLStMVXfOOSUfw@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915: Cast remain to unsigned long in eb_relocate_vma
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>, 
- Chris Wilson <chris@chris-wilson.co.uk>,
- Nathan Chancellor <natechancellor@gmail.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>
+References: <1583920112-2680-1-git-send-email-simhavcs@gmail.com>
+ <20200312151752.GA7490@bogus>
+ <CAGWqDJ7DP3DuR7EWT6Ni8YxN3Adg3RgJZut6+AtpAak_HB=QCQ@mail.gmail.com>
+In-Reply-To: <CAGWqDJ7DP3DuR7EWT6Ni8YxN3Adg3RgJZut6+AtpAak_HB=QCQ@mail.gmail.com>
+From: Vinay Simha B N <simhavcs@gmail.com>
+Date: Tue, 17 Mar 2020 12:25:42 +0530
+Message-ID: <CAGWqDJ4cAU98_xMk6f-bsT5LF5cD2JJk8_JCykwM=cd6CCfWtw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-binding: Add DSI/LVDS tc358775 bridge bindings
+To: Sam Ravnborg <sam@ravnborg.org>
 X-Mailman-Approved-At: Tue, 17 Mar 2020 14:16:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,81 +64,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBGZWIgMTQsIDIwMjAgYXQgNzozNiBBTSBNaWNoZWwgRMOkbnplciA8bWljaGVsQGRh
-ZW56ZXIubmV0PiB3cm90ZToKPgo+IE9uIDIwMjAtMDItMTQgMTI6NDkgcC5tLiwgSmFuaSBOaWt1
-bGEgd3JvdGU6Cj4gPiBPbiBGcmksIDE0IEZlYiAyMDIwLCBDaHJpcyBXaWxzb24gPGNocmlzQGNo
-cmlzLXdpbHNvbi5jby51az4gd3JvdGU6Cj4gPj4gUXVvdGluZyBKYW5pIE5pa3VsYSAoMjAyMC0w
-Mi0xNCAwNjozNjoxNSkKPiA+Pj4gT24gVGh1LCAxMyBGZWIgMjAyMCwgTmF0aGFuIENoYW5jZWxs
-b3IgPG5hdGVjaGFuY2VsbG9yQGdtYWlsLmNvbT4gd3JvdGU6Cj4gPj4+PiBBIHJlY2VudCBjb21t
-aXQgaW4gY2xhbmcgYWRkZWQgLVd0YXV0b2xvZ2ljYWwtY29tcGFyZSB0byAtV2FsbCwgd2hpY2gg
-aXMKPiA+Pj4+IGVuYWJsZWQgZm9yIGk5MTUgYWZ0ZXIgLVd0YXV0b2xvZ2ljYWwtY29tcGFyZSBp
-cyBkaXNhYmxlZCBmb3IgdGhlIHJlc3QKPiA+Pj4+IG9mIHRoZSBrZXJuZWwgc28gd2Ugc2VlIHRo
-ZSBmb2xsb3dpbmcgd2FybmluZyBvbiB4ODZfNjQ6Cj4gPj4+Pgo+ID4+Pj4gIC4uL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9leGVjYnVmZmVyLmM6MTQzMzoyMjogd2FybmluZzoK
-PiA+Pj4+ICByZXN1bHQgb2YgY29tcGFyaXNvbiBvZiBjb25zdGFudCA1NzY0NjA3NTIzMDM0MjM0
-ODcgd2l0aCBleHByZXNzaW9uIG9mCj4gPj4+PiAgdHlwZSAndW5zaWduZWQgaW50JyBpcyBhbHdh
-eXMgZmFsc2UKPiA+Pj4+ICBbLVd0YXV0b2xvZ2ljYWwtY29uc3RhbnQtb3V0LW9mLXJhbmdlLWNv
-bXBhcmVdCj4gPj4+PiAgICAgICAgICBpZiAodW5saWtlbHkocmVtYWluID4gTl9SRUxPQyhVTE9O
-R19NQVgpKSkKPiA+Pj4+ICAgICAgICAgICAgIH5+fn5+fn5+fn5+fn5+fn5efn5+fn5+fn5+fn5+
-fn5+fn5+fn4KPiA+Pj4+ICAuLi9pbmNsdWRlL2xpbnV4L2NvbXBpbGVyLmg6Nzg6NDI6IG5vdGU6
-IGV4cGFuZGVkIGZyb20gbWFjcm8gJ3VubGlrZWx5Jwo+ID4+Pj4gICMgZGVmaW5lIHVubGlrZWx5
-KHgpICAgIF9fYnVpbHRpbl9leHBlY3QoISEoeCksIDApCj4gPj4+PiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KPiA+Pj4+ICAxIHdhcm5pbmcgZ2VuZXJhdGVk
-Lgo+ID4+Pj4KPiA+Pj4+IEl0IGlzIG5vdCB3cm9uZyBpbiB0aGUgY2FzZSB3aGVyZSBVTE9OR19N
-QVggPiBVSU5UX01BWCBidXQgaXQgZG9lcyBub3QKPiA+Pj4+IGFjY291bnQgZm9yIHRoZSBjYXNl
-IHdoZXJlIHRoaXMgZmlsZSBpcyBidWlsdCBmb3IgMzItYml0IHg4Niwgd2hlcmUKPiA+Pj4+IFVM
-T05HX01BWCA9PSBVSU5UX01BWCBhbmQgdGhpcyBjaGVjayBpcyBzdGlsbCByZWxldmFudC4KPiA+
-Pj4+Cj4gPj4+PiBDYXN0IHJlbWFpbiB0byB1bnNpZ25lZCBsb25nLCB3aGljaCBrZWVwcyB0aGUg
-Z2VuZXJhdGVkIGNvZGUgdGhlIHNhbWUKPiA+Pj4+ICh2ZXJpZmllZCB3aXRoIGNsYW5nLTExIG9u
-IHg4Nl82NCBhbmQgR0NDIDkuMi4wIG9uIHg4NiBhbmQgeDg2XzY0KSBhbmQKPiA+Pj4+IHRoZSB3
-YXJuaW5nIGlzIHNpbGVuY2VkIHNvIHdlIGNhbiBjYXRjaCBtb3JlIHBvdGVudGlhbCBpc3N1ZXMg
-aW4gdGhlCj4gPj4+PiBmdXR1cmUuCj4gPj4+Pgo+ID4+Pj4gTGluazogaHR0cHM6Ly9naXRodWIu
-Y29tL0NsYW5nQnVpbHRMaW51eC9saW51eC9pc3N1ZXMvNzc4Cj4gPj4+PiBTdWdnZXN0ZWQtYnk6
-IE1pY2hlbCBEw6RuemVyIDxtaWNoZWxAZGFlbnplci5uZXQ+Cj4gPj4+PiBTaWduZWQtb2ZmLWJ5
-OiBOYXRoYW4gQ2hhbmNlbGxvciA8bmF0ZWNoYW5jZWxsb3JAZ21haWwuY29tPgo+ID4+Pgo+ID4+
-PiBXb3JrcyBmb3IgbWUgYXMgYSB3b3JrYXJvdW5kLAo+ID4+Cj4gPj4gQnV0IHRoZSB3aG9sZSBw
-b2ludCB3YXMgdGhhdCB0aGUgY29tcGlsZXIgY291bGQgc2VlIHRoYXQgaXQgd2FzCj4gPj4gaW1w
-b3NzaWJsZSBhbmQgbm90IGVtaXQgdGhlIGNvZGUuIERvZXNuJ3QgdGhpcyBicmVhayB0aGF0Pwo+
-ID4KPiA+IEl0IHNlZW1zIHRoYXQgZ29hbCBhbmQgdGhlIHdhcm5pbmcgYXJlIGZ1bmRhbWVudGFs
-bHkgaW5jb21wYXRpYmxlLgo+Cj4gTm90IHJlYWxseToKPgo+ICAgICBpZiAoc2l6ZW9mKHJlbWFp
-bikgPj0gc2l6ZW9mKHVuc2lnbmVkIGxvbmcpICYmCj4gICAgICAgICB1bmxpa2VseShyZW1haW4g
-PiBOX1JFTE9DKFVMT05HX01BWCkpKQo+ICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsKPgo+
-IEluIGNvbnRyYXN0IHRvIHRoZSBjYXN0LCB0aGlzIGRvZXNuJ3QgZ2VuZXJhdGUgYW55IG1hY2hp
-bmUgY29kZSBvbiA2NC1iaXQ6Cj4KPiBodHRwczovL2dvZGJvbHQub3JnL3ovR21VRTRTCj4KPiBi
-dXQgc3RpbGwgZ2VuZXJhdGVzIHRoZSBzYW1lIGNvZGUgb24gMzItYml0Ogo+Cj4gaHR0cHM6Ly9n
-b2Rib2x0Lm9yZy96L2hBb3o4TAoKRXhhY3RseS4KClRoaXMgY2hlY2sgaXMgb25seSBhIHRhdXRv
-bG9neSB3aGVuIGBzaXplb2YobG9uZykgPT0gc2l6ZW9mKGludClgIChpZS4KSUxQMzIgcGxhdGZv
-cm1zLCBsaWtlIDMyYiB4ODYpLCBub3RpY2UgaG93IEJPVEggR0NDIEFORCBDbGFuZyBnZW5lcmF0
-ZQpleGFjdGx5IHRoZSBzYW1lIGNvZGU6IGh0dHBzOi8vZ29kYm9sdC5vcmcvei82U2hyRE0KCkJv
-dGggY29tcGlsZXJzIGVsaW1pbmF0ZSB0aGUgY2hlY2sgd2hlbiBgLW0zMmAgaXMgbm90IHNldCwg
-YW5kCmdlbmVyYXRlIHRoZSBleGFjdCBzYW1lIGNoZWNrIG90aGVyd2lzZS4gIEhvdyBhYm91dDoK
-YGBgCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1
-ZmZlci5jCmIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2V4ZWNidWZmZXIuYwpp
-bmRleCBkM2Y0ZjI4ZTk0NjguLjI1YjlkM2YzYWQ1NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2V4ZWNidWZmZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1ZmZlci5jCkBAIC0xNDE1LDggKzE0MTUsMTAgQEAgc3Rh
-dGljIGludCBlYl9yZWxvY2F0ZV92bWEoc3RydWN0Cmk5MTVfZXhlY2J1ZmZlciAqZWIsIHN0cnVj
-dCBlYl92bWEgKmV2KQoKICAgICAgICB1cmVsb2NzID0gdTY0X3RvX3VzZXJfcHRyKGVudHJ5LT5y
-ZWxvY3NfcHRyKTsKICAgICAgICByZW1haW4gPSBlbnRyeS0+cmVsb2NhdGlvbl9jb3VudDsKKyNp
-Zm5kZWYgQ09ORklHXzY0QklUCiAgICAgICAgaWYgKHVubGlrZWx5KHJlbWFpbiA+IE5fUkVMT0Mo
-VUxPTkdfTUFYKSkpCiAgICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsKKyNlbmRpZgoKICAg
-ICAgICAvKgogICAgICAgICAqIFdlIG11c3QgY2hlY2sgdGhhdCB0aGUgZW50aXJlIHJlbG9jYXRp
-b24gYXJyYXkgaXMgc2FmZQpgYGAKCldlIG5vdyBoYXZlIDQgcHJvcG9zZWQgc29sdXRpb25zOgox
-LiBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIwMTkxMTIzMTk1MzIxLjQxMzA1LTEtbmF0
-ZWNoYW5jZWxsb3JAZ21haWwuY29tLwoyLiBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIw
-MjAwMjExMDUwODA4LjI5NDYzLTEtbmF0ZWNoYW5jZWxsb3JAZ21haWwuY29tLwozLiBodHRwczov
-L2xvcmUua2VybmVsLm9yZy9sa21sLzIwMjAwMjE0MDU0NzA2LjMzODcwLTEtbmF0ZWNoYW5jZWxs
-b3JAZ21haWwuY29tLwo0LiBteSBkaWZmIGFib3ZlCkxldCdzIHBsZWFzZSBjb21lIHRvIGEgcmVz
-b2x1dGlvbiBvbiB0aGlzLgotLSAKVGhhbmtzLAp+TmljayBEZXNhdWxuaWVycwpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+sam,
+
+i need some inputs on the below  error. I had created this file
+Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml
+by using vim editor. Do we have any tool to create yaml file?
+
+i do not get the error when running 'make dt_binding_check' in my
+build environment
+Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml
+
+is there any tool available similar to  scripts/checkpatch.pl -f
+<file> , for yaml files?
+
+On Sun, Mar 15, 2020 at 8:54 PM Vinay Simha B N <simhavcs@gmail.com> wrote:
+>
+> rob,
+>
+> i do not get the error when running 'make dt_binding_check' in my
+> build environment
+> Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml
+>
+> is there any tool available similar to  scripts/checkpatch.pl -f
+> <file> , for yaml files?
+>
+> On Thu, Mar 12, 2020 at 8:47 PM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Wed, 11 Mar 2020 15:18:24 +0530, Vinay Simha BN wrote:
+> > > Add yaml documentation for DSI/LVDS tc358775 bridge
+> > >
+> > > Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
+> > >
+> > > ---
+> > > v1:
+> > >  Initial version
+> > > ---
+> > >  .../bindings/display/bridge/toshiba-tc358775.yaml  | 174 +++++++++++++++++++++
+> > >  1 file changed, 174 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml
+> > >
+> >
+> > My bot found errors running 'make dt_binding_check' on your patch:
+> >
+> > Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml:  while scanning for the next token
+> > found character that cannot start any token
+> >   in "<unicode string>", line 11, column 1
+> > Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.example.dts' failed
+> > make[1]: *** [Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.example.dts] Error 1
+> > make[1]: *** Waiting for unfinished jobs....
+> > warning: no schema found in file: Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml
+> > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/toshiba-tc358775.yaml: ignoring, error parsing file
+> > Makefile:1262: recipe for target 'dt_binding_check' failed
+> > make: *** [dt_binding_check] Error 2
+> >
+> > See https://patchwork.ozlabs.org/patch/1252753
+> > Please check and re-submit.
+>
+>
+>
+> --
+> regards,
+> vinaysimha
+
+
+
+-- 
+regards,
+vinaysimha
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
