@@ -2,147 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D28187806
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 04:16:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 253BF18783C
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 04:37:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8D656E507;
-	Tue, 17 Mar 2020 03:16:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B50A96E038;
+	Tue, 17 Mar 2020 03:37:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-eopbgr60065.outbound.protection.outlook.com [40.107.6.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C27EA6E507
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 03:16:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wjq5Du/7KTmOsAjlImL7DcU6Bsi8RXMWEED5o4Wqxc8=;
- b=yldhjkQaJdt1vN5JkwrTzTveyn5qb6ne4lx96Yy1YHo9rK3oQ8hbo6MpzeaEu5avzvFiQPVxFI6bGL2JanIY5cB5QWiWKpUxGwMQMq8kAR0mT8Ef9g/PV4wCYJ+AmMec3I/bGmkb8olfr3f4nkSp90Vb6vRcn6mNTbAN+mEM3TQ=
-Received: from DB6P191CA0011.EURP191.PROD.OUTLOOK.COM (2603:10a6:6:28::21) by
- VI1PR0802MB2528.eurprd08.prod.outlook.com (2603:10a6:800:ad::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.19; Tue, 17 Mar
- 2020 03:15:58 +0000
-Received: from DB5EUR03FT045.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:6:28:cafe::20) by DB6P191CA0011.outlook.office365.com
- (2603:10a6:6:28::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.19 via Frontend
- Transport; Tue, 17 Mar 2020 03:15:58 +0000
-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
- dmarc=bestguesspass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT045.mail.protection.outlook.com (10.152.21.164) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2814.13 via Frontend Transport; Tue, 17 Mar 2020 03:15:57 +0000
-Received: ("Tessian outbound 846b976b3941:v42");
- Tue, 17 Mar 2020 03:15:57 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 74603bf2cf1739f3
-X-CR-MTA-TID: 64aa7808
-Received: from c5578e74c362.2
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 38B8EE39-0474-42DD-BDA4-405C22A59A3E.1; 
- Tue, 17 Mar 2020 03:15:52 +0000
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id c5578e74c362.2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Tue, 17 Mar 2020 03:15:52 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GpWGYRoHAbkWHItWnLrKTrQEl1aY9NVOBT+xH7tqrRESmdoIgiGYe21UtW+WvB00ZpGKZbUI+pJKALfICG4KS0hsf04ar3su8kf0WPAOHFSQeVI4tF9FRXMXaHB+uAHZZvWvoOwhf6aePazo+5l9ATda6K9dlV+NO019wGa5gx9JXpu3wrPK2bByNvBTP15LK+KMlfwMf2bE/Vb1tWJ30NNxyDkqK+e+UawSL/1cH2sxUnZsAf3ffWYxt5FWjO2s9r4bNu2WV6C3obm8oNwABpO5nyqQJHjDnkEK6KYx2nthieqFnYYZqbQ6D6D7mBsmp/ncNQ7T6HrwbdaAl4IdRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wjq5Du/7KTmOsAjlImL7DcU6Bsi8RXMWEED5o4Wqxc8=;
- b=gNCOjugUoxo2Jh/zhYwB+8UUdOkZYwPZxTUj+ZdU9P3b9pEKYJdyZKSB7jyRbEmEqDKuWOf1HVZndfwEZrrFewRHnSbPcKXf8pfUyycBcJNaVAg27bszHSxGt6tO3CfkCnNWCzTiV9tgZbMzxiPY12x2eoFfLvzUW0S0jplnBGl3niyt74o8pM4Dhir/qJxZqUW9yco6QBDIFlvETFeUD1rkuDrzfhLTv9RmEsjnNNQI7EsTQ+jQrNqF7QCewXAZABYgy9ZTBObTdlV2CWDO/JOXpW/rb7ZX26XclIbUm0kGCr1fCPDC6RXw6ApkrtgHdNdx5xbjdoLbqpUSKXirHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wjq5Du/7KTmOsAjlImL7DcU6Bsi8RXMWEED5o4Wqxc8=;
- b=yldhjkQaJdt1vN5JkwrTzTveyn5qb6ne4lx96Yy1YHo9rK3oQ8hbo6MpzeaEu5avzvFiQPVxFI6bGL2JanIY5cB5QWiWKpUxGwMQMq8kAR0mT8Ef9g/PV4wCYJ+AmMec3I/bGmkb8olfr3f4nkSp90Vb6vRcn6mNTbAN+mEM3TQ=
-Authentication-Results-Original: spf=none (sender IP is )
- smtp.mailfrom=james.qian.wang@arm.com; 
-Received: from VE1PR08MB5006.eurprd08.prod.outlook.com (10.255.159.31) by
- VE1PR08MB4831.eurprd08.prod.outlook.com (10.255.115.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2814.22; Tue, 17 Mar 2020 03:15:49 +0000
-Received: from VE1PR08MB5006.eurprd08.prod.outlook.com
- ([fe80::2d29:e139:a5a5:f08b]) by VE1PR08MB5006.eurprd08.prod.outlook.com
- ([fe80::2d29:e139:a5a5:f08b%3]) with mapi id 15.20.2814.021; Tue, 17 Mar 2020
- 03:15:48 +0000
-Date: Tue, 17 Mar 2020 11:15:41 +0800
-From: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Subject: Re: [PATCHv7 2/6] drm/core: Add drm_afbc_framebuffer and a
- corresponding helper
-Message-ID: <20200317031541.GB11556@jamwan02-TSP300>
-References: <20200311145541.29186-1-andrzej.p@collabora.com>
- <20200311145541.29186-3-andrzej.p@collabora.com>
-Content-Disposition: inline
-In-Reply-To: <20200311145541.29186-3-andrzej.p@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: HKAPR04CA0014.apcprd04.prod.outlook.com
- (2603:1096:203:d0::24) To VE1PR08MB5006.eurprd08.prod.outlook.com
- (2603:10a6:803:113::31)
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD9DD6E509
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 03:37:17 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id dc19so24625410edb.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Mar 2020 20:37:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BA+mdYeVMliYcBvVOu3TYqpgPCbaBApwen9ygdsVXws=;
+ b=SeA7jctDBNLWq8LHxUZ8JjfNgv6uuc5vaJbU8OuGXDMaFT5YYwsEd4kcVpV9TfP8LS
+ jvb66a1r66/wI6SEadg7r4NPaSbxPFa6IojzbOf8SrduVMti/kbCi+Wbj2z6lZrtNGge
+ zDmLDrDo+SsDxx8KzQPDPH2POAhpLwllRYbmmSNihpyNiP4+Xk27GL0W1ULXhl0NX4lm
+ 6/O4yjpJa5CI51s7Fpxr4Sgr2r6Ao/JTVkvFNDxnGnETgjin5zkiK2Lc9LvLbN5TPQUw
+ 09w47FhPlrAKUo+wA6qNyN/GoZH7NMhBYwXD/REY0rPxLlERxjrd1Z0+4C99OvWKDZt3
+ ZDuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BA+mdYeVMliYcBvVOu3TYqpgPCbaBApwen9ygdsVXws=;
+ b=K4z95yq9AiSlZBrP/YJBdP0ryw1IgkCKfwiNHl+XZXJkRnQEUAxn0SMqu0lxOdVvMz
+ uufYI4hyDhu0Rf8MRHzy8w/9iTUbzl2FLlL4Hb2282vCLK6z2yiejMLWb4tPbYE5Hwll
+ e3i2coDabihpqk3phQ9ZYzmewTx6F0MYphJlNycQwaT+FgwuzZ0tOvwlXoF0CI/782no
+ ekuTWraX28kq32mBmNtFlw8Di+SWsBjYkpuvJ89uoCb5g2ENr22xRrCWh64nSMEAFuae
+ A/W2Kbo7Q197PeREgodfmCZJ+GhawknmDTjl4KEKAFV66bbg0ed0WSVnaaQdTRUkKkEY
+ 0/rg==
+X-Gm-Message-State: ANhLgQ1aD55eOscEgOpgDOs6lZDDag6yUUCTVKpPMpT3qwF/f5GQ5p2N
+ dqnNnFzRAHk51YkPwEuDMuq5LBUCtVLE/rqzR4QLMg==
+X-Google-Smtp-Source: ADFU+vuJfKhdWdImDdmo9nh8HhhAyszv47DoPF3ycOQJQxpHBCPgFhFYKulUPMCN9ChHlgqz3fivzaj0qXAu44sK/3g=
+X-Received: by 2002:a17:906:5ad5:: with SMTP id
+ x21mr2271180ejs.177.1584416235692; 
+ Mon, 16 Mar 2020 20:37:15 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (113.29.88.7) by
- HKAPR04CA0014.apcprd04.prod.outlook.com (2603:1096:203:d0::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2814.14 via Frontend Transport; Tue, 17 Mar 2020 03:15:47 +0000
-X-Originating-IP: [113.29.88.7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: fd76eb09-7562-40af-c4e1-08d7ca218322
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4831:|VE1PR08MB4831:|VI1PR0802MB2528:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0802MB252886BE08CD1672637B9632B3F60@VI1PR0802MB2528.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;OLM:8882;
-X-Forefront-PRVS: 0345CFD558
-X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
- SFS:(10009020)(4636009)(7916004)(396003)(136003)(366004)(39860400002)(376002)(346002)(199004)(316002)(1076003)(33716001)(6666004)(55236004)(52116002)(16526019)(186003)(54906003)(6916009)(33656002)(6496006)(7416002)(86362001)(26005)(66946007)(6486002)(9686003)(66476007)(66556008)(478600001)(4326008)(956004)(81166006)(8676002)(8936002)(81156014)(2906002)(5660300002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VE1PR08MB4831;
- H:VE1PR08MB5006.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: arm.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: huVgIBIV6HtiO7z00GP6V4Dl8A+3XZdUOuj0m9hfbgwWE2b5A0llTT1F2cbe9GoOZeny1rj+yEI3QaUiIBpNBLrXMXI3mQwDCCQNWyEa18UA8ssP/DuK9mPKM7nkUNBuAal8jQ0+wwtMUqa26zE8NoVhURqTBbrKMBYPxNIkd2Ry6p1AuNioS1OlY5lxuPZU2ejtBoMw/O21ARt7JVGnpwpJ96mql1InAOAdGTDvc3ZbdABuypg0bLVRu/APu9CLVBSUdGMpIYckhVFEbvwNuhzkeUjCW/5T20K+ZLl15+RGcNcSCQpmfZcMnRE6m4I3K2lQXGh9Ytl/FIIRZ72gi40U6oxphKSBYYtinDouZQs+AYIHWU9VOTkP9zXk5ODVy+0RH0bUS1L5zf1uPBvDr5nM2S79fNLA6n3p4zka69mCBKBTvvYM2diKw96t4dkg
-X-MS-Exchange-AntiSpam-MessageData: mTu5vaCMg/FWGLWdkkXG663rasO3I34cnMN0fTBop505b0P8iff81vkoIlhrLTJPCcn2/yHuex4AFkrJgGr2tu0uXyvkl/jn0SQOqmif30wN92u/+jUTbU++zI9QHzUAhehBYHk4IDd0et54SETCVg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB4831
-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=james.qian.wang@arm.com; 
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT045.eop-EUR03.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:63.35.35.123; IPV:CAL; SCL:-1; CTRY:IE;
- EFV:NLI; SFV:NSPM;
- SFS:(10009020)(4636009)(7916004)(346002)(376002)(396003)(39860400002)(136003)(199004)(46966005)(33656002)(316002)(478600001)(54906003)(4326008)(6862004)(26826003)(6486002)(8676002)(9686003)(81156014)(81166006)(1076003)(956004)(6496006)(336012)(16526019)(33716001)(8936002)(6666004)(356004)(26005)(186003)(5660300002)(86362001)(70586007)(70206006)(47076004)(2906002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR0802MB2528;
- H:64aa7808-outbound-1.mta.getcheckrecipient.com; FPR:; SPF:Pass; LANG:en;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; A:1; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 572df797-33d5-411c-7cb1-08d7ca217d91
-X-Forefront-PRVS: 0345CFD558
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: z7cyu7DrQQ0yrSW9h72LnrXGZR8sdkeZsOo/dJdNEzPjYDoWOqe8l+nVwidhJNKMgqL7+cGnFwi8C/XZH+UNQNDCVRKSNH+JCqxdmxHvB9FmH2c3Z1z2X1ji4LPH5KajJAWM927HV2/UnVvHWg0ogdGHc0H/C4JOzMoppFV+bYkk8jm0JVH708HSpX9RVYT9hgo08DYifuys7NnYA40PSmiBDSJlX5EPxZqEr6Keh7UtR9xSfdJh1zIaPN3GU0OlpFzx67gbkgf41jxa9PkVr3dw4hayHnd/YAnkYN5nulG4d8u9BXZK+gArcUkTahtDBspWfYTjIles7WBjUV5ANp+Z3pE65rKn4YH+NrSPdiiqJeAVwq+AmwjIe7n8dw38wfmwPLEVsYqVfW60AwCfLoTw2OAJMI4GYRlly5KkzAAgkp0G3s00FA7G8CUr695RhfPGS14m09VM+O1OwHsEzL1okWmgZRygIjKtasI+Se1i89i6515dV9i9psKNnJV8olVMDIFo5Cp788TqIhNCxA==
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 03:15:57.8969 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fd76eb09-7562-40af-c4e1-08d7ca218322
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0802MB2528
+References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
+ <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
+ <CAJcyoys6FOsBmDe_rSeM8VSwPuB55a-v+3igaknQLyq=6aPa9A@mail.gmail.com>
+In-Reply-To: <CAJcyoys6FOsBmDe_rSeM8VSwPuB55a-v+3igaknQLyq=6aPa9A@mail.gmail.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Mon, 16 Mar 2020 22:37:04 -0500
+Message-ID: <CAOFGe97O42ad5Q_P4RvYNFcgzZWy=LNB=tU2V5TkGaZ4=qbrCg@mail.gmail.com>
+Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
+To: Roman Gilg <subdiff@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,282 +64,321 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nd@arm.com, Ayan Halder <Ayan.Halder@arm.com>,
- "kernel@collabora.com" <kernel@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Sandy Huang <hjc@rock-chips.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Mihail Atanassov <Mihail.Atanassov@arm.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, xorg-devel <xorg-devel@lists.x.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ "wayland-devel @ lists . freedesktop . org"
+ <wayland-devel@lists.freedesktop.org>,
+ Discussion of the development of and with GStreamer
+ <gstreamer-devel@lists.freedesktop.org>,
+ ML mesa-dev <mesa-dev@lists.freedesktop.org>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 11, 2020 at 10:55:37PM +0800, Andrzej Pietrasiewicz wrote:
-> The new struct contains afbc-specific data.
-> 
-> The new function can be used by drivers which support afbc to complete
-> the preparation of struct drm_afbc_framebuffer. It must be called after
-> allocating the said struct and calling drm_gem_fb_init_with_funcs().
-> 
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+On Mon, Mar 16, 2020 at 6:39 PM Roman Gilg <subdiff@gmail.com> wrote:
+>
+> On Wed, Mar 11, 2020 at 8:21 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
+> >
+> > On Wed, Mar 11, 2020 at 12:31 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
+> > >
+> > > All,
+> > >
+> > > Sorry for casting such a broad net with this one. I'm sure most people
+> > > who reply will get at least one mailing list rejection.  However, this
+> > > is an issue that affects a LOT of components and that's why it's
+> > > thorny to begin with.  Please pardon the length of this e-mail as
+> > > well; I promise there's a concrete point/proposal at the end.
+> > >
+> > >
+> > > Explicit synchronization is the future of graphics and media.  At
+> > > least, that seems to be the consensus among all the graphics people
+> > > I've talked to.  I had a chat with one of the lead Android graphics
+> > > engineers recently who told me that doing explicit sync from the start
+> > > was one of the best engineering decisions Android ever made.  It's
+> > > also the direction being taken by more modern APIs such as Vulkan.
+> > >
+> > >
+> > > ## What are implicit and explicit synchronization?
+> > >
+> > > For those that aren't familiar with this space, GPUs, media encoders,
+> > > etc. are massively parallel and synchronization of some form is
+> > > required to ensure that everything happens in the right order and
+> > > avoid data races.  Implicit synchronization is when bits of work (3D,
+> > > compute, video encode, etc.) are implicitly based on the absolute
+> > > CPU-time order in which API calls occur.  Explicit synchronization is
+> > > when the client (whatever that means in any given context) provides
+> > > the dependency graph explicitly via some sort of synchronization
+> > > primitives.  If you're still confused, consider the following
+> > > examples:
+> > >
+> > > With OpenGL and EGL, almost everything is implicit sync.  Say you have
+> > > two OpenGL contexts sharing an image where one writes to it and the
+> > > other textures from it.  The way the OpenGL spec works, the client has
+> > > to make the API calls to render to the image before (in CPU time) it
+> > > makes the API calls which texture from the image.  As long as it does
+> > > this (and maybe inserts a glFlush?), the driver will ensure that the
+> > > rendering completes before the texturing happens and you get correct
+> > > contents.
+> > >
+> > > Implicit synchronization can also happen across processes.  Wayland,
+> > > for instance, is currently built on implicit sync where the client
+> > > does their rendering and then does a hand-off (via wl_surface::commit)
+> > > to tell the compositor it's done at which point the compositor can now
+> > > texture from the surface.  The hand-off ensures that the client's
+> > > OpenGL API calls happen before the server's OpenGL API calls.
+> > >
+> > > A good example of explicit synchronization is the Vulkan API.  There,
+> > > a client (or multiple clients) can simultaneously build command
+> > > buffers in different threads where one of those command buffers
+> > > renders to an image and the other textures from it and then submit
+> > > both of them at the same time with instructions to the driver for
+> > > which order to execute them in.  The execution order is described via
+> > > the VkSemaphore primitive.  With the new VK_KHR_timeline_semaphore
+> > > extension, you can even submit the work which does the texturing
+> > > BEFORE the work which does the rendering and the driver will sort it
+> > > out.
+> > >
+> > > The #1 problem with implicit synchronization (which explicit solves)
+> > > is that it leads to a lot of over-synchronization both in client space
+> > > and in driver/device space.  The client has to synchronize a lot more
+> > > because it has to ensure that the API calls happen in a particular
+> > > order.  The driver/device have to synchronize a lot more because they
+> > > never know what is going to end up being a synchronization point as an
+> > > API call on another thread/process may occur at any time.  As we move
+> > > to more and more multi-threaded programming this synchronization (on
+> > > the client-side especially) becomes more and more painful.
+> > >
+> > >
+> > > ## Current status in Linux
+> > >
+> > > Implicit synchronization in Linux works via a the kernel's internal
+> > > dma_buf and dma_fence data structures.  A dma_fence is a tiny object
+> > > which represents the "done" status for some bit of work.  Typically,
+> > > dma_fences are created as a by-product of someone submitting some bit
+> > > of work (say, 3D rendering) to the kernel.  The dma_buf object has a
+> > > set of dma_fences on it representing shared (read) and exclusive
+> > > (write) access to the object.  When work is submitted which, for
+> > > instance renders to the dma_buf, it's queued waiting on all the fences
+> > > on the dma_buf and and a dma_fence is created representing the end of
+> > > said rendering work and it's installed as the dma_buf's exclusive
+> > > fence.  This way, the kernel can manage all its internal queues (3D
+> > > rendering, display, video encode, etc.) and know which things to
+> > > submit in what order.
+> > >
+> > > For the last few years, we've had sync_file in the kernel and it's
+> > > plumbed into some drivers.  A sync_file is just a wrapper around a
+> > > single dma_fence.  A sync_file is typically created as a by-product of
+> > > submitting work (3D, compute, etc.) to the kernel and is signaled when
+> > > that work completes.  When a sync_file is created, it is guaranteed by
+> > > the kernel that it will become signaled in finite time and, once it's
+> > > signaled, it remains signaled for the rest of time.  A sync_file is
+> > > represented in UAPIs as a file descriptor and can be used with normal
+> > > file APIs such as dup().  It can be passed into another UAPI which
+> > > does some bit of queue'd work and the submitted work will wait for the
+> > > sync_file to be triggered before executing.  A sync_file also supports
+> > > poll() if  you want to wait on it manually.
+> > >
+> > > Unfortunately, sync_file is not broadly used and not all kernel GPU
+> > > drivers support it.  Here's a very quick overview of my understanding
+> > > of the status of various components (I don't know the status of
+> > > anything in the media world):
+> > >
+> > >  - Vulkan: Explicit synchronization all the way but we have to go
+> > > implicit as soon as we interact with a window-system.  Vulkan has APIs
+> > > to import/export sync_files to/from it's VkSemaphore and VkFence
+> > > synchronization primitives.
+> > >  - OpenGL: Implicit all the way.  There are some EGL extensions to
+> > > enable some forms of explicit sync via sync_file but OpenGL itself is
+> > > still implicit.
+> > >  - Wayland: Currently depends on implicit sync in the kernel (accessed
+> > > via EGL/OpenGL).  There is an unstable extension to allow passing
+> > > sync_files around but it's questionable how useful it is right now
+> > > (more on that later).
+> > >  - X11: With present, it has these "explicit" fence objects but
+> > > they're always a shmfence which lets the X server and client do a
+> > > userspace CPU-side hand-off without going over the socket (and
+> > > round-tripping through the kernel).  However, the only thing that
+> > > fence does is order the OpenGL API calls in the client and server and
+> > > the real synchronization is still implicit.
+> > >  - linux/i915/gem: Fully supports using sync_file or syncobj for explicit sync.
+> > >  - linux/amdgpu: Supports sync_file and syncobj but it still
+> > > implicitly syncs sometimes due to it's internal memory residency
+> > > handling which can lead to over-synchronization.
+> > >  - KMS: Implicit sync all the way.  There are no KMS APIs which take
+> > > explicit sync primitives.
+> >
+> > Correction:  Apparently, I missed some things.  If you use atomic, KMS
+> > does have explicit in- and out-fences.  Non-atomic users (e.g. X11)
+> > are still in trouble but most Wayland compositors use atomic these
+> > days
+>
+> Hi Jason,
+>
+> thanks for pushing this forward and the comprehensive explanation on
+> what it is about.
+>
+> My question would be what exactly do you now need from Wayland compositor devs?
+> I understood a Wayland compositor needs to:
+> * do atomic page flips,
+> * support [1].
 
-Looks good to me.
+Yup, that's pretty much what's needed.  From the looks of
+https://gitlab.gnome.org/GNOME/mutter/issues/548, it appears that
+mutter is at least on their way to atomic though it also looks like a
+long road.
 
-Reviewed-by: James Qian Wang <james.qian.wang@arm.com>
+> Is there something else? You described a mechanism to pull out and
+> push in these sync_files to dma-bufs depending on what the client
+> provides and what kind of output the compositor puts the final image
+> onto. That's for now just an idea (plus your wip implementation in
+> Vulkan/kernel) and there is not yet anything that can be done for this
+> specifically in Wayland compositors, or is there?
 
-Thanks
-James
-> ---
->  Documentation/gpu/todo.rst                   |  15 +++
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 108 +++++++++++++++++++
->  include/drm/drm_framebuffer.h                |  45 ++++++++
->  include/drm/drm_gem_framebuffer_helper.h     |  10 ++
->  4 files changed, 178 insertions(+)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 439656f55c5d..37a3a023c114 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -404,6 +404,21 @@ Contact: Laurent Pinchart, respective driver maintainers
->  
->  Level: Intermediate
->  
-> +Encode cpp properly in malidp
-> +-----------------------------
-> +
-> +cpp (chars per pixel) is not encoded properly in malidp, zero is
-> +used instead. afbc implementation needs bpp or cpp, but if it is
-> +zero it needs to be provided elsewhere, and so the bpp field exists
-> +in struct drm_afbc_framebuffer.
-> +
-> +Properly encode cpp in malidp and remove the bpp field in struct
-> +drm_afbc_framebuffer.
-> +
-> +Contact: malidp maintainers
-> +
-> +Level: Intermediate
-> +
->  Core refactorings
->  =================
->  
-> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> index 86c1907c579a..7e3982c36baa 100644
-> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> @@ -21,6 +21,13 @@
->  #include <drm/drm_modeset_helper.h>
->  #include <drm/drm_simple_kms_helper.h>
->  
-> +#define AFBC_HEADER_SIZE		16
-> +#define AFBC_TH_LAYOUT_ALIGNMENT	8
-> +#define AFBC_HDR_ALIGN			64
-> +#define AFBC_SUPERBLOCK_PIXELS		256
-> +#define AFBC_SUPERBLOCK_ALIGNMENT	128
-> +#define AFBC_TH_BODY_START_ALIGNMENT	4096
-> +
->  /**
->   * DOC: overview
->   *
-> @@ -302,6 +309,107 @@ drm_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_fb_create_with_dirty);
->  
-> +static int drm_gem_afbc_min_size(struct drm_device *dev,
-> +				 const struct drm_mode_fb_cmd2 *mode_cmd,
-> +				 struct drm_afbc_framebuffer *afbc_fb)
-> +{
-> +	const struct drm_format_info *info;
-> +	__u32 n_blocks, w_alignment, h_alignment, hdr_alignment;
-> +	/* remove bpp when all users properly encode cpp in drm_format_info */
-> +	__u32 bpp;
-> +
-> +	switch (mode_cmd->modifier[0] & AFBC_FORMAT_MOD_BLOCK_SIZE_MASK) {
-> +	case AFBC_FORMAT_MOD_BLOCK_SIZE_16x16:
-> +		afbc_fb->block_width = 16;
-> +		afbc_fb->block_height = 16;
-> +		break;
-> +	case AFBC_FORMAT_MOD_BLOCK_SIZE_32x8:
-> +		afbc_fb->block_width = 32;
-> +		afbc_fb->block_height = 8;
-> +		break;
-> +	/* no user exists yet - fall through */
-> +	case AFBC_FORMAT_MOD_BLOCK_SIZE_64x4:
-> +	case AFBC_FORMAT_MOD_BLOCK_SIZE_32x8_64x4:
-> +	default:
-> +		DRM_DEBUG_KMS("Invalid AFBC_FORMAT_MOD_BLOCK_SIZE: %lld.\n",
-> +			      mode_cmd->modifier[0]
-> +			      & AFBC_FORMAT_MOD_BLOCK_SIZE_MASK);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* tiled header afbc */
-> +	w_alignment = afbc_fb->block_width;
-> +	h_alignment = afbc_fb->block_height;
-> +	hdr_alignment = AFBC_HDR_ALIGN;
-> +	if (mode_cmd->modifier[0] & AFBC_FORMAT_MOD_TILED) {
-> +		w_alignment *= AFBC_TH_LAYOUT_ALIGNMENT;
-> +		h_alignment *= AFBC_TH_LAYOUT_ALIGNMENT;
-> +		hdr_alignment = AFBC_TH_BODY_START_ALIGNMENT;
-> +	}
-> +
-> +	afbc_fb->aligned_width = ALIGN(mode_cmd->width, w_alignment);
-> +	afbc_fb->aligned_height = ALIGN(mode_cmd->height, h_alignment);
-> +	afbc_fb->offset = mode_cmd->offsets[0];
-> +
-> +	info = drm_get_format_info(dev, mode_cmd);
-> +	/*
-> +	 * Change to always using info->cpp[0]
-> +	 * when all users properly encode it
-> +	 */
-> +	bpp = info->cpp[0] ? info->cpp[0] * 8 : afbc_fb->bpp;
-> +
-> +	n_blocks = (afbc_fb->aligned_width * afbc_fb->aligned_height)
-> +		   / AFBC_SUPERBLOCK_PIXELS;
-> +	afbc_fb->afbc_size = ALIGN(n_blocks * AFBC_HEADER_SIZE, hdr_alignment);
-> +	afbc_fb->afbc_size += n_blocks * ALIGN(bpp * AFBC_SUPERBLOCK_PIXELS / 8,
-> +					       AFBC_SUPERBLOCK_ALIGNMENT);
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * drm_gem_fb_afbc_init() - Helper function for drivers using afbc to
-> + *			    fill and validate all the afbc-specific
-> + *			    struct drm_afbc_framebuffer members
-> + *
-> + * @dev: DRM device
-> + * @afbc_fb: afbc-specific framebuffer
-> + * @mode_cmd: Metadata from the userspace framebuffer creation request
-> + * @afbc_fb: afbc framebuffer
-> + *
-> + * This function can be used by drivers which support afbc to complete
-> + * the preparation of struct drm_afbc_framebuffer. It must be called after
-> + * allocating the said struct and calling drm_gem_fb_init_with_funcs().
-> + * It is caller's responsibility to put afbc_fb->base.obj objects in case
-> + * the call is unsuccessful.
-> + *
-> + * Returns:
-> + * Zero on success or a negative error value on failure.
-> + */
-> +int drm_gem_fb_afbc_init(struct drm_device *dev,
-> +			 const struct drm_mode_fb_cmd2 *mode_cmd,
-> +			 struct drm_afbc_framebuffer *afbc_fb)
-> +{
-> +	const struct drm_format_info *info;
-> +	struct drm_gem_object **objs;
-> +	int ret;
-> +
-> +	objs = afbc_fb->base.obj;
-> +	info = drm_get_format_info(dev, mode_cmd);
-> +	if (!info)
-> +		return -EINVAL;
-> +
-> +	ret = drm_gem_afbc_min_size(dev, mode_cmd, afbc_fb);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (objs[0]->size < afbc_fb->afbc_size)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_gem_fb_afbc_init);
-> +
->  /**
->   * drm_gem_fb_prepare_fb() - Prepare a GEM backed framebuffer
->   * @plane: Plane
-> diff --git a/include/drm/drm_framebuffer.h b/include/drm/drm_framebuffer.h
-> index c0e0256e3e98..e9f1b0e2968d 100644
-> --- a/include/drm/drm_framebuffer.h
-> +++ b/include/drm/drm_framebuffer.h
-> @@ -297,4 +297,49 @@ int drm_framebuffer_plane_width(int width,
->  int drm_framebuffer_plane_height(int height,
->  				 const struct drm_framebuffer *fb, int plane);
->  
-> +/**
-> + * struct drm_afbc_framebuffer - a special afbc frame buffer object
-> + *
-> + * A derived class of struct drm_framebuffer, dedicated for afbc use cases.
-> + */
-> +struct drm_afbc_framebuffer {
-> +	/**
-> +	 * @base: base framebuffer structure.
-> +	 */
-> +	struct drm_framebuffer base;
-> +	/**
-> +	 * @block_widht: width of a single afbc block
-> +	 */
-> +	u32 block_width;
-> +	/**
-> +	 * @block_widht: height of a single afbc block
-> +	 */
-> +	u32 block_height;
-> +	/**
-> +	 * @aligned_width: aligned frame buffer width
-> +	 */
-> +	u32 aligned_width;
-> +	/**
-> +	 * @aligned_height: aligned frame buffer height
-> +	 */
-> +	u32 aligned_height;
-> +	/**
-> +	 * @offset: offset of the first afbc header
-> +	 */
-> +	u32 offset;
-> +	/**
-> +	 * @afbc_size: minimum size of afbc buffer
-> +	 */
-> +	u32 afbc_size;
-> +	/**
-> +	 * @bpp: bpp value for this afbc buffer
-> +	 * To be removed when users such as malidp
-> +	 * properly store the cpp in drm_format_info.
-> +	 * New users should not start using this field.
-> +	 */
-> +	u32 bpp;
-> +};
-> +
-> +#define fb_to_afbc_fb(x) container_of(x, struct drm_afbc_framebuffer, base)
-> +
->  #endif
-> diff --git a/include/drm/drm_gem_framebuffer_helper.h b/include/drm/drm_gem_framebuffer_helper.h
-> index c029c1618661..6b013154911d 100644
-> --- a/include/drm/drm_gem_framebuffer_helper.h
-> +++ b/include/drm/drm_gem_framebuffer_helper.h
-> @@ -1,6 +1,7 @@
->  #ifndef __DRM_GEM_FB_HELPER_H__
->  #define __DRM_GEM_FB_HELPER_H__
->  
-> +struct drm_afbc_framebuffer;
->  struct drm_device;
->  struct drm_fb_helper_surface_size;
->  struct drm_file;
-> @@ -12,6 +13,8 @@ struct drm_plane;
->  struct drm_plane_state;
->  struct drm_simple_display_pipe;
->  
-> +#define AFBC_VENDOR_AND_TYPE_MASK	GENMASK_ULL(63, 52)
-> +
->  struct drm_gem_object *drm_gem_fb_get_obj(struct drm_framebuffer *fb,
->  					  unsigned int plane);
->  void drm_gem_fb_destroy(struct drm_framebuffer *fb);
-> @@ -34,6 +37,13 @@ struct drm_framebuffer *
->  drm_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
->  			     const struct drm_mode_fb_cmd2 *mode_cmd);
->  
-> +#define drm_is_afbc(modifier) \
-> +	(((modifier) & AFBC_VENDOR_AND_TYPE_MASK) == DRM_FORMAT_MOD_ARM_AFBC(0))
-> +
-> +int drm_gem_fb_afbc_init(struct drm_device *dev,
-> +			 const struct drm_mode_fb_cmd2 *mode_cmd,
-> +			 struct drm_afbc_framebuffer *afbc_fb);
-> +
->  int drm_gem_fb_prepare_fb(struct drm_plane *plane,
->  			  struct drm_plane_state *state);
->  int drm_gem_fb_simple_display_pipe_prepare_fb(struct drm_simple_display_pipe *pipe,
-> -- 
-> 2.17.1
+The kernel patches I proposed are mostly a way for explicit-sync APIs
+such as Vulkan to reasonably interop with the implicit sync world.
+Right now, for instance, we have no real plan for Vulkan to be able to
+handle synchronization when talking to a media encoder.  We have the
+modifiers and dma-buf stuff which deals with image layout but
+synchronization is currently an unsolved problem.  If we have a
+mechanism for sync_file import/export from dma-buf then an app can use
+implicit sync when talking to VAAPI (as an example) and turn that into
+sync_files to talk to Vulkan.  Better yet, we could plumb VAAPI for
+explicit sync but that's yet one more thing that needs to support
+explicit sync.
+
+Make sense?
+
+--Jason
+
+
+> Thanks
+> Roman
+>
+> [1] https://gitlab.freedesktop.org/wayland/wayland-protocols/blob/master/unstable/linux-explicit-synchronization/linux-explicit-synchronization-unstable-v1.xml
+>
+>
+> > >  - v4l: ???
+> > >  - gstreamer: ???
+> > >  - Media APIs such as vaapi etc.:  ???
+> > >
+> > >
+> > > ## Chicken and egg problems
+> > >
+> > > Ok, this is where it starts getting depressing.  I made the claim
+> > > above that Wayland has an explicit synchronization protocol that's of
+> > > questionable usefulness.  I would claim that basically any bit of
+> > > plumbing we do through window systems is currently of questionable
+> > > usefulness.  Why?
+> > >
+> > > From my perspective, as a Vulkan driver developer, I have to deal with
+> > > the fact that Vulkan is an explicit sync API but Wayland and X11
+> > > aren't.  Unfortunately, the Wayland extension solves zero problems for
+> > > me because I can't really use it unless it's implemented in all of the
+> > > compositors.  Until every Wayland compositor I care about my users
+> > > being able to use (which is basically all of them) supports the
+> > > extension, I have to continue carry around my pile of hacks to keep
+> > > implicit sync and Vulkan working nicely together.
+> > >
+> > > From the perspective of a Wayland compositor (I used to play in this
+> > > space), they'd love to implement the new explicit sync extension but
+> > > can't.  Sure, they could wire up the extension, but the moment they go
+> > > to flip a client buffer to the screen directly, they discover that KMS
+> > > doesn't support any explicit sync APIs.
+> >
+> > As per the above correction, Wayland compositors aren't nearly as bad
+> > off as I initially thought.  There may still be weird screen capture
+> > cases but the normal cases of compositing and displaying via
+> > KMS/atomic should be in reasonably good shape.
+> >
+> > > So, yes, they can technically
+> > > implement the extension assuming the EGL stack they're running on has
+> > > the sync_file extensions but any client buffers which come in using
+> > > the explicit sync Wayland extension have to be composited and can't be
+> > > scanned out directly.  As a 3D driver developer, I absolutely don't
+> > > want compositors doing that because my users will complain about
+> > > performance issues due to the extra blit.
+> > >
+> > > Ok, so let's say we get KMS wired up with implicit sync.  That solves
+> > > all our problems, right?  It does, right up until someone decides that
+> > > they wan to screen capture their Wayland session via some hardware
+> > > media encoder that doesn't support explicit sync.  Now we have to
+> > > plumb it all the way through the media stack, gstreamer, etc.  Great,
+> > > so let's do that!  Oh, but gstreamer won't want to plumb it through
+> > > until they're guaranteed that they can use explicit sync when
+> > > displaying on X11 or Wayland.  Are you seeing the problem?
+> > >
+> > > To make matters worse, since most things are doing implicit
+> > > synchronization today, it's really easy to get your explicit
+> > > synchronization wrong and never notice.  If you forget to pass a
+> > > sync_file into one place (say you never notice KMS doesn't support
+> > > them), it will probably work anyway thanks to all the implicit sync
+> > > that's going on elsewhere.
+> > >
+> > > So, clearly, we all need to go write piles of code that we can't
+> > > actually properly test until everyone else has written their piece and
+> > > then we use explicit sync if and only if all components support it.
+> > > Really?  We're going to do multiple years of development and then just
+> > > hope it works when we finally flip the switch?  That doesn't sound
+> > > like a good plan to me.
+> > >
+> > >
+> > > ## A proposal: Implicit and explicit sync together
+> > >
+> > > How to solve all these chicken-and-egg problems is something I've been
+> > > giving quite a bit of thought (and talking with many others about) in
+> > > the last couple of years.  One motivation for this is that we have to
+> > > deal with a mismatch in Vulkan.  Another motivation is that I'm
+> > > becoming increasingly unhappy with the way that synchronization,
+> > > memory residency, and command submission are inherently intertwined in
+> > > i915 and would like to break things apart.  Towards that end, I have
+> > > an actual proposal.
+> > >
+> > > A couple weeks ago, I sent a series of patches to the dri-devel
+> > > mailing list which adds a pair of new ioctls to dma-buf which allow
+> > > userspace to manually import or export a sync_file from a dma-buf.
+> > > The idea is that something like a Wayland compositor can switch to
+> > > 100% explicit sync internally once the ioctl is available.  If it gets
+> > > buffers in from a client that doesn't use the explicit sync extension,
+> > > it can pull a sync_file from the dma-buf and use that exactly as it
+> > > would a sync_file passed via the explicit sync extension.  When it
+> > > goes to scan out a user buffer and discovers that KMS doesn't accept
+> > > sync_files (or if it tries to use that pesky media encoder no one has
+> > > converted), it can take it's sync_file for display and stuff it into
+> > > the dma-buf before handing it to KMS.
+> > >
+> > > Along with the kernel patches, I've also implemented support for this
+> > > in the Vulkan WSI code used by ANV and RADV.  With those patches, the
+> > > only requirement on the Vulkan drivers is that you be able to export
+> > > any VkSemaphore as a sync_file and temporarily import a sync_file into
+> > > any VkFence or VkSemaphore.  As long as that works, the core Vulkan
+> > > driver only ever sees explicit synchronization via sync_file.  The WSI
+> > > code uses these new ioctls to translate the implicit sync of X11 and
+> > > Wayland to the explicit sync the Vulkan driver wants.
+> > >
+> > > I'm hoping (and here's where I want a sanity check) that a simple API
+> > > like this will allow us to finally start moving the Linux ecosystem
+> > > over to explicit synchronization one piece at a time in a way that's
+> > > actually correct.  (No Wayland explicit sync with compositors hoping
+> > > KMS magically works even though it doesn't have a sync_file API.)
+> > > Once some pieces in the ecosystem start moving, there will be
+> > > motivation to start moving others and maybe we can actually build the
+> > > momentum to get most everything converted.
+> > >
+> > > For reference, you can find the kernel RFC patches and mesa MR here:
+> > >
+> > > https://lists.freedesktop.org/archives/dri-devel/2020-March/258833.html
+> > >
+> > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4037
+> > >
+> > > At this point, I welcome your thoughts, comments, objections, and
+> > > maybe even help/review. :-)
+> > >
+> > > --Jason Ekstrand
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
