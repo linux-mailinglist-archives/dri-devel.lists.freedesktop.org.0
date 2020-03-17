@@ -2,33 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D571A1893C1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 02:38:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 149D11893B7
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 02:38:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71D4A6E85B;
-	Wed, 18 Mar 2020 01:38:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D23206E182;
+	Wed, 18 Mar 2020 01:38:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 064E86E822
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 20:05:36 +0000 (UTC)
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 17 Mar 2020 13:05:35 -0700
-Received: from gurus-linux.qualcomm.com ([10.46.162.81])
- by ironmsg02-sd.qualcomm.com with ESMTP; 17 Mar 2020 13:05:35 -0700
-Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
- id 2C8B14BA2; Tue, 17 Mar 2020 13:05:35 -0700 (PDT)
-From: Guru Das Srinagesh <gurus@codeaurora.org>
-To: linux-pwm@vger.kernel.org
-Subject: [PATCH v9 10/11] backlight: pwm_bl: Use 64-bit division function
-Date: Tue, 17 Mar 2020 13:05:25 -0700
-Message-Id: <5868b4b6675121125f59fca5d9dfe375a165d4df.1584473399.git.gurus@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1584473399.git.gurus@codeaurora.org>
-References: <cover.1584473399.git.gurus@codeaurora.org>
-In-Reply-To: <cover.1584473399.git.gurus@codeaurora.org>
-References: <cover.1584473399.git.gurus@codeaurora.org>
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
+ [IPv6:2607:f8b0:4864:20::f44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 370C189991
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 20:11:22 +0000 (UTC)
+Received: by mail-qv1-xf44.google.com with SMTP id w5so11613767qvp.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 13:11:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=6FuZZoVTFoFF+1kD/gUu0wVHL7she4RE1ISWVv5X9/Y=;
+ b=dbpcp/RuzqPmQK6KVQzTxDWpN0UCo5KtMvqAZZPoxySTTmsfREbl0sQgsgpEDhLZnX
+ r3oFKW5hojLd7kUsqJEN+Ikmj44Nl3ZqNZPM+u3MITdDCFpcWbB4ki3tUpiTLKen/X6y
+ fg91QHgWSXyPEwVDlXGU2mMKuE2VhQ8Mk+kzw8ru6uWCAex+uWeYeXBqwaNdsIaXxqi2
+ JrWak7xDWraqmi7X83SRMvSdJ/BXyASjCV+Ji6pmZ015CFgOHa2K7HsdPhkNONJQEW+X
+ CjCcdrr8nJ7ojvE5TY8xoOgB24kdAKbvFOShtZ1dJaScDluHltgJvAWJb+XLy9cNEegD
+ FU0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=6FuZZoVTFoFF+1kD/gUu0wVHL7she4RE1ISWVv5X9/Y=;
+ b=SARApfzTX3S8dtuS8kFBQnJQeP8GkOhrXLuBAZy5J+GObJrg+zh99Dtvf3jNjTpoxD
+ To05vtMQFOnzO+jFK0yQ/eRx78KOUguoW78a8TTwcgIGVGGOWGZRhffIgkeb+m31iLH3
+ /NcvyXaS9ireO0UvkMGBrhsxM9XZahcI8w411hPCdWfPgO70PMBzXTpUj78JWhhdaUpQ
+ 9qOdE9qfyisj/NH53y0xsMvin3coPA2ZM68l4BMUEQroWa4+/38bL16KzQFjBkJpODq3
+ x/FZchIhmYn7luHCIiGt+s/1kxteP0oooWuO8S6pkUWbV8KGeeV9tYqLxp6GX/jlnItd
+ 1vVQ==
+X-Gm-Message-State: ANhLgQ3//Bqw7/HbIYfuFNKdBIEIEk/NUqFupPwsW7cIRoK5itnpsdXf
+ 0G375MgpkffLOpRNjdqAZHg=
+X-Google-Smtp-Source: ADFU+vuT1Ym7m/1ayMnfgO0ZcMOck2lWOFvio2W1ILFfrT2EJs/LZjoAZ45vaZoYBkzzqaJILQKAwA==
+X-Received: by 2002:a05:6214:164d:: with SMTP id
+ f13mr926612qvw.214.1584475881076; 
+ Tue, 17 Mar 2020 13:11:21 -0700 (PDT)
+Received: from localhost.localdomain ([179.159.236.147])
+ by smtp.googlemail.com with ESMTPSA id t7sm2831852qtr.88.2020.03.17.13.11.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Mar 2020 13:11:20 -0700 (PDT)
+From: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run,
+ airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm: Alligne a comment block
+Date: Tue, 17 Mar 2020 17:11:09 -0300
+Message-Id: <20200317201109.1619-1-igormtorrente@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200317133959.pdimegprq3gn4gsf@outlook.office365.com>
+References: <20200317133959.pdimegprq3gn4gsf@outlook.office365.com>
+MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 18 Mar 2020 01:38:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,56 +70,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guru Das Srinagesh <gurus@codeaurora.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-fbdev@vger.kernel.org,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
- Lee Jones <lee.jones@linaro.org>
-MIME-Version: 1.0
+Cc: andrealmeid@collabora.com, Rodrigo.Siqueira@amd.com,
+ rodrigosiqueiramelo@gmail.com,
+ Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the PWM framework is switching struct pwm_state.period's datatype
-to u64, prepare for this transition by using div_u64 to handle a 64-bit
-dividend instead of a straight division operation.
+Fix a checkpatch warning caused by a misaligned comment block.
 
-Cc: Lee Jones <lee.jones@linaro.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: linux-pwm@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-fbdev@vger.kernel.org
-
-Signed-off-by: Guru Das Srinagesh <gurus@codeaurora.org>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 ---
- drivers/video/backlight/pwm_bl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_gem.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-index efb4efc..3e5dbcf 100644
---- a/drivers/video/backlight/pwm_bl.c
-+++ b/drivers/video/backlight/pwm_bl.c
-@@ -625,7 +625,8 @@ static int pwm_backlight_probe(struct platform_device *pdev)
- 		pb->scale = data->max_brightness;
- 	}
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 000fa4a1899f..6e960d57371e 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -222,10 +222,10 @@ drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+ 		return;
  
--	pb->lth_brightness = data->lth_brightness * (state.period / pb->scale);
-+	pb->lth_brightness = data->lth_brightness * (div_u64(state.period,
-+				pb->scale));
+ 	/*
+-	* Must bump handle count first as this may be the last
+-	* ref, in which case the object would disappear before we
+-	* checked for a name
+-	*/
++	 * Must bump handle count first as this may be the last
++	 * ref, in which case the object would disappear before we
++	 * checked for a name
++	 */
  
- 	props.type = BACKLIGHT_RAW;
- 	props.max_brightness = data->max_brightness;
+ 	mutex_lock(&dev->object_name_lock);
+ 	if (--obj->handle_count == 0) {
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
