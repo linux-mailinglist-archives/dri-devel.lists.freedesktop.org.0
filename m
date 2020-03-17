@@ -2,98 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8C81885F8
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 14:37:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D6C1885FD
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 14:40:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F13289EF7;
-	Tue, 17 Mar 2020 13:37:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4386E125;
+	Tue, 17 Mar 2020 13:40:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B97E89EF7
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 13:37:22 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02HDbILD069009;
- Tue, 17 Mar 2020 08:37:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1584452238;
- bh=AUfR5BINJLEMwvIwIDfWGDcGsXjA7Eqv5oTA5zcJM9M=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=SScvMkLZfP8OnWBB/bRAELHsNn21JcBrbx8UsgpyhLAi8p5Xs8Y/H+NNwc0ERrXe2
- JyNp+GoHlEZTR4Ctnfh3Ju6X1eafJ24rQ5VtKCKmMPeit6nyWhHZyeU8z8cBcyYbha
- 1GFuk+aTBk8GaqgZJtCeEm1mxV2p4aSP/jtjZjlM=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02HDbIHB099340
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 17 Mar 2020 08:37:18 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 17
- Mar 2020 08:37:17 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 17 Mar 2020 08:37:17 -0500
-Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02HDbFBf080424;
- Tue, 17 Mar 2020 08:37:16 -0500
-Subject: Re: [PATCH 10/12] docs: dt: display/ti: fix typos at the devicetree/
- directory name
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>
-References: <cover.1584450500.git.mchehab+huawei@kernel.org>
- <875b824ac97bd76dfe77b6227ff9b6b2671a6abf.1584450500.git.mchehab+huawei@kernel.org>
-From: Jyri Sarha <jsarha@ti.com>
-Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <fa902a35-61dc-7a59-1106-1be908da7a28@ti.com>
-Date: Tue, 17 Mar 2020 15:37:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2079.outbound.protection.outlook.com [40.107.220.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E4906E12A
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 13:40:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nw90KXZ5NJnIWqWEgIlxmf3XzP987sNaeJrMjkSJMXZB6xiOxbFIXIuVxxDXiGmBtspT6LFj+n5zxb6bpVRkLB2Ap6bQo4RliuRq8elZnx3y5N84CN0jTnQkf7pjvzPKOmiyokebYgQ6c6c6bosqX1lbjzyBBiEg32XNv1XWjxO2VPhXhsB1RXTMxUInrd2sXd5gWgcpj0AD82HWNhBjXcSVvmS5NnPZyPDuDvy+pnWvY5fRyCN2nzqWRyGxLwsvxaHRhPop1eiPMGl/0e+Z4a+/n08YVgEM3Ue4FHDA0maWWmAh6MbeNXBGwcQR67Ul2HtlqjkTwrT+s+e7EgOLGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=37YsdWVN4D26rTI0zHPcDLtb+DiBkopbTPHGnlyhSg8=;
+ b=mkegSc4isq3lwiZ5EZ8ONoa0sfZmA3QAcW8D9JRCgzJoydVZNtMuRxQ5EiJ7DyKRq2uGcB5P4rFJvPqPKGNZDFVgcUtD93ORUq26+1DIkYSeq79DRKgYIlSqMSWgaJ6bFQmt57Xly1Nq2zD+5t3IhUMolhHsc/Uino4Qx90WqwNL2kjz3X9AuoLmfzw5ZV6CrAJ7h1Ki62RkxoR/5bIeKiRoAq5e1Sj20+HAuYtaLQk5hQpN25I2Ew/LDRt5ZWbv8ijcdox0vEc0a/At0rcBZ4AdbgvIHgAKb+1gOyw/ltktUOrdzUfHt8OMwBxb1z2tiK1wuQ8xQdGEtawnA1W32Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=37YsdWVN4D26rTI0zHPcDLtb+DiBkopbTPHGnlyhSg8=;
+ b=dDM04G1MHkr5tN1iaG5xF34onzaDq8PAR+fd9vzv4d4p3YAAqrfatqI3z7vGlOUzAXQArdFFBV2FoOweZEAB+qmHaCDxBmWkeumFSophbnrWoWds8rxcOGDViWUv1r4F+mo3bTDnLryOz0MBxitNWiSrdRYNjRPcPTGyrt38H60=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Rodrigo.Siqueira@amd.com; 
+Received: from MW2PR12MB2524.namprd12.prod.outlook.com (2603:10b6:907:9::27)
+ by MW2PR12MB2364.namprd12.prod.outlook.com (2603:10b6:907:b::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.22; Tue, 17 Mar
+ 2020 13:40:03 +0000
+Received: from MW2PR12MB2524.namprd12.prod.outlook.com
+ ([fe80::91a7:e6f7:b17a:bfa5]) by MW2PR12MB2524.namprd12.prod.outlook.com
+ ([fe80::91a7:e6f7:b17a:bfa5%6]) with mapi id 15.20.2814.021; Tue, 17 Mar 2020
+ 13:40:02 +0000
+Date: Tue, 17 Mar 2020 09:39:59 -0400
+From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+To: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+Subject: Re: [PATCH] Staging: drm_gem: Fix a misaligned comment block
+Message-ID: <20200317133959.pdimegprq3gn4gsf@outlook.office365.com>
+References: <20200316211553.2506-1-igormtorrente@gmail.com>
+In-Reply-To: <20200316211553.2506-1-igormtorrente@gmail.com>
+X-ClientProxiedBy: YT1PR01CA0013.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::26)
+ To MW2PR12MB2524.namprd12.prod.outlook.com
+ (2603:10b6:907:9::27)
 MIME-Version: 1.0
-In-Reply-To: <875b824ac97bd76dfe77b6227ff9b6b2671a6abf.1584450500.git.mchehab+huawei@kernel.org>
-Content-Language: en-GB
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from outlook.office365.com (2607:fea8:56a0:11a1::4) by
+ YT1PR01CA0013.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.16 via Frontend Transport; Tue, 17 Mar 2020 13:40:01 +0000
+X-Originating-IP: [2607:fea8:56a0:11a1::4]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: bda85423-3b06-4162-41b9-08d7ca78b1de
+X-MS-TrafficTypeDiagnostic: MW2PR12MB2364:
+X-Microsoft-Antispam-PRVS: <MW2PR12MB23649BFA24B1B759E9258C9E98F60@MW2PR12MB2364.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 0345CFD558
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10001)(10009020)(4636009)(366004)(376002)(136003)(346002)(39860400002)(396003)(199004)(81166006)(478600001)(81156014)(966005)(6916009)(8676002)(16526019)(186003)(55016002)(8936002)(4326008)(7416002)(9686003)(7696005)(52116002)(5660300002)(44144004)(86362001)(21480400003)(66476007)(66946007)(1076003)(66556008)(316002)(2906002)(6506007)(2700100001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MW2PR12MB2364;
+ H:MW2PR12MB2524.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Nb3uXOR2/nhm5sRVD3PM1bdGHOWndSH2kP+iqR06cqFcKwct5wRlBLb3eEFHxqEyi1fHXMhowLGoAAgWnextc88nW2Xzq4v4IrAiHYfo5uTHdJSITZkYvVprz0XzteWP6YvN+f3r/dOJS6X/+DRnKPtbI2+HcwpAUT8nNXFt5JhXX9ycDqkm0NzhLrepjWDjVf2x+sYiLvLVi+/YYfbe79sELyc8wFnhKHLvyEKBUUKpUuIyBB/7gautFRTWsw07Sv0A4BGn9r7DCuEh/PMcPDzmE9LmYTelRCfE7aNjoG8/rLsVKD1uWjA6Mi1AavDX7ShAu8nekbGBgjBTs7roM4eNz50454jhsFbKSiT/wgiU8Zbly8z/GbDdifiXanqzbKtEc8yMTFG+tYaWYNxbQ48M9vYMevcTcnruRzem//CCn125ISaC2XFQlDvtyYJXbuRlCWmvGOU+oyVU/nrVY/w+orSoau5ssVDO9FTHugusO0qhsZtZdSf9mEhCDKORkA8YQ7Oq+cEmY4OVgjkvRYlmZLL9bDB7P7dVV8kS6IwpNjUOb9oer6aupOtPEdczS80byRbo67QJHBkDEx8hoDYqc/OAG+EbNwC8m37Ha+reH33DaqxoHFJJLi8isjJGbtaXqk8/ZRNiMZpQIl51Wg==
+X-MS-Exchange-AntiSpam-MessageData: R4RkqcGsI1kIYLvvbFPIMuOtjgk+ykjKJsTX61kdR+cRnY3ab5aDxK0R1pEdlCjRwfHgIcKUk7gjlk13nJIOlVVM6rslL6zh4s2bnu4qOm6zxb3SErzhgoiTS1hInggiK6oX5Q29oJNADSjZN2CZaGNPEiqQoEJ65fI3ZQFlEa0=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bda85423-3b06-4162-41b9-08d7ca78b1de
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 13:40:02.7042 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ibUbNi9oFciGQVL4mN1H90CfDc6CyT4pvKlLewbxOlGs2AKpPC3k70OwgfR3VaNVAsCNkhX22/wptPr9/RM/vQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2364
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,75 +94,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+Cc: rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ andrealmeid@collabora.com, sean@poorly.run
+Content-Type: multipart/mixed; boundary="===============0569406807=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/03/2020 15:10, Mauro Carvalho Chehab wrote:
-> The name of the devicetree directory is wrong on those three
-> TI bindings:
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+--===============0569406807==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2kyrwqlv7u5mtxbp"
+Content-Disposition: inline
 
-Acked-by: Jyri Sarha <jsarha@ti.com>
+--2kyrwqlv7u5mtxbp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi Igor,
+
+First of all, thanks for your patch.
+
+Just a few suggestions:
+* Avoid using "Fix" in this sort of patch. Usually, we use "Fix" for
+  indicating a bug fix or similar. You can read more about it here:
+  https://kernelnewbies.org/PatchPhilosophy
+* Patch subject format may vary between subsystem, however, I recommend
+	you to follow the instructions from this page:
+  https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+
+In summary, I just recommend you to improve the commit subject for your
+V2.
+
+Thanks
+
+On 03/16, Igor Matheus Andrade Torrente wrote:
+> Fix a checkpatch warning caused by a misaligned comment block.
+>=20
+> Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 > ---
->  Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml | 2 +-
->  Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml | 2 +-
->  Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml   | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> index cac61a998203..c6598d2e3fa3 100644
-> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> @@ -65,7 +65,7 @@ properties:
->    ports:
->      type: object
->      description:
-> -      Ports as described in Documentation/devictree/bindings/graph.txt
-> +      Ports as described in Documentation/devicetree/bindings/graph.txt
->      properties:
->        "#address-cells":
->          const: 1
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
-> index ade9b2f513f5..9e19293c0dbc 100644
-> --- a/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
-> @@ -98,7 +98,7 @@ properties:
->    ports:
->      type: object
->      description:
-> -      Ports as described in Documentation/devictree/bindings/graph.txt
-> +      Ports as described in Documentation/devicetree/bindings/graph.txt
->      properties:
->        "#address-cells":
->          const: 1
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-> index 385bd060ccf9..698f439d839c 100644
-> --- a/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-> @@ -56,7 +56,7 @@ properties:
->    port:
->      type: object
->      description:
-> -      Port as described in Documentation/devictree/bindings/graph.txt.
-> +      Port as described in Documentation/devicetree/bindings/graph.txt.
->        The DSS DPI output port node
->  
->    max-memory-bandwidth:
-> 
+>  drivers/gpu/drm/drm_gem.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 000fa4a1899f..6e960d57371e 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -222,10 +222,10 @@ drm_gem_object_handle_put_unlocked(struct drm_gem_o=
+bject *obj)
+>  		return;
+> =20
+>  	/*
+> -	* Must bump handle count first as this may be the last
+> -	* ref, in which case the object would disappear before we
+> -	* checked for a name
+> -	*/
+> +	 * Must bump handle count first as this may be the last
+> +	 * ref, in which case the object would disappear before we
+> +	 * checked for a name
+> +	 */
+> =20
+>  	mutex_lock(&dev->object_name_lock);
+>  	if (--obj->handle_count =3D=3D 0) {
+> --=20
+> 2.20.1
+>=20
 
+--=20
+Rodrigo Siqueira
+https://siqueira.tech
 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+--2kyrwqlv7u5mtxbp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl5w0yoACgkQWJzP/com
+vP87bxAAv1ThCByaUiPe9+Gk9mq15AT44DkzUnZ6Qy2cwY7jA4BOvMXCvuLSa21p
+SByYl68VtCfRWALMPIT6rVnhK1ok/dB+qHkxa1exxK27GveRtpuDqGnmhhYCuB/9
+mEgUXAtEiuhfcWvpxrFoCRv48Eva0cly583RyOmtdFd5aQTuxEEmdLINZaoI8+jz
+uBcHzOS0JP5PPuYoqtYl/gc7l+SAXiRYCXiR30AMdBGSfwefNVupxtLWJhe1Fge1
+j4yNdDLVqE+FF5DvFtEWTTTeKWJUfjJUFtPAq/uZIetNKLUKvKqGDBZ3JJfNAcpS
+wn/n+pPyixNxiGH9qO/feK8l1TL/nRsPNgxybqrOdKyOdhrH5HCfw5kUxkbkwJcq
+iP6jGRpnTWJhkaP8YkD+/5FA4X3GpXJRLr/ZsZWqLfp7ZN7Ffyzr5SMkL6yYD3NH
+JPmFvwQoPzTRxIy1efnL2NePq7P86VmGlfsJzPztLu0+JV+KE+8D6kx5Tp4cnguL
+YFWs5FlM3EdWR8xQwE0pU9Gj0SSJ7KGtfx2dtq/JQvEp3nrGME84ovQLRziZizn8
+KGfXoS/FaIfaAfLJNIra1Bpr6ERNM/83YuqPXhJhWKn/sUivpD1oYCEIZOPAz57E
+AAZzmYurNDwsTgBJvT/O+wqTBeZMfyi2s5EOiP08GJOCHv3ZzIQ=
+=mIpG
+-----END PGP SIGNATURE-----
+
+--2kyrwqlv7u5mtxbp--
+
+--===============0569406807==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0569406807==--
