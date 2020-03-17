@@ -2,43 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED0BE1879D4
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 07:46:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A76E187A37
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 08:16:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51FC98938F;
-	Tue, 17 Mar 2020 06:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30A586E52D;
+	Tue, 17 Mar 2020 07:15:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 721BB892D5
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 06:46:07 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 4CE492003F;
- Tue, 17 Mar 2020 07:46:00 +0100 (CET)
-Date: Tue, 17 Mar 2020 07:45:58 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v1 35/36] dt-bindings: display: convert
- lgphilips,lb035q02 to DT Schema
-Message-ID: <20200317064558.GA30986@ravnborg.org>
-References: <20200315134416.16527-1-sam@ravnborg.org>
- <20200315134416.16527-36-sam@ravnborg.org>
- <a73da9d3-43b2-3ce7-85e9-8135dbf48e98@ti.com>
- <20200316082607.GA18510@ravnborg.org>
- <a634d733-4b88-9d5a-09a1-c9551d8a077a@ti.com>
- <20200316085311.GA19201@ravnborg.org>
- <3bf96f0e-90a8-1513-800f-0168d912fd9f@ti.com>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2561F6E52D
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 07:15:55 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id z12so11476729wmf.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 00:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MFz/fOJixvWzcvSU4go/rFHGmxjYPGKF/Ch+nsy/6+A=;
+ b=LM4/ISszOBUpkchVKZxUKcKxPDaf5/m4Dl5b4wiHzO82d/D9d4+nUiQ6z9VY3uYUuI
+ PN4xZI8u/KohR+5cUA1tPX95LVGypE1HZVY5ff0vAw9R0qH77EOdFyHKY+A8noP5dpwU
+ G/bY7gkrq6QYKrLNTmPicsPFOhkbbdpODFKCQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MFz/fOJixvWzcvSU4go/rFHGmxjYPGKF/Ch+nsy/6+A=;
+ b=N5Ouv6GUwOdMA8xxaWZ/PvmfaUbgflsVvxKxWZojdMsEee9Z9vEJ2iFWaWcs3cW7Rg
+ cj35shL6/3soMJfV1dgl9+zIw+8OGC2D69zW+qwgKsRCE+QmnReFb8uPtt0BTRKHXSPc
+ S82TGh4n+YAJCPtkx7cWu2nsK3TOGIoLeav5DFVAMlefF9MrSsDm67XEjKrdl8oMh4sB
+ Ca1sekd3DsnRVgWrYJDFQBH+pAjgkuiwLgII0hZFdxBGGcWZY318BiV2YY0L7naBslJT
+ d1IpSQT20+7Dhrub49ndq2rcLmFXFZqFJEaShlmILY9YdJmvkIfiSgPaZ8Q1gowh0F6A
+ M39g==
+X-Gm-Message-State: ANhLgQ0F1nyBRn01aQCAqG1PLN6zKQWrcF18Y9dmQXKtc7zBabdi5JVk
+ GV72M1TtAhat6rlBsg4ZZup7gw==
+X-Google-Smtp-Source: ADFU+vshR5dL7XEFTVt5fsXsNS9srnBWqq1zc+uhfogGkq31eM9oA0HMTXTh3QU5dIxWcXYALTZGrQ==
+X-Received: by 2002:a05:600c:2250:: with SMTP id
+ a16mr3486950wmm.57.1584429353745; 
+ Tue, 17 Mar 2020 00:15:53 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 9sm2707769wmx.32.2020.03.17.00.15.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Mar 2020 00:15:53 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] MAINTAINERS: Better regex for dma_buf|fence|resv
+Date: Tue, 17 Mar 2020 08:15:47 +0100
+Message-Id: <20200317071547.1008622-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3bf96f0e-90a8-1513-800f-0168d912fd9f@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=CgtwdvIipyfznNzOMf0A:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,52 +62,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
- Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
- Stefan Mavrodiev <stefan@olimex.com>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
- Nickey Yang <nickey.yang@rock-chips.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
- Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
- Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
- devicetree@vger.kernel.org, Guido Gunther <agx@sigxcpu.org>,
- Mark Brown <broonie@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
- Werner Johansson <werner.johansson@sonymobile.com>,
- Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
- linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Joe Perches <joe@perches.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi.
+We're getting some random other stuff that we're not relly interested
+in, so match only word boundaries. Also avoid the capture group while
+at it.
 
-On Mon, Mar 16, 2020 at 11:11:15AM +0200, Tomi Valkeinen wrote:
-> On 16/03/2020 10:53, Sam Ravnborg wrote:
-> 
-> > We have panel-simple-dsi for DSI simple based panels.
-> > This binding includes the reg property.
-> > 
-> > If we have included DSI panels in panel-simple.yaml, and we likely have
-> > by accident, then they should be moved to panel-simple-dsi.yaml.
-> > 
+Suggested by Joe Perches.
 
-> panel-simple.c has dsi_of_match, which lists DSI panels. I was looking at
-> that when I said panel-simple binding has DSI panels. At least auo,b080uan01
-> and osddisplays,osd101t2045-53ts are there, and earlier in this series you
-> moved osddisplays,osd101t2587-53ts to panel-simple bindings.
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: Joe Perches <joe@perches.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I will clean this up as part of v2.
-Thanks.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3005be638c2c..fc5d5aa53147 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5025,7 +5025,7 @@ F:	include/linux/dma-buf*
+ F:	include/linux/reservation.h
+ F:	include/linux/*fence.h
+ F:	Documentation/driver-api/dma-buf.rst
+-K:	dma_(buf|fence|resv)
++K:	'\bdma_(?:buf|fence|resv)\b'
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ 
+ DMA-BUF HEAPS FRAMEWORK
+-- 
+2.25.1
 
-	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
