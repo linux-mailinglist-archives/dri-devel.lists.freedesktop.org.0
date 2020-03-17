@@ -2,53 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7A1187788
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 02:41:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1D81877FC
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 04:09:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 620CC6E03B;
-	Tue, 17 Mar 2020 01:41:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 348386E029;
+	Tue, 17 Mar 2020 03:09:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72CC56E03B;
- Tue, 17 Mar 2020 01:41:39 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id 25so19750640wmk.3;
- Mon, 16 Mar 2020 18:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X0+PP1S7pApaSGjyUxR4JBepODheqIWQisCay1PAGvY=;
- b=VZRevjFa+gL6XbVeoEGsv0kmq/A9up7PGCirYUDD/DTJPcTbh5xKhJljlddxH0PpBc
- QpRD0bfqGhJ5mpFp+YljOOGa6KCjRRCX3cvUh+p37ve+XsLPjsNdvpXVhVp/vQQJhInO
- cQ2oLLfvrRGjAu33Iyr347MBmT01+jIa42fVce5E6KrjPKAJYTVc31suxIchPGP1MH02
- IVPhEBbPUsJgsxO+45Dzw2P3etij5KoRg4oL4LPp0b5uBpRvTiU2Obu5t/TreDDpQZzw
- +URZo50obynot3ErHlrx4B2LFl3xZ15Qru7BT0J7OIVMRo+E/HbLLMJj5qWlerieRQpu
- 54CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=X0+PP1S7pApaSGjyUxR4JBepODheqIWQisCay1PAGvY=;
- b=J5nM+zGCufy896qSZb5kdltvAXR8g0K/mO9ou6UMuYWr4BTiY1JgUL6oLFkINUxZHv
- qMTOH453ldV25zZyjjsOlG+0FZEiOyi5V+M0spYkvjxmy6dwQUh+buhzpu37rLYN6e3a
- ySwGKgJC4rj5gjdt4WdbMrDCjmAuR8HG31PdbW/Mvn7Z0UrkjclyD19YwMytTJvQqyYk
- TPnVy8Ig7wq6ABcu4DhcIb/8AjMmOcUDVqTz4kj3YhmuxrenfK/myni+qIOyDBZMHLNy
- f47bVvwGM7cD3ImIYqK5tkNM+8visJVVX2F2EP18FIi49VfP1K5EK+w7cec2NlV4eQYv
- 3bsA==
-X-Gm-Message-State: ANhLgQ3x2+N5L4LwV8OcNr5eqCvywvdEMhv8ZEnKlyBYctAfBf6ouFps
- eU2wR/0bNICNpBy5ricuw/MXvMqUo48Zs/g/VyM=
-X-Google-Smtp-Source: ADFU+vs4BcD8iE1xi5u3RxBiEaeAdx2x/H6lPKsv6ZFJJRmb3jkWoPZNoghH3v3IswX2kvoOoDc4NLfDzaKmxUFoHnE=
-X-Received: by 2002:a7b:ce0c:: with SMTP id m12mr2060882wmc.104.1584409298011; 
- Mon, 16 Mar 2020 18:41:38 -0700 (PDT)
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com
+ (mail-eopbgr30048.outbound.protection.outlook.com [40.107.3.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7C786E029
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 03:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LFrReFZD7GgJ+sNFaFgexdWEyERDA+kKUAH5d7U+tOs=;
+ b=WPYP4WzqdrLf+6Shvnr0SF8iEtllYXeX5lQZe8GKQxEPuGrD731uVqkSGvs0q+Sg3lRiJIc3HxrNkrLnMclEgV+Mp0Qk1bip0G2oX60mbEIXVRS339lYO7qdLOn3Vz2aVdYiRbhMdzyvrQfO8bj6mWKiwGFAUrX4eVHY8F+SUfc=
+Received: from AM0PR0402CA0011.eurprd04.prod.outlook.com
+ (2603:10a6:208:15::24) by HE1PR0802MB2267.eurprd08.prod.outlook.com
+ (2603:10a6:3:ce::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.13; Tue, 17 Mar
+ 2020 03:08:54 +0000
+Received: from AM5EUR03FT022.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:208:15:cafe::75) by AM0PR0402CA0011.outlook.office365.com
+ (2603:10a6:208:15::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.19 via Frontend
+ Transport; Tue, 17 Mar 2020 03:08:54 +0000
+Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
+ dmarc=bestguesspass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM5EUR03FT022.mail.protection.outlook.com (10.152.16.79) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.13 via Frontend Transport; Tue, 17 Mar 2020 03:08:53 +0000
+Received: ("Tessian outbound efdea641ed36:v42");
+ Tue, 17 Mar 2020 03:08:52 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 276e1ae7977ce5c8
+X-CR-MTA-TID: 64aa7808
+Received: from e0f5806c79a5.2
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 051D07D5-100E-43B9-9165-1E46DDE825E8.1; 
+ Tue, 17 Mar 2020 03:08:47 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id e0f5806c79a5.2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Tue, 17 Mar 2020 03:08:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OtWFsIOeEYnOUD93axS+6+Q396+pjoeBB7gPNCkHxRC0XB+tXS1Zk07v8zXTtmUy4xKZ+P+BivwdfS+nKFC0vXBdu8Vm8EwhpmFVA8GH4mHyMO6i+5/uyR1h9zISbFJ82kI0wEiBpVNdUhg58zX0t3oC9DuA1gc4N1tcnAaxTX0UVVV94Svb1mPsa1Ic7RddXIU8rz4GvEfKfF622xSm8NvUCR8xPm0RdYL33Y5PZEjo0YiAoTMZFzMn1Jd6jxnI7Ypil0S6mcYv7ebf0WbZVWiIbl85zQL1Wp5iO6Yepx6QigjBa37tCqf5boQVNWe0T6gta7c/Junpeq8PVJG5FQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LFrReFZD7GgJ+sNFaFgexdWEyERDA+kKUAH5d7U+tOs=;
+ b=ZdHxGYqY81UkrXNw8APtb7bs94HX70v+51CFifR2HNFKyfrBLy1bxhqN6QaX9cJbGonrwv5p7HKqRJHScXUeSW45S5oyki0+61x6i6f5niQshXC0M4LpcI8yWWMnLiF66MIWBA91kTBnJs3xzrFK5+0I0yTU01PhIP3t3zX+O+sKHEIjTfMkM3yv+rQyA9arNiNHeu3b6Vr+LtxCb6uKsh65MjNgM1Lt9xmpNmJjkLELRrCEYN2dFVN9ctZWviHVarUdgbw3dl8lxYcs/MZvlAMp98JA7qTCIAo3cWanW7hTXKV6nzIzgfUUwV5i2zTR6i/9zzfol93WLTMGsKhCpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LFrReFZD7GgJ+sNFaFgexdWEyERDA+kKUAH5d7U+tOs=;
+ b=WPYP4WzqdrLf+6Shvnr0SF8iEtllYXeX5lQZe8GKQxEPuGrD731uVqkSGvs0q+Sg3lRiJIc3HxrNkrLnMclEgV+Mp0Qk1bip0G2oX60mbEIXVRS339lYO7qdLOn3Vz2aVdYiRbhMdzyvrQfO8bj6mWKiwGFAUrX4eVHY8F+SUfc=
+Authentication-Results-Original: spf=none (sender IP is )
+ smtp.mailfrom=james.qian.wang@arm.com; 
+Received: from VE1PR08MB5006.eurprd08.prod.outlook.com (10.255.159.31) by
+ VE1PR08MB4813.eurprd08.prod.outlook.com (10.255.115.77) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.19; Tue, 17 Mar 2020 03:08:45 +0000
+Received: from VE1PR08MB5006.eurprd08.prod.outlook.com
+ ([fe80::2d29:e139:a5a5:f08b]) by VE1PR08MB5006.eurprd08.prod.outlook.com
+ ([fe80::2d29:e139:a5a5:f08b%3]) with mapi id 15.20.2814.021; Tue, 17 Mar 2020
+ 03:08:45 +0000
+Date: Tue, 17 Mar 2020 11:08:39 +0800
+From: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Re: [PATCHv7 1/6] drm/core: Allow drivers allocate a subclass of
+ struct drm_framebuffer
+Message-ID: <20200317030839.GA11556@jamwan02-TSP300>
+References: <20200311145541.29186-1-andrzej.p@collabora.com>
+ <20200311145541.29186-2-andrzej.p@collabora.com>
+Content-Disposition: inline
+In-Reply-To: <20200311145541.29186-2-andrzej.p@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: HK2PR03CA0044.apcprd03.prod.outlook.com
+ (2603:1096:202:17::14) To VE1PR08MB5006.eurprd08.prod.outlook.com
+ (2603:10a6:803:113::31)
 MIME-Version: 1.0
-References: <20200307135438.9981-1-yuq825@gmail.com>
- <CA+E=qVc822KmCh9whPqZJfQT8xRR-ZVEai6pSp0MGOFduD0pyw@mail.gmail.com>
-In-Reply-To: <CA+E=qVc822KmCh9whPqZJfQT8xRR-ZVEai6pSp0MGOFduD0pyw@mail.gmail.com>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Tue, 17 Mar 2020 09:41:26 +0800
-Message-ID: <CAKGbVbtP9qS7rt-uOMKNhFWsyUnmXPgKEkkpfT6aOf_nONdxBA@mail.gmail.com>
-Subject: Re: [PATCH] drm/lima: add trace point for tasks
-To: Vasily Khoruzhick <anarsoul@gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (113.29.88.7) by
+ HK2PR03CA0044.apcprd03.prod.outlook.com (2603:1096:202:17::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2835.7 via Frontend Transport; Tue, 17 Mar 2020 03:08:44 +0000
+X-Originating-IP: [113.29.88.7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 55514256-51ca-490e-857f-08d7ca208670
+X-MS-TrafficTypeDiagnostic: VE1PR08MB4813:|VE1PR08MB4813:|HE1PR0802MB2267:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <HE1PR0802MB2267F60DFFA5D15A26DE467FB3F60@HE1PR0802MB2267.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:454;OLM:454;
+X-Forefront-PRVS: 0345CFD558
+X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
+ SFS:(10009020)(4636009)(7916004)(39860400002)(346002)(366004)(396003)(376002)(136003)(199004)(9686003)(186003)(8936002)(478600001)(16526019)(6666004)(4326008)(8676002)(52116002)(81166006)(316002)(54906003)(6496006)(1076003)(55236004)(26005)(81156014)(6916009)(6486002)(7416002)(33716001)(86362001)(66946007)(5660300002)(2906002)(66476007)(33656002)(66556008)(956004);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VE1PR08MB4813;
+ H:VE1PR08MB5006.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: arm.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: TUGev1bQZyQf6fPeCokjakYcMdEPs0V42Ax+E83LaSrMsHZaHwnfRlbJh9VwMsMjfhG3+DU9jcBLqOw1dgisxKPpTCRLdkBDU+5SoDJy6HqiJG3JfwOBZBQm56nVQOLPMJLZDH9Y+Sb96vS/BFo/v0e+u6l/xZhQnixEFFOXrBaMby6TQuV2lRdEhLCBh55IKqKFkbokEFzrTssEeScaFWM6fr0ZrZTT0qa4rIlW7AZcGJvAI6maZeWSLb5XOHhq9v7T1iL8Jm6nv/eK3GLDlv991tBLcw0kgqimtmJGmsTWK6bRQJB+g4QJGbXm4PddqkwOxf3ie44mlRJdx4YXaoZaICU79ljGURt5z1V9UmpurSJpWHVrbGwqHBmnNn3uS4ls8gF3KKZq8Wp+bLlSWG7dprbCRCLdhz+Fg5ly30OUF3wBpFFtSKPhVViMd0e8
+X-MS-Exchange-AntiSpam-MessageData: knzW01p/Yxv97ww2M4ISI091S9A50xbNczZ6RWYEfzTDwinL290UQM62NYwn5LbAaV3+BBbnUIKbzyIvOkQumMv9zDwoVp1BdJlSUrjm+s2bmSc+OWeeODzVXkYnfWiNd3JxlWylw0VjnDHzQQeyHA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB4813
+Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=james.qian.wang@arm.com; 
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT022.eop-EUR03.prod.protection.outlook.com
+X-Forefront-Antispam-Report: CIP:63.35.35.123; IPV:CAL; SCL:-1; CTRY:IE;
+ EFV:NLI; SFV:NSPM;
+ SFS:(10009020)(4636009)(7916004)(376002)(346002)(136003)(396003)(39860400002)(199004)(46966005)(6486002)(6496006)(2906002)(36906005)(5660300002)(316002)(956004)(33656002)(186003)(16526019)(336012)(26005)(54906003)(478600001)(26826003)(4326008)(70586007)(70206006)(6862004)(33716001)(6666004)(1076003)(47076004)(9686003)(356004)(8676002)(81166006)(81156014)(86362001)(8936002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:HE1PR0802MB2267;
+ H:64aa7808-outbound-1.mta.getcheckrecipient.com; FPR:; SPF:Pass; LANG:en;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; A:1; 
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 7ddc9b70-c333-46c7-e7bc-08d7ca208114
+X-Forefront-PRVS: 0345CFD558
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MueFfTFn6ve3kkJNWCSH2DjN2BhgEc9ojJ+j2g9GZjHUHoVN+ggJ/2aSaC1nuVR40naSKXrCgthtlGyQUawhb4eyNBcDDbl3Y/7ppO6bIjAFDXGOZH2EubRzIlePDcwU8J/na0nfgi+Es88ZyIUAy1v3LI1yeAImETT+AqhP0Ba5lIK9UphvRGH6fagjtO8Hor3sYuSSGU52W99h1Qn2PmkUz8YYSKkrb+jURG8JSNNPdSzpOAFQzKSJddOgEWdoae6R0OiinphPRj7g58Yz6vj73Gp8xya0fFvVPnjRJLPYl07TYDUVzWy/rMeKRyViBK7YxeYO+RpNkUGVMg1lYDIfTUbnbSeFNqoMImwHiDdbDZSjS0NJw2/KhLCs8lbhtCe1iteFMQBNyMKKaMxsXjHkREiMiyDH0UpXaXNx+pvRPO+k42d4eCZk4gTav+x/tljGLhfdBq3uY4IBo6d3KLANOhdbehTUtzhWRytInpZMm/XKLa+gYmYz6sAGX+d1YribZcx/Ta3rerp9ex6rXA==
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 03:08:53.8479 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55514256-51ca-490e-857f-08d7ca208670
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2267
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,184 +155,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lima@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andreas Baierl <ichgeh@imkreisrum.de>, Erico Nunes <nunes.erico@gmail.com>
+Cc: nd@arm.com, Ayan Halder <Ayan.Halder@arm.com>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Liviu Dudau <Liviu.Dudau@arm.com>, Sandy Huang <hjc@rock-chips.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Mihail Atanassov <Mihail.Atanassov@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 15, 2020 at 12:36 PM Vasily Khoruzhick <anarsoul@gmail.com> wrote:
->
-> On Sat, Mar 7, 2020 at 5:55 AM Qiang Yu <yuq825@gmail.com> wrote:
-> >
-> > track lima task start which can be combined with
-> > dma_fence_signal to identify task execution time.
-> >
-> > example command to record:
-> >
-> > trace-cmd record -i \
-> >   -e "lima:lima_task_submit" -e "lima:lima_task_run" \
-> >   -e "*fence:*fence_signaled" -e "drm:drm_vblank_event" \
-> >   -e "drm:drm_vblank_event_queued" sleep 4
->
-> LGTM. Out of curiosity, is there any reason for not adding one more
-> event for task completion?
+On Wed, Mar 11, 2020 at 10:55:36PM +0800, Andrzej Pietrasiewicz wrote:
+> Allow allocating a specialized version of struct drm_framebuffer
+> by moving the actual fb allocation out of drm_gem_fb_create_with_funcs();
+> the respective functions names are adjusted to reflect that fact.
+> Please note, though, that standard size checks are performed on buffers,
+> so the drm_gem_fb_init_with_funcs() is useful for cases where those
+> standard size checks are appropriate or at least don't conflict the
+> checks to be performed in the specialized case.
+> 
+> Thanks to this change the drivers can call drm_gem_fb_init_with_funcs()
+> having allocated their special version of struct drm_framebuffer, exactly
+> the way the new version of drm_gem_fb_create_with_funcs() does.
+> 
+> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
-Not concrete reason, as the comment, trace point when
-dma_fence_signal act as the task completion event, so not add duplicate
-one.
+Looks good to me. :)
 
-Regards,
-Qiang
+Reviewed-by: James Qian Wang <james.qian.wang@arm.com>
 
->
-> > Signed-off-by: Qiang Yu <yuq825@gmail.com>
-> > ---
-> >  drivers/gpu/drm/lima/Makefile     |  3 +-
-> >  drivers/gpu/drm/lima/lima_sched.c |  5 +++-
-> >  drivers/gpu/drm/lima/lima_sched.h |  1 +
-> >  drivers/gpu/drm/lima/lima_trace.c |  7 +++++
-> >  drivers/gpu/drm/lima/lima_trace.h | 50 +++++++++++++++++++++++++++++++
-> >  5 files changed, 64 insertions(+), 2 deletions(-)
-> >  create mode 100644 drivers/gpu/drm/lima/lima_trace.c
-> >  create mode 100644 drivers/gpu/drm/lima/lima_trace.h
-> >
-> > diff --git a/drivers/gpu/drm/lima/Makefile b/drivers/gpu/drm/lima/Makefile
-> > index a85444b0a1d4..6e7b788408e8 100644
-> > --- a/drivers/gpu/drm/lima/Makefile
-> > +++ b/drivers/gpu/drm/lima/Makefile
-> > @@ -14,6 +14,7 @@ lima-y := \
-> >         lima_sched.o \
-> >         lima_ctx.o \
-> >         lima_dlbu.o \
-> > -       lima_bcast.o
-> > +       lima_bcast.o \
-> > +       lima_trace.o
-> >
-> >  obj-$(CONFIG_DRM_LIMA) += lima.o
-> > diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-> > index f295479e3733..98d0d410b7d7 100644
-> > --- a/drivers/gpu/drm/lima/lima_sched.c
-> > +++ b/drivers/gpu/drm/lima/lima_sched.c
-> > @@ -3,7 +3,6 @@
-> >
-> >  #include <linux/kthread.h>
-> >  #include <linux/slab.h>
-> > -#include <linux/xarray.h>
-> >  #include <linux/vmalloc.h>
-> >
-> >  #include "lima_drv.h"
-> > @@ -12,6 +11,7 @@
-> >  #include "lima_mmu.h"
-> >  #include "lima_l2_cache.h"
-> >  #include "lima_gem.h"
-> > +#include "lima_trace.h"
-> >
-> >  struct lima_fence {
-> >         struct dma_fence base;
-> > @@ -177,6 +177,7 @@ struct dma_fence *lima_sched_context_queue_task(struct lima_sched_context *conte
-> >  {
-> >         struct dma_fence *fence = dma_fence_get(&task->base.s_fence->finished);
-> >
-> > +       trace_lima_task_submit(task);
-> >         drm_sched_entity_push_job(&task->base, &context->base);
-> >         return fence;
-> >  }
-> > @@ -251,6 +252,8 @@ static struct dma_fence *lima_sched_run_job(struct drm_sched_job *job)
-> >         if (last_vm)
-> >                 lima_vm_put(last_vm);
-> >
-> > +       trace_lima_task_run(task);
-> > +
-> >         pipe->error = false;
-> >         pipe->task_run(pipe, task);
-> >
-> > diff --git a/drivers/gpu/drm/lima/lima_sched.h b/drivers/gpu/drm/lima/lima_sched.h
-> > index e29f5e3b675b..e5db1919f446 100644
-> > --- a/drivers/gpu/drm/lima/lima_sched.h
-> > +++ b/drivers/gpu/drm/lima/lima_sched.h
-> > @@ -6,6 +6,7 @@
-> >
-> >  #include <drm/gpu_scheduler.h>
-> >  #include <linux/list.h>
-> > +#include <linux/xarray.h>
-> >
-> >  struct lima_vm;
-> >
-> > diff --git a/drivers/gpu/drm/lima/lima_trace.c b/drivers/gpu/drm/lima/lima_trace.c
-> > new file mode 100644
-> > index 000000000000..ea1c7289bebc
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/lima/lima_trace.c
-> > @@ -0,0 +1,7 @@
-> > +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> > +/* Copyright 2020 Qiang Yu <yuq825@gmail.com> */
-> > +
-> > +#include "lima_sched.h"
-> > +
-> > +#define CREATE_TRACE_POINTS
-> > +#include "lima_trace.h"
-> > diff --git a/drivers/gpu/drm/lima/lima_trace.h b/drivers/gpu/drm/lima/lima_trace.h
-> > new file mode 100644
-> > index 000000000000..9308b948b69d
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/lima/lima_trace.h
-> > @@ -0,0 +1,50 @@
-> > +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> > +/* Copyright 2020 Qiang Yu <yuq825@gmail.com> */
-> > +
-> > +#if !defined(_LIMA_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
-> > +#define _LIMA_TRACE_H_
-> > +
-> > +#include <linux/tracepoint.h>
-> > +
-> > +#undef TRACE_SYSTEM
-> > +#define TRACE_SYSTEM lima
-> > +#define TRACE_INCLUDE_FILE lima_trace
-> > +
-> > +DECLARE_EVENT_CLASS(lima_task,
-> > +       TP_PROTO(struct lima_sched_task *task),
-> > +       TP_ARGS(task),
-> > +       TP_STRUCT__entry(
-> > +               __field(uint64_t, task_id)
-> > +               __field(unsigned int, context)
-> > +               __field(unsigned int, seqno)
-> > +               __string(pipe, task->base.sched->name)
-> > +               ),
-> > +
-> > +       TP_fast_assign(
-> > +               __entry->task_id = task->base.id;
-> > +               __entry->context = task->base.s_fence->finished.context;
-> > +               __entry->seqno = task->base.s_fence->finished.seqno;
-> > +               __assign_str(pipe, task->base.sched->name)
-> > +               ),
-> > +
-> > +       TP_printk("task=%llu, context=%u seqno=%u pipe=%s",
-> > +                 __entry->task_id, __entry->context, __entry->seqno,
-> > +                 __get_str(pipe))
-> > +);
-> > +
-> > +DEFINE_EVENT(lima_task, lima_task_submit,
-> > +            TP_PROTO(struct lima_sched_task *task),
-> > +            TP_ARGS(task)
-> > +);
-> > +
-> > +DEFINE_EVENT(lima_task, lima_task_run,
-> > +            TP_PROTO(struct lima_sched_task *task),
-> > +            TP_ARGS(task)
-> > +);
-> > +
-> > +#endif
-> > +
-> > +/* This part must be outside protection */
-> > +#undef TRACE_INCLUDE_PATH
-> > +#define TRACE_INCLUDE_PATH ../../drivers/gpu/drm/lima
-> > +#include <trace/define_trace.h>
-> > --
-> > 2.17.1
-> >
+Thanks
+James
+
+> ---
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 87 ++++++++++++++------
+>  include/drm/drm_gem_framebuffer_helper.h     |  5 ++
+>  2 files changed, 67 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> index 3a7ace19a902..86c1907c579a 100644
+> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> @@ -54,19 +54,15 @@ struct drm_gem_object *drm_gem_fb_get_obj(struct drm_framebuffer *fb,
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_fb_get_obj);
+>  
+> -static struct drm_framebuffer *
+> -drm_gem_fb_alloc(struct drm_device *dev,
+> +static int
+> +drm_gem_fb_init(struct drm_device *dev,
+> +		 struct drm_framebuffer *fb,
+>  		 const struct drm_mode_fb_cmd2 *mode_cmd,
+>  		 struct drm_gem_object **obj, unsigned int num_planes,
+>  		 const struct drm_framebuffer_funcs *funcs)
+>  {
+> -	struct drm_framebuffer *fb;
+>  	int ret, i;
+>  
+> -	fb = kzalloc(sizeof(*fb), GFP_KERNEL);
+> -	if (!fb)
+> -		return ERR_PTR(-ENOMEM);
+> -
+>  	drm_helper_mode_fill_fb_struct(dev, fb, mode_cmd);
+>  
+>  	for (i = 0; i < num_planes; i++)
+> @@ -76,10 +72,9 @@ drm_gem_fb_alloc(struct drm_device *dev,
+>  	if (ret) {
+>  		drm_err(dev, "Failed to init framebuffer: %d\n", ret);
+>  		kfree(fb);
+> -		return ERR_PTR(ret);
+>  	}
+>  
+> -	return fb;
+> +	return ret;
+>  }
+>  
+>  /**
+> @@ -123,10 +118,13 @@ int drm_gem_fb_create_handle(struct drm_framebuffer *fb, struct drm_file *file,
+>  EXPORT_SYMBOL(drm_gem_fb_create_handle);
+>  
+>  /**
+> - * drm_gem_fb_create_with_funcs() - Helper function for the
+> - *                                  &drm_mode_config_funcs.fb_create
+> - *                                  callback
+> + * drm_gem_fb_init_with_funcs() - Helper function for implementing
+> + *				  &drm_mode_config_funcs.fb_create
+> + *				  callback in cases when the driver
+> + *				  allocates a subclass of
+> + *				  struct drm_framebuffer
+>   * @dev: DRM device
+> + * @fb: framebuffer object
+>   * @file: DRM file that holds the GEM handle(s) backing the framebuffer
+>   * @mode_cmd: Metadata from the userspace framebuffer creation request
+>   * @funcs: vtable to be used for the new framebuffer object
+> @@ -134,23 +132,26 @@ EXPORT_SYMBOL(drm_gem_fb_create_handle);
+>   * This function can be used to set &drm_framebuffer_funcs for drivers that need
+>   * custom framebuffer callbacks. Use drm_gem_fb_create() if you don't need to
+>   * change &drm_framebuffer_funcs. The function does buffer size validation.
+> + * The buffer size validation is for a general case, though, so users should
+> + * pay attention to the checks being appropriate for them or, at least,
+> + * non-conflicting.
+>   *
+>   * Returns:
+> - * Pointer to a &drm_framebuffer on success or an error pointer on failure.
+> + * Zero or a negative error code.
+>   */
+> -struct drm_framebuffer *
+> -drm_gem_fb_create_with_funcs(struct drm_device *dev, struct drm_file *file,
+> -			     const struct drm_mode_fb_cmd2 *mode_cmd,
+> -			     const struct drm_framebuffer_funcs *funcs)
+> +int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+> +			       struct drm_framebuffer *fb,
+> +			       struct drm_file *file,
+> +			       const struct drm_mode_fb_cmd2 *mode_cmd,
+> +			       const struct drm_framebuffer_funcs *funcs)
+>  {
+>  	const struct drm_format_info *info;
+>  	struct drm_gem_object *objs[4];
+> -	struct drm_framebuffer *fb;
+>  	int ret, i;
+>  
+>  	info = drm_get_format_info(dev, mode_cmd);
+>  	if (!info)
+> -		return ERR_PTR(-EINVAL);
+> +		return -EINVAL;
+>  
+>  	for (i = 0; i < info->num_planes; i++) {
+>  		unsigned int width = mode_cmd->width / (i ? info->hsub : 1);
+> @@ -175,19 +176,55 @@ drm_gem_fb_create_with_funcs(struct drm_device *dev, struct drm_file *file,
+>  		}
+>  	}
+>  
+> -	fb = drm_gem_fb_alloc(dev, mode_cmd, objs, i, funcs);
+> -	if (IS_ERR(fb)) {
+> -		ret = PTR_ERR(fb);
+> +	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
+> +	if (ret)
+>  		goto err_gem_object_put;
+> -	}
+>  
+> -	return fb;
+> +	return 0;
+>  
+>  err_gem_object_put:
+>  	for (i--; i >= 0; i--)
+>  		drm_gem_object_put_unlocked(objs[i]);
+>  
+> -	return ERR_PTR(ret);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gem_fb_init_with_funcs);
+> +
+> +/**
+> + * drm_gem_fb_create_with_funcs() - Helper function for the
+> + *                                  &drm_mode_config_funcs.fb_create
+> + *                                  callback
+> + * @dev: DRM device
+> + * @file: DRM file that holds the GEM handle(s) backing the framebuffer
+> + * @mode_cmd: Metadata from the userspace framebuffer creation request
+> + * @funcs: vtable to be used for the new framebuffer object
+> + *
+> + * This function can be used to set &drm_framebuffer_funcs for drivers that need
+> + * custom framebuffer callbacks. Use drm_gem_fb_create() if you don't need to
+> + * change &drm_framebuffer_funcs. The function does buffer size validation.
+> + *
+> + * Returns:
+> + * Pointer to a &drm_framebuffer on success or an error pointer on failure.
+> + */
+> +struct drm_framebuffer *
+> +drm_gem_fb_create_with_funcs(struct drm_device *dev, struct drm_file *file,
+> +			     const struct drm_mode_fb_cmd2 *mode_cmd,
+> +			     const struct drm_framebuffer_funcs *funcs)
+> +{
+> +	struct drm_framebuffer *fb;
+> +	int ret;
+> +
+> +	fb = kzalloc(sizeof(*fb), GFP_KERNEL);
+> +	if (!fb)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	ret = drm_gem_fb_init_with_funcs(dev, fb, file, mode_cmd, funcs);
+> +	if (ret) {
+> +		kfree(fb);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	return fb;
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_fb_create_with_funcs);
+>  
+> diff --git a/include/drm/drm_gem_framebuffer_helper.h b/include/drm/drm_gem_framebuffer_helper.h
+> index d9f13fd25b0a..c029c1618661 100644
+> --- a/include/drm/drm_gem_framebuffer_helper.h
+> +++ b/include/drm/drm_gem_framebuffer_helper.h
+> @@ -18,6 +18,11 @@ void drm_gem_fb_destroy(struct drm_framebuffer *fb);
+>  int drm_gem_fb_create_handle(struct drm_framebuffer *fb, struct drm_file *file,
+>  			     unsigned int *handle);
+>  
+> +int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+> +			       struct drm_framebuffer *fb,
+> +			       struct drm_file *file,
+> +			       const struct drm_mode_fb_cmd2 *mode_cmd,
+> +			       const struct drm_framebuffer_funcs *funcs);
+>  struct drm_framebuffer *
+>  drm_gem_fb_create_with_funcs(struct drm_device *dev, struct drm_file *file,
+>  			     const struct drm_mode_fb_cmd2 *mode_cmd,
+> -- 
+> 2.17.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
