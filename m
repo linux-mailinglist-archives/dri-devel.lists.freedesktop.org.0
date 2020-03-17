@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE78187651
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 00:39:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7A1187788
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 02:41:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03B116E573;
-	Mon, 16 Mar 2020 23:39:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 620CC6E03B;
+	Tue, 17 Mar 2020 01:41:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
- [IPv6:2607:f8b0:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 251596E54C;
- Mon, 16 Mar 2020 23:39:31 +0000 (UTC)
-Received: by mail-il1-x142.google.com with SMTP id p1so3511229ils.5;
- Mon, 16 Mar 2020 16:39:31 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72CC56E03B;
+ Tue, 17 Mar 2020 01:41:39 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id 25so19750640wmk.3;
+ Mon, 16 Mar 2020 18:41:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8QGPaFUD2cvNFVcORLjGpJvbfVbFJLU8MbBNokDs+A4=;
- b=HpJuxcyVqahcWR6kvLai/Fuh39wdmcWuNdGGMlMcYAOSTfaou3H00df5r5Z7C0+NvB
- frOs/WSPvKZvmIr6lD/Bi+r1ZXFrohZBHSHu+j1eWP5Ds2PsfYMR4a/mNfdpSntEqYSL
- 5pKfIS3yvSSmhb7TxSU2UH5YZATWMjNbDDWc+YeYGFvP1bV5fO2UiqVpjmDnXCC2o4fV
- 229Df7l5hkFau0lSZhaMi6hvN5HUmYTIb5XL26RDty7kt2v4PL3g2bauHLiFbmOWRT3Z
- vZ0SDwRRkp4f9SgheF6Wzez/jXeeK1T1wPa9C5tjkhLCigJ4d6Te/QKpZ0ynBwRccHxD
- 3VbQ==
+ :cc; bh=X0+PP1S7pApaSGjyUxR4JBepODheqIWQisCay1PAGvY=;
+ b=VZRevjFa+gL6XbVeoEGsv0kmq/A9up7PGCirYUDD/DTJPcTbh5xKhJljlddxH0PpBc
+ QpRD0bfqGhJ5mpFp+YljOOGa6KCjRRCX3cvUh+p37ve+XsLPjsNdvpXVhVp/vQQJhInO
+ cQ2oLLfvrRGjAu33Iyr347MBmT01+jIa42fVce5E6KrjPKAJYTVc31suxIchPGP1MH02
+ IVPhEBbPUsJgsxO+45Dzw2P3etij5KoRg4oL4LPp0b5uBpRvTiU2Obu5t/TreDDpQZzw
+ +URZo50obynot3ErHlrx4B2LFl3xZ15Qru7BT0J7OIVMRo+E/HbLLMJj5qWlerieRQpu
+ 54CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8QGPaFUD2cvNFVcORLjGpJvbfVbFJLU8MbBNokDs+A4=;
- b=qgYmLy+j64b80JMM3pvPwWriK8Yi5XQVJBlVNNv0YsiUNcQF3pCS2HQwO1n/TAoA33
- hH9H+EaOmSyN91ZoK02e+Zqe3nvI04VHZk3PJlb50IEOHdzOopxC8KGT20v+rub29lPW
- yUmvRkWTii1T+Lf0b/SDCYMAt68/EWxzoyaL6XrfE5CvBOTrAqBWT+HfFbENShi60zWh
- VyIbSYne8voPoU4OWEkR2ZcHGtysXgtlMPRvi79M/bkWhn0mlTpgl2uoDjXBPd3l2Qqh
- xr2devnyVKugRRWKEUlo6xgDovLT2uhmYXYS3Y99TPyGDpsrf1QsVeFaPrzo4EwHpu6o
- MONA==
-X-Gm-Message-State: ANhLgQ3kUwbfnIiqHN2z4LEsQy046oPm3rwMCf4HbOvRpOFSipbzT/fj
- oHiZn80PpW4XY6B9I28el1tyCma/Y6xffkqKy+AROZ518/s=
-X-Google-Smtp-Source: ADFU+vvW7VUJSX1H7NguH89ivTAhsuq6Qf4GfNMeFvWM3pLLDPRGldFLSTxijnKtNURW9kpwnDeVcPm6Npff47WXO4g=
-X-Received: by 2002:a92:da51:: with SMTP id p17mr2343524ilq.254.1584401970350; 
- Mon, 16 Mar 2020 16:39:30 -0700 (PDT)
+ bh=X0+PP1S7pApaSGjyUxR4JBepODheqIWQisCay1PAGvY=;
+ b=J5nM+zGCufy896qSZb5kdltvAXR8g0K/mO9ou6UMuYWr4BTiY1JgUL6oLFkINUxZHv
+ qMTOH453ldV25zZyjjsOlG+0FZEiOyi5V+M0spYkvjxmy6dwQUh+buhzpu37rLYN6e3a
+ ySwGKgJC4rj5gjdt4WdbMrDCjmAuR8HG31PdbW/Mvn7Z0UrkjclyD19YwMytTJvQqyYk
+ TPnVy8Ig7wq6ABcu4DhcIb/8AjMmOcUDVqTz4kj3YhmuxrenfK/myni+qIOyDBZMHLNy
+ f47bVvwGM7cD3ImIYqK5tkNM+8visJVVX2F2EP18FIi49VfP1K5EK+w7cec2NlV4eQYv
+ 3bsA==
+X-Gm-Message-State: ANhLgQ3x2+N5L4LwV8OcNr5eqCvywvdEMhv8ZEnKlyBYctAfBf6ouFps
+ eU2wR/0bNICNpBy5ricuw/MXvMqUo48Zs/g/VyM=
+X-Google-Smtp-Source: ADFU+vs4BcD8iE1xi5u3RxBiEaeAdx2x/H6lPKsv6ZFJJRmb3jkWoPZNoghH3v3IswX2kvoOoDc4NLfDzaKmxUFoHnE=
+X-Received: by 2002:a7b:ce0c:: with SMTP id m12mr2060882wmc.104.1584409298011; 
+ Mon, 16 Mar 2020 18:41:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
-In-Reply-To: <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
-From: Roman Gilg <subdiff@gmail.com>
-Date: Tue, 17 Mar 2020 00:41:29 +0100
-Message-ID: <CAJcyoys6FOsBmDe_rSeM8VSwPuB55a-v+3igaknQLyq=6aPa9A@mail.gmail.com>
-Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
-To: Jason Ekstrand <jason@jlekstrand.net>
+References: <20200307135438.9981-1-yuq825@gmail.com>
+ <CA+E=qVc822KmCh9whPqZJfQT8xRR-ZVEai6pSp0MGOFduD0pyw@mail.gmail.com>
+In-Reply-To: <CA+E=qVc822KmCh9whPqZJfQT8xRR-ZVEai6pSp0MGOFduD0pyw@mail.gmail.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Tue, 17 Mar 2020 09:41:26 +0800
+Message-ID: <CAKGbVbtP9qS7rt-uOMKNhFWsyUnmXPgKEkkpfT6aOf_nONdxBA@mail.gmail.com>
+Subject: Re: [PATCH] drm/lima: add trace point for tasks
+To: Vasily Khoruzhick <anarsoul@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,297 +61,184 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, xorg-devel <xorg-devel@lists.x.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "wayland-devel @ lists . freedesktop . org"
- <wayland-devel@lists.freedesktop.org>,
- Discussion of the development of and with GStreamer
- <gstreamer-devel@lists.freedesktop.org>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>, linux-media@vger.kernel.org
+Cc: lima@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andreas Baierl <ichgeh@imkreisrum.de>, Erico Nunes <nunes.erico@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 11, 2020 at 8:21 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
+On Sun, Mar 15, 2020 at 12:36 PM Vasily Khoruzhick <anarsoul@gmail.com> wrote:
 >
-> On Wed, Mar 11, 2020 at 12:31 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
+> On Sat, Mar 7, 2020 at 5:55 AM Qiang Yu <yuq825@gmail.com> wrote:
 > >
-> > All,
+> > track lima task start which can be combined with
+> > dma_fence_signal to identify task execution time.
 > >
-> > Sorry for casting such a broad net with this one. I'm sure most people
-> > who reply will get at least one mailing list rejection.  However, this
-> > is an issue that affects a LOT of components and that's why it's
-> > thorny to begin with.  Please pardon the length of this e-mail as
-> > well; I promise there's a concrete point/proposal at the end.
+> > example command to record:
 > >
-> >
-> > Explicit synchronization is the future of graphics and media.  At
-> > least, that seems to be the consensus among all the graphics people
-> > I've talked to.  I had a chat with one of the lead Android graphics
-> > engineers recently who told me that doing explicit sync from the start
-> > was one of the best engineering decisions Android ever made.  It's
-> > also the direction being taken by more modern APIs such as Vulkan.
-> >
-> >
-> > ## What are implicit and explicit synchronization?
-> >
-> > For those that aren't familiar with this space, GPUs, media encoders,
-> > etc. are massively parallel and synchronization of some form is
-> > required to ensure that everything happens in the right order and
-> > avoid data races.  Implicit synchronization is when bits of work (3D,
-> > compute, video encode, etc.) are implicitly based on the absolute
-> > CPU-time order in which API calls occur.  Explicit synchronization is
-> > when the client (whatever that means in any given context) provides
-> > the dependency graph explicitly via some sort of synchronization
-> > primitives.  If you're still confused, consider the following
-> > examples:
-> >
-> > With OpenGL and EGL, almost everything is implicit sync.  Say you have
-> > two OpenGL contexts sharing an image where one writes to it and the
-> > other textures from it.  The way the OpenGL spec works, the client has
-> > to make the API calls to render to the image before (in CPU time) it
-> > makes the API calls which texture from the image.  As long as it does
-> > this (and maybe inserts a glFlush?), the driver will ensure that the
-> > rendering completes before the texturing happens and you get correct
-> > contents.
-> >
-> > Implicit synchronization can also happen across processes.  Wayland,
-> > for instance, is currently built on implicit sync where the client
-> > does their rendering and then does a hand-off (via wl_surface::commit)
-> > to tell the compositor it's done at which point the compositor can now
-> > texture from the surface.  The hand-off ensures that the client's
-> > OpenGL API calls happen before the server's OpenGL API calls.
-> >
-> > A good example of explicit synchronization is the Vulkan API.  There,
-> > a client (or multiple clients) can simultaneously build command
-> > buffers in different threads where one of those command buffers
-> > renders to an image and the other textures from it and then submit
-> > both of them at the same time with instructions to the driver for
-> > which order to execute them in.  The execution order is described via
-> > the VkSemaphore primitive.  With the new VK_KHR_timeline_semaphore
-> > extension, you can even submit the work which does the texturing
-> > BEFORE the work which does the rendering and the driver will sort it
-> > out.
-> >
-> > The #1 problem with implicit synchronization (which explicit solves)
-> > is that it leads to a lot of over-synchronization both in client space
-> > and in driver/device space.  The client has to synchronize a lot more
-> > because it has to ensure that the API calls happen in a particular
-> > order.  The driver/device have to synchronize a lot more because they
-> > never know what is going to end up being a synchronization point as an
-> > API call on another thread/process may occur at any time.  As we move
-> > to more and more multi-threaded programming this synchronization (on
-> > the client-side especially) becomes more and more painful.
-> >
-> >
-> > ## Current status in Linux
-> >
-> > Implicit synchronization in Linux works via a the kernel's internal
-> > dma_buf and dma_fence data structures.  A dma_fence is a tiny object
-> > which represents the "done" status for some bit of work.  Typically,
-> > dma_fences are created as a by-product of someone submitting some bit
-> > of work (say, 3D rendering) to the kernel.  The dma_buf object has a
-> > set of dma_fences on it representing shared (read) and exclusive
-> > (write) access to the object.  When work is submitted which, for
-> > instance renders to the dma_buf, it's queued waiting on all the fences
-> > on the dma_buf and and a dma_fence is created representing the end of
-> > said rendering work and it's installed as the dma_buf's exclusive
-> > fence.  This way, the kernel can manage all its internal queues (3D
-> > rendering, display, video encode, etc.) and know which things to
-> > submit in what order.
-> >
-> > For the last few years, we've had sync_file in the kernel and it's
-> > plumbed into some drivers.  A sync_file is just a wrapper around a
-> > single dma_fence.  A sync_file is typically created as a by-product of
-> > submitting work (3D, compute, etc.) to the kernel and is signaled when
-> > that work completes.  When a sync_file is created, it is guaranteed by
-> > the kernel that it will become signaled in finite time and, once it's
-> > signaled, it remains signaled for the rest of time.  A sync_file is
-> > represented in UAPIs as a file descriptor and can be used with normal
-> > file APIs such as dup().  It can be passed into another UAPI which
-> > does some bit of queue'd work and the submitted work will wait for the
-> > sync_file to be triggered before executing.  A sync_file also supports
-> > poll() if  you want to wait on it manually.
-> >
-> > Unfortunately, sync_file is not broadly used and not all kernel GPU
-> > drivers support it.  Here's a very quick overview of my understanding
-> > of the status of various components (I don't know the status of
-> > anything in the media world):
-> >
-> >  - Vulkan: Explicit synchronization all the way but we have to go
-> > implicit as soon as we interact with a window-system.  Vulkan has APIs
-> > to import/export sync_files to/from it's VkSemaphore and VkFence
-> > synchronization primitives.
-> >  - OpenGL: Implicit all the way.  There are some EGL extensions to
-> > enable some forms of explicit sync via sync_file but OpenGL itself is
-> > still implicit.
-> >  - Wayland: Currently depends on implicit sync in the kernel (accessed
-> > via EGL/OpenGL).  There is an unstable extension to allow passing
-> > sync_files around but it's questionable how useful it is right now
-> > (more on that later).
-> >  - X11: With present, it has these "explicit" fence objects but
-> > they're always a shmfence which lets the X server and client do a
-> > userspace CPU-side hand-off without going over the socket (and
-> > round-tripping through the kernel).  However, the only thing that
-> > fence does is order the OpenGL API calls in the client and server and
-> > the real synchronization is still implicit.
-> >  - linux/i915/gem: Fully supports using sync_file or syncobj for explicit sync.
-> >  - linux/amdgpu: Supports sync_file and syncobj but it still
-> > implicitly syncs sometimes due to it's internal memory residency
-> > handling which can lead to over-synchronization.
-> >  - KMS: Implicit sync all the way.  There are no KMS APIs which take
-> > explicit sync primitives.
+> > trace-cmd record -i \
+> >   -e "lima:lima_task_submit" -e "lima:lima_task_run" \
+> >   -e "*fence:*fence_signaled" -e "drm:drm_vblank_event" \
+> >   -e "drm:drm_vblank_event_queued" sleep 4
 >
-> Correction:  Apparently, I missed some things.  If you use atomic, KMS
-> does have explicit in- and out-fences.  Non-atomic users (e.g. X11)
-> are still in trouble but most Wayland compositors use atomic these
-> days
+> LGTM. Out of curiosity, is there any reason for not adding one more
+> event for task completion?
 
-Hi Jason,
+Not concrete reason, as the comment, trace point when
+dma_fence_signal act as the task completion event, so not add duplicate
+one.
 
-thanks for pushing this forward and the comprehensive explanation on
-what it is about.
+Regards,
+Qiang
 
-My question would be what exactly do you now need from Wayland compositor devs?
-I understood a Wayland compositor needs to:
-* do atomic page flips,
-* support [1].
-
-Is there something else? You described a mechanism to pull out and
-push in these sync_files to dma-bufs depending on what the client
-provides and what kind of output the compositor puts the final image
-onto. That's for now just an idea (plus your wip implementation in
-Vulkan/kernel) and there is not yet anything that can be done for this
-specifically in Wayland compositors, or is there?
-
-Thanks
-Roman
-
-[1] https://gitlab.freedesktop.org/wayland/wayland-protocols/blob/master/unstable/linux-explicit-synchronization/linux-explicit-synchronization-unstable-v1.xml
-
-
-> >  - v4l: ???
-> >  - gstreamer: ???
-> >  - Media APIs such as vaapi etc.:  ???
-> >
-> >
-> > ## Chicken and egg problems
-> >
-> > Ok, this is where it starts getting depressing.  I made the claim
-> > above that Wayland has an explicit synchronization protocol that's of
-> > questionable usefulness.  I would claim that basically any bit of
-> > plumbing we do through window systems is currently of questionable
-> > usefulness.  Why?
-> >
-> > From my perspective, as a Vulkan driver developer, I have to deal with
-> > the fact that Vulkan is an explicit sync API but Wayland and X11
-> > aren't.  Unfortunately, the Wayland extension solves zero problems for
-> > me because I can't really use it unless it's implemented in all of the
-> > compositors.  Until every Wayland compositor I care about my users
-> > being able to use (which is basically all of them) supports the
-> > extension, I have to continue carry around my pile of hacks to keep
-> > implicit sync and Vulkan working nicely together.
-> >
-> > From the perspective of a Wayland compositor (I used to play in this
-> > space), they'd love to implement the new explicit sync extension but
-> > can't.  Sure, they could wire up the extension, but the moment they go
-> > to flip a client buffer to the screen directly, they discover that KMS
-> > doesn't support any explicit sync APIs.
 >
-> As per the above correction, Wayland compositors aren't nearly as bad
-> off as I initially thought.  There may still be weird screen capture
-> cases but the normal cases of compositing and displaying via
-> KMS/atomic should be in reasonably good shape.
->
-> > So, yes, they can technically
-> > implement the extension assuming the EGL stack they're running on has
-> > the sync_file extensions but any client buffers which come in using
-> > the explicit sync Wayland extension have to be composited and can't be
-> > scanned out directly.  As a 3D driver developer, I absolutely don't
-> > want compositors doing that because my users will complain about
-> > performance issues due to the extra blit.
+> > Signed-off-by: Qiang Yu <yuq825@gmail.com>
+> > ---
+> >  drivers/gpu/drm/lima/Makefile     |  3 +-
+> >  drivers/gpu/drm/lima/lima_sched.c |  5 +++-
+> >  drivers/gpu/drm/lima/lima_sched.h |  1 +
+> >  drivers/gpu/drm/lima/lima_trace.c |  7 +++++
+> >  drivers/gpu/drm/lima/lima_trace.h | 50 +++++++++++++++++++++++++++++++
+> >  5 files changed, 64 insertions(+), 2 deletions(-)
+> >  create mode 100644 drivers/gpu/drm/lima/lima_trace.c
+> >  create mode 100644 drivers/gpu/drm/lima/lima_trace.h
 > >
-> > Ok, so let's say we get KMS wired up with implicit sync.  That solves
-> > all our problems, right?  It does, right up until someone decides that
-> > they wan to screen capture their Wayland session via some hardware
-> > media encoder that doesn't support explicit sync.  Now we have to
-> > plumb it all the way through the media stack, gstreamer, etc.  Great,
-> > so let's do that!  Oh, but gstreamer won't want to plumb it through
-> > until they're guaranteed that they can use explicit sync when
-> > displaying on X11 or Wayland.  Are you seeing the problem?
+> > diff --git a/drivers/gpu/drm/lima/Makefile b/drivers/gpu/drm/lima/Makefile
+> > index a85444b0a1d4..6e7b788408e8 100644
+> > --- a/drivers/gpu/drm/lima/Makefile
+> > +++ b/drivers/gpu/drm/lima/Makefile
+> > @@ -14,6 +14,7 @@ lima-y := \
+> >         lima_sched.o \
+> >         lima_ctx.o \
+> >         lima_dlbu.o \
+> > -       lima_bcast.o
+> > +       lima_bcast.o \
+> > +       lima_trace.o
 > >
-> > To make matters worse, since most things are doing implicit
-> > synchronization today, it's really easy to get your explicit
-> > synchronization wrong and never notice.  If you forget to pass a
-> > sync_file into one place (say you never notice KMS doesn't support
-> > them), it will probably work anyway thanks to all the implicit sync
-> > that's going on elsewhere.
+> >  obj-$(CONFIG_DRM_LIMA) += lima.o
+> > diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+> > index f295479e3733..98d0d410b7d7 100644
+> > --- a/drivers/gpu/drm/lima/lima_sched.c
+> > +++ b/drivers/gpu/drm/lima/lima_sched.c
+> > @@ -3,7 +3,6 @@
 > >
-> > So, clearly, we all need to go write piles of code that we can't
-> > actually properly test until everyone else has written their piece and
-> > then we use explicit sync if and only if all components support it.
-> > Really?  We're going to do multiple years of development and then just
-> > hope it works when we finally flip the switch?  That doesn't sound
-> > like a good plan to me.
+> >  #include <linux/kthread.h>
+> >  #include <linux/slab.h>
+> > -#include <linux/xarray.h>
+> >  #include <linux/vmalloc.h>
 > >
+> >  #include "lima_drv.h"
+> > @@ -12,6 +11,7 @@
+> >  #include "lima_mmu.h"
+> >  #include "lima_l2_cache.h"
+> >  #include "lima_gem.h"
+> > +#include "lima_trace.h"
 > >
-> > ## A proposal: Implicit and explicit sync together
+> >  struct lima_fence {
+> >         struct dma_fence base;
+> > @@ -177,6 +177,7 @@ struct dma_fence *lima_sched_context_queue_task(struct lima_sched_context *conte
+> >  {
+> >         struct dma_fence *fence = dma_fence_get(&task->base.s_fence->finished);
 > >
-> > How to solve all these chicken-and-egg problems is something I've been
-> > giving quite a bit of thought (and talking with many others about) in
-> > the last couple of years.  One motivation for this is that we have to
-> > deal with a mismatch in Vulkan.  Another motivation is that I'm
-> > becoming increasingly unhappy with the way that synchronization,
-> > memory residency, and command submission are inherently intertwined in
-> > i915 and would like to break things apart.  Towards that end, I have
-> > an actual proposal.
+> > +       trace_lima_task_submit(task);
+> >         drm_sched_entity_push_job(&task->base, &context->base);
+> >         return fence;
+> >  }
+> > @@ -251,6 +252,8 @@ static struct dma_fence *lima_sched_run_job(struct drm_sched_job *job)
+> >         if (last_vm)
+> >                 lima_vm_put(last_vm);
 > >
-> > A couple weeks ago, I sent a series of patches to the dri-devel
-> > mailing list which adds a pair of new ioctls to dma-buf which allow
-> > userspace to manually import or export a sync_file from a dma-buf.
-> > The idea is that something like a Wayland compositor can switch to
-> > 100% explicit sync internally once the ioctl is available.  If it gets
-> > buffers in from a client that doesn't use the explicit sync extension,
-> > it can pull a sync_file from the dma-buf and use that exactly as it
-> > would a sync_file passed via the explicit sync extension.  When it
-> > goes to scan out a user buffer and discovers that KMS doesn't accept
-> > sync_files (or if it tries to use that pesky media encoder no one has
-> > converted), it can take it's sync_file for display and stuff it into
-> > the dma-buf before handing it to KMS.
+> > +       trace_lima_task_run(task);
+> > +
+> >         pipe->error = false;
+> >         pipe->task_run(pipe, task);
 > >
-> > Along with the kernel patches, I've also implemented support for this
-> > in the Vulkan WSI code used by ANV and RADV.  With those patches, the
-> > only requirement on the Vulkan drivers is that you be able to export
-> > any VkSemaphore as a sync_file and temporarily import a sync_file into
-> > any VkFence or VkSemaphore.  As long as that works, the core Vulkan
-> > driver only ever sees explicit synchronization via sync_file.  The WSI
-> > code uses these new ioctls to translate the implicit sync of X11 and
-> > Wayland to the explicit sync the Vulkan driver wants.
+> > diff --git a/drivers/gpu/drm/lima/lima_sched.h b/drivers/gpu/drm/lima/lima_sched.h
+> > index e29f5e3b675b..e5db1919f446 100644
+> > --- a/drivers/gpu/drm/lima/lima_sched.h
+> > +++ b/drivers/gpu/drm/lima/lima_sched.h
+> > @@ -6,6 +6,7 @@
 > >
-> > I'm hoping (and here's where I want a sanity check) that a simple API
-> > like this will allow us to finally start moving the Linux ecosystem
-> > over to explicit synchronization one piece at a time in a way that's
-> > actually correct.  (No Wayland explicit sync with compositors hoping
-> > KMS magically works even though it doesn't have a sync_file API.)
-> > Once some pieces in the ecosystem start moving, there will be
-> > motivation to start moving others and maybe we can actually build the
-> > momentum to get most everything converted.
+> >  #include <drm/gpu_scheduler.h>
+> >  #include <linux/list.h>
+> > +#include <linux/xarray.h>
 > >
-> > For reference, you can find the kernel RFC patches and mesa MR here:
+> >  struct lima_vm;
 > >
-> > https://lists.freedesktop.org/archives/dri-devel/2020-March/258833.html
+> > diff --git a/drivers/gpu/drm/lima/lima_trace.c b/drivers/gpu/drm/lima/lima_trace.c
+> > new file mode 100644
+> > index 000000000000..ea1c7289bebc
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/lima/lima_trace.c
+> > @@ -0,0 +1,7 @@
+> > +// SPDX-License-Identifier: GPL-2.0 OR MIT
+> > +/* Copyright 2020 Qiang Yu <yuq825@gmail.com> */
+> > +
+> > +#include "lima_sched.h"
+> > +
+> > +#define CREATE_TRACE_POINTS
+> > +#include "lima_trace.h"
+> > diff --git a/drivers/gpu/drm/lima/lima_trace.h b/drivers/gpu/drm/lima/lima_trace.h
+> > new file mode 100644
+> > index 000000000000..9308b948b69d
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/lima/lima_trace.h
+> > @@ -0,0 +1,50 @@
+> > +// SPDX-License-Identifier: GPL-2.0 OR MIT
+> > +/* Copyright 2020 Qiang Yu <yuq825@gmail.com> */
+> > +
+> > +#if !defined(_LIMA_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
+> > +#define _LIMA_TRACE_H_
+> > +
+> > +#include <linux/tracepoint.h>
+> > +
+> > +#undef TRACE_SYSTEM
+> > +#define TRACE_SYSTEM lima
+> > +#define TRACE_INCLUDE_FILE lima_trace
+> > +
+> > +DECLARE_EVENT_CLASS(lima_task,
+> > +       TP_PROTO(struct lima_sched_task *task),
+> > +       TP_ARGS(task),
+> > +       TP_STRUCT__entry(
+> > +               __field(uint64_t, task_id)
+> > +               __field(unsigned int, context)
+> > +               __field(unsigned int, seqno)
+> > +               __string(pipe, task->base.sched->name)
+> > +               ),
+> > +
+> > +       TP_fast_assign(
+> > +               __entry->task_id = task->base.id;
+> > +               __entry->context = task->base.s_fence->finished.context;
+> > +               __entry->seqno = task->base.s_fence->finished.seqno;
+> > +               __assign_str(pipe, task->base.sched->name)
+> > +               ),
+> > +
+> > +       TP_printk("task=%llu, context=%u seqno=%u pipe=%s",
+> > +                 __entry->task_id, __entry->context, __entry->seqno,
+> > +                 __get_str(pipe))
+> > +);
+> > +
+> > +DEFINE_EVENT(lima_task, lima_task_submit,
+> > +            TP_PROTO(struct lima_sched_task *task),
+> > +            TP_ARGS(task)
+> > +);
+> > +
+> > +DEFINE_EVENT(lima_task, lima_task_run,
+> > +            TP_PROTO(struct lima_sched_task *task),
+> > +            TP_ARGS(task)
+> > +);
+> > +
+> > +#endif
+> > +
+> > +/* This part must be outside protection */
+> > +#undef TRACE_INCLUDE_PATH
+> > +#define TRACE_INCLUDE_PATH ../../drivers/gpu/drm/lima
+> > +#include <trace/define_trace.h>
+> > --
+> > 2.17.1
 > >
-> > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4037
-> >
-> > At this point, I welcome your thoughts, comments, objections, and
-> > maybe even help/review. :-)
-> >
-> > --Jason Ekstrand
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
