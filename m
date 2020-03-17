@@ -1,36 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92C018873E
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:18:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BFD18872C
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Mar 2020 15:17:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B3F16E5C5;
-	Tue, 17 Mar 2020 14:16:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEA0D6E1B4;
+	Tue, 17 Mar 2020 14:16:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A53889467
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 11:32:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1584444745;
- h=from:from:sender:reply-to:subject:subject:date:date:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+7dh6imzzMej5xNbU5tRJ/IfCuo2k2gsb2Hk62Jwlyw=;
- b=AePaoEOIXqnBOx/pD8eDrfVeXUiViZiYFAVy0hg5IoOJpvQ60yB/s8L5I17dOSlG0htFAu
- R++lgDvz3OS11hgfOND0Z9HOh5vwNdE/ZApcNeq5KtQQmS9MmPqtygmOqI9OuYx//+rDnj
- zEAJ/C9vw0m5GgjW9bky6UmXIh8Nbcw=
-Date: Tue, 17 Mar 2020 12:32:07 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v1 13/36] dt-bindings: display: convert
- kingdisplay,kd035g6-54nt to DT Schema
-To: Sam Ravnborg <sam@ravnborg.org>
-In-Reply-To: <20200315134416.16527-14-sam@ravnborg.org>
-References: <20200315134416.16527-1-sam@ravnborg.org>
- <20200315134416.16527-14-sam@ravnborg.org>
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
+ [IPv6:2607:f8b0:4864:20::f42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66F7E6E0B6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 11:56:51 +0000 (UTC)
+Received: by mail-qv1-xf42.google.com with SMTP id m2so10616091qvu.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 04:56:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ezcaLzE+xMMW5k9+Lp3Fyb2v5+m1vlesVnD+8wIqvFk=;
+ b=IqF/Pcn6Nw5T4vMcmTfGaEtbebh8d19TIxqJMpr9n/7ww13viixneJRo8yAFbrOmfF
+ yi6gQx0fAlaDWh21kjKj5ucaecO2HtMyqm4zQjmaYbn9qmb7o8wevSYRehKm0LiRU8VO
+ BSycWwfeQzFTeY9y3GLp2ZsXmrPN+MYAqq8r0p0PoqsvdUYABt3WTre7330EXu9VsyCT
+ a0PmW2f0OysK4LylLGDsqjCxNyA5EKwiri2IPBjHLO00hBO15IPMZ4WZfsLN8I5jKx5y
+ c8MsgopbvRu6Iql7pFUkjXgtxJ3ufw/0hJ9VOxF/4O+PKW8XFNgE+Ob+ZFAOc7o7Zue/
+ PxXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ezcaLzE+xMMW5k9+Lp3Fyb2v5+m1vlesVnD+8wIqvFk=;
+ b=ioC8nUyqkRBa3BXpTQ+zCK+Oa9cYoEeRW0j+1AEjSkxXIIWqCxoe4KrLZ/+dRcWDXJ
+ rfd1c+S101K/irRcSNt9G/wFzR7t9+YCyE0EqvVh0PBmjqY4yg1PdYC0j2J6i8amUfji
+ u8jBsYjfBa6CFVNRMT+A3z/DGhxDqTLzd8v9FEEq+KEzRw9vX5z/TyG2BwNXFx12ggpI
+ ybiLGNQmYBAFB9bypzlGasCh+OuM0JL6/bCX1coeWYvSU/3BNnOCWL/msKA+844U8OHW
+ vn2d7JD7oL4F6mLNOXoPy9XEI2rJvH4f6Xo8BryjQH4b50AH8E3MXiUXSJblHlCqhJk+
+ L9xQ==
+X-Gm-Message-State: ANhLgQ3YE636eNq0FXmGsGBrW5wxtCZSO//KKpo7ZfArj/0swFzp3PeE
+ 1NHb2Arv39i77P8sUsHC3aAvag==
+X-Google-Smtp-Source: ADFU+vsg9TkFE/EUzCqf5ev0slQz4qmgYe2ZEFolT/sXe7p9PM9imp1X0/0EahO8T5ITCvrRw66fPw==
+X-Received: by 2002:a05:6214:1628:: with SMTP id
+ e8mr4546212qvw.81.1584446210477; 
+ Tue, 17 Mar 2020 04:56:50 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.57.212])
+ by smtp.gmail.com with ESMTPSA id l2sm1916228qtq.69.2020.03.17.04.56.49
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 17 Mar 2020 04:56:49 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1jEAq1-0000my-Dc; Tue, 17 Mar 2020 08:56:49 -0300
+Date: Tue, 17 Mar 2020 08:56:49 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Ralph Campbell <rcampbell@nvidia.com>
+Subject: Re: [PATCH 2/2] mm: remove device private page support from
+ hmm_range_fault
+Message-ID: <20200317115649.GP20941@ziepe.ca>
+References: <20200316175259.908713-1-hch@lst.de>
+ <20200316175259.908713-3-hch@lst.de>
+ <c099cc3c-c19f-9d61-4297-2e83df899ca4@nvidia.com>
+ <20200316184935.GA25322@lst.de> <20200316200929.GB20010@ziepe.ca>
+ <6de7ee97-45c7-b814-4dab-64e311dd86ce@nvidia.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <6de7ee97-45c7-b814-4dab-64e311dd86ce@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Tue, 17 Mar 2020 14:16:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,207 +79,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
- Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
- Stefan Mavrodiev <stefan@olimex.com>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
- Nickey Yang <nickey.yang@rock-chips.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
- Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
- Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
- devicetree@vger.kernel.org, Guido Gunther <agx@sigxcpu.org>,
- Mark Brown <broonie@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
- Werner Johansson <werner.johansson@sonymobile.com>,
- Purism Kernel Team <kernel@puri.sm>, Lin Huang <hl@rock-chips.com>,
- Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org,
- Peter Rosin <peda@axentia.se>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kvm-ppc@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, linux-mm@kvack.org,
+ Jerome Glisse <jglisse@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>, Bharata B Rao <bharata@linux.ibm.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-Message-Id: <20200317141650.8B3F16E5C5@gabe.freedesktop.org>
 
-Hi Sam,
+On Mon, Mar 16, 2020 at 01:24:09PM -0700, Ralph Campbell wrote:
 
-Le dim. 15 mars 2020 =E0 14:43, Sam Ravnborg <sam@ravnborg.org> a =E9crit =
+> The reason for it being backwards is that "normally" a device doesn't want
+> the device private page to be faulted back to system memory, it wants to
+> get the device private struct page so it can update its page table to point
+> to the memory already in the device.
 
-:
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+The "backwards" is you set the flag on input and never get it on
+output, clear the flag in input and maybe get it on output.
 
-Reviewed-by: Paul Cercueil <paul@crapouillou.net>
+Compare with valid or write which don't work that way.
 
-Cheers,
--Paul
+> Also, a device like Nvidia's GPUs may have an alternate path for copying
+> one GPU's memory to another (nvlink) without going through system memory
+> so getting a device private struct page/PFN from hmm_range_fault() that isn't
+> "owned" by the faulting GPU is useful.
+> I agree that the current code isn't well tested or thought out for multiple devices
+> (rdma, NVMe drives, GPUs, etc.) but it also ties in with peer-to-peer access via PCIe.
 
+I think the series here is a big improvement. The GPU driver can set
+owners that match the hidden cluster interconnect.
 
-> Cc: Paul Cercueil <paul@crapouillou.net>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  .../panel/kingdisplay,kd035g6-54nt.txt        | 42 -------------
->  .../panel/kingdisplay,kd035g6-54nt.yaml       | 60 =
-
-> +++++++++++++++++++
->  2 files changed, 60 insertions(+), 42 deletions(-)
->  delete mode 100644 =
-
-> Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54nt.=
-txt
->  create mode 100644 =
-
-> Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54nt.=
-yaml
-> =
-
-> diff --git =
-
-> a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54n=
-t.txt =
-
-> b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54n=
-t.txt
-> deleted file mode 100644
-> index fa9596082e44..000000000000
-> --- =
-
-> a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54n=
-t.txt
-> +++ /dev/null
-> @@ -1,42 +0,0 @@
-> -King Display KD035G6-54NT 3.5" (320x240 pixels) 24-bit TFT LCD panel
-> -
-> -Required properties:
-> -- compatible: should be "kingdisplay,kd035g6-54nt"
-> -- power-supply: See panel-common.txt
-> -- reset-gpios: See panel-common.txt
-> -
-> -Optional properties:
-> -- backlight: see panel-common.txt
-> -
-> -The generic bindings for the SPI slaves documented in [1] also apply.
-> -
-> -The device node can contain one 'port' child node with one child
-> -'endpoint' node, according to the bindings defined in [2]. This
-> -node should describe panel's video bus.
-> -
-> -[1]: Documentation/devicetree/bindings/spi/spi-bus.txt
-> -[2]: Documentation/devicetree/bindings/graph.txt
-> -
-> -Example:
-> -
-> -&spi {
-> -	panel@0 {
-> -		compatible =3D "kingdisplay,kd035g6-54nt";
-> -		reg =3D <0>;
-> -
-> -		spi-max-frequency =3D <3125000>;
-> -		spi-3wire;
-> -		spi-cs-high;
-> -
-> -		reset-gpios =3D <&gpe 2 GPIO_ACTIVE_LOW>;
-> -
-> -		backlight =3D <&backlight>;
-> -		power-supply =3D <&ldo6>;
-> -
-> -		port {
-> -			panel_input: endpoint {
-> -				remote-endpoint =3D <&panel_output>;
-> -			};
-> -		};
-> -	};
-> -};
-> diff --git =
-
-> a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54n=
-t.yaml =
-
-> b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54n=
-t.yaml
-> new file mode 100644
-> index 000000000000..31fc63294a9f
-> --- /dev/null
-> +++ =
-
-> b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54n=
-t.yaml
-> @@ -0,0 +1,60 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: =
-
-> http://devicetree.org/schemas/display/panel/kingdisplay,kd035g6-54nt.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: King Display KD035G6-54NT 3.5" (320x240 pixels) 24-bit TFT =
-
-> LCD panel
-> +
-> +maintainers:
-> +  - Paul Cercueil <paul@crapouillou.net>
-> +
-> +allOf:
-> +  - $ref: ../../spi/spi-slave.yaml#
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: kingdisplay,kd035g6-54nt
-> +
-> +  backlight: true
-> +  port: true
-> +  power-supply: true
-> +  reg: true
-> +  reset-gpios: true
-> +
-> +required:
-> +  - compatible
-> +  - power-supply
-> +  - reset-gpios
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    spi {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        panel@0 {
-> +            compatible =3D "kingdisplay,kd035g6-54nt";
-> +            reg =3D <0>;
-> +
-> +            spi-max-frequency =3D <3125000>;
-> +            spi-3wire;
-> +            spi-cs-high;
-> +
-> +            reset-gpios =3D <&gpe 2 GPIO_ACTIVE_LOW>;
-> +
-> +            backlight =3D <&backlight>;
-> +            power-supply =3D <&ldo6>;
-> +
-> +            port {
-> +                panel_input: endpoint {
-> +                    remote-endpoint =3D <&panel_output>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> --
-> 2.20.1
-> =
-
-
-
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
