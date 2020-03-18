@@ -1,70 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2DAB1895E8
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 07:35:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FEEF1895E0
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 07:34:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C65096E870;
-	Wed, 18 Mar 2020 06:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1FAF6E866;
+	Wed, 18 Mar 2020 06:33:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA2D6E86D
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 06:35:11 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id z3so12007502edq.11
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 23:35:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=avzVrZIf1wLUz+pG+uc67ZsrE+8uaVtP16+bPi4jkyo=;
- b=eR0KUqEM7U1L9kpP91LjCBdYPTGJyfXe1E7R7mQf+FblSrMDoBL8StMpl7S5MEHR/Y
- ACkhx0H5AQjP1WkNxyHmL+O5wrGTuQJ0W/AOR2woUcTXrExTEdYMm3APSD/K6OWxlH7K
- 83OxEO+vpje/2M7spg/ZsJtADvmfPGtKmlFL2X6dn/+jMIqzXQAY/dvIyNcxpAUAlEL9
- z8JA3g47AUzPwyJmL4MZ4yFKXFHmCsi5+tKd4XJz5uKLbOEbs+Vp+6WY0wm0BhFGajyu
- dpu09/+m1MeqizJaKCTKxOWu/IR9kgpeRsma2nngyzff/FF3qs4wYiOmWu5ugjiIvl+t
- Hjsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=avzVrZIf1wLUz+pG+uc67ZsrE+8uaVtP16+bPi4jkyo=;
- b=LSCTlfLsgThQubRoln1VTRXIxP8n+s+FkAYqmYbY/PCmT8CTWENdPLsds5jEG+zdkz
- ntWcEJAG0BnwtTvb5VFlWMl7u4dwwqbJH2OFfK41s6LQsl5WoSoa2jS9BWaTdaMGkshW
- qRVAOoILRCJnfI5N1/bB7DKI/6LE7LtPj5gI4XEmbq6ceW0RjDKQee3H2/wX0IdlAv0o
- BtzwDTaQ8KfuCkFHuhCaJ3FfbuylId8NLWK7HwxHhKWyWgurXLVgpaqz/vuEKGJQqNvT
- wU1+vlKHm5D1s1s0wBycYe5SoPbunEXRpATmQVpN7kIufxgip7+1GWjPXfkwjjejZQfw
- N4bQ==
-X-Gm-Message-State: ANhLgQ36pW+SEDitWl1UXqWblcmnVyRe+ylo5ZE3+1GF+ekHRHxpzOFl
- XT3ZozxSq59Bzi43GXZHq9H5BAA91KftI7UaTWyehQ==
-X-Google-Smtp-Source: ADFU+vu55g7kA273IrMf2mncefNvZ0T7dPQRUCZ0sh3qUa6VEWGHUHcpctrA/5X/YVQ+sXIfN5f2akGGtQHRgDRjItM=
-X-Received: by 2002:a17:906:d18e:: with SMTP id
- c14mr2761556ejz.120.1584513310044; 
- Tue, 17 Mar 2020 23:35:10 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FD13898CE;
+ Wed, 18 Mar 2020 06:33:48 +0000 (UTC)
+IronPort-SDR: /x+BofHbPQ9iKQhIzy+QqIzZXRyxis7OzcrfAN5BrL9FGTavu0O9g5GeLUqUYcfYSKhDmJoieO
+ AqN4HHYBI6nQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2020 23:33:47 -0700
+IronPort-SDR: K7+gMKtNA8TaW+AnPejz2F+zk2rlHLF7TssTAc6SFaE5DPArKsGihfoke2y6HdGMDPgSbe02T/
+ B7hNlJpwVAsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,566,1574150400"; d="scan'208";a="417839757"
+Received: from labuser-z97x-ud5h.jf.intel.com ([10.165.21.211])
+ by orsmga005.jf.intel.com with ESMTP; 17 Mar 2020 23:33:47 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/dp: DRM DP helper for reading Ignore MSA from DPCD
+Date: Tue, 17 Mar 2020 23:35:15 -0700
+Message-Id: <20200318063517.3844-1-manasi.d.navare@intel.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
- <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca>
- <20200316102034.GA30883@pendragon.ideasonboard.com>
- <CAOFGe95JUUBCuE=dWKtZVXjTLqxyf2oybpqAZ7hZhpBEKQ=Y-Q@mail.gmail.com>
- <20200316211502.GW4732@pendragon.ideasonboard.com>
- <74477a20fa78758dd6cf8c32d7a77d1cccf2646f.camel@ndufresne.ca>
- <CAOFGe963WUB+rkA=FURuXEk6BVjsP18yk4sJ3y_7VxKmscShrA@mail.gmail.com>
- <CAC2bXD5qJgT9sWJgL_ej5OY42a-xzYaeLrwioKUreQuPJ1idpg@mail.gmail.com>
- <3e522876ec0287b69483c65aa1e7ba1ded536ec6.camel@lynxeye.de>
- <CAC2bXD6f2LiJ9_S0V8gZdrczRzH8oNqyLprzzFnGYTMzGe5gUQ@mail.gmail.com>
- <949b8373908a9895e97981e872d6e35dcaaba632.camel@lynxeye.de>
- <CAC2bXD5+KwBXBo-qHWkGw+=cH_AytwS=jeDGbskXcmO0rfsREw@mail.gmail.com>
- <CAOFGe94gmWZOA7sB0jDXoZyj=i1id25gR2-kX87GA+fB=AJ2RQ@mail.gmail.com>
- <CAC2bXD43ctzqg2O9yDgr2Hf0Q-RQ7bVtVvAJBXuX43gZwr=Nfw@mail.gmail.com>
-In-Reply-To: <CAC2bXD43ctzqg2O9yDgr2Hf0Q-RQ7bVtVvAJBXuX43gZwr=Nfw@mail.gmail.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Wed, 18 Mar 2020 01:34:58 -0500
-Message-ID: <CAOFGe96Nbc8GoAWSby8awTsTQkywFa198hrjm-cRzfxEp6KfXQ@mail.gmail.com>
-Subject: Re: [Mesa-dev] Plumbing explicit synchronization through the Linux
- ecosystem
-To: Jacob Lifshay <programmerjake@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,128 +45,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, xorg-devel <xorg-devel@lists.x.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "wayland-devel @ lists . freedesktop . org"
- <wayland-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Discussion of the development of and with GStreamer
- <gstreamer-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Manasi Navare <manasi.d.navare@intel.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 18, 2020 at 12:20 AM Jacob Lifshay <programmerjake@gmail.com> wrote:
->
-> On Tue, Mar 17, 2020 at 7:08 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
-> >
-> > On Tue, Mar 17, 2020 at 7:16 PM Jacob Lifshay <programmerjake@gmail.com> wrote:
-> > >
-> > > On Tue, Mar 17, 2020 at 11:14 AM Lucas Stach <dev@lynxeye.de> wrote:
-> > > >
-> > > > Am Dienstag, den 17.03.2020, 10:59 -0700 schrieb Jacob Lifshay:
-> > > > > I think I found a userspace-accessible way to create sync_files and
-> > > > > dma_fences that would fulfill the requirements:
-> > > > > https://github.com/torvalds/linux/blob/master/drivers/dma-buf/sw_sync.c
-> > > > >
-> > > > > I'm just not sure if that's a good interface to use, since it appears
-> > > > > to be designed only for debugging. Will have to check for additional
-> > > > > requirements of signalling an error when the process that created the
-> > > > > fence is killed.
-> >
-> > It is expressly only for debugging and testing.  Exposing such an API
-> > to userspace would break the finite time guarantees that are relied
-> > upon to keep sync_file a secure API.
->
-> Ok, I was figuring that was probably the case.
->
-> > > > Something like that can certainly be lifted for general use if it makes
-> > > > sense. But then with a software renderer I don't really see how fences
-> > > > help you at all. With a software renderer you know exactly when the
-> > > > frame is finished and you can just defer pushing it over to the next
-> > > > pipeline element until that time. You won't gain any parallelism by
-> > > > using fences as the CPU is busy doing the rendering and will not run
-> > > > other stuff concurrently, right?
-> > >
-> > > There definitely may be other hardware and/or processes that can
-> > > process some stuff concurrently with the main application, such as the
-> > > compositor and or video encoding processes (for video capture).
-> > > Additionally, from what I understand, sync_file is the standard way to
-> > > export and import explicit synchronization between processes and
-> > > between drivers on Linux, so it seems like a good idea to support it
-> > > from an interoperability standpoint even if it turns out that there
-> > > aren't any scheduling/timing benefits.
-> >
-> > There are different ways that one can handle interoperability,
-> > however.  One way is to try and make the software rasterizer look as
-> > much like a GPU as possible:  lots of threads to make things as
-> > asynchronous as possible, "real" implementations of semaphores and
-> > fences, etc.
->
-> This is basically the route I've picked, though rather than making
-> lots of native threads, I'm planning on having just one thread per
-> core and have a work-stealing scheduler (inspired by Rust's rayon
-> crate) schedule all the individual render/compute jobs, because that
-> allows making a lot more jobs to allow finer load balancing.
->
-> > Another is to let a SW rasterizer be a SW rasterizer: do
-> > everything immediately, thread only so you can exercise all the CPU
-> > cores, and minimally implement semaphores and fences well enough to
-> > maintain compatibility.  If you take the first approach, then we have
-> > to solve all these problems with letting userspace create unsignaled
-> > sync_files which it will signal later and figure out how to make it
-> > safe.  If you take the second approach, you'll only ever have to
-> > return already signaled sync_files and there's no problem with the
-> > sync_file finite time guarantees.
->
-> The main issue with doing everything immediately is that a lot of the
-> function calls that games expect to take a very short time (e.g.
-> vkQueueSubmit) would instead take a much longer time, potentially
-> causing problems.
-
-Do you have any evidence that it will cause problems?  What I said
-above is what switfshader is doing and they're running real apps and
-I've not heard of it causing any problems.  It's also worth noting
-that you would only really have to stall at sync_file export.  You can
-async as much as you want internally.
-
-> One idea for a safe userspace-backed sync_file is to have a step
-> counter that counts down until the sync_file is ready, where if
-> userspace doesn't tell it to count any steps in a certain amount of
-> time, then the sync_file switches to the error state. This way, it
-> will error shortly after a process deadlocks for some reason, while
-> still having the finite-time guarantee.
->
-> When the sync_file is created, the step counter would be set to the
-> number of jobs that the fence is waiting on.
->
-> It can also be set to pause the timeout to wait until another
-> sync_file signals, to handle cases where a sync_file is waiting on a
-> userspace process that is waiting on another sync_file.
->
-> The main issue is that the kernel would have to make sure that the
-> sync_file graph doesn't have loops, maybe by erroring all sync_files
-> that it finds in the loop.
->
-> Does that sound like a good idea?
-
-Honestly, I don't think you'll ever be able to sell that to the kernel
-community.  All of the deadlock detection would add massive complexity
-to the already non-trivial dma_fence infrastructure and for what
-benefit?  So that a software rasterizer can try to pretend to be more
-like a GPU?  You're going to have some very serious perf numbers
-and/or other proof of necessity if you want to convince the kernel to
-people to accept that level of complexity/risk.  "I designed my
-software to work this way" isn't going to convince anyone of anything
-especially when literally every other software rasterizer I'm aware of
-is immediate and they work just fine.
-
---Jason
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RFAgc2luayBkZXZpY2Ugc2V0cyB0aGUgSWdub3JlIE1TQSBiaXQgaW4gaXRzCkRQX0RPV05TVFJF
+QU1fUE9SVF9DT1VOVCByZWdpc3RlciB0byBpbmRpY2F0ZSBpdHMgYWJpbGl0eSB0bwppZ25vcmUg
+dGhlIE1TQSB2aWRlbyB0aW1pbmcgcGFyYW1hdGVycyBhbmQgaXRzIGFiaWxpdHkgdG8gc3VwcG9y
+dApzZWFtbGVzcyB2aWRlbyB0aW1pbmcgY2hhbmdlIG92ZXIgYSByYW5nZSBvZiB0aW1pbmcgZXhw
+b3NlZCBieQpEaXNwbGF5SUQgYW5kIEVESUQuClRoaXMgaXMgcmVxdWlyZWQgZm9yIHRoZSBzaW5r
+IHRvIGluZGljYXRlIHRoYXQgaXQgaXMgQWRhcHRpdmUgc3luYwpjYXBhYmxlLgoKQ2M6IEphbmkg
+TmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+CkNjOiBWaWxsZSBTeXJqw6Rsw6Qg
+PHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgpDYzogSGFycnkgV2VudGxhbmQgPGhhcnJ5
+LndlbnRsYW5kQGFtZC5jb20+CkNjOiBOaWNob2xhcyBLYXpsYXVza2FzIDxOaWNob2xhcy5LYXps
+YXVza2FzQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IE1hbmFzaSBOYXZhcmUgPG1hbmFzaS5kLm5h
+dmFyZUBpbnRlbC5jb20+Ci0tLQogaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oIHwgOCArKysr
+KysrKwogMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2luY2x1
+ZGUvZHJtL2RybV9kcF9oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAppbmRl
+eCBjNjExOWU0YzE2OWEuLmNjZDZlMmU5ODhiOSAxMDA2NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJt
+X2RwX2hlbHBlci5oCisrKyBiL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaApAQCAtMTMxNSw2
+ICsxMzE1LDE0IEBAIGRybV9kcF9hbHRlcm5hdGVfc2NyYW1ibGVyX3Jlc2V0X2NhcChjb25zdCB1
+OCBkcGNkW0RQX1JFQ0VJVkVSX0NBUF9TSVpFXSkKIAkJCURQX0FMVEVSTkFURV9TQ1JBTUJMRVJf
+UkVTRVRfQ0FQOwogfQogCisvKiBJZ25vcmUgTVNBIHRpbWluZyBmb3IgQWRhcHRpdmUgU3luYyBz
+dXBwb3J0IG9uIERQIDEuNCAqLworc3RhdGljIGlubGluZSBib29sCitkcm1fZHBfc2lua19pc19j
+YXBhYmxlX3dpdGhvdXRfdGltaW5nX21zYShjb25zdCB1OCBkcGNkW0RQX1JFQ0VJVkVSX0NBUF9T
+SVpFXSkKK3sKKwlyZXR1cm4gZHBjZFtEUF9ET1dOX1NUUkVBTV9QT1JUX0NPVU5UXSAmCisJCURQ
+X01TQV9USU1JTkdfUEFSX0lHTk9SRUQ7Cit9CisKIC8qCiAgKiBEaXNwbGF5UG9ydCBBVVggY2hh
+bm5lbAogICovCi0tIAoyLjE5LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
