@@ -2,44 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E304918A003
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 16:56:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E3A18A080
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 17:32:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 872CC89CC4;
-	Wed, 18 Mar 2020 15:56:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 718466E91E;
+	Wed, 18 Mar 2020 16:32:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17BE689A62;
- Wed, 18 Mar 2020 15:56:32 +0000 (UTC)
-IronPort-SDR: lauhFlcTzhTOkNXmd3fhx9MdtbqqF6QaPUClxq4VvG6PaeqjeQ8QAWA5G/LfgCsIRSIsP4XfJb
- CdDvYr7zsOOw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2020 08:56:31 -0700
-IronPort-SDR: d4sMqXC+8h/F9/o/nmCYm47VMGE4+GKhBKPxjjfQaZBiRn+TVGcq9O0SXVNMtt0r3P+viZk4Fp
- /aIdB+AWzu9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,568,1574150400"; d="scan'208";a="324228078"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga001.jf.intel.com with SMTP; 18 Mar 2020 08:56:29 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 18 Mar 2020 17:56:28 +0200
-Date: Wed, 18 Mar 2020 17:56:28 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH 1/9] drm: Constify topology id
-Message-ID: <20200318155628.GA13686@intel.com>
-References: <20200313162054.16009-1-ville.syrjala@linux.intel.com>
- <20200313162054.16009-2-ville.syrjala@linux.intel.com>
- <CADnq5_OsVawW3RV+8UhSf-wF0eG4Tp-fOMzsuLfJGJj_aPu-HA@mail.gmail.com>
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E17BC6E91E
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 16:31:59 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id k18so26423094oib.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 09:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ez9hpvifTc2STDnZtWKDhLfk74UGNnWXuwCGbU6A4rw=;
+ b=Ws724cGhkpDJrESIGX/4T3R9+qJJbPVIP3NXUhB8BNrmbiBj21FBy60UbqlLjSLNz7
+ xKFVpYYR88qi+iqmDYupAoTTc+twjo1LdLcZAmkHp9o8z2VCL/7KdhcQw87kxU01V4aD
+ 1lRoWT482c+50v7UlLEtXLyPtI2Zkax61bzGU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ez9hpvifTc2STDnZtWKDhLfk74UGNnWXuwCGbU6A4rw=;
+ b=pxh4TMWI4aTaO1aeE3TQ5yruU1YK6/so0WYbp2RAZQDH8bM5Vg+mxzX4ZiLrsf5fXu
+ CY+nBwmtEOSCkukMThzv9gAFTsx9C/dfFIIPYKwBoQ8eoXYTbCZuIPulXJhtFYsv4BWv
+ qJNeyE2pEItx5VDmBZS1+WpQjNwrfrXvJ51g0Of6VCGIrQ7Nrnkf3fbikNnlnyhakVv6
+ stbbmSSxDr+5jOY4dsWBg1RJ/uZMKpzv/OtCfcPvFcNy4zVrhX6d2+kUjzb+uymUGhjX
+ SprOVgaJLXM/DzTfr/J6SWjKK4Bzx1KyWIb6mnGMNkwSJewMyOP6SgV/RgT4H8B3wZHk
+ Ma/Q==
+X-Gm-Message-State: ANhLgQ28QBjEpOV1DfbghzWdF0RT0MI5h6yqe9dqwX1tg/OgR9PlHqnx
+ lGKriw2zxL/67qdsv7P8NAvdafhAj5GKllOgHSgk9A==
+X-Google-Smtp-Source: ADFU+vuoiOaP8HEDosLzk/qwSJgLByHWnhyt7zF/h7nFcLuR+AupnswWjQNZ/+htP3HpMXmztbG+XG7/OOKNLAEPmjQ=
+X-Received: by 2002:aca:5345:: with SMTP id h66mr3974889oib.110.1584549119226; 
+ Wed, 18 Mar 2020 09:31:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CADnq5_OsVawW3RV+8UhSf-wF0eG4Tp-fOMzsuLfJGJj_aPu-HA@mail.gmail.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200310133121.27913-1-wambui.karugax@gmail.com>
+ <20200310133121.27913-11-wambui.karugax@gmail.com>
+ <20200318152627.GY2363188@phenom.ffwll.local>
+ <alpine.LNX.2.21.99999.375.2003181857010.54051@wambui>
+In-Reply-To: <alpine.LNX.2.21.99999.375.2003181857010.54051@wambui>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 18 Mar 2020 17:31:47 +0100
+Message-ID: <CAKMK7uGwJ6nzLPzwtfUY79e1fSFxkrSgTfJuDeM4px6c0v13qg@mail.gmail.com>
+Subject: Re: [PATCH v2 10/17] drm/vram-helper: make drm_vram_mm_debugfs_init()
+ return 0
+To: Wambui Karuga <wambui.karugax@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,91 +61,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Dave Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 13, 2020 at 04:05:00PM -0400, Alex Deucher wrote:
-> On Fri, Mar 13, 2020 at 12:21 PM Ville Syrjala
-> <ville.syrjala@linux.intel.com> wrote:
+On Wed, Mar 18, 2020 at 5:03 PM Wambui Karuga <wambui.karugax@gmail.com> wrote:
+>
+>
+>
+> On Wed, 18 Mar 2020, Daniel Vetter wrote:
+>
+> > On Tue, Mar 10, 2020 at 04:31:14PM +0300, Wambui Karuga wrote:
+> >> Since 987d65d01356 (drm: debugfs: make
+> >> drm_debugfs_create_files() never fail), drm_debugfs_create_files() never
+> >> fails and should return void. Therefore, remove its use as the
+> >> return value of drm_vram_mm_debugfs_init(), and have the function
+> >> return 0 directly.
+> >>
+> >> v2: have drm_vram_mm_debugfs_init() return 0 instead of void to avoid
+> >> introducing build issues and build breakage.
+> >>
+> >> References: https://lists.freedesktop.org/archives/dri-devel/2020-February/257183.html
+> >> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+> >> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >> ---
+> >>  drivers/gpu/drm/drm_gem_vram_helper.c | 10 ++++------
+> >>  1 file changed, 4 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+> >> index 92a11bb42365..c8bcc8609650 100644
+> >> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> >> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> >> @@ -1048,14 +1048,12 @@ static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
+> >>   */
+> >>  int drm_vram_mm_debugfs_init(struct drm_minor *minor)
+> >>  {
+> >> -    int ret = 0;
+> >> -
+> >>  #if defined(CONFIG_DEBUG_FS)
 > >
-> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > Just noticed that this #if here is not needed, we already have a dummy
+> > function for that case. Care to write a quick patch to remove it? On top
+> > of this patch series here ofc, I'm in the processing of merging the entire
+> > pile.
 > >
-> > Make the topology id const since we don't want to change it.
-> >
-> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> =
+> > Thanks, Daniel
+> Hi Daniel,
+> Without this check here, and compiling without CONFIG_DEBUG_FS, this
+> function is run and the drm_debugfs_create_files() does not have access to
+> the parameters also protected by an #if above this function. So the change
+> throws an error for me. Is that correct?
 
-> Series is:
-> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Hm right. Other drivers don't #ifdef out their debugfs file functions
+... kinda a bit disappointing that we can't do this in the neatest way
+possible.
 
-Thanks. Series pushed to drm-misc-next.
+Greg, has anyone ever suggested to convert the debugfs_create_file
+function (and similar things) to macros that don't use any of the
+arguments, and then also annotating all the static functions/tables as
+__maybe_unused and let the compiler garbage collect everything?
+Instead of explicit #ifdef in all the drivers ...
+-Daniel
 
-> =
-
-> > ---
-> >  drivers/gpu/drm/drm_connector.c | 4 ++--
-> >  include/drm/drm_connector.h     | 4 ++--
-> >  2 files changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
-ector.c
-> > index 644f0ad10671..462d8caa6e72 100644
-> > --- a/drivers/gpu/drm/drm_connector.c
-> > +++ b/drivers/gpu/drm/drm_connector.c
-> > @@ -2392,7 +2392,7 @@ EXPORT_SYMBOL(drm_mode_put_tile_group);
-> >   * tile group or NULL if not found.
-> >   */
-> >  struct drm_tile_group *drm_mode_get_tile_group(struct drm_device *dev,
-> > -                                              char topology[8])
-> > +                                              const char topology[8])
-> >  {
-> >         struct drm_tile_group *tg;
-> >         int id;
-> > @@ -2422,7 +2422,7 @@ EXPORT_SYMBOL(drm_mode_get_tile_group);
-> >   * new tile group or NULL.
-> >   */
-> >  struct drm_tile_group *drm_mode_create_tile_group(struct drm_device *d=
-ev,
-> > -                                                 char topology[8])
-> > +                                                 const char topology[8=
-])
-> >  {
-> >         struct drm_tile_group *tg;
-> >         int ret;
-> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > index 19ae6bb5c85b..fd543d1db9b2 100644
-> > --- a/include/drm/drm_connector.h
-> > +++ b/include/drm/drm_connector.h
-> > @@ -1617,9 +1617,9 @@ struct drm_tile_group {
-> >  };
-> >
-> >  struct drm_tile_group *drm_mode_create_tile_group(struct drm_device *d=
-ev,
-> > -                                                 char topology[8]);
-> > +                                                 const char topology[8=
-]);
-> >  struct drm_tile_group *drm_mode_get_tile_group(struct drm_device *dev,
-> > -                                              char topology[8]);
-> > +                                              const char topology[8]);
-> >  void drm_mode_put_tile_group(struct drm_device *dev,
-> >                              struct drm_tile_group *tg);
+>
+> Thanks,
+> wambui karuga
+>
+> >> -    ret = drm_debugfs_create_files(drm_vram_mm_debugfs_list,
+> >> -                                   ARRAY_SIZE(drm_vram_mm_debugfs_list),
+> >> -                                   minor->debugfs_root, minor);
+> >> +    drm_debugfs_create_files(drm_vram_mm_debugfs_list,
+> >> +                             ARRAY_SIZE(drm_vram_mm_debugfs_list),
+> >> +                             minor->debugfs_root, minor);
+> >>  #endif
+> >> -    return ret;
+> >> +    return 0;
+> >>  }
+> >>  EXPORT_SYMBOL(drm_vram_mm_debugfs_init);
+> >>
+> >> --
+> >> 2.25.1
+> >>
 > >
 > > --
-> > 2.24.1
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 > >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
--- =
 
-Ville Syrj=E4l=E4
-Intel
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
