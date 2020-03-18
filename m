@@ -1,47 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9C818A0CE
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 17:45:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2014418A0CC
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 17:45:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3B166E926;
-	Wed, 18 Mar 2020 16:45:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7757D6E924;
+	Wed, 18 Mar 2020 16:44:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0088.hostedemail.com
- [216.40.44.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CBA76E926
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 16:45:44 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay05.hostedemail.com (Postfix) with ESMTP id AE11318028500;
- Wed, 18 Mar 2020 16:45:41 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:599:800:966:967:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2196:2199:2393:2525:2553:2560:2563:2682:2685:2828:2859:2902:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3353:3622:3865:3866:3867:3868:3870:3871:3873:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:4362:4385:5007:6119:7903:9025:10004:10400:10848:11232:11658:11914:12043:12297:12438:12555:12663:12740:12760:12895:12986:13069:13311:13357:13439:14181:14659:14721:21080:21433:21627:21811:21939:30054:30090:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:3, LUA_SUMMARY:none
-X-HE-Tag: boys55_88d5603ee8550
-X-Filterd-Recvd-Size: 2457
-Received: from XPS-9350.home (unknown [47.151.143.254])
- (Authenticated sender: joe@perches.com)
- by omf19.hostedemail.com (Postfix) with ESMTPA;
- Wed, 18 Mar 2020 16:45:39 +0000 (UTC)
-Message-ID: <1c01f0bae24856e4139c551ca07b9581424aa995.camel@perches.com>
-Subject: Re: [PATCH 1/3] drm: drm_vm: Use fallthrough;
-From: Joe Perches <joe@perches.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE676E924;
+ Wed, 18 Mar 2020 16:44:57 +0000 (UTC)
+IronPort-SDR: tm6OXW2IvDvDu7AE2vMfyU0Eo30PJp6MR9MdfgCcG2TCrdvasOS1S6+oqjDGfAYhLQDRKK7J0k
+ FkcQ1UyevXVA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2020 09:44:56 -0700
+IronPort-SDR: IPHt9AiSbOSES09fNIWAdVVjc4cApX7UhJqkYw9mQyM1rQwwSM/JeHBBlhOxkO4xR5NTxWnX09
+ 6a257n7NNGUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,568,1574150400"; d="scan'208";a="279794127"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga002.fm.intel.com with SMTP; 18 Mar 2020 09:44:53 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 18 Mar 2020 18:44:52 +0200
+Date: Wed, 18 Mar 2020 18:44:52 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 18 Mar 2020 09:43:49 -0700
-In-Reply-To: <20200318134909.GW2363188@phenom.ffwll.local>
-References: <cover.1584040050.git.joe@perches.com>
- <398db73cdc8a584fd7f34f5013c04df13ba90f64.1584040050.git.joe@perches.com>
- <20200317164806.GO2363188@phenom.ffwll.local>
- <623eb1bc61951ed3c68a9224b9aa99a25e763913.camel@perches.com>
- <20200318134909.GW2363188@phenom.ffwll.local>
-User-Agent: Evolution 3.34.1-2 
+Subject: Re: [PATCH v3 7/7] drm: Allow drivers to leave
+ encoder->possible_crtcs==0
+Message-ID: <20200318164452.GB13686@intel.com>
+References: <20200211162208.16224-1-ville.syrjala@linux.intel.com>
+ <20200211162208.16224-8-ville.syrjala@linux.intel.com>
+ <20200211170545.GN2363188@phenom.ffwll.local>
+ <20200211171450.GZ13686@intel.com>
+ <20200212090755.GP2363188@phenom.ffwll.local>
+ <20200212090849.GQ2363188@phenom.ffwll.local>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200212090849.GQ2363188@phenom.ffwll.local>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,47 +56,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, Thierry Reding <treding@nvidia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2020-03-18 at 14:49 +0100, Daniel Vetter wrote:
-> On Tue, Mar 17, 2020 at 03:13:29PM -0700, Joe Perches wrote:
-> > On Tue, 2020-03-17 at 17:48 +0100, Daniel Vetter wrote:
-> > > On Thu, Mar 12, 2020 at 12:17:12PM -0700, Joe Perches wrote:
-> > > > Convert /* fallthrough */ style comments to fallthrough;
-> > > > 
-> > > > Convert the various uses of fallthrough comments to fallthrough;
-> > > > 
-> > > > Done via script
-> > > > Link: https://lore.kernel.org/lkml/b56602fcf79f849e733e7b521bb0e17895d390fa.1582230379.git.joe@perches.com/
-> > > > 
-> > > > And by hand:
-> > > > 
-> > > > This file has a fallthrough comment outside of an #ifdef block
-> > > > that causes gcc to emit a warning if converted in-place.
-> > > > 
-> > > > So move the new fallthrough; inside the containing #ifdef/#endif too.
-[]
-> > > I'm assuming this all lands through a special pull? Or should I apply
-> > > this?
-[]
-> > I think you should apply this.
-> > 
-> > The idea here is to allow a scripted conversion at some
-> > point and this patch is necessary to avoid new compiler
-> > warnings after running the script.
-> 
-> Ok, put into the queue but missed the 5.7 feature freeze for drm so 5.8
-> probably.
+On Wed, Feb 12, 2020 at 10:08:49AM +0100, Daniel Vetter wrote:
+> On Wed, Feb 12, 2020 at 10:07:55AM +0100, Daniel Vetter wrote:
+> > On Tue, Feb 11, 2020 at 07:14:51PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > On Tue, Feb 11, 2020 at 06:05:45PM +0100, Daniel Vetter wrote:
+> > > > On Tue, Feb 11, 2020 at 06:22:08PM +0200, Ville Syrjala wrote:
+> > > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > > > =
 
-Thanks, no worries.
-Any scripted conversion like this isn't a high priority.
+> > > > > Let's simplify life of driver by allowing them to leave
+> > > > > encoder->possible_crtcs unset if they have no restrictions
+> > > > > in crtc<->encoder linkage. We'll just populate possible_crtcs
+> > > > > with the full crtc mask when registering the encoder so that
+> > > > > userspace doesn't have to deal with drivers not populating
+> > > > > this correctly.
+> > > > > =
 
+> > > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > > > ---
+> > > > > We might not actually need/want this, but included it here for
+> > > > > future reference if that assumption turns out to be wrong.
+> > > > =
 
+> > > > I think this one is most definitely needed. _Lots_ of drivers get t=
+his
+> > > > toally wrong and just leave the value blank. It's encoded as offici=
+al
+> > > > fallback in most userspace compositors.
+> > > =
+
+> > > OK. It's been a while since I dug around so can't really remmber how
+> > > this was being handled. I'll reorder before pushing.
+> > =
+
+> > Hm otoh having "works with all crtcs" as default is a bit dangerous,
+> > whereas the "cannot be cloned" default for possible_clones is perfectly
+> > safe.
+> > =
+
+> > So now I'm kinda not sure whether this is a bright idea, and we shouldn=
+'t
+> > just eat the cost of fixing up all the various WARNING backtraces your
+> > previous patch triggers. I've done a full review and the following look
+> > suspect:
+> > =
+
+> > - tegara/sor.c Strangely it's the only one, the other output drivers do
+> >   seem to set the possible_crtcs mask to something useful.
+> =
+
+> Strike that, it sets it using tegra_output_find_possible_crtcs().
+> =
+
+> I think everything is good and we really don't need this patch here to fix
+> up possible_crtcs.
+
+Finally pushed the other patches from the series to drm-misc-next.
+Thanks for the reviews.
+
+Should the new possible_{crtcs,clones} WARNs start to trigger for
+anyone despite our best efforts, please holler and I'll look into
+what needs fixing.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
