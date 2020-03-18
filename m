@@ -2,41 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 020B8189F86
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 16:22:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9187A189F96
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 16:26:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C5536E2A9;
-	Wed, 18 Mar 2020 15:22:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDD796E911;
+	Wed, 18 Mar 2020 15:26:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
- [185.70.40.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE9966E2A9
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 15:22:18 +0000 (UTC)
-Date: Wed, 18 Mar 2020 15:22:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1584544936;
- bh=fu417ZOCDm8wQGhODu8TTyFaK34sS3KYXJbyZ21kszc=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
- Feedback-ID:From;
- b=wtMwNirYTdB5+/kgKPtC05V84pBpBee5j6JRtai6IEIfTxIEm+Y21kYQdUw2QhvZT
- 3W8pxe0D5qfFu8PB0bmz9U317OJCmDzY3TuzweKx7Cc0/YfNoDTiOuHlIENpQUD4hN
- zOKCsGGWEjGw7lVqYtE2+texNX8/QFrzPz1X3gcw=
-To: Hans de Goede <hdegoede@redhat.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: Atomic KMS API lacks the ability to set cursor hot-spot
- coordinates
-Message-ID: <iUavRfIpwgaFwGrZtIM7seVfRwrvb2QVXC0KLN5wXLT7t_kX04NYFj2T5r0awLNPbIx2rO3UUO0BYH_HX1jMtJTQzBjInkghkF7WxkzxrII=@emersion.fr>
-In-Reply-To: <5c9f7c0e-e225-dfbf-f5bf-cb1c1cc4ac08@redhat.com>
-References: <9d86bbe4-70cf-273d-4d61-aec06011d441@redhat.com>
- <ADrBkiVj05c2ZYEz46BNJrrChY-PCxme8HOeHHGOLjIR5XpBZoyIY5aUnSfXCm0wrYr0-Iuh80vnZqmRQ_jZaslv2Q2P7N6q5yCG0AeWovU=@emersion.fr>
- <5c9f7c0e-e225-dfbf-f5bf-cb1c1cc4ac08@redhat.com>
-Feedback-ID: FsVprHBOgyvh0T8bxcZ0CmvJCosWkwVUg658e_lOUQMnA9qynD8O1lGeniuBDfPSkDAUuhiKfOIXUZBfarMyvA==:Ext:ProtonMail
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7801A6E911
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 15:26:32 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id h6so10596149wrs.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 08:26:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ftZVbPmZ/Gi9bDEF3JRvvSJu2bSq6nHdWYvLq6k9FmI=;
+ b=S9NtfciVJ5bawZR3kAnkkFc5MIDh22w8czXEdYUVH+Ml18A1q85ppVb3OT2Es6LnCX
+ RrMY3G1JWRQdJWRAgeGtrH6hWiklfkmnHHuKTeApabEV5N3te/UN9ZX7meKjiIGTTlu4
+ fxIxAuHu/4tkaqlGy4JwO1nOyyR5okFtQHMJw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=ftZVbPmZ/Gi9bDEF3JRvvSJu2bSq6nHdWYvLq6k9FmI=;
+ b=SypcY0YHCZL8MsvWlmG3rvsW4PwkKx01KbMjNO9Efkyah0LNc6+VX4jPhd1xcEcCK3
+ PhjrUd+1ENkyeChLJGmpX6l2VXYe3nBpjhDpUOtJsCssdOQmS5cnEUyfHVAAvrABnkOR
+ nDcXYGnTev5NAQm/Ohw6b6sXhI2mZP0ykbY8fpzXGtJIeJ5JoVE5zQizsUfWjvmPsPrt
+ QaQJaROCsvbXx8f2C1OizLlbqj+Hajsj0nRZMz8sIbSzToiQYKqi9DYEF1THYc5Po2XC
+ szvbQRv9q4/rjZvPdhBtklUMnQM+0lrpMlbJdFb+kjElAkzwgzcdtlQKrhSf8qNoMdcP
+ fnBg==
+X-Gm-Message-State: ANhLgQ3QOmQqxdqNqJiAzFM3OOZ85wbJLkoJ+xMvfJ5QkHSyfOFr4Ram
+ yz7JhBEVeZ7c9A6rAZ+n8h9gbw==
+X-Google-Smtp-Source: ADFU+vs5nybEV7YJKuEwNm72dGWDm3pOnNTUz+tO14T/TeYa/T21zlqvpFrC0y8hF5JboKD7/evrKg==
+X-Received: by 2002:a5d:56c9:: with SMTP id m9mr5976823wrw.289.1584545191105; 
+ Wed, 18 Mar 2020 08:26:31 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f207sm4543994wme.9.2020.03.18.08.26.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Mar 2020 08:26:29 -0700 (PDT)
+Date: Wed, 18 Mar 2020 16:26:27 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Wambui Karuga <wambui.karugax@gmail.com>
+Subject: Re: [PATCH v2 10/17] drm/vram-helper: make
+ drm_vram_mm_debugfs_init() return 0
+Message-ID: <20200318152627.GY2363188@phenom.ffwll.local>
+Mail-Followup-To: Wambui Karuga <wambui.karugax@gmail.com>, airlied@linux.ie,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ gregkh@linuxfoundation.org
+References: <20200310133121.27913-1-wambui.karugax@gmail.com>
+ <20200310133121.27913-11-wambui.karugax@gmail.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
+Content-Disposition: inline
+In-Reply-To: <20200310133121.27913-11-wambui.karugax@gmail.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,86 +73,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: =?UTF-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: airlied@linux.ie, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Hi,
->
-> On 3/18/20 3:38 PM, Simon Ser wrote:
-> > Hi,
-> >
-> >> 1) Letting the VM-viewer window-system draw the cursor as it normally
-> >> would draw it.
-> >
-> > Why is this important? Can't the VM viewer hide the cursor and use a
-> > sub-surface to manually draw the cursor plane configured by the guest?
->
-> Because then moving the cursor as seen by the user requires a round trip
-> through the VM and that adds latency, esp. when the VM viewer is viewing
-> a VM which is running somewhere else over the network.
+On Tue, Mar 10, 2020 at 04:31:14PM +0300, Wambui Karuga wrote:
+> Since 987d65d01356 (drm: debugfs: make
+> drm_debugfs_create_files() never fail), drm_debugfs_create_files() never
+> fails and should return void. Therefore, remove its use as the
+> return value of drm_vram_mm_debugfs_init(), and have the function
+> return 0 directly.
+> 
+> v2: have drm_vram_mm_debugfs_init() return 0 instead of void to avoid
+> introducing build issues and build breakage.
+> 
+> References: https://lists.freedesktop.org/archives/dri-devel/2020-February/257183.html
+> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_gem_vram_helper.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+> index 92a11bb42365..c8bcc8609650 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -1048,14 +1048,12 @@ static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
+>   */
+>  int drm_vram_mm_debugfs_init(struct drm_minor *minor)
+>  {
+> -	int ret = 0;
+> -
+>  #if defined(CONFIG_DEBUG_FS)
 
-The video output has latency anyway. Using the host cursor will make
-the primary plane and cursor plane desynchronized.
+Just noticed that this #if here is not needed, we already have a dummy
+function for that case. Care to write a quick patch to remove it? On top
+of this patch series here ofc, I'm in the processing of merging the entire
+pile.
 
-> Also note that a subsurface is a Wayland specific solution, where as
-> the VM-viewer may be running on X11, Windows, Mac OS, etc.
+Thanks, Daniel
+> -	ret = drm_debugfs_create_files(drm_vram_mm_debugfs_list,
+> -				       ARRAY_SIZE(drm_vram_mm_debugfs_list),
+> -				       minor->debugfs_root, minor);
+> +	drm_debugfs_create_files(drm_vram_mm_debugfs_list,
+> +				 ARRAY_SIZE(drm_vram_mm_debugfs_list),
+> +				 minor->debugfs_root, minor);
+>  #endif
+> -	return ret;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_vram_mm_debugfs_init);
+>  
+> -- 
+> 2.25.1
+> 
 
-I'm sure other window systems have similar solutions. You could always
-blend the cursor yourself.
-
-> > This would also allow the compositor running inside the VM to correctly
-> > have control over the cursor position, which is necessary for pointer
-> > constraints.
->
-> Vms basically have 2 mouse modes:
->
-> 1) Seamless, this works well for all apps which don't do weird things
-> with the cursor. This is what 99% of users want
->
-> 2) Grab/confine the mouse on the first click inside the VM-viewer window
-> and constantly warp it to the center so that it can move "endlessly"
-> combined with drawing the VM's mouse cursor as a software sprite.
->
-> Combined with a special key combo to release the cursor and allow it
-> to leave the VM window in case the user wants to interact with anything
-> else on their desktop. AKA the "this user experience sucks" mode which
-> sometimes is necessary for guests which don't support absolute input
-> coordinates, or for special use cases.
->
-> Mode 2. can be used in case of apps inside the guest which want need
-> to constrain the pointer to stay inside a part-of the vm-viewer window,
-> note that the most prominent example of such apps are VM-viewer's
-> themselves and the whole purpose of seamless mode is to not need this
-> less then ideal user experience mode.
-
-If you don't care about synchronization and breaking pointer constraints
-in the guest, yes a new KMS plane property will be required. This sure
-sounds like abusing the KMS interface though.
-
-> Anyways as I mentioned in the p.s. to my original mail already, this
-> is exactly NOT the kind of feedback I'm looking for. Seamless mode
-> exists, it has done so for at least a decade, probably a lot longer.
->
-> It works everywhere, across multiple platforms and hypervisors,
-> except with the KMS atomic API. The need to set hotspot coordinates
-> is not something which is up to discussion from my pov. What is up
-> for discussion is how to extend the KMS atomic API to allow this.
-
-That's not how it works.
-
-I'm sorry to say that, but I don't think asking a project to support a
-feature just because you want that feature is a good mind set. You'll
-need to convince people maintaining the project that adding the feature
-is a good idea whether you like it or not.
-
-A new feature is always up for discussion. Atomic KMS is missing the
-feature, and this can't be seen as a regression, because it never had
-the feature.
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
