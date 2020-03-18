@@ -2,53 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27528189637
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 08:31:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6661E18963D
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 08:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1CCF6E1F6;
-	Wed, 18 Mar 2020 07:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E5CA6E878;
+	Wed, 18 Mar 2020 07:34:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 861476E1F6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 07:31:43 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id z13so2007566wml.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 00:31:43 -0700 (PDT)
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C29C6E878
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 07:34:37 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id r7so24765376oij.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 00:34:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9LR3jTw01hA+J6RgNPOdky7iaFs1yHmLXGEAx3jHiBU=;
- b=hmk7hqHwJVIwneHgGLhDE+CBJ0XKU524ZBz0tDqMeYFH1+QT2KatZotiqB7UYzyv+t
- y/UMVrPw+fofu5msqodkKbPzs77S68m614JtZKpIpD+af1ua1vTKMcj5pVNNYPlAyGxa
- 1SK2N11MQXjTdCQ6Tuk8gY8J1PrsswxfZ8N+A=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ImnCZJDFg1rQOtfa/ceoUHZbJvEiQdm+R8XInF6JTFI=;
+ b=TLCIhGXDURuqIMeQG6s0U7WdW04eLC+XM2claAJPvoBsBajRsO4T5BSxY1ENJ2pHdb
+ 5o/YLhQRdAgmNylO3lrZWRO9ItNtfg6L5fzgPjUdlET3pNOzgJqD4aqeEWqjy4VHDVZv
+ ZTl+0L6bKEMib/QdaRuLhuE+ZohrXXIYaExtA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9LR3jTw01hA+J6RgNPOdky7iaFs1yHmLXGEAx3jHiBU=;
- b=ZoPYLo8PDm7yYd4FEXfS48LAWMaI+vhE4tJ+c32SVuwGidOGkm7NWrvJW8yQuPwjyC
- q9XrWxkTmuJmKWbhjEXfrkz0fkoZJGOJKDHAh7Iu0gpWqKcI/kKKLTPfxi4287VwmryP
- g3xZ1EmJ8WJjK3/9iJ1Ivc90UnfwrTyGV+PM0/7WyixbD6iBR+MpZG6wAQoxfNdn6VGr
- si+lc4lrVh/wWrTpjRASeXfUX3rAgMTCBXh77WuaBgClO16lP9BvEKAH9oE8em8zCJ4M
- F14qVs9EYodwrKnFzOZ2PrG8n/hs48GgbFoUU8Yqchl7KQ3J96jj2zHqxXkqtt/5cBdM
- V08A==
-X-Gm-Message-State: ANhLgQ2hHP1og18l9wAaLtj1Yh5hZXgk02tpzdieP8aK0CoZ9vf2wgP2
- luDQRCev9j3lT9nZNqWUWI6PjAtxeR1DNGZA
-X-Google-Smtp-Source: ADFU+vtFnlo7vyFXW8atCEfNLBkqQi3AuLcmoeHFNyxY8S9o9P00vsSn47ruUMz+Wix6wxWKtoEntA==
-X-Received: by 2002:a1c:7711:: with SMTP id t17mr3505686wmi.108.1584516701793; 
- Wed, 18 Mar 2020 00:31:41 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k133sm2858545wma.11.2020.03.18.00.31.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Mar 2020 00:31:41 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/hisilicon: Drop unused #include
-Date: Wed, 18 Mar 2020 08:31:22 +0100
-Message-Id: <20200318073122.1032945-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ImnCZJDFg1rQOtfa/ceoUHZbJvEiQdm+R8XInF6JTFI=;
+ b=nj84O/swH6vFQj3leoeelHADm/qhbnDkIxUaes59G/NavqOGwcfL5Tb83/JU3z+ynf
+ uypd7MQdMc5vStVlVeh2AuBs1U7VxeMDHcqrRNhnxW8bn1c6YBZLfsvhDae3blHDD6R1
+ MiXNJiI9/wW0rGb8ChQTJGhHT2vNXz/rHJpPNGhY01IoSp0QOhifPokFatZmcal82e03
+ mOm4+Mddo+wMma1cLdY9EFZDiwQtQoznop52XMA3jCKrVr9vVXhC6gICI3bw/DKwf7Gm
+ eX69yR95xZUadmu60R+g4QXxeMq3FcxcVJn1AYh+nPKguRcAXwLnpXUe8a6mB6pq1yDB
+ Nn7Q==
+X-Gm-Message-State: ANhLgQ0pJf4CUzQwekccQrQA4Ic8BA8bm3HzgO0D1WOOka+yypAl3Ct0
+ tuT57LB6Z92LsD4dxZCCGSP4P1X2cN+mRUpbOXGboA==
+X-Google-Smtp-Source: ADFU+vtAn6lL50NwcHPgytvRZmg50l63XV0Syeur/1ju+uROCi3D9Op+vVl0likHxo8FG98msXAnnrAs8iSPt64+Xd8=
+X-Received: by 2002:aca:5345:: with SMTP id h66mr2229552oib.110.1584516876432; 
+ Wed, 18 Mar 2020 00:34:36 -0700 (PDT)
 MIME-Version: 1.0
+References: <1584343103-13896-1-git-send-email-hqjagain@gmail.com>
+ <20200317170243.GR2363188@phenom.ffwll.local>
+ <CAJRQjofSWYR--4V_4zmp6K9WVtqShdzpGuH1VFBPvHpViGYH5g@mail.gmail.com>
+In-Reply-To: <CAJRQjofSWYR--4V_4zmp6K9WVtqShdzpGuH1VFBPvHpViGYH5g@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 18 Mar 2020 08:34:24 +0100
+Message-ID: <CAKMK7uG8v7cYUwqTJTgYGfC8LEZtczTZ5a+Z4NcRnbFVBcG4Fw@mail.gmail.com>
+Subject: Re: [PATCH RESEND] drm/lease: fix potential race in fill_object_idr
+To: Qiujun Huang <hqjagain@gmail.com>, Marco Elver <elver@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,47 +59,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Thomas Gleixner <tglx@linutronix.de>, Sam Ravnborg <sam@ravnborg.org>,
- Allison Randal <allison@lohutok.net>
+Cc: Dave Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_encoder_slave is really not something anyone should be using,
-the last real user is only nouveau.
+On Tue, Mar 17, 2020 at 11:33 PM Qiujun Huang <hqjagain@gmail.com> wrote:
+>
+> On Wed, Mar 18, 2020 at 1:02 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Mon, Mar 16, 2020 at 03:18:23PM +0800, Qiujun Huang wrote:
+> > > We should hold idr_mutex for idr_alloc.
+> > >
+> > > Signed-off-by: Qiujun Huang <hqjagain@gmail.com>
+> >
+> > I've not seen the first version of this anywhere in my inbox, not sure
+> > where that got lost.
+> >
+> > Anyway, this seems like a false positive - I'm assuming this was caught
+> > with KCSAN. The commit message really should mention that.
+> >
+> > fill_object_idr creates the idr, which yes is only access later on under
+> > the idr_mutex. But here it's not yet visible to any other thread, and
+> > hence lockless access is safe and correct.
+>
+> Agree that.
 
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc: Allison Randal <allison@lohutok.net>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
-index f31068d74b18..d399c1077242 100644
---- a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
-@@ -20,7 +20,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_device.h>
--#include <drm/drm_encoder_slave.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
- #include <drm/drm_print.h>
+Do you know what the recommended annotation for kcsan false positives
+like this should be? Adding kcsan author Marco.
+-Daniel
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
