@@ -2,53 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E3A18A080
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 17:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9C818A0CE
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 17:45:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 718466E91E;
-	Wed, 18 Mar 2020 16:32:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3B166E926;
+	Wed, 18 Mar 2020 16:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E17BC6E91E
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 16:31:59 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id k18so26423094oib.3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 09:31:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ez9hpvifTc2STDnZtWKDhLfk74UGNnWXuwCGbU6A4rw=;
- b=Ws724cGhkpDJrESIGX/4T3R9+qJJbPVIP3NXUhB8BNrmbiBj21FBy60UbqlLjSLNz7
- xKFVpYYR88qi+iqmDYupAoTTc+twjo1LdLcZAmkHp9o8z2VCL/7KdhcQw87kxU01V4aD
- 1lRoWT482c+50v7UlLEtXLyPtI2Zkax61bzGU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ez9hpvifTc2STDnZtWKDhLfk74UGNnWXuwCGbU6A4rw=;
- b=pxh4TMWI4aTaO1aeE3TQ5yruU1YK6/so0WYbp2RAZQDH8bM5Vg+mxzX4ZiLrsf5fXu
- CY+nBwmtEOSCkukMThzv9gAFTsx9C/dfFIIPYKwBoQ8eoXYTbCZuIPulXJhtFYsv4BWv
- qJNeyE2pEItx5VDmBZS1+WpQjNwrfrXvJ51g0Of6VCGIrQ7Nrnkf3fbikNnlnyhakVv6
- stbbmSSxDr+5jOY4dsWBg1RJ/uZMKpzv/OtCfcPvFcNy4zVrhX6d2+kUjzb+uymUGhjX
- SprOVgaJLXM/DzTfr/J6SWjKK4Bzx1KyWIb6mnGMNkwSJewMyOP6SgV/RgT4H8B3wZHk
- Ma/Q==
-X-Gm-Message-State: ANhLgQ28QBjEpOV1DfbghzWdF0RT0MI5h6yqe9dqwX1tg/OgR9PlHqnx
- lGKriw2zxL/67qdsv7P8NAvdafhAj5GKllOgHSgk9A==
-X-Google-Smtp-Source: ADFU+vuoiOaP8HEDosLzk/qwSJgLByHWnhyt7zF/h7nFcLuR+AupnswWjQNZ/+htP3HpMXmztbG+XG7/OOKNLAEPmjQ=
-X-Received: by 2002:aca:5345:: with SMTP id h66mr3974889oib.110.1584549119226; 
- Wed, 18 Mar 2020 09:31:59 -0700 (PDT)
+Received: from smtprelay.hostedemail.com (smtprelay0088.hostedemail.com
+ [216.40.44.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CBA76E926
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 16:45:44 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay05.hostedemail.com (Postfix) with ESMTP id AE11318028500;
+ Wed, 18 Mar 2020 16:45:41 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:599:800:966:967:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2196:2199:2393:2525:2553:2560:2563:2682:2685:2828:2859:2902:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3353:3622:3865:3866:3867:3868:3870:3871:3873:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:4362:4385:5007:6119:7903:9025:10004:10400:10848:11232:11658:11914:12043:12297:12438:12555:12663:12740:12760:12895:12986:13069:13311:13357:13439:14181:14659:14721:21080:21433:21627:21811:21939:30054:30090:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:3, LUA_SUMMARY:none
+X-HE-Tag: boys55_88d5603ee8550
+X-Filterd-Recvd-Size: 2457
+Received: from XPS-9350.home (unknown [47.151.143.254])
+ (Authenticated sender: joe@perches.com)
+ by omf19.hostedemail.com (Postfix) with ESMTPA;
+ Wed, 18 Mar 2020 16:45:39 +0000 (UTC)
+Message-ID: <1c01f0bae24856e4139c551ca07b9581424aa995.camel@perches.com>
+Subject: Re: [PATCH 1/3] drm: drm_vm: Use fallthrough;
+From: Joe Perches <joe@perches.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 18 Mar 2020 09:43:49 -0700
+In-Reply-To: <20200318134909.GW2363188@phenom.ffwll.local>
+References: <cover.1584040050.git.joe@perches.com>
+ <398db73cdc8a584fd7f34f5013c04df13ba90f64.1584040050.git.joe@perches.com>
+ <20200317164806.GO2363188@phenom.ffwll.local>
+ <623eb1bc61951ed3c68a9224b9aa99a25e763913.camel@perches.com>
+ <20200318134909.GW2363188@phenom.ffwll.local>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20200310133121.27913-1-wambui.karugax@gmail.com>
- <20200310133121.27913-11-wambui.karugax@gmail.com>
- <20200318152627.GY2363188@phenom.ffwll.local>
- <alpine.LNX.2.21.99999.375.2003181857010.54051@wambui>
-In-Reply-To: <alpine.LNX.2.21.99999.375.2003181857010.54051@wambui>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 18 Mar 2020 17:31:47 +0100
-Message-ID: <CAKMK7uGwJ6nzLPzwtfUY79e1fSFxkrSgTfJuDeM4px6c0v13qg@mail.gmail.com>
-Subject: Re: [PATCH v2 10/17] drm/vram-helper: make drm_vram_mm_debugfs_init()
- return 0
-To: Wambui Karuga <wambui.karugax@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,105 +54,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 18, 2020 at 5:03 PM Wambui Karuga <wambui.karugax@gmail.com> wrote:
->
->
->
-> On Wed, 18 Mar 2020, Daniel Vetter wrote:
->
-> > On Tue, Mar 10, 2020 at 04:31:14PM +0300, Wambui Karuga wrote:
-> >> Since 987d65d01356 (drm: debugfs: make
-> >> drm_debugfs_create_files() never fail), drm_debugfs_create_files() never
-> >> fails and should return void. Therefore, remove its use as the
-> >> return value of drm_vram_mm_debugfs_init(), and have the function
-> >> return 0 directly.
-> >>
-> >> v2: have drm_vram_mm_debugfs_init() return 0 instead of void to avoid
-> >> introducing build issues and build breakage.
-> >>
-> >> References: https://lists.freedesktop.org/archives/dri-devel/2020-February/257183.html
-> >> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-> >> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >> ---
-> >>  drivers/gpu/drm/drm_gem_vram_helper.c | 10 ++++------
-> >>  1 file changed, 4 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> >> index 92a11bb42365..c8bcc8609650 100644
-> >> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> >> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> >> @@ -1048,14 +1048,12 @@ static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
-> >>   */
-> >>  int drm_vram_mm_debugfs_init(struct drm_minor *minor)
-> >>  {
-> >> -    int ret = 0;
-> >> -
-> >>  #if defined(CONFIG_DEBUG_FS)
-> >
-> > Just noticed that this #if here is not needed, we already have a dummy
-> > function for that case. Care to write a quick patch to remove it? On top
-> > of this patch series here ofc, I'm in the processing of merging the entire
-> > pile.
-> >
-> > Thanks, Daniel
-> Hi Daniel,
-> Without this check here, and compiling without CONFIG_DEBUG_FS, this
-> function is run and the drm_debugfs_create_files() does not have access to
-> the parameters also protected by an #if above this function. So the change
-> throws an error for me. Is that correct?
+On Wed, 2020-03-18 at 14:49 +0100, Daniel Vetter wrote:
+> On Tue, Mar 17, 2020 at 03:13:29PM -0700, Joe Perches wrote:
+> > On Tue, 2020-03-17 at 17:48 +0100, Daniel Vetter wrote:
+> > > On Thu, Mar 12, 2020 at 12:17:12PM -0700, Joe Perches wrote:
+> > > > Convert /* fallthrough */ style comments to fallthrough;
+> > > > 
+> > > > Convert the various uses of fallthrough comments to fallthrough;
+> > > > 
+> > > > Done via script
+> > > > Link: https://lore.kernel.org/lkml/b56602fcf79f849e733e7b521bb0e17895d390fa.1582230379.git.joe@perches.com/
+> > > > 
+> > > > And by hand:
+> > > > 
+> > > > This file has a fallthrough comment outside of an #ifdef block
+> > > > that causes gcc to emit a warning if converted in-place.
+> > > > 
+> > > > So move the new fallthrough; inside the containing #ifdef/#endif too.
+[]
+> > > I'm assuming this all lands through a special pull? Or should I apply
+> > > this?
+[]
+> > I think you should apply this.
+> > 
+> > The idea here is to allow a scripted conversion at some
+> > point and this patch is necessary to avoid new compiler
+> > warnings after running the script.
+> 
+> Ok, put into the queue but missed the 5.7 feature freeze for drm so 5.8
+> probably.
 
-Hm right. Other drivers don't #ifdef out their debugfs file functions
-... kinda a bit disappointing that we can't do this in the neatest way
-possible.
-
-Greg, has anyone ever suggested to convert the debugfs_create_file
-function (and similar things) to macros that don't use any of the
-arguments, and then also annotating all the static functions/tables as
-__maybe_unused and let the compiler garbage collect everything?
-Instead of explicit #ifdef in all the drivers ...
--Daniel
-
->
-> Thanks,
-> wambui karuga
->
-> >> -    ret = drm_debugfs_create_files(drm_vram_mm_debugfs_list,
-> >> -                                   ARRAY_SIZE(drm_vram_mm_debugfs_list),
-> >> -                                   minor->debugfs_root, minor);
-> >> +    drm_debugfs_create_files(drm_vram_mm_debugfs_list,
-> >> +                             ARRAY_SIZE(drm_vram_mm_debugfs_list),
-> >> +                             minor->debugfs_root, minor);
-> >>  #endif
-> >> -    return ret;
-> >> +    return 0;
-> >>  }
-> >>  EXPORT_SYMBOL(drm_vram_mm_debugfs_init);
-> >>
-> >> --
-> >> 2.25.1
-> >>
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-> >
+Thanks, no worries.
+Any scripted conversion like this isn't a high priority.
 
 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
