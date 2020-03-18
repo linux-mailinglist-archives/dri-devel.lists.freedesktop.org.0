@@ -2,39 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843011895E5
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 07:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 561331895FC
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 07:48:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE556E86F;
-	Wed, 18 Mar 2020 06:33:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B960C6E1F2;
+	Wed, 18 Mar 2020 06:48:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19E73898CE;
- Wed, 18 Mar 2020 06:33:48 +0000 (UTC)
-IronPort-SDR: SqEtN9/E8/jwY5V6hDAm8C38ojeIGQs13sBDFfaQwpDVhR19b72Lq2wokCM9mHJk+1at59o0HH
- 2qJ4aMPYKTkw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2020 23:33:47 -0700
-IronPort-SDR: KTi2+Je3Z5QzX1f/QuXhoYMQ8zsv8fJDoFimqj/t6cxH+/YXXIymzMGiS/xzT1UNXCiGCbik1u
- RwJI7wF0Dviw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,566,1574150400"; d="scan'208";a="417839761"
-Received: from labuser-z97x-ud5h.jf.intel.com ([10.165.21.211])
- by orsmga005.jf.intel.com with ESMTP; 17 Mar 2020 23:33:47 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/i915/dp: intel_dp connector hook for VRR support
-Date: Tue, 17 Mar 2020 23:35:17 -0700
-Message-Id: <20200318063517.3844-3-manasi.d.navare@intel.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20200318063517.3844-1-manasi.d.navare@intel.com>
-References: <20200318063517.3844-1-manasi.d.navare@intel.com>
+X-Greylist: delayed 346 seconds by postgrey-1.36 at gabe;
+ Wed, 18 Mar 2020 06:48:05 UTC
+Received: from us-smtp-delivery-74.mimecast.com
+ (us-smtp-delivery-74.mimecast.com [216.205.24.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EC596E1F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 06:48:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584514084;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qs6zHDQ9hWCbXySzkR7QT/fX2FXyJF3dfU4ifK4dT+E=;
+ b=DoApgtBCBDMNLbbLGAceAbF2tlIB0KHHGF+f1iC4C3iEVl8ll8vEEiQrn6+yI8XWMBwYv9
+ wtBpGnvIiYReIhc47jROUgRGiuyK7BzaNNLit+LyMeQKgY8WOk96tnsy/JnF84BfwyEpoR
+ mSx4dD9LOzYXQdml+hyAgSk0WVS4cww=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-PRvZKJCcPSKSk28XbCaBmg-1; Wed, 18 Mar 2020 02:41:03 -0400
+X-MC-Unique: PRvZKJCcPSKSk28XbCaBmg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD5E8800D50;
+ Wed, 18 Mar 2020 06:41:00 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-49.ams2.redhat.com
+ [10.36.112.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89EC27E30C;
+ Wed, 18 Mar 2020 06:41:00 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 9BAAD17444; Wed, 18 Mar 2020 07:40:59 +0100 (CET)
+Date: Wed, 18 Mar 2020 07:40:59 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Subject: Re: [RFC PATCH 0/8] *** Per context fencing ***
+Message-ID: <20200318064059.3xdwi2ugdcxw6y4g@sirius.home.kraxel.org>
+References: <20200310010818.569-1-gurchetansingh@chromium.org>
+ <20200310074302.yx6anlvqvsg37yzs@sirius.home.kraxel.org>
+ <CAAfnVB=sw=u80mHnZUPf_+WDW-hGNTDSBWLfV+7y3KFN=s6beQ@mail.gmail.com>
+ <20200311103609.ei446gelkvbqrdzm@sirius.home.kraxel.org>
+ <CAAfnVBm1eoGZY7yB8eqEC1eLk=v4dq--O2biQOnWDHCkmguOeA@mail.gmail.com>
+ <20200312092940.xioyjloil3f25ccv@sirius.home.kraxel.org>
+ <CAAfnVBkTWy2pohv5kWWYwAa1yq14fRJrtN4GD7sF-h4inabH6Q@mail.gmail.com>
+ <CAPaKu7SgkdBaFcDU1O7T+mMyzqO5iR8qYJxFJmcYGp_Hfe3S0g@mail.gmail.com>
+ <20200316074404.z4xbta6qyrm74oxo@sirius.home.kraxel.org>
+ <CAPaKu7S=fmsGDY+txgFBcYDaBE9VaBubtEvVMEWj2yQ_UL04bQ@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAPaKu7S=fmsGDY+txgFBcYDaBE9VaBubtEvVMEWj2yQ_UL04bQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,59 +74,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aditya Swarup <aditya.swarup@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Chad Versace <chadversary@chromium.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ David Stevens <stevensd@chromium.org>, John Bates <jbates@chromium.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBkZWZpbmVzIHRoZSBnZXRfdnJyX3N1cHBvcnQgaG9vayBmb3IgaW50ZWwgRFAgY29ubmVj
-dG9yClZSUiBzdXBwb3J0IGlzIHNldCB0byB0cnVlIGJhc2VkIG9uIHRoZSBEUENEIGlnbm9yZSBN
-U0EgYW5kCkVESUQgbW9uaXRvciByYW5nZQoKQ2M6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBs
-aW51eC5pbnRlbC5jb20+CkNjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXgu
-aW50ZWwuY29tPgpDYzogSGFycnkgV2VudGxhbmQgPGhhcnJ5LndlbnRsYW5kQGFtZC5jb20+CkNj
-OiBOaWNob2xhcyBLYXpsYXVza2FzIDxOaWNob2xhcy5LYXpsYXVza2FzQGFtZC5jb20+CkNjOiBB
-ZGl0eWEgU3dhcnVwIDxhZGl0eWEuc3dhcnVwQGludGVsLmNvbT4KU2lnbmVkLW9mZi1ieTogTWFu
-YXNpIE5hdmFyZSA8bWFuYXNpLmQubmF2YXJlQGludGVsLmNvbT4KLS0tCiAuLi4vZHJtL2k5MTUv
-ZGlzcGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmggICAgfCAgMyArKysKIGRyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyAgICAgICB8IDE5ICsrKysrKysrKysrKysrKysrKysK
-IDIgZmlsZXMgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV90eXBlcy5oIGIvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmgKaW5kZXggNWUwMGU2MTFmMDc3
-Li5jZDM3ZWU2ZGIxZmYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfZGlzcGxheV90eXBlcy5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfZGlzcGxheV90eXBlcy5oCkBAIC0xMzUzLDYgKzEzNTMsOSBAQCBzdHJ1Y3QgaW50ZWxf
-ZHAgewogCiAJLyogRGlzcGxheSBzdHJlYW0gY29tcHJlc3Npb24gdGVzdGluZyAqLwogCWJvb2wg
-Zm9yY2VfZHNjX2VuOworCisJLyogRFAgVmFyaWFibGUgcmVmcmVzaCByYXRlLyBBZGFwdGl2ZSBz
-eW5jIHN1cHBvcnQgKi8KKwlib29sIHZycl9jYXBhYmxlOwogfTsKIAogZW51bSBsc3Bjb25fdmVu
-ZG9yIHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwppbmRleCAwYTQxN2Nk
-MmFmMmIuLmNjZjVkODY4YjVjMSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9kcC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
-ZHAuYwpAQCAtNTg2MCw2ICs1ODYwLDI0IEBAIHN0YXRpYyBpbnQgaW50ZWxfZHBfZ2V0X21vZGVz
-KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpCiAJcmV0dXJuIDA7CiB9CiAKK3N0YXRp
-YyB2b2lkIGludGVsX2RwX2dldF92cnJfc3VwcG9ydChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29u
-bmVjdG9yKQoreworCXN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAgPSBpbnRlbF9hdHRhY2hlZF9k
-cCh0b19pbnRlbF9jb25uZWN0b3IoY29ubmVjdG9yKSk7CisJY29uc3Qgc3RydWN0IGRybV9kaXNw
-bGF5X2luZm8gKmluZm8gPSAmY29ubmVjdG9yLT5kaXNwbGF5X2luZm87CisJc3RydWN0IGRybV9p
-OTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9faTkxNShjb25uZWN0b3ItPmRldik7CisKKwkvKgor
-CSAqIERQIFNpbmsgaXMgY2FwYWJsZSBvZiBWYXJpYWJsZSByZWZyZXNoIHZpZGVvIHRpbWluZ3Mg
-aWYKKwkgKiBJZ25vcmUgTVNBIGJpdCBpcyBzZXQgaW4gRFBDRC4KKwkgKiBFRElEIG1vbml0b3Ig
-cmFuZ2UgYWxzbyBzaG91bGQgYmUgYXRsZWFzdCAxMCBmb3IgcmVhc29uYWJsZQorCSAqIEFkYXB0
-aXZlIHN5bmMvIFZSUiBlbmQgdXNlciBleHBlcmllbmNlLgorCSAqLworCWlmIChJTlRFTF9HRU4o
-ZGV2X3ByaXYpID49IDEyICYmCisJICAgIGRybV9kcF9zaW5rX2lzX2NhcGFibGVfd2l0aG91dF90
-aW1pbmdfbXNhKGludGVsX2RwLT5kcGNkKSAmJgorCSAgICBpbmZvLT5tb25pdG9yX3JhbmdlLm1h
-eF92ZnJlcSAtIGluZm8tPm1vbml0b3JfcmFuZ2UubWluX3ZmcmVxID4gMTApCisJCWludGVsX2Rw
-LT52cnJfY2FwYWJsZSA9IHRydWU7Cit9CisKIHN0YXRpYyBpbnQKIGludGVsX2RwX2Nvbm5lY3Rv
-cl9yZWdpc3RlcihzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQogewpAQCAtNjc1Niw2
-ICs2Nzc0LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5j
-cyBpbnRlbF9kcF9jb25uZWN0b3JfaGVscGVyX2Z1bmNzID0KIAkuZ2V0X21vZGVzID0gaW50ZWxf
-ZHBfZ2V0X21vZGVzLAogCS5tb2RlX3ZhbGlkID0gaW50ZWxfZHBfbW9kZV92YWxpZCwKIAkuYXRv
-bWljX2NoZWNrID0gaW50ZWxfZHBfY29ubmVjdG9yX2F0b21pY19jaGVjaywKKwkuZ2V0X2FkYXB0
-aXZlX3N5bmNfc3VwcG9ydCA9IGludGVsX2RwX2dldF92cnJfc3VwcG9ydCwKIH07CiAKIHN0YXRp
-YyBjb25zdCBzdHJ1Y3QgZHJtX2VuY29kZXJfZnVuY3MgaW50ZWxfZHBfZW5jX2Z1bmNzID0gewot
-LSAKMi4xOS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+  Hi,
+
+> > > I am still catching up, but IIUC, indeed I don't think the host needs
+> > > to depend on fence_id.  We should be able to repurpose fence_id.
+> >
+> > I'd rather ignore it altogether for FENCE_V2 (or whatever we call the
+> > feature flag).
+> 
+> That's fine when one assumes each virtqueue has one host GPU timeline.
+> But when there are multiple (e.g., multiplexing multiple contexts over
+> one virtqueue, or multiple VkQueues), fence_id can be repurposed as
+> the host timeline id.
+
+Why do you need an id for that?  You can simply keep track of the
+submit_3d commands instead.
+
+cheers,
+  Gerd
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
