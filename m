@@ -1,40 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BC718A748
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 22:46:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EED0B18A74C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 22:47:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A47E6E960;
-	Wed, 18 Mar 2020 21:46:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 243AA6E974;
+	Wed, 18 Mar 2020 21:47:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E69E6E960
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 21:46:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5A206E973
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 21:47:35 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 7EABC20023;
- Wed, 18 Mar 2020 22:46:40 +0100 (CET)
-Date: Wed, 18 Mar 2020 22:46:39 +0100
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 3C38120023;
+ Wed, 18 Mar 2020 22:47:33 +0100 (CET)
+Date: Wed, 18 Mar 2020 22:47:31 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-Subject: Re: [PATCH v9 2/2] drm/bridge: Add NWL MIPI DSI host controller
- support
-Message-ID: <20200318214639.GA971@ravnborg.org>
+Subject: Re: [PATCH v9 1/2] dt-bindings: display/bridge: Add binding for NWL
+ mipi dsi host controller
+Message-ID: <20200318214731.GB971@ravnborg.org>
 References: <cover.1584544065.git.agx@sigxcpu.org>
- <6f2e65df672a0fe832af29f4ea89fbe7250c3a07.1584544065.git.agx@sigxcpu.org>
+ <e76a1e6cd3a18e4239915d3aee801b7a2aeac127.1584544065.git.agx@sigxcpu.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <6f2e65df672a0fe832af29f4ea89fbe7250c3a07.1584544065.git.agx@sigxcpu.org>
+In-Reply-To: <e76a1e6cd3a18e4239915d3aee801b7a2aeac127.1584544065.git.agx@sigxcpu.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
  a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=ze386MxoAAAA:8
- a=8AirrxEcAAAA:8 a=HCEFswCZRmPwI41a-fkA:9 a=wPNLvfGTeEIA:10
- a=iBZjaW-pnkserzjvUTHh:22 a=ST-jHhOKWsTCqRlWije3:22
+ a=8AirrxEcAAAA:8 a=VwQbUJbxAAAA:8 a=7gkXJVJtAAAA:8 a=gEfo2CItAAAA:8
+ a=Vm19FepyDpoABvc2yYMA:9 a=cVXEkGUna-Ne1Fa8:21 a=TVmiQ_s7cYx9mS0L:21
+ a=wPNLvfGTeEIA:10 a=iBZjaW-pnkserzjvUTHh:22 a=ST-jHhOKWsTCqRlWije3:22
+ a=AjGcO6oz07-iQ99wixmX:22 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=sptkURWiP4Gy88Gu7hUp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,137 +66,251 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Guido.
-
-Impressive and very detailed changelog in intro mail - nice.
-
-On Wed, Mar 18, 2020 at 04:09:08PM +0100, Guido G=FCnther wrote:
-> This adds initial support for the NWL MIPI DSI Host controller found on
-> i.MX8 SoCs.
-> =
-
-> It adds support for the i.MX8MQ but the same IP can be found on
-> e.g. the i.MX8QXP.
-> =
-
-> It has been tested on the Librem 5 devkit using mxsfb.
+On Wed, Mar 18, 2020 at 04:09:07PM +0100, Guido G=FCnther wrote:
+> The Northwest Logic MIPI DSI IP core can be found in NXPs i.MX8 SoCs.
 > =
 
 > Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
-> Co-developed-by: Robert Chiras <robert.chiras@nxp.com>
-> Signed-off-by: Robert Chiras <robert.chiras@nxp.com>
 > Tested-by: Robert Chiras <robert.chiras@nxp.com>
-> Tested-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
 > ---
->  drivers/gpu/drm/bridge/Kconfig   |   16 +
->  drivers/gpu/drm/bridge/Makefile  |    3 +
->  drivers/gpu/drm/bridge/nwl-dsi.c | 1213 ++++++++++++++++++++++++++++++
->  drivers/gpu/drm/bridge/nwl-dsi.h |  144 ++++
->  4 files changed, 1376 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/nwl-dsi.c
->  create mode 100644 drivers/gpu/drm/bridge/nwl-dsi.h
+>  .../bindings/display/bridge/nwl-dsi.yaml      | 216 ++++++++++++++++++
+>  1 file changed, 216 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/nwl-=
+dsi.yaml
 > =
 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kcon=
-fig
-> index 8397bf72d2f3..d41d93d24f16 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -55,6 +55,22 @@ config DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW
->  	  to DP++. This is used with the i.MX6 imx-ldb
->  	  driver. You are likely to say N here.
->  =
-
-> +config DRM_NWL_MIPI_DSI
-> +	tristate "Northwest Logic MIPI DSI Host controller"
-> +	depends on DRM
-> +	depends on COMMON_CLK
-> +	depends on OF && HAS_IOMEM
-> +	select DRM_KMS_HELPER
-> +	select DRM_MIPI_DSI
-> +	select DRM_PANEL_BRIDGE
-> +	select GENERIC_PHY_MIPI_DPHY
-> +	select MFD_SYSCON
-> +	select MULTIPLEXER
-> +	select REGMAP_MMIO
-> +	help
-> +	  This enables the Northwest Logic MIPI DSI Host controller as
-> +	  for example found on NXP's i.MX8 Processors.
+> diff --git a/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yam=
+l b/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
+> new file mode 100644
+> index 000000000000..ec1e7e12719d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
+> @@ -0,0 +1,216 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/nwl-dsi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  config DRM_NXP_PTN3460
->  	tristate "NXP PTN3460 DP/LVDS bridge"
->  	depends on OF
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Mak=
-efile
-> index 1eb5376c5d68..98581b3128a3 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -15,6 +15,9 @@ obj-$(CONFIG_DRM_TOSHIBA_TC358767) +=3D tc358767.o
->  obj-$(CONFIG_DRM_I2C_ADV7511) +=3D adv7511/
->  obj-$(CONFIG_DRM_TI_SN65DSI86) +=3D ti-sn65dsi86.o
->  obj-$(CONFIG_DRM_TI_TFP410) +=3D ti-tfp410.o
-> +obj-$(CONFIG_DRM_NWL_MIPI_DSI) +=3D nwl-dsi.o
->  =
-
->  obj-y +=3D analogix/
->  obj-y +=3D synopsys/
+> +title: Northwest Logic MIPI-DSI controller on i.MX SoCs
 > +
-> +header-test-y +=3D nwl-dsi.h
-Sorry - but header-test-y support was ripped out of the kernel again.
-So this line has no longer any effect.
-
-
+> +maintainers:
+> +  - Guido G=FAnther <agx@sigxcpu.org>
+> +  - Robert Chiras <robert.chiras@nxp.com>
 > +
-> +static void nwl_dsi_bridge_enable(struct drm_bridge *bridge)
-> +{
-> +	struct nwl_dsi *dsi =3D bridge_to_dsi(bridge);
-> +	int ret;
+> +description: |
+> +  NWL MIPI-DSI host controller found on i.MX8 platforms. This is a dsi b=
+ridge for
+> +  the SOCs NWL MIPI-DSI host controller.
 > +
-> +	/* Step 5 from DSI reset-out instructions */
-> +	ret =3D reset_control_deassert(dsi->rst_dpi);
-> +	if (ret < 0)
-> +		DRM_DEV_ERROR(dsi->dev, "Failed to deassert DPI: %d\n", ret);
-I picked this for a general comment.
-
-    We have drm_err(drm, "...", ...) which is preferred over DRM_XXX
-    They require a drm_device * that may not be available everywhere.
-
-IMO not a showstopper, but should be trivial to fix (if adrm_device * is
-a avaiable).
-
-> +}
+> +properties:
+> +  compatible:
+> +    const: fsl,imx8mq-nwl-dsi
 > +
-> +static int nwl_dsi_bridge_attach(struct drm_bridge *bridge)
-> +{
-> +	struct nwl_dsi *dsi =3D bridge_to_dsi(bridge);
-> +	struct drm_bridge *panel_bridge;
-> +	struct drm_panel *panel;
-> +	int ret;
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  clocks:
+> +    items:
+> +      - description: DSI core clock
+> +      - description: RX_ESC clock (used in escape mode)
+> +      - description: TX_ESC clock (used in escape mode)
+> +      - description: PHY_REF clock
+> +      - description: LCDIF clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: core
+> +      - const: rx_esc
+> +      - const: tx_esc
+> +      - const: phy_ref
+> +      - const: lcdif
+> +
+> +  mux-controls:
+> +    description:
+> +      mux controller node to use for operating the input mux
+> +
+> +  phys:
+> +    maxItems: 1
+> +    description:
+> +      A phandle to the phy module representing the DPHY
+> +
+> +  phy-names:
+> +    items:
+> +      - const: dphy
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    items:
+> +      - description: dsi byte reset line
+> +      - description: dsi dpi reset line
+> +      - description: dsi esc reset line
+> +      - description: dsi pclk reset line
+> +
+> +  reset-names:
+> +    items:
+> +      - const: byte
+> +      - const: dpi
+> +      - const: esc
+> +      - const: pclk
+> +
+> +  ports:
+> +    type: object
+> +    description:
+> +      A node containing DSI input & output port nodes with endpoint
+> +      definitions as documented in
+> +      Documentation/devicetree/bindings/graph.txt.
+> +    properties:
+> +      port@0:
+> +        type: object
+> +        description:
+> +          Input port node to receive pixel data from the
+> +          display controller. Exactly one endpoint must be
+> +          specified.
+> +        properties:
+> +          '#address-cells':
+> +            const: 1
+> +
+> +          '#size-cells':
+> +            const: 0
+> +
+> +          endpoint@0:
+> +            description: sub-node describing the input from LCDIF
+> +            type: object
+> +
+> +          endpoint@1:
+> +            description: sub-node describing the input from DCSS
+> +            type: object
+> +
+> +          reg:
+> +            const: 0
+> +
+> +        required:
+> +          - '#address-cells'
+> +          - '#size-cells'
+> +          - reg
+> +        additionalProperties: false
+> +
+> +      port@1:
+> +        type: object
+> +        description:
+> +          DSI output port node to the panel or the next bridge
+> +          in the chain
+> +
+> +      '#address-cells':
+> +        const: 1
+> +
+> +      '#size-cells':
+> +        const: 0
+> +
+> +    required:
+> +      - '#address-cells'
+> +      - '#size-cells'
+> +      - port@0
+> +      - port@1
+> +
+> +    additionalProperties: false
+> +
+> +patternProperties:
+> +  "^panel@[0-9]+$":
+> +    type: object
+> +
+> +required:
+> +  - '#address-cells'
+> +  - '#size-cells'
+> +  - clock-names
+> +  - clocks
+> +  - compatible
+> +  - interrupts
+> +  - mux-controls
+> +  - phy-names
+> +  - phys
+> +  - ports
+> +  - reg
+> +  - reset-names
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> + - |
+> +
+> +   #include <dt-bindings/clock/imx8mq-clock.h>
+> +   #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +   #include <dt-bindings/reset/imx8mq-reset.h>
+> +
+> +   mipi_dsi: mipi_dsi@30a00000 {
+> +              #address-cells =3D <1>;
+> +              #size-cells =3D <0>;
+> +              compatible =3D "fsl,imx8mq-nwl-dsi";
+> +              reg =3D <0x30A00000 0x300>;
+> +              clocks =3D <&clk IMX8MQ_CLK_DSI_CORE>,
+> +                       <&clk IMX8MQ_CLK_DSI_AHB>,
+> +                       <&clk IMX8MQ_CLK_DSI_IPG_DIV>,
+> +                       <&clk IMX8MQ_CLK_DSI_PHY_REF>,
+> +                       <&clk IMX8MQ_CLK_LCDIF_PIXEL>;
+> +              clock-names =3D "core", "rx_esc", "tx_esc", "phy_ref", "lc=
+dif";
+> +              interrupts =3D <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
+> +              mux-controls =3D <&mux 0>;
+> +              power-domains =3D <&pgc_mipi>;
+> +              resets =3D <&src IMX8MQ_RESET_MIPI_DSI_RESET_BYTE_N>,
+> +                       <&src IMX8MQ_RESET_MIPI_DSI_DPI_RESET_N>,
+> +                       <&src IMX8MQ_RESET_MIPI_DSI_ESC_RESET_N>,
+> +                       <&src IMX8MQ_RESET_MIPI_DSI_PCLK_RESET_N>;
+> +              reset-names =3D "byte", "dpi", "esc", "pclk";
+> +              phys =3D <&dphy>;
+> +              phy-names =3D "dphy";
+> +
+> +              panel@0 {
+> +                      compatible =3D "rocktech,jh057n00900";
+> +                      reg =3D <0>;
+> +                      port@0 {
+> +                           panel_in: endpoint {
+> +                                     remote-endpoint =3D <&mipi_dsi_out>;
+> +                           };
+> +                      };
+> +              };
+> +
+> +              ports {
+> +                    #address-cells =3D <1>;
+> +                    #size-cells =3D <0>;
+> +
+> +                    port@0 {
+> +                           #size-cells =3D <0>;
+> +                           #address-cells =3D <1>;
+> +                           reg =3D <0>;
+> +                           mipi_dsi_in: endpoint@0 {
+> +                                        reg =3D <0>;
+> +                                        remote-endpoint =3D <&lcdif_mipi=
+_dsi>;
+> +                           };
+> +                    };
+> +                    port@1 {
+> +                           reg =3D <1>;
+> +                           mipi_dsi_out: endpoint {
+> +                                         remote-endpoint =3D <&panel_in>;
+> +                           };
+> +                    };
+> +              };
+> +      };
+> -- =
 
-This function now takes a flags argument.
-In other words - the driver will not build when applied
-to drm-misc-next.
-
-> +
-> +	ret =3D drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &panel,
-> +					  &panel_bridge);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (panel) {
-> +		panel_bridge =3D drm_panel_bridge_add(panel);
-> +		if (IS_ERR(panel_bridge))
-> +			return PTR_ERR(panel_bridge);
-> +	}
-> +	dsi->panel_bridge =3D panel_bridge;
-> +
-> +	if (!dsi->panel_bridge)
-> +		return -EPROBE_DEFER;
-> +
-> +	return drm_bridge_attach(bridge->encoder, dsi->panel_bridge, bridge);
-> +}
-
-	Sam
+> 2.23.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
