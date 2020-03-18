@@ -2,47 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1031896E2
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 09:24:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1859F1896DC
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 09:24:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41CDF6E883;
-	Wed, 18 Mar 2020 08:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D3176E879;
+	Wed, 18 Mar 2020 08:24:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BF2B6E1F6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 07:19:04 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id c12so19139174ilo.15
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 00:19:04 -0700 (PDT)
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 176256E282
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 07:53:56 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id t3so13216116pgn.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 00:53:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=ix5gR+5tSADkG65bVowPOhtK65TNERJ9gTTgrdl498s=;
+ b=cUv+Wg8jSCf8pGEQXq7PrK6Kkk1wWraRdky+Q9IGdq4hXTb5mT13mvFhkL56wlHJL8
+ VQUfXTy0hElD/ymLJ6e8XXLlkbXYXMrnGjTESn7ZJncsdII5q9P9HkC4XZymZhoAiKdO
+ zyUrkInXCg9FwLWjuy0VYtljdpNrY6irRxfktuCTcKq8lXn/E/be8hcPQd716X1j4OAH
+ IG2hpXtIsuCVgRhrRED+Jl/b8627CkaXWOai4EvoKnTsJse5odgBUoKLY/3jQKjO2dvu
+ TFvvUQjxcJVG6YFVZd0aMHxhuAw2Qo4R4HzIcOqkghq+prqZsRt+1L+Ks9hrWz0bCsrS
+ jT2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
- :from:to;
- bh=AhaXelTb4CkDuWTiPyTo3C6D6QQ6q7mstwM/dklynRM=;
- b=cW/bXlCSbA/44IW7SsLrJQ0E4DIyMqi5RLsFbyVxp8fsHyScZgegqppEoSH7K7I0KM
- cLnnWEXaumvH3jzdJ5gSDxHHBUfT+aYv/Kqx2D1sa9KciXUbjF7ib08ZxZzMnBHcwNE6
- M+IK4Mvk71GWyIqa7Xxvl2uTc+iaYxNB8A+4ZlI+y6jC2Aa6FsIvkQw1m2EQI4U6wmSp
- 7lhDe7RrJgcClrw/Y65BXMRQQRlcYVNl66Ist0vngO5xpfXvSXNIaJrIUQ5/QSbj2crq
- eJFQyI3najQpkrVv2i/26YjU428u8Q9g1uqTB6nfr254ApdNd2GYUakPAj3nNwToEb65
- tDlQ==
-X-Gm-Message-State: ANhLgQ22NxS9iD1VgkEhrpApdI38nWMNlJXUwje2W8333UcZ+6NKx87J
- 2dL/4jo1up/dGyb8s7Zp8Fk0teJ+Mnq4ndlVAZ+92hXTOJEa
-X-Google-Smtp-Source: ADFU+vuXK52KHuMfmWijNinm0A+H+Z1mmON3xD7KqXvwSfekdWJ6PLmyjoWTtC0fVh7NoCYO+AVnsxlcmnTlynOwKfHZTfC72zP6
-MIME-Version: 1.0
-X-Received: by 2002:a6b:c045:: with SMTP id q66mr2517997iof.10.1584515943764; 
- Wed, 18 Mar 2020 00:19:03 -0700 (PDT)
-Date: Wed, 18 Mar 2020 00:19:03 -0700
-In-Reply-To: <CADG63jBhCBf6r8vfT6kCwh7shYHKsuGH=Mx8D+hDxO0C3Urjqw@mail.gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f81d5b05a11bddac@google.com>
-Subject: Re: WARNING in idr_destroy
-From: syzbot <syzbot+05835159fe322770fe3d@syzkaller.appspotmail.com>
-To: airlied@linux.ie, anenbupt@gmail.com, daniel@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- syzkaller-bugs@googlegroups.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=ix5gR+5tSADkG65bVowPOhtK65TNERJ9gTTgrdl498s=;
+ b=lxgRG/66CjzabrvsBSgo11uUGlReqyfluLZsMCibtK0bjWGOf3zKuDwH7wulOxy9DV
+ TZEKLgbuWUTvZV2VzVCKmU3L3nvKG0DWgHPuONGDznVdl0j449gpea9LlexOJqzrfDEE
+ 5m503A/n/kWHsh3Ao9MmMAXYOP7/jqu77dvoIdQ/LSV0LetwHK/KLDl8nlxjgiorJLc5
+ TFa9M4EzEvsjrRcWcjAJtQdqRSf8HVvxssjT65y6HQKF0oQ1q6QGnSjsOeFLkksfK7vs
+ jUoo2OOghuzM+xzKe6D7NI1j3hyzhtL6edtpImbHhVvxLDeOJ3cHHXCkSWEN8QXWxQwc
+ QPHQ==
+X-Gm-Message-State: ANhLgQ2MpkIBjPtSpC/RFdGLQTvAPDt4gKk+Df+1QRzQn+Al0gWX2OGk
+ uCmeXk8LkcsVAXaCDI2b3Q0=
+X-Google-Smtp-Source: ADFU+vshiSpx2NHtpGATn2PO9MyVUCdUwHWsEwJ3tKMFf6OagvK22K2ivh9NXPoh8qFgR34zHfIlwA==
+X-Received: by 2002:a63:b52:: with SMTP id a18mr3361810pgl.130.1584518035689; 
+ Wed, 18 Mar 2020 00:53:55 -0700 (PDT)
+Received: from VM_0_35_centos.localdomain ([150.109.62.251])
+ by smtp.gmail.com with ESMTPSA id j17sm5507117pfd.175.2020.03.18.00.53.53
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 18 Mar 2020 00:53:55 -0700 (PDT)
+From: Qiujun Huang <hqjagain@gmail.com>
+To: daniel@ffwll.ch
+Subject: [PATCH v2] drm/lease: fix WARNING in idr_destroy
+Date: Wed, 18 Mar 2020 15:53:50 +0800
+Message-Id: <1584518030-4173-1-git-send-email-hqjagain@gmail.com>
+X-Mailer: git-send-email 1.8.3.1
 X-Mailman-Approved-At: Wed, 18 Mar 2020 08:24:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,26 +62,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: anenbupt@gmail.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Qiujun Huang <hqjagain@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+drm_lease_create takes ownership of leases. And leases will be released
+by drm_master_put.
 
-syzbot has tested the proposed patch and the reproducer did not trigger crash:
+drm_master_put
+    ->drm_master_destroy
+            ->idr_destroy
+
+So we needn't call idr_destroy again.
 
 Reported-and-tested-by: syzbot+05835159fe322770fe3d@syzkaller.appspotmail.com
+Signed-off-by: Qiujun Huang <hqjagain@gmail.com>
+---
+ drivers/gpu/drm/drm_lease.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Tested on:
+diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+index b481caf..825abe3 100644
+--- a/drivers/gpu/drm/drm_lease.c
++++ b/drivers/gpu/drm/drm_lease.c
+@@ -542,10 +542,12 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+ 	}
+ 
+ 	DRM_DEBUG_LEASE("Creating lease\n");
++	/* lessee will take the ownership of leases */
+ 	lessee = drm_lease_create(lessor, &leases);
+ 
+ 	if (IS_ERR(lessee)) {
+ 		ret = PTR_ERR(lessee);
++		idr_destroy(&leases);
+ 		goto out_leases;
+ 	}
+ 
+@@ -580,7 +582,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+ 
+ out_leases:
+ 	put_unused_fd(fd);
+-	idr_destroy(&leases);
+ 
+ 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
+ 	return ret;
+-- 
+1.8.3.1
 
-commit:         b1289238 drm/lease: fix WARNING in idr_destroy
-git tree:       https://github.com/hqj/hqjagain_test.git idr_destroy
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cec95cb58b6f6294
-dashboard link: https://syzkaller.appspot.com/bug?extid=05835159fe322770fe3d
-compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
-
-Note: testing is done by a robot and is best-effort only.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
