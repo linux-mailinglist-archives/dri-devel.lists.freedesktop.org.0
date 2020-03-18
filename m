@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A47189345
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 01:43:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E83E189378
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 02:10:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF3066E846;
-	Wed, 18 Mar 2020 00:43:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE766E260;
+	Wed, 18 Mar 2020 01:10:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-74.mimecast.com
  (us-smtp-delivery-74.mimecast.com [63.128.21.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22E476E832
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 00:43:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D77E26E127
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 01:10:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584492224;
+ s=mimecast20190719; t=1584493803;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kzLNtcPlIRayy4zGnQcyKmO6TKUuvBItmg659qkeiY8=;
- b=eeIW4CvYrr4tryQ2hzbYEgcshOxsakuTZGXoZkqp28Jmt6fIebIV4HduE+fWrNEEO1ysJ8
- uH3GTppdDBqIFN1pWB/Cz1H1BHNcKgLRjgr2y2GkPk/uBNC0J4UnhYyXSdt43cJxw+SxAS
- EBJFWo6hw2+53HypG7R4GDMPEy13nuU=
+ bh=C/GdlhzhltIvyjl20NmFXxkZeZi/Jqa628gP/ziLx8A=;
+ b=CqIfbMDd+b6Ful1aQa/NSz0FMrD2oZ+6B6fowe4Bux8517QkaTadCuZxgIidf/c/BQlaHk
+ 3UEGP6VxaayQMVbjGQrv/ApktMKOeGse6yHW1xv2MSDYjmx23dWS/ZRxgcmxymA0LhnJLz
+ G1kuGHZ5fo9LJRM2Et69fQs+K+E2HPI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-EaRDwibZM02nN0JSDNYkkQ-1; Tue, 17 Mar 2020 20:43:40 -0400
-X-MC-Unique: EaRDwibZM02nN0JSDNYkkQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-350-lqJGTZm6OCyDY4TQML82JQ-1; Tue, 17 Mar 2020 21:10:01 -0400
+X-MC-Unique: lqJGTZm6OCyDY4TQML82JQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E00AD100550D;
- Wed, 18 Mar 2020 00:43:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA1A7800D50;
+ Wed, 18 Mar 2020 01:09:58 +0000 (UTC)
 Received: from whitewolf.redhat.com (ovpn-113-173.rdu2.redhat.com
  [10.10.113.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A950460BE0;
- Wed, 18 Mar 2020 00:43:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A5F09352B;
+ Wed, 18 Mar 2020 01:09:55 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
-To: nouveau@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 9/9] drm/nouveau/kms/nvd9-: Add CRC support
-Date: Tue, 17 Mar 2020 20:41:06 -0400
-Message-Id: <20200318004159.235623-10-lyude@redhat.com>
-In-Reply-To: <20200318004159.235623-1-lyude@redhat.com>
-References: <20200318004159.235623-1-lyude@redhat.com>
+To: nouveau@lists.freedesktop.org
+Subject: [PATCH v2] drm/nouveau/kms/nvd9-: Add CRC support
+Date: Tue, 17 Mar 2020 21:09:16 -0400
+Message-Id: <20200318010948.238134-1-lyude@redhat.com>
+In-Reply-To: <20200318004159.235623-10-lyude@redhat.com>
+References: <20200318004159.235623-10-lyude@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,7 +60,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Kate Stewart <kstewart@linuxfoundation.org>,
  Jani Nikula <jani.nikula@intel.com>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org,
+ Peteris Rudzusiks <peteris.rudzusiks@gmail.com>, linux-kernel@vger.kernel.org,
  Sean Paul <seanpaul@chromium.org>, Ben Skeggs <bskeggs@redhat.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
@@ -136,6 +137,11 @@ wait for the notifier to completely fill up. This threshold is reset
 to the default value set by nouveau after each capture, and is exposed
 in a separate folder within each CRTC's debugfs directory labelled
 "nv_crc".
+
+Changes since v1:
+* Forgot to finish saving crc.h before saving, whoops. This just adds
+  some corrections to the empty function declarations that we use if
+  CONFIG_DEBUG_FS isn't enabled.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
@@ -1096,7 +1102,7 @@ index 000000000000..b3a21e8256d5
 +}
 diff --git a/drivers/gpu/drm/nouveau/dispnv50/crc.h b/drivers/gpu/drm/nouveau/dispnv50/crc.h
 new file mode 100644
-index 000000000000..11ec20b06534
+index 000000000000..e79e55a94578
 --- /dev/null
 +++ b/drivers/gpu/drm/nouveau/dispnv50/crc.h
 @@ -0,0 +1,125 @@
@@ -1204,10 +1210,10 @@ index 000000000000..11ec20b06534
 +#define nv50_crc_get_sources NULL
 +#define nv50_crc_set_source NULL
 +
-+static inline void nv50_crc_init(struct nv50_crc *) {}
-+static inline void nv50_crc_fini(struct nv50_crc *) {}
-+static inline void nv50_crc_get_entries(struct nv50_head *) {}
-+static inline int nv50_crc_late_register(nv50_head *) { return 0; }
++static inline void nv50_crc_init(struct drm_device *dev) {}
++static inline int nv50_head_crc_late_register(struct nv50_head *) {}
++static inline void
++nv50_crc_handle_vblank(struct nv50_head *head) { return 0; }
 +
 +static inline int
 +nv50_crc_atomic_check(struct nv50_head *, struct nv50_head_atom *,
