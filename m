@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB561898DE
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 11:06:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3F41899D8
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 11:47:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C98986E8AF;
-	Wed, 18 Mar 2020 10:05:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2AA36E28A;
+	Wed, 18 Mar 2020 10:47:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 54A346E8AF;
- Wed, 18 Mar 2020 10:05:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 416DB2A6042;
- Wed, 18 Mar 2020 11:05:53 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 7baWg25bZC3q; Wed, 18 Mar 2020 11:05:53 +0100 (CET)
-Received: from thor (252.80.76.83.dynamic.wline.res.cust.swisscom.ch
- [83.76.80.252])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 5D8952A6016;
- Wed, 18 Mar 2020 11:05:52 +0100 (CET)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.93)
- (envelope-from <michel@daenzer.net>)
- id 1jEVaA-000mQl-Gg; Wed, 18 Mar 2020 11:05:50 +0100
-Subject: Re: [Mesa-dev] Plumbing explicit synchronization through the Linux
- ecosystem
-To: Lucas Stach <dev@lynxeye.de>, Jacob Lifshay <programmerjake@gmail.com>,
- Jason Ekstrand <jason@jlekstrand.net>
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
- <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca>
- <20200316102034.GA30883@pendragon.ideasonboard.com>
- <CAOFGe95JUUBCuE=dWKtZVXjTLqxyf2oybpqAZ7hZhpBEKQ=Y-Q@mail.gmail.com>
- <20200316211502.GW4732@pendragon.ideasonboard.com>
- <74477a20fa78758dd6cf8c32d7a77d1cccf2646f.camel@ndufresne.ca>
- <CAOFGe963WUB+rkA=FURuXEk6BVjsP18yk4sJ3y_7VxKmscShrA@mail.gmail.com>
- <CAC2bXD5qJgT9sWJgL_ej5OY42a-xzYaeLrwioKUreQuPJ1idpg@mail.gmail.com>
- <3e522876ec0287b69483c65aa1e7ba1ded536ec6.camel@lynxeye.de>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Message-ID: <14115064-24e5-da2c-38c6-f3ba0d447b18@daenzer.net>
-Date: Wed, 18 Mar 2020 11:05:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
+ [IPv6:2607:f8b0:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D8CC6E28A
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 10:47:03 +0000 (UTC)
+Received: by mail-il1-x143.google.com with SMTP id l14so23119985ilj.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 03:47:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ChJRimBxnTbA03roY4ImNXu/QOZAFQmM9aZ0DvgZyss=;
+ b=M7UcYpJJ1RDQlXdGC55v616bnVhhxcSbI7p7cjF7lC73j2icPSbW9xDjUWSUgCOzsN
+ xDiQjQqDuDpy1p/aeJrhbYGtq4qTrY0iqN2YhQtPY5zcN9YxgSMXMDfIXe5e5rQE0tZC
+ V6yM7Rw4W/Z76hXRtTrZWTRyvUcViAz0uBPfs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ChJRimBxnTbA03roY4ImNXu/QOZAFQmM9aZ0DvgZyss=;
+ b=WSOyqReMjNHN25z+NO2vqLi3D8Z5dVljXfxH4d+8hziEl23EX2gpe8kaqD9eWZHd0Y
+ sa4f+PxV+tBcp1COXFPhizu1vECh8eJ+tftAQEdO5S2bAEjGJd6iiISVgNbjtVwgQ+Nw
+ vRJaenxRcrxBtI7Gc4cKHSeeG+p7r925ju8ZPUBhyyS8b+F3JT5sbFVTPFOB36cfjbij
+ CpgeHZYtzGmxKiFW8nwanGRs07cRSk5QcCBtYa/hkeuZH/kZC48ySI9gDiMlOYeWTgVI
+ xCuAg5b8TwciTD3qJQFYaoXmTTYKw3JfgA5xHbA/i369gZuxMq79iQKd2Iry+my8w7X2
+ 2ZRg==
+X-Gm-Message-State: ANhLgQ3/0iVJnVFwHoSEfQ4AQxvVXucpwZWQIqsWtmJ/COlganZXmfLp
+ Q5JgHj5FWVW4K5WxI8j9LZPeY+iU75zKqJ/JcqVWnTeCDPA=
+X-Google-Smtp-Source: ADFU+vuJdvRD/Zp10f0MW07j0n+KougFGQxImVVwXDl2vuBshphJe25zJcL6+uMJZORniwHGcDAe6F57tp5u8+CVJYI=
+X-Received: by 2002:a92:9f1b:: with SMTP id u27mr3434011ili.173.1584528422401; 
+ Wed, 18 Mar 2020 03:47:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3e522876ec0287b69483c65aa1e7ba1ded536ec6.camel@lynxeye.de>
-Content-Language: en-CA
+References: <20200315134416.16527-1-sam@ravnborg.org>
+ <20200315134416.16527-9-sam@ravnborg.org>
+In-Reply-To: <20200315134416.16527-9-sam@ravnborg.org>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 18 Mar 2020 16:16:51 +0530
+Message-ID: <CAMty3ZD2kuD0nwWXDAD6R58Z2GFy1Ap7HfnEtYqwARQqs0nMfQ@mail.gmail.com>
+Subject: Re: [PATCH v1 08/36] dt-bindings: display: convert
+ feiyang,fy07024di26a30d to DT Schema
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,33 +60,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, xorg-devel <xorg-devel@lists.x.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "wayland-devel @ lists . freedesktop . org"
- <wayland-devel@lists.freedesktop.org>,
- Discussion of the development of and with GStreamer
- <gstreamer-devel@lists.freedesktop.org>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
+ Sandeep Panda <spanda@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
+ Stefan Mavrodiev <stefan@olimex.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
+ Nickey Yang <nickey.yang@rock-chips.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Robert Chiras <robert.chiras@nxp.com>,
+ Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
+ Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
+ devicetree <devicetree@vger.kernel.org>, Guido Gunther <agx@sigxcpu.org>,
+ Mark Brown <broonie@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ Werner Johansson <werner.johansson@sonymobile.com>,
+ Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
+ linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wMy0xNyA2OjIxIHAubS4sIEx1Y2FzIFN0YWNoIHdyb3RlOgo+IFRoYXQncyBvbmUg
-b2YgdGhlIGlzc3VlcyB3aXRoIGltcGxpY2l0IHN5bmMgdGhhdCBleHBsaWNpdCBtYXkgc29sdmU6
-IAo+IGEgc2luZ2xlIGNsaWVudCB0YWtpbmcgd2F5IHRvbyBtdWNoIHRpbWUgdG8gcmVuZGVyIHNv
-bWV0aGluZyBjYW4gCj4gYmxvY2sgdGhlIHdob2xlIHBpcGVsaW5lIHVwIHVudGlsIHRoZSBkaXNw
-bGF5IGZsaXAuIFdpdGggZXhwbGljaXQgCj4gc3luYyB0aGUgY29tcG9zaXRvciBjYW4ganVzdCBk
-ZWNpZGUgdG8gdXNlIHRoZSBsYXN0IGNsaWVudCBidWZmZXIgaWYgCj4gdGhlIGxhdGVzdCBidWZm
-ZXIgaXNuJ3QgcmVhZHkgYnkgc29tZSBkZWFkbGluZS4KCkZXSVcsIHRoZSBjb21wb3NpdG9yIGNh
-biBkbyB0aGlzIHdpdGggaW1wbGljaXQgc3luYyBhcyB3ZWxsLCBieSBwb2xsaW5nCmEgZG1hLWJ1
-ZiBmZCBmb3IgdGhlIGJ1ZmZlci4gKEN1cnJlbnRseSwgaXQgaGFzIHRvIHBvbGwgZm9yIHdyaXRh
-YmxlLApiZWNhdXNlIHdhaXRpbmcgZm9yIHRoZSBleGNsdXNpdmUgZmVuY2Ugb25seSBpc24ndCBl
-bm91Z2ggd2l0aCBhbWRncHUpCgoKLS0gCkVhcnRobGluZyBNaWNoZWwgRMOkbnplciAgICAgICAg
-ICAgICAgIHwgICAgICAgICAgICAgICBodHRwczovL3JlZGhhdC5jb20KTGlicmUgc29mdHdhcmUg
-ZW50aHVzaWFzdCAgICAgICAgICAgICB8ICAgICAgICAgICAgIE1lc2EgYW5kIFggZGV2ZWxvcGVy
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Sam Ravmborg,
+
+I send the series for panels which I worked already [1], would like to
+send the next version for those. will that work for you?
+
+[1] https://patchwork.kernel.org/cover/11315063/
+
+Jagan.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
