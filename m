@@ -1,61 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4552E189F72
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 16:16:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 020B8189F86
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 16:22:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5600E6E90F;
-	Wed, 18 Mar 2020 15:16:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C5536E2A9;
+	Wed, 18 Mar 2020 15:22:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64D7D6E90F
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 15:16:26 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id b2so24670124wrj.10
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 08:16:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=dTX0UE/hGWoF0D2eXXVk3x71Y+uX2uol3znwsRdv6bc=;
- b=USpnebn9UdEbpDcc9aMRVDU21TMcFjWoGPPfyS+yh9rLtZo+bcGWHiruocp1TXHQfx
- gz/zw1WWdG4ii3J1/INBAaSyhAnFaX0VAfGO+MvUOsQTLHAbILB+XsUiflqprcN+qlyx
- sQWW2lwEn+Kl/Xx9UEs0VP0Tf5yCgTve2Kq6URgK6rb/9edmFjdB4Rg8SmKzJnPWeXn0
- xp4eAbzrx8F36r7LGfC9H+oNWA2P3qJSSdQIrwvec5S1269OCZ4XrIV1BBioQ8oAQNBc
- bittdLDyMZCHJp2mHVhT3YW2VgjDwOvBXpFkfKCpHgOiOfXT4gguU622Iy2+sWve6S+a
- j41g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=dTX0UE/hGWoF0D2eXXVk3x71Y+uX2uol3znwsRdv6bc=;
- b=RI0qJAn4YuKy0ni5fEikXqPUQbVL1nO7cwmF7YhDdV5JzSW+i/M2ZiW+R6yPPgXyAQ
- YF3XrRcQ7d86icYyGw/gf9qeWxvEltO18GVGu9a+zAoD8TE4uV5qZGCtftlx+oHXMQ4E
- bobfEMEMTfSmxTn6AW99D6RfV/zXoFIyMWb2baoGW6ibmEUkZ2qUanYSW63saCkqtmMR
- ghTvJB971aBcEWH81bs9xNVVoGV4DjQMfYeXBf/NMRXoxNjPvxXefTnhjcUwDwl3TpzU
- +BdeqlFfE3EtAOCbwBkbY6+Dxwhk4wTdU6WYjSSSkjJuCL8bp7RFgck1VRlSn/ciiY/Z
- LcXg==
-X-Gm-Message-State: ANhLgQ2nrYok2EmWUSN4vjYydUPM8PtECrp+BPHPsOM8HU8tWZy8JCPF
- iyuEpO96QHlGG9u8EiQ/pwL6AQ==
-X-Google-Smtp-Source: ADFU+vvh1aB0uL3bJyIFhX9XnV69ve21w+9z2Lgd36rwy9liHYNDZjJOGHVpwLIEbUJT3ASkV9eNwQ==
-X-Received: by 2002:a5d:6908:: with SMTP id t8mr6323782wru.92.1584544585039;
- Wed, 18 Mar 2020 08:16:25 -0700 (PDT)
-Received: from dell ([2.27.167.19])
- by smtp.gmail.com with ESMTPSA id u17sm9806158wrm.43.2020.03.18.08.16.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Mar 2020 08:16:24 -0700 (PDT)
-Date: Wed, 18 Mar 2020 15:17:09 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: [GIT PULL] Immutable branch between Backlight, Arm, Unicore32 and
- PWM due for the v5.7 merge window
-Message-ID: <20200318151709.GA3527@dell>
-References: <20200210101546.287565-1-linus.walleij@linaro.org>
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
+ [185.70.40.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE9966E2A9
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 15:22:18 +0000 (UTC)
+Date: Wed, 18 Mar 2020 15:22:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1584544936;
+ bh=fu417ZOCDm8wQGhODu8TTyFaK34sS3KYXJbyZ21kszc=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
+ Feedback-ID:From;
+ b=wtMwNirYTdB5+/kgKPtC05V84pBpBee5j6JRtai6IEIfTxIEm+Y21kYQdUw2QhvZT
+ 3W8pxe0D5qfFu8PB0bmz9U317OJCmDzY3TuzweKx7Cc0/YfNoDTiOuHlIENpQUD4hN
+ zOKCsGGWEjGw7lVqYtE2+texNX8/QFrzPz1X3gcw=
+To: Hans de Goede <hdegoede@redhat.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: Atomic KMS API lacks the ability to set cursor hot-spot
+ coordinates
+Message-ID: <iUavRfIpwgaFwGrZtIM7seVfRwrvb2QVXC0KLN5wXLT7t_kX04NYFj2T5r0awLNPbIx2rO3UUO0BYH_HX1jMtJTQzBjInkghkF7WxkzxrII=@emersion.fr>
+In-Reply-To: <5c9f7c0e-e225-dfbf-f5bf-cb1c1cc4ac08@redhat.com>
+References: <9d86bbe4-70cf-273d-4d61-aec06011d441@redhat.com>
+ <ADrBkiVj05c2ZYEz46BNJrrChY-PCxme8HOeHHGOLjIR5XpBZoyIY5aUnSfXCm0wrYr0-Iuh80vnZqmRQ_jZaslv2Q2P7N6q5yCG0AeWovU=@emersion.fr>
+ <5c9f7c0e-e225-dfbf-f5bf-cb1c1cc4ac08@redhat.com>
+Feedback-ID: FsVprHBOgyvh0T8bxcZ0CmvJCosWkwVUg658e_lOUQMnA9qynD8O1lGeniuBDfPSkDAUuhiKfOIXUZBfarMyvA==:Ext:ProtonMail
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200210101546.287565-1-linus.walleij@linaro.org>
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +49,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- dri-devel@lists.freedesktop.org, Guan Xuetao <gxt@pku.edu.cn>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: =?UTF-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RW5qb3khCgpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IGJiNmQzZmIzNTRjNWVl
-OGQ2YmRlMmQ1NzZlYjcyMjBlYTA5ODYyYjk6CgogIExpbnV4IDUuNi1yYzEgKDIwMjAtMDItMDkg
-MTY6MDg6NDggLTA4MDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoK
-CiAgZ2l0Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2xlZS9iYWNr
-bGlnaHQuZ2l0IGliLWJhY2tsaWdodC1hcm0tdW5pY29yZS1wd20tdjUuNwoKZm9yIHlvdSB0byBm
-ZXRjaCBjaGFuZ2VzIHVwIHRvIDI2NDRmOTEyYjQxMDEyYzFjZTVmZjliZTk5ZWZlZWM3MjE0OTFi
-ODY6CgogIGJhY2tsaWdodDogcHdtX2JsOiBTd2l0Y2ggdG8gZnVsbCBHUElPIGRlc2NyaXB0b3Ig
-KDIwMjAtMDMtMTggMTU6MDU6NTcgKzAwMDApCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkltbXV0YWJsZSBicmFuY2ggYmV0
-d2VlbiBCYWNrbGlnaHQsIEFybSwgVW5pY29yZTMyIGFuZCBQV00gZHVlIGZvciB0aGUgdjUuNyBt
-ZXJnZSB3aW5kb3cKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0KTGludXMgV2FsbGVpaiAoMSk6CiAgICAgIGJhY2tsaWdodDog
-cHdtX2JsOiBTd2l0Y2ggdG8gZnVsbCBHUElPIGRlc2NyaXB0b3IKCiBhcmNoL2FybS9tYWNoLXB4
-YS9jbS14MzAwLmMgICAgICAgICAgICAgICB8ICAxIC0KIGFyY2gvYXJtL21hY2gtcHhhL2NvbGli
-cmktcHhhMjcwLWluY29tZS5jIHwgIDEgLQogYXJjaC9hcm0vbWFjaC1weGEvZXp4LmMgICAgICAg
-ICAgICAgICAgICAgfCAgMSAtCiBhcmNoL2FybS9tYWNoLXB4YS9oeDQ3MDAuYyAgICAgICAgICAg
-ICAgICB8ICAxIC0KIGFyY2gvYXJtL21hY2gtcHhhL2xwZDI3MC5jICAgICAgICAgICAgICAgIHwg
-IDEgLQogYXJjaC9hcm0vbWFjaC1weGEvbWFnaWNpYW4uYyAgICAgICAgICAgICAgfCAgMSAtCiBh
-cmNoL2FybS9tYWNoLXB4YS9tYWluc3RvbmUuYyAgICAgICAgICAgICB8ICAxIC0KIGFyY2gvYXJt
-L21hY2gtcHhhL21pb2E3MDEuYyAgICAgICAgICAgICAgIHwgIDEgLQogYXJjaC9hcm0vbWFjaC1w
-eGEvcGFsbTI3eC5jICAgICAgICAgICAgICAgfCAgMSAtCiBhcmNoL2FybS9tYWNoLXB4YS9wYWxt
-dGMuYyAgICAgICAgICAgICAgICB8IDExICsrKysrKysrKystCiBhcmNoL2FybS9tYWNoLXB4YS9w
-YWxtdGUyLmMgICAgICAgICAgICAgICB8ICAxIC0KIGFyY2gvYXJtL21hY2gtcHhhL3BjbTk5MC1i
-YXNlYm9hcmQuYyAgICAgIHwgIDEgLQogYXJjaC9hcm0vbWFjaC1weGEvdGF2b3JldmIuYyAgICAg
-ICAgICAgICAgfCAgMiAtLQogYXJjaC9hcm0vbWFjaC1weGEvdmlwZXIuYyAgICAgICAgICAgICAg
-ICAgfCAgMSAtCiBhcmNoL2FybS9tYWNoLXB4YS96Mi5jICAgICAgICAgICAgICAgICAgICB8ICAy
-IC0tCiBhcmNoL2FybS9tYWNoLXB4YS96eWxvbml0ZS5jICAgICAgICAgICAgICB8ICAxIC0KIGFy
-Y2gvYXJtL21hY2gtczNjMjR4eC9tYWNoLWgxOTQwLmMgICAgICAgIHwgIDEgLQogYXJjaC9hcm0v
-bWFjaC1zM2MyNHh4L21hY2gtcngxOTUwLmMgICAgICAgfCAgMSAtCiBhcmNoL2FybS9tYWNoLXMz
-YzY0eHgvZGV2LWJhY2tsaWdodC5jICAgICB8ICAzIC0tLQogYXJjaC9hcm0vbWFjaC1zM2M2NHh4
-L21hY2gtY3JhZzY0MTAuYyAgICAgfCAgMSAtCiBhcmNoL2FybS9tYWNoLXMzYzY0eHgvbWFjaC1o
-bXQuYyAgICAgICAgICB8ICAxIC0KIGFyY2gvYXJtL21hY2gtczNjNjR4eC9tYWNoLXNtYXJ0cS5j
-ICAgICAgIHwgIDEgLQogYXJjaC9hcm0vbWFjaC1zM2M2NHh4L21hY2gtc21kazY0MTAuYyAgICAg
-fCAgMiArLQogYXJjaC91bmljb3JlMzIva2VybmVsL3B1djMtbmIwOTE2LmMgICAgICAgfCAgMSAt
-CiBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9wd21fYmwuYyAgICAgICAgICB8IDE5IC0tLS0tLS0t
-LS0tLS0tLS0tLS0KIGluY2x1ZGUvbGludXgvcHdtX2JhY2tsaWdodC5oICAgICAgICAgICAgIHwg
-IDIgLS0KIDI2IGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDQ5IGRlbGV0aW9ucygt
-KQogCi0tIApMZWUgSm9uZXMgW+adjueQvOaWr10KTGluYXJvIFNlcnZpY2VzIFRlY2huaWNhbCBM
-ZWFkCkxpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBUk0gU29DcwpGb2xs
-b3cgTGluYXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+> Hi,
+>
+> On 3/18/20 3:38 PM, Simon Ser wrote:
+> > Hi,
+> >
+> >> 1) Letting the VM-viewer window-system draw the cursor as it normally
+> >> would draw it.
+> >
+> > Why is this important? Can't the VM viewer hide the cursor and use a
+> > sub-surface to manually draw the cursor plane configured by the guest?
+>
+> Because then moving the cursor as seen by the user requires a round trip
+> through the VM and that adds latency, esp. when the VM viewer is viewing
+> a VM which is running somewhere else over the network.
+
+The video output has latency anyway. Using the host cursor will make
+the primary plane and cursor plane desynchronized.
+
+> Also note that a subsurface is a Wayland specific solution, where as
+> the VM-viewer may be running on X11, Windows, Mac OS, etc.
+
+I'm sure other window systems have similar solutions. You could always
+blend the cursor yourself.
+
+> > This would also allow the compositor running inside the VM to correctly
+> > have control over the cursor position, which is necessary for pointer
+> > constraints.
+>
+> Vms basically have 2 mouse modes:
+>
+> 1) Seamless, this works well for all apps which don't do weird things
+> with the cursor. This is what 99% of users want
+>
+> 2) Grab/confine the mouse on the first click inside the VM-viewer window
+> and constantly warp it to the center so that it can move "endlessly"
+> combined with drawing the VM's mouse cursor as a software sprite.
+>
+> Combined with a special key combo to release the cursor and allow it
+> to leave the VM window in case the user wants to interact with anything
+> else on their desktop. AKA the "this user experience sucks" mode which
+> sometimes is necessary for guests which don't support absolute input
+> coordinates, or for special use cases.
+>
+> Mode 2. can be used in case of apps inside the guest which want need
+> to constrain the pointer to stay inside a part-of the vm-viewer window,
+> note that the most prominent example of such apps are VM-viewer's
+> themselves and the whole purpose of seamless mode is to not need this
+> less then ideal user experience mode.
+
+If you don't care about synchronization and breaking pointer constraints
+in the guest, yes a new KMS plane property will be required. This sure
+sounds like abusing the KMS interface though.
+
+> Anyways as I mentioned in the p.s. to my original mail already, this
+> is exactly NOT the kind of feedback I'm looking for. Seamless mode
+> exists, it has done so for at least a decade, probably a lot longer.
+>
+> It works everywhere, across multiple platforms and hypervisors,
+> except with the KMS atomic API. The need to set hotspot coordinates
+> is not something which is up to discussion from my pov. What is up
+> for discussion is how to extend the KMS atomic API to allow this.
+
+That's not how it works.
+
+I'm sorry to say that, but I don't think asking a project to support a
+feature just because you want that feature is a good mind set. You'll
+need to convince people maintaining the project that adding the feature
+is a good idea whether you like it or not.
+
+A new feature is always up for discussion. Atomic KMS is missing the
+feature, and this can't be seen as a regression, because it never had
+the feature.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
