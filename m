@@ -1,29 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0BED18AE06
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 09:09:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0770A18ADF9
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 09:09:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49B066E9B1;
-	Thu, 19 Mar 2020 08:09:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C52A6E286;
+	Thu, 19 Mar 2020 08:08:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id 149786E92C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 16:55:21 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id 0F27580B6;
- Wed, 18 Mar 2020 16:56:06 +0000 (UTC)
-Date: Wed, 18 Mar 2020 09:55:17 -0700
-From: Tony Lindgren <tony@atomide.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: linux-next: manual merge of the drm tree with the omap tree
-Message-ID: <20200318165517.GO37466@atomide.com>
-References: <20200318135034.242d9edf@canb.auug.org.au>
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E8EA89BF0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 20:11:14 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id u68so80722pfb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 13:11:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uyesW/I7eVgVyicQueL0CdgpIWranWUqdWTYkhPayEw=;
+ b=buSa8RvhjkGTpbBdwHw59o+jZbhgGKbLiBhfH2emwRGZx+wImu/ULynC+CYcg4rbnN
+ 7u/sZ5xGCoq+T5kYpewP2vLW85uO1fq4YujHF493zxwEabsXuLVHqEVBgMO0yperyLOQ
+ AtTa0SNg0Vpxa9cnuaCRmnDgdd6OUlcFvuwrqY2yQKESkO6+71cCLK0W7op0OVEM+m71
+ bmHlAQZyTzrYwa9K+oAbP/9IT2f1hX4tKoj3P+qQzuyNSpl9vHmuXGkCkfMgsGFs75PI
+ mWxN19hhTjPvb5ClZNqP2xO8sPSOSOpXKlWhnpcOAQxMrQLi1lorTBOjOJgOlh1AkNit
+ ImZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uyesW/I7eVgVyicQueL0CdgpIWranWUqdWTYkhPayEw=;
+ b=Q3kn9/6X4kfuJeVdkPVa58wwtQG33sZrWGhIyQpXv2GsyZ7efT79cKdcdRM7rvc1JA
+ 0CVKYExR06GlDo8xgL+/se8f9FvFnMavZbvtE7ouE12XTauxSni8mGcXvpX165wuthai
+ otwATd2UDu/tOZ3X6nE9YciEURnL368bQnuFpUHutDHg/KPkDRDYiLyLGIlqqts6yofn
+ VE+bpn/r+Pn7xf1RBpYKDGPHjjDIuYvBCRETUlA4YGqlOqLeLjeyIMIO5bAhT8fAeut7
+ MJ/VIm13V1nsUBUDlfW4p/sWOXN/VVsDE+ZtO2iz0/qW80iJiWNQgkKxjTqpHXGi4bvp
+ K5OA==
+X-Gm-Message-State: ANhLgQ31DBZeNSPXJ2Kebn/XtXLs6lo1SM05eFJsDBN86CW3mZYF/AXg
+ qnIDxPmCUvW0NEk/ZGmjcjt//xMCI55uc85D6CI8XQ==
+X-Google-Smtp-Source: ADFU+vsvmlakcRCCZHYwnyZMgY3Y37TRHQ0ECfXdqwlx7G77wz0frDIB6p4cU0iSRnIO6PsnQPSCLbvLu8yOZe6YOM8=
+X-Received: by 2002:a63:4d6:: with SMTP id 205mr6229525pge.10.1584562273205;
+ Wed, 18 Mar 2020 13:11:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200318135034.242d9edf@canb.auug.org.au>
+References: <20200318002500.52471-1-natechancellor@gmail.com>
+In-Reply-To: <20200318002500.52471-1-natechancellor@gmail.com>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Wed, 18 Mar 2020 13:11:00 -0700
+Message-ID: <CAKwvOdkzdBYgixrSKKfo7=god4Q0GaMORmFWUfrJ27JiGhBx2Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Initialize shadow to false in
+ gfx_v9_0_rlcg_wreg
+To: Nathan Chancellor <natechancellor@gmail.com>
 X-Mailman-Approved-At: Thu, 19 Mar 2020 08:08:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -37,62 +62,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ clang-built-linux <clang-built-linux@googlegroups.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Stephen Rothwell <sfr@canb.auug.org.au> [200318 02:51]:
-> Hi all,
-> 
-> Today's linux-next merge of the drm tree got a conflict in:
-> 
->   arch/arm/configs/omap2plus_defconfig
-> 
-> between commit:
-> 
->   98c2cc359f8f ("ARM: omap2plus_defconfig: Update for moved and dropped options")
-> 
-> from the omap tree and commit:
-> 
->   e7e67d9a2f1d ("drm/omap: Switch the HDMI and VENC outputs to drm_bridge")
-> 
-> from the drm tree.
-> 
-> I fixed it up (see below) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
+On Tue, Mar 17, 2020 at 5:25 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> clang warns:
+>
+> drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:754:6: warning: variable 'shadow'
+> is used uninitialized whenever 'if' condition is
+> false [-Wsometimes-uninitialized]
+>         if (offset == grbm_cntl || offset == grbm_idx)
+>             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:757:6: note: uninitialized use
+> occurs here
+>         if (shadow) {
+>             ^~~~~~
+> drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:754:2: note: remove the 'if' if
+> its condition is always true
+>         if (offset == grbm_cntl || offset == grbm_idx)
+>         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:738:13: note: initialize the
+> variable 'shadow' to silence this warning
+>         bool shadow;
+>                    ^
+>                     = 0
+> 1 warning generated.
+>
+> It is not wrong so initialize shadow to false to ensure shadow is always
+> used initialized.
 
-OK thanks!
+Yep, thanks for the patch.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Tony
+>
+> Fixes: 2e0cc4d48b91 ("drm/amdgpu: revise RLCG access path")
+> Link: https://github.com/ClangBuiltLinux/linux/issues/936
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> index 7bc2486167e7..affbff76758c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> @@ -735,7 +735,7 @@ void gfx_v9_0_rlcg_wreg(struct amdgpu_device *adev, u32 offset, u32 v)
+>         static void *spare_int;
+>         static uint32_t grbm_cntl;
+>         static uint32_t grbm_idx;
+> -       bool shadow;
+> +       bool shadow = false;
+>
+>         scratch_reg0 = adev->rmmio + (adev->reg_offset[GC_HWIP][0][mmSCRATCH_REG0_BASE_IDX] + mmSCRATCH_REG0)*4;
+>         scratch_reg1 = adev->rmmio + (adev->reg_offset[GC_HWIP][0][mmSCRATCH_REG1_BASE_IDX] + mmSCRATCH_REG1)*4;
+> --
+> 2.26.0.rc1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200318002500.52471-1-natechancellor%40gmail.com.
 
 
-> diff --cc arch/arm/configs/omap2plus_defconfig
-> index eedb26ff93f9,54f1a21de7e0..000000000000
-> --- a/arch/arm/configs/omap2plus_defconfig
-> +++ b/arch/arm/configs/omap2plus_defconfig
-> @@@ -360,10 -353,10 +360,9 @@@ CONFIG_OMAP2_DSS_DSI=
->   CONFIG_DRM_OMAP_PANEL_DSI_CM=m
->   CONFIG_DRM_TILCDC=m
->   CONFIG_DRM_PANEL_SIMPLE=m
-> + CONFIG_DRM_DISPLAY_CONNECTOR=m
-> + CONFIG_DRM_SIMPLE_BRIDGE=m
->  -CONFIG_DRM_TI_TFP410=m
-> + CONFIG_DRM_TI_TPD12S015=m
->   CONFIG_DRM_PANEL_LG_LB035Q02=m
->   CONFIG_DRM_PANEL_NEC_NL8048HL11=m
->   CONFIG_DRM_PANEL_SHARP_LS037V7DW01=m
 
-
+-- 
+Thanks,
+~Nick Desaulniers
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
