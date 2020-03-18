@@ -1,67 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6FC1893E8
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 03:08:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D021893F2
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 03:17:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D9A86E855;
-	Wed, 18 Mar 2020 02:08:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7CC06E1B1;
+	Wed, 18 Mar 2020 02:17:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F38286E03A
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 02:08:48 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id a20so29157662edj.2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 19:08:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
+ [IPv6:2607:f8b0:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAC256E1B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 02:17:53 +0000 (UTC)
+Received: by mail-oi1-x234.google.com with SMTP id x5so6380115oic.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Mar 2020 19:17:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KtCtESfP2RJ+UQlTlsgfDLNuleLeMxvn/M3hDuKDuVA=;
- b=iJncB9kDMcFuKy8eH656PL3+cXSsYGca9R2gvOHn2e1PEsamTeIU5Um3/AGbAuHmu2
- NP69qsPm0RFg3dCBe0i8KGVJmw4h9RutvvbOgk2H88l3uyWOhz1jmEJs9b/Fg+7bMOV0
- IqWQz+RTuT3Ixy1Gr6juLU5w8zXQoJsXZmY6qh2STjKg3yruTJwNG2+R4Nioug7y/0NG
- UIipgHUMk03uCmZQfzQzku2isIkCNnF6Ii1zMpcG3uLbPTdw9E+et7mQcfSsjGmYOTIa
- 4B4ylrN1BnKAvDVe++cmKV7cotGNugP7L353v8/rNcI/IIhTTsQTmpdiZqua8tSl99UO
- RNYA==
+ :cc:content-transfer-encoding;
+ bh=XU33WwkXD0BKNUHEBeawwcVOr7NO52b7Q9Wfl473unU=;
+ b=Eri3E0pc00RVqx53R/HGK7DIWlYIeCFq9X9hhmYugYpj3BXDspzYH021PskOCK576g
+ tzzh3/2dMPpMFSbHzmyAwoJNexW32vC9cyM0bu7sJ0RYOcbEIBbjl1V8kqnp6OUEm7tN
+ ZS+fTuyiWHJNopNYxx3X21AfDg8EZt1OXcFimEye5KYcHopkdnOlQDSNY3SDGqePGsQ2
+ nQBMcj4nJn52d4LoAD9LxnH2Ug7/tPmuw7Jco0EKmx3OgnG3wy89hwVK3pt2TQ7xvEwn
+ /HkKDNaelKAZ67mtT4wA7F/kLwrsv2eK922LmcAuguIpZBO+VeyMTWRxvP8md/0vvK0r
+ p++g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KtCtESfP2RJ+UQlTlsgfDLNuleLeMxvn/M3hDuKDuVA=;
- b=LlXGA1K/eIscclnzopSOp+olu53LouiHeCtmDGjYyR0/NRTwajL/79SLlQgKFVTu3D
- VYzmSXyp6jvyozYINPOR+6LDQP1HymVKeXUDrd7TOWj7q7cQNZj3Ru9jQBRdlbVfX1OM
- jp6Al1fWqx89Ag2WK2nQvSgnlx8dSn1U+AZ8pscimFKiDv4oT2FB6Un9CIPhI9AiyAg1
- oY+DYk0XLZQIbv45GwVYRTgB+R1UucIK65rD9fK9KLNwirdW17tHp84UQfehX8jcgSzR
- XqmRO1n7r2L6Pilc0d3k2cli8cxHVg9cQI/gzR8DdQEovcz8K9EbGnJKkcao+H5DK02l
- UGfQ==
-X-Gm-Message-State: ANhLgQ2OBjVtlsW9zAO5X+Uqnkhe+F8hKO3SenDenmZx8gkkoHgxPjBl
- D+wpku3stuFR+MuH+Cj4EAPCKPKQkRb2wYpmDzMCYw==
-X-Google-Smtp-Source: ADFU+vvV879DJuRGC0jOx87R5v3zXTm9Oujnnjf+ruLLjoLML15NWofQWkwPHN/olW8IhOFsKgIDp2tJMAADasGvZ9o=
-X-Received: by 2002:aa7:d585:: with SMTP id r5mr1595130edq.241.1584497327435; 
- Tue, 17 Mar 2020 19:08:47 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=XU33WwkXD0BKNUHEBeawwcVOr7NO52b7Q9Wfl473unU=;
+ b=Krsmy/fnQyP7f1LyOVXnOsjFpVSPhXKnOTWaK0dv7VKOOvu6rV9g7bOtt+F1IvNRh1
+ raKmypqwKauFUp8T8b6GoKx/hISn6o3Tmt4BOuNAdah1W7IBJO7v1IENI9ko4sn5xrKu
+ rgeBjwCHckabTo5Kd5dVHSNnI901gPEWmCZPGpXmZj2kRF05+fgy9qL9s11rTD7XPGgV
+ KxMLnLTV6f3m4FgxD5l+wQP8Qw9IiNrkbr43xbo5oyRVLJ3YSS5WSojY693vHQkUKqpT
+ MUdxzJB+Y8SGTTUalXU1EKTiUB6NMqFp0JVOZe1fy3lgatZ4qyNzrMyf88BHXu7SAM4M
+ LZGQ==
+X-Gm-Message-State: ANhLgQ2OxWJUiaSpgUYs2knnPuqMeppFNSnjOgp+KNTrbVG8jV+XjFJ5
+ KCg9gZjCED85gkVHoi/UDtNMa5mZzOMO3RwgDfE=
+X-Google-Smtp-Source: ADFU+vuDta7z67KicNE0COfJQoW2Bh+5Qz71x/Iv2ZlzgKYwAzyvni/PHNYSIGFyNfrtXaEGft/iuWTUjt3sZla0yHc=
+X-Received: by 2002:aca:f0d7:: with SMTP id o206mr1441237oih.41.1584497872923; 
+ Tue, 17 Mar 2020 19:17:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
- <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca>
- <20200316102034.GA30883@pendragon.ideasonboard.com>
- <CAOFGe95JUUBCuE=dWKtZVXjTLqxyf2oybpqAZ7hZhpBEKQ=Y-Q@mail.gmail.com>
- <20200316211502.GW4732@pendragon.ideasonboard.com>
- <74477a20fa78758dd6cf8c32d7a77d1cccf2646f.camel@ndufresne.ca>
- <CAOFGe963WUB+rkA=FURuXEk6BVjsP18yk4sJ3y_7VxKmscShrA@mail.gmail.com>
- <CAC2bXD5qJgT9sWJgL_ej5OY42a-xzYaeLrwioKUreQuPJ1idpg@mail.gmail.com>
- <3e522876ec0287b69483c65aa1e7ba1ded536ec6.camel@lynxeye.de>
- <CAC2bXD6f2LiJ9_S0V8gZdrczRzH8oNqyLprzzFnGYTMzGe5gUQ@mail.gmail.com>
- <949b8373908a9895e97981e872d6e35dcaaba632.camel@lynxeye.de>
- <CAC2bXD5+KwBXBo-qHWkGw+=cH_AytwS=jeDGbskXcmO0rfsREw@mail.gmail.com>
-In-Reply-To: <CAC2bXD5+KwBXBo-qHWkGw+=cH_AytwS=jeDGbskXcmO0rfsREw@mail.gmail.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Tue, 17 Mar 2020 21:08:36 -0500
-Message-ID: <CAOFGe94gmWZOA7sB0jDXoZyj=i1id25gR2-kX87GA+fB=AJ2RQ@mail.gmail.com>
-Subject: Re: [Mesa-dev] Plumbing explicit synchronization through the Linux
- ecosystem
-To: Jacob Lifshay <programmerjake@gmail.com>
+References: <CGME20200316010443epcas1p33627ec18d70b980b7a5c943de8cfa07d@epcas1p3.samsung.com>
+ <1584320957-9442-1-git-send-email-inki.dae@samsung.com>
+In-Reply-To: <1584320957-9442-1-git-send-email-inki.dae@samsung.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 18 Mar 2020 12:17:41 +1000
+Message-ID: <CAPM=9tzrQM4CiFNZDmyDFLC7ODyZVD-O9vmiJw4myPmz3HoAEA@mail.gmail.com>
+Subject: Re: [GIT PULL] exynos-drm-next
+To: Inki Dae <inki.dae@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,72 +62,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, xorg-devel <xorg-devel@lists.x.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "wayland-devel @ lists . freedesktop . org"
- <wayland-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Discussion of the development of and with GStreamer
- <gstreamer-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 17, 2020 at 7:16 PM Jacob Lifshay <programmerjake@gmail.com> wrote:
->
-> On Tue, Mar 17, 2020 at 11:14 AM Lucas Stach <dev@lynxeye.de> wrote:
-> >
-> > Am Dienstag, den 17.03.2020, 10:59 -0700 schrieb Jacob Lifshay:
-> > > I think I found a userspace-accessible way to create sync_files and
-> > > dma_fences that would fulfill the requirements:
-> > > https://github.com/torvalds/linux/blob/master/drivers/dma-buf/sw_sync.c
-> > >
-> > > I'm just not sure if that's a good interface to use, since it appears
-> > > to be designed only for debugging. Will have to check for additional
-> > > requirements of signalling an error when the process that created the
-> > > fence is killed.
-
-It is expressly only for debugging and testing.  Exposing such an API
-to userspace would break the finite time guarantees that are relied
-upon to keep sync_file a secure API.
-
-> > Something like that can certainly be lifted for general use if it makes
-> > sense. But then with a software renderer I don't really see how fences
-> > help you at all. With a software renderer you know exactly when the
-> > frame is finished and you can just defer pushing it over to the next
-> > pipeline element until that time. You won't gain any parallelism by
-> > using fences as the CPU is busy doing the rendering and will not run
-> > other stuff concurrently, right?
->
-> There definitely may be other hardware and/or processes that can
-> process some stuff concurrently with the main application, such as the
-> compositor and or video encoding processes (for video capture).
-> Additionally, from what I understand, sync_file is the standard way to
-> export and import explicit synchronization between processes and
-> between drivers on Linux, so it seems like a good idea to support it
-> from an interoperability standpoint even if it turns out that there
-> aren't any scheduling/timing benefits.
-
-There are different ways that one can handle interoperability,
-however.  One way is to try and make the software rasterizer look as
-much like a GPU as possible:  lots of threads to make things as
-asynchronous as possible, "real" implementations of semaphores and
-fences, etc.  Another is to let a SW rasterizer be a SW rasterizer: do
-everything immediately, thread only so you can exercise all the CPU
-cores, and minimally implement semaphores and fences well enough to
-maintain compatibility.  If you take the first approach, then we have
-to solve all these problems with letting userspace create unsignaled
-sync_files which it will signal later and figure out how to make it
-safe.  If you take the second approach, you'll only ever have to
-return already signaled sync_files and there's no problem with the
-sync_file finite time guarantees.
-
---Jason
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBzZWVtcyB0byBjb250YWluIGEgZXh5bm9zIGRybSBmaXhlcyBiYWNrbWVyZ2UsIHBsZWFz
+ZSBkb24ndCBkbwp0aGF0IHdpdGhvdXQgYSBoZWFkc3VwLgoKQ2FuIHlvdSBzZW5kIG9uZSB3aXRo
+b3V0IHRoYXQgb3IgZG8geW91IG5lZWQgYSBmaXhlcyBiYWNrbWVyZ2UsIGlmIHNvCnBsZWFzZSBy
+ZXF1ZXN0IG1lIHRvIGRvIHRoYXQgZmlyc3QsIHRoZW4gcmViYXNlIHRoaXMgYW5kIHNlbmQgaXQu
+CgpEYXZlLgoKT24gTW9uLCAxNiBNYXIgMjAyMCBhdCAxMTowNCwgSW5raSBEYWUgPGlua2kuZGFl
+QHNhbXN1bmcuY29tPiB3cm90ZToKPgo+ICAgICAgICAgSnVzdCB0d28gY2xlYW51cHMgLSBvbmUg
+aXMgdG8gbWFzayBlbmNvZGVyIGJpdG1hc2sgdXNpbmcKPiAgICAgICAgIGRybV9lbmNvZGVyX21h
+c2soKSwgYW5kIG90aGVyIGlzIHRvIHVzZSBtb2RlLT5jbG9jawo+ICAgICAgICAgaW5zdGVhZCBv
+ZiBjYWxjdWxhdGluZyBpdCBhZ2Fpbi4KPgo+ICAgICAgICAgUGxlYXNlIGtpbmRseSBsZXQgbWUg
+a25vdyBpZiB0aGVyZSBpcyBhbnkgcHJvYmxlbS4KPgo+IFRoYW5rcywKPiBJbmtpIERhZQo+Cj4g
+VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCA2OWRkY2UwOTcwZDlkMWRlNjNiZWQ5
+YzI0ZWVmYTA4MTRkYjI5YTVhOgo+Cj4gICBNZXJnZSB0YWcgJ2FtZC1kcm0tbmV4dC01LjctMjAy
+MC0wMy0xMCcgb2YgZ2l0Oi8vcGVvcGxlLmZyZWVkZXNrdG9wLm9yZy9+YWdkNWYvbGludXggaW50
+byBkcm0tbmV4dCAoMjAyMC0wMy0xMyAwOTowOToxMSArMTAwMCkKPgo+IGFyZSBhdmFpbGFibGUg
+aW4gdGhlIGdpdCByZXBvc2l0b3J5IGF0Ogo+Cj4gICBnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIv
+c2NtL2xpbnV4L2tlcm5lbC9naXQvZGFlaW5raS9kcm0tZXh5bm9zIHRhZ3MvZXh5bm9zLWRybS1u
+ZXh0LWZvci12NS43Cj4KPiBmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gMGM5YTYwOWNh
+NDQ0Mjk4ZTQzOGVlOWM2ZGFhZjUzYzE0Mjc3ZjFhZDoKPgo+ICAgZHJtL2V4eW5vczogVXNlIG1v
+ZGUtPmNsb2NrIGluc3RlYWQgb2YgcmV2ZXJzZSBjYWxjdWxhdGluZyBpdCBmcm9tIHRoZSB2cmVm
+cmVzaCAoMjAyMC0wMy0xNiAwOTo1MDoyOCArMDkwMCkKPgo+IC0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiBUd28gY2xlYW51
+cHMKPiAuIFJlcGxhY2UgdGhlIGhhbmQgcm9sbGVkIGVuY29kZXIgYml0bWFzayB0aGluZyB3aXRo
+IGRybV9lbmNvZGVyX21hc2soKQo+IC4gVXNlIG1vZGUtPmNsb2NrIGluc3RlYWQgb2YgcmV2ZXJz
+ZSBjYWxjdWxhdGluZyBpdCBmcm9tIHRoZSB2cmVmcmVzaAo+Cj4gLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+IElua2kgRGFl
+ICgxKToKPiAgICAgICBNZXJnZSB0YWcgJ2V4eW5vcy1kcm0tZml4ZXMtZm9yLXY1LjYtcmM1LXYy
+JyBvZiBnaXQ6Ly9naXQua2VybmVsLm9yZy8uLi4vZGFlaW5raS9kcm0tZXh5bm9zIGludG8gZXh5
+bm9zLWRybS1uZXh0Cj4KPiBNYXJlayBTenlwcm93c2tpICgxKToKPiAgICAgICBkcm0vZXh5bm9z
+OiBGaXggY2xlYW51cCBvZiBJT01NVSByZWxhdGVkIG9iamVjdHMKPgo+IFZpbGxlIFN5cmrDpGzD
+pCAoMik6Cj4gICAgICAgZHJtL2V4eW5vczogVXNlIGRybV9lbmNvZGVyX21hc2soKQo+ICAgICAg
+IGRybS9leHlub3M6IFVzZSBtb2RlLT5jbG9jayBpbnN0ZWFkIG9mIHJldmVyc2UgY2FsY3VsYXRp
+bmcgaXQgZnJvbSB0aGUgdnJlZnJlc2gKPgo+ICBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5v
+czU0MzNfZHJtX2RlY29uLmMgfCAgNSArKystLQo+ICBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4
+eW5vczdfZHJtX2RlY29uLmMgICAgfCAgNyArKysrLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9leHlu
+b3MvZXh5bm9zX2RybV9kbWEuYyAgICAgICB8IDI4ICsrKysrKysrKysrKysrKysrKy0tLS0tLS0t
+LQo+ICBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZHJ2LmMgICAgICAgfCAgNSAr
+Ky0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZHJ2LmggICAgICAgfCAg
+NiArKysrLS0KPiAgZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2ZpbWMuYyAgICAg
+IHwgIDUgKysrLS0KPiAgZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2ZpbWQuYyAg
+ICAgIHwgIDUgKysrLS0KPiAgZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2cyZC5j
+ICAgICAgIHwgIDUgKysrLS0KPiAgZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2dz
+Yy5jICAgICAgIHwgIDUgKysrLS0KPiAgZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJt
+X3JvdGF0b3IuYyAgIHwgIDUgKysrLS0KPiAgZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3Nf
+ZHJtX3NjYWxlci5jICAgIHwgIDYgKysrKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5
+bm9zX21peGVyLmMgICAgICAgICB8ICA3ICsrKysrLS0KPiAgMTIgZmlsZXMgY2hhbmdlZCwgNTYg
+aW5zZXJ0aW9ucygrKSwgMzMgZGVsZXRpb25zKC0pCj4gX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
