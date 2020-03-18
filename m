@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A309518A130
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 18:10:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BBAF18A133
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 18:10:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12C5F6E2B1;
-	Wed, 18 Mar 2020 17:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 454666E2B2;
+	Wed, 18 Mar 2020 17:10:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A6526E2B1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 17:10:16 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id a23so11468889plm.1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 10:10:16 -0700 (PDT)
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C56C66E2B2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 17:10:20 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id g2so8947779plo.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 10:10:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=5yGwpkpoYCkSquYVMeNxifwEPM4Bj0EGc5XBk9JmOnY=;
- b=ozhfUHCHlEf6euXtb3Jfivrf6Bwe0s46ELrjWpUnUtwxM+h4cWvJyGuMlLbyn8MZJd
- WgDPZzUU3LmcVpvf3aPcipNYySomfF6tgvOcD2KZlukUpLEjLHwS8SttdnNte2HKvhd5
- f+BULZfA/fum0Dwde4TB1Cp+PEpwYJsjgUga0=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=v1txo4F9ZHXDlpSvCzNI2rmeFwQMzudpOKzit+Mhtr4=;
+ b=BNQi3+WWW1X/Utl0cCgSjK1sOWY3vEw8v40vKUlsDIvCNT1rmyOP82HQE9iL5nPsw1
+ BGTZRUAFdUvdIu7F0G92uMbXjKy+dfaipOiw63ksciL2ucX8+RcYbHB+trAE2wcKin4l
+ hzZzBZ1h6WJNu1n7VUlx3ux6GxUOLTnwCcQUE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=5yGwpkpoYCkSquYVMeNxifwEPM4Bj0EGc5XBk9JmOnY=;
- b=JFJEUiVn2Y7meG4H5veXT3rFUu5EqvrFAev4x4/YZeSh6MupqWeAR1Jy/hedpGydJM
- 3Iv9Vge0raBaLkIfFui6pGHXyN0OuvuHBTP7xByAO09N9iKu8Ul1uQfw37HyqLFP6otP
- djKLETRkZ6+dqkv+vlWnnMqItFXwrTqkc9ToD9xGJy9PaIKlqwUrK6rFDbIPNWHrrvGv
- +nKeyzYbM+YTkmonBC+ICf1uiU5TUdBjlTRIBAfsw7i3TZDuNG0X36S7SU3oc2YUPFWg
- zZ6EUUvGuSmUqFsPANRDTG7otDKO+IX7bvxIpw9Se4iPcu6p2782TPxWbP7uIK8iOBIG
- ZgtQ==
-X-Gm-Message-State: ANhLgQ2Xily2Zd5C1m2LSAm46OnDll2NEsSs6L2WAr1bftTn0VNZta1W
- oVJg7aSxqSb86TJXWDVxy3wsQQ==
-X-Google-Smtp-Source: ADFU+vs3pSg26MKGy0NO8bdDWzIPM310TMVJ0NBjABdW+8L95EeeR/4QVc5b3LfZCCwn0EU2UMO0lA==
-X-Received: by 2002:a17:902:9f87:: with SMTP id
- g7mr4757669plq.32.1584551415991; 
- Wed, 18 Mar 2020 10:10:15 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=v1txo4F9ZHXDlpSvCzNI2rmeFwQMzudpOKzit+Mhtr4=;
+ b=rU3hWMTPecuh1Zb95Gln58QhCbjVyYJvCZ28JFlGQ/GVUqMjuQl8hvKqC6K6SYFmxE
+ kOI/2InVEZ0zD9GLh6sMAASNQlUn98B1knecAqIfsjMgM6CrPh0UcR7K3zcy6aGxuy88
+ wZz6q9N05P1DnU7lFX5SWprHbFSLFBPEUVplwtxqipSTxViBePB1IqBJZ5aFwH7ulKc0
+ 70yL2l9UXIG/VSoEuoXiaSnNVimyKm0RLu1jFAgPkqW0qSzxFuRhMgaXQcbb/L6ptOB2
+ O797lZU1BI6y+f1ZjDXjTngw6rkORSAjWosBjaVpJ+rM7td0kWiSOJ7mHtNsYGeBGwHz
+ re7Q==
+X-Gm-Message-State: ANhLgQ1mzpswm75zU9/vT9SMBpn96egtBu4OwBHyglMUJBh4qw0zb2dI
+ LgX3eoNQ4j3J4VICFeOht0wPiw==
+X-Google-Smtp-Source: ADFU+vsJY5WZSXSIrsTt/Eo50ixmUTcpdqYddC8+qlo6uvDuwotxpF5Is8zBj6BT99cqQ1A3HiB/ng==
+X-Received: by 2002:a17:902:7b87:: with SMTP id
+ w7mr4994502pll.214.1584551420315; 
+ Wed, 18 Mar 2020 10:10:20 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c809:c7d5:1998:878c:c26e:b8be])
- by smtp.gmail.com with ESMTPSA id e6sm6443869pgu.44.2020.03.18.10.10.12
+ by smtp.gmail.com with ESMTPSA id e6sm6443869pgu.44.2020.03.18.10.10.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Mar 2020 10:10:15 -0700 (PDT)
+ Wed, 18 Mar 2020 10:10:19 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 1/3] dt-bindings: display: panel: Convert feiyang,
- fy07024di26a30d to DT schema
-Date: Wed, 18 Mar 2020 22:40:01 +0530
-Message-Id: <20200318171003.5179-1-jagan@amarulasolutions.com>
+Subject: [PATCH v2 2/3] dt-bindings: display: panel: Convert sitronix,
+ st7701 to DT schema
+Date: Wed, 18 Mar 2020 22:40:02 +0530
+Message-Id: <20200318171003.5179-2-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200318171003.5179-1-jagan@amarulasolutions.com>
+References: <20200318171003.5179-1-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,74 +75,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the feiyang,fy07024di26a30d panel bindings to DT schema.
+Convert the sitronix,st7701 panel bindings to DT schema.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v2:
 - fix dt_binding_check 
 
- .../display/panel/feiyang,fy07024di26a30d.txt | 20 -------
- .../panel/feiyang,fy07024di26a30d.yaml        | 57 +++++++++++++++++++
- 2 files changed, 57 insertions(+), 20 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+ .../display/panel/sitronix,st7701.txt         | 30 --------
+ .../display/panel/sitronix,st7701.yaml        | 68 +++++++++++++++++++
+ 2 files changed, 68 insertions(+), 30 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
+diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
 deleted file mode 100644
-index 82caa7b65ae8..000000000000
---- a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
+index ccd17597f1f6..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
 +++ /dev/null
-@@ -1,20 +0,0 @@
--Feiyang FY07024DI26A30-D 7" MIPI-DSI LCD Panel
+@@ -1,30 +0,0 @@
+-Sitronix ST7701 based LCD panels
+-
+-ST7701 designed for small and medium sizes of TFT LCD display, is
+-capable of supporting up to 480RGBX864 in resolution. It provides
+-several system interfaces like MIPI/RGB/SPI.
+-
+-Techstar TS8550B is 480x854, 2-lane MIPI DSI LCD panel which has
+-inbuilt ST7701 chip.
 -
 -Required properties:
--- compatible: must be "feiyang,fy07024di26a30d"
--- reg: DSI virtual channel used by that screen
--- avdd-supply: analog regulator dc1 switch
--- dvdd-supply: 3v3 digital regulator
+-- compatible: must be "sitronix,st7701" and one of
+-  * "techstar,ts8550b"
 -- reset-gpios: a GPIO phandle for the reset pin
+-
+-Required properties for techstar,ts8550b:
+-- reg: DSI virtual channel used by that screen
+-- VCC-supply: analog regulator for MIPI circuit
+-- IOVCC-supply: I/O system regulator
 -
 -Optional properties:
 -- backlight: phandle for the backlight control.
 -
 -panel@0 {
--	compatible = "feiyang,fy07024di26a30d";
+-	compatible = "techstar,ts8550b", "sitronix,st7701";
 -	reg = <0>;
--	avdd-supply = <&reg_dc1sw>;
--	dvdd-supply = <&reg_dldo2>;
+-	VCC-supply = <&reg_dldo2>;
+-	IOVCC-supply = <&reg_dldo2>;
 -	reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
 -	backlight = <&backlight>;
 -};
-diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
 new file mode 100644
-index 000000000000..f292c57a5bd6
+index 000000000000..e02686dfd937
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
-@@ -0,0 +1,57 @@
++++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+@@ -0,0 +1,68 @@
 +# SPDX-License-Identifier: (GPL-2.0+ OR X11)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/panel/feiyang,fy07024di26a30d.yaml#
++$id: http://devicetree.org/schemas/display/panel/sitronix,st7701.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Feiyang FY07024DI26A30-D 7" MIPI-DSI LCD Panel
++title: Sitronix ST7701 based LCD panels
 +
 +maintainers:
 +  - Jagan Teki <jagan@amarulasolutions.com>
 +
++description: |
++  ST7701 designed for small and medium sizes of TFT LCD display, is
++  capable of supporting up to 480RGBX864 in resolution. It provides
++  several system interfaces like MIPI/RGB/SPI.
++
++  Techstar TS8550B is 480x854, 2-lane MIPI DSI LCD panel which has
++  inbuilt ST7701 chip.
++
 +properties:
 +  compatible:
-+    const: feiyang,fy07024di26a30d
++    items:
++      - enum:
++          - techstar,ts8550b
++      - const: sitronix,st7701
 +
 +  reg:
 +    description: DSI virtual channel used by that screen
 +
-+  avdd-supply:
-+    description: analog regulator dc1 switch
++  VCC-supply:
++    description: analog regulator for MIPI circuit
 +
-+  dvdd-supply:
-+    description: 3v3 digital regulator
++  IOVCC-supply:
++    description: I/O system regulator
 +
 +  reset-gpios:
 +    description: a GPIO phandle for the reset pin
@@ -151,8 +175,8 @@ index 000000000000..f292c57a5bd6
 +required:
 +  - compatible
 +  - reg
-+  - avdd-supply
-+  - dvdd-supply
++  - VCC-supply
++  - IOVCC-supply
 +  - reset-gpios
 +
 +additionalProperties: false
@@ -166,10 +190,10 @@ index 000000000000..f292c57a5bd6
 +        #size-cells = <0>;
 +
 +        panel@0 {
-+            compatible = "feiyang,fy07024di26a30d";
++            compatible = "techstar,ts8550b", "sitronix,st7701";
 +            reg = <0>;
-+            avdd-supply = <&reg_dc1sw>;
-+            dvdd-supply = <&reg_dldo2>;
++            VCC-supply = <&reg_dldo2>;
++            IOVCC-supply = <&reg_dldo2>;
 +            reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
 +            backlight = <&backlight>;
 +        };
