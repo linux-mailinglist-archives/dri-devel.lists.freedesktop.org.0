@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3CC189A1B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 12:00:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7919F189A48
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 12:09:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A4BD6E8BF;
-	Wed, 18 Mar 2020 11:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB09E6E8B9;
+	Wed, 18 Mar 2020 11:09:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 029D26E8BF
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 11:00:24 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id C3E4A20025;
- Wed, 18 Mar 2020 12:00:15 +0100 (CET)
-Date: Wed, 18 Mar 2020 12:00:14 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v1 08/36] dt-bindings: display: convert
- feiyang,fy07024di26a30d to DT Schema
-Message-ID: <20200318110014.GA14940@ravnborg.org>
-References: <20200315134416.16527-1-sam@ravnborg.org>
- <20200315134416.16527-9-sam@ravnborg.org>
- <CAMty3ZD2kuD0nwWXDAD6R58Z2GFy1Ap7HfnEtYqwARQqs0nMfQ@mail.gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 519C06E8B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 11:09:45 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D8B9F9;
+ Wed, 18 Mar 2020 12:09:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1584529783;
+ bh=QJ6mWUIFDbMFgu2x8gYxaJIDZr94t35qCFtkJmmPQFo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fw/lhjuXtZwtXOXrSqMgvyab8mzxqjEKratQQAWK7t/qtoUgZDabzBfdp8Ga3pzaW
+ 9/n8twKw4vxgaong8FlTw13GuMXOkoKD6/AyaAcRstSb2PBMUwXp21VoGESVtA1Wf9
+ G6E6EVWAjayuslub85FrEbVvjNwC8E0/urXrOOdY=
+Date: Wed, 18 Mar 2020 13:09:37 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] drm/hisilicon: Drop unused #include
+Message-ID: <20200318110937.GA4733@pendragon.ideasonboard.com>
+References: <20200318073122.1032945-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAMty3ZD2kuD0nwWXDAD6R58Z2GFy1Ap7HfnEtYqwARQqs0nMfQ@mail.gmail.com>
+In-Reply-To: <20200318073122.1032945-1-daniel.vetter@ffwll.ch>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8
- a=P2wSyMO8yX5Niq4UQHAA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,46 +46,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
- Sandeep Panda <spanda@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
- Stefan Mavrodiev <stefan@olimex.com>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
- Nickey Yang <nickey.yang@rock-chips.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Robert Chiras <robert.chiras@nxp.com>,
- Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
- Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
- devicetree <devicetree@vger.kernel.org>, Guido Gunther <agx@sigxcpu.org>,
- Mark Brown <broonie@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
- Werner Johansson <werner.johansson@sonymobile.com>,
- Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
- linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Allison Randal <allison@lohutok.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan.
+Hi Daniel,
 
-On Wed, Mar 18, 2020 at 04:16:51PM +0530, Jagan Teki wrote:
-> Hi Sam Ravmborg,
+On Wed, Mar 18, 2020 at 08:31:22AM +0100, Daniel Vetter wrote:
+> drm_encoder_slave is really not something anyone should be using,
+> the last real user is only nouveau.
+
+Fully agreed.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Is there any plan to convert nouveau to drm_bridge ?
+
+> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Cc: Allison Randal <allison@lohutok.net>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> I send the series for panels which I worked already [1], would like to
-> send the next version for those. will that work for you?
-> 
-> [1] https://patchwork.kernel.org/cover/11315063/
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+> index f31068d74b18..d399c1077242 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+> +++ b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+> @@ -20,7 +20,6 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_device.h>
+> -#include <drm/drm_encoder_slave.h>
+>  #include <drm/drm_mipi_dsi.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_print.h>
 
-That would be great. Please do.
+-- 
+Regards,
 
-	Sam
-
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
