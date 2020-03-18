@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7919F189A48
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 12:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454BE189B72
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 12:56:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB09E6E8B9;
-	Wed, 18 Mar 2020 11:09:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1C7C6E8D4;
+	Wed, 18 Mar 2020 11:55:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 519C06E8B9
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 11:09:45 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D8B9F9;
- Wed, 18 Mar 2020 12:09:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1584529783;
- bh=QJ6mWUIFDbMFgu2x8gYxaJIDZr94t35qCFtkJmmPQFo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fw/lhjuXtZwtXOXrSqMgvyab8mzxqjEKratQQAWK7t/qtoUgZDabzBfdp8Ga3pzaW
- 9/n8twKw4vxgaong8FlTw13GuMXOkoKD6/AyaAcRstSb2PBMUwXp21VoGESVtA1Wf9
- G6E6EVWAjayuslub85FrEbVvjNwC8E0/urXrOOdY=
-Date: Wed, 18 Mar 2020 13:09:37 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/hisilicon: Drop unused #include
-Message-ID: <20200318110937.GA4733@pendragon.ideasonboard.com>
-References: <20200318073122.1032945-1-daniel.vetter@ffwll.ch>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17E576E8CA;
+ Wed, 18 Mar 2020 11:55:56 +0000 (UTC)
+IronPort-SDR: +TZ/SE9M6akjc1yB01VFb4BlCnkkQmaUJD0EufVJf4w2Eug/88EUMJ0aJoRmJS5dq7OwXiG2dI
+ KIPllk5k/EsQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2020 04:55:54 -0700
+IronPort-SDR: 7UEWuY5XWtHwI5O30OC9EQEE3xQpMPqYpl6qFA6nYdsrdKh2ehr6a+jWgEW5+8Wbvyumz7ovhJ
+ vsd4tBmPN5EQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,567,1574150400"; d="scan'208";a="445844367"
+Received: from sksobhee-mobl.ger.corp.intel.com (HELO [10.249.43.187])
+ ([10.249.43.187])
+ by fmsmga006.fm.intel.com with ESMTP; 18 Mar 2020 04:55:52 -0700
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <d9c9250c-cec6-8ab9-10fb-e7da5d7c01db@linux.intel.com>
+Date: Wed, 18 Mar 2020 12:55:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200318073122.1032945-1-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,57 +47,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Thomas Gleixner <tglx@linutronix.de>, Sam Ravnborg <sam@ravnborg.org>,
- Allison Randal <allison@lohutok.net>
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+drm-misc-fixes-2020-03-18:
+drm-misc-fixes for v5.6:
+- Fix AVI frame colorimetry in the dw-hdmi bridge.
+- Fix compiler warning in komeda by annotating functions as __maybe_unused.
+- Downgrade bochs pci_request_region failure from error to warning to
+  workaround firmware fb.
+The following changes since commit 1b79cfd99ff5127e6a143767b51694a527b3ea38:
 
-On Wed, Mar 18, 2020 at 08:31:22AM +0100, Daniel Vetter wrote:
-> drm_encoder_slave is really not something anyone should be using,
-> the last real user is only nouveau.
+  drm: kirin: Revert "Fix for hikey620 display offset problem" (2020-03-04 13:29:05 +0000)
 
-Fully agreed.
+are available in the Git repository at:
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2020-03-18
 
-Is there any plan to convert nouveau to drm_bridge ?
+for you to fetch changes up to 8c34cd1a7f089dc03933289c5d4a4d1489549828:
 
-> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Cc: Allison Randal <allison@lohutok.net>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
-> index f31068d74b18..d399c1077242 100644
-> --- a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
-> +++ b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
-> @@ -20,7 +20,6 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_device.h>
-> -#include <drm/drm_encoder_slave.h>
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_print.h>
+  drm/bochs: downgrade pci_request_region failure from error to warning (2020-03-13 15:34:19 +0100)
 
--- 
-Regards,
+----------------------------------------------------------------
+drm-misc-fixes for v5.6:
+- Fix AVI frame colorimetry in the dw-hdmi bridge.
+- Fix compiler warning in komeda by annotating functions as __maybe_unused.
+- Downgrade bochs pci_request_region failure from error to warning to
+  workaround firmware fb.
 
-Laurent Pinchart
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      drm/komeda: mark PM functions as __maybe_unused
+
+Gerd Hoffmann (1):
+      drm/bochs: downgrade pci_request_region failure from error to warning
+
+Jernej Skrabec (1):
+      drm/bridge: dw-hdmi: fix AVI frame colorimetry
+
+ drivers/gpu/drm/arm/display/komeda/komeda_drv.c |  4 +--
+ drivers/gpu/drm/bochs/bochs_hw.c                |  6 ++--
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c       | 46 ++++++++++++++-----------
+ 3 files changed, 30 insertions(+), 26 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
