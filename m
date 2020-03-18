@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBAF18A133
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 18:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B3218A134
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 18:10:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 454666E2B2;
-	Wed, 18 Mar 2020 17:10:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C3B46E931;
+	Wed, 18 Mar 2020 17:10:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C56C66E2B2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 17:10:20 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id g2so8947779plo.3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 10:10:20 -0700 (PDT)
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACCC96E931
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 17:10:24 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id g2so8947859plo.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 10:10:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=v1txo4F9ZHXDlpSvCzNI2rmeFwQMzudpOKzit+Mhtr4=;
- b=BNQi3+WWW1X/Utl0cCgSjK1sOWY3vEw8v40vKUlsDIvCNT1rmyOP82HQE9iL5nPsw1
- BGTZRUAFdUvdIu7F0G92uMbXjKy+dfaipOiw63ksciL2ucX8+RcYbHB+trAE2wcKin4l
- hzZzBZ1h6WJNu1n7VUlx3ux6GxUOLTnwCcQUE=
+ bh=kzfdHSO2Eg/pCLBb9aj78kXEmbZ2vEcI/EKrPZigKxI=;
+ b=AU7eU4/3E2gmDQx59Lfw1/ryh1dsM3Kf2E6dy+bDEQvBh8/uU7w/X6bF4fznHSSASt
+ i9a1E9VmxE4DYH7eZKZ0cxcueWHrdKoa6z4ILBjN9BKMuZXFt/w8pxYRqIvTyG4YVPAA
+ 9bbZIYZI2dDr7gbfsEXq5e4y4RoyIeJP3JSjo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=v1txo4F9ZHXDlpSvCzNI2rmeFwQMzudpOKzit+Mhtr4=;
- b=rU3hWMTPecuh1Zb95Gln58QhCbjVyYJvCZ28JFlGQ/GVUqMjuQl8hvKqC6K6SYFmxE
- kOI/2InVEZ0zD9GLh6sMAASNQlUn98B1knecAqIfsjMgM6CrPh0UcR7K3zcy6aGxuy88
- wZz6q9N05P1DnU7lFX5SWprHbFSLFBPEUVplwtxqipSTxViBePB1IqBJZ5aFwH7ulKc0
- 70yL2l9UXIG/VSoEuoXiaSnNVimyKm0RLu1jFAgPkqW0qSzxFuRhMgaXQcbb/L6ptOB2
- O797lZU1BI6y+f1ZjDXjTngw6rkORSAjWosBjaVpJ+rM7td0kWiSOJ7mHtNsYGeBGwHz
- re7Q==
-X-Gm-Message-State: ANhLgQ1mzpswm75zU9/vT9SMBpn96egtBu4OwBHyglMUJBh4qw0zb2dI
- LgX3eoNQ4j3J4VICFeOht0wPiw==
-X-Google-Smtp-Source: ADFU+vsJY5WZSXSIrsTt/Eo50ixmUTcpdqYddC8+qlo6uvDuwotxpF5Is8zBj6BT99cqQ1A3HiB/ng==
-X-Received: by 2002:a17:902:7b87:: with SMTP id
- w7mr4994502pll.214.1584551420315; 
- Wed, 18 Mar 2020 10:10:20 -0700 (PDT)
+ bh=kzfdHSO2Eg/pCLBb9aj78kXEmbZ2vEcI/EKrPZigKxI=;
+ b=UkjFxiOATRI2VAb7GNlxdCNxHc8hhHS8HPc7FsSw3hLWH+CAiLGLE4NtayPsGTAIzm
+ 0w6TK015fmFQ1tAK91MYsAw3uNI+VJDE/qAIecByScgf4XMlEI7aRWSXkCYFqml7lXrG
+ EF/va3rPHsQ1sB4FSZXx6MUgj4a19QJpWSEXw/e4+pVP1HZUrtkFsEqiOqsO5YmNh9M4
+ U9CkMeERTDn6Mmjua8D8jyBWqWHI5jcMqHNaU1T21YOLgJep3UKVDctDTWvC7v86odj3
+ 2EzQGrboQ5kZTKz5k3DO2ermQtOpv92AnvFLw0HmPw4OP0phUM/Byf73BipaHryXpe0W
+ UuTw==
+X-Gm-Message-State: ANhLgQ3CneQapFsSk7a5Ar00JRRF6Ej0VwToEtGnQXLk9flI6ouLzWWK
+ tyYZFO1unDJhRza6wxFFspyfJw==
+X-Google-Smtp-Source: ADFU+vtu5mYYKn1aoaSPcvAoMeeiGoWtv0NZSu62f5Smu2NArdKXK3KRad7e8p6T+qn3WvIFv3X1nA==
+X-Received: by 2002:a17:90a:26ed:: with SMTP id
+ m100mr5599112pje.130.1584551424263; 
+ Wed, 18 Mar 2020 10:10:24 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c809:c7d5:1998:878c:c26e:b8be])
- by smtp.gmail.com with ESMTPSA id e6sm6443869pgu.44.2020.03.18.10.10.16
+ by smtp.gmail.com with ESMTPSA id e6sm6443869pgu.44.2020.03.18.10.10.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Mar 2020 10:10:19 -0700 (PDT)
+ Wed, 18 Mar 2020 10:10:23 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 2/3] dt-bindings: display: panel: Convert sitronix,
- st7701 to DT schema
-Date: Wed, 18 Mar 2020 22:40:02 +0530
-Message-Id: <20200318171003.5179-2-jagan@amarulasolutions.com>
+Subject: [PATCH v2 3/3] MAINTAINERS: Update feiyang,
+ st7701 panel bindings converted as YAML
+Date: Wed, 18 Mar 2020 22:40:03 +0530
+Message-Id: <20200318171003.5179-3-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200318171003.5179-1-jagan@amarulasolutions.com>
 References: <20200318171003.5179-1-jagan@amarulasolutions.com>
@@ -75,129 +75,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the sitronix,st7701 panel bindings to DT schema.
+The feiyang,fy07024di26a30d.txt and sitronix,st7701.txt has been
+converted to YAML schemas, update MAINTAINERS to match them again.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v2:
-- fix dt_binding_check 
+- none
 
- .../display/panel/sitronix,st7701.txt         | 30 --------
- .../display/panel/sitronix,st7701.yaml        | 68 +++++++++++++++++++
- 2 files changed, 68 insertions(+), 30 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+ MAINTAINERS | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
-deleted file mode 100644
-index ccd17597f1f6..000000000000
---- a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
-+++ /dev/null
-@@ -1,30 +0,0 @@
--Sitronix ST7701 based LCD panels
--
--ST7701 designed for small and medium sizes of TFT LCD display, is
--capable of supporting up to 480RGBX864 in resolution. It provides
--several system interfaces like MIPI/RGB/SPI.
--
--Techstar TS8550B is 480x854, 2-lane MIPI DSI LCD panel which has
--inbuilt ST7701 chip.
--
--Required properties:
--- compatible: must be "sitronix,st7701" and one of
--  * "techstar,ts8550b"
--- reset-gpios: a GPIO phandle for the reset pin
--
--Required properties for techstar,ts8550b:
--- reg: DSI virtual channel used by that screen
--- VCC-supply: analog regulator for MIPI circuit
--- IOVCC-supply: I/O system regulator
--
--Optional properties:
--- backlight: phandle for the backlight control.
--
--panel@0 {
--	compatible = "techstar,ts8550b", "sitronix,st7701";
--	reg = <0>;
--	VCC-supply = <&reg_dldo2>;
--	IOVCC-supply = <&reg_dldo2>;
--	reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
--	backlight = <&backlight>;
--};
-diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
-new file mode 100644
-index 000000000000..e02686dfd937
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
-@@ -0,0 +1,68 @@
-+# SPDX-License-Identifier: (GPL-2.0+ OR X11)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/sitronix,st7701.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Sitronix ST7701 based LCD panels
-+
-+maintainers:
-+  - Jagan Teki <jagan@amarulasolutions.com>
-+
-+description: |
-+  ST7701 designed for small and medium sizes of TFT LCD display, is
-+  capable of supporting up to 480RGBX864 in resolution. It provides
-+  several system interfaces like MIPI/RGB/SPI.
-+
-+  Techstar TS8550B is 480x854, 2-lane MIPI DSI LCD panel which has
-+  inbuilt ST7701 chip.
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - techstar,ts8550b
-+      - const: sitronix,st7701
-+
-+  reg:
-+    description: DSI virtual channel used by that screen
-+
-+  VCC-supply:
-+    description: analog regulator for MIPI circuit
-+
-+  IOVCC-supply:
-+    description: I/O system regulator
-+
-+  reset-gpios:
-+    description: a GPIO phandle for the reset pin
-+
-+  backlight:
-+    description: Backlight used by the panel
-+    $ref: "/schemas/types.yaml#/definitions/phandle"
-+
-+required:
-+  - compatible
-+  - reg
-+  - VCC-supply
-+  - IOVCC-supply
-+  - reset-gpios
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        panel@0 {
-+            compatible = "techstar,ts8550b", "sitronix,st7701";
-+            reg = <0>;
-+            VCC-supply = <&reg_dldo2>;
-+            IOVCC-supply = <&reg_dldo2>;
-+            reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
-+            backlight = <&backlight>;
-+        };
-+    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6ba8b584bf95..b987f2588e6a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5273,7 +5273,7 @@ DRM DRIVER FOR FEIYANG FY07024DI26A30-D MIPI-DSI LCD PANELS
+ M:	Jagan Teki <jagan@amarulasolutions.com>
+ S:	Maintained
+ F:	drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
+-F:	Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
++F:	Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+ 
+ DRM DRIVER FOR GRAIN MEDIA GM12U320 PROJECTORS
+ M:	Hans de Goede <hdegoede@redhat.com>
+@@ -5416,7 +5416,7 @@ DRM DRIVER FOR SITRONIX ST7701 PANELS
+ M:	Jagan Teki <jagan@amarulasolutions.com>
+ S:	Maintained
+ F:	drivers/gpu/drm/panel/panel-sitronix-st7701.c
+-F:	Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
++F:	Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+ 
+ DRM DRIVER FOR SITRONIX ST7586 PANELS
+ M:	David Lechner <david@lechnology.com>
 -- 
 2.17.1
 
