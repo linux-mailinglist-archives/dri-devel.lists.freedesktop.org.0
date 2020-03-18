@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD38E18A2BA
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 19:57:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC0718A2C3
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 19:58:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B3EB6E059;
-	Wed, 18 Mar 2020 18:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4957B6E91A;
+	Wed, 18 Mar 2020 18:58:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1D916E059
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 18:57:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED5E06E91A
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 18:58:17 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 5739D80521;
- Wed, 18 Mar 2020 19:57:15 +0100 (CET)
-Date: Wed, 18 Mar 2020 19:57:13 +0100
+ by asavdk4.altibox.net (Postfix) with ESMTPS id D26128060A;
+ Wed, 18 Mar 2020 19:58:15 +0100 (CET)
+Date: Wed, 18 Mar 2020 19:58:14 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: panel: Convert feiyang,
- fy07024di26a30d to DT schema
-Message-ID: <20200318185713.GA28092@ravnborg.org>
+Subject: Re: [PATCH v2 3/3] MAINTAINERS: Update feiyang, st7701 panel
+ bindings converted as YAML
+Message-ID: <20200318185814.GB28092@ravnborg.org>
 References: <20200318171003.5179-1-jagan@amarulasolutions.com>
+ <20200318171003.5179-3-jagan@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200318171003.5179-1-jagan@amarulasolutions.com>
+In-Reply-To: <20200318171003.5179-3-jagan@amarulasolutions.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
  a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=iP-xVBlJAAAA:8
- a=gEfo2CItAAAA:8 a=e5mUnYsNAAAA:8 a=8gF--RGPhfDgffNwR7kA:9
- a=CjuIK1q_8ugA:10 a=lHLH-nfn2y1bM_0xSXwp:22 a=sptkURWiP4Gy88Gu7hUp:22
+ a=20KFwNOVAAAA:8 a=WZHNqt2aAAAA:8 a=e5mUnYsNAAAA:8 a=9Nv2NtiChPkpYjpV1K0A:9
+ a=CjuIK1q_8ugA:10 a=lHLH-nfn2y1bM_0xSXwp:22 a=PrHl9onO2p7xFKlKy1af:22
  a=Vxmtnl_E_bksehYqCbjh:22 a=pHzHmUro8NiASowvMSCR:22
  a=nt3jZW36AmriUCFCBwmW:22
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,140 +58,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan.
-
-On Wed, Mar 18, 2020 at 10:40:01PM +0530, Jagan Teki wrote:
-> Convert the feiyang,fy07024di26a30d panel bindings to DT schema.
+On Wed, Mar 18, 2020 at 10:40:03PM +0530, Jagan Teki wrote:
+> The feiyang,fy07024di26a30d.txt and sitronix,st7701.txt has been
+> converted to YAML schemas, update MAINTAINERS to match them again.
 > 
 > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 
-Thanks for the resend.
-
-Please fix so the two bindings uses panel-common.yaml.
-
-And then only properties specific for this binding shall have a
-description.
-
-See below - please fix both bindings and resend.
+The patch is fine.
+I just dislike we repeat the maintainer info in two places..
 
 	Sam
 
+
 > ---
 > Changes for v2:
-> - fix dt_binding_check 
+> - none
 > 
->  .../display/panel/feiyang,fy07024di26a30d.txt | 20 -------
->  .../panel/feiyang,fy07024di26a30d.yaml        | 57 +++++++++++++++++++
->  2 files changed, 57 insertions(+), 20 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
->  create mode 100644 Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+>  MAINTAINERS | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
-> deleted file mode 100644
-> index 82caa7b65ae8..000000000000
-> --- a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
-> +++ /dev/null
-> @@ -1,20 +0,0 @@
-> -Feiyang FY07024DI26A30-D 7" MIPI-DSI LCD Panel
-> -
-> -Required properties:
-> -- compatible: must be "feiyang,fy07024di26a30d"
-> -- reg: DSI virtual channel used by that screen
-> -- avdd-supply: analog regulator dc1 switch
-> -- dvdd-supply: 3v3 digital regulator
-> -- reset-gpios: a GPIO phandle for the reset pin
-> -
-> -Optional properties:
-> -- backlight: phandle for the backlight control.
-> -
-> -panel@0 {
-> -	compatible = "feiyang,fy07024di26a30d";
-> -	reg = <0>;
-> -	avdd-supply = <&reg_dc1sw>;
-> -	dvdd-supply = <&reg_dldo2>;
-> -	reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
-> -	backlight = <&backlight>;
-> -};
-> diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
-> new file mode 100644
-> index 000000000000..f292c57a5bd6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
-> @@ -0,0 +1,57 @@
-> +# SPDX-License-Identifier: (GPL-2.0+ OR X11)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/feiyang,fy07024di26a30d.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Feiyang FY07024DI26A30-D 7" MIPI-DSI LCD Panel
-> +
-> +maintainers:
-> +  - Jagan Teki <jagan@amarulasolutions.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: feiyang,fy07024di26a30d
-> +
-> +  reg:
-> +    description: DSI virtual channel used by that screen
-reg is already described elsewhere so no description.
-Thus is becomes:
-
-    reg: true
-
-> +
-> +  avdd-supply:
-> +    description: analog regulator dc1 switch
-> +
-> +  dvdd-supply:
-> +    description: 3v3 digital regulator
-> +
-> +  reset-gpios:
-> +    description: a GPIO phandle for the reset pin
-This would become:
-    reset-gpios: true
-
-> +
-> +  backlight:
-> +    description: Backlight used by the panel
-> +    $ref: "/schemas/types.yaml#/definitions/phandle"
-This would become:
-
-    backlight: true
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - avdd-supply
-> +  - dvdd-supply
-> +  - reset-gpios
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        panel@0 {
-> +            compatible = "feiyang,fy07024di26a30d";
-> +            reg = <0>;
-> +            avdd-supply = <&reg_dc1sw>;
-> +            dvdd-supply = <&reg_dldo2>;
-> +            reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
-> +            backlight = <&backlight>;
-> +        };
-> +    };
-
-Example looks good.
-
-
-
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6ba8b584bf95..b987f2588e6a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5273,7 +5273,7 @@ DRM DRIVER FOR FEIYANG FY07024DI26A30-D MIPI-DSI LCD PANELS
+>  M:	Jagan Teki <jagan@amarulasolutions.com>
+>  S:	Maintained
+>  F:	drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
+> -F:	Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
+> +F:	Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+>  
+>  DRM DRIVER FOR GRAIN MEDIA GM12U320 PROJECTORS
+>  M:	Hans de Goede <hdegoede@redhat.com>
+> @@ -5416,7 +5416,7 @@ DRM DRIVER FOR SITRONIX ST7701 PANELS
+>  M:	Jagan Teki <jagan@amarulasolutions.com>
+>  S:	Maintained
+>  F:	drivers/gpu/drm/panel/panel-sitronix-st7701.c
+> -F:	Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
+> +F:	Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+>  
+>  DRM DRIVER FOR SITRONIX ST7586 PANELS
+>  M:	David Lechner <david@lechnology.com>
 > -- 
 > 2.17.1
 > 
