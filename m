@@ -1,40 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41831189FF0
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 16:50:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E304918A003
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 16:56:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9029889221;
-	Wed, 18 Mar 2020 15:50:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 872CC89CC4;
+	Wed, 18 Mar 2020 15:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B88B89221;
- Wed, 18 Mar 2020 15:50:03 +0000 (UTC)
-IronPort-SDR: 0cd87rGpKZJ0GekNsy+7rGp5d1Y39ull0ZzGiwgLTjT4wQ+T0/0NpU8ptwQ0QrK0qyd/NMQe84
- Q52gxkHpozHw==
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17BE689A62;
+ Wed, 18 Mar 2020 15:56:32 +0000 (UTC)
+IronPort-SDR: lauhFlcTzhTOkNXmd3fhx9MdtbqqF6QaPUClxq4VvG6PaeqjeQ8QAWA5G/LfgCsIRSIsP4XfJb
+ CdDvYr7zsOOw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2020 08:50:02 -0700
-IronPort-SDR: QB3zw/4Gw8CINhKIL96qyqvkRmaS293ysZjJuQD2N0gwcWRe12F7CjBJwEwphQqcPcYhfg1fRh
- yER6ciEJi/vg==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2020 08:56:31 -0700
+IronPort-SDR: d4sMqXC+8h/F9/o/nmCYm47VMGE4+GKhBKPxjjfQaZBiRn+TVGcq9O0SXVNMtt0r3P+viZk4Fp
+ /aIdB+AWzu9Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,568,1574150400"; d="scan'208";a="279778660"
+X-IronPort-AV: E=Sophos;i="5.70,568,1574150400"; d="scan'208";a="324228078"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga002.fm.intel.com with SMTP; 18 Mar 2020 08:50:00 -0700
+ by orsmga001.jf.intel.com with SMTP; 18 Mar 2020 08:56:29 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 18 Mar 2020 17:49:59 +0200
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: Reject dumb buffers when driver/device doesn't support
- modesetting
-Date: Wed, 18 Mar 2020 17:49:59 +0200
-Message-Id: <20200318154959.9017-1-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
+ Wed, 18 Mar 2020 17:56:28 +0200
+Date: Wed, 18 Mar 2020 17:56:28 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH 1/9] drm: Constify topology id
+Message-ID: <20200318155628.GA13686@intel.com>
+References: <20200313162054.16009-1-ville.syrjala@linux.intel.com>
+ <20200313162054.16009-2-ville.syrjala@linux.intel.com>
+ <CADnq5_OsVawW3RV+8UhSf-wF0eG4Tp-fOMzsuLfJGJj_aPu-HA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CADnq5_OsVawW3RV+8UhSf-wF0eG4Tp-fOMzsuLfJGJj_aPu-HA@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,77 +52,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KCkN1
-cnJlbnRseSBhIGRyaXZlciBtdXN0IG5vdCBwcm92aWRlIGEgLmR1bWJfY3JlYXRlKCkgaG9vayBp
-biB0aGUKZHJtX2RyaXZlciBzdHJ1Y3R1cmUgaWYgaXQgd2FudHMgdG8gZGVjbGFyZSBkdW1iIGJ1
-ZmZlcnMgYXMgbm90CnN1cHBvcnRlZC4gU28gaWYgdGhlIHNhbWUgZHJpdmVyIHdhbnRzIHRvIHN1
-cHBvcnQgYm90aCBtb2Rlc2V0CmFuZCBub24tbW9kZXNldCBkZXZpY2VzIGl0IHdvdWxkIHJlcXVp
-cmUgdHdvIGRpc3RpbmN0IGRybV9kcml2ZXIKc3RydWN0dXJlcyBpbiBvcmRlciB0byByZWplY3Qg
-dGhlIGR1bWIgYnVmZmVyIG9wZXJhdGlvbnMgb24gdGhlCm5vbi1tb2Rlc2V0IGRldmljZXMuIFRo
-YXQncyByYXRoZXIgdGVkaW91cywgc28gbGV0J3MgbWFrZSBsaWZlCmVhc2llciBmb3Igc3VjaCBk
-cml2ZXJzIGJ5IGFsc28gY2hlY2tpbmcgZm9yIHRoZSBEUklWRVJfTU9ERVNFVApmbGFnIGJlZm9y
-ZSB3ZSBkZWNsYXJlIGR1bWIgYnVmZmVycyBhcyBzdXBwb3J0ZWQuIE5vdyBhbGwgdGhlCmRyaXZl
-ciBoYXMgdG8gZG8gaXMgY2xlYXIgdGhlIGZsYWcgZm9yIGFueSBkZXZpY2UgdGhhdCBjYW4ndApk
-byBtb2Rlc2V0dGluZy4KClNpZ25lZC1vZmYtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3ly
-amFsYUBsaW51eC5pbnRlbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnQuYyAg
-ICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2RybV9jcnRjX2ludGVybmFsLmggfCAgMSAr
-CiBkcml2ZXJzL2dwdS9kcm0vZHJtX2R1bWJfYnVmZmVycy5jICB8IDEyICsrKysrKysrKy0tLQog
-ZHJpdmVycy9ncHUvZHJtL2RybV9pb2N0bC5jICAgICAgICAgfCAgMiArLQogNCBmaWxlcyBjaGFu
-Z2VkLCAxMiBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fY2xpZW50LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVudC5jCmlu
-ZGV4IDZiMGM2ZWY4YjliMy4uY2Y2MWQ4N2I0MzRkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2NsaWVudC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50LmMKQEAgLTgw
-LDcgKzgwLDcgQEAgaW50IGRybV9jbGllbnRfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBz
-dHJ1Y3QgZHJtX2NsaWVudF9kZXYgKmNsaWVudCwKIHsKIAlpbnQgcmV0OwogCi0JaWYgKCFkcm1f
-Y29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX01PREVTRVQpIHx8ICFkZXYtPmRyaXZlci0+
-ZHVtYl9jcmVhdGUpCisJaWYgKCFkcm1faGFzX2R1bWJfYnVmZmVycyhkZXYpKQogCQlyZXR1cm4g
-LUVPUE5PVFNVUFA7CiAKIAlpZiAoZnVuY3MgJiYgIXRyeV9tb2R1bGVfZ2V0KGZ1bmNzLT5vd25l
-cikpCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaW50ZXJuYWwuaCBiL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fY3J0Y19pbnRlcm5hbC5oCmluZGV4IDE2ZjI0MTM0MDNhYS4uYzA4
-ZmYwYjdhNTA5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaW50ZXJuYWwu
-aAorKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaW50ZXJuYWwuaApAQCAtOTIsNiArOTIs
-NyBAQCBpbnQgZHJtX21vZGVfZ2V0cmVzb3VyY2VzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAK
-IAogLyogZHJtX2R1bWJfYnVmZmVycy5jICovCitib29sIGRybV9oYXNfZHVtYl9idWZmZXJzKHN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYpOwogaW50IGRybV9tb2RlX2NyZWF0ZV9kdW1iKHN0cnVjdCBk
-cm1fZGV2aWNlICpkZXYsCiAJCQkgc3RydWN0IGRybV9tb2RlX2NyZWF0ZV9kdW1iICphcmdzLAog
-CQkJIHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2KTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fZHVtYl9idWZmZXJzLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2R1bWJfYnVmZmVy
-cy5jCmluZGV4IGQxOGE3NDBmZTBmMS4uOTg1OTUzMDM2MmUyIDEwMDY0NAotLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2R1bWJfYnVmZmVycy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHVt
-Yl9idWZmZXJzLmMKQEAgLTU1LDEzICs1NSwxOSBAQAogICogYSBoYXJkd2FyZS1zcGVjaWZpYyBp
-b2N0bCB0byBhbGxvY2F0ZSBzdWl0YWJsZSBidWZmZXIgb2JqZWN0cy4KICAqLwogCitib29sIGRy
-bV9oYXNfZHVtYl9idWZmZXJzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCit7CisJcmV0dXJuIGRl
-di0+ZHJpdmVyLT5kdW1iX2NyZWF0ZSAmJgorCQlkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwg
-RFJJVkVSX01PREVTRVQpOworfQorCiBpbnQgZHJtX21vZGVfY3JlYXRlX2R1bWIoc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiwKIAkJCSBzdHJ1Y3QgZHJtX21vZGVfY3JlYXRlX2R1bWIgKmFyZ3MsCiAJ
-CQkgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYpCiB7CiAJdTMyIGNwcCwgc3RyaWRlLCBzaXpl
-OwogCi0JaWYgKCFkZXYtPmRyaXZlci0+ZHVtYl9jcmVhdGUpCisJaWYgKCFkcm1faGFzX2R1bWJf
-YnVmZmVycyhkZXYpKQogCQlyZXR1cm4gLUVOT1NZUzsKIAlpZiAoIWFyZ3MtPndpZHRoIHx8ICFh
-cmdzLT5oZWlnaHQgfHwgIWFyZ3MtPmJwcCkKIAkJcmV0dXJuIC1FSU5WQUw7CkBAIC0xMTksNyAr
-MTI1LDcgQEAgaW50IGRybV9tb2RlX21tYXBfZHVtYl9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2LAogewogCXN0cnVjdCBkcm1fbW9kZV9tYXBfZHVtYiAqYXJncyA9IGRhdGE7CiAKLQlpZiAo
-IWRldi0+ZHJpdmVyLT5kdW1iX2NyZWF0ZSkKKwlpZiAoIWRybV9oYXNfZHVtYl9idWZmZXJzKGRl
-dikpCiAJCXJldHVybiAtRU5PU1lTOwogCiAJaWYgKGRldi0+ZHJpdmVyLT5kdW1iX21hcF9vZmZz
-ZXQpCkBAIC0xMzQsNyArMTQwLDcgQEAgaW50IGRybV9tb2RlX21tYXBfZHVtYl9pb2N0bChzdHJ1
-Y3QgZHJtX2RldmljZSAqZGV2LAogaW50IGRybV9tb2RlX2Rlc3Ryb3lfZHVtYihzdHJ1Y3QgZHJt
-X2RldmljZSAqZGV2LCB1MzIgaGFuZGxlLAogCQkJICBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJp
-dikKIHsKLQlpZiAoIWRldi0+ZHJpdmVyLT5kdW1iX2NyZWF0ZSkKKwlpZiAoIWRybV9oYXNfZHVt
-Yl9idWZmZXJzKGRldikpCiAJCXJldHVybiAtRU5PU1lTOwogCiAJaWYgKGRldi0+ZHJpdmVyLT5k
-dW1iX2Rlc3Ryb3kpCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2lvY3RsLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2lvY3RsLmMKaW5kZXggOWU0MTk3MmM0YmJjLi40MzdmMWJlZTY4
-NjkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1faW9jdGwuYworKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2lvY3RsLmMKQEAgLTI2Miw3ICsyNjIsNyBAQCBzdGF0aWMgaW50IGRybV9n
-ZXRjYXAoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwgc3RydWN0IGRybV9maWxl
-ICpmaWxlXwogCiAJc3dpdGNoIChyZXEtPmNhcGFiaWxpdHkpIHsKIAljYXNlIERSTV9DQVBfRFVN
-Ql9CVUZGRVI6Ci0JCWlmIChkZXYtPmRyaXZlci0+ZHVtYl9jcmVhdGUpCisJCWlmIChkcm1faGFz
-X2R1bWJfYnVmZmVycyhkZXYpKQogCQkJcmVxLT52YWx1ZSA9IDE7CiAJCWJyZWFrOwogCWNhc2Ug
-RFJNX0NBUF9WQkxBTktfSElHSF9DUlRDOgotLSAKMi4yNC4xCgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, Mar 13, 2020 at 04:05:00PM -0400, Alex Deucher wrote:
+> On Fri, Mar 13, 2020 at 12:21 PM Ville Syrjala
+> <ville.syrjala@linux.intel.com> wrote:
+> >
+> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> >
+> > Make the topology id const since we don't want to change it.
+> >
+> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> =
+
+> Series is:
+> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+
+Thanks. Series pushed to drm-misc-next.
+
+> =
+
+> > ---
+> >  drivers/gpu/drm/drm_connector.c | 4 ++--
+> >  include/drm/drm_connector.h     | 4 ++--
+> >  2 files changed, 4 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
+ector.c
+> > index 644f0ad10671..462d8caa6e72 100644
+> > --- a/drivers/gpu/drm/drm_connector.c
+> > +++ b/drivers/gpu/drm/drm_connector.c
+> > @@ -2392,7 +2392,7 @@ EXPORT_SYMBOL(drm_mode_put_tile_group);
+> >   * tile group or NULL if not found.
+> >   */
+> >  struct drm_tile_group *drm_mode_get_tile_group(struct drm_device *dev,
+> > -                                              char topology[8])
+> > +                                              const char topology[8])
+> >  {
+> >         struct drm_tile_group *tg;
+> >         int id;
+> > @@ -2422,7 +2422,7 @@ EXPORT_SYMBOL(drm_mode_get_tile_group);
+> >   * new tile group or NULL.
+> >   */
+> >  struct drm_tile_group *drm_mode_create_tile_group(struct drm_device *d=
+ev,
+> > -                                                 char topology[8])
+> > +                                                 const char topology[8=
+])
+> >  {
+> >         struct drm_tile_group *tg;
+> >         int ret;
+> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > index 19ae6bb5c85b..fd543d1db9b2 100644
+> > --- a/include/drm/drm_connector.h
+> > +++ b/include/drm/drm_connector.h
+> > @@ -1617,9 +1617,9 @@ struct drm_tile_group {
+> >  };
+> >
+> >  struct drm_tile_group *drm_mode_create_tile_group(struct drm_device *d=
+ev,
+> > -                                                 char topology[8]);
+> > +                                                 const char topology[8=
+]);
+> >  struct drm_tile_group *drm_mode_get_tile_group(struct drm_device *dev,
+> > -                                              char topology[8]);
+> > +                                              const char topology[8]);
+> >  void drm_mode_put_tile_group(struct drm_device *dev,
+> >                              struct drm_tile_group *tg);
+> >
+> > --
+> > 2.24.1
+> >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
