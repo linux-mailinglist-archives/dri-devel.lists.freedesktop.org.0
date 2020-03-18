@@ -2,48 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2014418A0CC
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 17:45:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1334C18A0EA
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 17:53:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7757D6E924;
-	Wed, 18 Mar 2020 16:44:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 392C86E927;
+	Wed, 18 Mar 2020 16:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE676E924;
- Wed, 18 Mar 2020 16:44:57 +0000 (UTC)
-IronPort-SDR: tm6OXW2IvDvDu7AE2vMfyU0Eo30PJp6MR9MdfgCcG2TCrdvasOS1S6+oqjDGfAYhLQDRKK7J0k
- FkcQ1UyevXVA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2020 09:44:56 -0700
-IronPort-SDR: IPHt9AiSbOSES09fNIWAdVVjc4cApX7UhJqkYw9mQyM1rQwwSM/JeHBBlhOxkO4xR5NTxWnX09
- 6a257n7NNGUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,568,1574150400"; d="scan'208";a="279794127"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga002.fm.intel.com with SMTP; 18 Mar 2020 09:44:53 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 18 Mar 2020 18:44:52 +0200
-Date: Wed, 18 Mar 2020 18:44:52 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 7/7] drm: Allow drivers to leave
- encoder->possible_crtcs==0
-Message-ID: <20200318164452.GB13686@intel.com>
-References: <20200211162208.16224-1-ville.syrjala@linux.intel.com>
- <20200211162208.16224-8-ville.syrjala@linux.intel.com>
- <20200211170545.GN2363188@phenom.ffwll.local>
- <20200211171450.GZ13686@intel.com>
- <20200212090755.GP2363188@phenom.ffwll.local>
- <20200212090849.GQ2363188@phenom.ffwll.local>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 945E66E927
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 16:53:25 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id h6so10972028wrs.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 09:53:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=aeYeB3CANOqnObt2Bin2EEGlMMGDpXacO9WnKapSaKA=;
+ b=NeTnpXGGHGa+LDQ3odBkmH8XgCu4vP8uAIprLGgGqv2QtxLAcJwWhqAtAr7VcXEt8I
+ Ci+OaEJr91TwVj2Kw3wZ10uq7R96YpdTA0c28dspF+8eZWa9PO1i0PhuOW3ixM15mLdk
+ w8fejndds4VLW7Zj+YwlpD7TQv2BaT0HzHWZE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=aeYeB3CANOqnObt2Bin2EEGlMMGDpXacO9WnKapSaKA=;
+ b=cnciJRIs6jCsrNzZILslKb+5yZEqZ7x87kmP7VFwcbLSbSl2uJ6JcLefzWjmEOdPye
+ krR7d4jO73z9xlET9QcKSFHXg+h6usPpuIR1Vxap5+41MFceqa7z177Hmjz+ZaCa965V
+ Nd8vs52zmqlzJzTp9E/fNmTpqMGKWAHkmVbAFmTOPtxsxRICB3j11G0IUoLRHCJEnSE5
+ /dO4h1CdZLWrbCfiJcAuJQ6KZbLqw239pFhmr7auM8ggasQlhm6cbupnVqvZDXU9lBJZ
+ H2ZrPXbEMArI009No4A6x89hw+v8fm8UqLs2tyq4s9ynxGTyCORY2rIRnrhdq8EVo286
+ KiEA==
+X-Gm-Message-State: ANhLgQ0s8yxdpKaZI1HuNC6Ez/PX8SIE9mJlK22HHBzQmRB+R0/tmcNL
+ jYJ8Qg7stWEQAKTWG4PydZ81mQ==
+X-Google-Smtp-Source: ADFU+vtcYeHhH9FydXIAf6eT5ZTQaTUtKOqGS0qBVL7DDqzoRzo3pE0LLtATqw5ydhtSupfkeFxxrQ==
+X-Received: by 2002:adf:ed8a:: with SMTP id c10mr6775194wro.423.1584550404216; 
+ Wed, 18 Mar 2020 09:53:24 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id o23sm10472342wro.23.2020.03.18.09.53.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Mar 2020 09:53:23 -0700 (PDT)
+Date: Wed, 18 Mar 2020 17:53:21 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH] MAINTAINERS: Better regex for dma_buf|fence|resv
+Message-ID: <20200318165321.GZ2363188@phenom.ffwll.local>
+Mail-Followup-To: Sumit Semwal <sumit.semwal@linaro.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+ Joe Perches <joe@perches.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+References: <20200317205643.1028398-1-daniel.vetter@ffwll.ch>
+ <CAO_48GH1YkA4mvjyQ=88VRrDPc4Kh8fiFsm-MOaNFfWhhaxfbw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200212090849.GQ2363188@phenom.ffwll.local>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAO_48GH1YkA4mvjyQ=88VRrDPc4Kh8fiFsm-MOaNFfWhhaxfbw@mail.gmail.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,81 +73,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Thierry Reding <treding@nvidia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Linaro MM SIG <linaro-mm-sig@lists.linaro.org>, Joe Perches <joe@perches.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 12, 2020 at 10:08:49AM +0100, Daniel Vetter wrote:
-> On Wed, Feb 12, 2020 at 10:07:55AM +0100, Daniel Vetter wrote:
-> > On Tue, Feb 11, 2020 at 07:14:51PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Tue, Feb 11, 2020 at 06:05:45PM +0100, Daniel Vetter wrote:
-> > > > On Tue, Feb 11, 2020 at 06:22:08PM +0200, Ville Syrjala wrote:
-> > > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > > =
+On Wed, Mar 18, 2020 at 09:16:17PM +0530, Sumit Semwal wrote:
+> Hello Daniel,
+> 
+> Thanks for the patch.
+> 
+> On Wed, 18 Mar 2020 at 02:26, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >
+> > We're getting some random other stuff that we're not really interested
+> > in, so match only word boundaries. Also avoid the capture group while
+> > at it.
+> >
+> > Suggested by Joe Perches.
+> >
+> > Cc: linux-media@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > Cc: Joe Perches <joe@perches.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> 
+> Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
 
-> > > > > Let's simplify life of driver by allowing them to leave
-> > > > > encoder->possible_crtcs unset if they have no restrictions
-> > > > > in crtc<->encoder linkage. We'll just populate possible_crtcs
-> > > > > with the full crtc mask when registering the encoder so that
-> > > > > userspace doesn't have to deal with drivers not populating
-> > > > > this correctly.
-> > > > > =
+Thanks for your ack, patch applied.
+-Daniel
 
-> > > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > > ---
-> > > > > We might not actually need/want this, but included it here for
-> > > > > future reference if that assumption turns out to be wrong.
-> > > > =
+> > ---
+> > v2: No single quotes in MAINTAINERS (Joe)
+> > v3: Fix typo in commit message (Sam)
+> > ---
+> >  MAINTAINERS | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 3005be638c2c..ed6088a01bfe 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -5025,7 +5025,7 @@ F:        include/linux/dma-buf*
+> >  F:     include/linux/reservation.h
+> >  F:     include/linux/*fence.h
+> >  F:     Documentation/driver-api/dma-buf.rst
+> > -K:     dma_(buf|fence|resv)
+> > +K:     \bdma_(?:buf|fence|resv)\b
+> >  T:     git git://anongit.freedesktop.org/drm/drm-misc
+> >
+> >  DMA-BUF HEAPS FRAMEWORK
+> > --
+> > 2.25.1
+> >
 
-> > > > I think this one is most definitely needed. _Lots_ of drivers get t=
-his
-> > > > toally wrong and just leave the value blank. It's encoded as offici=
-al
-> > > > fallback in most userspace compositors.
-> > > =
-
-> > > OK. It's been a while since I dug around so can't really remmber how
-> > > this was being handled. I'll reorder before pushing.
-> > =
-
-> > Hm otoh having "works with all crtcs" as default is a bit dangerous,
-> > whereas the "cannot be cloned" default for possible_clones is perfectly
-> > safe.
-> > =
-
-> > So now I'm kinda not sure whether this is a bright idea, and we shouldn=
-'t
-> > just eat the cost of fixing up all the various WARNING backtraces your
-> > previous patch triggers. I've done a full review and the following look
-> > suspect:
-> > =
-
-> > - tegara/sor.c Strangely it's the only one, the other output drivers do
-> >   seem to set the possible_crtcs mask to something useful.
-> =
-
-> Strike that, it sets it using tegra_output_find_possible_crtcs().
-> =
-
-> I think everything is good and we really don't need this patch here to fix
-> up possible_crtcs.
-
-Finally pushed the other patches from the series to drm-misc-next.
-Thanks for the reviews.
-
-Should the new possible_{crtcs,clones} WARNs start to trigger for
-anyone despite our best efforts, please holler and I'll look into
-what needs fixing.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
