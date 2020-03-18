@@ -1,66 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9187A189F96
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 16:26:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8A2189FC8
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Mar 2020 16:37:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDD796E911;
-	Wed, 18 Mar 2020 15:26:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76F846E8E9;
+	Wed, 18 Mar 2020 15:37:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7801A6E911
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 15:26:32 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id h6so10596149wrs.6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 08:26:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=ftZVbPmZ/Gi9bDEF3JRvvSJu2bSq6nHdWYvLq6k9FmI=;
- b=S9NtfciVJ5bawZR3kAnkkFc5MIDh22w8czXEdYUVH+Ml18A1q85ppVb3OT2Es6LnCX
- RrMY3G1JWRQdJWRAgeGtrH6hWiklfkmnHHuKTeApabEV5N3te/UN9ZX7meKjiIGTTlu4
- fxIxAuHu/4tkaqlGy4JwO1nOyyR5okFtQHMJw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=ftZVbPmZ/Gi9bDEF3JRvvSJu2bSq6nHdWYvLq6k9FmI=;
- b=SypcY0YHCZL8MsvWlmG3rvsW4PwkKx01KbMjNO9Efkyah0LNc6+VX4jPhd1xcEcCK3
- PhjrUd+1ENkyeChLJGmpX6l2VXYe3nBpjhDpUOtJsCssdOQmS5cnEUyfHVAAvrABnkOR
- nDcXYGnTev5NAQm/Ohw6b6sXhI2mZP0ykbY8fpzXGtJIeJ5JoVE5zQizsUfWjvmPsPrt
- QaQJaROCsvbXx8f2C1OizLlbqj+Hajsj0nRZMz8sIbSzToiQYKqi9DYEF1THYc5Po2XC
- szvbQRv9q4/rjZvPdhBtklUMnQM+0lrpMlbJdFb+kjElAkzwgzcdtlQKrhSf8qNoMdcP
- fnBg==
-X-Gm-Message-State: ANhLgQ3QOmQqxdqNqJiAzFM3OOZ85wbJLkoJ+xMvfJ5QkHSyfOFr4Ram
- yz7JhBEVeZ7c9A6rAZ+n8h9gbw==
-X-Google-Smtp-Source: ADFU+vs5nybEV7YJKuEwNm72dGWDm3pOnNTUz+tO14T/TeYa/T21zlqvpFrC0y8hF5JboKD7/evrKg==
-X-Received: by 2002:a5d:56c9:: with SMTP id m9mr5976823wrw.289.1584545191105; 
- Wed, 18 Mar 2020 08:26:31 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f207sm4543994wme.9.2020.03.18.08.26.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Mar 2020 08:26:29 -0700 (PDT)
-Date: Wed, 18 Mar 2020 16:26:27 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Wambui Karuga <wambui.karugax@gmail.com>
-Subject: Re: [PATCH v2 10/17] drm/vram-helper: make
- drm_vram_mm_debugfs_init() return 0
-Message-ID: <20200318152627.GY2363188@phenom.ffwll.local>
-Mail-Followup-To: Wambui Karuga <wambui.karugax@gmail.com>, airlied@linux.ie,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- gregkh@linuxfoundation.org
-References: <20200310133121.27913-1-wambui.karugax@gmail.com>
- <20200310133121.27913-11-wambui.karugax@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20BF66E8E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 15:37:40 +0000 (UTC)
+Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EDD74F9;
+ Wed, 18 Mar 2020 16:37:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1584545858;
+ bh=ca1Q/xaraWqcFRoYzOwcS30iSOqRhIos7U6A4lE3978=;
+ h=From:To:Cc:Subject:Date:From;
+ b=nlYQA6rkg3PS5dsv59ov7fqxPi9F9x4Rbog4LRd/0dbFbNfSEs6TlqIr8aF9Ym3i7
+ 2tP7Hqy3N/aS/BendnBlnx8SnZBDq/FFHPBIpn5Us1gFrpxQRYvkFKNYu3XmqEgOd+
+ poX0LvywqGtem12FapcUD/RVGsIspsQv8Tje+EvI=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v11 0/5] Xilinx ZynqMP DisplayPort Subsystem DRM/KMS driver
+Date: Wed, 18 Mar 2020 17:37:23 +0200
+Message-Id: <20200318153728.25843-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200310133121.27913-11-wambui.karugax@gmail.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,68 +43,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Michal Simek <michal.simek@xilinx.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
+ Satish Kumar Nagireddy <SATISHNA@xilinx.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 10, 2020 at 04:31:14PM +0300, Wambui Karuga wrote:
-> Since 987d65d01356 (drm: debugfs: make
-> drm_debugfs_create_files() never fail), drm_debugfs_create_files() never
-> fails and should return void. Therefore, remove its use as the
-> return value of drm_vram_mm_debugfs_init(), and have the function
-> return 0 directly.
-> 
-> v2: have drm_vram_mm_debugfs_init() return 0 instead of void to avoid
-> introducing build issues and build breakage.
-> 
-> References: https://lists.freedesktop.org/archives/dri-devel/2020-February/257183.html
-> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/drm_gem_vram_helper.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index 92a11bb42365..c8bcc8609650 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -1048,14 +1048,12 @@ static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
->   */
->  int drm_vram_mm_debugfs_init(struct drm_minor *minor)
->  {
-> -	int ret = 0;
-> -
->  #if defined(CONFIG_DEBUG_FS)
+Hello,
 
-Just noticed that this #if here is not needed, we already have a dummy
-function for that case. Care to write a quick patch to remove it? On top
-of this patch series here ofc, I'm in the processing of merging the entire
-pile.
+Here's a new version of the Xilinx ZynqMP DisplayPort Subsystem driver,
+the third version since I took over v8 of the series ([1]) from Hyun.
 
-Thanks, Daniel
-> -	ret = drm_debugfs_create_files(drm_vram_mm_debugfs_list,
-> -				       ARRAY_SIZE(drm_vram_mm_debugfs_list),
-> -				       minor->debugfs_root, minor);
-> +	drm_debugfs_create_files(drm_vram_mm_debugfs_list,
-> +				 ARRAY_SIZE(drm_vram_mm_debugfs_list),
-> +				 minor->debugfs_root, minor);
->  #endif
-> -	return ret;
-> +	return 0;
->  }
->  EXPORT_SYMBOL(drm_vram_mm_debugfs_init);
->  
-> -- 
-> 2.25.1
-> 
+This new version is rebased on top of the DMA engine and PHY driver
+changes. In particular, it uses the new interleaved cyclic DMA
+transaction type
+and the PHY .configure() and .power_on() operations. It
+also includes reset support, which was moved out the PHY driver to the
+DPSUB driver where it belongs. The DT bindings are updated accordingly.
+
+The series depends on currently out-of-tree DMA engine ([2]) and PHY
+([3]) drivers that have been posted to the corresponding mailing lists
+but not merged yet. I have taken over development of both drivers, and
+hope to get them upstream without too much delay. As the DRM DPSUB driver
+depends on DMA engine API extensions, I plan to request a stable branch
+from Vinod in order to avoid a one kernel version delay.
+
+A branch that contains this series on top of the required dependencies
+is available at
+
+        git://linuxtv.org/pinchartl/media.git drm/dpsub/next
+
+[1] https://lists.freedesktop.org/archives/dri-devel/2018-July/182477.html
+[2] https://lore.kernel.org/dmaengine/20200123022939.9739-1-laurent.pinchart@ideasonboard.com/
+[3] https://lore.kernel.org/lkml/20200311103252.17514-1-laurent.pinchart@ideasonboard.com/
+
+Hyun Kwon (2):
+  dt-bindings: display: xlnx: Add ZynqMP DP subsystem bindings
+  drm: xlnx: DRM/KMS driver for Xilinx ZynqMP DisplayPort Subsystem
+
+Laurent Pinchart (3):
+  arm64: dts: zynqmp: Add reset controller
+  arm64: dts: zynqmp: Add DisplayPort subsystem
+  arm64: dts: zynqmp: zcu106-revA: Wire up the DisplayPort subsystem
+
+ .../display/xlnx/xlnx,zynqmp-dpsub.yaml       |  174 ++
+ MAINTAINERS                                   |    9 +
+ .../arm64/boot/dts/xilinx/zynqmp-clk-ccf.dtsi |    6 +
+ .../boot/dts/xilinx/zynqmp-zcu106-revA.dts    |   29 +
+ arch/arm64/boot/dts/xilinx/zynqmp.dtsi        |   29 +
+ drivers/gpu/drm/Kconfig                       |    2 +
+ drivers/gpu/drm/Makefile                      |    1 +
+ drivers/gpu/drm/xlnx/Kconfig                  |   13 +
+ drivers/gpu/drm/xlnx/Makefile                 |    2 +
+ drivers/gpu/drm/xlnx/zynqmp_disp.c            | 1708 ++++++++++++++++
+ drivers/gpu/drm/xlnx/zynqmp_disp.h            |   43 +
+ drivers/gpu/drm/xlnx/zynqmp_disp_regs.h       |  201 ++
+ drivers/gpu/drm/xlnx/zynqmp_dp.c              | 1742 +++++++++++++++++
+ drivers/gpu/drm/xlnx/zynqmp_dp.h              |   29 +
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |  330 ++++
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.h           |   49 +
+ 16 files changed, 4367 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
+ create mode 100644 drivers/gpu/drm/xlnx/Kconfig
+ create mode 100644 drivers/gpu/drm/xlnx/Makefile
+ create mode 100644 drivers/gpu/drm/xlnx/zynqmp_disp.c
+ create mode 100644 drivers/gpu/drm/xlnx/zynqmp_disp.h
+ create mode 100644 drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
+ create mode 100644 drivers/gpu/drm/xlnx/zynqmp_dp.c
+ create mode 100644 drivers/gpu/drm/xlnx/zynqmp_dp.h
+ create mode 100644 drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+ create mode 100644 drivers/gpu/drm/xlnx/zynqmp_dpsub.h
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards,
+
+Laurent Pinchart
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
