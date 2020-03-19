@@ -1,66 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 863A918C878
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:01:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFC218C881
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:02:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 972C86EAD7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DAC56EAD4;
 	Fri, 20 Mar 2020 08:01:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
- [IPv6:2607:f8b0:4864:20::836])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEB2B6EA03
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 11:50:30 +0000 (UTC)
-Received: by mail-qt1-x836.google.com with SMTP id l20so1466829qtp.4
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 04:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=lBTUj1y9VtUDCn4ytJFEQ/eoQI6G7k2EQxvY7AJpV3c=;
- b=Q9ERC6iPr6C3r4Aftx8b5gwyrS/P6NkAng74KreczcNsHr53jWHlVKuPvCBBh0StdU
- b7wzRK/4QaptzavqQqjoxQtuj+QaqaBcHLAt+n2RM2aODrw/YIvYJOcY6oY/jhXWMdNl
- gFsDyu8l5L6Q4p5/Vec/nQL4ZF96TI6lmJ+GksJOA5nnA/U56BWjdrmmQuHmwq16PEgF
- vEDyKh6pD2UZZlm0QaUjZJg9ezYYrp/3bLf3kWlZYm9kIylqHOwtEoZBn6QJwP79CInq
- PaTsPCn3AYjQRE8u84qlU4iAzPC4kAqGszh17G2RZLFuZX+xqHCLjAuidtRaW2LMrHIM
- 4mJg==
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E4D46E32E
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 12:28:00 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id l20so2014958wmi.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 05:28:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=A9SGNay6V5AK51JymycAKfsjcnHxWtXDcTFCmT1Vk+E=;
+ b=rWNJYxiRGxQPNJ0vJ1Hjn39bP0NuYfEf0w9eCCOSFBbW/sR8X1EFAiE6O254aP4Ixe
+ L7MD8WjBigyHc4soKokx0mhvOKKcjHY/Tw4QX7eK1MibVaNsHMWU6cI3oTfIwW+5pe1o
+ U9CTwcxKCVhYuUxbnfM24442Zj7K7kYk3CWsdxf0LXFUUwRHpMtrcuKOunQ+BoHLSGVf
+ kXodDeNl44EuXRVB/pgfNykVP/TvEpim6P1SaEK1hVlrNMRE6/g2I3e9rtzFf20071kk
+ KNCZMmH5m9m/S8sPgBBLdJ5lByOqjlqeAl58Yb924o+xaQKHT01k8jpmbLZYQ4NHbfJ+
+ CcMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=lBTUj1y9VtUDCn4ytJFEQ/eoQI6G7k2EQxvY7AJpV3c=;
- b=VVSVtAfluHt5EWaCXukXICcwMeGxhNTk2AF0qWWfbWTYd7Sx8OjT4hk1kxOZXxGSM6
- ND7U0hB5THAruRqhlQvkNwPH5tJ8pZ1FFH8aXoja31EsBTLhSHXy/A0WvxrrBlouuUZ5
- DAwHIngNkYdeyp1U8bFL3j1g4BQCdJxSSoFqgAKywhzzcO6LnPLziDiaY1ForsEWHJIA
- j8vFmGnYKlfyN/t9n0z6Yte21qJ4McJt2p8RsmY/kbCT0LcDmii3DVQWH8ojNtZz3AXm
- AYcTIyO8W6qBcq56CaqsVNJ/nhD91E1iKVMVxuyoqr+ykiUjT+HGKAFt42n2Di5d8jkR
- +QHg==
-X-Gm-Message-State: ANhLgQ3mThFUNKahWJMYPljNdbiVMsjwISEv99S+/g03Hb70HrbrGe6J
- S8xje8UvVBokYf5oIj3nmZjCCw==
-X-Google-Smtp-Source: ADFU+vsIVebb1InTyDcl4fZPuH+UAvQ5tH6FZmi6I4UE9Qq4JBH+2FeGy/XT9qJsD57BNhHjEf5qDA==
-X-Received: by 2002:ac8:24a7:: with SMTP id s36mr2441422qts.357.1584618629621; 
- Thu, 19 Mar 2020 04:50:29 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id h138sm1339362qke.86.2020.03.19.04.50.28
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 19 Mar 2020 04:50:28 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1jEtgx-0004ip-P2; Thu, 19 Mar 2020 08:50:27 -0300
-Date: Thu, 19 Mar 2020 08:50:27 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: ensure device private pages have an owner v2
-Message-ID: <20200319115027.GI20941@ziepe.ca>
-References: <20200316193216.920734-1-hch@lst.de>
- <20200319002849.GG20941@ziepe.ca> <20200319071633.GA32522@lst.de>
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=A9SGNay6V5AK51JymycAKfsjcnHxWtXDcTFCmT1Vk+E=;
+ b=HQm5UIKNIcWwtGJzipbqzdnQupx6f06BLWUg4GIC1inOWARwy+WxBbFqh2BscFwFrj
+ C+P1Im9n6/NB4IxhyM3SfLiljS4RyaL6WSYGhf+UAUKBVH9Cro5FT53edUQsMyD4XnWe
+ trlN+wNJbFnEwKX6tNFQO3LEb3xR9SL9SbxruxqttSvWMtesMDZT2Ikoz5/cYgvmP+j2
+ gpxmRNYPcA1GxBZxHA6GLs7z+me5p6GMKmv5NKyaPt6wBKFaXE0U4/+oyOYzRH3o2tlW
+ vNeAt+vR6Q8V9M1O8Opv9/arW9r80Jx5bNthEJPiKh8WM1QmPlYirvcviWgrqQX2ZbfB
+ vsaw==
+X-Gm-Message-State: ANhLgQ0XSvf4awAgZTu4PTVjiK2MQH+mP6Eqy7FxPfk+1REXZJ4FDQzQ
+ ClQ3/wg6BcUsPiqw2AHy2t/gopCn
+X-Google-Smtp-Source: ADFU+vt9CrOL32fzju0rsgW6b2+is1jo4E9mLrZ14oElkWNUmIMnH4/u4Z397A0CwFhXELH0EzqcQA==
+X-Received: by 2002:a1c:bd82:: with SMTP id n124mr3468131wmf.162.1584620879035; 
+ Thu, 19 Mar 2020 05:27:59 -0700 (PDT)
+Received: from wambui.local ([197.237.61.225])
+ by smtp.googlemail.com with ESMTPSA id c124sm3022493wma.10.2020.03.19.05.27.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Mar 2020 05:27:58 -0700 (PDT)
+From: Wambui Karuga <wambui.karugax@gmail.com>
+X-Google-Original-From: Wambui Karuga <wambui@wambui>
+Date: Thu, 19 Mar 2020 15:27:29 +0300 (EAT)
+To: Daniel Vetter <daniel@ffwll.ch>, Greg KH <gregkh@linuxfoundation.org>, 
+ Wambui Karuga <wambui.karugax@gmail.com>, Dave Airlie <airlied@linux.ie>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 10/17] drm/vram-helper: make drm_vram_mm_debugfs_init()
+ return 0
+In-Reply-To: <20200319101830.GB2363188@phenom.ffwll.local>
+Message-ID: <alpine.LNX.2.21.99999.375.2003191522020.89327@wambui>
+References: <20200310133121.27913-1-wambui.karugax@gmail.com>
+ <20200310133121.27913-11-wambui.karugax@gmail.com>
+ <20200318152627.GY2363188@phenom.ffwll.local>
+ <alpine.LNX.2.21.99999.375.2003181857010.54051@wambui>
+ <CAKMK7uGwJ6nzLPzwtfUY79e1fSFxkrSgTfJuDeM4px6c0v13qg@mail.gmail.com>
+ <20200318165846.GC3090655@kroah.com>
+ <CAKMK7uGbg5Lax+eXJda4k9LNd7JBb+LRtRw4S+bZ4GbNGT--ZA@mail.gmail.com>
+ <20200319075524.GB3445010@kroah.com>
+ <20200319101830.GB2363188@phenom.ffwll.local>
+User-Agent: Alpine 2.21.99999 (LNX 375 2019-10-29)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200319071633.GA32522@lst.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Fri, 20 Mar 2020 08:01:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,37 +81,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kvm-ppc@vger.kernel.org,
- Bharata B Rao <bharata@linux.ibm.com>, linux-mm@kvack.org,
- Jerome Glisse <jglisse@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 19, 2020 at 08:16:33AM +0100, Christoph Hellwig wrote:
-> On Wed, Mar 18, 2020 at 09:28:49PM -0300, Jason Gunthorpe wrote:
-> > > Changes since v1:
-> > >  - split out the pgmap->owner addition into a separate patch
-> > >  - check pgmap->owner is set for device private mappings
-> > >  - rename the dev_private_owner field in struct migrate_vma to src_owner
-> > >  - refuse to migrate private pages if src_owner is not set
-> > >  - keep the non-fault device private handling in hmm_range_fault
-> > 
-> > I'm happy enough to take this, did you have plans for a v3?
-> 
-> I think the only open question is if merging 3 and 4 might make sense.
-> It's up to you if you want it resent that way or not.
 
-Now that I understand that amdgpu doesn't set the 'do not return
-device_private pages' flag, I think the split is fine, I'll grab it as
-is then today
 
-Thanks,
-Jason
+On Thu, 19 Mar 2020, Daniel Vetter wrote:
+
+> On Thu, Mar 19, 2020 at 08:55:24AM +0100, Greg KH wrote:
+>> On Wed, Mar 18, 2020 at 08:10:43PM +0100, Daniel Vetter wrote:
+>>> On Wed, Mar 18, 2020 at 5:58 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>>>>
+>>>> On Wed, Mar 18, 2020 at 05:31:47PM +0100, Daniel Vetter wrote:
+>>>>> On Wed, Mar 18, 2020 at 5:03 PM Wambui Karuga <wambui.karugax@gmail.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> On Wed, 18 Mar 2020, Daniel Vetter wrote:
+>>>>>>
+>>>>>>> On Tue, Mar 10, 2020 at 04:31:14PM +0300, Wambui Karuga wrote:
+>>>>>>>> Since 987d65d01356 (drm: debugfs: make
+>>>>>>>> drm_debugfs_create_files() never fail), drm_debugfs_create_files() never
+>>>>>>>> fails and should return void. Therefore, remove its use as the
+>>>>>>>> return value of drm_vram_mm_debugfs_init(), and have the function
+>>>>>>>> return 0 directly.
+>>>>>>>>
+>>>>>>>> v2: have drm_vram_mm_debugfs_init() return 0 instead of void to avoid
+>>>>>>>> introducing build issues and build breakage.
+>>>>>>>>
+>>>>>>>> References: https://lists.freedesktop.org/archives/dri-devel/2020-February/257183.html
+>>>>>>>> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+>>>>>>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>>>>> ---
+>>>>>>>>  drivers/gpu/drm/drm_gem_vram_helper.c | 10 ++++------
+>>>>>>>>  1 file changed, 4 insertions(+), 6 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+>>>>>>>> index 92a11bb42365..c8bcc8609650 100644
+>>>>>>>> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+>>>>>>>> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+>>>>>>>> @@ -1048,14 +1048,12 @@ static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
+>>>>>>>>   */
+>>>>>>>>  int drm_vram_mm_debugfs_init(struct drm_minor *minor)
+>>>>>>>>  {
+>>>>>>>> -    int ret = 0;
+>>>>>>>> -
+>>>>>>>>  #if defined(CONFIG_DEBUG_FS)
+>>>>>>>
+>>>>>>> Just noticed that this #if here is not needed, we already have a dummy
+>>>>>>> function for that case. Care to write a quick patch to remove it? On top
+>>>>>>> of this patch series here ofc, I'm in the processing of merging the entire
+>>>>>>> pile.
+>>>>>>>
+>>>>>>> Thanks, Daniel
+>>>>>> Hi Daniel,
+>>>>>> Without this check here, and compiling without CONFIG_DEBUG_FS, this
+>>>>>> function is run and the drm_debugfs_create_files() does not have access to
+>>>>>> the parameters also protected by an #if above this function. So the change
+>>>>>> throws an error for me. Is that correct?
+>>>>>
+>>>>> Hm right. Other drivers don't #ifdef out their debugfs file functions
+>>>>> ... kinda a bit disappointing that we can't do this in the neatest way
+>>>>> possible.
+>>>>>
+>>>>> Greg, has anyone ever suggested to convert the debugfs_create_file
+>>>>> function (and similar things) to macros that don't use any of the
+>>>>> arguments, and then also annotating all the static functions/tables as
+>>>>> __maybe_unused and let the compiler garbage collect everything?
+>>>>> Instead of explicit #ifdef in all the drivers ...
+>>>>
+>>>> No, no one has suggested that, having the functions be static inline
+>>>> should make it all "just work" properly if debugfs is not enabled.  The
+>>>> variables will not be used, so the compiler should just optimize them
+>>>> away properly.
+>>>>
+>>>> No checks for CONFIG_DEBUG_FS should be needed anywhere in .c code.
+>>>
+>>> So the trouble with this one is that the static inline functions for
+>>> the debugfs file are wrapped in a #if too, and hence if we drop the
+>>> #if around the function call stuff won't compile. Should we drop all
+>>> the #if in the .c file and assume the compiler will remove all the
+>>> dead code and dead functions?
+>>
+>> Yes you should :)
+>>
+>> there should not be any need for #if in a .c file for debugfs stuff.
+>
+> Wambui, can you pls try that out? I.e. removing all the #if for
+> CONFIG_DEBUG_FS from that file.
+
+Removing them works with CONFIG_DEBUG_FS enabled or disabled.
+I can send a patch for that.
+
+wambui karuga
+> -Daniel
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
