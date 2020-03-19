@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3EE18AAE5
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 03:56:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB3A18AAE8
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 03:58:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFA146E0D1;
-	Thu, 19 Mar 2020 02:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8963A8932A;
+	Thu, 19 Mar 2020 02:58:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
- [209.85.166.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD02B6E0D1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 02:56:08 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id e20so314405ios.12
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 19:56:08 -0700 (PDT)
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com
+ [209.85.166.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14C028932A
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 02:58:20 +0000 (UTC)
+Received: by mail-il1-f196.google.com with SMTP id a6so882523ilc.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 19:58:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=PPkja5C25VerS45bxtKqwCdIAsJE8Q53wltiW2Ahl8s=;
- b=D7a+we9s3HPk4MB8FPQ94aYKu3lvUKWut9XWYNq5nXxbOYAVonnkOFeNRPTdwuX48e
- KA0nEkThsHFPY7sMdH3p9Qq+nV5expvB/zjsYZg3g572lHZvzbQJ/0XH5fBhvBIRV0jE
- cJ+bE8iuomEa4HLmyWw2Cl26n7RWUpOXY8g8ksYFJ0/KVCRyaZrhhhE/PsI37M11FhU9
- 5wEwC6NvakRae0D92nLNf/eeuMT2XIuzD7M4km9vkLcv2odc4/Nb8O37lNTu9Ii2U7Nw
- mQkh9GZUAA6MuIShD6hNx5bGO0MSy7hhZWjPjVAKKQOACFjgl27obTSYqTgDFGBKMegF
- zcsQ==
-X-Gm-Message-State: ANhLgQ1XPkSjzr/DmPXJ3QhNAW5gJIdiRCE19gD8kfmuHl97+kw48XTd
- EtwQDmZKMk01s+67hyN+HQ==
-X-Google-Smtp-Source: ADFU+vu8Zs4sikgQ9qOl1rtXnWnxbh11VSlCCgp2VF3kXoJHSN0x4GdzUn913Ju/MZHC3HITrrVJBw==
-X-Received: by 2002:a02:9608:: with SMTP id c8mr1114138jai.68.1584586566760;
- Wed, 18 Mar 2020 19:56:06 -0700 (PDT)
+ bh=nM1k8lzE08ockeKYloA70XJW2sZFxyYzHCwuagreaWU=;
+ b=XLhv2xUSAOk0rOvG+SSS8Z4fVA6E+j5ljGQdU9yWYqlKfLHH2toM4nghbfvqh72txx
+ B6n2FEi0ltva0CSvLWuncToF2RAd5j7Tq64cJaVlzE5/3sAC5Ecm/8Xr414CvAjMKPXH
+ OrUudIm1qp3c75T59gy3t4GmqI3+gV2zXKFNdNujifxwym1BF/EgdqdYeobZ/wZcYdyf
+ n9lw00W2FLFw63cZvNG/0ZolHiwxbDci2DgnaMM9HATdG1Mfp5mL8MHnBEtAxl1qcqjF
+ Uzj6Onixb0T6JuF6Uy/nUl6GRwBNlvhIH5vNdgUvddoELh8DGB8ScPqyj5ixF7OB8KPD
+ i0hw==
+X-Gm-Message-State: ANhLgQ2AMVKwkcoa3RDd1jYIRk2svqdhO5NHCJYrfqlcgYppGDwYo9Gd
+ dNWEPCySqDXDe5HUXltTCg==
+X-Google-Smtp-Source: ADFU+vt4duHipes2QaC+4RFruU+kDS5HHH7frANwByd8bHTgKrhzGOjiOUDZN3bZufC8BNbAMM3roA==
+X-Received: by 2002:a92:d843:: with SMTP id h3mr1149317ilq.246.1584586699318; 
+ Wed, 18 Mar 2020 19:58:19 -0700 (PDT)
 Received: from rob-hp-laptop ([64.188.179.250])
- by smtp.gmail.com with ESMTPSA id q17sm314741ilm.85.2020.03.18.19.56.02
+ by smtp.gmail.com with ESMTPSA id o76sm328614ili.18.2020.03.18.19.58.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Mar 2020 19:56:06 -0700 (PDT)
-Received: (nullmailer pid 22642 invoked by uid 1000);
- Thu, 19 Mar 2020 02:56:01 -0000
-Date: Wed, 18 Mar 2020 20:56:01 -0600
+ Wed, 18 Mar 2020 19:58:17 -0700 (PDT)
+Received: (nullmailer pid 25742 invoked by uid 1000);
+ Thu, 19 Mar 2020 02:58:15 -0000
+Date: Wed, 18 Mar 2020 20:58:15 -0600
 From: Rob Herring <robh@kernel.org>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v1 16/36] dt-bindings: display: convert lg,lg4573 to DT
- Schema
-Message-ID: <20200319025601.GD29911@bogus>
+Subject: Re: [PATCH v1 18/36] dt-bindings: display: convert raydium,rm67191
+ to DT Schema
+Message-ID: <20200319025814.GE29911@bogus>
 References: <20200315134416.16527-1-sam@ravnborg.org>
- <20200315134416.16527-17-sam@ravnborg.org>
+ <20200315134416.16527-19-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200315134416.16527-17-sam@ravnborg.org>
+In-Reply-To: <20200315134416.16527-19-sam@ravnborg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,90 +87,147 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 15, 2020 at 02:43:56PM +0100, Sam Ravnborg wrote:
+On Sun, Mar 15, 2020 at 02:43:58PM +0100, Sam Ravnborg wrote:
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Heiko Schocher <hs@denx.de>
+> Cc: Robert Chiras <robert.chiras@nxp.com>
 > Cc: Thierry Reding <thierry.reding@gmail.com>
 > Cc: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  .../bindings/display/panel/lg,lg4573.txt      | 19 ---------
->  .../bindings/display/panel/lg,lg4573.yaml     | 41 +++++++++++++++++++
->  2 files changed, 41 insertions(+), 19 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/panel/lg,lg4573.txt
->  create mode 100644 Documentation/devicetree/bindings/display/panel/lg,lg4573.yaml
+>  .../display/panel/raydium,rm67191.txt         | 41 ----------
+>  .../display/panel/raydium,rm67191.yaml        | 75 +++++++++++++++++++
+>  2 files changed, 75 insertions(+), 41 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/panel/raydium,rm67191.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/lg,lg4573.txt b/Documentation/devicetree/bindings/display/panel/lg,lg4573.txt
+> diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.txt b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.txt
 > deleted file mode 100644
-> index 824441f4e95a..000000000000
-> --- a/Documentation/devicetree/bindings/display/panel/lg,lg4573.txt
+> index 10424695aa02..000000000000
+> --- a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.txt
 > +++ /dev/null
-> @@ -1,19 +0,0 @@
-> -LG LG4573 TFT Liquid Crystal Display with SPI control bus
+> @@ -1,41 +0,0 @@
+> -Raydium RM67171 OLED LCD panel with MIPI-DSI protocol
 > -
 > -Required properties:
-> -  - compatible: "lg,lg4573"
-> -  - reg: address of the panel on the SPI bus
+> -- compatible: 		"raydium,rm67191"
+> -- reg:			virtual channel for MIPI-DSI protocol
+> -			must be <0>
+> -- dsi-lanes:		number of DSI lanes to be used
+> -			must be <3> or <4>
+> -- port: 		input port node with endpoint definition as
+> -			defined in Documentation/devicetree/bindings/graph.txt;
+> -			the input port should be connected to a MIPI-DSI device
+> -			driver
 > -
-> -The panel must obey rules for SPI slave device specified in document [1].
-> -
-> -[1]: Documentation/devicetree/bindings/spi/spi-bus.txt
+> -Optional properties:
+> -- reset-gpios:		a GPIO spec for the RST_B GPIO pin
+> -- v3p3-supply:		phandle to 3.3V regulator that powers the VDD_3V3 pin
+> -- v1p8-supply:		phandle to 1.8V regulator that powers the VDD_1V8 pin
+> -- width-mm:		see panel-common.txt
+> -- height-mm:		see panel-common.txt
+> -- video-mode:		0 - burst-mode
+> -			1 - non-burst with sync event
+> -			2 - non-burst with sync pulse
 > -
 > -Example:
 > -
-> -	lcd_panel: display@0 {
-> -		#address-cells = <1>;
-> -		#size-cells = <1>;
-> -		compatible = "lg,lg4573";
-> -		spi-max-frequency = <10000000>;
+> -	panel@0 {
+> -		compatible = "raydium,rm67191";
 > -		reg = <0>;
+> -		pinctrl-0 = <&pinctrl_mipi_dsi_0_1_en>;
+> -		pinctrl-names = "default";
+> -		reset-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
+> -		dsi-lanes = <4>;
+> -		width-mm = <68>;
+> -		height-mm = <121>;
+> -
+> -		port {
+> -			panel_in: endpoint {
+> -				remote-endpoint = <&mipi_out>;
+> -			};
+> -		};
 > -	};
-> diff --git a/Documentation/devicetree/bindings/display/panel/lg,lg4573.yaml b/Documentation/devicetree/bindings/display/panel/lg,lg4573.yaml
+> diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
 > new file mode 100644
-> index 000000000000..b5b475cf8406
+> index 000000000000..b78b66a4336f
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/lg,lg4573.yaml
-> @@ -0,0 +1,41 @@
+> +++ b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+> @@ -0,0 +1,75 @@
 > +# SPDX-License-Identifier: GPL-2.0
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/panel/lg,lg4573.yaml#
+> +$id: http://devicetree.org/schemas/display/panel/raydium,rm67191.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: LG LG4573 TFT Liquid Crystal Display with SPI control bus
+> +title: Raydium RM67171 OLED LCD panel with MIPI-DSI protocol
 > +
 > +maintainers:
-> +  - Heiko Schocher <hs@denx.de>
+> +  - Robert Chiras <robert.chiras@nxp.com>
 > +
 > +allOf:
-> +  - $ref: ../../spi/spi-slave.yaml#
 > +  - $ref: panel-common.yaml#
 > +
 > +properties:
 > +  compatible:
-> +    const: lg,lg4573
+> +    const: raydium,rm67191
 > +
 > +  reg: true
-> +  spi-max-frequency: true
+> +  port: true
+> +  reset-gpios: true
+> +  width-mm: true
+> +  height-mm: true
+> + 
+> +  dsi-lanes:
+> +    description: Number of DSI lanes to be used must be <3> or <4>
+> +    enum: [3, 4]
+> +
+> +  v3p3-supply:
+> +    description: phandle to 3.3V regulator that powers the VDD_3V3 pin
+> +
+> +  v1p8-supply:
+> +    description: phandle to 1.8V regulator that powers the VDD_1V8 pin
+> +
+> +  video-mode:
+> +    description: |
+> +      0 - burst-mode
+> +      1 - non-burst with sync event
+> +      2 - non-burst with sync pulse
+> +    enum: [0, 1, 2]
 > +
 > +required:
 > +  - compatible
 > +  - reg
+> +  - dsi-lanes
+> +  - port
+> +
+> +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    spi {
-> +        compatible = "fsl,imx6q-ecspi", "fsl,imx51-ecspi";
-
-Better to drop this or it's going to fail when there's a schema for this 
-spi controller.
-
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    dsi {
 > +        #address-cells = <1>;
 > +        #size-cells = <0>;
 > +
-> +        lcd_panel: display@0 {
-> +            compatible = "lg,lg4573";
-> +            spi-max-frequency = <10000000>;
+> +        panel {
+
+panel@0
+
+I thought our dsi bus binding would catch this...
+
+> +            compatible = "raydium,rm67191";
 > +            reg = <0>;
+> +            reset-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
+> +            dsi-lanes = <4>;
+> +            width-mm = <68>;
+> +            height-mm = <121>;
+> +            video-mode = <1>;
+> +
+> +            port {
+> +                panel_in: endpoint {
+> +                    remote-endpoint = <&mipi_out>;
+> +                };
+> +            };
 > +        };
 > +    };
 > +
