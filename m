@@ -2,40 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868C118B0BB
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 11:01:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B079018B0D7
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 11:04:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86C076E9D1;
-	Thu, 19 Mar 2020 10:01:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 357AA6E9D4;
+	Thu, 19 Mar 2020 10:04:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31CE06E9D1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 10:01:03 +0000 (UTC)
-Date: Thu, 19 Mar 2020 10:00:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1584612060;
- bh=36HLGEVvas3Di7zjgB751Bfoyerh1ZQGVa2tqrAXUQU=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
- Feedback-ID:From;
- b=hMiT3vvOb3E2KkQZnUkb/b0+Ui/kR1S93P6U+UKOKFTE1IXcHBzvAKF846uoFi+sg
- v8DMDTa2cKbQ4Ml9vUPwpD18Q/8MRP0a1GS1LB8JBXz6jDrGS9QiPylLVh60eEFZxz
- a1aHyLMsI7ouuPAsgwuHT5IfWcuXnDm75BOyLBuQ=
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: Atomic KMS API lacks the ability to set cursor hot-spot
- coordinates
-Message-ID: <MPzOVF7HbjWD-DOtY0cwysuavnUFO4OYiyztNSipEfz6cXKDk66GI5AKMzfVhmvatF3kxF-ID6kWi2H8JxPBZ9ii3cI3RWgLBsauIy5l9Xc=@emersion.fr>
-In-Reply-To: <20200319115748.276d8f32@eldfell.localdomain>
-References: <9d86bbe4-70cf-273d-4d61-aec06011d441@redhat.com>
- <ADrBkiVj05c2ZYEz46BNJrrChY-PCxme8HOeHHGOLjIR5XpBZoyIY5aUnSfXCm0wrYr0-Iuh80vnZqmRQ_jZaslv2Q2P7N6q5yCG0AeWovU=@emersion.fr>
- <20200319115748.276d8f32@eldfell.localdomain>
-Feedback-ID: FsVprHBOgyvh0T8bxcZ0CmvJCosWkwVUg658e_lOUQMnA9qynD8O1lGeniuBDfPSkDAUuhiKfOIXUZBfarMyvA==:Ext:ProtonMail
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE3896E9D4
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 10:04:23 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 391C8ACD6;
+ Thu, 19 Mar 2020 10:04:22 +0000 (UTC)
+From: Jiri Slaby <jslaby@suse.cz>
+To: kraxel@redhat.com
+Subject: [PATCH] drm/virtio: fix OOB in virtio_gpu_object_create
+Date: Thu, 19 Mar 2020 11:04:21 +0100
+Message-Id: <20200319100421.16267-1-jslaby@suse.cz>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,40 +35,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Jiri Slaby <jslaby@suse.cz>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, March 19, 2020 10:57 AM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+After commit f651c8b05542, virtio_gpu_create_object allocates too small
+space to fit everything in. It is because it allocates struct
+virtio_gpu_object, but should allocate a newly added struct
+virtio_gpu_object_shmem which has 2 more members.
 
-> On Wed, 18 Mar 2020 14:38:48 +0000
-> Simon Ser contact@emersion.fr wrote:
->
-> > Hi,
-> >
-> > > 1.  Letting the VM-viewer window-system draw the cursor as it normally
-> > >     would draw it.
-> > >
-> >
-> > Why is this important? Can't the VM viewer hide the cursor and use a
-> > sub-surface to manually draw the cursor plane configured by the guest?
-> > This would also allow the compositor running inside the VM to correctly
-> > have control over the cursor position, which is necessary for pointer
-> > constraints.
->
-> Aren't pointer motion events delivered in absolute and not relative
-> coordinates in the "seamless mode"?
->
-> Do we do pointer constraints also with absolute motion?
+So fix that by using correct type in virtio_gpu_create_object.
 
-Some apps do pointer constraints with absolute motion, e.g. games and
-VNC/VM viewers. It's usually used to prevent the user from leaving the
-constrained surface by mistake.
+Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+Fixes: f651c8b05542 ("drm/virtio: factor out the sg_table from virtio_gpu_object")
+Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_object.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 2bfb13d1932e..d9039bb7c5e3 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -123,15 +123,17 @@ bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo)
+ struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
+ 						size_t size)
+ {
+-	struct virtio_gpu_object *bo;
++	struct virtio_gpu_object_shmem *shmem;
++	struct drm_gem_shmem_object *dshmem;
+ 
+-	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
+-	if (!bo)
++	shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
++	if (!shmem)
+ 		return NULL;
+ 
+-	bo->base.base.funcs = &virtio_gpu_shmem_funcs;
+-	bo->base.map_cached = true;
+-	return &bo->base.base;
++	dshmem = &shmem->base.base;
++	dshmem->base.funcs = &virtio_gpu_shmem_funcs;
++	dshmem->map_cached = true;
++	return &dshmem->base;
+ }
+ 
+ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
