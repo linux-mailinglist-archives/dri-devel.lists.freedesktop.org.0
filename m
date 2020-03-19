@@ -1,61 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A26218BE04
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 18:30:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0670918BE27
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 18:35:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EA966EA42;
-	Thu, 19 Mar 2020 17:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DBEC6EA43;
+	Thu, 19 Mar 2020 17:35:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E45F36EA42
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 17:30:35 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id z12so3305539wmf.5
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 10:30:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KdVK0dOTtxsCHG3yFkwkSQdVvO5AfUmYKEhbPilZuP8=;
- b=gcv5pJM3gYdQWuSZbOmAnHyr2wpaiBPs0UiZAkaZNB5z99ED7ueH2h1gWIhoWT8GKW
- lG1nwZzlroE2zv+VbEQaH3ip6+XJNwGi0tRL4fjYJP3NbRTLywkeENa93L7ifANNTiEI
- biR1CPjKZaHKEgfoVDFqZZjeXdfLoPeGWqbXJPVXZth5cpbiQ2hfF2g/YzyRGURLg5/4
- GVnsA9N8H2bnO+YauycekTlrcTDxHhOO3HOU5bDRz7Z2Mg4p+u2SuLF7NuspS6T8awhR
- fD05d5/AIWm2MQeD9pOh+WnK65fMnTIdBpSMAmAqpKTe59daQP0GQ3rUsoczejd6J9u5
- n+2A==
+Received: from us-smtp-delivery-74.mimecast.com
+ (us-smtp-delivery-74.mimecast.com [216.205.24.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B07BF6EA43
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 17:35:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584639349;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Aa2Nquow2GgqfoiAqwvn8s6KexFuEkXSqwxaHybwlmA=;
+ b=LFZgP6CL/fs/Q71RwLB8xOlnZGhHPLk1L6Prwvy+SI3HaCG4gqHGKF7AegMFGPO50QfN04
+ KY0DiAWpcYRnPcgCupOPWqQq3sM2w9aidP892ATVmj/IdV4bnr6VnlbrkcXW9XbCej20fN
+ Bwg7uBefr+ZmtFOtEn/F1AWQ1S663Qs=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-69-Ilo8HdtpObipnBAtxiY0LA-1; Thu, 19 Mar 2020 13:35:43 -0400
+X-MC-Unique: Ilo8HdtpObipnBAtxiY0LA-1
+Received: by mail-qk1-f198.google.com with SMTP id e10so3106381qkg.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 10:35:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KdVK0dOTtxsCHG3yFkwkSQdVvO5AfUmYKEhbPilZuP8=;
- b=YXc5j2s/PV0xYFpMCPSg3a9XDshabx/kFObsPLTMjztYHcH2+i/mEh511T5TshFADM
- baOTOs6Y8MqJjBzj8VUxBAqr1CK4rzrSgTwV6p/XNv3WlVTq0l4GOVlDqcCsZoTrkWSb
- 0i0PJ8b1sH0/2tMYJJiB04PP4R7982HsxhqlR1pg87qts238vDrKmwiTVbZva+aV6vFK
- b5AeIUqEe0y3NoYO07Fq5IcwnmDzXZZbyvn+kkg5+iMlzap5I2Q9Am1sKVnvcaPXL6aZ
- coOF2wThL9apH3D3qXAheAiNSkXDtQgZiUMxqlzgVQIa6WYfiFaeS51q4CqAdNtCcTt0
- qzZw==
-X-Gm-Message-State: ANhLgQ3UtkDIxoTXuJh/DnXa4hYaEJ1X9V/mI9LQq+wW2yhvAqIut/Vl
- QJ/x7k2lKLGrRqHdNS21cOJ2VB7I
-X-Google-Smtp-Source: ADFU+vuApkqG6oJCCvRzScz8TrIt0Cih+bbHg2YjHwih0f3kupyMV9MTWUnbFHNhBLxr/ju1y1/Bfw==
-X-Received: by 2002:a1c:4987:: with SMTP id w129mr3217864wma.168.1584639033162; 
- Thu, 19 Mar 2020 10:30:33 -0700 (PDT)
-Received: from arch-x1c3.cbg.collabora.co.uk
- ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
- by smtp.gmail.com with ESMTPSA id k9sm4534601wrd.74.2020.03.19.10.30.32
+ h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=Aa2Nquow2GgqfoiAqwvn8s6KexFuEkXSqwxaHybwlmA=;
+ b=fMI/TqZtlH7o3BaE0zVepUBVMki5OLZGhCcNRbJQ3ov1RwjiROg2FlI2uioR214LFI
+ FnlxHhjlYkAiydMCP4epVOHjmbDas9m61V6BvfspojlGZ3LIZECOPdKBZt/wkY7v/uHd
+ Mu/WwclTR3x0mcIiAVPSnkJUdGmfvqpeg/b+VQfOFDildNrLfjO+ubW3yH1BYkj/eJvr
+ ZWlcQ2kttLnSbp0FE1UMgfyeaIyadAC2hSFzDocj10LSpdu0CMwcjpRWYeVSdyByEanb
+ tSPz8ML1lwRn/n7e1+sU3/5P443ANaFdqYOxLNVVMeIkzAusftyVHKbkE9M+y1VWjVCo
+ 4sjA==
+X-Gm-Message-State: ANhLgQ1W5ZgZj1an4ff3aIuXWguRzbERQAM3vI5TMrhB5YG8hZjMZNBv
+ eV2K5Ry10z2ATkogpl0bwvlUESaOWMYCNGmDiZS/T4Yi5sDKi6NHDydto0OiTvUnk+lSt/sMWi6
+ 0S5S7vwIkfxkawxoKAGjS2y1R+5wq
+X-Received: by 2002:ae9:e403:: with SMTP id q3mr3834417qkc.241.1584639342536; 
+ Thu, 19 Mar 2020 10:35:42 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsWS5TZK4rIcgSpi2IET6t81dsp9OUaDeA4gdJbfuAXKJGisme8AOHspbkK5fnlxr1PCKKU6g==
+X-Received: by 2002:ae9:e403:: with SMTP id q3mr3834394qkc.241.1584639342266; 
+ Thu, 19 Mar 2020 10:35:42 -0700 (PDT)
+Received: from desoxy (c-24-61-245-152.hsd1.ma.comcast.net. [24.61.245.152])
+ by smtp.gmail.com with ESMTPSA id n6sm1956181qkh.70.2020.03.19.10.35.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Mar 2020 10:30:32 -0700 (PDT)
-From: Emil Velikov <emil.l.velikov@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm: error out with EBUSY when device has existing
- master
-Date: Thu, 19 Mar 2020 17:29:30 +0000
-Message-Id: <20200319172930.230583-2-emil.l.velikov@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200319172930.230583-1-emil.l.velikov@gmail.com>
+ Thu, 19 Mar 2020 10:35:41 -0700 (PDT)
+Message-ID: <9accce765c96452fe41d7769cced3b3370554f36.camel@redhat.com>
+Subject: Re: [PATCH v2 2/2] drm: error out with EBUSY when device has
+ existing master
+From: Adam Jackson <ajax@redhat.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
+Date: Thu, 19 Mar 2020 13:35:40 -0400
+In-Reply-To: <20200319172930.230583-2-emil.l.velikov@gmail.com>
 References: <20200319172930.230583-1-emil.l.velikov@gmail.com>
+ <20200319172930.230583-2-emil.l.velikov@gmail.com>
+User-Agent: Evolution 3.34.0 (3.34.0-1.fc31)
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,53 +77,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emil.l.velikov@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Emil Velikov <emil.velikov@collabora.com>
+On Thu, 2020-03-19 at 17:29 +0000, Emil Velikov wrote:
+> From: Emil Velikov <emil.velikov@collabora.com>
+> 
+> As requested by Adam, provide different error message for when the
+> device has an existing master. An audit of the following projects, shows
+> that the errno is used only for printf() purposes.
+> 
+> xorg/xserver
+> xorg/drivers/xf86-video-ati
+> xorg/drivers/xf86-video-amdgpu
+> xorg/drivers/xf86-video-intel
+> xorg/drivers/xf86-video-tegra
+> xorg/drivers/xf86-video-freedreno
+> xorg/drivers/xf86-video-nouveau
+> xorg/drivers/xf86-video-vmwgfx
+> 
+> qt/kwin/plasma
+> gtk/mutter/gnomeshell
+> efl/enlightment
+> 
+> Cc: Adam Jackson <ajax@redhat.com>
+> Suggested-by: Adam Jackson <ajax@redhat.com>
+> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 
-As requested by Adam, provide different error message for when the
-device has an existing master. An audit of the following projects, shows
-that the errno is used only for printf() purposes.
+Delightful! Series is:
 
-xorg/xserver
-xorg/drivers/xf86-video-ati
-xorg/drivers/xf86-video-amdgpu
-xorg/drivers/xf86-video-intel
-xorg/drivers/xf86-video-tegra
-xorg/drivers/xf86-video-freedreno
-xorg/drivers/xf86-video-nouveau
-xorg/drivers/xf86-video-vmwgfx
+Reviewed-by: Adam Jackson <ajax@redhat.com>
 
-qt/kwin/plasma
-gtk/mutter/gnomeshell
-efl/enlightment
-
-Cc: Adam Jackson <ajax@redhat.com>
-Suggested-by: Adam Jackson <ajax@redhat.com>
-Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
----
- drivers/gpu/drm/drm_auth.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index 37cac0a221ff..a312fe1be50c 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -250,7 +250,7 @@ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
- 		goto out_unlock;
- 
- 	if (dev->master) {
--		ret = -EINVAL;
-+		ret = -EBUSY;
- 		goto out_unlock;
- 	}
- 
--- 
-2.25.1
+- ajax
 
 _______________________________________________
 dri-devel mailing list
