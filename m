@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA8A18B1BE
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 11:53:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D21118B1EC
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 12:02:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 722E86E12F;
-	Thu, 19 Mar 2020 10:53:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 529546E270;
+	Thu, 19 Mar 2020 11:02:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
- [IPv6:2607:f8b0:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7A026E12F
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 10:53:36 +0000 (UTC)
-Received: by mail-il1-x142.google.com with SMTP id h3so1791688ils.3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 03:53:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mGv6o90nBAkHN8tZGMFBnMPu1+vfJLDuM2IfjimqHmY=;
- b=SP1ghtcxKDm86Nrinun/aUTKmLh8YvxfNs09WDEPx7kOtKCkXKDhc4YR8iqRTOp/gS
- 8P5efpzV/FxasWeGMas6yKVOjmZHlN/U7Vcs0aJQgCFwJkVeQ69oXJHMx4/FdNA71uX6
- wqH9xxtU1P3ClcNJRgAKlGJ0idpOlYBjlQ2nM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mGv6o90nBAkHN8tZGMFBnMPu1+vfJLDuM2IfjimqHmY=;
- b=p0iK3Nwqn8nN6bfDZpc+njP6n8xhwYDKUozfYWTORivBXdy2OkH+P//hMfNK+Svu2i
- WQ5HK3G/jWLXOJHsVQNiu8WloDKlUVXZTzn10jpcYZZ1YU3sahkuunWwrKyM6tWVYQOl
- yRPUcHhCxZdEgTlSnZKQjSEAFSpkMWHJr0jpFmI9x6OSiezJzvxYZfK2lUEKAWcebs53
- z3Mby2TGVrjux5bELfjFen1kcCfFD6oq5HTd8BOJzo4VmBVel55CQvIVAAqgNYALOymT
- 7SHlhAAW/y00PRU3xBee8JkncrAjnwT5zuYgp9/KM82F9WbvV2yfYGZ74AWhIwmskLVV
- 4EfA==
-X-Gm-Message-State: ANhLgQ0TafYQYFcF6hPCxFNZKarwXXVC6hmcig7ewaLi2A1Asn/EIlSm
- T/V4NgcW/O9SimSw7mpWEKAhSGJ0pILMSFFHfJ6zzA==
-X-Google-Smtp-Source: ADFU+vsvDXUclE/dotigec15em503ixvkYRgAZl9akg13dIVS4KGv/OyL1NGUG/SO0ckE6T2Lmn93e+sS5SELs6oRrU=
-X-Received: by 2002:a92:77c2:: with SMTP id s185mr1287803ilc.297.1584615215203; 
- Thu, 19 Mar 2020 03:53:35 -0700 (PDT)
+Received: from us-smtp-delivery-74.mimecast.com
+ (us-smtp-delivery-74.mimecast.com [216.205.24.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D116B6E270
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 11:02:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584615757;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wv0CIJUyl8keYTWgcuAGZ94Xhx3biDTfmG+KzaIIjzY=;
+ b=Z35VKlFhVBqxLyCfBzP7jz54Ryns9E4tDd2xm+Tu4koDAKWDTsSuSz8rlTEgJA2E2e9K7m
+ Zc/dcw+/McxxrNe1RcuA3APHFGVQ5vds8xvFWo82nsVh3pK7UgKrwYoxLagThzVZ9Al/Hg
+ I6wN20bTo0rsxtjOVP2IHS8/RqDTFlo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-1-_FJnZKOjStqy_fyQIQYQ-1; Thu, 19 Mar 2020 07:02:33 -0400
+X-MC-Unique: 1-_FJnZKOjStqy_fyQIQYQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A93E18C8C02;
+ Thu, 19 Mar 2020 11:02:32 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-49.ams2.redhat.com
+ [10.36.112.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 239CB5C1D8;
+ Thu, 19 Mar 2020 11:02:31 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 4973E3BD; Thu, 19 Mar 2020 12:02:30 +0100 (CET)
+Date: Thu, 19 Mar 2020 12:02:30 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Jiri Slaby <jslaby@suse.cz>
+Subject: Re: [PATCH] drm/virtio: fix OOB in virtio_gpu_object_create
+Message-ID: <20200319110230.rxezuk3ex5fbov3f@sirius.home.kraxel.org>
+References: <20200319100421.16267-1-jslaby@suse.cz>
 MIME-Version: 1.0
-References: <20200318171003.5179-1-jagan@amarulasolutions.com>
- <20200318171003.5179-3-jagan@amarulasolutions.com>
- <20200318185814.GB28092@ravnborg.org>
- <CAMty3ZDhVfvYXV7OO+NT+d_2YHbsJXebzjdtYkqtdD+X=Ch0yQ@mail.gmail.com>
- <20200319103159.GA18744@ravnborg.org>
-In-Reply-To: <20200319103159.GA18744@ravnborg.org>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 19 Mar 2020 16:23:24 +0530
-Message-ID: <CAMty3ZCjHALfw3Hws5A1M3jbjtkGgeerUZb-wnrppFtQ0dvpTg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] MAINTAINERS: Update feiyang, st7701 panel bindings
- converted as YAML
-To: Sam Ravnborg <sam@ravnborg.org>
+Content-Disposition: inline
+In-Reply-To: <20200319100421.16267-1-jslaby@suse.cz>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,50 +60,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ virtualization@lists.linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+On Thu, Mar 19, 2020 at 11:04:21AM +0100, Jiri Slaby wrote:
+> After commit f651c8b05542, virtio_gpu_create_object allocates too small
+> space to fit everything in. It is because it allocates struct
+> virtio_gpu_object, but should allocate a newly added struct
+> virtio_gpu_object_shmem which has 2 more members.
+> 
+> So fix that by using correct type in virtio_gpu_create_object.
+> 
+> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+> Fixes: f651c8b05542 ("drm/virtio: factor out the sg_table from virtio_gpu_object")
+> Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
 
-On Thu, Mar 19, 2020 at 4:02 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Jagan.
-> On Thu, Mar 19, 2020 at 03:50:44PM +0530, Jagan Teki wrote:
-> > On Thu, Mar 19, 2020 at 12:28 AM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > >
-> > > On Wed, Mar 18, 2020 at 10:40:03PM +0530, Jagan Teki wrote:
-> > > > The feiyang,fy07024di26a30d.txt and sitronix,st7701.txt has been
-> > > > converted to YAML schemas, update MAINTAINERS to match them again.
-> > > >
-> > > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > >
-> > > The patch is fine.
-> > > I just dislike we repeat the maintainer info in two places..
-> >
-> > Since these are two different panels. and entry similar like other
-> > panels.do you look for single entry for both the panels?
-> My comment was related to the fact that we have maintainer entry in the
-> .yaml file, and in MAINTAINERS.
->
-> Seems a waste to have a distributed and a centralized place for this.
-> So patches are fine in this respect.
-> And merging the two bindings would be very bad, they are not alike.
+That was fast.  Yes, exactly this.  Pushed to drm-misc-next.
 
-Seems to be a valid point considering the redundant entry in two
-places, but the idea of maintainer entry in binding vs MAINTAINER file
-may be different in terms of usage, and knowing to public. the later
-part is pretty generic for people to know, and checkpatch to find. I
-may not be sure, but some experts can help here.
+thanks,
+  Gerd
 
-Jagan.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
