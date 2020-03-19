@@ -2,35 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25DF18C88E
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6514618C883
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:02:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 492D16EAEB;
-	Fri, 20 Mar 2020 08:01:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E86336EAC9;
+	Fri, 20 Mar 2020 08:01:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46BBE6E081
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 19:35:53 +0000 (UTC)
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 19 Mar 2020 12:35:52 -0700
-Received: from gurus-linux.qualcomm.com ([10.46.162.81])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP; 19 Mar 2020 12:35:52 -0700
-Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
- id 267874BBA; Thu, 19 Mar 2020 12:35:52 -0700 (PDT)
-Date: Thu, 19 Mar 2020 12:35:52 -0700
-From: Guru Das Srinagesh <gurus@codeaurora.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v9 01/11] drm/i915: Use 64-bit division macro
-Message-ID: <20200319193551.GA23396@codeaurora.org>
-References: <cover.1584473399.git.gurus@codeaurora.org>
- <19661821c8eb32291e72ec091c267f915c365c52.1584473399.git.gurus@codeaurora.org>
- <87h7yleb0i.fsf@intel.com>
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com
+ [IPv6:2607:f8b0:4864:20::f43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFB8D88FAE
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 20:01:17 +0000 (UTC)
+Received: by mail-qv1-xf43.google.com with SMTP id v38so1744442qvf.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 13:01:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fM16z92SEo1un958VCQNdAKQJnbQVV8LOPBQhvLRoZk=;
+ b=QlaHHv8ppA4DqD6kMC29oEyRqsLMTaCPZWlC+i9gmFsUkYUYuWMVX/5UpLbBooF6pB
+ V8sImFyRlvmI97sC5I4LZt/uSgSFEwnwY2I1qgM2OK0FTV0sjFMbo0YWC0cD9YU8IbEB
+ I9zmC0rdVaWwX0678SSKY2GfPyrhbS4rxKEfz8V1YFwoKI5GQU1A2+0yJx5eSdoexWLr
+ sK05lc/HwVLqFQCXdVJMUOlsCnhSPpmst4WtZOdmrw8O8dqi1V5Gk4G9PtaEdLC0VMMG
+ 6Sh1Z+q4D813dnjJX5N1bcY2rQKPB2oglQsx516PpUHcCnUmwlDDaeKtb7E6g8DJ2R5T
+ 0B9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fM16z92SEo1un958VCQNdAKQJnbQVV8LOPBQhvLRoZk=;
+ b=i640jpE5owEForL+TTCtojf4dYXRujKMugPkG4Ryck9yP7ou+xfvL3iPjnl/D+tZu4
+ 6TWdSLhL63a8iF++BEVBHVeeAmzzQsBm5PH0vOIYLSD/+bRPRsbd6yIj5vbtU7pAL9Eb
+ VW+zG91ZVd1MQWN3iGDkz84kP2H1PId/5AtDlQL8guGUSYfYQga8VILvWvmLcykz/ZuW
+ JYVQxah6uj5LOkNdft2Rn98ZjuMW4mWkhJfLeOwgFd9HJGMsJXtC+Yi/WWowbF4bTdff
+ S/Kpc+JPwrlxxoBXc2TuKc0LYPwZttccHycdjJD6AiXWIEmchdlNFqWUR0HzAMH5GVWO
+ n7tA==
+X-Gm-Message-State: ANhLgQ3Tcl43LQApLnA3z9VIV5DQDxGsmNqSJnd40M4ezbEYokUnEBRP
+ bNJKonX7Bcf55NmpA8+jaQMgZ9SzB1s=
+X-Google-Smtp-Source: ADFU+vvGqpBYk3EQhzi5Ry5WVZ9gbnjXOvsi7mGw4BTA2K94j4VfKAfGDB6E6Nws8lRjv832Amc92Q==
+X-Received: by 2002:a0c:fc43:: with SMTP id w3mr4897359qvp.32.1584648076983;
+ Thu, 19 Mar 2020 13:01:16 -0700 (PDT)
+Received: from localhost.localdomain ([179.159.236.147])
+ by smtp.googlemail.com with ESMTPSA id m67sm2226944qke.101.2020.03.19.13.01.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Mar 2020 13:01:15 -0700 (PDT)
+From: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run,
+ airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm: Alligne a comment block
+Date: Thu, 19 Mar 2020 17:00:28 -0300
+Message-Id: <20200319200028.2096-1-igormtorrente@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87h7yleb0i.fsf@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Mailman-Approved-At: Fri, 20 Mar 2020 08:01:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,40 +67,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+ Rodrigo.Siqueira@amd.com, rodrigosiqueiramelo@gmail.com,
+ andrealmeid@collabora.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBNYXIgMTgsIDIwMjAgYXQgMDk6MDg6NDVQTSArMDIwMCwgSmFuaSBOaWt1bGEgd3Jv
-dGU6Cj4gT24gVHVlLCAxNyBNYXIgMjAyMCwgR3VydSBEYXMgU3JpbmFnZXNoIDxndXJ1c0Bjb2Rl
-YXVyb3JhLm9yZz4gd3JvdGU6Cj4gPiBTaW5jZSB0aGUgUFdNIGZyYW1ld29yayBpcyBzd2l0Y2hp
-bmcgc3RydWN0IHB3bV9zdGF0ZS5kdXR5X2N5Y2xlJ3MKPiA+IGRhdGF0eXBlIHRvIHU2NCwgcHJl
-cGFyZSBmb3IgdGhpcyB0cmFuc2l0aW9uIGJ5IHVzaW5nIERJVl9ST1VORF9VUF9VTEwKPiA+IHRv
-IGhhbmRsZSBhIDY0LWJpdCBkaXZpZGVuZC4KPiA+Cj4gPiBDYzogSmFuaSBOaWt1bGEgPGphbmku
-bmlrdWxhQGxpbnV4LmludGVsLmNvbT4KPiA+IENjOiBKb29uYXMgTGFodGluZW4gPGpvb25hcy5s
-YWh0aW5lbkBsaW51eC5pbnRlbC5jb20+Cj4gPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxp
-bnV4LmllPgo+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiA+IENjOiBD
-aHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KPiA+IENjOiAiVmlsbGUgU3ly
-asOkbMOkIiA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cj4gPiBDYzogaW50ZWwtZ2Z4
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKPiA+IENjOiBSb2RyaWdvIFZpdmkgPHJvZHJpZ28udml2aUBpbnRlbC5jb20+Cj4gPiBD
-YzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4K
-PiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBHdXJ1IERhcyBTcmluYWdlc2ggPGd1cnVzQGNvZGVhdXJv
-cmEub3JnPgo+IAo+IFJldmlld2VkLWJ5OiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwu
-Y29tPgoKVGhhbmtzIQoKPiBBbHNvIGFjayBmb3IgbWVyZ2luZyB0aGlzIHZpYSB3aGljaGV2ZXIg
-dHJlZSB5b3UgcHJlZmVyOyBwbGVhc2UgbGV0IG1lCj4ga25vdyBpZiB5b3Ugd2FudCBtZSB0byB0
-YWtlIHRoaXMgdmlhIGRybS1pbnRlbC4KCkknbSBub3Qgc3VyZSBpZiB0aGlzIHBhdGNoIGNhbiBi
-ZSB0YWtlbiB2aWEgZHJtLWludGVsIGluIGlzb2xhdGlvbiBhcyBpdAppcyBwYXJ0IG9mIGEgc2Vy
-aWVzLi4uIFdpbGwgbGV0IHlvdSBrbm93IGlmIEkgbmVlZCB0byBtYWtlIHN1Y2ggYQpyZXF1ZXN0
-LgoKVGhhbmsgeW91LgoKR3VydSBEYXMuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+Fix a checkpatch warning caused by a misaligned comment block.
+
+Changes in v2:
+- Change subject text
+
+Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+---
+ drivers/gpu/drm/drm_gem.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index a9e4a610445a..564acc1f4030 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -222,10 +222,10 @@ drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+ 		return;
+ 
+ 	/*
+-	* Must bump handle count first as this may be the last
+-	* ref, in which case the object would disappear before we
+-	* checked for a name
+-	*/
++	 * Must bump handle count first as this may be the last
++	 * ref, in which case the object would disappear before we
++	 * checked for a name
++	 */
+ 
+ 	mutex_lock(&dev->object_name_lock);
+ 	if (--obj->handle_count == 0) {
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
