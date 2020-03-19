@@ -2,26 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B079018B0D7
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 11:04:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1394B18B0EC
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 11:07:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 357AA6E9D4;
-	Thu, 19 Mar 2020 10:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 776D66E9D2;
+	Thu, 19 Mar 2020 10:07:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE3896E9D4
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 10:04:23 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 391C8ACD6;
- Thu, 19 Mar 2020 10:04:22 +0000 (UTC)
-From: Jiri Slaby <jslaby@suse.cz>
-To: kraxel@redhat.com
-Subject: [PATCH] drm/virtio: fix OOB in virtio_gpu_object_create
-Date: Thu, 19 Mar 2020 11:04:21 +0100
-Message-Id: <20200319100421.16267-1-jslaby@suse.cz>
-X-Mailer: git-send-email 2.25.1
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20F2A6E9D2;
+ Thu, 19 Mar 2020 10:07:43 +0000 (UTC)
+IronPort-SDR: fR4mfp1WzWJhKYsQnfNGMdjhUmK9ChehImEggPITrKnQvMwDeWLGNbx1ZPnhAXOkMW3TqfHmCX
+ 8ELFLlOZ090Q==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Mar 2020 03:07:41 -0700
+IronPort-SDR: wKKKqb7hZJDAGD8+GR3UwIBGZ3QqYffK3ebRLGql4w68hYU3zmikOLSc/MbYQltTi0m36V5b0Z
+ Uq/ycCM4F+UA==
+X-IronPort-AV: E=Sophos;i="5.70,571,1574150400"; d="scan'208";a="418291211"
+Received: from jnavarro-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.249.32.36])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Mar 2020 03:07:38 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Manasi Navare <manasi.d.navare@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/3] drm: Create a drm_connector_helper_funcs hook for
+ Adaptive Sync support
+In-Reply-To: <20200318063517.3844-2-manasi.d.navare@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200318063517.3844-1-manasi.d.navare@intel.com>
+ <20200318063517.3844-2-manasi.d.navare@intel.com>
+Date: Thu, 19 Mar 2020 12:07:37 +0200
+Message-ID: <87y2rwd5ee.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -35,61 +50,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Gurchetan Singh <gurchetansingh@chromium.org>, Jiri Slaby <jslaby@suse.cz>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Manasi Navare <manasi.d.navare@intel.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After commit f651c8b05542, virtio_gpu_create_object allocates too small
-space to fit everything in. It is because it allocates struct
-virtio_gpu_object, but should allocate a newly added struct
-virtio_gpu_object_shmem which has 2 more members.
-
-So fix that by using correct type in virtio_gpu_create_object.
-
-Signed-off-by: Jiri Slaby <jslaby@suse.cz>
-Fixes: f651c8b05542 ("drm/virtio: factor out the sg_table from virtio_gpu_object")
-Cc: Gurchetan Singh <gurchetansingh@chromium.org>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
----
- drivers/gpu/drm/virtio/virtgpu_object.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 2bfb13d1932e..d9039bb7c5e3 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -123,15 +123,17 @@ bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo)
- struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
- 						size_t size)
- {
--	struct virtio_gpu_object *bo;
-+	struct virtio_gpu_object_shmem *shmem;
-+	struct drm_gem_shmem_object *dshmem;
- 
--	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
--	if (!bo)
-+	shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
-+	if (!shmem)
- 		return NULL;
- 
--	bo->base.base.funcs = &virtio_gpu_shmem_funcs;
--	bo->base.map_cached = true;
--	return &bo->base.base;
-+	dshmem = &shmem->base.base;
-+	dshmem->base.funcs = &virtio_gpu_shmem_funcs;
-+	dshmem->map_cached = true;
-+	return &dshmem->base;
- }
- 
- static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAxNyBNYXIgMjAyMCwgTWFuYXNpIE5hdmFyZSA8bWFuYXNpLmQubmF2YXJlQGludGVs
+LmNvbT4gd3JvdGU6Cj4gVGhpcyBwYXRjaCBhZGRzIGEgaG9vayBpbiBkcm1fY29ubmVjdG9yX2hl
+bHBlcl9mdW5jcyB0byBnZXQgdGhlCj4gc3VwcG9ydCBvZiB0aGUgZHJpdmVyIGZvciBhZGFwdGl2
+ZSBzeW5jIGZ1bmN0aW9uYWxpdHkuCj4KPiBUaGlzIGNhbiBiZSBjYWxsZWQgaW4gdGhlIGNvbm5l
+Y3RvciBwcm9iZSBoZWxwZXIgZnVuY3Rpb24gYWZ0ZXIKPiB0aGUgY29ubmVjdG9yIGRldGVjdCgp
+IGFuZCBnZXRfbW9kZXMoKSBob29rcyB0byBhbHNvCj4gcXVlcnkgdGhlIGFkYXB0aXZlIHN5bmMg
+c3VwcG9ydCBvZiB0aGUgZHJpdmVyLgoKSSBjYW4gb2J2aW91c2x5IHNlZSB0aGF0IGZyb20gdGhl
+IHBhdGNoLiBCdXQgdGhpcyBkb2VzIG5vdCBleHBsYWluIGF0CmFsbCAqd2h5KiB3ZSBuZWVkIGFu
+b3RoZXIgaG9vayB0byBiZWdpbiB3aXRoLCBhbmQgd2h5IGl0IG5lZWVkcyB0byBiZQpjYWxsZWQg
+ZnJvbSAtPmZpbGxfbW9kZXMgdGhhdCBpcyBzZXQgdG8KZHJtX2hlbHBlcl9wcm9iZV9zaW5nbGVf
+Y29ubmVjdG9yX21vZGVzKCkuCgo+IENjOiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAbGludXgu
+aW50ZWwuY29tPgo+IENjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50
+ZWwuY29tPgo+IENjOiBIYXJyeSBXZW50bGFuZCA8aGFycnkud2VudGxhbmRAYW1kLmNvbT4KPiBD
+YzogTmljaG9sYXMgS2F6bGF1c2thcyA8TmljaG9sYXMuS2F6bGF1c2thc0BhbWQuY29tPgo+IFNp
+Z25lZC1vZmYtYnk6IE1hbmFzaSBOYXZhcmUgPG1hbmFzaS5kLm5hdmFyZUBpbnRlbC5jb20+Cj4g
+LS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMgICAgICAgfCAgNCArKysr
+Cj4gIGluY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmggfCAxNiArKysrKysr
+KysrKysrKysrCj4gIDIgZmlsZXMgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9k
+cm0vZHJtX3Byb2JlX2hlbHBlci5jCj4gaW5kZXggNTc2YjRiN2RjZDg5Li40NDAzODE3YmZiMDIg
+MTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYwo+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMKPiBAQCAtNDgyLDYgKzQ4MiwxMCBA
+QCBpbnQgZHJtX2hlbHBlcl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzKHN0cnVjdCBkcm1f
+Y29ubmVjdG9yICpjb25uZWN0b3IsCj4gIAo+ICAJY291bnQgPSAoKmNvbm5lY3Rvcl9mdW5jcy0+
+Z2V0X21vZGVzKShjb25uZWN0b3IpOwo+ICAKPiArCS8qIEdldCB0aGUgQWRhcHRpdmUgU3luYyBT
+dXBwb3J0IGlmIGhlbHBlciBleGlzdHMgKi8KPiArCWlmICgqY29ubmVjdG9yX2Z1bmNzLT5nZXRf
+YWRhcHRpdmVfc3luY19zdXBwb3J0KQo+ICsJCSgqKmNvbm5lY3Rvcl9mdW5jcy0+Z2V0X2FkYXB0
+aXZlX3N5bmNfc3VwcG9ydCkoY29ubmVjdG9yKTsKPiArCgpUaGlzIGlzIGluIHRoZSBtaWRkbGUg
+b2YgYSBzZXF1ZW5jZSBmaWd1cmluZyBvdXQgdGhlIG1vZGVzLiBGaXJzdAotPmdldF9tb2Rlcywg
+dGhlbiBmYWxsYmFjayB0byBvdGhlciBtZWNoYW5pc21zLiBDZXJ0YWlubHkgd2UgZG9uJ3Qgd2Fu
+dAp0byBkbyBzb21ldGhpbmcgZWxzZSBpbiB0aGUgbWlkZGxlLgoKPiAgCS8qCj4gIAkgKiBGYWxs
+YmFjayBmb3Igd2hlbiBEREMgcHJvYmUgZmFpbGVkIGluIGRybV9nZXRfZWRpZCgpIGFuZCB0aHVz
+IHNraXBwZWQKPiAgCSAqIG92ZXJyaWRlL2Zpcm13YXJlIEVESUQuCj4gZGlmZiAtLWdpdCBhL2lu
+Y2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmggYi9pbmNsdWRlL2RybS9kcm1f
+bW9kZXNldF9oZWxwZXJfdnRhYmxlcy5oCj4gaW5kZXggN2MyMGIxYzhiNmE3Li4wYjIwM2ZkZDI1
+ZGYgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJsZXMu
+aAo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmgKPiBAQCAt
+MTA3OSw2ICsxMDc5LDIyIEBAIHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5jcyB7Cj4g
+IAkJCQkgICAgIHN0cnVjdCBkcm1fd3JpdGViYWNrX2pvYiAqam9iKTsKPiAgCXZvaWQgKCpjbGVh
+bnVwX3dyaXRlYmFja19qb2IpKHN0cnVjdCBkcm1fd3JpdGViYWNrX2Nvbm5lY3RvciAqY29ubmVj
+dG9yLAo+ICAJCQkJICAgICAgc3RydWN0IGRybV93cml0ZWJhY2tfam9iICpqb2IpOwo+ICsKPiAr
+CS8qKgo+ICsJICogQGdldF9hZGFwdGl2ZV9zeW5jX3N1cHBvcnQ6Cj4gKwkgKgo+ICsJICogVGhp
+cyBob29rIGlzIHVzZWQgYnkgdGhlIHByb2JlIGhlbHBlciB0byBnZXQgdGhlIGRyaXZlcidzIHN1
+cHBvcnQKPiArCSAqIGZvciBhZGFwdGl2ZSBzeW5jIG9yIHZhcmlhYmxlIHJlZnJlc2ggcmF0ZS4K
+PiArCSAqIFRoaXMgaXMgY2FsbGVkIGZyb20gZHJtX2hlbHBlcl9wcm9iZV9zaW5nbGVfY29ubmVj
+dG9yX21vZGVzKCkKPiArCSAqIFRoaXMgaXMgY2FsbGVkIGFmdGVyIHRoZSBAZ2V0X21vZGVzIGhv
+b2sgc28gdGhhdCB0aGUgY29ubmVjdG9yIG1vZGVzCj4gKwkgKiBhcmUgYWxyZWFkeSBvYnRhaW5l
+ZCBhbmQgRURJRCBpcyBwYXJzZWQgdG8gb2J0YWluIHRoZSBtb25pdG9yCj4gKwkgKiByYW5nZSBk
+ZXNjcmlwdG9yIGluZm9ybWF0aW9uLgo+ICsJICoKPiArCSAqIFRoaXMgaG9vayBpcyBvcHRpb25h
+bCBhbmQgZGVmaW5lZCBvbmx5IGZvciB0aGUgZHJpdmVycyBhbmQgb24KPiArCSAqIGNvbm5lY3Rv
+cnMgdGhhdCBhZHZlcnRpc2UgYWRhcHRpdmUgc3luYyBzdXBwb3J0Lgo+ICsJICoKPiArCSAqLwo+
+ICsJdm9pZCAoKmdldF9hZGFwdGl2ZV9zeW5jX3N1cHBvcnQpKHN0cnVjdCBkcm1fY29ubmVjdG9y
+ICpjb25uZWN0b3IpOwo+ICB9Owo+ICAKPiAgLyoqCgotLSAKSmFuaSBOaWt1bGEsIEludGVsIE9w
+ZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
