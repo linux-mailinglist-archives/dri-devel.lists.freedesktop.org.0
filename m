@@ -1,49 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0797F18B861
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 14:51:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3458918B8AF
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 15:09:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA9C6E2C0;
-	Thu, 19 Mar 2020 13:51:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF00F6EA0A;
+	Thu, 19 Mar 2020 14:09:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id E6E656E2C0
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 13:51:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 4CA882A6042;
- Thu, 19 Mar 2020 14:51:42 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id td4NSTDA6PwR; Thu, 19 Mar 2020 14:51:42 +0100 (CET)
-Received: from thor (252.80.76.83.dynamic.wline.res.cust.swisscom.ch
- [83.76.80.252])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 082FD2A6016;
- Thu, 19 Mar 2020 14:51:42 +0100 (CET)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.93)
- (envelope-from <michel@daenzer.net>)
- id 1jEvaH-00158S-8K; Thu, 19 Mar 2020 14:51:41 +0100
-Subject: Re: Atomic KMS API lacks the ability to set cursor hot-spot
- coordinates
-To: Pekka Paalanen <ppaalanen@gmail.com>, Hans de Goede <hdegoede@redhat.com>
-References: <9d86bbe4-70cf-273d-4d61-aec06011d441@redhat.com>
- <ADrBkiVj05c2ZYEz46BNJrrChY-PCxme8HOeHHGOLjIR5XpBZoyIY5aUnSfXCm0wrYr0-Iuh80vnZqmRQ_jZaslv2Q2P7N6q5yCG0AeWovU=@emersion.fr>
- <5c9f7c0e-e225-dfbf-f5bf-cb1c1cc4ac08@redhat.com>
- <iUavRfIpwgaFwGrZtIM7seVfRwrvb2QVXC0KLN5wXLT7t_kX04NYFj2T5r0awLNPbIx2rO3UUO0BYH_HX1jMtJTQzBjInkghkF7WxkzxrII=@emersion.fr>
- <e0c0cb57-8a37-f70e-045f-3243411cbf03@daenzer.net>
- <8db6e079-c88a-6b11-b77b-337059a139ba@redhat.com>
- <20200319145440.51773af8@eldfell.localdomain>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Message-ID: <c7a98456-d4fc-e4d2-640f-d70a35619445@daenzer.net>
-Date: Thu, 19 Mar 2020 14:51:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D0356EA0A
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 14:09:01 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id j15so1738967lfk.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 07:09:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gEcY8z6wwpaaAzNCe8Z6QFn2FupyzXJqJUFsyjFrfJ0=;
+ b=RpJpNILV8tOQM22m6W5PBUdt+ZfhFSgvIxHC1TiiRYjzVLusOipyaoJsKDY1qBn9tC
+ 8TB8eQ+UdlHWSUBZx7YYfAkczhVm0iUNa4fZsCrSV6lW6L4gBoR4IzGSsM10bzU/XxJk
+ xt2BWzjPc+zveX2UXnxkEsU0gXu0N+pJbv9gLrJgekGQdHkzMVBIMBtNcQO6VcI/yeJs
+ jN6CSCeVLAsyHSKmknd300Oww6sGsSrfzPrYw038eJW/WOkqTtPBoIFpHMF0JQtaQnkJ
+ bMQwUCeKH2KWlz/35dQkMLjM6eF+HheLW7BwEqBfn1hW1KIolmS7Lroy5Krr2USWV14a
+ Ib9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gEcY8z6wwpaaAzNCe8Z6QFn2FupyzXJqJUFsyjFrfJ0=;
+ b=CvkT/jaywLW5LrJGN1/YJhzun/A+3VVgYMtvX3xYQZ8dXsgUqwokD8IWuuK1UhF1I5
+ iNue9zkTvKJstukuqyhIF14DwVkpH3vCEoSSaWWLtBQL81iL78MXI9Hqn8Ttq6si4FSQ
+ WU2JhLSTB6GZnOvImhihXjhH4Yi4gzDPDkT5hnIOIJUONEzLCc/jIDoBYJ2vOjkXrstm
+ Wz1d7xT7/13Sp8xH7BcGBa6W8NVrpqU336wKxiWUH6cS5Ek4pPc7jPJcX+J0eZNWhUkv
+ bWANZ+uac4mocENIlegK9AZ5mupSC8ZikP3aw7fcbI9aF3sD8m5ai0MqM7F+Fk8xjckR
+ no8A==
+X-Gm-Message-State: ANhLgQ03JqRXYMuMxbG7LvJbugP3+9KSlSyt53K1yHHy11314vVtLCxn
+ Sm6pGfacyLYgKgeDLZhN8HC5kxnNFbZ9rJmhg/fsKg==
+X-Google-Smtp-Source: ADFU+vtL2a5EH4HAtULGcGOjAWCmsAowQ2bEo2SZGc7cGuYj69Mom1zEbkHAkEi23SJQ7tUhsLzeUDsfPICmoRNYDiM=
+X-Received: by 2002:a19:4b53:: with SMTP id y80mr2235185lfa.77.1584626939845; 
+ Thu, 19 Mar 2020 07:08:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200319145440.51773af8@eldfell.localdomain>
-Content-Language: en-CA
+References: <20200316133503.144650-1-icenowy@aosc.io>
+ <20200316133503.144650-4-icenowy@aosc.io>
+In-Reply-To: <20200316133503.144650-4-icenowy@aosc.io>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 19 Mar 2020 15:08:48 +0100
+Message-ID: <CACRpkdahrHmXWpdqoApFEq6cW2gatMfds9SMZGwsUnNHt+J0aQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] drm: panel: add Xingbangda XBD599 panel
+To: Icenowy Zheng <icenowy@aosc.io>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,59 +61,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Jonas_=c3=85dahl?= <jadahl@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Ondrej Jirman <megous@megous.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-sunxi <linux-sunxi@googlegroups.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQpIYXNoOiBTSEExCgpPbiAyMDIwLTAz
-LTE5IDE6NTQgcC5tLiwgUGVra2EgUGFhbGFuZW4gd3JvdGU6Cj4gT24gVGh1LCAxOSBNYXIgMjAy
-MCAxMjo1MjoxNCArMDEwMCBIYW5zIGRlIEdvZWRlCj4gPGhkZWdvZWRlQHJlZGhhdC5jb20+IHdy
-b3RlOgo+PiBPbiAzLzE5LzIwIDEyOjM1IFBNLCBNaWNoZWwgRMOkbnplciB3cm90ZToKPj4+IE9u
-IDIwMjAtMDMtMTggNDoyMiBwLm0uLCBTaW1vbiBTZXIgd3JvdGU6Cj4+Pj4+Cj4+Pj4+IE9uIDMv
-MTgvMjAgMzozOCBQTSwgU2ltb24gU2VyIHdyb3RlOgo+Pj4+Pj4KPj4+Pj4+PiAxKSBMZXR0aW5n
-IHRoZSBWTS12aWV3ZXIgd2luZG93LXN5c3RlbSBkcmF3IHRoZSBjdXJzb3IKPj4+Pj4+PiBhcyBp
-dCBub3JtYWxseSB3b3VsZCBkcmF3IGl0Lgo+Pj4+Pj4KPj4+Pj4+IFdoeSBpcyB0aGlzIGltcG9y
-dGFudD8gQ2FuJ3QgdGhlIFZNIHZpZXdlciBoaWRlIHRoZQo+Pj4+Pj4gY3Vyc29yIGFuZCB1c2Ug
-YSBzdWItc3VyZmFjZSB0byBtYW51YWxseSBkcmF3IHRoZSBjdXJzb3IKPj4+Pj4+IHBsYW5lIGNv
-bmZpZ3VyZWQgYnkgdGhlIGd1ZXN0Pwo+Pj4+Pgo+Pj4+PiBCZWNhdXNlIHRoZW4gbW92aW5nIHRo
-ZSBjdXJzb3IgYXMgc2VlbiBieSB0aGUgdXNlciByZXF1aXJlcwo+Pj4+PiBhIHJvdW5kIHRyaXAg
-dGhyb3VnaCB0aGUgVk0gYW5kIHRoYXQgYWRkcyBsYXRlbmN5LCBlc3AuCj4+Pj4+IHdoZW4gdGhl
-IFZNIHZpZXdlciBpcyB2aWV3aW5nIGEgVk0gd2hpY2ggaXMgcnVubmluZwo+Pj4+PiBzb21ld2hl
-cmUgZWxzZSBvdmVyIHRoZSBuZXR3b3JrLgo+Pj4+Cj4+Pj4gVGhlIHZpZGVvIG91dHB1dCBoYXMg
-bGF0ZW5jeSBhbnl3YXkuCj4+Pgo+Pj4gU291bmRzIGxpa2UgeW91J3ZlIG5ldmVyIHRyaWVkIHRo
-ZSB0d28gZGlmZmVyZW50IG1vZGVzCj4+PiB5b3Vyc2VsZj8gOikgSU1FIGl0IG1ha2VzIGEgYmln
-IGRpZmZlcmVuY2UgZXZlbiB3aXRoIGEgbG9jYWwKPj4+IFZNLiBFdmVuIHZlcnkgbGl0dGxlIGxh
-dGVuY3kgY2FuIG1ha2UgdGhlIGN1cnNvciBmZWVsIGF3a3dhcmQsCj4+PiBsaWtlIGl0J3MgYmVp
-bmcgaGVsZCBiYWNrIGJ5IGEgcnViYmVyIGJhbmQgb3Igc29tZXRoaW5nLgo+Pgo+PiBSaWdodCBu
-b3QgdG8gbWVudGlvbiB0aGF0IHRoZSBsYXRlbmN5IG1heSBiZSB2YXJpYWJsZSwgc28gdGhlCj4+
-IGN1cnNvciBtb3ZlcyBpbiBhIGppdHRlcnkgZmFzaGlvbiBpbnN0ZWFkIG9mIGhhdmluZyBpdCBt
-b3ZlCj4+IHNtb290aGx5IG1hdGNoaW5nIHRoZSBzbW9vdGggd2F5IGEgdXNlciBub3JtYWxseSBt
-b3ZlcyB0aGUKPj4gbW91c2UuCj4+Cj4+IFRoaXMgdG90YWxseSB3cmVja3MgaGFuZC1leWUgY29v
-cmRpbmF0aW9uIGFuZCBpcyBqdXN0IHBsYWluCj4+IGF3ZWZ1bGwuCj4KPiBJIGhhdmUgZXhwZXJp
-ZW5jZWQgaXQsIGFuZCB3aGlsZSBpdCBpcyBwYWluZnVsLCBJIHByZWZlciB0aGF0IHBhaW4KPiBv
-dmVyIHRoZSBwYWluIG9mIGFjY2lkZW50YWxseSBjbGlja2luZyBzb21ldGhpbmcgdGhhdCB3YXMg
-bm90Cj4gdHJhbnNtaXR0ZWQgdG8gdGhlIHJlbW90ZSBkaXNwbGF5IHlldC4KClVubGVzcyB5b3Ug
-bWVhbiBjbGlja2luZyBzb21ldGhpbmcgd2hpbGUgdGhlIGN1cnNvciBpcyBtb3ZpbmcsIG5vdApz
-dXJlIGhvdyBzZWFtbGVzcyB2cyBub3QgYWZmZWN0cyB0aGlzLCBzaW5jZSB0aGUgZGVsYXkgb2Yg
-c29tZXRoaW5nCmFwcGVhcmluZyBvbiB0aGUgcmVtb3RlIGRpc3BsYXkgc2hvdWxkIGJlIHRoZSBz
-YW1lIGluIGJvdGggY2FzZXM/CgoKPiBUaGVyZWZvcmUgSSB0aGluayB0aGUgYmVzdCB1c2VyIGV4
-cGVyaWVuY2UgaXMgdG8gdXNlIGJvdGggdHlwZXMgb2YKPiBjdXJzb3IgYXQgdGhlIHNhbWUgdGlt
-ZTogdGhlIHJlbW90ZSBkZXNrdG9wIG9yIFZNIHZpZXdlciBwYWludHMKPiB0aGUgbG9jYWwgY3Vy
-c29yIGFzIGFuIGFpZCwgbGlrZSBhIHBoYW50b20sIGFuZCB0aGUgY3Vyc29yIGZyb20KPiBpbnNp
-ZGUgdGhlIFZNIGlzIGFsc28gdmlzaWJsZSB3aXRoIHRoZSBsYXRlbmN5IGl0IG5hdHVyYWxseSBo
-YXMuCj4gVGhhdCBtZWFucyBJIGNvdWxkIGFjdHVhbGx5IHNlZSB0aGF0IHRoZSBzY3JlZW4gaGFz
-IGNhdWdodCB1cCB3aXRoCj4gbXkgbW90aW9ucyBiZWZvcmUgSSBjbGljayBzb21ldGhpbmcuCgpJ
-J2QgZXhwZWN0IHRoYXQgdG8gcmVzdWx0IGluICJkdXBsaWNhdGUgY3Vyc29yIiBidWcgcmVwb3J0
-cyDigJQgSSdkCmNlcnRhaW5seSBjb25zaWRlciBpdCBhIGJ1ZyB3aXRoIG15IHVzZXIgaGF0IG9u
-LgoKCi0gLS0gCkVhcnRobGluZyBNaWNoZWwgRMOkbnplciAgICAgICAgICAgICAgIHwgICAgICAg
-ICAgICAgICBodHRwczovL3JlZGhhdC5jb20KTGlicmUgc29mdHdhcmUgZW50aHVzaWFzdCAgICAg
-ICAgICAgICB8ICAgICAgICAgICAgIE1lc2EgYW5kIFggZGV2ZWxvcGVyCi0tLS0tQkVHSU4gUEdQ
-IFNJR05BVFVSRS0tLS0tCgppRjBFQVJFQ0FCMFdJUVN3bjY4MXZwRkZJWmdKVVJSYWdhK09hdHV5
-QUFVQ1huTjQ1Z0FLQ1JCYWdhK09hdHV5CkFFTU9BSnNFdE92QkpJQTZDR0hPbXdycDdTRmQ5TTNv
-MndDZmNDczdsQ3JDTnNIeEFlbHMvNFlVWG01Rkphcz0KPUZmSVEKLS0tLS1FTkQgUEdQIFNJR05B
-VFVSRS0tLS0tCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Icenowy!
+
+Thanks for your patch.
+
+On Mon, Mar 16, 2020 at 2:37 PM Icenowy Zheng <icenowy@aosc.io> wrote:
+
+> Xingbangda XBD599 is a 5.99" 720x1440 MIPI-DSI IPS LCD panel made by
+> Xingbangda, which is used on PinePhone final assembled phones.
+>
+> Add support for it.
+>
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+(...)
+
+> +/* Manufacturer specific Commands send via DSI */
+> +#define ST7703_CMD_ALL_PIXEL_OFF 0x22
+> +#define ST7703_CMD_ALL_PIXEL_ON         0x23
+> +#define ST7703_CMD_SETDISP      0xB2
+> +#define ST7703_CMD_SETRGBIF     0xB3
+> +#define ST7703_CMD_SETCYC       0xB4
+> +#define ST7703_CMD_SETBGP       0xB5
+> +#define ST7703_CMD_SETVCOM      0xB6
+> +#define ST7703_CMD_SETOTP       0xB7
+> +#define ST7703_CMD_SETPOWER_EXT         0xB8
+> +#define ST7703_CMD_SETEXTC      0xB9
+> +#define ST7703_CMD_SETMIPI      0xBA
+> +#define ST7703_CMD_SETVDC       0xBC
+> +#define ST7703_CMD_SETSCR       0xC0
+> +#define ST7703_CMD_SETPOWER     0xC1
+> +#define ST7703_CMD_UNK_C6       0xC6
+> +#define ST7703_CMD_SETPANEL     0xCC
+> +#define ST7703_CMD_SETGAMMA     0xE0
+> +#define ST7703_CMD_SETEQ        0xE3
+> +#define ST7703_CMD_SETGIP1      0xE9
+> +#define ST7703_CMD_SETGIP2      0xEA
+
+It appears that the Himax HX8363 is using the same display controller
+if you look at the datasheet:
+http://www.datasheet-pdf.com/PDF/HX8369-A-Datasheet-Himax-729024
+There you find an explanation to some of the commands.
+
+People are trying to add support for this panel too:
+https://discuss.96boards.org/t/adding-support-to-himax-hx8363-panel/9068
+
+The set-up values etc for the Himax display will be widely
+different because it is using the same display controller
+for a display of 480x800(854) pixels.
+
+You should definately insert code to read the MTP bytes:
+0xDA manufacturer
+0xDB driver version
+0xDC LCD module/driver
+And print these, se e.g. my newly added NT35510 driver or
+the Sony ACX424AKP driver.
+
+Nobody seems to have any documentation of these MTP
+ID bytes but they are certainly consistent among
+e.g Ilitek or Novatek display drivers.
+
+I do not think that either Xingbangda or Himax have made
+this display controller. The number of advanced display
+controller vendors in the world is actually pretty limited.
+Ilitek, Novatek or TPO make most of them.
+
+It is a bit of a problem for the development world that
+display manufacturers hide the details of which display
+controller they actually use, because we can't have
+2 different drivers for the same display controller just
+because Himax and Xingbada package it up with
+their own branding.
+
+This actually looks very much like an Ilitek display controller.
+Some commands are clearly identical to Ilitek ILI9342:
+http://www.ampdisplay.com/documents/pdf/ILI9342_DS_V008_20100331.pdf
+
+I would:
+
+1. Try to determine what the actual display controller
+  is. I think it is some Ilitek.
+
+2. Write a panel-ilitek-ili9342.c (if that is the actual controller)
+  and parameterize it for this display controller the same
+  way we do in e.g. panel-novatek-nt35510.c or
+  panel-ilitek-ili9322.c, so you use the compatible string
+  to set up the actual per-display settings for this display
+  controller.
+
+> +       /*
+> +        * Init sequence was supplied by the panel vendor.
+> +        */
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETEXTC,
+> +                         0xF1, 0x12, 0x83);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETMIPI,
+> +                         0x33, 0x81, 0x05, 0xF9, 0x0E, 0x0E, 0x20, 0x00,
+> +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0x25,
+> +                         0x00, 0x91, 0x0a, 0x00, 0x00, 0x02, 0x4F, 0x11,
+> +                         0x00, 0x00, 0x37);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT,
+> +                         0x25, 0x22, 0x20, 0x03);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETRGBIF,
+> +                         0x10, 0x10, 0x05, 0x05, 0x03, 0xFF, 0x00, 0x00,
+> +                         0x00, 0x00);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETSCR,
+> +                         0x73, 0x73, 0x50, 0x50, 0x00, 0xC0, 0x08, 0x70,
+> +                         0x00);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETVDC, 0x4E);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETPANEL, 0x0B);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETDISP, 0xF0, 0x12, 0xF0);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETEQ,
+> +                         0x00, 0x00, 0x0B, 0x0B, 0x10, 0x10, 0x00, 0x00,
+> +                         0x00, 0x00, 0xFF, 0x00, 0xC0, 0x10);
+> +       dsi_dcs_write_seq(dsi, 0xC6, 0x01, 0x00, 0xFF, 0xFF, 0x00);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER,
+> +                         0x74, 0x00, 0x32, 0x32, 0x77, 0xF1, 0xFF, 0xFF,
+> +                         0xCC, 0xCC, 0x77, 0x77);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP, 0x07, 0x07);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM, 0x2C, 0x2C);
+> +       dsi_dcs_write_seq(dsi, 0xBF, 0x02, 0x11, 0x00);
+> +
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP1,
+> +                         0x82, 0x10, 0x06, 0x05, 0xA2, 0x0A, 0xA5, 0x12,
+> +                         0x31, 0x23, 0x37, 0x83, 0x04, 0xBC, 0x27, 0x38,
+> +                         0x0C, 0x00, 0x03, 0x00, 0x00, 0x00, 0x0C, 0x00,
+> +                         0x03, 0x00, 0x00, 0x00, 0x75, 0x75, 0x31, 0x88,
+> +                         0x88, 0x88, 0x88, 0x88, 0x88, 0x13, 0x88, 0x64,
+> +                         0x64, 0x20, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
+> +                         0x02, 0x88, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP2,
+> +                         0x02, 0x21, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +                         0x00, 0x00, 0x00, 0x00, 0x02, 0x46, 0x02, 0x88,
+> +                         0x88, 0x88, 0x88, 0x88, 0x88, 0x64, 0x88, 0x13,
+> +                         0x57, 0x13, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
+> +                         0x75, 0x88, 0x23, 0x14, 0x00, 0x00, 0x02, 0x00,
+> +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x0A,
+> +                         0xA5, 0x00, 0x00, 0x00, 0x00);
+> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETGAMMA,
+> +                         0x00, 0x09, 0x0D, 0x23, 0x27, 0x3C, 0x41, 0x35,
+> +                         0x07, 0x0D, 0x0E, 0x12, 0x13, 0x10, 0x12, 0x12,
+> +                         0x18, 0x00, 0x09, 0x0D, 0x23, 0x27, 0x3C, 0x41,
+> +                         0x35, 0x07, 0x0D, 0x0E, 0x12, 0x13, 0x10, 0x12,
+> +                         0x12, 0x18);
+
+Already just using the HX8363 datasheet you can turn this into
+something much more readable akin to how the NT35510 driver
+is done.
+
+> +static const struct drm_display_mode xbd599_default_mode = {
+> +       .hdisplay    = 720,
+> +       .hsync_start = 720 + 40,
+> +       .hsync_end   = 720 + 40 + 40,
+> +       .htotal      = 720 + 40 + 40 + 40,
+> +       .vdisplay    = 1440,
+> +       .vsync_start = 1440 + 18,
+> +       .vsync_end   = 1440 + 18 + 10,
+> +       .vtotal      = 1440 + 18 + 10 + 17,
+> +       .vrefresh    = 60,
+
+I think this vrefresh is going away soon.
+
+> +       .clock       = 69000,
+> +       .flags       = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> +
+> +       .width_mm    = 68,
+> +       .height_mm   = 136,
+> +       .type        = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+> +};
+
+All of this as well as some of the initialization
+sequences should be per-variant data. (Switched by
+the compatible).
+
+Yours,
+Linus Walleij
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
