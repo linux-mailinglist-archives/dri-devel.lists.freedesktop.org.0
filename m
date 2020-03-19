@@ -2,62 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0D318C871
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:01:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD12018C892
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:02:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 568E46EACF;
-	Fri, 20 Mar 2020 08:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 436086EAE2;
+	Fri, 20 Mar 2020 08:02:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C13BD6EA77
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 20:35:04 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id c187so4201046wme.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 13:35:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ziVyD9FCJN4HG2z3+da7r9GM//DAxlOZcLamqBGLWB0=;
- b=eKxP82kaHZyJ2eOg0JyFtYiy2cKsXjY0adzjQEVq23qlXCkR2f6z8Gy7qYqEbd/kaH
- 6qhu/kx3rkL71nTzrj47WuHu3E4jqdTmRm6l5Nv2x1y189f7GZmuwuK5w5A9VtROo0hM
- miCaFOijdFJ3JIA6MIjvsqjAkkaH3g9I3PKQMntQSZmptg70T+idWOPaGJVyJtfoBWJy
- vOACXlbUGDdynVBTAmpW0ouxh1ImCDRtaWXrbIYbN70SIAT5iChKU4IwnKgywwzIQVnH
- CmPeQ2ByVTARCZELAiZ7iNOSet7dqUbhExQCVAVtiebHOnF+YEwYLMSW/y1DaJg/LBtU
- dsvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ziVyD9FCJN4HG2z3+da7r9GM//DAxlOZcLamqBGLWB0=;
- b=tRaP8e5aCkaHWqcJRrs9I0xkV3a7kj0x8vuCsCcicJeFcnRXrQxUxYwYGq7qPf3Kc1
- Yuiev6aoVTxuhGJ6Rgzs/XrsFXfmBx8c4dziXS+FWHijMZvAan9S+Jkl/E6vTlEzTh4I
- nsANu9VhW0VDzv+UGZk3uqFBFOGLgK+lFsdesboa4nUi7KaEdynygwyhKZZPPi7nWnaP
- z8ffVtiWWYLY8u3TX5eQhKjWQ43/jO41jKBBFS332ZnHEzhbEx6Im9GJ2sc1DGjemYzj
- AuNYoHKhMrQPBgAcLA115vHD3AtqUewtTtT9OcPtjPNWYX7bvad5zcdZwvmIR1HVW8wP
- wrew==
-X-Gm-Message-State: ANhLgQ1gD06gg5sMlbIVaMPCyjXBRvpjaH1NXcri0jbOdOiwq/dvbkex
- gFXWg64nzkTLut0vc9FyMsNkoPUu7oY=
-X-Google-Smtp-Source: ADFU+vsUytrUAI2t+cc3E1j9XRtenXcuMyKcFRE0qTNjCbNH+P0lzplaW3CcIr8Evw/umHjSzkzxnA==
-X-Received: by 2002:a1c:ba06:: with SMTP id k6mr5553945wmf.136.1584650103166; 
- Thu, 19 Mar 2020 13:35:03 -0700 (PDT)
-Received: from localhost.localdomain
- (p200300F13710ED00428D5CFFFEB99DB8.dip0.t-ipconnect.de.
- [2003:f1:3710:ed00:428d:5cff:feb9:9db8])
- by smtp.googlemail.com with ESMTPSA id r9sm4744968wma.47.2020.03.19.13.35.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Mar 2020 13:35:02 -0700 (PDT)
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-To: yuq825@gmail.com,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 2/2] drm/lima: Add optional devfreq and cooling device
- support
-Date: Thu, 19 Mar 2020 21:34:27 +0100
-Message-Id: <20200319203427.2259891-3-martin.blumenstingl@googlemail.com>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <20200319203427.2259891-1-martin.blumenstingl@googlemail.com>
-References: <20200319203427.2259891-1-martin.blumenstingl@googlemail.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24F146EA79;
+ Thu, 19 Mar 2020 20:50:20 +0000 (UTC)
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 19 Mar 2020 13:50:19 -0700
+Received: from gurus-linux.qualcomm.com ([10.46.162.81])
+ by ironmsg04-sd.qualcomm.com with ESMTP; 19 Mar 2020 13:50:18 -0700
+Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
+ id 8C5064B82; Thu, 19 Mar 2020 13:50:18 -0700 (PDT)
+From: Guru Das Srinagesh <gurus@codeaurora.org>
+To: linux-pwm@vger.kernel.org
+Subject: [PATCH v10 00/12] Convert PWM period and duty cycle to u64
+Date: Thu, 19 Mar 2020 13:50:03 -0700
+Message-Id: <cover.1584650604.git.gurus@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 20 Mar 2020 08:01:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,512 +39,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, linux-pm@vger.kernel.org, airlied@linux.ie,
- linux-kernel@vger.kernel.org, steven.price@arm.com,
- linux-rockchip@lists.infradead.org, wens@csie.org,
- alyssa.rosenzweig@collabora.com, linux-amlogic@lists.infradead.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Kate Stewart <kstewart@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, "Wesley W. Terpstra" <wesley@sifive.com>,
+ Michael Turquette <mturquette@baylibre.com>, Kamil Debski <kamil@wypas.org>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Atish Patra <atish.patra@wdc.com>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-riscv@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
+ linux-clk@vger.kernel.org, Alexandre Torgue <alexandre.torgue@st.com>,
+ Guru Das Srinagesh <gurus@codeaurora.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Axel Lin <axel.lin@ingics.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexander Shiyan <shc_work@mail.ru>,
+ Chen-Yu Tsai <wens@csie.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Mukesh Ojha <mojha@codeaurora.org>, Gerald Baeza <gerald.baeza@st.com>,
+ intel-gfx@lists.freedesktop.org, Guenter Roeck <linux@roeck-us.net>,
+ linux-media@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mark Brown <broonie@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Fabrice Gasnier <fabrice.gasnier@st.com>,
+ Ding Xiang <dingxiang@cmss.chinamobile.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Allison Randal <allison@lohutok.net>, linux-hwmon@vger.kernel.org,
+ Anson Huang <Anson.Huang@nxp.com>, Richard Fontana <rfontana@redhat.com>,
+ Stephen Boyd <sboyd@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ linux-kernel@vger.kernel.org, Yash Shah <yash.shah@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Dan Carpenter <dan.carpenter@oracle.com>,
+ Shawn Guo <shawnguo@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Most platforms with a Mali-400 or Mali-450 GPU also have support for
-changing the GPU clock frequency. Add devfreq support so the GPU clock
-rate is updated based on the actual GPU usage when the
-"operating-points-v2" property is present in the board.dts.
-
-The actual devfreq code is taken from panfrost_devfreq.c and modified so
-it matches what the lima hardware needs:
-- a call to dev_pm_opp_set_clkname() during initialization because there
-  are two clocks on Mali-4x0 IPs. "core" is the one that actually clocks
-  the GPU so we need to control it using devfreq.
-- locking when reading or writing the devfreq statistics because (unlike
-  than panfrost) we have multiple PP and GP IRQs which may finish jobs
-  concurrently.
-
-Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
----
- drivers/gpu/drm/lima/Kconfig        |   2 +
- drivers/gpu/drm/lima/Makefile       |   3 +-
- drivers/gpu/drm/lima/lima_devfreq.c | 234 ++++++++++++++++++++++++++++
- drivers/gpu/drm/lima/lima_devfreq.h |  41 +++++
- drivers/gpu/drm/lima/lima_device.c  |   4 +
- drivers/gpu/drm/lima/lima_device.h  |   3 +
- drivers/gpu/drm/lima/lima_drv.c     |  14 +-
- drivers/gpu/drm/lima/lima_sched.c   |   7 +
- drivers/gpu/drm/lima/lima_sched.h   |   3 +
- 9 files changed, 308 insertions(+), 3 deletions(-)
- create mode 100644 drivers/gpu/drm/lima/lima_devfreq.c
- create mode 100644 drivers/gpu/drm/lima/lima_devfreq.h
-
-diff --git a/drivers/gpu/drm/lima/Kconfig b/drivers/gpu/drm/lima/Kconfig
-index d589f09d04d9..fa1d4f5df31e 100644
---- a/drivers/gpu/drm/lima/Kconfig
-+++ b/drivers/gpu/drm/lima/Kconfig
-@@ -10,5 +10,7 @@ config DRM_LIMA
-        depends on OF
-        select DRM_SCHED
-        select DRM_GEM_SHMEM_HELPER
-+       select PM_DEVFREQ
-+       select DEVFREQ_GOV_SIMPLE_ONDEMAND
-        help
- 	 DRM driver for ARM Mali 400/450 GPUs.
-diff --git a/drivers/gpu/drm/lima/Makefile b/drivers/gpu/drm/lima/Makefile
-index a85444b0a1d4..5e5c29875e9c 100644
---- a/drivers/gpu/drm/lima/Makefile
-+++ b/drivers/gpu/drm/lima/Makefile
-@@ -14,6 +14,7 @@ lima-y := \
- 	lima_sched.o \
- 	lima_ctx.o \
- 	lima_dlbu.o \
--	lima_bcast.o
-+	lima_bcast.o \
-+	lima_devfreq.o
- 
- obj-$(CONFIG_DRM_LIMA) += lima.o
-diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
-new file mode 100644
-index 000000000000..8c4d21d07529
---- /dev/null
-+++ b/drivers/gpu/drm/lima/lima_devfreq.c
-@@ -0,0 +1,234 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright 2020 Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-+ *
-+ * Based on panfrost_devfreq.c:
-+ *   Copyright 2019 Collabora ltd.
-+ */
-+#include <linux/clk.h>
-+#include <linux/devfreq.h>
-+#include <linux/devfreq_cooling.h>
-+#include <linux/device.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_opp.h>
-+#include <linux/property.h>
-+
-+#include "lima_device.h"
-+#include "lima_devfreq.h"
-+
-+static void lima_devfreq_update_utilization(struct lima_devfreq *devfreq)
-+{
-+	ktime_t now, last;
-+
-+	now = ktime_get();
-+	last = devfreq->time_last_update;
-+
-+	if (devfreq->busy_count > 0)
-+		devfreq->busy_time += ktime_sub(now, last);
-+	else
-+		devfreq->idle_time += ktime_sub(now, last);
-+
-+	devfreq->time_last_update = now;
-+}
-+
-+static int lima_devfreq_target(struct device *dev, unsigned long *freq,
-+			       u32 flags)
-+{
-+	struct dev_pm_opp *opp;
-+	int err;
-+
-+	opp = devfreq_recommended_opp(dev, freq, flags);
-+	if (IS_ERR(opp))
-+		return PTR_ERR(opp);
-+	dev_pm_opp_put(opp);
-+
-+	err = dev_pm_opp_set_rate(dev, *freq);
-+	if (err)
-+		return err;
-+
-+	return 0;
-+}
-+
-+static void lima_devfreq_reset(struct lima_devfreq *devfreq)
-+{
-+	devfreq->busy_time = 0;
-+	devfreq->idle_time = 0;
-+	devfreq->time_last_update = ktime_get();
-+}
-+
-+static int lima_devfreq_get_dev_status(struct device *dev,
-+				       struct devfreq_dev_status *status)
-+{
-+	struct lima_device *ldev = dev_get_drvdata(dev);
-+	struct lima_devfreq *devfreq = &ldev->devfreq;
-+	unsigned long irqflags;
-+
-+	status->current_frequency = clk_get_rate(ldev->clk_gpu);
-+
-+	spin_lock_irqsave(&devfreq->lock, irqflags);
-+
-+	lima_devfreq_update_utilization(devfreq);
-+
-+	status->total_time = ktime_to_ns(ktime_add(devfreq->busy_time,
-+						   devfreq->idle_time));
-+	status->busy_time = ktime_to_ns(devfreq->busy_time);
-+
-+	lima_devfreq_reset(devfreq);
-+
-+	spin_unlock_irqrestore(&devfreq->lock, irqflags);
-+
-+	dev_dbg(ldev->dev, "busy %lu total %lu %lu %% freq %lu MHz\n",
-+		status->busy_time, status->total_time,
-+		status->busy_time / (status->total_time / 100),
-+		status->current_frequency / 1000 / 1000);
-+
-+	return 0;
-+}
-+
-+static struct devfreq_dev_profile lima_devfreq_profile = {
-+	.polling_ms = 50, /* ~3 frames */
-+	.target = lima_devfreq_target,
-+	.get_dev_status = lima_devfreq_get_dev_status,
-+};
-+
-+void lima_devfreq_fini(struct lima_device *ldev)
-+{
-+	struct lima_devfreq *devfreq = &ldev->devfreq;
-+
-+	if (devfreq->cooling) {
-+		devfreq_cooling_unregister(devfreq->cooling);
-+		devfreq->cooling = NULL;
-+	}
-+
-+	if (devfreq->devfreq) {
-+		devm_devfreq_remove_device(&ldev->pdev->dev,
-+					   devfreq->devfreq);
-+		devfreq->devfreq = NULL;
-+	}
-+
-+	if (devfreq->opp_of_table_added) {
-+		dev_pm_opp_of_remove_table(&ldev->pdev->dev);
-+		devfreq->opp_of_table_added = false;
-+	}
-+
-+	if (devfreq->regulators_opp_table) {
-+		dev_pm_opp_put_regulators(devfreq->regulators_opp_table);
-+		devfreq->regulators_opp_table = NULL;
-+	}
-+
-+	if (devfreq->clkname_opp_table) {
-+		dev_pm_opp_put_clkname(devfreq->clkname_opp_table);
-+		devfreq->clkname_opp_table = NULL;
-+	}
-+}
-+
-+int lima_devfreq_init(struct lima_device *ldev)
-+{
-+	struct thermal_cooling_device *cooling;
-+	struct device *dev = &ldev->pdev->dev;
-+	struct opp_table *opp_table;
-+	struct devfreq *devfreq;
-+	struct lima_devfreq *ldevfreq = &ldev->devfreq;
-+	struct dev_pm_opp *opp;
-+	unsigned long cur_freq;
-+	int ret;
-+
-+	if (!device_property_present(dev, "operating-points-v2"))
-+		/* Optional, continue without devfreq */
-+		return 0;
-+
-+	spin_lock_init(&ldevfreq->lock);
-+
-+	opp_table = dev_pm_opp_set_clkname(dev, "core");
-+	if (IS_ERR(opp_table)) {
-+		ret = PTR_ERR(opp_table);
-+		goto err_fini;
-+	}
-+
-+	ldevfreq->clkname_opp_table = opp_table;
-+
-+	opp_table = dev_pm_opp_set_regulators(dev,
-+					      (const char *[]){ "mali" },
-+					      1);
-+	if (IS_ERR(opp_table)) {
-+		ret = PTR_ERR(opp_table);
-+
-+		/* Continue if the optional regulator is missing */
-+		if (ret != -ENODEV)
-+			goto err_fini;
-+	} else {
-+		ldevfreq->regulators_opp_table = opp_table;
-+	}
-+
-+	ret = dev_pm_opp_of_add_table(dev);
-+	if (ret)
-+		goto err_fini;
-+	ldevfreq->opp_of_table_added = true;
-+
-+	lima_devfreq_reset(ldevfreq);
-+
-+	cur_freq = clk_get_rate(ldev->clk_gpu);
-+
-+	opp = devfreq_recommended_opp(dev, &cur_freq, 0);
-+	if (IS_ERR(opp)) {
-+		ret = PTR_ERR(opp);
-+		goto err_fini;
-+	}
-+
-+	lima_devfreq_profile.initial_freq = cur_freq;
-+	dev_pm_opp_put(opp);
-+
-+	devfreq = devm_devfreq_add_device(dev, &lima_devfreq_profile,
-+					  DEVFREQ_GOV_SIMPLE_ONDEMAND, NULL);
-+	if (IS_ERR(devfreq)) {
-+		dev_err(dev, "Couldn't initialize GPU devfreq\n");
-+		ret = PTR_ERR(devfreq);
-+		goto err_fini;
-+	}
-+
-+	ldevfreq->devfreq = devfreq;
-+
-+	cooling = of_devfreq_cooling_register(dev->of_node, devfreq);
-+	if (IS_ERR(cooling))
-+		dev_info(dev, "Failed to register cooling device\n");
-+	else
-+		ldevfreq->cooling = cooling;
-+
-+	return 0;
-+
-+err_fini:
-+	lima_devfreq_fini(ldev);
-+	return ret;
-+}
-+
-+void lima_devfreq_record_busy(struct lima_devfreq *devfreq)
-+{
-+	unsigned long irqflags;
-+
-+	if (!devfreq->devfreq)
-+		return;
-+
-+	spin_lock_irqsave(&devfreq->lock, irqflags);
-+
-+	lima_devfreq_update_utilization(devfreq);
-+
-+	devfreq->busy_count++;
-+
-+	spin_unlock_irqrestore(&devfreq->lock, irqflags);
-+}
-+
-+void lima_devfreq_record_idle(struct lima_devfreq *devfreq)
-+{
-+	unsigned long irqflags;
-+
-+	if (!devfreq->devfreq)
-+		return;
-+
-+	spin_lock_irqsave(&devfreq->lock, irqflags);
-+
-+	lima_devfreq_update_utilization(devfreq);
-+
-+	WARN_ON(--devfreq->busy_count < 0);
-+
-+	spin_unlock_irqrestore(&devfreq->lock, irqflags);
-+}
-diff --git a/drivers/gpu/drm/lima/lima_devfreq.h b/drivers/gpu/drm/lima/lima_devfreq.h
-new file mode 100644
-index 000000000000..8d71ba9fb22a
---- /dev/null
-+++ b/drivers/gpu/drm/lima/lima_devfreq.h
-@@ -0,0 +1,41 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright 2020 Martin Blumenstingl <martin.blumenstingl@googlemail.com> */
-+
-+#ifndef __LIMA_DEVFREQ_H__
-+#define __LIMA_DEVFREQ_H__
-+
-+#include <linux/spinlock.h>
-+#include <linux/ktime.h>
-+
-+struct devfreq;
-+struct opp_table;
-+struct thermal_cooling_device;
-+
-+struct lima_device;
-+
-+struct lima_devfreq {
-+	struct devfreq *devfreq;
-+	struct opp_table *clkname_opp_table;
-+	struct opp_table *regulators_opp_table;
-+	struct thermal_cooling_device *cooling;
-+	bool opp_of_table_added;
-+
-+	ktime_t busy_time;
-+	ktime_t idle_time;
-+	ktime_t time_last_update;
-+	int busy_count;
-+	/*
-+	 * Protect busy_time, idle_time, time_last_update and busy_count
-+	 * because these can be updated concurrently, for example by the GP
-+	 * and PP interrupts.
-+	 */
-+	spinlock_t lock;
-+};
-+
-+int lima_devfreq_init(struct lima_device *ldev);
-+void lima_devfreq_fini(struct lima_device *ldev);
-+
-+void lima_devfreq_record_busy(struct lima_devfreq *devfreq);
-+void lima_devfreq_record_idle(struct lima_devfreq *devfreq);
-+
-+#endif
-diff --git a/drivers/gpu/drm/lima/lima_device.c b/drivers/gpu/drm/lima/lima_device.c
-index 19829b543024..7f1f7a1c03e5 100644
---- a/drivers/gpu/drm/lima/lima_device.c
-+++ b/drivers/gpu/drm/lima/lima_device.c
-@@ -214,6 +214,8 @@ static int lima_init_gp_pipe(struct lima_device *dev)
- 	struct lima_sched_pipe *pipe = dev->pipe + lima_pipe_gp;
- 	int err;
- 
-+	pipe->ldev = dev;
-+
- 	err = lima_sched_pipe_init(pipe, "gp");
- 	if (err)
- 		return err;
-@@ -244,6 +246,8 @@ static int lima_init_pp_pipe(struct lima_device *dev)
- 	struct lima_sched_pipe *pipe = dev->pipe + lima_pipe_pp;
- 	int err, i;
- 
-+	pipe->ldev = dev;
-+
- 	err = lima_sched_pipe_init(pipe, "pp");
- 	if (err)
- 		return err;
-diff --git a/drivers/gpu/drm/lima/lima_device.h b/drivers/gpu/drm/lima/lima_device.h
-index 31158d86271c..d6c0f8b8f7e8 100644
---- a/drivers/gpu/drm/lima/lima_device.h
-+++ b/drivers/gpu/drm/lima/lima_device.h
-@@ -8,6 +8,7 @@
- #include <linux/delay.h>
- 
- #include "lima_sched.h"
-+#include "lima_devfreq.h"
- 
- enum lima_gpu_id {
- 	lima_gpu_mali400 = 0,
-@@ -94,6 +95,8 @@ struct lima_device {
- 
- 	u32 *dlbu_cpu;
- 	dma_addr_t dlbu_dma;
-+
-+	struct lima_devfreq devfreq;
- };
- 
- static inline struct lima_device *
-diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
-index 2daac64d8955..d9f64e52ae9e 100644
---- a/drivers/gpu/drm/lima/lima_drv.c
-+++ b/drivers/gpu/drm/lima/lima_drv.c
-@@ -10,6 +10,7 @@
- #include <drm/drm_prime.h>
- #include <drm/lima_drm.h>
- 
-+#include "lima_device.h"
- #include "lima_drv.h"
- #include "lima_gem.h"
- #include "lima_vm.h"
-@@ -306,18 +307,26 @@ static int lima_pdev_probe(struct platform_device *pdev)
- 	if (err)
- 		goto err_out1;
- 
-+	err = lima_devfreq_init(ldev);
-+	if (err) {
-+		dev_err(&pdev->dev, "Fatal error during devfreq init\n");
-+		goto err_out2;
-+	}
-+
- 	/*
- 	 * Register the DRM device with the core and the connectors with
- 	 * sysfs.
- 	 */
- 	err = drm_dev_register(ddev, 0);
- 	if (err < 0)
--		goto err_out2;
-+		goto err_out3;
- 
- 	return 0;
- 
--err_out2:
-+err_out3:
- 	lima_device_fini(ldev);
-+err_out2:
-+	lima_devfreq_fini(ldev);
- err_out1:
- 	drm_dev_put(ddev);
- err_out0:
-@@ -331,6 +340,7 @@ static int lima_pdev_remove(struct platform_device *pdev)
- 	struct drm_device *ddev = ldev->ddev;
- 
- 	drm_dev_unregister(ddev);
-+	lima_devfreq_fini(ldev);
- 	lima_device_fini(ldev);
- 	drm_dev_put(ddev);
- 	lima_sched_slab_fini();
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index 3886999b4533..d937d626b892 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -5,6 +5,7 @@
- #include <linux/slab.h>
- #include <linux/xarray.h>
- 
-+#include "lima_devfreq.h"
- #include "lima_drv.h"
- #include "lima_sched.h"
- #include "lima_vm.h"
-@@ -214,6 +215,8 @@ static struct dma_fence *lima_sched_run_job(struct drm_sched_job *job)
- 	 */
- 	ret = dma_fence_get(task->fence);
- 
-+	lima_devfreq_record_busy(&pipe->ldev->devfreq);
-+
- 	pipe->current_task = task;
- 
- 	/* this is needed for MMU to work correctly, otherwise GP/PP
-@@ -285,6 +288,8 @@ static void lima_sched_timedout_job(struct drm_sched_job *job)
- 	pipe->current_vm = NULL;
- 	pipe->current_task = NULL;
- 
-+	lima_devfreq_record_idle(&pipe->ldev->devfreq);
-+
- 	drm_sched_resubmit_jobs(&pipe->base);
- 	drm_sched_start(&pipe->base, true);
- }
-@@ -364,5 +369,7 @@ void lima_sched_pipe_task_done(struct lima_sched_pipe *pipe)
- 	} else {
- 		pipe->task_fini(pipe);
- 		dma_fence_signal(task->fence);
-+
-+		lima_devfreq_record_idle(&pipe->ldev->devfreq);
- 	}
- }
-diff --git a/drivers/gpu/drm/lima/lima_sched.h b/drivers/gpu/drm/lima/lima_sched.h
-index d64393fb50a9..19bbc5214cf2 100644
---- a/drivers/gpu/drm/lima/lima_sched.h
-+++ b/drivers/gpu/drm/lima/lima_sched.h
-@@ -6,6 +6,7 @@
- 
- #include <drm/gpu_scheduler.h>
- 
-+struct lima_device;
- struct lima_vm;
- 
- struct lima_sched_task {
-@@ -44,6 +45,8 @@ struct lima_sched_pipe {
- 	u32 fence_seqno;
- 	spinlock_t fence_lock;
- 
-+	struct lima_device *ldev;
-+
- 	struct lima_sched_task *current_task;
- 	struct lima_vm *current_vm;
- 
--- 
-2.25.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QmVjYXVzZSBwZXJpb2QgYW5kIGR1dHkgY3ljbGUgYXJlIGRlZmluZWQgaW4gdGhlIFBXTSBmcmFt
+ZXdvcmsgc3RydWN0cyBhcyBpbnRzCndpdGggdW5pdHMgb2YgbmFub3NlY29uZHMsIHRoZSBtYXhp
+bXVtIHRpbWUgZHVyYXRpb24gdGhhdCBjYW4gYmUgc2V0IGlzIGxpbWl0ZWQKdG8gfjIuMTQ3IHNl
+Y29uZHMuIENvbnNlcXVlbnRseSwgYXBwbGljYXRpb25zIGRlc2lyaW5nIHRvIHNldCBncmVhdGVy
+IHRpbWUKcGVyaW9kcyB2aWEgdGhlIFBXTSBmcmFtZXdvcmsgYXJlIG5vdCBiZSBhYmxlIHRvIGRv
+IHNvIC0gbGlrZSwgZm9yIGluc3RhbmNlLApjYXVzaW5nIGFuIExFRCB0byBibGluayBhdCBhbiBp
+bnRlcnZhbCBvZiA1IHNlY29uZHMuCgpSZWRlZmluaW5nIHRoZSBwZXJpb2QgYW5kIGR1dHkgY3lj
+bGUgc3RydWN0IG1lbWJlcnMgaW4gdGhlIGNvcmUgUFdNIGZyYW1ld29yawpzdHJ1Y3RzIGFzIHU2
+NCB2YWx1ZXMgd2lsbCBlbmFibGUgbGFyZ2VyIHRpbWUgZHVyYXRpb25zIHRvIGJlIHNldCBhbmQg
+c29sdmUKdGhpcyBwcm9ibGVtLiBTdWNoIGEgY2hhbmdlIHRvIHRoZSBmcmFtZXdvcmsgbWFuZGF0
+ZXMgdGhhdCBkcml2ZXJzIHVzaW5nIHRoZXNlCnN0cnVjdCBtZW1iZXJzIChhbmQgY29ycmVzcG9u
+ZGluZyBoZWxwZXIgZnVuY3Rpb25zKSBhbHNvIGJlIG1vZGlmaWVkIGNvcnJlY3RseQppbiBvcmRl
+ciB0byBwcmV2ZW50IGNvbXBpbGF0aW9uIGVycm9ycy4KClRoaXMgcGF0Y2ggc2VyaWVzIGludHJv
+ZHVjZXMgdGhlIGNoYW5nZXMgdG8gYWxsIHRoZSBkcml2ZXJzIGZpcnN0LCBmb2xsb3dlZCBieQp0
+aGUgZnJhbWV3b3JrIGNoYW5nZSBhdCB0aGUgdmVyeSBlbmQgc28gdGhhdCB3aGVuIHRoZSBsYXR0
+ZXIgaXMgYXBwbGllZCwgYWxsCnRoZSBkcml2ZXJzIGFyZSBpbiBnb29kIHNoYXBlIGFuZCB0aGVy
+ZSBhcmUgbm8gY29tcGlsYXRpb24gZXJyb3JzLgoKQ2hhbmdlcyBmcm9tIHY5OgogIC0gR2F0aGVy
+ZWQgdGhlIHJlY2VpdmVkICJSZXZpZXdlZC1ieTogIiB0YWcKICAtIEFkZGVkIGJhY2sgdGhlIGNs
+ay1wd20uYyBwYXRjaCBiZWNhdXNlIGtidWlsZCB0ZXN0IHJvYm90IGNvbXBsYWluZWQgWzNdCiAg
+ICBhbmQgYWRkcmVzc2VkIHJlY2VpdmVkIHJldmlldyBjb21tZW50cy4KICAtIGNscHM3MTF4OiBB
+ZGRyZXNzZWQgcmV2aWV3IGNvbW1lbnRzLgoKQ2hhbmdlcyBmcm9tIHY4OgogIC0gR2F0aGVyZWQg
+YWxsIHJlY2VpdmVkICJBY2tlZC1ieTogIiBhbmQgIlJldmlld2VkLWJ5OiAiIHRhZ3MKICAtIERy
+b3BwZWQgcGF0Y2ggdG8gY2xrLXB3bS5jIGZvciByZWFzb25zIG1lbnRpb25kIGluIFsyXQogIC0g
+RXhwYW5kZWQgYXVkaWVuY2Ugb2YgdW5yZXZpZXdlZCBwYXRjaGVzCgpDaGFuZ2VzIGZyb20gdjc6
+CiAgLSBDaGFuZ2VkIGNvbW1pdCBtZXNzYWdlcyBvZiBhbGwgcGF0Y2hlcyB0byBiZSBicmllZiBh
+bmQgdG8gdGhlIHBvaW50LgogIC0gQWRkZWQgZXhwbGFuYXRpb24gb2YgY2hhbmdlIGluIGNvdmVy
+IGxldHRlci4KICAtIERyb3BwZWQgY2hhbmdlIHRvIHB3bS1zdGkuYyBhcyB1cG9uIHJldmlldyBp
+dCB3YXMgdW5uZWNlc3NhcnkgYXMgc3RydWN0CiAgICBwd21fY2FwdHVyZSBpcyBub3QgYmVpbmcg
+bW9kaWZpZWQgaW4gdGhlIFBXTSBjb3JlLgoKQ2hhbmdlcyBmcm9tIHY2OgogIC0gU3BsaXQgb3V0
+IHRoZSBkcml2ZXIgY2hhbmdlcyBvdXQgaW50byBzZXBhcmF0ZSBwYXRjaGVzLCBvbmUgcGF0Y2gg
+cGVyIGZpbGUKICAgIGZvciBlYXNlIG9mIHJldmlld2luZy4KCkNoYW5nZXMgZnJvbSB2NToKICAt
+IERyb3BwZWQgdGhlIGNvbnZlcnNpb24gb2Ygc3RydWN0IHB3bV9jYXB0dXJlIHRvIHU2NCBmb3Ig
+cmVhc29ucyBtZW50aW9uZWQKICAgIGluIGh0dHBzOi8vd3d3LnNwaW5pY3MubmV0L2xpc3RzL2xp
+bnV4LXB3bS9tc2cxMTU0MS5odG1sCgpDaGFuZ2VzIGZyb20gdjQ6CiAgLSBTcGxpdCB0aGUgcGF0
+Y2ggaW50byB0d286IG9uZSBmb3IgY2hhbmdlcyB0byB0aGUgZHJpdmVycywgYW5kIHRoZSBhY3R1
+YWwKICAgIHN3aXRjaCB0byB1NjQgZm9yIGVhc2Ugb2YgcmV2ZXJ0aW5nIHNob3VsZCB0aGUgbmVl
+ZCBhcmlzZS4KICAtIFJlLWV4YW1pbmVkIHRoZSBwYXRjaCBhbmQgbWFkZSB0aGUgZm9sbG93aW5n
+IGNvcnJlY3Rpb25zOgogICAgICAqIGludGVsX3BhbmVsLmM6CglESVY2NF9VNjRfUk9VTkRfVVAg
+LT4gRElWX1JPVU5EX1VQX1VMTCAoYXMgb25seSB0aGUgbnVtZXJhdG9yIHdvdWxkIGJlCgk2NC1i
+aXQgaW4gdGhpcyBjYXNlKS4KICAgICAgKiBwd20tc3RpLmM6Cglkb19kaXYgLT4gZGl2X3U2NCAo
+ZG9fZGl2IGlzIG9wdGltaXplZCBvbmx5IGZvciB4ODYgYXJjaGl0ZWN0dXJlcywgYW5kCglkaXZf
+dTY0J3MgY29tbWVudCBibG9jayBzdWdnZXN0cyB0byB1c2UgdGhpcyBhcyBtdWNoIGFzIHBvc3Np
+YmxlKS4KCkNoYW5nZXMgZnJvbSB2MzoKICAtIFJlYmFzZWQgdG8gY3VycmVudCB0aXAgb2YgZm9y
+LW5leHQuCgpDaGFuZ2VzIGZyb20gdjI6CiAgLSBGaXhlZCAldSAtPiAlbGx1IGluIGEgZGV2X2Ri
+ZyBpbiBwd20tc3RtMzItbHAuYywgdGhhbmtzIHRvIGtidWlsZCB0ZXN0IHJvYm90CiAgLSBBZGRl
+ZCBhIGNvdXBsZSBvZiBmaXhlcyB0byBwd20taW14LXRwbS5jIGFuZCBwd20tc2lmaXZlLmMKCkNo
+YW5nZXMgZnJvbSB2MToKICAtIEZpeGVkIGNvbXBpbGF0aW9uIGVycm9ycyBzZWVuIHdoZW4gY29t
+cGlsaW5nIGZvciBkaWZmZXJlbnQgYXJjaHMuCgp2MToKICAtIFJld29ya2VkIHRoZSBjaGFuZ2Ug
+cHVzaGVkIHVwc3RyZWFtIGVhcmxpZXIgWzFdIHNvIGFzIHRvIG5vdCBhZGQgYW4KICAgIGV4dGVu
+c2lvbiB0byBhbiBvYnNvbGV0ZSBBUEkuIFdpdGggdGhpcyBjaGFuZ2UsIHB3bV9vcHMtPmFwcGx5
+KCkgY2FuIGJlCiAgICB1c2VkIHRvIHNldCBwd21fc3RhdGUgcGFyYW1ldGVycyBhcyB1c3VhbC4K
+ClsxXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIwMTkwOTE2MTQwMDQ4LkdCNzQ4OEB1
+bG1vLwpbMl0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC8yMDIwMDMxMjE5MDg1OS5HQTE5
+NjA1QGNvZGVhdXJvcmEub3JnLwpbM10gaHR0cHM6Ly93d3cuc3Bpbmljcy5uZXQvbGlzdHMvbGlu
+dXgtcHdtL21zZzExOTA2Lmh0bWwKCkd1cnUgRGFzIFNyaW5hZ2VzaCAoMTIpOgogIGRybS9pOTE1
+OiBVc2UgNjQtYml0IGRpdmlzaW9uIG1hY3JvCiAgaHdtb246IHB3bS1mYW46IFVzZSA2NC1iaXQg
+ZGl2aXNpb24gbWFjcm8KICBpci1yeDUxOiBVc2UgNjQtYml0IGRpdmlzaW9uIG1hY3JvCiAgcHdt
+OiBjbHBzNzExeDogQ2FzdCBwZXJpb2QgdG8gdTMyIGJlZm9yZSB1c2UgYXMgZGl2aXNvcgogIHB3
+bTogcHdtLWlteC10cG06IFVzZSA2NC1iaXQgZGl2aXNpb24gbWFjcm8KICBwd206IGlteDI3OiBV
+c2UgNjQtYml0IGRpdmlzaW9uIG1hY3JvIGFuZCBmdW5jdGlvbgogIHB3bTogc2lmaXZlOiBVc2Ug
+NjQtYml0IGRpdmlzaW9uIG1hY3JvCiAgcHdtOiBzdG0zMi1scDogVXNlICVsbHUgZm9ybWF0IHNw
+ZWNpZmllciBmb3IgcGVyaW9kCiAgcHdtOiBzdW40aTogVXNlIDY0LWJpdCBkaXZpc2lvbiBmdW5j
+dGlvbgogIGJhY2tsaWdodDogcHdtX2JsOiBVc2UgNjQtYml0IGRpdmlzaW9uIGZ1bmN0aW9uCiAg
+Y2xrOiBwd206IEFzc2lnbiB1NjQgZGl2aXNvciB0byB1bnNpZ25lZCBpbnQgYmVmb3JlIHVzZQog
+IHB3bTogY29yZTogQ29udmVydCBwZXJpb2QgYW5kIGR1dHkgY3ljbGUgdG8gdTY0CgogZHJpdmVy
+cy9jbGsvY2xrLXB3bS5jICAgICAgICAgICAgICAgICAgICAgIHwgIDQgKysrLQogZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9wYW5lbC5jIHwgIDIgKy0KIGRyaXZlcnMvaHdtb24v
+cHdtLWZhbi5jICAgICAgICAgICAgICAgICAgICB8ICAyICstCiBkcml2ZXJzL21lZGlhL3JjL2ly
+LXJ4NTEuYyAgICAgICAgICAgICAgICAgfCAgMyArKy0KIGRyaXZlcnMvcHdtL2NvcmUuYyAgICAg
+ICAgICAgICAgICAgICAgICAgICB8ICA0ICsrLS0KIGRyaXZlcnMvcHdtL3B3bS1jbHBzNzExeC5j
+ICAgICAgICAgICAgICAgICB8ICA1ICsrKystCiBkcml2ZXJzL3B3bS9wd20taW14LXRwbS5jICAg
+ICAgICAgICAgICAgICAgfCAgMiArLQogZHJpdmVycy9wd20vcHdtLWlteDI3LmMgICAgICAgICAg
+ICAgICAgICAgIHwgIDUgKystLS0KIGRyaXZlcnMvcHdtL3B3bS1zaWZpdmUuYyAgICAgICAgICAg
+ICAgICAgICB8ICAyICstCiBkcml2ZXJzL3B3bS9wd20tc3RtMzItbHAuYyAgICAgICAgICAgICAg
+ICAgfCAgMiArLQogZHJpdmVycy9wd20vcHdtLXN1bjRpLmMgICAgICAgICAgICAgICAgICAgIHwg
+IDIgKy0KIGRyaXZlcnMvcHdtL3N5c2ZzLmMgICAgICAgICAgICAgICAgICAgICAgICB8ICA4ICsr
+KystLS0tCiBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9wd21fYmwuYyAgICAgICAgICAgfCAgMyAr
+Ky0KIGluY2x1ZGUvbGludXgvcHdtLmggICAgICAgICAgICAgICAgICAgICAgICB8IDEyICsrKysr
+Ky0tLS0tLQogMTQgZmlsZXMgY2hhbmdlZCwgMzEgaW5zZXJ0aW9ucygrKSwgMjUgZGVsZXRpb25z
+KC0pCgpDYzogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KQ2M6IERhbmllbCBUaG9t
+cHNvbiA8ZGFuaWVsLnRob21wc29uQGxpbmFyby5vcmc+CkNjOiBKaW5nb28gSGFuIDxqaW5nb29o
+YW4xQGdtYWlsLmNvbT4KQ2M6IEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3ogPGIuem9sbmllcmtp
+ZUBzYW1zdW5nLmNvbT4KQ2M6IGxpbnV4LWZiZGV2QHZnZXIua2VybmVsLm9yZwpDYzogTWF4aW1l
+IFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPgpDYzogQ2hlbi1ZdSBUc2FpIDx3ZW5zQGNzaWUu
+b3JnPgpDYzogUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4KQ2M6IEZhYnJp
+Y2UgR2FzbmllciA8ZmFicmljZS5nYXNuaWVyQHN0LmNvbT4KQ2M6IE1heGltZSBDb3F1ZWxpbiA8
+bWNvcXVlbGluLnN0bTMyQGdtYWlsLmNvbT4KQ2M6IEFsZXhhbmRyZSBUb3JndWUgPGFsZXhhbmRy
+ZS50b3JndWVAc3QuY29tPgpDYzogUGFsbWVyIERhYmJlbHQgPHBhbG1lckBkYWJiZWx0LmNvbT4K
+Q2M6IFBhdWwgV2FsbXNsZXkgPHBhdWwud2FsbXNsZXlAc2lmaXZlLmNvbT4KQ2M6IGxpbnV4LXJp
+c2N2QGxpc3RzLmluZnJhZGVhZC5vcmcKQ2M6IFlhc2ggU2hhaCA8eWFzaC5zaGFoQHNpZml2ZS5j
+b20+CkNjOiBBdGlzaCBQYXRyYSA8YXRpc2gucGF0cmFAd2RjLmNvbT4KQ2M6IFNoYXduIEd1byA8
+c2hhd25ndW9Aa2VybmVsLm9yZz4KQ2M6IFNhc2NoYSBIYXVlciA8cy5oYXVlckBwZW5ndXRyb25p
+eC5kZT4KQ2M6IFBlbmd1dHJvbml4IEtlcm5lbCBUZWFtIDxrZXJuZWxAcGVuZ3V0cm9uaXguZGU+
+CkNjOiBGYWJpbyBFc3RldmFtIDxmZXN0ZXZhbUBnbWFpbC5jb20+CkNjOiBOWFAgTGludXggVGVh
+bSA8bGludXgtaW14QG54cC5jb20+CkNjOiBTYXNjaGEgSGF1ZXIgPHMuaGF1ZXJAcGVuZ3V0cm9u
+aXguZGU+CkNjOiBQZW5ndXRyb25peCBLZXJuZWwgVGVhbSA8a2VybmVsQHBlbmd1dHJvbml4LmRl
+PgpDYzogRmFiaW8gRXN0ZXZhbSA8ZmVzdGV2YW1AZ21haWwuY29tPgpDYzogTlhQIExpbnV4IFRl
+YW0gPGxpbnV4LWlteEBueHAuY29tPgpDYzogQWxleGFuZGVyIFNoaXlhbiA8c2hjX3dvcmtAbWFp
+bC5ydT4KQ2M6IE1hdXJvIENhcnZhbGhvIENoZWhhYiA8bWNoZWhhYkBrZXJuZWwub3JnPgpDYzog
+UmljaGFyZCBGb250YW5hIDxyZm9udGFuYUByZWRoYXQuY29tPgpDYzogVGhvbWFzIEdsZWl4bmVy
+IDx0Z2x4QGxpbnV0cm9uaXguZGU+CkNjOiBLYXRlIFN0ZXdhcnQgPGtzdGV3YXJ0QGxpbnV4Zm91
+bmRhdGlvbi5vcmc+CkNjOiBBbGxpc29uIFJhbmRhbCA8YWxsaXNvbkBsb2h1dG9rLm5ldD4KQ2M6
+IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwpDYzogS2FtaWwgRGVic2tpIDxrYW1pbEB3eXBh
+cy5vcmc+CkNjOiBCYXJ0bG9taWVqIFpvbG5pZXJraWV3aWN6IDxiLnpvbG5pZXJraWVAc2Ftc3Vu
+Zy5jb20+CkNjOiBKZWFuIERlbHZhcmUgPGpkZWx2YXJlQHN1c2UuY29tPgpDYzogR3VlbnRlciBS
+b2VjayA8bGludXhAcm9lY2stdXMubmV0PgpDYzogTGlhbSBHaXJkd29vZCA8bGdpcmR3b29kQGdt
+YWlsLmNvbT4KQ2M6IE1hcmsgQnJvd24gPGJyb29uaWVAa2VybmVsLm9yZz4KQ2M6IGxpbnV4LWh3
+bW9uQHZnZXIua2VybmVsLm9yZwpDYzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGxpbnV4Lmlu
+dGVsLmNvbT4KQ2M6IEpvb25hcyBMYWh0aW5lbiA8am9vbmFzLmxhaHRpbmVuQGxpbnV4LmludGVs
+LmNvbT4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBWZXR0
+ZXIgPGRhbmllbEBmZndsbC5jaD4KQ2M6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29u
+LmNvLnVrPgpDYzogIlZpbGxlIFN5cmrDpGzDpCIgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwu
+Y29tPgpDYzogaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogTWljaGFlbCBUdXJxdWV0dGUgPG10dXJxdWV0dGVAYmF5
+bGlicmUuY29tPgpDYzogU3RlcGhlbiBCb3lkIDxzYm95ZEBrZXJuZWwub3JnPgpDYzogbGludXgt
+Y2xrQHZnZXIua2VybmVsLm9yZwpDYzogUm9kcmlnbyBWaXZpIDxyb2RyaWdvLnZpdmlAaW50ZWwu
+Y29tPgpDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVs
+LmNvbT4KQ2M6IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+CkNjOiBNdWtlc2ggT2poYSA8
+bW9qaGFAY29kZWF1cm9yYS5vcmc+CkNjOiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9y
+YWNsZS5jb20+CkNjOiBBbnNvbiBIdWFuZyA8QW5zb24uSHVhbmdAbnhwLmNvbT4KQ2M6IEdlcmFs
+ZCBCYWV6YSA8Z2VyYWxkLmJhZXphQHN0LmNvbT4KQ2M6IEJlbmphbWluIEdhaWduYXJkIDxiZW5q
+YW1pbi5nYWlnbmFyZEBsaW5hcm8ub3JnPgpDYzogQXhlbCBMaW4gPGF4ZWwubGluQGluZ2ljcy5j
+b20+CkNjOiBEaW5nIFhpYW5nIDxkaW5neGlhbmdAY21zcy5jaGluYW1vYmlsZS5jb20+CkNjOiBX
+ZXNsZXkgVy4gVGVycHN0cmEgPHdlc2xleUBzaWZpdmUuY29tPgoKLS0gClRoZSBRdWFsY29tbSBJ
+bm5vdmF0aW9uIENlbnRlciwgSW5jLiBpcyBhIG1lbWJlciBvZiB0aGUgQ29kZSBBdXJvcmEgRm9y
+dW0sCmEgTGludXggRm91bmRhdGlvbiBDb2xsYWJvcmF0aXZlIFByb2plY3QKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
