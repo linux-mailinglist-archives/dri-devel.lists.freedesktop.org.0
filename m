@@ -2,59 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33F618C0DC
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 20:55:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A1618C10D
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 21:12:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EAC16EA2B;
-	Thu, 19 Mar 2020 19:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93FE76EA56;
+	Thu, 19 Mar 2020 20:12:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FDA76E091;
- Thu, 19 Mar 2020 19:54:56 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id l36so1470849pjb.3;
- Thu, 19 Mar 2020 12:54:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=50MpA/RokyDYyXnH/noecTREYyWpedib1yxrl72x3K8=;
- b=sWa5KJ1cN3JFZ9O2uSVv7a3IeaeFHDib77GHdxs+M1f4jeyW6Zmh1yRcM0RT5u7mOs
- YZ1JW1mgOSvqyHT7zjMcEgPWzPf6Ml9yHhZfFghtepZEn3SaELwZhJPbWe1gaY+RreWS
- r3zcQBhMIVARNNUmTSNQgofpRUld4iZMtrdAZTfB1i586D0ZHHvHmgimckWMBuuH8zcf
- hSRsGhOLuJwmZVDcFTdsNZ0hrFDjDKCOzq+9EhO+tV8/rpuZeCcRM3tCIHvEapTcwu2D
- iQyxvfsRwpovSsrgn9T+F5RhUTipJoR31C/JoryhCN5OoEEMDndlKVHvPAkb0F4I1ML1
- qk/A==
+Received: from us-smtp-delivery-74.mimecast.com
+ (us-smtp-delivery-74.mimecast.com [63.128.21.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2670A6EA3C
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 20:12:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584648735;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sMYBqtPN2cGA+ET3nItOh0v5Df1qhyKDr6nu8tsnpYY=;
+ b=iPVab12FXFc5lJaNaAzXDRGbAcK82CuX2cE42lDCZJnM2mTWP7+uHZhvnlz859KhZffnDg
+ Ff3VjtGSH9MZRhbunj9NIzzPn4uVN4Ve0GdIksa+2QrjZRxmX+Iy5OjWvaZmzRChlCnADQ
+ fRN+pQLF1jkCWiHUB9jCIoyXQHvnT3M=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-7JDNqAgePmmlbY3tcvCXrA-1; Thu, 19 Mar 2020 16:12:13 -0400
+X-MC-Unique: 7JDNqAgePmmlbY3tcvCXrA-1
+Received: by mail-qk1-f197.google.com with SMTP id z185so3482517qkc.17
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 13:12:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=50MpA/RokyDYyXnH/noecTREYyWpedib1yxrl72x3K8=;
- b=kP9Qi3/xNnUKXXt959F0djIy/W40bECCwtWkaa7TF4C7Tj4twIpsBmWkBY6ZebpZ5V
- H+JG86TX0o7cBR1ElwAfBr+QXxoTkCdxmOJNpycKsOVsZ/uzNgvDluqnEj5nRPpGpW2p
- EjrE9bR7sVWAu9TC0dC6JGigSGA2M4A3gINmbalvAL4pQuJHTSTCLVn+yFW0ktN5+oE7
- QP4ICC2g30iJBLEQkEn5g3kI4LFz+fzH4TuF0YAA+o99J8PqmS8jV3O3nIkgvjYdiAXe
- zT+/s9OZmrPhhRi91RTR4YpsDgGBt0kk2JQkJmawKyE+c4OSbgiVvRx7EzjE98bh/Iu1
- S2Lg==
-X-Gm-Message-State: ANhLgQ2bpdVjLl5IP1pQYRHyDKD1kBFXFSv9Z9UerZgOeDESAezRdt0E
- aTsarV/3ZzFaUS3EE9HcnAE101TOcHXqA8VxkrE=
-X-Google-Smtp-Source: ADFU+vs2X/SuybYBU06+WKKlcaHOeEU/pHq/s1X5kFoKl735hqgVDgS+0byGmiVzIJ924I5SMQVNBqUhwvVRrYWm1uo=
-X-Received: by 2002:a17:90a:d585:: with SMTP id v5mr5596611pju.4.1584647696131; 
- Thu, 19 Mar 2020 12:54:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAAxE2A4q9sZDz8vSLAvT0HH4BGukf8Ug68eqSV1ojqrm_5uFFg@mail.gmail.com>
- <170e13edbb0.27ad.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
- <CAAxE2A6hMs2Ngd4zEv+hEJnEUKmPDuXmeWUaUU-4YCTRHNzr1w@mail.gmail.com>
- <e470a1d0-cf91-5811-d280-322e005888a8@daenzer.net>
- <CAAxE2A5D2HaqjS52jymMbwOUEsaXG_cMeeA9_esqaC54-52Kgw@mail.gmail.com>
- <ea771b02-b74b-2a89-e55c-2977d641558d@daenzer.net>
- <20200319105129.GF2363188@phenom.ffwll.local>
-In-Reply-To: <20200319105129.GF2363188@phenom.ffwll.local>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Thu, 19 Mar 2020 15:54:43 -0400
-Message-ID: <CAAxE2A4-YocvFctj7x4mHe=hMx4Q6DBzjPBisbi+Tmh1UMjCpg@mail.gmail.com>
-Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=w+kP4/v/lWRo0ba6khq6PwzjukxNpsWmWb1HOsx/CVI=;
+ b=MCvj4x1d9kEA8JA2o4FFXTUEuEF7j2x8z7wmEJngEg02oQW4LjcpTqPx54OBHxEc/h
+ dnoqncO+O/KBz1+joGhey9YKfCWBAs3bRN00SEf9SLbb2Sy+OW/QyNSsOEF8fcE9ng9/
+ Kh1bFig+tU/zJDYpGSjRJC5LuJcpNSS1AMUa1mQfsAOCrUtyYuUFe+PqJbvAD2HW3CgG
+ ZsCA1iDZAOXsS3mCYUj2vHtALPLMLVqqOgCYtC0IdWskNwBepwatxC+NAAZ6ClrtNSs+
+ uVKwEdWiGZmIRyvcFMpZLW2Gtr+psXmyf2zd3dPgI2Hv8QHR8nwomC7BN3OIBz8vAz4m
+ NAzw==
+X-Gm-Message-State: ANhLgQ1wXBVnp+WqnCwMWghiN+eMmSDPH6eSOmh2HbSK+Oa1hseiJMk7
+ b+BnQfTEQDYq4kwJH8RnvEIPNg9xwHWK7kvG/nkY1ujZzTUDN3ImUhqWBaEGviYOtxiJ2bBY1Bv
+ mKfC+XjPyspJ/uUB18dKuqUqUfHQa
+X-Received: by 2002:ae9:e306:: with SMTP id v6mr4927437qkf.2.1584648733093;
+ Thu, 19 Mar 2020 13:12:13 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtOZTfmFbV0hOkXDMpC7aJZyCuiUmexSxaTcCSoi2RMigyaQ73zUTArO07+M1007lodNL688A==
+X-Received: by 2002:ae9:e306:: with SMTP id v6mr4927396qkf.2.1584648732629;
+ Thu, 19 Mar 2020 13:12:12 -0700 (PDT)
+Received: from Ruby.lyude.net (static-173-76-190-23.bstnma.ftas.verizon.net.
+ [173.76.190.23])
+ by smtp.gmail.com with ESMTPSA id h20sm2314096qka.78.2020.03.19.13.12.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Mar 2020 13:12:11 -0700 (PDT)
+Message-ID: <76d20994485724280c98261e11a50caceb0a8dde.camel@redhat.com>
+Subject: Re: [PATCH 1/9] drm/vblank: Add vblank works
+From: Lyude Paul <lyude@redhat.com>
 To: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 19 Mar 2020 16:12:10 -0400
+In-Reply-To: <20200318134657.GV2363188@phenom.ffwll.local>
+References: <20200318004159.235623-1-lyude@redhat.com>
+ <20200318004159.235623-2-lyude@redhat.com>
+ <20200318134657.GV2363188@phenom.ffwll.local>
+Organization: Red Hat
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,272 +80,288 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- xorg-devel <xorg-devel@lists.x.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "wayland-devel @ lists . freedesktop . org"
- <wayland-devel@lists.freedesktop.org>,
- Discussion of the development of and with GStreamer
- <gstreamer-devel@lists.freedesktop.org>, Jason Ekstrand <jason@jlekstrand.net>,
- ML mesa-dev <mesa-dev@lists.freedesktop.org>, linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0823201907=="
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0823201907==
-Content-Type: multipart/alternative; boundary="00000000000005abdd05a13a8b75"
-
---00000000000005abdd05a13a8b75
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu., Mar. 19, 2020, 06:51 Daniel Vetter, <daniel@ffwll.ch> wrote:
-
-> On Tue, Mar 17, 2020 at 11:01:57AM +0100, Michel D=C3=A4nzer wrote:
-> > On 2020-03-16 7:33 p.m., Marek Ol=C5=A1=C3=A1k wrote:
-> > > On Mon, Mar 16, 2020 at 5:57 AM Michel D=C3=A4nzer <michel@daenzer.ne=
-t>
-> wrote:
-> > >> On 2020-03-16 4:50 a.m., Marek Ol=C5=A1=C3=A1k wrote:
-> > >>> The synchronization works because the Mesa driver waits for idle
-> (drains
-> > >>> the GFX pipeline) at the end of command buffers and there is only 1
-> > >>> graphics queue, so everything is ordered.
-> > >>>
-> > >>> The GFX pipeline runs asynchronously to the command buffer, meaning
-> the
-> > >>> command buffer only starts draws and doesn't wait for completion. I=
-f
-> the
-> > >>> Mesa driver didn't wait at the end of the command buffer, the comma=
-nd
-> > >>> buffer would finish and a different process could start execution o=
-f
-> its
-> > >>> own command buffer while shaders of the previous process are still
-> > >> running.
-> > >>>
-> > >>> If the Mesa driver submits a command buffer internally (because it'=
-s
-> > >> full),
-> > >>> it doesn't wait, so the GFX pipeline doesn't notice that a command
-> buffer
-> > >>> ended and a new one started.
-> > >>>
-> > >>> The waiting at the end of command buffers happens only when the
-> flush is
-> > >>> external (Swap buffers, glFlush).
-> > >>>
-> > >>> It's a performance problem, because the GFX queue is blocked until
-> the
-> > >> GFX
-> > >>> pipeline is drained at the end of every frame at least.
-> > >>>
-> > >>> So explicit fences for SwapBuffers would help.
-> > >>
-> > >> Not sure what difference it would make, since the same thing needs t=
-o
-> be
-> > >> done for explicit fences as well, doesn't it?
-> > >
-> > > No. Explicit fences don't require userspace to wait for idle in the
-> command
-> > > buffer. Fences are signalled when the last draw is complete and cache=
-s
-> are
-> > > flushed. Before that happens, any command buffer that is not dependen=
-t
-> on
-> > > the fence can start execution. There is never a need for the GPU to b=
-e
-> idle
-> > > if there is enough independent work to do.
-> >
-> > I don't think explicit fences in the context of this discussion imply
-> > using that different fence signalling mechanism though. My understandin=
-g
-> > is that the API proposed by Jason allows implicit fences to be used as
-> > explicit ones and vice versa, so presumably they have to use the same
-> > signalling mechanism.
-> >
-> >
-> > Anyway, maybe the different fence signalling mechanism you describe
-> > could be used by the amdgpu kernel driver in general, then Mesa could
-> > drop the waits for idle and get the benefits with implicit sync as well=
-?
->
-> Yeah, this is entirely about the programming model visible to userspace.
-> There shouldn't be any impact on the driver's choice of a top vs. bottom
-> of the gpu pipeline used for synchronization, that's entirely up to what
-> you're hw/driver/scheduler can pull off.
->
-> Doing a full gfx pipeline flush for shared buffers, when your hw can do
-> be, sounds like an issue to me that's not related to this here at all. It
-> might be intertwined with amdgpu's special interpretation of dma_resv
-> fences though, no idea. We might need to revamp all that. But for a
-> userspace client that does nothing fancy (no multiple render buffer
-> targets in one bo, or vk style "I write to everything all the time,
-> perhaps" stuff) there should be 0 perf difference between implicit sync
-> through dma_resv and explicit sync through sync_file/syncobj/dma_fence
-> directly.
->
-> If there is I'd consider that a bit a driver bug.
->
-
-Last time I checked, there was no fence sync in gnome shell and compiz
-after an app passes a buffer to it. So drivers have to invent hacks to work
-around it and decrease performance. It's not a driver bug.
-
-Implicit sync really means that apps and compositors don't sync, so the
-driver has to guess when it should sync.
-
-Marek
-
-
--Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
->
-
---00000000000005abdd05a13a8b75
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu., Mar. 19, 2020, 06:51 Daniel Vetter, &lt;<a hr=
-ef=3D"mailto:daniel@ffwll.ch">daniel@ffwll.ch</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">On Tue, Mar 17, 2020 at 11:01:57AM +0100, Michel =
-D=C3=A4nzer wrote:<br>
-&gt; On 2020-03-16 7:33 p.m., Marek Ol=C5=A1=C3=A1k wrote:<br>
-&gt; &gt; On Mon, Mar 16, 2020 at 5:57 AM Michel D=C3=A4nzer &lt;<a href=3D=
-"mailto:michel@daenzer.net" target=3D"_blank" rel=3D"noreferrer">michel@dae=
-nzer.net</a>&gt; wrote:<br>
-&gt; &gt;&gt; On 2020-03-16 4:50 a.m., Marek Ol=C5=A1=C3=A1k wrote:<br>
-&gt; &gt;&gt;&gt; The synchronization works because the Mesa driver waits f=
-or idle (drains<br>
-&gt; &gt;&gt;&gt; the GFX pipeline) at the end of command buffers and there=
- is only 1<br>
-&gt; &gt;&gt;&gt; graphics queue, so everything is ordered.<br>
-&gt; &gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt; The GFX pipeline runs asynchronously to the command buffe=
-r, meaning the<br>
-&gt; &gt;&gt;&gt; command buffer only starts draws and doesn&#39;t wait for=
- completion. If the<br>
-&gt; &gt;&gt;&gt; Mesa driver didn&#39;t wait at the end of the command buf=
-fer, the command<br>
-&gt; &gt;&gt;&gt; buffer would finish and a different process could start e=
-xecution of its<br>
-&gt; &gt;&gt;&gt; own command buffer while shaders of the previous process =
-are still<br>
-&gt; &gt;&gt; running.<br>
-&gt; &gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt; If the Mesa driver submits a command buffer internally (b=
-ecause it&#39;s<br>
-&gt; &gt;&gt; full),<br>
-&gt; &gt;&gt;&gt; it doesn&#39;t wait, so the GFX pipeline doesn&#39;t noti=
-ce that a command buffer<br>
-&gt; &gt;&gt;&gt; ended and a new one started.<br>
-&gt; &gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt; The waiting at the end of command buffers happens only wh=
-en the flush is<br>
-&gt; &gt;&gt;&gt; external (Swap buffers, glFlush).<br>
-&gt; &gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt; It&#39;s a performance problem, because the GFX queue is =
-blocked until the<br>
-&gt; &gt;&gt; GFX<br>
-&gt; &gt;&gt;&gt; pipeline is drained at the end of every frame at least.<b=
-r>
-&gt; &gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt; So explicit fences for SwapBuffers would help.<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; Not sure what difference it would make, since the same thing =
-needs to be<br>
-&gt; &gt;&gt; done for explicit fences as well, doesn&#39;t it?<br>
-&gt; &gt; <br>
-&gt; &gt; No. Explicit fences don&#39;t require userspace to wait for idle =
-in the command<br>
-&gt; &gt; buffer. Fences are signalled when the last draw is complete and c=
-aches are<br>
-&gt; &gt; flushed. Before that happens, any command buffer that is not depe=
-ndent on<br>
-&gt; &gt; the fence can start execution. There is never a need for the GPU =
-to be idle<br>
-&gt; &gt; if there is enough independent work to do.<br>
-&gt; <br>
-&gt; I don&#39;t think explicit fences in the context of this discussion im=
-ply<br>
-&gt; using that different fence signalling mechanism though. My understandi=
-ng<br>
-&gt; is that the API proposed by Jason allows implicit fences to be used as=
-<br>
-&gt; explicit ones and vice versa, so presumably they have to use the same<=
-br>
-&gt; signalling mechanism.<br>
-&gt; <br>
-&gt; <br>
-&gt; Anyway, maybe the different fence signalling mechanism you describe<br=
->
-&gt; could be used by the amdgpu kernel driver in general, then Mesa could<=
-br>
-&gt; drop the waits for idle and get the benefits with implicit sync as wel=
-l?<br>
-<br>
-Yeah, this is entirely about the programming model visible to userspace.<br=
->
-There shouldn&#39;t be any impact on the driver&#39;s choice of a top vs. b=
-ottom<br>
-of the gpu pipeline used for synchronization, that&#39;s entirely up to wha=
-t<br>
-you&#39;re hw/driver/scheduler can pull off.<br>
-<br>
-Doing a full gfx pipeline flush for shared buffers, when your hw can do<br>
-be, sounds like an issue to me that&#39;s not related to this here at all. =
-It<br>
-might be intertwined with amdgpu&#39;s special interpretation of dma_resv<b=
-r>
-fences though, no idea. We might need to revamp all that. But for a<br>
-userspace client that does nothing fancy (no multiple render buffer<br>
-targets in one bo, or vk style &quot;I write to everything all the time,<br=
->
-perhaps&quot; stuff) there should be 0 perf difference between implicit syn=
-c<br>
-through dma_resv and explicit sync through sync_file/syncobj/dma_fence<br>
-directly.<br>
-<br>
-If there is I&#39;d consider that a bit a driver bug.<br></blockquote></div=
-></div><div dir=3D"auto"><br></div><div dir=3D"auto">Last time I checked, t=
-here was no fence sync in gnome shell and compiz after an app passes a buff=
-er to it. So drivers have to invent hacks to work around it and decrease pe=
-rformance. It&#39;s not a driver bug.</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Implicit sync really means that apps and compositors don&#39;=
-t sync, so the driver has to guess when it should sync.</div><div dir=3D"au=
-to"><br></div><div dir=3D"auto">Marek</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">
--Daniel<br>
--- <br>
-Daniel Vetter<br>
-Software Engineer, Intel Corporation<br>
-<a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer noreferrer" target=3D"_b=
-lank">http://blog.ffwll.ch</a><br>
-</blockquote></div></div></div>
-
---00000000000005abdd05a13a8b75--
-
---===============0823201907==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0823201907==--
+T24gV2VkLCAyMDIwLTAzLTE4IGF0IDE0OjQ2ICswMTAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+
+IE9uIFR1ZSwgTWFyIDE3LCAyMDIwIGF0IDA4OjQwOjU4UE0gLTA0MDAsIEx5dWRlIFBhdWwgd3Jv
+dGU6Cj4gPiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwu
+Y29tPgo+ID4gCj4gPiBBZGQgc29tZSBraW5kIG9mIHZibGFuayB3b3JrZXJzLiBUaGUgaW50ZXJm
+YWNlIGlzIHNpbWlsYXIgdG8gcmVndWxhcgo+ID4gZGVsYXllZCB3b3JrcywgYW5kIGFsc28gYWxs
+b3dzIGZvciByZS1zY2hlZHVsaW5nLgo+ID4gCj4gPiBXaGF0ZXZlciBoYXJkd2FyZSBwcm9ncmFt
+bWluZyB3ZSBkbyBpbiB0aGUgd29yayBtdXN0IGJlIGZhc3QKPiA+IChtdXN0IGF0IGxlYXN0IGNv
+bXBsZXRlIGR1cmluZyB0aGUgdmJsYW5rLCBzb21ldGltZXMgZHVyaW5nCj4gPiB0aGUgZmlyc3Qg
+ZmV3IHNjYW5saW5lcyBvZiB2YmxhbmspLCBzbyB3ZSdsbCBmaXJlIHVwIGEgcGVyLWNydGMKPiA+
+IGhpZ2ggcHJpb3JpdHkgdGhyZWFkIGZvciB0aGlzLgo+ID4gCj4gPiBbYmFzZWQgb2ZmIHBhdGNo
+ZXMgZnJvbSBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPiwK
+PiA+IGNoYW5nZSBiZWxvdyB0byBzaWdub2ZmIGxhdGVyXQo+ID4gCj4gPiBDYzogVmlsbGUgU3ly
+asOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiA+IFNpZ25lZC1vZmYtYnk6
+IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4gCj4gSG0gbm90IHJlYWxseSBzb2xkIG9u
+IHRoZSBpZGVhIHRoYXQgd2UgaGF2ZSBzaG91bGQgcmVpbnZlbnQgb3VyIG93biB3b3JrZXIKPiBp
+bmZyYXN0cnVjdHVyZSBoZXJlLiBJbW8gYSB2Ymxhbmtfd29yayBzaG91bGQgbG9vayBsaWtlIGEg
+ZGVsYXllZCB3b3JrLAo+IGkuZS4gdXNpbmcgc3RydWN0IHdvcmtfc3RydWN0IGFzIHRoZSBiYXNl
+IGNsYXNzLCBhbmQgd3JhcHBpbmcgdGhlIHZibGFuawo+IHRoaW5nIGFyb3VuZCBpdCAoaW5zdGVh
+ZCBvZiB0aGUgdGltZXIpLiBUaGF0IGFsb3Mgd291bGQgYWxsb3cgZHJpdmVycyB0bwo+IHNjaGVk
+dWxlIHdvcmtzIG9uIHRoZWlyIG93biB3b3JrIHF1ZXVlcywgYWxsb3dpbmcgZm9yIGVhc2llciBm
+bHVzaGluZyBhbmQKPiBhbGwgdGhhdCBzdHVmZi4KPiAKPiBBbHNvIGlmIHdlIGRvIHRoaXMgSSB0
+aGluayB3ZSBzaG91bGQgdHJ5IHRvIGZvbGxvdyB0aGUgZGVsYXllZCB3b3JrIGFiaSBhcwo+IGNs
+b3NlbHkgYXMgcG9zc2libGUgKGUuZy4gSU5JVF9WQkxBTktfV09SSywgcXVldWVfdmJsYW5rX3dv
+cmssCj4gbW9kX3ZibGFua193b3JrLCAuLi4pLiBEZWxheWVkIHdvcmtlcnMgKHdoZXRoZXIgdGlt
+ZXIgb3IgdmJsYW5rKSBoYXZlIGEKPiBidW5jaCBvZiBlZGdlcyBjYXNlcyB3aGVyZSBjb25zaXN0
+ZW50bHkgd291bGQgYmUgcmVhbGx5IGdyZWF0IHRvIGF2b2lkCj4gc3VycHJpc2VzIGFuZCBidWdz
+Lgo+IC1EYW5pZWwKCkdvb2QgcG9pbnQhIEknbGwgZml4IHRoaXMgdXAgZm9yIHRoZSBuZXh0IHJl
+c3BpbgoKPiAKPiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5rLmMgfCAzMjIg
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiA+ICBpbmNsdWRlL2RybS9kcm1f
+dmJsYW5rLmggICAgIHwgIDM0ICsrKysKPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDM1NiBpbnNlcnRp
+b25zKCspCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5j
+IGIvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYwo+ID4gaW5kZXggZGE3YjBiMGMxMDkwLi4w
+NmM3OTZiNmMzODEgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5j
+Cj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jCj4gPiBAQCAtMjUsNyArMjUs
+OSBAQAo+ID4gICAqLwo+ID4gIAo+ID4gICNpbmNsdWRlIDxsaW51eC9leHBvcnQuaD4KPiA+ICsj
+aW5jbHVkZSA8bGludXgva3RocmVhZC5oPgo+ID4gICNpbmNsdWRlIDxsaW51eC9tb2R1bGVwYXJh
+bS5oPgo+ID4gKyNpbmNsdWRlIDx1YXBpL2xpbnV4L3NjaGVkL3R5cGVzLmg+Cj4gPiAgCj4gPiAg
+I2luY2x1ZGUgPGRybS9kcm1fY3J0Yy5oPgo+ID4gICNpbmNsdWRlIDxkcm0vZHJtX2Rydi5oPgo+
+ID4gQEAgLTkxLDYgKzkzLDcgQEAKPiA+ICBzdGF0aWMgYm9vbAo+ID4gIGRybV9nZXRfbGFzdF92
+Ymx0aW1lc3RhbXAoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdW5zaWduZWQgaW50IHBpcGUsCj4g
+PiAgCQkJICBrdGltZV90ICp0dmJsYW5rLCBib29sIGluX3ZibGFua19pcnEpOwo+ID4gK3N0YXRp
+YyBpbnQgZHJtX3ZibGFua19nZXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdW5zaWduZWQgaW50
+IHBpcGUpOwo+ID4gIAo+ID4gIHN0YXRpYyB1bnNpZ25lZCBpbnQgZHJtX3RpbWVzdGFtcF9wcmVj
+aXNpb24gPSAyMDsgIC8qIERlZmF1bHQgdG8gMjAKPiA+IHVzZWNzLiAqLwo+ID4gIAo+ID4gQEAg
+LTQ0MCw2ICs0NDMsOSBAQCB2b2lkIGRybV92YmxhbmtfY2xlYW51cChzdHJ1Y3QgZHJtX2Rldmlj
+ZSAqZGV2KQo+ID4gIAkJCWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTU9ERVNF
+VCkpOwo+ID4gIAo+ID4gIAkJZGVsX3RpbWVyX3N5bmMoJnZibGFuay0+ZGlzYWJsZV90aW1lcik7
+Cj4gPiArCj4gPiArCQl3YWtlX3VwX2FsbCgmdmJsYW5rLT52Ymxhbmtfd29yay53b3JrX3dhaXQp
+Owo+ID4gKwkJa3RocmVhZF9zdG9wKHZibGFuay0+dmJsYW5rX3dvcmsudGhyZWFkKTsKPiA+ICAJ
+fQo+ID4gIAo+ID4gIAlrZnJlZShkZXYtPnZibGFuayk7Cj4gPiBAQCAtNDQ3LDYgKzQ1MywxMDgg
+QEAgdm9pZCBkcm1fdmJsYW5rX2NsZWFudXAoc3RydWN0IGRybV9kZXZpY2UgKmRldikKPiA+ICAJ
+ZGV2LT5udW1fY3J0Y3MgPSAwOwo+ID4gIH0KPiA+ICAKPiA+ICtzdGF0aWMgaW50IHZibGFua193
+b3JrX3RocmVhZCh2b2lkICpkYXRhKQo+ID4gK3sKPiA+ICsJc3RydWN0IGRybV92YmxhbmtfY3J0
+YyAqdmJsYW5rID0gZGF0YTsKPiA+ICsKPiA+ICsJd2hpbGUgKCFrdGhyZWFkX3Nob3VsZF9zdG9w
+KCkpIHsKPiA+ICsJCXN0cnVjdCBkcm1fdmJsYW5rX3dvcmsgKndvcmssICpuZXh0Owo+ID4gKwkJ
+TElTVF9IRUFEKGxpc3QpOwo+ID4gKwkJdTY0IGNvdW50Owo+ID4gKwkJaW50IHJldDsKPiA+ICsK
+PiA+ICsJCXNwaW5fbG9ja19pcnEoJnZibGFuay0+ZGV2LT5ldmVudF9sb2NrKTsKPiA+ICsKPiA+
+ICsJCXJldCA9IHdhaXRfZXZlbnRfaW50ZXJydXB0aWJsZV9sb2NrX2lycSh2YmxhbmstPnF1ZXVl
+LAo+ID4gKwkJCQkJCQlrdGhyZWFkX3Nob3VsZF9zdG9wKCkKPiA+IHx8Cj4gPiArCQkJCQkJCSFs
+aXN0X2VtcHR5KCZ2YmxhbmstCj4gPiA+dmJsYW5rX3dvcmsud29ya19saXN0KSwKPiA+ICsJCQkJ
+CQkJdmJsYW5rLT5kZXYtCj4gPiA+ZXZlbnRfbG9jayk7Cj4gPiArCj4gPiArCQlXQVJOX09OKHJl
+dCAmJiAha3RocmVhZF9zaG91bGRfc3RvcCgpICYmCj4gPiArCQkJbGlzdF9lbXB0eSgmdmJsYW5r
+LT52Ymxhbmtfd29yay5pcnFfbGlzdCkgJiYKPiA+ICsJCQlsaXN0X2VtcHR5KCZ2YmxhbmstPnZi
+bGFua193b3JrLndvcmtfbGlzdCkpOwo+ID4gKwo+ID4gKwkJbGlzdF9mb3JfZWFjaF9lbnRyeV9z
+YWZlKHdvcmssIG5leHQsCj4gPiArCQkJCQkgJnZibGFuay0+dmJsYW5rX3dvcmsud29ya19saXN0
+LAo+ID4gKwkJCQkJIGxpc3QpIHsKPiA+ICsJCQlsaXN0X21vdmVfdGFpbCgmd29yay0+bGlzdCwg
+Jmxpc3QpOwo+ID4gKwkJCXdvcmstPnN0YXRlID0gRFJNX1ZCTF9XT1JLX1JVTk5JTkc7Cj4gPiAr
+CQl9Cj4gPiArCj4gPiArCQlzcGluX3VubG9ja19pcnEoJnZibGFuay0+ZGV2LT5ldmVudF9sb2Nr
+KTsKPiA+ICsKPiA+ICsJCWlmIChsaXN0X2VtcHR5KCZsaXN0KSkKPiA+ICsJCQljb250aW51ZTsK
+PiA+ICsKPiA+ICsJCWNvdW50ID0gYXRvbWljNjRfcmVhZCgmdmJsYW5rLT5jb3VudCk7Cj4gPiAr
+CQlsaXN0X2Zvcl9lYWNoX2VudHJ5KHdvcmssICZsaXN0LCBsaXN0KQo+ID4gKwkJCXdvcmstPmZ1
+bmMod29yaywgY291bnQpOwo+ID4gKwo+ID4gKwkJc3Bpbl9sb2NrX2lycSgmdmJsYW5rLT5kZXYt
+PmV2ZW50X2xvY2spOwo+ID4gKwo+ID4gKwkJbGlzdF9mb3JfZWFjaF9lbnRyeV9zYWZlKHdvcmss
+IG5leHQsICZsaXN0LCBsaXN0KSB7Cj4gPiArCQkJaWYgKHdvcmstPnJlc2NoZWR1bGUpIHsKPiA+
+ICsJCQkJbGlzdF9tb3ZlX3RhaWwoJndvcmstPmxpc3QsCj4gPiArCQkJCQkgICAgICAgJnZibGFu
+ay0+dmJsYW5rX3dvcmsuaXJxX2xpc3QpOwo+ID4gKwkJCQlkcm1fdmJsYW5rX2dldCh2Ymxhbmst
+PmRldiwgdmJsYW5rLT5waXBlKTsKPiA+ICsJCQkJd29yay0+cmVzY2hlZHVsZSA9IGZhbHNlOwo+
+ID4gKwkJCQl3b3JrLT5zdGF0ZSA9IERSTV9WQkxfV09SS19XQUlUSU5HOwo+ID4gKwkJCX0gZWxz
+ZSB7Cj4gPiArCQkJCWxpc3RfZGVsX2luaXQoJndvcmstPmxpc3QpOwo+ID4gKwkJCQl3b3JrLT5j
+YW5jZWwgPSBmYWxzZTsKPiA+ICsJCQkJd29yay0+c3RhdGUgPSBEUk1fVkJMX1dPUktfSURMRTsK
+PiA+ICsJCQl9Cj4gPiArCQl9Cj4gPiArCj4gPiArCQlzcGluX3VubG9ja19pcnEoJnZibGFuay0+
+ZGV2LT5ldmVudF9sb2NrKTsKPiA+ICsKPiA+ICsJCXdha2VfdXBfYWxsKCZ2YmxhbmstPnZibGFu
+a193b3JrLndvcmtfd2FpdCk7Cj4gPiArCX0KPiA+ICsKPiA+ICsJcmV0dXJuIDA7Cj4gPiArfQo+
+ID4gKwo+ID4gK3N0YXRpYyB2b2lkIHZibGFua193b3JrX2luaXQoc3RydWN0IGRybV92Ymxhbmtf
+Y3J0YyAqdmJsYW5rKQo+ID4gK3sKPiA+ICsJc3RydWN0IHNjaGVkX3BhcmFtIHBhcmFtID0gewo+
+ID4gKwkJLnNjaGVkX3ByaW9yaXR5ID0gTUFYX1JUX1BSSU8gLSAxLAo+ID4gKwl9Owo+ID4gKwlp
+bnQgcmV0Owo+ID4gKwo+ID4gKwlJTklUX0xJU1RfSEVBRCgmdmJsYW5rLT52Ymxhbmtfd29yay5p
+cnFfbGlzdCk7Cj4gPiArCUlOSVRfTElTVF9IRUFEKCZ2YmxhbmstPnZibGFua193b3JrLndvcmtf
+bGlzdCk7Cj4gPiArCWluaXRfd2FpdHF1ZXVlX2hlYWQoJnZibGFuay0+dmJsYW5rX3dvcmsud29y
+a193YWl0KTsKPiA+ICsKPiA+ICsJdmJsYW5rLT52Ymxhbmtfd29yay50aHJlYWQgPQo+ID4gKwkJ
+a3RocmVhZF9ydW4odmJsYW5rX3dvcmtfdGhyZWFkLCB2YmxhbmssICJjYXJkICVkIGNydGMgJWQi
+LAo+ID4gKwkJCSAgICB2YmxhbmstPmRldi0+cHJpbWFyeS0+aW5kZXgsIHZibGFuay0+cGlwZSk7
+Cj4gPiArCj4gPiArCXJldCA9IHNjaGVkX3NldHNjaGVkdWxlcih2YmxhbmstPnZibGFua193b3Jr
+LnRocmVhZCwKPiA+ICsJCQkJIFNDSEVEX0ZJRk8sICZwYXJhbSk7Cj4gPiArCVdBUk5fT04ocmV0
+KTsKPiA+ICt9Cj4gPiArCj4gPiArLyoqCj4gPiArICogZHJtX3ZibGFua193b3JrX2luaXQgLSBp
+bml0aWFsaXplIGEgdmJsYW5rIHdvcmsgaXRlbQo+ID4gKyAqIEB3b3JrOiB2Ymxhbmsgd29yayBp
+dGVtCj4gPiArICogQGNydGM6IENSVEMgd2hvc2UgdmJsYW5rIHdpbGwgdHJpZ2dlciB0aGUgd29y
+ayBleGVjdXRpb24KPiA+ICsgKiBAZnVuYzogd29yayBmdW5jdGlvbiB0byBiZSBleGVjdXRlZAo+
+ID4gKyAqCj4gPiArICogSW5pdGlhbGl6ZSBhIHZibGFuayB3b3JrIGl0ZW0gZm9yIGEgc3BlY2lm
+aWMgY3J0Yy4KPiA+ICsgKi8KPiA+ICt2b2lkIGRybV92Ymxhbmtfd29ya19pbml0KHN0cnVjdCBk
+cm1fdmJsYW5rX3dvcmsgKndvcmssIHN0cnVjdCBkcm1fY3J0Ywo+ID4gKmNydGMsCj4gPiArCQkJ
+ICB2b2lkICgqZnVuYykoc3RydWN0IGRybV92Ymxhbmtfd29yayAqd29yaywgdTY0Cj4gPiBjb3Vu
+dCkpCj4gPiArewo+ID4gKwlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gY3J0Yy0+ZGV2Owo+ID4g
+KwlzdHJ1Y3QgZHJtX3ZibGFua19jcnRjICp2YmxhbmsgPSAmZGV2LT52YmxhbmtbZHJtX2NydGNf
+aW5kZXgoY3J0YyldOwo+ID4gKwo+ID4gKwl3b3JrLT52YmxhbmsgPSB2Ymxhbms7Cj4gPiArCXdv
+cmstPnN0YXRlID0gRFJNX1ZCTF9XT1JLX0lETEU7Cj4gPiArCXdvcmstPmZ1bmMgPSBmdW5jOwo+
+ID4gKwlJTklUX0xJU1RfSEVBRCgmd29yay0+bGlzdCk7Cj4gPiArfQo+ID4gK0VYUE9SVF9TWU1C
+T0woZHJtX3ZibGFua193b3JrX2luaXQpOwo+ID4gKwo+ID4gIC8qKgo+ID4gICAqIGRybV92Ymxh
+bmtfaW5pdCAtIGluaXRpYWxpemUgdmJsYW5rIHN1cHBvcnQKPiA+ICAgKiBAZGV2OiBEUk0gZGV2
+aWNlCj4gPiBAQCAtNDgxLDYgKzU4OSw4IEBAIGludCBkcm1fdmJsYW5rX2luaXQoc3RydWN0IGRy
+bV9kZXZpY2UgKmRldiwgdW5zaWduZWQKPiA+IGludCBudW1fY3J0Y3MpCj4gPiAgCQlpbml0X3dh
+aXRxdWV1ZV9oZWFkKCZ2YmxhbmstPnF1ZXVlKTsKPiA+ICAJCXRpbWVyX3NldHVwKCZ2Ymxhbmst
+PmRpc2FibGVfdGltZXIsIHZibGFua19kaXNhYmxlX2ZuLCAwKTsKPiA+ICAJCXNlcWxvY2tfaW5p
+dCgmdmJsYW5rLT5zZXFsb2NrKTsKPiA+ICsKPiA+ICsJCXZibGFua193b3JrX2luaXQodmJsYW5r
+KTsKPiA+ICAJfQo+ID4gIAo+ID4gIAlEUk1fSU5GTygiU3VwcG9ydHMgdmJsYW5rIHRpbWVzdGFt
+cCBjYWNoaW5nIFJldiAyICgyMS4xMC4yMDEzKS5cbiIpOwo+ID4gQEAgLTE4MjUsNiArMTkzNSwy
+MiBAQCBzdGF0aWMgdm9pZCBkcm1faGFuZGxlX3ZibGFua19ldmVudHMoc3RydWN0Cj4gPiBkcm1f
+ZGV2aWNlICpkZXYsIHVuc2lnbmVkIGludCBwaXBlKQo+ID4gIAl0cmFjZV9kcm1fdmJsYW5rX2V2
+ZW50KHBpcGUsIHNlcSwgbm93LCBoaWdoX3ByZWMpOwo+ID4gIH0KPiA+ICAKPiA+ICtzdGF0aWMg
+dm9pZCBkcm1faGFuZGxlX3ZibGFua193b3JrcyhzdHJ1Y3QgZHJtX3ZibGFua19jcnRjICp2Ymxh
+bmspCj4gPiArewo+ID4gKwlzdHJ1Y3QgZHJtX3ZibGFua193b3JrICp3b3JrLCAqbmV4dDsKPiA+
+ICsJdTY0IGNvdW50ID0gYXRvbWljNjRfcmVhZCgmdmJsYW5rLT5jb3VudCk7Cj4gPiArCj4gPiAr
+CWxpc3RfZm9yX2VhY2hfZW50cnlfc2FmZSh3b3JrLCBuZXh0LCAmdmJsYW5rLT52Ymxhbmtfd29y
+ay5pcnFfbGlzdCwKPiA+ICsJCQkJIGxpc3QpIHsKPiA+ICsJCWlmICghdmJsYW5rX3Bhc3NlZChj
+b3VudCwgd29yay0+Y291bnQpKQo+ID4gKwkJCWNvbnRpbnVlOwo+ID4gKwo+ID4gKwkJZHJtX3Zi
+bGFua19wdXQodmJsYW5rLT5kZXYsIHZibGFuay0+cGlwZSk7Cj4gPiArCQlsaXN0X21vdmVfdGFp
+bCgmd29yay0+bGlzdCwgJnZibGFuay0+dmJsYW5rX3dvcmsud29ya19saXN0KTsKPiA+ICsJCXdv
+cmstPnN0YXRlID0gRFJNX1ZCTF9XT1JLX1NDSEVEVUxFRDsKPiA+ICsJfQo+ID4gK30KPiA+ICsK
+PiA+ICAvKioKPiA+ICAgKiBkcm1faGFuZGxlX3ZibGFuayAtIGhhbmRsZSBhIHZibGFuayBldmVu
+dAo+ID4gICAqIEBkZXY6IERSTSBkZXZpY2UKPiA+IEBAIC0xODY2LDYgKzE5OTIsNyBAQCBib29s
+IGRybV9oYW5kbGVfdmJsYW5rKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gPiB1bnNpZ25lZCBp
+bnQgcGlwZSkKPiA+ICAKPiA+ICAJc3Bpbl91bmxvY2soJmRldi0+dmJsYW5rX3RpbWVfbG9jayk7
+Cj4gPiAgCj4gPiArCWRybV9oYW5kbGVfdmJsYW5rX3dvcmtzKHZibGFuayk7Cj4gPiAgCXdha2Vf
+dXAoJnZibGFuay0+cXVldWUpOwo+ID4gIAo+ID4gIAkvKiBXaXRoIGluc3RhbnQtb2ZmLCB3ZSBk
+ZWZlciBkaXNhYmxpbmcgdGhlIGludGVycnVwdCB1bnRpbCBhZnRlcgo+ID4gQEAgLTIwNzYsMyAr
+MjIwMywxOTggQEAgaW50IGRybV9jcnRjX3F1ZXVlX3NlcXVlbmNlX2lvY3RsKHN0cnVjdAo+ID4g
+ZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAo+ID4gIAlrZnJlZShlKTsKPiA+ICAJcmV0dXJu
+IHJldDsKPiA+ICB9Cj4gPiArCj4gPiArLyoqCj4gPiArICogZHJtX3ZibGFua193b3JrX3NjaGVk
+dWxlIC0gc2NoZWR1bGUgYSB2Ymxhbmsgd29yawo+ID4gKyAqIEB3b3JrOiB2Ymxhbmsgd29yayB0
+byBzY2hlZHVsZQo+ID4gKyAqIEBjb3VudDogdGFyZ2V0IHZibGFuayBjb3VudAo+ID4gKyAqIEBu
+ZXh0b25taXNzOiBkZWZlciB1bnRpbCB0aGUgbmV4dCB2YmxhbmsgaWYgdGFyZ2V0IHZibGFuayB3
+YXMgbWlzc2VkCj4gPiArICoKPiA+ICsgKiBTY2hlZHVsZSBAd29yayBmb3IgZXhlY3V0aW9uIG9u
+Y2UgdGhlIGNydGMgdmJsYW5rIGNvdW50IHJlYWNoZXMKPiA+IEBjb3VudC4KPiA+ICsgKgo+ID4g
+KyAqIElmIHRoZSBjcnRjIHZibGFuayBjb3VudCBoYXMgYWxyZWFkeSByZWFjaGVkIEBjb3VudCBh
+bmQgQG5leHRvbm1pc3MgaXMKPiA+ICsgKiAlZmFsc2UgdGhlIHdvcmsgc3RhcnRzIHRvIGV4ZWN1
+dGUgaW1tZWRpYXRlbHkuCj4gPiArICoKPiA+ICsgKiBJZiB0aGUgY3J0YyB2YmxhbmsgY291bnQg
+aGFzIGFscmVhZHkgcmVhY2hlZCBAY291bnQgYW5kIEBuZXh0b25taXNzIGlzCj4gPiArICogJXRy
+dWUgdGhlIHdvcmsgaXMgZGVmZXJyZWQgdW50aWwgdGhlIG5leHQgdmJsYW5rIChhcyBpZiBAY291
+bnQgaGFzCj4gPiBiZWVuCj4gPiArICogc3BlY2lmaWVkIGFzIGNydGMgdmJsYW5rIGNvdW50ICsg
+MSkuCj4gPiArICoKPiA+ICsgKiBJZiBAd29yayBpcyBhbHJlYWR5IHNjaGVkdWxlZCwgdGhpcyBm
+dW5jdGlvbiB3aWxsIHJlc2NoZWR1bGUgc2FpZCB3b3JrCj4gPiArICogdXNpbmcgdGhlIG5ldyBA
+Y291bnQuCj4gPiArICoKPiA+ICsgKiBSZXR1cm5zOgo+ID4gKyAqIDAgb24gc3VjY2VzcywgZXJy
+b3IgY29kZSBvbiBmYWlsdXJlLgo+ID4gKyAqLwo+ID4gK2ludCBkcm1fdmJsYW5rX3dvcmtfc2No
+ZWR1bGUoc3RydWN0IGRybV92Ymxhbmtfd29yayAqd29yaywKPiA+ICsJCQkgICAgIHU2NCBjb3Vu
+dCwgYm9vbCBuZXh0b25taXNzKQo+ID4gK3sKPiA+ICsJc3RydWN0IGRybV92YmxhbmtfY3J0YyAq
+dmJsYW5rID0gd29yay0+dmJsYW5rOwo+ID4gKwl1bnNpZ25lZCBsb25nIGlycWZsYWdzOwo+ID4g
+Kwl1NjQgY3VyX3ZibDsKPiA+ICsJaW50IHJldCA9IDA7Cj4gPiArCWJvb2wgcmVzY2hlZHVsaW5n
+ID0gZmFsc2U7Cj4gPiArCWJvb2wgcGFzc2VkOwo+ID4gKwo+ID4gKwlzcGluX2xvY2tfaXJxc2F2
+ZSgmdmJsYW5rLT5kZXYtPmV2ZW50X2xvY2ssIGlycWZsYWdzKTsKPiA+ICsKPiA+ICsJaWYgKHdv
+cmstPmNhbmNlbCkKPiA+ICsJCWdvdG8gb3V0Owo+ID4gKwo+ID4gKwlpZiAod29yay0+c3RhdGUg
+PT0gRFJNX1ZCTF9XT1JLX1JVTk5JTkcpIHsKPiA+ICsJCXdvcmstPnJlc2NoZWR1bGUgPSB0cnVl
+Owo+ID4gKwkJd29yay0+Y291bnQgPSBjb3VudDsKPiA+ICsJCWdvdG8gb3V0Owo+ID4gKwl9IGVs
+c2UgaWYgKHdvcmstPnN0YXRlICE9IERSTV9WQkxfV09SS19JRExFKSB7Cj4gPiArCQlpZiAod29y
+ay0+Y291bnQgPT0gY291bnQpCj4gPiArCQkJZ290byBvdXQ7Cj4gPiArCQlyZXNjaGVkdWxpbmcg
+PSB0cnVlOwo+ID4gKwl9Cj4gPiArCj4gPiArCWlmICh3b3JrLT5zdGF0ZSAhPSBEUk1fVkJMX1dP
+UktfV0FJVElORykgewo+ID4gKwkJcmV0ID0gZHJtX3ZibGFua19nZXQodmJsYW5rLT5kZXYsIHZi
+bGFuay0+cGlwZSk7Cj4gPiArCQlpZiAocmV0KQo+ID4gKwkJCWdvdG8gb3V0Owo+ID4gKwl9Cj4g
+PiArCj4gPiArCXdvcmstPmNvdW50ID0gY291bnQ7Cj4gPiArCj4gPiArCWN1cl92YmwgPSBhdG9t
+aWM2NF9yZWFkKCZ2YmxhbmstPmNvdW50KTsKPiA+ICsJcGFzc2VkID0gdmJsYW5rX3Bhc3NlZChj
+dXJfdmJsLCBjb3VudCk7Cj4gPiArCWlmIChwYXNzZWQpCj4gPiArCQlEUk1fRVJST1IoImNydGMg
+JWQgdmJsYW5rICVsbHUgYWxyZWFkeSBwYXNzZWQgKGN1cnJlbnQKPiA+ICVsbHUpXG4iLAo+ID4g
+KwkJCSAgdmJsYW5rLT5waXBlLCBjb3VudCwgY3VyX3ZibCk7Cj4gPiArCj4gPiArCWlmICghbmV4
+dG9ubWlzcyAmJiBwYXNzZWQpIHsKPiA+ICsJCWRybV92YmxhbmtfcHV0KHZibGFuay0+ZGV2LCB2
+YmxhbmstPnBpcGUpOwo+ID4gKwkJaWYgKHJlc2NoZWR1bGluZykKPiA+ICsJCQlsaXN0X21vdmVf
+dGFpbCgmd29yay0+bGlzdCwKPiA+ICsJCQkJICAgICAgICZ2YmxhbmstPnZibGFua193b3JrLndv
+cmtfbGlzdCk7Cj4gPiArCQllbHNlCj4gPiArCQkJbGlzdF9hZGRfdGFpbCgmd29yay0+bGlzdCwK
+PiA+ICsJCQkJICAgICAgJnZibGFuay0+dmJsYW5rX3dvcmsud29ya19saXN0KTsKPiA+ICsJCXdv
+cmstPnN0YXRlID0gRFJNX1ZCTF9XT1JLX1NDSEVEVUxFRDsKPiA+ICsJCXdha2VfdXBfYWxsKCZ2
+YmxhbmstPnF1ZXVlKTsKPiA+ICsJfSBlbHNlIHsKPiA+ICsJCWlmIChyZXNjaGVkdWxpbmcpCj4g
+PiArCQkJbGlzdF9tb3ZlX3RhaWwoJndvcmstPmxpc3QsCj4gPiArCQkJCSAgICAgICAmdmJsYW5r
+LT52Ymxhbmtfd29yay5pcnFfbGlzdCk7Cj4gPiArCQllbHNlCj4gPiArCQkJbGlzdF9hZGRfdGFp
+bCgmd29yay0+bGlzdCwKPiA+ICsJCQkJICAgICAgJnZibGFuay0+dmJsYW5rX3dvcmsuaXJxX2xp
+c3QpOwo+ID4gKwkJd29yay0+c3RhdGUgPSBEUk1fVkJMX1dPUktfV0FJVElORzsKPiA+ICsJfQo+
+ID4gKwo+ID4gKyBvdXQ6Cj4gPiArCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJnZibGFuay0+ZGV2
+LT5ldmVudF9sb2NrLCBpcnFmbGFncyk7Cj4gPiArCj4gPiArCXJldHVybiByZXQ7Cj4gPiArfQo+
+ID4gK0VYUE9SVF9TWU1CT0woZHJtX3ZibGFua193b3JrX3NjaGVkdWxlKTsKPiA+ICsKPiA+ICtz
+dGF0aWMgYm9vbCB2Ymxhbmtfd29ya19jYW5jZWwoc3RydWN0IGRybV92Ymxhbmtfd29yayAqd29y
+aykKPiA+ICt7Cj4gPiArCXN0cnVjdCBkcm1fdmJsYW5rX2NydGMgKnZibGFuayA9IHdvcmstPnZi
+bGFuazsKPiA+ICsKPiA+ICsJc3dpdGNoICh3b3JrLT5zdGF0ZSkgewo+ID4gKwljYXNlIERSTV9W
+QkxfV09SS19SVU5OSU5HOgo+ID4gKwkJd29yay0+Y2FuY2VsID0gdHJ1ZTsKPiA+ICsJCXdvcmst
+PnJlc2NoZWR1bGUgPSBmYWxzZTsKPiA+ICsJCS8qIGZhbGwgdGhyb3VnaCAqLwo+ID4gKwlkZWZh
+dWx0Ogo+ID4gKwljYXNlIERSTV9WQkxfV09SS19JRExFOgo+ID4gKwkJcmV0dXJuIGZhbHNlOwo+
+ID4gKwljYXNlIERSTV9WQkxfV09SS19XQUlUSU5HOgo+ID4gKwkJZHJtX3ZibGFua19wdXQodmJs
+YW5rLT5kZXYsIHZibGFuay0+cGlwZSk7Cj4gPiArCQkvKiBmYWxsIHRocm91Z2ggKi8KPiA+ICsJ
+Y2FzZSBEUk1fVkJMX1dPUktfU0NIRURVTEVEOgo+ID4gKwkJbGlzdF9kZWxfaW5pdCgmd29yay0+
+bGlzdCk7Cj4gPiArCQl3b3JrLT5zdGF0ZSA9IERSTV9WQkxfV09SS19JRExFOwo+ID4gKwkJcmV0
+dXJuIHRydWU7Cj4gPiArCX0KPiA+ICt9Cj4gPiArCj4gPiArLyoqCj4gPiArICogZHJtX3ZibGFu
+a193b3JrX2NhbmNlbCAtIGNhbmNlbCBhIHZibGFuayB3b3JrCj4gPiArICogQHdvcms6IHZibGFu
+ayB3b3JrIHRvIGNhbmNlbAo+ID4gKyAqCj4gPiArICogQ2FuY2VsIGFuIGFscmVhZHkgc2NoZWR1
+bGVkIHZibGFuayB3b3JrLgo+ID4gKyAqCj4gPiArICogT24gcmV0dXJuIEB3b3JrIG1heSBzdGls
+bCBiZSBleGVjdXRpbmcsIHVubGVzcyB0aGUgcmV0dXJuCj4gPiArICogdmFsdWUgaXMgJXRydWUu
+Cj4gPiArICoKPiA+ICsgKiBSZXR1cm5zOgo+ID4gKyAqIFRydWUgaWYgdGhlIHdvcmsgd2FzIGNh
+bmNlbGxlZCBiZWZvcmUgaXQgc3RhcnRlZCB0byBleGN1dGUsIGZhbHNlCj4gPiBvdGhlcndpc2Uu
+Cj4gPiArICovCj4gPiArYm9vbCBkcm1fdmJsYW5rX3dvcmtfY2FuY2VsKHN0cnVjdCBkcm1fdmJs
+YW5rX3dvcmsgKndvcmspCj4gPiArewo+ID4gKwlzdHJ1Y3QgZHJtX3ZibGFua19jcnRjICp2Ymxh
+bmsgPSB3b3JrLT52Ymxhbms7Cj4gPiArCWJvb2wgY2FuY2VsbGVkOwo+ID4gKwo+ID4gKwlzcGlu
+X2xvY2tfaXJxKCZ2YmxhbmstPmRldi0+ZXZlbnRfbG9jayk7Cj4gPiArCj4gPiArCWNhbmNlbGxl
+ZCA9IHZibGFua193b3JrX2NhbmNlbCh3b3JrKTsKPiA+ICsKPiA+ICsJc3Bpbl91bmxvY2tfaXJx
+KCZ2YmxhbmstPmRldi0+ZXZlbnRfbG9jayk7Cj4gPiArCj4gPiArCXJldHVybiBjYW5jZWxsZWQ7
+Cj4gPiArfQo+ID4gK0VYUE9SVF9TWU1CT0woZHJtX3ZibGFua193b3JrX2NhbmNlbCk7Cj4gPiAr
+Cj4gPiArLyoqCj4gPiArICogZHJtX3ZibGFua193b3JrX2NhbmNlbF9zeW5jIC0gY2FuY2VsIGEg
+dmJsYW5rIHdvcmsgYW5kIHdhaXQgZm9yIGl0IHRvCj4gPiBmaW5pc2ggZXhlY3V0aW5nCj4gPiAr
+ICogQHdvcms6IHZibGFuayB3b3JrIHRvIGNhbmNlbAo+ID4gKyAqCj4gPiArICogQ2FuY2VsIGFu
+IGFscmVhZHkgc2NoZWR1bGVkIHZibGFuayB3b3JrIGFuZCB3YWl0IGZvciBpdHMKPiA+ICsgKiBl
+eGVjdXRpb24gdG8gZmluaXNoLgo+ID4gKyAqCj4gPiArICogT24gcmV0dXJuIEB3b3JrIGlzIG5v
+IGxvbmdlciBndWFyYW5lZWQgdG8gYmUgZXhlY3V0aW5nLgo+ID4gKyAqCj4gPiArICogUmV0dXJu
+czoKPiA+ICsgKiBUcnVlIGlmIHRoZSB3b3JrIHdhcyBjYW5jZWxsZWQgYmVmb3JlIGl0IHN0YXJ0
+ZWQgdG8gZXhjdXRlLCBmYWxzZQo+ID4gb3RoZXJ3aXNlLgo+ID4gKyAqLwo+ID4gK2Jvb2wgZHJt
+X3ZibGFua193b3JrX2NhbmNlbF9zeW5jKHN0cnVjdCBkcm1fdmJsYW5rX3dvcmsgKndvcmspCj4g
+PiArewo+ID4gKwlzdHJ1Y3QgZHJtX3ZibGFua19jcnRjICp2YmxhbmsgPSB3b3JrLT52Ymxhbms7
+Cj4gPiArCWJvb2wgY2FuY2VsbGVkOwo+ID4gKwlsb25nIHJldDsKPiA+ICsKPiA+ICsJc3Bpbl9s
+b2NrX2lycSgmdmJsYW5rLT5kZXYtPmV2ZW50X2xvY2spOwo+ID4gKwo+ID4gKwljYW5jZWxsZWQg
+PSB2Ymxhbmtfd29ya19jYW5jZWwod29yayk7Cj4gPiArCj4gPiArCXJldCA9IHdhaXRfZXZlbnRf
+bG9ja19pcnFfdGltZW91dCh2YmxhbmstPnZibGFua193b3JrLndvcmtfd2FpdCwKPiA+ICsJCQkJ
+CSAgd29yay0+c3RhdGUgPT0gRFJNX1ZCTF9XT1JLX0lETEUsCj4gPiArCQkJCQkgIHZibGFuay0+
+ZGV2LT5ldmVudF9sb2NrLAo+ID4gKwkJCQkJICAxMCAqIEhaKTsKPiA+ICsKPiA+ICsJc3Bpbl91
+bmxvY2tfaXJxKCZ2YmxhbmstPmRldi0+ZXZlbnRfbG9jayk7Cj4gPiArCj4gPiArCVdBUk4oIXJl
+dCwgImNydGMgJWQgdmJsYW5rIHdvcmsgdGltZWQgb3V0XG4iLCB2YmxhbmstPnBpcGUpOwo+ID4g
+Kwo+ID4gKwlyZXR1cm4gY2FuY2VsbGVkOwo+ID4gK30KPiA+ICtFWFBPUlRfU1lNQk9MKGRybV92
+Ymxhbmtfd29ya19jYW5jZWxfc3luYyk7Cj4gPiArCj4gPiArLyoqCj4gPiArICogZHJtX3ZibGFu
+a193b3JrX2ZsdXNoIC0gd2FpdCBmb3IgYSBzY2hlZHVsZWQgdmJsYW5rIHdvcmsgdG8gZmluaXNo
+Cj4gPiBleGN1dGluZwo+ID4gKyAqIEB3b3JrOiB2Ymxhbmsgd29yayB0byBmbHVzaAo+ID4gKyAq
+Cj4gPiArICogV2FpdCB1bnRpbCBAd29yayBoYXMgZmluaXNoZWQgZXhlY3V0aW5nLgo+ID4gKyAq
+Lwo+ID4gK3ZvaWQgZHJtX3ZibGFua193b3JrX2ZsdXNoKHN0cnVjdCBkcm1fdmJsYW5rX3dvcmsg
+KndvcmspCj4gPiArewo+ID4gKwlzdHJ1Y3QgZHJtX3ZibGFua19jcnRjICp2YmxhbmsgPSB3b3Jr
+LT52Ymxhbms7Cj4gPiArCWxvbmcgcmV0Owo+ID4gKwo+ID4gKwlzcGluX2xvY2tfaXJxKCZ2Ymxh
+bmstPmRldi0+ZXZlbnRfbG9jayk7Cj4gPiArCj4gPiArCXJldCA9IHdhaXRfZXZlbnRfbG9ja19p
+cnFfdGltZW91dCh2YmxhbmstPnZibGFua193b3JrLndvcmtfd2FpdCwKPiA+ICsJCQkJCSAgd29y
+ay0+c3RhdGUgPT0gRFJNX1ZCTF9XT1JLX0lETEUsCj4gPiArCQkJCQkgIHZibGFuay0+ZGV2LT5l
+dmVudF9sb2NrLAo+ID4gKwkJCQkJICAxMCAqIEhaKTsKPiA+ICsKPiA+ICsJc3Bpbl91bmxvY2tf
+aXJxKCZ2YmxhbmstPmRldi0+ZXZlbnRfbG9jayk7Cj4gPiArCj4gPiArCVdBUk4oIXJldCwgImNy
+dGMgJWQgdmJsYW5rIHdvcmsgdGltZWQgb3V0XG4iLCB2YmxhbmstPnBpcGUpOwo+ID4gK30KPiA+
+ICtFWFBPUlRfU1lNQk9MKGRybV92Ymxhbmtfd29ya19mbHVzaCk7Cj4gPiBkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS9kcm0vZHJtX3ZibGFuay5oIGIvaW5jbHVkZS9kcm0vZHJtX3ZibGFuay5oCj4gPiBp
+bmRleCBkZDlmNWI5ZTU2ZTQuLmFjOTEzMGY0MTlhZiAxMDA2NDQKPiA+IC0tLSBhL2luY2x1ZGUv
+ZHJtL2RybV92YmxhbmsuaAo+ID4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX3ZibGFuay5oCj4gPiBA
+QCAtMjAzLDggKzIwMyw0MiBAQCBzdHJ1Y3QgZHJtX3ZibGFua19jcnRjIHsKPiA+ICAJICogZGlz
+YWJsaW5nIGZ1bmN0aW9ucyBtdWx0aXBsZSB0aW1lcy4KPiA+ICAJICovCj4gPiAgCWJvb2wgZW5h
+YmxlZDsKPiA+ICsKPiA+ICsJc3RydWN0IHsKPiA+ICsJCXN0cnVjdCB0YXNrX3N0cnVjdCAqdGhy
+ZWFkOwo+ID4gKwkJc3RydWN0IGxpc3RfaGVhZCBpcnFfbGlzdCwgd29ya19saXN0Owo+ID4gKwkJ
+d2FpdF9xdWV1ZV9oZWFkX3Qgd29ya193YWl0Owo+ID4gKwl9IHZibGFua193b3JrOwo+ID4gK307
+Cj4gPiArCj4gPiArc3RydWN0IGRybV92Ymxhbmtfd29yayB7Cj4gPiArCXU2NCBjb3VudDsKPiA+
+ICsJc3RydWN0IGRybV92YmxhbmtfY3J0YyAqdmJsYW5rOwo+ID4gKwl2b2lkICgqZnVuYykoc3Ry
+dWN0IGRybV92Ymxhbmtfd29yayAqd29yaywgdTY0IGNvdW50KTsKPiA+ICsJc3RydWN0IGxpc3Rf
+aGVhZCBsaXN0Owo+ID4gKwllbnVtIHsKPiA+ICsJCURSTV9WQkxfV09SS19JRExFLAo+ID4gKwkJ
+RFJNX1ZCTF9XT1JLX1dBSVRJTkcsCj4gPiArCQlEUk1fVkJMX1dPUktfU0NIRURVTEVELAo+ID4g
+KwkJRFJNX1ZCTF9XT1JLX1JVTk5JTkcsCj4gPiArCX0gc3RhdGU7Cj4gPiArCWJvb2wgY2FuY2Vs
+IDogMTsKPiA+ICsJYm9vbCByZXNjaGVkdWxlIDogMTsKPiA+ICB9Owo+ID4gIAo+ID4gK2ludCBk
+cm1fdmJsYW5rX3dvcmtfc2NoZWR1bGUoc3RydWN0IGRybV92Ymxhbmtfd29yayAqd29yaywKPiA+
+ICsJCQkgICAgIHU2NCBjb3VudCwgYm9vbCBuZXh0b25taXNzKTsKPiA+ICt2b2lkIGRybV92Ymxh
+bmtfd29ya19pbml0KHN0cnVjdCBkcm1fdmJsYW5rX3dvcmsgKndvcmssIHN0cnVjdCBkcm1fY3J0
+Ywo+ID4gKmNydGMsCj4gPiArCQkJICB2b2lkICgqZnVuYykoc3RydWN0IGRybV92Ymxhbmtfd29y
+ayAqd29yaywgdTY0Cj4gPiBjb3VudCkpOwo+ID4gK2Jvb2wgZHJtX3ZibGFua193b3JrX2NhbmNl
+bChzdHJ1Y3QgZHJtX3ZibGFua193b3JrICp3b3JrKTsKPiA+ICtib29sIGRybV92Ymxhbmtfd29y
+a19jYW5jZWxfc3luYyhzdHJ1Y3QgZHJtX3ZibGFua193b3JrICp3b3JrKTsKPiA+ICt2b2lkIGRy
+bV92Ymxhbmtfd29ya19mbHVzaChzdHJ1Y3QgZHJtX3ZibGFua193b3JrICp3b3JrKTsKPiA+ICsK
+PiA+ICtzdGF0aWMgaW5saW5lIGJvb2wgZHJtX3ZibGFua193b3JrX3BlbmRpbmcoc3RydWN0IGRy
+bV92Ymxhbmtfd29yayAqd29yaykKPiA+ICt7Cj4gPiArCXJldHVybiB3b3JrLT5zdGF0ZSAhPSBE
+Uk1fVkJMX1dPUktfSURMRTsKPiA+ICt9Cj4gPiArCj4gPiAgaW50IGRybV92YmxhbmtfaW5pdChz
+dHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB1bnNpZ25lZCBpbnQgbnVtX2NydGNzKTsKPiA+ICBib29s
+IGRybV9kZXZfaGFzX3ZibGFuayhjb25zdCBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KTsKPiA+ICB1
+NjQgZHJtX2NydGNfdmJsYW5rX2NvdW50KHN0cnVjdCBkcm1fY3J0YyAqY3J0Yyk7Cj4gPiAtLSAK
+PiA+IDIuMjQuMQo+ID4gCi0tIApDaGVlcnMsCglMeXVkZSBQYXVsIChzaGUvaGVyKQoJQXNzb2Np
+YXRlIFNvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
