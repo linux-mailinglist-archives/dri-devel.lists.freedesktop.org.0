@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2EA818AAD6
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 03:47:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3D818AADC
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 03:49:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4A326E0C8;
-	Thu, 19 Mar 2020 02:47:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD1F56E0CA;
+	Thu, 19 Mar 2020 02:49:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
- [209.85.166.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 537876E0C8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 02:47:16 +0000 (UTC)
-Received: by mail-il1-f193.google.com with SMTP id p1so856755ils.5
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 19:47:16 -0700 (PDT)
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+ [209.85.166.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2111D6E0CA
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 02:49:00 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id y24so710693ioa.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Mar 2020 19:49:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=LFJUbgPmZnM/0vjLHNR92Cihn1D16v1W4tMgoyRC/8Y=;
- b=YBUOzDU+48BccSdRrfOHF5aTQTe392xkG/LiuEInJLel8E0V1uKjEGFH5QhMgZTY7L
- PzpcadEZEOCjsgDdwbcr56fRAgDRZL6agqOPeG9i/1l5BEEvpBNPsMBBw4Zuvf6Kv6kx
- k602X/ZSZ6Vxa+6tCz3uJeMyds37ZGfpPGvy+BEoiG+6ppj7xoUf7mQ/dX3m0OdgK/vW
- xZQ0PXONhjunJ/bWo8YFxB9265BoR4v4WUi5TOAlcZ6ALooYZXFCzyWbZOPbSUHqUiES
- Gre1LkXFSxaBfq9SeJF/x3bg52aC3RkmL3ahl9NvL6fFYZ8arMF9NBmDIgDPfCq4iFG0
- oHUA==
-X-Gm-Message-State: ANhLgQ3PIWjv+mnQBkJYsJVfyCzmFId636p8qPw0vDxhSzFjweIbdzlA
- EHt5m2508U9yFIIgGrhpMA==
-X-Google-Smtp-Source: ADFU+vvB25aqqRFdEbb7Rs8BlZEuCb7ybdlBskdooN3izD0G2f/Xld2e6bLFF84uTsuI9uz6YIKIDQ==
-X-Received: by 2002:a92:2910:: with SMTP id l16mr1072231ilg.155.1584586035604; 
- Wed, 18 Mar 2020 19:47:15 -0700 (PDT)
+ bh=I8iNR1+hmLqOvjeHPkSzzH6o4xUKxm3Foovicd7v/7c=;
+ b=H+dIdzlIiVExX+z2eGmbdHfU7aYTkVr0lZ8XEIdsaDYjRPDJPkfCwF7MCjjrgwNVBo
+ xa+RAYFAJ8BzIW7bVYM7O/AbP15D66i+HkSDy9GsBjDNfGsf8nKOa5WGCMT9tFSY9q0B
+ FVTRrrZTj4SZOCNbrKAPCzKWZcD16Zu+aSXCVJjEzHoyFU+gGNb3tauzfNjf7cKdwJZ6
+ ChCJvxJQjBDvsjxgXNSzR18C/qG2GfgkKFicAnTPnugGkL8ln970btJwSLsGDqlYWZCu
+ /z+bze6slOkMMkMyDw0mzqTzLiUjhllsUBZi+qCYfVBK9ng+CZ3iCli22+5ttamA/cwt
+ vkUw==
+X-Gm-Message-State: ANhLgQ0NShJxtzCtllcPRhOOG25LbK2zx2/8HlNeUdDW/X7fjg71VbRf
+ W1kxbzGyMAXYDk2shMs7HQ==
+X-Google-Smtp-Source: ADFU+vssk5i7OAkbciAzXy4RqfIbgraA+MkHyU8BtSMwj1/iWgZCmjx9dUAao8lMFv+IAp1wgD1xUQ==
+X-Received: by 2002:a6b:fc1a:: with SMTP id r26mr811247ioh.134.1584586139361; 
+ Wed, 18 Mar 2020 19:48:59 -0700 (PDT)
 Received: from rob-hp-laptop ([64.188.179.250])
- by smtp.gmail.com with ESMTPSA id p70sm309238ilk.53.2020.03.18.19.47.12
+ by smtp.gmail.com with ESMTPSA id r29sm307156ilk.76.2020.03.18.19.48.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Mar 2020 19:47:14 -0700 (PDT)
-Received: (nullmailer pid 10673 invoked by uid 1000);
- Thu, 19 Mar 2020 02:47:11 -0000
-Date: Wed, 18 Mar 2020 20:47:11 -0600
+ Wed, 18 Mar 2020 19:48:58 -0700 (PDT)
+Received: (nullmailer pid 13019 invoked by uid 1000);
+ Thu, 19 Mar 2020 02:48:56 -0000
+Date: Wed, 18 Mar 2020 20:48:56 -0600
 From: Rob Herring <robh@kernel.org>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v1 03/36] dt-bindings: display: convert samsung,s6e63m0
- to DT Schema
-Message-ID: <20200319024711.GA29911@bogus>
+Subject: Re: [PATCH v1 04/36] dt-bindings: display: convert
+ arm,versatile-tft-panel to DT Schema
+Message-ID: <20200319024856.GB29911@bogus>
 References: <20200315134416.16527-1-sam@ravnborg.org>
- <20200315134416.16527-4-sam@ravnborg.org>
+ <20200315134416.16527-5-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200315134416.16527-4-sam@ravnborg.org>
+In-Reply-To: <20200315134416.16527-5-sam@ravnborg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,129 +87,109 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 15, 2020 at 02:43:43PM +0100, Sam Ravnborg wrote:
-> The binding for this panel is a SPI slave.
-> Reference spi-slave.yaml
-> to avoid duplicating all properties.
-> 
+On Sun, Mar 15, 2020 at 02:43:44PM +0100, Sam Ravnborg wrote:
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Jonathan Bakker <xc-racer2@live.ca>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
 > Cc: Thierry Reding <thierry.reding@gmail.com>
 > Cc: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  .../display/panel/samsung,s6e63m0.txt         | 33 -----------
->  .../display/panel/samsung,s6e63m0.yaml        | 58 +++++++++++++++++++
->  2 files changed, 58 insertions(+), 33 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.txt
->  create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml
+>  .../display/panel/arm,versatile-tft-panel.txt | 31 -----------
+>  .../panel/arm,versatile-tft-panel.yaml        | 51 +++++++++++++++++++
+>  2 files changed, 51 insertions(+), 31 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.txt b/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.txt
+> diff --git a/Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.txt b/Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.txt
 > deleted file mode 100644
-> index 9fb9ebeef8e4..000000000000
-> --- a/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.txt
+> index 0601a9e34703..000000000000
+> --- a/Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.txt
 > +++ /dev/null
-> @@ -1,33 +0,0 @@
-> -Samsung s6e63m0 AMOLED LCD panel
+> @@ -1,31 +0,0 @@
+> -ARM Versatile TFT Panels
+> -
+> -These panels are connected to the daughterboards found on the
+> -ARM Versatile reference designs.
+> -
+> -This device node must appear as a child to a "syscon"-compatible
+> -node.
 > -
 > -Required properties:
-> -  - compatible: "samsung,s6e63m0"
-> -  - reset-gpios: GPIO spec for reset pin
-> -  - vdd3-supply: VDD regulator
-> -  - vci-supply: VCI regulator
+> -- compatible: should be "arm,versatile-tft-panel"
 > -
-> -The panel must obey rules for SPI slave device specified in document [1].
+> -Required subnodes:
+> -- port: see display/panel/panel-common.yaml, graph.txt
 > -
-> -The device node can contain one 'port' child node with one child
-> -'endpoint' node, according to the bindings defined in [2]. This
-> -node should describe panel's video bus.
-> -
-> -[1]: Documentation/devicetree/bindings/spi/spi-bus.txt
-> -[2]: Documentation/devicetree/bindings/media/video-interfaces.txt
 > -
 > -Example:
 > -
-> -		s6e63m0: display@0 {
-> -			compatible = "samsung,s6e63m0";
-> -			reg = <0>;
-> -			reset-gpio = <&mp05 5 1>;
-> -			vdd3-supply = <&ldo12_reg>;
-> -			vci-supply = <&ldo11_reg>;
-> -			spi-max-frequency = <1200000>;
+> -sysreg@0 {
+> -	compatible = "arm,versatile-sysreg", "syscon", "simple-mfd";
+> -	reg = <0x00000 0x1000>;
 > -
-> -			port {
-> -				lcd_ep: endpoint {
-> -					remote-endpoint = <&fimd_ep>;
-> -				};
+> -	panel: display@0 {
+> -		compatible = "arm,versatile-tft-panel";
+> -
+> -		port {
+> -			panel_in: endpoint {
+> -				remote-endpoint = <&foo>;
 > -			};
 > -		};
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.yaml b/Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.yaml
 > new file mode 100644
-> index 000000000000..204ed76da84d
+> index 000000000000..8ad7305887b4
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml
-> @@ -0,0 +1,58 @@
+> +++ b/Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.yaml
+> @@ -0,0 +1,51 @@
 > +# SPDX-License-Identifier: GPL-2.0
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/panel/samsung,s6e63m0.yaml#
+> +$id: http://devicetree.org/schemas/display/panel/arm,versatile-tft-panel.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Samsung s6e63m0 AMOLED LCD panel
+> +title: ARM Versatile TFT Panels
 > +
 > +maintainers:
-> +  - Jonathan Bakker <xc-racer2@live.ca>
+> +  - Linus Walleij <linus.walleij@linaro.org>
+> +
+> +description: |
+> +  These panels are connected to the daughterboards found on the
+> +  ARM Versatile reference designs.
+> +
+> +  This device node must appear as a child to a "syscon"-compatible
+> +  node.
 > +
 > +allOf:
-> +  - $ref: ../../spi/spi-slave.yaml#
 > +  - $ref: panel-common.yaml#
 > +
 > +properties:
 > +  compatible:
-> +    const: samsung,s6e63m0
+> +    const: arm,versatile-tft-panel
 > +
-> +  reg: true
-> +  reset-gpios: true
 > +  port: true
-> +
-> +  vdd3-supply:
-> +    description: VDD regulator
-> +
-> +  vci-supply:
-> +    description: VCI regulator
 > +
 > +required:
 > +  - compatible
-> +  - reset-gpios
-> +  - vdd3-supply
-> +  - vci-supply
-
-Shouldn't port be required? Not really clear in the binding doc, but in 
-the driver it doesn't look like display data goes over spi.
-
-Rob
-
+> +  - port
+> +
+> +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    spi {
-> +        reg = <0xf00 0x20>;
+> +    sysreg {
+> +        compatible = "arm,versatile-sysreg", "syscon", "simple-mfd";
+> +        reg = <0x00000 0x1000>;
+> +
+> +        panel: display@0 {
 
-Drop this or do 'spi@f00'. If it doesn't warn with W=1, it's only a 
-matter of time.
+Drop the unit-address or add 'reg'.
 
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        display@0 {
-> +            compatible = "samsung,s6e63m0";
-> +            reg = <0>;
-> +            reset-gpios = <&mp05 5 1>;
-> +            vdd3-supply = <&ldo12_reg>;
-> +            vci-supply = <&ldo11_reg>;
-> +            spi-max-frequency = <1200000>;
+> +            compatible = "arm,versatile-tft-panel";
 > +
 > +            port {
-> +                lcd_ep: endpoint {
-> +                    remote-endpoint = <&fimd_ep>;
+> +                panel_in: endpoint {
+> +                    remote-endpoint = <&foo>;
 > +                };
 > +            };
 > +        };
