@@ -1,61 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875FF18C86E
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:01:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A25DF18C88E
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:02:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 743396EAC5;
-	Fri, 20 Mar 2020 08:01:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 492D16EAEB;
+	Fri, 20 Mar 2020 08:01:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89B896E063
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 19:08:54 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id b1so1755416pgm.8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 12:08:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=zlKmJ2002BFVX2ZXxYBAvMXUqHfOUCBNDSCbpquzDD4=;
- b=snEHPqIWVHGADR5tx1NSp9UdpaVA8/qSH0Y5/qNyPUv+rOJjSnBcUlIRiOvg5qGYfL
- Q0tqqT+WC6ncGdFoDlIF7JUnLpTq+8HNiQrPwREwNfEW6ccu1EfFnJGPPdC4QyPRIIkp
- 5RU3tBCF0kyWrOjXuVq9gYlrQdYaJJZ4/ZC7Z9KyzK+xElRq3r8I5gDp8n+sQZ+0W38g
- 9DxL/vlgYcKiUR6T9xbGsce4Mt/ky+5U1OQKf6naER91G1OxbNLCCOJZYSISWKf15TgW
- FvD6EyKTUeYndw15/zS7RolG/uv7r0CmrelG4NlIXeVSxIqx02wVEeSlC9EqCUFmWboR
- k5ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zlKmJ2002BFVX2ZXxYBAvMXUqHfOUCBNDSCbpquzDD4=;
- b=C3b9HajMMxeGmBQ9/3lbmfY5cuBs5rDZ/yrq5XvCZsrW6uTInNOV4GWFft8L9g39Oq
- ie1jqV5D8rAVcj631IcmUUqyWV4WkT1gRUOGg6OSWc7tremCNyv74B6yNEN9ApKKoZ/L
- 3+d4X/8dp1+DBmSaqK4shaSAKy+u7vLLbzjYVMdJ9P+k2L3O90L3H2oin/QexkVnrowB
- 4fcYzu01EKL7Aw9UzTri6Vd5cO6KpHus17kqNbno9wlfTbLg2CWCZfeNLJjBf/uCLd4B
- CoWL/KVhwHT0a7jLjPmw8gtbKg+u6zcA068oIG/hyth+eBPZgq7fjdA++Zn463UtZ7Fj
- 0GAg==
-X-Gm-Message-State: ANhLgQ3Vjyj5e1rwxO8pqRbXIWjTdceKvgjnImeWcKhtjZCdWzn6GpT+
- OQ1BTTSWFvsggYJnW6f6GI5Mig==
-X-Google-Smtp-Source: ADFU+vvbguubW7E6FOD/bR6UAFbsfiXhbysyZNZA0X02MHIz8KIBZKkLDrSYMWTpjPPb3cT9rshHyA==
-X-Received: by 2002:a62:b604:: with SMTP id j4mr5635879pff.93.1584644933964;
- Thu, 19 Mar 2020 12:08:53 -0700 (PDT)
-Received: from yoga (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
- [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id f8sm3151821pfn.2.2020.03.19.12.08.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Mar 2020 12:08:53 -0700 (PDT)
-Date: Thu, 19 Mar 2020 12:08:51 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH] drm/msm: Don't attempt to attach HDMI bridge twice
-Message-ID: <20200319190851.GB458947@yoga>
-References: <20200319043741.3338842-1-bjorn.andersson@linaro.org>
- <CAF6AEGtvSZOp48hyrBUzqQLV6+twtuy6k6MLimz6fhC-dqWEVA@mail.gmail.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46BBE6E081
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 19:35:53 +0000 (UTC)
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 19 Mar 2020 12:35:52 -0700
+Received: from gurus-linux.qualcomm.com ([10.46.162.81])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP; 19 Mar 2020 12:35:52 -0700
+Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
+ id 267874BBA; Thu, 19 Mar 2020 12:35:52 -0700 (PDT)
+Date: Thu, 19 Mar 2020 12:35:52 -0700
+From: Guru Das Srinagesh <gurus@codeaurora.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v9 01/11] drm/i915: Use 64-bit division macro
+Message-ID: <20200319193551.GA23396@codeaurora.org>
+References: <cover.1584473399.git.gurus@codeaurora.org>
+ <19661821c8eb32291e72ec091c267f915c365c52.1584473399.git.gurus@codeaurora.org>
+ <87h7yleb0i.fsf@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAF6AEGtvSZOp48hyrBUzqQLV6+twtuy6k6MLimz6fhC-dqWEVA@mail.gmail.com>
+In-Reply-To: <87h7yleb0i.fsf@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Mailman-Approved-At: Fri, 20 Mar 2020 08:01:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,95 +44,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Boris Brezillon <boris.brezillon@collabora.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-pwm@vger.kernel.org,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu 19 Mar 11:19 PDT 2020, Rob Clark wrote:
-
-> On Wed, Mar 18, 2020 at 9:39 PM Bjorn Andersson
-> <bjorn.andersson@linaro.org> wrote:
-> >
-> > With the introduction of '3ef2f119bd3e ("drm/msm: Use
-> > drm_attach_bridge() to attach a bridge to an encoder")' the HDMI bridge
-> > is attached both in msm_hdmi_bridge_init() and later in
-> > msm_hdmi_modeset_init().
-> >
-> > The second attempt fails as the bridge is already attached to the
-> > encoder and the whole process is aborted.
-> >
-> > So instead make msm_hdmi_bridge_init() just initialize the hdmi_bridge
-> > object and let msm_hdmi_modeset_init() attach it later.
-> >
-> > Fixes: 3ef2f119bd3e ("drm/msm: Use drm_attach_bridge() to attach a bridge to an encoder")
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> 
-> Thanks, I think this should also be solved by:
-> 
-> https://patchwork.freedesktop.org/patch/357331/?series=74611&rev=1
-
-Yes, didn't find that when looking yesterday. T-b and R-b.
-
-Thanks,
-Bjorn
-
-> 
-> BR,
-> -R
-> 
-> > ---
-> >  drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 19 +++----------------
-> >  1 file changed, 3 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> > index 6e380db9287b..0e103ee1b730 100644
-> > --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> > +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> > @@ -271,31 +271,18 @@ static const struct drm_bridge_funcs msm_hdmi_bridge_funcs = {
-> >  /* initialize bridge */
-> >  struct drm_bridge *msm_hdmi_bridge_init(struct hdmi *hdmi)
-> >  {
-> > -       struct drm_bridge *bridge = NULL;
-> >         struct hdmi_bridge *hdmi_bridge;
-> > -       int ret;
-> > +       struct drm_bridge *bridge;
-> >
-> >         hdmi_bridge = devm_kzalloc(hdmi->dev->dev,
-> >                         sizeof(*hdmi_bridge), GFP_KERNEL);
-> > -       if (!hdmi_bridge) {
-> > -               ret = -ENOMEM;
-> > -               goto fail;
-> > -       }
-> > +       if (!hdmi_bridge)
-> > +               return ERR_PTR(-ENOMEM);
-> >
-> >         hdmi_bridge->hdmi = hdmi;
-> >
-> >         bridge = &hdmi_bridge->base;
-> >         bridge->funcs = &msm_hdmi_bridge_funcs;
-> >
-> > -       ret = drm_bridge_attach(hdmi->encoder, bridge, NULL, 0);
-> > -       if (ret)
-> > -               goto fail;
-> > -
-> >         return bridge;
-> > -
-> > -fail:
-> > -       if (bridge)
-> > -               msm_hdmi_bridge_destroy(bridge);
-> > -
-> > -       return ERR_PTR(ret);
-> >  }
-> > --
-> > 2.24.0
-> >
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBNYXIgMTgsIDIwMjAgYXQgMDk6MDg6NDVQTSArMDIwMCwgSmFuaSBOaWt1bGEgd3Jv
+dGU6Cj4gT24gVHVlLCAxNyBNYXIgMjAyMCwgR3VydSBEYXMgU3JpbmFnZXNoIDxndXJ1c0Bjb2Rl
+YXVyb3JhLm9yZz4gd3JvdGU6Cj4gPiBTaW5jZSB0aGUgUFdNIGZyYW1ld29yayBpcyBzd2l0Y2hp
+bmcgc3RydWN0IHB3bV9zdGF0ZS5kdXR5X2N5Y2xlJ3MKPiA+IGRhdGF0eXBlIHRvIHU2NCwgcHJl
+cGFyZSBmb3IgdGhpcyB0cmFuc2l0aW9uIGJ5IHVzaW5nIERJVl9ST1VORF9VUF9VTEwKPiA+IHRv
+IGhhbmRsZSBhIDY0LWJpdCBkaXZpZGVuZC4KPiA+Cj4gPiBDYzogSmFuaSBOaWt1bGEgPGphbmku
+bmlrdWxhQGxpbnV4LmludGVsLmNvbT4KPiA+IENjOiBKb29uYXMgTGFodGluZW4gPGpvb25hcy5s
+YWh0aW5lbkBsaW51eC5pbnRlbC5jb20+Cj4gPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxp
+bnV4LmllPgo+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiA+IENjOiBD
+aHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KPiA+IENjOiAiVmlsbGUgU3ly
+asOkbMOkIiA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cj4gPiBDYzogaW50ZWwtZ2Z4
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKPiA+IENjOiBSb2RyaWdvIFZpdmkgPHJvZHJpZ28udml2aUBpbnRlbC5jb20+Cj4gPiBD
+YzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4K
+PiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBHdXJ1IERhcyBTcmluYWdlc2ggPGd1cnVzQGNvZGVhdXJv
+cmEub3JnPgo+IAo+IFJldmlld2VkLWJ5OiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwu
+Y29tPgoKVGhhbmtzIQoKPiBBbHNvIGFjayBmb3IgbWVyZ2luZyB0aGlzIHZpYSB3aGljaGV2ZXIg
+dHJlZSB5b3UgcHJlZmVyOyBwbGVhc2UgbGV0IG1lCj4ga25vdyBpZiB5b3Ugd2FudCBtZSB0byB0
+YWtlIHRoaXMgdmlhIGRybS1pbnRlbC4KCkknbSBub3Qgc3VyZSBpZiB0aGlzIHBhdGNoIGNhbiBi
+ZSB0YWtlbiB2aWEgZHJtLWludGVsIGluIGlzb2xhdGlvbiBhcyBpdAppcyBwYXJ0IG9mIGEgc2Vy
+aWVzLi4uIFdpbGwgbGV0IHlvdSBrbm93IGlmIEkgbmVlZCB0byBtYWtlIHN1Y2ggYQpyZXF1ZXN0
+LgoKVGhhbmsgeW91LgoKR3VydSBEYXMuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
