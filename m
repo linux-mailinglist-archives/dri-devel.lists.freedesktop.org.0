@@ -2,76 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687C718B963
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 15:30:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9025F18B9B6
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 15:48:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69AF76EA13;
-	Thu, 19 Mar 2020 14:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B604A6EA27;
+	Thu, 19 Mar 2020 14:48:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-74.mimecast.com
- (us-smtp-delivery-74.mimecast.com [216.205.24.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FFD86EA13
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 14:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584628209;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WaqjRjsQ/PsqTyHg3vWBXZsHVSYzVqWjsqZ4MuZIZlU=;
- b=AMvNqHJRYQo0apQcTnwajZukf+VG79nUwBWUJZEFo0/BJp5348smfA9dvsotwV3zqXscXf
- 6rDibzIMHsOq7BHXpxM/NXTyZay+S0i4LlDABmurXzK7ahYg1t1LHZ8kaqjnRazF31Snug
- QTj2+MkB/Kan6Jax2dxlAfk2dTFYo1o=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-VInKbHKhNumjB4UvDFQkTA-1; Thu, 19 Mar 2020 10:30:06 -0400
-X-MC-Unique: VInKbHKhNumjB4UvDFQkTA-1
-Received: by mail-wr1-f71.google.com with SMTP id t4so1100723wrr.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 07:30:06 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E49F6EA1A
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 14:48:14 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id j15so1857842lfk.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 07:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=eewuH2ejh9GUrR0Sfq2g0byFpCd5JQG7tGRUQT4kMOM=;
+ b=E1VVcZwFog7GNxvPLoAdw9dNw+MNf7VRHNRNOUAn6/HdjCgdA2D8ywrTVQ9C7yRgly
+ Ls1puYHmdjCytxp3Abi0hOf56AljY+A8Su6LNLi2TSS90fGeNZDz98uMDXWze07ACi9X
+ 6As76gXwRUecSOuTZd4XJ2lRGdb2Xtrb52qPlAp7SreE+C1kD4Sk47dKqTpthY3FD7D1
+ jsMOt9Gh6vhqJUwoYKhqAP6bBW7cknaVHzCwrmMSG/BXjkQejM1v71XXfnq4zyx2wRHG
+ LtcDE9JJnBvKq0I9RRgV+gJib+fOg5eagHs0A8xZ21e4IksZoHgl/sWhESwSOLRSC97l
+ ZZyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WaqjRjsQ/PsqTyHg3vWBXZsHVSYzVqWjsqZ4MuZIZlU=;
- b=FGTSw1iODC+8mSoGFu+vzGJg+3L9DtHIMh2vf1cHzqWm0osEhrJb0fiTKgI5A8PIUS
- CroSe6vh34S/T6b8eg9bxnyMSF8xziRlxD4UJzQS45vrYpdLzkEepcCa+cFvN2WZMiv/
- l+6eq6S+Sl2P/WdJeSJUL/cKkssxELk2DBPv6bf4YvnwIxLD3E+zX2Gu9YA3LCkFOqXy
- SyWTCHt68ED70/evaX1lgwfjbHdWMwkYCLNPYK6KLD1o3lzAi99JHpXWnwBDCbyh0mSM
- 97l2xip4NYXZYAUetzIuMFIG47SEKQrNFq8GCIxpZss60QTlvxr5Mq0KQcNfwKMON+Um
- WDCg==
-X-Gm-Message-State: ANhLgQ1XL+ABWHiMuiDC6Byd/iu/12Lcwa4xaXBDSz+d/g3Zyr0lhUri
- dKNg1DyxwtdbgKIg3IZ+huDdbV8pWpVb6pSB5it0tGcj7Xpa4fgrNhsMinQYRFEv+/b+eWlfT2c
- y02NWlWHBMQvtet16Q77a21JBWKzY
-X-Received: by 2002:a5d:5342:: with SMTP id t2mr4737557wrv.104.1584628205134; 
- Thu, 19 Mar 2020 07:30:05 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtQEMFt8QTc/uengGjzXV1dZVK/RD/L9QBhYZXScA6LHyQnPt6rDCCDquQIWTfxPEfIEcyZWg==
-X-Received: by 2002:a5d:5342:: with SMTP id t2mr4737527wrv.104.1584628204801; 
- Thu, 19 Mar 2020 07:30:04 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-fc7e-fd47-85c1-1ab3.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:fc7e:fd47:85c1:1ab3])
- by smtp.gmail.com with ESMTPSA id 133sm3495274wmd.5.2020.03.19.07.30.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Mar 2020 07:30:04 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=eewuH2ejh9GUrR0Sfq2g0byFpCd5JQG7tGRUQT4kMOM=;
+ b=ZyZIxSZc+btcmcVYlMmkG0l1kZj4BVmHoC5JJyZKMkDEKPoEFHyrY5fWDmyE1+5hkd
+ rUBcS0aE1k9vsqoSuqEilyQ1P0NHN3QGc8gYkZK/YeAA3d5HjFzE1It5YTn57JxGzhsz
+ ZwBbKEKiq2QM3NG3E0WTjpKi0L0257DM39exKmhg45J/2rNvVBYiUo5wJIWcaNhPGjpj
+ Q3/8i/59ZM7t2+KMYAD+ERUYODYI1YACpjmcax+AzqvOzMatsmhwZGFg0cC0vKq5HdQk
+ /hg8CFyOX36og+GeeRzYbf+HuxxZQu1Oc/pcZ4YdOhxfUmDM8/cjlVHBkPqDwxrOVnkv
+ S2Mw==
+X-Gm-Message-State: ANhLgQ2VL5fIiF9nEa1b+VlEklaSqSYZZu/37uCqCzvsdyYbfrxsdEaw
+ 5Bn+LIWR/Yv0T7WL/76rhdo=
+X-Google-Smtp-Source: ADFU+vubl7Kf8YYQG+E2a3/wkiE08Wavl8yj6xoxn1rgimjHsSBojeG7aq5LZG1iFMii+nAZWvUdOg==
+X-Received: by 2002:ac2:4433:: with SMTP id w19mr2379579lfl.53.1584629292633; 
+ Thu, 19 Mar 2020 07:48:12 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id 8sm1703273lfy.21.2020.03.19.07.48.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Mar 2020 07:48:12 -0700 (PDT)
+Date: Thu, 19 Mar 2020 16:48:02 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>
 Subject: Re: Atomic KMS API lacks the ability to set cursor hot-spot
  coordinates
-To: Pekka Paalanen <ppaalanen@gmail.com>
+Message-ID: <20200319164802.1ef342dd@eldfell.localdomain>
+In-Reply-To: <c7a98456-d4fc-e4d2-640f-d70a35619445@daenzer.net>
 References: <9d86bbe4-70cf-273d-4d61-aec06011d441@redhat.com>
- <20200319120028.56d3427a@eldfell.localdomain>
- <8b9c1aac-3398-ab97-a065-014359d40220@redhat.com>
- <20200319145842.4b7db322@eldfell.localdomain>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <c8c75790-9b56-9f7f-98d6-1dd2410d70b2@redhat.com>
-Date: Thu, 19 Mar 2020 15:30:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ <ADrBkiVj05c2ZYEz46BNJrrChY-PCxme8HOeHHGOLjIR5XpBZoyIY5aUnSfXCm0wrYr0-Iuh80vnZqmRQ_jZaslv2Q2P7N6q5yCG0AeWovU=@emersion.fr>
+ <5c9f7c0e-e225-dfbf-f5bf-cb1c1cc4ac08@redhat.com>
+ <iUavRfIpwgaFwGrZtIM7seVfRwrvb2QVXC0KLN5wXLT7t_kX04NYFj2T5r0awLNPbIx2rO3UUO0BYH_HX1jMtJTQzBjInkghkF7WxkzxrII=@emersion.fr>
+ <e0c0cb57-8a37-f70e-045f-3243411cbf03@daenzer.net>
+ <8db6e079-c88a-6b11-b77b-337059a139ba@redhat.com>
+ <20200319145440.51773af8@eldfell.localdomain>
+ <c7a98456-d4fc-e4d2-640f-d70a35619445@daenzer.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200319145842.4b7db322@eldfell.localdomain>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,192 +73,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Jonas_=c3=85dahl?= <jadahl@redhat.com>,
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1767781850=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--===============1767781850==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/x.n9EVbBHDGRI.dhJK3buJH"; protocol="application/pgp-signature"
 
-On 3/19/20 1:58 PM, Pekka Paalanen wrote:
-> On Thu, 19 Mar 2020 12:49:27 +0100
-> Hans de Goede <hdegoede@redhat.com> wrote:
-> 
->> Hi,
->>
->> On 3/19/20 11:00 AM, Pekka Paalanen wrote:
->>> On Wed, 18 Mar 2020 15:28:02 +0100
->>> Hans de Goede <hdegoede@redhat.com> wrote:
->>>    
->>>> ATM the Atomic KMS API lacks the ability to set cursor hot-spot
->>>> coordinates. Mutter (and Weston) have tried to emulate this by shifting
->>>> the coordinates for where to draw the cursor by the hotspot-coordinates
->>>> and always using 0x0 for the hotspot.
->>>>
->>>> But this breaks the so called "seamless mouse mode" for virtual-machines
->>>> and there really is no way to fix this but to allow passing the proper
->>>> hotspot coordinates to the virtual gfx-card.
->>>>
->>>> Seamless-mode consists of 2 parts:
->>>>
->>>> 1) Letting the VM-viewer window-system draw the cursor as it normally
->>>> would draw it.
->>>>
->>>> 2) Giving absolute coordinates of the mouse to the VM by e.g. emulating
->>>> an USB drawing tablet. These coordinates come from translating the
->>>> coordinates where the VM-viewer window-system is drawing the cursor
->>>> to an absolute position using the top left corner of the view as 0x0
->>>> and the bottom right corner as max-abs-x,max-abs-y.
->>>
->>> Hi,
->>>
->>> is the VM-viewer then hiding or autonomously moving what the display
->>> server inside VM has put on the KMS cursor plane?
->>
->> Yes and no, it is not the VM-viewer which is hiding what the
->> display-server inside the VM has put on the KMS cursor plane,
->> the VM-viewer negotiates seamless mouse mode with the hypervisor
->> and then the hypervisor just ignores the cursor-plane except for
->> sending "sprite" changes to the VM-viewer.
-> 
-> Hi,
-> 
-> I don't think I understand what you're saying, but I assume that I was
-> right in that the VM cursor plane content will not be shown always
-> exactly in the very position the compositor inside the VM puts it.
+--Sig_/x.n9EVbBHDGRI.dhJK3buJH
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Right, when seamless mouse mode is enabled the VM's cursor plane will
-not be shown *at all*, instead the VM-viewer's window-system's
-cursor plane is shown.
+On Thu, 19 Mar 2020 14:51:41 +0100
+Michel D=C3=A4nzer <michel@daenzer.net> wrote:
 
-Sprite changes (normal cursor, caret, window-resize cursor, etc.)
-are forwarded from the VM-s cursor-plane to the VM-viewer
-which then requests that as cursor to the window-system under
-which the VM-viewer is running.
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA1
+>=20
+> On 2020-03-19 1:54 p.m., Pekka Paalanen wrote:
+> > On Thu, 19 Mar 2020 12:52:14 +0100 Hans de Goede
+> > <hdegoede@redhat.com> wrote: =20
+> >> On 3/19/20 12:35 PM, Michel D=C3=A4nzer wrote: =20
+> >>> On 2020-03-18 4:22 p.m., Simon Ser wrote: =20
+> >>>>>
+> >>>>> On 3/18/20 3:38 PM, Simon Ser wrote: =20
+> >>>>>> =20
+> >>>>>>> 1) Letting the VM-viewer window-system draw the cursor
+> >>>>>>> as it normally would draw it. =20
+> >>>>>>
+> >>>>>> Why is this important? Can't the VM viewer hide the
+> >>>>>> cursor and use a sub-surface to manually draw the cursor
+> >>>>>> plane configured by the guest? =20
+> >>>>>
+> >>>>> Because then moving the cursor as seen by the user requires
+> >>>>> a round trip through the VM and that adds latency, esp.
+> >>>>> when the VM viewer is viewing a VM which is running
+> >>>>> somewhere else over the network. =20
+> >>>>
+> >>>> The video output has latency anyway. =20
+> >>>
+> >>> Sounds like you've never tried the two different modes
+> >>> yourself? :) IME it makes a big difference even with a local
+> >>> VM. Even very little latency can make the cursor feel awkward,
+> >>> like it's being held back by a rubber band or something. =20
+> >>
+> >> Right not to mention that the latency may be variable, so the
+> >> cursor moves in a jittery fashion instead of having it move
+> >> smoothly matching the smooth way a user normally moves the
+> >> mouse.
+> >>
+> >> This totally wrecks hand-eye coordination and is just plain
+> >> awefull. =20
+> >
+> > I have experienced it, and while it is painful, I prefer that pain
+> > over the pain of accidentally clicking something that was not
+> > transmitted to the remote display yet. =20
+>=20
+> Unless you mean clicking something while the cursor is moving, not
+> sure how seamless vs not affects this, since the delay of something
+> appearing on the remote display should be the same in both cases?
 
-> Maybe the example further below explain the issue I envision.
-> 
->>> If so, sounds like hilarity would ensue with Weston.
->>>
->>> Weston does not actually know what a cursor is. Weston will happily put
->>> any arbitrary non-cursor content onto the KMS cursor plane if it happens
->>> to fit. It's just that usually there is a small surface top-most that
->>> ends up on the cursor plane, and that surface accidentally happens to
->>> be a cursor by Wayland protocol.
->>>
->>> It's not difficult to get e.g. weston-simple-shm window to be shown on
->>> the KMS cursor plane: just hide the real cursor from the client.
->>>
->>> No, it's not an oversight. It is called "making maximal use of the
->>> available KMS resources" by using KMS planes as much as possible to
->>> avoid compositing by rendering with Pixman or OpenGL.
->>
->> Yes it sounds like this will break with Weston, note that it already
->> is broken in Weston, if you run e.g. Fedora 32 beta + its Weston
->> package inside a VirtualBox VM then start gnome-terminal (so
->> that you get a caret cursor instead of the default one) and try to
->> select text. This will result in the wrong text being displayed
->> because Weston does not relay cursor hotspot info to the GPU,
->> also see:
->> https://gitlab.gnome.org/GNOME/mutter/issues/1094
->>
->> Where the symptoms of this are described in more detail
->> (they are identical for Weston and mutter).
-> 
-> Right, that's the problem with the hotspot.
+How do you know if the cursor is still moving or not, if you don't see
+the real cursor but only the fake cursor?
 
-Ack.
+I move the mouse, then it takes 0.1 - 10 seconds for the real cursor
+to reach where I moved it. Only after that I see what the motion
+caused. Then I can do the next thing.
 
->> Fixing this will require the discussed KMS atomic API changes
->> and also changes on the Weston and mutter side to pass through
->> the hotspot info.
-> 
-> The problem I am referring to is that to the user looking at the
-> VM-viewer, suddenly an arbitrary application window (e.g.
-> weston-simple-shm) starts to act as if it was the cursor, when there is
-> no real cursor shown. You have a random window unexpectedly moving
-> around, as if you had started dragging it around with your mouse.
+The mouse motion / cursor response gives me continuous feedback, so
+that I don't run too far ahead of the remote end.
 
-Correct.
-> The only way to fix that is to stop Weston from putting non-cursor
-> content on the cursor plane.
+> > Therefore I think the best user experience is to use both types of
+> > cursor at the same time: the remote desktop or VM viewer paints
+> > the local cursor as an aid, like a phantom, and the cursor from
+> > inside the VM is also visible with the latency it naturally has.
+> > That means I could actually see that the screen has caught up with
+> > my motions before I click something. =20
+>=20
+> I'd expect that to result in "duplicate cursor" bug reports =E2=80=94 I'd
+> certainly consider it a bug with my user hat on.
 
-Correct.
+The point is to make the phantom cursor look like a phantom cursor, so
+it cannot be mistaken as the real cursor. It doesn't even need to use
+the same cursor image as the real cursor, it could be just a
+translucent spot.
 
-> It sounds like your VM-viewer makes the assumption that the pointer
-> input device it delivers to the VM is the one that will control the KMS
-> cursor plane position inside the VM. Is that right?
 
-Correct.
+Thanks,
+pq
 
-> What if the desktop inside the VM is controlled by a remote, e.g. VNC?
-> Then the input events to the VM are completely unrelated to the
-> expected motion of the cursor. Do you just tell the users to stop using
-> the seamless mode in that case?
+--Sig_/x.n9EVbBHDGRI.dhJK3buJH
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-A VNC viewer (which is not using seamless mode itself) has the same issue
-of a mismatch between the cursor position of the window-system it is a client
-of and the cursor position of the window system inside the VM.
+-----BEGIN PGP SIGNATURE-----
 
-A VNC viewer typically works around this by changing the window-system
-cursor to transparent and drawing its own cursor, the transparent sprite
-or disabling of the cursor-plane will get forwarded to the window-system
-under which the VM-viewer runs so this will work fine.
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl5zhiIACgkQI1/ltBGq
+qqewbA//ckqociQgZ1d65BET/5SmbNaJNAKaA4AeZrWYfcNt2zb8PhudoYHlDqZ9
+qEfDNMAEuQMbRMOokO+v4maNBGrdOB7oJvXDIYKnXm6jX/ar3v0EpKNivm1vgrU8
+9GOWThKyEmbRAgi7zb/0XUZA+xn2F2vjlsltzNl7cc66x/WOPVIMyoNWlEe8wM1q
+Oj3oJnZjlBSNPWqE9kDgCi/kAfSS5L9pkFmXMNVcI6uBmR5yaq3kR7Bfpl/HSCh9
+GgLpGkPXefUYBD1AtSeclBIesHyN418vkYXc/1ZGLC6JMnTWW4pEMIA5sCCvcf+/
+Hw2GWl/jmmVjG+iu1Hs/bnXRcDdsNq1+p+H2HeJCBxhCtBQMlTHBui9CYOlySxCw
+VrnI/swo2YvHsnMGqC2VJtsjjnQ9cmgw38NUoJ0Rbo9rkvHR0+ku3mwa+UFs04wh
+Jotxeuiq0qACifuMVap01piRXH10ogd1i6WBFEXKPFfC61a9vpUBhp5gcgX/AV/p
+o0Ewd4UR/pS+9BYLeCEh5l6KX+m/5VoQdYlNuKH+PeA6lBabtV7nS+jQlPioCW0l
+cSyZXpLIZMyOxnV+CsXhaHNuh0COeNur5JzhV4sa62UIiV/RcZ2CC++nP/S4UdxO
+FuLlnFHIQPE7CXXcgBoMekLBbd6zochDmo3Fm/nFDAATX8TvUY0=
+=EIc6
+-----END PGP SIGNATURE-----
 
-A real problem though is the absolute input mode, when e.g. the VNC
-viewer is not using something like seamless mouse mode it will want
-to do the usual (nasty) tricks of confining the pointer to the window
-and warping it to the center after each pointer move so that mouse
-can be moved "endlessly' inside the window. This requires relative
-input, so emulating a mouse instead of say a drawing tablet, which
-breaks seamless mode.
+--Sig_/x.n9EVbBHDGRI.dhJK3buJH--
 
-So although the way the cursor is drawn typically does not require
-disabling seamless mode, the input problems do require disabling
-seamless mode.
-
-In my experience (I have worked on VDI (spice) a couple of years),
-running a VM-viewer inside a VM is something which not a lot of
-people do. I guess the fact that this works quite poorly might
-be one of the reasons people do not do this.
-
-But all VMs I'm familiar with allow disabling seamless mode for
-compatibility with corner cases like this. This does lead to a
-seriously degraded user-experience though. For just using an
-office suit or browser inside a VM seamless mode really is a
-lot more pleasant for the user.  I still remember when seamless
-mode first got introduced, in the beginning it used to not
-always work and fixing the fallback to the confine + warp tricks
-then always was a serious itch which I tried to scratch quickly.
-Breaking seamless mode also is a good way to quickly accumulate
-a lot of bug reports from end users in my experience.
-
-> What if display servers stop using the cursor plane completely, because
-> people may hit a case where a VM-viewer makes the wrong assumption about
-> which input device is associated to which cursor plane inside the VM?
-
-The confine + warp trick is typically the default mode and only
-if the guest indicates through e.g. a guest-agent process that
-seamless mode is supported then seamless mode is enabled.
-
-IOW the VM is careful to not enable it when it might not work.
-
-OTOH most distros now ship with the necessary agents installed
-by default, so e.g. a F32 beta install will automatically use
-seamless mode under QEMU/KVM (spice display protocol) or
-VirtualBox.  If a user uses say F32 + a vnc-viewer inside it
-which needs to do confine + warp tricks then the user will have
-to disable seamless mode manually. In my prior experience
-working on VDI this is usually something which users are
-understanding of and not a problem.
-
-Regards,
-
-Hans
+--===============1767781850==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1767781850==--
