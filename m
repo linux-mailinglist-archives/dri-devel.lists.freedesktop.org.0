@@ -1,54 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246DA18B11F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 11:20:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9A818B165
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 11:30:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E7586E9DD;
-	Thu, 19 Mar 2020 10:20:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D379C6E228;
+	Thu, 19 Mar 2020 10:30:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
- [IPv6:2607:f8b0:4864:20::d43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74BB06E9DD
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 10:20:56 +0000 (UTC)
-Received: by mail-io1-xd43.google.com with SMTP id h131so1679388iof.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 03:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3uJMFn0u6UxefMNCwOE+EpY1xkVMEUZdfQJs905Mo2E=;
- b=Tlo9ynl0/5JrUqt87TGFCCZ9Vf+ZY7VhurKDOOeDokSrKWXo+/6u5JNa2yUMyt8Sia
- io4XQ4NG9D33UhB3vjwQTLRHm2Ah7RPluXewGImqqQkybMb8AWDtp/5wmG/ZVQFcoMTq
- PnyKz6Odg2m53v/aAeWggFliHykA8ks7QBe1g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3uJMFn0u6UxefMNCwOE+EpY1xkVMEUZdfQJs905Mo2E=;
- b=lY8qLysa7UUspoB8LTPsleTyOfR2+L86+kEoUJQl6j9b5M0qP5fDvw0J1xquQ6FjMt
- dtgJM7IAdfP7BvjxQqsNgIdwePwX4BLEo9toiDg3WAS8eRMSE+qfAjhqrjNvRmdRqVbI
- 22GwS+35F2HaZtb75ANvGAsysS03iqu8zikvVFY64Bz71FrnPq1W6xLjaZxINnRytDov
- MH5e5gw9ArkJ+Dml/oj5tSfXM7zQ7eFlK8jvPnhj6/wBsdStTQ54+gMjZ7nkRWMW8DdW
- GxtW7QGJvbbP+6inY7LEIEqojU97gRqg7ElKYR/tjCznS71HZG1ZDU/StkJ0tqXbKm6i
- hx4w==
-X-Gm-Message-State: ANhLgQ11MW61ap3jcW93M9Im9+55S++Ila9NzMzcIuOrQ1felzLUgXJP
- C4dNleVUwi5lOj5I4BG4yfoCHrDkLO97ruZbZjpEvw==
-X-Google-Smtp-Source: ADFU+vtK3d/gDrUHwaxaJnUYjeJVHLK/PG6GuACnlbXxXQUQIi/qPHvAaGxP4FQ5mOe7IXI4kbNLAEMtUXVPu4O/o3c=
-X-Received: by 2002:a02:241:: with SMTP id 62mr2290953jau.103.1584613255796;
- Thu, 19 Mar 2020 03:20:55 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E35B56E9E1;
+ Thu, 19 Mar 2020 10:30:45 +0000 (UTC)
+IronPort-SDR: 6lcJwpCGx1zCNMxUA7Skmh7cDop4q942jRvyLogTOSc5mZhiA4nZ37Dha4m1MXPQc+YcHfslUR
+ jIRyWppQO8GQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Mar 2020 03:30:44 -0700
+IronPort-SDR: cSoPTGJRXhj/LAt2CVvTPRObRAbQInur8T9RQD+dOh/Thjwz7XYs+A72+h43lpkngW3OaxeZuA
+ 9+Ek6hAy7DlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,571,1574150400"; d="scan'208";a="263687061"
+Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
+ by orsmga002.jf.intel.com with ESMTP; 19 Mar 2020 03:30:40 -0700
+From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+To: sameer.lattannavar@intel.com, jani.nikula@linux.intel.com, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com, daniels@collabora.com
+Subject: [PATCH v2 0/5] Introduce drm scaling filter property
+Date: Thu, 19 Mar 2020 15:50:58 +0530
+Message-Id: <20200319102103.28895-1-pankaj.laxminarayan.bharadiya@intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20200318171003.5179-1-jagan@amarulasolutions.com>
- <20200318171003.5179-3-jagan@amarulasolutions.com>
- <20200318185814.GB28092@ravnborg.org>
-In-Reply-To: <20200318185814.GB28092@ravnborg.org>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 19 Mar 2020 15:50:44 +0530
-Message-ID: <CAMty3ZDhVfvYXV7OO+NT+d_2YHbsJXebzjdtYkqtdD+X=Ch0yQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] MAINTAINERS: Update feiyang, st7701 panel bindings
- converted as YAML
-To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,32 +46,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: pankaj.laxminarayan.bharadiya@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 19, 2020 at 12:28 AM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> On Wed, Mar 18, 2020 at 10:40:03PM +0530, Jagan Teki wrote:
-> > The feiyang,fy07024di26a30d.txt and sitronix,st7701.txt has been
-> > converted to YAML schemas, update MAINTAINERS to match them again.
-> >
-> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
->
-> The patch is fine.
-> I just dislike we repeat the maintainer info in two places..
+This series is the continuation for the RFC that I posted earlier [1]
 
-Since these are two different panels. and entry similar like other
-panels.do you look for single entry for both the panels?
+[1] RFC: https://patchwork.freedesktop.org/series/73884/
 
-Jagan.
+Integer scaling (IS) is a nearest-neighbor upscaling technique that
+simply scales up the existing pixels by an integer (i.e., whole
+number) multiplier. Nearest-neighbor (NN) interpolation works by
+filling in the missing color values in the upscaled image with that of
+the coordinate-mapped nearest source pixel value.
+
+Both IS and NN preserve the clarity of the original image. In
+contrast, traditional upscaling algorithms, such as bilinear or
+bicubic interpolation, result in blurry upscaled images because they
+employ interpolation techniques that smooth out the transition from
+one pixel to another.  Therefore, integer scaling is particularly
+useful for pixel art games that rely on sharp, blocky images to
+deliver their distinctive look.
+
+Many gaming communities have been asking for integer-mode scaling
+support, some links and background:
+
+https://software.intel.com/en-us/articles/integer-scaling-support-on-intel-graphics
+http://tanalin.com/en/articles/lossless-scaling/
+https://community.amd.com/thread/209107
+https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/1002/feature-request-nonblurry-upscaling-at-integer-rat/
+
+This patch series -
+  - Introduces new scaling filter properties to allow userspace to
+    select  the driver's default scaling filter or
+    Nearest-neighbor(NN) filter for scaling operations on crtc and plane.
+  - Implements and enable integer scaling for i915
+
+Userspace patch series link: https://github.com/lrusak/xbmc/pull/24 
+
+Thanks to Shashank for initiating this work. His initial work can be
+found here [2]
+
+[2] https://patchwork.freedesktop.org/patch/337082/
+
+changes since v1: 
+* Add userspace patch link to this cover letter.
+* 4/5 - Rearrange skl_scaler_setup_nearest_neighbor_filter() to iterate
+  the registers directly instead of the phases and taps (Ville)
+
+Pankaj Bharadiya (5):
+  drm: Introduce plane and CRTC scaling filter properties
+  drm/drm-kms.rst: Add plane and CRTC scaling filter property documentation
+  drm/i915: Introduce scaling filter related registers and bit fields.
+  drm/i915/display: Add Nearest-neighbor based integer scaling support
+  drm/i915: Enable scaling filter for plane and CRTC
+
+ Documentation/gpu/drm-kms.rst                |  12 +++
+ drivers/gpu/drm/drm_atomic_uapi.c            |   8 ++
+ drivers/gpu/drm/drm_crtc.c                   |  33 ++++++
+ drivers/gpu/drm/drm_mode_config.c            |  26 +++++
+ drivers/gpu/drm/drm_plane.c                  |  33 ++++++
+ drivers/gpu/drm/i915/display/intel_display.c | 104 ++++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_display.h |   2 +
+ drivers/gpu/drm/i915/display/intel_sprite.c  |  31 +++++-
+ drivers/gpu/drm/i915/i915_reg.h              |  48 +++++++++
+ include/drm/drm_crtc.h                       |  13 +++
+ include/drm/drm_mode_config.h                |  12 +++
+ include/drm/drm_plane.h                      |  13 +++
+ 12 files changed, 332 insertions(+), 3 deletions(-)
+
+-- 
+2.23.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
