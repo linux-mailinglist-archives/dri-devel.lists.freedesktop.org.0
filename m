@@ -2,62 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1192518B122
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 11:21:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 246DA18B11F
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 11:20:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 275916E9E0;
-	Thu, 19 Mar 2020 10:21:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E7586E9DD;
+	Thu, 19 Mar 2020 10:20:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6014B6E9E0
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 10:21:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id 271AB3F3BA;
- Thu, 19 Mar 2020 11:21:00 +0100 (CET)
-Authentication-Results: pio-pvt-msa3.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=YIlRraCY; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 85z82hMh4gjk; Thu, 19 Mar 2020 11:20:59 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 6CE8C3F4F6;
- Thu, 19 Mar 2020 11:20:45 +0100 (CET)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 768023600BE;
- Thu, 19 Mar 2020 11:20:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1584613245; bh=V8lBBeyRDZgxGjvBgP3FyGRuA/pE02GkqJZ35o9y2dQ=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=YIlRraCYki7VHR34mew970Lxo2NLkIGwy7IuqNkOsIvvNBDQjSyCc7KiXuL05mY8Q
- 39Oazf0Pl2vXiL6ZgJquzyoxrCWEy8PfMxPefNiYV8PtCZE7Fz8i3MFTr1s2CTV0Hl
- Hmp8dbYShbrpUn5FTIcJx0y9D5GuWaYFNuneBK9s=
-Subject: Re: Ack to merge through DRM? WAS [PATCH v6 0/9] Huge page-table
- entries for TTM
-To: Andrew Morton <akpm@linux-foundation.org>
-References: <20200304102840.2801-1-thomas_os@shipmail.org>
- <9eb1acd3-cded-65f0-ed75-10173dc3a41c@shipmail.org>
- <20200318162721.9b8a4d0ef7036ad93261f859@linux-foundation.org>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <5054bb71-b5b4-11a9-1c4e-487a7adf3177@shipmail.org>
-Date: Thu, 19 Mar 2020 11:20:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74BB06E9DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 10:20:56 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id h131so1679388iof.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 03:20:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3uJMFn0u6UxefMNCwOE+EpY1xkVMEUZdfQJs905Mo2E=;
+ b=Tlo9ynl0/5JrUqt87TGFCCZ9Vf+ZY7VhurKDOOeDokSrKWXo+/6u5JNa2yUMyt8Sia
+ io4XQ4NG9D33UhB3vjwQTLRHm2Ah7RPluXewGImqqQkybMb8AWDtp/5wmG/ZVQFcoMTq
+ PnyKz6Odg2m53v/aAeWggFliHykA8ks7QBe1g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3uJMFn0u6UxefMNCwOE+EpY1xkVMEUZdfQJs905Mo2E=;
+ b=lY8qLysa7UUspoB8LTPsleTyOfR2+L86+kEoUJQl6j9b5M0qP5fDvw0J1xquQ6FjMt
+ dtgJM7IAdfP7BvjxQqsNgIdwePwX4BLEo9toiDg3WAS8eRMSE+qfAjhqrjNvRmdRqVbI
+ 22GwS+35F2HaZtb75ANvGAsysS03iqu8zikvVFY64Bz71FrnPq1W6xLjaZxINnRytDov
+ MH5e5gw9ArkJ+Dml/oj5tSfXM7zQ7eFlK8jvPnhj6/wBsdStTQ54+gMjZ7nkRWMW8DdW
+ GxtW7QGJvbbP+6inY7LEIEqojU97gRqg7ElKYR/tjCznS71HZG1ZDU/StkJ0tqXbKm6i
+ hx4w==
+X-Gm-Message-State: ANhLgQ11MW61ap3jcW93M9Im9+55S++Ila9NzMzcIuOrQ1felzLUgXJP
+ C4dNleVUwi5lOj5I4BG4yfoCHrDkLO97ruZbZjpEvw==
+X-Google-Smtp-Source: ADFU+vtK3d/gDrUHwaxaJnUYjeJVHLK/PG6GuACnlbXxXQUQIi/qPHvAaGxP4FQ5mOe7IXI4kbNLAEMtUXVPu4O/o3c=
+X-Received: by 2002:a02:241:: with SMTP id 62mr2290953jau.103.1584613255796;
+ Thu, 19 Mar 2020 03:20:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200318162721.9b8a4d0ef7036ad93261f859@linux-foundation.org>
-Content-Language: en-US
+References: <20200318171003.5179-1-jagan@amarulasolutions.com>
+ <20200318171003.5179-3-jagan@amarulasolutions.com>
+ <20200318185814.GB28092@ravnborg.org>
+In-Reply-To: <20200318185814.GB28092@ravnborg.org>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 19 Mar 2020 15:50:44 +0530
+Message-ID: <CAMty3ZDhVfvYXV7OO+NT+d_2YHbsJXebzjdtYkqtdD+X=Ch0yQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] MAINTAINERS: Update feiyang, st7701 panel bindings
+ converted as YAML
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,31 +61,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ralph Campbell <rcampbell@nvidia.com>, Michal Hocko <mhocko@suse.com>,
- pv-drivers@vmware.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- linux-graphics-maintainer@vmware.com,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- Dan Williams <dan.j.williams@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMy8xOS8yMCAxMjoyNyBBTSwgQW5kcmV3IE1vcnRvbiB3cm90ZToKPiBPbiBNb24sIDE2IE1h
-ciAyMDIwIDEzOjMyOjA4ICswMTAwIFRob21hcyBIZWxsc3Ryw7ZtIChWTXdhcmUpIDx0aG9tYXNf
-b3NAc2hpcG1haWwub3JnPiB3cm90ZToKPgo+Pj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KPj4+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPj4+IGRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCj4+IEFuZHJldywgd291bGQgaXQgYmUgcG9z
-c2libGUgdG8gaGF2ZSBhbiBhY2sgZm9yIG1lcmdlIHVzaW5nIGEgRFJNIHRyZWUKPj4gZm9yIHRo
-ZSAtbW0gcGF0Y2hlcz8KPiBZZXMsIHBsZWFzZSBkby4gIEl0J3MgYWxsIHByZXR0eSBzdHJhaWdo
-dGZvcndhcmQgYWRkaXRpb24gb2YgbmV3Cj4gZnVuY3Rpb25hbGl0eSB3aGljaCB3b24ndCBhZmZl
-Y3QgZXhpc3RpbmcgY29kZS4KClRoYW5rcyBBbmRyZXcuIENhbiBJIGFkZCB5b3VyIEFja2VkLWJ5
-OiBUbyB0aGUgbW0gcGF0Y2hlcyBmb3IgTGludXMnIApyZWZlcmVuY2U/CgpUaGFua3MsCgpUaG9t
-YXMKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Mar 19, 2020 at 12:28 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> On Wed, Mar 18, 2020 at 10:40:03PM +0530, Jagan Teki wrote:
+> > The feiyang,fy07024di26a30d.txt and sitronix,st7701.txt has been
+> > converted to YAML schemas, update MAINTAINERS to match them again.
+> >
+> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+>
+> The patch is fine.
+> I just dislike we repeat the maintainer info in two places..
+
+Since these are two different panels. and entry similar like other
+panels.do you look for single entry for both the panels?
+
+Jagan.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
