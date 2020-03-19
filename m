@@ -1,74 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE12818B10C
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 11:18:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1192518B122
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 11:21:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51FF46E9DC;
-	Thu, 19 Mar 2020 10:18:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 275916E9E0;
+	Thu, 19 Mar 2020 10:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB7866E9DC
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 10:18:34 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id z12so1421963wmf.5
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 03:18:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=9orDqus34XDuXi5i1KvF+t2rP3oN+I1lofE3FxXqw5k=;
- b=EYB0H32KYUNpFmHyD2o5deHe2/46kUttKOvnFsphFEu9WTmAXYn15ERROmCC1kQU97
- B3kN01ywJLlqlOQ5cw4sM1AiJgV4MNgUA5G1WD2OheCrVtTEMUUe0YertrKzWZT4kbsJ
- /zekAZHkZmYXhNP+hgoo0zBgl2x79eOtQ9IKM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=9orDqus34XDuXi5i1KvF+t2rP3oN+I1lofE3FxXqw5k=;
- b=Jnu/2hq6L4e8APBe5i3ZILeCLjqOHFGq92M5MaGmuH67i+t8SZVvXSoLj+04BKRJL0
- eiL/PofhPsBnhgDT6hY6js5IFyluEs7oJKi11m+qAsezCduBbuv4iC10fvFTcGaSEI6+
- WLK52o7RN54ZeljzVStueFK+0G7IqqB4bRyChTx7cmVmrXp1CTxW+sdtlKMjlN7rkfCB
- /77BNU3/TaZtkiOxblek6zBIQfZGYvNLyS3POrk6kCSpGOHxGyw9C3I9I8RKa8IVtQcH
- naFH2V1o1To1DPaRe7wpigVF444faXFAvWalAWrXAJBosSmxkcCBcY0fOnFm4GTJHHVc
- ydxg==
-X-Gm-Message-State: ANhLgQ2vp1OaeoxRHF2zNHczttD4krIPiiwXfS5io8Z2ZmvECy5b6dTW
- tsL6WHvJWVyrlI5BIat9/BFD1y490aXXR/Tv
-X-Google-Smtp-Source: ADFU+vs1cY0h+g/ybHd7aq9aAE2q7J9qQbOvmeUgc6gSXldSzXKDqGGuNEQYYStflkny8WIXLgRMYQ==
-X-Received: by 2002:a1c:7711:: with SMTP id t17mr2772854wmi.108.1584613113335; 
- Thu, 19 Mar 2020 03:18:33 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n1sm2723582wrj.77.2020.03.19.03.18.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Mar 2020 03:18:32 -0700 (PDT)
-Date: Thu, 19 Mar 2020 11:18:30 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 10/17] drm/vram-helper: make
- drm_vram_mm_debugfs_init() return 0
-Message-ID: <20200319101830.GB2363188@phenom.ffwll.local>
-Mail-Followup-To: Greg KH <gregkh@linuxfoundation.org>,
- Wambui Karuga <wambui.karugax@gmail.com>,
- Dave Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20200310133121.27913-1-wambui.karugax@gmail.com>
- <20200310133121.27913-11-wambui.karugax@gmail.com>
- <20200318152627.GY2363188@phenom.ffwll.local>
- <alpine.LNX.2.21.99999.375.2003181857010.54051@wambui>
- <CAKMK7uGwJ6nzLPzwtfUY79e1fSFxkrSgTfJuDeM4px6c0v13qg@mail.gmail.com>
- <20200318165846.GC3090655@kroah.com>
- <CAKMK7uGbg5Lax+eXJda4k9LNd7JBb+LRtRw4S+bZ4GbNGT--ZA@mail.gmail.com>
- <20200319075524.GB3445010@kroah.com>
+Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6014B6E9E0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 10:21:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id 271AB3F3BA;
+ Thu, 19 Mar 2020 11:21:00 +0100 (CET)
+Authentication-Results: pio-pvt-msa3.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=YIlRraCY; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+ autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 85z82hMh4gjk; Thu, 19 Mar 2020 11:20:59 +0100 (CET)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35]) (Authenticated sender: mb878879)
+ by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 6CE8C3F4F6;
+ Thu, 19 Mar 2020 11:20:45 +0100 (CET)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 768023600BE;
+ Thu, 19 Mar 2020 11:20:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1584613245; bh=V8lBBeyRDZgxGjvBgP3FyGRuA/pE02GkqJZ35o9y2dQ=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=YIlRraCYki7VHR34mew970Lxo2NLkIGwy7IuqNkOsIvvNBDQjSyCc7KiXuL05mY8Q
+ 39Oazf0Pl2vXiL6ZgJquzyoxrCWEy8PfMxPefNiYV8PtCZE7Fz8i3MFTr1s2CTV0Hl
+ Hmp8dbYShbrpUn5FTIcJx0y9D5GuWaYFNuneBK9s=
+Subject: Re: Ack to merge through DRM? WAS [PATCH v6 0/9] Huge page-table
+ entries for TTM
+To: Andrew Morton <akpm@linux-foundation.org>
+References: <20200304102840.2801-1-thomas_os@shipmail.org>
+ <9eb1acd3-cded-65f0-ed75-10173dc3a41c@shipmail.org>
+ <20200318162721.9b8a4d0ef7036ad93261f859@linux-foundation.org>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
+Organization: VMware Inc.
+Message-ID: <5054bb71-b5b4-11a9-1c4e-487a7adf3177@shipmail.org>
+Date: Thu, 19 Mar 2020 11:20:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200319075524.GB3445010@kroah.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <20200318162721.9b8a4d0ef7036ad93261f859@linux-foundation.org>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,103 +70,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Wambui Karuga <wambui.karugax@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ralph Campbell <rcampbell@nvidia.com>, Michal Hocko <mhocko@suse.com>,
+ pv-drivers@vmware.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ linux-graphics-maintainer@vmware.com,
+ "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 19, 2020 at 08:55:24AM +0100, Greg KH wrote:
-> On Wed, Mar 18, 2020 at 08:10:43PM +0100, Daniel Vetter wrote:
-> > On Wed, Mar 18, 2020 at 5:58 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Wed, Mar 18, 2020 at 05:31:47PM +0100, Daniel Vetter wrote:
-> > > > On Wed, Mar 18, 2020 at 5:03 PM Wambui Karuga <wambui.karugax@gmail.com> wrote:
-> > > > >
-> > > > >
-> > > > >
-> > > > > On Wed, 18 Mar 2020, Daniel Vetter wrote:
-> > > > >
-> > > > > > On Tue, Mar 10, 2020 at 04:31:14PM +0300, Wambui Karuga wrote:
-> > > > > >> Since 987d65d01356 (drm: debugfs: make
-> > > > > >> drm_debugfs_create_files() never fail), drm_debugfs_create_files() never
-> > > > > >> fails and should return void. Therefore, remove its use as the
-> > > > > >> return value of drm_vram_mm_debugfs_init(), and have the function
-> > > > > >> return 0 directly.
-> > > > > >>
-> > > > > >> v2: have drm_vram_mm_debugfs_init() return 0 instead of void to avoid
-> > > > > >> introducing build issues and build breakage.
-> > > > > >>
-> > > > > >> References: https://lists.freedesktop.org/archives/dri-devel/2020-February/257183.html
-> > > > > >> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-> > > > > >> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > > >> ---
-> > > > > >>  drivers/gpu/drm/drm_gem_vram_helper.c | 10 ++++------
-> > > > > >>  1 file changed, 4 insertions(+), 6 deletions(-)
-> > > > > >>
-> > > > > >> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> > > > > >> index 92a11bb42365..c8bcc8609650 100644
-> > > > > >> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> > > > > >> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> > > > > >> @@ -1048,14 +1048,12 @@ static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
-> > > > > >>   */
-> > > > > >>  int drm_vram_mm_debugfs_init(struct drm_minor *minor)
-> > > > > >>  {
-> > > > > >> -    int ret = 0;
-> > > > > >> -
-> > > > > >>  #if defined(CONFIG_DEBUG_FS)
-> > > > > >
-> > > > > > Just noticed that this #if here is not needed, we already have a dummy
-> > > > > > function for that case. Care to write a quick patch to remove it? On top
-> > > > > > of this patch series here ofc, I'm in the processing of merging the entire
-> > > > > > pile.
-> > > > > >
-> > > > > > Thanks, Daniel
-> > > > > Hi Daniel,
-> > > > > Without this check here, and compiling without CONFIG_DEBUG_FS, this
-> > > > > function is run and the drm_debugfs_create_files() does not have access to
-> > > > > the parameters also protected by an #if above this function. So the change
-> > > > > throws an error for me. Is that correct?
-> > > >
-> > > > Hm right. Other drivers don't #ifdef out their debugfs file functions
-> > > > ... kinda a bit disappointing that we can't do this in the neatest way
-> > > > possible.
-> > > >
-> > > > Greg, has anyone ever suggested to convert the debugfs_create_file
-> > > > function (and similar things) to macros that don't use any of the
-> > > > arguments, and then also annotating all the static functions/tables as
-> > > > __maybe_unused and let the compiler garbage collect everything?
-> > > > Instead of explicit #ifdef in all the drivers ...
-> > >
-> > > No, no one has suggested that, having the functions be static inline
-> > > should make it all "just work" properly if debugfs is not enabled.  The
-> > > variables will not be used, so the compiler should just optimize them
-> > > away properly.
-> > >
-> > > No checks for CONFIG_DEBUG_FS should be needed anywhere in .c code.
-> > 
-> > So the trouble with this one is that the static inline functions for
-> > the debugfs file are wrapped in a #if too, and hence if we drop the
-> > #if around the function call stuff won't compile. Should we drop all
-> > the #if in the .c file and assume the compiler will remove all the
-> > dead code and dead functions?
-> 
-> Yes you should :)
-> 
-> there should not be any need for #if in a .c file for debugfs stuff.
-
-Wambui, can you pls try that out? I.e. removing all the #if for
-CONFIG_DEBUG_FS from that file.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMy8xOS8yMCAxMjoyNyBBTSwgQW5kcmV3IE1vcnRvbiB3cm90ZToKPiBPbiBNb24sIDE2IE1h
+ciAyMDIwIDEzOjMyOjA4ICswMTAwIFRob21hcyBIZWxsc3Ryw7ZtIChWTXdhcmUpIDx0aG9tYXNf
+b3NAc2hpcG1haWwub3JnPiB3cm90ZToKPgo+Pj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KPj4+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPj4+IGRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCj4+IEFuZHJldywgd291bGQgaXQgYmUgcG9z
+c2libGUgdG8gaGF2ZSBhbiBhY2sgZm9yIG1lcmdlIHVzaW5nIGEgRFJNIHRyZWUKPj4gZm9yIHRo
+ZSAtbW0gcGF0Y2hlcz8KPiBZZXMsIHBsZWFzZSBkby4gIEl0J3MgYWxsIHByZXR0eSBzdHJhaWdo
+dGZvcndhcmQgYWRkaXRpb24gb2YgbmV3Cj4gZnVuY3Rpb25hbGl0eSB3aGljaCB3b24ndCBhZmZl
+Y3QgZXhpc3RpbmcgY29kZS4KClRoYW5rcyBBbmRyZXcuIENhbiBJIGFkZCB5b3VyIEFja2VkLWJ5
+OiBUbyB0aGUgbW0gcGF0Y2hlcyBmb3IgTGludXMnIApyZWZlcmVuY2U/CgpUaGFua3MsCgpUaG9t
+YXMKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
