@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3451A18C882
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:02:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875FF18C86E
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:01:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D8BA6EADB;
-	Fri, 20 Mar 2020 08:01:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 743396EAC5;
+	Fri, 20 Mar 2020 08:01:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70FA06E065
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 18:52:32 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id a23so1449161plm.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 11:52:32 -0700 (PDT)
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89B896E063
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 19:08:54 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id b1so1755416pgm.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 12:08:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=KuKb5RMueZTT1lnJz9pwaA1gX0ugph89zpHI1w0owPA=;
- b=h+9QsDlRBnmpOE12ah1YgRXv/UsVmfsvWPnwFf8VyJE8Sm3c40v6+WFtZVx7QjeZ2x
- Mdiq65WGKB68WAAtEaaOxzNTCCEXmAYpWTvHr7PkaoRi5RAHzUssyvo6uqw2QGG659a/
- 9FkQKiqXJU/Dr9j/00fyVg0gJoEja4tokK9UUPaSXDmfz8egjDXwJrhrb64YIBwtu1ZA
- fXV5QbzlcZwU+0pUHeYd7mqsxSgz4M18j45soWclZRxFp7f6KVt4v7OZP4llKdbS2p8S
- pxXGVo4Reyx50ILAG/lVSB3icq4JlohprSGNbYE4WPDxf/76GbFhVLokF/NLAu6tcyNu
- 4lOw==
+ bh=zlKmJ2002BFVX2ZXxYBAvMXUqHfOUCBNDSCbpquzDD4=;
+ b=snEHPqIWVHGADR5tx1NSp9UdpaVA8/qSH0Y5/qNyPUv+rOJjSnBcUlIRiOvg5qGYfL
+ Q0tqqT+WC6ncGdFoDlIF7JUnLpTq+8HNiQrPwREwNfEW6ccu1EfFnJGPPdC4QyPRIIkp
+ 5RU3tBCF0kyWrOjXuVq9gYlrQdYaJJZ4/ZC7Z9KyzK+xElRq3r8I5gDp8n+sQZ+0W38g
+ 9DxL/vlgYcKiUR6T9xbGsce4Mt/ky+5U1OQKf6naER91G1OxbNLCCOJZYSISWKf15TgW
+ FvD6EyKTUeYndw15/zS7RolG/uv7r0CmrelG4NlIXeVSxIqx02wVEeSlC9EqCUFmWboR
+ k5ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=KuKb5RMueZTT1lnJz9pwaA1gX0ugph89zpHI1w0owPA=;
- b=PYdczkZXLWOpZlARHBiB7yYTJUl14nM4SW8FTMgVDH8oabDMcRYmlNGyIgJiHQIdyL
- 9CNdd1MESG5+/tKRUSWzgd6R7MutQWt0qvn5we3A27LgXu7wqo0qPa5cbw1iS1pMtgan
- GqsYyGBUna7lrfypVTJPOF94v/RbH4Va8KyFrCgukJK20PJR5izozT1yRvMKoK15mWdc
- gYWVxHfGUL6csjZtxGpd+cyOHnAydfkzbTBNDN7TxqsSwIEtwIsgD7s2OSs4eg1C91HJ
- yvc4woR1AYDQ+9Zzjz0Zm/U1iTm69SKGpUJZBSQ8AmyghZuwQP4NFS4yuEesiPzX9hrk
- 3RXw==
-X-Gm-Message-State: ANhLgQ0ylMmyBzmca6Q7p/lPa3CQ6TWbwapxUjJcpbW1RzXQ1OOCea8I
- uMfkhqGQkBqxXwiqoLBg7BeBNw==
-X-Google-Smtp-Source: ADFU+vvOYGZYLL7ZJs0yQ4lQF5IeEPD2Trmkq1fGXPTW0tnZYKDhDzFBQUa3nppDlC5JAJbmCw77dA==
-X-Received: by 2002:a17:902:ac85:: with SMTP id
- h5mr4715097plr.76.1584643951875; 
- Thu, 19 Mar 2020 11:52:31 -0700 (PDT)
-Received: from ripper (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
+ bh=zlKmJ2002BFVX2ZXxYBAvMXUqHfOUCBNDSCbpquzDD4=;
+ b=C3b9HajMMxeGmBQ9/3lbmfY5cuBs5rDZ/yrq5XvCZsrW6uTInNOV4GWFft8L9g39Oq
+ ie1jqV5D8rAVcj631IcmUUqyWV4WkT1gRUOGg6OSWc7tremCNyv74B6yNEN9ApKKoZ/L
+ 3+d4X/8dp1+DBmSaqK4shaSAKy+u7vLLbzjYVMdJ9P+k2L3O90L3H2oin/QexkVnrowB
+ 4fcYzu01EKL7Aw9UzTri6Vd5cO6KpHus17kqNbno9wlfTbLg2CWCZfeNLJjBf/uCLd4B
+ CoWL/KVhwHT0a7jLjPmw8gtbKg+u6zcA068oIG/hyth+eBPZgq7fjdA++Zn463UtZ7Fj
+ 0GAg==
+X-Gm-Message-State: ANhLgQ3Vjyj5e1rwxO8pqRbXIWjTdceKvgjnImeWcKhtjZCdWzn6GpT+
+ OQ1BTTSWFvsggYJnW6f6GI5Mig==
+X-Google-Smtp-Source: ADFU+vvbguubW7E6FOD/bR6UAFbsfiXhbysyZNZA0X02MHIz8KIBZKkLDrSYMWTpjPPb3cT9rshHyA==
+X-Received: by 2002:a62:b604:: with SMTP id j4mr5635879pff.93.1584644933964;
+ Thu, 19 Mar 2020 12:08:53 -0700 (PDT)
+Received: from yoga (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
  [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id o66sm3272257pfb.93.2020.03.19.11.52.30
+ by smtp.gmail.com with ESMTPSA id f8sm3151821pfn.2.2020.03.19.12.08.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Mar 2020 11:52:31 -0700 (PDT)
-Date: Thu, 19 Mar 2020 11:52:51 -0700
+ Thu, 19 Mar 2020 12:08:53 -0700 (PDT)
+Date: Thu, 19 Mar 2020 12:08:51 -0700
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Ilia Mirkin <imirkin@alum.mit.edu>
-Subject: Re: [PATCH] drm/msm: avoid double-attaching hdmi/edp bridges
-Message-ID: <20200319185251.GA1038@ripper>
-References: <20200312035154.1621-1-imirkin@alum.mit.edu>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH] drm/msm: Don't attempt to attach HDMI bridge twice
+Message-ID: <20200319190851.GB458947@yoga>
+References: <20200319043741.3338842-1-bjorn.andersson@linaro.org>
+ <CAF6AEGtvSZOp48hyrBUzqQLV6+twtuy6k6MLimz6fhC-dqWEVA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200312035154.1621-1-imirkin@alum.mit.edu>
+In-Reply-To: <CAF6AEGtvSZOp48hyrBUzqQLV6+twtuy6k6MLimz6fhC-dqWEVA@mail.gmail.com>
 X-Mailman-Approved-At: Fri, 20 Mar 2020 08:01:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,74 +69,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed 11 Mar 20:51 PDT 2020, Ilia Mirkin wrote:
+On Thu 19 Mar 11:19 PDT 2020, Rob Clark wrote:
 
-> Each of hdmi and edp are already attached in msm_*_bridge_init. A second
-> attachment returns -EBUSY, failing the driver load.
+> On Wed, Mar 18, 2020 at 9:39 PM Bjorn Andersson
+> <bjorn.andersson@linaro.org> wrote:
+> >
+> > With the introduction of '3ef2f119bd3e ("drm/msm: Use
+> > drm_attach_bridge() to attach a bridge to an encoder")' the HDMI bridge
+> > is attached both in msm_hdmi_bridge_init() and later in
+> > msm_hdmi_modeset_init().
+> >
+> > The second attempt fails as the bridge is already attached to the
+> > encoder and the whole process is aborted.
+> >
+> > So instead make msm_hdmi_bridge_init() just initialize the hdmi_bridge
+> > object and let msm_hdmi_modeset_init() attach it later.
+> >
+> > Fixes: 3ef2f119bd3e ("drm/msm: Use drm_attach_bridge() to attach a bridge to an encoder")
+> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > 
-> Tested with HDMI on IFC6410 (APQ8064 / MDP4), but eDP case should be
-> analogous.
+> Thanks, I think this should also be solved by:
 > 
-> Fixes: 3ef2f119bd3ed (drm/msm: Use drm_attach_bridge() to attach a bridge to an encoder)
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Ilia Mirkin <imirkin@alum.mit.edu>
+> https://patchwork.freedesktop.org/patch/357331/?series=74611&rev=1
 
-Had to manually apply this, as the drm_bridge_attach() prototype changed
-since this patch was written - but this was trivial. This is needed on
-db820c as well.
+Yes, didn't find that when looking yesterday. T-b and R-b.
 
-Tested-by: Bjorn Andersson <bjorn.andersson@linaro.org> (hdmi part)
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-
-Regards,
+Thanks,
 Bjorn
 
-> ---
->  drivers/gpu/drm/msm/edp/edp.c   | 4 ----
->  drivers/gpu/drm/msm/hdmi/hdmi.c | 4 ----
->  2 files changed, 8 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/edp/edp.c b/drivers/gpu/drm/msm/edp/edp.c
-> index ad4e963ccd9b..106a67473af5 100644
-> --- a/drivers/gpu/drm/msm/edp/edp.c
-> +++ b/drivers/gpu/drm/msm/edp/edp.c
-> @@ -178,10 +178,6 @@ int msm_edp_modeset_init(struct msm_edp *edp, struct drm_device *dev,
->  		goto fail;
->  	}
->  
-> -	ret = drm_bridge_attach(encoder, edp->bridge, NULL);
-> -	if (ret)
-> -		goto fail;
-> -
->  	priv->bridges[priv->num_bridges++]       = edp->bridge;
->  	priv->connectors[priv->num_connectors++] = edp->connector;
->  
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> index 1a9b6289637d..737453b6e596 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> @@ -327,10 +327,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
->  		goto fail;
->  	}
->  
-> -	ret = drm_bridge_attach(encoder, hdmi->bridge, NULL);
-> -	if (ret)
-> -		goto fail;
-> -
->  	priv->bridges[priv->num_bridges++]       = hdmi->bridge;
->  	priv->connectors[priv->num_connectors++] = hdmi->connector;
->  
-> -- 
-> 2.24.1
+> BR,
+> -R
 > 
+> > ---
+> >  drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 19 +++----------------
+> >  1 file changed, 3 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> > index 6e380db9287b..0e103ee1b730 100644
+> > --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> > +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> > @@ -271,31 +271,18 @@ static const struct drm_bridge_funcs msm_hdmi_bridge_funcs = {
+> >  /* initialize bridge */
+> >  struct drm_bridge *msm_hdmi_bridge_init(struct hdmi *hdmi)
+> >  {
+> > -       struct drm_bridge *bridge = NULL;
+> >         struct hdmi_bridge *hdmi_bridge;
+> > -       int ret;
+> > +       struct drm_bridge *bridge;
+> >
+> >         hdmi_bridge = devm_kzalloc(hdmi->dev->dev,
+> >                         sizeof(*hdmi_bridge), GFP_KERNEL);
+> > -       if (!hdmi_bridge) {
+> > -               ret = -ENOMEM;
+> > -               goto fail;
+> > -       }
+> > +       if (!hdmi_bridge)
+> > +               return ERR_PTR(-ENOMEM);
+> >
+> >         hdmi_bridge->hdmi = hdmi;
+> >
+> >         bridge = &hdmi_bridge->base;
+> >         bridge->funcs = &msm_hdmi_bridge_funcs;
+> >
+> > -       ret = drm_bridge_attach(hdmi->encoder, bridge, NULL, 0);
+> > -       if (ret)
+> > -               goto fail;
+> > -
+> >         return bridge;
+> > -
+> > -fail:
+> > -       if (bridge)
+> > -               msm_hdmi_bridge_destroy(bridge);
+> > -
+> > -       return ERR_PTR(ret);
+> >  }
+> > --
+> > 2.24.0
+> >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
