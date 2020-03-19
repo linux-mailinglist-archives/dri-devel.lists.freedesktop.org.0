@@ -1,53 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D21118B1EC
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 12:02:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CDAB18B266
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 12:35:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 529546E270;
-	Thu, 19 Mar 2020 11:02:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81AE46EA00;
+	Thu, 19 Mar 2020 11:35:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-74.mimecast.com
- (us-smtp-delivery-74.mimecast.com [216.205.24.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D116B6E270
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 11:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584615757;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wv0CIJUyl8keYTWgcuAGZ94Xhx3biDTfmG+KzaIIjzY=;
- b=Z35VKlFhVBqxLyCfBzP7jz54Ryns9E4tDd2xm+Tu4koDAKWDTsSuSz8rlTEgJA2E2e9K7m
- Zc/dcw+/McxxrNe1RcuA3APHFGVQ5vds8xvFWo82nsVh3pK7UgKrwYoxLagThzVZ9Al/Hg
- I6wN20bTo0rsxtjOVP2IHS8/RqDTFlo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-1-_FJnZKOjStqy_fyQIQYQ-1; Thu, 19 Mar 2020 07:02:33 -0400
-X-MC-Unique: 1-_FJnZKOjStqy_fyQIQYQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A93E18C8C02;
- Thu, 19 Mar 2020 11:02:32 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-49.ams2.redhat.com
- [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 239CB5C1D8;
- Thu, 19 Mar 2020 11:02:31 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4973E3BD; Thu, 19 Mar 2020 12:02:30 +0100 (CET)
-Date: Thu, 19 Mar 2020 12:02:30 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Jiri Slaby <jslaby@suse.cz>
-Subject: Re: [PATCH] drm/virtio: fix OOB in virtio_gpu_object_create
-Message-ID: <20200319110230.rxezuk3ex5fbov3f@sirius.home.kraxel.org>
-References: <20200319100421.16267-1-jslaby@suse.cz>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7CC1D6EA00
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 11:35:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 36ABA2A6042;
+ Thu, 19 Mar 2020 12:35:02 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id qaHsfSbqLThe; Thu, 19 Mar 2020 12:35:02 +0100 (CET)
+Received: from thor (252.80.76.83.dynamic.wline.res.cust.swisscom.ch
+ [83.76.80.252])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id E0B1D2A6016;
+ Thu, 19 Mar 2020 12:35:01 +0100 (CET)
+Received: from localhost ([::1]) by thor with esmtp (Exim 4.93)
+ (envelope-from <michel@daenzer.net>)
+ id 1jEtS1-0014Mi-2c; Thu, 19 Mar 2020 12:35:01 +0100
+Subject: Re: Atomic KMS API lacks the ability to set cursor hot-spot
+ coordinates
+To: Simon Ser <contact@emersion.fr>, Hans de Goede <hdegoede@redhat.com>
+References: <9d86bbe4-70cf-273d-4d61-aec06011d441@redhat.com>
+ <ADrBkiVj05c2ZYEz46BNJrrChY-PCxme8HOeHHGOLjIR5XpBZoyIY5aUnSfXCm0wrYr0-Iuh80vnZqmRQ_jZaslv2Q2P7N6q5yCG0AeWovU=@emersion.fr>
+ <5c9f7c0e-e225-dfbf-f5bf-cb1c1cc4ac08@redhat.com>
+ <iUavRfIpwgaFwGrZtIM7seVfRwrvb2QVXC0KLN5wXLT7t_kX04NYFj2T5r0awLNPbIx2rO3UUO0BYH_HX1jMtJTQzBjInkghkF7WxkzxrII=@emersion.fr>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Message-ID: <e0c0cb57-8a37-f70e-045f-3243411cbf03@daenzer.net>
+Date: Thu, 19 Mar 2020 12:35:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200319100421.16267-1-jslaby@suse.cz>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <iUavRfIpwgaFwGrZtIM7seVfRwrvb2QVXC0KLN5wXLT7t_kX04NYFj2T5r0awLNPbIx2rO3UUO0BYH_HX1jMtJTQzBjInkghkF7WxkzxrII=@emersion.fr>
+Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,33 +53,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?Q?Jonas_=c3=85dahl?= <jadahl@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 19, 2020 at 11:04:21AM +0100, Jiri Slaby wrote:
-> After commit f651c8b05542, virtio_gpu_create_object allocates too small
-> space to fit everything in. It is because it allocates struct
-> virtio_gpu_object, but should allocate a newly added struct
-> virtio_gpu_object_shmem which has 2 more members.
-> 
-> So fix that by using correct type in virtio_gpu_create_object.
-> 
-> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
-> Fixes: f651c8b05542 ("drm/virtio: factor out the sg_table from virtio_gpu_object")
-> Cc: Gurchetan Singh <gurchetansingh@chromium.org>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-
-That was fast.  Yes, exactly this.  Pushed to drm-misc-next.
-
-thanks,
-  Gerd
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0wMy0xOCA0OjIyIHAubS4sIFNpbW9uIFNlciB3cm90ZToKPj4KPj4gT24gMy8xOC8y
+MCAzOjM4IFBNLCBTaW1vbiBTZXIgd3JvdGU6Cj4+Pgo+Pj4+IDEpIExldHRpbmcgdGhlIFZNLXZp
+ZXdlciB3aW5kb3ctc3lzdGVtIGRyYXcgdGhlIGN1cnNvciBhcyBpdCBub3JtYWxseQo+Pj4+IHdv
+dWxkIGRyYXcgaXQuCj4+Pgo+Pj4gV2h5IGlzIHRoaXMgaW1wb3J0YW50PyBDYW4ndCB0aGUgVk0g
+dmlld2VyIGhpZGUgdGhlIGN1cnNvciBhbmQgdXNlIGEKPj4+IHN1Yi1zdXJmYWNlIHRvIG1hbnVh
+bGx5IGRyYXcgdGhlIGN1cnNvciBwbGFuZSBjb25maWd1cmVkIGJ5IHRoZSBndWVzdD8KPj4KPj4g
+QmVjYXVzZSB0aGVuIG1vdmluZyB0aGUgY3Vyc29yIGFzIHNlZW4gYnkgdGhlIHVzZXIgcmVxdWly
+ZXMgYSByb3VuZCB0cmlwCj4+IHRocm91Z2ggdGhlIFZNIGFuZCB0aGF0IGFkZHMgbGF0ZW5jeSwg
+ZXNwLiB3aGVuIHRoZSBWTSB2aWV3ZXIgaXMgdmlld2luZwo+PiBhIFZNIHdoaWNoIGlzIHJ1bm5p
+bmcgc29tZXdoZXJlIGVsc2Ugb3ZlciB0aGUgbmV0d29yay4KPiAKPiBUaGUgdmlkZW8gb3V0cHV0
+IGhhcyBsYXRlbmN5IGFueXdheS4KClNvdW5kcyBsaWtlIHlvdSd2ZSBuZXZlciB0cmllZCB0aGUg
+dHdvIGRpZmZlcmVudCBtb2RlcyB5b3Vyc2VsZj8gOikgSU1FCml0IG1ha2VzIGEgYmlnIGRpZmZl
+cmVuY2UgZXZlbiB3aXRoIGEgbG9jYWwgVk0uIEV2ZW4gdmVyeSBsaXR0bGUgbGF0ZW5jeQpjYW4g
+bWFrZSB0aGUgY3Vyc29yIGZlZWwgYXdrd2FyZCwgbGlrZSBpdCdzIGJlaW5nIGhlbGQgYmFjayBi
+eSBhIHJ1YmJlcgpiYW5kIG9yIHNvbWV0aGluZy4KCgotLSAKRWFydGhsaW5nIE1pY2hlbCBEw6Ru
+emVyICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgIGh0dHBzOi8vcmVkaGF0LmNvbQpMaWJy
+ZSBzb2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAgICAgICAgTWVzYSBhbmQg
+WCBkZXZlbG9wZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Cg==
