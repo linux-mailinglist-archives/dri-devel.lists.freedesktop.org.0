@@ -1,62 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FB8518C150
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 21:25:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D2618C190
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 21:41:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4191C6EA75;
-	Thu, 19 Mar 2020 20:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 085766EA77;
+	Thu, 19 Mar 2020 20:41:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3337D6EA74
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 20:25:10 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id o10so4027630ljc.8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 13:25:10 -0700 (PDT)
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
+ [IPv6:2607:f8b0:4864:20::82e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0EB16EA6F;
+ Thu, 19 Mar 2020 20:41:03 +0000 (UTC)
+Received: by mail-qt1-x82e.google.com with SMTP id y24so3094091qtv.11;
+ Thu, 19 Mar 2020 13:41:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=G66dWEfIht98auXMyzuqyEBS45yksLnYa42PvLRm7ts=;
- b=rzIxNrRvhG30EzUvpKLaiXO+bZz93mHtAQJVu1a7JH3uilUHpDj3ur56WT/8BSu3dC
- bEl0hIEYyKsxw6hi6nkJgUKrkvFQ0rxzeVWOrq9FzqB9sCND8chxZxQ4z+UZM9B0B9Ht
- nyMCDyX3pxEQMZQonDKcxVFVHUKGgxa0XAp6p23YwXzNpGhw24RMGE8Ok5b/NmS9eI9b
- EoUXM01Y8yOfXsc+Dq1T0ar/6m6teaeUpV3gMlB0H6fHp+b8pyPvh1xOKACfz9+bDwFI
- YW3UUxuoxWpthVnpg+paPxU3po3t+v+sgP/XkSvIGd29hKkCvdDt6zZVo/JanWukNHkj
- ccew==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8h9ME0liOqupNW0BxjFN6NYGSy0UHE34VThizl03uCM=;
+ b=Zi4KiXGPqxh4kCfmNjblNOHr1Qr23MkzI50iNjx0adh6y1QsPG/cVB4Ui6mY1a7g6e
+ cyUcmQWaNrMXi8LcSF1xz8HVzFHiFVuOVZzD/Pmd5yc6x8gGUI2z2PVVRNwGXp6F6uH7
+ GKPU/r62yRu4WvdUJCt6/AcHKMtNo8ebb6wa0VJ8wCOF5y4kxvlACUAjss2gwcpGsiZs
+ 0YWBXRRa3Z67/OQSMQEFoqEib9SzE5qmYuwGi5CpeUdvODwKnkC3KUNqrQQ0iAJ8oxFm
+ K6wLH2RXaNulHBC9F0pxv5YKfEbthpI39u8AEEXJVQqkoh4YuybFEvtRv9rFWvqS3ucW
+ tbtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=G66dWEfIht98auXMyzuqyEBS45yksLnYa42PvLRm7ts=;
- b=t3WfGVdQpSVVCFNqw9kw70/jktf+EfYonKQx+OVXNXTqP46U14k6AtsKt1NF5re1ek
- MI23eSf/K8KWLhwXqLb1R4vH8BxCQBnkDAP9S1SJ7S9dgdx1wNJuKjwKrePnilfn2j6f
- lW382+Z39RPB1woOpWN2m1qNuJQQeepEKq06/wBFKWLg+RvX8D23xG5/pa2lcHa8PCGr
- CqJrwL0BfFe+JMi813nFs00olgpN6cbaKv3VNTZ4iaLr0AkVlH3TiHFFW91yTfxY87QI
- tky5NaOfrmr3WDpGTsWxGx8fBP7Yv0r37d6Bxjlk5jd+gSFWJUj4TCwa84FxGVICtznM
- RlRA==
-X-Gm-Message-State: ANhLgQ0F/zKhPuLlFAe/OUzDMVgJN2pA5J3SoebMux5eUZ/igZMN3tUf
- uMKR1qCYmLAdiUNaOaO5m1AHG10S04Q=
-X-Google-Smtp-Source: ADFU+vtWtO7NPj5rf7meV3KtiqCY4Bx2jvhQkeJYjPQKan1a+/AW1cl7isCXFn1cnBEoFVTlC0KCuw==
-X-Received: by 2002:a05:651c:204:: with SMTP id
- y4mr3089259ljn.280.1584649508166; 
- Thu, 19 Mar 2020 13:25:08 -0700 (PDT)
-Received: from sroland-t5810.vmware.com (46-126-183-173.dynamic.hispeed.ch.
- [46.126.183.173])
- by smtp.gmail.com with ESMTPSA id v3sm2074372lfp.8.2020.03.19.13.25.07
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8h9ME0liOqupNW0BxjFN6NYGSy0UHE34VThizl03uCM=;
+ b=qjzbjmId3YQSTqocv8py+xQ/+U2PpEzRCWCfxJ7Dz8Xs8lREBqLfmdlWaUZvK2zHdb
+ CE1DII6btR7HxyfY8JWjDnMreze0+Rc5oBgDiM3OTaL3nxWNRIcnBU3HtgXSsBxLZCbd
+ Oti0lBiTDiFm/ECzdSf2XA4rpqnJH6KCgmpT7oQI90FX/aAhT0YzNn2yHAazL/xXytf+
+ 3hTDU/wZJxSvploHLKAEMoe0eoX3dOzhXF0Uhr43SDEWjnn2Z5eXf8U+Woa9zM2epqVV
+ 6gn6enRxweQCNgeY1EvCjW9kWjIrC17XwULZK1CMFtQDPjIj6p8oznQEOCC3zs9NpieD
+ AyDA==
+X-Gm-Message-State: ANhLgQ2WbhZ0rUiVfYCywf/PFfeuUSFbK08zMKURAYLKRbIcKUf2fOfu
+ l8P6q6GLgBiYBLf38PORCNE0C+sO
+X-Google-Smtp-Source: ADFU+vs8Z2fS3rC+e25lVZGhB0X3FTw4q+8FEOOKGy2AfwT20v9hZEpmCH1sQVk542mN1UzTPVG0wA==
+X-Received: by 2002:ac8:46d5:: with SMTP id h21mr4889929qto.59.1584650462616; 
+ Thu, 19 Mar 2020 13:41:02 -0700 (PDT)
+Received: from localhost.localdomain ([71.219.40.23])
+ by smtp.gmail.com with ESMTPSA id n46sm2608244qtb.48.2020.03.19.13.41.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Mar 2020 13:25:07 -0700 (PDT)
-From: rscheidegger.oss@gmail.com
-X-Google-Original-From: sroland@vmware.com
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 17/17] drm/vmwgfx: Use vmwgfx version 2.18 to signal SM5
- compatibility
-Date: Thu, 19 Mar 2020 21:24:14 +0100
-Message-Id: <20200319202414.9296-18-sroland@vmware.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200319202414.9296-1-sroland@vmware.com>
-References: <20200319202414.9296-1-sroland@vmware.com>
+ Thu, 19 Mar 2020 13:41:02 -0700 (PDT)
+From: Alex Deucher <alexdeucher@gmail.com>
+X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel.vetter@ffwll.ch
+Subject: [pull] amdgpu 5.6 fixes
+Date: Thu, 19 Mar 2020 16:40:54 -0400
+Message-Id: <20200319204054.1036478-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,29 +66,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-graphics-maintainer@vmware.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVGhvbWFzIEhlbGxzdHJvbSA8dGhlbGxzdHJvbUB2bXdhcmUuY29tPgoKU2lnbmVkLW9m
-Zi1ieTogVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2FyZSkgPHRob21hc19vc0BzaGlwbWFpbC5vcmc+
-ClJldmlld2VkLWJ5OiBDaGFybWFpbmUgTGVlIDxjaGFybWFpbmVsQHZtd2FyZS5jb20+ClJldmll
-d2VkLWJ5OiBCcmlhbiBQYXVsIDxicmlhbnBAdm13YXJlLmNvbT4KU2lnbmVkLW9mZi1ieTogUm9s
-YW5kIFNjaGVpZGVnZ2VyIChWTXdhcmUpIDxyc2NoZWlkZWdnZXIub3NzQGdtYWlsLmNvbT4KX19f
-CnYyOiBVc2UgMi4xOCBpbnN0ZWFkIG9mIDIuMTcKLS0tCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4
-L3Ztd2dmeF9kcnYuaCB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
-ZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Ry
-di5oIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmgKaW5kZXggYWE0MTMxZjVm
-OGZjLi5lMGEzNjcwMjg3N2YgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13
-Z2Z4X2Rydi5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Rydi5oCkBAIC01
-OCw3ICs1OCw3IEBACiAjZGVmaW5lIFZNV0dGWF9EUklWRVJfTkFNRSAidm13Z2Z4IgogI2RlZmlu
-ZSBWTVdHRlhfRFJJVkVSX0RBVEUgIjIwMjAwMTE0IgogI2RlZmluZSBWTVdHRlhfRFJJVkVSX01B
-Sk9SIDIKLSNkZWZpbmUgVk1XR0ZYX0RSSVZFUl9NSU5PUiAxNworI2RlZmluZSBWTVdHRlhfRFJJ
-VkVSX01JTk9SIDE4CiAjZGVmaW5lIFZNV0dGWF9EUklWRVJfUEFUQ0hMRVZFTCAwCiAjZGVmaW5l
-IFZNV0dGWF9GSUZPX1NUQVRJQ19TSVpFICgxMDI0KjEwMjQpCiAjZGVmaW5lIFZNV0dGWF9NQVhf
-UkVMT0NBVElPTlMgMjA0OAotLSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+Hi Dave, Daniel,
+
+This just adds Mario's pageflip fix on top of yesterday's 5.6 pull.
+
+The following changes since commit a3c33e7a4a116f8715c0ef0e668e6aeff009c762:
+
+  drm/amdgpu: fix typo for vcn2.5/jpeg2.5 idle check (2020-03-18 18:21:57 -0400)
+
+are available in the Git repository at:
+
+  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.6-2020-03-19
+
+for you to fetch changes up to eb916a5a93a64c182b0a8f43886aa6bb4c3e52b0:
+
+  drm/amd/display: Fix pageflip event race condition for DCN. (2020-03-19 16:18:45 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.6-2020-03-19:
+
+amdgpu:
+- Pageflip fix
+
+----------------------------------------------------------------
+Mario Kleiner (1):
+      drm/amd/display: Fix pageflip event race condition for DCN.
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
