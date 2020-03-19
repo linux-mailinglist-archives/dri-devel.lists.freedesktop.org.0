@@ -1,55 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F51918B91F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 15:14:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0866118B93B
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Mar 2020 15:20:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C79D76EA0C;
-	Thu, 19 Mar 2020 14:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF6BA6EA17;
+	Thu, 19 Mar 2020 14:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C85786EA0C
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 14:14:39 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id a28so1730391lfr.13
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 07:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OxjXVpGbkMkJ0WExSWqPpSaBQvMwnWJnTr1Wx+V8SG8=;
- b=AZOPCFBQYSqsz/AEYGuuPOzJTdJ/ZTsTX/5uwunSTWHVK4GeC09eczWB8hdsOqDQsH
- NE8V3RKBTTt/IsOKfyue6IUukFCUmj3uB93xzQ16sNd3pX1n2wcUou3DKPqS5PevTns+
- 5LNt1lCgFE2eWtnlkTxMBQdN+pvFJKsgupqIqdXFoBTY7yLdtCl4MwY5foZ598hflKd0
- QT2gQX4or7spIgIPXs8+H8T97cA1BW9Up0Z2Vcurti7BHsL+aF7uRlooa5KRFECreWJz
- bd8L7aFaU+J0uvbvpWCM1DHhdsSBSToFgHhOJr52xfwt7vvwoFoygtLsq273UwCfnbVy
- J3Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OxjXVpGbkMkJ0WExSWqPpSaBQvMwnWJnTr1Wx+V8SG8=;
- b=kexR36FzOga8gH+4/wkNhHMLMdhtfpGgT/H6cYgctFFDpZM4xy6EX6akoU4NesKol0
- DEb6ZXsC8E8LTPGN7vVDk6q14eSglx5oVSLw1uKfQNy+C1n5/1GsbqHWy5ygrk5/VDaB
- +rvFpiN/mYwwWbLvFbOudQFj/R4R3F3R13b4buJWu4RZ9Q8jYbkvQS7mVmnuXQCihZGz
- Ifeku6A0yRI/NWR+fZCRbc4yC/hzgvNW2ZuCcKJC58MJh2aWp/cEL7gSbbUUJQAyi7UD
- +WzMzFhfzYA6cDewFZGXIDEKAUYjT+pWqZxd+WgXdtLOuDgwnXmy0wfylXUnfqfLV9hh
- 3Tgg==
-X-Gm-Message-State: ANhLgQ1twAeC4SFFA2J51EkwCjrEgpkeOFWsAmNkrJKa87D0CVYv8EjL
- eWhigbpPgFQv9Q91ljmY2Bqua3pcokQPvRv3fVOhoQ==
-X-Google-Smtp-Source: ADFU+vt1yS1vI9ljM0gwVaf68ZRjuY1p2nfT2WzK32ag3cYSnzmKGhQi4YvVl/W8DZtvTQtWWxSu7seu9AnqnrT9Fjo=
-X-Received: by 2002:a19:2353:: with SMTP id j80mr2188497lfj.4.1584627278167;
- Thu, 19 Mar 2020 07:14:38 -0700 (PDT)
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A58128914D;
+ Thu, 19 Mar 2020 14:20:01 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id E0EAA8052B;
+ Thu, 19 Mar 2020 15:19:55 +0100 (CET)
+Date: Thu, 19 Mar 2020 15:19:54 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1 0/3] drm: drm_encoder_init() => drm_encoder_init_funcs()
+Message-ID: <20200319141954.GA25036@ravnborg.org>
+References: <20200313201744.19773-1-sam@ravnborg.org>
 MIME-Version: 1.0
-References: <20200316133503.144650-1-icenowy@aosc.io>
- <20200316133503.144650-3-icenowy@aosc.io>
-In-Reply-To: <20200316133503.144650-3-icenowy@aosc.io>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 19 Mar 2020 15:14:27 +0100
-Message-ID: <CACRpkdaVrfd1p+WyACy-gq-3BPsXJ_CZwi2OZe+=csseBcvcaA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] dt-bindings: panel: add binding for Xingbangda
- XBD599 panel
-To: Icenowy Zheng <icenowy@aosc.io>
+Content-Disposition: inline
+In-Reply-To: <20200313201744.19773-1-sam@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=MgBhUfZuEF2DRmvJ2N4A:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,56 +46,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-sunxi <linux-sunxi@googlegroups.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-samsung-soc@vger.kernel.org, Boris Brezillon <bbrezillon@kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Jose Roberto de Souza <jose.souza@intel.com>,
+ virtualization@lists.linux-foundation.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ linux-mediatek@lists.infradead.org, Gerd Hoffmann <kraxel@redhat.com>,
+ linux-amlogic@lists.infradead.org, linux-tegra@vger.kernel.org,
+ Dave Airlie <airlied@redhat.com>, amd-gfx@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Icenowy,
+On Fri, Mar 13, 2020 at 09:17:41PM +0100, Sam Ravnborg wrote:
+> Thomas Zimmermann had made a nice patch-set that introduced
+> drm_simple_encoder_init() which is already present in drm-misc-next.
+> 
+> While looking at this it was suddenly obvious to me that
+> this was functionalty that really should be included in drm_encoder.c
+> The case where the core could handle the callback is pretty
+> common and not part of the simple pipe line.
+> 
+> So after some dialog on dri-devel the conclusion was to go for
+> a change like this:
+> 
+>     drm_encoder_init_funcs() for all users that specified a
+>     drm_encoder_funcs to extend the functionality.
+> 
+>     drm_encoder_init() for all users that did not
+>     need to extend the basic functionality with
+>     drm_encoder_funcs.
+> 
+> A similar approach with a _funcs() prefix is used elsewhere in drm/
+> 
+> This required a rename of the existing users, and
+> a follow-up patch that moves drm_simple_encoder_init()
+> to drm_encoder.c
+> 
+> Patches 3 in this set demonstrate the use of drm_encoder_init().
+> There are many more drivers that can be converted as Thomas
+> has already demonstrated.
+> 
+> This is all based on work done by Thomas Zimmermann,
+> I just wanted to implement my suggestion so
+> we could select the best way forward.
+> 
+> Note: Daniel Vetter has hinted the approach implemented
+> here smelled like middle-layer.
+> IMO this is not so, it is just a way to handle cleanup
+> for the simple cases.
 
-On Mon, Mar 16, 2020 at 2:37 PM Icenowy Zheng <icenowy@aosc.io> wrote:
+We discussed this patch-set briefly on irc.
+With the upcoming drmm_ changes and such this is bad timing..
+And in the end this may be pointless code-chrunch.
 
-> Xingbangda XBD599 is a 5.99" 720x1440 MIPI-DSI LCD panel.
->
-> Add its device tree binding.
->
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-(...)
+Patch-set shelfed for now - may re-visit it later.
 
-> +properties:
-> +  compatible:
-> +    const: xingbangda,xbd599
-
-As noticed in the review of the driver, this display is very close to
-himax,hx8363.
-
-I think the best is to determin what actual display controller it is,
-I think it is some kind of Ilitek controller since Ilitek ili9342 is
-clearly very similar.
-
-The best would be something like name the bindings
-ilitek-ili9342.yaml and then:
-
-properties:
-  compatible:
-    items:
-      - const: xingbangda,xbd599
-      - const: ilitek,ili9342
-
-Possibly use oneOf and add support for the himax,hx8363
-already while you're at it.
-
-Yours,
-Linus Walleij
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
