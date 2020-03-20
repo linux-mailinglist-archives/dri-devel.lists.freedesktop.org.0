@@ -1,40 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB43518DB07
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 23:19:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD81118DB64
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 23:57:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 193556EB7C;
-	Fri, 20 Mar 2020 22:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFC6F6EB7E;
+	Fri, 20 Mar 2020 22:57:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 790496EB7A;
- Fri, 20 Mar 2020 22:19:33 +0000 (UTC)
-Received: from localhost (mobile-166-175-186-165.mycingular.net
- [166.175.186.165])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id F273720732;
- Fri, 20 Mar 2020 22:19:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1584742773;
- bh=csXHNoHEZCJcFFkQwtkt+kVeFZplv3+QRXaIVcYDwQ8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=J+xGqQlCtBvhli5sKpaYIumlmnmPLQMuzUvK+e8vtVT4koVbA0y3k2Xhs3XOvhyjP
- z7CnJCejD4kGynSVMX8iRp15ep+5F6fRLvEq9gEey/bLfvDb8DdYpL/lVRxR5bvib6
- dM4eV4c79FU+H+e1gIhkKh7KO+hXghOT8OIuNoJU=
-Date: Fri, 20 Mar 2020 17:19:31 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Karol Herbst <kherbst@redhat.com>
-Subject: Re: [PATCH v7] pci: prevent putting nvidia GPUs into lower device
- states on certain intel bridges
-Message-ID: <20200320221931.GA23783@google.com>
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 704C16EB7E
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 22:57:46 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id r24so8258684ljd.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 15:57:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SOtxNR4dSTBdq/mQefXxpQTRYp8nZ5kaMA/aHHX5a1U=;
+ b=kh7SC406ldeDjIRdj+PhCX9+fP6UsGGTe/+q0IJkzlStjcSnZvid0oABY6oB8Rm8Pn
+ opyajilTqVK5M5yCpcNTE2xB+5F8nkWONw6OJByyYlg66gq16/JJ1iTD4yKt4iRvjghU
+ 7YCeEXAn6nUu+hHgpDxiZMfotQd9awFgy/7rSAKSElHO8Uedl/2rSUvRfdX55r5SgZS/
+ 0PQtqWO03hI5e4pAc9U84G2137UppDMFvBj7S/QoWmDuFpgIUHLzUpuE19Hgz9Vbe/X1
+ WGsGTTY7Bs7LlfeJDajeR5Jcj1cA5nhzvO7LHkQezwhQQF8i2MPVwJ/Nq5rMBYuP/l2U
+ RLig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SOtxNR4dSTBdq/mQefXxpQTRYp8nZ5kaMA/aHHX5a1U=;
+ b=i/5nC/Q3HnDBLNFyqVsv9O/VlhaJmc/pd8nM1PV72tQB5NpmA0kl9hmNdY/KDeLNEM
+ 9TXk9N8gywekpYKUkFcLcdXqUG+QlDKACz+n5W77QTX5zcrNseR9TLW5V0PIvfDBG2LE
+ ka/3JkcFxYTSgLFKek3oTAPCfGFQWcgHIaVi45+sC4mFojoyq/kXXuo8VXcmMBEB6gMC
+ megPLoQBDkVPt0ShoXeP7f68j2/lNoXMbeG+RQdIpDD9q0MabQoP7O3SvEalAKwuBSme
+ x459t/eNi+MZWaqnnMVoWXSzMGjf6ECu5o2P8dZz3gUsW6z04uwJ3tvE/R8C/HNfty6N
+ HGTQ==
+X-Gm-Message-State: ANhLgQ2mmMZ3aHAgqht6Srittm7d9jvOSGI6VSrCQ7BhRF9Y7XpkhsIw
+ eCLDDtyRyQa8ZNs86GltLOg=
+X-Google-Smtp-Source: ADFU+vtKnI/vrlR2BnzOPAHhymh+HkA2rrzfr54rnwf6Px9LOch8XdFEmP5UUEnHpQzuiktbNYu8vQ==
+X-Received: by 2002:a2e:9ed5:: with SMTP id h21mr6955971ljk.78.1584745064668; 
+ Fri, 20 Mar 2020 15:57:44 -0700 (PDT)
+Received: from sroland-t5810.vmware.com (46-126-183-173.dynamic.hispeed.ch.
+ [46.126.183.173])
+ by smtp.gmail.com with ESMTPSA id s4sm5014754lfs.54.2020.03.20.15.57.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Mar 2020 15:57:44 -0700 (PDT)
+From: "Roland Scheidegger (VMware)" <rscheidegger.oss@gmail.com>
+To: airlied@redhat.com,
+	daniel@ffwll.ch,
+	dri-devel@lists.freedesktop.org
+Subject: [git pull] feature/staging_sm5
+Date: Fri, 20 Mar 2020 23:56:59 +0100
+Message-Id: <20200320225659.8431-1-rscheidegger.oss@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200310192627.437947-1-kherbst@redhat.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,87 +67,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
- Mika Westerberg <mika.westerberg@intel.com>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Mika Westerberg <mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-graphics-maintainer@vmware.com,
+ Roland Scheidegger <rscheidegger.oss@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 10, 2020 at 08:26:27PM +0100, Karol Herbst wrote:
-> Fixes the infamous 'runtime PM' bug many users are facing on Laptops with
-> Nvidia Pascal GPUs by skipping said PCI power state changes on the GPU.
-> 
-> Depending on the used kernel there might be messages like those in demsg:
-> 
-> "nouveau 0000:01:00.0: Refused to change power state, currently in D3"
-> "nouveau 0000:01:00.0: can't change power state from D3cold to D0 (config
-> space inaccessible)"
-> followed by backtraces of kernel crashes or timeouts within nouveau.
-> 
-> It's still unkown why this issue exists, but this is a reliable workaround
-> and solves a very annoying issue for user having to choose between a
-> crashing kernel or higher power consumption of their Laptops.
-
-Thanks for the bugzilla link.  The bugzilla mentions lots of mailing
-list discussion.  Can you include links to some of that?
-
-IIUC this basically just turns off PCI power management for the GPU.
-Can you do that with something like the following?  I don't know
-anything about DRM, so I don't know where you could save the pm_cap,
-but I'm sure the driver could keep it somewhere.
-
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index b65ae817eabf..2ad825e8891c 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -618,6 +618,23 @@ nouveau_drm_device_fini(struct drm_device *dev)
- 	kfree(drm);
- }
- 
-+static void quirk_broken_nv_runpm(struct drm_device *drm_dev)
-+{
-+	struct pci_dev *pdev = drm_dev->pdev;
-+	struct pci_dev *bridge = pci_upstream_bridge(pdev);
-+
-+	if (!bridge || bridge->vendor != PCI_VENDOR_ID_INTEL)
-+		return;
-+
-+	switch (bridge->device) {
-+	case 0x1901:
-+		STASH->pm_cap = pdev->pm_cap;
-+		pdev->pm_cap = 0;
-+		NV_INFO(drm_dev, "Disabling PCI power management to avoid bug\n");
-+		break;
-+	}
-+}
-+
- static int nouveau_drm_probe(struct pci_dev *pdev,
- 			     const struct pci_device_id *pent)
- {
-@@ -699,6 +716,7 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
- 	if (ret)
- 		goto fail_drm_dev_init;
- 
-+	quirk_broken_nv_runpm(drm_dev);
- 	return 0;
- 
- fail_drm_dev_init:
-@@ -735,6 +753,9 @@ nouveau_drm_remove(struct pci_dev *pdev)
- {
- 	struct drm_device *dev = pci_get_drvdata(pdev);
- 
-+	/* If we disabled PCI power management, restore it */
-+	if (STASH->pm_cap)
-+		pdev->pm_cap = STASH->pm_cap;
- 	nouveau_drm_device_remove(dev);
- 	pci_disable_device(pdev);
- }
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RGF2ZSwgRGFuaWVsLAoKdm13Z2Z4IHB1bGwgZm9yIGZvciA1LjcuIE5lZWRlZCBmb3IgR0w0IGZ1
+bmN0aW9uYWxpdHkuClN5bmMgdXAgZGV2aWNlIGhlYWRlcnMsIGFkZCBzdXBwb3J0IGZvciBuZXcg
+Y29tbWFuZHMsIGNvZGUKcmVmYWN0b3JpbmcgYXJvdW5kIHN1cmZhY2UgZGVmaW5pdGlvbi4KClBy
+ZWxpbWluYXJ5IG1lc2EgdXNlcnNwYWNlIGNvZGUgdXNpbmcgdGhlc2UgbmV3IHZtd2dmeCBmZWF0
+dXJlcwpjYW4gYmUgZm91bmQgYXQ6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9iaGVu
+ZGVuL21lc2EKClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgZGFkNTY5YWY3MThj
+NGU2MDNjMzVmNTllZDAzYmYwNTU1NjMzZGQ5NToKCiAgZHJtL3Ztd2dmeDogUmVmdXNlIERNQSBv
+cGVyYXRpb24gd2hlbiBTRVYgZW5jcnlwdGlvbiBpcyBhY3RpdmUgKDIwMjAtMDEtMjggMDk6Mjc6
+NDUgKzAxMDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCiAgZ2l0
+QGdpdGxhYi5mcmVlZGVza3RvcC5vcmc6c3JvbGFuZC92bXdnZnhfZHJtLmdpdCBmZWF0dXJlL3N0
+YWdpbmdfc201Cgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gNDUyNjAzNTA1OGNjNmNj
+MDlhZmJjYTNhNWQ4Njg2MjQzOGFlMWVkZjoKCiAgZHJtL3Ztd2dmeDogVXNlIHZtd2dmeCB2ZXJz
+aW9uIDIuMTggdG8gc2lnbmFsIFNNNSBjb21wYXRpYmlsaXR5ICgyMDIwLTAzLTIwIDIzOjM1OjUz
+ICswMTAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLQpEZWVwYWsgUmF3YXQgKDE2KToKICAgICAgZHJtL3Ztd2dmeDogQWxz
+byBjaGVjayBmb3IgU1ZHQV9DQVBfRFggYmVmb3JlIHJlYWRpbmcgRFggY29udGV4dCBzdXBwb3J0
+CiAgICAgIGRybS92bXdnZng6IFN5bmMgbGVnYWN5IG11bHRpc2FtcGxpbmcgZGV2aWNlIGNhcGFi
+aWxpdHkKICAgICAgZHJtL3Ztd2dmeDogRGVwcmVjYXRlIGxvZ2ljIG9wcyBjb21tYW5kcwogICAg
+ICBkcm0vdm13Z2Z4OiBVc2UgZW51bSB0byByZXByZXNlbnQgZ3JhcGhpY3MgY29udGV4dCBjYXBh
+YmlsaXRpZXMKICAgICAgZHJtL3Ztd2dmeDogU3luYyB2aXJ0dWFsIGRldmljZSBoZWFkZXJzIGZv
+ciBuZXcgZmVhdHVyZQogICAgICBkcm0vdm13Z2Z4OiBBZGQgYSBuZXcgZW51bSBmb3IgU001IGdy
+YXBoaWNzIGNvbnRleHQgY2FwYWJpbGl0eQogICAgICBkcm0vdm13Z2Z4OiBSZWFkIG5ldyByZWdp
+c3RlciBmb3IgR0IgbWVtb3J5IHdoZW4gYXZhaWxhYmxlCiAgICAgIGRybS92bXdnZng6IFN1cHBv
+cnQgU001IHNoYWRlciB0eXBlIGluIGNvbW1hbmQgYnVmZmVyCiAgICAgIGRybS92bXdnZng6IEFk
+ZCBzdXBwb3J0IGZvciBVQSB2aWV3IGNvbW1hbmRzCiAgICAgIGRybS92bXdnZng6IEFkZCBzdXBw
+b3J0IGZvciBpbmRpcmVjdCBhbmQgZGlzcGF0Y2ggY29tbWFuZHMKICAgICAgZHJtL3Ztd2dmeDog
+UmVuYW1lIHN0cmVhbSBvdXRwdXQgdGFyZ2V0IGJpbmRpbmcgdHJhY2tlciBzdHJ1Y3QKICAgICAg
+ZHJtL3Ztd2dmeDogQWRkIHN1cHBvcnQgZm9yIHN0cmVhbW91dHB1dCB3aXRoIG1vYiBjb21tYW5k
+cwogICAgICBkcm0vdm13Z2Z4OiBTcGxpdCBzdXJmYWNlIG1ldGFkYXRhIGZyb20gc3RydWN0IHZt
+d19zdXJmYWNlCiAgICAgIGRybS92bXdnZng6IFJlZmFjdG9yIHN1cmZhY2VfZGVmaW5lIHRvIHVz
+ZSB2bXdfc3VyZmFjZV9tZXRhZGF0YQogICAgICBkcm0vdm13Z2Z4OiBBZGQgc3VyZmFjZSBkZWZp
+bmUgdjQgY29tbWFuZAogICAgICBkcm0vdm13Z2Z4OiBBZGQgU001IHBhcmFtIGZvciB1c2Vyc3Bh
+Y2UKClRob21hcyBIZWxsc3Ryw7ZtIChWTXdhcmUpICgxKToKICAgICAgZHJtL3Ztd2dmeDogVXNl
+IHZtd2dmeCB2ZXJzaW9uIDIuMTggdG8gc2lnbmFsIFNNNSBjb21wYXRpYmlsaXR5CgogZHJpdmVy
+cy9ncHUvZHJtL3Ztd2dmeC9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgfCAgIDIgKy0KIGRy
+aXZlcnMvZ3B1L2RybS92bXdnZngvZGV2aWNlX2luY2x1ZGUvc3ZnYTNkX2NtZC5oIHwgMTYxICsr
+KystCiAuLi4vZ3B1L2RybS92bXdnZngvZGV2aWNlX2luY2x1ZGUvc3ZnYTNkX2RldmNhcHMuaCB8
+IDc4NyArKysrKysrKysrKy0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvZGV2aWNl
+X2luY2x1ZGUvc3ZnYTNkX2R4LmggIHwgNDY2ICsrKysrKysrKysrLQogLi4uL2dwdS9kcm0vdm13
+Z2Z4L2RldmljZV9pbmNsdWRlL3N2Z2EzZF9saW1pdHMuaCAgfCAgMzYgKy0KIC4uLi9kcm0vdm13
+Z2Z4L2RldmljZV9pbmNsdWRlL3N2Z2EzZF9zdXJmYWNlZGVmcy5oIHwgIDU4ICstCiAuLi4vZ3B1
+L2RybS92bXdnZngvZGV2aWNlX2luY2x1ZGUvc3ZnYTNkX3R5cGVzLmggICB8IDM0NyArKysrKysr
+LS0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvZGV2aWNlX2luY2x1ZGUvc3ZnYV9yZWcuaCAgIHwg
+MzgyICsrKysrKystLS0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvZGV2aWNlX2luY2x1ZGUvc3Zn
+YV90eXBlcy5oIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2JpbmRpbmcu
+YyAgICAgICAgICAgIHwgMjEzICsrKysrLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhf
+YmluZGluZy5oICAgICAgICAgICAgfCAgMzMgKy0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13
+Z2Z4X2NvbnRleHQuYyAgICAgICAgICAgIHwgIDI4ICstCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4
+L3Ztd2dmeF9jb3RhYmxlLmMgICAgICAgICAgICB8ICAgNiArLQogZHJpdmVycy9ncHUvZHJtL3Zt
+d2dmeC92bXdnZnhfZHJ2LmMgICAgICAgICAgICAgICAgfCAgNTkgKy0KIGRyaXZlcnMvZ3B1L2Ry
+bS92bXdnZngvdm13Z2Z4X2Rydi5oICAgICAgICAgICAgICAgIHwgMTUyICsrKy0KIGRyaXZlcnMv
+Z3B1L2RybS92bXdnZngvdm13Z2Z4X2V4ZWNidWYuYyAgICAgICAgICAgIHwgNDI5ICsrKysrKysr
+KystCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9pb2N0bC5jICAgICAgICAgICAgICB8
+ICAxOCArLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfa21zLmMgICAgICAgICAgICAg
+ICAgfCAgNDMgKy0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X21vYi5jICAgICAgICAg
+ICAgICAgIHwgICAyICstCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9zby5jICAgICAg
+ICAgICAgICAgICB8ICAxMiArLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfc28uaCAg
+ICAgICAgICAgICAgICAgfCAgIDcgKwogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfc3Rk
+dS5jICAgICAgICAgICAgICAgfCAgNjEgKy0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4
+X3N0cmVhbW91dHB1dC5jICAgICAgIHwgMzg3ICsrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS92
+bXdnZngvdm13Z2Z4X3N1cmZhY2UuYyAgICAgICAgICAgIHwgNjA4ICsrKysrKysrLS0tLS0tLS0K
+IGluY2x1ZGUvdWFwaS9kcm0vdm13Z2Z4X2RybS5oICAgICAgICAgICAgICAgICAgICAgIHwgIDE2
+ICstCiAyNSBmaWxlcyBjaGFuZ2VkLCAzMjUyIGluc2VydGlvbnMoKyksIDEwNjIgZGVsZXRpb25z
+KC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfc3Ry
+ZWFtb3V0cHV0LmMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Cg==
