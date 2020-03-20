@@ -2,67 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68DC318DF89
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Mar 2020 11:44:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0246218DF85
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Mar 2020 11:44:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 466AB6E2F8;
-	Sat, 21 Mar 2020 10:44:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC9946E2E4;
+	Sat, 21 Mar 2020 10:44:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A2D46EB3F
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 13:41:11 +0000 (UTC)
-Received: by mail-qt1-x843.google.com with SMTP id f20so4877851qtq.6
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 06:41:11 -0700 (PDT)
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EBE46E1A5
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 16:58:23 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id j4so7515992qkc.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 09:58:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=rSXMnA8Bh+EyZeJfpwZeazUxxET567SafNKmRBbaqJE=;
- b=IRiBcy01pez/c8Esw6ABdeGlubYq6UBTvnqE08m54TPmYJSk0iZY8NRy4Imfi9RCkq
- pgYtuxDrHqPgjM1o0KyPLUcQQOMmsp/8AwWKrGmPWY2V2zTpecXI1Hmww1TRzifRUqv1
- DX4dzAVbSR13Fo7jjIz8YUYee5enxM6pJW/X6pJz59lxOjUg+6nvHnnEaT8pcTz55OMt
- jRul4tANsV8+/6/1gFaPw67m4l9Hc++lvsRpUhKs8JRwfn579xSKiU2xI9uEr0dnW7Fr
- mnPY+dq6nTjmuQ5ZDgFDKjScE6rkcwbkGcsH6sXXBgbbcYl+h27ZHv6LeQTB09f7WjYe
- iTaQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=87iKgwaPy8pXzXL9YA5WV3WZml27jYwBmFGI1UGSVUk=;
+ b=NaCjjzldyTssF/3z0KZL0Fqab/MMlCzRVjrru2siMv9BUoCtsVnQTd1gi0e4g7Bv7C
+ 7lWk8bdKCdsAa8UzZNISAM9HmDetrX83wCNt9BSFlOheErwFqT8tMGKNvHewjQr45veO
+ HWg6Vy16BlP0KGklKKcCiS4VNcLzsIKutYoiODMmJPm1d2altsZ0q+sdSgGp2+g62JZb
+ 3CyCsoqW0ZnZ0HCHgfI/B0TdbvC598XLc03bFzjXoW1P352HHxZ0KJ8lx/pW9bAVegn3
+ mG+bqtTK0HVO+f8zqeTr/natEqIDzoAw+jhHbk3xIlfLbjCkv7KSx/3qYUaodlY+D0bf
+ kGQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=rSXMnA8Bh+EyZeJfpwZeazUxxET567SafNKmRBbaqJE=;
- b=NJk0oFBHHwevgrNj94O4wMjmsG2+oZOIDnbzk8tw6Qq9iQ4sXAKnxIjvmTeYIFKb0I
- ie4wHCFRkUA73BGh6X3KnagGfA8pr7WNFVC7d0wdTBt9taUqW6HXgk+VweVltbtL6kk3
- nJ9tZV7Kc0s8AYcVMcvda3B24mh/+Mao+a6AqQUIcCQV85hNBc0Kdm9/Qi+qvNXzf6ao
- bDzYXWsqmMxE2aU8oEITGgIIqPgrUWGJk2eb37+edYIP6oUATyt0CGp0RiHG5n8i8Vyi
- NjXRvgYoBOLGAB7hu1+19aDcrk6LwvXAstCo+peH5kRJbRKKWhNFfih7o12szaHANUgS
- 5NNQ==
-X-Gm-Message-State: ANhLgQ06eVEPOGkXNygjkcfAw8GNezbdf2rtrcRADOY2/rQ5i7KdIJku
- oWHhWtfiC6MxNX+15Ov/ICmcJA==
-X-Google-Smtp-Source: ADFU+vuEJLxLBoH+558rgkm+/X3kgiU5w6V/n0Oh7c+Ro7Jb1c7KonYggFNpdI58VU/1xg85hzcxdQ==
-X-Received: by 2002:ac8:4782:: with SMTP id k2mr8138084qtq.1.1584711670687;
- Fri, 20 Mar 2020 06:41:10 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=87iKgwaPy8pXzXL9YA5WV3WZml27jYwBmFGI1UGSVUk=;
+ b=kKf6larjLq9Qp/9Gqx9rP7MLBrU6kGlPPm2Zh5SxAfO24sB7UngHb2HDVd5hD6PLYn
+ IFamSWcBZXJy8j+ebERhk+13o2h2F8XSvf8vMe4cLF2Y1fG/V+N5enKziD/bf0jUJ97/
+ zIi0JDS6AykpkanaLarMJri42DmYXm7YUubP/zgcpq2wOLI3ENGqGg/s+1VOLDiafUoO
+ Vd0JY0j7yPFoKPw2tEQTHvijgXgCmphlfCo5SEdWZMdflFqLCTzVhBHnqSqbFx8uefVE
+ RpvDVD24AGoBgSPYX2X6qTMc0sz9WcqHfjClKt63LAJwQqJUlDVFf7xtXLj6Pxi3hOvJ
+ p4Gw==
+X-Gm-Message-State: ANhLgQ24G/RhSzVjyL7giBwbLRtg5RQ0ccyrzHcltVWTX7F6MMpk5piY
+ 8OH8xd8/V6ue6ACqJTtlBiGnrpMTwVI0WA==
+X-Google-Smtp-Source: ADFU+vvveuclm6zQpq1BtpQVw2AZCya6AVI9ugZ2/VnoudKnWPkwAxuYh/+4WEp0jmf9H9GqVc8R6Q==
+X-Received: by 2002:a37:8581:: with SMTP id h123mr8465387qkd.158.1584723024381; 
+ Fri, 20 Mar 2020 09:50:24 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id p23sm4024398qkm.39.2020.03.20.06.41.09
+ by smtp.gmail.com with ESMTPSA id x74sm4382043qkb.40.2020.03.20.09.50.23
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 20 Mar 2020 06:41:10 -0700 (PDT)
+ Fri, 20 Mar 2020 09:50:23 -0700 (PDT)
 Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
  (envelope-from <jgg@ziepe.ca>)
- id 1jFHtd-0007xE-Gf; Fri, 20 Mar 2020 10:41:09 -0300
-Date: Fri, 20 Mar 2020 10:41:09 -0300
+ id 1jFKql-0005jg-5N; Fri, 20 Mar 2020 13:50:23 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 4/4] mm: check the device private page owner in
- hmm_range_fault
-Message-ID: <20200320134109.GA30230@ziepe.ca>
-References: <20200316193216.920734-1-hch@lst.de>
- <20200316193216.920734-5-hch@lst.de>
+To: Jerome Glisse <jglisse@redhat.com>, Ralph Campbell <rcampbell@nvidia.com>,
+ Felix.Kuehling@amd.com
+Subject: [PATCH hmm 0/6] Small hmm_range_fault() cleanups
+Date: Fri, 20 Mar 2020 13:48:59 -0300
+Message-Id: <20200320164905.21722-1-jgg@ziepe.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200316193216.920734-5-hch@lst.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Sat, 21 Mar 2020 10:44:25 +0000
+X-Mailman-Approved-At: Sat, 21 Mar 2020 10:44:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,50 +71,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kvm-ppc@vger.kernel.org,
- Bharata B Rao <bharata@linux.ibm.com>, linux-mm@kvack.org,
- Jerome Glisse <jglisse@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Philip Yang <Philip.Yang@amd.com>, John Hubbard <jhubbard@nvidia.com>,
+ amd-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ Jason Gunthorpe <jgg@mellanox.com>, dri-devel@lists.freedesktop.org,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 16, 2020 at 08:32:16PM +0100, Christoph Hellwig wrote:
-> diff --git a/mm/hmm.c b/mm/hmm.c
-> index cfad65f6a67b..b75b3750e03d 100644
-> +++ b/mm/hmm.c
-> @@ -216,6 +216,14 @@ int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
->  		unsigned long end, uint64_t *pfns, pmd_t pmd);
->  #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
->  
-> +static inline bool hmm_is_device_private_entry(struct hmm_range *range,
-> +		swp_entry_t entry)
-> +{
-> +	return is_device_private_entry(entry) &&
-> +		device_private_entry_to_page(entry)->pgmap->owner ==
-> +		range->dev_private_owner;
-> +}
+From: Jason Gunthorpe <jgg@mellanox.com>
 
-Thinking about this some more, does the locking work out here?
+I've had these in my work queue for a bit, nothing profound here, just some
+small edits for clarity.
 
-hmm_range_fault() runs with mmap_sem in read, and does not lock any of
-the page table levels.
+Ralph's hmm tester will need a small diff to work after this - which
+illustrates how setting default_flags == 0 is the same as what was called
+SNAPSHOT:
 
-So it relies on accessing stale pte data being safe, and here we
-introduce for the first time a page pointer dereference and a pgmap
-dereference without any locking/refcounting.
+diff --git a/lib/test_hmm.c b/lib/test_hmm.c
+index 6ca953926dc13f..5f31f5b3e64cb9 100644
+--- a/lib/test_hmm.c
++++ b/lib/test_hmm.c
+@@ -300,7 +300,7 @@ static int dmirror_range_fault(struct dmirror *dmirror,
+ 
+ 		range->notifier_seq = mmu_interval_read_begin(range->notifier);
+ 		down_read(&mm->mmap_sem);
+-		count = hmm_range_fault(range, 0);
++		count = hmm_range_fault(range);
+ 		up_read(&mm->mmap_sem);
+ 		if (count <= 0) {
+ 			if (count == 0 || count == -EBUSY)
+@@ -337,8 +337,7 @@ static int dmirror_fault(struct dmirror *dmirror, unsigned long start,
+ 		.flags = dmirror_hmm_flags,
+ 		.values = dmirror_hmm_values,
+ 		.pfn_shift = DPT_SHIFT,
+-		.pfn_flags_mask = ~(dmirror_hmm_flags[HMM_PFN_VALID] |
+-				    dmirror_hmm_flags[HMM_PFN_WRITE]),
++		.pfn_flags_mask = 0,
+ 		.default_flags = dmirror_hmm_flags[HMM_PFN_VALID] |
+ 				(write ? dmirror_hmm_flags[HMM_PFN_WRITE] : 0),
+ 		.dev_private_owner = dmirror->mdevice,
+@@ -872,7 +871,7 @@ static int dmirror_range_snapshot(struct dmirror *dmirror,
+ 		range->notifier_seq = mmu_interval_read_begin(range->notifier);
+ 
+ 		down_read(&mm->mmap_sem);
+-		count = hmm_range_fault(range, HMM_FAULT_SNAPSHOT);
++		count = hmm_range_fault(range);
+ 		up_read(&mm->mmap_sem);
+ 		if (count <= 0) {
+ 			if (count == 0 || count == -EBUSY)
+@@ -916,7 +915,7 @@ static int dmirror_snapshot(struct dmirror *dmirror,
+ 		.flags = dmirror_hmm_flags,
+ 		.values = dmirror_hmm_values,
+ 		.pfn_shift = DPT_SHIFT,
+-		.pfn_flags_mask = ~0ULL,
++		.pfn_flags_mask = 0,
+ 		.dev_private_owner = dmirror->mdevice,
+ 	};
+ 	int ret = 0;
 
-The get_dev_pagemap() worked on the PFN and obtained a refcount, so it
-created safety.
+Jason Gunthorpe (6):
+  mm/hmm: remove pgmap checking for devmap pages
+  mm/hmm: return the fault type from hmm_pte_need_fault()
+  mm/hmm: remove unused code and tidy comments
+  mm/hmm: remove HMM_FAULT_SNAPSHOT
+  mm/hmm: remove the CONFIG_TRANSPARENT_HUGEPAGE #ifdef
+  mm/hmm: use device_private_entry_to_pfn()
 
-Is there some tricky reason this is safe, eg a DEVICE_PRIVATE page
-cannot be removed from the vma without holding mmap_sem in write or
-something?
+ Documentation/vm/hmm.rst                |  12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_svm.c   |   2 +-
+ include/linux/hmm.h                     |  55 +-----
+ mm/hmm.c                                | 238 +++++++++---------------
+ 5 files changed, 98 insertions(+), 211 deletions(-)
 
-Jason
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
