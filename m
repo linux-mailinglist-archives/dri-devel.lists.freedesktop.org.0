@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5220A18D960
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 21:32:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4681F18D99D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 21:41:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF3996EB74;
-	Fri, 20 Mar 2020 20:32:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04743884FD;
+	Fri, 20 Mar 2020 20:41:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4D6D89FD9
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 20:32:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C6DE883F4
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 20:41:41 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206895] [amdgpu] crash while using opencl from amdgpu-pro on
  kernel 5.5.10
-Date: Fri, 20 Mar 2020 20:32:39 +0000
+Date: Fri, 20 Mar 2020 20:41:41 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -27,14 +27,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Who: bigbeeshane@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-206895-2300-q5uK8EBL2E@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206895-2300-JsCXJn6323@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206895-2300@https.bugzilla.kernel.org/>
 References: <bug-206895-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,14 +59,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206895
 
-Alex Deucher (alexdeucher@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
-
---- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
-Can you bisect?
+--- Comment #2 from bigbeeshane@gmail.com ---
+Yes, should be able to over the weekend. Will report my findings.
 
 -- 
 You are receiving this mail because:
