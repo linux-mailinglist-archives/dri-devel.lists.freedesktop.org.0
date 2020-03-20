@@ -1,60 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD81118DB64
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 23:57:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A1118DB93
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Mar 2020 00:12:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFC6F6EB7E;
-	Fri, 20 Mar 2020 22:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 723E66EB87;
+	Fri, 20 Mar 2020 23:12:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 704C16EB7E
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 22:57:46 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id r24so8258684ljd.4
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 15:57:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SOtxNR4dSTBdq/mQefXxpQTRYp8nZ5kaMA/aHHX5a1U=;
- b=kh7SC406ldeDjIRdj+PhCX9+fP6UsGGTe/+q0IJkzlStjcSnZvid0oABY6oB8Rm8Pn
- opyajilTqVK5M5yCpcNTE2xB+5F8nkWONw6OJByyYlg66gq16/JJ1iTD4yKt4iRvjghU
- 7YCeEXAn6nUu+hHgpDxiZMfotQd9awFgy/7rSAKSElHO8Uedl/2rSUvRfdX55r5SgZS/
- 0PQtqWO03hI5e4pAc9U84G2137UppDMFvBj7S/QoWmDuFpgIUHLzUpuE19Hgz9Vbe/X1
- WGsGTTY7Bs7LlfeJDajeR5Jcj1cA5nhzvO7LHkQezwhQQF8i2MPVwJ/Nq5rMBYuP/l2U
- RLig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SOtxNR4dSTBdq/mQefXxpQTRYp8nZ5kaMA/aHHX5a1U=;
- b=i/5nC/Q3HnDBLNFyqVsv9O/VlhaJmc/pd8nM1PV72tQB5NpmA0kl9hmNdY/KDeLNEM
- 9TXk9N8gywekpYKUkFcLcdXqUG+QlDKACz+n5W77QTX5zcrNseR9TLW5V0PIvfDBG2LE
- ka/3JkcFxYTSgLFKek3oTAPCfGFQWcgHIaVi45+sC4mFojoyq/kXXuo8VXcmMBEB6gMC
- megPLoQBDkVPt0ShoXeP7f68j2/lNoXMbeG+RQdIpDD9q0MabQoP7O3SvEalAKwuBSme
- x459t/eNi+MZWaqnnMVoWXSzMGjf6ECu5o2P8dZz3gUsW6z04uwJ3tvE/R8C/HNfty6N
- HGTQ==
-X-Gm-Message-State: ANhLgQ2mmMZ3aHAgqht6Srittm7d9jvOSGI6VSrCQ7BhRF9Y7XpkhsIw
- eCLDDtyRyQa8ZNs86GltLOg=
-X-Google-Smtp-Source: ADFU+vtKnI/vrlR2BnzOPAHhymh+HkA2rrzfr54rnwf6Px9LOch8XdFEmP5UUEnHpQzuiktbNYu8vQ==
-X-Received: by 2002:a2e:9ed5:: with SMTP id h21mr6955971ljk.78.1584745064668; 
- Fri, 20 Mar 2020 15:57:44 -0700 (PDT)
-Received: from sroland-t5810.vmware.com (46-126-183-173.dynamic.hispeed.ch.
- [46.126.183.173])
- by smtp.gmail.com with ESMTPSA id s4sm5014754lfs.54.2020.03.20.15.57.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Mar 2020 15:57:44 -0700 (PDT)
-From: "Roland Scheidegger (VMware)" <rscheidegger.oss@gmail.com>
-To: airlied@redhat.com,
-	daniel@ffwll.ch,
-	dri-devel@lists.freedesktop.org
-Subject: [git pull] feature/staging_sm5
-Date: Fri, 20 Mar 2020 23:56:59 +0100
-Message-Id: <20200320225659.8431-1-rscheidegger.oss@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCE836EB87
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 23:12:42 +0000 (UTC)
+Received: from kernel.org (unknown [104.132.0.74])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8AC152072D;
+ Fri, 20 Mar 2020 23:12:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1584745962;
+ bh=H50y3xQFEH5K0TIHp7faQcmWTf6Q5LCbihorSKcCraE=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=LZ+xqEMl3siMu/QgG8a07bp6G9TR2pwTJysbM37AGo869jGNxgDR73eHJB0NV9wK3
+ yC/YoDmKvx5NYcp3DrzwGsqu4p3O9jhw6dNRK7Rl9FrxMV6Ikx/IS1KtWW5KsQz2bU
+ pP+l3h4ZMlzbnvhSSTPP9zsdVt0f0H/f6MsT89fo=
 MIME-Version: 1.0
+In-Reply-To: <20200311165322.1594233-3-enric.balletbo@collabora.com>
+References: <20200311165322.1594233-1-enric.balletbo@collabora.com>
+ <20200311165322.1594233-3-enric.balletbo@collabora.com>
+Subject: Re: [PATCH v12 2/5] dt-bindings: mediatek: Update mmsys binding to
+ reflect it is a system controller
+From: Stephen Boyd <sboyd@kernel.org>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>, airlied@linux.ie,
+ ck.hu@mediatek.com, laurent.pinchart@ideasonboard.com, mark.rutland@arm.com,
+ mturquette@baylibre.com, p.zabel@pengutronix.de, robh+dt@kernel.org,
+ ulrich.hecht+renesas@gmail.com
+Date: Fri, 20 Mar 2020 16:12:41 -0700
+Message-ID: <158474596170.125146.8898369237824145904@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,78 +50,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-graphics-maintainer@vmware.com,
- Roland Scheidegger <rscheidegger.oss@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>, ,
+	hat.com@freedesktop.org, dri-devel@lists.freedesktop.org,
+	Collabora Kernel ML <kernel@collabora.com>,
+	linux-clk@vger.kernel.org, Weiyi Lu <weiyi.lu@mediatek.com>,
+	Richard Fontana <rfontana@red>, wens@csie.org,
+	Allison Randal <allison@lohutok.net>,
+	mtk01761 <wendell.lin@mediatek.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, frank-w@public-files.de,
+	Seiya Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Matthias Brugger <mbrugger@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+	matthias.bgg@kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RGF2ZSwgRGFuaWVsLAoKdm13Z2Z4IHB1bGwgZm9yIGZvciA1LjcuIE5lZWRlZCBmb3IgR0w0IGZ1
-bmN0aW9uYWxpdHkuClN5bmMgdXAgZGV2aWNlIGhlYWRlcnMsIGFkZCBzdXBwb3J0IGZvciBuZXcg
-Y29tbWFuZHMsIGNvZGUKcmVmYWN0b3JpbmcgYXJvdW5kIHN1cmZhY2UgZGVmaW5pdGlvbi4KClBy
-ZWxpbWluYXJ5IG1lc2EgdXNlcnNwYWNlIGNvZGUgdXNpbmcgdGhlc2UgbmV3IHZtd2dmeCBmZWF0
-dXJlcwpjYW4gYmUgZm91bmQgYXQ6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9iaGVu
-ZGVuL21lc2EKClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgZGFkNTY5YWY3MThj
-NGU2MDNjMzVmNTllZDAzYmYwNTU1NjMzZGQ5NToKCiAgZHJtL3Ztd2dmeDogUmVmdXNlIERNQSBv
-cGVyYXRpb24gd2hlbiBTRVYgZW5jcnlwdGlvbiBpcyBhY3RpdmUgKDIwMjAtMDEtMjggMDk6Mjc6
-NDUgKzAxMDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCiAgZ2l0
-QGdpdGxhYi5mcmVlZGVza3RvcC5vcmc6c3JvbGFuZC92bXdnZnhfZHJtLmdpdCBmZWF0dXJlL3N0
-YWdpbmdfc201Cgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gNDUyNjAzNTA1OGNjNmNj
-MDlhZmJjYTNhNWQ4Njg2MjQzOGFlMWVkZjoKCiAgZHJtL3Ztd2dmeDogVXNlIHZtd2dmeCB2ZXJz
-aW9uIDIuMTggdG8gc2lnbmFsIFNNNSBjb21wYXRpYmlsaXR5ICgyMDIwLTAzLTIwIDIzOjM1OjUz
-ICswMTAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLQpEZWVwYWsgUmF3YXQgKDE2KToKICAgICAgZHJtL3Ztd2dmeDogQWxz
-byBjaGVjayBmb3IgU1ZHQV9DQVBfRFggYmVmb3JlIHJlYWRpbmcgRFggY29udGV4dCBzdXBwb3J0
-CiAgICAgIGRybS92bXdnZng6IFN5bmMgbGVnYWN5IG11bHRpc2FtcGxpbmcgZGV2aWNlIGNhcGFi
-aWxpdHkKICAgICAgZHJtL3Ztd2dmeDogRGVwcmVjYXRlIGxvZ2ljIG9wcyBjb21tYW5kcwogICAg
-ICBkcm0vdm13Z2Z4OiBVc2UgZW51bSB0byByZXByZXNlbnQgZ3JhcGhpY3MgY29udGV4dCBjYXBh
-YmlsaXRpZXMKICAgICAgZHJtL3Ztd2dmeDogU3luYyB2aXJ0dWFsIGRldmljZSBoZWFkZXJzIGZv
-ciBuZXcgZmVhdHVyZQogICAgICBkcm0vdm13Z2Z4OiBBZGQgYSBuZXcgZW51bSBmb3IgU001IGdy
-YXBoaWNzIGNvbnRleHQgY2FwYWJpbGl0eQogICAgICBkcm0vdm13Z2Z4OiBSZWFkIG5ldyByZWdp
-c3RlciBmb3IgR0IgbWVtb3J5IHdoZW4gYXZhaWxhYmxlCiAgICAgIGRybS92bXdnZng6IFN1cHBv
-cnQgU001IHNoYWRlciB0eXBlIGluIGNvbW1hbmQgYnVmZmVyCiAgICAgIGRybS92bXdnZng6IEFk
-ZCBzdXBwb3J0IGZvciBVQSB2aWV3IGNvbW1hbmRzCiAgICAgIGRybS92bXdnZng6IEFkZCBzdXBw
-b3J0IGZvciBpbmRpcmVjdCBhbmQgZGlzcGF0Y2ggY29tbWFuZHMKICAgICAgZHJtL3Ztd2dmeDog
-UmVuYW1lIHN0cmVhbSBvdXRwdXQgdGFyZ2V0IGJpbmRpbmcgdHJhY2tlciBzdHJ1Y3QKICAgICAg
-ZHJtL3Ztd2dmeDogQWRkIHN1cHBvcnQgZm9yIHN0cmVhbW91dHB1dCB3aXRoIG1vYiBjb21tYW5k
-cwogICAgICBkcm0vdm13Z2Z4OiBTcGxpdCBzdXJmYWNlIG1ldGFkYXRhIGZyb20gc3RydWN0IHZt
-d19zdXJmYWNlCiAgICAgIGRybS92bXdnZng6IFJlZmFjdG9yIHN1cmZhY2VfZGVmaW5lIHRvIHVz
-ZSB2bXdfc3VyZmFjZV9tZXRhZGF0YQogICAgICBkcm0vdm13Z2Z4OiBBZGQgc3VyZmFjZSBkZWZp
-bmUgdjQgY29tbWFuZAogICAgICBkcm0vdm13Z2Z4OiBBZGQgU001IHBhcmFtIGZvciB1c2Vyc3Bh
-Y2UKClRob21hcyBIZWxsc3Ryw7ZtIChWTXdhcmUpICgxKToKICAgICAgZHJtL3Ztd2dmeDogVXNl
-IHZtd2dmeCB2ZXJzaW9uIDIuMTggdG8gc2lnbmFsIFNNNSBjb21wYXRpYmlsaXR5CgogZHJpdmVy
-cy9ncHUvZHJtL3Ztd2dmeC9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgfCAgIDIgKy0KIGRy
-aXZlcnMvZ3B1L2RybS92bXdnZngvZGV2aWNlX2luY2x1ZGUvc3ZnYTNkX2NtZC5oIHwgMTYxICsr
-KystCiAuLi4vZ3B1L2RybS92bXdnZngvZGV2aWNlX2luY2x1ZGUvc3ZnYTNkX2RldmNhcHMuaCB8
-IDc4NyArKysrKysrKysrKy0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvZGV2aWNl
-X2luY2x1ZGUvc3ZnYTNkX2R4LmggIHwgNDY2ICsrKysrKysrKysrLQogLi4uL2dwdS9kcm0vdm13
-Z2Z4L2RldmljZV9pbmNsdWRlL3N2Z2EzZF9saW1pdHMuaCAgfCAgMzYgKy0KIC4uLi9kcm0vdm13
-Z2Z4L2RldmljZV9pbmNsdWRlL3N2Z2EzZF9zdXJmYWNlZGVmcy5oIHwgIDU4ICstCiAuLi4vZ3B1
-L2RybS92bXdnZngvZGV2aWNlX2luY2x1ZGUvc3ZnYTNkX3R5cGVzLmggICB8IDM0NyArKysrKysr
-LS0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvZGV2aWNlX2luY2x1ZGUvc3ZnYV9yZWcuaCAgIHwg
-MzgyICsrKysrKystLS0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvZGV2aWNlX2luY2x1ZGUvc3Zn
-YV90eXBlcy5oIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2JpbmRpbmcu
-YyAgICAgICAgICAgIHwgMjEzICsrKysrLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhf
-YmluZGluZy5oICAgICAgICAgICAgfCAgMzMgKy0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13
-Z2Z4X2NvbnRleHQuYyAgICAgICAgICAgIHwgIDI4ICstCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4
-L3Ztd2dmeF9jb3RhYmxlLmMgICAgICAgICAgICB8ICAgNiArLQogZHJpdmVycy9ncHUvZHJtL3Zt
-d2dmeC92bXdnZnhfZHJ2LmMgICAgICAgICAgICAgICAgfCAgNTkgKy0KIGRyaXZlcnMvZ3B1L2Ry
-bS92bXdnZngvdm13Z2Z4X2Rydi5oICAgICAgICAgICAgICAgIHwgMTUyICsrKy0KIGRyaXZlcnMv
-Z3B1L2RybS92bXdnZngvdm13Z2Z4X2V4ZWNidWYuYyAgICAgICAgICAgIHwgNDI5ICsrKysrKysr
-KystCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9pb2N0bC5jICAgICAgICAgICAgICB8
-ICAxOCArLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfa21zLmMgICAgICAgICAgICAg
-ICAgfCAgNDMgKy0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X21vYi5jICAgICAgICAg
-ICAgICAgIHwgICAyICstCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9zby5jICAgICAg
-ICAgICAgICAgICB8ICAxMiArLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfc28uaCAg
-ICAgICAgICAgICAgICAgfCAgIDcgKwogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfc3Rk
-dS5jICAgICAgICAgICAgICAgfCAgNjEgKy0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4
-X3N0cmVhbW91dHB1dC5jICAgICAgIHwgMzg3ICsrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS92
-bXdnZngvdm13Z2Z4X3N1cmZhY2UuYyAgICAgICAgICAgIHwgNjA4ICsrKysrKysrLS0tLS0tLS0K
-IGluY2x1ZGUvdWFwaS9kcm0vdm13Z2Z4X2RybS5oICAgICAgICAgICAgICAgICAgICAgIHwgIDE2
-ICstCiAyNSBmaWxlcyBjaGFuZ2VkLCAzMjUyIGluc2VydGlvbnMoKyksIDEwNjIgZGVsZXRpb25z
-KC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfc3Ry
-ZWFtb3V0cHV0LmMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+Quoting Enric Balletbo i Serra (2020-03-11 09:53:19)
+> The mmsys system controller is not only a pure clock controller, so
+> update the binding documentation to reflect that apart from providing
+> clocks, it also provides routing and miscellaneous control registers.
+> 
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> ---
+
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
