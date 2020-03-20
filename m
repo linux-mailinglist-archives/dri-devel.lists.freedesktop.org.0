@@ -1,50 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B84118DFA1
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Mar 2020 11:45:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1DA18DF8F
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Mar 2020 11:44:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99B9D6E326;
-	Sat, 21 Mar 2020 10:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A0666E321;
+	Sat, 21 Mar 2020 10:44:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from web0081.zxcs.nl (web0081.zxcs.nl [IPv6:2a06:2ec0:1::81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2E6B6EB09
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 11:27:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=pascalroeleven.nl; s=x; h=Content-Transfer-Encoding:MIME-Version:References
- :In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=46bymtTeZdIRfz8ns1mclDd2aTpPZb8MaF2yz0v69wI=; b=hLaCnl1WS/ptAg34FJWrRB19vY
- zi2p3dNV+kgs+8f54SROCdvfTlJWqpog8YgVURNvjj3U/7Pw4NufZlDuAcjpE+d7Up8CLxxNmiY+x
- d5mu2uIExmv9JIE9NjkPMU+vpaWw8J+2acxCWv0qh9sjs1gWpGGX0oLqQwnK8VdGLGk5v5Z9ASGrZ
- 6RFJ8DWbAv0D2v43kIpkiMwjsXesJ0W7CZI6dEJGeZUYrnjwZzfRgPMABhgE0kDjtMVOQJrtE/3Fm
- bN5td0rcZPiZfsNVO3qfatn+OGCQtJ+YprIFjBqShKDvnzeQ4rLlzMy1mwT3TplIHC9a3TZt3q86Q
- FTcBOZvw==;
-Received: from ip565b1bc7.direct-adsl.nl ([86.91.27.199]:57936
- helo=localhost.localdomain)
- by web0081.zxcs.nl with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
- (Exim 4.92.3) (envelope-from <dev@pascalroeleven.nl>)
- id 1jFFnt-0011ci-Ml; Fri, 20 Mar 2020 12:27:05 +0100
-From: Pascal Roeleven <dev@pascalroeleven.nl>
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 5/5] ARM: dts: sun4i: Add support for Topwise A721 tablet
-Date: Fri, 20 Mar 2020 12:21:36 +0100
-Message-Id: <20200320112205.7100-6-dev@pascalroeleven.nl>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200320112205.7100-1-dev@pascalroeleven.nl>
-References: <20200320112205.7100-1-dev@pascalroeleven.nl>
+X-Greylist: delayed 449 seconds by postgrey-1.36 at gabe;
+ Fri, 20 Mar 2020 11:42:03 UTC
+Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C68956EB0C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 11:42:03 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.209])
+ by lucky1.263xmail.com (Postfix) with ESMTP id E92828F280;
+ Fri, 20 Mar 2020 19:34:27 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-SKE-CHECKED: 0
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from [172.16.12.182] (unknown [58.22.7.114])
+ by smtp.263.net (postfix) whith ESMTP id
+ P11671T139978099107584S1584704067015399_; 
+ Fri, 20 Mar 2020 19:34:27 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <0306da8995e5bcc9ca69cb97e094f8d4>
+X-RL-SENDER: hjc@rock-chips.com
+X-SENDER: hjc@rock-chips.com
+X-LOGIN-NAME: hjc@rock-chips.com
+X-FST-TO: hjc@rock-chips.com
+X-SENDER-IP: 58.22.7.114
+X-ATTACHMENT-NUM: 0
+X-DNS-TYPE: 0
+X-System-Flag: 0
+Subject: Re: [PATCHv7 6/6] drm/rockchip: Add support for afbc
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
+ <heiko@sntech.de>
+References: <20200311145541.29186-1-andrzej.p@collabora.com>
+ <20200311145541.29186-7-andrzej.p@collabora.com>
+ <CACvgo51t=o2g8SENzqd+2EKbTgE++z5sna8ZFGRrCKfMW2bjyw@mail.gmail.com>
+ <3d4f027e-8de3-ba7c-5654-31eda66a7681@rock-chips.com>
+ <d422f838-2c93-b356-c74d-d7da80000f8d@collabora.com>
+From: Sandy Huang <hjc@rock-chips.com>
+Message-ID: <a095195a-7081-2dfe-a67f-7da61b8a850e@rock-chips.com>
+Date: Fri, 20 Mar 2020 19:34:26 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Authenticated-Id: dev@pascalroeleven.nl
+In-Reply-To: <d422f838-2c93-b356-c74d-d7da80000f8d@collabora.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 21 Mar 2020 10:44:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,289 +67,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-sunxi@googlegroups.com, Pascal Roeleven <dev@pascalroeleven.nl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kernel@collabora.com, Mihail Atanassov <mihail.atanassov@arm.com>,
+ David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ James Wang <james.qian.wang@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Ayan Halder <Ayan.Halder@arm.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Topwise A721/LY-F1 tablet is a tablet sold around 2012 under
-different brands. The mainboard mentions A721 clearly, so this tablet
-is best known under this name.
-
-Signed-off-by: Pascal Roeleven <dev@pascalroeleven.nl>
----
- arch/arm/boot/dts/Makefile                   |   3 +-
- arch/arm/boot/dts/sun4i-a10-topwise-a721.dts | 242 +++++++++++++++++++
- 2 files changed, 244 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm/boot/dts/sun4i-a10-topwise-a721.dts
-
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 78f144e33..6e6141e00 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1040,7 +1040,8 @@ dtb-$(CONFIG_MACH_SUN4I) += \
- 	sun4i-a10-olinuxino-lime.dtb \
- 	sun4i-a10-pcduino.dtb \
- 	sun4i-a10-pcduino2.dtb \
--	sun4i-a10-pov-protab2-ips9.dtb
-+	sun4i-a10-pov-protab2-ips9.dtb \
-+	sun4i-a10-topwise-a721.dtb
- dtb-$(CONFIG_MACH_SUN5I) += \
- 	sun5i-a10s-auxtek-t003.dtb \
- 	sun5i-a10s-auxtek-t004.dtb \
-diff --git a/arch/arm/boot/dts/sun4i-a10-topwise-a721.dts b/arch/arm/boot/dts/sun4i-a10-topwise-a721.dts
-new file mode 100644
-index 000000000..936171d30
---- /dev/null
-+++ b/arch/arm/boot/dts/sun4i-a10-topwise-a721.dts
-@@ -0,0 +1,242 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright 2020 Pascal Roeleven <dev@pascalroeleven.nl>
-+ */
-+
-+/dts-v1/;
-+#include "sun4i-a10.dtsi"
-+#include "sunxi-common-regulators.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/input/input.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/pwm/pwm.h>
-+
-+/ {
-+	model = "Topwise A721";
-+	compatible = "topwise,a721", "allwinner,sun4i-a10";
-+
-+	aliases {
-+		serial0 = &uart0;
-+	};
-+
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pwms = <&pwm 0 100000 PWM_POLARITY_INVERTED>;
-+		power-supply = <&reg_vbat>;
-+		enable-gpios = <&pio 7 7 GPIO_ACTIVE_HIGH>; /* PH7 */
-+		brightness-levels = <0 30 40 50 60 70 80 90 100>;
-+		default-brightness-level = <8>;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	panel: panel {
-+		compatible = "starry,kr070pe2t";
-+		backlight = <&backlight>;
-+		power-supply = <&reg_lcd_power>;
-+
-+		port {
-+			panel_input: endpoint {
-+				remote-endpoint = <&tcon0_out_panel>;
-+			};
-+		};
-+	};
-+
-+	reg_lcd_power: reg-lcd-power {
-+		compatible = "regulator-fixed";
-+		regulator-name = "reg-lcd-power";
-+		gpio = <&pio 7 8 GPIO_ACTIVE_HIGH>; /* PH8 */
-+		enable-active-high;
-+	};
-+
-+	reg_vbat: reg-vbat {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vbat";
-+		regulator-min-microvolt = <3700000>;
-+		regulator-max-microvolt = <3700000>;
-+	};
-+
-+};
-+
-+&codec {
-+	status = "okay";
-+};
-+
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc2>;
-+};
-+
-+&de {
-+	status = "okay";
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+
-+	axp209: pmic@34 {
-+		reg = <0x34>;
-+		interrupts = <0>;
-+	};
-+};
-+
-+#include "axp209.dtsi"
-+
-+&ac_power_supply {
-+	status = "okay";
-+};
-+
-+&battery_power_supply {
-+	status = "okay";
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+
-+	mma7660: accelerometer@4c {
-+		compatible = "fsl,mma7660";
-+		reg = <0x4c>;
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+
-+	ft5406ee8: touchscreen@38 {
-+		compatible = "edt,edt-ft5406";
-+		reg = <0x38>;
-+		interrupt-parent = <&pio>;
-+		interrupts = <7 21 IRQ_TYPE_EDGE_FALLING>;
-+		touchscreen-size-x = <800>;
-+		touchscreen-size-y = <480>;
-+		vcc-supply = <&reg_vcc3v3>;
-+	};
-+};
-+
-+&lradc {
-+	vref-supply = <&reg_ldo2>;
-+	status = "okay";
-+
-+	button-vol-down {
-+		label = "Volume Down";
-+		linux,code = <KEY_VOLUMEDOWN>;
-+		channel = <0>;
-+		voltage = <761904>;
-+	};
-+
-+	button-vol-up {
-+		label = "Volume Up";
-+		linux,code = <KEY_VOLUMEUP>;
-+		channel = <0>;
-+		voltage = <571428>;
-+	};
-+};
-+
-+&mmc0 {
-+	vmmc-supply = <&reg_vcc3v3>;
-+	bus-width = <4>;
-+	cd-gpios = <&pio 7 1 GPIO_ACTIVE_LOW>; /* PH01 */
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&otg_sram {
-+	status = "okay";
-+};
-+
-+&pio {
-+	vcc-pb-supply = <&reg_vcc3v3>;
-+	vcc-pf-supply = <&reg_vcc3v3>;
-+	vcc-ph-supply = <&reg_vcc3v3>;
-+};
-+
-+&pwm {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pwm0_pin>;
-+	status = "okay";
-+};
-+
-+&reg_dcdc2 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <1000000>;
-+	regulator-max-microvolt = <1400000>;
-+	regulator-name = "vdd-cpu";
-+};
-+
-+&reg_dcdc3 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <1250000>;
-+	regulator-max-microvolt = <1250000>;
-+	regulator-name = "vdd-int-dll";
-+};
-+
-+&reg_ldo1 {
-+	regulator-name = "vdd-rtc";
-+};
-+
-+&reg_ldo2 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <3000000>;
-+	regulator-max-microvolt = <3000000>;
-+	regulator-name = "avcc";
-+};
-+
-+&reg_usb0_vbus {
-+	status = "okay";
-+};
-+
-+&reg_usb1_vbus {
-+	status = "okay";
-+};
-+
-+&reg_usb2_vbus {
-+	status = "okay";
-+};
-+
-+&tcon0_out {
-+	tcon0_out_panel: endpoint@0 {
-+		reg = <0>;
-+		remote-endpoint = <&panel_input>;
-+	};
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_pb_pins>;
-+	status = "okay";
-+};
-+
-+&usb_otg {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&usb_power_supply {
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb0_id_det-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
-+	usb0_vbus_det-gpios = <&pio 7 5 GPIO_ACTIVE_HIGH>; /* PH5 */
-+	usb0_vbus-supply = <&reg_usb0_vbus>;
-+	usb1_vbus-supply = <&reg_usb1_vbus>;
-+	usb2_vbus-supply = <&reg_usb2_vbus>;
-+	status = "okay";
-+};
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQW5kcnplaiAsCgoK5ZyoIDIwMjAvMy8xOSDkuIvljYg1OjU0LCBBbmRyemVqIFBpZXRyYXNp
+ZXdpY3og5YaZ6YGTOgo+IEhpIFNhbmR5LAo+Cj4KPiBXIGRuaXUgMTkuMDMuMjAyMCBvwqAwMzo1
+NywgU2FuZHkgSHVhbmcgcGlzemU6Cj4+IEhpIEVtaWwsCj4+Cj4KPiA8c25pcD4KPgo+Pj4+IC0t
+IAo+Pj4+IDIuMTcuMQo+Pj4gSGVpa28sIFNhbmR5LCBiZWluZyB0aGUgbWFpbnRhaW5lcnMgb2Yg
+dGhlIFJvY2tjaGlwIGRyaXZlciwgY2FuIHlvdQo+Pj4gcmV2aWV3L2FjayB0aGlzIHBhdGNoPwo+
+Pj4KPj4+IEkgYmVsaWV2ZSB0aGUgaW50ZW50aW9uIGlzIHRvIG1lcmdlIHRoZSBzZXJpZXMgdmlh
+IGRybS1taXNjLiBBbmRyemVqCj4+PiBhbHJlYWR5IGhhcyBjb21taXQgYWNjZXNzLgo+Pj4KPj4+
+IC1FbWlsCj4+Pgo+Pj4KPj4gVGhhbmtzIGZvciB5b3UgcGF0Y2gsIG1heWJlIHdlIG5lZWQgdG8g
+Y29uc2lkZXIgdGhlIGNvbXBhdGliaWxpdHkgCj4+IHdpdGggcHgzMCBwbGF0Zm9ybSBhZmJjIGZl
+YXR1cmVzLHRoZSBtYWluIGRpZmZlcmVuY2UgaXM6Cj4+Cj4+IDEuwqAgcHgzMCBzdXBwb3J0IHgg
+b2Zmc2V0IGFuZCB5IG9mZnNldCBkaXNwbGF5LCBhbmQgdGhlIHN0YXRlLT5zcmMueDEgCj4+IC8g
+c3RhdGUtPnNyYy55McKgIHNob3VsZCBiZSBhbGliZWduZWQgYXMgMTZwaXhlbC9saW5lOwo+Pgo+
+PiAyLnB4MzAgb25seSB3aW4xIGNhbiBzdXBwb3J0IGFmYmRjIGZvcm1hdDsKPj4KPj4KPgo+IEFj
+dHVhbGx5IEkgc2VudCB0aGUgcGF0Y2gsIEVtaWwga2luZGx5IGZvcndhcmRlZCBpdCB0byB5b3Uu
+Cj4KPiBVbmZvcnR1bmF0ZWx5IEkgZG9uJ3QgaGF2ZSBweDMwIGhhcmR3YXJlLCBzbyBJIGNhbid0
+IHRlc3QuIENhbiB3ZQo+IG1lcmdlIHRoZSBwYXRjaCBhcyBpcyAoaWYgeW91IGFyZSBvayB3aXRo
+IHRoZSB3YXkgaXQgaXMgbm93KSBhbmQgdGhlbgo+IEkgd2lsbCBoZWxwIHJldmlld2luZyB0aGUg
+cGF0Y2ggYWRkaW5nIHB4MzAgc3VwcG9ydCBvbiB0b3Agb2YgaXQ/Cj4KPiBSZWdhcmRzLAo+Cj4g
+QW5kcnplagoKT0ssIExldCdzIGFkZCBweDMwIEFGQkMgc3VwcG9ydCBsYXRlci4KClJldmlld2Vk
+LWJ5OiBTYW5keSBIdWFuZyA8aGpjQHJvY2stY2hpcHMuY29tPgoKPgo+Cj4KCgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
