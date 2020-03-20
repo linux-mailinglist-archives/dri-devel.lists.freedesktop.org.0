@@ -2,55 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D5B18C896
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:02:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 461B318C86F
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:01:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0EB66EAF0;
-	Fri, 20 Mar 2020 08:02:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9FC16EAC7;
+	Fri, 20 Mar 2020 08:01:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
- [IPv6:2607:f8b0:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A0D06EAB0
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 01:05:45 +0000 (UTC)
-Received: by mail-il1-x144.google.com with SMTP id j69so4096956ila.11
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 18:05:45 -0700 (PDT)
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
+ [IPv6:2607:f8b0:4864:20::830])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 907126EA2D
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 01:17:13 +0000 (UTC)
+Received: by mail-qt1-x830.google.com with SMTP id z12so3693846qtq.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 18:17:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pIKmKtPK9inyHBgOdGiW1cUuusmeVK05PlwwC7X+p5I=;
- b=i6AR+D3jHyppvVrFUj442iIkudhoNOYo5aGJ+CNFj4M/c4ChNUL/eyGofj6hWNHBuY
- 4P5MAkxAR1/5Xr1GPtYHWDK8fooG4Eg0/nh4cqrwaKcwhHE83DU8URq9JUcY7FBq86ng
- Vt124ONAuGsAl7gw8EKfp4oYNlMq73CH1Kxszez5Mh6pTu6dFBmXZiCJtqgpEgooOJDx
- KgXJSjHjsuscAUJZZsQMV60PVMH5V77m5x48qnL1DHE9FGkbNGCDZ7AJpgWJYieESVsU
- U0ZGI+6jQT7vCtloA+JY0ChZq4krmDE97EP5hRb7DEKbqDtb3GxDbLrpJex67SaSbs8R
- 4e5A==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=QHavipgYSNzUAjtspromspMTgYTom3kwMhXscnzi4bA=;
+ b=ANo2YGyYS/aMgcH29Bkyjf3L68lI+JdTb8uBYs0jbOjfmE3S8hnXh5i/Y4sgBAB5P3
+ Oy1KFAvFKGYzIn2IJg5wdjRO4+mtrrXU2fVupVrmiNtT7S4+eulKFqtzvh6zzuh9YqH2
+ iE8FfvkBb3nzvuqc7Oa/kE7xPA7yXrYjaQko1+s/M/fqS0qRDlely0IZofZM24KcEbFX
+ 9k7vzUYefx3iYeLbZk/by+BGwP4pkJ99jpZhb/2j0QADoYA+iHGiEJHV3dEJ0uCAtMvT
+ pT6VsvEf4lETcxg7lxARtWPtFSwf3xoGjghzcH4j2L9uPu2HpRKqxYnhCaYxlXv2ePvz
+ x55A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pIKmKtPK9inyHBgOdGiW1cUuusmeVK05PlwwC7X+p5I=;
- b=ch4Buax97n9haIaSsAsQNnbSwEjlqcc7YBorZHRSFogr1huq0WzAh7owTHiuPPZXo8
- 2dtJcV/mnbIJD8zBub/kAQpnUhkQzaAlNv5pMKhgAWt/s+NMEcaQNB3Kw6zTFElRsHNS
- vCGZ3REJU0b4q2Jnucb8vd7vMHMTt9uBAHEcqKwhz+JuKd1HPBnYKQwJ2U44GoiQTOgN
- QC0CSFL1pEttZ50YfkFEndZhLI0ScNYIVpuv4BEL9+JKN1THyyoVdISTTrDBdOWBLO8w
- DDfbJi4tjPLXDulHMRdz+5yPiB1Gwz7ud+iL88vFkggcFyogBcBUBOct5x2f7GbRrmpT
- GXVQ==
-X-Gm-Message-State: ANhLgQ2hU9p2u7OCm2qmACjLfuGGKj/0nOH9rshsCaEqGa/FMnG5ixWt
- IJzoZfhm8imN0kWNe6CXtmynGx2Lkclt6/W/Yfc=
-X-Google-Smtp-Source: ADFU+vsXyzyi+qYF7P30xEdl3SKnMs0e3iLkESTh2BBQsMZWVdzJW5b85BdQP4rcWeSVIDarW3qIa5gY6lsuDO93L54=
-X-Received: by 2002:a92:5fc5:: with SMTP id i66mr5814798ill.303.1584666344631; 
- Thu, 19 Mar 2020 18:05:44 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QHavipgYSNzUAjtspromspMTgYTom3kwMhXscnzi4bA=;
+ b=Y05/LSZiHyRB24hCyFNR0r3cSAQwPXwP5HgYSx9l5EQuYCzQxq/zmaBfwZVIjXBhRn
+ 7f2xdZ4CbJYDr0zjJc4it2O0mgYnQtf52TXAL8fhwoPLmvP/Dwm+EUD7XbHiTUCgywSr
+ /1Lg624aL1uqFxA2jc57V55poDs/Ck/ygDsMAICLuzruH0AQFwqC8YJUFKjhUHV9s15a
+ Jc90ln3HsWC5vYhPqMsPTifyw6cWN0ZOyrwgRf+QxeJBI86xAU6JHd9s1/uBXcsYOk//
+ 3Dymh/EMpT88eeNGlZ6/dTf6hT0523+64JuXd8VfL2VGCGoFlfOk9nuIiaIEYC+SZJ1T
+ Nubg==
+X-Gm-Message-State: ANhLgQ3ypix84syw0wGsJP0pz7W1Y/cupuukKcRC2kZWxHtfME7Rn6WU
+ YzEHW2DJ2Zqarp1c1Wtg4u4=
+X-Google-Smtp-Source: ADFU+vsq7hdtsaCbYqG7tUSQQrmGx0RogeROUuLZuLG/Kn1wi7/kIEp0004iJVQSM97XczjrwGI8hw==
+X-Received: by 2002:ac8:4549:: with SMTP id z9mr6071023qtn.274.1584667032585; 
+ Thu, 19 Mar 2020 18:17:12 -0700 (PDT)
+Received: from localhost.localdomain ([177.220.176.176])
+ by smtp.gmail.com with ESMTPSA id q24sm3156790qtk.45.2020.03.19.18.17.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Mar 2020 18:17:11 -0700 (PDT)
+Received: by localhost.localdomain (Postfix, from userid 1000)
+ id 4F225C1B52; Thu, 19 Mar 2020 22:17:09 -0300 (-03)
+Date: Thu, 19 Mar 2020 22:17:09 -0300
+From: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>
+To: syzbot <syzbot+3950016bd95c2ca0377b@syzkaller.appspotmail.com>
+Subject: Re: general protection fault in sctp_ulpevent_nofity_peer_addr_change
+Message-ID: <20200320011709.GE3756@localhost.localdomain>
+References: <00000000000074219d05a139e082@google.com>
+ <00000000000041ca9305a13ea3e0@google.com>
 MIME-Version: 1.0
-References: <1583664775-19382-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1583664775-19382-3-git-send-email-dennis-yc.hsieh@mediatek.com>
-In-Reply-To: <1583664775-19382-3-git-send-email-dennis-yc.hsieh@mediatek.com>
-From: Jassi Brar <jassisinghbrar@gmail.com>
-Date: Thu, 19 Mar 2020 20:05:33 -0500
-Message-ID: <CABb+yY04NbSvHkQ0sVHd+KjU3ZFZSZD=H99OSNjoeu+Qpk7R8g@mail.gmail.com>
-Subject: Re: [PATCH v5 02/13] mailbox: cmdq: variablize address shift in
- platform
-To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-X-Mailman-Approved-At: Fri, 20 Mar 2020 08:01:25 +0000
+Content-Disposition: inline
+In-Reply-To: <00000000000041ca9305a13ea3e0@google.com>
+X-Mailman-Approved-At: Fri, 20 Mar 2020 08:01:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,40 +70,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>, wsd_upstream@mediatek.com,
- David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, HS Liao <hs.liao@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Houlong Wei <houlong.wei@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: linux-fbdev@vger.kernel.org, mareklindner@neomailbox.ch,
+ nhorman@tuxdriver.com, b.zolnierkie@samsung.com, netdev@vger.kernel.org,
+ vyasevich@gmail.com, b.a.t.m.a.n@lists.open-mesh.org, a@unstable.cc,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ syzkaller-bugs@googlegroups.com, lkundrak@v3.sk, linux-sctp@vger.kernel.org,
+ sw@simonwunderlich.de, kuba@kernel.org, davem@davemloft.net
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 8, 2020 at 5:53 AM Dennis YC Hsieh
-<dennis-yc.hsieh@mediatek.com> wrote:
->
-> Some gce hardware shift pc and end address in register to support
-> large dram addressing.
-> Implement gce address shift when write or read pc and end register.
-> And add shift bit in platform definition.
->
-> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> ---
->  drivers/mailbox/mtk-cmdq-mailbox.c       | 61 ++++++++++++++++++------
->  drivers/soc/mediatek/mtk-cmdq-helper.c   |  3 +-
->  include/linux/mailbox/mtk-cmdq-mailbox.h |  2 +
->
-Please segregate this patch, and any other if, into mailbox and
-platform specific patchsets. Ideally soc/client specific changes later
-on top of mailbox/provider changes.
+On Thu, Mar 19, 2020 at 05:48:02PM -0700, syzbot wrote:
+> syzbot has bisected this bug to:
+> 
+> commit da2648390ce3d409218b6bbbf2386d8ddeec2265
+> Author: Lubomir Rintel <lkundrak@v3.sk>
+> Date:   Thu Dec 20 18:13:09 2018 +0000
+> 
+>     pxa168fb: trivial typo fix
 
-Thanks
+Certainly not ;-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
