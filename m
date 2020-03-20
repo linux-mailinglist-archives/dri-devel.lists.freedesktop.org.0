@@ -1,92 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700D018DF8E
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Mar 2020 11:44:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D9A18DF96
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Mar 2020 11:45:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9EF6E339;
-	Sat, 21 Mar 2020 10:44:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B41846E312;
+	Sat, 21 Mar 2020 10:44:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr10046.outbound.protection.outlook.com [40.107.1.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19B316EB58;
- Fri, 20 Mar 2020 18:55:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Yp1DbsReGQKyRXP/9PI4nfgyBjWWVmV3+Xs1OVV3dQ94jNNrvvuyYYQnS1D4MtRalxma/7UUO1K9m6G1SqR5Z+Z/maX0DRLDLgBMeuwFWN+/+zFTvbronWHIbiuWI95Vla9SkAbh+za+9XuQJLElN5PAgCGw+oZ2C1xFI5n8aier2gDyF3GVe5QpCcJtEZ4v2Q7H5UvkinhLqJWQFAJEI6bdvdySb4YweacKvPHRPs11l1/8s4PGdJsmK7ecEyN5OmzQ8lW+6X3H2uGdBjEaIzzKwZ0W5ZCgGs0vogWbxUxqEt3cwb63nMCidDNxLtf9u8zcMtmEi7hHhZ2Vo5MNIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iljs5PLfR/zwDLb4uGNINnowXyqZ0GWg5emQx5NfmrM=;
- b=f5nvTuuG4xhrefZXy441ra2HJtusSKVOH3Sne83BVLWOhhwj4G7kIZLA++X8O/T01PiXAbjtyGAGY/SYs60ezbyccNACicf8aLieRg8z/KEkGeddjLJxz31dYRIUs3Ro+PdfJrWpyBaYsoKF2/cxvKK+fHnxJNdt9YFr1gqN7E3zd6oMfetkXpdnyqbmIfmR6K0F5wHBdXTxNgonVmnyWTY23ziIu/aDi3H3tRZllkLh0sZ8ekerEJ0lHWTiZZXVAGhJFRqt3P+8DeooqK9z6yJ4oAqoAD0K8itxA3s+BAbv+mB4K4QxX1sUUWYWkMQ/FOOuJSVfwFkP73uqdrwgsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iljs5PLfR/zwDLb4uGNINnowXyqZ0GWg5emQx5NfmrM=;
- b=pDItW6ADQBcuwRydLEw7vQx/wFtlNmBfwcetzzmwSrchdReA/v6oDehoIVr7YaIks0rnyXatVWkme04K1Vl12MoSuvHNQd06UhJMGDqqa3MCQq5J8LBjA2LW0yZXiEDxMhqu5fixVMFf/0o42dLomJ5iH7avX79tD4gPPeTo4aM=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=jgg@mellanox.com; 
-Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (52.133.14.15) by
- VI1PR05MB6077.eurprd05.prod.outlook.com (20.178.126.13) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.18; Fri, 20 Mar 2020 18:55:36 +0000
-Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
- ([fe80::18d2:a9ea:519:add3]) by VI1PR05MB4141.eurprd05.prod.outlook.com
- ([fe80::18d2:a9ea:519:add3%7]) with mapi id 15.20.2814.025; Fri, 20 Mar 2020
- 18:55:36 +0000
-Date: Fri, 20 Mar 2020 15:55:32 -0300
-From: Jason Gunthorpe <jgg@mellanox.com>
-To: Ralph Campbell <rcampbell@nvidia.com>
-Subject: Re: [PATCH hmm 0/6] Small hmm_range_fault() cleanups
-Message-ID: <20200320185532.GM13183@mellanox.com>
-References: <20200320164905.21722-1-jgg@ziepe.ca>
- <030773be-3ea0-033e-051e-a3c0a13ef709@nvidia.com>
-Content-Disposition: inline
-In-Reply-To: <030773be-3ea0-033e-051e-a3c0a13ef709@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: MN2PR19CA0060.namprd19.prod.outlook.com
- (2603:10b6:208:19b::37) To VI1PR05MB4141.eurprd05.prod.outlook.com
- (2603:10a6:803:44::15)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BE0C6EB6D
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 21:35:39 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id t21so5705333lfe.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 14:35:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OCDsP/U4Ms1AhLHpI7SZoQLxQGHhjcNRvpYOI8469D8=;
+ b=umvvKuUp0qCw0SMhrr9YFFX35Pb2FD3pqboXfGroPGL0ICbyN1BL7SZXZFp02pzaWh
+ V6kcLZhvWlcSBhhPi0qxn1Gm3lHSw7/xV1fsPRwfhPfoMxivbqqXKQuL8YDEM2tI3Fz7
+ 2LYuvxK/wv522r8zC/uM1rvq96H8vvsreGNxpjDAtRfnpTCG6lhSnKJAF2Ipn4Epvz20
+ UhCqFfkMUjXMrR72JvKuhxhz5Bwb/EV2cnpcARjBLhiNIQIHedi9GDbgA3gNwk71YLyV
+ j2F/YJRipjLIEkMV990PRiUIF4lLERdU4a7XBZHRqtSvo1oNMLIu8c2YvuZxu7oOLLcd
+ 4gLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OCDsP/U4Ms1AhLHpI7SZoQLxQGHhjcNRvpYOI8469D8=;
+ b=E7vrSii9zMgXMEIhftLh8SzmKZ5ryPlD8uGSzCg+wQDXF5jb9lQxyfj3c3+F4ceCvX
+ xKEYhNzm0uXniQZFUtcDsWs9ovT9JDrK9YHRaC5vlyR3XyLBZjbvN6lncZJEAceks9dW
+ U4rMfTdarynFO+BipGPUruSIaZEi3eGaI/YSnQxDXDxv7uChOzH8EXOh7qudNfZUcBrt
+ nt4NMjDfKHZVodahn2fiZ+245LqU1QsRj6/1o1YLZVk8lHO5BlQ/vztdEtNXa06fauxK
+ F99rvcvNV+xtpWv/q7UXmG4VuZydg5Ebpz8gK4qmdHqfI3rid5guN47AAKWz/0VFszfx
+ Cqog==
+X-Gm-Message-State: ANhLgQ14PtqeANUoGEtVLxZaRVzmFrw3FMaQVFmBxn+yk6z8w61NpEpO
+ nMnkmFTdaENiAxWv1LMmIhwugPoVJAngwjrqq9xb
+X-Google-Smtp-Source: ADFU+vvhJxTDjPKM0Tsq1MZWycwDxA87bamtVlGnPU4b7YpTwEb/JWmpXMOT57yZxKG1ocPE4lHlHg3iBmmLX09BNR4=
+X-Received: by 2002:a05:6512:1054:: with SMTP id
+ c20mr6439799lfb.69.1584740136982; 
+ Fri, 20 Mar 2020 14:35:36 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.68.57.212) by
- MN2PR19CA0060.namprd19.prod.outlook.com (2603:10b6:208:19b::37) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.15 via Frontend
- Transport; Fri, 20 Mar 2020 18:55:36 +0000
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)	(envelope-from
- <jgg@mellanox.com>)	id 1jFMns-0006QJ-S8; Fri, 20 Mar 2020 15:55:32 -0300
-X-Originating-IP: [142.68.57.212]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 34d375bf-5c1c-452f-5b78-08d7cd0046b0
-X-MS-TrafficTypeDiagnostic: VI1PR05MB6077:
-X-Microsoft-Antispam-PRVS: <VI1PR05MB6077B9FEC801E0A027A3F75FCFF50@VI1PR05MB6077.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
-X-Forefront-PRVS: 03484C0ABF
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(366004)(396003)(39860400002)(346002)(376002)(199004)(1076003)(9786002)(5660300002)(9746002)(2906002)(66556008)(66476007)(2616005)(86362001)(66946007)(8936002)(478600001)(26005)(33656002)(6916009)(54906003)(53546011)(186003)(8676002)(4326008)(52116002)(81156014)(81166006)(966005)(36756003)(4744005)(316002)(24400500001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB6077;
- H:VI1PR05MB4141.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: e6VIAJNEBb3OLJ2G8y4dnOz17ToQisnt04U0LNzQ0rLPZM3z1/dqshOJTV7/KGtaMIMwEHtEhPpJ4aZowVKaHryTArIJwapju8Ch5+XgTxfR8wQ8lO83dHecH5qwkPLHGzOjM2McQHByCv+MJaVaBBPvJifX3MvFNVjZAnGtq+nVvjsRjIrHBMlQ0sAFOLea2HOeg+STbsR4chZbff5lofJ17o+x//ycJK2EBFswRy9wKVShesd8FdVCWrqC7Lu+sTiW4fYU0NbJFCPFb4LAcY0H6nFzJoujnjW1Qr/59iZ/Bl8eJToKNVxBcdyizQhK01lVYWrgbjy6UTfHaeMjgB6nj7pec6QgeAzaL+VDhyQEOhVXmizx409AqS8IhTrWy7BL7oNsngVqo7EOjI0XNfxQAuKBtpZtY89oJqyLQkvGlTy78eEQZLzQY7OZKmMnNC9h6uG0VjUxiR8wPXsWZynPIdbI2ovidiSKPGvKE8SHnCRJ4FlKNTTApOSMMroyyiW18kl/fAC4ga29SmPYObPxswTl9tDjq2IEBNGDFMu1Xwp6yulfmeOF0w2cP5gyxxu1jNoOKBgRMaHMIR97gg==
-X-MS-Exchange-AntiSpam-MessageData: MvVEWNc4WHnKQN0wDmWFKRqdFIJUQrWfzbBtgDMTiwOLZaQBJX42kPH7WdpQK2pQMo/C/3ve0TyvnbxURkOwvEFv5D/E32IKIqi7c01oqsF3ZnkrHR5xap2ZYIbwVpkLex/ueKnmbTO2o8rn7dY+Gw==
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34d375bf-5c1c-452f-5b78-08d7cd0046b0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2020 18:55:36.7700 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8CojhxnjGAz9YVvxZbtxgd11L+34c09e2be4CnJ9F8L308YjesTSxCP16Kc0ub1sX+NVq0/eE1bvFM4JLdSrSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6077
+References: <CAKT=dDnhth-6giOWgym7qpLNeH=86=XhQmPcgHM2J8B_L3myRQ@mail.gmail.com>
+ <1931035.d46ecxlGCF@saphira>
+ <CAKT=dDmMs1VOFst3gVUbsAp8yFuvV9e+zq0DqayBQ8G7+utc7g@mail.gmail.com>
+ <12494517.uLZWGnKmhe@solembum>
+In-Reply-To: <12494517.uLZWGnKmhe@solembum>
+From: Yiwei Zhang <zzyiwei@google.com>
+Date: Fri, 20 Mar 2020 14:35:25 -0700
+Message-ID: <CAKT=dD=L8T6vC3N6-ntGmA0qbAULmLv0a81rRS4VSVzC-zL3Kg@mail.gmail.com>
+Subject: Re: Proposal to report GPU private memory allocations with sysfs
+ nodes [plain text version]
+To: Rohan Garg <rohan.garg@collabora.com>
 X-Mailman-Approved-At: Sat, 21 Mar 2020 10:44:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,36 +66,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>, John Hubbard <jhubbard@nvidia.com>,
- Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- Jerome Glisse <jglisse@redhat.com>, dri-devel@lists.freedesktop.org,
- Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alistair Delva <adelva@google.com>, Prahlad Kilambi <prahladk@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jerome Glisse <jglisse@redhat.com>, Kenny Ho <y2kenny@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sean Paul <seanpaul@chromium.org>,
+ Chris Forbes <chrisforbes@google.com>,
+ Android Kernel Team <kernel-team@android.com>
+Content-Type: multipart/mixed; boundary="===============0461172036=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 20, 2020 at 11:51:47AM -0700, Ralph Campbell wrote:
-> 
-> On 3/20/20 9:48 AM, Jason Gunthorpe wrote:
-> > From: Jason Gunthorpe <jgg@mellanox.com>
-> > 
-> > I've had these in my work queue for a bit, nothing profound here, just some
-> > small edits for clarity.
-> 
-> The hmm tester changes are clear enough but I'm having a bit of trouble figuring out
-> what this series applies cleanly to since I'm trying to apply it on top of the
-> other patches you and Christoph have sent out.
-> Is there a private git tree/branch where everything is applied?
+--===============0461172036==
+Content-Type: multipart/alternative; boundary="000000000000ed872905a15010d6"
 
-I accumulate everything here:
+--000000000000ed872905a15010d6
+Content-Type: text/plain; charset="UTF-8"
 
-https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git/log/?h=hmm
+Hi Rohan,
 
-The patches should apply on top of that
+Thanks for your reply! We'd like the standardization to happen in the drm
+layer so it can be carried along, however, debugfs has already been
+deprecated in Android kernel and tracking per pid is most likely a doable
+solution only in the device driver layer. So...since we'd still like the
+low-cost run-time query system, we eventually end up doing the
+tracepoint[1] + eBPF solution. We standardized a gpu memory total
+tracepoint in upstream linux. Then the GPU vendors integrate into their
+kernel driver to track those global and per-process total counters. Then we
+wrote a bpf c program to track this tracepoint and maintain a map for the
+userspace to poke at.
 
-Jason
+Best regards,
+Yiwei
+
+[1] https://lore.kernel.org/lkml/20200302235044.59163-1-zzyiwei@google.com
+
+
+
+On Fri, Mar 20, 2020 at 5:07 AM Rohan Garg <rohan.garg@collabora.com> wrote:
+
+> Hi Yiwei
+> After some deliberation on how to move forward with my BO Labeling
+> patches[1],
+> we've come up with the following structure for debugfs entries:
+>
+> /debugfs/dri/128/bo/<handle>/label
+> /debugfs/dri/128/bo/<handle>/size
+>
+> My initial idea was to count the total memory allocated for a particular
+> label
+> in kernel space, but that turned out to be far too complicated to
+> implement.
+> Which is why we decided to move towards something simpler and handle
+> collating
+> this information on the userspace side of things.
+>
+> Would this satisfy most of the Android  teams requirements? I understand
+> that
+> it would leave out the memory tracking requirements tied to a specific
+> PID,
+> but correct me if I'm wrong, would this not possible with gralloc on
+> Android?
+>
+> Cheers
+> Rohan Garg
+>
+> [1] https://patchwork.freedesktop.org/patch/335508/?series=66752&rev=4
+>
+> On lunes, 6 de enero de 2020 21:47:21 (CET) Yiwei Zhang wrote:
+> > Thanks, I'll check it out.
+> >
+> > Best,
+> > Yiwei
+> >
+> > On Mon, Jan 6, 2020 at 2:46 AM Rohan Garg <rohan.garg@collabora.com>
+> wrote:
+> > > Hi Yiwei
+> > >
+> > > On jueves, 19 de diciembre de 2019 19:52:26 (CET) Yiwei Zhang wrote:
+> > > > Hi Rohan,
+> > > >
+> > > > Thanks for pointing out the pids issue! Then the index would be
+> > >
+> > > {namespace
+> > >
+> > > > + pid(in that namespace)}. I'll grab a setup and play with the
+> driver to
+> > > > see what I can do. I know how to find an Intel or Freedreno setup,
+> but
+> > >
+> > > I'd
+> > >
+> > > > still like to know is there a development friendly Mali setup?
+> > >
+> > > You should be able to setup a Mali T860 compatible device with this
+> guide
+> > > [1].
+> > >
+> > > Cheers
+> > > Rohan Garg
+> > >
+> > > [1] https://panfrost.freedesktop.org/building-panfrost-mesa.html
+>
+>
+
+--000000000000ed872905a15010d6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Rohan,<br><br>Thanks for your reply! We&#39;d like the =
+standardization to happen in the drm layer so it can be carried along, howe=
+ver, debugfs has already been deprecated in Android kernel and tracking per=
+ pid is most likely a doable solution only in the device driver layer. So..=
+.since we&#39;d still like the low-cost run-time query system, we eventuall=
+y end up doing the tracepoint[1] + eBPF solution. We standardized a gpu mem=
+ory total tracepoint in upstream linux. Then the GPU vendors integrate into=
+ their kernel driver to track those global and per-process total counters. =
+Then we wrote a bpf c program to track this tracepoint and maintain a map f=
+or the userspace to poke at.<div><br></div><div>Best regards,</div><div>Yiw=
+ei<br><br>[1] <a href=3D"https://lore.kernel.org/lkml/20200302235044.59163-=
+1-zzyiwei@google.com">https://lore.kernel.org/lkml/20200302235044.59163-1-z=
+zyiwei@google.com</a><br><div><br></div></div></div><br><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 20, 2020 at 5=
+:07 AM Rohan Garg &lt;<a href=3D"mailto:rohan.garg@collabora.com">rohan.gar=
+g@collabora.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">Hi Yiwei<br>
+After some deliberation on how to move forward with my BO Labeling patches[=
+1],<br>
+we&#39;ve come up with the following structure for debugfs entries:<br>
+<br>
+/debugfs/dri/128/bo/&lt;handle&gt;/label<br>
+/debugfs/dri/128/bo/&lt;handle&gt;/size<br>
+<br>
+My initial idea was to count the total memory allocated for a particular la=
+bel <br>
+in kernel space, but that turned out to be far too complicated to implement=
+. <br>
+Which is why we decided to move towards something simpler and handle collat=
+ing <br>
+this information on the userspace side of things.<br>
+<br>
+Would this satisfy most of the Android=C2=A0 teams requirements? I understa=
+nd that <br>
+it would leave out the memory tracking requirements tied to a specific PID,=
+ <br>
+but correct me if I&#39;m wrong, would this not possible with gralloc on An=
+droid?<br>
+<br>
+Cheers<br>
+Rohan Garg<br>
+<br>
+[1] <a href=3D"https://patchwork.freedesktop.org/patch/335508/?series=3D667=
+52&amp;rev=3D4" rel=3D"noreferrer" target=3D"_blank">https://patchwork.free=
+desktop.org/patch/335508/?series=3D66752&amp;rev=3D4</a><br>
+<br>
+On lunes, 6 de enero de 2020 21:47:21 (CET) Yiwei Zhang wrote:<br>
+&gt; Thanks, I&#39;ll check it out.<br>
+&gt; <br>
+&gt; Best,<br>
+&gt; Yiwei<br>
+&gt; <br>
+&gt; On Mon, Jan 6, 2020 at 2:46 AM Rohan Garg &lt;<a href=3D"mailto:rohan.=
+garg@collabora.com" target=3D"_blank">rohan.garg@collabora.com</a>&gt; wrot=
+e:<br>
+&gt; &gt; Hi Yiwei<br>
+&gt; &gt; <br>
+&gt; &gt; On jueves, 19 de diciembre de 2019 19:52:26 (CET) Yiwei Zhang wro=
+te:<br>
+&gt; &gt; &gt; Hi Rohan,<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Thanks for pointing out the pids issue! Then the index would=
+ be<br>
+&gt; &gt; <br>
+&gt; &gt; {namespace<br>
+&gt; &gt; <br>
+&gt; &gt; &gt; + pid(in that namespace)}. I&#39;ll grab a setup and play wi=
+th the driver to<br>
+&gt; &gt; &gt; see what I can do. I know how to find an Intel or Freedreno =
+setup, but<br>
+&gt; &gt; <br>
+&gt; &gt; I&#39;d<br>
+&gt; &gt; <br>
+&gt; &gt; &gt; still like to know is there a development friendly Mali setu=
+p?<br>
+&gt; &gt; <br>
+&gt; &gt; You should be able to setup a Mali T860 compatible device with th=
+is guide<br>
+&gt; &gt; [1].<br>
+&gt; &gt; <br>
+&gt; &gt; Cheers<br>
+&gt; &gt; Rohan Garg<br>
+&gt; &gt; <br>
+&gt; &gt; [1] <a href=3D"https://panfrost.freedesktop.org/building-panfrost=
+-mesa.html" rel=3D"noreferrer" target=3D"_blank">https://panfrost.freedeskt=
+op.org/building-panfrost-mesa.html</a><br>
+<br>
+</blockquote></div>
+
+--000000000000ed872905a15010d6--
+
+--===============0461172036==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0461172036==--
