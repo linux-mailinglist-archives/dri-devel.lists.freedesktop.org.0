@@ -1,67 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626BD18DF87
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Mar 2020 11:44:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 700D018DF8E
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Mar 2020 11:44:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B6EA6E2EA;
-	Sat, 21 Mar 2020 10:44:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9EF6E339;
+	Sat, 21 Mar 2020 10:44:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 881A26E1A3
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 16:59:19 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id 37so3363308pgm.11
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 09:59:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xRjX7T7eft/qC+6bf7FfyU/mPCvn6DuztC5RzuHCyVc=;
- b=WmQkIo8wgTcT+49UEOC761MjUtOoLumkxcQrNLGTV5XIF/8lT1bx+3pCSL8T9xMdZY
- cWLs8vQSQKBV1VXMxQM5NR78QAl2OuRSqAVNbbPsuMvJzg/GjnWpmqSoglfFIAkV31+z
- MP+DUTjrCLJ6J7p5c6jvdGCaDAE5JuorkDPWMCl3cc8f1/br3nbePeINlV2no2Zpv0lA
- x996mvxPsYAJubp73Du4S2nS/wtnN/9QxMhJQCWR+gg4WbHEtK82IFnTkGk0BMjclTq/
- UasFQVqNKpkfmX/un/MPsIzZfDYZXMiTwx9ovm8X8Wk5Xzm8VVcGiy4D9LEPu/vagLD/
- G03A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xRjX7T7eft/qC+6bf7FfyU/mPCvn6DuztC5RzuHCyVc=;
- b=XGz9t+SU0wNSe6p6ZrqkyesXl2lnLqEr+btPyprBzxNHIP5V0hrEGFhZHgHCjsSK+l
- LfW/NTEHO6ZZo3xqBQHxm+XlI8kIu0EbcqYrE5efvqg4PjwBrjnKVsvv+TKrZ1jGC0V8
- GvLAb7C5j+E+jOGCvs6KnHJ7UrvbacvzT3TgRd/u740oxsHj4eVE902VHZw+jFngDi36
- c2gxAkWfiSmw7HD73g4CsVKb15EMXBrH0mSHRj4tApaf8Ap3WJ1wzEnb0HkDFjsreLu1
- v4ZfuiSwAaREsSlIe+JQ/FC35LM2lyo7V6PPaSz0KxHL47ZSb3LW8XaleKrgPCGUIaXx
- j67w==
-X-Gm-Message-State: ANhLgQ0orgzMmQ/qhuElRLXXEUThzschUz8QPRXQKH/iXBGupsQ/KsIf
- QVXRxTW2PVGWGpC089xbiXk3CrQehTihww==
-X-Google-Smtp-Source: ADFU+vtbRR/MYq87zJZvXdzKsxYqiR4x6njtZJXIu9qf6nhgSPf391EA27m+Q0Bt/DeLj3EN/58FoA==
-X-Received: by 2002:a05:6214:12c7:: with SMTP id
- s7mr9363766qvv.218.1584723027380; 
- Fri, 20 Mar 2020 09:50:27 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id e2sm4452824qkg.63.2020.03.20.09.50.24
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 20 Mar 2020 09:50:24 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1jFKql-0005kU-FT; Fri, 20 Mar 2020 13:50:23 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Jerome Glisse <jglisse@redhat.com>, Ralph Campbell <rcampbell@nvidia.com>,
- Felix.Kuehling@amd.com
-Subject: [PATCH hmm 6/6] mm/hmm: use device_private_entry_to_pfn()
-Date: Fri, 20 Mar 2020 13:49:05 -0300
-Message-Id: <20200320164905.21722-7-jgg@ziepe.ca>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200320164905.21722-1-jgg@ziepe.ca>
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr10046.outbound.protection.outlook.com [40.107.1.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19B316EB58;
+ Fri, 20 Mar 2020 18:55:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yp1DbsReGQKyRXP/9PI4nfgyBjWWVmV3+Xs1OVV3dQ94jNNrvvuyYYQnS1D4MtRalxma/7UUO1K9m6G1SqR5Z+Z/maX0DRLDLgBMeuwFWN+/+zFTvbronWHIbiuWI95Vla9SkAbh+za+9XuQJLElN5PAgCGw+oZ2C1xFI5n8aier2gDyF3GVe5QpCcJtEZ4v2Q7H5UvkinhLqJWQFAJEI6bdvdySb4YweacKvPHRPs11l1/8s4PGdJsmK7ecEyN5OmzQ8lW+6X3H2uGdBjEaIzzKwZ0W5ZCgGs0vogWbxUxqEt3cwb63nMCidDNxLtf9u8zcMtmEi7hHhZ2Vo5MNIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iljs5PLfR/zwDLb4uGNINnowXyqZ0GWg5emQx5NfmrM=;
+ b=f5nvTuuG4xhrefZXy441ra2HJtusSKVOH3Sne83BVLWOhhwj4G7kIZLA++X8O/T01PiXAbjtyGAGY/SYs60ezbyccNACicf8aLieRg8z/KEkGeddjLJxz31dYRIUs3Ro+PdfJrWpyBaYsoKF2/cxvKK+fHnxJNdt9YFr1gqN7E3zd6oMfetkXpdnyqbmIfmR6K0F5wHBdXTxNgonVmnyWTY23ziIu/aDi3H3tRZllkLh0sZ8ekerEJ0lHWTiZZXVAGhJFRqt3P+8DeooqK9z6yJ4oAqoAD0K8itxA3s+BAbv+mB4K4QxX1sUUWYWkMQ/FOOuJSVfwFkP73uqdrwgsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iljs5PLfR/zwDLb4uGNINnowXyqZ0GWg5emQx5NfmrM=;
+ b=pDItW6ADQBcuwRydLEw7vQx/wFtlNmBfwcetzzmwSrchdReA/v6oDehoIVr7YaIks0rnyXatVWkme04K1Vl12MoSuvHNQd06UhJMGDqqa3MCQq5J8LBjA2LW0yZXiEDxMhqu5fixVMFf/0o42dLomJ5iH7avX79tD4gPPeTo4aM=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=jgg@mellanox.com; 
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (52.133.14.15) by
+ VI1PR05MB6077.eurprd05.prod.outlook.com (20.178.126.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2835.18; Fri, 20 Mar 2020 18:55:36 +0000
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::18d2:a9ea:519:add3]) by VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::18d2:a9ea:519:add3%7]) with mapi id 15.20.2814.025; Fri, 20 Mar 2020
+ 18:55:36 +0000
+Date: Fri, 20 Mar 2020 15:55:32 -0300
+From: Jason Gunthorpe <jgg@mellanox.com>
+To: Ralph Campbell <rcampbell@nvidia.com>
+Subject: Re: [PATCH hmm 0/6] Small hmm_range_fault() cleanups
+Message-ID: <20200320185532.GM13183@mellanox.com>
 References: <20200320164905.21722-1-jgg@ziepe.ca>
+ <030773be-3ea0-033e-051e-a3c0a13ef709@nvidia.com>
+Content-Disposition: inline
+In-Reply-To: <030773be-3ea0-033e-051e-a3c0a13ef709@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: MN2PR19CA0060.namprd19.prod.outlook.com
+ (2603:10b6:208:19b::37) To VI1PR05MB4141.eurprd05.prod.outlook.com
+ (2603:10a6:803:44::15)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sat, 21 Mar 2020 10:44:29 +0000
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.68.57.212) by
+ MN2PR19CA0060.namprd19.prod.outlook.com (2603:10b6:208:19b::37) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.15 via Frontend
+ Transport; Fri, 20 Mar 2020 18:55:36 +0000
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)	(envelope-from
+ <jgg@mellanox.com>)	id 1jFMns-0006QJ-S8; Fri, 20 Mar 2020 15:55:32 -0300
+X-Originating-IP: [142.68.57.212]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 34d375bf-5c1c-452f-5b78-08d7cd0046b0
+X-MS-TrafficTypeDiagnostic: VI1PR05MB6077:
+X-Microsoft-Antispam-PRVS: <VI1PR05MB6077B9FEC801E0A027A3F75FCFF50@VI1PR05MB6077.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-Forefront-PRVS: 03484C0ABF
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(136003)(366004)(396003)(39860400002)(346002)(376002)(199004)(1076003)(9786002)(5660300002)(9746002)(2906002)(66556008)(66476007)(2616005)(86362001)(66946007)(8936002)(478600001)(26005)(33656002)(6916009)(54906003)(53546011)(186003)(8676002)(4326008)(52116002)(81156014)(81166006)(966005)(36756003)(4744005)(316002)(24400500001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB6077;
+ H:VI1PR05MB4141.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: e6VIAJNEBb3OLJ2G8y4dnOz17ToQisnt04U0LNzQ0rLPZM3z1/dqshOJTV7/KGtaMIMwEHtEhPpJ4aZowVKaHryTArIJwapju8Ch5+XgTxfR8wQ8lO83dHecH5qwkPLHGzOjM2McQHByCv+MJaVaBBPvJifX3MvFNVjZAnGtq+nVvjsRjIrHBMlQ0sAFOLea2HOeg+STbsR4chZbff5lofJ17o+x//ycJK2EBFswRy9wKVShesd8FdVCWrqC7Lu+sTiW4fYU0NbJFCPFb4LAcY0H6nFzJoujnjW1Qr/59iZ/Bl8eJToKNVxBcdyizQhK01lVYWrgbjy6UTfHaeMjgB6nj7pec6QgeAzaL+VDhyQEOhVXmizx409AqS8IhTrWy7BL7oNsngVqo7EOjI0XNfxQAuKBtpZtY89oJqyLQkvGlTy78eEQZLzQY7OZKmMnNC9h6uG0VjUxiR8wPXsWZynPIdbI2ovidiSKPGvKE8SHnCRJ4FlKNTTApOSMMroyyiW18kl/fAC4ga29SmPYObPxswTl9tDjq2IEBNGDFMu1Xwp6yulfmeOF0w2cP5gyxxu1jNoOKBgRMaHMIR97gg==
+X-MS-Exchange-AntiSpam-MessageData: MvVEWNc4WHnKQN0wDmWFKRqdFIJUQrWfzbBtgDMTiwOLZaQBJX42kPH7WdpQK2pQMo/C/3ve0TyvnbxURkOwvEFv5D/E32IKIqi7c01oqsF3ZnkrHR5xap2ZYIbwVpkLex/ueKnmbTO2o8rn7dY+Gw==
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34d375bf-5c1c-452f-5b78-08d7cd0046b0
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2020 18:55:36.7700 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8CojhxnjGAz9YVvxZbtxgd11L+34c09e2be4CnJ9F8L308YjesTSxCP16Kc0ub1sX+NVq0/eE1bvFM4JLdSrSg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6077
+X-Mailman-Approved-At: Sat, 21 Mar 2020 10:44:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,43 +101,34 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Philip Yang <Philip.Yang@amd.com>, John Hubbard <jhubbard@nvidia.com>,
- amd-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- Jason Gunthorpe <jgg@mellanox.com>, dri-devel@lists.freedesktop.org,
+ Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ Jerome Glisse <jglisse@redhat.com>, dri-devel@lists.freedesktop.org,
  Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jason Gunthorpe <jgg@mellanox.com>
+On Fri, Mar 20, 2020 at 11:51:47AM -0700, Ralph Campbell wrote:
+> 
+> On 3/20/20 9:48 AM, Jason Gunthorpe wrote:
+> > From: Jason Gunthorpe <jgg@mellanox.com>
+> > 
+> > I've had these in my work queue for a bit, nothing profound here, just some
+> > small edits for clarity.
+> 
+> The hmm tester changes are clear enough but I'm having a bit of trouble figuring out
+> what this series applies cleanly to since I'm trying to apply it on top of the
+> other patches you and Christoph have sent out.
+> Is there a private git tree/branch where everything is applied?
 
-swp_offset() should not be called directly, the wrappers are supposed to
-abstract away the encoding of the device_private specific information in
-the swap entry.
+I accumulate everything here:
 
-Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
----
- mm/hmm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git/log/?h=hmm
 
-diff --git a/mm/hmm.c b/mm/hmm.c
-index a09b4908e9c81a..fd9ee2b5fd9989 100644
---- a/mm/hmm.c
-+++ b/mm/hmm.c
-@@ -259,8 +259,8 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
- 		 * the PFN even if not present.
- 		 */
- 		if (hmm_is_device_private_entry(range, entry)) {
--			*pfn = hmm_device_entry_from_pfn(range,
--					    swp_offset(entry));
-+			*pfn = hmm_device_entry_from_pfn(
-+				range, device_private_entry_to_pfn(entry));
- 			*pfn |= range->flags[HMM_PFN_VALID];
- 			if (is_write_device_private_entry(entry))
- 				*pfn |= range->flags[HMM_PFN_WRITE];
--- 
-2.25.1
+The patches should apply on top of that
 
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
