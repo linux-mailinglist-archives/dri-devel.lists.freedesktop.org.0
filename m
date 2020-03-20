@@ -1,36 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A92F18D86E
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 20:32:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2AE18D8C3
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 20:54:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BFEC6EB63;
-	Fri, 20 Mar 2020 19:32:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44C156EB62;
+	Fri, 20 Mar 2020 19:54:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C5F66EB62
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 19:32:23 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1jFNNU-0008E2-Rn; Fri, 20 Mar 2020 20:32:20 +0100
-Message-ID: <74d9c6d19099fdba6c6795204a6aa445b7930c79.camel@pengutronix.de>
-Subject: [GIT PULL] etnaviv-next for 5.7
-From: Lucas Stach <l.stach@pengutronix.de>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 20 Mar 2020 20:32:18 +0100
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB6DA6EB62
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 19:54:30 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206575] [amdgpu] [drm] No video signal on resume from suspend,
+ R9 380
+Date: Fri, 20 Mar 2020 19:54:29 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: kernel_bugzilla@joeramsey.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-206575-2300-PoC01RKmbp@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206575-2300@https.bugzilla.kernel.org/>
+References: <bug-206575-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,64 +52,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- etnaviv@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLCBEYXZlLAoKbm90aGluZyB0b28gZXhjaXRpbmcgdGhpcyB0aW1lLCBtb3N0bHkg
-bWFraW5nIG5ld2VyIGhhcmR3YXJlIG1vcmUKc3RhYmxlLgoKLSBmaXggZm9yIHBvdGVudGlhbCBv
-dXQtb2YtYm91bmRzIHJlYWRzIGluIHRoZSBwZXJmbW9uIGlvY3RsCiAgaW1wbGVtZW50YXRpb24g
-ZnJvbSBDaHJpc3RpYW4KLSBvdmVycmlkZSB0byBleHBvc2UgcHJvcGVyIGZlYXR1cmUgZmxhZ3Mg
-Zm9yIHRoZSBHQzQwMCBmb3VuZCBvbiB0aGUKICBTVE0zMk1QMSBTb0MsIGFsc28gZnJvbSBDaHJp
-c3RpYW4KLSBHdWlkbyBmaXhlZCBhbiBpc3N1ZSB3aGVyZSB3ZSB3b3VsZCBzcHVyaW91c2x5IGZh
-aWwgdG8gZW50ZXIKICBydW50aW1lIHN1c3BlbmQgZHVlIHRvIGEgbmV3IEdQVSBlbmdpbmUgc3Rh
-dHVzIGJpdCBvbiBHQzcwMDAKLSB0cmVlLXdpZGUgY2hhbmdlIGZyb20gR3VzdGF2byB0byBnZXQg
-cmlkIG9mIHplcm8tbGVuZ3RoIGFycmF5cwotIGZpeCBmb3IgbWlzc2VkIFRTIGNhY2hlIGZsdXNo
-IG9uIEdDNzAwMCwgbGVhZGluZyB0byBzcHVyaW91cwogIE1NVSBmYXVsdHMgZnJvbSBtZQotIHJl
-cXVlc3QgcGFnZXMgZnJvbSBETUEzMiB6b25lIG9uIHN5c3RlbXMgd2hlcmUgd2UgY2FuJ3QgYWRk
-cmVzcwogIGFsbCBwcmVzZW50IG1lbW9yeSBmcm9tIG1lCgpSZWdhcmRzLApMdWNhcwoKVGhlIGZv
-bGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCBiYjZkM2ZiMzU0YzVlZThkNmJkZTJkNTc2ZWI3
-MjIwZWEwOTg2MmI5OgoKICBMaW51eCA1LjYtcmMxICgyMDIwLTAyLTA5IDE2OjA4OjQ4IC0wODAw
-KQoKYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6CgogIGh0dHBzOi8vZ2l0
-LnBlbmd1dHJvbml4LmRlL2dpdC9sc3QvbGludXggZXRuYXZpdi9uZXh0Cgpmb3IgeW91IHRvIGZl
-dGNoIGNoYW5nZXMgdXAgdG8gZjIzMmQ5ZWMwMjljZTNlMjU0M2IwNTIxM2UyOTc5ZTAxZTUwMzQw
-ODoKCiAgZHJtL2V0bmF2aXY6IGZpeCBUUyBjYWNoZSBmbHVzaGluZyBvbiBHUFVzIHdpdGggQkxU
-IGVuZ2luZSAoMjAyMC0wMy0yMCAxODo0MDo0NCArMDEwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KQ2hyaXN0aWFuIEdt
-ZWluZXIgKDcpOgogICAgICBkcm0vZXRuYXZpdjogdXBkYXRlIGhhcmR3YXJlIGhlYWRlcnMgZnJv
-bSBybm5kYgogICAgICBkcm0vZXRuYXZpdjogZGV0ZXJtaW5lIHByb2R1Y3QsIGN1c3RvbWVyIGFu
-ZCBlY28gaWQKICAgICAgZHJtL2V0bmF2aXY6IHNob3cgaWRlbnRpdHkgaW5mb3JtYXRpb24gaW4g
-ZGVidWdmcwogICAgICBkcm0vZXRuYXZpdjogdXBkYXRlIGdjNzAwMCBjaGlwIGlkZW50aXR5IGVu
-dHJ5CiAgICAgIGRybS9ldG5hdml2OiB1cGRhdGUgaHdkYiBzZWxlY3Rpb24gbG9naWMKICAgICAg
-ZHJtL2V0bmF2aXY6IGFkZCBod2RiIGVudHJ5IGZvciBnYzQwMCBmb3VuZCBpbiBTVE0zMgogICAg
-ICBkcm0vZXRuYXZpdjogcmV3b3JrIHBlcmZtb24gcXVlcnkgaW5mcmFzdHJ1Y3R1cmUKCkd1aWRv
-IEfDvG50aGVyICg1KToKICAgICAgZHJtL2V0bmF2aXY6IEZpeCB0eXBvIGluIGNvbW1lbnQKICAg
-ICAgZHJtL2V0bmF2aXY6IFVwZGF0ZSBpZGxlIGJpdHMKICAgICAgZHJtL2V0bmF2aXY6IENvbnNp
-ZGVyIGFsbCBrd25vd24gaWRsZSBiaXRzIGluIGRlYnVnZnMKICAgICAgZHJtL2V0bmF2aXY6IEln
-bm9yZSBNQyB3aGVuIGNoZWNraW5nIHJ1bnRpbWUgc3VzcGVuZCBpZGxlbmVzcwogICAgICBkcm0v
-ZXRuYXZpdjogV2FybiB3aGVuIEdQVSBkb2Vzbid0IGlkbGUgZmFzdCBlbm91Z2gKCkd1c3Rhdm8g
-QS4gUi4gU2lsdmEgKDEpOgogICAgICBkcm0vZXRuYXZpdjogUmVwbGFjZSB6ZXJvLWxlbmd0aCBh
-cnJheSB3aXRoIGZsZXhpYmxlLWFycmF5IG1lbWJlcgoKTHVjYXMgU3RhY2ggKDIpOgogICAgICBk
-cm0vZXRuYXZpdjogcmVxdWVzdCBwYWdlcyBmcm9tIERNQTMyIHpvbmUgd2hlbiBuZWVkZWQKICAg
-ICAgZHJtL2V0bmF2aXY6IGZpeCBUUyBjYWNoZSBmbHVzaGluZyBvbiBHUFVzIHdpdGggQkxUIGVu
-Z2luZQoKIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfYnVmZmVyLmMgIHwgNjAgKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0t
-CiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5jICAgICB8ICAxICsKIGRyaXZl
-cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmggICAgIHwgIDEgKwogZHJpdmVycy9ncHUv
-ZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uYyAgICAgfCAgNCArKy0tCiBkcml2ZXJzL2dwdS9kcm0v
-ZXRuYXZpdi9ldG5hdml2X2dlbS5oICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZp
-di9ldG5hdml2X2dwdS5jICAgICB8IDUyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1
-LmggICAgIHwgIDYgKysrLS0tCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2h3ZGIu
-YyAgICB8IDQyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLQogZHJp
-dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9wZXJmbW9uLmMgfCA1OSArKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLQogZHJpdmVycy9n
-cHUvZHJtL2V0bmF2aXYvc3RhdGVfYmx0LnhtbC5oICAgfCAgMiArKwogZHJpdmVycy9ncHUvZHJt
-L2V0bmF2aXYvc3RhdGVfaGkueG1sLmggICAgfCAzNiArKysrKysrKysrKysrKysrKysrKysrKysr
-LS0tLS0tLS0tLS0KIDExIGZpbGVzIGNoYW5nZWQsIDIzMCBpbnNlcnRpb25zKCspLCAzNSBkZWxl
-dGlvbnMoLSkKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+https://bugzilla.kernel.org/show_bug.cgi?id=206575
+
+Joe Ramsey (kernel_bugzilla@joeramsey.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |kernel_bugzilla@joeramsey.c
+                   |                            |om
+
+--- Comment #14 from Joe Ramsey (kernel_bugzilla@joeramsey.com) ---
+Looks like this has been corrected in 5.6... is there any intent to include the
+fix in any 5.5 kernel or will we just have to wait for 5.6?
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
