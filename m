@@ -2,67 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0733118C872
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:01:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C53018C885
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 09:02:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A22B6EACC;
-	Fri, 20 Mar 2020 08:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19E336EADC;
+	Fri, 20 Mar 2020 08:01:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-blr-02.qualcomm.com (alexa-out-blr-02.qualcomm.com
- [103.229.18.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 928DE6E111;
- Fri, 20 Mar 2020 05:44:30 +0000 (UTC)
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
- by alexa-out-blr-02.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 20 Mar 2020 11:14:26 +0530
-Received: from harigovi-linux.qualcomm.com ([10.204.66.157])
- by ironmsg01-blr.qualcomm.com with ESMTP; 20 Mar 2020 11:14:14 +0530
-Received: by harigovi-linux.qualcomm.com (Postfix, from userid 2332695)
- id 83B822916; Fri, 20 Mar 2020 11:14:13 +0530 (IST)
-From: Harigovindan P <harigovi@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v7 2/2] drm/panel: add support for rm69299 visionox panel
- driver
-Date: Fri, 20 Mar 2020 11:14:09 +0530
-Message-Id: <20200316041647.27953-3-harigovi@codeaurora.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200316041647.27953-1-harigovi@codeaurora.org>
-References: <20200316041647.27953-1-harigovi@codeaurora.org>
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE986E11C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 06:28:21 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id d14so4572986ilq.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Mar 2020 23:28:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tcd-ie.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=iNXs70iQMmbCeWom+A/Tg16i/IbQyXAZI0Q/ppb6028=;
+ b=mlwq4CYA+23qP9sIb47R10WlCGq2DIeqg0u1nZRI7nIlEwzdaBM16J0diAb1hlohhx
+ 6DmTCrAETojeuHxXASGkurUqmDfwjHRaPO4za7UkVii+FhFKjU1p/Uh7mi3KFwpjPhsb
+ iUmifGiws8WLlb2N+d2f8DAIA3I+MwtdSl7QMUdRy6dZmidqOFzKWaoRrSqr4hGVvYFe
+ lxvu2QhZ23+aceqTRPs5AhP4qiprkvMy5v6UfWHtbzwVFjivSqy8raQEj8IKp649aRSz
+ OzRNio30MUjHUatFuFBVrSm+4Q22qFcnN1y399wmFgi4y40WUSo1BlDO9PO4lb7z5YMG
+ C1tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=iNXs70iQMmbCeWom+A/Tg16i/IbQyXAZI0Q/ppb6028=;
+ b=p6uk4ftom9ZZrjR9sSmVJS5lB2eQykuhMfwJME3fnPGlmfO0ciJ1PmkX8v3WHSC4bf
+ 3Eg+qyasjqEY3ukzGuu9Aa/rrNwohXAvkVOCYKZnnCyK++asnqJW8VKHJ9vlI2NsMWuJ
+ ChPK81wIVuf93nhHDoiaewxcHmh8Cl6VWqLYw5WIlm46rTKl2QlDPqz1myZcetdXCnPl
+ Spn3cgMW+DC5epZft8SDlHx7dOldfsAFJy15F5tt6Wtgm96zOabk3VaMszaw7SNjpW4S
+ JT19SNW30iQGOKt2HnwGLHCgEExJJJaVknB5b3TFTyq5p8UXLKOUKaAiddSEPhws+kJD
+ Sjog==
+X-Gm-Message-State: ANhLgQ0g9pTyKOgB8tfpVltpvVMdgUhaPDkUqmzXk367Xx1OIBJ04G0o
+ aKK+1v89psFlaS3XgIZFrfp3GcEdHd+69V9aBTri+w==
+X-Google-Smtp-Source: ADFU+vu5z05Ntsthh3MN1VmTHwq3rO5otoJoIS27t3cZsZdixT+HOBtJfxy3n0Krurf+ZkaYNXqDSZk62sBvXeLV7BQ=
+X-Received: by 2002:a92:41c7:: with SMTP id o190mr6554977ila.11.1584685701013; 
+ Thu, 19 Mar 2020 23:28:21 -0700 (PDT)
 MIME-Version: 1.0
-X-Patchwork-Submitter: Harigovindan P <harigovi@codeaurora.org>
-X-Patchwork-Id: 11439689
-Received: from mail.kernel.org (pdx-korg-mail-1.web.codeaurora.org
- [172.30.200.123]) by pdx-korg-patchwork-2.web.codeaurora.org (Postfix) with
- ESMTP id 3E5B06CA for <patchwork-linux-arm-msm@patchwork.kernel.org>;
- Mon, 16 Mar 2020 04:16:56 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67]) by
- mail.kernel.org (Postfix) with ESMTP id 136E320722 for
- <patchwork-linux-arm-msm@patchwork.kernel.org>;
- Mon, 16 Mar 2020 04:16:56 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand id
- S1728964AbgCPEQz (ORCPT <rfc822;
- patchwork-linux-arm-msm@patchwork.kernel.org>);
- Mon, 16 Mar 2020 00:16:55 -0400
-Received: from alexa-out-blr-01.qualcomm.com ([103.229.18.197]:23551 "EHLO
- alexa-out-blr-01.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
- with ESMTP id S1725790AbgCPEQz (ORCPT <rfc822; linux-arm-msm@vger.kernel.org>);
- Mon, 16 Mar 2020 00:16:55 -0400
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131]) by
- alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 16 Mar 2020 09:46:51 +0530
-Received: from harigovi-linux.qualcomm.com ([10.204.66.157]) by
- ironmsg02-blr.qualcomm.com with ESMTP; 16 Mar 2020 09:46:50 +0530
-Received: by harigovi-linux.qualcomm.com (Postfix, from userid 2332695) id
- EEE0C284A; Mon, 16 Mar 2020 09:46:49 +0530 (IST)
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Precedence: bulk
-X-Mailing-List: linux-arm-msm@vger.kernel.org
-X-Mailman-Approved-At: Fri, 20 Mar 2020 08:01:25 +0000
+References: <20191221150402.13868-1-murphyt7@tcd.ie> <87blrzwcn8.fsf@intel.com>
+ <432d306c-fe9f-75b2-f0f7-27698f1467ad@arm.com> <87o8vzuv4i.fsf@intel.com>
+In-Reply-To: <87o8vzuv4i.fsf@intel.com>
+From: Tom Murphy <murphyt7@tcd.ie>
+Date: Thu, 19 Mar 2020 23:28:09 -0700
+Message-ID: <CALQxJuujCe7TsqkbfusPnzef2SApDBNPa7wj=U4ozDJWCoBHOg@mail.gmail.com>
+Subject: Re: [PATCH 0/8] Convert the intel iommu driver to the dma-iommu api
+To: Jani Nikula <jani.nikula@linux.intel.com>
+X-Mailman-Approved-At: Fri, 20 Mar 2020 08:01:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: Direct Rendering Infrastructure - Development
  <dri-devel.lists.freedesktop.org>
 List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
@@ -72,384 +64,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, Matthias Kaehlcke <mka@chromium.org>,
- seanpaul@chromium.org, Harigovindan P <harigovi@codeaurora.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ linux-tegra@vger.kernel.org, Julien Grall <julien.grall@arm.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ linux-mediatek@lists.infradead.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ virtualization@lists.linux-foundation.org,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ David Woodhouse <dwmw2@infradead.org>, Cornelia Huck <cohuck@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Kukjin Kim <kgene@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for Visionox panel driver.
-
-Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
----
-
-Changes in v2:
-	- Dropping redundant space in Kconfig(Sam Ravnborg).
-	- Changing structure for include files(Sam Ravnborg).
-	- Removing backlight related code and functions(Sam Ravnborg).
-	- Removing repeated printing of error message(Sam Ravnborg).
-	- Adding drm_connector as an argument for get_modes function.
-Changes in v3:
-	- Adding arguments for drm_panel_init to support against mainline.
-Changes in v4:
-	- Removing error messages from regulator_set_load.
-	- Removing dev struct entry.
-	- Removing checks.
-	- Dropping empty comment lines.
-Changes in v5:
-	- Removing unused struct member variables.
-	- Removing blank lines.
-	- Fixed indentation.
-	- Invoking dsi_detach and panel_remove while early exiting from probe.
-Changes in v6:
-	- Changed "35597" to "rm69299" for power_on function.
-	- Removing rm69299_config since it supports single type of panel for now.
-	- Fixed alignment.
-	- Using goto statements when regulator_set_load fails.
-Changes in v7:
-	- Added new goto statement when regulator_set_load fails.
-
- drivers/gpu/drm/panel/Kconfig                 |   8 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../gpu/drm/panel/panel-visionox-rm69299.c    | 295 ++++++++++++++++++
- 3 files changed, 304 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-visionox-rm69299.c
-
-+MODULE_LICENSE("GPL v2");
-
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index ae44ac2ec106..7b696f304a99 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -389,6 +389,14 @@ config DRM_PANEL_TRULY_NT35597_WQXGA
- 	  Say Y here if you want to enable support for Truly NT35597 WQXGA Dual DSI
- 	  Video Mode panel
- 
-+config DRM_PANEL_VISIONOX_RM69299
-+	tristate "Visionox RM69299"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	help
-+	  Say Y here if you want to enable support for Visionox
-+	  RM69299  DSI Video Mode panel.
-+
- config DRM_PANEL_XINPENG_XPP055C272
- 	tristate "Xinpeng XPP055C272 panel driver"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 7c4d3c581fd4..9f11d067a6b2 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -41,4 +41,5 @@ obj-$(CONFIG_DRM_PANEL_TPO_TD028TTEC1) += panel-tpo-td028ttec1.o
- obj-$(CONFIG_DRM_PANEL_TPO_TD043MTEA1) += panel-tpo-td043mtea1.o
- obj-$(CONFIG_DRM_PANEL_TPO_TPG110) += panel-tpo-tpg110.o
- obj-$(CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA) += panel-truly-nt35597.o
-+obj-$(CONFIG_DRM_PANEL_VISIONOX_RM69299) += panel-visionox-rm69299.o
- obj-$(CONFIG_DRM_PANEL_XINPENG_XPP055C272) += panel-xinpeng-xpp055c272.o
-diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-new file mode 100644
-index 000000000000..0f877d21fdf2
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-@@ -0,0 +1,295 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2019, The Linux Foundation. All rights reserved.
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <video/mipi_display.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
-+
-+struct visionox_rm69299 {
-+	struct drm_panel panel;
-+	struct regulator_bulk_data supplies[2];
-+	struct gpio_desc *reset_gpio;
-+	struct mipi_dsi_device *dsi;
-+	bool prepared;
-+	bool enabled;
-+};
-+
-+static inline struct visionox_rm69299 *panel_to_ctx(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct visionox_rm69299, panel);
-+}
-+
-+static int visionox_rm69299_power_on(struct visionox_rm69299 *ctx)
-+{
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	/*
-+	 * Reset sequence of visionox panel requires the panel to be
-+	 * out of reset for 10ms, followed by being held in reset
-+	 * for 10ms and then out again
-+	 */
-+	gpiod_set_value(ctx->reset_gpio, 1);
-+	usleep_range(10000, 20000);
-+	gpiod_set_value(ctx->reset_gpio, 0);
-+	usleep_range(10000, 20000);
-+	gpiod_set_value(ctx->reset_gpio, 1);
-+	usleep_range(10000, 20000);
-+
-+	return 0;
-+}
-+
-+static int visionox_rm69299_power_off(struct visionox_rm69299 *ctx)
-+{
-+	gpiod_set_value(ctx->reset_gpio, 0);
-+
-+	return regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+}
-+
-+static int visionox_rm69299_unprepare(struct drm_panel *panel)
-+{
-+	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
-+	int ret;
-+
-+	ctx->dsi->mode_flags = 0;
-+
-+	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_SET_DISPLAY_OFF, NULL, 0);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(ctx->panel.dev,
-+			"set_display_off cmd failed ret = %d\n", ret);
-+
-+	/* 120ms delay required here as per DCS spec */
-+	msleep(120);
-+
-+	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_ENTER_SLEEP_MODE, NULL, 0);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->panel.dev,
-+			"enter_sleep cmd failed ret = %d\n", ret);
-+	}
-+
-+	ret = visionox_rm69299_power_off(ctx);
-+
-+	ctx->prepared = false;
-+	return ret;
-+}
-+
-+static int visionox_rm69299_prepare(struct drm_panel *panel)
-+{
-+	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
-+	int ret;
-+
-+	if (ctx->prepared)
-+		return 0;
-+
-+	ret = visionox_rm69299_power_on(ctx);
-+	if (ret < 0)
-+		return ret;
-+
-+	ctx->dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]){ 0xfe, 0x00 }, 2);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->panel.dev,
-+			"cmd set tx 0 failed, ret = %d\n", ret);
-+		goto power_off;
-+	}
-+
-+	ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]){ 0xc2, 0x08 }, 2);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->panel.dev,
-+			"cmd set tx 1 failed, ret = %d\n", ret);
-+		goto power_off;
-+	}
-+
-+	ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]){ 0x35, 0x00 }, 2);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->panel.dev,
-+			"cmd set tx 2 failed, ret = %d\n", ret);
-+		goto power_off;
-+	}
-+
-+	ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]){ 0x51, 0xff }, 2);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->panel.dev,
-+			"cmd set tx 3 failed, ret = %d\n", ret);
-+		goto power_off;
-+	}
-+
-+	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_EXIT_SLEEP_MODE, NULL, 0);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->panel.dev,
-+			"exit_sleep_mode cmd failed ret = %d\n", ret);
-+		goto power_off;
-+	}
-+
-+	/* Per DSI spec wait 120ms after sending exit sleep DCS command */
-+	msleep(120);
-+
-+	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_SET_DISPLAY_ON, NULL, 0);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->panel.dev,
-+			"set_display_on cmd failed ret = %d\n", ret);
-+		goto power_off;
-+	}
-+
-+	/* Per DSI spec wait 120ms after sending set_display_on DCS command */
-+	msleep(120);
-+
-+	ctx->prepared = true;
-+
-+	return 0;
-+
-+power_off:
-+	return ret;
-+}
-+
-+static const struct drm_display_mode visionox_rm69299_1080x2248_60hz = {
-+        .name = "1080x2248",
-+        .clock = 158695,
-+        .hdisplay = 1080,
-+        .hsync_start = 1080 + 26,
-+        .hsync_end = 1080 + 26 + 2,
-+        .htotal = 1080 + 26 + 2 + 36,
-+        .vdisplay = 2248,
-+        .vsync_start = 2248 + 56,
-+        .vsync_end = 2248 + 56 + 4,
-+        .vtotal = 2248 + 56 + 4 + 4,
-+        .vrefresh = 60,
-+        .flags = 0,
-+};
-+
-+static int visionox_rm69299_get_modes(struct drm_panel *panel,
-+				       struct drm_connector *connector)
-+{
-+	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
-+	struct drm_display_mode *mode;
-+
-+	mode = drm_mode_create(connector->dev);
-+	if (!mode) {
-+		DRM_DEV_ERROR(ctx->dev,
-+			"failed to create a new display mode\n");
-+		return 0;
-+	}
-+
-+	connector->display_info.width_mm = 74;
-+	connector->display_info.height_mm = 131;
-+	drm_mode_copy(mode, &visionox_rm69299_1080x2248_60hz);
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+	drm_mode_probed_add(connector, mode);
-+
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs visionox_rm69299_drm_funcs = {
-+	.unprepare = visionox_rm69299_unprepare,
-+	.prepare = visionox_rm69299_prepare,
-+	.get_modes = visionox_rm69299_get_modes,
-+};
-+
-+static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct visionox_rm69299 *ctx;
-+	int ret;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	ctx->supplies[0].supply = "vdda";
-+	ctx->supplies[1].supply = "vdd3p3";
-+
-+	ret = devm_regulator_bulk_get(ctx->panel.dev, ARRAY_SIZE(ctx->supplies),
-+				      ctx->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	ctx->reset_gpio = devm_gpiod_get(ctx->panel.dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(ctx->reset_gpio)) {
-+		DRM_DEV_ERROR(dev, "cannot get reset gpio %ld\n",
-+			PTR_ERR(ctx->reset_gpio));
-+		return PTR_ERR(ctx->reset_gpio);
-+	}
-+
-+	drm_panel_init(&ctx->panel, dev, &visionox_rm69299_drm_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+	ctx->panel.dev = dev;
-+	ctx->panel.funcs = &visionox_rm69299_drm_funcs;
-+	drm_panel_add(&ctx->panel);
-+
-+	dsi->lanes = 4;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_LPM |
-+		MIPI_DSI_CLOCK_NON_CONTINUOUS;
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(dev, "dsi attach failed ret = %d\n", ret);
-+		goto err_dsi_attach;
-+	}
-+
-+	ret = regulator_set_load(ctx->supplies[0].consumer, 32000);
-+	if (ret) {
-+               DRM_DEV_ERROR(dev, "regulator set load failed for vdda supply ret = %d\n", ret);
-+		goto err_set_load;
-+	}
-+
-+	ret = regulator_set_load(ctx->supplies[1].consumer, 13200);
-+	if (ret) {
-+               DRM_DEV_ERROR(dev, "regulator set load failed for vdd3p3 supply ret = %d\n", ret);
-+		goto err_set_load;
-+	}
-+
-+	return 0;
-+
-+err_set_load:
-+	mipi_dsi_detach(dsi);
-+err_dsi_attach:
-+	drm_panel_remove(&ctx->panel);
-+	return ret;
-+}
-+
-+static int visionox_rm69299_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct visionox_rm69299 *ctx = mipi_dsi_get_drvdata(dsi);
-+
-+	mipi_dsi_detach(ctx->dsi);
-+	mipi_dsi_device_unregister(ctx->dsi);
-+
-+	drm_panel_remove(&ctx->panel);
-+	return 0;
-+}
-+
-+static const struct of_device_id visionox_rm69299_of_match[] = {
-+	{
-+		.compatible = "visionox,rm69299-1080p-display",
-+	},
-+};
-+MODULE_DEVICE_TABLE(of, visionox_rm69299_of_match);
-+
-+static struct mipi_dsi_driver visionox_rm69299_driver = {
-+	.driver = {
-+		.name = "panel-visionox-rm69299",
-+		.of_match_table = visionox_rm69299_of_match,
-+	},
-+	.probe = visionox_rm69299_probe,
-+	.remove = visionox_rm69299_remove,
-+};
-+module_mipi_dsi_driver(visionox_rm69299_driver);
-+
-+MODULE_DESCRIPTION("Visionox RM69299 DSI Panel Driver");
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW55IG5ld3Mgb24gdGhpcz8gSXMgdGhlcmUgYW55b25lIHdobyB3YW50cyB0byB0cnkgYW5kIGZp
+eCB0aGlzIHBvc3NpYmxlIGJ1Zz8KCk9uIE1vbiwgMjMgRGVjIDIwMTkgYXQgMDM6NDEsIEphbmkg
+TmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+Cj4gT24gTW9uLCAy
+MyBEZWMgMjAxOSwgUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4gd3JvdGU6Cj4g
+PiBPbiAyMDE5LTEyLTIzIDEwOjM3IGFtLCBKYW5pIE5pa3VsYSB3cm90ZToKPiA+PiBPbiBTYXQs
+IDIxIERlYyAyMDE5LCBUb20gTXVycGh5IDxtdXJwaHl0N0B0Y2QuaWU+IHdyb3RlOgo+ID4+PiBU
+aGlzIHBhdGNoc2V0IGNvbnZlcnRzIHRoZSBpbnRlbCBpb21tdSBkcml2ZXIgdG8gdGhlIGRtYS1p
+b21tdSBhcGkuCj4gPj4+Cj4gPj4+IFdoaWxlIGNvbnZlcnRpbmcgdGhlIGRyaXZlciBJIGV4cG9z
+ZWQgYSBidWcgaW4gdGhlIGludGVsIGk5MTUgZHJpdmVyCj4gPj4+IHdoaWNoIGNhdXNlcyBhIGh1
+Z2UgYW1vdW50IG9mIGFydGlmYWN0cyBvbiB0aGUgc2NyZWVuIG9mIG15Cj4gPj4+IGxhcHRvcC4g
+WW91IGNhbiBzZWUgYSBwaWN0dXJlIG9mIGl0IGhlcmU6Cj4gPj4+IGh0dHBzOi8vZ2l0aHViLmNv
+bS9waXBweTM2MC9rZXJuZWxQYXRjaGVzL2Jsb2IvbWFzdGVyL0lNR18yMDE5MTIxOV8yMjU5MjIu
+anBnCj4gPj4+Cj4gPj4+IFRoaXMgaXNzdWUgaXMgbW9zdCBsaWtlbHkgaW4gdGhlIGk5MTUgZHJp
+dmVyIGFuZCBpcyBtb3N0IGxpa2VseSBjYXVzZWQKPiA+Pj4gYnkgdGhlIGRyaXZlciBub3QgcmVz
+cGVjdGluZyB0aGUgcmV0dXJuIHZhbHVlIG9mIHRoZQo+ID4+PiBkbWFfbWFwX29wczo6bWFwX3Nn
+IGZ1bmN0aW9uLiBZb3UgY2FuIHNlZSB0aGUgZHJpdmVyIGlnbm9yaW5nIHRoZQo+ID4+PiByZXR1
+cm4gdmFsdWUgaGVyZToKPiA+Pj4gaHR0cHM6Ly9naXRodWIuY29tL3RvcnZhbGRzL2xpbnV4L2Js
+b2IvN2UwMTY1YjJmMWE5MTJhMDZlMzgxZTkxZjBmNGU0OTVmNGFjMzczNi9kcml2ZXJzL2dwdS9k
+cm0vaTkxNS9nZW0vaTkxNV9nZW1fZG1hYnVmLmMjTDUxCj4gPj4+Cj4gPj4+IFByZXZpb3VzbHkg
+dGhpcyBkaWRu4oCZdCBjYXVzZSBpc3N1ZXMgYmVjYXVzZSB0aGUgaW50ZWwgbWFwX3NnIGFsd2F5
+cwo+ID4+PiByZXR1cm5lZCB0aGUgc2FtZSBudW1iZXIgb2YgZWxlbWVudHMgYXMgdGhlIGlucHV0
+IHNjYXR0ZXIgZ2F0aGVyIGxpc3QKPiA+Pj4gYnV0IHdpdGggdGhlIGNoYW5nZSB0byB0aGlzIGRt
+YS1pb21tdSBhcGkgdGhpcyBpcyBubyBsb25nZXIgdGhlCj4gPj4+IGNhc2UuIEkgd2FzbuKAmXQg
+YWJsZSB0byB0cmFjayB0aGUgYnVnIGRvd24gdG8gYSBzcGVjaWZpYyBsaW5lIG9mIGNvZGUKPiA+
+Pj4gdW5mb3J0dW5hdGVseS4KPiA+Pj4KPiA+Pj4gQ291bGQgc29tZW9uZSBmcm9tIHRoZSBpbnRl
+bCB0ZWFtIGxvb2sgYXQgdGhpcz8KPiA+Pgo+ID4+IExldCBtZSBnZXQgdGhpcyBzdHJhaWdodC4g
+VGhlcmUgaXMgY3VycmVudCBBUEkgdGhhdCBvbiBzdWNjZXNzIGFsd2F5cwo+ID4+IHJldHVybnMg
+dGhlIHNhbWUgbnVtYmVyIG9mIGVsZW1lbnRzIGFzIHRoZSBpbnB1dCBzY2F0dGVyIGdhdGhlcgo+
+ID4+IGxpc3QuIFlvdSBwcm9wb3NlIHRvIGNoYW5nZSB0aGUgQVBJIHNvIHRoYXQgdGhpcyBpcyBu
+byBsb25nZXIgdGhlIGNhc2U/Cj4gPgo+ID4gTm8sIHRoZSBBUEkgZm9yIGRtYV9tYXBfc2coKSBo
+YXMgYWx3YXlzIGJlZW4gdGhhdCBpdCBtYXkgcmV0dXJuIGZld2VyCj4gPiBETUEgc2VnbWVudHMg
+dGhhbiBuZW50cyAtIHNlZSBEb2N1bWVudGF0aW9uL0RNQS1BUEkudHh0IChhbmQgb3RoZXJ3aXNl
+LAo+ID4gdGhlIHJldHVybiB2YWx1ZSB3b3VsZCBzdXJlbHkgYmUgYSBzaW1wbGUgc3VjY2Vzcy9m
+YWlsIGNvbmRpdGlvbikuCj4gPiBSZWx5aW5nIG9uIGEgcGFydGljdWxhciBpbXBsZW1lbnRhdGlv
+biBiZWhhdmlvdXIgaGFzIG5ldmVyIGJlZW4gc3RyaWN0bHkKPiA+IGNvcnJlY3QsIGV2ZW4gaWYg
+aXQgZG9lcyBoYXBwZW4gdG8gYmUgYSB2ZXJ5IGNvbW1vbiBiZWhhdmlvdXIuCj4gPgo+ID4+IEEg
+cXVpY2sgY2hlY2sgb2YgdmFyaW91cyBkbWFfbWFwX3NnKCkgY2FsbHMgaW4gdGhlIGtlcm5lbCBz
+ZWVtcyB0bwo+ID4+IGluZGljYXRlIGNoZWNraW5nIGZvciAwIGZvciBlcnJvcnMgYW5kIHRoZW4g
+aWdub3JpbmcgdGhlIG5vbi16ZXJvIHJldHVybgo+ID4+IGlzIGEgY29tbW9uIHBhdHRlcm4uIEFy
+ZSB5b3Ugc3VyZSBpdCdzIG9rYXkgdG8gbWFrZSB0aGUgY2hhbmdlIHlvdSdyZQo+ID4+IHByb3Bv
+c2luZz8KPiA+Cj4gPiBWYXJpb3VzIGNvZGUgdXNlcyB0cmlja3MgbGlrZSBqdXN0IGl0ZXJhdGlu
+ZyB0aGUgbWFwcGVkIGxpc3QgdW50aWwgdGhlCj4gPiBmaXJzdCBzZWdtZW50IHdpdGggemVybyBz
+Z19kbWFfbGVuKCkuIE90aGVycyBtYXkgd2VsbCBzaW1wbHkgaGF2ZSBidWdzLgo+Cj4gVGhhbmtz
+IGZvciB0aGUgY2xhcmlmaWNhdGlvbi4KPgo+IEJSLAo+IEphbmkuCj4KPiA+Cj4gPiBSb2Jpbi4K
+PiA+Cj4gPj4gQW55d2F5LCBkdWUgdG8gdGhlIHRpbWUgb2YgeWVhciBhbmQgYWxsLCBJJ2QgbGlr
+ZSB0byBhc2sgeW91IHRvIGZpbGUgYQo+ID4+IGJ1ZyBhZ2FpbnN0IGk5MTUgYXQgWzFdIHNvIHRo
+aXMgaXMgbm90IGZvcmdvdHRlbiwgYW5kIHBsZWFzZSBsZXQncyBub3QKPiA+PiBtZXJnZSB0aGUg
+Y2hhbmdlcyBiZWZvcmUgdGhpcyBpcyByZXNvbHZlZC4KPiA+Pgo+ID4+Cj4gPj4gVGhhbmtzLAo+
+ID4+IEphbmkuCj4gPj4KPiA+Pgo+ID4+IFsxXSBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5v
+cmcvZHJtL2ludGVsL2lzc3Vlcy9uZXcKPiA+Pgo+ID4+Cj4KPiAtLQo+IEphbmkgTmlrdWxhLCBJ
+bnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
