@@ -2,44 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BEA18DAAF
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 23:03:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB43518DB07
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 23:19:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D89366EB70;
-	Fri, 20 Mar 2020 22:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 193556EB7C;
+	Fri, 20 Mar 2020 22:19:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3F1E6EB70
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 22:03:47 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206575] [amdgpu] [drm] No video signal on resume from suspend,
- R9 380
-Date: Fri, 20 Mar 2020 22:03:47 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: kernel_bugzilla@joeramsey.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206575-2300-5OaB9R67nN@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206575-2300@https.bugzilla.kernel.org/>
-References: <bug-206575-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 790496EB7A;
+ Fri, 20 Mar 2020 22:19:33 +0000 (UTC)
+Received: from localhost (mobile-166-175-186-165.mycingular.net
+ [166.175.186.165])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id F273720732;
+ Fri, 20 Mar 2020 22:19:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1584742773;
+ bh=csXHNoHEZCJcFFkQwtkt+kVeFZplv3+QRXaIVcYDwQ8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=J+xGqQlCtBvhli5sKpaYIumlmnmPLQMuzUvK+e8vtVT4koVbA0y3k2Xhs3XOvhyjP
+ z7CnJCejD4kGynSVMX8iRp15ep+5F6fRLvEq9gEey/bLfvDb8DdYpL/lVRxR5bvib6
+ dM4eV4c79FU+H+e1gIhkKh7KO+hXghOT8OIuNoJU=
+Date: Fri, 20 Mar 2020 17:19:31 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Karol Herbst <kherbst@redhat.com>
+Subject: Re: [PATCH v7] pci: prevent putting nvidia GPUs into lower device
+ states on certain intel bridges
+Message-ID: <20200320221931.GA23783@google.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200310192627.437947-1-kherbst@redhat.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,40 +47,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
+ Mika Westerberg <mika.westerberg@intel.com>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206575
-
---- Comment #16 from Joe Ramsey (kernel_bugzilla@joeramsey.com) ---
-(In reply to Alex Deucher from comment #15)
-> (In reply to Joe Ramsey from comment #14)
-> > Looks like this has been corrected in 5.6... is there any intent to include
-> > the fix in any 5.5 kernel or will we just have to wait for 5.6?
+On Tue, Mar 10, 2020 at 08:26:27PM +0100, Karol Herbst wrote:
+> Fixes the infamous 'runtime PM' bug many users are facing on Laptops with
+> Nvidia Pascal GPUs by skipping said PCI power state changes on the GPU.
 > 
-> Can you identify the fix?
+> Depending on the used kernel there might be messages like those in demsg:
+> 
+> "nouveau 0000:01:00.0: Refused to change power state, currently in D3"
+> "nouveau 0000:01:00.0: can't change power state from D3cold to D0 (config
+> space inaccessible)"
+> followed by backtraces of kernel crashes or timeouts within nouveau.
+> 
+> It's still unkown why this issue exists, but this is a reliable workaround
+> and solves a very annoying issue for user having to choose between a
+> crashing kernel or higher power consumption of their Laptops.
 
-If I understood Noel Maersk's and Thomas Frank's posts reverting
-1ea8751bd28d1ec2b36a56ec6bc1ac28903d09b4 resolves the issue.  The Reddit thread
-that was referenced
-(https://www.reddit.com/r/archlinux/comments/f7oti1/issue_with_resume_from_suspend_black_backlit/)
-seems to indicate that it's resolved in 5.6.  Was wondering if whatever fix was
-applied to 5.6 would also be applied to 5.5.  Could be I've completely
-misunderstood things.
+Thanks for the bugzilla link.  The bugzilla mentions lots of mailing
+list discussion.  Can you include links to some of that?
 
-I'm running Slackware and have been using the -current kernel packages
-(currently at 5.4.25), but the kernel modules for virtualbox don't seem to be
-compiling under that kernel for some reason.  I tried several of the recent 5.5
-releases (5.5.8-5.5.10), and can get the virtualbox kernel modules to compile
-under them, but they all seem to have this bug.  Was hoping to get one kernel
-that would allow my laptop to suspend and also compile the virtualbox modules. 
-:^)
+IIUC this basically just turns off PCI power management for the GPU.
+Can you do that with something like the following?  I don't know
+anything about DRM, so I don't know where you could save the pm_cap,
+but I'm sure the driver could keep it somewhere.
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+index b65ae817eabf..2ad825e8891c 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+@@ -618,6 +618,23 @@ nouveau_drm_device_fini(struct drm_device *dev)
+ 	kfree(drm);
+ }
+ 
++static void quirk_broken_nv_runpm(struct drm_device *drm_dev)
++{
++	struct pci_dev *pdev = drm_dev->pdev;
++	struct pci_dev *bridge = pci_upstream_bridge(pdev);
++
++	if (!bridge || bridge->vendor != PCI_VENDOR_ID_INTEL)
++		return;
++
++	switch (bridge->device) {
++	case 0x1901:
++		STASH->pm_cap = pdev->pm_cap;
++		pdev->pm_cap = 0;
++		NV_INFO(drm_dev, "Disabling PCI power management to avoid bug\n");
++		break;
++	}
++}
++
+ static int nouveau_drm_probe(struct pci_dev *pdev,
+ 			     const struct pci_device_id *pent)
+ {
+@@ -699,6 +716,7 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
+ 	if (ret)
+ 		goto fail_drm_dev_init;
+ 
++	quirk_broken_nv_runpm(drm_dev);
+ 	return 0;
+ 
+ fail_drm_dev_init:
+@@ -735,6 +753,9 @@ nouveau_drm_remove(struct pci_dev *pdev)
+ {
+ 	struct drm_device *dev = pci_get_drvdata(pdev);
+ 
++	/* If we disabled PCI power management, restore it */
++	if (STASH->pm_cap)
++		pdev->pm_cap = STASH->pm_cap;
+ 	nouveau_drm_device_remove(dev);
+ 	pci_disable_device(pdev);
+ }
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
