@@ -1,31 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6B318CD78
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 13:07:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FC818CDCD
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Mar 2020 13:21:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 445406EB14;
-	Fri, 20 Mar 2020 12:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 132B26E14B;
+	Fri, 20 Mar 2020 12:21:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20FDF6EB14
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 12:07:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: shadeslayer) with ESMTPSA id 3F3CE297408
-From: Rohan Garg <rohan.garg@collabora.com>
-To: dri-devel@lists.freedesktop.org, Jerome Glisse <jglisse@redhat.com>
-Subject: Re: Proposal to report GPU private memory allocations with sysfs
- nodes [plain text version]
-Date: Fri, 20 Mar 2020 13:07:26 +0100
-Message-ID: <12494517.uLZWGnKmhe@solembum>
-Organization: Collabora Ltd.
-In-Reply-To: <CAKT=dDmMs1VOFst3gVUbsAp8yFuvV9e+zq0DqayBQ8G7+utc7g@mail.gmail.com>
-References: <CAKT=dDnhth-6giOWgym7qpLNeH=86=XhQmPcgHM2J8B_L3myRQ@mail.gmail.com>
- <1931035.d46ecxlGCF@saphira>
- <CAKT=dDmMs1VOFst3gVUbsAp8yFuvV9e+zq0DqayBQ8G7+utc7g@mail.gmail.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16F5E89265
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 12:21:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds201912;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=x50l/sk5zd5paFFA3ajk8EyOXhGzLL5WALi6QEatlVE=; b=R8xHqtKqqR07OlImYd06alORCe
+ CZxY2Ljh9KKWwGGAakhP3TtYCbXvdOAxOHGIqzxfOLTLkZ5hHDPfEZsZItFFJki7SZWNOUaeMi75c
+ Ke13Jimlo0bHjhJdnXlptn8QEgUdVEOBegwtZzPf59V6QzMjeLyU/XCVjrFNBAY19n1ji0O9Veo6P
+ VHZq2dM7Cw026dRl/7scNHn/Cuk/shVcVOLpplWH1JTxCvjnXf3dycgItg+OsHNt9gOuob5rTpzLK
+ 40/Z5a0Y1Xwjh33N51hGAdZQyVvT+LDwqHO0O1Uc8L7ZFX7fjiJ64EQvlNllSgGvHwdq6kJmKOcCa
+ xl7XjFQA==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51023
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1jFGeE-00046l-Qp; Fri, 20 Mar 2020 13:21:10 +0100
+Subject: Re: [PATCH 1/2] drm/client: Dual licence the header in GPL-2 and MIT
+To: Emmanuel Vadot <manu@FreeBSD.org>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+ matthew.d.roper@intel.com, kraxel@redhat.com, tglx@linutronix.de
+References: <20200320022114.2234-1-manu@FreeBSD.org>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <5105e75b-3016-13d8-cbaf-1b3e9ecfaeb4@tronnes.org>
+Date: Fri, 20 Mar 2020 13:21:03 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20200320022114.2234-1-manu@FreeBSD.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,114 +55,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alistair Delva <adelva@google.com>, Prahlad Kilambi <prahladk@google.com>,
- Yiwei Zhang <zzyiwei@google.com>, Sean Paul <seanpaul@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Kenny Ho <y2kenny@gmail.com>,
- Chris Forbes <chrisforbes@google.com>,
- Android Kernel Team <kernel-team@android.com>
-Content-Type: multipart/mixed; boundary="===============0240737050=="
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0240737050==
-Content-Type: multipart/signed; boundary="nextPart2725416.e9J7NaK4W3"; micalg="pgp-sha512"; protocol="application/pgp-signature"
-
---nextPart2725416.e9J7NaK4W3
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-Hi Yiwei
-After some deliberation on how to move forward with my BO Labeling patches[1],
-we've come up with the following structure for debugfs entries:
-
-/debugfs/dri/128/bo/<handle>/label
-/debugfs/dri/128/bo/<handle>/size
-
-My initial idea was to count the total memory allocated for a particular label 
-in kernel space, but that turned out to be far too complicated to implement. 
-Which is why we decided to move towards something simpler and handle collating 
-this information on the userspace side of things.
-
-Would this satisfy most of the Android  teams requirements? I understand that 
-it would leave out the memory tracking requirements tied to a specific PID, 
-but correct me if I'm wrong, would this not possible with gralloc on Android?
-
-Cheers
-Rohan Garg
-
-[1] https://patchwork.freedesktop.org/patch/335508/?series=66752&rev=4
-
-On lunes, 6 de enero de 2020 21:47:21 (CET) Yiwei Zhang wrote:
-> Thanks, I'll check it out.
-> 
-> Best,
-> Yiwei
-> 
-> On Mon, Jan 6, 2020 at 2:46 AM Rohan Garg <rohan.garg@collabora.com> wrote:
-> > Hi Yiwei
-> > 
-> > On jueves, 19 de diciembre de 2019 19:52:26 (CET) Yiwei Zhang wrote:
-> > > Hi Rohan,
-> > > 
-> > > Thanks for pointing out the pids issue! Then the index would be
-> > 
-> > {namespace
-> > 
-> > > + pid(in that namespace)}. I'll grab a setup and play with the driver to
-> > > see what I can do. I know how to find an Intel or Freedreno setup, but
-> > 
-> > I'd
-> > 
-> > > still like to know is there a development friendly Mali setup?
-> > 
-> > You should be able to setup a Mali T860 compatible device with this guide
-> > [1].
-> > 
-> > Cheers
-> > Rohan Garg
-> > 
-> > [1] https://panfrost.freedesktop.org/building-panfrost-mesa.html
-
-
---nextPart2725416.e9J7NaK4W3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEYitc3NselT9dMmhSpwS9TvJnIJQFAl50sf4ACgkQpwS9TvJn
-IJTAkw//cLeQWZ0PqUJaF/4Dcoh2FpdYbjOgeViwigIKvMDf9I+ienbllaDLqcmd
-Tftl4FpTMhYQn52qDC7QNYHrYzaJxwCKI4kc5GFO2ihIZwGtXqc8AA+ngT6uj8Vf
-/+o/eHUUswCTg/ovuZ0CxDhwI/auTgtG2QuByx/LVKkLUnH6YgiHagjuzP/Fxm+1
-C1YLwEsj0iXIYe/mVWa/vDPMpo2NIC9sIXNXxmNF3iLsOahA4a5l8lmfz78RmZPl
-VM8zz99iB0U9hm20G9NiIBwCThYRNMBEgiqaLEa/VlKBpdhjSojqvxUAuo59Nq3I
-pf3L1iF8NobKLssKVOHbC3fk7aoLgSm4P7u6xCjM4z+pz7aA2Pm43A24wq9b14tI
-DpB6BIN9U+Qx9wt/ODXQSoKiJ2RS3LJI6yebFOzr4jiAIJdtbRuvZ/CnZPPm4wv6
-vcWEz4whSNn7a3zieBOl/UMdO38XZtxwl7H5Z1LJJsSyiKrzZ183a7vDex9ui4j8
-8i2uZZvNSbDlreyh8CQa1LctPDx2lHBt6yVtJUB2T3yqU+gxdznq361PrM6ApWnO
-f81AqZbX76cjOsI6OLfNkvrBQtat+d6t6RIip+mFDhATW+P/DWOL3MmOAVy4WbEH
-m/sesVoFaGYjHrUZbDCCJI0jxq1WrglPalnJLMLNbCPa+5Q+UAw=
-=i9Li
------END PGP SIGNATURE-----
-
---nextPart2725416.e9J7NaK4W3--
-
-
-
-
---===============0240737050==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0240737050==--
-
-
-
+CgpEZW4gMjAuMDMuMjAyMCAwMy4yMSwgc2tyZXYgRW1tYW51ZWwgVmFkb3Q6Cj4gU291cmNlIGZp
+bGUgd2FzIGR1YWwgbGljZW5jZWQgYnV0IHRoZSBoZWFkZXIgd2FzIG9taXR0ZWQsIGZpeCB0aGF0
+Lgo+IENvbnRyaWJ1dG9ycyBmb3IgdGhpcyBmaWxlIGFyZToKPiBEYW5pZWwgVmV0dGVyIDxkYW5p
+ZWwudmV0dGVyQGZmd2xsLmNoPgo+IE1hdHQgUm9wZXIgPG1hdHRoZXcuZC5yb3BlckBpbnRlbC5j
+b20+Cj4gTWF4aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPgo+IE5vcmFsZiBUcsO4bm5l
+cyA8bm9yYWxmQHRyb25uZXMub3JnPgo+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBz
+dXNlLmRlPgo+IAo+IFNpZ25lZC1vZmYtYnk6IEVtbWFudWVsIFZhZG90IDxtYW51QEZyZWVCU0Qu
+b3JnPgo+IC0tLQoKQWNrZWQtYnk6IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3Jn
+PgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
