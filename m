@@ -2,42 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B9818DB96
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Mar 2020 00:14:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E2A18DD0A
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Mar 2020 02:03:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5246EB88;
-	Fri, 20 Mar 2020 23:14:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E262E6E227;
+	Sat, 21 Mar 2020 01:03:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4897F6EB88
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 23:14:00 +0000 (UTC)
-Received: from kernel.org (unknown [104.132.0.74])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 150F62072C;
- Fri, 20 Mar 2020 23:14:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1584746040;
- bh=U/cJ0BSW3BRcy0W5KoR1HwjhDf6zGsTE5nhf+o4EqUU=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=ZKZMfV5DH8CnhhuZuMkf36QJ/QDIrIlKkjYW5oSz9aauGDXiJj+TMgiW+vcymc/FB
- PGAq53M9SjECoNZv/2BTnxOyCLeOcbkzrNgZ4o62mXGgmOzSj4RZPS0JNq5D3lRagt
- d5dJjtPRRAqxyf6N7CZyDp85TyeI8URrWGkcc8io=
+Received: from us-smtp-delivery-74.mimecast.com
+ (us-smtp-delivery-74.mimecast.com [216.205.24.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 011256E225
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Mar 2020 01:03:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584752584;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JfCJB1CUZ+VKC9xpB11jLdF74OwFkNnvn3bT5eqNN/Q=;
+ b=N6SnpZr2gCJijORUQ8G6HzqzmBTcohNKWX4XUYNQl2L3LlCilRwXrpIrYRoh8NOU7X0Mg7
+ z6sIGMTIgH1PlW5lf6Z85a6ZOqUkdkjjBcm1Mo9QZHUvMW9UAh4jqAdo0BiGr6Qqc0Mt5g
+ zOomuj48T8oCbsOfr0JsSXESy36OMTc=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-uSuUaZcSMO2rEsdRX00vOw-1; Fri, 20 Mar 2020 21:03:01 -0400
+X-MC-Unique: uSuUaZcSMO2rEsdRX00vOw-1
+Received: by mail-qv1-f71.google.com with SMTP id v88so7397978qvv.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Mar 2020 18:03:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AjQuPaCjd7Ig4gpbwFISut+nUjzFUAzjw+os+HFJBP8=;
+ b=PcGjbpuCq63fpuTPtJyf7zXQzM34W3rfVmaA/I3qwwXC1YqubQha4ILHx6+USaG/CD
+ MQ/QZbj9153HE0gwwgOJJkaK40kMxJIUQjzjpqr6sDvNbPrMLJbzaeFplWVJx0zKbAxQ
+ 0MhoGsAA41aTPgoLV9epbqidgzcEDf+uQKrk/gmEcwIAD8mg5Vmu5es0qyG6s91GiJ3I
+ pUKCq25buCoQ/k4bkynbtzxpS1mTy1DKIGvROcmrykJC/I4wUApLpsSmBhHH8iQUqinm
+ V6DMEX1YN1g8hT1ee7WRWiIINsWG+BYIpifN3XetaGS1gWncjmG+3YzOJ5sK/V0aWNoo
+ ZrfQ==
+X-Gm-Message-State: ANhLgQ0CgzLzNwiOZKEPXUFihp9UNZCvjRlc12e7Ok74KIxH+L5FxPFz
+ m0pszOBGUCRFkbf4SfPJaJt5CveoMtgiUi/F65Yg8v3+J8gI8Pb6SDaK28n+vJnd1+WPZweZ5RY
+ Qc1uPaI81r2QTvpcRUxFVwFQxC/knz4bGBh2h5kcArYEm
+X-Received: by 2002:a37:9f42:: with SMTP id i63mr11208508qke.192.1584752581297; 
+ Fri, 20 Mar 2020 18:03:01 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtCh2wJtD/g8xto3BH0cPBIK4C3l4y4LBkjZ5hI622fvjzhRRZrgbDgis1CB+9R05hCeHqJZDHrFD188Ry1ESA=
+X-Received: by 2002:a37:9f42:: with SMTP id i63mr11208481qke.192.1584752580926; 
+ Fri, 20 Mar 2020 18:03:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200311165322.1594233-4-enric.balletbo@collabora.com>
-References: <20200311165322.1594233-1-enric.balletbo@collabora.com>
- <20200311165322.1594233-4-enric.balletbo@collabora.com>
-Subject: Re: [PATCH v12 3/5] clk / soc: mediatek: Move mt8173 MMSYS to
- platform driver
-From: Stephen Boyd <sboyd@kernel.org>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>, airlied@linux.ie,
- ck.hu@mediatek.com, laurent.pinchart@ideasonboard.com, mark.rutland@arm.com,
- mturquette@baylibre.com, p.zabel@pengutronix.de, robh+dt@kernel.org,
- ulrich.hecht+renesas@gmail.com
-Date: Fri, 20 Mar 2020 16:13:59 -0700
-Message-ID: <158474603935.125146.14986079780178656133@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+References: <20200310192627.437947-1-kherbst@redhat.com>
+ <20200320221931.GA23783@google.com>
+In-Reply-To: <20200320221931.GA23783@google.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Sat, 21 Mar 2020 02:02:22 +0100
+Message-ID: <CACO55tsamLG5WE16U=psJpRWfz=7Fy5K8haGKHnhic1h0WAmqA@mail.gmail.com>
+Subject: Re: [PATCH v7] pci: prevent putting nvidia GPUs into lower device
+ states on certain intel bridges
+To: Bjorn Helgaas <helgaas@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,55 +72,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>, ,
-	James Liao <jamesjj.liao@mediatek.com>, hat.com@freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	Fabien Parent <fparent@baylibre.com>,
-	Collabora Kernel ML <kernel@collabora.com>,
-	linux-clk@vger.kernel.org, Nicolas Boichat <drinkcat@chromium.org>,
-	Weiyi Lu <weiyi.lu@mediatek.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Richard Fontana <rfontana@red>, wens@csie.org,
-	Allison Randal <allison@lohutok.net>,
-	mtk01761 <wendell.lin@mediatek.com>,
-	Owen Chen <owen.chen@mediatek.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, frank-w@public-files.de,
-	Seiya Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Matthias Brugger <mbrugger@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	rdunlap@infradead.org, linux-kernel@vger.kernel.org,
-	matthias.bgg@kernel.org
+Cc: Linux PM <linux-pm@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>,
+ Mika Westerberg <mika.westerberg@intel.com>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ nouveau <nouveau@lists.freedesktop.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Enric Balletbo i Serra (2020-03-11 09:53:20)
-> From: Matthias Brugger <mbrugger@suse.com>
-> 
-> There is no strong reason for this to use CLK_OF_DECLARE instead of
-> being a platform driver. Plus, MMSYS provides clocks but also a shared
-> register space for the mediatek-drm and the mediatek-mdp
-> driver. So move the MMSYS clocks to a new platform driver and also
-> create a new MMSYS platform driver in drivers/soc/mediatek that
-> instantiates the clock driver.
-> 
-> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> ---
+On Fri, Mar 20, 2020 at 11:19 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> On Tue, Mar 10, 2020 at 08:26:27PM +0100, Karol Herbst wrote:
+> > Fixes the infamous 'runtime PM' bug many users are facing on Laptops with
+> > Nvidia Pascal GPUs by skipping said PCI power state changes on the GPU.
+> >
+> > Depending on the used kernel there might be messages like those in demsg:
+> >
+> > "nouveau 0000:01:00.0: Refused to change power state, currently in D3"
+> > "nouveau 0000:01:00.0: can't change power state from D3cold to D0 (config
+> > space inaccessible)"
+> > followed by backtraces of kernel crashes or timeouts within nouveau.
+> >
+> > It's still unkown why this issue exists, but this is a reliable workaround
+> > and solves a very annoying issue for user having to choose between a
+> > crashing kernel or higher power consumption of their Laptops.
+>
+> Thanks for the bugzilla link.  The bugzilla mentions lots of mailing
+> list discussion.  Can you include links to some of that?
+>
+> IIUC this basically just turns off PCI power management for the GPU.
+> Can you do that with something like the following?  I don't know
+> anything about DRM, so I don't know where you could save the pm_cap,
+> but I'm sure the driver could keep it somewhere.
+>
 
-Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+Sure this would work? From a quick look over the pci code, it looks
+like a of code would be skipped we really need, like the platform code
+to turn off the GPU via ACPI. But I could also remember incorrectly on
+how all of that worked again. I can of course try and see what the
+effect of this patch would be. And would the parent bus even go into
+D3hot if it knows one of its children is still at D0? Because that's
+what the result of that would be as well, no? And I know that if the
+bus stays in D0, that it has a negative impact on power consumption.
 
-Unless you want me to pick this up by itself?
+Anyway, I will try that out, I am just not seeing how that would help.
+
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> index b65ae817eabf..2ad825e8891c 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> @@ -618,6 +618,23 @@ nouveau_drm_device_fini(struct drm_device *dev)
+>         kfree(drm);
+>  }
+>
+> +static void quirk_broken_nv_runpm(struct drm_device *drm_dev)
+> +{
+> +       struct pci_dev *pdev = drm_dev->pdev;
+> +       struct pci_dev *bridge = pci_upstream_bridge(pdev);
+> +
+> +       if (!bridge || bridge->vendor != PCI_VENDOR_ID_INTEL)
+> +               return;
+> +
+> +       switch (bridge->device) {
+> +       case 0x1901:
+> +               STASH->pm_cap = pdev->pm_cap;
+> +               pdev->pm_cap = 0;
+> +               NV_INFO(drm_dev, "Disabling PCI power management to avoid bug\n");
+> +               break;
+> +       }
+> +}
+> +
+>  static int nouveau_drm_probe(struct pci_dev *pdev,
+>                              const struct pci_device_id *pent)
+>  {
+> @@ -699,6 +716,7 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
+>         if (ret)
+>                 goto fail_drm_dev_init;
+>
+> +       quirk_broken_nv_runpm(drm_dev);
+>         return 0;
+>
+>  fail_drm_dev_init:
+> @@ -735,6 +753,9 @@ nouveau_drm_remove(struct pci_dev *pdev)
+>  {
+>         struct drm_device *dev = pci_get_drvdata(pdev);
+>
+> +       /* If we disabled PCI power management, restore it */
+> +       if (STASH->pm_cap)
+> +               pdev->pm_cap = STASH->pm_cap;
+>         nouveau_drm_device_remove(dev);
+>         pci_disable_device(pdev);
+>  }
+>
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
