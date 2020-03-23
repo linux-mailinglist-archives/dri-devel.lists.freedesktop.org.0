@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78B2D18F91A
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 16:59:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0731A18F922
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 17:01:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5426E25D;
-	Mon, 23 Mar 2020 15:59:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E43416E283;
+	Mon, 23 Mar 2020 16:01:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE6D6E25D
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 15:59:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDBD86E283
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 16:01:31 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206895] [amdgpu] crash while using opencl from amdgpu-pro on
  kernel 5.5.10 & 5.6.0-rc6
-Date: Mon, 23 Mar 2020 15:59:03 +0000
+Date: Mon, 23 Mar 2020 16:01:31 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206895-2300-2O2OsJeQvK@https.bugzilla.kernel.org/>
+Message-ID: <bug-206895-2300-wytrPj1yoJ@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206895-2300@https.bugzilla.kernel.org/>
 References: <bug-206895-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206895
 
---- Comment #11 from Alex Deucher (alexdeucher@gmail.com) ---
-Thanks for the patch.  Please fix drm_prime_sg_to_page_addr_arrays() directly
-and send the patch to dri-devel@lists.freedesktop.org .  Also please add your
-Signed-off_by.
+--- Comment #12 from Alex Deucher (alexdeucher@gmail.com) ---
+It's likely other drivers that rely on these helpers would be similarly broken.
 
 -- 
 You are receiving this mail because:
