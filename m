@@ -2,44 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AEA18F711
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 15:39:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FB818F714
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 15:39:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02BE889954;
-	Mon, 23 Mar 2020 14:39:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0A2389E03;
+	Mon, 23 Mar 2020 14:39:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD4B89954;
- Mon, 23 Mar 2020 14:39:29 +0000 (UTC)
-IronPort-SDR: qoeU6zcQOHXzPNo4dmHGVZyTPjdLStPabTHOxOzfzCQunUAFQOnxgcPi9JqP0nZq7w+33J5+B+
- Oa2XwRCOlLDg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2020 07:39:28 -0700
-IronPort-SDR: w8IOn90TKhQVbC1pNNXJF4osf7cQzL6XzwkJUa+2rTmDAs5367aYQdqDo1ykY91BB03KLKht/u
- +fxW51tebt2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,296,1580803200"; d="scan'208";a="281172748"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga002.fm.intel.com with SMTP; 23 Mar 2020 07:39:25 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 23 Mar 2020 16:39:24 +0200
-Date: Mon, 23 Mar 2020 16:39:24 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: Re: [PATCH v2 3/5] drm/i915: Introduce scaling filter related
- registers and bit fields.
-Message-ID: <20200323143924.GT13686@intel.com>
-References: <20200319102103.28895-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200319102103.28895-4-pankaj.laxminarayan.bharadiya@intel.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7610F89E03
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 14:39:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K9kW6vX1EMGNyOCBUhUiv9TEDOpM311WUa5PfWgq8sp7XHe6zfd0W3JBenxAOFjh+wHGQMFG2tRTqnjtoxeFjj+P+w/U1Cfd6mMrVIdeAxVGpL4U134FhbcMaCIjHAWPX2r5HpDPyh2uMd8vJRcFpT1Ck6kGxmP9zmpecRBF1ZHAIggNyhK1nSg4DQADfLysQsR/z9EKRVvXtQ4svPof1aN1Ym34gFhgEarKkr8qCiWkmr+n99lHMbCdKwPJe5dVE64zaGfCE5CKZO0d7F3Xoplc58S9q+6iyqhMwAiLqbpqkIs4o7snE/Z37O4Dxa/+2WHT9CaeM7H65BBajilYXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=idqMWQlVaIN1sp/GUg9pAR9ajMCl6lcJWz9MkW66qME=;
+ b=Tr4xZA2rbTp2RVXq+JOFn2n4FGxZ5iw/2eh8m94Bo7q8sKFB4BTTMizXHB5URuTmaksPrL7yt+02IQzraqzsetRlQixdDEk3ijrbKLqdQrL5ipFCJRWPjqnWYvCWUn0mIXXUB+4olz3a/2xN8lua4X2HZuLVgh9ZD+h2bqxEMBAa8AI36PKy//xKSn6H/oOJ50WGVQnyjzcS35afnQsWraUALkejnzk+QKLVaaEFIA3nKPqISh7mbNn6UFZMPmqdS0BhkihCJCMMUbmp1uli2e0Yc0ilCfV5W/KOkuCh47iYbbjGBrc79J8umyTereWu8I55iU3IXTt1dF0SWhJyCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=permerror action=none header.from=amd.com; dkim=none (message not
+ signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=idqMWQlVaIN1sp/GUg9pAR9ajMCl6lcJWz9MkW66qME=;
+ b=QuaZS04pFw76AxKDOh9ut6243ExsK8rig/ytKanShVMOzI4I1EzmoODVqrQKxGwYr2WLYh0F3Ktki7d9BxZ11AlP6iG+JO78JIcv4xC+776r/EtXFsUIBiTFALVxcX8LAtiMAvdnwZeiIFCR8v3bhlRe72uGyZaIHXFZPWGFdTQ=
+Received: from BL0PR03CA0029.namprd03.prod.outlook.com (2603:10b6:208:2d::42)
+ by BN7PR12MB2737.namprd12.prod.outlook.com (2603:10b6:408:30::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.22; Mon, 23 Mar
+ 2020 14:39:35 +0000
+Received: from BN8NAM11FT044.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:208:2d:cafe::58) by BL0PR03CA0029.outlook.office365.com
+ (2603:10b6:208:2d::42) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.20 via Frontend
+ Transport; Mon, 23 Mar 2020 14:39:35 +0000
+Authentication-Results: spf=none (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=permerror action=none
+ header.from=amd.com;
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+Received: from SATLEXMB02.amd.com (165.204.84.17) by
+ BN8NAM11FT044.mail.protection.outlook.com (10.13.177.219) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.2814.13 via Frontend Transport; Mon, 23 Mar 2020 14:39:34 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB02.amd.com
+ (10.181.40.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Mon, 23 Mar
+ 2020 09:39:34 -0500
+Received: from SATLEXMB01.amd.com (10.181.40.142) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Mon, 23 Mar
+ 2020 09:39:34 -0500
+Received: from yttao-code-machine.amd.com (10.180.168.240) by
+ SATLEXMB01.amd.com (10.181.40.142) with Microsoft SMTP Server id 15.1.1713.5
+ via Frontend Transport; Mon, 23 Mar 2020 09:39:33 -0500
+From: Yintian Tao <yttao@amd.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/scheduler: fix rare NULL ptr race
+Date: Mon, 23 Mar 2020 22:39:31 +0800
+Message-ID: <20200323143931.3931-1-yttao@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200319102103.28895-4-pankaj.laxminarayan.bharadiya@intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:165.204.84.17; IPV:; CTRY:US; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(4636009)(136003)(376002)(346002)(39850400004)(396003)(428003)(199004)(46966005)(5660300002)(8936002)(2616005)(7696005)(336012)(1076003)(66574012)(478600001)(36756003)(186003)(2906002)(26005)(426003)(316002)(6916009)(8676002)(4326008)(356004)(47076004)(81156014)(70586007)(70206006)(81166006);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BN7PR12MB2737; H:SATLEXMB02.amd.com; FPR:;
+ SPF:None; LANG:en; PTR:InfoDomainNonexistent; A:1; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 94f30abd-8c07-42b1-215d-08d7cf380180
+X-MS-TrafficTypeDiagnostic: BN7PR12MB2737:
+X-Microsoft-Antispam-PRVS: <BN7PR12MB2737B3E22F4F1B3417761258E5F00@BN7PR12MB2737.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:357;
+X-Forefront-PRVS: 0351D213B3
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: n5UMZJaUmy5wuEsoGc1FjkicHtdbFUY1NqHIRNlkc4Hq8BlhqXhC9VP4c4B4VGvy5cYo6EyyATaXE+oQ29AAzcR0ggXrvGMF1CO2f7zXMPLG09pkTTQ3ZCN/SMBEQiVslbxQP+fqAUqH1hKN1azaYqpEZgxUOmCd5XhrL+Q6t0oJP/5nMnI0YT8FvRsnRhpzF6ukupP1skh6UZaenCYY6GjBCswcfIhr5hhLJwaV3mpceUixn3Y4iE8fEzZlErOEfedldoVT4jFQqsgJacwBBv/VQMCWH77R8QMqa1yDNgh+X3RDRe0oLmodMRJPCjICck2DK4gkItW21dMUCewb9NSvk6iXZb/Jf491eRaHhtn9vzC7hXyBL9dz/nzrdB2L7wkvZ09T0OhOz7vU3BeT3tqFdU2Fk4xBiH12U9rrv6ytjIi33c/c9nYb7LZJ93sOAkZWU2B7Rbka4iiFe77MjmMxEp5ybGtU5ZdyX9D67/fKWrla1wUcCdZmeeBBy+Vyts69NiCoFgg/cgY9xqrn7A==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2020 14:39:34.6067 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94f30abd-8c07-42b1-215d-08d7cf380180
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB02.amd.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR12MB2737
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,134 +103,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sameer.lattannavar@intel.com, daniels@collabora.com,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Yintian Tao <yttao@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 19, 2020 at 03:51:01PM +0530, Pankaj Bharadiya wrote:
-> Introduce scaler registers and bit fields needed to configure the
-> scaling filter in prgrammed mode and configure scaling filter
-> coefficients.
-> =
-
-> changes since v1:
-> * None
-> changes since RFC:
-> * Parametrize scaler coeffient macros by 'set' (Ville)
-> =
-
-> Signed-off-by: Shashank Sharma <shashank.sharma@intel.com>
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_reg.h | 48 +++++++++++++++++++++++++++++++++
->  1 file changed, 48 insertions(+)
-> =
-
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_=
-reg.h
-> index 9c53fe918be6..d40f12d2a6b5 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -7205,6 +7205,7 @@ enum {
->  #define PS_PLANE_SEL(plane) (((plane) + 1) << 25)
->  #define PS_FILTER_MASK         (3 << 23)
->  #define PS_FILTER_MEDIUM       (0 << 23)
-> +#define PS_FILTER_PROGRAMMED   (1 << 23)
->  #define PS_FILTER_EDGE_ENHANCE (2 << 23)
->  #define PS_FILTER_BILINEAR     (3 << 23)
->  #define PS_VERT3TAP            (1 << 21)
-> @@ -7219,6 +7220,10 @@ enum {
->  #define PS_VADAPT_MODE_MOST_ADAPT  (3 << 5)
->  #define PS_PLANE_Y_SEL_MASK  (7 << 5)
->  #define PS_PLANE_Y_SEL(plane) (((plane) + 1) << 5)
-> +#define PS_Y_VERT_FILTER_SELECT(set)   ((set) << 4)
-> +#define PS_Y_HORZ_FILTER_SELECT(set)   ((set) << 3)
-> +#define PS_UV_VERT_FILTER_SELECT(set)  ((set) << 2)
-> +#define PS_UV_HORZ_FILTER_SELECT(set)  ((set) << 1)
->  =
-
->  #define _PS_PWR_GATE_1A     0x68160
->  #define _PS_PWR_GATE_2A     0x68260
-> @@ -7281,6 +7286,25 @@ enum {
->  #define _PS_ECC_STAT_2B     0x68AD0
->  #define _PS_ECC_STAT_1C     0x691D0
->  =
-
-> +#define _PS_COEF_SET0_INDEX_1A	   0x68198
-> +#define _PS_COEF_SET0_INDEX_2A	   0x68298
-> +#define _PS_COEF_SET0_INDEX_1B	   0x68998
-> +#define _PS_COEF_SET0_INDEX_2B	   0x68A98
-> +#define _PS_COEF_SET1_INDEX_1A	   0x681A0
-> +#define _PS_COEF_SET1_INDEX_2A	   0x682A0
-> +#define _PS_COEF_SET1_INDEX_1B	   0x689A0
-> +#define _PS_COEF_SET1_INDEX_2B	   0x68AA0
-> +#define PS_COEE_INDEX_AUTO_INC	   (1 << 10)
-> +
-> +#define _PS_COEF_SET0_DATA_1A	   0x6819C
-> +#define _PS_COEF_SET0_DATA_2A	   0x6829C
-> +#define _PS_COEF_SET0_DATA_1B	   0x6899C
-> +#define _PS_COEF_SET0_DATA_2B	   0x68A9C
-> +#define _PS_COEF_SET1_DATA_1A	   0x681A4
-> +#define _PS_COEF_SET1_DATA_2A	   0x682A4
-> +#define _PS_COEF_SET1_DATA_1B	   0x689A4
-> +#define _PS_COEF_SET1_DATA_2B	   0x68AA4
-> +
->  #define _ID(id, a, b) _PICK_EVEN(id, a, b)
->  #define SKL_PS_CTRL(pipe, id) _MMIO_PIPE(pipe,        \
->  			_ID(id, _PS_1A_CTRL, _PS_2A_CTRL),       \
-> @@ -7310,6 +7334,30 @@ enum {
->  			_ID(id, _PS_ECC_STAT_1A, _PS_ECC_STAT_2A),   \
->  			_ID(id, _PS_ECC_STAT_1B, _PS_ECC_STAT_2B))
->  =
-
-> +#define _SKL_PS_COEF_INDEX_SET0(pipe, id)  _ID(pipe,    \
-> +			_ID(id, _PS_COEF_SET0_INDEX_1A, _PS_COEF_SET0_INDEX_2A), \
-> +			_ID(id, _PS_COEF_SET0_INDEX_1B, _PS_COEF_SET0_INDEX_2B))
-> +
-> +#define _SKL_PS_COEF_INDEX_SET1(pipe, id)  _ID(pipe,    \
-> +			_ID(id, _PS_COEF_SET1_INDEX_1A, _PS_COEF_SET1_INDEX_2A), \
-> +			_ID(id, _PS_COEF_SET1_INDEX_1B, _PS_COEF_SET1_INDEX_2B))
-> +
-> +#define _SKL_PS_COEF_DATA_SET0(pipe, id)  _ID(pipe,     \
-> +			_ID(id, _PS_COEF_SET0_DATA_1A, _PS_COEF_SET0_DATA_2A), \
-> +			_ID(id, _PS_COEF_SET0_DATA_1B, _PS_COEF_SET0_DATA_2B))
-> +
-> +#define _SKL_PS_COEF_DATA_SET1(pipe, id)  _ID(pipe,     \
-> +			_ID(id, _PS_COEF_SET1_DATA_1A, _PS_COEF_SET1_DATA_2A), \
-> +			_ID(id, _PS_COEF_SET1_DATA_1B, _PS_COEF_SET1_DATA_2B))
-> +
-> +#define SKL_PS_COEF_INDEX_SET(pipe, id, set) \
-> +			_MMIO_PIPE(set, _SKL_PS_COEF_INDEX_SET0(pipe, id), \
-> +			    _SKL_PS_COEF_INDEX_SET1(pipe, id))
-> +
-> +#define SKL_PS_COEF_DATA_SET(pipe, id, set) \
-> +			_MMIO_PIPE(set, _SKL_PS_COEF_DATA_SET0(pipe, id), \
-> +			    _SKL_PS_COEF_DATA_SET1(pipe, id))
-
-I'd name those CNL_PS_COEF_{DATA,INDEX}(). Or maybe eeven GLK_ since it
-already has this despite not being officially supported.
-
-Also I'd probably just have used +(set)*8 instead of adding another trip
-through _PICK_EVEN(). It's getting a bit hard to read this.
-
-> +
->  /* legacy palette */
->  #define _LGC_PALETTE_A           0x4a000
->  #define _LGC_PALETTE_B           0x4a800
-> -- =
-
-> 2.23.0
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlcmUgaXMgb25lIG9uZSBjb3JuZXIgY2FzZSBhdCBkbWFfZmVuY2Vfc2lnbmFsX2xvY2tlZAp3
+aGljaCB3aWxsIHJhaXNlIHRoZSBOVUxMIHBvaW50ZXIgcHJvYmxlbSBqdXN0IGxpa2UgYmVsb3cu
+Ci0+ZG1hX2ZlbmNlX3NpZ25hbAogICAgLT5kbWFfZmVuY2Vfc2lnbmFsX2xvY2tlZAoJLT50ZXN0
+X2FuZF9zZXRfYml0CmhlcmUgdHJpZ2dlciBkbWFfZmVuY2VfcmVsZWFzZSBoYXBwZW4gZHVlIHRv
+IHRoZSB6ZXJvIG9mIGZlbmNlIHJlZmNvdW50LgoKLT5kbWFfZmVuY2VfcHV0CiAgICAtPmRtYV9m
+ZW5jZV9yZWxlYXNlCgktPmRybV9zY2hlZF9mZW5jZV9yZWxlYXNlX3NjaGVkdWxlZAoJICAgIC0+
+Y2FsbF9yY3UKaGVyZSBtYWtlIHRoZSB1bmlvbiBmbGVkIOKAnGNiX2xpc3TigJ0gYXQgZmluaXNo
+ZWQgZmVuY2UKdG8gTlVMTCBiZWNhdXNlIHN0cnVjdCByY3VfaGVhZCBjb250YWlucyB0d28gcG9p
+bnRlcgp3aGljaCBpcyBzYW1lIGFzIHN0cnVjdCBsaXN0X2hlYWQgY2JfbGlzdAoKVGhlcmVmb3Jl
+LCB0byBob2xkIHRoZSByZWZlcmVuY2Ugb2YgZmluaXNoZWQgZmVuY2UgYXQgZHJtX3NjaGVkX3By
+b2Nlc3Nfam9iCnRvIHByZXZlbnQgdGhlIG51bGwgcG9pbnRlciBkdXJpbmcgZmluaXNoZWQgZmVu
+Y2UgZG1hX2ZlbmNlX3NpZ25hbAoKWyAgNzMyLjkxMjg2N10gQlVHOiBrZXJuZWwgTlVMTCBwb2lu
+dGVyIGRlcmVmZXJlbmNlLCBhZGRyZXNzOiAwMDAwMDAwMDAwMDAwMDA4ClsgIDczMi45MTQ4MTVd
+ICNQRjogc3VwZXJ2aXNvciB3cml0ZSBhY2Nlc3MgaW4ga2VybmVsIG1vZGUKWyAgNzMyLjkxNTcz
+MV0gI1BGOiBlcnJvcl9jb2RlKDB4MDAwMikgLSBub3QtcHJlc2VudCBwYWdlClsgIDczMi45MTY2
+MjFdIFBHRCAwIFA0RCAwClsgIDczMi45MTcwNzJdIE9vcHM6IDAwMDIgWyMxXSBTTVAgUFRJClsg
+IDczMi45MTc2ODJdIENQVTogNyBQSUQ6IDAgQ29tbTogc3dhcHBlci83IFRhaW50ZWQ6IEcgICAg
+ICAgICAgIE9FICAgICA1LjQuMC1yYzcgIzEKWyAgNzMyLjkxODk4MF0gSGFyZHdhcmUgbmFtZTog
+UUVNVSBTdGFuZGFyZCBQQyAoaTQ0MEZYICsgUElJWCwgMTk5NiksIEJJT1MgcmVsLTEuOC4yLTAt
+ZzMzZmJlMTMgYnkgcWVtdS1wcm9qZWN0Lm9yZyAwNC8wMS8yMDE0ClsgIDczMi45MjA5MDZdIFJJ
+UDogMDAxMDpkbWFfZmVuY2Vfc2lnbmFsX2xvY2tlZCsweDNlLzB4MTAwClsgIDczMi45Mzg1Njld
+IENhbGwgVHJhY2U6ClsgIDczMi45MzkwMDNdICA8SVJRPgpbICA3MzIuOTM5MzY0XSAgZG1hX2Zl
+bmNlX3NpZ25hbCsweDI5LzB4NTAKWyAgNzMyLjk0MDAzNl0gIGRybV9zY2hlZF9mZW5jZV9maW5p
+c2hlZCsweDEyLzB4MjAgW2dwdV9zY2hlZF0KWyAgNzMyLjk0MDk5Nl0gIGRybV9zY2hlZF9wcm9j
+ZXNzX2pvYisweDM0LzB4YTAgW2dwdV9zY2hlZF0KWyAgNzMyLjk0MTkxMF0gIGRtYV9mZW5jZV9z
+aWduYWxfbG9ja2VkKzB4ODUvMHgxMDAKWyAgNzMyLjk0MjY5Ml0gIGRtYV9mZW5jZV9zaWduYWwr
+MHgyOS8weDUwClsgIDczMi45NDM0NTddICBhbWRncHVfZmVuY2VfcHJvY2VzcysweDk5LzB4MTIw
+IFthbWRncHVdClsgIDczMi45NDQzOTNdICBzZG1hX3Y0XzBfcHJvY2Vzc190cmFwX2lycSsweDgx
+LzB4YTAgW2FtZGdwdV0KCnYyOiBob2xkIHRoZSBmaW5pc2hlZCBmZW5jZSBhdCBkcm1fc2NoZWRf
+cHJvY2Vzc19qb2IgaW5zdGVhZCBvZgogICAgYW1kZ3B1X2ZlbmNlX3Byb2Nlc3MKdjM6IHJlc3Vt
+ZSB0aGUgYmxhbmsgbGluZQoKU2lnbmVkLW9mZi1ieTogWWludGlhbiBUYW8gPHl0dGFvQGFtZC5j
+b20+ClJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5j
+b20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMgfCAyICsrCiAx
+IGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3Nj
+aGVkX21haW4uYwppbmRleCBhMThlYWJmNjkyZTQuLjhlNzMxZWQwZDlkOSAxMDA2NDQKLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKQEAgLTY1MSw3ICs2NTEsOSBAQCBzdGF0aWMgdm9p
+ZCBkcm1fc2NoZWRfcHJvY2Vzc19qb2Ioc3RydWN0IGRtYV9mZW5jZSAqZiwgc3RydWN0IGRtYV9m
+ZW5jZV9jYiAqY2IpCiAKIAl0cmFjZV9kcm1fc2NoZWRfcHJvY2Vzc19qb2Ioc19mZW5jZSk7CiAK
+KwlkbWFfZmVuY2VfZ2V0KCZzX2ZlbmNlLT5maW5pc2hlZCk7CiAJZHJtX3NjaGVkX2ZlbmNlX2Zp
+bmlzaGVkKHNfZmVuY2UpOworCWRtYV9mZW5jZV9wdXQoJnNfZmVuY2UtPmZpbmlzaGVkKTsKIAl3
+YWtlX3VwX2ludGVycnVwdGlibGUoJnNjaGVkLT53YWtlX3VwX3dvcmtlcik7CiB9CiAKLS0gCjIu
+MTcuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
