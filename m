@@ -1,60 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A78119024F
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 00:55:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50CDA19070E
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:09:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 362C26E438;
-	Mon, 23 Mar 2020 23:55:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04BDF6E0D1;
+	Tue, 24 Mar 2020 08:09:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E8146E438
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 23:55:17 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id g12so16706433ljj.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 16:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GMr5u4wdOEPr3Sm8AlmnVtWOlFsu1i7RB6l0mmmQa5k=;
- b=teuseILWTJQx1+jTZXwGSdAqrpjaeSjVWsuXkYnADtvsbGH39S3W2TVAg4cIQB8Rqk
- V5JeThrOXlkUpgCoeWYGHUhNrhtlLg3/Z5MK4ItpWpK90ZF++6ANzpV5V7TmIWDWP6al
- PWS3GizmeGfkVUcmNMU8/h4lVANrUlTGCCKoU9QzxXB4BeRbh7gVhJKDfS6gKXWzQw2l
- fA/uMlOIQzLwIXKPbGhXnxFFJ/lchM6/fdMV55L0cyyb/m+xkeCnXyveIA2lBBaw4J45
- bh56IpNiLD8jiSCe7SVd4/odRwmkpfvC9NA3m6tKFmTOplcXIRAYSKDzFrFYZSdwP5vT
- XsFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GMr5u4wdOEPr3Sm8AlmnVtWOlFsu1i7RB6l0mmmQa5k=;
- b=uKEEvzcVOkMKQOaJTLLzfWguHra6vdu6ByDhXZSq7C4aEko58arRSYrh5EaYBdnUxw
- Dak6jwPoOZvuTVvqLrg8GsFscl8fNJTIy7cov24uIEH+Ko0nDTchGAt2bEaib/Ej9Qht
- jc2bjFWvktQnfgGXcHPOJfeHkxGldJxx2rLx1yeOCPEfDFjnQnV5O4Oc5MV1yGohLFlw
- ZlZcImUKYE5GALeec5q1Hl0Vr/riVBwxVWZH7odnK1CQGZESEmGwRYZ64z20ssVCIwSQ
- kdB0cUq0Fznxoz1osxEKy3jJhgR8XhAI5MMNI/+4ztZGgnfPuBAg3ECaHuM4mQxo7AFH
- Wbyw==
-X-Gm-Message-State: ANhLgQ3nrNbrc++cALPwKQqSJsBl5hQKREi1DAlb4SdcYr0czSdfTWNR
- cLB3vRb7f/gY9zRLk81n27ApC7fN
-X-Google-Smtp-Source: ADFU+vsOWLE3QduZ01xGu6blHIcNs/Wc873oxug5uC9/tBlbvcrPYwWxKnpWtU7SF5Gf7XoVzZ9FQg==
-X-Received: by 2002:a2e:9194:: with SMTP id f20mr4586584ljg.33.1585007714790; 
- Mon, 23 Mar 2020 16:55:14 -0700 (PDT)
-Received: from sroland-t5810.vmware.com (46-126-183-173.dynamic.hispeed.ch.
- [46.126.183.173])
- by smtp.gmail.com with ESMTPSA id v3sm1518101lfq.16.2020.03.23.16.55.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Mar 2020 16:55:14 -0700 (PDT)
-From: "Roland Scheidegger (VMware)" <rscheidegger.oss@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	airlied@redhat.com,
-	daniel@ffwll.ch
-Subject: [git pull] feature/staging_sm5
-Date: Tue, 24 Mar 2020 00:54:34 +0100
-Message-Id: <20200323235434.11780-1-rscheidegger.oss@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B23BA89A32
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 10:56:22 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 6A43D47D;
+ Mon, 23 Mar 2020 06:56:19 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 23 Mar 2020 06:56:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=fzpRCAmsyk5yn3no7NdCLTL9Xu4
+ x7dq5wW+w+4PqNzo=; b=qjncN70i8E/mm68IiqelYpyQxaqaLFMFkq552WiZ0Ji
+ RDnn/NVEiKwbPBkt2W9lxujvSitEatfIuvVuj78XE0PcmTk+hzhcz32ZYhhtM/60
+ 1yFzSlh9H/oBHVjcFJ2ugGcpKarGWqzjiTKFex07KRbzpvbdVf3PAv/VcUoR/lEE
+ 4Mot7T+dlrf+JN6aOHzR5EnTO9QxbMDHptMN9yXpWIF3+F9y4LIkzkSMZGx2pWtX
+ eRWw3eyev+hZ+str3PdFD3tz8rBoKp737Mw4xtdpoMs32adEhVUPxmogt2MyYJ61
+ wvNhvrQaE0WfsJKQNeLIf0hlfT9kkHEOSRIeNDJTpgA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=fzpRCA
+ msyk5yn3no7NdCLTL9Xu4x7dq5wW+w+4PqNzo=; b=cE7OolyF0peWljveJycKKO
+ zgMMYtHV+pOFwh6Kmd6FjS3CP/+dOVKARo6nxtG8RqXaYMk0oxNUtX/r5t4uzYfJ
+ ZfoTXKnfD9BLHiemRmNxe/Xjoa7iM2bHZWVxMVCKDh99eCJp/7+cdLObC/GpnflV
+ 1Avfs9ubY8SAgqT0wiE9/fvNICQXjzupm0tgLW7rFcKwOwdKcUfaUKY39TcyZ+Oo
+ vGYIPzRBbyYmSY6T2s1DCdvEyosqg++n/woeb+t9tMYE+DiOZJGWeDQjX/1HyK5E
+ nd7oA0OaxQeT1Ic99a9lrnRY63dcHnogyo8riCVTL2kprKBnMQJM/UMzPVf515sQ
+ ==
+X-ME-Sender: <xms:0pV4XpGakGjxFm5WSUO12GozMq6f_D1A6FSPkAn00TVm_p6d4s6Ang>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrudegkedgvddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
+ drkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+ lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:0pV4XikLQU1_NHrUyExDlyHq0J-4oojakDBlFW9FsrNR-C2JnF1hZw>
+ <xmx:0pV4XmKDL-6HyZMPOqYR6s0tWnJrzCMMMdwAO5GIRETYm08AjRr-WA>
+ <xmx:0pV4XjYGnEMLXt1wHnszQKokWtv-_l8H_BluGP_LWAI0VCj_lKT5Dw>
+ <xmx:05V4XimO5x58E3e7V1Pcv11tNhvCMfJifrwgWq7JC9tH9wENGCIu1criPgA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id DED263280067;
+ Mon, 23 Mar 2020 06:56:17 -0400 (EDT)
+Date: Mon, 23 Mar 2020 11:56:16 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH 27/89] clk: bcm: Add BCM2711 DVP driver
+Message-ID: <20200323105616.kiwcyxxcb7eqqfsc@gilmour.lan>
+References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
+ <6dd6bd48e894c1e8ee85c29a30ba1b18041d83c4.1582533919.git-series.maxime@cerno.tech>
+ <158406125965.149997.13919203635322854760@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
+In-Reply-To: <158406125965.149997.13919203635322854760@swboyd.mtv.corp.google.com>
+X-Mailman-Approved-At: Tue, 24 Mar 2020 08:09:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,79 +77,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-graphics-maintainer@vmware.com,
- Roland Scheidegger <rscheidegger.oss@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1800551639=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RGF2ZSwgRGFuaWVsLAoKdm13Z2Z4IHB1bGwgZm9yIGZvciA1LjcuIE5lZWRlZCBmb3IgR0w0IGZ1
-bmN0aW9uYWxpdHkuClN5bmMgdXAgZGV2aWNlIGhlYWRlcnMsIGFkZCBzdXBwb3J0IGZvciBuZXcg
-Y29tbWFuZHMsIGNvZGUKcmVmYWN0b3JpbmcgYXJvdW5kIHN1cmZhY2UgZGVmaW5pdGlvbi4KClBy
-ZWxpbWluYXJ5IG1lc2EgdXNlcnNwYWNlIGNvZGUgdXNpbmcgdGhlc2UgbmV3IHZtd2dmeCBmZWF0
-dXJlcwpjYW4gYmUgZm91bmQgYXQ6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9iaGVu
-ZGVuL21lc2EKCnYyOiB1c2UgbW9yZSBhcHByb3ByaWF0ZSByZXBvLCByZWJhc2VkCgpUaGUgZm9s
-bG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IGNiN2FkZmQ2YWQxMmExMTkwMmViZTM3NGJlYzdm
-ZDRlZmEyY2VjMWM6CgogIE1lcmdlIHRhZyAnbWVkaWF0ZWstZHJtLW5leHQtNS43JyBvZiBodHRw
-czovL2dpdGh1Yi5jb20vY2todS1tZWRpYXRlay9saW51eC5naXQtdGFncyBpbnRvIGRybS1uZXh0
-ICgyMDIwLTAzLTIwIDEzOjA4OjM4ICsxMDAwKQoKYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJl
-cG9zaXRvcnkgYXQ6CgogIGdpdDovL3Blb3BsZS5mcmVlZGVza3RvcC5vcmcvfnNyb2xhbmQvbGlu
-dXggZmVhdHVyZS9zdGFnaW5nX3NtNQoKZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIGY1
-OWU2MWFjZWNlY2M1ZjI1MzEzMjUyZGExNzhhNWM1ZWJhNTY4YmQ6CgogIGRybS92bXdnZng6IFVz
-ZSB2bXdnZnggdmVyc2lvbiAyLjE4IHRvIHNpZ25hbCBTTTUgY29tcGF0aWJpbGl0eSAoMjAyMC0w
-My0yMyAyMjo0ODo1NyArMDEwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KRGVlcGFrIFJhd2F0ICgxNik6CiAgICAgIGRy
-bS92bXdnZng6IEFsc28gY2hlY2sgZm9yIFNWR0FfQ0FQX0RYIGJlZm9yZSByZWFkaW5nIERYIGNv
-bnRleHQgc3VwcG9ydAogICAgICBkcm0vdm13Z2Z4OiBTeW5jIGxlZ2FjeSBtdWx0aXNhbXBsaW5n
-IGRldmljZSBjYXBhYmlsaXR5CiAgICAgIGRybS92bXdnZng6IERlcHJlY2F0ZSBsb2dpYyBvcHMg
-Y29tbWFuZHMKICAgICAgZHJtL3Ztd2dmeDogVXNlIGVudW0gdG8gcmVwcmVzZW50IGdyYXBoaWNz
-IGNvbnRleHQgY2FwYWJpbGl0aWVzCiAgICAgIGRybS92bXdnZng6IFN5bmMgdmlydHVhbCBkZXZp
-Y2UgaGVhZGVycyBmb3IgbmV3IGZlYXR1cmUKICAgICAgZHJtL3Ztd2dmeDogQWRkIGEgbmV3IGVu
-dW0gZm9yIFNNNSBncmFwaGljcyBjb250ZXh0IGNhcGFiaWxpdHkKICAgICAgZHJtL3Ztd2dmeDog
-UmVhZCBuZXcgcmVnaXN0ZXIgZm9yIEdCIG1lbW9yeSB3aGVuIGF2YWlsYWJsZQogICAgICBkcm0v
-dm13Z2Z4OiBTdXBwb3J0IFNNNSBzaGFkZXIgdHlwZSBpbiBjb21tYW5kIGJ1ZmZlcgogICAgICBk
-cm0vdm13Z2Z4OiBBZGQgc3VwcG9ydCBmb3IgVUEgdmlldyBjb21tYW5kcwogICAgICBkcm0vdm13
-Z2Z4OiBBZGQgc3VwcG9ydCBmb3IgaW5kaXJlY3QgYW5kIGRpc3BhdGNoIGNvbW1hbmRzCiAgICAg
-IGRybS92bXdnZng6IFJlbmFtZSBzdHJlYW0gb3V0cHV0IHRhcmdldCBiaW5kaW5nIHRyYWNrZXIg
-c3RydWN0CiAgICAgIGRybS92bXdnZng6IEFkZCBzdXBwb3J0IGZvciBzdHJlYW1vdXRwdXQgd2l0
-aCBtb2IgY29tbWFuZHMKICAgICAgZHJtL3Ztd2dmeDogU3BsaXQgc3VyZmFjZSBtZXRhZGF0YSBm
-cm9tIHN0cnVjdCB2bXdfc3VyZmFjZQogICAgICBkcm0vdm13Z2Z4OiBSZWZhY3RvciBzdXJmYWNl
-X2RlZmluZSB0byB1c2Ugdm13X3N1cmZhY2VfbWV0YWRhdGEKICAgICAgZHJtL3Ztd2dmeDogQWRk
-IHN1cmZhY2UgZGVmaW5lIHY0IGNvbW1hbmQKICAgICAgZHJtL3Ztd2dmeDogQWRkIFNNNSBwYXJh
-bSBmb3IgdXNlcnNwYWNlCgpUaG9tYXMgSGVsbHN0csO2bSAoVk13YXJlKSAoMSk6CiAgICAgIGRy
-bS92bXdnZng6IFVzZSB2bXdnZnggdmVyc2lvbiAyLjE4IHRvIHNpZ25hbCBTTTUgY29tcGF0aWJp
-bGl0eQoKIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAg
-IHwgICAyICstCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L2RldmljZV9pbmNsdWRlL3N2Z2EzZF9j
-bWQuaCB8IDE2MSArKysrLQogLi4uL2dwdS9kcm0vdm13Z2Z4L2RldmljZV9pbmNsdWRlL3N2Z2Ez
-ZF9kZXZjYXBzLmggfCA3ODcgKysrKysrKysrKystLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0v
-dm13Z2Z4L2RldmljZV9pbmNsdWRlL3N2Z2EzZF9keC5oICB8IDQ2NiArKysrKysrKysrKy0KIC4u
-Li9ncHUvZHJtL3Ztd2dmeC9kZXZpY2VfaW5jbHVkZS9zdmdhM2RfbGltaXRzLmggIHwgIDM2ICst
-CiAuLi4vZHJtL3Ztd2dmeC9kZXZpY2VfaW5jbHVkZS9zdmdhM2Rfc3VyZmFjZWRlZnMuaCB8ICA1
-OCArLQogLi4uL2dwdS9kcm0vdm13Z2Z4L2RldmljZV9pbmNsdWRlL3N2Z2EzZF90eXBlcy5oICAg
-fCAzNDcgKysrKysrKy0tCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L2RldmljZV9pbmNsdWRlL3N2
-Z2FfcmVnLmggICB8IDM4MiArKysrKysrLS0tCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L2Rldmlj
-ZV9pbmNsdWRlL3N2Z2FfdHlwZXMuaCB8ICAgMSArCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Zt
-d2dmeF9iaW5kaW5nLmMgICAgICAgICAgICB8IDIxMyArKysrKy0KIGRyaXZlcnMvZ3B1L2RybS92
-bXdnZngvdm13Z2Z4X2JpbmRpbmcuaCAgICAgICAgICAgIHwgIDMzICstCiBkcml2ZXJzL2dwdS9k
-cm0vdm13Z2Z4L3Ztd2dmeF9jb250ZXh0LmMgICAgICAgICAgICB8ICAyOCArLQogZHJpdmVycy9n
-cHUvZHJtL3Ztd2dmeC92bXdnZnhfY290YWJsZS5jICAgICAgICAgICAgfCAgIDYgKy0KIGRyaXZl
-cnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Rydi5jICAgICAgICAgICAgICAgIHwgIDU5ICstCiBk
-cml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuaCAgICAgICAgICAgICAgICB8IDE0MCAr
-KystCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9leGVjYnVmLmMgICAgICAgICAgICB8
-IDQyOSArKysrKysrKysrLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfaW9jdGwuYyAg
-ICAgICAgICAgICAgfCAgMTggKy0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2ttcy5j
-ICAgICAgICAgICAgICAgIHwgIDQzICstCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9t
-b2IuYyAgICAgICAgICAgICAgICB8ICAgMiArLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdn
-Znhfc28uYyAgICAgICAgICAgICAgICAgfCAgMTIgKy0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngv
-dm13Z2Z4X3NvLmggICAgICAgICAgICAgICAgIHwgICA3ICsKIGRyaXZlcnMvZ3B1L2RybS92bXdn
-Zngvdm13Z2Z4X3N0ZHUuYyAgICAgICAgICAgICAgIHwgIDYxICstCiBkcml2ZXJzL2dwdS9kcm0v
-dm13Z2Z4L3Ztd2dmeF9zdHJlYW1vdXRwdXQuYyAgICAgICB8IDM4NyArKysrKysrKysrCiBkcml2
-ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9zdXJmYWNlLmMgICAgICAgICAgICB8IDYwOCArKysr
-KysrKy0tLS0tLS0tCiBpbmNsdWRlL3VhcGkvZHJtL3Ztd2dmeF9kcm0uaCAgICAgICAgICAgICAg
-ICAgICAgICB8ICAxNiArLQogMjUgZmlsZXMgY2hhbmdlZCwgMzI1MiBpbnNlcnRpb25zKCspLCAx
-MDUwIGRlbGV0aW9ucygtKQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS92bXdn
-Zngvdm13Z2Z4X3N0cmVhbW91dHB1dC5jCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+
+--===============1800551639==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="tfljntymmeg4eptb"
+Content-Disposition: inline
+
+
+--tfljntymmeg4eptb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Stephen,
+
+On Thu, Mar 12, 2020 at 06:00:59PM -0700, Stephen Boyd wrote:
+> > +       dvp->clks[1] = clk_register_gate(&pdev->dev, "hdmi1-108MHz",
+> > +                                        parent, CLK_IS_CRITICAL,
+> > +                                        base + DVP_HT_RPI_MISC_CONFIG, 4,
+> > +                                        CLK_GATE_SET_TO_DISABLE, &dvp->reset.lock);
+>
+> Can we use clk_hw APIs, document why CLK_IS_CRITICAL, and use something
+> like clk_hw_register_gate_parent_data() so that we don't have to use
+> of_clk_get_parent_name() above?
+
+That function is new to me, and I'm not sure how I'm supposed to use it?
+
+It looks like clk_hw_register_gate, clk_hw_register_gate_parent_hw and
+clk_hw_register_gate_parent_data all call __clk_hw_register_gate with
+the same arguments, each expecting the parent_name, so they look
+equivalent?
+
+It looks like the original intent was to have the parent name, clk_hw
+or clk_parent_data as argument, but the macro itself was copy pasted
+without changing the arguments it's calling __clk_hw_register_gate
+with?
+
+Maxime
+
+--tfljntymmeg4eptb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXniV0AAKCRDj7w1vZxhR
+xTnlAQCIhFMKlCTUi7lT7vtutsg55UjNkCiTBydMK2jwFL/FAwD/SNvqj7HP9kXi
+Uu9uGwZ9ol7SO9ZaYUzJVfxPPZbXQww=
+=Ie9e
+-----END PGP SIGNATURE-----
+
+--tfljntymmeg4eptb--
+
+--===============1800551639==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1800551639==--
