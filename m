@@ -2,54 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45611190126
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 23:39:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 832DC190135
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 23:50:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67A6589DB9;
-	Mon, 23 Mar 2020 22:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5133F6E054;
+	Mon, 23 Mar 2020 22:50:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
- [IPv6:2607:f8b0:4864:20::d42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2C489DA4
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 22:39:07 +0000 (UTC)
-Received: by mail-io1-xd42.google.com with SMTP id h8so16176698iob.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 15:39:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FRiaZL1pTj8qeEw22WSzEFwOw6DWl95eMt1+igbR+Js=;
- b=vIBNaGao3fvitI+mRWN1Be+LQjeITjB4JZCbQbtvUwumajijth+r9/7KLXPrMBwBTt
- GsL8nsnt+pduh+zmY0vvOIrenGT+0AAVvrWCP4JUKAfymeQRwCaSnvSMK+b8TYvY27qX
- TbpG3U4Sr7Ges/djw+ba/PSGhudvjDTC2E+gioPCIkslyxF77gWx4sL3+PmKm+9yTM3g
- q2/0IQJW+Fdm33TTlxyqrEb0XGG1FEPp41TN07vhOpQCpkiWTc/X9nDeCHsGf+gZ2FTO
- YZvZGkL5SQBhvmhVHgpC7hBe2rhELAnoKXCftyzv+Axj8grdZeadX26CjaIA5gCk6YZP
- sH+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FRiaZL1pTj8qeEw22WSzEFwOw6DWl95eMt1+igbR+Js=;
- b=F5zM37jInAYPbbiwmsWHGNxOyRm3tBbuPDCSa8qtb5H3w6q5zd0EyRz/8TeURF4cIK
- 3nCZjHq7WPkw1bfIzzE3yegZZYcX/F2RDkUTDWKYBRdkDsVfNbLa/EIHwi/uCIzBu/Vq
- KlCA08SonTdUrcS8DNZvuZ0zRWE4UlfueRnWtQMt8xurOVw4tkfPlAViPeYYN+eR6k1Y
- hOZJ11J2nYxnzdbPAufrtII5FNH3i+Zs+Gb3Ak7iptaDioPcg9LtnmDkG/Upy3Z6ChYT
- jZThxtP4C9cyvEo42yQ4N95XucPgQjZgDUmhNoSxsQzBbD7yJEot+COSzDgVUdAYFw80
- LOWQ==
-X-Gm-Message-State: ANhLgQ3qXvywiokGcVfTP0wb7MP+3gkmc+Xn5+LQFoX9n8HsAY+i/GC6
- nKQeJ3mRnWyx0x9e3SWjdwIiPipJNQVzZ2JBepM=
-X-Google-Smtp-Source: ADFU+vvqZq2vWiX3dHQexRcnhwYpI5xzRg1jBEdOKijn9xZWt2CDYe1Wufhmn0Kqd3QkPlkNWUJwpmfTgzyAG/jkEQY=
-X-Received: by 2002:a02:934f:: with SMTP id e15mr18329775jah.109.1585003146792; 
- Mon, 23 Mar 2020 15:39:06 -0700 (PDT)
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DACA6E054
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 22:50:30 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+ by mail.kmu-office.ch (Postfix) with ESMTPSA id 28D8E5C061C;
+ Mon, 23 Mar 2020 23:50:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+ t=1585003829;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eaeWtPrfBPzeXFIzWk/wbpzN8v46/3MPxsutBGPSJ1Q=;
+ b=P22pCz5K3FGJxktMZC4pVMxnD+YFFqtQlxAMobhfSTW4/jYK1ZEyarF9opMVwoK3Xacewg
+ oCEP+xIE81QFqld41M4TIHzFwjsroezch2jDnFSlcZQFn3n1ZA6l5A5DiSTPqjb1ZelTl7
+ 14gIhPY6qf1FAZVTEqVIMIuun0xj82Q=
 MIME-Version: 1.0
-References: <20200323205137.136530-1-bigbeeshane@gmail.com>
- <20200323205137.136530-3-bigbeeshane@gmail.com>
- <CADnq5_MvGT8BY8T6DQqaC+5FX_Tbb0f6K25wv8fGsy1F1KV_+w@mail.gmail.com>
-In-Reply-To: <CADnq5_MvGT8BY8T6DQqaC+5FX_Tbb0f6K25wv8fGsy1F1KV_+w@mail.gmail.com>
-From: Shane Francis <bigbeeshane@gmail.com>
-Date: Mon, 23 Mar 2020 22:38:56 +0000
-Message-ID: <CABnpCuAvHOsQ7bdVtzpncoK2+Joo1_DrMPwa8daQVxwUyxPL-w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/amdgpu: fix scatter-gather mapping with user pages
-To: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 23 Mar 2020 23:50:29 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 13/21] drm: mxsfb: Don't touch AXI clock in IRQ context
+In-Reply-To: <20200309195216.31042-14-laurent.pinchart@ideasonboard.com>
+References: <20200309195216.31042-1-laurent.pinchart@ideasonboard.com>
+ <20200309195216.31042-14-laurent.pinchart@ideasonboard.com>
+User-Agent: Roundcube Webmail/1.4.1
+Message-ID: <e4cac7a95851cc62c762cf887d0ad691@agner.ch>
+X-Sender: stefan@agner.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,54 +48,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0596335266=="
+Cc: Marek Vasut <marex@denx.de>, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, linux-imx@nxp.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0596335266==
-Content-Type: multipart/alternative; boundary="00000000000088577905a18d4d3f"
+On 2020-03-09 20:52, Laurent Pinchart wrote:
+> The driver attempts agressive power management by enabling and disabling
+> the AXI clock around register accesses. This results in attempts to
+> enable and disable the clock in the IRQ handler, which is a no-go as
+> preparing or unpreparing the clock may sleep.
+> 
+> On the other hand, the driver enables the AXI clock when enabling the
+> CRTC and keeps it enabled until the CRTC is disabled. This is correct,
+> and renders the power management attempt pointless, as interrupts are
+> not supposed to occur when the CRTC is off.
+> 
+> The same reasoning can be applied to the CRTC .enable_vblank() and
+> .disable_vblank() that are not supposed to be called when the CRTC off
+> and thus don't require manual handling of the AXI clock. Furthermore,
+> vblank handling is never enabled, which results in the vblank enable and
+> disable handlers never being called.
+> 
+> To fix this, remove the manual clock handling in the IRQ, the CRTC
+> .enable_vblank() and .disable_vblank() handlers and the plane
+> .atomic_update() handler. We however need to handle the clock manually
+> in mxsfb_irq_disable() as is calls .disable_vblank() manually and is
+> used both at probe and remove time.
+> 
+> The clock disabling is also moved to the last step of the
+> mxsfb_crtc_atomic_disable() function, to prepare for enabling vblank
+> handling.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
---00000000000088577905a18d4d3f
-Content-Type: text/plain; charset="UTF-8"
+Looks good to me!
 
-> I think the other call to drm_prime_sg_to_page_addr_arrays in amdgpu
-> needs a similar fix.
->
-> Alex
+Reviewed-by: Stefan Agner <stefan@agner.ch>
 
-Looking at the other call in amdgpu tmm it does not seem to undergo the
-segment
-remapping that happens in dma_map_sg, so should be safe.
-
-I will port the changes to drm/radeon as that seems to use the same logic
-for
-user pages.
-
-Regards : Shane Francis
-
---00000000000088577905a18d4d3f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">&gt; I think the other call to drm_prime_sg_to_page_addr_a=
-rrays in amdgpu<br>&gt; needs a similar fix.<br>&gt; <br>&gt; Alex<br><br>L=
-ooking at the other call in amdgpu tmm it does not seem to undergo the segm=
-ent<br>remapping that happens in dma_map_sg, so should be safe.<br><br>I wi=
-ll port the changes to drm/radeon as that seems to use the same logic for<b=
-r>user pages.<br><br>Regards : Shane Francis</div>
-
---00000000000088577905a18d4d3f--
-
---===============0596335266==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> ---
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.c |  6 ++----
+>  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 15 ++++-----------
+>  2 files changed, 6 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> index a8da92976d13..e324bd2a63a5 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> @@ -231,7 +231,9 @@ static void mxsfb_irq_disable(struct drm_device *drm)
+>  {
+>  	struct mxsfb_drm_private *mxsfb = drm->dev_private;
+>  
+> +	mxsfb_enable_axi_clk(mxsfb);
+>  	mxsfb->crtc.funcs->disable_vblank(&mxsfb->crtc);
+> +	mxsfb_disable_axi_clk(mxsfb);
+>  }
+>  
+>  static irqreturn_t mxsfb_irq_handler(int irq, void *data)
+> @@ -240,8 +242,6 @@ static irqreturn_t mxsfb_irq_handler(int irq, void *data)
+>  	struct mxsfb_drm_private *mxsfb = drm->dev_private;
+>  	u32 reg;
+>  
+> -	mxsfb_enable_axi_clk(mxsfb);
+> -
+>  	reg = readl(mxsfb->base + LCDC_CTRL1);
+>  
+>  	if (reg & CTRL1_CUR_FRAME_DONE_IRQ)
+> @@ -249,8 +249,6 @@ static irqreturn_t mxsfb_irq_handler(int irq, void *data)
+>  
+>  	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+>  
+> -	mxsfb_disable_axi_clk(mxsfb);
+> -
+>  	return IRQ_HANDLED;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> index ebe0785694cb..ac2696c8483d 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> @@ -344,9 +344,6 @@ static void mxsfb_crtc_atomic_disable(struct drm_crtc *crtc,
+>  	struct drm_pending_vblank_event *event;
+>  
+>  	mxsfb_disable_controller(mxsfb);
+> -	mxsfb_disable_axi_clk(mxsfb);
+> -
+> -	pm_runtime_put_sync(drm->dev);
+>  
+>  	spin_lock_irq(&drm->event_lock);
+>  	event = crtc->state->event;
+> @@ -355,6 +352,9 @@ static void mxsfb_crtc_atomic_disable(struct drm_crtc *crtc,
+>  		drm_crtc_send_vblank_event(crtc, event);
+>  	}
+>  	spin_unlock_irq(&drm->event_lock);
+> +
+> +	mxsfb_disable_axi_clk(mxsfb);
+> +	pm_runtime_put_sync(drm->dev);
+>  }
+>  
+>  static int mxsfb_crtc_enable_vblank(struct drm_crtc *crtc)
+> @@ -362,10 +362,8 @@ static int mxsfb_crtc_enable_vblank(struct drm_crtc *crtc)
+>  	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
+>  
+>  	/* Clear and enable VBLANK IRQ */
+> -	mxsfb_enable_axi_clk(mxsfb);
+>  	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+>  	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_SET);
+> -	mxsfb_disable_axi_clk(mxsfb);
+>  
+>  	return 0;
+>  }
+> @@ -375,10 +373,8 @@ static void mxsfb_crtc_disable_vblank(struct
+> drm_crtc *crtc)
+>  	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
+>  
+>  	/* Disable and clear VBLANK IRQ */
+> -	mxsfb_enable_axi_clk(mxsfb);
+>  	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+>  	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+> -	mxsfb_disable_axi_clk(mxsfb);
+>  }
+>  
+>  static const struct drm_crtc_helper_funcs mxsfb_crtc_helper_funcs = {
+> @@ -433,11 +429,8 @@ static void mxsfb_plane_atomic_update(struct
+> drm_plane *plane,
+>  	dma_addr_t paddr;
+>  
+>  	paddr = mxsfb_get_fb_paddr(mxsfb);
+> -	if (paddr) {
+> -		mxsfb_enable_axi_clk(mxsfb);
+> +	if (paddr)
+>  		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
+> -		mxsfb_disable_axi_clk(mxsfb);
+> -	}
+>  }
+>  
+>  static const struct drm_plane_helper_funcs mxsfb_plane_helper_funcs = {
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0596335266==--
