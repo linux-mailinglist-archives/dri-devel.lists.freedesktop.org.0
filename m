@@ -1,64 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896E418F8C3
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 16:38:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4134018F8F3
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 16:51:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE1C89E1D;
-	Mon, 23 Mar 2020 15:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34B2B89D86;
+	Mon, 23 Mar 2020 15:51:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C956489E1D
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 15:37:58 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id a81so9578987wmf.5
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 08:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=N3Q+qAIc552rJD7ZSPM4p2mnFuNM9e12XzMy9h14WCY=;
- b=dEun6e07weqIPfvGZLW2lxQWBnRjAcTPfpJcwnj6VLcaSCQ8E/PNj4jIiO18ld/bFx
- fp/HLKk5uUVLbdTUICIzqevbrLkIs69s93OpFV+2cB7tICCsHRp4sKldvYa+2v7L++O3
- g0PxvKzquB+EPBCoSM3kjpryRp4UairYjg5Qs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=N3Q+qAIc552rJD7ZSPM4p2mnFuNM9e12XzMy9h14WCY=;
- b=XYZkzIh0qXKLA7G2Iu8/Jpt3sOdoJL5Kos4s2pbq2uaa0oPbCn5JzHg6AOwxGK9wRt
- QR8He7/BmB3+sVGtvaZg+60fz3MCo7ZlmHR/LEwzkVzPiNGaNp4KufEfbJEJz5tBRtYf
- N+iMq+YIHNkntSvBH1iVlw9gIe5HAawJ1sov1HsNdY3KJSpMe1y2TMbeDL+Wt2YeP3wd
- XjSOeRJdVO6+Gr+VH7yDtX9QQEIEzkCRvD6bvxnSb+U1V2WoFi6GoJ6XrXtzXZ4fjICx
- 5adnLYBeo+gFm+TWBudD7zhmMZP2bI6gjvmH/J8mt2UTMDa8Fgkhk7Llqh+Suu3LW3fw
- 1GTw==
-X-Gm-Message-State: ANhLgQ2SDeaIHQ/vAtph9d5doSA1Rs3jRIH9qULrlm/EPuyjy35hJ1Y4
- Vpqy6g5Fcqiowz8YOZtp6GBRVg==
-X-Google-Smtp-Source: ADFU+vvGd1MKe/OvLt2X47KYngeTnpKSj43dHgfDxQAUMDIBGIJ3JQimSSVq6szxlHUK+ouaNN/xLQ==
-X-Received: by 2002:a7b:c194:: with SMTP id y20mr11877864wmi.163.1584977877362; 
- Mon, 23 Mar 2020 08:37:57 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k3sm3322699wro.39.2020.03.23.08.37.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Mar 2020 08:37:55 -0700 (PDT)
-Date: Mon, 23 Mar 2020 16:37:52 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] drm/vram-helper: remove unneeded #if defined/endif guards.
-Message-ID: <20200323153752.GK2363188@phenom.ffwll.local>
-Mail-Followup-To: Greg KH <gregkh@linuxfoundation.org>,
- Wambui Karuga <wambui.karugax@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20200323112802.228214-1-wambui.karugax@gmail.com>
- <20200323113726.GA663867@kroah.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 612CF89D86
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 15:51:14 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1jGPM3-0004GB-Ny; Mon, 23 Mar 2020 16:51:07 +0100
+Message-ID: <d39209a3664179f895a7dfabbd02d27a6adb9895.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/mxsfb: Make supported modifiers explicit
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>, Marek Vasut
+ <marex@denx.de>, Stefan Agner <stefan@agner.ch>, David Airlie
+ <airlied@linux.ie>,  Daniel Vetter <daniel@ffwll.ch>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,  Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date: Mon, 23 Mar 2020 16:51:05 +0100
+In-Reply-To: <26877532e272c12a74c33188e2a72abafc9a2e1c.1584973664.git.agx@sigxcpu.org>
+References: <26877532e272c12a74c33188e2a72abafc9a2e1c.1584973664.git.agx@sigxcpu.org>
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200323113726.GA663867@kroah.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,71 +51,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Wambui Karuga <wambui.karugax@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 23, 2020 at 12:37:26PM +0100, Greg KH wrote:
-> On Mon, Mar 23, 2020 at 02:28:02PM +0300, Wambui Karuga wrote:
-> > Remove unneeded #if/#endif guards for checking whether the
-> > CONFIG_DEBUG_FS option is set or not. If the option is not set, the
-> > compiler optimizes the functions making the guards
-> > unnecessary.
-> > 
-> > Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-
-Applied, thanks a lot.
--Daniel
-
-> > ---
-> >  drivers/gpu/drm/drm_gem_vram_helper.c | 4 ----
-> >  1 file changed, 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> > index 76506bedac11..b3201a70cbfc 100644
-> > --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> > @@ -1018,7 +1018,6 @@ static struct ttm_bo_driver bo_driver = {
-> >   * struct drm_vram_mm
-> >   */
-> >  
-> > -#if defined(CONFIG_DEBUG_FS)
-> >  static int drm_vram_mm_debugfs(struct seq_file *m, void *data)
-> >  {
-> >  	struct drm_info_node *node = (struct drm_info_node *) m->private;
-> > @@ -1035,7 +1034,6 @@ static int drm_vram_mm_debugfs(struct seq_file *m, void *data)
-> >  static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
-> >  	{ "vram-mm", drm_vram_mm_debugfs, 0, NULL },
-> >  };
-> > -#endif
-> >  
-> >  /**
-> >   * drm_vram_mm_debugfs_init() - Register VRAM MM debugfs file.
-> > @@ -1045,11 +1043,9 @@ static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
-> >   */
-> >  void drm_vram_mm_debugfs_init(struct drm_minor *minor)
-> >  {
-> > -#if defined(CONFIG_DEBUG_FS)
-> >  	drm_debugfs_create_files(drm_vram_mm_debugfs_list,
-> >  				 ARRAY_SIZE(drm_vram_mm_debugfs_list),
-> >  				 minor->debugfs_root, minor);
-> > -#endif
-> >  }
-> >  EXPORT_SYMBOL(drm_vram_mm_debugfs_init);
-> >  
-> > -- 
-> > 2.25.1
-> 
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gTW9udGFnLCBkZW4gMjMuMDMuMjAyMCwgMTU6NTIgKzAxMDAgc2NocmllYiBHdWlkbyBHw7xu
+dGhlcjoKPiBJbiBjb250cmFzdCB0byBvdGhlciBkaXNwbGF5IGNvbnRyb2xsZXJzIG9uIGlteCBs
+aWtlIERDU1MgYW5kIGlwdXYzCj4gbGNkaWYvbXhzZmIgZG9lcyBub3Qgc3VwcG9ydCBkZXRpbGlu
+ZyBlLmcuIHZpdmFudGUgdGlsZWQgbGF5b3V0cy4KPiBTaW5jZSBtZXNhIG1pZ2h0IGFzc3VtZSBv
+dGhlcndpc2UgbWFrZSBpdCBleHBsaWNpdCB0aGF0IG9ubHkKPiBEUk1fRk9STUFUX01PRF9MSU5F
+QVIgaXMgc3VwcG9ydGVkLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEd1aWRvIEfDvG50aGVyIDxhZ3hA
+c2lneGNwdS5vcmc+CgpSZXZpZXdlZC1ieTogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9u
+aXguZGU+Cgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfZHJ2LmMgfCA5ICsr
+KysrKystLQo+ICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
+KQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfZHJ2LmMgYi9k
+cml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfZHJ2LmMKPiBpbmRleCA3NjIzNzk1MzA5MjguLmZj
+NzFlN2E3YTAyZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfZHJ2
+LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfZHJ2LmMKPiBAQCAtNzMsNiAr
+NzMsMTEgQEAgc3RhdGljIGNvbnN0IHVpbnQzMl90IG14c2ZiX2Zvcm1hdHNbXSA9IHsKPiAgCURS
+TV9GT1JNQVRfUkdCNTY1Cj4gIH07Cj4gIAo+ICtzdGF0aWMgY29uc3QgdWludDY0X3QgbXhzZmJf
+bW9kaWZpZXJzW10gPSB7Cj4gKwlEUk1fRk9STUFUX01PRF9MSU5FQVIsCj4gKwlEUk1fRk9STUFU
+X01PRF9JTlZBTElECj4gK307Cj4gKwo+ICBzdGF0aWMgc3RydWN0IG14c2ZiX2RybV9wcml2YXRl
+ICoKPiAgZHJtX3BpcGVfdG9fbXhzZmJfZHJtX3ByaXZhdGUoc3RydWN0IGRybV9zaW1wbGVfZGlz
+cGxheV9waXBlICpwaXBlKQo+ICB7Cj4gQEAgLTMzNCw4ICszMzksOCBAQCBzdGF0aWMgaW50IG14
+c2ZiX2xvYWQoc3RydWN0IGRybV9kZXZpY2UgKmRybSwgdW5zaWduZWQgbG9uZyBmbGFncykKPiAg
+CX0KPiAgCj4gIAlyZXQgPSBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZV9pbml0KGRybSwgJm14c2Zi
+LT5waXBlLCAmbXhzZmJfZnVuY3MsCj4gLQkJCW14c2ZiX2Zvcm1hdHMsIEFSUkFZX1NJWkUobXhz
+ZmJfZm9ybWF0cyksIE5VTEwsCj4gLQkJCW14c2ZiLT5jb25uZWN0b3IpOwo+ICsJCQlteHNmYl9m
+b3JtYXRzLCBBUlJBWV9TSVpFKG14c2ZiX2Zvcm1hdHMpLAo+ICsJCQlteHNmYl9tb2RpZmllcnMs
+IG14c2ZiLT5jb25uZWN0b3IpOwo+ICAJaWYgKHJldCA8IDApIHsKPiAgCQlkZXZfZXJyKGRybS0+
+ZGV2LCAiQ2Fubm90IHNldHVwIHNpbXBsZSBkaXNwbGF5IHBpcGVcbiIpOwo+ICAJCWdvdG8gZXJy
+X3ZibGFuazsKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
