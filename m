@@ -1,41 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20696190181
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 00:08:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E72A6190183
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 00:09:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42ED96E03F;
-	Mon, 23 Mar 2020 23:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8F4C6E3EB;
+	Mon, 23 Mar 2020 23:09:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD6A36E03F
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 23:08:17 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
- by mail.kmu-office.ch (Postfix) with ESMTPSA id 2379E5C061C;
- Tue, 24 Mar 2020 00:08:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
- t=1585004896;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+vZc0JqXmLOdU7i7ES72S81rQPOAnqvhRVv6N/GSz64=;
- b=sESt+Sxkxtn6tAmSP2/ZTEabuyPiaGC1sJWdc76Eb/Zedx5lz9WVRxcei6QH6X8V03Jmsg
- hbkxVXTIIDh0k4kNqcatxMTgsDUWGuC7u9QxnRVnEApwXa/mj5kz3Opqy5pleqdLMJJKid
- 84LCInqTDUSE07IHAA+i65I+JTaqji0=
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA9F66E3EB
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 23:09:07 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id s1so19281169wrv.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 16:09:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=imuXcilkn+iLzn7jKH32d6iJbZqaRUW5Xj2Jjo6hWj4=;
+ b=kKxgpMm/ae5FeX84hXRvLyWvC5f0FVlFtscWsW5CRS1EhSCtpdo1PAdXeAotJdjqXr
+ 2X9p7Cr4V4bDfKfR2WH58nHAzrCP/j+2Fi/PVioAmZzUMt7YZoYWtHgbeCZVllZHmuuX
+ htkuA0Pt8bNz2BkIaChFRIHgpgc1RNq2c+vi7pG2xbZdrOEJS+erLPB29i/tDvw7Vys0
+ ipJNooJOPrc9fQXS6IpFqGbC0tOWmOIDpDmUXqfA2e/9mNOnPdoGpCmzOun4Z/s+6XgW
+ 7WOP82SvHGeCHT/HiryVIE6WCP9k1HDULqKbI2PotwSCXa7LiPv5snAi6nEiwk4lB2AW
+ heYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=imuXcilkn+iLzn7jKH32d6iJbZqaRUW5Xj2Jjo6hWj4=;
+ b=cCKXn/drrpbbSNY28wjHWpdclWbUWvxJvo6g1ed6BWde0IUHbgtS+XveVvy3guCtDX
+ JAqwXR6uf+6oiAGh5ZBfxXtZGnxjt5L1l27EG/RAAh4NGRwMVtLUAzxer7Q52X79RR2q
+ OmZuCdwisj8ZpSOXaSnY4PQlyPa//059uUNE3OvX06/9r1CKopZneAHjO7tPdry98XwL
+ Sqk1skHIXckWYmlet2UwhsfMHq1EHjZs/K+L3cYiPkmlh2v88C+h3HCno9R/gxgwKUZx
+ aBw5jsnm8VVj3EVo/RxjcfORlQbKjPEPEcNzFn8AEAC1c1nkNWZd+OWbE3F5pBSBXaX1
+ 5fiw==
+X-Gm-Message-State: ANhLgQ33MNvk+tTSwCtk9UseInxsv+zz7zVxwV9dAX6iBJ6h7YA8GvBH
+ iucvBRLMiQMx1W1VsWiCH1BiI1Da
+X-Google-Smtp-Source: ADFU+vuwiAy/9Ud/xkNGMe0Q+396Em1rmDaYwOiuFtoWoHk1Lwa9NaWTUK5tJGhNizaqqW8MTb14dA==
+X-Received: by 2002:a5d:55cb:: with SMTP id i11mr6964516wrw.305.1585004946068; 
+ Mon, 23 Mar 2020 16:09:06 -0700 (PDT)
+Received: from sroland-t5810.vmware.com (46-126-183-173.dynamic.hispeed.ch.
+ [46.126.183.173])
+ by smtp.gmail.com with ESMTPSA id q185sm1641937wme.10.2020.03.23.16.09.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Mar 2020 16:09:05 -0700 (PDT)
+From: Roland Scheidegger <rscheidegger.oss@gmail.com>
+X-Google-Original-From: Roland Scheidegger <sroland@vmware.com>
+To: dri-devel@lists.freedesktop.org,
+	airlied@redhat.com,
+	daniel@ffwll.ch
+Subject: [PATCH v2 00/17] drm/vmwgfx add support for GL4
+Date: Tue, 24 Mar 2020 00:08:44 +0100
+Message-Id: <20200323230901.13302-1-sroland@vmware.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Date: Tue, 24 Mar 2020 00:08:16 +0100
-From: Stefan Agner <stefan@agner.ch>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 14/21] drm: mxsfb: Enable vblank handling
-In-Reply-To: <20200309195216.31042-15-laurent.pinchart@ideasonboard.com>
-References: <20200309195216.31042-1-laurent.pinchart@ideasonboard.com>
- <20200309195216.31042-15-laurent.pinchart@ideasonboard.com>
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <c6a1ff930152e17b61ec9e032fa7e4cb@agner.ch>
-X-Sender: stefan@agner.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,98 +68,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org, linux-imx@nxp.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-graphics-maintainer@vmware.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-03-09 20:52, Laurent Pinchart wrote:
-> Enable vblank handling when the CRTC is turned on and disable it when it
-> is turned off. This requires moving vblank init after the KMS pipeline
-> initialisation, otherwise drm_vblank_init() gets called with 0 CRTCs.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-With this patch applied I start to get system resets on my Colibri iMX7
-test device during system boot shortly after initializing mxsfb. It
-happens not on every boot, but rather often, I would say every second or
-third. From what I can tell the interrupt handling should be safe, but
-it seems that every now and then something races. Any idea what that
-could be?
-
---
-Stefan
-
-> ---
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 15 +++++++++------
->  drivers/gpu/drm/mxsfb/mxsfb_kms.c |  6 +++++-
->  2 files changed, 14 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> index e324bd2a63a5..72b4f6a947a4 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> @@ -160,12 +160,6 @@ static int mxsfb_load(struct drm_device *drm,
-> unsigned long flags)
->  
->  	pm_runtime_enable(drm->dev);
->  
-> -	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
-> -	if (ret < 0) {
-> -		dev_err(drm->dev, "Failed to initialise vblank\n");
-> -		goto err_vblank;
-> -	}
-> -
->  	/* Modeset init */
->  	drm_mode_config_init(drm);
->  
-> @@ -175,6 +169,15 @@ static int mxsfb_load(struct drm_device *drm,
-> unsigned long flags)
->  		goto err_vblank;
->  	}
->  
-> +	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
-> +	if (ret < 0) {
-> +		dev_err(drm->dev, "Failed to initialise vblank\n");
-> +		goto err_vblank;
-> +	}
-> +
-> +	/* Start with vertical blanking interrupt reporting disabled. */
-> +	drm_crtc_vblank_off(&mxsfb->crtc);
-> +
->  	ret = mxsfb_attach_bridge(mxsfb);
->  	if (ret) {
->  		dev_err(drm->dev, "Cannot connect bridge: %d\n", ret);
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> index ac2696c8483d..640305fb1068 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> @@ -322,8 +322,10 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
->  	dma_addr_t paddr;
->  
->  	pm_runtime_get_sync(drm->dev);
-> -
->  	mxsfb_enable_axi_clk(mxsfb);
-> +
-> +	drm_crtc_vblank_on(crtc);
-> +
->  	mxsfb_crtc_mode_set_nofb(mxsfb);
->  
->  	/* Write cur_buf as well to avoid an initial corrupt frame */
-> @@ -353,6 +355,8 @@ static void mxsfb_crtc_atomic_disable(struct drm_crtc *crtc,
->  	}
->  	spin_unlock_irq(&drm->event_lock);
->  
-> +	drm_crtc_vblank_off(crtc);
-> +
->  	mxsfb_disable_axi_clk(mxsfb);
->  	pm_runtime_put_sync(drm->dev);
->  }
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogIlJvbGFuZCBTY2hlaWRlZ2dlciAoVk13YXJlKSIgPHJzY2hlaWRlZ2dlci5vc3NAZ21h
+aWwuY29tPgoKClRoaXMgc2VyaWVzIHVwZGF0ZXMgdm13Z2Z4IHRvIHN1cHBvcnQgbmV3ZXIgdm13
+YXJlIHN2Z2EgZGV2aWNlIHByb3RvY29sCmFuZCBleHBvc2UgbmV3IGNvbW1hbmRzIHRvIHVzZXJz
+cGFjZS4uClRoaXMgaXMgcmVxdWlyZWQgZm9yIHN1cHBvcnRpbmcgbmV3ZXIgR0w0IGZlYXR1cmVz
+IGluIHRoZSBndWVzdC4KClRoaXMgc3luY3MgdXAgdGhlIGRldmljZSBoZWFkZXJzLCBhZGRzIHN1
+cHBvcnQgZm9yIHRoZSBuZXcgY29tbWFuZHMsCmFuZCBhbHNvIHJlZmFjdG9ycyBzb21lIGNvZGUg
+KGluIHBhcnRpY3VsYXIgYXJvdW5kIHN1cmZhY2UgZGVmaW5pdGlvbikKdG8gbW9yZSBlYXNpbHkg
+c3VwcG9ydCB0aGUgbmV3IGNvbW1hbmRzLgoKUHJlbGltaW5hcnkgbWVzYSB1c2Vyc3BhY2UgY29k
+ZSB1c2luZyB0aGVzZSBuZXcgdm13Z2Z4IGZlYXR1cmVzIGNhbiBiZQpmb3VuZCBhdDogaHR0cHM6
+Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2JoZW5kZW4vbWVzYQoKdjI6IHJlYmFzZWQgb24gbmV3
+ZXIgZHJtLW5leHQgdmVyc2lvbiwgZml4ZWQgdXAgdGhlIGVtYWlsIGFkZHJlc3NlcwppbiBzb21l
+IFItYiBhbmQgU2lnbmVkLW9mZi1ieSB0byB3aGF0IHRoZXkgcmVhbGx5IHNob3VsZCBiZSwgaG9w
+ZWZ1bGx5CmZpeGVkIHVwIHNlbmRlciBlbWFpbCBmcm9tIGhlYWRlciwgbm8gYWN0dWFsIGNvZGUg
+Y2hhbmdlcwoKRGVlcGFrIFJhd2F0ICgxNik6CiAgZHJtL3Ztd2dmeDogQWxzbyBjaGVjayBmb3Ig
+U1ZHQV9DQVBfRFggYmVmb3JlIHJlYWRpbmcgRFggY29udGV4dAogICAgc3VwcG9ydAogIGRybS92
+bXdnZng6IFN5bmMgbGVnYWN5IG11bHRpc2FtcGxpbmcgZGV2aWNlIGNhcGFiaWxpdHkKICBkcm0v
+dm13Z2Z4OiBEZXByZWNhdGUgbG9naWMgb3BzIGNvbW1hbmRzCiAgZHJtL3Ztd2dmeDogVXNlIGVu
+dW0gdG8gcmVwcmVzZW50IGdyYXBoaWNzIGNvbnRleHQgY2FwYWJpbGl0aWVzCiAgZHJtL3Ztd2dm
+eDogU3luYyB2aXJ0dWFsIGRldmljZSBoZWFkZXJzIGZvciBuZXcgZmVhdHVyZQogIGRybS92bXdn
+Zng6IEFkZCBhIG5ldyBlbnVtIGZvciBTTTUgZ3JhcGhpY3MgY29udGV4dCBjYXBhYmlsaXR5CiAg
+ZHJtL3Ztd2dmeDogUmVhZCBuZXcgcmVnaXN0ZXIgZm9yIEdCIG1lbW9yeSB3aGVuIGF2YWlsYWJs
+ZQogIGRybS92bXdnZng6IFN1cHBvcnQgU001IHNoYWRlciB0eXBlIGluIGNvbW1hbmQgYnVmZmVy
+CiAgZHJtL3Ztd2dmeDogQWRkIHN1cHBvcnQgZm9yIFVBIHZpZXcgY29tbWFuZHMKICBkcm0vdm13
+Z2Z4OiBBZGQgc3VwcG9ydCBmb3IgaW5kaXJlY3QgYW5kIGRpc3BhdGNoIGNvbW1hbmRzCiAgZHJt
+L3Ztd2dmeDogUmVuYW1lIHN0cmVhbSBvdXRwdXQgdGFyZ2V0IGJpbmRpbmcgdHJhY2tlciBzdHJ1
+Y3QKICBkcm0vdm13Z2Z4OiBBZGQgc3VwcG9ydCBmb3Igc3RyZWFtb3V0cHV0IHdpdGggbW9iIGNv
+bW1hbmRzCiAgZHJtL3Ztd2dmeDogU3BsaXQgc3VyZmFjZSBtZXRhZGF0YSBmcm9tIHN0cnVjdCB2
+bXdfc3VyZmFjZQogIGRybS92bXdnZng6IFJlZmFjdG9yIHN1cmZhY2VfZGVmaW5lIHRvIHVzZSB2
+bXdfc3VyZmFjZV9tZXRhZGF0YQogIGRybS92bXdnZng6IEFkZCBzdXJmYWNlIGRlZmluZSB2NCBj
+b21tYW5kCiAgZHJtL3Ztd2dmeDogQWRkIFNNNSBwYXJhbSBmb3IgdXNlcnNwYWNlCgpUaG9tYXMg
+SGVsbHN0csO2bSAoVk13YXJlKSAoMSk6CiAgZHJtL3Ztd2dmeDogVXNlIHZtd2dmeCB2ZXJzaW9u
+IDIuMTggdG8gc2lnbmFsIFNNNSBjb21wYXRpYmlsaXR5CgogZHJpdmVycy9ncHUvZHJtL3Ztd2dm
+eC9NYWtlZmlsZSAgICAgICAgICAgICAgIHwgICAyICstCiAuLi4vZHJtL3Ztd2dmeC9kZXZpY2Vf
+aW5jbHVkZS9zdmdhM2RfY21kLmggICAgfCAxNjEgKysrLQogLi4uL3Ztd2dmeC9kZXZpY2VfaW5j
+bHVkZS9zdmdhM2RfZGV2Y2Fwcy5oICAgIHwgNzg3ICsrKysrKysrKy0tLS0tLS0tLQogLi4uL2dw
+dS9kcm0vdm13Z2Z4L2RldmljZV9pbmNsdWRlL3N2Z2EzZF9keC5oIHwgNDY2ICsrKysrKysrKyst
+CiAuLi4vZHJtL3Ztd2dmeC9kZXZpY2VfaW5jbHVkZS9zdmdhM2RfbGltaXRzLmggfCAgMzYgKy0K
+IC4uLi9kZXZpY2VfaW5jbHVkZS9zdmdhM2Rfc3VyZmFjZWRlZnMuaCAgICAgICB8ICA1OCArLQog
+Li4uL2RybS92bXdnZngvZGV2aWNlX2luY2x1ZGUvc3ZnYTNkX3R5cGVzLmggIHwgMzQ3ICsrKysr
+KystCiAuLi4vZ3B1L2RybS92bXdnZngvZGV2aWNlX2luY2x1ZGUvc3ZnYV9yZWcuaCAgfCAzODIg
+KysrKysrLS0tCiAuLi4vZHJtL3Ztd2dmeC9kZXZpY2VfaW5jbHVkZS9zdmdhX3R5cGVzLmggICAg
+fCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfYmluZGluZy5jICAgICAgIHwg
+MjEzICsrKystCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9iaW5kaW5nLmggICAgICAg
+fCAgMzMgKy0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2NvbnRleHQuYyAgICAgICB8
+ICAyOCArLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfY290YWJsZS5jICAgICAgIHwg
+ICA2ICstCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYyAgICAgICAgICAgfCAg
+NTkgKy0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Rydi5oICAgICAgICAgICB8IDE0
+MCArKystCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9leGVjYnVmLmMgICAgICAgfCA0
+MjkgKysrKysrKysrLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfaW9jdGwuYyAgICAg
+ICAgIHwgIDE4ICstCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9rbXMuYyAgICAgICAg
+ICAgfCAgNDMgKy0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X21vYi5jICAgICAgICAg
+ICB8ICAgMiArLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfc28uYyAgICAgICAgICAg
+IHwgIDEyICstCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9zby5oICAgICAgICAgICAg
+fCAgIDcgKwogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfc3RkdS5jICAgICAgICAgIHwg
+IDYxICstCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9zdHJlYW1vdXRwdXQuYyAgfCAz
+ODcgKysrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9zdXJmYWNlLmMgICAg
+ICAgfCA2MDggKysrKysrKy0tLS0tLS0KIGluY2x1ZGUvdWFwaS9kcm0vdm13Z2Z4X2RybS5oICAg
+ICAgICAgICAgICAgICB8ICAxNiArLQogMjUgZmlsZXMgY2hhbmdlZCwgMzI1MiBpbnNlcnRpb25z
+KCspLCAxMDUwIGRlbGV0aW9ucygtKQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2Ry
+bS92bXdnZngvdm13Z2Z4X3N0cmVhbW91dHB1dC5jCgotLSAKMi4xNy4xCgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
