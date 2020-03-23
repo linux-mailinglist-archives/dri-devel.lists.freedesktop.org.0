@@ -1,58 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42195190718
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:09:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F59190711
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:09:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A55EA6E444;
-	Tue, 24 Mar 2020 08:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 882506E43B;
+	Tue, 24 Mar 2020 08:09:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C58978984F
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 15:36:20 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1584977783; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=wijimHVzaAPkYdmKEb1ozTEK2M9kYeLXNSo3279w37s=;
- b=XTlDQT2QHIjIuZVMJJPNbfxJUvGIPVNh+xA8dkc7TAMq7KzV9Ojjx3wo9TZiKiIVJfFFa5Uv
- keQ/CU2CWMgvR0DIP+i5ZpdWN9BkB3BI06T++9WJGVixBeDRshhHXLoStbbsRXrlC08xZBHV
- L3ehTVsvmUAgxL398NgS/bX9uT0=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e78d76c.7f8c2d4a6b20-smtp-out-n05;
- Mon, 23 Mar 2020 15:36:12 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 96276C44788; Mon, 23 Mar 2020 15:36:12 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,URIBL_BLOCKED
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: kgunda)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id D7712C433D2;
- Mon, 23 Mar 2020 15:36:11 +0000 (UTC)
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr20077.outbound.protection.outlook.com [40.107.2.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E5DA6E388;
+ Mon, 23 Mar 2020 17:24:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BF+FvWWg7baxIez2CjaOvP0rE51kWuKNOa3vA5Cpq8qMp1bHNbZMS5CWtMdIz7Wvsz+fVtSiWS2CELbadasDn17ZCsQavukd6vqg01XbH2fznSIUqy/BpQdQRjeCa3lf1+0iSqFXQB3ArS2h38eKpN9g+ItVnGtthq/887HryrkrI4zU9xHTpYS4tjxrPDUDagN8XRcb7MG1CmUVDXRLQX8a6kmkBxrUWZcri2n9jycBeFRJ5YMeMXzutdRVsoVAm7B1+rSB/35Q1Yd9c+bzMS1RcQKvsZQgMDLoVYEQglM+Cg7BiucFHRnsq+FXqiQ509Cche/+nABh/Zbekp/tFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2aYGZtgxLWnMS9+t8vXikz+DnCYM/pEgWjcDgeOIR9I=;
+ b=IQEK1KPP893f9aoX+yxhZm+YMdvKIVlvm4eoi/H7Fg5kVoq8ad9+plQCLMNkrewwCtEDuzA7RJelbKA/HQ+UKIhInGNpwND1FXbT6ZkBvNPMUZbfoUSsvYafQ7CG6aRA55/f1x8HnBvcccu8fAgCl6hUeIGZVopisYkEoWfhQCQF60oerKG7QfRv1ygV3W3uS+1scKivb8j/jOf5KLIiAZDQPsipt38szq8vvaCKlJIY7+S+MGGPcfD7WQmlH9/Qpb4AAnHBCSUgrtBfwMOMVPwtEl0oswOuQ9TK5fsTDi/FSN8IjRl9pMV6dU8hh8k+oFe8sML7ZpzQrSYr5i99+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2aYGZtgxLWnMS9+t8vXikz+DnCYM/pEgWjcDgeOIR9I=;
+ b=BhKqX+tahxRFzcFFialwwWvqXgIylQ65GxEeEDpdbU2tjldgeq6s6l1TfTKXOhorHNmQxul1APSMrhmB1Nd4Rkh5fclPB0PUU7sRx4KC9ZL2z6FGR27Gu0bdC4l4B9rf7GyCd/J2l4dUXr/ybW96XMkHS5Mp7K5+3FwmK36Ms0Q=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=jgg@mellanox.com; 
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (52.133.14.15) by
+ VI1PR05MB4975.eurprd05.prod.outlook.com (20.177.51.33) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2835.19; Mon, 23 Mar 2020 17:24:31 +0000
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::18d2:a9ea:519:add3]) by VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::18d2:a9ea:519:add3%7]) with mapi id 15.20.2835.021; Mon, 23 Mar 2020
+ 17:24:30 +0000
+Date: Mon, 23 Mar 2020 14:24:27 -0300
+From: Jason Gunthorpe <jgg@mellanox.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH hmm 3/6] mm/hmm: remove unused code and tidy comments
+Message-ID: <20200323172427.GZ13183@mellanox.com>
+References: <20200320164905.21722-1-jgg@ziepe.ca>
+ <20200320164905.21722-4-jgg@ziepe.ca>
+ <20200321083902.GC28695@lst.de>
+Content-Disposition: inline
+In-Reply-To: <20200321083902.GC28695@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: BL0PR0102CA0007.prod.exchangelabs.com
+ (2603:10b6:207:18::20) To VI1PR05MB4141.eurprd05.prod.outlook.com
+ (2603:10a6:803:44::15)
 MIME-Version: 1.0
-Date: Mon, 23 Mar 2020 21:06:11 +0530
-From: kgunda@codeaurora.org
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH V3 2/4] backlight: qcom-wled: Add callback functions
-In-Reply-To: <20200311103047.v7rt5ii3saack22a@holly.lan>
-References: <1583760362-26978-1-git-send-email-kgunda@codeaurora.org>
- <1583760362-26978-3-git-send-email-kgunda@codeaurora.org>
- <20200310152719.5hpzh6osq22y4qbn@holly.lan>
- <05ab744dfbd83b6704bd394ce3c3dfc9@codeaurora.org>
- <20200311103047.v7rt5ii3saack22a@holly.lan>
-Message-ID: <45964027ff388aec97d27f579d96c012@codeaurora.org>
-X-Sender: kgunda@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.68.57.212) by
+ BL0PR0102CA0007.prod.exchangelabs.com (2603:10b6:207:18::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2835.15 via Frontend Transport; Mon, 23 Mar 2020 17:24:30 +0000
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)	(envelope-from
+ <jgg@mellanox.com>)	id 1jGQoN-0006bW-2j; Mon, 23 Mar 2020 14:24:27 -0300
+X-Originating-IP: [142.68.57.212]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ec563947-3605-4a87-f07f-08d7cf4f0bfc
+X-MS-TrafficTypeDiagnostic: VI1PR05MB4975:
+X-Microsoft-Antispam-PRVS: <VI1PR05MB49752C5808723D5C4B5A038FCFF00@VI1PR05MB4975.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-Forefront-PRVS: 0351D213B3
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(376002)(39860400002)(366004)(346002)(396003)(136003)(199004)(2616005)(52116002)(66556008)(66946007)(66476007)(186003)(26005)(86362001)(4326008)(1076003)(2906002)(36756003)(5660300002)(6916009)(81166006)(81156014)(8676002)(9786002)(9746002)(8936002)(478600001)(33656002)(4744005)(54906003)(316002)(24400500001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB4975;
+ H:VI1PR05MB4141.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bOFiHOrM8NQmECJ2EKP3GCMUVKBl7til0THfn8XCrprvWVP4hsTOY4FmISkTIizkNDMedvZyinG2rX6602gNlEzV8gO9T/9thP85Mk1ooo7h2LRaFNThynX0OIvBHxIYzE+2bsVodD2IUqqPqGjWxmckt41t6ZtvlR5vZ6tks7FfAmMgqEq+2okUY0DIFushKzDVbEJD/dmjdfVeFW6Em9Mzy56N+wveyk7blczfpyuo92syU+A/5iTmxDpcti0iUoe8ME6ragWiCl3vT0E9g8zbDO5qKi6OnXafMuA66ubDZ6TCAV3wKP1E/6XdMLt0g55jJGrqJOWpBOvA8U2mEqgPSoAU8CPyjB5a/QpdyClvsdVFAqAhGB8LgppcBiCVcT+lJoB/dczcxvhLedn0l6t2+Kv7u5uAQ4TZZeeQGJqpckLh8w3YbPxd41rSSeLvwxJSmP+gKlU3AAMJ5J+FBetIwdtLePq+8O/XkbIjJnsXrWhJhRfVRlmS5WkPMtEO
+X-MS-Exchange-AntiSpam-MessageData: PhjtyFT8N4JaK77KxdbDI3TiM+SnSAlw3iDyhdK9lekggkJP4Ro/b7cbGzX/X5ld8/ZzLQDtbUIVN61SRqOCUduguKsyDJDsMmQEwUD4oLam/ULLWrynb1Zbc7h21qfRovHkWyCdcrTu/mbTFRLsWw==
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec563947-3605-4a87-f07f-08d7cf4f0bfc
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2020 17:24:30.8585 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QoeIR6lpz8lEM6qZKwhsi5RjiLkLmt/9lOg/80PaSDhKDdkOoqoK1g0uc+XCYTAizPLRxFKgvucCThTmESgAgg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB4975
 X-Mailman-Approved-At: Tue, 24 Mar 2020 08:09:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,59 +100,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- linux-arm-msm@vger.kernel.org, lee.jones@linaro.org,
- linux-arm-msm-owner@vger.kernel.org, linux-leds@vger.kernel.org
+Cc: Philip Yang <Philip.Yang@amd.com>, Ralph Campbell <rcampbell@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>, Felix.Kuehling@amd.com,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Jerome Glisse <jglisse@redhat.com>, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-03-11 16:00, Daniel Thompson wrote:
-> On Wed, Mar 11, 2020 at 12:11:00PM +0530, kgunda@codeaurora.org wrote:
->> On 2020-03-10 20:57, Daniel Thompson wrote:
->> > On Mon, Mar 09, 2020 at 06:56:00PM +0530, Kiran Gunda wrote:
->> > > Add cabc_config, sync_toggle, wled_ovp_fault_status and wled_ovp_delay
->> > > callback functions to prepare the driver for adding WLED5 support.
->> > >
->> > > Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
->> >
->> > Overall this code would a lot easier to review if
->> > > ---
->> > >  drivers/video/backlight/qcom-wled.c | 196
->> > > +++++++++++++++++++++++-------------
->> > >  1 file changed, 126 insertions(+), 70 deletions(-)
->> > >
->> > > diff --git a/drivers/video/backlight/qcom-wled.c
->> > > b/drivers/video/backlight/qcom-wled.c
->> > > index 3d276b3..b73f273 100644
->> > > --- a/drivers/video/backlight/qcom-wled.c
->> > > +++ b/drivers/video/backlight/qcom-wled.c
->> > > @@ -128,6 +128,7 @@ struct wled_config {
->> > >  	bool cs_out_en;
->> > >  	bool ext_gen;
->> > >  	bool cabc;
->> > > +	bool en_cabc;
->> >
->> > Does this ever get set to true?
->> >
->> Yes. If user wants use the cabc pin to control the brightness and
->> use the "qcom,cabc" DT property in the device tree.
+On Sat, Mar 21, 2020 at 09:39:02AM +0100, Christoph Hellwig wrote:
+> On Fri, Mar 20, 2020 at 01:49:02PM -0300, Jason Gunthorpe wrote:
+> > From: Jason Gunthorpe <jgg@mellanox.com>
+> > 
+> > Delete several functions that are never called, fix some desync between
+> > comments and structure content, remove an unused ret, and move one
+> > function only used by hmm.c into hmm.c
 > 
-> That sounds like what you intended the code to do!
+> This looks good:
 > 
-> Is the code that does this present in the patch? I could not find
-> it.
-> 
-okay... It's my bad. We already have the "cabc" for this. I will remove 
-the en_cabc in
-next series.
-> 
-> Daniel.
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+You mean Reviewed-by?
+ 
+> Btw, the top of file comment in include/linux/hmm.h really needs some
+> work as well.  In fact I think it should be mostly removed with any
+> remaining useful bit moved to Documentation/vm/hmm.rst.
+
+Okay, in v2 I'll just deleted the top, the only thing in this file now
+is hmm_range_fault() and it can be adaquately described by its
+kdoc comments.
+
+Thanks,
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
