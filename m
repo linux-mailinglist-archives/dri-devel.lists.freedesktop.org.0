@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5673318F71F
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 15:42:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3822918F72C
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 15:48:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0F089FC0;
-	Mon, 23 Mar 2020 14:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF77789F73;
+	Mon, 23 Mar 2020 14:47:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30BFD89F35;
- Mon, 23 Mar 2020 14:41:59 +0000 (UTC)
-IronPort-SDR: ZsEMEmtCfTatEdbBYWnbs8MwzZTtH4V785aj7Lt+PLdvLpHn4H6+5Y0TBG/maNAXpS2C1lDFM6
- 5kB3VX9JIpFQ==
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1C4C89F73;
+ Mon, 23 Mar 2020 14:47:56 +0000 (UTC)
+IronPort-SDR: cY+c7MJmBHN2pnMAbsk4Ine3hyDLMlcFii9qYY21YRgyOj4Dh7W+XrItmc3HGGsGEwy4wcHazP
+ 6OETTL9dPefg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2020 07:41:43 -0700
-IronPort-SDR: wHYjLNUJSelEp0S4B13Besz18RedtEdcN5HZToWnlijDvAqXQL21MwJCEOd1pfdEXFuu5uCykX
- zHKq8t9mPPAQ==
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2020 07:47:55 -0700
+IronPort-SDR: dkfjxFe0bYXUMcBQzgyv3/Dr4zYbU5A6lcw236EapAuGGUbJ/vcit4eVE0RdFZ2TD6bk5P3PYC
+ cNdpX9LAygKQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,296,1580803200"; d="scan'208";a="325589290"
+X-IronPort-AV: E=Sophos;i="5.72,296,1580803200"; d="scan'208";a="239946070"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga001.jf.intel.com with SMTP; 23 Mar 2020 07:41:38 -0700
+ by orsmga008.jf.intel.com with SMTP; 23 Mar 2020 07:47:50 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 23 Mar 2020 16:41:37 +0200
-Date: Mon, 23 Mar 2020 16:41:37 +0200
+ Mon, 23 Mar 2020 16:47:49 +0200
+Date: Mon, 23 Mar 2020 16:47:49 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: Re: [PATCH v2 4/5] drm/i915/display: Add Nearest-neighbor based
- integer scaling support
-Message-ID: <20200323144137.GU13686@intel.com>
+Subject: Re: [PATCH v2 5/5] drm/i915: Enable scaling filter for plane and CRTC
+Message-ID: <20200323144749.GV13686@intel.com>
 References: <20200319102103.28895-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200319102103.28895-5-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200319102103.28895-6-pankaj.laxminarayan.bharadiya@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200319102103.28895-5-pankaj.laxminarayan.bharadiya@intel.com>
+In-Reply-To: <20200319102103.28895-6-pankaj.laxminarayan.bharadiya@intel.com>
 X-Patchwork-Hint: comment
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,8 +52,8 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: sameer.lattannavar@intel.com, daniels@collabora.com,
- David Airlie <airlied@linux.ie>, Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>
 Content-Type: text/plain; charset="iso-8859-1"
@@ -62,183 +61,214 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 19, 2020 at 03:51:02PM +0530, Pankaj Bharadiya wrote:
-> Integer scaling (IS) is a nearest-neighbor upscaling technique that
-> simply scales up the existing pixels by an integer
-> (i.e., whole number) multiplier.Nearest-neighbor (NN) interpolation
-> works by filling in the missing color values in the upscaled image
-> with that of the coordinate-mapped nearest source pixel value.
+On Thu, Mar 19, 2020 at 03:51:03PM +0530, Pankaj Bharadiya wrote:
+> GEN >=3D 10 hardware supports the programmable scaler filter.
 > =
 
-> Both IS and NN preserve the clarity of the original image. Integer
-> scaling is particularly useful for pixel art games that rely on
-> sharp, blocky images to deliver their distinctive look.
-> =
-
-> Introduce skl_scaler_setup_nearest_neighbor_filter() function which
-> configures the scaler filter coefficients to enable nearest-neighbor
-> filtering.
-> =
-
-> Bspec: 49247
+> Attach scaling filter property for CRTC and plane for GEN >=3D 10
+> hardwares and program scaler filter based on the selected filter
+> type.
 > =
 
 > changes since v1:
-> * Rearrange skl_scaler_setup_nearest_neighbor_filter() to iterate the
->   registers directly instead of the phases and taps (Ville)
-> =
-
-> changes since RFC:
-> * Refine the skl_scaler_setup_nearest_neighbor_filter() logic (Ville)
+> * None
+> Changes since RFC:
+> * Enable properties for GEN >=3D 10 platforms (Ville)
+> * Do not round off the crtc co-ordinate (Danial Stone, Ville)
+> * Add new functions to handle scaling filter setup (Ville)
+> * Remove coefficient set 0 hardcoding.
 > =
 
 > Signed-off-by: Shashank Sharma <shashank.sharma@intel.com>
 > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 > Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_display.c | 72 ++++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_display.h |  2 +
->  2 files changed, 74 insertions(+)
+>  drivers/gpu/drm/i915/display/intel_display.c | 32 ++++++++++++++++++--
+>  drivers/gpu/drm/i915/display/intel_sprite.c  | 31 ++++++++++++++++++-
+>  2 files changed, 60 insertions(+), 3 deletions(-)
 > =
 
 > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
 rm/i915/display/intel_display.c
-> index 8f23c4d51c33..791dd908aa89 100644
+> index 791dd908aa89..4b3387ee332e 100644
 > --- a/drivers/gpu/drm/i915/display/intel_display.c
 > +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -6237,6 +6237,78 @@ void skl_scaler_disable(const struct intel_crtc_st=
-ate *old_crtc_state)
->  		skl_detach_scaler(crtc, i);
+> @@ -6309,6 +6309,25 @@ void skl_scaler_setup_nearest_neighbor_filter(stru=
+ct drm_i915_private *dev_priv,
+>  	}
 >  }
 >  =
 
-> +static int skl_coef_tap(int i)
+> +static u32
+> +skl_scaler_crtc_setup_filter(struct drm_i915_private *dev_priv, enum pip=
+e pipe,
+> +			  int id, int set, enum drm_crtc_scaling_filter filter)
 > +{
-> +	return i % 7;
-> +}
+> +	u32 scaler_filter_ctl =3D PS_FILTER_MEDIUM;
 > +
-> +static u16 skl_nearest_filter_coef(int t)
-> +{
-> +	return t =3D=3D 3 ? 0x0800 : 0x3000;
-> +}
+> +	if (filter =3D=3D DRM_CRTC_SCALING_FILTER_NEAREST_NEIGHBOR) {
+> +		skl_scaler_setup_nearest_neighbor_filter(dev_priv, pipe, id,
+> +							 set);
+> +		scaler_filter_ctl =3D PS_FILTER_PROGRAMMED |
+> +				PS_UV_VERT_FILTER_SELECT(set) |
+> +				PS_UV_HORZ_FILTER_SELECT(set) |
+> +				PS_Y_VERT_FILTER_SELECT(set) |
+> +				PS_Y_HORZ_FILTER_SELECT(set);
 > +
-> +/**
-> + *  Theory behind setting nearest-neighbor integer scaling:
-> + *
-> + *  17 phase of 7 taps requires 119 coefficients in 60 dwords per set.
-> + *  The letter represents the filter tap (D is the center tap) and the n=
-umber
-> + *  represents the coefficient set for a phase (0-16).
-> + *
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |Index value | Data value coeffient 1 | Data value coeffient =
-2 |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   00h      |          B0            |          A0          =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   01h      |          D0            |          C0          =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   02h      |          F0            |          E0          =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   03h      |          A1            |          G0          =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   04h      |          C1            |          B1          =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   ...      |          ...           |          ...         =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   38h      |          B16           |          A16         =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   39h      |          D16           |          C16         =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   3Ah      |          F16           |          C16         =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   3Bh      |        Reserved        |          G16         =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *
-> + *  To enable nearest-neighbor scaling:  program scaler coefficents with
-> + *  the center tap (Dxx) values set to 1 and all other values set to 0 a=
-s per
-> + *  SCALER_COEFFICIENT_FORMAT
-> + *
-> + */
-> +
-> +void skl_scaler_setup_nearest_neighbor_filter(struct drm_i915_private *d=
-ev_priv,
-> +					      enum pipe pipe, int id, int set)
-> +{
-> +	int i;
-> +
-> +	/*enable the index auto increment.*/
-
-Pointless comment, and also misformatted.
-
-> +	intel_de_write_fw(dev_priv,
-> +			  SKL_PS_COEF_INDEX_SET(pipe, id, set),
-> +			  PS_COEE_INDEX_AUTO_INC);
-> +
-> +	for (i =3D 0; i < 17 * 7; i +=3D 2) {
-> +		u32 tmp;
-> +		int t;
-> +
-> +		t =3D skl_coef_tap(i);
-> +		tmp =3D skl_nearest_filter_coef(t);
-> +
-> +		t =3D skl_coef_tap(i+1);
-> +		tmp |=3D skl_nearest_filter_coef(t)<<16;
-
-Missing spaces.
-
-> +
-> +		intel_de_write_fw(dev_priv, SKL_PS_COEF_DATA_SET(pipe, id, set),
-> +				  tmp);
 > +	}
+> +	return scaler_filter_ctl;
 
-I'd maybe reset the index back to 0 here and disable the auto-increment
-bit.
+This function does too many things.
 
 > +}
 > +
 >  static void skl_pfit_enable(const struct intel_crtc_state *crtc_state)
 >  {
 >  	struct intel_crtc *crtc =3D to_intel_crtc(crtc_state->uapi.crtc);
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.h b/drivers/gpu/d=
-rm/i915/display/intel_display.h
-> index adb1225a3480..88f3c77f6806 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display.h
-> @@ -587,6 +587,8 @@ void intel_crtc_arm_fifo_underrun(struct intel_crtc *=
-crtc,
->  u16 skl_scaler_calc_phase(int sub, int scale, bool chroma_center);
->  int skl_update_scaler_crtc(struct intel_crtc_state *crtc_state);
->  void skl_scaler_disable(const struct intel_crtc_state *old_crtc_state);
-> +void skl_scaler_setup_nearest_neighbor_filter(struct drm_i915_private *d=
-ev_priv,
-> +					      enum pipe pipe, int id, int set);
->  void ilk_pfit_disable(const struct intel_crtc_state *old_crtc_state);
->  u32 glk_plane_color_ctl(const struct intel_crtc_state *crtc_state,
->  			const struct intel_plane_state *plane_state);
+> @@ -6316,12 +6335,14 @@ static void skl_pfit_enable(const struct intel_cr=
+tc_state *crtc_state)
+>  	enum pipe pipe =3D crtc->pipe;
+>  	const struct intel_crtc_scaler_state *scaler_state =3D
+>  		&crtc_state->scaler_state;
+> +	const struct drm_crtc_state *state =3D &crtc_state->uapi;
+
+Pls don't add this kind of aliases. We're moving away from using the
+drm_ types as much as possible.
+
+>  =
+
+>  	if (crtc_state->pch_pfit.enabled) {
+>  		u16 uv_rgb_hphase, uv_rgb_vphase;
+>  		int pfit_w, pfit_h, hscale, vscale;
+>  		unsigned long irqflags;
+>  		int id;
+> +		int scaler_filter_ctl;
+
+It's a register value so u32. I'd also =
+
+s/scaler_filter_ctl/filter_select/ or something like that.
+
+Alternatively we could just call it ps_ctrl and have it contain
+the full register value for that particular register.
+
+>  =
+
+>  		if (drm_WARN_ON(&dev_priv->drm,
+>  				crtc_state->scaler_state.scaler_id < 0))
+> @@ -6340,8 +6361,12 @@ static void skl_pfit_enable(const struct intel_crt=
+c_state *crtc_state)
+>  =
+
+>  		spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
+>  =
+
+> -		intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, id), PS_SCALER_EN |
+> -				  PS_FILTER_MEDIUM | scaler_state->scalers[id].mode);
+> +		scaler_filter_ctl =3D
+> +			skl_scaler_crtc_setup_filter(dev_priv, pipe, id, 0,
+> +						state->scaling_filter);
+> +		intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, id),
+> +				  PS_SCALER_EN | scaler_filter_ctl |
+> +				  scaler_state->scalers[id].mode);
+>  		intel_de_write_fw(dev_priv, SKL_PS_VPHASE(pipe, id),
+>  				  PS_Y_PHASE(0) | PS_UV_RGB_PHASE(uv_rgb_vphase));
+>  		intel_de_write_fw(dev_priv, SKL_PS_HPHASE(pipe, id),
+> @@ -16777,6 +16802,9 @@ static int intel_crtc_init(struct drm_i915_privat=
+e *dev_priv, enum pipe pipe)
+>  		dev_priv->plane_to_crtc_mapping[i9xx_plane] =3D crtc;
+>  	}
+>  =
+
+> +	if (INTEL_GEN(dev_priv) >=3D 10)
+> +		drm_crtc_enable_scaling_filter(&crtc->base);
+> +
+>  	intel_color_init(crtc);
+>  =
+
+>  	intel_crtc_crc_init(crtc);
+> diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c b/drivers/gpu/dr=
+m/i915/display/intel_sprite.c
+> index deda351719db..ac3fd9843ace 100644
+> --- a/drivers/gpu/drm/i915/display/intel_sprite.c
+> +++ b/drivers/gpu/drm/i915/display/intel_sprite.c
+> @@ -395,6 +395,26 @@ skl_plane_max_stride(struct intel_plane *plane,
+>  		return min(8192 * cpp, 32768);
+>  }
+>  =
+
+> +static u32
+> +skl_scaler_plane_setup_filter(struct drm_i915_private *dev_priv, enum pi=
+pe pipe,
+> +			      int id, int set,
+> +			      enum drm_plane_scaling_filter filter)
+> +{
+> +	u32 scaler_filter_ctl =3D PS_FILTER_MEDIUM;
+> +
+> +	if (filter =3D=3D DRM_PLANE_SCALING_FILTER_NEAREST_NEIGHBOR) {
+> +		skl_scaler_setup_nearest_neighbor_filter(dev_priv, pipe, id,
+> +							 set);
+> +		scaler_filter_ctl =3D PS_FILTER_PROGRAMMED |
+> +				PS_UV_VERT_FILTER_SELECT(set) |
+> +				PS_UV_HORZ_FILTER_SELECT(set) |
+> +				PS_Y_VERT_FILTER_SELECT(set) |
+> +				PS_Y_HORZ_FILTER_SELECT(set);
+> +
+> +	}
+> +	return scaler_filter_ctl;
+> +}
+> +
+
+We don't want such copy pasta between planes and crtcs.
+
+>  static void
+>  skl_program_scaler(struct intel_plane *plane,
+>  		   const struct intel_crtc_state *crtc_state,
+> @@ -406,6 +426,7 @@ skl_program_scaler(struct intel_plane *plane,
+>  	int scaler_id =3D plane_state->scaler_id;
+>  	const struct intel_scaler *scaler =3D
+>  		&crtc_state->scaler_state.scalers[scaler_id];
+> +	const struct drm_plane_state *state =3D &plane_state->uapi;
+>  	int crtc_x =3D plane_state->uapi.dst.x1;
+>  	int crtc_y =3D plane_state->uapi.dst.y1;
+>  	u32 crtc_w =3D drm_rect_width(&plane_state->uapi.dst);
+> @@ -413,6 +434,7 @@ skl_program_scaler(struct intel_plane *plane,
+>  	u16 y_hphase, uv_rgb_hphase;
+>  	u16 y_vphase, uv_rgb_vphase;
+>  	int hscale, vscale;
+> +	int scaler_filter_ctl;
+>  =
+
+>  	hscale =3D drm_rect_calc_hscale(&plane_state->uapi.src,
+>  				      &plane_state->uapi.dst,
+> @@ -439,8 +461,12 @@ skl_program_scaler(struct intel_plane *plane,
+>  		uv_rgb_vphase =3D skl_scaler_calc_phase(1, vscale, false);
+>  	}
+>  =
+
+> +	scaler_filter_ctl =3D
+> +		skl_scaler_plane_setup_filter(dev_priv, pipe, scaler_id, 0,
+> +					      state->scaling_filter);
+>  	intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, scaler_id),
+> -			  PS_SCALER_EN | PS_PLANE_SEL(plane->id) | scaler->mode);
+> +			  PS_SCALER_EN | PS_PLANE_SEL(plane->id) |
+> +			  scaler->mode | scaler_filter_ctl);
+>  	intel_de_write_fw(dev_priv, SKL_PS_VPHASE(pipe, scaler_id),
+>  			  PS_Y_PHASE(y_vphase) | PS_UV_RGB_PHASE(uv_rgb_vphase));
+>  	intel_de_write_fw(dev_priv, SKL_PS_HPHASE(pipe, scaler_id),
+> @@ -3121,6 +3147,9 @@ skl_universal_plane_create(struct drm_i915_private =
+*dev_priv,
+>  =
+
+>  	drm_plane_create_zpos_immutable_property(&plane->base, plane_id);
+>  =
+
+> +	if (INTEL_GEN(dev_priv) >=3D 10)
+> +		drm_plane_enable_scaling_filter(&plane->base);
+> +
+>  	drm_plane_helper_add(&plane->base, &intel_plane_helper_funcs);
+>  =
+
+>  	return plane;
 > -- =
 
 > 2.23.0
