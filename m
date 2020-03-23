@@ -1,53 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC29418F389
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 12:14:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F4418F3D0
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 12:37:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ECCD89F77;
-	Mon, 23 Mar 2020 11:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 330FE89AAE;
+	Mon, 23 Mar 2020 11:37:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
- [IPv6:2607:f8b0:4864:20::e41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8097B89F77
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 11:14:34 +0000 (UTC)
-Received: by mail-vs1-xe41.google.com with SMTP id e138so8431226vsc.11
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 04:14:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MAiWRKEXAyRQFJfsxR6WCAQNazeZOJnLHhtRsQi0so0=;
- b=XLTlSXcnZvLStMq6xWIjt7gUqpgyShU3l1jhj7uyo4W/EBeJptZafYXL+55Ot1jRh6
- 2raRYIB+jzyrYe5pT7oN6pOz+yfE7FB8nevJc5VpN+GIQQu0mVAVyGmrsICGFv7fNmlZ
- TMxQVO3sBKSZqit2wKMSpTkwKqM+3fZlfiAkWmRrXIrnjfY7E76JYZG3kqRjmKagOjl6
- mwh2OY9B+RSMvmCFW5RbcGiK4Si6k6Uy3EGiWf8VtcrrcCG0vs0iiqkLPJRHdwYJ29vF
- yhHUkIk6KZTnOJM0iPBQMVpQD6Qyf2mSEUP4HaQjQnnE6G9WxgbYDxiu2UxNUgB8s2Nh
- g9RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MAiWRKEXAyRQFJfsxR6WCAQNazeZOJnLHhtRsQi0so0=;
- b=pswGmbsIIpEhgVt8WYQQ7M2gbk0WyShUDorhLSdGbVsYELjxWCNSxi2xU46zyHS7CV
- mJouAiEMI+uNMRoe6pY+DZ4EGWg3a/M8AFNb5fXWCbZ6RMgPNJIkLSaafAfLVX5sX8pM
- NZTGKXpVLF7xym46UcEaV8dWBjjuFQ3yoKTo0MXY9T2fI5OKE7Ore/k7YfBpl16nxtoz
- FrNzpbck02tTdUmNZA8kd5VxdlmDkKjMhX4VUo0ZvstLmSxBSRKY3/bD41aBuMu+8yXT
- gm7rjZ/hviFQ9LBXAe8spjonk33hUMwUKeSbgCF69XN9Rna/pu0q/AEUHzayBTapCQLj
- VKLA==
-X-Gm-Message-State: ANhLgQ1lk+nHNcZFTx4bY0dCpnPVgSsaZVISJ24q/BOcv94iaskqw/WS
- Hv/IUsaSaFvKEEG3/UcGU2TIeECnvWmdno1WyME=
-X-Google-Smtp-Source: ADFU+vutlzdjUedg8us2quK3xm80fTCg+xe4TNgGIZ30332v3xwKq5807/piYycyJZIc7WTTFhQjRRsNJzmeghhbo9g=
-X-Received: by 2002:a67:c592:: with SMTP id h18mr5351236vsk.118.1584962073626; 
- Mon, 23 Mar 2020 04:14:33 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5B2789AAE
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 11:37:28 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 40C172072D;
+ Mon, 23 Mar 2020 11:37:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1584963448;
+ bh=Qvwdz8ilRZsCc6m4V1drguRDObDE7BaSWVLZcfchPxs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pDQDVC84TdvDgm8Yp4vynCgeBAz6qkIsJyMp4y6tkStNL9WlwK/con7SNvepYz+O7
+ LKn/lf+cKyg3+AirXdzLWCQnfNlXXUF0JF9f14TRpJ//Ma610xkNa6WfCHyWl3b+Hz
+ pVbtSWsDiApFIZ2kuB9HQQauBID5XBMiYWylvG5g=
+Date: Mon, 23 Mar 2020 12:37:26 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Wambui Karuga <wambui.karugax@gmail.com>
+Subject: Re: [PATCH] drm/vram-helper: remove unneeded #if defined/endif guards.
+Message-ID: <20200323113726.GA663867@kroah.com>
+References: <20200323112802.228214-1-wambui.karugax@gmail.com>
 MIME-Version: 1.0
-References: <20200320132334.GC95012@mwanda>
-In-Reply-To: <20200320132334.GC95012@mwanda>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Mon, 23 Mar 2020 11:13:22 +0000
-Message-ID: <CACvgo51xwgF2hJPOESWGpJ16WittQSVixdd+62KwFsZaHO-Dpg@mail.gmail.com>
-Subject: Re: [PATCH] drm/gem: Fix a leak in drm_gem_objects_lookup()
-To: Dan Carpenter <dan.carpenter@oracle.com>
+Content-Disposition: inline
+In-Reply-To: <20200323112802.228214-1-wambui.karugax@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,61 +46,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dan,
-
-On Fri, 20 Mar 2020 at 13:23, Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> If the "handles" allocation or the copy_from_user() fails then we leak
-> "objs".  It's supposed to be freed in panfrost_job_cleanup().
->
-> Fixes: c117aa4d8701 ("drm: Add a drm_gem_objects_lookup helper")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+On Mon, Mar 23, 2020 at 02:28:02PM +0300, Wambui Karuga wrote:
+> Remove unneeded #if/#endif guards for checking whether the
+> CONFIG_DEBUG_FS option is set or not. If the option is not set, the
+> compiler optimizes the functions making the guards
+> unnecessary.
+> 
+> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 > ---
->  drivers/gpu/drm/drm_gem.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index a9e4a610445a..f28724f2eb69 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -710,6 +710,8 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
->         if (!objs)
->                 return -ENOMEM;
->
-> +       *objs_out = objs;
-> +
->         handles = kvmalloc_array(count, sizeof(u32), GFP_KERNEL);
->         if (!handles) {
->                 ret = -ENOMEM;
-> @@ -723,8 +725,6 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
->         }
->
->         ret = objects_lookup(filp, handles, count, objs);
-> -       *objs_out = objs;
-> -
->  out:
->         kvfree(handles);
->         return ret;
+>  drivers/gpu/drm/drm_gem_vram_helper.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+> index 76506bedac11..b3201a70cbfc 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -1018,7 +1018,6 @@ static struct ttm_bo_driver bo_driver = {
+>   * struct drm_vram_mm
+>   */
+>  
+> -#if defined(CONFIG_DEBUG_FS)
+>  static int drm_vram_mm_debugfs(struct seq_file *m, void *data)
+>  {
+>  	struct drm_info_node *node = (struct drm_info_node *) m->private;
+> @@ -1035,7 +1034,6 @@ static int drm_vram_mm_debugfs(struct seq_file *m, void *data)
+>  static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
+>  	{ "vram-mm", drm_vram_mm_debugfs, 0, NULL },
+>  };
+> -#endif
+>  
+>  /**
+>   * drm_vram_mm_debugfs_init() - Register VRAM MM debugfs file.
+> @@ -1045,11 +1043,9 @@ static const struct drm_info_list drm_vram_mm_debugfs_list[] = {
+>   */
+>  void drm_vram_mm_debugfs_init(struct drm_minor *minor)
+>  {
+> -#if defined(CONFIG_DEBUG_FS)
+>  	drm_debugfs_create_files(drm_vram_mm_debugfs_list,
+>  				 ARRAY_SIZE(drm_vram_mm_debugfs_list),
+>  				 minor->debugfs_root, minor);
+> -#endif
+>  }
+>  EXPORT_SYMBOL(drm_vram_mm_debugfs_init);
+>  
+> -- 
+> 2.25.1
 
-It seems that this will return error to the caller, mangle the output
-pointer and effectively still leak the objs.
-
-Better option IMHO is to:
-- move the __user/copy_from_user into the caller
-Removes a silly kvmalloc_array(1,...) in ~90+ users and drops the "out" label.
-Extra bonus, this is the only instance in drm_gem with __user -
-consistency is nice.
-- add "err" or similar label, where the objs is freed before returning an error.
-
--Emil
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
