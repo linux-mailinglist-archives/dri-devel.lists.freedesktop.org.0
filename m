@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D8A190719
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:09:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A755B190726
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:10:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71D3C6E442;
-	Tue, 24 Mar 2020 08:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6A456E450;
+	Tue, 24 Mar 2020 08:10:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 213576E39C
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 17:47:45 +0000 (UTC)
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3037A6E3D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 17:47:56 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1584985665; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1584985679; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=qjgtDWniPPcSo0XorIVkKSGlzFyxhdVBcDv5PsDDFQw=;
- b=nT3V3jEEqMmdZFbWJdad1WS4ZUypFPC9Z4MsnazkMrjp89GEZKp15GmDOmFqA+rtHzC/yOWy
- 70kvgHvx3vOWdLxhCyfqnRNoKxYtyNNXVXzfh2KmwYo+PFo0tUU0CvPVysq6wSZBt4f9APTX
- MG/HsLTqgrnjzUVHOjTttI/XRwo=
-X-Mailgun-Sending-Ip: 104.130.122.26
+ bh=6ndHcumN/pHo5IifapOE1orenghbdL17ENJNDa1llco=;
+ b=Y76QtaNTZeWtMF02BbO8nPC+09UQMpQIcNn3NZpuoPruYOYTCmqcv7Mbtt7pYXEjwAGx5QEF
+ V8KMGxjE66ogu90EC8s4lkdKy3qaxc6O1F4/FABQovVz8Wa3GUNs1xp2wo3kMHvdLIeB5vPE
+ y8FN1lyxgVQh0P1+dgnULwEW7sM=
+X-Mailgun-Sending-Ip: 104.130.122.27
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e78f63f.7f94c375dd88-smtp-out-n05;
- Mon, 23 Mar 2020 17:47:43 -0000 (UTC)
+ by mxa.mailgun.org with ESMTP id 5e78f645.7f3b229f6030-smtp-out-n03;
+ Mon, 23 Mar 2020 17:47:49 -0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id BF5ADC44793; Mon, 23 Mar 2020 17:47:43 +0000 (UTC)
+ id 96337C4478F; Mon, 23 Mar 2020 17:47:49 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from kgunda-linux.qualcomm.com
  (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: kgunda)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id E8E54C433D2;
- Mon, 23 Mar 2020 17:47:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E8E54C433D2
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 65FD1C43637;
+ Mon, 23 Mar 2020 17:47:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 65FD1C43637
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -51,11 +51,11 @@ To: bjorn.andersson@linaro.org, jingoohan1@gmail.com, lee.jones@linaro.org,
  daniel.thompson@linaro.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
  robh+dt@kernel.org, mark.rutland@arm.com, linux-leds@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH V4 1/4] backlight: qcom-wled: convert the wled bindings to
- .yaml format
-Date: Mon, 23 Mar 2020 23:16:55 +0530
-Message-Id: <1584985618-25689-2-git-send-email-kgunda@codeaurora.org>
+ Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-fbdev@vger.kernel.org
+Subject: [PATCH V4 2/4] backlight: qcom-wled: Add callback functions
+Date: Mon, 23 Mar 2020 23:16:56 +0530
+Message-Id: <1584985618-25689-3-git-send-email-kgunda@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1584985618-25689-1-git-send-email-kgunda@codeaurora.org>
 References: <1584985618-25689-1-git-send-email-kgunda@codeaurora.org>
@@ -72,376 +72,388 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Cc: Kiran Gunda <kgunda@codeaurora.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the qcom-wled bindings from .txt to .yaml format.
+Add wled_cabc_config, wled_sync_toggle, wled_ovp_fault_status
+and wled_ovp_delay callback functions to prepare the driver for
+adding WLED5 support.
+
+wled_cabc_config() ===> Used to configure the cabc register.
+                         It is applicable for wled4 and wled5.
+
+wled_sync_toggle() ===> used to toggle the Sync register bit for the
+                        brightness update to take place.
+                        It is applicable for WLED3, WLED4 and WLED5.
+
+wled_ovp_fault_status() ===> Used to determine if the OVP fault is triggered.
+                             It is applicable for WLED4 and WLED5.
+
+wled_ovp_delay() ===> Provides the time to wait before checking the OVP status
+                        after wled module enable.
+                        It is applicable for WLED4 and WLED5.
 
 Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
-Signed-off-by: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
 ---
- .../bindings/leds/backlight/qcom-wled.txt          | 154 -----------------
- .../bindings/leds/backlight/qcom-wled.yaml         | 184 +++++++++++++++++++++
- 2 files changed, 184 insertions(+), 154 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
- create mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+ drivers/video/backlight/qcom-wled.c | 188 ++++++++++++++++++++++--------------
+ 1 file changed, 118 insertions(+), 70 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
-deleted file mode 100644
-index c06863b..0000000
---- a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
-+++ /dev/null
-@@ -1,154 +0,0 @@
--Binding for Qualcomm Technologies, Inc. WLED driver
+diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+index 3d276b3..a3daf9e 100644
+--- a/drivers/video/backlight/qcom-wled.c
++++ b/drivers/video/backlight/qcom-wled.c
+@@ -147,6 +147,7 @@ struct wled {
+ 	u32 max_brightness;
+ 	u32 short_count;
+ 	u32 auto_detect_count;
++	u32 version;
+ 	bool disabled_by_short;
+ 	bool has_short_detect;
+ 	int short_irq;
+@@ -155,6 +156,10 @@ struct wled {
+ 	struct wled_config cfg;
+ 	struct delayed_work ovp_work;
+ 	int (*wled_set_brightness)(struct wled *wled, u16 brightness);
++	int (*wled_cabc_config)(struct wled *wled, bool enable);
++	int (*wled_sync_toggle)(struct wled *wled);
++	int (*wled_ovp_fault_status)(struct wled *wled, bool *fault_set);
++	int (*wled_ovp_delay)(struct wled *wled);
+ };
+ 
+ static int wled3_set_brightness(struct wled *wled, u16 brightness)
+@@ -237,7 +242,7 @@ static int wled_module_enable(struct wled *wled, int val)
+ 	return 0;
+ }
+ 
+-static int wled_sync_toggle(struct wled *wled)
++static int wled3_sync_toggle(struct wled *wled)
+ {
+ 	int rc;
+ 	unsigned int mask = GENMASK(wled->max_string_count - 1, 0);
+@@ -255,6 +260,46 @@ static int wled_sync_toggle(struct wled *wled)
+ 	return rc;
+ }
+ 
++static int wled4_ovp_fault_status(struct wled *wled, bool *fault_set)
++{
++	int rc;
++	u32 int_rt_sts, fault_sts;
++
++	*fault_set = false;
++	rc = regmap_read(wled->regmap,
++			wled->ctrl_addr + WLED3_CTRL_REG_INT_RT_STS,
++			&int_rt_sts);
++	if (rc < 0) {
++		dev_err(wled->dev, "Failed to read INT_RT_STS rc=%d\n", rc);
++		return rc;
++	}
++
++	rc = regmap_read(wled->regmap,
++			wled->ctrl_addr + WLED3_CTRL_REG_FAULT_STATUS,
++			&fault_sts);
++	if (rc < 0) {
++		dev_err(wled->dev, "Failed to read FAULT_STATUS rc=%d\n", rc);
++		return rc;
++	}
++
++	if (int_rt_sts & WLED3_CTRL_REG_OVP_FAULT_STATUS)
++		*fault_set = true;
++
++	if (fault_sts & WLED3_CTRL_REG_OVP_FAULT_BIT)
++		*fault_set = true;
++
++	if (*fault_set)
++		dev_dbg(wled->dev, "WLED OVP fault detected, int_rt_sts=0x%x fault_sts=0x%x\n",
++			int_rt_sts, fault_sts);
++
++	return rc;
++}
++
++static int wled4_ovp_delay(struct wled *wled)
++{
++	return WLED_SOFT_START_DLY_US;
++}
++
+ static int wled_update_status(struct backlight_device *bl)
+ {
+ 	struct wled *wled = bl_get_data(bl);
+@@ -275,7 +320,7 @@ static int wled_update_status(struct backlight_device *bl)
+ 			goto unlock_mutex;
+ 		}
+ 
+-		rc = wled_sync_toggle(wled);
++		rc = wled->wled_sync_toggle(wled);
+ 		if (rc < 0) {
+ 			dev_err(wled->dev, "wled sync failed rc:%d\n", rc);
+ 			goto unlock_mutex;
+@@ -298,6 +343,25 @@ static int wled_update_status(struct backlight_device *bl)
+ 	return rc;
+ }
+ 
++static int wled4_cabc_config(struct wled *wled, bool enable)
++{
++	int i, j, rc;
++	u8 val;
++
++	for (i = 0; i < wled->cfg.num_strings; i++) {
++		j = wled->cfg.enabled_strings[i];
++
++		val = enable ? WLED4_SINK_REG_STR_CABC_MASK : 0;
++		rc = regmap_update_bits(wled->regmap, wled->sink_addr +
++					WLED4_SINK_REG_STR_CABC(j),
++					WLED4_SINK_REG_STR_CABC_MASK, val);
++		if (rc < 0)
++			return rc;
++	}
++
++	return 0;
++}
++
+ #define WLED_SHORT_DLY_MS			20
+ #define WLED_SHORT_CNT_MAX			5
+ #define WLED_SHORT_RESET_CNT_DLY_US		USEC_PER_SEC
+@@ -345,9 +409,10 @@ static irqreturn_t wled_short_irq_handler(int irq, void *_wled)
+ 
+ static void wled_auto_string_detection(struct wled *wled)
+ {
+-	int rc = 0, i;
+-	u32 sink_config = 0, int_sts;
++	int rc = 0, i, delay_time_us;
++	u32 sink_config = 0;
+ 	u8 sink_test = 0, sink_valid = 0, val;
++	bool fault_set;
+ 
+ 	/* Read configured sink configuration */
+ 	rc = regmap_read(wled->regmap, wled->sink_addr +
+@@ -376,14 +441,9 @@ static void wled_auto_string_detection(struct wled *wled)
+ 	}
+ 
+ 	if (wled->cfg.cabc) {
+-		for (i = 0; i < wled->cfg.num_strings; i++) {
+-			rc = regmap_update_bits(wled->regmap, wled->sink_addr +
+-						WLED4_SINK_REG_STR_CABC(i),
+-						WLED4_SINK_REG_STR_CABC_MASK,
+-						0);
+-			if (rc < 0)
+-				goto failed_detect;
+-		}
++		rc = wled->wled_cabc_config(wled, 0);
++		if (rc < 0)
++			goto failed_detect;
+ 	}
+ 
+ 	/* Disable all sinks */
+@@ -427,18 +487,17 @@ static void wled_auto_string_detection(struct wled *wled)
+ 			goto failed_detect;
+ 		}
+ 
+-		usleep_range(WLED_SOFT_START_DLY_US,
+-			     WLED_SOFT_START_DLY_US + 1000);
++		delay_time_us = wled->wled_ovp_delay(wled);
++		usleep_range(delay_time_us, delay_time_us + 1000);
+ 
+-		rc = regmap_read(wled->regmap, wled->ctrl_addr +
+-				 WLED3_CTRL_REG_INT_RT_STS, &int_sts);
++		rc = wled->wled_ovp_fault_status(wled, &fault_set);
+ 		if (rc < 0) {
+-			dev_err(wled->dev, "Error in reading WLED3_CTRL_INT_RT_STS rc=%d\n",
++			dev_err(wled->dev, "Error in getting OVP fault_sts, rc=%d\n",
+ 				rc);
+ 			goto failed_detect;
+ 		}
+ 
+-		if (int_sts & WLED3_CTRL_REG_OVP_FAULT_STATUS)
++		if (fault_set)
+ 			dev_dbg(wled->dev, "WLED OVP fault detected with SINK %d\n",
+ 				i + 1);
+ 		else
+@@ -478,30 +537,30 @@ static void wled_auto_string_detection(struct wled *wled)
+ 	}
+ 
+ 	/* Enable valid sinks */
+-	for (i = 0; i < wled->cfg.num_strings; i++) {
+-		if (wled->cfg.cabc) {
+-			rc = regmap_update_bits(wled->regmap, wled->sink_addr +
+-						WLED4_SINK_REG_STR_CABC(i),
+-						WLED4_SINK_REG_STR_CABC_MASK,
+-						WLED4_SINK_REG_STR_CABC_MASK);
+-			if (rc < 0)
++	if (wled->version == 4) {
++		for (i = 0; i < wled->cfg.num_strings; i++) {
++			if (sink_config &
++			    BIT(WLED4_SINK_REG_CURR_SINK_SHFT + i))
++				val = WLED4_SINK_REG_STR_MOD_MASK;
++			else
++				/* Disable modulator_en for unused sink */
++				val = 0x0;
++
++			rc = regmap_write(wled->regmap, wled->sink_addr +
++					  WLED4_SINK_REG_STR_MOD_EN(i), val);
++			if (rc < 0) {
++				dev_err(wled->dev, "Failed to configure MODULATOR_EN rc=%d\n",
++					rc);
+ 				goto failed_detect;
+-		}
 -
--WLED (White Light Emitting Diode) driver is used for controlling display
--backlight that is part of PMIC on Qualcomm Technologies, Inc. reference
--platforms. The PMIC is connected to the host processor via SPMI bus.
+-		if (sink_config & BIT(WLED4_SINK_REG_CURR_SINK_SHFT + i))
+-			val = WLED4_SINK_REG_STR_MOD_MASK;
+-		else
+-			val = 0x0; /* Disable modulator_en for unused sink */
 -
--- compatible
--	Usage:        required
--	Value type:   <string>
--	Definition:   should be one of:
--			"qcom,pm8941-wled"
--			"qcom,pmi8998-wled"
--			"qcom,pm660l-wled"
+-		rc = regmap_write(wled->regmap, wled->sink_addr +
+-				  WLED4_SINK_REG_STR_MOD_EN(i), val);
+-		if (rc < 0) {
+-			dev_err(wled->dev, "Failed to configure MODULATOR_EN rc=%d\n",
+-				rc);
+-			goto failed_detect;
++			}
+ 		}
+ 	}
+ 
++	/* Enable CABC if it needs to be enabled */
++	rc = wled->wled_cabc_config(wled, true);
++	if (rc < 0)
++		goto failed_detect;
++
+ 	/* Restore the feedback setting */
+ 	rc = regmap_write(wled->regmap,
+ 			  wled->ctrl_addr + WLED3_CTRL_REG_FEEDBACK_CONTROL, 0);
+@@ -570,29 +629,19 @@ static bool wled_auto_detection_required(struct wled *wled)
+ static int wled_auto_detection_at_init(struct wled *wled)
+ {
+ 	int rc;
+-	u32 fault_status, rt_status;
++	bool fault_set;
+ 
+ 	if (!wled->cfg.auto_detection_enabled)
+ 		return 0;
+ 
+-	rc = regmap_read(wled->regmap,
+-			 wled->ctrl_addr + WLED3_CTRL_REG_INT_RT_STS,
+-			 &rt_status);
++	rc = wled->wled_ovp_fault_status(wled, &fault_set);
+ 	if (rc < 0) {
+-		dev_err(wled->dev, "Failed to read RT status rc=%d\n", rc);
+-		return rc;
+-	}
 -
--- reg
--	Usage:        required
--	Value type:   <prop encoded array>
--	Definition:   Base address of the WLED modules.
+-	rc = regmap_read(wled->regmap,
+-			 wled->ctrl_addr + WLED3_CTRL_REG_FAULT_STATUS,
+-			 &fault_status);
+-	if (rc < 0) {
+-		dev_err(wled->dev, "Failed to read fault status rc=%d\n", rc);
++		dev_err(wled->dev, "Error in getting OVP fault_sts, rc=%d\n",
++			rc);
+ 		return rc;
+ 	}
+ 
+-	if ((rt_status & WLED3_CTRL_REG_OVP_FAULT_STATUS) ||
+-	    (fault_status & WLED3_CTRL_REG_OVP_FAULT_BIT)) {
++	if (fault_set) {
+ 		mutex_lock(&wled->lock);
+ 		wled_auto_string_detection(wled);
+ 		mutex_unlock(&wled->lock);
+@@ -811,17 +860,12 @@ static int wled4_setup(struct wled *wled)
+ 					wled->cfg.string_i_limit);
+ 		if (rc < 0)
+ 			return rc;
 -
--- default-brightness
--	Usage:        optional
--	Value type:   <u32>
--	Definition:   brightness value on boot, value from: 0-4095.
--		      Default: 2048
--
--- label
--	Usage:        required
--	Value type:   <string>
--	Definition:   The name of the backlight device
--
--- qcom,cs-out
--	Usage:        optional
--	Value type:   <bool>
--	Definition:   enable current sink output.
--		      This property is supported only for PM8941.
--
--- qcom,cabc
--	Usage:        optional
--	Value type:   <bool>
--	Definition:   enable content adaptive backlight control.
--
--- qcom,ext-gen
--	Usage:        optional
--	Value type:   <bool>
--	Definition:   use externally generated modulator signal to dim.
--		      This property is supported only for PM8941.
--
--- qcom,current-limit
--	Usage:        optional
--	Value type:   <u32>
--	Definition:   mA; per-string current limit; value from 0 to 25 with
--		      1 mA step. Default 20 mA.
--		      This property is supported only for pm8941.
--
--- qcom,current-limit-microamp
--	Usage:        optional
--	Value type:   <u32>
--	Definition:   uA; per-string current limit; value from 0 to 30000 with
--		      2500 uA step. Default 25 mA.
--
--- qcom,current-boost-limit
--	Usage:        optional
--	Value type:   <u32>
--	Definition:   mA; boost current limit.
--		      For pm8941: one of: 105, 385, 525, 805, 980, 1260, 1400,
--		      1680. Default: 805 mA.
--		      For pmi8998: one of: 105, 280, 450, 620, 970, 1150, 1300,
--		      1500. Default: 970 mA.
--
--- qcom,switching-freq
--	Usage:        optional
--	Value type:   <u32>
--	 Definition:   kHz; switching frequency; one of: 600, 640, 685, 738,
--		       800, 872, 960, 1066, 1200, 1371, 1600, 1920, 2400, 3200,
--		       4800, 9600.
--		       Default: for pm8941: 1600 kHz
--				for pmi8998: 800 kHz
--
--- qcom,ovp
--	Usage:        optional
--	Value type:   <u32>
--	Definition:   V; Over-voltage protection limit; one of:
--		      27, 29, 32, 35. Default: 29V
--		      This property is supported only for PM8941.
--
--- qcom,ovp-millivolt
--	Usage:        optional
--	Value type:   <u32>
--	Definition:   mV; Over-voltage protection limit;
--		      For pmi8998: one of 18100, 19600, 29600, 31100.
--		      Default 29600 mV.
--		      If this property is not specified for PM8941, it
--		      falls back to "qcom,ovp" property.
--
--- qcom,num-strings
--	Usage:        optional
--	Value type:   <u32>
--	Definition:   #; number of led strings attached;
--		      value: For PM8941 from 1 to 3. Default: 2
--			     For PMI8998 from 1 to 4.
--
--- interrupts
--	Usage:        optional
--	Value type:   <prop encoded array>
--	Definition:   Interrupts associated with WLED. This should be
--		      "short" and "ovp" interrupts. Interrupts can be
--		      specified as per the encoding listed under
--		      Documentation/devicetree/bindings/spmi/
--		      qcom,spmi-pmic-arb.txt.
--
--- interrupt-names
--	Usage:        optional
--	Value type:   <string>
--	Definition:   Interrupt names associated with the interrupts.
--		      Must be "short" and "ovp". The short circuit detection
--		      is not supported for PM8941.
--
--- qcom,enabled-strings
--	Usage:        optional
--	Value tyoe:   <u32 array>
--	Definition:   Array of the WLED strings numbered from 0 to 3. Each
--		      string of leds are operated individually. Specify the
--		      list of strings used by the device. Any combination of
--		      led strings can be used.
--
--- qcom,external-pfet
--	Usage:        optional
--	Value type:   <bool>
--	Definition:   Specify if external PFET control for short circuit
--		      protection is used. This property is supported only
--		      for PMI8998.
--
--- qcom,auto-string-detection
--	Usage:        optional
--	Value type:   <bool>
--	Definition:   Enables auto-detection of the WLED string configuration.
--		      This feature is not supported for PM8941.
--
--
--Example:
--
--pm8941-wled@d800 {
--	compatible = "qcom,pm8941-wled";
--	reg = <0xd800>;
--	label = "backlight";
--
--	qcom,cs-out;
--	qcom,current-limit = <20>;
--	qcom,current-boost-limit = <805>;
--	qcom,switching-freq = <1600>;
--	qcom,ovp = <29>;
--	qcom,num-strings = <2>;
--	qcom,enabled-strings = <0 1>;
--};
-diff --git a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-new file mode 100644
-index 0000000..8a388bf
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-@@ -0,0 +1,184 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+-		addr = wled->sink_addr +
+-				WLED4_SINK_REG_STR_CABC(j);
+-		rc = regmap_update_bits(wled->regmap, addr,
+-					WLED4_SINK_REG_STR_CABC_MASK,
+-					wled->cfg.cabc ?
+-					WLED4_SINK_REG_STR_CABC_MASK : 0);
+-		if (rc < 0)
+-			return rc;
+ 	}
+ 
++	rc = wled4_cabc_config(wled, wled->cfg.en_cabc);
++	if (rc < 0)
++		return rc;
 +
-+title: Binding for Qualcomm Technologies, Inc. WLED driver
-+
-+maintainers:
-+  - Lee Jones <lee.jones@linaro.org>
-+
-+description: |
-+  WLED (White Light Emitting Diode) driver is used for controlling display
-+  backlight that is part of PMIC on Qualcomm Technologies, Inc. reference
-+  platforms. The PMIC is connected to the host processor via SPMI bus.
-+
-+properties:
-+  compatible :
-+    enum:
-+       - qcom,pm8941-wled
-+       - qcom,pmi8998-wled
-+       - qcom,pm660l-wled
-+
-+  reg:
-+    maxItems: 1
-+
-+  default-brightness:
-+    maxItems: 1
-+    description:
-+      brightness value on boot, value from 0-4095.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+        default: 2048
-+
-+  label:
-+    maxItems: 1
-+    description:
-+      The name of the backlight device.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/string
-+
-+  qcom,cs-out:
-+    description:
-+      enable current sink output.
-+      This property is supported only for PM8941.
-+    type: boolean
-+
-+  qcom,cabc:
-+    description:
-+      enable content adaptive backlight control.
-+    type: boolean
-+
-+  qcom,ext-gen:
-+    description:
-+      use externally generated modulator signal to dim.
-+      This property is supported only for PM8941.
-+    type: boolean
-+
-+  qcom,current-limit:
-+    maxItems: 1
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      mA; per-string current limit; value from 0 to 25 with
-+      1 mA step. This property is supported only for pm8941.
-+    default: 20
-+
-+  qcom,current-limit-microamp:
-+    maxItems: 1
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      uA; per-string current limit; value from 0 to 30000 with
-+      2500 uA step.
-+    default: 25
-+
-+  qcom,current-boost-limit:
-+    maxItems: 1
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      mA; boost current limit.
-+      For pm8941 one of 105, 385, 525, 805, 980, 1260, 1400, 1680.
-+      Default, 805 mA.
-+      For pmi8998 one of 105, 280, 450, 620, 970, 1150, 1300,
-+      1500. Default 970 mA.
-+
-+  qcom,switching-freq:
-+    maxItems: 1
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      kHz; switching frequency; one of 600, 640, 685, 738,
-+      800, 872, 960, 1066, 1200, 1371, 1600, 1920, 2400, 3200,
-+      4800, 9600.
-+      Default for pm8941 1600 kHz
-+               for pmi8998 800 kHz
-+
-+  qcom,ovp:
-+    maxItems: 1
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      V; Over-voltage protection limit; one of 27, 29, 32, 35. Default 29V
-+      This property is supported only for PM8941.
-+
-+  qcom,ovp-millivolt:
-+    maxItems: 1
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      mV; Over-voltage protection limit;
-+      For pmi8998 one of 18100, 19600, 29600, 31100.
-+      Default 29600 mV.
-+      If this property is not specified for PM8941, it
-+      falls back to "qcom,ovp" property.
-+
-+  qcom,num-strings:
-+    maxItems: 1
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      number of led strings attached;
-+      value for PM8941 from 1 to 3. Default 2
-+      For PMI8998 from 1 to 4.
-+
-+  interrupts:
-+    maxItems: 2
-+    description:
-+      Interrupts associated with WLED. This should be
-+      "short" and "ovp" interrupts. Interrupts can be
-+      specified as per the encoding listed under
-+      Documentation/devicetree/bindings/spmi/
-+      qcom,spmi-pmic-arb.txt.
-+
-+  interrupt-names:
-+    description:
-+      Interrupt names associated with the interrupts.
-+      Must be "short" and "ovp". The short circuit detection
-+      is not supported for PM8941.
-+
-+  qcom,enabled-strings:
-+    maxItems: 1
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32-array
-+    description:
-+      Array of the WLED strings numbered from 0 to 3. Each
-+      string of leds are operated individually. Specify the
-+      list of strings used by the device. Any combination of
-+      led strings can be used.
-+
-+  qcom,external-pfet:
-+    description:
-+      Specify if external PFET control for short circuit
-+      protection is used. This property is supported only
-+      for PMI8998.
-+    type: boolean
-+
-+  qcom,auto-string-detection:
-+    description:
-+      Enables auto-detection of the WLED string configuration.
-+      This feature is not supported for PM8941.
-+    type: boolean
-+
-+required:
-+  - compatible
-+  - reg
-+  - label
-+
-+examples:
-+  - |
-+    pm8941-wled@d800 {
-+        compatible = "qcom,pm8941-wled";
-+        reg = <0xd800 0x100>;
-+        label = "backlight";
-+
-+        qcom,cs-out;
-+        qcom,current-limit = <20>;
-+        qcom,current-boost-limit = <805>;
-+        qcom,switching-freq = <1600>;
-+        qcom,ovp = <29>;
-+        qcom,num-strings = <2>;
-+        qcom,enabled-strings = <0 1>;
-+     };
+ 	rc = regmap_update_bits(wled->regmap, wled->ctrl_addr +
+ 				WLED3_CTRL_REG_MOD_EN,
+ 				WLED3_CTRL_REG_MOD_EN_MASK,
+@@ -835,7 +879,7 @@ static int wled4_setup(struct wled *wled)
+ 	if (rc < 0)
+ 		return rc;
+ 
+-	rc = wled_sync_toggle(wled);
++	rc = wled->wled_sync_toggle(wled);
+ 	if (rc < 0) {
+ 		dev_err(wled->dev, "Failed to toggle sync reg rc:%d\n", rc);
+ 		return rc;
+@@ -951,7 +995,7 @@ static u32 wled_values(const struct wled_var_cfg *cfg, u32 idx)
+ 	return idx;
+ }
+ 
+-static int wled_configure(struct wled *wled, int version)
++static int wled_configure(struct wled *wled)
+ {
+ 	struct wled_config *cfg = &wled->cfg;
+ 	struct device *dev = wled->dev;
+@@ -1035,12 +1079,13 @@ static int wled_configure(struct wled *wled, int version)
+ 	if (rc)
+ 		wled->name = devm_kasprintf(dev, GFP_KERNEL, "%pOFn", dev->of_node);
+ 
+-	switch (version) {
++	switch (wled->version) {
+ 	case 3:
+ 		u32_opts = wled3_opts;
+ 		size = ARRAY_SIZE(wled3_opts);
+ 		*cfg = wled3_config_defaults;
+ 		wled->wled_set_brightness = wled3_set_brightness;
++		wled->wled_sync_toggle = wled3_sync_toggle;
+ 		wled->max_string_count = 3;
+ 		wled->sink_addr = wled->ctrl_addr;
+ 		break;
+@@ -1050,6 +1095,10 @@ static int wled_configure(struct wled *wled, int version)
+ 		size = ARRAY_SIZE(wled4_opts);
+ 		*cfg = wled4_config_defaults;
+ 		wled->wled_set_brightness = wled4_set_brightness;
++		wled->wled_sync_toggle = wled3_sync_toggle;
++		wled->wled_cabc_config = wled4_cabc_config;
++		wled->wled_ovp_fault_status = wled4_ovp_fault_status;
++		wled->wled_ovp_delay = wled4_ovp_delay;
+ 		wled->max_string_count = 4;
+ 
+ 		prop_addr = of_get_address(dev->of_node, 1, NULL, NULL);
+@@ -1186,7 +1235,6 @@ static int wled_probe(struct platform_device *pdev)
+ 	struct backlight_device *bl;
+ 	struct wled *wled;
+ 	struct regmap *regmap;
+-	int version;
+ 	u32 val;
+ 	int rc;
+ 
+@@ -1203,18 +1251,18 @@ static int wled_probe(struct platform_device *pdev)
+ 	wled->regmap = regmap;
+ 	wled->dev = &pdev->dev;
+ 
+-	version = (uintptr_t)of_device_get_match_data(&pdev->dev);
+-	if (!version) {
++	wled->version = (uintptr_t)of_device_get_match_data(&pdev->dev);
++	if (!wled->version) {
+ 		dev_err(&pdev->dev, "Unknown device version\n");
+ 		return -ENODEV;
+ 	}
+ 
+ 	mutex_init(&wled->lock);
+-	rc = wled_configure(wled, version);
++	rc = wled_configure(wled);
+ 	if (rc)
+ 		return rc;
+ 
+-	switch (version) {
++	switch (wled->version) {
+ 	case 3:
+ 		wled->cfg.auto_detection_enabled = false;
+ 		rc = wled3_setup(wled);
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
  a Linux Foundation Collaborative Project
