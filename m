@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 679C1190070
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 22:35:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C9C19006A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Mar 2020 22:34:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68B8189E0D;
-	Mon, 23 Mar 2020 21:35:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 616BF89DF7;
+	Mon, 23 Mar 2020 21:34:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1128 seconds by postgrey-1.36 at gabe;
- Mon, 23 Mar 2020 21:35:36 UTC
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0E4C89E0D
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 21:35:36 +0000 (UTC)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1jGUR6-0004GR-5B; Mon, 23 Mar 2020 22:16:40 +0100
-Received: from ukl by dude.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1jGUR3-0006TG-DH; Mon, 23 Mar 2020 22:16:37 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sascha Hauer <s.hauer@pengutronix.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: [PATCH] video: fbdev: imxfb: ensure balanced regulator usage
-Date: Mon, 23 Mar 2020 22:16:26 +0100
-Message-Id: <20200323211626.24812-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.25.1
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B228789DF7
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 21:34:14 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+ by mail.kmu-office.ch (Postfix) with ESMTPSA id 569AF5C0BDA;
+ Mon, 23 Mar 2020 22:34:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+ t=1584999253;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xq2spUjk0IrtdoMyI/ZsGRBZMsu9l7W2eX8mCP5dJnA=;
+ b=MXwZvGsx+o1+kKWXAIkoxbXhyza74xVf5CtXO6dh+ZD16x6M0jGPbTDTBCa8r3W4iMjxGN
+ w20GYZcQpFN+WjsPB9LKLnIrHKXzP8hyXr7mX6qeXkQnjRQVAZ77AO1JGIx4r88C7VajQ5
+ 3Zx//S0A6euXHoe8dgZVyBN/27h2vMY=
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Date: Mon, 23 Mar 2020 22:34:13 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 03/21] drm: mxsfb: Use BIT() macro to define register
+ bitfields
+In-Reply-To: <20200309195216.31042-4-laurent.pinchart@ideasonboard.com>
+References: <20200309195216.31042-1-laurent.pinchart@ideasonboard.com>
+ <20200309195216.31042-4-laurent.pinchart@ideasonboard.com>
+User-Agent: Roundcube Webmail/1.4.1
+Message-ID: <1501d151a6aa10996d929bea9013bb85@agner.ch>
+X-Sender: stefan@agner.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,46 +49,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Marek Vasut <marex@denx.de>, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, linux-imx@nxp.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGZiZGV2IGZyYW1ld29yayBkb2Vzbid0IGNhcmUgdG8gY2FsbCB0aGUgLnNldF9wb3dlciBj
-YWxsYmFjayBvbmx5IG9uCmNoYW5nZXMuIFNvIHRoZSBkcml2ZXIgaGFzIHRvIGNhcmUgZm9yIGl0
-c2VsZiB0aGF0IHRoZSByZWd1bGF0b3IgZG9lc24ndApnZXQgZGlzYWJsZWQgbW9yZSBvZnRlbiB0
-aGFuIGVuYWJsZWQuCgpUaGlzIGZpeGVzIHRoZSByZWd1bGF0b3Igd2FybmluZwoKCXVuYmFsYW5j
-ZWQgZGlzYWJsZXMgZm9yIGxjZCBzdXBwbHkKCndoaWNoIGNhbiBiZSB0cmlnZ2VyZWQgYnkgZG9p
-bmcKCgllY2hvIDQgPiAvc3lzL2NsYXNzL2xjZC9pbXhmYi1sY2QvbGNkX3Bvd2VyCgp0d2ljZS4K
-ClNpZ25lZC1vZmYtYnk6IFV3ZSBLbGVpbmUtS8O2bmlnIDx1LmtsZWluZS1rb2VuaWdAcGVuZ3V0
-cm9uaXguZGU+Ci0tLQogZHJpdmVycy92aWRlby9mYmRldi9pbXhmYi5jIHwgMjcgKysrKysrKysr
-KysrKysrKysrKysrLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwgNiBk
-ZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2lteGZiLmMgYi9k
-cml2ZXJzL3ZpZGVvL2ZiZGV2L2lteGZiLmMKaW5kZXggMzcwYmYyNTUzZDQzLi44ODRiMTZlZmE3
-ZTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvaW14ZmIuYworKysgYi9kcml2ZXJz
-L3ZpZGVvL2ZiZGV2L2lteGZiLmMKQEAgLTE3Miw2ICsxNzIsNyBAQCBzdHJ1Y3QgaW14ZmJfaW5m
-byB7CiAJaW50CQkJbnVtX21vZGVzOwogCiAJc3RydWN0IHJlZ3VsYXRvcgkqbGNkX3B3cjsKKwlp
-bnQJCQlsY2RfcHdyX2VuYWJsZWQ7CiB9OwogCiBzdGF0aWMgY29uc3Qgc3RydWN0IHBsYXRmb3Jt
-X2RldmljZV9pZCBpbXhmYl9kZXZ0eXBlW10gPSB7CkBAIC04MDEsMTYgKzgwMiwzMCBAQCBzdGF0
-aWMgaW50IGlteGZiX2xjZF9nZXRfcG93ZXIoc3RydWN0IGxjZF9kZXZpY2UgKmxjZGRldikKIAly
-ZXR1cm4gRkJfQkxBTktfVU5CTEFOSzsKIH0KIAorc3RhdGljIGludCBpbXhmYl9yZWd1bGF0b3Jf
-c2V0KHN0cnVjdCBpbXhmYl9pbmZvICpmYmksIGludCBlbmFibGUpCit7CisJaW50IHJldDsKKwor
-CWlmIChlbmFibGUgPT0gZmJpLT5sY2RfcHdyX2VuYWJsZWQpCisJCXJldHVybiAwOworCisJaWYg
-KGVuYWJsZSkKKwkJcmV0ID0gcmVndWxhdG9yX2VuYWJsZShmYmktPmxjZF9wd3IpOworCWVsc2UK
-KwkJcmV0ID0gcmVndWxhdG9yX2Rpc2FibGUoZmJpLT5sY2RfcHdyKTsKKworCWlmIChyZXQgPT0g
-MCkKKwkJZmJpLT5sY2RfcHdyX2VuYWJsZWQgPSBlbmFibGU7CisKKwlyZXR1cm4gcmV0OworfQor
-CiBzdGF0aWMgaW50IGlteGZiX2xjZF9zZXRfcG93ZXIoc3RydWN0IGxjZF9kZXZpY2UgKmxjZGRl
-diwgaW50IHBvd2VyKQogewogCXN0cnVjdCBpbXhmYl9pbmZvICpmYmkgPSBkZXZfZ2V0X2RydmRh
-dGEoJmxjZGRldi0+ZGV2KTsKIAotCWlmICghSVNfRVJSKGZiaS0+bGNkX3B3cikpIHsKLQkJaWYg
-KHBvd2VyID09IEZCX0JMQU5LX1VOQkxBTkspCi0JCQlyZXR1cm4gcmVndWxhdG9yX2VuYWJsZShm
-YmktPmxjZF9wd3IpOwotCQllbHNlCi0JCQlyZXR1cm4gcmVndWxhdG9yX2Rpc2FibGUoZmJpLT5s
-Y2RfcHdyKTsKLQl9CisJaWYgKCFJU19FUlIoZmJpLT5sY2RfcHdyKSkKKwkJcmV0dXJuIGlteGZi
-X3JlZ3VsYXRvcl9zZXQoZmJpLCBwb3dlciA9PSBGQl9CTEFOS19VTkJMQU5LKTsKIAogCXJldHVy
-biAwOwogfQotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwK
+On 2020-03-09 20:51, Laurent Pinchart wrote:
+> Using BIT() is preferred over manual shifts as it's more readable,
+> handles the 1 << 31 case properly, and avoids other mistakes as shown by
+> the DEBUG0_HSYNC and DEBUG0_VSYNC bits (that are currently unused). Use
+> it.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Reviewed-by: Stefan Agner <stefan@agner.ch>
+
+> ---
+>  drivers/gpu/drm/mxsfb/mxsfb_regs.h | 56 +++++++++++++++---------------
+>  1 file changed, 28 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+> b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+> index 932d7ea08fd5..713d8f830135 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+> @@ -28,51 +28,51 @@
+>  #define LCDC_V4_DEBUG0			0x1d0
+>  #define LCDC_V3_DEBUG0			0x1f0
+>  
+> -#define CTRL_SFTRST			(1 << 31)
+> -#define CTRL_CLKGATE			(1 << 30)
+> -#define CTRL_BYPASS_COUNT		(1 << 19)
+> -#define CTRL_VSYNC_MODE			(1 << 18)
+> -#define CTRL_DOTCLK_MODE		(1 << 17)
+> -#define CTRL_DATA_SELECT		(1 << 16)
+> +#define CTRL_SFTRST			BIT(31)
+> +#define CTRL_CLKGATE			BIT(30)
+> +#define CTRL_BYPASS_COUNT		BIT(19)
+> +#define CTRL_VSYNC_MODE			BIT(18)
+> +#define CTRL_DOTCLK_MODE		BIT(17)
+> +#define CTRL_DATA_SELECT		BIT(16)
+>  #define CTRL_SET_BUS_WIDTH(x)		(((x) & 0x3) << 10)
+>  #define CTRL_GET_BUS_WIDTH(x)		(((x) >> 10) & 0x3)
+>  #define CTRL_BUS_WIDTH_MASK		(0x3 << 10)
+>  #define CTRL_SET_WORD_LENGTH(x)		(((x) & 0x3) << 8)
+>  #define CTRL_GET_WORD_LENGTH(x)		(((x) >> 8) & 0x3)
+> -#define CTRL_MASTER			(1 << 5)
+> -#define CTRL_DF16			(1 << 3)
+> -#define CTRL_DF18			(1 << 2)
+> -#define CTRL_DF24			(1 << 1)
+> -#define CTRL_RUN			(1 << 0)
+> +#define CTRL_MASTER			BIT(5)
+> +#define CTRL_DF16			BIT(3)
+> +#define CTRL_DF18			BIT(2)
+> +#define CTRL_DF24			BIT(1)
+> +#define CTRL_RUN			BIT(0)
+>  
+> -#define CTRL1_FIFO_CLEAR		(1 << 21)
+> +#define CTRL1_FIFO_CLEAR		BIT(21)
+>  #define CTRL1_SET_BYTE_PACKAGING(x)	(((x) & 0xf) << 16)
+>  #define CTRL1_GET_BYTE_PACKAGING(x)	(((x) >> 16) & 0xf)
+> -#define CTRL1_CUR_FRAME_DONE_IRQ_EN	(1 << 13)
+> -#define CTRL1_CUR_FRAME_DONE_IRQ	(1 << 9)
+> +#define CTRL1_CUR_FRAME_DONE_IRQ_EN	BIT(13)
+> +#define CTRL1_CUR_FRAME_DONE_IRQ	BIT(9)
+>  
+>  #define TRANSFER_COUNT_SET_VCOUNT(x)	(((x) & 0xffff) << 16)
+>  #define TRANSFER_COUNT_GET_VCOUNT(x)	(((x) >> 16) & 0xffff)
+>  #define TRANSFER_COUNT_SET_HCOUNT(x)	((x) & 0xffff)
+>  #define TRANSFER_COUNT_GET_HCOUNT(x)	((x) & 0xffff)
+>  
+> -#define VDCTRL0_ENABLE_PRESENT		(1 << 28)
+> -#define VDCTRL0_VSYNC_ACT_HIGH		(1 << 27)
+> -#define VDCTRL0_HSYNC_ACT_HIGH		(1 << 26)
+> -#define VDCTRL0_DOTCLK_ACT_FALLING	(1 << 25)
+> -#define VDCTRL0_ENABLE_ACT_HIGH		(1 << 24)
+> -#define VDCTRL0_VSYNC_PERIOD_UNIT	(1 << 21)
+> -#define VDCTRL0_VSYNC_PULSE_WIDTH_UNIT	(1 << 20)
+> -#define VDCTRL0_HALF_LINE		(1 << 19)
+> -#define VDCTRL0_HALF_LINE_MODE		(1 << 18)
+> +#define VDCTRL0_ENABLE_PRESENT		BIT(28)
+> +#define VDCTRL0_VSYNC_ACT_HIGH		BIT(27)
+> +#define VDCTRL0_HSYNC_ACT_HIGH		BIT(26)
+> +#define VDCTRL0_DOTCLK_ACT_FALLING	BIT(25)
+> +#define VDCTRL0_ENABLE_ACT_HIGH		BIT(24)
+> +#define VDCTRL0_VSYNC_PERIOD_UNIT	BIT(21)
+> +#define VDCTRL0_VSYNC_PULSE_WIDTH_UNIT	BIT(20)
+> +#define VDCTRL0_HALF_LINE		BIT(19)
+> +#define VDCTRL0_HALF_LINE_MODE		BIT(18)
+>  #define VDCTRL0_SET_VSYNC_PULSE_WIDTH(x) ((x) & 0x3ffff)
+>  #define VDCTRL0_GET_VSYNC_PULSE_WIDTH(x) ((x) & 0x3ffff)
+>  
+>  #define VDCTRL2_SET_HSYNC_PERIOD(x)	((x) & 0x3ffff)
+>  #define VDCTRL2_GET_HSYNC_PERIOD(x)	((x) & 0x3ffff)
+>  
+> -#define VDCTRL3_MUX_SYNC_SIGNALS	(1 << 29)
+> -#define VDCTRL3_VSYNC_ONLY		(1 << 28)
+> +#define VDCTRL3_MUX_SYNC_SIGNALS	BIT(29)
+> +#define VDCTRL3_VSYNC_ONLY		BIT(28)
+>  #define SET_HOR_WAIT_CNT(x)		(((x) & 0xfff) << 16)
+>  #define GET_HOR_WAIT_CNT(x)		(((x) >> 16) & 0xfff)
+>  #define SET_VERT_WAIT_CNT(x)		((x) & 0xffff)
+> @@ -80,11 +80,11 @@
+>  
+>  #define VDCTRL4_SET_DOTCLK_DLY(x)	(((x) & 0x7) << 29) /* v4 only */
+>  #define VDCTRL4_GET_DOTCLK_DLY(x)	(((x) >> 29) & 0x7) /* v4 only */
+> -#define VDCTRL4_SYNC_SIGNALS_ON		(1 << 18)
+> +#define VDCTRL4_SYNC_SIGNALS_ON		BIT(18)
+>  #define SET_DOTCLK_H_VALID_DATA_CNT(x)	((x) & 0x3ffff)
+>  
+> -#define DEBUG0_HSYNC			(1 < 26)
+> -#define DEBUG0_VSYNC			(1 < 25)
+> +#define DEBUG0_HSYNC			BIT(26)
+> +#define DEBUG0_VSYNC			BIT(25)
+>  
+>  #define MXSFB_MIN_XRES			120
+>  #define MXSFB_MIN_YRES			120
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
