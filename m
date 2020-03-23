@@ -2,68 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0032F19071A
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:09:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42195190718
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:09:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEF586E446;
-	Tue, 24 Mar 2020 08:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A55EA6E444;
+	Tue, 24 Mar 2020 08:09:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2946389E23
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 15:13:08 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 783A9580118;
- Mon, 23 Mar 2020 11:13:06 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 23 Mar 2020 11:13:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=GAe9evQKgPl6kCh0zfTEzT/CM76
- CMhkxj8qnRU/5u+0=; b=Gl69dg/KL0fB2QP1vl5cZ85/lT7aRrLjbJKGwt/RdTL
- /7jB+HgApPvKUMRoyb2Qt1EGvMIqDp/QjW+rSokBqQTEkyTuV3JUq/j7ZKA/Hrnp
- WlcEJzNWRJUmAwK6ntpcVTDG+Yz3lrG8AffcoAKC4GnpQM/TNe94/ZaZerhaN7RL
- oD6NmOGsQNPiiIhsunX/G3w/SNo4xJo+hpS73o9OIBXbuKZZ2KJWRMqfpzTUgGFN
- +k17QeS4Jt9vVw1hQ/4NL6mAC7YtiwHoKYTvz9MvfMS0IFxW0F/FMSB7KE8MACOf
- FnQb+9TNuNyLmR/GIFY5ihN7vA9o1sYXrSRbsr0rtWw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=GAe9ev
- QKgPl6kCh0zfTEzT/CM76CMhkxj8qnRU/5u+0=; b=HN2Ugj01J2KGTv3SX8ynQn
- KNFCNrha666DIO28e6EycqxyieMUf9tx9eylhLd5vjqq/QEkNHUzspqXL2C6IkV8
- 5SSiplNdrZ27rxu2kHw5R3tMD5KJjLWNaYPkg7SunLBjtYjwV3wefeCofWXliLfK
- onST2HlEBdMuB0HpRudemyOfssvewDt6XG6FH4Fa6yDxwAU2ZPlgSWNv6L+9WqTg
- MirRl1b64x1WKbxCel0c5MrB8oIR4XUPlSzb5tcxF2hGsXqzN+141nw7U3UjLsjn
- nguxZuWYQtUjeO0r/GUzgZy9uhxiejE29TNx5zYf4SikxOirwNncxLW64L4BfJ9A
- ==
-X-ME-Sender: <xms:ANJ4XtJNo40pA1nqiNL8_aKRSu00TlMjV_QZsv9m3yClraBzeEdI5g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrudegkedgjeefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
- drkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
- lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ANJ4XgQAKlM8v0yTpNI5NFWm2IWzuF4DJ4QXOyL9VEnAN8bGknTD6A>
- <xmx:ANJ4XoEWcJDSOi546MJKkxfd3cdhgtd7uLKFtnvVUd-PeSfx0CC3fQ>
- <xmx:ANJ4XoFlPY5gSl3QM-_rjLR-tGIMoXFQ9ve6UUiiivHQXYGRSDiFDw>
- <xmx:AtJ4Xg3kdjwW1dkBLRNuaXG9Rrbo83yojgh7ddnJzZaUJam9ajIH8w>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id D7EF3328005A;
- Mon, 23 Mar 2020 11:13:03 -0400 (EDT)
-Date: Mon, 23 Mar 2020 16:13:02 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Subject: Re: [PATCH 07/89] clk: bcm: rpi: Allow the driver to be probed by DT
-Message-ID: <20200323151302.ckpvc4a7eiinnfbq@gilmour.lan>
-References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
- <c358081207dcf4f320a6b7e2932f0d5365bf3242.1582533919.git-series.maxime@cerno.tech>
- <d793e358-32db-5fea-aac9-d06062918718@i2se.com>
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C58978984F
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 15:36:20 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1584977783; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=wijimHVzaAPkYdmKEb1ozTEK2M9kYeLXNSo3279w37s=;
+ b=XTlDQT2QHIjIuZVMJJPNbfxJUvGIPVNh+xA8dkc7TAMq7KzV9Ojjx3wo9TZiKiIVJfFFa5Uv
+ keQ/CU2CWMgvR0DIP+i5ZpdWN9BkB3BI06T++9WJGVixBeDRshhHXLoStbbsRXrlC08xZBHV
+ L3ehTVsvmUAgxL398NgS/bX9uT0=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e78d76c.7f8c2d4a6b20-smtp-out-n05;
+ Mon, 23 Mar 2020 15:36:12 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 96276C44788; Mon, 23 Mar 2020 15:36:12 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,URIBL_BLOCKED
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: kgunda)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id D7712C433D2;
+ Mon, 23 Mar 2020 15:36:11 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <d793e358-32db-5fea-aac9-d06062918718@i2se.com>
+Date: Mon, 23 Mar 2020 21:06:11 +0530
+From: kgunda@codeaurora.org
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH V3 2/4] backlight: qcom-wled: Add callback functions
+In-Reply-To: <20200311103047.v7rt5ii3saack22a@holly.lan>
+References: <1583760362-26978-1-git-send-email-kgunda@codeaurora.org>
+ <1583760362-26978-3-git-send-email-kgunda@codeaurora.org>
+ <20200310152719.5hpzh6osq22y4qbn@holly.lan>
+ <05ab744dfbd83b6704bd394ce3c3dfc9@codeaurora.org>
+ <20200311103047.v7rt5ii3saack22a@holly.lan>
+Message-ID: <45964027ff388aec97d27f579d96c012@codeaurora.org>
+X-Sender: kgunda@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Tue, 24 Mar 2020 08:09:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,81 +66,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: multipart/mixed; boundary="===============1997270335=="
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+ linux-arm-msm@vger.kernel.org, lee.jones@linaro.org,
+ linux-arm-msm-owner@vger.kernel.org, linux-leds@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1997270335==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="v5m5awxasxzcip5g"
-Content-Disposition: inline
-
-
---v5m5awxasxzcip5g
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Stefan,
-
-On Sun, Mar 01, 2020 at 01:16:28PM +0100, Stefan Wahren wrote:
-> Hi Maxime,
->
-> Am 24.02.20 um 10:06 schrieb Maxime Ripard:
-> > The current firmware clock driver for the RaspberryPi can only be probed by
-> > manually registering an associated platform_device.
-> >
-> > While this works fine for cpufreq where the device gets attached a clkdev
-> > lookup, it would be tedious to maintain a table of all the devices using
-> > one of the clocks exposed by the firmware.
-> >
-> > Since the DT on the other hand is the perfect place to store those
-> > associations, make the firmware clocks driver probe-able through the device
-> > tree so that we can represent it as a node.
-> >
-> > Cc: Michael Turquette <mturquette@baylibre.com>
-> > Cc: Stephen Boyd <sboyd@kernel.org>
-> > Cc: linux-clk@vger.kernel.org
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> FWIW i want to mention that starting with this commit, X doesn't start
-> on my Raspberry Pi 3A (applied on top of linux-next using
-> multi_v7_defconfig).
-
-Was this the same issue you reported with the HSM clock rate, or truly
-an issue with my series?
-
-Maxime
-
---v5m5awxasxzcip5g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXnjR/gAKCRDj7w1vZxhR
-xWCaAQCLY6mdJ+pXqjn7wvV8WOobxLaPy0P6y1ZPPf/arV8g9AEAnOxapP+tmnzB
-zJdBac5cosAeX20cT1zCpqqzz1jHQQE=
-=7v4z
------END PGP SIGNATURE-----
-
---v5m5awxasxzcip5g--
-
---===============1997270335==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+On 2020-03-11 16:00, Daniel Thompson wrote:
+> On Wed, Mar 11, 2020 at 12:11:00PM +0530, kgunda@codeaurora.org wrote:
+>> On 2020-03-10 20:57, Daniel Thompson wrote:
+>> > On Mon, Mar 09, 2020 at 06:56:00PM +0530, Kiran Gunda wrote:
+>> > > Add cabc_config, sync_toggle, wled_ovp_fault_status and wled_ovp_delay
+>> > > callback functions to prepare the driver for adding WLED5 support.
+>> > >
+>> > > Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+>> >
+>> > Overall this code would a lot easier to review if
+>> > > ---
+>> > >  drivers/video/backlight/qcom-wled.c | 196
+>> > > +++++++++++++++++++++++-------------
+>> > >  1 file changed, 126 insertions(+), 70 deletions(-)
+>> > >
+>> > > diff --git a/drivers/video/backlight/qcom-wled.c
+>> > > b/drivers/video/backlight/qcom-wled.c
+>> > > index 3d276b3..b73f273 100644
+>> > > --- a/drivers/video/backlight/qcom-wled.c
+>> > > +++ b/drivers/video/backlight/qcom-wled.c
+>> > > @@ -128,6 +128,7 @@ struct wled_config {
+>> > >  	bool cs_out_en;
+>> > >  	bool ext_gen;
+>> > >  	bool cabc;
+>> > > +	bool en_cabc;
+>> >
+>> > Does this ever get set to true?
+>> >
+>> Yes. If user wants use the cabc pin to control the brightness and
+>> use the "qcom,cabc" DT property in the device tree.
+> 
+> That sounds like what you intended the code to do!
+> 
+> Is the code that does this present in the patch? I could not find
+> it.
+> 
+okay... It's my bad. We already have the "cabc" for this. I will remove 
+the en_cabc in
+next series.
+> 
+> Daniel.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1997270335==--
