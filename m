@@ -1,54 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A60190716
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:09:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FA3190714
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:09:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28AF96E441;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 182296E440;
 	Tue, 24 Mar 2020 08:09:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A25789E15
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 20:24:13 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id g18so6423384plq.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 13:24:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=C0LsAz70o8cEG4Nw2F0iYGNC/gi7roMlmMUaydZViic=;
- b=mUNBTWdVOxOOX6AMAo6cgRH71ec0iV+SXDJ6JsA+ueMI12basjiumCLVcRvtdlfVsg
- OTGqufJENljEUWV9yNfmo/oi9+1JriOXNQdBg/sXHGWN4vH//BMyk3nxzIbD2bQw5sH6
- tFIP6XXBPMynW6Y4IHYYXZ8z4OQmViSCCKsxQKz1ZrOST7+Y6566R7oaniScAQNGHGvS
- sH3Wqn8bYzirLfVOTEuifD2Gt8kYBDBm1u4ydEfERAmCLUnrZLxYlspAAJnDpZb3rmO9
- O0zv3rUMz9wFk8HU9iqqIIbSnNC05bHEyosNyru1FjiuEL7939BWs3Qv2uU5oDKR+WnF
- TUdA==
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
+ [IPv6:2607:f8b0:4864:20::f44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5926589E35
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 01:15:12 +0000 (UTC)
+Received: by mail-qv1-xf44.google.com with SMTP id g4so1721246qvo.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 18:15:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rP5gDKTxRal88aL3AV5WtEMvRZc38NV86zzyK+lBqtQ=;
+ b=iHwqZjCG+OlxOBwnmkPYZ3sfKTn7/buiXu1Mt4UrscwhHTg5T+vSBVrp6VvL6GsEXI
+ jlOOWXICOV8dJ7mZVSH/3bAA0i+ACyfu1M49RlXImE0q0oAJ/iZV61OUweUStr2SgdP8
+ NLTOYRwny9se+Bdewa4DkcNvFPl7m4IVrzMTGixJZUJbAGZBHdY+0tKkMF1GhqTZ2yCz
+ wasdcGCRCN4fzlclH2qkf5PSYwVbxh6sITVDrK02pEpGEf3WO7uqxRjoodOLlZo3Nz5h
+ RFj3T2i/VsWNddYwwE/hPRb6lGkyijZY9Rib+oVPAfINSNbvbogrCngKYJ6VXKCsIQ1I
+ 9QhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=C0LsAz70o8cEG4Nw2F0iYGNC/gi7roMlmMUaydZViic=;
- b=DCWowH+WhElW20IdBaj3GYCEmdCnXlRT5eu2bk2A+IF6+/K/hOQlBx8CeuprOHqeGA
- bu8MVwMivKFkqkR9qr2Hl+YbYF9tdoNzng0eDS+IwpM+u9nYsH+Z5AjlPZLjECRjRWfd
- 4FkG+I2IhSfzUyLzfXzQGV/T6O+qdTHOO1Y9wsBm+wH0SsxPK5NGoc9DN+1RgY25Epnz
- BzKvDcL0l/KwKzlMn1HOhTRF+OGhnzgYo5qQLNFwEU0T4QWZHi085z8QqoKrsGemSSMZ
- ljqIxir2jfS5wb8PBvoeJiGbjFPQFOoU3DhJSMR5OUSyZhhV0qKZNmhH/RvwlLg2HFcD
- M23Q==
-X-Gm-Message-State: ANhLgQ0YGPT13G4pCuYUy15MixAedMAiLTu5HOpURhsoYGWx7+WDY+lH
- G+tYEc762kQ/RNuhof4dXwC59pZig4pgqDyKc/AbUw==
-X-Google-Smtp-Source: ADFU+vvYNOQvMVU8ZpcPZT3z+xHkhnMEd5HXpvvnpiNRLlGKXz7Ftce1nGRjzBbLh0Jk2Evgw+d0jvM44zxx6FFA7Rg=
-X-Received: by 2002:a17:90b:8d2:: with SMTP id
- ds18mr1099401pjb.186.1584995052592; 
- Mon, 23 Mar 2020 13:24:12 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rP5gDKTxRal88aL3AV5WtEMvRZc38NV86zzyK+lBqtQ=;
+ b=UiZyeHdTlfta6rPTfUpJCH+RurPep+aILGCxAL8F12kI7Qp8lMpcEm7fvan7znUSNB
+ GJoGCfz0dToAmn9EBRIVUn8oZVzeC1xvZZQzqAVeQp10UIrYpdAgJgdSh57Gg2R/6nX+
+ ON2xpS9nne9IyWQXV5a2wtSMhz3VWg11YaGOxCc+wIsfZyO102B+iiwV4sQwnBGVqEGg
+ 1I4tHy9LRf62WN8uJwvCLnbyjLtqvQZy/bo0d2NQNU3nvq6vB8K1koHIbc6rl562Qr1/
+ qbj/Oj0w/I3WVj4qFYKkYt6H5NVCl7dj4MuGbc+p3GlXUKQZVERWyWlfdMofK8aXdaIU
+ 1rLQ==
+X-Gm-Message-State: ANhLgQ317sasfUIDuNBM4Hn2xIF9t8H57Fd4P3HyaJJlXPS0xwtdFnOe
+ FrrZB7BA+kkxPA+aiHG1GL5wVw==
+X-Google-Smtp-Source: ADFU+vtzOvVz5k63PI5BvDBeCC1EMUBt/jXcl7iD590LuqeDvie5OF/CVQLPkNI/ifw73K/0TaLfZg==
+X-Received: by 2002:ad4:45ae:: with SMTP id y14mr1552691qvu.119.1585012511322; 
+ Mon, 23 Mar 2020 18:15:11 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.57.212])
+ by smtp.gmail.com with ESMTPSA id j50sm13712706qta.42.2020.03.23.18.15.10
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 23 Mar 2020 18:15:10 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1jGY9t-0000qi-WD; Mon, 23 Mar 2020 22:15:10 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Jerome Glisse <jglisse@redhat.com>, Ralph Campbell <rcampbell@nvidia.com>,
+ Felix.Kuehling@amd.com
+Subject: [PATCH v2 hmm 0/9] Small hmm_range_fault() cleanups
+Date: Mon, 23 Mar 2020 22:14:48 -0300
+Message-Id: <20200324011457.2817-1-jgg@ziepe.ca>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-References: <20200323021053.17319-1-masahiroy@kernel.org>
-In-Reply-To: <20200323021053.17319-1-masahiroy@kernel.org>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Mon, 23 Mar 2020 13:24:01 -0700
-Message-ID: <CAKwvOdk3g0HzU1r90oRm46ACwfr=CwYjYxUs8w_x47n_sRsVTQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915: remove always-defined CONFIG_AS_MOVNTDQA
-To: Masahiro Yamada <masahiroy@kernel.org>
 X-Mailman-Approved-At: Tue, 24 Mar 2020 08:09:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,94 +71,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A . Donenfeld" <Jason@zx2c4.com>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Philip Yang <Philip.Yang@amd.com>, John Hubbard <jhubbard@nvidia.com>,
+ amd-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ Jason Gunthorpe <jgg@mellanox.com>, dri-devel@lists.freedesktop.org,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 22, 2020 at 7:12 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> CONFIG_AS_MOVNTDQA was introduced by commit 0b1de5d58e19 ("drm/i915:
-> Use SSE4.1 movntdqa to accelerate reads from WC memory").
->
-> We raise the minimal supported binutils version from time to time.
-> The last bump was commit 1fb12b35e5ff ("kbuild: Raise the minimum
-> required binutils version to 2.21").
+From: Jason Gunthorpe <jgg@mellanox.com>
 
-Indeed, I see 2.21 was released in 2010, and I see a commit modifying
-existing support for movntdqa in 2008; it looks like these have been
-supported for a while.  Thanks for this cleanup; the less we have to
-invoke tools during make invocation, to lower the overhead of Kbuild.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+This is v2 of the first simple series with a few additional patches of little
+adjustments.
 
->
-> I confirmed the code in $(call as-instr,...) can be assembled by the
-> binutils 2.21 assembler and also by Clang's integrated assembler.
->
-> Remove CONFIG_AS_MOVNTDQA, which is always defined.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  drivers/gpu/drm/i915/Makefile      | 3 ---
->  drivers/gpu/drm/i915/i915_memcpy.c | 5 -----
->  2 files changed, 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index a1f2411aa21b..e559e53fc634 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -28,9 +28,6 @@ subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
->  CFLAGS_i915_pci.o = $(call cc-disable-warning, override-init)
->  CFLAGS_display/intel_fbdev.o = $(call cc-disable-warning, override-init)
->
-> -subdir-ccflags-y += \
-> -       $(call as-instr,movntdqa (%eax)$(comma)%xmm0,-DCONFIG_AS_MOVNTDQA)
-> -
->  subdir-ccflags-y += -I$(srctree)/$(src)
->
->  # Please keep these build lists sorted!
-> diff --git a/drivers/gpu/drm/i915/i915_memcpy.c b/drivers/gpu/drm/i915/i915_memcpy.c
-> index fdd550405fd3..7b3b83bd5ab8 100644
-> --- a/drivers/gpu/drm/i915/i915_memcpy.c
-> +++ b/drivers/gpu/drm/i915/i915_memcpy.c
-> @@ -35,7 +35,6 @@
->
->  static DEFINE_STATIC_KEY_FALSE(has_movntdqa);
->
-> -#ifdef CONFIG_AS_MOVNTDQA
->  static void __memcpy_ntdqa(void *dst, const void *src, unsigned long len)
->  {
->         kernel_fpu_begin();
-> @@ -93,10 +92,6 @@ static void __memcpy_ntdqu(void *dst, const void *src, unsigned long len)
->
->         kernel_fpu_end();
->  }
-> -#else
-> -static void __memcpy_ntdqa(void *dst, const void *src, unsigned long len) {}
-> -static void __memcpy_ntdqu(void *dst, const void *src, unsigned long len) {}
-> -#endif
->
->  /**
->   * i915_memcpy_from_wc: perform an accelerated *aligned* read from WC
-> --
-> 2.17.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200323021053.17319-1-masahiroy%40kernel.org.
+This needs an additional patch to the hmm tester:
 
+diff --git a/tools/testing/selftests/vm/hmm-tests.c b/tools/testing/selftests/vm/hmm-tests.c
+index 033a12c7ab5b6d..da15471a2bbf9a 100644
+--- a/tools/testing/selftests/vm/hmm-tests.c
++++ b/tools/testing/selftests/vm/hmm-tests.c
+@@ -1274,7 +1274,7 @@ TEST_F(hmm2, snapshot)
+ 	/* Check what the device saw. */
+ 	m = buffer->mirror;
+ 	ASSERT_EQ(m[0], HMM_DMIRROR_PROT_ERROR);
+-	ASSERT_EQ(m[1], HMM_DMIRROR_PROT_NONE);
++	ASSERT_EQ(m[1], HMM_DMIRROR_PROT_ERROR);
+ 	ASSERT_EQ(m[2], HMM_DMIRROR_PROT_ZERO | HMM_DMIRROR_PROT_READ);
+ 	ASSERT_EQ(m[3], HMM_DMIRROR_PROT_READ);
+ 	ASSERT_EQ(m[4], HMM_DMIRROR_PROT_WRITE);
 
+v2 changes:
+ - Simplify and rename the flags, rework hmm_vma_walk_test in patch 2 (CH)
+ - Adjust more comments in patch 3 (CH, Ralph)
+ - Put the ugly boolean logic into a function in patch 3 (CH)
+ - Update commit message of patch 4 (CH)
+ - Adjust formatting in patch 5 (CH)
+ Patches 6, 7, 8 are new
+
+v1: https://lore.kernel.org/r/20200320164905.21722-1-jgg@ziepe.ca
+
+Jason Gunthorpe (9):
+  mm/hmm: remove pgmap checking for devmap pages
+  mm/hmm: return the fault type from hmm_pte_need_fault()
+  mm/hmm: remove unused code and tidy comments
+  mm/hmm: remove HMM_FAULT_SNAPSHOT
+  mm/hmm: remove the CONFIG_TRANSPARENT_HUGEPAGE #ifdef
+  mm/hmm: use device_private_entry_to_pfn()
+  mm/hmm: do not unconditionally set pfns when returning EBUSY
+  mm/hmm: do not set pfns when returning an error code
+  mm/hmm: return error for non-vma snapshots
+
+ Documentation/vm/hmm.rst                |  12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_svm.c   |   2 +-
+ include/linux/hmm.h                     | 109 +--------
+ mm/hmm.c                                | 312 ++++++++++--------------
+ 5 files changed, 133 insertions(+), 304 deletions(-)
 
 -- 
-Thanks,
-~Nick Desaulniers
+2.25.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
