@@ -1,52 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0266190DFC
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 13:48:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3C0190E2D
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 13:54:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C0FD6E136;
-	Tue, 24 Mar 2020 12:48:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3C236E27F;
+	Tue, 24 Mar 2020 12:54:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF2066E136
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 12:48:41 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id k18so18353359oib.3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 05:48:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=e3AMzNqGeZ6T/YlYd3UJqW3LJB76uAMEApJHXOCxpEY=;
- b=Y/ZPSAV0CPQD9o5My2Q9DaDD2xYrHmCeGiHqbZzjnKJDblPEcjMRuXp0nOBoJOFy/R
- ywGmktbsR4F0TYF450r59TtI9xm/0vfSkfdzPPLNFGuWyPatvmSfA/vdeS8LCciFSPw0
- oSYiyRb2hwmSd/LTBbW2XwKJDt6pF4jJtB4pE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=e3AMzNqGeZ6T/YlYd3UJqW3LJB76uAMEApJHXOCxpEY=;
- b=IWJrSY65DP+bEid5f5T/Qlo3uqB7Jnyd4T64aVl7sDJQ0E47ZizGRRp1QF1s72Tmh2
- 4Zz1vZLn6WsMSYIjcdsT5O5Klo2hZ0fd26jJpyoYxuFdmyRSGgFI322E9HOe7LL+/N5J
- CuK1HJUzGmZ5UPSgCjgQUwaCIdkUnfD6Ffc6NemABkQZXC0/puHcSf+V4OVJmQIm4sK6
- b7BbGufBZGMMzoohfiyAM2ZdjzgLIzmpR9s2YB8dNLHmfxnGPFqp1JFWKYLKxvmRvpW5
- 82k0jgFk+waPkADgfwjTJTf5hgFoJcjKYgDFGFC/gVi8B6NUW/i0yGdZdGKLIjb+ApW/
- PZEA==
-X-Gm-Message-State: ANhLgQ39bZ5Q3MRmbU56ceX4O55pBTM/s6e0K0vhtTo1ErgIOsGmh4td
- UExGxIDtfCurpGFzfdfuxaQnidcQOHFz2ps/kOYxnQ==
-X-Google-Smtp-Source: ADFU+vtZK+q0f2rr0Eg68wa3OBha2X+TkgirG6ugxBUObhk+FUFngF9bLovCrNxsJZYUIOmDMuoWVJOeCOjXPfzC34c=
-X-Received: by 2002:aca:aac1:: with SMTP id t184mr3251331oie.14.1585054120947; 
- Tue, 24 Mar 2020 05:48:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAKMK7uFO26eeXdr+Um+fwKO4_UvVHX-KueUt=x_omXOqDPhBZw@mail.gmail.com>
- <CAKMK7uE-1RHp7EKUxPuYiiBGQvThF1=Z=KC8CcSuf987Pb6eYw@mail.gmail.com>
-In-Reply-To: <CAKMK7uE-1RHp7EKUxPuYiiBGQvThF1=Z=KC8CcSuf987Pb6eYw@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 24 Mar 2020 13:48:30 +0100
-Message-ID: <CAKMK7uED8cLq=wn4ek0eeg1dFkVU=uiB+gt6RVowspRKthZB7w@mail.gmail.com>
-Subject: Re: 2020 X.Org Board of Directors Elections Nomination period is NOW
-To: Xorg Members List <members@x.org>
+Received: from andre.telenet-ops.be (andre.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA2F76E27F
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 12:54:45 +0000 (UTC)
+Received: from ramsan ([84.195.182.253]) by andre.telenet-ops.be with bizsmtp
+ id JCuj2200C5USYZQ01CujFj; Tue, 24 Mar 2020 13:54:43 +0100
+Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1jGj4t-0005G9-4B; Tue, 24 Mar 2020 13:54:43 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1jGj4t-0005jJ-2M; Tue, 24 Mar 2020 13:54:43 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH] dma-buf: Improve CONFIG_DMABUF_MOVE_NOTIFY help text
+Date: Tue, 24 Mar 2020 13:54:42 +0100
+Message-Id: <20200324125442.21983-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,71 +41,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mesa Dev <mesa-dev@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW5vdGhlciByZW1pbmRlciB0aGF0IHdlJ3JlIGluIHRoZSBlbGVjdGlvbiBwcm9jZXNzLCBhbmQg
-dGhlIG5leHQKZGVhZGxpbmUgaXMgYXBwcm9hY2hpbmc6CgotIFNlbmQgYm9hcmQgbm9taW5hdGlv
-bnMgdG8gZWxlY3Rpb25zIEFUIHggRE9UIG9yZwoKLSBHb3QgdG8gaHR0cHM6Ly9tZW1iZXJzLngu
-b3JnLyB0byByZW5ldyB5b3VyIG1lbWJlcnNoaXAgKG9yIGJlY29tZQpvbmUgdG8gYmVnaW4gd2l0
-aCEpCgpPbiBUdWUsIE1hciAxNywgMjAyMCBhdCA3OjIxIEFNIERhbmllbCBWZXR0ZXIgPGRhbmll
-bC52ZXR0ZXJAZmZ3bGwuY2g+IHdyb3RlOgo+Cj4gSnVzdCBhIHF1aWNrIHJlbWluZGVyIHRoYXQg
-Ym90aCBib2FyZCBub21pbmF0aW9uIGFuZCBtZW1iZXJzaGlwCj4gcmVuZXdhbCBwZXJpb2RzIGFy
-ZSBzdGlsbCBvcGVuaW5nOgo+Cj4gLSBTZW5kIGJvYXJkIG5vbWluYXRpb25zIHRvIGVsZWN0aW9u
-cyBBVCB4IERPVCBvcmcKPgo+IC0gR290IHRvIGh0dHBzOi8vbWVtYmVycy54Lm9yZy8gdG8gcmVu
-ZXcgeW91ciBtZW1iZXJzaGlwIChvciBiZWNvbWUKPiBvbmUgdG8gYmVnaW4gd2l0aCEpCj4KPiBD
-aGVlcnMsIERhbmllbAo+Cj4gT24gU3VuLCBNYXIgOCwgMjAyMCBhdCA4OjUxIFBNIERhbmllbCBW
-ZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+IHdyb3RlOgo+ID4KPiA+IFdlIGFyZSBzZWVr
-aW5nIG5vbWluYXRpb25zIGZvciBjYW5kaWRhdGVzIGZvciBlbGVjdGlvbiB0byB0aGUgWC5PcmcK
-PiA+IEZvdW5kYXRpb24gQm9hcmQgb2YgRGlyZWN0b3JzLiBBbGwgWC5PcmcgRm91bmRhdGlvbiBt
-ZW1iZXJzIGFyZQo+ID4gZWxpZ2libGUgZm9yIGVsZWN0aW9uIHRvIHRoZSBib2FyZC4KPiA+Cj4g
-PiBOb21pbmF0aW9ucyBmb3IgdGhlIDIwMiBlbGVjdGlvbiBhcmUgbm93IG9wZW4gYW5kIHdpbGwg
-cmVtYWluIG9wZW4KPiA+IHVudGlsIDIzOjU5IFVUQyBvbiAyOXRoIE1hcmNoIDIwMjAuCj4gPgo+
-ID4gVGhlIEJvYXJkIGNvbnNpc3RzIG9mIGRpcmVjdG9ycyBlbGVjdGVkIGZyb20gdGhlIG1lbWJl
-cnNoaXAuIEVhY2gKPiA+IHllYXIsIGFuIGVsZWN0aW9uIGlzIGhlbGQgdG8gYnJpbmcgdGhlIHRv
-dGFsIG51bWJlciBvZiBkaXJlY3RvcnMgdG8KPiA+IGVpZ2h0LiBUaGUgZm91ciBtZW1iZXJzIHJl
-Y2VpdmluZyB0aGUgaGlnaGVzdCB2b3RlIHRvdGFscyB3aWxsIHNlcnZlCj4gPiBhcyBkaXJlY3Rv
-cnMgZm9yIHR3byB5ZWFyIHRlcm1zLgo+ID4KPiA+IFRoZSBkaXJlY3RvcnMgd2hvIHJlY2VpdmVk
-IHR3byB5ZWFyIHRlcm1zIHN0YXJ0aW5nIGluIDIwMTkgd2VyZVNhbXVlbAo+ID4gSWdsZXNpYXMg
-R29uc8OhbHZleiwgTWFuYXNpIEQgTmF2YXJlLCBMeXVkZSBQYXVsIGFuZCBEYW5pZWwgVmV0dGVy
-Lgo+ID4gVGhleSB3aWxsIGNvbnRpbnVlIHRvIHNlcnZlIHVudGlsIHRoZWlyIHRlcm0gZW5kcyBp
-biAyMDIxLiBDdXJyZW50Cj4gPiBkaXJlY3RvcnMgd2hvc2UgdGVybSBleHBpcmVzIGluIDIwMjAg
-YXJlIEVyaWMgQW5ob2x0LCAgQnJ5Y2UKPiA+IEhhcnJpbmd0b24sIEtlaXRoIFBhY2thcmQgYW5k
-IEhhcnJ5IFdlbnRsYW5kLgo+ID4KPiA+IEEgZGlyZWN0b3IgaXMgZXhwZWN0ZWQgdG8gcGFydGlj
-aXBhdGUgaW4gdGhlIGZvcnRuaWdodGx5IElSQyBtZWV0aW5nCj4gPiB0byBkaXNjdXNzIGN1cnJl
-bnQgYnVzaW5lc3MgYW5kIHRvIGF0dGVuZCB0aGUgYW5udWFsIG1lZXRpbmcgb2YgdGhlCj4gPiBY
-Lk9yZyBGb3VuZGF0aW9uLCB3aGljaCB3aWxsIGJlIGhlbGQgYXQgYSBsb2NhdGlvbiBkZXRlcm1p
-bmVkIGluCj4gPiBhZHZhbmNlIGJ5IHRoZSBCb2FyZCBvZiBEaXJlY3RvcnMuCj4gPgo+ID4gQSBt
-ZW1iZXIgbWF5IG5vbWluYXRlIHRoZW1zZWx2ZXMgb3IgYW55IG90aGVyIG1lbWJlciB0aGV5IGZl
-ZWwgaXMKPiA+IHF1YWxpZmllZC4gTm9taW5hdGlvbnMgc2hvdWxkIGJlIHNlbnQgdG8gdGhlIEVs
-ZWN0aW9uIENvbW1pdHRlZSBhdAo+ID4gZWxlY3Rpb25zIGF0IHgub3JnLgo+ID4KPiA+IE5vbWlu
-ZWVzIHNoYWxsIGJlIHJlcXVpcmVkIHRvIGJlIGN1cnJlbnQgbWVtYmVycyBvZiB0aGUgWC5PcmcK
-PiA+IEZvdW5kYXRpb24sIGFuZCBzdWJtaXQgYSBwZXJzb25hbCBzdGF0ZW1lbnQgb2YgdXAgdG8g
-MjAwIHdvcmRzIHRoYXQKPiA+IHdpbGwgYmUgcHJvdmlkZWQgdG8gcHJvc3BlY3RpdmUgdm90ZXJz
-LiBUaGUgY29sbGVjdGVkIHN0YXRlbWVudHMsCj4gPiBhbG9uZyB3aXRoIHRoZSBzdGF0ZW1lbnQg
-b2YgY29udHJpYnV0aW9uIHRvIHRoZSBYLk9yZyBGb3VuZGF0aW9uIGluCj4gPiB0aGUgbWVtYmVy
-J3MgYWNjb3VudCBwYWdlIG9uIGh0dHA6Ly9tZW1iZXJzLngub3JnLCB3aWxsIGJlIG1hZGUKPiA+
-IGF2YWlsYWJsZSB0byBhbGwgdm90ZXJzIHRvIGhlbHAgdGhlbSBtYWtlIHRoZWlyIHZvdGluZyBk
-ZWNpc2lvbnMuCj4gPgo+ID4gTm9taW5hdGlvbnMsIG1lbWJlcnNoaXAgYXBwbGljYXRpb25zIG9y
-IHJlbmV3YWxzIGFuZCBjb21wbGV0ZWQKPiA+IHBlcnNvbmFsIHN0YXRlbWVudHMgbXVzdCBiZSBy
-ZWNlaXZlZCBubyBsYXRlciB0aGFuIDIzOjU5IFVUQyBvbiAwMgo+ID4gQXByaWwgMjAyMC4KPiA+
-Cj4gPiBUaGUgc2xhdGUgb2YgY2FuZGlkYXRlcyB3aWxsIGJlIHB1Ymxpc2hlZCA2IEFwcmlsIDIw
-MjAgYW5kIGNhbmRpZGF0ZQo+ID4gUSZBIHdpbGwgYmVnaW4gdGhlbi4gVGhlIGRlYWRsaW5lIGZv
-ciBYb3JnIG1lbWJlcnNoaXAgYXBwbGljYXRpb25zIGFuZAo+ID4gcmVuZXdhbHMgaXMgMDIgQXBy
-aWwgMjAyMC4KPiA+Cj4gPiBDaGVlcnMsIERhbmllbCwgb24gYmVoYWxmIG9mIHRoZSBYLk9yZyBC
-b0QKPiA+Cj4gPiBQUzogSSBjYydlZCB0aGUgdXN1YWwgZGV2IGxpc3RzIHNpbmNlIG5vdCBtYW55
-IG1lbWJlcnMgcHV0IGluIHRoZSByZW5ld2FsIHlldC4KPiA+IC0tCj4gPiBEYW5pZWwgVmV0dGVy
-Cj4gPiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPiA+ICs0MSAoMCkgNzkg
-MzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKPgo+Cj4KPiAtLQo+IERhbmllbCBWZXR0
-ZXIKPiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPiArNDEgKDApIDc5IDM2
-NSA1NyA0OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3
-YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0
-dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+Improve the help text for the CONFIG_DMABUF_MOVE_NOTIFY symbol by:
+  1. Removing duplicated single quotes,
+  2. Adding a missing subject,
+  3. Fixing a misspelling of "yet",
+  4. Wrapping long lines.
+
+Fixes: bb42df4662a44765 ("dma-buf: add dynamic DMA-buf handling v15")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/dma-buf/Kconfig | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+index ef73b678419c6d86..9626673f1d83ae64 100644
+--- a/drivers/dma-buf/Kconfig
++++ b/drivers/dma-buf/Kconfig
+@@ -43,11 +43,12 @@ config DMABUF_MOVE_NOTIFY
+ 	bool "Move notify between drivers (EXPERIMENTAL)"
+ 	default n
+ 	help
+-	  Don''t pin buffers if the dynamic DMA-buf interface is available on both the
+-	  exporter as well as the importer. This fixes a security problem where
+-	  userspace is able to pin unrestricted amounts of memory through DMA-buf.
+-	  But marked experimental because we don''t jet have a consistent execution
+-	  context and memory management between drivers.
++	  Don't pin buffers if the dynamic DMA-buf interface is available on
++	  both the exporter as well as the importer. This fixes a security
++	  problem where userspace is able to pin unrestricted amounts of memory
++	  through DMA-buf.
++	  This is marked experimental because we don't yet have a consistent
++	  execution context and memory management between drivers.
+ 
+ config DMABUF_SELFTESTS
+ 	tristate "Selftests for the dma-buf interfaces"
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
