@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C50A190725
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:10:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C51A2190727
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:10:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83B256E455;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D5C06E456;
 	Tue, 24 Mar 2020 08:10:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77DC46E43B
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6B5289E35
  for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 01:15:14 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id d12so11252579qtj.4
+Received: by mail-qk1-x741.google.com with SMTP id i6so8642821qke.1
  for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 18:15:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8z+Ak8LJ4cusnv639Xm98KV9Wso4IbiTcHYELSH/G24=;
- b=HhKFH+h9dsFIf1c+y5ZAjNcHJkLfL/7TByr8KqLLVhFohTYKwWhXx2XiETLziarPtW
- HmC89Ua/ZfOQ53NE5bjqh2YkzI3VjXOn9sjDenilAjM2tgLtIs+v5bMY3AnTgGPB6sBY
- b1oed859g52WVKLkm7EBX27mr9X3LBNTceG4ymOTF3BxLJp8wDGWq+wXPMW1orpJA3y1
- o4TLZlvcbSHFVCu7RdAGl/h2z1hO8vJNXGZX6OIQ3uwn+EpAbkt+7b1ZXGgMMqMoOzpy
- FqJ5FKyR0qY7mwkSGi6gaRmlHxT/E4dqGkJiaugNvgjpT+6iFBJR1xYGeMw1Je2MPBe6
- BQXw==
+ bh=BtjvXIRl7JvjxGCCwhwKty2zmKTxYCK8uhb2/phXd0E=;
+ b=j2Fj9mGGXkb0s5jfx+PaOyQglxSKvi9DzQ14cmVcTgbF31/1q+wroCRgzrwp6o0lQ/
+ PMrHTYwMUGlLwsiNJF2XuxvJX4Aj6pKrULOtMy1PyM1vypcNPVUYzBmwCBJNESpWOsyS
+ JOkIyj3fbVfemR9nxyftNMco7DJxkZ6NYasYiV3jSGP2jWoKOaqJekhfAVS0HndDoMRY
+ sEKvbkkAiciWAwNov/v7Qg1GYL8sIHnYstAwrJO22Txcxgv2IyW8RiB5s9/XVFJogf6L
+ DJNCkbc11+nvZK7Tq18ykvSovfN4GbCtjxmOr3RGIWx/7vmJWd3LSencrwufu6ElenGz
+ CxPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8z+Ak8LJ4cusnv639Xm98KV9Wso4IbiTcHYELSH/G24=;
- b=fvFiq0FA78qT1sdwNT5jT5RHyFC+XimXX48XbrLa3aolDSEU+gq0xldhcNzRRWglKv
- VtNNEwqfZ0ILOZ3Lzkc16A5BwgIOcptZAOhcHemfadHB5e8Q8zbpmzCzSm9YHLGUz3K3
- FPSSpnutWGSppKRTTv102eCJxaQbWKopz0Rig83UHD4QTXUY3JMZysavIKVspHTZtCoI
- ZGtMqNAnYaSppVboEZECLBRxFX3nwp3MWrIo4v8NEbG74q32hfJ+Sdn2XUSe0gDzjzdc
- b0buCy6pMJLtYsZyrJfK6p2FRxFnh0mJTshLFIBMfSFaClvXQjvft5LxYaYInOdgohFR
- v/7g==
-X-Gm-Message-State: ANhLgQ3ZoSZtAkQT6FZuqiglepiPCJW88utRsbCU5qstlK+ox8JEPpEO
- bxIpLzb5d8+Ndj+14oMi05cMAw==
-X-Google-Smtp-Source: ADFU+vtZbGElVq6NnluuIoEaJ5hmkuMgLimt1kzM3fgd1S4xdMrXicEqcrH3LtFkdjgiw9dY0n+5gA==
-X-Received: by 2002:ac8:3105:: with SMTP id g5mr3662259qtb.358.1585012513624; 
+ bh=BtjvXIRl7JvjxGCCwhwKty2zmKTxYCK8uhb2/phXd0E=;
+ b=ljmEYQ6s8gDJVrKddhZs1al86rvsEc6VZHD+iYmOv45tMs18HTke2w7Bo3gTIF8zuO
+ DagTvBo/weOAKztISZCrgJI+YnWZ8q6Ky13yHoQwCS6k+8yUAjrwEEfu+2Cf9chuoG0v
+ COQVO2tUTa0kaKKMauKWuLe/X5CEkMP7T2t0tuB3er+iy5dmEo6DL75k5TrndQMQYKVu
+ W3JH9riBO2TmRlOh9KhBto/t+uhk52omHY5TRFozmZykp0wh+6bapLdezkAy49hZajgc
+ oHILdoRsjGB9yWTnllUI27rVOAv9M1Z7YXoTO4FH3D5FUHq2118thGNg1VUhDepAhj6W
+ 5vpQ==
+X-Gm-Message-State: ANhLgQ3fxFXExuuu7jLvXgF418OMK1NtaIjC//2yp890/fbKTVQaGcTY
+ +hBC5YiFeGw7Msyy0npDRzFbeg==
+X-Google-Smtp-Source: ADFU+vuqtjILT193yy1E1b2Co21btJLxUdSeIXs67XJc39y6GefW1zq10kzN67rE1jTtVo2ZUkW7VA==
+X-Received: by 2002:a37:9a81:: with SMTP id
+ c123mr18495488qke.176.1585012513991; 
  Mon, 23 Mar 2020 18:15:13 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id l13sm12025440qke.116.2020.03.23.18.15.10
+ by smtp.gmail.com with ESMTPSA id 199sm12325170qkm.7.2020.03.23.18.15.10
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
  Mon, 23 Mar 2020 18:15:11 -0700 (PDT)
 Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
  (envelope-from <jgg@ziepe.ca>)
- id 1jGY9u-0000rC-9H; Mon, 23 Mar 2020 22:15:10 -0300
+ id 1jGY9u-0000rI-Aa; Mon, 23 Mar 2020 22:15:10 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Jerome Glisse <jglisse@redhat.com>, Ralph Campbell <rcampbell@nvidia.com>,
  Felix.Kuehling@amd.com
-Subject: [PATCH v2 hmm 5/9] mm/hmm: remove the CONFIG_TRANSPARENT_HUGEPAGE
- #ifdef
-Date: Mon, 23 Mar 2020 22:14:53 -0300
-Message-Id: <20200324011457.2817-6-jgg@ziepe.ca>
+Subject: [PATCH v2 hmm 6/9] mm/hmm: use device_private_entry_to_pfn()
+Date: Mon, 23 Mar 2020 22:14:54 -0300
+Message-Id: <20200324011457.2817-7-jgg@ziepe.ca>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <20200324011457.2817-1-jgg@ziepe.ca>
 References: <20200324011457.2817-1-jgg@ziepe.ca>
@@ -85,46 +85,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jason Gunthorpe <jgg@mellanox.com>
 
-This code can be compiled when CONFIG_TRANSPARENT_HUGEPAGE is off, so
-remove the ifdef.
-
-The function is only ever called under
-
-   if (pmd_devmap(pmd) || pmd_trans_huge(pmd))
-
-Which is statically false if !CONFIG_TRANSPARENT_HUGEPAGE, so the compiler
-reliably eliminates all of this code.
+swp_offset() should not be called directly, the wrappers are supposed to
+abstract away the encoding of the device_private specific information in
+the swap entry.
 
 Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
 Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
 ---
- mm/hmm.c | 6 ------
- 1 file changed, 6 deletions(-)
+ mm/hmm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/mm/hmm.c b/mm/hmm.c
-index 43d107a4d9dec6..f59e59fb303e95 100644
+index f59e59fb303e95..e114110ad498a2 100644
 --- a/mm/hmm.c
 +++ b/mm/hmm.c
-@@ -198,7 +198,6 @@ static inline uint64_t pmd_to_hmm_pfn_flags(struct hmm_range *range, pmd_t pmd)
- 				range->flags[HMM_PFN_VALID];
- }
- 
--#ifdef CONFIG_TRANSPARENT_HUGEPAGE
- static int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
- 		unsigned long end, uint64_t *pfns, pmd_t pmd)
- {
-@@ -221,11 +220,6 @@ static int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
- 	hmm_vma_walk->last = end;
- 	return 0;
- }
--#else /* CONFIG_TRANSPARENT_HUGEPAGE */
--/* stub to allow the code below to compile */
--int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
--		unsigned long end, uint64_t *pfns, pmd_t pmd);
--#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
- 
- static inline bool hmm_is_device_private_entry(struct hmm_range *range,
- 		swp_entry_t entry)
+@@ -266,7 +266,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 		 */
+ 		if (hmm_is_device_private_entry(range, entry)) {
+ 			*pfn = hmm_device_entry_from_pfn(range,
+-					    swp_offset(entry));
++				device_private_entry_to_pfn(entry));
+ 			*pfn |= range->flags[HMM_PFN_VALID];
+ 			if (is_write_device_private_entry(entry))
+ 				*pfn |= range->flags[HMM_PFN_WRITE];
 -- 
 2.25.2
 
