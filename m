@@ -2,63 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA5B190E49
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 14:04:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0F21911A8
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 14:45:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F34356E484;
-	Tue, 24 Mar 2020 13:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 131A46E48C;
+	Tue, 24 Mar 2020 13:45:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E231F6E484
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 13:04:15 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id h15so9110999wrx.9
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 06:04:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=1oa8yxV7xzZ+tD1LcZwM67jLdYW/JjWbnu15B5rKnAc=;
- b=pgrieuKBguK79BGSzhI7qQoDKjs7oVSsEZFIkfliQlS4z5oJJ8i92cBNzbOc6KuF1k
- eeh8US59wuikVQM5bbteGvBBxvsZWujEwU6Wt/GOypCDV7QldRZo2bm2Z3Z/oDT3qUxy
- IyyWUye5I8LOmsJlNfr1zBUhQVPRbiik4yERyYY8ajgeowR6YD9qVW9h8wHNhdTpBj34
- 1nWgV2/0E+YFu3oaFa7h1tC6MO5jeXwowcGsQVjUfVFZi0+WKfIAiVpGy1hfpaOZeze7
- 5SJ81Lzjc5G+49LBl1KyN8/cbBUg/ehWOfDEBzOwCJL3GV09zAwFEDDUuzXEF1FC2GTw
- Lxsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=1oa8yxV7xzZ+tD1LcZwM67jLdYW/JjWbnu15B5rKnAc=;
- b=Gojo1W9jOP057zqDvdER7jIVI7ouDDht1u/Sk1cFOcF3ys1DxGJTQ6kvZmgaCV2X46
- 3RTsQ30lzRcYfZH6US4qg0BL5YZHJ48trN8cg0FFEP6dTec0x5a6xuhKWCuV/cQVKWB7
- Gnz/ihe0/c2wVQJq1ln2cPIAvoqmHB9GwpJQB0Ulmalik8GruTMBytabxfyAms8shb6c
- CqINYlS4P5xeRtP8qgbAl4JwMVpM77bi9Hcd5TmC6fHkW5iTWzGrexYGMojKdhZaGhhY
- ONPZE6BHVE+Pa30DkEKpohK0mnSYJx5bOTnts4LGx4P7BeBDu1uG1wLTAjYH8Svucl3o
- n74g==
-X-Gm-Message-State: ANhLgQ05OU8bpZRWFBbgvajoxZqcun2n/kPmL5xSFF1u8UP9Y+MtvcE9
- k2PGukz/QiwvlWoMtKO/oJ4uwMtGqCx9ew==
-X-Google-Smtp-Source: ADFU+vt/tZsuKl1gh3b+r/lHzGLKErJB8LKeO5CV2x9BnDtJ1QJrNAMaaIoqumVT6rOFGRemUbUOqQ==
-X-Received: by 2002:adf:afdb:: with SMTP id y27mr37198227wrd.208.1585055052854; 
- Tue, 24 Mar 2020 06:04:12 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id v2sm30204625wrt.58.2020.03.24.06.04.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Mar 2020 06:04:12 -0700 (PDT)
-Date: Tue, 24 Mar 2020 13:04:10 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v11 10/12] backlight: pwm_bl: Use 64-bit division function
-Message-ID: <20200324130410.dwlg767ku6kwequv@holly.lan>
-References: <cover.1584667964.git.gurus@codeaurora.org>
- <17fc1dcf8b9b392d1e37dc7e3e67409e3c502840.1584667964.git.gurus@codeaurora.org>
- <20200320133123.GD5477@dell> <20200324110710.GL5477@dell>
- <20200324125735.2mjuvbxt5bpon2ft@pengutronix.de>
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBDA66E48C
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 13:45:22 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200324134519euoutp026cbcbb806f9aa7f1323f580221ca5ea5~-QWphjeb83077430774euoutp02j
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 13:45:19 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200324134519euoutp026cbcbb806f9aa7f1323f580221ca5ea5~-QWphjeb83077430774euoutp02j
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1585057519;
+ bh=rhhrPM93CG0b8oKYRKwOJigfjSTatX4Tm1+HO5o6DnM=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=byd8ohrNTW7n5MPLVVNMgJ5gjscE07GWSs4VtEhMln1q6C6RnDMxtdAA06+NNj2+j
+ JQdMo7EqVKDhyXqW+3grgaCX4hrMOk/BP/T4I3Db8SlhPFru2nYJ4a8l3pAHGT+DQh
+ 7RkGhU6WSmXmYcZQaVFnErnoFxBObmUqddaDkxTg=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200324134518eucas1p11bc8b62d77fe0f52777f46d2c2d603f1~-QWpTK8Ke1592815928eucas1p1M;
+ Tue, 24 Mar 2020 13:45:18 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 06.48.60679.EEE0A7E5; Tue, 24
+ Mar 2020 13:45:18 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200324134518eucas1p1440c92398ddcbe5ea72d6db3703d3f97~-QWo6xfPk0905409054eucas1p1j;
+ Tue, 24 Mar 2020 13:45:18 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200324134518eusmtrp17752f05b21be98ec271b0054dcafead6~-QWo6I03L2619426194eusmtrp1n;
+ Tue, 24 Mar 2020 13:45:18 +0000 (GMT)
+X-AuditID: cbfec7f4-0cbff7000001ed07-c2-5e7a0eee4996
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 4B.E6.08375.EEE0A7E5; Tue, 24
+ Mar 2020 13:45:18 +0000 (GMT)
+Received: from AMDC3058.digital.local (unknown [106.120.51.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200324134517eusmtip27d0ef96226851c80515eca3644966487~-QWojJSDK3226032260eusmtip2z;
+ Tue, 24 Mar 2020 13:45:17 +0000 (GMT)
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/6] video: fbdev: controlfb: small cleanup
+Date: Tue, 24 Mar 2020 14:45:02 +0100
+Message-Id: <20200324134508.25120-1-b.zolnierkie@samsung.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200324125735.2mjuvbxt5bpon2ft@pengutronix.de>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCKsWRmVeSWpSXmKPExsWy7djPc7rv+KriDM4v0bG4te4cq8XGGetZ
+ La58fc9mcaLvA6vF5V1z2CxW/NzK6MDmcb/7OJPHkmlX2Tz6tqxi9Pi8SS6AJYrLJiU1J7Ms
+ tUjfLoEro+3jVfaCiZwV77YdY2xgPMTexcjJISFgInFq+V6mLkYuDiGBFYwSB38dZoNwvjBK
+ 3H78gxHC+cwoceJfAzNMy7G+1+wQieWMEssvT2KBa5n5dDXYYDYBK4mJ7asYQWwRgQSJFdNn
+ gNnMAikSH7b8B1rIwSEsYCdx9l4oSJhFQFVi/+dZYCW8ArYSV9cuZ4NYJi+x9dsnVoi4oMTJ
+ mU9YIMbISzRvnc0MsldC4DGbxI+F66Guc5GYO3kZ1HPCEq+Ob4GyZSROT+5hgWhYxyjxt+MF
+ VPd2oBcm/4NaZy1x59wvNpDrmAU0Jdbv0ocIO0qsmHAQ7GgJAT6JG28FIY7gk5i0bTozRJhX
+ oqNNCKJaTWLDsg1sMGu7dq6EOs1D4uv8K2DlQgKxEu/Pu09gVJiF5LNZSD6bhXDCAkbmVYzi
+ qaXFuempxUZ5qeV6xYm5xaV56XrJ+bmbGIFp5fS/4192MO76k3SIUYCDUYmHV+NhZZwQa2JZ
+ cWXuIUYJDmYlEd7NqRVxQrwpiZVVqUX58UWlOanFhxilOViUxHmNF72MFRJITyxJzU5NLUgt
+ gskycXBKNTBmxChcFptep/FPOfj7lcdcJczT565f+MlmxlIhR3XNH4aTp22UDmFd19ORzZC7
+ vftCxvEVW9P+7L45icUlzaN/X+//LWtdOQXWmAgHhKSYforhW9192uBQz+uOResZnN+UL9P4
+ EVxy5q3gVt9cv4O3yvyffPnsLBxxofTbyRtvvhaYbXib+OWYEktxRqKhFnNRcSIAKb4XCScD
+ AAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrOLMWRmVeSWpSXmKPExsVy+t/xe7rv+KriDA6fELC4te4cq8XGGetZ
+ La58fc9mcaLvA6vF5V1z2CxW/NzK6MDmcb/7OJPHkmlX2Tz6tqxi9Pi8SS6AJUrPpii/tCRV
+ ISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEvo+3jVfaCiZwV77Yd
+ Y2xgPMTexcjJISFgInGs7zWYLSSwlFHi7Wu9LkYOoLiMxPH1ZRAlwhJ/rnWxQZR8YpRY9FsV
+ xGYTsJKY2L6KEcQWEUiS6Gw4yQxiMwukSUw6e5cJZIywgJ3E2XuhIGEWAVWJ/Z9ngZXzCthK
+ XF27nA1ivLzE1m+fWCHighInZz5hgRgjL9G8dTbzBEa+WUhSs5CkFjAyrWIUSS0tzk3PLTbU
+ K07MLS7NS9dLzs/dxAgM5G3Hfm7ewXhpY/AhRgEORiUeXo2HlXFCrIllxZW5hxglOJiVRHg3
+ p1bECfGmJFZWpRblxxeV5qQWH2I0BTp2IrOUaHI+MMrySuINTQ3NLSwNzY3Njc0slMR5OwQO
+ xggJpCeWpGanphakFsH0MXFwSjUwCvy/tZC71+XOGmuzc/ulerRrvi2xXyyWJrT8X3jGcd5f
+ nySeLXD9sLBw+8pgodqKKb6JSjovHkY//Xl+5uJHhyZUHfy9rEv1ke12RXElpfjvLuuuFFw0
+ lFHzv3r55X3NnU4ue3vudb1Jj12gvSKgJt34dotq1yKJJyKKAvbmuzQe+gne6fjXq8RSnJFo
+ qMVcVJwIANodE096AgAA
+X-CMS-MailID: 20200324134518eucas1p1440c92398ddcbe5ea72d6db3703d3f97
+X-Msg-Generator: CA
+X-RootMTR: 20200324134518eucas1p1440c92398ddcbe5ea72d6db3703d3f97
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200324134518eucas1p1440c92398ddcbe5ea72d6db3703d3f97
+References: <CGME20200324134518eucas1p1440c92398ddcbe5ea72d6db3703d3f97@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,67 +102,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guru Das Srinagesh <gurus@codeaurora.org>, linux-fbdev@vger.kernel.org,
- linux-pwm@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
- Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
+ b.zolnierkie@samsung.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 24, 2020 at 01:57:35PM +0100, Uwe Kleine-K=F6nig wrote:
-> Hello Lee,
-> =
+Hi,
 
-> On Tue, Mar 24, 2020 at 11:07:10AM +0000, Lee Jones wrote:
-> > On Fri, 20 Mar 2020, Lee Jones wrote:
-> > =
+Small cleanup for controlfb driver:
 
-> > > On Thu, 19 Mar 2020, Guru Das Srinagesh wrote:
-> > > =
+- fix sparse warnings
+- remove not working module support
+- add COMPILE_TEST support
+- remove redundant function prototypes
 
-> > > > Since the PWM framework is switching struct pwm_state.period's data=
-type
-> > > > to u64, prepare for this transition by using div_u64 to handle a 64=
--bit
-> > > > dividend instead of a straight division operation.
-> > > > =
+Changes since v1
+(https://lore.kernel.org/lkml/20200116140900.26363-1-b.zolnierkie@samsung.com/):
+- use in_le32() instead of le32_to_cpup()
+- use eieio() and dcbf() helpers
+- add invalid_vram_cache() helper
+- add more dummy CONFIG_PPC_PMAC=n helpers to avoid ifdefs
+- add ACKs from Sam
 
-> > > > Cc: Lee Jones <lee.jones@linaro.org>
-> > > > Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> > > > Cc: Jingoo Han <jingoohan1@gmail.com>
-> > > > Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> > > > Cc: linux-pwm@vger.kernel.org
-> > > > Cc: dri-devel@lists.freedesktop.org
-> > > > Cc: linux-fbdev@vger.kernel.org
-> > > > =
-
-> > > > Signed-off-by: Guru Das Srinagesh <gurus@codeaurora.org>
-> > > > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> > > > ---
-> > > >  drivers/video/backlight/pwm_bl.c | 3 ++-
-> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > =
-
-> > > Can this patch be taken on its own?
-> > =
-
-> > Hellooooo ...
-> =
-
-> Conceptually it can. As the last patch depends on this one (and the
-> others) some coordination might be beneficial. But that's up to Thierry
-> to decide how (and if) he want this series to be applied.
-
-... and on the backlight side we definitely need to know about the "if"
-otherwise there's no point in taking it.
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
 
 
-Daniel.
+Bartlomiej Zolnierkiewicz (6):
+  video: fbdev: controlfb: fix sparse warning about using incorrect type
+  video: fbdev: controlfb: add COMPILE_TEST support
+  video: fbdev: controlfb: remove obsolete module support
+  video: fbdev: controlfb: remove function prototypes part #1
+  video: fbdev: controlfb: remove function prototypes part #2
+  video: fbdev: controlfb: remove function prototypes part #3
+
+ drivers/video/fbdev/Kconfig     |   2 +-
+ drivers/video/fbdev/controlfb.c | 828 +++++++++++++++-----------------
+ 2 files changed, 391 insertions(+), 439 deletions(-)
+
+-- 
+2.24.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
