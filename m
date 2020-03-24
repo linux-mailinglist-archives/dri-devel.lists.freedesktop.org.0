@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 705B7190720
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:10:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58307190724
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:10:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B65D6E44A;
-	Tue, 24 Mar 2020 08:10:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81CB06E453;
+	Tue, 24 Mar 2020 08:10:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FDE489E35
+Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com
+ [IPv6:2607:f8b0:4864:20::f41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7D7689E35
  for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 01:15:13 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id a5so6492183qtw.10
+Received: by mail-qv1-xf41.google.com with SMTP id g4so1721281qvo.12
  for <dri-devel@lists.freedesktop.org>; Mon, 23 Mar 2020 18:15:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V1IgTDmslkV/D1CqLLp/7w94tK/gghqP4j2p3uIw/xU=;
- b=RoM/tzGFA5ED2yXIEDyLh3I5kBEf3ZNyQDZNe59jeBLgXfeXpmuHUHZBUZiLIZANVj
- aqi6GiciKWpBXzWNErSLcL/51cL+7wq/XbsjYzdgXh4NEgifRLSdRVCEv6IQ8ovcYsJQ
- VxJLcdrQAVlW8PcNm9SXoTd3sUs9Ylc4zdLVHxLohBHNze8v+Ngp2T15BlDb9jLJWM+c
- h/FefIU/pwV3xwp+D7ybRk4OMcxoDAx+kTj/DBXKyazLeumE/yJm66W0S3IuCt/98QOw
- Y1tITuHzZP06NxBTPitWYr7xfyJHtLSwb19ptMh79tElXPYLbe5PGd6XrA8eM/MwcNPR
- cmUw==
+ bh=FMKo6LdkFYCdsPHJF0fYulYQYBiJ803wxyfJC3f+mbw=;
+ b=Nj1g0jZSQ0AczJrww7hWZY8r8tpap5CLTIvsn2yaRNNdxslEPOg+842Vn6LrtGd1tg
+ HtjjeNAsCQRHtcZtHJpW4DXurPnEed+4T4vGiYe3PnvJn4L94pHllJ37TuOIUV401H5D
+ 94+36Td+rsulGU9kB7n1AAPV9NeNloGJsjC3xcK0nD7e6Y7t/TP6ON81j2BxPu1HyFcn
+ EuaU5WtR5iSqz1oi81pzB0K/Iol09/AusYChyigO43dlEyf9VGWdYvMdcOvoznq37TSm
+ ntW3K0awqVSSmHN4B+Ru6FQks+LZvBmMAGtITUgvEeLCQyOaQD9tzUdnK65nwuY5YgUu
+ Qs3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V1IgTDmslkV/D1CqLLp/7w94tK/gghqP4j2p3uIw/xU=;
- b=LvJrvreU0ExJQFtDoK5pz6NeiUd15jOG1Ql8nYqBQhkgtsXN/syNUSnE6hXoQU3H5D
- MwTA2jHfcRBdNA80VaZGYqvEGzYCucoGOcCfC9asZ6MOjUt2tG4EiepgV93jEmuFL8fc
- 7zBY/z14AKPhQfkPz2f+EFNhia+7ZvIqdtCyrAJJ9VM8J86fZuKEXQNooEUnLuwNBvpB
- f9ThYaKtYHtSsF83hpEFVxha50tWywZELccATaRNHWPg3eo+dLBwxRv2lU6Q5m/gamL+
- DpmCm25XFZnCLD0OaILNAYB1aRhUEsywSawFABwMj/Y9C0u5LPSpP8G4gGR0IZRP1Pp7
- X1nQ==
-X-Gm-Message-State: ANhLgQ3sDoqZSBj8w88ZDQM78y6vKGYS8hS24Q1oowUE8wBJqe+ioX07
- wyXPAl6T36zdTm1vhsg7kLZNig==
-X-Google-Smtp-Source: ADFU+vvVg6zpq1wS6Q/R9N/Ff9hbXPMDDRJM2yCjU/ohHi3AiuZa6ZEErM6AFdhzdmfmbvy2d3WTyA==
-X-Received: by 2002:aed:31c1:: with SMTP id 59mr18789590qth.370.1585012512050; 
- Mon, 23 Mar 2020 18:15:12 -0700 (PDT)
+ bh=FMKo6LdkFYCdsPHJF0fYulYQYBiJ803wxyfJC3f+mbw=;
+ b=sozUXhspVF2PT7B4LYdSOXrR3PHFC9f/kA0sxGO3GzU4r4u4kot45tDrt4EGl4/pEP
+ 5czXrVwqG8oj/I6TQDgHSj3ehcHdkxS7hGgQ0ikKwybueEgGGvfYXuPr9MII6vefYVFL
+ LXHe9jLNkl8qy+BKH+GvcpYuEgKQTYIlmA3KhXMvToL86tkfTl1hHOJAM2dz2PXqjS9y
+ IpyEsajwE+32o6s2lIqQe9+2OMh2NUpcZR4Ml+8gKzArPvPADfT3jJikAmTxFPlZCSq3
+ PXN+wlSEcW1q6gDYb88SAWakiu6RtdjWUbTo2o6xaz5+omycqa6IasscdKCLGwgR9fE4
+ N+EA==
+X-Gm-Message-State: ANhLgQ0d3wuiVX7mNzBvTIcjtxWBlmtg0dq2d7pSA2oVgagv27TZwkLT
+ 99S4Eiz+jOSNA2qQdxI3Ez7VZw==
+X-Google-Smtp-Source: ADFU+vs1SPcubDDYu/nEfYMoed2J0S2bdq7cYi/3vm2e/mEXWMX5+97u67uWczDe8pro/1SWHnVy6A==
+X-Received: by 2002:ad4:4a89:: with SMTP id h9mr23410432qvx.168.1585012513012; 
+ Mon, 23 Mar 2020 18:15:13 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id s63sm3538860qkh.64.2020.03.23.18.15.10
+ by smtp.gmail.com with ESMTPSA id n4sm12902832qti.55.2020.03.23.18.15.10
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
  Mon, 23 Mar 2020 18:15:10 -0700 (PDT)
 Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
  (envelope-from <jgg@ziepe.ca>)
- id 1jGY9u-0000r0-5O; Mon, 23 Mar 2020 22:15:10 -0300
+ id 1jGY9u-0000r6-72; Mon, 23 Mar 2020 22:15:10 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Jerome Glisse <jglisse@redhat.com>, Ralph Campbell <rcampbell@nvidia.com>,
  Felix.Kuehling@amd.com
-Subject: [PATCH v2 hmm 3/9] mm/hmm: remove unused code and tidy comments
-Date: Mon, 23 Mar 2020 22:14:51 -0300
-Message-Id: <20200324011457.2817-4-jgg@ziepe.ca>
+Subject: [PATCH v2 hmm 4/9] mm/hmm: remove HMM_FAULT_SNAPSHOT
+Date: Mon, 23 Mar 2020 22:14:52 -0300
+Message-Id: <20200324011457.2817-5-jgg@ziepe.ca>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <20200324011457.2817-1-jgg@ziepe.ca>
 References: <20200324011457.2817-1-jgg@ziepe.ca>
@@ -77,160 +77,188 @@ Cc: Philip Yang <Philip.Yang@amd.com>, John Hubbard <jhubbard@nvidia.com>,
  amd-gfx@lists.freedesktop.org, linux-mm@kvack.org,
  Jason Gunthorpe <jgg@mellanox.com>, dri-devel@lists.freedesktop.org,
  Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogSmFzb24gR3VudGhvcnBlIDxqZ2dAbWVsbGFub3guY29tPgoKRGVsZXRlIHNldmVyYWwg
-ZnVuY3Rpb25zIHRoYXQgYXJlIG5ldmVyIGNhbGxlZCwgZml4IHNvbWUgZGVzeW5jIGJldHdlZW4K
-Y29tbWVudHMgYW5kIHN0cnVjdHVyZSBjb250ZW50LCB0b3NzIHRoZSBub3cgb3V0IG9mIGRhdGUg
-dG9wIG9mIGZpbGUKaGVhZGVyLCBhbmQgbW92ZSBvbmUgZnVuY3Rpb24gb25seSB1c2VkIGJ5IGht
-bS5jIGludG8gaG1tLmMKClNpZ25lZC1vZmYtYnk6IEphc29uIEd1bnRob3JwZSA8amdnQG1lbGxh
-bm94LmNvbT4KLS0tCiBpbmNsdWRlL2xpbnV4L2htbS5oIHwgMTA0ICstLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiBtbS9obW0uYyAgICAgICAgICAgIHwgIDI0ICsr
-KysrKystLS0KIDIgZmlsZXMgY2hhbmdlZCwgMTkgaW5zZXJ0aW9ucygrKSwgMTA5IGRlbGV0aW9u
-cygtKQoKZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvaG1tLmggYi9pbmNsdWRlL2xpbnV4L2ht
-bS5oCmluZGV4IGJiNmJlNDQyODYzM2E4Li5kYWVlNjUwOGEzZjYwOSAxMDA2NDQKLS0tIGEvaW5j
-bHVkZS9saW51eC9obW0uaAorKysgYi9pbmNsdWRlL2xpbnV4L2htbS5oCkBAIC0zLDU4ICszLDgg
-QEAKICAqIENvcHlyaWdodCAyMDEzIFJlZCBIYXQgSW5jLgogICoKICAqIEF1dGhvcnM6IErDqXLD
-tG1lIEdsaXNzZSA8amdsaXNzZUByZWRoYXQuY29tPgotICovCi0vKgotICogSGV0ZXJvZ2VuZW91
-cyBNZW1vcnkgTWFuYWdlbWVudCAoSE1NKQotICoKLSAqIFNlZSBEb2N1bWVudGF0aW9uL3ZtL2ht
-bS5yc3QgZm9yIHJlYXNvbnMgYW5kIG92ZXJ2aWV3IG9mIHdoYXQgSE1NIGlzIGFuZCBpdAotICog
-aXMgZm9yLiBIZXJlIHdlIGZvY3VzIG9uIHRoZSBITU0gQVBJIGRlc2NyaXB0aW9uLCB3aXRoIHNv
-bWUgZXhwbGFuYXRpb24gb2YKLSAqIHRoZSB1bmRlcmx5aW5nIGltcGxlbWVudGF0aW9uLgotICoK
-LSAqIFNob3J0IGRlc2NyaXB0aW9uOiBITU0gcHJvdmlkZXMgYSBzZXQgb2YgaGVscGVycyB0byBz
-aGFyZSBhIHZpcnR1YWwgYWRkcmVzcwotICogc3BhY2UgYmV0d2VlbiBDUFUgYW5kIGEgZGV2aWNl
-LCBzbyB0aGF0IHRoZSBkZXZpY2UgY2FuIGFjY2VzcyBhbnkgdmFsaWQKLSAqIGFkZHJlc3Mgb2Yg
-dGhlIHByb2Nlc3MgKHdoaWxlIHN0aWxsIG9iZXlpbmcgbWVtb3J5IHByb3RlY3Rpb24pLiBITU0g
-YWxzbwotICogcHJvdmlkZXMgaGVscGVycyB0byBtaWdyYXRlIHByb2Nlc3MgbWVtb3J5IHRvIGRl
-dmljZSBtZW1vcnksIGFuZCBiYWNrLiBFYWNoCi0gKiBzZXQgb2YgZnVuY3Rpb25hbGl0eSAoYWRk
-cmVzcyBzcGFjZSBtaXJyb3JpbmcsIGFuZCBtaWdyYXRpb24gdG8gYW5kIGZyb20KLSAqIGRldmlj
-ZSBtZW1vcnkpIGNhbiBiZSB1c2VkIGluZGVwZW5kZW50bHkgb2YgdGhlIG90aGVyLgotICoKLSAq
-Ci0gKiBITU0gYWRkcmVzcyBzcGFjZSBtaXJyb3JpbmcgQVBJOgotICoKLSAqIFVzZSBITU0gYWRk
-cmVzcyBzcGFjZSBtaXJyb3JpbmcgaWYgeW91IHdhbnQgdG8gbWlycm9yIGEgcmFuZ2Ugb2YgdGhl
-IENQVQotICogcGFnZSB0YWJsZXMgb2YgYSBwcm9jZXNzIGludG8gYSBkZXZpY2UgcGFnZSB0YWJs
-ZS4gSGVyZSwgIm1pcnJvciIgbWVhbnMgImtlZXAKLSAqIHN5bmNocm9uaXplZCIuIFByZXJlcXVp
-c2l0ZXM6IHRoZSBkZXZpY2UgbXVzdCBwcm92aWRlIHRoZSBhYmlsaXR5IHRvIHdyaXRlLQotICog
-cHJvdGVjdCBpdHMgcGFnZSB0YWJsZXMgKGF0IFBBR0VfU0laRSBncmFudWxhcml0eSksIGFuZCBt
-dXN0IGJlIGFibGUgdG8KLSAqIHJlY292ZXIgZnJvbSB0aGUgcmVzdWx0aW5nIHBvdGVudGlhbCBw
-YWdlIGZhdWx0cy4KICAqCi0gKiBITU0gZ3VhcmFudGVlcyB0aGF0IGF0IGFueSBwb2ludCBpbiB0
-aW1lLCBhIGdpdmVuIHZpcnR1YWwgYWRkcmVzcyBwb2ludHMgdG8KLSAqIGVpdGhlciB0aGUgc2Ft
-ZSBtZW1vcnkgaW4gYm90aCBDUFUgYW5kIGRldmljZSBwYWdlIHRhYmxlcyAodGhhdCBpczogQ1BV
-IGFuZAotICogZGV2aWNlIHBhZ2UgdGFibGVzIGVhY2ggcG9pbnQgdG8gdGhlIHNhbWUgcGFnZXMp
-LCBvciB0aGF0IG9uZSBwYWdlIHRhYmxlIChDUFUKLSAqIG9yIGRldmljZSkgcG9pbnRzIHRvIG5v
-IGVudHJ5LCB3aGlsZSB0aGUgb3RoZXIgc3RpbGwgcG9pbnRzIHRvIHRoZSBvbGQgcGFnZQotICog
-Zm9yIHRoZSBhZGRyZXNzLiBUaGUgbGF0dGVyIGNhc2UgaGFwcGVucyB3aGVuIHRoZSBDUFUgcGFn
-ZSB0YWJsZSB1cGRhdGUKLSAqIGhhcHBlbnMgZmlyc3QsIGFuZCB0aGVuIHRoZSB1cGRhdGUgaXMg
-bWlycm9yZWQgb3ZlciB0byB0aGUgZGV2aWNlIHBhZ2UgdGFibGUuCi0gKiBUaGlzIGRvZXMgbm90
-IGNhdXNlIGFueSBpc3N1ZSwgYmVjYXVzZSB0aGUgQ1BVIHBhZ2UgdGFibGUgY2Fubm90IHN0YXJ0
-Ci0gKiBwb2ludGluZyB0byBhIG5ldyBwYWdlIHVudGlsIHRoZSBkZXZpY2UgcGFnZSB0YWJsZSBp
-cyBpbnZhbGlkYXRlZC4KLSAqCi0gKiBITU0gdXNlcyBtbXVfbm90aWZpZXJzIHRvIG1vbml0b3Ig
-dGhlIENQVSBwYWdlIHRhYmxlcywgYW5kIGZvcndhcmRzIGFueQotICogdXBkYXRlcyB0byBlYWNo
-IGRldmljZSBkcml2ZXIgdGhhdCBoYXMgcmVnaXN0ZXJlZCBhIG1pcnJvci4gSXQgYWxzbyBwcm92
-aWRlcwotICogc29tZSBBUEkgY2FsbHMgdG8gaGVscCB3aXRoIHRha2luZyBhIHNuYXBzaG90IG9m
-IHRoZSBDUFUgcGFnZSB0YWJsZSwgYW5kIHRvCi0gKiBzeW5jaHJvbml6ZSB3aXRoIGFueSB1cGRh
-dGVzIHRoYXQgbWlnaHQgaGFwcGVuIGNvbmN1cnJlbnRseS4KLSAqCi0gKgotICogSE1NIG1pZ3Jh
-dGlvbiB0byBhbmQgZnJvbSBkZXZpY2UgbWVtb3J5OgotICoKLSAqIEhNTSBwcm92aWRlcyBhIHNl
-dCBvZiBoZWxwZXJzIHRvIGhvdHBsdWcgZGV2aWNlIG1lbW9yeSBhcyBaT05FX0RFVklDRSwgd2l0
-aAotICogYSBuZXcgTUVNT1JZX0RFVklDRV9QUklWQVRFIHR5cGUuIFRoaXMgcHJvdmlkZXMgYSBz
-dHJ1Y3QgcGFnZSBmb3IgZWFjaCBwYWdlCi0gKiBvZiB0aGUgZGV2aWNlIG1lbW9yeSwgYW5kIGFs
-bG93cyB0aGUgZGV2aWNlIGRyaXZlciB0byBtYW5hZ2UgaXRzIG1lbW9yeQotICogdXNpbmcgdGhv
-c2Ugc3RydWN0IHBhZ2VzLiBIYXZpbmcgc3RydWN0IHBhZ2VzIGZvciBkZXZpY2UgbWVtb3J5IG1h
-a2VzCi0gKiBtaWdyYXRpb24gZWFzaWVyLiBCZWNhdXNlIHRoYXQgbWVtb3J5IGlzIG5vdCBhZGRy
-ZXNzYWJsZSBieSB0aGUgQ1BVIGl0IG11c3QKLSAqIG5ldmVyIGJlIHBpbm5lZCB0byB0aGUgZGV2
-aWNlOyBpbiBvdGhlciB3b3JkcywgYW55IENQVSBwYWdlIGZhdWx0IGNhbiBhbHdheXMKLSAqIGNh
-dXNlIHRoZSBkZXZpY2UgbWVtb3J5IHRvIGJlIG1pZ3JhdGVkIChjb3BpZWQvbW92ZWQpIGJhY2sg
-dG8gcmVndWxhciBtZW1vcnkuCi0gKgotICogQSBuZXcgbWlncmF0ZSBoZWxwZXIgKG1pZ3JhdGVf
-dm1hKCkpIGhhcyBiZWVuIGFkZGVkIChzZWUgbW0vbWlncmF0ZS5jKSB0aGF0Ci0gKiBhbGxvd3Mg
-dXNlIG9mIGEgZGV2aWNlIERNQSBlbmdpbmUgdG8gcGVyZm9ybSB0aGUgY29weSBvcGVyYXRpb24g
-YmV0d2VlbgotICogcmVndWxhciBzeXN0ZW0gbWVtb3J5IGFuZCBkZXZpY2UgbWVtb3J5LgorICog
-U2VlIERvY3VtZW50YXRpb24vdm0vaG1tLnJzdCBmb3IgcmVhc29ucyBhbmQgb3ZlcnZpZXcgb2Yg
-d2hhdCBITU0gaXMuCiAgKi8KICNpZm5kZWYgTElOVVhfSE1NX0gKICNkZWZpbmUgTElOVVhfSE1N
-X0gKQEAgLTEyMCw5ICs3MCw2IEBAIGVudW0gaG1tX3Bmbl92YWx1ZV9lIHsKICAqCiAgKiBAbm90
-aWZpZXI6IGEgbW11X2ludGVydmFsX25vdGlmaWVyIHRoYXQgaW5jbHVkZXMgdGhlIHN0YXJ0L2Vu
-ZAogICogQG5vdGlmaWVyX3NlcTogcmVzdWx0IG9mIG1tdV9pbnRlcnZhbF9yZWFkX2JlZ2luKCkK
-LSAqIEBobW06IHRoZSBjb3JlIEhNTSBzdHJ1Y3R1cmUgdGhpcyByYW5nZSBpcyBhY3RpdmUgYWdh
-aW5zdAotICogQHZtYTogdGhlIHZtIGFyZWEgc3RydWN0IGZvciB0aGUgcmFuZ2UKLSAqIEBsaXN0
-OiBhbGwgcmFuZ2UgbG9jayBhcmUgb24gYSBsaXN0CiAgKiBAc3RhcnQ6IHJhbmdlIHZpcnR1YWwg
-c3RhcnQgYWRkcmVzcyAoaW5jbHVzaXZlKQogICogQGVuZDogcmFuZ2UgdmlydHVhbCBlbmQgYWRk
-cmVzcyAoZXhjbHVzaXZlKQogICogQHBmbnM6IGFycmF5IG9mIHBmbnMgKGJpZyBlbm91Z2ggZm9y
-IHRoZSByYW5nZSkKQEAgLTEzMCw4ICs3Nyw3IEBAIGVudW0gaG1tX3Bmbl92YWx1ZV9lIHsKICAq
-IEB2YWx1ZXM6IHBmbiB2YWx1ZSBmb3Igc29tZSBzcGVjaWFsIGNhc2UgKG5vbmUsIHNwZWNpYWws
-IGVycm9yLCAuLi4pCiAgKiBAZGVmYXVsdF9mbGFnczogZGVmYXVsdCBmbGFncyBmb3IgdGhlIHJh
-bmdlICh3cml0ZSwgcmVhZCwgLi4uIHNlZSBobW0gZG9jKQogICogQHBmbl9mbGFnc19tYXNrOiBh
-bGxvd3MgdG8gbWFzayBwZm4gZmxhZ3Mgc28gdGhhdCBvbmx5IGRlZmF1bHRfZmxhZ3MgbWF0dGVy
-Ci0gKiBAcGZuX3NoaWZ0czogcGZuIHNoaWZ0IHZhbHVlIChzaG91bGQgYmUgPD0gUEFHRV9TSElG
-VCkKLSAqIEB2YWxpZDogcGZucyBhcnJheSBkaWQgbm90IGNoYW5nZSBzaW5jZSBpdCBoYXMgYmVl
-biBmaWxsIGJ5IGFuIEhNTSBmdW5jdGlvbgorICogQHBmbl9zaGlmdDogcGZuIHNoaWZ0IHZhbHVl
-IChzaG91bGQgYmUgPD0gUEFHRV9TSElGVCkKICAqIEBkZXZfcHJpdmF0ZV9vd25lcjogb3duZXIg
-b2YgZGV2aWNlIHByaXZhdGUgcGFnZXMKICAqLwogc3RydWN0IGhtbV9yYW5nZSB7CkBAIC0xNzEs
-NTIgKzExNyw2IEBAIHN0YXRpYyBpbmxpbmUgc3RydWN0IHBhZ2UgKmhtbV9kZXZpY2VfZW50cnlf
-dG9fcGFnZShjb25zdCBzdHJ1Y3QgaG1tX3JhbmdlICpyYW5nCiAJcmV0dXJuIHBmbl90b19wYWdl
-KGVudHJ5ID4+IHJhbmdlLT5wZm5fc2hpZnQpOwogfQogCi0vKgotICogaG1tX2RldmljZV9lbnRy
-eV90b19wZm4oKSAtIHJldHVybiBwZm4gdmFsdWUgc3RvcmUgaW4gYSBkZXZpY2UgZW50cnkKLSAq
-IEByYW5nZTogcmFuZ2UgdXNlIHRvIGRlY29kZSBkZXZpY2UgZW50cnkgdmFsdWUKLSAqIEBlbnRy
-eTogZGV2aWNlIGVudHJ5IHRvIGV4dHJhY3QgcGZuIGZyb20KLSAqIFJldHVybjogcGZuIHZhbHVl
-IGlmIGRldmljZSBlbnRyeSBpcyB2YWxpZCwgLTFVTCBvdGhlcndpc2UKLSAqLwotc3RhdGljIGlu
-bGluZSB1bnNpZ25lZCBsb25nCi1obW1fZGV2aWNlX2VudHJ5X3RvX3Bmbihjb25zdCBzdHJ1Y3Qg
-aG1tX3JhbmdlICpyYW5nZSwgdWludDY0X3QgcGZuKQotewotCWlmIChwZm4gPT0gcmFuZ2UtPnZh
-bHVlc1tITU1fUEZOX05PTkVdKQotCQlyZXR1cm4gLTFVTDsKLQlpZiAocGZuID09IHJhbmdlLT52
-YWx1ZXNbSE1NX1BGTl9FUlJPUl0pCi0JCXJldHVybiAtMVVMOwotCWlmIChwZm4gPT0gcmFuZ2Ut
-PnZhbHVlc1tITU1fUEZOX1NQRUNJQUxdKQotCQlyZXR1cm4gLTFVTDsKLQlpZiAoIShwZm4gJiBy
-YW5nZS0+ZmxhZ3NbSE1NX1BGTl9WQUxJRF0pKQotCQlyZXR1cm4gLTFVTDsKLQlyZXR1cm4gKHBm
-biA+PiByYW5nZS0+cGZuX3NoaWZ0KTsKLX0KLQotLyoKLSAqIGhtbV9kZXZpY2VfZW50cnlfZnJv
-bV9wYWdlKCkgLSBjcmVhdGUgYSB2YWxpZCBkZXZpY2UgZW50cnkgZm9yIGEgcGFnZQotICogQHJh
-bmdlOiByYW5nZSB1c2UgdG8gZW5jb2RlIEhNTSBwZm4gdmFsdWUKLSAqIEBwYWdlOiBwYWdlIGZv
-ciB3aGljaCB0byBjcmVhdGUgdGhlIGRldmljZSBlbnRyeQotICogUmV0dXJuOiB2YWxpZCBkZXZp
-Y2UgZW50cnkgZm9yIHRoZSBwYWdlCi0gKi8KLXN0YXRpYyBpbmxpbmUgdWludDY0X3QgaG1tX2Rl
-dmljZV9lbnRyeV9mcm9tX3BhZ2UoY29uc3Qgc3RydWN0IGhtbV9yYW5nZSAqcmFuZ2UsCi0JCQkJ
-CQkgIHN0cnVjdCBwYWdlICpwYWdlKQotewotCXJldHVybiAocGFnZV90b19wZm4ocGFnZSkgPDwg
-cmFuZ2UtPnBmbl9zaGlmdCkgfAotCQlyYW5nZS0+ZmxhZ3NbSE1NX1BGTl9WQUxJRF07Ci19Ci0K
-LS8qCi0gKiBobW1fZGV2aWNlX2VudHJ5X2Zyb21fcGZuKCkgLSBjcmVhdGUgYSB2YWxpZCBkZXZp
-Y2UgZW50cnkgdmFsdWUgZnJvbSBwZm4KLSAqIEByYW5nZTogcmFuZ2UgdXNlIHRvIGVuY29kZSBI
-TU0gcGZuIHZhbHVlCi0gKiBAcGZuOiBwZm4gdmFsdWUgZm9yIHdoaWNoIHRvIGNyZWF0ZSB0aGUg
-ZGV2aWNlIGVudHJ5Ci0gKiBSZXR1cm46IHZhbGlkIGRldmljZSBlbnRyeSBmb3IgdGhlIHBmbgot
-ICovCi1zdGF0aWMgaW5saW5lIHVpbnQ2NF90IGhtbV9kZXZpY2VfZW50cnlfZnJvbV9wZm4oY29u
-c3Qgc3RydWN0IGhtbV9yYW5nZSAqcmFuZ2UsCi0JCQkJCQkgdW5zaWduZWQgbG9uZyBwZm4pCi17
-Ci0JcmV0dXJuIChwZm4gPDwgcmFuZ2UtPnBmbl9zaGlmdCkgfAotCQlyYW5nZS0+ZmxhZ3NbSE1N
-X1BGTl9WQUxJRF07Ci19Ci0KIC8qIERvbid0IGZhdWx0IGluIG1pc3NpbmcgUFRFcywganVzdCBz
-bmFwc2hvdCB0aGUgY3VycmVudCBzdGF0ZS4gKi8KICNkZWZpbmUgSE1NX0ZBVUxUX1NOQVBTSE9U
-CQkoMSA8PCAxKQogCmRpZmYgLS1naXQgYS9tbS9obW0uYyBiL21tL2htbS5jCmluZGV4IDJhMGVk
-YTE1MzRiY2RhLi5jMjk4YzkzNjQ2OWJiYiAxMDA2NDQKLS0tIGEvbW0vaG1tLmMKKysrIGIvbW0v
-aG1tLmMKQEAgLTM4LDYgKzM4LDE4IEBAIGVudW0gewogCUhNTV9ORUVEX0FMTF9CSVRTID0gSE1N
-X05FRURfRkFVTFQgfCBITU1fTkVFRF9XUklURV9GQVVMVCwKIH07CiAKKy8qCisgKiBobW1fZGV2
-aWNlX2VudHJ5X2Zyb21fcGZuKCkgLSBjcmVhdGUgYSB2YWxpZCBkZXZpY2UgZW50cnkgdmFsdWUg
-ZnJvbSBwZm4KKyAqIEByYW5nZTogcmFuZ2UgdXNlIHRvIGVuY29kZSBITU0gcGZuIHZhbHVlCisg
-KiBAcGZuOiBwZm4gdmFsdWUgZm9yIHdoaWNoIHRvIGNyZWF0ZSB0aGUgZGV2aWNlIGVudHJ5Cisg
-KiBSZXR1cm46IHZhbGlkIGRldmljZSBlbnRyeSBmb3IgdGhlIHBmbgorICovCitzdGF0aWMgdWlu
-dDY0X3QgaG1tX2RldmljZV9lbnRyeV9mcm9tX3Bmbihjb25zdCBzdHJ1Y3QgaG1tX3JhbmdlICpy
-YW5nZSwKKwkJCQkJICB1bnNpZ25lZCBsb25nIHBmbikKK3sKKwlyZXR1cm4gKHBmbiA8PCByYW5n
-ZS0+cGZuX3NoaWZ0KSB8IHJhbmdlLT5mbGFnc1tITU1fUEZOX1ZBTElEXTsKK30KKwogc3RhdGlj
-IGludCBobW1fcGZuc19maWxsKHVuc2lnbmVkIGxvbmcgYWRkciwgdW5zaWduZWQgbG9uZyBlbmQs
-CiAJCXN0cnVjdCBobW1fcmFuZ2UgKnJhbmdlLCBlbnVtIGhtbV9wZm5fdmFsdWVfZSB2YWx1ZSkK
-IHsKQEAgLTU0NCw3ICs1NTYsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG1tX3dhbGtfb3BzIGht
-bV93YWxrX29wcyA9IHsKIAogLyoqCiAgKiBobW1fcmFuZ2VfZmF1bHQgLSB0cnkgdG8gZmF1bHQg
-c29tZSBhZGRyZXNzIGluIGEgdmlydHVhbCBhZGRyZXNzIHJhbmdlCi0gKiBAcmFuZ2U6CXJhbmdl
-IGJlaW5nIGZhdWx0ZWQKKyAqIEByYW5nZToJYXJndW1lbnQgc3RydWN0dXJlCiAgKiBAZmxhZ3M6
-CUhNTV9GQVVMVF8qIGZsYWdzCiAgKgogICogUmV0dXJuOiB0aGUgbnVtYmVyIG9mIHZhbGlkIHBh
-Z2VzIGluIHJhbmdlLT5wZm5zW10gKGZyb20gcmFuZ2Ugc3RhcnQKQEAgLTU1OCwxMyArNTcwLDEx
-IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgbW1fd2Fsa19vcHMgaG1tX3dhbGtfb3BzID0gewogICoJ
-CW9ubHkpLgogICogLUVCVVNZOglUaGUgcmFuZ2UgaGFzIGJlZW4gaW52YWxpZGF0ZWQgYW5kIHRo
-ZSBjYWxsZXIgbmVlZHMgdG8gd2FpdCBmb3IKICAqCQl0aGUgaW52YWxpZGF0aW9uIHRvIGZpbmlz
-aC4KLSAqIC1FRkFVTFQ6CUludmFsaWQgKGkuZS4sIGVpdGhlciBubyB2YWxpZCB2bWEgb3IgaXQg
-aXMgaWxsZWdhbCB0byBhY2Nlc3MKLSAqCQl0aGF0IHJhbmdlKSBudW1iZXIgb2YgdmFsaWQgcGFn
-ZXMgaW4gcmFuZ2UtPnBmbnNbXSAoZnJvbQotICogICAgICAgICAgICAgIHJhbmdlIHN0YXJ0IGFk
-ZHJlc3MpLgorICogLUVGQVVMVDogICAgIEEgcGFnZSB3YXMgcmVxdWVzdGVkIHRvIGJlIHZhbGlk
-IGFuZCBjb3VsZCBub3QgYmUgbWFkZSB2YWxpZAorICogICAgICAgICAgICAgIGllIGl0IGhhcyBu
-byBiYWNraW5nIFZNQSBvciBpdCBpcyBpbGxlZ2FsIHRvIGFjY2VzcwogICoKLSAqIFRoaXMgaXMg
-c2ltaWxhciB0byBhIHJlZ3VsYXIgQ1BVIHBhZ2UgZmF1bHQgZXhjZXB0IHRoYXQgaXQgd2lsbCBu
-b3QgdHJpZ2dlcgotICogYW55IG1lbW9yeSBtaWdyYXRpb24gaWYgdGhlIG1lbW9yeSBiZWluZyBm
-YXVsdGVkIGlzIG5vdCBhY2Nlc3NpYmxlIGJ5IENQVXMKLSAqIGFuZCBjYWxsZXIgZG9lcyBub3Qg
-YXNrIGZvciBtaWdyYXRpb24uCisgKiBUaGlzIGlzIHNpbWlsYXIgdG8gZ2V0X3VzZXJfcGFnZXMo
-KSwgZXhjZXB0IHRoYXQgaXQgY2FuIHJlYWQgdGhlIHBhZ2UgdGFibGVzCisgKiB3aXRob3V0IG11
-dGF0aW5nIHRoZW0gKGllIGNhdXNpbmcgZmF1bHRzKS4KICAqCiAgKiBPbiBlcnJvciwgZm9yIG9u
-ZSB2aXJ0dWFsIGFkZHJlc3MgaW4gdGhlIHJhbmdlLCB0aGUgZnVuY3Rpb24gd2lsbCBtYXJrIHRo
-ZQogICogY29ycmVzcG9uZGluZyBITU0gcGZuIGVudHJ5IHdpdGggYW4gZXJyb3IgZmxhZy4KLS0g
-CjIuMjUuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+From: Jason Gunthorpe <jgg@mellanox.com>
+
+Now that flags are handled on a fine-grained per-page basis this global
+flag is redundant and has a confusing overlap with the pfn_flags_mask and
+default_flags.
+
+Normalize the HMM_FAULT_SNAPSHOT behavior into one place. Callers needing
+the SNAPSHOT behavior should set a pfn_flags_mask and default_flags that
+always results in a cleared HMM_PFN_VALID. Then no pages will be faulted,
+and HMM_FAULT_SNAPSHOT is not a special flow that overrides the masking
+mechanism.
+
+As this is the last flag, also remove the flags argument. If future flags
+are needed they can be part of the struct hmm_range function arguments.
+
+Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
+---
+ Documentation/vm/hmm.rst                | 12 +++++-------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_svm.c   |  2 +-
+ include/linux/hmm.h                     |  5 +----
+ mm/hmm.c                                | 22 ++++++++++++++--------
+ 5 files changed, 22 insertions(+), 21 deletions(-)
+
+diff --git a/Documentation/vm/hmm.rst b/Documentation/vm/hmm.rst
+index 95fec596836262..4e3e9362afeb10 100644
+--- a/Documentation/vm/hmm.rst
++++ b/Documentation/vm/hmm.rst
+@@ -161,13 +161,11 @@ device must complete the update before the driver callback returns.
+ When the device driver wants to populate a range of virtual addresses, it can
+ use::
+ 
+-  long hmm_range_fault(struct hmm_range *range, unsigned int flags);
++  long hmm_range_fault(struct hmm_range *range);
+ 
+-With the HMM_RANGE_SNAPSHOT flag, it will only fetch present CPU page table
+-entries and will not trigger a page fault on missing or non-present entries.
+-Without that flag, it does trigger a page fault on missing or read-only entries
+-if write access is requested (see below). Page faults use the generic mm page
+-fault code path just like a CPU page fault.
++It will trigger a page fault on missing or read-only entries if write access is
++requested (see below). Page faults use the generic mm page fault code path just
++like a CPU page fault.
+ 
+ Both functions copy CPU page table entries into their pfns array argument. Each
+ entry in that array corresponds to an address in the virtual range. HMM
+@@ -197,7 +195,7 @@ The usage pattern is::
+  again:
+       range.notifier_seq = mmu_interval_read_begin(&interval_sub);
+       down_read(&mm->mmap_sem);
+-      ret = hmm_range_fault(&range, HMM_RANGE_SNAPSHOT);
++      ret = hmm_range_fault(&range);
+       if (ret) {
+           up_read(&mm->mmap_sem);
+           if (ret == -EBUSY)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 90821ce5e6cad0..c520290709371b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -856,7 +856,7 @@ int amdgpu_ttm_tt_get_user_pages(struct amdgpu_bo *bo, struct page **pages)
+ 	range->notifier_seq = mmu_interval_read_begin(&bo->notifier);
+ 
+ 	down_read(&mm->mmap_sem);
+-	r = hmm_range_fault(range, 0);
++	r = hmm_range_fault(range);
+ 	up_read(&mm->mmap_sem);
+ 	if (unlikely(r <= 0)) {
+ 		/*
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index 39c731a99937c6..e3797b2d4d1759 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -540,7 +540,7 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 		range.default_flags = 0;
+ 		range.pfn_flags_mask = -1UL;
+ 		down_read(&mm->mmap_sem);
+-		ret = hmm_range_fault(&range, 0);
++		ret = hmm_range_fault(&range);
+ 		up_read(&mm->mmap_sem);
+ 		if (ret <= 0) {
+ 			if (ret == 0 || ret == -EBUSY)
+diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+index daee6508a3f609..7475051100c782 100644
+--- a/include/linux/hmm.h
++++ b/include/linux/hmm.h
+@@ -117,13 +117,10 @@ static inline struct page *hmm_device_entry_to_page(const struct hmm_range *rang
+ 	return pfn_to_page(entry >> range->pfn_shift);
+ }
+ 
+-/* Don't fault in missing PTEs, just snapshot the current state. */
+-#define HMM_FAULT_SNAPSHOT		(1 << 1)
+-
+ /*
+  * Please see Documentation/vm/hmm.rst for how to use the range API.
+  */
+-long hmm_range_fault(struct hmm_range *range, unsigned int flags);
++long hmm_range_fault(struct hmm_range *range);
+ 
+ /*
+  * HMM_RANGE_DEFAULT_TIMEOUT - default timeout (ms) when waiting for a range
+diff --git a/mm/hmm.c b/mm/hmm.c
+index c298c936469bbb..43d107a4d9dec6 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -29,7 +29,6 @@
+ struct hmm_vma_walk {
+ 	struct hmm_range	*range;
+ 	unsigned long		last;
+-	unsigned int		flags;
+ };
+ 
+ enum {
+@@ -112,9 +111,6 @@ static unsigned int hmm_pte_need_fault(const struct hmm_vma_walk *hmm_vma_walk,
+ {
+ 	struct hmm_range *range = hmm_vma_walk->range;
+ 
+-	if (hmm_vma_walk->flags & HMM_FAULT_SNAPSHOT)
+-		return 0;
+-
+ 	/*
+ 	 * So we not only consider the individual per page request we also
+ 	 * consider the default flags requested for the range. The API can
+@@ -142,15 +138,27 @@ static unsigned int hmm_pte_need_fault(const struct hmm_vma_walk *hmm_vma_walk,
+ 	return 0;
+ }
+ 
++/*
++ * If the valid flag is masked off, and default_flags doesn't set valid, then
++ * hmm_pte_need_fault() always returns 0.
++ */
++static bool hmm_can_fault(struct hmm_range *range)
++{
++	return ((range->flags[HMM_PFN_VALID] & range->pfn_flags_mask) |
++		range->default_flags) &
++	       range->flags[HMM_PFN_VALID];
++}
++
+ static unsigned int
+ hmm_range_need_fault(const struct hmm_vma_walk *hmm_vma_walk,
+ 		     const uint64_t *pfns, unsigned long npages,
+ 		     uint64_t cpu_flags)
+ {
++	struct hmm_range *range = hmm_vma_walk->range;
+ 	unsigned int required_fault = 0;
+ 	unsigned long i;
+ 
+-	if (hmm_vma_walk->flags & HMM_FAULT_SNAPSHOT)
++	if (!hmm_can_fault(range))
+ 		return 0;
+ 
+ 	for (i = 0; i < npages; ++i) {
+@@ -557,7 +565,6 @@ static const struct mm_walk_ops hmm_walk_ops = {
+ /**
+  * hmm_range_fault - try to fault some address in a virtual address range
+  * @range:	argument structure
+- * @flags:	HMM_FAULT_* flags
+  *
+  * Return: the number of valid pages in range->pfns[] (from range start
+  * address), which may be zero.  On error one of the following status codes
+@@ -579,12 +586,11 @@ static const struct mm_walk_ops hmm_walk_ops = {
+  * On error, for one virtual address in the range, the function will mark the
+  * corresponding HMM pfn entry with an error flag.
+  */
+-long hmm_range_fault(struct hmm_range *range, unsigned int flags)
++long hmm_range_fault(struct hmm_range *range)
+ {
+ 	struct hmm_vma_walk hmm_vma_walk = {
+ 		.range = range,
+ 		.last = range->start,
+-		.flags = flags,
+ 	};
+ 	struct mm_struct *mm = range->notifier->mm;
+ 	int ret;
+-- 
+2.25.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
