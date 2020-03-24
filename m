@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6465191963
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 19:46:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C118191972
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 19:49:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60B886E50B;
-	Tue, 24 Mar 2020 18:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F29F6E512;
+	Tue, 24 Mar 2020 18:49:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79AC589704;
- Tue, 24 Mar 2020 18:46:36 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id h14so20428232qke.5;
- Tue, 24 Mar 2020 11:46:36 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A28306E512;
+ Tue, 24 Mar 2020 18:49:40 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id c81so4426002wmd.4;
+ Tue, 24 Mar 2020 11:49:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=AGxmNy0595sT346CYB2mgtexQzuM2HSrDde9cVbZJuU=;
- b=M3QHtiDCjMkqKxWvyPl5FUJxxKx7+N4EaFCnKutVLtNtajUcahJKaZa0ow/Iz8n8vF
- +cTaGUSAx07luD6LuXpFlfEyxpVpWMxDTX6hfLOgkEyqWH71CUYPYpwYunw3m6+byoEx
- cqbsc7zfXkij/jLcSsAEnxMTyFJjLdeavZ1Vu5ZDBOCL+eZt1qHzjhNGrsKYVzKVUObo
- 38MQ0gVgqyJ+wkY2WkU09z+gDjseha8Lgmr3Dty97if7NGwSTgddMDnEHu1RZkix40Ar
- GrX/0NCKWzRn+Dyf06srWhJwYIjlEymtoDhdE1UJmOXKCEqW3hgArIGXUehAAFjZC8Tk
- Mw+w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+Bn2txemVnNW3tHUFGp2WOb1jH3UpeSV6hCDyIGrExc=;
+ b=RNFkkhe84ZEGayHB8baD92NZqRNYMXvMXE6mRhmjiQa6+aEXFVM7MbYvmyJIdKpcyL
+ P0Kt/3R2vW84P4s/9DAgLdNeg35C5fOZkjEhyT13/ZCUR+gG626E0DClz8eIGUTN4nKh
+ kPtmyz2MZ8OtHGbxKYWz0+VZ3mQ3xF5qLTcUcbUjDvhp3hca4DAJ/qNdW2MiOi5eR3i0
+ RLCdb2fIDqmg5ainr8H58LNrwP4j2Jnrr8FDHiGROvKA7RIu/LOsoSvLChS7sTz6LFpj
+ ywjdBuh7EW9/2VFW49Duuk5GS0Htz5fgT9QzmpTW7cYC62W0m/UhGfP0tDnBfRz2EzUV
+ K6dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=AGxmNy0595sT346CYB2mgtexQzuM2HSrDde9cVbZJuU=;
- b=O3MPCR1SXaIQ3wLti/GdBUgpni4OsRXn4hx7Mb44WRHQEhtzPH4Lsxr+lbYmAdOOVS
- R1K/jBxJ7ZSDxozNUae0IF4xvNNXrVfYcmC7GoCUpCakew8hvhCZoJLfaiMUKzu+XJK1
- kKdzrERzgqrcVpAVR8E0cUvIcO/081GYbCuHXqroOSXTKmhzu68Z+pS2TqlbU3dpdGt1
- 5AVfSWba9sqP9Y3L1JWGJk9gDvciYUHq+k33hq6r1ux2+xe7cgDumu7hTowwRIEXi6MA
- QHciLp0rdc5k5c665uTwZUGb02jWjHIEC9Hnn2myu0PxWD6VxDHWdsMEE8bQGqvpkEQF
- YvNA==
-X-Gm-Message-State: ANhLgQ1oQe9YkhCemoyNXMnckpuPfj6BxXJzKcySYLgE1tNQJJBaTal+
- Cf3UoSehZ9t2fTmiYxNI3wk=
-X-Google-Smtp-Source: ADFU+vuG6EX8tZxW4p8BDfczrKaQLJMVhUXpXjJG5GIXYcXSAN+m6g533OhQ2NhTef+FX2Bno+4vPg==
-X-Received: by 2002:a37:715:: with SMTP id 21mr28007993qkh.435.1585075595497; 
- Tue, 24 Mar 2020 11:46:35 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:480::19c2])
- by smtp.gmail.com with ESMTPSA id j39sm8143061qtk.96.2020.03.24.11.46.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Mar 2020 11:46:34 -0700 (PDT)
-Date: Tue, 24 Mar 2020 14:46:33 -0400
-From: Tejun Heo <tj@kernel.org>
-To: Kenny Ho <y2kenny@gmail.com>
-Subject: Re: [PATCH v2 00/11] new cgroup controller for gpu/drm subsystem
-Message-ID: <20200324184633.GH162390@mtj.duckdns.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+Bn2txemVnNW3tHUFGp2WOb1jH3UpeSV6hCDyIGrExc=;
+ b=qSQOkQ4bVIHR9pxJeX60tGZcBmrWB2g/Jj/CDGmtunhmmPfYaTiGdtESwmrnqjD7pK
+ xcrqy59kLklvJi9ByZP4A7nKc/TsyO3C0hw892o3a3maN0BIsTQNP/SQA6ghtDjIhTsR
+ 8lFv2Qv9zD1zLu7dhMbKzppOBfOxH12BrEHGOe24uZJmr6QtDZkPgmk9uLD6H8EAANLk
+ lHNyFZKBJP8kq2cDY4OSqBUxLnfM6P9zyWG/9X1aQivRLxRywPNtv+qSZec/tiU1M1ag
+ 1CVOFAdgcjpUAdE7jlJ2AsCV/VHImzkc/bJQDHPCaX7/S08CGGr2cfvYsW7cg01HHKzB
+ o8xA==
+X-Gm-Message-State: ANhLgQ2kMGRquWugJByp3okZpou/hdfyyy6RK+kTew9crjnmXHHIGyJb
+ O/LBj5femAHvbz4o7kRZYTHZ3mMPzyMd1x6y1fU=
+X-Google-Smtp-Source: ADFU+vty6Yk31S5LF9YuvRPGLvF8AD8PNX2XXzN0Pdgf/WbZp30NoFPvgvWxHl9AOuzF24qwOvjqBS8ND5KRrr4tzUk=
+X-Received: by 2002:a7b:c386:: with SMTP id s6mr7501165wmj.104.1585075779201; 
+ Tue, 24 Mar 2020 11:49:39 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200226190152.16131-1-Kenny.Ho@amd.com>
  <CAOWid-eyMGZfOyfEQikwCmPnKxx6MnTm17pBvPeNpgKWi0xN-w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAOWid-eyMGZfOyfEQikwCmPnKxx6MnTm17pBvPeNpgKWi0xN-w@mail.gmail.com>
+ <20200324184633.GH162390@mtj.duckdns.org>
+In-Reply-To: <20200324184633.GH162390@mtj.duckdns.org>
+From: Kenny Ho <y2kenny@gmail.com>
+Date: Tue, 24 Mar 2020 14:49:27 -0400
+Message-ID: <CAOWid-cS-5YkFBLACotkZZCH0RSjHH94_r3VFH8vEPOubzSpPA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] new cgroup controller for gpu/drm subsystem
+To: Tejun Heo <tj@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,22 +67,31 @@ Cc: Kenny Ho <Kenny.Ho@amd.com>, "Kuehling, Felix" <felix.kuehling@amd.com>,
  dri-devel <dri-devel@lists.freedesktop.org>, "Greathouse,
  Joseph" <joseph.greathouse@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
  cgroups@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 17, 2020 at 12:03:20PM -0400, Kenny Ho wrote:
-> What's your thoughts on this latest series?
+Hi Tejun,
 
-My overall impression is that the feedbacks aren't being incorporated throughly
-/ sufficiently.
+Can you elaborate more on what are the missing pieces?
 
-Thanks.
+Regards,
+Kenny
 
--- 
-tejun
+On Tue, Mar 24, 2020 at 2:46 PM Tejun Heo <tj@kernel.org> wrote:
+>
+> On Tue, Mar 17, 2020 at 12:03:20PM -0400, Kenny Ho wrote:
+> > What's your thoughts on this latest series?
+>
+> My overall impression is that the feedbacks aren't being incorporated throughly
+> / sufficiently.
+>
+> Thanks.
+>
+> --
+> tejun
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
