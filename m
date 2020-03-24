@@ -2,45 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730B0191370
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 15:43:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F344B191479
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 16:32:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1B296E49F;
-	Tue, 24 Mar 2020 14:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8E3B8992E;
+	Tue, 24 Mar 2020 15:32:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 604A76E49F
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 14:43:14 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1jGklo-0001vv-Na; Tue, 24 Mar 2020 15:43:08 +0100
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <ukl@pengutronix.de>)
- id 1jGkln-0000tK-B5; Tue, 24 Mar 2020 15:43:07 +0100
-Date: Tue, 24 Mar 2020 15:43:07 +0100
-From: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH v11 10/12] backlight: pwm_bl: Use 64-bit division function
-Message-ID: <20200324144307.kxhqzyjj4evrouqa@pengutronix.de>
-References: <cover.1584667964.git.gurus@codeaurora.org>
- <17fc1dcf8b9b392d1e37dc7e3e67409e3c502840.1584667964.git.gurus@codeaurora.org>
- <20200320133123.GD5477@dell> <20200324110710.GL5477@dell>
- <20200324125735.2mjuvbxt5bpon2ft@pengutronix.de>
- <20200324130410.dwlg767ku6kwequv@holly.lan>
- <20200324142441.GD442973@dell>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86CE689916;
+ Tue, 24 Mar 2020 15:32:14 +0000 (UTC)
+IronPort-SDR: g5BiP1+nZlo3T8EUvO6vx/Fn1EP7JRUgwbh4qxxthfqMCC6Ot4iny/bkNZyPDc+ZQbyUOWefwh
+ FGVpno5p3eoA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2020 08:32:14 -0700
+IronPort-SDR: 784yk76bjAIppxM7SkdPwOujLfMmVMKv2d/Weylw/9L2cGHihsvJEYfXyvEPI76nZxix4RJ2ZO
+ MKYXttajDo2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,300,1580803200"; d="scan'208";a="419931876"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by orsmga005.jf.intel.com with ESMTP; 24 Mar 2020 08:32:13 -0700
+Received: from fmsmsx126.amr.corp.intel.com (10.18.125.43) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 24 Mar 2020 08:32:13 -0700
+Received: from bgsmsx153.gar.corp.intel.com (10.224.23.4) by
+ FMSMSX126.amr.corp.intel.com (10.18.125.43) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 24 Mar 2020 08:32:13 -0700
+Received: from BGSMSX107.gar.corp.intel.com ([169.254.9.15]) by
+ BGSMSX153.gar.corp.intel.com ([169.254.2.145]) with mapi id 14.03.0439.000;
+ Tue, 24 Mar 2020 21:02:09 +0530
+From: "Laxminarayan Bharadiya, Pankaj"
+ <pankaj.laxminarayan.bharadiya@intel.com>
+To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: RE: [PATCH v2 5/5] drm/i915: Enable scaling filter for plane and CRTC
+Thread-Topic: [PATCH v2 5/5] drm/i915: Enable scaling filter for plane and CRTC
+Thread-Index: AQHV/dmR31F3mSwklEq/ztIjkCVuJqhV7CSAgAHsN7A=
+Date: Tue, 24 Mar 2020 15:32:09 +0000
+Message-ID: <E92BA18FDE0A5B43B7B3DA7FCA031286057CDD2B@BGSMSX107.gar.corp.intel.com>
+References: <20200319102103.28895-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200319102103.28895-6-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200323144749.GV13686@intel.com>
+In-Reply-To: <20200323144749.GV13686@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.10]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200324142441.GD442973@dell>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,88 +67,291 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guru Das Srinagesh <gurus@codeaurora.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, linux-pwm@vger.kernel.org,
- Jingoo Han <jingoohan1@gmail.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>, linux-fbdev@vger.kernel.org,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Cc: "Lattannavar, Sameer" <sameer.lattannavar@intel.com>,
+ "daniels@collabora.com" <daniels@collabora.com>,
+ David Airlie <airlied@linux.ie>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Shankar,
+ Uma" <uma.shankar@intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "Souza,
+ Jose" <jose.souza@intel.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 24, 2020 at 02:24:41PM +0000, Lee Jones wrote:
-> On Tue, 24 Mar 2020, Daniel Thompson wrote:
+
+
+> -----Original Message-----
+> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Sent: 23 March 2020 20:18
+> To: Laxminarayan Bharadiya, Pankaj
+> <pankaj.laxminarayan.bharadiya@intel.com>
+> Cc: Lattannavar, Sameer <sameer.lattannavar@intel.com>;
+> jani.nikula@linux.intel.com; daniel@ffwll.ch; intel-gfx@lists.freedesktop=
+.org;
+> dri-devel@lists.freedesktop.org; daniels@collabora.com; Joonas Lahtinen
+> <joonas.lahtinen@linux.intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.com>;
+> David Airlie <airlied@linux.ie>; Chris Wilson <chris@chris-wilson.co.uk>;
+> Maarten Lankhorst <maarten.lankhorst@linux.intel.com>; Souza, Jose
+> <jose.souza@intel.com>; Deak, Imre <imre.deak@intel.com>; Shankar, Uma
+> <uma.shankar@intel.com>
+> Subject: Re: [PATCH v2 5/5] drm/i915: Enable scaling filter for plane and=
+ CRTC
 > =
 
-> > On Tue, Mar 24, 2020 at 01:57:35PM +0100, Uwe Kleine-K=F6nig wrote:
-> > > Hello Lee,
-> > > =
-
-> > > On Tue, Mar 24, 2020 at 11:07:10AM +0000, Lee Jones wrote:
-> > > > On Fri, 20 Mar 2020, Lee Jones wrote:
-> > > > =
-
-> > > > > On Thu, 19 Mar 2020, Guru Das Srinagesh wrote:
-> > > > > =
-
-> > > > > > Since the PWM framework is switching struct pwm_state.period's =
-datatype
-> > > > > > to u64, prepare for this transition by using div_u64 to handle =
-a 64-bit
-> > > > > > dividend instead of a straight division operation.
-> > > > > > =
-
-> > > > > > Cc: Lee Jones <lee.jones@linaro.org>
-> > > > > > Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> > > > > > Cc: Jingoo Han <jingoohan1@gmail.com>
-> > > > > > Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> > > > > > Cc: linux-pwm@vger.kernel.org
-> > > > > > Cc: dri-devel@lists.freedesktop.org
-> > > > > > Cc: linux-fbdev@vger.kernel.org
-> > > > > > =
-
-> > > > > > Signed-off-by: Guru Das Srinagesh <gurus@codeaurora.org>
-> > > > > > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> > > > > > ---
-> > > > > >  drivers/video/backlight/pwm_bl.c | 3 ++-
-> > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > > =
-
-> > > > > Can this patch be taken on its own?
-> > > > =
-
-> > > > Hellooooo ...
-> > > =
-
-> > > Conceptually it can. As the last patch depends on this one (and the
-> > > others) some coordination might be beneficial. But that's up to Thier=
-ry
-> > > to decide how (and if) he want this series to be applied.
-> > =
-
-> > ... and on the backlight side we definitely need to know about the "if"
-> > otherwise there's no point in taking it.
+> On Thu, Mar 19, 2020 at 03:51:03PM +0530, Pankaj Bharadiya wrote:
+> > GEN >=3D 10 hardware supports the programmable scaler filter.
+> >
+> > Attach scaling filter property for CRTC and plane for GEN >=3D 10
+> > hardwares and program scaler filter based on the selected filter type.
+> >
+> > changes since v1:
+> > * None
+> > Changes since RFC:
+> > * Enable properties for GEN >=3D 10 platforms (Ville)
+> > * Do not round off the crtc co-ordinate (Danial Stone, Ville)
+> > * Add new functions to handle scaling filter setup (Ville)
+> > * Remove coefficient set 0 hardcoding.
+> >
+> > Signed-off-by: Shashank Sharma <shashank.sharma@intel.com>
+> > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> > Signed-off-by: Pankaj Bharadiya
+> > <pankaj.laxminarayan.bharadiya@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_display.c | 32
+> > ++++++++++++++++++--  drivers/gpu/drm/i915/display/intel_sprite.c  |
+> > 31 ++++++++++++++++++-
+> >  2 files changed, 60 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c
+> > b/drivers/gpu/drm/i915/display/intel_display.c
+> > index 791dd908aa89..4b3387ee332e 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_display.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> > @@ -6309,6 +6309,25 @@ void
+> skl_scaler_setup_nearest_neighbor_filter(struct drm_i915_private *dev_pri=
+v,
+> >  	}
+> >  }
+> >
+> > +static u32
+> > +skl_scaler_crtc_setup_filter(struct drm_i915_private *dev_priv, enum p=
+ipe
+> pipe,
+> > +			  int id, int set, enum drm_crtc_scaling_filter filter) {
+> > +	u32 scaler_filter_ctl =3D PS_FILTER_MEDIUM;
+> > +
+> > +	if (filter =3D=3D DRM_CRTC_SCALING_FILTER_NEAREST_NEIGHBOR) {
+> > +		skl_scaler_setup_nearest_neighbor_filter(dev_priv, pipe, id,
+> > +							 set);
+> > +		scaler_filter_ctl =3D PS_FILTER_PROGRAMMED |
+> > +				PS_UV_VERT_FILTER_SELECT(set) |
+> > +				PS_UV_HORZ_FILTER_SELECT(set) |
+> > +				PS_Y_VERT_FILTER_SELECT(set) |
+> > +				PS_Y_HORZ_FILTER_SELECT(set);
+> > +
+> > +	}
+> > +	return scaler_filter_ctl;
 > =
 
-> Right.
+> This function does too many things.
+
+I was thinking to have a common function which configures the filter and al=
+so
+provides the register bits (ps_ctrl) to select a desired filter so that we =
+need
+not have extra condition to figure out filter select register bits where th=
+is
+function is being called.
+How about renaming this function to some better name like  =
+
+skl_scaler_set_and_get_filter_select() or something else? =
+
+Or shall I breakdown this function into multiple functions? =
+
+
+Any suggestions?
+
 > =
 
-> I'm happy to wait for Thierry.  Although this isn't the only set he's
-> currently blocking.  Is he okay?  On holiday perhaps?
+> > +}
+> > +
+> >  static void skl_pfit_enable(const struct intel_crtc_state
+> > *crtc_state)  {
+> >  	struct intel_crtc *crtc =3D to_intel_crtc(crtc_state->uapi.crtc);
+> > @@ -6316,12 +6335,14 @@ static void skl_pfit_enable(const struct
+> intel_crtc_state *crtc_state)
+> >  	enum pipe pipe =3D crtc->pipe;
+> >  	const struct intel_crtc_scaler_state *scaler_state =3D
+> >  		&crtc_state->scaler_state;
+> > +	const struct drm_crtc_state *state =3D &crtc_state->uapi;
+> =
 
-The newest commit by him in next is from last week. My guess is he
-just didn't come around yet to care for the PWM duties.
+> Pls don't add this kind of aliases. We're moving away from using the drm_=
+ types
+> as much as possible.
 
-Best regards
-Uwe
+OK.
 
--- =
+> =
 
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+> >
+> >  	if (crtc_state->pch_pfit.enabled) {
+> >  		u16 uv_rgb_hphase, uv_rgb_vphase;
+> >  		int pfit_w, pfit_h, hscale, vscale;
+> >  		unsigned long irqflags;
+> >  		int id;
+> > +		int scaler_filter_ctl;
+> =
+
+> It's a register value so u32. I'd also
+
+Yes, I missed it. Thanks for pointing out.
+
+> s/scaler_filter_ctl/filter_select/ or something like that.
+> =
+
+> Alternatively we could just call it ps_ctrl and have it contain the full =
+register
+> value for that particular register.
+
+ps_ctrl sounds better, will use this name.
+
+> =
+
+> >
+> >  		if (drm_WARN_ON(&dev_priv->drm,
+> >  				crtc_state->scaler_state.scaler_id < 0)) @@ -
+> 6340,8 +6361,12 @@
+> > static void skl_pfit_enable(const struct intel_crtc_state *crtc_state)
+> >
+> >  		spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
+> >
+> > -		intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, id),
+> PS_SCALER_EN |
+> > -				  PS_FILTER_MEDIUM | scaler_state-
+> >scalers[id].mode);
+> > +		scaler_filter_ctl =3D
+> > +			skl_scaler_crtc_setup_filter(dev_priv, pipe, id, 0,
+> > +						state->scaling_filter);
+> > +		intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, id),
+> > +				  PS_SCALER_EN | scaler_filter_ctl |
+> > +				  scaler_state->scalers[id].mode);
+> >  		intel_de_write_fw(dev_priv, SKL_PS_VPHASE(pipe, id),
+> >  				  PS_Y_PHASE(0) |
+> PS_UV_RGB_PHASE(uv_rgb_vphase));
+> >  		intel_de_write_fw(dev_priv, SKL_PS_HPHASE(pipe, id), @@ -
+> 16777,6
+> > +16802,9 @@ static int intel_crtc_init(struct drm_i915_private *dev_pri=
+v,
+> enum pipe pipe)
+> >  		dev_priv->plane_to_crtc_mapping[i9xx_plane] =3D crtc;
+> >  	}
+> >
+> > +	if (INTEL_GEN(dev_priv) >=3D 10)
+> > +		drm_crtc_enable_scaling_filter(&crtc->base);
+> > +
+> >  	intel_color_init(crtc);
+> >
+> >  	intel_crtc_crc_init(crtc);
+> > diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c
+> > b/drivers/gpu/drm/i915/display/intel_sprite.c
+> > index deda351719db..ac3fd9843ace 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_sprite.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_sprite.c
+> > @@ -395,6 +395,26 @@ skl_plane_max_stride(struct intel_plane *plane,
+> >  		return min(8192 * cpp, 32768);
+> >  }
+> >
+> > +static u32
+> > +skl_scaler_plane_setup_filter(struct drm_i915_private *dev_priv, enum =
+pipe
+> pipe,
+> > +			      int id, int set,
+> > +			      enum drm_plane_scaling_filter filter) {
+> > +	u32 scaler_filter_ctl =3D PS_FILTER_MEDIUM;
+> > +
+> > +	if (filter =3D=3D DRM_PLANE_SCALING_FILTER_NEAREST_NEIGHBOR) {
+> > +		skl_scaler_setup_nearest_neighbor_filter(dev_priv, pipe, id,
+> > +							 set);
+> > +		scaler_filter_ctl =3D PS_FILTER_PROGRAMMED |
+> > +				PS_UV_VERT_FILTER_SELECT(set) |
+> > +				PS_UV_HORZ_FILTER_SELECT(set) |
+> > +				PS_Y_VERT_FILTER_SELECT(set) |
+> > +				PS_Y_HORZ_FILTER_SELECT(set);
+> > +
+> > +	}
+> > +	return scaler_filter_ctl;
+> > +}
+> > +
+> =
+
+> We don't want such copy pasta between planes and crtcs.
+
+Yeah, got it. =
+
+Will add a common enum drm_scaling_filter and use it.
+
+Thanks,
+Pankaj
+ =
+
+> =
+
+> >  static void
+> >  skl_program_scaler(struct intel_plane *plane,
+> >  		   const struct intel_crtc_state *crtc_state, @@ -406,6 +426,7
+> @@
+> > skl_program_scaler(struct intel_plane *plane,
+> >  	int scaler_id =3D plane_state->scaler_id;
+> >  	const struct intel_scaler *scaler =3D
+> >  		&crtc_state->scaler_state.scalers[scaler_id];
+> > +	const struct drm_plane_state *state =3D &plane_state->uapi;
+> >  	int crtc_x =3D plane_state->uapi.dst.x1;
+> >  	int crtc_y =3D plane_state->uapi.dst.y1;
+> >  	u32 crtc_w =3D drm_rect_width(&plane_state->uapi.dst);
+> > @@ -413,6 +434,7 @@ skl_program_scaler(struct intel_plane *plane,
+> >  	u16 y_hphase, uv_rgb_hphase;
+> >  	u16 y_vphase, uv_rgb_vphase;
+> >  	int hscale, vscale;
+> > +	int scaler_filter_ctl;
+> >
+> >  	hscale =3D drm_rect_calc_hscale(&plane_state->uapi.src,
+> >  				      &plane_state->uapi.dst,
+> > @@ -439,8 +461,12 @@ skl_program_scaler(struct intel_plane *plane,
+> >  		uv_rgb_vphase =3D skl_scaler_calc_phase(1, vscale, false);
+> >  	}
+> >
+> > +	scaler_filter_ctl =3D
+> > +		skl_scaler_plane_setup_filter(dev_priv, pipe, scaler_id, 0,
+> > +					      state->scaling_filter);
+> >  	intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, scaler_id),
+> > -			  PS_SCALER_EN | PS_PLANE_SEL(plane->id) | scaler-
+> >mode);
+> > +			  PS_SCALER_EN | PS_PLANE_SEL(plane->id) |
+> > +			  scaler->mode | scaler_filter_ctl);
+> >  	intel_de_write_fw(dev_priv, SKL_PS_VPHASE(pipe, scaler_id),
+> >  			  PS_Y_PHASE(y_vphase) |
+> PS_UV_RGB_PHASE(uv_rgb_vphase));
+> >  	intel_de_write_fw(dev_priv, SKL_PS_HPHASE(pipe, scaler_id), @@
+> > -3121,6 +3147,9 @@ skl_universal_plane_create(struct drm_i915_private
+> > *dev_priv,
+> >
+> >  	drm_plane_create_zpos_immutable_property(&plane->base, plane_id);
+> >
+> > +	if (INTEL_GEN(dev_priv) >=3D 10)
+> > +		drm_plane_enable_scaling_filter(&plane->base);
+> > +
+> >  	drm_plane_helper_add(&plane->base, &intel_plane_helper_funcs);
+> >
+> >  	return plane;
+> > --
+> > 2.23.0
+> =
+
+> --
+> Ville Syrj=E4l=E4
+> Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
