@@ -1,97 +1,98 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1DB61911A9
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 14:45:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A25FA19119A
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 14:45:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 959AC6E497;
-	Tue, 24 Mar 2020 13:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4573E6E48D;
+	Tue, 24 Mar 2020 13:45:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD4226E48E
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 13:45:22 +0000 (UTC)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB02C6E48C
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 13:45:21 +0000 (UTC)
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200324134519euoutp0296a94cff7fa2565791aa24f70e34a72f~-QWqMsoRE2969629696euoutp02i
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 13:45:19 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200324134519euoutp0296a94cff7fa2565791aa24f70e34a72f~-QWqMsoRE2969629696euoutp02i
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200324134520euoutp0172ba36722160733d4286fa9121fe8052~-QWqwXyOe0072900729euoutp01o
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 13:45:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200324134520euoutp0172ba36722160733d4286fa9121fe8052~-QWqwXyOe0072900729euoutp01o
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1585057519;
- bh=TjreQCi8GcZdeFqEmL9FdXNVZv2wetsWfI3p3DJjO/c=;
+ s=mail20170921; t=1585057520;
+ bh=wFMPPf1qHbV7MTxhfuXNX7PXRiVGUv9YYpv782+nToo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WuSaNB+LmG8uwpNLwpfGI0MUSOmtwdkUdYGSmOE52ALjT2ADqKdQFMc0+d/xgLZD4
- fBZhwhrpGCWU6Zif9wRkI4B8eDp2Zg1DSy3DXpxQjX2byul069qYxDFXja4ijF6lSJ
- iH2YdCF0dgtwDFal02g6GygYKlKzKE5mZnMsRxIU=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ b=PTYXRyFaySZUptWT+tR0t0BB7oU73t5mQiFjq9rDwrNx9xaohCGotr5OK0H8pR8L6
+ wF7QFqihwrKMlnsW9qEsYJ1NE9VPRxZxk8YiaJE8CAqGRpapyoeiKx6ZS9TH5ax1w1
+ jwrO/pAa2V41yuUl4NsdVqR/Jb33hP2mbcK0YTPM=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200324134519eucas1p10cae7f4aab3c350027d35040def34e58~-QWp-Hh7H0905809058eucas1p1i;
+ 20200324134519eucas1p1b9fc55b0edf478a002bd8b298cef4979~-QWqas9sN1323313233eucas1p1Y;
  Tue, 24 Mar 2020 13:45:19 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id FC.08.60698.FEE0A7E5; Tue, 24
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 17.48.60679.FEE0A7E5; Tue, 24
  Mar 2020 13:45:19 +0000 (GMT)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200324134519eucas1p2d606db263a636433bf1545c836bed138~-QWpwJv6z3230032300eucas1p2-;
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200324134519eucas1p1e9b54c01e452330425f49c442e4c1b4e~-QWqE3-R61592815928eucas1p1P;
  Tue, 24 Mar 2020 13:45:19 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200324134519eusmtrp1900e7d86304abf94a785bccaaf113e69~-QWpvmFFf2619426194eusmtrp1s;
+ 20200324134519eusmtrp1dd9cdb988859cad042f02179a80bcdec~-QWqEVdbE2619426194eusmtrp1v;
  Tue, 24 Mar 2020 13:45:19 +0000 (GMT)
-X-AuditID: cbfec7f5-a0fff7000001ed1a-62-5e7a0eef48bb
+X-AuditID: cbfec7f4-0cbff7000001ed07-c6-5e7a0eefbf14
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 5C.E6.08375.FEE0A7E5; Tue, 24
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 2D.E6.08375.FEE0A7E5; Tue, 24
  Mar 2020 13:45:19 +0000 (GMT)
 Received: from AMDC3058.digital.local (unknown [106.120.51.71]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200324134518eusmtip2393f1a7de356a334a301a81a58cc9dbf~-QWpc9-Ku2918929189eusmtip2i;
- Tue, 24 Mar 2020 13:45:18 +0000 (GMT)
+ 20200324134519eusmtip267142118e3f73b5b45472bd472540e3a~-QWpwIps-2735827358eusmtip2n;
+ Tue, 24 Mar 2020 13:45:19 +0000 (GMT)
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/6] video: fbdev: controlfb: remove obsolete module support
-Date: Tue, 24 Mar 2020 14:45:05 +0100
-Message-Id: <20200324134508.25120-4-b.zolnierkie@samsung.com>
+Subject: [PATCH v2 4/6] video: fbdev: controlfb: remove function prototypes
+ part #1
+Date: Tue, 24 Mar 2020 14:45:06 +0100
+Message-Id: <20200324134508.25120-5-b.zolnierkie@samsung.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200324134508.25120-1-b.zolnierkie@samsung.com>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGKsWRmVeSWpSXmKPExsWy7djPc7rv+ariDOYelrG4te4cq8XGGetZ
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKKsWRmVeSWpSXmKPExsWy7djP87rv+ariDBbPtLS4te4cq8XGGetZ
  La58fc9mcaLvA6vF5V1z2CxW/NzK6MDmcb/7OJPHkmlX2Tz6tqxi9Pi8SS6AJYrLJiU1J7Ms
- tUjfLoErY2HXS+aC6TwVE3+dYWlgbODqYuTkkBAwkfjw5QxzFyMXh5DACkaJH00b2SCcL4wS
- +04ch3I+M0pMfHuSEabl3KdfUInljBJ3Hj9hhWtZ/nYbO0gVm4CVxMT2VWAdIgIJEiumzwCz
- mQVSJD5s+c8EYgsLBEpc2dLJCmKzCKhK7Fm3lwXE5hWwlXhzu4EZYpu8xNZvn8BqOAXsJHqn
- HWKGqBGUODnzCQvETHmJ5q2zwZ6QEGhmlzj4dDcrRLOLxMt/m1ggbGGJV8e3sEPYMhKnJ/ew
- QDSsY5T42/ECqns70AuT/7FBVFlL3DkH8igH0ApNifW79CHCjhIPjz1mAQlLCPBJ3HgrCHEE
- n8SkbdOZIcK8Eh1tQhDVahIblm1gg1nbtXMl1F8eEveO7GWZwKg4C8k7s5C8Mwth7wJG5lWM
- 4qmlxbnpqcXGeanlesWJucWleel6yfm5mxiBqeX0v+NfdzDu+5N0iFGAg1GJh1fjYWWcEGti
- WXFl7iFGCQ5mJRHezakVcUK8KYmVValF+fFFpTmpxYcYpTlYlMR5jRe9jBUSSE8sSc1OTS1I
- LYLJMnFwSjUwau6x8rwmuDYiX9hxuY5N7Ypw/7uCZjfjbMS9KrsMrz81v53GOOX18gzjH4eZ
- GNM+f+V/Wqhc8/LglyucX6Q3F0xabr5zirRR+Yz90u/meHEKifMcTKjyZ9nnaeuYrT/Tzn/Z
- yzMvee9OqPjNvV15W/F9p/pV1pqT5m7P660QVN2uW+DZuWqJEktxRqKhFnNRcSIAPwc3pikD
- AAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpikeLIzCtJLcpLzFFi42I5/e/4Pd33fFVxBjfv8lncWneO1WLjjPWs
- Fle+vmezONH3gdXi8q45bBYrfm5ldGDzuN99nMljybSrbB59W1YxenzeJBfAEqVnU5RfWpKq
- kJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9nk5Kak1mWWqRvl6CXsbDrJXPBdJ6Kib/O
- sDQwNnB1MXJySAiYSJz79Iuti5GLQ0hgKaNE+4nHrF2MHEAJGYnj68sgaoQl/lzrgqr5xCjx
- 6+s3dpAEm4CVxMT2VYwgtohAkkRnw0lmEJtZIE1i0tm7TCC2sIC/xKylX8BsFgFViT3r9rKA
- 2LwCthJvbjcwQyyQl9j67RMriM0pYCfRO+0QWFwIqObd+uOMEPWCEidnPmGBmC8v0bx1NvME
- RoFZSFKzkKQWMDKtYhRJLS3OTc8tNtQrTswtLs1L10vOz93ECAz/bcd+bt7BeGlj8CFGAQ5G
- JR5ejYeVcUKsiWXFlbmHGCU4mJVEeDenVsQJ8aYkVlalFuXHF5XmpBYfYjQFemIis5Rocj4w
- NvNK4g1NDc0tLA3Njc2NzSyUxHk7BA7GCAmkJ5akZqemFqQWwfQxcXBKNTBmrT4/Y7fVbqmk
- 2Gnxp5tvLksTtMpgVLzLvPl9y+ODPDrJ53su9NndUnbyzdPWWHLjldOabX2/Chnn5J9/82G5
- 0h7rjobfgn+/2xXwbUs4nue/7ovoxXNKrNujQmZcaPNXzLraGLbmxu/zLXNmMu2y9+L9kZPh
- vGaFgiaLxty8zYsnZWYqd9sqsRRnJBpqMRcVJwIAgRlAp5UCAAA=
-X-CMS-MailID: 20200324134519eucas1p2d606db263a636433bf1545c836bed138
+ tUjfLoEro2XZHJaCMyIVi3b+ZGtg3C/YxcjJISFgIvF131z2LkYuDiGBFYwSDZtnMkI4Xxgl
+ pmy8C5X5zCjxsusQUIYDrGXlP0GI+HJGiW27TrHCdXw5eoUJZC6bgJXExPZVjCC2iECCxIrp
+ M8BsZoEUiQ9b/oPVCAuESrT3v2IHsVkEVCUmdX1gA7F5BWwlTi64wQJxn7zE1m+fWEFsTgE7
+ id5ph5ghagQlTs58wgIxU16ieetsZpAjJAT+s0l0n98D1ewi8fPuJEYIW1ji1fEt7BC2jMTp
+ yT0sEA3rGCX+dryA6t7OKLF88j82iCpriTvnfrGB/MwsoCmxfpc+RNhRonsDSDMoKPgkbrwV
+ hDiCT2LStunMEGFeiY42IYhqNYkNyzawwazt2rmSGcL2kDjQ9pV5AqPiLCTvzELyziyEvQsY
+ mVcxiqeWFuempxYb5aWW6xUn5haX5qXrJefnbmIEJpbT/45/2cG460/SIUYBDkYlHl6Nh5Vx
+ QqyJZcWVuYcYJTiYlUR4N6dWxAnxpiRWVqUW5ccXleakFh9ilOZgURLnNV70MlZIID2xJDU7
+ NbUgtQgmy8TBKdXAyGVgaM1dzly26sFErwXOH9LTV9j8O/9/oXyz64QJfEzx+l+cEzrcJI/U
+ L0xLP1cb5c9xK8Zx9+YbWup8Zp5P7ANdLzurc2j9eLqbV+P3xwmRf+fa7F+/oPx5MOOiQ6p/
+ DTRuOqTudPq8J/BfpGZFyMIp6Xqzv6pNnCq5+1D8O79dTZ2bVdmXKLEUZyQaajEXFScCAKSj
+ 3zYoAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPLMWRmVeSWpSXmKPExsVy+t/xe7rv+ariDKYtV7a4te4cq8XGGetZ
+ La58fc9mcaLvA6vF5V1z2CxW/NzK6MDmcb/7OJPHkmlX2Tz6tqxi9Pi8SS6AJUrPpii/tCRV
+ ISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEvo2XZHJaCMyIVi3b+
+ ZGtg3C/YxcjBISFgIrHyH5DJxSEksJRRoun1WRaIuIzE8fVlXYycQKawxJ9rXWwgtpDAJ0aJ
+ A002IDabgJXExPZVjCC2iECSRGfDSWYQm1kgTWLS2btMIGOEBYIlHu4JBQmzCKhKTOr6ADaG
+ V8BW4uSCGywQ4+Ultn77xApicwrYSfROO8QMscpW4t3644wQ9YISJ2c+YYEYLy/RvHU28wRG
+ gVlIUrOQpBYwMq1iFEktLc5Nzy021CtOzC0uzUvXS87P3cQIDPxtx35u3sF4aWPwIUYBDkYl
+ Hl6Nh5VxQqyJZcWVuYcYJTiYlUR4N6dWxAnxpiRWVqUW5ccXleakFh9iNAV6YiKzlGhyPjAq
+ 80riDU0NzS0sDc2NzY3NLJTEeTsEDsYICaQnlqRmp6YWpBbB9DFxcEo1MHInu2anVTOo5hsX
+ XjoY0RL9Z9V+pmMBnz/Hp3xLtplseEqYi08z5Euga/SXAM/Ncu0+Bhz3yg8eNft2zDNw1bHu
+ 9rd9tkwbT6xSXMocxhEhxtmyZvLRs1wCXD6PhQVubbvyc1bDzGvi61fPDnI9PNGpM+b0SSO3
+ 5MWbDa3YvG4uEj76xur2TSWW4oxEQy3mouJEAPW0ZQeSAgAA
+X-CMS-MailID: 20200324134519eucas1p1e9b54c01e452330425f49c442e4c1b4e
 X-Msg-Generator: CA
-X-RootMTR: 20200324134519eucas1p2d606db263a636433bf1545c836bed138
+X-RootMTR: 20200324134519eucas1p1e9b54c01e452330425f49c442e4c1b4e
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200324134519eucas1p2d606db263a636433bf1545c836bed138
+X-CMS-RootMailID: 20200324134519eucas1p1e9b54c01e452330425f49c442e4c1b4e
 References: <20200324134508.25120-1-b.zolnierkie@samsung.com>
- <CGME20200324134519eucas1p2d606db263a636433bf1545c836bed138@eucas1p2.samsung.com>
+ <CGME20200324134519eucas1p1e9b54c01e452330425f49c442e4c1b4e@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,67 +112,81 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CONFIG_FB_CONTROL is bool, hence the Apple "control" frame buffer
-driver cannot be built as a module.
-
-Replace module_init() by device_initcall().
+Reorder code a bit and then remove no longer needed function
+prototypes.
 
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 ---
- drivers/video/fbdev/controlfb.c | 25 +------------------------
- 1 file changed, 1 insertion(+), 24 deletions(-)
+ drivers/video/fbdev/controlfb.c | 41 +++++++++++----------------------
+ 1 file changed, 13 insertions(+), 28 deletions(-)
 
 diff --git a/drivers/video/fbdev/controlfb.c b/drivers/video/fbdev/controlfb.c
-index b347bc78bc4a..92cffd2d0219 100644
+index 92cffd2d0219..83b7a219f557 100644
 --- a/drivers/video/fbdev/controlfb.c
 +++ b/drivers/video/fbdev/controlfb.c
-@@ -31,7 +31,6 @@
-  *  more details.
-  */
+@@ -141,20 +141,6 @@ struct fb_info_control {
+ #define CNTRL_REG(INFO,REG) (&(((INFO)->control_regs->REG).r))
  
--#include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
- #include <linux/string.h>
-@@ -198,28 +197,6 @@ static const struct fb_ops controlfb_ops = {
  
+-/******************** Prototypes for exported functions ********************/
+-/*
+- * struct fb_ops
+- */
+-static int controlfb_pan_display(struct fb_var_screeninfo *var,
+-	struct fb_info *info);
+-static int controlfb_setcolreg(u_int regno, u_int red, u_int green, u_int blue,
+-	u_int transp, struct fb_info *info);
+-static int controlfb_blank(int blank_mode, struct fb_info *info);
+-static int controlfb_mmap(struct fb_info *info,
+-	struct vm_area_struct *vma);
+-static int controlfb_set_par (struct fb_info *info);
+-static int controlfb_check_var (struct fb_var_screeninfo *var, struct fb_info *info);
+-
+ /******************** Prototypes for internal functions **********************/
+ 
+ static void set_control_clock(unsigned char *params);
+@@ -181,20 +167,6 @@ static int default_vmode __initdata = VMODE_NVRAM;
+ static int default_cmode __initdata = CMODE_NVRAM;
+ 
+ 
+-static const struct fb_ops controlfb_ops = {
+-	.owner		= THIS_MODULE,
+-	.fb_check_var	= controlfb_check_var,
+-	.fb_set_par	= controlfb_set_par,
+-	.fb_setcolreg	= controlfb_setcolreg,
+-	.fb_pan_display = controlfb_pan_display,
+-	.fb_blank	= controlfb_blank,
+-	.fb_mmap	= controlfb_mmap,
+-	.fb_fillrect	= cfb_fillrect,
+-	.fb_copyarea	= cfb_copyarea,
+-	.fb_imageblit	= cfb_imageblit,
+-};
+-
+-
  /********************  The functions for controlfb_ops ********************/
  
--#ifdef MODULE
--MODULE_LICENSE("GPL");
--
--int init_module(void)
--{
--	struct device_node *dp;
--	int ret = -ENXIO;
--
--	dp = of_find_node_by_name(NULL, "control");
--	if (dp && !control_of_init(dp))
--		ret = 0;
--	of_node_put(dp);
--
--	return ret;
--}
--
--void cleanup_module(void)
--{
--	control_cleanup();
--}
--#endif
--
  /*
-  * Checks a var structure
-  */
-@@ -612,7 +589,7 @@ static int __init control_init(void)
- 	return ret;
+@@ -1012,6 +984,19 @@ static inline void control_par_to_var(struct fb_par_control *par,
+ 	var->pixclock >>= par->regvals.clock_params[2];
  }
  
--module_init(control_init);
-+device_initcall(control_init);
- 
- /* Work out which banks of VRAM we have installed. */
- /* danj: I guess the card just ignores writes to nonexistant VRAM... */
++static const struct fb_ops controlfb_ops = {
++	.owner		= THIS_MODULE,
++	.fb_check_var	= controlfb_check_var,
++	.fb_set_par	= controlfb_set_par,
++	.fb_setcolreg	= controlfb_setcolreg,
++	.fb_pan_display = controlfb_pan_display,
++	.fb_blank	= controlfb_blank,
++	.fb_mmap	= controlfb_mmap,
++	.fb_fillrect	= cfb_fillrect,
++	.fb_copyarea	= cfb_copyarea,
++	.fb_imageblit	= cfb_imageblit,
++};
++
+ /*
+  * Set misc info vars for this driver
+  */
 -- 
 2.24.1
 
