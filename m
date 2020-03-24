@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D1019085A
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:55:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8562F190860
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 09:56:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 620966E451;
-	Tue, 24 Mar 2020 08:55:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1389189338;
+	Tue, 24 Mar 2020 08:56:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 174F86E286;
- Tue, 24 Mar 2020 08:54:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0DAB89338;
+ Tue, 24 Mar 2020 08:56:24 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 81795AC19;
- Tue, 24 Mar 2020 08:54:57 +0000 (UTC)
-Subject: Re: [PATCH 22/51] drm: manage drm_minor cleanup with drmm_
+ by mx2.suse.de (Postfix) with ESMTP id 73BB0ACD0;
+ Tue, 24 Mar 2020 08:56:23 +0000 (UTC)
+Subject: Re: [PATCH 49/51] drm/udl: Drop explicit drm_mode_config_cleanup call
 To: Daniel Vetter <daniel.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>
 References: <20200323144950.3018436-1-daniel.vetter@ffwll.ch>
- <20200323144950.3018436-23-daniel.vetter@ffwll.ch>
+ <20200323144950.3018436-50-daniel.vetter@ffwll.ch>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -47,12 +47,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <22b51a94-f71d-bc90-77f0-9fbf013ca996@suse.de>
-Date: Tue, 24 Mar 2020 09:54:53 +0100
+Message-ID: <399e5441-0580-096c-8196-c12596c11670@suse.de>
+Date: Tue, 24 Mar 2020 09:56:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200323144950.3018436-23-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200323144950.3018436-50-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,263 +65,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
+Cc: Sam Ravnborg <sam@ravnborg.org>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: multipart/mixed; boundary="===============1166523962=="
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/mixed; boundary="===============0527083777=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1166523962==
+--===============0527083777==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="xcUsXUNbLyLQ4KYN5YA3Ne1CIBswgX7U3"
+ boundary="wqWPhPfrpdhiSCsyVyl3XFQRTFeST4PLl"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xcUsXUNbLyLQ4KYN5YA3Ne1CIBswgX7U3
-Content-Type: multipart/mixed; boundary="Dw7iHNQQW0wjO2FwQP70zxEDkE8ab5UMb";
+--wqWPhPfrpdhiSCsyVyl3XFQRTFeST4PLl
+Content-Type: multipart/mixed; boundary="wEurBYROCiE6luDxo9eeAV126KBx1ELpX";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+Cc: Sean Paul <sean@poorly.run>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <22b51a94-f71d-bc90-77f0-9fbf013ca996@suse.de>
-Subject: Re: [PATCH 22/51] drm: manage drm_minor cleanup with drmm_
+ Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Message-ID: <399e5441-0580-096c-8196-c12596c11670@suse.de>
+Subject: Re: [PATCH 49/51] drm/udl: Drop explicit drm_mode_config_cleanup call
 References: <20200323144950.3018436-1-daniel.vetter@ffwll.ch>
- <20200323144950.3018436-23-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200323144950.3018436-23-daniel.vetter@ffwll.ch>
+ <20200323144950.3018436-50-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200323144950.3018436-50-daniel.vetter@ffwll.ch>
 
---Dw7iHNQQW0wjO2FwQP70zxEDkE8ab5UMb
+--wEurBYROCiE6luDxo9eeAV126KBx1ELpX
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+
 
 Am 23.03.20 um 15:49 schrieb Daniel Vetter:
-> The cleanup here is somewhat tricky, since we can't tell apart the
-> allocated minor index from 0. So register a cleanup action first, and
-> if the index allocation fails, unregister that cleanup action again to
-> avoid bad mistakes.
+> It's right above the drm_dev_put().
 >=20
-> The kdev for the minor already handles NULL, so no problem there.
+> This allows us to delete a bit of onion unwinding in
+> udl_modeset_init().
 >=20
-> Hence add drmm_remove_action() to the drm_managed library.
+> This is made possible by a preceeding patch which added a drmm_
+> cleanup action to drm_mode_config_init(), hence all we need to do to
+> ensure that drm_mode_config_cleanup() is run on final drm_device
+> cleanup is check the new error code for _init().
 >=20
-> v2: Make pointer math around void ** consistent with what Laurent
-> suggested.
+> v2: Explain why this cleanup is possible (Laurent).
 >=20
-> v3: Use drmm_add_action_or_reset and remove drmm_remove_action. Noticed=
-
-> because of some questions from Thomas. This also means we need to move
-> the drmm_add_action_or_reset helper earlier in the series.
+> v3: Use drmm_mode_config_init() for more clarity (Sam, Thomas)
 >=20
+> Cc: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-
-This code looks easier to understand than the previous patch.
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Emil Velikov <emil.l.velikov@gmail.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->  drivers/gpu/drm/drm_drv.c     | 70 ++++++++++++-----------------------=
-
->  drivers/gpu/drm/drm_managed.c | 14 +++++++
->  include/drm/drm_managed.h     |  9 ++++-
->  3 files changed, 46 insertions(+), 47 deletions(-)
+>  drivers/gpu/drm/udl/udl_drv.c     |  1 -
+>  drivers/gpu/drm/udl/udl_drv.h     |  1 -
+>  drivers/gpu/drm/udl/udl_modeset.c | 21 ++++++---------------
+>  3 files changed, 6 insertions(+), 17 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index a710c53d13a8..25fc2107057c 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -93,13 +93,25 @@ static struct drm_minor **drm_minor_get_slot(struct=
- drm_device *dev,
->  	}
+> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_dr=
+v.c
+> index 8b78c356beb5..b447fb053e78 100644
+> --- a/drivers/gpu/drm/udl/udl_drv.c
+> +++ b/drivers/gpu/drm/udl/udl_drv.c
+> @@ -37,7 +37,6 @@ DEFINE_DRM_GEM_FOPS(udl_driver_fops);
+>  static void udl_driver_release(struct drm_device *dev)
+>  {
+>  	udl_fini(dev);
+> -	udl_modeset_cleanup(dev);
 >  }
 > =20
-> +static void drm_minor_alloc_release(struct drm_device *dev, void *data=
-)
-> +{
-> +	struct drm_minor *minor =3D data;
-> +	unsigned long flags;
-> +
-> +	put_device(minor->kdev);
-> +
-> +	spin_lock_irqsave(&drm_minor_lock, flags);
-> +	idr_remove(&drm_minors_idr, minor->index);
-> +	spin_unlock_irqrestore(&drm_minor_lock, flags);
-> +}
-> +
->  static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
->  {
->  	struct drm_minor *minor;
->  	unsigned long flags;
->  	int r;
+>  static struct drm_driver driver =3D {
+> diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_dr=
+v.h
+> index e67227c44cc4..1de7eb1b6aac 100644
+> --- a/drivers/gpu/drm/udl/udl_drv.h
+> +++ b/drivers/gpu/drm/udl/udl_drv.h
+> @@ -68,7 +68,6 @@ struct udl_device {
 > =20
-> -	minor =3D kzalloc(sizeof(*minor), GFP_KERNEL);
-> +	minor =3D drmm_kzalloc(dev, sizeof(*minor), GFP_KERNEL);
->  	if (!minor)
->  		return -ENOMEM;
+>  /* modeset */
+>  int udl_modeset_init(struct drm_device *dev);
+> -void udl_modeset_cleanup(struct drm_device *dev);
+>  struct drm_connector *udl_connector_init(struct drm_device *dev);
 > =20
-> @@ -117,46 +129,19 @@ static int drm_minor_alloc(struct drm_device *dev=
-, unsigned int type)
->  	idr_preload_end();
+>  struct urb *udl_get_urb(struct drm_device *dev);
+> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/ud=
+l_modeset.c
+> index d59ebac70b15..8cad01f3d163 100644
+> --- a/drivers/gpu/drm/udl/udl_modeset.c
+> +++ b/drivers/gpu/drm/udl/udl_modeset.c
+> @@ -468,7 +468,9 @@ int udl_modeset_init(struct drm_device *dev)
+>  	struct drm_connector *connector;
+>  	int ret;
 > =20
->  	if (r < 0)
-> -		goto err_free;
-> +		return r;
+> -	drm_mode_config_init(dev);
+> +	ret =3D drmm_mode_config_init(dev);
+> +	if (ret)
+> +		return ret;
 > =20
-> -	minor->index =3D r;
-> +	r =3D drmm_add_action_or_reset(dev, drm_minor_alloc_release, minor);
-> +	if (r)
-> +		return r;
+>  	dev->mode_config.min_width =3D 640;
+>  	dev->mode_config.min_height =3D 480;
+> @@ -482,10 +484,8 @@ int udl_modeset_init(struct drm_device *dev)
+>  	dev->mode_config.funcs =3D &udl_mode_funcs;
 > =20
-> +	minor->index =3D r;
->  	minor->kdev =3D drm_sysfs_minor_alloc(minor);
-> -	if (IS_ERR(minor->kdev)) {
-> -		r =3D PTR_ERR(minor->kdev);
-> -		goto err_index;
+>  	connector =3D udl_connector_init(dev);
+> -	if (IS_ERR(connector)) {
+> -		ret =3D PTR_ERR(connector);
+> -		goto err_drm_mode_config_cleanup;
 > -	}
-> +	if (IS_ERR(minor->kdev))
-> +		return PTR_ERR(minor->kdev);
+> +	if (IS_ERR(connector))
+> +		return PTR_ERR(connector);
 > =20
->  	*drm_minor_get_slot(dev, type) =3D minor;
+>  	format_count =3D ARRAY_SIZE(udl_simple_display_pipe_formats);
+> =20
+> @@ -494,18 +494,9 @@ int udl_modeset_init(struct drm_device *dev)
+>  					   udl_simple_display_pipe_formats,
+>  					   format_count, NULL, connector);
+>  	if (ret)
+> -		goto err_drm_mode_config_cleanup;
+> +		return ret;
+> =20
+>  	drm_mode_config_reset(dev);
+> =20
 >  	return 0;
 > -
-> -err_index:
-> -	spin_lock_irqsave(&drm_minor_lock, flags);
-> -	idr_remove(&drm_minors_idr, minor->index);
-> -	spin_unlock_irqrestore(&drm_minor_lock, flags);
-> -err_free:
-> -	kfree(minor);
-> -	return r;
+> -err_drm_mode_config_cleanup:
+> -	drm_mode_config_cleanup(dev);
+> -	return ret;
 > -}
 > -
-> -static void drm_minor_free(struct drm_device *dev, unsigned int type)
+> -void udl_modeset_cleanup(struct drm_device *dev)
 > -{
-> -	struct drm_minor **slot, *minor;
-> -	unsigned long flags;
-> -
-> -	slot =3D drm_minor_get_slot(dev, type);
-> -	minor =3D *slot;
-> -	if (!minor)
-> -		return;
-> -
-> -	put_device(minor->kdev);
-> -
-> -	spin_lock_irqsave(&drm_minor_lock, flags);
-> -	idr_remove(&drm_minors_idr, minor->index);
-> -	spin_unlock_irqrestore(&drm_minor_lock, flags);
-> -
-> -	kfree(minor);
-> -	*slot =3D NULL;
+> -	drm_mode_config_cleanup(dev);
 >  }
-> =20
->  static int drm_minor_register(struct drm_device *dev, unsigned int typ=
-e)
-> @@ -678,16 +663,16 @@ int drm_dev_init(struct drm_device *dev,
->  	if (drm_core_check_feature(dev, DRIVER_RENDER)) {
->  		ret =3D drm_minor_alloc(dev, DRM_MINOR_RENDER);
->  		if (ret)
-> -			goto err_minors;
-> +			goto err;
->  	}
-> =20
->  	ret =3D drm_minor_alloc(dev, DRM_MINOR_PRIMARY);
->  	if (ret)
-> -		goto err_minors;
-> +		goto err;
-> =20
->  	ret =3D drm_legacy_create_map_hash(dev);
->  	if (ret)
-> -		goto err_minors;
-> +		goto err;
-> =20
->  	drm_legacy_ctxbitmap_init(dev);
-> =20
-> @@ -695,7 +680,7 @@ int drm_dev_init(struct drm_device *dev,
->  		ret =3D drm_gem_init(dev);
->  		if (ret) {
->  			DRM_ERROR("Cannot initialize graphics execution manager (GEM)\n");
-> -			goto err_ctxbitmap;
-> +			goto err;
->  		}
->  	}
-> =20
-> @@ -708,10 +693,6 @@ int drm_dev_init(struct drm_device *dev,
->  err_setunique:
->  	if (drm_core_check_feature(dev, DRIVER_GEM))
->  		drm_gem_destroy(dev);
-> -err_ctxbitmap:
-> -err_minors:
-> -	drm_minor_free(dev, DRM_MINOR_PRIMARY);
-> -	drm_minor_free(dev, DRM_MINOR_RENDER);
->  err:
->  	drm_managed_release(dev);
-> =20
-> @@ -776,9 +757,6 @@ void drm_dev_fini(struct drm_device *dev)
-> =20
->  	if (drm_core_check_feature(dev, DRIVER_GEM))
->  		drm_gem_destroy(dev);
-> -
-> -	drm_minor_free(dev, DRM_MINOR_PRIMARY);
-> -	drm_minor_free(dev, DRM_MINOR_RENDER);
->  }
->  EXPORT_SYMBOL(drm_dev_fini);
-> =20
-> diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_manage=
-d.c
-> index c633c2ef5269..8abf3a53aeb5 100644
-> --- a/drivers/gpu/drm/drm_managed.c
-> +++ b/drivers/gpu/drm/drm_managed.c
-> @@ -149,6 +149,20 @@ int __drmm_add_action(struct drm_device *dev,
->  }
->  EXPORT_SYMBOL(__drmm_add_action);
-> =20
-> +int __drmm_add_action_or_reset(struct drm_device *dev,
-> +			       drmres_release_t action,
-> +			       void *data, const char *name)
-> +{
-> +	int ret;
-> +
-> +	ret =3D __drmm_add_action(dev, action, data, name);
-> +	if (ret)
-> +		action(dev, data);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(__drmm_add_action_or_reset);
-> +
->  void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp)
->  {
->  	struct drmres *dr;
-> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
-> index 89e6fce9f689..2d1e29a2200c 100644
-> --- a/include/drm/drm_managed.h
-> +++ b/include/drm/drm_managed.h
-> @@ -17,7 +17,14 @@ int __must_check __drmm_add_action(struct drm_device=
- *dev,
->  				   drmres_release_t action,
->  				   void *data, const char *name);
-> =20
-> -void drmm_add_final_kfree(struct drm_device *dev, void *parent);
-> +#define drmm_add_action_or_reset(dev, action, data) \
-> +	__drmm_add_action_or_reset(dev, action, data, #action)
-> +
-> +int __must_check __drmm_add_action_or_reset(struct drm_device *dev,
-> +					    drmres_release_t action,
-> +					    void *data, const char *name);
-> +
-> +void drmm_add_final_kfree(struct drm_device *dev, void *container);
-> =20
->  void *drmm_kmalloc(struct drm_device *dev, size_t size, gfp_t gfp) __m=
-alloc;
->  static inline void *drmm_kzalloc(struct drm_device *dev, size_t size, =
-gfp_t gfp)
 >=20
 
 --=20
@@ -333,28 +233,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---Dw7iHNQQW0wjO2FwQP70zxEDkE8ab5UMb--
+--wEurBYROCiE6luDxo9eeAV126KBx1ELpX--
 
---xcUsXUNbLyLQ4KYN5YA3Ne1CIBswgX7U3
+--wqWPhPfrpdhiSCsyVyl3XFQRTFeST4PLl
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl55yt0ACgkQaA3BHVML
-eiNFdgf9HMNSPfDWxXYWeYL+K5Fs6qE8BvO7F0xsPd4TGu3dDb/00GotzwR+/wlT
-j8+S5cqXywncwpCkDzqxQNmc0FIsN+MFmDrSxpj9i/YKMxgTVBOXDdzvEzTJSzVC
-+UasfCNkWMsTYxIWUFURm5UIRJFdqQRBov4REzYOY06cLbnkU4C252rD2YCxp9AC
-WXqr1o0c+Y1Ml+Mc10Snt6ECgUdA0jmAXYy2JU/D+fiQz0IHkS2fAWPlzX4huifL
-8KPXDKQjpCYVa2fL/hkBqNbpuNbSLyy8bwdZVuU4E2triw6MDBBJHSzBSGpVBAY1
-Nk+ZmXjeK0k4XeLFIDB+u1UuTRmacg==
-=otcU
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl55yzYACgkQaA3BHVML
+eiMyHAgAi09OMAPbti5Iz7GLzPzp3DcO7+7dqkFjfSKpk245dI86TfBG52XkrjJf
+sh1sS1+vIiDkB6WiqY51op/xG+5nwNR7qXu+2qxKy7eEA1sKAiTE8zDSmwapQy0s
+8XzOlZtrSQ1i6PMAwaVt2CIxwPGKhOyBptBOEE9LAYFF/+lyXGz3wWt1ALMUUamE
+77o9tev5ZmRTeQHCpMkeydw4xxIFKxAtfQtBY3RtSFLDyezYqiHjsDOFRWHWvdQP
+lMlR2pl5RndrnZ1M5G4eBE//9LILLDg4mc+MewcCLokwWWfbqeN35YTRPN5xB2yr
+lOZKpBezJimg31pSHaG04jjoxgRw3w==
+=KdYC
 -----END PGP SIGNATURE-----
 
---xcUsXUNbLyLQ4KYN5YA3Ne1CIBswgX7U3--
+--wqWPhPfrpdhiSCsyVyl3XFQRTFeST4PLl--
 
---===============1166523962==
+--===============0527083777==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -365,4 +265,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1166523962==--
+--===============0527083777==--
