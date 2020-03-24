@@ -1,47 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1451916B5
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 17:44:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A3A1916B9
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 17:44:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 784F6898BE;
-	Tue, 24 Mar 2020 16:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07DB76E4AF;
+	Tue, 24 Mar 2020 16:44:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3D3898BE;
- Tue, 24 Mar 2020 16:43:58 +0000 (UTC)
-IronPort-SDR: Bl1VTCO3nKM3lU5rire7fZVfuAb/jnhmkR7PdzFPpa8isy6/B+fBmI94YZQzpbcQyzqokFoDDE
- RIXq10AQCbSA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2020 09:43:57 -0700
-IronPort-SDR: Sp8MFoWvFSVOmBjiUc+tML0En1ordJt68pPQD5Gd5MP6mWOFmFc1Ew4uawL7exaYlWuH22GZ9s
- xDGMt7cvYMkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,301,1580803200"; d="scan'208";a="235637810"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 24 Mar 2020 09:43:53 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 24 Mar 2020 18:43:51 +0200
-Date: Tue, 24 Mar 2020 18:43:51 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: "Laxminarayan Bharadiya, Pankaj" <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: Re: [PATCH v2 3/5] drm/i915: Introduce scaling filter related
- registers and bit fields.
-Message-ID: <20200324164351.GY13686@intel.com>
-References: <20200319102103.28895-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200319102103.28895-4-pankaj.laxminarayan.bharadiya@intel.com>
- <20200323143924.GT13686@intel.com>
- <E92BA18FDE0A5B43B7B3DA7FCA031286057CDBC4@BGSMSX107.gar.corp.intel.com>
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AF4A6E4AF
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 16:44:09 +0000 (UTC)
+Received: by mail-pl1-x643.google.com with SMTP id h11so7609649plk.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 09:44:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BbyLLEYEK6Gyg7cfPQ6LVAJ2+jzffhBqTriYs0VbTR0=;
+ b=crVk0auRNESpfyN3FUSKoQOInCTtMbgj2BKqigpyM4fOVzOc4LiyQHj3muLNMIGEO/
+ 05HPrXSiC6GcHWYukQWmxY36kYDOSA+okKpO811k4m6p3AO2x5z8CrSOT4ChByIt+gFd
+ eJ51lQVPotF+zZT3cUwAp958rHuU1WERyHI1U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BbyLLEYEK6Gyg7cfPQ6LVAJ2+jzffhBqTriYs0VbTR0=;
+ b=AmVDv6NBNUvac6GxQX/xnqjP6l/2sv5HKgOq1Cdc6J8YKUmbKJMy1HBKqrbTAvjUOS
+ XGvtPOUJ1vPcoXvLLJHtMUsYt2HP8cH7+PkI0xp2GaPC7yjV6OLMDmtoBVl3apyMo0IG
+ HWY11MTnLP8WxjgOwihPglsBlNUfJpIVDHfyXp8wMDh/wiQiDFXIudT/c/Q5ov4SDyr8
+ kzb9KI/tlNMusR+OSxiJx5rrpwWvhSufoZjzarcQY5h6vJ+4VO/xiMRjVAI3g7Ti9DAG
+ /UCdetayy4ANuY1Nw5krSObN6YCqen1InXE57XFlv9LtKJa8J/8tXjR+4KIPs0ELEOCi
+ a4Xw==
+X-Gm-Message-State: ANhLgQ0LpqqCuKc6LpCN1aV0RPSNEUIIAEyDeih9wGXChM7vz6+6fPxW
+ /DBI+4jfVIzFugoDhzZyad6WeZJPgTw=
+X-Google-Smtp-Source: ADFU+vu/8Z7zvHK8OoCvPVR3qzPWatN9zkGLRMx1TlzUuyzuPSlW+chKd18Stsq1he62xdfjBvw5bg==
+X-Received: by 2002:a17:90a:aa83:: with SMTP id l3mr6397592pjq.5.1585068249280; 
+ Tue, 24 Mar 2020 09:44:09 -0700 (PDT)
+Received: from gurchetansingh0.mtv.corp.google.com
+ ([2620:15c:202:201:bc97:5740:52a7:6875])
+ by smtp.gmail.com with ESMTPSA id z6sm16316621pfn.212.2020.03.24.09.44.08
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Tue, 24 Mar 2020 09:44:08 -0700 (PDT)
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/virtio: random virtgpu_drv.h cleanups
+Date: Tue, 24 Mar 2020 09:43:58 -0700
+Message-Id: <20200324164400.30013-1-gurchetansingh@chromium.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <E92BA18FDE0A5B43B7B3DA7FCA031286057CDBC4@BGSMSX107.gar.corp.intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,211 +62,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Lattannavar, Sameer" <sameer.lattannavar@intel.com>,
- "daniels@collabora.com" <daniels@collabora.com>,
- David Airlie <airlied@linux.ie>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: kraxel@redhat.com, Gurchetan Singh <gurchetansingh@chromium.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 24, 2020 at 02:36:10PM +0000, Laxminarayan Bharadiya, Pankaj wr=
-ote:
-> =
+- Static-ify virtio_gpu_gem_create
+- Delete unused prototypes
+- Point to current implementation files
 
-> =
+Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.h | 26 +++++++++-----------------
+ drivers/gpu/drm/virtio/virtgpu_gem.c | 10 +++++-----
+ 2 files changed, 14 insertions(+), 22 deletions(-)
 
-> > -----Original Message-----
-> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > Sent: 23 March 2020 20:09
-> > To: Laxminarayan Bharadiya, Pankaj
-> > <pankaj.laxminarayan.bharadiya@intel.com>
-> > Cc: Lattannavar, Sameer <sameer.lattannavar@intel.com>;
-> > jani.nikula@linux.intel.com; daniel@ffwll.ch; intel-gfx@lists.freedeskt=
-op.org;
-> > dri-devel@lists.freedesktop.org; daniels@collabora.com; Joonas Lahtinen
-> > <joonas.lahtinen@linux.intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.co=
-m>;
-> > David Airlie <airlied@linux.ie>
-> > Subject: Re: [PATCH v2 3/5] drm/i915: Introduce scaling filter related =
-registers
-> > and bit fields.
-> > =
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 824f9f15926c..79ad176aca5a 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -218,26 +218,18 @@ struct virtio_gpu_fpriv {
+ 	struct mutex context_lock;
+ };
+ 
+-/* virtio_ioctl.c */
++/* virtgpu_ioctl.c */
+ #define DRM_VIRTIO_NUM_IOCTLS 10
+ extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
+ 
+-/* virtio_kms.c */
++/* virtgpu_kms.c */
+ int virtio_gpu_init(struct drm_device *dev);
+ void virtio_gpu_deinit(struct drm_device *dev);
+ void virtio_gpu_release(struct drm_device *dev);
+ int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file);
+ void virtio_gpu_driver_postclose(struct drm_device *dev, struct drm_file *file);
+ 
+-/* virtio_gem.c */
+-void virtio_gpu_gem_free_object(struct drm_gem_object *gem_obj);
+-int virtio_gpu_gem_init(struct virtio_gpu_device *vgdev);
+-void virtio_gpu_gem_fini(struct virtio_gpu_device *vgdev);
+-int virtio_gpu_gem_create(struct drm_file *file,
+-			  struct drm_device *dev,
+-			  struct virtio_gpu_object_params *params,
+-			  struct drm_gem_object **obj_p,
+-			  uint32_t *handle_p);
++/* virtgpu_gem.c */
+ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
+ 			       struct drm_file *file);
+ void virtio_gpu_gem_object_close(struct drm_gem_object *obj,
+@@ -263,7 +255,7 @@ void virtio_gpu_array_put_free_delayed(struct virtio_gpu_device *vgdev,
+ 				       struct virtio_gpu_object_array *objs);
+ void virtio_gpu_array_put_free_work(struct work_struct *work);
+ 
+-/* virtio vg */
++/* virtgpu_vq.c */
+ int virtio_gpu_alloc_vbufs(struct virtio_gpu_device *vgdev);
+ void virtio_gpu_free_vbufs(struct virtio_gpu_device *vgdev);
+ void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
+@@ -343,17 +335,17 @@ void virtio_gpu_dequeue_fence_func(struct work_struct *work);
+ 
+ void virtio_gpu_notify(struct virtio_gpu_device *vgdev);
+ 
+-/* virtio_gpu_display.c */
++/* virtgpu_display.c */
+ void virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev);
+ void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev);
+ 
+-/* virtio_gpu_plane.c */
++/* virtgpu_plane.c */
+ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc);
+ struct drm_plane *virtio_gpu_plane_init(struct virtio_gpu_device *vgdev,
+ 					enum drm_plane_type type,
+ 					int index);
+ 
+-/* virtio_gpu_fence.c */
++/* virtgpu_fence.c */
+ struct virtio_gpu_fence *virtio_gpu_fence_alloc(
+ 	struct virtio_gpu_device *vgdev);
+ void virtio_gpu_fence_emit(struct virtio_gpu_device *vgdev,
+@@ -362,7 +354,7 @@ void virtio_gpu_fence_emit(struct virtio_gpu_device *vgdev,
+ void virtio_gpu_fence_event_process(struct virtio_gpu_device *vdev,
+ 				    u64 last_seq);
+ 
+-/* virtio_gpu_object */
++/* virtgpu_object.c */
+ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo);
+ struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
+ 						size_t size);
+@@ -378,7 +370,7 @@ struct drm_gem_object *virtgpu_gem_prime_import_sg_table(
+ 	struct drm_device *dev, struct dma_buf_attachment *attach,
+ 	struct sg_table *sgt);
+ 
+-/* virgl debugfs */
++/* virtgpu_debugfs.c */
+ void virtio_gpu_debugfs_init(struct drm_minor *minor);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+index 0d6152c99a27..90c0a8ea1708 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_gem.c
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+@@ -28,11 +28,11 @@
+ 
+ #include "virtgpu_drv.h"
+ 
+-int virtio_gpu_gem_create(struct drm_file *file,
+-			  struct drm_device *dev,
+-			  struct virtio_gpu_object_params *params,
+-			  struct drm_gem_object **obj_p,
+-			  uint32_t *handle_p)
++static int virtio_gpu_gem_create(struct drm_file *file,
++				 struct drm_device *dev,
++				 struct virtio_gpu_object_params *params,
++				 struct drm_gem_object **obj_p,
++				 uint32_t *handle_p)
+ {
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_object *obj;
+-- 
+2.25.1.696.g5e7596f4ac-goog
 
-> > On Thu, Mar 19, 2020 at 03:51:01PM +0530, Pankaj Bharadiya wrote:
-> > > Introduce scaler registers and bit fields needed to configure the
-> > > scaling filter in prgrammed mode and configure scaling filter
-> > > coefficients.
-> > >
-> > > changes since v1:
-> > > * None
-> > > changes since RFC:
-> > > * Parametrize scaler coeffient macros by 'set' (Ville)
-> > >
-> > > Signed-off-by: Shashank Sharma <shashank.sharma@intel.com>
-> > > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> > > Signed-off-by: Pankaj Bharadiya
-> > > <pankaj.laxminarayan.bharadiya@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/i915_reg.h | 48
-> > > +++++++++++++++++++++++++++++++++
-> > >  1 file changed, 48 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/i915_reg.h
-> > > b/drivers/gpu/drm/i915/i915_reg.h index 9c53fe918be6..d40f12d2a6b5
-> > > 100644
-> > > --- a/drivers/gpu/drm/i915/i915_reg.h
-> > > +++ b/drivers/gpu/drm/i915/i915_reg.h
-> > > @@ -7205,6 +7205,7 @@ enum {
-> > >  #define PS_PLANE_SEL(plane) (((plane) + 1) << 25)
-> > >  #define PS_FILTER_MASK         (3 << 23)
-> > >  #define PS_FILTER_MEDIUM       (0 << 23)
-> > > +#define PS_FILTER_PROGRAMMED   (1 << 23)
-> > >  #define PS_FILTER_EDGE_ENHANCE (2 << 23)
-> > >  #define PS_FILTER_BILINEAR     (3 << 23)
-> > >  #define PS_VERT3TAP            (1 << 21)
-> > > @@ -7219,6 +7220,10 @@ enum {
-> > >  #define PS_VADAPT_MODE_MOST_ADAPT  (3 << 5)  #define
-> > > PS_PLANE_Y_SEL_MASK  (7 << 5)  #define PS_PLANE_Y_SEL(plane) (((plane)
-> > > + 1) << 5)
-> > > +#define PS_Y_VERT_FILTER_SELECT(set)   ((set) << 4)
-> > > +#define PS_Y_HORZ_FILTER_SELECT(set)   ((set) << 3)
-> > > +#define PS_UV_VERT_FILTER_SELECT(set)  ((set) << 2) #define
-> > > +PS_UV_HORZ_FILTER_SELECT(set)  ((set) << 1)
-> > >
-> > >  #define _PS_PWR_GATE_1A     0x68160
-> > >  #define _PS_PWR_GATE_2A     0x68260
-> > > @@ -7281,6 +7286,25 @@ enum {
-> > >  #define _PS_ECC_STAT_2B     0x68AD0
-> > >  #define _PS_ECC_STAT_1C     0x691D0
-> > >
-> > > +#define _PS_COEF_SET0_INDEX_1A	   0x68198
-> > > +#define _PS_COEF_SET0_INDEX_2A	   0x68298
-> > > +#define _PS_COEF_SET0_INDEX_1B	   0x68998
-> > > +#define _PS_COEF_SET0_INDEX_2B	   0x68A98
-> > > +#define _PS_COEF_SET1_INDEX_1A	   0x681A0
-> > > +#define _PS_COEF_SET1_INDEX_2A	   0x682A0
-> > > +#define _PS_COEF_SET1_INDEX_1B	   0x689A0
-> > > +#define _PS_COEF_SET1_INDEX_2B	   0x68AA0
-> > > +#define PS_COEE_INDEX_AUTO_INC	   (1 << 10)
-> > > +
-> > > +#define _PS_COEF_SET0_DATA_1A	   0x6819C
-> > > +#define _PS_COEF_SET0_DATA_2A	   0x6829C
-> > > +#define _PS_COEF_SET0_DATA_1B	   0x6899C
-> > > +#define _PS_COEF_SET0_DATA_2B	   0x68A9C
-> > > +#define _PS_COEF_SET1_DATA_1A	   0x681A4
-> > > +#define _PS_COEF_SET1_DATA_2A	   0x682A4
-> > > +#define _PS_COEF_SET1_DATA_1B	   0x689A4
-> > > +#define _PS_COEF_SET1_DATA_2B	   0x68AA4
-> > > +
-> > >  #define _ID(id, a, b) _PICK_EVEN(id, a, b)
-> > >  #define SKL_PS_CTRL(pipe, id) _MMIO_PIPE(pipe,        \
-> > >  			_ID(id, _PS_1A_CTRL, _PS_2A_CTRL),       \
-> > > @@ -7310,6 +7334,30 @@ enum {
-> > >  			_ID(id, _PS_ECC_STAT_1A, _PS_ECC_STAT_2A),   \
-> > >  			_ID(id, _PS_ECC_STAT_1B, _PS_ECC_STAT_2B))
-> > >
-> > > +#define _SKL_PS_COEF_INDEX_SET0(pipe, id)  _ID(pipe,    \
-> > > +			_ID(id, _PS_COEF_SET0_INDEX_1A,
-> > _PS_COEF_SET0_INDEX_2A), \
-> > > +			_ID(id, _PS_COEF_SET0_INDEX_1B,
-> > _PS_COEF_SET0_INDEX_2B))
-> > > +
-> > > +#define _SKL_PS_COEF_INDEX_SET1(pipe, id)  _ID(pipe,    \
-> > > +			_ID(id, _PS_COEF_SET1_INDEX_1A,
-> > _PS_COEF_SET1_INDEX_2A), \
-> > > +			_ID(id, _PS_COEF_SET1_INDEX_1B,
-> > _PS_COEF_SET1_INDEX_2B))
-> > > +
-> > > +#define _SKL_PS_COEF_DATA_SET0(pipe, id)  _ID(pipe,     \
-> > > +			_ID(id, _PS_COEF_SET0_DATA_1A,
-> > _PS_COEF_SET0_DATA_2A), \
-> > > +			_ID(id, _PS_COEF_SET0_DATA_1B,
-> > _PS_COEF_SET0_DATA_2B))
-> > > +
-> > > +#define _SKL_PS_COEF_DATA_SET1(pipe, id)  _ID(pipe,     \
-> > > +			_ID(id, _PS_COEF_SET1_DATA_1A,
-> > _PS_COEF_SET1_DATA_2A), \
-> > > +			_ID(id, _PS_COEF_SET1_DATA_1B,
-> > _PS_COEF_SET1_DATA_2B))
-> > > +
-> > > +#define SKL_PS_COEF_INDEX_SET(pipe, id, set) \
-> > > +			_MMIO_PIPE(set, _SKL_PS_COEF_INDEX_SET0(pipe, id),
-> > \
-> > > +			    _SKL_PS_COEF_INDEX_SET1(pipe, id))
-> > > +
-> > > +#define SKL_PS_COEF_DATA_SET(pipe, id, set) \
-> > > +			_MMIO_PIPE(set, _SKL_PS_COEF_DATA_SET0(pipe, id),
-> > \
-> > > +			    _SKL_PS_COEF_DATA_SET1(pipe, id))
-> > =
-
-> > I'd name those CNL_PS_COEF_{DATA,INDEX}(). Or maybe eeven GLK_ since it
-> > already has this despite not being officially supported.
-> =
-
-> All other existing scaler macros start will  SKL_PS_*,  adding new CNL_PS=
-_* may
-> lead to confusion IMO since we will end up in using mixed SKL_PS_* and CN=
-L_PS_* name
-> to configure  scaler. =
-
-
-They are called SKL_ because skl is where they got introduced.
-
-> =
-
-> > =
-
-> > Also I'd probably just have used +(set)*8 instead of adding another tri=
-p through
-> > _PICK_EVEN(). It's getting a bit hard to read this.
-> =
-
-> OK.
-> How does this sound like?  -
-> =
-
-> +#define SKL_PS_COEF_INDEX_SET(pipe, id, set)  _MMIO_PIPE(pipe,    \
-> +                       _ID(id, _PS_COEF_SET0_INDEX_1A, _PS_COEF_SET0_IND=
-EX_2A) + (set) * 8, \
-> +                       _ID(id, _PS_COEF_SET0_INDEX_1B, _PS_COEF_SET0_IND=
-EX_2B) + (set) * 8)
-> =
-
-> +#define SKL_PS_COEF_DATA_SET(pipe, id, set)  _MMIO_PIPE(pipe,     \
-> +                       _ID(id, _PS_COEF_SET0_DATA_1A, _PS_COEF_SET0_DATA=
-_2A) + (set) * 8, \
-> +                       _ID(id, _PS_COEF_SET0_DATA_1B, _PS_COEF_SET0_DATA=
-_2B) + (set) * 8)
-
-Looks all right.
-
-> =
-
-> Thanks,
-> Pankaj
-> > =
-
-> > > +
-> > >  /* legacy palette */
-> > >  #define _LGC_PALETTE_A           0x4a000
-> > >  #define _LGC_PALETTE_B           0x4a800
-> > > --
-> > > 2.23.0
-> > =
-
-> > --
-> > Ville Syrj=E4l=E4
-> > Intel
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
