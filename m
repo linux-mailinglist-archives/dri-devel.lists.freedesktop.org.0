@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76184190BEE
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 12:06:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD87190CEA
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 12:59:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47B6488584;
-	Tue, 24 Mar 2020 11:06:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0E4E6E137;
+	Tue, 24 Mar 2020 11:59:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D622895B9
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 11:06:22 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id d198so2703182wmd.0
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 04:06:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com
+ [IPv6:2607:f8b0:4864:20::f43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A62F6E137
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 11:59:13 +0000 (UTC)
+Received: by mail-qv1-xf43.google.com with SMTP id v38so9012338qvf.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 04:59:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=85coQpfIuRs+sPyYMKP16shkvF4ULZs9j9T/GaUTXMA=;
- b=VT9q5/jF2VHIjb1DZzmV5uWK7Uk3Y+xVfuIZA7l+c4XrodjvqMvAkW8PC0kNkLrgYM
- 3iana2G8gyGAfBnuD3tWiwwsYyndM+xe6dTnJx4myohK1jgaOQlQisQ7OTsUcVb4TiHA
- 02CR0L4AmTwZ6TWYAuBgOaGihewpebEYX1AZBguETu6kswW6pM8vMDVrOiQXeCUsunFq
- kEXdn3pTTM5sKdZAVZryI6XQZDdohQZwEGPxqePgXmdn6YyIfmajV2Z0g6BrJMMfVDSZ
- 3pxXnSFuuNvVcIbxrbVnimLoPa7kg7P2p0ab+jA5qME9NUdm6UCRGEBAySrUTOyPCHYo
- wC6w==
+ :content-disposition:in-reply-to;
+ bh=IzasdxRYqM7rOFN66DBG3h2VMkVrFQ3GhK1sACp5S8U=;
+ b=Q5OL7hM7fhWYS7E1vvbqxwxRQU8X06B/qc/qoWD7sTquEt4AdWaJ1sJ2KH16uIw8P5
+ JlylgRJqGl9LOMT+8ib1IR+jISmtrNuwj1cujpS+JjdlrGemau0YqDswan/GNG9gW4ul
+ f3g8/tQJglQFuWT2C98zBaPwT/lxC5nd84FkPLpC8mlinjlf6xqdPGm30uOO29ZdCRSB
+ 9J7nvn2vrwACeElwn1eXKQfXZTRsIy92MHiaXyhDkOsWgowcqpYCD43Di3dQj8J5gRO6
+ 3CdGLfY7noTkcnXpNlnG0RQc2PLwEXZX06wRkIfiYcKJKFbRJJb5VV/j89Vw5UAS0Hrt
+ JwPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=85coQpfIuRs+sPyYMKP16shkvF4ULZs9j9T/GaUTXMA=;
- b=tQ8qaRkaGfpO4Yl/j6hIOQAZfhGAQBJ8JjdaqqlsIDoFrU0N5BhIe6Gc8Ha575eNd6
- 4r5uWKGfaVoY8399U9/oBnWCv6lIFh8dcA0y1mqUSlzU+rv8+ZNf3EfRqzNgRD1XKcCK
- SGsqfp/NVDCLxT4FKjAyLbU1A7PbMRUObSdKma6D90N+pdxRHbH4Ka5zT5vthhHwNFQT
- J/fLDo6kzGu+JqAQZN1Hcpiy2lFJDy3OXMw4Av0XJTv/Wlgul2Q4Xd4J3aStl5YvcwNn
- g/KQYPpIyAFC3y+tF5jpSrm65lM0ha7+Qh4UZcJaFL1Cy/nb67D7sKy2ORDBrYMhIh8w
- 7gxQ==
-X-Gm-Message-State: ANhLgQ2Hp6c44+UVKdlob/zdj53oPWBec8mQARUdW4K3ASuYJiNMEoJp
- RCw+Pv9DnL9ousvpexERBrxBjA==
-X-Google-Smtp-Source: ADFU+vvewfCSPSJ/JtfjkuAPYyDeLB/atTsI2+R8ZuR0hHyIJno3qS1Oa/lOKqJLRVXNnbIQOwCyQA==
-X-Received: by 2002:a05:600c:20d:: with SMTP id
- 13mr4980605wmi.74.1585047981072; 
- Tue, 24 Mar 2020 04:06:21 -0700 (PDT)
-Received: from dell ([2.27.35.213])
- by smtp.gmail.com with ESMTPSA id 98sm28341407wrk.52.2020.03.24.04.06.20
+ :mime-version:content-disposition:in-reply-to;
+ bh=IzasdxRYqM7rOFN66DBG3h2VMkVrFQ3GhK1sACp5S8U=;
+ b=RrLii6IyZaTrgk1Gg/82+ejj1ffwmRPoKvcB2zVh1+lWrCy1Jx6wLLy6nSSwtf5HRL
+ oqApV5GVV3BzHiTGmOW9OFkOsdpcBErwdvUaQJj6Nknix2iLW6TSEVHHEqjD8kHEmdSZ
+ +NEBe60ibx2+jYUbALEmm04toH2OVtv8P9fVeMfP4WCLY4iAOmGbAiS4xRDJjHicmXnE
+ oPk6yJZ27jFbXBR3NJnGy0TN/T3KQAnsHC/lkklvaacm7fZIFuSRnVSsCWjG9lfSvkFK
+ LAtfpEEerY3uqr5CKSx2DkHxXEtTtuj6wvLuWISm9I2Vt46zmyfDJTPM9ShcawoU5FvB
+ WAjQ==
+X-Gm-Message-State: ANhLgQ0skir0WkYJbAWX9QnxGD4kM57I8E8tgDxjJpD24bhQMXp8xONa
+ aIkVAZYn8Q3uxljEEKUq8l4=
+X-Google-Smtp-Source: ADFU+vsRrRM8GomjFcPHutO/gZSvZ9pBrvIDKkaAb0+Vm+OeJtn1ews7WZEp9PklwYeqveQN1bHBCQ==
+X-Received: by 2002:a0c:edca:: with SMTP id i10mr6735372qvr.130.1585051152710; 
+ Tue, 24 Mar 2020 04:59:12 -0700 (PDT)
+Received: from smtp.gmail.com ([2607:fea8:56a0:11a1::4])
+ by smtp.gmail.com with ESMTPSA id x124sm2222237qkc.70.2020.03.24.04.59.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Mar 2020 04:06:20 -0700 (PDT)
-Date: Tue, 24 Mar 2020 11:07:10 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Guru Das Srinagesh <gurus@codeaurora.org>
-Subject: Re: [PATCH v11 10/12] backlight: pwm_bl: Use 64-bit division function
-Message-ID: <20200324110710.GL5477@dell>
-References: <cover.1584667964.git.gurus@codeaurora.org>
- <17fc1dcf8b9b392d1e37dc7e3e67409e3c502840.1584667964.git.gurus@codeaurora.org>
- <20200320133123.GD5477@dell>
+ Tue, 24 Mar 2020 04:59:11 -0700 (PDT)
+Date: Tue, 24 Mar 2020 07:59:05 -0400
+From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 20/22] drm/vkms: Use simple encoder
+Message-ID: <20200324115905.dp5jqzbmvhbmk2rn@smtp.gmail.com>
+References: <20200305155950.2705-1-tzimmermann@suse.de>
+ <20200305155950.2705-21-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200320133123.GD5477@dell>
+In-Reply-To: <20200305155950.2705-21-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,47 +66,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-fbdev@vger.kernel.org,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: hamohammed.sa@gmail.com, alexandre.belloni@bootlin.com, airlied@linux.ie,
+ linux@armlinux.org.uk, paul@crapouillou.net, thierry.reding@gmail.com,
+ krzk@kernel.org, sam@ravnborg.org, sebastian.reichel@collabora.com,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com, hjc@rock-chips.com,
+ abrodkin@synopsys.com, kong.kongxinwei@hisilicon.com, jonathanh@nvidia.com,
+ xinliang.liu@linaro.org, ludovic.desroches@microchip.com, kgene@kernel.org,
+ linux-imx@nxp.com, linux-rockchip@lists.infradead.org,
+ virtualization@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+ puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
+ jsarha@ti.com, matthias.bgg@gmail.com, wens@csie.org, kernel@pengutronix.de,
+ jernej.skrabec@siol.net, kraxel@redhat.com, tomi.valkeinen@ti.com,
+ bbrezillon@kernel.org, jingoohan1@gmail.com, dri-devel@lists.freedesktop.org,
+ sw0312.kim@samsung.com, nicolas.ferre@microchip.com, kyungmin.park@samsung.com,
+ kieran.bingham+renesas@ideasonboard.com, zourongrong@gmail.com,
+ linux-mediatek@lists.infradead.org, shawnguo@kernel.org,
+ laurent.pinchart@ideasonboard.com
+Content-Type: multipart/mixed; boundary="===============0440981858=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMCBNYXIgMjAyMCwgTGVlIEpvbmVzIHdyb3RlOgoKPiBPbiBUaHUsIDE5IE1hciAy
-MDIwLCBHdXJ1IERhcyBTcmluYWdlc2ggd3JvdGU6Cj4gCj4gPiBTaW5jZSB0aGUgUFdNIGZyYW1l
-d29yayBpcyBzd2l0Y2hpbmcgc3RydWN0IHB3bV9zdGF0ZS5wZXJpb2QncyBkYXRhdHlwZQo+ID4g
-dG8gdTY0LCBwcmVwYXJlIGZvciB0aGlzIHRyYW5zaXRpb24gYnkgdXNpbmcgZGl2X3U2NCB0byBo
-YW5kbGUgYSA2NC1iaXQKPiA+IGRpdmlkZW5kIGluc3RlYWQgb2YgYSBzdHJhaWdodCBkaXZpc2lv
-biBvcGVyYXRpb24uCj4gPiAKPiA+IENjOiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3Jn
-Pgo+ID4gQ2M6IERhbmllbCBUaG9tcHNvbiA8ZGFuaWVsLnRob21wc29uQGxpbmFyby5vcmc+Cj4g
-PiBDYzogSmluZ29vIEhhbiA8amluZ29vaGFuMUBnbWFpbC5jb20+Cj4gPiBDYzogQmFydGxvbWll
-aiBab2xuaWVya2lld2ljeiA8Yi56b2xuaWVya2llQHNhbXN1bmcuY29tPgo+ID4gQ2M6IGxpbnV4
-LXB3bUB2Z2VyLmtlcm5lbC5vcmcKPiA+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCj4gPiBDYzogbGludXgtZmJkZXZAdmdlci5rZXJuZWwub3JnCj4gPiAKPiA+IFNpZ25lZC1v
-ZmYtYnk6IEd1cnUgRGFzIFNyaW5hZ2VzaCA8Z3VydXNAY29kZWF1cm9yYS5vcmc+Cj4gPiBSZXZp
-ZXdlZC1ieTogRGFuaWVsIFRob21wc29uIDxkYW5pZWwudGhvbXBzb25AbGluYXJvLm9yZz4KPiA+
-IC0tLQo+ID4gIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L3B3bV9ibC5jIHwgMyArKy0KPiA+ICAx
-IGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gQ2FuIHRo
-aXMgcGF0Y2ggYmUgdGFrZW4gb24gaXRzIG93bj8KCkhlbGxvb29vbyAuLi4KCj4gPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcHdtX2JsLmMgYi9kcml2ZXJzL3ZpZGVvL2Jh
-Y2tsaWdodC9wd21fYmwuYwo+ID4gaW5kZXggZWZiNGVmYy4uM2U1ZGJjZiAxMDA2NDQKPiA+IC0t
-LSBhL2RyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L3B3bV9ibC5jCj4gPiArKysgYi9kcml2ZXJzL3Zp
-ZGVvL2JhY2tsaWdodC9wd21fYmwuYwo+ID4gQEAgLTYyNSw3ICs2MjUsOCBAQCBzdGF0aWMgaW50
-IHB3bV9iYWNrbGlnaHRfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiA+ICAJ
-CXBiLT5zY2FsZSA9IGRhdGEtPm1heF9icmlnaHRuZXNzOwo+ID4gIAl9Cj4gPiAgCj4gPiAtCXBi
-LT5sdGhfYnJpZ2h0bmVzcyA9IGRhdGEtPmx0aF9icmlnaHRuZXNzICogKHN0YXRlLnBlcmlvZCAv
-IHBiLT5zY2FsZSk7Cj4gPiArCXBiLT5sdGhfYnJpZ2h0bmVzcyA9IGRhdGEtPmx0aF9icmlnaHRu
-ZXNzICogKGRpdl91NjQoc3RhdGUucGVyaW9kLAo+ID4gKwkJCQlwYi0+c2NhbGUpKTsKPiA+ICAK
-PiA+ICAJcHJvcHMudHlwZSA9IEJBQ0tMSUdIVF9SQVc7Cj4gPiAgCXByb3BzLm1heF9icmlnaHRu
-ZXNzID0gZGF0YS0+bWF4X2JyaWdodG5lc3M7Cj4gCgotLSAKTGVlIEpvbmVzIFvmnY7nkLzmlq9d
-CkxpbmFybyBTZXJ2aWNlcyBUZWNobmljYWwgTGVhZApMaW5hcm8ub3JnIOKUgiBPcGVuIHNvdXJj
-ZSBzb2Z0d2FyZSBmb3IgQVJNIFNvQ3MKRm9sbG93IExpbmFybzogRmFjZWJvb2sgfCBUd2l0dGVy
-IHwgQmxvZwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+
+--===============0440981858==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xyxw5g6b72ps7vfq"
+Content-Disposition: inline
+
+
+--xyxw5g6b72ps7vfq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Thomas,
+
+First of all, thanks for your patch!
+
+I applied all your series, compiled it, and when I tried
+`make INSTALL_MOD_PATH=3D/PATH/ modules_instal` I got the following
+message:
+
+ depmod: ERROR: Cycle detected: drm_kms_helper -> drm -> drm_kms_helper
+ depmod: ERROR: Found 2 modules in dependency cycles!
+ make: *** [Makefile:1317: _modinst_post] Error 1
+
+I cleaned up my local files and tried again, but I got the same error;
+If I just use `drm-misc-next` everything is fine.  Did I miss something?
+
+Thanks
+
+On 03/05, Thomas Zimmermann wrote:
+> The vkms driver uses an empty implementation for its encoder. Replace
+> the code with the generic simple encoder.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/vkms/vkms_output.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vk=
+ms_output.c
+> index fb1941a6522c..85afb77e97f0 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -3,6 +3,7 @@
+>  #include "vkms_drv.h"
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+> =20
+>  static void vkms_connector_destroy(struct drm_connector *connector)
+>  {
+> @@ -17,10 +18,6 @@ static const struct drm_connector_funcs vkms_connector=
+_funcs =3D {
+>  	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,
+>  };
+> =20
+> -static const struct drm_encoder_funcs vkms_encoder_funcs =3D {
+> -	.destroy =3D drm_encoder_cleanup,
+> -};
+> -
+>  static int vkms_conn_get_modes(struct drm_connector *connector)
+>  {
+>  	int count;
+> @@ -70,8 +67,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int i=
+ndex)
+> =20
+>  	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
+> =20
+> -	ret =3D drm_encoder_init(dev, encoder, &vkms_encoder_funcs,
+> -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+> +	ret =3D drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_VIRTUAL);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to init encoder\n");
+>  		goto err_encoder;
+> --=20
+> 2.25.1
+>=20
+
+--=20
+Rodrigo Siqueira
+https://siqueira.tech
+
+--xyxw5g6b72ps7vfq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl559gMACgkQWJzP/com
+vP9BEQ//bENFpSJc2y0XTYIOh3A9lmWbJYMBLW1j5T3uUJJu8x0lC0hqd0fJW3V8
+iT1Pedxmmf7duluAn7uKjUQ1sPztm2PcJB8F9ADs+bJdKN2CqmsL3kB4Ip1Q+US7
+t7cptBTF6FrLPo4e1WpZAEEu4UdyVsq16+0v3+8icC0YSX6KMQdI9QNvvp/5PmXF
+xYc6wwyGGqNZhmVRyLu0Im+zG5TvscTmK3iIu1BOMEubsgZD/BP8ZSx0efQJKRhA
+aPhzGs8S7Sp+EnE4wiTU6iZch3+KUw6D0lc398rdlvbZXmvxSxe8WxCwciMksgu5
+c+A/+oJ80KIhkjWCQNpF5oddWXUUqy6yHZrzIWzkPAj9oVxQa0jr7EwAkT1h+Zp1
+wUDLrQw9ZRw/GHv6awiSFDukLpHIabDgN9F0fsvx9aa/PJ53FOR6hilCOn8tIVnJ
+oZabUjqa7pV3L8N5CFott+8EV2y4GZK5R+VW6MX8px2bfa7SaJl+9HgeKssOYOkF
+6cwm+IquaD3wz9h7elWGmEQgqj3jOviny3HT7I8U+ZlmMa6+JCMt4iq5e1R9q4du
+PP4mh695VhSas/mbB3qjZFy/FCj1bvJ8J6AdHOoNDmjM4JVv9F5S5yi3UN5uEBXC
+ZtKmSxghh2GJS2LFK6b88yxVNVNYrCX6bYWSyfovToU6C0QzbKs=
+=srDw
+-----END PGP SIGNATURE-----
+
+--xyxw5g6b72ps7vfq--
+
+--===============0440981858==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0440981858==--
