@@ -2,53 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86515192FDF
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 18:52:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F6319303C
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 19:20:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E68986E198;
-	Wed, 25 Mar 2020 17:52:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 557AD6E817;
+	Wed, 25 Mar 2020 18:20:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 781F46E198;
- Wed, 25 Mar 2020 17:52:08 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id d198so3517687wmd.0;
- Wed, 25 Mar 2020 10:52:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yif9NVG5qM8UtBHACYI/xY6SaBYSsuiUhHBQ73NO1N8=;
- b=HCINmJCDnfcY8ewgVE3xtasrXb2Z2dK1xZ52g5yfs86Xu+IPOOFxFN0RMEDaM8WTn5
- MBdmdXdsuHYmIT/0c28kx9D2hOfJEBzEGOgkI4t4fDVyVoPXlSfq3fAJ8VTv/meZB2BF
- LxFLM5khMPsp0u2AaYEte0XdIlWmo0hPm0hrRpR0huyXcqinP6Eg9uZjMj05l/oKvdFx
- tawr0bAcJpT2ZyavV1b9qFOeXFOTOpQbBOTgIpdpKp/4D58sRQaEEwZcUkRIg9U2T5mg
- lSsMwVf97o2lFZ51zDH/XXzC9GApnYJOM8pGTbj6DEbxombPZbRtXzrcsKMm+3YS+5uS
- ynjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yif9NVG5qM8UtBHACYI/xY6SaBYSsuiUhHBQ73NO1N8=;
- b=Yl5O4zpoNDNbSZ2rt5BpHW28bf4obArCyFYEkgKURvYIvOvgsfZWhIzwUh34ahgRoE
- e74y51QHAH8WMlOcKwiAYaiuV74qnQRT1uG8GHjVNdQkdVcPrjDS1xOP2V5ezFgBYZgk
- yxxytFtdmHT9sg0HjOJ5nGgBvSZx7yZ07w5d6YCYxF0wIaIa/xO7Gev5rq/VDs5NZJB6
- TT8NWOeJMMIb4MtF2o99C5gBFHNcORG8l285cYemM46ns7cvybxy42By/eqq/YyXRQPJ
- bHNRCxfVWy78pIYgELiAFaTag4hb791K48oxNrz7lIldDbld6q5kgHkgBiwf73Sv18DP
- Sh0w==
-X-Gm-Message-State: ANhLgQ1O7eNHUZfYitICM/7BA5Z3Pr4lbAFTORNkMPrzSgrP1JNU27Fw
- bUeqcIWB+YBbHU7mEbvkMrp0fc7xlTFNKWxylWM=
-X-Google-Smtp-Source: ADFU+vsZ41U9VmICHzULJAe9eA3jQXQ/NCx1Q5ewlweYb1D4ftz0Lh9iocVH1RbzinRjkmpFzePMZ07vmsIXgYG/B/s=
-X-Received: by 2002:a1c:cc11:: with SMTP id h17mr4549621wmb.39.1585158727066; 
- Wed, 25 Mar 2020 10:52:07 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5C736E1D8;
+ Wed, 25 Mar 2020 18:20:47 +0000 (UTC)
+IronPort-SDR: x1e3gsmSYJHZTKaqSg4d9Ot9jvzsAHHPsTBPuJrtz2Hv2t1t2CiMjGMvNPdAPWh3gaNAgeazCc
+ U3jCUgHM8svA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2020 11:20:47 -0700
+IronPort-SDR: Qq+zrMg+AgOBQf3wjCvW9zqjBhg9vKkLE4Tm2d8ABIPecQfVtooWdr9oHg0guRmlVWYlULGPdZ
+ Vy9JqJqwS0Sw==
+X-IronPort-AV: E=Sophos;i="5.72,305,1580803200"; d="scan'208";a="393709857"
+Received: from yrahamim-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.255.194.58])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2020 11:20:42 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [Intel-gfx] [PATCH 02/51] drm/i915: Don't clear drvdata in
+ ->release
+In-Reply-To: <20200323144950.3018436-3-daniel.vetter@ffwll.ch>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200323144950.3018436-1-daniel.vetter@ffwll.ch>
+ <20200323144950.3018436-3-daniel.vetter@ffwll.ch>
+Date: Wed, 25 Mar 2020 20:20:38 +0200
+Message-ID: <87o8ski9e1.fsf@intel.com>
 MIME-Version: 1.0
-References: <20200325023250.163321-1-chenzhou10@huawei.com>
-In-Reply-To: <20200325023250.163321-1-chenzhou10@huawei.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 25 Mar 2020 13:51:55 -0400
-Message-ID: <CADnq5_NQgugmHe0U_-b6EZB6JHX-qqcu0ATKVKKy105sANgHxQ@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amdgpu/uvd7: remove unnecessary conversion to
- bool
-To: Chen Zhou <chenzhou10@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,50 +50,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 25, 2020 at 4:17 AM Chen Zhou <chenzhou10@huawei.com> wrote:
+On Mon, 23 Mar 2020, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> For two reasons:
 >
-> The conversion to bool is not needed, remove it.
+> - The driver core clears this already for us after we're unloaded in
+>   __device_release_driver().
 >
-> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> - It's way too late, the drm_device ->release callback might massively
+>   outlive the underlying physical device, since a drm_device can't be
 
-Applied.  Thanks!
+*can be*?
 
-Alex
+>   kept alive by open drm_file or well really anything else userspace
+>   is still hanging onto. So if we clear this ourselves, we should
+>   clear it in the pci ->remove callback, not in the drm_device
+>   ->relase callback.
 
+->release
+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
+>
+> Looking at git history this was fixed in the driver core with
+>
+> commit 0998d0631001288a5974afc0b2a5f568bcdecb4d
+> Author: Hans de Goede <hdegoede@redhat.com>
+> Date:   Wed May 23 00:09:34 2012 +0200
+>
+>     device-core: Ensure drvdata = NULL when no driver is bound
+>
+> v2: Cite the core fix in the commit message (Chris).
+>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/i915/i915_drv.c | 3 ---
+>  1 file changed, 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c b/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-> index 0995378..20f10a5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-> @@ -1694,7 +1694,7 @@ static int uvd_v7_0_set_clockgating_state(void *handle,
->                                           enum amd_clockgating_state state)
->  {
->         struct amdgpu_device *adev = (struct amdgpu_device *)handle;
-> -       bool enable = (state == AMD_CG_STATE_GATE) ? true : false;
-> +       bool enable = (state == AMD_CG_STATE_GATE);
->
->         uvd_v7_0_set_bypass_mode(adev, enable);
->
-> --
-> 2.7.4
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+> index 48ba37e35bea..4792051e9e2e 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.c
+> +++ b/drivers/gpu/drm/i915/i915_drv.c
+> @@ -909,9 +909,6 @@ static void i915_driver_destroy(struct drm_i915_private *i915)
+>  
+>  	drm_dev_fini(&i915->drm);
+>  	kfree(i915);
+> -
+> -	/* And make sure we never chase our dangling pointer from pci_dev */
+> -	pci_set_drvdata(pdev, NULL);
+>  }
+>  
+>  /**
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
