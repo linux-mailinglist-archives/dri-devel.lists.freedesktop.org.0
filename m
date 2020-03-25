@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4341931BA
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 21:16:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EB91931BD
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 21:16:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 461336E1B7;
-	Wed, 25 Mar 2020 20:16:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98299890EF;
+	Wed, 25 Mar 2020 20:16:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE2BD6E1B7
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 20:16:07 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id z5so4028410wml.5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 13:16:07 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 463106E45E
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 20:16:10 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id 31so4953563wrs.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 13:16:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yPLnagV0XBnTWT+nGjtRaD+LnSq2BqmeAJnp8U+CWPw=;
- b=sj7XVraxdwiyRAeepEQ0wy1nLUUH6vcloNotxoFwaAZmvU2GILePtp+OM8VZxzmSg1
- qVjos+BzgdtxI0QGYvlsRwZJmw1PdwfTDzM8kMKmP2AfXDgnFG7LZsGZnzTmdPqErqG6
- RfQwpZiPunHplEvI/epnPHACQlV9HoX+teAIWP9gyJkMYwBCVOirkfv4yGqGZWyEciZ2
- yM5mGeUZ/OprHtVVEEuF5yb50CJm8cBEHBMr2ooS+0jm+avVEG8DKe9QM2nWgJB7+TXH
- 7+iryK1A4PDr9L6syw0p6sAbkFd2+P/p44d/rqsKPWTQG0lkd0cgRHx9fVPls/P4Snyr
- JwCA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=aW1zxIHiei+l8kDSE2lVXf/aMBDE/GtIkGFrQXvKkrY=;
+ b=XXUz449uJivXz+1lH6pKa9IvT3vUx61/skXaEyQxpkslFR268FwckKE0ryQDUx701N
+ hFN9ocSGCuE6bKpdgya8YmthXDASOYWZzKV0R5jms1rqgazVMF6jARv+kE4Jaj9Ek4tl
+ 4eTpmnHinx0xIrgGWCQbfltjb+zAE5XOGX8UCX1526r3yQQpu+OQlKZ70Tvq3pdw0zfT
+ URkTU8sfdTa9DCxUSsUukPcK9vKOk6XHkFleL6FisODDvXphdzzLa1TCv9UTGLrUsHSd
+ XDrukLto5efrUE03q5jP6ZN4xbnLDbhY6IkB7PAW1qwSPG/Eg0p0ivpJ58+QwwmBH6zF
+ ByDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yPLnagV0XBnTWT+nGjtRaD+LnSq2BqmeAJnp8U+CWPw=;
- b=jemVQ0SgerSYn1GkJglPAeAkRH9I23h9T7jcncCBySYKSWNqetgBQqDtkpoeKy4f4g
- vnsh2o2TvOICNqdJAho3IRHo4eF1SwXaXRltaUYrv3RfVv7qgNMyPGPSjY2xI+iaFkAZ
- BsGl4fdtf/eCg+IYtzFn/VPPjA7SszZP7sHSz94i8wrM7jHx7jva1r7qciWM8+AdWy8w
- oXLAiBPCvG/j2HIfL7IB3foDuR1djsjUjyVbuXW0Vcs9wlqr+SVQAPpBSAav67wAR8d8
- 44WY5ImNfx9waHJBIFl2X5iSIH4GfN9oaEfmB++2fjWE8NH3Ek5SU2db+cPXUhBVpcEd
- lPNQ==
-X-Gm-Message-State: ANhLgQ1UXNpQIjGdzD9KQHGw8y1UeGDoplfE9qZCZsx8t2Rc0dF19gB8
- lG0WsLPU/Dh3mtJmrF38+TRIDQNy
-X-Google-Smtp-Source: ADFU+vvV+Qjqcd+wksczhsC9MSisSEM36LfhftNulFkmYxqwCfpDcq22YDEoWHYpgjaXwwZC4lgCyg==
-X-Received: by 2002:a7b:c842:: with SMTP id c2mr5416219wml.154.1585167366416; 
- Wed, 25 Mar 2020 13:16:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=aW1zxIHiei+l8kDSE2lVXf/aMBDE/GtIkGFrQXvKkrY=;
+ b=LloBz9J3CBfe7Pvzu8GXqSawEP/k5LjG/hIp0HZ26rnWuMXTibQMDoREUrwwYk/jeJ
+ BJ3Atml8VYqRTwaqV8nTh/aQEcqpmW82aByB9zoOnb7CH8Q/diad3O+ZoSUuNM2UcvFU
+ 4h48YpSdiS2ygSmaQYMQyEJdlXTE64GHZkSIxMxhx0YEjLuU0t6H8a2smTw10Ts5+Pai
+ KJoQ5sSO4s7qx7Z0WynDekLjVEjI6UB7xcLoKlZSF5VeF/mwyfR/X2+7+3Ts9V5jBZFN
+ xeNoEI/TbtmI8P0RmbHLXXQ6gAR13xff0BfYdTHjESlbwk6PdpGpkZa7hH7z1NUu400u
+ BT0w==
+X-Gm-Message-State: ANhLgQ0TcF/t5NBPG5bbFvzNYT3dDyYf7Q+TOagJ0YU+bk4/q1c2QseJ
+ s0ENAvAQmcCDBzKYKshSGuLz8uYE
+X-Google-Smtp-Source: ADFU+vtTfrVHW69I+ZhOz8qw8xUje/j42rKoNxAP2wTt+E5WQ5s6QhBcgeHzC4Bw5Q5NdWxjLUtZ/g==
+X-Received: by 2002:adf:800e:: with SMTP id 14mr5104354wrk.369.1585167368929; 
+ Wed, 25 Mar 2020 13:16:08 -0700 (PDT)
 Received: from localhost
  (p200300E41F4A9B0076D02BFFFE273F51.dip0.t-ipconnect.de.
  [2003:e4:1f4a:9b00:76d0:2bff:fe27:3f51])
- by smtp.gmail.com with ESMTPSA id i4sm132568wrm.32.2020.03.25.13.16.05
+ by smtp.gmail.com with ESMTPSA id e9sm151985wrw.30.2020.03.25.13.16.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 13:16:05 -0700 (PDT)
+ Wed, 25 Mar 2020 13:16:07 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH 1/2] drm/tegra: Fix SMMU support on Tegra124 and Tegra210
-Date: Wed, 25 Mar 2020 21:16:03 +0100
-Message-Id: <20200325201604.833898-1-thierry.reding@gmail.com>
+Subject: [PATCH 2/2] gpu: host1x: Use SMMU on Tegra124 and Tegra210
+Date: Wed, 25 Mar 2020 21:16:04 +0100
+Message-Id: <20200325201604.833898-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200325201604.833898-1-thierry.reding@gmail.com>
+References: <20200325201604.833898-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,80 +76,81 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-When testing whether or not to enable the use of the SMMU, consult the
-supported DMA mask rather than the actually configured DMA mask, since
-the latter might already have been restricted.
+Tegra124 and Tegra210 support addressing more than 32 bits of physical
+memory. However, since their host1x does not support the wide GATHER
+opcode, they should use the SMMU if at all possible to ensure that all
+the system memory can be used for command buffers, irrespective of
+whether or not the host1x firewall is enabled.
 
-Fixes: 2d9384ff9177 ("drm/tegra: Relax IOMMU usage criteria on old Tegra")
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/drm.c |  3 ++-
- drivers/gpu/host1x/dev.c    | 13 +++++++++++++
- include/linux/host1x.h      |  3 +++
- 3 files changed, 18 insertions(+), 1 deletion(-)
+ drivers/gpu/host1x/dev.c | 46 ++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 42 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index bd268028fb3d..583cd6e0ae27 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -1039,6 +1039,7 @@ void tegra_drm_free(struct tegra_drm *tegra, size_t size, void *virt,
- 
- static bool host1x_drm_wants_iommu(struct host1x_device *dev)
- {
-+	struct host1x *host1x = dev_get_drvdata(dev->dev.parent);
- 	struct iommu_domain *domain;
- 
- 	/*
-@@ -1076,7 +1077,7 @@ static bool host1x_drm_wants_iommu(struct host1x_device *dev)
- 	 * sufficient and whether or not the host1x is attached to an IOMMU
- 	 * doesn't matter.
- 	 */
--	if (!domain && dma_get_mask(dev->dev.parent) <= DMA_BIT_MASK(32))
-+	if (!domain && host1x_get_dma_mask(host1x) <= DMA_BIT_MASK(32))
- 		return true;
- 
- 	return domain != NULL;
 diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index 388bcc2889aa..40a4b9f8b861 100644
+index 40a4b9f8b861..d24344e91922 100644
 --- a/drivers/gpu/host1x/dev.c
 +++ b/drivers/gpu/host1x/dev.c
-@@ -502,6 +502,19 @@ static void __exit tegra_host1x_exit(void)
+@@ -192,17 +192,55 @@ static void host1x_setup_sid_table(struct host1x *host)
+ 	}
  }
- module_exit(tegra_host1x_exit);
  
-+/**
-+ * host1x_get_dma_mask() - query the supported DMA mask for host1x
-+ * @host1x: host1x instance
-+ *
-+ * Note that this returns the supported DMA mask for host1x, which can be
-+ * different from the applicable DMA mask under certain circumstances.
-+ */
-+u64 host1x_get_dma_mask(struct host1x *host1x)
++static bool host1x_wants_iommu(struct host1x *host1x)
 +{
-+	return host1x->info->dma_mask;
++	/*
++	 * If we support addressing a maximum of 32 bits of physical memory
++	 * and if the host1x firewall is enabled, there's no need to enable
++	 * IOMMU support. This can happen for example on Tegra20, Tegra30
++	 * and Tegra114.
++	 *
++	 * Tegra124 and later can address up to 34 bits of physical memory and
++	 * many platforms come equipped with more than 2 GiB of system memory,
++	 * which requires crossing the 4 GiB boundary. But there's a catch: on
++	 * SoCs before Tegra186 (i.e. Tegra124 and Tegra210), the host1x can
++	 * only address up to 32 bits of memory in GATHER opcodes, which means
++	 * that command buffers need to either be in the first 2 GiB of system
++	 * memory (which could quickly lead to memory exhaustion), or command
++	 * buffers need to be treated differently from other buffers (which is
++	 * not possible with the current ABI).
++	 *
++	 * A third option is to use the IOMMU in these cases to make sure all
++	 * buffers will be mapped into a 32-bit IOVA space that host1x can
++	 * address. This allows all of the system memory to be used and works
++	 * within the limitations of the host1x on these SoCs.
++	 *
++	 * In summary, default to enable IOMMU on Tegra124 and later. For any
++	 * of the earlier SoCs, only use the IOMMU for additional safety when
++	 * the host1x firewall is disabled.
++	 */
++	if (host1x->info->dma_mask <= DMA_BIT_MASK(32)) {
++		if (IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL))
++			return false;
++	}
++
++	return true;
 +}
-+EXPORT_SYMBOL(host1x_get_dma_mask);
 +
- MODULE_AUTHOR("Thierry Reding <thierry.reding@avionic-design.de>");
- MODULE_AUTHOR("Terje Bergstrom <tbergstrom@nvidia.com>");
- MODULE_DESCRIPTION("Host1x driver for Tegra products");
-diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index 62d216ff1097..c230b4e70d75 100644
---- a/include/linux/host1x.h
-+++ b/include/linux/host1x.h
-@@ -17,9 +17,12 @@ enum host1x_class {
- 	HOST1X_CLASS_GR3D = 0x60,
- };
+ static struct iommu_domain *host1x_iommu_attach(struct host1x *host)
+ {
+ 	struct iommu_domain *domain = iommu_get_domain_for_dev(host->dev);
+ 	int err;
  
-+struct host1x;
- struct host1x_client;
- struct iommu_group;
+ 	/*
+-	 * If the host1x firewall is enabled, there's no need to enable IOMMU
+-	 * support. Similarly, if host1x is already attached to an IOMMU (via
+-	 * the DMA API), don't try to attach again.
++	 * We may not always want to enable IOMMU support (for example if the
++	 * host1x firewall is already enabled and we don't support addressing
++	 * more than 32 bits of physical memory), so check for that first.
++	 *
++	 * Similarly, if host1x is already attached to an IOMMU (via the DMA
++	 * API), don't try to attach again.
+ 	 */
+-	if (IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL) || domain)
++	if (!host1x_wants_iommu(host) || domain)
+ 		return domain;
  
-+u64 host1x_get_dma_mask(struct host1x *host1x);
-+
- /**
-  * struct host1x_client_ops - host1x client operations
-  * @init: host1x client initialization code
+ 	host->group = iommu_group_get(host->dev);
 -- 
 2.24.1
 
