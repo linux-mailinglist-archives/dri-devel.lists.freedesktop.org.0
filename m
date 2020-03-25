@@ -2,53 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCBF191E79
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 02:14:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF130191E8B
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 02:20:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58A6E6E0DE;
-	Wed, 25 Mar 2020 01:14:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99D826E56D;
+	Wed, 25 Mar 2020 01:20:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 30372 seconds by postgrey-1.36 at gabe;
- Wed, 25 Mar 2020 01:14:20 UTC
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com
- [210.131.2.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD88D6E0DE;
- Wed, 25 Mar 2020 01:14:20 +0000 (UTC)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
- [209.85.222.49]) (authenticated)
- by conssluserg-01.nifty.com with ESMTP id 02P1E35L032209;
- Wed, 25 Mar 2020 10:14:04 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 02P1E35L032209
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
- s=dec2015msa; t=1585098844;
- bh=Du0zvU/kKAL8IvGiRqHBSbx7z6kjBsdUMl9fi/jYHfU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=CmBBqcd636qqSj5ss3/pAlUApkkQw3SpDtaGjLBFVNgUjopNWmBHijKJ2t1GIv9sV
- ABjbr6WG0sDnmRZ9Mu7Q7ndHoShX0IVAagRmAnN07RUwv3Q2nK8KZnuxkn4pZAIO9i
- EUWCuFL5WUeO5/69pqB+6rLy+r7sXZjRilBNUWvWXyGifkZXknW/7sBGBCYqyyB72P
- ut72XASzzrV5vxCZQVb9nxcXov5YhyQ56W+EJsmsR2mYgeN9SFYj9igEHSbpD0LZLQ
- jezIoot7mFSV0RVZ1KSVAaekJDvlhsh6YZrP9pDmdVqTSkEepBu9siGl1VWwdfBVXL
- zEgAweVZWeU0A==
-X-Nifty-SrcIP: [209.85.222.49]
-Received: by mail-ua1-f49.google.com with SMTP id m18so163058uap.9;
- Tue, 24 Mar 2020 18:14:04 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ39mqk4RjIgiq7EQ8B49JKUfSvIl14wQWYZZJUWjdSfCpF046Ef
- 4w0Ej07cyexfCIxSMKyFKn3SHtVBkXrHYVT2VzY=
-X-Google-Smtp-Source: ADFU+vsMC3zRa6ZCPZj56ljmM8HiIe+u3r7TwuTb0+ibRUQbbRZXBTBPHZ2fpKGbyXecBLtrlGGqLwlnGLzcN6iVsgo=
-X-Received: by 2002:ab0:3485:: with SMTP id c5mr688955uar.109.1585098843120;
- Tue, 24 Mar 2020 18:14:03 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 188D26E56D;
+ Wed, 25 Mar 2020 01:20:24 +0000 (UTC)
+IronPort-SDR: WPUIIdtq1oxoGP7uXVDnRGG7Pmqp4VVF5UOlT8uq6h0W1cwzcIIgx8QwBMgtlH71t7BADr3YqB
+ MtkfXKMIzwAA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2020 18:20:23 -0700
+IronPort-SDR: sjhBvZ+QRSWDd3k/fTzYT8x4LxIH7FeTkB3H6QmQJ4ItchHfGfF3zUcq9OGxSbAJJlVma/Jwwg
+ r8Ghw6upnVQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,302,1580803200"; d="scan'208";a="448108138"
+Received: from labuser-z97x-ud5h.jf.intel.com ([10.165.21.211])
+ by fmsmga006.fm.intel.com with ESMTP; 24 Mar 2020 18:20:23 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/dp: DRM DP helper for reading Ignore MSA from DPCD
+Date: Tue, 24 Mar 2020 18:22:00 -0700
+Message-Id: <20200325012201.11376-1-manasi.d.navare@intel.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20200213153928.28407-1-masahiroy@kernel.org>
- <CAK7LNARvxFk=ct9AoRLwjZ9cKRsA_bjiLaq0di12TRe5+fpmGA@mail.gmail.com>
- <CADnq5_Mieh9G-8hheKRdKe=qMbAQjwTheM2TWWSaZjeGU3635Q@mail.gmail.com>
-In-Reply-To: <CADnq5_Mieh9G-8hheKRdKe=qMbAQjwTheM2TWWSaZjeGU3635Q@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 25 Mar 2020 10:13:27 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT2r3Octg-Pdjn6xNzGM49_PiGqoJSTzbmL4iBpH6_AaQ@mail.gmail.com>
-Message-ID: <CAK7LNAT2r3Octg-Pdjn6xNzGM49_PiGqoJSTzbmL4iBpH6_AaQ@mail.gmail.com>
-Subject: Re: [PATCH 1/4] drm/radeon: remove unneeded header include path
-To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,93 +45,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?B?Q2hyaXN0aWFuIEvvv73vv73Dk25pZw==?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Manasi Navare <manasi.d.navare@intel.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 25, 2020 at 4:42 AM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> On Tue, Mar 24, 2020 at 12:48 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > Hi,
-> >
-> > I think this series is a good clean-up.
-> >
-> > Could you take a look at this please?
->
-> Can you resend?  I don't seem to have gotten it.  Must have ended up
-> getting flagged a spam or something.
-
-
-Can you take it from patchwork ?  (4 patches)
-
-https://lore.kernel.org/patchwork/project/lkml/list/?series=429491
-
-
-Thanks.
-
-
-
-
-
-
-> Alex
->
-> >
-> >
-> >
-> > On Fri, Feb 14, 2020 at 12:40 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > > A header include path without $(srctree)/ is suspicious because it does
-> > > not work with O= builds.
-> > >
-> > > You can build drivers/gpu/drm/radeon/ without this include path.
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >
-> > >  drivers/gpu/drm/radeon/Makefile | 2 --
-> > >  1 file changed, 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/radeon/Makefile b/drivers/gpu/drm/radeon/Makefile
-> > > index c693b2ca0329..9d5d3dc1011f 100644
-> > > --- a/drivers/gpu/drm/radeon/Makefile
-> > > +++ b/drivers/gpu/drm/radeon/Makefile
-> > > @@ -3,8 +3,6 @@
-> > >  # Makefile for the drm device driver.  This driver provides support for the
-> > >  # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
-> > >
-> > > -ccflags-y := -Idrivers/gpu/drm/amd/include
-> > > -
-> > >  hostprogs := mkregtable
-> > >  clean-files := rn50_reg_safe.h r100_reg_safe.h r200_reg_safe.h rv515_reg_safe.h r300_reg_safe.h r420_reg_safe.h rs600_reg_safe.h r600_reg_safe.h evergreen_reg_safe.h cayman_reg_safe.h
-> > >
-> > > --
-> > > 2.17.1
-> > >
-> >
-> >
-> > --
-> > Best Regards
-> > Masahiro Yamada
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
-
--- 
-Best Regards
-Masahiro Yamada
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RFAgc2luayBkZXZpY2Ugc2V0cyB0aGUgSWdub3JlIE1TQSBiaXQgaW4gaXRzCkRQX0RPV05TVFJF
+QU1fUE9SVF9DT1VOVCByZWdpc3RlciB0byBpbmRpY2F0ZSBpdHMgYWJpbGl0eSB0bwppZ25vcmUg
+dGhlIE1TQSB2aWRlbyB0aW1pbmcgcGFyYW1hdGVycyBhbmQgaXRzIGFiaWxpdHkgdG8gc3VwcG9y
+dApzZWFtbGVzcyB2aWRlbyB0aW1pbmcgY2hhbmdlIG92ZXIgYSByYW5nZSBvZiB0aW1pbmcgZXhw
+b3NlZCBieQpEaXNwbGF5SUQgYW5kIEVESUQuClRoaXMgaXMgcmVxdWlyZWQgZm9yIHRoZSBzaW5r
+IHRvIGluZGljYXRlIHRoYXQgaXQgaXMgQWRhcHRpdmUgc3luYwpjYXBhYmxlLgoKdjI6CiogUmVu
+YW1lIHRvIGRlc2NyaWJlIHdoYXQgdGhlIGZ1bmN0aW9uIGRvZXMgKEphbmkgTmlrdWxhKQoKQ2M6
+IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+CkNjOiBWaWxsZSBTeXJq
+w6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgpDYzogSGFycnkgV2VudGxhbmQg
+PGhhcnJ5LndlbnRsYW5kQGFtZC5jb20+CkNjOiBOaWNob2xhcyBLYXpsYXVza2FzIDxOaWNob2xh
+cy5LYXpsYXVza2FzQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IE1hbmFzaSBOYXZhcmUgPG1hbmFz
+aS5kLm5hdmFyZUBpbnRlbC5jb20+ClJldmlld2VkLWJ5OiBIYXJyeSBXZW50bGFuZCA8aGFycnku
+d2VudGxhbmRAYW1kLmNvbT4KLS0tCiBpbmNsdWRlL2RybS9kcm1fZHBfaGVscGVyLmggfCA4ICsr
+KysrKysrCiAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvaW5j
+bHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oIGIvaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oCmlu
+ZGV4IDlkODdjZGYyNzQwYS4uMzY2NTVmM2M4M2Y4IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9k
+cm1fZHBfaGVscGVyLmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oCkBAIC0xMzE1
+LDYgKzEzMTUsMTQgQEAgZHJtX2RwX2FsdGVybmF0ZV9zY3JhbWJsZXJfcmVzZXRfY2FwKGNvbnN0
+IHU4IGRwY2RbRFBfUkVDRUlWRVJfQ0FQX1NJWkVdKQogCQkJRFBfQUxURVJOQVRFX1NDUkFNQkxF
+Ul9SRVNFVF9DQVA7CiB9CiAKKy8qIElnbm9yZSBNU0EgdGltaW5nIGZvciBBZGFwdGl2ZSBTeW5j
+IHN1cHBvcnQgb24gRFAgMS40ICovCitzdGF0aWMgaW5saW5lIGJvb2wKK2RybV9kcF9zaW5rX2Nh
+bl9kb192aWRlb193aXRob3V0X3RpbWluZ19tc2EoY29uc3QgdTggZHBjZFtEUF9SRUNFSVZFUl9D
+QVBfU0laRV0pCit7CisJcmV0dXJuIGRwY2RbRFBfRE9XTl9TVFJFQU1fUE9SVF9DT1VOVF0gJgor
+CQlEUF9NU0FfVElNSU5HX1BBUl9JR05PUkVEOworfQorCiAvKgogICogRGlzcGxheVBvcnQgQVVY
+IGNoYW5uZWwKICAqLwotLSAKMi4xOS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
