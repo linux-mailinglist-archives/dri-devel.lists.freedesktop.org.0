@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857D7192325
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 09:50:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A03192329
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 09:50:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0AF8931F;
-	Wed, 25 Mar 2020 08:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 755186E5C0;
+	Wed, 25 Mar 2020 08:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
  [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 297888931F
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 08:50:36 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id d1so1511858wmb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 01:50:36 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC8D089E8C
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 08:50:37 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id z5so1371401wml.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 01:50:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tEJnMkZw0RJ36/X+ECc1wDu3rwX96mNLlTRyC+ecg4U=;
- b=bLCvRhdgNUMT3Anw+ZukdEJY7tsTiML8vCscb4Bw8kZlknymFU0eZFB6Z7N+e42Aky
- RFni9+355MPUuI0n3O/yROSlTGUvl8joVFXgWfGQtI7+lc2/5QXga4GAN+JPOoOgsDoj
- 9XKnvnEgXuqZYPZBrgLq9TD99faTNJA9owig9SjjIS467wcRIR4oNTkCUkxn/UqkLWlY
- 5f920/fY2JRQgw7ACpU6zBKu//48snTBunQPJA2KH5uUyEyruyeGHMv7tqscX94bC6p1
- njwX2i84u+IU6LmFG7hAJGuXz6Qq6L7wyAYBivn92HY9Bbc/6bw1UQrOgs6FbSRExKq8
- kwwQ==
+ bh=ANDOlCT1ZqrnKgx/+UtkXPnR52K04rx8cZE8y2hTCQU=;
+ b=pgsyudR/D2KpBB4/CqRb3vU07WoAY4c5vp9glayeMsrR3uDiTPhmtEDK+AWoQqkzHQ
+ bvypr/WDimmRzKQ48OxtHMcKAjTT6iIXBdLTWhlFb+93oRxsvpeczFkVeg4aKq/wQ/Je
+ rfl4bK1txMY3ppAZIm4afopOmNjNpExwGRpAeB14dZhpkQZNQb4VbGA0ALzAiWLVotmU
+ +UiL8ZI9SrjEu3Uucu2dCRVRqDazHya8qIot8dJIp1DRUN6vEj9i3TURcaiYWPdGPb7v
+ OTSR7GbpUra2bCrJH7EkC9JQfY3865RiKJi4lJo1XeMHh9yhUeU3NBZvxqC8MdfvsC0R
+ pc5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tEJnMkZw0RJ36/X+ECc1wDu3rwX96mNLlTRyC+ecg4U=;
- b=ntb9aAzld8V0Lv6MJNp8x4q5lOit/kRB3ZbnCHzLPDrBcmNR5uLjNuUoB2jYpf9KZz
- sUR3kKBgrwJXibPs0GyMJSkcr153CKNNYJqhvu7qqxb5sRDaQU4utTn5zK20B4yjLRS8
- LDk8GVuY8qm2ElpgFbQffMcoBwjmdpGQaAles3S+7n953FBr4AW97LxDwA7EvH5EzBze
- q9DjWVpkasm8BXhnauaTDiMEzeJwIkBA6DPrvW5sVwNuhbkNl9c/0UIw5P6gnmgmHGSj
- 1hrPn6kNf4KyCF0Rw1TEQMOlmgDn54Tg/ybi9uvCZv3q55R8hybuYjZyNWaZ8KBb3fZN
- fhAg==
-X-Gm-Message-State: ANhLgQ1UIZ3S8PQTIkEqJNo084NdGCleMq7VYHOdSOp43mb4hkdv4n2E
- E6XlITXAsmghLszwvGsZIV9PhQ==
-X-Google-Smtp-Source: ADFU+vvqKHVyOxY9TW3t5po58LCSxbmCyt+v7ALL7HAGzLOS3pQtx9Y1bFlqx8jsZeAObBhXZihU5Q==
-X-Received: by 2002:a1c:96cf:: with SMTP id y198mr2333342wmd.186.1585126234648; 
- Wed, 25 Mar 2020 01:50:34 -0700 (PDT)
+ bh=ANDOlCT1ZqrnKgx/+UtkXPnR52K04rx8cZE8y2hTCQU=;
+ b=hVgh13eOotZw1GOJCpLEi93nAtWBHnPqs1rtpH1jvM+SlsI+0lPk8CXi3uwy9auzpJ
+ 8xVWgKk3KGWe9y7z2a2F9Jrw20mAQfFScVY9PAhgXqj1NmUjpMtfFQDA+R9C2wz3b8ak
+ hVtBo3DtvZ0JbmdXLIdUhEst18QSVS1doC7mCbh4HT3kcb2kAZqvxe2Lv9yxDZDKZtVD
+ ++lgFZCuCFbrKfEf42cDLqqgMyKvcRglzY6Lnu2jr+TEgoGHJy0O13j6DOnRoEs4ZmPl
+ J4fwuG4C8a0f2x15+kURgaLtkMv1ZnH/0h6pZzdAyZ+IwE02xs3XzH+t5lZztqZ0bDN2
+ sOJA==
+X-Gm-Message-State: ANhLgQ0jqsyd+84Q9IxKiXIGd0xi0fkqBrXds44ZLi/dqoEwc3l1TI+P
+ bk8g6S1P4Vs2MsVc/NYy2yDnJg==
+X-Google-Smtp-Source: ADFU+vur2MxTtHCjMfpHGxgRx4ZUbLJ6QSkqLw6sapP5tKS8pwjf38c2XDZiJmEAsfp/QTuirs7tBQ==
+X-Received: by 2002:a1c:81:: with SMTP id 123mr2218819wma.97.1585126236258;
+ Wed, 25 Mar 2020 01:50:36 -0700 (PDT)
 Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:5c5f:613e:f775:b6a2])
- by smtp.gmail.com with ESMTPSA id o16sm33892229wrs.44.2020.03.25.01.50.33
+ by smtp.gmail.com with ESMTPSA id o16sm33892229wrs.44.2020.03.25.01.50.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 01:50:33 -0700 (PDT)
+ Wed, 25 Mar 2020 01:50:35 -0700 (PDT)
 From: Neil Armstrong <narmstrong@baylibre.com>
 To: daniel@ffwll.ch,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 4/8] drm/meson: crtc: handle commit of Amlogic FBC frames
-Date: Wed, 25 Mar 2020 09:50:21 +0100
-Message-Id: <20200325085025.30631-5-narmstrong@baylibre.com>
+Subject: [PATCH v4 5/8] drm/fourcc: amlogic: Add modifier definitions for
+ Memory Saving option
+Date: Wed, 25 Mar 2020 09:50:22 +0100
+Message-Id: <20200325085025.30631-6-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200325085025.30631-1-narmstrong@baylibre.com>
 References: <20200325085025.30631-1-narmstrong@baylibre.com>
@@ -76,158 +77,62 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the VD1 Amlogic FBC decoder is now configured by the overlay driver,
-commit the right registers to decode the Amlogic FBC frame.
+Amlogic uses a proprietary lossless image compression protocol and format
+for their hardware video codec accelerators, either video decoders or
+video input encoders.
+
+An option exist changing the layout superblock size to save memory when
+using 8bit components pixels size.
+
+The layout options starts at the 8th bit, keeping the first 8bits of the
+modifiers bits to define the layout.
 
 Tested-by: Kevin Hilman <khilman@baylibre.com>
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/gpu/drm/meson/meson_crtc.c | 118 +++++++++++++++++++++--------
- 1 file changed, 88 insertions(+), 30 deletions(-)
+ include/uapi/drm/drm_fourcc.h | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/drivers/gpu/drm/meson/meson_crtc.c b/drivers/gpu/drm/meson/meson_crtc.c
-index e66b6271ff58..d6dcfd654e9c 100644
---- a/drivers/gpu/drm/meson/meson_crtc.c
-+++ b/drivers/gpu/drm/meson/meson_crtc.c
-@@ -291,6 +291,10 @@ static void meson_crtc_enable_vd1(struct meson_drm *priv)
- 			    VPP_VD1_PREBLEND | VPP_VD1_POSTBLEND |
- 			    VPP_COLOR_MNG_ENABLE,
- 			    priv->io_base + _REG(VPP_MISC));
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index 6564813d2f7a..84edc5d69613 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -819,6 +819,12 @@ extern "C" {
+  * per component YCbCr 420, single plane :
+  * - DRM_FORMAT_YUV420_8BIT
+  * - DRM_FORMAT_YUV420_10BIT
++ *
++ * The first 8 bits of the mode defines the layout, then the following 8 bits
++ * defined the options changing the layout.
++ *
++ * Not all combinations are valid, and different SoCs may support different
++ * combinations of layout and options.
+  */
+ #define DRM_FORMAT_MOD_AMLOGIC_FBC(__modes) fourcc_mod_code(AMLOGIC, __modes)
+ 
+@@ -834,6 +840,22 @@ extern "C" {
+  */
+ #define DRM_FORMAT_MOD_AMLOGIC_FBC_LAYOUT_BASIC		(1ULL << 0)
+ 
++/*
++ * Amlogic FBC Layout Options
++ */
 +
-+	writel_bits_relaxed(VIU_CTRL0_AFBC_TO_VD1,
-+			    priv->viu.vd1_afbc ? VIU_CTRL0_AFBC_TO_VD1 : 0,
-+			    priv->io_base + _REG(VIU_MISC_CTRL0));
++/*
++ * Amlogic FBC Memory Saving mode
++ *
++ * Indicates the storage is packed when pixel size is multiple of word
++ * boudaries, i.e. 8bit should be stored in this mode to save allocation
++ * memory.
++ *
++ * This mode reduces body layout to 3072 bytes per 64x32 superblock with
++ * the basic layout.
++ */
++#define DRM_FORMAT_MOD_AMLOGIC_FBC_MEM_SAVING	(1ULL << 8)
++
+ #if defined(__cplusplus)
  }
- 
- static void meson_g12a_crtc_enable_vd1(struct meson_drm *priv)
-@@ -300,6 +304,10 @@ static void meson_g12a_crtc_enable_vd1(struct meson_drm *priv)
- 		       VD_BLEND_POSTBLD_SRC_VD1 |
- 		       VD_BLEND_POSTBLD_PREMULT_EN,
- 		       priv->io_base + _REG(VD1_BLEND_SRC_CTRL));
-+
-+	writel_relaxed(priv->viu.vd1_afbc ?
-+		       (VD1_AXI_SEL_AFBC | AFBC_VD1_SEL) : 0,
-+		       priv->io_base + _REG(VD1_AFBCD0_MISC_CTRL));
- }
- 
- void meson_crtc_irq(struct meson_drm *priv)
-@@ -383,36 +391,86 @@ void meson_crtc_irq(struct meson_drm *priv)
- 	/* Update the VD1 registers */
- 	if (priv->viu.vd1_enabled && priv->viu.vd1_commit) {
- 
--		switch (priv->viu.vd1_planes) {
--		case 3:
--			meson_canvas_config(priv->canvas,
--					    priv->canvas_id_vd1_2,
--					    priv->viu.vd1_addr2,
--					    priv->viu.vd1_stride2,
--					    priv->viu.vd1_height2,
--					    MESON_CANVAS_WRAP_NONE,
--					    MESON_CANVAS_BLKMODE_LINEAR,
--					    MESON_CANVAS_ENDIAN_SWAP64);
--		/* fallthrough */
--		case 2:
--			meson_canvas_config(priv->canvas,
--					    priv->canvas_id_vd1_1,
--					    priv->viu.vd1_addr1,
--					    priv->viu.vd1_stride1,
--					    priv->viu.vd1_height1,
--					    MESON_CANVAS_WRAP_NONE,
--					    MESON_CANVAS_BLKMODE_LINEAR,
--					    MESON_CANVAS_ENDIAN_SWAP64);
--		/* fallthrough */
--		case 1:
--			meson_canvas_config(priv->canvas,
--					    priv->canvas_id_vd1_0,
--					    priv->viu.vd1_addr0,
--					    priv->viu.vd1_stride0,
--					    priv->viu.vd1_height0,
--					    MESON_CANVAS_WRAP_NONE,
--					    MESON_CANVAS_BLKMODE_LINEAR,
--					    MESON_CANVAS_ENDIAN_SWAP64);
-+		if (priv->viu.vd1_afbc) {
-+			writel_relaxed(priv->viu.vd1_afbc_head_addr,
-+				       priv->io_base +
-+				       _REG(AFBC_HEAD_BADDR));
-+			writel_relaxed(priv->viu.vd1_afbc_body_addr,
-+				       priv->io_base +
-+				       _REG(AFBC_BODY_BADDR));
-+			writel_relaxed(priv->viu.vd1_afbc_en,
-+				       priv->io_base +
-+				       _REG(AFBC_ENABLE));
-+			writel_relaxed(priv->viu.vd1_afbc_mode,
-+				       priv->io_base +
-+				       _REG(AFBC_MODE));
-+			writel_relaxed(priv->viu.vd1_afbc_size_in,
-+				       priv->io_base +
-+				       _REG(AFBC_SIZE_IN));
-+			writel_relaxed(priv->viu.vd1_afbc_dec_def_color,
-+				       priv->io_base +
-+				       _REG(AFBC_DEC_DEF_COLOR));
-+			writel_relaxed(priv->viu.vd1_afbc_conv_ctrl,
-+				       priv->io_base +
-+				       _REG(AFBC_CONV_CTRL));
-+			writel_relaxed(priv->viu.vd1_afbc_size_out,
-+				       priv->io_base +
-+				       _REG(AFBC_SIZE_OUT));
-+			writel_relaxed(priv->viu.vd1_afbc_vd_cfmt_ctrl,
-+				       priv->io_base +
-+				       _REG(AFBC_VD_CFMT_CTRL));
-+			writel_relaxed(priv->viu.vd1_afbc_vd_cfmt_w,
-+				       priv->io_base +
-+				       _REG(AFBC_VD_CFMT_W));
-+			writel_relaxed(priv->viu.vd1_afbc_mif_hor_scope,
-+				       priv->io_base +
-+				       _REG(AFBC_MIF_HOR_SCOPE));
-+			writel_relaxed(priv->viu.vd1_afbc_mif_ver_scope,
-+				       priv->io_base +
-+				       _REG(AFBC_MIF_VER_SCOPE));
-+			writel_relaxed(priv->viu.vd1_afbc_pixel_hor_scope,
-+				       priv->io_base+
-+				       _REG(AFBC_PIXEL_HOR_SCOPE));
-+			writel_relaxed(priv->viu.vd1_afbc_pixel_ver_scope,
-+				       priv->io_base +
-+				       _REG(AFBC_PIXEL_VER_SCOPE));
-+			writel_relaxed(priv->viu.vd1_afbc_vd_cfmt_h,
-+				       priv->io_base +
-+				       _REG(AFBC_VD_CFMT_H));
-+		} else {
-+			switch (priv->viu.vd1_planes) {
-+			case 3:
-+				meson_canvas_config(priv->canvas,
-+						    priv->canvas_id_vd1_2,
-+						    priv->viu.vd1_addr2,
-+						    priv->viu.vd1_stride2,
-+						    priv->viu.vd1_height2,
-+						    MESON_CANVAS_WRAP_NONE,
-+						    MESON_CANVAS_BLKMODE_LINEAR,
-+						    MESON_CANVAS_ENDIAN_SWAP64);
-+			/* fallthrough */
-+			case 2:
-+				meson_canvas_config(priv->canvas,
-+						    priv->canvas_id_vd1_1,
-+						    priv->viu.vd1_addr1,
-+						    priv->viu.vd1_stride1,
-+						    priv->viu.vd1_height1,
-+						    MESON_CANVAS_WRAP_NONE,
-+						    MESON_CANVAS_BLKMODE_LINEAR,
-+						    MESON_CANVAS_ENDIAN_SWAP64);
-+			/* fallthrough */
-+			case 1:
-+				meson_canvas_config(priv->canvas,
-+						    priv->canvas_id_vd1_0,
-+						    priv->viu.vd1_addr0,
-+						    priv->viu.vd1_stride0,
-+						    priv->viu.vd1_height0,
-+						    MESON_CANVAS_WRAP_NONE,
-+						    MESON_CANVAS_BLKMODE_LINEAR,
-+						    MESON_CANVAS_ENDIAN_SWAP64);
-+			}
-+
-+			writel_relaxed(0, priv->io_base + _REG(AFBC_ENABLE));
- 		}
- 
- 		writel_relaxed(priv->viu.vd1_if0_gen_reg,
+ #endif
 -- 
 2.22.0
 
