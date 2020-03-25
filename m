@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3639E191DFF
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 01:26:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72DBC191E00
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 01:26:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 434CA6E0D6;
-	Wed, 25 Mar 2020 00:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6D8B6E575;
+	Wed, 25 Mar 2020 00:26:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2AF889CE0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 00:26:40 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id 65so914253wrl.1
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 17:26:40 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C05936E0D6
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 00:26:42 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id a25so928141wrd.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 17:26:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QLkRr9j1+t7kkMw2Ku/7MnvEj1jxos3vANcsR2A+POs=;
- b=YrGiNBcuJdtkDHs4rWXWpv8sC2e/Q/G1soldicS/EjDV5GkSKJj2LEZ4YCiug0Fjmq
- mVsp+1cTaBsCep9UjBwYh3AK9sKVCoMgD5yFvJ2TlKKe3+dtEFU70XX/DfnWgYzIga3Z
- O/aZLpBo25EaiTgeM2F1oenMBoiw/U2S+MFtmftELfGqkLLmsUdR8AAMUJSAZEU4G30d
- RPwka+YTBAXzfP3j5pOfFBYxNc9muaO7WlnMaU4cLVPoT3g/b/ktnPOdpzT77x7i8zR0
- khJCW8xRKrAK/tRrTbUkN2uKLjRCpU/jPnsG4+Q9uTfWZEwHyJXFVAdAG7NE41MJy9Ew
- k+qg==
+ bh=eVp8N3Y86PwDON5iNLeFPoqqE59j/nJ6HOnpicwvFYw=;
+ b=M2lJBM5jXCRa8jUDi4GhOBvHN+oBdt4s2ZmFsN2bfe9gGeHWWpFRHbW4kiT51Stuas
+ rmH+jP8/CF7d3AIcpokP3BHxEWsludVygfGUtUVRFqExKuJyDv6fhaG5UdT4IvOEx113
+ EAByh4YJ5lRJ6Lv4emlLQVj1AlYVDJpNRY/errgokNUYBZkSFVH3/PQ9REZDkWKUYWVd
+ vIFO5Gs4zOnSaUAwmAgTnAXTBMyi7teLu63VOTqJYqDFfO5LLpCMU3vLo+70oxJBQhSu
+ NZMZ51kx+NHwrO4l7zBraZ2kVp+3MBSNxveIA7mNTZxSm15659fyMO6xKthu0GwBtfst
+ d7AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QLkRr9j1+t7kkMw2Ku/7MnvEj1jxos3vANcsR2A+POs=;
- b=jM81i+i/u+7wWvLZKdzSUBC83m+VGWTfrlZgXpyuFPH4BT5in4rwvpHkrNaT5gdBOO
- LPtkseDFvmOXEqcFKr5fsTaAauDpQW117Id9ii49viCH5kpZyeePa45zykvmlKE3dnlj
- 8UVJjs155oq7j/0t67EuDu2icNrXu4mB33AL5mQ5cpQNpYwHM6XvDXijDK81zSzp/inz
- jd/WGgvSFD7paW5Ya4J3kX0Uqn9fdQJWtLZnJA9Sf0Bm2uUP84zLBuHRzdDhM+8N+NrV
- Tms26O3u5JoW+KeJZtj1EBs8knDLt4rLOkrW7GiAxwUd/FPe6e/SRUwRp/oTzGD9h+lP
- HFZw==
-X-Gm-Message-State: ANhLgQ1Pvzi1iKhn39DLLE8fMmzOkMv6l43xnGHo2bYyXHBt6mhXwL7z
- jAan6ZWZ4cOACe1e7YBydddPAReihfw=
-X-Google-Smtp-Source: ADFU+vswHzUwDVSrQrOdfN25R1R0yJelZxSb5p5MD5TAk06fEDUDm+iZWFkR6ci34D9tqJX2d8awbA==
-X-Received: by 2002:a5d:4290:: with SMTP id k16mr327868wrq.406.1585095999067; 
- Tue, 24 Mar 2020 17:26:39 -0700 (PDT)
+ bh=eVp8N3Y86PwDON5iNLeFPoqqE59j/nJ6HOnpicwvFYw=;
+ b=eHluw4LFBfqj1uUYxsxiPpeTG05ou7q+5NjrsCphYrebR2esHzsRvHLgA59ci5qYHe
+ TwNmaN8Se2FUymWcgHrrgBf96vx48KiKasziamseRwv/SOf4cAfv5uY+f4ny+wWviYwE
+ DB60TiAPM3OuLcYhqtOps9OKaSRcI1yfAI2g197l8IMl4i1yRsJWgEKR+IuhbiPvuCcu
+ 3yoGkSCV8PiByLW1TEaeHYooCPmsn3IOxZBQbOBAgzENegrN/sdwnB0JuHONIkp1FwT7
+ Dmk4vwMlxnh0xGEtdSXgx7C1FlZHblelSKl4aWHFmOziYX7zmX9Ff+A/4vPUFjzDd3MB
+ XnsA==
+X-Gm-Message-State: ANhLgQ0R6dnR45DMph8ttd4Qgit4Z4K+yAJ1VMfwV9fN2yZUlprim09A
+ DkyySPxtJaxf+XX8zBYEzxIsyNLoF+Q=
+X-Google-Smtp-Source: ADFU+vsZuyZ5KWwQe4jpb52eZTIcVwNW1BVAGpHEurN9VbHvUxjLVIJ+Z50icebM8V6CqFbSG17YgQ==
+X-Received: by 2002:adf:f5c8:: with SMTP id k8mr308806wrp.33.1585096001205;
+ Tue, 24 Mar 2020 17:26:41 -0700 (PDT)
 Received: from wasp.lan (250.128.208.46.dyn.plus.net. [46.208.128.250])
- by smtp.googlemail.com with ESMTPSA id a64sm6632935wmh.39.2020.03.24.17.26.37
+ by smtp.googlemail.com with ESMTPSA id a64sm6632935wmh.39.2020.03.24.17.26.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Mar 2020 17:26:38 -0700 (PDT)
+ Tue, 24 Mar 2020 17:26:40 -0700 (PDT)
 From: Shane Francis <bigbeeshane@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 2/3] drm/amdgpu: fix scatter-gather mapping with user pages
-Date: Wed, 25 Mar 2020 00:24:49 +0000
-Message-Id: <20200325002450.5240-3-bigbeeshane@gmail.com>
+Subject: [PATCH v3 3/3] drm/radeon: fix scatter-gather mapping with user pages
+Date: Wed, 25 Mar 2020 00:24:50 +0000
+Message-Id: <20200325002450.5240-4-bigbeeshane@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200325002450.5240-1-bigbeeshane@gmail.com>
 References: <20200325002450.5240-1-bigbeeshane@gmail.com>
@@ -79,22 +79,22 @@ support this use case.
 
 Signed-off-by: Shane Francis <bigbeeshane@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index dee446278417..c6e9885c071f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -974,7 +974,7 @@ static int amdgpu_ttm_tt_pin_userptr(struct ttm_tt *ttm)
- 	/* Map SG to device */
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 3b92311d30b9..b3380ffab4c2 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -528,7 +528,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_tt *ttm)
+ 
  	r = -ENOMEM;
- 	nents = dma_map_sg(adev->dev, ttm->sg->sgl, ttm->sg->nents, direction);
+ 	nents = dma_map_sg(rdev->dev, ttm->sg->sgl, ttm->sg->nents, direction);
 -	if (nents != ttm->sg->nents)
 +	if (nents == 0)
  		goto release_sg;
  
- 	/* convert SG to linear array of pages and dma addresses */
+ 	drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
 -- 
 2.26.0
 
