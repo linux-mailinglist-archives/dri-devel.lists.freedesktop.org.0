@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AFB4193226
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 21:48:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B9B1932B0
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 22:31:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7802B6E827;
-	Wed, 25 Mar 2020 20:48:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B4416E82B;
+	Wed, 25 Mar 2020 21:31:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFF96E827
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 20:48:32 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e7bc3920000>; Wed, 25 Mar 2020 13:48:18 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Wed, 25 Mar 2020 13:48:32 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Wed, 25 Mar 2020 13:48:32 -0700
-Received: from [10.26.72.231] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 25 Mar
- 2020 20:48:31 +0000
-Subject: Re: [PATCH 2/2] gpu: host1x: Use SMMU on Tegra124 and Tegra210
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20200325201604.833898-1-thierry.reding@gmail.com>
- <20200325201604.833898-2-thierry.reding@gmail.com>
-From: Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <c359bfdb-de7e-6c82-9a78-bd0ec4449172@nvidia.com>
-Date: Wed, 25 Mar 2020 20:48:29 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D69D6E82B
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 21:31:46 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id v3so3855756iot.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 14:31:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ti5pqebZBjASOepZ+b7wNwWSZu8P7d3ICC3UR3NBXfs=;
+ b=qkollg5Bxd15dyQ6zQc7D8v7Gq1/suxyVJo5UiCtughRaNTRY5xke7xnx9Htdz0nYC
+ ojvXaRu5pSTyP7CA9RW5nGLfer++4cfc8v6njqw2yNZM8ZI5sXPcrXzDFZY2nXo8JeKa
+ e+hCeUMVSyYen6zjwWSzFFX4mC35UHFNhu0wljYESsR/67PO1tcFh9+Gj2psGnVU1mXy
+ DKDkxbq4gqaR/WlcSyIhy34XiO/PcVMoOXYpu8Cyvr974UCnlIbkbdKSDmb9GPeGIH4h
+ cmB45iBPVCTOT+h7JlABFMxOkv/8LxKYTry5LNRJr+yWlUTZzZt3I6cu7SahpiRVsNAI
+ Fkow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ti5pqebZBjASOepZ+b7wNwWSZu8P7d3ICC3UR3NBXfs=;
+ b=lH14JRCrbw9OO98gk2T59WivKC7yfbXhF+1MPzzBJR28cpNS3i4x81bvI5v99Uew+g
+ sHL8UqjK+uA95NA/Ys0rRN3yhvl+jjavh4+8pu+Z7QhuyyPkO9IaQMGZbAsXvTrO5CuQ
+ No7bERtkhZzOfG5Tkd+nap8pmBry6kKQqjhz/mvgnLagV1n/MLW3VgsZ7m+aKVThq5Gy
+ s6/Vydor3i1S5yEgtcp9pRbhtv6v/DXR9jU2QTIFJAIsPSptdiwckCCF0GwHhMjwcvko
+ FPck57jyzb3t6EN0YXIIYKJwyiGicU2sfqXMzV42TgHD0Yw3kLZ1poG8YW8GlTJ/JFwT
+ exlw==
+X-Gm-Message-State: ANhLgQ22J5JPdc6IjV0wbwalWgOP8v79+QD7+/en+eZHKuZ8eM/k01z7
+ RIECXYU2LpygDBGPxLX4kL3RpRoq8x8BCZRTGrA=
+X-Google-Smtp-Source: ADFU+vv4PalE7D7X5fiOcABbQD7txB0rA4Kc7li+wI8pvWE7cCSdPgjF7AuzCiMfUwCqRy19QvlLkqsiFOZgKHybQ8Y=
+X-Received: by 2002:a02:954c:: with SMTP id y70mr4985182jah.16.1585171905759; 
+ Wed, 25 Mar 2020 14:31:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200325201604.833898-2-thierry.reding@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1585169298; bh=nBGOaR7If9Bn7YgqQ050D8eG5NPGJikL7u6AsNJzHB8=;
- h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
- User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
- X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=HYj+GP9mNAZMMCkf9YIendDldsmhH07AIr86eLhF7Lhvrqlt5XpYzES3q8GcaNfMf
- 8DLmRocGS+rd9gITebUgv5WNbCBDo3bjYOZoxTjDZjHcnkIRHSQ588NDAbVlMduTGS
- /nDmp4a8HdYcrRMHevqjgG60wmviimg2pdD1+eQ0eS16gQRgvuh3fLDbzK1s5n6/8I
- 1acKyb2jPQfVBUXSjuSQi3C5Q9Qpk63rZtq/Wd+JjJRhM+ACzdJPCrIwxfiWd0Hyzp
- UDSjpzF8rdonePRG6KzVc2V22jOrcH5hAce79Xltpth0PBk9/YIkOH4UvfzlFlrN11
- cArgjLnpAaeBw==
+References: <CAPaKu7SLyEdbzqDXxU7+Gm1Gjh2Q4C1buudmBCEHgsk6sJ5L8w@mail.gmail.com>
+ <20200325004130.26766-1-gurchetansingh@chromium.org>
+In-Reply-To: <20200325004130.26766-1-gurchetansingh@chromium.org>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Thu, 26 Mar 2020 05:31:33 +0800
+Message-ID: <CAPaKu7ScaEefALSxqqugaUT+pLdQXcH5KupgqH1ZH5kzNJn3Vw@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: delete notify in virtio_gpu_object_create
+To: Gurchetan Singh <gurchetansingh@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,34 +61,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Mar 25, 2020 at 8:41 AM Gurchetan Singh
+<gurchetansingh@chromium.org> wrote:
+>
+> For 3D buffers, virtio_gpu_gem_object_open notifies.
+> We can have the same behavior for dumb buffer.  We just
+> need to make sure the first open notifies the host for
+> dumb buffers.
+virtio_gpu_notify is cheap and does not kick unless there is a need.
+I probably won't bother with adding `bool notified', which adds a
+(harmless) data race.
 
-On 25/03/2020 20:16, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Tegra124 and Tegra210 support addressing more than 32 bits of physical
-> memory. However, since their host1x does not support the wide GATHER
-> opcode, they should use the SMMU if at all possible to ensure that all
-> the system memory can be used for command buffers, irrespective of
-> whether or not the host1x firewall is enabled.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+
+
+
+>
+> v2: virtio_gpu_gem_object_open always notifies
+>
+> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 > ---
->  drivers/gpu/host1x/dev.c | 46 ++++++++++++++++++++++++++++++++++++----
->  1 file changed, 42 insertions(+), 4 deletions(-)
-
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-
-Cheers
-Jon
-
--- 
-nvpublic
+>  drivers/gpu/drm/virtio/virtgpu_drv.h    |  1 +
+>  drivers/gpu/drm/virtio/virtgpu_gem.c    | 10 ++++++++--
+>  drivers/gpu/drm/virtio/virtgpu_object.c |  1 -
+>  3 files changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> index 79ad176aca5a8..842200e01d785 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> @@ -71,6 +71,7 @@ struct virtio_gpu_object {
+>         uint32_t hw_res_handle;
+>         bool dumb;
+>         bool created;
+> +       bool notified;
+>  };
+>  #define gem_to_virtio_gpu_obj(gobj) \
+>         container_of((gobj), struct virtio_gpu_object, base.base)
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+> index 90c0a8ea1708c..597ddb7391fb9 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+> @@ -111,10 +111,13 @@ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
+>  {
+>         struct virtio_gpu_device *vgdev = obj->dev->dev_private;
+>         struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
+> +       struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
+>         struct virtio_gpu_object_array *objs;
+>
+> -       if (!vgdev->has_virgl_3d)
+> -               return 0;
+> +       if (!vgdev->has_virgl_3d && !bo->notified)
+> +               goto out_notify;
+> +       else if (!vgdev->has_virgl_3d)
+> +               goto out;
+>
+>         objs = virtio_gpu_array_alloc(1);
+>         if (!objs)
+> @@ -123,7 +126,10 @@ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
+>
+>         virtio_gpu_cmd_context_attach_resource(vgdev, vfpriv->ctx_id,
+>                                                objs);
+> +out_notify:
+> +       bo->notified = true;
+>         virtio_gpu_notify(vgdev);
+> +out:
+>         return 0;
+>  }
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+> index d9039bb7c5e37..51a8da7d5ef3b 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+> @@ -241,7 +241,6 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+>                 return ret;
+>         }
+>
+> -       virtio_gpu_notify(vgdev);
+>         *bo_ptr = bo;
+>         return 0;
+>
+> --
+> 2.24.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
