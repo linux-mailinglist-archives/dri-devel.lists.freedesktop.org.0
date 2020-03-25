@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A238193221
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 21:48:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFB4193226
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 21:48:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C31DA6E7E5;
-	Wed, 25 Mar 2020 20:48:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7802B6E827;
+	Wed, 25 Mar 2020 20:48:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADA4A6E7E5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 20:48:08 +0000 (UTC)
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFF96E827
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 20:48:32 +0000 (UTC)
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e7bc32c0000>; Wed, 25 Mar 2020 13:46:36 -0700
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e7bc3920000>; Wed, 25 Mar 2020 13:48:18 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
- Wed, 25 Mar 2020 13:48:08 -0700
+ Wed, 25 Mar 2020 13:48:32 -0700
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Wed, 25 Mar 2020 13:48:08 -0700
+ by hqpgpgate101.nvidia.com on Wed, 25 Mar 2020 13:48:32 -0700
 Received: from [10.26.72.231] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 25 Mar
- 2020 20:48:07 +0000
-Subject: Re: [PATCH 1/2] drm/tegra: Fix SMMU support on Tegra124 and Tegra210
+ 2020 20:48:31 +0000
+Subject: Re: [PATCH 2/2] gpu: host1x: Use SMMU on Tegra124 and Tegra210
 To: Thierry Reding <thierry.reding@gmail.com>
 References: <20200325201604.833898-1-thierry.reding@gmail.com>
+ <20200325201604.833898-2-thierry.reding@gmail.com>
 From: Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <bf883fab-6c41-9e9e-f70d-d3493862529b@nvidia.com>
-Date: Wed, 25 Mar 2020 20:48:05 +0000
+Message-ID: <c359bfdb-de7e-6c82-9a78-bd0ec4449172@nvidia.com>
+Date: Wed, 25 Mar 2020 20:48:29 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200325201604.833898-1-thierry.reding@gmail.com>
+In-Reply-To: <20200325201604.833898-2-thierry.reding@gmail.com>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  HQMAIL107.nvidia.com (172.20.187.13)
 Content-Language: en-US
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1585169196; bh=fMy6HEa7QIELOqAL/AVjWo5vnyvkX2/ne4wG1GkCfrM=;
+ t=1585169298; bh=nBGOaR7If9Bn7YgqQ050D8eG5NPGJikL7u6AsNJzHB8=;
  h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
  User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
  X-ClientProxiedBy:Content-Type:Content-Language:
  Content-Transfer-Encoding;
- b=fl5E7W1QZe97DFqV6T4kAR6XAQ18Se0IbyTMtEgXr7d0Tkgs9klibYOv5XHE1tjaH
- SMcLCZ/hmhx1FHg1GrIATy+XKIM15FRsvBPVxQjErKxpN7BN2b6qq8lhxxEzlb7fRh
- 4psSj+ZK7nFeNHCr7F+VMk+7O3GTViyttg7bIdp/7FAZ5BtjHGuFfclc/yIuc56Y/z
- n82KuHoaWTzA22ovx3s1etJ+aF1Lj3r4cFUkzE/OywJzvpcuX6cUe5I+e+7tyfLHL+
- s8XqFIijbKMbmX+YWd5kACExuu/TFqiHtJGek+JsTW5Seub89D024T6NFlyTMb3ahO
- J1AmF6EsObJYQ==
+ b=HYj+GP9mNAZMMCkf9YIendDldsmhH07AIr86eLhF7Lhvrqlt5XpYzES3q8GcaNfMf
+ 8DLmRocGS+rd9gITebUgv5WNbCBDo3bjYOZoxTjDZjHcnkIRHSQ588NDAbVlMduTGS
+ /nDmp4a8HdYcrRMHevqjgG60wmviimg2pdD1+eQ0eS16gQRgvuh3fLDbzK1s5n6/8I
+ 1acKyb2jPQfVBUXSjuSQi3C5Q9Qpk63rZtq/Wd+JjJRhM+ACzdJPCrIwxfiWd0Hyzp
+ UDSjpzF8rdonePRG6KzVc2V22jOrcH5hAce79Xltpth0PBk9/YIkOH4UvfzlFlrN11
+ cArgjLnpAaeBw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,18 +73,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 25/03/2020 20:16, Thierry Reding wrote:
 > From: Thierry Reding <treding@nvidia.com>
 > 
-> When testing whether or not to enable the use of the SMMU, consult the
-> supported DMA mask rather than the actually configured DMA mask, since
-> the latter might already have been restricted.
+> Tegra124 and Tegra210 support addressing more than 32 bits of physical
+> memory. However, since their host1x does not support the wide GATHER
+> opcode, they should use the SMMU if at all possible to ensure that all
+> the system memory can be used for command buffers, irrespective of
+> whether or not the host1x firewall is enabled.
 > 
-> Fixes: 2d9384ff9177 ("drm/tegra: Relax IOMMU usage criteria on old Tegra")
 > Signed-off-by: Thierry Reding <treding@nvidia.com>
 > ---
->  drivers/gpu/drm/tegra/drm.c |  3 ++-
->  drivers/gpu/host1x/dev.c    | 13 +++++++++++++
->  include/linux/host1x.h      |  3 +++
->  3 files changed, 18 insertions(+), 1 deletion(-)
-
+>  drivers/gpu/host1x/dev.c | 46 ++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 42 insertions(+), 4 deletions(-)
 
 Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
