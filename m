@@ -2,32 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D864192274
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 09:17:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7359192258
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 09:16:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76D926E5BD;
-	Wed, 25 Mar 2020 08:17:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7194B89A86;
+	Wed, 25 Mar 2020 08:16:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43D3F6E0E9;
- Wed, 25 Mar 2020 02:30:10 +0000 (UTC)
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 53BDA7AC20471C7F9F2F;
- Wed, 25 Mar 2020 10:30:07 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 25 Mar 2020 10:30:01 +0800
-From: Chen Zhou <chenzhou10@huawei.com>
-To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/amdgpu/uvd7: remove unnecessary conversion to bool
-Date: Wed, 25 Mar 2020 10:32:50 +0800
-Message-ID: <20200325023250.163321-1-chenzhou10@huawei.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44C3989E14
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 02:42:26 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id np9so397982pjb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 19:42:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=tJVGZmmA1bFjoevn7/qDYyyvIJ/eyc0u4ubgnC7ziTY=;
+ b=H4706YZqf8/zScGoFg12vybnR9M2VsIQVJgSz3rS1dHY9dQHDGFEdxDFbUd7d1zTgX
+ a1SAGpNqJGQq66/k++qcyoET2sxmyH3emD3uXnYHai1yW2TdH35PONdQL7aDm0PfPzyp
+ tYlxhgWpkpR2jgcSCMS6Pg5GkhF65IhQxffKc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=tJVGZmmA1bFjoevn7/qDYyyvIJ/eyc0u4ubgnC7ziTY=;
+ b=nwwbny94EuIsbdzZDO9I6HN0LhWTz1phNifdSUBe1cnWaCIuG3kkdT1wWelXEe91Pm
+ HSlDc5jStT259r4bxn09YzOwSnNOwNpWYu5D34BWpw826i0o02dwjt4b3XVkrZLlwa1G
+ ot72XrfQmm1gQ5jepkiGaMQcPCwCsgtHVjd+AkEqRTTncrb1vUoUwOecNaV7k0DT4ZfO
+ d7OWA325A6TG3V3A7NJ5ejdgvia5l0jaUhor1eDsM3xrxDQHP2z1JK9Z5rgH/KJtxQrK
+ rBkOXfraBcsiauauc2i5tuiuP3Wf1t1vPt6lB4VfGEpunlkZkE9GL50mVrccjF+mu1PS
+ vXrw==
+X-Gm-Message-State: ANhLgQ3xs9rJ/l2G5HkGysIYVOY/5zbrUCNWF9XuTJ/hA5I2YFdauTWZ
+ Bhe883Uj8e4epUtdBxvCW0aG2g==
+X-Google-Smtp-Source: ADFU+vtS5LbLrzS1jhzDwYVrTj6A9lZWX06g/Mga4Nlp7aFIrRyOCBB7aq2FIo/kyw4uUBQ1+JG/MQ==
+X-Received: by 2002:a17:90a:33d1:: with SMTP id
+ n75mr1033588pjb.167.1585104145832; 
+ Tue, 24 Mar 2020 19:42:25 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+ by smtp.gmail.com with ESMTPSA id x4sm858194pgr.9.2020.03.24.19.42.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Mar 2020 19:42:25 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+In-Reply-To: <5cfeed6df208b74913312a1c97235ee615180f91.1582361737.git.mchehab+huawei@kernel.org>
+References: <cover.1582361737.git.mchehab+huawei@kernel.org>
+ <5cfeed6df208b74913312a1c97235ee615180f91.1582361737.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 3/7] docs: fix broken references to text files
+From: Stephen Boyd <swboyd@chromium.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Date: Tue, 24 Mar 2020 19:42:24 -0700
+Message-ID: <158510414428.125146.17397141028775937874@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-Mailman-Approved-At: Wed, 25 Mar 2020 08:16:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,36 +68,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-arch@vger.kernel.org, linux-nfs@vger.kernel.org, kvm@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, netdev@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, kvm-ppc@vger.kernel.org, linux-mm@kvack.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The conversion to bool is not needed, remove it.
+Quoting Mauro Carvalho Chehab (2020-02-22 01:00:03)
+> Several references got broken due to txt to ReST conversion.
+> 
+> Several of them can be automatically fixed with:
+> 
+>         scripts/documentation-file-ref-check --fix
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/hwtracing/coresight/Kconfig                  |  2 +-
+> 
+> diff --git a/drivers/hwtracing/coresight/Kconfig b/drivers/hwtracing/coresight/Kconfig
+> index 6ff30e25af55..6d42a6d3766f 100644
+> --- a/drivers/hwtracing/coresight/Kconfig
+> +++ b/drivers/hwtracing/coresight/Kconfig
+> @@ -107,7 +107,7 @@ config CORESIGHT_CPU_DEBUG
+>           can quickly get to know program counter (PC), secure state,
+>           exception level, etc. Before use debugging functionality, platform
+>           needs to ensure the clock domain and power domain are enabled
+> -         properly, please refer Documentation/trace/coresight-cpu-debug.rst
+> +         properly, please refer Documentation/trace/coresight/coresight-cpu-debug.rst
+>           for detailed description and the example for usage.
+>  
+>  endif
 
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
----
- drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c b/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-index 0995378..20f10a5 100644
---- a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-@@ -1694,7 +1694,7 @@ static int uvd_v7_0_set_clockgating_state(void *handle,
- 					  enum amd_clockgating_state state)
- {
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
--	bool enable = (state == AMD_CG_STATE_GATE) ? true : false;
-+	bool enable = (state == AMD_CG_STATE_GATE);
- 
- 	uvd_v7_0_set_bypass_mode(adev, enable);
- 
--- 
-2.7.4
-
+I ran into this today and almost sent a patch. Can you split this patch
+up into more pieces and send it off to the respective subsystem
+maintainers?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
