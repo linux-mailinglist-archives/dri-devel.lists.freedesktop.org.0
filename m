@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3F01923B5
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 10:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B92E1923B4
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 10:08:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2AD66E5D3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 967F26E5D2;
 	Wed, 25 Mar 2020 09:08:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A223B6E5D2
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 09:08:42 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id w25so1603645wmi.0;
- Wed, 25 Mar 2020 02:08:42 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2EF66E5D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 09:08:44 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id a25so1948844wrd.0;
+ Wed, 25 Mar 2020 02:08:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QLkRr9j1+t7kkMw2Ku/7MnvEj1jxos3vANcsR2A+POs=;
- b=tItHUlXC1+dfULZj1LhOU5NDx3F9h/M/Ae+O3kMnVbgtAsdvT2ghQImi0NoPV8ldYI
- 8GaZtaL4VnqLR4oMrFkvItwsYw7cJKeIrKcyQfKWK6tf2RhjiYrreUBRr/2fCdDbjXKT
- 3BYngDUrgZV4/43KdBii77JRucqGFUjtik85FPE67ce5c6hnB898jDOBVZfnKm5pxiAH
- hk+QX8F83j54OcYIqCop2qgnskqWTGYNi2hm6xTOXihX/NMSg9wjpPY9qnW8jBmJSaST
- XcZFNCTzLHphjahSUA5EBejR9NCMy7C6mOoclZxiGkRX/9smMlqy/43m2uR0gW3JzfDL
- 82xA==
+ bh=eVp8N3Y86PwDON5iNLeFPoqqE59j/nJ6HOnpicwvFYw=;
+ b=b7M9444MjNBuwc+NdupdV9NJBwXQmDDARdLnAWQRPZCwEKEdoKmEkTMN6rTzkSq/Ev
+ lA0tnWa51Jfc+72oCbnIyrp2Miipc74i4YZijLG7bRgYce7Wgf9kcUy0T96vgZvj8Y5x
+ Pt+MKZX/HcMv27OjVADXuMnSaFlbxTxNv6fXGNarX2vX+DWos9GPnOn8U3QiTgXb43k8
+ xZrRgAAunCi137t8E7cQOYrtgEI1EIxjkXRdQ18JbkhqQHhZtik6nWSHP/JYh6GVoHRX
+ 0TlR+cdjgoWhrD7oZ2sdk0fIZzoP72LORQ0OO2jBSBixFazDVHI59oLu3HQP1yk1z9OA
+ nc9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QLkRr9j1+t7kkMw2Ku/7MnvEj1jxos3vANcsR2A+POs=;
- b=S4asPf6NKhSdaLAF/UROH16Hn35bJk1D51Wx0LXyVfIy+vsQYRgcZijTtEeyhQW2gs
- Pqu13HF5yLB490ToBbod7+khMOWyt0JdjIpWNNBnOFUEwb05OdqAVQ2BcvG/02Wq4cGD
- DapcxUKS8EOjOzluNELjs7mRI0qaUnBp/Zlmea8ADj/32Y5F2ClKZ1Kl9/uqlEqmJSiu
- U4bAn6fVnmPKs7rg/EzVGGBuln8zjprkC/ptYJxbIWIR9AUbi5NIgq60WLOk8+VAl+r0
- ubKsANKvZN9c1om+d9M6Y+fD9gYsZnNsdI8yrcOObEPPZ6tc6G6lR3yNm5OBr3jYOtdt
- Jgxg==
-X-Gm-Message-State: ANhLgQ03kqaOYRq/CespbBhGJU/UfhXrXIEFrJdCVjKbLKQSZIbVttxZ
- 3hGONnFgiVIgfs4Mm6Pk6pAnWO+yh8I=
-X-Google-Smtp-Source: ADFU+vtCdXyuM3ib6Qu85alvpqv8QAZxNBaQDg0ws8lu5V1fIrbVncSd7PIi8RVD8WbB/nlDK0aGUg==
-X-Received: by 2002:a1c:f407:: with SMTP id z7mr2380279wma.36.1585127321046;
- Wed, 25 Mar 2020 02:08:41 -0700 (PDT)
+ bh=eVp8N3Y86PwDON5iNLeFPoqqE59j/nJ6HOnpicwvFYw=;
+ b=AKPHXr8xfmDZp6u0QZni59WkuCfqfBHwWb+j1kCyc6N4fqvWqkUfooLoNTxUGsxBCz
+ w5i+r0LFqpS+Ruwj6SVJBXKY3iLZDYoAyjOfGWpp7kw2nJ5QW/Zenl8zzIOW/+QMRCqV
+ l5m+7oKwFJyXPnE6JOKYqbiFy/PD0sX86VMc/UUmakyE+PNLb2X6my2csHz9WgLU+Zig
+ pDZjq6ENPWUuG/K7pABc3gUp6yl8FMCEOTq5yAb1+vw5l1mhfa6D3XhcekrTfJYPkd3g
+ jEH++9WsJ+2LWT6lWXBPtmZs6LxOCZr+22xFkfCoHwVdL5vuAgDWW3aA/8Lnm9ekjPpK
+ 5bbg==
+X-Gm-Message-State: ANhLgQ0/deNkkIpLtIbVOBVsA2hKwoVHikN7v6Eg2F8vHiezEZtf+6Fw
+ /K6BXngtjb6RrHCC34JCZh27YLyWSNM=
+X-Google-Smtp-Source: ADFU+vucVoFXg3vQHs7A87Ct1z694QEmqZDx6c7UlwYfcSJoaz4mdvAPRiSLD0uCfXOmBA7SN/BmpQ==
+X-Received: by 2002:adf:e6c8:: with SMTP id y8mr2183980wrm.279.1585127323079; 
+ Wed, 25 Mar 2020 02:08:43 -0700 (PDT)
 Received: from wasp.lan (250.128.208.46.dyn.plus.net. [46.208.128.250])
- by smtp.googlemail.com with ESMTPSA id 127sm8565048wmd.38.2020.03.25.02.08.40
+ by smtp.googlemail.com with ESMTPSA id 127sm8565048wmd.38.2020.03.25.02.08.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 02:08:40 -0700 (PDT)
+ Wed, 25 Mar 2020 02:08:42 -0700 (PDT)
 From: Shane Francis <bigbeeshane@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 2/3] drm/amdgpu: fix scatter-gather mapping with user pages
-Date: Wed, 25 Mar 2020 09:07:40 +0000
-Message-Id: <20200325090741.21957-3-bigbeeshane@gmail.com>
+Subject: [PATCH v4 3/3] drm/radeon: fix scatter-gather mapping with user pages
+Date: Wed, 25 Mar 2020 09:07:41 +0000
+Message-Id: <20200325090741.21957-4-bigbeeshane@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200325090741.21957-1-bigbeeshane@gmail.com>
 References: <20200325090741.21957-1-bigbeeshane@gmail.com>
@@ -80,22 +80,22 @@ support this use case.
 
 Signed-off-by: Shane Francis <bigbeeshane@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index dee446278417..c6e9885c071f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -974,7 +974,7 @@ static int amdgpu_ttm_tt_pin_userptr(struct ttm_tt *ttm)
- 	/* Map SG to device */
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 3b92311d30b9..b3380ffab4c2 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -528,7 +528,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_tt *ttm)
+ 
  	r = -ENOMEM;
- 	nents = dma_map_sg(adev->dev, ttm->sg->sgl, ttm->sg->nents, direction);
+ 	nents = dma_map_sg(rdev->dev, ttm->sg->sgl, ttm->sg->nents, direction);
 -	if (nents != ttm->sg->nents)
 +	if (nents == 0)
  		goto release_sg;
  
- 	/* convert SG to linear array of pages and dma addresses */
+ 	drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
 -- 
 2.26.0
 
