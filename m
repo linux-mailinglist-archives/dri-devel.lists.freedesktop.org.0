@@ -1,52 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC6C192056
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 06:10:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 983591921C3
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 08:31:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30E0E6E0E9;
-	Wed, 25 Mar 2020 05:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 380DA89906;
+	Wed, 25 Mar 2020 07:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com
- [210.131.2.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80BE36E0E9;
- Wed, 25 Mar 2020 05:10:43 +0000 (UTC)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
- [209.85.217.51]) (authenticated)
- by conssluserg-06.nifty.com with ESMTP id 02P5ABUE020393;
- Wed, 25 Mar 2020 14:10:12 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 02P5ABUE020393
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
- s=dec2015msa; t=1585113012;
- bh=goHEK+Svl1j1CHZ8RGvjblzdAWdDcWxFnIuljEdud0o=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=DnT5KzDtk1VZ4bX5jz1F2rsdqsISqFkA3UcZ8xsfhN86oNs2j/XPmD5P0cCs/JhpC
- 4djo10x3J7e7VKuxZ6VaqctGHnlh7v8Y2a60Ld7EPdInTe+DqQnV3Yv2mMRbEtWync
- MiWlzZhvtXqwbjoutaboaVOvFnOMo0MJcs+5uYk6RNu52LFYtiOci3i1kOmUu1RoBi
- xhqivkrrBXMFOs8hfcQ/k+Do1CGoUI92UhBVNthIcvYQO4wcMswpJWLXGNNqUdh7Tw
- n7tev83ZNX9rklVlt+woYh25RkzUKyFRAAw9ucZjUiaVa3CirJ/T2AZaRCO80gKTwU
- bP6ZfZcCxvw5g==
-X-Nifty-SrcIP: [209.85.217.51]
-Received: by mail-vs1-f51.google.com with SMTP id e138so744821vsc.11;
- Tue, 24 Mar 2020 22:10:12 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ34Gj363yZonJbk6Ae/rdvYagLqmS/6SoGfGJNVctwFM9g4H1h/
- 0n75WOXZzHLzWv9dpxKyXyXptaJVBPC5e1SmuNg=
-X-Google-Smtp-Source: ADFU+vu+bM6M5+X0alIJHo1ALDGfE82bX+MEHXukXjfTCtMpyx9j4+KKQCB6mj8BRZ3ztAMCXwbRLo3j/oOEZhFBzJo=
-X-Received: by 2002:a67:2d55:: with SMTP id t82mr1251970vst.215.1585113010953; 
- Tue, 24 Mar 2020 22:10:10 -0700 (PDT)
+Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0441C89906
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 07:31:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id 504153F571;
+ Wed, 25 Mar 2020 08:31:18 +0100 (CET)
+Authentication-Results: pio-pvt-msa3.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=K6FAcklo; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+ autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 240Ax9Ctyqk7; Wed, 25 Mar 2020 08:31:16 +0100 (CET)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35]) (Authenticated sender: mb878879)
+ by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 9C7D33F535;
+ Wed, 25 Mar 2020 08:31:12 +0100 (CET)
+Received: from localhost.localdomain.localdomain
+ (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 47404360025;
+ Wed, 25 Mar 2020 08:31:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1585121472; bh=pK1naLxV8d5FNCHfUP/WjEfmBTs06NNmz9tLvg9Fe88=;
+ h=From:To:Cc:Subject:Date:From;
+ b=K6FAcklog012NxHhQiX72Pn9IWpr6GMNj8ArNXpaG13eJ4YL9ZoxHbFtPW/vyMfqa
+ xxqTZLGImcVpmPJnBSoxQ7C7TGS9yK26+mK26YGfXkVbHLjYeyIi4f9YraT+Qal0+J
+ 6HgwotGtZtVzn1JE7pWAqVeu72E5AVv96RK/oJmc=
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m=20=28VMware=29?=
+ <thomas_os@shipmail.org>
+To: airlied@gmail.com,
+	airlied@redhat.com,
+	daniel@ffwll.ch
+Subject: [git pull] ttm-transhuge
+Date: Wed, 25 Mar 2020 08:31:02 +0100
+Message-Id: <20200325073102.6129-1-thomas_os@shipmail.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-References: <20200324084821.29944-1-masahiroy@kernel.org>
- <20200325045940.GA24974@gmail.com>
-In-Reply-To: <20200325045940.GA24974@gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 25 Mar 2020 14:09:34 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQvgT=OWVuBVrvgdZ7AAkoaV_K_Y+w9bOFxRPw_1TOSUA@mail.gmail.com>
-Message-ID: <CAK7LNAQvgT=OWVuBVrvgdZ7AAkoaV_K_Y+w9bOFxRPw_1TOSUA@mail.gmail.com>
-Subject: Re: [PATCH 00/16] x86, crypto: remove always-defined CONFIG_AS_* and
- cosolidate Kconfig/Makefiles
-To: Ingo Molnar <mingo@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,101 +65,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- NeilBrown <neilb@suse.de>, dri-devel <dri-devel@lists.freedesktop.org>,
- "H . Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <a.p.zijlstra@chello.nl>,
- Herbert Xu <herbert@gondor.apana.org.au>, Jonathan Corbet <corbet@lwn.net>,
- X86 ML <x86@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, intel-gfx@lists.freedesktop.org,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- Yuanhan Liu <yuanhan.liu@linux.intel.com>, Kees Cook <keescook@chromium.org>,
- Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Borislav Petkov <bp@alien8.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- Jim Kukunas <james.t.kukunas@linux.intel.com>,
- "David S . Miller" <davem@davemloft.net>
+Cc: linux-graphics-maintainer@vmware.com, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ingo,
+Dave, Daniel.
 
-On Wed, Mar 25, 2020 at 1:59 PM Ingo Molnar <mingo@kernel.org> wrote:
->
->
-> * Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> > This series of cleanups was prompted by Linus:
-> > https://lkml.org/lkml/2020/3/12/726
-> >
-> > First, this series drop always-on CONFIG_AS_* options.
-> > Some of those options were introduced in old days.
-> > For example, the check for CONFIG_AS_CFI dates back to 2006.
-> >
-> > We raise the minimal tool versions from time to time.
-> > Currently, we require binutils 2.21
-> > (and we plan to bump it to 2.23 for v5.7-rc1).
-> >
-> > After cleaning away the old checks,
-> > as-instr calls are moved to Kconfig from Makefiles.
-> > (patch 11)
-> >
-> > This allows more Kconfig / Makefile cleanups.
-> > Patch 12 is complex, but I double-checked it does the equivalent.
-> >
-> > Patch 14 bumps the binutils version to 2.23,
-> > and patch 15 removes more CONFIG_AS_* options.
-> >
-> > I folded all relevanet patches into this series,
-> > as suggested by Jason A. Donenfeld.
-> >
-> > If x86 maintainers take care of this series, that's good.
-> >
-> > If it is OK to queue this up to Kbuild tree,
-> > I will send a pull request to Linus.
-> >
-> > Thank you.
->
-> LGTM. I've got these four from Jason A. Donenfeld queued up in
-> tip:WIP.x86/asm:
->
->  bd5b1283e41c: ("crypto: Curve25519 - do not pollute dispatcher based on assembler")
->  829f32d78588: ("crypto: X86 - rework configuration, based on Kconfig")
->  95ef9f80ed63: ("x86/build: Probe assembler from Kconfig instead of Kbuild")
->  1651e700664b: ("x86: Fix bitops.h warning with a moved cast")
->
-> I suppose these might interact (maybe even conflict), and are topically
-> related.
->
-> Would you like to pull these into the kbuild tree? You can find them in:
->
->    git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git WIP.x86/asm
->
-> Thanks,
->
->         Ingo
+Another one (the last for some time) of those pull requests that Linus probably
+wants separate. The mm and ttm patches have been acked by the maintainers
+for merge through drm, but see CAVEATS below:
+
+CAVEATS:
+  - Patch 1/9 is trivial, but I can't get it acked or reviewed by fs people
+    despite repeated efforts.
+  - There are two trivial conflicts (patch context) with linux-next.
+
+This pull request is not urgent for 5.7. Although that would be desirable,
+it may well wait for 5.8.
+
+----------------------------------------------------------------------------
+
+Huge page-table entries for TTM
+
+In order to reduce CPU usage [1] and in theory TLB misses this patchset enables
+huge- and giant page-table entries for TTM and TTM-enabled graphics drivers.
+
+Patch 1 and 2 introduce a vma_is_special_huge() function to make the mm code
+take the same path as DAX when splitting huge- and giant page table entries,
+(which currently means zapping the page-table entry and rely on re-faulting).
+
+Patch 3 makes the mm code split existing huge page-table entries
+on huge_fault fallbacks. Typically on COW or on buffer-objects that want
+write-notify. COW and write-notification is always done on the lowest
+page-table level. See the patch log message for additional considerations.
+
+Patch 4 introduces functions to allow the graphics drivers to manipulate
+the caching- and encryption flags of huge page-table entries without ugly
+hacks.
+
+Patch 5 implements the huge_fault handler in TTM.
+This enables huge page-table entries, provided that the kernel is configured
+to support transhuge pages, either by default or using madvise().
+However, they are unlikely to be inserted unless the kernel buffer object
+pfns and user-space addresses align perfectly. There are various options
+here, but since buffer objects that reside in system pages typically start
+at huge page boundaries if they are backed by huge pages, we try to enforce
+buffer object starting pfns and user-space addresses to be huge page-size
+aligned if their size exceeds a huge page-size. If pud-size transhuge
+("giant") pages are enabled by the arch, the same holds for those.
+
+Patch 6 implements a specialized huge_fault handler for vmwgfx.
+The vmwgfx driver may perform dirty-tracking and needs some special code
+to handle that correctly.
+
+Patch 7 implements a drm helper to align user-space addresses according
+to the above scheme, if possible.
+
+Patch 8 implements a TTM range manager for vmwgfx that does the same for
+graphics IO memory. This may later be reused by other graphics drivers
+if necessary.
+
+Patch 9 finally hooks up the helpers of patch 7 and 8 to the vmwgfx driver.
+A similar change is needed for graphics drivers that want a reasonable
+likelyhood of actually using huge page-table entries.
+
+If a buffer object size is not huge-page or giant-page aligned,
+its size will NOT be inflated by this patchset. This means that the buffer
+object tail will use smaller size page-table entries and thus no memory
+overhead occurs. Drivers that want to pay the memory overhead price need to
+implement their own scheme to inflate buffer-object sizes.
+
+PMD size huge page-table-entries have been tested with vmwgfx and found to
+work well both with system memory backed and IO memory backed buffer objects.
+
+PUD size giant page-table-entries have seen limited (fault and COW) testing
+using a modified kernel (to support 1GB page allocations) and a fake vmwgfx
+TTM memory type. The vmwgfx driver does otherwise not support 1GB-size IO
+memory resources.
+
+[1]
+The below test program generates the following gnu time output when run on a
+vmwgfx-enabled kernel without the patch series:
+
+4.78user 6.02system 0:10.91elapsed 99%CPU (0avgtext+0avgdata 1624maxresident)k
+0inputs+0outputs (0major+640077minor)pagefaults 0swaps
+
+and with the patch series:
+
+1.71user 3.60system 0:05.40elapsed 98%CPU (0avgtext+0avgdata 1656maxresident)k
+0inputs+0outputs (0major+20079minor)pagefaults 0swaps
+
+A consistent number of reduced graphics page-faults can be seen with normal
+graphics applications, but probably due to the aggressive buffer object
+caching in vmwgfx user-space drivers the CPU time reduction is within
+error limits.
+
+#include <unistd.h>
+#include <string.h>
+#include <sys/mman.h>
+#include <xf86drm.h>
+
+static void checkerr(int ret, const char *name)
+{
+  if (ret < 0) {
+    perror(name);
+    exit(-1);
+  }
+}
+
+int main(int agc, const char *argv[])
+{
+    struct drm_mode_create_dumb c_arg = {0};
+    struct drm_mode_map_dumb m_arg = {0};
+    struct drm_mode_destroy_dumb d_arg = {0};
+    int ret, i, fd;
+    void *map;
+
+    fd = open("/dev/dri/card0", O_RDWR);
+    checkerr(fd, argv[0]);
+
+    for (i = 0; i < 10000; ++i) {
+      c_arg.bpp = 32;
+      c_arg.width = 1024;
+      c_arg.height = 1024;      
+      ret = drmIoctl(fd, DRM_IOCTL_MODE_CREATE_DUMB, &c_arg);
+      checkerr(fd, argv[0]);
+
+      m_arg.handle = c_arg.handle;
+      ret = drmIoctl(fd, DRM_IOCTL_MODE_MAP_DUMB, &m_arg);
+      checkerr(fd, argv[0]);
+      
+      map = mmap(NULL, c_arg.size, PROT_READ | PROT_WRITE, MAP_SHARED, fd,
+	       m_arg.offset);
+      checkerr(map == MAP_FAILED ? -1 : 0, argv[0]);
+
+      (void) madvise((void *) map, c_arg.size, MADV_HUGEPAGE);
+      memset(map, 0x67, c_arg.size);
+      munmap(map, c_arg.size);
+
+      d_arg.handle = c_arg.handle;
+      ret = drmIoctl(fd, DRM_IOCTL_MODE_DESTROY_DUMB, &d_arg);
+      checkerr(ret, argv[0]);
+    }
+    
+    close(fd);
+}
+
+----------------------------------------------------------------------------
 
 
-I did not know that these had already landed in tip tree.
+The following changes since commit cb7adfd6ad12a11902ebe374bec7fd4efa2cec1c:
 
-They are immature version.
-(In fact CONFIG_AS_CFI and AS_ADX are false-negative
-if GCC that defaults to 32-bit is used.)
+  Merge tag 'mediatek-drm-next-5.7' of https://github.com/ckhu-mediatek/linux.git-tags into drm-next (2020-03-20 13:08:38 +1000)
 
-Can you simply discard the WIP.x86/asm branch,
-and only reapply
-1651e700664b: ("x86: Fix bitops.h warning with a moved cast")
+are available in the Git repository at:
 
-?
+  git://people.freedesktop.org/~thomash/linux ttm-transhuge
 
+for you to fetch changes up to 9431042dbc8ce490d49c7f9d5142805b6249208b:
 
--- 
-Best Regards
-Masahiro Yamada
+  drm/vmwgfx: Hook up the helpers to align buffer objects (2020-03-24 18:50:35 +0100)
+
+----------------------------------------------------------------
+Thomas Hellstrom (VMware) (9):
+      fs: Constify vma argument to vma_is_dax
+      mm: Introduce vma_is_special_huge
+      mm: Split huge pages on write-notify or COW
+      mm: Add vmf_insert_pfn_xxx_prot() for huge page-table entries
+      drm/ttm, drm/vmwgfx: Support huge TTM pagefaults
+      drm/vmwgfx: Support huge page faults
+      drm: Add a drm_get_unmapped_area() helper
+      drm/vmwgfx: Introduce a huge page aligning TTM range manager
+      drm/vmwgfx: Hook up the helpers to align buffer objects
+
+ drivers/gpu/drm/drm_file.c                 | 141 ++++++++++++++++++++++++
+ drivers/gpu/drm/ttm/ttm_bo_vm.c            | 161 +++++++++++++++++++++++++++-
+ drivers/gpu/drm/vmwgfx/Makefile            |   1 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |  13 +++
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  12 +++
+ drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c |  76 ++++++++++++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_thp.c        | 166 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c   |   5 +-
+ include/drm/drm_file.h                     |   9 ++
+ include/drm/ttm/ttm_bo_api.h               |   3 +-
+ include/linux/fs.h                         |   2 +-
+ include/linux/huge_mm.h                    |  41 ++++++-
+ include/linux/mm.h                         |  17 +++
+ mm/huge_memory.c                           |  44 ++++++--
+ mm/memory.c                                |  27 +++--
+ 16 files changed, 692 insertions(+), 28 deletions(-)
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
