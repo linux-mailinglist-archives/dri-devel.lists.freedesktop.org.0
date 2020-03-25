@@ -2,60 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD53D192C8C
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 16:30:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D33F5192CAB
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 16:35:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EECF16E14A;
-	Wed, 25 Mar 2020 15:30:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 524716E1A2;
+	Wed, 25 Mar 2020 15:35:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C4016E14A
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 15:30:41 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id w10so3687297wrm.4
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 08:30:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=924C0u/Y1umT/w7VDcDGK3m92p0JxqNLjvMnSevFWu0=;
- b=IXD85fVwiHpuxgiU58vzw3B2cbxZpzqp11IHiKz4gEZxV7v3NoV633H0wTDpilM1qq
- YYEFjarX1455wFrQ4ZBg4XF2mKYOmMYR4jeT71jxgqvX9L9Lz5jDC3heFoKKoqrazqYm
- fMr016ow0fVKeusy8sDyJ05G4iVZgraIjTwq4VHnc7GRbSUNYwt84915TuKOpngk0ydU
- KAtmkR7ZAzBYeCmE/sUKMnj2YX6/Wh7lfL126Afaeog7/gJ31/Sf89VNPc7wXw8AzNUP
- MenCUsyC3BaEE64lJjhlRvdJvtuW7lmlDDnbdVN+tcQ2cCIaCANSx6HMF20Nfz4Rd1LE
- j66A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=924C0u/Y1umT/w7VDcDGK3m92p0JxqNLjvMnSevFWu0=;
- b=VVA3rE1Y0TBv9BqptAvIx2d4KdCijL5Ubtimi2CQHlrTli2ju91Lj+lniqS+HcvUkc
- dGiNbSpbpfWer1tAmgz0KAsKhVB+CWfMSQiyotWiQuBJij1GoiN19shAowrGCGl1wInu
- MLYHvVZQLoA41es8tync38krAD3cNNTJZUuZmoTTcv5333yE2otgg6WeB/zH2xa+50WE
- hYsRX6ZHfA0tei9ldmiFC+wY16HVAwBtbDD2SbvmWU5szGoy6KmAXZ3fkd0RbSBmHp/j
- EZqtvnpO6bJXsYFHvLptnxTRk+fX6WDaGeF7dDy8goNUMhrR6hkATm3CSgSW0q1NydMr
- mPOg==
-X-Gm-Message-State: ANhLgQ0waZBnwL1sIC/hNUiBUMUYhM3W5Idvp9wooYrsLssWAS45U5bb
- l/HgfoFdoPrRd8YbxVIErql0km/0a54yoQ==
-X-Google-Smtp-Source: ADFU+vtbKn8No1r0++C1yGVpoOAGu/x17uUd3R7B6Zbh8INPeEuKj5FXJ0Qv+4XWhmJ/8V1afEoLQg==
-X-Received: by 2002:a5d:4cc5:: with SMTP id c5mr3853483wrt.136.1585150239595; 
- Wed, 25 Mar 2020 08:30:39 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id q3sm23061496wru.87.2020.03.25.08.30.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 08:30:38 -0700 (PDT)
-Date: Wed, 25 Mar 2020 15:30:36 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Kiran Gunda <kgunda@codeaurora.org>
-Subject: Re: [PATCH V4 2/4] backlight: qcom-wled: Add callback functions
-Message-ID: <20200325153036.zyor2srbkdhmr2zj@holly.lan>
-References: <1584985618-25689-1-git-send-email-kgunda@codeaurora.org>
- <1584985618-25689-3-git-send-email-kgunda@codeaurora.org>
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com
+ (mail-eopbgr690079.outbound.protection.outlook.com [40.107.69.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 577D26E15D;
+ Wed, 25 Mar 2020 15:35:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QMN8cqdnzjfgM9CkTDr8RJEg1HpM1LK4/3d6KgGCKNPv12OMpOF3S01XwVjvJO4iJcu89DcedBOZeiNMGHqvz7O1BldO07dG5cDXPiE37iMRNx7mnoGTlVj2D9cIGRJVu0/iIgV9ETCEa+AcWy7nFZoGBmYF59+1S8EXFHIYgDSAZCnQ0lmW/4vEOs44Wst4QKMBJ+aBS574t8J2TKgPOnE+4neggCnfBLOsfuHeeZhYiSzkm9FEv6lCAmgh/fNNbWWYuRFKJZw3PWdb/v+0lRoQ/dkHy8y8fJ+qcbQ56XgoT2+TgOBoWVmiVOgNt5plRtPusjj20JhZJxb2sB8aRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PQKy3eHMlZMHfY8OaitOQBJmkTnoZnZBEjzNvtspV+A=;
+ b=LAhHGWE3Hp9EHuu+sG1bi0GbxpQ8HKYPdR0SrlIMDCmNXKcL7MdSetI/6NUKg3cWF5wqgKib2LAQfmf4JOyEq00TRHHoIvajOHZa9mOt6VPoe0EcaiU7O8PgnpqACwHSagEY0JinWlOTlcuFHmzmWEpK6dsexCRTORydndxFfODTrXeRbJXs3GvD17Fo2B7n0IJ9fQtpyCMgDy6RPE1mxR1dGjCLaz7fe2F8tutsuJKaVZKUsSv661DKHKGWrv6yLhasi7hjL52WDmJnaKl+rdxsiXXQM5dcceicvVUskWSYSPhQatXEaB5yO2sUNihbQ+KKQvfghhb05r1wH3Ypog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PQKy3eHMlZMHfY8OaitOQBJmkTnoZnZBEjzNvtspV+A=;
+ b=OlCXR63v7jpGG7srjDP1Ym8hzJQc9iJZkV/PrRsPkgxusp75lQOPOWWInEeyUbxgHXlFO+EkBC0BmGnu7hUBw0Fw3GFpTVWnmKFdiFbL29/pozp78fkKHlEQ2CnLH5rZVhLQYBVWKcFPElAVTcUbcQLga6l/R0NlDIAgqsH7udQ=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Ray.Huang@amd.com; 
+Received: from MN2PR12MB3309.namprd12.prod.outlook.com (2603:10b6:208:106::29)
+ by MN2PR12MB3648.namprd12.prod.outlook.com (2603:10b6:208:c1::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.19; Wed, 25 Mar
+ 2020 15:35:21 +0000
+Received: from MN2PR12MB3309.namprd12.prod.outlook.com
+ ([fe80::6417:7247:12ed:1d7b]) by MN2PR12MB3309.namprd12.prod.outlook.com
+ ([fe80::6417:7247:12ed:1d7b%5]) with mapi id 15.20.2835.023; Wed, 25 Mar 2020
+ 15:35:21 +0000
+From: Huang Rui <ray.huang@amd.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: clean up the inteface which is not used
+Date: Wed, 25 Mar 2020 23:34:54 +0800
+Message-Id: <1585150494-20989-1-git-send-email-ray.huang@amd.com>
+X-Mailer: git-send-email 2.7.4
+X-ClientProxiedBy: HK2PR04CA0062.apcprd04.prod.outlook.com
+ (2603:1096:202:14::30) To MN2PR12MB3309.namprd12.prod.outlook.com
+ (2603:10b6:208:106::29)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1584985618-25689-3-git-send-email-kgunda@codeaurora.org>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from hr-intel.amd.com (180.167.199.188) by
+ HK2PR04CA0062.apcprd04.prod.outlook.com (2603:1096:202:14::30) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.20.2835.18 via Frontend Transport; Wed, 25 Mar 2020 15:35:19 +0000
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [180.167.199.188]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ba06aa35-af23-4a7b-62f7-08d7d0d220c3
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3648:|MN2PR12MB3648:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB364822F653D29A7BACAD1153ECCE0@MN2PR12MB3648.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Forefront-PRVS: 0353563E2B
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(136003)(396003)(376002)(346002)(366004)(39860400002)(5660300002)(26005)(186003)(16526019)(52116002)(7696005)(478600001)(86362001)(8676002)(8936002)(81166006)(81156014)(956004)(2616005)(316002)(450100002)(2906002)(6486002)(4326008)(66946007)(66556008)(66476007)(36756003)(6666004)(54906003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB3648;
+ H:MN2PR12MB3309.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BtebaVSMVoEvZAfCaIMMGF42Vp1zKkPCdSchFV37HB+xCIjvROk63taL/QK0cMHyBcnTvGpdMge6YXRPUY+97ZoSgDI+riqPCAVKU21Gc/qnJFWTzHd4IbHU9GUPKnmjQ/3bGMOPdBp02bO0AJh9RORake/ETU9GYBEZCVCtAchjBJ0vW0EDpQ3YB0ijsg0WNr3ijpht4VIP4h2U04ck2HgGFWVc0tNYD/7LT6azHOLPiS0xE1FgBvWxpSHsh4kSq8j/MqafB6YyBqpf/+aHwVkv0mbnbxocsPmyE56CQEkjYe/nK8ftesSbmnRumqBWxSncdOEYW3y/QAu65eOVLEq74gPrj3drCN9ZdoKwxpiL9g7x1ic86JehSH6dzlAzZYexSPPlJ+em/sOhaooNN+dRwwAeMBPTRmA/Wp1tORszmPy8jd8cAzWIVu2Z31z9
+X-MS-Exchange-AntiSpam-MessageData: GqIQb89XMQ3M3kjl5FNNpGmTyH7aSYjfM4P201bbUU/wQsgg3LE3JkwvW48x8ka31G7j7xtZJeEZ1dmQLdzDktU/HhP+Y+NCPhcTe0ss2Wc70QJ13XVD3qDve/1L+pzuNrZtNy98FqZgDThKbHjppA==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba06aa35-af23-4a7b-62f7-08d7d0d220c3
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2020 15:35:20.9778 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VFXrzH7u6ueFSo5BB2OZ48c5V2b57o1YON/foEqowuZmBEQo/8qT1RFad5eUuuNBuXcHNJtOTKXMUlky2OjyuQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3648
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,423 +96,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- linux-arm-msm@vger.kernel.org, lee.jones@linaro.org,
- linux-leds@vger.kernel.org
+Cc: Huang Rui <ray.huang@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 23, 2020 at 11:16:56PM +0530, Kiran Gunda wrote:
-> Add wled_cabc_config, wled_sync_toggle, wled_ovp_fault_status
-> and wled_ovp_delay callback functions to prepare the driver for
-> adding WLED5 support.
-> 
-> wled_cabc_config() ===> Used to configure the cabc register.
->                          It is applicable for wled4 and wled5.
-> 
-> wled_sync_toggle() ===> used to toggle the Sync register bit for the
->                         brightness update to take place.
->                         It is applicable for WLED3, WLED4 and WLED5.
-> 
-> wled_ovp_fault_status() ===> Used to determine if the OVP fault is triggered.
->                              It is applicable for WLED4 and WLED5.
-> 
-> wled_ovp_delay() ===> Provides the time to wait before checking the OVP status
->                         after wled module enable.
->                         It is applicable for WLED4 and WLED5.
+invalidate_caches is actually not used, so clean it up.
 
-These look like comments to me. Move them out of the patch header and
-make them into real comments!
+Signed-off-by: Huang Rui <ray.huang@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  6 ------
+ drivers/gpu/drm/nouveau/nouveau_bo.c       |  7 -------
+ drivers/gpu/drm/qxl/qxl_ttm.c              |  6 ------
+ drivers/gpu/drm/radeon/radeon_ttm.c        |  6 ------
+ drivers/gpu/drm/ttm/ttm_bo.c               |  8 +-------
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  6 ------
+ include/drm/ttm/ttm_bo_driver.h            | 13 -------------
+ 7 files changed, 1 insertion(+), 51 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index cd2bde6..b397148 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -62,11 +62,6 @@
  
-> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+ #define AMDGPU_TTM_VRAM_MAX_DW_READ	(size_t)128
+ 
+-static int amdgpu_invalidate_caches(struct ttm_bo_device *bdev, uint32_t flags)
+-{
+-	return 0;
+-}
+-
+ /**
+  * amdgpu_init_mem_type - Initialize a memory manager for a specific type of
+  * memory request.
+@@ -1746,7 +1741,6 @@ static struct ttm_bo_driver amdgpu_bo_driver = {
+ 	.ttm_tt_create = &amdgpu_ttm_tt_create,
+ 	.ttm_tt_populate = &amdgpu_ttm_tt_populate,
+ 	.ttm_tt_unpopulate = &amdgpu_ttm_tt_unpopulate,
+-	.invalidate_caches = &amdgpu_invalidate_caches,
+ 	.init_mem_type = &amdgpu_init_mem_type,
+ 	.eviction_valuable = amdgpu_ttm_bo_eviction_valuable,
+ 	.evict_flags = &amdgpu_evict_flags,
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 1b62ccc..7dd94e6 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -647,13 +647,6 @@ nouveau_ttm_tt_create(struct ttm_buffer_object *bo, uint32_t page_flags)
+ }
+ 
+ static int
+-nouveau_bo_invalidate_caches(struct ttm_bo_device *bdev, uint32_t flags)
+-{
+-	/* We'll do this from user space. */
+-	return 0;
+-}
+-
+-static int
+ nouveau_bo_init_mem_type(struct ttm_bo_device *bdev, uint32_t type,
+ 			 struct ttm_mem_type_manager *man)
+ {
+diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
+index 16a5e90..62a5e42 100644
+--- a/drivers/gpu/drm/qxl/qxl_ttm.c
++++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+@@ -48,11 +48,6 @@ static struct qxl_device *qxl_get_qdev(struct ttm_bo_device *bdev)
+ 	return qdev;
+ }
+ 
+-static int qxl_invalidate_caches(struct ttm_bo_device *bdev, uint32_t flags)
+-{
+-	return 0;
+-}
+-
+ static int qxl_init_mem_type(struct ttm_bo_device *bdev, uint32_t type,
+ 			     struct ttm_mem_type_manager *man)
+ {
+@@ -256,7 +251,6 @@ static void qxl_bo_move_notify(struct ttm_buffer_object *bo,
+ 
+ static struct ttm_bo_driver qxl_bo_driver = {
+ 	.ttm_tt_create = &qxl_ttm_tt_create,
+-	.invalidate_caches = &qxl_invalidate_caches,
+ 	.init_mem_type = &qxl_init_mem_type,
+ 	.eviction_valuable = ttm_bo_eviction_valuable,
+ 	.evict_flags = &qxl_evict_flags,
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index f4af6703..40282bf 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -66,11 +66,6 @@ static struct radeon_device *radeon_get_rdev(struct ttm_bo_device *bdev)
+ 	return rdev;
+ }
+ 
+-static int radeon_invalidate_caches(struct ttm_bo_device *bdev, uint32_t flags)
+-{
+-	return 0;
+-}
+-
+ static int radeon_init_mem_type(struct ttm_bo_device *bdev, uint32_t type,
+ 				struct ttm_mem_type_manager *man)
+ {
+@@ -774,7 +769,6 @@ static struct ttm_bo_driver radeon_bo_driver = {
+ 	.ttm_tt_create = &radeon_ttm_tt_create,
+ 	.ttm_tt_populate = &radeon_ttm_tt_populate,
+ 	.ttm_tt_unpopulate = &radeon_ttm_tt_unpopulate,
+-	.invalidate_caches = &radeon_invalidate_caches,
+ 	.init_mem_type = &radeon_init_mem_type,
+ 	.eviction_valuable = ttm_bo_eviction_valuable,
+ 	.evict_flags = &radeon_evict_flags,
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 2445e2b..fd09bbb 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -343,14 +343,8 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+ 	}
+ 
+ moved:
+-	if (bo->evicted) {
+-		if (bdev->driver->invalidate_caches) {
+-			ret = bdev->driver->invalidate_caches(bdev, bo->mem.placement);
+-			if (ret)
+-				pr_err("Can not flush read caches\n");
+-		}
++	if (bo->evicted)
+ 		bo->evicted = false;
+-	}
+ 
+ 	if (bo->mem.mm_node)
+ 		bo->offset = (bo->mem.start << PAGE_SHIFT) +
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index d8ea3dd..3f3b2c7 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -736,11 +736,6 @@ static struct ttm_tt *vmw_ttm_tt_create(struct ttm_buffer_object *bo,
+ 	return NULL;
+ }
+ 
+-static int vmw_invalidate_caches(struct ttm_bo_device *bdev, uint32_t flags)
+-{
+-	return 0;
+-}
+-
+ static int vmw_init_mem_type(struct ttm_bo_device *bdev, uint32_t type,
+ 		      struct ttm_mem_type_manager *man)
+ {
+@@ -866,7 +861,6 @@ struct ttm_bo_driver vmw_bo_driver = {
+ 	.ttm_tt_create = &vmw_ttm_tt_create,
+ 	.ttm_tt_populate = &vmw_ttm_populate,
+ 	.ttm_tt_unpopulate = &vmw_ttm_unpopulate,
+-	.invalidate_caches = vmw_invalidate_caches,
+ 	.init_mem_type = vmw_init_mem_type,
+ 	.eviction_valuable = ttm_bo_eviction_valuable,
+ 	.evict_flags = vmw_evict_flags,
+diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+index cac7a8a..5f60c1e 100644
+--- a/include/drm/ttm/ttm_bo_driver.h
++++ b/include/drm/ttm/ttm_bo_driver.h
+@@ -256,19 +256,6 @@ struct ttm_bo_driver {
+ 	 */
+ 	void (*ttm_tt_unpopulate)(struct ttm_tt *ttm);
+ 
+-	/**
+-	 * struct ttm_bo_driver member invalidate_caches
+-	 *
+-	 * @bdev: the buffer object device.
+-	 * @flags: new placement of the rebound buffer object.
+-	 *
+-	 * A previosly evicted buffer has been rebound in a
+-	 * potentially new location. Tell the driver that it might
+-	 * consider invalidating read (texture) caches on the next command
+-	 * submission as a consequence.
+-	 */
+-
+-	int (*invalidate_caches)(struct ttm_bo_device *bdev, uint32_t flags);
+ 	int (*init_mem_type)(struct ttm_bo_device *bdev, uint32_t type,
+ 			     struct ttm_mem_type_manager *man);
+ 
+-- 
+2.7.4
 
-This patch does not compile. Please fix this.
-
-
-> ---
->  drivers/video/backlight/qcom-wled.c | 188 ++++++++++++++++++++++--------------
->  1 file changed, 118 insertions(+), 70 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> index 3d276b3..a3daf9e 100644
-> --- a/drivers/video/backlight/qcom-wled.c
-> +++ b/drivers/video/backlight/qcom-wled.c
-> @@ -147,6 +147,7 @@ struct wled {
->  	u32 max_brightness;
->  	u32 short_count;
->  	u32 auto_detect_count;
-> +	u32 version;
-
-Why does some of the changes here use function pointers and other parts
-use if/else networks (wled->version == X) ?
-
-Overall I almost wonder if the reduced clarify that comes from function
-pointers is actually adding much value?
-
-
->  	bool disabled_by_short;
->  	bool has_short_detect;
->  	int short_irq;
-> @@ -155,6 +156,10 @@ struct wled {
->  	struct wled_config cfg;
->  	struct delayed_work ovp_work;
->  	int (*wled_set_brightness)(struct wled *wled, u16 brightness);
-> +	int (*wled_cabc_config)(struct wled *wled, bool enable);
-> +	int (*wled_sync_toggle)(struct wled *wled);
-> +	int (*wled_ovp_fault_status)(struct wled *wled, bool *fault_set);
-> +	int (*wled_ovp_delay)(struct wled *wled);
->  };
->  
->  static int wled3_set_brightness(struct wled *wled, u16 brightness)
-> @@ -237,7 +242,7 @@ static int wled_module_enable(struct wled *wled, int val)
->  	return 0;
->  }
->  
-> -static int wled_sync_toggle(struct wled *wled)
-> +static int wled3_sync_toggle(struct wled *wled)
->  {
->  	int rc;
->  	unsigned int mask = GENMASK(wled->max_string_count - 1, 0);
-> @@ -255,6 +260,46 @@ static int wled_sync_toggle(struct wled *wled)
->  	return rc;
->  }
->  
-> +static int wled4_ovp_fault_status(struct wled *wled, bool *fault_set)
-> +{
-> +	int rc;
-> +	u32 int_rt_sts, fault_sts;
-> +
-> +	*fault_set = false;
-> +	rc = regmap_read(wled->regmap,
-> +			wled->ctrl_addr + WLED3_CTRL_REG_INT_RT_STS,
-> +			&int_rt_sts);
-> +	if (rc < 0) {
-> +		dev_err(wled->dev, "Failed to read INT_RT_STS rc=%d\n", rc);
-> +		return rc;
-> +	}
-> +
-> +	rc = regmap_read(wled->regmap,
-> +			wled->ctrl_addr + WLED3_CTRL_REG_FAULT_STATUS,
-> +			&fault_sts);
-> +	if (rc < 0) {
-> +		dev_err(wled->dev, "Failed to read FAULT_STATUS rc=%d\n", rc);
-> +		return rc;
-> +	}
-> +
-> +	if (int_rt_sts & WLED3_CTRL_REG_OVP_FAULT_STATUS)
-> +		*fault_set = true;
-> +
-> +	if (fault_sts & WLED3_CTRL_REG_OVP_FAULT_BIT)
-> +		*fault_set = true;
-> +
-> +	if (*fault_set)
-> +		dev_dbg(wled->dev, "WLED OVP fault detected, int_rt_sts=0x%x fault_sts=0x%x\n",
-> +			int_rt_sts, fault_sts);
-> +
-> +	return rc;
-> +}
-> +
-> +static int wled4_ovp_delay(struct wled *wled)
-> +{
-> +	return WLED_SOFT_START_DLY_US;
-> +}
-> +
->  static int wled_update_status(struct backlight_device *bl)
->  {
->  	struct wled *wled = bl_get_data(bl);
-> @@ -275,7 +320,7 @@ static int wled_update_status(struct backlight_device *bl)
->  			goto unlock_mutex;
->  		}
->  
-> -		rc = wled_sync_toggle(wled);
-> +		rc = wled->wled_sync_toggle(wled);
->  		if (rc < 0) {
->  			dev_err(wled->dev, "wled sync failed rc:%d\n", rc);
->  			goto unlock_mutex;
-> @@ -298,6 +343,25 @@ static int wled_update_status(struct backlight_device *bl)
->  	return rc;
->  }
->  
-> +static int wled4_cabc_config(struct wled *wled, bool enable)
-> +{
-> +	int i, j, rc;
-> +	u8 val;
-> +
-> +	for (i = 0; i < wled->cfg.num_strings; i++) {
-> +		j = wled->cfg.enabled_strings[i];
-> +
-> +		val = enable ? WLED4_SINK_REG_STR_CABC_MASK : 0;
-> +		rc = regmap_update_bits(wled->regmap, wled->sink_addr +
-> +					WLED4_SINK_REG_STR_CABC(j),
-> +					WLED4_SINK_REG_STR_CABC_MASK, val);
-> +		if (rc < 0)
-> +			return rc;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  #define WLED_SHORT_DLY_MS			20
->  #define WLED_SHORT_CNT_MAX			5
->  #define WLED_SHORT_RESET_CNT_DLY_US		USEC_PER_SEC
-> @@ -345,9 +409,10 @@ static irqreturn_t wled_short_irq_handler(int irq, void *_wled)
->  
->  static void wled_auto_string_detection(struct wled *wled)
->  {
-> -	int rc = 0, i;
-> -	u32 sink_config = 0, int_sts;
-> +	int rc = 0, i, delay_time_us;
-> +	u32 sink_config = 0;
->  	u8 sink_test = 0, sink_valid = 0, val;
-> +	bool fault_set;
->  
->  	/* Read configured sink configuration */
->  	rc = regmap_read(wled->regmap, wled->sink_addr +
-> @@ -376,14 +441,9 @@ static void wled_auto_string_detection(struct wled *wled)
->  	}
->  
->  	if (wled->cfg.cabc) {
-> -		for (i = 0; i < wled->cfg.num_strings; i++) {
-> -			rc = regmap_update_bits(wled->regmap, wled->sink_addr +
-> -						WLED4_SINK_REG_STR_CABC(i),
-> -						WLED4_SINK_REG_STR_CABC_MASK,
-> -						0);
-> -			if (rc < 0)
-> -				goto failed_detect;
-> -		}
-> +		rc = wled->wled_cabc_config(wled, 0);
-
-Be consistent with the argument (elsewhere it is true/false).
-
-
-> +		if (rc < 0)
-> +			goto failed_detect;
->  	}
->  
->  	/* Disable all sinks */
-> @@ -427,18 +487,17 @@ static void wled_auto_string_detection(struct wled *wled)
->  			goto failed_detect;
->  		}
->  
-> -		usleep_range(WLED_SOFT_START_DLY_US,
-> -			     WLED_SOFT_START_DLY_US + 1000);
-> +		delay_time_us = wled->wled_ovp_delay(wled);
-> +		usleep_range(delay_time_us, delay_time_us + 1000);
->  
-> -		rc = regmap_read(wled->regmap, wled->ctrl_addr +
-> -				 WLED3_CTRL_REG_INT_RT_STS, &int_sts);
-> +		rc = wled->wled_ovp_fault_status(wled, &fault_set);
->  		if (rc < 0) {
-> -			dev_err(wled->dev, "Error in reading WLED3_CTRL_INT_RT_STS rc=%d\n",
-> +			dev_err(wled->dev, "Error in getting OVP fault_sts, rc=%d\n",
->  				rc);
->  			goto failed_detect;
->  		}
->  
-
-
-> -		if (int_sts & WLED3_CTRL_REG_OVP_FAULT_STATUS)
-> +		if (fault_set)
->  			dev_dbg(wled->dev, "WLED OVP fault detected with SINK %d\n",
->  				i + 1);
->  		else
-> @@ -478,30 +537,30 @@ static void wled_auto_string_detection(struct wled *wled)
->  	}
->  
->  	/* Enable valid sinks */
-> -	for (i = 0; i < wled->cfg.num_strings; i++) {
-> -		if (wled->cfg.cabc) {
-> -			rc = regmap_update_bits(wled->regmap, wled->sink_addr +
-> -						WLED4_SINK_REG_STR_CABC(i),
-> -						WLED4_SINK_REG_STR_CABC_MASK,
-> -						WLED4_SINK_REG_STR_CABC_MASK);
-> -			if (rc < 0)
-> +	if (wled->version == 4) {
-> +		for (i = 0; i < wled->cfg.num_strings; i++) {
-> +			if (sink_config &
-> +			    BIT(WLED4_SINK_REG_CURR_SINK_SHFT + i))
-> +				val = WLED4_SINK_REG_STR_MOD_MASK;
-> +			else
-> +				/* Disable modulator_en for unused sink */
-> +				val = 0x0;
-> +
-> +			rc = regmap_write(wled->regmap, wled->sink_addr +
-> +					  WLED4_SINK_REG_STR_MOD_EN(i), val);
-> +			if (rc < 0) {
-> +				dev_err(wled->dev, "Failed to configure MODULATOR_EN rc=%d\n",
-> +					rc);
->  				goto failed_detect;
-> -		}
-> -
-> -		if (sink_config & BIT(WLED4_SINK_REG_CURR_SINK_SHFT + i))
-> -			val = WLED4_SINK_REG_STR_MOD_MASK;
-> -		else
-> -			val = 0x0; /* Disable modulator_en for unused sink */
-> -
-> -		rc = regmap_write(wled->regmap, wled->sink_addr +
-> -				  WLED4_SINK_REG_STR_MOD_EN(i), val);
-> -		if (rc < 0) {
-> -			dev_err(wled->dev, "Failed to configure MODULATOR_EN rc=%d\n",
-> -				rc);
-> -			goto failed_detect;
-> +			}
->  		}
->  	}
->  
-> +	/* Enable CABC if it needs to be enabled */
-
-If it needs to be enabled?
-
-
-> +	rc = wled->wled_cabc_config(wled, true);
-> +	if (rc < 0)
-> +		goto failed_detect;
-> +
->  	/* Restore the feedback setting */
->  	rc = regmap_write(wled->regmap,
->  			  wled->ctrl_addr + WLED3_CTRL_REG_FEEDBACK_CONTROL, 0);
-> @@ -570,29 +629,19 @@ static bool wled_auto_detection_required(struct wled *wled)
->  static int wled_auto_detection_at_init(struct wled *wled)
->  {
->  	int rc;
-> -	u32 fault_status, rt_status;
-> +	bool fault_set;
->  
->  	if (!wled->cfg.auto_detection_enabled)
->  		return 0;
->  
-> -	rc = regmap_read(wled->regmap,
-> -			 wled->ctrl_addr + WLED3_CTRL_REG_INT_RT_STS,
-> -			 &rt_status);
-> +	rc = wled->wled_ovp_fault_status(wled, &fault_set);
->  	if (rc < 0) {
-> -		dev_err(wled->dev, "Failed to read RT status rc=%d\n", rc);
-> -		return rc;
-> -	}
-> -
-> -	rc = regmap_read(wled->regmap,
-> -			 wled->ctrl_addr + WLED3_CTRL_REG_FAULT_STATUS,
-> -			 &fault_status);
-> -	if (rc < 0) {
-> -		dev_err(wled->dev, "Failed to read fault status rc=%d\n", rc);
-> +		dev_err(wled->dev, "Error in getting OVP fault_sts, rc=%d\n",
-> +			rc);
->  		return rc;
->  	}
->  
-> -	if ((rt_status & WLED3_CTRL_REG_OVP_FAULT_STATUS) ||
-> -	    (fault_status & WLED3_CTRL_REG_OVP_FAULT_BIT)) {
-> +	if (fault_set) {
->  		mutex_lock(&wled->lock);
->  		wled_auto_string_detection(wled);
->  		mutex_unlock(&wled->lock);
-> @@ -811,17 +860,12 @@ static int wled4_setup(struct wled *wled)
->  					wled->cfg.string_i_limit);
->  		if (rc < 0)
->  			return rc;
-> -
-> -		addr = wled->sink_addr +
-> -				WLED4_SINK_REG_STR_CABC(j);
-> -		rc = regmap_update_bits(wled->regmap, addr,
-> -					WLED4_SINK_REG_STR_CABC_MASK,
-> -					wled->cfg.cabc ?
-> -					WLED4_SINK_REG_STR_CABC_MASK : 0);
-> -		if (rc < 0)
-> -			return rc;
->  	}
->  
-> +	rc = wled4_cabc_config(wled, wled->cfg.en_cabc);
-> +	if (rc < 0)
-> +		return rc;
-> +
->  	rc = regmap_update_bits(wled->regmap, wled->ctrl_addr +
->  				WLED3_CTRL_REG_MOD_EN,
->  				WLED3_CTRL_REG_MOD_EN_MASK,
-> @@ -835,7 +879,7 @@ static int wled4_setup(struct wled *wled)
->  	if (rc < 0)
->  		return rc;
->  
-> -	rc = wled_sync_toggle(wled);
-> +	rc = wled->wled_sync_toggle(wled);
->  	if (rc < 0) {
->  		dev_err(wled->dev, "Failed to toggle sync reg rc:%d\n", rc);
->  		return rc;
-> @@ -951,7 +995,7 @@ static u32 wled_values(const struct wled_var_cfg *cfg, u32 idx)
->  	return idx;
->  }
->  
-> -static int wled_configure(struct wled *wled, int version)
-> +static int wled_configure(struct wled *wled)
->  {
->  	struct wled_config *cfg = &wled->cfg;
->  	struct device *dev = wled->dev;
-> @@ -1035,12 +1079,13 @@ static int wled_configure(struct wled *wled, int version)
->  	if (rc)
->  		wled->name = devm_kasprintf(dev, GFP_KERNEL, "%pOFn", dev->of_node);
->  
-> -	switch (version) {
-> +	switch (wled->version) {
->  	case 3:
->  		u32_opts = wled3_opts;
->  		size = ARRAY_SIZE(wled3_opts);
->  		*cfg = wled3_config_defaults;
->  		wled->wled_set_brightness = wled3_set_brightness;
-> +		wled->wled_sync_toggle = wled3_sync_toggle;
->  		wled->max_string_count = 3;
->  		wled->sink_addr = wled->ctrl_addr;
->  		break;
-> @@ -1050,6 +1095,10 @@ static int wled_configure(struct wled *wled, int version)
->  		size = ARRAY_SIZE(wled4_opts);
->  		*cfg = wled4_config_defaults;
->  		wled->wled_set_brightness = wled4_set_brightness;
-> +		wled->wled_sync_toggle = wled3_sync_toggle;
-> +		wled->wled_cabc_config = wled4_cabc_config;
-> +		wled->wled_ovp_fault_status = wled4_ovp_fault_status;
-> +		wled->wled_ovp_delay = wled4_ovp_delay;
->  		wled->max_string_count = 4;
->  
->  		prop_addr = of_get_address(dev->of_node, 1, NULL, NULL);
-> @@ -1186,7 +1235,6 @@ static int wled_probe(struct platform_device *pdev)
->  	struct backlight_device *bl;
->  	struct wled *wled;
->  	struct regmap *regmap;
-> -	int version;
->  	u32 val;
->  	int rc;
->  
-> @@ -1203,18 +1251,18 @@ static int wled_probe(struct platform_device *pdev)
->  	wled->regmap = regmap;
->  	wled->dev = &pdev->dev;
->  
-> -	version = (uintptr_t)of_device_get_match_data(&pdev->dev);
-> -	if (!version) {
-> +	wled->version = (uintptr_t)of_device_get_match_data(&pdev->dev);
-> +	if (!wled->version) {
->  		dev_err(&pdev->dev, "Unknown device version\n");
->  		return -ENODEV;
->  	}
->  
->  	mutex_init(&wled->lock);
-> -	rc = wled_configure(wled, version);
-> +	rc = wled_configure(wled);
->  	if (rc)
->  		return rc;
->  
-> -	switch (version) {
-> +	switch (wled->version) {
->  	case 3:
->  		wled->cfg.auto_detection_enabled = false;
->  		rc = wled3_setup(wled);
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
->  a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
