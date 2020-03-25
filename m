@@ -2,40 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08E1C191EEA
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 03:20:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E3C192048
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 05:59:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 788D06E0E2;
-	Wed, 25 Mar 2020 02:20:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A1906E05F;
+	Wed, 25 Mar 2020 04:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4DE6E0E2
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 02:20:34 +0000 (UTC)
-Received: from kernel.org (unknown [104.132.0.74])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 040492072E;
- Wed, 25 Mar 2020 02:20:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585102834;
- bh=+57wLOzdrvfVY9oRgwlinhOdDYxWS98Ii68KfvWZAeE=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=HRLni0JDRk8bdJjwHaSbs4cTHqNClt8LAi7FFXx302v+o3W/j6lDNZbtadQwzVKhe
- +1Nx7xlZ5T6dMRFDuTY5OXv5qoC3XAIvnKBrV61LtGEX4YrRuFvAnwnO4VPjSK9cAw
- 6p4BBy3OkERRlTAanuh1/I0EtpqXul9kXHfexaNg=
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A3E56E05F;
+ Wed, 25 Mar 2020 04:59:45 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id a25so1345250wrd.0;
+ Tue, 24 Mar 2020 21:59:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=h4KOauMe4v1I9pCuRQdOG97Qu/heRc/6J7SU7o8yNwE=;
+ b=eym7r4h8AfIsMrgo04iccRS6vIxpRq/GGv4kov4LTgdKGrwEQ7NH5p96msOECxq/Km
+ PFH2vIUzNv06GEqB6wtynYt0kuEoT8qZihcaMl24tj6Tk2AOfzlAwPrvl42qfw4f+4BA
+ mwcxhRe6qd2i16ficvpLPTPPUAmI6dbtwnpkduuMnFQJMWXpnkJIG2YpPdAjQzG+7JD2
+ /LEVW3fOt4bpK1vkzUH2I7xJO0pGRlO83VAENk6A01kvSi5QthsmEOPPw1IAF2Pn84tP
+ Nn4vjTJJXt8B1LyLl6/HuK93OxneZMzcfL27zwzGfymxQnQYiRkIQ5350pLXWmGqam49
+ sR4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=h4KOauMe4v1I9pCuRQdOG97Qu/heRc/6J7SU7o8yNwE=;
+ b=GxlZgwoa1vC5ZtPkDq0TFpdoqh4EZ/pUkIyHjuQ/u6rfQa6rdCtxgSmlnw0utueVES
+ 8gJI6DEST6lBTpgnGI81kks5go2pqzeSfcaDBlHH6Mr5kBGQCs+Bc2F8Aj1Rco8Inel6
+ rrOkSInYUcRccH7O9uQXzzEOOHBo3B7RWNkfmEMq23u3gvdSQ6+k8cSHwJWD/aArQ+ic
+ MCit+equFjnQf3MhmxgW1ZgM165lrejoDWPBibhLCJLSPx5W/TsJjb5xzLz4KBKPs6Ds
+ 8CsluqfcczHF0wau4c6CPtlsit8VIWM8Py8iX2zyH/9SSvUtW2jdEVYyxFoFSbQXCstZ
+ rGsQ==
+X-Gm-Message-State: ANhLgQ32y9L+/iyfzSXAHmUYJx+AcxWd8PM4EMWy7o0h6CNFBFmKB4d8
+ lXw5Z/fBHmQ/VzeOwzyHWJo=
+X-Google-Smtp-Source: ADFU+vsMr8RTd3Hle0zy0eB1BsZBBUecnZChYZPKh6yx0k9aeumjW3wG1yR68IBbypixPwr4XlixZw==
+X-Received: by 2002:a5d:474b:: with SMTP id o11mr1225073wrs.4.1585112383933;
+ Tue, 24 Mar 2020 21:59:43 -0700 (PDT)
+Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
+ by smtp.gmail.com with ESMTPSA id p16sm7149295wmi.40.2020.03.24.21.59.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Mar 2020 21:59:43 -0700 (PDT)
+Date: Wed, 25 Mar 2020 05:59:40 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 00/16] x86, crypto: remove always-defined CONFIG_AS_* and
+ cosolidate Kconfig/Makefiles
+Message-ID: <20200325045940.GA24974@gmail.com>
+References: <20200324084821.29944-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200323105616.kiwcyxxcb7eqqfsc@gilmour.lan>
-References: <cover.6c896ace9a5a7840e9cec008b553cbb004ca1f91.1582533919.git-series.maxime@cerno.tech>
- <6dd6bd48e894c1e8ee85c29a30ba1b18041d83c4.1582533919.git-series.maxime@cerno.tech>
- <158406125965.149997.13919203635322854760@swboyd.mtv.corp.google.com>
- <20200323105616.kiwcyxxcb7eqqfsc@gilmour.lan>
-Subject: Re: [PATCH 27/89] clk: bcm: Add BCM2711 DVP driver
-From: Stephen Boyd <sboyd@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Date: Tue, 24 Mar 2020 19:20:33 -0700
-Message-ID: <158510283320.125146.11874786046657431725@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+Content-Disposition: inline
+In-Reply-To: <20200324084821.29944-1-masahiroy@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,48 +68,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org, NeilBrown <neilb@suse.de>,
+ dri-devel@lists.freedesktop.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Peter Zijlstra <a.p.zijlstra@chello.nl>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Jonathan Corbet <corbet@lwn.net>,
+ x86@kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, intel-gfx@lists.freedesktop.org,
+ linux-crypto@vger.kernel.org, Yuanhan Liu <yuanhan.liu@linux.intel.com>,
+ Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Borislav Petkov <bp@alien8.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ clang-built-linux@googlegroups.com,
+ Jim Kukunas <james.t.kukunas@linux.intel.com>,
+ "David S . Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Maxime Ripard (2020-03-23 03:56:16)
-> Hi Stephen,
-> 
-> On Thu, Mar 12, 2020 at 06:00:59PM -0700, Stephen Boyd wrote:
-> > > +       dvp->clks[1] = clk_register_gate(&pdev->dev, "hdmi1-108MHz",
-> > > +                                        parent, CLK_IS_CRITICAL,
-> > > +                                        base + DVP_HT_RPI_MISC_CONFIG, 4,
-> > > +                                        CLK_GATE_SET_TO_DISABLE, &dvp->reset.lock);
-> >
-> > Can we use clk_hw APIs, document why CLK_IS_CRITICAL, and use something
-> > like clk_hw_register_gate_parent_data() so that we don't have to use
-> > of_clk_get_parent_name() above?
-> 
-> That function is new to me, and I'm not sure how I'm supposed to use it?
-> 
-> It looks like clk_hw_register_gate, clk_hw_register_gate_parent_hw and
-> clk_hw_register_gate_parent_data all call __clk_hw_register_gate with
-> the same arguments, each expecting the parent_name, so they look
-> equivalent?
-> 
-> It looks like the original intent was to have the parent name, clk_hw
-> or clk_parent_data as argument, but the macro itself was copy pasted
-> without changing the arguments it's calling __clk_hw_register_gate
-> with?
-> 
 
-Yeah! It looks like nobody has tried to use it yet so you've come across
-that problem where nobody reviews things and I just merge it anyway.
-I'll send a fix shortly.
+* Masahiro Yamada <masahiroy@kernel.org> wrote:
+
+> This series of cleanups was prompted by Linus:
+> https://lkml.org/lkml/2020/3/12/726
+> 
+> First, this series drop always-on CONFIG_AS_* options.
+> Some of those options were introduced in old days.
+> For example, the check for CONFIG_AS_CFI dates back to 2006.
+> 
+> We raise the minimal tool versions from time to time.
+> Currently, we require binutils 2.21
+> (and we plan to bump it to 2.23 for v5.7-rc1).
+> 
+> After cleaning away the old checks,
+> as-instr calls are moved to Kconfig from Makefiles.
+> (patch 11)
+> 
+> This allows more Kconfig / Makefile cleanups.
+> Patch 12 is complex, but I double-checked it does the equivalent.
+> 
+> Patch 14 bumps the binutils version to 2.23,
+> and patch 15 removes more CONFIG_AS_* options.
+> 
+> I folded all relevanet patches into this series,
+> as suggested by Jason A. Donenfeld.
+> 
+> If x86 maintainers take care of this series, that's good.
+> 
+> If it is OK to queue this up to Kbuild tree,
+> I will send a pull request to Linus.
+> 
+> Thank you.
+
+LGTM. I've got these four from Jason A. Donenfeld queued up in 
+tip:WIP.x86/asm:
+
+ bd5b1283e41c: ("crypto: Curve25519 - do not pollute dispatcher based on assembler")
+ 829f32d78588: ("crypto: X86 - rework configuration, based on Kconfig")
+ 95ef9f80ed63: ("x86/build: Probe assembler from Kconfig instead of Kbuild")
+ 1651e700664b: ("x86: Fix bitops.h warning with a moved cast")
+
+I suppose these might interact (maybe even conflict), and are topically 
+related.
+
+Would you like to pull these into the kbuild tree? You can find them in:
+
+   git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git WIP.x86/asm
+
+Thanks,
+
+	Ingo
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
