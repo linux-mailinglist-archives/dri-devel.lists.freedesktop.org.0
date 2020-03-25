@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE4D191C91
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Mar 2020 23:12:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B51F7191DFD
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 01:26:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2116C6E554;
-	Tue, 24 Mar 2020 22:12:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F53089CB3;
+	Wed, 25 Mar 2020 00:26:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
- [IPv6:2607:f8b0:4864:20::d43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 669B76E554
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 22:12:08 +0000 (UTC)
-Received: by mail-io1-xd43.google.com with SMTP id m15so274380iob.5
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 15:12:08 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D532D89CB3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 00:26:34 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id 31so890645wrs.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 17:26:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FfcUHcKUWVmr/dweXEKolVPZzaetwT2OKe2IXqIoduA=;
- b=gXFcu/PrqxIVt845F+o4CnyML1Z5XntuU3ZHcwZbvr25BA5tsf2mAuYuQXXdnFGfw+
- PPzO9aTltI8gUoQlHwCoL7+PdiSiAzRgY1ERPuZkf1eFVTiQCGVu8LIHnS9ObllWKVeG
- 3dgvwu3uHleC59WQqNrvmovOEEGYOxCDGq3EglJPiRHgBcgKXIDejhbLvl4S+xnqD5KN
- 7Ws0qJJaBZh8P8CuJoxCrt+1zVNOKm3vKZr5KtxPm69tTbxdEcStrwdT1pyV599Wbzuf
- KPXUSA1pMqbVh5dTsrDp1G384jH6RyQu6bQcCKUNf/jymPDE6Xul7vuG6s4ztkqjg7rO
- OTFg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rj8Usyuc/6LE55XQ3cnpPsi7zX2DrkjvBhggI9Q5r9k=;
+ b=HzYiH63POq7B49pW0wP2hpqAVOCwEeqmaNAlcgBRilZCc/1rQwluoWYPwsMtjQhEc6
+ 7CoQydMytozdzvuRtNGft5KlpNZ46ng7UvK1k8qEPUqILO46u/gM7BJfkoLqvtwq+3Lc
+ OBGMjn3Gk5Ezl9uShZ+o9+w2q5MLMUDbLOx9tOwKOF2mHzG2pPeU32l2TB0d+waLceRs
+ hgWpyvANSWeCLoFrHQPGep14vCgWD2mRf6Bxwcs+prWYrr17TpKH/pYza+meFjvqvoDE
+ gKqkt1LaWsYy0tRJipO0Foxq69Ue+HJcpFIy8OYTVPZPy9DqTBs610zl8P/1wNIP7t2d
+ xjRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FfcUHcKUWVmr/dweXEKolVPZzaetwT2OKe2IXqIoduA=;
- b=BX0FsL6EYM+bwle/BRA5Op77qYs0bJnP/Gjc7utP/vYujuXmgkfsviJIqimZFAAxzS
- 0Fxrn5TKYeNVZFpeDsbLbz9ofK6GvCVaC99ZNkl5QVxjArp1Cr9h2lOykNejYVkawDn+
- kwewQbFZJHAOJclg0LqdxkBO6VPLWu922vMg6D8OUnOum5La2iwQ3bnudBsSepezUcd3
- Y67b3xdDpjIqdtCqXw0f5Bz8lNAaPog+Z5I5gMazaUmkjvtD/FOvtHjvdExGeezcKq5l
- vVEGEQJmLrKposjqUlGRyrjkJ5QN35fOVKO+0YwgJnugW42dwUaTqoNJrQUtCgqUKVnT
- hajg==
-X-Gm-Message-State: ANhLgQ2gfejSI9WqwkZJdrve8dA09yQ7GdU4WT/3dUtDqMRyHBfqo+rU
- Al2qdu4WNVeodZvOSIPfiD4VHUYDQDp/WrOrlmo=
-X-Google-Smtp-Source: ADFU+vu2t8O00otMTUWsuuuaKbSlKGmJvt7DuER7Femw2weZtD6t1wak8n3DtO1f6etmq1vLZ0DFjtx2onOFGVRTa1M=
-X-Received: by 2002:a02:94cb:: with SMTP id x69mr279237jah.19.1585087927566;
- Tue, 24 Mar 2020 15:12:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rj8Usyuc/6LE55XQ3cnpPsi7zX2DrkjvBhggI9Q5r9k=;
+ b=IPkqwG50LcdDShPoEYp6YKmvVSV1I5sLgUBIFBxIshueI43gmfdP+m/AdlLsSj0NcP
+ FtbzptBur1KhHLedH6wg6UgbsNFgoixmwEhRVSRIYfpTuMOg62+OaRSTDQxiZAPLrGff
+ hdqdfwJpOooxnzu+YGLwhI4mHRBlMaeexnc4ix1xKDh/IhV7Hv1074p+12HxwCT75Z7K
+ 647Fa1dNImJhPMGiRvZnNkZgMIxv5PJ/ufzb1wg82M9akZJQ1BCLM6zEI/6zFOXmh1un
+ HlCf83471fXT62H48GnMedmwMnoJNejVCULSUQYdcWdlKRUXuGkYwmER/qt6DjmBwTE1
+ Y37Q==
+X-Gm-Message-State: ANhLgQ0PBLRW0uJVIG+xZMclmRsUcWlqsMoBrtOBxAACgWQtXm0KDnjQ
+ Ych4VU0bTqL7CEzqwkqZ1xViHMpNuzY=
+X-Google-Smtp-Source: ADFU+vsT9Fvufr6bkmyhTAKYYMQwm8TJHj+QIsmsmaaoYupLHQzrKKyuPIU7CYusAVzIOH3pj2GS5g==
+X-Received: by 2002:adf:f503:: with SMTP id q3mr325736wro.135.1585095993317;
+ Tue, 24 Mar 2020 17:26:33 -0700 (PDT)
+Received: from wasp.lan (250.128.208.46.dyn.plus.net. [46.208.128.250])
+ by smtp.googlemail.com with ESMTPSA id a64sm6632935wmh.39.2020.03.24.17.26.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Mar 2020 17:26:32 -0700 (PDT)
+From: Shane Francis <bigbeeshane@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/3] AMDGPU / RADEON / DRM Fix mapping of user pages
+Date: Wed, 25 Mar 2020 00:24:47 +0000
+Message-Id: <20200325002450.5240-1-bigbeeshane@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-References: <20200324164400.30013-1-gurchetansingh@chromium.org>
- <20200324164400.30013-3-gurchetansingh@chromium.org>
-In-Reply-To: <20200324164400.30013-3-gurchetansingh@chromium.org>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Wed, 25 Mar 2020 06:11:56 +0800
-Message-ID: <CAPaKu7SLyEdbzqDXxU7+Gm1Gjh2Q4C1buudmBCEHgsk6sJ5L8w@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/virtio: delete notify in virtio_gpu_object_create
-To: Gurchetan Singh <gurchetansingh@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,62 +64,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: airlied@linux.ie, bigbeeshane@gmail.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 25, 2020 at 12:44 AM Gurchetan Singh
-<gurchetansingh@chromium.org> wrote:
->
-> - For dumb buffers, virtio_gpu_gem_create can notify.
-> - For 3D buffers, virtio_gpu_gem_object_open can notify.
-Hmm, I feel this is a bit complex.  virtio_gpu_gem_object_open may not
-notify, and the caller needs to know about it.
+This patch set is to fix a bug in amdgpu / radeon drm that results in
+a crash when dma_map_sg combines elemnets within a scatterlist table. 
 
-Can we change it to virtio_gpu_object_create never notifies and
-virtio_gpu_gem_object_open always notifies?
+There are 2 shortfalls in the current kernel.
 
->
-> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_gem.c    | 1 +
->  drivers/gpu/drm/virtio/virtgpu_object.c | 1 -
->  2 files changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-> index 90c0a8ea1708..aa14dd12928e 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-> @@ -49,6 +49,7 @@ static int virtio_gpu_gem_create(struct drm_file *file,
->                 return ret;
->         }
->
-> +       virtio_gpu_notify(vgdev);
->         *obj_p = &obj->base.base;
->
->         /* drop reference from allocate - handle holds it now */
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index d9039bb7c5e3..51a8da7d5ef3 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -241,7 +241,6 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
->                 return ret;
->         }
->
-> -       virtio_gpu_notify(vgdev);
->         *bo_ptr = bo;
->         return 0;
->
-> --
-> 2.25.1.696.g5e7596f4ac-goog
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+1) AMDGPU / RADEON assumes that the requested and created scatterlist
+   table lengths using from dma_map_sg are equal. This may not be the
+   case using the newer dma-iommu implementation
+
+2) drm_prime does not fetch the length of the scatterlist
+   via the correct dma macro, this can use the incorrect length
+   being used (>0) in places where dma_map_sg has updated the table
+   elements.
+
+   The sg_dma_len macro is representative of the length of the sg item
+   after dma_map_sg
+
+Example Crash :
+> [drm:amdgpu_ttm_backend_bind [amdgpu]] *ERROR* failed to pin userptr
+
+This happens in OpenCL applications, causing them to crash or hang, on
+either amdgpu-pro or ROCm OpenCL implementations
+
+Shane Francis (3):
+  drm/prime: use dma length macro when mapping sg to arrays
+  drm/amdgpu: fix scatter-gather mapping with user pages
+  drm/radeon: fix scatter-gather mapping with user pages
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
+ drivers/gpu/drm/drm_prime.c             | 4 +++-
+ drivers/gpu/drm/radeon/radeon_ttm.c     | 2 +-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
+
+-- 
+2.26.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
