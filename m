@@ -2,48 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A7D192CB2
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 16:37:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED98192CB4
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 16:37:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B43B6E876;
-	Wed, 25 Mar 2020 15:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77D0A6E87C;
+	Wed, 25 Mar 2020 15:37:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EDDF6E876
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 15:37:07 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id AD28E20789
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 15:37:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585150627;
- bh=oFXULYKX2minzKx5vxHtI63XAdjYTOaBbYv6XpZTy8U=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=EmXJ2ROEV4uIH8BVYnhJow+4A1BNHgFJhRUt9XQCD6kAaBxpBQ9HUZgP/XrSHK5bj
- h411zoPSO8xwuCbPMBajeLkGTqC6LflkOK0k89zrhsMNcNwB79zSWQ8gkX1NCxcuMl
- UqyaakkDQgHMStjvRjvEPxTPWKjs7WOVKBmfOH8Y=
-Received: by mail-ed1-f50.google.com with SMTP id i16so1946359edy.11
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 08:37:06 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ3luVwsSsSx3XBNkoDdBZK3gb0tDj9GOhQISnVqhXrFGSfqSEXl
- O/xKqOSK5Yy/v9TvQ7Brbb5amHjVn3j95dBzmQ==
-X-Google-Smtp-Source: ADFU+vvSoNJiU20ECt+7uu1vArut7MOjxMslvG/4PUR+3ZtOhd8DgCxmMnQcFYZJdkJa/fK+7IMDcrBp7ZaC6D/3Es4=
-X-Received: by 2002:a50:9f07:: with SMTP id b7mr3556024edf.148.1585150625023; 
- Wed, 25 Mar 2020 08:37:05 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4829E6E87C
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 15:37:20 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id d5so3739721wrn.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 08:37:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=rhpfx4/m5UT7Xzs51ZxQ03MQcWW4S3aHcV6k0fxCgW8=;
+ b=J5cfQtP2IIFUEbxhdInPj+h0Pr08nmDXVvEoAiHkRcUhApMPv+9kGmE22t5XJkLIlo
+ J3ntJB0cVM00iT4bGkgdPULTN0af8r1F2/kGRjEDLDhCvj71lEDk82Op1oz+UTjbwAe6
+ ebkQ9qfIZsgmNDJtLgMlWLsVq1dC8EonjZAIKhhkf3WMkPDnUyjXzwCYqqseOJa0eTY0
+ Nm/K2QPOZ0T7SnJn3RtErSbh+SoUGHtZQDR426H2zGajpzuzmKTebQSnp3AFnJ2KySyC
+ MRg/T+kx9XuF791FNcTFtVP+eeKs8t8XoocVmLSMlSuiL0XaNvgiia1HOi10aGrXvTEz
+ 9VoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=rhpfx4/m5UT7Xzs51ZxQ03MQcWW4S3aHcV6k0fxCgW8=;
+ b=p//hCDrLcyHHMVw5bJxgf1ukDt6IxArJVwo9xA68wMf63kTft4xD20ezsu/4078fwS
+ EbGPgFYJb4GVBTRYa6gIKbSuOVAFxNMIAT7gfheb2EFLfy2GghROrimdpkGTPC27MN/Y
+ VBx2kJZSR3NZtsl7YJTloTAdHICmOD0blf0g1cr+SPf8xWXH5R7emM4F3rgVroo3a6Uk
+ E1peBw0VC2uOxjeitYBfeKcBoZKVPaqKoIH67VJDx5wNMG6omulbsrt1aM9hutfr/yrX
+ 4ibKgAtl59leoL2JgTRwuPNJzQywk/TPo+SBJAG3lvFA0QhwJzMLUhQLbWlKZLwyaEOq
+ InSA==
+X-Gm-Message-State: ANhLgQ11+tNIgOLJVWW2ehGKreQHQ+qgdPcYkzlfzHscT287KtE2UPD0
+ bCDEfkzCjbFPfoP5g7LhpyjtSw==
+X-Google-Smtp-Source: ADFU+vtbCx/qzTnNrFqm0cBm6DM0BazSQKDuz/1yNhs2QgSHiwkVDNNDvOCUr4fzyCbs355QcF6C+A==
+X-Received: by 2002:adf:a343:: with SMTP id d3mr3855930wrb.50.1585150638866;
+ Wed, 25 Mar 2020 08:37:18 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id n2sm36691078wro.25.2020.03.25.08.37.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Mar 2020 08:37:18 -0700 (PDT)
+Date: Wed, 25 Mar 2020 15:37:16 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Kiran Gunda <kgunda@codeaurora.org>
+Subject: Re: [PATCH V4 3/4] backlight: qcom-wled: Add WLED5 bindings
+Message-ID: <20200325153716.tcx3t4bd6p3gr2x6@holly.lan>
+References: <1584985618-25689-1-git-send-email-kgunda@codeaurora.org>
+ <1584985618-25689-4-git-send-email-kgunda@codeaurora.org>
 MIME-Version: 1.0
-References: <20200311165322.1594233-1-enric.balletbo@collabora.com>
- <20200311165322.1594233-4-enric.balletbo@collabora.com>
- <158474603935.125146.14986079780178656133@swboyd.mtv.corp.google.com>
-In-Reply-To: <158474603935.125146.14986079780178656133@swboyd.mtv.corp.google.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 25 Mar 2020 23:36:52 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8jPkOrdUx7iH=q7kTH2+nPE8igX5-p6ZzwC7aHkQwF+A@mail.gmail.com>
-Message-ID: <CAAOTY_8jPkOrdUx7iH=q7kTH2+nPE8igX5-p6ZzwC7aHkQwF+A@mail.gmail.com>
-Subject: Re: [PATCH v12 3/5] clk / soc: mediatek: Move mt8173 MMSYS to
- platform driver
-To: Stephen Boyd <sboyd@kernel.org>
+Content-Disposition: inline
+In-Reply-To: <1584985618-25689-4-git-send-email-kgunda@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,55 +68,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Kate Stewart <kstewart@linuxfoundation.org>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, David Airlie <airlied@linux.ie>,
- mturquette@baylibre.com, DRI Development <dri-devel@lists.freedesktop.org>,
- Fabien Parent <fparent@baylibre.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
- hat.com@freedesktop.org, linux-clk@vger.kernel.org,
- Nicolas Boichat <drinkcat@chromium.org>, Weiyi Lu <weiyi.lu@mediatek.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, wens@csie.org,
- linux-arm-kernel@lists.infradead.org, mtk01761 <wendell.lin@mediatek.com>,
- Owen Chen <owen.chen@mediatek.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, frank-w@public-files.de,
- Seiya Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
- Houlong Wei <houlong.wei@mediatek.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- hsinyi@chromium.org, Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Allison Randal <allison@lohutok.net>, Matthias Brugger <mbrugger@suse.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, matthias.bgg@kernel.org,
- James Liao <jamesjj.liao@mediatek.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, b.zolnierkie@samsung.com,
+ jingoohan1@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+ linux-arm-msm@vger.kernel.org,
+ Subbaraman Narayanamurthy <subbaram@codeaurora.org>, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U3RlcGhlbiBCb3lkIDxzYm95ZEBrZXJuZWwub3JnPiDmlrwgMjAyMOW5tDPmnIgyMeaXpSDpgLHl
-ha0g5LiK5Y2INzoxNOWvq+mBk++8mgo+Cj4gUXVvdGluZyBFbnJpYyBCYWxsZXRibyBpIFNlcnJh
-ICgyMDIwLTAzLTExIDA5OjUzOjIwKQo+ID4gRnJvbTogTWF0dGhpYXMgQnJ1Z2dlciA8bWJydWdn
-ZXJAc3VzZS5jb20+Cj4gPgo+ID4gVGhlcmUgaXMgbm8gc3Ryb25nIHJlYXNvbiBmb3IgdGhpcyB0
-byB1c2UgQ0xLX09GX0RFQ0xBUkUgaW5zdGVhZCBvZgo+ID4gYmVpbmcgYSBwbGF0Zm9ybSBkcml2
-ZXIuIFBsdXMsIE1NU1lTIHByb3ZpZGVzIGNsb2NrcyBidXQgYWxzbyBhIHNoYXJlZAo+ID4gcmVn
-aXN0ZXIgc3BhY2UgZm9yIHRoZSBtZWRpYXRlay1kcm0gYW5kIHRoZSBtZWRpYXRlay1tZHAKPiA+
-IGRyaXZlci4gU28gbW92ZSB0aGUgTU1TWVMgY2xvY2tzIHRvIGEgbmV3IHBsYXRmb3JtIGRyaXZl
-ciBhbmQgYWxzbwo+ID4gY3JlYXRlIGEgbmV3IE1NU1lTIHBsYXRmb3JtIGRyaXZlciBpbiBkcml2
-ZXJzL3NvYy9tZWRpYXRlayB0aGF0Cj4gPiBpbnN0YW50aWF0ZXMgdGhlIGNsb2NrIGRyaXZlci4K
-PiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBNYXR0aGlhcyBCcnVnZ2VyIDxtYnJ1Z2dlckBzdXNlLmNv
-bT4KPiA+IFNpZ25lZC1vZmYtYnk6IEVucmljIEJhbGxldGJvIGkgU2VycmEgPGVucmljLmJhbGxl
-dGJvQGNvbGxhYm9yYS5jb20+Cj4gPiBSZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVr
-LmNvbT4KPiA+IC0tLQo+Cj4gUmV2aWV3ZWQtYnk6IFN0ZXBoZW4gQm95ZCA8c2JveWRAa2VybmVs
-Lm9yZz4KPgo+IFVubGVzcyB5b3Ugd2FudCBtZSB0byBwaWNrIHRoaXMgdXAgYnkgaXRzZWxmPwoK
-SSB3b3VsZCBsaWtlIE1hdHRoaWFzIHRvIHBpY2sgdXAgdGhpcyBzZXJpZXMgdG9nZXRoZXIuCgo+
-IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Mar 23, 2020 at 11:16:57PM +0530, Kiran Gunda wrote:
+> Add WLED5 specific bindings.
+> 
+> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+> Signed-off-by: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+> ---
+>  .../bindings/leds/backlight/qcom-wled.yaml         | 39 ++++++++++++++++++++++
+>  1 file changed, 39 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+> index 8a388bf..159115f 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+> +++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+> @@ -20,6 +20,7 @@ properties:
+>         - qcom,pm8941-wled
+>         - qcom,pmi8998-wled
+>         - qcom,pm660l-wled
+> +       - qcom,pm8150l-wled
+>  
+>    reg:
+>      maxItems: 1
+> @@ -28,10 +29,23 @@ properties:
+>      maxItems: 1
+>      description:
+>        brightness value on boot, value from 0-4095.
+> +      For pm8150l this value vary from 0-4095 or 0-32767
+> +      depending on the brightness control mode. If CABC is
+> +      enabled 0-4095 range is used.
+
+I rather dislike some of the property descriptions using PMIC version
+numbers to distinguish between peripheral versions and others using
+WLEDx version numbers.
+
+Could the property description be rephrased to use WLED3/4/5 terminology
+instead?
+
+
+>      allOf:
+>        - $ref: /schemas/types.yaml#/definitions/uint32
+>          default: 2048
+>  
+> +  max-brightness:
+> +    maxItems: 1
+> +    description:
+> +      Maximum brightness level. Allowed values are,
+> +      for pmi8998 it is  0-4095.
+> +      For pm8150l, this can be either 4095 or 32767.
+> +      If CABC is enabled, this is capped to 4095.
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +
+
+Similar thing here, is PMI8998 simply a synonym for WLED4 or there
+something special about the PMIC versioning that requires it to be used?
+
+
+Daniel.
+
+
+>    label:
+>      maxItems: 1
+>      description:
+> @@ -124,6 +138,31 @@ properties:
+>        value for PM8941 from 1 to 3. Default 2
+>        For PMI8998 from 1 to 4.
+>  
+> +  qcom,modulator-sel:
+> +    maxItems: 1
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Selects the modulator used for brightness modulation.
+> +      Allowed values are,
+> +               0 - Modulator A
+> +               1 - Modulator B
+> +      If not specified, then modulator A will be used by default.
+> +      This property is applicable only to WLED5 peripheral.
+> +
+> +  qcom,cabc-sel:
+> +    maxItems: 1
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Selects the CABC pin signal used for brightness modulation.
+> +      Allowed values are,
+> +              0 - CABC disabled
+> +              1 - CABC 1
+> +              2 - CABC 2
+> +              3 - External signal (e.g. LPG) is used for dimming
+> +      This property is applicable only to WLED5 peripheral.
+> +
+>    interrupts:
+>      maxItems: 2
+>      description:
+> -- 
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+>  a Linux Foundation Collaborative Project
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
