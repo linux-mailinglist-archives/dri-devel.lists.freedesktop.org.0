@@ -1,58 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B6C9191E3F
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 01:41:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFCBF191E79
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 02:14:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7801889DFA;
-	Wed, 25 Mar 2020 00:41:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58A6E6E0DE;
+	Wed, 25 Mar 2020 01:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E63898C8
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 00:41:39 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id g6so121854plt.2
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Mar 2020 17:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6FF6NP5cEhwM/0TKaDUyOAgq5MXDdka0eCRQ+ziY/9Y=;
- b=PGG6Uk4ZphYJqPDIrwKPfzhklfT4FIRaK1szHiHLJNYP4S8cfRtsRMUs7zHXSNeWvf
- 1DSr4Prg/7sQ/ZvJPzUg5rDZKxoq5HknkfHfhO1SseXRBAcAbaPpDzz6lqNT3eK0hzvt
- 4S1rGZgby9sbNR9UPHO8GdT0svsWa0OGD1ts8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6FF6NP5cEhwM/0TKaDUyOAgq5MXDdka0eCRQ+ziY/9Y=;
- b=gTKCf4dTYsLEdzpNVBzrfg6EPb08PPnSoF8fQQDOTFMWmwfwtcpaHAoB/Scmb6cXly
- SSg+UkrnhH9NFDn2Q/E4X1QCMm7oGzMI36RnWbqydzXH7wePGQOajIIPyX53vWRde4Kn
- qfU/jGnP6OvRizmOUKxy2uG85RVdIENBkd61VJpFhXFCRl8bAplX19GfH4sJ8k5lpDSG
- 4UUDXRgQbUS5F4jIPCL/tV/KdM4IDAuJCLn5zt5ARI74ECje6hQDp9QmBisqA3HbsYOY
- eyXI5pYjp3uechWP2s+ZDrMd0eipySd0mAgy2aUjMRNnJ7+yOaz59XKKec6vlQ8/WzP5
- 3a9w==
-X-Gm-Message-State: ANhLgQ0GPP66gpoPFtbCjxc0ITfNcwD6nexoNgJenkdcAKIOgVK1lE2W
- eYla2BpQ/8rzfOfm7IBGXYz49tFb5DY=
-X-Google-Smtp-Source: ADFU+vu4+0b818vXcdObb0QnJFYscfFFMMY4V9NQ8oFDkEzBp8zIxWuaQKYQ3WkITcpW9McSK8rLKw==
-X-Received: by 2002:a17:90a:e003:: with SMTP id
- u3mr623162pjy.157.1585096899103; 
- Tue, 24 Mar 2020 17:41:39 -0700 (PDT)
-Received: from gurchetansingh0.mtv.corp.google.com
- ([2620:15c:202:201:bc97:5740:52a7:6875])
- by smtp.gmail.com with ESMTPSA id x70sm15716488pgd.37.2020.03.24.17.41.37
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Tue, 24 Mar 2020 17:41:38 -0700 (PDT)
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/virtio: delete notify in virtio_gpu_object_create
-Date: Tue, 24 Mar 2020 17:41:30 -0700
-Message-Id: <20200325004130.26766-1-gurchetansingh@chromium.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <CAPaKu7SLyEdbzqDXxU7+Gm1Gjh2Q4C1buudmBCEHgsk6sJ5L8w@mail.gmail.com>
-References: <CAPaKu7SLyEdbzqDXxU7+Gm1Gjh2Q4C1buudmBCEHgsk6sJ5L8w@mail.gmail.com>
+X-Greylist: delayed 30372 seconds by postgrey-1.36 at gabe;
+ Wed, 25 Mar 2020 01:14:20 UTC
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com
+ [210.131.2.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD88D6E0DE;
+ Wed, 25 Mar 2020 01:14:20 +0000 (UTC)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+ [209.85.222.49]) (authenticated)
+ by conssluserg-01.nifty.com with ESMTP id 02P1E35L032209;
+ Wed, 25 Mar 2020 10:14:04 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 02P1E35L032209
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+ s=dec2015msa; t=1585098844;
+ bh=Du0zvU/kKAL8IvGiRqHBSbx7z6kjBsdUMl9fi/jYHfU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=CmBBqcd636qqSj5ss3/pAlUApkkQw3SpDtaGjLBFVNgUjopNWmBHijKJ2t1GIv9sV
+ ABjbr6WG0sDnmRZ9Mu7Q7ndHoShX0IVAagRmAnN07RUwv3Q2nK8KZnuxkn4pZAIO9i
+ EUWCuFL5WUeO5/69pqB+6rLy+r7sXZjRilBNUWvWXyGifkZXknW/7sBGBCYqyyB72P
+ ut72XASzzrV5vxCZQVb9nxcXov5YhyQ56W+EJsmsR2mYgeN9SFYj9igEHSbpD0LZLQ
+ jezIoot7mFSV0RVZ1KSVAaekJDvlhsh6YZrP9pDmdVqTSkEepBu9siGl1VWwdfBVXL
+ zEgAweVZWeU0A==
+X-Nifty-SrcIP: [209.85.222.49]
+Received: by mail-ua1-f49.google.com with SMTP id m18so163058uap.9;
+ Tue, 24 Mar 2020 18:14:04 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ39mqk4RjIgiq7EQ8B49JKUfSvIl14wQWYZZJUWjdSfCpF046Ef
+ 4w0Ej07cyexfCIxSMKyFKn3SHtVBkXrHYVT2VzY=
+X-Google-Smtp-Source: ADFU+vsMC3zRa6ZCPZj56ljmM8HiIe+u3r7TwuTb0+ibRUQbbRZXBTBPHZ2fpKGbyXecBLtrlGGqLwlnGLzcN6iVsgo=
+X-Received: by 2002:ab0:3485:: with SMTP id c5mr688955uar.109.1585098843120;
+ Tue, 24 Mar 2020 18:14:03 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200213153928.28407-1-masahiroy@kernel.org>
+ <CAK7LNARvxFk=ct9AoRLwjZ9cKRsA_bjiLaq0di12TRe5+fpmGA@mail.gmail.com>
+ <CADnq5_Mieh9G-8hheKRdKe=qMbAQjwTheM2TWWSaZjeGU3635Q@mail.gmail.com>
+In-Reply-To: <CADnq5_Mieh9G-8hheKRdKe=qMbAQjwTheM2TWWSaZjeGU3635Q@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 25 Mar 2020 10:13:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT2r3Octg-Pdjn6xNzGM49_PiGqoJSTzbmL4iBpH6_AaQ@mail.gmail.com>
+Message-ID: <CAK7LNAT2r3Octg-Pdjn6xNzGM49_PiGqoJSTzbmL4iBpH6_AaQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] drm/radeon: remove unneeded header include path
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,84 +61,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?B?Q2hyaXN0aWFuIEvvv73vv73Dk25pZw==?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For 3D buffers, virtio_gpu_gem_object_open notifies.
-We can have the same behavior for dumb buffer.  We just
-need to make sure the first open notifies the host for
-dumb buffers.
+On Wed, Mar 25, 2020 at 4:42 AM Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> On Tue, Mar 24, 2020 at 12:48 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > Hi,
+> >
+> > I think this series is a good clean-up.
+> >
+> > Could you take a look at this please?
+>
+> Can you resend?  I don't seem to have gotten it.  Must have ended up
+> getting flagged a spam or something.
 
-v2: virtio_gpu_gem_object_open always notifies
 
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
----
- drivers/gpu/drm/virtio/virtgpu_drv.h    |  1 +
- drivers/gpu/drm/virtio/virtgpu_gem.c    | 10 ++++++++--
- drivers/gpu/drm/virtio/virtgpu_object.c |  1 -
- 3 files changed, 9 insertions(+), 3 deletions(-)
+Can you take it from patchwork ?  (4 patches)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 79ad176aca5a8..842200e01d785 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -71,6 +71,7 @@ struct virtio_gpu_object {
- 	uint32_t hw_res_handle;
- 	bool dumb;
- 	bool created;
-+	bool notified;
- };
- #define gem_to_virtio_gpu_obj(gobj) \
- 	container_of((gobj), struct virtio_gpu_object, base.base)
-diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-index 90c0a8ea1708c..597ddb7391fb9 100644
---- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-@@ -111,10 +111,13 @@ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
- {
- 	struct virtio_gpu_device *vgdev = obj->dev->dev_private;
- 	struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
-+	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
- 	struct virtio_gpu_object_array *objs;
- 
--	if (!vgdev->has_virgl_3d)
--		return 0;
-+	if (!vgdev->has_virgl_3d && !bo->notified)
-+		goto out_notify;
-+	else if (!vgdev->has_virgl_3d)
-+		goto out;
- 
- 	objs = virtio_gpu_array_alloc(1);
- 	if (!objs)
-@@ -123,7 +126,10 @@ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
- 
- 	virtio_gpu_cmd_context_attach_resource(vgdev, vfpriv->ctx_id,
- 					       objs);
-+out_notify:
-+	bo->notified = true;
- 	virtio_gpu_notify(vgdev);
-+out:
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index d9039bb7c5e37..51a8da7d5ef3b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -241,7 +241,6 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 		return ret;
- 	}
- 
--	virtio_gpu_notify(vgdev);
- 	*bo_ptr = bo;
- 	return 0;
- 
+https://lore.kernel.org/patchwork/project/lkml/list/?series=429491
+
+
+Thanks.
+
+
+
+
+
+
+> Alex
+>
+> >
+> >
+> >
+> > On Fri, Feb 14, 2020 at 12:40 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > A header include path without $(srctree)/ is suspicious because it does
+> > > not work with O= builds.
+> > >
+> > > You can build drivers/gpu/drm/radeon/ without this include path.
+> > >
+> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > ---
+> > >
+> > >  drivers/gpu/drm/radeon/Makefile | 2 --
+> > >  1 file changed, 2 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/radeon/Makefile b/drivers/gpu/drm/radeon/Makefile
+> > > index c693b2ca0329..9d5d3dc1011f 100644
+> > > --- a/drivers/gpu/drm/radeon/Makefile
+> > > +++ b/drivers/gpu/drm/radeon/Makefile
+> > > @@ -3,8 +3,6 @@
+> > >  # Makefile for the drm device driver.  This driver provides support for the
+> > >  # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+> > >
+> > > -ccflags-y := -Idrivers/gpu/drm/amd/include
+> > > -
+> > >  hostprogs := mkregtable
+> > >  clean-files := rn50_reg_safe.h r100_reg_safe.h r200_reg_safe.h rv515_reg_safe.h r300_reg_safe.h r420_reg_safe.h rs600_reg_safe.h r600_reg_safe.h evergreen_reg_safe.h cayman_reg_safe.h
+> > >
+> > > --
+> > > 2.17.1
+> > >
+> >
+> >
+> > --
+> > Best Regards
+> > Masahiro Yamada
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
 -- 
-2.24.1
-
+Best Regards
+Masahiro Yamada
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
