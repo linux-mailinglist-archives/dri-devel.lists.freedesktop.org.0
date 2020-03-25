@@ -1,44 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98B6F192A8B
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 14:56:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B65192AA8
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 15:00:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 276D66E12B;
-	Wed, 25 Mar 2020 13:56:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 407C86E861;
+	Wed, 25 Mar 2020 14:00:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64E7D6E12B
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 13:56:09 +0000 (UTC)
-IronPort-SDR: WIu6EhS6t8JJZARcQUlHJtd+lYpYe2aN9VhN6e7YiCFJd76p4l2Z/Z7PDPErQ7wF0884vhY3eH
- osre3472nPbQ==
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C27846E863
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 14:00:41 +0000 (UTC)
+IronPort-SDR: BHWmuOSYR1B7Dm6MNng19gh9YwY20h8YmXIETsSiMG6qADTwekjLl/Yc9nB0N4+Xg91DypKL2C
+ t/BhnGvP9Xng==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2020 06:56:08 -0700
-IronPort-SDR: s57Q6TOkQpu6PJRl7m3fQgh2HQCgGEcvzcVIQBs7hOlRQkCk5SIMJhdsmq1cn+TmvdKZD+wDkY
- //bcVV7IYhLw==
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2020 07:00:25 -0700
+IronPort-SDR: EEp2Qq4JWbGjMbstSwM05aCaqBYkmtYJKSZCLXvQSF1cFKau87tiqI/8VXmeFP2pQCpZ5BbU8b
+ N5MABNnXAMLA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,304,1580803200"; d="scan'208";a="250414365"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by orsmga006.jf.intel.com with ESMTP; 25 Mar 2020 06:56:08 -0700
+X-IronPort-AV: E=Sophos;i="5.72,304,1580803200"; d="scan'208";a="247181286"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+ by orsmga003.jf.intel.com with ESMTP; 25 Mar 2020 07:00:25 -0700
+Received: from fmsmsx124.amr.corp.intel.com (10.18.125.39) by
+ fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 25 Mar 2020 07:00:24 -0700
 Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.38]) by
- FMSMSX103.amr.corp.intel.com ([169.254.2.250]) with mapi id 14.03.0439.000;
- Wed, 25 Mar 2020 06:56:07 -0700
+ fmsmsx124.amr.corp.intel.com ([169.254.8.220]) with mapi id 14.03.0439.000;
+ Wed, 25 Mar 2020 07:00:24 -0700
 From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
 To: Shane Francis <bigbeeshane@gmail.com>, "dri-devel@lists.freedesktop.org"
  <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v4 1/3] drm/prime: use dma length macro when mapping sg
-Thread-Topic: [PATCH v4 1/3] drm/prime: use dma length macro when mapping sg
-Thread-Index: AQHWAoT+OOcEgrTLV0+k11mipUYGbahZUVMA
-Date: Wed, 25 Mar 2020 13:56:07 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E8663FFFBD421@fmsmsx107.amr.corp.intel.com>
+Subject: RE: [PATCH v4 2/3] drm/amdgpu: fix scatter-gather mapping with user
+ pages
+Thread-Topic: [PATCH v4 2/3] drm/amdgpu: fix scatter-gather mapping with
+ user pages
+Thread-Index: AQHWAoURGp10wyvAFUutB03QxzFyZahZVeWw
+Date: Wed, 25 Mar 2020 14:00:24 +0000
+Message-ID: <14063C7AD467DE4B82DEDB5C278E8663FFFBD444@fmsmsx107.amr.corp.intel.com>
 References: <20200325090741.21957-1-bigbeeshane@gmail.com>
- <20200325090741.21957-2-bigbeeshane@gmail.com>
-In-Reply-To: <20200325090741.21957-2-bigbeeshane@gmail.com>
+ <20200325090741.21957-3-bigbeeshane@gmail.com>
+In-Reply-To: <20200325090741.21957-3-bigbeeshane@gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -79,40 +84,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 >Cc: airlied@linux.ie; linux-kernel@vger.kernel.org; bigbeeshane@gmail.com;
 >amd-gfx-request@lists.freedesktop.org; alexander.deucher@amd.com;
 >christian.koenig@amd.com
->Subject: [PATCH v4 1/3] drm/prime: use dma length macro when mapping sg
+>Subject: [PATCH v4 2/3] drm/amdgpu: fix scatter-gather mapping with user
+>pages
 >
->As dma_map_sg can reorganize scatter-gather lists in a
->way that can cause some later segments to be empty we should
->always use the sg_dma_len macro to fetch the actual length.
+>Calls to dma_map_sg may return segments / entries than requested
+
+"may return less segments/entries" ?
+                       ^^^
+>if they fall on page bounderies. The old implementation did not
+>support this use case.
 >
->This could now be 0 and not need to be mapped to a page or
->address array
 >Signed-off-by: Shane Francis <bigbeeshane@gmail.com>
 >---
-> drivers/gpu/drm/drm_prime.c | 2 +-
+> drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
 > 1 file changed, 1 insertion(+), 1 deletion(-)
 >
->diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
->index 86d9b0e45c8c..1de2cde2277c 100644
->--- a/drivers/gpu/drm/drm_prime.c
->+++ b/drivers/gpu/drm/drm_prime.c
->@@ -967,7 +967,7 @@ int drm_prime_sg_to_page_addr_arrays(struct
->sg_table *sgt, struct page **pages,
->
-> 	index = 0;
-> 	for_each_sg(sgt->sgl, sg, sgt->nents, count) {
->-		len = sg->length;
->+		len = sg_dma_len(sg);
-> 		page = sg_page(sg);
-> 		addr = sg_dma_address(sg);
+>diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>index dee446278417..c6e9885c071f 100644
+>--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>@@ -974,7 +974,7 @@ static int amdgpu_ttm_tt_pin_userptr(struct ttm_tt
+>*ttm)
+> 	/* Map SG to device */
+> 	r = -ENOMEM;
+> 	nents = dma_map_sg(adev->dev, ttm->sg->sgl, ttm->sg->nents,
+>direction);
+>-	if (nents != ttm->sg->nents)
+>+	if (nents == 0)
+> 		goto release_sg;
 
-This looks correct to me.
+this looks correct to me.
 
 Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
 
-M
-
->
+> 	/* convert SG to linear array of pages and dma addresses */
 >--
 >2.26.0
 >
