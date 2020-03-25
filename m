@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA91193409
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 23:59:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1448193411
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Mar 2020 00:00:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E69256E84D;
-	Wed, 25 Mar 2020 22:59:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF856E851;
+	Wed, 25 Mar 2020 23:00:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 33F106E84D
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 22:59:14 +0000 (UTC)
-X-UUID: 1100fe8046364fd3b0b1e29e5c74b3b9-20200326
+ by gabe.freedesktop.org (Postfix) with ESMTP id 850D46E850
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 23:00:34 +0000 (UTC)
+X-UUID: 912b85233133436b97f8670a161a9b7c-20200326
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=Rwm8uk+VZBk+Tue2u7MEctjQsGy1qba7rFKBvQkm1A0=; 
- b=i7boojxICfrjyewIWC+X1xbxvlH2IaBTv9AkbDdvDCpyVHtABq0wLj537y3B9jkvO+nQ9icTQZdHivcHeQ5LUaKLrihgdEXtJNsqsGTSTZPbqLD+3G/knMwR+c0dQIfsRcVPy2enuCgOc5Awsl28JYCE/nUviKT2VLkSxdZWOwk=;
-X-UUID: 1100fe8046364fd3b0b1e29e5c74b3b9-20200326
+ bh=zRMHb+7lQ/kxPsZpJcKWipHS7+03jckwS7Gwba6WOEM=; 
+ b=r8lv1lYlGPHABlJA5/YvzkJB1hF9pK/v1LICPxxSO5nZCcv32OHDOmvHfEUd+znkTB995rws7hJHYTPnlQWT66hkirsOEUbpu6uo/53tSXJAnbFi1jeFk6/PbpDCO4Wf0oNaFpj8AaxKx8TQ4lQM+ym1wlIa1AHmIXg9f2JoVyc=;
+X-UUID: 912b85233133436b97f8670a161a9b7c-20200326
 Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
  (envelope-from <ck.hu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 982338510; Thu, 26 Mar 2020 06:59:08 +0800
+ with ESMTP id 1687820606; Thu, 26 Mar 2020 07:00:31 +0800
 Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 26 Mar 2020 06:59:08 +0800
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 26 Mar 2020 07:00:28 +0800
 Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 26 Mar 2020 06:59:06 +0800
-Message-ID: <1585177148.26117.0.camel@mtksdaap41>
-Subject: Re: [SPAM][PATCH] drm/mediatek: Remove debug messages for function
- calls
+ Transport; Thu, 26 Mar 2020 07:00:21 +0800
+Message-ID: <1585177223.26117.1.camel@mtksdaap41>
+Subject: Re: [PATCH] drm/mediatek: Remove debug messages for function calls
 From: CK Hu <ck.hu@mediatek.com>
 To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Date: Thu, 26 Mar 2020 06:59:08 +0800
+Date: Thu, 26 Mar 2020 07:00:23 +0800
 In-Reply-To: <20200226112723.649954-1-enric.balletbo@collabora.com>
 References: <20200226112723.649954-1-enric.balletbo@collabora.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
@@ -67,11 +66,11 @@ Hi, Enric:
 On Wed, 2020-02-26 at 12:27 +0100, Enric Balletbo i Serra wrote:
 > Equivalent information can be nowadays obtained using function tracer.
 > 
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> ---
 
 Acked-by: CK Hu <ck.hu@mediatek.com>
 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> ---
 > 
 >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 5 -----
 >  drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 2 --
