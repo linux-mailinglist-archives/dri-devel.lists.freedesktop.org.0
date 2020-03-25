@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92360192810
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 13:19:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F3519280F
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 13:19:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD4089D7D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B3E26E846;
 	Wed, 25 Mar 2020 12:19:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 525A66E7D9
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 10:38:38 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id s1so2322343wrv.5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 03:38:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=/wgvz2lVpp5+P73ebkZ5cpJlG6NyplWSlH1ZFZco8LM=;
- b=eReNsT3/ql4XtBGPugbUGLIbqp4B391Ps/1xoYiR+OGIUAH8+B72MCrP2HlKPfoWaP
- pqYGsv0O8ZMQL6PQ+IalWVy372tw3azPRtzZgqDbyElePH+Tqh+q33JT2PdJ0HFxNGP5
- qRaT84ztZV1Oows1zWBxj5nUJUo4aoP26PcBpAec19SxZPm2MMk9Uq/svtyyxKJa3orv
- yvka7cvw1E52RdM4qI00bCg31CXx3lSjeUvvg7UbfjpHHVojeBhPr/W/FFRckGeye2FJ
- 15R/lKijLyeFma7tkjaxFYbz40cTthdWPkHJoqQNrVmFBJPB1baHaW6/959pOfdz/cVB
- JpJA==
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5276E7D9
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 10:40:57 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id ng8so867453pjb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 03:40:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DvKg2IHi3Qj70iBHg+WUL8Lkjl5cn54XoVnrEhL3Mm8=;
+ b=jjB2X695zwinTyCqhhpHsSpEM1BFt/EQHCZAQkZrno2Ypr109M5Xwhg20kV0IpfCqs
+ y0terG7TofI2Q9YoV1N7NVeZ74FBif6BvbIVxdnIdXBHZWnUtMGkRPfdtsBSW1RAFlnx
+ CTblKpJvHFL+XYXDBQHhLGUh3VBAfgLTAF4+4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=/wgvz2lVpp5+P73ebkZ5cpJlG6NyplWSlH1ZFZco8LM=;
- b=jzjvsgsCd/qSyOqGS/+TNOqerPzQG18Fng4DEElYdhQ5QrcZv+xFAO7rrh68FjeidB
- qkkDAr2y0UN99/u9AHhaLfIbV4EcMonnzxRpTvZWNTjqgCSxRo69+j3ms7Z+08uklECR
- m+9z3vU8Ay31KbWzKSo87F+Hc+XPGDLx/Pj1RcvlHD96ydlifgjln3bIo/LA4q71h2U+
- Un+EHFiCga6s19yH+UQz3z8spvtwRY3/ZCgXGbTU9KBk5m3KBbl3iu4XaL+dQeJ+RZbr
- 6wdnsYYrfFFiSA0Oi6nHQrbeqnbyYkQ/SDJuY323eDCsTTD9DishTElEJ74YpnjJ+qbC
- wtNA==
-X-Gm-Message-State: ANhLgQ16ljSCRG9wqmfcKYNRrcXvrJgo8KSwjPvcoWDcjxuAxK2NtybS
- T/WCoiqcb3bJJgN8uTmUxCk=
-X-Google-Smtp-Source: ADFU+vt2Dw8Gg8y8PXMVIdEPTxwRM9hacRHxiTFN7DEjZdRm/qg5K+XBLFsyyZk6b1ZiLZCI4gwDuw==
-X-Received: by 2002:a5d:53d1:: with SMTP id a17mr2871409wrw.41.1585132716907; 
- Wed, 25 Mar 2020 03:38:36 -0700 (PDT)
-Received: from debian.home (ip51ccf9cd.speed.planet.nl. [81.204.249.205])
- by smtp.gmail.com with ESMTPSA id i21sm9163108wmb.23.2020.03.25.03.38.35
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 25 Mar 2020 03:38:36 -0700 (PDT)
-From: Johan Jonker <jbx6244@gmail.com>
-To: heiko@sntech.de
-Subject: [PATCH v4 2/2] dt-bindings: display: rockchip-vop: add additional
- properties
-Date: Wed, 25 Mar 2020 11:38:28 +0100
-Message-Id: <20200325103828.5422-2-jbx6244@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200325103828.5422-1-jbx6244@gmail.com>
-References: <20200325103828.5422-1-jbx6244@gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DvKg2IHi3Qj70iBHg+WUL8Lkjl5cn54XoVnrEhL3Mm8=;
+ b=SQ/FpOD72GB+zajuIlyu3jdKy8+r38tAzcn5dXq3xtPeISILEtkIQ6izK/H92xWfER
+ 1+XOKHPwkG50XBKPeUekas2n3Z4vlU4pekGGxyhBlrTL5S/6kj1C53I+Uxa9Ewv1vf8/
+ r1WqGixL/0Z/DW1YW4hvZkrRWlwQPRbS7deTpkYlWdHK99LMCGLuuDptUYg9S6RbIuOE
+ TixNyg+rHaodpMza0Aa+BCx2yQNmgKLBzJ3LYL0Kf4DPEIhJMOFJXuNykEZyke7ihQBf
+ 0f07p0bwwgl6EYh811tNDE0tpkroYwX0nmxaAQ16knEoQD6IbIhLPKP6xYdp7R/lRTMZ
+ TsAg==
+X-Gm-Message-State: ANhLgQ0miLFwrQH7t7q2qf8jzaja2+DHXU4d6OTrzOiRnhBctu78MFer
+ kOr/JlPKuCipJFPdNFVFqrOf4w==
+X-Google-Smtp-Source: ADFU+vvXebHRwUAL4QYgPA/E5Nymgdnz5gpZduRO6NtNGffciBeXDeNZkR6KYzkdrkpatyvnsfHqjQ==
+X-Received: by 2002:a17:90a:6501:: with SMTP id
+ i1mr3013827pjj.32.1585132856562; 
+ Wed, 25 Mar 2020 03:40:56 -0700 (PDT)
+Received: from keiichiw1.tok.corp.google.com
+ ([2401:fa00:8f:203:863a:e217:a16c:53f2])
+ by smtp.gmail.com with ESMTPSA id v26sm5150320pfn.51.2020.03.25.03.40.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Mar 2020 03:40:55 -0700 (PDT)
+From: Keiichi Watanabe <keiichiw@chromium.org>
+To: virtio-dev@lists.oasis-open.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH RFC 0/1] Support virtio objects in virtio-video driver
+Date: Wed, 25 Mar 2020 19:40:38 +0900
+Message-Id: <20200325104039.196058-1-keiichiw@chromium.org>
+X-Mailer: git-send-email 2.25.1.696.g5e7596f4ac-goog
+MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 25 Mar 2020 12:19:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,69 +65,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org
-MIME-Version: 1.0
+Cc: Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
+ linaro-mm-sig@lists.linaro.org, alexlau@chromium.org, tfiga@chromium.org,
+ Kiran Pawar <Kiran.Pawar@opensynergy.com>, acourbot@chromium.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, egranata@google.com,
+ Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Nikolay Martyanov <Nikolay.Martyanov@opensynergy.com>,
+ Keiichi Watanabe <keiichiw@chromium.org>, kraxel@redhat.com,
+ hverkuil@xs4all.nl, Dmitry Sepp <dmitry.sepp@opensynergy.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ virtualization@lists.linux-foundation.org, posciak@chromium.org,
+ stevensd@chromium.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the old txt situation we add/describe only properties that are used
-by the driver/hardware itself. With yaml it also filters things in a
-node that are used by other drivers like 'assigned-clocks' and
-'assigned-clock-rates' for rk3399 and 'power-domains' for most
-Rockchip Socs in 'vop' nodes, so add them to 'rockchip-vop.yaml'.
+This implements a feature in virtio-video driver to use exported virtio
+objects as video buffers. So, the users will be able to use resources
+allocated by other virtio devices such as virtio-gpu.
 
-Signed-off-by: Johan Jonker <jbx6244@gmail.com>
----
- .../devicetree/bindings/display/rockchip/rockchip-vop.yaml    | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+The virtio protocol for this feature is proposed by [1].
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-index bc58c5132..497a9fb2d 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-@@ -75,9 +75,18 @@ properties:
-       A port node with endpoint definitions as defined in
-       Documentation/devicetree/bindings/media/video-interfaces.txt.
- 
-+  assigned-clocks:
-+    maxItems: 2
-+
-+  assigned-clock-rates:
-+    maxItems: 2
-+
-   iommus:
-     maxItems: 1
- 
-+  power-domains:
-+    maxItems: 1
-+
- required:
-   - compatible
-   - reg
-@@ -95,6 +104,7 @@ examples:
-     #include <dt-bindings/clock/rk3288-cru.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/power/rk3288-power.h>
-     vopb: vopb@ff930000 {
-       compatible = "rockchip,rk3288-vop";
-       reg = <0x0 0xff930000 0x0 0x19c>,
-@@ -104,6 +114,7 @@ examples:
-                <&cru DCLK_VOP0>,
-                <&cru HCLK_VOP0>;
-       clock-names = "aclk_vop", "dclk_vop", "hclk_vop";
-+      power-domains = <&power RK3288_PD_VIO>;
-       resets = <&cru SRST_LCDC1_AXI>,
-                <&cru SRST_LCDC1_AHB>,
-                <&cru SRST_LCDC1_DCLK>;
--- 
-2.11.0
+This commit depends on the following unmerged patches:
+* Virtio-video driver patch [2]
+* Patch series for virtio cross-device resources [3]
+* ChromeOS's local patch to use data_offset for offset of multiplanar
+  format [4]
 
+[1]: https://markmail.org/message/wxdne5re7aaugbjg
+[2]: https://patchwork.linuxtv.org/patch/61717/
+[3]: https://patchwork.kernel.org/project/linux-media/list/?series=254707
+[4]: https://chromium.googlesource.com/chromiumos/third_party/kernel/+/1057eb620ccd3da4632c14df269d545cb9a1ccb2
+
+Keiichi Watanabe (1):
+  drivers: media: virtio: Support virtio objects in virtio-video driver
+
+ drivers/media/virtio/virtio_video.h        |  26 +++-
+ drivers/media/virtio/virtio_video_dec.c    |   1 +
+ drivers/media/virtio/virtio_video_device.c | 131 ++++++++++++++++++++-
+ drivers/media/virtio/virtio_video_driver.c |  25 +++-
+ drivers/media/virtio/virtio_video_vq.c     |  81 ++++++++++---
+ include/uapi/linux/virtio_video.h          |  15 ++-
+ 6 files changed, 243 insertions(+), 36 deletions(-)
+
+--
+2.25.1.696.g5e7596f4ac-goog
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
