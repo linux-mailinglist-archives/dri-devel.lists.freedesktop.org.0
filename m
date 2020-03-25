@@ -1,43 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F6319303C
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 19:20:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C101A193091
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 19:43:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 557AD6E817;
-	Wed, 25 Mar 2020 18:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89A726E1A7;
+	Wed, 25 Mar 2020 18:43:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5C736E1D8;
- Wed, 25 Mar 2020 18:20:47 +0000 (UTC)
-IronPort-SDR: x1e3gsmSYJHZTKaqSg4d9Ot9jvzsAHHPsTBPuJrtz2Hv2t1t2CiMjGMvNPdAPWh3gaNAgeazCc
- U3jCUgHM8svA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2020 11:20:47 -0700
-IronPort-SDR: Qq+zrMg+AgOBQf3wjCvW9zqjBhg9vKkLE4Tm2d8ABIPecQfVtooWdr9oHg0guRmlVWYlULGPdZ
- Vy9JqJqwS0Sw==
-X-IronPort-AV: E=Sophos;i="5.72,305,1580803200"; d="scan'208";a="393709857"
-Received: from yrahamim-mobl.ger.corp.intel.com (HELO localhost)
- ([10.255.194.58])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2020 11:20:42 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [Intel-gfx] [PATCH 02/51] drm/i915: Don't clear drvdata in
- ->release
-In-Reply-To: <20200323144950.3018436-3-daniel.vetter@ffwll.ch>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200323144950.3018436-1-daniel.vetter@ffwll.ch>
- <20200323144950.3018436-3-daniel.vetter@ffwll.ch>
-Date: Wed, 25 Mar 2020 20:20:38 +0200
-Message-ID: <87o8ski9e1.fsf@intel.com>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBFCF6E1A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 18:43:19 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id 65so4589826wrl.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 11:43:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7O9ynMa/XszSiQjU9DnfA69BL3KK4uFcPsr5Zfru8hM=;
+ b=netoBFLdadXAoh2L96ovXCkEk9G7QhSid9/SVDV3erhTy8xriUACPmZRHgkMG0RerT
+ yvbw5JE2FdbT84nNaEJ4UUbVyG6oUJCNswSMmPCPULNvUEdTCBzgjSSjE0ZgoXVYirEz
+ QKZ9EGgzvtMlwNvW7i2i9UfbsJnNiZFehh0dSVh6v+FPP1vATUI0TLMyRLgdPndYccR/
+ c9TdR1IRgjrObZmVXmRehXBU901ho2hT+LPwzuNvk1MKogbTpulFyl2eGa3Y6PSBxpx+
+ OtL2Hn/Js5qUH09Z/cA0fylwu7cUvnNnB29QjMh6qmRG2AXHlwTJT1ynVzmn99lh9qn+
+ RPYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7O9ynMa/XszSiQjU9DnfA69BL3KK4uFcPsr5Zfru8hM=;
+ b=VekEmNonki0zCbEiggnZQQln0tM9aTEplLlPOHbbjWc49k+gQRouKWgf4gZe/gK62C
+ jn6ch4j3UeoQl/wsQ5N4MgzF4wQHI2uLtw5awHEqRu8bxvU1xdlRanltmWd7Jndgg6U0
+ Dn2Mk9kgcR+JYsxkg7Tjyi+VlPNVaGiebJGjKg74zXooDglMcDU88W72naCp0lDZOeEX
+ LX4XCk4LBoCEuKvSaKMwSbETmDzdTpparguJZ5dWAgT/ZxeyISUSYaqpAwTDdytH3V0D
+ 6e1zmTQCtpN8cPPowpqLslFqi18Kn0jsrNiNqJapW8Ar+flbjZm3jAuhvJHKDbVnEh4K
+ jOMw==
+X-Gm-Message-State: ANhLgQ00gv36WG1z4kD4j195VnWmylLJ5Yt8TUkjMQxT40D7tvf1Qdge
+ AVAYef6zt3DBj4Uf8aEh/BiGljxloAC6VjXVGmE=
+X-Google-Smtp-Source: ADFU+vtotW0hSWfsINdHPqKmskY8pGIuk5Gng3pWSqBKe0+phrdgl8o1zuoQd71BKYd/PsX6PY7UPK+NTvuaTbvqFCE=
+X-Received: by 2002:a5d:6187:: with SMTP id j7mr5053880wru.419.1585161798469; 
+ Wed, 25 Mar 2020 11:43:18 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200324125442.21983-1-geert+renesas@glider.be>
+In-Reply-To: <20200324125442.21983-1-geert+renesas@glider.be>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 25 Mar 2020 14:43:07 -0400
+Message-ID: <CADnq5_M+2afonwdY2-8kdzx-_aidWPZ4OxwxRY31odPOJ8togg@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Improve CONFIG_DMABUF_MOVE_NOTIFY help text
+To: Geert Uytterhoeven <geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,70 +60,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 23 Mar 2020, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> For two reasons:
+On Tue, Mar 24, 2020 at 8:54 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 >
-> - The driver core clears this already for us after we're unloaded in
->   __device_release_driver().
+> Improve the help text for the CONFIG_DMABUF_MOVE_NOTIFY symbol by:
+>   1. Removing duplicated single quotes,
+>   2. Adding a missing subject,
+>   3. Fixing a misspelling of "yet",
+>   4. Wrapping long lines.
 >
-> - It's way too late, the drm_device ->release callback might massively
->   outlive the underlying physical device, since a drm_device can't be
+> Fixes: bb42df4662a44765 ("dma-buf: add dynamic DMA-buf handling v15")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-*can be*?
+Applied.  Thanks!
 
->   kept alive by open drm_file or well really anything else userspace
->   is still hanging onto. So if we clear this ourselves, we should
->   clear it in the pci ->remove callback, not in the drm_device
->   ->relase callback.
+Alex
 
-->release
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
->
-> Looking at git history this was fixed in the driver core with
->
-> commit 0998d0631001288a5974afc0b2a5f568bcdecb4d
-> Author: Hans de Goede <hdegoede@redhat.com>
-> Date:   Wed May 23 00:09:34 2012 +0200
->
->     device-core: Ensure drvdata = NULL when no driver is bound
->
-> v2: Cite the core fix in the commit message (Chris).
->
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > ---
->  drivers/gpu/drm/i915/i915_drv.c | 3 ---
->  1 file changed, 3 deletions(-)
+>  drivers/dma-buf/Kconfig | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-> index 48ba37e35bea..4792051e9e2e 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -909,9 +909,6 @@ static void i915_driver_destroy(struct drm_i915_private *i915)
->  
->  	drm_dev_fini(&i915->drm);
->  	kfree(i915);
-> -
-> -	/* And make sure we never chase our dangling pointer from pci_dev */
-> -	pci_set_drvdata(pdev, NULL);
->  }
->  
->  /**
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+> index ef73b678419c6d86..9626673f1d83ae64 100644
+> --- a/drivers/dma-buf/Kconfig
+> +++ b/drivers/dma-buf/Kconfig
+> @@ -43,11 +43,12 @@ config DMABUF_MOVE_NOTIFY
+>         bool "Move notify between drivers (EXPERIMENTAL)"
+>         default n
+>         help
+> -         Don''t pin buffers if the dynamic DMA-buf interface is available on both the
+> -         exporter as well as the importer. This fixes a security problem where
+> -         userspace is able to pin unrestricted amounts of memory through DMA-buf.
+> -         But marked experimental because we don''t jet have a consistent execution
+> -         context and memory management between drivers.
+> +         Don't pin buffers if the dynamic DMA-buf interface is available on
+> +         both the exporter as well as the importer. This fixes a security
+> +         problem where userspace is able to pin unrestricted amounts of memory
+> +         through DMA-buf.
+> +         This is marked experimental because we don't yet have a consistent
+> +         execution context and memory management between drivers.
+>
+>  config DMABUF_SELFTESTS
+>         tristate "Selftests for the dma-buf interfaces"
+> --
+> 2.17.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
