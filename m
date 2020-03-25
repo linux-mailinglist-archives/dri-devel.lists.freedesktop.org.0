@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B20591923B0
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 10:08:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED34F1923B2
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Mar 2020 10:08:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBEC66E5CD;
-	Wed, 25 Mar 2020 09:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECC4A6E5CF;
+	Wed, 25 Mar 2020 09:08:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CD886E5CD
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 09:08:37 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id b12so1450877wmj.3;
- Wed, 25 Mar 2020 02:08:37 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE9FF6E5CF
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 09:08:40 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id m17so1839391wrw.11;
+ Wed, 25 Mar 2020 02:08:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XIUdQLhj5Pc75TUvcZ0tOKDsdZmwm019gn6D+9JuS6w=;
- b=mXJTQiFObD2+7P3KfspCMe5UXynkuywXffCR5WsPA8tjfynSlKOm0NBB3QjoP6LDzq
- Wz0zHDBmyOJbKrtLWVHfevcqnJJEFvjZyMSjaa/Bn8/dwCNTCI8Wmcv7xZqpHp0erP0u
- vn1QTutDwin4d0cZ+3DAgpaV22CxUd0RoPJrkS1a1U70332X0oYJhY0GBJSNfyXe+hlU
- rXbU1C31crfr3PwWko2cM42XvdDtdDIquSQ6LO2rE7OKT7danHk5SaA/zJDjBXPB3eHy
- kM1rAVSFPSgfQth+b0e3N0nHfM/MQ4PUK5DOT+TpsVpjPGDG3S54I3jUhfUeghNys21x
- Eomw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=afugKYwAFd8RIjB02GefkanDSF4I40fGZACjXYFZuvM=;
+ b=N8A3l0X0NYWYEhPlpQP/+iv/Y0Vene5U0OT2pZ8Y592F4PnmV4TPrBAuYTOXyW3w9O
+ Sj2pD3Y+E4dN/71GlxXT7Ox4C9O9sX9HH8r4UKCPHefbeDz36/ll05FmBYWWvVZoNVYT
+ 65DCrSfJ7Sx7eyCbjn4yjhQw0oAV1htzqwj8a3HkWKlKN8bOSBsWacfeQ+I16Spf5tkY
+ osgCMfOmu12YOlvPORg7J05FsbvWfBmny5xh1zfZeY7qF3UphPwQEA5PutNn19NfAMkX
+ TusJn2c4GDwDF8VPgo2ZSqwJMWV6Mm2Mqk/zGFPSZ5RhwwtK4PLuieU9q2fW8jkG9+0L
+ ugGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XIUdQLhj5Pc75TUvcZ0tOKDsdZmwm019gn6D+9JuS6w=;
- b=smEaA5j7BYCtQ7U0tItRAgM7SyKu4z/Vq9/ReHIs36fMfA0UjHlZKP8g4UjOo0k+Ua
- pUllIHVKVTDbtViCllS5f21eFfkCVv7xfmmPQcoywyKq+FspYoS+W9P71ltJVvS027+Z
- Ul7UlZO6eoICtGJpn7U98Pi7swdwh9NVDLHYwiWeB0BPEzQDS/4t2lIyoQsqShl5EbVV
- CQ2/ICC+EqtwDRDCu3j+MrD7Fthlx4AXsVi7XyHQTeRrwOANPrL3W/hureishTaZ5Dno
- 8cXpbOawlKDvvy6HS8hIGE6eE+qZnU0vr+15kQ1u2meaQda4Op4qRNf7J+6VdoNOQ9lw
- XJjA==
-X-Gm-Message-State: ANhLgQ1/sgpif1XFvVPH0FTwjQMjH7I+YTmDDrsZHApgwgng1DfVSald
- 4a2uI/R6/CDwSjo4w2VvwjUoOXoK4EU=
-X-Google-Smtp-Source: ADFU+vs4zpchGXsW1LwA3DrZsQ+YXxDctXvUmSKUptU1A50v2mdge/WrAGiWh+lvWepXYhaN5jIHDw==
-X-Received: by 2002:a05:600c:286:: with SMTP id
- 6mr2387027wmk.101.1585127315630; 
- Wed, 25 Mar 2020 02:08:35 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=afugKYwAFd8RIjB02GefkanDSF4I40fGZACjXYFZuvM=;
+ b=BjtyNsvzU0RWfv05H7heqNICAbP/nmgAW+jU06du26qmRUCzQA7bB0so+OFUz7xuJx
+ VZSoem1E5z7Y+TpUflwGu7x8DjwR454J1SK/ibRoxi5kj6t6xT/dxhBYyTib+PoOXdeb
+ sN5foQDymO7pM+xFtTuTdqADyMhU/zVcNGdAySOsiyrW9tgGMTpZIPKEZrdH2AswtMz/
+ AlJjuAPB7sQ4VFNLf6kYthGxrF3TmDpc/2KwoPQ2ZMdAskuHKji6MNscSN/S+7jwexv4
+ VaMifpPrq0wMwAp/ZvNOSteq0GeiYLCQIoWQhyJHCjWIF+GQvG8kMNiI/6mJzgu3cX+m
+ 2v1A==
+X-Gm-Message-State: ANhLgQ3fhqB+CG0B6U+w8ISRzQgsGueB2+w8eUZvlha33Y9RHv0843lh
+ HlXhx3TCN5QQNeH3Pg1FqyaILNAjl5g=
+X-Google-Smtp-Source: ADFU+vtNxVoilqqyVG5ulxzKb1TzStqeHOA53Zlr5aY/seDzTHSCFa6Rzv9dSOnd4deF0AXX/BR+YA==
+X-Received: by 2002:adf:ce0d:: with SMTP id p13mr2269121wrn.8.1585127319134;
+ Wed, 25 Mar 2020 02:08:39 -0700 (PDT)
 Received: from wasp.lan (250.128.208.46.dyn.plus.net. [46.208.128.250])
- by smtp.googlemail.com with ESMTPSA id 127sm8565048wmd.38.2020.03.25.02.08.34
+ by smtp.googlemail.com with ESMTPSA id 127sm8565048wmd.38.2020.03.25.02.08.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 02:08:34 -0700 (PDT)
+ Wed, 25 Mar 2020 02:08:38 -0700 (PDT)
 From: Shane Francis <bigbeeshane@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 0/3] AMDGPU / RADEON / DRM Fix mapping of user pages
-Date: Wed, 25 Mar 2020 09:07:38 +0000
-Message-Id: <20200325090741.21957-1-bigbeeshane@gmail.com>
+Subject: [PATCH v4 1/3] drm/prime: use dma length macro when mapping sg
+Date: Wed, 25 Mar 2020 09:07:39 +0000
+Message-Id: <20200325090741.21957-2-bigbeeshane@gmail.com>
 X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200325090741.21957-1-bigbeeshane@gmail.com>
+References: <20200325090741.21957-1-bigbeeshane@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,42 +74,31 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch set is to fix a bug in amdgpu / radeon drm that results in
-a crash when dma_map_sg combines elemnets within a scatterlist table. 
+As dma_map_sg can reorganize scatter-gather lists in a
+way that can cause some later segments to be empty we should
+always use the sg_dma_len macro to fetch the actual length.
 
-There are 2 shortfalls in the current kernel.
+This could now be 0 and not need to be mapped to a page or
+address array
 
-1) AMDGPU / RADEON assumes that the requested and created scatterlist
-   table lengths using from dma_map_sg are equal. This may not be the
-   case using the newer dma-iommu implementation
+Signed-off-by: Shane Francis <bigbeeshane@gmail.com>
+---
+ drivers/gpu/drm/drm_prime.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-2) drm_prime does not fetch the length of the scatterlist
-   via the correct dma macro, this can use the incorrect length
-   being used (>0) in places where dma_map_sg has updated the table
-   elements.
-
-   The sg_dma_len macro is representative of the length of the sg item
-   after dma_map_sg
-
-Example Crash :
-> [drm:amdgpu_ttm_backend_bind [amdgpu]] *ERROR* failed to pin userptr
-
-This happens in OpenCL applications, causing them to crash or hang, on
-either amdgpu-pro or ROCm OpenCL implementations
-
-I have verified this fixes the above on kernel 5.5 and 5.5rc using an
-AMD Vega 64 GPU
-
-Shane Francis (3):
-  drm/prime: use dma length macro when mapping sg to arrays
-  drm/amdgpu: fix scatter-gather mapping with user pages
-  drm/radeon: fix scatter-gather mapping with user pages
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
- drivers/gpu/drm/drm_prime.c             | 2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c     | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index 86d9b0e45c8c..1de2cde2277c 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -967,7 +967,7 @@ int drm_prime_sg_to_page_addr_arrays(struct sg_table *sgt, struct page **pages,
+ 
+ 	index = 0;
+ 	for_each_sg(sgt->sgl, sg, sgt->nents, count) {
+-		len = sg->length;
++		len = sg_dma_len(sg);
+ 		page = sg_page(sg);
+ 		addr = sg_dma_address(sg);
+ 
 -- 
 2.26.0
 
