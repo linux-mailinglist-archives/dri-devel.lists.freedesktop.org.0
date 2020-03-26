@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28ACB194C5E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 00:24:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C19E2194C61
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 00:24:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28E656E968;
-	Thu, 26 Mar 2020 23:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEDD36E95C;
+	Thu, 26 Mar 2020 23:24:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4B4D6E968
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 23:24:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 157486E95C
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 23:24:57 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DDF7D2083E;
- Thu, 26 Mar 2020 23:24:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4602E2077D;
+ Thu, 26 Mar 2020 23:24:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585265093;
- bh=jfT/vt+aedy9qZ+p0lGN1nj1vzPO6uDTNZJwx++fvUU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KMycbxlHsSAYM8jLUf6+ENf0EJ2yvf87HTg2kRKjlDhhvUVD/loT8exg49KkFuJdO
- Ur8jZggT0GYrFq+vxztdvn5LKBWCbcbhj6KzTpKucDCGalOngkFBuTuCcaJ2MkqE2v
- QaR9kFd+r1zKzw//yfV8tt+Cc6NvykHLlv1qjvcU=
+ s=default; t=1585265097;
+ bh=/goPzz2R3pqZymlF12iwtFtxFrNXV6WN8JXwYotH5fY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HVS9j65FglQZBxsF/3PRA2w19iqcjP5ar1Yr+ODJaUhU/MWIAeyKB4JlxB/7jQa6h
+ 5X65W5D9A/+LK57wUyNZvNn+PFnzrlxfFU7NqxjQX7s+dLFfJnzO0cLcQEzqieIWZt
+ ODcix2TbMvGTTy+mp7alc7BlWzVZ9KEya21wOWDE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 19/19] drm/lease: fix WARNING in idr_destroy
-Date: Thu, 26 Mar 2020 19:24:31 -0400
-Message-Id: <20200326232431.7816-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 01/15] drm/bridge: dw-hdmi: fix AVI frame
+ colorimetry
+Date: Thu, 26 Mar 2020 19:24:41 -0400
+Message-Id: <20200326232455.8029-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200326232431.7816-1-sashal@kernel.org>
-References: <20200326232431.7816-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -49,63 +48,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org,
- syzbot+05835159fe322770fe3d@syzkaller.appspotmail.com,
- Qiujun Huang <hqjagain@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Qiujun Huang <hqjagain@gmail.com>
+From: Jernej Skrabec <jernej.skrabec@siol.net>
 
-[ Upstream commit b216a8e7908cd750550c0480cf7d2b3a37f06954 ]
+[ Upstream commit e8dca30f7118461d47e1c3510d0e31b277439151 ]
 
-drm_lease_create takes ownership of leases. And leases will be released
-by drm_master_put.
+CTA-861-F explicitly states that for RGB colorspace colorimetry should
+be set to "none". Fix that.
 
-drm_master_put
-    ->drm_master_destroy
-            ->idr_destroy
-
-So we needn't call idr_destroy again.
-
-Reported-and-tested-by: syzbot+05835159fe322770fe3d@syzkaller.appspotmail.com
-Signed-off-by: Qiujun Huang <hqjagain@gmail.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/1584518030-4173-1-git-send-email-hqjagain@gmail.com
+Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Fixes: def23aa7e982 ("drm: bridge: dw-hdmi: Switch to V4L bus format and encodings")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200304232512.51616-2-jernej.skrabec@siol.net
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_lease.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 46 +++++++++++++----------
+ 1 file changed, 26 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index b481cafdde280..825abe38201ac 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -542,10 +542,12 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 2a0a1654d3ce5..6930452a712a8 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -1364,28 +1364,34 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+ 		frame.colorspace = HDMI_COLORSPACE_RGB;
+ 
+ 	/* Set up colorimetry */
+-	switch (hdmi->hdmi_data.enc_out_encoding) {
+-	case V4L2_YCBCR_ENC_601:
+-		if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV601)
+-			frame.colorimetry = HDMI_COLORIMETRY_EXTENDED;
+-		else
++	if (!hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
++		switch (hdmi->hdmi_data.enc_out_encoding) {
++		case V4L2_YCBCR_ENC_601:
++			if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV601)
++				frame.colorimetry = HDMI_COLORIMETRY_EXTENDED;
++			else
++				frame.colorimetry = HDMI_COLORIMETRY_ITU_601;
++			frame.extended_colorimetry =
++					HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
++			break;
++		case V4L2_YCBCR_ENC_709:
++			if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV709)
++				frame.colorimetry = HDMI_COLORIMETRY_EXTENDED;
++			else
++				frame.colorimetry = HDMI_COLORIMETRY_ITU_709;
++			frame.extended_colorimetry =
++					HDMI_EXTENDED_COLORIMETRY_XV_YCC_709;
++			break;
++		default: /* Carries no data */
+ 			frame.colorimetry = HDMI_COLORIMETRY_ITU_601;
++			frame.extended_colorimetry =
++					HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
++			break;
++		}
++	} else {
++		frame.colorimetry = HDMI_COLORIMETRY_NONE;
+ 		frame.extended_colorimetry =
+-				HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
+-		break;
+-	case V4L2_YCBCR_ENC_709:
+-		if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV709)
+-			frame.colorimetry = HDMI_COLORIMETRY_EXTENDED;
+-		else
+-			frame.colorimetry = HDMI_COLORIMETRY_ITU_709;
+-		frame.extended_colorimetry =
+-				HDMI_EXTENDED_COLORIMETRY_XV_YCC_709;
+-		break;
+-	default: /* Carries no data */
+-		frame.colorimetry = HDMI_COLORIMETRY_ITU_601;
+-		frame.extended_colorimetry =
+-				HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
+-		break;
++			HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
  	}
  
- 	DRM_DEBUG_LEASE("Creating lease\n");
-+	/* lessee will take the ownership of leases */
- 	lessee = drm_lease_create(lessor, &leases);
- 
- 	if (IS_ERR(lessee)) {
- 		ret = PTR_ERR(lessee);
-+		idr_destroy(&leases);
- 		goto out_leases;
- 	}
- 
-@@ -580,7 +582,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 
- out_leases:
- 	put_unused_fd(fd);
--	idr_destroy(&leases);
- 
- 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
- 	return ret;
+ 	frame.scan_mode = HDMI_SCAN_MODE_NONE;
 -- 
 2.20.1
 
