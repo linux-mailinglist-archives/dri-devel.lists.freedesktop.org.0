@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 397B8194AB8
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Mar 2020 22:36:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6D1194ABA
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Mar 2020 22:37:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F6186E945;
-	Thu, 26 Mar 2020 21:36:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B40AE6E94F;
+	Thu, 26 Mar 2020 21:37:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36C896E945
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 21:36:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 124426E94F
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 21:37:18 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206987] [drm] [amdgpu] Whole system crashes when the driver is
  in mode_support_and_system_configuration
-Date: Thu, 26 Mar 2020 21:36:12 +0000
+Date: Thu, 26 Mar 2020 21:37:17 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206987-2300-pLGjkqnwT8@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206987-2300-NJpMP7Ky4k@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206987-2300@https.bugzilla.kernel.org/>
 References: <bug-206987-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206987
 
---- Comment #2 from Cyrax (evvke@hotmail.com) ---
-Created attachment 288079
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288079&action=edit
-dmesg output
+--- Comment #3 from Cyrax (evvke@hotmail.com) ---
+GCC is "gcc (Arch Linux 9.3.0-1) 9.3.0"
 
 -- 
 You are receiving this mail because:
