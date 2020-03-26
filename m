@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003BD194C7D
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 00:25:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A18194C7E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 00:25:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A5396E960;
-	Thu, 26 Mar 2020 23:25:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 083806E96D;
+	Thu, 26 Mar 2020 23:25:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 811EB6E972
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 23:25:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEA1F6E960
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 23:25:17 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B9AE220409;
- Thu, 26 Mar 2020 23:25:14 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DBD852082D;
+ Thu, 26 Mar 2020 23:25:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585265115;
- bh=VKo7GUQA1DEzSdCU5wZrrVDD4YMnhnpG+D9De3uLcFQ=;
- h=From:To:Cc:Subject:Date:From;
- b=OjUZF0a/99t3Gkb6e7xJ+cO9+MeYALU7Q/Sp5/gkwLpPs44qJ744yPc6afKl697+t
- 6J19hNgcYo6Cl8cvzXFJ2r5TSpLCzJXf+dgPuEY63LfLYIg6H3YYmDLVjIRe3Z7vrG
- b3RCAicwggGC8ErOqB+hdWWSqfTAWt5E70LkfzXk=
+ s=default; t=1585265117;
+ bh=TOlzQZqFBlXXk6vVW3nEQ7OnPHurudRh2uEU+6f1lvY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=VcyCalg0QfG6orqJTIAZRpTozXFiSat3BqSSKA1MIv+ffexmLQSJFGW2L0KjUZDCy
+ KvQpMRMDTYa5iIQaOgIccJ1tiyDWPERlBNiVS6HvOGhKmDIr6XW90Jyoa1HXQZ89G6
+ bz7wrTSOlgfJrl2xH0PuPjj4bMHavmO0MYf2zCP0=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 01/10] drm/bridge: dw-hdmi: fix AVI frame
- colorimetry
-Date: Thu, 26 Mar 2020 19:25:04 -0400
-Message-Id: <20200326232513.8212-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 03/10] drm/bochs: downgrade pci_request_region
+ failure from error to warning
+Date: Thu, 26 Mar 2020 19:25:06 -0400
+Message-Id: <20200326232513.8212-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200326232513.8212-1-sashal@kernel.org>
+References: <20200326232513.8212-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -48,93 +50,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sasha Levin <sashal@kernel.org>,
+ =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jernej Skrabec <jernej.skrabec@siol.net>
-
-[ Upstream commit e8dca30f7118461d47e1c3510d0e31b277439151 ]
-
-CTA-861-F explicitly states that for RGB colorspace colorimetry should
-be set to "none". Fix that.
-
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Fixes: def23aa7e982 ("drm: bridge: dw-hdmi: Switch to V4L bus format and encodings")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200304232512.51616-2-jernej.skrabec@siol.net
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 46 +++++++++++++----------
- 1 file changed, 26 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index cc1094f901255..96cf64d0ee824 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -1348,28 +1348,34 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
- 		frame.colorspace = HDMI_COLORSPACE_RGB;
- 
- 	/* Set up colorimetry */
--	switch (hdmi->hdmi_data.enc_out_encoding) {
--	case V4L2_YCBCR_ENC_601:
--		if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV601)
--			frame.colorimetry = HDMI_COLORIMETRY_EXTENDED;
--		else
-+	if (!hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
-+		switch (hdmi->hdmi_data.enc_out_encoding) {
-+		case V4L2_YCBCR_ENC_601:
-+			if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV601)
-+				frame.colorimetry = HDMI_COLORIMETRY_EXTENDED;
-+			else
-+				frame.colorimetry = HDMI_COLORIMETRY_ITU_601;
-+			frame.extended_colorimetry =
-+					HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
-+			break;
-+		case V4L2_YCBCR_ENC_709:
-+			if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV709)
-+				frame.colorimetry = HDMI_COLORIMETRY_EXTENDED;
-+			else
-+				frame.colorimetry = HDMI_COLORIMETRY_ITU_709;
-+			frame.extended_colorimetry =
-+					HDMI_EXTENDED_COLORIMETRY_XV_YCC_709;
-+			break;
-+		default: /* Carries no data */
- 			frame.colorimetry = HDMI_COLORIMETRY_ITU_601;
-+			frame.extended_colorimetry =
-+					HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
-+			break;
-+		}
-+	} else {
-+		frame.colorimetry = HDMI_COLORIMETRY_NONE;
- 		frame.extended_colorimetry =
--				HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
--		break;
--	case V4L2_YCBCR_ENC_709:
--		if (hdmi->hdmi_data.enc_in_encoding == V4L2_YCBCR_ENC_XV709)
--			frame.colorimetry = HDMI_COLORIMETRY_EXTENDED;
--		else
--			frame.colorimetry = HDMI_COLORIMETRY_ITU_709;
--		frame.extended_colorimetry =
--				HDMI_EXTENDED_COLORIMETRY_XV_YCC_709;
--		break;
--	default: /* Carries no data */
--		frame.colorimetry = HDMI_COLORIMETRY_ITU_601;
--		frame.extended_colorimetry =
--				HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
--		break;
-+			HDMI_EXTENDED_COLORIMETRY_XV_YCC_601;
- 	}
- 
- 	frame.scan_mode = HDMI_SCAN_MODE_NONE;
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+CgpbIFVwc3RyZWFtIGNvbW1p
+dCA4YzM0Y2QxYTdmMDg5ZGMwMzkzMzI4OWM1ZDRhNGQxNDg5NTQ5ODI4IF0KClNodXRkb3duIG9m
+IGZpcm13YXJlIGZyYW1lYnVmZmVyIGhhcyBhIGJ1bmNoIG9mIHByb2JsZW1zLiAgQmVjYXVzZQpv
+ZiB0aGlzIHRoZSBmcmFtZWJ1ZmZlciByZWdpb24gbWlnaHQgc3RpbGwgYmUgcmVzZXJ2ZWQgZXZl
+biBhZnRlcgpkcm1fZmJfaGVscGVyX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZnJhbWVidWZmZXJz
+KCkgcmV0dXJuZWQuCgpEb24ndCBjb25zaWRlciBwY2lfcmVxdWVzdF9yZWdpb24oKSBmYWlsdXJl
+IGZvciB0aGUgZnJhbWVidWZmZXIKcmVnaW9uIGFzIGZhdGFsIGVycm9yIHRvIHdvcmthcm91bmQg
+dGhpcyBpc3N1ZS4KClJlcG9ydGVkLWJ5OiBNYXJlayBNYXJjenlrb3dza2ktR8OzcmVja2kgPG1h
+cm1hcmVrQGludmlzaWJsZXRoaW5nc2xhYi5jb20+ClNpZ25lZC1vZmYtYnk6IEdlcmQgSG9mZm1h
+bm4gPGtyYXhlbEByZWRoYXQuY29tPgpBY2tlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJv
+cmcub3JnPgpMaW5rOiBodHRwOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dp
+ZC8yMDIwMDMxMzA4NDE1Mi4yNzM0LTEta3JheGVsQHJlZGhhdC5jb20KU2lnbmVkLW9mZi1ieTog
+U2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9ib2No
+cy9ib2Noc19ody5jIHwgNiArKy0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyks
+IDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JvY2hzL2JvY2hz
+X2h3LmMgYi9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHNfaHcuYwppbmRleCBhMzliMDM0M2Mx
+OTdkLi40MDFjMjE4NTY3YWY5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9j
+aHNfaHcuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHNfaHcuYwpAQCAtOTcsMTAg
+Kzk3LDggQEAgaW50IGJvY2hzX2h3X2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdWludDMy
+X3QgZmxhZ3MpCiAJCXNpemUgPSBtaW4oc2l6ZSwgbWVtKTsKIAl9CiAKLQlpZiAocGNpX3JlcXVl
+c3RfcmVnaW9uKHBkZXYsIDAsICJib2Nocy1kcm0iKSAhPSAwKSB7Ci0JCURSTV9FUlJPUigiQ2Fu
+bm90IHJlcXVlc3QgZnJhbWVidWZmZXJcbiIpOwotCQlyZXR1cm4gLUVCVVNZOwotCX0KKwlpZiAo
+cGNpX3JlcXVlc3RfcmVnaW9uKHBkZXYsIDAsICJib2Nocy1kcm0iKSAhPSAwKQorCQlEUk1fV0FS
+TigiQ2Fubm90IHJlcXVlc3QgZnJhbWVidWZmZXIsIGJvb3QgZmIgc3RpbGwgYWN0aXZlP1xuIik7
+CiAKIAlib2Nocy0+ZmJfbWFwID0gaW9yZW1hcChhZGRyLCBzaXplKTsKIAlpZiAoYm9jaHMtPmZi
+X21hcCA9PSBOVUxMKSB7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
