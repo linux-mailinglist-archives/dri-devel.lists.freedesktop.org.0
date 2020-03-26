@@ -1,39 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58967194AAB
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Mar 2020 22:35:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 989C3194AA8
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Mar 2020 22:35:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC296E947;
-	Thu, 26 Mar 2020 21:34:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2096E93F;
+	Thu, 26 Mar 2020 21:34:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 961 seconds by postgrey-1.36 at gabe;
- Thu, 26 Mar 2020 13:00:04 UTC
 Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F62A6E359
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 13:00:03 +0000 (UTC)
-Received: from lhreml709-cah.china.huawei.com (unknown [172.18.7.108])
- by Forcepoint Email with ESMTP id DB07DE27201CDD85434C;
- Thu, 26 Mar 2020 12:43:59 +0000 (GMT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AAC76E359
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 13:01:03 +0000 (UTC)
+Received: from lhreml705-cah.china.huawei.com (unknown [172.18.7.106])
+ by Forcepoint Email with ESMTP id 0DAEA28515626089D084;
+ Thu, 26 Mar 2020 12:45:18 +0000 (GMT)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml709-cah.china.huawei.com (10.201.108.32) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 26 Mar 2020 12:43:59 +0000
+ lhreml705-cah.china.huawei.com (10.201.108.46) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Thu, 26 Mar 2020 12:45:17 +0000
 Received: from localhost (10.47.88.85) by lhreml710-chm.china.huawei.com
  (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Thu, 26 Mar
- 2020 12:43:58 +0000
-Date: Thu, 26 Mar 2020 12:43:49 +0000
+ 2020 12:45:16 +0000
+Date: Thu, 26 Mar 2020 12:45:08 +0000
 From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: "Ardelean, Alexandru" <alexandru.Ardelean@analog.com>
-Subject: Re: [PATCH 1/4] dt-bindings: iio/accel: Drop duplicate adi,
- adxl345/6 from trivial-devices.yaml
-Message-ID: <20200326124349.00001d32@Huawei.com>
-In-Reply-To: <ede75c098e3e354ff7e93e4e1d6191e35ea1fbd2.camel@analog.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 3/4] dt-bindings: Clean-up schema errors due to missing
+ 'addtionalProperties: false'
+Message-ID: <20200326124508.00003a52@Huawei.com>
+In-Reply-To: <20200325220542.19189-4-robh@kernel.org>
 References: <20200325220542.19189-1-robh@kernel.org>
- <20200325220542.19189-2-robh@kernel.org>
- <ede75c098e3e354ff7e93e4e1d6191e35ea1fbd2.camel@analog.com>
+ <20200325220542.19189-4-robh@kernel.org>
 Organization: Huawei Technologies Research and Development (UK) Ltd.
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
@@ -54,116 +51,322 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>,
- "glaroque@baylibre.com" <glaroque@baylibre.com>,
- "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "khilman@baylibre.com" <khilman@baylibre.com>,
- "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>,
- "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
- "rui.zhang@intel.com" <rui.zhang@intel.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "Hennerich, 
- Michael" <Michael.Hennerich@analog.com>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "sboyd@kernel.org" <sboyd@kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
- "knaack.h@gmx.de" <knaack.h@gmx.de>,
- "masneyb@onstation.org" <masneyb@onstation.org>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "jic23@kernel.org" <jic23@kernel.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, linux-iio@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Guillaume La Roque <glaroque@baylibre.com>,
+ Peter Meerwald-Stadler <pmeerw@pmeerw.net>, Lee
+ Jones <lee.jones@linaro.org>, linux-clk@vger.kernel.org,
+ Kevin Hilman <khilman@baylibre.com>, Daniel
+ Lezcano <daniel.lezcano@linaro.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Zhang Rui <rui.zhang@intel.com>, Brian Masney <masneyb@onstation.org>,
+ devicetree@vger.kernel.org, Michael Hennerich <michael.hennerich@analog.com>,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ linux-amlogic@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho
+ Chehab <mchehab@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, Hartmut
+ Knaack <knaack.h@gmx.de>, linux-media@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 26 Mar 2020 07:57:31 +0000
-"Ardelean, Alexandru" <alexandru.Ardelean@analog.com> wrote:
+On Wed, 25 Mar 2020 16:05:40 -0600
+Rob Herring <robh@kernel.org> wrote:
 
-> On Wed, 2020-03-25 at 16:05 -0600, Rob Herring wrote:
-> > [External]
-> > 
-> > The 'adi,adxl345' definition is a duplicate as there's a full binding in:
-> > Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
-> > 
-> > The trivial-devices binding doesn't capture that 'adi,adxl346' has a
-> > fallback compatible 'adi,adxl345', so let's add it to adi,adxl345.yaml.
-> >   
+> Numerous schemas are missing 'additionalProperties: false' statements which
+> ensures a binding doesn't have any extra undocumented properties or child
+> nodes. Fixing this reveals various missing properties, so let's fix all
+> those occurrences.
 > 
-> Acked-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Hartmut Knaack <knaack.h@gmx.de>
+> Cc: Lars-Peter Clausen <lars@metafoo.de>
+> Cc: Peter Meerwald-Stadler <pmeerw@pmeerw.net>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Kevin Hilman <khilman@baylibre.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Liam Girdwood <lgirdwood@gmail.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Guillaume La Roque <glaroque@baylibre.com>
+> Cc: Zhang Rui <rui.zhang@intel.com>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: linux-clk@vger.kernel.org
+> Cc: linux-gpio@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-amlogic@lists.infradead.org
+> Cc: netdev@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
+> ---
+>  .../devicetree/bindings/clock/fsl,plldig.yaml |  3 +++
+>  .../gpio/socionext,uniphier-gpio.yaml         |  2 ++
+>  .../bindings/gpu/arm,mali-bifrost.yaml        |  6 ++---
+>  .../bindings/gpu/arm,mali-midgard.yaml        |  3 +++
+>  .../bindings/iio/adc/adi,ad7192.yaml          |  1 -
+>  .../bindings/iio/pressure/bmp085.yaml         |  3 +++
+>  .../media/amlogic,meson-gx-ao-cec.yaml        |  9 +++++---
+>  .../bindings/mfd/rohm,bd71828-pmic.yaml       |  3 +++
+>  .../bindings/net/ti,cpsw-switch.yaml          | 23 ++++++++++++-------
+>  .../regulator/max77650-regulator.yaml         |  2 +-
+>  .../bindings/thermal/amlogic,thermal.yaml     |  2 ++
+>  .../bindings/timer/arm,arch_timer_mmio.yaml   |  2 ++
+>  12 files changed, 43 insertions(+), 16 deletions(-)
 > 
-> > Cc: Michael Hennerich <michael.hennerich@analog.com>
-> > Cc: Jonathan Cameron <jic23@kernel.org>
-> > Cc: Hartmut Knaack <knaack.h@gmx.de>
-> > Cc: Lars-Peter Clausen <lars@metafoo.de>
-> > Cc: Peter Meerwald-Stadler <pmeerw@pmeerw.net>
-> > Cc: linux-iio@vger.kernel.org
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  .../devicetree/bindings/iio/accel/adi,adxl345.yaml     | 10 +++++++---
-> >  Documentation/devicetree/bindings/trivial-devices.yaml |  4 ----
-> >  2 files changed, 7 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
-> > b/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
-> > index c602b6fe1c0c..d124eba1ce54 100644
-> > --- a/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
-> > +++ b/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
-> > @@ -17,9 +17,13 @@ description: |
-> >  
-> >  properties:
-> >    compatible:
-> > -    enum:
-> > -      - adi,adxl345
-> > -      - adi,adxl375
-> > +    oneOf:
-> > +      - items:
-> > +          - const: adi,adxl346
-> > +          - const: adi,adxl345
-> > +      - enum:
-> > +          - adi,adxl345
-> > +          - adi,adxl375
-> >  
-> >    reg:
-> >      maxItems: 1
-> > diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml
-> > b/Documentation/devicetree/bindings/trivial-devices.yaml
-> > index 978de7d37c66..51d1f6e43c02 100644
-> > --- a/Documentation/devicetree/bindings/trivial-devices.yaml
-> > +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-> > @@ -42,10 +42,6 @@ properties:
-> >            - adi,adt7476
-> >              # +/-1C TDM Extended Temp Range I.C
-> >            - adi,adt7490
-> > -            # Three-Axis Digital Accelerometer
-> > -          - adi,adxl345
-> > -            # Three-Axis Digital Accelerometer (backward-compatibility value
-> > "adi,adxl345" must be listed too)
-> > -          - adi,adxl346
-> >              # AMS iAQ-Core VOC Sensor
-> >            - ams,iaq-core
-> >              # i2c serial eeprom  (24cxx)  
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> diff --git a/Documentation/devicetree/bindings/clock/fsl,plldig.yaml b/Documentation/devicetree/bindings/clock/fsl,plldig.yaml
+> index c8350030b374..d1c040228cf7 100644
+> --- a/Documentation/devicetree/bindings/clock/fsl,plldig.yaml
+> +++ b/Documentation/devicetree/bindings/clock/fsl,plldig.yaml
+> @@ -21,6 +21,9 @@ properties:
+>    reg:
+>      maxItems: 1
+>  
+> +  clocks:
+> +    maxItems: 1
+> +
+>    '#clock-cells':
+>      const: 0
+>  
+> diff --git a/Documentation/devicetree/bindings/gpio/socionext,uniphier-gpio.yaml b/Documentation/devicetree/bindings/gpio/socionext,uniphier-gpio.yaml
+> index 580a39e09d39..c58ff9a94f45 100644
+> --- a/Documentation/devicetree/bindings/gpio/socionext,uniphier-gpio.yaml
+> +++ b/Documentation/devicetree/bindings/gpio/socionext,uniphier-gpio.yaml
+> @@ -41,6 +41,8 @@ properties:
+>      minimum: 0
+>      maximum: 512
+>  
+> +  gpio-ranges: true
+> +
+>    gpio-ranges-group-names:
+>      $ref: /schemas/types.yaml#/definitions/string-array
+>  
+> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> index e8b99adcb1bd..05fd9a404ff7 100644
+> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> @@ -43,6 +43,9 @@ properties:
+>  
+>    operating-points-v2: true
+>  
+> +  resets:
+> +    maxItems: 2
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -57,9 +60,6 @@ allOf:
+>            contains:
+>              const: amlogic,meson-g12a-mali
+>      then:
+> -      properties:
+> -        resets:
+> -          minItems: 2
+>        required:
+>          - resets
+>  
+> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
+> index 8d966f3ff3db..6819cde050df 100644
+> --- a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
+> @@ -75,6 +75,9 @@ properties:
+>  
+>    mali-supply: true
+>  
+> +  power-domains:
+> +    maxItems: 1
+> +
+>    resets:
+>      minItems: 1
+>      maxItems: 2
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
+> index 84d25bd39488..d0913034b1d8 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
+> @@ -106,7 +106,6 @@ examples:
+>          spi-cpha;
+>          clocks = <&ad7192_mclk>;
+>          clock-names = "mclk";
+> -        #interrupt-cells = <2>;
+>          interrupts = <25 0x2>;
+>          interrupt-parent = <&gpio>;
+>          dvdd-supply = <&dvdd>;
+> diff --git a/Documentation/devicetree/bindings/iio/pressure/bmp085.yaml b/Documentation/devicetree/bindings/iio/pressure/bmp085.yaml
+> index 519137e5c170..5d4aec0e0d24 100644
+> --- a/Documentation/devicetree/bindings/iio/pressure/bmp085.yaml
+> +++ b/Documentation/devicetree/bindings/iio/pressure/bmp085.yaml
+> @@ -25,6 +25,9 @@ properties:
+>        - bosch,bmp280
+>        - bosch,bme280
+>  
+> +  reg:
+> +    maxItems: 1
+> +
+>    vddd-supply:
+>      description:
+>        digital voltage regulator (see regulator/regulator.txt)
+> diff --git a/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml b/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
+> index 41197578f19a..e8ce37fcbfec 100644
+> --- a/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
+> +++ b/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
+> @@ -24,6 +24,12 @@ properties:
+>    reg:
+>      maxItems: 1
+>  
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    maxItems: 1
+> +
+>    interrupts:
+>      maxItems: 1
+>  
+> @@ -47,7 +53,6 @@ allOf:
+>              - description: AO-CEC clock
+>  
+>          clock-names:
+> -          maxItems: 1
+>            items:
+>              - const: core
+>  
+> @@ -66,7 +71,6 @@ allOf:
+>              - description: AO-CEC clock generator source
+>  
+>          clock-names:
+> -          maxItems: 1
+>            items:
+>              - const: oscin
+>  
+> @@ -88,4 +92,3 @@ examples:
+>          clock-names = "core";
+>          hdmi-phandle = <&hdmi_tx>;
+>      };
+> -
+> diff --git a/Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml b/Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml
+> index 4fbb9e734284..38dc4f8b0ceb 100644
+> --- a/Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml
+> @@ -41,6 +41,9 @@ properties:
+>    "#clock-cells":
+>      const: 0
+>  
+> +  clock-output-names:
+> +    const: bd71828-32k-out
+> +
+>    rohm,charger-sense-resistor-ohms:
+>      minimum: 10000000
+>      maximum: 50000000
+> diff --git a/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml b/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
+> index ac8c76369a86..b9e9696da5be 100644
+> --- a/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
+> +++ b/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
+> @@ -37,6 +37,12 @@ properties:
+>      description:
+>         The physical base address and size of full the CPSW module IO range
+>  
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 1
+> +
+>    ranges: true
+>  
+>    clocks:
+> @@ -111,13 +117,6 @@ properties:
+>              - reg
+>              - phys
+>  
+> -  mdio:
+> -    type: object
+> -    allOf:
+> -      - $ref: "ti,davinci-mdio.yaml#"
+> -    description:
+> -      CPSW MDIO bus.
+> -
+>    cpts:
+>      type: object
+>      description:
+> @@ -148,6 +147,15 @@ properties:
+>        - clocks
+>        - clock-names
+>  
+> +patternProperties:
+> +  "^mdio@":
+> +    type: object
+> +    allOf:
+> +      - $ref: "ti,davinci-mdio.yaml#"
+> +    description:
+> +      CPSW MDIO bus.
+> +
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -174,7 +182,6 @@ examples:
+>          #address-cells = <1>;
+>          #size-cells = <1>;
+>          syscon = <&scm_conf>;
+> -        inctrl-names = "default", "sleep";
+>  
+>          interrupts = <GIC_SPI 334 IRQ_TYPE_LEVEL_HIGH>,
+>                       <GIC_SPI 335 IRQ_TYPE_LEVEL_HIGH>,
+> diff --git a/Documentation/devicetree/bindings/regulator/max77650-regulator.yaml b/Documentation/devicetree/bindings/regulator/max77650-regulator.yaml
+> index 7d724159f890..50690487edc8 100644
+> --- a/Documentation/devicetree/bindings/regulator/max77650-regulator.yaml
+> +++ b/Documentation/devicetree/bindings/regulator/max77650-regulator.yaml
+> @@ -24,7 +24,7 @@ properties:
+>      const: maxim,max77650-regulator
+>  
+>  patternProperties:
+> -  "^regulator@[0-3]$":
+> +  "^regulator-(ldo|sbb[0-2])$":
+>      $ref: "regulator.yaml#"
+>  
+>  required:
+> diff --git a/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml b/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml
+> index f761681e4c0d..93fe7b10a82e 100644
+> --- a/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml
+> +++ b/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml
+> @@ -32,6 +32,8 @@ properties:
+>      description: phandle to the ao-secure syscon
+>      $ref: '/schemas/types.yaml#/definitions/phandle'
+>  
+> +  '#thermal-sensor-cells':
+> +    const: 0
+>  
+>  required:
+>    - compatible
+> diff --git a/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml b/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml
+> index 102f319833d9..f7ef6646bade 100644
+> --- a/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml
+> +++ b/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml
+> @@ -32,6 +32,8 @@ properties:
+>    '#size-cells':
+>      const: 1
+>  
+> +  ranges: true
+> +
+>    clock-frequency:
+>      description: The frequency of the main counter, in Hz. Should be present
+>        only where necessary to work around broken firmware which does not configure
 
 
 _______________________________________________
