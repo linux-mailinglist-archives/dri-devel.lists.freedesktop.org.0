@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAE7194C72
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 00:25:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE563194C73
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 00:25:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1650E6E96E;
-	Thu, 26 Mar 2020 23:25:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B58ED6E96F;
+	Thu, 26 Mar 2020 23:25:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80C216E96D;
- Thu, 26 Mar 2020 23:25:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5AAC6E971
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 23:25:12 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8383B20B1F;
- Thu, 26 Mar 2020 23:25:05 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D8EB32083E;
+ Thu, 26 Mar 2020 23:25:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585265106;
- bh=m4etkLiEepcr0k8zXYpPGtfTEbrDtzPIjZMv44ZiuqE=;
+ s=default; t=1585265112;
+ bh=aNSHcua1XTIF74Vi29aBOPrd7BwZnA2GSBzI9V1vbaM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=2KzyUpSUn83WYe278ntOHL8zDUq+eDn0NaEuGTlLrLlGNXUbfMfiY9NYMOP59m0dz
- 6Uc7TOPnWDCQL4Zb2F6xvZqonNwQdPKQBNgNI1KM/Uy7sz9D+Z3UqsywTVFTdPfEX9
- 4G4iJtJDiov1RfzO/IVXbag5ru7iMWQ8RDiRoVqo=
+ b=bz7BfNS0ISge/Mm3ccsV0SLIQTtM8oLnqhlnVwe1qjXlljAzf8bPjEkNajxrX2hPE
+ 6VQYeTtx8jLviH4UjUfmiIcCA7B3tXbPPrRRCCqsthRSknqpXU02W+vCv21BSk8oQN
+ ipMEG8MWfFn9nGduDHcDGxYGVWeMj7slri9Oln5c=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 09/15] drm/amdgpu: fix typo for vcn1 idle check
-Date: Thu, 26 Mar 2020 19:24:49 -0400
-Message-Id: <20200326232455.8029-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 15/15] drm/lease: fix WARNING in idr_destroy
+Date: Thu, 26 Mar 2020 19:24:55 -0400
+Message-Id: <20200326232455.8029-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200326232455.8029-1-sashal@kernel.org>
 References: <20200326232455.8029-1-sashal@kernel.org>
@@ -49,41 +49,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- James Zhu <James.Zhu@amd.com>, Leo Liu <leo.liu@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org,
+ syzbot+05835159fe322770fe3d@syzkaller.appspotmail.com,
+ Qiujun Huang <hqjagain@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: James Zhu <James.Zhu@amd.com>
+From: Qiujun Huang <hqjagain@gmail.com>
 
-[ Upstream commit acfc62dc68770aa665cc606891f6df7d6d1e52c0 ]
+[ Upstream commit b216a8e7908cd750550c0480cf7d2b3a37f06954 ]
 
-fix typo for vcn1 idle check
+drm_lease_create takes ownership of leases. And leases will be released
+by drm_master_put.
 
-Signed-off-by: James Zhu <James.Zhu@amd.com>
-Reviewed-by: Leo Liu <leo.liu@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+drm_master_put
+    ->drm_master_destroy
+            ->idr_destroy
+
+So we needn't call idr_destroy again.
+
+Reported-and-tested-by: syzbot+05835159fe322770fe3d@syzkaller.appspotmail.com
+Signed-off-by: Qiujun Huang <hqjagain@gmail.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/1584518030-4173-1-git-send-email-hqjagain@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_lease.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-index 4f8f3bb218320..a54f8943ffa34 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-@@ -857,7 +857,7 @@ static int vcn_v1_0_set_clockgating_state(void *handle,
+diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+index 086f2adc541b0..19e9935c2e436 100644
+--- a/drivers/gpu/drm/drm_lease.c
++++ b/drivers/gpu/drm/drm_lease.c
+@@ -545,10 +545,12 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+ 	}
  
- 	if (enable) {
- 		/* wait for STATUS to clear */
--		if (vcn_v1_0_is_idle(handle))
-+		if (!vcn_v1_0_is_idle(handle))
- 			return -EBUSY;
- 		vcn_v1_0_enable_clock_gating(adev);
- 	} else {
+ 	DRM_DEBUG_LEASE("Creating lease\n");
++	/* lessee will take the ownership of leases */
+ 	lessee = drm_lease_create(lessor, &leases);
+ 
+ 	if (IS_ERR(lessee)) {
+ 		ret = PTR_ERR(lessee);
++		idr_destroy(&leases);
+ 		goto out_leases;
+ 	}
+ 
+@@ -583,7 +585,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+ 
+ out_leases:
+ 	put_unused_fd(fd);
+-	idr_destroy(&leases);
+ 
+ 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
+ 	return ret;
 -- 
 2.20.1
 
