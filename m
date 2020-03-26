@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F121D194C84
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 00:25:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28057194C92
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 00:25:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9EA6E970;
-	Thu, 26 Mar 2020 23:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B48406E95D;
+	Thu, 26 Mar 2020 23:25:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A7246E970
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 23:25:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80FC86E95D
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 23:25:38 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6918B208FE;
- Thu, 26 Mar 2020 23:25:28 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8D2B9208FE;
+ Thu, 26 Mar 2020 23:25:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585265129;
+ s=default; t=1585265138;
  bh=TOlzQZqFBlXXk6vVW3nEQ7OnPHurudRh2uEU+6f1lvY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nzk2F0tgiDlQXRErxVBhCx7AaLVyRWAdpTl4npySNx/qY6KHyV4jXbKXSt0KywMgV
- SHT+lu2IEhtTRbyNQRGAFR8gP3s23j91mvsCcbeGaSb8caF1BgKpdPJxyJ6m0+BAKx
- 51lLYjaEHp/SQ19ufeabMtBt6a1ah4f+hXUWl3cs=
+ b=fN6YBz+eRZdqYhXsmmijW/1SwraTA1mssXq+s3IqzDU7BZWIzWn+H/tSLBrzqP11V
+ fJ4DIshsFn2j1hm6qaXLUZ1PFEcjKz2Qe9XaNeZ5DGHEIqanu2eMpIRBLVwRjkqvEp
+ tVsDPpVxrHvBcnL0lkDABJUPXmUsXGbmI5uq8ZYE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 2/7] drm/bochs: downgrade pci_request_region
+Subject: [PATCH AUTOSEL 4.4 2/4] drm/bochs: downgrade pci_request_region
  failure from error to warning
-Date: Thu, 26 Mar 2020 19:25:21 -0400
-Message-Id: <20200326232526.8349-2-sashal@kernel.org>
+Date: Thu, 26 Mar 2020 19:25:33 -0400
+Message-Id: <20200326232535.8460-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200326232526.8349-1-sashal@kernel.org>
-References: <20200326232526.8349-1-sashal@kernel.org>
+In-Reply-To: <20200326232535.8460-1-sashal@kernel.org>
+References: <20200326232535.8460-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
