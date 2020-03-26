@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2ED6194C6E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 00:25:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CAE7194C72
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 00:25:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 147CC6E96C;
-	Thu, 26 Mar 2020 23:25:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1650E6E96E;
+	Thu, 26 Mar 2020 23:25:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0E726E969
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 23:25:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80C216E96D;
+ Thu, 26 Mar 2020 23:25:06 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E6ACD21707;
- Thu, 26 Mar 2020 23:25:00 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8383B20B1F;
+ Thu, 26 Mar 2020 23:25:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585265101;
- bh=TOlzQZqFBlXXk6vVW3nEQ7OnPHurudRh2uEU+6f1lvY=;
+ s=default; t=1585265106;
+ bh=m4etkLiEepcr0k8zXYpPGtfTEbrDtzPIjZMv44ZiuqE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=G1ijmhJ07r5cQ5V+GQ/wAvyxZcHh6HIAZhwPkrjdwomjNwkjWkzbHD7sH5Jcj7xW6
- Puy0dGqRpoLXBJndQ31urDnH5tP08XE+2qoeioayuuKYd1QiNKFDSIF3TKwhC20rxw
- M+5RJT+d1eUk+uHgxlYP4evFJegW3AdbJgeFEMAE=
+ b=2KzyUpSUn83WYe278ntOHL8zDUq+eDn0NaEuGTlLrLlGNXUbfMfiY9NYMOP59m0dz
+ 6Uc7TOPnWDCQL4Zb2F6xvZqonNwQdPKQBNgNI1KM/Uy7sz9D+Z3UqsywTVFTdPfEX9
+ 4G4iJtJDiov1RfzO/IVXbag5ru7iMWQ8RDiRoVqo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 05/15] drm/bochs: downgrade pci_request_region
- failure from error to warning
-Date: Thu, 26 Mar 2020 19:24:45 -0400
-Message-Id: <20200326232455.8029-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 09/15] drm/amdgpu: fix typo for vcn1 idle check
+Date: Thu, 26 Mar 2020 19:24:49 -0400
+Message-Id: <20200326232455.8029-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200326232455.8029-1-sashal@kernel.org>
 References: <20200326232455.8029-1-sashal@kernel.org>
@@ -50,42 +49,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
- <marmarek@invisiblethingslab.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ James Zhu <James.Zhu@amd.com>, Leo Liu <leo.liu@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+CgpbIFVwc3RyZWFtIGNvbW1p
-dCA4YzM0Y2QxYTdmMDg5ZGMwMzkzMzI4OWM1ZDRhNGQxNDg5NTQ5ODI4IF0KClNodXRkb3duIG9m
-IGZpcm13YXJlIGZyYW1lYnVmZmVyIGhhcyBhIGJ1bmNoIG9mIHByb2JsZW1zLiAgQmVjYXVzZQpv
-ZiB0aGlzIHRoZSBmcmFtZWJ1ZmZlciByZWdpb24gbWlnaHQgc3RpbGwgYmUgcmVzZXJ2ZWQgZXZl
-biBhZnRlcgpkcm1fZmJfaGVscGVyX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZnJhbWVidWZmZXJz
-KCkgcmV0dXJuZWQuCgpEb24ndCBjb25zaWRlciBwY2lfcmVxdWVzdF9yZWdpb24oKSBmYWlsdXJl
-IGZvciB0aGUgZnJhbWVidWZmZXIKcmVnaW9uIGFzIGZhdGFsIGVycm9yIHRvIHdvcmthcm91bmQg
-dGhpcyBpc3N1ZS4KClJlcG9ydGVkLWJ5OiBNYXJlayBNYXJjenlrb3dza2ktR8OzcmVja2kgPG1h
-cm1hcmVrQGludmlzaWJsZXRoaW5nc2xhYi5jb20+ClNpZ25lZC1vZmYtYnk6IEdlcmQgSG9mZm1h
-bm4gPGtyYXhlbEByZWRoYXQuY29tPgpBY2tlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJv
-cmcub3JnPgpMaW5rOiBodHRwOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dp
-ZC8yMDIwMDMxMzA4NDE1Mi4yNzM0LTEta3JheGVsQHJlZGhhdC5jb20KU2lnbmVkLW9mZi1ieTog
-U2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9ib2No
-cy9ib2Noc19ody5jIHwgNiArKy0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyks
-IDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JvY2hzL2JvY2hz
-X2h3LmMgYi9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHNfaHcuYwppbmRleCBhMzliMDM0M2Mx
-OTdkLi40MDFjMjE4NTY3YWY5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9j
-aHNfaHcuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHNfaHcuYwpAQCAtOTcsMTAg
-Kzk3LDggQEAgaW50IGJvY2hzX2h3X2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdWludDMy
-X3QgZmxhZ3MpCiAJCXNpemUgPSBtaW4oc2l6ZSwgbWVtKTsKIAl9CiAKLQlpZiAocGNpX3JlcXVl
-c3RfcmVnaW9uKHBkZXYsIDAsICJib2Nocy1kcm0iKSAhPSAwKSB7Ci0JCURSTV9FUlJPUigiQ2Fu
-bm90IHJlcXVlc3QgZnJhbWVidWZmZXJcbiIpOwotCQlyZXR1cm4gLUVCVVNZOwotCX0KKwlpZiAo
-cGNpX3JlcXVlc3RfcmVnaW9uKHBkZXYsIDAsICJib2Nocy1kcm0iKSAhPSAwKQorCQlEUk1fV0FS
-TigiQ2Fubm90IHJlcXVlc3QgZnJhbWVidWZmZXIsIGJvb3QgZmIgc3RpbGwgYWN0aXZlP1xuIik7
-CiAKIAlib2Nocy0+ZmJfbWFwID0gaW9yZW1hcChhZGRyLCBzaXplKTsKIAlpZiAoYm9jaHMtPmZi
-X21hcCA9PSBOVUxMKSB7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+From: James Zhu <James.Zhu@amd.com>
+
+[ Upstream commit acfc62dc68770aa665cc606891f6df7d6d1e52c0 ]
+
+fix typo for vcn1 idle check
+
+Signed-off-by: James Zhu <James.Zhu@amd.com>
+Reviewed-by: Leo Liu <leo.liu@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
+index 4f8f3bb218320..a54f8943ffa34 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
+@@ -857,7 +857,7 @@ static int vcn_v1_0_set_clockgating_state(void *handle,
+ 
+ 	if (enable) {
+ 		/* wait for STATUS to clear */
+-		if (vcn_v1_0_is_idle(handle))
++		if (!vcn_v1_0_is_idle(handle))
+ 			return -EBUSY;
+ 		vcn_v1_0_enable_clock_gating(adev);
+ 	} else {
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
