@@ -2,53 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AFAF1934AE
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Mar 2020 00:36:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6396193500
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Mar 2020 01:37:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EFED882DF;
-	Wed, 25 Mar 2020 23:36:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FCBC6E221;
+	Thu, 26 Mar 2020 00:37:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
- [IPv6:2607:f8b0:4864:20::d44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEB336E873
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 23:36:11 +0000 (UTC)
-Received: by mail-io1-xd44.google.com with SMTP id m15so4225541iob.5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Mar 2020 16:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HHZWK9vFPI+sK26Btzw9E6TD63f8JkCAZ8TtkY/kF6A=;
- b=M1pWQpthe4pLh6vkzJ3gq+ceajz2UzTh6rVU2iMZT70JD34kZ9uVtLBVomyhH5qt+F
- 1CpRLZ36XNprLuNLY2mrwPsDW9d4dkwCS8MSjlynpW+LpbP+SD5XPgzFELVSz25snwEd
- nlngp+cAg+lrKWga9OgoNpD5m9orHE+IF6L27pzpnmvenqMs7Tn6leekSfQ8CTeBEsFP
- 4DIJ694kkcDGsF/vxO/kc6S7DyWsl1Fasl97kOSWQY5X9AgJy0oGY8L4BRE0AzwnoiEV
- RkvVs2C9RiNU6BjwBazlbPqrur4l0kHqetbbpyYfD7AIo1u1tc8ID6qN4Jt8qYeLWDG0
- dMpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HHZWK9vFPI+sK26Btzw9E6TD63f8JkCAZ8TtkY/kF6A=;
- b=bUWBn76IN1xwd+A8uW6fzo3fAKpknN9/AE2SKduESZA0eqmX7Hdk41zZD1P2UKshxa
- zbvedSEBS1NH/EwT90pKk4RtlWMR4BTgu5u2szbJpuEIsSAyCf0m8BAqPTVShGeoWDof
- hGfj2kJn1FU5h6N1ss3RJnIyyirz/LupWH+5YWrzhlHSAyYDINTu78nHaPY/LBKjWmYu
- ib3hlvKU8B5fmMRPwtmxJsdCeM/sDkc4236DTeOA+vTBhV2kmHnKVW2HvnW7EY5A/r//
- T5VUFEZzlRwkkpveUDa8A9+PgTqNlCb0jh1oOTd2M3fDv8Dmf/3iEZ1x4QCDTEZ2mQ5D
- 4B2g==
-X-Gm-Message-State: ANhLgQ0JlfzsVs9Igq42ARNSfbe+4aVbnqoL4up609uuluM3DZE8seOd
- mY0xTrXFneFL4uHbyB8QKsnXZ3dMw5P01WWHabDbwXmMdAkYRw==
-X-Google-Smtp-Source: ADFU+vuWhP7fAcCyieBRlIQ7q8KwmlJxM1oYKlFhDgfpyzodvmnfLul9bwjnTlhTc1ukHcPe0Z6HvAKYOxwJVuSLrxM=
-X-Received: by 2002:a6b:8fd8:: with SMTP id r207mr5315947iod.158.1585179370844; 
- Wed, 25 Mar 2020 16:36:10 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4386E221
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 00:37:54 +0000 (UTC)
+Received: from kernel.org (unknown [104.132.0.74])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 29ACB2076A;
+ Thu, 26 Mar 2020 00:37:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1585183074;
+ bh=uTBwrRURfEgw4S2hFimXxbsm5HsmXB305WVY0KDpJgA=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=QyWBNUs1RXuj5dE1+bdyCZwg5QFoS3XLTv9q5FGZYkVkdkFffX9T2Wa8DTVg9D4cc
+ lY0XCrDNKsuu3ZV/R7ximMohWgUnvZaSnVfnZAs0u32HyIMjGNv5PMjOLwJrabKWfe
+ 0wR+1/f1OvnbYtZdXHYUGRUkiwAhlqvtR+VDn30c=
 MIME-Version: 1.0
-References: <CAPaKu7ScaEefALSxqqugaUT+pLdQXcH5KupgqH1ZH5kzNJn3Vw@mail.gmail.com>
- <20200325231009.41152-1-gurchetansingh@chromium.org>
-In-Reply-To: <20200325231009.41152-1-gurchetansingh@chromium.org>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Thu, 26 Mar 2020 07:35:59 +0800
-Message-ID: <CAPaKu7SG5ad+ohtXRg+8dmEt4LVq=BLbRMVmy+J_pUvnd5UTEA@mail.gmail.com>
-Subject: Re: [PATCH] drm/virtio: delete notify in virtio_gpu_object_create
-To: Gurchetan Singh <gurchetansingh@chromium.org>
+In-Reply-To: <20200325173123.3569606-4-enric.balletbo@collabora.com>
+References: <20200325173123.3569606-1-enric.balletbo@collabora.com>
+ <20200325173123.3569606-4-enric.balletbo@collabora.com>
+Subject: Re: [RESEND PATCH v12 3/5] clk / soc: mediatek: Move mt8173 MMSYS to
+ platform driver
+From: Stephen Boyd <sboyd@kernel.org>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>, airlied@linux.ie,
+ ck.hu@mediatek.com, laurent.pinchart@ideasonboard.com, mark.rutland@arm.com,
+ mturquette@baylibre.com, p.zabel@pengutronix.de, robh+dt@kernel.org,
+ ulrich.hecht+renesas@gmail.com
+Date: Wed, 25 Mar 2020 17:37:53 -0700
+Message-ID: <158518307331.125146.14008716764131362133@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,71 +50,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	dri-devel@lists.freedesktop.org,
+	Richard Fontana <rfontana@redhat.com>,
+	Collabora Kernel ML <kernel@collabora.com>,
+	linux-clk@vger.kernel.org, Nicolas Boichat <drinkcat@chromium.org>,
+	Weiyi Lu <weiyi.lu@mediatek.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>, wens@csie.org,
+	rnel.org@freedesktop.org, linux-arm-kernel@lists.infradead.org,
+	mtk01761 <wendell.lin@mediatek.com>,
+	Owen Chen <owen.chen@mediatek.com>, devicetree@vger.kernel.org,
+	frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
+	sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
+	linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Allison Randal <allison@lohutok.net>,
+	Matthias Brugger <mbrugger@suse.com>,
+	Fabien Parent <fparent@baylibre.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+	matthias.bgg@kernel.org, linux-media@vger.ke
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 26, 2020 at 7:10 AM Gurchetan Singh
-<gurchetansingh@chromium.org> wrote:
->
-> For 3D buffers, virtio_gpu_gem_object_open notifies.
-> We can have the same behavior for dumb buffer.
->
-> v2: virtio_gpu_gem_object_open always notifies
-> v3: avoid boolean variable
-Series is
-
-Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
-
->
-> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+Quoting Enric Balletbo i Serra (2020-03-25 10:31:21)
+> From: Matthias Brugger <mbrugger@suse.com>
+> 
+> There is no strong reason for this to use CLK_OF_DECLARE instead of
+> being a platform driver. Plus, MMSYS provides clocks but also a shared
+> register space for the mediatek-drm and the mediatek-mdp
+> driver. So move the MMSYS clocks to a new platform driver and also
+> create a new MMSYS platform driver in drivers/soc/mediatek that
+> instantiates the clock driver.
+> 
+> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 > ---
->  drivers/gpu/drm/virtio/virtgpu_gem.c    | 3 ++-
->  drivers/gpu/drm/virtio/virtgpu_object.c | 1 -
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-> index 90c0a8ea1708c..1025658be4df2 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-> @@ -114,7 +114,7 @@ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
->         struct virtio_gpu_object_array *objs;
->
->         if (!vgdev->has_virgl_3d)
-> -               return 0;
-> +               goto out_notify;
->
->         objs = virtio_gpu_array_alloc(1);
->         if (!objs)
-> @@ -123,6 +123,7 @@ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
->
->         virtio_gpu_cmd_context_attach_resource(vgdev, vfpriv->ctx_id,
->                                                objs);
-> +out_notify:
->         virtio_gpu_notify(vgdev);
->         return 0;
->  }
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index d9039bb7c5e37..51a8da7d5ef3b 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -241,7 +241,6 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
->                 return ret;
->         }
->
-> -       virtio_gpu_notify(vgdev);
->         *bo_ptr = bo;
->         return 0;
->
-> --
-> 2.24.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+Acked-by: Stephen Boyd <sboyd@kernel.org>
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
