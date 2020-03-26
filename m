@@ -2,24 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C6919454B
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Mar 2020 18:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F8C19456C
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Mar 2020 18:26:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D82FA6E8F0;
-	Thu, 26 Mar 2020 17:19:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 748B26E8F3;
+	Thu, 26 Mar 2020 17:26:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66D476E8F0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 17:19:51 +0000 (UTC)
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A5C56E8F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 17:26:42 +0000 (UTC)
 Received: from [192.168.1.183] ([37.4.249.171]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N0o3X-1jThV40qCT-00wjRV; Thu, 26 Mar 2020 18:19:43 +0100
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1Mw8gc-1jXo3W1X9Q-00s2X0; Thu, 26 Mar 2020 18:21:18 +0100
 Subject: Re: [PATCH] drm/vc4: Fix HDMI mode validation
+From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>, Daniel Vetter <daniel.vetter@ffwll.ch>
 References: <20200326122001.22215-1-nsaenzjulienne@suse.de>
-From: Stefan Wahren <stefan.wahren@i2se.com>
+ <c4b3e083-ac6e-b321-f0eb-f20e8ec3b1a6@i2se.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  xsFNBFt6gBMBEACub/pBevHxbvJefyZG32JINmn2bsEPX25V6fejmyYwmCGKjFtL/DoUMEVH
@@ -63,31 +64,31 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  AZYZD+/iLm5TaKWN6oGIti0VjJv8ZZOZOfCb6vqFIkJW+aOu4orTLFMz28aoU3QyWpNC8FFm
  dYsVua8s6gN1NIa6y3qa/ZB8bA/iky59AEz4iDIRrgUzMEg8Ak7Tfm1KiYeiTtBDCo25BvXj
  bqsyxkQD1nkRm6FAVzEuOPIe8JuqW2xD9ixGYvjU5hkRgJp3gP5b+cnG3LPqquQ2E6goKUML AQ==
-Message-ID: <c4b3e083-ac6e-b321-f0eb-f20e8ec3b1a6@i2se.com>
-Date: Thu, 26 Mar 2020 18:19:41 +0100
+Message-ID: <f254992a-9155-5c89-03d0-f47faeb0d6d2@i2se.com>
+Date: Thu, 26 Mar 2020 18:21:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200326122001.22215-1-nsaenzjulienne@suse.de>
+In-Reply-To: <c4b3e083-ac6e-b321-f0eb-f20e8ec3b1a6@i2se.com>
 Content-Language: en-US
-X-Provags-ID: V03:K1:jxnsSan8U4WMipWwpPaGVAHUJ/Z1BIbGoVGlGnqpqaUvFljgSv2
- kGamaUmPk0oVqFBAC5FWBAhgzpBGv3qAS9HFUTDqXsb2YhhQzcucoT7yXG40Fzc7iOK0nnM
- 8W3eMtNuFVBMiVXlEfI6uahaZOH3RqNsrorwXTwdSVpXZ7Jow8CDhF1u7Uotr5KpHJabAuL
- 2K03A304nne3QpyJfv2TQ==
+X-Provags-ID: V03:K1:vZ5W2Ull3DrNqrvVl2ue5tBHz9cnkfxb/KktYk9S4NXWVYN9GmA
+ wy420AOIutME3rLBn0jrjKXMOvgP9osuLF9J6+Ymqe2xa81xbNRhiQR8ApVnpb1rlU4driw
+ LZp8x4PNRUII1EEsctlLWkgNpz+AjrVEs/5jQWYvuWAoCEOrlr+bjlSfFFpoG8yIMvuKEPr
+ X1wy1rEGEhrLp2Sn13elQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uRiD4JPgA9Y=:R52O4wtjVVuCv5/m/UActh
- k7q2ucmvdo39XzRPK8M+Ua3dLBnpJyy2+iBVnB5xw3/sKS/VYiDQQCMZus2OImTvnV5chgYR9
- SNTPV5vikNWw1Vqc7co2jRfoaFBl+BMQuqj51lHrFUzZCTuOUSOyh9fgHnnSKdjRRw77oPlhQ
- Ljq6Wt9ZZ8ca1XTPoTQq/3Eg3KWtrdW5U8hUaRYmelHj9HVcG2Ug1vOXvkI5aRi484upEny3P
- 0iJ6QHZWL5hmPuiCLy6YL0IRay+NEdMSuBDUys+0OKmAm9xyG+U27rhX91zcM7jnqx6RDvR52
- F6cwUO1lKRezhSJ7mc6/Vm3d3qt7S2uzXCqES8q9k+Xrmdn4AHIW5yindbDtL9dfQSZR685wt
- 9AnbRcRWw5JHav/YZJOWWEiRWb0MCL4qNg66Fv2TbxtUevLegjn8MSHARX4D0/LGLasXeHC13
- HjEh2n4ClCZ5knu2bGDmwVXw9yfHmnZqCavAXRgIup+G7MePEgqwIEEqPv2MpJk9KjmcW6cfV
- A85VPbgr5F6FBc8RvN9EtBFStQcFbEOnaBCs+rSzv4d+VaqYdrBDwJd6GTuEEtlgY/nbW8PKt
- zE+vLT4YidsGNzjWj9lheX2+DsXqyAp5dZjdQBU+cr/UZOQJdypbgP7Gi6lDYnkprLJwWbwma
- p35fk4SZL9l/altcl9WkMuLAqQ1dH5JOFeq4DEiARHGBdTq7EjGiyqqwXqRIfC3vaVS/O9E7N
- 1FCOBViimkUr8OKtS2uMDRlqgQM9iYUJ1BUGvGuW/Ta9YugCaEptqKVgHGnh0yEltXBsD02Li
- VOKw23obX3U7emk+lCLL0SAIiX0lmcqJ78PvvZCXSu6Ex9ywJPcEt/Pq/FObLYpbbbrpI73
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/a7LK/TD5Jk=:T7R43CROkK+Fgc6bKvHepO
+ OYv2cXtLxm6lz13FxsrIAr+gWP1bAJnvhCjzNzQ6LlOCSxKLCLjBPynZNrIQBOvN5oYCDb6OI
+ ZLv3ffHwjuMqul8XVM0tFuGSI4VldlOYrl6eGdMUAgFkb4Ut96w4na3shOgDZRrfXcJ0sjQuQ
+ JiVF9cyChOllgOssstJKHz6LQGQj9Xs9112G1XLD388PYQBrq0fAySvnV+0Eh9H6AA536gLOw
+ w0wv1tRmsZExYHsZo8yhhRYRrh4Z88q/ZfRY+T2oTE9R6qtDU1YSxvbc3XlqfpS4NXvKZ1f3o
+ L5Y0YwmXF2JUUiy65M2Xm4jfDNogX4CdBO9Z/cXqTTfRm/pLK57toMqOZIxHDrgerTNv8Vzow
+ SEaE0BZ0fc5gmL1/R3nOjKVo4jxkNEUUi8eIITjJ8Hk0dbREEYIOnsU+I7PNmkJ+MANO5Cf7f
+ hukZGM6Oul3EmVR6axdtyGFcaMAx60ZpSwmleYbZv7ujRSCNuHd2lv/CYeCJ6TYURHgCEeFES
+ 6SmKHfuTB0MTzGXJuzV0fAUP9/UTXTmzLV9TAaluMatoAAf/BcGQ6UXkKj3lCTey5j+WPoib0
+ EL59rgA9c/5s/0PIQ5hBQ9jAs96OIPTpxRzEkTSlzgQKyxpBSQWePiWbYeoooTWarX3iZjILH
+ 4nvCZB/3dL9X3/oDFdGkB8xqw6DrgQxud8zxVIuCIAMJzuJy1QJZ7vRErhljBjPrHg8YpDydG
+ naj8ND1mZefducBzNokEs6niL0v969BP7UxXv0UqQbXiR1+HtqD9fxZr356A4AqCMWNEiksiG
+ wkQuy3OEt4n5YRTdalWJNwGX2IXM3rigvAcCxj5T2D6FBoTsKtVFOQKm5MsWuKOpGaEBtX9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,52 +110,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 26.03.20 um 13:20 schrieb Nicolas Saenz Julienne:
-> Current mode validation impedes setting up some video modes which should
-> be supported otherwise. Namely 1920x1200@60Hz.
+Am 26.03.20 um 18:19 schrieb Stefan Wahren:
+> Am 26.03.20 um 13:20 schrieb Nicolas Saenz Julienne:
+>> Current mode validation impedes setting up some video modes which should
+>> be supported otherwise. Namely 1920x1200@60Hz.
+>>
+>> Fix this by lowering the minimum HDMI state machine clock to pixel clock
+>> ratio allowed.
+>>
+>> Fixes: 32e823c63e90 ("drm/vc4: Reject HDMI modes with too high of clocks")
+>> Reported-by: Stefan Wahren <stefan.wahren@i2se.com>
+>> Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+>> ---
+>>  drivers/gpu/drm/vc4/vc4_hdmi.c | 20 ++++++++++++++++----
+>>  1 file changed, 16 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+>> index cea18dc15f77..340719238753 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+>> @@ -681,11 +681,23 @@ static enum drm_mode_status
+>>  vc4_hdmi_encoder_mode_valid(struct drm_encoder *crtc,
+>>  			    const struct drm_display_mode *mode)
+>>  {
+>> -	/* HSM clock must be 108% of the pixel clock.  Additionally,
+>> -	 * the AXI clock needs to be at least 25% of pixel clock, but
+>> -	 * HSM ends up being the limiting factor.
+>> +	/*
+>> +	 * As stated in RPi's vc4 firmware "HDMI state machine (HSM) clock must
+>> +	 * be faster than pixel clock, infinitesimally faster, tested in
+>> +	 * simulation. Otherwise, exact value is unimportant for HDMI
+>> +	 * operation." This conflicts with bcm2835's vc4 documentation, which
+>> +	 * states HSM's clock has to be at least 108% of the pixel clock.
+>> +	 *
+>> +	 * Real life tests reveal that vc4's firmware statement holds up, and
+>> +	 * users are able to use pixel clocks closer to HSM's, namely for
+>> +	 * 1920x1200@60Hz. So it was decided to have leave a 1% margin between
+>> +	 * both clocks. Which, for RPi0-3 implies a maximum pixel clock of
+> s/RPi0-3/bcm2835/ ?
 >
-> Fix this by lowering the minimum HDMI state machine clock to pixel clock
-> ratio allowed.
+> Beside this nit:
 >
-> Fixes: 32e823c63e90 ("drm/vc4: Reject HDMI modes with too high of clocks")
-> Reported-by: Stefan Wahren <stefan.wahren@i2se.com>
-> Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 20 ++++++++++++++++----
->  1 file changed, 16 insertions(+), 4 deletions(-)
+> Tested-by: Stefan Wahren <stefan.wahre@i2se.com>
 >
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index cea18dc15f77..340719238753 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -681,11 +681,23 @@ static enum drm_mode_status
->  vc4_hdmi_encoder_mode_valid(struct drm_encoder *crtc,
->  			    const struct drm_display_mode *mode)
->  {
-> -	/* HSM clock must be 108% of the pixel clock.  Additionally,
-> -	 * the AXI clock needs to be at least 25% of pixel clock, but
-> -	 * HSM ends up being the limiting factor.
-> +	/*
-> +	 * As stated in RPi's vc4 firmware "HDMI state machine (HSM) clock must
-> +	 * be faster than pixel clock, infinitesimally faster, tested in
-> +	 * simulation. Otherwise, exact value is unimportant for HDMI
-> +	 * operation." This conflicts with bcm2835's vc4 documentation, which
-> +	 * states HSM's clock has to be at least 108% of the pixel clock.
-> +	 *
-> +	 * Real life tests reveal that vc4's firmware statement holds up, and
-> +	 * users are able to use pixel clocks closer to HSM's, namely for
-> +	 * 1920x1200@60Hz. So it was decided to have leave a 1% margin between
-> +	 * both clocks. Which, for RPi0-3 implies a maximum pixel clock of
+> Thanks
 
-s/RPi0-3/bcm2835/ ?
+Sorry typo in the mail address:
 
-Beside this nit:
-
-Tested-by: Stefan Wahren <stefan.wahre@i2se.com>
-
-Thanks
-
+stefan.wahren@i2se.com
 
 _______________________________________________
 dri-devel mailing list
