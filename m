@@ -1,51 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BBC1951A2
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 07:59:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7C31951E0
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 08:28:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4C176E98E;
-	Fri, 27 Mar 2020 06:59:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D87956E04A;
+	Fri, 27 Mar 2020 07:28:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADA56E98E
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 06:58:59 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id j16so8731205otl.1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 23:58:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=0OvgzAUpJOb5U0m6XVla+IjaXNlPer0DBm+gmB2qBB4=;
- b=A4bES7e6LdCzvpj80XAcy0n6U4veuE/qDWGvby2jJcgM+/RPFGWdasYCAOn11/6fOO
- m0g5lZ9pyLRWKb6FiRJY+FtJbcSwShv1bNB1ajmUXjl5Vilvpk5Le1W1ulZ94zqJAJ/3
- Q9jnEw61OgPC/f+JMRJZlL4b+1TTn3ynX/9NRNaan0Fe8At0G8rWH11gMX4l+LdPi7nS
- jLTgOMCm15gT8BGktGUe8PGDG5VqaIbeXe/U0RrhpJc8NpWv/fx/1CI+GLNGNNcSZqqK
- jZ0loHhNJEVD/Iu3VwJiMLn0GaAK/kmU6LpgzaWrSYqsYF1FzFnQj97xedT7HkEBEAZ3
- UhkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=0OvgzAUpJOb5U0m6XVla+IjaXNlPer0DBm+gmB2qBB4=;
- b=CPfcdCGT0sgJ8q5X1aoKRlnf1Rh70DbSsWQ4szAq57PFRW19d78EjAGXqqwvM2b0yX
- /4FxSpqJ5cZq/eQDDQ1R054Ni81NHCH08S2o+pxirLv8WA2m2fiVuZaGPSO9MQZy+JXf
- 5dd9icTEry+gn96EIzxZ7vceOgQmXVE98HW/oeQmrKcRMgWOI1DjcQ1GmdfGeKIxifKv
- b+pTcdB/9rY8zMTasTTgNgldgpcWIsA1mHcaMGl3oy2vOVeTUrOnsJrH42ASZiswL3du
- 5toYMIspgULaDZsUDv92iMNZvgTy9YiPO4djwhmToXCmzPrehJKr80lw7vKxobKkI7SX
- IWVg==
-X-Gm-Message-State: ANhLgQ26oBCeu1DXnx8RkZcRLQuW+2YvV2V2yPjuCSGMjr9zpKkYAxaE
- 6ux3wgoQQvkWKZjOR9Bqs2A/Ouxt5YR3GvaY4yU=
-X-Google-Smtp-Source: ADFU+vsN+CBLq7qZ8M51XGNT/SlTLkXGErxUW4g9/CgvsRZQshcve9+asKn+qyXR7fEP22LHUmSOPJlRZ7jauLjKboE=
-X-Received: by 2002:a9d:4802:: with SMTP id c2mr6462122otf.78.1585292338382;
- Thu, 26 Mar 2020 23:58:58 -0700 (PDT)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB5E06E02B;
+ Fri, 27 Mar 2020 07:28:00 +0000 (UTC)
+IronPort-SDR: xIKKWFMnPDZxj6SPOoFuiPETnX4YtT1nIe6QzY5f54Yw9BDoIO4L4kjgiSsX1cHadHmgGEAET5
+ ZwzhlTSlZapw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2020 00:27:59 -0700
+IronPort-SDR: Fq+XwKNPaEe8JM8wkvZixfDf4QLI/qxKGXY8zWjC5NsbHfVVGA1TWWPOc1i4UvwBC7Hb/RfXl+
+ i84HBnDcguoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,311,1580803200"; d="scan'208";a="447317522"
+Received: from irsmsx153.ger.corp.intel.com ([163.33.192.75])
+ by fmsmga005.fm.intel.com with ESMTP; 27 Mar 2020 00:27:57 -0700
+Received: from irsmsx604.ger.corp.intel.com (163.33.146.137) by
+ IRSMSX153.ger.corp.intel.com (163.33.192.75) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 27 Mar 2020 07:27:56 +0000
+Received: from irsmsx605.ger.corp.intel.com (163.33.146.138) by
+ IRSMSX604.ger.corp.intel.com (163.33.146.137) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 27 Mar 2020 07:27:56 +0000
+Received: from irsmsx605.ger.corp.intel.com ([163.33.146.138]) by
+ IRSMSX605.ger.corp.intel.com ([163.33.146.138]) with mapi id 15.01.1713.004;
+ Fri, 27 Mar 2020 07:27:56 +0000
+From: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>
+To: "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v7 05/18] video/hdmi: Add Unpack only function
+ for DRM infoframe
+Thread-Topic: [Intel-gfx] [PATCH v7 05/18] video/hdmi: Add Unpack only
+ function for DRM infoframe
+Thread-Index: AQHV4K+D4GGLpaNfYkqvNBu0B8JWuahRj9KAgAAFOoCAAAcUgIAKtSmA
+Date: Fri, 27 Mar 2020 07:27:56 +0000
+Message-ID: <2dd87897a2c1dea8d882141823ed1ca1206ec01c.camel@intel.com>
+References: <20200211074657.231405-1-gwan-gyeong.mun@intel.com>
+ <20200211074657.231405-6-gwan-gyeong.mun@intel.com>
+ <87k13fcm8w.fsf@intel.com> <87h7yjcldq.fsf@intel.com>
+ <20200320115737.GF5193@pendragon.ideasonboard.com>
+In-Reply-To: <20200320115737.GF5193@pendragon.ideasonboard.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.252.26.111]
+Content-ID: <1F121079EAA74E48BB7E5655D9C021EC@intel.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 27 Mar 2020 16:58:46 +1000
-Message-ID: <CAPM=9tx=PisdA7qzEBz+n9Sqc4YfSpaSV-ja3tf7MjBnZ=_NXg@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.6-rc8
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,73 +69,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "b.zolnierkie@samsung.com" <b.zolnierkie@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Fri, 2020-03-20 at 13:57 +0200, Laurent Pinchart wrote:
+> Hi Jani,
+> 
+> On Fri, Mar 20, 2020 at 01:32:17PM +0200, Jani Nikula wrote:
+> > On Fri, 20 Mar 2020, Jani Nikula <jani.nikula@linux.intel.com>
+> > wrote:
+> > > On Tue, 11 Feb 2020, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> > > wrote:
+> > > > It adds an unpack only function for DRM infoframe for dynamic
+> > > > range and
+> > > > mastering infoframe readout.
+> > > > It unpacks the information data block contained in the binary
+> > > > buffer into
+> > > > a structured frame of the HDMI Dynamic Range and Mastering
+> > > > (DRM)
+> > > > information frame.
+> > > > 
+> > > > In contrast to hdmi_drm_infoframe_unpack() function, it does
+> > > > not verify
+> > > > a checksum.
+> > > > 
+> > > > It can be used for unpacking a DP HDR Metadata Infoframe SDP
+> > > > case.
+> > > > DP HDR Metadata Infoframe SDP uses the same Dynamic Range and
+> > > > Mastering
+> > > > (DRM) information (CTA-861-G spec.) such as HDMI DRM infoframe.
+> > > > But DP SDP header and payload structure are different from HDMI
+> > > > DRM
+> > > > Infoframe. Therefore unpacking DRM infoframe for DP requires
+> > > > skipping of
+> > > > a verifying checksum.
+> > > > 
+> > > > Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> > > > Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+> > > 
+> > > Bartlomiej, can I have your ack for merging this via drm-intel
+> > > along
+> > > with the rest of the series, please?
+> > 
+> > Or Hans or Laurent, from v4l/video point of view.
+> 
+> I'm no expert on InfoFrame, I'll only comment on the API below.
+> 
+> > > > ---
+> > > >  drivers/video/hdmi.c | 58 +++++++++++++++++++++++++++++++-----
+> > > > --------
+> > > >  include/linux/hdmi.h |  2 ++
+> > > >  2 files changed, 43 insertions(+), 17 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+> > > > index 9c82e2a0a411..9818836d82b7 100644
+> > > > --- a/drivers/video/hdmi.c
+> > > > +++ b/drivers/video/hdmi.c
+> > > > @@ -1775,20 +1775,18 @@ hdmi_vendor_any_infoframe_unpack(union
+> > > > hdmi_vendor_any_infoframe *frame,
+> > > >  }
+> > > >  
+> > > >  /**
+> > > > - * hdmi_drm_infoframe_unpack() - unpack binary buffer to a
+> > > > HDMI DRM infoframe
+> > > > + * hdmi_drm_infoframe_unpack_only() - unpack binary buffer to
+> > > > a HDMI DRM infoframe
+> > > >   * @frame: HDMI DRM infoframe
+> > > >   * @buffer: source buffer
+> > > >   * @size: size of buffer
+> > > >   *
+> > > > - * Unpacks the information contained in binary @buffer into a
+> > > > structured
+> > > > + * Unpacks the information data block contained in binary
+> > > > @buffer into a structured
+> 
+> Line wrap please.
+> 
+> This needs to be clarified to explain exactly what the buffer points
+> to.
+> 
+Okay I'll update clear comments next version.
+> Also, as this is applicable to DP too, shouldn't we drop the hdmi_
+> prefix ? Is there another prefix that could be used for functions
+> that
+> are application to infoframe handling shared by different display
+> interfaces ? A bit of refactoring would help making all this clear.
+> 
+Both DP and HDMI use CTA-861-G spec for DRM infoframe. I'll update
+prefix with cta_ instead of hdmi_.
+> > > >   * @frame of the HDMI Dynamic Range and Mastering (DRM)
+> > > > information frame.
+> > > > - * Also verifies the checksum as required by section 5.3.5 of
+> > > > the HDMI 1.4
+> > > > - * specification.
+> > > >   *
+> > > >   * Returns 0 on success or a negative error code on failure.
+> > > >   */
+> > > > -static int hdmi_drm_infoframe_unpack(struct hdmi_drm_infoframe
+> > > > *frame,
+> > > > -				     const void *buffer, size_t
+> > > > size)
+> > > > +int hdmi_drm_infoframe_unpack_only(struct hdmi_drm_infoframe
+> > > > *frame,
+> > > > +				   const void *buffer, size_t
+> > > > size)
+> > > >  {
+> > > >  	const u8 *ptr = buffer;
+> > > >  	const u8 *temp;
+> > > > @@ -1797,23 +1795,13 @@ static int
+> > > > hdmi_drm_infoframe_unpack(struct hdmi_drm_infoframe *frame,
+> > > >  	int ret;
+> > > >  	int i;
+> > > >  
+> > > > -	if (size < HDMI_INFOFRAME_SIZE(DRM))
+> > > > -		return -EINVAL;
+> > > > -
+> > > > -	if (ptr[0] != HDMI_INFOFRAME_TYPE_DRM ||
+> > > > -	    ptr[1] != 1 ||
+> > > > -	    ptr[2] != HDMI_DRM_INFOFRAME_SIZE)
+> > > > -		return -EINVAL;
+> > > > -
+> > > > -	if (hdmi_infoframe_checksum(buffer,
+> > > > HDMI_INFOFRAME_SIZE(DRM)) != 0)
+> > > > +	if (size < HDMI_DRM_INFOFRAME_SIZE)
+> > > >  		return -EINVAL;
+> > > >  
+> > > >  	ret = hdmi_drm_infoframe_init(frame);
+> > > >  	if (ret)
+> > > >  		return ret;
+> > > >  
+> > > > -	ptr += HDMI_INFOFRAME_HEADER_SIZE;
+> > > > -
+> > > >  	frame->eotf = ptr[0] & 0x7;
+> > > >  	frame->metadata_type = ptr[1] & 0x7;
+> > > >  
+> > > > @@ -1837,6 +1825,42 @@ static int
+> > > > hdmi_drm_infoframe_unpack(struct hdmi_drm_infoframe *frame,
+> > > >  
+> > > >  	return 0;
+> > > >  }
+> > > > +EXPORT_SYMBOL(hdmi_drm_infoframe_unpack_only);
+> > > > +
+> > > > +/**
+> > > > + * hdmi_drm_infoframe_unpack() - unpack binary buffer to a
+> > > > HDMI DRM infoframe
+> > > > + * @frame: HDMI DRM infoframe
+> > > > + * @buffer: source buffer
+> > > > + * @size: size of buffer
+> > > > + *
+> > > > + * Unpacks the information contained in binary @buffer into a
+> > > > structured
+> 
+> Same here. The difference between the two functions is "information
+> data
+> block" vs. "information", it's very unclear to the reader without
+> looking at either the commit message or the implementation.
+> 
+I'll update clear comments next version.
 
-Pretty quiet some minor sg mapping fixes for 3 drivers, and a single
-oops fix for the scheduler.
-I'm hoping nobody tries to send me a fixes pull today but I'll keep an
-eye out of the weekend.
+Thank you for giving me review comments.
 
-Dave.
+G.G.
 
-drm-fixes-2020-03-27:
-drm fixes for 5.6-rc8/final
-
-radeon/amdgpu/dma-buf:
-- sg list fixes
-
-scheduler:
-- oops fix
-The following changes since commit 16fbf79b0f83bc752cee8589279f1ebfe57b3b6e:
-
-  Linux 5.6-rc7 (2020-03-22 18:31:56 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-03-27
-
-for you to fetch changes up to c4b979ebcafe978338cad1df4c77cdc8f84bd51c:
-
-  Merge tag 'amd-drm-fixes-5.6-2020-03-26' of
-git://people.freedesktop.org/~agd5f/linux into drm-fixes (2020-03-27
-13:03:17 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.6-rc8/final
-
-radeon/amdgpu/dma-buf:
-- sg list fixes
-
-scheduler:
-- oops fix
-
-----------------------------------------------------------------
-Dave Airlie (2):
-      Merge tag 'drm-misc-fixes-2020-03-26' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'amd-drm-fixes-5.6-2020-03-26' of
-git://people.freedesktop.org/~agd5f/linux into drm-fixes
-
-Shane Francis (3):
-      drm/prime: use dma length macro when mapping sg
-      drm/amdgpu: fix scatter-gather mapping with user pages
-      drm/radeon: fix scatter-gather mapping with user pages
-
-Yintian Tao (1):
-      drm/scheduler: fix rare NULL ptr race
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
- drivers/gpu/drm/drm_prime.c             | 2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c     | 2 +-
- drivers/gpu/drm/scheduler/sched_main.c  | 2 ++
- 4 files changed, 5 insertions(+), 3 deletions(-)
+> > > > + * @frame of the HDMI Dynamic Range and Mastering (DRM)
+> > > > information frame.
+> > > > + * Also verifies the checksum as required by section 5.3.5 of
+> > > > the HDMI 1.4
+> > > > + * specification.
+> > > > + *
+> > > > + * Returns 0 on success or a negative error code on failure.
+> > > > + */
+> > > > +static int hdmi_drm_infoframe_unpack(struct hdmi_drm_infoframe
+> > > > *frame,
+> > > > +				     const void *buffer, size_t
+> > > > size)
+> > > > +{
+> > > > +	const u8 *ptr = buffer;
+> > > > +	int ret;
+> > > > +
+> > > > +	if (size < HDMI_INFOFRAME_SIZE(DRM))
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	if (ptr[0] != HDMI_INFOFRAME_TYPE_DRM ||
+> > > > +	    ptr[1] != 1 ||
+> > > > +	    ptr[2] != HDMI_DRM_INFOFRAME_SIZE)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	if (hdmi_infoframe_checksum(buffer,
+> > > > HDMI_INFOFRAME_SIZE(DRM)) != 0)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	ret = hdmi_drm_infoframe_unpack_only(frame, ptr +
+> > > > HDMI_INFOFRAME_HEADER_SIZE,
+> > > > +					     size -
+> > > > HDMI_INFOFRAME_HEADER_SIZE);
+> > > > +	return ret;
+> > > > +}
+> > > >  
+> > > >  /**
+> > > >   * hdmi_infoframe_unpack() - unpack binary buffer to a HDMI
+> > > > infoframe
+> > > > diff --git a/include/linux/hdmi.h b/include/linux/hdmi.h
+> > > > index 9918a6c910c5..afb43efc03e0 100644
+> > > > --- a/include/linux/hdmi.h
+> > > > +++ b/include/linux/hdmi.h
+> > > > @@ -219,6 +219,8 @@ ssize_t hdmi_drm_infoframe_pack(struct
+> > > > hdmi_drm_infoframe *frame, void *buffer,
+> > > >  ssize_t hdmi_drm_infoframe_pack_only(const struct
+> > > > hdmi_drm_infoframe *frame,
+> > > >  				     void *buffer, size_t
+> > > > size);
+> > > >  int hdmi_drm_infoframe_check(struct hdmi_drm_infoframe
+> > > > *frame);
+> > > > +int hdmi_drm_infoframe_unpack_only(struct hdmi_drm_infoframe
+> > > > *frame,
+> > > > +				   const void *buffer, size_t
+> > > > size);
+> > > >  
+> > > >  enum hdmi_spd_sdi {
+> > > >  	HDMI_SPD_SDI_UNKNOWN,
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
