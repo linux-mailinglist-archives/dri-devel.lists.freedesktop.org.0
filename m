@@ -2,74 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C34E195515
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 11:23:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90E29195521
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 11:25:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6896E9EE;
-	Fri, 27 Mar 2020 10:23:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 110756E9F0;
+	Fri, 27 Mar 2020 10:25:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-74.mimecast.com
- (us-smtp-delivery-74.mimecast.com [63.128.21.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC7CD6E9EE
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 10:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585304583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=05Ee6QYlJIueX5ozbF5LVD/y13wkZq4RWsLhymXVQzw=;
- b=PD/4VTCwfFLs8MwCta/A4hCyEB7Mx2Jag2bAuKP2Dz6T8BOdBe8FZzHFCYdijvK1esGTgE
- Buu/IqeFsvLot4B0SBCm0TJUGaUb9cLtkI9T3tVdlh3ZAK4mLdnjILDJm2PXk8CvZ/T8GZ
- oBJPKZLbS6Ja2LcI1moROg/6RuQQpaw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-rhRez6NSNe6nEux_rHiWIg-1; Fri, 27 Mar 2020 06:22:58 -0400
-X-MC-Unique: rhRez6NSNe6nEux_rHiWIg-1
-Received: by mail-wr1-f70.google.com with SMTP id d1so4318289wru.15
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 03:22:58 -0700 (PDT)
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A3F86E9F0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 10:25:15 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id y24so9234046ioa.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 03:25:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+DtgW0asTVLRmsP/wkgDLG5KuILtoelQrHJyD4vPRGk=;
+ b=VixHdO8Hw9jXt84SnnDFMGQQjN+nZh5xzNUbbN5TwxzAF/tN0b966nHiajtCMIUjRe
+ QPrW8LgWJCh/qCTIWcBul+nq3pGxjVd7qN3hBNLBZYo3Y9nAKcG7/MJZNbYiZUsWgWqj
+ 0dKw5nHWGX5HMroQsYECsSA9OoFyjOYNaPcNTtb9/7Yp9p075eTwNb0T24TdH6CBlI+8
+ ZPKuxCQ7llQkFU+Qcwl26aLr8yUREpdsDvFvrAbnBPcXWG9hjM82ZqZ5DF6d+w+Q6OyV
+ N0VWSHaOOhgSSsYHaOaRx7NnFfDkTSADaPM1dlNEZdjVBsM+oX7z0luWXoaNI4VKban+
+ abfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=05Ee6QYlJIueX5ozbF5LVD/y13wkZq4RWsLhymXVQzw=;
- b=d64Ho+gLaTiHiSvwKAqKroUdSgHBTiadQb1YklUkMQzaWMOyBqkTWwd+CYV6YK3+Ex
- UygSKVHspBcJu7029annjtwnHHk88CAfron3QBX4ImFc1JO0Hdk1pUxKGvKfLMY3lRg3
- Q5HbKHPl4ZUUBsSnDqDh90YSOg0y18MNJg9XWFg0v0yBOOA65vs/k0ua9el942WOcpd+
- C+7na7LYYy45E06PPOF6LTyjKPXx7g2QtpUX+qUAUBYcJlW0g7TAGAB0oaAlurkZLf5c
- TBXSkfUPSd7AH6AgFW2qQo2kcOv+HbrSFWQDfncQle8ojRHmvNriR10IW++HqZdkdjkQ
- LGsA==
-X-Gm-Message-State: ANhLgQ2LxUBj+DCL/f3QgbBadED/bLSCrcJOaG45/FCzpgrz4m5wq8Qg
- IoqBxm6V2duWDqH++ZJ6axWrUlbnwEw0Y6r2lJsh/nzNRRShyIlpoeuMOFoiX+BZc2Ib99vZVc0
- AyUqxifSWIYavKhkdVraA48FpuBgX
-X-Received: by 2002:a7b:c951:: with SMTP id i17mr4795830wml.182.1585304576739; 
- Fri, 27 Mar 2020 03:22:56 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtDNX47i3srX2ILDC4XcjNclFJtGWEC09OQ0rOSinIhuTKwBB0F3mnf5msFQPZIECn5TGLN/Q==
-X-Received: by 2002:a7b:c951:: with SMTP id i17mr4795800wml.182.1585304576226; 
- Fri, 27 Mar 2020 03:22:56 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-fc7e-fd47-85c1-1ab3.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:fc7e:fd47:85c1:1ab3])
- by smtp.gmail.com with ESMTPSA id f22sm15109583wmf.2.2020.03.27.03.22.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Mar 2020 03:22:55 -0700 (PDT)
-Subject: Re: [PATCH] drm/fb-helper: Add TODO for making
- drm_fb_helper_alloc_fbi fill apertures
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200326151009.102377-1-hdegoede@redhat.com>
- <CAKMK7uFgyt_LD7wSTDB-LdaW_cc9Ge12DY8kWxeL_dS4Q4deOQ@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <4af412c1-6ffe-8d5b-37ff-cd67be87a840@redhat.com>
-Date: Fri, 27 Mar 2020 11:22:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+DtgW0asTVLRmsP/wkgDLG5KuILtoelQrHJyD4vPRGk=;
+ b=c9vhC44KaAWJQ+8GkcktOQWZxl9JMyB+xeM8M08XPDMak/C8Q2UaDCAzXNmbAHSCQP
+ KMlduMb3GuKFK2ydAQKirjdK4xuNZwKJXvzN2U2H1BQwk5bafazri2hRFbeEOzRwsWhc
+ buCZn6z4DeMInOVccgBeU2+OVvQMHlOuB1zK3wtJwSpw0n+fmvubDXRYhKjqOgKKAlZA
+ CYrJgeyInI2k/Idqy/h7EXBPKMArTOXasRTsFHa5h/86axBvGi7FBdr0FXLFqmsuof94
+ uQXfMWPiwPIiB9u7mSXSB4ASvuKNd9r2Q1vmoyeALtlO11wVp0KlqVJJ98OC+FVpjSej
+ Oq8w==
+X-Gm-Message-State: ANhLgQ3ff4VLnsWruU9NwIEri+kZ3SOa1axw3lodAb47ScQOy8eBr3kK
+ JD+Ga6JxkTNBPf0Zmstn6wExDEDK4Ap1p8/b1wI=
+X-Google-Smtp-Source: ADFU+vvlcRTv5JovTHQ7RzXH0cra/ZdGkjZHlnblRSUuAxnLXSZ5BrZueQ9HJCBkcc1dc3kUFDm7yiF7dseHsA+NeRA=
+X-Received: by 2002:a6b:c916:: with SMTP id z22mr12020083iof.138.1585304714741; 
+ Fri, 27 Mar 2020 03:25:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFgyt_LD7wSTDB-LdaW_cc9Ge12DY8kWxeL_dS4Q4deOQ@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <CGME20200327082453eucas1p15b2371b61f653031408f319cc6d13893@eucas1p1.samsung.com>
+ <20200327082446.18480-1-m.szyprowski@samsung.com>
+ <CABnpCuDySf89HL2AksMB2fOcVCci+1zgB9r8zjRdpCAH3GWhPA@mail.gmail.com>
+ <64025801-10f0-9f28-17b2-2c04d4308ac5@samsung.com>
+In-Reply-To: <64025801-10f0-9f28-17b2-2c04d4308ac5@samsung.com>
+From: Shane Francis <bigbeeshane@gmail.com>
+Date: Fri, 27 Mar 2020 10:25:04 +0000
+Message-ID: <CABnpCuBUEO6V=hwzHkUEKK5KDXC=ovPrTHyb9zFYrj0KaHHdww@mail.gmail.com>
+Subject: Re: [PATCH] drm/prime: fix extracting of the DMA addresses from a
+ scatterlist
+To: Marek Szyprowski <m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,74 +64,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-samsung-soc@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, "Michael J . Ruhl" <michael.j.ruhl@intel.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hello Marek,
 
-On 3/26/20 6:55 PM, Daniel Vetter wrote:
-> On Thu, Mar 26, 2020 at 4:10 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Currently drivers using drm_fbdev_generic_setup() end up with a single
->> empty aperture in their fb_info struct.
->>
->> Not having the proper info in the apertures list causes
->> register_framebuffer to not remove conflicting framebuffers,
->> which some drivers currently workaround by manually calling
->> drm_fb_helper_remove_conflicting_pci_framebuffers().
->>
->> Add a TODO as a reminder that we need to fix this.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>   drivers/gpu/drm/drm_fb_helper.c | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
->> index 4c7cbce7bae7..16b8dc38d022 100644
->> --- a/drivers/gpu/drm/drm_fb_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_helper.c
->> @@ -526,6 +526,14 @@ struct fb_info *drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper)
->>          if (ret)
->>                  goto err_release;
->>
->> +       /*
->> +        * TODO: We really should be smarter here and alloc an apperture
->> +        * for each IORESOURCE_MEM resource helper->dev->dev has and also
->> +        * init the ranges of the appertures based on the resources.
->> +        * Note some drivers currently count on there being only 1 empty
->> +        * aperture and fill this themselves, these will need to be dealt
->> +        * with somehow when fixing this.
->> +        */
-> 
-> Ah yes this is a bit more involved than first apperances suggest - we
-> might want to have a dedicated solution for the generic_setup helper
-> only, so we don't break all the other drivers using this function
-> directly.
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+On Fri, Mar 27, 2020 at 9:00 AM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+> > I have tested the above patch against my original issues with amdgpu
+> > and radeon drivers and everything is still working as expected.
+> >
+> > Sorry I missed this in my original patches.
+>
+> No problem. Thanks for testing!
+>
+> Best regards
+> --
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
+>
+Just a thought.
 
-Thank you, pushed to drm-misc-next.
+Would it be worth adding some comments to the code to explain why this
+is needed, reading
+the thread around my original patches and the DMA-API documentation it
+is not instantly
+clear why you would be mapping the pages in this way.
 
-Any chance you can perhaps take (another) look at:
-https://patchwork.freedesktop.org/patch/340140/
-
-? We had an interesting discussion about that which
-seems (to me) to end in agreement and you asking for
-more documentation. I replied to that that the patch
-already added some (but not much) documentation and
-then the discussion ended. I would still like to get
-this patch upstream, as I have a userspace patch
-(for plymouth) pending which depends on it.
+Would probably prevent someone in the future making the same mistake I
+did while updating
+this code.
 
 Regards,
 
-Hans
-
+Shane Francis
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
