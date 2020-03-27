@@ -2,40 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23AC919520C
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 08:29:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD8C195241
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 08:44:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C6606E9B7;
-	Fri, 27 Mar 2020 07:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FEC56E9BC;
+	Fri, 27 Mar 2020 07:44:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFDBA6E9B2;
- Fri, 27 Mar 2020 07:29:11 +0000 (UTC)
-IronPort-SDR: cofbzluwXVMeixQe4SE5Hmfg6j0dW5+/9msbW05pmdvsec7TOyswIEgaCyEPK/kD9uPH3o/7Ne
- AZWW/vjJwtvQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2020 00:29:11 -0700
-IronPort-SDR: G/GumypWAbhpOSsetzGccY4VdAhAO/oJcMJ1+OV//hiabC18ctblaJa0iRrZX0/6svW88WnRXU
- LSsXybdrHyuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,311,1580803200"; d="scan'208";a="394292149"
-Received: from aburk3x-mobl1.ger.corp.intel.com (HELO
- helsinki.ger.corp.intel.com) ([10.252.26.111])
- by orsmga004.jf.intel.com with ESMTP; 27 Mar 2020 00:29:09 -0700
-From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v8 14/14] drm/i915/psr: Use new DP VSC SDP compute routine on
- PSR
-Date: Fri, 27 Mar 2020 09:29:17 +0200
-Message-Id: <20200327072917.3676391-15-gwan-gyeong.mun@intel.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200327072917.3676391-1-gwan-gyeong.mun@intel.com>
-References: <20200327072917.3676391-1-gwan-gyeong.mun@intel.com>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CEC56E9BC
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 07:44:42 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200327074439euoutp015e242f1e1a18878d045abca6d6c4f0c9~AGXnAFDvP2686126861euoutp01S
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 07:44:39 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200327074439euoutp015e242f1e1a18878d045abca6d6c4f0c9~AGXnAFDvP2686126861euoutp01S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1585295079;
+ bh=/saM3byIZvfXG+T7y4Al0/135Ja5jfEK/cijvzHBurw=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=H43wiQVRZMEhMpcOveazAJzk5WVLhXPDJsOzJAwFBngDeKPceEchcvFYGP58FHoHs
+ bgwBwLD9gnV4UG8HC8yZHtmwjZRoggbKLajv2dAxAAz2C/5xHR+AHyPjTL39goodxK
+ K7BprqggZxRLbueXVbi2L+GajLv4zpjsGeRpG7U8=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200327074439eucas1p1ecdd5313a25deeabad0a3873a1e757cb~AGXmohhRG3126931269eucas1p1y;
+ Fri, 27 Mar 2020 07:44:39 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id E0.45.60698.7EEAD7E5; Fri, 27
+ Mar 2020 07:44:39 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200327074438eucas1p1aa7d1f0f07814a6d77114b6cc1b5dcf8~AGXmPjcaC2921029210eucas1p1V;
+ Fri, 27 Mar 2020 07:44:38 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200327074438eusmtrp2ea01d6038b27ddf280835d5b90738b01~AGXmO06E42463624636eusmtrp2S;
+ Fri, 27 Mar 2020 07:44:38 +0000 (GMT)
+X-AuditID: cbfec7f5-a0fff7000001ed1a-b9-5e7daee75331
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id B4.F4.08375.6EEAD7E5; Fri, 27
+ Mar 2020 07:44:38 +0000 (GMT)
+Received: from [106.120.51.74] (unknown [106.120.51.74]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200327074438eusmtip27ac22e5f2743ef860347087c9c86a9f8~AGXloYKrH1556715567eusmtip2S;
+ Fri, 27 Mar 2020 07:44:38 +0000 (GMT)
+Subject: Re: [PATCH v2] drm/bridge: analogix_dp: Split bind() into probe()
+ and real bind()
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <1386cf0a-7359-c1c5-35bc-c86ce944f035@samsung.com>
+Date: Fri, 27 Mar 2020 08:44:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <20200310103427.26048-1-m.szyprowski@samsung.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHKsWRmVeSWpSXmKPExsWy7djP87rP19XGGcx/zGbRf/4mo8XGGetZ
+ La58fc9mMXdSrcXV7y+ZLVZ8mclucfLNVRaLzolL2C0+PfjPbDHj/D4mi7VH7rJbHOqLtpgx
+ +SWbA6/H+xut7B47Z91l95jdMZPV48SES0we97uPM3lsXlLv8XfWfhaPvi2rGD0O9E5m8fi8
+ SS6AK4rLJiU1J7MstUjfLoErY+vDx0wFzQIVS1fsYW1g3MnbxcjJISFgIrH0ywPWLkYuDiGB
+ FYwS8+9uY4dwvjBKvFo4lQnC+cwoce/jfMYuRg6wlnl/HSHiyxkl3lx7A9XxllFi+q/1rCBF
+ wgIxEjdmMoPERQRmM0rcOvaMBcRhFvjHJPFizSdGkOVsApoSfzffZAOxeQXsJO4feMACYrMI
+ qEp8uv4QrEZUIEJi2vZ/jBA1ghInZz4Bq+EEqn+59ww7iM0sIC+x/e0cZghbXOLWk/lgZ0sI
+ tHJIfJs5gx3iUxeJJX9WsEDYwhKvjm+BistI/N8J0gBi10vcX9HCDNHcwSixdcNOZoiEtcSd
+ c7/YQF5jBrp6/S59SFA4Srx7XQdh8knceCsIcQKfxKRt05khwrwSHW1CEDMUJe6f3Qo1T1xi
+ 6YWvbBMYlWYheWwWkmdmIXlmFsLaBYwsqxjFU0uLc9NTi43zUsv1ihNzi0vz0vWS83M3MQJT
+ 3el/x7/uYNz3J+kQowAHoxIPb0NbTZwQa2JZcWXuIUYJDmYlEd6nkUAh3pTEyqrUovz4otKc
+ 1OJDjNIcLErivMaLXsYKCaQnlqRmp6YWpBbBZJk4OKUaGMX6HiTe23Tsyt4ZnZU/t2a62D7+
+ tTfHTruLX7u4LpI7a79lab1C/7Wl4gGFF9qfntOYysoYvIrhWrt+cL5SblMIX0IoR5htQpbo
+ j5Aa3vOaId1uHd7+8c3X+yQzd/vUndy4kqvz9+r874usGbedOJax7MT7687eTyc0Gjps3hVp
+ yRPEIJioxFKckWioxVxUnAgA1iL4EXEDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMIsWRmVeSWpSXmKPExsVy+t/xe7rP1tXGGczYpWHRf/4mo8XGGetZ
+ La58fc9mMXdSrcXV7y+ZLVZ8mclucfLNVRaLzolL2C0+PfjPbDHj/D4mi7VH7rJbHOqLtpgx
+ +SWbA6/H+xut7B47Z91l95jdMZPV48SES0we97uPM3lsXlLv8XfWfhaPvi2rGD0O9E5m8fi8
+ SS6AK0rPpii/tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEv
+ Y+vDx0wFzQIVS1fsYW1g3MnbxcjBISFgIjHvr2MXIxeHkMBSRokta3qYuxg5geLiErvnv4Wy
+ hSX+XOtigyh6zSgx9dMpVpCEsECMxJo9L8ASIgKzGSXWHVjFDuIwCzQwS5zq+c8M0TKRUeLm
+ +dPsIC1sApoSfzffZAOxeQXsJO4feMACYrMIqEp8uv6QEcQWFYiQeDyxnRGiRlDi5MwnYDWc
+ QPUv954Bm8MsoC7xZ94lZghbXmL72zlQtrjErSfzmSYwCs1C0j4LScssJC2zkLQsYGRZxSiS
+ Wlqcm55bbKhXnJhbXJqXrpecn7uJERjh24793LyD8dLG4EOMAhyMSjy8Gi01cUKsiWXFlbmH
+ GCU4mJVEeJ9GAoV4UxIrq1KL8uOLSnNSiw8xmgI9N5FZSjQ5H5h88kriDU0NzS0sDc2NzY3N
+ LJTEeTsEDsYICaQnlqRmp6YWpBbB9DFxcEo1MGpdUitp7PxvGpa9V+FS5P10wyOTNv+f2fS9
+ sUhvyuGtCeq+Gp/+KjpKyTC+ONBz8fEktQf5t4Kdbz5nS9sz7VYUy+7Ptea/u3wNPiz9FBH4
+ 9cBV87Bzj6Q1v9vp1jdONff7uVUqu6F3Vt2Ku2F5LLbLN6/Y4PIsmXVFyfMV/o+ZT0Qc3bFE
+ XkSJpTgj0VCLuag4EQBNfC7pBgMAAA==
+X-CMS-MailID: 20200327074438eucas1p1aa7d1f0f07814a6d77114b6cc1b5dcf8
+X-Msg-Generator: CA
+X-RootMTR: 20200310104049eucas1p107e1ec61456fce4c830d3232a400b32f
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200310104049eucas1p107e1ec61456fce4c830d3232a400b32f
+References: <CGME20200310104049eucas1p107e1ec61456fce4c830d3232a400b32f@eucas1p1.samsung.com>
+ <20200310103427.26048-1-m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,213 +111,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, linux-fbdev@vger.kernel.org, uma.shankar@intel.com,
- laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Jingoo Han <jingoohan1@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andy Yan <andy.yan@rock-chips.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to use a common VSC SDP Colorimetry calculating code on PSR,
-it uses a new psr vsc sdp compute routine.
-Because PSR routine has its own scenario and timings of writing a VSC SDP,
-the current PSR routine needs to have its own drm_dp_vsc_sdp structure
-member variable on struct i915_psr.
+On 10.03.2020 11:34, Marek Szyprowski wrote:
+> Analogix_dp driver acquires all its resources in the ->bind() callback,
+> what is a bit against the component driver based approach, where the
+> driver initialization is split into a probe(), where all resources are
+> gathered, and a bind(), where all objects are created and a compound
+> driver is initialized.
+>
+> Extract all the resource related operations to analogix_dp_probe() and
+> analogix_dp_remove(), then call them before/after registration of the
+> device components from the main Exynos DP and Rockchip DP drivers. Also
+> move the plat_data initialization to the probe() to make it available for
+> the analogix_dp_probe() function.
+>
+> This fixes the multiple calls to the bind() of the DRM compound driver
+> when the DP PHY driver is not yet loaded/probed:
+>
+> [drm] Exynos DRM: using 14400000.fimd device for DMA mapping operations
+> exynos-drm exynos-drm: bound 14400000.fimd (ops fimd_component_ops [exynosdrm])
+> exynos-drm exynos-drm: bound 14450000.mixer (ops mixer_component_ops [exynosdrm])
+> exynos-dp 145b0000.dp-controller: no DP phy configured
+> exynos-drm exynos-drm: failed to bind 145b0000.dp-controller (ops exynos_dp_ops [exynosdrm]): -517
+> exynos-drm exynos-drm: master bind failed: -517
+> ...
+> [drm] Exynos DRM: using 14400000.fimd device for DMA mapping operations
+> exynos-drm exynos-drm: bound 14400000.fimd (ops hdmi_enable [exynosdrm])
+> exynos-drm exynos-drm: bound 14450000.mixer (ops hdmi_enable [exynosdrm])
+> exynos-drm exynos-drm: bound 145b0000.dp-controller (ops hdmi_enable [exynosdrm])
+> exynos-drm exynos-drm: bound 14530000.hdmi (ops hdmi_enable [exynosdrm])
+> [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+> Console: switching to colour frame buffer device 170x48
+> exynos-drm exynos-drm: fb0: exynosdrmfb frame buffer device
+> [drm] Initialized exynos 1.1.0 20180330 for exynos-drm on minor 1
+> ...
+>
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-In order to calculate colorimetry information, intel_psr_update()
-function and intel_psr_enable() function extend a drm_connector_state
-argument.
 
-There are no changes to PSR mechanism.
+Queued to fixes.
 
-v3: Replace a structure name to drm_dp_vsc_sdp from intel_dp_vsc_sdp
-v4: Rebased
-v8: Rebased
 
-Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
----
- drivers/gpu/drm/i915/display/intel_ddi.c |  4 +-
- drivers/gpu/drm/i915/display/intel_psr.c | 54 +++++++-----------------
- drivers/gpu/drm/i915/display/intel_psr.h |  6 ++-
- drivers/gpu/drm/i915/i915_drv.h          |  1 +
- 4 files changed, 22 insertions(+), 43 deletions(-)
+Andrzej
 
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index af66f3528a74..081a826312fa 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -3541,7 +3541,7 @@ static void intel_enable_ddi_dp(struct intel_encoder *encoder,
- 		intel_dp_stop_link_train(intel_dp);
- 
- 	intel_edp_backlight_on(crtc_state, conn_state);
--	intel_psr_enable(intel_dp, crtc_state);
-+	intel_psr_enable(intel_dp, crtc_state, conn_state);
- 	intel_dp_set_infoframes(encoder, true, crtc_state, conn_state);
- 	intel_edp_drrs_enable(intel_dp, crtc_state);
- 
-@@ -3712,7 +3712,7 @@ static void intel_ddi_update_pipe_dp(struct intel_encoder *encoder,
- 
- 	intel_ddi_set_dp_msa(crtc_state, conn_state);
- 
--	intel_psr_update(intel_dp, crtc_state);
-+	intel_psr_update(intel_dp, crtc_state, conn_state);
- 	intel_dp_set_infoframes(encoder, true, crtc_state, conn_state);
- 	intel_edp_drrs_enable(intel_dp, crtc_state);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index a0569fdfeb16..9e82d706507b 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -357,39 +357,6 @@ void intel_psr_init_dpcd(struct intel_dp *intel_dp)
- 	}
- }
- 
--static void intel_psr_setup_vsc(struct intel_dp *intel_dp,
--				const struct intel_crtc_state *crtc_state)
--{
--	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
--	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
--	struct dp_sdp psr_vsc;
--
--	if (dev_priv->psr.psr2_enabled) {
--		/* Prepare VSC Header for SU as per EDP 1.4 spec, Table 6.11 */
--		memset(&psr_vsc, 0, sizeof(psr_vsc));
--		psr_vsc.sdp_header.HB0 = 0;
--		psr_vsc.sdp_header.HB1 = 0x7;
--		if (dev_priv->psr.colorimetry_support) {
--			psr_vsc.sdp_header.HB2 = 0x5;
--			psr_vsc.sdp_header.HB3 = 0x13;
--		} else {
--			psr_vsc.sdp_header.HB2 = 0x4;
--			psr_vsc.sdp_header.HB3 = 0xe;
--		}
--	} else {
--		/* Prepare VSC packet as per EDP 1.3 spec, Table 3.10 */
--		memset(&psr_vsc, 0, sizeof(psr_vsc));
--		psr_vsc.sdp_header.HB0 = 0;
--		psr_vsc.sdp_header.HB1 = 0x7;
--		psr_vsc.sdp_header.HB2 = 0x2;
--		psr_vsc.sdp_header.HB3 = 0x8;
--	}
--
--	intel_dig_port->write_infoframe(&intel_dig_port->base,
--					crtc_state,
--					DP_SDP_VSC, &psr_vsc, sizeof(psr_vsc));
--}
--
- static void hsw_psr_setup_aux(struct intel_dp *intel_dp)
- {
- 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
-@@ -880,9 +847,12 @@ static void intel_psr_enable_source(struct intel_dp *intel_dp,
- }
- 
- static void intel_psr_enable_locked(struct drm_i915_private *dev_priv,
--				    const struct intel_crtc_state *crtc_state)
-+				    const struct intel_crtc_state *crtc_state,
-+				    const struct drm_connector_state *conn_state)
- {
- 	struct intel_dp *intel_dp = dev_priv->psr.dp;
-+	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
-+	struct intel_encoder *encoder = &intel_dig_port->base;
- 	u32 val;
- 
- 	drm_WARN_ON(&dev_priv->drm, dev_priv->psr.enabled);
-@@ -921,7 +891,9 @@ static void intel_psr_enable_locked(struct drm_i915_private *dev_priv,
- 
- 	drm_dbg_kms(&dev_priv->drm, "Enabling PSR%s\n",
- 		    dev_priv->psr.psr2_enabled ? "2" : "1");
--	intel_psr_setup_vsc(intel_dp, crtc_state);
-+	intel_dp_compute_psr_vsc_sdp(intel_dp, crtc_state, conn_state,
-+				     &dev_priv->psr.vsc);
-+	intel_write_dp_vsc_sdp(encoder, crtc_state, &dev_priv->psr.vsc);
- 	intel_psr_enable_sink(intel_dp);
- 	intel_psr_enable_source(intel_dp, crtc_state);
- 	dev_priv->psr.enabled = true;
-@@ -933,11 +905,13 @@ static void intel_psr_enable_locked(struct drm_i915_private *dev_priv,
-  * intel_psr_enable - Enable PSR
-  * @intel_dp: Intel DP
-  * @crtc_state: new CRTC state
-+ * @conn_state: new CONNECTOR state
-  *
-  * This function can only be called after the pipe is fully trained and enabled.
-  */
- void intel_psr_enable(struct intel_dp *intel_dp,
--		      const struct intel_crtc_state *crtc_state)
-+		      const struct intel_crtc_state *crtc_state,
-+		      const struct drm_connector_state *conn_state)
- {
- 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
- 
-@@ -958,7 +932,7 @@ void intel_psr_enable(struct intel_dp *intel_dp,
- 		goto unlock;
- 	}
- 
--	intel_psr_enable_locked(dev_priv, crtc_state);
-+	intel_psr_enable_locked(dev_priv, crtc_state, conn_state);
- 
- unlock:
- 	mutex_unlock(&dev_priv->psr.lock);
-@@ -1091,13 +1065,15 @@ static void psr_force_hw_tracking_exit(struct drm_i915_private *dev_priv)
-  * intel_psr_update - Update PSR state
-  * @intel_dp: Intel DP
-  * @crtc_state: new CRTC state
-+ * @conn_state: new CONNECTOR state
-  *
-  * This functions will update PSR states, disabling, enabling or switching PSR
-  * version when executing fastsets. For full modeset, intel_psr_disable() and
-  * intel_psr_enable() should be called instead.
-  */
- void intel_psr_update(struct intel_dp *intel_dp,
--		      const struct intel_crtc_state *crtc_state)
-+		      const struct intel_crtc_state *crtc_state,
-+		      const struct drm_connector_state *conn_state)
- {
- 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
- 	struct i915_psr *psr = &dev_priv->psr;
-@@ -1134,7 +1110,7 @@ void intel_psr_update(struct intel_dp *intel_dp,
- 		intel_psr_disable_locked(intel_dp);
- 
- 	if (enable)
--		intel_psr_enable_locked(dev_priv, crtc_state);
-+		intel_psr_enable_locked(dev_priv, crtc_state, conn_state);
- 
- unlock:
- 	mutex_unlock(&dev_priv->psr.lock);
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.h b/drivers/gpu/drm/i915/display/intel_psr.h
-index 274fc6bb6221..b4515186d5f4 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.h
-+++ b/drivers/gpu/drm/i915/display/intel_psr.h
-@@ -17,11 +17,13 @@ struct intel_dp;
- #define CAN_PSR(dev_priv) (HAS_PSR(dev_priv) && dev_priv->psr.sink_support)
- void intel_psr_init_dpcd(struct intel_dp *intel_dp);
- void intel_psr_enable(struct intel_dp *intel_dp,
--		      const struct intel_crtc_state *crtc_state);
-+		      const struct intel_crtc_state *crtc_state,
-+		      const struct drm_connector_state *conn_state);
- void intel_psr_disable(struct intel_dp *intel_dp,
- 		       const struct intel_crtc_state *old_crtc_state);
- void intel_psr_update(struct intel_dp *intel_dp,
--		      const struct intel_crtc_state *crtc_state);
-+		      const struct intel_crtc_state *crtc_state,
-+		      const struct drm_connector_state *conn_state);
- int intel_psr_debug_set(struct drm_i915_private *dev_priv, u64 value);
- void intel_psr_invalidate(struct drm_i915_private *dev_priv,
- 			  unsigned frontbuffer_bits,
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index b09a1c929c94..12180ea3cc9b 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -510,6 +510,7 @@ struct i915_psr {
- 	u32 dc3co_exit_delay;
- 	struct delayed_work dc3co_work;
- 	bool force_mode_changed;
-+	struct drm_dp_vsc_sdp vsc;
- };
- 
- #define QUIRK_LVDS_SSC_DISABLE (1<<1)
--- 
-2.25.0
 
 _______________________________________________
 dri-devel mailing list
