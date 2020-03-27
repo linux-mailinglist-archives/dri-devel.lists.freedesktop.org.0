@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F78195751
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 13:42:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9234195755
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 13:43:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 681C06EA13;
-	Fri, 27 Mar 2020 12:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B78E76EA14;
+	Fri, 27 Mar 2020 12:42:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 697326EA13;
- Fri, 27 Mar 2020 12:42:52 +0000 (UTC)
-IronPort-SDR: kAuOYZT33VorWvH9wnUtUJUYU+gdsezqaYxD/mmLKLRZAGKBHyK4Nu8ApFRfZJE+37fom3FzyR
- KuLpwk70pd+Q==
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF21B6EA14;
+ Fri, 27 Mar 2020 12:42:57 +0000 (UTC)
+IronPort-SDR: yfHJlvA3KSoE+c5stzqozOH/r45U7F/7x7ggeSO4ISq1OICYk/7RuiFlpuuTAob3fTYiQ8ybEV
+ p/7lZcZNh1Yg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2020 05:42:51 -0700
-IronPort-SDR: dPiewRiBaftbZM9YK8A3r+XY6nDZb0ShRdNDvqLpcEjy7hvEvBWs0K9rGUqfr2gDwr3gBbt1ko
- 4Xqj9O/sVjmQ==
-X-IronPort-AV: E=Sophos;i="5.72,312,1580803200"; d="scan'208";a="421091109"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2020 05:42:57 -0700
+IronPort-SDR: f/oryojcs0yyGT7pTKzby8rU9ftzj4eDtPwKzbI5pQXaCGBnucsJPx//ls4JvdGad5qDo3K4wq
+ AoJJpjm0KICg==
+X-IronPort-AV: E=Sophos;i="5.72,312,1580803200"; d="scan'208";a="447404689"
 Received: from defretin-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.56.231])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2020 05:42:48 -0700
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2020 05:42:55 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH RESEND 3/7] drm/amd/display: use drm_dsc_dp_rc_buffer_size()
- to get rc buffer size
-Date: Fri, 27 Mar 2020 14:42:25 +0200
-Message-Id: <20200327124229.26461-3-jani.nikula@intel.com>
+Subject: [PATCH RESEND 4/7] drm/i915/dsc: configure hardware using specified
+ rc_model_size
+Date: Fri, 27 Mar 2020 14:42:26 +0200
+Message-Id: <20200327124229.26461-4-jani.nikula@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200327124229.26461-1-jani.nikula@intel.com>
 References: <20200327124229.26461-1-jani.nikula@intel.com>
@@ -51,83 +51,39 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: jani.nikula@intel.com, Manasi Navare <manasi.d.navare@intel.com>,
- Harry Wentland <hwentlan@amd.com>,
  Vandita Kulkarni <vandita.kulkarni@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the new drm_dsc_dp_rc_buffer_size() helper to simplify rc buffer
-size computation. No functional changes.
+The rc_model_size is specified in the DSC config, and the hardware
+programming should respect that instead of hard coding a value of 8192.
 
-Cc: Alex Deucher <alexdeucher@gmail.com>
-Cc: Harry Wentland <hwentlan@amd.com>
+Regardless, the rc_model_size in DSC config is currently hard coded to
+the same value, so this should have no impact, other than allowing the
+use of other sizes as needed.
+
 Cc: Manasi Navare <manasi.d.navare@intel.com>
 Cc: Vandita Kulkarni <vandita.kulkarni@intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c | 37 ++++-----------------
- 1 file changed, 7 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/i915/display/intel_vdsc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-index 87d682d25278..290acff273ae 100644
---- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-@@ -85,31 +85,6 @@ static uint32_t dc_dsc_bandwidth_in_kbps_from_timing(
+diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
+index 95ad87d4ccb3..1f74b0174b1a 100644
+--- a/drivers/gpu/drm/i915/display/intel_vdsc.c
++++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
+@@ -740,7 +740,7 @@ static void intel_dsc_pps_configure(struct intel_encoder *encoder,
  
- }
- 
--static bool dsc_buff_block_size_from_dpcd(int dpcd_buff_block_size, int *buff_block_size)
--{
--
--	switch (dpcd_buff_block_size) {
--	case DP_DSC_RC_BUF_BLK_SIZE_1:
--		*buff_block_size = 1024;
--		break;
--	case DP_DSC_RC_BUF_BLK_SIZE_4:
--		*buff_block_size = 4 * 1024;
--		break;
--	case DP_DSC_RC_BUF_BLK_SIZE_16:
--		*buff_block_size = 16 * 1024;
--		break;
--	case DP_DSC_RC_BUF_BLK_SIZE_64:
--		*buff_block_size = 64 * 1024;
--		break;
--	default: {
--			dm_error("%s: DPCD DSC buffer size not recognized.\n", __func__);
--			return false;
--		}
--	}
--
--	return true;
--}
--
- 
- static bool dsc_line_buff_depth_from_dpcd(int dpcd_line_buff_bit_depth, int *line_buff_bit_depth)
- {
-@@ -773,14 +748,16 @@ bool dc_dsc_parse_dsc_dpcd(const struct dc *dc, const uint8_t *dpcd_dsc_basic_da
- 	dsc_sink_caps->dsc_version = dpcd_dsc_basic_data[DP_DSC_REV - DP_DSC_SUPPORT];
- 
- 	{
--		int buff_block_size;
--		int buff_size;
-+		u8 buff_block_size = dpcd_dsc_basic_data[DP_DSC_RC_BUF_BLK_SIZE - DP_DSC_SUPPORT];
-+		u8 buff_size = dpcd_dsc_basic_data[DP_DSC_RC_BUF_SIZE - DP_DSC_SUPPORT];
-+		int size = drm_dsc_dp_rc_buffer_size(buff_block_size, buff_size);
- 
--		if (!dsc_buff_block_size_from_dpcd(dpcd_dsc_basic_data[DP_DSC_RC_BUF_BLK_SIZE - DP_DSC_SUPPORT], &buff_block_size))
-+		if (!size) {
-+			dm_error("%s: DPCD DSC buffer size not recognized.\n", __func__);
- 			return false;
-+		}
- 
--		buff_size = dpcd_dsc_basic_data[DP_DSC_RC_BUF_SIZE - DP_DSC_SUPPORT] + 1;
--		dsc_sink_caps->rc_buffer_size = buff_size * buff_block_size;
-+		dsc_sink_caps->rc_buffer_size = size;
- 	}
- 
- 	dsc_sink_caps->slice_caps1.raw = dpcd_dsc_basic_data[DP_DSC_SLICE_CAP_1 - DP_DSC_SUPPORT];
+ 	/* Populate PICTURE_PARAMETER_SET_9 registers */
+ 	pps_val = 0;
+-	pps_val |= DSC_RC_MODEL_SIZE(DSC_RC_MODEL_SIZE_CONST) |
++	pps_val |= DSC_RC_MODEL_SIZE(vdsc_cfg->rc_model_size) |
+ 		DSC_RC_EDGE_FACTOR(DSC_RC_EDGE_FACTOR_CONST);
+ 	drm_info(&dev_priv->drm, "PPS9 = 0x%08x\n", pps_val);
+ 	if (!is_pipe_dsc(crtc_state)) {
 -- 
 2.20.1
 
