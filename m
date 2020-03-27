@@ -1,46 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6E519752A
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:13:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A63BF19753B
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:14:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C349689F9F;
-	Mon, 30 Mar 2020 07:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48B5A89FE6;
+	Mon, 30 Mar 2020 07:11:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 367AB6EA29
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 13:15:42 +0000 (UTC)
-IronPort-SDR: 93xdN2TuMFFz7sVATIO/pZBd6oFxIIheuC5bBi8i3AMCGvZbdFBjw9Kqma3hUbfPKfkbAHEoma
- hejIRdi3Veaw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2020 06:15:41 -0700
-IronPort-SDR: XHTT49Zml5OGbcmAOJNZTIDZQS91ZOVq3uN4HpDBmRzC4zWzne4di8SI0Jcxq/yPKD08tI2Guo
- S2MG0L4zVlEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,312,1580803200"; d="scan'208";a="293928658"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by FMSMGA003.fm.intel.com with ESMTP; 27 Mar 2020 06:15:30 -0700
-Received: from andy by smile with local (Exim 4.93)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1jHopf-00DQI1-3f; Fri, 27 Mar 2020 15:15:31 +0200
-Date: Fri, 27 Mar 2020 15:15:31 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Arnd Bergmann <arnd@arndb.de>, Christian Lamparter <chunkeey@gmail.com>
-Subject: Re: [PATCH 0/2] powerpc: Remove support for ppc405/440 Xilinx
- platforms
-Message-ID: <20200327131531.GU1922688@smile.fi.intel.com>
-References: <cover.1585311091.git.michal.simek@xilinx.com>
- <CAK8P3a2mKPRFbRE3MWScr9GSiL4cpLg0wqv1Q28XDCZVPWgHfg@mail.gmail.com>
- <20200327131026.GT1922688@smile.fi.intel.com>
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E87046EA2F
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 13:30:15 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id h4so8572734ior.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 06:30:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=BNFXoiYssRBqTTsgLrZShw+/qIh/hPgY1hNBCz0KNwU=;
+ b=S2fZQwWApU+A3zCWF6vYlD9DtZi+aybE5WemXOHhZJ8pmaTDsuYf4f48nsS9wqguXm
+ YE+xtNQ9Pf2bVohmQxo3JAPo+rYAdCzcAL6H+RyNI6l4kM9rSoXRFpXC4Y+0HnUT/FbS
+ nw3KqFVUA1nkDgOEuDALug4X3ruXMainUWktYavIG7l5hMq1sSv+io/2zJYn/TWaU9Ug
+ XQyJwV446sEJgYecDPDH1aa+2bBOUnIPE3HeapKS2tUyM5pxjWxSUhnwRqKI+tOiSfA8
+ Wlw71lJE5/h3iaX8KSNcTiozqzdEBzMDYq8axUuJcJ2JsyMPs+qxygSAHoWiUka7Oz/x
+ rJhg==
+X-Gm-Message-State: ANhLgQ1ghpepcjsfQ8kb5IL732ds4vyTQSx6m4I1hVOBTtKeEeHWjSm1
+ TMLheBmz3eo1tPdR37yBv5X2k2dOGFniMDD7dmKMVFgXHlgs
+X-Google-Smtp-Source: ADFU+vsvEmt0H8n/9nGrp9JLN5HsPCng/cD/1aH04O1n9JDJLXRWbxUmpsAwCO78Hak+nYkkKpllSLFXzDdbIEMgpc72x+EzWjAM
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200327131026.GT1922688@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Received: by 2002:a92:da81:: with SMTP id u1mr13446221iln.116.1585315815220; 
+ Fri, 27 Mar 2020 06:30:15 -0700 (PDT)
+Date: Fri, 27 Mar 2020 06:30:15 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000005ec9405a1d61aa0@google.com>
+Subject: general protection fault in fbcon_switch
+From: syzbot <syzbot+732528bae351682f1f27@syzkaller.appspotmail.com>
+To: andreyknvl@google.com, b.zolnierkie@samsung.com, daniel.vetter@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, sam@ravnborg.org, 
+ syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Mon, 30 Mar 2020 07:11:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,113 +55,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Mark Rutland <mark.rutland@arm.com>,
- "Desnes A. Nunes do Rosario" <desnesn@linux.ibm.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jaroslav Kysela <perex@perex.cz>,
- Richard Fontana <rfontana@redhat.com>, Paul Mackerras <paulus@samba.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Sasha Levin <sashal@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
- Masahiro Yamada <masahiroy@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- YueHaibing <yuehaibing@huawei.com>, Michal Simek <michal.simek@xilinx.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Leonardo Bras <leonardo@linux.ibm.com>,
- Matt Porter <mporter@kernel.crashing.org>, DTML <devicetree@vger.kernel.org>,
- Andrew Donnellan <ajd@linux.ibm.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Marc Zyngier <marc.zyngier@arm.com>, Alistair Popple <alistair@popple.id.au>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Nicholas Piggin <npiggin@gmail.com>, Alexios Zavras <alexios.zavras@intel.com>,
- Mark Brown <broonie@kernel.org>, git@xilinx.com,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Thomas Gleixner <tglx@linutronix.de>, Allison Randal <allison@lohutok.net>,
- Christophe Leroy <christophe.leroy@c-s.fr>, Michal Simek <monstr@monstr.eu>,
- Wei Hu <weh@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Armijn Hemel <armijn@tjaldur.nl>, Rob Herring <robh+dt@kernel.org>,
- Enrico Weigelt <info@metux.net>, "David S. Miller" <davem@davemloft.net>,
- Thiago Jung Bauermann <bauerman@linux.ibm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 27, 2020 at 03:10:26PM +0200, Andy Shevchenko wrote:
-> On Fri, Mar 27, 2020 at 01:54:33PM +0100, Arnd Bergmann wrote:
-> > On Fri, Mar 27, 2020 at 1:12 PM Michal Simek <michal.simek@xilinx.com> wrote:
-> > >
-> > > recently we wanted to update xilinx intc driver and we found that function
-> > > which we wanted to remove is still wired by ancient Xilinx PowerPC
-> > > platforms. Here is the thread about it.
-> > > https://lore.kernel.org/linux-next/48d3232d-0f1d-42ea-3109-f44bbabfa2e8@xilinx.com/
-> > >
-> > > I have been talking about it internally and there is no interest in these
-> > > platforms and it is also orphan for quite a long time. None is really
-> > > running/testing these platforms regularly that's why I think it makes sense
-> > > to remove them also with drivers which are specific to this platform.
-> > >
-> > > U-Boot support was removed in 2017 without anybody complain about it
-> > > https://github.com/Xilinx/u-boot-xlnx/commit/98f705c9cefdfdba62c069821bbba10273a0a8ed
-> > >
-> > > Based on current ppc/next.
-> > >
-> > > If anyone has any objection about it, please let me know.
-> > 
-> > Acked-by: Arnd Bergmann <arnd@arndb.de>
-> > 
-> > This looks reasonable to me as well, in particular as the code only
-> > supports the two
-> > ppc44x virtex developer boards and no commercial products.
-> > 
-> > It does raise a follow-up question about ppc40x though: is it time to
-> > retire all of it?
-> 
-> Who knows?
-> 
-> I have in possession nice WD My Book Live, based on this architecture, and I
-> won't it gone from modern kernel support. OTOH I understand that amount of real
-> users not too big.
+Hello,
 
-+Cc: Christian Lamparter, whom I owe for that WD box.
+syzbot found the following crash on:
 
-> 
-> Ah, and I have Amiga board, but that one is being used only for testing, so,
-> I don't care much.
-> 
-> > The other ppc405 machines appear to have seen even fewer updates after the
-> > OpenBlockS 600 got added in 2011, so it's possible nobody is using them any more
-> > with modern kernels.
-> > 
-> > I see that OpenWRT removed both ppc40x and ppc44x exactly a year ago after
-> > they had not been maintained for years.
-> > 
-> > However, 44x (in its ppc476 incarnation) is clearly still is used
-> > through the fsp2 platform,
-> > and can not be deprecated at least until that is known to have stopped
-> > getting kernel
-> > updates.
-> > 
-> >         Arnd
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+HEAD commit:    e17994d1 usb: core: kcov: collect coverage from usb comple..
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=1328834be00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5d64370c438bc60
+dashboard link: https://syzkaller.appspot.com/bug?extid=732528bae351682f1f27
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
 
--- 
-With Best Regards,
-Andy Shevchenko
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+732528bae351682f1f27@syzkaller.appspotmail.com
+
+general protection fault, probably for non-canonical address 0xdffffc000000006c: 0000 [#1] SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000360-0x0000000000000367]
+CPU: 0 PID: 5 Comm: kworker/0:0 Not tainted 5.6.0-rc5-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:fbcon_switch+0x28f/0x1740 drivers/video/fbdev/core/fbcon.c:2260
+Code: 0f 85 96 14 00 00 48 8d 04 db 48 8b 1c c5 00 91 ff 89 48 b8 00 00 00 00 00 fc ff df 48 8d bb 60 03 00 00 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 08 3c 03 0f 8e de 11 00 00 44 8b b3 60 03 00
+RSP: 0018:ffff8881da1dead8 EFLAGS: 00010206
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffc9000d9eb000
+RDX: 000000000000006c RSI: ffffffff81fe5b44 RDI: 0000000000000360
+RBP: ffff8881ab4f0000 R08: ffff8881da196200 R09: fffffbfff0fcc10e
+R10: fffffbfff0fcc10d R11: ffffffff87e6086f R12: ffff8881d6616000
+R13: ffff8881c6a4a000 R14: 00000000000000a3 R15: ffffffff85ff8520
+FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f676c8e2740 CR3: 00000001cfd06000 CR4: 00000000001406f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ redraw_screen+0x2a8/0x770 drivers/tty/vt/vt.c:1008
+ vc_do_resize+0xfe7/0x1360 drivers/tty/vt/vt.c:1295
+ fbcon_init+0x1221/0x1ab0 drivers/video/fbdev/core/fbcon.c:1219
+ visual_init+0x305/0x5c0 drivers/tty/vt/vt.c:1062
+ do_bind_con_driver+0x536/0x890 drivers/tty/vt/vt.c:3542
+ do_take_over_console+0x453/0x5b0 drivers/tty/vt/vt.c:4122
+ do_fbcon_takeover+0x10b/0x210 drivers/video/fbdev/core/fbcon.c:588
+ fbcon_fb_registered+0x26b/0x340 drivers/video/fbdev/core/fbcon.c:3259
+ do_register_framebuffer drivers/video/fbdev/core/fbmem.c:1664 [inline]
+ register_framebuffer+0x56e/0x980 drivers/video/fbdev/core/fbmem.c:1832
+ dlfb_usb_probe.cold+0x1743/0x1ba3 drivers/video/fbdev/udlfb.c:1735
+ usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:374
+ really_probe+0x290/0xac0 drivers/base/dd.c:551
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:724
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:831
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:431
+ __device_attach+0x217/0x390 drivers/base/dd.c:897
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2500
+ usb_set_configuration+0xe47/0x17d0 drivers/usb/core/message.c:2023
+ usb_generic_driver_probe+0x9d/0xe0 drivers/usb/core/generic.c:241
+ usb_probe_device+0xd9/0x230 drivers/usb/core/driver.c:272
+ really_probe+0x290/0xac0 drivers/base/dd.c:551
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:724
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:831
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:431
+ __device_attach+0x217/0x390 drivers/base/dd.c:897
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2500
+ usb_new_device.cold+0x540/0xcd0 drivers/usb/core/hub.c:2548
+ hub_port_connect drivers/usb/core/hub.c:5195 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5335 [inline]
+ port_event drivers/usb/core/hub.c:5481 [inline]
+ hub_event+0x21cb/0x4300 drivers/usb/core/hub.c:5563
+ process_one_work+0x94b/0x1620 kernel/workqueue.c:2264
+ process_scheduled_works kernel/workqueue.c:2326 [inline]
+ worker_thread+0x7ab/0xe20 kernel/workqueue.c:2412
+ kthread+0x318/0x420 kernel/kthread.c:255
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+Modules linked in:
+---[ end trace bae4913bb3cd6c7d ]---
+RIP: 0010:fbcon_switch+0x28f/0x1740 drivers/video/fbdev/core/fbcon.c:2260
+Code: 0f 85 96 14 00 00 48 8d 04 db 48 8b 1c c5 00 91 ff 89 48 b8 00 00 00 00 00 fc ff df 48 8d bb 60 03 00 00 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 08 3c 03 0f 8e de 11 00 00 44 8b b3 60 03 00
+RSP: 0018:ffff8881da1dead8 EFLAGS: 00010206
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffc9000d9eb000
+RDX: 000000000000006c RSI: ffffffff81fe5b44 RDI: 0000000000000360
+RBP: ffff8881ab4f0000 R08: ffff8881da196200 R09: fffffbfff0fcc10e
+R10: fffffbfff0fcc10d R11: ffffffff87e6086f R12: ffff8881d6616000
+R13: ffff8881c6a4a000 R14: 00000000000000a3 R15: ffffffff85ff8520
+FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f676c8e2740 CR3: 0000000007021000 CR4: 00000000001406f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
 
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
