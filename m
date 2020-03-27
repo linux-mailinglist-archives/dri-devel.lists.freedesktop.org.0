@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804081952E8
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 09:32:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6CDD195362
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 09:55:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B7B56E06B;
-	Fri, 27 Mar 2020 08:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EDC26E9D6;
+	Fri, 27 Mar 2020 08:55:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80F376E06B
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 08:31:58 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id f6so4769910wmj.3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 01:31:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=/8e1khbt3xy4ZUf34DU6Fxze93y8M47+3udr0iQSRsI=;
- b=LHWAWHzmrgJi6sjgnjoGfbv7/nunVx19vgyHo/Iys+J47ldqjn8fGNWukWARkju+5I
- vxbxj1NSvZ3VbfxweyHPqh6Dl1Ho/ppvvxSzYAun432P1qgCZD6dOCKJFmKI6uwd6wc0
- o5bjDLooHalwWV9R8YtQ62qyeotsUIkiZl85Z4bpwT5LcRPhRZZXVI8vDevR0jT6RL/A
- dNFry0CzpNV4ae7f5kjFirmvM+Lw7yrn81OFB0G15fzV2kHfMmi9DVpiOd4BQsfTBM74
- jIUN9CTbrlLpgMk3oecrzVR0NLzrIAKFVi7HJ2Yuxpy5IyW5hHCabCi2m9dSFDAUUPsP
- N1nw==
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
+ [IPv6:2607:f8b0:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0EFC6E9D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 08:55:44 +0000 (UTC)
+Received: by mail-il1-x144.google.com with SMTP id x16so8005720ilp.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 01:55:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XB6W+sJLahyOIxdTSUwPtQIMotU/mHjnayy+n/riQdQ=;
+ b=s/YBZde9CnpOaVvGd0dgYlidfCOjurGVp4VM09Un8J1ov1xMQFAbNiqP/x1dRZr/20
+ 3Hojqg3dMv/bDO3OTPsujoc3w3GBsvXMZJjdIIxdFitcaVY3kFfL95R2XMwsRiqpWT/W
+ U3hH2ym0b6aZJWHVn4dxJPpb3AdAObPgX13zy0Z8rYNxQ/aW99JIY7vbA3M/fylPD/YC
+ b3v5IPVNNrfTXFHxyWSd0u0dPM8ebybvAYhAM6I9ubFZ3ykSRzOi8iSmoQKfn5U+G12E
+ Tm1COH5j72BV69/0pKZRrKe/OMlbrNiLzkiGu2wM71E8PIdjwWWjxJ5erIgRYX1zz9kU
+ g+jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=/8e1khbt3xy4ZUf34DU6Fxze93y8M47+3udr0iQSRsI=;
- b=dmk/mNET24pRISo9uKhXGGjVSTp/HYfXxVYArAE7lO+TdGE4xyRwu7wE26vkCtvuvg
- QErnJnnqDVqZtWPOU+ZiEQLVCCobm0NhDNyr3xOpleYgIxr9esl35+EN+VV11K27zsKe
- nXOmmKFOGPmStjhRi1PuJK/9USGEWalFGDS4aUxartDZQZ96576ZUfHPz+C9H+DzqYMo
- ZqGY/ddv+3W/W5l8jvVSnchEGu8U5Zh/Y15/qQwg5YtlQK6rm4if2yrdtiwHCOs8379J
- EESSNeIJGu5jfdJTIaMhdj0aKoMm/H2W3R5J5teCurdiPlUQefgQUOXs09PeN8wLa6J5
- yU2w==
-X-Gm-Message-State: ANhLgQ2/elVrofHldX0gh302KhJkzarjKs1ulCSUCbL8ckbOBrmAwYVl
- D+HkTmngfsS+40AKmOpKddaqyg==
-X-Google-Smtp-Source: ADFU+vshlFLkzjFGLqZWToyKEwofbRxD/jsH8lC+uHzFVX7qI4umf//ndsbal5w8KkGL0SIvWV2zCg==
-X-Received: by 2002:a7b:cc81:: with SMTP id p1mr4129403wma.158.1585297917089; 
- Fri, 27 Mar 2020 01:31:57 -0700 (PDT)
-Received: from dell ([95.149.164.95])
- by smtp.gmail.com with ESMTPSA id w67sm7008731wmb.41.2020.03.27.01.31.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Mar 2020 01:31:56 -0700 (PDT)
-Date: Fri, 27 Mar 2020 08:32:46 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 3/4] dt-bindings: Clean-up schema errors due to missing
- 'addtionalProperties: false'
-Message-ID: <20200327083246.GJ603801@dell>
-References: <20200325220542.19189-1-robh@kernel.org>
- <20200325220542.19189-4-robh@kernel.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XB6W+sJLahyOIxdTSUwPtQIMotU/mHjnayy+n/riQdQ=;
+ b=Ke62eboH34uHoJvTMBEyobqozbSInvfXji1xajosyzNKeUwsADtRrCBLX4oTf4ZAIC
+ tIqp3Eo0YVb0cqfyucG9Br9humoeMoD4Ir8kGBD8NW4Kx3ScisfNOeNbSFF8Z6HgZZ7k
+ Eb38tFGaN6ZRCeQxo0bh8DhUcfHVX/Sb07KjZOVcWSqXXhEkN0/kIQ1NtGNwq4wy0vmX
+ bHtGKU+fxZHoDYSkNjKEBcqK6nwVKVIFbiE4Hoe+L4GZRDGwOCKxWfvRwdh3AXa939MV
+ BVGLrcHFXCNbvkWldCS2JROiJX4kb7Bfi2l/EZJ1KH1Bvy3Nlqb8TlsXN1hNM7Kn6fIz
+ 07mw==
+X-Gm-Message-State: ANhLgQ1z3zokSCOEl6y3EhQuuz5SCwM3tJNNJyQ5nWS+hV64oTvwJ5NY
+ 2zT6o3DZp4+/gdFDBZHbXepYsCZ35PmhtQ1hSdw=
+X-Google-Smtp-Source: ADFU+vsLT4MdTEMfk/cPeT+sZYkN4sUBjyK6uU+m2q5XhoxyOOwCokY+bId+TdVH87v9xD+4Z3KVrI6MlV4NhAwdclg=
+X-Received: by 2002:a92:d083:: with SMTP id h3mr12757139ilh.28.1585299344169; 
+ Fri, 27 Mar 2020 01:55:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200325220542.19189-4-robh@kernel.org>
+References: <CGME20200327082453eucas1p15b2371b61f653031408f319cc6d13893@eucas1p1.samsung.com>
+ <20200327082446.18480-1-m.szyprowski@samsung.com>
+In-Reply-To: <20200327082446.18480-1-m.szyprowski@samsung.com>
+From: Shane Francis <bigbeeshane@gmail.com>
+Date: Fri, 27 Mar 2020 08:55:33 +0000
+Message-ID: <CABnpCuDySf89HL2AksMB2fOcVCci+1zgB9r8zjRdpCAH3GWhPA@mail.gmail.com>
+Subject: Re: [PATCH] drm/prime: fix extracting of the DMA addresses from a
+ scatterlist
+To: Marek Szyprowski <m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,68 +62,263 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, linux-iio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Guillaume La Roque <glaroque@baylibre.com>,
- Peter Meerwald-Stadler <pmeerw@pmeerw.net>, linux-clk@vger.kernel.org,
- Kevin Hilman <khilman@baylibre.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Zhang Rui <rui.zhang@intel.com>, Brian Masney <masneyb@onstation.org>,
- devicetree@vger.kernel.org, Michael Hennerich <michael.hennerich@analog.com>,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, linux-amlogic@lists.infradead.org,
- Thomas Gleixner <tglx@linutronix.de>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-arm-kernel@lists.infradead.org, Stephen Boyd <sboyd@kernel.org>,
- netdev@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
- Hartmut Knaack <knaack.h@gmx.de>, linux-media@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-samsung-soc@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, "Michael J . Ruhl" <michael.j.ruhl@intel.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyNSBNYXIgMjAyMCwgUm9iIEhlcnJpbmcgd3JvdGU6Cgo+IE51bWVyb3VzIHNjaGVt
-YXMgYXJlIG1pc3NpbmcgJ2FkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZScgc3RhdGVtZW50cyB3
-aGljaAo+IGVuc3VyZXMgYSBiaW5kaW5nIGRvZXNuJ3QgaGF2ZSBhbnkgZXh0cmEgdW5kb2N1bWVu
-dGVkIHByb3BlcnRpZXMgb3IgY2hpbGQKPiBub2Rlcy4gRml4aW5nIHRoaXMgcmV2ZWFscyB2YXJp
-b3VzIG1pc3NpbmcgcHJvcGVydGllcywgc28gbGV0J3MgZml4IGFsbAo+IHRob3NlIG9jY3VycmVu
-Y2VzLgo+IAo+IENjOiBTdGVwaGVuIEJveWQgPHNib3lkQGtlcm5lbC5vcmc+Cj4gQ2M6IExpbnVz
-IFdhbGxlaWogPGxpbnVzLndhbGxlaWpAbGluYXJvLm9yZz4KPiBDYzogQmFydG9zeiBHb2xhc3pl
-d3NraSA8YmdvbGFzemV3c2tpQGJheWxpYnJlLmNvbT4KPiBDYzogTWFzYWhpcm8gWWFtYWRhIDx5
-YW1hZGEubWFzYWhpcm9Ac29jaW9uZXh0LmNvbT4KPiBDYzogSm9uYXRoYW4gQ2FtZXJvbiA8amlj
-MjNAa2VybmVsLm9yZz4KPiBDYzogSGFydG11dCBLbmFhY2sgPGtuYWFjay5oQGdteC5kZT4KPiBD
-YzogTGFycy1QZXRlciBDbGF1c2VuIDxsYXJzQG1ldGFmb28uZGU+Cj4gQ2M6IFBldGVyIE1lZXJ3
-YWxkLVN0YWRsZXIgPHBtZWVyd0BwbWVlcncubmV0Pgo+IENjOiBOZWlsIEFybXN0cm9uZyA8bmFy
-bXN0cm9uZ0BiYXlsaWJyZS5jb20+Cj4gQ2M6IE1hdXJvIENhcnZhbGhvIENoZWhhYiA8bWNoZWhh
-YkBrZXJuZWwub3JnPgo+IENjOiBLZXZpbiBIaWxtYW4gPGtoaWxtYW5AYmF5bGlicmUuY29tPgo+
-IENjOiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgo+IENjOiAiRGF2aWQgUy4gTWls
-bGVyIiA8ZGF2ZW1AZGF2ZW1sb2Z0Lm5ldD4KPiBDYzogTGlhbSBHaXJkd29vZCA8bGdpcmR3b29k
-QGdtYWlsLmNvbT4KPiBDYzogTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPgo+IENjOiBH
-dWlsbGF1bWUgTGEgUm9xdWUgPGdsYXJvcXVlQGJheWxpYnJlLmNvbT4KPiBDYzogWmhhbmcgUnVp
-IDxydWkuemhhbmdAaW50ZWwuY29tPgo+IENjOiBEYW5pZWwgTGV6Y2FubyA8ZGFuaWVsLmxlemNh
-bm9AbGluYXJvLm9yZz4KPiBDYzogVGhvbWFzIEdsZWl4bmVyIDx0Z2x4QGxpbnV0cm9uaXguZGU+
-Cj4gQ2M6IGxpbnV4LWNsa0B2Z2VyLmtlcm5lbC5vcmcKPiBDYzogbGludXgtZ3Bpb0B2Z2VyLmtl
-cm5lbC5vcmcKPiBDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gQ2M6
-IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogbGludXgtaWlvQHZnZXIua2Vy
-bmVsLm9yZwo+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKPiBDYzogbGludXgtYW1s
-b2dpY0BsaXN0cy5pbmZyYWRlYWQub3JnCj4gQ2M6IG5ldGRldkB2Z2VyLmtlcm5lbC5vcmcKPiBD
-YzogbGludXgtcG1Admdlci5rZXJuZWwub3JnCj4gU2lnbmVkLW9mZi1ieTogUm9iIEhlcnJpbmcg
-PHJvYmhAa2VybmVsLm9yZz4KPiAtLS0KPiAgLi4uL2RldmljZXRyZWUvYmluZGluZ3MvY2xvY2sv
-ZnNsLHBsbGRpZy55YW1sIHwgIDMgKysrCj4gIC4uLi9ncGlvL3NvY2lvbmV4dCx1bmlwaGllci1n
-cGlvLnlhbWwgICAgICAgICB8ICAyICsrCj4gIC4uLi9iaW5kaW5ncy9ncHUvYXJtLG1hbGktYmlm
-cm9zdC55YW1sICAgICAgICB8ICA2ICsrLS0tCj4gIC4uLi9iaW5kaW5ncy9ncHUvYXJtLG1hbGkt
-bWlkZ2FyZC55YW1sICAgICAgICB8ICAzICsrKwo+ICAuLi4vYmluZGluZ3MvaWlvL2FkYy9hZGks
-YWQ3MTkyLnlhbWwgICAgICAgICAgfCAgMSAtCj4gIC4uLi9iaW5kaW5ncy9paW8vcHJlc3N1cmUv
-Ym1wMDg1LnlhbWwgICAgICAgICB8ICAzICsrKwo+ICAuLi4vbWVkaWEvYW1sb2dpYyxtZXNvbi1n
-eC1hby1jZWMueWFtbCAgICAgICAgfCAgOSArKysrKy0tLQoKPiAgLi4uL2JpbmRpbmdzL21mZC9y
-b2htLGJkNzE4MjgtcG1pYy55YW1sICAgICAgIHwgIDMgKysrCgpBY2tlZC1ieTogTGVlIEpvbmVz
-IDxsZWUuam9uZXNAbGluYXJvLm9yZz4KCi0tIApMZWUgSm9uZXMgW+adjueQvOaWr10KTGluYXJv
-IFNlcnZpY2VzIFRlY2huaWNhbCBMZWFkCkxpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3
-YXJlIGZvciBBUk0gU29DcwpGb2xsb3cgTGluYXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9n
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, Mar 27, 2020 at 8:24 AM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> Scatterlist elements contains both pages and DMA addresses, but in general,
+> one cannot assume 1:1 relation between them. The sg->length is the size of
+> the physical memory chunk described by sg->page, while sg_dma_length(sg) is
+> the size of the DMA (IO virtual) chunk described by sg_dma_address(sg).
+>
+> The proper way of extracting both: pages and DMA addresses of the whole
+> buffer described by a scatterlist it to iterate independently over the
+> sg->pages/sg->length and sg_dma_address(sg)/sg_dma_len(sg) entries.
+>
+> Fixes: 42e67b479eab ("drm/prime: use dma length macro when mapping sg")
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> ---
+> This fixes the following kernel panic observed on ARM 32bit Samsung
+> Exynos5250-based Snow Chromebook since linux-next 20200326, which
+> introduced the commit 42e67b479eab ("drm/prime: use dma length macro when
+> mapping sg"):
+>
+>  [drm] Initialized panfrost 1.1.0 20180908 for 11800000.gpu on minor 0
+>  [drm] Exynos DRM: using 14400000.fimd device for DMA mapping operations
+>  exynos-drm exynos-drm: bound 14400000.fimd (ops fimd_component_ops)
+>  exynos-drm exynos-drm: bound 14450000.mixer (ops mixer_component_ops)
+>  exynos-drm exynos-drm: bound 145b0000.dp-controller (ops exynos_dp_ops)
+>  exynos-drm exynos-drm: bound 14530000.hdmi (ops hdmi_component_ops)
+>  [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+>  ------------[ cut here ]------------
+>  WARNING: CPU: 0 PID: 12 at mm/vmalloc.c:163 vmap_page_range_noflush+0x18c/0x1b0
+>  Modules linked in:
+>  CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.6.0-rc7-next-20200326-00060-gbb3f893b3f08 #7929
+>  Hardware name: Samsung Exynos (Flattened Device Tree)
+>  Workqueue: events deferred_probe_work_func
+>  [<c0111f20>] (unwind_backtrace) from [<c010d128>] (show_stack+0x10/0x14)
+>  [<c010d128>] (show_stack) from [<c0a78178>] (dump_stack+0xa4/0xd0)
+>  [<c0a78178>] (dump_stack) from [<c01271a0>] (__warn+0xf4/0x10c)
+>  [<c01271a0>] (__warn) from [<c0127268>] (warn_slowpath_fmt+0xb0/0xb8)
+>  [<c0127268>] (warn_slowpath_fmt) from [<c0294fdc>] (vmap_page_range_noflush+0x18c/0x1b0)
+>  [<c0294fdc>] (vmap_page_range_noflush) from [<c02952fc>] (map_vm_area+0x30/0x6c)
+>  [<c02952fc>] (map_vm_area) from [<c0298df8>] (vmap+0x64/0x80)
+>  [<c0298df8>] (vmap) from [<c05f71f4>] (exynos_drm_fbdev_create+0x148/0x270)
+>  [<c05f71f4>] (exynos_drm_fbdev_create) from [<c05bde44>] (__drm_fb_helper_initial_config_and_unlock+0x388/0x5dc)
+>  [<c05bde44>] (__drm_fb_helper_initial_config_and_unlock) from [<c05f743c>] (exynos_drm_fbdev_init+0x78/0xe0)
+>  [<c05f743c>] (exynos_drm_fbdev_init) from [<c05f59f4>] (exynos_drm_bind+0x14c/0x19c)
+>  [<c05f59f4>] (exynos_drm_bind) from [<c0614784>] (try_to_bring_up_master+0x208/0x2bc)
+>  [<c0614784>] (try_to_bring_up_master) from [<c0614ac4>] (__component_add+0xb0/0x178)
+>  [<c0614ac4>] (__component_add) from [<c05fb488>] (exynos_dp_probe+0x94/0x12c)
+>  [<c05fb488>] (exynos_dp_probe) from [<c061e330>] (platform_drv_probe+0x48/0x9c)
+>  [<c061e330>] (platform_drv_probe) from [<c061badc>] (really_probe+0x1c4/0x470)
+>  [<c061badc>] (really_probe) from [<c061bf1c>] (driver_probe_device+0x78/0x1bc)
+>  [<c061bf1c>] (driver_probe_device) from [<c0619c9c>] (bus_for_each_drv+0x74/0xb8)
+>  [<c0619c9c>] (bus_for_each_drv) from [<c061b878>] (__device_attach+0xd4/0x16c)
+>  [<c061b878>] (__device_attach) from [<c061aa38>] (bus_probe_device+0x88/0x90)
+>  [<c061aa38>] (bus_probe_device) from [<c061af5c>] (deferred_probe_work_func+0x4c/0xd0)
+>  [<c061af5c>] (deferred_probe_work_func) from [<c0149f9c>] (process_one_work+0x30c/0x880)
+>  [<c0149f9c>] (process_one_work) from [<c014a568>] (worker_thread+0x58/0x5a4)
+>  [<c014a568>] (worker_thread) from [<c0151a5c>] (kthread+0x154/0x19c)
+>  [<c0151a5c>] (kthread) from [<c0100114>] (ret_from_fork+0x14/0x20)
+>  Exception stack(0xee8fdfb0 to 0xee8fdff8)
+>  dfa0:                                     00000000 00000000 00000000 00000000
+>  dfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+>  dfe0: 00000000 00000000 00000000 00000000 00000013 00000000
+>  irq event stamp: 54037
+>  hardirqs last  enabled at (54055): [<c019ed50>] console_unlock+0x58c/0x6a8
+>  hardirqs last disabled at (54062): [<c019e890>] console_unlock+0xcc/0x6a8
+>  softirqs last  enabled at (54078): [<c0101724>] __do_softirq+0x4fc/0x5f4
+>  softirqs last disabled at (54089): [<c0130248>] irq_exit+0x16c/0x170
+>  ---[ end trace 74519922e0e4625d ]---
+>  exynos4-fb 14400000.fimd: [drm:exynos_drm_fbdev_create] *ERROR* failed to map pages to kernel space.
+>  exynos-drm exynos-drm: [drm:exynos_drm_fbdev_init] *ERROR* failed to set up hw configuration.
+>  ------------[ cut here ]------------
+>  WARNING: CPU: 0 PID: 12 at kernel/locking/mutex-debug.c:103 mutex_destroy+0x84/0x88
+>  DEBUG_LOCKS_WARN_ON(mutex_is_locked(lock))
+>  Modules linked in:
+>  CPU: 0 PID: 12 Comm: kworker/0:1 Tainted: G        W         5.6.0-rc7-next-20200326-00060-gbb3f893b3f08 #7929
+>  Hardware name: Samsung Exynos (Flattened Device Tree)
+>  Workqueue: events deferred_probe_work_func
+>  [<c0111f20>] (unwind_backtrace) from [<c010d128>] (show_stack+0x10/0x14)
+>  [<c010d128>] (show_stack) from [<c0a78178>] (dump_stack+0xa4/0xd0)
+>  [<c0a78178>] (dump_stack) from [<c01271a0>] (__warn+0xf4/0x10c)
+>  [<c01271a0>] (__warn) from [<c012722c>] (warn_slowpath_fmt+0x74/0xb8)
+>  [<c012722c>] (warn_slowpath_fmt) from [<c01892a4>] (mutex_destroy+0x84/0x88)
+>  [<c01892a4>] (mutex_destroy) from [<c05be1a4>] (drm_fb_helper_fini.part.1+0x9c/0xd4)
+>  [<c05be1a4>] (drm_fb_helper_fini.part.1) from [<c05f7464>] (exynos_drm_fbdev_init+0xa0/0xe0)
+>  [<c05f7464>] (exynos_drm_fbdev_init) from [<c05f59f4>] (exynos_drm_bind+0x14c/0x19c)
+>  [<c05f59f4>] (exynos_drm_bind) from [<c0614784>] (try_to_bring_up_master+0x208/0x2bc)
+>  [<c0614784>] (try_to_bring_up_master) from [<c0614ac4>] (__component_add+0xb0/0x178)
+>  [<c0614ac4>] (__component_add) from [<c05fb488>] (exynos_dp_probe+0x94/0x12c)
+>  [<c05fb488>] (exynos_dp_probe) from [<c061e330>] (platform_drv_probe+0x48/0x9c)
+>  [<c061e330>] (platform_drv_probe) from [<c061badc>] (really_probe+0x1c4/0x470)
+>  [<c061badc>] (really_probe) from [<c061bf1c>] (driver_probe_device+0x78/0x1bc)
+>  [<c061bf1c>] (driver_probe_device) from [<c0619c9c>] (bus_for_each_drv+0x74/0xb8)
+>  [<c0619c9c>] (bus_for_each_drv) from [<c061b878>] (__device_attach+0xd4/0x16c)
+>  [<c061b878>] (__device_attach) from [<c061aa38>] (bus_probe_device+0x88/0x90)
+>  [<c061aa38>] (bus_probe_device) from [<c061af5c>] (deferred_probe_work_func+0x4c/0xd0)
+>  [<c061af5c>] (deferred_probe_work_func) from [<c0149f9c>] (process_one_work+0x30c/0x880)
+>  [<c0149f9c>] (process_one_work) from [<c014a568>] (worker_thread+0x58/0x5a4)
+>  [<c014a568>] (worker_thread) from [<c0151a5c>] (kthread+0x154/0x19c)
+>  [<c0151a5c>] (kthread) from [<c0100114>] (ret_from_fork+0x14/0x20)
+>  Exception stack(0xee8fdfb0 to 0xee8fdff8)
+>  dfa0:                                     00000000 00000000 00000000 00000000
+>  dfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+>  dfe0: 00000000 00000000 00000000 00000000 00000013 00000000
+>  irq event stamp: 56283
+>  hardirqs last  enabled at (56283): [<c02b189c>] kfree+0x198/0x3e4
+>  hardirqs last disabled at (56282): [<c02b17d0>] kfree+0xcc/0x3e4
+>  softirqs last  enabled at (56262): [<c0101724>] __do_softirq+0x4fc/0x5f4
+>  softirqs last disabled at (56255): [<c0130248>] irq_exit+0x16c/0x170
+>  ---[ end trace 74519922e0e4625e ]---
+>  exynos-sysmmu 14640000.sysmmu: 14400000.fimd: PAGE FAULT occurred at 0x20000000
+>  ------------[ cut here ]------------
+>  kernel BUG at drivers/iommu/exynos-iommu.c:447!
+>  Internal error: Oops - BUG: 0 [#1] PREEMPT SMP ARM
+>  Modules linked in:
+>  CPU: 0 PID: 52 Comm: kworker/0:2 Tainted: G        W         5.6.0-rc7-next-20200326-00060-gbb3f893b3f08 #7929
+>  Hardware name: Samsung Exynos (Flattened Device Tree)
+>  Workqueue: events output_poll_execute
+>  PC is at exynos_sysmmu_irq+0x210/0x258
+>  LR is at report_iommu_fault+0x144/0x1cc
+>  pc : [<c05a6e34>]    lr : [<c05a13ec>]    psr: a0000193
+>  sp : cfafdbe8  ip : 2d495ebb  fp : 00000200
+>  r10: eeb187e0  r9 : 20000000  r8 : cf300000
+>  r7 : c11d4fb0  r6 : eeb187c0  r5 : 00000000  r4 : c0b59f74
+>  r3 : cfafc000  r2 : 00010001  r1 : 00000000  r0 : ffffffda
+>  Flags: NzCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment none
+>  Control: 10c5387d  Table: 4000406a  DAC: 00000051
+>  Process kworker/0:2 (pid: 52, stack limit = 0x(ptrval))
+>  Stack: (0xcfafdbe8 to 0xcfafe000)
+>  ...
+>  [<c05a6e34>] (exynos_sysmmu_irq) from [<c01a24f4>] (__handle_irq_event_percpu+0x68/0x42c)
+>  [<c01a24f4>] (__handle_irq_event_percpu) from [<c01a28e4>] (handle_irq_event_percpu+0x2c/0x7c)
+>  [<c01a28e4>] (handle_irq_event_percpu) from [<c01a296c>] (handle_irq_event+0x38/0x5c)
+>  [<c01a296c>] (handle_irq_event) from [<c01a7160>] (handle_level_irq+0xcc/0x150)
+>  [<c01a7160>] (handle_level_irq) from [<c01a1574>] (generic_handle_irq+0x34/0x44)
+>  [<c01a1574>] (generic_handle_irq) from [<c0509a5c>] (combiner_handle_cascade_irq+0x8c/0xdc)
+>  [<c0509a5c>] (combiner_handle_cascade_irq) from [<c01a1574>] (generic_handle_irq+0x34/0x44)
+>  [<c01a1574>] (generic_handle_irq) from [<c01a1bbc>] (__handle_domain_irq+0x7c/0xec)
+>  [<c01a1bbc>] (__handle_domain_irq) from [<c050a024>] (gic_handle_irq+0x58/0x9c)
+>  [<c050a024>] (gic_handle_irq) from [<c0100af0>] (__irq_svc+0x70/0xb0)
+>  Exception stack(0xcfafdd00 to 0xcfafdd48)
+>  dd00: c02b189c 00000000 2df3c000 00000000 cf2ed3c0 ee801cc0 60000113 ef1ddda0
+>  dd20: c05d5500 00000000 cf2c9800 cf2ea8b8 00003220 cfafdd50 c02b189c c02b18a0
+>  dd40: 60000113 ffffffff
+>  [<c0100af0>] (__irq_svc) from [<c02b18a0>] (kfree+0x19c/0x3e4)
+>  [<c02b18a0>] (kfree) from [<c05d5500>] (drm_atomic_state_default_clear+0x1b8/0x2dc)
+>  [<c05d5500>] (drm_atomic_state_default_clear) from [<c05d5650>] (__drm_atomic_state_free+0x10/0x50)
+>  [<c05d5650>] (__drm_atomic_state_free) from [<c05e9d88>] (drm_client_modeset_commit_atomic+0x240/0x26c)
+>  [<c05e9d88>] (drm_client_modeset_commit_atomic) from [<c05e9df8>] (drm_client_modeset_commit_locked+0x44/0x1d0)
+>  [<c05e9df8>] (drm_client_modeset_commit_locked) from [<c05e9fa8>] (drm_client_modeset_commit+0x24/0x40)
+>  [<c05e9fa8>] (drm_client_modeset_commit) from [<c05be3ec>] (drm_fb_helper_restore_fbdev_mode_unlocked+0x58/0xa4)
+>  [<c05be3ec>] (drm_fb_helper_restore_fbdev_mode_unlocked) from [<c05be468>] (drm_fb_helper_set_par+0x30/0x5c)
+>  [<c05be468>] (drm_fb_helper_set_par) from [<c05be538>] (drm_fb_helper_hotplug_event.part.5+0xa4/0xbc)
+>  [<c05be538>] (drm_fb_helper_hotplug_event.part.5) from [<c05ac148>] (drm_kms_helper_hotplug_event+0x24/0x30)
+>  [<c05ac148>] (drm_kms_helper_hotplug_event) from [<c05ac238>] (output_poll_execute+0xb8/0x1b4)
+>  [<c05ac238>] (output_poll_execute) from [<c0149f9c>] (process_one_work+0x30c/0x880)
+>  [<c0149f9c>] (process_one_work) from [<c014a568>] (worker_thread+0x58/0x5a4)
+>  [<c014a568>] (worker_thread) from [<c0151a5c>] (kthread+0x154/0x19c)
+>  [<c0151a5c>] (kthread) from [<c0100114>] (ret_from_fork+0x14/0x20)
+>  Exception stack(0xcfafdfb0 to 0xcfafdff8)
+>  dfa0:                                     00000000 00000000 00000000 00000000
+>  dfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+>  dfe0: 00000000 00000000 00000000 00000000 00000013 00000000
+>  Code: e34c00de e300119e ebee00e1 eaffff81 (e7f001f2)
+>  ---[ end trace 74519922e0e4625f ]---
+>  Kernel panic - not syncing: Fatal exception in interrupt
+>  CPU1: stopping
+>  CPU: 1 PID: 0 Comm: swapper/1 Tainted: G      D W         5.6.0-rc7-next-20200326-00060-gbb3f893b3f08 #7929
+>  Hardware name: Samsung Exynos (Flattened Device Tree)
+>  [<c0111f20>] (unwind_backtrace) from [<c010d128>] (show_stack+0x10/0x14)
+>  [<c010d128>] (show_stack) from [<c0a78178>] (dump_stack+0xa4/0xd0)
+>  [<c0a78178>] (dump_stack) from [<c0110ad4>] (handle_IPI+0x3b4/0x440)
+>  [<c0110ad4>] (handle_IPI) from [<c050a064>] (gic_handle_irq+0x98/0x9c)
+>  [<c050a064>] (gic_handle_irq) from [<c0100af0>] (__irq_svc+0x70/0xb0)
+>  Exception stack(0xee8fff58 to 0xee8fffa0)
+>  ff40:                                                       c0109534 00000000
+>  ff60: 2df50000 00000000 ee8fe000 c1108ee8 c1108f2c 00000002 00000000 c0de63c0
+>  ff80: 00000000 c1075fe8 2d495ebb ee8fffa8 c0109534 c0109538 60000013 ffffffff
+>  [<c0100af0>] (__irq_svc) from [<c0109538>] (arch_cpu_idle+0x24/0x44)
+>  [<c0109538>] (arch_cpu_idle) from [<c0163a74>] (do_idle+0x1d8/0x2d4)
+>  [<c0163a74>] (do_idle) from [<c0163f24>] (cpu_startup_entry+0x18/0x1c)
+>  [<c0163f24>] (cpu_startup_entry) from [<401018ac>] (0x401018ac)
+>  ---[ end Kernel panic - not syncing: Fatal exception in interrupt ]---
+> ---
+>  drivers/gpu/drm/drm_prime.c | 30 ++++++++++++++++++------------
+>  1 file changed, 18 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 1de2cde2277c..424db18987f6 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -962,27 +962,33 @@ int drm_prime_sg_to_page_addr_arrays(struct sg_table *sgt, struct page **pages,
+>         unsigned count;
+>         struct scatterlist *sg;
+>         struct page *page;
+> -       u32 len, index;
+> +       u32 page_len, page_index;
+>         dma_addr_t addr;
+> +       u32 dma_len, dma_index;
+>
+> -       index = 0;
+> +       page_index = 0;
+> +       dma_index = 0;
+>         for_each_sg(sgt->sgl, sg, sgt->nents, count) {
+> -               len = sg_dma_len(sg);
+> +               page_len = sg->length;
+>                 page = sg_page(sg);
+> +               dma_len = sg_dma_len(sg);
+>                 addr = sg_dma_address(sg);
+>
+> -               while (len > 0) {
+> -                       if (WARN_ON(index >= max_entries))
+> +               while (pages && page_len > 0) {
+> +                       if (WARN_ON(page_index >= max_entries))
+>                                 return -1;
+> -                       if (pages)
+> -                               pages[index] = page;
+> -                       if (addrs)
+> -                               addrs[index] = addr;
+> -
+> +                       pages[page_index] = page;
+>                         page++;
+> +                       page_len -= PAGE_SIZE;
+> +                       page_index++;
+> +               }
+> +               while (addrs && dma_len > 0) {
+> +                       if (WARN_ON(dma_index >= max_entries))
+> +                               return -1;
+> +                       addrs[dma_index] = addr;
+>                         addr += PAGE_SIZE;
+> -                       len -= PAGE_SIZE;
+> -                       index++;
+> +                       dma_len -= PAGE_SIZE;
+> +                       dma_index++;
+>                 }
+>         }
+>         return 0;
+> --
+> 2.17.1
+>
+
+I have tested the above patch against my original issues with amdgpu
+and radeon drivers and everything is still working as expected.
+
+Sorry I missed this in my original patches.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
