@@ -1,58 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C0A1958C3
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 15:16:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC79C1958E8
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 15:25:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E206B6EA3C;
-	Fri, 27 Mar 2020 14:16:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6C606EA3D;
+	Fri, 27 Mar 2020 14:25:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B09286EA3C
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 14:16:13 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id m11so5699059wrx.10
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 07:16:13 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389906EA3D;
+ Fri, 27 Mar 2020 14:25:29 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id t7so11577846wrw.12;
+ Fri, 27 Mar 2020 07:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9wNt2gai8dRVSKQAlV2TOplqX3mifpAWTobUqLn101c=;
- b=inBI3zIMOQoWlxqDdeGv06GRSPaAjKkg26RelATkUJiHTcP9LZQnSO/ULU1nW/atKk
- GKf6/AVfYIuDEf5LyNTh33Tp39tDTnVLptNWdPYKqdZR9wn6MHdCwLJaIGX4oKWqUIUQ
- /J0Sq4xc09A5xL4LU1ZpBdePsC1fztREX3HVdk7Y6dBuDQ34vFmYc8s8v4v09jI6Cb1k
- c735gWJCGxyrXyhVtCL0BVi9Q/t9Q2jcXKwDZZrU6N6oS0DhJS8EOvpFdzvjJ3OvqvMe
- xv8OKLs9MFOkQLrsj7FElzDPCHR4BuBZiWvpsmhGIro1hJKXXmCLsDfS/GPcN9NMsQlJ
- H/9g==
+ :cc; bh=peP7S2GwPuZ1IKo8FYOZ1jeo4ELir9xxjxU6GqZTgX4=;
+ b=StriVB/9TjnZWqc9kH0lHNwEqOCxpb0m9aQdojCVw1TQU0oy/QZmPbaIfR9bNuuDue
+ 7QSZAxlsnLBkfPYxxgTtuTR7SG4++YVzHqCtUdty6s6uiOdYYad77k+0Xw9ASLhjFAAm
+ ay5WyECrlMw2Zm2a/hdNBiz8O01W0fYEyoGhfJ8zJLc35IS25jRq/W8EnoIxlLXuIgiW
+ V1SW9UcztB62fpCyNNq7iXdVJh4K+Zc68m3LvFEQECRHDZzeIjsZiGDE2NW0a6PXcRRq
+ OCYALWXPpOprqJaK8D3HOoOH8pGbJ6wveEo4cTPqYtePW5d1v4IWdsTgpPwJCfJidDUl
+ 5JTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9wNt2gai8dRVSKQAlV2TOplqX3mifpAWTobUqLn101c=;
- b=kASOKQL32RS3VXL0au6LWBG4VQfwoblo8wXPVxX/uthTtMfqiJEcIwVne8HBJjLXw5
- Z4tKR1bN8Y6TlQtryjtCsJizodpflc1VjlXYvzaIhbEDBWF2YYMuDL4JiQU2NpmQ+XNQ
- IN3dhD9zFeWg0ty5Wnh0XOAYwCql5Go+eL0uDzGoqQotAAIorM7zH49jWuuRPJ+47KC3
- Wmc2gigXryXMJBU+K6q+zFPAsP15Tctwzva6QTX8u6Tq3Hwh9Z0XtB7peN+/n1+YStkZ
- J3Fi58Dm6UmKINBeBiyEdQ4LjeR/xIKOxzIEJqDLpo+LXrwMQbAjOAZTHBs30e99hqAJ
- IcNA==
-X-Gm-Message-State: ANhLgQ38m0FdyvnAivrD7m5Z/lcctSUMmcIpnPqJE+iUWO9kXvOVuQdH
- aRdPrLIQ3F0Gkxu2G30ZE5kEnOESuCgml4eC6xQ=
-X-Google-Smtp-Source: ADFU+vv/Vh/Usi3RX7zJFDIxkoX6XlRPz6qGaxO2o50FKhqyLTNRGqCUFnkaHDBaoZdAfcbG/1I2SUpXx72SUWSdNGo=
-X-Received: by 2002:a5d:6187:: with SMTP id j7mr15924936wru.419.1585318572316; 
- Fri, 27 Mar 2020 07:16:12 -0700 (PDT)
+ bh=peP7S2GwPuZ1IKo8FYOZ1jeo4ELir9xxjxU6GqZTgX4=;
+ b=fgtSv/mi8xhmUmgS7TVdk/n8+rJCLkJ1RJUzWIuGJWB+x+PT9wlgOpJh1O9HBfptxC
+ qV8G1EoHWZ9qmvGSDbKpLkKXYjLQgZCJsVW+qjT/MteEvnkrMReetEvAtM+lufld0CeO
+ OXvRqfDHmqaSb4IloPc1LGwEohZZMlsRQHR+7347tqBsZO/3mWkPkh3dxCm5oBXQdmSL
+ MrY9KDyKrWfN9Qem8bxwm2bonsNm6ET7IuD5IPevSqv9BMj1yVn7ag5lbqGiilWSq05U
+ 6GgIuQakNoWfL5LwuuuwIwvRK0cIrENsuv1TIcWEdX+FIR0rMIy8h5U3ZCUXh0FlPdv1
+ Mlpw==
+X-Gm-Message-State: ANhLgQ0fUR9OkWwOJNbnTkG5BSQFKdfxDQ4RUCKZnyXlWQyZzYXAOKq8
+ vmZUKcpEVfju8Iy179Jl9RVmRaxLWkAzKBBcSrhnyA==
+X-Google-Smtp-Source: ADFU+vsXiZ0/Ce9a1O/msDlNwkE/7qgqmUo4B7/lmX8Z7cLom/fYyI4rkhFAI0E0S/gHRNqEyYdwzjZyyssYophWnCs=
+X-Received: by 2002:a05:6000:111:: with SMTP id
+ o17mr15146245wrx.111.1585319127768; 
+ Fri, 27 Mar 2020 07:25:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <CGME20200327082453eucas1p15b2371b61f653031408f319cc6d13893@eucas1p1.samsung.com>
- <20200327082446.18480-1-m.szyprowski@samsung.com>
- <CABnpCuDySf89HL2AksMB2fOcVCci+1zgB9r8zjRdpCAH3GWhPA@mail.gmail.com>
- <64025801-10f0-9f28-17b2-2c04d4308ac5@samsung.com>
- <CABnpCuBUEO6V=hwzHkUEKK5KDXC=ovPrTHyb9zFYrj0KaHHdww@mail.gmail.com>
-In-Reply-To: <CABnpCuBUEO6V=hwzHkUEKK5KDXC=ovPrTHyb9zFYrj0KaHHdww@mail.gmail.com>
+References: <20200326211005.13301-1-wsa+renesas@sang-engineering.com>
+ <20200326211005.13301-7-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20200326211005.13301-7-wsa+renesas@sang-engineering.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 27 Mar 2020 10:16:01 -0400
-Message-ID: <CADnq5_N65tF-b772uJ2E72=Er8JeeX9UZ34PVGqssprHCMGF1g@mail.gmail.com>
-Subject: Re: [PATCH] drm/prime: fix extracting of the DMA addresses from a
- scatterlist
-To: Shane Francis <bigbeeshane@gmail.com>
+Date: Fri, 27 Mar 2020 10:25:16 -0400
+Message-ID: <CADnq5_P07b-A-VawLTgiTMSdifxMbWS5kgQV_+0Bw2x_DQHATQ@mail.gmail.com>
+Subject: Re: [PATCH 6/6] drm/radeon: convert to use i2c_new_client_device()
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,57 +62,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
  David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- "for 3.8" <stable@vger.kernel.org>,
- "Michael J . Ruhl" <michael.j.ruhl@intel.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ Linux I2C <linux-i2c@vger.kernel.org>,
  Alex Deucher <alexander.deucher@amd.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 27, 2020 at 6:25 AM Shane Francis <bigbeeshane@gmail.com> wrote:
+On Thu, Mar 26, 2020 at 5:35 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 >
-> Hello Marek,
+> Move away from the deprecated API.
 >
-> On Fri, Mar 27, 2020 at 9:00 AM Marek Szyprowski
-> <m.szyprowski@samsung.com> wrote:
-> > > I have tested the above patch against my original issues with amdgpu
-> > > and radeon drivers and everything is still working as expected.
-> > >
-> > > Sorry I missed this in my original patches.
-> >
-> > No problem. Thanks for testing!
-> >
-> > Best regards
-> > --
-> > Marek Szyprowski, PhD
-> > Samsung R&D Institute Poland
-> >
-> Just a thought.
->
-> Would it be worth adding some comments to the code to explain why this
-> is needed, reading
-> the thread around my original patches and the DMA-API documentation it
-> is not instantly
-> clear why you would be mapping the pages in this way.
->
-> Would probably prevent someone in the future making the same mistake I
-> did while updating
-> this code.
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-With a comment similar to the commit messaged added to this function,
-this patch is:
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+patches 1,6, are:
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-Thanks!
-
-Alex
+> ---
+>  drivers/gpu/drm/radeon/radeon_atombios.c | 4 ++--
+>  drivers/gpu/drm/radeon/radeon_combios.c  | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c b/drivers/gpu/drm/radeon/radeon_atombios.c
+> index 848ef68d9086..5d2591725189 100644
+> --- a/drivers/gpu/drm/radeon/radeon_atombios.c
+> +++ b/drivers/gpu/drm/radeon/radeon_atombios.c
+> @@ -2111,7 +2111,7 @@ static int radeon_atombios_parse_power_table_1_3(struct radeon_device *rdev)
+>                                                                     ucOverdriveThermalController];
+>                         info.addr = power_info->info.ucOverdriveControllerAddress >> 1;
+>                         strlcpy(info.type, name, sizeof(info.type));
+> -                       i2c_new_device(&rdev->pm.i2c_bus->adapter, &info);
+> +                       i2c_new_client_device(&rdev->pm.i2c_bus->adapter, &info);
+>                 }
+>         }
+>         num_modes = power_info->info.ucNumOfPowerModeEntries;
+> @@ -2351,7 +2351,7 @@ static void radeon_atombios_add_pplib_thermal_controller(struct radeon_device *r
+>                                 const char *name = pp_lib_thermal_controller_names[controller->ucType];
+>                                 info.addr = controller->ucI2cAddress >> 1;
+>                                 strlcpy(info.type, name, sizeof(info.type));
+> -                               i2c_new_device(&rdev->pm.i2c_bus->adapter, &info);
+> +                               i2c_new_client_device(&rdev->pm.i2c_bus->adapter, &info);
+>                         }
+>                 } else {
+>                         DRM_INFO("Unknown thermal controller type %d at 0x%02x %s fan control\n",
+> diff --git a/drivers/gpu/drm/radeon/radeon_combios.c b/drivers/gpu/drm/radeon/radeon_combios.c
+> index c3e49c973812..d3c04df7e75d 100644
+> --- a/drivers/gpu/drm/radeon/radeon_combios.c
+> +++ b/drivers/gpu/drm/radeon/radeon_combios.c
+> @@ -2704,7 +2704,7 @@ void radeon_combios_get_power_modes(struct radeon_device *rdev)
+>                                 const char *name = thermal_controller_names[thermal_controller];
+>                                 info.addr = i2c_addr >> 1;
+>                                 strlcpy(info.type, name, sizeof(info.type));
+> -                               i2c_new_device(&rdev->pm.i2c_bus->adapter, &info);
+> +                               i2c_new_client_device(&rdev->pm.i2c_bus->adapter, &info);
+>                         }
+>                 }
+>         } else {
+> @@ -2721,7 +2721,7 @@ void radeon_combios_get_power_modes(struct radeon_device *rdev)
+>                                 const char *name = "f75375";
+>                                 info.addr = 0x28;
+>                                 strlcpy(info.type, name, sizeof(info.type));
+> -                               i2c_new_device(&rdev->pm.i2c_bus->adapter, &info);
+> +                               i2c_new_client_device(&rdev->pm.i2c_bus->adapter, &info);
+>                                 DRM_INFO("Possible %s thermal controller at 0x%02x\n",
+>                                          name, info.addr);
+>                         }
+> --
+> 2.20.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
