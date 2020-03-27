@@ -1,58 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B00471957A2
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 14:00:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3B0195790
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 13:56:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 886446EA28;
-	Fri, 27 Mar 2020 13:00:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0B176EA23;
+	Fri, 27 Mar 2020 12:56:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 305 seconds by postgrey-1.36 at gabe;
- Fri, 27 Mar 2020 13:00:00 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50AEF6EA28
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 13:00:00 +0000 (UTC)
-Received: from mail-qt1-f174.google.com ([209.85.160.174]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MFK8H-1j25ze3pAP-00FheN for <dri-devel@lists.freedesktop.org>; Fri, 27
- Mar 2020 13:54:52 +0100
-Received: by mail-qt1-f174.google.com with SMTP id t17so8343719qtn.12
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 05:54:51 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ37fyZwdW6iUOdApT69+lwKCPNwVFz5jt2D4tVZQpUKvqTt31BY
- rXXjghvtkT+HMlltMMPZVR9jZFfSycRegoYmrLg=
-X-Google-Smtp-Source: ADFU+vueKMRRVnX6uqbtv+2n6jxNH6u3YPxdn23XTrFSuAqIloIPBnaq1uinFAYZzt7R/58hOnRiuYU6bptE3XgXqoc=
-X-Received: by 2002:ac8:d8e:: with SMTP id s14mr13725256qti.204.1585313689290; 
- Fri, 27 Mar 2020 05:54:49 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E94E96EA23;
+ Fri, 27 Mar 2020 12:56:30 +0000 (UTC)
+IronPort-SDR: sog5iv+1IeG5dA66zGXJKE+T8sfHxRwB63095soi7swW9pBZC7Ocb6CJP0SSlF9N9UKOSm6xU9
+ GZOdhrXpM79Q==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2020 05:56:30 -0700
+IronPort-SDR: BEDOBxgnuwSQ+2jyF85GS0iJbNM04Dm3iBl/wzRSmQ80le+ACLNJLxAOl/jYii/rnGFzIrd/KL
+ 3m4wyYWKkR5g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,312,1580803200"; d="scan'208";a="239095895"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga007.fm.intel.com with SMTP; 27 Mar 2020 05:56:26 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 27 Mar 2020 14:56:26 +0200
+Date: Fri, 27 Mar 2020 14:56:26 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v7 05/18] video/hdmi: Add Unpack only
+ function for DRM infoframe
+Message-ID: <20200327125626.GE13686@intel.com>
+References: <20200211074657.231405-1-gwan-gyeong.mun@intel.com>
+ <20200211074657.231405-6-gwan-gyeong.mun@intel.com>
+ <87k13fcm8w.fsf@intel.com> <87h7yjcldq.fsf@intel.com>
+ <20200320115737.GF5193@pendragon.ideasonboard.com>
+ <2dd87897a2c1dea8d882141823ed1ca1206ec01c.camel@intel.com>
 MIME-Version: 1.0
-References: <cover.1585311091.git.michal.simek@xilinx.com>
-In-Reply-To: <cover.1585311091.git.michal.simek@xilinx.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Fri, 27 Mar 2020 13:54:33 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2mKPRFbRE3MWScr9GSiL4cpLg0wqv1Q28XDCZVPWgHfg@mail.gmail.com>
-Message-ID: <CAK8P3a2mKPRFbRE3MWScr9GSiL4cpLg0wqv1Q28XDCZVPWgHfg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] powerpc: Remove support for ppc405/440 Xilinx
- platforms
-To: Michal Simek <michal.simek@xilinx.com>
-X-Provags-ID: V03:K1:YgIaWDKHmVyDF64+bXy9Ci0+TfEehqBWTyfBO+xVrr6Yk+4eqqE
- hXZuAe3D+04JYO+HoNJLxEqXWHv4Ki0SgGVKbw9uYc0FukWoUxqudVcdb7w4Jw44oHMqe3p
- vYHQpMnQud/5GjILZ3D9nQbSKYxCHbr0JNcpXxbyB8gUjk05SHdxfDVA8bdf+f3QAmTrGP8
- rPEyvepFoTKGqCOVa4v1Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:U2frmvoLYZw=:q41YaH5R03ZN+y2p0S1YHl
- 96/oNiy6UDYxa6384+dvC2jahXOz8imAVgcAhNxCs+q5ActuZMb9OpLkMo1p0IksrNEArFcTg
- g3yrKcQrRQEAQh5f5kB3ley43ICTB9rOdPvqMZHVW9ZgXk5XwcRqCStUZFM520AiRjiDlwG0D
- SdInm450EVP+nKTTyuXGYuzwtfslE1MC3oB0HUBnc/n6wRMxe3n51wJoip19H32/B0OuH/lOO
- LtvjpodvVB93GDzfNrUXyRBSFNuP+iqdYX+qcOkF2eHYIXaJQnbdl/g1cq6naeNtZ6eamUB3q
- stQDqesZY7UUYL26OvO5rUykwQGxwcgb/Kc3JCc4MtHQg4kiB0cNtoEGgUo7apiAx81urvKkP
- RmwVWiK18v2e4ZB6o87QlFu28wLUfOwV348lmZp+btbcBmqWk0fMu2SWA8z3ZpFiciaOjKss0
- m6Z48De7rn9sLBENCD6nlxXeO1ajT7s2XnlaMp6P458qZlDz5u9MTR6Q3NZVImWrsIISzR63D
- u2GeGB1B95Wz7I7Oh8H/09Xy+cZblM5joyVxph2TFIhBHsFWwkyM4v8aSVweC/rsVE3Kj/3CH
- 5/0FZ6dkBz5V9+FdeV7cPGo6Jak+pgQBFvfhXrOfnGgYaaT9Lb25Hiq4GddJbz86oTZ1AMUET
- r6oWsX7x6UPK0Aud9b3L+rTEt8Qw8z1q/nipIts8t1XZ+doA9x1uzVF8O6C44cqLs9JQuxXhJ
- yPwSArTBdORgq0+BfyRIopCMn2SSgPYV3L6NIPFXfvi0PQ32jslbH3gxvNiO+TpjVFRcdRLpi
- 4Q2YPqW1vxO2GwKrWSp8LR/xX/X6/HCv6lcMtaZNSoFuwVTnyA=
+Content-Disposition: inline
+In-Reply-To: <2dd87897a2c1dea8d882141823ed1ca1206ec01c.camel@intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,87 +55,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Mark Rutland <mark.rutland@arm.com>,
- "Desnes A. Nunes do Rosario" <desnesn@linux.ibm.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jaroslav Kysela <perex@perex.cz>,
- Richard Fontana <rfontana@redhat.com>, Paul Mackerras <paulus@samba.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Sasha Levin <sashal@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
- Masahiro Yamada <masahiroy@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- YueHaibing <yuehaibing@huawei.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Leonardo Bras <leonardo@linux.ibm.com>,
- Matt Porter <mporter@kernel.crashing.org>, DTML <devicetree@vger.kernel.org>,
- Andrew Donnellan <ajd@linux.ibm.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Marc Zyngier <marc.zyngier@arm.com>, Alistair Popple <alistair@popple.id.au>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Nicholas Piggin <npiggin@gmail.com>, Alexios Zavras <alexios.zavras@intel.com>,
- Mark Brown <broonie@kernel.org>, git@xilinx.com,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Allison Randal <allison@lohutok.net>,
- Christophe Leroy <christophe.leroy@c-s.fr>, Michal Simek <monstr@monstr.eu>,
- Wei Hu <weh@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Armijn Hemel <armijn@tjaldur.nl>, Rob Herring <robh+dt@kernel.org>,
- Enrico Weigelt <info@metux.net>, "David S. Miller" <davem@davemloft.net>,
- Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "b.zolnierkie@samsung.com" <b.zolnierkie@samsung.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+ "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 27, 2020 at 1:12 PM Michal Simek <michal.simek@xilinx.com> wrote:
->
-> recently we wanted to update xilinx intc driver and we found that function
-> which we wanted to remove is still wired by ancient Xilinx PowerPC
-> platforms. Here is the thread about it.
-> https://lore.kernel.org/linux-next/48d3232d-0f1d-42ea-3109-f44bbabfa2e8@xilinx.com/
->
-> I have been talking about it internally and there is no interest in these
-> platforms and it is also orphan for quite a long time. None is really
-> running/testing these platforms regularly that's why I think it makes sense
-> to remove them also with drivers which are specific to this platform.
->
-> U-Boot support was removed in 2017 without anybody complain about it
-> https://github.com/Xilinx/u-boot-xlnx/commit/98f705c9cefdfdba62c069821bbba10273a0a8ed
->
-> Based on current ppc/next.
->
-> If anyone has any objection about it, please let me know.
+On Fri, Mar 27, 2020 at 07:27:56AM +0000, Mun, Gwan-gyeong wrote:
+> On Fri, 2020-03-20 at 13:57 +0200, Laurent Pinchart wrote:
+> > Hi Jani,
+> > =
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+> > On Fri, Mar 20, 2020 at 01:32:17PM +0200, Jani Nikula wrote:
+> > > On Fri, 20 Mar 2020, Jani Nikula <jani.nikula@linux.intel.com>
+> > > wrote:
+> > > > On Tue, 11 Feb 2020, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> > > > wrote:
+> > > > > It adds an unpack only function for DRM infoframe for dynamic
+> > > > > range and
+> > > > > mastering infoframe readout.
+> > > > > It unpacks the information data block contained in the binary
+> > > > > buffer into
+> > > > > a structured frame of the HDMI Dynamic Range and Mastering
+> > > > > (DRM)
+> > > > > information frame.
+> > > > > =
 
-This looks reasonable to me as well, in particular as the code only
-supports the two
-ppc44x virtex developer boards and no commercial products.
+> > > > > In contrast to hdmi_drm_infoframe_unpack() function, it does
+> > > > > not verify
+> > > > > a checksum.
+> > > > > =
 
-It does raise a follow-up question about ppc40x though: is it time to
-retire all of it?
-The other ppc405 machines appear to have seen even fewer updates after the
-OpenBlockS 600 got added in 2011, so it's possible nobody is using them any more
-with modern kernels.
+> > > > > It can be used for unpacking a DP HDR Metadata Infoframe SDP
+> > > > > case.
+> > > > > DP HDR Metadata Infoframe SDP uses the same Dynamic Range and
+> > > > > Mastering
+> > > > > (DRM) information (CTA-861-G spec.) such as HDMI DRM infoframe.
+> > > > > But DP SDP header and payload structure are different from HDMI
+> > > > > DRM
+> > > > > Infoframe. Therefore unpacking DRM infoframe for DP requires
+> > > > > skipping of
+> > > > > a verifying checksum.
+> > > > > =
 
-I see that OpenWRT removed both ppc40x and ppc44x exactly a year ago after
-they had not been maintained for years.
+> > > > > Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> > > > > Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+> > > > =
 
-However, 44x (in its ppc476 incarnation) is clearly still is used
-through the fsp2 platform,
-and can not be deprecated at least until that is known to have stopped
-getting kernel
-updates.
+> > > > Bartlomiej, can I have your ack for merging this via drm-intel
+> > > > along
+> > > > with the rest of the series, please?
+> > > =
 
-        Arnd
+> > > Or Hans or Laurent, from v4l/video point of view.
+> > =
+
+> > I'm no expert on InfoFrame, I'll only comment on the API below.
+> > =
+
+> > > > > ---
+> > > > >  drivers/video/hdmi.c | 58 +++++++++++++++++++++++++++++++-----
+> > > > > --------
+> > > > >  include/linux/hdmi.h |  2 ++
+> > > > >  2 files changed, 43 insertions(+), 17 deletions(-)
+> > > > > =
+
+> > > > > diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+> > > > > index 9c82e2a0a411..9818836d82b7 100644
+> > > > > --- a/drivers/video/hdmi.c
+> > > > > +++ b/drivers/video/hdmi.c
+> > > > > @@ -1775,20 +1775,18 @@ hdmi_vendor_any_infoframe_unpack(union
+> > > > > hdmi_vendor_any_infoframe *frame,
+> > > > >  }
+> > > > >  =
+
+> > > > >  /**
+> > > > > - * hdmi_drm_infoframe_unpack() - unpack binary buffer to a
+> > > > > HDMI DRM infoframe
+> > > > > + * hdmi_drm_infoframe_unpack_only() - unpack binary buffer to
+> > > > > a HDMI DRM infoframe
+> > > > >   * @frame: HDMI DRM infoframe
+> > > > >   * @buffer: source buffer
+> > > > >   * @size: size of buffer
+> > > > >   *
+> > > > > - * Unpacks the information contained in binary @buffer into a
+> > > > > structured
+> > > > > + * Unpacks the information data block contained in binary
+> > > > > @buffer into a structured
+> > =
+
+> > Line wrap please.
+> > =
+
+> > This needs to be clarified to explain exactly what the buffer points
+> > to.
+> > =
+
+> Okay I'll update clear comments next version.
+> > Also, as this is applicable to DP too, shouldn't we drop the hdmi_
+> > prefix ? Is there another prefix that could be used for functions
+> > that
+> > are application to infoframe handling shared by different display
+> > interfaces ? A bit of refactoring would help making all this clear.
+> > =
+
+> Both DP and HDMI use CTA-861-G spec for DRM infoframe. I'll update
+> prefix with cta_ instead of hdmi_.
+
+Most of video/hdmi.c is from the CTA spec(s). The name is just a name.
+Let's not start making it inconsistent just for this one case.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
