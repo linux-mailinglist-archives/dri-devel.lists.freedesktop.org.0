@@ -2,54 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE521954A7
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 10:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C34E195515
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 11:23:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CAD76E9E8;
-	Fri, 27 Mar 2020 09:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6896E9EE;
+	Fri, 27 Mar 2020 10:23:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 509646E9E8
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 09:59:48 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id p10so9324544ljn.1
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 02:59:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iT9ew65Ai4POSw9apePAlYbX2sb+iJXvkgJnQxpRw0g=;
- b=cWW3YcpEyyYutTrNo9KR9HBH3E1bK+HR2Lj5S1ufOBfKm/JNDbVKgSTehtTbK/piG7
- AKjHnGwyvO2icmwsa3kFw6Zy9abidGdYmBJm7RwikCnCpiGoaqgq5m3bGu0GFONHPovH
- s0c/WvnYnPEvbNXNyKweaiea++yeq0zcHNyQfUxojaI3SyGLY4+iyWjDQ0x68SaY8Drf
- JMetNVWiEP6KTRh7NjcfaAuyl0sKbJRnuDYUHwbVm3S17ouQgtixys00HdZ8IS96Ovz4
- pek6sQ78KGlTRqT5w9MPDkgc2TCFzKlFMmuVNKZoTHdy8naS5UOmiEGTokrk8DVStpkg
- Jd4g==
+Received: from us-smtp-delivery-74.mimecast.com
+ (us-smtp-delivery-74.mimecast.com [63.128.21.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC7CD6E9EE
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 10:23:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585304583;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=05Ee6QYlJIueX5ozbF5LVD/y13wkZq4RWsLhymXVQzw=;
+ b=PD/4VTCwfFLs8MwCta/A4hCyEB7Mx2Jag2bAuKP2Dz6T8BOdBe8FZzHFCYdijvK1esGTgE
+ Buu/IqeFsvLot4B0SBCm0TJUGaUb9cLtkI9T3tVdlh3ZAK4mLdnjILDJm2PXk8CvZ/T8GZ
+ oBJPKZLbS6Ja2LcI1moROg/6RuQQpaw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-rhRez6NSNe6nEux_rHiWIg-1; Fri, 27 Mar 2020 06:22:58 -0400
+X-MC-Unique: rhRez6NSNe6nEux_rHiWIg-1
+Received: by mail-wr1-f70.google.com with SMTP id d1so4318289wru.15
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 03:22:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iT9ew65Ai4POSw9apePAlYbX2sb+iJXvkgJnQxpRw0g=;
- b=N8XBpwmCfaENC3C150rioZCkYPCwEbYi/gLVqLXx1ZNMig2GaCNXZHqxVzMlwXfXvX
- k0tTJmSPkRiUrvheYPmv3R3BpUmoWLNW1wPOgVXssUjC/7IJmsOld8Dw4xlb/EEEb94p
- MMXe6RVc5FLRha8Owye9w+a2tPUDQLssCzT8QVggWpnCvSO14TvB75HdUylv/ppz7Yuz
- yQhAWs05Yny1zapi1OcvZnk23yoHE25lyff8aqBuPgcL0mvVvlLXfb7FPLqT+D7IUN4c
- WJUk7oP12T94YSXBCY02CvWbvntzph2uvpLnE6h9jAacyAmMXPzYYDqURPfFs89GVt0c
- Q/gA==
-X-Gm-Message-State: AGi0PuaQx4iO5IdgvcHvI16tdISHuRV038E+JcYaICAf4vMXzvyO+El0
- dkZSJSWI/vgtsEdMBIMfBGiBv6KpvP+WT2Z7vRKoCw==
-X-Google-Smtp-Source: ADFU+vsFTyW5diEMQrZ6oc8ojCeBX7BYjVmipZYNTS3SNNq4tTiZwvSWUqKgPn07Ht2NDQ7OLG9B8uptAVDDcyFhwxQ=
-X-Received: by 2002:a2e:9605:: with SMTP id v5mr7685010ljh.258.1585303186378; 
- Fri, 27 Mar 2020 02:59:46 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=05Ee6QYlJIueX5ozbF5LVD/y13wkZq4RWsLhymXVQzw=;
+ b=d64Ho+gLaTiHiSvwKAqKroUdSgHBTiadQb1YklUkMQzaWMOyBqkTWwd+CYV6YK3+Ex
+ UygSKVHspBcJu7029annjtwnHHk88CAfron3QBX4ImFc1JO0Hdk1pUxKGvKfLMY3lRg3
+ Q5HbKHPl4ZUUBsSnDqDh90YSOg0y18MNJg9XWFg0v0yBOOA65vs/k0ua9el942WOcpd+
+ C+7na7LYYy45E06PPOF6LTyjKPXx7g2QtpUX+qUAUBYcJlW0g7TAGAB0oaAlurkZLf5c
+ TBXSkfUPSd7AH6AgFW2qQo2kcOv+HbrSFWQDfncQle8ojRHmvNriR10IW++HqZdkdjkQ
+ LGsA==
+X-Gm-Message-State: ANhLgQ2LxUBj+DCL/f3QgbBadED/bLSCrcJOaG45/FCzpgrz4m5wq8Qg
+ IoqBxm6V2duWDqH++ZJ6axWrUlbnwEw0Y6r2lJsh/nzNRRShyIlpoeuMOFoiX+BZc2Ib99vZVc0
+ AyUqxifSWIYavKhkdVraA48FpuBgX
+X-Received: by 2002:a7b:c951:: with SMTP id i17mr4795830wml.182.1585304576739; 
+ Fri, 27 Mar 2020 03:22:56 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtDNX47i3srX2ILDC4XcjNclFJtGWEC09OQ0rOSinIhuTKwBB0F3mnf5msFQPZIECn5TGLN/Q==
+X-Received: by 2002:a7b:c951:: with SMTP id i17mr4795800wml.182.1585304576226; 
+ Fri, 27 Mar 2020 03:22:56 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-fc7e-fd47-85c1-1ab3.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:fc7e:fd47:85c1:1ab3])
+ by smtp.gmail.com with ESMTPSA id f22sm15109583wmf.2.2020.03.27.03.22.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Mar 2020 03:22:55 -0700 (PDT)
+Subject: Re: [PATCH] drm/fb-helper: Add TODO for making
+ drm_fb_helper_alloc_fbi fill apertures
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200326151009.102377-1-hdegoede@redhat.com>
+ <CAKMK7uFgyt_LD7wSTDB-LdaW_cc9Ge12DY8kWxeL_dS4Q4deOQ@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <4af412c1-6ffe-8d5b-37ff-cd67be87a840@redhat.com>
+Date: Fri, 27 Mar 2020 11:22:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200325220542.19189-1-robh@kernel.org>
- <20200325220542.19189-4-robh@kernel.org>
-In-Reply-To: <20200325220542.19189-4-robh@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 27 Mar 2020 10:59:35 +0100
-Message-ID: <CACRpkdbWeKjd6B2mLz3+7LOxSGP9FqSz6YRp_YHx+2qHkJVFCQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] dt-bindings: Clean-up schema errors due to missing
- 'addtionalProperties: false'
-To: Rob Herring <robh@kernel.org>
+In-Reply-To: <CAKMK7uFgyt_LD7wSTDB-LdaW_cc9Ge12DY8kWxeL_dS4Q4deOQ@mail.gmail.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,78 +82,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- linux-iio <linux-iio@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Guillaume La Roque <glaroque@baylibre.com>,
- Peter Meerwald-Stadler <pmeerw@pmeerw.net>, Lee Jones <lee.jones@linaro.org>,
- linux-clk <linux-clk@vger.kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Zhang Rui <rui.zhang@intel.com>, Brian Masney <masneyb@onstation.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Michael Hennerich <michael.hennerich@analog.com>,
- Linux PM list <linux-pm@vger.kernel.org>, MSM <linux-arm-msm@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Stephen Boyd <sboyd@kernel.org>, netdev <netdev@vger.kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Hartmut Knaack <knaack.h@gmx.de>,
- linux-media@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Jonathan Cameron <jic23@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 25, 2020 at 11:05 PM Rob Herring <robh@kernel.org> wrote:
+Hi,
 
-> Numerous schemas are missing 'additionalProperties: false' statements which
-> ensures a binding doesn't have any extra undocumented properties or child
-> nodes. Fixing this reveals various missing properties, so let's fix all
-> those occurrences.
->
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Hartmut Knaack <knaack.h@gmx.de>
-> Cc: Lars-Peter Clausen <lars@metafoo.de>
-> Cc: Peter Meerwald-Stadler <pmeerw@pmeerw.net>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Guillaume La Roque <glaroque@baylibre.com>
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: linux-clk@vger.kernel.org
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-iio@vger.kernel.org.
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-amlogic@lists.infradead.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
+On 3/26/20 6:55 PM, Daniel Vetter wrote:
+> On Thu, Mar 26, 2020 at 4:10 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> Currently drivers using drm_fbdev_generic_setup() end up with a single
+>> empty aperture in their fb_info struct.
+>>
+>> Not having the proper info in the apertures list causes
+>> register_framebuffer to not remove conflicting framebuffers,
+>> which some drivers currently workaround by manually calling
+>> drm_fb_helper_remove_conflicting_pci_framebuffers().
+>>
+>> Add a TODO as a reminder that we need to fix this.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   drivers/gpu/drm/drm_fb_helper.c | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+>> index 4c7cbce7bae7..16b8dc38d022 100644
+>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>> @@ -526,6 +526,14 @@ struct fb_info *drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper)
+>>          if (ret)
+>>                  goto err_release;
+>>
+>> +       /*
+>> +        * TODO: We really should be smarter here and alloc an apperture
+>> +        * for each IORESOURCE_MEM resource helper->dev->dev has and also
+>> +        * init the ranges of the appertures based on the resources.
+>> +        * Note some drivers currently count on there being only 1 empty
+>> +        * aperture and fill this themselves, these will need to be dealt
+>> +        * with somehow when fixing this.
+>> +        */
+> 
+> Ah yes this is a bit more involved than first apperances suggest - we
+> might want to have a dedicated solution for the generic_setup helper
+> only, so we don't break all the other drivers using this function
+> directly.
+> 
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Sorry for errors caused by me,
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Thank you, pushed to drm-misc-next.
 
-Yours,
-Linus Walleij
+Any chance you can perhaps take (another) look at:
+https://patchwork.freedesktop.org/patch/340140/
+
+? We had an interesting discussion about that which
+seems (to me) to end in agreement and you asking for
+more documentation. I replied to that that the patch
+already added some (but not much) documentation and
+then the discussion ended. I would still like to get
+this patch upstream, as I have a userspace patch
+(for plymouth) pending which depends on it.
+
+Regards,
+
+Hans
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
