@@ -1,39 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA051950F0
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 07:15:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17BBC1951A2
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Mar 2020 07:59:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96BA56E989;
-	Fri, 27 Mar 2020 06:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4C176E98E;
+	Fri, 27 Mar 2020 06:59:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A684A6E989
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 06:15:39 +0000 (UTC)
-Received: from kernel.org (unknown [104.132.0.74])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6CA71206E6;
- Fri, 27 Mar 2020 06:15:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585289739;
- bh=58KuB2EdmdqAA/if2WjPCh2gfILqrjtvKlUR+JH3qxc=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=cq0Vufjh+D/dECAV8urvcwHeWZa4S6cF2/G4FE0/lylDORUFLMJXs7SuFz/U7yd1u
- 9JP+02dqyjSaN1y61iVgQfqNlw9AVNxfZzHXVWeiUFLXfZy9l1gt8K1IhWwqntJqYq
- BrzzB5oGp+k4BKuN5nUIRgMDDe0sUXPhfWJdQg3k=
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADA56E98E
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Mar 2020 06:58:59 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id j16so8731205otl.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Mar 2020 23:58:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=0OvgzAUpJOb5U0m6XVla+IjaXNlPer0DBm+gmB2qBB4=;
+ b=A4bES7e6LdCzvpj80XAcy0n6U4veuE/qDWGvby2jJcgM+/RPFGWdasYCAOn11/6fOO
+ m0g5lZ9pyLRWKb6FiRJY+FtJbcSwShv1bNB1ajmUXjl5Vilvpk5Le1W1ulZ94zqJAJ/3
+ Q9jnEw61OgPC/f+JMRJZlL4b+1TTn3ynX/9NRNaan0Fe8At0G8rWH11gMX4l+LdPi7nS
+ jLTgOMCm15gT8BGktGUe8PGDG5VqaIbeXe/U0RrhpJc8NpWv/fx/1CI+GLNGNNcSZqqK
+ jZ0loHhNJEVD/Iu3VwJiMLn0GaAK/kmU6LpgzaWrSYqsYF1FzFnQj97xedT7HkEBEAZ3
+ UhkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=0OvgzAUpJOb5U0m6XVla+IjaXNlPer0DBm+gmB2qBB4=;
+ b=CPfcdCGT0sgJ8q5X1aoKRlnf1Rh70DbSsWQ4szAq57PFRW19d78EjAGXqqwvM2b0yX
+ /4FxSpqJ5cZq/eQDDQ1R054Ni81NHCH08S2o+pxirLv8WA2m2fiVuZaGPSO9MQZy+JXf
+ 5dd9icTEry+gn96EIzxZ7vceOgQmXVE98HW/oeQmrKcRMgWOI1DjcQ1GmdfGeKIxifKv
+ b+pTcdB/9rY8zMTasTTgNgldgpcWIsA1mHcaMGl3oy2vOVeTUrOnsJrH42ASZiswL3du
+ 5toYMIspgULaDZsUDv92iMNZvgTy9YiPO4djwhmToXCmzPrehJKr80lw7vKxobKkI7SX
+ IWVg==
+X-Gm-Message-State: ANhLgQ26oBCeu1DXnx8RkZcRLQuW+2YvV2V2yPjuCSGMjr9zpKkYAxaE
+ 6ux3wgoQQvkWKZjOR9Bqs2A/Ouxt5YR3GvaY4yU=
+X-Google-Smtp-Source: ADFU+vsN+CBLq7qZ8M51XGNT/SlTLkXGErxUW4g9/CgvsRZQshcve9+asKn+qyXR7fEP22LHUmSOPJlRZ7jauLjKboE=
+X-Received: by 2002:a9d:4802:: with SMTP id c2mr6462122otf.78.1585292338382;
+ Thu, 26 Mar 2020 23:58:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200325220542.19189-5-robh@kernel.org>
-References: <20200325220542.19189-1-robh@kernel.org>
- <20200325220542.19189-5-robh@kernel.org>
-Subject: Re: [PATCH 4/4] dt-bindings: Add missing 'additionalProperties: false'
-From: Stephen Boyd <sboyd@kernel.org>
-To: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Date: Thu, 26 Mar 2020 23:15:38 -0700
-Message-ID: <158528973872.125146.8143173056879958106@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 27 Mar 2020 16:58:46 +1000
+Message-ID: <CAPM=9tx=PisdA7qzEBz+n9Sqc4YfSpaSV-ja3tf7MjBnZ=_NXg@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.6-rc8
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,71 +58,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, linux-iio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Guillaume La Roque <glaroque@baylibre.com>,
- Peter Meerwald-Stadler <pmeerw@pmeerw.net>, Lee Jones <lee.jones@linaro.org>,
- linux-clk@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Zhang Rui <rui.zhang@intel.com>, Brian Masney <masneyb@onstation.org>,
- Michael Hennerich <michael.hennerich@analog.com>, linux-pm@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- linux-amlogic@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>, Hartmut Knaack <knaack.h@gmx.de>,
- linux-media@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Rob Herring (2020-03-25 15:05:41)
-> Setting 'additionalProperties: false' is frequently omitted, but is
-> important in order to check that there aren't extra undocumented
-> properties in a binding.
-> 
-> Ideally, we'd just add this automatically and make this the default, but
-> there's some cases where it doesn't work. For example, if a common
-> schema is referenced, then properties in the common schema aren't part
-> of what's considered for 'additionalProperties'. Also, sometimes there
-> are bus specific properties such as 'spi-max-frequency' that go into
-> bus child nodes, but aren't defined in the child node's schema.
-> 
-> So let's stick with the json-schema defined default and add
-> 'additionalProperties: false' where needed. This will be a continual
-> review comment and game of wack-a-mole.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/clock/fsl,plldig.yaml        | 2 ++
->  Documentation/devicetree/bindings/clock/imx8mn-clock.yaml      | 2 ++
->  Documentation/devicetree/bindings/clock/imx8mp-clock.yaml      | 2 ++
->  Documentation/devicetree/bindings/clock/milbeaut-clock.yaml    | 2 ++
->  Documentation/devicetree/bindings/clock/qcom,gcc-apq8064.yaml  | 2 ++
->  Documentation/devicetree/bindings/clock/qcom,gcc-ipq8074.yaml  | 2 ++
->  Documentation/devicetree/bindings/clock/qcom,gcc-msm8996.yaml  | 2 ++
->  Documentation/devicetree/bindings/clock/qcom,gcc-msm8998.yaml  | 2 ++
->  Documentation/devicetree/bindings/clock/qcom,gcc-qcs404.yaml   | 2 ++
->  Documentation/devicetree/bindings/clock/qcom,gcc-sc7180.yaml   | 2 ++
->  Documentation/devicetree/bindings/clock/qcom,gcc-sm8150.yaml   | 2 ++
->  Documentation/devicetree/bindings/clock/qcom,gcc.yaml          | 2 ++
->  Documentation/devicetree/bindings/clock/qcom,mmcc.yaml         | 2 ++
->  .../devicetree/bindings/clock/qcom,msm8998-gpucc.yaml          | 2 ++
->  Documentation/devicetree/bindings/clock/qcom,rpmhcc.yaml       | 2 ++
->  .../devicetree/bindings/clock/qcom,sc7180-dispcc.yaml          | 2 ++
->  Documentation/devicetree/bindings/clock/qcom,sc7180-gpucc.yaml | 2 ++
->  .../devicetree/bindings/clock/qcom,sc7180-videocc.yaml         | 2 ++
->  .../devicetree/bindings/clock/qcom,sdm845-dispcc.yaml          | 2 ++
->  Documentation/devicetree/bindings/clock/qcom,sdm845-gpucc.yaml | 2 ++
->  .../devicetree/bindings/clock/qcom,sdm845-videocc.yaml         | 2 ++
-> 
+Hi Linus,
 
-Acked-by: Stephen Boyd <sboyd@kernel.org> # clock
+Pretty quiet some minor sg mapping fixes for 3 drivers, and a single
+oops fix for the scheduler.
+I'm hoping nobody tries to send me a fixes pull today but I'll keep an
+eye out of the weekend.
+
+Dave.
+
+drm-fixes-2020-03-27:
+drm fixes for 5.6-rc8/final
+
+radeon/amdgpu/dma-buf:
+- sg list fixes
+
+scheduler:
+- oops fix
+The following changes since commit 16fbf79b0f83bc752cee8589279f1ebfe57b3b6e:
+
+  Linux 5.6-rc7 (2020-03-22 18:31:56 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-03-27
+
+for you to fetch changes up to c4b979ebcafe978338cad1df4c77cdc8f84bd51c:
+
+  Merge tag 'amd-drm-fixes-5.6-2020-03-26' of
+git://people.freedesktop.org/~agd5f/linux into drm-fixes (2020-03-27
+13:03:17 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.6-rc8/final
+
+radeon/amdgpu/dma-buf:
+- sg list fixes
+
+scheduler:
+- oops fix
+
+----------------------------------------------------------------
+Dave Airlie (2):
+      Merge tag 'drm-misc-fixes-2020-03-26' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'amd-drm-fixes-5.6-2020-03-26' of
+git://people.freedesktop.org/~agd5f/linux into drm-fixes
+
+Shane Francis (3):
+      drm/prime: use dma length macro when mapping sg
+      drm/amdgpu: fix scatter-gather mapping with user pages
+      drm/radeon: fix scatter-gather mapping with user pages
+
+Yintian Tao (1):
+      drm/scheduler: fix rare NULL ptr race
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
+ drivers/gpu/drm/drm_prime.c             | 2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c     | 2 +-
+ drivers/gpu/drm/scheduler/sched_main.c  | 2 ++
+ 4 files changed, 5 insertions(+), 3 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
