@@ -1,37 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C338196997
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Mar 2020 22:49:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A41AD1969B9
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Mar 2020 23:02:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4CC6E183;
-	Sat, 28 Mar 2020 21:49:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F1E56E05A;
+	Sat, 28 Mar 2020 22:02:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 758076E183;
- Sat, 28 Mar 2020 21:49:41 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 519CF8040D;
- Sat, 28 Mar 2020 22:49:39 +0100 (CET)
-Date: Sat, 28 Mar 2020 22:49:37 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH 0/6] gpu: convert to use new I2C API
-Message-ID: <20200328214937.GA9505@ravnborg.org>
-References: <20200326211005.13301-1-wsa+renesas@sang-engineering.com>
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6EE96E05A
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 22:02:38 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id a49so13848841otc.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 15:02:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=isVtdDuL+ZC2JRMHdxAHdfV8aIeJjVzf0LpDESpJMO0=;
+ b=b2HRxBs8m8MBI5G5rZeZx3VkI0SXj6/y6VeNJu6Rn6IG7o6b2oLt1i8/3eSbcv1qN5
+ cHE4lHnZa85p+ewNoKYeVFsixKEegiSGtl+p57Olt5mvRJVbe6+kfL+ihJMpS1y5X/Jr
+ OXi1QW623vICe0d54sTfRP4a3qy1lAg1+PFH0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=isVtdDuL+ZC2JRMHdxAHdfV8aIeJjVzf0LpDESpJMO0=;
+ b=OO0t0hTXybBgaPWLqM8/mO6oK7+9bSoVRHuLBfKwgrWFS5Zp9tZ3i+se+n7jfqckNZ
+ ZV17Pqh2MJ6EFndc2+xO1mBAhn/1SJKaqUFeor1GiWcF1oCuGjLrIcn+fvnkRv9cUfVm
+ lLtDfr+xPwEJ5joGEWSYncnxe5KNlDf15pmyznuieXWPKSjaPc3ZrNgez1yPrNO/m5Um
+ y0f1OP6muwqUHo9Z65h8vf8VE3RQ/vfQjpSuLNPAr+HYf1wJZvktRmisMm+XV/4/SIvO
+ mgqM6eYepZH/uJpW7P9sS8H9YbiwZLvw5bQ0t8O7Dch+rfxiGRaszRSkMR+ZxXQOpGGk
+ 9yoA==
+X-Gm-Message-State: ANhLgQ2VlbWp52dOo6BrPWK2knWQOdVcHVOgjXTE8gHJJl+GFHTrrj/1
+ qZR0ZxhFbt+/h+C/mU814w2/+MQkOujdOn2L+g+1hlUv
+X-Google-Smtp-Source: ADFU+vtm/G35Ca0yCXqhBk9vyeYAcdK5CzKIzl1sq2rQzReBewQD9UWi/fyAosKi43RQJWwgId0AtlsuowZDEXE5XHQ=
+X-Received: by 2002:a4a:4190:: with SMTP id x138mr4630675ooa.35.1585432958047; 
+ Sat, 28 Mar 2020 15:02:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200326211005.13301-1-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8
- a=Ej2OcDn8OD74Q5IJgyMA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+References: <20200328162358.18500-1-daniel.vetter@ffwll.ch>
+ <20200328184942.GA28087@ravnborg.org>
+In-Reply-To: <20200328184942.GA28087@ravnborg.org>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Sat, 28 Mar 2020 23:02:26 +0100
+Message-ID: <CAKMK7uHjD-wc3qR6h76u+CSJVGC_cJktfwyQDs9Jrt4C3JU3ag@mail.gmail.com>
+Subject: Re: [PATCH] drm/managed: Fix off-by-one in warning
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,50 +58,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: kernel test robot <lkp@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 26, 2020 at 10:09:58PM +0100, Wolfram Sang wrote:
-> We are deprecating calls which return NULL in favor of new variants which
-> return an ERR_PTR. Only build tested.
-> 
-> 
-> Wolfram Sang (6):
->   drm/amdgpu: convert to use i2c_new_client_device()
->   drm/gma500: convert to use i2c_new_client_device()
->   drm/i2c/sil164: convert to use i2c_new_client_device()
->   drm/i2c/tda998x: convert to use i2c_new_client_device()
->   drm/nouveau/therm: convert to use i2c_new_client_device()
->   drm/radeon: convert to use i2c_new_client_device()
+On Sat, Mar 28, 2020 at 7:49 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Daniel.
+>
+> On Sat, Mar 28, 2020 at 05:23:58PM +0100, Daniel Vetter wrote:
+> > I'm thinking this is the warning that fired in the 0day report, but I
+> > can't double-check yet since 0day didn't upload its source tree
+> > anywhere I can check. And all the drivers I can easily test don't use
+> > drm_dev_alloc anymore ...
+> >
+> > Also if I'm correct supreme amounts of bad luck because usually kslap
+> > (for bigger structures) gives us something quite a bit bigger than
+> > what we asked for.
+> >
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Fixes: c6603c740e0e ("drm: add managed resources tied to drm_device")
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Dan Carpenter <dan.carpenter@oracle.com>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Neil Armstrong <narmstrong@baylibre.com
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_managed.c | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
+> > index 4955241ceb4c..9cebfe370a65 100644
+> > --- a/drivers/gpu/drm/drm_managed.c
+> > +++ b/drivers/gpu/drm/drm_managed.c
+> > @@ -139,8 +139,7 @@ void drmm_add_final_kfree(struct drm_device *dev, void *container)
+> >  {
+> >       WARN_ON(dev->managed.final_kfree);
+> >       WARN_ON(dev < (struct drm_device *) container);
+> > -     WARN_ON(dev + 1 >=
+> > -             (struct drm_device *) (container + ksize(container)));
+> > +     WARN_ON(dev + 1 > (struct drm_device *) (container + ksize(container)));
+>
+> I do not think this is the right fix...
+> The original code would trigger if
+> 1) the container only had a drm_device - and nothing else
+> 2) and the allocated size was the same
 
-With the ack from Alex I went ahead and applied the patches to
-drm-misc-next.
+Yup, which apparently happens for all the drivers calling
+drm_dev_alloc(). At least on the unlucky architecture that 0day tested
+on (or build settings, or whatever). The issue was hit with drm/bochs,
+which is still using drm_dev_alloc (like most older-ish drivers).
 
-	Sam
+> And the modification will now allow for a container with the exact size
+> of drm_device.
+>
+> I checked all users in my tree - no-one only had a drm_device.
+> The minimum was one extra pointer.
+>
+> Another thing that could trigger the warning was if any users
+> did not specify a pointer to memory allocated by k(z)alloc()
+> But I could not find any.
+>
+> tiny/st7735r.c looked suspisius, but I think it is also OK,
+> because struct st7735r_priv is allocated, but the poitner specified in
+> st7735r_priv.dbidev. But dbidev is the first field - so OK.
+>
+> So no better clue...
 
-
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu_dpm.c        | 2 +-
->  drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c     | 8 ++++----
->  drivers/gpu/drm/i2c/sil164_drv.c               | 7 +++++--
->  drivers/gpu/drm/i2c/tda998x_drv.c              | 6 +++---
->  drivers/gpu/drm/nouveau/nvkm/subdev/therm/ic.c | 4 ++--
->  drivers/gpu/drm/radeon/radeon_atombios.c       | 4 ++--
->  drivers/gpu/drm/radeon/radeon_combios.c        | 4 ++--
->  7 files changed, 19 insertions(+), 16 deletions(-)
-> 
-> -- 
-> 2.20.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Yeah all the drivers using drm_dev_init with embedded drm_device wont hit this.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
