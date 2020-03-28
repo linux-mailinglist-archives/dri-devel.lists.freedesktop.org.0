@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B32196648
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Mar 2020 14:20:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD451196646
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Mar 2020 14:20:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68E146EAE0;
-	Sat, 28 Mar 2020 13:20:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 157A16EAE2;
+	Sat, 28 Mar 2020 13:20:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D94186EAE0
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 13:20:41 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id 19so13026169ljj.7
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 06:20:41 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77E5D6EAE2
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 13:20:44 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id q19so12991672ljp.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 06:20:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xRjOOFVmay0tl/khgo7ApP7t7yp4YJlpdaMheaiS9iE=;
- b=pTz9g+HABN1ahbFF4pP438F9oXDLBOviC5iZ6mXVlkN2NwwcX6DpnpfTZjfbOJOpQ8
- ECMx6zY3ZUvqVLrVTM9leNXtbYaGCnI8n3gZGC+p8/DZwqlUKpJyyA2ZJ+Rwbqpf5fRF
- yOTSux1I/eiyVRalny1XzVWBcVLmW8ejeQBwafg+SN1G4YNkxZzNc/4g22hlQ5VyElmA
- gvdZcUNc7sK8FMkWbNJGEaXtW+K5gR1ypOlBBiKUhWIFNogu+M1SYsX3nVxGK3J8iVVk
- 0ITiPEUnbpfGuxTK1TicFiTZqWtXq/OdmtxjXHQwuRhXSnHhiAGwE4QOUWKw00CFhttg
- QTUg==
+ bh=jqZgt0+H86dzDgMStZ8jbgHYLQgNUufTEwKegYS+otE=;
+ b=EzQJzlOKUXSQhFuGxvJgwSojj+2v+40UBfPEiqu8xEP8vgHNFOYKa0TBsWEGuABb4k
+ CsffuYK8T0EKGBY/BqYBUmteih9pcHZKkNnFG7mzSvmwGTn3OMpFmKsd4CiYaOdXq+E0
+ h1E5qhCoP1YCGEHl2+fxUFBVhDv8Ay1QX070YkQRT3tw8nd+qLZrG30Szto7ypT700lX
+ J1PjzGVZztvN+DsP1TzTY3AfWi0Uaq7QmYNo7W8puUsedqXiEl46ernKpj0OLywId82W
+ /mAsX3+Sl37jGQWNTBz0tgnTtPODGawwlTDjNSJ+8nxgDx1dfyp/zeyncU0qmXc9XO7Q
+ MW4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xRjOOFVmay0tl/khgo7ApP7t7yp4YJlpdaMheaiS9iE=;
- b=AB8/5Bpl6jNV5OuPR4xhxOq9ISLtbx7Ou/COHSSeby+gMhvP+vuM1E7r1Lxjecfcg1
- d33JfxDvnelVEsteJUhPKpQ094B8bOi4zA2qCvzdp+weolsL9AfsgVXjNjPXiN+9gPj/
- s1W0nzWjJFXorkSbXvspqxOEopNK6SrwilTVWvmPVSjBfTztp1jmfjsPRzuVw1ZfWYRe
- 28mq+0JLLUey2QhKXbgu/Az9B/ol7u/uS66gpLbXA/GBiR9jodLinq8emqkrPgmQ0bmS
- gFCBoZ0kVrXKPdrBGEoFIh5d1xEj4lLJiqtJOnuCSKAarI6pra2bcBorOVTLDkA+Hh/t
- Y7Lg==
-X-Gm-Message-State: AGi0PuZftUJxvAS9kceUoTRKW6Se6l10LL+PZEqfwasWq11NaAFp4W1N
- OvIueEj0B8Q3nGeaweh1S33aape9+mI=
-X-Google-Smtp-Source: APiQypJmVcivZFdeNDK6R6KBtRxp7CH0cxVriKZZ+AP3cCRlaYUK03Y1f3eiEorMTzo2jFFLj148yw==
-X-Received: by 2002:a2e:b446:: with SMTP id o6mr2291687ljm.80.1585401640014;
- Sat, 28 Mar 2020 06:20:40 -0700 (PDT)
+ bh=jqZgt0+H86dzDgMStZ8jbgHYLQgNUufTEwKegYS+otE=;
+ b=fX0yfQRV4hmOVFNWIWvNFDN3mbEQUiLD8ePLRu8+zDJVOENWpFWHzOVTKOB4Fm5tVj
+ 7b1uF4KB5hb/t+Sgpozw0TfaZFbbDZw9p92fFJEAtGRwoIdQZQKQell7s24QbOXBtv1p
+ iRRXyYYPIF48ubL9+wFtXhN8CacIpoWfuosGbuzDUyh79waJ9PgyJppwHkqVDWH+Di+d
+ G8/vt2gIp8BWAqG5FaCf8D2ZALDlL96xbjKVMwvn+UxziZY58k0bp2ccljwXccQcuTq6
+ 77SMVGca886tH4VLEjYkVVmbKVv4kplDer/BJ5wNB9Q6mS/pzUXFFWe7/K4BVy0wzBJt
+ lfrg==
+X-Gm-Message-State: AGi0PuZ3J7DVRRS4gJXBL8ZzoXyondSmjKKokkdRhyqt7Dv2aUTYX/ng
+ CJ1pih2ugEnMYanFuzwbqzR/S/6AD3I=
+X-Google-Smtp-Source: APiQypKdu4blG5ayZTSb2qC28mScmHoqfV2O5HhJb2x6AKKGKgI0FW3y+OpCSuUHmSjFJSt0zvLdhQ==
+X-Received: by 2002:a2e:6c05:: with SMTP id h5mr2169669ljc.217.1585401642592; 
+ Sat, 28 Mar 2020 06:20:42 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- j19sm4542916lfg.49.2020.03.28.06.20.38
+ j19sm4542916lfg.49.2020.03.28.06.20.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Mar 2020 06:20:39 -0700 (PDT)
+ Sat, 28 Mar 2020 06:20:41 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
 	Lyude Paul <lyude@redhat.com>
-Subject: [PATCH v1 3/6] drm/sched: fix kernel-doc in gpu_scheduler.h
-Date: Sat, 28 Mar 2020 14:20:22 +0100
-Message-Id: <20200328132025.19910-4-sam@ravnborg.org>
+Subject: [PATCH v1 4/6] drm: writeback: document callbacks
+Date: Sat, 28 Mar 2020 14:20:23 +0100
+Message-Id: <20200328132025.19910-5-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200328132025.19910-1-sam@ravnborg.org>
 References: <20200328132025.19910-1-sam@ravnborg.org>
@@ -69,11 +69,12 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Nirmoy Das <nirmoy.das@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Nirmoy Das <nirmoy.das@amd.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Mihail Atanassov <Mihail.Atanassov@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
  Emil Velikov <emil.velikov@collabora.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  David Francis <David.Francis@amd.com>,
  James Qian Wang <james.qian.wang@arm.com>, Jonas Karlman <jonas@kwiboo.se>,
  Mikita Lipski <mikita.lipski@amd.com>,
@@ -87,29 +88,73 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix following warning:
-gpu_scheduler.h:103: warning: Function parameter or member 'priority' not described in 'drm_sched_entity'
+Document the callbacks:
+    drm_connector_helper_funcs.prepare_writeback_job
+    drm_connector_helper_funcs.cleanup_writeback_job
+
+The documentation was pulled from the changelong introducing the
+callbacks, originally written by Laurent.
+
+Addign the missing documentation fixes the following warnings:
+drm_modeset_helper_vtables.h:1052: warning: Function parameter or member 'prepare_writeback_job' not described in 'drm_connector_helper_funcs'
+drm_modeset_helper_vtables.h:1052: warning: Function parameter or member 'cleanup_writeback_job' not described in 'drm_connector_helper_funcs'
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Nirmoy Das <nirmoy.das@amd.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- include/drm/gpu_scheduler.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/drm/drm_modeset_helper_vtables.h | 31 ++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 26b04ff62676..a21b3b92135a 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -56,6 +56,7 @@ enum drm_sched_priority {
-  *              Jobs from this entity can be scheduled on any scheduler
-  *              on this list.
-  * @num_sched_list: number of drm_gpu_schedulers in the sched_list.
-+ * @priority: priority of the entity
-  * @rq_lock: lock to modify the runqueue to which this entity belongs.
-  * @job_queue: the list of jobs of this entity.
-  * @fence_seq: a linearly increasing seqno incremented with each
+diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+index 7c20b1c8b6a7..c51bca1ffec7 100644
+--- a/include/drm/drm_modeset_helper_vtables.h
++++ b/include/drm/drm_modeset_helper_vtables.h
+@@ -1075,8 +1075,39 @@ struct drm_connector_helper_funcs {
+ 	void (*atomic_commit)(struct drm_connector *connector,
+ 			      struct drm_connector_state *state);
+ 
++	/**
++	 * @prepare_writeback_job:
++	 *
++	 * As writeback jobs contain a framebuffer, drivers may need to
++	 * prepare and cleanup them the same way they can prepare and
++	 * cleanup framebuffers for planes.
++	 * This optional connector operation is used to support the
++	 * preparation of writeback jobs.
++	 * The job prepare operation is called from
++	 * drm_atomic_helper_prepare_planes() to avoid a new atomic commit
++	 * helper that would need to be called by all drivers not using
++	 * drm_atomic_helper_commit().
++	 *
++	 * This hook is optional.
++	 *
++	 * This callback is used by the atomic modeset helpers.
++	 */
+ 	int (*prepare_writeback_job)(struct drm_writeback_connector *connector,
+ 				     struct drm_writeback_job *job);
++	/**
++	 * @cleanup_writeback_job:
++	 *
++	 * This optional connector operation is used to support the
++	 * cleanup of writeback jobs.
++	 * The job cleanup operation is called from the existing
++	 * drm_writeback_cleanup_job() function, invoked both when
++	 * destroying the job as part of a aborted commit, or when
++	 * the job completes.
++	 *
++	 * This hook is optional.
++	 *
++	 * This callback is used by the atomic modeset helpers.
++	 */
+ 	void (*cleanup_writeback_job)(struct drm_writeback_connector *connector,
+ 				      struct drm_writeback_job *job);
+ };
 -- 
 2.20.1
 
