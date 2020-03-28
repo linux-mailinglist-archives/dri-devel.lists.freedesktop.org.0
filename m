@@ -1,38 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7900196850
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Mar 2020 19:13:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D71196897
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Mar 2020 19:37:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85A006E141;
-	Sat, 28 Mar 2020 18:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA57E6E152;
+	Sat, 28 Mar 2020 18:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 316ED6E141
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 18:13:05 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id CF34D80609;
- Sat, 28 Mar 2020 19:13:00 +0100 (CET)
-Date: Sat, 28 Mar 2020 19:12:59 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Qiujun Huang <hqjagain@gmail.com>
-Subject: Re: [PATCH] fbcon: fix null-ptr-deref in fbcon_switch
-Message-ID: <20200328181259.GA24335@ravnborg.org>
-References: <20200328151511.22932-1-hqjagain@gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200328151511.22932-1-hqjagain@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=hSkVLCK3AAAA:8
- a=pGLkceISAAAA:8 a=UqxoRI4XFovwuTuz1dAA:9 a=CjuIK1q_8ugA:10
- a=cQPPKAXgyycSBL8etih5:22
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14FB16E152
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 18:37:02 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id m33so11642983qtb.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 11:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=gOE1QJ7KEzi2821QFOUr5VIkfnYNAnKkaW2u6yhroF0=;
+ b=kmSkohK9C99aKQMtcTaFk7VI6eCx8fIEA2JspD5Ai/1besCmp5AL7m1d5zrNarN9/g
+ WcLnr93JMyYvpGjVt8uh69o6+w/N/DaH7++Ww/VMpBMxX3sgz792/2m2mxVjr9MM7vEd
+ RaVAGU1qju5Khd7nQaeGgIlME9y1JbQfp6xEkU/97kyu8z7P3Sk5I0iU3udPQEYpd+Xp
+ fElkx6HBH5tS+WIYZMUQeFhr4Z8AW+29n648e4nq7h3aNgXiymCOTkcd1YpzUYd0v5Su
+ wFbWHhebJ/9vWl3SMcRqc9o+1CwZoL6KTm5I5/vXRqDwGTftA8MptQ+GWSxqQ2+GxJD7
+ g4Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=gOE1QJ7KEzi2821QFOUr5VIkfnYNAnKkaW2u6yhroF0=;
+ b=YxwDeUoEOUu2Iskq2c7HiE0dQ1xbP1dJrMEn0Vv37tQQd+yOBbUM8+Y/2RaeXpcmFB
+ XuUxZAqLVL1AWVxhAPlQC7zsUfpjIxaMvyuzTyl9wKcjhV1QJj1ymMtNGmTpBk4X/WT7
+ EpFtqUHeR4wvTCNGUW6z3wwpsRXC1o/ukGCEg+3QOI6FjQRmJb4AdNh2E8Y1clsKOu5F
+ LeUmLyy/aPfpl/760by/M2Nd1JNX+Gieizm6SfAWCY4l3nqSxwpFeySlibXNKdX6Io/i
+ yGkYniYeeP52RL74/3omE9C8Mqnmz7eiudO3M+eUOmsj8y2KDseGqbqL+xjKS1mmphCn
+ GNxg==
+X-Gm-Message-State: ANhLgQ0E3vVPAekmH4AidDaDxnrqtO8/ftNi9x/5pfRm8iIGyzRhDtsW
+ IvmJVC6u7Zpvnkr5qmfZoWA=
+X-Google-Smtp-Source: ADFU+vukbniIbbOEjIUJNNGnuXRbWumjZpud/PTzz0M96h+nBpM4Neds+sKV/il0u+AFwBLmJmF92Q==
+X-Received: by 2002:aed:39e4:: with SMTP id m91mr5206540qte.188.1585420621130; 
+ Sat, 28 Mar 2020 11:37:01 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:5bb::4])
+ by smtp.gmail.com with ESMTPSA id u40sm6822420qtc.62.2020.03.28.11.36.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 28 Mar 2020 11:37:00 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: sam@ravnborg.org
+Subject: [PATCH 1/2] dt-bindings: display: ltk500hd1829: Remove the reg
+ property
+Date: Sat, 28 Mar 2020 15:36:40 -0300
+Message-Id: <20200328183641.11226-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,82 +62,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, b.zolnierkie@samsung.com,
- daniel.vetter@ffwll.ch, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- ghalat@redhat.com
+Cc: devicetree@vger.kernel.org, robh+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, heiko.stuebner@theobroma-systems.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Qiujun
+Commit 52120e8c7ae3 ("dt-bindings: display: fix panel warnings") removed
+the dsi unit name, but missed to remove the 'reg' property, which causes
+the following 'make dt_binding_check' warning:
 
-Thanks for looking into the sysbot bugs.
+Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.example.dts:17.5-29.11: Warning (unit_address_vs_reg): /example-0/dsi: node has a reg or ranges property, but no unit name
 
-On Sat, Mar 28, 2020 at 11:15:10PM +0800, Qiujun Huang wrote:
-> Add check for vc_cons[logo_shown].d, as it can be released by
-> vt_ioctl(VT_DISALLOCATE).
-> 
-> Reported-by: syzbot+732528bae351682f1f27@syzkaller.appspotmail.com
-> Signed-off-by: Qiujun Huang <hqjagain@gmail.com>
-> ---
->  drivers/video/fbdev/core/fbcon.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index bb6ae995c2e5..7ee0f7b55829 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -2254,7 +2254,7 @@ static int fbcon_switch(struct vc_data *vc)
->  		fbcon_update_softback(vc);
->  	}
->  
-> -	if (logo_shown >= 0) {
-> +	if (logo_shown >= 0 && vc_cons_allocated(logo_shown)) {
->  		struct vc_data *conp2 = vc_cons[logo_shown].d;
->  
->  		if (conp2->vc_top == logo_lines
-> @@ -2852,7 +2852,7 @@ static void fbcon_scrolldelta(struct vc_data *vc, int lines)
->  			return;
->  		if (vc->vc_mode != KD_TEXT || !lines)
->  			return;
-> -		if (logo_shown >= 0) {
-> +		if (logo_shown >= 0 && vc_cons_allocated(logo_shown)) {
->  			struct vc_data *conp2 = vc_cons[logo_shown].d;
->  
->  			if (conp2->vc_top == logo_lines
+Fix it by removing the unneeded 'reg' property.
 
-I am not familiar with this code.
+Fixes: 52120e8c7ae3 ("dt-bindings: display: fix panel warnings")
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ .../devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml  | 1 -
+ 1 file changed, 1 deletion(-)
 
-But it looks like you try to avoid the sympton
-which is that logo_shown has a wrong value after a
-vc is deallocated, and do not fix the root cause.
+diff --git a/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml b/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
+index fd931b293816..b900973b5f7b 100644
+--- a/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
++++ b/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
+@@ -37,7 +37,6 @@ examples:
+     dsi {
+         #address-cells = <1>;
+         #size-cells = <0>;
+-        reg = <0xff450000 0x1000>;
+ 
+         panel@0 {
+             compatible = "leadtek,ltk500hd1829";
+-- 
+2.17.1
 
-We have:
-
-vt_ioctl(VT_DISALLOCATE)
- |
- +- vc_deallocate()
-     |
-     +- visual_deinit()
-         |
-	 +- vc->vc_sw->con_deinit(vc)
-	     |
-	     +- fbcon_deinit()
-
-Would it be better to update logo_shown
-in fbcon_deinit()?
-Then we will not try to do anything with
-the logo in fbcon_switch().
-
-fbcon_deinit() is called with console locked
-so there should not be any races.
-
-I did not stare long enough on the code to come up with a patch,
-but this may be a better way to fix it.
-
-	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
