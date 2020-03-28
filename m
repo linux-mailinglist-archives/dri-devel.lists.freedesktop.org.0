@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D6E19689A
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Mar 2020 19:37:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A14ED196895
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Mar 2020 19:36:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E29B86E154;
-	Sat, 28 Mar 2020 18:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F26FA6E14E;
+	Sat, 28 Mar 2020 18:36:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB5316E154
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 18:37:04 +0000 (UTC)
-Received: by mail-qt1-x843.google.com with SMTP id x16so11623845qts.11
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 11:37:04 -0700 (PDT)
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com
+ [IPv6:2607:f8b0:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 983A16E14E
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 18:36:54 +0000 (UTC)
+Received: by mail-il1-x141.google.com with SMTP id t6so8314949ilj.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 11:36:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=L7P/B+D3AiYeRNTTtzGoWO1grg+iCf61OrKb7YkEpG0=;
- b=mozY0O3aE0VsrcFIuz0SN2grN9wdhs9EnPiQNI3+eyqlmq52didy7GDf4OrhQA9mFJ
- zvFn7B8hUwZweJt7r7xlbvOh5ezOUblSDGBkrYQ1lz8JN1jm9NaWQuF/UzXpCXfdVby4
- ElA2DBkDa5zmyHf4TkZu25bsmsoQa+L9QPT/zqor/KhrXw5M/JcmfOr4miM2dMfmMIrm
- eTvTYzgrk8dFWLYm4erp63ZN5llKI8R5JWVhYnIKVPkkLIr264MaVKDtiO5QvC0d4c+u
- jUDZTeeZm04LNVsBwW31DBN5XD2d0svr4QFWKYgJCVagSRMlBlKZv9igXxVOvLY2QHJt
- mDhw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0HI24KR/yCjlJFsLLO6kOQCApuZY67HrR4f/HELwj00=;
+ b=Bjn3/ZMSjI5MgkcB5gKK6N4zFjMVoFTSxcltL3PA99UZvBgXDgAOataat0yBdZVoqE
+ NH/0OggUWvfgrio+/Usro0z9coMiVVo64z+Ln5aQgcxfw4feFgn+HtkwH7mrWJCnPGE2
+ HKqmsQoZGerQe6AjWMGTP1n8+SNzk6IVEChHV39pY8GLRUYnLiJwMUAZxqCourq0RyLY
+ pCPSDwMaFYSKYZfU+gkFh+BeUED8m5CfdGuTbfJazHFg5insTKlELMAZGfCPaPk0Aqk9
+ NYm6bxxNZc3SqBkQRE300iLkiF0BDCxKz1y/Kd2Stf2b1/BQQJeA1JOGYlS/PLRrlncv
+ 0qzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=L7P/B+D3AiYeRNTTtzGoWO1grg+iCf61OrKb7YkEpG0=;
- b=VvUUJc7PGzlAGyFBNYzKijG4CLkyD03gASBEz8i750ehGbjE9nJ+CTJXWfO+9OFNmh
- uxUWzfpHeq9Pv9ON5dpoPcxZ0LgyIlcJ4au9Ch2x2ySqSklaqWswLKFZdtOlNjj1sObZ
- 8EfPeGOJOdjPjt+/Mh2AJW1Vr9bAe4hvSu/2yd//JCxDGFWZPKIx2uZHhmD3ulpTxq3Y
- W+VDuAD8oTgQgQ2El9DKl7palwlWuOLnqmpJNnnE2errFo58Bu++1G2gAK+zaFzf6v93
- zZ2ev50aTmNZebwof0FEf3XYJJfD6QsUlO4fKgAZA7jYuhJXQWrAWzJy14Qc6vrdEw1A
- MIwQ==
-X-Gm-Message-State: ANhLgQ2RExFFiHoMWDE6QX1uD5Wt83u9K7yx/7r3yMD3OUB2ztqKuJAO
- ycUEIGOg5GyIkonXLYp//BM=
-X-Google-Smtp-Source: ADFU+vsLENpY4Q1bbAaq9kMxiairnEMYoFEgtPmD/wxeAhAyhV91TphsOcDU+P6yj8+0y+IeJ1qSgQ==
-X-Received: by 2002:ac8:358f:: with SMTP id k15mr4986112qtb.113.1585420624015; 
- Sat, 28 Mar 2020 11:37:04 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:482:5bb::4])
- by smtp.gmail.com with ESMTPSA id u40sm6822420qtc.62.2020.03.28.11.37.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Mar 2020 11:37:03 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: sam@ravnborg.org
-Subject: [PATCH 2/2] dt-bindings: display: xpp055c272: Remove the reg property
-Date: Sat, 28 Mar 2020 15:36:41 -0300
-Message-Id: <20200328183641.11226-2-festevam@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200328183641.11226-1-festevam@gmail.com>
-References: <20200328183641.11226-1-festevam@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0HI24KR/yCjlJFsLLO6kOQCApuZY67HrR4f/HELwj00=;
+ b=hHfX+ZwErxeJPaxCW5bfc/2/WEFgZ713e7mbUXlcmb/LLjhfvbeKRbZm+JDmiUvPDQ
+ Zd9M+Z5DuJNKpQ7vT4AdcMdZjHcrgDk87aVN+HZpNFqD8ODGVYH8YGqL3mq+uXlT4q4b
+ HZI2G6ZV3YpGSMcV7Bl/gWQ39y0Kqu2SopbqWOUcyW/nuLRYTHNy8B3BWT0jJ8KLspVQ
+ 8eSIjw+mM41dU48zbXuZoMzABoFUBR6GsKVrZv4XBv1j5cSYp3YsR9WbYm2YetbAUswZ
+ gy5ZIJDqL3QtfrXI+qeHg7MLCLVEu9KIJVaQMkG6JtOwVbfC/HumBZdSMUFhDZAOvzh4
+ rW2w==
+X-Gm-Message-State: ANhLgQ2uHjiRx+TPnK5BcI7fEDhMA8z4u4nqYIyTP0C5kvC3WDrJMxzO
+ woJd6UkeVfXidnzJz2OA/e+DHOGnOOj5FTZ0aAM=
+X-Google-Smtp-Source: ADFU+vvj7xBW8YgzYefpKHgpnS8IasnPvFs7tQ1xw3iG07/FjIZop9WE6ytmhD+MGsO5JAtYB+aIgp90MlIPv8WqjKo=
+X-Received: by 2002:a92:cb49:: with SMTP id f9mr4613117ilq.193.1585420613730; 
+ Sat, 28 Mar 2020 11:36:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <CGME20200327162330eucas1p1b0413e0e9887aa76d3048f86d2166dcd@eucas1p1.samsung.com>
+ <20200327162126.29705-1-m.szyprowski@samsung.com>
+ <14063C7AD467DE4B82DEDB5C278E8663FFFBFCE1@fmsmsx107.amr.corp.intel.com>
+In-Reply-To: <14063C7AD467DE4B82DEDB5C278E8663FFFBFCE1@fmsmsx107.amr.corp.intel.com>
+From: Shane Francis <bigbeeshane@gmail.com>
+Date: Sat, 28 Mar 2020 18:36:42 +0000
+Message-ID: <CABnpCuBLkk2RQovNmcx1U9+oou18cmrd71eQ8=O=ELOM_NcjSA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/prime: fix extracting of the DMA addresses from a
+ scatterlist
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,42 +64,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org, heiko.stuebner@theobroma-systems.com
-MIME-Version: 1.0
+Cc: "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 52120e8c7ae3 ("dt-bindings: display: fix panel warnings") removed
-the dsi unit name, but missed to remove the 'reg' property, which causes
-the following 'make dt_binding_check' warning:
+On Fri, Mar 27, 2020 at 6:31 PM Ruhl, Michael J
+<michael.j.ruhl@intel.com> wrote:
+> Is there an example of what the scatterlist would look like in this case?
+>
+> Does each SG entry always have the page and dma info? or could you have
+> entries that have page information only, and entries that have dma info only?
+>
+> If the same entry has different size info (page_len = PAGE_SIZE,
+> dma_len = 4 * PAGE_SIZE?), are we guaranteed that the arrays (page and addrs) have
+> been sized correctly?
+>
+> Just trying to get my head wrapped around this.
+>
+> Thanks,
+>
+> Mike
+>
 
-Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.example.dts:17.5-29.11: Warning (unit_address_vs_reg): /example-0/dsi: node has a reg or ranges property, but no unit name
+My understanding is that page_len and dma_len in this case could have
+different values (looking at iommu_dma_map_sg within dma-iommu.c),
+this seems to add some padding calculated by using the device iova
+domain to s_length but sg_dma_len is set to the original length
 
-Fix it by removing the unneeded 'reg' property.
+The scatterlists table can also get reduced down within
+"__finalise_sg" possibly causing (if reduced) the dma_len of the last
+table elements to be 0 (page_len would not be 0 in this case).
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- .../devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml    | 1 -
- 1 file changed, 1 deletion(-)
+Documentation around looping & accessing scatterlists in DMA-API.txt
+states that  sg_dma_address() and sg_dma_len() should be used when
+accessing addr and len rather than sg->address and sg->length.
 
-diff --git a/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
-index d9fdb58e06b4..6913923df569 100644
---- a/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
-@@ -37,7 +37,6 @@ examples:
-     dsi {
-         #address-cells = <1>;
-         #size-cells = <0>;
--        reg = <0xff450000 0x1000>;
- 
-         panel@0 {
-             compatible = "xinpeng,xpp055c272";
--- 
-2.17.1
+Maybe it would be worth splitting this out into 2 functions to avoid
+potential issues with the above use case ?
 
+Regards,
+
+Shane Francis
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
