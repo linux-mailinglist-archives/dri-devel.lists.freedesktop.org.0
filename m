@@ -1,40 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13477196F9A
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Mar 2020 21:04:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A4719706F
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Mar 2020 23:05:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D34E089E3B;
-	Sun, 29 Mar 2020 19:04:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC5AA89DFE;
+	Sun, 29 Mar 2020 21:05:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA5AB89E3B
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 19:04:03 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id D9D85804FC;
- Sun, 29 Mar 2020 21:03:53 +0200 (CEST)
-Date: Sun, 29 Mar 2020 21:03:52 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v1 32/36] dt-bindings: display: convert sharp, ls037v7dw01
- to DT Schema
-Message-ID: <20200329190352.GA21479@ravnborg.org>
-References: <20200315134416.16527-1-sam@ravnborg.org>
- <20200315134416.16527-33-sam@ravnborg.org>
- <20200319030734.GH29911@bogus>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0E0B89DFE
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 21:05:10 +0000 (UTC)
+IronPort-SDR: eDK8oDXHZ8DnQQyMx1LJAixszofwyqm8nEO7GT4jcX1s8VhkfSE3UWN6zndWOXM++viGrT5+U8
+ w+BRwgHTxIbA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2020 14:05:10 -0700
+IronPort-SDR: eTz+lnqaMCuevlYdcGYkjANmaTlKolvQXHI0BHh681ykRC9KizfVDKKLvvHiUbtzwMTvRBaorL
+ C7x3jNLHfJXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,321,1580803200"; d="scan'208";a="266746453"
+Received: from shahidmo-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.134.40.232])
+ by orsmga002.jf.intel.com with ESMTP; 29 Mar 2020 14:05:08 -0700
+Date: Sun, 29 Mar 2020 23:05:07 +0200
+From: Eric Engestrom <eric.engestrom@intel.com>
+To: Seung-Woo Kim <sw0312.kim@samsung.com>
+Subject: Re: [PATCH libdrm] meson.build: Don't detect <sys/sysctl.h> header
+ for linux
+Message-ID: <20200329210507.rgthhxyrawupswmu@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. 1134945 - Pipers Way,
+ Swindon SN3 1RJ
+References: <1578562330-25594-1-git-send-email-sw0312.kim@samsung.com>
+ <1578630641-5301-1-git-send-email-sw0312.kim@samsung.com>
+ <20200129095313.3uhaqa6ada2jpaie@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200319030734.GH29911@bogus>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=8lPrDCVDlfZqt0RlNdoA:9 a=CjuIK1q_8ugA:10
+In-Reply-To: <20200129095313.3uhaqa6ada2jpaie@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,81 +52,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Nikolaus Schaller <hns@goldelico.com>, Jonathan Bakker <xc-racer2@live.ca>,
- Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
- Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Chris Zhong <zyw@rock-chips.com>, Marco Franchi <marco.franchi@nxp.com>,
- Stefan Mavrodiev <stefan@olimex.com>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>, Tony Lindgren <tony@atomide.com>,
- Nickey Yang <nickey.yang@rock-chips.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
- Vinay Simha BN <simhavcs@gmail.com>, Marek Belisko <marek@goldelico.com>,
- Heiko Schocher <hs@denx.de>, Brian Masney <masneyb@onstation.org>,
- devicetree@vger.kernel.org, Guido Gunther <agx@sigxcpu.org>,
- Mark Brown <broonie@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
- Werner Johansson <werner.johansson@sonymobile.com>,
- Purism Kernel Team <kernel@puri.sm>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Lin Huang <hl@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
- linux-spi@vger.kernel.org, Peter Rosin <peda@axentia.se>
+Cc: zeising@daemonic.se, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob.
-
-> > +
-> > +  mode-gpios:
-> > +    description: |
-> > +      GPIO ordered MO, LR, and UD as specified in LS037V7DW01.pdf
+On Wednesday, 2020-01-29 09:53:16 +0000, Eric Engestrom wrote:
+> On Friday, 2020-01-10 13:30:41 +0900, Seung-Woo Kim wrote:
+> > The <sys/sysctl.h> header is not required for Linux and GNU libc
+> > 2.30 starts to warn about Linux specific <sys/sysctl.h> header
+> > deprecation. Don't detect <sys/sysctl.h> header for linux.
+> > 
+> > Signed-off-by: Seung-Woo Kim <sw0312.kim@samsung.com>
+> > ---
+> > Fix meson.build script instead of code itself as commented below:
+> > https://patchwork.kernel.org/patch/11325345/
+> > ---
+> >  meson.build |   15 +++++++++++----
+> >  1 files changed, 11 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/meson.build b/meson.build
+> > index 782b1a3..b1c557a 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -183,10 +183,17 @@ else
+> >    dep_rt = []
+> >  endif
+> >  dep_m = cc.find_library('m', required : false)
+> > -# From Niclas Zeising:
+> > -# FreeBSD requires sys/types.h for sys/sysctl.h, add it as part of the
+> > -# includes when checking for headers.
+> > -foreach header : ['sys/sysctl.h', 'sys/select.h', 'alloca.h']
+> > +if not ['linux'].contains(host_machine.system())
+> > +  # From Niclas Zeising:
+> > +  # FreeBSD requires sys/types.h for sys/sysctl.h, add it as part of the
+> > +  # includes when checking for headers.
+> > +  foreach header : ['sys/sysctl.h']
+> > +    config.set('HAVE_' + header.underscorify().to_upper(),
+> > +      cc.compiles('#include <sys/types.h>\n#include <@0@>'.format(header), name : '@0@ works'.format(header)))
+> > +  endforeach
+> > +endif
+> > +endforeach
 > 
-> 3 or...
+> Stray `endforeach`.
 > 
-> > +      change configuration between QVGA and VGA mode and the
-> > +      scan direction. As these pins can be also configured
-> > +      with external pulls, all the GPIOs are considered
-> > +      optional with holes in the array.
+> Could you post your patch as a Merge Request [1] instead of on the mailing list?
+> The automatic testing there means it would instantly catch mistakes like these :)
 > 
-> minItems: 3
-> maxItems: 5
+> [1] https://gitlab.freedesktop.org/mesa/drm/merge_requests
+> 
+> > +foreach header : ['sys/select.h', 'alloca.h']
+> >    config.set('HAVE_' + header.underscorify().to_upper(),
+> >      cc.compiles('#include <sys/types.h>\n#include <@0@>'.format(header), name : '@0@ works'.format(header)))
+> 
+> Can you drop the `#include <sys/types.h>\n` now that sys/sysctl.h is
+> being split out?
+> 
+> Note that since https://gitlab.freedesktop.org/mesa/drm/merge_requests/8
+> we now use config.set10(), which means you'll need to refactor a tiny
+> bit (move the !linux condition inside the config.set10() call).
+> 
+> The new code block should look like this:
+> 
+>   # From Niclas Zeising:
+>   # FreeBSD requires sys/types.h for sys/sysctl.h, add it as part of the
+>   # includes when checking for headers.
+>   foreach header : ['sys/sysctl.h']
+>     config.set10('HAVE_' + header.underscorify().to_upper(),
+>        not ['linux'].contains(host_machine.system()) and
+>        cc.compiles('#include <sys/types.h>\n#include <@0@>'.format(header), name : '@0@ works'.format(header)))
+>   endforeach
 
-This binding can specify up to three GPIOs like this:
-
-
-> > +        mode-gpios = <&gpio5 26 GPIO_ACTIVE_HIGH        /* gpio154, lcd MO */
-> > +                      &gpio1 2 GPIO_ACTIVE_HIGH         /* gpio2, lcd LR */
-> > +                      &gpio1 3 GPIO_ACTIVE_HIGH>;       /* gpio3, lcd UD */
-
-They are in the linux kernel driver accessed like this:
-
-    devm_gpiod_get_index(&pdev->dev, "mode", 2, GPIOD_OUT_LOW);
-
-The following is OK in the DT file:
-
-    mode-gpios = <&gpio5 26 GPIO_ACTIVE_HIGH>;
-
-    mode-gpios = <&gpio5 26 GPIO_ACTIVE_HIGH
-                  &gpio1 2 GPIO_ACTIVE_HIGH>;
-		  
-    mode-gpios = <&gpio5 26 GPIO_ACTIVE_HIGH
-                  &gpio1 2 GPIO_ACTIVE_HIGH
-                  &gpio1 3 GPIO_ACTIVE_HIGH>;
-
-But the following is not OK:
-    mode-gpios = <&gpio5 26 GPIO_ACTIVE_HIGH>, <&gpio1 2 GPIO_ACTIVE_HIGH>;
-
-Any hints how to specify the binding to prevent the above?
-I have tried a few combinations - but they do not catch this.
-So my binding attempts are not restrictive enough.
-
-Any hints how to describe this properly?
-
-	Sam
+FYI, I have posted a variant of the above as a merge request:
+https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/53
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
