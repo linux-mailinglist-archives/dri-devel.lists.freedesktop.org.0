@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C32196C4A
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Mar 2020 11:57:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E827B196D43
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Mar 2020 14:22:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D3636E0C2;
-	Sun, 29 Mar 2020 09:57:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05A386E118;
+	Sun, 29 Mar 2020 12:22:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 011D26E0C2
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 09:57:25 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id g62so17830580wme.1
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 02:57:25 -0700 (PDT)
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB3F66E118
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 12:22:53 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id c21so6521451pfo.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 05:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X5/ybwGZw15O183cB6hxraMKImcCya/+VsT5AgJC+wk=;
- b=PlBBbPjoSfFFs7coNzHn9y18vAv7tg8/gEY0ie5YIkK13kmI6SbdzQoLrfMgSy8Rm5
- M6+sZHbgLbuUP3x7Yi4JOEBmBfnVda+LdwY0Bj/l8h0ZA7GwdUMMPV9FgLFKvYJaQfy9
- dD02x2Np6E67W8gO2RBaVF56KZAtqp1CEFtuUIbWKhYVCXseO4V7/kzmWJsWVWZ9RPT2
- MTCiMRujzIQ9JvGhJ3qoItKdllyaL5MnMUvQlC6O810X5BaS9f5mhH3x/grKuoDdvGDe
- vVpv82zY7bvOSu48mbqHv8jw67oBX8GWFwfg19KElJa2K4zU3TB3rSUoXgPMAwgFG8Mf
- gAFQ==
+ :cc; bh=6UClIPWeDMQPAzXntBk2QoHfbWj9MDU21yOBf0GHeHw=;
+ b=jdUOwg337Wg8hPuF5NdV1z+1iXNGjwb+YDUmS97pf9xkU/BWMOmRa8gpqg/wHMmz2a
+ h58yHx1+HaoLmCL6hnIeTPqm+2YMk9XzXIgi8Vgh9+ZM41zzixi1r10H3tUGl6hbw2fa
+ +/SCEv5PddejDs3d49ieJ06lzLGUMqG9GyxGvtAAn6VGkc3VIzvQFeTpteUPogXC2Pzf
+ Nck2ZgMO6TY1u9JXPbiayQdMPaVsYZN0gYMyxOTiZ2uHnfym+nSJ5RCtbfwJVF5O2hRj
+ FXgxRY9UmwUvEuFr258gE1lMF0n3PSTtd9BUt9ycNv+7B5vOzdWySiaKBoIv9i+HiGuE
+ 66Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=X5/ybwGZw15O183cB6hxraMKImcCya/+VsT5AgJC+wk=;
- b=nqUCb8JN4jT2JYXxY4N/XfEKXU0/wCcwNjaNmfIimzVD2O8BCMkh1owrtyvg55f/Uf
- Y++A0VIloZg26wQZ5kzNJmtFoITRJnnefoZPRRHMLo9eKaCfIx7zg1rhmTp19yOv/N9+
- sbUb04ySK0Hc+MgS/CDoQ1cn2xxSK3rzleFyuPFsbAJQNRvczXDoPH536Z/lfZzD5MQ2
- Pg0Uxybminx155uEBM8UMiVvDkFdQZPs61ud0oraS0+Lz+z1kbFDkpg+w5oa8A32RqJ3
- Snvv+uc0i+ngpCZv2FIc/wHq2DW5ROVlcchS0q4XdtqH55C+pmaqkbrZ3mTXDDB8fyYK
- 7ZBg==
-X-Gm-Message-State: ANhLgQ2MXlNc9d7DDoQ4KNcRhaLDeqrbpXbB6Nyb+2m+iSUH4y7dSMX4
- Jaf9zoxa8E/nZpgO5jUe1rUbf9lafp8ajWZnsYY=
-X-Google-Smtp-Source: ADFU+vt/KWuDksi8mUndNDmzSr2QWqqKzTuw0aQvhAAxtapcUeVPe+tjCaP46IlOCkv0ET3XIlL1gz6wNhFoqGMdrKY=
-X-Received: by 2002:a1c:1942:: with SMTP id 63mr4990909wmz.133.1585475844683; 
- Sun, 29 Mar 2020 02:57:24 -0700 (PDT)
+ bh=6UClIPWeDMQPAzXntBk2QoHfbWj9MDU21yOBf0GHeHw=;
+ b=sgJjcgTZr9FHeWQimE4m8tI0gMsHHRvIVk3ciAWAyqa+oxBnDrP09x0IMys3teSZ+/
+ MwLQcoDX2mFKyiabsMfRTR4Xr3iFaKCnOXtPVhE6hJHksQOjOo3OTBui6NqxGrDyKLnl
+ NrEsdxjBFH/JPtzpsGCOvT1mk/obB1J/jTQ5vUZMUbHHyedHm0t/xIzR4zuwqB+OdL9q
+ 16YtC0lSwLlgxuGAz2OR8Yirm8dsYERH5xSVemcYoQMSJA6NMEgqSr4RXqbtM15DO0TX
+ tTVQ5t/Mek9yvGElM0SAa++Hi5YOR7Y/Jpt9wULrMz1+qlpuSv6WZ8T2qXKiuDgLDlji
+ ZJnQ==
+X-Gm-Message-State: ANhLgQ26mCMG1J8Qo/t9eF8F0XhMwx15zWwxM+Zt+GXe2nEjQ9NAbscW
+ xsr8fNwnxJ7lckUc44S5S1hb8f1BYGdpWwuyPaI=
+X-Google-Smtp-Source: ADFU+vtdWfniuNTMK9Zagqw0FyohZmWEmZi+NzvusNKnAyqgygrL2tuE+ttN/w5nkf3Xdl0gmeaKUfp8hzr43IbRckI=
+X-Received: by 2002:a63:798a:: with SMTP id u132mr8699746pgc.203.1585484573149; 
+ Sun, 29 Mar 2020 05:22:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200319203427.2259891-1-martin.blumenstingl@googlemail.com>
- <20200319203427.2259891-3-martin.blumenstingl@googlemail.com>
- <CAKGbVbtKqdCEcawkjG=7TRd30df6GJ+gagV_JegntyqRpzC4cg@mail.gmail.com>
- <CAKGbVbvAvk0L5sGQmuqfxeL6AwtVnSsYyCp6YBYV6ZHKepWBXg@mail.gmail.com>
- <CAFBinCDUhVaky6EUA7dOAhAZM9itbydQ+w=0P-1m2u0o0HUUeA@mail.gmail.com>
-In-Reply-To: <CAFBinCDUhVaky6EUA7dOAhAZM9itbydQ+w=0P-1m2u0o0HUUeA@mail.gmail.com>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Sun, 29 Mar 2020 17:57:13 +0800
-Message-ID: <CAKGbVbsHXUhpaU34ovRPqc51LSavERUzMySx3hG7AqdO-oobHw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] drm/lima: Add optional devfreq and cooling device
- support
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+References: <20200329092204.770405-1-jbwyatt4@gmail.com>
+ <alpine.DEB.2.21.2003291127230.2990@hadrien>
+ <2fccf96c3754e6319797a10856e438e023f734a7.camel@gmail.com>
+ <alpine.DEB.2.21.2003291144460.2990@hadrien>
+ <CAMS7mKBEhqFat8fWi=QiFwfLV9+skwi1hE-swg=XxU48zk=_tQ@mail.gmail.com>
+ <alpine.DEB.2.21.2003291235590.2990@hadrien>
+ <ab06bc216dc07b2b070bc2635aaabb1942c6089c.camel@gmail.com>
+In-Reply-To: <ab06bc216dc07b2b070bc2635aaabb1942c6089c.camel@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 29 Mar 2020 15:22:41 +0300
+Message-ID: <CAHp75VeyV5t3rMw5Za8yFoKmrFLwxDqbLLdDyOr+pezAC+Lv7w@mail.gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH] staging: fbtft: Replace udelay with
+ preferred usleep_range
+To: Sam Muhammed <jane.pnx9@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,45 +67,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-pm@vger.kernel.org,
- David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ John Wyatt <jbwyatt4@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, linux-rockchip@lists.infradead.org,
- Chen-Yu Tsai <wens@csie.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Julia Lawall <julia.lawall@inria.fr>, outreachy-kernel@googlegroups.com,
+ Payal Kshirsagar <payal.s.kshirsagar.98@gmail.com>,
+ Soumyajit Deb <debsoumyajit100@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'm not the maintainer of patch 1 file, so please contact:
-  - Rob Herring <robh@kernel.org>
-  - Maxime Ripard <maxime.ripard@free-electrons.com>
-  - Heiko Stuebner <heiko@sntech.de>
-to review and apply patch 1.
-
-Regards,
-Qiang
-
-On Sat, Mar 28, 2020 at 6:20 PM Martin Blumenstingl
-<martin.blumenstingl@googlemail.com> wrote:
->
-> On Sat, Mar 28, 2020 at 9:40 AM Qiang Yu <yuq825@gmail.com> wrote:
+On Sun, Mar 29, 2020 at 2:23 PM Sam Muhammed <jane.pnx9@gmail.com> wrote:
+> On Sun, 2020-03-29 at 12:37 +0200, Julia Lawall wrote:
+> > On Sun, 29 Mar 2020, Soumyajit Deb wrote:
 > >
-> > Applied to drm-misc-next.
-> thank you!
+
+First of all, let's stop topposting.
+
+> > > I had the same doubt the other day about the replacement of udelay() with
+> > > usleep_range(). The corresponding range for the single argument value of
+> > > udelay() is quite confusing as I couldn't decide the range. But as much as I
+> > > noticed checkpatch.pl gives warning for replacing udelay() with
+> > > usleep_range() by checking the argument value of udelay(). In the
+> > > documentation, it is written udelay() should be used for a sleep time of at
+> > > most 10 microseconds but between 10 microseconds and 20 milliseconds,
+> > > usleep_range() should be used.
+> > > I think the range is code specific and will depend on what range is
+> > > acceptable and doesn't break the code.
+> > >  Please correct me if I am wrong.
+> >
+> > The range depends on the associated hardware.  Just because checkpatch
+> > suggests something doesn't mean that it is easy to address the problem.
+
+> Hi all, i think when it comes to a significant change in the code, we
+> should at least be familiar with the driver or be able to test the
+> change.
 >
-> regarding patch #1 - can you apply this as well?
-> patch #1 just takes this midgard change [0] and ports it to utgard
+> In the very beginning of the Documentation/timers/timers-howto.rst
+> there is the question:
+> "Is my code in an atomic context?"
+> It's not just about the range, it's more of at which context this code
+> runs, for atomic-context -> udelay must be used.
+> for non-atomic context -> usleep-range is better for power-management.
 >
+> unless we are familiar with the driver we wouldn't really know in what
+> context this code is run at.
 >
-> Thank you!
-> Martin
->
->
-> [0] https://cgit.freedesktop.org/drm/drm-misc/commit/Documentation/devicetree/bindings/gpu?id=982c0500fd1a8012c31d3c9dd8de285129904656
+> This thread though had the same conversation about this change, for the
+> same driver.
+> https://patchwork.kernel.org/patch/11137125/
+
+While it's a good discussion it reminds me that this entire function,
+i.e. reset(), repeats the on provided by fbtft core.
+Yes, the only question if it's atomic or not. IIRC ->reset() is being
+called only in non-atomic contexts and keeping reset signal longer is
+fine (but better to check with datasheet).
+
+So, I would rather to drop the function completely in order to use
+fbtft's core one.
+
+--
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
