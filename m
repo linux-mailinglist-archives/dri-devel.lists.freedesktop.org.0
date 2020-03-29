@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85D4019752F
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:13:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D92419751F
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:13:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A23456E02D;
-	Mon, 30 Mar 2020 07:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2379189FD9;
+	Mon, 30 Mar 2020 07:11:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23D5B6E180
+ [IPv6:2a01:238:20a:202:5302::8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD106E172
  for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 17:36:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1585503370;
  s=strato-dkim-0002; d=goldelico.com;
- h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
- Subject:Sender;
- bh=o9cl3lo73IupocSaAB1N567LORTRk86aGdGAIUt50w4=;
- b=T13LVJZGfQHiKlsMCPbCkxYE9ZDIYDeM6cEtYQPqxbce+wscbTpoWR3+0fnLoalU1a
- lVc/ipzFtifwQW52h7Od4gtQqLOnqcrMns0TEn1lVuayOc9hXknqjQPKHsZDqyxsM1qR
- tX3S4KxZERZ7KGNXcNHzB5BsJZME24WSR50QxXTO0QU/+WCT1FXaNxjjXrpUPeMMbbjB
- ZXDyjOg4MIVBD8bMlXjA6VrY6ocGO2jVjC/7i2O9z738IOtQkjbetrXjK3YXOvI+yZ0N
- KCaJNmV8z0ELhUknqk50hk+6FJnCArDAU2kEKSNXvBrwLuJSCocvfiQx2llWspzTWu9c
- uStA==
+ h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=Zg1B2MSlw8LBkeQrcB+SbHPflxN5qiikKNdtggvwHAA=;
+ b=afTdZlI2e4vbirzRkgWT86Uu9YSMGvEmuMp7vgrfFLQkcx3awWRG0X6BFSD8ZAijUa
+ vKz3mVJfGkubuJWgCiEIs7KZgQxr5e6Qp/HfP2+HK//ruPhG615kIIw8G5cYNacApnkn
+ fufUXdtYbBTmoerwSTywuk5OW5WATXpfyT5+uZPp2auwnkYb7ntX22sDexVYU46JSZwj
+ jp1cfMzTp0XK30IM2uPumAyMriWn3DcCxcPNZw/t5IzKEIJfQk663yIHuhoRqZTgDthH
+ oV+l91buA1WyGZrPKDrU+lYMD8V260alHo5fNYs4fiYuPKIn549vJDjfyD9m1sBDk/hC
+ XiXw==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0pDz2rsNxxv"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.2.1 DYNA|AUTH)
- with ESMTPSA id m02241w2THZtBM7
+ with ESMTPSA id m02241w2THZvBM8
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Sun, 29 Mar 2020 19:35:55 +0200 (CEST)
+ Sun, 29 Mar 2020 19:35:57 +0200 (CEST)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -44,10 +44,13 @@ To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  Miquel Raynal <miquel.raynal@bootlin.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  Kees Cook <keescook@chromium.org>
-Subject: [RFC v3 0/8] MIPS: CI20: add HDMI out support
-Date: Sun, 29 Mar 2020 19:35:46 +0200
-Message-Id: <cover.1585503354.git.hns@goldelico.com>
+Subject: [RFC v3 1/8] dt-bindings: display: convert ingenic, lcd.txt to ingenic,
+ lcd.yaml
+Date: Sun, 29 Mar 2020 19:35:47 +0200
+Message-Id: <a75c77fa8528f44832993f9780ae4ea409125a90.1585503354.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1585503354.git.hns@goldelico.com>
+References: <cover.1585503354.git.hns@goldelico.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 30 Mar 2020 07:11:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,76 +74,209 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+++ help is needed: driver is not completely working and shows no output signal on the HDMI data and clock lanes
-+++ HPD is working and /dev/fb0 does appear
-+++ but there is no trigger to initialize the lcdc
+and add compatible: jz4780-lcd, including an example how to
+configure both lcd controllers.
 
-* add definition for second jz4780-lcdc
-* diverse fixes for yaml schema
-* make ingenic-drm driver compatible to ingenic,jz4780-lcd
-* converted existing ingenic,lcd.txt to ingenic,lcd.yaml - suggested by Paul Cercueil <paul@crapouillou.net>
-* removed blank line before MODULE_DEVICE_TABLE() macro - Paul Cercueil <paul@crapouillou.net>
-* added some missing Signed-off:
-* removed Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com> from the
-  recipients list and Cc: since the address is no longer available.
-* removed "pinctrl: ingenic: add hdmi-ddc pin control group" from this patch
-  series since it is already applied elsewhere (by Linus Walleij <linus.walleij@linaro.org>)
+Also fix the clock names and examples.
 
-RFC V2 2020-02-28 19:19:40:
-* Converted .txt bindings to .yaml (by Sam Ravnborg <sam@ravnborg.org> - big THANKS)
+Based on work by Paul Cercueil <paul@crapouillou.net> and
+Sam Ravnborg <sam@ravnborg.org>
 
-RFC V1 2020-02-26 20:13:06:
-This patch series adds HDMI output to the jz4780/CI20 board.
-
-It is based on taking the old 3.18 vendor kernel as well as
-an earlier submission from 2015:
-https://lore.kernel.org/patchwork/patch/547872/
-and trying to achieve the same with modern DTS setup and new/modified
-drivers.
-
-Unfortunately, in this first RFC, only EDID and creation of
-/dev/fb0 are working. Also, HDMI hot plugging is detected.
-
-But there is no HDMI output signal. So some tiny piece seems
-to be missing to enable/configure the Synposys HDMI controller.
-
-We need help from the community to fix this.
-
-Original authors of most patches are
-* Paul Boddie <paul@boddie.org.uk>
-* Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-
-
-H. Nikolaus Schaller (4):
-  dt-bindings: display: convert ingenic,lcd.txt to ingenic,lcd.yaml
-  drm: ingenic-drm: add MODULE_DEVICE_TABLE
-  drm: ingenic-drm: add support for ingenic,jz4780-lcd
-  MIPS: CI20: defconfig: configure for DRM_DW_HDMI_JZ4780
-
-Paul Boddie (3):
-  drm: ingenic: add jz4780 Synopsys HDMI driver
-  MIPS: DTS: jz4780: account for Synopsys HDMI driver and LCD controller
-  MIPS: DTS: CI20: add HDMI setup
-
-Sam Ravnborg (1):
-  dt-bindings: display: add ingenic-jz4780-hdmi DT Schema
-
+Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org
+---
  .../bindings/display/ingenic,lcd.txt          |  45 ------
  .../bindings/display/ingenic,lcd.yaml         | 128 ++++++++++++++++++
- .../bindings/display/ingenic-jz4780-hdmi.yaml |  82 +++++++++++
- arch/mips/boot/dts/ingenic/ci20.dts           |  64 +++++++++
- arch/mips/boot/dts/ingenic/jz4780.dtsi        |  46 +++++++
- arch/mips/configs/ci20_defconfig              |   3 +
- drivers/gpu/drm/ingenic/Kconfig               |   8 ++
- drivers/gpu/drm/ingenic/Makefile              |   1 +
- drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c      | 120 ++++++++++++++++
- drivers/gpu/drm/ingenic/ingenic-drm.c         |   8 ++
- 10 files changed, 460 insertions(+), 45 deletions(-)
+ 2 files changed, 128 insertions(+), 45 deletions(-)
  delete mode 100644 Documentation/devicetree/bindings/display/ingenic,lcd.txt
  create mode 100644 Documentation/devicetree/bindings/display/ingenic,lcd.yaml
- create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
- create mode 100644 drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c
 
+diff --git a/Documentation/devicetree/bindings/display/ingenic,lcd.txt b/Documentation/devicetree/bindings/display/ingenic,lcd.txt
+deleted file mode 100644
+index 01e3261defb6..000000000000
+--- a/Documentation/devicetree/bindings/display/ingenic,lcd.txt
++++ /dev/null
+@@ -1,45 +0,0 @@
+-Ingenic JZ47xx LCD driver
+-
+-Required properties:
+-- compatible: one of:
+-  * ingenic,jz4740-lcd
+-  * ingenic,jz4725b-lcd
+-  * ingenic,jz4770-lcd
+-- reg: LCD registers location and length
+-- clocks: LCD pixclock and device clock specifiers.
+-	   The device clock is only required on the JZ4740.
+-- clock-names: "lcd_pclk" and "lcd"
+-- interrupts: Specifies the interrupt line the LCD controller is connected to.
+-
+-Example:
+-
+-panel {
+-	compatible = "sharp,ls020b1dd01d";
+-
+-	backlight = <&backlight>;
+-	power-supply = <&vcc>;
+-
+-	port {
+-		panel_input: endpoint {
+-			remote-endpoint = <&panel_output>;
+-		};
+-	};
+-};
+-
+-
+-lcd: lcd-controller@13050000 {
+-	compatible = "ingenic,jz4725b-lcd";
+-	reg = <0x13050000 0x1000>;
+-
+-	interrupt-parent = <&intc>;
+-	interrupts = <31>;
+-
+-	clocks = <&cgu JZ4725B_CLK_LCD>;
+-	clock-names = "lcd";
+-
+-	port {
+-		panel_output: endpoint {
+-			remote-endpoint = <&panel_input>;
+-		};
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/display/ingenic,lcd.yaml b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
+new file mode 100644
+index 000000000000..8b6467cfc191
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
+@@ -0,0 +1,128 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/ingenic,lcd.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Bindings for Ingenic JZ4780 LCD Controller
++
++maintainers:
++  - Paul Cercueil <paul@crapouillou.net>
++
++description: |
++  LCD Controller is the Display Controller for the Ingenic JZ47xx SoC
++
++properties:
++  compatible:
++    oneOf:
++     - const: ingenic,jz4725b-lcd
++     - const: ingenic,jz4740-lcd
++     - const: ingenic,jz4770-lcd
++     - const: ingenic,jz4780-lcd
++
++  reg:
++    maxItems: 1
++    description: LCD registers location and length
++
++  interrupts:
++    maxItems: 1
++    description: Specifies the interrupt provided by parent
++
++  clocks:
++    maxItems: 2
++    description: Clock specifiers for LCD pixclock and device clock.
++      The device clock is only required on the JZ4740 and JZ4780
++
++  clock-names:
++    items:
++      - const: lcd
++      - const: lcd_pclk
++
++  port:
++    type: object
++    description: |
++      A port node with endpoint definitions as defined in
++      Documentation/devicetree/bindings/media/video-interfaces.txt
++
++required:
++    - compatible
++    - reg
++    - interrupts
++    - clocks
++    - clock-names
++    - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/jz4725b-cgu.h>
++
++    panel {
++      compatible = "sharp,ls020b1dd01d";
++
++      backlight = <&backlight>;
++      power-supply = <&vcc>;
++
++      port {
++        panel_input: endpoint {
++          remote-endpoint = <&panel_output>;
++          };
++        };
++      };
++
++    lcd: lcd-controller@13050000 {
++      compatible = "ingenic,jz4725b-lcd";
++      reg = <0x13050000 0x1000>;
++
++      interrupt-parent = <&intc>;
++      interrupts = <31>;
++
++      clocks = <&cgu JZ4725B_CLK_LCD>;
++      clock-names = "lcd", "lcd_pclk";
++
++      port {
++        panel_output: endpoint {
++          remote-endpoint = <&panel_input>;
++          };
++        };
++      };
++
++  - |
++    #include <dt-bindings/clock/jz4780-cgu.h>
++
++    lcdc0: lcdc0@13050000 {
++        compatible = "ingenic,jz4780-lcd";
++        reg = <0x13050000 0x1800>;
++
++        clocks = <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
++        clock-names = "lcd", "lcd_pclk";
++
++        interrupt-parent = <&intc>;
++        interrupts = <31>;
++
++        jz4780_lcd_out: port {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            jz4780_out_hdmi: endpoint@0 {
++                reg = <0>;
++                remote-endpoint = <&hdmi_in_lcd>;
++            };
++        };
++    };
++
++    lcdc1: lcdc1@130a0000 {
++        compatible = "ingenic,jz4780-lcd";
++        reg = <0x130a0000 0x1800>;
++
++        clocks = <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD1PIXCLK>;
++        clock-names = "lcd", "lcd_pclk";
++
++        interrupt-parent = <&intc>;
++        interrupts = <31>;
++
++        status = "disabled";
++    };
++
++...
 -- 
 2.25.1
 
