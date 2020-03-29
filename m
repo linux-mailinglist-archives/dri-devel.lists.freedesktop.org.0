@@ -1,35 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C814197527
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:13:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF944197544
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:14:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8C689FDB;
-	Mon, 30 Mar 2020 07:11:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8CD56E0FF;
+	Mon, 30 Mar 2020 07:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2-relais-roc.national.inria.fr
- (mail2-relais-roc.national.inria.fr [192.134.164.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BC936E0BC
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 09:47:34 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.72,319,1580770800"; d="scan'208";a="442806325"
-Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
- by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2020 11:47:33 +0200
-Date: Sun, 29 Mar 2020 11:47:33 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: John Wyatt <jbwyatt4@gmail.com>
-Subject: Re: [Outreachy kernel] [PATCH] staging: fbtft: Replace udelay with
- preferred usleep_range
-In-Reply-To: <2fccf96c3754e6319797a10856e438e023f734a7.camel@gmail.com>
-Message-ID: <alpine.DEB.2.21.2003291144460.2990@hadrien>
-References: <20200329092204.770405-1-jbwyatt4@gmail.com>
- <alpine.DEB.2.21.2003291127230.2990@hadrien>
- <2fccf96c3754e6319797a10856e438e023f734a7.camel@gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+X-Greylist: delayed 584 seconds by postgrey-1.36 at gabe;
+ Sun, 29 Mar 2020 10:29:31 UTC
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
+ [IPv6:2001:4d48:ad52:3201:214:fdff:fe10:1be6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA6CD6E0F0
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 10:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:Subject:To:From:Reply-To:Cc:Content-ID
+ :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+ Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=5WrfeUimojviy2HjJMi7aeH/0NoQUltqxT3CXWVCzx0=; b=eEi88isOmCrBj9ES1hAHC+gaJ7
+ eEhhNuFrM4dtxYeUU3UUu9s1U9BAy8HDqUbR8ry41elB/CCz76xZjcj46eMb55KQMCVzbdjJPeOd9
+ gz5z4XzRbgRl9vqMcaCJQQwYsaMhd5jXuUAHFBfLV2aDzTZ6E57gE9edSsluerXShmNrfEYtBxrYX
+ 8Ard77CCUSwjcovug28TCplnTzkDVlye3EdoO/bBpVR2HK76yGRyR5wOeljVMxeaKBFz4OsQatI4M
+ EugXmzrcpn7E9BtdkBY3Ri4BNNjIgK/49y3Qow9Yjlt8wirJghmWZhi8tYqZwsveCPD9uKDe43vPK
+ 7/maUOxw==;
+Received: from e0022681537dd.dyn.armlinux.org.uk
+ ([2001:4d48:ad52:3201:222:68ff:fe15:37dd]:37572 helo=rmk-PC.armlinux.org.uk)
+ by pandora.armlinux.org.uk with esmtpsa
+ (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
+ (envelope-from <rmk@armlinux.org.uk>)
+ id 1jIV27-0004Li-Hd; Sun, 29 Mar 2020 11:19:11 +0100
+Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.92)
+ (envelope-from <rmk@armlinux.org.uk>)
+ id 1jIV26-0005X3-RS; Sun, 29 Mar 2020 11:19:10 +0100
+From: Russell King <rmk+kernel@armlinux.org.uk>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, linux-media@vger.kernel.org,
+ netdev@vger.kernel.org
+Subject: [PATCH] Update my email address in various drivers
 MIME-Version: 1.0
+Content-Disposition: inline
+Message-Id: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
+Date: Sun, 29 Mar 2020 11:19:10 +0100
 X-Mailman-Approved-At: Mon, 30 Mar 2020 07:11:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,105 +68,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, outreachy-kernel@googlegroups.com,
- Payal Kshirsagar <payal.s.kshirsagar.98@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Globally update my email address in six files scattered through the
+tree.
 
+Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+---
+ drivers/gpu/drm/armada/armada_drv.c                 | 2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 2 +-
+ drivers/media/cec/cec-notifier.c                    | 2 +-
+ drivers/net/phy/swphy.c                             | 2 +-
+ include/media/cec-notifier.h                        | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-On Sun, 29 Mar 2020, John Wyatt wrote:
+diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
+index 3df2dacf4c94..5a82a12cd105 100644
+--- a/drivers/gpu/drm/armada/armada_drv.c
++++ b/drivers/gpu/drm/armada/armada_drv.c
+@@ -389,7 +389,7 @@ static void __exit armada_drm_exit(void)
+ }
+ module_exit(armada_drm_exit);
+ 
+-MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
++MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
+ MODULE_DESCRIPTION("Armada DRM Driver");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS("platform:armada-drm");
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+index e8e3e9339ff9..f6f55776e43e 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+@@ -698,7 +698,7 @@ static struct platform_driver snd_dw_hdmi_driver = {
+ 
+ module_platform_driver(snd_dw_hdmi_driver);
+ 
+-MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
++MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
+ MODULE_DESCRIPTION("Synopsis Designware HDMI AHB ALSA interface");
+ MODULE_LICENSE("GPL v2");
+ MODULE_ALIAS("platform:" DRIVER_NAME);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 1f9c01be40d7..d6798f716b77 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -739,7 +739,7 @@ static void __exit etnaviv_exit(void)
+ module_exit(etnaviv_exit);
+ 
+ MODULE_AUTHOR("Christian Gmeiner <christian.gmeiner@gmail.com>");
+-MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
++MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
+ MODULE_AUTHOR("Lucas Stach <l.stach@pengutronix.de>");
+ MODULE_DESCRIPTION("etnaviv DRM Driver");
+ MODULE_LICENSE("GPL v2");
+diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
+index 7cf42b133dbc..2d4f7dd7cef7 100644
+--- a/drivers/media/cec/cec-notifier.c
++++ b/drivers/media/cec/cec-notifier.c
+@@ -2,7 +2,7 @@
+ /*
+  * cec-notifier.c - notify CEC drivers of physical address changes
+  *
+- * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
++ * Copyright 2016 Russell King.
+  * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+  */
+ 
+diff --git a/drivers/net/phy/swphy.c b/drivers/net/phy/swphy.c
+index 53c214a22b95..774814714c82 100644
+--- a/drivers/net/phy/swphy.c
++++ b/drivers/net/phy/swphy.c
+@@ -2,7 +2,7 @@
+ /*
+  * Software PHY emulation
+  *
+- * Code taken from fixed_phy.c by Russell King <rmk+kernel@arm.linux.org.uk>
++ * Code taken from fixed_phy.c by Russell King.
+  *
+  * Author: Vitaly Bordug <vbordug@ru.mvista.com>
+  *         Anton Vorontsov <avorontsov@ru.mvista.com>
+diff --git a/include/media/cec-notifier.h b/include/media/cec-notifier.h
+index 985afea1ee36..e2b1b894aae7 100644
+--- a/include/media/cec-notifier.h
++++ b/include/media/cec-notifier.h
+@@ -2,7 +2,7 @@
+ /*
+  * cec-notifier.h - notify CEC drivers of physical address changes
+  *
+- * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
++ * Copyright 2016 Russell King.
+  * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+  */
+ 
+-- 
+2.20.1
 
-> On Sun, 2020-03-29 at 11:28 +0200, Julia Lawall wrote:
-> >
-> > On Sun, 29 Mar 2020, John B. Wyatt IV wrote:
-> >
-> > > Fix style issue with usleep_range being reported as preferred over
-> > > udelay.
-> > >
-> > > Issue reported by checkpatch.
-> > >
-> > > Please review.
-> > >
-> > > As written in Documentation/timers/timers-howto.rst udelay is the
-> > > generally preferred API. hrtimers, as noted in the docs, may be too
-> > > expensive for this short timer.
-> > >
-> > > Are the docs out of date, or, is this a checkpatch issue?
-> > >
-> > > Signed-off-by: John B. Wyatt IV <jbwyatt4@gmail.com>
-> > > ---
-> > >  drivers/staging/fbtft/fb_agm1264k-fl.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/staging/fbtft/fb_agm1264k-fl.c
-> > > b/drivers/staging/fbtft/fb_agm1264k-fl.c
-> > > index eeeeec97ad27..019c8cce6bab 100644
-> > > --- a/drivers/staging/fbtft/fb_agm1264k-fl.c
-> > > +++ b/drivers/staging/fbtft/fb_agm1264k-fl.c
-> > > @@ -85,7 +85,7 @@ static void reset(struct fbtft_par *par)
-> > >  	dev_dbg(par->info->device, "%s()\n", __func__);
-> > >
-> > >  	gpiod_set_value(par->gpio.reset, 0);
-> > > -	udelay(20);
-> > > +	usleep_range(20, 20);
-> >
-> > usleep_range should have a range, eg usleep_range(50, 100);.  But it
-> > is
-> > hard to know a priori what the range should be.  So it is probably
-> > better
-> > to leave the code alone.
->
-> Understood.
->
-> With the question I wrote in the commit message:
->
-> "As written in Documentation/timers/timers-howto.rst udelay is the
-> generally preferred API. hrtimers, as noted in the docs, may be too
-> expensive for this short timer.
->
-> Are the docs out of date, or, is this a checkpatch issue?"
->
-> Is usleep_range too expensive for this operation?
->
-> Why does checkpatch favor usleep_range while the docs favor udelay?
-
-I don't know the answer in detail, but it is quite possible that
-checkpatch doesn't pay any attention to the delay argument.  Checkpatch is
-a perl script that highlights things that may be of concern.  It is not a
-precise static analsis tool.
-
-As a matter of form, all of your Please review comments should have been
-put below the ---.  Currently, if someone had wanted to apply the patch,
-you would make them do extra work to remove this information.
-
-julia
-
->
-> >
-> > julia
-> >
-> > >  	gpiod_set_value(par->gpio.reset, 1);
-> > >  	mdelay(120);
-> > >  }
-> > > --
-> > > 2.25.1
-> > >
-> > > --
-> > > You received this message because you are subscribed to the Google
-> > > Groups "outreachy-kernel" group.
-> > > To unsubscribe from this group and stop receiving emails from it,
-> > > send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> > > To view this discussion on the web visit
-> > > https://groups.google.com/d/msgid/outreachy-kernel/20200329092204.770405-1-jbwyatt4%40gmail.com
-> > > .
-> > >
->
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
