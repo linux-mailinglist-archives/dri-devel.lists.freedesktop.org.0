@@ -1,55 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C64197534
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:13:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45656197505
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:12:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A013289F69;
-	Mon, 30 Mar 2020 07:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D57B89F2D;
+	Mon, 30 Mar 2020 07:11:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5304::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7158D89117
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 17:36:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1585503373;
+ [IPv6:2a01:238:20a:202:5304::4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6823E89B45
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 17:38:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1585503518;
  s=strato-dkim-0002; d=goldelico.com;
- h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=L2+kXr3RvjPKbYTAI82Pm7Ea8M3wbjo65G4k9DdxA1Q=;
- b=bIjW3jBkBujhRJ61z4PTz82UuCnSmz1IxA+c+GOvvfP5wmsUfMpOmh1ct7JM31caUK
- tMtzD22LjsTPZYFF/4B6t1jeXp6mxLcHOSDCevYs1GN2Tq8NvVYNk0MFfziI904Juhtm
- 7IDpR2XCb4SBdemQLY58UwwekuNaAeAXqwaT6xEBd1w/j4RYuBcBZChi3lNXd3bgH025
- v3V3Xt9XVLQdiDRT0n3JFVVf8073qLsYdMsizvdryO8bXmIG7Skbui0Sn1nYn7KhSRcA
- Dwtu/0Us9M9Hgtfu60MAtR2A2jRC/ZreVKImjEiLnguhvZK9No8rhy+6HLdtni11GuaE
- xeDw==
+ h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+ Subject:Sender;
+ bh=R1w1keMan8GZ4iGSxV6rA+DYe4euaOTpkYDsZPH99so=;
+ b=d/IqPj5Ge2Em1atB8zdL9Y6DhJ7sPgomXuA8NzT72i+PyzKjHrvftGkqmsFTFEivRC
+ UKt35qvzKglVfu5/ROBwh/6aXE/RTjsb8M+gugWrQThJ35lJQKNfyaU15SJ4Of3WOp09
+ xbt7mk4e5WyJweVpOBWljfJU71oTdYIUUR/+8QtNohAbRnFR81iukf7PXHEy8Z3ZzC0N
+ fSlEWwM/v1vGmDNG7GiKLp2OQelRztmG0ObI+iC/JXcNNSVPMTDSrU6EUv8xyxjX20tD
+ S8hUYLtIv+2kzfkrn6X4VGOA8aQKS4r8uSj/HL3/KQM1Pa5MwsMF6NNjqFhQTT/BXsEu
+ zmoQ==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0pDz2rsNxxv"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.2.1 DYNA|AUTH)
- with ESMTPSA id m02241w2THa2BMH
+ with ESMTPSA id m02241w2THcQBMi
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Sun, 29 Mar 2020 19:36:02 +0200 (CEST)
+ Sun, 29 Mar 2020 19:38:26 +0200 (CEST)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
-To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+ Tony Lindgren <tony@atomide.com>, Paul Cercueil <paul@crapouillou.net>,
  Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paulburton@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Andi Kleen <ak@linux.intel.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Kees Cook <keescook@chromium.org>
-Subject: [RFC v3 8/8] MIPS: CI20: defconfig: configure for DRM_DW_HDMI_JZ4780
-Date: Sun, 29 Mar 2020 19:35:54 +0200
-Message-Id: <90af93353d2624cf4f1c052990e4e1e14fcf67a4.1585503354.git.hns@goldelico.com>
+ James Hogan <jhogan@kernel.org>
+Subject: [PATCH v5 0/8] ARM/MIPS: DTS: add child nodes describing the PVRSGX
+ GPU present in some OMAP SoC and JZ4780 (and many more)
+Date: Sun, 29 Mar 2020 19:38:18 +0200
+Message-Id: <cover.1585503505.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1585503354.git.hns@goldelico.com>
-References: <cover.1585503354.git.hns@goldelico.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 30 Mar 2020 07:11:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,36 +57,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: devicetree@vger.kernel.org, letux-kernel@openphoenux.org,
+ Philipp Rossak <embed3d@gmail.com>, "H. Nikolaus Schaller" <hns@goldelico.com>,
+ openpvrsgx-devgroup@letux.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- linux-gpio@vger.kernel.org, mips-creator-ci20-dev@googlegroups.com,
- letux-kernel@openphoenux.org
+ kernel@pyra-handheld.com, linux-omap@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We configure them as loadable modules by default.
+* reworked YAML bindings to pass dt_binding_check and be better grouped
+* rename all nodes to "gpu: gpu@<address>"
+* removed "img,sgx5" from example - suggested by Rob Herring <robh+dt@kernel.org>
 
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
----
- arch/mips/configs/ci20_defconfig | 3 +++
- 1 file changed, 3 insertions(+)
+PATCH V4 2019-12-17 19:02:11:
+* MIPS: DTS: jz4780: removed "img,sgx5" from bindings
+* YAML bindings: updated according to suggestions by Rob Herring
+* MIPS: DTS: jz4780: insert-sorted gpu node by register address - suggested by Paul Cercueil
 
-diff --git a/arch/mips/configs/ci20_defconfig b/arch/mips/configs/ci20_defconfig
-index be41df2a81fb..3f733a555cb2 100644
---- a/arch/mips/configs/ci20_defconfig
-+++ b/arch/mips/configs/ci20_defconfig
-@@ -103,6 +103,9 @@ CONFIG_RTC_CLASS=y
- CONFIG_RTC_DRV_JZ4740=y
- CONFIG_DMADEVICES=y
- CONFIG_DMA_JZ4780=y
-+CONFIG_DRM=m
-+CONFIG_DRM_DW_HDMI_JZ4780=m
-+CONFIG_DRM_DW_HDMI=m
- # CONFIG_IOMMU_SUPPORT is not set
- CONFIG_MEMORY=y
- CONFIG_EXT4_FS=y
+PATCH V3 2019-11-24 12:40:33:
+* reworked YAML format with help by Rob Herring
+* removed .txt binding document
+* change compatible "ti,am335x-sgx" to "ti,am3352-sgx" - suggested by Tony Lindgren
+
+PATCH V2 2019-11-07 12:06:17:
+* tried to convert bindings to YAML format - suggested by Rob Herring
+* added JZ4780 DTS node (proven to load the driver)
+* removed timer and img,cores properties until we know we really need them - suggested by Rob Herring
+
+PATCH V1 2019-10-18 20:46:35:
+
+This patch series defines child nodes for the SGX5xx interface inside
+different SoC so that a driver can be found and probed by the
+compatible strings and can retrieve information about the SGX revision
+that is included in a specific SoC. It also defines the interrupt number
+to be used by the SGX driver.
+
+There is currently no mainline driver for these GPUs, but a project [1]
+is ongoing with the goal to get the open-source part as provided by TI/IMG
+and others into drivers/gpu/drm/pvrsgx.
+
+The kernel modules built from this project have successfully demonstrated
+to work with the DTS definitions from this patch set on AM335x BeagleBone
+Black, DM3730 and OMAP5 Pyra and Droid 4. They partially work on OMAP3530 and
+PandaBoard ES but that is likely a problem in the kernel driver or the
+(non-free) user-space libraries and binaries.
+
+Wotk for JZ4780 (CI20 board) is in progress and there is potential to extend
+this work to e.g. BananaPi-M3 (A83) and  some Intel Poulsbo and CedarView
+devices.
+
+[1]: https://github.com/openpvrsgx-devgroup
+
+
+H. Nikolaus Schaller (8):
+  dt-bindings: add img,pvrsgx.yaml for Imagination GPUs
+  ARM: DTS: am33xx: add sgx gpu child node
+  ARM: DTS: am3517: add sgx gpu child node
+  ARM: DTS: omap34xx: add sgx gpu child node
+  ARM: DTS: omap36xx: add sgx gpu child node
+  ARM: DTS: omap4: add sgx gpu child node
+  ARM: DTS: omap5: add sgx gpu child node
+  MIPS: DTS: jz4780: add sgx gpu node
+
+ .../devicetree/bindings/gpu/img,pvrsgx.yaml   | 109 ++++++++++++++++++
+ arch/arm/boot/dts/am33xx.dtsi                 |  11 +-
+ arch/arm/boot/dts/am3517.dtsi                 |   9 +-
+ arch/arm/boot/dts/omap34xx.dtsi               |  11 +-
+ arch/arm/boot/dts/omap36xx.dtsi               |   9 +-
+ arch/arm/boot/dts/omap4.dtsi                  |  11 +-
+ arch/arm/boot/dts/omap4470.dts                |  15 +++
+ arch/arm/boot/dts/omap5.dtsi                  |  11 +-
+ arch/mips/boot/dts/ingenic/jz4780.dtsi        |  11 ++
+ 9 files changed, 169 insertions(+), 28 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
+ create mode 100644 arch/arm/boot/dts/omap4470.dts
+
 -- 
 2.25.1
 
