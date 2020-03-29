@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2E2197546
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:14:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8647F19751B
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:12:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A6B66E1CE;
-	Mon, 30 Mar 2020 07:11:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5711B89FC5;
+	Mon, 30 Mar 2020 07:11:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5304::5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F257B89B78
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 17:38:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1585503524;
- s=strato-dkim-0002; d=goldelico.com;
- h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=zTJxk1ctAGrOp10KkkgkgVU73egsnctQj3FqkDWMCgE=;
- b=cQqJiCFAghDRVl3qAdfDXFan3OSVAHRRRs5eAxguN7eOAz3tcAVzthu6ZXrjetuzGR
- f3116JTj2Tw8hmQc6bz83O4/fg/NaD98ZtpXLcsKyZiBU82T0OSsLIQDEP9kYKoMbFt5
- sZN0yxlS8BM1FbXVEh0V7VHDEQGOI3Izp5Ug1068OYqTMDC1Hpx/cOSb9hyD5Is6zxJP
- J371gUsaqjY3JdQvk64QEn0nGeA5IzRChuUw3M1w/alEIdhC/YO/qWGa/qpY+l4Dy5F7
- rzX2IUMicYOkyxbOkS7kBKJdHJvXw2C/ZUEVS2Oe7tjV4u3hc16Tqa1+3CIKkqVz9xAk
- f4iA==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0pDz2rsNxxv"
-X-RZG-CLASS-ID: mo00
-Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.2.1 DYNA|AUTH)
- with ESMTPSA id m02241w2THcWBMq
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Sun, 29 Mar 2020 19:38:32 +0200 (CEST)
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>, Paul Cercueil <paul@crapouillou.net>,
- Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paulburton@kernel.org>,
- James Hogan <jhogan@kernel.org>
-Subject: [PATCH v5 8/8] MIPS: DTS: jz4780: add sgx gpu node
-Date: Sun, 29 Mar 2020 19:38:26 +0200
-Message-Id: <894d8f16c933460639c5708afd0cabfa22b9c560.1585503505.git.hns@goldelico.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1585503505.git.hns@goldelico.com>
-References: <cover.1585503505.git.hns@goldelico.com>
+Received: from mail.siol.net (mailoutvs40.siol.net [185.57.226.231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 887BE89F01
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 23:29:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTP id A502E521FBD;
+ Mon, 30 Mar 2020 01:29:44 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+ by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new,
+ port 10032)
+ with ESMTP id ZWF0-JOzCeTW; Mon, 30 Mar 2020 01:29:44 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTPS id 4DA5D521FD4;
+ Mon, 30 Mar 2020 01:29:44 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net
+ [194.152.20.232]) (Authenticated sender: jernej.skrabec@siol.net)
+ by mail.siol.net (Postfix) with ESMTPA id 934CE521FBD;
+ Mon, 30 Mar 2020 01:29:42 +0200 (CEST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Torsten Duwe <duwe@lst.de>,
+ Maxime Ripard <maxime@cerno.tech>, Icenowy Zheng <icenowy@aosc.io>,
+ Sam Ravnborg <sam@ravnborg.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Vasily Khoruzhick <anarsoul@gmail.com>
+Subject: Re: [PATCH] drm/bridge: anx6345: set correct BPC for display_info of
+ connector
+Date: Mon, 30 Mar 2020 01:29:42 +0200
+Message-ID: <11490050.O9o76ZdvQC@jernej-laptop>
+In-Reply-To: <20200329222253.2941405-1-anarsoul@gmail.com>
+References: <20200329222253.2941405-1-anarsoul@gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 30 Mar 2020 07:11:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,54 +57,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, letux-kernel@openphoenux.org,
- Philipp Rossak <embed3d@gmail.com>, "H. Nikolaus Schaller" <hns@goldelico.com>,
- openpvrsgx-devgroup@letux.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Paul Boddie <paul@boddie.org.uk>, kernel@pyra-handheld.com,
- linux-omap@vger.kernel.org
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-and add interrupt and clocks.
+Hi!
 
-Tested to build for CI20 board and load a driver.
-Setup can not yet be tested since there is no working
-HDMI driver for jz4780.
+Dne ponedeljek, 30. marec 2020 ob 00:22:53 CEST je Vasily Khoruzhick 
+napisal(a):
+> Some drivers (e.g. sun4i-drm) need this info to decide whether they
+> need to enable dithering. Currently driver reports what panel supports
+> and if panel supports 8 we don't get dithering enabled.
+> 
+> Hardcode BPC to 6 for now since that's the only BPC
+> that driver supports.
 
-Suggested-by: Paul Boddie <paul@boddie.org.uk>
-Tested-by: H. Nikolaus Schaller <hns@goldelico.com> # CI20.
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
----
- arch/mips/boot/dts/ingenic/jz4780.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Acked-by: Jernej Skrabec <jernej.skrabec@siol.net>
 
-diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi b/arch/mips/boot/dts/ingenic/jz4780.dtsi
-index bb89653d16a3..618e48c78a87 100644
---- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
-+++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
-@@ -357,6 +357,17 @@ i2c4: i2c@10054000 {
- 		status = "disabled";
- 	};
- 
-+	gpu: gpu@13040000 {
-+		compatible = "ingenic,jz4780-sgx540-120", "img,sgx540-120", "img,sgx540";
-+		reg = <0x13040000 0x4000>;
-+
-+		clocks = <&cgu JZ4780_CLK_GPU>;
-+		clock-names = "gpu";
-+
-+		interrupt-parent = <&intc>;
-+		interrupts = <63>;
-+	};
-+
- 	nemc: nemc@13410000 {
- 		compatible = "ingenic,jz4780-nemc";
- 		reg = <0x13410000 0x10000>;
--- 
-2.25.1
+Best regards,
+Jernej
+
+> 
+> Fixes: 6aa192698089 ("drm/bridge: Add Analogix anx6345 support")
+> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+> ---
+>  drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+> b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c index
+> d7cb10c599a3..ea5de9395662 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+> @@ -494,6 +494,9 @@ static int anx6345_get_modes(struct drm_connector
+> *connector)
+> 
+>  	num_modes += drm_add_edid_modes(connector, anx6345->edid);
+> 
+> +	/* Driver currently supports only 6bpc */
+> +	connector->display_info.bpc = 6;
+> +
+>  unlock:
+>  	if (power_off)
+>  		anx6345_poweroff(anx6345);
+
+
+
 
 _______________________________________________
 dri-devel mailing list
