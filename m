@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E448D197517
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C64197534
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:13:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4C46E02C;
-	Mon, 30 Mar 2020 07:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A013289F69;
+	Mon, 30 Mar 2020 07:11:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5304::5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4FF68925B
+ [IPv6:2a01:238:20a:202:5304::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7158D89117
  for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 17:36:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1585503374;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1585503373;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=I039DbbWJmbU19A6VUFjmteqqzf+SHEXviIex+72I2k=;
- b=kDKGgFUv0mqo91RdQVNphAvdHjYzm0B5xkBPX14gx9YnVMhvFQVmsnrXIftb3qc63Y
- 6j2yTiIPwJ6+jzZFs2Ypbhqd6xriHXkFhX+QBiN23+1dyXF0xn8ezcwllHbIHSDvNhsT
- 49/SRauLvFoySlALq9ocRUyJl57HlUFB7ita0wh5CtVrrUlsqnvX5F12VX6dVtkH1+6y
- 67D+JL920jE1eyPrxIK3BKTQr+W/SQ7/0V+yyTI+T1gg5wXRgX0H4ISHeIy8+pqMbX6M
- 4n+g/4wLUeM3SD+0Mrccj4JY1l9fa6DzjCPUhd4u/WBVanmas34GTPS+2Z2QeXuQeS4F
- jwYQ==
+ bh=L2+kXr3RvjPKbYTAI82Pm7Ea8M3wbjo65G4k9DdxA1Q=;
+ b=bIjW3jBkBujhRJ61z4PTz82UuCnSmz1IxA+c+GOvvfP5wmsUfMpOmh1ct7JM31caUK
+ tMtzD22LjsTPZYFF/4B6t1jeXp6mxLcHOSDCevYs1GN2Tq8NvVYNk0MFfziI904Juhtm
+ 7IDpR2XCb4SBdemQLY58UwwekuNaAeAXqwaT6xEBd1w/j4RYuBcBZChi3lNXd3bgH025
+ v3V3Xt9XVLQdiDRT0n3JFVVf8073qLsYdMsizvdryO8bXmIG7Skbui0Sn1nYn7KhSRcA
+ Dwtu/0Us9M9Hgtfu60MAtR2A2jRC/ZreVKImjEiLnguhvZK9No8rhy+6HLdtni11GuaE
+ xeDw==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0pDz2rsNxxv"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.2.1 DYNA|AUTH)
- with ESMTPSA id m02241w2THa2BMG
+ with ESMTPSA id m02241w2THa2BMH
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
  Sun, 29 Mar 2020 19:36:02 +0200 (CEST)
@@ -44,9 +44,9 @@ To: Paul Cercueil <paul@crapouillou.net>, Paul Boddie <paul@boddie.org.uk>,
  Miquel Raynal <miquel.raynal@bootlin.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  Kees Cook <keescook@chromium.org>
-Subject: [RFC v3 7/8] MIPS: DTS: CI20: add HDMI setup
-Date: Sun, 29 Mar 2020 19:35:53 +0200
-Message-Id: <90644c5a90f3321fc1542aa016c9eb848191526e.1585503354.git.hns@goldelico.com>
+Subject: [RFC v3 8/8] MIPS: CI20: defconfig: configure for DRM_DW_HDMI_JZ4780
+Date: Sun, 29 Mar 2020 19:35:54 +0200
+Message-Id: <90af93353d2624cf4f1c052990e4e1e14fcf67a4.1585503354.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1585503354.git.hns@goldelico.com>
 References: <cover.1585503354.git.hns@goldelico.com>
@@ -73,106 +73,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Paul Boddie <paul@boddie.org.uk>
+We configure them as loadable modules by default.
 
-We need to hook up
-* HDMI power regulator
-* HDMI connector
-* DDC pinmux
-* HDMI and LCD endpoint connections
-
-Signed-off-by: Paul Boddie <paul@boddie.org.uk>
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- arch/mips/boot/dts/ingenic/ci20.dts | 64 +++++++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
+ arch/mips/configs/ci20_defconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/mips/boot/dts/ingenic/ci20.dts b/arch/mips/boot/dts/ingenic/ci20.dts
-index c340f947baa0..97e09382ebd7 100644
---- a/arch/mips/boot/dts/ingenic/ci20.dts
-+++ b/arch/mips/boot/dts/ingenic/ci20.dts
-@@ -62,6 +62,28 @@ eth0_power: fixedregulator@0 {
- 		enable-active-high;
- 	};
- 
-+	hdmi_power: fixedregulator@2 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "hdmi_power";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		gpio = <&gpa 25 GPIO_ACTIVE_LOW>;
-+		enable-active-high;
-+		regulator-always-on;
-+	};
-+
-+	hdmi_out: connector {
-+		compatible = "hdmi-connector";
-+		label = "HDMI OUT";
-+		type = "a";
-+
-+		port {
-+			hdmi_con: endpoint {
-+				remote-endpoint = <&dw_hdmi_out>;
-+			};
-+		};
-+	};
-+
- 	wlan0_power: fixedregulator@1 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "wlan0_power";
-@@ -435,6 +457,12 @@ pins_i2c4: i2c4 {
- 		bias-disable;
- 	};
- 
-+	pins_hdmi_ddc: hdmi_ddc {
-+		function = "hdmi-ddc";
-+		groups = "hdmi-ddc";
-+		bias-disable;
-+	};
-+
- 	pins_nemc: nemc {
- 		function = "nemc";
- 		groups = "nemc-data", "nemc-cle-ale", "nemc-rd-we", "nemc-frd-fwe";
-@@ -471,3 +499,39 @@ &tcu {
- 	assigned-clocks = <&tcu TCU_CLK_TIMER0>, <&tcu TCU_CLK_TIMER1>;
- 	assigned-clock-rates = <3000000>, <3000000>;
- };
-+
-+&hdmi {
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pins_hdmi_ddc>;
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			dw_hdmi_in: endpoint {
-+				remote-endpoint = <&lcd_out>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			dw_hdmi_out: endpoint {
-+				remote-endpoint = <&hdmi_con>;
-+			};
-+		};
-+	};
-+};
-+
-+&lcdc0 {
-+	status = "okay";
-+
-+	port {
-+		lcd_out: endpoint {
-+			remote-endpoint = <&dw_hdmi_in>;
-+		};
-+	};
-+};
+diff --git a/arch/mips/configs/ci20_defconfig b/arch/mips/configs/ci20_defconfig
+index be41df2a81fb..3f733a555cb2 100644
+--- a/arch/mips/configs/ci20_defconfig
++++ b/arch/mips/configs/ci20_defconfig
+@@ -103,6 +103,9 @@ CONFIG_RTC_CLASS=y
+ CONFIG_RTC_DRV_JZ4740=y
+ CONFIG_DMADEVICES=y
+ CONFIG_DMA_JZ4780=y
++CONFIG_DRM=m
++CONFIG_DRM_DW_HDMI_JZ4780=m
++CONFIG_DRM_DW_HDMI=m
+ # CONFIG_IOMMU_SUPPORT is not set
+ CONFIG_MEMORY=y
+ CONFIG_EXT4_FS=y
 -- 
 2.25.1
 
