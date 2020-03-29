@@ -1,45 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A4719706F
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Mar 2020 23:05:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA65D1970C1
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 00:23:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC5AA89DFE;
-	Sun, 29 Mar 2020 21:05:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1997489D56;
+	Sun, 29 Mar 2020 22:23:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0E0B89DFE
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 21:05:10 +0000 (UTC)
-IronPort-SDR: eDK8oDXHZ8DnQQyMx1LJAixszofwyqm8nEO7GT4jcX1s8VhkfSE3UWN6zndWOXM++viGrT5+U8
- w+BRwgHTxIbA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2020 14:05:10 -0700
-IronPort-SDR: eTz+lnqaMCuevlYdcGYkjANmaTlKolvQXHI0BHh681ykRC9KizfVDKKLvvHiUbtzwMTvRBaorL
- C7x3jNLHfJXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,321,1580803200"; d="scan'208";a="266746453"
-Received: from shahidmo-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.134.40.232])
- by orsmga002.jf.intel.com with ESMTP; 29 Mar 2020 14:05:08 -0700
-Date: Sun, 29 Mar 2020 23:05:07 +0200
-From: Eric Engestrom <eric.engestrom@intel.com>
-To: Seung-Woo Kim <sw0312.kim@samsung.com>
-Subject: Re: [PATCH libdrm] meson.build: Don't detect <sys/sysctl.h> header
- for linux
-Message-ID: <20200329210507.rgthhxyrawupswmu@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. 1134945 - Pipers Way,
- Swindon SN3 1RJ
-References: <1578562330-25594-1-git-send-email-sw0312.kim@samsung.com>
- <1578630641-5301-1-git-send-email-sw0312.kim@samsung.com>
- <20200129095313.3uhaqa6ada2jpaie@intel.com>
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25A2F89D56
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 22:23:00 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id w9so6708604pjh.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 15:23:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zMRg/0yP9Xjy60a6h6rFBJo8CZLHExlOMPlSPckVbZw=;
+ b=auvVzsF2PAUhBsqMwmVPVipZ8ae2alRiOjyFYIBalIWGSP7xNNwp/tQgbo3QBACovY
+ UN67goolyTBoRVy2sxQuNXs4OH8DMquMR+kv5P3CrOcZSUZXa03f50OGeoYLk9lYw6K0
+ OXz9hpmZf8XJVHOs71psXRA/x9KeJzViDbV/EhiFKd80dhJeRW+uLcGGdFH0DOgaO00H
+ Rnf14q5dJxLDAXtWyQ6oUlOmx27UVhsPq2WDdKxGN8kMe4GAHC8WbtCE5/W2vbwIhQms
+ mApl3AeYX3B5kGEqpK2+IdkhoucELKj0FBB9H73GE3FJwRjvca+RJvOtUyln8bO2pmKn
+ pfCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zMRg/0yP9Xjy60a6h6rFBJo8CZLHExlOMPlSPckVbZw=;
+ b=sZUW9BwCPqiDjWpZ1Y/JACkm9yjXO12/aenrvkFxzr0PSbL/fOkCOcAKr8Kcx8YBu9
+ Is8ip0vXopnnoZWZ9s99lUoaVRxnqEOkV2UysOhbJVMYZfZ7zPEn+1V0G6QT0G1EcA+D
+ X1jyRxAvHL897y43JJa0Q/VOdRauAjHPkxwblTuwJilxvosUo9gDf76WgCgQrnIlx6xT
+ kU/RCuNPnwrAwrmiSSyjMsFmiuCTKhhq/ia0Kng8xy2eiJnKK3vaKIt5Sg0bVQhWK19z
+ fq3dCbg0WuSP7pVtLa9Fq9zgRoqxnfAIv1B72zl2RVqk0MkZ9B4rvQtfWfrove5PeyBV
+ BQVg==
+X-Gm-Message-State: ANhLgQ1gyc2qiAatNr/XNt3OQsjzFks11IMMA5/fiJr5v1laDwDQPaNf
+ KENw35r0+6yEEUHxvmUOsZg=
+X-Google-Smtp-Source: ADFU+vuRsESBPbbYj7/sBEGFFADXyyCP9QY+TCgzQXqevkGRa/Gzp3bp6Oi25VgJSvC0PE1XYx/bfg==
+X-Received: by 2002:a17:90a:368f:: with SMTP id
+ t15mr12898021pjb.23.1585520579653; 
+ Sun, 29 Mar 2020 15:22:59 -0700 (PDT)
+Received: from anarsoul-thinkpad.lan (216-71-213-236.dyn.novuscom.net.
+ [216.71.213.236])
+ by smtp.gmail.com with ESMTPSA id mq6sm8993269pjb.38.2020.03.29.15.22.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 29 Mar 2020 15:22:59 -0700 (PDT)
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Torsten Duwe <duwe@lst.de>, Maxime Ripard <maxime@cerno.tech>,
+ Icenowy Zheng <icenowy@aosc.io>, Sam Ravnborg <sam@ravnborg.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/bridge: anx6345: set correct BPC for display_info of
+ connector
+Date: Sun, 29 Mar 2020 15:22:53 -0700
+Message-Id: <20200329222253.2941405-1-anarsoul@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200129095313.3uhaqa6ada2jpaie@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,80 +76,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zeising@daemonic.se, dri-devel@lists.freedesktop.org
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, 2020-01-29 09:53:16 +0000, Eric Engestrom wrote:
-> On Friday, 2020-01-10 13:30:41 +0900, Seung-Woo Kim wrote:
-> > The <sys/sysctl.h> header is not required for Linux and GNU libc
-> > 2.30 starts to warn about Linux specific <sys/sysctl.h> header
-> > deprecation. Don't detect <sys/sysctl.h> header for linux.
-> > 
-> > Signed-off-by: Seung-Woo Kim <sw0312.kim@samsung.com>
-> > ---
-> > Fix meson.build script instead of code itself as commented below:
-> > https://patchwork.kernel.org/patch/11325345/
-> > ---
-> >  meson.build |   15 +++++++++++----
-> >  1 files changed, 11 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/meson.build b/meson.build
-> > index 782b1a3..b1c557a 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -183,10 +183,17 @@ else
-> >    dep_rt = []
-> >  endif
-> >  dep_m = cc.find_library('m', required : false)
-> > -# From Niclas Zeising:
-> > -# FreeBSD requires sys/types.h for sys/sysctl.h, add it as part of the
-> > -# includes when checking for headers.
-> > -foreach header : ['sys/sysctl.h', 'sys/select.h', 'alloca.h']
-> > +if not ['linux'].contains(host_machine.system())
-> > +  # From Niclas Zeising:
-> > +  # FreeBSD requires sys/types.h for sys/sysctl.h, add it as part of the
-> > +  # includes when checking for headers.
-> > +  foreach header : ['sys/sysctl.h']
-> > +    config.set('HAVE_' + header.underscorify().to_upper(),
-> > +      cc.compiles('#include <sys/types.h>\n#include <@0@>'.format(header), name : '@0@ works'.format(header)))
-> > +  endforeach
-> > +endif
-> > +endforeach
-> 
-> Stray `endforeach`.
-> 
-> Could you post your patch as a Merge Request [1] instead of on the mailing list?
-> The automatic testing there means it would instantly catch mistakes like these :)
-> 
-> [1] https://gitlab.freedesktop.org/mesa/drm/merge_requests
-> 
-> > +foreach header : ['sys/select.h', 'alloca.h']
-> >    config.set('HAVE_' + header.underscorify().to_upper(),
-> >      cc.compiles('#include <sys/types.h>\n#include <@0@>'.format(header), name : '@0@ works'.format(header)))
-> 
-> Can you drop the `#include <sys/types.h>\n` now that sys/sysctl.h is
-> being split out?
-> 
-> Note that since https://gitlab.freedesktop.org/mesa/drm/merge_requests/8
-> we now use config.set10(), which means you'll need to refactor a tiny
-> bit (move the !linux condition inside the config.set10() call).
-> 
-> The new code block should look like this:
-> 
->   # From Niclas Zeising:
->   # FreeBSD requires sys/types.h for sys/sysctl.h, add it as part of the
->   # includes when checking for headers.
->   foreach header : ['sys/sysctl.h']
->     config.set10('HAVE_' + header.underscorify().to_upper(),
->        not ['linux'].contains(host_machine.system()) and
->        cc.compiles('#include <sys/types.h>\n#include <@0@>'.format(header), name : '@0@ works'.format(header)))
->   endforeach
+Some drivers (e.g. sun4i-drm) need this info to decide whether they
+need to enable dithering. Currently driver reports what panel supports
+and if panel supports 8 we don't get dithering enabled.
 
-FYI, I have posted a variant of the above as a merge request:
-https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/53
+Hardcode BPC to 6 for now since that's the only BPC
+that driver supports.
+
+Fixes: 6aa192698089 ("drm/bridge: Add Analogix anx6345 support")
+Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+---
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+index d7cb10c599a3..ea5de9395662 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+@@ -494,6 +494,9 @@ static int anx6345_get_modes(struct drm_connector *connector)
+ 
+ 	num_modes += drm_add_edid_modes(connector, anx6345->edid);
+ 
++	/* Driver currently supports only 6bpc */
++	connector->display_info.bpc = 6;
++
+ unlock:
+ 	if (power_off)
+ 		anx6345_poweroff(anx6345);
+-- 
+2.25.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
