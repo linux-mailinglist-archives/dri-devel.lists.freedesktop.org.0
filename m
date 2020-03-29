@@ -2,50 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41AD1969B9
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Mar 2020 23:02:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8956F196C45
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Mar 2020 11:56:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F1E56E05A;
-	Sat, 28 Mar 2020 22:02:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 715986E0CA;
+	Sun, 29 Mar 2020 09:55:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6EE96E05A
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 22:02:38 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id a49so13848841otc.11
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Mar 2020 15:02:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=isVtdDuL+ZC2JRMHdxAHdfV8aIeJjVzf0LpDESpJMO0=;
- b=b2HRxBs8m8MBI5G5rZeZx3VkI0SXj6/y6VeNJu6Rn6IG7o6b2oLt1i8/3eSbcv1qN5
- cHE4lHnZa85p+ewNoKYeVFsixKEegiSGtl+p57Olt5mvRJVbe6+kfL+ihJMpS1y5X/Jr
- OXi1QW623vICe0d54sTfRP4a3qy1lAg1+PFH0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=isVtdDuL+ZC2JRMHdxAHdfV8aIeJjVzf0LpDESpJMO0=;
- b=OO0t0hTXybBgaPWLqM8/mO6oK7+9bSoVRHuLBfKwgrWFS5Zp9tZ3i+se+n7jfqckNZ
- ZV17Pqh2MJ6EFndc2+xO1mBAhn/1SJKaqUFeor1GiWcF1oCuGjLrIcn+fvnkRv9cUfVm
- lLtDfr+xPwEJ5joGEWSYncnxe5KNlDf15pmyznuieXWPKSjaPc3ZrNgez1yPrNO/m5Um
- y0f1OP6muwqUHo9Z65h8vf8VE3RQ/vfQjpSuLNPAr+HYf1wJZvktRmisMm+XV/4/SIvO
- mgqM6eYepZH/uJpW7P9sS8H9YbiwZLvw5bQ0t8O7Dch+rfxiGRaszRSkMR+ZxXQOpGGk
- 9yoA==
-X-Gm-Message-State: ANhLgQ2VlbWp52dOo6BrPWK2knWQOdVcHVOgjXTE8gHJJl+GFHTrrj/1
- qZR0ZxhFbt+/h+C/mU814w2/+MQkOujdOn2L+g+1hlUv
-X-Google-Smtp-Source: ADFU+vtm/G35Ca0yCXqhBk9vyeYAcdK5CzKIzl1sq2rQzReBewQD9UWi/fyAosKi43RQJWwgId0AtlsuowZDEXE5XHQ=
-X-Received: by 2002:a4a:4190:: with SMTP id x138mr4630675ooa.35.1585432958047; 
- Sat, 28 Mar 2020 15:02:38 -0700 (PDT)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A84F16E0C8
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 09:55:57 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200329095555euoutp023db00147fa44c4b7708d19f4d8983471~AvcyrZZiV2380023800euoutp02k
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 09:55:55 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200329095555euoutp023db00147fa44c4b7708d19f4d8983471~AvcyrZZiV2380023800euoutp02k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1585475755;
+ bh=ZE/8RPCzXsNKOub72kPPybyFco+1U8wUJ08oc7Pxotc=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=bWBcgspMolpapA2FIPkBywqcySqyokj9lx2m1Ya71GO8I80yNVv2lvjwmS9CZaew5
+ MQ9THwdjlTaLsP3iFEVWwjisXhlS/Y5+QYyOTDzs4Gn5pX3SUvD2AsaSGqQAjWDGHB
+ 9Hm2oOEFFqdaKlMtFZAiZHS0wKKTD2I2Vqz2EzLw=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200329095555eucas1p2b56dc2cdb4c4e2a30541b88a186b6f5a~AvcyRlgA82895928959eucas1p21;
+ Sun, 29 Mar 2020 09:55:55 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id C2.1A.60698.AA0708E5; Sun, 29
+ Mar 2020 10:55:55 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200329095554eucas1p2153edb2d11e85bb092aea8562a9357d5~AvcxlcMzH1913719137eucas1p2F;
+ Sun, 29 Mar 2020 09:55:54 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200329095554eusmtrp14d379a191ac3af5df37b5a5e6c8ed976~AvcxkwYM82129621296eusmtrp14;
+ Sun, 29 Mar 2020 09:55:54 +0000 (GMT)
+X-AuditID: cbfec7f5-a0fff7000001ed1a-6b-5e8070aa4035
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 7A.A2.08375.AA0708E5; Sun, 29
+ Mar 2020 10:55:54 +0100 (BST)
+Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200329095553eusmtip2904d1afdb45fd775b0d195520eb39bae~Avcwz3tQu0515205152eusmtip2U;
+ Sun, 29 Mar 2020 09:55:53 +0000 (GMT)
+Subject: Re: [PATCH v2] drm/prime: fix extracting of the DMA addresses from
+ a scatterlist
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <8a09916d-5413-f9a8-bafa-2d8f0b8f892f@samsung.com>
+Date: Sun, 29 Mar 2020 11:55:45 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200328162358.18500-1-daniel.vetter@ffwll.ch>
- <20200328184942.GA28087@ravnborg.org>
-In-Reply-To: <20200328184942.GA28087@ravnborg.org>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Sat, 28 Mar 2020 23:02:26 +0100
-Message-ID: <CAKMK7uHjD-wc3qR6h76u+CSJVGC_cJktfwyQDs9Jrt4C3JU3ag@mail.gmail.com>
-Subject: Re: [PATCH] drm/managed: Fix off-by-one in warning
-To: Sam Ravnborg <sam@ravnborg.org>
+In-Reply-To: <14063C7AD467DE4B82DEDB5C278E8663FFFBFCE1@fmsmsx107.amr.corp.intel.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfyyUcRzH+z7Pc889TqfH0XymUl1pY0uMrWdlytbaU39UVv+Eri6e0eLY
+ naOrtsiPuJRkQ5eF2tCVMxzyIxuaI0VS+iWia/Irs8OWUN09/fDf5/39vD7vz+e9fSlcYha4
+ UmcUcZxSIY+SkiKitv17z/YHsYky74lSxFzr7sSY3IFGAVOZXyFgkuqvY8zP2myceTU3TTJ9
+ DQUkk9/TjDHFMzUE86LOk0nLKBEwRZUjiDFOZgv2itnUl0sk+3i+iGDrdR+F7L2mMYyt0meQ
+ bN38JwF7pzOIHbpqwtjrRj1iq7susJYqtyP2wSL/cC7qTDyn3BFwShRpWRokYi1bz9Vo27BE
+ dN9NiygKaD8o7knQIhElocsQFLZMCnkxi+DJQjLBCwuCpucVpBbZ2SZyk1JxvlGK4M2SFuPF
+ NALDazNmpZzoEBhYMBDW2plOxmA485AVwulMHEZLBnFrg6R9QDultdmK6QDQpRTYBgjaHSxL
+ 1kPsqLV0KPS2ZQl4xhE6b5ltjB19DNqHDDYGpzdC3VQBztcu8N5caLsI6AwKjCWDGJ90H1zL
+ 2sFHcIJxk1HI1+uhKyeT4PlkBMPd5UJeZCLou5yPeGo3DHQvkFYjnPaAioY/RoFQ2TtD8v4O
+ 8HbKkb/BAW7W5uH8sxjS0yQ8vQ10JsO/tS0vXuI3kFS3IpluRRrdijS6/3uLEKFHLpxaFR3B
+ qXwVXIKXSh6tUisivMJioqvQ77/XtWyae4SaF0+3IppC0tVib80lmUQgj1dpolsRULjUWUwe
+ TpRJxOFyzXlOGXNSqY7iVK1oHUVIXcS+d8dOSOgIeRx3luNiOeXfLkbZuSaitI5G+HBr1xd9
+ SNCaSM3Eu2ANGsPjNs+6u29oGq9OWf3ZmOUcFqNduHd7s8OzUaeaUO+nfdzhavXOEX/S45vX
+ w+PfUuzD/cSyXjJn/4y6f0/U16yOKxe7k/aUHWjY5HkjfWJ/unC+YzrQeWQ5L/XCj1VNWxaV
+ XeXB/e6TR4MUB3VJUkIVKffxxJUq+S+w4yurdwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrJIsWRmVeSWpSXmKPExsVy+t/xe7qrChriDH40iVj0njvJZDHtzm5W
+ i40z1rNaNO7sY7L4v20is8WVr+/ZLC7vmsNmMeP8PiaLhR+3slhc2K5l0da5jNViwcZHjBZb
+ 3kxkdeD1aL30l81j77cFLB47Z91l91i85yWTx6ZVnWwe2789YPWYdzLQ4373cSaPvi2rGD02
+ n672+LxJLoA7Ss+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384mJTUnsyy1
+ SN8uQS/j8997LAWfVSq2dh1mamBcKdfFyMkhIWAiMa2xlbmLkYtDSGApo8SK922MEAkZiZPT
+ GlghbGGJP9e62CCK3jJKzDt6kgkkISwQLbFu20qwbhGBZiaJgy+6WEEcZoE+Zok39ycwQbTc
+ ZpTY1NoPNpdNwFCi6y3ILE4OXgE7iVktc1hAbBYBVYnPf9+wg9iiAjESP/d0sUDUCEqcnPkE
+ zOYUCJE4dn8dWA2zgJnEvM0PmSFseYntb+dA2eISt57MZ5rAKDQLSfssJC2zkLTMQtKygJFl
+ FaNIamlxbnpusaFecWJucWleul5yfu4mRmC0bzv2c/MOxksbgw8xCnAwKvHwGlTWxwmxJpYV
+ V+YeYpTgYFYS4WXzb4gT4k1JrKxKLcqPLyrNSS0+xGgK9NxEZinR5HxgIsoriTc0NTS3sDQ0
+ NzY3NrNQEuftEDgYIySQnliSmp2aWpBaBNPHxMEp1cDoHpG78GBamta32yVpmw1ePtp3KpbD
+ R73/wKfDTjm2GfXHc6KkJ0177yz2Qlqt9mPZ/p+yzr0xq06/Ke6vspY6ea59llbV55a9Au0M
+ bTsSDW0tVx8MmxHRvaTGQU5uR9a0P0fThdV239m9ptLakVm644jJ6SW3K88qLYhefXH5BgnT
+ Wvlfk72UWIozEg21mIuKEwErd8d6DAMAAA==
+X-CMS-MailID: 20200329095554eucas1p2153edb2d11e85bb092aea8562a9357d5
+X-Msg-Generator: CA
+X-RootMTR: 20200327162330eucas1p1b0413e0e9887aa76d3048f86d2166dcd
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200327162330eucas1p1b0413e0e9887aa76d3048f86d2166dcd
+References: <CGME20200327162330eucas1p1b0413e0e9887aa76d3048f86d2166dcd@eucas1p1.samsung.com>
+ <20200327162126.29705-1-m.szyprowski@samsung.com>
+ <14063C7AD467DE4B82DEDB5C278E8663FFFBFCE1@fmsmsx107.amr.corp.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,90 +113,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Shane Francis <bigbeeshane@gmail.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 28, 2020 at 7:49 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Daniel.
->
-> On Sat, Mar 28, 2020 at 05:23:58PM +0100, Daniel Vetter wrote:
-> > I'm thinking this is the warning that fired in the 0day report, but I
-> > can't double-check yet since 0day didn't upload its source tree
-> > anywhere I can check. And all the drivers I can easily test don't use
-> > drm_dev_alloc anymore ...
-> >
-> > Also if I'm correct supreme amounts of bad luck because usually kslap
-> > (for bigger structures) gives us something quite a bit bigger than
-> > what we asked for.
-> >
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Fixes: c6603c740e0e ("drm: add managed resources tied to drm_device")
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Dan Carpenter <dan.carpenter@oracle.com>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Neil Armstrong <narmstrong@baylibre.com
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_managed.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
-> > index 4955241ceb4c..9cebfe370a65 100644
-> > --- a/drivers/gpu/drm/drm_managed.c
-> > +++ b/drivers/gpu/drm/drm_managed.c
-> > @@ -139,8 +139,7 @@ void drmm_add_final_kfree(struct drm_device *dev, void *container)
-> >  {
-> >       WARN_ON(dev->managed.final_kfree);
-> >       WARN_ON(dev < (struct drm_device *) container);
-> > -     WARN_ON(dev + 1 >=
-> > -             (struct drm_device *) (container + ksize(container)));
-> > +     WARN_ON(dev + 1 > (struct drm_device *) (container + ksize(container)));
->
-> I do not think this is the right fix...
-> The original code would trigger if
-> 1) the container only had a drm_device - and nothing else
-> 2) and the allocated size was the same
+Hi Michael,
 
-Yup, which apparently happens for all the drivers calling
-drm_dev_alloc(). At least on the unlucky architecture that 0day tested
-on (or build settings, or whatever). The issue was hit with drm/bochs,
-which is still using drm_dev_alloc (like most older-ish drivers).
+On 2020-03-27 19:31, Ruhl, Michael J wrote:
+>> -----Original Message-----
+>> From: Marek Szyprowski <m.szyprowski@samsung.com>
+>> Sent: Friday, March 27, 2020 12:21 PM
+>> To: dri-devel@lists.freedesktop.org; linux-samsung-soc@vger.kernel.org;
+>> linux-kernel@vger.kernel.org
+>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>;
+>> stable@vger.kernel.org; Bartlomiej Zolnierkiewicz
+>> <b.zolnierkie@samsung.com>; Maarten Lankhorst
+>> <maarten.lankhorst@linux.intel.com>; Maxime Ripard
+>> <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>;
+>> David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Alex Deucher
+>> <alexander.deucher@amd.com>; Shane Francis <bigbeeshane@gmail.com>;
+>> Ruhl, Michael J <michael.j.ruhl@intel.com>
+>> Subject: [PATCH v2] drm/prime: fix extracting of the DMA addresses from a
+>> scatterlist
+>>
+>> Scatterlist elements contains both pages and DMA addresses, but one
+>> should not assume 1:1 relation between them. The sg->length is the size
+>> of the physical memory chunk described by the sg->page, while
+>> sg_dma_len(sg) is the size of the DMA (IO virtual) chunk described by
+>> the sg_dma_address(sg).
+>>
+>> The proper way of extracting both: pages and DMA addresses of the whole
+>> buffer described by a scatterlist it to iterate independently over the
+>> sg->pages/sg->length and sg_dma_address(sg)/sg_dma_len(sg) entries.
+>>
+>> Fixes: 42e67b479eab ("drm/prime: use dma length macro when mapping sg")
+>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+>> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+>> ---
+>> drivers/gpu/drm/drm_prime.c | 37 +++++++++++++++++++++++++-----------
+>> -
+>> 1 file changed, 25 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+>> index 1de2cde2277c..282774e469ac 100644
+>> --- a/drivers/gpu/drm/drm_prime.c
+>> +++ b/drivers/gpu/drm/drm_prime.c
+>> @@ -962,27 +962,40 @@ int drm_prime_sg_to_page_addr_arrays(struct
+>> sg_table *sgt, struct page **pages,
+>> 	unsigned count;
+>> 	struct scatterlist *sg;
+>> 	struct page *page;
+>> -	u32 len, index;
+>> +	u32 page_len, page_index;
+>> 	dma_addr_t addr;
+>> +	u32 dma_len, dma_index;
+>>
+>> -	index = 0;
+>> +	/*
+>> +	 * Scatterlist elements contains both pages and DMA addresses, but
+>> +	 * one shoud not assume 1:1 relation between them. The sg->length
+>> is
+>> +	 * the size of the physical memory chunk described by the sg->page,
+>> +	 * while sg_dma_len(sg) is the size of the DMA (IO virtual) chunk
+>> +	 * described by the sg_dma_address(sg).
+>> +	 */
+> Is there an example of what the scatterlist would look like in this case?
 
-> And the modification will now allow for a container with the exact size
-> of drm_device.
->
-> I checked all users in my tree - no-one only had a drm_device.
-> The minimum was one extra pointer.
->
-> Another thing that could trigger the warning was if any users
-> did not specify a pointer to memory allocated by k(z)alloc()
-> But I could not find any.
->
-> tiny/st7735r.c looked suspisius, but I think it is also OK,
-> because struct st7735r_priv is allocated, but the poitner specified in
-> st7735r_priv.dbidev. But dbidev is the first field - so OK.
->
-> So no better clue...
+DMA framework or IOMMU is allowed to join consecutive chunks while 
+mapping if such operation is supported by the hw. Here is the example:
 
-Yeah all the drivers using drm_dev_init with embedded drm_device wont hit this.
--Daniel
+Lets assume that we have a scatterlist with 4 4KiB pages of the physical 
+addresses: 0x12000000, 0x13011000, 0x13012000, 0x11011000. The total 
+size of the buffer is 16KiB. After mapping this scatterlist to a device 
+behind an IOMMU it may end up as a contiguous buffer in the DMA (IOVA) 
+address space. at 0xf0010000. The scatterlist will look like this:
+
+sg[0].page = 0x12000000
+sg[0].len = 4096
+sg[0].dma_addr = 0xf0010000
+sg[0].dma_len = 16384
+sg[1].page = 0x13011000
+sg[1].len = 4096
+sg[1].dma_addr = 0
+sg[1].dma_len = 0
+sg[2].page = 0x13012000
+sg[2].len = 4096
+sg[2].dma_addr = 0
+sg[2].dma_len = 0
+sg[3].page = 0x11011000
+sg[3].len = 4096
+sg[3].dma_addr = 0
+sg[3].dma_len = 0
+
+(I've intentionally wrote page as physical address to make it easier to 
+understand, in real SGs it is stored a struct page pointer).
+
+> Does each SG entry always have the page and dma info? or could you have
+> entries that have page information only, and entries that have dma info only?
+When SG is not mapped yet it contains only the ->pages and ->len 
+entries. I'm not aware of the SGs with the DMA information only, but in 
+theory it might be possible to have such.
+> If the same entry has different size info (page_len = PAGE_SIZE,
+> dma_len = 4 * PAGE_SIZE?), are we guaranteed that the arrays (page and addrs) have
+> been sized correctly?
+
+There are always no more DMA related entries than the phys pages. If 
+there is 1:1 mapping between physical memory and DMA (IOVA) space, then 
+each SG entry will have len == dma_len, and dma_addr will be describing 
+the same as page entry. DMA mapping framework is allowed only to join 
+entries while mapping to DMA (IOVA).
+
+> Just trying to get my head wrapped around this.
+
+Sure, I hope my explanation helps a bit.
+
+Best regards
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
