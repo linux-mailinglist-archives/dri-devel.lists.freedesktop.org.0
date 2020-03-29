@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5BC1974F9
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:12:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AFA5197515
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:12:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B29FF89F19;
-	Mon, 30 Mar 2020 07:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD276E0D5;
+	Mon, 30 Mar 2020 07:11:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5304::5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA9789B45
+ [IPv6:2a01:238:20a:202:5304::12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1EDE89B45
  for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 17:38:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1585503519;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1585503520;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=b0jJGA39xmvMSBMWkb+iC5+Dn3MX1LxN2wPchhSznQM=;
- b=jlLN9ue6G4EuCQBvBz0uj5wLtsJVXHAFQSSZUfrnV36UcDmGsZPwpq0n92peo/jQ8B
- mIh5B//iGVyUE1gUGRj5fCgb+9yzzUrQO9hJqqhDnaijWTccRPHKkeAlgXFrhCHnzpYm
- Oq18om0+vRgv6C2CaDB+x+kVFOfCfUYXNmSpwhQ8CAWpWG5hzEzEeUUXAnizuVBye/d9
- H5ZEWoGXxjU5wKnQ3tduGOoy9WyPAWQuX2cqoPf2rJ/dtvatlwx/xdIiDvi4RBVNSbBn
- kbKirnyW8qHJd685D377/IhEa1MCo9TX2Rcee2RYhVQ4rGRdyErtOV+YNcRdbIG9KvTk
- UdfA==
+ bh=rqANm04pE1KQf5F40TrJl3kMNAdz2dL493kE5AqgxPc=;
+ b=oPrCopuOFSyRfxVreQSaDRnfxcS7MHbIraoZR/T12Z8KusBvrdDwRKsOd0X7/nFeyv
+ rlxeoxC/aHAzi8P6HVh+KfHQ52fIpZxFyVRC9U78lLb5kT/lmWDyJ5XFL5NX2kHOQE95
+ VPODzJfLHwOkWeV+TYdHsGb+znrNrPjdbvPsGfLikVY6c3FxgP2sdJVs7FBx9mvliJ6Z
+ AScqyuM65yJW37ORBCxEQPEX8csZQ2DDQ7dNCvTgxcufSr+TK5ai/EIMpuspTfaobXzs
+ +LV1HlUZdFL7yvC9JoMSI3rbI6uVblkYe0BAIO3XjSbEwsClIgUtlPDt9AIDKYznSpry
+ Q2Vw==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0pDz2rsNxxv"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.2.1 DYNA|AUTH)
- with ESMTPSA id m02241w2THcSBMk
+ with ESMTPSA id m02241w2THcSBMl
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
  Sun, 29 Mar 2020 19:38:28 +0200 (CEST)
@@ -38,9 +38,9 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Tony Lindgren <tony@atomide.com>, Paul Cercueil <paul@crapouillou.net>,
  Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paulburton@kernel.org>,
  James Hogan <jhogan@kernel.org>
-Subject: [PATCH v5 2/8] ARM: DTS: am33xx: add sgx gpu child node
-Date: Sun, 29 Mar 2020 19:38:20 +0200
-Message-Id: <720967ec44f65973a2ba81a39fb55fb1bac7fa04.1585503505.git.hns@goldelico.com>
+Subject: [PATCH v5 3/8] ARM: DTS: am3517: add sgx gpu child node
+Date: Sun, 29 Mar 2020 19:38:21 +0200
+Message-Id: <defec319176fec632c64b37fab6733167a218e02.1585503505.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1585503505.git.hns@goldelico.com>
 References: <cover.1585503505.git.hns@goldelico.com>
@@ -70,37 +70,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 and add interrupt.
 
-Tested-by: H. Nikolaus Schaller <hns@goldelico.com> # BeagleBone Black
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- arch/arm/boot/dts/am33xx.dtsi | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ arch/arm/boot/dts/am3517.dtsi | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm/boot/dts/am33xx.dtsi b/arch/arm/boot/dts/am33xx.dtsi
-index 41dcfb37155a..cbdd85a1e4b0 100644
---- a/arch/arm/boot/dts/am33xx.dtsi
-+++ b/arch/arm/boot/dts/am33xx.dtsi
-@@ -497,7 +497,7 @@ aes: aes@0 {
- 			};
- 		};
- 
--		target-module@56000000 {
-+		sgx_module: target-module@56000000 {
- 			compatible = "ti,sysc-omap4", "ti,sysc";
- 			reg = <0x5600fe00 0x4>,
- 			      <0x5600fe10 0x4>;
-@@ -516,10 +516,11 @@ target-module@56000000 {
+diff --git a/arch/arm/boot/dts/am3517.dtsi b/arch/arm/boot/dts/am3517.dtsi
+index e0b5a00e2078..3fce56a646d1 100644
+--- a/arch/arm/boot/dts/am3517.dtsi
++++ b/arch/arm/boot/dts/am3517.dtsi
+@@ -138,10 +138,11 @@ sgx_module: target-module@50000000 {
  			#size-cells = <1>;
- 			ranges = <0 0x56000000 0x1000000>;
+ 			ranges = <0 0x50000000 0x4000>;
  
 -			/*
 -			 * Closed source PowerVR driver, no child device
 -			 * binding or driver in mainline
 -			 */
 +			gpu: gpu@0 {
-+				compatible = "ti,am3352-sgx530-125", "img,sgx530-125", "img,sgx530";
-+				reg = <0x00 0x1000000>;	/* 16 MB */
-+				interrupts = <37>;
++				compatible = "ti,am3517-sgx530-125", "img,sgx530-125", "img,sgx530";
++				reg = <0x0 0x4000>;
++				interrupts = <21>;
 +			};
  		};
  	};
