@@ -1,34 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F2D19829F
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 19:44:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AF71982F0
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 20:04:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 257756E08E;
-	Mon, 30 Mar 2020 17:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B49D6E14B;
+	Mon, 30 Mar 2020 18:04:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34C5C6E08E
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 17:44:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 21E27296719
-Subject: Re: [PATCHv7 2/6] drm/core: Add drm_afbc_framebuffer and a
- corresponding helper
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200311145541.29186-1-andrzej.p@collabora.com>
- <20200311145541.29186-3-andrzej.p@collabora.com>
- <CAKMK7uEx4c+9wELxnEjtRentt=L8w6wbr7YHX5No_2PUcB_+YQ@mail.gmail.com>
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <785e44e9-f77f-1464-786c-e28b12b9fa4b@collabora.com>
-Date: Mon, 30 Mar 2020 19:44:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74DC56E0C4;
+ Mon, 30 Mar 2020 18:04:51 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 014EC804E5;
+ Mon, 30 Mar 2020 20:04:45 +0200 (CEST)
+Date: Mon, 30 Mar 2020 20:04:44 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Russell King <rmk+kernel@armlinux.org.uk>
+Subject: Re: [PATCH] Update my email address in various drivers
+Message-ID: <20200330180444.GA16073@ravnborg.org>
+References: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uEx4c+9wELxnEjtRentt=L8w6wbr7YHX5No_2PUcB_+YQ@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=PHq6YzTAAAAA:8
+ a=drOt6m5kAAAA:8 a=7gkXJVJtAAAA:8 a=pGLkceISAAAA:8 a=fk1lIlRQAAAA:8
+ a=e5mUnYsNAAAA:8 a=J_AMR1hbAAXD1OJ71a8A:9 a=pLlZParSi1_HdBrb:21
+ a=f4gn02k5W12urO4c:21 a=CjuIK1q_8ugA:10 a=ZKzU8r6zoKMcqsNulkmm:22
+ a=RMMjzBEyIzXRtoq5n5K6:22 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=U75ogvRika4pmaD_UPO0:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,56 +48,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ayan Halder <Ayan.Halder@arm.com>, kernel@collabora.com,
- David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
- Sandy Huang <hjc@rock-chips.com>, James Wang <james.qian.wang@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mihail Atanassov <mihail.atanassov@arm.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Andrew Lunn <andrew@lunn.ch>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Florian Fainelli <f.fainelli@gmail.com>, linux-media@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ netdev@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Heiner Kallweit <hkallweit1@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLAoKVyBkbml1IDMwLjAzLjIwMjAgb8KgMTk6MDEsIERhbmllbCBWZXR0ZXIgcGlz
-emU6Cj4gT24gV2VkLCBNYXIgMTEsIDIwMjAgYXQgMzo1NSBQTSBBbmRyemVqIFBpZXRyYXNpZXdp
-Y3oKPiA8YW5kcnplai5wQGNvbGxhYm9yYS5jb20+IHdyb3RlOgo+Pgo+PiBUaGUgbmV3IHN0cnVj
-dCBjb250YWlucyBhZmJjLXNwZWNpZmljIGRhdGEuCgo8c25pcD4KCj4+IGRpZmYgLS1naXQgYS9E
-b2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCBiL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0Cj4+
-IGluZGV4IDQzOTY1NmY1NWM1ZC4uMzdhM2EwMjNjMTE0IDEwMDY0NAo+PiAtLS0gYS9Eb2N1bWVu
-dGF0aW9uL2dwdS90b2RvLnJzdAo+PiArKysgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdAo+
-PiBAQCAtNDA0LDYgKzQwNCwyMSBAQCBDb250YWN0OiBMYXVyZW50IFBpbmNoYXJ0LCByZXNwZWN0
-aXZlIGRyaXZlciBtYWludGFpbmVycwo+Pgo+PiAgIExldmVsOiBJbnRlcm1lZGlhdGUKPj4KPj4g
-K0VuY29kZSBjcHAgcHJvcGVybHkgaW4gbWFsaWRwCj4+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLQo+PiArCj4+ICtjcHAgKGNoYXJzIHBlciBwaXhlbCkgaXMgbm90IGVuY29kZWQgcHJv
-cGVybHkgaW4gbWFsaWRwLCB6ZXJvIGlzCj4+ICt1c2VkIGluc3RlYWQuIGFmYmMgaW1wbGVtZW50
-YXRpb24gbmVlZHMgYnBwIG9yIGNwcCwgYnV0IGlmIGl0IGlzCj4+ICt6ZXJvIGl0IG5lZWRzIHRv
-IGJlIHByb3ZpZGVkIGVsc2V3aGVyZSwgYW5kIHNvIHRoZSBicHAgZmllbGQgZXhpc3RzCj4+ICtp
-biBzdHJ1Y3QgZHJtX2FmYmNfZnJhbWVidWZmZXIuCj4+ICsKPj4gK1Byb3Blcmx5IGVuY29kZSBj
-cHAgaW4gbWFsaWRwIGFuZCByZW1vdmUgdGhlIGJwcCBmaWVsZCBpbiBzdHJ1Y3QKPj4gK2RybV9h
-ZmJjX2ZyYW1lYnVmZmVyLgo+PiArCj4+ICtDb250YWN0OiBtYWxpZHAgbWFpbnRhaW5lcnMKPj4g
-Kwo+PiArTGV2ZWw6IEludGVybWVkaWF0ZQo+IAo+IEp1c3Qgc3R1bWJsZWQgb3ZlciB0aGlzIHRv
-ZG8sIHdoaWNoIGlzIHJlYWxseSBzdXJwcmlzaW5nLiBBbHNvCj4gZGVmaW5pdGVseSBub3Qgc29t
-ZXRoaW5nIEkgd2FudGVkIHRvIGFjaywgZWFybGllciB2ZXJzaW9ucyBhdCBsZWFzdAo+IGRpZG4n
-dCBoYXZlIHRoaXMuCj4gCj4gV2h5IGlzIHRoaXMgbmVlZGVkPyBkcm1fYWZiY19mcmFtZWJ1ZmZl
-ciBjb250YWlucyBhIGRybV9mcmFtZWJ1ZmZlciwKPiB3aGljaCBoYXMgYSBwb2ludGVyIHRvIGRy
-bV9mb3JtYXRfaW5mbywgd2hpY2ggd2UncmUgYWx3YXlzIHNldHRpbmcKPiAodGhlIGNvcmUgZG9l
-cyB0aGF0IGZvciBhbGwgZHJpdmVycywgYm90aCBmb3IgYWRkZmIgYW5kIGFkZGZiMikuIFdoeQo+
-IGlzIHRoYXQgbm90IGdvb2QgZW5vdWdoIHRvIGdldCBhdCBjcHAgZm9yIGV2ZXJ5b25lPwo+IAo+
-IENoZWVycywgRGFuaWVsCj4gCgpMZXQgbWUgcXVvdGUgSmFtZXMgaHR0cHM6Ly9wYXRjaHdvcmsu
-ZnJlZWRlc2t0b3Aub3JnL3BhdGNoLzM0NTYwMy8jY29tbWVudF82NTMwODE6CgoiU2VlbXMgd2Ug
-Y2FuIHJlbW92ZSB0aGlzIGJwcCBvciBubyBuZWVkIHRvIGRlZmluZSBpdCBhcyBhIHBhc3MgaW4g
-YXJndW1lbnQKZm9yIHNpemUgY2hlY2ssIG1heWJlIHRoZSBrb21lZGEvbWFsaWRwIGdldF9hZmJj
-X2JwcCgpIGZ1bmN0aW9uIG1pc2xlYWQKeW91IHRoYXQgYWZiYyBmb3JtYXRzIG1heSBoYXZlIHZl
-bmRvciBzcGVjaWZpYyBicHAuCgpCdXQgdGhlIHN0b3J5IGlzOgoKZm9yIGFmYmMgb25seSBmb3Jt
-YXRzIGxpa2UgRFJNX0ZPUk1BVF9ZVVY0MjBfOEJJVC8xMEJJVCwgd2UgaGF2ZSBzZXQKbm90aGlu
-ZyBpbiBkcm1fZm9ybWF0X2luZm8sIG5laXRoZXIgY3BwIG5vciBibG9ja19zaXplLCBzbyBib3Ro
-IG1hbGlkcApvciBrb21lZGEgaW50cm9kdWNlIGEgZ2V0X2JwcCgpLCBidXQgYWN0dWFsbHkgdGhl
-IHR3byBmdW5jcyBiYXNpY2FsbHkKYXJlIHNhbWUuCgpTbyBteSBzdWdnZXN0aW9uIGlzIHdlIGNh
-biB0ZW1wb3JhcnkgdXNlIHRoZSBnZXRfYWZiY19icHAoKSBpbiBtYWxpZHAKb3Iga29tZWRhLiBh
-bmQgZXZlbnR1YWxseSBJIHRoaW5rIHdlJ2QgYmV0dGVyIHNldCB0aGUgYmxvY2sgc2l6ZQpmb3Ig
-dGhlc2UgZm9ybWF0cywgdGhlbiB3ZSBjYW4gZGVmaW5lcyBhIGNvbW1vbiBnZXRfYnBwKCkgbGlr
-ZSBwaXRjaCIuCgpBbmRyemVqCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+Hi Russell.
+
+On Sun, Mar 29, 2020 at 11:19:10AM +0100, Russell King wrote:
+> Globally update my email address in six files scattered through the
+> tree.
+> 
+> Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+> ---
+>  drivers/gpu/drm/armada/armada_drv.c                 | 2 +-
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 2 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 2 +-
+>  drivers/media/cec/cec-notifier.c                    | 2 +-
+>  drivers/net/phy/swphy.c                             | 2 +-
+>  include/media/cec-notifier.h                        | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
+
+This changes all cases of:
+   
+   rmk+kernel@arm.linux.org.uk
+
+to
+
+  rmk+kernel@armlinux.org.uk or no mail address.
+
+But I am confused.
+
+The new address does not appear anywhere in MAINTAINERS and is used
+only in three other files.
+
+And there are a few other mail addresses that would reach you.
+But no matter how confused I am the patch looks fine so:
+
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+And if the change is for private reaons then I do not have to know
+anyway so feel free to ignore my confusion.
+
+	Sam
+
+> 
+> diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
+> index 3df2dacf4c94..5a82a12cd105 100644
+> --- a/drivers/gpu/drm/armada/armada_drv.c
+> +++ b/drivers/gpu/drm/armada/armada_drv.c
+> @@ -389,7 +389,7 @@ static void __exit armada_drm_exit(void)
+>  }
+>  module_exit(armada_drm_exit);
+>  
+> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
+> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
+>  MODULE_DESCRIPTION("Armada DRM Driver");
+>  MODULE_LICENSE("GPL");
+>  MODULE_ALIAS("platform:armada-drm");
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> index e8e3e9339ff9..f6f55776e43e 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> @@ -698,7 +698,7 @@ static struct platform_driver snd_dw_hdmi_driver = {
+>  
+>  module_platform_driver(snd_dw_hdmi_driver);
+>  
+> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
+> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
+>  MODULE_DESCRIPTION("Synopsis Designware HDMI AHB ALSA interface");
+>  MODULE_LICENSE("GPL v2");
+>  MODULE_ALIAS("platform:" DRIVER_NAME);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 1f9c01be40d7..d6798f716b77 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -739,7 +739,7 @@ static void __exit etnaviv_exit(void)
+>  module_exit(etnaviv_exit);
+>  
+>  MODULE_AUTHOR("Christian Gmeiner <christian.gmeiner@gmail.com>");
+> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
+> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
+>  MODULE_AUTHOR("Lucas Stach <l.stach@pengutronix.de>");
+>  MODULE_DESCRIPTION("etnaviv DRM Driver");
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
+> index 7cf42b133dbc..2d4f7dd7cef7 100644
+> --- a/drivers/media/cec/cec-notifier.c
+> +++ b/drivers/media/cec/cec-notifier.c
+> @@ -2,7 +2,7 @@
+>  /*
+>   * cec-notifier.c - notify CEC drivers of physical address changes
+>   *
+> - * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
+> + * Copyright 2016 Russell King.
+>   * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> diff --git a/drivers/net/phy/swphy.c b/drivers/net/phy/swphy.c
+> index 53c214a22b95..774814714c82 100644
+> --- a/drivers/net/phy/swphy.c
+> +++ b/drivers/net/phy/swphy.c
+> @@ -2,7 +2,7 @@
+>  /*
+>   * Software PHY emulation
+>   *
+> - * Code taken from fixed_phy.c by Russell King <rmk+kernel@arm.linux.org.uk>
+> + * Code taken from fixed_phy.c by Russell King.
+>   *
+>   * Author: Vitaly Bordug <vbordug@ru.mvista.com>
+>   *         Anton Vorontsov <avorontsov@ru.mvista.com>
+> diff --git a/include/media/cec-notifier.h b/include/media/cec-notifier.h
+> index 985afea1ee36..e2b1b894aae7 100644
+> --- a/include/media/cec-notifier.h
+> +++ b/include/media/cec-notifier.h
+> @@ -2,7 +2,7 @@
+>  /*
+>   * cec-notifier.h - notify CEC drivers of physical address changes
+>   *
+> - * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
+> + * Copyright 2016 Russell King.
+>   * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> -- 
+> 2.20.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
