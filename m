@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5741984A3
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 21:38:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEBD19852F
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 22:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8FF76E47E;
-	Mon, 30 Mar 2020 19:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CA7089237;
+	Mon, 30 Mar 2020 20:15:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 483 seconds by postgrey-1.36 at gabe;
- Mon, 30 Mar 2020 19:38:35 UTC
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
- [185.70.40.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ADD66E478;
- Mon, 30 Mar 2020 19:38:35 +0000 (UTC)
-Date: Mon, 30 Mar 2020 19:38:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1585597112;
- bh=uRxchlmJlrLpyPG3Yt8X2ZF+uOCp+7w5Up5lBsHFuPs=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=VMNbAVfCVomQuZ1EKe2lGzEmvsoumCenhlMKTAIsIlCYWQ2N8wQRdzvTLVsCRVrT3
- CHYN4QFeyWswroHTdV48k6tL7tewVEUX/mkQM3o9tV9UDYmPyEqQai5ZlUMY9MeBCW
- FGTtEPI2LFZop3bdeTeiORurmZUufGIOVyn0vZJc=
-To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v3 2/5] drm/drm-kms.rst: Add plane and CRTC scaling filter
- property documentation
-Message-ID: <zFLZ_IslN6elEqm_OOvTO2sNHFcy65lv-gNmSyC9Y_S2TdFgH3IteH_z76mojJ6IKFkQtEQZFn8kvF8y_-b6vvXPRbHTqQV94bF_4fX86UE=@emersion.fr>
-In-Reply-To: <20200330183857.13270-3-pankaj.laxminarayan.bharadiya@intel.com>
-References: <20200330183857.13270-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200330183857.13270-3-pankaj.laxminarayan.bharadiya@intel.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5D0C89237;
+ Mon, 30 Mar 2020 20:15:19 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 3484A804AF;
+ Mon, 30 Mar 2020 22:15:14 +0200 (CEST)
+Date: Mon, 30 Mar 2020 22:15:12 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Subject: Re: [PATCH] Update my email address in various drivers
+Message-ID: <20200330201512.GA23451@ravnborg.org>
+References: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
+ <20200330180444.GA16073@ravnborg.org>
+ <20200330193346.GI25745@shell.armlinux.org.uk>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
+Content-Disposition: inline
+In-Reply-To: <20200330193346.GI25745@shell.armlinux.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=PHq6YzTAAAAA:8
+ a=drOt6m5kAAAA:8 a=7gkXJVJtAAAA:8 a=IFATEmdhu-ErwIyn04kA:9
+ a=mtL8tZnu2Jrx5SaM:21 a=DNgyL8e6fjdIsIrl:21 a=CjuIK1q_8ugA:10
+ a=ZKzU8r6zoKMcqsNulkmm:22 a=RMMjzBEyIzXRtoq5n5K6:22
+ a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,47 +49,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: "daniels@collabora.com" <daniels@collabora.com>,
- Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Florian Fainelli <f.fainelli@gmail.com>, linux-media@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ netdev@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Heiner Kallweit <hkallweit1@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, March 30, 2020 8:38 PM, Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com> wrote:
+Hi Russell
 
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index 906771e03103..b0335e9d887c 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -509,6 +509,18 @@ Variable Refresh Properties
-> .. kernel-doc:: drivers/gpu/drm/drm_connector.c
-> :doc: Variable refresh properties
->
-> +Plane Scaling Filter Property
-> +-----------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_plane.c
->
-> -   :doc: Plane scaling filter property
-> -
->
-> +CRTC Scaling Filter Property
-> +-----------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_crtc.c
->
-> -   :doc: CRTC scaling filter property
-> -
->
+On Mon, Mar 30, 2020 at 08:33:46PM +0100, Russell King - ARM Linux admin wrote:
+> On Mon, Mar 30, 2020 at 08:04:44PM +0200, Sam Ravnborg wrote:
+> > Hi Russell.
+> > 
+> > On Sun, Mar 29, 2020 at 11:19:10AM +0100, Russell King wrote:
+> > > Globally update my email address in six files scattered through the
+> > > tree.
+> > > 
+> > > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+> > > ---
+> > >  drivers/gpu/drm/armada/armada_drv.c                 | 2 +-
+> > >  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 2 +-
+> > >  drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 2 +-
+> > >  drivers/media/cec/cec-notifier.c                    | 2 +-
+> > >  drivers/net/phy/swphy.c                             | 2 +-
+> > >  include/media/cec-notifier.h                        | 2 +-
+> > >  6 files changed, 6 insertions(+), 6 deletions(-)
+> > 
+> > This changes all cases of:
+> >    
+> >    rmk+kernel@arm.linux.org.uk
+> > 
+> > to
+> > 
+> >   rmk+kernel@armlinux.org.uk or no mail address.
+> 
+> Correct.  This is the address I sign off all my commits with, and this
+> is the one I use to associate with authorship because it uses my
+> initials.
+> 
+> > But I am confused.
+> > 
+> > The new address does not appear anywhere in MAINTAINERS and is used
+> > only in three other files.
+> 
+> MAINTAINERS lists the addresses I prefer email for the day to day
+> maintanence, which is my linux@ accounts.  The above addresses
+> also fall into _this_ mailbox too, rather than my rmk@ mailbox.
+> So, ultimately all that email comes to the same place.
+> 
+> However, the plain rmk@ address doesn't.
+> 
+> > And there are a few other mail addresses that would reach you.
+> > But no matter how confused I am the patch looks fine so:
+> > 
+> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> > 
+> > And if the change is for private reaons then I do not have to know
+> > anyway so feel free to ignore my confusion.
+> 
+> The reason for the change is so I can drop the routing information
+> rmk+kernel@arm.linux.org.uk, thereby causing that address to start
+> bouncing, rather than being a spam inlet.  Sure, the new one will
+> be as well, but the point is that keeping both around indefinitely
+> gives a bigger attack surface for spam ingress.
 
-This adds whole new sections just for the scaling filter property.
-Shouldn't we use the existing "Plane properties" section defined in
-drm_blend.c for plane props? (Same for CRTC props.)
+Thanks for taking your time to explain the background.
+
+The patch touches several files outside drivers/gpu/
+so I do not feel confident to apply this to drm-misc-next.
+
+	Sam
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
