@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C11719752D
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:13:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34314197522
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:13:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 585F189FFD;
-	Mon, 30 Mar 2020 07:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AB7189F99;
+	Mon, 30 Mar 2020 07:11:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 110DD89F0B
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF91089F0B
  for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 01:09:38 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id k21so16332730ljh.2
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 18:09:37 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id q5so12698145lfb.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 18:09:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=THnwhwTdTmg4c86hFlh2qknbtHQvbfTX5IFqa2InF7g=;
- b=Pg3NEZBItMfCSgDZPKnxTIcXNI+xr/d79Of+mkt+dYMW5wLwo4Ok4roS8EnABFr8to
- xwy1Sr5/1/6SLKsSJM0j0LjHENfTxhyPHZyEORqb2qJlsTpnub+E1FEtrgj1IRH81M6t
- dNlP8O6iO/HB5amOL4OsRy3/ZOzQ7DIz7nIygl7Mi5CFGOFhObTMot7NqF94YE0HnILN
- 6u3UmhkiAOd9W++3BaZ6hFxXzZtoKFDtBLhW0Iw1k/suQz/MPpg7FJucm/Sl5yiKtdWS
- soby3PljbjCvP0aiph0jIIhGe13/Y2UxSrt1aRvhemGgtUV3to0eaAg5RFUHE6fBl9A2
- i9Ew==
+ bh=pGhshIQ08W/fF40FAntS+cxcTBW0fRcj4eZ28EWAmTE=;
+ b=XxBzBB8C/ouLvpvhWv1tCGRnvopFMnR02tvWDdHXE34VMJoFRNre/opbCtXicTKrzV
+ qZyMxdHtx9nh3QfyBBDUF5WO0UAdCOtboU2OXh8FvVLeOHYffG/yVfjb33pkfyFATTP2
+ GScNvvzwf9E9GE8Mw5OT7LAkm/VwTyoLDmyKs3QR0jsH4X6PbVSK0cEP60Lzy3HC/ADd
+ 948zayzTPaM/FaB4TU8EkObczi75mj8ZAMirY/qlyv5PwPXL3w0JVCf0Zqqb7IF8tcxz
+ zixt0HJclbyM7lNFFQx3qn8AsoyuOE5n3mg8k1IeFQCBuMZ6AlihowbLymymM5a4YsGt
+ kUWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=THnwhwTdTmg4c86hFlh2qknbtHQvbfTX5IFqa2InF7g=;
- b=csmBZDWTExUe8N8m8dKybc6Oy9zDP0e8NRmJbe8kGkNL1pXx3WpsyFPP0RZoI3d+KJ
- AIsP5Xw3iRfyNiwiGDTlo+X376J/NSZI1kQwYf5148yVhWQWjZuvyNkRjdZv5FGvFXJk
- 8T/xDKKAxFfw8X0Gh0CUZt6KKD88GObg4Ie4tDGls4vb6Fa00h1Ka/p87vl17kfatsUD
- wrQ+RoDZ28kzfWZIRsqdsFqwZF37qqB+WCR6aT8l1uvrvnbNHmPVovj8Rr6lRgmqwblK
- 6EjPhTmivxiwH4NFOqaEIPQAQ0cMC0it/wBYWhRtHokX1jTSdRtY540v1GJ3G8WNuxJk
- J/Lw==
-X-Gm-Message-State: AGi0PuYSprQwKkWQvSfgiY009bPEk8d7rHYWZX0rbVEt+hCJLOEC/hzo
- rPUH8/7eMInPb2mdsB+F2eOTLwdV
-X-Google-Smtp-Source: APiQypKDy2Ro7EQKBqSUe7PyjSLNAnaV0wdFF27xRufe2z5meT1FtGCGpLLX8lEkaMU6PMzGngPfnA==
-X-Received: by 2002:a05:651c:552:: with SMTP id
- q18mr5910854ljp.1.1585530576340; 
- Sun, 29 Mar 2020 18:09:36 -0700 (PDT)
+ bh=pGhshIQ08W/fF40FAntS+cxcTBW0fRcj4eZ28EWAmTE=;
+ b=LV+9Cl+Uo/xlHfJxDRK9qVh4OioVLpX3tQh/OEsQzixfpmP3HBY59aNP3cmkD9nzGx
+ rRcUmoM2oNUmdSYFJWg8AsxwgKzcLI5bkAzCvLMbar5hcidj6tE9m2vvJ+zcoYhwSjL/
+ SSx4rHIPwQPGF6dOHFdSML++qzci6qr1PSRd/+4i8Xc4Lfe6E3IzxQYqJ0s76g/7EeIw
+ Yp1/Tst1ZwthY6SdRb1I6U2u0KBhIV7op+bt81ym+imkxUNCgPKGZw5rZxh6HG2PZ3cA
+ E2SsR+5vv5eVVRpNhp5/Z7nGwvzGM+ekl5qmZUEzdklS8bxTqSisz+zy2jd05IXoEnyd
+ SkBw==
+X-Gm-Message-State: AGi0Puak7tyveAqMybqqO6KGclHUv+iFd4hJSlL9ebWdBUkAP6XwGAqK
+ H4af6MIhh8yIMvKN7Vfzits=
+X-Google-Smtp-Source: APiQypLyzsbk89h1xbagVghUO7mdmiHIeONm1fV88bNjfaxU8lIGGhlh4l/LkO7c6iKxzJDhMtB4yA==
+X-Received: by 2002:a19:4a50:: with SMTP id x77mr6474950lfa.159.1585530577323; 
+ Sun, 29 Mar 2020 18:09:37 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru.
  [91.78.208.152])
- by smtp.gmail.com with ESMTPSA id f23sm2449005lja.60.2020.03.29.18.09.35
+ by smtp.gmail.com with ESMTPSA id f23sm2449005lja.60.2020.03.29.18.09.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Mar 2020 18:09:35 -0700 (PDT)
+ Sun, 29 Mar 2020 18:09:36 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  =?UTF-8?q?Artur=20=C5=9Awigo=C5=84?= <a.swigon@samsung.com>,
  Georgi Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 02/22] dt-bindings: memory: tegra20: emc: Document new
+Subject: [PATCH v2 03/22] dt-bindings: memory: tegra30: mc: Document new
  interconnect property
-Date: Mon, 30 Mar 2020 04:08:44 +0300
-Message-Id: <20200330010904.27643-3-digetx@gmail.com>
+Date: Mon, 30 Mar 2020 04:08:45 +0300
+Message-Id: <20200330010904.27643-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200330010904.27643-1-digetx@gmail.com>
 References: <20200330010904.27643-1-digetx@gmail.com>
@@ -81,35 +80,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-External memory controller is interconnected with memory controller and
-with external memory. Document new interconnect property which turns
-external memory controller into interconnect provider.
+Memory controller is interconnected with memory clients and with the
+external memory controller. Document new interconnect property which
+turns memory controller into interconnect provider.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../bindings/memory-controllers/nvidia,tegra20-emc.txt          | 2 ++
- 1 file changed, 2 insertions(+)
+ .../bindings/memory-controllers/nvidia,tegra30-mc.yaml       | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
-index add95367640b..f51da7662de4 100644
---- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
-+++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
-@@ -12,6 +12,7 @@ Properties:
-   irrespective of ram-code configuration.
- - interrupts : Should contain EMC General interrupt.
- - clocks : Should contain EMC clock.
-+- #interconnect-cells : Should be 0.
+diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml
+index 4b9196c83291..083676676d0d 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml
+@@ -57,6 +57,9 @@ properties:
+   "#iommu-cells":
+     const: 1
  
- Child device nodes describe the memory settings for different configurations and clock rates.
++  "#interconnect-cells":
++    const: 1
++
+ patternProperties:
+   "^emc-timings-[0-9]+$":
+     type: object
+@@ -121,6 +124,7 @@ required:
+   - clock-names
+   - "#reset-cells"
+   - "#iommu-cells"
++  - "#interconnect-cells"
  
-@@ -20,6 +21,7 @@ Example:
- 	memory-controller@7000f400 {
- 		#address-cells = < 1 >;
- 		#size-cells = < 0 >;
-+		#interconnect-cells = < 0 >;
- 		compatible = "nvidia,tegra20-emc";
- 		reg = <0x7000f4000 0x200>;
- 		interrupts = <0 78 0x04>;
+ additionalProperties: false
+ 
+@@ -136,6 +140,7 @@ examples:
+ 
+         #iommu-cells = <1>;
+         #reset-cells = <1>;
++        #interconnect-cells = <1>;
+ 
+         emc-timings-1 {
+             nvidia,ram-code = <1>;
 -- 
 2.25.1
 
