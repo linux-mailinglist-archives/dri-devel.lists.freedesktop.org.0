@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8002A197510
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:12:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD76D197538
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:13:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AA166E0D3;
-	Mon, 30 Mar 2020 07:11:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E07E86E079;
+	Mon, 30 Mar 2020 07:11:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C581B89F24
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 01:09:56 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id n17so16301206lji.8
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 18:09:56 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1389989F41
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 01:09:58 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id p14so16283459lji.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 18:09:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vPqDxoQDIqKqbTClKBTFY/GuSR/u7mIa4tRLiNa4khw=;
- b=b2Wk9D3nd02S1yBEw9VfNDHynpLIG1M19fnbYk4/jKvJE6gnNPd6fx/N9rmAc3h1WJ
- 0W4cIvLJs4zAoKqlmKnVdTm/7JOiI2jcLsTRUwkogWpygEHuBr7tnXXjJKfMFhu8jCzi
- YNL7hvXCo/KE3R0Er5Z7L0GQKBMAtnPchxE9PvlT2PvaEMODvg/pRIs15ZIS8BfaXRGD
- 7qCFNCiqYt3gQNpoHKhM8w1hg292Gntwo2n6q4Cw4K3lczlaaHnH9gTmwB2oxgsIKVAj
- voa3vghwgz+YfoFB1PGPeHCDGheL2yfhAk0ebY3wbFhZODm3AdVX9swEnK1snhMnnzA5
- G39A==
+ bh=PzPcH2Zw8s/lvusSJ+NeMT9K6QE3NO3BQ3OrhGxd84A=;
+ b=dAAbaMon+3/bSqoIuYfuwHx2KG8hghvSLrRSU22QfeV59mfGE+K6Fbxqmy75QxyRCz
+ vzG5MdQuMDqHNheti6KOwuAC/+GF7vBVf/jEwWYS0JpHBODi64d+2WUXzJ80dVgPaNbe
+ E2DmsKwTAP1jGTMw1ptNsZIEqJS4WhOcV9lNCgeUkDl9yc9Qhfifpe56l1OBc8mmkQVV
+ /NvfFxStOa1MuTM+BiVP1h8E8A+35d/0zkbSj9rlEX3Q2stjrqJdoJTxDE5PJap/Nf7q
+ zK7VvXq/44tRZFis67kdqpwYT1THGvNz40nr1jawM5e5NgNtwBdl8KhlaQDO66t+wvDQ
+ tlww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vPqDxoQDIqKqbTClKBTFY/GuSR/u7mIa4tRLiNa4khw=;
- b=JpxaSHsNhD6alhQnBfth27VoBIkIsXJCIKnAMA2L3Gi0BQ1DwxEDJEkZWbPXi0eJEg
- 9ROl6brTxXm38dgA/TLvP82P+RqI8OWM8sAwQYQwRXjayY4VcveY0Glgq5bR396//Go7
- in7jj+ZW2QWaIkHVlkWfCe/S3Y7fAUXfSP1gWH6JK3sPRLWSPRj04oHL3K5NOE3ROskk
- 4QyqhlWe6kxDK91W6Lv+wPUB41jluFiTujjpsyRZ7FWQtfh+z9YRy9McZrdc/OFi6UA8
- 7XcrHpuZ7X4hv2ESl8C6xi/W24urSl0MuhkxglMAey1zvnJCuvLLUS+7M00iU4fo6k7d
- qUJA==
-X-Gm-Message-State: AGi0PuYwBwvCf4KDBGWBlCNeUp7hxen6R/VpkyzcQRsZRZUUFXOkQI9M
- IWlaIQr+N9EsMKmXI7EsX54=
-X-Google-Smtp-Source: APiQypJKpYIkMoYh3zusIktDsInbffTBT2Ewun8AAXofUfmOfattVIpgibKPpUp/ustF4Zz22EcaHQ==
-X-Received: by 2002:a2e:740e:: with SMTP id p14mr5716504ljc.290.1585530595270; 
- Sun, 29 Mar 2020 18:09:55 -0700 (PDT)
+ bh=PzPcH2Zw8s/lvusSJ+NeMT9K6QE3NO3BQ3OrhGxd84A=;
+ b=gDgwlUWwCjyiRVdn0YGR4xaDlxhU2U8KT8XywO1GIP+qKyZ+y36fQsCPPBZnQkSTrb
+ odJJFi6GJ4yNtV6XrtBE9hkQ5mgrAuIdWatWsZhER0FUhqGZ5JcRGK+AO8dgo+YR3A+R
+ CJF5ZfXzbgGTacEGdTVXFzFqx2p6vWngAeLH7hAiAqKUxvCD6/bcYedWLtXRayYCTU/r
+ hYylT4rOMV8DJ3b8nXtfvH+x9rnAvFL5SduYwaGEh7G58NTXL1CxPBZcpG45tU+0V1Rk
+ yzS490m7js3tmJ4fPWcaimI5wO2HRoS399AUPnb+VeNwsD2F8EOq/LSNArgGKAnk9Vfr
+ pghA==
+X-Gm-Message-State: AGi0PuZ2ThN9TPEgmZ7CM/G4So9oUS8gDcHM9WleDIaJ81WufI3YbLDK
+ s7Z3DlC5tUgKh3zO1XmyoAU=
+X-Google-Smtp-Source: APiQypIYV+VJ2BotiGVJkdVXlprPFDGmyLuF/8w8UIlmHETYi4iZ9H/wP0ZGxE/ac47Mtz3QpiVAvg==
+X-Received: by 2002:a2e:9b41:: with SMTP id o1mr5726081ljj.145.1585530596562; 
+ Sun, 29 Mar 2020 18:09:56 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru.
  [91.78.208.152])
- by smtp.gmail.com with ESMTPSA id f23sm2449005lja.60.2020.03.29.18.09.54
+ by smtp.gmail.com with ESMTPSA id f23sm2449005lja.60.2020.03.29.18.09.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Mar 2020 18:09:54 -0700 (PDT)
+ Sun, 29 Mar 2020 18:09:55 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  =?UTF-8?q?Artur=20=C5=9Awigo=C5=84?= <a.swigon@samsung.com>,
  Georgi Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 20/22] drm/tegra: dc: Extend debug stats with total number
- of events
-Date: Mon, 30 Mar 2020 04:09:02 +0300
-Message-Id: <20200330010904.27643-21-digetx@gmail.com>
+Subject: [PATCH v2 21/22] ARM: tegra: Enable interconnect API in
+ tegra_defconfig
+Date: Mon, 30 Mar 2020 04:09:03 +0300
+Message-Id: <20200330010904.27643-22-digetx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200330010904.27643-1-digetx@gmail.com>
 References: <20200330010904.27643-1-digetx@gmail.com>
@@ -80,86 +80,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's useful to know the total number of underflow events and currently
-the debug stats are getting reset each time CRTC is being disabled. Let's
-account the overall number of events that doesn't get reset.
+Tegra now has interconnect providers that are used for memory bandwidth
+allocation.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/dc.c | 10 ++++++++++
- drivers/gpu/drm/tegra/dc.h |  5 +++++
- 2 files changed, 15 insertions(+)
+ arch/arm/configs/tegra_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 564af302a965..7112f80ff9e8 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -1616,6 +1616,11 @@ static int tegra_dc_show_stats(struct seq_file *s, void *data)
- 	seq_printf(s, "underflow: %lu\n", dc->stats.underflow);
- 	seq_printf(s, "overflow: %lu\n", dc->stats.overflow);
- 
-+	seq_printf(s, "frames total: %lu\n", dc->stats.frames_total);
-+	seq_printf(s, "vblank total: %lu\n", dc->stats.vblank_total);
-+	seq_printf(s, "underflow total: %lu\n", dc->stats.underflow_total);
-+	seq_printf(s, "overflow total: %lu\n", dc->stats.overflow_total);
-+
- 	return 0;
- }
- 
-@@ -2187,6 +2192,7 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		/*
- 		dev_dbg(dc->dev, "%s(): frame end\n", __func__);
- 		*/
-+		dc->stats.frames_total++;
- 		dc->stats.frames++;
- 	}
- 
-@@ -2195,6 +2201,7 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		dev_dbg(dc->dev, "%s(): vertical blank\n", __func__);
- 		*/
- 		drm_crtc_handle_vblank(&dc->base);
-+		dc->stats.vblank_total++;
- 		dc->stats.vblank++;
- 	}
- 
-@@ -2202,6 +2209,7 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		/*
- 		dev_dbg(dc->dev, "%s(): underflow\n", __func__);
- 		*/
-+		dc->stats.underflow_total++;
- 		dc->stats.underflow++;
- 	}
- 
-@@ -2209,11 +2217,13 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		/*
- 		dev_dbg(dc->dev, "%s(): overflow\n", __func__);
- 		*/
-+		dc->stats.overflow_total++;
- 		dc->stats.overflow++;
- 	}
- 
- 	if (status & HEAD_UF_INT) {
- 		dev_dbg_ratelimited(dc->dev, "%s(): head underflow\n", __func__);
-+		dc->stats.underflow_total++;
- 		dc->stats.underflow++;
- 	}
- 
-diff --git a/drivers/gpu/drm/tegra/dc.h b/drivers/gpu/drm/tegra/dc.h
-index 3a0ff57c5169..3eb4eddc2288 100644
---- a/drivers/gpu/drm/tegra/dc.h
-+++ b/drivers/gpu/drm/tegra/dc.h
-@@ -41,6 +41,11 @@ struct tegra_dc_stats {
- 	unsigned long vblank;
- 	unsigned long underflow;
- 	unsigned long overflow;
-+
-+	unsigned long frames_total;
-+	unsigned long vblank_total;
-+	unsigned long underflow_total;
-+	unsigned long overflow_total;
- };
- 
- struct tegra_windowgroup_soc {
+diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
+index aa94369bdd0f..0029259a6bf5 100644
+--- a/arch/arm/configs/tegra_defconfig
++++ b/arch/arm/configs/tegra_defconfig
+@@ -268,6 +268,7 @@ CONFIG_AK8975=y
+ CONFIG_PWM=y
+ CONFIG_PWM_TEGRA=y
+ CONFIG_PHY_TEGRA_XUSB=y
++CONFIG_INTERCONNECT=y
+ CONFIG_EXT2_FS=y
+ CONFIG_EXT2_FS_XATTR=y
+ CONFIG_EXT2_FS_POSIX_ACL=y
 -- 
 2.25.1
 
