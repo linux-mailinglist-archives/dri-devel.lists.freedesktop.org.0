@@ -2,48 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF34198D1A
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EB5198D1F
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:38:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BFDB6E58B;
-	Tue, 31 Mar 2020 07:38:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 906256E58A;
+	Tue, 31 Mar 2020 07:38:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5301::4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAC076E14A
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 16:33:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1585586000;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=m5OQurJ34G52si3xIHL2HoNqFTlRdT/1c2JFQwVStnA=;
- b=r3r7TTHB0p/khSYoVlIPUiiO7YgnPxWmaPHNaOPSfPy6HTLJNT5mR23whLcm2Tj9Dl
- mjPFDh3KmAaNGiXL9M4GCLSclSNaiG9o3EBXhbRtrj7s8parRqVhHqFDdwIb0iPhqt58
- 8LZ8Qwsr1dgP4MN+4qOacMsq0pqYHpDha5pymgEPWl9y7OsSMgGOiyxSp3vvo5rYF1N+
- noZ/HcfUbdq5nCrGejnctFTldZPywQXEf79dO8Q7V8jQigqr050TuoS6ua2lU9gE/W/m
- WBHPccn8qiF3koK0q/rsYWTqNYHMmyq7Cm7YJcocd4lSmanZGvBOV0IvBd0y0V5/WCm/
- SzOg==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmAgw43oE44="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.2.1 DYNA|AUTH)
- with ESMTPSA id m02241w2UGXBGiV
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Mon, 30 Mar 2020 18:33:11 +0200 (CEST)
-Subject: Re: [RFC v3 1/8] dt-bindings: display: convert ingenic,
- lcd.txt to ingenic, lcd.yaml
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20200330154202.GA23233@bogus>
-Date: Mon, 30 Mar 2020 18:33:10 +0200
-Message-Id: <02E5EC5D-1FBB-45E4-907E-10450B449726@goldelico.com>
-References: <cover.1585503354.git.hns@goldelico.com>
- <a75c77fa8528f44832993f9780ae4ea409125a90.1585503354.git.hns@goldelico.com>
- <20200330154202.GA23233@bogus>
-To: Paul Cercueil <paul@crapouillou.net>
-X-Mailer: Apple Mail (2.3124)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40E926E1B6;
+ Mon, 30 Mar 2020 19:15:11 +0000 (UTC)
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 30 Mar 2020 12:15:10 -0700
+Received: from gurus-linux.qualcomm.com ([10.46.162.81])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP; 30 Mar 2020 12:15:07 -0700
+Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
+ id 3E2754BC4; Mon, 30 Mar 2020 12:15:07 -0700 (PDT)
+Date: Mon, 30 Mar 2020 12:15:07 -0700
+From: Guru Das Srinagesh <gurus@codeaurora.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH v10 00/12] Convert PWM period and duty cycle to u64
+Message-ID: <20200330191506.GA29534@codeaurora.org>
+References: <cover.1584650604.git.gurus@codeaurora.org>
+ <20200321114703.GB4672@kadam>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200321114703.GB4672@kadam>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Mailman-Approved-At: Tue, 31 Mar 2020 07:37:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,84 +43,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Paul Boddie <paul@boddie.org.uk>,
- Kees Cook <keescook@chromium.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- linux-mips@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, "Wesley W. Terpstra" <wesley@sifive.com>,
+ Michael Turquette <mturquette@baylibre.com>, Kamil Debski <kamil@wypas.org>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Atish Patra <atish.patra@wdc.com>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-riscv@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
+ linux-clk@vger.kernel.org, Alexandre Torgue <alexandre.torgue@st.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Axel Lin <axel.lin@ingics.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexander Shiyan <shc_work@mail.ru>,
+ Chen-Yu Tsai <wens@csie.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Mukesh Ojha <mojha@codeaurora.org>, Gerald Baeza <gerald.baeza@st.com>,
+ intel-gfx@lists.freedesktop.org, Guenter Roeck <linux@roeck-us.net>,
+ linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mark Brown <broonie@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Fabrice Gasnier <fabrice.gasnier@st.com>,
+ Ding Xiang <dingxiang@cmss.chinamobile.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Allison Randal <allison@lohutok.net>, linux-hwmon@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Anson Huang <Anson.Huang@nxp.com>,
+ Richard Fontana <rfontana@redhat.com>, Stephen Boyd <sboyd@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
+ Yash Shah <yash.shah@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Shawn Guo <shawnguo@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+On Sat, Mar 21, 2020 at 02:47:03PM +0300, Dan Carpenter wrote:
+> This is a giant CC list.
 
-> Am 30.03.2020 um 17:42 schrieb Rob Herring <robh@kernel.org>:
-> 
-> On Sun, 29 Mar 2020 19:35:47 +0200, "H. Nikolaus Schaller" wrote:
->> and add compatible: jz4780-lcd, including an example how to
->> configure both lcd controllers.
->> 
->> Also fix the clock names and examples.
->> 
->> Based on work by Paul Cercueil <paul@crapouillou.net> and
->> Sam Ravnborg <sam@ravnborg.org>
->> 
->> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
->> Cc: Rob Herring <robh@kernel.org>
->> Cc: devicetree@vger.kernel.org
->> ---
->> .../bindings/display/ingenic,lcd.txt          |  45 ------
->> .../bindings/display/ingenic,lcd.yaml         | 128 ++++++++++++++++++
->> 2 files changed, 128 insertions(+), 45 deletions(-)
->> delete mode 100644 Documentation/devicetree/bindings/display/ingenic,lcd.txt
->> create mode 100644 Documentation/devicetree/bindings/display/ingenic,lcd.yaml
->> 
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic,lcd.example.dt.yaml: lcd-controller@13050000: clocks: [[4294967295, 9]] is too short
-> 
-> See https://patchwork.ozlabs.org/patch/1263508
+Yes, this is because I received feedback [1] on an earlier patchset
+directing me to add the reviewers of patches to the cover letter as
+well so that they get some context for the patch.
 
-If I read the message correctly, I think there should be 2 clocks specified in
-the jz4725b-lcd example and not just
+> There was one version where you CC'd me on patch 6/12 but after that you
 
-	clocks = <&cgu JZ4725B_CLK_LCD>;
+Yes, that would be v9 [2].
 
-Unfortunately the jz4725b.dtsi does not seem to be upstream or in linux-next so
-I don't know if it works without lcd_pclk or not.
+> just CC'd me on the cover page.  Something is messed up in your scripts
+> because Cc'ing me on just the cover is pointless.
 
-If there is really just one clock, we need to modify the clocks and clock-names
-schema and add minItems: 1 and maxItems: 2 to allow for this flexibility.
+Sorry about that - was initially adding reviewers only to the final
+email being sent out instead of listing them in the commit message
+directly, which I now realize is untenable and have subsequently fixed.
 
-Otherwise we have to fix the example. Do you have some git with an up-to-date
-jz4725b.dtsi to look at?
+[1] https://www.spinics.net/lists/linux-pwm/msg11735.html
+[2] https://www.spinics.net/lists/linux-pwm/msg11852.html
 
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure dt-schema is up to date:
-> 
-> pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+Thank you.
 
-+++ :)
-
-> 
-> Please check and re-submit.
-
-Sure, since it is a RFC.
-
-BR and thanks,
-Nikolaus
-
+Guru Das.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
