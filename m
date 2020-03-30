@@ -2,30 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90134197AD4
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 13:35:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9BE3197B34
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 13:49:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC0166E255;
-	Mon, 30 Mar 2020 11:35:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CBC06E24B;
+	Mon, 30 Mar 2020 11:49:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3C4A6E25F
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 11:34:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: aratiu) with ESMTPSA id 81D902923C5
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
-To: linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v5 5/5] dt-bindings: display: add i.MX6 MIPI DSI host
- controller doc
-Date: Mon, 30 Mar 2020 14:35:42 +0300
-Message-Id: <20200330113542.181752-6-adrian.ratiu@collabora.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200330113542.181752-1-adrian.ratiu@collabora.com>
-References: <20200330113542.181752-1-adrian.ratiu@collabora.com>
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C7496E24B
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 11:49:30 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id f20so17734946ljm.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 04:49:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3LI716UXF6bfo4VYqoP3VeDTvzHtXiCh3tM1tgh2v+k=;
+ b=nsExSjXHqIvgbyHEhZzSlHZ6qD7wnb3b7lQ2UUHlFb5MZvlWcVzdj0RPl6mpt8ALgm
+ lr8frOmesionfQ+vaY8rFIX8GvC8Q7ZgFYyxVx1tlnkK8QSOZPHwLZ/2A+Zbwa2KICUA
+ g9VnqDbo0OoQPSqFcQsSYwvzTEzLmQlPT6RyfE5yy6S3DEVF/X8MOTnUv1G5iBt/D9M5
+ Xuy8PBJUBLjxWgO0vVHF69ZxuHLj13gwdEuSc3LZcVW5XIK3hJkUaWz9lZ54g7h7D+jG
+ oSxXr/rvj7FpRtkUM4BALSUJbOlZX1oJH0VblPEPkpwEyAfpIGByujN/jXC47U8bS0cz
+ q4fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3LI716UXF6bfo4VYqoP3VeDTvzHtXiCh3tM1tgh2v+k=;
+ b=RViChViEL7vYi7n9fC6mXWUM4B3WIPLAaLeLfxiUOyDbyMxJjU75el1weXLsgHUwou
+ ifvdySOo4QoyozMoV1BzYPckwqZEeEazchM93Yl793kuVHEj9tdIfM+2Wlc+cxBg4+7D
+ Lp2t68m6fyaKLwx4hfUP1ZcxK4fQ8jpw4coUC22nIcTImvSog2A3S05TEjUDxNMj5/5w
+ NI+CjsmdqEWI1ubWhovZ114btpICvc0s4ehcBy6l2q5m8hLLIBlCbKcQuL9Jm1yAvTiK
+ 9+Jn59OFf8OsCb3S+tGW7ZKOFRQJH0C8celipFXAVxDRqCoLjOMrMKBy1gmnazrucyb9
+ I4EQ==
+X-Gm-Message-State: AGi0PuaAL6C1nzMrKR/gmmLmBW6ueADi9CsS8MVKWDjXfGpctvXgfe6q
+ VMGxlV/9avtjTbpA6wB2oqzE+5S9y8JuBwOxDbc=
+X-Google-Smtp-Source: APiQypJcW+KgRk6o/Ou48vwV4luc+5i+/EZubfDgsinD6eEi6d3RUluGeVWMrjQtxj/UdvutLn1NA3q5aclTGJP/Ah4=
+X-Received: by 2002:a05:651c:30b:: with SMTP id
+ a11mr6771326ljp.164.1585568968812; 
+ Mon, 30 Mar 2020 04:49:28 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200330113542.181752-1-adrian.ratiu@collabora.com>
+ <20200330113542.181752-5-adrian.ratiu@collabora.com>
+In-Reply-To: <20200330113542.181752-5-adrian.ratiu@collabora.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Mon, 30 Mar 2020 08:49:19 -0300
+Message-ID: <CAOMZO5CEZSBfhb9xAdf=sDhUnmSeuWSsnUQArz=a1TPzytLAeQ@mail.gmail.com>
+Subject: Re: [PATCH v5 4/5] drm: imx: Add i.MX 6 MIPI DSI host platform driver
+To: Adrian Ratiu <adrian.ratiu@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,189 +62,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
  Sjoerd Simons <sjoerd.simons@collabora.com>,
  Andrzej Hajda <a.hajda@samsung.com>, Martyn Welch <martyn.welch@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- linux-rockchip@lists.infradead.org, linux-imx@nxp.com, kernel@collabora.com,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Emil Velikov <emil.velikov@collabora.com>, linux-rockchip@lists.infradead.org,
+ NXP Linux Team <linux-imx@nxp.com>, kernel@collabora.com,
  linux-stm32@st-md-mailman.stormreply.com,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This provides an example DT binding for the MIPI DSI host controller
-present on the i.MX6 SoC based on Synopsis DesignWare v1.01 IP.
+Hi Adrian,
 
-Cc: Rob Herring <robh@kernel.org>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: devicetree@vger.kernel.org
-Signed-off-by: Sjoerd Simons <sjoerd.simons@collabora.com>
-Signed-off-by: Martyn Welch <martyn.welch@collabora.com>
-Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
----
-Changes since v4:
-  - Fixed yaml binding to pass `make dt_binding_check dtbs_check`
-  and addressed received binding feedback (Rob)
+On Mon, Mar 30, 2020 at 8:34 AM Adrian Ratiu <adrian.ratiu@collabora.com> wrote:
+>
+> This adds support for the Synopsis DesignWare MIPI DSI v1.01 host
+> controller which is embedded in i.MX 6 SoCs.
+>
+> Based on following patches, but updated/extended to work with existing
+> support found in the kernel:
+>
+> - drm: imx: Support Synopsys DesignWare MIPI DSI host controller
+>   Signed-off-by: Liu Ying <Ying.Liu@freescale.com>
+>
+> - ARM: dtsi: imx6qdl: Add support for MIPI DSI host controller
+>   Signed-off-by: Liu Ying <Ying.Liu@freescale.com>
 
-Changes since v3:
-  - Added commit message (Neil)
-  - Converted to yaml format (Neil)
-  - Minor dt node + driver fixes (Rob)
-  - Added small panel example to the host controller binding
+This one looks like a devicetree patch, but this patch does not touch
+devicetree.
 
-Changes since v2:
-  - Fixed commit tags (Emil)
----
- .../display/imx/fsl,mipi-dsi-imx6.yaml        | 134 ++++++++++++++++++
- 1 file changed, 134 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+> +       ret = clk_prepare_enable(dsi->pllref_clk);
+> +       if (ret) {
+> +               dev_err(dev, "%s: Failed to enable pllref_clk\n", __func__);
+> +               return ret;
+> +       }
+> +
+> +       dsi->mux_sel = syscon_regmap_lookup_by_phandle(dev->of_node, "fsl,gpr");
+> +       if (IS_ERR(dsi->mux_sel)) {
+> +               ret = PTR_ERR(dsi->mux_sel);
+> +               dev_err(dev, "%s: Failed to get GPR regmap: %d\n",
+> +                       __func__, ret);
+> +               return ret;
 
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml b/Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
-new file mode 100644
-index 000000000000..59146df11510
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
-@@ -0,0 +1,134 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,mipi-dsi-imx6.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX6 DW MIPI DSI Host Controller
-+
-+maintainers:
-+  - Adrian Ratiu <adrian.ratiu@collabora.com>
-+
-+description: |
-+  The i.MX6 DSI host controller is a Synopsys DesignWare MIPI DSI v1.01
-+  IP block with a companion PHY IP.
-+
-+  These DT bindings follow the Synopsys DW MIPI DSI bindings defined in
-+  Documentation/devicetree/bindings/display/bridge/dw_mipi_dsi.txt with
-+  the following device-specific properties.
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: fsl,imx6q-mipi-dsi
-+      - const: snps,dw-mipi-dsi
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Module Clock
-+      - description: DSI bus clock
-+
-+  clock-names:
-+    items:
-+      - const: ref
-+      - const: pclk
-+
-+  fsl,gpr:
-+    description: Phandle to the iomuxc-gpr region containing the multiplexer control register.
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+
-+  ports:
-+    type: object
-+    description: |
-+      A node containing DSI input & output port nodes with endpoint
-+      definitions as documented in
-+      Documentation/devicetree/bindings/media/video-interfaces.txt
-+      Documentation/devicetree/bindings/graph.txt
-+    properties:
-+      port@0:
-+        type: object
-+        description:
-+          DSI input port node, connected to the ltdc rgb output port.
-+
-+      port@1:
-+        type: object
-+        description:
-+          DSI output port node, connected to a panel or a bridge input port"
-+
-+patternProperties:
-+  "^panel@[0-3]$":
-+    type: object
-+    description: |
-+      A node containing the panel or bridge description as documented in
-+      Documentation/devicetree/bindings/display/mipi-dsi-bus.txt
-+    properties:
-+      port:
-+        type: object
-+        description:
-+          Panel or bridge port node, connected to the DSI output port (port@1)
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
-+required:
-+  - "#address-cells"
-+  - "#size-cells"
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |+
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/imx6qdl-clock.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    dsi: dsi@21e0000 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        compatible = "fsl,imx6q-mipi-dsi", "snps,dw-mipi-dsi";
-+        reg = <0x021e0000 0x4000>;
-+        interrupts = <0 102 IRQ_TYPE_LEVEL_HIGH>;
-+        fsl,gpr = <&gpr>;
-+        clocks = <&clks IMX6QDL_CLK_MIPI_CORE_CFG>,
-+                 <&clks IMX6QDL_CLK_MIPI_IPG>;
-+        clock-names = "ref", "pclk";
-+
-+        ports {
-+            port@1 {
-+                reg = <1>;
-+                dsi_out: endpoint {
-+                    remote-endpoint = <&panel_in>;
-+                };
-+            };
-+        };
-+
-+        panel@0 {
-+            compatible = "sharp,ls032b3sx01";
-+            reg = <0>;
-+            reset-gpios = <&gpio6 8 GPIO_ACTIVE_LOW>;
-+            ports {
-+                port@0 {
-+                    panel_in: endpoint {
-+                        remote-endpoint = <&dsi_out>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-+
-+...
--- 
-2.26.0
+You should disable the dsi->pllref_clk clock prior to returning the error.
 
+> +       dsi->mipi_dsi = dw_mipi_dsi_probe(pdev, pdata);
+> +       if (IS_ERR(dsi->mipi_dsi)) {
+> +               ret = PTR_ERR(dsi->mipi_dsi);
+> +               dev_dbg(dev, "%s: Unable to probe DW DSI host device: %d\n",
+> +                       __func__, ret);
+> +               return -ENODEV;
+
+Same here. You should disable the clock. Shouldn't you return 'ret'
+here instead of -ENODEV?
+
+> +module_platform_driver(imx_mipi_dsi_driver);
+> +
+> +MODULE_DESCRIPTION("i.MX6 MIPI DSI host controller driver");
+> +MODULE_AUTHOR("Liu Ying <Ying.Liu@freescale.com>");
+
+The freescale.com domain is no longer functional.
+
+Ying Liu's NXP address is victor.liu@nxp.com. You could probably add
+your entry as well.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
