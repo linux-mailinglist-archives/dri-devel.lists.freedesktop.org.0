@@ -2,73 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7941B1986CE
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 23:51:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C148198D10
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:38:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 880EE899B5;
-	Mon, 30 Mar 2020 21:51:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B880D6E588;
+	Tue, 31 Mar 2020 07:38:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-74.mimecast.com
- (us-smtp-delivery-74.mimecast.com [63.128.21.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63686899B5
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 21:51:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585605096;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=q/tKL6HYK2kKbFeJ1C1k/PrZy766Zf1yvgRhbI4nE6g=;
- b=FWR1qe6qXaBI6e2PrZNbaEwQQ3iLe/riyZPcBLZn0DpSJGzNNm14ZvxI92eqkbXGt7HO/G
- y1uWywgDAC6KIFBCKSO66J7HuLWYwo56wpYvC8DzgJdjggl8Fnj3JAXM7uEp83YucCCoRl
- pJmb+7ejX3+ObWVCnhNJsaEIO0DwLnY=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-rx4FzwWkNXmY6XgaYY4LuQ-1; Mon, 30 Mar 2020 17:51:31 -0400
-X-MC-Unique: rx4FzwWkNXmY6XgaYY4LuQ-1
-Received: by mail-qk1-f197.google.com with SMTP id 187so8811678qkf.8
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 14:51:30 -0700 (PDT)
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 686EC6E4C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 22:03:57 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id c21so8648121pfo.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 15:03:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=Fn5bbEwDKA1CjrL2t4+buEZ5DMdOn8ZLIb0ux0e5B3Q=;
+ b=QlDnJ+HXQj0YHxnX8aX313kM6rHoKORnaNm2WYXDMn1aeXXbnF8UNEQ4VowdZeG4zl
+ uV2sLQkwXOtnNAwFLkHNHrGIdHbHg2WXKZ+OCxvcK6XGQ4p7XyOtNEZguQcao8eEbZik
+ jzhJzwgxyju9KgyIAO6AGWgfZzTJEGj7PCStu/3VWR74BEj6493pWtlmOVLr3PXjMy6j
+ EvPvcs8zuq5fFUGMmdyzRW3LnvxqECq4R5074NxZe/sQXvq3wyUHonW+iSMHkNnpBI2D
+ MA52ER9NNMOOvvHw75Dyrr3HHU19n2Cm6kVIde2BUnl4kJPuV5rqVxtOQP/DKfiUAQTz
+ Rlnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=baaBZie2tOtK9z/trGtP3VYInXQjtfdUZG+y2w2QGAY=;
- b=URKaeR09LWsmqS1zTkqbXhsC0NL7tlPkS1CRDdRaFnBIjTjpx9vIpnzY/QzcPqa+5c
- LRwFT++833kpOHqXNmRg0FDmJZTCRHNUGCAYBJwMpJbc4SfYB5/TTTwmvmESfIpegO6d
- qkSpzJvM9kI3BoDmi8VRkfGR3cCOQWSK5dzGfTLiEMGcXwECIIpvF3lPMQQQnJ/hIVrC
- noEyOTbzAsP4V00r6TZd5Q8rJFcnmAKZd7Tnkwn8CQ2ZLlucVsSgY1seRD4W4//sjHiZ
- piUyu5uUt6cm9rOCcNJcvWRe9AJyFrP5743HxZsvZS77TrRcjM4quyBEzWoQ2sZEPwHV
- 48mQ==
-X-Gm-Message-State: ANhLgQ2Wbkir4QM2EqTFAx8hEBdR0Ql0usqFA6/S8a5CGM2ziJNXyahU
- uOJkMnDdPOLPRgv8xYKGnpmq7f6zYAON/CBCWw8wojaINX7m9mCJYHZQBcLgLRf7/MveOSDSonV
- UGUPTu3hLzB4atVQ8DWS5f6Lhxg+R
-X-Received: by 2002:a37:a746:: with SMTP id q67mr2192047qke.215.1585605090459; 
- Mon, 30 Mar 2020 14:51:30 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsE8cF26qpouwvrVXf1Hcyf4wZveW/K9ToiN8/2ajQz2XWrQD0x0dBPaMnmWKXGAUJtagw3ow==
-X-Received: by 2002:a37:a746:: with SMTP id q67mr2192018qke.215.1585605090195; 
- Mon, 30 Mar 2020 14:51:30 -0700 (PDT)
-Received: from Ruby.lyude.net (static-173-76-190-23.bstnma.ftas.verizon.net.
- [173.76.190.23])
- by smtp.gmail.com with ESMTPSA id s4sm12468161qte.36.2020.03.30.14.51.27
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=Fn5bbEwDKA1CjrL2t4+buEZ5DMdOn8ZLIb0ux0e5B3Q=;
+ b=g4iJV1oFkRunULwvUanljJDfKQ5zY22aMS2Oays7b/SfWPpyqu+Hgzr0EHTYy/RkQo
+ lBmCzo7Wl3DwL0g0AC0aHpocSCj5CdMeU953k6P4CQQ5vP6zmrs1ysrCJz9aHg2lGGD/
+ HTVUm/MzrL2NfdtNwU0H/Nr+1N401z9vW0dt7pt8cHTJtB+XmSDJAlGoJTstPLORb5/C
+ tOkK9FbwfSMPsnWTLswrXGEKzWiJS2IQ5qG8jaC/E4nGEP50yOWt7LIJ4ecfqOqauD2S
+ OIRTdT0ZwWpq3XDMsUneB6CED0oSHqkIGqHjxT8KCY+5SfQWkjdQ3sj+A6Vj46yXWxce
+ id6g==
+X-Gm-Message-State: AGi0PubmisdtepRrH/EbZkwVihKqz+uGRF6JEAvcRAwdlA/J9B5qQqb8
+ xpNuITDOQ2hi0Yzq45UvA+Q=
+X-Google-Smtp-Source: APiQypIZ7rugn26VNzMH9f1FGurreUtTRDwMeVEoQLstiLOtdeGMyyyqnQhROZmrQSttmeLztEHYWg==
+X-Received: by 2002:a65:55c6:: with SMTP id k6mr1200130pgs.52.1585605836849;
+ Mon, 30 Mar 2020 15:03:56 -0700 (PDT)
+Received: from OptiPlexFedora ([47.144.161.84])
+ by smtp.gmail.com with ESMTPSA id h4sm1230719pgg.67.2020.03.30.15.03.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Mar 2020 14:51:29 -0700 (PDT)
-Message-ID: <1a22bece197d382206f7943f82dd1250afe32ba0.camel@redhat.com>
-Subject: Re: [PATCH v2 1/6] drm/vblank: Add intro to documentation
-From: Lyude Paul <lyude@redhat.com>
-To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org, Thomas
- Zimmermann <tzimmermann@suse.de>
-Date: Mon, 30 Mar 2020 17:51:26 -0400
-In-Reply-To: <20200330185746.GB7594@ravnborg.org>
-References: <20200328132025.19910-1-sam@ravnborg.org>
- <20200328132025.19910-2-sam@ravnborg.org>
- <20200330185746.GB7594@ravnborg.org>
-Organization: Red Hat
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+ Mon, 30 Mar 2020 15:03:56 -0700 (PDT)
+Message-ID: <53befe00af657428b591200b31b5349a4a462eb1.camel@gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH] staging: fbtft: Replace udelay with
+ preferred usleep_range
+From: "John B. Wyatt IV" <jbwyatt4@gmail.com>
+To: Stefano Brivio <sbrivio@redhat.com>
+Date: Mon, 30 Mar 2020 15:03:55 -0700
+In-Reply-To: <20200330194043.56c79bb8@elisabeth>
+References: <20200329092204.770405-1-jbwyatt4@gmail.com>
+ <alpine.DEB.2.21.2003291127230.2990@hadrien>
+ <2fccf96c3754e6319797a10856e438e023f734a7.camel@gmail.com>
+ <alpine.DEB.2.21.2003291144460.2990@hadrien>
+ <CAMS7mKBEhqFat8fWi=QiFwfLV9+skwi1hE-swg=XxU48zk=_tQ@mail.gmail.com>
+ <alpine.DEB.2.21.2003291235590.2990@hadrien>
+ <20200330194043.56c79bb8@elisabeth>
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+X-Mailman-Approved-At: Tue, 31 Mar 2020 07:37:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,122 +74,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Mikita Lipski <mikita.lipski@amd.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, David Francis <David.Francis@amd.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Nirmoy Das <nirmoy.das@amd.com>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- James Qian Wang <james.qian.wang@arm.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Mihail Atanassov <Mihail.Atanassov@arm.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Julia Lawall <julia.lawall@inria.fr>,
+ outreachy-kernel@googlegroups.com,
+ Payal Kshirsagar <payal.s.kshirsagar.98@gmail.com>,
+ Soumyajit Deb <debsoumyajit100@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SSBhbSBnbGFkIHRoYXQgbXkgZXhwbGFuYXRpb24gb2YgdmJsYW5rcyBtYWRlIHNlbnNlISBTb21l
-IGNvbW1lbnRzIGJlbG93IG9uCnRoaW5ncyBJIHRoaW5rIHdlIGNvdWxkIGltcHJvdmUgaGVyZQoK
-T24gTW9uLCAyMDIwLTAzLTMwIGF0IDIwOjU3ICswMjAwLCBTYW0gUmF2bmJvcmcgd3JvdGU6Cj4g
-THl1ZGUgUGF1bCB3cm90ZSBhIHZlcnkgZ29vZCBpbnRybyB0byB2YmxhbmsgaGVyZToKPiAKaHR0
-cHM6Ly9sb3JlLmtlcm5lbC5vcmcvZHJpLWRldmVsL2ZhZjYzZDhhOWVkMjNjMTZhZjY5NzYyZjU5
-ZDBkY2E2YjJiZjA4NWYuY2FtZWxAcmVkaGF0LmNvbS9ULyNtY2U2NDgwYmU3MzgxNjBlOWQwN2M1
-ZDAyM2U4OGZkNzhkN2EwNmQyNwo+IAo+IEFkZCB0aGlzIHRvIHRoZSBpbnRybyBjaGFwdGVyIGlu
-IGRybV92YmxhbmsuYyBzbyBvdGhlcnMKPiBjYW4gYmVuZWZpdCBmcm9tIGl0IHRvby4KPiAKPiB2
-MjoKPiAgIC0gUmV3b3JkZWQgdG8gaW1wcm92ZSByZWFkYWJpbGl0eSAoVGhvbWFzKQo+IAo+IFNp
-Z25lZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiBDby1kZXZlbG9w
-ZWQtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4gQ2M6IEx5dWRlIFBhdWwgPGx5
-dWRlQHJlZGhhdC5jb20+Cj4gQWNrZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFu
-bkBzdXNlLmRlPgo+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4K
-PiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+IENjOiBNYWFydGVuIExhbmto
-b3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgo+IENjOiBNYXhpbWUgUmlw
-YXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+Cj4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
-bWFubkBzdXNlLmRlPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gLS0t
-Cj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5rLmMgfCAxNyArKysrKysrKysrKysrKysrKwo+
-ICAxIGZpbGUgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYwo+
-IGluZGV4IGJjZjM0NmIzZTQ4Ni4uZWMyYzIwODNiMTg2IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fdmJsYW5rLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5j
-Cj4gQEAgLTQxLDYgKzQxLDIzIEBACj4gIC8qKgo+ICAgKiBET0M6IHZibGFuayBoYW5kbGluZwo+
-ICAgKgo+ICsgKiBGcm9tIHRoZSBjb21wdXRlcidzIHBlcnNwZWN0aXZlLCBldmVyeSB0aW1lIHRo
-ZSBtb25pdG9yIGRpc3BsYXlzCj4gKyAqIGEgbmV3IGZyYW1lIHRoZSBzY2Fub3V0IGVuZ2luZSBo
-YXZlICJzY2FubmVkIG91dCIgdGhlIGRpc3BsYXkgaW1hZ2UKPiArICogZnJvbSB0b3AgdG8gYm90
-dG9tLCBvbmUgcm93IG9mIHBpeGVscyBhdCBhIHRpbWUuCj4gKyAqIFRoZSBjdXJyZW50IHJvdyBv
-ZiBwaXhlbHMgaXMgcmVmZXJyZWQgdG8gYXMgdGhlIGN1cnJlbnQgc2NhbmxpbmUuCj4gKyAqCj4g
-KyAqIEluIGFkZGl0aW9uIHRvIHRoZSBkaXNwbGF5J3MgdmlzaWJsZSBhcmVhLCB0aGVyZSdzIHVz
-dWFsbHkgYSBjb3VwbGUgb2YKPiArICogZXh0cmEgc2NhbmxpbmVzIHdoaWNoIGFyZW4ndCBhY3R1
-YWxseSBkaXNwbGF5ZWQgb24gdGhlIHNjcmVlbgo+ICsgKiAodGhlIGV4dHJhIHNjYW5saW5lcyBh
-cmUgc29tZXRpbWVzIHVzZWQgYnkgSERNSSBhdWRpbyBhbmQgZnJpZW5kcykuCj4gKyAqIFRoZSBw
-ZXJpb2Qgd2hlcmUgdGhlIGV4dHJhIHNjYW5saW5lcyBhcmUgInNjYW5uZWQgb3V0IiBpcyByZWZl
-cnJlZAo+ICsgKiB0byBhcyB0aGUgdmVydGljYWwgYmxhbmtpbmcgcGVyaW9kICh2YmxhbmsgZm9y
-IHNob3J0KS4KCkknZCByZXdvcmQgdGhpcywgc3RhcnRpbmcgZnJvbSAiKHRoZSBleHRyYSBzY2Fu
-bGluZXPigKYiIChJJ2QgYWxzbyByZW1vdmUgdGhlCnBhcmFudGhlc2lzKToKCiAgICBUaGVzZSBl
-eHRyYSBzY2FubGluZXMgZG9uJ3QgY29udGFpbiBpbWFnZSBkYXRhLCBhbmQgYXJlIG9jY2FzaW9u
-YWxseSB1c2VkCiAgICBmb3IgZmVhdHVyZXMgbGlrZSBhdWRpbyBhbmQgaW5mb2ZyYW1lcy4gVGhl
-IHJlZ2lvbiBtYWRlIHVwIG9mIHRoZXNlCiAgICBzY2FubGluZXMgaXMgcmVmZXJyZWQgdG8gYXMg
-dGhlIHZlcnRpY2FsIGJsYW5raW5nIHJlZ2lvbiwgb3IgdmJsYW5rIGZvcgogICAgc2hvcnQuCgpJ
-J2QgYWxzbyBhZGQgYSBzaW1wbGUgYXNjaWktYXJ0IGRpYWdyYW0gaGVyZSwgc2luY2UgdGhpcyBt
-aWdodCBtYWtlIGEgbG90IG1vcmUKc2Vuc2UgdG8gc29tZSBwZW9wbGUgaWYgdGhlcmUncyBhIHZp
-c3VhbCByZWZlcmVuY2UuIFByb2JhYmx5IHNvbWV0aGluZyBsaWtlCnRoaXMgKGZlZWwgZnJlZSB0
-byBnZXQgYSBsaXR0bGUgY3JlYXRpdmUpCgogICAgIOKOveKOveKOveKOveKOveKOveKOveKOveKO
-veKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKO
-veKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKO
-veKOvQogICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHwKICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
-CiAgICB8ICAgICAgICAgICAgICAgICAgIE5ldyBmcmFtZSAgICAgICAgICAgICAgICAgICAgfAog
-ICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKICAg
-IHzihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPi
-hpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPi
-hpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpN8CiAgICB8fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fCDihpAgU2NhbmxpbmUsIHVwZGF0ZXMgdGhl
-CiAgICB84oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT
-4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT
-4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaTfCAgIGZyYW1lIGFzIGl0IHRyYXZl
-bHMKICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
-ICAgZG93biAoQUtBICJzY2FucyBvdXQiKQogICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIHwKICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8CiAgICB8ICAgICAgICAgICAgICAgICAgIE9sZCBmcmFtZSAg
-ICAgICAgICAgICAgICAgICAgfAogICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHwKICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICB8CiAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgfAogICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHwKICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICB8ICAgcGh5c2ljYWwgYm90dG9tIG9mCiAgICB84o694o694o694o694o694o694o69
-4o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o69
-4o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o69
-4o694o694o69fCDihpAgZGlzcGxheQogICAg4pSGeHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4
-eHh4eHh4eHh4eHh4eHh4eHh4eHh44pSGCiAgICDilIZ4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4
-eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHjilIYg4oaQIHZlcnRpY2FsIGJsYW5raW5nCiAgICDilIZ4
-eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHjilIYgICByZWdp
-b24KICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
-PiArICoKPiArICogT24gYSBsb3Qgb2YgZGlzcGxheSBoYXJkd2FyZSwgcHJvZ3JhbW1pbmcgbmVl
-ZHMgdG8gdGFrZSBlZmZlY3QgZHVyaW5nCj4gdGhlCj4gKyAqIHZlcnRpY2FsIGJsYW5raW5nIHBl
-cmlvZCBzbyB0aGF0IHNldHRpbmdzIGxpa2UgZ2FtbWEsIHdoYXQgZnJhbWUgYmVpbmcKCnMvd2hh
-dCBmcmFtZSBiZWluZy93aGljaCBmcmFtZSBpcyBiZWluZy8KCj4gKyAqIHNjYW5uZWQgb3V0LCBl
-dGMuIGNhbiBiZSBzYWZlbHkgY2hhbmdlZCB3aXRob3V0IHNob3dpbmcgdmlzdWFsIHRlYXJpbmcK
-PiArICogb24gdGhlIHNjcmVlbi4gSW4gc29tZSB1bmZvcmdpdmluZyBoYXJkd2FyZSwgc29tZSBv
-ZiB0aGlzIHByb2dyYW1taW5nCj4gaGFzCj4gKyAqIHRvIGJvdGggc3RhcnQgYW5kIGVuZCBpbiB0
-aGUgc2FtZSB2YmxhbmsgLSB2ZXJ0aWNhbCBibGFua2luZyBwZXJpb2QuCgpZb3UgY2FuIGp1c3Qg
-c2F5IHZibGFuayBoZXJlLCBzaW5jZSB3ZSBhbHJlYWR5IGV4cGxhaW5lZCB3aGF0IHRoZSB2ZXJ0
-aWNhbApibGFua2luZyBwZXJpb2QgaXMgdXAgYWJvdmUuCgpBbGV4IERldWNoZXIgcG9pbnRlZCBv
-dXQgdG8gbWUgdGhhdCBpdCdzIHByb2JhYmx5IGFsc28gd29ydGggbWVudGlvbmluZyB0aGF0IG5v
-dAphbGwgaGFyZHdhcmUgYWN0dWFsbHkgZmlyZXMgb2ZmIHRoZSB2YmxhbmsgaW50ZXJydXB0IGF0
-IHRoZSBzdGFydCBvZiB0aGUKdmVydGljYWwgYmxhbmssIGRlcGVuZGluZyBvbiB0aGUgaGFyZHdh
-cmUgdGhlIGludGVycnVwdCBjb3VsZCBhbHNvIGhhcHBlbiBhIGZldwpzY2FubGluZXMgYWZ0ZXIg
-dGhlIHN0YXJ0IG9mIHZibGFuaywgYSBmZXcgc2NhbmxpbmVzIGJlZm9yZSB0aGUgc3RhcnQsIHNv
-bWV3aGVyZQppbiB0aGUgbWlkZGxlLCBhdCB0aGUgZW5kIG9mIHRoZSB2YmxhbmssIGV0Yy4KCk90
-aGVyIHRoZW4gdGhhdCwgdGhpcyBsb29rcyBncmVhdCBzbyBmYXIhIEZlZWwgZnJlZSB0byBjYyBt
-ZSBpbiB0aGUgcmVzcGluIGZvcgp0aGlzIHBhdGNoIGFuZCBJJ2xsIGJlIGhhcHB5IHRvIGdpdmUg
-bXkgci1iLgoKPiArICoKPiAgICogVmVydGljYWwgYmxhbmtpbmcgcGxheXMgYSBtYWpvciByb2xl
-IGluIGdyYXBoaWNzIHJlbmRlcmluZy4gVG8gYWNoaWV2ZQo+ICAgKiB0ZWFyLWZyZWUgZGlzcGxh
-eSwgdXNlcnMgbXVzdCBzeW5jaHJvbml6ZSBwYWdlIGZsaXBzIGFuZC9vciByZW5kZXJpbmcgdG8K
-PiAgICogdmVydGljYWwgYmxhbmtpbmcuIFRoZSBEUk0gQVBJIG9mZmVycyBpb2N0bHMgdG8gcGVy
-Zm9ybSBwYWdlIGZsaXBzCi0tIApDaGVlcnMsCglMeXVkZSBQYXVsIChzaGUvaGVyKQoJQXNzb2Np
-YXRlIFNvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, 2020-03-30 at 19:40 +0200, Stefano Brivio wrote:
+> On Sun, 29 Mar 2020 12:37:18 +0200 (CEST)
+> Julia Lawall <julia.lawall@inria.fr> wrote:
+> 
+> > On Sun, 29 Mar 2020, Soumyajit Deb wrote:
+> > 
+> > > I had the same doubt the other day about the replacement of
+> > > udelay() with
+> > > usleep_range(). The corresponding range for the single argument
+> > > value of
+> > > udelay() is quite confusing as I couldn't decide the range. But
+> > > as much as I
+> > > noticed checkpatch.pl gives warning for replacing udelay() with
+> > > usleep_range() by checking the argument value of udelay(). In the
+> > > documentation, it is written udelay() should be used for a sleep
+> > > time of at
+> > > most 10 microseconds but between 10 microseconds and 20
+> > > milliseconds,
+> > > usleep_range() should be used. 
+> > > I think the range is code specific and will depend on what range
+> > > is
+> > > acceptable and doesn't break the code.
+> > >  Please correct me if I am wrong.  
+> > 
+> > The range depends on the associated hardware.
+> 
+> John, by the way, here you could have checked the datasheet of this
+> LCD
+> controller. It's a pair of those:
+> 	https://www.sparkfun.com/datasheets/LCD/ks0108b.pdf
+> 
+
+No I have not. This datasheet is a little over my head honestly.
+
+What would you recommend to get familiar with datasheets like this?
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
