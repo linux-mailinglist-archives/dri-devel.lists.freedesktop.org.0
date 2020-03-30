@@ -1,63 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F400A198D0C
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:38:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D76198738
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 00:17:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 730AE6E563;
-	Tue, 31 Mar 2020 07:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA4CF6E4C7;
+	Mon, 30 Mar 2020 22:17:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0114F89E01;
- Mon, 30 Mar 2020 22:16:34 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id y71so17176640oia.7;
- Mon, 30 Mar 2020 15:16:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rHTfazG0JcHchUkZkwqmfv3skWoFel0RHtJDeLWFMUQ=;
- b=Ca92LU24QgTe15iUum7o+GWCCxrpDi/NBlydV3Y7UaeHp3UkpEJ0w3PsnajA8/jp1R
- xa4eS5TvtcurrFF8L9WuPHdSCuUhFfYlAomFz951J9FAMhgAfJkK33UVCRcVBw2m52Wd
- ZK+i/Q8HIqIYIVo9n2fKbgbduGG394emhSQyh6rPbdXWu9dxOcpPGwj3Ql7/+b7FvLDw
- wrgqKKtyJBby4Qq2AHh2zf6iDd6ex8sq8izmSMRGf0W8M+Gtr6xKUbo00XLWOS8R5dsx
- RTEvjWV+Vxu/htwiMLb+gkKPSMgSTF+GuUwxTfPNyiSsp4kLGyPP9oFgjobop6Cffs86
- 4GAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rHTfazG0JcHchUkZkwqmfv3skWoFel0RHtJDeLWFMUQ=;
- b=XT2vSDiq4ec+MsJeyA9wF4RX7Jb4ks1DS5Va3FVFA2AmxQ9mR7sKOU0i6TTHJqAX+M
- /SNsaF05MfZEWX46WHD47RZ+Efx/8ZMeSF2/iGjf+J3AFK99B29vOceb7DS2du68WlR5
- XSnkqhXbvPdCNaDgu+3ClMmXF9hk6Pmm2iYcGarDn/bBmZFnXCijJ9jswOppoJuLRWTS
- eK3uhlZBd4OBltx0sKFD7Xo3cUfaLrIMjiXYvpPcgs66PP4WpQz+Em1CV+bpMjsGKc2G
- t9ALFArxhRRGc36hd5jaIp/cqz/5XDW4+XOsro2oPHtz+Gsuoim3FTOPED8JaiKqdgdC
- 4waw==
-X-Gm-Message-State: ANhLgQ3rpINfFUC3QE1J54SfQe1yyaYrWiKqYLCFWAL6WEUpkTHSj1+g
- LmWx6USlqWXaC7M7wftxu/k=
-X-Google-Smtp-Source: ADFU+vtRqzG9oYmCmjI3rVBaaXZZBnhy9DdhlKuP9NiWmIWqtTC/fMZaYpnYKJ/MHG2Na6JPD8ApJg==
-X-Received: by 2002:aca:646:: with SMTP id 67mr202286oig.4.1585606593916;
- Mon, 30 Mar 2020 15:16:33 -0700 (PDT)
-Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
- by smtp.gmail.com with ESMTPSA id c18sm4680750ooa.8.2020.03.30.15.16.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Mar 2020 15:16:32 -0700 (PDT)
-From: Nathan Chancellor <natechancellor@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "David (ChunMing) Zhou" <David1.Zhou@amd.com>
-Subject: [PATCH] drm/amd/display: Fix 64-bit division error on 32-bit
- platforms in mod_freesync_build_vrr_params
-Date: Mon, 30 Mar 2020 15:16:14 -0700
-Message-Id: <20200330221614.7661-1-natechancellor@gmail.com>
-X-Mailer: git-send-email 2.26.0
+Received: from us-smtp-delivery-74.mimecast.com
+ (us-smtp-delivery-74.mimecast.com [216.205.24.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9536E4C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 22:16:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585606618;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kFxQ6sa3As6Jtugci2z3HRdxNU4LPCC1zzYUuabLxUU=;
+ b=T+AivKsihWBfEzf81uYR3lgay9073n72UnvuNpWxuDKcTzWDeyh1o5rOYVUCiYvGGJ27sA
+ tQ/10hC/C7IOOJWKadf09cPMc4Q4J3eP+xBenLmtRD9nR1dgiI35Dm02QRSP3QGXicG7Ua
+ dcjGhGGDY9SovvT7rw0DpprsAuF9LH0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-L_lh2rRnM8uuiqNlMRll3Q-1; Mon, 30 Mar 2020 18:16:51 -0400
+X-MC-Unique: L_lh2rRnM8uuiqNlMRll3Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEB1A18A5500;
+ Mon, 30 Mar 2020 22:16:49 +0000 (UTC)
+Received: from elisabeth (unknown [10.36.110.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 180CF5C1BB;
+ Mon, 30 Mar 2020 22:16:43 +0000 (UTC)
+Date: Tue, 31 Mar 2020 00:16:37 +0200
+From: Stefano Brivio <sbrivio@redhat.com>
+To: "John B. Wyatt IV" <jbwyatt4@gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH] staging: fbtft: Replace udelay with
+ preferred usleep_range
+Message-ID: <20200331001637.6bf108ed@elisabeth>
+In-Reply-To: <53befe00af657428b591200b31b5349a4a462eb1.camel@gmail.com>
+References: <20200329092204.770405-1-jbwyatt4@gmail.com>
+ <alpine.DEB.2.21.2003291127230.2990@hadrien>
+ <2fccf96c3754e6319797a10856e438e023f734a7.camel@gmail.com>
+ <alpine.DEB.2.21.2003291144460.2990@hadrien>
+ <CAMS7mKBEhqFat8fWi=QiFwfLV9+skwi1hE-swg=XxU48zk=_tQ@mail.gmail.com>
+ <alpine.DEB.2.21.2003291235590.2990@hadrien>
+ <20200330194043.56c79bb8@elisabeth>
+ <53befe00af657428b591200b31b5349a4a462eb1.camel@gmail.com>
+Organization: Red Hat
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
-X-Mailman-Approved-At: Tue, 31 Mar 2020 07:37:59 +0000
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,52 +66,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Chancellor <natechancellor@gmail.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Julia Lawall <julia.lawall@inria.fr>,
+ outreachy-kernel@googlegroups.com,
+ Payal Kshirsagar <payal.s.kshirsagar.98@gmail.com>,
+ Soumyajit Deb <debsoumyajit100@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When building arm32 allyesconfig,
-
-ld.lld: error: undefined symbol: __aeabi_uldivmod
->>> referenced by freesync.c
->>>               gpu/drm/amd/display/modules/freesync/freesync.o:(mod_freesync_build_vrr_params) in archive drivers/built-in.a
->>> did you mean: __aeabi_uidivmod
->>> defined in: arch/arm/lib/lib.a(lib1funcs.o)
-
-Use div_u64 in the two locations that do 64-bit divisior, which both
-have a u64 dividend and u32 divisor.
-
-Fixes: 349a370781de ("drm/amd/display: LFC not working on 2.0x range monitors")
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
----
- drivers/gpu/drm/amd/display/modules/freesync/freesync.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-index 8911f01671aa..c33454a9e0b4 100644
---- a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-+++ b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-@@ -761,10 +761,10 @@ void mod_freesync_build_vrr_params(struct mod_freesync *mod_freesync,
- 
- 	// If a monitor reports exactly max refresh of 2x of min, enforce it on nominal
- 	rounded_nominal_in_uhz =
--			((nominal_field_rate_in_uhz + 50000) / 100000) * 100000;
-+			div_u64(nominal_field_rate_in_uhz + 50000, 100000) * 100000;
- 	if (in_config->max_refresh_in_uhz == (2 * in_config->min_refresh_in_uhz) &&
- 		in_config->max_refresh_in_uhz == rounded_nominal_in_uhz)
--		min_refresh_in_uhz = nominal_field_rate_in_uhz / 2;
-+		min_refresh_in_uhz = div_u64(nominal_field_rate_in_uhz, 2);
- 
- 	if (!vrr_settings_require_update(core_freesync,
- 			in_config, (unsigned int)min_refresh_in_uhz, (unsigned int)max_refresh_in_uhz,
--- 
-2.26.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCAzMCBNYXIgMjAyMCAxNTowMzo1NSAtMDcwMAoiSm9obiBCLiBXeWF0dCBJViIgPGpi
+d3lhdHQ0QGdtYWlsLmNvbT4gd3JvdGU6Cgo+IE9uIE1vbiwgMjAyMC0wMy0zMCBhdCAxOTo0MCAr
+MDIwMCwgU3RlZmFubyBCcml2aW8gd3JvdGU6Cj4gPiBPbiBTdW4sIDI5IE1hciAyMDIwIDEyOjM3
+OjE4ICswMjAwIChDRVNUKQo+ID4gSnVsaWEgTGF3YWxsIDxqdWxpYS5sYXdhbGxAaW5yaWEuZnI+
+IHdyb3RlOgo+ID4gICAKPiA+ID4gT24gU3VuLCAyOSBNYXIgMjAyMCwgU291bXlhaml0IERlYiB3
+cm90ZToKPiA+ID4gICAKPiA+ID4gPiBJIGhhZCB0aGUgc2FtZSBkb3VidCB0aGUgb3RoZXIgZGF5
+IGFib3V0IHRoZSByZXBsYWNlbWVudCBvZgo+ID4gPiA+IHVkZWxheSgpIHdpdGgKPiA+ID4gPiB1
+c2xlZXBfcmFuZ2UoKS4gVGhlIGNvcnJlc3BvbmRpbmcgcmFuZ2UgZm9yIHRoZSBzaW5nbGUgYXJn
+dW1lbnQKPiA+ID4gPiB2YWx1ZSBvZgo+ID4gPiA+IHVkZWxheSgpIGlzIHF1aXRlIGNvbmZ1c2lu
+ZyBhcyBJIGNvdWxkbid0IGRlY2lkZSB0aGUgcmFuZ2UuIEJ1dAo+ID4gPiA+IGFzIG11Y2ggYXMg
+SQo+ID4gPiA+IG5vdGljZWQgY2hlY2twYXRjaC5wbCBnaXZlcyB3YXJuaW5nIGZvciByZXBsYWNp
+bmcgdWRlbGF5KCkgd2l0aAo+ID4gPiA+IHVzbGVlcF9yYW5nZSgpIGJ5IGNoZWNraW5nIHRoZSBh
+cmd1bWVudCB2YWx1ZSBvZiB1ZGVsYXkoKS4gSW4gdGhlCj4gPiA+ID4gZG9jdW1lbnRhdGlvbiwg
+aXQgaXMgd3JpdHRlbiB1ZGVsYXkoKSBzaG91bGQgYmUgdXNlZCBmb3IgYSBzbGVlcAo+ID4gPiA+
+IHRpbWUgb2YgYXQKPiA+ID4gPiBtb3N0IDEwIG1pY3Jvc2Vjb25kcyBidXQgYmV0d2VlbiAxMCBt
+aWNyb3NlY29uZHMgYW5kIDIwCj4gPiA+ID4gbWlsbGlzZWNvbmRzLAo+ID4gPiA+IHVzbGVlcF9y
+YW5nZSgpIHNob3VsZCBiZSB1c2VkLiAKPiA+ID4gPiBJIHRoaW5rIHRoZSByYW5nZSBpcyBjb2Rl
+IHNwZWNpZmljIGFuZCB3aWxsIGRlcGVuZCBvbiB3aGF0IHJhbmdlCj4gPiA+ID4gaXMKPiA+ID4g
+PiBhY2NlcHRhYmxlIGFuZCBkb2Vzbid0IGJyZWFrIHRoZSBjb2RlLgo+ID4gPiA+ICBQbGVhc2Ug
+Y29ycmVjdCBtZSBpZiBJIGFtIHdyb25nLiAgICAKPiA+ID4gCj4gPiA+IFRoZSByYW5nZSBkZXBl
+bmRzIG9uIHRoZSBhc3NvY2lhdGVkIGhhcmR3YXJlLiAgCj4gPiAKPiA+IEpvaG4sIGJ5IHRoZSB3
+YXksIGhlcmUgeW91IGNvdWxkIGhhdmUgY2hlY2tlZCB0aGUgZGF0YXNoZWV0IG9mIHRoaXMKPiA+
+IExDRAo+ID4gY29udHJvbGxlci4gSXQncyBhIHBhaXIgb2YgdGhvc2U6Cj4gPiAJaHR0cHM6Ly93
+d3cuc3BhcmtmdW4uY29tL2RhdGFzaGVldHMvTENEL2tzMDEwOGIucGRmCj4gCj4gTm8gSSBoYXZl
+IG5vdC4gVGhpcyBkYXRhc2hlZXQgaXMgYSBsaXR0bGUgb3ZlciBteSBoZWFkIGhvbmVzdGx5Lgo+
+IAo+IFdoYXQgd291bGQgeW91IHJlY29tbWVuZCB0byBnZXQgZmFtaWxpYXIgd2l0aCBkYXRhc2hl
+ZXRzIGxpa2UgdGhpcz8KCldlbGwsIHlvdSBkb24ndCBuZWNlc3NhcmlseSBoYXZlIHRvLCB0aGVy
+ZSBhcmUgbWFueSBzdWJzeXN0ZW1zIGluIHRoZQprZXJuZWwgd2hpY2ggYXJlIGFsbW9zdCBjb21w
+bGV0ZWx5IGFic3RyYWN0ZWQgYXdheSBmcm9tIGhhcmR3YXJlLgoKSWYgeW91J3JlIGludGVyZXN0
+ZWQsIGxvb2sgYXJvdW5kIHlvdXJzZWxmIGZvciBzb21ldGhpbmcgc2ltcGxlIGNoaXAsCm9yIGdl
+dCBzb21ldGhpbmcgdGhhdCB5b3UgY2FuIGVhc2lseSBwbHVnIG9uIGEgIm1ha2VyIGJvYXJkIiwg
+UmFzcGJlcnJ5ClBpLCBzb21ldGhpbmcgbGlrZSB0aGF0LiBQZXJoYXBzIHZpYSBJwrJDIG9yIFNQ
+SS4KClNvbWUgdHlwZXMgb2Ygc2Vuc29ycyAodGVtcGVyYXR1cmUsIHByZXNzdXJlKSBoYXZlIHZl
+cnkgc2ltcGxlCmRhdGFzaGVldHMuIElmIHlvdSBhcmUgYWxsZXJnaWMgdG8gaGFyZHdhcmUsIHRy
+eToKCSQgbHMgLVNzbCBkcml2ZXJzL2lpby8qCgpwaWNrIHRoZSBzbWFsbGVzdCBzZW5zb3IgZHJp
+dmVyIGluIHRoZSBjYXRlZ29yeSB0aGF0IGlzIHRoZSBtb3N0IGxpa2VseQp0byBzcGFyayB5b3Vy
+IGludGVyZXN0LCBhbmQgZ28gdGhyb3VnaCBpdCwgY2hlY2tpbmcgaXQgYWdhaW5zdCB0aGUKZGF0
+YXNoZWV0LCBhdCBzb21lIHBvaW50IGl0IHdpbGwgbWFrZSBzZW5zZS4KCi0tIApTdGVmYW5vCgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
