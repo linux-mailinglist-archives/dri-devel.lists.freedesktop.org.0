@@ -2,41 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D90197CF0
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 15:31:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE045197D23
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 15:40:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE916E15A;
-	Mon, 30 Mar 2020 13:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B141C6E2E8;
+	Mon, 30 Mar 2020 13:40:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 772736E15A;
- Mon, 30 Mar 2020 13:31:00 +0000 (UTC)
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net
- [50.39.105.78])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 38D5E20716;
- Mon, 30 Mar 2020 13:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585575060;
- bh=qSfFw4Xt6kcV5uLecfdNYj4mpU1Cl5FKqVHHOIVmkPY=;
- h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=Q9HcMfLecFcko618lmMeqPiJEzubwJ5u1Ip9reIi2mnZqgzVRMJaX2TNq65jD7Uzk
- 91bigtJdPi+s48g83dv16HPxcg/D++utxWRP6/E0kgB5tIa8zTJxcBxS3FvNJtbXRY
- KI3iTHxlNifbgQ0WIqlzhPtdUzwwROHTBhEsprZY=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
- id 01D8835226F8; Mon, 30 Mar 2020 06:30:59 -0700 (PDT)
-Date: Mon, 30 Mar 2020 06:30:59 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: rcu_barrier() no longer allowed within mmap_sem?
-Message-ID: <20200330133059.GH19865@paulmck-ThinkPad-P72>
-References: <CAKMK7uGQ49JGetk3-VmHxXR0HVEoQgVxSZvX9Z0b5so8y+13cA@mail.gmail.com>
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 122986E2E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 13:40:17 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02UDSjd2004381; Mon, 30 Mar 2020 15:40:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=05Cp8FHkCUAY1uBXkh3rN+fUJ2vNWzHm6qdMX+Azm+8=;
+ b=Y88gBSDr5K8hhZANqaYvDTtojUfVlgBBXc5IyuwCP4B4YeCVaOERix6AX09FKDLfYmGf
+ +7cbnbh+dbZxc8q9q6IfHqBEx3pjS0BstS0EQUsfOpoPG2gwQydfAKWZMCvK8aF+Nse7
+ kdF7VFtvSfZ9FcXzJMYSMCdLV7hzDD17L7WBRFhKVAenBNq1p6PWVvT2K52XpcAQYafC
+ a/hE2nKc9BgVs/uW7soyEtGl71/H6A6GkTud8EysfPJsGCpIA47pgGx7wfX2y6t1eQj8
+ eT4hBW2WTjWC553Qg48Xj7PmhxigaAuobJ2cuVedWdzmxXv9FkD39zwnjrLUTCV6ow/f 1Q== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 301xbm9p1n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Mar 2020 15:40:13 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 35F8D10002A;
+ Mon, 30 Mar 2020 15:40:13 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 053992BC7AC;
+ Mon, 30 Mar 2020 15:40:13 +0200 (CEST)
+Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Mon, 30 Mar
+ 2020 15:40:12 +0200
+Received: from SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6]) by
+ SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6%20]) with mapi id
+ 15.00.1473.003; Mon, 30 Mar 2020 15:40:12 +0200
+From: Philippe CORNU <philippe.cornu@st.com>
+To: Yannick FERTRE <yannick.fertre@st.com>, Benjamin GAIGNARD
+ <benjamin.gaignard@st.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, "Alexandre
+ TORGUE" <alexandre.torgue@st.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] drm/stm: ltdc: check number of endpoints
+Thread-Topic: [PATCH] drm/stm: ltdc: check number of endpoints
+Thread-Index: AQHV7g4ofITfVj+w50Wq5yte7qHdC6hhVL8Q
+Date: Mon, 30 Mar 2020 13:40:12 +0000
+Message-ID: <6a14216d33374f6d8d8a5653cad683e9@SFHDAG6NODE3.st.com>
+References: <1582877258-1112-1-git-send-email-yannick.fertre@st.com>
+In-Reply-To: <1582877258-1112-1-git-send-email-yannick.fertre@st.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.46]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uGQ49JGetk3-VmHxXR0HVEoQgVxSZvX9Z0b5so8y+13cA@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-30_01:2020-03-27,
+ 2020-03-30 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,119 +82,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
-Cc: Mark Rutland <mark.rutland@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Peter Zijlstra <peterz@infradead.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Josh Triplett <josh@joshtriplett.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, rcu@vger.kernel.org,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Ingo Molnar <mingo@redhat.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Joel Fernandes <joel@joelfernandes.org>, Namhyung Kim <namhyung@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Jiri Olsa <jolsa@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 30, 2020 at 03:00:35PM +0200, Daniel Vetter wrote:
-> Hi all, for all = rcu, cpuhotplug and perf maintainers
-> 
-> We've hit an interesting new lockdep splat in our drm/i915 CI:
-> 
-> https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_17096/shard-tglb7/igt@kms_frontbuffer_tracking@fbcpsr-rgb101010-draw-mmap-gtt.html#dmesg-warnings861
-> 
-> Summarizing away the driver parts we have
-> 
-> < gpu locks which are held within mm->mmap_sem in various gpu fault handlers >
-> 
-> -> #4 (&mm->mmap_sem#2){++++}:
-> <4> [604.892615] __might_fault+0x63/0x90
-> <4> [604.892617] _copy_to_user+0x1e/0x80
-> <4> [604.892619] perf_read+0x200/0x2b0
-> <4> [604.892621] vfs_read+0x96/0x160
-> <4> [604.892622] ksys_read+0x9f/0xe0
-> <4> [604.892623] do_syscall_64+0x4f/0x220
-> <4> [604.892624] entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> <4> [604.892625]
-> -> #3 (&cpuctx_mutex){+.+.}:
-> <4> [604.892626] __mutex_lock+0x9a/0x9c0
-> <4> [604.892627] perf_event_init_cpu+0xa4/0x140
-> <4> [604.892629] perf_event_init+0x19d/0x1cd
-> <4> [604.892630] start_kernel+0x362/0x4e4
-> <4> [604.892631] secondary_startup_64+0xa4/0xb0
-> <4> [604.892631]
-> -> #2 (pmus_lock){+.+.}:
-> <4> [604.892633] __mutex_lock+0x9a/0x9c0
-> <4> [604.892633] perf_event_init_cpu+0x6b/0x140
-> <4> [604.892635] cpuhp_invoke_callback+0x9b/0x9d0
-> <4> [604.892636] _cpu_up+0xa2/0x140
-> <4> [604.892637] do_cpu_up+0x61/0xa0
-> <4> [604.892639] smp_init+0x57/0x96
-> <4> [604.892639] kernel_init_freeable+0x87/0x1dc
-> <4> [604.892640] kernel_init+0x5/0x100
-> <4> [604.892642] ret_from_fork+0x24/0x50
-> <4> [604.892642]
-> -> #1 (cpu_hotplug_lock.rw_sem){++++}:
-> <4> [604.892643] cpus_read_lock+0x34/0xd0
-> <4> [604.892644] rcu_barrier+0xaa/0x190
-> <4> [604.892645] kernel_init+0x21/0x100
-> <4> [604.892647] ret_from_fork+0x24/0x50
-> <4> [604.892647]
-> -> #0 (rcu_state.barrier_mutex){+.+.}:
-> <4> [604.892649] __lock_acquire+0x1328/0x15d0
-> <4> [604.892650] lock_acquire+0xa7/0x1c0
-> <4> [604.892651] __mutex_lock+0x9a/0x9c0
-> <4> [604.892652] rcu_barrier+0x23/0x190
-> <4> [604.892680] i915_gem_object_unbind+0x29d/0x3f0 [i915]
-> <4> [604.892707] i915_gem_object_pin_to_display_plane+0x141/0x270 [i915]
-> <4> [604.892737] intel_pin_and_fence_fb_obj+0xec/0x1f0 [i915]
-> <4> [604.892767] intel_plane_pin_fb+0x3f/0xd0 [i915]
-> <4> [604.892797] intel_prepare_plane_fb+0x13b/0x5c0 [i915]
-> <4> [604.892798] drm_atomic_helper_prepare_planes+0x85/0x110
-> <4> [604.892827] intel_atomic_commit+0xda/0x390 [i915]
-> <4> [604.892828] drm_atomic_helper_set_config+0x57/0xa0
-> <4> [604.892830] drm_mode_setcrtc+0x1c4/0x720
-> <4> [604.892830] drm_ioctl_kernel+0xb0/0xf0
-> <4> [604.892831] drm_ioctl+0x2e1/0x390
-> <4> [604.892833] ksys_ioctl+0x7b/0x90
-> <4> [604.892835] __x64_sys_ioctl+0x11/0x20
-> <4> [604.892835] do_syscall_64+0x4f/0x220
-> <4> [604.892836] entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> 
-> The last backtrace boils down to i915 driver code which holds the same
-> locks we are holding within mm->mmap_sem, and then ends up calling
-> rcu_barrier(). From what I can see i915 is just the messenger here,
-> any driver with this pattern of a lock held within mmap_sem which also
-> has a path of calling rcu_barrier while holding that lock should be
-> hitting this splat.
-> 
-> Two questions:
-> - This suggests that calling rcu_barrier() isn't ok anymore while
-> holding mmap_sem, or anything that has a dependency upon mmap_sem. I
-> guess that's not the idea, please confirm.
-> - Assuming this depedency is indeed not intended, where should the
-> loop be broken? It goes through perf, cpuhotplug and rcu subsystems,
-> and I don't have a clue about any of those.
+Dear Yannick,
+Thank you for your patch,
+Acked-by: Philippe Cornu <philippe.cornu@st.com>
+(sorry for the email format)
+Philippe :-)
 
-Indeed, rcu_barrier() excludes CPU hotplug in order to eliminate a number
-of interesting races.
+-----Original Message-----
+From: Yannick FERTRE <yannick.fertre@st.com> 
+Sent: Friday, February 28, 2020 09:08
+To: Yannick FERTRE <yannick.fertre@st.com>; Philippe CORNU <philippe.cornu@st.com>; Benjamin GAIGNARD <benjamin.gaignard@st.com>; David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Maxime Coquelin <mcoquelin.stm32@gmail.com>; Alexandre TORGUE <alexandre.torgue@st.com>; dri-devel@lists.freedesktop.org; linux-stm32@st-md-mailman.stormreply.com; linux-arm-kernel@lists.infradead.org; linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/stm: ltdc: check number of endpoints
 
-Am I interpreting the above trace correctly in thinking that the various
-calls to cpus_read_lock() are with mmap_sem held?  If so, can the calls
-to rcu_barrier() be moved out from under the regions of code protected
-by cpus_read_lock()?  Invoking rcu_barrier() with cpus_read_lock() held
-is an immediate self-deadlock.
+Number of endpoints could exceed the fix value MAX_ENDPOINTS(2).
+Instead of increase simply this value, the number of endpoint could be read from device tree. Load sequence has been a little rework to take care of several panel or bridge which can be connected/disconnected or enable/disable.
 
-Or is rcu_barrier() somehow indirectly sometimes acquiring mmap_sem
-or pmus_lock?  (Not seeing it myself, but...)
+Signed-off-by: Yannick Fertre <yannick.fertre@st.com>
+---
+ drivers/gpu/drm/stm/ltdc.c | 102 +++++++++++++++++++++++----------------------
+ 1 file changed, 52 insertions(+), 50 deletions(-)
 
-							Thanx, Paul
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c index df585fe..f894968 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -42,8 +42,6 @@
+
+ #define MAX_IRQ 4
+
+-#define MAX_ENDPOINTS 2
+-
+ #define HWVER_10200 0x010200
+ #define HWVER_10300 0x010300
+ #define HWVER_20101 0x020101
+@@ -1201,36 +1199,20 @@ int ltdc_load(struct drm_device *ddev)
+ 	struct ltdc_device *ldev = ddev->dev_private;
+ 	struct device *dev = ddev->dev;
+ 	struct device_node *np = dev->of_node;
+-	struct drm_bridge *bridge[MAX_ENDPOINTS] = {NULL};
+-	struct drm_panel *panel[MAX_ENDPOINTS] = {NULL};
++	struct drm_bridge *bridge;
++	struct drm_panel *panel;
+ 	struct drm_crtc *crtc;
+ 	struct reset_control *rstc;
+ 	struct resource *res;
+-	int irq, ret, i, endpoint_not_ready = -ENODEV;
++	int irq, i, nb_endpoints;
++	int ret = -ENODEV;
+
+ 	DRM_DEBUG_DRIVER("\n");
+
+-	/* Get endpoints if any */
+-	for (i = 0; i < MAX_ENDPOINTS; i++) {
+-		ret = drm_of_find_panel_or_bridge(np, 0, i, &panel[i],
+-						  &bridge[i]);
+-
+-		/*
+-		 * If at least one endpoint is -EPROBE_DEFER, defer probing,
+-		 * else if at least one endpoint is ready, continue probing.
+-		 */
+-		if (ret == -EPROBE_DEFER)
+-			return ret;
+-		else if (!ret)
+-			endpoint_not_ready = 0;
+-	}
+-
+-	if (endpoint_not_ready)
+-		return endpoint_not_ready;
+-
+-	rstc = devm_reset_control_get_exclusive(dev, NULL);
+-
+-	mutex_init(&ldev->err_lock);
++	/* Get number of endpoints */
++	nb_endpoints = of_graph_get_endpoint_count(np);
++	if (!nb_endpoints)
++		return -ENODEV;
+
+ 	ldev->pixel_clk = devm_clk_get(dev, "lcd");
+ 	if (IS_ERR(ldev->pixel_clk)) {
+@@ -1244,6 +1226,43 @@ int ltdc_load(struct drm_device *ddev)
+ 		return -ENODEV;
+ 	}
+
++	/* Get endpoints if any */
++	for (i = 0; i < nb_endpoints; i++) {
++		ret = drm_of_find_panel_or_bridge(np, 0, i, &panel, &bridge);
++
++		/*
++		 * If at least one endpoint is -ENODEV, continue probing,
++		 * else if at least one endpoint returned an error
++		 * (ie -EPROBE_DEFER) then stop probing.
++		 */
++		if (ret == -ENODEV)
++			continue;
++		else if (ret)
++			goto err;
++
++		if (panel) {
++			bridge = drm_panel_bridge_add_typed(panel,
++							    DRM_MODE_CONNECTOR_DPI);
++			if (IS_ERR(bridge)) {
++				DRM_ERROR("panel-bridge endpoint %d\n", i);
++				ret = PTR_ERR(bridge);
++				goto err;
++			}
++		}
++
++		if (bridge) {
++			ret = ltdc_encoder_init(ddev, bridge);
++			if (ret) {
++				DRM_ERROR("init encoder endpoint %d\n", i);
++				goto err;
++			}
++		}
++	}
++
++	rstc = devm_reset_control_get_exclusive(dev, NULL);
++
++	mutex_init(&ldev->err_lock);
++
+ 	if (!IS_ERR(rstc)) {
+ 		reset_control_assert(rstc);
+ 		usleep_range(10, 20);
+@@ -1285,27 +1304,7 @@ int ltdc_load(struct drm_device *ddev)
+ 			DRM_ERROR("Failed to register LTDC interrupt\n");
+ 			goto err;
+ 		}
+-	}
+
+-	/* Add endpoints panels or bridges if any */
+-	for (i = 0; i < MAX_ENDPOINTS; i++) {
+-		if (panel[i]) {
+-			bridge[i] = drm_panel_bridge_add_typed(panel[i],
+-							       DRM_MODE_CONNECTOR_DPI);
+-			if (IS_ERR(bridge[i])) {
+-				DRM_ERROR("panel-bridge endpoint %d\n", i);
+-				ret = PTR_ERR(bridge[i]);
+-				goto err;
+-			}
+-		}
+-
+-		if (bridge[i]) {
+-			ret = ltdc_encoder_init(ddev, bridge[i]);
+-			if (ret) {
+-				DRM_ERROR("init encoder endpoint %d\n", i);
+-				goto err;
+-			}
+-		}
+ 	}
+
+ 	crtc = devm_kzalloc(dev, sizeof(*crtc), GFP_KERNEL); @@ -1340,8 +1339,8 @@ int ltdc_load(struct drm_device *ddev)
+
+ 	return 0;
+ err:
+-	for (i = 0; i < MAX_ENDPOINTS; i++)
+-		drm_panel_bridge_remove(bridge[i]);
++	for (i = 0; i < nb_endpoints; i++)
++		drm_of_panel_bridge_remove(ddev->dev->of_node, 0, i);
+
+ 	clk_disable_unprepare(ldev->pixel_clk);
+
+@@ -1350,11 +1349,14 @@ int ltdc_load(struct drm_device *ddev)
+
+ void ltdc_unload(struct drm_device *ddev)  {
+-	int i;
++	struct device *dev = ddev->dev;
++	int nb_endpoints, i;
+
+ 	DRM_DEBUG_DRIVER("\n");
+
+-	for (i = 0; i < MAX_ENDPOINTS; i++)
++	nb_endpoints = of_graph_get_endpoint_count(dev->of_node);
++
++	for (i = 0; i < nb_endpoints; i++)
+ 		drm_of_panel_bridge_remove(ddev->dev->of_node, 0, i);
+
+ 	pm_runtime_disable(ddev->dev);
+--
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
