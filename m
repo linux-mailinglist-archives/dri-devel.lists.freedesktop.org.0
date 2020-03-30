@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0E21980F5
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 18:23:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C72B198107
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 18:23:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9C46E43D;
-	Mon, 30 Mar 2020 16:23:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5521D6E446;
+	Mon, 30 Mar 2020 16:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C52216E43D;
- Mon, 30 Mar 2020 16:23:14 +0000 (UTC)
-IronPort-SDR: hpyXW/jxT+iqr5f9Zxchrd8SDcre9hwVxszt3B/poEaDgWtFJvvkuoadyGveGWSlIDSdX32a/F
- 1EWwgus+pb/A==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC3FA6E443;
+ Mon, 30 Mar 2020 16:23:15 +0000 (UTC)
+IronPort-SDR: CD85Nd48uIYlxtuDpxS6WrMSuSaW80AV2Svujb7ZN7W8Gh5laO4fLHL9MBJdr70k20QlexYyn/
+ XRlAZ50OkgiA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Mar 2020 09:23:14 -0700
-IronPort-SDR: QRqmxmc/r3Zc+ePTJvpT2gC4zxcNQmoOG0Q4931/0oPHL78SGLYrmfu/3ARCp7dY8xxSqZV37n
- YR7nxaHM92eg==
+IronPort-SDR: 1yvCS/4do65GV+f8FbpdWHaO4J9WhozrH1+1kdmL62wtlQb4czqAoXRSgqAFAX85z/7KM1R+Im
+ a3YWOTOM5SBg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,325,1580803200"; d="scan'208";a="248753891"
+X-IronPort-AV: E=Sophos;i="5.72,325,1580803200"; d="scan'208";a="248753910"
 Received: from niamhrya-mobl.ger.corp.intel.com (HELO
  helsinki.ger.corp.intel.com) ([10.252.1.242])
- by orsmga003.jf.intel.com with ESMTP; 30 Mar 2020 09:22:57 -0700
+ by orsmga003.jf.intel.com with ESMTP; 30 Mar 2020 09:22:59 -0700
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v9 00/14] In order to readout DP SDPs,
- refactors the handling of DP SDPs 
-Date: Mon, 30 Mar 2020 19:23:42 +0300
-Message-Id: <20200330162356.162361-1-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v9 01/14] video/hdmi: Add Unpack only function for DRM
+ infoframe
+Date: Mon, 30 Mar 2020 19:23:43 +0300
+Message-Id: <20200330162356.162361-2-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200330162356.162361-1-gwan-gyeong.mun@intel.com>
+References: <20200330162356.162361-1-gwan-gyeong.mun@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,75 +56,157 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to readout DP SDPs (Secondary Data Packet: DP HDR Metadata
-Infoframe SDP, DP VSC SDP), it refactors handling DP SDPs codes.
-It adds new compute routines for DP HDR Metadata Infoframe SDP
-and DP VSC SDP. 
-And new writing routines of DP SDPs (Secondary Data Packet) that uses
-computed configs.
-New reading routines of DP SDPs are added for readout.
-It adds a logging function for DP VSC SDP.
-When receiving video it is very useful to be able to log DP VSC SDP.
-This greatly simplifies debugging.
-In order to use a common VSC SDP Colorimetry calculating code on PSR,
-it uses a new psr vsc sdp compute routine.
+It adds an unpack only function for DRM infoframe for dynamic range and
+mastering infoframe readout.
+It unpacks the information data block contained in the binary buffer into
+a structured frame of the HDMI Dynamic Range and Mastering (DRM)
+information frame.
 
-v2: Minor style fix
-v3: 
-  - Add a new drm data structure for DP VSC SDP
-  - Replace a structure name to drm_dp_vsc_sdp from intel_dp_vsc_sdp
-  - Move logging functions to drm core [Jani N]
-    And use drm core's DP VSC SDP logging function
-  - Explicitly disable unused DIPs (AVI, GCP, VS, SPD, DRM. They will be
-    used for HDMI), when intel_dp_set_infoframes() function will be called.
-v4:
-  - Use struct drm_device logging macros
-  - Rebased
-v5:
-  - Use intel_de_*() functions for register access
-  - Add warning where a bpc is 6 and a pixel format is RGB.
-  - Addressed review comments from Uma
-    Add kernel docs for added data structures
-    Rename enum dp_colorspace to dp_pixelformat
-    Polish commit message and comments
-    Combine the if checks of sdp.HB2 and sdp.HB3
-    Add 6bpc to packining and unpacking of VSC SDP
-v6: Fix enabled infoframe states of lspcon
-v7: Fix the wrong check of combination bpc 6 and RGB pixelformat
-v8: Rebased
+In contrast to hdmi_drm_infoframe_unpack() function, it does not verify
+a checksum.
+
+It can be used for unpacking a DP HDR Metadata Infoframe SDP case.
+DP HDR Metadata Infoframe SDP uses the same Dynamic Range and Mastering
+(DRM) information (CTA-861-G spec.) such as HDMI DRM infoframe.
+But DP SDP header and payload structure are different from HDMI DRM
+Infoframe. Therefore unpacking DRM infoframe for DP requires skipping of
+a verifying checksum.
+
 v9: Add clear comments to hdmi_drm_infoframe_unpack_only() and
     hdmi_drm_infoframe_unpack() (Laurent Pinchart)
 
-Gwan-gyeong Mun (14):
-  video/hdmi: Add Unpack only function for DRM infoframe
-  drm/i915/dp: Read out DP SDPs
-  drm: Add logging function for DP VSC SDP
-  drm/i915: Include HDMI DRM infoframe in the crtc state dump
-  drm/i915: Include DP HDR Metadata Infoframe SDP in the crtc state dump
-  drm/i915: Include DP VSC SDP in the crtc state dump
-  drm/i915: Program DP SDPs with computed configs
-  drm/i915: Add state readout for DP HDR Metadata Infoframe SDP
-  drm/i915: Add state readout for DP VSC SDP
-  drm/i915: Fix enabled infoframe states of lspcon
-  drm/i915: Program DP SDPs on pipe updates
-  drm/i915: Stop sending DP SDPs on ddi disable
-  drm/i915/dp: Add compute routine for DP PSR VSC SDP
-  drm/i915/psr: Use new DP VSC SDP compute routine on PSR
+Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+---
+ drivers/video/hdmi.c | 65 +++++++++++++++++++++++++++++++-------------
+ include/linux/hdmi.h |  2 ++
+ 2 files changed, 48 insertions(+), 19 deletions(-)
 
- drivers/gpu/drm/drm_dp_helper.c              | 174 +++++++++
- drivers/gpu/drm/i915/display/intel_ddi.c     |  19 +-
- drivers/gpu/drm/i915/display/intel_display.c |  62 +++
- drivers/gpu/drm/i915/display/intel_dp.c      | 391 ++++++++++---------
- drivers/gpu/drm/i915/display/intel_dp.h      |  15 +-
- drivers/gpu/drm/i915/display/intel_lspcon.c  |   2 +-
- drivers/gpu/drm/i915/display/intel_psr.c     |  54 +--
- drivers/gpu/drm/i915/display/intel_psr.h     |   6 +-
- drivers/gpu/drm/i915/i915_drv.h              |   1 +
- drivers/video/hdmi.c                         |  65 ++-
- include/drm/drm_dp_helper.h                  |   3 +
- include/linux/hdmi.h                         |   2 +
- 12 files changed, 536 insertions(+), 258 deletions(-)
-
+diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+index 856a8c4e84a2..e70792b3e367 100644
+--- a/drivers/video/hdmi.c
++++ b/drivers/video/hdmi.c
+@@ -1768,20 +1768,21 @@ hdmi_vendor_any_infoframe_unpack(union hdmi_vendor_any_infoframe *frame,
+ }
+ 
+ /**
+- * hdmi_drm_infoframe_unpack() - unpack binary buffer to a HDMI DRM infoframe
++ * hdmi_drm_infoframe_unpack_only() - unpack binary buffer of CTA-861-G DRM
++ *                                    infoframe DataBytes to a HDMI DRM
++ *                                    infoframe
+  * @frame: HDMI DRM infoframe
+  * @buffer: source buffer
+  * @size: size of buffer
+  *
+- * Unpacks the information contained in binary @buffer into a structured
+- * @frame of the HDMI Dynamic Range and Mastering (DRM) information frame.
+- * Also verifies the checksum as required by section 5.3.5 of the HDMI 1.4
+- * specification.
++ * Unpacks CTA-861-G DRM infoframe DataBytes contained in the binary @buffer
++ * into a structured @frame of the HDMI Dynamic Range and Mastering (DRM)
++ * infoframe.
+  *
+  * Returns 0 on success or a negative error code on failure.
+  */
+-static int hdmi_drm_infoframe_unpack(struct hdmi_drm_infoframe *frame,
+-				     const void *buffer, size_t size)
++int hdmi_drm_infoframe_unpack_only(struct hdmi_drm_infoframe *frame,
++				   const void *buffer, size_t size)
+ {
+ 	const u8 *ptr = buffer;
+ 	const u8 *temp;
+@@ -1790,23 +1791,13 @@ static int hdmi_drm_infoframe_unpack(struct hdmi_drm_infoframe *frame,
+ 	int ret;
+ 	int i;
+ 
+-	if (size < HDMI_INFOFRAME_SIZE(DRM))
+-		return -EINVAL;
+-
+-	if (ptr[0] != HDMI_INFOFRAME_TYPE_DRM ||
+-	    ptr[1] != 1 ||
+-	    ptr[2] != HDMI_DRM_INFOFRAME_SIZE)
+-		return -EINVAL;
+-
+-	if (hdmi_infoframe_checksum(buffer, HDMI_INFOFRAME_SIZE(DRM)) != 0)
++	if (size < HDMI_DRM_INFOFRAME_SIZE)
+ 		return -EINVAL;
+ 
+ 	ret = hdmi_drm_infoframe_init(frame);
+ 	if (ret)
+ 		return ret;
+ 
+-	ptr += HDMI_INFOFRAME_HEADER_SIZE;
+-
+ 	frame->eotf = ptr[0] & 0x7;
+ 	frame->metadata_type = ptr[1] & 0x7;
+ 
+@@ -1814,7 +1805,7 @@ static int hdmi_drm_infoframe_unpack(struct hdmi_drm_infoframe *frame,
+ 	for (i = 0; i < 3; i++) {
+ 		x_lsb = *temp++;
+ 		x_msb = *temp++;
+-		frame->display_primaries[i].x =  (x_msb << 8) | x_lsb;
++		frame->display_primaries[i].x = (x_msb << 8) | x_lsb;
+ 		y_lsb = *temp++;
+ 		y_msb = *temp++;
+ 		frame->display_primaries[i].y = (y_msb << 8) | y_lsb;
+@@ -1830,6 +1821,42 @@ static int hdmi_drm_infoframe_unpack(struct hdmi_drm_infoframe *frame,
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(hdmi_drm_infoframe_unpack_only);
++
++/**
++ * hdmi_drm_infoframe_unpack() - unpack binary buffer to a HDMI DRM infoframe
++ * @frame: HDMI DRM infoframe
++ * @buffer: source buffer
++ * @size: size of buffer
++ *
++ * Unpacks the CTA-861-G DRM infoframe contained in the binary @buffer into
++ * a structured @frame of the HDMI Dynamic Range and Mastering (DRM)
++ * infoframe. It also verifies the checksum as required by section 5.3.5 of
++ * the HDMI 1.4 specification.
++ *
++ * Returns 0 on success or a negative error code on failure.
++ */
++static int hdmi_drm_infoframe_unpack(struct hdmi_drm_infoframe *frame,
++				     const void *buffer, size_t size)
++{
++	const u8 *ptr = buffer;
++	int ret;
++
++	if (size < HDMI_INFOFRAME_SIZE(DRM))
++		return -EINVAL;
++
++	if (ptr[0] != HDMI_INFOFRAME_TYPE_DRM ||
++	    ptr[1] != 1 ||
++	    ptr[2] != HDMI_DRM_INFOFRAME_SIZE)
++		return -EINVAL;
++
++	if (hdmi_infoframe_checksum(buffer, HDMI_INFOFRAME_SIZE(DRM)) != 0)
++		return -EINVAL;
++
++	ret = hdmi_drm_infoframe_unpack_only(frame, ptr + HDMI_INFOFRAME_HEADER_SIZE,
++					     size - HDMI_INFOFRAME_HEADER_SIZE);
++	return ret;
++}
+ 
+ /**
+  * hdmi_infoframe_unpack() - unpack binary buffer to a HDMI infoframe
+diff --git a/include/linux/hdmi.h b/include/linux/hdmi.h
+index 9613d796cfb1..50c31f1a0a2d 100644
+--- a/include/linux/hdmi.h
++++ b/include/linux/hdmi.h
+@@ -219,6 +219,8 @@ ssize_t hdmi_drm_infoframe_pack(struct hdmi_drm_infoframe *frame, void *buffer,
+ ssize_t hdmi_drm_infoframe_pack_only(const struct hdmi_drm_infoframe *frame,
+ 				     void *buffer, size_t size);
+ int hdmi_drm_infoframe_check(struct hdmi_drm_infoframe *frame);
++int hdmi_drm_infoframe_unpack_only(struct hdmi_drm_infoframe *frame,
++				   const void *buffer, size_t size);
+ 
+ enum hdmi_spd_sdi {
+ 	HDMI_SPD_SDI_UNKNOWN,
 -- 
 2.25.0
 
