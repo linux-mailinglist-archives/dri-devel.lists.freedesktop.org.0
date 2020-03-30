@@ -2,57 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0402C198D12
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF34198D1A
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:38:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D99A6E57A;
-	Tue, 31 Mar 2020 07:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BFDB6E58B;
+	Tue, 31 Mar 2020 07:38:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D315D8991D
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 16:14:11 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id cw6so20642872edb.9
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 09:14:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dJobNzydt2z0v/ZbYP8V/EAM8yQfDq9NQNIdReY6i2k=;
- b=CbCAOS+2vyQDV49z5Q479cHLj8GAB4lcScU2VvMy5M1jCnkk0zguYR5gA1l2f4ykzZ
- ZPPiLal5z8KwMQjEn9TOKOBx0YKPGbFh5/qvUWQ894W75v6m/DHoS2hXKaiBtjkYERZ0
- GNHY7p2E7U5sjB8YA9YZX/EJCvTDnfqOiFCZKCNvwG7g2S5yVssxvlNL8IHXxqWkiLp8
- JPQd5Vv8oDf12IHpaGLTEq6+UvjXbVN4wsrtCtaEBg4zxOjOkflozl6tiEH8sO8fWkaG
- tByAyHrEuhgo58H7BqxjIxdG6tL3fuSAtKxwpOfgcI2jl4lB3eaGbvBGr0816/x+ow+Y
- Zplg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dJobNzydt2z0v/ZbYP8V/EAM8yQfDq9NQNIdReY6i2k=;
- b=ft+Qe0ubbDRe8QX4h4G1J107hWb0zPIpYczY+XraWioo3wpV24C7HtwqNld2DgGPQ3
- +x8ChgCVxVemIPEy6eB7pef6GCneCZZjlOTZC6QJ6ujz8I6iTK/j9NVgjruYJrkE1BJI
- oVUUBVg1KlMf/PCY2OqNGvXTsYvrk4lBsJ/LfOiNCGf80HHPvZbmEo2QXzwRLGc9N3QS
- etWCmdTasbYO6J7PqogmaA0iKc1k9XCHmuQLCkVVgdbBzLKf2bzc+dUmyk31tgP3bIh6
- pqqFdbSL7Qp/nHcgPHNQ5o+bhM7XW/2c3l2l9cTnMLiEAYhQ9Cwa3yZvdz685cle1TLn
- kilw==
-X-Gm-Message-State: ANhLgQ34rzH+TZQ6UhUk0h1TdVty/c4q9WbYqkEUYrx2AP8YdrUmMvVg
- 8yL7Q+OXIcSZ8uVevjKDbBrwHa6zE+zQkrr7vg5rzEms82M=
-X-Google-Smtp-Source: ADFU+vuOB3aeFvwEcYOUE78ozTUow7H1nGM8LMWQR0KEdFue/dGm1Ar8xF2AwwVD4YG9hwILmlr3Mt9z+CgIu5quyKw=
-X-Received: by 2002:a17:906:ccdd:: with SMTP id
- ot29mr11481877ejb.144.1585584850221; 
- Mon, 30 Mar 2020 09:14:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200330113542.181752-1-adrian.ratiu@collabora.com>
- <20200330113542.181752-2-adrian.ratiu@collabora.com>
- <CAP-HsdRE=6b4v+MH64WVF1bExuC3MeDNiJFWgXTY0k34woP_Gg@mail.gmail.com>
-In-Reply-To: <CAP-HsdRE=6b4v+MH64WVF1bExuC3MeDNiJFWgXTY0k34woP_Gg@mail.gmail.com>
-From: adrian61 <pop.adrian61@gmail.com>
-Date: Mon, 30 Mar 2020 19:13:58 +0300
-Message-ID: <CAP-HsdQZ2SEsy34je5+EZM1wQzAqd22=yhQr4mZfPr5HnbZmmQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/5] drm: bridge: dw_mipi_dsi: add initial regmap
- infrastructure
-To: Adrian Ratiu <adrian.ratiu@collabora.com>
+Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5301::4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAC076E14A
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 16:33:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1585586000;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=m5OQurJ34G52si3xIHL2HoNqFTlRdT/1c2JFQwVStnA=;
+ b=r3r7TTHB0p/khSYoVlIPUiiO7YgnPxWmaPHNaOPSfPy6HTLJNT5mR23whLcm2Tj9Dl
+ mjPFDh3KmAaNGiXL9M4GCLSclSNaiG9o3EBXhbRtrj7s8parRqVhHqFDdwIb0iPhqt58
+ 8LZ8Qwsr1dgP4MN+4qOacMsq0pqYHpDha5pymgEPWl9y7OsSMgGOiyxSp3vvo5rYF1N+
+ noZ/HcfUbdq5nCrGejnctFTldZPywQXEf79dO8Q7V8jQigqr050TuoS6ua2lU9gE/W/m
+ WBHPccn8qiF3koK0q/rsYWTqNYHMmyq7Cm7YJcocd4lSmanZGvBOV0IvBd0y0V5/WCm/
+ SzOg==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmAgw43oE44="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 46.2.1 DYNA|AUTH)
+ with ESMTPSA id m02241w2UGXBGiV
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Mon, 30 Mar 2020 18:33:11 +0200 (CEST)
+Subject: Re: [RFC v3 1/8] dt-bindings: display: convert ingenic,
+ lcd.txt to ingenic, lcd.yaml
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <20200330154202.GA23233@bogus>
+Date: Mon, 30 Mar 2020 18:33:10 +0200
+Message-Id: <02E5EC5D-1FBB-45E4-907E-10450B449726@goldelico.com>
+References: <cover.1585503354.git.hns@goldelico.com>
+ <a75c77fa8528f44832993f9780ae4ea409125a90.1585503354.git.hns@goldelico.com>
+ <20200330154202.GA23233@bogus>
+To: Paul Cercueil <paul@crapouillou.net>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Tue, 31 Mar 2020 07:37:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,515 +57,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- linux-imx@nxp.com, linux-rockchip@lists.infradead.org, kernel@collabora.com,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Paul Boddie <paul@boddie.org.uk>,
+ Kees Cook <keescook@chromium.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ linux-mips@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Forgot to mention mention DSI version 1.1, see ref manual for
-STM32F769 for more details:
-https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=2ahUKEwiRm4mhy8LoAhUP4BoKHaiLAJcQFjAAegQIBRAB&url=https%3A%2F%2Fwww.st.com%2Fresource%2Fen%2Freference_manual%2Fdm00224583-stm32f76xxx-and-stm32f77xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf&usg=AOvVaw14nl_UqwBs39ORzC0yaope
+Hi Paul,
 
-On Mon, Mar 30, 2020 at 6:58 PM adrian61 <pop.adrian61@gmail.com> wrote:
->
-> Hello Adrian,
->
-> I am testing hese changes on my STM32F769-DISCO and i found that:
->
-> On Mon, Mar 30, 2020 at 2:35 PM Adrian Ratiu <adrian.ratiu@collabora.com> wrote:
-> >
-> > In order to support multiple versions of the Synopsis MIPI DSI host
-> > controller, which have different register layouts but almost identical
-> > HW protocols, we add a regmap infrastructure which can abstract away
-> > register accesses for platform drivers using the bridge.
-> >
-> > The controller HW revision is detected during bridge probe which will
-> > be used in future commits to load the relevant register layout which
-> > the bridge will use transparently to the platform drivers.
-> >
-> > Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
-> > ---
-> > New in v5.
-> > ---
-> >  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 208 ++++++++++--------
-> >  1 file changed, 117 insertions(+), 91 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> > index 5ef0f154aa7b..6d9e2f21c9cc 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> > @@ -15,6 +15,7 @@
-> >  #include <linux/module.h>
-> >  #include <linux/of_device.h>
-> >  #include <linux/pm_runtime.h>
-> > +#include <linux/regmap.h>
-> >  #include <linux/reset.h>
-> >
-> >  #include <video/mipi_display.h>
-> > @@ -227,6 +228,7 @@ struct dw_mipi_dsi {
-> >         struct drm_bridge *panel_bridge;
-> >         struct device *dev;
-> >         void __iomem *base;
-> > +       struct regmap *regs;
-> >
-> >         struct clk *pclk;
-> >
-> > @@ -235,6 +237,7 @@ struct dw_mipi_dsi {
-> >         u32 lanes;
-> >         u32 format;
-> >         unsigned long mode_flags;
-> > +       u32 hw_version;
-> >
-> >  #ifdef CONFIG_DEBUG_FS
-> >         struct dentry *debugfs;
-> > @@ -249,6 +252,13 @@ struct dw_mipi_dsi {
-> >         const struct dw_mipi_dsi_plat_data *plat_data;
-> >  };
-> >
-> > +static const struct regmap_config dw_mipi_dsi_regmap_cfg = {
-> > +       .reg_bits = 32,
-> > +       .val_bits = 32,
-> > +       .reg_stride = 4,
-> > +       .name = "dw-mipi-dsi",
-> > +};
-> > +
-> >  /*
-> >   * Check if either a link to a master or slave is present
-> >   */
-> > @@ -280,16 +290,6 @@ static inline struct dw_mipi_dsi *bridge_to_dsi(struct drm_bridge *bridge)
-> >         return container_of(bridge, struct dw_mipi_dsi, bridge);
-> >  }
-> >
-> > -static inline void dsi_write(struct dw_mipi_dsi *dsi, u32 reg, u32 val)
-> > -{
-> > -       writel(val, dsi->base + reg);
-> > -}
-> > -
-> > -static inline u32 dsi_read(struct dw_mipi_dsi *dsi, u32 reg)
-> > -{
-> > -       return readl(dsi->base + reg);
-> > -}
-> > -
-> >  static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
-> >                                    struct mipi_dsi_device *device)
-> >  {
-> > @@ -366,29 +366,29 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
-> >         if (lpm)
-> >                 val |= CMD_MODE_ALL_LP;
-> >
-> > -       dsi_write(dsi, DSI_LPCLK_CTRL, lpm ? 0 : PHY_TXREQUESTCLKHS);
-> > -       dsi_write(dsi, DSI_CMD_MODE_CFG, val);
-> > +       regmap_write(dsi->regs, DSI_LPCLK_CTRL, lpm ? 0 : PHY_TXREQUESTCLKHS);
-> > +       regmap_write(dsi->regs, DSI_CMD_MODE_CFG, val);
-> >  }
-> >
-> >  static int dw_mipi_dsi_gen_pkt_hdr_write(struct dw_mipi_dsi *dsi, u32 hdr_val)
-> >  {
-> >         int ret;
-> > -       u32 val, mask;
-> > +       u32 val = 0, mask;
-> >
-> > -       ret = readl_poll_timeout(dsi->base + DSI_CMD_PKT_STATUS,
-> > -                                val, !(val & GEN_CMD_FULL), 1000,
-> > -                                CMD_PKT_STATUS_TIMEOUT_US);
-> > +       ret = regmap_read_poll_timeout(dsi->regs, DSI_CMD_PKT_STATUS,
-> > +                                      val, !(val & GEN_CMD_FULL), 1000,
-> > +                                      CMD_PKT_STATUS_TIMEOUT_US);
-> >         if (ret) {
-> >                 dev_err(dsi->dev, "failed to get available command FIFO\n");
-> >                 return ret;
-> >         }
-> >
-> > -       dsi_write(dsi, DSI_GEN_HDR, hdr_val);
-> > +       regmap_write(dsi->regs, DSI_GEN_HDR, hdr_val);
-> >
-> >         mask = GEN_CMD_EMPTY | GEN_PLD_W_EMPTY;
-> > -       ret = readl_poll_timeout(dsi->base + DSI_CMD_PKT_STATUS,
-> > -                                val, (val & mask) == mask,
-> > -                                1000, CMD_PKT_STATUS_TIMEOUT_US);
-> > +       ret = regmap_read_poll_timeout(dsi->regs, DSI_CMD_PKT_STATUS,
-> > +                                      val, (val & mask) == mask,
-> > +                                      1000, CMD_PKT_STATUS_TIMEOUT_US);
-> >         if (ret) {
-> >                 dev_err(dsi->dev, "failed to write command FIFO\n");
-> >                 return ret;
-> > @@ -403,24 +403,26 @@ static int dw_mipi_dsi_write(struct dw_mipi_dsi *dsi,
-> >         const u8 *tx_buf = packet->payload;
-> >         int len = packet->payload_length, pld_data_bytes = sizeof(u32), ret;
-> >         __le32 word;
-> > -       u32 val;
-> > +       u32 val = 0;
-> >
-> >         while (len) {
-> >                 if (len < pld_data_bytes) {
-> >                         word = 0;
-> >                         memcpy(&word, tx_buf, len);
-> > -                       dsi_write(dsi, DSI_GEN_PLD_DATA, le32_to_cpu(word));
-> > +                       regmap_write(dsi->regs, DSI_GEN_PLD_DATA,
-> > +                                    le32_to_cpu(word));
-> >                         len = 0;
-> >                 } else {
-> >                         memcpy(&word, tx_buf, pld_data_bytes);
-> > -                       dsi_write(dsi, DSI_GEN_PLD_DATA, le32_to_cpu(word));
-> > +                       regmap_write(dsi->regs, DSI_GEN_PLD_DATA,
-> > +                                    le32_to_cpu(word));
-> >                         tx_buf += pld_data_bytes;
-> >                         len -= pld_data_bytes;
-> >                 }
-> >
-> > -               ret = readl_poll_timeout(dsi->base + DSI_CMD_PKT_STATUS,
-> > -                                        val, !(val & GEN_PLD_W_FULL), 1000,
-> > -                                        CMD_PKT_STATUS_TIMEOUT_US);
-> > +               ret = regmap_read_poll_timeout(dsi->regs, DSI_CMD_PKT_STATUS,
-> > +                                              val, !(val & GEN_PLD_W_FULL),
-> > +                                              1000, CMD_PKT_STATUS_TIMEOUT_US);
-> >                 if (ret) {
-> >                         dev_err(dsi->dev,
-> >                                 "failed to get available write payload FIFO\n");
-> > @@ -438,12 +440,12 @@ static int dw_mipi_dsi_read(struct dw_mipi_dsi *dsi,
-> >  {
-> >         int i, j, ret, len = msg->rx_len;
-> >         u8 *buf = msg->rx_buf;
-> > -       u32 val;
-> > +       u32 val = 0;
-> >
-> >         /* Wait end of the read operation */
-> > -       ret = readl_poll_timeout(dsi->base + DSI_CMD_PKT_STATUS,
-> > -                                val, !(val & GEN_RD_CMD_BUSY),
-> > -                                1000, CMD_PKT_STATUS_TIMEOUT_US);
-> > +       ret = regmap_read_poll_timeout(dsi->regs, DSI_CMD_PKT_STATUS,
-> > +                                      val, !(val & GEN_RD_CMD_BUSY),
-> > +                                      1000, CMD_PKT_STATUS_TIMEOUT_US);
-> >         if (ret) {
-> >                 dev_err(dsi->dev, "Timeout during read operation\n");
-> >                 return ret;
-> > @@ -451,15 +453,15 @@ static int dw_mipi_dsi_read(struct dw_mipi_dsi *dsi,
-> >
-> >         for (i = 0; i < len; i += 4) {
-> >                 /* Read fifo must not be empty before all bytes are read */
-> > -               ret = readl_poll_timeout(dsi->base + DSI_CMD_PKT_STATUS,
-> > -                                        val, !(val & GEN_PLD_R_EMPTY),
-> > -                                        1000, CMD_PKT_STATUS_TIMEOUT_US);
-> > +               ret = regmap_read_poll_timeout(dsi->regs, DSI_CMD_PKT_STATUS,
-> > +                                              val, !(val & GEN_PLD_R_EMPTY),
-> > +                                              1000, CMD_PKT_STATUS_TIMEOUT_US);
-> >                 if (ret) {
-> >                         dev_err(dsi->dev, "Read payload FIFO is empty\n");
-> >                         return ret;
-> >                 }
-> >
-> > -               val = dsi_read(dsi, DSI_GEN_PLD_DATA);
-> > +               regmap_read(dsi->regs, DSI_GEN_PLD_DATA, &val);
-> >                 for (j = 0; j < 4 && j + i < len; j++)
-> >                         buf[i + j] = val >> (8 * j);
-> >         }
-> > @@ -536,29 +538,29 @@ static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
-> >         }
-> >  #endif /* CONFIG_DEBUG_FS */
-> >
-> > -       dsi_write(dsi, DSI_VID_MODE_CFG, val);
-> > +       regmap_write(dsi->regs, DSI_VID_MODE_CFG, val);
-> >  }
-> >
-> >  static void dw_mipi_dsi_set_mode(struct dw_mipi_dsi *dsi,
-> >                                  unsigned long mode_flags)
-> >  {
-> > -       dsi_write(dsi, DSI_PWR_UP, RESET);
-> > +       regmap_write(dsi->regs, DSI_PWR_UP, RESET);
-> >
-> >         if (mode_flags & MIPI_DSI_MODE_VIDEO) {
-> > -               dsi_write(dsi, DSI_MODE_CFG, ENABLE_VIDEO_MODE);
-> > +               regmap_write(dsi->regs, DSI_MODE_CFG, ENABLE_VIDEO_MODE);
-> >                 dw_mipi_dsi_video_mode_config(dsi);
-> > -               dsi_write(dsi, DSI_LPCLK_CTRL, PHY_TXREQUESTCLKHS);
-> > +               regmap_write(dsi->regs, DSI_LPCLK_CTRL, PHY_TXREQUESTCLKHS);
-> >         } else {
-> > -               dsi_write(dsi, DSI_MODE_CFG, ENABLE_CMD_MODE);
-> > +               regmap_write(dsi->regs, DSI_MODE_CFG, ENABLE_CMD_MODE);
-> >         }
-> >
-> > -       dsi_write(dsi, DSI_PWR_UP, POWERUP);
-> > +       regmap_write(dsi->regs, DSI_PWR_UP, POWERUP);
-> >  }
-> >
-> >  static void dw_mipi_dsi_disable(struct dw_mipi_dsi *dsi)
-> >  {
-> > -       dsi_write(dsi, DSI_PWR_UP, RESET);
-> > -       dsi_write(dsi, DSI_PHY_RSTZ, PHY_RSTZ);
-> > +       regmap_write(dsi->regs, DSI_PWR_UP, RESET);
-> > +       regmap_write(dsi->regs, DSI_PHY_RSTZ, PHY_RSTZ);
-> >  }
-> >
-> >  static void dw_mipi_dsi_init(struct dw_mipi_dsi *dsi)
-> > @@ -573,14 +575,14 @@ static void dw_mipi_dsi_init(struct dw_mipi_dsi *dsi)
-> >          */
-> >         u32 esc_clk_division = (dsi->lane_mbps >> 3) / 20 + 1;
-> >
-> > -       dsi_write(dsi, DSI_PWR_UP, RESET);
-> > +       regmap_write(dsi->regs, DSI_PWR_UP, RESET);
-> >
-> >         /*
-> >          * TODO dw drv improvements
-> >          * timeout clock division should be computed with the
-> >          * high speed transmission counter timeout and byte lane...
-> >          */
-> > -       dsi_write(dsi, DSI_CLKMGR_CFG, TO_CLK_DIVISION(10) |
-> > +       regmap_write(dsi->regs, DSI_CLKMGR_CFG, TO_CLK_DIVISION(10) |
-> >                   TX_ESC_CLK_DIVISION(esc_clk_division));
-> >  }
-> >
-> > @@ -609,22 +611,22 @@ static void dw_mipi_dsi_dpi_config(struct dw_mipi_dsi *dsi,
-> >         if (mode->flags & DRM_MODE_FLAG_NHSYNC)
-> >                 val |= HSYNC_ACTIVE_LOW;
-> >
-> > -       dsi_write(dsi, DSI_DPI_VCID, DPI_VCID(dsi->channel));
-> > -       dsi_write(dsi, DSI_DPI_COLOR_CODING, color);
-> > -       dsi_write(dsi, DSI_DPI_CFG_POL, val);
-> > +       regmap_write(dsi->regs, DSI_DPI_VCID, DPI_VCID(dsi->channel));
-> > +       regmap_write(dsi->regs, DSI_DPI_COLOR_CODING, color);
-> > +       regmap_write(dsi->regs, DSI_DPI_CFG_POL, val);
-> >         /*
-> >          * TODO dw drv improvements
-> >          * largest packet sizes during hfp or during vsa/vpb/vfp
-> >          * should be computed according to byte lane, lane number and only
-> >          * if sending lp cmds in high speed is enable (PHY_TXREQUESTCLKHS)
-> >          */
-> > -       dsi_write(dsi, DSI_DPI_LP_CMD_TIM, OUTVACT_LPCMD_TIME(4)
-> > +       regmap_write(dsi->regs, DSI_DPI_LP_CMD_TIM, OUTVACT_LPCMD_TIME(4)
-> >                   | INVACT_LPCMD_TIME(4));
-> >  }
-> >
-> >  static void dw_mipi_dsi_packet_handler_config(struct dw_mipi_dsi *dsi)
-> >  {
-> > -       dsi_write(dsi, DSI_PCKHDL_CFG, CRC_RX_EN | ECC_RX_EN | BTA_EN);
-> > +       regmap_write(dsi->regs, DSI_PCKHDL_CFG, CRC_RX_EN | ECC_RX_EN | BTA_EN);
-> >  }
-> >
-> >  static void dw_mipi_dsi_video_packet_config(struct dw_mipi_dsi *dsi,
-> > @@ -638,7 +640,7 @@ static void dw_mipi_dsi_video_packet_config(struct dw_mipi_dsi *dsi,
-> >          * non-burst video modes, see dw_mipi_dsi_video_mode_config()...
-> >          */
-> >
-> > -       dsi_write(dsi, DSI_VID_PKT_SIZE,
-> > +       regmap_write(dsi->regs, DSI_VID_PKT_SIZE,
-> >                        dw_mipi_is_dual_mode(dsi) ?
-> >                                 VID_PKT_SIZE(mode->hdisplay / 2) :
-> >                                 VID_PKT_SIZE(mode->hdisplay));
-> > @@ -651,14 +653,15 @@ static void dw_mipi_dsi_command_mode_config(struct dw_mipi_dsi *dsi)
-> >          * compute high speed transmission counter timeout according
-> >          * to the timeout clock division (TO_CLK_DIVISION) and byte lane...
-> >          */
-> > -       dsi_write(dsi, DSI_TO_CNT_CFG, HSTX_TO_CNT(1000) | LPRX_TO_CNT(1000));
-> > +       regmap_write(dsi->regs, DSI_TO_CNT_CFG,
-> > +                    HSTX_TO_CNT(1000) | LPRX_TO_CNT(1000));
-> >         /*
-> >          * TODO dw drv improvements
-> >          * the Bus-Turn-Around Timeout Counter should be computed
-> >          * according to byte lane...
-> >          */
-> > -       dsi_write(dsi, DSI_BTA_TO_CNT, 0xd00);
-> > -       dsi_write(dsi, DSI_MODE_CFG, ENABLE_CMD_MODE);
-> > +       regmap_write(dsi->regs, DSI_BTA_TO_CNT, 0xd00);
-> > +       regmap_write(dsi->regs, DSI_MODE_CFG, ENABLE_CMD_MODE);
-> >  }
-> >
-> >  /* Get lane byte clock cycles. */
-> > @@ -692,13 +695,13 @@ static void dw_mipi_dsi_line_timer_config(struct dw_mipi_dsi *dsi,
-> >          * computations below may be improved...
-> >          */
-> >         lbcc = dw_mipi_dsi_get_hcomponent_lbcc(dsi, mode, htotal);
-> > -       dsi_write(dsi, DSI_VID_HLINE_TIME, lbcc);
-> > +       regmap_write(dsi->regs, DSI_VID_HLINE_TIME, lbcc);
-> >
-> >         lbcc = dw_mipi_dsi_get_hcomponent_lbcc(dsi, mode, hsa);
-> > -       dsi_write(dsi, DSI_VID_HSA_TIME, lbcc);
-> > +       regmap_write(dsi->regs, DSI_VID_HSA_TIME, lbcc);
-> >
-> >         lbcc = dw_mipi_dsi_get_hcomponent_lbcc(dsi, mode, hbp);
-> > -       dsi_write(dsi, DSI_VID_HBP_TIME, lbcc);
-> > +       regmap_write(dsi->regs, DSI_VID_HBP_TIME, lbcc);
-> >  }
-> >
-> >  static void dw_mipi_dsi_vertical_timing_config(struct dw_mipi_dsi *dsi,
-> > @@ -711,10 +714,10 @@ static void dw_mipi_dsi_vertical_timing_config(struct dw_mipi_dsi *dsi,
-> >         vfp = mode->vsync_start - mode->vdisplay;
-> >         vbp = mode->vtotal - mode->vsync_end;
-> >
-> > -       dsi_write(dsi, DSI_VID_VACTIVE_LINES, vactive);
-> > -       dsi_write(dsi, DSI_VID_VSA_LINES, vsa);
-> > -       dsi_write(dsi, DSI_VID_VFP_LINES, vfp);
-> > -       dsi_write(dsi, DSI_VID_VBP_LINES, vbp);
-> > +       regmap_write(dsi->regs, DSI_VID_VACTIVE_LINES, vactive);
-> > +       regmap_write(dsi->regs, DSI_VID_VSA_LINES, vsa);
-> > +       regmap_write(dsi->regs, DSI_VID_VFP_LINES, vfp);
-> > +       regmap_write(dsi->regs, DSI_VID_VBP_LINES, vbp);
-> >  }
-> >
-> >  static void dw_mipi_dsi_dphy_timing_config(struct dw_mipi_dsi *dsi)
-> > @@ -737,23 +740,25 @@ static void dw_mipi_dsi_dphy_timing_config(struct dw_mipi_dsi *dsi)
-> >          * DSI_CMD_MODE_CFG.MAX_RD_PKT_SIZE_LP (see CMD_MODE_ALL_LP)
-> >          */
-> >
-> > -       hw_version = dsi_read(dsi, DSI_VERSION) & VERSION;
-> > +       regmap_read(dsi->regs, DSI_VERSION, &hw_version);
-> > +       hw_version &= VERSION;
-> >
-> >         if (hw_version >= HWVER_131) {
-> > -               dsi_write(dsi, DSI_PHY_TMR_CFG,
-> > -                         PHY_HS2LP_TIME_V131(timing.data_hs2lp) |
-> > -                         PHY_LP2HS_TIME_V131(timing.data_lp2hs));
-> > -               dsi_write(dsi, DSI_PHY_TMR_RD_CFG, MAX_RD_TIME_V131(10000));
-> > +               regmap_write(dsi->regs, DSI_PHY_TMR_CFG,
-> > +                            PHY_HS2LP_TIME_V131(timing.data_hs2lp) |
-> > +                            PHY_LP2HS_TIME_V131(timing.data_lp2hs));
-> > +               regmap_write(dsi->regs, DSI_PHY_TMR_RD_CFG,
-> > +                            MAX_RD_TIME_V131(10000));
-> >         } else {
-> > -               dsi_write(dsi, DSI_PHY_TMR_CFG,
-> > -                         PHY_HS2LP_TIME(timing.data_hs2lp) |
-> > -                         PHY_LP2HS_TIME(timing.data_lp2hs) |
-> > -                         MAX_RD_TIME(10000));
-> > +               regmap_write(dsi->regs, DSI_PHY_TMR_CFG,
-> > +                            PHY_HS2LP_TIME(timing.data_hs2lp) |
-> > +                            PHY_LP2HS_TIME(timing.data_lp2hs) |
-> > +                            MAX_RD_TIME(10000));
-> >         }
-> >
-> > -       dsi_write(dsi, DSI_PHY_TMR_LPCLK_CFG,
-> > -                 PHY_CLKHS2LP_TIME(timing.clk_hs2lp) |
-> > -                 PHY_CLKLP2HS_TIME(timing.clk_lp2hs));
-> > +       regmap_write(dsi->regs, DSI_PHY_TMR_LPCLK_CFG,
-> > +                    PHY_CLKHS2LP_TIME(timing.clk_hs2lp) |
-> > +                    PHY_CLKLP2HS_TIME(timing.clk_lp2hs));
-> >  }
-> >
-> >  static void dw_mipi_dsi_dphy_interface_config(struct dw_mipi_dsi *dsi)
-> > @@ -763,46 +768,49 @@ static void dw_mipi_dsi_dphy_interface_config(struct dw_mipi_dsi *dsi)
-> >          * stop wait time should be the maximum between host dsi
-> >          * and panel stop wait times
-> >          */
-> > -       dsi_write(dsi, DSI_PHY_IF_CFG, PHY_STOP_WAIT_TIME(0x20) |
-> > -                 N_LANES(dsi->lanes));
-> > +       regmap_write(dsi->regs, DSI_PHY_IF_CFG,
-> > +                    PHY_STOP_WAIT_TIME(0x20) | N_LANES(dsi->lanes));
-> >  }
-> >
-> >  static void dw_mipi_dsi_dphy_init(struct dw_mipi_dsi *dsi)
-> >  {
-> >         /* Clear PHY state */
-> > -       dsi_write(dsi, DSI_PHY_RSTZ, PHY_DISFORCEPLL | PHY_DISABLECLK
-> > -                 | PHY_RSTZ | PHY_SHUTDOWNZ);
-> > -       dsi_write(dsi, DSI_PHY_TST_CTRL0, PHY_UNTESTCLR);
-> > -       dsi_write(dsi, DSI_PHY_TST_CTRL0, PHY_TESTCLR);
-> > -       dsi_write(dsi, DSI_PHY_TST_CTRL0, PHY_UNTESTCLR);
-> > +       regmap_write(dsi->regs, DSI_PHY_RSTZ, PHY_DISFORCEPLL | PHY_DISABLECLK
-> > +                    | PHY_RSTZ | PHY_SHUTDOWNZ);
-> > +       regmap_write(dsi->regs, DSI_PHY_TST_CTRL0, PHY_UNTESTCLR);
-> > +       regmap_write(dsi->regs, DSI_PHY_TST_CTRL0, PHY_TESTCLR);
-> > +       regmap_write(dsi->regs, DSI_PHY_TST_CTRL0, PHY_UNTESTCLR);
-> >  }
-> >
-> >  static void dw_mipi_dsi_dphy_enable(struct dw_mipi_dsi *dsi)
-> >  {
-> > -       u32 val;
-> > +       u32 val = 0;
-> >         int ret;
-> >
-> > -       dsi_write(dsi, DSI_PHY_RSTZ, PHY_ENFORCEPLL | PHY_ENABLECLK |
-> > -                 PHY_UNRSTZ | PHY_UNSHUTDOWNZ);
-> > +       regmap_write(dsi->regs, DSI_PHY_RSTZ, PHY_ENFORCEPLL | PHY_ENABLECLK |
-> > +                    PHY_UNRSTZ | PHY_UNSHUTDOWNZ);
-> >
-> > -       ret = readl_poll_timeout(dsi->base + DSI_PHY_STATUS, val,
-> > -                                val & PHY_LOCK, 1000, PHY_STATUS_TIMEOUT_US);
-> > +       ret = regmap_read_poll_timeout(dsi->regs, DSI_PHY_STATUS,
-> > +                                      val, val & PHY_LOCK,
-> > +                                      1000, PHY_STATUS_TIMEOUT_US);
-> >         if (ret)
-> >                 DRM_DEBUG_DRIVER("failed to wait phy lock state\n");
-> >
-> > -       ret = readl_poll_timeout(dsi->base + DSI_PHY_STATUS,
-> > -                                val, val & PHY_STOP_STATE_CLK_LANE, 1000,
-> > -                                PHY_STATUS_TIMEOUT_US);
-> > +       ret = regmap_read_poll_timeout(dsi->regs, DSI_PHY_STATUS,
-> > +                                      val, val & PHY_STOP_STATE_CLK_LANE, 1000,
-> > +                                      PHY_STATUS_TIMEOUT_US);
-> >         if (ret)
-> >                 DRM_DEBUG_DRIVER("failed to wait phy clk lane stop state\n");
-> >  }
-> >
-> >  static void dw_mipi_dsi_clear_err(struct dw_mipi_dsi *dsi)
-> >  {
-> > -       dsi_read(dsi, DSI_INT_ST0);
-> > -       dsi_read(dsi, DSI_INT_ST1);
-> > -       dsi_write(dsi, DSI_INT_MSK0, 0);
-> > -       dsi_write(dsi, DSI_INT_MSK1, 0);
-> > +       u32 val;
-> > +
-> > +       regmap_read(dsi->regs, DSI_INT_ST0, &val);
-> > +       regmap_read(dsi->regs, DSI_INT_ST1, &val);
-> > +       regmap_write(dsi->regs, DSI_INT_MSK0, 0);
-> > +       regmap_write(dsi->regs, DSI_INT_MSK1, 0);
-> >  }
-> >
-> >  static void dw_mipi_dsi_bridge_post_disable(struct drm_bridge *bridge)
-> > @@ -989,6 +997,14 @@ static void dw_mipi_dsi_debugfs_remove(struct dw_mipi_dsi *dsi) { }
-> >
-> >  #endif /* CONFIG_DEBUG_FS */
-> >
-> > +static void dw_mipi_dsi_get_hw_version(struct dw_mipi_dsi *dsi)
-> > +{
-> > +       regmap_read(dsi->regs, DSI_VERSION, &dsi->hw_version);
-> > +       dsi->hw_version &= VERSION;
-> > +       if (!dsi->hw_version)
-> Here, this is 0 on my board.
-> > +               dev_err(dsi->dev, "Failed to read DSI hw version register\n");
-> > +}
-> > +
-> >  static struct dw_mipi_dsi *
-> >  __dw_mipi_dsi_probe(struct platform_device *pdev,
-> >                     const struct dw_mipi_dsi_plat_data *plat_data)
-> > @@ -1020,6 +1036,14 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
-> >                 dsi->base = plat_data->base;
-> >         }
-> >
-> > +       dsi->regs = devm_regmap_init_mmio(dev, dsi->base,
-> > +                                         &dw_mipi_dsi_regmap_cfg);
-> > +       if (IS_ERR(dsi->regs)) {
-> > +               ret = PTR_ERR(dsi->regs);
-> > +               DRM_ERROR("Failed to create DW MIPI DSI regmap: %d\n", ret);
-> > +               return ERR_PTR(ret);
-> > +       }
-> > +
-> >         dsi->pclk = devm_clk_get(dev, "pclk");
-> >         if (IS_ERR(dsi->pclk)) {
-> >                 ret = PTR_ERR(dsi->pclk);
-> > @@ -1055,6 +1079,8 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
-> >                 clk_disable_unprepare(dsi->pclk);
-> >         }
-> >
-> > +       dw_mipi_dsi_get_hw_version(dsi);
-> > +
-> >         dw_mipi_dsi_debugfs_init(dsi);
-> >         pm_runtime_enable(dev);
-> >
-> > --
-> > 2.26.0
-> >
-> >
-> > _______________________________________________
-> > linux-arm-kernel mailing list
-> > linux-arm-kernel@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
->
-> Best regards,
-> Adrian
+> Am 30.03.2020 um 17:42 schrieb Rob Herring <robh@kernel.org>:
+> 
+> On Sun, 29 Mar 2020 19:35:47 +0200, "H. Nikolaus Schaller" wrote:
+>> and add compatible: jz4780-lcd, including an example how to
+>> configure both lcd controllers.
+>> 
+>> Also fix the clock names and examples.
+>> 
+>> Based on work by Paul Cercueil <paul@crapouillou.net> and
+>> Sam Ravnborg <sam@ravnborg.org>
+>> 
+>> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+>> Cc: Rob Herring <robh@kernel.org>
+>> Cc: devicetree@vger.kernel.org
+>> ---
+>> .../bindings/display/ingenic,lcd.txt          |  45 ------
+>> .../bindings/display/ingenic,lcd.yaml         | 128 ++++++++++++++++++
+>> 2 files changed, 128 insertions(+), 45 deletions(-)
+>> delete mode 100644 Documentation/devicetree/bindings/display/ingenic,lcd.txt
+>> create mode 100644 Documentation/devicetree/bindings/display/ingenic,lcd.yaml
+>> 
+> 
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic,lcd.example.dt.yaml: lcd-controller@13050000: clocks: [[4294967295, 9]] is too short
+> 
+> See https://patchwork.ozlabs.org/patch/1263508
+
+If I read the message correctly, I think there should be 2 clocks specified in
+the jz4725b-lcd example and not just
+
+	clocks = <&cgu JZ4725B_CLK_LCD>;
+
+Unfortunately the jz4725b.dtsi does not seem to be upstream or in linux-next so
+I don't know if it works without lcd_pclk or not.
+
+If there is really just one clock, we need to modify the clocks and clock-names
+schema and add minItems: 1 and maxItems: 2 to allow for this flexibility.
+
+Otherwise we have to fix the example. Do you have some git with an up-to-date
+jz4725b.dtsi to look at?
+
+> 
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure dt-schema is up to date:
+> 
+> pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
++++ :)
+
+> 
+> Please check and re-submit.
+
+Sure, since it is a RFC.
+
+BR and thanks,
+Nikolaus
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
