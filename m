@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231F1197BE1
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 14:33:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A23F197BE9
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 14:34:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF1F689BF3;
-	Mon, 30 Mar 2020 12:33:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94C8C6E297;
+	Mon, 30 Mar 2020 12:34:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
- [IPv6:2607:f8b0:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5DC089BF3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 12:33:00 +0000 (UTC)
-Received: by mail-il1-x142.google.com with SMTP id n13so8224580ilm.5
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 05:33:00 -0700 (PDT)
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
+ [IPv6:2607:f8b0:4864:20::d41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04F416E297
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 12:34:17 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id q128so17442163iof.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 05:34:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oxbhURdqeY4tQY1TIF/XtnZiMO5t6ORH3FDOf86VjrM=;
- b=kLtvWnDD+PVnqLf0EKVUTgodcUI/vDh/Jr9+BGujcM8e+jZxRSMy2g+Q+oOo8we85/
- faAgDxecXONAnLA6Ka7bpVUj9jKMMbBKt0CxHAsP2EzGOKPMpwz0YBw1BtHQM6+51XQO
- DvkhyuQdRiAabUh0ceErLSExDebMPp9a/y6KKVIBd4Ke2cQOZhittXjIinY8ACFptFyC
- eLVSlQg6kgdbLJZOCwOw91AnfcKc024yttEA9aK550aXHuxcHaQp5S1fAWoDvzj6lxqr
- qBr/OVUYV+wRjL7gWfyZOAJrzg10eT6XSFhooYj79PvcEGanu0Ncv/klW6dDPiewaCoo
- fwxQ==
+ :cc; bh=ugYRzz9x1UjGNKjwYYI17qia2N9XHsI1pN2vBIoW4mc=;
+ b=AulWHQzIHdpUZnA2sbkDfxfUjyOfSvu6RazWKeyE6oqreSfALk5Y2vXA2kQ2/ZtBmW
+ XL9QQtIGnuzHC3n2SVWQQ4RbUEYFYCWmwSiWln3Z+xTe7CRgmxmQXivx1qb5ocRvAa8c
+ eqcZ25hP0Vx3sd+pgloyAKEUJ8v8t9HOVHD/jZ0z9ibyNourLGJ7/hP6QIwR02B4qWu6
+ +PyGHV1rYNU2zT7NHv5h9oe2NtTF0K4zUQQYwM3zNOIfvB+2fZl4G65UhvhKBaBJPtfR
+ nEjqdo7Oogn0QNgP9AJ/xa5G/SXIeOUY6ZA8pFzRy0ShUwfBK/vFlEKBOm5KKAnOyJbj
+ X24A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=oxbhURdqeY4tQY1TIF/XtnZiMO5t6ORH3FDOf86VjrM=;
- b=Q9YveOYe9zxM2JCUV5I8qOmxfxGIcPvTMcLhntdujG+DhNi4glEMWCEb2H2mM8Tckx
- j00uN7oHF/by3x3fVHivk9N/RJD0g1GyKrWEK8qlfpkFXkXXJfXX5k6DCdbLDrBx7E31
- W6Ks8Qjgt2CjICDx45gYnubF9zQbV3KnubxDRLEPuhxh+XSptlpYRyKpsLvN2IgHBCcE
- EuDwj8jVS6yYClA81kPUny7Mn9Gd6vWLvIrV8UBKo/0GiVvBm5hObFI5UMylW8UzAw//
- dkfW15XamPEpkRnlBnq2ipKGjyxhgZSXozwi8gEt5LmN25bJno7yZRWzEuQTatT9v3ly
- V+jQ==
-X-Gm-Message-State: ANhLgQ1gtRYEGwH0QsybOPzeBS0+a69WqOmF8vHVo/Gxyn3/hWxgBDIM
- unsYR54D+c1chqxmOMABt78C70eaXaElYWjQVbU=
-X-Google-Smtp-Source: ADFU+vvVDdO6PE5/W/xY8RMb/+IIw3P2f/dN4OSoiJyI34MLt27MsmlTiBxW0aYiFCCJMEmGWrNdhhnBZHIdY4tgANw=
-X-Received: by 2002:a92:9e99:: with SMTP id s25mr10656271ilk.306.1585571580232; 
- Mon, 30 Mar 2020 05:33:00 -0700 (PDT)
+ bh=ugYRzz9x1UjGNKjwYYI17qia2N9XHsI1pN2vBIoW4mc=;
+ b=K32r30UmwWBDJvhuYuaufkA2xedcqI/EnN9M92x1mXSO1a9AIssxWr6mlH0Djd7uK9
+ b8ZC4FnwD+LxW8+gtm+Ox/DT6xTRq/0zR4x4EPW7WeK0Hq/2XadQCJsQTl2uHXjziSzh
+ RirDVhAIbXzNivmdnWYwHdLmwJzoasabziOdblq1rWgcFvAddp6gc1kvq8KhSsSI3f2Y
+ +00fHz6h4l7CaWxrAt9wV8TRwUlzwpO9QUiATbtEDg9rZ84Innp0CU7B4ZJPcl4dl2OB
+ LoKWpdS4+L2n8CNmdLqEitVGNIS5Ju+fIqoJoTh03IB/OO8z9IjVf1IggFUOQfmIhi49
+ XXnw==
+X-Gm-Message-State: ANhLgQ2XZTJDkVpbYKhI0oo/UzGhNDcrAEcAk/XSEskAY7MIQHYhw9Io
+ z/dZ+ULfftK6FaWNrYCafA6WBgGi7C5YXW5+5WM=
+X-Google-Smtp-Source: ADFU+vuJ2Fim0LqX//6fvtgqy0RzQBRtW5mAL/toKxx/E1bUAIyfGNfzuWQoO0GVaXic4F3UMLxIDDTCSuxXedtjGTo=
+X-Received: by 2002:a02:455:: with SMTP id 82mr10525540jab.112.1585571655651; 
+ Mon, 30 Mar 2020 05:34:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200325090741.21957-2-bigbeeshane@gmail.com>
  <CGME20200327075458eucas1p2f1011560c5d2d2a754d2394f56367ebb@eucas1p2.samsung.com>
@@ -49,8 +49,8 @@ References: <20200325090741.21957-2-bigbeeshane@gmail.com>
  <bba81019-d585-d950-ecd0-c0bf36a2f58d@samsung.com>
 In-Reply-To: <bba81019-d585-d950-ecd0-c0bf36a2f58d@samsung.com>
 From: Shane Francis <bigbeeshane@gmail.com>
-Date: Mon, 30 Mar 2020 13:32:49 +0100
-Message-ID: <CABnpCuDuvrJYQKSbdci=N-pqH5V11R3-Kwi_d2cDSrWSASxCsw@mail.gmail.com>
+Date: Mon, 30 Mar 2020 13:34:05 +0100
+Message-ID: <CABnpCuBGW9VeDxE9-SnS=hA=k18uPv4c=Ym8JtKUvZ-Tsd8s8g@mail.gmail.com>
 Subject: Re: [v4,1/3] drm/prime: use dma length macro when mapping sg
 To: Marek Szyprowski <m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,6 +76,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, Mar 30, 2020 at 9:18 AM Marek Szyprowski
 <m.szyprowski@samsung.com> wrote:
+
 > Today I've noticed that this patch went to final v5.6 without even a day
 > of testing in linux-next, so v5.6 is broken on Exynos and probably a few
 > other ARM archs, which rely on the drm_prime_sg_to_page_addr_arrays
@@ -86,6 +87,8 @@ On Mon, Mar 30, 2020 at 9:18 AM Marek Szyprowski
 > Marek Szyprowski, PhD
 > Samsung R&D Institute Poland
 >
+
+FYI These changes are now in the 5.5-stable queue.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
