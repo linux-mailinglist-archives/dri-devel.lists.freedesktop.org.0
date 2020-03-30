@@ -2,58 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194E3197CC7
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 15:24:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D90197CF0
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 15:31:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23B8789FD4;
-	Mon, 30 Mar 2020 13:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE916E15A;
+	Mon, 30 Mar 2020 13:31:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09B4F89FD4
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 13:24:03 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id a25so21655329wrd.0;
- Mon, 30 Mar 2020 06:24:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CMTqMgwFG5tqJgidUd5oMEQh79mmBxijxw/tBJhZNas=;
- b=JtAcIcmB49EOq2i+ns9besXPK/mGZS6KK9LFemRR2CTN49cBDzOLntZVbLq0ta0uPB
- GLOVL7Bhys+xD/vH09YvCqIbTZrZp6Au416K7VZ6Pg0vW/UoW71gGeJ1OxI6sq/9QMXn
- nNaZXhecWIucMDwCkq8Ld7iFzHdS7Q3CJ8+Q2USCatVuK9AWHVB2qkWQgb3vHsuBpb0K
- hMIXZ2Fjpu9Ec2pzWrY72V4jFd/zcXggm+jVbaCUrcFwiTZyWBuClUC38xAvhyrjbaHg
- Tk6mTK+xvpcROO/0LPkbH+nagJ0nQ/M2Qdcqbb4cHdSlYWtnl9RcDV7ErU7F02lUdT3C
- QwHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CMTqMgwFG5tqJgidUd5oMEQh79mmBxijxw/tBJhZNas=;
- b=TWdbHSeLS07ZgU+lx0y+zQmaRFpty4meoHNsyJ/QEmznuacYQrAjOTz6C3TEjsSH+T
- f4SSgL9NTGMF8uymXpPfUKOG1nIJZcaZY4qzFz1BzzdC3VYB33GE8sd8eRe6R+oWx+A6
- YWchZmSMWzZ8g7LC9NKj3UOou6YpPB0M8t7D8wSOSp/CXscEOxYNksjWoM9v7t9Ucxc2
- BkvNMRc54mAeY1hd3RXAtU7l0+zTbS0HhrJmmCxA4bBP7ABWH3RnGnsLzAunmiA9/wau
- pO8Rre5q48Ff8z0Ztp8eAt8QSq8wSJ+v3Tk4hjnoJYwcvqC0CEmNPrUplUQDaCnXmy+g
- laOw==
-X-Gm-Message-State: ANhLgQ0GOldohZ9J2cbqPQkaYLiDxXbHgUTtcKMSdQKnZCErMs++grWn
- E2hR40B721NXD7ZU/qY9fjSzm2TWvbhtLwnrf7s=
-X-Google-Smtp-Source: ADFU+vtJye8xW+n9VCoeqE0xOpGyTc9Q3qOk0ZnFhU0eMORf5tBG0rZftxN1dqcqRiYTuaslunqVrqYQYaS24exoqyQ=
-X-Received: by 2002:a5d:6742:: with SMTP id l2mr15754494wrw.124.1585574641716; 
- Mon, 30 Mar 2020 06:24:01 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 772736E15A;
+ Mon, 30 Mar 2020 13:31:00 +0000 (UTC)
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net
+ [50.39.105.78])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 38D5E20716;
+ Mon, 30 Mar 2020 13:31:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1585575060;
+ bh=qSfFw4Xt6kcV5uLecfdNYj4mpU1Cl5FKqVHHOIVmkPY=;
+ h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+ b=Q9HcMfLecFcko618lmMeqPiJEzubwJ5u1Ip9reIi2mnZqgzVRMJaX2TNq65jD7Uzk
+ 91bigtJdPi+s48g83dv16HPxcg/D++utxWRP6/E0kgB5tIa8zTJxcBxS3FvNJtbXRY
+ KI3iTHxlNifbgQ0WIqlzhPtdUzwwROHTBhEsprZY=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+ id 01D8835226F8; Mon, 30 Mar 2020 06:30:59 -0700 (PDT)
+Date: Mon, 30 Mar 2020 06:30:59 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: rcu_barrier() no longer allowed within mmap_sem?
+Message-ID: <20200330133059.GH19865@paulmck-ThinkPad-P72>
+References: <CAKMK7uGQ49JGetk3-VmHxXR0HVEoQgVxSZvX9Z0b5so8y+13cA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200325090741.21957-2-bigbeeshane@gmail.com>
- <CGME20200327075458eucas1p2f1011560c5d2d2a754d2394f56367ebb@eucas1p2.samsung.com>
- <4aef60ff-d9e4-d3d0-1a28-8c2dc3b94271@samsung.com>
- <82df6735-1cf0-e31f-29cc-f7d07bdaf346@amd.com>
- <cd773011-969b-28df-7488-9fddae420d81@samsung.com>
- <bba81019-d585-d950-ecd0-c0bf36a2f58d@samsung.com>
-In-Reply-To: <bba81019-d585-d950-ecd0-c0bf36a2f58d@samsung.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 30 Mar 2020 09:23:50 -0400
-Message-ID: <CADnq5_O6pwxJsYdfJO0xZtmER05GtO+2-4uHTeexKNeHyUq8_Q@mail.gmail.com>
-Subject: Re: [v4,1/3] drm/prime: use dma length macro when mapping sg
-To: Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uGQ49JGetk3-VmHxXR0HVEoQgVxSZvX9Z0b5so8y+13cA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,60 +49,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Shane Francis <bigbeeshane@gmail.com>, amd-gfx-request@lists.freedesktop.org,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: paulmck@kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Josh Triplett <josh@joshtriplett.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, rcu@vger.kernel.org,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Ingo Molnar <mingo@redhat.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Joel Fernandes <joel@joelfernandes.org>, Namhyung Kim <namhyung@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Jiri Olsa <jolsa@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBNYXIgMzAsIDIwMjAgYXQgNDoxOCBBTSBNYXJlayBTenlwcm93c2tpCjxtLnN6eXBy
-b3dza2lAc2Ftc3VuZy5jb20+IHdyb3RlOgo+Cj4gSGkKPgo+IE9uIDIwMjAtMDMtMjcgMTA6MTAs
-IE1hcmVrIFN6eXByb3dza2kgd3JvdGU6Cj4gPiBIaSBDaHJpc3RpYW4sCj4gPgo+ID4gT24gMjAy
-MC0wMy0yNyAwOToxMSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+PiBBbSAyNy4wMy4yMCB1
-bSAwODo1NCBzY2hyaWViIE1hcmVrIFN6eXByb3dza2k6Cj4gPj4+IE9uIDIwMjAtMDMtMjUgMTA6
-MDcsIFNoYW5lIEZyYW5jaXMgd3JvdGU6Cj4gPj4+PiBBcyBkbWFfbWFwX3NnIGNhbiByZW9yZ2Fu
-aXplIHNjYXR0ZXItZ2F0aGVyIGxpc3RzIGluIGEKPiA+Pj4+IHdheSB0aGF0IGNhbiBjYXVzZSBz
-b21lIGxhdGVyIHNlZ21lbnRzIHRvIGJlIGVtcHR5IHdlIHNob3VsZAo+ID4+Pj4gYWx3YXlzIHVz
-ZSB0aGUgc2dfZG1hX2xlbiBtYWNybyB0byBmZXRjaCB0aGUgYWN0dWFsIGxlbmd0aC4KPiA+Pj4+
-Cj4gPj4+PiBUaGlzIGNvdWxkIG5vdyBiZSAwIGFuZCBub3QgbmVlZCB0byBiZSBtYXBwZWQgdG8g
-YSBwYWdlIG9yCj4gPj4+PiBhZGRyZXNzIGFycmF5Cj4gPj4+Pgo+ID4+Pj4gU2lnbmVkLW9mZi1i
-eTogU2hhbmUgRnJhbmNpcyA8YmlnYmVlc2hhbmVAZ21haWwuY29tPgo+ID4+Pj4gUmV2aWV3ZWQt
-Ynk6IE1pY2hhZWwgSi4gUnVobCA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tPgo+ID4+PiBUaGlz
-IHBhdGNoIGxhbmRlZCBpbiBsaW51eC1uZXh0IDIwMjAwMzI2IGFuZCBpdCBjYXVzZXMgYSBrZXJu
-ZWwKPiA+Pj4gcGFuaWMgb24KPiA+Pj4gdmFyaW91cyBFeHlub3MgU29DIGJhc2VkIGJvYXJkcy4K
-PiA+Pj4+IC0tLQo+ID4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jIHwgMiArLQo+
-ID4+Pj4gICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4g
-Pj4+Pgo+ID4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYwo+ID4+Pj4gaW5kZXggODZkOWIwZTQ1YzhjLi4xZGUy
-Y2RlMjI3N2MgMTAwNjQ0Cj4gPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMK
-PiA+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYwo+ID4+Pj4gQEAgLTk2Nyw3
-ICs5NjcsNyBAQCBpbnQgZHJtX3ByaW1lX3NnX3RvX3BhZ2VfYWRkcl9hcnJheXMoc3RydWN0Cj4g
-Pj4+PiBzZ190YWJsZSAqc2d0LCBzdHJ1Y3QgcGFnZSAqKnBhZ2VzLAo+ID4+Pj4gICAgICAgICAg
-IGluZGV4ID0gMDsKPiA+Pj4+ICAgICAgICBmb3JfZWFjaF9zZyhzZ3QtPnNnbCwgc2csIHNndC0+
-bmVudHMsIGNvdW50KSB7Cj4gPj4+PiAtICAgICAgICBsZW4gPSBzZy0+bGVuZ3RoOwo+ID4+Pj4g
-KyAgICAgICAgbGVuID0gc2dfZG1hX2xlbihzZyk7Cj4gPj4+PiAgICAgICAgICAgIHBhZ2UgPSBz
-Z19wYWdlKHNnKTsKPiA+Pj4+ICAgICAgICAgICAgYWRkciA9IHNnX2RtYV9hZGRyZXNzKHNnKTsK
-PiA+Pj4gU29ycnksIGJ1dCB0aGlzIGNvZGUgaXMgd3JvbmcgOigKPiA+Pgo+ID4+IFdlbGwgaXQg
-aXMgYXQgbGVhc3QgYmV0dGVyIHRoYW4gYmVmb3JlIGJlY2F1c2UgaXQgbWFrZXMgbW9zdCBkcml2
-ZXJzCj4gPj4gd29yayBjb3JyZWN0bHkgYWdhaW4uCj4gPgo+ID4gV2VsbCwgSSdtIG5vdCBzdXJl
-IHRoYXQgYSBoYWxmLWJyb2tlbiBmaXggc2hvdWxkIGJlIGNvbnNpZGVyZWQgYXMgYQo+ID4gZml4
-IDspCj4gPgo+ID4gQW55d2F5LCBJIGp1c3QgZ290IHRoZSBjb21tZW50IGZyb20gU2hhbmUsIHRo
-YXQgbXkgcGF0Y2ggaXMgZml4aW5nIHRoZQo+ID4gaXNzdWVzIHdpdGggYW1kZ3B1IGFuZCByYWRl
-b24sIHdoaWxlIHN0aWxsIHdvcmtpbmcgZmluZSBmb3IgZXh5bm9zLCBzbwo+ID4gaXQgaXMgaW5k
-ZWVkIGEgcHJvcGVyIGZpeC4KPgo+IFRvZGF5IEkndmUgbm90aWNlZCB0aGF0IHRoaXMgcGF0Y2gg
-d2VudCB0byBmaW5hbCB2NS42IHdpdGhvdXQgZXZlbiBhIGRheQo+IG9mIHRlc3RpbmcgaW4gbGlu
-dXgtbmV4dCwgc28gdjUuNiBpcyBicm9rZW4gb24gRXh5bm9zIGFuZCBwcm9iYWJseSBhIGZldwo+
-IG90aGVyIEFSTSBhcmNocywgd2hpY2ggcmVseSBvbiB0aGUgZHJtX3ByaW1lX3NnX3RvX3BhZ2Vf
-YWRkcl9hcnJheXMKPiBmdW5jdGlvbi4KClBsZWFzZSBjb21taXQgeW91ciBwYXRjaCBhbmQgY2Mg
-c3RhYmxlLgoKQWxleAoKCj4KPiBCZXN0IHJlZ2FyZHMKPiAtLQo+IE1hcmVrIFN6eXByb3dza2ks
-IFBoRAo+IFNhbXN1bmcgUiZEIEluc3RpdHV0ZSBQb2xhbmQKPgo+IF9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+
-IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Mar 30, 2020 at 03:00:35PM +0200, Daniel Vetter wrote:
+> Hi all, for all = rcu, cpuhotplug and perf maintainers
+> 
+> We've hit an interesting new lockdep splat in our drm/i915 CI:
+> 
+> https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_17096/shard-tglb7/igt@kms_frontbuffer_tracking@fbcpsr-rgb101010-draw-mmap-gtt.html#dmesg-warnings861
+> 
+> Summarizing away the driver parts we have
+> 
+> < gpu locks which are held within mm->mmap_sem in various gpu fault handlers >
+> 
+> -> #4 (&mm->mmap_sem#2){++++}:
+> <4> [604.892615] __might_fault+0x63/0x90
+> <4> [604.892617] _copy_to_user+0x1e/0x80
+> <4> [604.892619] perf_read+0x200/0x2b0
+> <4> [604.892621] vfs_read+0x96/0x160
+> <4> [604.892622] ksys_read+0x9f/0xe0
+> <4> [604.892623] do_syscall_64+0x4f/0x220
+> <4> [604.892624] entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> <4> [604.892625]
+> -> #3 (&cpuctx_mutex){+.+.}:
+> <4> [604.892626] __mutex_lock+0x9a/0x9c0
+> <4> [604.892627] perf_event_init_cpu+0xa4/0x140
+> <4> [604.892629] perf_event_init+0x19d/0x1cd
+> <4> [604.892630] start_kernel+0x362/0x4e4
+> <4> [604.892631] secondary_startup_64+0xa4/0xb0
+> <4> [604.892631]
+> -> #2 (pmus_lock){+.+.}:
+> <4> [604.892633] __mutex_lock+0x9a/0x9c0
+> <4> [604.892633] perf_event_init_cpu+0x6b/0x140
+> <4> [604.892635] cpuhp_invoke_callback+0x9b/0x9d0
+> <4> [604.892636] _cpu_up+0xa2/0x140
+> <4> [604.892637] do_cpu_up+0x61/0xa0
+> <4> [604.892639] smp_init+0x57/0x96
+> <4> [604.892639] kernel_init_freeable+0x87/0x1dc
+> <4> [604.892640] kernel_init+0x5/0x100
+> <4> [604.892642] ret_from_fork+0x24/0x50
+> <4> [604.892642]
+> -> #1 (cpu_hotplug_lock.rw_sem){++++}:
+> <4> [604.892643] cpus_read_lock+0x34/0xd0
+> <4> [604.892644] rcu_barrier+0xaa/0x190
+> <4> [604.892645] kernel_init+0x21/0x100
+> <4> [604.892647] ret_from_fork+0x24/0x50
+> <4> [604.892647]
+> -> #0 (rcu_state.barrier_mutex){+.+.}:
+> <4> [604.892649] __lock_acquire+0x1328/0x15d0
+> <4> [604.892650] lock_acquire+0xa7/0x1c0
+> <4> [604.892651] __mutex_lock+0x9a/0x9c0
+> <4> [604.892652] rcu_barrier+0x23/0x190
+> <4> [604.892680] i915_gem_object_unbind+0x29d/0x3f0 [i915]
+> <4> [604.892707] i915_gem_object_pin_to_display_plane+0x141/0x270 [i915]
+> <4> [604.892737] intel_pin_and_fence_fb_obj+0xec/0x1f0 [i915]
+> <4> [604.892767] intel_plane_pin_fb+0x3f/0xd0 [i915]
+> <4> [604.892797] intel_prepare_plane_fb+0x13b/0x5c0 [i915]
+> <4> [604.892798] drm_atomic_helper_prepare_planes+0x85/0x110
+> <4> [604.892827] intel_atomic_commit+0xda/0x390 [i915]
+> <4> [604.892828] drm_atomic_helper_set_config+0x57/0xa0
+> <4> [604.892830] drm_mode_setcrtc+0x1c4/0x720
+> <4> [604.892830] drm_ioctl_kernel+0xb0/0xf0
+> <4> [604.892831] drm_ioctl+0x2e1/0x390
+> <4> [604.892833] ksys_ioctl+0x7b/0x90
+> <4> [604.892835] __x64_sys_ioctl+0x11/0x20
+> <4> [604.892835] do_syscall_64+0x4f/0x220
+> <4> [604.892836] entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> 
+> The last backtrace boils down to i915 driver code which holds the same
+> locks we are holding within mm->mmap_sem, and then ends up calling
+> rcu_barrier(). From what I can see i915 is just the messenger here,
+> any driver with this pattern of a lock held within mmap_sem which also
+> has a path of calling rcu_barrier while holding that lock should be
+> hitting this splat.
+> 
+> Two questions:
+> - This suggests that calling rcu_barrier() isn't ok anymore while
+> holding mmap_sem, or anything that has a dependency upon mmap_sem. I
+> guess that's not the idea, please confirm.
+> - Assuming this depedency is indeed not intended, where should the
+> loop be broken? It goes through perf, cpuhotplug and rcu subsystems,
+> and I don't have a clue about any of those.
+
+Indeed, rcu_barrier() excludes CPU hotplug in order to eliminate a number
+of interesting races.
+
+Am I interpreting the above trace correctly in thinking that the various
+calls to cpus_read_lock() are with mmap_sem held?  If so, can the calls
+to rcu_barrier() be moved out from under the regions of code protected
+by cpus_read_lock()?  Invoking rcu_barrier() with cpus_read_lock() held
+is an immediate self-deadlock.
+
+Or is rcu_barrier() somehow indirectly sometimes acquiring mmap_sem
+or pmus_lock?  (Not seeing it myself, but...)
+
+							Thanx, Paul
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
