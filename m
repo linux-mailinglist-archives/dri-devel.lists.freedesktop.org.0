@@ -2,37 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67251198D20
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46303198629
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 23:15:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E70F96E5B6;
-	Tue, 31 Mar 2020 07:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C799A6E4AE;
+	Mon, 30 Mar 2020 21:15:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED02D6E4A2;
- Mon, 30 Mar 2020 21:00:15 +0000 (UTC)
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 30 Mar 2020 14:00:15 -0700
-Received: from gurus-linux.qualcomm.com ([10.46.162.81])
- by ironmsg02-sd.qualcomm.com with ESMTP; 30 Mar 2020 14:00:12 -0700
-Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
- id 695C14BFF; Mon, 30 Mar 2020 14:00:12 -0700 (PDT)
-Date: Mon, 30 Mar 2020 14:00:12 -0700
-From: Guru Das Srinagesh <gurus@codeaurora.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH v10 00/12] Convert PWM period and duty cycle to u64
-Message-ID: <20200330210012.GA27611@codeaurora.org>
-References: <cover.1584650604.git.gurus@codeaurora.org>
- <20200321114703.GB4672@kadam>
- <20200330191506.GA29534@codeaurora.org>
- <20200330202636.njjo4savgzf3g6yx@holly.lan>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+ [209.85.166.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06DB16E4AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 21:15:09 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id m15so19485873iob.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 14:15:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=DiQpzvoXsdu2ngt5gwdJMip4fqFPo7qKub8h97nqjG0=;
+ b=PnjFzgbFcB5SAqpj+7ufRz73lsC5ScrFZ/De9RcYM5ERG8fTz7ZdNAqJw3b50e5tex
+ uyQs5eozuW5y8+gMEkabdbiTt/6I18Kao/rPS4xzcqwe4NE8k+GlxK6rCai1M4bPTpUN
+ p1lunfIc5rI845kkgzQl/4xO2VZvMw0uNw8mBom0MEqjzpvbIrXd4EhA4UvAoiv6EBj0
+ 2xWfhLcfa/aMOCHqIeI7EG2ypd9elMUiGX35HxP+KcjN4dSN8Ht8dCrmGll7uS9QUXHf
+ 4lcVt5LnFU8t1G5Pkz3tpbfy4Y/8rQEg0C28oSD48X8PpzClkMEMXyZK+ipzuSKOrZ+U
+ 5K4g==
+X-Gm-Message-State: ANhLgQ0gYR3tDzwUEzJLMKcwjB5LHS9KrkT77pvVIsTIzq/EnsK6uIfF
+ +0QO88FXMBdeMLVTr6E2Og==
+X-Google-Smtp-Source: ADFU+vvmElgbY3zcH67E5ZpTJhcpBhMdNuV5bHMxaQeVOZ5mZFOmyvAdfClT9+s9vA7kkG9dM9Mg6A==
+X-Received: by 2002:a02:8784:: with SMTP id t4mr10913216jai.31.1585602909188; 
+ Mon, 30 Mar 2020 14:15:09 -0700 (PDT)
+Received: from rob-hp-laptop ([64.188.179.250])
+ by smtp.gmail.com with ESMTPSA id w88sm5212239ila.24.2020.03.30.14.15.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Mar 2020 14:15:08 -0700 (PDT)
+Received: (nullmailer pid 30071 invoked by uid 1000);
+ Mon, 30 Mar 2020 21:15:07 -0000
+Date: Mon, 30 Mar 2020 15:15:07 -0600
+From: Rob Herring <robh@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 10/12] docs: dt: display/ti: fix typos at the devicetree/
+ directory name
+Message-ID: <20200330211507.GA14220@bogus>
+References: <cover.1584450500.git.mchehab+huawei@kernel.org>
+ <875b824ac97bd76dfe77b6227ff9b6b2671a6abf.1584450500.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200330202636.njjo4savgzf3g6yx@holly.lan>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Mailman-Approved-At: Tue, 31 Mar 2020 07:37:59 +0000
+In-Reply-To: <875b824ac97bd76dfe77b6227ff9b6b2671a6abf.1584450500.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,71 +61,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
- David Airlie <airlied@linux.ie>, "Wesley W. Terpstra" <wesley@sifive.com>,
- Michael Turquette <mturquette@baylibre.com>, Kamil Debski <kamil@wypas.org>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Atish Patra <atish.patra@wdc.com>, Thierry Reding <thierry.reding@gmail.com>,
- linux-riscv@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
- linux-clk@vger.kernel.org, Alexandre Torgue <alexandre.torgue@st.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Axel Lin <axel.lin@ingics.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexander Shiyan <shc_work@mail.ru>,
- Chen-Yu Tsai <wens@csie.org>, NXP Linux Team <linux-imx@nxp.com>,
- Mukesh Ojha <mojha@codeaurora.org>, Gerald Baeza <gerald.baeza@st.com>,
- intel-gfx@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>,
- linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- Jean Delvare <jdelvare@suse.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mark Brown <broonie@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
- Thomas Gleixner <tglx@linutronix.de>, Fabrice Gasnier <fabrice.gasnier@st.com>,
- Ding Xiang <dingxiang@cmss.chinamobile.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Allison Randal <allison@lohutok.net>, linux-hwmon@vger.kernel.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Anson Huang <Anson.Huang@nxp.com>,
- Richard Fontana <rfontana@redhat.com>, Stephen Boyd <sboyd@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- Yash Shah <yash.shah@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Guenter Roeck <linux@roeck-us.net>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Shawn Guo <shawnguo@kernel.org>
+Cc: devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, Jyri Sarha <jsarha@ti.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 30, 2020 at 09:26:36PM +0100, Daniel Thompson wrote:
-> On Mon, Mar 30, 2020 at 12:15:07PM -0700, Guru Das Srinagesh wrote:
-> > On Sat, Mar 21, 2020 at 02:47:03PM +0300, Dan Carpenter wrote:
-> > > This is a giant CC list.
-> > 
-> > Yes, this is because I received feedback [1] on an earlier patchset
-> > directing me to add the reviewers of patches to the cover letter as
-> > well so that they get some context for the patch.
-> > ...
-> > [1] https://www.spinics.net/lists/linux-pwm/msg11735.html
+On Tue, Mar 17, 2020 at 02:10:49PM +0100, Mauro Carvalho Chehab wrote:
+> The name of the devicetree directory is wrong on those three
+> TI bindings:
 > 
-> Strictly speaking I only asked for backlight maintainers to be Cc:ed.
-> I was fairly careful to be specific since I'm aware there are a variety
-> of differing habits when putting together the Cc: list for covering
-> letters.
-> 
-> With the original patch header the purpose of the patch I was Cc:ed on
-> was impossible to determine without the covering letter.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml | 2 +-
+>  Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml | 2 +-
+>  Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml   | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 
-I suspect this might be the case for all the other reviewers as well -
-that they also would appreciate context for the specific patch they are
-being added to review.
+Applied to drm-misc.
 
-I wasn't entirely sure what the convention was, so I applied your
-suggestion to all the files. How do you suggest I handle this in my next
-patchset? I fully agree that such a large CC list does look really
-ungainly.
-
-Thank you.
-
-Guru Das.
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
