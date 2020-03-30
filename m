@@ -2,31 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91828197AE5
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 13:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07023197AC8
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 13:34:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97A5F6E258;
-	Mon, 30 Mar 2020 11:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFC266E252;
+	Mon, 30 Mar 2020 11:34:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3BBC6E258
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 11:35:45 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A5846E24D
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 11:34:49 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 0AFF7292B4B
-Subject: Re: [PATCH v1 2/6] drm/fb: fix kernel-doc in drm_framebuffer.h
-To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- Lyude Paul <lyude@redhat.com>
-References: <20200328132025.19910-1-sam@ravnborg.org>
- <20200328132025.19910-3-sam@ravnborg.org>
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <276f08eb-4cf4-1696-520b-71c08cedf6a3@collabora.com>
-Date: Mon, 30 Mar 2020 13:35:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Authenticated sender: aratiu) with ESMTPSA id 0545E292556
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
+To: linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v5 0/5] Genericize DW MIPI DSI bridge and add i.MX 6 driver
+Date: Mon, 30 Mar 2020 14:35:37 +0300
+Message-Id: <20200330113542.181752-1-adrian.ratiu@collabora.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-In-Reply-To: <20200328132025.19910-3-sam@ravnborg.org>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,52 +36,51 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Mikita Lipski <mikita.lipski@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- David Francis <David.Francis@amd.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Nirmoy Das <nirmoy.das@amd.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- James Qian Wang <james.qian.wang@arm.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>,
- Mihail Atanassov <Mihail.Atanassov@arm.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-imx@nxp.com, kernel@collabora.com,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VyBkbml1IDI4LjAzLjIwMjAgb8KgMTQ6MjAsIFNhbSBSYXZuYm9yZyBwaXN6ZToKPiBGaXggZm9s
-bG93aW5nIHdhcm5pbmdzOgo+IGRybV9mcmFtZWJ1ZmZlci5oOjM0Mjogd2FybmluZzogRnVuY3Rp
-b24gcGFyYW1ldGVyIG9yIG1lbWJlciAnYmxvY2tfd2lkdGgnIG5vdCBkZXNjcmliZWQgaW4gJ2Ry
-bV9hZmJjX2ZyYW1lYnVmZmVyJwo+IGRybV9mcmFtZWJ1ZmZlci5oOjM0Mjogd2FybmluZzogRnVu
-Y3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAnYmxvY2tfaGVpZ2h0JyBub3QgZGVzY3JpYmVkIGlu
-ICdkcm1fYWZiY19mcmFtZWJ1ZmZlcicKPiAKPiBUcml2aWFsIHNwZWxsaW5nIG1pc3Rha2VzLgo+
-IAo+IFNpZ25lZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiBGaXhl
-czogNTVmN2Y3Mjc1M2FiICgiZHJtL2NvcmU6IEFkZCBkcm1fYWZiY19mcmFtZWJ1ZmZlciBhbmQg
-YSBjb3JyZXNwb25kaW5nIGhlbHBlciIpCj4gQ2M6IEFuZHJ6ZWogUGlldHJhc2lld2ljeiA8YW5k
-cnplai5wQGNvbGxhYm9yYS5jb20+Cj4gQ2M6IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNv
-bGxhYm9yYS5jb20+Cj4gQ2M6IEphbWVzIFFpYW4gV2FuZyA8amFtZXMucWlhbi53YW5nQGFybS5j
-b20+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4gQ2M6IE1h
-YXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Cj4gQ2M6
-IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4KPiBDYzogVGhvbWFzIFppbW1lcm1h
-bm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51
-eC5pZT4KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+IC0tLQo+ICAgaW5j
-bHVkZS9kcm0vZHJtX2ZyYW1lYnVmZmVyLmggfCA0ICsrLS0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAy
-IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUv
-ZHJtL2RybV9mcmFtZWJ1ZmZlci5oIGIvaW5jbHVkZS9kcm0vZHJtX2ZyYW1lYnVmZmVyLmgKPiBp
-bmRleCBlOWYxYjBlMjk2OGQuLmI1M2MwMzMyZjA0MCAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2Ry
-bS9kcm1fZnJhbWVidWZmZXIuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9mcmFtZWJ1ZmZlci5o
-Cj4gQEAgLTMwOCwxMSArMzA4LDExIEBAIHN0cnVjdCBkcm1fYWZiY19mcmFtZWJ1ZmZlciB7Cj4g
-ICAJICovCj4gICAJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciBiYXNlOwo+ICAgCS8qKgo+IC0JICog
-QGJsb2NrX3dpZGh0OiB3aWR0aCBvZiBhIHNpbmdsZSBhZmJjIGJsb2NrCj4gKwkgKiBAYmxvY2tf
-d2lkdGg6IHdpZHRoIG9mIGEgc2luZ2xlIGFmYmMgYmxvY2sKPiAgIAkgKi8KPiAgIAl1MzIgYmxv
-Y2tfd2lkdGg7Cj4gICAJLyoqCj4gLQkgKiBAYmxvY2tfd2lkaHQ6IGhlaWdodCBvZiBhIHNpbmds
-ZSBhZmJjIGJsb2NrCj4gKwkgKiBAYmxvY2tfaGVpZ2h0OiBoZWlnaHQgb2YgYSBzaW5nbGUgYWZi
-YyBibG9jawo+ICAgCSAqLwo+ICAgCXUzMiBibG9ja19oZWlnaHQ7Cj4gICAJLyoqCj4gCgpBY2tl
-ZC1ieTogQW5kcnplaiBQaWV0cmFzaWV3aWN6IDxhbmRyemVqLnBAY29sbGFib3JhLmNvbT4KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hello everyone,
+
+The v5 series is a significantly cleaned up version from v4,
+started by Ezequiel Garcia's suggestion of splitting out the
+regmap infrastructure from the drivers (thank you!).
+
+Turns out no changes are required to the existing drivers and
+the bridge can transparently take care of the layout logic,
+so there's no need to expose the regmap via plat_data anymore.
+
+Starting from this version I also opted to add per-patch
+changelogs. All review comments up to now have been addressed.
+
+Tested on IMX6DL.
+
+Adrian Ratiu (5):
+  drm: bridge: dw_mipi_dsi: add initial regmap infrastructure
+  drm: bridge: dw_mipi_dsi: abstract register access using reg_fields
+  drm: bridge: synopsis: add dsi v1.01 support
+  drm: imx: Add i.MX 6 MIPI DSI host platform driver
+  dt-bindings: display: add i.MX6 MIPI DSI host controller doc
+
+ .../display/imx/fsl,mipi-dsi-imx6.yaml        | 134 ++++
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 683 +++++++++++++-----
+ drivers/gpu/drm/imx/Kconfig                   |   7 +
+ drivers/gpu/drm/imx/Makefile                  |   1 +
+ drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c        | 399 ++++++++++
+ 5 files changed, 1049 insertions(+), 175 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+ create mode 100644 drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c
+
+-- 
+2.26.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
