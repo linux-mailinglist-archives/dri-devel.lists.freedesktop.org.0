@@ -2,41 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F54197C80
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 15:10:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 194E3197CC7
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 15:24:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DBE16E2A0;
-	Mon, 30 Mar 2020 13:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23B8789FD4;
+	Mon, 30 Mar 2020 13:24:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D18196E2A0
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 13:10:17 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6FF9A30E;
- Mon, 30 Mar 2020 06:10:17 -0700 (PDT)
-Received: from [10.57.60.204] (unknown [10.57.60.204])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 96CE83F71E;
- Mon, 30 Mar 2020 06:10:15 -0700 (PDT)
-Subject: Re: [PATCH v2] drm/prime: fix extracting of the DMA addresses from a
- scatterlist
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <CGME20200327162330eucas1p1b0413e0e9887aa76d3048f86d2166dcd@eucas1p1.samsung.com>
- <20200327162126.29705-1-m.szyprowski@samsung.com>
- <14063C7AD467DE4B82DEDB5C278E8663FFFBFCE1@fmsmsx107.amr.corp.intel.com>
- <8a09916d-5413-f9a8-bafa-2d8f0b8f892f@samsung.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <95fe655b-e68e-bea4-e8ea-3c4abc3021e7@arm.com>
-Date: Mon, 30 Mar 2020 14:10:14 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09B4F89FD4
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 13:24:03 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id a25so21655329wrd.0;
+ Mon, 30 Mar 2020 06:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CMTqMgwFG5tqJgidUd5oMEQh79mmBxijxw/tBJhZNas=;
+ b=JtAcIcmB49EOq2i+ns9besXPK/mGZS6KK9LFemRR2CTN49cBDzOLntZVbLq0ta0uPB
+ GLOVL7Bhys+xD/vH09YvCqIbTZrZp6Au416K7VZ6Pg0vW/UoW71gGeJ1OxI6sq/9QMXn
+ nNaZXhecWIucMDwCkq8Ld7iFzHdS7Q3CJ8+Q2USCatVuK9AWHVB2qkWQgb3vHsuBpb0K
+ hMIXZ2Fjpu9Ec2pzWrY72V4jFd/zcXggm+jVbaCUrcFwiTZyWBuClUC38xAvhyrjbaHg
+ Tk6mTK+xvpcROO/0LPkbH+nagJ0nQ/M2Qdcqbb4cHdSlYWtnl9RcDV7ErU7F02lUdT3C
+ QwHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CMTqMgwFG5tqJgidUd5oMEQh79mmBxijxw/tBJhZNas=;
+ b=TWdbHSeLS07ZgU+lx0y+zQmaRFpty4meoHNsyJ/QEmznuacYQrAjOTz6C3TEjsSH+T
+ f4SSgL9NTGMF8uymXpPfUKOG1nIJZcaZY4qzFz1BzzdC3VYB33GE8sd8eRe6R+oWx+A6
+ YWchZmSMWzZ8g7LC9NKj3UOou6YpPB0M8t7D8wSOSp/CXscEOxYNksjWoM9v7t9Ucxc2
+ BkvNMRc54mAeY1hd3RXAtU7l0+zTbS0HhrJmmCxA4bBP7ABWH3RnGnsLzAunmiA9/wau
+ pO8Rre5q48Ff8z0Ztp8eAt8QSq8wSJ+v3Tk4hjnoJYwcvqC0CEmNPrUplUQDaCnXmy+g
+ laOw==
+X-Gm-Message-State: ANhLgQ0GOldohZ9J2cbqPQkaYLiDxXbHgUTtcKMSdQKnZCErMs++grWn
+ E2hR40B721NXD7ZU/qY9fjSzm2TWvbhtLwnrf7s=
+X-Google-Smtp-Source: ADFU+vtJye8xW+n9VCoeqE0xOpGyTc9Q3qOk0ZnFhU0eMORf5tBG0rZftxN1dqcqRiYTuaslunqVrqYQYaS24exoqyQ=
+X-Received: by 2002:a5d:6742:: with SMTP id l2mr15754494wrw.124.1585574641716; 
+ Mon, 30 Mar 2020 06:24:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8a09916d-5413-f9a8-bafa-2d8f0b8f892f@samsung.com>
-Content-Language: en-GB
+References: <20200325090741.21957-2-bigbeeshane@gmail.com>
+ <CGME20200327075458eucas1p2f1011560c5d2d2a754d2394f56367ebb@eucas1p2.samsung.com>
+ <4aef60ff-d9e4-d3d0-1a28-8c2dc3b94271@samsung.com>
+ <82df6735-1cf0-e31f-29cc-f7d07bdaf346@amd.com>
+ <cd773011-969b-28df-7488-9fddae420d81@samsung.com>
+ <bba81019-d585-d950-ecd0-c0bf36a2f58d@samsung.com>
+In-Reply-To: <bba81019-d585-d950-ecd0-c0bf36a2f58d@samsung.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 30 Mar 2020 09:23:50 -0400
+Message-ID: <CADnq5_O6pwxJsYdfJO0xZtmER05GtO+2-4uHTeexKNeHyUq8_Q@mail.gmail.com>
+Subject: Re: [v4,1/3] drm/prime: use dma length macro when mapping sg
+To: Marek Szyprowski <m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,144 +66,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Shane Francis <bigbeeshane@gmail.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Shane Francis <bigbeeshane@gmail.com>, amd-gfx-request@lists.freedesktop.org,
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-03-29 10:55 am, Marek Szyprowski wrote:
-> Hi Michael,
-> 
-> On 2020-03-27 19:31, Ruhl, Michael J wrote:
->>> -----Original Message-----
->>> From: Marek Szyprowski <m.szyprowski@samsung.com>
->>> Sent: Friday, March 27, 2020 12:21 PM
->>> To: dri-devel@lists.freedesktop.org; linux-samsung-soc@vger.kernel.org;
->>> linux-kernel@vger.kernel.org
->>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>;
->>> stable@vger.kernel.org; Bartlomiej Zolnierkiewicz
->>> <b.zolnierkie@samsung.com>; Maarten Lankhorst
->>> <maarten.lankhorst@linux.intel.com>; Maxime Ripard
->>> <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>;
->>> David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Alex Deucher
->>> <alexander.deucher@amd.com>; Shane Francis <bigbeeshane@gmail.com>;
->>> Ruhl, Michael J <michael.j.ruhl@intel.com>
->>> Subject: [PATCH v2] drm/prime: fix extracting of the DMA addresses from a
->>> scatterlist
->>>
->>> Scatterlist elements contains both pages and DMA addresses, but one
->>> should not assume 1:1 relation between them. The sg->length is the size
->>> of the physical memory chunk described by the sg->page, while
->>> sg_dma_len(sg) is the size of the DMA (IO virtual) chunk described by
->>> the sg_dma_address(sg).
->>>
->>> The proper way of extracting both: pages and DMA addresses of the whole
->>> buffer described by a scatterlist it to iterate independently over the
->>> sg->pages/sg->length and sg_dma_address(sg)/sg_dma_len(sg) entries.
->>>
->>> Fixes: 42e67b479eab ("drm/prime: use dma length macro when mapping sg")
->>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
->>> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
->>> ---
->>> drivers/gpu/drm/drm_prime.c | 37 +++++++++++++++++++++++++-----------
->>> -
->>> 1 file changed, 25 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
->>> index 1de2cde2277c..282774e469ac 100644
->>> --- a/drivers/gpu/drm/drm_prime.c
->>> +++ b/drivers/gpu/drm/drm_prime.c
->>> @@ -962,27 +962,40 @@ int drm_prime_sg_to_page_addr_arrays(struct
->>> sg_table *sgt, struct page **pages,
->>> 	unsigned count;
->>> 	struct scatterlist *sg;
->>> 	struct page *page;
->>> -	u32 len, index;
->>> +	u32 page_len, page_index;
->>> 	dma_addr_t addr;
->>> +	u32 dma_len, dma_index;
->>>
->>> -	index = 0;
->>> +	/*
->>> +	 * Scatterlist elements contains both pages and DMA addresses, but
->>> +	 * one shoud not assume 1:1 relation between them. The sg->length
->>> is
->>> +	 * the size of the physical memory chunk described by the sg->page,
->>> +	 * while sg_dma_len(sg) is the size of the DMA (IO virtual) chunk
->>> +	 * described by the sg_dma_address(sg).
->>> +	 */
->> Is there an example of what the scatterlist would look like in this case?
-> 
-> DMA framework or IOMMU is allowed to join consecutive chunks while
-> mapping if such operation is supported by the hw. Here is the example:
-> 
-> Lets assume that we have a scatterlist with 4 4KiB pages of the physical
-> addresses: 0x12000000, 0x13011000, 0x13012000, 0x11011000. The total
-> size of the buffer is 16KiB. After mapping this scatterlist to a device
-> behind an IOMMU it may end up as a contiguous buffer in the DMA (IOVA)
-> address space. at 0xf0010000. The scatterlist will look like this:
-> 
-> sg[0].page = 0x12000000
-> sg[0].len = 4096
-> sg[0].dma_addr = 0xf0010000
-> sg[0].dma_len = 16384
-> sg[1].page = 0x13011000
-> sg[1].len = 4096
-> sg[1].dma_addr = 0
-> sg[1].dma_len = 0
-> sg[2].page = 0x13012000
-> sg[2].len = 4096
-> sg[2].dma_addr = 0
-> sg[2].dma_len = 0
-> sg[3].page = 0x11011000
-> sg[3].len = 4096
-> sg[3].dma_addr = 0
-> sg[3].dma_len = 0
-> 
-> (I've intentionally wrote page as physical address to make it easier to
-> understand, in real SGs it is stored a struct page pointer).
-> 
->> Does each SG entry always have the page and dma info? or could you have
->> entries that have page information only, and entries that have dma info only?
-> When SG is not mapped yet it contains only the ->pages and ->len
-> entries. I'm not aware of the SGs with the DMA information only, but in
-> theory it might be possible to have such.
->> If the same entry has different size info (page_len = PAGE_SIZE,
->> dma_len = 4 * PAGE_SIZE?), are we guaranteed that the arrays (page and addrs) have
->> been sized correctly?
-> 
-> There are always no more DMA related entries than the phys pages. If
-> there is 1:1 mapping between physical memory and DMA (IOVA) space, then
-> each SG entry will have len == dma_len, and dma_addr will be describing
-> the same as page entry. DMA mapping framework is allowed only to join
-> entries while mapping to DMA (IOVA).
-
-Nit: even in a 1:1 mapping, merging would still be permitted (subject to 
-dma_parms constraints) during a bounce-buffer copy, or if the caller 
-simply generates a naive list like so:
-
-sg[0].page = 0x12000000
-sg[0].len = 4096
-sg[1].page = 0x12001000
-sg[1].len = 4096
-
-dma_map_sg() =>
-
-sg[0].dma_addr = 0x12000000
-sg[0].dma_len = 8192
-sg[1].dma_addr = 0
-sg[1].dma_len = 0
-
-I'm not sure that any non-IOMMU DMA API implementations actually take 
-advantage of this, but they are *allowed* to ;)
-
-Robin.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBNYXIgMzAsIDIwMjAgYXQgNDoxOCBBTSBNYXJlayBTenlwcm93c2tpCjxtLnN6eXBy
+b3dza2lAc2Ftc3VuZy5jb20+IHdyb3RlOgo+Cj4gSGkKPgo+IE9uIDIwMjAtMDMtMjcgMTA6MTAs
+IE1hcmVrIFN6eXByb3dza2kgd3JvdGU6Cj4gPiBIaSBDaHJpc3RpYW4sCj4gPgo+ID4gT24gMjAy
+MC0wMy0yNyAwOToxMSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+PiBBbSAyNy4wMy4yMCB1
+bSAwODo1NCBzY2hyaWViIE1hcmVrIFN6eXByb3dza2k6Cj4gPj4+IE9uIDIwMjAtMDMtMjUgMTA6
+MDcsIFNoYW5lIEZyYW5jaXMgd3JvdGU6Cj4gPj4+PiBBcyBkbWFfbWFwX3NnIGNhbiByZW9yZ2Fu
+aXplIHNjYXR0ZXItZ2F0aGVyIGxpc3RzIGluIGEKPiA+Pj4+IHdheSB0aGF0IGNhbiBjYXVzZSBz
+b21lIGxhdGVyIHNlZ21lbnRzIHRvIGJlIGVtcHR5IHdlIHNob3VsZAo+ID4+Pj4gYWx3YXlzIHVz
+ZSB0aGUgc2dfZG1hX2xlbiBtYWNybyB0byBmZXRjaCB0aGUgYWN0dWFsIGxlbmd0aC4KPiA+Pj4+
+Cj4gPj4+PiBUaGlzIGNvdWxkIG5vdyBiZSAwIGFuZCBub3QgbmVlZCB0byBiZSBtYXBwZWQgdG8g
+YSBwYWdlIG9yCj4gPj4+PiBhZGRyZXNzIGFycmF5Cj4gPj4+Pgo+ID4+Pj4gU2lnbmVkLW9mZi1i
+eTogU2hhbmUgRnJhbmNpcyA8YmlnYmVlc2hhbmVAZ21haWwuY29tPgo+ID4+Pj4gUmV2aWV3ZWQt
+Ynk6IE1pY2hhZWwgSi4gUnVobCA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tPgo+ID4+PiBUaGlz
+IHBhdGNoIGxhbmRlZCBpbiBsaW51eC1uZXh0IDIwMjAwMzI2IGFuZCBpdCBjYXVzZXMgYSBrZXJu
+ZWwKPiA+Pj4gcGFuaWMgb24KPiA+Pj4gdmFyaW91cyBFeHlub3MgU29DIGJhc2VkIGJvYXJkcy4K
+PiA+Pj4+IC0tLQo+ID4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jIHwgMiArLQo+
+ID4+Pj4gICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4g
+Pj4+Pgo+ID4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYwo+ID4+Pj4gaW5kZXggODZkOWIwZTQ1YzhjLi4xZGUy
+Y2RlMjI3N2MgMTAwNjQ0Cj4gPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMK
+PiA+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYwo+ID4+Pj4gQEAgLTk2Nyw3
+ICs5NjcsNyBAQCBpbnQgZHJtX3ByaW1lX3NnX3RvX3BhZ2VfYWRkcl9hcnJheXMoc3RydWN0Cj4g
+Pj4+PiBzZ190YWJsZSAqc2d0LCBzdHJ1Y3QgcGFnZSAqKnBhZ2VzLAo+ID4+Pj4gICAgICAgICAg
+IGluZGV4ID0gMDsKPiA+Pj4+ICAgICAgICBmb3JfZWFjaF9zZyhzZ3QtPnNnbCwgc2csIHNndC0+
+bmVudHMsIGNvdW50KSB7Cj4gPj4+PiAtICAgICAgICBsZW4gPSBzZy0+bGVuZ3RoOwo+ID4+Pj4g
+KyAgICAgICAgbGVuID0gc2dfZG1hX2xlbihzZyk7Cj4gPj4+PiAgICAgICAgICAgIHBhZ2UgPSBz
+Z19wYWdlKHNnKTsKPiA+Pj4+ICAgICAgICAgICAgYWRkciA9IHNnX2RtYV9hZGRyZXNzKHNnKTsK
+PiA+Pj4gU29ycnksIGJ1dCB0aGlzIGNvZGUgaXMgd3JvbmcgOigKPiA+Pgo+ID4+IFdlbGwgaXQg
+aXMgYXQgbGVhc3QgYmV0dGVyIHRoYW4gYmVmb3JlIGJlY2F1c2UgaXQgbWFrZXMgbW9zdCBkcml2
+ZXJzCj4gPj4gd29yayBjb3JyZWN0bHkgYWdhaW4uCj4gPgo+ID4gV2VsbCwgSSdtIG5vdCBzdXJl
+IHRoYXQgYSBoYWxmLWJyb2tlbiBmaXggc2hvdWxkIGJlIGNvbnNpZGVyZWQgYXMgYQo+ID4gZml4
+IDspCj4gPgo+ID4gQW55d2F5LCBJIGp1c3QgZ290IHRoZSBjb21tZW50IGZyb20gU2hhbmUsIHRo
+YXQgbXkgcGF0Y2ggaXMgZml4aW5nIHRoZQo+ID4gaXNzdWVzIHdpdGggYW1kZ3B1IGFuZCByYWRl
+b24sIHdoaWxlIHN0aWxsIHdvcmtpbmcgZmluZSBmb3IgZXh5bm9zLCBzbwo+ID4gaXQgaXMgaW5k
+ZWVkIGEgcHJvcGVyIGZpeC4KPgo+IFRvZGF5IEkndmUgbm90aWNlZCB0aGF0IHRoaXMgcGF0Y2gg
+d2VudCB0byBmaW5hbCB2NS42IHdpdGhvdXQgZXZlbiBhIGRheQo+IG9mIHRlc3RpbmcgaW4gbGlu
+dXgtbmV4dCwgc28gdjUuNiBpcyBicm9rZW4gb24gRXh5bm9zIGFuZCBwcm9iYWJseSBhIGZldwo+
+IG90aGVyIEFSTSBhcmNocywgd2hpY2ggcmVseSBvbiB0aGUgZHJtX3ByaW1lX3NnX3RvX3BhZ2Vf
+YWRkcl9hcnJheXMKPiBmdW5jdGlvbi4KClBsZWFzZSBjb21taXQgeW91ciBwYXRjaCBhbmQgY2Mg
+c3RhYmxlLgoKQWxleAoKCj4KPiBCZXN0IHJlZ2FyZHMKPiAtLQo+IE1hcmVrIFN6eXByb3dza2ks
+IFBoRAo+IFNhbXN1bmcgUiZEIEluc3RpdHV0ZSBQb2xhbmQKPgo+IF9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+
+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
