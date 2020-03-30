@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC871983E6
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 21:05:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43663198455
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 21:24:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBFBE6E1F1;
-	Mon, 30 Mar 2020 19:05:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13E1989C2C;
+	Mon, 30 Mar 2020 19:24:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D95D6E1F1
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 19:05:06 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 6359520039;
- Mon, 30 Mar 2020 21:05:03 +0200 (CEST)
-Date: Mon, 30 Mar 2020 21:05:02 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v1 5/6] drm/dp_mst: add kernel-doc for
- drm_dp_mst_port.fec_capable
-Message-ID: <20200330190501.GD7594@ravnborg.org>
-References: <20200328132025.19910-1-sam@ravnborg.org>
- <20200328132025.19910-6-sam@ravnborg.org>
- <ed9c46fd0274eabd79cc3219ae9b031d32d7b386.camel@redhat.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 891E189C2C;
+ Mon, 30 Mar 2020 19:24:41 +0000 (UTC)
+IronPort-SDR: i6Az3azasPzkuD8gRZIJIIeM43K4DseLVSmxC8XfmMcmDfOE0NL4tuLtOdf6p6WB6/xVakBKBT
+ GO9TDFTipMWg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2020 12:24:41 -0700
+IronPort-SDR: u07A9Z9DJd+SzSK+Ti72onh/u2QIFVIh6YRQgcwFn8ypmwMWDv2LSM14Z8IYAYX07HOsS+dF+J
+ Qs3iGXEk6WIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,325,1580803200"; d="scan'208";a="359268688"
+Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
+ by fmsmga001.fm.intel.com with ESMTP; 30 Mar 2020 12:24:37 -0700
+From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] drm/todo: Add todo to make i915 WARN* calls drm device
+ specific
+Date: Tue, 31 Mar 2020 00:45:24 +0530
+Message-Id: <20200330191524.14676-1-pankaj.laxminarayan.bharadiya@intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <ed9c46fd0274eabd79cc3219ae9b031d32d7b386.camel@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=zd2uoN0lAAAA:8 a=20KFwNOVAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8
- a=8PAXpj6NHXDAEfU6hg0A:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,75 +50,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Nirmoy Das <nirmoy.das@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mihail Atanassov <Mihail.Atanassov@arm.com>,
- Emil Velikov <emil.velikov@collabora.com>,
- David Francis <David.Francis@amd.com>,
- James Qian Wang <james.qian.wang@arm.com>, Jonas Karlman <jonas@kwiboo.se>,
- Mikita Lipski <mikita.lipski@amd.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: pankaj.laxminarayan.bharadiya@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lyude.
+With below commit, we have new struct drm_device based WARN* macros,
+which include device specific information in the backtrace.
 
-On Mon, Mar 30, 2020 at 11:01:12AM -0400, Lyude Paul wrote:
-> On Sat, 2020-03-28 at 14:20 +0100, Sam Ravnborg wrote:
-> > Fix kernel-doc warnings for drm_dp_mst_port.fec_capable.
-> > This fixed the following warning:
-> > drm_dp_mst_helper.h:162: warning: Function parameter or member 'fec_capable'
-> > not described in 'drm_dp_mst_port'
-> > 
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: David Francis <David.Francis@amd.com>
-> > Cc: Lyude Paul <lyude@redhat.com>
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Mikita Lipski <mikita.lipski@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > ---
-> >  include/drm/drm_dp_mst_helper.h | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/include/drm/drm_dp_mst_helper.h
-> > b/include/drm/drm_dp_mst_helper.h
-> > index bf5e65d2303e..d93e628ebc84 100644
-> > --- a/include/drm/drm_dp_mst_helper.h
-> > +++ b/include/drm/drm_dp_mst_helper.h
-> > @@ -157,6 +157,10 @@ struct drm_dp_mst_port {
-> >  	 */
-> >  	bool has_audio;
-> >  
-> > +	/**
-> > +	 * @fec_capable: bool indicating if FEC can be supported
-> > +	 * up to that point in the MST network.
-> 
-> s/network/topology, but I can just fix that locally and push this in just a
-> moment. Thanks!
-> 
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
+commit dc1a73e50f9c63d4dd928df538082200467dc4b1
+Author: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+Date:   Wed Jan 15 09:14:45 2020 +0530
 
-Thanks for fixing and applying!
+    drm/print: introduce new struct drm_device based WARN* macros
 
-Can you also take a look at PATCH 1/6 and if OK provide your s-o-b
-that should follow the Co-developed-by: ...
-I know the text has seen a few changes but the original source came from
-you.
+Majority of the i915 WARN* are already converted to use struct
+drm_device specific drm_WARN* calls.Add new todo entry for
+pending conversions.
 
-	Sam
+Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+---
+ Documentation/gpu/todo.rst | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 37a3a023c114..0cb32df89784 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -575,6 +575,18 @@ See drivers/gpu/drm/amd/display/TODO for tasks.
+ 
+ Contact: Harry Wentland, Alex Deucher
+ 
++Make i915 WARN* Calls struct drm_device Specific
++------------------------------------------------
++
++struct drm_device specific drm_WARN* macros include device information in the
++backtrace, so we know what device the warnings originate from. Convert all the
++calls of WARN* with drm_WARN* calls in i915. While at it, remove WARN* which
++are not truly valid.
++
++Contact: Jani Nikula
++
++Level: Starter
++
+ Bootsplash
+ ==========
+ 
+@@ -595,7 +607,7 @@ Level: Advanced
+ Outside DRM
+ ===========
+ 
+-Convert fbdev drivers to DRM
++Convert fbdev drivers to 
+ ----------------------------
+ 
+ There are plenty of fbdev drivers for older hardware. Some hwardware has
+-- 
+2.23.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
