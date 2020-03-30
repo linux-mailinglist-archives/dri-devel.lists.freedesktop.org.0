@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6374198101
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 18:23:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E86D0198104
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 18:23:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99B4B6E44C;
-	Mon, 30 Mar 2020 16:23:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CFAD6E44F;
+	Mon, 30 Mar 2020 16:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 506696E43D;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 899B76E443;
  Mon, 30 Mar 2020 16:23:15 +0000 (UTC)
-IronPort-SDR: 78skeD4wGWvcE+vqWZkqL7xcCGY49TSpaqIoctQ8P/VdpsSl8eaD/GIRqc7RAn8v0XsIRrZoFJ
- LawfXQbiqO5w==
+IronPort-SDR: 1Go4nwx3OfY2do2Xf1sVOue++8xLXdC+O7Xg6HBsk+jXViBrsjklm8Q4NusW+yb20VIyWVzf1r
+ gTiI3Zukd7Xg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Mar 2020 09:23:14 -0700
-IronPort-SDR: Fwc4ZCMF7o692wxZHQxQnFdiFZ6qXI0yNfCi2bl/aQwAW0cjHpMdrKgOsNyPHIodWdDTEkXnVR
- HtMu4GcM1MEw==
+IronPort-SDR: AHOiGFMI4fbuP4FVBvyBledBqfU1iDAx5DqD5gfZD3DW5Jsa8OEw6OvZ63D5Z+24jUop6VBByk
+ hAzQSiUrNY5g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,325,1580803200"; d="scan'208";a="248753968"
+X-IronPort-AV: E=Sophos;i="5.72,325,1580803200"; d="scan'208";a="248753970"
 Received: from niamhrya-mobl.ger.corp.intel.com (HELO
  helsinki.ger.corp.intel.com) ([10.252.1.242])
- by orsmga003.jf.intel.com with ESMTP; 30 Mar 2020 09:23:04 -0700
+ by orsmga003.jf.intel.com with ESMTP; 30 Mar 2020 09:23:07 -0700
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v9 03/14] drm: Add logging function for DP VSC SDP
-Date: Mon, 30 Mar 2020 19:23:45 +0300
-Message-Id: <20200330162356.162361-4-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v9 04/14] drm/i915: Include HDMI DRM infoframe in the crtc
+ state dump
+Date: Mon, 30 Mar 2020 19:23:46 +0300
+Message-Id: <20200330162356.162361-5-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200330162356.162361-1-gwan-gyeong.mun@intel.com>
 References: <20200330162356.162361-1-gwan-gyeong.mun@intel.com>
@@ -55,216 +56,29 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When receiving video it is very useful to be able to log DP VSC SDP.
-This greatly simplifies debugging.
-
-v2: Minor style fix
-v3: Move logging functions to drm core [Jani N]
-v5: Rebased
+Dump out the HDMI Dynamic Range and Mastering (DRM) infoframe in the
+normal crtc state dump.
 
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/drm_dp_helper.c | 174 ++++++++++++++++++++++++++++++++
- include/drm/drm_dp_helper.h     |   3 +
- 2 files changed, 177 insertions(+)
+ drivers/gpu/drm/i915/display/intel_display.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 8ba4531e808d..e4f8e0ca44b7 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -1535,3 +1535,177 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
- 	return num_bpc;
- }
- EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
-+
-+static const char *dp_pixelformat_get_name(enum dp_pixelformat pixelformat)
-+{
-+	if (pixelformat < 0 || pixelformat > DP_PIXELFORMAT_RESERVED)
-+		return "Invalid";
-+
-+	switch (pixelformat) {
-+	case DP_PIXELFORMAT_RGB:
-+		return "RGB";
-+	case DP_PIXELFORMAT_YUV444:
-+		return "YUV444";
-+	case DP_PIXELFORMAT_YUV422:
-+		return "YUV422";
-+	case DP_PIXELFORMAT_YUV420:
-+		return "YUV420";
-+	case DP_PIXELFORMAT_Y_ONLY:
-+		return "Y_ONLY";
-+	case DP_PIXELFORMAT_RAW:
-+		return "RAW";
-+	default:
-+		return "Reserved";
-+	}
-+}
-+
-+static const char *dp_colorimetry_get_name(enum dp_pixelformat pixelformat,
-+					   enum dp_colorimetry colorimetry)
-+{
-+	if (pixelformat < 0 || pixelformat > DP_PIXELFORMAT_RESERVED)
-+		return "Invalid";
-+
-+	switch (colorimetry) {
-+	case DP_COLORIMETRY_DEFAULT:
-+		switch (pixelformat) {
-+		case DP_PIXELFORMAT_RGB:
-+			return "sRGB";
-+		case DP_PIXELFORMAT_YUV444:
-+		case DP_PIXELFORMAT_YUV422:
-+		case DP_PIXELFORMAT_YUV420:
-+			return "BT.601";
-+		case DP_PIXELFORMAT_Y_ONLY:
-+			return "DICOM PS3.14";
-+		case DP_PIXELFORMAT_RAW:
-+			return "Custom Color Profile";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_RGB_WIDE_FIXED: /* and DP_COLORIMETRY_BT709_YCC */
-+		switch (pixelformat) {
-+		case DP_PIXELFORMAT_RGB:
-+			return "Wide Fixed";
-+		case DP_PIXELFORMAT_YUV444:
-+		case DP_PIXELFORMAT_YUV422:
-+		case DP_PIXELFORMAT_YUV420:
-+			return "BT.709";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_RGB_WIDE_FLOAT: /* and DP_COLORIMETRY_XVYCC_601 */
-+		switch (pixelformat) {
-+		case DP_PIXELFORMAT_RGB:
-+			return "Wide Float";
-+		case DP_PIXELFORMAT_YUV444:
-+		case DP_PIXELFORMAT_YUV422:
-+		case DP_PIXELFORMAT_YUV420:
-+			return "xvYCC 601";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_OPRGB: /* and DP_COLORIMETRY_XVYCC_709 */
-+		switch (pixelformat) {
-+		case DP_PIXELFORMAT_RGB:
-+			return "OpRGB";
-+		case DP_PIXELFORMAT_YUV444:
-+		case DP_PIXELFORMAT_YUV422:
-+		case DP_PIXELFORMAT_YUV420:
-+			return "xvYCC 709";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_DCI_P3_RGB: /* and DP_COLORIMETRY_SYCC_601 */
-+		switch (pixelformat) {
-+		case DP_PIXELFORMAT_RGB:
-+			return "DCI-P3";
-+		case DP_PIXELFORMAT_YUV444:
-+		case DP_PIXELFORMAT_YUV422:
-+		case DP_PIXELFORMAT_YUV420:
-+			return "sYCC 601";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_RGB_CUSTOM: /* and DP_COLORIMETRY_OPYCC_601 */
-+		switch (pixelformat) {
-+		case DP_PIXELFORMAT_RGB:
-+			return "Custom Profile";
-+		case DP_PIXELFORMAT_YUV444:
-+		case DP_PIXELFORMAT_YUV422:
-+		case DP_PIXELFORMAT_YUV420:
-+			return "OpYCC 601";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_BT2020_RGB: /* and DP_COLORIMETRY_BT2020_CYCC */
-+		switch (pixelformat) {
-+		case DP_PIXELFORMAT_RGB:
-+			return "BT.2020 RGB";
-+		case DP_PIXELFORMAT_YUV444:
-+		case DP_PIXELFORMAT_YUV422:
-+		case DP_PIXELFORMAT_YUV420:
-+			return "BT.2020 CYCC";
-+		default:
-+			return "Reserved";
-+		}
-+	case DP_COLORIMETRY_BT2020_YCC:
-+		switch (pixelformat) {
-+		case DP_PIXELFORMAT_YUV444:
-+		case DP_PIXELFORMAT_YUV422:
-+		case DP_PIXELFORMAT_YUV420:
-+			return "BT.2020 YCC";
-+		default:
-+			return "Reserved";
-+		}
-+	default:
-+		return "Invalid";
-+	}
-+}
-+
-+static const char *dp_dynamic_range_get_name(enum dp_dynamic_range dynamic_range)
-+{
-+	switch (dynamic_range) {
-+	case DP_DYNAMIC_RANGE_VESA:
-+		return "VESA range";
-+	case DP_DYNAMIC_RANGE_CTA:
-+		return "CTA range";
-+	default:
-+		return "Invalid";
-+	}
-+}
-+
-+static const char *dp_content_type_get_name(enum dp_content_type content_type)
-+{
-+	switch (content_type) {
-+	case DP_CONTENT_TYPE_NOT_DEFINED:
-+		return "Not defined";
-+	case DP_CONTENT_TYPE_GRAPHICS:
-+		return "Graphics";
-+	case DP_CONTENT_TYPE_PHOTO:
-+		return "Photo";
-+	case DP_CONTENT_TYPE_VIDEO:
-+		return "Video";
-+	case DP_CONTENT_TYPE_GAME:
-+		return "Game";
-+	default:
-+		return "Reserved";
-+	}
-+}
-+
-+void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
-+			const struct drm_dp_vsc_sdp *vsc)
-+{
-+#define DP_SDP_LOG(fmt, ...) dev_printk(level, dev, fmt, ##__VA_ARGS__)
-+	DP_SDP_LOG("DP SDP: %s, revision %u, length %u\n", "VSC",
-+		   vsc->revision, vsc->length);
-+	DP_SDP_LOG("    pixelformat: %s\n",
-+		   dp_pixelformat_get_name(vsc->pixelformat));
-+	DP_SDP_LOG("    colorimetry: %s\n",
-+		   dp_colorimetry_get_name(vsc->pixelformat, vsc->colorimetry));
-+	DP_SDP_LOG("    bpc: %u\n", vsc->bpc);
-+	DP_SDP_LOG("    dynamic range: %s\n",
-+		   dp_dynamic_range_get_name(vsc->dynamic_range));
-+	DP_SDP_LOG("    content type: %s\n",
-+		   dp_content_type_get_name(vsc->content_type));
-+#undef DP_SDP_LOG
-+}
-+EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 305533da13ad..d23b7286ac42 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1339,6 +1339,9 @@ struct drm_dp_vsc_sdp {
- 	enum dp_content_type content_type;
- };
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index e09a11b1e509..7fb60312d262 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -12983,6 +12983,9 @@ static void intel_dump_pipe_config(const struct intel_crtc_state *pipe_config,
+ 	if (pipe_config->infoframes.enable &
+ 	    intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_VENDOR))
+ 		intel_dump_infoframe(dev_priv, &pipe_config->infoframes.hdmi);
++	if (pipe_config->infoframes.enable &
++	    intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_DRM))
++		intel_dump_infoframe(dev_priv, &pipe_config->infoframes.drm);
  
-+void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
-+			const struct drm_dp_vsc_sdp *vsc);
-+
- int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
- 
- static inline int
+ 	drm_dbg_kms(&dev_priv->drm, "requested mode:\n");
+ 	drm_mode_debug_printmodeline(&pipe_config->hw.mode);
 -- 
 2.25.0
 
