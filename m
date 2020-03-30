@@ -1,61 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9947519846F
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 21:29:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B589619847A
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 21:30:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF7706E1BA;
-	Mon, 30 Mar 2020 19:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDF846E20E;
+	Mon, 30 Mar 2020 19:30:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9DAE6E1BA;
- Mon, 30 Mar 2020 19:29:36 +0000 (UTC)
-IronPort-SDR: 1uBgFHUZ/oxE19hM667S/vM9kXZR9s5+RRBRz/1Kvi6omJmVi4AiRPOvb69Rzkd/ikUiPAkPgb
- U87N7lhCu8YQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2020 12:29:36 -0700
-IronPort-SDR: 8Te4C4VmobDWHrepX/2Svyi/fuL62SPRSPNs8+WW+XKO5lQgBxX7U3YR1f7OCiYX8weAlJmde5
- RnCFwGN0iQIg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,325,1580803200"; d="scan'208";a="251987549"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
- by orsmga006.jf.intel.com with ESMTP; 30 Mar 2020 12:29:35 -0700
-Received: from fmsmsx122.amr.corp.intel.com (10.18.125.37) by
- FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 30 Mar 2020 12:29:35 -0700
-Received: from BGSMSX108.gar.corp.intel.com (10.223.4.192) by
- fmsmsx122.amr.corp.intel.com (10.18.125.37) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 30 Mar 2020 12:29:35 -0700
-Received: from BGSMSX107.gar.corp.intel.com ([169.254.9.15]) by
- BGSMSX108.gar.corp.intel.com ([169.254.8.19]) with mapi id 14.03.0439.000;
- Tue, 31 Mar 2020 00:59:32 +0530
-From: "Laxminarayan Bharadiya, Pankaj"
- <pankaj.laxminarayan.bharadiya@intel.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: RE: [PATCH] drm/todo: Add todo to make i915 WARN* calls drm device
- specific
-Thread-Topic: [PATCH] drm/todo: Add todo to make i915 WARN* calls drm device
- specific
-Thread-Index: AQHWBsjgM9IiKpzLM0aGZ0DrALY5GahhKLSAgABckRA=
-Date: Mon, 30 Mar 2020 19:29:31 +0000
-Message-ID: <E92BA18FDE0A5B43B7B3DA7FCA031286057DD6B8@BGSMSX107.gar.corp.intel.com>
-References: <20200330191524.14676-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200330192723.GA22772@ravnborg.org>
-In-Reply-To: <20200330192723.GA22772@ravnborg.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.223.10.10]
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF4426E20E
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 19:30:32 +0000 (UTC)
+Date: Mon, 30 Mar 2020 19:30:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1585596629;
+ bh=4iV9oi4I1D7Q9ndBDDDb9h3S04vmMJxL6gYks6NCyxI=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=VAw0LnMy5RGuM1+pN+q3kmk+PXAyWXECoWTHSukek9X+mO9x0lYcZf0oSCqtSHF6f
+ 5wd+h+xQ5Xy1PEScGa5yVknVP4rwNMqGVeBQChsLEjO5sfLW0Uz8cDBBg3D6MBUuma
+ WuCcmdYJHkbiEHutgDhmVfpbtNfjANz/zqWLM2uY=
+To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v3 0/5] Introduce drm scaling filter property
+Message-ID: <E3R30o5qjRxRLwfN8lAXK7vOlsZquoDyWBCyOM-vMFydzPZRwt7eooF86fBNKECvvLAzSsFWC-jWfu5RXyxIIAAwJmcGS3HULQvvYO8m0X4=@emersion.fr>
+In-Reply-To: <20200330183857.13270-1-pankaj.laxminarayan.bharadiya@intel.com>
+References: <20200330183857.13270-1-pankaj.laxminarayan.bharadiya@intel.com>
 MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,8 +43,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>,
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: "daniels@collabora.com" <daniels@collabora.com>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
@@ -77,83 +52,22 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+On Monday, March 30, 2020 8:38 PM, Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com> wrote:
 
-> -----Original Message-----
-> From: Sam Ravnborg <sam@ravnborg.org>
-> Sent: 31 March 2020 00:57
-> To: Laxminarayan Bharadiya, Pankaj
-> <pankaj.laxminarayan.bharadiya@intel.com>
-> Cc: jani.nikula@linux.intel.com; daniel@ffwll.ch; intel-
-> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Maarten Lankhorst
-> <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
-> Thomas Zimmermann <tzimmermann@suse.de>; David Airlie <airlied@linux.ie>;
-> Jonathan Corbet <corbet@lwn.net>
-> Subject: Re: [PATCH] drm/todo: Add todo to make i915 WARN* calls drm device
-> specific
-> 
-> Hi Pankaj.
-> 
-> On Tue, Mar 31, 2020 at 12:45:24AM +0530, Pankaj Bharadiya wrote:
-> > With below commit, we have new struct drm_device based WARN* macros,
-> > which include device specific information in the backtrace.
-> >
-> > commit dc1a73e50f9c63d4dd928df538082200467dc4b1
-> > Author: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-> > Date:   Wed Jan 15 09:14:45 2020 +0530
-> >
-> >     drm/print: introduce new struct drm_device based WARN* macros
-> >
-> > Majority of the i915 WARN* are already converted to use struct
-> > drm_device specific drm_WARN* calls.Add new todo entry for
-> Add space after '.'
-> 
-> > pending conversions.
-> >
-> > Signed-off-by: Pankaj Bharadiya
-> > <pankaj.laxminarayan.bharadiya@intel.com>
-> > ---
-> >  Documentation/gpu/todo.rst | 14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > index 37a3a023c114..0cb32df89784 100644
-> > --- a/Documentation/gpu/todo.rst
-> > +++ b/Documentation/gpu/todo.rst
-> > @@ -575,6 +575,18 @@ See drivers/gpu/drm/amd/display/TODO for tasks.
-> >
-> >  Contact: Harry Wentland, Alex Deucher
-> >
-> > +Make i915 WARN* Calls struct drm_device Specific
-> > +------------------------------------------------
-> > +
-> > +struct drm_device specific drm_WARN* macros include device
-> > +information in the backtrace, so we know what device the warnings
-> > +originate from. Convert all the calls of WARN* with drm_WARN* calls
-> > +in i915. While at it, remove WARN* which are not truly valid.
-> > +
-> > +Contact: Jani Nikula
-> > +
-> > +Level: Starter
-> > +
-> >  Bootsplash
-> >  ==========
-> >
-> > @@ -595,7 +607,7 @@ Level: Advanced
-> >  Outside DRM
-> >  ===========
-> >
-> > -Convert fbdev drivers to DRM
-> > +Convert fbdev drivers to
-> Unrelated change?
-> 
-> Please fix and re-submit.
-Ah, my bad. Thanks for pointing out.
+> Userspace patch series link: https://github.com/lrusak/xbmc/pull/24
+
+This pull request is against a fork, not the official Kodi repository.
+Are there any plans to upstream the change so that users can benefit
+from it? Is there a reason why this pull request hasn't been opened
+against the official repo?
 
 Thanks,
-Pankaj
-> 
-> 	Sam
+
+Simon
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
