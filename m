@@ -1,42 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BEBD19852F
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 22:15:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A47D198557
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 22:26:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CA7089237;
-	Mon, 30 Mar 2020 20:15:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A57F893E7;
+	Mon, 30 Mar 2020 20:26:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5D0C89237;
- Mon, 30 Mar 2020 20:15:19 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 3484A804AF;
- Mon, 30 Mar 2020 22:15:14 +0200 (CEST)
-Date: Mon, 30 Mar 2020 22:15:12 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Subject: Re: [PATCH] Update my email address in various drivers
-Message-ID: <20200330201512.GA23451@ravnborg.org>
-References: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
- <20200330180444.GA16073@ravnborg.org>
- <20200330193346.GI25745@shell.armlinux.org.uk>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BA3D893E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 20:26:42 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id p10so23308263wrt.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 13:26:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Izq/zDRy3JuvVgXw1u8V22bHSGiKH7Q2z3WTw4pyk08=;
+ b=ykw0RIpay0miiK6pm+dujtOmzrpL1TJNx478OLJCPVo6T8wPPUWAsc/EPKhR6rtGm1
+ jtD8KX8ucrH3hH2+VFx1nt7aOrogkmlHe7fZcFs32X02YNRkTtYHc1m1ZKjp7q1MYK1t
+ 4gznZSYUbeParQ65Wf8biVvpzMn7FYi8zJehepikkkWNW3Hhgt3lhP+1qarqs1k4vqwL
+ PcgaOWDB9urFTa5k1e29vc5f7NklcU8y0H4r3t5XafTe7AxPh4AyJryF/HIMKCJ3VvSB
+ yUEyBfsXiMdf9D7PYPetJE6Dzv8FWW+fCjyZS9XpnuhUV3E4shGW5cxOS20jB4xLHlnN
+ chWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Izq/zDRy3JuvVgXw1u8V22bHSGiKH7Q2z3WTw4pyk08=;
+ b=seWb9p0RiyjnFSBLk3j4Mq+33YDEZiz2G8dfjbABNP7T/XyhfaUzQYz4pIzxXJXG4c
+ P2FnynAfdapKtg+3Z8igJpEtiuYgLGMBgAmb9PGuAEGDLF3PSWtOHTf78pEisuQpwrGi
+ 0PZZiSbAWcoZj0ziCeX5AbaGLKyO1xXMpq90v3BuqTr+xPk1eQoGTZS3VjffOHVFuQdU
+ +Sszu6T//cAwoc7FDjDhWsdpZj/4R9BI9cENEMa9t0s9WzROX1ewy4Ymm430GHL+a/1G
+ 9RAwi9uUxq/ws69d+3M/T1tejEv20pO40+zEoE+lbsuld6OnH4tmWFc7oZZvSjT66v7q
+ sY5w==
+X-Gm-Message-State: ANhLgQ04zuW2p7yTv22PbbE4l0Si4p9F0ei2oyGFT8ZXnHuChQsnDHz4
+ IbJdeXUIcjF6tzDap49iSRdYoQ==
+X-Google-Smtp-Source: ADFU+vvYx4daTb2CqvHosfXjfsqQOa/dnjnjvZ2DvllWwzb77vr2e3t9P1ciYIKrXvWrc6M9NTZ8Ng==
+X-Received: by 2002:adf:e8c1:: with SMTP id k1mr15944538wrn.381.1585600000822; 
+ Mon, 30 Mar 2020 13:26:40 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id t21sm814318wmt.43.2020.03.30.13.26.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Mar 2020 13:26:39 -0700 (PDT)
+Date: Mon, 30 Mar 2020 21:26:36 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Guru Das Srinagesh <gurus@codeaurora.org>
+Subject: Re: [PATCH v10 00/12] Convert PWM period and duty cycle to u64
+Message-ID: <20200330202636.njjo4savgzf3g6yx@holly.lan>
+References: <cover.1584650604.git.gurus@codeaurora.org>
+ <20200321114703.GB4672@kadam>
+ <20200330191506.GA29534@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200330193346.GI25745@shell.armlinux.org.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=PHq6YzTAAAAA:8
- a=drOt6m5kAAAA:8 a=7gkXJVJtAAAA:8 a=IFATEmdhu-ErwIyn04kA:9
- a=mtL8tZnu2Jrx5SaM:21 a=DNgyL8e6fjdIsIrl:21 a=CjuIK1q_8ugA:10
- a=ZKzU8r6zoKMcqsNulkmm:22 a=RMMjzBEyIzXRtoq5n5K6:22
- a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <20200330191506.GA29534@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,86 +69,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Florian Fainelli <f.fainelli@gmail.com>, linux-media@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- netdev@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Heiner Kallweit <hkallweit1@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, "Wesley W. Terpstra" <wesley@sifive.com>,
+ Michael Turquette <mturquette@baylibre.com>, Kamil Debski <kamil@wypas.org>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Atish Patra <atish.patra@wdc.com>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-riscv@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
+ linux-clk@vger.kernel.org, Alexandre Torgue <alexandre.torgue@st.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Axel Lin <axel.lin@ingics.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexander Shiyan <shc_work@mail.ru>,
+ Chen-Yu Tsai <wens@csie.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Mukesh Ojha <mojha@codeaurora.org>, Gerald Baeza <gerald.baeza@st.com>,
+ intel-gfx@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>,
+ linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mark Brown <broonie@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Fabrice Gasnier <fabrice.gasnier@st.com>,
+ Ding Xiang <dingxiang@cmss.chinamobile.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Allison Randal <allison@lohutok.net>, linux-hwmon@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Anson Huang <Anson.Huang@nxp.com>,
+ Richard Fontana <rfontana@redhat.com>, Stephen Boyd <sboyd@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
+ Yash Shah <yash.shah@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Shawn Guo <shawnguo@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Russell
+On Mon, Mar 30, 2020 at 12:15:07PM -0700, Guru Das Srinagesh wrote:
+> On Sat, Mar 21, 2020 at 02:47:03PM +0300, Dan Carpenter wrote:
+> > This is a giant CC list.
+> 
+> Yes, this is because I received feedback [1] on an earlier patchset
+> directing me to add the reviewers of patches to the cover letter as
+> well so that they get some context for the patch.
+> ...
+> [1] https://www.spinics.net/lists/linux-pwm/msg11735.html
 
-On Mon, Mar 30, 2020 at 08:33:46PM +0100, Russell King - ARM Linux admin wrote:
-> On Mon, Mar 30, 2020 at 08:04:44PM +0200, Sam Ravnborg wrote:
-> > Hi Russell.
-> > 
-> > On Sun, Mar 29, 2020 at 11:19:10AM +0100, Russell King wrote:
-> > > Globally update my email address in six files scattered through the
-> > > tree.
-> > > 
-> > > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
-> > > ---
-> > >  drivers/gpu/drm/armada/armada_drv.c                 | 2 +-
-> > >  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 2 +-
-> > >  drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 2 +-
-> > >  drivers/media/cec/cec-notifier.c                    | 2 +-
-> > >  drivers/net/phy/swphy.c                             | 2 +-
-> > >  include/media/cec-notifier.h                        | 2 +-
-> > >  6 files changed, 6 insertions(+), 6 deletions(-)
-> > 
-> > This changes all cases of:
-> >    
-> >    rmk+kernel@arm.linux.org.uk
-> > 
-> > to
-> > 
-> >   rmk+kernel@armlinux.org.uk or no mail address.
-> 
-> Correct.  This is the address I sign off all my commits with, and this
-> is the one I use to associate with authorship because it uses my
-> initials.
-> 
-> > But I am confused.
-> > 
-> > The new address does not appear anywhere in MAINTAINERS and is used
-> > only in three other files.
-> 
-> MAINTAINERS lists the addresses I prefer email for the day to day
-> maintanence, which is my linux@ accounts.  The above addresses
-> also fall into _this_ mailbox too, rather than my rmk@ mailbox.
-> So, ultimately all that email comes to the same place.
-> 
-> However, the plain rmk@ address doesn't.
-> 
-> > And there are a few other mail addresses that would reach you.
-> > But no matter how confused I am the patch looks fine so:
-> > 
-> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > 
-> > And if the change is for private reaons then I do not have to know
-> > anyway so feel free to ignore my confusion.
-> 
-> The reason for the change is so I can drop the routing information
-> rmk+kernel@arm.linux.org.uk, thereby causing that address to start
-> bouncing, rather than being a spam inlet.  Sure, the new one will
-> be as well, but the point is that keeping both around indefinitely
-> gives a bigger attack surface for spam ingress.
+Strictly speaking I only asked for backlight maintainers to be Cc:ed.
+I was fairly careful to be specific since I'm aware there are a variety
+of differing habits when putting together the Cc: list for covering
+letters.
 
-Thanks for taking your time to explain the background.
+With the original patch header the purpose of the patch I was Cc:ed on
+was impossible to determine without the covering letter.
 
-The patch touches several files outside drivers/gpu/
-so I do not feel confident to apply this to drm-misc-next.
 
-	Sam
-
+Daniel.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
