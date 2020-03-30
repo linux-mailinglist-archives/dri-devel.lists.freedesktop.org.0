@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C148198D10
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F400A198D0C
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:38:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B880D6E588;
-	Tue, 31 Mar 2020 07:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730AE6E563;
+	Tue, 31 Mar 2020 07:38:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 686EC6E4C7
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 22:03:57 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id c21so8648121pfo.5
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 15:03:57 -0700 (PDT)
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0114F89E01;
+ Mon, 30 Mar 2020 22:16:34 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id y71so17176640oia.7;
+ Mon, 30 Mar 2020 15:16:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=Fn5bbEwDKA1CjrL2t4+buEZ5DMdOn8ZLIb0ux0e5B3Q=;
- b=QlDnJ+HXQj0YHxnX8aX313kM6rHoKORnaNm2WYXDMn1aeXXbnF8UNEQ4VowdZeG4zl
- uV2sLQkwXOtnNAwFLkHNHrGIdHbHg2WXKZ+OCxvcK6XGQ4p7XyOtNEZguQcao8eEbZik
- jzhJzwgxyju9KgyIAO6AGWgfZzTJEGj7PCStu/3VWR74BEj6493pWtlmOVLr3PXjMy6j
- EvPvcs8zuq5fFUGMmdyzRW3LnvxqECq4R5074NxZe/sQXvq3wyUHonW+iSMHkNnpBI2D
- MA52ER9NNMOOvvHw75Dyrr3HHU19n2Cm6kVIde2BUnl4kJPuV5rqVxtOQP/DKfiUAQTz
- Rlnw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rHTfazG0JcHchUkZkwqmfv3skWoFel0RHtJDeLWFMUQ=;
+ b=Ca92LU24QgTe15iUum7o+GWCCxrpDi/NBlydV3Y7UaeHp3UkpEJ0w3PsnajA8/jp1R
+ xa4eS5TvtcurrFF8L9WuPHdSCuUhFfYlAomFz951J9FAMhgAfJkK33UVCRcVBw2m52Wd
+ ZK+i/Q8HIqIYIVo9n2fKbgbduGG394emhSQyh6rPbdXWu9dxOcpPGwj3Ql7/+b7FvLDw
+ wrgqKKtyJBby4Qq2AHh2zf6iDd6ex8sq8izmSMRGf0W8M+Gtr6xKUbo00XLWOS8R5dsx
+ RTEvjWV+Vxu/htwiMLb+gkKPSMgSTF+GuUwxTfPNyiSsp4kLGyPP9oFgjobop6Cffs86
+ 4GAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=Fn5bbEwDKA1CjrL2t4+buEZ5DMdOn8ZLIb0ux0e5B3Q=;
- b=g4iJV1oFkRunULwvUanljJDfKQ5zY22aMS2Oays7b/SfWPpyqu+Hgzr0EHTYy/RkQo
- lBmCzo7Wl3DwL0g0AC0aHpocSCj5CdMeU953k6P4CQQ5vP6zmrs1ysrCJz9aHg2lGGD/
- HTVUm/MzrL2NfdtNwU0H/Nr+1N401z9vW0dt7pt8cHTJtB+XmSDJAlGoJTstPLORb5/C
- tOkK9FbwfSMPsnWTLswrXGEKzWiJS2IQ5qG8jaC/E4nGEP50yOWt7LIJ4ecfqOqauD2S
- OIRTdT0ZwWpq3XDMsUneB6CED0oSHqkIGqHjxT8KCY+5SfQWkjdQ3sj+A6Vj46yXWxce
- id6g==
-X-Gm-Message-State: AGi0PubmisdtepRrH/EbZkwVihKqz+uGRF6JEAvcRAwdlA/J9B5qQqb8
- xpNuITDOQ2hi0Yzq45UvA+Q=
-X-Google-Smtp-Source: APiQypIZ7rugn26VNzMH9f1FGurreUtTRDwMeVEoQLstiLOtdeGMyyyqnQhROZmrQSttmeLztEHYWg==
-X-Received: by 2002:a65:55c6:: with SMTP id k6mr1200130pgs.52.1585605836849;
- Mon, 30 Mar 2020 15:03:56 -0700 (PDT)
-Received: from OptiPlexFedora ([47.144.161.84])
- by smtp.gmail.com with ESMTPSA id h4sm1230719pgg.67.2020.03.30.15.03.55
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rHTfazG0JcHchUkZkwqmfv3skWoFel0RHtJDeLWFMUQ=;
+ b=XT2vSDiq4ec+MsJeyA9wF4RX7Jb4ks1DS5Va3FVFA2AmxQ9mR7sKOU0i6TTHJqAX+M
+ /SNsaF05MfZEWX46WHD47RZ+Efx/8ZMeSF2/iGjf+J3AFK99B29vOceb7DS2du68WlR5
+ XSnkqhXbvPdCNaDgu+3ClMmXF9hk6Pmm2iYcGarDn/bBmZFnXCijJ9jswOppoJuLRWTS
+ eK3uhlZBd4OBltx0sKFD7Xo3cUfaLrIMjiXYvpPcgs66PP4WpQz+Em1CV+bpMjsGKc2G
+ t9ALFArxhRRGc36hd5jaIp/cqz/5XDW4+XOsro2oPHtz+Gsuoim3FTOPED8JaiKqdgdC
+ 4waw==
+X-Gm-Message-State: ANhLgQ3rpINfFUC3QE1J54SfQe1yyaYrWiKqYLCFWAL6WEUpkTHSj1+g
+ LmWx6USlqWXaC7M7wftxu/k=
+X-Google-Smtp-Source: ADFU+vtRqzG9oYmCmjI3rVBaaXZZBnhy9DdhlKuP9NiWmIWqtTC/fMZaYpnYKJ/MHG2Na6JPD8ApJg==
+X-Received: by 2002:aca:646:: with SMTP id 67mr202286oig.4.1585606593916;
+ Mon, 30 Mar 2020 15:16:33 -0700 (PDT)
+Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
+ by smtp.gmail.com with ESMTPSA id c18sm4680750ooa.8.2020.03.30.15.16.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Mar 2020 15:03:56 -0700 (PDT)
-Message-ID: <53befe00af657428b591200b31b5349a4a462eb1.camel@gmail.com>
-Subject: Re: [Outreachy kernel] [PATCH] staging: fbtft: Replace udelay with
- preferred usleep_range
-From: "John B. Wyatt IV" <jbwyatt4@gmail.com>
-To: Stefano Brivio <sbrivio@redhat.com>
-Date: Mon, 30 Mar 2020 15:03:55 -0700
-In-Reply-To: <20200330194043.56c79bb8@elisabeth>
-References: <20200329092204.770405-1-jbwyatt4@gmail.com>
- <alpine.DEB.2.21.2003291127230.2990@hadrien>
- <2fccf96c3754e6319797a10856e438e023f734a7.camel@gmail.com>
- <alpine.DEB.2.21.2003291144460.2990@hadrien>
- <CAMS7mKBEhqFat8fWi=QiFwfLV9+skwi1hE-swg=XxU48zk=_tQ@mail.gmail.com>
- <alpine.DEB.2.21.2003291235590.2990@hadrien>
- <20200330194043.56c79bb8@elisabeth>
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+ Mon, 30 Mar 2020 15:16:32 -0700 (PDT)
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "David (ChunMing) Zhou" <David1.Zhou@amd.com>
+Subject: [PATCH] drm/amd/display: Fix 64-bit division error on 32-bit
+ platforms in mod_freesync_build_vrr_params
+Date: Mon, 30 Mar 2020 15:16:14 -0700
+Message-Id: <20200330221614.7661-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
+X-Patchwork-Bot: notify
 X-Mailman-Approved-At: Tue, 31 Mar 2020 07:37:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,52 +70,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Julia Lawall <julia.lawall@inria.fr>,
- outreachy-kernel@googlegroups.com,
- Payal Kshirsagar <payal.s.kshirsagar.98@gmail.com>,
- Soumyajit Deb <debsoumyajit100@gmail.com>
+Cc: Nathan Chancellor <natechancellor@gmail.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2020-03-30 at 19:40 +0200, Stefano Brivio wrote:
-> On Sun, 29 Mar 2020 12:37:18 +0200 (CEST)
-> Julia Lawall <julia.lawall@inria.fr> wrote:
-> 
-> > On Sun, 29 Mar 2020, Soumyajit Deb wrote:
-> > 
-> > > I had the same doubt the other day about the replacement of
-> > > udelay() with
-> > > usleep_range(). The corresponding range for the single argument
-> > > value of
-> > > udelay() is quite confusing as I couldn't decide the range. But
-> > > as much as I
-> > > noticed checkpatch.pl gives warning for replacing udelay() with
-> > > usleep_range() by checking the argument value of udelay(). In the
-> > > documentation, it is written udelay() should be used for a sleep
-> > > time of at
-> > > most 10 microseconds but between 10 microseconds and 20
-> > > milliseconds,
-> > > usleep_range() should be used. 
-> > > I think the range is code specific and will depend on what range
-> > > is
-> > > acceptable and doesn't break the code.
-> > >  Please correct me if I am wrong.  
-> > 
-> > The range depends on the associated hardware.
-> 
-> John, by the way, here you could have checked the datasheet of this
-> LCD
-> controller. It's a pair of those:
-> 	https://www.sparkfun.com/datasheets/LCD/ks0108b.pdf
-> 
+When building arm32 allyesconfig,
 
-No I have not. This datasheet is a little over my head honestly.
+ld.lld: error: undefined symbol: __aeabi_uldivmod
+>>> referenced by freesync.c
+>>>               gpu/drm/amd/display/modules/freesync/freesync.o:(mod_freesync_build_vrr_params) in archive drivers/built-in.a
+>>> did you mean: __aeabi_uidivmod
+>>> defined in: arch/arm/lib/lib.a(lib1funcs.o)
 
-What would you recommend to get familiar with datasheets like this?
+Use div_u64 in the two locations that do 64-bit divisior, which both
+have a u64 dividend and u32 divisor.
+
+Fixes: 349a370781de ("drm/amd/display: LFC not working on 2.0x range monitors")
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+---
+ drivers/gpu/drm/amd/display/modules/freesync/freesync.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
+index 8911f01671aa..c33454a9e0b4 100644
+--- a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
++++ b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
+@@ -761,10 +761,10 @@ void mod_freesync_build_vrr_params(struct mod_freesync *mod_freesync,
+ 
+ 	// If a monitor reports exactly max refresh of 2x of min, enforce it on nominal
+ 	rounded_nominal_in_uhz =
+-			((nominal_field_rate_in_uhz + 50000) / 100000) * 100000;
++			div_u64(nominal_field_rate_in_uhz + 50000, 100000) * 100000;
+ 	if (in_config->max_refresh_in_uhz == (2 * in_config->min_refresh_in_uhz) &&
+ 		in_config->max_refresh_in_uhz == rounded_nominal_in_uhz)
+-		min_refresh_in_uhz = nominal_field_rate_in_uhz / 2;
++		min_refresh_in_uhz = div_u64(nominal_field_rate_in_uhz, 2);
+ 
+ 	if (!vrr_settings_require_update(core_freesync,
+ 			in_config, (unsigned int)min_refresh_in_uhz, (unsigned int)max_refresh_in_uhz,
+-- 
+2.26.0
 
 _______________________________________________
 dri-devel mailing list
