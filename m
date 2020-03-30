@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5AF19750D
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:12:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA979197548
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:14:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46CBA89FDE;
-	Mon, 30 Mar 2020 07:11:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C9AD6E1CF;
+	Mon, 30 Mar 2020 07:11:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
  [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C654A89F24
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 01:09:41 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id g12so16344731ljj.3
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 18:09:41 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 622A489F24
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 01:09:43 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id g27so16238957ljn.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 18:09:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M8DwevTofPw/pIdfp/6Cb1DGwp3gDQ5YLGJ2daY85MQ=;
- b=O6r9IkP9gT5mV1V+BtMChNkuEDA23g0XoMFPgKrfLC+yuksJd+kdDolL2UC22dmopL
- 8dRNBCHi6LH8QW6N5NcbEtW4SDXNG/MExceo4TisUduBw64+BAVDGYmAAQdz3Be0LHCX
- mjfTEe6cl0PW4dxXnpcjbBZCxPoJKShkYTanh08JV583adSP2d0dDdfpep8wEeORsAM8
- 3t2+4S53B48ZvhAP+LympPmE4r/XEcCcZWovbKkeLJ1edLnk05mFThwKS/geusT9gLtm
- joORZjx+6oCNPKX8VF+NcQNPo3CHNAbP4CcaX37k6Ib9ig2gzPMOUEQK+hmSWJfNDYnu
- A6Vg==
+ bh=PZPNrypYAJ0DVxGo/z3wAqcvtTxmsayiljwdnKM3VrQ=;
+ b=c+DhtUuuMUJ0rR4YA7n4mv3Ohj94+u2O55W9TrqbxwN2tEnvjmKzSGsG/NECIL4tPT
+ Czjqjem+O/r0pKA3h3XFnDh+qXsY7dd0dVR6hcMRYNEu/6UEJ5Ho879y6I3VQq9BnAzq
+ h/fxU34j2ZrNnLsNL2Fgfb2Qk5xhklR4eIACoYc2W++TIZ+ldJrqFc2uQY8WnZEqANsb
+ 0/xULCchZQwJQpcPjntoWfznK6ijQhVLtg7t5hn4PwYDzl3nELgExhTHRIMQ8QhUUyqY
+ YnlRhCRfpu8qtdvX3irMlx6PCQK9KQD4BkbndFtqIDLnjmu7EYGnIhNA3NFgpvdM8tjf
+ 8NkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M8DwevTofPw/pIdfp/6Cb1DGwp3gDQ5YLGJ2daY85MQ=;
- b=I2uBESAQzNEryPyLH9frdL9rnhmJUn7EbIflldQakwNrOSp8ZI+VzEYyz/3APKOl8T
- 00UXu9sw/RuoEuic0acz1Q72gTq+JdTzP1cDD68wfIiSNi9wwcrU4TzjXAM/90K3ygKg
- IvOh79kuHHPHBLAiYU6b7nnIJtDvG1LlKRleBxZYL3QDhFM/Xw6HGEP6bs0uPf2T19cp
- QSHObBGzRZpsEcsR8C36WynlZfvHl/xoGjheYc0V+6iFHkuwuUWEQGx9aur8E1g/JSAv
- KodU4JRBjV6wVGid97bJosxGwriYUhX/lZoc7smlGnMnvbh2iLFDMgOVO3zCRkectqXt
- pxGw==
-X-Gm-Message-State: AGi0PuZanPGAe7ruJM2RBrStS75i3TU92aR1uhuSQ/phi+NdVfcFBnew
- vJj4HI0P2ve/s+WuRjbJKuI=
-X-Google-Smtp-Source: APiQypLK4tHPYMPuq2cSaOwrtI4imEKVje/al1R0EOqTdKMfdRe0Dz8UxEc++EAv1R+FeNNvPSHdAg==
-X-Received: by 2002:a2e:7401:: with SMTP id p1mr5574125ljc.279.1585530580279; 
- Sun, 29 Mar 2020 18:09:40 -0700 (PDT)
+ bh=PZPNrypYAJ0DVxGo/z3wAqcvtTxmsayiljwdnKM3VrQ=;
+ b=Vm/Utqqwv7r6tQvQgIbPY2h7pb2gZRm4IYyBYzwutfSJxZlIuaDab1VVTtMvyagdXL
+ KmfWTUM4kt9WpEoq3Jo5j+dsc27elK9qgf4h9j+RVGBdIglVd/HXNkGFQQ8N7F0aHS2+
+ 3MsJJVN2jJTGbic+kDICvBWjrmb9CBiouE6NvsQFc0npdWBYAkESAFvkDb2GmcS+vE0S
+ 0NGsHjYDPm4guMR0UBHVoMEZhItCav6fO/2mP6fERPaCN1yE5l4HYtQLZUqPF1o1XPau
+ mL3kg1jZGE6Tw2AYag8IfJO9FSMZ7CaFznCbd7T5TxIEA+YxcqbIdMts2MdB08l138B2
+ q88A==
+X-Gm-Message-State: AGi0PuZcIlBjnSlQOO60sMPU6hl4C0P2c6LqWw+SuB1P11bY13VBCjSy
+ ZhzGa+dFFe+F4U5B5XoERubWwXs6
+X-Google-Smtp-Source: APiQypL5WrohbBW5CsxmlK1Tm0Cj8PudLUhgCzjYqMhQc6gTXz5YtkrXjBmZxeb+upQypsi3mdjjRQ==
+X-Received: by 2002:a2e:8911:: with SMTP id d17mr5816369lji.16.1585530581827; 
+ Sun, 29 Mar 2020 18:09:41 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru.
  [91.78.208.152])
- by smtp.gmail.com with ESMTPSA id f23sm2449005lja.60.2020.03.29.18.09.39
+ by smtp.gmail.com with ESMTPSA id f23sm2449005lja.60.2020.03.29.18.09.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Mar 2020 18:09:39 -0700 (PDT)
+ Sun, 29 Mar 2020 18:09:40 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  =?UTF-8?q?Artur=20=C5=9Awigo=C5=84?= <a.swigon@samsung.com>,
  Georgi Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 06/22] dt-bindings: memory: tegra20: Add memory client IDs
-Date: Mon, 30 Mar 2020 04:08:48 +0300
-Message-Id: <20200330010904.27643-7-digetx@gmail.com>
+Subject: [PATCH v2 07/22] dt-bindings: memory: tegra30: Add memory client IDs
+Date: Mon, 30 Mar 2020 04:08:49 +0300
+Message-Id: <20200330010904.27643-8-digetx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200330010904.27643-1-digetx@gmail.com>
 References: <20200330010904.27643-1-digetx@gmail.com>
@@ -83,69 +83,83 @@ Each memory client have a unique hardware ID, this patch adds these IDs.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- include/dt-bindings/memory/tegra20-mc.h | 53 +++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ include/dt-bindings/memory/tegra30-mc.h | 67 +++++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
 
-diff --git a/include/dt-bindings/memory/tegra20-mc.h b/include/dt-bindings/memory/tegra20-mc.h
-index 35e131eee198..6f8829508ad0 100644
---- a/include/dt-bindings/memory/tegra20-mc.h
-+++ b/include/dt-bindings/memory/tegra20-mc.h
-@@ -18,4 +18,57 @@
- #define TEGRA20_MC_RESET_VDE		13
- #define TEGRA20_MC_RESET_VI		14
+diff --git a/include/dt-bindings/memory/tegra30-mc.h b/include/dt-bindings/memory/tegra30-mc.h
+index 169f005fbc78..930f708aca17 100644
+--- a/include/dt-bindings/memory/tegra30-mc.h
++++ b/include/dt-bindings/memory/tegra30-mc.h
+@@ -41,4 +41,71 @@
+ #define TEGRA30_MC_RESET_VDE		16
+ #define TEGRA30_MC_RESET_VI		17
  
-+#define TEGRA20_MC_DISPLAY0A		0
-+#define TEGRA20_MC_DISPLAY0AB		1
-+#define TEGRA20_MC_DISPLAY0B		2
-+#define TEGRA20_MC_DISPLAY0BB		3
-+#define TEGRA20_MC_DISPLAY0C		4
-+#define TEGRA20_MC_DISPLAY0CB		5
-+#define TEGRA20_MC_DISPLAY1B		6
-+#define TEGRA20_MC_DISPLAY1BB		7
-+#define TEGRA20_MC_EPPUP		8
-+#define TEGRA20_MC_G2PR			9
-+#define TEGRA20_MC_G2SR			10
-+#define TEGRA20_MC_MPEUNIFBR		11
-+#define TEGRA20_MC_VIRUV		12
-+#define TEGRA20_MC_AVPCARM7R		13
-+#define TEGRA20_MC_DISPLAYHC		14
-+#define TEGRA20_MC_DISPLAYHCB		15
-+#define TEGRA20_MC_FDCDRD		16
-+#define TEGRA20_MC_G2DR			17
-+#define TEGRA20_MC_HOST1XDMAR		18
-+#define TEGRA20_MC_HOST1XR		19
-+#define TEGRA20_MC_IDXSRD		20
-+#define TEGRA20_MC_MPCORER		21
-+#define TEGRA20_MC_MPE_IPRED		22
-+#define TEGRA20_MC_MPEAMEMRD		23
-+#define TEGRA20_MC_MPECSRD		24
-+#define TEGRA20_MC_PPCSAHBDMAR		25
-+#define TEGRA20_MC_PPCSAHBSLVR		26
-+#define TEGRA20_MC_TEXSRD		27
-+#define TEGRA20_MC_VDEBSEVR		28
-+#define TEGRA20_MC_VDEMBER		29
-+#define TEGRA20_MC_VDEMCER		30
-+#define TEGRA20_MC_VDETPER		31
-+#define TEGRA20_MC_EPPU			32
-+#define TEGRA20_MC_EPPV			33
-+#define TEGRA20_MC_EPPY			34
-+#define TEGRA20_MC_MPEUNIFBW		35
-+#define TEGRA20_MC_VIWSB		36
-+#define TEGRA20_MC_VIWU			37
-+#define TEGRA20_MC_VIWV			38
-+#define TEGRA20_MC_VIWY			39
-+#define TEGRA20_MC_G2DW			40
-+#define TEGRA20_MC_AVPCARM7W		41
-+#define TEGRA20_MC_FDCDWR		42
-+#define TEGRA20_MC_HOST1XW		43
-+#define TEGRA20_MC_ISPW			44
-+#define TEGRA20_MC_MPCOREW		45
-+#define TEGRA20_MC_MPECSWR		46
-+#define TEGRA20_MC_PPCSAHBDMAW		47
-+#define TEGRA20_MC_PPCSAHBSLVW		48
-+#define TEGRA20_MC_VDEBSEVW		49
-+#define TEGRA20_MC_VDEMBEW		50
-+#define TEGRA20_MC_VDETPMW		51
++#define TEGRA30_MC_PTCR			0
++#define TEGRA30_MC_DISPLAY0A		1
++#define TEGRA30_MC_DISPLAY0AB		2
++#define TEGRA30_MC_DISPLAY0B		3
++#define TEGRA30_MC_DISPLAY0BB		4
++#define TEGRA30_MC_DISPLAY0C		5
++#define TEGRA30_MC_DISPLAY0CB		6
++#define TEGRA30_MC_DISPLAY1B		7
++#define TEGRA30_MC_DISPLAY1BB		8
++#define TEGRA30_MC_EPPUP		9
++#define TEGRA30_MC_G2PR			10
++#define TEGRA30_MC_G2SR			11
++#define TEGRA30_MC_MPEUNIFBR		12
++#define TEGRA30_MC_VIRUV		13
++#define TEGRA30_MC_AFIR			14
++#define TEGRA30_MC_AVPCARM7R		15
++#define TEGRA30_MC_DISPLAYHC		16
++#define TEGRA30_MC_DISPLAYHCB		17
++#define TEGRA30_MC_FDCDRD		18
++#define TEGRA30_MC_FDCDRD2		19
++#define TEGRA30_MC_G2DR			20
++#define TEGRA30_MC_HDAR			21
++#define TEGRA30_MC_HOST1XDMAR		22
++#define TEGRA30_MC_HOST1XR		23
++#define TEGRA30_MC_IDXSRD		24
++#define TEGRA30_MC_IDXSRD2		25
++#define TEGRA30_MC_MPE_IPRED		26
++#define TEGRA30_MC_MPEAMEMRD		27
++#define TEGRA30_MC_MPECSRD		28
++#define TEGRA30_MC_PPCSAHBDMAR		29
++#define TEGRA30_MC_PPCSAHBSLVR		30
++#define TEGRA30_MC_SATAR		31
++#define TEGRA30_MC_TEXSRD		32
++#define TEGRA30_MC_TEXSRD2		33
++#define TEGRA30_MC_VDEBSEVR		34
++#define TEGRA30_MC_VDEMBER		35
++#define TEGRA30_MC_VDEMCER		36
++#define TEGRA30_MC_VDETPER		37
++#define TEGRA30_MC_MPCORELPR		38
++#define TEGRA30_MC_MPCORER		39
++#define TEGRA30_MC_EPPU			40
++#define TEGRA30_MC_EPPV			41
++#define TEGRA30_MC_EPPY			42
++#define TEGRA30_MC_MPEUNIFBW		43
++#define TEGRA30_MC_VIWSB		44
++#define TEGRA30_MC_VIWU			45
++#define TEGRA30_MC_VIWV			46
++#define TEGRA30_MC_VIWY			47
++#define TEGRA30_MC_G2DW			48
++#define TEGRA30_MC_AFIW			49
++#define TEGRA30_MC_AVPCARM7W		50
++#define TEGRA30_MC_FDCDWR		51
++#define TEGRA30_MC_FDCDWR2		52
++#define TEGRA30_MC_HDAW			53
++#define TEGRA30_MC_HOST1XW		54
++#define TEGRA30_MC_ISPW			55
++#define TEGRA30_MC_MPCORELPW		56
++#define TEGRA30_MC_MPCOREW		57
++#define TEGRA30_MC_MPECSWR		58
++#define TEGRA30_MC_PPCSAHBDMAW		59
++#define TEGRA30_MC_PPCSAHBSLVW		60
++#define TEGRA30_MC_SATAW		61
++#define TEGRA30_MC_VDEBSEVW		62
++#define TEGRA30_MC_VDEDBGW		63
++#define TEGRA30_MC_VDEMBEW		64
++#define TEGRA30_MC_VDETPMW		65
 +
  #endif
 -- 
