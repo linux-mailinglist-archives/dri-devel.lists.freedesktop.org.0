@@ -1,57 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504D3197C5B
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 15:00:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F54197C80
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 15:10:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 439B76E2A8;
-	Mon, 30 Mar 2020 13:00:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DBE16E2A0;
+	Mon, 30 Mar 2020 13:10:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76E986E2A8
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 13:00:47 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id a6so17842792otb.10
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 06:00:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=fla8h5dw+7kESbxPfIOGPXN0TH0KgZ2TkZfruGM5x9o=;
- b=lg9bvgvrsr0fQ+6RWmswj1Ye2O+9fMYB4JLMCTLhaiT6/OxszDwqgfMiMC1jVWxEkO
- tTp6yhmw2iUfjKosQmnJ44qYjHc0TVJz/31+6/HqOYVe+0C/CADWA2Wm1RxFciJo48Zy
- HDmHRIgT1OdpEs7r+pHoyENZjFcg3mQ+9PJig=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=fla8h5dw+7kESbxPfIOGPXN0TH0KgZ2TkZfruGM5x9o=;
- b=E/uLBm1R9FJ/v8M4Ej6oRnh1p2UEk+kmClPeSg+HlGAqbXhTlFoPujs+cbwZz5W07+
- obfTnFlG6CPkTyVU+3o7+Pv/QkX/0tYG+Txy1xJgBfiRus05ZdIMiniiwIekoKJF7uSu
- PNFsdDlMErOY22H8QEm3LCT0kexJs40y6+T2gusZFnVqKgbPO5ns7HmPQLvnNfoWwUhG
- Fov4irp+2C+lBIsOaH5S+60BRVmenh2udXi1zzFOapgmra65uAfrdjFWKcxLNXHb7/sg
- gjgBQhQTHxV3NORwt+9WG5nX7O7pntdMl1cs0buPWMqtQlNx8NiZoGOPjjym5NzZ0LT6
- bOCw==
-X-Gm-Message-State: ANhLgQ3x+TmI7hXzKem06wNKjKgR2DadD08wWNO5hsV2if/Ru8xxlfZQ
- FdRf9r1g/5S46opjM5UAl+5+l5dr9BS+I0U0MXD1yA==
-X-Google-Smtp-Source: ADFU+vt5DBwGAI9mfWkYTIU+buXY6ODllVl/y1pNfdCTo2/8qAS1bHnAc8vYv+NAxTpPE7GJFTMrj4Eq0QnR0Jyv8os=
-X-Received: by 2002:a9d:6e8f:: with SMTP id a15mr4716842otr.188.1585573246524; 
- Mon, 30 Mar 2020 06:00:46 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D18196E2A0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 13:10:17 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6FF9A30E;
+ Mon, 30 Mar 2020 06:10:17 -0700 (PDT)
+Received: from [10.57.60.204] (unknown [10.57.60.204])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 96CE83F71E;
+ Mon, 30 Mar 2020 06:10:15 -0700 (PDT)
+Subject: Re: [PATCH v2] drm/prime: fix extracting of the DMA addresses from a
+ scatterlist
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <CGME20200327162330eucas1p1b0413e0e9887aa76d3048f86d2166dcd@eucas1p1.samsung.com>
+ <20200327162126.29705-1-m.szyprowski@samsung.com>
+ <14063C7AD467DE4B82DEDB5C278E8663FFFBFCE1@fmsmsx107.amr.corp.intel.com>
+ <8a09916d-5413-f9a8-bafa-2d8f0b8f892f@samsung.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <95fe655b-e68e-bea4-e8ea-3c4abc3021e7@arm.com>
+Date: Mon, 30 Mar 2020 14:10:14 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 30 Mar 2020 15:00:35 +0200
-Message-ID: <CAKMK7uGQ49JGetk3-VmHxXR0HVEoQgVxSZvX9Z0b5so8y+13cA@mail.gmail.com>
-Subject: rcu_barrier() no longer allowed within mmap_sem?
-To: "Paul E. McKenney" <paulmck@kernel.org>,
- Josh Triplett <josh@joshtriplett.org>, 
- Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Lai Jiangshan <jiangshanlai@gmail.com>, Joel Fernandes <joel@joelfernandes.org>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@redhat.com>, 
- Namhyung Kim <namhyung@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
- Thomas Gleixner <tglx@linutronix.de>
+In-Reply-To: <8a09916d-5413-f9a8-bafa-2d8f0b8f892f@samsung.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,100 +49,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcu@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Shane Francis <bigbeeshane@gmail.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all, for all = rcu, cpuhotplug and perf maintainers
+On 2020-03-29 10:55 am, Marek Szyprowski wrote:
+> Hi Michael,
+> 
+> On 2020-03-27 19:31, Ruhl, Michael J wrote:
+>>> -----Original Message-----
+>>> From: Marek Szyprowski <m.szyprowski@samsung.com>
+>>> Sent: Friday, March 27, 2020 12:21 PM
+>>> To: dri-devel@lists.freedesktop.org; linux-samsung-soc@vger.kernel.org;
+>>> linux-kernel@vger.kernel.org
+>>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>;
+>>> stable@vger.kernel.org; Bartlomiej Zolnierkiewicz
+>>> <b.zolnierkie@samsung.com>; Maarten Lankhorst
+>>> <maarten.lankhorst@linux.intel.com>; Maxime Ripard
+>>> <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>;
+>>> David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Alex Deucher
+>>> <alexander.deucher@amd.com>; Shane Francis <bigbeeshane@gmail.com>;
+>>> Ruhl, Michael J <michael.j.ruhl@intel.com>
+>>> Subject: [PATCH v2] drm/prime: fix extracting of the DMA addresses from a
+>>> scatterlist
+>>>
+>>> Scatterlist elements contains both pages and DMA addresses, but one
+>>> should not assume 1:1 relation between them. The sg->length is the size
+>>> of the physical memory chunk described by the sg->page, while
+>>> sg_dma_len(sg) is the size of the DMA (IO virtual) chunk described by
+>>> the sg_dma_address(sg).
+>>>
+>>> The proper way of extracting both: pages and DMA addresses of the whole
+>>> buffer described by a scatterlist it to iterate independently over the
+>>> sg->pages/sg->length and sg_dma_address(sg)/sg_dma_len(sg) entries.
+>>>
+>>> Fixes: 42e67b479eab ("drm/prime: use dma length macro when mapping sg")
+>>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+>>> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+>>> ---
+>>> drivers/gpu/drm/drm_prime.c | 37 +++++++++++++++++++++++++-----------
+>>> -
+>>> 1 file changed, 25 insertions(+), 12 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+>>> index 1de2cde2277c..282774e469ac 100644
+>>> --- a/drivers/gpu/drm/drm_prime.c
+>>> +++ b/drivers/gpu/drm/drm_prime.c
+>>> @@ -962,27 +962,40 @@ int drm_prime_sg_to_page_addr_arrays(struct
+>>> sg_table *sgt, struct page **pages,
+>>> 	unsigned count;
+>>> 	struct scatterlist *sg;
+>>> 	struct page *page;
+>>> -	u32 len, index;
+>>> +	u32 page_len, page_index;
+>>> 	dma_addr_t addr;
+>>> +	u32 dma_len, dma_index;
+>>>
+>>> -	index = 0;
+>>> +	/*
+>>> +	 * Scatterlist elements contains both pages and DMA addresses, but
+>>> +	 * one shoud not assume 1:1 relation between them. The sg->length
+>>> is
+>>> +	 * the size of the physical memory chunk described by the sg->page,
+>>> +	 * while sg_dma_len(sg) is the size of the DMA (IO virtual) chunk
+>>> +	 * described by the sg_dma_address(sg).
+>>> +	 */
+>> Is there an example of what the scatterlist would look like in this case?
+> 
+> DMA framework or IOMMU is allowed to join consecutive chunks while
+> mapping if such operation is supported by the hw. Here is the example:
+> 
+> Lets assume that we have a scatterlist with 4 4KiB pages of the physical
+> addresses: 0x12000000, 0x13011000, 0x13012000, 0x11011000. The total
+> size of the buffer is 16KiB. After mapping this scatterlist to a device
+> behind an IOMMU it may end up as a contiguous buffer in the DMA (IOVA)
+> address space. at 0xf0010000. The scatterlist will look like this:
+> 
+> sg[0].page = 0x12000000
+> sg[0].len = 4096
+> sg[0].dma_addr = 0xf0010000
+> sg[0].dma_len = 16384
+> sg[1].page = 0x13011000
+> sg[1].len = 4096
+> sg[1].dma_addr = 0
+> sg[1].dma_len = 0
+> sg[2].page = 0x13012000
+> sg[2].len = 4096
+> sg[2].dma_addr = 0
+> sg[2].dma_len = 0
+> sg[3].page = 0x11011000
+> sg[3].len = 4096
+> sg[3].dma_addr = 0
+> sg[3].dma_len = 0
+> 
+> (I've intentionally wrote page as physical address to make it easier to
+> understand, in real SGs it is stored a struct page pointer).
+> 
+>> Does each SG entry always have the page and dma info? or could you have
+>> entries that have page information only, and entries that have dma info only?
+> When SG is not mapped yet it contains only the ->pages and ->len
+> entries. I'm not aware of the SGs with the DMA information only, but in
+> theory it might be possible to have such.
+>> If the same entry has different size info (page_len = PAGE_SIZE,
+>> dma_len = 4 * PAGE_SIZE?), are we guaranteed that the arrays (page and addrs) have
+>> been sized correctly?
+> 
+> There are always no more DMA related entries than the phys pages. If
+> there is 1:1 mapping between physical memory and DMA (IOVA) space, then
+> each SG entry will have len == dma_len, and dma_addr will be describing
+> the same as page entry. DMA mapping framework is allowed only to join
+> entries while mapping to DMA (IOVA).
 
-We've hit an interesting new lockdep splat in our drm/i915 CI:
+Nit: even in a 1:1 mapping, merging would still be permitted (subject to 
+dma_parms constraints) during a bounce-buffer copy, or if the caller 
+simply generates a naive list like so:
 
-https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_17096/shard-tglb7/igt@kms_frontbuffer_tracking@fbcpsr-rgb101010-draw-mmap-gtt.html#dmesg-warnings861
+sg[0].page = 0x12000000
+sg[0].len = 4096
+sg[1].page = 0x12001000
+sg[1].len = 4096
 
-Summarizing away the driver parts we have
+dma_map_sg() =>
 
-< gpu locks which are held within mm->mmap_sem in various gpu fault handlers >
+sg[0].dma_addr = 0x12000000
+sg[0].dma_len = 8192
+sg[1].dma_addr = 0
+sg[1].dma_len = 0
 
--> #4 (&mm->mmap_sem#2){++++}:
-<4> [604.892615] __might_fault+0x63/0x90
-<4> [604.892617] _copy_to_user+0x1e/0x80
-<4> [604.892619] perf_read+0x200/0x2b0
-<4> [604.892621] vfs_read+0x96/0x160
-<4> [604.892622] ksys_read+0x9f/0xe0
-<4> [604.892623] do_syscall_64+0x4f/0x220
-<4> [604.892624] entry_SYSCALL_64_after_hwframe+0x49/0xbe
-<4> [604.892625]
--> #3 (&cpuctx_mutex){+.+.}:
-<4> [604.892626] __mutex_lock+0x9a/0x9c0
-<4> [604.892627] perf_event_init_cpu+0xa4/0x140
-<4> [604.892629] perf_event_init+0x19d/0x1cd
-<4> [604.892630] start_kernel+0x362/0x4e4
-<4> [604.892631] secondary_startup_64+0xa4/0xb0
-<4> [604.892631]
--> #2 (pmus_lock){+.+.}:
-<4> [604.892633] __mutex_lock+0x9a/0x9c0
-<4> [604.892633] perf_event_init_cpu+0x6b/0x140
-<4> [604.892635] cpuhp_invoke_callback+0x9b/0x9d0
-<4> [604.892636] _cpu_up+0xa2/0x140
-<4> [604.892637] do_cpu_up+0x61/0xa0
-<4> [604.892639] smp_init+0x57/0x96
-<4> [604.892639] kernel_init_freeable+0x87/0x1dc
-<4> [604.892640] kernel_init+0x5/0x100
-<4> [604.892642] ret_from_fork+0x24/0x50
-<4> [604.892642]
--> #1 (cpu_hotplug_lock.rw_sem){++++}:
-<4> [604.892643] cpus_read_lock+0x34/0xd0
-<4> [604.892644] rcu_barrier+0xaa/0x190
-<4> [604.892645] kernel_init+0x21/0x100
-<4> [604.892647] ret_from_fork+0x24/0x50
-<4> [604.892647]
--> #0 (rcu_state.barrier_mutex){+.+.}:
-<4> [604.892649] __lock_acquire+0x1328/0x15d0
-<4> [604.892650] lock_acquire+0xa7/0x1c0
-<4> [604.892651] __mutex_lock+0x9a/0x9c0
-<4> [604.892652] rcu_barrier+0x23/0x190
-<4> [604.892680] i915_gem_object_unbind+0x29d/0x3f0 [i915]
-<4> [604.892707] i915_gem_object_pin_to_display_plane+0x141/0x270 [i915]
-<4> [604.892737] intel_pin_and_fence_fb_obj+0xec/0x1f0 [i915]
-<4> [604.892767] intel_plane_pin_fb+0x3f/0xd0 [i915]
-<4> [604.892797] intel_prepare_plane_fb+0x13b/0x5c0 [i915]
-<4> [604.892798] drm_atomic_helper_prepare_planes+0x85/0x110
-<4> [604.892827] intel_atomic_commit+0xda/0x390 [i915]
-<4> [604.892828] drm_atomic_helper_set_config+0x57/0xa0
-<4> [604.892830] drm_mode_setcrtc+0x1c4/0x720
-<4> [604.892830] drm_ioctl_kernel+0xb0/0xf0
-<4> [604.892831] drm_ioctl+0x2e1/0x390
-<4> [604.892833] ksys_ioctl+0x7b/0x90
-<4> [604.892835] __x64_sys_ioctl+0x11/0x20
-<4> [604.892835] do_syscall_64+0x4f/0x220
-<4> [604.892836] entry_SYSCALL_64_after_hwframe+0x49/0xbe
+I'm not sure that any non-IOMMU DMA API implementations actually take 
+advantage of this, but they are *allowed* to ;)
 
-The last backtrace boils down to i915 driver code which holds the same
-locks we are holding within mm->mmap_sem, and then ends up calling
-rcu_barrier(). From what I can see i915 is just the messenger here,
-any driver with this pattern of a lock held within mmap_sem which also
-has a path of calling rcu_barrier while holding that lock should be
-hitting this splat.
-
-Two questions:
-- This suggests that calling rcu_barrier() isn't ok anymore while
-holding mmap_sem, or anything that has a dependency upon mmap_sem. I
-guess that's not the idea, please confirm.
-- Assuming this depedency is indeed not intended, where should the
-loop be broken? It goes through perf, cpuhotplug and rcu subsystems,
-and I don't have a clue about any of those.
-
-Thanks a lot.
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Robin.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
