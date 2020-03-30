@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3341974E6
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8625E1974ED
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:11:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB9C89EA9;
-	Mon, 30 Mar 2020 07:10:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5E96897EF;
+	Mon, 30 Mar 2020 07:11:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com
- [210.131.2.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4668C89EA9
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 07:10:14 +0000 (UTC)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
- [209.85.217.46]) (authenticated)
- by conssluserg-04.nifty.com with ESMTP id 02U79x1g007463
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 16:09:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 02U79x1g007463
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com
+ [210.131.2.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F24F897EF
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 07:11:16 +0000 (UTC)
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
+ [209.85.221.176]) (authenticated)
+ by conssluserg-02.nifty.com with ESMTP id 02U7Av3H029924
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 16:10:58 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 02U7Av3H029924
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
- s=dec2015msa; t=1585552200;
- bh=ln1CQt+YaUVnJf/8SbMK3iPTVvG1KE5EE/FUul8MWQc=;
+ s=dec2015msa; t=1585552258;
+ bh=hkMe26g7xlvZHHpLSXHK4NtsfOWPZ3tdB27BX4Gdox4=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=1sthGaoHw8qoSp3F/D3eH8NqZjk++zLNoSrFExAge5M5k4o6izC7znUZmDsjrR95d
- 3LRi45OyZDxUKTfu4A/3P4aV5+yY39DtCxwP5T2nox/GAPp7PJ3ZaF7u226D4E6kMs
- pxp3tchjSZY1dsGYXfpp7Fyf63ssOrWN+V8tr3iI8kkkZhdSc6hQrcCJehpowCH1tV
- t5Ybjs0wWAwMh0SzhZruoB9o66WBYJD1t+qP7ZqRNrr7efxFSXjCoLMubpsREjCj3w
- uh2OG10xugvGzdVuKY1o+FeM5bjbz3bVeCv27FcaCEJ6WsaSLhERu5H58t5BiMZ2Xi
- G3vbpTZyiHDew==
-X-Nifty-SrcIP: [209.85.217.46]
-Received: by mail-vs1-f46.google.com with SMTP id e138so10289142vsc.11
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 00:09:59 -0700 (PDT)
-X-Gm-Message-State: AGi0PuaZGeci8Lspm1rBbv3+SvUc3itAIf8l0RXwYsWQRX/WPWMe+g/j
- yZbTu2yF/1V1STZq7kcKQjGu7aHzJaZVy5+weUc=
-X-Google-Smtp-Source: APiQypLmGnB9GmkGFIr7L8MQtdRTKDMNPR3ere0jKX6O5/r2adqpWFQ5TPcwWpLgYxRGXDf4dZ6YCv27RE8dCFz54+s=
-X-Received: by 2002:a67:2d55:: with SMTP id t82mr7452280vst.215.1585552198446; 
- Mon, 30 Mar 2020 00:09:58 -0700 (PDT)
+ b=oPp+I+mz1Zy3dMJu1DG1J/OuZx6GQ0LKyyaftGbmcdZRQGSQhsRM5J7b9z04BimiF
+ dVDQRd4VsNqQgAFxI8xrLtuOVZqzSR+afIeX2l7xiPTXvvFVBR8WqP8xrt73QX6p7B
+ 8iqWKVKKRNPrzbRnmAnD+riMmCBNwvT/oDHMHTlDvMD0CiKd6izFoDt2QOFT1NlblQ
+ uRJ9HtSeioPn3Lfvq8BXaEYCEIDn9ufBulL9pxXgL2PgnWBJmRfNAwOCmYFsmzVwCd
+ ZNmml/c32C2Ks2C4J76xjDPMTY/zFDHylpXzXxehTy9QoDn5U3g/GHwZg0RVUop0AL
+ QIRc8+nDR/dVA==
+X-Nifty-SrcIP: [209.85.221.176]
+Received: by mail-vk1-f176.google.com with SMTP id p123so4402764vkg.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 00:10:58 -0700 (PDT)
+X-Gm-Message-State: AGi0Puavbqfb0U1kX/9JSEIdaCn6sJO+8y3TbEXdvkz50IHVFRszvvRS
+ yIHmcA1LMLQSWhMH7tZNhkzjo+kW417BCtYCMAs=
+X-Google-Smtp-Source: APiQypLNZL0F1SjmrpxCYWMM92Tc2B289mmJ4nqnInP/lERMnXKF0z9Hs/o7lbsUDIM38rMhrwxOtOM94wAMTS6itNI=
+X-Received: by 2002:a1f:3649:: with SMTP id d70mr6296693vka.12.1585552257254; 
+ Mon, 30 Mar 2020 00:10:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200325220542.19189-1-robh@kernel.org>
- <20200325220542.19189-5-robh@kernel.org>
-In-Reply-To: <20200325220542.19189-5-robh@kernel.org>
+ <20200325220542.19189-4-robh@kernel.org>
+In-Reply-To: <20200325220542.19189-4-robh@kernel.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 30 Mar 2020 16:09:22 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARJn4uugHxcjK+WOWBs0gPVZQsCu4y6M8hkNK1U5FehRA@mail.gmail.com>
-Message-ID: <CAK7LNARJn4uugHxcjK+WOWBs0gPVZQsCu4y6M8hkNK1U5FehRA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] dt-bindings: Add missing 'additionalProperties: false'
+Date: Mon, 30 Mar 2020 16:10:21 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASHkBoOP_uGXLuO-UT1JL-rN3od_L+F4cB0SRPCzQCyKA@mail.gmail.com>
+Message-ID: <CAK7LNASHkBoOP_uGXLuO-UT1JL-rN3od_L+F4cB0SRPCzQCyKA@mail.gmail.com>
+Subject: Re: [PATCH 3/4] dt-bindings: Clean-up schema errors due to missing
+ 'addtionalProperties: false'
 To: Rob Herring <robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,31 +89,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, Mar 26, 2020 at 7:06 AM Rob Herring <robh@kernel.org> wrote:
 >
-> Setting 'additionalProperties: false' is frequently omitted, but is
-> important in order to check that there aren't extra undocumented
-> properties in a binding.
+> Numerous schemas are missing 'additionalProperties: false' statements which
+> ensures a binding doesn't have any extra undocumented properties or child
+> nodes. Fixing this reveals various missing properties, so let's fix all
+> those occurrences.
 >
-> Ideally, we'd just add this automatically and make this the default, but
-> there's some cases where it doesn't work. For example, if a common
-> schema is referenced, then properties in the common schema aren't part
-> of what's considered for 'additionalProperties'. Also, sometimes there
-> are bus specific properties such as 'spi-max-frequency' that go into
-> bus child nodes, but aren't defined in the child node's schema.
->
-> So let's stick with the json-schema defined default and add
-> 'additionalProperties: false' where needed. This will be a continual
-> review comment and game of wack-a-mole.
->
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Hartmut Knaack <knaack.h@gmx.de>
+> Cc: Lars-Peter Clausen <lars@metafoo.de>
+> Cc: Peter Meerwald-Stadler <pmeerw@pmeerw.net>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Kevin Hilman <khilman@baylibre.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Liam Girdwood <lgirdwood@gmail.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Guillaume La Roque <glaroque@baylibre.com>
+> Cc: Zhang Rui <rui.zhang@intel.com>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: linux-clk@vger.kernel.org
+> Cc: linux-gpio@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-amlogic@lists.infradead.org
+> Cc: netdev@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
 
 
->  .../devicetree/bindings/gpio/socionext,uniphier-gpio.yaml      | 2 ++
+
+>  .../gpio/socionext,uniphier-gpio.yaml         |  2 ++
 
 
 You may have already queue this up, but just in case.
 
 Acked-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+
 
 -- 
 Best Regards
