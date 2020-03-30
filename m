@@ -1,40 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36728197F49
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 17:12:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 848FD197FD4
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 17:38:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A87B76E418;
-	Mon, 30 Mar 2020 15:12:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5EC56E14D;
+	Mon, 30 Mar 2020 15:38:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 277C06E418
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 15:12:02 +0000 (UTC)
-IronPort-SDR: qM+9dFr5JmTtvnSFqIlV+eSoVfjd3x4u17S5M9jtmn3b60WiOUPgQXbOPWUuHZFnkl8DX0Md2s
- UKuX6EBNFkWw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2020 08:12:01 -0700
-IronPort-SDR: duvVEIU0KGo6R1ywYmSf+F+JNL7mpHaa6GZAW85nbQFzLqcvxkT/UtjFUiKyVVocC1zFDJ855s
- 2YIcOcsGhENA==
-X-IronPort-AV: E=Sophos;i="5.72,324,1580803200"; d="scan'208";a="421957907"
-Received: from unknown (HELO localhost) ([10.252.36.25])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2020 08:11:59 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Daniel Dadap <ddadap@nvidia.com>, dri-devel@lists.freedesktop.org
-Subject: Re: How to handle disconnection of eDP panels due to dynamic display
- mux switches
-In-Reply-To: <956fd624-e1f5-e2a0-90de-9a5f2934547d@nvidia.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <956fd624-e1f5-e2a0-90de-9a5f2934547d@nvidia.com>
-Date: Mon, 30 Mar 2020 18:11:56 +0300
-Message-ID: <874ku5ho77.fsf@intel.com>
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+ [209.85.166.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C21646E429
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 15:38:49 +0000 (UTC)
+Received: by mail-il1-f194.google.com with SMTP id n13so8888213ilm.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 08:38:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=kjvQ/aX+nqXYP/8xlPBLanrss6H0Kukdfj5oOHWtkGI=;
+ b=ncf+x6Ue6HLIspe+yjMIkr4BPUbp4h+DoJB06xNZMlM5p80Q+wva/Wyq7sy7dH259x
+ rMuRAA717taxtaFwb+om5X2ANDleGHNC2x/NbJjGOUSVeOawpSEIANVjcjjgMqQGwRAw
+ zgx4d3vWpcCNAFpQPHRPh8D9MmUqJuZdd9BjHtSdJIz14qyEIBvy2k7MDFyXQQxo3HQ7
+ 8JIdvwhjV1P5nnBRggCkGAxDs5rH1TZmE0tFZwWGbq6RG2J00Qmby9n975UEvcV52fHj
+ qovX04ltW6Sabk3wpC1FsXr79/vMO4vl/DxDoXA3EOnk4pTwm2ItYjJWvOCBvtgiCARf
+ Bgmw==
+X-Gm-Message-State: ANhLgQ28e2eSWoaMbsnEq8F2/2jfoDkcyxfjDHp4U/hpG7XLkvICnRxb
+ 5cPEVtH6sjUHYdmQH1MStA==
+X-Google-Smtp-Source: ADFU+vub9x8UsaNR5rZlhFtYZGuK9nLpiz/UHXGujrMmTJO3dB/kG0f8isqdsyg/WtZalr/2pwB4Bw==
+X-Received: by 2002:a92:d7cc:: with SMTP id g12mr12180998ilq.260.1585582729078; 
+ Mon, 30 Mar 2020 08:38:49 -0700 (PDT)
+Received: from rob-hp-laptop ([64.188.179.250])
+ by smtp.gmail.com with ESMTPSA id k16sm4958078ila.38.2020.03.30.08.38.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Mar 2020 08:38:48 -0700 (PDT)
+Received: (nullmailer pid 19882 invoked by uid 1000);
+ Mon, 30 Mar 2020 15:38:46 -0000
+Date: Mon, 30 Mar 2020 09:38:46 -0600
+From: Rob Herring <robh@kernel.org>
+To: Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>
+Subject: Re: [PATCH 1/4] dt-bindings: display: Add IPK DSI subsystem bindings
+Message-ID: <20200330153846.GA19314@bogus>
+References: <cover.1585067507.git.angelo.ribeiro@synopsys.com>
+ <0bc20739facfa519296defe2a367774a7b5a355d.1585067507.git.angelo.ribeiro@synopsys.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <0bc20739facfa519296defe2a367774a7b5a355d.1585067507.git.angelo.ribeiro@synopsys.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,109 +60,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 27 Mar 2020, Daniel Dadap <ddadap@nvidia.com> wrote:
-> A number of hybrid GPU notebook computer designs with dual (integrated 
-> plus discrete) GPUs are equipped with multiplexers (muxes) that allow 
-> display panels to be driven by either the integrated GPU or the discrete 
-> GPU. Typically, this is a selection that can be made at boot time as a 
-> menu option in the system firmware's setup screen, and the mux selection 
-> stays fixed for as long as the system is running and persists across 
-> reboots until it is explicitly changed. However, some muxed hybrid GPU 
-> systems have dynamically switchable muxes which can be switched while 
-> the system is running.
->
-> NVIDIA is exploring the possibility of taking advantage of dynamically 
-> switchable muxes to enhance the experience of using a hybrid GPU system. 
-> For example, on a system configured for PRIME render offloading, it may 
-> be possible to keep the discrete GPU powered down and use the integrated 
-> GPU for rendering and displaying the desktop when no applications are 
-> using the discrete GPU, and dynamically switch the panel to be driven 
-> directly by the discrete GPU when render-offloading a fullscreen 
-> application.
->
-> We have been conducting some experiments on systems with dynamic muxes, 
-> and have found some limitations that would need to be addressed in order 
-> to support use cases like the one suggested above:
->
-> * In at least the i915 DRM-KMS driver, and likely in other DRM-KMS 
-> drivers as well, eDP panels are assumed to be always connected. This 
-> assumption is broken when the panel is muxed away, which can cause 
-> problems. A typical symptom is i915 repeatedly attempting to retrain the 
-> link, severely impacting system performance and printing messages like 
-> the following every five seconds or so:
->
-> [drm:intel_dp_start_link_train [i915]] *ERROR* failed to enable link 
-> training
-> [drm] Reducing the compressed framebuffer size. This may lead to less 
-> power savings than a non-reduced-size. Try to increase stolen memory 
-> size if available in BIOS.
->
-> This symptom might occur if something causes the DRM-KMS driver to probe 
-> the display while it's muxed away, for example a modeset or DPMS state 
-> change.
->
-> * When switching the mux back to a GPU that was previously driving a 
-> mode, it is necessary to at the very least retrain DP links to restore 
-> the previously displayed image. In a proof of concept I have been 
-> experimenting with, I am able to accomplish this from userspace by 
-> triggering DPMS off and then back on again; however, it would be good to 
-> have an in-kernel API to request that an output owned by a DRM-KMS 
-> driver be refreshed to resume driving a mode on a disconnected and 
-> reconnected display. This API would need to be accessible from outside 
-> of the DRM-KMS driver handling the output. One reason it would be good 
-> to do this within the kernel, rather than rely on e.g. DPMS operations 
-> in the xf86-video-modesetting driver, is that it would be useful for 
-> restoring the console if X crashes or is forcefully killed while the mux 
-> is switched to a GPU other than the one which drives the console.
->
-> Basically, we'd like to be able to do the following:
->
-> 1) Communicate to a DRM-KMS driver that an output is disconnected and 
-> can't be used. Ideally, DRI clients such as X should still see the 
-> output as being connected, so user applications don't need to keep track 
-> of the change.
+On Tue, 24 Mar 2020 18:18:19 +0100, Angelo Ribeiro wrote:
+> Add dt-bindings for Synopsys DesignWare MIPI DSI Host and VPG (Video
+> Pattern Generator) support in the IPK display subsystem.
+> 
+> The Synopsys DesignWare IPK display video pipeline is composed by a DSI
+> controller (snps,dw-ipk-dsi) and a VPG (snps,dw-ipk-vpg) as DPI
+> stimulus. Typically is used the Raspberry Pi
+> (raspberrypi,7inch-touchscreen-panel) as DSI panel that requires a
+> I2C controller (snps,designware-i2c).
+> 
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Signed-off-by: Angelo Ribeiro <angelo.ribeiro@synopsys.com>
+> ---
+>  .../bindings/display/snps,dw-ipk-dsi.yaml          | 163 +++++++++++++++++++++
+>  .../bindings/display/snps,dw-ipk-vpg.yaml          |  77 ++++++++++
+>  2 files changed, 240 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/snps,dw-ipk-dsi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/snps,dw-ipk-vpg.yaml
+> 
 
-I think everything will be much easier if you provide a way for
-userspace to control the muxing using the KMS API, and not lie to the
-userspace about what's going on.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-You're not actually saying what component you think should control the
-muxing.
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/snps,dw-ipk-vpg.yaml: properties:reg:minItems: False schema does not allow 2
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/snps,dw-ipk-vpg.yaml: properties:reg:maxItems: False schema does not allow 2
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/snps,dw-ipk-vpg.yaml: properties:resets:minItems: False schema does not allow 2
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/snps,dw-ipk-vpg.yaml: properties:resets:maxItems: False schema does not allow 2
+Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/display/snps,dw-ipk-vpg.example.dts' failed
+make[1]: *** [Documentation/devicetree/bindings/display/snps,dw-ipk-vpg.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+Makefile:1262: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
 
-Why should the drivers keep telling the userspace the output is
-connected when it's not? Obviously the userspace should also switch to
-using a different output on a different GPU, right? Or are you planning
-some proprietary behind the scenes hack for discrete?
+See https://patchwork.ozlabs.org/patch/1260819
 
-BR,
-Jani.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
 
-> 2) Request that a mode that was previously driven on a disconnected 
-> output be driven again upon reconnection.
->
-> If APIs to do the above are already available, I wasn't able to find 
-> information about them. These could be handled as separate APIs, e.g., 
-> one to set connected/disconnected state and another to restore an 
-> output, or as a single API, e.g., signal a disconnect or reconnect, 
-> leaving it up to the driver receiving the signal to set the appropriate 
-> internal state and restore the reconnected output. Another possibility 
-> would be an API to disable and enable individual outputs from outside of 
-> the DRM-KMS driver that owns them. I'm curious to hear the thoughts of 
-> the DRM subsystem maintainers and contributors on what the best approach 
-> to this would be.
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Please check and re-submit.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
