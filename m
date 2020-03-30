@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD76D197538
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:13:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17D1197553
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Mar 2020 09:14:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E07E86E079;
-	Mon, 30 Mar 2020 07:11:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0451C6E0C1;
+	Mon, 30 Mar 2020 07:13:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1389989F41
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 01:09:58 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id p14so16283459lji.11
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 18:09:57 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D5D089F35
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 01:09:59 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id q5so12698732lfb.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Mar 2020 18:09:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PzPcH2Zw8s/lvusSJ+NeMT9K6QE3NO3BQ3OrhGxd84A=;
- b=dAAbaMon+3/bSqoIuYfuwHx2KG8hghvSLrRSU22QfeV59mfGE+K6Fbxqmy75QxyRCz
- vzG5MdQuMDqHNheti6KOwuAC/+GF7vBVf/jEwWYS0JpHBODi64d+2WUXzJ80dVgPaNbe
- E2DmsKwTAP1jGTMw1ptNsZIEqJS4WhOcV9lNCgeUkDl9yc9Qhfifpe56l1OBc8mmkQVV
- /NvfFxStOa1MuTM+BiVP1h8E8A+35d/0zkbSj9rlEX3Q2stjrqJdoJTxDE5PJap/Nf7q
- zK7VvXq/44tRZFis67kdqpwYT1THGvNz40nr1jawM5e5NgNtwBdl8KhlaQDO66t+wvDQ
- tlww==
+ bh=9E7zI2IZnXV4YyjveISOsemm9R4xu7EUE6WXPbYZj5s=;
+ b=SHY9Z0NgudDm+L5mpyLB00o4AL/yhAoKr3QhYv/uGqvjwF4WtUVJvJNV4sfPZp4VYL
+ gQ+u862RKGhEHlNflC6XRFa34GlMpKu7biU4hVlvoZHgIlYg9/0jNqr8zWTVgN/fD+G5
+ 17chke2o76960p5eSNsbEF2fvD5ycrj+Ev4wEpl/k4OCU+JO65D6adaYNKF82XQjdMeV
+ EiVy40M+MMGcC82Z4m+p9h1t5h+REMeOl+LLhVgSz8MDVIJD/RaihQmdSsD7ssnUvOwN
+ i71Pw9XhUawf2Zz+MNMEz+qWo1g2srkUAlnyP1M/sFKBa8wCE+AB2T33wYureSb1X/K7
+ BkDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PzPcH2Zw8s/lvusSJ+NeMT9K6QE3NO3BQ3OrhGxd84A=;
- b=gDgwlUWwCjyiRVdn0YGR4xaDlxhU2U8KT8XywO1GIP+qKyZ+y36fQsCPPBZnQkSTrb
- odJJFi6GJ4yNtV6XrtBE9hkQ5mgrAuIdWatWsZhER0FUhqGZ5JcRGK+AO8dgo+YR3A+R
- CJF5ZfXzbgGTacEGdTVXFzFqx2p6vWngAeLH7hAiAqKUxvCD6/bcYedWLtXRayYCTU/r
- hYylT4rOMV8DJ3b8nXtfvH+x9rnAvFL5SduYwaGEh7G58NTXL1CxPBZcpG45tU+0V1Rk
- yzS490m7js3tmJ4fPWcaimI5wO2HRoS399AUPnb+VeNwsD2F8EOq/LSNArgGKAnk9Vfr
- pghA==
-X-Gm-Message-State: AGi0PuZ2ThN9TPEgmZ7CM/G4So9oUS8gDcHM9WleDIaJ81WufI3YbLDK
- s7Z3DlC5tUgKh3zO1XmyoAU=
-X-Google-Smtp-Source: APiQypIYV+VJ2BotiGVJkdVXlprPFDGmyLuF/8w8UIlmHETYi4iZ9H/wP0ZGxE/ac47Mtz3QpiVAvg==
-X-Received: by 2002:a2e:9b41:: with SMTP id o1mr5726081ljj.145.1585530596562; 
- Sun, 29 Mar 2020 18:09:56 -0700 (PDT)
+ bh=9E7zI2IZnXV4YyjveISOsemm9R4xu7EUE6WXPbYZj5s=;
+ b=blVT4qNEhSnqzlBJBIEmk4qi/SZcU362WA/I42PoBts6ZOdeFbH/OLw/vx4KOQ3dww
+ DKzzz1nxXOCK5Yw8ez6suI0pZber1UqOa92Z9hLKFL54yNJHU++pc4r2YzFoqMPLHJuF
+ najUGub4Wzn2IuCGWzeFFEyIpoqcy9a2pppqBVqljCCgIWORh/s/gOK1yiPWQyw5KsDh
+ uaLmqgT60+leBxnmPKXV3xfxhWGNjWeOksFZ34opPmvHyKvlMMEEwfyZrGON5haSmNoS
+ K1KKJmJDCzdLrOKWmZ/Kubwy8qR60/57LbplVfOcBY0TwC5SJsAvEpeULbWZcsyzFb6q
+ lngA==
+X-Gm-Message-State: AGi0PubZqIKaPp5WnMR79rs3HuKCEhKZz77qodjf6cB+N0lJDFLLQOu6
+ q3beuwCWX564Xe8r7GC4SqQ=
+X-Google-Smtp-Source: APiQypJb/KYN7Ausy9RzxNHKtBOMbGpnF36P6KkLPqb8j8gQzwiIUSVwL00ZzzFM4pP1djvb07ArDg==
+X-Received: by 2002:a05:6512:31d3:: with SMTP id
+ j19mr6551417lfe.178.1585530597501; 
+ Sun, 29 Mar 2020 18:09:57 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru.
  [91.78.208.152])
- by smtp.gmail.com with ESMTPSA id f23sm2449005lja.60.2020.03.29.18.09.55
+ by smtp.gmail.com with ESMTPSA id f23sm2449005lja.60.2020.03.29.18.09.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Mar 2020 18:09:55 -0700 (PDT)
+ Sun, 29 Mar 2020 18:09:57 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  =?UTF-8?q?Artur=20=C5=9Awigo=C5=84?= <a.swigon@samsung.com>,
  Georgi Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 21/22] ARM: tegra: Enable interconnect API in
- tegra_defconfig
-Date: Mon, 30 Mar 2020 04:09:03 +0300
-Message-Id: <20200330010904.27643-22-digetx@gmail.com>
+Subject: [PATCH v2 22/22] ARM: multi_v7_defconfig: Enable interconnect API
+Date: Mon, 30 Mar 2020 04:09:04 +0300
+Message-Id: <20200330010904.27643-23-digetx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200330010904.27643-1-digetx@gmail.com>
 References: <20200330010904.27643-1-digetx@gmail.com>
@@ -80,26 +80,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tegra now has interconnect providers that are used for memory bandwidth
-allocation.
+NVIDIA Tegra now has interconnect providers that are used for memory
+bandwidth allocation.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/configs/tegra_defconfig | 1 +
+ arch/arm/configs/multi_v7_defconfig | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index aa94369bdd0f..0029259a6bf5 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -268,6 +268,7 @@ CONFIG_AK8975=y
- CONFIG_PWM=y
- CONFIG_PWM_TEGRA=y
- CONFIG_PHY_TEGRA_XUSB=y
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index f8e45351c3f9..658b5c1892eb 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -1085,6 +1085,7 @@ CONFIG_FSI_MASTER_ASPEED=m
+ CONFIG_FSI_SCOM=m
+ CONFIG_FSI_SBEFIFO=m
+ CONFIG_FSI_OCC=m
 +CONFIG_INTERCONNECT=y
- CONFIG_EXT2_FS=y
- CONFIG_EXT2_FS_XATTR=y
- CONFIG_EXT2_FS_POSIX_ACL=y
+ CONFIG_EXT4_FS=y
+ CONFIG_AUTOFS4_FS=y
+ CONFIG_MSDOS_FS=y
 -- 
 2.25.1
 
