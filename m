@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76887199A83
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 17:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C30CD199A7C
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 17:57:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A009B6E857;
-	Tue, 31 Mar 2020 15:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4DDB6E855;
+	Tue, 31 Mar 2020 15:57:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 333336E855
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 15:57:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADC786E855
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 15:57:41 +0000 (UTC)
 Received: from DESKTOP-GFFITBK.localdomain (218-161-90-76.HINET-IP.hinet.net
  [218.161.90.76])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 006D82145D;
- Tue, 31 Mar 2020 15:57:36 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7FA5B2137B;
+ Tue, 31 Mar 2020 15:57:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585670259;
- bh=AL6zvpFQUuF/mrQfmk3wscJLtjTKUP/MgD0iD7UtbWw=;
+ s=default; t=1585670261;
+ bh=LMgKTiMXsLLMrmXVZ091bFAZrp+yhoV6qstjfE/5HIg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VyMILHntgkfjjVAnbx0XFP815DGsRjqLrwCnNMrHu5tSwlOcGXRhI+YqVHXQAXDXG
- 9NsK2rLf2Zrc3STtscpFGJsltt5wIJUGHZ3+FvM/RvVCUrF40yU21kgf/ilF/2FWlW
- DgYKADVa+HyRDqmKaRImU6jjogW8MPBzErt7HCIU=
+ b=tERapeQM0EghlKy3jmG7e3Eggxx/o6awQQEYBwxV/0MOL7sktYlZB7SpD1xvTNuS2
+ x96kqrSzYsVAxJ/7kAW/sPpQIX7m5Xhh+8DAoE5ljx78hz+fO1AfOMAtzBYaV7tx3X
+ Auy63voAXpyJ7m/LmrO+k9Kqwy0IvVMAIDG3UIzw=
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
  Chunfeng Yun <chunfeng.yun@mediatek.com>,
  Kishon Vijay Abraham I <kishon@ti.com>
-Subject: [PATCH v3 2/4] drm/mediatek: Separate mtk_hdmi_phy to an independent
- module
-Date: Tue, 31 Mar 2020 23:57:26 +0800
-Message-Id: <20200331155728.18032-3-chunkuang.hu@kernel.org>
+Subject: [PATCH v3 3/4] phy: mediatek: Move mtk_hdmi_phy driver into
+ drivers/phy/mediatek folder
+Date: Tue, 31 Mar 2020 23:57:27 +0800
+Message-Id: <20200331155728.18032-4-chunkuang.hu@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200331155728.18032-1-chunkuang.hu@kernel.org>
 References: <20200331155728.18032-1-chunkuang.hu@kernel.org>
@@ -59,33 +59,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: CK Hu <ck.hu@mediatek.com>
 
-mtk_hdmi_phy is a part of mtk_hdmi module, but phy driver should be an
-independent module rather than be part of drm module, so separate the phy
-driver to an independent module.
+mtk_hdmi_phy is currently placed inside mediatek drm driver, but it's
+more suitable to place a phy driver into phy driver folder, so move
+mtk_hdmi_phy driver into phy driver folder.
 
 Signed-off-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 ---
- drivers/gpu/drm/mediatek/Kconfig        |  9 ++++++++-
- drivers/gpu/drm/mediatek/Makefile       | 11 +++++++----
- drivers/gpu/drm/mediatek/mtk_hdmi.c     |  2 +-
- drivers/gpu/drm/mediatek/mtk_hdmi.h     |  1 -
- drivers/gpu/drm/mediatek/mtk_hdmi_phy.c |  1 +
- drivers/gpu/drm/mediatek/mtk_hdmi_phy.h |  1 -
- 6 files changed, 17 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/mediatek/Kconfig                           | 7 -------
+ drivers/gpu/drm/mediatek/Makefile                          | 6 ------
+ drivers/phy/mediatek/Kconfig                               | 7 +++++++
+ drivers/phy/mediatek/Makefile                              | 7 +++++++
+ .../mediatek/phy-mtk-hdmi-mt2701.c}                        | 2 +-
+ .../mediatek/phy-mtk-hdmi-mt8173.c}                        | 2 +-
+ .../mtk_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi.c}         | 2 +-
+ .../mtk_hdmi_phy.h => phy/mediatek/phy-mtk-hdmi.h}         | 0
+ 8 files changed, 17 insertions(+), 16 deletions(-)
+ rename drivers/{gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi-mt2701.c} (99%)
+ rename drivers/{gpu/drm/mediatek/mtk_mt8173_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi-mt8173.c} (99%)
+ rename drivers/{gpu/drm/mediatek/mtk_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi.c} (99%)
+ rename drivers/{gpu/drm/mediatek/mtk_hdmi_phy.h => phy/mediatek/phy-mtk-hdmi.h} (100%)
 
 diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
-index fa5ffc4fe823..ff6a1eb4ae83 100644
+index ff6a1eb4ae83..2427d5bf699d 100644
 --- a/drivers/gpu/drm/mediatek/Kconfig
 +++ b/drivers/gpu/drm/mediatek/Kconfig
-@@ -23,6 +23,13 @@ config DRM_MEDIATEK_HDMI
- 	tristate "DRM HDMI Support for Mediatek SoCs"
- 	depends on DRM_MEDIATEK
- 	select SND_SOC_HDMI_CODEC if SND_SOC
--	select GENERIC_PHY
-+	select PHY_MTK_HDMI
+@@ -26,10 +26,3 @@ config DRM_MEDIATEK_HDMI
+ 	select PHY_MTK_HDMI
  	help
  	  DRM/KMS HDMI driver for Mediatek SoCs
+-
+-config PHY_MTK_HDMI
+-    tristate "MediaTek HDMI-PHY Driver"
+-    depends on ARCH_MEDIATEK && OF
+-    select GENERIC_PHY
+-    help
+-          Enable this to support HDMI-PHY
+diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek/Makefile
+index fcbef23aa6ce..77b0fd86063d 100644
+--- a/drivers/gpu/drm/mediatek/Makefile
++++ b/drivers/gpu/drm/mediatek/Makefile
+@@ -22,9 +22,3 @@ mediatek-drm-hdmi-objs := mtk_cec.o \
+ 			  mtk_hdmi_ddc.o
+ 
+ obj-$(CONFIG_DRM_MEDIATEK_HDMI) += mediatek-drm-hdmi.o
+-
+-phy-mtk-hdmi-drv-objs := mtk_hdmi_phy.o \
+-			 mtk_mt2701_hdmi_phy.o \
+-			 mtk_mt8173_hdmi_phy.o
+-
+-obj-$(CONFIG_PHY_MTK_HDMI) += phy-mtk-hdmi-drv.o
+diff --git a/drivers/phy/mediatek/Kconfig b/drivers/phy/mediatek/Kconfig
+index dee757c957f2..10f0ec2d5b54 100644
+--- a/drivers/phy/mediatek/Kconfig
++++ b/drivers/phy/mediatek/Kconfig
+@@ -35,3 +35,10 @@ config PHY_MTK_XSPHY
+ 	  Enable this to support the SuperSpeedPlus XS-PHY transceiver for
+ 	  USB3.1 GEN2 controllers on MediaTek chips. The driver supports
+ 	  multiple USB2.0, USB3.1 GEN2 ports.
 +
 +config PHY_MTK_HDMI
 +    tristate "MediaTek HDMI-PHY Driver"
@@ -93,83 +124,73 @@ index fa5ffc4fe823..ff6a1eb4ae83 100644
 +    select GENERIC_PHY
 +    help
 +          Enable this to support HDMI-PHY
-diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek/Makefile
-index b7a82ed5788f..fcbef23aa6ce 100644
---- a/drivers/gpu/drm/mediatek/Makefile
-+++ b/drivers/gpu/drm/mediatek/Makefile
-@@ -19,9 +19,12 @@ obj-$(CONFIG_DRM_MEDIATEK) += mediatek-drm.o
- 
- mediatek-drm-hdmi-objs := mtk_cec.o \
- 			  mtk_hdmi.o \
--			  mtk_hdmi_ddc.o \
--			  mtk_mt2701_hdmi_phy.o \
--			  mtk_mt8173_hdmi_phy.o \
--			  mtk_hdmi_phy.o
-+			  mtk_hdmi_ddc.o
- 
- obj-$(CONFIG_DRM_MEDIATEK_HDMI) += mediatek-drm-hdmi.o
+diff --git a/drivers/phy/mediatek/Makefile b/drivers/phy/mediatek/Makefile
+index 08a8e6a97b1e..cda074c53235 100644
+--- a/drivers/phy/mediatek/Makefile
++++ b/drivers/phy/mediatek/Makefile
+@@ -6,3 +6,10 @@
+ obj-$(CONFIG_PHY_MTK_TPHY)		+= phy-mtk-tphy.o
+ obj-$(CONFIG_PHY_MTK_UFS)		+= phy-mtk-ufs.o
+ obj-$(CONFIG_PHY_MTK_XSPHY)		+= phy-mtk-xsphy.o
 +
-+phy-mtk-hdmi-drv-objs := mtk_hdmi_phy.o \
-+			 mtk_mt2701_hdmi_phy.o \
-+			 mtk_mt8173_hdmi_phy.o
++phy-mtk-hdmi-drv-objs := phy-mtk-hdmi.o \
++			 phy-mtk-hdmi-mt2701.o \
++			 phy-mtk-hdmi-mt8173.o
 +
 +obj-$(CONFIG_PHY_MTK_HDMI) += phy-mtk-hdmi-drv.o
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 878433c09c9b..ee72ece0e54d 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -12,6 +12,7 @@
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/module.h>
- #include <linux/of_platform.h>
- #include <linux/of.h>
- #include <linux/of_gpio.h>
-@@ -1797,7 +1798,6 @@ static struct platform_driver mtk_hdmi_driver = {
- };
- 
- static struct platform_driver * const mtk_hdmi_drivers[] = {
--	&mtk_hdmi_phy_driver,
- 	&mtk_hdmi_ddc_driver,
- 	&mtk_cec_driver,
- 	&mtk_hdmi_driver,
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.h b/drivers/gpu/drm/mediatek/mtk_hdmi.h
-index bb3653de6bd1..472bf141c92b 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.h
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.h
-@@ -5,7 +5,6 @@
++
+diff --git a/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt2701.c
+similarity index 99%
+rename from drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
+rename to drivers/phy/mediatek/phy-mtk-hdmi-mt2701.c
+index 99fe05cd3598..a6cb1dea3d0c 100644
+--- a/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
++++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt2701.c
+@@ -4,7 +4,7 @@
+  * Author: Chunhui Dai <chunhui.dai@mediatek.com>
   */
- #ifndef _MTK_HDMI_CTRL_H
- #define _MTK_HDMI_CTRL_H
+ 
 -#include "mtk_hdmi_phy.h"
++#include "phy-mtk-hdmi.h"
  
- struct platform_driver;
+ #define HDMI_CON0	0x00
+ #define RG_HDMITX_DRV_IBIAS		0
+diff --git a/drivers/gpu/drm/mediatek/mtk_mt8173_hdmi_phy.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8173.c
+similarity index 99%
+rename from drivers/gpu/drm/mediatek/mtk_mt8173_hdmi_phy.c
+rename to drivers/phy/mediatek/phy-mtk-hdmi-mt8173.c
+index b55f51675205..3521c4893c53 100644
+--- a/drivers/gpu/drm/mediatek/mtk_mt8173_hdmi_phy.c
++++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8173.c
+@@ -4,7 +4,7 @@
+  * Author: Jie Qiu <jie.qiu@mediatek.com>
+  */
  
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c
-index 5223498502c4..fe022acddbef 100644
+-#include "mtk_hdmi_phy.h"
++#include "phy-mtk-hdmi.h"
+ 
+ #define HDMI_CON0		0x00
+ #define RG_HDMITX_PLL_EN		BIT(31)
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c b/drivers/phy/mediatek/phy-mtk-hdmi.c
+similarity index 99%
+rename from drivers/gpu/drm/mediatek/mtk_hdmi_phy.c
+rename to drivers/phy/mediatek/phy-mtk-hdmi.c
+index fe022acddbef..8fc83f01a720 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c
-@@ -205,6 +205,7 @@ struct platform_driver mtk_hdmi_phy_driver = {
- 		.of_match_table = mtk_hdmi_phy_match,
- 	},
- };
-+module_platform_driver(mtk_hdmi_phy_driver);
++++ b/drivers/phy/mediatek/phy-mtk-hdmi.c
+@@ -4,7 +4,7 @@
+  * Author: Jie Qiu <jie.qiu@mediatek.com>
+  */
  
- MODULE_DESCRIPTION("MediaTek HDMI PHY Driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
-index fc1c2efd1128..b13e1d5f8e78 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
-@@ -49,7 +49,6 @@ void mtk_hdmi_phy_mask(struct mtk_hdmi_phy *hdmi_phy, u32 offset,
- 		       u32 val, u32 mask);
- struct mtk_hdmi_phy *to_mtk_hdmi_phy(struct clk_hw *hw);
+-#include "mtk_hdmi_phy.h"
++#include "phy-mtk-hdmi.h"
  
--extern struct platform_driver mtk_hdmi_phy_driver;
- extern struct mtk_hdmi_phy_conf mtk_hdmi_phy_8173_conf;
- extern struct mtk_hdmi_phy_conf mtk_hdmi_phy_2701_conf;
- 
+ static int mtk_hdmi_phy_power_on(struct phy *phy);
+ static int mtk_hdmi_phy_power_off(struct phy *phy);
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h b/drivers/phy/mediatek/phy-mtk-hdmi.h
+similarity index 100%
+rename from drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
+rename to drivers/phy/mediatek/phy-mtk-hdmi.h
 -- 
 2.17.1
 
