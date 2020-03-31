@@ -2,52 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7FF199901
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 16:54:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89153199962
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 17:15:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5625B6E840;
-	Tue, 31 Mar 2020 14:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5449C6E84E;
+	Tue, 31 Mar 2020 15:15:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 953E16E840;
- Tue, 31 Mar 2020 14:54:15 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id h15so26333637wrx.9;
- Tue, 31 Mar 2020 07:54:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HO6TrY5vHW3xCtXAgehmLHCRS7dfehnjLhFx26xMDoQ=;
- b=U1G7c6dIUiJdJNDBHMSSRHwSZ62lP7+ual3LVgEwKhursW1dC+ZfNBC4rLJVBTgXzp
- gGb+09depK86K4VS+NBP5cVoROKTuIr6D0JxZQjPKT0meNE/Gv/M7W9BhTjpZJvxqqGk
- DVJz/ZducLCzcG7pk/vZI1twZC/jkuVPFy8oMKFocfrF/rCp446+WKSK0EGa/NNaR8Yu
- /jGCXzmhszph91/K3p39NswbYsyy4SN8Wumcmbo09q0jdZUPVjHKn9dZDDKt0CIlqXPt
- 3O79or2gzduI/i6BKYXP75mWMd3TvIgfLVY2aSkLTCMjm9puCJRj/ZHaBjbI3ezsi9m9
- NHTQ==
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6F66E84D
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 15:15:18 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id z7so241950wmk.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 08:15:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ipYWlIFq3tHRPQUnqZtBdxsK4/UyR731/H9eH9PnfT4=;
+ b=KbvvbCuWTnx3deVUNXfh6ZH7/iir2HKLToXknDwo7In/7NB8wHWU62m7SbNHlQK15w
+ NYMV8jhWujQQ7f0S6Ej7AT5Bn2gH8fg/ntDxAxG/2Ml3w1WIM8Eh5GxUxAw2z0TfpFML
+ V4jsubaGezs2z+6lJKnB1kN6/No3ukTNiELuU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HO6TrY5vHW3xCtXAgehmLHCRS7dfehnjLhFx26xMDoQ=;
- b=jNKNokf600XbCAkqrxo5Gve/jnJ2ODlEDqbTsj6ed5KYlPFtEzrwxZzEkdbI+bJQif
- Xyn9is/Afwa8Aw+bkP/goFOyf4QQRh77nQfQKFZmypf0qP5xo7kdIR21n7vGiYe77yYq
- b4q1y+2NhTIY/V8nHlg0gkkt6CjsPz2vxPkvik/1bFZEKDNt1HZxNPwyfnAghRZFnHJX
- fajbZzzAy+2i8xmY3YLT4pWB5i8PLYjl5i0FFe+kF/FPdyQ7ToJ1Oce3jSS4MktCFBng
- JZKlUXbe0w+1q8hlVH0FC2ImlIp4solQ+j64cGpzJtQAO2YhjvnNWlzqJYWTxVZX22W/
- 244w==
-X-Gm-Message-State: ANhLgQ2r6QGRHndjOS9ghl9GVweScMfpQYYxOffxQRTK4QbY2sQQFXmY
- UYVdqoXPIFwzL2hzUQwBReCbtWj0rNR0xA6MYho=
-X-Google-Smtp-Source: ADFU+vvPHEvkU5ZhiAKv+8P2j3np9aLNguMy5XOtTBfPRjaV1VagZhSS1Sw2OCRqF/o9dlJ3e5prEKanaJn5pIAVwEc=
-X-Received: by 2002:adf:b35e:: with SMTP id k30mr20406573wrd.362.1585666454267; 
- Tue, 31 Mar 2020 07:54:14 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=ipYWlIFq3tHRPQUnqZtBdxsK4/UyR731/H9eH9PnfT4=;
+ b=Ca8LJJpvTejWxJdl+nP3GKuSbA3PUCiaOTFj3pLPd4HD2kajS6BO6NBR5b4KVaKID3
+ 2rxkV/Lhq7QjUizUOQGmmamKqk448rLOOIL/4mxt7QGHiuCl6r92f1SDgbIMGyoE7FV/
+ yevoIeYZaOVaI38NWULbpds26emDwfMmCeBv5gwthT+4iSZb8sVN/yS437WFIOndCBMd
+ xC7O38VTdL3wVpbdF+LcSahJAd8K2+oIAoQNHVG4Vhesl47UnXZQLV27wPm3+IWgj1iR
+ kxoRQOJPkBkj5/p85j1QoKRfhzCTtPhqgH9/molOaBMhzaNPlxgQzTFWkPLoO/5rybp5
+ Qjbw==
+X-Gm-Message-State: ANhLgQ0r40g/s/pys3kbgSRVrpnUIXKQ2t2MQe5viNaDLF5YazlLYNa/
+ XqiZ+EGesnGZn7+5tYvwdazRGw==
+X-Google-Smtp-Source: ADFU+vtAGfwopaPt/m4X2IibkfKMGh7X4KlgcFgCC08sXSkC7SEmBbQwoH17zK8HUyK6RhKgz0hjCQ==
+X-Received: by 2002:a1c:63c4:: with SMTP id x187mr3935335wmb.124.1585667717161; 
+ Tue, 31 Mar 2020 08:15:17 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v21sm4140105wmj.8.2020.03.31.08.15.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Mar 2020 08:15:16 -0700 (PDT)
+Date: Tue, 31 Mar 2020 17:15:14 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Oleksandr Andrushchenko <andr2000@gmail.com>
+Subject: Re: [Xen-devel] [PATCH] drm/xen: fix passing zero to 'PTR_ERR' warning
+Message-ID: <20200331151514.GO2363188@phenom.ffwll.local>
+Mail-Followup-To: Oleksandr Andrushchenko <andr2000@gmail.com>,
+ Ding Xiang <dingxiang@cmss.chinamobile.com>,
+ oleksandr_andrushchenko@epam.com, airlied@linux.ie,
+ xen-devel@lists.xenproject.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <1585562347-30214-1-git-send-email-dingxiang@cmss.chinamobile.com>
+ <b4d43b05-8b30-749c-0b60-87b4cdd7b1dd@gmail.com>
 MIME-Version: 1.0
-References: <cover.1585651869.git.melissa.srw@gmail.com>
-In-Reply-To: <cover.1585651869.git.melissa.srw@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 31 Mar 2020 10:54:03 -0400
-Message-ID: <CADnq5_MBKBKFLFQBXHzLYGdY_d8rbiEcWQaEQi70tJHTGTcXqA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] drm/amd/display: more code cleanup in the dc_link file
-To: Melissa Wen <melissa.srw@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <b4d43b05-8b30-749c-0b60-87b4cdd7b1dd@gmail.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,48 +71,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Leo Li <sunpeng.li@amd.com>, "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian Konig <christian.koenig@amd.com>
+Cc: oleksandr_andrushchenko@epam.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ding Xiang <dingxiang@cmss.chinamobile.com>, xen-devel@lists.xenproject.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 31, 2020 at 6:55 AM Melissa Wen <melissa.srw@gmail.com> wrote:
->
-> These patches address many code style issues on dc_link for readability
-> and cleaning up warnings. Change suggested by checkpatch.pl.
-> Some issues remain and need some minor code refactoring for proper handling.
->
-> Melissa Wen (4):
->   drm/amd/display: cleanup codestyle type BLOCK_COMMENT_STYLE on dc_link
->   drm/amd/display: codestyle cleanup on dc_link file until detect_dp
->     func
->   drm/amd/display: code cleanup on dc_link from is_same_edid to
->     get_ddc_line
->   drm/amd/display: code cleanup of dc_link file on func
->     dc_link_construct
->
+On Tue, Mar 31, 2020 at 05:50:10PM +0300, Oleksandr Andrushchenko wrote:
+> On 3/30/20 12:59, Ding Xiang wrote:
+> > Fix a static code checker warning:
+> >      drivers/gpu/drm/xen/xen_drm_front.c:404 xen_drm_drv_dumb_create()
+> >      warn: passing zero to 'PTR_ERR'
+> > 
+> > Signed-off-by: Ding Xiang <dingxiang@cmss.chinamobile.com>
+> Reviewed-by: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
 
-Applied.  Thanks!
+merged to drm-misc-next-fixese.
+-Daniel
 
-Alex
+> > ---
+> >   drivers/gpu/drm/xen/xen_drm_front.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/xen/xen_drm_front.c b/drivers/gpu/drm/xen/xen_drm_front.c
+> > index 4be49c1..3741420 100644
+> > --- a/drivers/gpu/drm/xen/xen_drm_front.c
+> > +++ b/drivers/gpu/drm/xen/xen_drm_front.c
+> > @@ -401,7 +401,7 @@ static int xen_drm_drv_dumb_create(struct drm_file *filp,
+> >   	obj = xen_drm_front_gem_create(dev, args->size);
+> >   	if (IS_ERR_OR_NULL(obj)) {
+> > -		ret = PTR_ERR(obj);
+> > +		ret = PTR_ERR_OR_ZERO(obj);
+> >   		goto fail;
+> >   	}
 
->  drivers/gpu/drm/amd/display/dc/core/dc_link.c | 358 +++++++++---------
->  1 file changed, 176 insertions(+), 182 deletions(-)
->
-> --
-> 2.25.1
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
