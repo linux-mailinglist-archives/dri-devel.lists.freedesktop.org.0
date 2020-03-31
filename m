@@ -2,65 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E682B198F05
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 10:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 017C61990AF
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 11:13:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA9746E0D7;
-	Tue, 31 Mar 2020 08:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0F2189DD2;
+	Tue, 31 Mar 2020 09:13:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29F486E0D7
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 08:59:48 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id r16so1556300wmg.5
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 01:59:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:references:cc:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=/sNnpztKmpFB+H2wTpWQnYNlOagVVdzFiwaaMgtHM1E=;
- b=A/O3kjhJwCmdkJgv3zUg2gQNLs84UflpfHpbh/ZtRSWqYyd7lKcXmVk5KgeL+gvM2P
- uKmPA/GQKQSbJBYaVZGrEE2Q+B35DfaLq76ICFLHmUJoUXL8K7upNjRDO7hQNUAdUe68
- 7YBCGBWEZz8SKYkY/9s68dntSlC1IxythRWWxBf3V2YkhvIpdPtTAE1a8/A7aNdRueN0
- frrqB+8BV7E4zkMIkbIqGRCGBCUki883ekhA7KbH0kxmacifb3qzZ5NijKe+g/D3VAPq
- HQIxVODxQhFRr7aqzE0NrHpmJ4BqFrJ7H2qSn/QSS3Av0Q56IR4AD3cbVJVeKzGt6Zhw
- 4cxw==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB03A89DD2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 09:13:36 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id t128so1629406wma.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 02:13:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=1Vfzw7KX7Tn1/4kdoX4gqvVCcauAo/CwK6/Pv0leSvI=;
+ b=iOD1RHussWS4xxh+zJ9qOw1Khw+v5dDftBa2TN53Fzu5IZhQ8ye4K0EZpoxBbXKD65
+ Psi8srGs7GoEr3/1gcRC91IVqt597tV9gHrUd2aSuJKfxuuS16hlmLLJ/axxQfR8KIOg
+ D1J4GDTMzVTJ4lG4bNDyvsT9E/xvp7f5HfeRI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:references:cc:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=/sNnpztKmpFB+H2wTpWQnYNlOagVVdzFiwaaMgtHM1E=;
- b=JT56/Umxb0KyBUU15O5GwgEhGHkyoge82z6YWX1k0CHXnNPz0ZcVpDYDS388njVqQ2
- pLIoysDV182+hf8fBak2gTXST7w1P4qexWz4Z29cZg8c5HSjFzgRavjPOV92yuZvbNSu
- R9Fh+CKlI5rkFSs2NWGOQHencyi+vtYFM8qtRGRMUncG5Iw4YVitxk0COCg2a5gIdBH3
- VIPd6VmJA9CvQAcgJCts+3QBD9hqXcspTLvMOigHmoPoOhpzeQYOqha3VnobZVzEpkrS
- YpMWQKUhNZByYIkgq26kYhji0h20fd2aaT0YgNDAvwJo9Qa7ICnJ/aGWZN2cA1k0Q0GC
- b/Rg==
-X-Gm-Message-State: ANhLgQ0qGdlYQ3JjBuaqAxlwlsoc3ZVwCmepym6qG01C0yeihWTIR1ew
- WMajxII36JXYOnleNU9RGo4=
-X-Google-Smtp-Source: ADFU+vtDpeCFL79tvGCOnwtP2YuNeHNmzZveBmUiigAEHqWrOu6yRZQf0EsqTzj5/VD1KNurqeqEOA==
-X-Received: by 2002:a1c:3d83:: with SMTP id k125mr2486470wma.177.1585645186794; 
- Tue, 31 Mar 2020 01:59:46 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id x206sm3004892wmg.17.2020.03.31.01.59.45
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 31 Mar 2020 01:59:46 -0700 (PDT)
-Subject: Re: [PATCH] drm/mm: revert "Break long searches in fragmented address
- spaces"
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-To: chris@chris-wilson.co.uk, zbigniew.kempczynski@intel.com,
- andi.shyti@intel.com, joonas.lahtinen@linux.intel.com,
- dri-devel@lists.freedesktop.org
-References: <20200330123425.3944-1-christian.koenig@amd.com>
-Message-ID: <c124b5d1-efc6-e826-2387-9f9ad06d1df0@gmail.com>
-Date: Tue, 31 Mar 2020 10:59:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1Vfzw7KX7Tn1/4kdoX4gqvVCcauAo/CwK6/Pv0leSvI=;
+ b=FYG5dRJuX8dKyGD103MjfvX/m2O4mIZCUP8CJK6j4jpVePCZAgyPHnk912IKDoILiB
+ gORIl+Z/P3Yyy1DB1K51ljhQlGLKU8l2n75jYU/uQNS6rLEbUofNn068OoQTwf3mJaL4
+ J+DTylUJ+ycQEdjKsedSWLOr/8mrKn5o9rXcn8KtbpbYLbGWmSIHILi+TejfrPN5Npxi
+ 5t8SIiCLw5v/Y+jDF6UGjMjvHQe/Vvurr7UqKuDtRnloNDT53u47+do7bNDSm67/Ctwc
+ zN1xXYxr4nGvGZ0NVmscLXcJuhHMNmMiEDoKEPES6VisgWhFRnQYFtonbQONKULKOKSW
+ EU7A==
+X-Gm-Message-State: ANhLgQ1vLXk3TN0WuB0B2Our5JBV94lc8CB+WAt4bopr+WQJeepJZSC9
+ PRDGTlEhnTTwH8etsxUUIE/mzINxJY8dMQ==
+X-Google-Smtp-Source: ADFU+vtbaJR/OSjaYI6Z5896xv9I41kM3DceV5Ft7DY0TDoLXW2Xz0K0eGpokAl+/cjUA0coPq9TIA==
+X-Received: by 2002:a05:600c:214a:: with SMTP id
+ v10mr2355322wml.71.1585646015532; 
+ Tue, 31 Mar 2020 02:13:35 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id b15sm25489082wru.70.2020.03.31.02.13.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Mar 2020 02:13:34 -0700 (PDT)
+Date: Tue, 31 Mar 2020 11:13:32 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: add docs about the IN_FORMATS plane property
+Message-ID: <20200331091332.GL2363188@phenom.ffwll.local>
+References: <mHOtz80Wa-x3A5Lz5ETTM65VUMfW1j6b-iCuvIy1RzOM1EloHPqAb2MnbU8ygZi0ABaLrxuN6pzu0v3QRn83125C0bXuHoo-DQWWEd80fdw=@emersion.fr>
 MIME-Version: 1.0
-In-Reply-To: <20200330123425.3944-1-christian.koenig@amd.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <mHOtz80Wa-x3A5Lz5ETTM65VUMfW1j6b-iCuvIy1RzOM1EloHPqAb2MnbU8ygZi0ABaLrxuN6pzu0v3QRn83125C0bXuHoo-DQWWEd80fdw=@emersion.fr>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,38 +65,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QSBub3Qgc28gZ2VudGxlIHBpbmcsIHNpbmNlIHRoaXMgcHJldHR5IG11Y2ggYnJva2UgYWxsIFRU
-TSBiYXNlZCBkcml2ZXJzLgoKQ291bGQgd2UgcmV2ZXJ0IHRoaXMgZm9yIG5vdz8KClRoYW5rcywK
-Q2hyaXN0aWFuLgoKQW0gMzAuMDMuMjAgdW0gMTQ6MzQgc2NocmllYiBDaHJpc3RpYW4gS8O2bmln
-Ogo+IFRoaXMgcmV2ZXJ0cyBjb21taXQgN2JlMWI5YjhlOWQxZTllZjAzNDJkMmUwMDFmNDRlZWM0
-MDMwYWE0ZC4KPgo+IFRoZSBkcm1fbW0gaXMgc3VwcG9zZWQgdG8gd29yayBpbiBhdG9taWMgY29u
-dGV4dCwgc28gY2FsbGluZyBzY2hlZHVsZSgpCj4gb3IgaW4gdGhpcyBjYXNlIGNvbmRfcmVzY2hl
-ZCgpIGlzIGlsbGVnYWwuCj4KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
-c3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX21tLmMg
-fCA4ICstLS0tLS0tCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDcgZGVsZXRp
-b25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9tbS5jIGIvZHJpdmVy
-cy9ncHUvZHJtL2RybV9tbS5jCj4gaW5kZXggYmM2ZTIwODk0OWU4Li44OTgxYWJlOGI3YzkgMTAw
-NjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9tbS5jCj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2RybV9tbS5jCj4gQEAgLTQ1LDcgKzQ1LDYgQEAKPiAgICNpbmNsdWRlIDxsaW51eC9leHBv
-cnQuaD4KPiAgICNpbmNsdWRlIDxsaW51eC9pbnRlcnZhbF90cmVlX2dlbmVyaWMuaD4KPiAgICNp
-bmNsdWRlIDxsaW51eC9zZXFfZmlsZS5oPgo+IC0jaW5jbHVkZSA8bGludXgvc2NoZWQvc2lnbmFs
-Lmg+Cj4gICAjaW5jbHVkZSA8bGludXgvc2xhYi5oPgo+ICAgI2luY2x1ZGUgPGxpbnV4L3N0YWNr
-dHJhY2UuaD4KPiAgIAo+IEBAIC0zNjcsMTEgKzM2Niw2IEBAIG5leHRfaG9sZShzdHJ1Y3QgZHJt
-X21tICptbSwKPiAgIAkgIHN0cnVjdCBkcm1fbW1fbm9kZSAqbm9kZSwKPiAgIAkgIGVudW0gZHJt
-X21tX2luc2VydF9tb2RlIG1vZGUpCj4gICB7Cj4gLQkvKiBTZWFyY2hpbmcgaXMgc2xvdzsgY2hl
-Y2sgaWYgd2UgcmFuIG91dCBvZiB0aW1lL3BhdGllbmNlICovCj4gLQljb25kX3Jlc2NoZWQoKTsK
-PiAtCWlmIChmYXRhbF9zaWduYWxfcGVuZGluZyhjdXJyZW50KSkKPiAtCQlyZXR1cm4gTlVMTDsK
-PiAtCj4gICAJc3dpdGNoIChtb2RlKSB7Cj4gICAJZGVmYXVsdDoKPiAgIAljYXNlIERSTV9NTV9J
-TlNFUlRfQkVTVDoKPiBAQCAtNTYzLDcgKzU1Nyw3IEBAIGludCBkcm1fbW1faW5zZXJ0X25vZGVf
-aW5fcmFuZ2Uoc3RydWN0IGRybV9tbSAqIGNvbnN0IG1tLAo+ICAgCQlyZXR1cm4gMDsKPiAgIAl9
-Cj4gICAKPiAtCXJldHVybiBzaWduYWxfcGVuZGluZyhjdXJyZW50KSA/IC1FUkVTVEFSVFNZUyA6
-IC1FTk9TUEM7Cj4gKwlyZXR1cm4gLUVOT1NQQzsKPiAgIH0KPiAgIEVYUE9SVF9TWU1CT0woZHJt
-X21tX2luc2VydF9ub2RlX2luX3JhbmdlKTsKPiAgIAoKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Sun, Mar 29, 2020 at 02:45:08PM +0000, Simon Ser wrote:
+> This is a standard property attached to planes in drm_universal_plane_init
+> when drm_mode_config.allow_fb_modifiers is true.
+> 
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Daniel Stone <daniel@fooishbar.org>
+> ---
+>  drivers/gpu/drm/drm_blend.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> index 121481f6aa71..88eedee018d3 100644
+> --- a/drivers/gpu/drm/drm_blend.c
+> +++ b/drivers/gpu/drm/drm_blend.c
+> @@ -183,6 +183,12 @@
+>   *		 plane does not expose the "alpha" property, then this is
+>   *		 assumed to be 1.0
+>   *
+> + * IN_FORMATS:
+> + *	Blob property which contains the set of buffer format and modifier
+> + *	pairs supported by this plane. The blob is a drm_format_modifier_blob
+> + *	struct. Without this property the plane doesn't support buffers with
+> + *	modifiers. Userspace cannot change this property.
+
+Feels mildly misplaced among the blending properties, but we don't (yet)
+have a section to describe all the modifer/pixel format stuff and how it's
+all supposed to work together. So for now probably as good as it gets.
+
+Merged to drm-misc-next, thanks for your patch.
+-Daniel
+
+> + *
+>   * Note that all the property extensions described here apply either to the
+>   * plane or the CRTC (e.g. for the background color, which currently is not
+>   * exposed and assumed to be black).
+> -- 
+> 2.26.0
+> 
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
