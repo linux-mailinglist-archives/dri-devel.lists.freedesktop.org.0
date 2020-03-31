@@ -2,63 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1EBD1997CB
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 15:48:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C0119A5E3
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:04:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A81426E82C;
-	Tue, 31 Mar 2020 13:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 561806E8FB;
+	Wed,  1 Apr 2020 07:04:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70ED16E82D
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 13:48:10 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id f6so2721286wmj.3
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 06:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=laYdX8SYLKwokEzwLodIvxGl4rv4+SIsd0vubo9f6sU=;
- b=KAsoI0+ee6qrMG/GK3qGzIOQZiFmb1UlAzTF+vx4sKRB7hV4NdcmkyMjXegZ+Wf+GW
- jNe+DPxQDMBJhFQYPxHvEg8FvLATvx/AJQpTnOBjGkLXaZvApbMCDur7nkBjXbSh4OQu
- ZwfpVLsnQEB232+mKzbPYABGmSnSg/GeoW/SUvP31zJepNBCZs8mQeOmoBLg9/YQg2Ub
- 5WI7kL5wnPiuthj808OT5+SYqJQX6cL6xkYHq7DYcEbk9n36sAyXn55ItE2/T/R03iuF
- P83esGL//YfzvdyRkeyo4e4qPxiIiZxfWICDAk7damLOOrqmr0/mwql2n5+KyDFEGq0V
- r0Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=laYdX8SYLKwokEzwLodIvxGl4rv4+SIsd0vubo9f6sU=;
- b=rxrMiAnPXgw/dXZ0U22pQ26DNO+YV9f1X9H/T5N0zqIOTu4mzfXcMwiI7QowkBfFWX
- 4RnEi3OkswapTsae2U1mmTS9preS9dr4PBSoxAT+UeYG2Wgc84B1WeVXZVSiqqPcxysa
- gHlng5PVtjLtJC+jQXBda2EpIqH76QkluKpvW0ysvaMOu+B+Uib1lT4lRBi7qL1NEzSU
- JFfBr8qMGVHMVq1q6AVT3NWO+MgTsWU7tg0F8rsBwiCoFNJhjjMwwCGNcvaNiUe6Gvjo
- s3HrQp0vc0vV/gdCxiEVPzp/cN8SmrpPCbKZlh+t/FRUO3i/mdS3qxz3ARRcuNtLtDo+
- YR+w==
-X-Gm-Message-State: ANhLgQ0YIVg+VCw9nwldbOw0IVRYlWKTnGlRj+3zA60G8Dhrcua3v3+A
- W5O0uqnTYm6liTpF2NEJIa8kxA==
-X-Google-Smtp-Source: ADFU+vtWlastqoLteS210RbEXN0iDWNiyv+TlLVc7yqALe7NaemPCdM/9rCwUXyGtP+jZ7EGnESSKA==
-X-Received: by 2002:a1c:7d88:: with SMTP id y130mr3774026wmc.5.1585662489028; 
- Tue, 31 Mar 2020 06:48:09 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id u16sm27335524wro.23.2020.03.31.06.48.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 06:48:08 -0700 (PDT)
-Date: Tue, 31 Mar 2020 14:48:04 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Guru Das Srinagesh <gurus@codeaurora.org>
-Subject: Re: [PATCH v10 00/12] Convert PWM period and duty cycle to u64
-Message-ID: <20200331134804.xxrjaestztcazalc@holly.lan>
-References: <cover.1584650604.git.gurus@codeaurora.org>
- <20200321114703.GB4672@kadam>
- <20200330191506.GA29534@codeaurora.org>
- <20200330202636.njjo4savgzf3g6yx@holly.lan>
- <20200330210012.GA27611@codeaurora.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200330210012.GA27611@codeaurora.org>
+Received: from alexa-out-blr-02.qualcomm.com (alexa-out-blr-02.qualcomm.com
+ [103.229.18.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E62EF6E836;
+ Tue, 31 Mar 2020 13:58:55 +0000 (UTC)
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by alexa-out-blr-02.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 31 Mar 2020 19:28:53 +0530
+Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 31 Mar 2020 19:28:30 +0530
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id BC89B47A1; Tue, 31 Mar 2020 19:28:29 +0530 (IST)
+From: Kalyan Thota <kalyan_t@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [PATCH] drm/msm/dpu: ensure device suspend happens during PM sleep
+Date: Tue, 31 Mar 2020 19:28:27 +0530
+Message-Id: <1585663107-12406-1-git-send-email-kalyan_t@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
+X-Mailman-Approved-At: Wed, 01 Apr 2020 07:03:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,84 +40,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
- David Airlie <airlied@linux.ie>, "Wesley W. Terpstra" <wesley@sifive.com>,
- Michael Turquette <mturquette@baylibre.com>, Kamil Debski <kamil@wypas.org>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Atish Patra <atish.patra@wdc.com>, Thierry Reding <thierry.reding@gmail.com>,
- linux-riscv@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
- linux-clk@vger.kernel.org, Alexandre Torgue <alexandre.torgue@st.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Axel Lin <axel.lin@ingics.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexander Shiyan <shc_work@mail.ru>,
- Chen-Yu Tsai <wens@csie.org>, NXP Linux Team <linux-imx@nxp.com>,
- Mukesh Ojha <mojha@codeaurora.org>, Gerald Baeza <gerald.baeza@st.com>,
- intel-gfx@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>,
- linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- Jean Delvare <jdelvare@suse.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mark Brown <broonie@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
- Thomas Gleixner <tglx@linutronix.de>, Fabrice Gasnier <fabrice.gasnier@st.com>,
- Ding Xiang <dingxiang@cmss.chinamobile.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Allison Randal <allison@lohutok.net>, linux-hwmon@vger.kernel.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Anson Huang <Anson.Huang@nxp.com>,
- Richard Fontana <rfontana@redhat.com>, Stephen Boyd <sboyd@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- Yash Shah <yash.shah@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Guenter Roeck <linux@roeck-us.net>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Shawn Guo <shawnguo@kernel.org>
+Cc: mkrishn@codeaurora.org, travitej@codeaurora.org, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, seanpaul@chromium.org,
+ Kalyan Thota <kalyan_t@codeaurora.org>, hoegsberg@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 30, 2020 at 02:00:12PM -0700, Guru Das Srinagesh wrote:
-> On Mon, Mar 30, 2020 at 09:26:36PM +0100, Daniel Thompson wrote:
-> > On Mon, Mar 30, 2020 at 12:15:07PM -0700, Guru Das Srinagesh wrote:
-> > > On Sat, Mar 21, 2020 at 02:47:03PM +0300, Dan Carpenter wrote:
-> > > > This is a giant CC list.
-> > > 
-> > > Yes, this is because I received feedback [1] on an earlier patchset
-> > > directing me to add the reviewers of patches to the cover letter as
-> > > well so that they get some context for the patch.
-> > > ...
-> > > [1] https://www.spinics.net/lists/linux-pwm/msg11735.html
-> > 
-> > Strictly speaking I only asked for backlight maintainers to be Cc:ed.
-> > I was fairly careful to be specific since I'm aware there are a variety
-> > of differing habits when putting together the Cc: list for covering
-> > letters.
-> > 
-> > With the original patch header the purpose of the patch I was Cc:ed on
-> > was impossible to determine without the covering letter.
-> 
-> I suspect this might be the case for all the other reviewers as well -
-> that they also would appreciate context for the specific patch they are
-> being added to review.
-> 
-> I wasn't entirely sure what the convention was, so I applied your
-> suggestion to all the files. How do you suggest I handle this in my next
-> patchset? I fully agree that such a large CC list does look really
-> ungainly.
+"The PM core always increments the runtime usage counter
+before calling the ->suspend() callback and decrements it
+after calling the ->resume() callback"
 
-IHMO there should not be a mechanical convention. Instead your goal
-needs to be how to make it as easy as possible to review your patches.
+DPU and DSI are managed as runtime devices. When
+suspend is triggered, PM core adds a refcount on all the
+devices and calls device suspend, since usage count is
+already incremented, runtime suspend was not getting called
+and it kept the clocks on which resulted in target not
+entering into XO shutdown.
 
-Think about it this way: Each person in the To: of a patch (and maybe
-also Cc: depending on how you construct things) is a person you are
-asking to review and comment on the patch. If that person will find it
-easier to review the patch if they are included in the cover letter then
-either they should be included or you should improve the patch
-description of the patch itself (sometimes both).
+Add changes to force suspend on runtime devices during pm sleep.
 
-Either way it is about optimizing the patchset for readability. More
-people read them than write them.
+Changes in v1:
+ - Remove unnecessary checks in the function
+    _dpu_kms_disable_dpu (Rob Clark).
 
+Changes in v2:
+ - Avoid using suspend_late to reset the usagecount
+   as suspend_late might not be called during suspend
+   call failures (Doug).
 
-Daniel.
+Changes in v3:
+ - Use force suspend instead of managing device usage_count
+   via runtime put and get API's to trigger callbacks (Doug).
+
+Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 2 ++
+ drivers/gpu/drm/msm/dsi/dsi.c           | 2 ++
+ drivers/gpu/drm/msm/msm_drv.c           | 4 ++++
+ 3 files changed, 8 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index ce19f1d..b886d9d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1123,6 +1123,8 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
+ 
+ static const struct dev_pm_ops dpu_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(dpu_runtime_suspend, dpu_runtime_resume, NULL)
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				pm_runtime_force_resume)
+ };
+ 
+ static const struct of_device_id dpu_dt_match[] = {
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+index 55ea4bc2..62704885 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.c
++++ b/drivers/gpu/drm/msm/dsi/dsi.c
+@@ -161,6 +161,8 @@ static int dsi_dev_remove(struct platform_device *pdev)
+ 
+ static const struct dev_pm_ops dsi_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(msm_dsi_runtime_suspend, msm_dsi_runtime_resume, NULL)
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				pm_runtime_force_resume)
+ };
+ 
+ static struct platform_driver dsi_driver = {
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 7d985f8..2b8c99c 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -1051,6 +1051,8 @@ static int msm_pm_suspend(struct device *dev)
+ 		return ret;
+ 	}
+ 
++	pm_runtime_force_suspend(dev);
++
+ 	return 0;
+ }
+ 
+@@ -1063,6 +1065,8 @@ static int msm_pm_resume(struct device *dev)
+ 	if (WARN_ON(!priv->pm_state))
+ 		return -ENOENT;
+ 
++	pm_runtime_force_resume(dev);
++
+ 	ret = drm_atomic_helper_resume(ddev, priv->pm_state);
+ 	if (!ret)
+ 		priv->pm_state = NULL;
+-- 
+1.9.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
