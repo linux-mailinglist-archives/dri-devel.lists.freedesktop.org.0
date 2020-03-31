@@ -1,61 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA57F199832
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 16:10:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F19C19A5C7
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:03:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1F786E836;
-	Tue, 31 Mar 2020 14:10:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25D9B6E8DD;
+	Wed,  1 Apr 2020 07:03:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F105E6E836
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 14:10:29 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id m17so26103140wrw.11;
- Tue, 31 Mar 2020 07:10:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6KkVAX9LHQdy5bHn212eBpteLV15dAVUf1jSf5zOtEI=;
- b=CBuNpmAdmCOS9vPjHPGBzs3t/L7Yy6BKi/X/WMLwNFHK85ob3GXcaVicIX131gfJn2
- OU8OqjmxYznVOzw9ShEUda19LDx6ErO2Z1y5NCgqYgJ9BmkpVH4/K8MyjDXe13mjsxg/
- BB2i6Sy9cMjQttATOhQ32MukPB1hmG3r5LI7JfjFRrRlI7C3qBFymVIWXYs+kVfaC3zk
- R1uXZpAWPjrh9ry545106iUh6fNP3A4aLtkpmQyyG20Bvkkfyr7VSel8H2al5hDn3JM7
- dCvpRDi901uzlVNmgDNP1wHvYyRMuDAxcI7kD5o/IFirSeHOgzVBdQko+U/ah64ZsuKK
- 7bzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6KkVAX9LHQdy5bHn212eBpteLV15dAVUf1jSf5zOtEI=;
- b=tLiyhpwlVyNVYt/RNkO/G1g+cRHIEyr5LL7YuPI1QbQHnqr2yjUrSDDZDHaHMgS56X
- MsS8x47yMlASsStP2x8gqo7ZrF+VKChahyVcCdl4jr0MCOrxDWy8Lnt/yykf9YNOtLFr
- tHHPNWu2Wj52csuuI3ms6R4XBEM8pS6R/T6Hssp8ia/trlHRMX6pg6L5rfpQCQBkiOEr
- +A4r8IncdJ4vMCF67OszlhzXBa12Xrxax6UgZ9oji59afBJ8ZWrt27t8VKSLyOWPzesO
- ddBIpZWMzVmjxO21EgGEqcqhBgy3swEuw69E4a5ReQoYY7OYMvBEnNUu8chrvd/BRdpL
- 2jqA==
-X-Gm-Message-State: ANhLgQ2eavcqk1IU8ZbqmSQnSKNTiJMSeXxVc4bCJapZoM7HjQge6pKw
- AqQc8jUrTFR1IInHwlAws9975s5TeucBebX3M/o=
-X-Google-Smtp-Source: ADFU+vuptnxHXiRXfHruTSFrIWhJmSwzLXngCmzoyKLq6ikXfD7hMknhh7AogD4BJxghw+8QXj8CfDHg6qw7LeNCLRA=
-X-Received: by 2002:a5d:6742:: with SMTP id l2mr21860749wrw.124.1585663828600; 
- Tue, 31 Mar 2020 07:10:28 -0700 (PDT)
+X-Greylist: delayed 428 seconds by postgrey-1.36 at gabe;
+ Tue, 31 Mar 2020 14:25:47 UTC
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4980E6E83D
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 14:25:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=axis.com; l=5093; q=dns/txt; s=axis-central1;
+ t=1585664747; x=1617200747;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=SpU24xL9XgC7M1fKLVLGIKXySSfM8/McWwq+1BKExiQ=;
+ b=LMg0PhhtG/RcGRMc/u5Girn7/6V2E89LjszBJFOrNpjDGnP4Nxm7PAZn
+ V4BOXR7bcatuxy56qPbyhJxqENbtnfK2IU5kCzzaOosXpG6T1BvQEyce9
+ mKMPzHOCal0dvd3Lc5dMJQ0dCSNDAzXPKCCtgL/CoIL/aD2/Y+PqCM6Cp
+ MoLqxTjclY9Oc0d97Xab0mog9d8ZEFykIhtGPEPTzMPzKEeRrJmOeXQp1
+ GmXOXZwuvJvLKyF2FGdGv28gSlYnY4RAyIY3JBpVpS3bm961O9td3qI+r
+ 1v7VajtIvvsWMb2G/cE0OHnp20jVFhbXJswbz6LiXEsvKi2eCFtVqfsQc g==;
+IronPort-SDR: 3PpwSg9GQvoPmLBlsSHhaNGAWHOc9wunQ4Hr41WfKJylyCyttlmxcKFCytapgiaq50s1Q1kusH
+ urd1lr1oxxiiYxuOScA7OXUPt0/TCreMWq0bYkICQqa5hMc3Gr9lnCXTiVkB7KxmMdwa7ZtDkt
+ Fg6TctxWpzWzkhr7++iYqLPcg115SxjtR05YveaAQucitd8ubqQp6+hfHWFSMXeVPyn/R8NK0A
+ UXEiewVAyPWqabzvBskkXGhmk2lI7ThgxZG6nvCHAhbh6JG5FDMjoUu/ftoyhXKA2qAVwc55an
+ c7A=
+X-IronPort-AV: E=Sophos;i="5.72,328,1580770800"; 
+   d="scan'208";a="7161443"
+From: Vincent Whitchurch <vincent.whitchurch@axis.com>
+To: <a.hajda@samsung.com>, <narmstrong@baylibre.com>
+Subject: [PATCH] drm/bridge: adv7511: Fix cec clock EPROBE_DEFER handling
+Date: Tue, 31 Mar 2020 16:16:29 +0200
+Message-ID: <20200331141629.14047-1-vincent.whitchurch@axis.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200325090741.21957-2-bigbeeshane@gmail.com>
- <CGME20200327075458eucas1p2f1011560c5d2d2a754d2394f56367ebb@eucas1p2.samsung.com>
- <4aef60ff-d9e4-d3d0-1a28-8c2dc3b94271@samsung.com>
- <82df6735-1cf0-e31f-29cc-f7d07bdaf346@amd.com>
- <cd773011-969b-28df-7488-9fddae420d81@samsung.com>
- <bba81019-d585-d950-ecd0-c0bf36a2f58d@samsung.com>
- <CADnq5_O6pwxJsYdfJO0xZtmER05GtO+2-4uHTeexKNeHyUq8_Q@mail.gmail.com>
- <3a0cb2bc-84be-6f9f-a0e8-ecb653026301@samsung.com>
-In-Reply-To: <3a0cb2bc-84be-6f9f-a0e8-ecb653026301@samsung.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 31 Mar 2020 10:10:17 -0400
-Message-ID: <CADnq5_NEhfZwE6B0UBu0My7Sk5YNoDE=7Nj_CUYpPe9HOjpjqQ@mail.gmail.com>
-Subject: Re: [v4,1/3] drm/prime: use dma length macro when mapping sg
-To: Marek Szyprowski <m.szyprowski@samsung.com>
+X-Mailman-Approved-At: Wed, 01 Apr 2020 07:03:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,64 +53,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Shane Francis <bigbeeshane@gmail.com>, amd-gfx-request@lists.freedesktop.org,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: jernej.skrabec@siol.net, jonas@kwiboo.se,
+ Vincent Whitchurch <vincent.whitchurch@axis.com>,
+ dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl, kernel@axis.com,
+ Laurent.pinchart@ideasonboard.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBNYXIgMzEsIDIwMjAgYXQgMToyNSBBTSBNYXJlayBTenlwcm93c2tpCjxtLnN6eXBy
-b3dza2lAc2Ftc3VuZy5jb20+IHdyb3RlOgo+Cj4gSGkgQWxleCwKPgo+IE9uIDIwMjAtMDMtMzAg
-MTU6MjMsIEFsZXggRGV1Y2hlciB3cm90ZToKPiA+IE9uIE1vbiwgTWFyIDMwLCAyMDIwIGF0IDQ6
-MTggQU0gTWFyZWsgU3p5cHJvd3NraQo+ID4gPG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbT4gd3Jv
-dGU6Cj4gPj4gSGkKPiA+Pgo+ID4+IE9uIDIwMjAtMDMtMjcgMTA6MTAsIE1hcmVrIFN6eXByb3dz
-a2kgd3JvdGU6Cj4gPj4+IEhpIENocmlzdGlhbiwKPiA+Pj4KPiA+Pj4gT24gMjAyMC0wMy0yNyAw
-OToxMSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+Pj4+IEFtIDI3LjAzLjIwIHVtIDA4OjU0
-IHNjaHJpZWIgTWFyZWsgU3p5cHJvd3NraToKPiA+Pj4+PiBPbiAyMDIwLTAzLTI1IDEwOjA3LCBT
-aGFuZSBGcmFuY2lzIHdyb3RlOgo+ID4+Pj4+PiBBcyBkbWFfbWFwX3NnIGNhbiByZW9yZ2FuaXpl
-IHNjYXR0ZXItZ2F0aGVyIGxpc3RzIGluIGEKPiA+Pj4+Pj4gd2F5IHRoYXQgY2FuIGNhdXNlIHNv
-bWUgbGF0ZXIgc2VnbWVudHMgdG8gYmUgZW1wdHkgd2Ugc2hvdWxkCj4gPj4+Pj4+IGFsd2F5cyB1
-c2UgdGhlIHNnX2RtYV9sZW4gbWFjcm8gdG8gZmV0Y2ggdGhlIGFjdHVhbCBsZW5ndGguCj4gPj4+
-Pj4+Cj4gPj4+Pj4+IFRoaXMgY291bGQgbm93IGJlIDAgYW5kIG5vdCBuZWVkIHRvIGJlIG1hcHBl
-ZCB0byBhIHBhZ2Ugb3IKPiA+Pj4+Pj4gYWRkcmVzcyBhcnJheQo+ID4+Pj4+Pgo+ID4+Pj4+PiBT
-aWduZWQtb2ZmLWJ5OiBTaGFuZSBGcmFuY2lzIDxiaWdiZWVzaGFuZUBnbWFpbC5jb20+Cj4gPj4+
-Pj4+IFJldmlld2VkLWJ5OiBNaWNoYWVsIEouIFJ1aGwgPG1pY2hhZWwuai5ydWhsQGludGVsLmNv
-bT4KPiA+Pj4+PiBUaGlzIHBhdGNoIGxhbmRlZCBpbiBsaW51eC1uZXh0IDIwMjAwMzI2IGFuZCBp
-dCBjYXVzZXMgYSBrZXJuZWwKPiA+Pj4+PiBwYW5pYyBvbgo+ID4+Pj4+IHZhcmlvdXMgRXh5bm9z
-IFNvQyBiYXNlZCBib2FyZHMuCj4gPj4+Pj4+IC0tLQo+ID4+Pj4+PiAgICAgZHJpdmVycy9ncHUv
-ZHJtL2RybV9wcmltZS5jIHwgMiArLQo+ID4+Pj4+PiAgICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gPj4+Pj4+Cj4gPj4+Pj4+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMK
-PiA+Pj4+Pj4gaW5kZXggODZkOWIwZTQ1YzhjLi4xZGUyY2RlMjI3N2MgMTAwNjQ0Cj4gPj4+Pj4+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYwo+ID4+Pj4+PiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX3ByaW1lLmMKPiA+Pj4+Pj4gQEAgLTk2Nyw3ICs5NjcsNyBAQCBpbnQgZHJt
-X3ByaW1lX3NnX3RvX3BhZ2VfYWRkcl9hcnJheXMoc3RydWN0Cj4gPj4+Pj4+IHNnX3RhYmxlICpz
-Z3QsIHN0cnVjdCBwYWdlICoqcGFnZXMsCj4gPj4+Pj4+ICAgICAgICAgICAgaW5kZXggPSAwOwo+
-ID4+Pj4+PiAgICAgICAgIGZvcl9lYWNoX3NnKHNndC0+c2dsLCBzZywgc2d0LT5uZW50cywgY291
-bnQpIHsKPiA+Pj4+Pj4gLSAgICAgICAgbGVuID0gc2ctPmxlbmd0aDsKPiA+Pj4+Pj4gKyAgICAg
-ICAgbGVuID0gc2dfZG1hX2xlbihzZyk7Cj4gPj4+Pj4+ICAgICAgICAgICAgIHBhZ2UgPSBzZ19w
-YWdlKHNnKTsKPiA+Pj4+Pj4gICAgICAgICAgICAgYWRkciA9IHNnX2RtYV9hZGRyZXNzKHNnKTsK
-PiA+Pj4+PiBTb3JyeSwgYnV0IHRoaXMgY29kZSBpcyB3cm9uZyA6KAo+ID4+Pj4gV2VsbCBpdCBp
-cyBhdCBsZWFzdCBiZXR0ZXIgdGhhbiBiZWZvcmUgYmVjYXVzZSBpdCBtYWtlcyBtb3N0IGRyaXZl
-cnMKPiA+Pj4+IHdvcmsgY29ycmVjdGx5IGFnYWluLgo+ID4+PiBXZWxsLCBJJ20gbm90IHN1cmUg
-dGhhdCBhIGhhbGYtYnJva2VuIGZpeCBzaG91bGQgYmUgY29uc2lkZXJlZCBhcyBhCj4gPj4+IGZp
-eCA7KQo+ID4+Pgo+ID4+PiBBbnl3YXksIEkganVzdCBnb3QgdGhlIGNvbW1lbnQgZnJvbSBTaGFu
-ZSwgdGhhdCBteSBwYXRjaCBpcyBmaXhpbmcgdGhlCj4gPj4+IGlzc3VlcyB3aXRoIGFtZGdwdSBh
-bmQgcmFkZW9uLCB3aGlsZSBzdGlsbCB3b3JraW5nIGZpbmUgZm9yIGV4eW5vcywgc28KPiA+Pj4g
-aXQgaXMgaW5kZWVkIGEgcHJvcGVyIGZpeC4KPiA+PiBUb2RheSBJJ3ZlIG5vdGljZWQgdGhhdCB0
-aGlzIHBhdGNoIHdlbnQgdG8gZmluYWwgdjUuNiB3aXRob3V0IGV2ZW4gYSBkYXkKPiA+PiBvZiB0
-ZXN0aW5nIGluIGxpbnV4LW5leHQsIHNvIHY1LjYgaXMgYnJva2VuIG9uIEV4eW5vcyBhbmQgcHJv
-YmFibHkgYSBmZXcKPiA+PiBvdGhlciBBUk0gYXJjaHMsIHdoaWNoIHJlbHkgb24gdGhlIGRybV9w
-cmltZV9zZ190b19wYWdlX2FkZHJfYXJyYXlzCj4gPj4gZnVuY3Rpb24uCj4gPiBQbGVhc2UgY29t
-bWl0IHlvdXIgcGF0Y2ggYW5kIGNjIHN0YWJsZS4KPgo+IEkndmUgYWxyZWFkeSBkaWQgdGhhdDog
-aHR0cHM6Ly9sa21sLm9yZy9sa21sLzIwMjAvMy8yNy81NTUKCkRvIHlvdSBoYXZlIGRybS1taXNj
-IGNvbW1pdCByaWdodHMgb3IgZG8geW91IG5lZWQgc29tZW9uZSB0byBjb21taXQKdGhpcyBmb3Ig
-eW91PwoKQWxleAoKCj4KPiBCZXN0IHJlZ2FyZHMKPiAtLQo+IE1hcmVrIFN6eXByb3dza2ksIFBo
-RAo+IFNhbXN1bmcgUiZEIEluc3RpdHV0ZSBQb2xhbmQKPgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+If adv7511's devm_clk_get() for the cec clock returns -EPROBE_DEFER, we
+end up in an infinite probe loop.  This happens:
+
+ (1) adv7511's probe is called.
+
+ (2) adv7511's probe adds some secondary i2c devices which bind to the
+ dummy driver and thus call driver_deferred_probe_trigger() and
+ increment deferred_trigger_count (see driver_bound()).
+
+ (3) adv7511's probe returns -EPROBE_DEFER, and since the
+ deferred_trigger_count has changed during the probe call,
+ driver_deferred_probe_trigger() is called immediately (see
+ really_probe()) and adv7511's probe is scheduled.
+
+ (4) Goto step 1.
+
+[   61.972915] really_probe: bus: 'i2c': really_probe: probing driver adv7511 with device 0-0039
+[   61.992734] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-003f
+[   61.993343] driver_bound: driver: 'dummy': driver_bound: bound to device '0-003f'
+[   61.993626] really_probe: bus: 'i2c': really_probe: bound device 0-003f to driver dummy
+[   61.995604] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-0038
+[   61.996381] driver_bound: driver: 'dummy': driver_bound: bound to device '0-0038'
+[   61.996663] really_probe: bus: 'i2c': really_probe: bound device 0-0038 to driver dummy
+[   61.998651] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-003c
+[   61.999222] driver_bound: driver: 'dummy': driver_bound: bound to device '0-003c'
+[   61.999496] really_probe: bus: 'i2c': really_probe: bound device 0-003c to driver dummy
+[   62.010050] really_probe: i2c 0-0039: Driver adv7511 requests probe deferral
+[   62.011380] really_probe: bus: 'platform': really_probe: probing driver pwm-clock with device clock-cec
+[   62.012812] really_probe: platform clock-cec: Driver pwm-clock requests probe deferral
+[   62.024679] really_probe: bus: 'i2c': really_probe: probing driver adv7511 with device 0-0039
+
+Fix this by calling devm_clk_get() before registering the secondary
+devices.
+
+Signed-off-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
+---
+ drivers/gpu/drm/bridge/adv7511/adv7511_cec.c | 30 +++++++-------------
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 11 +++++--
+ 2 files changed, 20 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+index a20a45c0b353..4b0fee32be21 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+@@ -286,28 +286,17 @@ static const struct cec_adap_ops adv7511_cec_adap_ops = {
+ 	.adap_transmit = adv7511_cec_adap_transmit,
+ };
+ 
+-static int adv7511_cec_parse_dt(struct device *dev, struct adv7511 *adv7511)
+-{
+-	adv7511->cec_clk = devm_clk_get(dev, "cec");
+-	if (IS_ERR(adv7511->cec_clk)) {
+-		int ret = PTR_ERR(adv7511->cec_clk);
+-
+-		adv7511->cec_clk = NULL;
+-		return ret;
+-	}
+-	clk_prepare_enable(adv7511->cec_clk);
+-	adv7511->cec_clk_freq = clk_get_rate(adv7511->cec_clk);
+-	return 0;
+-}
+-
+ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+ {
+ 	unsigned int offset = adv7511->type == ADV7533 ?
+ 						ADV7533_REG_CEC_OFFSET : 0;
+-	int ret = adv7511_cec_parse_dt(dev, adv7511);
++	int ret;
+ 
+-	if (ret)
+-		goto err_cec_parse_dt;
++	if (!adv7511->cec_clk)
++		goto err_cec_no_clock;
++
++	clk_prepare_enable(adv7511->cec_clk);
++	adv7511->cec_clk_freq = clk_get_rate(adv7511->cec_clk);
+ 
+ 	adv7511->cec_adap = cec_allocate_adapter(&adv7511_cec_adap_ops,
+ 		adv7511, dev_name(dev), CEC_CAP_DEFAULTS, ADV7511_MAX_ADDRS);
+@@ -342,8 +331,11 @@ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+ err_cec_alloc:
+ 	dev_info(dev, "Initializing CEC failed with error %d, disabling CEC\n",
+ 		 ret);
+-err_cec_parse_dt:
++	clk_disable_unprepare(adv7511->cec_clk);
++	/* Ensure that adv7511_remove() doesn't attempt to disable it again. */
++	adv7511->cec_clk = NULL;
++err_cec_no_clock:
+ 	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL + offset,
+ 		     ADV7511_CEC_CTRL_POWER_DOWN);
+-	return ret == -EPROBE_DEFER ? ret : 0;
++	return 0;
+ }
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index 9e13e466e72c..ebc548e23ece 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -1122,6 +1122,15 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+ 	if (ret)
+ 		return ret;
+ 
++	adv7511->cec_clk = devm_clk_get(dev, "cec");
++	if (IS_ERR(adv7511->cec_clk)) {
++		ret = PTR_ERR(adv7511->cec_clk);
++		if (ret == -EPROBE_DEFER)
++			return ret;
++
++		adv7511->cec_clk = NULL;
++	}
++
+ 	ret = adv7511_init_regulators(adv7511);
+ 	if (ret) {
+ 		dev_err(dev, "failed to init regulators\n");
+@@ -1226,8 +1235,6 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+ 
+ err_unregister_cec:
+ 	i2c_unregister_device(adv7511->i2c_cec);
+-	if (adv7511->cec_clk)
+-		clk_disable_unprepare(adv7511->cec_clk);
+ err_i2c_unregister_packet:
+ 	i2c_unregister_device(adv7511->i2c_packet);
+ err_i2c_unregister_edid:
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
