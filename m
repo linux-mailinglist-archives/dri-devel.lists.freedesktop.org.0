@@ -1,52 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A92E19A056
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 22:58:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A96E219A059
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 22:59:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 205F76E896;
-	Tue, 31 Mar 2020 20:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B440D6E890;
+	Tue, 31 Mar 2020 20:59:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 778D96E895
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 20:58:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCB8A6E890
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 20:59:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585688291;
+ s=mimecast20190719; t=1585688382;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mpM1XxT0yKaKGYgf2gGKRTmepGnz6nJa59IN7BPPkTY=;
- b=f+OEVQmhuu6eWUitWHhzZWqCAQOjC1OMS7D4bYVQWvSEhlngDS1PJltKp77zH7L4rfz4CM
- 85gkgBol9YEPRCnVhDW8U9U8rk7Ez/ht846+omo0T9+nufHvN8f+NGTMoMt4T33KqL1fsG
- d5FynTSne/C4+tj3i07upJwryaY1u2Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-_8ieoBgKMOu3PpoyXoV6Rw-1; Tue, 31 Mar 2020 16:58:04 -0400
-X-MC-Unique: _8ieoBgKMOu3PpoyXoV6Rw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B89E6192296B;
- Tue, 31 Mar 2020 20:58:02 +0000 (UTC)
-Received: from Ruby.redhat.com (ovpn-113-88.rdu2.redhat.com [10.10.113.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CCE199DE2;
- Tue, 31 Mar 2020 20:58:00 +0000 (UTC)
+ bh=t4YVDPR21FGqCPWXR9SrEVqjm1WqP0KZpWMtMfgg6Wc=;
+ b=WOV0xcu4IdToG2NJ+mre3yaN0yLb2hrLCDCxjyn1prDw7BMfrlXYGRwq4o9cZqQW5R1Emx
+ HREIrGkNLWqOBRuQ6MokfxLFCmMUNFjxCdC9fR/hfmIef1rhTb5BvD19Wh6e93bAgQYxXp
+ EGIlJOPNXvPKbKhQ1RiGqdJOmmMz3+E=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-424-9Kxz3CQ0Mu6bejSnMXXXVQ-1; Tue, 31 Mar 2020 16:59:41 -0400
+X-MC-Unique: 9Kxz3CQ0Mu6bejSnMXXXVQ-1
+Received: by mail-qt1-f197.google.com with SMTP id v10so19137707qtk.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 13:59:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=t4YVDPR21FGqCPWXR9SrEVqjm1WqP0KZpWMtMfgg6Wc=;
+ b=nNfbjhO9px62uAX95C/iFV+Tis9EcIfgejHBj/Iu9dmBcrtmnsk17siWEcbzueul1m
+ py2mwWrQh2Xtao1PoooLVwQ20SyR5Pxgr8EVSPyrPYb5U0d1kWocdvgxiv+tpXcPLrbP
+ RwgqMmUspSXlUwa8ZwrfU2QCJ4pgpc3To+g7NzgzveAA+qPA7ETRfoTFiwou1Ik2JxrO
+ ltrS5qh+pblUuQ9qA241Vvcv8LCzup6ziX+53RD/6nS/bNA3Dq93+dXk+8Oz1bTtKyT6
+ Xv1ODEQy5N3a9WZHwhU5HqwucndX/528f99G0phmWagzzaUDPajWDLESmHSo50Tn2reB
+ pxLA==
+X-Gm-Message-State: ANhLgQ35p0yU0Sik+gwL/WtSyfJwrlhx/DUgxvjsXtDBRbT2ajbd5krJ
+ pe3isYp+UlpXByD81MBgHJvpyFxyWHXgpCxao6MohxZTaNx5Fz32lLDpZix7swUUP8FWkGdutgM
+ 1Vou/0YcKdMys4TtOg6yEQ1oRSH1U
+X-Received: by 2002:ac8:6951:: with SMTP id n17mr7263754qtr.250.1585688381217; 
+ Tue, 31 Mar 2020 13:59:41 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vu+gmBKFlSnhi7yAuTz/EYz85EmT34h/ZKxIYX9ZPTIrRD9PvqYK87A2DJCzzsGs7qM5Zx/UQ==
+X-Received: by 2002:ac8:6951:: with SMTP id n17mr7263682qtr.250.1585688379972; 
+ Tue, 31 Mar 2020 13:59:39 -0700 (PDT)
+Received: from Ruby.lyude.net (static-173-76-190-23.bstnma.ftas.verizon.net.
+ [173.76.190.23])
+ by smtp.gmail.com with ESMTPSA id f201sm61653qke.119.2020.03.31.13.59.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Mar 2020 13:59:39 -0700 (PDT)
+Message-ID: <c427110aa4e0eb4ffdc11bb8e3b9eebfc6b50544.camel@redhat.com>
+Subject: Re: [PATCH] drm/dp_mst: make build_clear_payload_id_table return void
 From: Lyude Paul <lyude@redhat.com>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/dp_mst: Remove
- drm_dp_mst_topology_cbs.destroy_connector
-Date: Tue, 31 Mar 2020 16:57:37 -0400
-Message-Id: <20200331205740.135525-5-lyude@redhat.com>
-In-Reply-To: <20200331205740.135525-1-lyude@redhat.com>
-References: <20200331205740.135525-1-lyude@redhat.com>
+To: Maya Rashish <coypu@sdf.org>, dri-devel@lists.freedesktop.org
+Date: Tue, 31 Mar 2020 16:59:38 -0400
+In-Reply-To: <20200321222959.GA1053@SDF.ORG>
+References: <20200321222959.GA1053@SDF.ORG>
+Organization: Red Hat
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,70 +78,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we've removed the last user of this callback, get rid of it and
-drm_dp_destroy_connector().
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Cc: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
----
- drivers/gpu/drm/drm_dp_mst_topology.c | 16 +++-------------
- include/drm/drm_dp_mst_helper.h       |  2 --
- 2 files changed, 3 insertions(+), 15 deletions(-)
+I'll go ahead and push it to drm-misc-next, thanks!
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 31b7a8f5309d..e235b2b29f59 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -4692,23 +4692,13 @@ static void drm_dp_tx_work(struct work_struct *work)
- 	mutex_unlock(&mgr->qlock);
- }
- 
--static inline void drm_dp_destroy_connector(struct drm_dp_mst_port *port)
-+static inline void
-+drm_dp_delayed_destroy_port(struct drm_dp_mst_port *port)
- {
--	if (!port->connector)
--		return;
--
--	if (port->mgr->cbs->destroy_connector) {
--		port->mgr->cbs->destroy_connector(port->mgr, port->connector);
--	} else {
-+	if (port->connector) {
- 		drm_connector_unregister(port->connector);
- 		drm_connector_put(port->connector);
- 	}
--}
--
--static inline void
--drm_dp_delayed_destroy_port(struct drm_dp_mst_port *port)
--{
--	drm_dp_destroy_connector(port);
- 
- 	drm_dp_port_set_pdt(port, DP_PEER_DEVICE_NONE, port->mcs);
- 	drm_dp_mst_put_port_malloc(port);
-diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
-index 13461db1444a..7af51c947b81 100644
---- a/include/drm/drm_dp_mst_helper.h
-+++ b/include/drm/drm_dp_mst_helper.h
-@@ -488,8 +488,6 @@ struct drm_dp_mst_topology_mgr;
- struct drm_dp_mst_topology_cbs {
- 	/* create a connector for a port */
- 	struct drm_connector *(*add_connector)(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port, const char *path);
--	void (*destroy_connector)(struct drm_dp_mst_topology_mgr *mgr,
--				  struct drm_connector *connector);
- };
- 
- #define DP_MAX_PAYLOAD (sizeof(unsigned long) * 8)
+On Sat, 2020-03-21 at 22:29 +0000, Maya Rashish wrote:
+> Nothing uses the always-0 return value.
+> 
+> Signed-off-by: Maya Rashish <coypu@sdf.org>
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+> b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 4b255e25e4a1..398da29ba1bd 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -1060,13 +1060,12 @@ static void build_link_address(struct
+> drm_dp_sideband_msg_tx *msg)
+>  	drm_dp_encode_sideband_req(&req, msg);
+>  }
+>  
+> -static int build_clear_payload_id_table(struct drm_dp_sideband_msg_tx *msg)
+> +static void build_clear_payload_id_table(struct drm_dp_sideband_msg_tx
+> *msg)
+>  {
+>  	struct drm_dp_sideband_msg_req_body req;
+>  
+>  	req.req_type = DP_CLEAR_PAYLOAD_ID_TABLE;
+>  	drm_dp_encode_sideband_req(&req, msg);
+> -	return 0;
+>  }
+>  
+>  static int build_enum_path_resources(struct drm_dp_sideband_msg_tx *msg,
 -- 
-2.25.1
+Cheers,
+	Lyude Paul (she/her)
+	Associate Software Engineer at Red Hat
 
 _______________________________________________
 dri-devel mailing list
