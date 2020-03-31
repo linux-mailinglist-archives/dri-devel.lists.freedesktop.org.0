@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E808198D9D
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:55:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF1F198DB2
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:56:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 591616E5AE;
-	Tue, 31 Mar 2020 07:55:40 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB4716E5AE
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 07:55:38 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id j17so24572030wru.13
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 00:55:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=8UrDEzK5jH9wYwcUzlFGc9sMbmKbaPqCS6Q2SXASuII=;
- b=TxXFzyq2a9xASSKyf1H3YUV/qY5Ha3BSDgbJWXbXPU4h9lOn0sFeNN6dMiu/zKDwNy
- hbK+7ESMzyyqdUIlHaxqCTAJHuQ7AwaYfAdgVx+GD468HtdungDKepJetbsmes+Cy3GS
- 8xN0zyTNy0g8gC2NJs8lrWmlWTQnmcVdHwiVo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=8UrDEzK5jH9wYwcUzlFGc9sMbmKbaPqCS6Q2SXASuII=;
- b=mYZN0nTHW4wW4Vajjew6jjmuqM2lIXkJXr1lc+JVPvlOsZw0003JW+V+jFM+V7T7Jd
- HHCrWA74scZsC0D3YrVTfyAHG/uAueoiSj5zAh4NFA/Spd5u5s7q+ddT6k2q0arubz8F
- 0dZ34eNE50SQ8Ha4rjWmXrU6FZvzJE+gM0T48BH6XD8YaAzk4XPp5a0EvHYIEqz/a7T6
- axUzne+yuj8t+1saMGqzt1NxGGIT/EdGch2KVu77wtnitBH75U1eIfyN95g36F8Ee3hY
- BcstKlUtQzi2vtStWNjgFE07dNE41/pCtE/IvZMv0iBLxsfPvNcpC0DgxScdk1ocHlQG
- ib0Q==
-X-Gm-Message-State: ANhLgQ0eXzATNHCWS5jH3A8NOPcnZarHCDA0BKPCRe/KPDPwjQYxOhe3
- 0NCdv0irdYszq4RO7xzh7crR8g==
-X-Google-Smtp-Source: ADFU+vsLuWU96P7jdnoZi3p9EZBccRe/tosacN5MJc/YvYzVYH7zJirZAqhhG85T8rf+oTbkBaJzKw==
-X-Received: by 2002:adf:ed0b:: with SMTP id a11mr18970199wro.344.1585641337263; 
- Tue, 31 Mar 2020 00:55:37 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w81sm2784003wmg.19.2020.03.31.00.55.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 00:55:36 -0700 (PDT)
-Date: Tue, 31 Mar 2020 09:55:34 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v2 1/6] drm/vblank: Add intro to documentation
-Message-ID: <20200331075534.GH2363188@phenom.ffwll.local>
-References: <20200328132025.19910-1-sam@ravnborg.org>
- <20200328132025.19910-2-sam@ravnborg.org>
- <20200330185746.GB7594@ravnborg.org>
- <1a22bece197d382206f7943f82dd1250afe32ba0.camel@redhat.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1a22bece197d382206f7943f82dd1250afe32ba0.camel@redhat.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5BDE6E5A4;
+	Tue, 31 Mar 2020 07:56:47 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B90446E5A4
+ for <dri-devel@freedesktop.org>; Tue, 31 Mar 2020 07:56:44 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1585641406; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=mw7u0T8in9Wk7yv/+Jn7zUsruVSN8kOaTj5sQ3nzoGI=;
+ b=BNtOgBNOYMsHuZ5bO+c0ZOcqErWk2CqGF9cQ2cudcj13py18DyCMos9xgPL/pFt6UMcwIZ80
+ pw3S8HvRAY75uZYQnWZl6EwVMIIVMzFexWiq6482nnDeQnhK/5/uzMh1FtBItsnTc+RaUq7g
+ eJD2iFQPXk/bGgq4VK31fg+AKAI=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e82f7b0.7efc027ba848-smtp-out-n04;
+ Tue, 31 Mar 2020 07:56:32 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 219C1C433BA; Tue, 31 Mar 2020 07:56:32 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from hyd-lnxbld559.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: smasetty)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 0B378C433D2;
+ Tue, 31 Mar 2020 07:56:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0B378C433D2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=smasetty@codeaurora.org
+From: Sharat Masetty <smasetty@codeaurora.org>
+To: freedreno@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH 0/5] Add support for GPU DDR BW scaling
+Date: Tue, 31 Mar 2020 13:25:48 +0530
+Message-Id: <1585641353-23229-1-git-send-email-smasetty@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,132 +63,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Nirmoy Das <nirmoy.das@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mihail Atanassov <Mihail.Atanassov@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
- Emil Velikov <emil.velikov@collabora.com>,
- David Francis <David.Francis@amd.com>,
- James Qian Wang <james.qian.wang@arm.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Mikita Lipski <mikita.lipski@amd.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: saravanak@google.com, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>, linux-kernel@vger.kernel.org,
+ mka@chromium.org, sibis@codeaurora.org, viresh.kumar@linaro.org,
+ dri-devel@freedesktop.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBNYXIgMzAsIDIwMjAgYXQgMDU6NTE6MjZQTSAtMDQwMCwgTHl1ZGUgUGF1bCB3cm90
-ZToKPiBJIGFtIGdsYWQgdGhhdCBteSBleHBsYW5hdGlvbiBvZiB2YmxhbmtzIG1hZGUgc2Vuc2Uh
-IFNvbWUgY29tbWVudHMgYmVsb3cgb24KPiB0aGluZ3MgSSB0aGluayB3ZSBjb3VsZCBpbXByb3Zl
-IGhlcmUKPiAKPiBPbiBNb24sIDIwMjAtMDMtMzAgYXQgMjA6NTcgKzAyMDAsIFNhbSBSYXZuYm9y
-ZyB3cm90ZToKPiA+IEx5dWRlIFBhdWwgd3JvdGUgYSB2ZXJ5IGdvb2QgaW50cm8gdG8gdmJsYW5r
-IGhlcmU6Cj4gPiAKPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwvZmFmNjNkOGE5
-ZWQyM2MxNmFmNjk3NjJmNTlkMGRjYTZiMmJmMDg1Zi5jYW1lbEByZWRoYXQuY29tL1QvI21jZTY0
-ODBiZTczODE2MGU5ZDA3YzVkMDIzZTg4ZmQ3OGQ3YTA2ZDI3Cj4gPiAKPiA+IEFkZCB0aGlzIHRv
-IHRoZSBpbnRybyBjaGFwdGVyIGluIGRybV92YmxhbmsuYyBzbyBvdGhlcnMKPiA+IGNhbiBiZW5l
-Zml0IGZyb20gaXQgdG9vLgo+ID4gCj4gPiB2MjoKPiA+ICAgLSBSZXdvcmRlZCB0byBpbXByb3Zl
-IHJlYWRhYmlsaXR5IChUaG9tYXMpCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IFNhbSBSYXZuYm9y
-ZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiA+IENvLWRldmVsb3BlZC1ieTogTHl1ZGUgUGF1bCA8bHl1
-ZGVAcmVkaGF0LmNvbT4KPiA+IENjOiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+ID4g
-QWNrZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+ID4gQ2M6
-IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+ID4gQ2M6IERhbmllbCBW
-ZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiA+IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRl
-bi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgo+ID4gQ2M6IE1heGltZSBSaXBhcmQgPG1yaXBh
-cmRAa2VybmVsLm9yZz4KPiA+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3Vz
-ZS5kZT4KPiA+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gPiAtLS0KPiA+
-ICBkcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jIHwgMTcgKysrKysrKysrKysrKysrKysKPiA+
-ICAxIGZpbGUgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5r
-LmMKPiA+IGluZGV4IGJjZjM0NmIzZTQ4Ni4uZWMyYzIwODNiMTg2IDEwMDY0NAo+ID4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV92YmxhbmsuYwo+ID4gQEAgLTQxLDYgKzQxLDIzIEBACj4gPiAgLyoqCj4gPiAgICogRE9DOiB2
-YmxhbmsgaGFuZGxpbmcKPiA+ICAgKgo+ID4gKyAqIEZyb20gdGhlIGNvbXB1dGVyJ3MgcGVyc3Bl
-Y3RpdmUsIGV2ZXJ5IHRpbWUgdGhlIG1vbml0b3IgZGlzcGxheXMKPiA+ICsgKiBhIG5ldyBmcmFt
-ZSB0aGUgc2Nhbm91dCBlbmdpbmUgaGF2ZSAic2Nhbm5lZCBvdXQiIHRoZSBkaXNwbGF5IGltYWdl
-Cj4gPiArICogZnJvbSB0b3AgdG8gYm90dG9tLCBvbmUgcm93IG9mIHBpeGVscyBhdCBhIHRpbWUu
-Cj4gPiArICogVGhlIGN1cnJlbnQgcm93IG9mIHBpeGVscyBpcyByZWZlcnJlZCB0byBhcyB0aGUg
-Y3VycmVudCBzY2FubGluZS4KPiA+ICsgKgo+ID4gKyAqIEluIGFkZGl0aW9uIHRvIHRoZSBkaXNw
-bGF5J3MgdmlzaWJsZSBhcmVhLCB0aGVyZSdzIHVzdWFsbHkgYSBjb3VwbGUgb2YKPiA+ICsgKiBl
-eHRyYSBzY2FubGluZXMgd2hpY2ggYXJlbid0IGFjdHVhbGx5IGRpc3BsYXllZCBvbiB0aGUgc2Ny
-ZWVuCj4gPiArICogKHRoZSBleHRyYSBzY2FubGluZXMgYXJlIHNvbWV0aW1lcyB1c2VkIGJ5IEhE
-TUkgYXVkaW8gYW5kIGZyaWVuZHMpLgo+ID4gKyAqIFRoZSBwZXJpb2Qgd2hlcmUgdGhlIGV4dHJh
-IHNjYW5saW5lcyBhcmUgInNjYW5uZWQgb3V0IiBpcyByZWZlcnJlZAo+ID4gKyAqIHRvIGFzIHRo
-ZSB2ZXJ0aWNhbCBibGFua2luZyBwZXJpb2QgKHZibGFuayBmb3Igc2hvcnQpLgo+IAo+IEknZCBy
-ZXdvcmQgdGhpcywgc3RhcnRpbmcgZnJvbSAiKHRoZSBleHRyYSBzY2FubGluZXPigKYiIChJJ2Qg
-YWxzbyByZW1vdmUgdGhlCj4gcGFyYW50aGVzaXMpOgo+IAo+ICAgICBUaGVzZSBleHRyYSBzY2Fu
-bGluZXMgZG9uJ3QgY29udGFpbiBpbWFnZSBkYXRhLCBhbmQgYXJlIG9jY2FzaW9uYWxseSB1c2Vk
-Cj4gICAgIGZvciBmZWF0dXJlcyBsaWtlIGF1ZGlvIGFuZCBpbmZvZnJhbWVzLiBUaGUgcmVnaW9u
-IG1hZGUgdXAgb2YgdGhlc2UKPiAgICAgc2NhbmxpbmVzIGlzIHJlZmVycmVkIHRvIGFzIHRoZSB2
-ZXJ0aWNhbCBibGFua2luZyByZWdpb24sIG9yIHZibGFuayBmb3IKPiAgICAgc2hvcnQuCj4gCj4g
-SSdkIGFsc28gYWRkIGEgc2ltcGxlIGFzY2lpLWFydCBkaWFncmFtIGhlcmUsIHNpbmNlIHRoaXMg
-bWlnaHQgbWFrZSBhIGxvdCBtb3JlCj4gc2Vuc2UgdG8gc29tZSBwZW9wbGUgaWYgdGhlcmUncyBh
-IHZpc3VhbCByZWZlcmVuY2UuIFByb2JhYmx5IHNvbWV0aGluZyBsaWtlCj4gdGhpcyAoZmVlbCBm
-cmVlIHRvIGdldCBhIGxpdHRsZSBjcmVhdGl2ZSkKPiAKPiAgICAgIOKOveKOveKOveKOveKOveKO
-veKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKO
-veKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKO
-veKOveKOveKOveKOvQo+ICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgfAo+ICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgfAo+ICAgICB8ICAgICAgICAgICAgICAgICAgIE5ldyBmcmFtZSAgICAgICAg
-ICAgICAgICAgICAgfAo+ICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgfAo+ICAgICB84oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT
-4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT
-4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaTfAo+ICAg
-ICB8fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fCDihpAg
-U2NhbmxpbmUsIHVwZGF0ZXMgdGhlCj4gICAgIHzihpPihpPihpPihpPihpPihpPihpPihpPihpPi
-hpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPi
-hpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPihpPi
-hpN8ICAgZnJhbWUgYXMgaXQgdHJhdmVscwo+ICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCAgIGRvd24gKEFLQSAic2NhbnMgb3V0IikKPiAgICAg
-fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKPiAgICAg
-fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKPiAgICAg
-fCAgICAgICAgICAgICAgICAgICBPbGQgZnJhbWUgICAgICAgICAgICAgICAgICAgIHwKPiAgICAg
-fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKPiAgICAg
-fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKPiAgICAg
-fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKPiAgICAg
-fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKPiAgICAg
-fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICBwaHlz
-aWNhbCBib3R0b20gb2YKPiAgICAgfOKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKO
-veKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKO
-veKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOvXwg4oaQ
-IGRpc3BsYXkKPiAgICAg4pSGeHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4
-eHh4eHh4eHh44pSGCj4gICAgIOKUhnh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4
-eHh4eHh4eHh4eHh4eOKUhiDihpAgdmVydGljYWwgYmxhbmtpbmcKPiAgICAg4pSGeHh4eHh4eHh4
-eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh44pSGICAgcmVnaW9uCj4gICAg
-ICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KCk9oIGlm
-IHdlIGdvIHdpdGggYSBuaWNlIGFzY2ktYXJ0IHBpY3R1cmUsIGNhbiB3ZSBwbGVhc2UgYWxzbyBt
-YWtlIGEgbm90ZQp0aGF0IHRvcCBvZiB0aGUgZnJhbWUgaXMgd2hlcmUgdGhlIGNvcnJlY3RlZC9o
-aWdoLXByZWNpc2lvbiB0aW1lc3RhbXAKc2hvdWxkIG1hdGNoPwotRGFuaWVsCgo+ID4gKyAqCj4g
-PiArICogT24gYSBsb3Qgb2YgZGlzcGxheSBoYXJkd2FyZSwgcHJvZ3JhbW1pbmcgbmVlZHMgdG8g
-dGFrZSBlZmZlY3QgZHVyaW5nCj4gPiB0aGUKPiA+ICsgKiB2ZXJ0aWNhbCBibGFua2luZyBwZXJp
-b2Qgc28gdGhhdCBzZXR0aW5ncyBsaWtlIGdhbW1hLCB3aGF0IGZyYW1lIGJlaW5nCj4gCj4gcy93
-aGF0IGZyYW1lIGJlaW5nL3doaWNoIGZyYW1lIGlzIGJlaW5nLwo+IAo+ID4gKyAqIHNjYW5uZWQg
-b3V0LCBldGMuIGNhbiBiZSBzYWZlbHkgY2hhbmdlZCB3aXRob3V0IHNob3dpbmcgdmlzdWFsIHRl
-YXJpbmcKPiA+ICsgKiBvbiB0aGUgc2NyZWVuLiBJbiBzb21lIHVuZm9yZ2l2aW5nIGhhcmR3YXJl
-LCBzb21lIG9mIHRoaXMgcHJvZ3JhbW1pbmcKPiA+IGhhcwo+ID4gKyAqIHRvIGJvdGggc3RhcnQg
-YW5kIGVuZCBpbiB0aGUgc2FtZSB2YmxhbmsgLSB2ZXJ0aWNhbCBibGFua2luZyBwZXJpb2QuCj4g
-Cj4gWW91IGNhbiBqdXN0IHNheSB2YmxhbmsgaGVyZSwgc2luY2Ugd2UgYWxyZWFkeSBleHBsYWlu
-ZWQgd2hhdCB0aGUgdmVydGljYWwKPiBibGFua2luZyBwZXJpb2QgaXMgdXAgYWJvdmUuCj4gCj4g
-QWxleCBEZXVjaGVyIHBvaW50ZWQgb3V0IHRvIG1lIHRoYXQgaXQncyBwcm9iYWJseSBhbHNvIHdv
-cnRoIG1lbnRpb25pbmcgdGhhdCBub3QKPiBhbGwgaGFyZHdhcmUgYWN0dWFsbHkgZmlyZXMgb2Zm
-IHRoZSB2YmxhbmsgaW50ZXJydXB0IGF0IHRoZSBzdGFydCBvZiB0aGUKPiB2ZXJ0aWNhbCBibGFu
-aywgZGVwZW5kaW5nIG9uIHRoZSBoYXJkd2FyZSB0aGUgaW50ZXJydXB0IGNvdWxkIGFsc28gaGFw
-cGVuIGEgZmV3Cj4gc2NhbmxpbmVzIGFmdGVyIHRoZSBzdGFydCBvZiB2YmxhbmssIGEgZmV3IHNj
-YW5saW5lcyBiZWZvcmUgdGhlIHN0YXJ0LCBzb21ld2hlcmUKPiBpbiB0aGUgbWlkZGxlLCBhdCB0
-aGUgZW5kIG9mIHRoZSB2YmxhbmssIGV0Yy4KPiAKPiBPdGhlciB0aGVuIHRoYXQsIHRoaXMgbG9v
-a3MgZ3JlYXQgc28gZmFyISBGZWVsIGZyZWUgdG8gY2MgbWUgaW4gdGhlIHJlc3BpbiBmb3IKPiB0
-aGlzIHBhdGNoIGFuZCBJJ2xsIGJlIGhhcHB5IHRvIGdpdmUgbXkgci1iLgo+IAo+ID4gKyAqCj4g
-PiAgICogVmVydGljYWwgYmxhbmtpbmcgcGxheXMgYSBtYWpvciByb2xlIGluIGdyYXBoaWNzIHJl
-bmRlcmluZy4gVG8gYWNoaWV2ZQo+ID4gICAqIHRlYXItZnJlZSBkaXNwbGF5LCB1c2VycyBtdXN0
-IHN5bmNocm9uaXplIHBhZ2UgZmxpcHMgYW5kL29yIHJlbmRlcmluZyB0bwo+ID4gICAqIHZlcnRp
-Y2FsIGJsYW5raW5nLiBUaGUgRFJNIEFQSSBvZmZlcnMgaW9jdGxzIHRvIHBlcmZvcm0gcGFnZSBm
-bGlwcwo+IC0tIAo+IENoZWVycywKPiAJTHl1ZGUgUGF1bCAoc2hlL2hlcikKPiAJQXNzb2NpYXRl
-IFNvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQKPiAKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3
-YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This series adds support for GPU DDR bandwidth scaling and is based on the
+bindings from Sarvana[1]. This work is based on Sibi's work for CPU side [2]
+which also lists all the needed dependencies to get this series working.
+My workspace is based on a chrome tag [3]. Although the bindings add support
+for both peak and average bandwidth votes, I have only added support for peak
+bandwidth votes.
+
+[1]: https://patchwork.kernel.org/cover/11277199/
+[2]: https://patchwork.kernel.org/cover/11353185/ (this lists further dependencies)
+[3]: https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2097039/3
+
+Sharat Masetty (5):
+  arm64: dts: qcom: sc7180: Add interconnect bindings for GPU
+  arm64: dts: qcom: sc7180: Add GPU DDR BW opp table
+  drm: msm: scale DDR BW along with GPU frequency
+  drm: msm: a6xx: Fix off by one error when setting GPU freq
+  dt-bindings: drm/msm/gpu: Document OPP phandle list for the GPU
+
+ .../devicetree/bindings/display/msm/gpu.txt        | 63 +++++++++++++++++++++-
+ arch/arm64/boot/dts/qcom/sc7180.dtsi               | 52 +++++++++++++++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              | 43 ++++++++++++---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            | 44 +++++++++++++--
+ drivers/gpu/drm/msm/msm_gpu.h                      |  9 ++++
+ 5 files changed, 197 insertions(+), 14 deletions(-)
+
+--
+2.7.4
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
