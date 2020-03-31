@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB07198E4D
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 10:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB2D198E53
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 10:28:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C800C6E2CC;
-	Tue, 31 Mar 2020 08:28:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE726E2D1;
+	Tue, 31 Mar 2020 08:28:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1158A89CCB
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 08:28:02 +0000 (UTC)
-X-UUID: 9f5cff6902c54b979d8ed21b26fa32f1-20200331
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E36736E2CD
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 08:28:06 +0000 (UTC)
+X-UUID: f1a47595bc71470cad10f050830f46d2-20200331
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=baAC/mjJyyxJyJropjMcUiSH9v9z0VL+7p1/Vb1I9C4=; 
- b=Fq9POf76tGniX09BR9UWOGHjUTmGf6RW+K0xPG8UqKm4iGZd8iRIJRR8FfV5kNVXiTnkHODeNWjClAjBEoOmqAQ0sG9bf6fg60OnjL+kw0KIb6BDhturfJnWw0/s0pRCO6Fc0l1jTBP+jo7VwgjPpn2zKM6IPvglR4mypd6jJAM=;
-X-UUID: 9f5cff6902c54b979d8ed21b26fa32f1-20200331
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ bh=rciAlFaUJxmJYeohlOVBqQpG4bjwObp3/2jJtpkx6Pc=; 
+ b=exqZv8ZbSWE8wbJq5lV8qXOiCE/z8SWcY8gdzE07NG9kknApdvjh7H+Ej67YpoUXRRA2bl3Zi1dRfbdx6NgY764qtUT7Xi8DisP1AL+fAHxlojdFlQ0ajSaNVeC5DK04FSjr4uvAkXgHusa/mgA9GRsJ9B60GZ4YNCfYZZQjZ6k=;
+X-UUID: f1a47595bc71470cad10f050830f46d2-20200331
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 2133848969; Tue, 31 Mar 2020 16:27:57 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33DR.mediatek.inc
- (172.27.6.106) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Tue, 31 Mar 2020 16:27:56 +0800
+ with ESMTP id 1144074984; Tue, 31 Mar 2020 16:27:58 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Tue, 31 Mar 2020 16:27:58 +0800
 Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
  MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Tue, 31 Mar 2020 16:27:54 +0800
+ 15.0.1395.4 via Frontend Transport; Tue, 31 Mar 2020 16:27:55 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 2/4] dt-bindings: display: mediatek: get mipitx calibration
- data from nvmem
-Date: Tue, 31 Mar 2020 16:27:23 +0800
-Message-ID: <20200331082725.81048-3-jitao.shi@mediatek.com>
+Subject: [PATCH v4 3/4] drm/mediatek: add the mipitx driving control
+Date: Tue, 31 Mar 2020 16:27:24 +0800
+Message-ID: <20200331082725.81048-4-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200331082725.81048-1-jitao.shi@mediatek.com>
 References: <20200331082725.81048-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 40A7C3EAC7A8A315B0CB8199B3C5988B4A427A8601750DB27B13C587AA44873F2000:8
+X-TM-SNTS-SMTP: CDD238A934F4566BB8936801F8D4F688F9A8C445ACBA109B34F45B0AA54C47932000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,37 +65,79 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add properties to get get mipitx calibration data.
+Add a property in device tree to control the driving by different
+board.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,dsi.txt    | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_mipi_tx.c        | 14 ++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_mipi_tx.h        |  1 +
+ drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c |  7 +++++++
+ 3 files changed, 22 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-index d78b6d6d8fab..8e4729de8c85 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-@@ -36,6 +36,9 @@ Required properties:
- Optional properties:
- - drive-strength-microamp: adjust driving current, should be 3000 ~ 6000. And
- 						   the step is 200.
-+- nvmem-cells: A phandle to the calibration data provided by a nvmem device. If
-+               unspecified default values shall be used.
-+- nvmem-cell-names: Should be "calibration-data"
+diff --git a/drivers/gpu/drm/mediatek/mtk_mipi_tx.c b/drivers/gpu/drm/mediatek/mtk_mipi_tx.c
+index e4d34484ecc8..e301af64809e 100644
+--- a/drivers/gpu/drm/mediatek/mtk_mipi_tx.c
++++ b/drivers/gpu/drm/mediatek/mtk_mipi_tx.c
+@@ -125,6 +125,20 @@ static int mtk_mipi_tx_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
  
- Example:
++	ret = of_property_read_u32(dev->of_node, "drive-strength-microamp",
++				   &mipi_tx->mipitx_drive);
++	/* If can't get the "mipi_tx->mipitx_drive", set it default 0x8 */
++	if (ret < 0)
++		mipi_tx->mipitx_drive = 4600;
++
++	/* check the mipitx_drive valid */
++	if (mipi_tx->mipitx_drive > 6000 || mipi_tx->mipitx_drive < 3000) {
++		dev_warn(dev, "drive-strength-microamp is invalid %d, not in 3000 ~ 6000\n",
++			 mipi_tx->mipitx_drive);
++		mipi_tx->mipitx_drive = clamp_val(mipi_tx->mipitx_drive, 3000,
++						  6000);
++	}
++
+ 	ref_clk_name = __clk_get_name(ref_clk);
  
-@@ -47,6 +50,8 @@ mipi_tx0: mipi-dphy@10215000 {
- 	#clock-cells = <0>;
- 	#phy-cells = <0>;
- 	drive-strength-microamp = <4600>;
-+	nvmem-cells= <&mipi_tx_calibration>;
-+	nvmem-cell-names = "calibration-data";
- };
+ 	ret = of_property_read_string(dev->of_node, "clock-output-names",
+diff --git a/drivers/gpu/drm/mediatek/mtk_mipi_tx.h b/drivers/gpu/drm/mediatek/mtk_mipi_tx.h
+index 413f35d86219..eea44327fe9f 100644
+--- a/drivers/gpu/drm/mediatek/mtk_mipi_tx.h
++++ b/drivers/gpu/drm/mediatek/mtk_mipi_tx.h
+@@ -27,6 +27,7 @@ struct mtk_mipi_tx {
+ 	struct device *dev;
+ 	void __iomem *regs;
+ 	u32 data_rate;
++	u32 mipitx_drive;
+ 	const struct mtk_mipitx_data *driver_data;
+ 	struct clk_hw pll_hw;
+ 	struct clk *pll;
+diff --git a/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c b/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
+index 91f08a351fd0..e4cc967750cb 100644
+--- a/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
++++ b/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
+@@ -17,6 +17,9 @@
+ #define RG_DSI_BG_CORE_EN		BIT(7)
+ #define RG_DSI_PAD_TIEL_SEL		BIT(8)
  
- dsi0: dsi@1401b000 {
++#define MIPITX_VOLTAGE_SEL	0x0010
++#define RG_DSI_HSTX_LDO_REF_SEL		(0xf << 6)
++
+ #define MIPITX_PLL_PWR		0x0028
+ #define MIPITX_PLL_CON0		0x002c
+ #define MIPITX_PLL_CON1		0x0030
+@@ -123,6 +126,10 @@ static void mtk_mipi_tx_power_on_signal(struct phy *phy)
+ 	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_D3_SW_CTL_EN, DSI_SW_CTL_EN);
+ 	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_CK_SW_CTL_EN, DSI_SW_CTL_EN);
+ 
++	mtk_mipi_tx_update_bits(mipi_tx, MIPITX_VOLTAGE_SEL,
++				RG_DSI_HSTX_LDO_REF_SEL,
++				(mipi_tx->mipitx_drive - 3000) / 200 << 6);
++
+ 	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_CK_CKMODE_EN, DSI_CK_CKMODE_EN);
+ }
+ 
 -- 
 2.21.0
 _______________________________________________
