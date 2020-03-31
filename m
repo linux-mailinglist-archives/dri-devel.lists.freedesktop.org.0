@@ -1,66 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF273199CCC
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 19:26:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9B919A5CC
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:03:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A30889272;
-	Tue, 31 Mar 2020 17:26:16 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
- [104.130.122.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E6628800B
- for <dri-devel@freedesktop.org>; Tue, 31 Mar 2020 17:26:11 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1585675574; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=DwhIqupMXC0dslLDYbxcWJRUxh3pizy7OnAeG1p59EQ=;
- b=GUX8+oKIpFfbM26N6CblGXGdKfC++8qB+a45s9YUcWXw7aKQYRsKtPMNmu61/+G0SBIiTiCs
- SXFKpyidTP29/H5l6YtWsqbXrzsoQOYF5VVaD+Bj16i7qDfvlAqcqK8DNcp6fbclcGjvDx8b
- IjcvtCG/25u/5VkYmrxYdjzsptM=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e837d2e.7fe187ac5e68-smtp-out-n02;
- Tue, 31 Mar 2020 17:26:06 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id A1F7BC433BA; Tue, 31 Mar 2020 17:26:06 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id E8D03C433F2;
- Tue, 31 Mar 2020 17:26:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E8D03C433F2
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Tue, 31 Mar 2020 11:26:02 -0600
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Sharat Masetty <smasetty@codeaurora.org>
-Subject: Re: [PATCH 3/5] drm: msm: scale DDR BW along with GPU frequency
-Message-ID: <20200331172600.GB11573@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Sharat Masetty <smasetty@codeaurora.org>,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- dri-devel@freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, mka@chromium.org,
- sibis@codeaurora.org, saravanak@google.com, viresh.kumar@linaro.org
-References: <1585641353-23229-1-git-send-email-smasetty@codeaurora.org>
- <1585641353-23229-4-git-send-email-smasetty@codeaurora.org>
-MIME-Version: 1.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id 340E56E8E5;
+	Wed,  1 Apr 2020 07:03:47 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 3620 seconds by postgrey-1.36 at gabe;
+ Tue, 31 Mar 2020 18:53:07 UTC
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 93E7A6E879
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 18:53:07 +0000 (UTC)
+Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
+ by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 02VHpVCd004788;
+ Tue, 31 Mar 2020 12:51:31 -0500
+Received: (from segher@localhost)
+ by gate.crashing.org (8.14.1/8.14.1/Submit) id 02VHpNtp004787;
+ Tue, 31 Mar 2020 12:51:23 -0500
+X-Authentication-Warning: gate.crashing.org: segher set sender to
+ segher@kernel.crashing.org using -f
+Date: Tue, 31 Mar 2020 12:51:23 -0500
+From: Segher Boessenkool <segher@kernel.crashing.org>
+To: Christophe Leroy <christophe.leroy@c-s.fr>
+Subject: Re: [PATCH 0/2] powerpc: Remove support for ppc405/440 Xilinx
+ platforms
+Message-ID: <20200331175123.GV22482@gate.crashing.org>
+References: <cover.1585311091.git.michal.simek@xilinx.com>
+ <CAK8P3a2mKPRFbRE3MWScr9GSiL4cpLg0wqv1Q28XDCZVPWgHfg@mail.gmail.com>
+ <20200327131026.GT1922688@smile.fi.intel.com>
+ <20200327131531.GU1922688@smile.fi.intel.com>
+ <CAK8P3a1Z+ZPTDzgAjdz0a7d85R62BhUqkdEWgrwXh-OnYe6rog@mail.gmail.com>
+ <20200327141434.GA1922688@smile.fi.intel.com>
+ <b5adcc7a-9d10-d75f-50e3-9c150a7b4989@c-s.fr>
+ <87mu7xum41.fsf@mpe.ellerman.id.au>
+ <11765c82-bf1a-466c-760d-f9a4c4d1d5f1@c-s.fr>
+Mime-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1585641353-23229-4-git-send-email-smasetty@codeaurora.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <11765c82-bf1a-466c-760d-f9a4c4d1d5f1@c-s.fr>
+User-Agent: Mutt/1.4.2.3i
+X-Mailman-Approved-At: Wed, 01 Apr 2020 07:03:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,224 +54,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, saravanak@google.com,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, mka@chromium.org,
- dri-devel@freedesktop.org, viresh.kumar@linaro.org,
- freedreno@lists.freedesktop.org, sibis@codeaurora.org
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ "Desnes A. Nunes do Rosario" <desnesn@linux.ibm.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jaroslav Kysela <perex@perex.cz>,
+ Richard Fontana <rfontana@redhat.com>, Paul Mackerras <paulus@samba.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
+ Masahiro Yamada <masahiroy@kernel.org>, YueHaibing <yuehaibing@huawei.com>,
+ Michal Simek <michal.simek@xilinx.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Allison Randal <allison@lohutok.net>, Leonardo Bras <leonardo@linux.ibm.com>,
+ DTML <devicetree@vger.kernel.org>, Andrew Donnellan <ajd@linux.ibm.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Marc Zyngier <marc.zyngier@arm.com>, Alistair Popple <alistair@popple.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, Alexios Zavras <alexios.zavras@intel.com>,
+ Mark Brown <broonie@kernel.org>, git@xilinx.com,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Enrico Weigelt <info@metux.net>, Michal Simek <monstr@monstr.eu>,
+ Wei Hu <weh@microsoft.com>, Christian Lamparter <chunkeey@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Takashi Iwai <tiwai@suse.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Armijn Hemel <armijn@tjaldur.nl>, Rob Herring <robh+dt@kernel.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Thiago Jung Bauermann <bauerman@linux.ibm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 31, 2020 at 01:25:51PM +0530, Sharat Masetty wrote:
-> This patch adds support to parse the OPP tables attached the GPU device,
-> the main opp table and the DDR bandwidth opp table. Additionally, vote
-> for the GPU->DDR bandwidth when setting the GPU frequency by querying
-> the linked DDR BW opp to the GPU opp.
+On Tue, Mar 31, 2020 at 08:56:23AM +0200, Christophe Leroy wrote:
+> While we are at it, can we also remove the 601 ? This one is also full 
+> of workarounds and diverges a bit from other 6xx.
 > 
-> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c   | 41 ++++++++++++++++++++++++++----
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 44 +++++++++++++++++++++++++++++----
->  drivers/gpu/drm/msm/msm_gpu.h           |  9 +++++++
->  3 files changed, 84 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index 748cd37..489d9b6 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -100,6 +100,40 @@ bool a6xx_gmu_gx_is_on(struct a6xx_gmu *gmu)
->  		A6XX_GMU_SPTPRAC_PWR_CLK_STATUS_GX_HM_CLK_OFF));
->  }
-> 
-> +void a6xx_gmu_set_icc_vote(struct msm_gpu *gpu, unsigned long gpu_freq)
-> +{
-> +	struct dev_pm_opp *gpu_opp, *ddr_opp;
-> +	struct opp_table **tables = gpu->opp_tables;
-> +	unsigned long peak_bw;
-> +
-> +	if (!gpu->opp_tables[GPU_DDR_OPP_TABLE_INDEX])
-> +		goto done;
-> +
-> +	gpu_opp = dev_pm_opp_find_freq_exact(&gpu->pdev->dev, gpu_freq, true);
-> +	if (IS_ERR_OR_NULL(gpu_opp))
-> +		goto done;
-> +
-> +	ddr_opp = dev_pm_opp_xlate_required_opp(tables[GPU_OPP_TABLE_INDEX],
-> +					    tables[GPU_DDR_OPP_TABLE_INDEX],
-> +					    gpu_opp);
-> +	dev_pm_opp_put(gpu_opp);
-> +
-> +	if (IS_ERR_OR_NULL(ddr_opp))
-> +		goto done;
+> I'm unable to find its end of life date, but it was on the market in 
+> 1994, so I guess it must be outdated by more than 10-15 yr old now ?
 
-I think that the final approach is still up in the air but either way we're
-going to pull the bandwidth from an OPP, its just a question of which OPP.
-
-> +	peak_bw = dev_pm_opp_get_bw(ddr_opp, NULL);
-> +	dev_pm_opp_put(ddr_opp);
-> +
-> +	icc_set_bw(gpu->icc_path, 0, peak_bw);
-> +	return;
-> +done:
-> +	/*
-> +	 * If there is a problem, for now leave it at max so that the
-> +	 * performance is nominal.
-> +	 */
-> +	icc_set_bw(gpu->icc_path, 0, MBps_to_icc(7216));
-> +}
-> +
->  static void __a6xx_gmu_set_freq(struct a6xx_gmu *gmu, int index)
->  {
->  	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
-> @@ -128,11 +162,8 @@ static void __a6xx_gmu_set_freq(struct a6xx_gmu *gmu, int index)
-> 
->  	gmu->freq = gmu->gpu_freqs[index];
-> 
-> -	/*
-> -	 * Eventually we will want to scale the path vote with the frequency but
-> -	 * for now leave it at max so that the performance is nominal.
-> -	 */
-> -	icc_set_bw(gpu->icc_path, 0, MBps_to_icc(7216));
-> +	if (gpu->icc_path)
-> +		a6xx_gmu_set_icc_vote(gpu, gmu->freq);
-
-This function is annoying because we call it from two different spots, but it
-feels wasteful that devfreq gives us an OPP pointer and we go out of our way to
-not use it only to search for it again in the set_icc_vote function. I think
-maybe we should pass the OPP through from msm_gpu.c.  We could have a helper
-function to pull the initial opp in a6xx_gmu_resume to make it clean.
+There probably are still some people running Linux on 601 powermacs.
 
 
->  }
-> 
->  void a6xx_gmu_set_freq(struct msm_gpu *gpu, unsigned long freq)
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 2d13694..bbbcc7a 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -882,7 +882,7 @@ static int adreno_get_pwrlevels(struct device *dev,
->  {
->  	unsigned long freq = ULONG_MAX;
->  	struct dev_pm_opp *opp;
-> -	int ret;
-> +	int ret, i;
-> 
->  	gpu->fast_rate = 0;
-> 
-> @@ -890,9 +890,29 @@ static int adreno_get_pwrlevels(struct device *dev,
->  	if (!of_find_property(dev->of_node, "operating-points-v2", NULL))
->  		ret = adreno_get_legacy_pwrlevels(dev);
->  	else {
-> -		ret = dev_pm_opp_of_add_table(dev);
-> -		if (ret)
-> -			DRM_DEV_ERROR(dev, "Unable to set the OPP table\n");
-> +		int count = of_count_phandle_with_args(dev->of_node,
-> +				"operating-points-v2", NULL);
-> +
-> +		count = min(count, GPU_DDR_OPP_TABLE_INDEX + 1);
-> +		count = max(count, 1);
-> +
-> +		for (i = 0; i < count; i++) {
-> +			ret = dev_pm_opp_of_add_table_indexed(dev, i);
-> +			if (ret) {
-> +				DRM_DEV_ERROR(dev, "Add OPP table %d: failed %d\n",
-> +						i, ret);
-> +				goto err;
-> +			}
-> +
-> +			gpu->opp_tables[i] =
-> +				dev_pm_opp_get_opp_table_indexed(dev, i);
-> +			if (!gpu->opp_tables[i]) {
-> +				DRM_DEV_ERROR(dev, "Get OPP table failed index %d\n",
-> +						i);
-> +				ret = -EINVAL;
-> +				goto err;
-> +			}
-> +		}
->  	}
-> 
->  	if (!ret) {
-> @@ -919,12 +939,24 @@ static int adreno_get_pwrlevels(struct device *dev,
->  		gpu->icc_path = NULL;
-> 
->  	return 0;
-> +err:
-> +	for (; i >= 0; i--) {
-> +		if (gpu->opp_tables[i]) {
-> +			dev_pm_opp_put_opp_table(gpu->opp_tables[i]);
-> +			gpu->opp_tables[i] = NULL;
-> +		}
-> +	}
-> +
-> +	dev_pm_opp_remove_table(dev);
-> +	return ret;
->  }
-> 
->  int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->  		struct adreno_gpu *adreno_gpu,
->  		const struct adreno_gpu_funcs *funcs, int nr_rings)
->  {
-> +	int ret = 0;
-> +
->  	struct adreno_platform_config *config = pdev->dev.platform_data;
->  	struct msm_gpu_config adreno_gpu_config  = { 0 };
->  	struct msm_gpu *gpu = &adreno_gpu->base;
-> @@ -945,7 +977,9 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
-> 
->  	adreno_gpu_config.nr_rings = nr_rings;
-> 
-> -	adreno_get_pwrlevels(&pdev->dev, gpu);
-> +	ret = adreno_get_pwrlevels(&pdev->dev, gpu);
-> +	if (ret)
-> +		return ret;
-> 
->  	pm_runtime_set_autosuspend_delay(&pdev->dev,
->  		adreno_gpu->info->inactive_period);
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> index ab8f0f9c..5b98b48 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> @@ -66,6 +66,12 @@ struct msm_gpu_funcs {
->  	void (*gpu_set_freq)(struct msm_gpu *gpu, unsigned long freq);
->  };
-> 
-> +/* opp table indices */
-> +enum {
-> +	GPU_OPP_TABLE_INDEX,
-> +	GPU_DDR_OPP_TABLE_INDEX,
-> +};
-> +
->  struct msm_gpu {
->  	const char *name;
->  	struct drm_device *dev;
-> @@ -113,6 +119,9 @@ struct msm_gpu {
-> 
->  	struct icc_path *icc_path;
-> 
-> +	/* gpu/ddr opp tables */
-> +	struct opp_table *opp_tables[2];
-
-You don't need an array here. We're not going to have that many tables.
-
-struct opp_table *gpu_opp_table;
-struct opp_table *bw_opp_table;
-
-Is sufficient and we don't need an enum.
-
-> +
->  	/* Hang and Inactivity Detection:
->  	 */
->  #define DRM_MSM_INACTIVE_PERIOD   66 /* in ms (roughly four frames) */
-> --
-> 2.7.4
-> 
-
-Jordan
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Segher
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
