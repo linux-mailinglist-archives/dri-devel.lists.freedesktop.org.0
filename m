@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017C61990AF
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 11:13:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 590B41990EE
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 11:16:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0F2189DD2;
-	Tue, 31 Mar 2020 09:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8F1B6E2D8;
+	Tue, 31 Mar 2020 09:16:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB03A89DD2
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 09:13:36 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id t128so1629406wma.0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 02:13:36 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E8C06E2D8
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 09:16:22 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id r16so1610446wmg.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 02:16:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1Vfzw7KX7Tn1/4kdoX4gqvVCcauAo/CwK6/Pv0leSvI=;
- b=iOD1RHussWS4xxh+zJ9qOw1Khw+v5dDftBa2TN53Fzu5IZhQ8ye4K0EZpoxBbXKD65
- Psi8srGs7GoEr3/1gcRC91IVqt597tV9gHrUd2aSuJKfxuuS16hlmLLJ/axxQfR8KIOg
- D1J4GDTMzVTJ4lG4bNDyvsT9E/xvp7f5HfeRI=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=/1bZOCUNGF1gmZL+jNN6OWPaC9nWHbCENgwpD1B+JtU=;
+ b=Q49YP0Bew1LBlgiW52dwgEjqKt0TJQv7UheGCdNIazsLlfQYsZc6TTK3v3AbtqaykP
+ Vdv9HfezhpFzR7V5BKe4QNIQH+OVR0LKcnPQmJXvX5gqOwnCiAB9SjvyL0ljcp5UffXN
+ 7ssrFlIiQDkV0FOHaoqr/hZwpfHn/0bmDAM4I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1Vfzw7KX7Tn1/4kdoX4gqvVCcauAo/CwK6/Pv0leSvI=;
- b=FYG5dRJuX8dKyGD103MjfvX/m2O4mIZCUP8CJK6j4jpVePCZAgyPHnk912IKDoILiB
- gORIl+Z/P3Yyy1DB1K51ljhQlGLKU8l2n75jYU/uQNS6rLEbUofNn068OoQTwf3mJaL4
- J+DTylUJ+ycQEdjKsedSWLOr/8mrKn5o9rXcn8KtbpbYLbGWmSIHILi+TejfrPN5Npxi
- 5t8SIiCLw5v/Y+jDF6UGjMjvHQe/Vvurr7UqKuDtRnloNDT53u47+do7bNDSm67/Ctwc
- zN1xXYxr4nGvGZ0NVmscLXcJuhHMNmMiEDoKEPES6VisgWhFRnQYFtonbQONKULKOKSW
- EU7A==
-X-Gm-Message-State: ANhLgQ1vLXk3TN0WuB0B2Our5JBV94lc8CB+WAt4bopr+WQJeepJZSC9
- PRDGTlEhnTTwH8etsxUUIE/mzINxJY8dMQ==
-X-Google-Smtp-Source: ADFU+vtbaJR/OSjaYI6Z5896xv9I41kM3DceV5Ft7DY0TDoLXW2Xz0K0eGpokAl+/cjUA0coPq9TIA==
-X-Received: by 2002:a05:600c:214a:: with SMTP id
- v10mr2355322wml.71.1585646015532; 
- Tue, 31 Mar 2020 02:13:35 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=/1bZOCUNGF1gmZL+jNN6OWPaC9nWHbCENgwpD1B+JtU=;
+ b=rFICoaYzq1VGHzbXjxXB4ZcuJpcXVj1nXvOyxF6aXt/g33FwPFa2dUvRFRQO0KZ12d
+ Y7howdSBYAejYYKIutj/HhY5jdEqWGW+hfK7A/iVvZaFqKGFrG5vouQe7ZCLlGKuqBMP
+ 9Uae2v+ZjVT1H9z3bUIleXYmmscywqVYzc1EoDV6+kSR8j1kG5audQRXT9mG3HQR4suf
+ +MCBslQXnPu3wTyJOkwuiv0O4iH4Mf2Xr9aW3epR65MmyPMmVl9bTYd+uYJnCCFKJL2S
+ sjibO7OYKHA2YaUqlruuWb786v4sYDK+RqWPJDaBHya+VdEMvnNZW3oyhbhTwYvXQ0W0
+ VKTw==
+X-Gm-Message-State: ANhLgQ2SRwAOd8hkfv9GXhgQvP8znyjmtr7Y+N+Msq+DEeP2RSU4ecJS
+ ynRbaI6JWnzTL/2Yk2eRRGIJ/lsi3ExpGw==
+X-Google-Smtp-Source: ADFU+vv5fzx1GIZxE2GAtPPk2/lsX/3pZtVJT9luJjscKr1ICNNkEnGEcaTuOtRGXsT9m9Wt3Gu+ug==
+X-Received: by 2002:a05:600c:21cb:: with SMTP id
+ x11mr2476954wmj.111.1585646180656; 
+ Tue, 31 Mar 2020 02:16:20 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b15sm25489082wru.70.2020.03.31.02.13.34
+ by smtp.gmail.com with ESMTPSA id s131sm2979264wmf.35.2020.03.31.02.16.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 02:13:34 -0700 (PDT)
-Date: Tue, 31 Mar 2020 11:13:32 +0200
+ Tue, 31 Mar 2020 02:16:19 -0700 (PDT)
+Date: Tue, 31 Mar 2020 11:16:18 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: add docs about the IN_FORMATS plane property
-Message-ID: <20200331091332.GL2363188@phenom.ffwll.local>
-References: <mHOtz80Wa-x3A5Lz5ETTM65VUMfW1j6b-iCuvIy1RzOM1EloHPqAb2MnbU8ygZi0ABaLrxuN6pzu0v3QRn83125C0bXuHoo-DQWWEd80fdw=@emersion.fr>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH] drm/mm: revert "Break long searches in fragmented
+ address spaces"
+Message-ID: <20200331091618.GM2363188@phenom.ffwll.local>
+References: <20200330123425.3944-1-christian.koenig@amd.com>
+ <c124b5d1-efc6-e826-2387-9f9ad06d1df0@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <mHOtz80Wa-x3A5Lz5ETTM65VUMfW1j6b-iCuvIy1RzOM1EloHPqAb2MnbU8ygZi0ABaLrxuN6pzu0v3QRn83125C0bXuHoo-DQWWEd80fdw=@emersion.fr>
+In-Reply-To: <c124b5d1-efc6-e826-2387-9f9ad06d1df0@gmail.com>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,54 +68,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: andi.shyti@intel.com, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, zbigniew.kempczynski@intel.com
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 29, 2020 at 02:45:08PM +0000, Simon Ser wrote:
-> This is a standard property attached to planes in drm_universal_plane_init
-> when drm_mode_config.allow_fb_modifiers is true.
-> 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Daniel Stone <daniel@fooishbar.org>
-> ---
->  drivers/gpu/drm/drm_blend.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-> index 121481f6aa71..88eedee018d3 100644
-> --- a/drivers/gpu/drm/drm_blend.c
-> +++ b/drivers/gpu/drm/drm_blend.c
-> @@ -183,6 +183,12 @@
->   *		 plane does not expose the "alpha" property, then this is
->   *		 assumed to be 1.0
->   *
-> + * IN_FORMATS:
-> + *	Blob property which contains the set of buffer format and modifier
-> + *	pairs supported by this plane. The blob is a drm_format_modifier_blob
-> + *	struct. Without this property the plane doesn't support buffers with
-> + *	modifiers. Userspace cannot change this property.
+On Tue, Mar 31, 2020 at 10:59:45AM +0200, Christian K=F6nig wrote:
+> A not so gentle ping, since this pretty much broke all TTM based drivers.
+> =
 
-Feels mildly misplaced among the blending properties, but we don't (yet)
-have a section to describe all the modifer/pixel format stuff and how it's
-all supposed to work together. So for now probably as good as it gets.
+> Could we revert this for now?
 
-Merged to drm-misc-next, thanks for your patch.
+Always ack for revert.
+
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Needs to go to drm-misc-next-fixes, and then maybe also ask for a
+backmerge since the patch landed pre-split. Also ping Maarten to do
+another pull request (there's other stuff in there already anyway).
 -Daniel
+> =
 
-> + *
->   * Note that all the property extensions described here apply either to the
->   * plane or the CRTC (e.g. for the background color, which currently is not
->   * exposed and assumed to be black).
-> -- 
-> 2.26.0
-> 
-> 
+> Thanks,
+> Christian.
+> =
 
--- 
+> Am 30.03.20 um 14:34 schrieb Christian K=F6nig:
+> > This reverts commit 7be1b9b8e9d1e9ef0342d2e001f44eec4030aa4d.
+> > =
+
+> > The drm_mm is supposed to work in atomic context, so calling schedule()
+> > or in this case cond_resched() is illegal.
+> > =
+
+> > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+> > ---
+> >   drivers/gpu/drm/drm_mm.c | 8 +-------
+> >   1 file changed, 1 insertion(+), 7 deletions(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
+> > index bc6e208949e8..8981abe8b7c9 100644
+> > --- a/drivers/gpu/drm/drm_mm.c
+> > +++ b/drivers/gpu/drm/drm_mm.c
+> > @@ -45,7 +45,6 @@
+> >   #include <linux/export.h>
+> >   #include <linux/interval_tree_generic.h>
+> >   #include <linux/seq_file.h>
+> > -#include <linux/sched/signal.h>
+> >   #include <linux/slab.h>
+> >   #include <linux/stacktrace.h>
+> > @@ -367,11 +366,6 @@ next_hole(struct drm_mm *mm,
+> >   	  struct drm_mm_node *node,
+> >   	  enum drm_mm_insert_mode mode)
+> >   {
+> > -	/* Searching is slow; check if we ran out of time/patience */
+> > -	cond_resched();
+> > -	if (fatal_signal_pending(current))
+> > -		return NULL;
+> > -
+> >   	switch (mode) {
+> >   	default:
+> >   	case DRM_MM_INSERT_BEST:
+> > @@ -563,7 +557,7 @@ int drm_mm_insert_node_in_range(struct drm_mm * con=
+st mm,
+> >   		return 0;
+> >   	}
+> > -	return signal_pending(current) ? -ERESTARTSYS : -ENOSPC;
+> > +	return -ENOSPC;
+> >   }
+> >   EXPORT_SYMBOL(drm_mm_insert_node_in_range);
+> =
+
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
