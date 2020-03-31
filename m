@@ -2,52 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C903199F84
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 21:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF0FF19A5DD
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:04:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E26E96E354;
-	Tue, 31 Mar 2020 19:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 053206E8F6;
+	Wed,  1 Apr 2020 07:04:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
- [209.85.166.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EDBA6E354
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 19:57:45 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id i3so13964300ioo.13
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 12:57:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=h4MVejpKXdUvf3pPVBrkNWcFoXIpak/ROd8AjzEbfKY=;
- b=LzstMlanPf/jHH9up6V/UzYvZLrqZ0zuK8YdmdC1uq/7kQs232hGVFLZrQuQZtNUQT
- dlOYVAHcxJvrfdlm508dXI4+ZRT5fPHpkuViMps5f77fgUSnM4BTSvillSCQO9vwfFRC
- lXjuCtt7CUDeo6EHI40/UCSiBCKOavSmsWMhUH9ETZYqie/U9nt6vLcbaQ1edcFvNCE6
- Jknrf3UUSu89b+pZHgVhf3ragk050HIvhnFXmpDG7TTqEYa56+KcEGCQcQRkoU1QwuVh
- VH7yWc4plFr0/MdtR6bXxDh/TQAC7HQSV8OHPGIaqJ1DghRJVODuvpIVNEmc0f9yHPlO
- 8thA==
-X-Gm-Message-State: ANhLgQ1AXe9hNgunqAancqPf/wC/B/g842n0VZuwXJvTEVQCwHvRZOoP
- +AXL+Vq2R/cMMjZDDvdJWw==
-X-Google-Smtp-Source: ADFU+vtc5oUJqWcdHGbZePzerMkO7IsVV4rSImDoXIrm0C537o3o03dpCu4eAitRh3oGSvNBCV8CZQ==
-X-Received: by 2002:a02:2427:: with SMTP id f39mr12183287jaa.7.1585684664392; 
- Tue, 31 Mar 2020 12:57:44 -0700 (PDT)
-Received: from rob-hp-laptop ([64.188.179.250])
- by smtp.gmail.com with ESMTPSA id f74sm6145627ilh.77.2020.03.31.12.57.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 12:57:42 -0700 (PDT)
-Received: (nullmailer pid 441 invoked by uid 1000);
- Tue, 31 Mar 2020 19:57:41 -0000
-Date: Tue, 31 Mar 2020 13:57:41 -0600
-From: Rob Herring <robh@kernel.org>
-To: David Lu <david.lu@bitland.com.cn>
-Subject: Re: [PATCH] dt-bindings: boe,tv101wum-n16: Add compatible for boe
- tv105wum-nw0.
-Message-ID: <20200331195741.GA26161@bogus>
-References: <20200324094525.4758-1-david.lu@bitland.com.cn>
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F2A26E881;
+ Tue, 31 Mar 2020 19:59:43 +0000 (UTC)
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 31 Mar 2020 12:59:41 -0700
+Received: from gurus-linux.qualcomm.com ([10.46.162.81])
+ by ironmsg01-sd.qualcomm.com with ESMTP; 31 Mar 2020 12:59:40 -0700
+Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
+ id 3E60B4BE8; Tue, 31 Mar 2020 12:59:40 -0700 (PDT)
+Date: Tue, 31 Mar 2020 12:59:40 -0700
+From: Guru Das Srinagesh <gurus@codeaurora.org>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH v10 00/12] Convert PWM period and duty cycle to u64
+Message-ID: <20200331195939.GA25781@codeaurora.org>
+References: <cover.1584650604.git.gurus@codeaurora.org>
+ <20200321114703.GB4672@kadam>
+ <20200330191506.GA29534@codeaurora.org>
+ <20200330202636.njjo4savgzf3g6yx@holly.lan>
+ <20200330210012.GA27611@codeaurora.org>
+ <20200331134804.xxrjaestztcazalc@holly.lan>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200324094525.4758-1-david.lu@bitland.com.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200331134804.xxrjaestztcazalc@holly.lan>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Mailman-Approved-At: Wed, 01 Apr 2020 07:03:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,51 +47,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jungle.chiang@bitland.com.cn,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, "Wesley W. Terpstra" <wesley@sifive.com>,
+ Michael Turquette <mturquette@baylibre.com>, Kamil Debski <kamil@wypas.org>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Atish Patra <atish.patra@wdc.com>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-riscv@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
+ linux-clk@vger.kernel.org, Alexandre Torgue <alexandre.torgue@st.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Axel Lin <axel.lin@ingics.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexander Shiyan <shc_work@mail.ru>,
+ Chen-Yu Tsai <wens@csie.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Mukesh Ojha <mojha@codeaurora.org>, Gerald Baeza <gerald.baeza@st.com>,
+ intel-gfx@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>,
+ linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mark Brown <broonie@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Fabrice Gasnier <fabrice.gasnier@st.com>,
+ Ding Xiang <dingxiang@cmss.chinamobile.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Allison Randal <allison@lohutok.net>, linux-hwmon@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Anson Huang <Anson.Huang@nxp.com>,
+ Richard Fontana <rfontana@redhat.com>, Stephen Boyd <sboyd@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
+ Yash Shah <yash.shah@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Shawn Guo <shawnguo@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 24, 2020 at 05:45:25PM +0800, David Lu wrote:
-> Add bindings documentation for BOE TV105WUM-NW0 10.5" WUXGA TFT LCD
-> panel.
+On Tue, Mar 31, 2020 at 02:48:04PM +0100, Daniel Thompson wrote:
+> On Mon, Mar 30, 2020 at 02:00:12PM -0700, Guru Das Srinagesh wrote:
+> > On Mon, Mar 30, 2020 at 09:26:36PM +0100, Daniel Thompson wrote:
+> > > On Mon, Mar 30, 2020 at 12:15:07PM -0700, Guru Das Srinagesh wrote:
+> > > > On Sat, Mar 21, 2020 at 02:47:03PM +0300, Dan Carpenter wrote:
+> > > > > This is a giant CC list.
+> > > > 
+> > > > Yes, this is because I received feedback [1] on an earlier patchset
+> > > > directing me to add the reviewers of patches to the cover letter as
+> > > > well so that they get some context for the patch.
+> > > > ...
+> > > > [1] https://www.spinics.net/lists/linux-pwm/msg11735.html
+> > > 
+> > > Strictly speaking I only asked for backlight maintainers to be Cc:ed.
+> > > I was fairly careful to be specific since I'm aware there are a variety
+> > > of differing habits when putting together the Cc: list for covering
+> > > letters.
+> > > 
+> > > With the original patch header the purpose of the patch I was Cc:ed on
+> > > was impossible to determine without the covering letter.
+> > 
+> > I suspect this might be the case for all the other reviewers as well -
+> > that they also would appreciate context for the specific patch they are
+> > being added to review.
+> > 
+> > I wasn't entirely sure what the convention was, so I applied your
+> > suggestion to all the files. How do you suggest I handle this in my next
+> > patchset? I fully agree that such a large CC list does look really
+> > ungainly.
 > 
-> Signed-off-by: David Lu <david.lu@bitland.com.cn>
-> Change-Id: I450c0e52aae080728d4794bdffc50bb0d2f39f40
-
-Drop this.
-
-> ---
->  .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml     | 2 ++
->  1 file changed, 2 insertions(+)
-
-With that fixed,
-
-Acked-by: Rob Herring <robh@kernel.org>
-
+> IHMO there should not be a mechanical convention. Instead your goal
+> needs to be how to make it as easy as possible to review your patches.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> index 740213459134..7f5df5851017 100644
-> --- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> @@ -24,6 +24,8 @@ properties:
->        - boe,tv101wum-n53
->          # AUO B101UAN08.3 10.1" WUXGA TFT LCD panel
->        - auo,b101uan08.3
-> +        # BOE TV105WUM-NW0 10.5" WUXGA TFT LCD panel
-> +      - boe,tv105wum-nw0
->  
->    reg:
->      description: the virtual channel number of a DSI peripheral
-> -- 
-> 2.24.1
+> Think about it this way: Each person in the To: of a patch (and maybe
+> also Cc: depending on how you construct things) is a person you are
+> asking to review and comment on the patch. If that person will find it
+> easier to review the patch if they are included in the cover letter then
+> either they should be included or you should improve the patch
+> description of the patch itself (sometimes both).
 > 
-> 
-> 
+> Either way it is about optimizing the patchset for readability. More
+> people read them than write them.
+
+Thank you for the explanation! I shall keep your suggestions in mind
+while sending out future patchsets.
+
+Thank you.
+
+Guru Das.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
