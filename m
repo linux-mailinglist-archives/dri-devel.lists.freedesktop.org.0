@@ -2,47 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A81F198CC6
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:15:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E93198CCD
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:18:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF25A6E264;
-	Tue, 31 Mar 2020 07:15:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BAD96E27C;
+	Tue, 31 Mar 2020 07:17:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7D4BD6E264
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 07:15:32 +0000 (UTC)
-X-UUID: 72369b837d594f6ba68a801989bb2769-20200331
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=tjPRKJwv3JpOCljaRUaL4xSBagZpOnRqSFRVswzw7Gs=; 
- b=pl3sFafDlzdqzPr2tiyYdnfDuM8e2VR5yyrpb56+s6YCZInYGQz7eFVwID0N/vWNuiQfSKrJ16r2al4CpLWqtCbiNnMbhtayoyFDENSBlRIOj8n088F93u2WgR7jJ774noNjnV32YfBnGiZbOJFLeJ9X+2IurBI/yb5Et7QgAoA=;
-X-UUID: 72369b837d594f6ba68a801989bb2769-20200331
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <jitao.shi@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 224437747; Tue, 31 Mar 2020 15:10:23 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
- (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Tue, 31 Mar 2020 15:10:21 +0800
-Received: from [10.16.6.141] (10.16.6.141) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 31 Mar 2020 15:10:19 +0800
-Message-ID: <1585638593.31955.5.camel@mszsdaap41>
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: mediatek: add property to
- control mipi tx drive current
-From: Jitao Shi <jitao.shi@mediatek.com>
-To: Rob Herring <robh@kernel.org>
-Date: Tue, 31 Mar 2020 15:09:53 +0800
-In-Reply-To: <20200323220033.GA29463@bogus>
-References: <20200311074032.119481-1-jitao.shi@mediatek.com>
- <20200311074032.119481-2-jitao.shi@mediatek.com>
- <20200323220033.GA29463@bogus>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96E186E27C
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 07:17:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: aratiu) with ESMTPSA id 867CC296952
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
+To: Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [PATCH v5 4/5] drm: imx: Add i.MX 6 MIPI DSI host platform driver
+In-Reply-To: <246bf7c71620021258355c2fc32dd38ac6b0cc45.camel@collabora.com>
+References: <20200330113542.181752-1-adrian.ratiu@collabora.com>
+ <20200330113542.181752-5-adrian.ratiu@collabora.com>
+ <CAOMZO5CEZSBfhb9xAdf=sDhUnmSeuWSsnUQArz=a1TPzytLAeQ@mail.gmail.com>
+ <4a9d2d6e5cecbe296c14119d27a8793a7dbed7b2.camel@collabora.com>
+ <877dz134xf.fsf@collabora.com>
+ <246bf7c71620021258355c2fc32dd38ac6b0cc45.camel@collabora.com>
+Date: Tue, 31 Mar 2020 10:19:00 +0300
+Message-ID: <874ku52dqz.fsf@collabora.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 518E88426F51400BDCEE41B35C4881984A15EE42DB8BBE274CDC847E3BBA18762000:8
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,67 +39,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
- huijuan.xie@mediatek.com, stonea168@163.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, cawa.cheng@mediatek.com,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Martyn Welch <martyn.welch@collabora.com>,
+ Sjoerd Simons <sjoerd.simons@collabora.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-rockchip@lists.infradead.org, kernel@collabora.com,
+ linux-stm32@st-md-mailman.stormreply.com, "moderated list:ARM/FREESCALE
+ IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Mon, 2020-03-23 at 16:00 -0600, Rob Herring wrote:
-> On Wed, Mar 11, 2020 at 03:40:29PM +0800, Jitao Shi wrote:
-> > Add a property to control mipi tx drive current:
-> > "drive-strength-microamp"
-> > 
-> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> > ---
-> >  .../devicetree/bindings/display/mediatek/mediatek,dsi.txt     | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> > index a19a6cc375ed..d501f9ff4b1f 100644
-> > --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> > +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> > @@ -33,6 +33,9 @@ Required properties:
-> >  - #clock-cells: must be <0>;
-> >  - #phy-cells: must be <0>.
-> >  
-> > +Optional properties:
-> > +- drive-strength-microamp: adjust driving current, should be 1 ~ 0xF
+On Tue, 31 Mar 2020, Ezequiel Garcia <ezequiel@collabora.com> 
+wrote:
+> On Tue, 2020-03-31 at 00:31 +0300, Adrian Ratiu wrote: 
+>> On Mon, 30 Mar 2020, Ezequiel Garcia <ezequiel@collabora.com> 
+>> wrote: 
+>> > Hello Fabio, Adrian:   On Mon, 2020-03-30 at 08:49 -0300, 
+>> > Fabio Estevam wrote:  
+>> > > Hi Adrian,  On Mon, Mar 30, 2020 at 8:34 AM Adrian Ratiu 
+>> > > <adrian.ratiu@collabora.com> wrote:  
+>> > > > This adds support for the Synopsis DesignWare MIPI DSI 
+>> > > > v1.01  host controller which is embedded in i.MX 6 SoCs. 
+>> > > > Based on  following patches, but updated/extended to work 
+>> > > > with existing  support found in the kernel:  - drm: imx: 
+>> > > > Support Synopsys  DesignWare MIPI DSI host controller  
+>> > > >   Signed-off-by: Liu Ying <Ying.Liu@freescale.com>  
+>> > > >  - ARM: dtsi: imx6qdl: Add support for MIPI DSI host  
+>> > > > controller  
+>> > > >   Signed-off-by: Liu Ying <Ying.Liu@freescale.com>  
+>> > >  This one looks like a devicetree patch, but this patch 
+>> > >  does  
+>> > > not touch devicetree.   
+>> > > > +       ret = clk_prepare_enable(dsi->pllref_clk); + 
+>> > > > if  (ret) { +               dev_err(dev, "%s: Failed to 
+>> > > > enable  pllref_clk\n", __func__); +               return 
+>> > > > ret; +  } + +       dsi->mux_sel = 
+>> > > > syscon_regmap_lookup_by_phandle(dev->of_node, "fsl,gpr"); 
+>> > > > +  if (IS_ERR(dsi->mux_sel)) { +               ret = 
+>> > > > PTR_ERR(dsi->mux_sel); +               dev_err(dev, "%s: 
+>> > > > Failed to get GPR regmap: %d\n", +  __func__, ret); + 
+>> > > > return ret;  
+>> > >  You should disable the dsi->pllref_clk clock prior to  
+>> > > returning the error.   
+>> >  Another approach could be moving the clock on and off to to 
+>> > component_ops.{bind,unbind} (as rockhip driver does).    What 
+>> > exactly is the PLL clock needed for? Would it make sense to 
+>> > move it some of the PHY power on/off? (Maybe not, but it's 
+>> > worthing checking).    Also, it seems the other IP blocks 
+>> > have this PLL clock, so maybe  it could be moved to the 
+>> > dw_mipi_dsi core? This could be  something for a follow-up, 
+>> > to avoid creeping this series. 
+>>  Hi Ezequiel,  pll is the video reference clock which drives 
+>> the data lanes and  yes all drivers have it as it's a basic 
+>> requirement, so moving it  to the common bridge is indeed a 
+>> good idea, however this kind of  driver refactoring is out of 
+>> scope for this specific patch series,  because, for now, I'd 
+>> like to get the regmap and the imx6 driver  in, once that is 
+>> done we can think how to further abstract away  common logic 
+>> and slim down the existing drivers further.   Basically I just 
+>> want to avoid feature creep as I expect v6 to be  ~ 8 patches 
+>> big and the series is already over 1200 lines.  
 > 
-> TBC, 1-0xf is in units of microamps? So a max drive strength of 15uA? 
-> Seems a bit low.
+> Oh, absolutely: if there's one thing I try to avoid is feature 
+> creep -- together with bikeshedding! 
 > 
+> Do note however, that you could move the PLL clock handling to 
+> component_ops.{bind,unbind} and maybe simplify the error 
+> handling. 
+> 
+> (BTW, great work!)
 
-The minimum amp is 3000 macroamps,  step is 200macroamps.
-So the drive current is 3000 + 200 * drive-strength-microamp amps.
+Thanks! I'll do the bind/unbind move for the new imx6 driver which 
+I'm
+adding in this series to make it resemble the existing rockchip 
+driver a bit more, then I'll stop short of further driver 
+refactorings.
 
-I will update "drive-strength-microamp" define next version.
-
-BR
-Jitao
-> > +
-> >  Example:
-> >  
-> >  mipi_tx0: mipi-dphy@10215000 {
-> > @@ -42,6 +45,7 @@ mipi_tx0: mipi-dphy@10215000 {
-> >  	clock-output-names = "mipi_tx0_pll";
-> >  	#clock-cells = <0>;
-> >  	#phy-cells = <0>;
-> > +	drive-strength-microamp = <0x8>;
-> >  };
-> >  
-> >  dsi0: dsi@1401b000 {
-> > -- 
-> > 2.21.0
-
-
+>
+> Cheers,
+> Ezequiel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
