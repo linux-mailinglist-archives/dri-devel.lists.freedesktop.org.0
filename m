@@ -1,64 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74817198D53
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:47:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B8C198D5D
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:48:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BFD36E28B;
-	Tue, 31 Mar 2020 07:47:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 655A86E58E;
+	Tue, 31 Mar 2020 07:48:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
  [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD9C86E28B
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 07:47:24 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id r16so1344650wmg.5
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 00:47:24 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 810696E58E
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 07:48:45 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id i19so1449428wmb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 00:48:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=9TfK1u1VpPaq5iA6J1WQwLfjQ6lOwx15msGpVq0i+7c=;
- b=Gr0LvrHjjJ5qr8lqINKW/3hKNpu+pFwzsUq58/tgAuectYIefxdFpYIe+jeXnMPUjx
- IGmkhlcbkNL3xDq8h6ZFf0EodqpQVZ/RFZnQCKmXl8eJtE5KyCfZI3TTJfvGIjBuYZdw
- 8JKTetKFESliIYV8V4jLl7aJjPMuplmWL/SzA=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=iqKTP0owR9GHIXqnQIDjvQ+mDIifciqjTTWzYGb8wN8=;
+ b=NAVOde3lV4P/QamfdGMAAfpToAz7NqDeUde9mcTMzdiuDgZPr6UeUkxGUqekRwsjft
+ wm1Rk+nQO/WDCaREyCFOTLFZcPQFXQoQZH40KiAIxKq2yBl8+3cV+RZ5259sjfx/+cFk
+ axeD1ZKn3rl67yXINUhfP5bo2pohigcs0rbzw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=9TfK1u1VpPaq5iA6J1WQwLfjQ6lOwx15msGpVq0i+7c=;
- b=FB5MyJ1qFqVKHYNPIwwSCsGIrWagLlsgNVeOQwED5IOAzzFJm7RgIw1jcelZ8S4lCM
- /blsvpBb8r4G4U8zUuFXvegwyDEzCrMy8dgJdEwh6GJPhpUbUppLEfRMt8HfoDfpjnc9
- R6LndbImxXNf5PxOtGbjiv3ELY2+satnp7hw2ibfEju8OhwYdhRtUS8QNo08k+k8awA9
- J0ZkoIghAaiwSqs3OhLvTXviHvFZnbGt4u7eRXCmRjPExlLddjRTXlo/HhuA+BpMNOP+
- d/qWbewk1sOTY7oPdrPL4PMG62Jeu2szGM0iF3U+m78FAreXRwKRwDsnOOPY47r+A8JR
- gD4w==
-X-Gm-Message-State: ANhLgQ13eSifHCzFTLGgu6FAV6rWmZfgyvGr4rb2CRqiRp4a8ztc+/B6
- BDNskwlqyOY6QpYUBT1OXeo7pw==
-X-Google-Smtp-Source: ADFU+vtayUlqbWaVjEdDpSf+eVK+fU90P3qYqeML/NIzR7pnIBLOepUFWDkVMvgCmV92cYRgJios+A==
-X-Received: by 2002:a7b:cd02:: with SMTP id f2mr1981956wmj.97.1585640843372;
- Tue, 31 Mar 2020 00:47:23 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=iqKTP0owR9GHIXqnQIDjvQ+mDIifciqjTTWzYGb8wN8=;
+ b=JfsBSccXGldQDvs+wYH7fMZG4qGRnlvAlnLtGQCGv7CKFWKOK8kx/jKtaGcnTXYMBR
+ C513hcn+jZX6nw1PzJDWpPsM5OULZVfBRQLMbct6w/caYOJejz4NPGK/PBtsLcJdmG25
+ WObK65WcoYInUufGnQx9Zd/0wKsBAjQ4PYf7MNE4ZZ7+vJzYp00czODqDI9PEvsHnA0N
+ nV8bHSlNaNzPnSkPd6u/wTKJgPfnagn6xzwkEGKrOCFbo/UQb4lNEGMh1s2ZEyPd1m9Q
+ dUu3SgAo2/jG6K0mdjU4+fjBDkyTC+zZyd3V/JNALVO2CAyF1fx6Sl3s1+hoFbzBmvtF
+ Qp3w==
+X-Gm-Message-State: ANhLgQ17yXvKOG6LQTLdPb+TO9sKWSgyz1vik36Dy+Waw3HHC/iKncch
+ HIVvl426uA/FHsqda5k4KYHj/Q==
+X-Google-Smtp-Source: ADFU+vv4xmOj0tzWHB5SQ0yDQM7GrYmPWEEG97zyC/ogWSViWb7H2+tdHqbYbLQEWD8qFE+AE2z7Ww==
+X-Received: by 2002:a7b:ce8b:: with SMTP id q11mr894131wmj.91.1585640924179;
+ Tue, 31 Mar 2020 00:48:44 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t21sm2795111wmt.43.2020.03.31.00.47.22
+ by smtp.gmail.com with ESMTPSA id x11sm19376548wru.62.2020.03.31.00.48.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 00:47:22 -0700 (PDT)
-Date: Tue, 31 Mar 2020 09:47:20 +0200
+ Tue, 31 Mar 2020 00:48:43 -0700 (PDT)
+Date: Tue, 31 Mar 2020 09:48:41 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH] drm: fix ifnullfree.cocci warnings
-Message-ID: <20200331074720.GD2363188@phenom.ffwll.local>
-Mail-Followup-To: Julia Lawall <julia.lawall@inria.fr>,
- kbuild-all@lists.01.org, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <alpine.DEB.2.21.2003270908410.2709@hadrien>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v1 6/6] drm/bridge: fix kernel-doc warning in panel.c
+Message-ID: <20200331074841.GE2363188@phenom.ffwll.local>
+References: <20200328132025.19910-1-sam@ravnborg.org>
+ <20200328132025.19910-7-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.2003270908410.2709@hadrien>
+In-Reply-To: <20200328132025.19910-7-sam@ravnborg.org>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,55 +65,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Nirmoy Das <nirmoy.das@amd.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mihail Atanassov <Mihail.Atanassov@arm.com>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ David Francis <David.Francis@amd.com>,
+ James Qian Wang <james.qian.wang@arm.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Mikita Lipski <mikita.lipski@amd.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 27, 2020 at 09:11:44AM +0100, Julia Lawall wrote:
-> NULL check before kfree is not needed.
+On Sat, Mar 28, 2020 at 02:20:25PM +0100, Sam Ravnborg wrote:
+> Add missing documentation to fix following warning:
+> panel.c:303: warning: Function parameter or member 'bridge' not described in 'drm_panel_bridge_connector'
 > 
-> Generated by: scripts/coccinelle/free/ifnullfree.cocci
-> 
-> Fixes: c6603c740e0e ("drm: add managed resources tied to drm_device")
-> Signed-off-by: kbuild test robot <lkp@intel.com>
-> Signed-off-by: Julia Lawall <julia.lawall@inria.fr>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Mihail Atanassov <Mihail.Atanassov@arm.com>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > ---
+>  drivers/gpu/drm/bridge/panel.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-
-Hm this doesn't apply anymore, the patch is for an interim state (because
-bisectability). Care to regen (the pattern still exists), I'm happy to
-apply.
--Daniel
-
-> head:   9e1ed9fb1eb0a4bc43a26365c592d3095286038b
-> commit: c6603c740e0e3492c9c95fdab833375bf7117b6b [1587/1636] drm: add managed resources tied to drm_device
-> :::::: branch date: 8 hours ago
-> :::::: commit date: 9 hours ago
-> 
-> Up to you, if you tihnk it is useful...
-> 
->  drm_drv.c |    3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -837,8 +837,9 @@ static void drm_dev_release(struct kref
->  	if (!dev->driver->release && !dev->managed.final_kfree) {
->  		WARN_ON(!list_empty(&dev->managed.resources));
->  		kfree(dev);
-> -	} else if (dev->managed.final_kfree)
-> +	} else {
->  		kfree(dev->managed.final_kfree);
-> +	}
->  }
-> 
+> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+> index 8461ee8304ba..e933f1c47f5d 100644
+> --- a/drivers/gpu/drm/bridge/panel.c
+> +++ b/drivers/gpu/drm/bridge/panel.c
+> @@ -311,6 +311,7 @@ EXPORT_SYMBOL(devm_drm_panel_bridge_add_typed);
+>  
 >  /**
+>   * drm_panel_bridge_connector - return the connector for the panel bridge
+> + * @bridge: The drm_bridge.
+>   *
+>   * drm_panel_bridge creates the connector.
+>   * This function gives external access to the connector.
+> -- 
+> 2.20.1
+> 
 
 -- 
 Daniel Vetter
