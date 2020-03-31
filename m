@@ -1,53 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E14019883C
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 01:26:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B73EB1988DB
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 02:25:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9956E4D2;
-	Mon, 30 Mar 2020 23:26:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53C5A6E508;
+	Tue, 31 Mar 2020 00:24:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
- [209.85.166.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD35B6E4D2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 23:26:22 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id f16so17632445ilj.9
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Mar 2020 16:26:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=LF85p8LiPrHnow4L9TnXbCTs4I8jEbhzC11j8ciLyRA=;
- b=PlDNMyV0UuvX6wEAN1xHmf7plhBEYlKBkWCUPaB3xaRzP3u9NxzHKraLFdK70+z54/
- f3tkfz1jhhBvBI75B1HpGTSh3KwK+FxiJT+6WWHqfYvnCOwjYsM46f4y7LROIETOtEqG
- kTftha9gcYOWl+Y1eJjeEe4CVJWJ76V581yZUI6aReQfCor5gGwK/PO6jivqQ8Hg7Mvr
- PYbrDHXU7loXGQmvHD+ZXNpmpMnKEnjJY0VG17rg8by65ahFlf7s6uWY8aIoU3AMhRs2
- Q3f5YlDnwWrBZpypzvSe7gVsPBJs74eDuQri+ajAMjEELHTHzv1sB7p0Vi2V6LyjTPMs
- /Org==
-X-Gm-Message-State: ANhLgQ2/n+tAlFv0muAKTbGnKvh5yQooScW7WYHaLtNZm/0wGlWsdwwm
- aeNDjTqEZmbXGf2VQ2GsfA==
-X-Google-Smtp-Source: ADFU+vtmhUYjMudehiqJmBH9H7jMSe35T5HDRBtsrnXGGftWUwlBk2mhZTwgUl3I5g5TpKH+1HO0bA==
-X-Received: by 2002:a92:8410:: with SMTP id l16mr13898715ild.288.1585610782197; 
- Mon, 30 Mar 2020 16:26:22 -0700 (PDT)
-Received: from rob-hp-laptop ([64.188.179.250])
- by smtp.gmail.com with ESMTPSA id j84sm5352015ili.65.2020.03.30.16.26.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Mar 2020 16:26:21 -0700 (PDT)
-Received: (nullmailer pid 25295 invoked by uid 1000);
- Mon, 30 Mar 2020 23:26:20 -0000
-Date: Mon, 30 Mar 2020 17:26:20 -0600
-From: Rob Herring <robh@kernel.org>
-To: Pascal Roeleven <dev@pascalroeleven.nl>
-Subject: Re: [PATCH v2 4/5] dt-bindings: arm: Add Topwise A721
-Message-ID: <20200330232620.GA25242@bogus>
-References: <20200320112205.7100-1-dev@pascalroeleven.nl>
- <20200320112205.7100-5-dev@pascalroeleven.nl>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11A9C6E507;
+ Tue, 31 Mar 2020 00:24:57 +0000 (UTC)
+IronPort-SDR: XUmbojtpybORhtTgUikPyJ6C0Y18HhveS682Ia+zrnJXWkDdqmcHzAlQczrkIxD4TVTroFo73d
+ +lNgO7nRoqgw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2020 17:24:56 -0700
+IronPort-SDR: KH3SHm0aQp34+2Z5Lh6YxYWeB1LUtsIEB8Rv1L0KDNbH4BXfMDxzP6uuXBPK/4qv5QJiB0X+kM
+ CWfpUMxtaddQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,326,1580803200"; d="scan'208";a="327912934"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
+ ([10.165.21.211])
+ by orsmga001.jf.intel.com with ESMTP; 30 Mar 2020 17:24:56 -0700
+Date: Mon, 30 Mar 2020 17:26:54 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/2] drm/i915/dp: Attach and set drm connector VRR
+ property
+Message-ID: <20200331002654.GB6703@intel.com>
+References: <20200325012201.11376-1-manasi.d.navare@intel.com>
+ <20200325012201.11376-2-manasi.d.navare@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200320112205.7100-5-dev@pascalroeleven.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200325012201.11376-2-manasi.d.navare@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,24 +50,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@googlegroups.com,
- linux-arm-kernel@lists.infradead.org, Pascal Roeleven <dev@pascalroeleven.nl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Aditya Swarup <aditya.swarup@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 20 Mar 2020 12:21:35 +0100, Pascal Roeleven wrote:
-> Add the bindings for Topwise A721 tablet
-> 
-> Signed-off-by: Pascal Roeleven <dev@pascalroeleven.nl>
-> ---
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
+@Jani @Ville, this is the one we had discussed on IRC, could you
+take a look at this patch?
 
-Acked-by: Rob Herring <robh@kernel.org>
+Manasi
+
+On Tue, Mar 24, 2020 at 06:22:01PM -0700, Manasi Navare wrote:
+> From: Aditya Swarup <aditya.swarup@intel.com>
+> =
+
+> This function sets the VRR property for connector based
+> on the platform support, EDID monitor range and DP sink
+> DPCD capability of outputing video without msa
+> timing information.
+> =
+
+> v2:
+> * Just set this in intel_dp_get_modes instead of new hook (Jani)
+> =
+
+> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Signed-off-by: Aditya Swarup <aditya.swarup@intel.com>
+> Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> =
+
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index ef2e06e292d5..95db4e783893 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -5843,6 +5843,23 @@ intel_dp_force(struct drm_connector *connector)
+>  	intel_display_power_put(dev_priv, aux_domain, wakeref);
+>  }
+>  =
+
+> +static bool intel_dp_is_vrr_capable(struct drm_connector *connector)
+> +{
+> +	struct intel_dp *intel_dp =3D intel_attached_dp(to_intel_connector(conn=
+ector));
+> +	const struct drm_display_info *info =3D &connector->display_info;
+> +	struct drm_i915_private *dev_priv =3D to_i915(connector->dev);
+> +
+> +	/*
+> +	 * DP Sink is capable of Variable refresh video timings if
+> +	 * Ignore MSA bit is set in DPCD.
+> +	 * EDID monitor range also should be atleast 10 for reasonable
+> +	 * Adaptive sync/ VRR end user experience.
+> +	 */
+> +	return INTEL_GEN(dev_priv) >=3D 12 &&
+> +		drm_dp_sink_can_do_video_without_timing_msa(intel_dp->dpcd) &&
+> +		info->monitor_range.max_vfreq - info->monitor_range.min_vfreq > 10;
+> +}
+> +
+>  static int intel_dp_get_modes(struct drm_connector *connector)
+>  {
+>  	struct intel_connector *intel_connector =3D to_intel_connector(connecto=
+r);
+> @@ -5853,6 +5870,10 @@ static int intel_dp_get_modes(struct drm_connector=
+ *connector)
+>  		int ret =3D intel_connector_update_modes(connector, edid);
+>  		if (ret)
+>  			return ret;
+> +
+> +		if (intel_dp_is_vrr_capable(connector))
+> +			drm_connector_set_vrr_capable_property(connector,
+> +							       true);
+>  	}
+>  =
+
+>  	/* if eDP has no EDID, fall back to fixed mode */
+> @@ -6880,6 +6901,9 @@ intel_dp_add_properties(struct intel_dp *intel_dp, =
+struct drm_connector *connect
+>  		connector->state->scaling_mode =3D DRM_MODE_SCALE_ASPECT;
+>  =
+
+>  	}
+> +
+> +	if (INTEL_GEN(dev_priv) >=3D 12)
+> +		drm_connector_attach_vrr_capable_property(connector);
+>  }
+>  =
+
+>  static void intel_dp_init_panel_power_timestamps(struct intel_dp *intel_=
+dp)
+> -- =
+
+> 2.19.1
+> =
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
