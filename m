@@ -2,70 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96E219A059
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 22:59:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8776A19A0A6
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 23:22:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B440D6E890;
-	Tue, 31 Mar 2020 20:59:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5387A6E357;
+	Tue, 31 Mar 2020 21:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCB8A6E890
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 20:59:43 +0000 (UTC)
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36F716E357
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 21:22:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585688382;
+ s=mimecast20190719; t=1585689761;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t4YVDPR21FGqCPWXR9SrEVqjm1WqP0KZpWMtMfgg6Wc=;
- b=WOV0xcu4IdToG2NJ+mre3yaN0yLb2hrLCDCxjyn1prDw7BMfrlXYGRwq4o9cZqQW5R1Emx
- HREIrGkNLWqOBRuQ6MokfxLFCmMUNFjxCdC9fR/hfmIef1rhTb5BvD19Wh6e93bAgQYxXp
- EGIlJOPNXvPKbKhQ1RiGqdJOmmMz3+E=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-9Kxz3CQ0Mu6bejSnMXXXVQ-1; Tue, 31 Mar 2020 16:59:41 -0400
-X-MC-Unique: 9Kxz3CQ0Mu6bejSnMXXXVQ-1
-Received: by mail-qt1-f197.google.com with SMTP id v10so19137707qtk.7
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 13:59:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=t4YVDPR21FGqCPWXR9SrEVqjm1WqP0KZpWMtMfgg6Wc=;
- b=nNfbjhO9px62uAX95C/iFV+Tis9EcIfgejHBj/Iu9dmBcrtmnsk17siWEcbzueul1m
- py2mwWrQh2Xtao1PoooLVwQ20SyR5Pxgr8EVSPyrPYb5U0d1kWocdvgxiv+tpXcPLrbP
- RwgqMmUspSXlUwa8ZwrfU2QCJ4pgpc3To+g7NzgzveAA+qPA7ETRfoTFiwou1Ik2JxrO
- ltrS5qh+pblUuQ9qA241Vvcv8LCzup6ziX+53RD/6nS/bNA3Dq93+dXk+8Oz1bTtKyT6
- Xv1ODEQy5N3a9WZHwhU5HqwucndX/528f99G0phmWagzzaUDPajWDLESmHSo50Tn2reB
- pxLA==
-X-Gm-Message-State: ANhLgQ35p0yU0Sik+gwL/WtSyfJwrlhx/DUgxvjsXtDBRbT2ajbd5krJ
- pe3isYp+UlpXByD81MBgHJvpyFxyWHXgpCxao6MohxZTaNx5Fz32lLDpZix7swUUP8FWkGdutgM
- 1Vou/0YcKdMys4TtOg6yEQ1oRSH1U
-X-Received: by 2002:ac8:6951:: with SMTP id n17mr7263754qtr.250.1585688381217; 
- Tue, 31 Mar 2020 13:59:41 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vu+gmBKFlSnhi7yAuTz/EYz85EmT34h/ZKxIYX9ZPTIrRD9PvqYK87A2DJCzzsGs7qM5Zx/UQ==
-X-Received: by 2002:ac8:6951:: with SMTP id n17mr7263682qtr.250.1585688379972; 
- Tue, 31 Mar 2020 13:59:39 -0700 (PDT)
-Received: from Ruby.lyude.net (static-173-76-190-23.bstnma.ftas.verizon.net.
- [173.76.190.23])
- by smtp.gmail.com with ESMTPSA id f201sm61653qke.119.2020.03.31.13.59.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 13:59:39 -0700 (PDT)
-Message-ID: <c427110aa4e0eb4ffdc11bb8e3b9eebfc6b50544.camel@redhat.com>
-Subject: Re: [PATCH] drm/dp_mst: make build_clear_payload_id_table return void
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sRghnZUn1Lcn59VJ6DHkKSsIh20b4joSKzig4G3pSxY=;
+ b=DDR5MYxpWr81cXS1sW+8E2JWp+7owe0jClZWjZ9T1ZWCJa+fI8EN76wk57ccKSdBb8He+e
+ 0yxtJLFvWPA4B7VGcUT0IgAM6MRp9HJthpdDTyD70GF28MxzK9UxVAuVNcdTUQlx7hEtZo
+ D62TSdCpdNQt8K85l8PPjgekLPwhScY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-DoS_cMkSNTCtHaVJt4nPDw-1; Tue, 31 Mar 2020 17:22:38 -0400
+X-MC-Unique: DoS_cMkSNTCtHaVJt4nPDw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C4AF8017CE;
+ Tue, 31 Mar 2020 21:22:35 +0000 (UTC)
+Received: from Ruby.redhat.com (ovpn-113-88.rdu2.redhat.com [10.10.113.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 476C65C1BB;
+ Tue, 31 Mar 2020 21:22:33 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
-To: Maya Rashish <coypu@sdf.org>, dri-devel@lists.freedesktop.org
-Date: Tue, 31 Mar 2020 16:59:38 -0400
-In-Reply-To: <20200321222959.GA1053@SDF.ORG>
-References: <20200321222959.GA1053@SDF.ORG>
-Organization: Red Hat
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+To: amd-gfx@lists.freedesktop.org
+Subject: [PATCH 0/2] drm/amdgpu: Remove duplicated DPCD logging
+Date: Tue, 31 Mar 2020 17:22:22 -0400
+Message-Id: <20200331212228.139219-1-lyude@redhat.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,49 +54,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Leo Li <sunpeng.li@amd.com>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ David Francis <david.francis@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ David Airlie <airlied@linux.ie>, Wyatt Wood <wyatt.wood@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Mikita Lipski <mikita.lipski@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Anthony Koo <anthony.koo@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+There's a bunch of messy DPCD tracing code in amdgpu that isn't needed
+since we already support this in DRM. Plus, it's really spammy. So, just
+get rid of it.
 
-I'll go ahead and push it to drm-misc-next, thanks!
+Lyude Paul (2):
+  drm/amd/amdgpu_dm/mst: Remove useless sideband tracing
+  drm/amd/dc: Kill dc_conn_log_hex_linux()
 
-On Sat, 2020-03-21 at 22:29 +0000, Maya Rashish wrote:
-> Nothing uses the always-0 return value.
-> 
-> Signed-off-by: Maya Rashish <coypu@sdf.org>
-> ---
->  drivers/gpu/drm/drm_dp_mst_topology.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
-> b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index 4b255e25e4a1..398da29ba1bd 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -1060,13 +1060,12 @@ static void build_link_address(struct
-> drm_dp_sideband_msg_tx *msg)
->  	drm_dp_encode_sideband_req(&req, msg);
->  }
->  
-> -static int build_clear_payload_id_table(struct drm_dp_sideband_msg_tx *msg)
-> +static void build_clear_payload_id_table(struct drm_dp_sideband_msg_tx
-> *msg)
->  {
->  	struct drm_dp_sideband_msg_req_body req;
->  
->  	req.req_type = DP_CLEAR_PAYLOAD_ID_TABLE;
->  	drm_dp_encode_sideband_req(&req, msg);
-> -	return 0;
->  }
->  
->  static int build_enum_path_resources(struct drm_dp_sideband_msg_tx *msg,
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 43 -------------------
+ .../gpu/drm/amd/display/dc/basics/Makefile    |  3 +-
+ .../drm/amd/display/dc/basics/log_helpers.c   | 39 -----------------
+ .../amd/display/include/logger_interface.h    |  4 --
+ 4 files changed, 1 insertion(+), 88 deletions(-)
+ delete mode 100644 drivers/gpu/drm/amd/display/dc/basics/log_helpers.c
+
 -- 
-Cheers,
-	Lyude Paul (she/her)
-	Associate Software Engineer at Red Hat
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
