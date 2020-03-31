@@ -1,51 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F54C198CFA
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:33:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9737198D3C
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:42:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 424876E558;
-	Tue, 31 Mar 2020 07:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D36A6E580;
+	Tue, 31 Mar 2020 07:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8306E558
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 07:32:55 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id a49so21011743otc.11
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 00:32:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8UUDf4P4I0YYKAHtbPa6viyVvFcq6Rz5CJC5PoibdyU=;
- b=hU/W6odRdFsyMiowo3/qL3cYgFuv8n40RG2iuZ2MIo8uXzDVOmorQD+wplBTwZh7Wg
- Ixfpe7QI5QIxT5VdYCgkBzkFkYwfXCbS4t0S+Ef5tkIcJYN8mC4k631kM7mEQBoUXqD9
- tMjeHBne8/taaHM/aZDnM6mWS00He9cf6990w=
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13C236E2BC;
+ Tue, 31 Mar 2020 07:42:13 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id r24so20951834ljd.4;
+ Tue, 31 Mar 2020 00:42:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=N9QpK/ItyTAxowsy1TIOtOpzig8vysrETNeagGxVa6Q=;
+ b=W8roYyTU85e6yzrj/8C8bUmC4uXnu4X+2BNC/SWemwpUDMfLBxmujxS+Ni3KALrR8w
+ 3sBPDwoty5Pcmr2cA8XNXq33rlnViJ8+B8MmtDNKZ0HvDv1B75gN3vA1mvKq26qHGxU3
+ jNYE5l7ztKu2Xo7SnGsxXDvSVmlGFBmY9VI1BpTykV9Y5hPY4k10Rl9Cskuwg+aw9gWe
+ zsE/ix+yqun11YwKI7CM9QU1/1iTk6kauCMFmdrqOGtgjx7cmR0x/cRyn/yinvf2OAdz
+ P7brYNFoSqM0PI0LpL2alBeP4tLGoG9QcQvxty+35OhDzXNlXLfnALUxM0gWEe6BCLVt
+ OHgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8UUDf4P4I0YYKAHtbPa6viyVvFcq6Rz5CJC5PoibdyU=;
- b=ohV1f9hWr4fObMV7lEQPwm2viMKoWZmSr3wuqsIVegcmCq2mcnTEytCW7brqO6pwxH
- 0Cr+cllqO6k3+9CHRtZoDrXZJAUCi1cAREBapsD6vRWXl/bf2F3WfaJxj6l1iiiLOFFZ
- 53CsArFvfISNV+Olcmca0ePXDiivY7Q/FWvBSJ0nAc5qm7SfJTBC8192/o8P3xetawCT
- CtIu+RloLxQAGBSNznmHTsBWmKzgr4TaidyWLBiHjHCA9F8+lcU2tcwjMzOB5SpVvPK+
- 9t7ISyOkSLJqBbEAOqcJZ4O4CPGH8O0TSxlEDvWaBo0DZxNnjJE95WpWP3qSzf8KGsG7
- hrvg==
-X-Gm-Message-State: ANhLgQ0uToaX0SH2O7x9ySxsW62NQ1egyCJ7S0uHW5Qsv8fa/irHFcqw
- JxTUOplQVTJgxA50ziUoMWH6m1W6IVfmcSbS9BEm3w==
-X-Google-Smtp-Source: ADFU+vvnMmTqCYhfZwD7CZdyHhUuF79XyAOH9IAvUd4bggpE/6K3++Gp9HbCYLTNsmFE3kS2Z1cD9MaAayibm8qjhcU=
-X-Received: by 2002:a9d:6e8f:: with SMTP id a15mr7933944otr.188.1585639974637; 
- Tue, 31 Mar 2020 00:32:54 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=N9QpK/ItyTAxowsy1TIOtOpzig8vysrETNeagGxVa6Q=;
+ b=P0DNxVPbj4LPTkBl/z6aRUTU7wcdNcSd1S56gpjenfMquFRNKA6HvYoi7TSinkN52v
+ N/hUdFKq9HbLkNE/7TovwY9vof2wON5GOO5WqAHnoaD09SirDtHBKv7KjiwL4iWPxj2q
+ KWcCcs1KaZ+OsLQ6o5VyL09ZbE9Cke9NHKHKQV0lpjunvytlA+WVgLGsBcOgF45Pojlj
+ 1Ui3kjQ0hdDv3pqJOh1HcITVzdiI6NWsHpHoo4a7yNVW41GlGuXXugydq1zHV7vTOtPz
+ jL3xzVWf6OVLKNOue3sWcpHSaYgsW42JvqSfGtC8A32WRzzK+hy8IkGBISryxX82C0X1
+ 1Stg==
+X-Gm-Message-State: AGi0PuZaJ7qbvvfviBIShj6bNQiub5yegEbPuuAowls79oKaOXpELAO1
+ HbzPdfWQRKGgUqPyRntVPNA=
+X-Google-Smtp-Source: APiQypKgm5ZX7fHZoqpqt1huzOGegg2k+hwd8YARG2GGYrtejQX1Vg6cZ6vJUU7sEwzKnP4M9p4flw==
+X-Received: by 2002:a2e:2a03:: with SMTP id q3mr9313397ljq.216.1585640531380; 
+ Tue, 31 Mar 2020 00:42:11 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id m12sm8025450lji.50.2020.03.31.00.42.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Mar 2020 00:42:11 -0700 (PDT)
+Date: Tue, 31 Mar 2020 10:41:59 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+Subject: Re: [PATCH v3 0/5] Introduce drm scaling filter property
+Message-ID: <20200331104159.74612c6f@eldfell.localdomain>
+In-Reply-To: <E3R30o5qjRxRLwfN8lAXK7vOlsZquoDyWBCyOM-vMFydzPZRwt7eooF86fBNKECvvLAzSsFWC-jWfu5RXyxIIAAwJmcGS3HULQvvYO8m0X4=@emersion.fr>
+References: <20200330183857.13270-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <E3R30o5qjRxRLwfN8lAXK7vOlsZquoDyWBCyOM-vMFydzPZRwt7eooF86fBNKECvvLAzSsFWC-jWfu5RXyxIIAAwJmcGS3HULQvvYO8m0X4=@emersion.fr>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <956fd624-e1f5-e2a0-90de-9a5f2934547d@nvidia.com>
-In-Reply-To: <956fd624-e1f5-e2a0-90de-9a5f2934547d@nvidia.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 31 Mar 2020 09:32:43 +0200
-Message-ID: <CAKMK7uF8cX9ie5DPCNkCr1CCWqFjXBbsW7+Ode3ioM64spMojw@mail.gmail.com>
-Subject: Re: How to handle disconnection of eDP panels due to dynamic display
- mux switches
-To: Daniel Dadap <ddadap@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,110 +66,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "daniels@collabora.com" <daniels@collabora.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1284975231=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since I see no mention of this anywhere in your mail ... have you
-tried looking at drivers/gpu/vga/vga_switcheroo.c? This also supports
-switching of just outputs, not just the old optimus way of switching
-out the entire gpu and having to disable the other one.
+--===============1284975231==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/e.3EtJf/VLD6KJ.kUi_KInM"; protocol="application/pgp-signature"
 
-There's some rough corners (like the uapi doesn't exist, it's in
-debugfs), and the locking has an inversion problem (I have ideas), but
-generally what you want exists already.
--Daniel
+--Sig_/e.3EtJf/VLD6KJ.kUi_KInM
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 30, 2020 at 9:12 AM Daniel Dadap <ddadap@nvidia.com> wrote:
->
-> A number of hybrid GPU notebook computer designs with dual (integrated
-> plus discrete) GPUs are equipped with multiplexers (muxes) that allow
-> display panels to be driven by either the integrated GPU or the discrete
-> GPU. Typically, this is a selection that can be made at boot time as a
-> menu option in the system firmware's setup screen, and the mux selection
-> stays fixed for as long as the system is running and persists across
-> reboots until it is explicitly changed. However, some muxed hybrid GPU
-> systems have dynamically switchable muxes which can be switched while
-> the system is running.
->
-> NVIDIA is exploring the possibility of taking advantage of dynamically
-> switchable muxes to enhance the experience of using a hybrid GPU system.
-> For example, on a system configured for PRIME render offloading, it may
-> be possible to keep the discrete GPU powered down and use the integrated
-> GPU for rendering and displaying the desktop when no applications are
-> using the discrete GPU, and dynamically switch the panel to be driven
-> directly by the discrete GPU when render-offloading a fullscreen
-> application.
->
-> We have been conducting some experiments on systems with dynamic muxes,
-> and have found some limitations that would need to be addressed in order
-> to support use cases like the one suggested above:
->
-> * In at least the i915 DRM-KMS driver, and likely in other DRM-KMS
-> drivers as well, eDP panels are assumed to be always connected. This
-> assumption is broken when the panel is muxed away, which can cause
-> problems. A typical symptom is i915 repeatedly attempting to retrain the
-> link, severely impacting system performance and printing messages like
-> the following every five seconds or so:
->
-> [drm:intel_dp_start_link_train [i915]] *ERROR* failed to enable link
-> training
-> [drm] Reducing the compressed framebuffer size. This may lead to less
-> power savings than a non-reduced-size. Try to increase stolen memory
-> size if available in BIOS.
->
-> This symptom might occur if something causes the DRM-KMS driver to probe
-> the display while it's muxed away, for example a modeset or DPMS state
-> change.
->
-> * When switching the mux back to a GPU that was previously driving a
-> mode, it is necessary to at the very least retrain DP links to restore
-> the previously displayed image. In a proof of concept I have been
-> experimenting with, I am able to accomplish this from userspace by
-> triggering DPMS off and then back on again; however, it would be good to
-> have an in-kernel API to request that an output owned by a DRM-KMS
-> driver be refreshed to resume driving a mode on a disconnected and
-> reconnected display. This API would need to be accessible from outside
-> of the DRM-KMS driver handling the output. One reason it would be good
-> to do this within the kernel, rather than rely on e.g. DPMS operations
-> in the xf86-video-modesetting driver, is that it would be useful for
-> restoring the console if X crashes or is forcefully killed while the mux
-> is switched to a GPU other than the one which drives the console.
->
-> Basically, we'd like to be able to do the following:
->
-> 1) Communicate to a DRM-KMS driver that an output is disconnected and
-> can't be used. Ideally, DRI clients such as X should still see the
-> output as being connected, so user applications don't need to keep track
-> of the change.
-> 2) Request that a mode that was previously driven on a disconnected
-> output be driven again upon reconnection.
->
-> If APIs to do the above are already available, I wasn't able to find
-> information about them. These could be handled as separate APIs, e.g.,
-> one to set connected/disconnected state and another to restore an
-> output, or as a single API, e.g., signal a disconnect or reconnect,
-> leaving it up to the driver receiving the signal to set the appropriate
-> internal state and restore the reconnected output. Another possibility
-> would be an API to disable and enable individual outputs from outside of
-> the DRM-KMS driver that owns them. I'm curious to hear the thoughts of
-> the DRM subsystem maintainers and contributors on what the best approach
-> to this would be.
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+On Mon, 30 Mar 2020 19:30:27 +0000
+Simon Ser <contact@emersion.fr> wrote:
+
+> Hi,
+>=20
+> On Monday, March 30, 2020 8:38 PM, Pankaj Bharadiya <pankaj.laxminarayan.=
+bharadiya@intel.com> wrote:
+>=20
+> > Userspace patch series link: https://github.com/lrusak/xbmc/pull/24 =20
+>=20
+> This pull request is against a fork, not the official Kodi repository.
+> Are there any plans to upstream the change so that users can benefit
+> from it? Is there a reason why this pull request hasn't been opened
+> against the official repo?
+
+That is an excellent observation. Merge requests against forks do not
+count:
+https://www.kernel.org/doc/html/latest/gpu/drm-uapi.html#open-source-usersp=
+ace-requirements
 
 
+Thanks,
+pq
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+--Sig_/e.3EtJf/VLD6KJ.kUi_KInM
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl6C9EcACgkQI1/ltBGq
+qqdCuA/+LzHCFS35Dde8svqqD7u7y5ZYsdWq7IL3umgU8jS7FICLYDeCJNYMQncm
+k+WPvkPvLYLjIRjmjaC3JpDl8wlzuShUdaXku2prnK/CmBmuSS/TYo5S8j+FBUIf
+gPqP4/1weWgmwuUaY5ditOBzQqfTD5KODbZu7jskumDEaZBN2OGVrIkfLimRCIEm
+f3BxdDcBhoi3hH0eYumptkqmCaKFk7XbIR0tzdn+XKinWeJNLTrNkIv7tuUVPyoM
+tqTU4Z6lsua82YPUVCyMpg1XZSfIHwJM85aZWffmtzhtMuTPrPbtdeJyWC+Ly+fV
+arRlFADkz2ev88oObzQMywX1GLhSbTEMFX+J2xC5agl5XQZg24brvjFZy28SIKRo
+XHxztU6dqTCCPHAgATgQPO3wwGaiRoWO8ePQ+D8+NZ560srZPiCljBdtafwRsliW
+5HlM+pWXT+SVh33iVnJaM82261xtb998TBvdLYSVA5zFae1+VGKP2uFjuMORgvLc
+bNPuZcYIcc09D9LMPrsMPiWrnoDQF2HQn0zUsDrRmA63Ixs/cP7C/iH4MpbKJc0u
+PU4VtNv+UjkAWOi0Rw7U1aAkoc1PZI3L42dbU3qYWOnTPR7C6xAraS40jUEE/Gez
+/eAk6UqL8gtA7l3Hm/DISabpkKysGZeonQDgzmqTgfL8FusXcMs=
+=CiKo
+-----END PGP SIGNATURE-----
+
+--Sig_/e.3EtJf/VLD6KJ.kUi_KInM--
+
+--===============1284975231==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1284975231==--
