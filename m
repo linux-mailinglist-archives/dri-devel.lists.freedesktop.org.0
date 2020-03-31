@@ -1,65 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980DC19A5C9
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:03:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F54C198CFA
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:33:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B02F76E8DF;
-	Wed,  1 Apr 2020 07:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 424876E558;
+	Tue, 31 Mar 2020 07:32:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 428 seconds by postgrey-1.36 at gabe;
- Tue, 31 Mar 2020 07:28:08 UTC
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net
- [194.109.24.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C62EA6E558;
- Tue, 31 Mar 2020 07:28:08 +0000 (UTC)
-Received: from [192.168.2.10] ([46.9.234.233])
- by smtp-cloud7.xs4all.net with ESMTPA
- id JBCajz1YpLu1fJBCejHCjJ; Tue, 31 Mar 2020 09:20:58 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
- t=1585639258; bh=vFLAFhFQyb8gbOSDxO/VdFf8CdbtbKDUC1VbJ0Ed4G8=;
- h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
- Subject;
- b=gbPi5YAr5hxI+IP+zZ+HYziBEXN0T2iw9gDqp91WtQMjptvSTPRUZ4z0w/kZoiQVU
- nTPg0EUDN5XnbWKYt91gRC1SqYirOEb0PzZjNH8kmVbpHgjqc5fqvNZH+xv9oEHUrM
- 8Fq74/BqVf9GvIrRHdZ6wd0PZqhwu189HWHwc0FeF0z/WJq3i9KM67H+d24/7YI05m
- ZRGhTqjpHabK7xpT7AGvDKqSkG70OMPqtVvDm8YmcP51AVqo24kMvAc4QLshzLPwyb
- mIK+1byC+17cml41lF5WeDYxpjB2Lyu1c1H0IDXjFO8VXNLEHIrNffAWkt7Cp6S5C4
- dBaiTUPDFMpwQ==
-Subject: Re: [PATCH] Update my email address in various drivers
-To: Russell King <rmk+kernel@armlinux.org.uk>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong
- <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Lucas Stach <l.stach@pengutronix.de>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-media@vger.kernel.org,
- netdev@vger.kernel.org
-References: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <4362392b-132d-c316-3a54-e6cc05cab659@xs4all.nl>
-Date: Tue, 31 Mar 2020 09:20:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8306E558
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 07:32:55 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id a49so21011743otc.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 00:32:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8UUDf4P4I0YYKAHtbPa6viyVvFcq6Rz5CJC5PoibdyU=;
+ b=hU/W6odRdFsyMiowo3/qL3cYgFuv8n40RG2iuZ2MIo8uXzDVOmorQD+wplBTwZh7Wg
+ Ixfpe7QI5QIxT5VdYCgkBzkFkYwfXCbS4t0S+Ef5tkIcJYN8mC4k631kM7mEQBoUXqD9
+ tMjeHBne8/taaHM/aZDnM6mWS00He9cf6990w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8UUDf4P4I0YYKAHtbPa6viyVvFcq6Rz5CJC5PoibdyU=;
+ b=ohV1f9hWr4fObMV7lEQPwm2viMKoWZmSr3wuqsIVegcmCq2mcnTEytCW7brqO6pwxH
+ 0Cr+cllqO6k3+9CHRtZoDrXZJAUCi1cAREBapsD6vRWXl/bf2F3WfaJxj6l1iiiLOFFZ
+ 53CsArFvfISNV+Olcmca0ePXDiivY7Q/FWvBSJ0nAc5qm7SfJTBC8192/o8P3xetawCT
+ CtIu+RloLxQAGBSNznmHTsBWmKzgr4TaidyWLBiHjHCA9F8+lcU2tcwjMzOB5SpVvPK+
+ 9t7ISyOkSLJqBbEAOqcJZ4O4CPGH8O0TSxlEDvWaBo0DZxNnjJE95WpWP3qSzf8KGsG7
+ hrvg==
+X-Gm-Message-State: ANhLgQ0uToaX0SH2O7x9ySxsW62NQ1egyCJ7S0uHW5Qsv8fa/irHFcqw
+ JxTUOplQVTJgxA50ziUoMWH6m1W6IVfmcSbS9BEm3w==
+X-Google-Smtp-Source: ADFU+vvnMmTqCYhfZwD7CZdyHhUuF79XyAOH9IAvUd4bggpE/6K3++Gp9HbCYLTNsmFE3kS2Z1cD9MaAayibm8qjhcU=
+X-Received: by 2002:a9d:6e8f:: with SMTP id a15mr7933944otr.188.1585639974637; 
+ Tue, 31 Mar 2020 00:32:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
-Content-Language: en-US
-X-CMAE-Envelope: MS4wfC+slg84mdYP89l6SxInCHeF3g0JtL9VqM18bDfdysIjAFPUT6OD/g1M51H/cR6bMpfTtDuuoFy2dHpRDp4BgyY7h7u/IYlu59Kzm59ciC0z0BN13Eck
- yvrPJVFXdzoYP9kSvXta9VQvTMgFCseEXD6rVcCWXpPZOQgglWaOkRsyeTyPEExASsJ0dsVWT5czOOo6QRfi98A61dWYBawRg5ZMBYvykkDfsKirYNYyFKiS
- QKu3aNNUfhNt4o/AVQIyaOrJW1dMLmCeEzSs9/6i8yuEm48Ujlgj4UFcrtKs/PoWFN9lhdpRpk0DsgNrRxH86vfJLfk8ZARnNOIHsVltDe1GpVhOmiWaLDVa
- JQOr1dWy9lf7MjKq4nytQgx0TC4zx3cCB50w2raxgFIwMCQpYGSv7Z7lCts2QwqZQbiycnNwIqPEl5Rcx2TpNJhThriuwOf78/PizDhwo+ONWCIPbnLy45bY
- GzB1iPXCx3Vx8bRwgISgeB76Au28GRYPu4vM9gSn/HCO3XgT5Y9sOoyvP3o9V/xvUWt9xD1I+mIRMWEPuqpM7K9rzChTmcSiFhDUL/4L7Q5+Y/thdbN2K9Yz
- QKIUh/odmDnuZrjkHboaA6eRZIhQMdXuX4X5hQmBf1Yxs/B3XJ1nuYfEVKWP7EFmTDAh2mv5OX8l4DFtS0gXCeCo6a/4WeJu75oCCCNw03x+8FHvapY1+4p/
- aK6S0f2dWLF2lwX7w1BCMa8wsjuxERLnsEIrkX8lhxzBaVsgA4N27FanHbO3RQHw48i7MvKZ9M/RDOgNkQLr4wt/J9fuPCJe
-X-Mailman-Approved-At: Wed, 01 Apr 2020 07:03:42 +0000
+References: <956fd624-e1f5-e2a0-90de-9a5f2934547d@nvidia.com>
+In-Reply-To: <956fd624-e1f5-e2a0-90de-9a5f2934547d@nvidia.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 31 Mar 2020 09:32:43 +0200
+Message-ID: <CAKMK7uF8cX9ie5DPCNkCr1CCWqFjXBbsW7+Ode3ioM64spMojw@mail.gmail.com>
+Subject: Re: How to handle disconnection of eDP panels due to dynamic display
+ mux switches
+To: Daniel Dadap <ddadap@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,114 +58,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/29/20 12:19 PM, Russell King wrote:
-> Globally update my email address in six files scattered through the
-> tree.
-> 
-> Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+Since I see no mention of this anywhere in your mail ... have you
+tried looking at drivers/gpu/vga/vga_switcheroo.c? This also supports
+switching of just outputs, not just the old optimus way of switching
+out the entire gpu and having to disable the other one.
 
-For media/cec files:
+There's some rough corners (like the uapi doesn't exist, it's in
+debugfs), and the locking has an inversion problem (I have ideas), but
+generally what you want exists already.
+-Daniel
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+On Mon, Mar 30, 2020 at 9:12 AM Daniel Dadap <ddadap@nvidia.com> wrote:
+>
+> A number of hybrid GPU notebook computer designs with dual (integrated
+> plus discrete) GPUs are equipped with multiplexers (muxes) that allow
+> display panels to be driven by either the integrated GPU or the discrete
+> GPU. Typically, this is a selection that can be made at boot time as a
+> menu option in the system firmware's setup screen, and the mux selection
+> stays fixed for as long as the system is running and persists across
+> reboots until it is explicitly changed. However, some muxed hybrid GPU
+> systems have dynamically switchable muxes which can be switched while
+> the system is running.
+>
+> NVIDIA is exploring the possibility of taking advantage of dynamically
+> switchable muxes to enhance the experience of using a hybrid GPU system.
+> For example, on a system configured for PRIME render offloading, it may
+> be possible to keep the discrete GPU powered down and use the integrated
+> GPU for rendering and displaying the desktop when no applications are
+> using the discrete GPU, and dynamically switch the panel to be driven
+> directly by the discrete GPU when render-offloading a fullscreen
+> application.
+>
+> We have been conducting some experiments on systems with dynamic muxes,
+> and have found some limitations that would need to be addressed in order
+> to support use cases like the one suggested above:
+>
+> * In at least the i915 DRM-KMS driver, and likely in other DRM-KMS
+> drivers as well, eDP panels are assumed to be always connected. This
+> assumption is broken when the panel is muxed away, which can cause
+> problems. A typical symptom is i915 repeatedly attempting to retrain the
+> link, severely impacting system performance and printing messages like
+> the following every five seconds or so:
+>
+> [drm:intel_dp_start_link_train [i915]] *ERROR* failed to enable link
+> training
+> [drm] Reducing the compressed framebuffer size. This may lead to less
+> power savings than a non-reduced-size. Try to increase stolen memory
+> size if available in BIOS.
+>
+> This symptom might occur if something causes the DRM-KMS driver to probe
+> the display while it's muxed away, for example a modeset or DPMS state
+> change.
+>
+> * When switching the mux back to a GPU that was previously driving a
+> mode, it is necessary to at the very least retrain DP links to restore
+> the previously displayed image. In a proof of concept I have been
+> experimenting with, I am able to accomplish this from userspace by
+> triggering DPMS off and then back on again; however, it would be good to
+> have an in-kernel API to request that an output owned by a DRM-KMS
+> driver be refreshed to resume driving a mode on a disconnected and
+> reconnected display. This API would need to be accessible from outside
+> of the DRM-KMS driver handling the output. One reason it would be good
+> to do this within the kernel, rather than rely on e.g. DPMS operations
+> in the xf86-video-modesetting driver, is that it would be useful for
+> restoring the console if X crashes or is forcefully killed while the mux
+> is switched to a GPU other than the one which drives the console.
+>
+> Basically, we'd like to be able to do the following:
+>
+> 1) Communicate to a DRM-KMS driver that an output is disconnected and
+> can't be used. Ideally, DRI clients such as X should still see the
+> output as being connected, so user applications don't need to keep track
+> of the change.
+> 2) Request that a mode that was previously driven on a disconnected
+> output be driven again upon reconnection.
+>
+> If APIs to do the above are already available, I wasn't able to find
+> information about them. These could be handled as separate APIs, e.g.,
+> one to set connected/disconnected state and another to restore an
+> output, or as a single API, e.g., signal a disconnect or reconnect,
+> leaving it up to the driver receiving the signal to set the appropriate
+> internal state and restore the reconnected output. Another possibility
+> would be an API to disable and enable individual outputs from outside of
+> the DRM-KMS driver that owns them. I'm curious to hear the thoughts of
+> the DRM subsystem maintainers and contributors on what the best approach
+> to this would be.
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-Regards,
 
-	Hans
 
-> ---
->  drivers/gpu/drm/armada/armada_drv.c                 | 2 +-
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 2 +-
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 2 +-
->  drivers/media/cec/cec-notifier.c                    | 2 +-
->  drivers/net/phy/swphy.c                             | 2 +-
->  include/media/cec-notifier.h                        | 2 +-
->  6 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
-> index 3df2dacf4c94..5a82a12cd105 100644
-> --- a/drivers/gpu/drm/armada/armada_drv.c
-> +++ b/drivers/gpu/drm/armada/armada_drv.c
-> @@ -389,7 +389,7 @@ static void __exit armada_drm_exit(void)
->  }
->  module_exit(armada_drm_exit);
->  
-> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
-> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
->  MODULE_DESCRIPTION("Armada DRM Driver");
->  MODULE_LICENSE("GPL");
->  MODULE_ALIAS("platform:armada-drm");
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-> index e8e3e9339ff9..f6f55776e43e 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-> @@ -698,7 +698,7 @@ static struct platform_driver snd_dw_hdmi_driver = {
->  
->  module_platform_driver(snd_dw_hdmi_driver);
->  
-> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
-> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
->  MODULE_DESCRIPTION("Synopsis Designware HDMI AHB ALSA interface");
->  MODULE_LICENSE("GPL v2");
->  MODULE_ALIAS("platform:" DRIVER_NAME);
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index 1f9c01be40d7..d6798f716b77 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -739,7 +739,7 @@ static void __exit etnaviv_exit(void)
->  module_exit(etnaviv_exit);
->  
->  MODULE_AUTHOR("Christian Gmeiner <christian.gmeiner@gmail.com>");
-> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
-> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
->  MODULE_AUTHOR("Lucas Stach <l.stach@pengutronix.de>");
->  MODULE_DESCRIPTION("etnaviv DRM Driver");
->  MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
-> index 7cf42b133dbc..2d4f7dd7cef7 100644
-> --- a/drivers/media/cec/cec-notifier.c
-> +++ b/drivers/media/cec/cec-notifier.c
-> @@ -2,7 +2,7 @@
->  /*
->   * cec-notifier.c - notify CEC drivers of physical address changes
->   *
-> - * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
-> + * Copyright 2016 Russell King.
->   * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->   */
->  
-> diff --git a/drivers/net/phy/swphy.c b/drivers/net/phy/swphy.c
-> index 53c214a22b95..774814714c82 100644
-> --- a/drivers/net/phy/swphy.c
-> +++ b/drivers/net/phy/swphy.c
-> @@ -2,7 +2,7 @@
->  /*
->   * Software PHY emulation
->   *
-> - * Code taken from fixed_phy.c by Russell King <rmk+kernel@arm.linux.org.uk>
-> + * Code taken from fixed_phy.c by Russell King.
->   *
->   * Author: Vitaly Bordug <vbordug@ru.mvista.com>
->   *         Anton Vorontsov <avorontsov@ru.mvista.com>
-> diff --git a/include/media/cec-notifier.h b/include/media/cec-notifier.h
-> index 985afea1ee36..e2b1b894aae7 100644
-> --- a/include/media/cec-notifier.h
-> +++ b/include/media/cec-notifier.h
-> @@ -2,7 +2,7 @@
->  /*
->   * cec-notifier.h - notify CEC drivers of physical address changes
->   *
-> - * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
-> + * Copyright 2016 Russell King.
->   * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->   */
->  
-> 
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
