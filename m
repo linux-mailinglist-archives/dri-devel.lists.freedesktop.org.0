@@ -2,59 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80806198DC4
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 09:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3E4198DDC
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 10:01:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83BAF6E5C0;
-	Tue, 31 Mar 2020 07:57:06 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
- [104.130.122.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 629126E5AB
- for <dri-devel@freedesktop.org>; Tue, 31 Mar 2020 07:56:59 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1585641420; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=VT9/ErTi2g1chyk6bUNJTnT/qqr1194jK5RfTnp8tS4=;
- b=HGgvihXeeJ05160nYYNjHi+lmQkLOjbwgM+/KIzPETylTwabvwjjYfltlC08zkzt8rQvBEtL
- 1Br4EsZxBcXBsT9QBXCDDg5Usxz2dO/vPod202scdPC/mEUnUbuqMGjn04Hl8jfn8ly3udEJ
- CFbdhURlwCc8UrWjv18gcWjKOOI=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e82f7ca.7f861f5c38f0-smtp-out-n04;
- Tue, 31 Mar 2020 07:56:58 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id F2B73C00451; Tue, 31 Mar 2020 07:56:57 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from hyd-lnxbld559.qualcomm.com
- (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: smasetty)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 39EB0C44795;
- Tue, 31 Mar 2020 07:56:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 39EB0C44795
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=smasetty@codeaurora.org
-From: Sharat Masetty <smasetty@codeaurora.org>
-To: freedreno@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH 5/5] dt-bindings: drm/msm/gpu: Document OPP phandle list for
- the GPU
-Date: Tue, 31 Mar 2020 13:25:53 +0530
-Message-Id: <1585641353-23229-6-git-send-email-smasetty@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1585641353-23229-1-git-send-email-smasetty@codeaurora.org>
-References: <1585641353-23229-1-git-send-email-smasetty@codeaurora.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id E91FB89CD9;
+	Tue, 31 Mar 2020 08:01:28 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5013489CD9
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 08:01:27 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id u10so24669042wro.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 01:01:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NP7RN6gDze0UfJ8t7IIvwLkl0F8QdLj5fqt2LMXUxbY=;
+ b=Ep9UKTxoYhSEudWlGvEXKt3K7JAmOqoB4BJ2hTrbsmBIbp10oYGBfmvzcQkdI0HODH
+ kPkBYd3A83rKErAAx8VEjuLBVmy4o6niPOrVVosAHK4jZcl76PrvtJgY9bAv+MwTNTP/
+ mZdJOvVcPB92CkZ/F6CZZQgtzHWasemEjsYq4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=NP7RN6gDze0UfJ8t7IIvwLkl0F8QdLj5fqt2LMXUxbY=;
+ b=SNprS/oExECKxiXyHeNW6w7n2YUACyOlCT24ZjCVyYb/s22tSDUWvxSXZ3gJvCXTD2
+ Mnsc3kcgZlDLb71iLP8czsN1AUK2C3zYFVa4zZy8AGBHhXtEu438JJwBES1jUCjyd0LU
+ pHlgs3nQEvGWetNFNDXK3xFQwEuy0kQQ0xpQTtlZqZtCRW8Trw4+oqJgCfJwNlmPvhUc
+ ca9wHQw/jd0DBGCMlvcliIhJ6NYLjYsg+dhuauqcHD8p3Dy+ZG80tZyCgh4i23+rC7p8
+ JL75fAEbhfD+4J3E1LrNqoTXqaCwz9WVBEHs5sUUsHlErTzrPKMdsM4Uw9DCrIAdhr5R
+ PbqA==
+X-Gm-Message-State: ANhLgQ0ctzJAJ0eAqPvV++11fr4+m7ts2KxzpUprs+vgnVN8jDmeA7gh
+ JOBJtLXH30uqbSfe7ugpXfElmw==
+X-Google-Smtp-Source: ADFU+vtz+p6vgrdf/PdwcY1Polm8UQcM+44sWG/RRvi5FdtnsFgNsXI5ZpfuKOcIvc7wLaV/6dTDTA==
+X-Received: by 2002:adf:f1ce:: with SMTP id z14mr19211505wro.68.1585641685851; 
+ Tue, 31 Mar 2020 01:01:25 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id t6sm2267999wma.30.2020.03.31.01.01.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Mar 2020 01:01:24 -0700 (PDT)
+Date: Tue, 31 Mar 2020 10:01:23 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2] fbcon: fix null-ptr-deref in fbcon_switch
+Message-ID: <20200331080123.GI2363188@phenom.ffwll.local>
+Mail-Followup-To: Sam Ravnborg <sam@ravnborg.org>,
+ Qiujun Huang <hqjagain@gmail.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ maarten.lankhorst@linux.intel.com, daniel.thompson@linaro.org,
+ ghalat@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200329085647.25133-1-hqjagain@gmail.com>
+ <20200330191619.GF7594@ravnborg.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200330191619.GF7594@ravnborg.org>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,113 +72,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: saravanak@google.com, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>, linux-kernel@vger.kernel.org,
- mka@chromium.org, sibis@codeaurora.org, viresh.kumar@linaro.org,
- dri-devel@freedesktop.org
-MIME-Version: 1.0
+Cc: daniel.thompson@linaro.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, daniel.vetter@ffwll.ch,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, ghalat@redhat.com,
+ Qiujun Huang <hqjagain@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the documentation for listing the multiple optional GPU and the
-DDR OPP tables to help enable DDR scaling.
+On Mon, Mar 30, 2020 at 09:16:19PM +0200, Sam Ravnborg wrote:
+> Hi Qiujun
+> 
+> On Sun, Mar 29, 2020 at 04:56:47PM +0800, Qiujun Huang wrote:
+> > Set logo_shown to FBCON_LOGO_CANSHOW when the vc was deallocated.
+> > 
+> > syzkaller report: https://lkml.org/lkml/2020/3/27/403
+> > general protection fault, probably for non-canonical address
+> > 0xdffffc000000006c: 0000 [#1] SMP KASAN
+> > KASAN: null-ptr-deref in range [0x0000000000000360-0x0000000000000367]
+> > RIP: 0010:fbcon_switch+0x28f/0x1740
+> > drivers/video/fbdev/core/fbcon.c:2260
+> > 
+> > Call Trace:
+> > redraw_screen+0x2a8/0x770 drivers/tty/vt/vt.c:1008
+> > vc_do_resize+0xfe7/0x1360 drivers/tty/vt/vt.c:1295
+> > fbcon_init+0x1221/0x1ab0 drivers/video/fbdev/core/fbcon.c:1219
+> > visual_init+0x305/0x5c0 drivers/tty/vt/vt.c:1062
+> > do_bind_con_driver+0x536/0x890 drivers/tty/vt/vt.c:3542
+> > do_take_over_console+0x453/0x5b0 drivers/tty/vt/vt.c:4122
+> > do_fbcon_takeover+0x10b/0x210 drivers/video/fbdev/core/fbcon.c:588
+> > fbcon_fb_registered+0x26b/0x340 drivers/video/fbdev/core/fbcon.c:3259
+> > do_register_framebuffer drivers/video/fbdev/core/fbmem.c:1664 [inline]
+> > register_framebuffer+0x56e/0x980 drivers/video/fbdev/core/fbmem.c:1832
+> > dlfb_usb_probe.cold+0x1743/0x1ba3 drivers/video/fbdev/udlfb.c:1735
+> > usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:374
+> > 
+> > accessing vc_cons[logo_shown].d->vc_top causes the bug.
+> > 
+> > Reported-by: syzbot+732528bae351682f1f27@syzkaller.appspotmail.com
+> > Signed-off-by: Qiujun Huang <hqjagain@gmail.com>
+> > ---
+> >  drivers/video/fbdev/core/fbcon.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> > index bb6ae995c2e5..5eb3fc90f9f6 100644
+> > --- a/drivers/video/fbdev/core/fbcon.c
+> > +++ b/drivers/video/fbdev/core/fbcon.c
+> > @@ -1283,6 +1283,9 @@ static void fbcon_deinit(struct vc_data *vc)
+> >  	if (!con_is_bound(&fb_con))
+> >  		fbcon_exit();
+> >  
+> > +	if (vc->vc_num == logo_shown)
+> > +		logo_shown = FBCON_LOGO_CANSHOW;
+> > +
+> >  	return;
+> >  }
+> 
+> Looks much better than the previous version.
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> I expect Bartlomiej to review/apply.
 
-Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
----
- .../devicetree/bindings/display/msm/gpu.txt        | 63 +++++++++++++++++++++-
- 1 file changed, 61 insertions(+), 2 deletions(-)
+Especially for bugfixes I think better to push quicker than wait for
+others to ... the point with drm-misc is real group maintainership and
+benefitting from the flexibility, not reflecting the same strict hierarchy
+but in a flat tree to make it look like it doesn't exist :-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/gpu.txt b/Documentation/devicetree/bindings/display/msm/gpu.txt
-index 70025cb..ff3ae1b 100644
---- a/Documentation/devicetree/bindings/display/msm/gpu.txt
-+++ b/Documentation/devicetree/bindings/display/msm/gpu.txt
-@@ -21,7 +21,10 @@ Required properties:
-   following devices should not list clocks:
-    - qcom,adreno-630.2
- - iommus: optional phandle to an adreno iommu instance
--- operating-points-v2: optional phandle to the OPP operating points
-+- operating-points-v2: optional phandles to the OPP operating point tables
-+  one for the GPU OPPs and the other for the GPU->DDR OPPs. Note that if
-+  multiple OPP tables are specified, the GPU OPP table(considered primary)
-+  should be the first in the phandle list.
- - interconnects: optional phandle to an interconnect provider.  See
-   ../interconnect/interconnect.txt for details.
- - qcom,gmu: For GMU attached devices a phandle to the GMU device that will
-@@ -75,7 +78,7 @@ Example a6xx (with GMU):
-
- 		iommus = <&adreno_smmu 0>;
-
--		operating-points-v2 = <&gpu_opp_table>;
-+		operating-points-v2 = <&gpu_opp_table>, <&gpu_ddr_bw_opp_table>;
-
- 		interconnects = <&rsc_hlos MASTER_GFX3D &rsc_hlos SLAVE_EBI1>;
-
-@@ -85,5 +88,61 @@ Example a6xx (with GMU):
- 			memory-region = <&zap_shader_region>;
- 			firmware-name = "qcom/LENOVO/81JL/qcdxkmsuc850.mbn"
- 		};
-+
-+		gpu_opp_table: opp-table {
-+			compatible = "operating-points-v2";
-+
-+			opp-430000000 {
-+				opp-hz = /bits/ 64 <430000000>;
-+				opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-+				required-opps = <&gpu_ddr_bw_opp6>;
-+			};
-+
-+			opp-355000000 {
-+				opp-hz = /bits/ 64 <355000000>;
-+				opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-+				required-opps = <&gpu_ddr_bw_opp4>;
-+			};
-+
-+			opp-267000000 {
-+				opp-hz = /bits/ 64 <267000000>;
-+				opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-+				required-opps = <&gpu_ddr_bw_opp4>;
-+			};
-+
-+			opp-180000000 {
-+				opp-hz = /bits/ 64 <180000000>;
-+				opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
-+				required-opps = <&gpu_ddr_bw_opp2>;
-+			};
-+		};
-+
-+		gpu_ddr_bw_opp_table: gpu-ddr-bw-opp-table {
-+			compatible = "operating-points-v2";
-+
-+			gpu_ddr_bw_opp1: opp-300000000  {
-+				opp-peak-kBps =/bits/ 32 <1200000>;
-+			};
-+
-+			gpu_ddr_bw_opp2: opp-451000000  {
-+				opp-peak-kBps =/bits/ 32 <1804000>;
-+			};
-+
-+			gpu_ddr_bw_opp3: opp-547000000  {
-+				opp-peak-kBps =/bits/ 32 <2188000>;
-+			};
-+
-+			gpu_ddr_bw_opp4: opp-768000000  {
-+				opp-peak-kBps =/bits/ 32 <3072000>;
-+			};
-+
-+			gpu_ddr_bw_opp5: opp-1017000000  {
-+				opp-peak-kBps =/bits/ 32 <4068000>;
-+			};
-+
-+			gpu_ddr_bw_opp6: opp-1353000000  {
-+				opp-peak-kBps =/bits/ 32 <5412000>;
-+			};
-+		};
- 	};
- };
---
-2.7.4
+Applied to drm-misc-next-fixes with a cc: stable.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
