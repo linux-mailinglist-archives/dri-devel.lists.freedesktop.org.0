@@ -2,56 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD3B198EDA
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 10:51:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E682B198F05
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Mar 2020 10:59:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8C1A6E2CF;
-	Tue, 31 Mar 2020 08:50:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA9746E0D7;
+	Tue, 31 Mar 2020 08:59:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EB9F6E2CF
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 08:50:58 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id 11so415930wmi.2
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 01:50:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=boSgWRNjPVvI4ccEdVk2Bpty6+e3jphVDKSgvMfFTT8=;
- b=BHM2btid91ikaCJDeAV0c0nxTj4DFROnvSFXLx5sP0xI3LufSVqQoPLMy2J856I+5O
- bNnD4d7CjCMawypF79dYQgjHE+uum3xXcGgrWKJefzUM2X7wCMrSCwnlGa7PMEbZFamX
- KZ4FtC8BLn2FP5SxYe7hiXlKgB6YgzFnTO9y4=
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29F486E0D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 08:59:48 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id r16so1556300wmg.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 01:59:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:references:cc:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=/sNnpztKmpFB+H2wTpWQnYNlOagVVdzFiwaaMgtHM1E=;
+ b=A/O3kjhJwCmdkJgv3zUg2gQNLs84UflpfHpbh/ZtRSWqYyd7lKcXmVk5KgeL+gvM2P
+ uKmPA/GQKQSbJBYaVZGrEE2Q+B35DfaLq76ICFLHmUJoUXL8K7upNjRDO7hQNUAdUe68
+ 7YBCGBWEZz8SKYkY/9s68dntSlC1IxythRWWxBf3V2YkhvIpdPtTAE1a8/A7aNdRueN0
+ frrqB+8BV7E4zkMIkbIqGRCGBCUki883ekhA7KbH0kxmacifb3qzZ5NijKe+g/D3VAPq
+ HQIxVODxQhFRr7aqzE0NrHpmJ4BqFrJ7H2qSn/QSS3Av0Q56IR4AD3cbVJVeKzGt6Zhw
+ 4cxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=boSgWRNjPVvI4ccEdVk2Bpty6+e3jphVDKSgvMfFTT8=;
- b=ryVvDGQQHY+AtUqQqIDn5uMQq0s7ZFRJ9YVjrBvPRiy3OTUVjR6yHjTXnxhrfAfIVe
- DOMMebUsZaviM2+LUYXdd7/LRqZ5yj53JY8idm6AddLjimh6DuA1xkz7FP1ftJcBOVGB
- kPIKdDTA2TGNfvg8tehqi87zOuPvo9MWXConJSABh4ZVWhtExQUZH3q6DmwDyAVfuarq
- ykF5j00gKucLNQQFSmTGbUkcZ+QHrTnTju9W2Ib01uHLKdI+HW8dLxyu2boMLazOQaog
- x6idReu7nICQgt2SAOJx468niyE4e1W6u7Fh+O5kDAgocub57Xr4L0TZWsw+wG/sW7qr
- UDxw==
-X-Gm-Message-State: ANhLgQ2KYpHLm/rVEYVq4yvz2/LLmpHcIQvOp6kKK7KhFGw7KNQ6NfJc
- o64YGDsxa9X9vabBCvmpCNxm1Q==
-X-Google-Smtp-Source: ADFU+vuCcAUK99KAe4zbHQzWM1VQ+9wfvf6sfPtEe/jqYKCfv1J5gUVMt2PMRZG8xsk4CAtUgqW7rw==
-X-Received: by 2002:a7b:cc81:: with SMTP id p1mr2300306wma.158.1585644656914; 
- Tue, 31 Mar 2020 01:50:56 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w67sm2972088wmb.41.2020.03.31.01.50.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 01:50:56 -0700 (PDT)
-Date: Tue, 31 Mar 2020 10:50:54 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/vram-helpers: Set plane fence for display update
-Message-ID: <20200331085054.GK2363188@phenom.ffwll.local>
-References: <20200331081130.24600-1-tzimmermann@suse.de>
+ h=x-gm-message-state:subject:from:to:references:cc:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=/sNnpztKmpFB+H2wTpWQnYNlOagVVdzFiwaaMgtHM1E=;
+ b=JT56/Umxb0KyBUU15O5GwgEhGHkyoge82z6YWX1k0CHXnNPz0ZcVpDYDS388njVqQ2
+ pLIoysDV182+hf8fBak2gTXST7w1P4qexWz4Z29cZg8c5HSjFzgRavjPOV92yuZvbNSu
+ R9Fh+CKlI5rkFSs2NWGOQHencyi+vtYFM8qtRGRMUncG5Iw4YVitxk0COCg2a5gIdBH3
+ VIPd6VmJA9CvQAcgJCts+3QBD9hqXcspTLvMOigHmoPoOhpzeQYOqha3VnobZVzEpkrS
+ YpMWQKUhNZByYIkgq26kYhji0h20fd2aaT0YgNDAvwJo9Qa7ICnJ/aGWZN2cA1k0Q0GC
+ b/Rg==
+X-Gm-Message-State: ANhLgQ0qGdlYQ3JjBuaqAxlwlsoc3ZVwCmepym6qG01C0yeihWTIR1ew
+ WMajxII36JXYOnleNU9RGo4=
+X-Google-Smtp-Source: ADFU+vtDpeCFL79tvGCOnwtP2YuNeHNmzZveBmUiigAEHqWrOu6yRZQf0EsqTzj5/VD1KNurqeqEOA==
+X-Received: by 2002:a1c:3d83:: with SMTP id k125mr2486470wma.177.1585645186794; 
+ Tue, 31 Mar 2020 01:59:46 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id x206sm3004892wmg.17.2020.03.31.01.59.45
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 31 Mar 2020 01:59:46 -0700 (PDT)
+Subject: Re: [PATCH] drm/mm: revert "Break long searches in fragmented address
+ spaces"
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: chris@chris-wilson.co.uk, zbigniew.kempczynski@intel.com,
+ andi.shyti@intel.com, joonas.lahtinen@linux.intel.com,
+ dri-devel@lists.freedesktop.org
+References: <20200330123425.3944-1-christian.koenig@amd.com>
+Message-ID: <c124b5d1-efc6-e826-2387-9f9ad06d1df0@gmail.com>
+Date: Tue, 31 Mar 2020 10:59:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200331081130.24600-1-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <20200330123425.3944-1-christian.koenig@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,92 +73,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
- sam@ravnborg.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 31, 2020 at 10:11:30AM +0200, Thomas Zimmermann wrote:
-> Calling the VRAM helper's prepare_fb() helper now sets the plane's
-> fence object. The helper still has to synchronize with other users
-> of the GEM object. Leave a related TODO comment in the code.
-> 
-> This will be useful for PRIME support. VRAM helpers don't support
-> buffer sharing ATM, so there are no drivers requiring this change.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/drm_gem_vram_helper.c | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index b3201a70cbfcb..d4e4f80d3a6c1 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -5,6 +5,7 @@
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
->  #include <drm/drm_framebuffer.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_gem_ttm_helper.h>
->  #include <drm/drm_gem_vram_helper.h>
->  #include <drm/drm_mode.h>
-> @@ -670,9 +671,9 @@ EXPORT_SYMBOL(drm_gem_vram_driver_dumb_mmap_offset);
->   * @plane:	a DRM plane
->   * @new_state:	the plane's new state
->   *
-> - * During plane updates, this function pins the GEM VRAM
-> - * objects of the plane's new framebuffer to VRAM. Call
-> - * drm_gem_vram_plane_helper_cleanup_fb() to unpin them.
-> + * During plane updates, this function sets the plane's fence and
-> + * pins the GEM VRAM objects of the plane's new framebuffer to VRAM.
-> + * Call drm_gem_vram_plane_helper_cleanup_fb() to unpin them.
->   *
->   * Returns:
->   *	0 on success, or
-> @@ -689,6 +690,13 @@ drm_gem_vram_plane_helper_prepare_fb(struct drm_plane *plane,
->  	if (!new_state->fb)
->  		return 0;
->  
-> +	/*
-> +	 * TODO: Synchronize with other users of the buffer. Buffers
-> +	 *       cannot be pinned to VRAM while they are in use by other
-> +	 *       drivers for DMA. We should probably wait for each GEM
-> +	 *       object's fence before attempting to pin the buffer.
-> +	 *       There are currently no users of this functionality.
-> +	 */
-
-Not sure this is warranted, we have lots of drivers with these kind of
-restrictions ... It's a big can of worms, I'd just leave this all out.
-
->  	for (i = 0; i < ARRAY_SIZE(new_state->fb->obj); ++i) {
->  		if (!new_state->fb->obj[i])
->  			continue;
-> @@ -698,6 +706,10 @@ drm_gem_vram_plane_helper_prepare_fb(struct drm_plane *plane,
->  			goto err_drm_gem_vram_unpin;
->  	}
->  
-> +	ret = drm_gem_fb_prepare_fb(plane, new_state);
-> +	if (ret)
-> +		goto err_drm_gem_vram_unpin;
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> +
->  	return 0;
->  
->  err_drm_gem_vram_unpin:
-> -- 
-> 2.26.0
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QSBub3Qgc28gZ2VudGxlIHBpbmcsIHNpbmNlIHRoaXMgcHJldHR5IG11Y2ggYnJva2UgYWxsIFRU
+TSBiYXNlZCBkcml2ZXJzLgoKQ291bGQgd2UgcmV2ZXJ0IHRoaXMgZm9yIG5vdz8KClRoYW5rcywK
+Q2hyaXN0aWFuLgoKQW0gMzAuMDMuMjAgdW0gMTQ6MzQgc2NocmllYiBDaHJpc3RpYW4gS8O2bmln
+Ogo+IFRoaXMgcmV2ZXJ0cyBjb21taXQgN2JlMWI5YjhlOWQxZTllZjAzNDJkMmUwMDFmNDRlZWM0
+MDMwYWE0ZC4KPgo+IFRoZSBkcm1fbW0gaXMgc3VwcG9zZWQgdG8gd29yayBpbiBhdG9taWMgY29u
+dGV4dCwgc28gY2FsbGluZyBzY2hlZHVsZSgpCj4gb3IgaW4gdGhpcyBjYXNlIGNvbmRfcmVzY2hl
+ZCgpIGlzIGlsbGVnYWwuCj4KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
+c3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX21tLmMg
+fCA4ICstLS0tLS0tCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDcgZGVsZXRp
+b25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9tbS5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9tbS5jCj4gaW5kZXggYmM2ZTIwODk0OWU4Li44OTgxYWJlOGI3YzkgMTAw
+NjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9tbS5jCj4gKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL2RybV9tbS5jCj4gQEAgLTQ1LDcgKzQ1LDYgQEAKPiAgICNpbmNsdWRlIDxsaW51eC9leHBv
+cnQuaD4KPiAgICNpbmNsdWRlIDxsaW51eC9pbnRlcnZhbF90cmVlX2dlbmVyaWMuaD4KPiAgICNp
+bmNsdWRlIDxsaW51eC9zZXFfZmlsZS5oPgo+IC0jaW5jbHVkZSA8bGludXgvc2NoZWQvc2lnbmFs
+Lmg+Cj4gICAjaW5jbHVkZSA8bGludXgvc2xhYi5oPgo+ICAgI2luY2x1ZGUgPGxpbnV4L3N0YWNr
+dHJhY2UuaD4KPiAgIAo+IEBAIC0zNjcsMTEgKzM2Niw2IEBAIG5leHRfaG9sZShzdHJ1Y3QgZHJt
+X21tICptbSwKPiAgIAkgIHN0cnVjdCBkcm1fbW1fbm9kZSAqbm9kZSwKPiAgIAkgIGVudW0gZHJt
+X21tX2luc2VydF9tb2RlIG1vZGUpCj4gICB7Cj4gLQkvKiBTZWFyY2hpbmcgaXMgc2xvdzsgY2hl
+Y2sgaWYgd2UgcmFuIG91dCBvZiB0aW1lL3BhdGllbmNlICovCj4gLQljb25kX3Jlc2NoZWQoKTsK
+PiAtCWlmIChmYXRhbF9zaWduYWxfcGVuZGluZyhjdXJyZW50KSkKPiAtCQlyZXR1cm4gTlVMTDsK
+PiAtCj4gICAJc3dpdGNoIChtb2RlKSB7Cj4gICAJZGVmYXVsdDoKPiAgIAljYXNlIERSTV9NTV9J
+TlNFUlRfQkVTVDoKPiBAQCAtNTYzLDcgKzU1Nyw3IEBAIGludCBkcm1fbW1faW5zZXJ0X25vZGVf
+aW5fcmFuZ2Uoc3RydWN0IGRybV9tbSAqIGNvbnN0IG1tLAo+ICAgCQlyZXR1cm4gMDsKPiAgIAl9
+Cj4gICAKPiAtCXJldHVybiBzaWduYWxfcGVuZGluZyhjdXJyZW50KSA/IC1FUkVTVEFSVFNZUyA6
+IC1FTk9TUEM7Cj4gKwlyZXR1cm4gLUVOT1NQQzsKPiAgIH0KPiAgIEVYUE9SVF9TWU1CT0woZHJt
+X21tX2luc2VydF9ub2RlX2luX3JhbmdlKTsKPiAgIAoKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
