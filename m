@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5191119BC6C
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 09:18:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D8019BC65
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 09:18:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18E246E9DB;
-	Thu,  2 Apr 2020 07:18:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAD0B89C6E;
+	Thu,  2 Apr 2020 07:17:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99CD86E983
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 18:38:53 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id t7so1234914wrw.12
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 11:38:53 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 607206E984
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 18:38:58 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id c195so4161130wme.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 11:38:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=59DQ85iqFoTT8Xq07PB89s2l8irBbAFPpsi+Aoo7QOo=;
- b=GFuZTrlSuNd3EYsJ4ygf8BuJqUszH4/Pt02GTnDUJFJUaqLu70LRyfYp7cwRv1CyjK
- DZoyeTA/dyTTxlR0sw6/ywhpDoo8KC1ck77cIvlvzO2mbc9Jy+4uR25KB/616nFPrSdH
- bS+YVOm7Sqk2QaUGV7hR26oleS6hCzEuLa9Lkef9CbPP3HbcT04qmbGMR3C10inz6hvD
- vNpl6ScYGkS4p/HPdy0Q2RFUExncrfsK+5fdBG54yBm+09lCyuq+4R+SQyWG8LmocFlX
- cgeFp3lRagyqaeoRPotDNGahDWhGhdvvVEJYw5fpbV/tzoFzZE8/Ic7AIYTXkvfAVHzt
- rBAg==
+ bh=AWFT6zgbBEk5db6J1CC5vq1XvVNlqeNOLFFq+zx/MU8=;
+ b=JPlbpUzeq61Pf7iaKqwtgxzhGkV7dN6B2/MMZGCKGoayJTDJVj+v1ead3WCeX0pOjE
+ 1G0Qb9HHFCx6Co4ef4M3KNti13atfu8g7i2CikdxTQIQgYy/OAT+dip2iUMLq7S1ifMp
+ Ekcnsvdmw6zjFhFIEh4og9++loQBPyYyh6opTqE3s/7ZSEYEs+txzES8sO7eqP0qsgqL
+ hYs+6RDnojv2u7Ukmm3OcybfEHH9yPMhL10f3NjdWoC8e8MAIENVljX5tDC+9h7tfklM
+ xx1vDgAHlWcwZZPLxJ6mL0fj5k1/1RLJlqV3vxiQ99QV0Lp03Y6pQlT9eE0CJUH8OXGL
+ bEUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=59DQ85iqFoTT8Xq07PB89s2l8irBbAFPpsi+Aoo7QOo=;
- b=BXmyOd9zvITuuOKRLNU7CsOhX67BEp8KZWZA5yp7kygE35SbvArC64ermQhNx5sQm2
- TceeVUcpdtqwaJkBrzvWKFPDUIvgoUx8iAaL4WjIeXzmi0e9Vf8hUYMlSGfuulnreoSA
- szWEpwovxWxgv574hxx5vgO9e2pcwwlLZdrPn/mKg8mSjdGZmgepxtFDpAv6OL8IpIMC
- RU8YwYr+4UB8FOst1Hn4MBBvrZduRscc4J2oI3utZQ/wik9Nb0Nlx7H0VFLw1M/zYnKx
- oaVNgzJI6NA1nI5ox4FftOkuq10rIV6gCF4e6h96v21ZoXhQLndcVNIcrnXEL6pKZdvw
- 5ysA==
-X-Gm-Message-State: ANhLgQ21Dgg/uzto6cQqSPnEkvO8ik2TPWreyFY5fycMzvbT0UrnKCN+
- G05xtQCyhUTCoQZwZJ/2Qh7RK53mET0=
-X-Google-Smtp-Source: ADFU+vvNMXWdfLh0zo/XuNInJazHRbNzFVpyEBuJNcLvCI+b6nVd5KYp3+bfTCDSC8WBSo2T6FBH/Q==
-X-Received: by 2002:a5d:4e47:: with SMTP id r7mr26110400wrt.424.1585766331781; 
- Wed, 01 Apr 2020 11:38:51 -0700 (PDT)
+ bh=AWFT6zgbBEk5db6J1CC5vq1XvVNlqeNOLFFq+zx/MU8=;
+ b=fWwo8UoEF4jEh8zkLYJgJldmnKMXyDWVO1pBTuI2DSgw3zTHRexJjHDSiWWP4XEMOK
+ JCE4UDtAbbl7NKjoMmQp1lcAE589A5yaWoUvPZYP/eWd4k+1BRfdTKURV01fgEU1NSRI
+ iyOGdOL/yYobE+v92mBy6An6gcyUHEvUKrduy8/yY+9H0JumPuv5yqiCACZ7kvs7Kvf1
+ qDBfOAe3uHvafv0FsO3e6zY1+8fxzIdS6Ic3ouBYpsyU6Zf1xwt0Pp1AfcChXUAF1gRi
+ FunAdffgxN3wEenwTSeb+C8PrK6xjKOH3NQkzRYchIZZ+uh0nyU3J/ST40Esr47BGcmn
+ 6IuQ==
+X-Gm-Message-State: AGi0Pua09ImKCvORkssoO/v4UHKvIwe4S0ptdHK198MFKGcfWToPjhzq
+ TjRt3aT5LhNeLssRlXgFAtQIKNwXO6Y=
+X-Google-Smtp-Source: APiQypKVHT1cRjKRI8IIhEPTvI/b3vN2bhTUBvvWPcqYfoE9nNNdQoy3fG+oZ7T5wzQpPUdyelhx6Q==
+X-Received: by 2002:a05:600c:2910:: with SMTP id
+ i16mr5515153wmd.43.1585766336433; 
+ Wed, 01 Apr 2020 11:38:56 -0700 (PDT)
 Received: from brihaspati.fritz.box (p5DE52E4E.dip0.t-ipconnect.de.
  [93.229.46.78])
- by smtp.gmail.com with ESMTPSA id b11sm3976973wrq.26.2020.04.01.11.38.50
+ by smtp.gmail.com with ESMTPSA id b11sm3976973wrq.26.2020.04.01.11.38.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Apr 2020 11:38:50 -0700 (PDT)
+ Wed, 01 Apr 2020 11:38:55 -0700 (PDT)
 From: Nirmoy Das <nirmoy.aiemd@gmail.com>
 X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/8] drm/qxl: don't use ttm bo->offset
-Date: Wed,  1 Apr 2020 20:42:44 +0200
-Message-Id: <20200401184247.16643-6-nirmoy.das@amd.com>
+Subject: [PATCH 6/8] drm/vram-helper: don't use ttm bo->offset v4
+Date: Wed,  1 Apr 2020 20:42:45 +0200
+Message-Id: <20200401184247.16643-7-nirmoy.das@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200401184247.16643-1-nirmoy.das@amd.com>
 References: <20200401184247.16643-1-nirmoy.das@amd.com>
@@ -72,80 +73,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: thellstrom@vmware.com, airlied@linux.ie, kenny.ho@amd.com,
  brian.welty@intel.com, nirmoy.das@amd.com,
  linux-graphics-maintainer@vmware.com, bskeggs@redhat.com,
- alexander.deucher@amd.com, sean@poorly.run, christian.koenig@amd.com,
- kraxel@redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Daniel Vetter <daniel.vetter@ffwll.ch>, alexander.deucher@amd.com,
+ sean@poorly.run, christian.koenig@amd.com, kraxel@redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBwYXRjaCByZW1vdmVzIHNsb3QtPmdwdV9vZmZzZXQgd2hpY2ggaXMgbm90IHJlcXVpcmVk
-IGFzClZSQU0gYW5kIFBSSVYgc2xvdCBhcmUgaW4gc2VwYXJhdGUgUENJIGJhci4KClRoaXMgcGF0
-Y2ggYWxzbyByZW1vdmVzIHVudXNlZCBxeGxfYm9fZ3B1X29mZnNldCgpCgpTaWduZWQtb2ZmLWJ5
-OiBOaXJtb3kgRGFzIDxuaXJtb3kuZGFzQGFtZC5jb20+CkFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2
-bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CkFja2VkLWJ5OiBHZXJkIEhvZmZtYW5uIDxr
-cmF4ZWxAcmVkaGF0LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kcnYuaCAgICB8
-IDYgKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9rbXMuYyAgICB8IDUgKystLS0KIGRy
-aXZlcnMvZ3B1L2RybS9xeGwvcXhsX29iamVjdC5oIHwgNSAtLS0tLQogZHJpdmVycy9ncHUvZHJt
-L3F4bC9xeGxfdHRtLmMgICAgfCA5IC0tLS0tLS0tLQogNCBmaWxlcyBjaGFuZ2VkLCA0IGluc2Vy
-dGlvbnMoKyksIDIxIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9x
-eGwvcXhsX2Rydi5oIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2LmgKaW5kZXggNDM1MTI2
-ZmFjYzliLi5hOWM1MTYzMjgyNzEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhs
-X2Rydi5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Rydi5oCkBAIC0xMzQsNyArMTM0
-LDYgQEAgc3RydWN0IHF4bF9tZW1zbG90IHsKIAl1aW50NjRfdAlzdGFydF9waHlzX2FkZHI7CiAJ
-dWludDY0X3QJc2l6ZTsKIAl1aW50NjRfdAloaWdoX2JpdHM7Ci0JdWludDY0X3QgICAgICAgIGdw
-dV9vZmZzZXQ7CiB9OwogCiBlbnVtIHsKQEAgLTMwOCwxMCArMzA3LDkgQEAgcXhsX2JvX3BoeXNp
-Y2FsX2FkZHJlc3Moc3RydWN0IHF4bF9kZXZpY2UgKnFkZXYsIHN0cnVjdCBxeGxfYm8gKmJvLAog
-CQkoYm8tPnRiby5tZW0ubWVtX3R5cGUgPT0gVFRNX1BMX1ZSQU0pCiAJCT8gJnFkZXYtPm1haW5f
-c2xvdCA6ICZxZGV2LT5zdXJmYWNlc19zbG90OwogCi0JV0FSTl9PTl9PTkNFKChiby0+dGJvLm9m
-ZnNldCAmIHNsb3QtPmdwdV9vZmZzZXQpICE9IHNsb3QtPmdwdV9vZmZzZXQpOworICAgICAgIC8q
-IFRPRE8gLSBuZWVkIHRvIGhvbGQgb25lIG9mIHRoZSBsb2NrcyB0byByZWFkIGJvLT50Ym8ubWVt
-LnN0YXJ0ICovCiAKLQkvKiBUT0RPIC0gbmVlZCB0byBob2xkIG9uZSBvZiB0aGUgbG9ja3MgdG8g
-cmVhZCB0Ym8ub2Zmc2V0ICovCi0JcmV0dXJuIHNsb3QtPmhpZ2hfYml0cyB8IChiby0+dGJvLm9m
-ZnNldCAtIHNsb3QtPmdwdV9vZmZzZXQgKyBvZmZzZXQpOworCXJldHVybiBzbG90LT5oaWdoX2Jp
-dHMgfCAoKGJvLT50Ym8ubWVtLnN0YXJ0IDw8IFBBR0VfU0hJRlQpICsgb2Zmc2V0KTsKIH0KIAog
-LyogcXhsX2Rpc3BsYXkuYyAqLwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxf
-a21zLmMgYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9rbXMuYwppbmRleCA5ZWVkMWEzNzVmMjQu
-Ljc5N2NmZGY5NGFlOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfa21zLmMK
-KysrIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfa21zLmMKQEAgLTg3LDExICs4NywxMCBAQCBz
-dGF0aWMgdm9pZCBzZXR1cF9zbG90KHN0cnVjdCBxeGxfZGV2aWNlICpxZGV2LAogCWhpZ2hfYml0
-cyA8PD0gKDY0IC0gKHFkZXYtPnJvbS0+c2xvdF9nZW5fYml0cyArIHFkZXYtPnJvbS0+c2xvdF9p
-ZF9iaXRzKSk7CiAJc2xvdC0+aGlnaF9iaXRzID0gaGlnaF9iaXRzOwogCi0JRFJNX0lORk8oInNs
-b3QgJWQgKCVzKTogYmFzZSAweCUwOGx4LCBzaXplIDB4JTA4bHgsIGdwdV9vZmZzZXQgMHglbHhc
-biIsCisJRFJNX0lORk8oInNsb3QgJWQgKCVzKTogYmFzZSAweCUwOGx4LCBzaXplIDB4JTA4bHhc
-biIsCiAJCSBzbG90LT5pbmRleCwgc2xvdC0+bmFtZSwKIAkJICh1bnNpZ25lZCBsb25nKXNsb3Qt
-PnN0YXJ0X3BoeXNfYWRkciwKLQkJICh1bnNpZ25lZCBsb25nKXNsb3QtPnNpemUsCi0JCSAodW5z
-aWduZWQgbG9uZylzbG90LT5ncHVfb2Zmc2V0KTsKKwkJICh1bnNpZ25lZCBsb25nKXNsb3QtPnNp
-emUpOwogfQogCiB2b2lkIHF4bF9yZWluaXRfbWVtc2xvdHMoc3RydWN0IHF4bF9kZXZpY2UgKnFk
-ZXYpCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9vYmplY3QuaCBiL2RyaXZl
-cnMvZ3B1L2RybS9xeGwvcXhsX29iamVjdC5oCmluZGV4IDhhZTU0YmE3ODU3Yy4uMjFmYTgxMDQ4
-ZjRmIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9vYmplY3QuaAorKysgYi9k
-cml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9vYmplY3QuaApAQCAtNDgsMTEgKzQ4LDYgQEAgc3RhdGlj
-IGlubGluZSB2b2lkIHF4bF9ib191bnJlc2VydmUoc3RydWN0IHF4bF9ibyAqYm8pCiAJdHRtX2Jv
-X3VucmVzZXJ2ZSgmYm8tPnRibyk7CiB9CiAKLXN0YXRpYyBpbmxpbmUgdTY0IHF4bF9ib19ncHVf
-b2Zmc2V0KHN0cnVjdCBxeGxfYm8gKmJvKQotewotCXJldHVybiBiby0+dGJvLm9mZnNldDsKLX0K
-LQogc3RhdGljIGlubGluZSB1bnNpZ25lZCBsb25nIHF4bF9ib19zaXplKHN0cnVjdCBxeGxfYm8g
-KmJvKQogewogCXJldHVybiBiby0+dGJvLm51bV9wYWdlcyA8PCBQQUdFX1NISUZUOwpkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcXhs
-L3F4bF90dG0uYwppbmRleCA5M2EyZWIxNDg0NGIuLjFmMDI2OTFhNjljMiAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9x
-eGxfdHRtLmMKQEAgLTUxLDExICs1MSw2IEBAIHN0YXRpYyBzdHJ1Y3QgcXhsX2RldmljZSAqcXhs
-X2dldF9xZGV2KHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2KQogc3RhdGljIGludCBxeGxfaW5p
-dF9tZW1fdHlwZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKIAkJ
-CSAgICAgc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4pCiB7Ci0Jc3RydWN0IHF4bF9k
-ZXZpY2UgKnFkZXYgPSBxeGxfZ2V0X3FkZXYoYmRldik7Ci0JdW5zaWduZWQgaW50IGdwdV9vZmZz
-ZXRfc2hpZnQgPQotCQk2NCAtIChxZGV2LT5yb20tPnNsb3RfZ2VuX2JpdHMgKyBxZGV2LT5yb20t
-PnNsb3RfaWRfYml0cyArIDgpOwotCXN0cnVjdCBxeGxfbWVtc2xvdCAqc2xvdDsKLQogCXN3aXRj
-aCAodHlwZSkgewogCWNhc2UgVFRNX1BMX1NZU1RFTToKIAkJLyogU3lzdGVtIG1lbW9yeSAqLwpA
-QCAtNjYsMTEgKzYxLDcgQEAgc3RhdGljIGludCBxeGxfaW5pdF9tZW1fdHlwZShzdHJ1Y3QgdHRt
-X2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKIAljYXNlIFRUTV9QTF9WUkFNOgogCWNh
-c2UgVFRNX1BMX1BSSVY6CiAJCS8qICJPbi1jYXJkIiB2aWRlbyByYW0gKi8KLQkJc2xvdCA9ICh0
-eXBlID09IFRUTV9QTF9WUkFNKSA/Ci0JCQkmcWRldi0+bWFpbl9zbG90IDogJnFkZXYtPnN1cmZh
-Y2VzX3Nsb3Q7Ci0JCXNsb3QtPmdwdV9vZmZzZXQgPSAodWludDY0X3QpdHlwZSA8PCBncHVfb2Zm
-c2V0X3NoaWZ0OwogCQltYW4tPmZ1bmMgPSAmdHRtX2JvX21hbmFnZXJfZnVuYzsKLQkJbWFuLT5n
-cHVfb2Zmc2V0ID0gc2xvdC0+Z3B1X29mZnNldDsKIAkJbWFuLT5mbGFncyA9IFRUTV9NRU1UWVBF
-X0ZMQUdfRklYRUQgfAogCQkJICAgICBUVE1fTUVNVFlQRV9GTEFHX01BUFBBQkxFOwogCQltYW4t
-PmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX01BU0tfQ0FDSElORzsKLS0gCjIuMjUuMQoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Calculate GEM VRAM bo's offset within vram-helper without depending on
+bo->offset.
+
+Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/drm_gem_vram_helper.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index b3201a70cbfc..e768a1e69d0c 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -198,6 +198,15 @@ u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo)
+ }
+ EXPORT_SYMBOL(drm_gem_vram_mmap_offset);
+
++static u64 drm_gem_vram_pg_offset(struct drm_gem_vram_object *gbo)
++{
++	/* Keep TTM behavior for now, remove when drivers are audited */
++	if (WARN_ON_ONCE(!gbo->bo.mem.mm_node))
++		return 0;
++
++	return gbo->bo.mem.start;
++}
++
+ /**
+  * drm_gem_vram_offset() - \
+ 	Returns a GEM VRAM object's offset in video memory
+@@ -214,7 +223,7 @@ s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo)
+ {
+ 	if (WARN_ON_ONCE(!gbo->pin_count))
+ 		return (s64)-ENODEV;
+-	return gbo->bo.offset;
++	return drm_gem_vram_pg_offset(gbo) << PAGE_SHIFT;
+ }
+ EXPORT_SYMBOL(drm_gem_vram_offset);
+
+--
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
