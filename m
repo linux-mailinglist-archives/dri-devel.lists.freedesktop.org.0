@@ -1,44 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9665719A5E1
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:04:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4EA119A5C8
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:03:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 340436E8F8;
-	Wed,  1 Apr 2020 07:04:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F7A6E8E2;
+	Wed,  1 Apr 2020 07:03:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34CF76E8C5
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 02:08:04 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 48sV2t09Dpz9sRf;
- Wed,  1 Apr 2020 13:07:49 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
- s=201909; t=1585706881;
- bh=5Eij0H0oCxuYHXBpvkwU455sMVKeqXD4R0I88w1ezf0=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=G5WMbSF/9RnD0WcjjTHkS89KfsK9z+Ul8eGUnDsHox4hY9Wd27IV+efsEM5A9xjXL
- MJ3dPXyUs/OslGrGeTglaohlf/wYAVoh/U7KCAKNEj6mI0qw8p8s0DbLpfhEqbeTyV
- t+Z1PWfRsrZVOiig4zjml/SlgGTfF8dmLnlxwp4jR2OT0YJWje5TtJp9EyWGnGTtyt
- grLGNGb3RPjPP8ZdiSyn4fr0jKkcQTDoMnc1TF1TdR0djqWEVFIFD2ft5P+1t2b600
- wnHLbfV/yqq+RjKSWNFJ/1ksfFPLeqv7ZDLciDyZKTGuY6XmvCvgpcIIt+dSQbWZZd
- wg3zBk4OWnJcw==
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Michal Simek <michal.simek@xilinx.com>, linux-kernel@vger.kernel.org,
- monstr@monstr.eu, michal.simek@xilinx.com, git@xilinx.com,
- sfr@canb.auug.org.au, maz@kernel.org
-Subject: Re: [PATCH v2 0/2] powerpc: Remove support for ppc405/440 Xilinx
- platforms
-In-Reply-To: <cover.1585575111.git.michal.simek@xilinx.com>
-References: <cover.1585575111.git.michal.simek@xilinx.com>
-Date: Wed, 01 Apr 2020 13:07:55 +1100
-Message-ID: <87imikufes.fsf@mpe.ellerman.id.au>
+X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
+ Wed, 01 Apr 2020 02:21:07 UTC
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9E06F6E8C9
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 02:21:07 +0000 (UTC)
+X-UUID: 6749501c1f56470d871025ad78d58ae8-20200401
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=AVMXu0r+6z6IDu7t/jy3++IgcoN/EedNyjzmILOaaOM=; 
+ b=jySO1VftyI+JCu8nT4nnSfsW2nEJaszEKy8KiKELtSvTD3NbnH5XWKNBmJKAG0zdwAYECn/kMruS+BtYbBWPZx+usJpVeC2Z8JJ4UktjDMvRzaR3C7ZFSdRjHVkqJsXMlIA6P7bO+3jucbnhuRMibqphX7GQJDdcFl5golmY8YA=;
+X-UUID: 6749501c1f56470d871025ad78d58ae8-20200401
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1896337754; Wed, 01 Apr 2020 10:16:01 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by mtkmbs05n1.mediatek.inc
+ (172.21.101.15) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Wed, 1 Apr 2020 10:15:57 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 1 Apr 2020 10:15:54 +0800
+Message-ID: <1585707361.28859.19.camel@mhfsdcap03>
+Subject: Re: [PATCH v3 1/4] drm/mediatek: Move tz_disabled from mtk_hdmi_phy
+ to mtk_hdmi driver
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 1 Apr 2020 10:16:01 +0800
+In-Reply-To: <20200331155728.18032-2-chunkuang.hu@kernel.org>
+References: <20200331155728.18032-1-chunkuang.hu@kernel.org>
+ <20200331155728.18032-2-chunkuang.hu@kernel.org>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-Mailman-Approved-At: Wed, 01 Apr 2020 07:03:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,67 +56,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Mark Rutland <mark.rutland@arm.com>,
- "Desnes A. Nunes do Rosario" <desnesn@linux.ibm.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>, Richard Fontana <rfontana@redhat.com>,
- Paul Mackerras <paulus@samba.org>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Masahiro Yamada <masahiroy@kernel.org>, YueHaibing <yuehaibing@huawei.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Allison Randal <allison@lohutok.net>,
- Matt Porter <mporter@kernel.crashing.org>,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Alistair Popple <alistair@popple.id.au>, linuxppc-dev@lists.ozlabs.org,
- Nicholas Piggin <npiggin@gmail.com>, Alexios Zavras <alexios.zavras@intel.com>,
- Mark Brown <broonie@kernel.org>, linux-fbdev@vger.kernel.org,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Dmitry Vyukov <dvyukov@google.com>, Christophe Leroy <christophe.leroy@c-s.fr>,
- Wei Hu <weh@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Takashi Iwai <tiwai@suse.com>,
- Rob Herring <robh+dt@kernel.org>, Enrico Weigelt <info@metux.net>,
- "David S. Miller" <davem@davemloft.net>,
- Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kishon Vijay Abraham I <kishon@ti.com>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Michal Simek <michal.simek@xilinx.com> writes:
-> Hi,
->
-> recently we wanted to update xilinx intc driver and we found that function
-> which we wanted to remove is still wired by ancient Xilinx PowerPC
-> platforms. Here is the thread about it.
-> https://lore.kernel.org/linux-next/48d3232d-0f1d-42ea-3109-f44bbabfa2e8@xilinx.com/
->
-> I have been talking about it internally and there is no interest in these
-> platforms and it is also orphan for quite a long time. None is really
-> running/testing these platforms regularly that's why I think it makes sense
-> to remove them also with drivers which are specific to this platform.
->
-> U-Boot support was removed in 2017 without anybody complain about it
-> https://github.com/Xilinx/u-boot-xlnx/commit/98f705c9cefdfdba62c069821bbba10273a0a8ed
->
-> Based on current ppc/next.
->
-> If anyone has any objection about it, please let me know.
+On Tue, 2020-03-31 at 23:57 +0800, Chun-Kuang Hu wrote:
+> From: CK Hu <ck.hu@mediatek.com>
+> 
+> tz_disabled is used to control mtk_hdmi output signal, but this variable
+> is stored in mtk_hdmi_phy and mtk_hdmi_phy does not use it. So move
+> tz_disabled to mtk_hdmi where it's used.
+> 
+> Signed-off-by: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c           | 22 ++++++++++++++++---
+>  drivers/gpu/drm/mediatek/mtk_hdmi_phy.h       |  1 -
+>  .../gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c    |  1 -
+>  3 files changed, 19 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> index 5e4a4dbda443..878433c09c9b 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> @@ -144,11 +144,16 @@ struct hdmi_audio_param {
+>  	struct hdmi_codec_params codec_params;
+>  };
+>  
+> +struct mtk_hdmi_conf {
+> +	bool tz_disabled;
+> +};
+> +
+>  struct mtk_hdmi {
+>  	struct drm_bridge bridge;
+>  	struct drm_bridge *next_bridge;
+>  	struct drm_connector conn;
+>  	struct device *dev;
+> +	const struct mtk_hdmi_conf *conf;
+>  	struct phy *phy;
+>  	struct device *cec_dev;
+>  	struct i2c_adapter *ddc_adpt;
+> @@ -230,7 +235,6 @@ static void mtk_hdmi_hw_vid_black(struct mtk_hdmi *hdmi, bool black)
+>  static void mtk_hdmi_hw_make_reg_writable(struct mtk_hdmi *hdmi, bool enable)
+>  {
+>  	struct arm_smccc_res res;
+> -	struct mtk_hdmi_phy *hdmi_phy = phy_get_drvdata(hdmi->phy);
+>  
+>  	/*
+>  	 * MT8173 HDMI hardware has an output control bit to enable/disable HDMI
+> @@ -238,7 +242,7 @@ static void mtk_hdmi_hw_make_reg_writable(struct mtk_hdmi *hdmi, bool enable)
+>  	 * The ARM trusted firmware provides an API for the HDMI driver to set
+>  	 * this control bit to enable HDMI output in supervisor mode.
+>  	 */
+> -	if (hdmi_phy->conf && hdmi_phy->conf->tz_disabled)
+> +	if (hdmi->conf->tz_disabled)
+>  		regmap_update_bits(hdmi->sys_regmap,
+>  				   hdmi->sys_offset + HDMI_SYS_CFG20,
+>  				   0x80008005, enable ? 0x80000005 : 0x8000);
+> @@ -1688,6 +1692,7 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
+>  		return -ENOMEM;
+>  
+>  	hdmi->dev = dev;
+> +	hdmi->conf = of_device_get_match_data(dev);
+>  
+>  	ret = mtk_hdmi_dt_parse_pdata(hdmi, pdev);
+>  	if (ret)
+> @@ -1765,8 +1770,19 @@ static int mtk_hdmi_resume(struct device *dev)
+>  static SIMPLE_DEV_PM_OPS(mtk_hdmi_pm_ops,
+>  			 mtk_hdmi_suspend, mtk_hdmi_resume);
+>  
+> +static const struct mtk_hdmi_conf mtk_hdmi_conf_mt2701 = {
+> +	.tz_disabled = true,
+> +};
+> +
+> +static const struct mtk_hdmi_conf mtk_hdmi_conf_mt8173;
+> +
+>  static const struct of_device_id mtk_drm_hdmi_of_ids[] = {
+> -	{ .compatible = "mediatek,mt8173-hdmi", },
+> +	{ .compatible = "mediatek,mt2701-hdmi",
+> +	  .data = &mtk_hdmi_conf_mt2701,
+> +	},
+> +	{ .compatible = "mediatek,mt8173-hdmi",
+> +	  .data = &mtk_hdmi_conf_mt8173,
+> +	},
+>  	{}
+>  };
+>  
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
+> index 2d8b3182470d..fc1c2efd1128 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
+> @@ -20,7 +20,6 @@
+>  struct mtk_hdmi_phy;
+>  
+>  struct mtk_hdmi_phy_conf {
+> -	bool tz_disabled;
+>  	unsigned long flags;
+>  	const struct clk_ops *hdmi_phy_clk_ops;
+>  	void (*hdmi_phy_enable_tmds)(struct mtk_hdmi_phy *hdmi_phy);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c b/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
+> index d3cc4022e988..99fe05cd3598 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
+> @@ -237,7 +237,6 @@ static void mtk_hdmi_phy_disable_tmds(struct mtk_hdmi_phy *hdmi_phy)
+>  }
+>  
+>  struct mtk_hdmi_phy_conf mtk_hdmi_phy_2701_conf = {
+> -	.tz_disabled = true,
+>  	.flags = CLK_SET_RATE_GATE,
+>  	.hdmi_phy_clk_ops = &mtk_hdmi_phy_pll_ops,
+>  	.hdmi_phy_enable_tmds = mtk_hdmi_phy_enable_tmds,
 
-Thanks for taking the time to find all this code and remove it.
+Reviewed-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-I'm not going to take this series for v5.7, it was posted too close to
-the merge window, and doing so wouldn't give people much time to object,
-especially given people are distracted at the moment.
-
-I'm happy to take it for v5.8, assuming there's no major objections.
-
-cheers
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
