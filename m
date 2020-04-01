@@ -1,45 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4EA119A5C8
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:03:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD6319A5D8
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:04:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19F7A6E8E2;
-	Wed,  1 Apr 2020 07:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 506EF6E8EA;
+	Wed,  1 Apr 2020 07:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
- Wed, 01 Apr 2020 02:21:07 UTC
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9E06F6E8C9
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 02:21:07 +0000 (UTC)
-X-UUID: 6749501c1f56470d871025ad78d58ae8-20200401
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C9E016E8D8
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 02:23:25 +0000 (UTC)
+X-UUID: 073f40533d05470783e0566a1a6ce4ae-20200401
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=AVMXu0r+6z6IDu7t/jy3++IgcoN/EedNyjzmILOaaOM=; 
- b=jySO1VftyI+JCu8nT4nnSfsW2nEJaszEKy8KiKELtSvTD3NbnH5XWKNBmJKAG0zdwAYECn/kMruS+BtYbBWPZx+usJpVeC2Z8JJ4UktjDMvRzaR3C7ZFSdRjHVkqJsXMlIA6P7bO+3jucbnhuRMibqphX7GQJDdcFl5golmY8YA=;
-X-UUID: 6749501c1f56470d871025ad78d58ae8-20200401
+ bh=ozChR75QyhnkmzvgkYzHisLoS9xThMPk60TjOXq2y0w=; 
+ b=LrWXeZee48NVlpQS5k8wlQhwHKfSKaPXYPbJZKl8dYF3B8LSXXJnuJPo+NKnV/RRT1sM50b7gqxW4ZMz3Qc8SAd16oF7HwdybB/jWwRKlKtbSDpddzwT0RNDgPWFC0R4h1QteteVWzIEL6orgbeZ9yPgiQWav8BI+tvWJXfWd6Y=;
+X-UUID: 073f40533d05470783e0566a1a6ce4ae-20200401
 Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
+ mailgw01.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1896337754; Wed, 01 Apr 2020 10:16:01 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by mtkmbs05n1.mediatek.inc
- (172.21.101.15) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Wed, 1 Apr 2020 10:15:57 +0800
+ with ESMTP id 1675022153; Wed, 01 Apr 2020 10:18:20 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by mtkmbs05n2.mediatek.inc
+ (172.21.101.140) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Wed, 1 Apr 2020 10:18:14 +0800
 Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
  (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 1 Apr 2020 10:15:54 +0800
-Message-ID: <1585707361.28859.19.camel@mhfsdcap03>
-Subject: Re: [PATCH v3 1/4] drm/mediatek: Move tz_disabled from mtk_hdmi_phy
- to mtk_hdmi driver
+ Transport; Wed, 1 Apr 2020 10:18:16 +0800
+Message-ID: <1585707503.28859.21.camel@mhfsdcap03>
+Subject: Re: [PATCH v3 3/4] phy: mediatek: Move mtk_hdmi_phy driver into
+ drivers/phy/mediatek folder
 From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 1 Apr 2020 10:16:01 +0800
-In-Reply-To: <20200331155728.18032-2-chunkuang.hu@kernel.org>
+Date: Wed, 1 Apr 2020 10:18:23 +0800
+In-Reply-To: <20200331155728.18032-4-chunkuang.hu@kernel.org>
 References: <20200331155728.18032-1-chunkuang.hu@kernel.org>
- <20200331155728.18032-2-chunkuang.hu@kernel.org>
+ <20200331155728.18032-4-chunkuang.hu@kernel.org>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
 X-MTK: N
@@ -67,112 +65,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, 2020-03-31 at 23:57 +0800, Chun-Kuang Hu wrote:
 > From: CK Hu <ck.hu@mediatek.com>
 > 
-> tz_disabled is used to control mtk_hdmi output signal, but this variable
-> is stored in mtk_hdmi_phy and mtk_hdmi_phy does not use it. So move
-> tz_disabled to mtk_hdmi where it's used.
+> mtk_hdmi_phy is currently placed inside mediatek drm driver, but it's
+> more suitable to place a phy driver into phy driver folder, so move
+> mtk_hdmi_phy driver into phy driver folder.
 > 
 > Signed-off-by: CK Hu <ck.hu@mediatek.com>
 > Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 > ---
->  drivers/gpu/drm/mediatek/mtk_hdmi.c           | 22 ++++++++++++++++---
->  drivers/gpu/drm/mediatek/mtk_hdmi_phy.h       |  1 -
->  .../gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c    |  1 -
->  3 files changed, 19 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/mediatek/Kconfig                           | 7 -------
+>  drivers/gpu/drm/mediatek/Makefile                          | 6 ------
+>  drivers/phy/mediatek/Kconfig                               | 7 +++++++
+>  drivers/phy/mediatek/Makefile                              | 7 +++++++
+>  .../mediatek/phy-mtk-hdmi-mt2701.c}                        | 2 +-
+>  .../mediatek/phy-mtk-hdmi-mt8173.c}                        | 2 +-
+>  .../mtk_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi.c}         | 2 +-
+>  .../mtk_hdmi_phy.h => phy/mediatek/phy-mtk-hdmi.h}         | 0
+>  8 files changed, 17 insertions(+), 16 deletions(-)
+>  rename drivers/{gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi-mt2701.c} (99%)
+>  rename drivers/{gpu/drm/mediatek/mtk_mt8173_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi-mt8173.c} (99%)
+>  rename drivers/{gpu/drm/mediatek/mtk_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi.c} (99%)
+>  rename drivers/{gpu/drm/mediatek/mtk_hdmi_phy.h => phy/mediatek/phy-mtk-hdmi.h} (100%)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> index 5e4a4dbda443..878433c09c9b 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> @@ -144,11 +144,16 @@ struct hdmi_audio_param {
->  	struct hdmi_codec_params codec_params;
->  };
->  
-> +struct mtk_hdmi_conf {
-> +	bool tz_disabled;
-> +};
-> +
->  struct mtk_hdmi {
->  	struct drm_bridge bridge;
->  	struct drm_bridge *next_bridge;
->  	struct drm_connector conn;
->  	struct device *dev;
-> +	const struct mtk_hdmi_conf *conf;
->  	struct phy *phy;
->  	struct device *cec_dev;
->  	struct i2c_adapter *ddc_adpt;
-> @@ -230,7 +235,6 @@ static void mtk_hdmi_hw_vid_black(struct mtk_hdmi *hdmi, bool black)
->  static void mtk_hdmi_hw_make_reg_writable(struct mtk_hdmi *hdmi, bool enable)
->  {
->  	struct arm_smccc_res res;
-> -	struct mtk_hdmi_phy *hdmi_phy = phy_get_drvdata(hdmi->phy);
->  
->  	/*
->  	 * MT8173 HDMI hardware has an output control bit to enable/disable HDMI
-> @@ -238,7 +242,7 @@ static void mtk_hdmi_hw_make_reg_writable(struct mtk_hdmi *hdmi, bool enable)
->  	 * The ARM trusted firmware provides an API for the HDMI driver to set
->  	 * this control bit to enable HDMI output in supervisor mode.
->  	 */
-> -	if (hdmi_phy->conf && hdmi_phy->conf->tz_disabled)
-> +	if (hdmi->conf->tz_disabled)
->  		regmap_update_bits(hdmi->sys_regmap,
->  				   hdmi->sys_offset + HDMI_SYS_CFG20,
->  				   0x80008005, enable ? 0x80000005 : 0x8000);
-> @@ -1688,6 +1692,7 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
->  		return -ENOMEM;
->  
->  	hdmi->dev = dev;
-> +	hdmi->conf = of_device_get_match_data(dev);
->  
->  	ret = mtk_hdmi_dt_parse_pdata(hdmi, pdev);
->  	if (ret)
-> @@ -1765,8 +1770,19 @@ static int mtk_hdmi_resume(struct device *dev)
->  static SIMPLE_DEV_PM_OPS(mtk_hdmi_pm_ops,
->  			 mtk_hdmi_suspend, mtk_hdmi_resume);
->  
-> +static const struct mtk_hdmi_conf mtk_hdmi_conf_mt2701 = {
-> +	.tz_disabled = true,
-> +};
-> +
-> +static const struct mtk_hdmi_conf mtk_hdmi_conf_mt8173;
-> +
->  static const struct of_device_id mtk_drm_hdmi_of_ids[] = {
-> -	{ .compatible = "mediatek,mt8173-hdmi", },
-> +	{ .compatible = "mediatek,mt2701-hdmi",
-> +	  .data = &mtk_hdmi_conf_mt2701,
-> +	},
-> +	{ .compatible = "mediatek,mt8173-hdmi",
-> +	  .data = &mtk_hdmi_conf_mt8173,
-> +	},
->  	{}
->  };
->  
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
-> index 2d8b3182470d..fc1c2efd1128 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
-> @@ -20,7 +20,6 @@
->  struct mtk_hdmi_phy;
->  
->  struct mtk_hdmi_phy_conf {
-> -	bool tz_disabled;
->  	unsigned long flags;
->  	const struct clk_ops *hdmi_phy_clk_ops;
->  	void (*hdmi_phy_enable_tmds)(struct mtk_hdmi_phy *hdmi_phy);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c b/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
-> index d3cc4022e988..99fe05cd3598 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
-> @@ -237,7 +237,6 @@ static void mtk_hdmi_phy_disable_tmds(struct mtk_hdmi_phy *hdmi_phy)
->  }
->  
->  struct mtk_hdmi_phy_conf mtk_hdmi_phy_2701_conf = {
-> -	.tz_disabled = true,
->  	.flags = CLK_SET_RATE_GATE,
->  	.hdmi_phy_clk_ops = &mtk_hdmi_phy_pll_ops,
->  	.hdmi_phy_enable_tmds = mtk_hdmi_phy_enable_tmds,
-
 Reviewed-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
