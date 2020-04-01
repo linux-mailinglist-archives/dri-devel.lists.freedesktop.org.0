@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38E819BC74
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 09:18:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5191119BC6C
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 09:18:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A91C46E9E5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18E246E9DB;
 	Thu,  2 Apr 2020 07:18:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC5DF6E982
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 18:38:48 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id j17so1220323wru.13
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 11:38:48 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99CD86E983
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 18:38:53 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id t7so1234914wrw.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 11:38:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xuMr/Tl5MZ4pP+K9CJDf6NtM/gsqeazaEXYZXFsWSJw=;
- b=umn35z7yth2oTqZJOM5wBwGgIJ/lM8SFW3ZbiiS21cOhMEUW5Bs8D3Z/ty32TYleYU
- k7YcLE4zZjFIkzx/szygXnxLRKBK2h+lYpznLT6SO738cW0/+fA0koNNyNDyi59VmMTQ
- y8FF+q4lBNdMCi7JRIUb8f+LEEA5UHKLJCIY8mdEuuLE5z5JI/qVSHnr1I9TqBheIPtR
- LrdyUmjlp/q0wsQmjrQLTNGQs1AQ1ZfqAbTntA79dNKdAU3esL4VxMj4fPMVHvT3ltLD
- F5ICFGvllTH2KO0biL/8lpOudrogmkmuiEsOxRcPFxHRjMXDEs2Ad1cNFxIlEg6wiB+b
- MY/g==
+ bh=59DQ85iqFoTT8Xq07PB89s2l8irBbAFPpsi+Aoo7QOo=;
+ b=GFuZTrlSuNd3EYsJ4ygf8BuJqUszH4/Pt02GTnDUJFJUaqLu70LRyfYp7cwRv1CyjK
+ DZoyeTA/dyTTxlR0sw6/ywhpDoo8KC1ck77cIvlvzO2mbc9Jy+4uR25KB/616nFPrSdH
+ bS+YVOm7Sqk2QaUGV7hR26oleS6hCzEuLa9Lkef9CbPP3HbcT04qmbGMR3C10inz6hvD
+ vNpl6ScYGkS4p/HPdy0Q2RFUExncrfsK+5fdBG54yBm+09lCyuq+4R+SQyWG8LmocFlX
+ cgeFp3lRagyqaeoRPotDNGahDWhGhdvvVEJYw5fpbV/tzoFzZE8/Ic7AIYTXkvfAVHzt
+ rBAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xuMr/Tl5MZ4pP+K9CJDf6NtM/gsqeazaEXYZXFsWSJw=;
- b=DHgP6ucJQTZHfWZpT6fSHRIM7ltFHlCf9BDbKvldAJOg16Lrsm518cZo0rNUTj7Jiw
- hJ0tvh9YCq6E+ySdIvEdObMskV/I8F7OyLZu5GFBm33vMWURzkxxUg4v85VPpoSSs6w2
- OEPDF3wECw0D19HxSzSI3tUTwYRf+Gj/3ZCWWcVgGGTjuviiB77bA5Lz4FPoBitNait/
- B7R5R/854uCb1A0bN+6p9SdBqwXb3iAwwLmesdHn7dgBSYgSrAVO+PYClqgf67sw9oT1
- JTIPYjMLKJQQ0+hi5lJ0p0doMvbWpxuyj6UKfTVpUuIWbouiaYr27SFG1eQYL6dY2duB
- z+sg==
-X-Gm-Message-State: ANhLgQ27B6q7vXvoGgRLdNNYcqHHHaSiebJO4lL2C0ou3jRlHj4Bnxn7
- +wp5xaSql3N7hHWjEGc7FguF5xqx3q4=
-X-Google-Smtp-Source: ADFU+vsFSF1yEt6lmMeVfroYBZJEIL7sTlesaGKME8QFwEVN6MM46NtG73B80M+bIZ0dTKXY6CBnRg==
-X-Received: by 2002:adf:fcc8:: with SMTP id f8mr28570259wrs.132.1585766326793; 
- Wed, 01 Apr 2020 11:38:46 -0700 (PDT)
+ bh=59DQ85iqFoTT8Xq07PB89s2l8irBbAFPpsi+Aoo7QOo=;
+ b=BXmyOd9zvITuuOKRLNU7CsOhX67BEp8KZWZA5yp7kygE35SbvArC64ermQhNx5sQm2
+ TceeVUcpdtqwaJkBrzvWKFPDUIvgoUx8iAaL4WjIeXzmi0e9Vf8hUYMlSGfuulnreoSA
+ szWEpwovxWxgv574hxx5vgO9e2pcwwlLZdrPn/mKg8mSjdGZmgepxtFDpAv6OL8IpIMC
+ RU8YwYr+4UB8FOst1Hn4MBBvrZduRscc4J2oI3utZQ/wik9Nb0Nlx7H0VFLw1M/zYnKx
+ oaVNgzJI6NA1nI5ox4FftOkuq10rIV6gCF4e6h96v21ZoXhQLndcVNIcrnXEL6pKZdvw
+ 5ysA==
+X-Gm-Message-State: ANhLgQ21Dgg/uzto6cQqSPnEkvO8ik2TPWreyFY5fycMzvbT0UrnKCN+
+ G05xtQCyhUTCoQZwZJ/2Qh7RK53mET0=
+X-Google-Smtp-Source: ADFU+vvNMXWdfLh0zo/XuNInJazHRbNzFVpyEBuJNcLvCI+b6nVd5KYp3+bfTCDSC8WBSo2T6FBH/Q==
+X-Received: by 2002:a5d:4e47:: with SMTP id r7mr26110400wrt.424.1585766331781; 
+ Wed, 01 Apr 2020 11:38:51 -0700 (PDT)
 Received: from brihaspati.fritz.box (p5DE52E4E.dip0.t-ipconnect.de.
  [93.229.46.78])
- by smtp.gmail.com with ESMTPSA id b11sm3976973wrq.26.2020.04.01.11.38.41
+ by smtp.gmail.com with ESMTPSA id b11sm3976973wrq.26.2020.04.01.11.38.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Apr 2020 11:38:45 -0700 (PDT)
+ Wed, 01 Apr 2020 11:38:50 -0700 (PDT)
 From: Nirmoy Das <nirmoy.aiemd@gmail.com>
 X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/8] drm/nouveau: don't use ttm bo->offset v3
-Date: Wed,  1 Apr 2020 20:42:43 +0200
-Message-Id: <20200401184247.16643-5-nirmoy.das@amd.com>
+Subject: [PATCH 5/8] drm/qxl: don't use ttm bo->offset
+Date: Wed,  1 Apr 2020 20:42:44 +0200
+Message-Id: <20200401184247.16643-6-nirmoy.das@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200401184247.16643-1-nirmoy.das@amd.com>
 References: <20200401184247.16643-1-nirmoy.das@amd.com>
@@ -74,319 +74,78 @@ Cc: thellstrom@vmware.com, airlied@linux.ie, kenny.ho@amd.com,
  linux-graphics-maintainer@vmware.com, bskeggs@redhat.com,
  alexander.deucher@amd.com, sean@poorly.run, christian.koenig@amd.com,
  kraxel@redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Store ttm bo->offset in struct nouveau_bo instead.
-
-Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
----
- drivers/gpu/drm/nouveau/dispnv04/crtc.c     |  6 +++---
- drivers/gpu/drm/nouveau/dispnv04/disp.c     |  2 +-
- drivers/gpu/drm/nouveau/dispnv04/overlay.c  |  6 +++---
- drivers/gpu/drm/nouveau/dispnv50/base507c.c |  2 +-
- drivers/gpu/drm/nouveau/dispnv50/core507d.c |  2 +-
- drivers/gpu/drm/nouveau/dispnv50/ovly507e.c |  2 +-
- drivers/gpu/drm/nouveau/dispnv50/wndw.c     |  2 +-
- drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c |  2 +-
- drivers/gpu/drm/nouveau/nouveau_abi16.c     |  8 ++++----
- drivers/gpu/drm/nouveau/nouveau_bo.c        |  8 ++++++++
- drivers/gpu/drm/nouveau/nouveau_bo.h        |  3 +++
- drivers/gpu/drm/nouveau/nouveau_chan.c      |  2 +-
- drivers/gpu/drm/nouveau/nouveau_dmem.c      |  2 +-
- drivers/gpu/drm/nouveau/nouveau_fbcon.c     |  2 +-
- drivers/gpu/drm/nouveau/nouveau_gem.c       | 10 +++++-----
- 15 files changed, 35 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-index 1f08de4241e0..d06a93f2b38a 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-@@ -845,7 +845,7 @@ nv04_crtc_do_mode_set_base(struct drm_crtc *crtc,
- 		fb = nouveau_framebuffer(crtc->primary->fb);
- 	}
- 
--	nv_crtc->fb.offset = fb->nvbo->bo.offset;
-+	nv_crtc->fb.offset = fb->nvbo->offset;
- 
- 	if (nv_crtc->lut.depth != drm_fb->format->depth) {
- 		nv_crtc->lut.depth = drm_fb->format->depth;
-@@ -1013,7 +1013,7 @@ nv04_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
- 		nv04_cursor_upload(dev, cursor, nv_crtc->cursor.nvbo);
- 
- 	nouveau_bo_unmap(cursor);
--	nv_crtc->cursor.offset = nv_crtc->cursor.nvbo->bo.offset;
-+	nv_crtc->cursor.offset = nv_crtc->cursor.nvbo->offset;
- 	nv_crtc->cursor.set_offset(nv_crtc, nv_crtc->cursor.offset);
- 	nv_crtc->cursor.show(nv_crtc, true);
- out:
-@@ -1191,7 +1191,7 @@ nv04_crtc_page_flip(struct drm_crtc *crtc, struct drm_framebuffer *fb,
- 	/* Initialize a page flip struct */
- 	*s = (struct nv04_page_flip_state)
- 		{ { }, event, crtc, fb->format->cpp[0] * 8, fb->pitches[0],
--		  new_bo->bo.offset };
-+		  new_bo->offset };
- 
- 	/* Keep vblanks on during flip, for the target crtc of this flip */
- 	drm_crtc_vblank_get(crtc);
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/disp.c b/drivers/gpu/drm/nouveau/dispnv04/disp.c
-index 44ee82d0c9b6..89a4ddfcc55f 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/disp.c
-@@ -151,7 +151,7 @@ nv04_display_init(struct drm_device *dev, bool resume, bool runtime)
- 			continue;
- 
- 		if (nv_crtc->cursor.set_offset)
--			nv_crtc->cursor.set_offset(nv_crtc, nv_crtc->cursor.nvbo->bo.offset);
-+			nv_crtc->cursor.set_offset(nv_crtc, nv_crtc->cursor.nvbo->offset);
- 		nv_crtc->cursor.set_pos(nv_crtc, nv_crtc->cursor_saved_x,
- 						 nv_crtc->cursor_saved_y);
- 	}
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/overlay.c b/drivers/gpu/drm/nouveau/dispnv04/overlay.c
-index a3a0a73ae8ab..9529bd9053e7 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/overlay.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/overlay.c
-@@ -150,7 +150,7 @@ nv10_update_plane(struct drm_plane *plane, struct drm_crtc *crtc,
- 	nvif_mask(dev, NV_PCRTC_ENGINE_CTRL + soff2, NV_CRTC_FSEL_OVERLAY, 0);
- 
- 	nvif_wr32(dev, NV_PVIDEO_BASE(flip), 0);
--	nvif_wr32(dev, NV_PVIDEO_OFFSET_BUFF(flip), nv_fb->nvbo->bo.offset);
-+	nvif_wr32(dev, NV_PVIDEO_OFFSET_BUFF(flip), nv_fb->nvbo->offset);
- 	nvif_wr32(dev, NV_PVIDEO_SIZE_IN(flip), src_h << 16 | src_w);
- 	nvif_wr32(dev, NV_PVIDEO_POINT_IN(flip), src_y << 16 | src_x);
- 	nvif_wr32(dev, NV_PVIDEO_DS_DX(flip), (src_w << 20) / crtc_w);
-@@ -172,7 +172,7 @@ nv10_update_plane(struct drm_plane *plane, struct drm_crtc *crtc,
- 	if (format & NV_PVIDEO_FORMAT_PLANAR) {
- 		nvif_wr32(dev, NV_PVIDEO_UVPLANE_BASE(flip), 0);
- 		nvif_wr32(dev, NV_PVIDEO_UVPLANE_OFFSET_BUFF(flip),
--			nv_fb->nvbo->bo.offset + fb->offsets[1]);
-+			nv_fb->nvbo->offset + fb->offsets[1]);
- 	}
- 	nvif_wr32(dev, NV_PVIDEO_FORMAT(flip), format | fb->pitches[0]);
- 	nvif_wr32(dev, NV_PVIDEO_STOP, 0);
-@@ -396,7 +396,7 @@ nv04_update_plane(struct drm_plane *plane, struct drm_crtc *crtc,
- 
- 	for (i = 0; i < 2; i++) {
- 		nvif_wr32(dev, NV_PVIDEO_BUFF0_START_ADDRESS + 4 * i,
--			  nv_fb->nvbo->bo.offset);
-+			  nv_fb->nvbo->offset);
- 		nvif_wr32(dev, NV_PVIDEO_BUFF0_PITCH_LENGTH + 4 * i,
- 			  fb->pitches[0]);
- 		nvif_wr32(dev, NV_PVIDEO_BUFF0_OFFSET + 4 * i, 0);
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/base507c.c b/drivers/gpu/drm/nouveau/dispnv50/base507c.c
-index 00a85f1e1a4a..67829f04b2c7 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/base507c.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/base507c.c
-@@ -274,7 +274,7 @@ base507c_new_(const struct nv50_wndw_func *func, const u32 *format,
- 
- 	ret = nv50_dmac_create(&drm->client.device, &disp->disp->object,
- 			       &oclass, head, &args, sizeof(args),
--			       disp->sync->bo.offset, &wndw->wndw);
-+			       disp->sync->offset, &wndw->wndw);
- 	if (ret) {
- 		NV_ERROR(drm, "base%04x allocation failed: %d\n", oclass, ret);
- 		return ret;
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/core507d.c b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
-index e7fcfa6e6467..793dcb2ea196 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/core507d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
-@@ -99,7 +99,7 @@ core507d_new_(const struct nv50_core_func *func, struct nouveau_drm *drm,
- 
- 	ret = nv50_dmac_create(&drm->client.device, &disp->disp->object,
- 			       &oclass, 0, &args, sizeof(args),
--			       disp->sync->bo.offset, &core->chan);
-+			       disp->sync->offset, &core->chan);
- 	if (ret) {
- 		NV_ERROR(drm, "core%04x allocation failed: %d\n", oclass, ret);
- 		return ret;
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/ovly507e.c b/drivers/gpu/drm/nouveau/dispnv50/ovly507e.c
-index 8ccd96113bad..4cce1078140a 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/ovly507e.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/ovly507e.c
-@@ -186,7 +186,7 @@ ovly507e_new_(const struct nv50_wndw_func *func, const u32 *format,
- 
- 	ret = nv50_dmac_create(&drm->client.device, &disp->disp->object,
- 			       &oclass, 0, &args, sizeof(args),
--			       disp->sync->bo.offset, &wndw->wndw);
-+			       disp->sync->offset, &wndw->wndw);
- 	if (ret) {
- 		NV_ERROR(drm, "ovly%04x allocation failed: %d\n", oclass, ret);
- 		return ret;
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-index bb737f9281e6..ee0fd817185e 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-@@ -511,7 +511,7 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
- 	}
- 
- 	asyw->state.fence = dma_resv_get_excl_rcu(fb->nvbo->bo.base.resv);
--	asyw->image.offset[0] = fb->nvbo->bo.offset;
-+	asyw->image.offset[0] = fb->nvbo->offset;
- 
- 	if (wndw->func->prepare) {
- 		asyh = nv50_head_atom_get(asyw->state.state, asyw->state.crtc);
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c b/drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c
-index b92dc3461bbd..bb84e4d54a33 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c
-@@ -298,7 +298,7 @@ wndwc37e_new_(const struct nv50_wndw_func *func, struct nouveau_drm *drm,
- 
- 	ret = nv50_dmac_create(&drm->client.device, &disp->disp->object,
- 			       &oclass, 0, &args, sizeof(args),
--			       disp->sync->bo.offset, &wndw->wndw);
-+			       disp->sync->offset, &wndw->wndw);
- 	if (ret) {
- 		NV_ERROR(drm, "qndw%04x allocation failed: %d\n", oclass, ret);
- 		return ret;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.c b/drivers/gpu/drm/nouveau/nouveau_abi16.c
-index e2bae1424502..c32a8ca67f82 100644
---- a/drivers/gpu/drm/nouveau/nouveau_abi16.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_abi16.c
-@@ -558,13 +558,13 @@ nouveau_abi16_ioctl_notifierobj_alloc(ABI16_IOCTL_ARGS)
- 	if (drm->agp.bridge) {
- 		args.target = NV_DMA_V0_TARGET_AGP;
- 		args.access = NV_DMA_V0_ACCESS_RDWR;
--		args.start += drm->agp.base + chan->ntfy->bo.offset;
--		args.limit += drm->agp.base + chan->ntfy->bo.offset;
-+		args.start += drm->agp.base + chan->ntfy->offset;
-+		args.limit += drm->agp.base + chan->ntfy->offset;
- 	} else {
- 		args.target = NV_DMA_V0_TARGET_VM;
- 		args.access = NV_DMA_V0_ACCESS_RDWR;
--		args.start += chan->ntfy->bo.offset;
--		args.limit += chan->ntfy->bo.offset;
-+		args.start += chan->ntfy->offset;
-+		args.limit += chan->ntfy->offset;
- 	}
- 
- 	client->route = NVDRM_OBJECT_ABI16;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 2b4b21b02e40..67f173c266ad 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -1317,6 +1317,14 @@ nouveau_bo_move_ntfy(struct ttm_buffer_object *bo, bool evict,
- 			nouveau_vma_unmap(vma);
- 		}
- 	}
-+
-+	if (new_reg) {
-+		if (new_reg->mm_node)
-+			nvbo->offset = (new_reg->start << PAGE_SHIFT);
-+		else
-+			nvbo->offset = 0;
-+	}
-+
- }
- 
- static int
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.h b/drivers/gpu/drm/nouveau/nouveau_bo.h
-index 38f9d8350963..e944b4aa5547 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.h
-@@ -24,6 +24,9 @@ struct nouveau_bo {
- 	int pbbo_index;
- 	bool validate_mapped;
- 
-+	/* GPU address space is independent of CPU word size */
-+	uint64_t offset;
-+
- 	struct list_head vma_list;
- 
- 	unsigned contig:1;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
-index d9381a053169..3d71dfcb2fde 100644
---- a/drivers/gpu/drm/nouveau/nouveau_chan.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
-@@ -162,7 +162,7 @@ nouveau_channel_prep(struct nouveau_drm *drm, struct nvif_device *device,
- 	 * pushbuf lives in, this is because the GEM code requires that
- 	 * we be able to call out to other (indirect) push buffers
- 	 */
--	chan->push.addr = chan->push.buffer->bo.offset;
-+	chan->push.addr = chan->push.buffer->offset;
- 
- 	if (device->info.family >= NV_DEVICE_INFO_V0_TESLA) {
- 		ret = nouveau_vma_new(chan->push.buffer, chan->vmm,
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-index 0ad5d87b5a8e..475ed53b99f1 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-@@ -89,7 +89,7 @@ static unsigned long nouveau_dmem_page_addr(struct page *page)
- 	struct nouveau_dmem_chunk *chunk = page->zone_device_data;
- 	unsigned long idx = page_to_pfn(page) - chunk->pfn_first;
- 
--	return (idx << PAGE_SHIFT) + chunk->bo->bo.offset;
-+	return (idx << PAGE_SHIFT) + chunk->bo->offset;
- }
- 
- static void nouveau_dmem_page_free(struct page *page)
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-index 24d543a01f43..1341c6fca3ed 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-@@ -393,7 +393,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
- 
- 	/* To allow resizeing without swapping buffers */
- 	NV_INFO(drm, "allocated %dx%d fb: 0x%llx, bo %p\n",
--		fb->base.width, fb->base.height, fb->nvbo->bo.offset, nvbo);
-+		fb->base.width, fb->base.height, fb->nvbo->offset, nvbo);
- 
- 	vga_switcheroo_client_fb_set(dev->pdev, info);
- 	return 0;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-index f5ece1f94973..cadff37eade8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-@@ -232,7 +232,7 @@ nouveau_gem_info(struct drm_file *file_priv, struct drm_gem_object *gem,
- 		rep->domain = NOUVEAU_GEM_DOMAIN_GART;
- 	else
- 		rep->domain = NOUVEAU_GEM_DOMAIN_VRAM;
--	rep->offset = nvbo->bo.offset;
-+	rep->offset = nvbo->offset;
- 	if (vmm->vmm.object.oclass >= NVIF_CLASS_VMM_NV50) {
- 		vma = nouveau_vma_find(nvbo, vmm);
- 		if (!vma)
-@@ -516,7 +516,7 @@ validate_list(struct nouveau_channel *chan, struct nouveau_cli *cli,
- 		}
- 
- 		if (drm->client.device.info.family < NV_DEVICE_INFO_V0_TESLA) {
--			if (nvbo->bo.offset == b->presumed.offset &&
-+			if (nvbo->offset == b->presumed.offset &&
- 			    ((nvbo->bo.mem.mem_type == TTM_PL_VRAM &&
- 			      b->presumed.domain & NOUVEAU_GEM_DOMAIN_VRAM) ||
- 			     (nvbo->bo.mem.mem_type == TTM_PL_TT &&
-@@ -527,7 +527,7 @@ validate_list(struct nouveau_channel *chan, struct nouveau_cli *cli,
- 				b->presumed.domain = NOUVEAU_GEM_DOMAIN_GART;
- 			else
- 				b->presumed.domain = NOUVEAU_GEM_DOMAIN_VRAM;
--			b->presumed.offset = nvbo->bo.offset;
-+			b->presumed.offset = nvbo->offset;
- 			b->presumed.valid = 0;
- 			relocs++;
- 		}
-@@ -805,7 +805,7 @@ nouveau_gem_ioctl_pushbuf(struct drm_device *dev, void *data,
- 			struct nouveau_bo *nvbo = (void *)(unsigned long)
- 				bo[push[i].bo_index].user_priv;
- 
--			OUT_RING(chan, (nvbo->bo.offset + push[i].offset) | 2);
-+			OUT_RING(chan, (nvbo->offset + push[i].offset) | 2);
- 			OUT_RING(chan, 0);
- 		}
- 	} else {
-@@ -840,7 +840,7 @@ nouveau_gem_ioctl_pushbuf(struct drm_device *dev, void *data,
- 			}
- 
- 			OUT_RING(chan, 0x20000000 |
--				      (nvbo->bo.offset + push[i].offset));
-+				      (nvbo->offset + push[i].offset));
- 			OUT_RING(chan, 0);
- 			for (j = 0; j < NOUVEAU_DMA_SKIPS; j++)
- 				OUT_RING(chan, 0);
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBwYXRjaCByZW1vdmVzIHNsb3QtPmdwdV9vZmZzZXQgd2hpY2ggaXMgbm90IHJlcXVpcmVk
+IGFzClZSQU0gYW5kIFBSSVYgc2xvdCBhcmUgaW4gc2VwYXJhdGUgUENJIGJhci4KClRoaXMgcGF0
+Y2ggYWxzbyByZW1vdmVzIHVudXNlZCBxeGxfYm9fZ3B1X29mZnNldCgpCgpTaWduZWQtb2ZmLWJ5
+OiBOaXJtb3kgRGFzIDxuaXJtb3kuZGFzQGFtZC5jb20+CkFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2
+bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CkFja2VkLWJ5OiBHZXJkIEhvZmZtYW5uIDxr
+cmF4ZWxAcmVkaGF0LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kcnYuaCAgICB8
+IDYgKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9rbXMuYyAgICB8IDUgKystLS0KIGRy
+aXZlcnMvZ3B1L2RybS9xeGwvcXhsX29iamVjdC5oIHwgNSAtLS0tLQogZHJpdmVycy9ncHUvZHJt
+L3F4bC9xeGxfdHRtLmMgICAgfCA5IC0tLS0tLS0tLQogNCBmaWxlcyBjaGFuZ2VkLCA0IGluc2Vy
+dGlvbnMoKyksIDIxIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9x
+eGwvcXhsX2Rydi5oIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2LmgKaW5kZXggNDM1MTI2
+ZmFjYzliLi5hOWM1MTYzMjgyNzEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhs
+X2Rydi5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Rydi5oCkBAIC0xMzQsNyArMTM0
+LDYgQEAgc3RydWN0IHF4bF9tZW1zbG90IHsKIAl1aW50NjRfdAlzdGFydF9waHlzX2FkZHI7CiAJ
+dWludDY0X3QJc2l6ZTsKIAl1aW50NjRfdAloaWdoX2JpdHM7Ci0JdWludDY0X3QgICAgICAgIGdw
+dV9vZmZzZXQ7CiB9OwogCiBlbnVtIHsKQEAgLTMwOCwxMCArMzA3LDkgQEAgcXhsX2JvX3BoeXNp
+Y2FsX2FkZHJlc3Moc3RydWN0IHF4bF9kZXZpY2UgKnFkZXYsIHN0cnVjdCBxeGxfYm8gKmJvLAog
+CQkoYm8tPnRiby5tZW0ubWVtX3R5cGUgPT0gVFRNX1BMX1ZSQU0pCiAJCT8gJnFkZXYtPm1haW5f
+c2xvdCA6ICZxZGV2LT5zdXJmYWNlc19zbG90OwogCi0JV0FSTl9PTl9PTkNFKChiby0+dGJvLm9m
+ZnNldCAmIHNsb3QtPmdwdV9vZmZzZXQpICE9IHNsb3QtPmdwdV9vZmZzZXQpOworICAgICAgIC8q
+IFRPRE8gLSBuZWVkIHRvIGhvbGQgb25lIG9mIHRoZSBsb2NrcyB0byByZWFkIGJvLT50Ym8ubWVt
+LnN0YXJ0ICovCiAKLQkvKiBUT0RPIC0gbmVlZCB0byBob2xkIG9uZSBvZiB0aGUgbG9ja3MgdG8g
+cmVhZCB0Ym8ub2Zmc2V0ICovCi0JcmV0dXJuIHNsb3QtPmhpZ2hfYml0cyB8IChiby0+dGJvLm9m
+ZnNldCAtIHNsb3QtPmdwdV9vZmZzZXQgKyBvZmZzZXQpOworCXJldHVybiBzbG90LT5oaWdoX2Jp
+dHMgfCAoKGJvLT50Ym8ubWVtLnN0YXJ0IDw8IFBBR0VfU0hJRlQpICsgb2Zmc2V0KTsKIH0KIAog
+LyogcXhsX2Rpc3BsYXkuYyAqLwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxf
+a21zLmMgYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9rbXMuYwppbmRleCA5ZWVkMWEzNzVmMjQu
+Ljc5N2NmZGY5NGFlOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfa21zLmMK
+KysrIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfa21zLmMKQEAgLTg3LDExICs4NywxMCBAQCBz
+dGF0aWMgdm9pZCBzZXR1cF9zbG90KHN0cnVjdCBxeGxfZGV2aWNlICpxZGV2LAogCWhpZ2hfYml0
+cyA8PD0gKDY0IC0gKHFkZXYtPnJvbS0+c2xvdF9nZW5fYml0cyArIHFkZXYtPnJvbS0+c2xvdF9p
+ZF9iaXRzKSk7CiAJc2xvdC0+aGlnaF9iaXRzID0gaGlnaF9iaXRzOwogCi0JRFJNX0lORk8oInNs
+b3QgJWQgKCVzKTogYmFzZSAweCUwOGx4LCBzaXplIDB4JTA4bHgsIGdwdV9vZmZzZXQgMHglbHhc
+biIsCisJRFJNX0lORk8oInNsb3QgJWQgKCVzKTogYmFzZSAweCUwOGx4LCBzaXplIDB4JTA4bHhc
+biIsCiAJCSBzbG90LT5pbmRleCwgc2xvdC0+bmFtZSwKIAkJICh1bnNpZ25lZCBsb25nKXNsb3Qt
+PnN0YXJ0X3BoeXNfYWRkciwKLQkJICh1bnNpZ25lZCBsb25nKXNsb3QtPnNpemUsCi0JCSAodW5z
+aWduZWQgbG9uZylzbG90LT5ncHVfb2Zmc2V0KTsKKwkJICh1bnNpZ25lZCBsb25nKXNsb3QtPnNp
+emUpOwogfQogCiB2b2lkIHF4bF9yZWluaXRfbWVtc2xvdHMoc3RydWN0IHF4bF9kZXZpY2UgKnFk
+ZXYpCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9vYmplY3QuaCBiL2RyaXZl
+cnMvZ3B1L2RybS9xeGwvcXhsX29iamVjdC5oCmluZGV4IDhhZTU0YmE3ODU3Yy4uMjFmYTgxMDQ4
+ZjRmIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9vYmplY3QuaAorKysgYi9k
+cml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9vYmplY3QuaApAQCAtNDgsMTEgKzQ4LDYgQEAgc3RhdGlj
+IGlubGluZSB2b2lkIHF4bF9ib191bnJlc2VydmUoc3RydWN0IHF4bF9ibyAqYm8pCiAJdHRtX2Jv
+X3VucmVzZXJ2ZSgmYm8tPnRibyk7CiB9CiAKLXN0YXRpYyBpbmxpbmUgdTY0IHF4bF9ib19ncHVf
+b2Zmc2V0KHN0cnVjdCBxeGxfYm8gKmJvKQotewotCXJldHVybiBiby0+dGJvLm9mZnNldDsKLX0K
+LQogc3RhdGljIGlubGluZSB1bnNpZ25lZCBsb25nIHF4bF9ib19zaXplKHN0cnVjdCBxeGxfYm8g
+KmJvKQogewogCXJldHVybiBiby0+dGJvLm51bV9wYWdlcyA8PCBQQUdFX1NISUZUOwpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcXhs
+L3F4bF90dG0uYwppbmRleCA5M2EyZWIxNDg0NGIuLjFmMDI2OTFhNjljMiAxMDA2NDQKLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9x
+eGxfdHRtLmMKQEAgLTUxLDExICs1MSw2IEBAIHN0YXRpYyBzdHJ1Y3QgcXhsX2RldmljZSAqcXhs
+X2dldF9xZGV2KHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2KQogc3RhdGljIGludCBxeGxfaW5p
+dF9tZW1fdHlwZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKIAkJ
+CSAgICAgc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4pCiB7Ci0Jc3RydWN0IHF4bF9k
+ZXZpY2UgKnFkZXYgPSBxeGxfZ2V0X3FkZXYoYmRldik7Ci0JdW5zaWduZWQgaW50IGdwdV9vZmZz
+ZXRfc2hpZnQgPQotCQk2NCAtIChxZGV2LT5yb20tPnNsb3RfZ2VuX2JpdHMgKyBxZGV2LT5yb20t
+PnNsb3RfaWRfYml0cyArIDgpOwotCXN0cnVjdCBxeGxfbWVtc2xvdCAqc2xvdDsKLQogCXN3aXRj
+aCAodHlwZSkgewogCWNhc2UgVFRNX1BMX1NZU1RFTToKIAkJLyogU3lzdGVtIG1lbW9yeSAqLwpA
+QCAtNjYsMTEgKzYxLDcgQEAgc3RhdGljIGludCBxeGxfaW5pdF9tZW1fdHlwZShzdHJ1Y3QgdHRt
+X2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKIAljYXNlIFRUTV9QTF9WUkFNOgogCWNh
+c2UgVFRNX1BMX1BSSVY6CiAJCS8qICJPbi1jYXJkIiB2aWRlbyByYW0gKi8KLQkJc2xvdCA9ICh0
+eXBlID09IFRUTV9QTF9WUkFNKSA/Ci0JCQkmcWRldi0+bWFpbl9zbG90IDogJnFkZXYtPnN1cmZh
+Y2VzX3Nsb3Q7Ci0JCXNsb3QtPmdwdV9vZmZzZXQgPSAodWludDY0X3QpdHlwZSA8PCBncHVfb2Zm
+c2V0X3NoaWZ0OwogCQltYW4tPmZ1bmMgPSAmdHRtX2JvX21hbmFnZXJfZnVuYzsKLQkJbWFuLT5n
+cHVfb2Zmc2V0ID0gc2xvdC0+Z3B1X29mZnNldDsKIAkJbWFuLT5mbGFncyA9IFRUTV9NRU1UWVBF
+X0ZMQUdfRklYRUQgfAogCQkJICAgICBUVE1fTUVNVFlQRV9GTEFHX01BUFBBQkxFOwogCQltYW4t
+PmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX01BU0tfQ0FDSElORzsKLS0gCjIuMjUuMQoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
