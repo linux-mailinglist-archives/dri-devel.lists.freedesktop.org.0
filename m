@@ -1,46 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F21A19A5E0
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:04:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4E3519A5D9
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:04:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D4B6E8F2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A797C6E8F0;
 	Wed,  1 Apr 2020 07:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1BC9D6E8CA
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 02:25:26 +0000 (UTC)
-X-UUID: 88d619244fdd4ff5bc346702305f340f-20200401
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=EVfDkcSg67rWMGV0bZzmWDij5Lm1irRxXDFbaSycSd8=; 
- b=eO/MFYa00Q6WgesBbYWNB5OWpjs0CKgLw5n4bvRtbIpchNoyCqDPKhmqzQ0iDZTwGHWIZ9pdKozf4dB5tNHIzLYwbqtU05c6ZkNurOxGr+hT3A2ns9TFKebVss5l47u8EUgFHSE16YdNEKCemeh4SimYzVdh4wTDZRJBoFpTQH8=;
-X-UUID: 88d619244fdd4ff5bc346702305f340f-20200401
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
- (envelope-from <chunfeng.yun@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1947929388; Wed, 01 Apr 2020 10:20:21 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by mtkmbs05n1.mediatek.inc
- (172.21.101.15) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Wed, 1 Apr 2020 10:20:19 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 1 Apr 2020 10:20:17 +0800
-Message-ID: <1585707625.28859.23.camel@mhfsdcap03>
-Subject: Re: [PATCH v3 2/4] drm/mediatek: Separate mtk_hdmi_phy to an
- independent module
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 1 Apr 2020 10:20:25 +0800
-In-Reply-To: <20200331155728.18032-3-chunkuang.hu@kernel.org>
-References: <20200331155728.18032-1-chunkuang.hu@kernel.org>
- <20200331155728.18032-3-chunkuang.hu@kernel.org>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF51A6E8C9;
+ Wed,  1 Apr 2020 02:22:38 +0000 (UTC)
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id E631FEE263379FD4D8D0;
+ Wed,  1 Apr 2020 10:22:32 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 1 Apr 2020 10:22:28 +0800
+From: Chen Zhou <chenzhou10@huawei.com>
+To: <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
+ <rodrigo.vivi@intel.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH -next] drm/i915/gt: fix spelling mistake "undeflow" ->
+ "underflow"
+Date: Wed, 1 Apr 2020 10:25:06 +0800
+Message-ID: <20200401022506.52965-1-chenzhou10@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-MTK: N
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 01 Apr 2020 07:03:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,34 +42,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kishon Vijay Abraham I <kishon@ti.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2020-03-31 at 23:57 +0800, Chun-Kuang Hu wrote:
-> From: CK Hu <ck.hu@mediatek.com>
-> 
-> mtk_hdmi_phy is a part of mtk_hdmi module, but phy driver should be an
-> independent module rather than be part of drm module, so separate the phy
-> driver to an independent module.
-> 
-> Signed-off-by: CK Hu <ck.hu@mediatek.com>
-> Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> ---
->  drivers/gpu/drm/mediatek/Kconfig        |  9 ++++++++-
->  drivers/gpu/drm/mediatek/Makefile       | 11 +++++++----
->  drivers/gpu/drm/mediatek/mtk_hdmi.c     |  2 +-
->  drivers/gpu/drm/mediatek/mtk_hdmi.h     |  1 -
->  drivers/gpu/drm/mediatek/mtk_hdmi_phy.c |  1 +
->  drivers/gpu/drm/mediatek/mtk_hdmi_phy.h |  1 -
->  6 files changed, 17 insertions(+), 8 deletions(-)
-Reviewed-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+There is a spelling mistake in comment, fix it.
 
-Thanks a lot
+Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+---
+ drivers/gpu/drm/i915/gt/intel_engine_pm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+index b6cf284..3be6797 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+@@ -181,7 +181,7 @@ static bool switch_to_kernel_context(struct intel_engine_cs *engine)
+ 	 * Ergo, if we put ourselves on the timelines.active_list
+ 	 * (se intel_timeline_enter()) before we increment the
+ 	 * engine->wakeref.count, we may see the request completion and retire
+-	 * it causing an undeflow of the engine->wakeref.
++	 * it causing an underflow of the engine->wakeref.
+ 	 */
+ 	flags = __timeline_mark_lock(ce);
+ 	GEM_BUG_ON(atomic_read(&ce->timeline->active_count) < 0);
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
