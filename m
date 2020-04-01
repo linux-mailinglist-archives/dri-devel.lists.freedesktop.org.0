@@ -1,35 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF3F19BC7F
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 09:18:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0E419A887
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 11:22:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09CD76E9F3;
-	Thu,  2 Apr 2020 07:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59F5B6E906;
+	Wed,  1 Apr 2020 09:22:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-blr-02.qualcomm.com (alexa-out-blr-02.qualcomm.com
- [103.229.18.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 126E26E906;
- Wed,  1 Apr 2020 09:18:57 +0000 (UTC)
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
- by alexa-out-blr-02.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 01 Apr 2020 14:48:07 +0530
-Received: from mkrishn-linux.qualcomm.com ([10.204.66.35])
- by ironmsg01-blr.qualcomm.com with ESMTP; 01 Apr 2020 14:47:52 +0530
-Received: by mkrishn-linux.qualcomm.com (Postfix, from userid 438394)
- id 3118145C0; Wed,  1 Apr 2020 14:47:51 +0530 (IST)
-From: Krishna Manikandan <mkrishn@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v1 3/3] arm64: dts: sc7180: define interconnects for sc7180 target
-Date: Wed,  1 Apr 2020 14:47:45 +0530
-Message-Id: <1585732665-29492-2-git-send-email-mkrishn@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1585732665-29492-1-git-send-email-mkrishn@codeaurora.org>
-References: <1585732665-29492-1-git-send-email-mkrishn@codeaurora.org>
-X-Mailman-Approved-At: Thu, 02 Apr 2020 07:17:56 +0000
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA646E906
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 09:22:10 +0000 (UTC)
+IronPort-SDR: N+rXn50uYo3dPJGo29TUcCBcV0Rd2vxSFVJf7Rk4HwS5oG1aMUWh9jBwNuDfdushguJMNchB9n
+ riwd4jeWxl5w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2020 02:22:10 -0700
+IronPort-SDR: JT0/RzqxXMkZa9y2Rcyon4u6ODsbw9lO35PfCHIJ2S8yWZHtAVg4v0HS1v4h9NUfIs72WJ237o
+ tfP4L8Fa1J9A==
+X-IronPort-AV: E=Sophos;i="5.72,331,1580803200"; d="scan'208";a="422646211"
+Received: from unknown (HELO localhost) ([10.252.38.43])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2020 02:22:07 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [git pull] drm for 5.7-rc1
+In-Reply-To: <CAPM=9twza_DeycOEhT+u6Erh0yFTAUe447J6bxWCLq5+QW8ZaA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CAPM=9twza_DeycOEhT+u6Erh0yFTAUe447J6bxWCLq5+QW8ZaA@mail.gmail.com>
+Date: Wed, 01 Apr 2020 12:22:04 +0300
+Message-ID: <87d08rftmr.fsf@intel.com>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,39 +48,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>, linux-kernel@vger.kernel.org,
- seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org
-MIME-Version: 1.0
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Define interconnects for display driver for
-sc7180 target.
+On Wed, 01 Apr 2020, Dave Airlie <airlied@gmail.com> wrote:
+> i915 and amdgpu have initial OLED backlight support
 
-Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sc7180.dtsi | 3 +++
- 1 file changed, 3 insertions(+)
+I suppose we've had a bunch of "initial support" code for a long time
+already, but only now Lyude made it actually work on real world
+machines. ;)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index ea1b0cd..31fed6d 100644
---- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -1521,6 +1521,9 @@
- 			interrupt-controller;
- 			#interrupt-cells = <1>;
- 
-+			interconnects = <&mmss_noc MASTER_MDP0 &mc_virt SLAVE_EBI1>;
-+			interconnect-names = "mdp0-mem";
-+
- 			iommus = <&apps_smmu 0x800 0x2>;
- 
- 			#address-cells = <2>;
+BR,
+Jani.
+
+
 -- 
-1.9.1
-
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
