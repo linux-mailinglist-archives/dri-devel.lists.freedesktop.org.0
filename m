@@ -1,73 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51DCC19BC7A
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 09:18:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7061719AB98
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 14:24:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4DE96E9EB;
-	Thu,  2 Apr 2020 07:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5938E6E934;
+	Wed,  1 Apr 2020 12:23:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C5FB6E92A
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 12:14:48 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id A16716B7;
- Wed,  1 Apr 2020 08:14:44 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 01 Apr 2020 08:14:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=riGmB2diO+qhO4m3ef50ZIgs9zg
- sZUj/MkF7JyIQwJI=; b=oyGr9tAximrzsF7O0+NzcvTkxWcOu82jh30GU02HAxV
- BgTEVeLBTUDvHDh7ITnIJyNlUt00vhabS8R0WITPRe2IpeO1S1rtb7aEmW0YZqqI
- JEX5QTivfKgwQTc+FDuRiF69oRTTluCLmbS3QS+6iT6yiPBvnw5I4YANjrelYJQd
- sPJTFKlJdh1Z41hPTMS4n2LaK2tYZtoOXWP7sRA7Nx5dPjsIiFlGJW3w3ZFQaHXG
- 5XD0QAdZpZ/lEbD07a6eM2UgCpe9nU13BhSmFeAdlELA6btZovMpR9MJFgt+RA0K
- yazrZiWlCbBJR1djx8+f0vL317MBN0PwZi7Y29rSbzg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=riGmB2
- diO+qhO4m3ef50ZIgs9zgsZUj/MkF7JyIQwJI=; b=lMnCqBKyKZuaWaiUIcHsJF
- zQjfxXc2s10I3qFb7O/EBhgSmp70u9lWMrdOq4MvliWiag6ynPWeFbtXmOTZ/AGt
- 8U22yjKFIcZ+l/sT4hzjcCq70vBo/04xUEHYog865lQltLnZ78LqEPJYWZH7I1rM
- rco6uLw7ywHp6T32IfDoFN2tkbG4YLYfigm1KM6JIl9xQ+PyQ30DPPOAjMGismHX
- eRKBtnOc6CwlOYA+59F0etlzgI8utmnlnBxFppekrmO3KG83kH2b2lx9PgIQ6H5R
- NC6u4pPkSe85PYHHW/yUYQvoYJ+dqqXmR1ITpNc6n+kFiaxmC7t1h4lvZC1kgYyw
- ==
-X-ME-Sender: <xms:soWEXg3RSaHT0QnHe8K7B-YKWUwa4oSvE-68KVwZJW7yxt2PhhtBpA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrtddvgdehtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinh
- epkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgv
- rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnh
- hordhtvggthh
-X-ME-Proxy: <xmx:soWEXovmjV_lepey-Hk9z-G609gxrC39fnoWQlr4ulRUzoJDCczXAg>
- <xmx:soWEXjjB9i-vcMsuOCzUZ-xp8lYxTEjTc2-egSPpBmNMBduCdJK6pw>
- <xmx:soWEXjyQqm9lJqFo_-NO6Q4Utr8G3YOhjh5X-s9ptvfPDc-kMS--GQ>
- <xmx:tIWEXiaFArDSF4BzmWCAud29O9nzIE_QM4Var0sTibOeTakTOPQweQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 462C6328006A;
- Wed,  1 Apr 2020 08:14:42 -0400 (EDT)
-Date: Wed, 1 Apr 2020 14:14:40 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andrey Lebedev <andrey@lebedev.lt>
-Subject: Re: [PATCH 5/5] drm/sun4i: tcon: Support LVDS output on Allwinner A20
-Message-ID: <20200401121440.z4hj3g5nnrpehhy6@gilmour.lan>
-References: <20200210195633.GA21832@kedthinkpad>
- <20200219180858.4806-1-andrey.lebedev@gmail.com>
- <20200219180858.4806-6-andrey.lebedev@gmail.com>
- <20200220172512.dmjtqgyay73x3ubx@gilmour.lan>
- <fa780b70-f1cc-ee4c-e779-089c7e9159ab@lebedev.lt>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C9AF6E934
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 12:23:57 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 031CNmac094694;
+ Wed, 1 Apr 2020 07:23:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1585743828;
+ bh=U3aEUgKICYKpbqDjPtLZKLQC/R6IQxmLct6xsxQgjf4=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=jDv7n+9bf55J5YE8TM20Zv45RBt5SfcNyryJ00Vw+sjAtIZsjkMRctkr+lpcL0awF
+ iirEkQcKNxNWC4gNsFJVoZYyCXKVwTLX4cdFyAeY4Z3XOK0XXas5HkE3AvWh8yu3Ux
+ jP3XDrvPoq+vRA+Zhtz0c1aKCVa5xhrUeatUPpGU=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 031CNmRH117071
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 1 Apr 2020 07:23:48 -0500
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 1 Apr
+ 2020 07:23:47 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Wed, 1 Apr 2020 07:23:47 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 031CNii7004464;
+ Wed, 1 Apr 2020 07:23:45 -0500
+Subject: Re: [PATCHv2 41/56] drm/omap: dsi: return proper error code from
+ dsi_update_all()
+To: Sebastian Reichel <sebastian.reichel@collabora.com>, Sebastian Reichel
+ <sre@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200224232126.3385250-1-sebastian.reichel@collabora.com>
+ <20200224232126.3385250-42-sebastian.reichel@collabora.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <d657f47f-5960-24d5-76dd-06f074e22a84@ti.com>
+Date: Wed, 1 Apr 2020 15:23:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <fa780b70-f1cc-ee4c-e779-089c7e9159ab@lebedev.lt>
-X-Mailman-Approved-At: Thu, 02 Apr 2020 07:17:56 +0000
+In-Reply-To: <20200224232126.3385250-42-sebastian.reichel@collabora.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,60 +64,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-sunxi@googlegroups.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
- linux-arm-kernel@lists.infradead.org,
- Andrey Lebedev <andrey.lebedev@gmail.com>
-Content-Type: multipart/mixed; boundary="===============1200006996=="
+Cc: kernel@collabora.com, Tony Lindgren <tony@atomide.com>, "H.
+ Nikolaus Schaller" <hns@goldelico.com>, Merlijn Wajer <merlijn@wizzup.org>,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 25/02/2020 01:21, Sebastian Reichel wrote:
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>   drivers/gpu/drm/omapdrm/dss/dsi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> index acbfffe83b3e..f629e6b1025b 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -3987,7 +3987,7 @@ static int dsi_update_all(struct omap_dss_device *dssdev)
+>   			return r;
+>   	}
+>   
+> -	return 0;
+> +	return r;
+>   }
+>   
+>   /* Display funcs */
+> 
 
---===============1200006996==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="4urpxa7m4yqglfam"
-Content-Disposition: inline
+Shouldn't this be squashed to earlier patch?
 
+  Tomi
 
---4urpxa7m4yqglfam
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Andrey,
-
-On Wed, Apr 01, 2020 at 01:59:27PM +0300, Andrey Lebedev wrote:
-> Hello Maxime,
->
-> Since Linus' merge window is now open, do I have to do anything to get this
-> merged into the mainline kernel?
-
-You don't have to do anything, it's already on its way to Linus:
-https://lore.kernel.org/lkml/CAPM=9twza_DeycOEhT+u6Erh0yFTAUe447J6bxWCLq5+QW8ZaA@mail.gmail.com/
-
-Maxime
-
---4urpxa7m4yqglfam
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXoSFsAAKCRDj7w1vZxhR
-xTv4AQD3RW3fxzBC0un1iccyOIDGwU4RRbxjDXtwj9WeWzIBdQD9E2WACdnxoyZs
-vikDyWZGzFHhl6C5fZJdL4IWWCh9Pgs=
-=ndqj
------END PGP SIGNATURE-----
-
---4urpxa7m4yqglfam--
-
---===============1200006996==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1200006996==--
