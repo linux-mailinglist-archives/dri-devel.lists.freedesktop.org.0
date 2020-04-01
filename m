@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFD6319A5D8
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:04:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F21A19A5E0
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 09:04:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 506EF6E8EA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7D4B6E8F2;
 	Wed,  1 Apr 2020 07:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id C9E016E8D8
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 02:23:25 +0000 (UTC)
-X-UUID: 073f40533d05470783e0566a1a6ce4ae-20200401
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1BC9D6E8CA
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 02:25:26 +0000 (UTC)
+X-UUID: 88d619244fdd4ff5bc346702305f340f-20200401
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=ozChR75QyhnkmzvgkYzHisLoS9xThMPk60TjOXq2y0w=; 
- b=LrWXeZee48NVlpQS5k8wlQhwHKfSKaPXYPbJZKl8dYF3B8LSXXJnuJPo+NKnV/RRT1sM50b7gqxW4ZMz3Qc8SAd16oF7HwdybB/jWwRKlKtbSDpddzwT0RNDgPWFC0R4h1QteteVWzIEL6orgbeZ9yPgiQWav8BI+tvWJXfWd6Y=;
-X-UUID: 073f40533d05470783e0566a1a6ce4ae-20200401
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
+ bh=EVfDkcSg67rWMGV0bZzmWDij5Lm1irRxXDFbaSycSd8=; 
+ b=eO/MFYa00Q6WgesBbYWNB5OWpjs0CKgLw5n4bvRtbIpchNoyCqDPKhmqzQ0iDZTwGHWIZ9pdKozf4dB5tNHIzLYwbqtU05c6ZkNurOxGr+hT3A2ns9TFKebVss5l47u8EUgFHSE16YdNEKCemeh4SimYzVdh4wTDZRJBoFpTQH8=;
+X-UUID: 88d619244fdd4ff5bc346702305f340f-20200401
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ (envelope-from <chunfeng.yun@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1675022153; Wed, 01 Apr 2020 10:18:20 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by mtkmbs05n2.mediatek.inc
- (172.21.101.140) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Wed, 1 Apr 2020 10:18:14 +0800
+ with ESMTP id 1947929388; Wed, 01 Apr 2020 10:20:21 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by mtkmbs05n1.mediatek.inc
+ (172.21.101.15) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Wed, 1 Apr 2020 10:20:19 +0800
 Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
  (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 1 Apr 2020 10:18:16 +0800
-Message-ID: <1585707503.28859.21.camel@mhfsdcap03>
-Subject: Re: [PATCH v3 3/4] phy: mediatek: Move mtk_hdmi_phy driver into
- drivers/phy/mediatek folder
+ Transport; Wed, 1 Apr 2020 10:20:17 +0800
+Message-ID: <1585707625.28859.23.camel@mhfsdcap03>
+Subject: Re: [PATCH v3 2/4] drm/mediatek: Separate mtk_hdmi_phy to an
+ independent module
 From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 1 Apr 2020 10:18:23 +0800
-In-Reply-To: <20200331155728.18032-4-chunkuang.hu@kernel.org>
+Date: Wed, 1 Apr 2020 10:20:25 +0800
+In-Reply-To: <20200331155728.18032-3-chunkuang.hu@kernel.org>
 References: <20200331155728.18032-1-chunkuang.hu@kernel.org>
- <20200331155728.18032-4-chunkuang.hu@kernel.org>
+ <20200331155728.18032-3-chunkuang.hu@kernel.org>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
 X-MTK: N
@@ -65,28 +65,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, 2020-03-31 at 23:57 +0800, Chun-Kuang Hu wrote:
 > From: CK Hu <ck.hu@mediatek.com>
 > 
-> mtk_hdmi_phy is currently placed inside mediatek drm driver, but it's
-> more suitable to place a phy driver into phy driver folder, so move
-> mtk_hdmi_phy driver into phy driver folder.
+> mtk_hdmi_phy is a part of mtk_hdmi module, but phy driver should be an
+> independent module rather than be part of drm module, so separate the phy
+> driver to an independent module.
 > 
 > Signed-off-by: CK Hu <ck.hu@mediatek.com>
 > Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 > ---
->  drivers/gpu/drm/mediatek/Kconfig                           | 7 -------
->  drivers/gpu/drm/mediatek/Makefile                          | 6 ------
->  drivers/phy/mediatek/Kconfig                               | 7 +++++++
->  drivers/phy/mediatek/Makefile                              | 7 +++++++
->  .../mediatek/phy-mtk-hdmi-mt2701.c}                        | 2 +-
->  .../mediatek/phy-mtk-hdmi-mt8173.c}                        | 2 +-
->  .../mtk_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi.c}         | 2 +-
->  .../mtk_hdmi_phy.h => phy/mediatek/phy-mtk-hdmi.h}         | 0
->  8 files changed, 17 insertions(+), 16 deletions(-)
->  rename drivers/{gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi-mt2701.c} (99%)
->  rename drivers/{gpu/drm/mediatek/mtk_mt8173_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi-mt8173.c} (99%)
->  rename drivers/{gpu/drm/mediatek/mtk_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi.c} (99%)
->  rename drivers/{gpu/drm/mediatek/mtk_hdmi_phy.h => phy/mediatek/phy-mtk-hdmi.h} (100%)
-> 
+>  drivers/gpu/drm/mediatek/Kconfig        |  9 ++++++++-
+>  drivers/gpu/drm/mediatek/Makefile       | 11 +++++++----
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c     |  2 +-
+>  drivers/gpu/drm/mediatek/mtk_hdmi.h     |  1 -
+>  drivers/gpu/drm/mediatek/mtk_hdmi_phy.c |  1 +
+>  drivers/gpu/drm/mediatek/mtk_hdmi_phy.h |  1 -
+>  6 files changed, 17 insertions(+), 8 deletions(-)
 Reviewed-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+
+Thanks a lot
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
