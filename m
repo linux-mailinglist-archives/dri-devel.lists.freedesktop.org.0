@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB5719B86C
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 00:30:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9968D19B86E
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 00:30:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFF656E9B3;
-	Wed,  1 Apr 2020 22:30:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48F756E9B2;
+	Wed,  1 Apr 2020 22:30:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21C576E9B1
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 22:30:44 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id x1so559354plm.4
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 15:30:44 -0700 (PDT)
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7236E9B5
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 22:30:45 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id np9so695178pjb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 15:30:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+UHZr1S+fMBNzXGIHOSytKqVQfIbVK86FNZw2xQd4Xs=;
- b=LVJhJof6AoBPjSmf7zZoXWLZmrdSlhLf56OQMc6Y1/CLwjjS/elN7u5tUoRD8bBKuE
- IEIlvOp4/L4IqYhkk3zf+HrG1LfLFJeoELd4IToKggOhV7v9e8CgolsAwYUbD9IbyyRj
- Uc4mFd58EiNqOI2pQkROX7DeFUKnn1aSGGoew=
+ bh=nylkiPKo5WUctc3Vw6/X59zIkxdB/2xhIqHvvfzv2CM=;
+ b=UpfwS3uXdKQ5+zN9pI1LOXL4r5WODfz11VuFEZVkcyumVOhcaYEy8bA1UpmhX2rEzt
+ a+xTxMuKp9rNSa6ra2e55krpkd7EJS4C4lbcoiui3v9vQnI2QH/bVh8V2r6oHBbz2dEY
+ cxfZZ2RIaq4HPsNSKVTqw3KuWabECHxuhq2HU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+UHZr1S+fMBNzXGIHOSytKqVQfIbVK86FNZw2xQd4Xs=;
- b=MTh5NhFWbo9PeNeJsNxq8lbt+YXUNAGZIEYQ0yIlYBUi2mi6nzevjNMJdeUZx8TC+K
- BIfOTyAy/WCu7+Wk7qNxDtY4AcxgyenI1tQ/uYTmslmEx0w7RO0UNEX7Atjw9aWtTEFz
- 4vZDhucl8ZRnnnLdx3Ir+ZNj55dZHGSut4tjsL7l7WCW4bkWd1IrLXEkhQS7N4JbLaLo
- 6ZeY8k5BQfCDwbqHmWrZ1I/QeBbUfhdsw/jy5X206bnDk1y2PL7LBizTBDUVVOdBe31T
- yYshbr5LERyhL9f3562KbBS6+GiriYRiO4dgVoIBHd0ajvuA3tJ8J7dQQqbxlU3iTl64
- wmkQ==
-X-Gm-Message-State: AGi0PuYKTS+e3sBAf3z8drnB3GcCUD5SC5SUt6weOE5G5gsIwK6WpESn
- UY5qz7B4gwFpd3mzOjMNTT3myjkQSB8=
-X-Google-Smtp-Source: APiQypJWoNgD7b/tMvLGBUpmY/QXewjzjlztnCExcYOerpPSdA6RgTVe+cMTI6jO6Pco2qGMEtwHzg==
-X-Received: by 2002:a17:90b:24c:: with SMTP id
- fz12mr232075pjb.85.1585780243432; 
- Wed, 01 Apr 2020 15:30:43 -0700 (PDT)
+ bh=nylkiPKo5WUctc3Vw6/X59zIkxdB/2xhIqHvvfzv2CM=;
+ b=iSO7bpwraknW0w4wwEeJdq4/EBm7B0BDG5z39+C6RBU7eX/cUrZxcMb4friauk9dig
+ XZZheqb2PYrpvPsRSd8ssm3hX/o1XckFw2WzGjzVZiqElvDO5q7fUtMXIjuOunRh8c+o
+ PnPtQojtq+M3QeOQIkKxZDV8K9PENIsPWUV6d9purpIyoBz4dDEeqvVlNqb2fgv5xDlJ
+ 5zVdGX1lEK1g01vQ5+JEJ30gcp5DWBsALFiv+Jzqp+YETon+eV2vDsJtBbZFY39jDmPV
+ YztC+hlnWvZ9R6bDy+KwqmHsymB2Jl5V85P8t9H/9XtCSmUIQWN4vgn2a4Lkez7KRIPl
+ 2V/Q==
+X-Gm-Message-State: AGi0PuZELFt0V1SgTrCTml6Cln3d6ZVe6Dl0EvQYg5sC5zyRRUtMJQg6
+ wVciKG+l/nQWtT7cfDHvk9ICEXws/1w=
+X-Google-Smtp-Source: APiQypJHedTo3CS8M7d3oNquTH9RSTe3AWM5bqqafvPgriqZfCmgG/8M0JKhqG02x6OLleJYbYzZRA==
+X-Received: by 2002:a17:90a:5d10:: with SMTP id s16mr296353pji.4.1585780244339; 
+ Wed, 01 Apr 2020 15:30:44 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:bc97:5740:52a7:6875])
- by smtp.gmail.com with ESMTPSA id w29sm2167311pge.25.2020.04.01.15.30.42
+ by smtp.gmail.com with ESMTPSA id w29sm2167311pge.25.2020.04.01.15.30.43
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Wed, 01 Apr 2020 15:30:42 -0700 (PDT)
+ Wed, 01 Apr 2020 15:30:43 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/5] drm/virtio: delete notify in virtio_gpu_object_create
-Date: Wed,  1 Apr 2020 15:30:37 -0700
-Message-Id: <20200401223039.2860-3-gurchetansingh@chromium.org>
+Subject: [PATCH 4/5] drm/virtio: make virtio_gpu_object_attach void
+Date: Wed,  1 Apr 2020 15:30:38 -0700
+Message-Id: <20200401223039.2860-4-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200401223039.2860-1-gurchetansingh@chromium.org>
 References: <20200401223039.2860-1-gurchetansingh@chromium.org>
@@ -71,52 +70,74 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For 3D buffers, virtio_gpu_gem_object_open notifies.
-We can have the same behavior for dumb buffer.
-
-v2: virtio_gpu_gem_object_open always notifies
-v3: avoid boolean variable
+It always returns zero.
 
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_gem.c    | 3 ++-
- drivers/gpu/drm/virtio/virtgpu_object.c | 1 -
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_drv.h    | 8 ++++----
+ drivers/gpu/drm/virtio/virtgpu_object.c | 6 +-----
+ drivers/gpu/drm/virtio/virtgpu_vq.c     | 9 ++++-----
+ 3 files changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-index 90c0a8ea1708c..1025658be4df2 100644
---- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-@@ -114,7 +114,7 @@ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
- 	struct virtio_gpu_object_array *objs;
- 
- 	if (!vgdev->has_virgl_3d)
--		return 0;
-+		goto out_notify;
- 
- 	objs = virtio_gpu_array_alloc(1);
- 	if (!objs)
-@@ -123,6 +123,7 @@ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
- 
- 	virtio_gpu_cmd_context_attach_resource(vgdev, vfpriv->ctx_id,
- 					       objs);
-+out_notify:
- 	virtio_gpu_notify(vgdev);
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 79ad176aca5a8..49bebdee6d91e 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -279,10 +279,10 @@ void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
+ 				uint32_t scanout_id, uint32_t resource_id,
+ 				uint32_t width, uint32_t height,
+ 				uint32_t x, uint32_t y);
+-int virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
+-			     struct virtio_gpu_object *obj,
+-			     struct virtio_gpu_mem_entry *ents,
+-			     unsigned int nents);
++void virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
++			      struct virtio_gpu_object *obj,
++			      struct virtio_gpu_mem_entry *ents,
++			      unsigned int nents);
+ int virtio_gpu_attach_status_page(struct virtio_gpu_device *vgdev);
+ int virtio_gpu_detach_status_page(struct virtio_gpu_device *vgdev);
+ void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
 diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index d9039bb7c5e37..51a8da7d5ef3b 100644
+index 51a8da7d5ef3b..6ccbd01cd888c 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_object.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -241,7 +241,6 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+@@ -235,11 +235,7 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
  		return ret;
  	}
  
--	virtio_gpu_notify(vgdev);
+-	ret = virtio_gpu_object_attach(vgdev, bo, ents, nents);
+-	if (ret != 0) {
+-		virtio_gpu_free_object(&shmem_obj->base);
+-		return ret;
+-	}
++	virtio_gpu_object_attach(vgdev, bo, ents, nents);
+ 
  	*bo_ptr = bo;
  	return 0;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 73854915ec349..9e663a5d99526 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -1087,14 +1087,13 @@ void virtio_gpu_cmd_submit(struct virtio_gpu_device *vgdev,
+ 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
+ }
  
+-int virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
+-			     struct virtio_gpu_object *obj,
+-			     struct virtio_gpu_mem_entry *ents,
+-			     unsigned int nents)
++void virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
++			      struct virtio_gpu_object *obj,
++			      struct virtio_gpu_mem_entry *ents,
++			      unsigned int nents)
+ {
+ 	virtio_gpu_cmd_resource_attach_backing(vgdev, obj->hw_res_handle,
+ 					       ents, nents, NULL);
+-	return 0;
+ }
+ 
+ void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
 -- 
 2.24.1
 
