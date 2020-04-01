@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8514919B86B
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 00:30:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB5719B86C
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 00:30:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CF436E9B1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFF656E9B3;
 	Wed,  1 Apr 2020 22:30:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 296C06E998
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 22:30:43 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id z3so682488pjr.4
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 15:30:43 -0700 (PDT)
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21C576E9B1
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 22:30:44 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id x1so559354plm.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 15:30:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vvIln4ea2cKUuBRn/jGt0NGfa231I0yrBgDkEYXyLHk=;
- b=Lm+XZ2oKaXCg38hsFMY5vwzyvt2VNSIySpErJWlob/U6vfnS6VurSGvzM+7kBocZI/
- GLdLot/x5aJbjajSMD7Da2hfD3Qth7zTCWouJqve+o1sDzRSvHVoSLmZ20bl2WPuzzAD
- Q9dlf9c+/GhxfXF0zgRuWULmC/+wtdVxGcSf4=
+ bh=+UHZr1S+fMBNzXGIHOSytKqVQfIbVK86FNZw2xQd4Xs=;
+ b=LVJhJof6AoBPjSmf7zZoXWLZmrdSlhLf56OQMc6Y1/CLwjjS/elN7u5tUoRD8bBKuE
+ IEIlvOp4/L4IqYhkk3zf+HrG1LfLFJeoELd4IToKggOhV7v9e8CgolsAwYUbD9IbyyRj
+ Uc4mFd58EiNqOI2pQkROX7DeFUKnn1aSGGoew=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vvIln4ea2cKUuBRn/jGt0NGfa231I0yrBgDkEYXyLHk=;
- b=HFm4EyLSeoJRCt9nmttTz3KOcgY0s+7JKOIjbfzn73dPTUJUS+HL5tbEWhNz5tquO5
- RC1gcW1DRvYL1Dx6Jt+dazfbCbaPbPAI2Uuyp7ZcMAjSLd3KJfUMQiIyrXh/rB/AI7tl
- D8NRm17Z0YIkbE4jHyYPmi1dNIT5y1xei60ppXxsZp+fcNBooMzHPKmm/Vl/GLhlyNK4
- kOijz8/b+II4hLpA60v/Tx7mwgS3othdY+hP3biNNY3da/Rx8mNrK71iy/STiu7JE153
- 0gKKW3CDQSi9afeyqg6PJr+pWKHvRQAmCungospmoZLaCu94T21gBsbOclPIBa46y8u5
- j5Mw==
-X-Gm-Message-State: AGi0Puar25dLoLRo4zXRyEnX+giE70/lq++oAeY93+cePeuid32NHteM
- /TyKvKMfWzbFC8YWGsTqvDFASsobDi4=
-X-Google-Smtp-Source: APiQypKcmm+LndDytd1AuEqylfrSjsG++4e+s/jnD0nUQxGLPKYIkqxZoX8aMJW2V0wnzHgY/K/P7Q==
-X-Received: by 2002:a17:902:ba8e:: with SMTP id
- k14mr68814pls.103.1585780242520; 
- Wed, 01 Apr 2020 15:30:42 -0700 (PDT)
+ bh=+UHZr1S+fMBNzXGIHOSytKqVQfIbVK86FNZw2xQd4Xs=;
+ b=MTh5NhFWbo9PeNeJsNxq8lbt+YXUNAGZIEYQ0yIlYBUi2mi6nzevjNMJdeUZx8TC+K
+ BIfOTyAy/WCu7+Wk7qNxDtY4AcxgyenI1tQ/uYTmslmEx0w7RO0UNEX7Atjw9aWtTEFz
+ 4vZDhucl8ZRnnnLdx3Ir+ZNj55dZHGSut4tjsL7l7WCW4bkWd1IrLXEkhQS7N4JbLaLo
+ 6ZeY8k5BQfCDwbqHmWrZ1I/QeBbUfhdsw/jy5X206bnDk1y2PL7LBizTBDUVVOdBe31T
+ yYshbr5LERyhL9f3562KbBS6+GiriYRiO4dgVoIBHd0ajvuA3tJ8J7dQQqbxlU3iTl64
+ wmkQ==
+X-Gm-Message-State: AGi0PuYKTS+e3sBAf3z8drnB3GcCUD5SC5SUt6weOE5G5gsIwK6WpESn
+ UY5qz7B4gwFpd3mzOjMNTT3myjkQSB8=
+X-Google-Smtp-Source: APiQypJWoNgD7b/tMvLGBUpmY/QXewjzjlztnCExcYOerpPSdA6RgTVe+cMTI6jO6Pco2qGMEtwHzg==
+X-Received: by 2002:a17:90b:24c:: with SMTP id
+ fz12mr232075pjb.85.1585780243432; 
+ Wed, 01 Apr 2020 15:30:43 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:bc97:5740:52a7:6875])
- by smtp.gmail.com with ESMTPSA id w29sm2167311pge.25.2020.04.01.15.30.41
+ by smtp.gmail.com with ESMTPSA id w29sm2167311pge.25.2020.04.01.15.30.42
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
  Wed, 01 Apr 2020 15:30:42 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/5] drm/virtio: delete notify after
- virtio_gpu_cmd_context_create
-Date: Wed,  1 Apr 2020 15:30:36 -0700
-Message-Id: <20200401223039.2860-2-gurchetansingh@chromium.org>
+Subject: [PATCH 3/5] drm/virtio: delete notify in virtio_gpu_object_create
+Date: Wed,  1 Apr 2020 15:30:37 -0700
+Message-Id: <20200401223039.2860-3-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200401223039.2860-1-gurchetansingh@chromium.org>
 References: <20200401223039.2860-1-gurchetansingh@chromium.org>
@@ -72,26 +71,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The first 3D ioctl will take care of notification.
+For 3D buffers, virtio_gpu_gem_object_open notifies.
+We can have the same behavior for dumb buffer.
+
+v2: virtio_gpu_gem_object_open always notifies
+v3: avoid boolean variable
 
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_ioctl.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/virtio/virtgpu_gem.c    | 3 ++-
+ drivers/gpu/drm/virtio/virtgpu_object.c | 1 -
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index 336cc9143205d..867c5e239d553 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -47,7 +47,6 @@ static void virtio_gpu_create_context(struct drm_device *dev,
- 	get_task_comm(dbgname, current);
- 	virtio_gpu_cmd_context_create(vgdev, vfpriv->ctx_id,
- 				      strlen(dbgname), dbgname);
--	virtio_gpu_notify(vgdev);
- 	vfpriv->context_created = true;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+index 90c0a8ea1708c..1025658be4df2 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_gem.c
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+@@ -114,7 +114,7 @@ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
+ 	struct virtio_gpu_object_array *objs;
  
- out_unlock:
+ 	if (!vgdev->has_virgl_3d)
+-		return 0;
++		goto out_notify;
+ 
+ 	objs = virtio_gpu_array_alloc(1);
+ 	if (!objs)
+@@ -123,6 +123,7 @@ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
+ 
+ 	virtio_gpu_cmd_context_attach_resource(vgdev, vfpriv->ctx_id,
+ 					       objs);
++out_notify:
+ 	virtio_gpu_notify(vgdev);
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index d9039bb7c5e37..51a8da7d5ef3b 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -241,7 +241,6 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 		return ret;
+ 	}
+ 
+-	virtio_gpu_notify(vgdev);
+ 	*bo_ptr = bo;
+ 	return 0;
+ 
 -- 
 2.24.1
 
