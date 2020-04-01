@@ -2,43 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F55019A295
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 01:39:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 331F119A2DA
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 02:31:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB886E216;
-	Tue, 31 Mar 2020 23:39:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0717A88DE5;
+	Wed,  1 Apr 2020 00:31:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D2A96E216
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 23:39:10 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207047] New: Crash after failed to pin userptr on amdgpu
-Date: Tue, 31 Mar 2020 23:39:09 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: me@artem.ist
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-207047-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2E02894DD
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 00:31:19 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1585701083; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=jKs23a+KxYOIlOtupnaTWCe1cd9luMMtAARYPo2luxQ=;
+ b=C4Bk0ECOfDHpgdRE5dsjVzkVILuE4K8az3SBYO2Ca7KLT/3KduQgZ7mOQqihf55s6XCDw1d9
+ +gWHFzZYc4MzzYjiZ0pv5vGabb3jLKrRdkI8z6xuUDMv1A5Iu3ef1nCuH59sr4+D+BvTRmoX
+ 2pVMRRcDFjePbWWod3x7tNUAvJs=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e83e0c9.7f83bdc6a228-smtp-out-n04;
+ Wed, 01 Apr 2020 00:31:05 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 1CAFBC44788; Wed,  1 Apr 2020 00:31:04 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from displaysanity13-linux.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: varar)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A5AC6C433F2;
+ Wed,  1 Apr 2020 00:31:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A5AC6C433F2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=tanmay@codeaurora.org
+From: Tanmay Shah <tanmay@codeaurora.org>
+To: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, seanpaul@chromium.org, swboyd@chromium.org
+Subject: [DPU PATCH v5 0/5] Add support for DisplayPort driver on SnapDragon. 
+Date: Tue, 31 Mar 2020 17:30:26 -0700
+Message-Id: <1585701031-28871-1-git-send-email-tanmay@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,41 +63,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, abhinavk@codeaurora.org,
+ hoegsberg@google.com, Tanmay Shah <tanmay@codeaurora.org>,
+ aravindh@codeaurora.org, linux-clk@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207047
+These patches add support for Display-Port driver on SnapDragon 845 hardware. It adds
+DP driver and DP PLL driver files along with the needed device-tree bindings.
 
-            Bug ID: 207047
-           Summary: Crash after failed to pin userptr on amdgpu
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.5.13
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: me@artem.ist
-        Regression: No
+The block diagram of DP driver is shown below:
 
-Created attachment 288139
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288139&action=edit
-dmesg output since usermode crash that caused bug
 
-When a user-mode program crashes while using amdgpu resources amdgpu fails to
-pin userptr then segfaults in the GPU scheduler. This occured while attempting
-to port a program to use Wayland and Vulkan on AMD Ryzen 3700X and AMD RX580
-using unmodified amdgpu drivers.
+                 +-------------+
+                 |DRM FRAMEWORK|
+                 +------+------+
+                        |
+                   +----v----+
+                   | DP DRM  |
+                   +----+----+
+                        |
+                   +----v----+
+     +------------+|   DP    +----------++------+
+     +             | DISPLAY |+---+      |      |
+     |             +-+-----+-+    |      |      |
+     |               |     |      |      |      |
+     |               |     |      |      |      |
+     |               |     |      |      |      |
+     v               v     v      v      v      v
+ +------+          +---+ +----+ +----+ +---+ +-----+
+ |  DP  |          |DP | | DP | | DP | |DP | | DP  |
+ |PARSER|          |AUX| |LINK| |CTRL| |PHY| |POWER|
+ +--+---+          +---+ +----+ +--+-+ +-+-+ +-----+
+    |                              |     |
+ +--v---+                         +v-----v+
+ |DEVICE|                         |  DP   |
+ | TREE |                         |CATALOG|
+ +------+                         +---+---+
+                                      |
+                                  +---v----+
+                                  |CTRL/PHY|
+                                  |   HW   |
+                                  +--------+
+
+
+These patches have dependency on clock driver changes mentioned below:
+https://patchwork.kernel.org/patch/10632753/ 
+https://patchwork.kernel.org/patch/10632757/
+
+Chandan Uddaraju (4):
+  dt-bindings: msm/dp: add bindings of DP/DP-PLL driver for Snapdragon
+  drm: add constant N value in helper file
+  drm/msm/dp: add displayPort driver support
+  drm/msm/dp: add support for DP PLL driver
+
+Jeykumar Sankaran (1):
+  drm/msm/dpu: add display port support in DPU
+
+ .../devicetree/bindings/display/msm/dp-sc7180.yaml |  325 ++++
+ .../devicetree/bindings/display/msm/dpu.txt        |   16 +-
+ drivers/gpu/drm/i915/display/intel_display.c       |    2 +-
+ drivers/gpu/drm/msm/Kconfig                        |   21 +
+ drivers/gpu/drm/msm/Makefile                       |   16 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |   28 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |    8 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   65 +-
+ drivers/gpu/drm/msm/dp/dp_aux.c                    |  531 ++++++
+ drivers/gpu/drm/msm/dp/dp_aux.h                    |   35 +
+ drivers/gpu/drm/msm/dp/dp_catalog.c                |  988 +++++++++++
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |   86 +
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   | 1707 ++++++++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |   35 +
+ drivers/gpu/drm/msm/dp/dp_display.c                |  943 +++++++++++
+ drivers/gpu/drm/msm/dp/dp_display.h                |   31 +
+ drivers/gpu/drm/msm/dp/dp_drm.c                    |  170 ++
+ drivers/gpu/drm/msm/dp/dp_drm.h                    |   19 +
+ drivers/gpu/drm/msm/dp/dp_hpd.c                    |   69 +
+ drivers/gpu/drm/msm/dp/dp_hpd.h                    |   79 +
+ drivers/gpu/drm/msm/dp/dp_link.c                   | 1216 ++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_link.h                   |  132 ++
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  490 ++++++
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |   95 ++
+ drivers/gpu/drm/msm/dp/dp_parser.c                 |  473 ++++++
+ drivers/gpu/drm/msm/dp/dp_parser.h                 |  220 +++
+ drivers/gpu/drm/msm/dp/dp_power.c                  |  545 +++++++
+ drivers/gpu/drm/msm/dp/dp_power.h                  |  115 ++
+ drivers/gpu/drm/msm/dp/dp_reg.h                    |  489 ++++++
+ drivers/gpu/drm/msm/dp/pll/dp_pll.c                |  127 ++
+ drivers/gpu/drm/msm/dp/pll/dp_pll.h                |   57 +
+ drivers/gpu/drm/msm/dp/pll/dp_pll_10nm.c           |  401 +++++
+ drivers/gpu/drm/msm/dp/pll/dp_pll_10nm.h           |   86 +
+ drivers/gpu/drm/msm/dp/pll/dp_pll_10nm_util.c      |  524 ++++++
+ drivers/gpu/drm/msm/msm_drv.c                      |    2 +
+ drivers/gpu/drm/msm/msm_drv.h                      |   53 +-
+ include/drm/drm_dp_helper.h                        |    2 +
+ 37 files changed, 10178 insertions(+), 23 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_aux.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_aux.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_catalog.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_catalog.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_ctrl.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_ctrl.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_display.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_display.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_drm.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_drm.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_hpd.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_hpd.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_link.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_link.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_panel.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_panel.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_parser.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_parser.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_power.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_power.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_reg.h
+ create mode 100644 drivers/gpu/drm/msm/dp/pll/dp_pll.c
+ create mode 100644 drivers/gpu/drm/msm/dp/pll/dp_pll.h
+ create mode 100644 drivers/gpu/drm/msm/dp/pll/dp_pll_10nm.c
+ create mode 100644 drivers/gpu/drm/msm/dp/pll/dp_pll_10nm.h
+ create mode 100644 drivers/gpu/drm/msm/dp/pll/dp_pll_10nm_util.c
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
