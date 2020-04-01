@@ -1,51 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC2319B5D5
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 20:42:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2E019BC82
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 09:18:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88CE86E984;
-	Wed,  1 Apr 2020 18:42:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44C826E9E1;
+	Thu,  2 Apr 2020 07:18:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02E4C6E983;
- Wed,  1 Apr 2020 18:42:35 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id t17so521022ljc.12;
- Wed, 01 Apr 2020 11:42:35 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B7366E983
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 18:38:27 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id j17so1218906wru.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 11:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=IrrldTgAN7hTfBxih+s1Nww8MyB4MUn1MXU0pAaOgKQ=;
- b=dxgLbEc28YpYyaU/j3FsFhXcNLqv3nYdw7RQrUl7uJ+mvBqE7U8IIW4YLfwyxx2XdK
- vK7NRcwbd6v0DUDLBwJLfqe5Ol9FZ5kA4/tIo8RuLju3UBXFXyngW7Wg8Ze5uB2qldGL
- pbjSwavROa8Es8Q75coGgcdi9j5xJ05UOyQNQ8R+rGsaD4q/iywU3kS9sALenyC3k5Zd
- HsnhcWGxSXKbgnpAtGt6vARV7hlPw1DdjR1pDlfsL6jrSQnd97Qs5QiKgH30zNqndtV3
- y/3McEz31pH6tRpOj91gc9pEIf3SjCqFUekY6XVwbxUU0bYXwW/tlzaQMZe5WufHYtNd
- bAvw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=peAJjtDQg/2A1FS43m5gFLWbl2kMRlMPGVs3RKXnXPk=;
+ b=ffUsEswzhsOpKVQX/NQMjXLnB3nOsBYYDbc9nY3JwBCx+0XusGP5dy4wCf0ZtyQSTf
+ Qk8V4NBGcTSeJ8PPXuu88iS34jL8qXyq684SBTsxRsriiqppTsNMbEP/DawmaKNphW/B
+ oSNpT349rfBsT5UWjpDF0ixkyRqtLVvdD6npIaEtgf3nel+gpNUXSD96ihfAYGCOmEyv
+ 4VPuMsZjAI8ks2hwwgpvW8pI7un2RGIaOVvHSYUqtVscLuk91k/cOXEtzXAI8IQ4Jsih
+ LrnTxneHm0drzD11JhSojc3lqkD+SunlWT33/aDHmOhJuTtixN2hZOPQUls392P5m/Q9
+ U+WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=IrrldTgAN7hTfBxih+s1Nww8MyB4MUn1MXU0pAaOgKQ=;
- b=j/QT+JMRhO3W4ODTA0qZYufE0r8l+vgPZzqs7VUX2lvax9cYVvnimffUXNFS53XvuA
- PK4yATwpllL8OqHxZH2RmpbVfeZaBP1CcFDB8/XGkbze056Hr0P56US/DyxP/gHgHZuZ
- +VGw6fbsvIrgBw9pfnRpq/b8C3jNOypWlVbrZnecZ9ofZvGkr9AytuwCC3m9Zr/9se23
- HqHoZQmekjM/CK2O0D1wWRfxBXtF9bec3DrWdUtxPEtcUR5u22TXiNWiV0EGZ+zJ8IxD
- N7BPfOuYv01rCXhJSkl5S4LP5m0IgcZJosVHLR5+56lX35JOSfzj+sN7J0R2jlE8zpaN
- isMQ==
-X-Gm-Message-State: AGi0Pua5G9PPAESfx4BlTYG7Z+Loirq7EP5vW/+B+NbN/HVOTsjY5cfu
- cONYcZcj1ahNEuh+c64BP1QXbtQdXPRxRFDXK1k=
-X-Google-Smtp-Source: APiQypINhs3c3OXYf+uTLmRtByz48UJcG+m1SnlDQU0z4kHCJ/dUDgk88oXaDrvmhYj01dL8RfxuM9eeYUghLE3LLBg=
-X-Received: by 2002:a2e:b4d1:: with SMTP id r17mr2922655ljm.117.1585766554155; 
- Wed, 01 Apr 2020 11:42:34 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=peAJjtDQg/2A1FS43m5gFLWbl2kMRlMPGVs3RKXnXPk=;
+ b=NRdTvn3hE6HKy4mu1WfaBu/dzKXOFcenzh61/EXnZzYXKX6wtBbSOCeXUG1ho2Wkd3
+ gfrI8mWwT1vF4BT6grNMfhaLf7Y6d37NmLnaHM7Fz1uQ/kfxgFES+qJPBaOdzayK2yqt
+ Ttm1k6mWFlaGvJWEHcKCnvbsQHCt1O/26GrSY00RGMq6FUr54Jtd7FV3J+dfaCpgSTLQ
+ utAFiJ7ZToyOFDAjWcA9r4pSYBeYq1grJZqDacicM8zbUWp9pyfypj4isSF0rxNhPgvU
+ PgM+BqFxSV3SFh7YFYAOAMkSaFl7OqP9Lf+22QWAjwQuQyaDN9sKIZb8RcWfds940YPo
+ 3OkA==
+X-Gm-Message-State: ANhLgQ3n83NuIsbFW/rTc24dJfQzGt9Ps8JlShNgNKp7FtO/ZDfJAOci
+ gfOVXPbo1BbS8RXerXZIaAqRggsZx54=
+X-Google-Smtp-Source: ADFU+vu2gSEdMxGImKW4b8x/IiulFcn4UN70VuEN2M9Ysu4Xbi4xIy7NSw+2oEup6KRoJDMJfmE49Q==
+X-Received: by 2002:adf:e44a:: with SMTP id t10mr27007495wrm.322.1585766305545; 
+ Wed, 01 Apr 2020 11:38:25 -0700 (PDT)
+Received: from brihaspati.fritz.box (p5DE52E4E.dip0.t-ipconnect.de.
+ [93.229.46.78])
+ by smtp.gmail.com with ESMTPSA id b11sm3976973wrq.26.2020.04.01.11.38.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Apr 2020 11:38:24 -0700 (PDT)
+From: Nirmoy Das <nirmoy.aiemd@gmail.com>
+X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 0/8] do not store GPU address in TTM
+Date: Wed,  1 Apr 2020 20:42:39 +0200
+Message-Id: <20200401184247.16643-1-nirmoy.das@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 1 Apr 2020 15:42:23 -0300
-Message-ID: <CAOMZO5BL58oJH6EwYQ3wnzCrKpeadte6NLSRXM=qY0PCAiqkOA@mail.gmail.com>
-Subject: gpu: msm: possible circular locking dependency detected on 5.5
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Jordan Crouse <jcrouse@codeaurora.org>
+X-Mailman-Approved-At: Thu, 02 Apr 2020 07:17:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,134 +67,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- Chris Healy <cphealy@gmail.com>
+Cc: thellstrom@vmware.com, airlied@linux.ie, kenny.ho@amd.com,
+ brian.welty@intel.com, nirmoy.das@amd.com,
+ linux-graphics-maintainer@vmware.com, bskeggs@redhat.com,
+ alexander.deucher@amd.com, sean@poorly.run, christian.koenig@amd.com,
+ kraxel@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+With this patch series I am trying to remove GPU address dependency in
+TTM and moving GPU address calculation to individual drm drivers. This
+cleanup will simplify introduction of drm_mem_region/domain work started
+by Brian Welty[1].
 
-Here is an adreno regression I noticed on imx53 running 5.5.13:
 
-[   21.283902] ======================================================
-[   21.290148] WARNING: possible circular locking dependency detected
-[   21.296409] 5.5.13 #1 Not tainted
-[   21.299785] ------------------------------------------------------
-[   21.306030] kworker/u2:1/19 is trying to acquire lock:
-[   21.311236] dc888ae8 (reservation_ww_class_mutex){+.+.}, at:
-dma_buf_detach+0x78/0x1e0
-[   21.319341]
-[   21.319341] but task is already holding lock:
-[   21.325232] dc88838c (&msm_obj->lock){+.+.}, at:
-msm_gem_free_work+0x100/0x188
-[   21.332587]
-[   21.33258[   32.525073] evbug: Event. Dev: input1, Type: 3, Code:
-1, Value: 41
-[   32.531942] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
-7] which lock already depends on the new lock.
-[   21.332587]
-[   21.340823]
-[   21.340823] the existing dependency chain (in reverse order) is:
-[   21.348362]
-[   21.348362] -> #1 (&msm_obj->lock){+.+.}:
-[   21.353989]        mutex_lock_nested+0x1c/0x24
-[   21.358514]        msm_gem_get_and_pin_iova+0x30/0x158
-[   21.363733]        msm_ioctl_gem_submit+0xa90/0x1148
-[   21.368775]        drm_ioctl_kernel+0xa4/0xec
-[   21.373203]        drm_ioctl+0x1e0/0x3c8
-[   21.377215]        do_vfs_ioctl+0x9c/0xa68
-[   21.381388]        ksys_ioctl+0x34/0x60
-[   21.385304]        ret_fast_syscall+0x0/0x28
-[   21.389646]        0xbea6f8d8
-[   21.392670]
-[   21.392670] -> #0 (reservation_ww_class_mutex){+.+.}:
-[   21.399333]        lock_acquire+0xcc/0x1ec
-[   21.403516]        __ww_mutex_lock.constprop.8+0x94/0x10a4
-[   21.409080]        ww_mutex_lock+0x78/0xb0
-[   21.413261]        dma_buf_detach+0x78/0x1e0
-[   21.417637]        drm_prime_gem_destroy+0x2c/0x38
-[   21.422505]        msm_gem_free_work+0x88/0x188
-[   21.427133]        process_one_work+0x2c4/0x754
-[   21.431744]        worker_thread+0x2c/0x590
-[   21.436015]        kthread+0x134/0x148
-[   21.439838]        ret_from_fork+0x14/0x20
-[   21.444000]        0x0
-[   21.446418]
-[   21.446418] other info that might help us debug this:
-[   21.446418]
-[   21.454483]  Possible unsafe locking scenario:
-[   21.454483]
-[   21.460460]        CPU0                    CPU1
-[   21.465044]        ----                    ----
-[   21.469627]   lock(&msm_obj->lock);
-[   21.473190]                                lock(reservation_ww_class_mutex);
-[   21.480314]                                lock(&msm_obj->lock);
-[   21.486392]   lock(reservation_ww_class_mutex);
-[   21.490996]
-[   21.490996]  *** DEADLOCK ***
-[   21.490996]
-[   21.496985] 4 locks held by kworker/u2:1/19:
-[   21.501311]  #0: dc43a6a0 ((wq_completion)msm){+.+.}, at:
-process_one_work+0x210/0x754
-[   21.509358]  #1: dc207f1c
-((work_completion)(&priv->free_work)){+.+.}, at:
-process_one_work+0x210/0x754
-[   21.518876]  #2: dc3a7070 (&dev->struct_mutex){+.+.}, at:
-msm_gem_free_work+0x4c/0x188
-[   21.526915]  #3: dc88838c (&msm_obj->lock){+.+.}, at:
-msm_gem_free_work+0x100/0x188
-[   21.534692]
-[   21.534692] stack backtrace:
-[   21.539136] CPU: 0 PID: 19 Comm: kworker/u2:1 Not tainted 5.5.13 #1
-[   21.545470] Hardware name: Freescale i.MX53 (Device Tree Support)
-[   21.551667] Workqueue: msm msm_gem_free_work
-[   21.556087] [<c0112e18>] (unwind_backtrace) from [<c010cda0>]
-(show_stack+0x10/0x14)
-[   21.563950] [<c010cda0>] (show_stack) from [<c0c9989c>]
-(dump_stack+0xe4/0x11c)
-[   21.571372] [<c0c9989c>] (dump_stack) from [<c0180334>]
-(check_noncircular+0x130/0x1e4)
-[   21.579486] [<c0180334>] (check_noncircular) from [<c0182450>]
-(__lock_acquire+0xf58/0x2458)
-[   21.588030] [<c0182450>] (__lock_acquire) from [<c01841bc>]
-(lock_acquire+0xcc/0x1ec)
-[   21.595976] [<c01841bc>] (lock_acquire) from [<c0cb887c>]
-(__ww_mutex_lock.constprop.8+0x94/0x10a4)
-[   21.605134] [<c0cb887c>] (__ww_mutex_lock.constprop.8) from
-[<c0cb99b4>] (ww_mutex_lock+0x78/0xb0)
-[   21.614207] [<c0cb99b4>] (ww_mutex_lock) from [<c070c078>]
-(dma_buf_detach+0x78/0x1e0)
-[   21.622239] [<c070c078>] (dma_buf_detach) from [<c06276e8>]
-(drm_prime_gem_destroy+0x2c/0x38)
-[   21.630874] [<c06276e8>] (drm_prime_gem_destroy) from [<c0696b48>]
-(msm_gem_free_work+0x88/0x188)
-[   21.639854] [<c0696b48>] (msm_gem_free_work) from [<c0148228>]
-(process_one_work+0x2c4/0x754)
-[   21.648487] [<c0148228>] (process_one_work) from [<c01486e4>]
-(worker_thread+0x2c/0x590)
-[   21.656681] [<c01486e4>] (worker_thread) from [<c01505f0>]
-(kthread+0x134/0x148)
-[   21.664176] [<c01505f0>] (kthread) from [<c01010b4>]
-(ret_from_fork+0x14/0x20)
-[   21.671470] Exception stack(0xdc207fb0 to 0xdc207ff8)
+It would be nice if someone test this for nouveau. Rest of the drivers
+are already tested.
 
-In order to reproduce it, I just launch kmscube and it starts running normally.
+v2:
+* set bo->offset = 0 for drm/nouveau if bo->mem.mm_node == NULL
 
-Then I do a "CTRL + C" and the message below appears.
+v3:
+* catch return value of drm_gem_vram_offset() in drm/bochs
+* introduce drm_gem_vram_pg_offset() in vram helper
+* improve nbo->offset calculation for nouveau
 
-Testing on 5.4.x I don't see this problem.
+v4:
+* minor coding style fixes in amdgpu and radeon
+* remove unnecessary kerneldoc for internal function
 
-I haven't started bisecting this yet, but just checking if anyone has
-any ideas first.
+v5:
+* rebase on top of drm-misc-next
+* fix return value of drm_gem_vram_pg_offset()
+* add a comment in drm_gem_vram_pg_offset() to clearify why we return 0.
 
-Thanks,
+Nirmoy Das (8):
+  drm/amdgpu: move ttm bo->offset to amdgpu_bo
+  drm/radeon: don't use ttm bo->offset
+  drm/vmwgfx: don't use ttm bo->offset
+  drm/nouveau: don't use ttm bo->offset v3
+  drm/qxl: don't use ttm bo->offset
+  drm/vram-helper: don't use ttm bo->offset v4
+  drm/bochs: use drm_gem_vram_offset to get bo offset v2
+  drm/ttm: do not keep GPU dependent addresses
 
-Fabio Estevam
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  | 22 ++++++++++++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c     | 29 ++++++++++++++++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h     |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c |  2 +-
+ drivers/gpu/drm/bochs/bochs_kms.c           |  7 ++++-
+ drivers/gpu/drm/drm_gem_vram_helper.c       | 11 +++++++-
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c     |  6 ++---
+ drivers/gpu/drm/nouveau/dispnv04/disp.c     |  2 +-
+ drivers/gpu/drm/nouveau/dispnv04/overlay.c  |  6 ++---
+ drivers/gpu/drm/nouveau/dispnv50/base507c.c |  2 +-
+ drivers/gpu/drm/nouveau/dispnv50/core507d.c |  2 +-
+ drivers/gpu/drm/nouveau/dispnv50/ovly507e.c |  2 +-
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c     |  2 +-
+ drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_abi16.c     |  8 +++---
+ drivers/gpu/drm/nouveau/nouveau_bo.c        |  8 ++++++
+ drivers/gpu/drm/nouveau/nouveau_bo.h        |  3 +++
+ drivers/gpu/drm/nouveau/nouveau_chan.c      |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_dmem.c      |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c     |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_gem.c       | 10 +++----
+ drivers/gpu/drm/qxl/qxl_drv.h               |  6 ++---
+ drivers/gpu/drm/qxl/qxl_kms.c               |  5 ++--
+ drivers/gpu/drm/qxl/qxl_object.h            |  5 ----
+ drivers/gpu/drm/qxl/qxl_ttm.c               |  9 -------
+ drivers/gpu/drm/radeon/radeon.h             |  1 +
+ drivers/gpu/drm/radeon/radeon_object.h      | 16 +++++++++++-
+ drivers/gpu/drm/radeon/radeon_ttm.c         |  4 +--
+ drivers/gpu/drm/ttm/ttm_bo.c                |  7 -----
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c          |  4 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c     |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c        |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c  |  2 --
+ include/drm/ttm/ttm_bo_api.h                |  2 --
+ include/drm/ttm/ttm_bo_driver.h             |  1 -
+ 36 files changed, 121 insertions(+), 77 deletions(-)
+
+--
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
