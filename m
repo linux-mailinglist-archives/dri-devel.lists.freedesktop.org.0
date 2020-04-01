@@ -2,53 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E4419A3A8
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 04:39:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BE219A4F0
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 07:50:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 776D56E8C9;
-	Wed,  1 Apr 2020 02:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70E566E32D;
+	Wed,  1 Apr 2020 05:49:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E80216E8C9
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 02:39:40 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id k18so20933408oib.3
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Mar 2020 19:39:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kzYWdS8ptvsQ51liRTuryFlYrkP2okzYwHKGEN31ccs=;
- b=Nq/iPOHjbrKHhHEg7yVZnvLxEKMFf/820C3C/aFENCC3Ud4sWUiWOSY1n+dd9o4ImW
- 1VsfUnNc5H+/vhMsWgYq43Xsj6dRYzFob0jJBEbfF5Rpx9KfWIr121QrPrxUQOwjthhI
- LTj7ZuHPx1L9SDjBXg/RBqCccpV5+LfRy9YamUA2oZphtH2M2iCHSb+/MJ856eNWLvQo
- mbOQD0bbtqJLWBFy0K6g4NZ5w2eAMk8XNNV36pwq6Ev5rpml94OFfmCm3l2u31bAmkcP
- f6qj9BTkLmdXlaHUv+asusvU8nbNDhLz6OkUaWNKNIC3trkgtSeCecxUnIBSK9mQ552A
- 7Xdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kzYWdS8ptvsQ51liRTuryFlYrkP2okzYwHKGEN31ccs=;
- b=jg7Ky7oXEo21+TjdL7culcLqJwacfT3S66gSTBHKbr8mTjKIEixCkspzMh/JVE+GIM
- zZZN8kSnMOc8gji/Sa2e8zjJhxbCif6sLrQFYlZHXTCHXacqtSHlXSmvxWv+jp/diRhu
- 7XEaMDfftdRTKBy+qSN9h3m+ctK5BslAqRtUoRm7I5okC+kPGW7d5ni5Qe5bqJb1AEDP
- /nGabZcGyCzvtRg01RafA7Uua0LCS1fyaYlXwgW2y3NwX67Dmpy0hE/HFxq3M9QxcRD8
- mdF+CNa2YYOwbU13ogqbAQCWXGLDZZNyjAk+Fou437Wc5EYWDuamHBl5roJ3wRPTdpjz
- JZIw==
-X-Gm-Message-State: AGi0PubWt1RuPqQDCqDwuHreFissik/fmmU4BhGf/iH9S3duiqAygy+k
- zZ2tMeaiTdNBm0vKz4giy1T+pjYMExwB4kmTye601w==
-X-Google-Smtp-Source: APiQypJ37iA4gNTyxVHb8JZchKlLqQ6xkw/Kwg0hme+Z8Pc4V9uPmDR3EZEriMGOb37UUNSz6Qs6z6Tk9hZ1EOBLl+g=
-X-Received: by 2002:aca:4c1:: with SMTP id 184mr1373103oie.76.1585708780047;
- Tue, 31 Mar 2020 19:39:40 -0700 (PDT)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BC9C6E038;
+ Wed,  1 Apr 2020 05:49:54 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 3DB7920058;
+ Wed,  1 Apr 2020 07:49:51 +0200 (CEST)
+Date: Wed, 1 Apr 2020 07:49:49 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Tanmay Shah <tanmay@codeaurora.org>
+Subject: Re: [DPU PATCH v5 1/5] dt-bindings: msm/dp: add bindings of
+ DP/DP-PLL driver for Snapdragon
+Message-ID: <20200401054949.GA10028@ravnborg.org>
+References: <1585701031-28871-1-git-send-email-tanmay@codeaurora.org>
+ <1585701031-28871-2-git-send-email-tanmay@codeaurora.org>
 MIME-Version: 1.0
-References: <20200330135536.2997-1-christian.koenig@amd.com>
- <20200331084602.GJ2363188@phenom.ffwll.local>
-In-Reply-To: <20200331084602.GJ2363188@phenom.ffwll.local>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Wed, 1 Apr 2020 08:09:27 +0530
-Message-ID: <CAO_48GGs4U_cAOMfAQ7qDwTciv+b28uYXjCdPXhYpAv5Um9GHg@mail.gmail.com>
-Subject: Re: [PATCH 1/6] dma-buf: add peer2peer flag
-To: Daniel Vetter <daniel@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <1585701031-28871-2-git-send-email-tanmay@codeaurora.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=LpQP-O61AAAA:8
+ a=gEfo2CItAAAA:8 a=e5mUnYsNAAAA:8 a=z87zoDYpRdyyHcnY0C0A:9
+ a=Y-KobsgeiHWwR8oq:21 a=TLXQFu7vHWGnHqWM:21 a=CjuIK1q_8ugA:10
+ a=pioyyrs4ZptJ924tMmac:22 a=sptkURWiP4Gy88Gu7hUp:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=pHzHmUro8NiASowvMSCR:22
+ a=nt3jZW36AmriUCFCBwmW:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,228 +50,494 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1278941747=="
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ abhinavk@codeaurora.org, swboyd@chromium.org, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, Vara Reddy <varar@codeaurora.org>,
+ hoegsberg@google.com, aravindh@codeaurora.org, freedreno@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, Chandan Uddaraju <chandanu@codeaurora.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1278941747==
-Content-Type: multipart/alternative; boundary="0000000000008d63c605a231983f"
+Hi Tanmay
 
---0000000000008d63c605a231983f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Christian,
+Reviewing the yaml bindings triggered a few comments. See below.
 
-On Tue, 31 Mar 2020, 14:16 Daniel Vetter, <daniel@ffwll.ch> wrote:
+	Sam
 
-> On Mon, Mar 30, 2020 at 03:55:31PM +0200, Christian K=C3=B6nig wrote:
-> > Add a peer2peer flag noting that the importer can deal with device
-> > resources which are not backed by pages.
-> >
-> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> On the series:
->
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-Fwiw, for the series,
-Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+On Tue, Mar 31, 2020 at 05:30:27PM -0700, Tanmay Shah wrote:
+> From: Chandan Uddaraju <chandanu@codeaurora.org>
+> 
+> Add bindings for Snapdragon DisplayPort and
+> display-port PLL driver.
+> 
+> Changes in V2:
+> Provide details about sel-gpio
+> 
+> Changes in V4:
+> Provide details about max dp lanes
+> Change the commit text
+> 
+> Changes in V5:
+> Moved dp.txt to yaml file.
+> 
+> Signed-off-by: Chandan Uddaraju <chandanu@codeaurora.org>
+> Signed-off-by: Vara Reddy <varar@codeaurora.org>
+
+As you handle the patch, thus the patch passed throgh you, you are
+supposed to sign-off the patch.
+
+
+The changes to dpu.txt is not explained in the changelog.
+
 
 > ---
-> >  drivers/dma-buf/dma-buf.c |  2 ++
-> >  include/linux/dma-buf.h   | 10 ++++++++++
-> >  2 files changed, 12 insertions(+)
-> >
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index ccc9eda1bc28..570c923023e6 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -690,6 +690,8 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf,
-> struct device *dev,
-> >
-> >       attach->dev =3D dev;
-> >       attach->dmabuf =3D dmabuf;
-> > +     if (importer_ops)
-> > +             attach->peer2peer =3D importer_ops->allow_peer2peer;
-> >       attach->importer_ops =3D importer_ops;
-> >       attach->importer_priv =3D importer_priv;
-> >
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 1ade486fc2bb..82e0a4a64601 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -334,6 +334,14 @@ struct dma_buf {
-> >   * Attachment operations implemented by the importer.
-> >   */
-> >  struct dma_buf_attach_ops {
-> > +     /**
-> > +      * @allow_peer2peer:
-> > +      *
-> > +      * If this is set to true the importer must be able to handle pee=
-r
-> > +      * resources without struct pages.
-> > +      */
-> > +     bool allow_peer2peer;
-> > +
-> >       /**
-> >        * @move_notify
-> >        *
-> > @@ -362,6 +370,7 @@ struct dma_buf_attach_ops {
-> >   * @node: list of dma_buf_attachment, protected by dma_resv lock of th=
-e
-> dmabuf.
-> >   * @sgt: cached mapping.
-> >   * @dir: direction of cached mapping.
-> > + * @peer2peer: true if the importer can handle peer resources without
-> pages.
-> >   * @priv: exporter specific attachment data.
-> >   * @importer_ops: importer operations for this attachment, if provided
-> >   * dma_buf_map/unmap_attachment() must be called with the dma_resv loc=
-k
-> held.
-> > @@ -382,6 +391,7 @@ struct dma_buf_attachment {
-> >       struct list_head node;
-> >       struct sg_table *sgt;
-> >       enum dma_data_direction dir;
-> > +     bool peer2peer;
-> >       const struct dma_buf_attach_ops *importer_ops;
-> >       void *importer_priv;
-> >       void *priv;
-> > --
-> > 2.17.1
-> >
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+>  .../devicetree/bindings/display/msm/dp-sc7180.yaml | 325 +++++++++++++++++++++
+>  .../devicetree/bindings/display/msm/dpu.txt        |  16 +-
+>  2 files changed, 337 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml b/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
+> new file mode 100644
+> index 0000000..761a01d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
+> @@ -0,0 +1,325 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+For new bindings please use: (GPL-2.0-only OR BSD-2-Clause)
+
+
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/msm/dp-sc7180.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Description of Qualcomm Display Port dt properties.
+> +
+> +maintainers:
+> +  - Chandan Uddaraju <chandanu@codeaurora.org>
+> +  - Vara Reddy <varar@codeaurora.org>
+> +
+> +description: |
+> +  Device tree bindings for MSM Display Port which supports DP host controllers
+> +  that are compatible with VESA Display Port interface specification.
+> +
+> +properties:
+> +  "msm_dp":
+The quotes seems not necessary.
+This describes the name of the node.
+The typical way to identify a node is using a compatible.
+
+So I think that the right solution here is to drop "msm_dp".
+
+> +    type: object
+> +    description: |
+> +      Node containing Display port register address bases, clocks, power supplies.
+> +
+
+And start here.
+> +    properties:
+> +     compatible:
+> +       items:
+> +         - const: qcom,dp-display
+> +
+> +     cell-index:
+> +       description: Specifies the controller instance.
+> +
+> +     reg:
+> +       description: Physical base address and length of controller's registers.
+This description is generic and can be omitted.
+But it would be good with a descrition of the individual registers like
+this:
+
+    reg:
+      items:
+        - description: AHB bla bla
+	- description: aux bla bla
+
+> +
+> +     reg-names:
+> +       description: |
+> +         Names for different register regions defined above. The required region
+> +         is mentioned below.
+> +       items:
+> +         - const: dp_ahb
+> +         - const: dp_aux
+> +         - const: dp_link
+> +         - const: dp_p0
+> +         - const: dp_phy
+> +         - const: dp_ln_tx0
+> +         - const: dp_ln_tx1
+> +         - const: afprom_physical
+> +         - const: dp_pll
+> +         - const: usb3_dp_com
+> +         - const: hdcp_physical
+> +
+> +     interrupts:
+> +       description: The interrupt signal from the DP block.
+> +
+> +     clocks:
+> +       description: List of clock specifiers for clocks needed by the device.
+          items:
+	    - description: aux clock bla bla
+	    - description: ref clock bla bla
+
+
+> +
+> +     clock-names:
+> +       description: |
+> +         Device clock names in the same order as mentioned in clocks property.
+> +         The required clocks are mentioned below.
+> +       items:
+> +         - const: core_aux_clk
+> +         - const: core_ref_clk_src
+> +         - const: core_usb_ref_clk
+> +         - const: core_usb_cfg_ahb_clk
+> +         - const: core_usb_pipe_clk
+> +         - const: ctrl_link_clk
+> +         - const: ctrl_link_iface_clk
+> +         - const: ctrl_pixel_clk
+> +         - const: crypto_clk
+> +         - const: pixel_clk_rcg
+> +
+> +     pll-node:
+> +       description: phandle to DP PLL node.
+Add type (phandle)
+
+> +
+> +     vdda-1p2-supply:
+> +       description: phandle to vdda 1.2V regulator node.
+> +
+> +     vdda-0p9-supply:
+> +       description: phandle to vdda 0.9V regulator node.
+> +
+> +     aux-cfg0-settings:
+> +       description: |
+> +         Specifies the DP AUX configuration 0 settings.
+> +         The first entry in this array corresponds to the register offset
+> +         within DP AUX, while the remaining entries indicate the
+> +         programmable values.
+Add type, goes for all *-settings
+
+
+> +
+> +     aux-cfg1-settings:
+> +       description: |
+> +         Specifies the DP AUX configuration 1 settings.
+> +         The first entry in this array corresponds to the register offset
+> +         within DP AUX, while the remaining entries indicate the
+> +         programmable values.
+> +
+> +     aux-cfg2-settings:
+> +       description: |
+> +         Specifies the DP AUX configuration 2 settings.
+> +         The first entry in this array corresponds to the register offset
+> +         within DP AUX, while the remaining entries indicate the
+> +         programmable values.
+> +
+> +     aux-cfg3-settings:
+> +       description: |
+> +         Specifies the DP AUX configuration 3 settings.
+> +         The first entry in this array corresponds to the register offset
+> +         within DP AUX, while the remaining entries indicate the
+> +         programmable values.
+> +
+> +     aux-cfg4-settings:
+> +       description: |
+> +         Specifies the DP AUX configuration 4 settings.
+> +         The first entry in this array corresponds to the register offset
+> +         within DP AUX, while the remaining entries indicate the
+> +         programmable values.
+> +
+> +     aux-cfg5-settings:
+> +       description: |
+> +         Specifies the DP AUX configuration 5 settings.
+> +         The first entry in this array corresponds to the register offset
+> +         within DP AUX, while the remaining entries indicate the
+> +         programmable values.
+> +
+> +     aux-cfg6-settings:
+> +       description: |
+> +         Specifies the DP AUX configuration 6 settings.
+> +         The first entry in this array corresponds to the register offset
+> +         within DP AUX, while the remaining entries indicate the
+> +         programmable values.
+> +
+> +     aux-cfg7-settings:
+> +       description: |
+> +         Specifies the DP AUX configuration 7 settings.
+> +         The first entry in this array corresponds to the register offset
+> +         within DP AUX, while the remaining entries indicate the
+> +         programmable values.
+> +
+> +     aux-cfg8-settings:
+> +       description: |
+> +         Specifies the DP AUX configuration 8 settings.
+> +         The first entry in this array corresponds to the register offset
+> +         within DP AUX, while the remaining entries indicate the
+> +         programmable values.
+> +
+> +     aux-cfg9-settings:
+> +       description: |
+> +         Specifies the DP AUX configuration 9 settings.
+> +         The first entry in this array corresponds to the register offset
+> +         within DP AUX, while the remaining entries indicate the
+> +         programmable values.
+> +
+> +     max-pclk-frequency-khz:
+> +       description: Maximum displayport pixel clock supported for the chipset.
+> +
+> +     data-lanes:
+> +       description: Maximum number of lanes that can be used for Display port.
+> +
+> +     usbplug-cc-gpio:
+> +       maxItems: 1
+> +       description: Specifies the usbplug orientation gpio.
+Shall be named -gpios. Goes for all -gpio properties.
+maxItems: 1 is good. Keep it.
+
+> +
+> +     aux-en-gpio:
+> +       maxItems: 1
+> +       description: Specifies the aux-channel enable gpio.
+> +
+> +     aux-sel-gpio:
+> +       maxItems: 1
+> +       description: Specifies the sux-channel select gpio.
+> +
+> +     ports:
+> +       description: |
+> +         Contains display port controller endpoint subnode.
+> +         remote-endpoint: |
+> +           For port@0, set to phandle of the connected panel/bridge's
+> +           input endpoint. For port@1, set to the DPU interface output.
+> +           Documentation/devicetree/bindings/graph.txt and
+> +           Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +
+> +  "dp_pll":
+quotes should not be required here.
+
+I looks like yo try to describe two differents nodes in the same file.
+Consider to split in two files.
+
+Some of the comments from above applies here too.
+
+> +     type: object
+> +     description: Node contains properties of Display port pll and phy driver.
+> +
+> +     properties:
+> +       compatible:
+> +         items:
+> +           - const: qcom,dp-pll-10nm
+> +
+> +       cell-index:
+> +         description: Specifies the controller instance.
+> +
+> +       reg:
+> +         description: Physical base address and length of DP phy and pll registers.
+> +
+> +       reg-names:
+> +         description: |
+> +           Names for different register regions defined above. The required region
+> +           is mentioned below.
+> +         items:
+> +           - const: pll_base
+> +           - const: phy_base
+> +           - const: ln_tx0_base
+> +           - const: ln_tx1_base
+> +           - const: gdsc_base
+> +
+> +       clocks:
+> +         description: List of clock specifiers for clocks needed by the device.
+> +
+> +       clock-names:
+> +         description: |
+> +           Device clock names in the same order as mentioned in clocks property.
+> +           The required clocks are mentioned below.
+> +         items:
+> +           - const: iface
+> +           - const: ref
+> +           - const: cfg_ahb
+> +           - const: pipe
+> +
+> +examples:
+
+4 spaces as indent - good.
+You have include files - good.
+
+
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,dispcc-sdm845.h>
+> +    #include <dt-bindings/clock/qcom,gcc-sdm845.h>
+> +    #include <dt-bindings/clock/qcom,rpmh.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    msm_dp: displayport-controller@ae90000{
+> +                cell-index = <0>;
+indent only four spaces
+
+> +        compatible = "qcom,dp-display";
+> +        reg =   <0 0xae90000 0 0x200>,
+Only one space after '=' - rememebr to adjust indent in following lines.
+> +                <0 0xae90200 0 0x200>,
+> +                <0 0xae90400 0 0xc00>,
+> +                <0 0xae91000 0 0x400>,
+> +                <0 0x88eaa00 0 0x200>,
+> +                <0 0x88ea200 0 0x200>,
+> +                <0 0x88ea600 0 0x200>,
+> +                <0 0x780000 0 0x6228>,
+> +                <0 0x088ea000 0 0x40>,
+> +                <0 0x88e8000 0 0x20>,
+> +                <0 0x0aee1000 0 0x034>;
+> +        reg-names = "dp_ahb", "dp_aux", "dp_link",
+> +            "dp_p0", "dp_phy", "dp_ln_tx0", "dp_ln_tx1",
+> +            "qfprom_physical", "dp_pll",
+> +            "usb3_dp_com", "hdcp_physical";
+
+Indent so names in following lines starts where names in previous lines
+starts.
+Like this:
+        reg-names = "dp_ahb", "dp_aux", "dp_link",
+                    "dp_p0", "dp_phy", "dp_ln_tx0", "dp_ln_tx1",
+                    "qfprom_physical", "dp_pll",
+                    "usb3_dp_com", "hdcp_physical";
+
+
+> +
+> +        interrupt-parent = <&display_subsystem>;
+> +        interrupts = <12 0>;
+> +
+> +        clocks = <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
+> +            <&rpmhcc RPMH_CXO_CLK>,
+Indent so '<' are aligned under each other. Like done above for reg =
+
+> +            <&gcc GCC_USB3_PRIM_CLKREF_CLK>,
+> +            <&gcc GCC_USB_PHY_CFG_AHB2PHY_CLK>,
+> +            <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>,
+> +            <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
+> +            <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
+> +            <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
+> +            <&dispcc DISP_CC_MDSS_DP_CRYPTO_CLK>,
+> +            <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
+> +        clock-names = "core_aux_clk", "core_ref_clk_src",
+> +            "core_usb_ref_clk", "core_usb_cfg_ahb_clk",
+> +            "core_usb_pipe_clk", "ctrl_link_clk",
+> +            "ctrl_link_iface_clk", "ctrl_pixel_clk",
+> +            "crypto_clk", "pixel_clk_rcg";
+Fix indent
+
+> +
+> +        pll-node = <&dp_pll>;
+> +        vdda-1p2-supply = <&vreg_l3c_1p2>;
+> +        vdda-0p9-supply = <&vreg_l4a_0p8>;
+> +
+> +        aux-cfg0-settings = [20 00];
+> +        aux-cfg1-settings = [24 13 23 1d];
+> +        aux-cfg2-settings = [28 24];
+> +        aux-cfg3-settings = [2c 00];
+> +        aux-cfg4-settings = [30 0a];
+> +        aux-cfg5-settings = [34 26];
+> +        aux-cfg6-settings = [38 0a];
+> +        aux-cfg7-settings = [3c 03];
+> +        aux-cfg8-settings = [40 bb];
+> +        aux-cfg9-settings = [44 03];
+> +
+> +        max-pclk-frequency-khz = <67500>;
+> +        data-lanes = <2>;
+> +
+> +        aux-en-gpio = <&msmgpio 55 1>;
+> +        aux-sel-gpio = <&msmgpio 110 1>;
+> +        usbplug-cc-gpio = <&msmgpio 90 1>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                dp_in: endpoint {
+> +                    remote-endpoint = <&dpu_intf0_out>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +                dp_out: endpoint {
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +    dp_pll: dp-pll@088ea000 {
+> +        compatible = "qcom,dp-pll-10nm";
+> +        label = "DP PLL";
+> +        cell-index = <0>;
+> +        #clock-cells = <1>;
+> +
+> +        reg = <0 0x088ea000 0 0x200>,
+> +              <0 0x088eaa00 0 0x200>,
+> +              <0 0x088ea200 0 0x200>,
+> +              <0 0x088ea600 0 0x200>,
+> +              <0 0x08803000 0 0x8>;
+> +        reg-names = "pll_base", "phy_base", "ln_tx0_base",
+> +            "ln_tx1_base", "gdsc_base";
+> +
+> +        clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +             <&gcc GCC_USB3_PRIM_CLKREF_CLK>,
+> +             <&gcc GCC_USB_PHY_CFG_AHB2PHY_CLK>,
+> +             <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
+> +        clock-names = "iface_clk", "ref_clk",
+> +            "cfg_ahb_clk", "pipe_clk";
+> +    };
+> +
+> diff --git a/Documentation/devicetree/bindings/display/msm/dpu.txt b/Documentation/devicetree/bindings/display/msm/dpu.txt
+> index 551ae26..7e99e45 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dpu.txt
+> +++ b/Documentation/devicetree/bindings/display/msm/dpu.txt
+> @@ -63,8 +63,9 @@ Required properties:
+>  	Documentation/devicetree/bindings/graph.txt
+>  	Documentation/devicetree/bindings/media/video-interfaces.txt
+>  
+> -	Port 0 -> DPU_INTF1 (DSI1)
+> -	Port 1 -> DPU_INTF2 (DSI2)
+> +	Port 0 -> DPU_INTF0 (DP)
+> +	Port 1 -> DPU_INTF1 (DSI1)
+> +	Port 2 -> DPU_INTF2 (DSI2)
+>  
+>  Optional properties:
+>  - assigned-clocks: list of clock specifiers for clocks needing rate assignment
+> @@ -125,13 +126,20 @@ Example:
+>  
+>  				port@0 {
+>  					reg = <0>;
+> -					dpu_intf1_out: endpoint {
+> -						remote-endpoint = <&dsi0_in>;
+> +					dpu_intf0_out: endpoint {
+> +						remote-endpoint = <&dp_in>;
+>  					};
+>  				};
+>  
+>  				port@1 {
+>  					reg = <1>;
+> +					dpu_intf1_out: endpoint {
+> +						remote-endpoint = <&dsi0_in>;
+> +					};
+> +				};
+> +
+> +				port@2 {
+> +					reg = <2>;
+>  					dpu_intf2_out: endpoint {
+>  						remote-endpoint = <&dsi1_in>;
+>  					};
+> -- 
+> 1.9.1
 > _______________________________________________
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
 > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
-
---0000000000008d63c605a231983f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div>Hi Christian,<br><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Tue, 31 Mar 2020, 14:16 Daniel Vetter,=
- &lt;<a href=3D"mailto:daniel@ffwll.ch">daniel@ffwll.ch</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">On Mon, Mar 30, 2020 at 03:55:31PM +020=
-0, Christian K=C3=B6nig wrote:<br>
-&gt; Add a peer2peer flag noting that the importer can deal with device<br>
-&gt; resources which are not backed by pages.<br>
-&gt; <br>
-&gt; Signed-off-by: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.ko=
-enig@amd.com" target=3D"_blank" rel=3D"noreferrer">christian.koenig@amd.com=
-</a>&gt;<br>
-<br>
-On the series:<br>
-<br>
-Acked-by: Daniel Vetter &lt;<a href=3D"mailto:daniel.vetter@ffwll.ch" targe=
-t=3D"_blank" rel=3D"noreferrer">daniel.vetter@ffwll.ch</a>&gt;<br></blockqu=
-ote></div></div><div dir=3D"auto">Fwiw, for the series,</div><div dir=3D"au=
-to">Acked-by: Sumit Semwal &lt;<a href=3D"mailto:sumit.semwal@linaro.org">s=
-umit.semwal@linaro.org</a>&gt;</div><div dir=3D"auto"><br></div><div dir=3D=
-"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-&gt; ---<br>
-&gt;=C2=A0 drivers/dma-buf/dma-buf.c |=C2=A0 2 ++<br>
-&gt;=C2=A0 include/linux/dma-buf.h=C2=A0 =C2=A0| 10 ++++++++++<br>
-&gt;=C2=A0 2 files changed, 12 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c<br>
-&gt; index ccc9eda1bc28..570c923023e6 100644<br>
-&gt; --- a/drivers/dma-buf/dma-buf.c<br>
-&gt; +++ b/drivers/dma-buf/dma-buf.c<br>
-&gt; @@ -690,6 +690,8 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, str=
-uct device *dev,<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0attach-&gt;dev =3D dev;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0attach-&gt;dmabuf =3D dmabuf;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (importer_ops)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0attach-&gt;peer2peer =
-=3D importer_ops-&gt;allow_peer2peer;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0attach-&gt;importer_ops =3D importer_ops;<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0attach-&gt;importer_priv =3D importer_priv;<=
-br>
-&gt;=C2=A0 <br>
-&gt; diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h<br>
-&gt; index 1ade486fc2bb..82e0a4a64601 100644<br>
-&gt; --- a/include/linux/dma-buf.h<br>
-&gt; +++ b/include/linux/dma-buf.h<br>
-&gt; @@ -334,6 +334,14 @@ struct dma_buf {<br>
-&gt;=C2=A0 =C2=A0* Attachment operations implemented by the importer.<br>
-&gt;=C2=A0 =C2=A0*/<br>
-&gt;=C2=A0 struct dma_buf_attach_ops {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/**<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * @allow_peer2peer:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 *<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * If this is set to true the importer must be ab=
-le to handle peer<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * resources without struct pages.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0bool allow_peer2peer;<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/**<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 * @move_notify<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 *<br>
-&gt; @@ -362,6 +370,7 @@ struct dma_buf_attach_ops {<br>
-&gt;=C2=A0 =C2=A0* @node: list of dma_buf_attachment, protected by dma_resv=
- lock of the dmabuf.<br>
-&gt;=C2=A0 =C2=A0* @sgt: cached mapping.<br>
-&gt;=C2=A0 =C2=A0* @dir: direction of cached mapping.<br>
-&gt; + * @peer2peer: true if the importer can handle peer resources without=
- pages.<br>
-&gt;=C2=A0 =C2=A0* @priv: exporter specific attachment data.<br>
-&gt;=C2=A0 =C2=A0* @importer_ops: importer operations for this attachment, =
-if provided<br>
-&gt;=C2=A0 =C2=A0* dma_buf_map/unmap_attachment() must be called with the d=
-ma_resv lock held.<br>
-&gt; @@ -382,6 +391,7 @@ struct dma_buf_attachment {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct list_head node;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct sg_table *sgt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0enum dma_data_direction dir;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0bool peer2peer;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0const struct dma_buf_attach_ops *importer_op=
-s;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0void *importer_priv;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0void *priv;<br>
-&gt; -- <br>
-&gt; 2.17.1<br>
-&gt; <br>
-<br>
--- <br>
-Daniel Vetter<br>
-Software Engineer, Intel Corporation<br>
-<a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer noreferrer" target=3D"_b=
-lank">http://blog.ffwll.ch</a><br>
-_______________________________________________<br>
-dri-devel mailing list<br>
-<a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blank" rel=3D=
-"noreferrer">dri-devel@lists.freedesktop.org</a><br>
-<a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-devel" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">https://lists.freedesktop.org/mai=
-lman/listinfo/dri-devel</a><br>
-</blockquote></div></div></div>
-
---0000000000008d63c605a231983f--
-
---===============1278941747==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1278941747==--
