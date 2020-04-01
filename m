@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B3D19AF45
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 18:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD6719AF4E
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Apr 2020 18:05:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E71D6E96F;
-	Wed,  1 Apr 2020 16:04:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0DB6E950;
+	Wed,  1 Apr 2020 16:05:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7635D6E964
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 16:04:40 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id t7so651675wrw.12
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 09:04:40 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB476E950
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Apr 2020 16:05:40 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id h15so684913wrx.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 09:05:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=r/7toVtMdgZDXlBcQP9THJ413Ry2c3Jly4FDy5/J2wE=;
- b=n9InK6ECCCWWQB0iFi3k2SfIIq25sBmkt//gH1CNyCmWibvmOWrfFjZpPQyg2ejYyP
- F76NHG2NqmFNCMWJdC2bGhk+E4rexxXr0zYUeUvSrusjPIcZ7UG1z5YrNsWTotC3lkWq
- fbSeu92sT2Iw7WaCme2b8XYVLpuqD5zyNXg4gdLpeIjUbX25Fc14WBsBq+qANwMtYWnt
- UpCOYVkpLhl0NVbKHqPaa3Qfipw2urYOGLyWMN/Hp+IO+sGihAA6RqowMWWvaM4+fWPk
- 8oo9bhHGvmYzIFdfmTcPETkVrLDg8V7d/XcI2McYU5Y98ie4WYMDHR7Ezh49q79Ju0mL
- FA3g==
+ bh=FKjMdJ4pr3y5mbAe+y1nFZx5SGMlTIhBiO+y8I7CkZc=;
+ b=MDTddFuwTVm8bYVxR3NO5Togt/RLkzF09h9nlsV41ag7/ljCClQpd7TzwHZHOz5SQ1
+ ZctfXOVG2lWT5p4h/RA5YrIqzHKEZM5S0rAS13Hm3Mp+AvWuwyVAYNd3wRhwMPoz3H4P
+ EO0vhWPQz0jO6nmByvit2ywRbb+PUyqdXDtBBGy2uFwCYQX2SIRE8tpj+KHVfvGWlrlJ
+ jWeghluVMGdYX/NZIhOt2Sqd3FxEgdyGo38+8FLAUQ3WO+7By/gsu90PdTRN9bInAPGX
+ Xlfau7JHFbLUQFbYxqCXIy3oDjBJxMwehfYEsYj+GMtAuBoYh5yUzuRdVvb1XawyGfVb
+ 5VRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=r/7toVtMdgZDXlBcQP9THJ413Ry2c3Jly4FDy5/J2wE=;
- b=HYiDyP/MZzYLvDW6sVov7TCSyiW830k+SNBJDj7XlC0AJ+SBBZ/TwJfLClA/P66S4E
- CZ6q8HRnYVQ9F4lrL1f6fwLVDoy+gWdNfHGylUI3HIL6UvIN1XRSrLmTcY3VZjIP1/nb
- eP5vUuuHohnfj0d8n2/mqVNp3wYcew8xqv0GNwK9dMGalv8GH2GDe6tsxo6k+99ZA0qt
- XA2GjXTyfZSlNei/4S4IYxynf8jCYrOfASxrZdijKoOsw1ySmly0Asom0/CltkwA4eGx
- dKMLRAs+JrqfFGVvD+yEBM0Z0m347dbBLt0yzB4/DnWi/hbilDDUuhMRjIaQF0+8SpWY
- h2BQ==
-X-Gm-Message-State: ANhLgQ0J2bsVwIl5uV+tAtBkl7/OnYyYlSzbOlp5WKpQYxk/FKIe9e3N
- MLFzMhe8Na2OodPDPG+is5A=
-X-Google-Smtp-Source: ADFU+vuOifRHkO8TahCXVLrGGFAiEhTjeItyYfJhJALj9g0vWu28di4J4Lgq7hzudB3Ifxm76HjoLQ==
-X-Received: by 2002:adf:82b0:: with SMTP id 45mr26251128wrc.120.1585757079065; 
- Wed, 01 Apr 2020 09:04:39 -0700 (PDT)
+ bh=FKjMdJ4pr3y5mbAe+y1nFZx5SGMlTIhBiO+y8I7CkZc=;
+ b=ImLTsewXJuVvyYfOfWGxkvB5Qx+9RnBYMEkgr6W1cuOq49GhB5VpyWQZamyIyWTTGC
+ Q33jGFtwoQQI1QAY+dD7njcu6ku7EZTGKxolEQcmfOdi++nzCDCGoE3VIVizfLRsu82I
+ zA8IwKnC8ppk+mfnfsCGJQCmfct4PXStETokn38LLTQMxEbST5F1PyDIG9nsRMU7tGgH
+ fc8z3JEMP2lQYM4m5t0XpevbDgOOWmE9czdmMgQXGmc4R9qFashnuy96WVdCwRzC+q74
+ uS0lCKDlvN5TRAfChoQvW8uOyocIAGIaXkUoioAsmrK1nlUc9yqOwW12/5cUgf5h0aC/
+ XsFg==
+X-Gm-Message-State: ANhLgQ1SfYSK4OzKnOcGj9mZ9lHTWC8K6oD07jVfI3IZNMWpsXmVwIxt
+ Lhd+ogPdTcoHsy5JBwRHzHI=
+X-Google-Smtp-Source: ADFU+vvuMqRAh2gljK7BLQOHBekk32K9An9BKMBgj3LkJR/TkO10ODWz1c9XnsOxZGfTxfTo7b2ZdA==
+X-Received: by 2002:adf:c984:: with SMTP id f4mr6970107wrh.81.1585757139152;
+ Wed, 01 Apr 2020 09:05:39 -0700 (PDT)
 Received: from ziggy.stardust ([213.195.113.243])
- by smtp.gmail.com with ESMTPSA id k185sm3246604wmb.7.2020.04.01.09.04.37
+ by smtp.gmail.com with ESMTPSA id y16sm3477313wrp.78.2020.04.01.09.05.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Apr 2020 09:04:37 -0700 (PDT)
-Subject: Re: [PATCH v3 3/4] phy: mediatek: Move mtk_hdmi_phy driver into
- drivers/phy/mediatek folder
+ Wed, 01 Apr 2020 09:05:38 -0700 (PDT)
+Subject: Re: [PATCH v3 4/4] MAINTAINERS: add files for Mediatek DRM drivers
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
  Kishon Vijay Abraham I <kishon@ti.com>
 References: <20200331155728.18032-1-chunkuang.hu@kernel.org>
- <20200331155728.18032-4-chunkuang.hu@kernel.org>
+ <20200331155728.18032-5-chunkuang.hu@kernel.org>
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFP1zgUBEAC21D6hk7//0kOmsUrE3eZ55kjc9DmFPKIz6l4NggqwQjBNRHIMh04BbCMY
@@ -129,12 +128,12 @@ Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
  jzi+DzD9cvj2K6eD5j5kcKJJQactXqfJvF1Eb+OnxlB1BCLE8D1rNkPO5O742Mq3MgDmq19l
  +abzEL6QDAAxn9md8KwrA3RtucNh87cHlDXfUBKa7SRvBjTczDg+HEPNk2u3hrz1j3l2rliQ
  y1UfYx7Vk/TrdwUIJgKS8QAr8Lw9WuvY2hSqL9vEjx8VAkPWNWPwrQ==
-Message-ID: <c8ef5e91-252c-4d06-4a2e-5c91e725d0eb@gmail.com>
-Date: Wed, 1 Apr 2020 18:04:37 +0200
+Message-ID: <57b5c1ad-bc2e-e5af-d698-7db00f292de0@gmail.com>
+Date: Wed, 1 Apr 2020 18:05:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200331155728.18032-4-chunkuang.hu@kernel.org>
+In-Reply-To: <20200331155728.18032-5-chunkuang.hu@kernel.org>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -158,143 +157,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 31/03/2020 17:57, Chun-Kuang Hu wrote:
-> From: CK Hu <ck.hu@mediatek.com>
+> Mediatek HDMI phy driver is moved from drivers/gpu/drm/mediatek to
+> drivers/phy/mediatek, so add the new folder to the Mediatek DRM drivers'
+> information.
 > 
-> mtk_hdmi_phy is currently placed inside mediatek drm driver, but it's
-> more suitable to place a phy driver into phy driver folder, so move
-> mtk_hdmi_phy driver into phy driver folder.
-> 
-> Signed-off-by: CK Hu <ck.hu@mediatek.com>
 > Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> ---
 
 Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 
->  drivers/gpu/drm/mediatek/Kconfig                           | 7 -------
->  drivers/gpu/drm/mediatek/Makefile                          | 6 ------
->  drivers/phy/mediatek/Kconfig                               | 7 +++++++
->  drivers/phy/mediatek/Makefile                              | 7 +++++++
->  .../mediatek/phy-mtk-hdmi-mt2701.c}                        | 2 +-
->  .../mediatek/phy-mtk-hdmi-mt8173.c}                        | 2 +-
->  .../mtk_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi.c}         | 2 +-
->  .../mtk_hdmi_phy.h => phy/mediatek/phy-mtk-hdmi.h}         | 0
->  8 files changed, 17 insertions(+), 16 deletions(-)
->  rename drivers/{gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi-mt2701.c} (99%)
->  rename drivers/{gpu/drm/mediatek/mtk_mt8173_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi-mt8173.c} (99%)
->  rename drivers/{gpu/drm/mediatek/mtk_hdmi_phy.c => phy/mediatek/phy-mtk-hdmi.c} (99%)
->  rename drivers/{gpu/drm/mediatek/mtk_hdmi_phy.h => phy/mediatek/phy-mtk-hdmi.h} (100%)
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
-> index ff6a1eb4ae83..2427d5bf699d 100644
-> --- a/drivers/gpu/drm/mediatek/Kconfig
-> +++ b/drivers/gpu/drm/mediatek/Kconfig
-> @@ -26,10 +26,3 @@ config DRM_MEDIATEK_HDMI
->  	select PHY_MTK_HDMI
->  	help
->  	  DRM/KMS HDMI driver for Mediatek SoCs
-> -
-> -config PHY_MTK_HDMI
-> -    tristate "MediaTek HDMI-PHY Driver"
-> -    depends on ARCH_MEDIATEK && OF
-> -    select GENERIC_PHY
-> -    help
-> -          Enable this to support HDMI-PHY
-> diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek/Makefile
-> index fcbef23aa6ce..77b0fd86063d 100644
-> --- a/drivers/gpu/drm/mediatek/Makefile
-> +++ b/drivers/gpu/drm/mediatek/Makefile
-> @@ -22,9 +22,3 @@ mediatek-drm-hdmi-objs := mtk_cec.o \
->  			  mtk_hdmi_ddc.o
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 38fe2f3f7b6f..129777037538 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5612,6 +5612,7 @@ M:	Philipp Zabel <p.zabel@pengutronix.de>
+>  L:	dri-devel@lists.freedesktop.org
+>  S:	Supported
+>  F:	drivers/gpu/drm/mediatek/
+> +F:	drivers/phy/mediatek/phy-mtk-hdmi*
+>  F:	Documentation/devicetree/bindings/display/mediatek/
 >  
->  obj-$(CONFIG_DRM_MEDIATEK_HDMI) += mediatek-drm-hdmi.o
-> -
-> -phy-mtk-hdmi-drv-objs := mtk_hdmi_phy.o \
-> -			 mtk_mt2701_hdmi_phy.o \
-> -			 mtk_mt8173_hdmi_phy.o
-> -
-> -obj-$(CONFIG_PHY_MTK_HDMI) += phy-mtk-hdmi-drv.o
-> diff --git a/drivers/phy/mediatek/Kconfig b/drivers/phy/mediatek/Kconfig
-> index dee757c957f2..10f0ec2d5b54 100644
-> --- a/drivers/phy/mediatek/Kconfig
-> +++ b/drivers/phy/mediatek/Kconfig
-> @@ -35,3 +35,10 @@ config PHY_MTK_XSPHY
->  	  Enable this to support the SuperSpeedPlus XS-PHY transceiver for
->  	  USB3.1 GEN2 controllers on MediaTek chips. The driver supports
->  	  multiple USB2.0, USB3.1 GEN2 ports.
-> +
-> +config PHY_MTK_HDMI
-> +    tristate "MediaTek HDMI-PHY Driver"
-> +    depends on ARCH_MEDIATEK && OF
-> +    select GENERIC_PHY
-> +    help
-> +          Enable this to support HDMI-PHY
-> diff --git a/drivers/phy/mediatek/Makefile b/drivers/phy/mediatek/Makefile
-> index 08a8e6a97b1e..cda074c53235 100644
-> --- a/drivers/phy/mediatek/Makefile
-> +++ b/drivers/phy/mediatek/Makefile
-> @@ -6,3 +6,10 @@
->  obj-$(CONFIG_PHY_MTK_TPHY)		+= phy-mtk-tphy.o
->  obj-$(CONFIG_PHY_MTK_UFS)		+= phy-mtk-ufs.o
->  obj-$(CONFIG_PHY_MTK_XSPHY)		+= phy-mtk-xsphy.o
-> +
-> +phy-mtk-hdmi-drv-objs := phy-mtk-hdmi.o \
-> +			 phy-mtk-hdmi-mt2701.o \
-> +			 phy-mtk-hdmi-mt8173.o
-> +
-> +obj-$(CONFIG_PHY_MTK_HDMI) += phy-mtk-hdmi-drv.o
-> +
-> diff --git a/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt2701.c
-> similarity index 99%
-> rename from drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
-> rename to drivers/phy/mediatek/phy-mtk-hdmi-mt2701.c
-> index 99fe05cd3598..a6cb1dea3d0c 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
-> +++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt2701.c
-> @@ -4,7 +4,7 @@
->   * Author: Chunhui Dai <chunhui.dai@mediatek.com>
->   */
->  
-> -#include "mtk_hdmi_phy.h"
-> +#include "phy-mtk-hdmi.h"
->  
->  #define HDMI_CON0	0x00
->  #define RG_HDMITX_DRV_IBIAS		0
-> diff --git a/drivers/gpu/drm/mediatek/mtk_mt8173_hdmi_phy.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8173.c
-> similarity index 99%
-> rename from drivers/gpu/drm/mediatek/mtk_mt8173_hdmi_phy.c
-> rename to drivers/phy/mediatek/phy-mtk-hdmi-mt8173.c
-> index b55f51675205..3521c4893c53 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_mt8173_hdmi_phy.c
-> +++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8173.c
-> @@ -4,7 +4,7 @@
->   * Author: Jie Qiu <jie.qiu@mediatek.com>
->   */
->  
-> -#include "mtk_hdmi_phy.h"
-> +#include "phy-mtk-hdmi.h"
->  
->  #define HDMI_CON0		0x00
->  #define RG_HDMITX_PLL_EN		BIT(31)
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c b/drivers/phy/mediatek/phy-mtk-hdmi.c
-> similarity index 99%
-> rename from drivers/gpu/drm/mediatek/mtk_hdmi_phy.c
-> rename to drivers/phy/mediatek/phy-mtk-hdmi.c
-> index fe022acddbef..8fc83f01a720 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c
-> +++ b/drivers/phy/mediatek/phy-mtk-hdmi.c
-> @@ -4,7 +4,7 @@
->   * Author: Jie Qiu <jie.qiu@mediatek.com>
->   */
->  
-> -#include "mtk_hdmi_phy.h"
-> +#include "phy-mtk-hdmi.h"
->  
->  static int mtk_hdmi_phy_power_on(struct phy *phy);
->  static int mtk_hdmi_phy_power_off(struct phy *phy);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h b/drivers/phy/mediatek/phy-mtk-hdmi.h
-> similarity index 100%
-> rename from drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
-> rename to drivers/phy/mediatek/phy-mtk-hdmi.h
+>  DRM DRIVERS FOR NVIDIA TEGRA
 > 
 _______________________________________________
 dri-devel mailing list
