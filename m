@@ -2,31 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F28819C7AA
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 19:09:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC1619C7C1
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 19:17:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7D076EA85;
-	Thu,  2 Apr 2020 17:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D90826E12A;
+	Thu,  2 Apr 2020 17:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7F986EACE
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 17:09:47 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbeckett) with ESMTPSA id 76B35297E47
-From: Robert Beckett <bob.beckett@collabora.com>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>
-Subject: [PATCH v4.9.y] drm/etnaviv: replace MMU flush marker with flush
- sequence
-Date: Thu,  2 Apr 2020 18:07:59 +0100
-Message-Id: <20200402170758.8315-4-bob.beckett@collabora.com>
-X-Mailer: git-send-email 2.20.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E68A6E12A
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 17:17:45 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1jK3TK-00033z-JL; Thu, 02 Apr 2020 19:17:42 +0200
+Message-ID: <bed38c9d9d5ba71d26fce8a17cfbbe9c0e807300.camel@pengutronix.de>
+Subject: Re: [PATCH v4.19.y, v4.14.y, v4.9.y] drm/etnaviv: Backport fix for
+ mmu flushing
+From: Lucas Stach <l.stach@pengutronix.de>
+To: bob.beckett@collabora.com, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
+ <airlied@linux.ie>
+Date: Thu, 02 Apr 2020 19:17:40 +0200
 In-Reply-To: <20200402170758.8315-1-bob.beckett@collabora.com>
 References: <20200402170758.8315-1-bob.beckett@collabora.com>
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,103 +48,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: bob.beckett@collabora.com
-Cc: Robert Beckett <bob.beckett@collabora.com>,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+Cc: stable@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Cgpjb21taXQgNDkwMGRk
-YTkwYWYyY2IxM2JjMWQ0YzEyY2U5NGI5OGFjYzhmZTY0ZSB1cHN0cmVhbQoKSWYgYSBNTVUgaXMg
-c2hhcmVkIGJldHdlZW4gbXVsdGlwbGUgR1BVcywgYWxsIG9mIHRoZW0gbmVlZCB0byBmbHVzaCB0
-aGVpcgpUTEJzLCBzbyBhIHNpbmdsZSBtYXJrZXIgdGhhdCBnZXRzIHJlc2V0IG9uIHRoZSBmaXJz
-dCBmbHVzaCB3b24ndCBkby4KUmVwbGFjZSB0aGUgZmx1c2ggbWFya2VyIHdpdGggYSBzZXF1ZW5j
-ZSBudW1iZXIsIHNvIHRoYXQgaXQncyBwb3NzaWJsZSB0bwpjaGVjayBpZiB0aGUgVExCIGlzIGlu
-IHN5bmMgd2l0aCB0aGUgY3VycmVudCBwYWdlIHRhYmxlIHN0YXRlIGZvciBlYWNoIEdQVS4KClNp
-Z25lZC1vZmYtYnk6IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4LmRlPgpSZXZpZXdl
-ZC1ieTogUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4KUmV2aWV3ZWQtYnk6
-IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+ClNpZ25lZC1vZmYtYnk6IFJvYmVydCBC
-ZWNrZXR0IDxib2IuYmVja2V0dEBjb2xsYWJvcmEuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9l
-dG5hdml2L2V0bmF2aXZfYnVmZmVyLmMgfCAxMCArKysrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0v
-ZXRuYXZpdi9ldG5hdml2X2dwdS5jICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2
-L2V0bmF2aXZfZ3B1LmggICAgfCAgMSArCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2
-X21tdS5jICAgIHwgIDYgKysrLS0tCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X21t
-dS5oICAgIHwgIDIgKy0KIDUgZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgOSBkZWxl
-dGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2J1
-ZmZlci5jIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9idWZmZXIuYwppbmRleCBk
-OTIzMDEzMmRmYmMuLmQ3MWZhMmQ5YTE5NiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2V0
-bmF2aXYvZXRuYXZpdl9idWZmZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5h
-dml2X2J1ZmZlci5jCkBAIC0yNTcsNiArMjU3LDggQEAgdm9pZCBldG5hdml2X2J1ZmZlcl9xdWV1
-ZShzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdSwgdW5zaWduZWQgaW50IGV2ZW50LAogCXVuc2lnbmVk
-IGludCB3YWl0bGlua19vZmZzZXQgPSBidWZmZXItPnVzZXJfc2l6ZSAtIDE2OwogCXUzMiByZXR1
-cm5fdGFyZ2V0LCByZXR1cm5fZHdvcmRzOwogCXUzMiBsaW5rX3RhcmdldCwgbGlua19kd29yZHM7
-CisJdW5zaWduZWQgaW50IG5ld19mbHVzaF9zZXEgPSBSRUFEX09OQ0UoZ3B1LT5tbXUtPmZsdXNo
-X3NlcSk7CisJYm9vbCBuZWVkX2ZsdXNoID0gZ3B1LT5mbHVzaF9zZXEgIT0gbmV3X2ZsdXNoX3Nl
-cTsKIAogCWlmIChkcm1fZGVidWcgJiBEUk1fVVRfRFJJVkVSKQogCQlldG5hdml2X2J1ZmZlcl9k
-dW1wKGdwdSwgYnVmZmVyLCAwLCAweDUwKTsKQEAgLTI2OSwxNCArMjcxLDE0IEBAIHZvaWQgZXRu
-YXZpdl9idWZmZXJfcXVldWUoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUsIHVuc2lnbmVkIGludCBl
-dmVudCwKIAkgKiBuZWVkIHRvIGFwcGVuZCBhIG1tdSBmbHVzaCBsb2FkIHN0YXRlLCBmb2xsb3dl
-ZCBieSBhIG5ldwogCSAqIGxpbmsgdG8gdGhpcyBidWZmZXIgLSBhIHRvdGFsIG9mIGZvdXIgYWRk
-aXRpb25hbCB3b3Jkcy4KIAkgKi8KLQlpZiAoZ3B1LT5tbXUtPm5lZWRfZmx1c2ggfHwgZ3B1LT5z
-d2l0Y2hfY29udGV4dCkgeworCWlmIChuZWVkX2ZsdXNoIHx8IGdwdS0+c3dpdGNoX2NvbnRleHQp
-IHsKIAkJdTMyIHRhcmdldCwgZXh0cmFfZHdvcmRzOwogCiAJCS8qIGxpbmsgY29tbWFuZCAqLwog
-CQlleHRyYV9kd29yZHMgPSAxOwogCiAJCS8qIGZsdXNoIGNvbW1hbmQgKi8KLQkJaWYgKGdwdS0+
-bW11LT5uZWVkX2ZsdXNoKSB7CisJCWlmIChuZWVkX2ZsdXNoKSB7CiAJCQlpZiAoZ3B1LT5tbXUt
-PnZlcnNpb24gPT0gRVROQVZJVl9JT01NVV9WMSkKIAkJCQlleHRyYV9kd29yZHMgKz0gMTsKIAkJ
-CWVsc2UKQEAgLTI4OSw3ICsyOTEsNyBAQCB2b2lkIGV0bmF2aXZfYnVmZmVyX3F1ZXVlKHN0cnVj
-dCBldG5hdml2X2dwdSAqZ3B1LCB1bnNpZ25lZCBpbnQgZXZlbnQsCiAKIAkJdGFyZ2V0ID0gZXRu
-YXZpdl9idWZmZXJfcmVzZXJ2ZShncHUsIGJ1ZmZlciwgZXh0cmFfZHdvcmRzKTsKIAotCQlpZiAo
-Z3B1LT5tbXUtPm5lZWRfZmx1c2gpIHsKKwkJaWYgKG5lZWRfZmx1c2gpIHsKIAkJCS8qIEFkZCB0
-aGUgTU1VIGZsdXNoICovCiAJCQlpZiAoZ3B1LT5tbXUtPnZlcnNpb24gPT0gRVROQVZJVl9JT01N
-VV9WMSkgewogCQkJCUNNRF9MT0FEX1NUQVRFKGJ1ZmZlciwgVklWU19HTF9GTFVTSF9NTVUsCkBA
-IC0zMDksNyArMzExLDcgQEAgdm9pZCBldG5hdml2X2J1ZmZlcl9xdWV1ZShzdHJ1Y3QgZXRuYXZp
-dl9ncHUgKmdwdSwgdW5zaWduZWQgaW50IGV2ZW50LAogCQkJCQlTWU5DX1JFQ0lQSUVOVF9QRSk7
-CiAJCQl9CiAKLQkJCWdwdS0+bW11LT5uZWVkX2ZsdXNoID0gZmFsc2U7CisJCQlncHUtPmZsdXNo
-X3NlcSA9IG5ld19mbHVzaF9zZXE7CiAJCX0KIAogCQlpZiAoZ3B1LT5zd2l0Y2hfY29udGV4dCkg
-ewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmMKaW5kZXggYTMzNjc1NDY5OGY4Li5k
-YmEwZDc2OWQxN2EgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
-Z3B1LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuYwpAQCAtMTMx
-Myw3ICsxMzEzLDcgQEAgaW50IGV0bmF2aXZfZ3B1X3N1Ym1pdChzdHJ1Y3QgZXRuYXZpdl9ncHUg
-KmdwdSwKIAlncHUtPmFjdGl2ZV9mZW5jZSA9IHN1Ym1pdC0+ZmVuY2U7CiAKIAlpZiAoZ3B1LT5s
-YXN0Y3R4ICE9IGNtZGJ1Zi0+Y3R4KSB7Ci0JCWdwdS0+bW11LT5uZWVkX2ZsdXNoID0gdHJ1ZTsK
-KwkJZ3B1LT5tbXUtPmZsdXNoX3NlcSsrOwogCQlncHUtPnN3aXRjaF9jb250ZXh0ID0gdHJ1ZTsK
-IAkJZ3B1LT5sYXN0Y3R4ID0gY21kYnVmLT5jdHg7CiAJfQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuaCBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0
-bmF2aXZfZ3B1LmgKaW5kZXggNzNjMjc4ZGMzNzA2Li40MTY5NDBiMjU0YTYgMTAwNjQ0Ci0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmgKKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuaApAQCAtMTM1LDYgKzEzNSw3IEBAIHN0cnVjdCBldG5h
-dml2X2dwdSB7CiAJaW50IGlycTsKIAogCXN0cnVjdCBldG5hdml2X2lvbW11ICptbXU7CisJdW5z
-aWduZWQgaW50IGZsdXNoX3NlcTsKIAogCS8qIFBvd2VyIENvbnRyb2w6ICovCiAJc3RydWN0IGNs
-ayAqY2xrX2J1czsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
-bW11LmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X21tdS5jCmluZGV4IGZlMGU4
-NWI0MTMxMC4uZWY5ZGY2MTU4ZGMxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZp
-di9ldG5hdml2X21tdS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11
-LmMKQEAgLTEzNCw3ICsxMzQsNyBAQCBzdGF0aWMgaW50IGV0bmF2aXZfaW9tbXVfZmluZF9pb3Zh
-KHN0cnVjdCBldG5hdml2X2lvbW11ICptbXUsCiAJCSAqLwogCQlpZiAobW11LT5sYXN0X2lvdmEp
-IHsKIAkJCW1tdS0+bGFzdF9pb3ZhID0gMDsKLQkJCW1tdS0+bmVlZF9mbHVzaCA9IHRydWU7CisJ
-CQltbXUtPmZsdXNoX3NlcSsrOwogCQkJY29udGludWU7CiAJCX0KIApAQCAtMTk3LDcgKzE5Nyw3
-IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9pb21tdV9maW5kX2lvdmEoc3RydWN0IGV0bmF2aXZfaW9t
-bXUgKm1tdSwKIAkJICogYXNzb2NpYXRlZCBjb21taXQgcmVxdWVzdGluZyB0aGlzIG1hcHBpbmcs
-IGFuZCByZXRyeSB0aGUKIAkJICogYWxsb2NhdGlvbiBvbmUgbW9yZSB0aW1lLgogCQkgKi8KLQkJ
-bW11LT5uZWVkX2ZsdXNoID0gdHJ1ZTsKKwkJbW11LT5mbHVzaF9zZXErKzsKIAl9CiAKIAlyZXR1
-cm4gcmV0OwpAQCAtMzU0LDcgKzM1NCw3IEBAIHUzMiBldG5hdml2X2lvbW11X2dldF9jbWRidWZf
-dmEoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUsCiAJCSAqIHRoYXQgdGhlIEZFIE1NVSBwcmVmZXRj
-aCB3b24ndCBsb2FkIGludmFsaWQgZW50cmllcy4KIAkJICovCiAJCW1tdS0+bGFzdF9pb3ZhID0g
-YnVmLT52cmFtX25vZGUuc3RhcnQgKyBidWYtPnNpemUgKyBTWl82NEs7Ci0JCWdwdS0+bW11LT5u
-ZWVkX2ZsdXNoID0gdHJ1ZTsKKwkJbW11LT5mbHVzaF9zZXErKzsKIAkJbXV0ZXhfdW5sb2NrKCZt
-bXUtPmxvY2spOwogCiAJCXJldHVybiAodTMyKWJ1Zi0+dnJhbV9ub2RlLnN0YXJ0OwpkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9tbXUuaCBiL2RyaXZlcnMvZ3B1
-L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmgKaW5kZXggZTc4N2U0OWM5NjkzLi41YmRjNWY1NjAx
-YjEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmgKKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9tbXUuaApAQCAtNDQsNyArNDQsNyBA
-QCBzdHJ1Y3QgZXRuYXZpdl9pb21tdSB7CiAJc3RydWN0IGxpc3RfaGVhZCBtYXBwaW5nczsKIAlz
-dHJ1Y3QgZHJtX21tIG1tOwogCXUzMiBsYXN0X2lvdmE7Ci0JYm9vbCBuZWVkX2ZsdXNoOworCXVu
-c2lnbmVkIGludCBmbHVzaF9zZXE7CiB9OwogCiBzdHJ1Y3QgZXRuYXZpdl9nZW1fb2JqZWN0Owot
-LSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Am Donnerstag, den 02.04.2020, 18:07 +0100 schrieb Robert Beckett:
+> commit 4900dda90af2cb13bc1d4c12ce94b98acc8fe64e upstream
+> 
+> Due to async need_flush updating via other buffer mapping, checking
+> gpu->need_flush in 3 places within etnaviv_buffer_queue can cause GPU
+> hangs.
+> 
+> This occurs due to need_flush being false for the first 2 checks in that
+> function, so that the extra dword does not get accounted for, but by the
+> time we come to check for the third time, gpu->mmu->need_flish is true,
+> which outputs the flush instruction. This causes the prefetch during the
+> final link to be off by 1. This causes GPU hangs.
+
+Yep, there should have been a READ_ONCE on this state. :/
+
+> It causes the ring to contain patterns like this:
+> 
+> 0x40000005, /* LINK (8) PREFETCH=0x5,OP=LINK */                                                      
+> 0x70040010, /*   ADDRESS *0x70040010 */                                                              
+> 0x40000002, /* LINK (8) PREFETCH=0x2,OP=LINK */                                                      
+> 0x70040000, /*   ADDRESS *0x70040000 */                                                              
+> 0x08010e04, /* LOAD_STATE (1) Base: 0x03810 Size: 1 Fixp: 0 */                                       
+> 0x0000001f, /*   GL.FLUSH_MMU := FLUSH_FEMMU=1,FLUSH_UNK1=1,FLUSH_UNK2=1,FLUSH_PEMMU=1,FLUSH_UNK4=1 */
+> 0x08010e03, /* LOAD_STATE (1) Base: 0x0380C Size: 1 Fixp: 0 */                                       
+> 0x00000000, /*   GL.FLUSH_CACHE := DEPTH=0,COLOR=0,TEXTURE=0,PE2D=0,TEXTUREVS=0,SHADER_L1=0,SHADER_L2=0,UNK10=0,UNK11=0,DESCRIPTOR_UNK12=0,DESCRIPTOR_UNK13=0 */
+> 0x08010e02, /* LOAD_STATE (1) Base: 0x03808 Size: 1 Fixp: 0 */                                       
+> 0x00000701, /*   GL.SEMAPHORE_TOKEN := FROM=FE,TO=PE,UNK28=0x0 */                                    
+> 0x48000000, /* STALL (9) OP=STALL */                                                                 
+> 0x00000701, /*   TOKEN FROM=FE,TO=PE,UNK28=0x0 */                                                    
+> 0x08010e00, /* LOAD_STATE (1) Base: 0x03800 Size: 1 Fixp: 0 */                                       
+> 0x00000000, /*   GL.PIPE_SELECT := PIPE=PIPE_3D */                                                   
+> 0x40000035, /* LINK (8) PREFETCH=0x35,OP=LINK */                                                     
+> 0x70041000, /*   ADDRESS *0x70041000 */
+> 
+> Here we see a link with prefetch of 5 dwords starting with the 3rd
+> instruction. It only loads the 5 dwords up and including the final
+> LOAD_STATE. It needs to include the final LINK instruction.
+> 
+> This was seen on imx6q, and the fix is confirmed to stop the GPU hangs.
+> 
+> The commit referenced inadvertently fixed this issue by checking
+> gpu->mmu->need_flush once at the start of the function.
+> Given that this commit is independant, and useful for all version, it
+> seems sensible to backport it to the stable branches.
+
+I agree. Without shared MMUs this doesn't really need to be sequence,
+but better just to backport this change, which has seen quite some
+testing, than creating yet another, slightly different, version of this
+function in the stable branches.
+
+Regards,
+Lucas
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
