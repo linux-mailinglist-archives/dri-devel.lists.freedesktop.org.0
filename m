@@ -1,57 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAE819BFCE
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 13:04:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E6919BFF3
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 13:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06D816EA4F;
-	Thu,  2 Apr 2020 11:04:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 611156EA55;
+	Thu,  2 Apr 2020 11:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C6FF6EA4F
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 11:04:46 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id t128so2950591wma.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Apr 2020 04:04:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=rx0Eu0iRyYfg2uvkBLQi2y72YA08curvclFfq6pOht0=;
- b=X9rTXj6wbjaRHbgRBzsfG4EoVaNvnhFDANQlZN95tOdfwv0qAWyBrb17LfhD4AG4Xq
- sA50IyhMPxnsvu+0ZIOoaeyIeAIeFEqJaPIN/80lXHzgQFe4oMIEMi1qvrQwmWVrZaVn
- F/AYTw7WrueRNIdSd0sn3PCL0CMlhpPCMpEfM=
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E047C6EA55
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 11:13:03 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id f52so2959432otf.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Apr 2020 04:13:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rx0Eu0iRyYfg2uvkBLQi2y72YA08curvclFfq6pOht0=;
- b=LIMHwqrH7xuGrPcydJpKHAE+jyBSVgwlQWAw6FwD//fAxRdQW5CmVBK7lqSphmGl8o
- 3RFlEvEAGAv9H220dXt17Ac5VEguyo65W6m6x5QuJZMByoMPmcJfh+ebpw3KdmvyE5Ww
- 3AMzYtgkiDZfEceKIu65/Gr0ZXIyyjDT+lb90cYC/hHMSY47XtsVynIwydyAeBuoxihi
- Ilo0qu/WZKsLYYw8QFXNDTw3XN6jS3LDWH+qC59JjPSgTsFtZ8H9lrd6oECN1pcjQnQu
- 48wFqnPPhWbAZ89nSbsDfBAHUJ3ObXd+Ra4R72pBvoNsZv+Yhdjuz2JCeUPLvmip7t7z
- n7SQ==
-X-Gm-Message-State: AGi0PublDFUO8Z2AevILDVdWGUNNvbJFLi8qis8w4EgawWZshhazB1J5
- SSe+dT4PfFXDITefyJiFeIJYig==
-X-Google-Smtp-Source: APiQypKilRa4ELew+HwUY7JVsWY5Zgf9ieOed7+HI5mjFjYkqai/9nmS7YR94mbFdri9Oq6nWhSjAg==
-X-Received: by 2002:a1c:3943:: with SMTP id g64mr2926900wma.9.1585825484780;
- Thu, 02 Apr 2020 04:04:44 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a186sm6645925wmh.33.2020.04.02.04.04.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Apr 2020 04:04:44 -0700 (PDT)
-Date: Thu, 2 Apr 2020 13:04:42 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH] drm: Fix wrong kfree() in managed resource usage example
-Message-ID: <20200402110442.GS2363188@phenom.ffwll.local>
-References: <20200402095325.5266-1-laurent.pinchart+renesas@ideasonboard.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mLkSVYvq1S+xd0KBA7m5cNwx3upuFOpsltCvoBBzKng=;
+ b=UVbD2kpJM7QX5SA74WYheDB6vtFMgpi4QVA6cwcNetpgCLvhFPeTYfRrVsEDQ4IdA0
+ Oz2uENa/F7auryI8p62pRVJCJQVav7Y3zWA+/TieeI9XEQzurvMKX5Cm04+HgB9AWqgR
+ G/PFe5lD8vISw/mYF6ohZ7QBlduOetbn/qf8jw/6PNq0G2unODWW5zeyCW0N3xRFwpLp
+ W7/P6Pt/f4pL6l1T9AKya1ztt952NuggIq6XbchwAxxcQDkSB+UDGpqz/HFCGxEBcP+v
+ mvylutq5AxEo2GYw7L1QVspbwGGTOArnLOVOKkYwFvhZWvrZ94QxebMdKGxuD14z5uhO
+ yjVg==
+X-Gm-Message-State: AGi0PuZJqPQpEIaulEexQDQcpYS+AbdSySFCr2CaQa7LQ/Knr6e6ERML
+ /rqepeSZuOTNXbFuRduJF1Xk/a3kXk4TZygDrV0RcxbF
+X-Google-Smtp-Source: APiQypIORc/Nv1n6rB0FStMIbY/Vcz0asLDfPslbCmgMGOigP/aw3H0kO+OumSt/995iGNxNyKQ/MgKapGLA+4potZc=
+X-Received: by 2002:a05:6830:15c2:: with SMTP id
+ j2mr1797111otr.107.1585825983045; 
+ Thu, 02 Apr 2020 04:13:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200402095325.5266-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+References: <20200402104035.13497-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200402104035.13497-1-laurent.pinchart+renesas@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 2 Apr 2020 13:12:51 +0200
+Message-ID: <CAMuHMdXwUEuct=Pr29aGJuj1cgDmCEZFDm1JEx5-+zP-02n+mw@mail.gmail.com>
+Subject: Re: [PATCH] drm: rcar-du: Create immutable zpos property for primary
+ planes
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,53 +53,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Tomohito Esaki <etom@igel.co.jp>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 02, 2020 at 12:53:25PM +0300, Laurent Pinchart wrote:
-> The example code showing how to use the managed resource API calls
-> kfree() on the wrong pointer. Fix it.
-> 
-> Fixes: d33b58d0115e ("drm: Garbage collect drm_dev_fini")
+Hi Laurent,
 
-Actually goes back to the original doc patch adding these, so I deleted
-this line.
-
+On Thu, Apr 2, 2020 at 12:42 PM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> The R-Car DU driver creates a zpos property, ranging from 1 to 7, for
+> all the overlay planes, but leaves the primary plane without a zpos
+> property. The DRM/KMS API doesn't clearly specify if this is acceptable,
+> of it the property is mandatory for all planes when exposed for some of
+> the planes. Nonetheless, weston v8.0 has been reported to have trouble
+> handling this situation.
+>
+> The DRM core offers support for immutable zpos properties. Creating an
+> immutable zpos property set to 0 for the primary planes seems to be a
+> good way forward, as it shouldn't introduce any regression, and can fix
+> the issue. Do so.
+>
+> Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Thanks for your patch, applied to drm-misc-next.
--Daniel
+Thanks for your patch!
 
-> ---
->  drivers/gpu/drm/drm_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 7dad7813fca1..c15c9b4540e1 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -305,7 +305,7 @@ void drm_minor_release(struct drm_minor *minor)
->   *
->   *		ret = devm_drm_dev_init(&pdev->dev, drm, &driver_drm_driver);
->   *		if (ret) {
-> - *			kfree(drm);
-> + *			kfree(priv);
->   *			return ret;
->   *		}
->   *		drmm_add_final_kfree(drm, priv);
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> @@ -785,13 +785,15 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
+>
+>                 drm_plane_create_alpha_property(&plane->plane);
+>
+> -               if (type == DRM_PLANE_TYPE_PRIMARY)
+> -                       continue;
+> -
+> -               drm_object_attach_property(&plane->plane.base,
+> -                                          rcdu->props.colorkey,
+> -                                          RCAR_DU_COLORKEY_NONE);
+> -               drm_plane_create_zpos_property(&plane->plane, 1, 1, 7);
+> +               if (type == DRM_PLANE_TYPE_PRIMARY) {
+> +                       drm_plane_create_zpos_immutable_property(&plane->plane,
+> +                                                                0);
+> +               } else {
+> +                       drm_object_attach_property(&plane->plane.base,
+> +                                                  rcdu->props.colorkey,
+> +                                                  RCAR_DU_COLORKEY_NONE);
+> +                       drm_plane_create_zpos_property(&plane->plane, 1, 1, 7);
+> +               }
+>         }
+>
+>         return 0;
+
+This is very similar to Esaki-san's patch[*] posted yesterday.
+However, there's one big difference: your patch doesn't update
+rcar_du_vsp_init(). Isn't that needed?
+
+[*] "[PATCH] drm: rcar-du: Set primary plane zpos immutably at initializing"
+    https://lore.kernel.org/linux-renesas-soc/20200401061100.7379-1-etom@igel.co.jp/
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
