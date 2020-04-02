@@ -1,37 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40F419BF83
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 12:40:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8506819BFB9
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 12:57:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34ACF6EA47;
-	Thu,  2 Apr 2020 10:40:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8E7C6EA49;
+	Thu,  2 Apr 2020 10:57:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C38456EA47
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 10:40:48 +0000 (UTC)
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 155D580E;
- Thu,  2 Apr 2020 12:40:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1585824047;
- bh=zexcxHTvs3Clc1+zo3EKPdnRieJB95Z8ud4HjoyHT3s=;
- h=From:To:Cc:Subject:Date:From;
- b=OeuZRPgsmlNzJ1fT6o3P8Gd1xuZb6wNJjI6Ar2p6Ovvb+gmnxrIifidOCWpmqSm3t
- YG04L19YX0ZMmmpVcuytQXr4tW6VkNbu6iQjpETFz0Qp3scXDy8pzHmTZqwuSjR47u
- jVXDO4Gw243ZkmVXDl1CtS1Xc5Jdg/J3J7Pn1ulI=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: rcar-du: Create immutable zpos property for primary
- planes
-Date: Thu,  2 Apr 2020 13:40:35 +0300
-Message-Id: <20200402104035.13497-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.24.1
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B4246EA49
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 10:57:06 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id z14so6633700wmf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Apr 2020 03:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vBV0Allu6iOSmBCmW0uF3n1umxXRMetPcUSnAXweDa8=;
+ b=ACdefVov4fLCo65LI5CXw33T60GoIon+IEpAvx5obPLg0SKcGSdwykc6Ud8W4Ljx3c
+ yCZxIJXRoXtrfNJyB0VFvJQVPmwJ5+nvn2HD9qr1ZRibml4oyQTBhDYMEkqBqH+o9nzr
+ nlnBgyycpUZjjTIbmqGpn+/bfvk/0YKd2VuwUuQUhIbElvx0vjkk1XV/B76C4EEz8Ium
+ 9rAz1d1Pz7+KmK9cpMV8t/GDFxa9M1qhaekZzLjN//+tnNW6d8YFo5MfxN+lBIYMKU05
+ hJjO59hDfGKWmqEk2ZhrMgg2F9bXstfFTr4vtTRXmo9buzohrWmJu3GpqFkRHjiX24BM
+ 7CdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vBV0Allu6iOSmBCmW0uF3n1umxXRMetPcUSnAXweDa8=;
+ b=f/6jIVLJCGheSFIASnRVwPhEAu+4UgYT88oMmOVV41uq73T/d54AHeGREhsrmbKrbv
+ Le6AXXwLtb9huBdahRzghh3i8K+75xWx442F+IJXQnmm+GgmmEQWvS4dXrEGVHI9L2lJ
+ 4kDgal/dETSEsDQP5S+hVIiehCVayH7v8UsAB+NPYtfHzMfb23hHg8EVS0qvjbtw8Om8
+ PVBFKqjAvqnJCwwWzrbqtiLS9lRKBCYDUOivlegVyOqfndErpH3XS1pufZNrp1CEpV64
+ a5xUMnN8jPA3317sTg1syOBu9hUozuoGOgM5VqETuA984qu5u3q1x2jxsvj9kU2+NEAg
+ lm8A==
+X-Gm-Message-State: AGi0PuYV6jYQAvQ5CuwGp3NZcRfwQZfikyWPKoQJsadmxsvvyyUTOVSL
+ XlNto99m0RUdjeNzXvo7aw2UX30eQqwuVUGDm+NEmws3YqI=
+X-Google-Smtp-Source: APiQypJVohSVs9ODDtnBmhJg7XQtAXvVAtRnokgwil1qw7juc+svxCq/b7AIeTlx7L1lZAvoVZMejcXgxithSmsa5S0=
+X-Received: by 2002:a1c:1d17:: with SMTP id d23mr2933273wmd.147.1585825025001; 
+ Thu, 02 Apr 2020 03:57:05 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200402104035.13497-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200402104035.13497-1-laurent.pinchart+renesas@ideasonboard.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 2 Apr 2020 11:56:01 +0100
+Message-ID: <CAPj87rMCf0qv0mQxKRZZLzhJ3HBG92MdABKM5JJx8KarG_M3DQ@mail.gmail.com>
+Subject: Re: [PATCH] drm: rcar-du: Create immutable zpos property for primary
+ planes
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,62 +63,44 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-renesas-soc@vger.kernel.org,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The R-Car DU driver creates a zpos property, ranging from 1 to 7, for
-all the overlay planes, but leaves the primary plane without a zpos
-property. The DRM/KMS API doesn't clearly specify if this is acceptable,
-of it the property is mandatory for all planes when exposed for some of
-the planes. Nonetheless, weston v8.0 has been reported to have trouble
-handling this situation.
+On Thu, 2 Apr 2020 at 11:40, Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> The R-Car DU driver creates a zpos property, ranging from 1 to 7, for
+> all the overlay planes, but leaves the primary plane without a zpos
+> property. The DRM/KMS API doesn't clearly specify if this is acceptable,
+> of it the property is mandatory for all planes when exposed for some of
+> the planes. Nonetheless, weston v8.0 has been reported to have trouble
+> handling this situation.
 
-The DRM core offers support for immutable zpos properties. Creating an
-immutable zpos property set to 0 for the primary planes seems to be a
-good way forward, as it shouldn't introduce any regression, and can fix
-the issue. Do so.
+Yeah. It didn't even occur to me/us that someone would do that, to be
+honest. We need to have zpos information for all planes that we're
+using in order for zpos to be at all meaningful, and we can't exactly
+avoid using the primary plane. Without knowing the primary plane's
+zpos, we can't know if the overlays are actually overlays or in fact
+underlays.
 
-Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_plane.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+> The DRM core offers support for immutable zpos properties. Creating an
+> immutable zpos property set to 0 for the primary planes seems to be a
+> good way forward, as it shouldn't introduce any regression, and can fix
+> the issue. Do so.
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index c6430027169f..a0021fc25b27 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -785,13 +785,15 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
- 
- 		drm_plane_create_alpha_property(&plane->plane);
- 
--		if (type == DRM_PLANE_TYPE_PRIMARY)
--			continue;
--
--		drm_object_attach_property(&plane->plane.base,
--					   rcdu->props.colorkey,
--					   RCAR_DU_COLORKEY_NONE);
--		drm_plane_create_zpos_property(&plane->plane, 1, 1, 7);
-+		if (type == DRM_PLANE_TYPE_PRIMARY) {
-+			drm_plane_create_zpos_immutable_property(&plane->plane,
-+								 0);
-+		} else {
-+			drm_object_attach_property(&plane->plane.base,
-+						   rcdu->props.colorkey,
-+						   RCAR_DU_COLORKEY_NONE);
-+			drm_plane_create_zpos_property(&plane->plane, 1, 1, 7);
-+		}
- 	}
- 
- 	return 0;
--- 
-Regards,
+Perfect. We support immutable properties entirely well, we just need
+to know about them.
 
-Laurent Pinchart
+> Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
+Reviewed-by: Daniel Stone <daniels@collabora.com>
+
+Cheers,
+Daniel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
