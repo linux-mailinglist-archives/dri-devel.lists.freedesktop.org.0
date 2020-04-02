@@ -2,29 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78BD19C7A4
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 19:08:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E325619C7A7
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 19:09:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E64E36E12E;
-	Thu,  2 Apr 2020 17:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD0A6E135;
+	Thu,  2 Apr 2020 17:09:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFA336EA85
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 17:08:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD3466E135
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 17:09:43 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbeckett) with ESMTPSA id 5C6E3297E43
+ (Authenticated sender: bbeckett) with ESMTPSA id 3EC89297E43
 From: Robert Beckett <bob.beckett@collabora.com>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@linux.ie>
-Subject: [PATCH v4.19.y, v4.14.y,
- v4.9.y] drm/etnaviv: Backport fix for mmu flushing
-Date: Thu,  2 Apr 2020 18:07:55 +0100
-Message-Id: <20200402170758.8315-1-bob.beckett@collabora.com>
+Subject: [PATCH v4.14.y] drm/etnaviv: replace MMU flush marker with flush
+ sequence
+Date: Thu,  2 Apr 2020 18:07:57 +0100
+Message-Id: <20200402170758.8315-2-bob.beckett@collabora.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200402170758.8315-1-bob.beckett@collabora.com>
+References: <20200402170758.8315-1-bob.beckett@collabora.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -39,57 +41,106 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: bob.beckett@collabora.com
-Cc: stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: Robert Beckett <bob.beckett@collabora.com>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit 4900dda90af2cb13bc1d4c12ce94b98acc8fe64e upstream
-
-Due to async need_flush updating via other buffer mapping, checking
-gpu->need_flush in 3 places within etnaviv_buffer_queue can cause GPU
-hangs.
-
-This occurs due to need_flush being false for the first 2 checks in that
-function, so that the extra dword does not get accounted for, but by the
-time we come to check for the third time, gpu->mmu->need_flish is true,
-which outputs the flush instruction. This causes the prefetch during the
-final link to be off by 1. This causes GPU hangs.
-
-It causes the ring to contain patterns like this:
-
-0x40000005, /* LINK (8) PREFETCH=0x5,OP=LINK */                                                      
-0x70040010, /*   ADDRESS *0x70040010 */                                                              
-0x40000002, /* LINK (8) PREFETCH=0x2,OP=LINK */                                                      
-0x70040000, /*   ADDRESS *0x70040000 */                                                              
-0x08010e04, /* LOAD_STATE (1) Base: 0x03810 Size: 1 Fixp: 0 */                                       
-0x0000001f, /*   GL.FLUSH_MMU := FLUSH_FEMMU=1,FLUSH_UNK1=1,FLUSH_UNK2=1,FLUSH_PEMMU=1,FLUSH_UNK4=1 */
-0x08010e03, /* LOAD_STATE (1) Base: 0x0380C Size: 1 Fixp: 0 */                                       
-0x00000000, /*   GL.FLUSH_CACHE := DEPTH=0,COLOR=0,TEXTURE=0,PE2D=0,TEXTUREVS=0,SHADER_L1=0,SHADER_L2=0,UNK10=0,UNK11=0,DESCRIPTOR_UNK12=0,DESCRIPTOR_UNK13=0 */
-0x08010e02, /* LOAD_STATE (1) Base: 0x03808 Size: 1 Fixp: 0 */                                       
-0x00000701, /*   GL.SEMAPHORE_TOKEN := FROM=FE,TO=PE,UNK28=0x0 */                                    
-0x48000000, /* STALL (9) OP=STALL */                                                                 
-0x00000701, /*   TOKEN FROM=FE,TO=PE,UNK28=0x0 */                                                    
-0x08010e00, /* LOAD_STATE (1) Base: 0x03800 Size: 1 Fixp: 0 */                                       
-0x00000000, /*   GL.PIPE_SELECT := PIPE=PIPE_3D */                                                   
-0x40000035, /* LINK (8) PREFETCH=0x35,OP=LINK */                                                     
-0x70041000, /*   ADDRESS *0x70041000 */
-
-Here we see a link with prefetch of 5 dwords starting with the 3rd
-instruction. It only loads the 5 dwords up and including the final
-LOAD_STATE. It needs to include the final LINK instruction.
-
-This was seen on imx6q, and the fix is confirmed to stop the GPU hangs.
-
-The commit referenced inadvertently fixed this issue by checking
-gpu->mmu->need_flush once at the start of the function.
-Given that this commit is independant, and useful for all version, it
-seems sensible to backport it to the stable branches.
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Cgpjb21taXQgNDkwMGRk
+YTkwYWYyY2IxM2JjMWQ0YzEyY2U5NGI5OGFjYzhmZTY0ZSB1cHN0cmVhbQoKSWYgYSBNTVUgaXMg
+c2hhcmVkIGJldHdlZW4gbXVsdGlwbGUgR1BVcywgYWxsIG9mIHRoZW0gbmVlZCB0byBmbHVzaCB0
+aGVpcgpUTEJzLCBzbyBhIHNpbmdsZSBtYXJrZXIgdGhhdCBnZXRzIHJlc2V0IG9uIHRoZSBmaXJz
+dCBmbHVzaCB3b24ndCBkby4KUmVwbGFjZSB0aGUgZmx1c2ggbWFya2VyIHdpdGggYSBzZXF1ZW5j
+ZSBudW1iZXIsIHNvIHRoYXQgaXQncyBwb3NzaWJsZSB0bwpjaGVjayBpZiB0aGUgVExCIGlzIGlu
+IHN5bmMgd2l0aCB0aGUgY3VycmVudCBwYWdlIHRhYmxlIHN0YXRlIGZvciBlYWNoIEdQVS4KClNp
+Z25lZC1vZmYtYnk6IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4LmRlPgpSZXZpZXdl
+ZC1ieTogUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4KUmV2aWV3ZWQtYnk6
+IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+ClNpZ25lZC1vZmYtYnk6IFJvYmVydCBC
+ZWNrZXR0IDxib2IuYmVja2V0dEBjb2xsYWJvcmEuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9l
+dG5hdml2L2V0bmF2aXZfYnVmZmVyLmMgfCAxMCArKysrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0v
+ZXRuYXZpdi9ldG5hdml2X2dwdS5jICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2
+L2V0bmF2aXZfZ3B1LmggICAgfCAgMSArCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2
+X21tdS5jICAgIHwgIDggKysrKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
+bW11LmggICAgfCAgMiArLQogNSBmaWxlcyBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAxMCBk
+ZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2
+X2J1ZmZlci5jIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9idWZmZXIuYwppbmRl
+eCBlZDk1ODhmMzZiYzkuLjVmYzFiNDFjYjZjNSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L2V0bmF2aXYvZXRuYXZpdl9idWZmZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9l
+dG5hdml2X2J1ZmZlci5jCkBAIC0yNTgsNiArMjU4LDggQEAgdm9pZCBldG5hdml2X2J1ZmZlcl9x
+dWV1ZShzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdSwgdW5zaWduZWQgaW50IGV2ZW50LAogCXVuc2ln
+bmVkIGludCB3YWl0bGlua19vZmZzZXQgPSBidWZmZXItPnVzZXJfc2l6ZSAtIDE2OwogCXUzMiBy
+ZXR1cm5fdGFyZ2V0LCByZXR1cm5fZHdvcmRzOwogCXUzMiBsaW5rX3RhcmdldCwgbGlua19kd29y
+ZHM7CisJdW5zaWduZWQgaW50IG5ld19mbHVzaF9zZXEgPSBSRUFEX09OQ0UoZ3B1LT5tbXUtPmZs
+dXNoX3NlcSk7CisJYm9vbCBuZWVkX2ZsdXNoID0gZ3B1LT5mbHVzaF9zZXEgIT0gbmV3X2ZsdXNo
+X3NlcTsKIAogCWlmIChkcm1fZGVidWcgJiBEUk1fVVRfRFJJVkVSKQogCQlldG5hdml2X2J1ZmZl
+cl9kdW1wKGdwdSwgYnVmZmVyLCAwLCAweDUwKTsKQEAgLTI3MCwxNCArMjcyLDE0IEBAIHZvaWQg
+ZXRuYXZpdl9idWZmZXJfcXVldWUoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUsIHVuc2lnbmVkIGlu
+dCBldmVudCwKIAkgKiBuZWVkIHRvIGFwcGVuZCBhIG1tdSBmbHVzaCBsb2FkIHN0YXRlLCBmb2xs
+b3dlZCBieSBhIG5ldwogCSAqIGxpbmsgdG8gdGhpcyBidWZmZXIgLSBhIHRvdGFsIG9mIGZvdXIg
+YWRkaXRpb25hbCB3b3Jkcy4KIAkgKi8KLQlpZiAoZ3B1LT5tbXUtPm5lZWRfZmx1c2ggfHwgZ3B1
+LT5zd2l0Y2hfY29udGV4dCkgeworCWlmIChuZWVkX2ZsdXNoIHx8IGdwdS0+c3dpdGNoX2NvbnRl
+eHQpIHsKIAkJdTMyIHRhcmdldCwgZXh0cmFfZHdvcmRzOwogCiAJCS8qIGxpbmsgY29tbWFuZCAq
+LwogCQlleHRyYV9kd29yZHMgPSAxOwogCiAJCS8qIGZsdXNoIGNvbW1hbmQgKi8KLQkJaWYgKGdw
+dS0+bW11LT5uZWVkX2ZsdXNoKSB7CisJCWlmIChuZWVkX2ZsdXNoKSB7CiAJCQlpZiAoZ3B1LT5t
+bXUtPnZlcnNpb24gPT0gRVROQVZJVl9JT01NVV9WMSkKIAkJCQlleHRyYV9kd29yZHMgKz0gMTsK
+IAkJCWVsc2UKQEAgLTI5MCw3ICsyOTIsNyBAQCB2b2lkIGV0bmF2aXZfYnVmZmVyX3F1ZXVlKHN0
+cnVjdCBldG5hdml2X2dwdSAqZ3B1LCB1bnNpZ25lZCBpbnQgZXZlbnQsCiAKIAkJdGFyZ2V0ID0g
+ZXRuYXZpdl9idWZmZXJfcmVzZXJ2ZShncHUsIGJ1ZmZlciwgZXh0cmFfZHdvcmRzKTsKIAotCQlp
+ZiAoZ3B1LT5tbXUtPm5lZWRfZmx1c2gpIHsKKwkJaWYgKG5lZWRfZmx1c2gpIHsKIAkJCS8qIEFk
+ZCB0aGUgTU1VIGZsdXNoICovCiAJCQlpZiAoZ3B1LT5tbXUtPnZlcnNpb24gPT0gRVROQVZJVl9J
+T01NVV9WMSkgewogCQkJCUNNRF9MT0FEX1NUQVRFKGJ1ZmZlciwgVklWU19HTF9GTFVTSF9NTVUs
+CkBAIC0zMTAsNyArMzEyLDcgQEAgdm9pZCBldG5hdml2X2J1ZmZlcl9xdWV1ZShzdHJ1Y3QgZXRu
+YXZpdl9ncHUgKmdwdSwgdW5zaWduZWQgaW50IGV2ZW50LAogCQkJCQlTWU5DX1JFQ0lQSUVOVF9Q
+RSk7CiAJCQl9CiAKLQkJCWdwdS0+bW11LT5uZWVkX2ZsdXNoID0gZmFsc2U7CisJCQlncHUtPmZs
+dXNoX3NlcSA9IG5ld19mbHVzaF9zZXE7CiAJCX0KIAogCQlpZiAoZ3B1LT5zd2l0Y2hfY29udGV4
+dCkgewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuYyBi
+L2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmMKaW5kZXggYTE1NjJmODljM2Q3
+Li4xZjhjOGU0MzI4ZTQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2
+aXZfZ3B1LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuYwpAQCAt
+MTM1Myw3ICsxMzUzLDcgQEAgaW50IGV0bmF2aXZfZ3B1X3N1Ym1pdChzdHJ1Y3QgZXRuYXZpdl9n
+cHUgKmdwdSwKIAlncHUtPmFjdGl2ZV9mZW5jZSA9IHN1Ym1pdC0+ZmVuY2UtPnNlcW5vOwogCiAJ
+aWYgKGdwdS0+bGFzdGN0eCAhPSBjbWRidWYtPmN0eCkgewotCQlncHUtPm1tdS0+bmVlZF9mbHVz
+aCA9IHRydWU7CisJCWdwdS0+bW11LT5mbHVzaF9zZXErKzsKIAkJZ3B1LT5zd2l0Y2hfY29udGV4
+dCA9IHRydWU7CiAJCWdwdS0+bGFzdGN0eCA9IGNtZGJ1Zi0+Y3R4OwogCX0KZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmggYi9kcml2ZXJzL2dwdS9kcm0v
+ZXRuYXZpdi9ldG5hdml2X2dwdS5oCmluZGV4IDY4OWNiOGYzNjgwYy4uNjJiMjg3N2QwOTBiIDEw
+MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dwdS5oCisrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmgKQEAgLTEzOCw2ICsxMzgsNyBAQCBz
+dHJ1Y3QgZXRuYXZpdl9ncHUgewogCiAJc3RydWN0IGV0bmF2aXZfaW9tbXUgKm1tdTsKIAlzdHJ1
+Y3QgZXRuYXZpdl9jbWRidWZfc3ViYWxsb2MgKmNtZGJ1Zl9zdWJhbGxvYzsKKwl1bnNpZ25lZCBp
+bnQgZmx1c2hfc2VxOwogCiAJLyogUG93ZXIgQ29udHJvbDogKi8KIAlzdHJ1Y3QgY2xrICpjbGtf
+YnVzOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9tbXUuYyBi
+L2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmMKaW5kZXggZjEwM2U3ODdkZTk0
+Li4wZTIzYTA1NDJmMGEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2
+aXZfbW11LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9tbXUuYwpAQCAt
+MTMyLDcgKzEzMiw3IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9pb21tdV9maW5kX2lvdmEoc3RydWN0
+IGV0bmF2aXZfaW9tbXUgKm1tdSwKIAkJICovCiAJCWlmIChtbXUtPmxhc3RfaW92YSkgewogCQkJ
+bW11LT5sYXN0X2lvdmEgPSAwOwotCQkJbW11LT5uZWVkX2ZsdXNoID0gdHJ1ZTsKKwkJCW1tdS0+
+Zmx1c2hfc2VxKys7CiAJCQljb250aW51ZTsKIAkJfQogCkBAIC0yNDYsNyArMjQ2LDcgQEAgaW50
+IGV0bmF2aXZfaW9tbXVfbWFwX2dlbShzdHJ1Y3QgZXRuYXZpdl9pb21tdSAqbW11LAogCX0KIAog
+CWxpc3RfYWRkX3RhaWwoJm1hcHBpbmctPm1tdV9ub2RlLCAmbW11LT5tYXBwaW5ncyk7Ci0JbW11
+LT5uZWVkX2ZsdXNoID0gdHJ1ZTsKKwltbXUtPmZsdXNoX3NlcSsrOwogCW11dGV4X3VubG9jaygm
+bW11LT5sb2NrKTsKIAogCXJldHVybiByZXQ7CkBAIC0yNjQsNyArMjY0LDcgQEAgdm9pZCBldG5h
+dml2X2lvbW11X3VubWFwX2dlbShzdHJ1Y3QgZXRuYXZpdl9pb21tdSAqbW11LAogCQlldG5hdml2
+X2lvbW11X3JlbW92ZV9tYXBwaW5nKG1tdSwgbWFwcGluZyk7CiAKIAlsaXN0X2RlbCgmbWFwcGlu
+Zy0+bW11X25vZGUpOwotCW1tdS0+bmVlZF9mbHVzaCA9IHRydWU7CisJbW11LT5mbHVzaF9zZXEr
+KzsKIAltdXRleF91bmxvY2soJm1tdS0+bG9jayk7CiB9CiAKQEAgLTM0Niw3ICszNDYsNyBAQCBp
+bnQgZXRuYXZpdl9pb21tdV9nZXRfc3ViYWxsb2NfdmEoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUs
+IGRtYV9hZGRyX3QgcGFkZHIsCiAJCQlyZXR1cm4gcmV0OwogCQl9CiAJCW1tdS0+bGFzdF9pb3Zh
+ID0gdnJhbV9ub2RlLT5zdGFydCArIHNpemU7Ci0JCWdwdS0+bW11LT5uZWVkX2ZsdXNoID0gdHJ1
+ZTsKKwkJbW11LT5mbHVzaF9zZXErKzsKIAkJbXV0ZXhfdW5sb2NrKCZtbXUtPmxvY2spOwogCiAJ
+CSppb3ZhID0gKHUzMil2cmFtX25vZGUtPnN0YXJ0OwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2V0bmF2aXYvZXRuYXZpdl9tbXUuaCBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2
+aXZfbW11LmgKaW5kZXggNTRiZTI4OWU1OTgxLi5jY2I2YWQzNTgyYjggMTAwNjQ0Ci0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmgKKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2V0bmF2aXYvZXRuYXZpdl9tbXUuaApAQCAtNDQsNyArNDQsNyBAQCBzdHJ1Y3QgZXRuYXZpdl9p
+b21tdSB7CiAJc3RydWN0IGxpc3RfaGVhZCBtYXBwaW5nczsKIAlzdHJ1Y3QgZHJtX21tIG1tOwog
+CXUzMiBsYXN0X2lvdmE7Ci0JYm9vbCBuZWVkX2ZsdXNoOworCXVuc2lnbmVkIGludCBmbHVzaF9z
+ZXE7CiB9OwogCiBzdHJ1Y3QgZXRuYXZpdl9nZW1fb2JqZWN0OwotLSAKMi4yMC4xCgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
