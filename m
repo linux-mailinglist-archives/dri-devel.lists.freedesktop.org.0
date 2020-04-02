@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B96019D090
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 08:54:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5AC19CBCE
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 22:43:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18CE16EB0C;
-	Fri,  3 Apr 2020 06:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A586F6E162;
+	Thu,  2 Apr 2020 20:43:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBD1F6EADE
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 20:33:20 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id z5so4909636oth.9
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Apr 2020 13:33:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=xjz9VfQ/qcp06gPRmgOFCZkqy7YVuSQylRbKQQtnWwA=;
- b=arbsatfEDTGt5U1xGl1CrxJPFSO78TybUI+NQpBL+jjl2EMsFYDL89UkVs/WXkBHrA
- KaHAIknSWiIVcHoBKDAvBvfo90xG0BmjvfRRErO1bxPMU9FJ8uDQQ29+lGkExI4jPa2S
- 4XKf8c+5I/aLSFQXA5Xwb8VS2PnbURA0WjmtOKGtcrkrjhDsSjAeUreWU+22fxF5EWkI
- lZNFR924dx+r0nqejtDkW/dBsmHLNA/ktPOmx0yP9lAZN7cg7c5JrGRN6gGAlPTOl/Eh
- Zii1TrO3UdNaq64GPZIHLtjyBLmVJbKGvPReW0EocjHQmys+wnrKj8AMaZkMQXgBFvsb
- Fdlw==
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 391366E162
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 20:43:38 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id b1so4755637ljp.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Apr 2020 13:43:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=b+sg1IKvR7UQ+P+0PCBeB0y4Q0Z6zSnVzKwNNzIYfpI=;
+ b=BdX1Y/hZi2MjhDmwunvX3GgwarGy7zBfCrMFBwDkrtrvJ7Dt24JOgvxUi6i0qQnp7t
+ paezfz2PsP2dl0MorMvZGKKGypox6m4fxOT6lUKujnk8zz+rs51qD7Va9JFfnTsUPaLr
+ m+jfoJ+31JUR6/cYG8huhVA83tz3nLYvzg4RI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=xjz9VfQ/qcp06gPRmgOFCZkqy7YVuSQylRbKQQtnWwA=;
- b=t5QDcyOa69CllaUnTTVDfVEPSzC9I5YVsOOb3pWtf9mqK9jot3CcB/0hgKDmhgMoT9
- ftTXLJos7xudj4QfvICcKjc2I+84SXT5hZ1vD85sqvU5PjZ7J2ACehrv9Qoc+6GVrKLE
- w4RtzrUmqt5Qsm4sHa+CI/kCQ8KkB+edocA2qwXQzZHCleOU4E+V1DCTjorONUw5TfW0
- svaUZ4bZOleTItsqRS8Fyv07llnC0rBaTFXp6BjvObZ5XpspZZhnYvKIuuQBxkfL7ytP
- eUSemR1rxA1hu/xh8V52npu0zJ34AOCUhQuXRzQfAifiAdwO3krTMU8iangjfemgs2tq
- 8GTg==
-X-Gm-Message-State: AGi0PuZHeftRlUkS9ObSti+h1ddHcFjRZjhf3N230SSt1Dqb6ZD7vQaH
- pDeZRP8X9leB0G5fsXRdcR8=
-X-Google-Smtp-Source: APiQypIsr688F5pjBSs+9imenGbLkv72CD+nePG2AykbQLefKqbZynMew4T7z2ON+yf5A3hVd3gRZg==
-X-Received: by 2002:a9d:7a9:: with SMTP id 38mr3858373oto.60.1585859600152;
- Thu, 02 Apr 2020 13:33:20 -0700 (PDT)
-Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
- by smtp.gmail.com with ESMTPSA id 68sm1568699oon.14.2020.04.02.13.33.19
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 02 Apr 2020 13:33:19 -0700 (PDT)
-Date: Thu, 2 Apr 2020 13:33:17 -0700
-From: Nathan Chancellor <natechancellor@gmail.com>
-To: Dave Airlie <airlied@gmail.com>
-Subject: Re: [git pull] drm for 5.7-rc1
-Message-ID: <20200402203317.GA34560@ubuntu-m2-xlarge-x86>
-References: <CAPM=9twza_DeycOEhT+u6Erh0yFTAUe447J6bxWCLq5+QW8ZaA@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=b+sg1IKvR7UQ+P+0PCBeB0y4Q0Z6zSnVzKwNNzIYfpI=;
+ b=UTPriDAmyVP2f4Mg6pb9DfzTeeLsjBuOl3q9tbVpvJcRQtnCA/QveqZtgA0oNFIzIo
+ OogI9h+qZgDKWRJCSuK90pTlrq9DbW9cVsHvtcEP9x2m+hkC8eWesalzGmN+Ojh1ZKuM
+ J+QbPZ016cG2OjVZu/w+AadYZZ4CBeUAoNT4yYYRyAXrOQL7ufv8J4J3TmUZr4C9GJxb
+ YxfKN+ar5Fxz4+92CHtSfFwr7A9utnzXsvLBw8Z42sA6h15Mq4G5CVTix03kPMqnqAIe
+ 6S3JeRevBKZ/joXh6eJgHZwVcDBCCw1IJ04ntz8+htxe+UkYitV2zt6ioI+C0jRviPPW
+ hUUQ==
+X-Gm-Message-State: AGi0PuYyhoLhZgFWQms+RGDe0r9iorEiR4tkfO/W2KILtidpY2MuYzOt
+ 7ldBlg4sUYhGnyD0bCoLcSE7SUEgVrM=
+X-Google-Smtp-Source: APiQypKMI7mVoOdeNIelfPhwAzenxX/aH6p08zMT62Wqb+KZSYulVjbvKgu9KWBYvvv2tg7e9SKoDA==
+X-Received: by 2002:a2e:8105:: with SMTP id d5mr2996316ljg.196.1585860215764; 
+ Thu, 02 Apr 2020 13:43:35 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com.
+ [209.85.167.41])
+ by smtp.gmail.com with ESMTPSA id q6sm3939980ljp.21.2020.04.02.13.43.34
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Apr 2020 13:43:34 -0700 (PDT)
+Received: by mail-lf1-f41.google.com with SMTP id c5so3936369lfp.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Apr 2020 13:43:34 -0700 (PDT)
+X-Received: by 2002:a19:240a:: with SMTP id k10mr3320923lfk.30.1585860213940; 
+ Thu, 02 Apr 2020 13:43:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAPM=9twza_DeycOEhT+u6Erh0yFTAUe447J6bxWCLq5+QW8ZaA@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Fri, 03 Apr 2020 06:54:15 +0000
+References: <CAPM=9twza_DeycOEhT+u6Erh0yFTAUe447J6bxWCLq5+QW8ZaA@mail.gmail.com>
+ <20200402203317.GA34560@ubuntu-m2-xlarge-x86>
+In-Reply-To: <20200402203317.GA34560@ubuntu-m2-xlarge-x86>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 2 Apr 2020 13:43:17 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjHEOHCf7kAOJOY9bOr9O0CRzxds+8YcXVVGbMZ+7kyXg@mail.gmail.com>
+Message-ID: <CAHk-=wjHEOHCf7kAOJOY9bOr9O0CRzxds+8YcXVVGbMZ+7kyXg@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.7-rc1
+To: Nathan Chancellor <natechancellor@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,88 +70,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, chris@chris-wilson.co.uk
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 01, 2020 at 03:50:42PM +1000, Dave Airlie wrote:
-> Hey Linus,
-> 
-> This is the main drm pull request for 5.7-rc1.
-> 
-> Writing the changelog seemed a bit quieter, but it looks about average.
-> 
-> I've got a separate merge for some VM interactions for TTM huge pages, but I'll
-> send that once this is landed.
-> 
-> It didn't seem to have many major conflicts, but my git trees have a bad habit
-> of finding the shared rerere cache and lulling me into thinking it merged fine.
-> 
-> Highlights:
-> i915 enables Tigerlake by default
-> i915 and amdgpu have initial OLED backlight support
-> vmwgfx add support to enable OpenGL 4 userspace
-> zero length arrays are mostly removed.
-> 
-> Regards,
-> Dave.
+On Thu, Apr 2, 2020 at 1:33 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> This fixes it but I am not sure if it is proper or not (could be
+> problematic if CONFIG_PHYS_ADDR_T_64BIT is set but
+> CONFIG_ARCH_DMA_ADDR_T_64BIT is not, not sure if that is possible) so I
+> figured I'd report it and let you guys deal with it.
 
-<snip>
+Yeah, no, that patch can't be right.
 
->       drm: Remove the dma_alloc_coherent wrapper for internal usage
+From your build failure, your configuration has dma_addr_t being a
+'long long unsigned int', and map->offset being a resource_size_t is
+for just a 'unsigned int'. Casting 'unsigned int *' to 'unsigned long
+long *' is not valid.
 
-This patch causes a build regression on arm32 in certain configurations
-(I found it with Debian's armmp config).
+You'd have to do something like
 
-$ printf 'CONFIG_XEN=y\nCONFIG_DRM_LEGACY=y\n' >> arch/arm/configs/multi_v7_defconfig
+        dma_addr_t temp;
 
-$ make -j$(nproc) -s ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- defconfig drivers/gpu/drm/drm_bufs.o
-drivers/gpu/drm/drm_bufs.c: In function 'drm_addmap_core':
-drivers/gpu/drm/drm_bufs.c:328:8: error: passing argument 3 of 'dma_alloc_coherent' from incompatible pointer type [-Werror=incompatible-pointer-types]
-  328 |        &map->offset,
-      |        ^~~~~~~~~~~~
-      |        |
-      |        resource_size_t * {aka unsigned int *}
-In file included from ./include/linux/pci-dma-compat.h:8,
-                 from ./include/linux/pci.h:2392,
-                 from ./include/drm/drm_pci.h:35,
-                 from drivers/gpu/drm/drm_bufs.c:46:
-./include/linux/dma-mapping.h:642:15: note: expected 'dma_addr_t *' {aka 'long long unsigned int *'} but argument is of type 'resource_size_t *' {aka 'unsigned int *'}
-  642 |   dma_addr_t *dma_handle, gfp_t gfp)
-      |   ~~~~~~~~~~~~^~~~~~~~~~
-cc1: some warnings being treated as errors
-make[4]: *** [scripts/Makefile.build:268: drivers/gpu/drm/drm_bufs.o] Error 1
-make[3]: *** [scripts/Makefile.build:505: drivers/gpu/drm] Error 2
-make[2]: *** [scripts/Makefile.build:505: drivers/gpu] Error 2
-make[1]: *** [Makefile:1703: drivers] Error 2
-make: *** [Makefile:328: __build_one_by_one] Error 2
+and pass the address of *that* in, and then assign that to map->offset
+(and verify that it fits), I think.
 
-This fixes it but I am not sure if it is proper or not (could be
-problematic if CONFIG_PHYS_ADDR_T_64BIT is set but
-CONFIG_ARCH_DMA_ADDR_T_64BIT is not, not sure if that is possible) so I
-figured I'd report it and let you guys deal with it.
+That's kind of what the old code did.
 
-Cheers,
-Nathan
+Or alternatively, the 'offset' field should just be of type
+'dma_addr_t' instead (see include/drm/drm_legacy.h). But I didn't
+check if something else wants it to be a resource_size_t.
 
-diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-index dcabf5698333..9282fd075424 100644
---- a/drivers/gpu/drm/drm_bufs.c
-+++ b/drivers/gpu/drm/drm_bufs.c
-@@ -325,7 +325,7 @@ static int drm_addmap_core(struct drm_device *dev, resource_size_t offset,
- 		 * need to point to a 64bit variable first. */
- 		map->handle = dma_alloc_coherent(&dev->pdev->dev,
- 						 map->size,
--						 &map->offset,
-+						 (dma_addr_t *)&map->offset,
- 						 GFP_KERNEL);
- 		if (!map->handle) {
- 			kfree(map);
+                  Linus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
