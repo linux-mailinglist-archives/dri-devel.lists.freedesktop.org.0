@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6F519C33A
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 15:53:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 066F719C46D
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 16:38:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0137E6EA90;
-	Thu,  2 Apr 2020 13:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F82E89DB4;
+	Thu,  2 Apr 2020 14:38:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 212DC6EA90
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 13:53:30 +0000 (UTC)
-Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de
- [95.90.212.216])
+X-Greylist: delayed 404 seconds by postgrey-1.36 at gabe;
+ Thu, 02 Apr 2020 14:38:04 UTC
+Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net
+ [IPv6:2a01:37:1000::53df:5f64:0])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11BDC89CBE
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 14:38:04 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2767E2073B;
- Thu,  2 Apr 2020 13:53:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585835610;
- bh=e2mD8+QaUawKZUIdArDDRCxzyP8fJnIv/2Fv/9jRSbc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=aFK8PuE53AAEurbQ6VeYnOyh1G1pTUhbgyXsdRg2MbipOPO+gI+JyCrvqROJ7R9rS
- zV8JP+Cg4wd7in8MVjarXIHfQ+KYx9XwXc/A/QoFB+R6f4ATHc5wTAdHiWi5Uz7zjx
- Vb0Bim6QH05Wpi4bYe/MGDPagBZszEj1kfYIgaQ4=
-Date: Thu, 2 Apr 2020 15:53:23 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 1/1] lib/vsprintf: Add support for printing V4L2 and DRM
- fourccs
-Message-ID: <20200402155323.6866b5c9@coco.lan>
-In-Reply-To: <87eet6mgk7.fsf@intel.com>
-References: <20200401140522.966-1-sakari.ailus@linux.intel.com>
- <87eet6mgk7.fsf@intel.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Client CN "*.hostsharing.net",
+ Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
+ by bmailout1.hostsharing.net (Postfix) with ESMTPS id 5F3DC300020AD;
+ Thu,  2 Apr 2020 16:31:17 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+ id 3381B448C29; Thu,  2 Apr 2020 16:31:17 +0200 (CEST)
+Date: Thu, 2 Apr 2020 16:31:17 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: How to handle disconnection of eDP panels due to dynamic display
+ mux switches
+Message-ID: <20200402143117.qabod72gn3p6yft3@wunner.de>
+References: <956fd624-e1f5-e2a0-90de-9a5f2934547d@nvidia.com>
+ <20200402113925.2zvatduiyqld7pj2@wunner.de>
+ <20200402154934.04917382@eldfell.localdomain>
+ <CAKMK7uGusoE+GQOefMTB_tax-Tj5PymMMOrWPMJ6XczdrdFb3g@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uGusoE+GQOefMTB_tax-Tj5PymMMOrWPMJ6XczdrdFb3g@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,64 +49,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>, linux-media@vger.kernel.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- laurent.pinchart@ideasonboard.com
+Cc: Daniel Dadap <ddadap@nvidia.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Thu, 02 Apr 2020 11:34:48 +0300
-Jani Nikula <jani.nikula@linux.intel.com> escreveu:
-
-> On Wed, 01 Apr 2020, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> > Add a printk modifier %ppf (for pixel format) for printing V4L2 and DRM
-> > pixel formats denoted by 4ccs. The 4cc encoding is the same for both so
-> > the same implementation can be used.  
+On Thu, Apr 02, 2020 at 03:13:26PM +0200, Daniel Vetter wrote:
+> On Thu, Apr 2, 2020 at 2:58 PM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > On Thu, 2 Apr 2020 13:39:25 +0200 Lukas Wunner <lukas@wunner.de> wrote:
+> > > Note that vga_switcheroo is currently controlled via debugfs.
+> > > That is a historic artefact.  The kernel has since gained a
+> > > mux subsystem in drivers/mux/ which could be used to represent
+> > > the display mux in a standardized way in regular sysfs.
+> >
+> > if mux control was in sysfs, then how would userspace figure out
+> > which mux state refers to which DRM device and its connector?
+> >
+> > Maybe some DRM connector property referring to the mux and its state?
+> >
+> > How would a display server running as a regular user gain access to
+> > sysfs to control the mux?
 > 
-> I'm not going to take a strong stand in one way or the other regarding
-> the patch at hand, but I do think at some point we have to draw a line
-> what should be included in printk formats. Arguably they should be
-> reserved to things that are generally useful across large parts of the
-> kernel, right?
-> 
-> I think the more specialized you get, the more you should think about
-> just using the plain old %s, and your own helpers.
+> I think a sysfs interface for vgaswitcheroo would need some kind of
+> links from drm_device (and for the outpu-only mux from drm_connector
+> sysfs files) to the corresponding sysfs directory for the
+> vgaswitcheroo switch.
 
-As I suggested it, from my side, I'd like to have it inside printk :-)
+Yes, that would be one way to do it.
 
-There is a subset of formats that are subsystem-specific anyway at
-printk, like the network ones. We use extensively fourcc along the
-media subsystem (and you probably also use fourcc at DRM). Even some input
-devices nowadays may be using V4L2 core (some multi-sensor touching
-devices), with depends on it.
 
-So, those fourcc codes are pretty common. Having it at the printk
-infra makes a lot easier for people to use them.
+> But actual change of state needs to indeed be done through some other
+> interface, since sysfs interfaces suck for compositors. We have this
+> problem already with backlight, and the solution there is a special
+> backlight frobbing services which compositors can call through udev,
+> and fun stuff like that. Definitely not an uapi pattern we want to
+> repeat. So I think sysfs would be only for information links, and
+> maybe the global switch for the old optimus designs where you can only
+> switch the entire gpu, and need to delay the switch until all existing
+> clients are closed. Aka 1) stop compositor 2) write to sysfs 3) start
+> new compositor on new gpu. For that case compositors don't need to
+> ever write to sysfs themselves, so I think that's ok. Also only
+> relevant for rather old hw.
 
-> Because frankly, the
-> kernel printk specifiers also start getting more than a little obscure.
+There's an in-kernel interface in <linux/mux/consumer.h> which
+could be invoked from, say, an ioctl(), to control or query the
+mux.
 
-I liked one of the suggestions of using "%p4cc" (or maybe something
-similar, if having a number there is a problem, like "%pAcc" or "%pfcc")
-for this printk. This would be very easy for people to identify and 
-remember about its meaning.
-
-> Or could we conceive of a way to make this locally extensible yet safe,
-> letting callers use something like %{foo}, as well as providing a
-> locally relevant function to do the conversion?
-
-That's something that it makes sense to be implemented in the future,
-for things that would be self-contained inside an specific subsystem.
+I'm not really prepared to answer detailed questions how it should
+be done, my point is just that the existing building blocks (such
+as the mux subsystem) should be used instead of reinventing the
+wheel.  If the mux subsystem lacks specific features needed for
+graphics muxes, I think adding them won't face much opposition
+from Peter Rosin.
 
 Thanks,
-Mauro
+
+Lukas
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
