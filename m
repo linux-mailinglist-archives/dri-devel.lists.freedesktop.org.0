@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDEB19C0A5
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 14:02:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6013319C18E
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 14:58:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 257916EA6F;
-	Thu,  2 Apr 2020 12:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89B676EA87;
+	Thu,  2 Apr 2020 12:58:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A5156EA6F
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 12:02:01 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id t128so3130199wma.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Apr 2020 05:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=luRAFZxO32FnT2ltTQ9Z7QyiIcHD7yxi9+0tdfe0tkE=;
- b=Z30bZwsSVe2I8HyxeJX0CUVY6RHYO8nd+jRgkLT7Fo++xl2tGKpb3v3nydXmBQsZkF
- RaPWStSruFFxp8Rk6ScKRJCD8Q42ASxOWa7jwrlfNhOaZ0GNehn026azCxilipgCbrwx
- AkDwr/X9ELmsKy1MCXrIugj8IpXeIbFpkFGLE/K7tfwwT2KCtjv7nRrHWO9ZcaMp8FXs
- SDBkWfkOO+4SAQJPTs3fQ7km+E1s402ST5VJB0LZDpR9HFQKnw7Op791neoVv5Afg6og
- 19u2TXjUBRrRH2KoMZC2xm8RRh0voMdOz+Us5VK0UU8CV2lNITKuH+SsAZUmw22yVWie
- LJAg==
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D2996EA87
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 12:58:43 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id i7so3991693edq.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Apr 2020 05:58:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=9evEKXpMQs4hMH1CeFYBrj++VJkhkh/uSjh4IowfIYI=;
+ b=iVkJu47tmYjQ61RtRPOn9VzRk+ZqKRIzny94k2ACQPzPOwLqHDi+l1kBy00BTO2qyf
+ 8Zuw0j/ummFMfzxk2bxduSHE2PFTzCsTH4Bpl8ngWbYdy3aPasH5Q3maXBK95C3Du7Ez
+ fF5fZh0o8Bdvh9AK3efTUqWAZT3G7kAjLBTC6pAkNNn72+eLv/E9GZ2Pfbh/bG78anie
+ A8hjggMomRxxSxyPdPau2GRJU6cL8YBUScvJHygUSAR8A5Ti0b2otDBl+g8A8Rcta+0L
+ 93FFk8yOUAPLm9RDIAQSoctct4zLwKcY8VbUi5p9TVZGhal/PgmbaKPCdTW6wsa6MfgP
+ FJ/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=luRAFZxO32FnT2ltTQ9Z7QyiIcHD7yxi9+0tdfe0tkE=;
- b=o0OV06wjxxrDKFQb0rvfXznATu8SOCxbdihH6j5ev3hVOxo/52RfJKrXN3qFmqIo17
- RSHbV7x+e3fJaFS3uZX/5e9Lvdau1ETAMrgr34Ge+f4QCvGis2II4AkaYq1SvvnuQ4Nj
- wIsd+9+HqRcVk63kkK6Rw1raO+6e3JfoQVoB9D7zsf4FSk8f7jT3cf4pGrTo/MpFtd7j
- zbZcbYvnJjYdLjE1MZCslnxD+0I4T0JHdGyD7pFwM8hpIJuF9qGGUMT+ZkKybYWb4lcx
- oUMR7ogXnqvcCH2QmwpR/GVIokTJj1mLw/nlViQS2hKCDFdlHoJUGrRFR3ZtBFHNcwjg
- Vk2A==
-X-Gm-Message-State: AGi0PuZtBLhAnKCglLeHU8/v2MTQ1k7mx3kg1djY9rpDeQwrRpvaUPZB
- 03PEsGikrAvumYaBIrjDCH/PAGzWVtgRPdHzABxWmA==
-X-Google-Smtp-Source: APiQypL0bSODEJNqkacSwn9UGaG4MU1yzjV+ByDWnI8kd1pdWvB0mfNV0qTPHpQaL6oW4v48caZT72RLjzYPf370rME=
-X-Received: by 2002:a7b:ce0b:: with SMTP id m11mr3144726wmc.52.1585828919555; 
- Thu, 02 Apr 2020 05:01:59 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=9evEKXpMQs4hMH1CeFYBrj++VJkhkh/uSjh4IowfIYI=;
+ b=JGbFtwkm1KXXk2owjE7V6FeHYo4mnNYCuuiBZFf7BPaRPu5zjX7nUaVKcJl/77Kg6A
+ YNLRDOLarF50PXop0dOBGzGSKOaRayqblJwbM347Zw2+0ecCFbUymj4xW3XF8jiOlZIe
+ iCUpOogVVoTyEnxWgntmIXlznR25cfFnOiNhwtAYxHsOBGFH1mFVYhA92UVm4qUZQwGl
+ 4KdfjsMVctd/Y+gGE8CYLQ47+k2+a9IyKHq5AXpHnL3UoyhDKIs8ZdM+kcveqXjPr5vd
+ x7aj29W3aTleQ0QsZ5nomKOu8LAE9PBabV0eSBtNCBnv0NI6GqWPaMC8JgVnZc4jFJgt
+ ePfQ==
+X-Gm-Message-State: AGi0Pua5y6zqge+lPLhp4UOUTufoQUYYt6KLm792J0azfh1/C6+WqH3w
+ C2R1/G7CIEmsqaU+ul8xeTk=
+X-Google-Smtp-Source: APiQypJ89VG/VbaZTs9u54hHYSj9DeNzuAty+fI9QqVZU/0Qng/AUZKv2ZMd7yb3soIx5WRR11AdyA==
+X-Received: by 2002:a2e:8602:: with SMTP id a2mr2013459lji.160.1585831783766; 
+ Thu, 02 Apr 2020 05:49:43 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id d19sm3084423lji.95.2020.04.02.05.49.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Apr 2020 05:49:43 -0700 (PDT)
+Date: Thu, 2 Apr 2020 15:49:34 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Lukas Wunner <lukas@wunner.de>
+Subject: Re: How to handle disconnection of eDP panels due to dynamic
+ display mux switches
+Message-ID: <20200402154934.04917382@eldfell.localdomain>
+In-Reply-To: <20200402113925.2zvatduiyqld7pj2@wunner.de>
 References: <956fd624-e1f5-e2a0-90de-9a5f2934547d@nvidia.com>
- <CAKMK7uF8cX9ie5DPCNkCr1CCWqFjXBbsW7+Ode3ioM64spMojw@mail.gmail.com>
- <3057b60b-4526-2d52-b551-d4769fe97c7b@nvidia.com>
- <CAKMK7uGbNpjS3YruzF9KjFneMDzdYBHWD_ehnQKPjd+UBmc=OA@mail.gmail.com>
- <a12a471d-1b90-6f21-1bfb-1d33807c1452@nvidia.com>
-In-Reply-To: <a12a471d-1b90-6f21-1bfb-1d33807c1452@nvidia.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 2 Apr 2020 13:00:56 +0100
-Message-ID: <CAPj87rMaFAYWDYy1LTC4h3_4ghyROjBAgU_rQm_ucnjnq_T9QQ@mail.gmail.com>
-Subject: Re: How to handle disconnection of eDP panels due to dynamic display
- mux switches
-To: Daniel Dadap <ddadap@nvidia.com>
+ <20200402113925.2zvatduiyqld7pj2@wunner.de>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,42 +67,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Dadap <ddadap@nvidia.com>, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============2004073000=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel (another one!),
+--===============2004073000==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/vtMO/AjXHku=qA1FI4k/Ih4"; protocol="application/pgp-signature"
 
-On Thu, 2 Apr 2020 at 08:18, Daniel Dadap <ddadap@nvidia.com> wrote:
-> > I primarily asked about vgaswitcheroo since you didn't mention it at all.
->
-> I had actually anticipated that vga-switcheroo would likely be
-> suggested, and my first draft of my initial message had a lengthy
-> explanation about why vga-switcheroo (in its current state) isn't
-> suitable, but figured it would be better to simplify the problem
-> statement and then discuss switcheroo's limitations if and when it came
-> up in discussion.
+--Sig_/vtMO/AjXHku=qA1FI4k/Ih4
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Luckily, it isn't immutable! cf. https://lwn.net/Articles/443531/
+On Thu, 2 Apr 2020 13:39:25 +0200
+Lukas Wunner <lukas@wunner.de> wrote:
 
-I'd like to reiterate this from Jani as well:
-> I think lying to the userspace in this case is a hack to enable a very
-> specific use case. Of course it's going to seem easier if you're only
-> looking at enabling that narrowly defined feature. But usually the hacks
-> end up being restrictions that make future work harder.
+> Note that vga_switcheroo is currently controlled via debugfs.
+> That is a historic artefact.  The kernel has since gained a
+> mux subsystem in drivers/mux/ which could be used to represent
+> the display mux in a standardized way in regular sysfs.
 
-I understand the motivation to keep things as tightly contained as
-possible, but we already have enough complexity that it's important to
-avoid magic functionality that is totally transparent and handled
-without anyone needing to know, except for when it isn't actually
-transparent and people do need to specifically handle it and then it's
-a really spiky corner of API.
+Hi,
 
-Cheers,
-Daniel
+if mux control was in sysfs, then how would userspace figure out
+which mux state refers to which DRM device and its connector?
+
+Maybe some DRM connector property referring to the mux and its state?
+
+How would a display server running as a regular user gain access to
+sysfs to control the mux?
+
+
+Thanks,
+pq
+
+--Sig_/vtMO/AjXHku=qA1FI4k/Ih4
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl6F314ACgkQI1/ltBGq
+qqf3MRAAolbTeRdHglgfGXrhaP37D9zgg3FIjmi66pb4HHf5IPQ/s1GPpi39Ur5S
+XOY5XU13wzZtQ8P9lhopHVSQkXCV1f/ldqVrCa6qSz+L+HJmt20TAozUTWM9A+Dq
+uTcuxGWpJn8tzF17zfl5U21Q2EwOFuZMmUfrcR5R9zwVAtregoVB3NHJFs18RbNq
+SVdOxhGdbFByde4ZsVWe4PDT8J2J/pJac2noFBrZTp/XXCSzt51CRsZtmXgd1Gqp
+sCh6TVLJ5Q2KyVo8BK5hlIWDWtRLwevGmpfLmbYaJWuy/B1Q1Y7L4lcRI14z/6Mm
+OLRN1TG/PW2PC5LF25HHjBt8X3S1bs+C7CFxzuYkBd23wNZXNu7OomphJx7roSKS
+fcbUwgfjUbmJKCF9DUmx+7msw7YAduUeRBU2xEPnvW0IKAukKagIUUQY+syC+OzH
+O41CC9k3XMQVnziZymz5V3PTVOko4E8FDogHquZIV1D5zq5Xp3V0QZMTJjcjRa7W
+dLNbTndZslWsZ0ps+3GC0twdjbsckDMUfvvyvvoICzUo2VGqeq3N/mg2s5aZxuNS
+ZU0tvIpSjnRkggieUk2eSXoBKXw2yQH6cSSWWv6LPEdje+4FrcRXtEwOkSnvt6tn
+TXLWEYOpJBwe2EPZaJ5uNMUOOKS0AnBIi0WSM287dWM/ZdyvVuA=
+=7YJK
+-----END PGP SIGNATURE-----
+
+--Sig_/vtMO/AjXHku=qA1FI4k/Ih4--
+
+--===============2004073000==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2004073000==--
