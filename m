@@ -1,43 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C92119BA93
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 05:11:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7172C19BB45
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 07:17:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8ED6E109;
-	Thu,  2 Apr 2020 03:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E896E6E9AD;
+	Thu,  2 Apr 2020 05:17:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 611416E109
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 03:11:34 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 603DE80E;
- Thu,  2 Apr 2020 05:11:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1585797092;
- bh=BbVLFLZ9iUUK1B/5QMcNG64/MqiL1pS+fVkAphw4v8U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AtxeupPvqt/aoWUBsntIVX8imyLjiaeOlJU06ozZZi9ZFhYzOjpUnmGuzwCgQ1cqO
- adaENJsYbbI8/ZujWKYCe0nGVQVI9EXC9fEiXsqF5c798E2qVSWrtUc1XFbYuu6XZU
- rFZcjEw+sS5BsSrtyPKkL/RxfK+cW87yQCqhCfgs=
-Date: Thu, 2 Apr 2020 06:11:25 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: Re: [PATCH v11 1/5] dt-bindings: display: xlnx: Add ZynqMP DP
- subsystem bindings
-Message-ID: <20200402031125.GA31187@pendragon.ideasonboard.com>
-References: <20200318153728.25843-1-laurent.pinchart@ideasonboard.com>
- <20200318153728.25843-2-laurent.pinchart@ideasonboard.com>
- <20200318192651.GA28612@ravnborg.org>
- <20200319010857.GC27556@smtp.xilinx.com>
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64E056E9AD
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 05:17:52 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id v134so1724939oie.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 22:17:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yaopb2+38ffnabaY1iGQbCJcAF6NzucQsEqlYOoZICA=;
+ b=CJuGKSRuincdYZzqC1Ywm9DVBp0TESWlJgD9xqZAi8n0nR10VRzfRnDHT3w2yOTGmJ
+ jhF3pEYND4pcD3BHZy1+44s9nQ0zw/Y0qc5/Vc/t/fdkCyZylZkhhLcYtxY/0HscU3ev
+ wi03N3XeXgQluufBhD4YWcvy+nIrdLJlNmVu4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yaopb2+38ffnabaY1iGQbCJcAF6NzucQsEqlYOoZICA=;
+ b=jk3a8Z5DYaGV+fnyR1Nh7RLOgGmSkIeth3oHjQd2TO5UDuoq/sht7E0VWlYL7v0T4W
+ uUfOkNaI4bpgKgbsjqeSbotYUM9GUYYZLUH301Ep/AbapN2jx8vGL6iygHa9Bl9WCRI9
+ ThxLuob0MzDHpO8LjTrC/o0m6R/5R7JP4/G4UjdyI/EXO/0s2zLoppgTMB7XF+XulbHh
+ oT0BnKRml6RcsGu3s14w7CYPmaGKa2fxiTSyD6SxzMh1qxuCwoGINS6aHdaYrgDS0sKT
+ 6lR6Td1UypoCSxwKgLL9m7fuY7uYfcTA+mY61eN0nrx/3CY6bfSRDQ2Tjk8+ypllxoRa
+ i/Dg==
+X-Gm-Message-State: AGi0PuZVwDXduOdRPFzhSF6ims1S3BItyln+Iucqahbm1f7C7LFEveEP
+ 8ULV6ybZcli6cqfHxUdcpWhe+SjBqJ1t6Z1FoDi5PQ==
+X-Google-Smtp-Source: APiQypKQ0j5YphFaRGLzuS4n5B5gFRIUkAV1wCD6KenkTlZ63BjGHxN6OJejgIW3SqqZh/6dVCCcQQ6b9LCtcNew+cY=
+X-Received: by 2002:a54:4189:: with SMTP id 9mr1060147oiy.128.1585804671561;
+ Wed, 01 Apr 2020 22:17:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200319010857.GC27556@smtp.xilinx.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200323144950.3018436-1-daniel.vetter@ffwll.ch>
+ <20200323144950.3018436-20-daniel.vetter@ffwll.ch>
+ <20200402005008.GA18964@pendragon.ideasonboard.com>
+In-Reply-To: <20200402005008.GA18964@pendragon.ideasonboard.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 2 Apr 2020 07:17:40 +0200
+Message-ID: <CAKMK7uGqNEdaxLcpeW9sp-NM_OfOyL-duNzp_XN1WOHdOS3HfQ@mail.gmail.com>
+Subject: Re: [PATCH 19/51] drm: Cleanups after drmm_add_final_kfree rollout
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,256 +59,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Michal Simek <michals@xilinx.com>, Sam Ravnborg <sam@ravnborg.org>,
- Satish Kumar Nagireddy <SATISHNA@xilinx.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hyun,
-
-On Wed, Mar 18, 2020 at 06:08:57PM -0700, Hyun Kwon wrote:
-> On Wed, 2020-03-18 at 12:26:51 -0700, Sam Ravnborg wrote:
-> > On Wed, Mar 18, 2020 at 05:37:24PM +0200, Laurent Pinchart wrote:
-> >> From: Hyun Kwon <hyun.kwon@xilinx.com>
-> >> 
-> >> The bindings describe the ZynqMP DP subsystem. They don't support the
-> >> interface with the programmable logic (FPGA) or audio yet.
-> >> 
-> >> Signed-off-by: Hyun Kwon <hyun.kwon@xilinx.com>
-> >> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> Reviewed-by: Rob Herring <robh@kernel.org>
-> > 
-> > Bikeshedding - examples with indent on 4 spaces to make them easier to
-> > read.
-> > 
-> > Would it be possible to make this binding: (GPL-2.0-only OR BSD-2-Clause)
-> > This is preferred for new bindings.
-> > In this case asking Hyun Kwon should be enough?
-> 
-> It should be possible. But to be safer and if needed, I need to check with
-> corperate policy before I can confirm.
-> 
-> Michal, have you already checked about adding 'OR BSD-2-Clause'? or should I
-> take it up to Xilinx legal?
-
-Have you been able to get an answer on this ? I though the
-double-license was encouraged for new bindings, but it now seems to be a
-hard requirement to get them merged.
-
-> > With or without the suggestions above:
+On Thu, Apr 2, 2020 at 2:50 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Daniel,
+>
+> (On a side note, git-format-patch accepts a -v argument to specify the
+> version, I didn't realize you were not aware of it :-))
+>
+> On Mon, Mar 23, 2020 at 03:49:18PM +0100, Daniel Vetter wrote:
+> > A few things:
+> > - Update the example driver in the documentation.
+> > - We can drop the old kfree in drm_dev_release.
+> > - Add a WARN_ON check in drm_dev_register to make sure everyone calls
+> >   drmm_add_final_kfree and there's no leaks.
+> >
+> > v2: Restore the full cleanup, I accidentally left some moved code
+> > behind when fixing the bisectability of the series.
+> >
 > > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > 
-> > 	Sam
-> > 
-> >> ---
-> >> Changes since v10:
-> >> 
-> >> - Update example to new PHY DT bindings without subnodes
-> >> - Add resets property
-> >> 
-> >> Changes since v9:
-> >> 
-> >> - Fix constraints on clock-names
-> >> - Document dp_apb_clk as the APB clock, not the AXI clock
-> >> 
-> >> Changes since v8:
-> >> 
-> >> - Convert to yaml
-> >> - Rename aclk to dp_apb_clk
-> >> ---
-> >>  .../display/xlnx/xlnx,zynqmp-dpsub.yaml       | 174 ++++++++++++++++++
-> >>  1 file changed, 174 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
-> >> 
-> >> diff --git a/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml b/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
-> >> new file mode 100644
-> >> index 000000000000..05e6a14de75c
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
-> >> @@ -0,0 +1,174 @@
-> >> +# SPDX-License-Identifier: GPL-2.0
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Xilinx ZynqMP DisplayPort Subsystem
-> >> +
-> >> +description: |
-> >> +  The DisplayPort subsystem of Xilinx ZynqMP (Zynq UltraScale+ MPSoC)
-> >> +  implements the display and audio pipelines based on the DisplayPort v1.2
-> >> +  standard. The subsystem includes multiple functional blocks as below:
-> >> +
-> >> +               +------------------------------------------------------------+
-> >> +  +--------+   | +----------------+     +-----------+                       |
-> >> +  | DPDMA  | --->|                | --> |   Video   | Video +-------------+ |
-> >> +  | 4x vid |   | |                |     | Rendering | -+--> |             | |   +------+
-> >> +  | 2x aud |   | |  Audio/Video   | --> | Pipeline  |  |    | DisplayPort |---> | PHY0 |
-> >> +  +--------+   | | Buffer Manager |     +-----------+  |    |   Source    | |   +------+
-> >> +               | |    and STC     |     +-----------+  |    | Controller  | |   +------+
-> >> +  Live Video --->|                | --> |   Audio   | Audio |             |---> | PHY1 |
-> >> +               | |                |     |   Mixer   | --+-> |             | |   +------+
-> >> +  Live Audio --->|                | --> |           |  ||   +-------------+ |
-> >> +               | +----------------+     +-----------+  ||                   |
-> >> +               +---------------------------------------||-------------------+
-> >> +                                                       vv
-> >> +                                                 Blended Video and
-> >> +                                                 Mixed Audio to PL
-> >> +
-> >> +  The Buffer Manager interacts with external interface such as DMA engines or
-> >> +  live audio/video streams from the programmable logic. The Video Rendering
-> >> +  Pipeline blends the video and graphics layers and performs colorspace
-> >> +  conversion. The Audio Mixer mixes the incoming audio streams. The DisplayPort
-> >> +  Source Controller handles the DisplayPort protocol and connects to external
-> >> +  PHYs.
-> >> +
-> >> +  The subsystem supports 2 video and 2 audio streams, and various pixel formats
-> >> +  and depths up to 4K@30 resolution.
-> >> +
-> >> +  Please refer to "Zynq UltraScale+ Device Technical Reference Manual"
-> >> +  (https://www.xilinx.com/support/documentation/user_guides/ug1085-zynq-ultrascale-trm.pdf)
-> >> +  for more details.
-> >> +
-> >> +maintainers:
-> >> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: xlnx,zynqmp-dpsub-1.7
-> >> +
-> >> +  reg:
-> >> +    maxItems: 4
-> >> +  reg-names:
-> >> +    items:
-> >> +      - const: dp
-> >> +      - const: blend
-> >> +      - const: av_buf
-> >> +      - const: aud
-> >> +
-> >> +  interrupts:
-> >> +    maxItems: 1
-> >> +
-> >> +  clocks:
-> >> +    description:
-> >> +      The APB clock and at least one video clock are mandatory, the audio clock
-> >> +      is optional.
-> >> +    minItems: 2
-> >> +    maxItems: 4
-> >> +    items:
-> >> +      - description: dp_apb_clk is the APB clock
-> >> +      - description: dp_aud_clk is the Audio clock
-> >> +      - description:
-> >> +          dp_vtc_pixel_clk_in is the non-live video clock (from Processing
-> >> +          System)
-> >> +      - description:
-> >> +          dp_live_video_in_clk is the live video clock (from Programmable
-> >> +          Logic)
-> >> +  clock-names:
-> >> +    oneOf:
-> >> +      - minItems: 2
-> >> +        maxItems: 3
-> >> +        items:
-> >> +          - const: dp_apb_clk
-> >> +          - enum: [ dp_vtc_pixel_clk_in, dp_live_video_in_clk ]
-> >> +          - enum: [ dp_vtc_pixel_clk_in, dp_live_video_in_clk ]
-> >> +      - minItems: 3
-> >> +        maxItems: 4
-> >> +        items:
-> >> +          - const: dp_apb_clk
-> >> +          - const: dp_aud_clk
-> >> +          - enum: [ dp_vtc_pixel_clk_in, dp_live_video_in_clk ]
-> >> +          - enum: [ dp_vtc_pixel_clk_in, dp_live_video_in_clk ]
-> >> +
-> >> +  power-domains:
-> >> +    maxItems: 1
-> >> +
-> >> +  resets:
-> >> +    maxItems: 1
-> >> +
-> >> +  dmas:
-> >> +    maxItems: 4
-> >> +    items:
-> >> +      - description: Video layer, plane 0 (RGB or luma)
-> >> +      - description: Video layer, plane 1 (U/V or U)
-> >> +      - description: Video layer, plane 2 (V)
-> >> +      - description: Graphics layer
-> >> +  dma-names:
-> >> +    items:
-> >> +      - const: vid0
-> >> +      - const: vid1
-> >> +      - const: vid2
-> >> +      - const: gfx0
-> >> +
-> >> +  phys:
-> >> +    description: PHYs for the DP data lanes
-> >> +    minItems: 1
-> >> +    maxItems: 2
-> >> +  phy-names:
-> >> +    minItems: 1
-> >> +    maxItems: 2
-> >> +    items:
-> >> +      - const: dp-phy0
-> >> +      - const: dp-phy1
-> >> +
-> >> +required:
-> >> +  - compatible
-> >> +  - reg
-> >> +  - reg-names
-> >> +  - interrupts
-> >> +  - clocks
-> >> +  - clock-names
-> >> +  - power-domains
-> >> +  - resets
-> >> +  - dmas
-> >> +  - dma-names
-> >> +  - phys
-> >> +  - phy-names
-> >> +
-> >> +additionalProperties: false
-> >> +
-> >> +examples:
-> >> +  - |
-> >> +    #include <dt-bindings/phy/phy.h>
-> >> +    #include <dt-bindings/reset/xlnx-zynqmp-resets.h>
-> >> +
-> >> +    display@fd4a0000 {
-> >> +      compatible = "xlnx,zynqmp-dpsub-1.7";
-> >> +      reg = <0x0 0xfd4a0000 0x0 0x1000>,
-> >> +            <0x0 0xfd4aa000 0x0 0x1000>,
-> >> +            <0x0 0xfd4ab000 0x0 0x1000>,
-> >> +            <0x0 0xfd4ac000 0x0 0x1000>;
-> >> +      reg-names = "dp", "blend", "av_buf", "aud";
-> >> +      interrupts = <0 119 4>;
-> >> +      interrupt-parent = <&gic>;
-> >> +
-> >> +      clock-names = "dp_apb_clk", "dp_aud_clk", "dp_live_video_in_clk";
-> >> +      clocks = <&dp_aclk>, <&clkc 17>, <&si570_1>;
-> >> +
-> >> +      power-domains = <&pd_dp>;
-> >> +      resets = <&reset ZYNQMP_RESET_DP>;
-> >> +
-> >> +      dma-names = "vid0", "vid1", "vid2", "gfx0";
-> >> +      dmas = <&xlnx_dpdma 0>,
-> >> +             <&xlnx_dpdma 1>,
-> >> +             <&xlnx_dpdma 2>,
-> >> +             <&xlnx_dpdma 3>;
-> >> +
-> >> +      phys = <&psgtr 1 PHY_TYPE_DP 0 3 27000000>,
-> >> +             <&psgtr 0 PHY_TYPE_DP 1 3 27000000>;
-> >> +
-> >> +      phy-names = "dp-phy0", "dp-phy1";
-> >> +    };
-> >> +
-> >> +...
+> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Dan Carpenter <dan.carpenter@oracle.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_drv.c | 12 +++++-------
+> >  1 file changed, 5 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> > index 877ded348b6e..7f9d7ea543a0 100644
+> > --- a/drivers/gpu/drm/drm_drv.c
+> > +++ b/drivers/gpu/drm/drm_drv.c
+> > @@ -297,8 +297,6 @@ void drm_minor_release(struct drm_minor *minor)
+> >   *
+> >   *           drm_mode_config_cleanup(drm);
+> >   *           drm_dev_fini(drm);
+> > - *           kfree(priv->userspace_facing);
+> > - *           kfree(priv);
+> >   *   }
+> >   *
+> >   *   static struct drm_driver driver_drm_driver = {
+> > @@ -326,10 +324,11 @@ void drm_minor_release(struct drm_minor *minor)
+> >   *                   kfree(drm);
+> >   *                   return ret;
+> >   *           }
+> > + *           drmm_add_final_kfree(drm, priv);
+> >   *
+> >   *           drm_mode_config_init(drm);
+> >   *
+> > - *           priv->userspace_facing = kzalloc(..., GFP_KERNEL);
+> > + *           priv->userspace_facing = drmm_kzalloc(..., GFP_KERNEL);
+> >   *           if (!priv->userspace_facing)
+> >   *                   return -ENOMEM;
+> >   *
+> > @@ -837,10 +836,7 @@ static void drm_dev_release(struct kref *ref)
+> >
+> >       drm_managed_release(dev);
+> >
+> > -     if (!dev->driver->release && !dev->managed.final_kfree) {
+> > -             WARN_ON(!list_empty(&dev->managed.resources));
+> > -             kfree(dev);
+> > -     } else if (dev->managed.final_kfree)
+> > +     if (dev->managed.final_kfree)
+> >               kfree(dev->managed.final_kfree);
+> >  }
+> >
+> > @@ -961,6 +957,8 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
+> >       if (!driver->load)
+> >               drm_mode_config_validate(dev);
+> >
+> > +     WARN_ON(!dev->managed.final_kfree);
+>
+> That's too aggressive. Driver freeing their private object in .release()
+> isn't wrong. I'd even go as far as saying that it should be the norm,
+> until we manage to find a better way to handle that (which this series
+> doesn't achieve). Many drivers need to allocate resources at probe time
+> before they get a chance to init the drm device. Those resources must be
+> released in the error handling paths of probe. By requiring
+> drmm_add_final_kfree(), you're making that much more complex. I can't
+> release those resources in the error path anymore after calling
+> drmm_add_final_kfree(), or they will be released twice. And I can't rely
+> on drmm_* to release them in all cases, as the error path may be hit
+> before touching anything drm-related.
+>
+> Until we figure out a good way forward and test it on a significant
+> number of drivers, let's not add WARN_ON() that will be hit with the
+> majority of drivers, forcing them to be converted to something that is
+> clearly half-baked.
+
+Hm, is this conjecture, or did you actually hit this WARN_ON with a
+driver? Because I did audit them all, none should hit this, all are
+fixed up.
+
+Also, I'm now actually going through all the places where I've added
+the drmm_add_final_kfree and remove it again, they are _all_ about 5
+lines after the kzalloc that allocates the driver structure which has
+drm_device embedded.
+
+So I'd like to understand where you get your seemingly rather sure
+convinction from that this is a horrible mistake here ...
+
+/me confused
+-Daniel
+
+>
+> > +
+> >       if (drm_dev_needs_global_mutex(dev))
+> >               mutex_lock(&drm_global_mutex);
+> >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
