@@ -1,32 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1675E19D08A
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 08:54:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E20119D08E
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 08:54:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC2D6EB02;
-	Fri,  3 Apr 2020 06:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 057456EB0B;
+	Fri,  3 Apr 2020 06:54:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-blr-01.qualcomm.com (alexa-out-blr-01.qualcomm.com
  [103.229.18.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E69876EA8F;
- Thu,  2 Apr 2020 13:32:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 603E16EA8F;
+ Thu,  2 Apr 2020 13:31:59 +0000 (UTC)
 Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
  by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
  02 Apr 2020 19:01:00 +0530
 Received: from mkrishn-linux.qualcomm.com ([10.204.66.35])
- by ironmsg01-blr.qualcomm.com with ESMTP; 02 Apr 2020 19:00:43 +0530
+ by ironmsg01-blr.qualcomm.com with ESMTP; 02 Apr 2020 19:00:44 +0530
 Received: by mkrishn-linux.qualcomm.com (Postfix, from userid 438394)
- id 02C9445CD; Thu,  2 Apr 2020 19:00:41 +0530 (IST)
+ id 1D7A845BF; Thu,  2 Apr 2020 19:00:43 +0530 (IST)
 From: Krishna Manikandan <mkrishn@codeaurora.org>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v3 2/3] arm64: dts: sc7180: add bus clock to mdp node for sc7180
- target
-Date: Thu,  2 Apr 2020 19:00:38 +0530
-Message-Id: <1585834239-8895-2-git-send-email-mkrishn@codeaurora.org>
+Subject: [v3 3/3] arm64: dts: sc7180: add interconnect bindings for display
+Date: Thu,  2 Apr 2020 19:00:39 +0530
+Message-Id: <1585834239-8895-3-git-send-email-mkrishn@codeaurora.org>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1585834239-8895-1-git-send-email-mkrishn@codeaurora.org>
 References: <1585834239-8895-1-git-send-email-mkrishn@codeaurora.org>
@@ -51,56 +50,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the bus clock to mdp device node,in order
-to facilitate bus band width scaling on sc7180
-target.
+This change adds the interconnect bindings to the
+MDSS node. This will establish Display to DDR path
+for bus bandwidth voting.
 
-The parent device MDSS will not vote for bus bw,
-instead the vote will be triggered by mdp device
-node. Since a minimum vote is required to turn
-on bus clock, move the clock node to mdp device
-from where the votes are requested.
+Changes in v2:
+	- Change in commit message(Matthias Kaehlcke)
 
-This patch has dependency on the below series
-https://patchwork.kernel.org/patch/11468783/
+Changes in v3:
+	- Updated commit message to include
+	  reviewer's name in v2
 
 Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
 ---
- arch/arm64/boot/dts/qcom/sc7180.dtsi | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ arch/arm64/boot/dts/qcom/sc7180.dtsi | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index 998f101..ea1b0cd 100644
+index ea1b0cd..31fed6d 100644
 --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -1510,10 +1510,9 @@
- 			power-domains = <&dispcc MDSS_GDSC>;
+@@ -1521,6 +1521,9 @@
+ 			interrupt-controller;
+ 			#interrupt-cells = <1>;
  
- 			clocks = <&gcc GCC_DISP_AHB_CLK>,
--				 <&gcc GCC_DISP_HF_AXI_CLK>,
- 				 <&dispcc DISP_CC_MDSS_AHB_CLK>,
- 				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
--			clock-names = "iface", "bus", "ahb", "core";
-+			clock-names = "iface", "ahb", "core";
++			interconnects = <&mmss_noc MASTER_MDP0 &mc_virt SLAVE_EBI1>;
++			interconnect-names = "mdp0-mem";
++
+ 			iommus = <&apps_smmu 0x800 0x2>;
  
- 			assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
- 			assigned-clock-rates = <300000000>;
-@@ -1536,12 +1535,13 @@
- 				      <0 0x0aeb0000 0 0x2008>;
- 				reg-names = "mdp", "vbif";
- 
--				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+				clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
-+					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
- 					 <&dispcc DISP_CC_MDSS_ROT_CLK>,
- 					 <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
- 					 <&dispcc DISP_CC_MDSS_MDP_CLK>,
- 					 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
--				clock-names = "iface", "rot", "lut", "core",
-+				clock-names = "bus", "iface", "rot", "lut", "core",
- 					      "vsync";
- 				assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>,
- 						  <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
+ 			#address-cells = <2>;
 -- 
 1.9.1
 
