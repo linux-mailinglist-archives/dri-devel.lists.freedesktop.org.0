@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF5B19BC81
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 09:18:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D79D119BC66
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 09:18:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B15EB6E9F8;
-	Thu,  2 Apr 2020 07:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54BDC6E9D9;
+	Thu,  2 Apr 2020 07:17:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A73B6E02A
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 01:23:48 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id g2so719649plo.3
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 18:23:48 -0700 (PDT)
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D47196E02A
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 01:25:20 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id t4so698625plq.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 18:25:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=ECaKk1XEhaLeQWM1QY7b2cbJfc2H+NtdzI3cEs6W3bc=;
- b=lrnBX7I6IKNCgf1u3GPjWv9QoK7is/FfxG+LIXGzXoYz1Q+HIXh/mCNNMKcQjJRmQS
- 2dBtTJMH24EcnO3L40rmSFnqUTq5oFVKQBhXCqzS8e3j0lJ3hznCoyUj3CjHiPXPnN/Q
- VLMKCIvdn3WhMDO54WQqDsUf2+bybLMzkzn9nRL30XD/sEozqQi77BBlKBuJ6FJXiniW
- 7TT7bLBuDnoDhpTHg77HLwEqzqKv/2C4eKDrFfhbXqDCxcLGgq+FaU01o/cBd6nTlR1I
- 1G9feHEB3Z1ObO1GSPb0sMl4d6re664SUkngnuJz9ao8jlwf7D0gJNpEEYp6mwKEqPJl
- x1+w==
+ b=e0Y8bY0Qfsg7n02ddZ8uiswipY9fuSgKm6X1sbnDAv/lfkxMia058WZBkqhK1Shm17
+ rbhURDSsKfGqJjKOlUlUV1hPqO/r5cxIWXuo9ebuaF40Cwx1NIv7hgfZMYswHlnED/uy
+ laXWmR2WR+D2bLl2xpsyRKvB0q1LRWQVbwujyCMO2IHN7v2HyE4eonQeMS3SafncKKi9
+ a5LEam9Ct4DCAiN63J2BaN5vV43vEQlKajNeDrT0wioFYYpGMIJpTJQ8+Z2XAvX1LnzC
+ wY/Y10MjzbOx4iwbFW0KTzL8oVlYWuoOPNiEIHLJXBzBwB4He1uIlnNFMg7OraR5KX3D
+ xWdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=ECaKk1XEhaLeQWM1QY7b2cbJfc2H+NtdzI3cEs6W3bc=;
- b=MCOOToNSrTFB1ushYHBheH5PXS1WjAGYLrAckxB5vHkpeenVgKjdZqbO3dpADRVHE2
- 5QOI73jlkL8Z1hUuySFsYunzCpdMbL1KgUigTjb1pFrqBJKRyeslIPRjt7XYfb2DP4mi
- htOdklERoclCEubW82Lb1EcnIb28hSCK3KzQcD/p4ODDlxwXRkFHwwUkW3fR/Pmpp01A
- Lmj/jaI7G4T/Dp0+eVFDyMnYaHcuZ1VbRmj7Jg7kg73V9Etpb9QesYoj/Xoyixr/GZfj
- wjf0/rD91OVVbeBn79xrj8+TroC6dTr2G49JanwdOpP5bl6R3yTTGN98SdUXYzl2mWCw
- NqXQ==
-X-Gm-Message-State: AGi0Pua4meZi12V7VYo3N14ArMmLMEcRCxeGh1tnNE+BJRIOcyLaU8Ug
- pBR9f9HKEXkT5LTyuWa2YAg=
-X-Google-Smtp-Source: APiQypKphdtygtFszPZHfDmC+v0cOhFzs1P9x5/bGH+iexQPlMgBXonWT55xdU1Z9qFQawYE5bgI5Q==
-X-Received: by 2002:a17:90a:a602:: with SMTP id
- c2mr931092pjq.135.1585790627416; 
- Wed, 01 Apr 2020 18:23:47 -0700 (PDT)
+ b=DYqTHC/NNITXsm6vBC85KfZFHpmh1wBDy4on5Hk0Oup6DXSqVDGPNkDXtxZvbVNBeY
+ +65If7JpYJOtQctrbW0X4A0zjdUh7LuS+kIIxUyEidH8Mowx0CP2LoXnuM7Awn09+h+1
+ Vg7p4ATj0VX0ebe1iNpPYIuQ4Pned1keymX2k7XWu4VpvlJbYWNJcqZ96tOkRJSh6RUz
+ oKsQsYjBGZW/Prg/We39xijLpQotzhPPEhgTai2MXMDu3ofxb7cyzbPlghpAsBT/jpyd
+ Vir8WPMbn44rXwl25OJlHa12FOoFBHimg38LYjL37fzS0OK+mLrVwrqsLM+2rZqtj/DM
+ ymTA==
+X-Gm-Message-State: AGi0PuaZ3/zlPPXRHCXv7GyCeuvkIm8b1IyoD4FpwrPsgS1B/CiDa1h4
+ C713xd1BJwbHUjR8zpsF8Yk=
+X-Google-Smtp-Source: APiQypLOFU9FlGJw8iOOANTLu4h97F20JAA88jZyZ5O8imCDYlYaifG5zMltxu9kuj6+J1fWyc7dAQ==
+X-Received: by 2002:a17:90a:36c7:: with SMTP id
+ t65mr946992pjb.182.1585790720459; 
+ Wed, 01 Apr 2020 18:25:20 -0700 (PDT)
 Received: from OptiPlexFedora.fios-router.home ([47.144.161.84])
- by smtp.gmail.com with ESMTPSA id x71sm2424587pfd.129.2020.04.01.18.23.45
+ by smtp.gmail.com with ESMTPSA id q71sm2516633pfc.92.2020.04.01.18.25.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Apr 2020 18:23:46 -0700 (PDT)
+ Wed, 01 Apr 2020 18:25:19 -0700 (PDT)
 From: "John B. Wyatt IV" <jbwyatt4@gmail.com>
-To: Laura Abbott <labbott@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+To: outreachy-kernel@googlegroups.com, Laura Abbott <labbott@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
  Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
@@ -56,8 +57,8 @@ To: Laura Abbott <labbott@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
  linux-kernel@vger.kernel.org
 Subject: [PATCH] staging: android: ion: Fix parenthesis alignment
-Date: Wed,  1 Apr 2020 18:23:15 -0700
-Message-Id: <20200402012315.429064-1-jbwyatt4@gmail.com>
+Date: Wed,  1 Apr 2020 18:25:15 -0700
+Message-Id: <20200402012515.429329-1-jbwyatt4@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 02 Apr 2020 07:17:56 +0000
