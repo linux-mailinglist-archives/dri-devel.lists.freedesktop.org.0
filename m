@@ -1,67 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79D119BC66
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 09:18:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08DE219BA05
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Apr 2020 03:46:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54BDC6E9D9;
-	Thu,  2 Apr 2020 07:17:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9356E9C7;
+	Thu,  2 Apr 2020 01:46:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D47196E02A
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 01:25:20 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id t4so698625plq.12
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Apr 2020 18:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ECaKk1XEhaLeQWM1QY7b2cbJfc2H+NtdzI3cEs6W3bc=;
- b=e0Y8bY0Qfsg7n02ddZ8uiswipY9fuSgKm6X1sbnDAv/lfkxMia058WZBkqhK1Shm17
- rbhURDSsKfGqJjKOlUlUV1hPqO/r5cxIWXuo9ebuaF40Cwx1NIv7hgfZMYswHlnED/uy
- laXWmR2WR+D2bLl2xpsyRKvB0q1LRWQVbwujyCMO2IHN7v2HyE4eonQeMS3SafncKKi9
- a5LEam9Ct4DCAiN63J2BaN5vV43vEQlKajNeDrT0wioFYYpGMIJpTJQ8+Z2XAvX1LnzC
- wY/Y10MjzbOx4iwbFW0KTzL8oVlYWuoOPNiEIHLJXBzBwB4He1uIlnNFMg7OraR5KX3D
- xWdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ECaKk1XEhaLeQWM1QY7b2cbJfc2H+NtdzI3cEs6W3bc=;
- b=DYqTHC/NNITXsm6vBC85KfZFHpmh1wBDy4on5Hk0Oup6DXSqVDGPNkDXtxZvbVNBeY
- +65If7JpYJOtQctrbW0X4A0zjdUh7LuS+kIIxUyEidH8Mowx0CP2LoXnuM7Awn09+h+1
- Vg7p4ATj0VX0ebe1iNpPYIuQ4Pned1keymX2k7XWu4VpvlJbYWNJcqZ96tOkRJSh6RUz
- oKsQsYjBGZW/Prg/We39xijLpQotzhPPEhgTai2MXMDu3ofxb7cyzbPlghpAsBT/jpyd
- Vir8WPMbn44rXwl25OJlHa12FOoFBHimg38LYjL37fzS0OK+mLrVwrqsLM+2rZqtj/DM
- ymTA==
-X-Gm-Message-State: AGi0PuaZ3/zlPPXRHCXv7GyCeuvkIm8b1IyoD4FpwrPsgS1B/CiDa1h4
- C713xd1BJwbHUjR8zpsF8Yk=
-X-Google-Smtp-Source: APiQypLOFU9FlGJw8iOOANTLu4h97F20JAA88jZyZ5O8imCDYlYaifG5zMltxu9kuj6+J1fWyc7dAQ==
-X-Received: by 2002:a17:90a:36c7:: with SMTP id
- t65mr946992pjb.182.1585790720459; 
- Wed, 01 Apr 2020 18:25:20 -0700 (PDT)
-Received: from OptiPlexFedora.fios-router.home ([47.144.161.84])
- by smtp.gmail.com with ESMTPSA id q71sm2516633pfc.92.2020.04.01.18.25.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Apr 2020 18:25:19 -0700 (PDT)
-From: "John B. Wyatt IV" <jbwyatt4@gmail.com>
-To: outreachy-kernel@googlegroups.com, Laura Abbott <labbott@redhat.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
- Joel Fernandes <joel@joelfernandes.org>,
- Christian Brauner <christian@brauner.io>, devel@driverdev.osuosl.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: android: ion: Fix parenthesis alignment
-Date: Wed,  1 Apr 2020 18:25:15 -0700
-Message-Id: <20200402012515.429329-1-jbwyatt4@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77B066E9C7
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Apr 2020 01:46:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585791971;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SGKV+mj5X3vQFrVkT1HrrdE3Djy0V822MxL90EGqQw8=;
+ b=SLLeBUVIQzJFmTUyb0Bxw5ufZjZk+nwko/tEgpGPDggVZVUhQgjmmmIEXdMhY5QMyxgCb4
+ dXTSWANOBBDDk6mQo1UxGzvgqHBrBo+0mFt4CqidXqE92VjcQSGmH0i7rTjWkipYuX9AWm
+ Ifz1JrdVNPNdz+KluacF+yenNdxWUrw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-bZQTtJhKNEOBPbHDx9O6Bw-1; Wed, 01 Apr 2020 21:46:06 -0400
+X-MC-Unique: bZQTtJhKNEOBPbHDx9O6Bw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D18DE107ACC7;
+ Thu,  2 Apr 2020 01:46:03 +0000 (UTC)
+Received: from elisabeth (unknown [10.36.110.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 949749A240;
+ Thu,  2 Apr 2020 01:45:56 +0000 (UTC)
+Date: Thu, 2 Apr 2020 03:45:51 +0200
+From: Stefano Brivio <sbrivio@redhat.com>
+To: "John B. Wyatt IV" <jbwyatt4@gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH] staging: android: ion: Fix
+ parenthesis alignment
+Message-ID: <20200402034551.1775a192@elisabeth>
+In-Reply-To: <20200402012515.429329-1-jbwyatt4@gmail.com>
+References: <20200402012515.429329-1-jbwyatt4@gmail.com>
+Organization: Red Hat
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 02 Apr 2020 07:17:56 +0000
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,45 +59,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "John B. Wyatt IV" <jbwyatt4@gmail.com>
+Cc: devel@driverdev.osuosl.org, Todd Kjos <tkjos@android.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ outreachy-kernel@googlegroups.com,
+ Arve =?UTF-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>,
+ Joel Fernandes <joel@joelfernandes.org>, Laura Abbott <labbott@redhat.com>,
+ Martijn Coenen <maco@android.com>, Christian Brauner <christian@brauner.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix 2 parenthesis alignment issues.
+On Wed,  1 Apr 2020 18:25:15 -0700
+"John B. Wyatt IV" <jbwyatt4@gmail.com> wrote:
 
-Reported by checkpatch.
+> Fix 2 parenthesis alignment issues.
+> 
+> Reported by checkpatch.
+> 
+> Signed-off-by: John B. Wyatt IV <jbwyatt4@gmail.com>
 
-Signed-off-by: John B. Wyatt IV <jbwyatt4@gmail.com>
----
- drivers/staging/android/ion/ion_page_pool.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
 
-diff --git a/drivers/staging/android/ion/ion_page_pool.c b/drivers/staging/android/ion/ion_page_pool.c
-index f85ec5b16b65..0198b886d906 100644
---- a/drivers/staging/android/ion/ion_page_pool.c
-+++ b/drivers/staging/android/ion/ion_page_pool.c
-@@ -37,7 +37,7 @@ static void ion_page_pool_add(struct ion_page_pool *pool, struct page *page)
- 	}
- 
- 	mod_node_page_state(page_pgdat(page), NR_KERNEL_MISC_RECLAIMABLE,
--							1 << pool->order);
-+			    1 << pool->order);
- 	mutex_unlock(&pool->mutex);
- }
- 
-@@ -57,7 +57,7 @@ static struct page *ion_page_pool_remove(struct ion_page_pool *pool, bool high)
- 
- 	list_del(&page->lru);
- 	mod_node_page_state(page_pgdat(page), NR_KERNEL_MISC_RECLAIMABLE,
--							-(1 << pool->order));
-+			    -(1 << pool->order));
- 	return page;
- }
- 
 -- 
-2.25.1
+Stefano
 
 _______________________________________________
 dri-devel mailing list
