@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8DC019D850
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 15:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BB919D854
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 15:59:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92E966EBD0;
-	Fri,  3 Apr 2020 13:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09ECD6EBA8;
+	Fri,  3 Apr 2020 13:59:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11C566EBD5
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 13:59:04 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id j17so8572041wru.13
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 06:59:04 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18E376EBD0
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 13:59:06 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id c7so8634472wrx.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 06:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FPN50dZaM17ZJWb1kfenSEp3QCWr5XpoArRP6/Y1sQY=;
- b=jFJ0vF8lIWyEQNWiZm3HWP0eofsW+UAjWuR2Ty3jTmZG2e8wUmhXj2xSAHYTFuHpaS
- dhK8bfxGSX3e6ZqMk3SZKfJ4ltjk5lWDMAy2jbTCGowjYG5tg7V2UYtZHeMaJzo8Ax8+
- ZrV9AQd/gyRcPNFNwNowdtfy8i4vsjmSyYKnU=
+ bh=zGpFhZaw7sq71BxbA7Oq7CHm/5D5Y/ZUzgT99phwRsU=;
+ b=NEoE18t1B2kymF83R9A++jeRMuDFPbGrLI9qR40LXX9wre/abs8eRsUqSKYb2HhXkf
+ sFiWC5tCE0ngw12Gxcy+hwfaCBwODEWzxrT3oSeLPQKuxPKHVhOD35w8i+1PjvOLwkA6
+ ITCEs9b/O9raL7XwGqXAzesTOaess5pSznNsU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FPN50dZaM17ZJWb1kfenSEp3QCWr5XpoArRP6/Y1sQY=;
- b=asjWDcAQd2txRE0JQjdujVcXM+Mtp/+4xGj+tw19pS5DEcp0k4fQdFvIyFbJSisBFl
- sae1Nj3JkFM1ABCkpEH5TI1OYQZGISu0sYoX+ebMc99sKIHSYDwmXMawJQXvxOZN4g5m
- 5nBBd6+hEsxiyAjbYAURyrXUTwEK1YmjdW7Kft4m4CRroUQ9b+wMe9jdGkEn4AqIefNR
- puTUGuivbmCM7tw97el5zaLYvdQdt2kiazXh7UUUuz2aTw/g6A2V0E2dWx3t0Ho5n+1R
- JGuNSkKswEndVaOAanweK/1lkJOSKD/2qwqL3SKcrYshmO4qFtpnkQeoGi20GzJ0IUYU
- pUmg==
-X-Gm-Message-State: AGi0PuZZabuWxNok4dLPWF+QQEn1ULza5L1JRzT9CC33HBBLaYo0D7Dq
- sOqdWyrFLNC5XwTW34NMOm7golR/J1tuBg==
-X-Google-Smtp-Source: APiQypLvsqUpN/mdzUdoXdQ1bkXae6tyvE2zXi+0VTvkDm07g8Uc2f011KFTHFwAWpZy/TDUpwjjRg==
-X-Received: by 2002:adf:e747:: with SMTP id c7mr1942114wrn.29.1585922343354;
- Fri, 03 Apr 2020 06:59:03 -0700 (PDT)
+ bh=zGpFhZaw7sq71BxbA7Oq7CHm/5D5Y/ZUzgT99phwRsU=;
+ b=UZfl1kjJBSzb8NHhaAf6BPMsUYwvuzFOCUsrnfyzj+s41huQhSRGUhlEcN+X9BsKft
+ wty/NylW7/ZlbcXac+tRoYZrs2FPaYn4bikKEg0/tYon2Arg8UuQG5njH1RSCrFdlOT6
+ GKDDvXTbYvEfbxQ8F/7H2QLPucuBO7XrZ+XShkMBNg+XBVRlc5+TFm9KWVyj4BxzWqFc
+ 15JoAG4VLLueqDRUFy5BwsbzKNUHXv1azf971Id9oR5tRzhv4dc7fD45Pa8cJXYDDe+z
+ r/mBIe0GsuVEp96fj/YoUt0XtUO2bBc4TjCnNFfzXR/krCqpMxL8ulBy0aNsqDmoAtwS
+ /nUw==
+X-Gm-Message-State: AGi0PuY/yRBN2YovHBqZNAG4gStTGIEd2PjwnBIZX1cvu0BfYE2C7vur
+ Sjhd50MT1VaCsC1d6Qgi4UboK2VWgCf6uw==
+X-Google-Smtp-Source: APiQypIqNRbq1xht5I0TWYe6vrsrOTAxfAhxxWg/TFWyVYd8Wq8AolO2iMhvxXDNHOTzg/mHHkftJA==
+X-Received: by 2002:a5d:6588:: with SMTP id q8mr6493781wru.189.1585922344474; 
+ Fri, 03 Apr 2020 06:59:04 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f141sm11783919wmf.3.2020.04.03.06.59.02
+ by smtp.gmail.com with ESMTPSA id f141sm11783919wmf.3.2020.04.03.06.59.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 06:59:02 -0700 (PDT)
+ Fri, 03 Apr 2020 06:59:03 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 25/44] drm/gm12u320: Use devm_drm_dev_alloc
-Date: Fri,  3 Apr 2020 15:58:09 +0200
-Message-Id: <20200403135828.2542770-26-daniel.vetter@ffwll.ch>
+Subject: [PATCH 26/44] drm/gm12u320: Don't use drm_device->dev_private
+Date: Fri,  3 Apr 2020 15:58:10 +0200
+Message-Id: <20200403135828.2542770-27-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
 References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
@@ -71,45 +71,72 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Already using devm_drm_dev_init, so very simple replacment.
+Upcasting using a container_of macro is more typesafe, faster and
+easier for the compiler to optimize.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/tiny/gm12u320.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/tiny/gm12u320.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
-index 6f0ea2827d62..907739a67bf6 100644
+index 907739a67bf6..cc397671f689 100644
 --- a/drivers/gpu/drm/tiny/gm12u320.c
 +++ b/drivers/gpu/drm/tiny/gm12u320.c
-@@ -631,22 +631,17 @@ static int gm12u320_usb_probe(struct usb_interface *interface,
- 	if (interface->cur_altsetting->desc.bInterfaceNumber != 0)
- 		return -ENODEV;
+@@ -98,6 +98,8 @@ struct gm12u320_device {
+ 	} fb_update;
+ };
  
--	gm12u320 = kzalloc(sizeof(*gm12u320), GFP_KERNEL);
--	if (gm12u320 == NULL)
--		return -ENOMEM;
-+	gm12u320 = devm_drm_dev_alloc(&interface->dev, &gm12u320_drm_driver,
-+				      struct gm12u320_device, dev);
-+	if (IS_ERR(gm12u320))
-+		return PTR_ERR(gm12u320);
++#define to_gm12u320(__dev) container_of(__dev, struct gm12u320_device, dev)
++
+ static const char cmd_data[CMD_SIZE] = {
+ 	0x55, 0x53, 0x42, 0x43, 0x00, 0x00, 0x00, 0x00,
+ 	0x68, 0xfc, 0x00, 0x00, 0x00, 0x00, 0x10, 0xff,
+@@ -408,7 +410,7 @@ static void gm12u320_fb_update_work(struct work_struct *work)
+ static void gm12u320_fb_mark_dirty(struct drm_framebuffer *fb,
+ 				   struct drm_rect *dirty)
+ {
+-	struct gm12u320_device *gm12u320 = fb->dev->dev_private;
++	struct gm12u320_device *gm12u320 = to_gm12u320(fb->dev);
+ 	struct drm_framebuffer *old_fb = NULL;
+ 	bool wakeup = false;
  
- 	gm12u320->udev = interface_to_usbdev(interface);
- 	INIT_DELAYED_WORK(&gm12u320->fb_update.work, gm12u320_fb_update_work);
+@@ -558,7 +560,7 @@ static void gm12u320_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 				 struct drm_plane_state *plane_state)
+ {
+ 	struct drm_rect rect = { 0, 0, GM12U320_USER_WIDTH, GM12U320_HEIGHT };
+-	struct gm12u320_device *gm12u320 = pipe->crtc.dev->dev_private;
++	struct gm12u320_device *gm12u320 = to_gm12u320(pipe->crtc.dev);
+ 
+ 	gm12u320->fb_update.draw_status_timeout = FIRST_FRAME_TIMEOUT;
+ 	gm12u320_fb_mark_dirty(plane_state->fb, &rect);
+@@ -566,7 +568,7 @@ static void gm12u320_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 
+ static void gm12u320_pipe_disable(struct drm_simple_display_pipe *pipe)
+ {
+-	struct gm12u320_device *gm12u320 = pipe->crtc.dev->dev_private;
++	struct gm12u320_device *gm12u320 = to_gm12u320(pipe->crtc.dev);
+ 
+ 	gm12u320_stop_fb_update(gm12u320);
+ }
+@@ -641,7 +643,6 @@ static int gm12u320_usb_probe(struct usb_interface *interface,
  	mutex_init(&gm12u320->fb_update.lock);
  
  	dev = &gm12u320->dev;
--	ret = devm_drm_dev_init(&interface->dev, dev, &gm12u320_drm_driver);
--	if (ret) {
--		kfree(gm12u320);
--		return ret;
--	}
- 	dev->dev_private = gm12u320;
--	drmm_add_final_kfree(dev, gm12u320);
+-	dev->dev_private = gm12u320;
  
  	ret = drmm_mode_config_init(dev);
  	if (ret)
+@@ -706,7 +707,7 @@ static __maybe_unused int gm12u320_suspend(struct usb_interface *interface,
+ static __maybe_unused int gm12u320_resume(struct usb_interface *interface)
+ {
+ 	struct drm_device *dev = usb_get_intfdata(interface);
+-	struct gm12u320_device *gm12u320 = dev->dev_private;
++	struct gm12u320_device *gm12u320 = to_gm12u320(dev);
+ 
+ 	gm12u320_set_ecomode(gm12u320);
+ 
 -- 
 2.25.1
 
