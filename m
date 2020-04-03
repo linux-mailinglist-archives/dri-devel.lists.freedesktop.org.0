@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55FB219DE22
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 20:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BED19DEEB
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 21:56:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C547E6EC61;
-	Fri,  3 Apr 2020 18:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF3A6EC74;
+	Fri,  3 Apr 2020 19:56:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0090.hostedemail.com
- [216.40.44.90])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C23766EC61
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 18:40:31 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay03.hostedemail.com (Postfix) with ESMTP id 232EE837F27B;
- Fri,  3 Apr 2020 18:40:29 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:599:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2828:2915:3138:3139:3140:3141:3142:3352:3622:3865:3866:3868:3871:4321:5007:6119:6120:6742:7901:7903:10004:10400:10848:11026:11232:11658:11914:12296:12297:12740:12760:12895:13069:13161:13229:13311:13357:13439:14659:14721:21080:21627:30054:30069:30070:30090:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:2, LUA_SUMMARY:none
-X-HE-Tag: head59_210c0a7bd8631
-X-Filterd-Recvd-Size: 2165
-Received: from XPS-9350.home (unknown [47.151.136.130])
- (Authenticated sender: joe@perches.com)
- by omf18.hostedemail.com (Postfix) with ESMTPA;
- Fri,  3 Apr 2020 18:40:26 +0000 (UTC)
-Message-ID: <e44e41317719727ea12aee4ff1e210dea796dd2f.camel@perches.com>
-Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-From: Joe Perches <joe@perches.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-Date: Fri, 03 Apr 2020 11:38:29 -0700
-In-Reply-To: <20200403104701.GC3172@kekkonen.localdomain>
-References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
- <20200403102449.GB4882@pendragon.ideasonboard.com>
- <20200403104701.GC3172@kekkonen.localdomain>
-User-Agent: Evolution 3.34.1-2 
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 559EF6EC74
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 19:56:46 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id g23so8608632otq.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 12:56:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=CrGCpm8KCkcQLwaNw46Ves8qpHNZEfiRT4doX9cSWvk=;
+ b=AUZ86GRPx6bXEXLDiTIFzdgm8zJjo5VMY0P0lNlXCuSJo+4/57mEJnmK04tuSzaqi6
+ vJOfX9NEkN9diNKzViuWTkZ3b93pxRb7HceUwNrCaN3RgytP2NZAL9As07a6150NQH1l
+ bnuQyIrrgtM1Z/BxVVltexIGAKpbkATi25rwO7yPTdnHrLogQCMklZNXgSmfd07WLd1Z
+ 96t6ZrBxJIS3WkjabLFcNd0M9yNPdDB5LzfJG70iMzrvE87JHyD8cAteH9/XJF1MyNsH
+ f4r6Y9F0ew59fvIpjl8j4PrzVoIjiZ12kTCl9CTMThx2Ox70DYQJtGmtQi/jvYIvJ/yC
+ KmIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=CrGCpm8KCkcQLwaNw46Ves8qpHNZEfiRT4doX9cSWvk=;
+ b=QTH4q4B5ibinr9+AUEuA5qMOnJAvFAvppF30WJRxMt3vH+XSv2ubKj6OWjIPU2qvec
+ Vrh7XydqiSl9MpKso813jum6wW4Vv7Kzy54KXgqP9rHoSyCn6an+VxjaBb05W4sqntXl
+ 1mrO0qi3LaxwggnRv6zoEyWm8os8IbbrO+g+2tiaf1aMWcXJSUX/hBESlRpMCcQITD9o
+ yIQ+ysgCB+MCGypuRUNti8M8XKcAQD9d6a5iUIPqI3vUUJjNwHu4mv2a8xa+KU4iIGdj
+ Qb4o0r4D7+AW64Lp8DcNAZMqor5OYRP+0v1ugeYCSWrGgGqbxhYOzXKxed/svjwJT0e9
+ GdQQ==
+X-Gm-Message-State: AGi0PuZQkdLieW72976cwdIvPfU8T2sTSgK92Hra4EwYrKwmIKDPIR4V
+ pYZp40fuDPkZNcCBtU4krlPuFAdPVcYvw+6te/SV18vX0D8g6A==
+X-Google-Smtp-Source: APiQypJx+iZfmkDiCb4Twxc+Gae3gF64OWyAdHtGeWcvsD1HEZkk2Zm5XOw7wxOPoNFkf8IxEvUJzwEP/N2r1n3sT+s=
+X-Received: by 2002:a4a:a442:: with SMTP id w2mr7992501ool.90.1585943804545;
+ Fri, 03 Apr 2020 12:56:44 -0700 (PDT)
 MIME-Version: 1.0
+From: Erik Jensen <rkjnsn@google.com>
+Date: Fri, 3 Apr 2020 12:56:33 -0700
+Message-ID: <CAN=K5G92HHwFqH4FPeqfJkD-hj8HJBy+7dTWEg55BP_HnHFjKw@mail.gmail.com>
+Subject: Curtaining API / Force blanking displays
+To: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,44 +57,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>, mchehab@kernel.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0587693138=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2020-04-03 at 13:47 +0300, Sakari Ailus wrote:
-> On Fri, Apr 03, 2020 at 01:24:49PM +0300, Laurent Pinchart wrote:
-> > On Fri, Apr 03, 2020 at 12:11:56PM +0300, Sakari Ailus wrote:
-> > > Add a printk modifier %ppf (for pixel format) for printing V4L2 and DRM
-> > > pixel formats denoted by 4ccs. The 4cc encoding is the same for both so
-> > > the same implementation can be used.
-[]
-> > > diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-[]
-> > > +static noinline_for_stack
-> > > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
-> > > +		    struct printf_spec spec, const char *fmt)
-[]
-> > > +	if (fmt[1] != 'c' || fmt[2] != 'c')
+--===============0587693138==
+Content-Type: multipart/alternative; boundary="0000000000001aebf005a2685188"
 
-This could check outside a format string if
-the %p4 is at the end of the format string.
+--0000000000001aebf005a2685188
+Content-Type: text/plain; charset="UTF-8"
 
-	printk("%p4", fourcc)
+First off, apologies if the functionality described already exists and I
+just failed to find it, or if this isn't the correct venue for this
+discussion. If so, pointers to the correct location would be appreciated.
 
-So this should verify
+I'm currently looking into the feasibility of developing a remote access
+tool using kernel-level interfaces (e.g., drmModeGetFB and uinput) to
+operate regardless of whether the user is using Xorg, a Wayland compositor,
+or even a text console (assuming KMS is in use).
 
-	if (!(fmt[1] == 'c' && fmt[2] == 'c'))
+One of the requirements, however, is the remote user is able to "curtain"
+their session in order to prevent individuals near the physical machine
+from watching their session. Imagine a user working from home and
+connecting to their workstation in a shared office space.
 
+One possible solution I came up with would be a new kernel API to allow a
+privileged process other than the DRM-Master to request that all displays
+of a card be blanked or left in power saving mode. This wouldn't affect the
+ability of the DRM-Master to change modes and layout configuration, but no
+content would be visible on the physical displays until the curtaining
+process ended the curtain or exited.
+
+Is this (a) a good approach to solving this issue, (b) an API that, if
+implemented, would be likely to be accepted into the kernel, and (c)
+something that would be feasible to implement given the current
+architecture? E.g., would it require changes in individual drivers, or
+could it be managed solely in driver-independent kernel code?
+
+I'm new to DRI development, so if it is something that folks would be open
+to having, pointers to a good part of the code to look at to start
+implementing such a feature would be appreciated.
+
+Thanks!
+
+--0000000000001aebf005a2685188
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>First off, apologies=C2=A0if the functionality descri=
+bed already exists and I just failed to find it, or if this isn&#39;t the c=
+orrect venue for this discussion. If so, pointers to the correct location w=
+ould=C2=A0be appreciated.<br><br>I&#39;m currently looking into the feasibi=
+lity of developing a remote access tool using kernel-level interfaces (e.g.=
+, drmModeGetFB a<span style=3D"color:rgb(0,0,0);white-space:pre-wrap">nd ui=
+nput) to operate regardless of whether the user is using Xorg, a Wayland co=
+mpositor, or even a text console (assuming KMS is in use).</span><br></div>=
+<div><span style=3D"color:rgb(0,0,0);white-space:pre-wrap"><br></span></div=
+><div><span style=3D"color:rgb(0,0,0);white-space:pre-wrap">One of the requ=
+irements, however, is the remote user is able to &quot;curtain&quot; their =
+session in order to prevent individuals near the physical machine from watc=
+hing their session. Imagine a user working from home and connecting to thei=
+r workstation in a shared office space.</span></div><div><span style=3D"col=
+or:rgb(0,0,0);white-space:pre-wrap"><br></span></div><div><span style=3D"co=
+lor:rgb(0,0,0);white-space:pre-wrap">One possible solution I came up with w=
+ould be a new kernel API to allow a privileged process other than the DRM-M=
+aster to request that all displays of a card be blanked or left in power sa=
+ving mode. This wouldn&#39;t affect the ability of the DRM-Master to change=
+ modes and layout configuration, but no content would be visible on the phy=
+sical displays until the curtaining process ended the curtain or exited.</s=
+pan></div><div><span style=3D"color:rgb(0,0,0);white-space:pre-wrap"><br></=
+span></div><div><span style=3D"color:rgb(0,0,0);white-space:pre-wrap">Is th=
+is (a) a good approach to solving this issue, (b) an API that, if implement=
+ed, would be likely to be accepted into the kernel, and (c) something that =
+would be feasible to implement given the current architecture? E.g., would =
+it require changes in individual drivers, or could it be managed solely in =
+driver-independent kernel code?</span></div><div><span style=3D"color:rgb(0=
+,0,0);white-space:pre-wrap"><br></span></div><div><span style=3D"color:rgb(=
+0,0,0);white-space:pre-wrap">I&#39;m new to DRI development, so if it is so=
+mething that folks would be open to having, pointers to a good part of the =
+code to look at to start implementing such a feature would be appreciated.<=
+/span></div><div><br></div><div>Thanks!</div></div>
+
+--0000000000001aebf005a2685188--
+
+--===============0587693138==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0587693138==--
