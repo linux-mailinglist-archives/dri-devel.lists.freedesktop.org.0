@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 273CB19D247
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 10:32:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5BF19E4F4
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Apr 2020 14:45:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E73C6E217;
-	Fri,  3 Apr 2020 08:32:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B56B6E190;
+	Sat,  4 Apr 2020 12:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9916E247
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 08:32:24 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id f6so6731997wmj.3
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 01:32:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=At8sSIc806Hse8GwwvxColRQIHchAyJQdaYFJ9Ur+6A=;
- b=gB0RAbdpuPmhDh8TNpLk/DY70NyY7rBNfqJZShUBaqz7mMfB0camm2aSyG8gakGNCk
- 0FIHODl/UHaEoGbKjuAlJLB4Lu5/L8027QrXq70uSjBNI7QhJ439R24vEFGjk74QfKpT
- MmPwBk+uxaO/lmEJLi7PHzQ/x5UYrhv9yk5G4=
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B246E6E07D
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 08:58:07 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id v7so7251214qkc.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 01:58:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/fMTu9YPirg7Oe+WQpcx+ru33Csg9jun3QSGySXC/HE=;
+ b=L8fRM1d56HsWAvRUyQ5XoM0HgTTGfbtFGPC+42OW5EH8/+iUfDHiYfS4RhMquwg9lz
+ YCy1+PxlR/P3KmPM2PftfvhSoeizYab/YGf5ot+4AsJRHhQ7lhNiGyuEYqgX6SYRoAZY
+ K53iFoa0GRM+5lzSxURAILsHXR/RLyaJKc+5vHXMEvP5gFbkVm+XhYAVpMIc0wX71TBK
+ wODo96H9rSVZxsqR/y94QDkNWwBlPmKwWopBZGnbZzk2pA/4MquXODaSxdO81ClSxO1v
+ ql8SnQYEtN/NEdnEhWZEkmw6OSI+pkSetH+W61gbLYDtB7tKKTU23c7DTQhZz4LuEuH9
+ 1byg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=At8sSIc806Hse8GwwvxColRQIHchAyJQdaYFJ9Ur+6A=;
- b=fuWndb6yM1WdqwWpFT0kxzwyRZO6Aa1V5hhBjzVkoO+h92cokqPF8BYcDyp+M6qqGA
- 6BdTlrP7o2hswEEkOJsbYq8UIg02wmPMB7r49VQnR9MJ47KtK8OLukC089U7Q+ixZjbQ
- uh1HVqkLY3ODO6OzJ9+oUV2upfnApVRpQv7MwvffzsZzengfDfEVqy077gyCOFniWkSB
- ZGVJUGrFl8+IZmAL9s69/wGTe+IpC9ynCqUcUkSG0kMUD1sTrnXq4ZdtvCwDfvgJLvJR
- QqMp3sFwe3jYNJLUPkQ8jvyM3YIFopK7xQyU9z+W1NPOOGvgi3o+glxgfKLeYXBIti51
- Wm0g==
-X-Gm-Message-State: AGi0PuZQAAyYFdEgcWa7ab9IC1HSfsDO91r5pILCwfkD3ur29WoOkx7d
- UzGYmoclgOfHDEGouPW3W4sQqw==
-X-Google-Smtp-Source: APiQypJHhwc18QFjz5o3a4OCVO6AhuKda1bPEwknUbs5tQxFuNFNLx4wX+t1pkklF2EaDAoWLRuXIw==
-X-Received: by 2002:a7b:cc85:: with SMTP id p5mr7922848wma.83.1585902742891;
- Fri, 03 Apr 2020 01:32:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f141sm10774114wmf.3.2020.04.03.01.32.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 01:32:22 -0700 (PDT)
-Date: Fri, 3 Apr 2020 10:32:20 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-Subject: Re: [PATCH 1/6] dma-buf: add peer2peer flag
-Message-ID: <20200403083220.GT2363188@phenom.ffwll.local>
-References: <20200330135536.2997-1-christian.koenig@amd.com>
- <20200401113446.GR2363188@phenom.ffwll.local>
- <14063C7AD467DE4B82DEDB5C278E8663FFFC63C1@fmsmsx107.amr.corp.intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/fMTu9YPirg7Oe+WQpcx+ru33Csg9jun3QSGySXC/HE=;
+ b=e0zs3E9gu4/ontjdhiS41yh1M+eS+KqidbMwKhvN8ovVeUIyYXLhqJZS2RcagLOEvE
+ dk6IcYBWfUQLdPd6a6raMt6kl0C5X+TBJa6aloO6OTUAoDs+D6kpbRGuyM3Hlk7Ta4yd
+ kzlawg3Msn6BK9DeL10jFdNxEhDakCBAeaUkK+WO15zRdlPn0TseDDnc80j4rmMhKrTX
+ 6J3eD3l+47ShxsVOeL90p0Bx6+/geV0bvwGNUf2qO4cZ8sxduD67gW0wS52erXTkDwxl
+ NOoQ5O962XiqmbI/5RmImUq9vr70mMJe204nNYPvYwNle0mJCKTtaz3MnAQVZBaKBDLt
+ 3Bfg==
+X-Gm-Message-State: AGi0PuZWuln8Vouh9KTaXhP0aKq2kqs4I2noCGHv5chKWrkLx5/UDvTH
+ YEJt5t1GJE3MnfKiL8fYKFc9or/L2DkuKsS784kVlw==
+X-Google-Smtp-Source: APiQypIKQ9Q7tDsIWkY8R8OpBoSAnP2oDbVXYV+fjPe3tON+mWT3k0wTSJXrY39iJHQ3bTEYPrCgBcewWCidMgbHh5Q=
+X-Received: by 2002:a37:6115:: with SMTP id v21mr7418908qkb.43.1585904286347; 
+ Fri, 03 Apr 2020 01:58:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <14063C7AD467DE4B82DEDB5C278E8663FFFC63C1@fmsmsx107.amr.corp.intel.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+References: <000000000000ec257905a21f7415@google.com>
+ <20200331095737.GO20730@hirez.programming.kicks-ass.net>
+ <CGME20200331101907eucas1p1ce5d3f7c49c2c724c4e85f5c19c7108d@eucas1p1.samsung.com>
+ <CACT4Y+bqBCqDPQZ1Nk8G+8y2vu8aaT2S54J4UqRPaFNUcusbYw@mail.gmail.com>
+ <7641fb29-20ec-0963-d04c-bfbf49fd3ebc@samsung.com>
+ <CAKMK7uF5zZH3CaHueWsLR96-AzT==wP8=MpymTqx-T+SRsXWHA@mail.gmail.com>
+ <CACT4Y+Y_i86-MPG_3jo-+_5WTLvcNi6HTR=mQkVdwJb5ATqDsQ@mail.gmail.com>
+ <CAKMK7uHCZK8L_Ho3yBq-=QnKm9F60KtRTqr8pAHxVjUcFjnd_w@mail.gmail.com>
+ <CAKMK7uH4PzdtZmg8_j91g571aXd98XPfq18mg7aN6=e9XLoDgg@mail.gmail.com>
+In-Reply-To: <CAKMK7uH4PzdtZmg8_j91g571aXd98XPfq18mg7aN6=e9XLoDgg@mail.gmail.com>
+From: Dmitry Vyukov <dvyukov@google.com>
+Date: Fri, 3 Apr 2020 10:57:54 +0200
+Message-ID: <CACT4Y+bhyXRF_AOOqh9D7XnU3jJT=sQR_BY69v5CXq1Getrf9g@mail.gmail.com>
+Subject: Re: INFO: trying to register non-static key in try_to_wake_up
+To: Daniel Vetter <daniel@ffwll.ch>
+X-Mailman-Approved-At: Sat, 04 Apr 2020 12:45:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,138 +69,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Peter Zijlstra <peterz@infradead.org>, Greg KH <gregkh@linuxfoundation.org>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ LKML <linux-kernel@vger.kernel.org>, Matthew Garrett <mjg59@google.com>,
+ syzkaller <syzkaller@googlegroups.com>, Borislav Petkov <bp@alien8.de>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ syzbot <syzbot+e84d7ebd1361da13c356@syzkaller.appspotmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 01, 2020 at 04:04:14PM +0000, Ruhl, Michael J wrote:
-> >-----Original Message-----
-> >From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
-> >Daniel Vetter
-> >Sent: Wednesday, April 1, 2020 7:35 AM
-> >To: Christian K=F6nig <ckoenig.leichtzumerken@gmail.com>
-> >Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> >Subject: Re: [PATCH 1/6] dma-buf: add peer2peer flag
+On Wed, Apr 1, 2020 at 11:06 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > On Tue, Mar 31, 2020 at 2:18 PM Bartlomiej Zolnierkiewicz
+> > > > <b.zolnierkie@samsung.com> wrote:
+> > > > >
+> > > > >
+> > > > > On 3/31/20 12:18 PM, Dmitry Vyukov wrote:
+> > > > > > On Tue, Mar 31, 2020 at 11:57 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> > > > > >>
+> > > > > >> On Mon, Mar 30, 2020 at 10:01:12PM -0700, syzbot wrote:
+> > > > > >>> Hello,
+> > > > > >>>
+> > > > > >>> syzbot found the following crash on:
+> > > > > >>>
+> > > > > >>> HEAD commit:    9420e8ad Merge tag 'for-linus' of git://git.kernel.org/pub..
+> > > > > >>> git tree:       upstream
+> > > > > >>> console output: https://protect2.fireeye.com/url?k=0756a78d-5a9a6c49-07572cc2-0cc47a314e9a-e4dc8b657d340686&u=https://syzkaller.appspot.com/x/log.txt?x=1206ed4be00000
+> > > > > >>> kernel config:  https://protect2.fireeye.com/url?k=43211072-1eeddbb6-43209b3d-0cc47a314e9a-3bd45a19932c37c8&u=https://syzkaller.appspot.com/x/.config?x=27392dd2975fd692
+> > > > > >>> dashboard link: https://protect2.fireeye.com/url?k=bf7a6153-e2b6aa97-bf7bea1c-0cc47a314e9a-c64073ee605efb7b&u=https://syzkaller.appspot.com/bug?extid=e84d7ebd1361da13c356
+> > > > > >>> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > > > > >>>
+> > > > > >>> Unfortunately, I don't have any reproducer for this crash yet.
+> > > > > >>>
+> > > > > >>> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > > > > >>> Reported-by: syzbot+e84d7ebd1361da13c356@syzkaller.appspotmail.com
+> > > > > >>>
+> > > > > >>> INFO: trying to register non-static key.
+> > > > > >>> the code is fine but needs lockdep annotation.
+> > > > > >>> turning off the locking correctness validator.
+> > > > > >>> CPU: 1 PID: 1014 Comm: syz-executor.0 Not tainted 5.6.0-rc7-syzkaller #0
+> > > > > >>> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> > > > > >>> Call Trace:
+> > > > > >>>  <IRQ>
+> > > > > >>>  __dump_stack lib/dump_stack.c:77 [inline]
+> > > > > >>>  dump_stack+0x188/0x20d lib/dump_stack.c:118
+> > > > > >>>  assign_lock_key kernel/locking/lockdep.c:880 [inline]
+> > > > > >>>  register_lock_class+0x14c4/0x1540 kernel/locking/lockdep.c:1189
+> > > > > >>>  __lock_acquire+0xfc/0x3ca0 kernel/locking/lockdep.c:3836
+> > > > > >>>  lock_acquire+0x197/0x420 kernel/locking/lockdep.c:4484
+> > > > > >>>  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+> > > > > >>>  _raw_spin_lock_irqsave+0x8c/0xbf kernel/locking/spinlock.c:159
+> > > > > >>>  try_to_wake_up+0x9f/0x17c0 kernel/sched/core.c:2547
+> > > > > >>
+> > > > > >> That's p->pi_lock, which gets initialized in rt_mutex_init_task() in
+> > > > > >> copy_process(). This should be impossible. Very odd.
+> > > > > >
+> > > > > > The stack mentions fbdev, which is a red flag at the moment. There are
+> > > > > > a dozen of bad bugs in fbdev and around. Just few days ago Andy
+> > > > > > pointed to another "impossible" crash "general protection fault in
+> > > > > > do_syscall_64" which is related to dri:
+> > > > > > https://protect2.fireeye.com/url?k=0cb8ad06-517466c2-0cb92649-0cc47a314e9a-a20c11191483c65b&u=https://syzkaller.appspot.com/bug?id=0ec7b2602b1ff40f0d34f38baa4ba1640727c3d9
+> > > > > > https://protect2.fireeye.com/url?k=614292e3-3c8e5927-614319ac-0cc47a314e9a-aeda6d72c01a7b0e&u=https://groups.google.com/forum/#!msg/syzkaller-bugs/ePqhfYx0-8M/Q_Urt97iAAAJ
+> > > > > >
+> > > > > > There are probably more random manifestations of these bugs already,
+> > > > > > and I guess we will be getting more.
+> > > > > >
+> > > > > > +fbdev maintainers
+> > > > >
+> > > > > Thank you for the report.
+> > > > >
+> > > > > fbdev is in the maintenance mode and no new features or drivers are
+> > > > > being added so syzbot reports are not for a new bugs (regressions) and
+> > > > > are not a priority (at least to me).
+> > > >
+> > > > Yup same here, I've seen a pile of syzbot reports for fbdev (and also
+> > > > vt, or combinations of them since fbdev is linked to vt through fbcon)
+> > > > fly by. But I really don't have to deal with these, my recommendation
+> > > > to anyone who cares about security are:
+> > > > - Don't enable vt
+> > > > - Don't enable fbdev
+> > >
+> > > 1. How do we deliver this message to relevant people?
+> > >
+> > > Because:
+> > >
+> > > $ grep FBDEV syzkaller/dashboard/config/upstream-kasan.config
+> > > CONFIG_DRM_FBDEV_EMULATION=y
+> > > CONFIG_DRM_FBDEV_OVERALLOC=100
+> > > # CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM is not set
+> > > CONFIG_XEN_FBDEV_FRONTEND=y
+> > >
+> > > and my current work machine:
+> > >
+> > > $ grep FBDEV /boot/config-5.2.17-1-amd64
+> > > CONFIG_DRM_FBDEV_EMULATION=y
+> > > CONFIG_DRM_FBDEV_OVERALLOC=100
+> > > # CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM is not set
+> > > CONFIG_XEN_FBDEV_FRONTEND=y
 > >
-> >On Mon, Mar 30, 2020 at 03:55:31PM +0200, Christian K=F6nig wrote:
-> >> Add a peer2peer flag noting that the importer can deal with device
-> >> resources which are not backed by pages.
-> >>
-> >> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-> >> ---
-> >>  drivers/dma-buf/dma-buf.c |  2 ++
-> >>  include/linux/dma-buf.h   | 10 ++++++++++
-> >>  2 files changed, 12 insertions(+)
-> >>
-> >> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> >> index ccc9eda1bc28..570c923023e6 100644
-> >> --- a/drivers/dma-buf/dma-buf.c
-> >> +++ b/drivers/dma-buf/dma-buf.c
-> >> @@ -690,6 +690,8 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf,
-> >struct device *dev,
-> >>
-> >>  	attach->dev =3D dev;
-> >>  	attach->dmabuf =3D dmabuf;
-> >> +	if (importer_ops)
-> >> +		attach->peer2peer =3D importer_ops->allow_peer2peer;
+> > Yeah I know it's been like this since forever. In theory you could
+> > build a fbdev/fbcon less distro since years (the last bit for a proof
+> > of concept was kmscon/systemd-consoled), but the amount of investment
+> > into classic linux desktop is so little that it's impossible to get
+> > this funded. CrOS fixed this a while ago iirc though.
 > >
-> >So an idea that crossed my mind to validate this, since we need quite so=
-me
-> >bad amounts of bad luck if someone accidentally introduces and access to
-> >struct_page in sg lists in some slowpath.
+> > I think to fix the syzbot issues all we'd need is a competent intern
+> > for a few months, that should take care of the worst stuff. Obviously
+> > wont include getting a test suite going, nor fixing any of the
+> > fundamental issues. But duct-taping over all the bugs should be
+> > possible (it's what we've been doing for well over 10 years by now in
+> > fbdev/fbocn/vt code anyway). I'd be willing to help mentoring, but
+> > that's about all I can do.
 > >
-> >On map_sg, if ->peer2peer is set, we could mangle the struct_page
-> >pointers, e.g. swap high bits for low bits (so that NULL stays NULL). On
-> >unmap_sg we obviously need to undo that, in case the exporter needs those
-> >pointers for its own book-keeping for some reason. I was also pondering
-> >just setting them all to NULL, but that might break some exporters. With
-> >the pointer mangling trick (especially if we flip high for low bits on 64
-> >where this should result in invalid addresses in almost all cases) we
-> >should be able to catch buggy p2p importers quite quickly.
-> =
+> > Adding Matthew Garret, I have discussed with him in the past finding
+> > some funding for linux desktop stuff like this.
 
-> The scatter list usage of the struct page pointer has other information i=
-n the
-> lower bits for keeping track of linking and other stuff.  Swizzling the p=
-age
-> pointers will probably make the scatter list unusable.
+I will keep this in mind. We _may_ get some interns this year who
+_may_ be interested in fixing Linux kernel bugs (but otherwise
+extending syzkaller descriptions).
 
-We'd need to swizzle only the pointers that are actual struct page
-pointers. Plus keep the low bits as-is, and maybe only flip the top-most
-60 bits or so. Doesn't break the idea fundamentally I think.
--Daniel
+FTR, there is also some follow up on twitter re extending
+https://github.com/a13xp0p0v/kconfig-hardened-check to capture such
+recommendations:
+https://twitter.com/dvyukov/status/1245969522869309441
+https://github.com/a13xp0p0v/kconfig-hardened-check/issues/38
 
-> =
 
-> Mike
-> =
-
-> >Thoughts? Maybe add as a follow-up patch for testing?
-> >-Daniel
-> >>  	attach->importer_ops =3D importer_ops;
-> >>  	attach->importer_priv =3D importer_priv;
-> >>
-> >> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> >> index 1ade486fc2bb..82e0a4a64601 100644
-> >> --- a/include/linux/dma-buf.h
-> >> +++ b/include/linux/dma-buf.h
-> >> @@ -334,6 +334,14 @@ struct dma_buf {
-> >>   * Attachment operations implemented by the importer.
-> >>   */
-> >>  struct dma_buf_attach_ops {
-> >> +	/**
-> >> +	 * @allow_peer2peer:
-> >> +	 *
-> >> +	 * If this is set to true the importer must be able to handle peer
-> >> +	 * resources without struct pages.
-> >> +	 */
-> >> +	bool allow_peer2peer;
-> >> +
-> >>  	/**
-> >>  	 * @move_notify
-> >>  	 *
-> >> @@ -362,6 +370,7 @@ struct dma_buf_attach_ops {
-> >>   * @node: list of dma_buf_attachment, protected by dma_resv lock of t=
-he
-> >dmabuf.
-> >>   * @sgt: cached mapping.
-> >>   * @dir: direction of cached mapping.
-> >> + * @peer2peer: true if the importer can handle peer resources without
-> >pages.
-> >>   * @priv: exporter specific attachment data.
-> >>   * @importer_ops: importer operations for this attachment, if provided
-> >>   * dma_buf_map/unmap_attachment() must be called with the dma_resv
-> >lock held.
-> >> @@ -382,6 +391,7 @@ struct dma_buf_attachment {
-> >>  	struct list_head node;
-> >>  	struct sg_table *sgt;
-> >>  	enum dma_data_direction dir;
-> >> +	bool peer2peer;
-> >>  	const struct dma_buf_attach_ops *importer_ops;
-> >>  	void *importer_priv;
-> >>  	void *priv;
-> >> --
-> >> 2.17.1
-> >>
+> > > 2. What do we do with fbdev testing on syzbot? Is there a way to
+> > > disable all of the unsupported stuff? But if we disable it, we don't
+> > > find any regressions as well. And in the end that's what is in the
+> > > mainline kernel and is still enabled in distros (at least in the 2
+> > > real configs I can grep now).
 > >
-> >--
-> >Daniel Vetter
-> >Software Engineer, Intel Corporation
-> >http://blog.ffwll.ch
-> >_______________________________________________
-> >dri-devel mailing list
-> >dri-devel@lists.freedesktop.org
-> >https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> > This would be bad I agree, but it's not any worse than the state of
+> > things the past 10 years. That's roughly for as long as fbdev has been
+> > in maintainance only mode, meaning "we'll apply patches if they come".
+> > Without Bart volunteering, we wouldn't even have that much really.
+>
+> Oh wrt disabling fbdev: Make sure CONFIG_FB isn't set. Unfortunately a
+> pile of other things select that, for convenience (like
+> CONFIG_DRM_KMS_FB_HELPER).
+>
+> That should get rid of all the problematic fbdev code.
+>
+> From what I've seen in some of the syzbot mails flying by we also have
+> issues in vt and console code blowing up (not just on fbcon/fbdev, but
+> also e.g. on vgacon). That stuff you'll still hit. But maybe you can
+> trick Greg KH into fixing the vt/console.c issues, he just claimed
+> that :-P
+> -Daniel
+>
+> >
+> > > > All that code has been developed long ago, in a much more innocent
+> > > > time. If someone wants to fix this you'd not just need to fix all the
+> > > > syzbot stuff, but also ramp up a full testsuite for all the ioctl, and
+> > > > all the corner-cases. Plus also fix some of the horrendous locking in
+> > > > there, probably.
+> > > >
+> > > > Multi-year effort, easily.
+> > > >
+> > > > Regressions I'll obviously try to handle, but none of these are. It's
+> > > > just syzbot has become smarter at hitting bugs in fbdev and vt
+> > > > subsystems (or maybe the hw the virtual machines emulate has become
+> > > > more varied, some of the reports are for fun stuff like vgacon ...).
+> > > >
+> > > > Cheers, Daniel
+> > > >
+> > > > > I have only resources to review/merge pending fbdev patches from time
+> > > > > to time so any help in fixing these syzbot reports is welcomed (there
+> > > > > have been a few fbdev related syzbot reports recently).
+> > > > >
+> > > > > Also please note that fbdev is maintained through drm-misc tree so
+> > > > > patches can also be handled by other drm-misc maintainers in case I'm
+> > > > > not available / busy with other things.
+> > > > >
+> > > > > Best regards,
+> > > > > --
+> > > > > Bartlomiej Zolnierkiewicz
+> > > > > Samsung R&D Institute Poland
+> > > > > Samsung Electronics
+> > > > >
+> > > > > >>>  wake_up_worker kernel/workqueue.c:836 [inline]
+> > > > > >>>  insert_work+0x2ad/0x3a0 kernel/workqueue.c:1337
+> > > > > >>>  __queue_work+0x50d/0x1280 kernel/workqueue.c:1488
+> > > > > >>>  call_timer_fn+0x195/0x760 kernel/time/timer.c:1404
+> > > > > >>>  expire_timers kernel/time/timer.c:1444 [inline]
+> > > > > >>>  __run_timers kernel/time/timer.c:1773 [inline]
+> > > > > >>>  __run_timers kernel/time/timer.c:1740 [inline]
+> > > > > >>>  run_timer_softirq+0x412/0x1600 kernel/time/timer.c:1786
+> > > > > >>>  __do_softirq+0x26c/0x99d kernel/softirq.c:292
+> > > > > >>>  invoke_softirq kernel/softirq.c:373 [inline]
+> > > > > >>>  irq_exit+0x192/0x1d0 kernel/softirq.c:413
+> > > > > >>>  exiting_irq arch/x86/include/asm/apic.h:546 [inline]
+> > > > > >>>  smp_apic_timer_interrupt+0x19e/0x600 arch/x86/kernel/apic/apic.c:1146
+> > > > > >>>  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:829
+> > > > > >>>  </IRQ>
+> > > > > _______________________________________________
+> > > > > dri-devel mailing list
+> > > > > dri-devel@lists.freedesktop.org
+> > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > > >
+> > > >
+> > > >
+> > > > --
+> > > > Daniel Vetter
+> > > > Software Engineer, Intel Corporation
+> > > > +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+> >
+> >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+>
+>
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
