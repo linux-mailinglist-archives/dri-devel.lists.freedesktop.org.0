@@ -2,34 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69DE19D4DF
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 12:15:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E58119D501
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 12:25:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 663796EB64;
-	Fri,  3 Apr 2020 10:15:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4F956E0AF;
+	Fri,  3 Apr 2020 10:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
- [185.70.40.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F37E36EB64
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 10:15:32 +0000 (UTC)
-Date: Fri, 03 Apr 2020 10:15:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1585908930;
- bh=T87XiPF08eMOjcksKrHeJmI5qFvsKPWXOENY6bsymN0=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=YlNptfyqDgUB8Maj57WLvUsCC0pL29Ehd8ipOoHTlh8Ser8vO2YMqNA0oqOZMs497
- FMHP/2ukR/Cn0ooAelkrJomWZbNbKKUMD0YGVJIHBn1xaXSGZmPD6QQR7KMRB2osLy
- n6w5L+7U9lBPppx+MKPMPd7QUZqEihD/mQQ+PXRo=
-To: DRI Development <dri-devel@lists.freedesktop.org>
-From: Simon Ser <contact@emersion.fr>
-Subject: KMS enums and bitfields UAPI
-Message-ID: <VmzN-pGfjaXAFb8aZXOnS2ibasRIsvB-EbfvxyvjLs07m-PBv4pTcX5hsB7yyrt78pxQQ6Bbu3I-hTtFSXEadxm8CkS60FLccIsZycguSfA=@emersion.fr>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9146D6E0AF
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 10:24:59 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 762F3321;
+ Fri,  3 Apr 2020 12:24:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1585909497;
+ bh=6AoVQWC6bVmf4rPCkhV3E1jg4poMS4+qepNdH5JPhVA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iRiKiLFMPN5UE41ZLkDupUaGCjHlB/2vNn4igBxHdgWI/tZM7dYRfx9D7Mr66RmCZ
+ Jt5Jhn5PWoJpQFiEazxfqGbvL6VKGQDGFNqgJ9J4vVsgJJrbje+QDU78tcbC5j66so
+ O+9JhRVhwejCsOa4CwMs4JaP8DARZdxgh1AcVfMY=
+Date: Fri, 3 Apr 2020 13:24:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+Message-ID: <20200403102449.GB4882@pendragon.ideasonboard.com>
+References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
+Content-Disposition: inline
+In-Reply-To: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,73 +47,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Petr Mladek <pmladek@suse.com>, mchehab@kernel.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Joe Perches <joe@perches.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Hi Sakari,
 
-I've been working on a library called libliftoff [1]. This library allows users
-to set KMS properties on a hardware planes abstraction called layers.
-Basically, library users create as many layers as they want with the KMS
-properties they want, and libliftoff will map layers to actual hardware planes
-when possible. The layer-to-plane mapping is dynamic. In other words, when
-setting a layer's properties, the library user can't guess which KMS plane will
-be used (if any).
+Thank you for the patch.
 
-This works fine for many properties, but doesn't work for enums and bitfields [2].
-The KMS UAPI expects clients to retrieve the list of enum entries for each
-object via drmModeGetProperty. The KMS UAPI allows a lot of freedom here: each
-driver and even each plane can assign a different meaning to a given enum
-value. For instance, in theory a plane could expose a "rotation" property where
-0x01 means "rotate-180", while another plane could expose a "rotation" property
-where 0x01 means "rotate-90".
+On Fri, Apr 03, 2020 at 12:11:56PM +0300, Sakari Ailus wrote:
+> Add a printk modifier %ppf (for pixel format) for printing V4L2 and DRM
+> pixel formats denoted by 4ccs. The 4cc encoding is the same for both so
+> the same implementation can be used.
+> 
+> Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> since v1:
+> 
+> - Improve documentation (add -BE suffix, refer to "FourCC".
+> 
+> - Use '%p4cc' conversion specifier instead of '%ppf'.
+> 
+> - Fix 31st bit handling in printing FourCC codes.
+> 
+> - Use string() correctly, to allow e.g. proper field width handling.
+> 
+> - Remove loop, use put_unaligned_le32() instead.
+> 
+>  Documentation/core-api/printk-formats.rst | 12 +++++++++++
+>  lib/vsprintf.c                            | 25 +++++++++++++++++++++++
+>  2 files changed, 37 insertions(+)
+> 
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index 8ebe46b1af39..550568520ab6 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -545,6 +545,18 @@ For printing netdev_features_t.
+>  
+>  Passed by reference.
+>  
+> +V4L2 and DRM FourCC code (pixel format)
+> +---------------------------------------
+> +
+> +::
+> +
+> +	%p4cc
+> +
+> +Print a FourCC code used by V4L2 or DRM. The "-BE" suffix is added on big endian
+> +formats.
+> +
+> +Passed by reference.
+> +
+>  Thanks
+>  ======
+>  
+> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> index 7c488a1ce318..93eea6a320da 100644
+> --- a/lib/vsprintf.c
+> +++ b/lib/vsprintf.c
+> @@ -1721,6 +1721,28 @@ char *netdev_bits(char *buf, char *end, const void *addr,
+>  	return special_hex_number(buf, end, num, size);
+>  }
+>  
+> +static noinline_for_stack
+> +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+> +		    struct printf_spec spec, const char *fmt)
+> +{
+> +#define FOURCC_STRING_BE	"-BE"
+> +	char s[sizeof(*fourcc) + sizeof(FOURCC_STRING_BE)] = { 0 };
+> +
+> +	if (check_pointer(&buf, end, fourcc, spec))
+> +		return buf;
+> +
+> +	if (fmt[1] != 'c' || fmt[2] != 'c')
+> +		return error_string(buf, end, "(%p4?)", spec);
+> +
+> +	put_unaligned_le32(*fourcc & ~BIT(31), s);
+> +
+> +	if (*fourcc & BIT(31))
+> +		strscpy(s + sizeof(*fourcc), FOURCC_STRING_BE,
+> +			sizeof(FOURCC_STRING_BE));
+> +
+> +	return string(buf, end, s, spec);
 
-This makes things complicated for all KMS clients, not only for libliftoff. All
-clients need to have an internal enum for e.g. "rotation", then when applying
-properties to a plane needs to convert their internal value enum to the
-per-plane enum value.
+Taking V4L2_PIX_FMT_Y16_BE as an example, this will print 'Y16 -BE'
+(without quotes). There are other 4CCs that contain spaces and would
+suffer from a similar issue. Even in little-endian format, it would
+result in additional spaces in the output string. Is this what we want ?
+Should the caller always enclose the 4CC in quotes or brackets for
+clarity ? Or should still be done here ?
 
-However, this isn't true for all properties. A bunch of properties have
-hardcoded values in the UAPI headers. Looking at my copy of drm_mode.h I can
-see DRM_MODE_SCALE_*, DRM_MODE_DITHERING, DRM_MODE_LINK_STATUS_*,
-DRM_MODE_ROTATE_*, DRM_MODE_REFLECT_* and DRM_MODE_CONTENT_PROTECTION_*.
-(That's why I said "in theory" when I referred to the "rotation" property
-above.)
+> +}
+> +
+>  static noinline_for_stack
+>  char *address_val(char *buf, char *end, const void *addr,
+>  		  struct printf_spec spec, const char *fmt)
+> @@ -2131,6 +2153,7 @@ char *fwnode_string(char *buf, char *end, struct fwnode_handle *fwnode,
+>   *       correctness of the format string and va_list arguments.
+>   * - 'K' For a kernel pointer that should be hidden from unprivileged users
+>   * - 'NF' For a netdev_features_t
+> + * - '4cc' V4L2 or DRM FourCC code, with "-BE" suffix on big endian formats.
+>   * - 'h[CDN]' For a variable-length buffer, it prints it as a hex string with
+>   *            a certain separator (' ' by default):
+>   *              C colon
+> @@ -2223,6 +2246,8 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
+>  		return restricted_pointer(buf, end, ptr, spec);
+>  	case 'N':
+>  		return netdev_bits(buf, end, ptr, spec, fmt);
+> +	case '4':
+> +		return fourcc_string(buf, end, ptr, spec, fmt);
+>  	case 'a':
+>  		return address_val(buf, end, ptr, spec, fmt);
+>  	case 'd':
 
-I understand the intent is to allow adding new KMS properties without having to
-update the UAPI headers. However having a nice KMS UAPI for dynamically listing
-all enum entries for a property doesn't forbid us from also exposing the values
-in the UAPI header to make things easier and simpler for user-space.
+-- 
+Regards,
 
-Additionally, I've heard Pekka saying that it would be nice to have constants
-for property names in the UAPI headers. Indeed, this would prevent
-hard-to-debug typo issues. I have a very good example of such a typo issue that
-took literally hours to debug, with X11 atoms which also use free-form strings
-like KMS properties [3].
-
-If we have constants for property names in UAPI headers, it wouldn't be a big
-hurdle to also have constants for enum values alongside.
-
-Are there any use-cases for defining a standard property which uses different
-enum values depending on the driver/device/object (ie. the same enum value
-can have a different meaning depending on the driver/device/object)?
-
-At the very least, having a clear policy for both kernel public headers and
-user-space would help a lot. Right now it's unclear for both parties what to do
-regarding enum values.
-
-What do you think?
-
-Thanks,
-
-Simon
-
-[1]: https://github.com/emersion/libliftoff
-[2]: https://github.com/emersion/libliftoff/issues/39
-[3]: https://github.com/swaywm/wlroots/pull/1335
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
