@@ -1,71 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C2F19D372
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 11:23:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE4419E4F5
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Apr 2020 14:46:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0845C6EB49;
-	Fri,  3 Apr 2020 09:23:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48DB16E178;
+	Sat,  4 Apr 2020 12:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 376 seconds by postgrey-1.36 at gabe;
- Fri, 03 Apr 2020 09:23:16 UTC
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8799D6EB42
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 09:23:16 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 2532264C;
- Fri,  3 Apr 2020 05:16:57 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Fri, 03 Apr 2020 05:16:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=+vCRer2tBJ+2uqECiyHrHv9GUPx
- 3lpVNNvA4oxiT2TM=; b=S3oW3k4IQKifAEIXO6a7zxeJvC38/ZdHgeZv5OAtiIk
- tCzAv0q2ql+qkFUaYTXcPLVLP0BVRoZZCjxIapk6sFpNEFhirYXA0Cxx64sdYLUj
- t9U9zM9zmYBk+BuWBaSUJXqLyqyDgipxYis+BJeJ4ymBpASJjlcqx1626X4D+A+4
- HrrSbZR7RrH/ROKXEDuZng7Fm17GJVkOryUiY/LhE66aSm/2Ebo1puULjJEY8z5T
- ptZH9BZXGvI9e5cC2OucEtB6fOCupTWRsg8xSzS25wAl4ClIwOtkHkihDclURZLI
- Bqe2qU3wkBuuzYBs3YC3UIk9kHxbkYCojoCMk50tqMw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=+vCRer
- 2tBJ+2uqECiyHrHv9GUPx3lpVNNvA4oxiT2TM=; b=CONOz7b6rNkZTR78Ry7DwU
- 3l49bqn1vymWigoGUMOXAfufDm06aSdb8J2JZLi3SbuTPOOJsSfFbsb0IJMTWug0
- eHht68UlXT4OUn0nqXSeTpoVTXJAxEDO6xmMcNjxm9zjRdgDkjTYEVa/vegNZ/OY
- 4HVFcfv1mRnbv+DJpY5sa5isYIXoPtHl537TkIFdqiwyZvdkpXPHJJ/YxFm5SGBl
- Tb+a7RRJGLjXIH8CuiBkHzwkg7UN7uVNrQjsAm0d49RS2GztzjP0C08dp+gCe/1k
- 4IvJk5aX0RHYDeaTokxDep3WBGYyV7MQ7E5F1yihv26IIt+ANFuGpKLfambHC2Hw
- ==
-X-ME-Sender: <xms:B_-GXkAHISz4ybNPJe62-mKYzpEmFrUwghjcn1U6ix0yF_4LoSh4UQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrtdeigddufecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
- jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecukfhppeekfedrkeeirdekledruddtje
- enucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgv
- gheskhhrohgrhhdrtghomh
-X-ME-Proxy: <xmx:B_-GXv3CRthpvXwgbXg-8fhUmO6U1nCg0F1PyTPYrFc3e8ZH9QAiBA>
- <xmx:B_-GXmWeCT9aGokOJpb7n7uLYQDeUGxKbadODarCE21VI9ZCzmb-aw>
- <xmx:B_-GXlx_YBR971siDDMvI4AetL_T8QXEGQb13HjKJSGPG0SsPi4ulA>
- <xmx:CP-GXq8-x2PJ4VMa-QC3Jlv4aI9RRfMI72UVKAkP27STMkblQ5W2wQ>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- by mail.messagingengine.com (Postfix) with ESMTPA id 40ECE328005A;
- Fri,  3 Apr 2020 05:16:55 -0400 (EDT)
-Date: Fri, 3 Apr 2020 11:16:52 +0200
-From: Greg KH <greg@kroah.com>
-To: Robert Beckett <bob.beckett@collabora.com>
-Subject: Re: [PATCH v4.19.y, v4.14.y, v4.9.y] drm/etnaviv: Backport fix for
- mmu flushing
-Message-ID: <20200403091652.GB3740897@kroah.com>
-References: <20200402170758.8315-1-bob.beckett@collabora.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7CD76EB50
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 09:31:04 +0000 (UTC)
+IronPort-SDR: k45wyoczAkQeJpBKHbwhUcta8HPnOPY6/URI3RCNv2m8NHsicVjIsc6an15TTFjrOpemmZCAxC
+ IRYSEL6kmYhQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2020 02:31:05 -0700
+IronPort-SDR: Ff+uh1GlRsAzAACn6hWcKwB6L/7wQ6bTYA7eA69rBEVqU7gH6ev/OBSCkNoeT2Ric3r7jt7Mg5
+ r7eRvnv3tT1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,339,1580803200"; d="scan'208";a="449968404"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by fmsmga005.fm.intel.com with ESMTP; 03 Apr 2020 02:31:01 -0700
+Received: from andy by smile with local (Exim 4.93)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1jKIfH-00FOWT-O4; Fri, 03 Apr 2020 12:31:03 +0300
+Date: Fri, 3 Apr 2020 12:31:03 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+Message-ID: <20200403093103.GI1922688@smile.fi.intel.com>
+References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200402170758.8315-1-bob.beckett@collabora.com>
+In-Reply-To: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Mailman-Approved-At: Sat, 04 Apr 2020 12:45:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,62 +52,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Petr Mladek <pmladek@suse.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, laurent.pinchart@ideasonboard.com,
+ Joe Perches <joe@perches.com>, mchehab@kernel.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 02, 2020 at 06:07:55PM +0100, Robert Beckett wrote:
-> commit 4900dda90af2cb13bc1d4c12ce94b98acc8fe64e upstream
-> 
-> Due to async need_flush updating via other buffer mapping, checking
-> gpu->need_flush in 3 places within etnaviv_buffer_queue can cause GPU
-> hangs.
-> 
-> This occurs due to need_flush being false for the first 2 checks in that
-> function, so that the extra dword does not get accounted for, but by the
-> time we come to check for the third time, gpu->mmu->need_flish is true,
-> which outputs the flush instruction. This causes the prefetch during the
-> final link to be off by 1. This causes GPU hangs.
-> 
-> It causes the ring to contain patterns like this:
-> 
-> 0x40000005, /* LINK (8) PREFETCH=0x5,OP=LINK */                                                      
-> 0x70040010, /*   ADDRESS *0x70040010 */                                                              
-> 0x40000002, /* LINK (8) PREFETCH=0x2,OP=LINK */                                                      
-> 0x70040000, /*   ADDRESS *0x70040000 */                                                              
-> 0x08010e04, /* LOAD_STATE (1) Base: 0x03810 Size: 1 Fixp: 0 */                                       
-> 0x0000001f, /*   GL.FLUSH_MMU := FLUSH_FEMMU=1,FLUSH_UNK1=1,FLUSH_UNK2=1,FLUSH_PEMMU=1,FLUSH_UNK4=1 */
-> 0x08010e03, /* LOAD_STATE (1) Base: 0x0380C Size: 1 Fixp: 0 */                                       
-> 0x00000000, /*   GL.FLUSH_CACHE := DEPTH=0,COLOR=0,TEXTURE=0,PE2D=0,TEXTUREVS=0,SHADER_L1=0,SHADER_L2=0,UNK10=0,UNK11=0,DESCRIPTOR_UNK12=0,DESCRIPTOR_UNK13=0 */
-> 0x08010e02, /* LOAD_STATE (1) Base: 0x03808 Size: 1 Fixp: 0 */                                       
-> 0x00000701, /*   GL.SEMAPHORE_TOKEN := FROM=FE,TO=PE,UNK28=0x0 */                                    
-> 0x48000000, /* STALL (9) OP=STALL */                                                                 
-> 0x00000701, /*   TOKEN FROM=FE,TO=PE,UNK28=0x0 */                                                    
-> 0x08010e00, /* LOAD_STATE (1) Base: 0x03800 Size: 1 Fixp: 0 */                                       
-> 0x00000000, /*   GL.PIPE_SELECT := PIPE=PIPE_3D */                                                   
-> 0x40000035, /* LINK (8) PREFETCH=0x35,OP=LINK */                                                     
-> 0x70041000, /*   ADDRESS *0x70041000 */
-> 
-> Here we see a link with prefetch of 5 dwords starting with the 3rd
-> instruction. It only loads the 5 dwords up and including the final
-> LOAD_STATE. It needs to include the final LINK instruction.
-> 
-> This was seen on imx6q, and the fix is confirmed to stop the GPU hangs.
-> 
-> The commit referenced inadvertently fixed this issue by checking
-> gpu->mmu->need_flush once at the start of the function.
-> Given that this commit is independant, and useful for all version, it
-> seems sensible to backport it to the stable branches.
-> 
-> 
+On Fri, Apr 03, 2020 at 12:11:56PM +0300, Sakari Ailus wrote:
+> Add a printk modifier %ppf (for pixel format) for printing V4L2 and DRM
+> pixel formats denoted by 4ccs. The 4cc encoding is the same for both so
+> the same implementation can be used.
 
-All now queued up, thanks for the backports.
+...
 
-greg k-h
+> +static noinline_for_stack
+> +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+> +		    struct printf_spec spec, const char *fmt)
+> +{
+
+> +#define FOURCC_STRING_BE	"-BE"
+> +	char s[sizeof(*fourcc) + sizeof(FOURCC_STRING_BE)] = { 0 };
+
+I guess it makes it too complicated.
+
+	char s[8];
+
+> +	if (check_pointer(&buf, end, fourcc, spec))
+> +		return buf;
+> +
+> +	if (fmt[1] != 'c' || fmt[2] != 'c')
+> +		return error_string(buf, end, "(%p4?)", spec);
+> +
+
+> +	put_unaligned_le32(*fourcc & ~BIT(31), s);
+
+Can you elaborate what the difference in output with this bit set over cleared?
+I.o.w. why don't we need to put it as BE and for LE case addd "-LE"?
+
+> +	if (*fourcc & BIT(31))
+> +		strscpy(s + sizeof(*fourcc), FOURCC_STRING_BE,
+> +			sizeof(FOURCC_STRING_BE));
+
+We know the size, and we may put '\0' as well
+	if (*fourcc & BIT(31))
+		strscpy(&s[4], "-BE", sizeof("-BE"));
+	else
+		strscpy(&s[4], "", sizeof(""));
+
+
+> +	return string(buf, end, s, spec);
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
