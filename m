@@ -1,52 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFDE19D22E
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 10:29:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE0A19E4F2
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Apr 2020 14:45:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8120A6E209;
-	Fri,  3 Apr 2020 08:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F00F76E142;
+	Sat,  4 Apr 2020 12:45:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE126E1D5
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 08:29:04 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id x11so6453239otp.6
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 01:29:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8312B6E209;
+ Fri,  3 Apr 2020 08:29:04 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id i7so8341130edq.3;
+ Fri, 03 Apr 2020 01:29:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=02Izn5NIEOgQ17Wwu9B2nDjWYnskhkbWYrLbCws9cys=;
- b=AePlV6cvRFaia2Flr22OaglBCSan4Fn1fu1TjdH+PdqjokxAikNigzQZUfp4HAtll6
- YGMdl+BcQ1Graq9IqqFvdG6d375dVL46YFsYvHdO39lzISMurfDlqYGtDvDCsUlXkMqv
- sssHVyogZ9QM32uJngkP6RMbY0sg1Hsp8mtmI=
+ :cc:content-transfer-encoding;
+ bh=ji/Kw+Gp/dYAEcNgsOkprc1Dknrrsb5ucuzSucuATuY=;
+ b=i3+CnjojfPt7Sq3XtAbwvUPLSMPEHkIlbrr3Kj5S3C2932OXocFzU+OX62j0VRSdyC
+ JFfy3sap9IMg9qK0bRrjqhqkBIuDVxaHajd7piEKVVyX2ump3V+ZHDCwcWtW3nVCpruX
+ kDbP/I7xh/IgjvK2rsso4txesJcgoLkgpvCglByMl7W3XIw4KmTozuS6+ym6y8vpS47Y
+ moGhnaa9jNVXB3cDsySJbTA153yubQpwS2FpwGhOacB3MSdFpKtEfZo3PGd6I7y5bezb
+ ci668QZnPJMoM+jjJBvm0WLbDzWWuRuJiRo3lZQl4dfooakgGqPKwMvm+d0TUWftImQ7
+ pXEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=02Izn5NIEOgQ17Wwu9B2nDjWYnskhkbWYrLbCws9cys=;
- b=dSiFKxSok5ApWe7FttJZEez6zxwT2yDyCOeiR5i6gVXAMSTpUijz578IN+LjuVs8q2
- /QRepXxqz53zaRS5mCztHm3q08C/RwjkZKqFiEGGel9i7f+xIVCbOzLMDuxAD+tG9R/Z
- AJK8I76Sj48VfVnjRbRwSdyAAZaNoJUOVTjm4rgAGIV1Qx3J5JzWk9EEFFCMRxSXi0Ge
- 1vjuA2DN7lliB+4vRT2bzx3GxfdYCK5Fj7l7outCg9K1/HHzcOHI0jvXxAr3yBXOP7Gn
- OlMgbSL0f31ymhngLqyb3TVQ5i1ZSQwoog+tR35otPNjYBuYNO0PXm8qy4UI1Njh2WO1
- DY6Q==
-X-Gm-Message-State: AGi0PuaCxKnOFWPCDXE08l3X40Z4mFK/Em/xpWVxatqNYtRW8fb0v08g
- rn1obmULfOpyqmg1dZ/JygTDbtuBiBfXTXA51CAKnQ==
-X-Google-Smtp-Source: APiQypJyeKCFnlQPk1pGtIlyDJ5aPoiQwEGi4t/hFFgGBNvUJhvcbzE54yJz9hoZgKP2mj2jINCfs30xT8u1zpxIb0w=
-X-Received: by 2002:a4a:c819:: with SMTP id s25mr5852558ooq.6.1585902543776;
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ji/Kw+Gp/dYAEcNgsOkprc1Dknrrsb5ucuzSucuATuY=;
+ b=nAnIvMIsBvMYnXOwSnTaZP9ZGcmSykuA4kC7cYxwzEHAov0RPG4w2O0HPAsVLozW3G
+ T7yb8W9faTz3T0dhZYsS3/IsQO2ZFNE58993m9MiUBtEnCQg+ujj7Y0/+hjTJP4+VUeu
+ Uh6ad/+cYe7UGaSdh+r+TBnYHxymYNyap0t5FFdW8oJpei5IuFGyizkgeg6bgBKdm733
+ t1BVdVgldj0Wx5VBsV8E+zwxOuYfMQKkRe2woDnA5roNKmyFgyqM5PxlI6c4UHIBCOcv
+ AZIHVvTmh0s2+Am7wrFLUYXVTbBNysFlvLoul9TC2L0DwM08+WMacBzSmKylKG1Cxiao
+ sB9A==
+X-Gm-Message-State: AGi0PubaIh7LdSjHxu+GCqd8fkpvC6MNHoCOceaB0E0oMw7J0kmqYjpq
+ 2iGk42sMO4Z8yEp6UOqq1KeMpGONBxquQt2kxJg=
+X-Google-Smtp-Source: APiQypJEggPFwK79IksAV1Q8tO3tVYJF1KxMCTcJsM6PQQV35kksum5IbERbzsVQjrXUNy1ifAPGZt8hJJ2V0nL0moU=
+X-Received: by 2002:a17:906:d1c3:: with SMTP id
+ bs3mr7083561ejb.334.1585902543057; 
  Fri, 03 Apr 2020 01:29:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200402203317.GA34560@ubuntu-m2-xlarge-x86>
- <20200402215926.30714-1-chris@chris-wilson.co.uk>
- <20200403013420.GA11516@ubuntu-m2-xlarge-x86>
-In-Reply-To: <20200403013420.GA11516@ubuntu-m2-xlarge-x86>
-From: Daniel Vetter <daniel@ffwll.ch>
+References: <CAJgxT3-11eZqvysgCQMCYtKEUVsNWWHd+7au91uNC7SWK1Fyug@mail.gmail.com>
+ <20200403111411.5e4e6bfe@eldfell.localdomain>
+In-Reply-To: <20200403111411.5e4e6bfe@eldfell.localdomain>
+From: Guillermo Rodriguez <guillerodriguez.dev@gmail.com>
 Date: Fri, 3 Apr 2020 10:28:52 +0200
-Message-ID: <CAKMK7uE9pv23edViQBC=Jy5fQV=-NQTNdk1qi91Z8shpeuL7FA@mail.gmail.com>
-Subject: Re: [PATCH] drm/legacy: Fix type for drm_local_map.offset
-To: Nathan Chancellor <natechancellor@gmail.com>
+Message-ID: <CABDcavY_00eeD-zR-CZNCwFdBL56DcFh4yAO_W4t+xC3j_qsow@mail.gmail.com>
+Subject: Re: Aliases for DRI connectors?
+To: Pekka Paalanen <ppaalanen@gmail.com>
+X-Mailman-Approved-At: Sat, 04 Apr 2020 12:45:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,70 +64,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Matt Hoosier <matt.hoosier@gmail.com>, dri-devel@lists.freedesktop.org,
+ wayland mailing list <wayland-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 3, 2020 at 8:54 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> On Thu, Apr 02, 2020 at 10:59:26PM +0100, Chris Wilson wrote:
-> > drm_local_map.offset is not only used for resource_size_t but also
-> > dma_addr_t which may be of different sizes.
-> >
-> > Reported-by: Nathan Chancellor <natechancellor@gmail.com>
-> > Fixes: 8e4ff9b56957 ("drm: Remove the dma_alloc_coherent wrapper for internal usage")
-> > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> > Cc: Dave Airlie <airlied@gmail.com>
-> > Cc: Nathan Chancellor <natechancellor@gmail.com>
-> > Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> > ---
-> >  include/drm/drm_legacy.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/include/drm/drm_legacy.h b/include/drm/drm_legacy.h
-> > index dcef3598f49e..aed382c17b26 100644
-> > --- a/include/drm/drm_legacy.h
-> > +++ b/include/drm/drm_legacy.h
-> > @@ -136,7 +136,7 @@ struct drm_sg_mem {
-> >   * Kernel side of a mapping
-> >   */
-> >  struct drm_local_map {
-> > -     resource_size_t offset;  /**< Requested physical address (0 for SAREA)*/
-> > +     dma_addr_t offset;       /**< Requested physical address (0 for SAREA)*/
-> >       unsigned long size;      /**< Requested physical size (bytes) */
-> >       enum drm_map_type type;  /**< Type of memory to map */
-> >       enum drm_map_flags flags;        /**< Flags */
-> > --
-> > 2.20.1
-> >
->
-> Thanks for the quick fix!
->
-> I ran it through my set of build tests and nothing else seems to have
-> broken (at least not any more than it already is...).
->
-> Tested-by: Nathan Chancellor <natechancellor@gmail.com> # build
-
-This works too, missed it when replying to Linus
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Linux I guess this one is better, but like I explained it really
-doesn't matter what we do with drm legacy code, it's a horror show
-that should be disabled on all modern distros anyway. We just keep it
-because of "never break old uapi". Maybe in a few years more ...
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgUGVra2EsCgpFbCB2aWUuLCAzIGFici4gMjAyMCBhIGxhcyAxMDoxNCwgUGVra2EgUGFhbGFu
+ZW4KKDxwcGFhbGFuZW5AZ21haWwuY29tPikgZXNjcmliacOzOgo+Cj4gT24gV2VkLCAxIEFwciAy
+MDIwIDE0OjM4OjM3IC0wNTAwCj4gTWF0dCBIb29zaWVyIDxtYXR0Lmhvb3NpZXJAZ21haWwuY29t
+PiB3cm90ZToKPgo+ID4gSSdtIHNlYXJjaGluZyBmb3Igc29tZSBzb3J0IG9mIHNjaGVtZSB0aGF0
+IHdpbGwgbGV0IG15IERSSSBtYXN0ZXIgcXVlcnkgdGhlCj4gPiBzZXQgb2YgYXZhaWxhYmxlIGNv
+bm5lY3RvcnMgYW5kIHNlbGVjdCB0aGUgb25lIGNhcnJ5aW5nIGEgcHJlYXJyYW5nZWQKPiA+IGRl
+c2lnbmF0aW9uLiBUaGUgcHJvYmxlbSBJJ20gdHJ5aW5nIHRvIHNvbHZlIGlzIHRvIGFsbG93IGRl
+cGxveWluZyBvbmUKPiA+IHN0YW5kYXJkaXplZCB1c2Vyc3BhY2UgY29tcG9uZW50IGFjcm9zcyBh
+IGZsZWV0IG9mIGRldmljZXMgdGhhdCBoYXZlCj4gPiB2YXJ5aW5nIG51bWJlcnMgb2YgZGlzcGxh
+eXMsIHdpdGggdGhlIHVzZSBjYXNlcyBub3QgYWx3YXlzIGRyaXZlbiBvbiB0aGUKPiA+IHNhbWUg
+Y29ubmVjdG9yIHRvcG9sb2dpY2FsbHkuCj4gPgo+ID4gSSBoYWQgYSBsb29rIGFyb3VuZCB0aGUg
+cHJvcGVydGllcyBhdmFpbGFibGUgb24gbXkgc3lzdGVtJ3MgRFJJIGNvbm5lY3RvcnMsCj4gPiBh
+bmQgbm90aGluZyBpbW1lZGlhdGUganVtcGVkIG91dCBhdCBtZS4gSXMgdGhlcmUgYSBzdGFuZGFy
+ZCBjb25uZWN0b3IKPiA+IHByb3BlcnR5IHRoYXQgKGFzc3VtaW5nIEkgY2FuIGZpbmQgdGhlIHJp
+Z2h0IHBsYWNlIGluIERldmljZVRyZWUgb3Igc2ltaWxhcgo+ID4gdG8pIHRoYXQgd291bGQgYmUg
+YSBnb29kIGZpdCBmb3IgdGhpcz8KPgo+IEhpLAo+Cj4gSSd2ZSBuZXZlciBoZWFyZCBvZiBhIHRo
+aW5nIHRoYXQgY291bGQgYWNjb21wbGlzaCB0aGF0LiBEUk0gY29ubmVjdG9yCj4gbmFtZXMgYXJl
+IG5vdCBldmVuIGFjdHVhbGx5IGNvbW11bmljYXRlZCB0byB1c2Vyc3BhY2UuIFdoYXQgdXNlcnNw
+YWNlCj4gc2VlcyBpcyBjb25uZWN0b3IgdHlwZSAoZW51bSkgYW5kIHNvbWUgY291bnRlciBudW1i
+ZXJzICh3aGljaCBhcmUgbm90Cj4gcGVyc2lzdGVudCwgc28gbm90IHJlbGlhYmxlIGlmIHlvdSBo
+YXZlIGUuZy4gbXVsdGlwbGUgRFJNIGRyaXZlcnMKPiByYWNpbmcgdG8gaW5pdGlhbGl6ZSksCgpJ
+IG1heSBiZSBtaXNyZWFkaW5nIHlvdSwgYnV0IGRvZXMgdGhpcyBtZWFuIHRoYXQgdGhlIGNvbm5l
+Y3RvciBuYW1lcwp1c2VkIGluIHRoZSBbb3V0cHV0XSBzZWN0aW9uIG9mIHRoZSB3ZXN0b24uaW5p
+IGNvbmZpZ3VyYXRpb24gZmlsZSBhcmUKbm90IHJlbGlhYmxlPwpUaGVuIHdoYXQgaXMgdGhlIHBy
+b3BlciB3YXkgdG8gY29uZmlndXJlIG9uZSBzcGVjaWZpYyAocGh5c2ljYWwpCm91dHB1dCBpbiBX
+ZXN0b24/CgpCUiwKCkd1aWxsZXJtbwoKPiBhbmQgdGhlbiB1c2Vyc3BhY2UgbWFudWZhY3R1cmVz
+IGEgY29ubmVjdG9yIG5hbWUKPiBmcm9tIHRob3NlLiBUaGlzIGhhcyBiZWVuIG1vc3QgcGFpbmZ1
+bCB3aXRoIFhvcmcsIHdoZXJlIHRoZSBkaWZmZXJlbnQKPiB2aWRlbyBERFggZHJpdmVycyB1c2Vk
+IHRvIHVzZSBkaWZmZXJlbnQgY29udmVudGlvbnMgaW4gbWFraW5nIHVwIHRoZQo+IG5hbWVzLCBt
+ZWFuaW5nIHRoYXQgaWYgeW91IHN3aXRjaGVkIEREWGVzIChlLmcuIGJldHdlZW4gZHJpdmVyLXNw
+ZWNpZmljCj4gZHJpdmVyIGFuZCBtb2Rlc2V0dGluZyBkcml2ZXIpLCB0aGUgY29ubmVjdG9yIG5h
+bWVzIGNoYW5nZWQKPiBpbnZhbGlkYXRpbmcgeW91ciB4b3JnLmNvbmYuCj4KPiBIb3dldmVyLCB0
+aGUgcHJvYmxlbSBvZiBub24tcGVyc2lzdGVudCBjb25uZWN0b3IgbmFtZXMgaGFzIGJlZW4gdGhv
+dWdodAo+IG9mLCBzZWUgZS5nLjoKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNo
+aXZlcy9kcmktZGV2ZWwvMjAxOS1KdW5lLzIyMTkwMi5odG1sCj4gVGhlIHRocmVhZCBoYXMgbWVz
+c2FnZXMgYWxzbyBpbiBKdWx5IGFuZCBBdWd1c3QuCj4KPiBJZiB5b3UgaGFkIHJlbGlhYmxlLCBw
+ZXJzaXN0ZW50IGNvbm5lY3RvciBuYW1lcyAoYW5kIHVzZWQgZS5nLiBkZXZpY2UKPiBwYXRoIGZy
+b20gdWRldiB0byByZWxpYWJseSBpZGVudGlmeSBEUk0gZGV2aWNlcyksIG1heWJlIHlvdSBjb3Vs
+ZCBidWlsZAo+IHNvbWV0aGluZyBvbiB0b3Agb2YgdGhhdD8KPgo+IFRob3VnaCBJIGRvdWJ0IGlm
+IG1haW50YWluZXJzIHdvdWxkIGxpa2UgeW91ciBjb25maWcgdG8gYmUgaW4gRFQgb3IKPiBrZXJu
+ZWwsIG1heWJlIGl0IG5lZWRzIHRvIGJlIGhhbmRsZWQgaW4gdXNlcnNwYWNlPwo+Cj4KPiBUaGFu
+a3MsCj4gcHEKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Xwo+IHdheWxhbmQtZGV2ZWwgbWFpbGluZyBsaXN0Cj4gd2F5bGFuZC1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL3dheWxhbmQtZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
