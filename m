@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D843219DCD9
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 19:35:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB77619DCDA
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 19:35:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 317C46EC42;
-	Fri,  3 Apr 2020 17:35:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D75C6EC44;
+	Fri,  3 Apr 2020 17:35:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F05F66EC42
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 17:35:30 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id r7so7728877ljg.13
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 10:35:30 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD3A16EC43
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 17:35:53 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id q19so7741849ljp.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 10:35:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anholt-net.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dKtIdZvLC52F10Y6xbDfkSl0Pu7i6ClghvBiyqtambU=;
- b=H93YJMtUtlhSvERgsd9+QhyHUPZkLUy1qm6kic51si2KSdRHYw+iGnwWRR0DJ77ORV
- 3xhJqij/IkPg2b9Lu55rd/U1mC12Ln1lFm6QK1yRZIco5vcryPGAnK6GmQbZezzP4mVZ
- pLMW5K2NguR0k8OlPVuhXA5LY88rXpv3guptSz6yRnnQkfzV+aLqWY9UeGeT+9/4GwUU
- qJcDdwabAiF2N0zGWrQWk/vnZpPvgNjILUBcgrKfLybcaDm/YxuKR3GpNgsR20YpQDbi
- FYUlEKxEdw6FafJzwcZGXHiMvE8r+lmWV4uA+NmywPEtywsIlKEmYEKXpVmHee7e+LUk
- j56Q==
+ :cc; bh=POas12dpN7kN9O3srxn75BiKgA8osyRtABWdm9UHIdc=;
+ b=QGH0XZa85F7gf6EtUQ+4zpN0bu7F0YRNIXn5DUG9yPM2ZMXOo1+dzNBiANe3tWY3Qu
+ D+k0DuazWhGnHb3+bsPxVPijdtPmfQLrBbXmzcqQVZtFU5atW7YvlAo2a1RVi8hDgY7f
+ mqr13el7xCdyZ7DIfyOGqsYkzNCsPt1Qd28GOzaK3BTaMKgw+7PZDqH2euCFXtVxGbhk
+ wvPNWa9rET83eVFUnTP/I4dRWg5dMqROJu1Kwii5Am3mDwLUo24qnGlbKhtbk9XgykCJ
+ XDlpDAHVJcm3FMxOIcs/xr0FLwiTSIzoWFxWXBt3J5rbCBQy9WrTgr5v9D700wXEKX5T
+ 5cFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=dKtIdZvLC52F10Y6xbDfkSl0Pu7i6ClghvBiyqtambU=;
- b=dpSilCwNL60NAvDXiA30qkyTZ1hlIyz2f71dAIm4Sm8qp1zStD7ZkCEC74Kmy0fmHD
- WC4hxUhZMoOWAGzQMq41h6rjhQds+qSO2DOdlAasSvE6sM53wbxMKP27PJKPUtQPNktF
- 9hs1gtnhHnSYsuakdFzUCSi6yTzVlBnsKSGFoPIMSxaiv9ldU/J5vOrCC07fdo008rST
- kxZM/JGG680woTdZS22HDoTDje9qQFr4ROgRKMOmVy0sELJP9EXa3spwwzVmIYqf9gGl
- t1dn8vBgvtB46ba62BbqxonAEYfoPfU6y+7iZkSd+dOuer/6TXhATj6Izxa+sg7tXHG1
- iI1w==
-X-Gm-Message-State: AGi0Pubdy6hXnTqMKeae0uAUanKNRkMhlzM+xQ+48LcHs3JUO8F2YKTv
- GeBysqvtAFmxVmfM2dENP3bz1pVQUErmcmGg5utQKw==
-X-Google-Smtp-Source: APiQypLs4HkiXBwOT8isUkymGTQ+IDH2CPTxP7O0KXPofVPFmo+KzfDaxV69aCpdnF7iK888NVyZKD1L0GpVYoGQfrM=
-X-Received: by 2002:a2e:b241:: with SMTP id n1mr5037078ljm.22.1585935329126;
- Fri, 03 Apr 2020 10:35:29 -0700 (PDT)
+ bh=POas12dpN7kN9O3srxn75BiKgA8osyRtABWdm9UHIdc=;
+ b=d6rI+pMeah5qk0EN0JC04eqwhiVILx4SsIhlj1Y37YoJOC5UUjuRjTkvxoMrVEzoei
+ eyu0LFHNVZIJMNTDXTdtoQa6M9HWfQPL+mv65n5hI81qVu7Xjfn8vN06rP9CDCYsPUl0
+ RUvc9Cn9vQoRdveaU7tTcwF45kFfNch+LyZ/xHZ/Qbd9e+Jgka6Jk2qgYnV56+gt8s0L
+ YfqtTN/Aje/y9fd2UQ+04CPaNR/YhdzytQBb1AWlJYV9zA2psZpNmFZXErtEmEFIORfo
+ 7SpBQXrn86mnhaHxY1V1ukHOvhhAPuXdW/bCQ5/TihU4I/L1N8TAAsxy3Mk31cn70ord
+ RZ6w==
+X-Gm-Message-State: AGi0Pubg2Nl42f3eLNE9irEfxU7OKKwEhm9TBROcW7LVZFz0zAFBBNAa
+ swZKxFuIMOZuPg6PHN3e5h0NL3v0dGU4OV4jzpRuxQ==
+X-Google-Smtp-Source: APiQypKMP/RnXTRfLKJD2UC+5Cd91AUzB1nOA2FDBNy5pLCNrQf05sW9Pa++XaIoH4z8MExARwbhTV032DovHlZyPsc=
+X-Received: by 2002:a2e:7004:: with SMTP id l4mr5617327ljc.55.1585935352328;
+ Fri, 03 Apr 2020 10:35:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
- <20200403135828.2542770-15-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200403135828.2542770-15-daniel.vetter@ffwll.ch>
+ <20200403135828.2542770-14-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200403135828.2542770-14-daniel.vetter@ffwll.ch>
 From: Eric Anholt <eric@anholt.net>
-Date: Fri, 3 Apr 2020 10:35:17 -0700
-Message-ID: <CADaigPVeiE_cHA8J_d6oXm0Eftvmv28h0_bkDa3QSi0RQHa+JQ@mail.gmail.com>
-Subject: Re: [PATCH 14/44] drm/v3d: Delete v3d_dev->pdev
+Date: Fri, 3 Apr 2020 10:35:40 -0700
+Message-ID: <CADaigPWXAwOyEjTEpxrm-wBY9gwSfPsmrVL_0P2EhSktF_rX0A@mail.gmail.com>
+Subject: Re: [PATCH 13/44] drm/v3d: Delete v3d_dev->dev
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,19 +76,15 @@ On Fri, Apr 3, 2020 at 6:58 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 > chasing. Personally I don't like duplicated pointers like this
 > because:
 > - reviewers need to check whether the pointer is for the same or
-> different objects if there's multiple
+>   different objects if there's multiple
 > - compilers have an easier time too
->
-> To avoid having to pull in some big headers I implemented the casting
-> function as a macro instead of a static inline. Typechecking thanks to
-> container_of still assured.
 >
 > But also a bit a bikeshed, so feel free to ignore.
 >
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Eric Anholt <eric@anholt.net
+> Cc: Eric Anholt <eric@anholt.net>
 
-Acked-by: Eric Anholt <eric@anholt.net>
+a-b.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
