@@ -1,69 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15FBF19D900
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 16:23:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1612719D90C
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 16:25:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E1D06EBEA;
-	Fri,  3 Apr 2020 14:23:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00D7B6EBEF;
+	Fri,  3 Apr 2020 14:25:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 819016EBEA
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 14:23:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585923801;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uO0NGCZbKj03nHatjfgLJm8HoihG+m+K4jZT8zYbPNA=;
- b=ShH5zJaHELenNFtN8qLlETRwnfQ/n8kKM/dGKOvmLHv2zJjUpADoHH6hJDATPf3oyrrHeL
- 80OEoFnNObPRAN41p0/RRhrv2K84TqOKQZMrvcgromxONjjlRxskdM41F2QEuGTY/IViko
- vzlRK3gQ/U00YBpnbOJp1/ebyE31rJo=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-223-jjq2DO4lPPWjAxESILvQFQ-1; Fri, 03 Apr 2020 10:23:19 -0400
-X-MC-Unique: jjq2DO4lPPWjAxESILvQFQ-1
-Received: by mail-qt1-f200.google.com with SMTP id o10so6532029qtk.22
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 07:23:19 -0700 (PDT)
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8538B6EBEF
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 14:25:03 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id t4so2731712plq.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 07:25:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=vKBRMX/UzCOn34k/kAwE26KCgVenN+ytvHTmdWU7Okc=;
+ b=ZMtQ3Z/uwSYiMhhw2nTl6CsbXXgH9xLLOhxQrgzJsrv3UW4kLSwgmTsE+7IuS36SVf
+ nNr3S9XTiC1OASHDsk3Kjfy1pztgLDzzIXtliEDLztXZmr+sVH40xM7/Q9Gd23g7LO7t
+ QfJPhwHti/wJtJsJ6E7HVd7ge9OGsfoe7PzWc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=uO0NGCZbKj03nHatjfgLJm8HoihG+m+K4jZT8zYbPNA=;
- b=NwWhddoc0COt0b4QCMBEAaxNlfA7KBlLrNLchOK30Eg+nKtn+spOZLL1T5kpvJK20N
- txN0U0mz7W85DodmawMclA3Bc363+btdkbwUz5kHecct6uKD0fBNA/ANTYqVDEsyodeF
- zSCC7pi/fNH2bCXTOoSGqOS+9xHgu7Psq1XNOeopb0mMBN87kw3Xf1X09GGp/jh8SlBh
- oFLK/CsLNSQWbTdZtuwFKrPGulZk5/AiUdZ5uDjN+tHyyHk7Hq69KB3HOb/Bu27f5EEv
- aYlu5teVEQBle/sqq9PxK3QLaD7mZd/bW6rhtxEskmLxibfUZtwwf4DAVcatEa9VGG9+
- rEug==
-X-Gm-Message-State: AGi0PuY1V2wswVwZCt84nf9jNLM6Lrdhc1IfW8H7m+Fav4bQZ/H0oTls
- rgOfbV1Jxwjus0RynRpKXxOIKjIQ3dUELrFe8k+4c3U5TwbaXD0J8vJQvum1dVcoi7JNAqxwokV
- WbPl58YwrKPAw6JFub1XfEQ4qYZXu
-X-Received: by 2002:a37:72c5:: with SMTP id n188mr5663351qkc.202.1585923799246; 
- Fri, 03 Apr 2020 07:23:19 -0700 (PDT)
-X-Google-Smtp-Source: APiQypL8XUF9Mb+dhzjEl8zxTghxFzk6zjD+AnrXsSrzFFQ3BVpOyF03pAr9T6CeijWzbvU07/01tA==
-X-Received: by 2002:a37:72c5:: with SMTP id n188mr5663321qkc.202.1585923798974; 
- Fri, 03 Apr 2020 07:23:18 -0700 (PDT)
-Received: from desoxy (c-24-61-245-152.hsd1.ma.comcast.net. [24.61.245.152])
- by smtp.gmail.com with ESMTPSA id h9sm2724829qtj.3.2020.04.03.07.23.18
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=vKBRMX/UzCOn34k/kAwE26KCgVenN+ytvHTmdWU7Okc=;
+ b=uVrcQi3T7MDWd/hBNGgAF9xA2oFhq4JIzHuYzV6INEIgsc3Q8v1Al+bCoFjgB+B6qt
+ JJj/L9nmoSFsgHm6zGbvqDxYTlOfOIXi95bWVMpTizDqI8xw8PY/Pp/3yddmB9r5DggM
+ YJbOKqR4v2F0ggDZMJSCFIHHCJqPAgE2nk8lOP4SDZnnewYYBxQFjdN31DDpIE84DF+g
+ 8W0ju6J4FCswE1hJgaCEBi+6WPsdWbG82wvmhIRYCUDaDJTJTbvIo8MRzKS2qQ/TJ+d1
+ tM6u9bsBMEkAN/C++beTW5Gf+uX2VTs74IX41zhRhf4e8c4E1sUfXnPjuZzfj1pWu8sY
+ JG1A==
+X-Gm-Message-State: AGi0Pub2yGLzNS6RCenJLLwZ/clakJoZaCsIQNrtTCr2mwrGaufgSrV+
+ RWLkQl/StEH2pa4gatrgLsFq9Q==
+X-Google-Smtp-Source: APiQypK/FOTXW2tO2HaeGhqMJi79/X/DjEIrHqAV05vSXxlPqEGWtElSKJxS/FsqoFPl8lB1RiTSIg==
+X-Received: by 2002:a17:90b:3615:: with SMTP id
+ ml21mr10361300pjb.145.1585923902916; 
+ Fri, 03 Apr 2020 07:25:02 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:c809:c7d5:9cd7:b821:2c84:e325])
+ by smtp.gmail.com with ESMTPSA id g75sm5857060pje.37.2020.04.03.07.24.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 07:23:18 -0700 (PDT)
-Message-ID: <2697346934286018187cda5c2f3d9b359c381aab.camel@redhat.com>
-Subject: Re: KMS enums and bitfields UAPI
-From: Adam Jackson <ajax@redhat.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>, Simon Ser <contact@emersion.fr>
-Date: Fri, 03 Apr 2020 10:23:17 -0400
-In-Reply-To: <20200403152400.55fe5eac@eldfell.localdomain>
-References: <VmzN-pGfjaXAFb8aZXOnS2ibasRIsvB-EbfvxyvjLs07m-PBv4pTcX5hsB7yyrt78pxQQ6Bbu3I-hTtFSXEadxm8CkS60FLccIsZycguSfA=@emersion.fr>
- <20200403152400.55fe5eac@eldfell.localdomain>
-User-Agent: Evolution 3.34.0 (3.34.0-1.fc31)
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Fri, 03 Apr 2020 07:25:02 -0700 (PDT)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v3 1/3] dt-bindings: display: panel: Convert feiyang,
+ fy07024di26a30d to DT schema
+Date: Fri,  3 Apr 2020 19:54:51 +0530
+Message-Id: <20200403142453.25307-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,44 +62,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>,
+ linux-amarula@amarulasolutions.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2020-04-03 at 15:24 +0300, Pekka Paalanen wrote:
-> On Fri, 03 Apr 2020 10:15:21 +0000 Simon Ser <contact@emersion.fr> wrote:
-> 
-> > Additionally, I've heard Pekka saying that it would be nice to have constants
-> > for property names in the UAPI headers. Indeed, this would prevent
-> > hard-to-debug typo issues. I have a very good example of such a typo issue that
-> > took literally hours to debug, with X11 atoms which also use free-form strings
-> > like KMS properties [3].
-> > 
-> > If we have constants for property names in UAPI headers, it wouldn't be a big
-> > hurdle to also have constants for enum values alongside.
-> 
-> To clarify, the property names would be of the form
-> 
-> #define DRM_KMS_PROPERTY_KERBLAH "KerBlah"
-> 
-> while enum values would be integers, i.e. the raw values.
-> 
-> Daniel Stone did have a good counter-argument to defining property
-> names: userspace would be full of
-> 
-> #ifndef DRM_KMS_PROPERTY_KERBLAH
-> #define DRM_KMS_PROPERTY_KERBLAH "KerBleh"
-> #endif
-> 
-> anyway as long as they cannot rely on the headers to be recent enough.
-> (The typo is intentional.)
+Convert the feiyang,fy07024di26a30d panel bindings to DT schema.
 
-Why not put this in some external registry and regularly sync it into
-drm-next? This seems like an xorgproto kind of problem to me.
+Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+---
+Changes for v3:
+- update the licence, used (GPL-2.0-only OR BSD-2-Clause) since
+  I'm the author for old binding
+- use panel-common.yaml
+- mark true for common properties 
+- use maxItems: 1 for reg
+- update example
+Changes for v2:
+- fix dt_binding_check 
 
-- ajax
+ .../display/panel/feiyang,fy07024di26a30d.txt | 20 -------
+ .../panel/feiyang,fy07024di26a30d.yaml        | 58 +++++++++++++++++++
+ 2 files changed, 58 insertions(+), 20 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
+deleted file mode 100644
+index 82caa7b65ae8..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Feiyang FY07024DI26A30-D 7" MIPI-DSI LCD Panel
+-
+-Required properties:
+-- compatible: must be "feiyang,fy07024di26a30d"
+-- reg: DSI virtual channel used by that screen
+-- avdd-supply: analog regulator dc1 switch
+-- dvdd-supply: 3v3 digital regulator
+-- reset-gpios: a GPIO phandle for the reset pin
+-
+-Optional properties:
+-- backlight: phandle for the backlight control.
+-
+-panel@0 {
+-	compatible = "feiyang,fy07024di26a30d";
+-	reg = <0>;
+-	avdd-supply = <&reg_dc1sw>;
+-	dvdd-supply = <&reg_dldo2>;
+-	reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
+-	backlight = <&backlight>;
+-};
+diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+new file mode 100644
+index 000000000000..95acf9e96f1c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+@@ -0,0 +1,58 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/feiyang,fy07024di26a30d.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Feiyang FY07024DI26A30-D 7" MIPI-DSI LCD Panel
++
++maintainers:
++  - Jagan Teki <jagan@amarulasolutions.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: feiyang,fy07024di26a30d
++
++  reg:
++    description: DSI virtual channel used by that screen
++    maxItems: 1
++
++  avdd-supply:
++    description: analog regulator dc1 switch
++
++  dvdd-supply:
++    description: 3v3 digital regulator
++
++  reset-gpios: true
++
++  backlight: true
++
++required:
++  - compatible
++  - reg
++  - avdd-supply
++  - dvdd-supply
++  - reset-gpios
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "feiyang,fy07024di26a30d";
++            reg = <0>;
++            avdd-supply = <&reg_dc1sw>;
++            dvdd-supply = <&reg_dldo2>;
++            reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
++            backlight = <&backlight>;
++        };
++    };
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
