@@ -1,64 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5776E19D602
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 13:47:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C10E719E502
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Apr 2020 14:46:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81D4E6E0FA;
-	Fri,  3 Apr 2020 11:46:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45D886E207;
+	Sat,  4 Apr 2020 12:45:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 013C56E0FA
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 11:46:55 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id c7so8139875wrx.5
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 04:46:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=z4qKFg6qXiNpdW9Pcge07URxEO1f5F1p0WXHLjizMek=;
- b=cy0xGlAQCTV/PM6ifc1OO1V5FvGLvtNYEZO+HbG8tYM54s+gAqPm4ORNDjdKSXReC8
- MJzCdiQt4deFeu/7xCrD8ivzBosAwex55PpoXBpQvqwHm1P+pSLvxk14N4wJJtNQlFS8
- Tse8mAdJ43/j5goZZEBblM/M3/fe8RHWMLaAhDk4dYZ3RVqgFlhddSMH0QjwauU95uzD
- MEo8Bb9Z7F1+Rho5FivNBOA9FuYeOaPf+KlrloSPCXtAMtK+8FfwQwLFycPjPLmJFzD8
- EF9x01UeNB7/cxm+NnEBow5LOcfs+7jytKvRDkrzKfjSM1gvmu4OMnEY9KAmpnp4myuE
- PBbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=z4qKFg6qXiNpdW9Pcge07URxEO1f5F1p0WXHLjizMek=;
- b=AmOwO7i/uBQ+gNTdtWCrn+MU6QmqdG4s5a+0VawQqb6Zk84zgHEi3B40DQ+HKR/bE6
- 8k279Ew4qONTBWGPw/uu7uvTFGqUkyGv4ngYwvgv8tOVzBp+uxoRXXuFEznRm7B/Ljkv
- wAKbf59gFUl2FgyKgmKJxoRirM8iaRALC73VzsSzIVpoygyIqJnGPEMbDTdhhK5IfbpD
- RR3giw+QrGu1H5PVBcWNfy+nK9YQETlyDqVdAy+1FUbW6p5KSb5o5ftkiEyPFHAS48Cr
- /JxKpoU1Uwck4mHY6nFICetX6R+UB4tUQLIot4A1SSnKtt4pW07kJaX2fT8ZU9K8NkIe
- XzNQ==
-X-Gm-Message-State: AGi0Puat3PwqSj8z1IFKA2fjtv4IGQIzlOnOFB0rWCYzbfcZTP8zuZzz
- sZS5cd50vDGT6Ilkug3B0THCCA==
-X-Google-Smtp-Source: APiQypLGVZe/sOG4rt6Fih9z1DA1NrDQgRLiqudSb6Y23oGtTFFmse8DqJw+/x115r+9L2PbKAni/g==
-X-Received: by 2002:a5d:674f:: with SMTP id l15mr8490276wrw.196.1585914414310; 
- Fri, 03 Apr 2020 04:46:54 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id t81sm10970106wmb.15.2020.04.03.04.46.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 04:46:53 -0700 (PDT)
-Date: Fri, 3 Apr 2020 12:46:51 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: kgunda@codeaurora.org
-Subject: Re: [PATCH V4 1/4] backlight: qcom-wled: convert the wled bindings
- to .yaml format
-Message-ID: <20200403114651.m6rholzufzqinanc@holly.lan>
-References: <1584985618-25689-1-git-send-email-kgunda@codeaurora.org>
- <1584985618-25689-2-git-send-email-kgunda@codeaurora.org>
- <20200331175401.GA9791@bogus>
- <ac8f25113a3bb233c11fd7cd9e62c2cf@codeaurora.org>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CAE46E105
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 11:54:37 +0000 (UTC)
+IronPort-SDR: m/LZX8qKtlxlBX8800HfY2+m88+XIMAA1lZHtPPioiA3ElYUW7EdfgfKi+746DkBdwj3Kb6RtG
+ U+QDcUIBfpGg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2020 04:54:37 -0700
+IronPort-SDR: DVwCbmHW9ZMpGxGiBAr9d5FKQY6dyp+OIcOV0vaurqBLKuq7e2cTj8JMX0ejF1Rb4rtW04bqI/
+ MkemSyY1vAIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,339,1580803200"; d="scan'208";a="241105550"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by fmsmga007.fm.intel.com with ESMTP; 03 Apr 2020 04:54:34 -0700
+Received: from andy by smile with local (Exim 4.93)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1jKKuC-00FQDf-55; Fri, 03 Apr 2020 14:54:36 +0300
+Date: Fri, 3 Apr 2020 14:54:36 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+Message-ID: <20200403115436.GY1922688@smile.fi.intel.com>
+References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
+ <20200403102449.GB4882@pendragon.ideasonboard.com>
+ <20200403104701.GC3172@kekkonen.localdomain>
+ <20200403131926.7caf3288@coco.lan>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <ac8f25113a3bb233c11fd7cd9e62c2cf@codeaurora.org>
+In-Reply-To: <20200403131926.7caf3288@coco.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Mailman-Approved-At: Sat, 04 Apr 2020 12:45:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,69 +55,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, devicetree@vger.kernel.org,
- jacek.anaszewski@gmail.com, pavel@ucw.cz, linux-arm-msm@vger.kernel.org,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>, lee.jones@linaro.org,
- linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
+Cc: Petr Mladek <pmladek@suse.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Joe Perches <joe@perches.com>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 03, 2020 at 04:45:49PM +0530, kgunda@codeaurora.org wrote:
-> On 2020-03-31 23:24, Rob Herring wrote:
-> > On Mon, Mar 23, 2020 at 11:16:55PM +0530, Kiran Gunda wrote:
-> > > diff --git
-> > > a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-> > > b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-> > > new file mode 100644
-> > > index 0000000..8a388bf
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-> > > @@ -0,0 +1,184 @@
-> > > +# SPDX-License-Identifier: GPL-2.0-only
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Binding for Qualcomm Technologies, Inc. WLED driver
-> > > +
-> > > +maintainers:
-> > > +  - Lee Jones <lee.jones@linaro.org>
+On Fri, Apr 03, 2020 at 01:19:26PM +0200, Mauro Carvalho Chehab wrote:
+> Em Fri, 3 Apr 2020 13:47:02 +0300
+> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+> 
+> > > > +static noinline_for_stack
+> > > > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+> > > > +		    struct printf_spec spec, const char *fmt)
+> > > > +{
+> > > > +#define FOURCC_STRING_BE	"-BE"
+> > > > +	char s[sizeof(*fourcc) + sizeof(FOURCC_STRING_BE)] = { 0 };
+> > > > +
+> > > > +	if (check_pointer(&buf, end, fourcc, spec))
+> > > > +		return buf;
+> > > > +
+> > > > +	if (fmt[1] != 'c' || fmt[2] != 'c')
+> > > > +		return error_string(buf, end, "(%p4?)", spec);
+> > > > +
+> > > > +	put_unaligned_le32(*fourcc & ~BIT(31), s);
+> > > > +
+> > > > +	if (*fourcc & BIT(31))
+> > > > +		strscpy(s + sizeof(*fourcc), FOURCC_STRING_BE,
+> > > > +			sizeof(FOURCC_STRING_BE));
+> > > > +
+> > > > +	return string(buf, end, s, spec);  
+> > > 
+> > > Taking V4L2_PIX_FMT_Y16_BE as an example, this will print 'Y16 -BE'
+> > > (without quotes). There are other 4CCs that contain spaces and would
+> > > suffer from a similar issue. Even in little-endian format, it would
+> > > result in additional spaces in the output string. Is this what we want ?
+> > > Should the caller always enclose the 4CC in quotes or brackets for
+> > > clarity ? Or should still be done here ?  
 > > 
-> > Should be the h/w owner (you), not who applies patches.
+> > Good question. Space is indeed a valid character in a 4cc code.
 > > 
-> will address in next post.
-> <snip>
-> will address in next post.
-> <snip>
-> will address in next post.
-> <snip>
-> will address in next post.
-> <snip>
-> will address in next post.
-> <snip>
-> will address in next post.
-> <snip>
-> will address in next post.
-> <snip>
-> will address in next post.
-> <snip>
-> will address in next post.
+> > If I omit one or more spaces, it will no longer be a 4cc, but a 3cc or even
+> > a 2cc. Jokes aside, there are probably fair arguments both ways.
+> > 
+> > I presume there's no 4cc code where the location of a space would make a
+> > difference but all of the spaces are trailing spaces.
+> 
+> Yes. I guess it doesn't make any sense to allow a 4cc code with an
+> space before or in the middle.
+> 
+> Btw, on a quick search at the Internet for non-Linux definitions,
+> a Fourcc code "Y8  " is actually shown at the lists as just "Y8", 
+> e. g. removing the leading spaces:
+> 
+> 	https://www.fourcc.org/codecs.php
+> 	http://abcavi.kibi.ru/fourcc.php
+> 	https://softron.zendesk.com/hc/en-us/articles/207695697-List-of-FourCC-codes-for-video-codecs
+> 	https://www.free-codecs.com/guides/guides.php?f=fourcc
+> 
+> One interesting detail there is that some tables show some codes 
+> like "BGR(15)". While I'm not sure how this is encoded, I suspect
+> that the fourcc is actually "BGR\x15".
+> 
+> We don't do that on V4L, nor we have plans to do so. Not sure if
+> DRM would accept something like that. Of so, then the logic should
+> have some special handler if the code is below 32.	
 
-If you agree on all points raised I doubt there is any need for a point
-by point reply since everyone who reads it will have to scroll down
-simply to find out that you agree on all points.
+It is easy to achieve I think, with help of string_escape*() functions.
 
-Better just to acknowledge the feedback and reply to the first one
-saying you'll agree on all points and will address all feedback in the
-next revision (and then trim the reply to keep it short).
+> > It's also worth noting that the formats printed are mostly for debugging
+> > purpose and thus even getting a hypothetical case wrong is not a grave
+> > issue. This would also support just printing them as-is though.
+> > 
+> > I'm leaning slightly towards omitting any spaces if the code has them. 
+> 
+> I would just remove trailing spaces, and then use a loop from the end
+> to remove trailing spaces (and optionally handle codes ending with a
+> value below 32, if are there any such case with DRM fourcc codes).
+> 
+> On the other hand, I don't mind if you prefer to use just one for()
+> loop and just trip any spaces inside it.
+> 
+> > This is something that couldn't be done by using a macro...
+> 
+> Well, I suspect that it might be possible to write a macro
+> for doing that too, for example using preprocessor concatenation
+> logic that could produce the same results. If you do something 
+> like that, however, I suspect that te macro would face some 
+> portability issues, as, as far as I know, not all C compilers
+> would handle string concatenation the same way.
+> 
+> Thanks,
+> Mauro
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Daniel.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
