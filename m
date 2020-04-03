@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9FB19D856
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 15:59:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9501919D862
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 16:00:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 995C76EBDB;
-	Fri,  3 Apr 2020 13:59:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 065916EBDF;
+	Fri,  3 Apr 2020 13:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C73C6EBA8
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 13:59:09 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id w10so8693579wrm.4
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 06:59:09 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADC2A6EBD8
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 13:59:10 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id p10so8651135wrt.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 06:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VV2KOwodESY/1UVQxc6ZzbffzPP3mMSZkJL0n+TSLrM=;
- b=BUMdyW1ZQuhOxV7FvmX1rubxsEZY1cqGjdNDzbdg/9vpKAeR/Ogr0BU7aXbVQ7a6tL
- N3q8Eqg9+puu6Rccei6coTSDaa3PfXL5cJscNoQzmsFSe9iDnZPWouK4050cKmjlNmD2
- 1cJfusgfnrFai1Sw6LgnDwcQ9X9Vp+DLYHQDk=
+ bh=GkMWsQdGG+Q+tuJrIJzHRP6W4Wlyf3RIf397ziMu47M=;
+ b=c3cqlFO2TUqOxTpQT6AV95t/66eSAvw1/eg97kofMNCruq5xjfTy1G/ZWzGvCpfS97
+ vWyU0jUZXAUb0kHC6kO1gGzPosSZy7L6jzrK6JIDfVQz5+oXiYH3kckaf05wdULAGwve
+ sh+H2OyLxndDtBZ2KTXsXDTgBVSNahcPdpQKM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VV2KOwodESY/1UVQxc6ZzbffzPP3mMSZkJL0n+TSLrM=;
- b=eR0bLZEDqX58G/geFGdc0wMUXNIV1zFablP5mu6IP30mzmoB6IL/bOo/x23/mXAS9s
- 4MoW/zEMMwIOp2Q/5WEuPHj760ybE7xpV4Jz0jUH03PTRfbp0Y8occJDhVMNSWSZBy6B
- TVdZdxhYQO0gI0zL4DWAi69Uvl3duUHayjezYffyVxNGg+qn/uz+cQ9Cx6fjS2NKQTb/
- bSymYrtde65JVU3NYWJBYabvsCPYUo2JmeAxmIUMaEg0iqhDPZU5p9UPeboghYQVvePr
- +8u1HFerd2M/Ts+2v+LhdPHhnL6YoBI9ahpBFP22Wtm1xjxZXAScTNVVuBgaO08n9VXI
- rMEQ==
-X-Gm-Message-State: AGi0PuZ+g1u955JQxZTbVzdLtm/RkTwdE8m0dRhvMim6UZSANCwLUbGr
- 6lhOyv7kALO+mkqtLiH4LMjHHVkgDTrSJw==
-X-Google-Smtp-Source: APiQypKnHoLxGyr6cJqpQVvt3QTY3ZlEt5mfrV8jc+o+j1TagPM9n6GM+qWBe+0cpeLRNqqIoDmVBw==
-X-Received: by 2002:adf:f1c4:: with SMTP id z4mr9773800wro.342.1585922347874; 
- Fri, 03 Apr 2020 06:59:07 -0700 (PDT)
+ bh=GkMWsQdGG+Q+tuJrIJzHRP6W4Wlyf3RIf397ziMu47M=;
+ b=Jc+5xQOc7OtREvV0jGBzsP51ntCX/a0m4cRTz6S0oqHkg1mdqaEtdI0VjgEhB07VlC
+ InuQLNrOSl8tkcehjHvN9ETeUI0XC1VUh/2/tLcbYqG6tA7uyTU0nJMp+xQ74N6dB8V8
+ BDPJGVwzPaF0qSggMFgt9Qj7OBmDurScO+7ZSVMXSAXAc1+sYwWOIM2t+PFtXq1lbXR7
+ SQmDUpNgYWV9KnVeoTVADj9SRxynxtwSXYKlo6f3F8cZC9ANW2kw6FUzOTpqXKYDkudu
+ GpFEO2/1TDea40kJU2pMADdtjGJByEY6SYaO8SwSabmehlpwWuq1E4PHcoXmiqEifKvl
+ NGBQ==
+X-Gm-Message-State: AGi0PuYrntsiQiDWi7UjnSYnVrUjFUSdZqwJpvCjUt7voyPM9vNtoAc+
+ gmyam4+eBuwUFDzyIBtrA4GxMnzF+ZM85A==
+X-Google-Smtp-Source: APiQypI00Wr96aw5h63zrKvgT/V0rD+3WrNCLxORugkZIp+F5FaFY6+g53dqcLF0y4xP7jLgBPPjWQ==
+X-Received: by 2002:a05:6000:370:: with SMTP id
+ f16mr9572564wrf.9.1585922348939; 
+ Fri, 03 Apr 2020 06:59:08 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f141sm11783919wmf.3.2020.04.03.06.59.06
+ by smtp.gmail.com with ESMTPSA id f141sm11783919wmf.3.2020.04.03.06.59.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 06:59:07 -0700 (PDT)
+ Fri, 03 Apr 2020 06:59:08 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 29/44] drm/tidss: Delete tidss->saved_state
-Date: Fri,  3 Apr 2020 15:58:13 +0200
-Message-Id: <20200403135828.2542770-30-daniel.vetter@ffwll.ch>
+Subject: [PATCH 30/44] drm/qxl: Use devm_drm_dev_alloc
+Date: Fri,  3 Apr 2020 15:58:14 +0200
+Message-Id: <20200403135828.2542770-31-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
 References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
@@ -63,37 +64,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: spice-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jsarha@ti.com>,
- Daniel Vetter <daniel.vetter@intel.com>
+ virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Not used anymore since the switch to suspend/resume helpers.
+Also need to remove the drm_dev_put from the remove hook.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Jyri Sarha <jsarha@ti.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: virtualization@lists.linux-foundation.org
+Cc: spice-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/tidss/tidss_drv.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/qxl/qxl_drv.c | 15 ++++++++-------
+ drivers/gpu/drm/qxl/qxl_drv.h |  3 +--
+ drivers/gpu/drm/qxl/qxl_kms.c | 12 +-----------
+ 3 files changed, 10 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
-index b23cd95c8d78..3b0a3d87b7c4 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.h
-+++ b/drivers/gpu/drm/tidss/tidss_drv.h
-@@ -29,8 +29,6 @@ struct tidss_device {
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
+index 09102e2efabc..6b4ae4c5fb76 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.c
++++ b/drivers/gpu/drm/qxl/qxl_drv.c
+@@ -81,13 +81,16 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 		return -EINVAL; /* TODO: ENODEV ? */
+ 	}
  
- 	spinlock_t wait_lock;	/* protects the irq masks */
- 	dispc_irq_t irq_mask;	/* enabled irqs in addition to wait_list */
+-	qdev = kzalloc(sizeof(struct qxl_device), GFP_KERNEL);
+-	if (!qdev)
++	qdev = devm_drm_dev_alloc(&pdev->dev, &qxl_driver,
++				  struct qxl_device, ddev);
++	if (IS_ERR(qdev)) {
++		pr_err("Unable to init drm dev");
+ 		return -ENOMEM;
++	}
+ 
+ 	ret = pci_enable_device(pdev);
+ 	if (ret)
+-		goto free_dev;
++		return ret;
+ 
+ 	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "qxl");
+ 	if (ret)
+@@ -101,7 +104,7 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 		}
+ 	}
+ 
+-	ret = qxl_device_init(qdev, &qxl_driver, pdev);
++	ret = qxl_device_init(qdev, pdev);
+ 	if (ret)
+ 		goto put_vga;
+ 
+@@ -128,8 +131,7 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 		vga_put(pdev, VGA_RSRC_LEGACY_IO);
+ disable_pci:
+ 	pci_disable_device(pdev);
+-free_dev:
+-	kfree(qdev);
++
+ 	return ret;
+ }
+ 
+@@ -155,7 +157,6 @@ qxl_pci_remove(struct pci_dev *pdev)
+ 	drm_atomic_helper_shutdown(dev);
+ 	if (is_vga(pdev))
+ 		vga_put(pdev, VGA_RSRC_LEGACY_IO);
+-	drm_dev_put(dev);
+ }
+ 
+ DEFINE_DRM_GEM_FOPS(qxl_fops);
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
+index 435126facc9b..86ac191d9205 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.h
++++ b/drivers/gpu/drm/qxl/qxl_drv.h
+@@ -276,8 +276,7 @@ struct qxl_device {
+ extern const struct drm_ioctl_desc qxl_ioctls[];
+ extern int qxl_max_ioctl;
+ 
+-int qxl_device_init(struct qxl_device *qdev, struct drm_driver *drv,
+-		    struct pci_dev *pdev);
++int qxl_device_init(struct qxl_device *qdev, struct pci_dev *pdev);
+ void qxl_device_fini(struct qxl_device *qdev);
+ 
+ int qxl_modeset_init(struct qxl_device *qdev);
+diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
+index 9eed1a375f24..91a34dd835d7 100644
+--- a/drivers/gpu/drm/qxl/qxl_kms.c
++++ b/drivers/gpu/drm/qxl/qxl_kms.c
+@@ -108,21 +108,13 @@ static void qxl_gc_work(struct work_struct *work)
+ }
+ 
+ int qxl_device_init(struct qxl_device *qdev,
+-		    struct drm_driver *drv,
+ 		    struct pci_dev *pdev)
+ {
+ 	int r, sb;
+ 
+-	r = drm_dev_init(&qdev->ddev, drv, &pdev->dev);
+-	if (r) {
+-		pr_err("Unable to init drm dev");
+-		goto error;
+-	}
 -
--	struct drm_atomic_state *saved_state;
- };
+ 	qdev->ddev.pdev = pdev;
+ 	pci_set_drvdata(pdev, &qdev->ddev);
+ 	qdev->ddev.dev_private = qdev;
+-	drmm_add_final_kfree(&qdev->ddev, qdev);
  
- #define to_tidss(__dev) container_of(__dev, struct tidss_device, ddev)
+ 	mutex_init(&qdev->gem.mutex);
+ 	mutex_init(&qdev->update_area_mutex);
+@@ -138,8 +130,7 @@ int qxl_device_init(struct qxl_device *qdev,
+ 	qdev->vram_mapping = io_mapping_create_wc(qdev->vram_base, pci_resource_len(pdev, 0));
+ 	if (!qdev->vram_mapping) {
+ 		pr_err("Unable to create vram_mapping");
+-		r = -ENOMEM;
+-		goto error;
++		return -ENOMEM;
+ 	}
+ 
+ 	if (pci_resource_len(pdev, 4) > 0) {
+@@ -293,7 +284,6 @@ int qxl_device_init(struct qxl_device *qdev,
+ 	io_mapping_free(qdev->surface_mapping);
+ vram_mapping_free:
+ 	io_mapping_free(qdev->vram_mapping);
+-error:
+ 	return r;
+ }
+ 
 -- 
 2.25.1
 
