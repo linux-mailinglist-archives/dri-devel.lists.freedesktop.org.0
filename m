@@ -1,122 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077C519F0F6
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 09:40:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D183019DCCE
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 19:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 957C56E2C7;
-	Mon,  6 Apr 2020 07:40:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 018C96EC3B;
+	Fri,  3 Apr 2020 17:32:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9958D6EC3A
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 17:19:38 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id i19so8579744wmb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 10:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lcpNoI7xIY4kNiB3ex5eUnMyPccu+6NxZPGvlIGD290=;
- b=TDXYMNKfZiYa/EW+laebpfeH6DTOSiUF2yoOKXyQnE6H9rvq3j/1B+tkjM0ZLtMIWc
- 2W4s8N2jtLdiS4unn+cBkh8zRMy0GV3JcebEIwrQ7ZVHEQKpaAa/xS6Qk4w8KPjTu896
- lj7wzwJZd6WUrmUpLfH3T2wmVjVV48CjIoA1G99pup3G8ZW+UITRdgECh5ypz+xxxvCB
- 0VOhec4TfoHjmc/E0GiQBE04KCO3LHKp0mlKMy46gOZsM0WtQPH5r++V9DlPYa5+btPt
- MagtVEVvvAKuOHGtOFIgRaajkJAHc0ubBMf7xceuHqxxla7C3l1Yx5yopQkWBx6Q1DnY
- on3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=lcpNoI7xIY4kNiB3ex5eUnMyPccu+6NxZPGvlIGD290=;
- b=RjfrwrYklfF6tLVPUMuJiCaumCe4b7iPE1ttqZ9sDkwV3QQ2Ng9hRSxtAsXkcJUj8A
- 1pL9+kIqnTIbkER9DsMc28GGpxVCPsZibm4ywq8qI913aTlyVNt1iC8gWE2phb/x6+4R
- CnSI3Ej0m55KvK/ESOH3MSkuNTUfkHeA7VKtrZ4S+m+IEAhWQOPrJuzuTOH4bYjC5psW
- GOYWNdIrPlOeEXTCzrE6DyXa2x9mPerRVKWRGQhNjfF9n/f/ylSuqRxK4e7CrrvFaerq
- o8EKdGy8rfZ4tWYUazsG/M1Z5l+uXGTYaV7T/5v1Aq6yS8kwfNXK8zBxNHtJwo20Vc/3
- nhrw==
-X-Gm-Message-State: AGi0PubEhqmwBDGYdalZWYWcRETpFNSG6AVT5tMIDbU9xGa2+ji9tKjS
- 0PcI0dEED12ZutOnMV7Oi1880Q==
-X-Google-Smtp-Source: APiQypLOgQbj5Ks9utH7lmYdWi+N0qGdsebz0Zh8KZCLyjWZMJOBFHMnhBmL72ERIGTmEUoPMkkWJg==
-X-Received: by 2002:a1c:382:: with SMTP id 124mr8216482wmd.151.1585934376969; 
- Fri, 03 Apr 2020 10:19:36 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:cc78:8018:8980:25d8?
- ([2a01:e34:ed2f:f020:cc78:8018:8980:25d8])
- by smtp.googlemail.com with ESMTPSA id s2sm12925936wru.68.2020.04.03.10.19.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Apr 2020 10:19:36 -0700 (PDT)
-Subject: Re: [PATCH v5 3/5] thermal: devfreq_cooling: Use PM QoS to set
- frequency limits
-To: Matthias Kaehlcke <mka@chromium.org>
-References: <20200318114548.19916-1-lukasz.luba@arm.com>
- <20200318114548.19916-4-lukasz.luba@arm.com>
- <d73ce772-8d0a-e5f4-097a-d89e01ff7578@linaro.org>
- <20200403171818.GO199755@google.com>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <82997cd2-1e4d-fb9d-8c64-6771b72456e9@linaro.org>
-Date: Fri, 3 Apr 2020 19:19:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5F586EC3B
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 17:32:48 +0000 (UTC)
+Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de
+ [95.90.212.216])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 721DB20737;
+ Fri,  3 Apr 2020 17:32:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1585935168;
+ bh=14knU8ACVNnK6xW1RmVIrSOB5671IbOcqMn1tJl9NDw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=wm68y4B9nhyQFatl2Bgxi3vs96I1A1u7J82pUriMabS91oVeNYd9BUXgQLAfo9Etm
+ +gfYJ18RfNCgKP3wZlitJoErVSDqJ024fmvOXyKz6xppqqyOMF0MWlkDDXhi5LgZ96
+ wuqjofHdtLjLRmAj8pPHSj7MiNc6SVvJwkfGieeQ=
+Date: Fri, 3 Apr 2020 19:32:42 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Joe Perches <joe@perches.com>
+Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+Message-ID: <20200403193242.38611906@coco.lan>
+In-Reply-To: <b1e6213ba9f67da8278dd5c5f5e4def8ab927c83.camel@perches.com>
+References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
+ <1105bfe5-88f1-040e-db40-54d7761747d5@rasmusvillemoes.dk>
+ <b1e6213ba9f67da8278dd5c5f5e4def8ab927c83.camel@perches.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200403171818.GO199755@google.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Mon, 06 Apr 2020 07:40:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,49 +49,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
- viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, bsegall@google.com,
- alyssa.rosenzweig@collabora.com, Morten.Rasmussen@arm.com,
- amit.kucheria@verdurent.com, lorenzo.pieralisi@arm.com,
- vincent.guittot@linaro.org, khilman@kernel.org, agross@kernel.org,
- b.zolnierkie@samsung.com, steven.price@arm.com, cw00.choi@samsung.com,
- mingo@redhat.com, linux-imx@nxp.com, rui.zhang@intel.com, mgorman@suse.de,
- orjan.eide@arm.com, linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- s.hauer@pengutronix.de, rostedt@goodmis.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
- linux-arm-kernel@lists.infradead.org, airlied@linux.ie, javi.merino@arm.com,
- tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
- rdunlap@infradead.org, rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
- kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
- shawnguo@kernel.org, Lukasz Luba <lukasz.luba@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Petr Mladek <pmladek@suse.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, laurent.pinchart@ideasonboard.com,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDMvMDQvMjAyMCAxOToxOCwgTWF0dGhpYXMgS2FlaGxja2Ugd3JvdGU6Cj4gSGkgRGFuaWVs
-LAo+IAo+IE9uIEZyaSwgQXByIDAzLCAyMDIwIGF0IDA2OjQzOjIwUE0gKzAyMDAsIERhbmllbCBM
-ZXpjYW5vIHdyb3RlOgo+PiBPbiAxOC8wMy8yMDIwIDEyOjQ1LCBMdWthc3ogTHViYSB3cm90ZToK
-Pj4+IEZyb206IE1hdHRoaWFzIEthZWhsY2tlIDxta2FAY2hyb21pdW0ub3JnPgo+Pj4KPj4+IE5v
-dyB0aGF0IGRldmZyZXEgc3VwcG9ydHMgbGltaXRpbmcgdGhlIGZyZXF1ZW5jeSByYW5nZSBvZiBh
-IGRldmljZQo+Pj4gdGhyb3VnaCBQTSBRb1MgbWFrZSB1c2Ugb2YgaXQgaW5zdGVhZCBvZiBkaXNh
-YmxpbmcgT1BQcyB0aGF0IHNob3VsZAo+Pj4gbm90IGJlIHVzZWQuCj4+Pgo+Pj4gVGhlIHN3aXRj
-aCBmcm9tIGRpc2FibGluZyBPUFBzIHRvIFBNIFFvUyBpbnRyb2R1Y2VzIGEgc3VidGxlIGJlaGF2
-aW9yYWwKPj4+IGNoYW5nZSBpbiBjYXNlIG9mIGNvbmZsaWN0aW5nIHJlcXVlc3RzIChtaW4gPiBt
-YXgpOiBQTSBRb1MgZ2l2ZXMKPj4+IHByZWNlZGVuY2UgdG8gdGhlIE1JTl9GUkVRVUVOQ1kgcmVx
-dWVzdCwgd2hpbGUgaGlnaGVyIE9QUHMgZGlzYWJsZWQKPj4+IHdpdGggZGV2X3BtX29wcF9kaXNh
-YmxlKCkgd291bGQgb3ZlcnJpZGUgTUlOX0ZSRVFVRU5DWS4KPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5
-OiBNYXR0aGlhcyBLYWVobGNrZSA8bWthQGNocm9taXVtLm9yZz4KPj4+IFJldmlld2VkLWJ5OiBM
-dWthc3ogTHViYSA8bHVrYXN6Lmx1YmFAYXJtLmNvbT4KPj4+IFJldmlld2VkLWJ5OiBDaGFud29v
-IENob2kgPGN3MDAuY2hvaUBzYW1zdW5nLmNvbT4KPj4KPj4gVGhpcyBwYXRjaCBpcyBzdGFuZGFs
-b25lLCByaWdodD8gSWYgeWVzLCBJIHdpbGwgYXBwbHkgaXQuCj4gCj4gWWVzLCBpdCBpcyBzdGFu
-ZGFsb25lLCBwbGVhc2UgYXBwbHkKCkFwcGxpZWQgb24gJ3Rlc3RpbmcnLCB0aGFua3MKCgotLSAK
-PGh0dHA6Ly93d3cubGluYXJvLm9yZy8+IExpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3
-YXJlIGZvciBBUk0gU29DcwoKRm9sbG93IExpbmFybzogIDxodHRwOi8vd3d3LmZhY2Vib29rLmNv
-bS9wYWdlcy9MaW5hcm8+IEZhY2Vib29rIHwKPGh0dHA6Ly90d2l0dGVyLmNvbS8jIS9saW5hcm9v
-cmc+IFR3aXR0ZXIgfAo8aHR0cDovL3d3dy5saW5hcm8ub3JnL2xpbmFyby1ibG9nLz4gQmxvZwpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Em Fri, 03 Apr 2020 09:56:42 -0700
+Joe Perches <joe@perches.com> escreveu:
+
+> On Fri, 2020-04-03 at 14:10 +0200, Rasmus Villemoes wrote:
+> > On 03/04/2020 11.11, Sakari Ailus wrote:  
+> > > Add a printk modifier %ppf (for pixel format) for printing V4L2 and DRM
+> > > pixel formats denoted by 4ccs. The 4cc encoding is the same for both so
+> > > the same implementation can be used.  
+> > 
+> > This seems quite niche to me, I'm not sure that belongs in vsprintf.c.
+> > What's wrong with having a
+> > 
+> > char *fourcc_string(char *buf, u32 x)
+> > 
+> > that formats x into buf and returns buf, so it can be used in a
+> > 
+> > char buf[8];
+> > pr_debug("bla: %s\n", fourcc_string(buf, x))  
+> 
+> Nothing really, it's a number of uses question.
+> 
+> For networking code,  print_mac was used before %pM.
+> 
+> After Linus floated the idea of %p<foo>, %pM was
+> introduced and all the DECLARE_MAC_BUF/print_mac
+> calls were converted.
+> 
+> %pM did reduce overall object size a fair amount.
+> 
+> How many instances of %p4cc could there be?
+
+That's hard to know... there are several places printing it
+with different ways:
+
+	$ git grep -i -E "(dev|pr)_(warn|dbg|info)" drivers/media|grep pixf|wc -l
+	6
+	$ git grep -i -E "print" drivers/media|grep pixf|wc -l
+	1
+	$ git grep print_fourcc|wc -l
+	7
+	$ git grep -i -E "(dev|pr)_(warn|dbg|info)" drivers/media|grep pixelf|wc -l
+	10
+	$ git grep -i -E "(dev|pr|v4l)_(warn|dbg|info)" drivers/media|grep format|wc -l
+	60
+
+I bet there are other places besides the above ones, but the thing is, as 
+we currently lack a standard way, drivers still have their own ideas
+about how to handle it. Each one does it differently.
+
+
+Thanks,
+Mauro
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
