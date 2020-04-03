@@ -1,45 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE0B19D1D3
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 10:09:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AACC719D1AD
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 10:04:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D4666EB1C;
-	Fri,  3 Apr 2020 08:09:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F34536EB19;
+	Fri,  3 Apr 2020 08:04:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id CF1456EB1C
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 08:09:00 +0000 (UTC)
-X-UUID: 8ad81e07233c4fd5b126b77d49c9a5c4-20200403
+ by gabe.freedesktop.org (Postfix) with ESMTP id B34936EB1E
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 08:04:08 +0000 (UTC)
+X-UUID: a8112b3f49e74f23b99f04fa80e7c743-20200403
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=/tNfCDVWSqk4IVMjxJ9nlCJvvc7wNHdJw2VAzY+GTVM=; 
- b=oL8Mdra5KDYeM84M6nEjyusnYgtFZeOCwhhD4NOsVrbnD83uKenURKplpBOG6Yl8T/jm9hqjFgvXjGDIOzqaBXXdhO0NZUXajN5qc8OeM0BqhcyEBc3dbkT428efD3Tc+fWN/vbFQVm9GMWfPTyv1V1SQL/vGY7ECNEj1Qjcgeg=;
-X-UUID: 8ad81e07233c4fd5b126b77d49c9a5c4-20200403
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=UKsMIZViskVCMsCYNCt5Rxgv/TMbuDCktmnQMVQYVz4=; 
+ b=fn2bbVuQeUEgNdznXsYRIeHXJ6HIZrGM5x0VvFpD/+knBuggJuiA0cneAq73zt6v0J7Uv18eS7IHtm7Uf3Za9rbv94aOLaKSkuaHefbUX/5dNA1qFm2QHxBmyBVs8MCj5Qvn2YwSxiTri6aIS+ZtGYJIJN8gzcYOSV+RdultJm0=;
+X-UUID: a8112b3f49e74f23b99f04fa80e7c743-20200403
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1010775145; Fri, 03 Apr 2020 16:03:54 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N2.mediatek.inc
- (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Fri, 3 Apr 2020 16:03:54 +0800
+ with ESMTP id 853206419; Fri, 03 Apr 2020 16:03:59 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
+ (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Fri, 3 Apr 2020 16:03:55 +0800
 Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
  MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Fri, 3 Apr 2020 16:03:51 +0800
+ 15.0.1395.4 via Frontend Transport; Fri, 3 Apr 2020 16:03:52 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v14 0/3] mt8183 dpi support pin mode swap
-Date: Fri, 3 Apr 2020 16:03:47 +0800
-Message-ID: <20200403080350.95826-1-jitao.shi@mediatek.com>
+Subject: [PATCH v14 1/3] dt-bindings: display: mediatek: control dpi pins mode
+ to avoid leakage
+Date: Fri, 3 Apr 2020 16:03:48 +0800
+Message-ID: <20200403080350.95826-2-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200403080350.95826-1-jitao.shi@mediatek.com>
+References: <20200403080350.95826-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: C006CC23FD734C8AEA7ABD8875244E0B4BFFE8BDA5A90A17D1C60270B95C53F52000:8
+X-TM-SNTS-SMTP: 549CAC134CA528093FBABE536F5A78E2AF44513E591E31BB41E79651B89372092000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,67 +66,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes since v13:
- - move dpi dual edge patches to another series because it will have long time
-   to implement the dual edge change base boris patches.
-   https://patchwork.kernel.org/cover/11354279/
+Add property "pinctrl-names" to swap pin mode between gpio and dpi mode. Set
+the dpi pins to gpio mode and output-low to avoid leakage current when dpi
+disabled.
 
-Changes since v12:
- - fix mediatek,dpi.yaml make_dt_binding_check errors.
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+---
+ .../devicetree/bindings/display/mediatek/mediatek,dpi.txt   | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Change since v11:
- - fine tune mediatek,dpi.yaml.
- - add Acked-by: Rob Herring <robh@kernel.org>.
-
-Change since v10:
- - convert the Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-   to yaml format.
- - read the pclk-sample in endpoint.
-
-Changes since v9:
- - rename pinctrl-names = "gpiomode", "dpimode" to "active", "idle".
- - fix some typo.
-
-Changes since v8:
- - drop pclk-sample redefine in mediatek,dpi.txt
- - only get the gpiomode and dpimode when dpi->pinctrl is successful.
-
-Changes since v7:
- - separate dt-bindings to independent patches.
- - move dpi dual edge to one patch.
-
-Changes since v6:
- - change dual_edge to pclk-sample
- - remove dpi_pin_mode_swap and
-
-Changes since v5:
- - fine tune the dt-bindings commit message.
-
-Changes since v4:
- - move pin mode control and dual edge control to deveice tree.
- - update dt-bindings document for pin mode swap and dual edge control.
-
-Changes since v3:
- - add dpi pin mode control when dpi on or off.
- - update dpi dual edge comment.
-
-Changes since v2:
- - update dt-bindings document for mt8183 dpi.
- - separate dual edge modfication as independent patch.
-
-Jitao Shi (3):
-  dt-bindings: display: mediatek: control dpi pins mode to avoid leakage
-  dt-bindings: display: mediatek: convert the document format from txt
-    to yaml
-  drm/mediatek: set dpi pin mode to gpio low to avoid leakage current
-
- .../display/mediatek/mediatek,dpi.txt         | 36 -------
- .../display/mediatek/mediatek,dpi.yaml        | 97 +++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_dpi.c            | 31 ++++++
- 3 files changed, 128 insertions(+), 36 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
- create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+index 58914cf681b8..77def4456706 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+@@ -17,6 +17,9 @@ Required properties:
+   Documentation/devicetree/bindings/graph.txt. This port should be connected
+   to the input port of an attached HDMI or LVDS encoder chip.
+ 
++Optional properties:
++- pinctrl-names: Contain "default" and "sleep".
++
+ Example:
+ 
+ dpi0: dpi@1401d000 {
+@@ -27,6 +30,9 @@ dpi0: dpi@1401d000 {
+ 		 <&mmsys CLK_MM_DPI_ENGINE>,
+ 		 <&apmixedsys CLK_APMIXED_TVDPLL>;
+ 	clock-names = "pixel", "engine", "pll";
++	pinctrl-names = "default", "sleep";
++	pinctrl-0 = <&dpi_pin_func>;
++	pinctrl-1 = <&dpi_pin_idle>;
+ 
+ 	port {
+ 		dpi0_out: endpoint {
 -- 
 2.21.0
 _______________________________________________
