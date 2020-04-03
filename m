@@ -1,65 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2E819D092
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 08:54:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B581319D084
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 08:54:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43E346EB0D;
-	Fri,  3 Apr 2020 06:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3221E6EAFE;
+	Fri,  3 Apr 2020 06:54:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C272C6EAEA
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 04:25:11 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id kx8so2395129pjb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Apr 2020 21:25:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AyD2kX0rtGFxJhOxxjgdsGTPUrD/FjXjSvw4eMWluYU=;
- b=I+Q5xBnw6OlNyc1WeYEuiKJUTVH7pscJdTTt0CEbl2LzbrJ9EOwk04CgLOETAycBeQ
- 0GyVQ2DWmVk0q5GewcChYtUHbGpq2sr/KkEvTTeZjZ99GSl3oVE6JvDmWhDwOoRGvmdl
- HwBKGy5bBPEL9ZB6jGxhb+k02kWIErPtOdWSmKDH8nRok/kagwYsZGxVIE4MS1O2VyDc
- nyI5qdFNfX4MZMNJQnuvlHqjiol3dLFc7SDOUYIbG25OJs3onxxEG09q5xMyM6LlD0wD
- YFsyfoxiBFCX/BaijsYn8l830uwB5L/C1MAJL0M0D7psWtuGNZwy2sBzuQFIFFPUcABL
- 4dEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AyD2kX0rtGFxJhOxxjgdsGTPUrD/FjXjSvw4eMWluYU=;
- b=uX2wzNzujWa2zGOPM253BlDaG2I+PZexDqLZNF2Z2d0yhbxaj0KLPL6Nm5vFmbw4S6
- 7xcMd0dDJ2H0bYSJ2fDvKrHX9mjrFS0MOtxx4+1GL6SXDJCHUDmjepRzI46TkMuYqY+V
- jwW/g8iNvCg/Dk1QcQSSC795tv+5chhnmHFdvf/QwgFq3OQYV9ZutskNBwurXPrxeRwF
- Hq5+JUgGMG4RbVqPhZWPwxTlSJVvE5960By74KZBMXKiQet2gDSPOYDkHq4Rn3QM9z8u
- dGk6HDxPyDBPzBTkeQsC0Nr6iqQ86IVBRvTyV0vao3VlWEodAK4Z378gjLsKthlhwQ2F
- GjfQ==
-X-Gm-Message-State: AGi0PuabKYsvMGx0JuTyziBcMg1gd6p81xtANuw+BNYGLxQqM9u9Mag9
- cXothjeYYROHfl/HJnBp/hw=
-X-Google-Smtp-Source: APiQypLUFoTcgC53/RD9U2GcTptF5bIO1QeLIw/HD5iIXFZnYExMi6C3tKHE3v7Uavp2U/mKA1dw5Q==
-X-Received: by 2002:a17:902:82c5:: with SMTP id
- u5mr6320102plz.254.1585887911382; 
- Thu, 02 Apr 2020 21:25:11 -0700 (PDT)
-Received: from OptiPlexFedora.fios-router.home ([47.144.161.84])
- by smtp.gmail.com with ESMTPSA id l190sm4760286pfl.212.2020.04.02.21.25.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Apr 2020 21:25:10 -0700 (PDT)
-From: "John B. Wyatt IV" <jbwyatt4@gmail.com>
-To: outreachy-kernel@googlegroups.com, Julia Lawall <julia.lawall@inria.fr>,
- Laura Abbott <labbott@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
- Joel Fernandes <joel@joelfernandes.org>,
- Christian Brauner <christian@brauner.io>, devel@driverdev.osuosl.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: android: ion: Align with parenthesis
-Date: Thu,  2 Apr 2020 21:24:48 -0700
-Message-Id: <20200403042448.863689-1-jbwyatt4@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF71A6E1B3
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 04:59:34 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 48tnlr1WLCz9sP7;
+ Fri,  3 Apr 2020 15:59:20 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+ s=201909; t=1585889968;
+ bh=koYVW8+QvgurOimf4wuCFmPOFY+nRMwdFMub/0jhHZY=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=nwDK+ZhiEWknY+358l34LoaogRVndV4GhHNy5EZDHG90fqoXBFV8V3G/97NyM9i3P
+ hAQL0RCcyQuLU4Yqm/VxtVpvPIIDIG7dTw+3cRRbcRuhbEnLcDKAouyshmJ/OE6Rni
+ 2m0ZkoE0JhABRUuSMWpbVp5kyPdiWQivRv3OfFv+SniE8QXq4Ldm273KUTpcLZi9a5
+ MKlqhnU2CQebiGyXSCqRnfK12DCJv0lZuzNnnQL7N69FyGbfRE1N2g7fdi6YPPpB2Z
+ orO4wHWgp5g/lCSRjdcZf3NmOgHTGFM4kWC2imnOELqNKbKe7C2sRnPhv3KdHE2abO
+ tEa55yVhXWN6g==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 0/2] powerpc: Remove support for ppc405/440 Xilinx
+ platforms
+In-Reply-To: <bac9af641140cf6df04e3532589a11c2f3bccd2f.camel@kernel.crashing.org>
+References: <cover.1585311091.git.michal.simek@xilinx.com>
+ <CAK8P3a2mKPRFbRE3MWScr9GSiL4cpLg0wqv1Q28XDCZVPWgHfg@mail.gmail.com>
+ <20200327131026.GT1922688@smile.fi.intel.com>
+ <20200327131531.GU1922688@smile.fi.intel.com>
+ <CAK8P3a1Z+ZPTDzgAjdz0a7d85R62BhUqkdEWgrwXh-OnYe6rog@mail.gmail.com>
+ <20200327141434.GA1922688@smile.fi.intel.com>
+ <b5adcc7a-9d10-d75f-50e3-9c150a7b4989@c-s.fr>
+ <87mu7xum41.fsf@mpe.ellerman.id.au>
+ <bac9af641140cf6df04e3532589a11c2f3bccd2f.camel@kernel.crashing.org>
+Date: Fri, 03 Apr 2020 15:59:30 +1100
+Message-ID: <87pncprwp9.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 03 Apr 2020 06:54:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,51 +61,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "John B. Wyatt IV" <jbwyatt4@gmail.com>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ "Desnes A. Nunes do Rosario" <desnesn@linux.ibm.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jaroslav Kysela <perex@perex.cz>,
+ Richard Fontana <rfontana@redhat.com>, Paul Mackerras <paulus@samba.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>,
+ Takashi Iwai <tiwai@suse.com>, YueHaibing <yuehaibing@huawei.com>,
+ Michal Simek <michal.simek@xilinx.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Leonardo Bras <leonardo@linux.ibm.com>,
+ Matt Porter <mporter@kernel.crashing.org>, DTML <devicetree@vger.kernel.org>,
+ Andrew Donnellan <ajd@linux.ibm.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Marc Zyngier <marc.zyngier@arm.com>, Alistair Popple <alistair@popple.id.au>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Nicholas Piggin <npiggin@gmail.com>, Alexios Zavras <alexios.zavras@intel.com>,
+ Mark Brown <broonie@kernel.org>, git@xilinx.com,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Allison Randal <allison@lohutok.net>,
+ Michal Simek <monstr@monstr.eu>, Wei Hu <weh@microsoft.com>,
+ Christian Lamparter <chunkeey@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Armijn Hemel <armijn@tjaldur.nl>, Rob Herring <robh+dt@kernel.org>,
+ Enrico Weigelt <info@metux.net>, "David S. Miller" <davem@davemloft.net>,
+ Thiago Jung Bauermann <bauerman@linux.ibm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Align two different lines of arguments with the parenthesis
-of their respected function definitions. Fix style warnings
-of matching alignment.
+Benjamin Herrenschmidt <benh@kernel.crashing.org> writes:
+> On Tue, 2020-03-31 at 16:30 +1100, Michael Ellerman wrote:
+>> I have no attachment to 40x, and I'd certainly be happy to have less
+>> code in the tree, we struggle to keep even the modern platforms well
+>> maintained.
+>> 
+>> At the same time I don't want to render anyone's hardware obsolete
+>> unnecessarily. But if there's really no one using 40x then we should
+>> remove it, it could well be broken already.
+>> 
+>> So I guess post a series to do the removal and we'll see if anyone
+>> speaks up.
+>
+> We shouldn't remove 40x completely. Just remove the Xilinx 405 stuff.
 
-Reported by checkpatch.
+Congratulations on becoming the 40x maintainer!
 
-Signed-off-by: John B. Wyatt IV <jbwyatt4@gmail.com>
----
-v2: Change comment title and summary
-    Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-
- drivers/staging/android/ion/ion_page_pool.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/android/ion/ion_page_pool.c b/drivers/staging/android/ion/ion_page_pool.c
-index f85ec5b16b65..0198b886d906 100644
---- a/drivers/staging/android/ion/ion_page_pool.c
-+++ b/drivers/staging/android/ion/ion_page_pool.c
-@@ -37,7 +37,7 @@ static void ion_page_pool_add(struct ion_page_pool *pool, struct page *page)
- 	}
- 
- 	mod_node_page_state(page_pgdat(page), NR_KERNEL_MISC_RECLAIMABLE,
--							1 << pool->order);
-+			    1 << pool->order);
- 	mutex_unlock(&pool->mutex);
- }
- 
-@@ -57,7 +57,7 @@ static struct page *ion_page_pool_remove(struct ion_page_pool *pool, bool high)
- 
- 	list_del(&page->lru);
- 	mod_node_page_state(page_pgdat(page), NR_KERNEL_MISC_RECLAIMABLE,
--							-(1 << pool->order));
-+			    -(1 << pool->order));
- 	return page;
- }
- 
--- 
-2.25.1
-
+cheers
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
