@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277C319D861
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 16:00:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02EDB19D865
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 16:00:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2D676EBE0;
-	Fri,  3 Apr 2020 13:59:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A03E6EBE8;
+	Fri,  3 Apr 2020 13:59:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 346F96EBDA
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7CD26EBE0
  for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 13:59:14 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id c7so8634989wrx.5
+Received: by mail-wm1-x344.google.com with SMTP id c81so7256245wmd.4
  for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 06:59:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HtyyKT/W7RLfakIgzPFga+l9yxNGNU2WHGozHFs2wZE=;
- b=W3AEzggtdEk1CFOXxyGkhZF6Qtclc0+womnYY6RQ+OYrDfymHtTM0NCWLEfksKNiFs
- hNe1GwWd3MGGjnOsky3GnqRel79ACXgUh4HDg5NyoXm/V5NnCyPFjjo/iTdEFG1azACk
- XFyL7RgjQjNfishFKsX9x20Dkjr/oJyCz23wM=
+ bh=IngScXdv0qfol6XdICwow6VLfvhITcLZ3W7Bo1q+SDM=;
+ b=LEgiat1wq7imwpO5egsX6ZvJ49pldujtsuvpUuIey8PNrvtk0bIGMXJz10ZERul5vS
+ LRL5Rj5qmY2iVseEMIDySXL5x7J+txWAo1gUUScNCeKgWq236q2A8eAoZFknxqK2tqWK
+ rtBYkgCIhCV2eLhJiPSgBJF7foyPjVS4At7/o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HtyyKT/W7RLfakIgzPFga+l9yxNGNU2WHGozHFs2wZE=;
- b=gGGRIWQ83AOacxpAUNNNLugazzwXGGmv/cyEhfdsnpHfvmgT3nnrciKioERtC6dkZK
- KePpVbrm88uDN5te1JynCl+8ZO1Yb5ncc2K4KjSHrn35rCrD0mRAzIQpIvs/lUhqtZty
- e3c+tKNb5h3y+TK13CgO4vZc1FZXFWhAp2DRsf4O5Gnv4P8pJ5AvFhRw59GCg7V7cKWS
- swI9GIIWrKvo3r/UTXspeydQHV5oZWQW1G0zWBCznzr89PUs5P16Ce4X4r9e9gTaBRj4
- /dPhGYQSqx2bdDhUtoXQa6tQd9AcBQ8LmzwQhT3rI1C4M1XA9Fc4rxMkEnvbzIR1YNqH
- DGwQ==
-X-Gm-Message-State: AGi0PuZP9eGPu4J+XCngMfM7tXaRIt2INDraF6HPNz8GuHr0GF9BoPyL
- tb7UBYQXavYyfwhNE52Tip9yNv/0eH+TdQ==
-X-Google-Smtp-Source: APiQypISZRDU+58Twj1PFqFu7Bsp5C4SreEQ08TiiZwrTow1N+p4lbLZC/7x9ZBZNJy+HsqKzcc33Q==
-X-Received: by 2002:adf:fa51:: with SMTP id y17mr2453215wrr.358.1585922352341; 
- Fri, 03 Apr 2020 06:59:12 -0700 (PDT)
+ bh=IngScXdv0qfol6XdICwow6VLfvhITcLZ3W7Bo1q+SDM=;
+ b=E7ljGVfafGA8d+zN1kINUtzrQ1cO5zX97ppoNceXCcO4JnZ0ZWb6rqjgl2nt3ShWTh
+ 9xHHsgp3nDLyhPIl3y2fEltEIsVz5iuk+UH6CfYSI7wVLav0KfjvKEtZrE9E7ddhXy+t
+ EXW9INHj3qDxa4Cz/AiOTXWQtrSuLF5wUT67z5Cp5red+BjGq5BotGInO0LR6cwBYC8M
+ zFQSYNmmzCyDTiDf7T6t9xcPjNZvoIM3l6DjxR7I79JXCbxQgOL+jRI8fkJ9XNrVd19S
+ bGeGJ+c8b4W4xhs71kmPJYFnDygvj5dI0inW6NKHPO915i2mYptPhFnvtFqT7XO7zmoJ
+ Zf5g==
+X-Gm-Message-State: AGi0PuaLlaYiN78YcYcSgAQMFBSHnA1UialzeA8T4UktUCXV3mwTMGe9
+ ZflsiAPsk9BCJQk8IOE4lAyOGWyBPutIsw==
+X-Google-Smtp-Source: APiQypK4/1dcgU8BCv7yE/0ngivqJAQyrxI9+iEv/DziKncszXDJTYgy1tGAQ2huLx1Uhd2s6lR7uw==
+X-Received: by 2002:a7b:cb59:: with SMTP id v25mr9315261wmj.13.1585922353311; 
+ Fri, 03 Apr 2020 06:59:13 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f141sm11783919wmf.3.2020.04.03.06.59.11
+ by smtp.gmail.com with ESMTPSA id f141sm11783919wmf.3.2020.04.03.06.59.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 06:59:11 -0700 (PDT)
+ Fri, 03 Apr 2020 06:59:12 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 33/44] drm/mcde: Don't use drm_device->dev_private
-Date: Fri,  3 Apr 2020 15:58:17 +0200
-Message-Id: <20200403135828.2542770-34-daniel.vetter@ffwll.ch>
+Subject: [PATCH 34/44] drm/ingenic: Use devm_drm_dev_alloc
+Date: Fri,  3 Apr 2020 15:58:18 +0200
+Message-Id: <20200403135828.2542770-35-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
 References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
@@ -63,7 +63,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Paul Cercueil <paul@crapouillou.net>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
@@ -71,123 +72,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Upcasting using a container_of macro is more typesafe, faster and
-easier for the compiler to optimize.
+Already using devm_drm_dev_init, so very simple replacment.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/mcde/mcde_display.c | 10 +++++-----
- drivers/gpu/drm/mcde/mcde_drm.h     |  2 ++
- drivers/gpu/drm/mcde/mcde_drv.c     |  5 ++---
- drivers/gpu/drm/mcde/mcde_dsi.c     |  2 +-
- 4 files changed, 10 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
-index e59907e68854..04e1d38d41f7 100644
---- a/drivers/gpu/drm/mcde/mcde_display.c
-+++ b/drivers/gpu/drm/mcde/mcde_display.c
-@@ -948,7 +948,7 @@ static void mcde_display_disable(struct drm_simple_display_pipe *pipe)
- {
- 	struct drm_crtc *crtc = &pipe->crtc;
- 	struct drm_device *drm = crtc->dev;
--	struct mcde *mcde = drm->dev_private;
-+	struct mcde *mcde = to_mcde(drm);
- 	struct drm_pending_vblank_event *event;
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c b/drivers/gpu/drm/ingenic/ingenic-drm.c
+index a9bc6623b488..bb62d8e93985 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
+@@ -614,9 +614,10 @@ static int ingenic_drm_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
  
- 	drm_crtc_vblank_off(crtc);
-@@ -1020,7 +1020,7 @@ static void mcde_display_update(struct drm_simple_display_pipe *pipe,
- {
- 	struct drm_crtc *crtc = &pipe->crtc;
- 	struct drm_device *drm = crtc->dev;
--	struct mcde *mcde = drm->dev_private;
-+	struct mcde *mcde = to_mcde(drm);
- 	struct drm_pending_vblank_event *event = crtc->state->event;
- 	struct drm_plane *plane = &pipe->plane;
- 	struct drm_plane_state *pstate = plane->state;
-@@ -1078,7 +1078,7 @@ static int mcde_display_enable_vblank(struct drm_simple_display_pipe *pipe)
- {
- 	struct drm_crtc *crtc = &pipe->crtc;
- 	struct drm_device *drm = crtc->dev;
--	struct mcde *mcde = drm->dev_private;
-+	struct mcde *mcde = to_mcde(drm);
- 	u32 val;
+-	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+-	if (!priv)
+-		return -ENOMEM;
++	priv = devm_drm_dev_alloc(dev, &ingenic_drm_driver_data,
++				  struct ingenic_drm, drm);
++	if (IS_ERR(priv))
++		return PTR_ERR(priv);
  
- 	/* Enable all VBLANK IRQs */
-@@ -1097,7 +1097,7 @@ static void mcde_display_disable_vblank(struct drm_simple_display_pipe *pipe)
- {
- 	struct drm_crtc *crtc = &pipe->crtc;
- 	struct drm_device *drm = crtc->dev;
--	struct mcde *mcde = drm->dev_private;
-+	struct mcde *mcde = to_mcde(drm);
+ 	priv->soc_info = soc_info;
+ 	priv->dev = dev;
+@@ -625,13 +626,6 @@ static int ingenic_drm_probe(struct platform_device *pdev)
  
- 	/* Disable all VBLANK IRQs */
- 	writel(0, mcde->regs + MCDE_IMSCPP);
-@@ -1117,7 +1117,7 @@ static struct drm_simple_display_pipe_funcs mcde_display_funcs = {
+ 	platform_set_drvdata(pdev, priv);
  
- int mcde_display_init(struct drm_device *drm)
- {
--	struct mcde *mcde = drm->dev_private;
-+	struct mcde *mcde = to_mcde(drm);
- 	int ret;
- 	static const u32 formats[] = {
- 		DRM_FORMAT_ARGB8888,
-diff --git a/drivers/gpu/drm/mcde/mcde_drm.h b/drivers/gpu/drm/mcde/mcde_drm.h
-index 80edd6628979..679c2c4e6d9d 100644
---- a/drivers/gpu/drm/mcde/mcde_drm.h
-+++ b/drivers/gpu/drm/mcde/mcde_drm.h
-@@ -34,6 +34,8 @@ struct mcde {
- 	struct regulator *vana;
- };
- 
-+#define to_mcde(dev) container_of(dev, struct mcde, drm)
-+
- bool mcde_dsi_irq(struct mipi_dsi_device *mdsi);
- void mcde_dsi_te_request(struct mipi_dsi_device *mdsi);
- extern struct platform_driver mcde_dsi_driver;
-diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-index bdb525e3c5d7..84f3e2dbd77b 100644
---- a/drivers/gpu/drm/mcde/mcde_drv.c
-+++ b/drivers/gpu/drm/mcde/mcde_drv.c
-@@ -164,7 +164,7 @@ static irqreturn_t mcde_irq(int irq, void *data)
- static int mcde_modeset_init(struct drm_device *drm)
- {
- 	struct drm_mode_config *mode_config;
--	struct mcde *mcde = drm->dev_private;
-+	struct mcde *mcde = to_mcde(drm);
- 	int ret;
- 
- 	if (!mcde->bridge) {
-@@ -311,7 +311,6 @@ static int mcde_probe(struct platform_device *pdev)
- 	if (IS_ERR(mcde))
- 		return PTR_ERR(mcde);
- 	drm = &mcde->drm;
--	drm->dev_private = mcde;
- 	mcde->dev = dev;
- 	platform_set_drvdata(pdev, drm);
- 
-@@ -486,7 +485,7 @@ static int mcde_probe(struct platform_device *pdev)
- static int mcde_remove(struct platform_device *pdev)
- {
- 	struct drm_device *drm = platform_get_drvdata(pdev);
--	struct mcde *mcde = drm->dev_private;
-+	struct mcde *mcde = to_mcde(drm);
- 
- 	component_master_del(&pdev->dev, &mcde_drm_comp_ops);
- 	clk_disable_unprepare(mcde->mcde_clk);
-diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-index 7af5ebb0c436..1baa2324cdb9 100644
---- a/drivers/gpu/drm/mcde/mcde_dsi.c
-+++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-@@ -1020,7 +1020,7 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
- 			 void *data)
- {
- 	struct drm_device *drm = data;
--	struct mcde *mcde = drm->dev_private;
-+	struct mcde *mcde = to_mcde(drm);
- 	struct mcde_dsi *d = dev_get_drvdata(dev);
- 	struct device_node *child;
- 	struct drm_panel *panel = NULL;
+-	ret = devm_drm_dev_init(dev, drm, &ingenic_drm_driver_data);
+-	if (ret) {
+-		kfree(priv);
+-		return ret;
+-	}
+-	drmm_add_final_kfree(drm, priv);
+-
+ 	ret = drmm_mode_config_init(drm);
+ 	if (ret)
+ 		return ret;
 -- 
 2.25.1
 
