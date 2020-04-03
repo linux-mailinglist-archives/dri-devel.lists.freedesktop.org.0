@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D3819D82F
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 15:59:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E6D19D830
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 15:59:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE4FA6EBAE;
-	Fri,  3 Apr 2020 13:58:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71E216EBAF;
+	Fri,  3 Apr 2020 13:58:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D57376EBA8
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 13:58:49 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id h15so8633437wrx.9
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 06:58:49 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 465926EBAF
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 13:58:51 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id s8so6518545wrt.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 06:58:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N4msz3tKkrDEGqLybdy93lzBjlopw8+NKPSPfgZ8Zsk=;
- b=EfpAbqIu66MPO4j1xOXnHVNU6XFABR3EuijobKLUbSn4n/pOyaUDguxqq5DXjP9L9T
- ojI5ssJMfk79sumVSsQJqUO07UVn2GAMpFsk4pOXmVNnxk8n3mcYMw9Gd9HvieI/WBwl
- 7Vu0eAK40NG/Mpeii+eGaQKOlQGcRNJCOHmMw=
+ bh=fvvbzvaEawldwbqG9NrrkW5/kLuFE/AGudq3HTtP+kU=;
+ b=TSJEjD+RrwjZ8qDSJw+E6YXzfOBtdlJJN68WfyPRjUkj57zEKZajs3MulKuKjiFD4b
+ oK3d1g3gEtnRgv1sJy9fyDy/0UrVkAaDYeSkdMaPZchy2mE1S9YQzToBy8eOk22JydVw
+ ew4DqIyKmBO/c1q77ugiLinbo57WOj5FgyJLw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N4msz3tKkrDEGqLybdy93lzBjlopw8+NKPSPfgZ8Zsk=;
- b=P8HIA3zosN2mruEm2IwZgZkV7r/CYqhGXBF1rfOTaMEoutgMYGc3DxIxUP26RnTy81
- GG7QJ/gbf4uwWhU0UpR0ZcaTSl+6fqJsh/mikfvXfvakmCaLXWcNK3sth4cBeoi1zMc5
- Vy1obMFRaT2qOry+WdE0W+5UJ6pBbsH21D3+FY1ZrC5visQLJE7utmR+7ru0NHH38lJN
- /4xNkZEXk8s/+e7lP4Sg46w1ov+5XrD71FtZ1NDkREYp/nuyqNaT0GaSj1kgEHDffh2i
- 1mwwgOstEWl55FcINYBMklKxnXnd8ARJfZ2ZprxZOqf6T1yXhgBlbxT7IAQNCRM1ztUI
- q/rQ==
-X-Gm-Message-State: AGi0PuYnJ2ZylRVktSpIe5g1bP9tikMSOJUj15JDu39xXhcQI0hPui3I
- LPvccjdOhkqZ45/f4a/7srx1nQANiWPJtg==
-X-Google-Smtp-Source: APiQypJ2MYihOCbMHowO8ncB6RqV0zBxufqfJr2ir3uWsasB14/dYTBTGv/nPBCCAs/HwpWwSUt0PA==
-X-Received: by 2002:adf:a48d:: with SMTP id g13mr9816601wrb.38.1585922328249; 
- Fri, 03 Apr 2020 06:58:48 -0700 (PDT)
+ bh=fvvbzvaEawldwbqG9NrrkW5/kLuFE/AGudq3HTtP+kU=;
+ b=Id2zG6/zxT5TR8uJchhefBJx7VjWsHByz3kjkqyIwUdNWJv0LwACKUTBMXJipnZmT/
+ oM82Dc4m9PaycbrHRKm6cTJlqXxXBXM9qpecMYxTHw2giXdh8o6IjxXp1bEQ13N+woRs
+ 0FkGuKR2/eCpqEAT603FzHMUjmyGwEhfE1izy0VPtBeG8lENwe+lpsV4D2rERz6N6mnT
+ 48rJsYs1Qqm5AX5xaVRuXTVDu5C4u0xSyG5aaRhCr7hIBaas7+/4i5kmxLTZYq8ZY8th
+ xyCP6Dl28spiutBadjyTfiFUWqFkOPTYI/FnEesqzGCoB9bMttjjOPbgeeO3f7/CQrCP
+ P1uw==
+X-Gm-Message-State: AGi0PuZ2lfJZgvwkhqJz0j5QZXbsQqkf4Z8ZPIL+JU1KWbEOlB+YPkc0
+ bbFpQxCAqjiZftNmbcevbYl9Tjz6YeLx8g==
+X-Google-Smtp-Source: APiQypKYbCFJgX92q3hSrcgxzO8LOpH//fU1wJZr2yVkv57hDj0pEj6TkkE7M2zluhOFjIZfCC0dbA==
+X-Received: by 2002:adf:b35d:: with SMTP id k29mr9397039wrd.239.1585922329361; 
+ Fri, 03 Apr 2020 06:58:49 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f141sm11783919wmf.3.2020.04.03.06.58.47
+ by smtp.gmail.com with ESMTPSA id f141sm11783919wmf.3.2020.04.03.06.58.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 06:58:47 -0700 (PDT)
+ Fri, 03 Apr 2020 06:58:48 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 11/44] drm/v3d: Don't set drm_device->dev_private
-Date: Fri,  3 Apr 2020 15:57:55 +0200
-Message-Id: <20200403135828.2542770-12-daniel.vetter@ffwll.ch>
+Subject: [PATCH 12/44] drm/v3d: Use devm_drm_dev_alloc
+Date: Fri,  3 Apr 2020 15:57:56 +0200
+Message-Id: <20200403135828.2542770-13-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
 References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
@@ -71,41 +71,107 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-And switch the helper over to container_of, which is a bunch faster
-than chasing a pointer. Plus allows gcc to see through this maze.
+Also allows us to simplify the unroll code since the drm_dev_put
+disappears.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Eric Anholt <eric@anholt.net>
 ---
- drivers/gpu/drm/v3d/v3d_drv.c | 1 -
- drivers/gpu/drm/v3d/v3d_drv.h | 2 +-
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/v3d/v3d_drv.c | 31 ++++++++++---------------------
+ 1 file changed, 10 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 8d0c0daaac81..ead62a15d48f 100644
+index ead62a15d48f..f57d408ef371 100644
 --- a/drivers/gpu/drm/v3d/v3d_drv.c
 +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -265,7 +265,6 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 	}
+@@ -251,29 +251,23 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+ 	u32 ident1;
  
+ 
+-	v3d = kzalloc(sizeof(*v3d), GFP_KERNEL);
+-	if (!v3d)
+-		return -ENOMEM;
++	v3d = devm_drm_dev_alloc(dev, &v3d_drm_driver, struct v3d_dev, drm);
++	if (IS_ERR(v3d))
++		return PTR_ERR(v3d);
++
+ 	v3d->dev = dev;
+ 	v3d->pdev = pdev;
+ 	drm = &v3d->drm;
+ 
+-	ret = drm_dev_init(&v3d->drm, &v3d_drm_driver, dev);
+-	if (ret) {
+-		kfree(v3d);
+-		return ret;
+-	}
+-
  	platform_set_drvdata(pdev, drm);
--	drm->dev_private = v3d;
- 	drmm_add_final_kfree(drm, v3d);
+-	drmm_add_final_kfree(drm, v3d);
  
  	ret = map_regs(v3d, &v3d->hub_regs, "hub");
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index e0775c884553..112d80aed5f6 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -121,7 +121,7 @@ struct v3d_dev {
- static inline struct v3d_dev *
- to_v3d_dev(struct drm_device *dev)
- {
--	return (struct v3d_dev *)dev->dev_private;
-+	return container_of(dev, struct v3d_dev, drm);
+ 	if (ret)
+-		goto dev_destroy;
++		return ret;
+ 
+ 	ret = map_regs(v3d, &v3d->core_regs[0], "core0");
+ 	if (ret)
+-		goto dev_destroy;
++		return ret;
+ 
+ 	mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
+ 	dev->coherent_dma_mask =
+@@ -291,29 +285,28 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+ 		ret = PTR_ERR(v3d->reset);
+ 
+ 		if (ret == -EPROBE_DEFER)
+-			goto dev_destroy;
++			return ret;
+ 
+ 		v3d->reset = NULL;
+ 		ret = map_regs(v3d, &v3d->bridge_regs, "bridge");
+ 		if (ret) {
+ 			dev_err(dev,
+ 				"Failed to get reset control or bridge regs\n");
+-			goto dev_destroy;
++			return ret;
+ 		}
+ 	}
+ 
+ 	if (v3d->ver < 41) {
+ 		ret = map_regs(v3d, &v3d->gca_regs, "gca");
+ 		if (ret)
+-			goto dev_destroy;
++			return ret;
+ 	}
+ 
+ 	v3d->mmu_scratch = dma_alloc_wc(dev, 4096, &v3d->mmu_scratch_paddr,
+ 					GFP_KERNEL | __GFP_NOWARN | __GFP_ZERO);
+ 	if (!v3d->mmu_scratch) {
+ 		dev_err(dev, "Failed to allocate MMU scratch page\n");
+-		ret = -ENOMEM;
+-		goto dev_destroy;
++		return -ENOMEM;
+ 	}
+ 
+ 	pm_runtime_use_autosuspend(dev);
+@@ -340,8 +333,6 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+ 	v3d_gem_destroy(drm);
+ dma_free:
+ 	dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
+-dev_destroy:
+-	drm_dev_put(drm);
+ 	return ret;
  }
  
- static inline bool
+@@ -354,8 +345,6 @@ static int v3d_platform_drm_remove(struct platform_device *pdev)
+ 
+ 	v3d_gem_destroy(drm);
+ 
+-	drm_dev_put(drm);
+-
+ 	dma_free_wc(v3d->dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
+ 
+ 	return 0;
 -- 
 2.25.1
 
