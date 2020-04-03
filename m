@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A9F19D839
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 15:59:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C8A19D836
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 15:59:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31E046EBB4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68AE16EBB5;
 	Fri,  3 Apr 2020 13:58:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF836EBA8
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 13:58:53 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id f6so7816569wmj.3
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 06:58:53 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 589AC6EB96
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 13:58:54 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a81so7789587wmf.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 06:58:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=F95YaA9HyUr6hAT035qmYaAaVft5X8nSP8a0GZwTPhg=;
- b=RHVqlLVPc+l+qEOxU7jGKx4I85heHqB8mD/TVSyWbzk6kIaqbpPr8X3mnjA71YDswE
- q6YptodF12ekjhCyiW1TesyHa4boVpioGweLCrrUBJnMh6caMVZdTb9f0WW+ML1uurLQ
- Mb5sQUjIzu1uw68BRj2zRPtNJ2yoAvOw62Pd0=
+ bh=rcj6BayWka2EitDRdS6u20GaaWgPfY4TfOGuURPK+fk=;
+ b=XR4DTDiWVSUSqs0ZrqPlwuJ0qiB8Rz6sFtdzIpsaYWEeRBe4Jgcpv+k11obBKjvf2Z
+ +AbXnPz55X4kQMkfdIN6FqI+e3mcuLQswmN3H29XaF1lappzEhFyg0wxxGnU1ONOhzot
+ 4Hjxn3J1Sl38BCQ2YGJrxZzxx0TUMhGnkGN+A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F95YaA9HyUr6hAT035qmYaAaVft5X8nSP8a0GZwTPhg=;
- b=dNIOb/EZDqcdZXJ5eAOys9402Z6LvrGOYAkaSudILHw2HdSPfvLKLxIL8A//7v8se4
- CZHHjhxc9Fxgn/TXk7cp1SsCVmYALNF3fNtalUqN5YNzQYEbMPjLeuG56EmFN07W5WWd
- a+ZCqBUQULWegO0AOcjvzamYk7kdlVZN0nOaW/SyBpdo9/4dnAPBzox8Nx8n48aiBWbt
- fsYXucpAkK0yRqbAAvb0sUmMv67+8QMqfosRokPAUkLA69wULCWJTINho4yHWe9v0Y2d
- BEz8SyfTUZLlNGytvzrbwTOBFJpn4Tveq8BO467JIb/5/Dg+U00fpnUFUjnMpjOLUqvJ
- tDUg==
-X-Gm-Message-State: AGi0PuY3iSdMIWzibv5kGU5VKSUZRvelLdMR06G4WfquxtD6UiezxZuc
- NVx/hftfifOcUT278w2CBrM/0fRCuqYSSA==
-X-Google-Smtp-Source: APiQypLbY/BBKOyexj70BrMe4Jkii/rQa2mNHzLxBTOYBXUutNrBnHb20jgjJqPuDTi1vZPlrmNNMQ==
-X-Received: by 2002:a1c:c257:: with SMTP id s84mr9286464wmf.9.1585922331436;
- Fri, 03 Apr 2020 06:58:51 -0700 (PDT)
+ bh=rcj6BayWka2EitDRdS6u20GaaWgPfY4TfOGuURPK+fk=;
+ b=A55mxCGMI1nAoiLfI0/xzDg4vuKdwlIF3k0HFX+sKRTx+phUuCJl8X7ecpxTxgFcdt
+ XJ1qem40B2oYoUhV5t3igBRdT3cQcHL9URJcG6SpWdbsBVSyfV5QRDIHbUpk/fTglKT2
+ RE/UbHQqVk5LdJlvrvmrbqZUlnRQc925/fLCPPR3rq0hi+xDoIhQH1wXc5z5n5lJxW6w
+ 9UMaLZU2e5rLqN91dPP0aUzqJTCIkj+dGZ071LxLSr52JfW9H9742XtzKKoC4hwuYuOi
+ Pcy855/xlbIdK83hJRcTTZkldzJnA4gTHX+nGq07I+zI+SZ/FL3/MRkNvsZN7v/SJXqd
+ ocjQ==
+X-Gm-Message-State: AGi0PuawlR5caml/Ymh9VPRndqpEknbmkNdh3UQaJ3xeoPtjAJs7ZBMU
+ pvWc4X+8IbCJMwA0VqDLXtdDJu0/bIGFTQ==
+X-Google-Smtp-Source: APiQypL33ENV5ZD5B9CcahUMM7NoJ1Avbm+N08a+Le+t/KelBY+oXG0I6QOA19BLb+xYF2a3EkYbrg==
+X-Received: by 2002:a7b:c30f:: with SMTP id k15mr3584892wmj.50.1585922332688; 
+ Fri, 03 Apr 2020 06:58:52 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f141sm11783919wmf.3.2020.04.03.06.58.50
+ by smtp.gmail.com with ESMTPSA id f141sm11783919wmf.3.2020.04.03.06.58.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 06:58:50 -0700 (PDT)
+ Fri, 03 Apr 2020 06:58:52 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 14/44] drm/v3d: Delete v3d_dev->pdev
-Date: Fri,  3 Apr 2020 15:57:58 +0200
-Message-Id: <20200403135828.2542770-15-daniel.vetter@ffwll.ch>
+Subject: [PATCH 15/44] drm/udl: Use demv_drm_dev_alloc
+Date: Fri,  3 Apr 2020 15:57:59 +0200
+Message-Id: <20200403135828.2542770-16-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
 References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
@@ -63,110 +63,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We already have it in v3d_dev->drm.dev with zero additional pointer
-chasing. Personally I don't like duplicated pointers like this
-because:
-- reviewers need to check whether the pointer is for the same or
-different objects if there's multiple
-- compilers have an easier time too
-
-To avoid having to pull in some big headers I implemented the casting
-function as a macro instead of a static inline. Typechecking thanks to
-container_of still assured.
-
-But also a bit a bikeshed, so feel free to ignore.
+Also init the fbdev emulation before we register the device, that way
+we can rely on the auto-cleanup and simplify the probe error code even
+more.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Eric Anholt <eric@anholt.net>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Emil Velikov <emil.l.velikov@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
 ---
- drivers/gpu/drm/v3d/v3d_drv.c | 3 +--
- drivers/gpu/drm/v3d/v3d_drv.h | 3 ++-
- drivers/gpu/drm/v3d/v3d_irq.c | 8 +++++---
- 3 files changed, 8 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/udl/udl_drv.c | 36 +++++++++++------------------------
+ 1 file changed, 11 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 37cb880f2826..82a7dfdd14c2 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -235,7 +235,7 @@ static int
- map_regs(struct v3d_dev *v3d, void __iomem **regs, const char *name)
- {
- 	struct resource *res =
--		platform_get_resource_byname(v3d->pdev, IORESOURCE_MEM, name);
-+		platform_get_resource_byname(v3d_to_pdev(v3d), IORESOURCE_MEM, name);
+diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
+index 1ce2d865c36d..4ba5149fdd57 100644
+--- a/drivers/gpu/drm/udl/udl_drv.c
++++ b/drivers/gpu/drm/udl/udl_drv.c
+@@ -57,27 +57,20 @@ static struct udl_device *udl_driver_create(struct usb_interface *interface)
+ 	struct udl_device *udl;
+ 	int r;
  
- 	*regs = devm_ioremap_resource(v3d->drm.dev, res);
- 	return PTR_ERR_OR_ZERO(*regs);
-@@ -255,7 +255,6 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 	if (IS_ERR(v3d))
- 		return PTR_ERR(v3d);
+-	udl = kzalloc(sizeof(*udl), GFP_KERNEL);
+-	if (!udl)
+-		return ERR_PTR(-ENOMEM);
+-
+-	r = drm_dev_init(&udl->drm, &driver, &interface->dev);
+-	if (r) {
+-		kfree(udl);
+-		return ERR_PTR(r);
+-	}
++	udl = devm_drm_dev_alloc(&interface->dev, &driver,
++				 struct udl_device, drm);
++	if (IS_ERR(udl))
++		return udl;
  
--	v3d->pdev = pdev;
- 	drm = &v3d->drm;
+ 	udl->udev = udev;
+ 	udl->drm.dev_private = udl;
+-	drmm_add_final_kfree(&udl->drm, udl);
  
- 	platform_set_drvdata(pdev, drm);
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 4d2d1f2fe1af..935f23b524b2 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -46,7 +46,6 @@ struct v3d_dev {
- 	int ver;
- 	bool single_irq_line;
+ 	r = udl_init(udl);
+-	if (r) {
+-		drm_dev_put(&udl->drm);
++	if (r)
+ 		return ERR_PTR(r);
+-	}
  
--	struct platform_device *pdev;
- 	void __iomem *hub_regs;
- 	void __iomem *core_regs[3];
- 	void __iomem *bridge_regs;
-@@ -128,6 +127,8 @@ v3d_has_csd(struct v3d_dev *v3d)
- 	return v3d->ver >= 41;
+ 	usb_set_intfdata(interface, udl);
++
+ 	return udl;
  }
  
-+#define v3d_to_pdev(v3d) to_platform_device(v3d->drm.dev)
+@@ -91,23 +84,17 @@ static int udl_usb_probe(struct usb_interface *interface,
+ 	if (IS_ERR(udl))
+ 		return PTR_ERR(udl);
+ 
++	r = drm_fbdev_generic_setup(&udl->drm, 0);
++	if (r)
++		return r;
 +
- /* The per-fd struct, which tracks the MMU mappings. */
- struct v3d_file_priv {
- 	struct v3d_dev *v3d;
-diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
-index f4ce6d057c90..51b65263c657 100644
---- a/drivers/gpu/drm/v3d/v3d_irq.c
-+++ b/drivers/gpu/drm/v3d/v3d_irq.c
-@@ -217,7 +217,7 @@ v3d_irq_init(struct v3d_dev *v3d)
- 		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR, V3D_CORE_IRQS);
- 	V3D_WRITE(V3D_HUB_INT_CLR, V3D_HUB_IRQS);
+ 	r = drm_dev_register(&udl->drm, 0);
+ 	if (r)
+-		goto err_free;
++		return r;
  
--	irq1 = platform_get_irq(v3d->pdev, 1);
-+	irq1 = platform_get_irq(v3d_to_pdev(v3d), 1);
- 	if (irq1 == -EPROBE_DEFER)
- 		return irq1;
- 	if (irq1 > 0) {
-@@ -226,7 +226,8 @@ v3d_irq_init(struct v3d_dev *v3d)
- 				       "v3d_core0", v3d);
- 		if (ret)
- 			goto fail;
--		ret = devm_request_irq(v3d->drm.dev, platform_get_irq(v3d->pdev, 0),
-+		ret = devm_request_irq(v3d->drm.dev,
-+				       platform_get_irq(v3d_to_pdev(v3d), 0),
- 				       v3d_hub_irq, IRQF_SHARED,
- 				       "v3d_hub", v3d);
- 		if (ret)
-@@ -234,7 +235,8 @@ v3d_irq_init(struct v3d_dev *v3d)
- 	} else {
- 		v3d->single_irq_line = true;
+ 	DRM_INFO("Initialized udl on minor %d\n", udl->drm.primary->index);
  
--		ret = devm_request_irq(v3d->drm.dev, platform_get_irq(v3d->pdev, 0),
-+		ret = devm_request_irq(v3d->drm.dev,
-+				       platform_get_irq(v3d_to_pdev(v3d), 0),
- 				       v3d_irq, IRQF_SHARED,
- 				       "v3d", v3d);
- 		if (ret)
+-	r = drm_fbdev_generic_setup(&udl->drm, 0);
+-	if (r)
+-		goto err_drm_dev_unregister;
+-
+ 	return 0;
+-
+-err_drm_dev_unregister:
+-	drm_dev_unregister(&udl->drm);
+-err_free:
+-	drm_dev_put(&udl->drm);
+-	return r;
+ }
+ 
+ static void udl_usb_disconnect(struct usb_interface *interface)
+@@ -117,7 +104,6 @@ static void udl_usb_disconnect(struct usb_interface *interface)
+ 	drm_kms_helper_poll_fini(dev);
+ 	udl_drop_usb(dev);
+ 	drm_dev_unplug(dev);
+-	drm_dev_put(dev);
+ }
+ 
+ /*
 -- 
 2.25.1
 
