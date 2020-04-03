@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E996B19D83D
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 15:59:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A43F219D842
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Apr 2020 15:59:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5A26EBC7;
-	Fri,  3 Apr 2020 13:58:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 314C56EBA0;
+	Fri,  3 Apr 2020 13:59:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BCDC6EBA0
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 13:58:56 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id d202so7848526wmd.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 06:58:56 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCB616EBBC
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Apr 2020 13:58:57 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id d202so7848617wmd.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Apr 2020 06:58:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wiXHaDwX9ULZkgf3yiFkDSinIGkByr+O07um+whjJ5E=;
- b=PvmDWXqUoZEYUHoal7y11Os7Yb6Xkrf3bH/LaN7US/nwLS2lkxmnquBnNJwQeWwY+3
- 9AVGNXg+JGJohxGQymHZ7NKlhzZZ5DbW4J682Pa5EbMgbKzOC0hX5YviKY9vH7tDCBWa
- +y/e+iDqnae1KhZ6pzG5aY7bI8Izzq9ddXTUM=
+ bh=H8BhvxoNkRBJoi5QP4FoiKfKOWdDvbxfrg3aVuPr89I=;
+ b=GEvVEI/poXfCQI6aBiO6USrk6BYGF11kazdp7OIHrvuzRh5BVPGY7YmQrpdDvsWn+H
+ SlEN0BKv27zs09K5OD1w0NK9vuUgJieKfczShnkUNVBCX1gQK03STtgxcSkjtZZJIUeI
+ fQx005/aH+CcqWLhdXVyyczQ4RUeyQKE/KQAM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wiXHaDwX9ULZkgf3yiFkDSinIGkByr+O07um+whjJ5E=;
- b=Fpdsoz/SGrp8mg0hvb3IqRb6dDknLzidd6OVXPxwWIkXHSIjGymD+E8ei7v/IDBFMN
- eSILhqtGK4zaVSc77mTmy0SMulfT60/K84iY40DqIco+ta2bwEy63tVxpE1pxmGfs4UO
- lbD3FqPdneIMNjsdoLrzB8mvCVii/SeuEXGv4QIUCfNQLjsCAmMbWKHvXe2d2nKdWd2y
- 1od1TLIeffEi0GwQAdxdPdqVFzpoCp/kw6HHO1MhOiGXF93/sH1Ux8edFF5ikszQGkUQ
- lr2byz7J8TmbJ6tRhB/nwoebWMaHpQn2d5UE/N5ai12w4GhW83mXyHX8NMOJcUfAbyK3
- iMHQ==
-X-Gm-Message-State: AGi0PubZydHOPg3ms1ncsfAltjwphpp9CJ7Iwp3NyjsxqhIJYn3zfDwC
- 2qv8oN9+aUQjBP8OIXF2lrKnt0RGTvGUPg==
-X-Google-Smtp-Source: APiQypKWyOXGmLdSt0YXK7tUS4jrnXxXR+2CBfyiUkuyKi+B0wmSKfn4OeIPOuaDxKBAylc+DRrowg==
-X-Received: by 2002:a1c:7919:: with SMTP id l25mr9278758wme.12.1585922334822; 
- Fri, 03 Apr 2020 06:58:54 -0700 (PDT)
+ bh=H8BhvxoNkRBJoi5QP4FoiKfKOWdDvbxfrg3aVuPr89I=;
+ b=K6KkpUuGSmX5TiV8gRGasZqrQXYlkA0k+gGtdHlfj8q6bFwIXf0/Exc9JQfmux0H3r
+ v/QLSn2UFE8CzkTBXeyniUEt8zWhUzEYaaSKrjkLIcHizGeX0JFinBOND1R28al6/w2n
+ kN2LlwMruWQXIKhuXIHGzVFl0wx+9RBZX9jFFa+Vj7zrRGkBsBZcBRMgG9SnCHBklxNj
+ WpYXXLXTBmnMFwBzrj685e9RNKxWkSaHZr+tRmp5mrn6G1eXiBL/IiTVQ2OXLZXcaMFc
+ vy8oOXSZEpq+YjJyd8qFjvRSWTy/ho9JPuF0SgOecWa11KZpPXzgHsRgim79Eepm8Ezc
+ TdDg==
+X-Gm-Message-State: AGi0PuZOqgcoDJj/C2FfaJVcIjI2v16h92w4Nmz6LdDXMVwVisj1pksx
+ hqviEqUb9SdC9gnZbWA6rTOWdQPX7TJ+Uw==
+X-Google-Smtp-Source: APiQypL9RCGjjW/xeefzG4RbPfSgFCOBV3JZz12EtU2IQsSadmf+AY9U6bud423YZcaJaeaJ53bpdQ==
+X-Received: by 2002:a1c:9907:: with SMTP id b7mr9305232wme.17.1585922335906;
+ Fri, 03 Apr 2020 06:58:55 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f141sm11783919wmf.3.2020.04.03.06.58.53
+ by smtp.gmail.com with ESMTPSA id f141sm11783919wmf.3.2020.04.03.06.58.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 06:58:54 -0700 (PDT)
+ Fri, 03 Apr 2020 06:58:55 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 17/44] drm/st7735r: Use devm_drm_dev_alloc
-Date: Fri,  3 Apr 2020 15:58:01 +0200
-Message-Id: <20200403135828.2542770-18-daniel.vetter@ffwll.ch>
+Subject: [PATCH 18/44] drm/st7586: Use devm_drm_dev_alloc
+Date: Fri,  3 Apr 2020 15:58:02 +0200
+Message-Id: <20200403135828.2542770-19-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
 References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
@@ -73,45 +73,39 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Already using devm_drm_dev_init, so very simple replacment.
 
-Aside: There was an oddity in the old code, we allocated priv but in
-the error path we've freed priv->dbidev ...
-
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: David Lechner <david@lechnology.com>
 ---
- drivers/gpu/drm/tiny/st7735r.c | 13 ++++---------
+ drivers/gpu/drm/tiny/st7586.c | 13 ++++---------
  1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
-index 631801c36f46..ccbf49a53202 100644
---- a/drivers/gpu/drm/tiny/st7735r.c
-+++ b/drivers/gpu/drm/tiny/st7735r.c
-@@ -195,21 +195,16 @@ static int st7735r_probe(struct spi_device *spi)
- 	if (!cfg)
- 		cfg = (void *)spi_get_device_id(spi)->driver_data;
+diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
+index c3295c717ba6..2a1fae422f7a 100644
+--- a/drivers/gpu/drm/tiny/st7586.c
++++ b/drivers/gpu/drm/tiny/st7586.c
+@@ -317,18 +317,13 @@ static int st7586_probe(struct spi_device *spi)
+ 	size_t bufsize;
+ 	int ret;
  
--	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
--	if (!priv)
+-	dbidev = kzalloc(sizeof(*dbidev), GFP_KERNEL);
+-	if (!dbidev)
 -		return -ENOMEM;
-+	priv = devm_drm_dev_alloc(dev, &st7735r_driver,
-+				  struct st7735r_priv, dbidev.drm);
-+	if (IS_ERR(priv))
-+		return PTR_ERR(priv);
- 
- 	dbidev = &priv->dbidev;
- 	priv->cfg = cfg;
++	dbidev = devm_drm_dev_alloc(dev, &st7586_driver,
++				    struct mipi_dbi_dev, drm);
++	if (IS_ERR(dbidev))
++		return PTR_ERR(dbidev);
  
  	dbi = &dbidev->dbi;
  	drm = &dbidev->drm;
--	ret = devm_drm_dev_init(dev, drm, &st7735r_driver);
+-	ret = devm_drm_dev_init(dev, drm, &st7586_driver);
 -	if (ret) {
 -		kfree(dbidev);
 -		return ret;
 -	}
 -	drmm_add_final_kfree(drm, dbidev);
  
- 	dbi->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
- 	if (IS_ERR(dbi->reset)) {
+ 	bufsize = (st7586_mode.vdisplay + 2) / 3 * st7586_mode.hdisplay;
+ 
 -- 
 2.25.1
 
