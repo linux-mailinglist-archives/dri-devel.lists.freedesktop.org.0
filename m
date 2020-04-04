@@ -1,45 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9354219E1E7
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Apr 2020 02:22:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3B419E247
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Apr 2020 03:41:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 500956ECC8;
-	Sat,  4 Apr 2020 00:22:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A05B46ECCE;
+	Sat,  4 Apr 2020 01:41:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49B146ECC8
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Apr 2020 00:21:58 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 42F24321;
- Sat,  4 Apr 2020 02:21:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1585959716;
- bh=yISGOexUXpRvRg7Jt5xQI1yOLeEob8QXDDqtcGTJvyo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vYWyy3eeKnYr9FAklrONkxYQAFjBLYd7UyMzBgv6dN8niEc4/SKwnSgcD+mlBhNbs
- COoXW/6KLF3K+2D6YCvDN1y4z2UsaLo68L0Wk3AW0WWgH6AdCguyS3MHG6OcaBWQSD
- zmgDovrDYEkZQpqgZhwFsa0ta13nownChq1TxE6Y=
-Date: Sat, 4 Apr 2020 03:21:47 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <20200404002147.GG9690@pendragon.ideasonboard.com>
-References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
- <1105bfe5-88f1-040e-db40-54d7761747d5@rasmusvillemoes.dk>
- <b1e6213ba9f67da8278dd5c5f5e4def8ab927c83.camel@perches.com>
- <20200403193242.38611906@coco.lan>
- <2751400ae13b25d8259a8a9d7b36caf98ec2d367.camel@perches.com>
- <CAHp75Vf+m_qzOwZb38dObLpKV2N27-J_7beqffhFVoSHaNV2vg@mail.gmail.com>
- <20200404001425.GC4394@kekkonen.localdomain>
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49C586ECCE
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Apr 2020 01:41:07 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1585964469; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=8T9Mnfu0ze5ZEQgVVn50D4Ow8szQI4g8wY/LumPUeDM=;
+ b=cE0lbkDRVeEKczdUn7z9QkfE/R7HZeY+DJE1PcXM/KmDdSTDd97Nm1JSBi/+iHguLvGtMKWK
+ ECuNOINig7abIYF9sMOzvn5Y9gh3fRKmkT89HIYIzrbw1ghn6D1dsXJPIYQQCAsTJEkdzOfC
+ QK6LvgCFlp2RsVOnV/eFvR4A2rs=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e87e5a1.7fbf5471a650-smtp-out-n03;
+ Sat, 04 Apr 2020 01:40:49 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 9D7C3C4478F; Sat,  4 Apr 2020 01:40:47 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id C61FFC433F2;
+ Sat,  4 Apr 2020 01:40:46 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200404001425.GC4394@kekkonen.localdomain>
+Date: Fri, 03 Apr 2020 18:40:46 -0700
+From: abhinavk@codeaurora.org
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v2 16/17] drm: Nuke mode->private_flags
+In-Reply-To: <20200403204008.14864-17-ville.syrjala@linux.intel.com>
+References: <20200403204008.14864-1-ville.syrjala@linux.intel.com>
+ <20200403204008.14864-17-ville.syrjala@linux.intel.com>
+Message-ID: <7cd8b081a383125732dbddd32116e46e@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,72 +62,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>, Joe Perches <joe@perches.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: sean@poorly.run, jeykumar@quicinc.com,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
+ nganji@quicinc.com, pdhaval@quicinc.com, Sam Ravnborg <sam@ravnborg.org>,
+ aravindh@quicinc.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sakari,
-
-On Sat, Apr 04, 2020 at 03:14:25AM +0300, Sakari Ailus wrote:
-> On Fri, Apr 03, 2020 at 09:32:42PM +0300, Andy Shevchenko wrote:
-> > On Fri, Apr 3, 2020 at 8:54 PM Joe Perches <joe@perches.com> wrote:
-> > > On Fri, 2020-04-03 at 19:32 +0200, Mauro Carvalho Chehab wrote:
-> > > > Em Fri, 03 Apr 2020 09:56:42 -0700
-> > > > Joe Perches <joe@perches.com> escreveu:
-> > 
-> > > It _might_ be useful to use a CONFIG_MEDIA_SUPPORT guard
-> > > in lib/vsprintf for this.
-> > 
-> > No need. FourCC, if Sakari makes it more generic, can be used for
-> > other purposes, e.g. printing component names from the chips (not
-> > related to media at all).
-> 
-> Could you elaborate?
-> 
-> This could be already used on DRM, presumably, and that does not depend on
-> CONFIG_MEDIA_SUPPORT. I don't know how much there would be a need for that,
-> though, but this remains a possibility.
-
-/**
- * drm_get_format_name - fill a string with a drm fourcc format's name
- * @format: format to compute name of
- * @buf: caller-supplied buffer
- */
-const char *drm_get_format_name(uint32_t format, struct drm_format_name_buf *buf)
-{
-	snprintf(buf->str, sizeof(buf->str),
-		 "%c%c%c%c %s-endian (0x%08x)",
-		 printable_char(format & 0xff),
-		 printable_char((format >> 8) & 0xff),
-		 printable_char((format >> 16) & 0xff),
-		 printable_char((format >> 24) & 0x7f),
-		 format & DRM_FORMAT_BIG_ENDIAN ? "big" : "little",
-		 format);
-
-	return buf->str;
-}
-EXPORT_SYMBOL(drm_get_format_name);
-
-I'm not advocating for one approach or the other in this case, but we
-should standardize 4CC printing between the two subsystems.
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgVmlsbGUKClRoYW5rcyBmb3IgdGhlIHBhdGNoLgoKT3VyIHVuZGVyc3RhbmRpbmcgb2YgcHJp
+dmF0ZV9mbGFncyB3YXMgdGhhdCB3ZSBjYW4gdXNlIGl0IHdpdGhpbiBvdXIgCmRyaXZlcnMgdG8g
+aGFuZGxlIHZlbmRvciBzcGVjaWZpYyBmZWF0dXJlcy4KSGVuY2Ugd2UgZG8gaGF2ZSBzZXZlcmFs
+IGZlYXR1cmVzIGluIG91ciBkb3duc3RyZWFtIGRyaXZlcnMgYXMgd2VsbCBhcyAKc29tZSBwbGFu
+bmVkIHdvcmsgYmFzZWQgb24gdGhpcy4KClRoaXMgd2FzIHRoZSBvbmx5IG1ldGhvZCB0byBwYXNz
+IGFyb3VuZCBhbmQgY29uc3VtZSB0aGUgZHJpdmVyIG9ubHkgCmluZm9ybWF0aW9uIHdoaWNoIHdl
+IGhhdmUgYmVlbiB1c2luZy4KCkluIHRoZSBjdXJyZW50IHF1YWxjb21tIHVwc3RyZWFtIGRpc3Bs
+YXkgZHJpdmVycywgdGhlIG9ubHkgdXNhZ2Ugb2YgdGhlIAptb2RlLT5wcml2YXRlX2ZsYWdzIGlz
+IHdoYXQgeW91IGhhdmUgcmVtb3ZlZCBpbiAKaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9w
+YXRjaC8xMTQ3MzQ5Ny8uCgpIb3dldmVyLCBmb3Igb3RoZXIgcHJvamVjdHMgd2hpY2ggZG8gbm90
+IHVzZSB1cHN0cmVhbSBkcml2ZXJzIHlldCwgd2UgCmhhdmUgc2V2ZXJhbCBmZWF0dXJlcyBhbHJl
+YWR5IHdoaWNoIGFyZSB1c2luZyB0aGUgbW9kZS0+cHJpdmF0ZV9mbGFncy4KCldlIGRvIGhhdmUg
+YSBwbGFuIHRvIHJlbW92ZSB0aGUgdXNhZ2Ugb2YgbW9kZS0+cHJpdmF0ZV9mbGFncyBmb3IgdGhv
+c2UgCmRyaXZlcnMgYXMgd2VsbCBidXQgaXRzIG5vdCByZWFkeSB5ZXQuCgpUaGVzZSBkb3duc3Ry
+ZWFtIGRyaXZlcnMgc3RpbGwgdXNlIHRoZSB1cHN0cmVhbSBkcm0gZmlsZXMgZm9yIApjb21waWxh
+dGlvbi4KClNvIGhvdyBpdCB3b3JrcyBpcyB3ZSB1c2UgYWxsIHRoZSBoZWFkZXJzIHVuZGVyIGlu
+Y2x1ZGUvZHJtIGFuZCBhbHNvIHRoZSAKZmlsZXMgdW5kZXIgZHJpdmVycy9ncHUvZHJtIGFzLWl0
+LWlzIGZyb20gdXBzdHJlYW0gYnV0IG1haW50YWluIG91ciAKZHJpdmVycyBvbiB0b3Agb2YgdGhp
+cy4KClJlbW92aW5nIHRoaXMgd2lsbCByZXN1bHQgaW4gY29tcGlsYXRpb24gZmFpbHVyZXMgZm9y
+IHVzIGluIHRoZSBuZWFyIAp0ZXJtLgoKQ2FuIHdlIGtlZXAgdGhpcyBvbmUgYXMtaXQtaXMgYW5k
+IHdoZW4gb3VyIGNoYW5nZXMgYXJlIHJlYWR5IHRvIHBvc3QgaXQgCnVwc3RyZWFtIHdlIHNoYWxs
+IHJlbW92ZSBwcml2YXRlX2ZsYWdzIGZyb20gdGhlIGRybV9tb2Rlcy5oCgpUaGFua3MKCkFiaGlu
+YXYKCk9uIDIwMjAtMDQtMDMgMTM6NDAsIFZpbGxlIFN5cmphbGEgd3JvdGU6Cj4gRnJvbTogVmls
+bGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiAKPiBUaGUgbGFz
+dCB0d28gdXNlcyBvZiBtb2RlLT5wcml2YXRlX2ZsYWdzIChpbiBpOTE1IGFuZCBnbWE1MDApCj4g
+YXJlIG5vdyBnb25lLiBTbyBsZXQncyByZW1vdmUgbW9kZS0+cHJpdmF0ZV9mbGFncyBlbnRpcmVs
+eS4KPiAKPiBDQzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgo+IENjOiBEYW5pZWwg
+VmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+IENjOiBFbWlsIFZlbGlrb3YgPGVtaWwu
+bC52ZWxpa292QGdtYWlsLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZp
+bGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+IC0tLQo+ICBpbmNsdWRlL2RybS9kcm1fbW9k
+ZXMuaCB8IDEwIC0tLS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDEwIGRlbGV0aW9ucygtKQo+
+IAo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fbW9kZXMuaCBiL2luY2x1ZGUvZHJtL2Ry
+bV9tb2Rlcy5oCj4gaW5kZXggNDdkNjJiOWQ4ZDIwLi4xZTk3MTM4YTliOGMgMTAwNjQ0Cj4gLS0t
+IGEvaW5jbHVkZS9kcm0vZHJtX21vZGVzLmgKPiArKysgYi9pbmNsdWRlL2RybS9kcm1fbW9kZXMu
+aAo+IEBAIC0zNDgsMTYgKzM0OCw2IEBAIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIHsKPiAgCSAq
+Lwo+ICAJdTggdHlwZTsKPiAKPiAtCS8qKgo+IC0JICogQHByaXZhdGVfZmxhZ3M6Cj4gLQkgKgo+
+IC0JICogRHJpdmVyIHByaXZhdGUgZmxhZ3MuIHByaXZhdGVfZmxhZ3MgY2FuIG9ubHkgYmUgdXNl
+ZCBmb3IgbW9kZQo+IC0JICogb2JqZWN0cyBwYXNzZWQgdG8gZHJpdmVycyBpbiBtb2Rlc2V0IG9w
+ZXJhdGlvbnMuIEl0IHNob3VsZG4ndCBiZSAKPiB1c2VkCj4gLQkgKiBieSBhdG9taWMgZHJpdmVy
+cyBzaW5jZSB0aGV5IGNhbiBzdG9yZSBhbnkgYWRkaXRpb25hbCBkYXRhIGJ5Cj4gLQkgKiBzdWJj
+bGFzc2luZyBzdGF0ZSBzdHJ1Y3R1cmVzLgo+IC0JICovCj4gLQl1OCBwcml2YXRlX2ZsYWdzOwo+
+IC0KPiAgCS8qKgo+ICAJICogQGhlYWQ6Cj4gIAkgKgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwK
