@@ -1,64 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B01F19E506
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Apr 2020 14:46:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F7719E35D
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Apr 2020 09:40:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5605D6E212;
-	Sat,  4 Apr 2020 12:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AABAA891D5;
+	Sat,  4 Apr 2020 07:40:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 389C76ECD9;
- Sat,  4 Apr 2020 02:42:01 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id v23so3549138ply.10;
- Fri, 03 Apr 2020 19:42:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jpCey6nXR24VHkMuvgvYPJ86L/KDUB6wcFgnfdZsomA=;
- b=BWMvkRH+pOW8OPP2yQVDcV+Hpe/qCg9Lyk06ZLfwCMbfbNI15KDCOQ8q62bAfii5uh
- 9ChqSNKsdrA9S/fnb0Wn7QmJ9S1T1Lnr6RV7VE66689jxbHEM7F7ieSYhb+sCHDq86J3
- 6BNRE7mBsoFBNa9MhQBk4hEm2KfB4/JkEDRYMdkg4uffC1IfTLBQe/55oMQ6GCL1ZS9t
- f2o56Uc3n/9RTqwF4uu3AhOTh3umGWfxy/Q4TAW0lsP0dK2WTZl3IMBnT3RwiYFOZKaw
- CvpG2lGC+KpSypCAZv1W3OY9dtJF8rEjfqrvV44N/Gh2OFJ4ChEE68rFVQ+o+FuDRgTC
- ztRQ==
-X-Gm-Message-State: AGi0PuZPBdCFHRr5b9ols29xhsSozEnFmk7ew0BPHng3vseC0SPipUh6
- 8dN59UjDKlp0TMUHBwcgjKE=
-X-Google-Smtp-Source: APiQypLsKMCV76FWg8xK/CcpK6SZP3U8Fx2DGLw069VafyMfbQeFHdk++S3zg9eV0uup+7O5Q41n3Q==
-X-Received: by 2002:a17:90a:23ed:: with SMTP id
- g100mr12860973pje.93.1585968120823; 
- Fri, 03 Apr 2020 19:42:00 -0700 (PDT)
-Received: from sultan-box.localdomain (static-198-54-129-52.cust.tzulo.com.
- [198.54.129.52])
- by smtp.gmail.com with ESMTPSA id iq14sm6716639pjb.43.2020.04.03.19.41.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 19:41:59 -0700 (PDT)
-Date: Fri, 3 Apr 2020 19:41:56 -0700
-From: Sultan Alsawaf <sultan@kerneltoast.com>
-To: stable@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] drm/i915: Synchronize active and retire callbacks
-Message-ID: <20200404024156.GA10382@sultan-box.localdomain>
-References: <20200403042948.2533-1-sultan@kerneltoast.com>
- <20200403223528.2570-1-sultan@kerneltoast.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EAE3891D5
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Apr 2020 07:40:18 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206987] [drm] [amdgpu] Whole system crashes when the driver is
+ in mode_support_and_system_configuration
+Date: Sat, 04 Apr 2020 07:40:17 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: evvke@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-206987-2300-Bfa1Iuw4EK@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206987-2300@https.bugzilla.kernel.org/>
+References: <bug-206987-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200403223528.2570-1-sultan@kerneltoast.com>
-X-Mailman-Approved-At: Sat, 04 Apr 2020 12:45:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,14 +57,22 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 03, 2020 at 03:35:15PM -0700, Sultan Alsawaf wrote:
-> +			ref->retire(ref);
-> +			mutex_unlock(&ref->callback_lock);
+https://bugzilla.kernel.org/show_bug.cgi?id=206987
 
-Ugh, this patch is still wrong because the mutex unlock after ref->retire() is a
-use-after-free. Fun times...
+--- Comment #4 from Cyrax (evvke@hotmail.com) ---
+Created attachment 288203
+  --> https://bugzilla.kernel.org/attachment.cgi?id=288203&action=edit
+dmesg output 2
 
-Sultan
+This crash happened again. In that time I have used VLC, played a game (GZDoom)
+and tried to listen youtube playlist by using a combination of youtube-dl,
+ffmpeg and mpv.
+
+I also updated motherboards BIOS/firmware to latest one.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
