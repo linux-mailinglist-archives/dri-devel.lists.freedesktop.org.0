@@ -1,49 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A837B19EC1B
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Apr 2020 16:47:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 640E019EC1E
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Apr 2020 16:48:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D24F89F27;
-	Sun,  5 Apr 2020 14:47:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79EFE6E138;
+	Sun,  5 Apr 2020 14:48:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8551189F08;
- Sun,  5 Apr 2020 14:47:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=qSKFkOsXDpN+Xq2VSS7sYPHPPvZw/JqfUbFanTqmA9k=; b=fVjTSOxE/5hlQB3jMpoPD61PYH
- rlkPRmGeZr9yVxbTyl0oa6cXKA9OjpcnPm+1wuw1p5YZ/ehsRzUb7ZIGllWIStfkJBAva5JuiKJQI
- TJ1WP4NJ1BFSxRblciUVpAQRrEvp1QdkEipUrIpG3Y719rOfhA2aijtsQ3IAwtQAN7lPyQHQGpboB
- ew5Cb00m0JQdZ4CLuUhUiHq7Uvj4qhDXjXZcUNjSOYJ70mF4apwn2x7kP3iHuyH1+f9MrqpxxX/yM
- NV+/E4mAjkVRcKLZjyyeNeiRihEcQF/MhZKNwdMHNNrKYw/eYDs/Y9RiIi3kHQORu5mHEeIto3Kug
- hxUKEGYQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:52481
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1jL6Y4-0001Gt-R7; Sun, 05 Apr 2020 16:46:56 +0200
-Subject: Re: [PATCH 15/44] drm/udl: Use demv_drm_dev_alloc
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
- <20200403135828.2542770-16-daniel.vetter@ffwll.ch>
- <3e3f7726-f1d2-c29f-4fc8-c42002e7da13@tronnes.org>
- <CAKMK7uGthodxod5=cGWsiYNkqE_hvyekpcNegdunKa4Xycyezg@mail.gmail.com>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <34e654ae-0cc9-e393-ac02-e4ac6eda60f6@tronnes.org>
-Date: Sun, 5 Apr 2020 16:46:52 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
+ [IPv6:2607:f8b0:4864:20::b42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D01DF6E138
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Apr 2020 14:48:01 +0000 (UTC)
+Received: by mail-yb1-xb42.google.com with SMTP id 204so7288582ybw.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 Apr 2020 07:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=v+dqDvCPt/897rtlW7rn+HRZ8CXQjFzk7KCjChk3k24=;
+ b=hNmVs66K30OIgjszWm08ENcKBGYBbmyqTsytRVdgaU8hiMRMsvs0UocE6U+1o2Cl9u
+ UnhOtihY/4/dKGac5lGPw2uhsev2IFZLr7nh2SltrUZ/CEAjruNVEfJAu1xwfNj89yBo
+ t6jqrh7D/AQWONdkAxfjoefdWy3JE2k1LgViJTxsqnKI8oqBHB3zDgVFJOdcN1e4HtKk
+ S97UpoclL3VkZmeu2lhj3ko0vuHsCsOvnFaCraRWl7n0FiLQvAsO10Lhq/40WB0j27Cp
+ rgtvjVLmOEJk+wJemh3IsBHV8fOnQ9E62iI/1KmyZP/yKFeKVUQI+nziwePMYfUfqQnE
+ jRGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v+dqDvCPt/897rtlW7rn+HRZ8CXQjFzk7KCjChk3k24=;
+ b=Eoi1m/qfocO5UCmW+qNJO5lw0Hjvj9Yshq5qq4tx4faDYM+i+cU7dV/VOg8L15BlP5
+ PJKBog6z13w8O8cp8QDxA6OrAHYofsYHIQ2thu57YJEEQ3SRUt8T9EAIL7qCPYi31LRd
+ w3Wmyyz3Z6PED8Odxu1XVUrW9xCml1CPQqtDYhIK73YewZfQrWpR+kZTI9NOJb0u8Q7c
+ Mi1MMfjU/7M4hH0/Y+jnCVY7C2851nYWjvG9Uj9MLebKWquap8rzLg/LGL42Z2zBiDDH
+ /zEjUS52jSO+HMCuMrlA8Wk5arvDgTl7+sOHh65uh/8eJrtQkEd6O+cDdiM31/hnbjS4
+ 98aQ==
+X-Gm-Message-State: AGi0PuZMi66tc7A7O0KPwz6LkwRM06fbqdy0vixw6Rd+rQrzVuLEzM/g
+ ROZ/1tppF/RKwnE3b6kgTstut9zFzuuDKonVgpU=
+X-Google-Smtp-Source: APiQypLStyXEBg4fQEvKQp6utKnlk02OoH8tD0TAXmioeqlnHxkn0X/oq14OJ5qqcj+o7yJGUusu0tV5/tVYB2+d+RU=
+X-Received: by 2002:a25:dcd4:: with SMTP id
+ y203mr30504136ybe.483.1586098080938; 
+ Sun, 05 Apr 2020 07:48:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uGthodxod5=cGWsiYNkqE_hvyekpcNegdunKa4Xycyezg@mail.gmail.com>
+References: <CGME20200327162330eucas1p1b0413e0e9887aa76d3048f86d2166dcd@eucas1p1.samsung.com>
+ <20200327162126.29705-1-m.szyprowski@samsung.com>
+In-Reply-To: <20200327162126.29705-1-m.szyprowski@samsung.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Sun, 5 Apr 2020 10:47:49 -0400
+Message-ID: <CADnq5_NpHvmRvzvh1aF293UDUXiHF4Dg1rRNkt7XbM_VB98JCg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/prime: fix extracting of the DMA addresses from a
+ scatterlist
+To: Marek Szyprowski <m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,76 +63,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-samsung-soc@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Shane Francis <bigbeeshane@gmail.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ "Michael J . Ruhl" <michael.j.ruhl@intel.com>,
+ "for 3.8" <stable@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMDUuMDQuMjAyMCAxNS40Nywgc2tyZXYgRGFuaWVsIFZldHRlcjoKPiBPbiBTdW4sIEFw
-ciA1LCAyMDIwIGF0IDEyOjE4IFBNIE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3Jn
-PiB3cm90ZToKPj4KPj4KPj4KPj4gRGVuIDAzLjA0LjIwMjAgMTUuNTcsIHNrcmV2IERhbmllbCBW
-ZXR0ZXI6Cj4+PiBBbHNvIGluaXQgdGhlIGZiZGV2IGVtdWxhdGlvbiBiZWZvcmUgd2UgcmVnaXN0
-ZXIgdGhlIGRldmljZSwgdGhhdCB3YXkKPj4+IHdlIGNhbiByZWx5IG9uIHRoZSBhdXRvLWNsZWFu
-dXAgYW5kIHNpbXBsaWZ5IHRoZSBwcm9iZSBlcnJvciBjb2RlIGV2ZW4KPj4+IG1vcmUuCj4+Pgo+
-Pj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+
-Cj4+PiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPj4+IENjOiBTZWFuIFBh
-dWwgPHNlYW5AcG9vcmx5LnJ1bj4KPj4+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
-bm5Ac3VzZS5kZT4KPj4+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNo
-Pgo+Pj4gQ2M6IEVtaWwgVmVsaWtvdiA8ZW1pbC5sLnZlbGlrb3ZAZ21haWwuY29tPgo+Pj4gQ2M6
-IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPj4+IENjOiBUaG9tYXMgR2xlaXhuZXIg
-PHRnbHhAbGludXRyb25peC5kZT4KPj4+IC0tLQo+Pj4gIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRs
-X2Rydi5jIHwgMzYgKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPj4+ICAxIGZp
-bGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMjUgZGVsZXRpb25zKC0pCj4+Pgo+Pj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJt
-L3VkbC91ZGxfZHJ2LmMKPj4+IGluZGV4IDFjZTJkODY1YzM2ZC4uNGJhNTE0OWZkZDU3IDEwMDY0
-NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmMKPj4+ICsrKyBiL2RyaXZl
-cnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jCj4+PiBAQCAtNTcsMjcgKzU3LDIwIEBAIHN0YXRpYyBz
-dHJ1Y3QgdWRsX2RldmljZSAqdWRsX2RyaXZlcl9jcmVhdGUoc3RydWN0IHVzYl9pbnRlcmZhY2Ug
-KmludGVyZmFjZSkKPj4+ICAgICAgIHN0cnVjdCB1ZGxfZGV2aWNlICp1ZGw7Cj4+PiAgICAgICBp
-bnQgcjsKPj4+Cj4+PiAtICAgICB1ZGwgPSBremFsbG9jKHNpemVvZigqdWRsKSwgR0ZQX0tFUk5F
-TCk7Cj4+PiAtICAgICBpZiAoIXVkbCkKPj4+IC0gICAgICAgICAgICAgcmV0dXJuIEVSUl9QVFIo
-LUVOT01FTSk7Cj4+PiAtCj4+PiAtICAgICByID0gZHJtX2Rldl9pbml0KCZ1ZGwtPmRybSwgJmRy
-aXZlciwgJmludGVyZmFjZS0+ZGV2KTsKPj4+IC0gICAgIGlmIChyKSB7Cj4+PiAtICAgICAgICAg
-ICAgIGtmcmVlKHVkbCk7Cj4+PiAtICAgICAgICAgICAgIHJldHVybiBFUlJfUFRSKHIpOwo+Pj4g
-LSAgICAgfQo+Pj4gKyAgICAgdWRsID0gZGV2bV9kcm1fZGV2X2FsbG9jKCZpbnRlcmZhY2UtPmRl
-diwgJmRyaXZlciwKPj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdWRs
-X2RldmljZSwgZHJtKTsKPj4+ICsgICAgIGlmIChJU19FUlIodWRsKSkKPj4+ICsgICAgICAgICAg
-ICAgcmV0dXJuIHVkbDsKPj4+Cj4+PiAgICAgICB1ZGwtPnVkZXYgPSB1ZGV2Owo+Pj4gICAgICAg
-dWRsLT5kcm0uZGV2X3ByaXZhdGUgPSB1ZGw7Cj4+PiAtICAgICBkcm1tX2FkZF9maW5hbF9rZnJl
-ZSgmdWRsLT5kcm0sIHVkbCk7Cj4+Pgo+Pj4gICAgICAgciA9IHVkbF9pbml0KHVkbCk7Cj4+PiAt
-ICAgICBpZiAocikgewo+Pj4gLSAgICAgICAgICAgICBkcm1fZGV2X3B1dCgmdWRsLT5kcm0pOwo+
-Pj4gKyAgICAgaWYgKHIpCj4+PiAgICAgICAgICAgICAgIHJldHVybiBFUlJfUFRSKHIpOwo+Pj4g
-LSAgICAgfQo+Pj4KPj4+ICAgICAgIHVzYl9zZXRfaW50ZmRhdGEoaW50ZXJmYWNlLCB1ZGwpOwo+
-Pj4gKwo+Pj4gICAgICAgcmV0dXJuIHVkbDsKPj4+ICB9Cj4+Pgo+Pj4gQEAgLTkxLDIzICs4NCwx
-NyBAQCBzdGF0aWMgaW50IHVkbF91c2JfcHJvYmUoc3RydWN0IHVzYl9pbnRlcmZhY2UgKmludGVy
-ZmFjZSwKPj4+ICAgICAgIGlmIChJU19FUlIodWRsKSkKPj4+ICAgICAgICAgICAgICAgcmV0dXJu
-IFBUUl9FUlIodWRsKTsKPj4+Cj4+PiArICAgICByID0gZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAo
-JnVkbC0+ZHJtLCAwKTsKPj4KPj4gSXQgZG9lc24ndCBmZWVsIHJpZ2h0IHRvIGhhdmUgYSBjbGll
-bnQgb3BlbiB0aGUgZGV2aWNlIGJlZm9yZSB0aGUgRFJNCj4+IGRldmljZSBpdHNlbGYgaXMgcmVn
-aXN0ZXJlZC4gSSB3b3VsZCBwcmVmZXIgdG8ga2VlcCBpdCB3aGVyZSBpdCBpcyBidXQKPj4gaWdu
-b3JlIGFueSBlcnJvcnMuIEEgZmFpbGluZyBjbGllbnQgc2hvdWxkbid0IHByZXZlbnQgdGhlIGRy
-aXZlciBmcm9tCj4+IHByb2JpbmcuIGRybV9mYmRldl9nZW5lcmljX3NldHVwKCkgZG8gcHJpbnQg
-ZXJyb3JzIGlmIGl0IGZhaWxzLiBTbyB5ZWFoLAo+PiBpbiBoaW5kc2lnaHQgSSBzaG91bGQgaGF2
-ZSBtYWRlIGRybV9mYmRldl9nZW5lcmljX3NldHVwKCkgcmV0dXJuIHZvaWQuCj4gCj4gSG0sIHdl
-IGhhdmUgYWxsIGtpbmRzIG9mIHVzYWdlIHJpZ2h0IG5vdywgc29tZSBjaGVjayBmb3IgZXJyb3Jz
-LCBzb21lCj4gZG9udCwgc29tZSBkbyB0aGlzIGJlZm9yZSBkcm1fZGV2X3JlZ2lzdGVyLCBzb21l
-IGFmdGVyLiBJZiB5b3VyCj4gcmVjb21tZW5kYXRpb24gaXMgdG8gbm90IGNoZWNrIGZvciBlcnJv
-cnMgdGhlbiBJJ20gaGFwcHkgdG8gaW1wbGVtZW50Cj4gdGhhdCwgYnV0IHdlJ3JlIGEgYml0IGlu
-Y29uc2lzdGVudC4gTWF5YmUgd2Ugc2hvdWxkIGRvIGEgcGF0Y2ggdGhhdCBhdAo+IGxlYXN0IGFs
-d2F5cyByZXR1cm5zIDAgbm8gbWF0dGVyIHdoYXQsIHBsdXMgZG9jdW1lbnQgdGhhdCB0aGUgcmV0
-dXJuCj4gdmFsdWUgIHNob3VsZG4ndCBiZSBjaGVja2VkPwoKWWVhaCwgYWx3YXlzIHJldHVybmlu
-ZyB6ZXJvIGFuZCBkb2N1bWVudGluZyBpdCB3b3VsZCBiZSBhIGdvb2Qgc3RhcnQuCgpJIGNvdW50
-ZWQgNDEgZHJpdmVycyB1c2luZyBnZW5lcmljIGZiZGV2IG5vdywgZGlkbid0IGtub3cgaXQgd2Fz
-IHRoYXQKbXVjaCB1c2VkLiBPbmx5IDExIGRyaXZlcnMgYXJlIGhhbmQgcm9sbGluZyB0aGVpciBv
-d246CmFybWFkYQpnbWE1MDAKYW1kCm9tYXBkcm0Kbm91dmVhdQppOTE1Cm1zbQp0ZWdyYQpleHlu
-b3MKcmFkZW9uCnJvY2tjaGlwCgpOb3JhbGYuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, Mar 27, 2020 at 12:23 PM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> Scatterlist elements contains both pages and DMA addresses, but one
+> should not assume 1:1 relation between them. The sg->length is the size
+> of the physical memory chunk described by the sg->page, while
+> sg_dma_len(sg) is the size of the DMA (IO virtual) chunk described by
+> the sg_dma_address(sg).
+>
+> The proper way of extracting both: pages and DMA addresses of the whole
+> buffer described by a scatterlist it to iterate independently over the
+> sg->pages/sg->length and sg_dma_address(sg)/sg_dma_len(sg) entries.
+>
+> Fixes: 42e67b479eab ("drm/prime: use dma length macro when mapping sg")
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+
+Applied.  Thanks and sorry for the breakage.
+
+Alex
+
+> ---
+>  drivers/gpu/drm/drm_prime.c | 37 +++++++++++++++++++++++++------------
+>  1 file changed, 25 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 1de2cde2277c..282774e469ac 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -962,27 +962,40 @@ int drm_prime_sg_to_page_addr_arrays(struct sg_table *sgt, struct page **pages,
+>         unsigned count;
+>         struct scatterlist *sg;
+>         struct page *page;
+> -       u32 len, index;
+> +       u32 page_len, page_index;
+>         dma_addr_t addr;
+> +       u32 dma_len, dma_index;
+>
+> -       index = 0;
+> +       /*
+> +        * Scatterlist elements contains both pages and DMA addresses, but
+> +        * one shoud not assume 1:1 relation between them. The sg->length is
+> +        * the size of the physical memory chunk described by the sg->page,
+> +        * while sg_dma_len(sg) is the size of the DMA (IO virtual) chunk
+> +        * described by the sg_dma_address(sg).
+> +        */
+> +       page_index = 0;
+> +       dma_index = 0;
+>         for_each_sg(sgt->sgl, sg, sgt->nents, count) {
+> -               len = sg_dma_len(sg);
+> +               page_len = sg->length;
+>                 page = sg_page(sg);
+> +               dma_len = sg_dma_len(sg);
+>                 addr = sg_dma_address(sg);
+>
+> -               while (len > 0) {
+> -                       if (WARN_ON(index >= max_entries))
+> +               while (pages && page_len > 0) {
+> +                       if (WARN_ON(page_index >= max_entries))
+>                                 return -1;
+> -                       if (pages)
+> -                               pages[index] = page;
+> -                       if (addrs)
+> -                               addrs[index] = addr;
+> -
+> +                       pages[page_index] = page;
+>                         page++;
+> +                       page_len -= PAGE_SIZE;
+> +                       page_index++;
+> +               }
+> +               while (addrs && dma_len > 0) {
+> +                       if (WARN_ON(dma_index >= max_entries))
+> +                               return -1;
+> +                       addrs[dma_index] = addr;
+>                         addr += PAGE_SIZE;
+> -                       len -= PAGE_SIZE;
+> -                       index++;
+> +                       dma_len -= PAGE_SIZE;
+> +                       dma_index++;
+>                 }
+>         }
+>         return 0;
+> --
+> 2.17.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
