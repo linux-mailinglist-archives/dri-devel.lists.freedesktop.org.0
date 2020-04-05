@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8866A19F0F3
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 09:40:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FEA219F10B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 09:41:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFD446E2BE;
-	Mon,  6 Apr 2020 07:40:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 473DF6E2E9;
+	Mon,  6 Apr 2020 07:40:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD12389BFD
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Apr 2020 09:22:49 +0000 (UTC)
+X-Greylist: delayed 812 seconds by postgrey-1.36 at gabe;
+ Sun, 05 Apr 2020 09:30:31 UTC
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8997A6E0D4
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Apr 2020 09:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1586078544;
- bh=LPWQ7SziA4eoJv2nsD+mwWWiIDzRTTmjMOUxFZ2RzRI=;
- h=X-UI-Sender-Class:To:From:Subject:Cc:Date;
- b=CarO/Lyay95bKYONmhhgrpg6tP6aZ1tGWgi+7FA5g+3mICGy3KUjTNUEzOjbqWNu4
- qfnSqc54o9itnfnjYL9Ab5Pq5v0TvE/PIKDJq2IOXVs0l9VYlwarJbbxhPJsLlAMHM
- nLXEapI8pBME4TiwW0qA5ZPLlPggkSWo5/kyhU6Q=
+ s=dbaedf251592; t=1586079021;
+ bh=wPquJ+Whli71qk48bH13/+zmxMWVmiS56DJQmU6p9eg=;
+ h=X-UI-Sender-Class:To:Cc:From:Subject:Date;
+ b=cGwimnwtgDIvSW4ZPakBUeBVWNlrCvvZGH2aj6fLGlHhOFmqyMuPbSjqzMpXxOjM/
+ ajLy5CUT8vUZRKtYIIGLdMLlp1Zi1R2AgWF2tmVT9zVwHrdx9n5qA0UpMIMFuoSXtt
+ Zn9u+M3ZVDRSLfajQlxtQB49RYEOnb3QGEpgfNY8=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
 Received: from [192.168.1.3] ([93.131.99.70]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0Lheqz-1iyajM38m9-00msy1; Sun, 05
- Apr 2020 11:16:45 +0200
-To: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-imx@nxp.com, kernel@pengutronix.de, Fabio Estevam
- <festevam@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Philipp Zabel <p.zabel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MN4Oy-1jNFbB0TZg-006iVt; Sun, 05
+ Apr 2020 11:30:21 +0200
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Paul Cercueil <paul@crapouillou.net>
 From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] drm/imx: imx-tve: Delete an error message in imx_tve_bind()
+Subject: [PATCH] gpu/drm: ingenic: Delete an error message in
+ ingenic_drm_probe()
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
  +v43YoGpDNyhgA0w9CEhuwfZrE91GocMtjLO67TAc2i2nxMc/FJRDI0OemO4VJ9RwID6ltwt
@@ -73,36 +73,36 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <eb87043b-1881-da68-ba28-35406b6594ed@web.de>
-Date: Sun, 5 Apr 2020 11:16:42 +0200
+Message-ID: <e03e7106-0f22-99c4-ad21-b288e8990b5a@web.de>
+Date: Sun, 5 Apr 2020 11:30:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
 Content-Language: en-US
-X-Provags-ID: V03:K1:6qsXH7NcfUP3dj9efSiFBR4IvcL7RBxJ4jGCoOyyG98pKa+sZK2
- VDjdSbAjhvo+fzFl1CSrzhEJC55RX//yxW/Km3ZOMKjU2fZyg7b7eM4cmDpjeGZAiHKobZf
- qS/2pHly1EUkiR/8GDog3ZzDLm5jDjRfGTf3LFu320T5lE44ii//3tfkxHR/S8hjRSBGZff
- KrrH5OKrRP8xZE58awTpA==
+X-Provags-ID: V03:K1:5yOIP5Rvh1kgAtf7eNwS8Y+DOex4AWFztEYVJqkfiK2SyjcEdBI
+ OBaVIKeI/S4Xw/9wwr5tjTAH8HqB+3ib/KgIzWmTc9244xZFncc/qd9sRoR3mMzkmfYbww6
+ 6tPDNtzVdeWYKFO06OKYolOC0o6vN77crSxgkfdgBsktKp2/DU9+OlHcTc8VRVDe2F6H1Jx
+ RTLQ0wJhExX86LwiUuNQA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DDxxJuuQYRY=:YruBwY5P7jTEK2LqscizE7
- XFjE8NV/40DCp2VZTUT8L0dQTyKqBTwkZY5Fh/g5TdnUoGADZ/A4OEaRy24ezkcfwGZtVbU4Q
- zYTbbGTT7ID8G6PvLgu6+ASjDYe45aC9j/t27yEFx+cncHqMJJfpfYkEJmtE/trKeJiNTjySc
- Fnklrc8Eqpw9WeAu4oo38nj2lY5pcTKcOYc5CBM71pJxZ7njrGNQqywP+BeCziiGM3Rc9bhzo
- vlBa3z1w6ganZ1fyTUYZkoZPlae8UthDqaBK27z/ZClw23eNhSMCy1Je/DsYWe2togJwyINYu
- xrhiSZ+bLfU0YbydHRv0Ei4hjFrNzowcmfF8WbS1vlZlsgkASb2nCX9onwnAN+P5NUaaqybvj
- oBr796pILL+mep07gDzpxk3vm4hW5PrqOLLCvf/SUIalKKbU/QqAqlkgIWrmuIMgIGqYfSyyb
- Sj4yYPWi4zEZMPi/2jfw/WQwwUBetETRaDywE7a33HHGvGGBgqjYLpvJJORNXhVa3zr/VK7sC
- KDsd357C87Wblk0RtMKkhUsoftqCZWFCBZTnDFP6wvqVUv0Fp9s6e5jllvbkU04mtP/1S3xZK
- Ne55MhMXbKqeIgrtgCLAXBcIJfABU2mxTHYztTs/NkpT3KAi0/FLEBFE9Pq4bKAvqidP4KXtE
- oww1Dtx1f4fvA2WxMupP9PDVthRXFl5ciNY6tMbUes+YfyrbOXJxZ7xmkMe5aFEFvO/zuh3lE
- MgYTD+IVf9/ldp2fxKn8e9us16EQAR7iSxAOI10reIi0IRYogw/CZUwcvhVOGEgZ+yh3LG9hg
- mkgREAd+ar86If5vDhYZYQ2h8R0WVqspFIZ3AqsZYyPGosKXMlNF1jM69TzE5Is4xZFCEHHWJ
- xLnbyUzodoGQ8cLc4Re2Pdesh2EhSLffT6ktVTMvqU6p+2UpufzVxcVpSzKODhhEtAe+9nCZg
- FUzHinfT9xuZtD9YnKAS024KzITB8+dveOCaqE1ecCmSXW897U7Sd8wlBSjhailmCTjbfEBKR
- HhDHWY9iUitfVzuyAXxZNz9dOBZWiPHJ6PIkh9D3h3yY0pHJw34jhrHjHNcWdMxjd2ULrMDDU
- RHPICGe6zXYmkSPjlQdnw3ccbVrfLpcrTjPQghbQ4fNWyREEEgFniT6GNGoSO+fsOHAFmD5KQ
- N2V4U0zrlWwZwqUQ8L5BIxKPkLDVyhyXx6JWWCew43plcw+tr4jR5shD0Ru06CJzBRvHg6XfG
- K8+0j0DBa+iwzmLmU
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5OdgCFZiayg=:erT7PYhr3DlWipG60BVFyG
+ wWWAD8baapzFz7rXXxZ5iouKwEUsCqPI2qHCsqS4TP0jbbyOpZQztC615uqosUnGSmMiQCfbe
+ r1D12lNssUbccC1CQQg4MhJ70tSJ0XgD4KbuCRzECk0vNDswucX0KdMQ7oDdPVaC/zczms5Z9
+ gV+U6sWJp7Rl4LnsP6nB9YN92gr1h338A4ukQ1PrvmJNgve+68hpxVvb0IE9y+5dWhdzS5t0L
+ le+XGxag8oAc7ep2UsPYKftSXDY3vAgeTTpwGgb3Egrr6LS9UnpKQpWCNuDABJjTYdGQ7h6Px
+ /XsxiCPJ8CKbUY+q4Fk3FUqitlPgYbrHi/ULMm9ncnDE/fl2MYUQcnlyx6ynYQdtR22o49506
+ /qdOyMZbQq6coXcYfMSbvf2RftMgITsoUWAG+nEYRZ0S4lvZsT0ovJBsNbZlILN1T337FHHk+
+ V3Vun7DhB+icBP+8wRzYRIKtg1deOeIYNO+nISr/Biq8+F8bzc1cEbkWLNo137HFqX33mZ+Il
+ pA6XyGzDxd28STJVBEbunXVvvdlWgupaGSLfDIuOAZsilkeV5yTV+eUD/FxnBCtd/YxmoaV91
+ txPcNvj2nh6U9HTVxT0iIPDiUNvGv9M19imA2GFcxVinwUrmyg0yCU6CBIdBoLxcFdj5qP+gT
+ G4XMgKjLegbzQOhjEwIJUXEzANlry667iO06RuEZ+XWrS3lF4BpaPkv7szTh4Ngjffk1EnMGS
+ nC496zF3yKnveGqNs/z9E6rijmaRmW4vvQtIaj7X9POolUwGAqLttcl4RT/N3tftTwiRHsBXj
+ z9k38kvv1SWqDgd/+mEluJDTIC3K12Ogf6qnaaPDhL7htw0u8o11+j1AZWlclSE168dbHzS/S
+ 7z4G2sV/duTG9vYXCkQXVtKQuauF1Z9B8LBnUw3NRv1SNrGpTr0CRxuy0/+UugbngwnL1TwAF
+ llpzk3hOrtNy0bPB1TN1dg5Y4aCEmoAlqNkZ2rfpK1P2ohiZmlXOcAaqYfchHuIEVTeOq7Y7d
+ 4Gh5ZxctPgV8quYwjpn7sZoqHpBoM+lzYoq9Urue5fSo61629CjB0yiQ4r+NAjiFlR26wRl0u
+ ZERTo2ED7HEdVA4+aIbCEQcMEXBPttmYsXRD31nO081AYeJTppm6FQL1xeUa3I0unV+qcIA+A
+ oBMvtKEIJqr87PGWGJJZjRWe3onmxpOFNTC38Kr+ww/ebQDKzfee91HzdUw5zXXMYgBFvVf9X
+ Mg0nmtBiUNsyQTR4g
 X-Mailman-Approved-At: Mon, 06 Apr 2020 07:40:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -124,22 +124,23 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 RnJvbTogTWFya3VzIEVsZnJpbmcgPGVsZnJpbmdAdXNlcnMuc291cmNlZm9yZ2UubmV0PgpEYXRl
-OiBTdW4sIDUgQXByIDIwMjAgMTE6MDE6NDkgKzAyMDAKClRoZSBmdW5jdGlvbiDigJxwbGF0Zm9y
+OiBTdW4sIDUgQXByIDIwMjAgMTE6MjU6MzAgKzAyMDAKClRoZSBmdW5jdGlvbiDigJxwbGF0Zm9y
 bV9nZXRfaXJx4oCdIGNhbiBsb2cgYW4gZXJyb3IgYWxyZWFkeS4KVGh1cyBvbWl0IGEgcmVkdW5k
 YW50IG1lc3NhZ2UgZm9yIHRoZSBleGNlcHRpb24gaGFuZGxpbmcgaW4gdGhlCmNhbGxpbmcgZnVu
 Y3Rpb24uCgpUaGlzIGlzc3VlIHdhcyBkZXRlY3RlZCBieSB1c2luZyB0aGUgQ29jY2luZWxsZSBz
 b2Z0d2FyZS4KClNpZ25lZC1vZmYtYnk6IE1hcmt1cyBFbGZyaW5nIDxlbGZyaW5nQHVzZXJzLnNv
-dXJjZWZvcmdlLm5ldD4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaW14L2lteC10dmUuYyB8IDQgKy0t
-LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAzIGRlbGV0aW9ucygtKQoKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LXR2ZS5jIGIvZHJpdmVycy9ncHUvZHJtL2lt
-eC9pbXgtdHZlLmMKaW5kZXggNWJiZmFhMmNkMGY0Li4yM2FkYmI4MThkOTIgMTAwNjQ0Ci0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LXR2ZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pbXgv
-aW14LXR2ZS5jCkBAIC01OTgsMTAgKzU5OCw4IEBAIHN0YXRpYyBpbnQgaW14X3R2ZV9iaW5kKHN0
-cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLCB2b2lkICpkYXRhKQogCX0K
-CiAJaXJxID0gcGxhdGZvcm1fZ2V0X2lycShwZGV2LCAwKTsKLQlpZiAoaXJxIDwgMCkgewotCQlk
-ZXZfZXJyKGRldiwgImZhaWxlZCB0byBnZXQgaXJxXG4iKTsKKwlpZiAoaXJxIDwgMCkKIAkJcmV0
-dXJuIGlycTsKLQl9CgogCXJldCA9IGRldm1fcmVxdWVzdF90aHJlYWRlZF9pcnEoZGV2LCBpcnEs
-IE5VTEwsCiAJCQkJCWlteF90dmVfaXJxX2hhbmRsZXIsIElSUUZfT05FU0hPVCwKLS0KMi4yNi4w
-CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+dXJjZWZvcmdlLm5ldD4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaW5nZW5pYy9pbmdlbmljLWRybS5j
+IHwgNCArLS0tCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDMgZGVsZXRpb25zKC0p
+CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0uYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9pbmdlbmljL2luZ2VuaWMtZHJtLmMKaW5kZXggOWRmZTdjYjUzMGUxLi4w
+NmNhNzUyYjc2ZWUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pbmdlbmljL2luZ2VuaWMt
+ZHJtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0uYwpAQCAtNjYx
+LDEwICs2NjEsOCBAQCBzdGF0aWMgaW50IGluZ2VuaWNfZHJtX3Byb2JlKHN0cnVjdCBwbGF0Zm9y
+bV9kZXZpY2UgKnBkZXYpCiAJfQoKIAlpcnEgPSBwbGF0Zm9ybV9nZXRfaXJxKHBkZXYsIDApOwot
+CWlmIChpcnEgPCAwKSB7Ci0JCWRldl9lcnIoZGV2LCAiRmFpbGVkIHRvIGdldCBwbGF0Zm9ybSBp
+cnEiKTsKKwlpZiAoaXJxIDwgMCkKIAkJcmV0dXJuIGlycTsKLQl9CgogCWlmIChzb2NfaW5mby0+
+bmVlZHNfZGV2X2NsaykgewogCQlwcml2LT5sY2RfY2xrID0gZGV2bV9jbGtfZ2V0KGRldiwgImxj
+ZCIpOwotLQoyLjI2LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
