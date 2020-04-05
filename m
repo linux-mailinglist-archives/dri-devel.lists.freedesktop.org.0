@@ -2,41 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EA919EDF4
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Apr 2020 22:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F36419EDF6
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Apr 2020 22:38:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B016789090;
-	Sun,  5 Apr 2020 20:38:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 851E189D87;
+	Sun,  5 Apr 2020 20:38:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D74D289090
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Apr 2020 20:38:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7849089D87
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Apr 2020 20:38:39 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id B40DD80462;
- Sun,  5 Apr 2020 22:38:00 +0200 (CEST)
-Date: Sun, 5 Apr 2020 22:37:58 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id C623180475;
+ Sun,  5 Apr 2020 22:38:36 +0200 (CEST)
+Date: Sun, 5 Apr 2020 22:38:35 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v1 6/6] drm/bridge: fix kernel-doc warning in panel.c
-Message-ID: <20200405203758.GA5692@ravnborg.org>
+Subject: Re: [PATCH v1 3/6] drm/sched: fix kernel-doc in gpu_scheduler.h
+Message-ID: <20200405203835.GB5692@ravnborg.org>
 References: <20200328132025.19910-1-sam@ravnborg.org>
- <20200328132025.19910-7-sam@ravnborg.org>
+ <20200328132025.19910-4-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200328132025.19910-7-sam@ravnborg.org>
+In-Reply-To: <20200328132025.19910-4-sam@ravnborg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
  a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=P1BnusSwAAAA:8 a=QX4gbG5DAAAA:8 a=7CQSdrXTAAAA:8 a=hD80L64hAAAA:8
- a=IpJZQVW2AAAA:8 a=RwHePtW7AAAA:8 a=Ihe5oWDGoVQizsw6XHcA:9
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=D0XLA9XvdZm18NrgonBM:22
- a=AbAUZ8qAyYyZVLSsDulk:22 a=a-qgeE7W1pNrGK8U0ZQC:22
- a=IawgGOuG5U0WyFbmm1f5:22 a=FqraQwd7dyEg5dwJgZJs:22
+ a=zd2uoN0lAAAA:8 a=MyB9EfPb8k4nnraBYA8A:9 a=Wir6wQGF8Om1h1bK:21
+ a=XMuKuJXJIIdsW_dj:21 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,37 +65,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 28, 2020 at 02:20:25PM +0100, Sam Ravnborg wrote:
-> Add missing documentation to fix following warning:
-> panel.c:303: warning: Function parameter or member 'bridge' not described in 'drm_panel_bridge_connector'
+On Sat, Mar 28, 2020 at 02:20:22PM +0100, Sam Ravnborg wrote:
+> Fix following warning:
+> gpu_scheduler.h:103: warning: Function parameter or member 'priority' not described in 'drm_sched_entity'
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Mihail Atanassov <Mihail.Atanassov@arm.com>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> Cc: Nirmoy Das <nirmoy.das@amd.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
->  drivers/gpu/drm/bridge/panel.c | 1 +
+>  include/drm/gpu_scheduler.h | 1 +
 >  1 file changed, 1 insertion(+)
 
 Committed to drm-misc-next
 
 > 
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-> index 8461ee8304ba..e933f1c47f5d 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -311,6 +311,7 @@ EXPORT_SYMBOL(devm_drm_panel_bridge_add_typed);
->  
->  /**
->   * drm_panel_bridge_connector - return the connector for the panel bridge
-> + * @bridge: The drm_bridge.
->   *
->   * drm_panel_bridge creates the connector.
->   * This function gives external access to the connector.
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 26b04ff62676..a21b3b92135a 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -56,6 +56,7 @@ enum drm_sched_priority {
+>   *              Jobs from this entity can be scheduled on any scheduler
+>   *              on this list.
+>   * @num_sched_list: number of drm_gpu_schedulers in the sched_list.
+> + * @priority: priority of the entity
+>   * @rq_lock: lock to modify the runqueue to which this entity belongs.
+>   * @job_queue: the list of jobs of this entity.
+>   * @fence_seq: a linearly increasing seqno incremented with each
 > -- 
 > 2.20.1
 _______________________________________________
