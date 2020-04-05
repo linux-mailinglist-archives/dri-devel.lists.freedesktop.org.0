@@ -2,39 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E815F19EBEF
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Apr 2020 16:27:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A837B19EC1B
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Apr 2020 16:47:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C865890F4;
-	Sun,  5 Apr 2020 14:27:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D24F89F27;
+	Sun,  5 Apr 2020 14:47:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70D02890F4
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Apr 2020 14:27:21 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id D742320160;
- Sun,  5 Apr 2020 16:27:17 +0200 (CEST)
-Date: Sun, 5 Apr 2020 16:27:15 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Joonas =?iso-8859-1?Q?Kylm=E4l=E4?= <joonas.kylmala@iki.fi>
-Subject: Re: [PATCH] drm/panel: samsung: s6e8aa0: Add backlight control support
-Message-ID: <20200405142715.GA28291@ravnborg.org>
-References: <CGME20190921125017epcas3p2f5661cca04f0959f9707f6111102435d@epcas3p2.samsung.com>
- <20190921124843.6967-1-joonas.kylmala@iki.fi>
- <d8a8bf25-0c5e-8d94-9406-b1f74e3edfac@samsung.com>
- <53385e44-1847-ace0-cd87-5571f6acd3f2@iki.fi>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8551189F08;
+ Sun,  5 Apr 2020 14:47:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds201912;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=qSKFkOsXDpN+Xq2VSS7sYPHPPvZw/JqfUbFanTqmA9k=; b=fVjTSOxE/5hlQB3jMpoPD61PYH
+ rlkPRmGeZr9yVxbTyl0oa6cXKA9OjpcnPm+1wuw1p5YZ/ehsRzUb7ZIGllWIStfkJBAva5JuiKJQI
+ TJ1WP4NJ1BFSxRblciUVpAQRrEvp1QdkEipUrIpG3Y719rOfhA2aijtsQ3IAwtQAN7lPyQHQGpboB
+ ew5Cb00m0JQdZ4CLuUhUiHq7Uvj4qhDXjXZcUNjSOYJ70mF4apwn2x7kP3iHuyH1+f9MrqpxxX/yM
+ NV+/E4mAjkVRcKLZjyyeNeiRihEcQF/MhZKNwdMHNNrKYw/eYDs/Y9RiIi3kHQORu5mHEeIto3Kug
+ hxUKEGYQ==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:52481
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1jL6Y4-0001Gt-R7; Sun, 05 Apr 2020 16:46:56 +0200
+Subject: Re: [PATCH 15/44] drm/udl: Use demv_drm_dev_alloc
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
+ <20200403135828.2542770-16-daniel.vetter@ffwll.ch>
+ <3e3f7726-f1d2-c29f-4fc8-c42002e7da13@tronnes.org>
+ <CAKMK7uGthodxod5=cGWsiYNkqE_hvyekpcNegdunKa4Xycyezg@mail.gmail.com>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <34e654ae-0cc9-e393-ac02-e4ac6eda60f6@tronnes.org>
+Date: Sun, 5 Apr 2020 16:46:52 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <53385e44-1847-ace0-cd87-5571f6acd3f2@iki.fi>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10
- a=8Bv4S_VrHzWzl_PHQgMA:9 a=wPNLvfGTeEIA:10
+In-Reply-To: <CAKMK7uGthodxod5=cGWsiYNkqE_hvyekpcNegdunKa4Xycyezg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,113 +56,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, paul.kocialkowski@bootlin.com,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- GNUtoo@cyberdimension.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Sean Paul <sean@poorly.run>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Joonas.
-
-On Sat, Apr 04, 2020 at 04:27:02PM +0300, Joonas Kylm=E4l=E4 wrote:
-> Hi,
-> =
-
-> addressing this email to you all since there might be widespread race
-> condition issue in the DRM panel drivers that are using MIPI DSI. See
-> below for my message.
-> =
-
-> Andrzej Hajda:
-> >> +static int s6e8aa0_set_brightness(struct backlight_device *bd)
-> >> +{
-> >> +	struct s6e8aa0 *ctx =3D bl_get_data(bd);
-> >> +	const u8 *gamma;
-> >> +
-> >> +	if (ctx->error)
-> >> +		return;
-> >> +
-> >> +	gamma =3D ctx->variant->gamma_tables[bd->props.brightness];
-> >> +
-> >> +	if (ctx->version >=3D 142)
-> >> +		s6e8aa0_elvss_nvm_set(ctx);
-> >> +
-> >> +	s6e8aa0_dcs_write(ctx, gamma, GAMMA_TABLE_LEN);
-> >> +
-> >> +	/* update gamma table. */
-> >> +	s6e8aa0_dcs_write_seq_static(ctx, 0xf7, 0x03);
-> >> +
-> >> +	return s6e8aa0_clear_error(ctx);
-> >> +}
-> >> +
-> >> +static const struct backlight_ops s6e8aa0_backlight_ops =3D {
-> >> +	.update_status	=3D s6e8aa0_set_brightness,
-> > =
-
-> > =
-
-> > This is racy, update_status can be called in any time between probe and
-> > remove, particularly:
-> > =
-
-> > a) before panel enable,
-> > =
-
-> > b) during panel enable,
-> > =
-
-> > c) when panel is enabled,
-> > =
-
-> > d) during panel disable,
-> > =
-
-> > e) after panel disable,
-> > =
-
-> > =
-
-> > b and d are racy for sure - backlight and drm callbacks are async.
-> > =
-
-> > IMO the best solution would be to register backlight after attaching
-> > panel to drm, but for this drm_panel_funcs should have attach/detach
-> > callbacks (like drm_bridge_funcs),
-> > =
-
-> > then update_status callback should take some drm_connector lock to
-> > synchronize with drm, and write to hw only when pipe is enabled.
-> =
-
-> I have done now research and if I understand right one issue here might
-> be with setting the backlight brightness if the DSI device is not
-> attached before calling update_status() since calling it would call
-> subsequently s6e8aa0_set_brightness() -> s6e8aa0_dcs_write() ->
-> mipi_dsi_dcs_write_buffer(), which then requires DSI to be attached.
-
-Not directly related to your comments above.
-But I have looked at the backlight support for the various
-samsung panels.
-
-None of them are good examples to follow.
-Please have a look at for example panel-novatek-nt35510.c
-which is a good example how to have a local backligth
-and tie it into the general way it is used by drm_panel.
-
-I have typed patches to fix all three samsung panels, will
-post patches later when I get more time.
-
-If we are concerned with set_brightness() being called
-while not ready, this can be checked in the
-set_brightness() function and return error if not OK.
-
-As the the race concerns see Daniel's reply.
-
-	Sam
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpEZW4gMDUuMDQuMjAyMCAxNS40Nywgc2tyZXYgRGFuaWVsIFZldHRlcjoKPiBPbiBTdW4sIEFw
+ciA1LCAyMDIwIGF0IDEyOjE4IFBNIE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3Jn
+PiB3cm90ZToKPj4KPj4KPj4KPj4gRGVuIDAzLjA0LjIwMjAgMTUuNTcsIHNrcmV2IERhbmllbCBW
+ZXR0ZXI6Cj4+PiBBbHNvIGluaXQgdGhlIGZiZGV2IGVtdWxhdGlvbiBiZWZvcmUgd2UgcmVnaXN0
+ZXIgdGhlIGRldmljZSwgdGhhdCB3YXkKPj4+IHdlIGNhbiByZWx5IG9uIHRoZSBhdXRvLWNsZWFu
+dXAgYW5kIHNpbXBsaWZ5IHRoZSBwcm9iZSBlcnJvciBjb2RlIGV2ZW4KPj4+IG1vcmUuCj4+Pgo+
+Pj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+
+Cj4+PiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPj4+IENjOiBTZWFuIFBh
+dWwgPHNlYW5AcG9vcmx5LnJ1bj4KPj4+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
+bm5Ac3VzZS5kZT4KPj4+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNo
+Pgo+Pj4gQ2M6IEVtaWwgVmVsaWtvdiA8ZW1pbC5sLnZlbGlrb3ZAZ21haWwuY29tPgo+Pj4gQ2M6
+IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPj4+IENjOiBUaG9tYXMgR2xlaXhuZXIg
+PHRnbHhAbGludXRyb25peC5kZT4KPj4+IC0tLQo+Pj4gIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRs
+X2Rydi5jIHwgMzYgKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPj4+ICAxIGZp
+bGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMjUgZGVsZXRpb25zKC0pCj4+Pgo+Pj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJt
+L3VkbC91ZGxfZHJ2LmMKPj4+IGluZGV4IDFjZTJkODY1YzM2ZC4uNGJhNTE0OWZkZDU3IDEwMDY0
+NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmMKPj4+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jCj4+PiBAQCAtNTcsMjcgKzU3LDIwIEBAIHN0YXRpYyBz
+dHJ1Y3QgdWRsX2RldmljZSAqdWRsX2RyaXZlcl9jcmVhdGUoc3RydWN0IHVzYl9pbnRlcmZhY2Ug
+KmludGVyZmFjZSkKPj4+ICAgICAgIHN0cnVjdCB1ZGxfZGV2aWNlICp1ZGw7Cj4+PiAgICAgICBp
+bnQgcjsKPj4+Cj4+PiAtICAgICB1ZGwgPSBremFsbG9jKHNpemVvZigqdWRsKSwgR0ZQX0tFUk5F
+TCk7Cj4+PiAtICAgICBpZiAoIXVkbCkKPj4+IC0gICAgICAgICAgICAgcmV0dXJuIEVSUl9QVFIo
+LUVOT01FTSk7Cj4+PiAtCj4+PiAtICAgICByID0gZHJtX2Rldl9pbml0KCZ1ZGwtPmRybSwgJmRy
+aXZlciwgJmludGVyZmFjZS0+ZGV2KTsKPj4+IC0gICAgIGlmIChyKSB7Cj4+PiAtICAgICAgICAg
+ICAgIGtmcmVlKHVkbCk7Cj4+PiAtICAgICAgICAgICAgIHJldHVybiBFUlJfUFRSKHIpOwo+Pj4g
+LSAgICAgfQo+Pj4gKyAgICAgdWRsID0gZGV2bV9kcm1fZGV2X2FsbG9jKCZpbnRlcmZhY2UtPmRl
+diwgJmRyaXZlciwKPj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdWRs
+X2RldmljZSwgZHJtKTsKPj4+ICsgICAgIGlmIChJU19FUlIodWRsKSkKPj4+ICsgICAgICAgICAg
+ICAgcmV0dXJuIHVkbDsKPj4+Cj4+PiAgICAgICB1ZGwtPnVkZXYgPSB1ZGV2Owo+Pj4gICAgICAg
+dWRsLT5kcm0uZGV2X3ByaXZhdGUgPSB1ZGw7Cj4+PiAtICAgICBkcm1tX2FkZF9maW5hbF9rZnJl
+ZSgmdWRsLT5kcm0sIHVkbCk7Cj4+Pgo+Pj4gICAgICAgciA9IHVkbF9pbml0KHVkbCk7Cj4+PiAt
+ICAgICBpZiAocikgewo+Pj4gLSAgICAgICAgICAgICBkcm1fZGV2X3B1dCgmdWRsLT5kcm0pOwo+
+Pj4gKyAgICAgaWYgKHIpCj4+PiAgICAgICAgICAgICAgIHJldHVybiBFUlJfUFRSKHIpOwo+Pj4g
+LSAgICAgfQo+Pj4KPj4+ICAgICAgIHVzYl9zZXRfaW50ZmRhdGEoaW50ZXJmYWNlLCB1ZGwpOwo+
+Pj4gKwo+Pj4gICAgICAgcmV0dXJuIHVkbDsKPj4+ICB9Cj4+Pgo+Pj4gQEAgLTkxLDIzICs4NCwx
+NyBAQCBzdGF0aWMgaW50IHVkbF91c2JfcHJvYmUoc3RydWN0IHVzYl9pbnRlcmZhY2UgKmludGVy
+ZmFjZSwKPj4+ICAgICAgIGlmIChJU19FUlIodWRsKSkKPj4+ICAgICAgICAgICAgICAgcmV0dXJu
+IFBUUl9FUlIodWRsKTsKPj4+Cj4+PiArICAgICByID0gZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAo
+JnVkbC0+ZHJtLCAwKTsKPj4KPj4gSXQgZG9lc24ndCBmZWVsIHJpZ2h0IHRvIGhhdmUgYSBjbGll
+bnQgb3BlbiB0aGUgZGV2aWNlIGJlZm9yZSB0aGUgRFJNCj4+IGRldmljZSBpdHNlbGYgaXMgcmVn
+aXN0ZXJlZC4gSSB3b3VsZCBwcmVmZXIgdG8ga2VlcCBpdCB3aGVyZSBpdCBpcyBidXQKPj4gaWdu
+b3JlIGFueSBlcnJvcnMuIEEgZmFpbGluZyBjbGllbnQgc2hvdWxkbid0IHByZXZlbnQgdGhlIGRy
+aXZlciBmcm9tCj4+IHByb2JpbmcuIGRybV9mYmRldl9nZW5lcmljX3NldHVwKCkgZG8gcHJpbnQg
+ZXJyb3JzIGlmIGl0IGZhaWxzLiBTbyB5ZWFoLAo+PiBpbiBoaW5kc2lnaHQgSSBzaG91bGQgaGF2
+ZSBtYWRlIGRybV9mYmRldl9nZW5lcmljX3NldHVwKCkgcmV0dXJuIHZvaWQuCj4gCj4gSG0sIHdl
+IGhhdmUgYWxsIGtpbmRzIG9mIHVzYWdlIHJpZ2h0IG5vdywgc29tZSBjaGVjayBmb3IgZXJyb3Jz
+LCBzb21lCj4gZG9udCwgc29tZSBkbyB0aGlzIGJlZm9yZSBkcm1fZGV2X3JlZ2lzdGVyLCBzb21l
+IGFmdGVyLiBJZiB5b3VyCj4gcmVjb21tZW5kYXRpb24gaXMgdG8gbm90IGNoZWNrIGZvciBlcnJv
+cnMgdGhlbiBJJ20gaGFwcHkgdG8gaW1wbGVtZW50Cj4gdGhhdCwgYnV0IHdlJ3JlIGEgYml0IGlu
+Y29uc2lzdGVudC4gTWF5YmUgd2Ugc2hvdWxkIGRvIGEgcGF0Y2ggdGhhdCBhdAo+IGxlYXN0IGFs
+d2F5cyByZXR1cm5zIDAgbm8gbWF0dGVyIHdoYXQsIHBsdXMgZG9jdW1lbnQgdGhhdCB0aGUgcmV0
+dXJuCj4gdmFsdWUgIHNob3VsZG4ndCBiZSBjaGVja2VkPwoKWWVhaCwgYWx3YXlzIHJldHVybmlu
+ZyB6ZXJvIGFuZCBkb2N1bWVudGluZyBpdCB3b3VsZCBiZSBhIGdvb2Qgc3RhcnQuCgpJIGNvdW50
+ZWQgNDEgZHJpdmVycyB1c2luZyBnZW5lcmljIGZiZGV2IG5vdywgZGlkbid0IGtub3cgaXQgd2Fz
+IHRoYXQKbXVjaCB1c2VkLiBPbmx5IDExIGRyaXZlcnMgYXJlIGhhbmQgcm9sbGluZyB0aGVpciBv
+d246CmFybWFkYQpnbWE1MDAKYW1kCm9tYXBkcm0Kbm91dmVhdQppOTE1Cm1zbQp0ZWdyYQpleHlu
+b3MKcmFkZW9uCnJvY2tjaGlwCgpOb3JhbGYuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
