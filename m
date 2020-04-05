@@ -1,38 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A899519EE8D
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 01:23:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 671D319EE9B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 01:39:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D16D6E264;
-	Sun,  5 Apr 2020 23:23:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84C876E047;
+	Sun,  5 Apr 2020 23:39:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F7A06E214
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Apr 2020 23:23:38 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 361E46E047
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Apr 2020 23:39:50 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8123D11FB;
- Mon,  6 Apr 2020 01:23:36 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 267C4312;
+ Mon,  6 Apr 2020 01:39:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1586129016;
- bh=MMnTyyafrHjma9T6pe1YAAHr4Ss9Oe2cgAXFU/1HJ0Q=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OiOlf2bBUfLZYOC8E/7YIGrvonDXquTC1D7NBYziZeot3ngTdoDyeadHf0/2mC/3Q
- F9iV5SZcyQW7fNIiBrOAGI7Gos7hSvY3E9uJNLdwxrD0VfxJHPqohDeFa8KzGWjwlZ
- fdM3ns6OrMUkcxZ3LZ/dQ/2GQsJisAA607TpRIEg=
+ s=mail; t=1586129988;
+ bh=6VchiPVQOO9qDrHUWlvtCiysMW0iF/kHZd2lJ+9uQyY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Zm9Vk0ylU9HkwCbDsH8G0VHOWGRR3BCDO0QXoj5NErvyjJ0nuEu0gAuBMU1KPAXTk
+ 4D9wSeRF3wvGhQf1u5az9pUCy7IRM0GNgMCovaBcpuddN+d6Oqsn8tpmvLhIsmvnGg
+ 9tS8n3cOpMfpSu9JFjblVd27MXKTp9g/EX/A4rUE=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: devicetree@vger.kernel.org
-Subject: [PATCH 4/4] dt-bindings: display: bridge: renesas,
- lvds: Convert binding to YAML
-Date: Mon,  6 Apr 2020 02:23:18 +0300
-Message-Id: <20200405232318.26833-5-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH/RFC 0/6] dt-bindings: display: Convert DWC HDMI TX bindings to
+ YAML
+Date: Mon,  6 Apr 2020 02:39:29 +0300
+Message-Id: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200405232318.26833-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20200405232318.26833-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,369 +44,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>, Maxime Ripard <maxime@cerno.tech>,
- dri-devel@lists.freedesktop.org
+Cc: Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Mark Yao <mark.yao@rock-chips.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Renesas R-Car LVDS encoder text binding to YAML.
+Hello,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- .../bindings/display/bridge/renesas,lvds.txt  |  85 ------
- .../bindings/display/bridge/renesas,lvds.yaml | 248 ++++++++++++++++++
- 2 files changed, 248 insertions(+), 85 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
- create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+This patch series attempts a conversion of the DWC HDMI TX DT bindings
+to YAML. I've marked it as RFC as the base schema doesn't work is
+intended in this (naive) approach, and I'm not sure how to fix it
+properly.
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-deleted file mode 100644
-index c62ce2494ed9..000000000000
---- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-+++ /dev/null
-@@ -1,85 +0,0 @@
--Renesas R-Car LVDS Encoder
--==========================
--
--These DT bindings describe the LVDS encoder embedded in the Renesas R-Car
--Gen2, R-Car Gen3 and RZ/G SoCs.
--
--Required properties:
--
--- compatible : Shall contain one of
--  - "renesas,r8a7743-lvds" for R8A7743 (RZ/G1M) compatible LVDS encoders
--  - "renesas,r8a7744-lvds" for R8A7744 (RZ/G1N) compatible LVDS encoders
--  - "renesas,r8a774a1-lvds" for R8A774A1 (RZ/G2M) compatible LVDS encoders
--  - "renesas,r8a774b1-lvds" for R8A774B1 (RZ/G2N) compatible LVDS encoders
--  - "renesas,r8a774c0-lvds" for R8A774C0 (RZ/G2E) compatible LVDS encoders
--  - "renesas,r8a7790-lvds" for R8A7790 (R-Car H2) compatible LVDS encoders
--  - "renesas,r8a7791-lvds" for R8A7791 (R-Car M2-W) compatible LVDS encoders
--  - "renesas,r8a7793-lvds" for R8A7793 (R-Car M2-N) compatible LVDS encoders
--  - "renesas,r8a7795-lvds" for R8A7795 (R-Car H3) compatible LVDS encoders
--  - "renesas,r8a7796-lvds" for R8A7796 (R-Car M3-W) compatible LVDS encoders
--  - "renesas,r8a77965-lvds" for R8A77965 (R-Car M3-N) compatible LVDS encoders
--  - "renesas,r8a77970-lvds" for R8A77970 (R-Car V3M) compatible LVDS encoders
--  - "renesas,r8a77980-lvds" for R8A77980 (R-Car V3H) compatible LVDS encoders
--  - "renesas,r8a77990-lvds" for R8A77990 (R-Car E3) compatible LVDS encoders
--  - "renesas,r8a77995-lvds" for R8A77995 (R-Car D3) compatible LVDS encoders
--
--- reg: Base address and length for the memory-mapped registers
--- clocks: A list of phandles + clock-specifier pairs, one for each entry in
--  the clock-names property.
--- clock-names: Name of the clocks. This property is model-dependent.
--  - The functional clock, which mandatory for all models, shall be listed
--    first, and shall be named "fck".
--  - On R8A77990, R8A77995 and R8A774C0, the LVDS encoder can use the EXTAL or
--    DU_DOTCLKINx clocks. Those clocks are optional. When supplied they must be
--    named "extal" and "dclkin.x" respectively, with "x" being the DU_DOTCLKIN
--    numerical index.
--  - When the clocks property only contains the functional clock, the
--    clock-names property may be omitted.
--- resets: A phandle + reset specifier for the module reset
--
--Required nodes:
--
--The LVDS encoder has two video ports. Their connections are modelled using the
--OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
--
--- Video port 0 corresponds to the parallel RGB input
--- Video port 1 corresponds to the LVDS output
--
--Each port shall have a single endpoint.
--
--Optional properties:
--
--- renesas,companion : phandle to the companion LVDS encoder. This property is
--  mandatory for the first LVDS encoder on D3 and E3 SoCs, and shall point to
--  the second encoder to be used as a companion in dual-link mode. It shall not
--  be set for any other LVDS encoder.
--
--
--Example:
--
--	lvds0: lvds@feb90000 {
--		compatible = "renesas,r8a77990-lvds";
--		reg = <0 0xfeb90000 0 0x20>;
--		clocks = <&cpg CPG_MOD 727>;
--		power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
--		resets = <&cpg 727>;
--
--		renesas,companion = <&lvds1>;
--
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			port@0 {
--				reg = <0>;
--				lvds0_in: endpoint {
--					remote-endpoint = <&du_out_lvds0>;
--				};
--			};
--			port@1 {
--				reg = <1>;
--				lvds0_out: endpoint {
--				};
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-new file mode 100644
-index 000000000000..47af3dea3075
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-@@ -0,0 +1,248 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/renesas,lvds.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas R-Car LVDS Encoder
-+
-+maintainers:
-+  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-+
-+description: |
-+  These DT bindings describe the LVDS encoder embedded in the Renesas R-Car
-+  Gen2, R-Car Gen3 and RZ/G SoCs.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - renesas,r8a7743-lvds # for R8A7743 (RZ/G1M) compatible LVDS encoders
-+      - renesas,r8a7744-lvds # for R8A7744 (RZ/G1N) compatible LVDS encoders
-+      - renesas,r8a774a1-lvds # for R8A774A1 (RZ/G2M) compatible LVDS encoders
-+      - renesas,r8a774b1-lvds # for R8A774B1 (RZ/G2N) compatible LVDS encoders
-+      - renesas,r8a774c0-lvds # for R8A774C0 (RZ/G2E) compatible LVDS encoders
-+      - renesas,r8a7790-lvds # for R8A7790 (R-Car H2) compatible LVDS encoders
-+      - renesas,r8a7791-lvds # for R8A7791 (R-Car M2-W) compatible LVDS encoders
-+      - renesas,r8a7793-lvds # for R8A7793 (R-Car M2-N) compatible LVDS encoders
-+      - renesas,r8a7795-lvds # for R8A7795 (R-Car H3) compatible LVDS encoders
-+      - renesas,r8a7796-lvds # for R8A7796 (R-Car M3-W) compatible LVDS encoders
-+      - renesas,r8a77965-lvds # for R8A77965 (R-Car M3-N) compatible LVDS encoders
-+      - renesas,r8a77970-lvds # for R8A77970 (R-Car V3M) compatible LVDS encoders
-+      - renesas,r8a77980-lvds # for R8A77980 (R-Car V3H) compatible LVDS encoders
-+      - renesas,r8a77990-lvds # for R8A77990 (R-Car E3) compatible LVDS encoders
-+      - renesas,r8a77995-lvds # for R8A77995 (R-Car D3) compatible LVDS encoders
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 4
-+
-+  clock-names:
-+    minItems: 1
-+    maxItems: 4
-+
-+  resets:
-+    maxItems: 1
-+
-+  ports:
-+    type: object
-+    description: |
-+      This device has two video ports. Their connections are modelled using the
-+      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
-+      Each port shall have a single endpoint.
-+
-+    properties:
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
-+      port@0:
-+        type: object
-+        description: Parallel RGB input port
-+
-+      port@1:
-+        type: object
-+        description: LVDS output port
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+    additionalProperties: false
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  renesas,companion:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      phandle to the companion LVDS encoder. This property is mandatory
-+      for the first LVDS encoder on D3 and E3 SoCs, and shall point to
-+      the second encoder to be used as a companion in dual-link mode. It
-+      shall not be set for any other LVDS encoder.
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - power-domains
-+  - resets
-+  - ports
-+
-+if:
-+  properties:
-+    compatible:
-+      enum:
-+        - renesas,r8a774c0-lvds
-+        - renesas,r8a77990-lvds
-+        - renesas,r8a77995-lvds
-+then:
-+  properties:
-+    clocks:
-+      minItems: 1
-+      maxItems: 4
-+      items:
-+        - description: Functional clock
-+        - description: EXTAL input clock
-+        - description: DU_DOTCLKIN0 input clock
-+        - description: DU_DOTCLKIN1 input clock
-+
-+    clock-names:
-+      minItems: 1
-+      maxItems: 4
-+      items:
-+        - const: fck
-+        # The LVDS encoder can use the EXTAL or DU_DOTCLKINx clocks.
-+        # These clocks are optional.
-+        - enum:
-+          - extal
-+          - dclkin.0
-+          - dclkin.1
-+        - enum:
-+          - extal
-+          - dclkin.0
-+          - dclkin.1
-+        - enum:
-+          - extal
-+          - dclkin.0
-+          - dclkin.1
-+
-+  required:
-+    - clock-names
-+
-+else:
-+  properties:
-+    clocks:
-+      maxItems: 1
-+      items:
-+        - description: Functional clock
-+
-+    clock-names:
-+      maxItems: 1
-+      items:
-+        - const: fck
-+
-+    renesas,companion: false
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/renesas-cpg-mssr.h>
-+    #include <dt-bindings/power/r8a7795-sysc.h>
-+
-+    lvds@feb90000 {
-+        compatible = "renesas,r8a7795-lvds";
-+        reg = <0 0xfeb90000 0 0x14>;
-+        clocks = <&cpg CPG_MOD 727>;
-+        power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-+        resets = <&cpg 727>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                lvds_in: endpoint {
-+                    remote-endpoint = <&du_out_lvds0>;
-+                };
-+            };
-+            port@1 {
-+                reg = <1>;
-+                lvds_out: endpoint {
-+                    remote-endpoint = <&panel_in>;
-+                };
-+            };
-+        };
-+    };
-+
-+  - |
-+    #include <dt-bindings/clock/renesas-cpg-mssr.h>
-+    #include <dt-bindings/power/r8a77990-sysc.h>
-+
-+    lvds0: lvds@feb90000 {
-+        compatible = "renesas,r8a77990-lvds";
-+        reg = <0 0xfeb90000 0 0x20>;
-+        clocks = <&cpg CPG_MOD 727>,
-+                 <&x13_clk>,
-+                 <&extal_clk>;
-+        clock-names = "fck", "dclkin.0", "extal";
-+        power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-+        resets = <&cpg 727>;
-+
-+        renesas,companion = <&lvds1>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                lvds0_in: endpoint {
-+                    remote-endpoint = <&du_out_lvds0>;
-+                };
-+            };
-+            port@1 {
-+                reg = <1>;
-+                lvds0_out: endpoint {
-+                    remote-endpoint = <&panel_in1>;
-+                };
-+            };
-+        };
-+    };
-+
-+    lvds1: lvds@feb90100 {
-+        compatible = "renesas,r8a77990-lvds";
-+        reg = <0 0xfeb90100 0 0x20>;
-+        clocks = <&cpg CPG_MOD 727>,
-+                 <&x13_clk>,
-+                 <&extal_clk>;
-+        clock-names = "fck", "dclkin.0", "extal";
-+        power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-+        resets = <&cpg 726>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                lvds1_in: endpoint {
-+                    remote-endpoint = <&du_out_lvds1>;
-+                };
-+            };
-+            port@1 {
-+                reg = <1>;
-+                lvds1_out: endpoint {
-+                    remote-endpoint = <&panel_in2>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
+The DWC HDMI TX is an HDMI transmitter IP core from Synopsys, integrated
+in various SoCs with different glue layers. As such, some properties are
+defined in a common document, but sometimes need to be overridden by
+platform-specific bindings.
+
+Patch 1/6 adds a base schema for the common properties, based on the
+existing dw_hdmi.txt document. Patches 2/6 to 4/6 then convert the
+platformspecific bindings for Renesas, NXP and Rockchip SoCs. Patch 5/6
+replaces the reference to dw_hdmi.txt in the Allwinner bindings with a
+reference to the YAML base schema, and patch 6/6 drops dw_hdmi.txt.
+
+My attempts at defining properties in the base schema, including it in
+the platform-specific schema with an allOf: $ref..., and overridding
+properties didn't work, as DT schemas don't define properties in a way
+that can be overridden, but instead define validation rules that are all
+considered. Both the rules in the base schema and in the
+platform-specific schemas are evaluated.
+
+One possible way around this would be to not pull in the whole base
+schema, but specific rules. This is however a bit cumbersome to use in
+my opinion. Is there a better way to achieve this ?
+
+I have volunteered Philipp Zabel and Mark Yao as maintainers for the
+i.MX6 and Rockchip bindings respectively. Please let me know if you
+would prefer a different maintainer, or ack the respective patch if this
+is fine with you.
+
+Laurent Pinchart (6):
+  dt-bindings: display: bridge: Add YAML schema for Synopsys DW-HDMI
+  dt-bindings: display: bridge: renesas,dw-hdmi: Convert binding to YAML
+  dt-bindings: display: imx: hdmi: Convert binding to YAML
+  dt-bindings: display: rockchip: dw-hdmi: Convert binding to YAML
+  dt-bindings: display: sun8i-a83t-dw-hdmi: Reference dw-hdmi YAML
+    schema
+  dt-bindings: display: bridge: Remove deprecated dw_hdmi.txt
+
+ .../display/allwinner,sun8i-a83t-dw-hdmi.yaml |   4 +-
+ .../bindings/display/bridge/dw_hdmi.txt       |  33 ----
+ .../display/bridge/renesas,dw-hdmi.txt        |  86 ---------
+ .../display/bridge/renesas,dw-hdmi.yaml       | 142 ++++++++++++++
+ .../display/bridge/synopsys,dw-hdmi.yaml      |  68 +++++++
+ .../bindings/display/imx/fsl,imx6-hdmi.yaml   | 143 ++++++++++++++
+ .../devicetree/bindings/display/imx/hdmi.txt  |  65 -------
+ .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
+ .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
+ 9 files changed, 533 insertions(+), 260 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/imx/hdmi.txt
+ delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+ create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+
 -- 
 Regards,
 
