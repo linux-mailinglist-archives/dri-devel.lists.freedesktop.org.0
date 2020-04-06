@@ -2,54 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4146619F14C
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 10:06:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C29B41A0900
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 10:10:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4EBC89C1A;
-	Mon,  6 Apr 2020 08:06:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 844606E5A5;
+	Tue,  7 Apr 2020 08:09:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18CE789C08
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 08:06:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586160380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ylWquo2AGzDmVpZOhmgLdkn6LoBRG8fV5dTAEgjmlbU=;
- b=Ng3w+qReOcloNLQQ0JPixuxXMMKOae1akRXoEb2J01muWWI1pZigQkmQdobhDAyjIQaY+6
- uUsZhC5i6116oLiiPJLKkzBHm1MSGmkSamSleusL9x0jUwAMTv7meZEn0OXmbzF5nG3VGZ
- pYjkZO23FUzhzr9uuBgFFoCJK8WLZpc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-G1bArSXsOne7i05MQ5n15w-1; Mon, 06 Apr 2020 04:06:15 -0400
-X-MC-Unique: G1bArSXsOne7i05MQ5n15w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0650D14E3;
- Mon,  6 Apr 2020 08:06:14 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-60.ams2.redhat.com
- [10.36.113.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7BA4E5DA81;
- Mon,  6 Apr 2020 08:06:13 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 69F1816E2C; Mon,  6 Apr 2020 10:06:12 +0200 (CEST)
-Date: Mon, 6 Apr 2020 10:06:12 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: upstream boot error: KASAN: slab-out-of-bounds Write in
- virtio_gpu_object_create
-Message-ID: <20200406080612.v5ubxvyliuso6v5h@sirius.home.kraxel.org>
-References: <00000000000091056b05a2999f1e@google.com>
- <CACT4Y+b4RcgG_GrcpaghmqhX47zUVsAcGGd6vb6MYJT=6gf89g@mail.gmail.com>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 169C06E2E8
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 08:19:51 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 216F65C0185;
+ Mon,  6 Apr 2020 04:19:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 06 Apr 2020 04:19:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=wvTAY1mSJtdwdZNb7GGd9/3Iuv4
+ S6eSRHy8ZndtxRXA=; b=DCBWd0G3K+Posw3LBukUYObJE+20LKVDGdpU1Lx0f3Z
+ dcRwVFJKO+/ePpuSzgdG7qFDwddkwtK9MUKFXjd1ZONrZRqEGlC7ewjOMEOW2XRE
+ ASxRjLE6ORNXqtobo6VAS68z1C4Ym0urqTeuPpcMMizINRg6K7uTsi9Syx1BmFVM
+ /CpWpv0nEwxEJCGB5M5PynFBK49My2n0jNyhCclbfv/pn83pripeX7u0hmruL9sC
+ 0WqX6MiZS6/H4WTv+tafQn1vs7PCE46+JLmbgyPBL3FuelOYMcme8IkOhrScR+12
+ rS+3qUx7gUysFluSxWGDLEObCARfUfUOi7JWKjRz3Sw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=wvTAY1
+ mSJtdwdZNb7GGd9/3Iuv4S6eSRHy8ZndtxRXA=; b=U2MrMu41nXxJKr6X9/ftsp
+ 5ZQTwpAdqdiGlXMa0oCHJ3nKYrk5H/L3qXzFSP9t7cSgzZXN42XTryqXUga1dLeD
+ BSAYZoEKjLc1loes0xXM7+maWw2fz0g5QqP6S/3cgc7OZNw0JPm5EKYvgt+fE1Ro
+ bx3Ko9d+EV/g+hW1Y2U5o3f6tGwVIpNWI0SS4ZS0l6yBrbGfsJprXlvha4/Mg+R1
+ mO+BPEZXU3CQFcMV/b+fI71a6BbNmbsXXEJBMlh6xpQnsSeuVzGLlnelpASz39eg
+ jcVQ9hRQZoROO3VFReeEOY4Ox4//1QKlD0vSmKwnauY7BnHzqxl5PFWBZcZtMFSA
+ ==
+X-ME-Sender: <xms:IOaKXp2uhVufQ5k3U3wmYk0QyRKlxDo1ziCj1Y-fQOlFIfOeHabZmA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudefgddtgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
+ ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+ fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:IOaKXkUDg_9Kr4O6EwIHAtnWo1D_BU6a5RVJQrydnx1YNFkN4m1SDg>
+ <xmx:IOaKXtdVpVvGkRyGh1MvZq3-fCNY986eC6nN_bqkMysdmUn5UYrsKg>
+ <xmx:IOaKXl_H5HxRW_4cxBsYz2SA0L8jmObuU-X33Cg5hxe3F0xCsudGlg>
+ <xmx:JOaKXlnlmyLso9lN1qP0VCETdRXBw9ChJaAT-ySNOaX5gIMpcEY5eg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0BE41328006A;
+ Mon,  6 Apr 2020 04:19:43 -0400 (EDT)
+Date: Mon, 6 Apr 2020 10:19:43 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Markus Elfring <Markus.Elfring@web.de>
+Subject: Re: [PATCH] drm/sun4i: tcon: Delete an error message in
+ sun4i_tcon_init_irq()
+Message-ID: <20200406081943.hwjohk63lfpgrdvf@gilmour.lan>
+References: <5a6cf5a7-3f27-5425-4d6a-550a17bc51e3@web.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACT4Y+b4RcgG_GrcpaghmqhX47zUVsAcGGd6vb6MYJT=6gf89g@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <5a6cf5a7-3f27-5425-4d6a-550a17bc51e3@web.de>
+X-Mailman-Approved-At: Tue, 07 Apr 2020 08:09:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,61 +76,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- syzbot <syzbot+d3a7951ed361037407db@syzkaller.appspotmail.com>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- LKML <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tang Bin <tangbin@cmss.chinamobile.com>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1327230431=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 06, 2020 at 09:07:44AM +0200, Dmitry Vyukov wrote:
-> On Mon, Apr 6, 2020 at 8:46 AM syzbot
-> <syzbot+d3a7951ed361037407db@syzkaller.appspotmail.com> wrote:
-> >
-> > Hello,
-> >
-> > syzbot found the following crash on:
-> >
-> > HEAD commit:    ffc1c20c Merge tag 'for-5.7/dm-changes' of git://git.kerne..
-> > git tree:       upstream
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=1690471fe00000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=d6a1e2f9a9986236
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=d3a7951ed361037407db
-> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> >
-> > Unfortunately, I don't have any reproducer for this crash yet.
-> >
-> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > Reported-by: syzbot+d3a7951ed361037407db@syzkaller.appspotmail.com
-> 
-> 
-> +drivers/gpu/drm/virtio/virtgpu_object.c maintainers
-> Now we have both mainline and linux-next boot broken (linux-next is
-> broken for the past 40 days).
-> No testing of new code happens.
-> 
-> >  virtio_gpu_object_shmem_init drivers/gpu/drm/virtio/virtgpu_object.c:151 [inline]
-> >  virtio_gpu_object_create+0x9f3/0xaa0 drivers/gpu/drm/virtio/virtgpu_object.c:230
 
-Ah, that one.
+--===============1327230431==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="2o2zzt4r53mxdgxh"
+Content-Disposition: inline
 
-broken patch: f651c8b05542 ("drm/virtio: factor out the sg_table from virtio_gpu_object")
-fixed by: 0666a8d7f6a4 ("drm/virtio: fix OOB in virtio_gpu_object_create")
 
-Both are in drm-misc-next.  I suspect the fix was added after
-drm-misc-next was closed for the 5.7 merge window and thus should
-have been submitted to drm-misc-next-fixes instead.
+--2o2zzt4r53mxdgxh
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So, what to do now?  Should I cherry-pick 0666a8d7f6a4 into
-drm-misc-next-fixes?  Or should it go into drm-misc-fixes instead?
+On Sun, Apr 05, 2020 at 01:53:05PM +0200, Markus Elfring wrote:
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Sun, 5 Apr 2020 13:45:53 +0200
+>
+> The function =E2=80=9Cplatform_get_irq=E2=80=9D can log an error already.
+> Thus omit a redundant message for the exception handling in the
+> calling function.
+>
+> This issue was detected by using the Coccinelle software.
+>
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 
-thanks,
-  Gerd
+Applied, thanks
+
+Maxime
+
+--2o2zzt4r53mxdgxh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXormHgAKCRDj7w1vZxhR
+xcHuAP0WjOHzG00wGwXrC/L73opxmCYhJn2ZOmAfjN2ZfVnbHQEArryLB/dfTFEh
+yOQICYvOYcUiHRoH6LIRW07gu19BxQU=
+=YqNo
+-----END PGP SIGNATURE-----
+
+--2o2zzt4r53mxdgxh--
+
+--===============1327230431==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1327230431==--
