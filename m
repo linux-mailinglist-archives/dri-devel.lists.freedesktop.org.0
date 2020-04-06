@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0301519F4D8
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 13:38:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F34919F4DC
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 13:38:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 169E86E384;
-	Mon,  6 Apr 2020 11:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2026E6E393;
+	Mon,  6 Apr 2020 11:38:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 725946E384;
- Mon,  6 Apr 2020 11:38:50 +0000 (UTC)
-IronPort-SDR: RizgfJ3pyHc09XHD2SS6xJ+4wLZ0JL7cJ1CtMZoGH191AfZRra9zpuj6PYeWycO2J0hfXrx8KY
- jCXRUUOBhGkQ==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F12F6E391;
+ Mon,  6 Apr 2020 11:38:53 +0000 (UTC)
+IronPort-SDR: rZ7tr+chzaeuZEkplSHNcdXWgoZir4WdxfdzFGevsJTc7xV+corRnJwH/h/E1fMxk9N3bxkxnw
+ cnQUJGQ3SqwA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2020 04:38:50 -0700
-IronPort-SDR: K5SgbCjfBnGL8+CqPg6nNTHgXShJheW0XhBE/8n7299tCNm9ONfLOR7uU061UW/67stcPtsjeW
- 0AQe1mXzZzdw==
+ 06 Apr 2020 04:38:53 -0700
+IronPort-SDR: QUEFtgeeUwXM1baO9qGtKjHeNtU43z2MAPt7d7GHsY9dWgd5qJqESrKBYecy/v427CKzEmL+zn
+ OTGITtzg65mg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,350,1580803200"; d="scan'208";a="361192558"
+X-IronPort-AV: E=Sophos;i="5.72,350,1580803200"; d="scan'208";a="361192576"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2020 04:38:46 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2020 04:38:50 -0700
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH 17/18] drm/i915/pm: Prefer drm_WARN_ON over WARN_ON
-Date: Mon,  6 Apr 2020 16:57:59 +0530
-Message-Id: <20200406112800.23762-18-pankaj.laxminarayan.bharadiya@intel.com>
+Subject: [PATCH 18/18] drm/i915/runtime_pm: Prefer drm_WARN* over WARN*
+Date: Mon,  6 Apr 2020 16:58:00 +0530
+Message-Id: <20200406112800.23762-19-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200406112800.23762-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200406112800.23762-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -58,154 +58,142 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 struct drm_device specific drm_WARN* macros include device information
 in the backtrace, so we know what device the warnings originate from.
 
-Prefer drm_WARN_ON over WARN_ON.
+Prefer drm_WARN* over WARN*.
 
-Conversion is done with below sementic patch:
-
-@@
-identifier func, T;
-@@
-func(...) {
-...
-struct intel_crtc *T = ...;
-<+...
--WARN_ON(
-+drm_WARN_ON(T->base.dev,
-...)
-...+>
-
-}
+Conversion is done with below semantic patch:
 
 @@
 identifier func, T;
 @@
-func(struct intel_crtc_state *T,...) {
+func(struct intel_runtime_pm *T,...) {
++ struct drm_i915_private *i915 = container_of(T, struct drm_i915_private, runtime_pm);
 <+...
--WARN_ON(
-+drm_WARN_ON(T->uapi.crtc->dev,
+(
+-WARN(
++drm_WARN(&i915->drm,
 ...)
+|
+-WARN_ON(
++drm_WARN_ON(&i915->drm,
+...)
+|
+-WARN_ONCE(
++drm_WARN_ONCE(&i915->drm,
+...)
+|
+-WARN_ON_ONCE(
++drm_WARN_ON_ONCE(&i915->drm,
+...)
+)
 ...+>
 
 }
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/intel_pm.c | 57 ++++++++++++++++++---------------
- 1 file changed, 32 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/i915/intel_runtime_pm.c | 39 ++++++++++++++++++-------
+ 1 file changed, 28 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index 8375054ba27d..b2d22fdaf3db 100644
---- a/drivers/gpu/drm/i915/intel_pm.c
-+++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -1464,8 +1464,8 @@ static int g4x_compute_intermediate_wm(struct intel_crtc_state *new_crtc_state)
- 			max(optimal->wm.plane[plane_id],
- 			    active->wm.plane[plane_id]);
+diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
+index ad719c9602af..31ccd0559c55 100644
+--- a/drivers/gpu/drm/i915/intel_runtime_pm.c
++++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+@@ -116,6 +116,9 @@ track_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
+ static void untrack_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm,
+ 					     depot_stack_handle_t stack)
+ {
++	struct drm_i915_private *i915 = container_of(rpm,
++						     struct drm_i915_private,
++						     runtime_pm);
+ 	unsigned long flags, n;
+ 	bool found = false;
  
--		WARN_ON(intermediate->wm.plane[plane_id] >
--			g4x_plane_fifo_size(plane_id, G4X_WM_LEVEL_NORMAL));
-+		drm_WARN_ON(crtc->base.dev, intermediate->wm.plane[plane_id] >
-+			    g4x_plane_fifo_size(plane_id, G4X_WM_LEVEL_NORMAL));
+@@ -134,9 +137,9 @@ static void untrack_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm,
  	}
+ 	spin_unlock_irqrestore(&rpm->debug.lock, flags);
  
- 	intermediate->sr.plane = max(optimal->sr.plane,
-@@ -1482,21 +1482,25 @@ static int g4x_compute_intermediate_wm(struct intel_crtc_state *new_crtc_state)
- 	intermediate->hpll.fbc = max(optimal->hpll.fbc,
- 				     active->hpll.fbc);
+-	if (WARN(!found,
+-		 "Unmatched wakeref (tracking %lu), count %u\n",
+-		 rpm->debug.count, atomic_read(&rpm->wakeref_count))) {
++	if (drm_WARN(&i915->drm, !found,
++		     "Unmatched wakeref (tracking %lu), count %u\n",
++		     rpm->debug.count, atomic_read(&rpm->wakeref_count))) {
+ 		char *buf;
  
--	WARN_ON((intermediate->sr.plane >
--		 g4x_plane_fifo_size(PLANE_PRIMARY, G4X_WM_LEVEL_SR) ||
--		 intermediate->sr.cursor >
--		 g4x_plane_fifo_size(PLANE_CURSOR, G4X_WM_LEVEL_SR)) &&
--		intermediate->cxsr);
--	WARN_ON((intermediate->sr.plane >
--		 g4x_plane_fifo_size(PLANE_PRIMARY, G4X_WM_LEVEL_HPLL) ||
--		 intermediate->sr.cursor >
--		 g4x_plane_fifo_size(PLANE_CURSOR, G4X_WM_LEVEL_HPLL)) &&
--		intermediate->hpll_en);
--
--	WARN_ON(intermediate->sr.fbc > g4x_fbc_fifo_size(1) &&
--		intermediate->fbc_en && intermediate->cxsr);
--	WARN_ON(intermediate->hpll.fbc > g4x_fbc_fifo_size(2) &&
--		intermediate->fbc_en && intermediate->hpll_en);
-+	drm_WARN_ON(crtc->base.dev,
-+		    (intermediate->sr.plane >
-+		     g4x_plane_fifo_size(PLANE_PRIMARY, G4X_WM_LEVEL_SR) ||
-+		     intermediate->sr.cursor >
-+		     g4x_plane_fifo_size(PLANE_CURSOR, G4X_WM_LEVEL_SR)) &&
-+		    intermediate->cxsr);
-+	drm_WARN_ON(crtc->base.dev,
-+		    (intermediate->sr.plane >
-+		     g4x_plane_fifo_size(PLANE_PRIMARY, G4X_WM_LEVEL_HPLL) ||
-+		     intermediate->sr.cursor >
-+		     g4x_plane_fifo_size(PLANE_CURSOR, G4X_WM_LEVEL_HPLL)) &&
-+		    intermediate->hpll_en);
-+
-+	drm_WARN_ON(crtc->base.dev,
-+		    intermediate->sr.fbc > g4x_fbc_fifo_size(1) &&
-+		    intermediate->fbc_en && intermediate->cxsr);
-+	drm_WARN_ON(crtc->base.dev,
-+		    intermediate->hpll.fbc > g4x_fbc_fifo_size(2) &&
-+		    intermediate->fbc_en && intermediate->hpll_en);
+ 		buf = kmalloc(PAGE_SIZE, GFP_NOWAIT | __GFP_NOWARN);
+@@ -355,10 +358,14 @@ intel_runtime_pm_release(struct intel_runtime_pm *rpm, int wakelock)
+ static intel_wakeref_t __intel_runtime_pm_get(struct intel_runtime_pm *rpm,
+ 					      bool wakelock)
+ {
++	struct drm_i915_private *i915 = container_of(rpm,
++						     struct drm_i915_private,
++						     runtime_pm);
+ 	int ret;
  
- out:
- 	/*
-@@ -1748,11 +1752,11 @@ static int vlv_compute_fifo(struct intel_crtc_state *crtc_state)
- 		fifo_left -= plane_extra;
- 	}
+ 	ret = pm_runtime_get_sync(rpm->kdev);
+-	WARN_ONCE(ret < 0, "pm_runtime_get_sync() failed: %d\n", ret);
++	drm_WARN_ONCE(&i915->drm, ret < 0,
++		      "pm_runtime_get_sync() failed: %d\n", ret);
  
--	WARN_ON(active_planes != 0 && fifo_left != 0);
-+	drm_WARN_ON(crtc->base.dev, active_planes != 0 && fifo_left != 0);
+ 	intel_runtime_pm_acquire(rpm, wakelock);
  
- 	/* give it all to the first plane if none are active */
- 	if (active_planes == 0) {
--		WARN_ON(fifo_left != fifo_size);
-+		drm_WARN_ON(crtc->base.dev, fifo_left != fifo_size);
- 		fifo_state->plane[PLANE_PRIMARY] = fifo_left;
- 	}
- 
-@@ -4154,7 +4158,8 @@ skl_plane_downscale_amount(const struct intel_crtc_state *crtc_state,
- 	uint_fixed_16_16_t fp_w_ratio, fp_h_ratio;
- 	uint_fixed_16_16_t downscale_h, downscale_w;
- 
--	if (WARN_ON(!intel_wm_plane_visible(crtc_state, plane_state)))
-+	if (drm_WARN_ON(crtc_state->uapi.crtc->dev,
-+			!intel_wm_plane_visible(crtc_state, plane_state)))
- 		return u32_to_fixed16(0);
+@@ -539,6 +546,9 @@ void intel_runtime_pm_put(struct intel_runtime_pm *rpm, intel_wakeref_t wref)
+  */
+ void intel_runtime_pm_enable(struct intel_runtime_pm *rpm)
+ {
++	struct drm_i915_private *i915 = container_of(rpm,
++						     struct drm_i915_private,
++						     runtime_pm);
+ 	struct device *kdev = rpm->kdev;
  
  	/*
-@@ -4815,7 +4820,7 @@ intel_get_linetime_us(const struct intel_crtc_state *crtc_state)
+@@ -565,7 +575,8 @@ void intel_runtime_pm_enable(struct intel_runtime_pm *rpm)
  
- 	pixel_rate = crtc_state->pixel_rate;
+ 		pm_runtime_dont_use_autosuspend(kdev);
+ 		ret = pm_runtime_get_sync(kdev);
+-		WARN(ret < 0, "pm_runtime_get_sync() failed: %d\n", ret);
++		drm_WARN(&i915->drm, ret < 0,
++			 "pm_runtime_get_sync() failed: %d\n", ret);
+ 	} else {
+ 		pm_runtime_use_autosuspend(kdev);
+ 	}
+@@ -580,11 +591,14 @@ void intel_runtime_pm_enable(struct intel_runtime_pm *rpm)
  
--	if (WARN_ON(pixel_rate == 0))
-+	if (drm_WARN_ON(crtc_state->uapi.crtc->dev, pixel_rate == 0))
- 		return u32_to_fixed16(0);
+ void intel_runtime_pm_disable(struct intel_runtime_pm *rpm)
+ {
++	struct drm_i915_private *i915 = container_of(rpm,
++						     struct drm_i915_private,
++						     runtime_pm);
+ 	struct device *kdev = rpm->kdev;
  
- 	crtc_htotal = crtc_state->hw.adjusted_mode.crtc_htotal;
-@@ -4832,7 +4837,8 @@ skl_adjusted_plane_pixel_rate(const struct intel_crtc_state *crtc_state,
- 	uint_fixed_16_16_t downscale_amount;
+ 	/* Transfer rpm ownership back to core */
+-	WARN(pm_runtime_get_sync(kdev) < 0,
+-	     "Failed to pass rpm ownership back to core\n");
++	drm_WARN(&i915->drm, pm_runtime_get_sync(kdev) < 0,
++		 "Failed to pass rpm ownership back to core\n");
  
- 	/* Shouldn't reach here on disabled planes... */
--	if (WARN_ON(!intel_wm_plane_visible(crtc_state, plane_state)))
-+	if (drm_WARN_ON(crtc_state->uapi.crtc->dev,
-+			!intel_wm_plane_visible(crtc_state, plane_state)))
- 		return 0;
+ 	pm_runtime_dont_use_autosuspend(kdev);
  
- 	/*
-@@ -5261,9 +5267,10 @@ static int icl_build_plane_wm(struct intel_crtc_state *crtc_state,
- 		const struct drm_framebuffer *fb = plane_state->hw.fb;
- 		enum plane_id y_plane_id = plane_state->planar_linked_plane->id;
+@@ -594,12 +608,15 @@ void intel_runtime_pm_disable(struct intel_runtime_pm *rpm)
  
--		WARN_ON(!intel_wm_plane_visible(crtc_state, plane_state));
--		WARN_ON(!fb->format->is_yuv ||
--			fb->format->num_planes == 1);
-+		drm_WARN_ON(crtc_state->uapi.crtc->dev,
-+			    !intel_wm_plane_visible(crtc_state, plane_state));
-+		drm_WARN_ON(crtc_state->uapi.crtc->dev, !fb->format->is_yuv ||
-+			    fb->format->num_planes == 1);
+ void intel_runtime_pm_driver_release(struct intel_runtime_pm *rpm)
+ {
++	struct drm_i915_private *i915 = container_of(rpm,
++						     struct drm_i915_private,
++						     runtime_pm);
+ 	int count = atomic_read(&rpm->wakeref_count);
  
- 		ret = skl_build_plane_wm_single(crtc_state, plane_state,
- 						y_plane_id, 0);
+-	WARN(count,
+-	     "i915 raw-wakerefs=%d wakelocks=%d on cleanup\n",
+-	     intel_rpm_raw_wakeref_count(count),
+-	     intel_rpm_wakelock_count(count));
++	drm_WARN(&i915->drm, count,
++		 "i915 raw-wakerefs=%d wakelocks=%d on cleanup\n",
++		 intel_rpm_raw_wakeref_count(count),
++		 intel_rpm_wakelock_count(count));
+ 
+ 	untrack_all_intel_runtime_pm_wakerefs(rpm);
+ }
 -- 
 2.23.0
 
