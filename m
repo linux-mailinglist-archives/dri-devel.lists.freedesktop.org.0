@@ -1,56 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9EE19FE6E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 21:49:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB0319FE72
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 21:50:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9426E497;
-	Mon,  6 Apr 2020 19:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C36816E49B;
+	Mon,  6 Apr 2020 19:50:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
- [IPv6:2607:f8b0:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D3306E497
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 19:49:11 +0000 (UTC)
-Received: by mail-il1-x142.google.com with SMTP id i75so672122ild.13
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 12:49:11 -0700 (PDT)
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 506B16E499
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 19:50:51 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id i3so736930ioo.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 12:50:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=GhiJnLkPCog87xcd0QbX7Ukmz7B9K91Y4lcbxRM4PwA=;
- b=dC65UsoclV5SJSavPY9/ekwH+KupIATDfcVMHqYy5vkbYdlW3CqsEpSyWyf5G/5VZ5
- 54dOsqpCRSsih3zf4sYYodRtSrF+6jyfbS2/Ru+RV3v4sgxi4zDctlTqZkugbmHdFOuM
- dVRTojsfBekOyLDm/FjEvGrZYeyzPc///xwUjUjCT65vAZKla98VKdBLZ8VTz79GH4o2
- 92JMbZPau4jrnzuqpnEHGjkgEDuGr3taYAqRIDa9LbgthAkOarXym1rJNzO1hDJJYtwv
- Qo26vHSP4XpLCxUcu5I/mZVlqQltHBQ0mecg4noq/darXIH7D4MUdp+gCGz1MUs7J83d
- GOsg==
+ :cc; bh=HN+8QL60vvL9kCpBSbE9fq49Mcbwf74LPWCucZYc7mA=;
+ b=B9FOaVqTO+t9lnVPfMPMz/Adln3AhSPXYXjuqMVQ3reEdfCxDmmY6uzxlRmDiPH9pJ
+ y/bpog3PifuFFOX1unxdC+wSgxSAxj56kYkUzESy4/YbG15eX8wy0tDhPr8aGNZ267T5
+ xLOAP7aJ2agnjB1jHBkT5gtS5jn/nhEoQ4gm4Vlaw+9f90W8wWKSoi4smRo/G2bEi0b0
+ Lux6rfQfgad3pDJdYjW2GkRY02XLUJ0C1qjB+XS2zSOILjL5oSDth0o5H/zihn5p4vXv
+ jKWUP0X6U1RFeKResnizqbp70IAmVah6nnucDuP0dDgJP6xHiqKZdcFxxhj121UYu7DT
+ x26Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=GhiJnLkPCog87xcd0QbX7Ukmz7B9K91Y4lcbxRM4PwA=;
- b=RBkZiDE37szObTi12hx20aNMewvsidz7FB/vrlEYrmRV4w3oHZk4w+Mq8XZuTOWiAJ
- 5TprCu6zk8wbyiG+H4xqrRDpZWfb0O8IMpMr/Nr0KWwZQLyS6A6z8dG70gbbmnvWs9p4
- /XJ+AZvGwjWsr5RY/xWItXSQFhDTz/nauUhGQ5PLnghkXAdWH9c2nSHJrgRLdUQUzu18
- er9mXHpFXUHISAaWnvYNlFu+bxhsaAQRLHNxa2G8rNQ7QNSYXbuQUNr9IyQCGtB2diHH
- hZT8VvIf/4FX2oaybsSrWkNKzoJ0D8t4/+hCpf1swxJhqb/zhtAP7GTQEfyOIyyKA+DZ
- geSA==
-X-Gm-Message-State: AGi0PuaNiduhe9rL2K3W+FXILDO8Lci1MC3BsWwVjab2TtZpK+sSW4Hj
- pgD1DfrrUVwv19NcW+idYc9NTKgHMrKjn5T2NtCKpg==
-X-Google-Smtp-Source: APiQypIyzTB/RjlY+sJEU5dPf6dbdqhacd2IztQ3y9a+Fw0TAzaCPbxSpgCUfwT2Yl26XpHlcZrKwZVmvz6I3n5zhLU=
-X-Received: by 2002:a92:91d6:: with SMTP id e83mr1069130ill.165.1586202550664; 
- Mon, 06 Apr 2020 12:49:10 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=HN+8QL60vvL9kCpBSbE9fq49Mcbwf74LPWCucZYc7mA=;
+ b=hlCkGTeBAVvKMBqLb93nIeKh6qjxBykchV+0qxpCJEd8JVeWQXdMS4Wuj2wdxAscPN
+ 9gE0U8SGd07I/hXRlCxY2lAmc1BWAtvEygTPSRIcBGe1POxNUPSEmyEVr4uiODbFn1OV
+ e6/ukRRb3ZZSRmQyEjHa4FCJ2N0Ehlv7sTuhnrFUCKo9iZ2NoenL/rtZpxfZja44PYZd
+ clvRW8lkGS/6/w+Xsqjxsum2F4H4alZrhpc2UlABPi+gJu65bP3LyTYzzEPueiZb/ghC
+ m0Wkb/WHahNLPR0fgNYUg5WjHZ2wgkI6z59i0x+9fW+T00fAKoXOPhIMBaWUPennnf4f
+ +IQA==
+X-Gm-Message-State: AGi0PuaByYusHqepGg6meluCxbEaXpKGY2T/xtQH82Or9b3ExMuwlrHe
+ 9KQxisuBcuw2qPxJy7oZH1PSYQeX7GE/irblZnKx3A==
+X-Google-Smtp-Source: APiQypKcSpO3QRsQOcCPdXSdBaq/JteC6JrsZevb7ueYZYqdRIjuhPUpPJUYg/2yI4JWNu2eYOisAC4GmAbJerXl2qY=
+X-Received: by 2002:a02:cce2:: with SMTP id l2mr960339jaq.83.1586202650623;
+ Mon, 06 Apr 2020 12:50:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200403200757.886443-1-lyude@redhat.com>
- <20200403200757.886443-4-lyude@redhat.com>
- <CAMavQK+yVxFYNUR1wdfwB_UhRS2ziy0N5k+WTwAqUwRovX3GMA@mail.gmail.com>
- <3eccd492237ee8797a8af2ea757594bc13ae055f.camel@redhat.com>
-In-Reply-To: <3eccd492237ee8797a8af2ea757594bc13ae055f.camel@redhat.com>
+References: <20200403200325.885628-1-lyude@redhat.com>
+In-Reply-To: <20200403200325.885628-1-lyude@redhat.com>
 From: Sean Paul <sean@poorly.run>
-Date: Mon, 6 Apr 2020 15:48:34 -0400
-Message-ID: <CAMavQKJdh22Xa82W19UuQ+6P-XYgK-f+VV9maTFO7kE0Zs+hwg@mail.gmail.com>
-Subject: Re: [PATCH 3/4] drm/dp_mst: Increase ACT retry timeout to 3s
+Date: Mon, 6 Apr 2020 15:50:14 -0400
+Message-ID: <CAMavQKKvxrYdi5RfsexT=01KonqEaB-_8VompN4vbexY9gL2mA@mail.gmail.com>
+Subject: Re: [PATCH] drm/dp_mst: Don't drop NAKs for down responses
 To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,107 +60,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Todd Previte <tprevite@gmail.com>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, stable <stable@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Wayne Lin <Wayne.Lin@amd.com>,
+ Wayne Lin <waynelin@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBBcHIgNiwgMjAyMCBhdCAzOjQzIFBNIEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5j
-b20+IHdyb3RlOgo+Cj4gT24gTW9uLCAyMDIwLTA0LTA2IGF0IDE1OjQxIC0wNDAwLCBTZWFuIFBh
-dWwgd3JvdGU6Cj4gPiBPbiBGcmksIEFwciAzLCAyMDIwIGF0IDQ6MDggUE0gTHl1ZGUgUGF1bCA8
-bHl1ZGVAcmVkaGF0LmNvbT4gd3JvdGU6Cj4gPiA+IEN1cnJlbnRseSB3ZSBvbmx5IHBvbGwgZm9y
-IGFuIEFDVCB1cCB0byAzMCB0aW1lcywgd2l0aCBhIGJ1c3ktd2FpdCBkZWxheQo+ID4gPiBvZiAx
-MDDCtXMgYmV0d2VlbiBlYWNoIGF0dGVtcHQgLSBnaXZpbmcgdXMgYSB0aW1lb3V0IG9mIDI5MDDC
-tXMuIFdoaWxlCj4gPiA+IHRoaXMgbWlnaHQgc2VlbSBzZW5zaWJsZSwgaXQgd291bGQgYXBwZWFy
-IHRoYXQgaW4gY2VydGFpbiBzY2VuYXJpb3MgaXQKPiA+ID4gY2FuIHRha2UgZHJhbWF0aWNhbGx5
-IGxvbmdlciB0aGVuIHRoYXQgZm9yIHVzIHRvIHJlY2VpdmUgYW4gQUNULiBPbiBvbmUKPiA+ID4g
-b2YgdGhlIEVWR0EgTVNUIGh1YnMgdGhhdCBJIGhhdmUgYXZhaWxhYmxlLCBJIG9ic2VydmVkIHNh
-aWQgaHViCj4gPiA+IHNvbWV0aW1lcyB0YWtpbmcgbG9uZ2VyIHRoZW4gYSBzZWNvbmQgYmVmb3Jl
-IHNpZ25hbGxpbmcgdGhlIEFDVC4gVGhlc2UKPiA+ID4gZGVsYXlzIG1vc3RseSBzZWVtIHRvIG9j
-Y3VyIHdoZW4gcHJldmlvdXMgc2lkZWJhbmQgbWVzc2FnZXMgd2UndmUgc2VudAo+ID4gPiBhcmUg
-TkFLZCBieSB0aGUgaHViLCBob3dldmVyIGl0IHdvdWxkbid0IGJlIHBhcnRpY3VsYXJseSBzdXJw
-cmlzaW5nIGlmCj4gPiA+IGl0J3MgcG9zc2libGUgdG8gcmVwcm9kdWNlIHRpbWVzIGxpa2UgdGhp
-cyBzaW1wbHkgYnkgaW50cm9kdWNpbmcgYnJhbmNoCj4gPiA+IGRldmljZXMgd2l0aCBsYXJnZSBM
-Q1RzIHNpbmNlIHBheWxvYWQgYWxsb2NhdGlvbnMgaGF2ZSB0byB0YWtlIGVmZmVjdCBvbgo+ID4g
-PiBldmVyeSBkb3duc3RyZWFtIGRldmljZSB1cCB0byB0aGUgcGF5bG9hZCdzIHRhcmdldC4KPiA+
-ID4KPiA+ID4gU28sIGluc3RlYWQgb2YganVzdCByZXRyeWluZyAzMCB0aW1lcyB3ZSBwb2xsIGZv
-ciB0aGUgQUNUIGZvciB1cCB0byAzbXMsCj4gPiA+IGFuZCBhZGRpdGlvbmFsbHkgdXNlIHVzbGVl
-cF9yYW5nZSgpIHRvIGF2b2lkIGEgdmVyeSBsb25nIGFuZCBydWRlCj4gPiA+IGJ1c3ktd2FpdC4g
-Tm90ZSB0aGF0IHRoZSBwcmV2aW91cyByZXRyeSBjb3VudCBvZiAzMCBhcHBlYXJzIHRvIGhhdmUg
-YmVlbgo+ID4gPiBhcmJpdHJhcmlseSBjaG9zZW4sIGFzIEkgY2FuJ3QgZmluZCBhbnkgbWVudGlv
-biBvZiBhIHJlY29tbWVuZGVkIHRpbWVvdXQKPiA+ID4gb3IgcmV0cnkgY291bnQgZm9yIEFDVHMg
-aW4gdGhlIERpc3BsYXlQb3J0IDIuMCBzcGVjaWZpY2F0aW9uLiBUaGlzIGFsc28KPiA+ID4gZ29l
-cyBmb3IgdGhlIHJhbmdlIHdlIHdlcmUgcHJldmlvdXNseSB1c2luZyBmb3IgdWRlbGF5KCksIGFs
-dGhvdWdoIEkKPiA+ID4gc3VzcGVjdCB0aGF0IHdhcyBqdXN0IGNvcGllZCBmcm9tIHRoZSByZWNv
-bW1lbmRlZCBkZWxheSBmb3IgbGluawo+ID4gPiB0cmFpbmluZyBvbiBTU1QgZGV2aWNlcy4KPiA+
-ID4KPiA+ID4gU2lnbmVkLW9mZi1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiA+
-ID4gRml4ZXM6IGFkN2Y4YTFmOWNlZCAoImRybS9oZWxwZXI6IGFkZCBEaXNwbGF5cG9ydCBtdWx0
-aS1zdHJlYW0gaGVscGVyCj4gPiA+ICh2MC42KSIpCj4gPiA+IENjOiBTZWFuIFBhdWwgPHNlYW5A
-cG9vcmx5LnJ1bj4KPiA+ID4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHYzLjE3Kwo+
-ID4gPiAtLS0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgfCAy
-NiArKysrKysrKysrKysrKysrKysrLS0tLS0tLQo+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDE5IGlu
-c2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pCj4gPiA+Cj4gPiA+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gPiA+IGIvZHJpdmVycy9ncHUvZHJt
-L2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+ID4gPiBpbmRleCA3YWFmMTg0YTJlNWYuLmYzMTM0MDcz
-NzRlZCAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xv
-Z3kuYwo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4g
-PiA+IEBAIC00NDY2LDE3ICs0NDY2LDMwIEBAIHN0YXRpYyBpbnQgZHJtX2RwX2RwY2Rfd3JpdGVf
-cGF5bG9hZChzdHJ1Y3QKPiA+ID4gZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1nciwKPiA+ID4g
-ICAqIEBtZ3I6IG1hbmFnZXIgdG8gdXNlCj4gPiA+ICAgKgo+ID4gPiAgICogVHJpZXMgd2FpdGlu
-ZyBmb3IgdGhlIE1TVCBodWIgdG8gZmluaXNoIHVwZGF0aW5nIGl0J3MgcGF5bG9hZCB0YWJsZSBi
-eQo+ID4gPiAtICogcG9sbGluZyBmb3IgdGhlIEFDVCBoYW5kbGVkIGJpdC4KPiA+ID4gKyAqIHBv
-bGxpbmcgZm9yIHRoZSBBQ1QgaGFuZGxlZCBiaXQgZm9yIHVwIHRvIDMgc2Vjb25kcyAoeWVzLXNv
-bWUgaHVicwo+ID4gPiByZWFsbHkKPiA+ID4gKyAqIHRha2UgdGhhdCBsb25nKS4KPiA+ID4gICAq
-Cj4gPiA+ICAgKiBSZXR1cm5zOgo+ID4gPiAgICogMCBpZiB0aGUgQUNUIHdhcyBoYW5kbGVkIGlu
-IHRpbWUsIG5lZ2F0aXZlIGVycm9yIGNvZGUgb24gZmFpbHVyZS4KPiA+ID4gICAqLwo+ID4gPiAg
-aW50IGRybV9kcF9jaGVja19hY3Rfc3RhdHVzKHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21n
-ciAqbWdyKQo+ID4gPiAgewo+ID4gPiAtICAgICAgIGludCBjb3VudCA9IDAsIHJldDsKPiA+ID4g
-KyAgICAgICAvKgo+ID4gPiArICAgICAgICAqIFRoZXJlIGRvZXNuJ3Qgc2VlbSB0byBiZSBhbnkg
-cmVjb21tZW5kZWQgcmV0cnkgY291bnQgb3IgdGltZW91dAo+ID4gPiBpbgo+ID4gPiArICAgICAg
-ICAqIHRoZSBNU1Qgc3BlY2lmaWNhdGlvbi4gU2luY2Ugc29tZSBodWJzIGhhdmUgYmVlbiBvYnNl
-cnZlZCB0bwo+ID4gPiB0YWtlCj4gPiA+ICsgICAgICAgICogb3ZlciAxIHNlY29uZCB0byB1cGRh
-dGUgdGhlaXIgcGF5bG9hZCBhbGxvY2F0aW9ucyB1bmRlciBjZXJ0YWluCj4gPiA+ICsgICAgICAg
-ICogY29uZGl0aW9ucywgd2UgdXNlIGEgcmF0aGVyIGxhcmdlIHRpbWVvdXQgdmFsdWUuCj4gPiA+
-ICsgICAgICAgICovCj4gPiA+ICsgICAgICAgY29uc3QgaW50IHRpbWVvdXRfbXMgPSAzMDAwOwo+
-ID4gPiArICAgICAgdW5zaWduZWQgbG9uZyB0aW1lb3V0ID0gamlmZmllcyArIG1zZWNzX3RvX2pp
-ZmZpZXModGltZW91dF9tcyk7Cj4gPiA+ICsgICAgICAgaW50IHJldDsKPiA+ID4gKyAgICAgICBi
-b29sIHJldHJ5aW5nID0gZmFsc2U7Cj4gPiA+ICAgICAgICAgdTggc3RhdHVzOwo+ID4gPgo+ID4g
-PiAgICAgICAgIGRvIHsKPiA+ID4gKyAgICAgICAgICAgICAgIGlmIChyZXRyeWluZykKPiA+ID4g
-KyAgICAgICAgICAgICAgICAgICAgICAgdXNsZWVwX3JhbmdlKDEwMCwgMTAwMCk7Cj4gPiA+ICsK
-PiA+ID4gICAgICAgICAgICAgICAgIHJldCA9IGRybV9kcF9kcGNkX3JlYWRiKG1nci0+YXV4LAo+
-ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRFBfUEFZTE9BRF9U
-QUJMRV9VUERBVEVfU1RBVFVTLAo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgJnN0YXR1cyk7Cj4gPiA+IEBAIC00NDg4LDEzICs0NTAxLDEyIEBAIGludCBkcm1f
-ZHBfY2hlY2tfYWN0X3N0YXR1cyhzdHJ1Y3QKPiA+ID4gZHJtX2RwX21zdF90b3BvbG9neV9tZ3Ig
-Km1ncikKPiA+ID4KPiA+ID4gICAgICAgICAgICAgICAgIGlmIChzdGF0dXMgJiBEUF9QQVlMT0FE
-X0FDVF9IQU5ETEVEKQo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICBicmVhazsKPiA+ID4g
-LSAgICAgICAgICAgICAgIGNvdW50Kys7Cj4gPiA+IC0gICAgICAgICAgICAgICB1ZGVsYXkoMTAw
-KTsKPiA+ID4gLSAgICAgICB9IHdoaWxlIChjb3VudCA8IDMwKTsKPiA+ID4gKyAgICAgICAgICAg
-ICAgIHJldHJ5aW5nID0gdHJ1ZTsKPiA+ID4gKyAgICAgICB9IHdoaWxlIChqaWZmaWVzIDwgdGlt
-ZW91dCk7Cj4gPgo+ID4gU29tZXdoYXQgYWNhZGVtaWMsIGJ1dCBJIHRoaW5rIHRoZXJlJ3MgYW4g
-b3ZlcmZsb3cgcG9zc2liaWxpdHkgaGVyZSBpZgo+ID4gdGltZW91dCBpcyBuZWFyIHVsb25nX21h
-eCBhbmQgamlmZmllcyBvdmVyZmxvd3MgZHVyaW5nIHRoZSB1c2xlZXAuIEluCj4gPiB0aGF0IGNh
-c2Ugd2UnbGwgYmUgcmV0cnlpbmcgZm9yIGEgdmVyeSBsb29uZyB0aW1lLgo+ID4KPiA+IEkgd2lz
-aCB3ZSBoYWQgaTkxNSdzIHdhaXRfZm9yKCkgbWFjcm8gYXZhaWxhYmxlIHRvIGFsbCBkcm0uLi4K
-Pgo+IE1heWJlIHdlIGNvdWxkIGFkZCBpdCB0byB0aGUga2VybmVsIGxpYnJhcnkgc29tZXdoZXJl
-PyBJIGRvbid0IHNlZSB3aHkgd2UnZAo+IG5lZWQgdG8gc3RvcCBhdCBEUk0KClNvIFlvdSBXYW50
-IFRvIEJ1aWxkIEEgQmlrZXNoZWQuLi4KClNlcmlvdXNseSB0aG91Z2gsIEknZCBiZSB2ZXJ5IGhh
-cHB5IHdpdGggdGhhdC4gQWx0ZXJuYXRpdmVseSB5b3UgY291bGQKc2hvZWhvcm4gdGhpcyBpbnRv
-IHJlYWR4X3BvbGxfdGltZW91dCBhcyB3ZWxsLgoKU2VhbgoKPgo+ID4KPiA+IFNlYW4KPiA+Cj4g
-PiA+ICAgICAgICAgaWYgKCEoc3RhdHVzICYgRFBfUEFZTE9BRF9BQ1RfSEFORExFRCkpIHsKPiA+
-ID4gLSAgICAgICAgICAgICAgIERSTV9ERUJVR19LTVMoImZhaWxlZCB0byBnZXQgQUNUIGJpdCAl
-ZCBhZnRlciAlZAo+ID4gPiByZXRyaWVzXG4iLAo+ID4gPiAtICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBzdGF0dXMsIGNvdW50KTsKPiA+ID4gKyAgICAgICAgICAgICAgIERSTV9ERUJVR19L
-TVMoImZhaWxlZCB0byBnZXQgQUNUIGJpdCAlZCBhZnRlciAlZG1zXG4iLAo+ID4gPiArICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBzdGF0dXMsIHRpbWVvdXRfbXMpOwo+ID4gPiAgICAgICAg
-ICAgICAgICAgcmV0dXJuIC1FSU5WQUw7Cj4gPiA+ICAgICAgICAgfQo+ID4gPiAgICAgICAgIHJl
-dHVybiAwOwo+ID4gPiAtLQo+ID4gPiAyLjI1LjEKPiA+ID4KPiAtLQo+IENoZWVycywKPiAgICAg
-ICAgIEx5dWRlIFBhdWwgKHNoZS9oZXIpCj4gICAgICAgICBBc3NvY2lhdGUgU29mdHdhcmUgRW5n
-aW5lZXIgYXQgUmVkIEhhdAo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+On Fri, Apr 3, 2020 at 4:03 PM Lyude Paul <lyude@redhat.com> wrote:
+>
+> It looks like that when we introduced the ability to handle multiple
+> down requests at once, we accidentally started dropping NAK replies -
+> causing sideband messages which got NAK'd to seemingly timeout and cause
+> all sorts of weirdness.
+>
+> So, fix this by making sure we don't return from
+> drm_dp_mst_handle_down_rep() early, but instead treat NAKs like any
+> other message.
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Fixes: fbc821c4a506 ("drm/mst: Support simultaneous down replies")
+> Cc: Wayne Lin <Wayne.Lin@amd.com>
+> Cc: Wayne Lin <waynelin@amd.com>
+> Cc: Sean Paul <seanpaul@chromium.org>
+
+Thank you for fixing this
+
+Reviewed-by: Sean Paul <sean@poorly.run>
+
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 10d0315af513..5449ada3e019 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -3813,7 +3813,6 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
+>                               txmsg->reply.u.nak.reason,
+>                               drm_dp_mst_nak_reason_str(txmsg->reply.u.nak.reason),
+>                               txmsg->reply.u.nak.nak_data);
+> -               goto out_clear_reply;
+>         }
+>
+>         memset(msg, 0, sizeof(struct drm_dp_sideband_msg_rx));
+> --
+> 2.25.1
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
