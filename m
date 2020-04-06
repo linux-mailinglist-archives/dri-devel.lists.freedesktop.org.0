@@ -2,43 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA57119FB5E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 19:23:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A491A08F3
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 10:09:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C61B6E44F;
-	Mon,  6 Apr 2020 17:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBC266E598;
+	Tue,  7 Apr 2020 08:09:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7BE46E44F
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 17:23:23 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207137] AMDGPU incorrectly reports vddgfx voltage for R9 390
-Date: Mon, 06 Apr 2020 17:23:23 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: sandy.8925@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-207137-2300-K7WOBF2FW0@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207137-2300@https.bugzilla.kernel.org/>
-References: <bug-207137-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14B866E46C
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 17:45:39 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id w26so547606edu.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 10:45:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7RXoohFvXLaoEKx3R14gPI97or8iyID+gO/ke9YZLZk=;
+ b=pGJxT/+1b5N0eaXPQ8MD+apq1vM1MKAp+Icn53TKKJ0KGEnm05VOa5Y1PXrdWJnued
+ R9YUUUBFQ3SAx68o4tq3gsy3sganiQ/LSMuSCuL8zeRVyMPSVBMwijQ+zyheaSWAu3xJ
+ M+OPJMGhw6A30yvpkCR1omLvF+gJmffGC2W/3lpB316ys6wZpTVSfHDp9wusrVxG+kTJ
+ 8QhIM3+WDSWjrfsSpPJlWmuFuQJHkBccKMwVYR+437mDuaT39nIrHtpckrkXjLc15TLB
+ 3ZQ6bg5krSgAE+jYAaOpI2wf8bRjMTc6TzFNGjCyuxtK4inqkOZaPt0bxepRj/sXaXhc
+ GF5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7RXoohFvXLaoEKx3R14gPI97or8iyID+gO/ke9YZLZk=;
+ b=P6NIL9XRrKt3SMXMlhoC7/Rk3VMsmClPy4yqz56MAFeirBjm04IISbMu32X5YpM3cA
+ XD4s7IT8Jr4zrP4f+7/8pBBLb4pa//J5GM2HCfmFFsHm9zi0H7TWtUudpJFy6rFdhjLL
+ 7q46TXk6V96lMVhoIxxs4kNBtJyM/cdhsW7yty5Tbh79YcU5HuahNLmYNIWiZp2cuilj
+ 26/ct5bPLX6h00e6SnqoWHCov1nwbc29/4Fh25pjupLggHH8UydBS6yCmMpkQOHqE48l
+ ffGvUXaWYEvnP7IsrNxTvbwaKtvXU4rP4sLoSWNiJzJGWSj57boXLAXkdIyWzGnHc0aS
+ Vlag==
+X-Gm-Message-State: AGi0PuaNZDJwYfJ2QByMXEcBu9510WoQGtZNYO9odEcAnWxmq58arUtW
+ aRjSS5jUpJQTX8687xOI/pZvjAHqy5eWm/P5QhgklrU005Y=
+X-Google-Smtp-Source: APiQypIaHtJ4hn23pa/NkZ7zj/dGv/ZlRU8kWcFi0fx8qH8eIA32EcKufiVaVgryZZ59IaKMiOdYUiH5qzK3Hj5fT5s=
+X-Received: by 2002:a50:ed93:: with SMTP id h19mr19481900edr.255.1586195137719; 
+ Mon, 06 Apr 2020 10:45:37 -0700 (PDT)
 MIME-Version: 1.0
+References: <a809feb7d7153a92e323416f744f1565e995da01.1586180592.git.angelo.ribeiro@synopsys.com>
+In-Reply-To: <a809feb7d7153a92e323416f744f1565e995da01.1586180592.git.angelo.ribeiro@synopsys.com>
+From: Adrian Pop <pop.adrian61@gmail.com>
+Date: Mon, 6 Apr 2020 20:45:26 +0300
+Message-ID: <CAP-HsdQtdSeiSe3O8P6Pe587PYAqO48pGJLwf+Tvq20sY_nh=A@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: dw-mipi-dsi.c: Add VPG runtime config
+ through debugfs
+To: Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>
+X-Mailman-Approved-At: Tue, 07 Apr 2020 08:09:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,21 +62,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jose Abreu <Jose.Abreu@synopsys.com>, Joao Pinto <Joao.Pinto@synopsys.com>,
+ airlied@linux.ie, Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
+ philippe.cornu@st.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, yannick.fertre@st.com, alexandre.torgue@st.com,
+ mcoquelin.stm32@gmail.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, benjamin.gaignard@st.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207137
+Hello Angelo,
 
---- Comment #3 from sandy.8925@gmail.com ---
-Created attachment 288235
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288235&action=edit
-GPU VBIOS
+Tested OK on STM32F769i-DISCO, DSI v1.30, on next-20200406. I guess
+there is no horizontal for BER.
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Regards,
+Adrian
+
+On Mon, Apr 6, 2020 at 4:49 PM Angelo Ribeiro
+<Angelo.Ribeiro@synopsys.com> wrote:
+>
+> Add support for the video pattern generator (VPG) BER pattern mode and
+> configuration in runtime.
+>
+> This enables using the debugfs interface to manipulate the VPG after
+> the pipeline is set.
+> Also, enables the usage of the VPG BER pattern.
+>
+> Changes in v2:
+>   - Added VID_MODE_VPG_MODE
+>   - Solved incompatible return type on __get and __set
+>
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Reported-by: Adrian Pop <pop.adrian61@gmail.com>
+> Cc: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> Cc: Joao Pinto <jpinto@synopsys.com>
+> Cc: Jose Abreu <jose.abreu@synopsys.com>
+> Signed-off-by: Angelo Ribeiro <angelo.ribeiro@synopsys.com>
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 98 ++++++++++++++++++++++++---
+>  1 file changed, 90 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> index b18351b..9de3645 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> @@ -91,6 +91,7 @@
+>  #define VID_MODE_TYPE_BURST                    0x2
+>  #define VID_MODE_TYPE_MASK                     0x3
+>  #define VID_MODE_VPG_ENABLE            BIT(16)
+> +#define VID_MODE_VPG_MODE              BIT(20)
+>  #define VID_MODE_VPG_HORIZONTAL                BIT(24)
+>
+>  #define DSI_VID_PKT_SIZE               0x3c
+> @@ -221,6 +222,21 @@
+>  #define PHY_STATUS_TIMEOUT_US          10000
+>  #define CMD_PKT_STATUS_TIMEOUT_US      20000
+>
+> +#ifdef CONFIG_DEBUG_FS
+> +#define VPG_DEFS(name, dsi) \
+> +       ((void __force *)&((*dsi).vpg_defs.name))
+> +
+> +#define REGISTER(name, mask, dsi) \
+> +       { #name, VPG_DEFS(name, dsi), mask, dsi }
+> +
+> +struct debugfs_entries {
+> +       const char                              *name;
+> +       bool                                    *reg;
+> +       u32                                     mask;
+> +       struct dw_mipi_dsi                      *dsi;
+> +};
+> +#endif /* CONFIG_DEBUG_FS */
+> +
+>  struct dw_mipi_dsi {
+>         struct drm_bridge bridge;
+>         struct mipi_dsi_host dsi_host;
+> @@ -238,9 +254,12 @@ struct dw_mipi_dsi {
+>
+>  #ifdef CONFIG_DEBUG_FS
+>         struct dentry *debugfs;
+> -
+> -       bool vpg;
+> -       bool vpg_horizontal;
+> +       struct debugfs_entries *debugfs_vpg;
+> +       struct {
+> +               bool vpg;
+> +               bool vpg_horizontal;
+> +               bool vpg_ber_pattern;
+> +       } vpg_defs;
+>  #endif /* CONFIG_DEBUG_FS */
+>
+>         struct dw_mipi_dsi *master; /* dual-dsi master ptr */
+> @@ -530,9 +549,11 @@ static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
+>                 val |= VID_MODE_TYPE_NON_BURST_SYNC_EVENTS;
+>
+>  #ifdef CONFIG_DEBUG_FS
+> -       if (dsi->vpg) {
+> +       if (dsi->vpg_defs.vpg) {
+>                 val |= VID_MODE_VPG_ENABLE;
+> -               val |= dsi->vpg_horizontal ? VID_MODE_VPG_HORIZONTAL : 0;
+> +               val |= dsi->vpg_defs.vpg_horizontal ?
+> +                      VID_MODE_VPG_HORIZONTAL : 0;
+> +               val |= dsi->vpg_defs.vpg_ber_pattern ? VID_MODE_VPG_MODE : 0;
+>         }
+>  #endif /* CONFIG_DEBUG_FS */
+>
+> @@ -961,6 +982,68 @@ static const struct drm_bridge_funcs dw_mipi_dsi_bridge_funcs = {
+>
+>  #ifdef CONFIG_DEBUG_FS
+>
+> +int dw_mipi_dsi_debugfs_write(void *data, u64 val)
+> +{
+> +       struct debugfs_entries *vpg = data;
+> +       struct dw_mipi_dsi *dsi;
+> +       u32 mode_cfg;
+> +
+> +       if (!vpg)
+> +               return -ENODEV;
+> +
+> +       dsi = vpg->dsi;
+> +
+> +       *vpg->reg = (bool)val;
+> +
+> +       mode_cfg = dsi_read(dsi, DSI_VID_MODE_CFG);
+> +
+> +       if (*vpg->reg)
+> +               mode_cfg |= vpg->mask;
+> +       else
+> +               mode_cfg &= ~vpg->mask;
+> +
+> +       dsi_write(dsi, DSI_VID_MODE_CFG, mode_cfg);
+> +
+> +       return 0;
+> +}
+> +
+> +int dw_mipi_dsi_debugfs_show(void *data, u64 *val)
+> +{
+> +       struct debugfs_entries *vpg = data;
+> +
+> +       if (!vpg)
+> +               return -ENODEV;
+> +
+> +       *val = *vpg->reg;
+> +
+> +       return 0;
+> +}
+> +
+> +DEFINE_DEBUGFS_ATTRIBUTE(fops_x32, dw_mipi_dsi_debugfs_show,
+> +                        dw_mipi_dsi_debugfs_write, "%llu\n");
+> +
+> +static void debugfs_create_files(void *data)
+> +{
+> +       struct dw_mipi_dsi *dsi = data;
+> +       struct debugfs_entries debugfs[] = {
+> +               REGISTER(vpg, VID_MODE_VPG_ENABLE, dsi),
+> +               REGISTER(vpg_horizontal, VID_MODE_VPG_HORIZONTAL, dsi),
+> +               REGISTER(vpg_ber_pattern, VID_MODE_VPG_MODE, dsi),
+> +       };
+> +       int i;
+> +
+> +       dsi->debugfs_vpg = kmalloc(sizeof(debugfs), GFP_KERNEL);
+> +       if (!dsi->debugfs_vpg)
+> +               return;
+> +
+> +       memcpy(dsi->debugfs_vpg, debugfs, sizeof(debugfs));
+> +
+> +       for (i = 0; i < ARRAY_SIZE(debugfs); i++)
+> +               debugfs_create_file(dsi->debugfs_vpg[i].name, 0644,
+> +                                   dsi->debugfs, &dsi->debugfs_vpg[i],
+> +                                   &fops_x32);
+> +}
+> +
+>  static void dw_mipi_dsi_debugfs_init(struct dw_mipi_dsi *dsi)
+>  {
+>         dsi->debugfs = debugfs_create_dir(dev_name(dsi->dev), NULL);
+> @@ -969,14 +1052,13 @@ static void dw_mipi_dsi_debugfs_init(struct dw_mipi_dsi *dsi)
+>                 return;
+>         }
+>
+> -       debugfs_create_bool("vpg", 0660, dsi->debugfs, &dsi->vpg);
+> -       debugfs_create_bool("vpg_horizontal", 0660, dsi->debugfs,
+> -                           &dsi->vpg_horizontal);
+> +       debugfs_create_files(dsi);
+>  }
+>
+>  static void dw_mipi_dsi_debugfs_remove(struct dw_mipi_dsi *dsi)
+>  {
+>         debugfs_remove_recursive(dsi->debugfs);
+> +       kfree(dsi->debugfs_vpg);
+>  }
+>
+>  #else
+> --
+> 2.7.4
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
