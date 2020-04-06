@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBAA19FB8E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 19:29:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D92C419F5B6
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 14:18:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9A5C6E461;
-	Mon,  6 Apr 2020 17:29:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3650A6E395;
+	Mon,  6 Apr 2020 12:18:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E08216E45E;
- Mon,  6 Apr 2020 17:29:39 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 26AD5B1FC1;
- Mon,  6 Apr 2020 17:29:37 +0000 (UTC)
-Subject: Re: [PATCH 30/44] drm/qxl: Use devm_drm_dev_alloc
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
- <20200403135828.2542770-31-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <f85e0d74-2d1a-03ce-3eef-8c21b90845d4@suse.de>
-Date: Mon, 6 Apr 2020 14:11:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 155A76E395
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 12:18:32 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id r19so15032959otn.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 05:18:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YjxaXowJ/bOAfCu1lJtQ2FROrqjb9Vwq/99atWSwEIA=;
+ b=FbXBFjASanq2/TC30a5GANvrDTBXRnf6lTL2cx32XurrjbQ16+Tsbqvrvyd3Xockzy
+ xFF+lYH14+XQ/E3pm+vjZ/SsOY7F2l0J749kXD9JvJ/DIlivg1stcIO3k4u9D+VPOuuU
+ YSPemnQxonLlMVp3f9ve+0WG4VnzNxZywv2gc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YjxaXowJ/bOAfCu1lJtQ2FROrqjb9Vwq/99atWSwEIA=;
+ b=DWjUwwuQrwwSiZPLoch1N4XwSQqcayt25kTK0t5Z8QjQCwTtUaG/Xy/JanMV057PsS
+ 6OzDguaeOQSnut4AYSdm6Ktt2IwSFyiZqcoESMO0mDS+EGL7GFrwVl66NDusm21c0tYQ
+ BTJ2Q4Hkoy421bNzyYn5CqBPD7tk7pDblyELgx4Uqd99/W/zk+bFkvAkMkoOk2GoZZRy
+ uwG6+XJ2rCXnggLwjnsYXHVfNHPhh/n3Ca06O/ddmdeWHomNoNZiBJHRq4W3hzui52S5
+ gh7Bk7g5bLXARoznbLBgjid7TqI5BK/qpn2Oc2C/9oUm/Au5kSgPfQ0T+LZt+PLcLFFm
+ Ri3Q==
+X-Gm-Message-State: AGi0Pub+5SYo3VxKbCzN33L0rh78c0veMSfOIqS/kfSR97+1JOp0CySv
+ 3g+DAft3ZOEwXhRFfVHfGjedjxjsEdU3j4oJ2bPGZg==
+X-Google-Smtp-Source: APiQypLqMqPZakYn3TZSTWX0Jb2FEiG99l1+8NCFP+ahJYJmMEMO5sZirMqF9ZzfEqGdY5vgASYG5lRhTc9QfQHqCMw=
+X-Received: by 2002:a05:6830:15d4:: with SMTP id
+ j20mr17021369otr.303.1586175511204; 
+ Mon, 06 Apr 2020 05:18:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200403135828.2542770-31-daniel.vetter@ffwll.ch>
+References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
+ <20200403135828.2542770-3-daniel.vetter@ffwll.ch>
+ <20200406120049.GI4757@pendragon.ideasonboard.com>
+In-Reply-To: <20200406120049.GI4757@pendragon.ideasonboard.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 6 Apr 2020 14:18:19 +0200
+Message-ID: <CAKMK7uFO+uB-1TWBJuyv_5wi48b0b8UqfJYiBJCayUYc_yOOuQ@mail.gmail.com>
+Subject: Re: [PATCH 02/44] drm: Add devm_drm_dev_alloc macro
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,226 +60,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>,
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- spice-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============2001952359=="
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============2001952359==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="U47qTCGnlx1wJpHiO8OcTjEHNNfTq4eiS"
+On Mon, Apr 6, 2020 at 2:01 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Daniel,
+>
+> Thank you for the patch.
+>
+> On Fri, Apr 03, 2020 at 03:57:46PM +0200, Daniel Vetter wrote:
+> > The kerneldoc is only added for this new function. Existing kerneldoc
+> > and examples will be udated at the very end, since once all drivers
+> > are converted over to devm_drm_dev_alloc we can unexport a lot of
+> > interim functions and make the documentation for driver authors a lot
+> > cleaner and less confusing. There will be only one true way to
+> > initialize a drm_device at the end of this, which is going to be
+> > devm_drm_dev_alloc.
+>
+> How about drivers that expose another interface towards userspace ? If
+> the other related subsystem also required allocation of the driver
+> private structure through its corresponding API, we'd be stuck. As
+> stated before, I want this API to be optional.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---U47qTCGnlx1wJpHiO8OcTjEHNNfTq4eiS
-Content-Type: multipart/mixed; boundary="6kv8mAox5GvUraJWEerWSr8Z7ZNmjb3HG";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: spice-devel@lists.freedesktop.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann
- <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Dave Airlie <airlied@redhat.com>
-Message-ID: <f85e0d74-2d1a-03ce-3eef-8c21b90845d4@suse.de>
-Subject: Re: [PATCH 30/44] drm/qxl: Use devm_drm_dev_alloc
-References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
- <20200403135828.2542770-31-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200403135828.2542770-31-daniel.vetter@ffwll.ch>
+So maybe we need to import a little bit more of our epic irc
+discussion here, because this is leaving out all the context. There's
+a few more things:
 
---6kv8mAox5GvUraJWEerWSr8Z7ZNmjb3HG
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+- Since the merging of the previous patch series this is already
+mandatory, because the kfree(drm_device.managed.final_kfree) is the
+last thing that will run. So I already killed your use-case (and it
+seems to work just fine for all the drivers in-tree, and we have a
+lot).
 
+- As part of doing all these patches here and in the previous series
+and in a next one I've seen that drivers just get this wrong. I'm
+extremely hesitant to give that rope back to drivers, so I really
+don't want to merge anything until we're ready to merge a driver that
+needs it. I've set myself a goal to fix up all 40 odd drivers still
+using drm_dev_alloc(), and that's itself already pretty stupid idea.
+It's definitely not going to work if new drivers keep adding bad usage
+patterns.
 
+- Now I'm not opposed to allowing this, if/when we actually need it. I
+think a very clean long-term solution would be to have a struct
+kref_res, which augments a kref with automatic resource cleanup. We'd
+probably need to fully demidlayer that, i.e. if you supply your own
+->release hook then it's your job to call kref_release_all() at the
+right point in there. With that we could then do a devm_drm_dev_init()
+again, which would take that kref_res structure and the drm_device,
+both embedded somewhere in your overall driver struture, and use your
+drivers kref_res to attach all drm related auto-cleanup. In that case
+it would then also be that kref_res' responsibility to do the final
+kfree, hence drm wouldn't insist on doing that either. Prototype would
+be something like:
 
-Am 03.04.20 um 15:58 schrieb Daniel Vetter:
-> Also need to remove the drm_dev_put from the remove hook.
->=20
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: virtualization@lists.linux-foundation.org
-> Cc: spice-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/qxl/qxl_drv.c | 15 ++++++++-------
->  drivers/gpu/drm/qxl/qxl_drv.h |  3 +--
->  drivers/gpu/drm/qxl/qxl_kms.c | 12 +-----------
->  3 files changed, 10 insertions(+), 20 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_dr=
-v.c
-> index 09102e2efabc..6b4ae4c5fb76 100644
-> --- a/drivers/gpu/drm/qxl/qxl_drv.c
-> +++ b/drivers/gpu/drm/qxl/qxl_drv.c
-> @@ -81,13 +81,16 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pc=
-i_device_id *ent)
->  		return -EINVAL; /* TODO: ENODEV ? */
->  	}
-> =20
-> -	qdev =3D kzalloc(sizeof(struct qxl_device), GFP_KERNEL);
-> -	if (!qdev)
-> +	qdev =3D devm_drm_dev_alloc(&pdev->dev, &qxl_driver,
-> +				  struct qxl_device, ddev);
-> +	if (IS_ERR(qdev)) {
-> +		pr_err("Unable to init drm dev");
->  		return -ENOMEM;
-> +	}
+devm_drm_dev_init(struct device *dev, struct drm_device *drm,
+    struct drm_driver *driver, struct kref_res *kref);
 
-My feeling is that it is too early to allocate. Wouldn't it be better to
-first do the pdev and conflicting-fb stuff and allocate right before
-qxl_device_init() ?
+The trouble with the above idea is that it assumes I have endless
+amounts of time and that I can convince Greg KH that I understand
+driver unload lifetime issues. The former is atm the more realistic
+looking one of these two, so interim solution would be to add some
+hack or another meanwhile to do this within drm only. Or as an
+alternative solution, easy to convert over to an eventual kref_res
+world:
 
-Best regards
-Thomas
+#define kref_res_get() drm_dev_get()
+#define kref_res_put() drm_dev_put()
 
-> =20
->  	ret =3D pci_enable_device(pdev);
->  	if (ret)
-> -		goto free_dev;
-> +		return ret;
-> =20
->  	ret =3D drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "qxl"=
-);
->  	if (ret)
-> @@ -101,7 +104,7 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pc=
-i_device_id *ent)
->  		}
->  	}
-> =20
-> -	ret =3D qxl_device_init(qdev, &qxl_driver, pdev);
-> +	ret =3D qxl_device_init(qdev, pdev);
->  	if (ret)
->  		goto put_vga;
-> =20
-> @@ -128,8 +131,7 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pc=
-i_device_id *ent)
->  		vga_put(pdev, VGA_RSRC_LEGACY_IO);
->  disable_pci:
->  	pci_disable_device(pdev);
-> -free_dev:
-> -	kfree(qdev);
-> +
->  	return ret;
->  }
-> =20
-> @@ -155,7 +157,6 @@ qxl_pci_remove(struct pci_dev *pdev)
->  	drm_atomic_helper_shutdown(dev);
->  	if (is_vga(pdev))
->  		vga_put(pdev, VGA_RSRC_LEGACY_IO);
-> -	drm_dev_put(dev);
->  }
-> =20
->  DEFINE_DRM_GEM_FOPS(qxl_fops);
-> diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_dr=
-v.h
-> index 435126facc9b..86ac191d9205 100644
-> --- a/drivers/gpu/drm/qxl/qxl_drv.h
-> +++ b/drivers/gpu/drm/qxl/qxl_drv.h
-> @@ -276,8 +276,7 @@ struct qxl_device {
->  extern const struct drm_ioctl_desc qxl_ioctls[];
->  extern int qxl_max_ioctl;
-> =20
-> -int qxl_device_init(struct qxl_device *qdev, struct drm_driver *drv,
-> -		    struct pci_dev *pdev);
-> +int qxl_device_init(struct qxl_device *qdev, struct pci_dev *pdev);
->  void qxl_device_fini(struct qxl_device *qdev);
-> =20
->  int qxl_modeset_init(struct qxl_device *qdev);
-> diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_km=
-s.c
-> index 9eed1a375f24..91a34dd835d7 100644
-> --- a/drivers/gpu/drm/qxl/qxl_kms.c
-> +++ b/drivers/gpu/drm/qxl/qxl_kms.c
-> @@ -108,21 +108,13 @@ static void qxl_gc_work(struct work_struct *work)=
+With suitable amounts of casting to make this work out correctly like
+the real kref_res solution.
 
->  }
-> =20
->  int qxl_device_init(struct qxl_device *qdev,
-> -		    struct drm_driver *drv,
->  		    struct pci_dev *pdev)
->  {
->  	int r, sb;
-> =20
-> -	r =3D drm_dev_init(&qdev->ddev, drv, &pdev->dev);
-> -	if (r) {
-> -		pr_err("Unable to init drm dev");
-> -		goto error;
-> -	}
-> -
->  	qdev->ddev.pdev =3D pdev;
->  	pci_set_drvdata(pdev, &qdev->ddev);
->  	qdev->ddev.dev_private =3D qdev;
-> -	drmm_add_final_kfree(&qdev->ddev, qdev);
-> =20
->  	mutex_init(&qdev->gem.mutex);
->  	mutex_init(&qdev->update_area_mutex);
-> @@ -138,8 +130,7 @@ int qxl_device_init(struct qxl_device *qdev,
->  	qdev->vram_mapping =3D io_mapping_create_wc(qdev->vram_base, pci_reso=
-urce_len(pdev, 0));
->  	if (!qdev->vram_mapping) {
->  		pr_err("Unable to create vram_mapping");
-> -		r =3D -ENOMEM;
-> -		goto error;
-> +		return -ENOMEM;
->  	}
-> =20
->  	if (pci_resource_len(pdev, 4) > 0) {
-> @@ -293,7 +284,6 @@ int qxl_device_init(struct qxl_device *qdev,
->  	io_mapping_free(qdev->surface_mapping);
->  vram_mapping_free:
->  	io_mapping_free(qdev->vram_mapping);
-> -error:
->  	return r;
->  }
-> =20
->=20
+Until we do have such drivers though I really don't want to open the
+barn door again to all the bugs that'll bring, while I'm trying to get
+the other barn doors closed down and fixed meanwhile.
+-Daniel
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>
+> > Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_drv.c | 23 +++++++++++++++++++++++
+> >  include/drm/drm_drv.h     | 33 +++++++++++++++++++++++++++++++++
+> >  2 files changed, 56 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> > index 1bb4f636b83c..9e60b784b3ac 100644
+> > --- a/drivers/gpu/drm/drm_drv.c
+> > +++ b/drivers/gpu/drm/drm_drv.c
+> > @@ -739,6 +739,29 @@ int devm_drm_dev_init(struct device *parent,
+> >  }
+> >  EXPORT_SYMBOL(devm_drm_dev_init);
+> >
+> > +void* __devm_drm_dev_alloc(struct device *parent, struct drm_driver *driver,
+> > +                        size_t size, size_t offset)
+> > +{
+> > +     void *container;
+> > +     struct drm_device *drm;
+> > +     int ret;
+> > +
+> > +     container = kzalloc(size, GFP_KERNEL);
+> > +     if (!container)
+> > +             return ERR_PTR(-ENOMEM);
+> > +
+> > +     drm = container + offset;
+> > +     ret = devm_drm_dev_init(parent, drm, driver);
+> > +     if (ret) {
+> > +             kfree(container);
+> > +             return ERR_PTR(ret);
+> > +     }
+> > +     drmm_add_final_kfree(drm, container);
+> > +
+> > +     return container;
+> > +}
+> > +EXPORT_SYMBOL(__devm_drm_dev_alloc);
+> > +
+> >  /**
+> >   * drm_dev_alloc - Allocate new DRM device
+> >   * @driver: DRM driver to allocate device for
+> > diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> > index e7c6ea261ed1..26776be5a21e 100644
+> > --- a/include/drm/drm_drv.h
+> > +++ b/include/drm/drm_drv.h
+> > @@ -626,6 +626,39 @@ int devm_drm_dev_init(struct device *parent,
+> >                     struct drm_device *dev,
+> >                     struct drm_driver *driver);
+> >
+> > +void* __devm_drm_dev_alloc(struct device *parent, struct drm_driver *driver,
+> > +                        size_t size, size_t offset);
+> > +
+> > +/**
+> > + * devm_drm_dev_alloc - Resource managed allocation of a &drm_device instance
+> > + * @parent: Parent device object
+> > + * @driver: DRM driver
+> > + * @type: the type of the struct which contains struct &drm_device
+> > + * @member: the name of the &drm_device within @type.
+> > + *
+> > + * This allocates and initialize a new DRM device. No device registration is done.
+> > + * Call drm_dev_register() to advertice the device to user space and register it
+> > + * with other core subsystems. This should be done last in the device
+> > + * initialization sequence to make sure userspace can't access an inconsistent
+> > + * state.
+> > + *
+> > + * The initial ref-count of the object is 1. Use drm_dev_get() and
+> > + * drm_dev_put() to take and drop further ref-counts.
+> > + *
+> > + * It is recommended that drivers embed &struct drm_device into their own device
+> > + * structure.
+> > + *
+> > + * Note that this manages the lifetime of the resulting &drm_device
+> > + * automatically using devres. The DRM device initialized with this function is
+> > + * automatically put on driver detach using drm_dev_put().
+> > + *
+> > + * RETURNS:
+> > + * Pointer to new DRM device, or ERR_PTR on failure.
+> > + */
+> > +#define devm_drm_dev_alloc(parent, driver, type, member) \
+> > +     ((type *) __devm_drm_dev_alloc(parent, driver, sizeof(type), \
+> > +                                    offsetof(type, member)))
+> > +
+> >  struct drm_device *drm_dev_alloc(struct drm_driver *driver,
+> >                                struct device *parent);
+> >  int drm_dev_register(struct drm_device *dev, unsigned long flags);
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
 
---6kv8mAox5GvUraJWEerWSr8Z7ZNmjb3HG--
 
---U47qTCGnlx1wJpHiO8OcTjEHNNfTq4eiS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6LHF0ACgkQaA3BHVML
-eiN5oAgAiGX1c+294XzOEnNtdftBXz6wvc9tUg7FAMoBixHQK3BrcgYD9CIZ5RkA
-EMKoRH7GkgVruL7ABjv6Pw2h/Gb3ywxUui1pNONAmqj5mk59l7ZpNxHHgtArTvV1
-+puo9VV2l7UklAoH+w8xf9obXFKSwfwyRX+bIuemq1pJGwRbIQ0/XxkTe4fK6CVu
-g8+b9arcUfykEiZXH6MUWOZwUkj2nvC/oVVdc3+sFThfbKhkAd2j+Zbfa2OOXWJ6
-Rf1no3zjvXrwawkGBd6k/WpwHBziIM5C6LHeAOR4OVckgLFI+cLjEiix7VyYcwYR
-kiWzBaGT9GfEkX90fAqhSFia/0GXQA==
-=mZNW
------END PGP SIGNATURE-----
-
---U47qTCGnlx1wJpHiO8OcTjEHNNfTq4eiS--
-
---===============2001952359==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2001952359==--
