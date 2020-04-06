@@ -1,37 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C9B119FE9C
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 22:01:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4825619FEB9
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 22:07:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B9B56E4A5;
-	Mon,  6 Apr 2020 20:01:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D5D06E4BA;
+	Mon,  6 Apr 2020 20:07:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3E856E4A5
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 20:00:59 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD9CA6E4BA
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 20:07:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586203621;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rXIYebum9QchqOrGhXWLQLLK7a5E49kIN0en0Oaf2sg=;
+ b=XkdZPW+cOYVR/p/jcsaObVQnUWcCpht90Uq+FhrlHYaQVWn+K/v4brznu4rpEJy6SB/Byt
+ 1aZQMY5uQGn+qhfsPucsKiF/nzouvSP077xD5Zmkbi/C7o11Jv8PH7V6FZD1/oNz0CVTIT
+ GI+zmvluXWRIn57RdAwkbhMrZTMCdAs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-35-KCzBsCLTMzuH58e91jJXyQ-1; Mon, 06 Apr 2020 16:06:59 -0400
+X-MC-Unique: KCzBsCLTMzuH58e91jJXyQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id B75ED804B9;
- Mon,  6 Apr 2020 22:00:52 +0200 (CEST)
-Date: Mon, 6 Apr 2020 22:00:51 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/10] Set up generic fbdev after registering device
-Message-ID: <20200406200051.GA26582@ravnborg.org>
-References: <20200406134405.6232-1-tzimmermann@suse.de>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80ED88018A6;
+ Mon,  6 Apr 2020 20:06:57 +0000 (UTC)
+Received: from Ruby.redhat.com (ovpn-117-12.rdu2.redhat.com [10.10.117.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1572B6EF97;
+ Mon,  6 Apr 2020 20:06:54 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/i915/dp_mst: Cast intel_connector->port as
+ drm_dp_mst_port
+Date: Mon,  6 Apr 2020 16:06:41 -0400
+Message-Id: <20200406200646.1263435-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200406134405.6232-1-tzimmermann@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8
- a=MI439GfI5g_Jz8OZxUEA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,82 +56,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, paul@crapouillou.net,
- kraxel@redhat.com, emil.velikov@collabora.com, xinliang.liu@linaro.org,
- kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com, chunkuang.hu@kernel.org,
- puck.chen@hisilicon.com, hdegoede@redhat.com, jsarha@ti.com,
- matthias.bgg@gmail.com, sean@poorly.run, zourongrong@gmail.com,
- tiantao6@hisilicon.com
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas.
+The only reason for having this cast as void * before was because we
+originally needed to use drm_dp_mst_get_port_validated() and friends in
+order to (attempt to) safely access MST ports. However, we've since
+improved how reference counting works with ports and mstbs such that we
+can now rely on drm_dp_mst_port structs remaining in memory for as long
+as the driver needs. This means we don't really need to cast this as
+void* anymore, and can just access the struct directly.
 
-On Mon, Apr 06, 2020 at 03:43:55PM +0200, Thomas Zimmermann wrote:
-> Generic fbdev emulation is a DRM client. If possible, it should behave
-> like userspace clients. Therefore it should not run before the driver
-> registered the new DRM device. If the setup function fails, the driver
-> should not report an error.
+We'll also need this for the next commit, so that we can remove
+drm_dp_mst_port_has_audio().
 
-Thanks for taking the time to refactor all the relevant drivers.
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Sean Paul <sean@poorly.run>
+---
+ drivers/gpu/drm/i915/display/intel_display_types.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I have received some push-back in the past when suggesting this,
-but cannot remember from who.
-Let's see what review comments you get.
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index 5a0adf14ebef..0ddc98afe252 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -438,7 +438,7 @@ struct intel_connector {
+ 	   state of connector->polled in case hotplug storm detection changes it */
+ 	u8 polled;
+ 
+-	void *port; /* store this opaque as its illegal to dereference it */
++	struct drm_dp_mst_port *port;
+ 
+ 	struct intel_dp *mst_port;
+ 
+-- 
+2.25.1
 
-As the rule is that the fbdev setup shall be setup after registering
-the DRM device - it would be nice to have this included in the
-documentation of drm_fbdev_generic_setup
-
-Could you try to to update the documentation to cover this?
-
-I will get back to the patches later this week.
-
-	Sam
-
-> 
-> This is a follow-up patchset to the discussion at [1].  I went
-> through all calls to drm_fbdev_generic_setup(), moved them to the
-> final operation of their driver's probe function, and removed the
-> return value.
-> 
-> Built-tested on x86-64, aarch64 and arm.
-> 
-> [1] https://lore.kernel.org/dri-devel/20200403135828.2542770-1-daniel.vetter@ffwll.ch/T/#m216b5b37aeeb7b28d55ad73b7a702b3d1d7bf867
-> 
-> Thomas Zimmermann (10):
->   drm/ast: Set up fbdev after registering device; remove error checks
->   drm/hibmc: Remove error check from fbdev setup
->   drm/kirin: Set up fbdev after fully registering device
->   drm/ingenic: Remove error check from fbdev setup
->   drm/mediathek: Remove error check from fbdev setup
->   drm/mgag200: Set up fbdev after registering device; remove error
->     checks
->   drm/tilcdc: Set up fbdev after fully registering device
->   drm/udl: Remove error check from fbdev setup
->   drm/vboxvideo: Set up fbdev after registering device; remove error
->     checks
->   drm/fb-helper: Remove return value from drm_fbdev_generic_setup()
-> 
->  drivers/gpu/drm/ast/ast_drv.c                  |  3 +++
->  drivers/gpu/drm/ast/ast_main.c                 |  5 -----
->  drivers/gpu/drm/drm_fb_helper.c                | 18 ++++++++----------
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |  6 +-----
->  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c    |  4 ++--
->  drivers/gpu/drm/ingenic/ingenic-drm.c          |  4 +---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c         |  4 +---
->  drivers/gpu/drm/mgag200/mgag200_drv.c          |  2 ++
->  drivers/gpu/drm/mgag200/mgag200_main.c         |  4 ----
->  drivers/gpu/drm/tilcdc/tilcdc_drv.c            |  3 +--
->  drivers/gpu/drm/udl/udl_drv.c                  |  6 +-----
->  drivers/gpu/drm/vboxvideo/vbox_drv.c           |  6 ++----
->  include/drm/drm_fb_helper.h                    |  5 +++--
->  13 files changed, 25 insertions(+), 45 deletions(-)
-> 
-> --
-> 2.26.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
