@@ -2,71 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91CF1A0149
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 00:53:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E36A11A090A
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 10:10:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C39136E20C;
-	Mon,  6 Apr 2020 22:53:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B46526E5C8;
+	Tue,  7 Apr 2020 08:09:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 890646E508
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 22:53:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586213596;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D321A6E0C6
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 23:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1586216716; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JrHGD9RWRspNkyGGOF7uqIbfWQS+X2GOZdqJWG8idwI=;
- b=NqBpS8PGhNunqcc6RGBVvZPRTg9IuhhiFt6WMSMNOWk7aW1BoLYn43W/o668u9xTF0Kg3Y
- +5R7SGHuQcvKI8Q/1t3RCL4EXa7whUeQUYE55BRFFk+e2it+xeJf4xrfZNpaQwG0TW4vfy
- eSBBKWhXf1MFcYG9ts/PZb2g/IBCJeM=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-k6NiPlyJOsSWqZGUEa3PVw-1; Mon, 06 Apr 2020 18:53:10 -0400
-X-MC-Unique: k6NiPlyJOsSWqZGUEa3PVw-1
-Received: by mail-qk1-f200.google.com with SMTP id h186so1365718qkc.22
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 15:53:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=pMKtkptbJbY9yXtMvzlOYnwfjQsw+2Z6Fz4aediyCRI=;
- b=YWbBY9CEvWsqvWh3BHzWhfV9M7Hkndo2pALd+JhigCUeiN0PL577h9fWOJ83KTbp/T
- Xk8QneZevd3MuE1FvKbBI3Rripsp4IobnD9IwXmCkUeOztcykH8jOKhugQA0ZVS6lQEC
- Rap9L9n976RzhvJHlNPNXLw4gM/6XySMhpxQqhoj+ggwFQc7kNIyy8KwcVkEmf1BsrnX
- a5eEE6k2Tl4+3WaYZK39aCO1c1lo5BOw0m8mL/suSVWZN3X1Tgokx4jGTpaoUCRPSaFH
- ucidoztpJWkPVMr6rK/PBcrFH5gpOCzxYFGpVzHrhdu49qBiew1UmlyUVtDWPe0tuPdC
- TBfQ==
-X-Gm-Message-State: AGi0PuaiOum1PHx8IWrTpFGET4oWCIHGQvDvJdS13K2tMSeyNKDPuIr6
- 8lEremZEAIWl2/7X8jM4nHSCdOZuuP0qoUlVe0RfJjjbwkn/VFT3N6GGL5KAbLJS1FcDf8MCb4w
- w4g+GqdrINraKOWBP+jaCXRVIi8Nl
-X-Received: by 2002:ac8:6f14:: with SMTP id g20mr1937961qtv.53.1586213589917; 
- Mon, 06 Apr 2020 15:53:09 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKZC0k7Err3BAO/qrJUbz5JiC1PvbI6dykrc7dha1sVGY2EA5cg7eGcWovUnZsBxLSetUNj6g==
-X-Received: by 2002:ac8:6f14:: with SMTP id g20mr1937947qtv.53.1586213589629; 
- Mon, 06 Apr 2020 15:53:09 -0700 (PDT)
-Received: from Ruby.lyude.net (static-173-76-190-23.bstnma.ftas.verizon.net.
- [173.76.190.23])
- by smtp.gmail.com with ESMTPSA id g138sm7491314qke.133.2020.04.06.15.53.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 15:53:09 -0700 (PDT)
-Message-ID: <ca83fc0882b7971a32a875e418f412f79985206c.camel@redhat.com>
-Subject: Re: [PATCH v2 1/3] drm/vblank: Add intro to documentation
-From: Lyude Paul <lyude@redhat.com>
-To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Date: Mon, 06 Apr 2020 18:53:07 -0400
-In-Reply-To: <20200406194746.26433-2-sam@ravnborg.org>
-References: <20200406194746.26433-1-sam@ravnborg.org>
- <20200406194746.26433-2-sam@ravnborg.org>
-Organization: Red Hat
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+ bh=MxQ4FNHucxtqXpEzbUWKv7nB1H/X9nqvlSGCL9vxYTA=;
+ b=I9+8c2dcsHuftWfiAk29XRt8qbUJkOyaJ5Mz95X4XXeoTlY8xOHg7j2StmsniIJfaEGpSo
+ OKt3i+FC9TtmBG6SqDT7jf8bmgYb8w36FiTe9iDGBw919VuHObE/leVrircfrqDxNcRUgP
+ Qmf2e54iYK3xGnd1e9TXkE7D4LXixAs=
+Date: Tue, 07 Apr 2020 01:45:02 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 04/10] drm/ingenic: Remove error check from fbdev setup
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Message-Id: <2N4E8Q.P9MTB5NUTGTK3@crapouillou.net>
+In-Reply-To: <20200406134405.6232-5-tzimmermann@suse.de>
+References: <20200406134405.6232-1-tzimmermann@suse.de>
+ <20200406134405.6232-5-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+X-Mailman-Approved-At: Tue, 07 Apr 2020 08:09:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,106 +44,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Liviu Dudau <liviu.dudau@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ sam@ravnborg.org, emil.velikov@collabora.com, xinliang.liu@linaro.org,
+ kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com, chunkuang.hu@kernel.org,
+ puck.chen@hisilicon.com, hdegoede@redhat.com, jsarha@ti.com,
+ matthias.bgg@gmail.com, sean@poorly.run, zourongrong@gmail.com,
+ tiantao6@hisilicon.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDIwLTA0LTA2IGF0IDIxOjQ3ICswMjAwLCBTYW0gUmF2bmJvcmcgd3JvdGU6Cj4g
-THl1ZGUgUGF1bCB3cm90ZSBhIHZlcnkgZ29vZCBpbnRybyB0byB2YmxhbmsgaGVyZToKPiBodHRw
-czovL2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwvZmFmNjNkOGE5ZWQyM2MxNmFmNjk3NjJmNTlk
-MGRjYTZiMmJmMDg1Zi5jYW1lbEByZWRoYXQuY29tL1QvI21jZTY0ODBiZTczODE2MGU5ZDA3YzVk
-MDIzZTg4ZmQ3OGQ3YTA2ZDI3Cj4gCj4gQWRkIHRoaXMgdG8gdGhlIGludHJvIGNoYXB0ZXIgaW4g
-ZHJtX3ZibGFuay5jIHNvIG90aGVycwo+IGNhbiBiZW5lZml0IGZyb20gaXQgdG9vLgo+IAo+IHYy
-Ogo+ICAgLSBSZXdvcmRlZCB0byBpbXByb3ZlIHJlYWRhYmlsaXR5IChUaG9tYXMpCj4gCj4gdjM6
-Cj4gICAtIEFkZGVkIG5pY2UgYXNjaWkgZHJhd2luZyBmcm9tIEx5dWRlIChMeXVkZSkKPiAgIC0g
-QWRkZWQgcmVmZXJlbmRlIHRvIGhpZ2gtcHJlY2lzaW9uIHRpbWVzdGFtcCAoRGFuaWVsKQo+ICAg
-LSBJbXByb3ZlZCBncmFtbWFyIChUaG9tYXMpCj4gICAtIENvbWJpbmVkIGl0IGFsbCBhbmQgbWFk
-ZSBrZXJuZWwtZG9jIGhhcHB5Cj4gICAtIERyb3BwZWQgYW55IGEtYiwgci1iIGRvIHRvIHRoZSBh
-bW91bnQgb2YgY2hhbmdlcwo+IAo+IFNpZ25lZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJh
-dm5ib3JnLm9yZz4KPiBDby1kZXZlbG9wZWQtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5j
-b20+Cj4gQ2M6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4gQ2M6IFRob21hcyBaaW1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
-dmV0dGVyQGZmd2xsLmNoPgo+IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9y
-c3RAbGludXguaW50ZWwuY29tPgo+IENjOiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5v
-cmc+Cj4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+IENjOiBE
-YXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9k
-cm1fdmJsYW5rLmMgfCA1MyArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAg
-MSBmaWxlIGNoYW5nZWQsIDUzIGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2RybV92YmxhbmsuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5rLmMKPiBp
-bmRleCBiY2YzNDZiM2U0ODYuLjk2MzMwOTJjOWFkNSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vZHJtX3ZibGFuay5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYwo+
-IEBAIC00MSw2ICs0MSw1OSBAQAo+ICAvKioKPiAgICogRE9DOiB2YmxhbmsgaGFuZGxpbmcKPiAg
-ICoKPiArICogRnJvbSB0aGUgY29tcHV0ZXIncyBwZXJzcGVjdGl2ZSwgZXZlcnkgdGltZSB0aGUg
-bW9uaXRvciBkaXNwbGF5cwo+ICsgKiBhIG5ldyBmcmFtZSB0aGUgc2Nhbm91dCBlbmdpbmUgaGF2
-ZSAic2Nhbm5lZCBvdXQiIHRoZSBkaXNwbGF5IGltYWdlCj4gKyAqIGZyb20gdG9wIHRvIGJvdHRv
-bSwgb25lIHJvdyBvZiBwaXhlbHMgYXQgYSB0aW1lLgoKcy9oYXZlL2hhcy8KCk90aGVyIHRoZW4g
-dGhhdDoKClJldmlld2VkLWJ5OiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgoKPiArICog
-VGhlIGN1cnJlbnQgcm93IG9mIHBpeGVscyBpcyByZWZlcnJlZCB0byBhcyB0aGUgY3VycmVudCBz
-Y2FubGluZS4KPiArICoKPiArICogSW4gYWRkaXRpb24gdG8gdGhlIGRpc3BsYXkncyB2aXNpYmxl
-IGFyZWEsIHRoZXJlJ3MgdXN1YWxseSBhIGNvdXBsZSBvZgo+ICsgKiBleHRyYSBzY2FubGluZXMg
-d2hpY2ggYXJlbid0IGFjdHVhbGx5IGRpc3BsYXllZCBvbiB0aGUgc2NyZWVuLgo+ICsgKiBUaGVz
-ZSBleHRyYSBzY2FubGluZXMgZG9uJ3QgY29udGFpbiBpbWFnZSBkYXRhIGFuZCBhcmUgb2NjYXNp
-b25hbGx5IHVzZWQKPiArICogZm9yIGZlYXR1cmVzIGxpa2UgYXVkaW8gYW5kIGluZm9mcmFtZXMu
-IFRoZSByZWdpb24gbWFkZSB1cCBvZiB0aGVzZQo+ICsgKiBzY2FubGluZXMgaXMgcmVmZXJyZWQg
-dG8gYXMgdGhlIHZlcnRpY2FsIGJsYW5raW5nIHJlZ2lvbiwgb3IgdmJsYW5rIGZvcgo+ICsgKiBz
-aG9ydC4KPiArICoKPiArICogOjoKPiArICoKPiArICoKPiArICogICAgcGh5c2ljYWwg4oaSICAg
-4o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o69
-4o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o69
-4o694o69Cj4gKyAqICAgIHRvcCBvZiAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgfAo+ICsgKiAgICBkaXNwbGF5ICAgICB8ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHwKPiArICogICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAg
-IE5ldyBmcmFtZSAgICAgICAgICAgICAgICB8Cj4gKyAqICAgICAgICAgICAgICAgIHwgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAo+ICsgKiAgICAgICAgICAgICAgICB8
-4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT
-4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT
-4oaT4oaTfAo+ICsgKiAgICAgICAgICAgICAgICB8fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fnwg4oaQIFNjYW5saW5lLAo+IHVwZGF0ZXMKPiArICogICAgICAgICAgICAg
-ICAgfOKGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KG
-k+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KG
-k+KGk+KGk+KGk3wgICB0aGUgZnJhbWUgYXMKPiBpdAo+ICsgKiAgICAgICAgICAgICAgICB8ICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICB0cmF2ZWxzIGRvd24KPiAr
-ICogICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICB8ICAgKCJzY2FuIG91dCIpCj4gKyAqICAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfAo+ICsgKiAgICAgICAgICAgICAgICB8ICAgICAgICAg
-ICAgICAgT2xkIGZyYW1lICAgICAgICAgICAgICAgIHwKPiArICogICAgICAgICAgICAgICAgfCAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8Cj4gKyAqICAgICAgICAgICAg
-ICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAo+ICsgKiAgICAg
-ICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKPiAr
-ICogICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICB8ICAgcGh5c2ljYWwKPiArICogICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8ICAgYm90dG9tIG9mCj4gKyAqICAgIHZlcnRpY2FsICAgIHzi
-jr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3i
-jr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3i
-jr3ijr18IOKGkCBkaXNwbGF5Cj4gKyAqICAgIGJsYW5raW5nICAgIOKUhnh4eHh4eHh4eHh4eHh4
-eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHjilIYKPiArICogICAgcmVnaW9uICAg4oaSICDilIZ4
-eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh44pSGCj4gKyAqICAgICAgICAg
-ICAgICAgIOKUhnh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHjilIYKPiAr
-ICogICAgc3RhcnQgb2Yg4oaSICAg4o694o694o694o694o694o694o694o694o694o694o694o69
-4o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o69
-4o694o694o694o694o694o694o694o694o69Cj4gKyAqICAgIG5ldyBmcmFtZQo+ICsgKgo+ICsg
-KiAiUGh5c2ljYWwgdG9wIG9mIGRpc3BsYXkiIGlzIHRoZSByZWZlcmVuY2UgcG9pbnQgZm9yIHRo
-ZSBoaWdoLXByZWNpc2lvbi8KPiArICogY29ycmVjdGVkIHRpbWVzdGFtcC4KPiArICoKPiArICog
-T24gYSBsb3Qgb2YgZGlzcGxheSBoYXJkd2FyZSwgcHJvZ3JhbW1pbmcgbmVlZHMgdG8gdGFrZSBl
-ZmZlY3QgZHVyaW5nCj4gdGhlCj4gKyAqIHZlcnRpY2FsIGJsYW5raW5nIHBlcmlvZCBzbyB0aGF0
-IHNldHRpbmdzIGxpa2UgZ2FtbWEsIHRoZSBpbWFnZSBidWZmZXIKPiArICogYnVmZmVyIHRvIGJl
-IHNjYW5uZWQgb3V0LCBldGMuIGNhbiBzYWZlbHkgYmUgY2hhbmdlZCB3aXRob3V0IHNob3dpbmcK
-PiArICogYW55IHZpc3VhbCBhcnRpZmFjdHMgb24gdGhlIHNjcmVlbi4gSW4gc29tZSB1bmZvcmdp
-dmluZyBoYXJkd2FyZSwgc29tZQo+IG9mCj4gKyAqIHRoaXMgcHJvZ3JhbW1pbmcgaGFzIHRvIGJv
-dGggc3RhcnQgYW5kIGVuZCBpbiB0aGUgc2FtZSB2YmxhbmsuCj4gKyAqCj4gKyAqIFRoZSB2Ymxh
-bmsgaW50ZXJydXB0IG1heSBiZSBmaXJlZCBhdCBkaWZmZXJlbnQgcG9pbnRzIGRlcGVuZGluZyBv
-biB0aGUKPiArICogaGFyZHdhcmUuIFNvbWUgaGFyZHdhcmUgaW1wbGVtZW50YXRpb25zIHdpbGwg
-ZmlyZSB0aGUgaW50ZXJydXB0IHdoZW4gdGhlCj4gKyAqIG5ldyBmcmFtZSBzdGFydCwgb3RoZXIg
-aW1wbGVtZW50YXRpb25zIHdpbGwgZmlyZSB0aGUgaW50ZXJydXB0IGF0Cj4gZGlmZmVyZW50Cj4g
-KyAqIHBvaW50cyBpbiB0aW1lLgo+ICsgKgo+ICAgKiBWZXJ0aWNhbCBibGFua2luZyBwbGF5cyBh
-IG1ham9yIHJvbGUgaW4gZ3JhcGhpY3MgcmVuZGVyaW5nLiBUbyBhY2hpZXZlCj4gICAqIHRlYXIt
-ZnJlZSBkaXNwbGF5LCB1c2VycyBtdXN0IHN5bmNocm9uaXplIHBhZ2UgZmxpcHMgYW5kL29yIHJl
-bmRlcmluZyB0bwo+ICAgKiB2ZXJ0aWNhbCBibGFua2luZy4gVGhlIERSTSBBUEkgb2ZmZXJzIGlv
-Y3RscyB0byBwZXJmb3JtIHBhZ2UgZmxpcHMKLS0gCkNoZWVycywKCUx5dWRlIFBhdWwgKHNoZS9o
-ZXIpCglBc3NvY2lhdGUgU29mdHdhcmUgRW5naW5lZXIgYXQgUmVkIEhhdAoKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Thomas,
+
+Le lun. 6 avril 2020 =E0 15:43, Thomas Zimmermann <tzimmermann@suse.de> =
+
+a =E9crit :
+> Remove the error check from the fbdev setup function. The function
+> will print a warning.
+> =
+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Reviewed-by: Paul Cercueil <paul@crapouillou.net>
+
+> ---
+>  drivers/gpu/drm/ingenic/ingenic-drm.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c =
+
+> b/drivers/gpu/drm/ingenic/ingenic-drm.c
+> index 7f3f869f57b3f..d938f2b1a96f1 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
+> @@ -783,9 +783,7 @@ static int ingenic_drm_probe(struct =
+
+> platform_device *pdev)
+>  		goto err_devclk_disable;
+>  	}
+> =
+
+> -	ret =3D drm_fbdev_generic_setup(drm, 32);
+> -	if (ret)
+> -		dev_warn(dev, "Unable to start fbdev emulation: %i", ret);
+> +	drm_fbdev_generic_setup(drm, 32);
+> =
+
+>  	return 0;
+> =
+
+> --
+> 2.26.0
+> =
+
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
