@@ -2,54 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DCB19FDCE
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 21:01:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DEE019FE13
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 21:29:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E0EF887DE;
-	Mon,  6 Apr 2020 19:01:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4D436E0E3;
+	Mon,  6 Apr 2020 19:29:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D143887DE
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 19:01:43 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id v2so504863oto.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 12:01:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Y0sNQqJahI9MIkHeoT62EAuzC60D2DtfNpk9mBNKSZ8=;
- b=j7YS+YOn17b1nFsdbdI0r/FEL9LuKUXyNS34d96MWC4s8rVOKumFljksPdQ+EFihnw
- 0tTf9bkO7ShLQkipkDzFdQHcB4PVMkmXJMYZyG4kp6z6MeCtOrUkuPYYnVphQ60yVOGT
- CThTBx/2SyopIh7T56YwD+GaCN60JbYoCM5V9b4sTPnjUBSwchzeKZOE2uemMJACj3/r
- mME1hp8Grbf8TBU5j2H7EyG3+LY8J4rtXx0gyMV+mcUI9FylGkcLZGo4wcJxkXMtgRP1
- UgIOpc9z6Q0SOIu5XhkliTFqRf2lw7R8WE5NJOrqzA8Qq4wyXr7teiscDilLyIGw0QNW
- 7IRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Y0sNQqJahI9MIkHeoT62EAuzC60D2DtfNpk9mBNKSZ8=;
- b=EeUHC6kOg8qpJA+SDN+Kc1Duyfhdr8KhGL/l08kxeKamLyvtix1fcQzEVy0nDk315S
- SV0Me1T9Dq9XWX8T3Wf5JxLdRdS18u+inGpU1728UIny3ZjXoHuR2yxvkKUoZsB6nWNU
- nKQFsmrb4Gn9fu+zITEzjwSQ62TXvFG9DMD/kRStysq90IU7WM8gzwyqm9okHw+Qp5Hd
- 5MDzZIJViZC9wNbL8WCrKqPiDfzUo9vWR4ZMeIApiyDKipgsiajm/pM0ooao83743dUk
- tegqM2rAbtLOx0wSpfsdJWTzOtLDL4nYUySAVnMnGSddJDo2YL1VqU83SwxbqVagN4aH
- /G8Q==
-X-Gm-Message-State: AGi0PubsNaOn2WuJKfGKDT2ty44B7v+sp+HKR7NCy4stAWVsnErckvin
- FQ1t2q1dqCqHBOhcWEDSTFSg7Muju0L5IO3r4SXn6g==
-X-Google-Smtp-Source: APiQypIbr3vUuGlKw7GcTaxlnP6VALaLlfXTuEcQ2IPsWRMRI5qUdFhG1n/zbi3nfgqa3MDtsmlBHlyjxha+nGLhaDo=
-X-Received: by 2002:a05:6830:1610:: with SMTP id
- g16mr18165621otr.358.1586199701648; 
- Mon, 06 Apr 2020 12:01:41 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 358616E0E3
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 19:29:17 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3278F2072F
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 19:19:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1586200793;
+ bh=zdj7yojVhBaB/Gk/gXB9gngRJZ5TCmP70WrifeTeWPo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=kesdoxmkVgj2Dqv1tQt4fCw9H0dMsOgGP9qPRjv6lxpDGHTZFQ1uelps6tnsNLOnV
+ 9nh0Bo+fqKkQzQGZ419+d2v7FAG5G+QsZIATy+uKnjZeOBlQSb+tW7Q+Cgyo0nqrRD
+ y8IuKO4hOpB0d8gYWFzx/ahsF9E58viGQiCokusg=
+Received: by mail-qt1-f182.google.com with SMTP id b10so714317qtt.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 12:19:53 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZNW4IwPtZBGFwJ8Q8jYAglxNYdejlvPA/p7LjUxt3h48VyxzYI
+ smj9mH7mstOZUCAc4A5TGsFBZyRbWK/FB5NC8g==
+X-Google-Smtp-Source: APiQypJ1VgDGdNpHhWosDRaYn1Rfz/zEmplt4aAY7f96THP6EXWe5/sr8OVtCQdWt8FkwVCSRsBVmdwCf83I3b/uFa0=
+X-Received: by 2002:ac8:2668:: with SMTP id v37mr1115420qtv.143.1586200792283; 
+ Mon, 06 Apr 2020 12:19:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAN=K5G92HHwFqH4FPeqfJkD-hj8HJBy+7dTWEg55BP_HnHFjKw@mail.gmail.com>
- <20200405112131.1b2c5fc0@ferris.localdomain>
-In-Reply-To: <20200405112131.1b2c5fc0@ferris.localdomain>
-From: Erik Jensen <rkjnsn@google.com>
-Date: Mon, 6 Apr 2020 12:01:30 -0700
-Message-ID: <CAN=K5G9kfQyDWJ1A+UXFtkNnZs3rryTRj2m-JaVAemJRD4CK+Q@mail.gmail.com>
-Subject: Re: Curtaining API / Force blanking displays
-To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20200405232318.26833-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405232318.26833-5-laurent.pinchart+renesas@ideasonboard.com>
+ <CAMuHMdXJcw0eGY7J=JcGv6Hs9E_GCybsYSeKKeH5pAH8nkdTrg@mail.gmail.com>
+ <20200406110924.GB4757@pendragon.ideasonboard.com>
+ <CAMuHMdWhj1uS6v1bb0ntsP_b29Sgw+M6KHPceDxmeF3329Aw=g@mail.gmail.com>
+In-Reply-To: <CAMuHMdWhj1uS6v1bb0ntsP_b29Sgw+M6KHPceDxmeF3329Aw=g@mail.gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Mon, 6 Apr 2020 13:19:40 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKhdQdfX4bHe2dxR_TiK2jWpdY=pacHOme+qaJ-MdN_fg@mail.gmail.com>
+Message-ID: <CAL_JsqKhdQdfX4bHe2dxR_TiK2jWpdY=pacHOme+qaJ-MdN_fg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] dt-bindings: display: bridge: renesas,lvds: Convert
+ binding to YAML
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,109 +58,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for the reply! (And thanks Simon for the pointer to ffmpeg.)
+On Mon, Apr 6, 2020 at 5:40 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Laurent,
+>
+> On Mon, Apr 6, 2020 at 1:09 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> > On Mon, Apr 06, 2020 at 10:47:37AM +0200, Geert Uytterhoeven wrote:
+> > > On Mon, Apr 6, 2020 at 1:24 AM Laurent Pinchart wrote:
+> > > > Convert the Renesas R-Car LVDS encoder text binding to YAML.
+> > > >
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>
+> > > > +if:
+> > > > +  properties:
+> > > > +    compatible:
+> > > > +      enum:
+> > > > +        - renesas,r8a774c0-lvds
+> > > > +        - renesas,r8a77990-lvds
+> > > > +        - renesas,r8a77995-lvds
+> > > > +then:
+> > > > +  properties:
+> > > > +    clocks:
+> > > > +      minItems: 1
+> > > > +      maxItems: 4
+> > > > +      items:
+> > > > +        - description: Functional clock
+> > > > +        - description: EXTAL input clock
+> > > > +        - description: DU_DOTCLKIN0 input clock
+> > > > +        - description: DU_DOTCLKIN1 input clock
+> > > > +
+> > > > +    clock-names:
+> > > > +      minItems: 1
+> > > > +      maxItems: 4
+> > > > +      items:
+> > > > +        - const: fck
+> > > > +        # The LVDS encoder can use the EXTAL or DU_DOTCLKINx clocks.
+> > > > +        # These clocks are optional.
+> > > > +        - enum:
+> > > > +          - extal
+> > > > +          - dclkin.0
+> > > > +          - dclkin.1
+> > > > +        - enum:
+> > > > +          - extal
+> > > > +          - dclkin.0
+> > > > +          - dclkin.1
+> > > > +        - enum:
+> > > > +          - extal
+> > > > +          - dclkin.0
+> > > > +          - dclkin.1
+> > >
+> > > Can the duplication of the last 3 entries be avoided?
+> > > Perhaps like in
+> > > Documentation/devicetree/bindings/serial/renesas,scif.yaml?
+> >
+> > I'd love to, if you can tell me how to make sure the fck entry is
+> > mandatory. The following
+> >
+> >   minItems: 1
+> >   maxItems: 4
+> >   items:
+> >     enum:
+> >       - fck
+> >       - extal
+> >       - dclkin.0
+> >       - dclkin.1
+> >
+> > passes the checks, but would accept
+> >
+> >         clock-names = "extal";
+> >
+> > which is not valid. Your
+> > Documentation/devicetree/bindings/serial/renesas,scif.yaml bindings
+> > suffer from the same problem :-)
+>
+> Hmm....
+>
+> > > > +examples:
+> > > > +  - |
+> > > > +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> > > > +    #include <dt-bindings/power/r8a7795-sysc.h>
+> > > > +
+> > > > +    lvds@feb90000 {
+> > > > +        compatible = "renesas,r8a7795-lvds";
+> > > > +        reg = <0 0xfeb90000 0 0x14>;
+> > >
+> > > Examples are built with #{address,size}-cells = <1>.
+> >
+> > Are they ? I don't get any failure from make dt_binding_check.
+>
+> Hmm... And you do have "reg: maxItems: 1"...
 
-> Screen scraping like that will have big problems trying to a)
-> synchronize to the display updates correctly (was the screen
-> updated, did you get old or new frame, and you have to poll rather
-> than be notified), and b) synchronizing framebuffer reads vs.
-> writes (is the display server re-using the buffer when you are
-> still reading it). You also get to handle each KMS plane
-> individually.
+At first glance I was expecting an error too, but there isn't. As far
+as the schema is concerned, it's valid because it's a single entry
+(i.e. one entry in <>). And then dtc can only check that reg is a
+multiple of 2. The size check does work where we have more constraints
+like I2C.
 
-We're not too concerned with every frame being perfect, as long as
-there aren't frequent annoying artifacts and the user receives
-feedback to typing and mouse movement in a reasonable amount of time.
-(Think browsing the web, not playing a video game.) I'll play around
-with ffmpeg's kmsgrab and see what we might expect on that front.
-Obviously we'd have to handle the hardware cursor in addition to the
-primary plane at the very least. Not sure how common video overlays
-are these days? It seems most players render via GL, now.
+If we enforce bracketing, then we should be able to check these.
+Otherwise, knowing both the cell sizes and number of entries is a
+problem. With bracketing, we can split those checks. I'd been thinking
+checking cell sizes would be easier in dtc (we're already doing that
+in lots of cases), but thinking about it some more there is a way to
+do this with schema:
 
-> You have to adapt to what the display server does and you have no
-> way to negotiate better configurations. The framebuffers could be
-> tiled and/or compressed, and quite likely are the kind of memory
-> that is very slow to read by CPU, at least directly.
+if:
+  properties:
+    '#address-cells':
+      const: 2
+    '#size-cells':
+      const: 2
+  required:
+    - '#address-cells'
+    - '#size-cells'
+then:
+  patternProperties:
+    '@':
+      properties:
+        reg:
+          items:
+            minItems: 4
+            maxItems: 4
+      required:
+        - reg
 
-Yeah, I see ffmpeg has some examples of feeding frames through VAAPI
-to handle situations where the buffer isn't CPU mapped. Maybe
-EGL_EXT_image_dma_buf_import could also be useful here?
+...and copy-n-paste for each size combination.
 
-> It obviously needs elevated privileges, because you are stealing
-> data behind the display server's back. Then you are feeding it
-> through network.
+I imagine implementing this will result in another set of fixes.
 
-Yes. It is expected that elevation would be required at the very least
-to grab the dma_buf fds and activate the proposed curtaining mode.
-
-> The curtaining goes against the policy that the current DRM master
-> is in full control of the display. It also means the kernel has to
-> lie to the DRM master to make the display server unaware of the
-> funny business, and I don't like that at all.
-
-The hope was that this could be done without interfering with the DRM
-master at all. The DRM master could still control resolutions,
-displays, determine which CRTCs go to what outputs, et cetera. It's
-just that the content wouldn't actually be visible on the screen while
-curtaining was enabled, conceptually similarly to if the physical
-displays themselves were configured not to display anything (e.g.,
-switched to a different input, or brightness set to zero), which also
-wouldn't affect output and mode selection.
-
-If this could be implemented in a relatively simple way (i.e.,
-curtaining sets a flag that suppresses the actual scan out to the
-display, but everything else stays the same), it seems like it could
-be a worthwhile avenue to explore. On the other hand, if it requires
-adding a lot of complexity (e.g., maintaining a completely separate
-physical configuration for the graphics card and "shadow"
-configuration to report to the DRM master), I would certainly concur
-that it doesn't make sense to do. Which is closer to the truth is one
-of the things I was hoping to find out from this e-mail.
-
-> With uinput, you will be having fun issues trying to guess what
-> keymaps the display server and apps might be using, since you need
-> to know that to be able to manufacture the right evdev keycodes
-> that will be translated into the keysyms you actually wanted.
-> Keymaps can change dynamically, too.
-
-This isn't a concern to us, as we plan to transmit keycodes and leave
-the keyboard mapping to the remote machine.
-
-> I believe it would much better to cooperate with display servers
-> than trying to bypass and fool them. Maybe look towards Pipewire at
-> least for the screen capturing API?
-
-I agree that this could create a better experience for some use cases
-if supported by all components. Unfortunately, the variety of
-graphical login managers, display servers, and desktop environments
-with different amounts of resources and priorities means that coming
-up with a solution that works for all of them seems untenable. It
-would also preclude being able to use the console remotely.
-
-Chrome Remote Desktop currently spins up its own display server (Xvfb)
-that's not attached to the local displays at all, but that has its own
-issues: the user can't interact with programs running in their
-existing local session, a number of programs don't support running
-multiple instances simultaneously using the same profile (e.g. Chrome,
-Firefox, IntelliJ), and in general things seem to be moving in the
-direction of assuming there will only ever be at most one graphical
-session at a time for each user. (E.g., DBUS using a single user bus
-in place of a per-session bus on many distributions. Also see
-https://gitlab.gnome.org/GNOME/gdm/-/issues/580, where GDM will fail
-to log a user in locally at all if a graphical PAM session already
-exists for the user, even if no programs are running in that session.)
-
-Our hope is that interacting at the kernel level can avoid all of
-these issues, especially given that frame grabbing (albeit imperfect)
-and input injection are already supported by the kernel, with
-curtaining being the only thing that does not already have an existing
-interface.
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
