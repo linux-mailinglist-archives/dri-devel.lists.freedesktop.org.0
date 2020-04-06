@@ -2,41 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB9D19F4A0
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 13:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F5619F4E2
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 13:40:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41DF16E338;
-	Mon,  6 Apr 2020 11:33:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 806FF6E378;
+	Mon,  6 Apr 2020 11:40:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 328BC6E338
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 11:32:59 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16A2680E;
- Mon,  6 Apr 2020 13:32:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1586172777;
- bh=6fhIA5nfV7r2zVpwvnNnjFKY7TSbzhwCVVuZ+u7eMX4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vEkYowfwWdiryLeQqKjd1hSkOc9je4zQKN4SvwnYW3IT+bt0Cmdeh2U/HfqPzMLmm
- ChA/dX08EhvgTCVwOunGJvzgzaQTCLoYqt25eseW6NwjI46WWPFbPmWIQhsnBcov6w
- WyfaZ7AToGfaTxiKjRynotwQKDCO+ibBj0LK/Z1g=
-Date: Mon, 6 Apr 2020 14:32:47 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH/RFC 2/6] dt-bindings: display: bridge: renesas,dw-hdmi:
- Convert binding to YAML
-Message-ID: <20200406113247.GF4757@pendragon.ideasonboard.com>
-References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200405233935.27599-3-laurent.pinchart+renesas@ideasonboard.com>
- <20200406075705.a67tjx7jamdvqpl3@gilmour.lan>
- <20200406112856.GE4757@pendragon.ideasonboard.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A44DA6E378
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 11:40:28 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id 22so15003821otf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 04:40:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dbg7DIum6KX3viMdVj5pwqj5cNuHsNuoxpYrRpMdwUo=;
+ b=OagfdVo/nccUjYIQg4yc/+8jk/ZYXEMcisnezfcrRMPAeOF9K0HLOpk9GoQb3woWEy
+ EkMtMh9D1MUntq//u8hXSAUxo4S2JD3qGCe5YaGk9FVR+LyhCQk2xrMVjSb6CCpwFqd3
+ a/QwzcDkEzt5cO/t/ezW6KgwHcRB5miHftI/8/h6x/I6dES/AHdpyuWbvyXCv1TNddOo
+ LmGBPzgrrltEjQ9uw8ZlsfLGQShBiMHLJdZC8C2/1tvA5dNBiu3PQymZWfeZc5nrZcH9
+ kzHIjk7N6Z2INehL9BoHq2X3q2wkIADU26mLJNx5ZA0R/aatdPLUmfXTr/NIHDc5QHTi
+ oQJg==
+X-Gm-Message-State: AGi0PuZmE8WgTqOFlKYhes0nhRQxkgSupo9xHK44d5CQMT+iCUg3JLTy
+ KaDY1GwxBzCNSN3yZV4H1EBk57t6XKXN8LQbS/c=
+X-Google-Smtp-Source: APiQypKPqvJRqeOqzC4j+4scy+dkCgEgdJpmPPaKExBorHuKEyGk71KwouiImwTYTgXWTESJfoVc8xJbRu11OFUXFTY=
+X-Received: by 2002:a9d:76c7:: with SMTP id p7mr16783289otl.145.1586173227928; 
+ Mon, 06 Apr 2020 04:40:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200406112856.GE4757@pendragon.ideasonboard.com>
+References: <20200405232318.26833-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405232318.26833-5-laurent.pinchart+renesas@ideasonboard.com>
+ <CAMuHMdXJcw0eGY7J=JcGv6Hs9E_GCybsYSeKKeH5pAH8nkdTrg@mail.gmail.com>
+ <20200406110924.GB4757@pendragon.ideasonboard.com>
+In-Reply-To: <20200406110924.GB4757@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 6 Apr 2020 13:40:16 +0200
+Message-ID: <CAMuHMdWhj1uS6v1bb0ntsP_b29Sgw+M6KHPceDxmeF3329Aw=g@mail.gmail.com>
+Subject: Re: [PATCH 4/4] dt-bindings: display: bridge: renesas,lvds: Convert
+ binding to YAML
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,161 +55,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Mark Yao <mark.yao@rock-chips.com>
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hallo again,
+Hi Laurent,
 
-On Mon, Apr 06, 2020 at 02:28:57PM +0300, Laurent Pinchart wrote:
-> On Mon, Apr 06, 2020 at 09:57:05AM +0200, Maxime Ripard wrote:
-> > On Mon, Apr 06, 2020 at 02:39:31AM +0300, Laurent Pinchart wrote:
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
-> > > new file mode 100644
-> > > index 000000000000..9a543740c81d
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
-> > > @@ -0,0 +1,142 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/display/bridge/renesas,dw-hdmi.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Renesas R-Car DWC HDMI TX Encoder
-> > > +
-> > > +maintainers:
-> > > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > +
-> > > +description: |
-> > > +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> > > +  with a companion PHY IP.
-> > > +
-> > > +allOf:
-> > > +  - $ref: synopsys,dw-hdmi.yaml#
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > > +      - enum:
-> > > +        - renesas,r8a774a1-hdmi # for R8A774A1 (RZ/G2M) compatible HDMI TX
-> > > +        - renesas,r8a774b1-hdmi # for R8A774B1 (RZ/G2N) compatible HDMI TX
-> > > +        - renesas,r8a7795-hdmi # for R8A7795 (R-Car H3) compatible HDMI TX
-> > > +        - renesas,r8a7796-hdmi # for R8A7796 (R-Car M3-W) compatible HDMI TX
-> > > +        - renesas,r8a77965-hdmi # for R8A77965 (R-Car M3-N) compatible HDMI TX
-> > > +      - const: renesas,rcar-gen3-hdmi
-> > > +
-> > > +  reg: true
-> > > +
-> > > +  reg-io-width:
-> > > +    const: 1
-> > > +
-> > > +  clocks:
-> > > +    minItems: 2
-> > > +    maxItems: 2
-> > 
-> > You don't need both, if one is missing the other will be filled by the
-> > dt-schema tools. In this particular case, I guess maxItems would make
-> > more sense.
-> 
-> Fixed.
-> 
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: iahb
-> > > +      - const: isfr
-> > > +
-> > > +  interrupts: true
-> > > +
-> > > +  ports:
-> > > +    type: object
-> > > +    description: |
-> > > +      This device has three video ports. Their connections are modelled using the
-> > > +      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
-> > > +      Each port shall have a single endpoint.
-> > > +
-> > > +    properties:
-> > > +      '#address-cells':
-> > > +        const: 1
-> > > +
-> > > +      '#size-cells':
-> > > +        const: 0
-> > > +
-> > > +      port@0:
-> > > +        type: object
-> > > +        description: Parallel RGB input port
-> > > +
-> > > +      port@1:
-> > > +        type: object
-> > > +        description: HDMI output port
-> > > +
-> > > +      port@2:
-> > > +        type: object
-> > > +        description: Sound input port
-> > > +
-> > > +    required:
-> > > +      - port@0
-> > > +      - port@1
-> > > +      - port@2
-> > > +
-> > > +    additionalProperties: false
+On Mon, Apr 6, 2020 at 1:09 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Apr 06, 2020 at 10:47:37AM +0200, Geert Uytterhoeven wrote:
+> > On Mon, Apr 6, 2020 at 1:24 AM Laurent Pinchart wrote:
+> > > Convert the Renesas R-Car LVDS encoder text binding to YAML.
+> > >
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Would it also make sense to use unevaluatedProperties here, and drop
-#address-cells and #size-cells above as they're already evaluated in
-synopsys,dw-hdmi.yaml ?
+> > > +if:
+> > > +  properties:
+> > > +    compatible:
+> > > +      enum:
+> > > +        - renesas,r8a774c0-lvds
+> > > +        - renesas,r8a77990-lvds
+> > > +        - renesas,r8a77995-lvds
+> > > +then:
+> > > +  properties:
+> > > +    clocks:
+> > > +      minItems: 1
+> > > +      maxItems: 4
+> > > +      items:
+> > > +        - description: Functional clock
+> > > +        - description: EXTAL input clock
+> > > +        - description: DU_DOTCLKIN0 input clock
+> > > +        - description: DU_DOTCLKIN1 input clock
+> > > +
+> > > +    clock-names:
+> > > +      minItems: 1
+> > > +      maxItems: 4
+> > > +      items:
+> > > +        - const: fck
+> > > +        # The LVDS encoder can use the EXTAL or DU_DOTCLKINx clocks.
+> > > +        # These clocks are optional.
+> > > +        - enum:
+> > > +          - extal
+> > > +          - dclkin.0
+> > > +          - dclkin.1
+> > > +        - enum:
+> > > +          - extal
+> > > +          - dclkin.0
+> > > +          - dclkin.1
+> > > +        - enum:
+> > > +          - extal
+> > > +          - dclkin.0
+> > > +          - dclkin.1
+> >
+> > Can the duplication of the last 3 entries be avoided?
+> > Perhaps like in
+> > Documentation/devicetree/bindings/serial/renesas,scif.yaml?
+>
+> I'd love to, if you can tell me how to make sure the fck entry is
+> mandatory. The following
+>
+>   minItems: 1
+>   maxItems: 4
+>   items:
+>     enum:
+>       - fck
+>       - extal
+>       - dclkin.0
+>       - dclkin.1
+>
+> passes the checks, but would accept
+>
+>         clock-names = "extal";
+>
+> which is not valid. Your
+> Documentation/devicetree/bindings/serial/renesas,scif.yaml bindings
+> suffer from the same problem :-)
 
-> > > +
-> > > +  power-domains:
-> > > +    maxItems: 1
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - clock-names
-> > > +  - interrupts
-> > > +  - ports
-> > > +
-> > > +additionalProperties: false
-> > 
-> > In the case where you have some kind of generic schema and then a more
-> > specific one like you have here, unevaluatedProperties make more sense
-> > that additionalProperties.
-> > 
-> > additionalProperties checks that there are no extra properties on the
-> > current schema, which is a problem here since you have to duplicate
-> > the entire list of properties found in the generic schema, while
-> > unevaluatedProperties checks that there are no extra properties in the
-> > entire set of all schemas that apply to this node.
-> > 
-> > This way, you can just put what is different from the generic schema,
-> > and you don't have to keep it in sync.
-> > 
-> > It's a feature that has been added in the spec of the schemas that
-> > went on right after the one we support in the tools, so for now the
-> > kernel meta-schemas only allows that property to be there (just like
-> > deprecated) but won't do anything.
-> > 
-> > This should be fixed quite soon however, the library we depend on
-> > has started to work on that spec apparently.
-> 
-> Should I postpone this series until support for unevaluatedProperties is
-> available, to be able to test this ?
+Hmm....
 
-Also, to make sure I understand this correctly, does it mean I can drop
-"reg: true" and "interrupts: true" ?
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> > > +    #include <dt-bindings/power/r8a7795-sysc.h>
+> > > +
+> > > +    lvds@feb90000 {
+> > > +        compatible = "renesas,r8a7795-lvds";
+> > > +        reg = <0 0xfeb90000 0 0x14>;
+> >
+> > Examples are built with #{address,size}-cells = <1>.
+>
+> Are they ? I don't get any failure from make dt_binding_check.
+
+Hmm... And you do have "reg: maxItems: 1"...
+
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
