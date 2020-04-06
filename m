@@ -2,38 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C29019F553
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 14:01:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9623019FB7A
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 19:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6566E094;
-	Mon,  6 Apr 2020 12:01:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 390A96E456;
+	Mon,  6 Apr 2020 17:27:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F04B96E084;
- Mon,  6 Apr 2020 12:01:00 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E6CE80E;
- Mon,  6 Apr 2020 14:00:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1586174459;
- bh=mUDkQ2Z4TkjaIOHhIGG0wRnBEGWCUll95N0r5FxF/TI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MROn78KzwNlRIJLcqRzegz/J1hAbyjh11fdsM8Tr5ncVGB6OAPCsjCjsp630uscXD
- SvyE7T4uiAOHIs8FrS/yR4R0pKr+VEZfYj3LmyArzPQ1Caz8Vh/cpz6d6kBjkDd2k8
- IPDK8w18FG4CtHocN+4sFmnMv2aToM75PSibefSQ=
-Date: Mon, 6 Apr 2020 15:00:49 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 02/44] drm: Add devm_drm_dev_alloc macro
-Message-ID: <20200406120049.GI4757@pendragon.ideasonboard.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C3316E455;
+ Mon,  6 Apr 2020 17:27:51 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id A0DC8BED5;
+ Mon,  6 Apr 2020 17:27:48 +0000 (UTC)
+Subject: Re: [PATCH 15/44] drm/udl: Use demv_drm_dev_alloc
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
- <20200403135828.2542770-3-daniel.vetter@ffwll.ch>
+ <20200403135828.2542770-16-daniel.vetter@ffwll.ch>
+ <3e3f7726-f1d2-c29f-4fc8-c42002e7da13@tronnes.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <e9a9e984-c541-eddf-8ef6-e9575120b6ca@suse.de>
+Date: Mon, 6 Apr 2020 14:05:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200403135828.2542770-3-daniel.vetter@ffwll.ch>
+In-Reply-To: <3e3f7726-f1d2-c29f-4fc8-c42002e7da13@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,125 +67,212 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
+Cc: Sam Ravnborg <sam@ravnborg.org>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>
+Content-Type: multipart/mixed; boundary="===============1083458970=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1083458970==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="oMowpIf7WANBBkFomtHQEL57xeCDQGgOT"
 
-Thank you for the patch.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--oMowpIf7WANBBkFomtHQEL57xeCDQGgOT
+Content-Type: multipart/mixed; boundary="9pWDUWAxuExrVDH1thoo98bb9arbCcMGr";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Sean Paul <sean@poorly.run>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sam Ravnborg <sam@ravnborg.org>
+Message-ID: <e9a9e984-c541-eddf-8ef6-e9575120b6ca@suse.de>
+Subject: Re: [PATCH 15/44] drm/udl: Use demv_drm_dev_alloc
+References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
+ <20200403135828.2542770-16-daniel.vetter@ffwll.ch>
+ <3e3f7726-f1d2-c29f-4fc8-c42002e7da13@tronnes.org>
+In-Reply-To: <3e3f7726-f1d2-c29f-4fc8-c42002e7da13@tronnes.org>
 
-On Fri, Apr 03, 2020 at 03:57:46PM +0200, Daniel Vetter wrote:
-> The kerneldoc is only added for this new function. Existing kerneldoc
-> and examples will be udated at the very end, since once all drivers
-> are converted over to devm_drm_dev_alloc we can unexport a lot of
-> interim functions and make the documentation for driver authors a lot
-> cleaner and less confusing. There will be only one true way to
-> initialize a drm_device at the end of this, which is going to be
-> devm_drm_dev_alloc.
+--9pWDUWAxuExrVDH1thoo98bb9arbCcMGr
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-How about drivers that expose another interface towards userspace ? If
-the other related subsystem also required allocation of the driver
-private structure through its corresponding API, we'd be stuck. As
-stated before, I want this API to be optional.
 
-> Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/gpu/drm/drm_drv.c | 23 +++++++++++++++++++++++
->  include/drm/drm_drv.h     | 33 +++++++++++++++++++++++++++++++++
->  2 files changed, 56 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 1bb4f636b83c..9e60b784b3ac 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -739,6 +739,29 @@ int devm_drm_dev_init(struct device *parent,
->  }
->  EXPORT_SYMBOL(devm_drm_dev_init);
->  
-> +void* __devm_drm_dev_alloc(struct device *parent, struct drm_driver *driver,
-> +			   size_t size, size_t offset)
-> +{
-> +	void *container;
-> +	struct drm_device *drm;
-> +	int ret;
-> +
-> +	container = kzalloc(size, GFP_KERNEL);
-> +	if (!container)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	drm = container + offset;
-> +	ret = devm_drm_dev_init(parent, drm, driver);
-> +	if (ret) {
-> +		kfree(container);
-> +		return ERR_PTR(ret);
-> +	}
-> +	drmm_add_final_kfree(drm, container);
-> +
-> +	return container;
-> +}
-> +EXPORT_SYMBOL(__devm_drm_dev_alloc);
-> +
->  /**
->   * drm_dev_alloc - Allocate new DRM device
->   * @driver: DRM driver to allocate device for
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index e7c6ea261ed1..26776be5a21e 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -626,6 +626,39 @@ int devm_drm_dev_init(struct device *parent,
->  		      struct drm_device *dev,
->  		      struct drm_driver *driver);
->  
-> +void* __devm_drm_dev_alloc(struct device *parent, struct drm_driver *driver,
-> +			   size_t size, size_t offset);
-> +
-> +/**
-> + * devm_drm_dev_alloc - Resource managed allocation of a &drm_device instance
-> + * @parent: Parent device object
-> + * @driver: DRM driver
-> + * @type: the type of the struct which contains struct &drm_device
-> + * @member: the name of the &drm_device within @type.
-> + *
-> + * This allocates and initialize a new DRM device. No device registration is done.
-> + * Call drm_dev_register() to advertice the device to user space and register it
-> + * with other core subsystems. This should be done last in the device
-> + * initialization sequence to make sure userspace can't access an inconsistent
-> + * state.
-> + *
-> + * The initial ref-count of the object is 1. Use drm_dev_get() and
-> + * drm_dev_put() to take and drop further ref-counts.
-> + *
-> + * It is recommended that drivers embed &struct drm_device into their own device
-> + * structure.
-> + *
-> + * Note that this manages the lifetime of the resulting &drm_device
-> + * automatically using devres. The DRM device initialized with this function is
-> + * automatically put on driver detach using drm_dev_put().
-> + *
-> + * RETURNS:
-> + * Pointer to new DRM device, or ERR_PTR on failure.
-> + */
-> +#define devm_drm_dev_alloc(parent, driver, type, member) \
-> +	((type *) __devm_drm_dev_alloc(parent, driver, sizeof(type), \
-> +				       offsetof(type, member)))
-> +
->  struct drm_device *drm_dev_alloc(struct drm_driver *driver,
->  				 struct device *parent);
->  int drm_dev_register(struct drm_device *dev, unsigned long flags);
 
--- 
-Regards,
+Am 05.04.20 um 12:18 schrieb Noralf Tr=C3=B8nnes:
+>=20
+>=20
+> Den 03.04.2020 15.57, skrev Daniel Vetter:
+>> Also init the fbdev emulation before we register the device, that way
+>> we can rely on the auto-cleanup and simplify the probe error code even=
 
-Laurent Pinchart
+>> more.
+>>
+>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>> Cc: Dave Airlie <airlied@redhat.com>
+>> Cc: Sean Paul <sean@poorly.run>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Cc: Emil Velikov <emil.l.velikov@gmail.com>
+>> Cc: Sam Ravnborg <sam@ravnborg.org>
+>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>> ---
+>>  drivers/gpu/drm/udl/udl_drv.c | 36 +++++++++++-----------------------=
+-
+>>  1 file changed, 11 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_d=
+rv.c
+>> index 1ce2d865c36d..4ba5149fdd57 100644
+>> --- a/drivers/gpu/drm/udl/udl_drv.c
+>> +++ b/drivers/gpu/drm/udl/udl_drv.c
+>> @@ -57,27 +57,20 @@ static struct udl_device *udl_driver_create(struct=
+ usb_interface *interface)
+>>  	struct udl_device *udl;
+>>  	int r;
+>> =20
+>> -	udl =3D kzalloc(sizeof(*udl), GFP_KERNEL);
+>> -	if (!udl)
+>> -		return ERR_PTR(-ENOMEM);
+>> -
+>> -	r =3D drm_dev_init(&udl->drm, &driver, &interface->dev);
+>> -	if (r) {
+>> -		kfree(udl);
+>> -		return ERR_PTR(r);
+>> -	}
+>> +	udl =3D devm_drm_dev_alloc(&interface->dev, &driver,
+>> +				 struct udl_device, drm);
+>> +	if (IS_ERR(udl))
+>> +		return udl;
+>> =20
+>>  	udl->udev =3D udev;
+>>  	udl->drm.dev_private =3D udl;
+>> -	drmm_add_final_kfree(&udl->drm, udl);
+>> =20
+>>  	r =3D udl_init(udl);
+>> -	if (r) {
+>> -		drm_dev_put(&udl->drm);
+>> +	if (r)
+>>  		return ERR_PTR(r);
+>> -	}
+>> =20
+>>  	usb_set_intfdata(interface, udl);
+>> +
+>>  	return udl;
+>>  }
+>> =20
+>> @@ -91,23 +84,17 @@ static int udl_usb_probe(struct usb_interface *int=
+erface,
+>>  	if (IS_ERR(udl))
+>>  		return PTR_ERR(udl);
+>> =20
+>> +	r =3D drm_fbdev_generic_setup(&udl->drm, 0);
+>=20
+> It doesn't feel right to have a client open the device before the DRM
+> device itself is registered. I would prefer to keep it where it is but
+
+Agreed. IMHO we should also go through drivers and make the fbdev setup
+the final step everywhere.
+
+Best regards
+Thomas
+
+> ignore any errors. A failing client shouldn't prevent the driver from
+> probing. drm_fbdev_generic_setup() do print errors if it fails. So yeah=
+,
+> in hindsight I should have made drm_fbdev_generic_setup() return void.
+>=20
+> Noralf.
+>=20
+>> +	if (r)
+>> +		return r;
+>> +
+>>  	r =3D drm_dev_register(&udl->drm, 0);
+>>  	if (r)
+>> -		goto err_free;
+>> +		return r;
+>> =20
+>>  	DRM_INFO("Initialized udl on minor %d\n", udl->drm.primary->index);
+>> =20
+>> -	r =3D drm_fbdev_generic_setup(&udl->drm, 0);
+>> -	if (r)
+>> -		goto err_drm_dev_unregister;
+>> -
+>>  	return 0;
+>> -
+>> -err_drm_dev_unregister:
+>> -	drm_dev_unregister(&udl->drm);
+>> -err_free:
+>> -	drm_dev_put(&udl->drm);
+>> -	return r;
+>>  }
+>> =20
+>>  static void udl_usb_disconnect(struct usb_interface *interface)
+>> @@ -117,7 +104,6 @@ static void udl_usb_disconnect(struct usb_interfac=
+e *interface)
+>>  	drm_kms_helper_poll_fini(dev);
+>>  	udl_drop_usb(dev);
+>>  	drm_dev_unplug(dev);
+>> -	drm_dev_put(dev);
+>>  }
+>> =20
+>>  /*
+>>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--9pWDUWAxuExrVDH1thoo98bb9arbCcMGr--
+
+--oMowpIf7WANBBkFomtHQEL57xeCDQGgOT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6LGxYACgkQaA3BHVML
+eiN3LAgAhPSGBUF1WcrgNbxcYtA7Nn0d/FPQoEI4JJhk6z1v8hzLntGJOzLrRiBs
+aTV5lFUg+tuzRBQCCGbv611M3TeFKdZAqziMAi/kcQxSvLD+7yzc0f7PR78J4puY
+fxL3brjMoCeMQLG4SM0scolgtS4aB/TZTBLdTJNoPyf8rjekQvGJDgRSntIq03/7
+xXepIpAq9N+SDf7m2vlM82tiXeK9zeeLbpzS17OA5+wvjN5djMsV5F9cVp48v4jU
+YVWfLlvKDm/b+yCooK1S/ghEDE0FjGUdnUPlZFFf9y72rZs+yc+fiuK/MATCg6oA
+cYozV/P5oveWRmaQKeoAos0MsrBN4g==
+=DSyX
+-----END PGP SIGNATURE-----
+
+--oMowpIf7WANBBkFomtHQEL57xeCDQGgOT--
+
+--===============1083458970==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1083458970==--
