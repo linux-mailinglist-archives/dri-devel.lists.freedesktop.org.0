@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A95319F4B6
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 13:37:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 596CF19F4B8
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 13:37:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2AC26E33F;
-	Mon,  6 Apr 2020 11:37:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21AE96E347;
+	Mon,  6 Apr 2020 11:37:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C6026E33E;
- Mon,  6 Apr 2020 11:37:09 +0000 (UTC)
-IronPort-SDR: 2r80SaZfvUbZIWqxls31uGdzRWtva17NJHP3YPcc6IgB7bEA78xcedK9eVU/P6X2Z1RJnka4ax
- 4lXB+FUiqauQ==
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0D4B6E343;
+ Mon,  6 Apr 2020 11:37:14 +0000 (UTC)
+IronPort-SDR: sJwBlY2y3viGRQiFyxAERcShAmz9FeVSeCqpgMXA6aBU+YVgzP1V+ztzI50I62dlGfr+HuwpYt
+ 02tUIgujgBBw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2020 04:37:08 -0700
-IronPort-SDR: pEebbozj1GSZID3KmSYZL0hke08KTxoDS6H0ZkvIcbXRnwzKP9M1IkzXVvc9PGPzRpSVXwokDl
- t1Wz2p/lEggA==
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Apr 2020 04:37:14 -0700
+IronPort-SDR: xzoPMYf3bu4pd+DKiqmDa6E1BUCAtSUT2sACL34TPEqMkxUtqEEalWeNHc9WAv8AsffgkQ75TS
+ 1+SJ8sGH7OGQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,350,1580803200"; d="scan'208";a="361192231"
+X-IronPort-AV: E=Sophos;i="5.72,350,1580803200"; d="scan'208";a="361192270"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2020 04:37:03 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2020 04:37:09 -0700
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Vandita Kulkarni <vandita.kulkarni@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Imre Deak <imre.deak@intel.com>
-Subject: [PATCH 01/18] drm/i915/display/icl_dsi: Prefer drm_WARN_ON over
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Subject: [PATCH 02/18] drm/i915/display/atomic_plane: Prefer drm_WARN_ON over
  WARN_ON
-Date: Mon,  6 Apr 2020 16:57:43 +0530
-Message-Id: <20200406112800.23762-2-pankaj.laxminarayan.bharadiya@intel.com>
+Date: Mon,  6 Apr 2020 16:57:44 +0530
+Message-Id: <20200406112800.23762-3-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200406112800.23762-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200406112800.23762-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -67,22 +66,31 @@ Prefer drm_WARN_ON over WARN_ON.
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/display/icl_dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/i915/display/intel_atomic_plane.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
-index 99a25c0bb08f..499383766fc2 100644
---- a/drivers/gpu/drm/i915/display/icl_dsi.c
-+++ b/drivers/gpu/drm/i915/display/icl_dsi.c
-@@ -1195,7 +1195,7 @@ static void gen11_dsi_enable(struct intel_atomic_state *state,
+diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+index 25dfeb3197aa..79032701873a 100644
+--- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
++++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+@@ -125,7 +125,7 @@ intel_plane_destroy_state(struct drm_plane *plane,
+ 			  struct drm_plane_state *state)
  {
- 	struct intel_dsi *intel_dsi = enc_to_intel_dsi(encoder);
+ 	struct intel_plane_state *plane_state = to_intel_plane_state(state);
+-	WARN_ON(plane_state->vma);
++	drm_WARN_ON(plane->dev, plane_state->vma);
  
--	WARN_ON(crtc_state->has_pch_encoder);
-+	drm_WARN_ON(state->base.dev, crtc_state->has_pch_encoder);
+ 	__drm_atomic_helper_plane_destroy_state(&plane_state->uapi);
+ 	if (plane_state->hw.fb)
+@@ -396,7 +396,7 @@ skl_next_plane_to_commit(struct intel_atomic_state *state,
+ 	}
  
- 	/* step6d: enable dsi transcoder */
- 	gen11_dsi_enable_transcoder(encoder);
+ 	/* should never happen */
+-	WARN_ON(1);
++	drm_WARN_ON(state->base.dev, 1);
+ 
+ 	return NULL;
+ }
 -- 
 2.23.0
 
