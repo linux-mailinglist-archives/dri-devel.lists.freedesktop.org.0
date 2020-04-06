@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92C419F5B6
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 14:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F213319F5D8
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 14:33:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3650A6E395;
-	Mon,  6 Apr 2020 12:18:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD016E39E;
+	Mon,  6 Apr 2020 12:33:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 155A76E395
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 12:18:32 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id r19so15032959otn.7
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 05:18:32 -0700 (PDT)
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8617B6E39E
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 12:33:03 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id e4so12843907oig.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 05:33:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YjxaXowJ/bOAfCu1lJtQ2FROrqjb9Vwq/99atWSwEIA=;
- b=FbXBFjASanq2/TC30a5GANvrDTBXRnf6lTL2cx32XurrjbQ16+Tsbqvrvyd3Xockzy
- xFF+lYH14+XQ/E3pm+vjZ/SsOY7F2l0J749kXD9JvJ/DIlivg1stcIO3k4u9D+VPOuuU
- YSPemnQxonLlMVp3f9ve+0WG4VnzNxZywv2gc=
+ :cc; bh=irjLTvVIJFxBo2Z3POGywV9/b9JCgoAHqWj3gQ7KPC0=;
+ b=RsSwXpl4lIE46kbtoRR/rEOI0m1D/xP7qvofJc2aFtkOqYvzQ+IkfLBsoKmdRIcnND
+ 13RQxM/wdUqBhMVRDTWhXh3Ahd29HT8COuPEgnkg5fzUiaJh3dKGRD6syZTPCoozfGEE
+ 2z2c/pR9c93yJwnw4k09EVjacATOgBxJgrmog=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=YjxaXowJ/bOAfCu1lJtQ2FROrqjb9Vwq/99atWSwEIA=;
- b=DWjUwwuQrwwSiZPLoch1N4XwSQqcayt25kTK0t5Z8QjQCwTtUaG/Xy/JanMV057PsS
- 6OzDguaeOQSnut4AYSdm6Ktt2IwSFyiZqcoESMO0mDS+EGL7GFrwVl66NDusm21c0tYQ
- BTJ2Q4Hkoy421bNzyYn5CqBPD7tk7pDblyELgx4Uqd99/W/zk+bFkvAkMkoOk2GoZZRy
- uwG6+XJ2rCXnggLwjnsYXHVfNHPhh/n3Ca06O/ddmdeWHomNoNZiBJHRq4W3hzui52S5
- gh7Bk7g5bLXARoznbLBgjid7TqI5BK/qpn2Oc2C/9oUm/Au5kSgPfQ0T+LZt+PLcLFFm
- Ri3Q==
-X-Gm-Message-State: AGi0Pub+5SYo3VxKbCzN33L0rh78c0veMSfOIqS/kfSR97+1JOp0CySv
- 3g+DAft3ZOEwXhRFfVHfGjedjxjsEdU3j4oJ2bPGZg==
-X-Google-Smtp-Source: APiQypLqMqPZakYn3TZSTWX0Jb2FEiG99l1+8NCFP+ahJYJmMEMO5sZirMqF9ZzfEqGdY5vgASYG5lRhTc9QfQHqCMw=
-X-Received: by 2002:a05:6830:15d4:: with SMTP id
- j20mr17021369otr.303.1586175511204; 
- Mon, 06 Apr 2020 05:18:31 -0700 (PDT)
+ bh=irjLTvVIJFxBo2Z3POGywV9/b9JCgoAHqWj3gQ7KPC0=;
+ b=VGS2gT8xt4plHF8p+GpbnRJBozgywEXLiI3WkCrSELAvjRXhMTQQe9a1w1WSRFEMyd
+ yElcPSjndQAOzxTNnLcJ81vqeqNWTuMpnCkH3/zBmZCDmSb7B4QCweK2/bCjr/kEfeEe
+ xri1IOZaMOc12LLW63W0sYI7lFDwtxwOZvImQrIvWvy3S1v4c+03BDIGaDv98AMQIvl1
+ Wp1fOy0vmhy4edOw36xUkZYfd1Z0zmG1Q/xb4tqhhdlQWRjBsih9nThMm1tg5u/WoUHD
+ mGz8zg2EAsaU39VgAi/s6YE0IXFkGymw638yHykqVK5eSHweoxukeYvH8+MqTK6UWMl3
+ CKKg==
+X-Gm-Message-State: AGi0PuZJ6So5aEV2r0YqjQWXWrSBsXGtvZf+HlnyNstnuBgt4TKRLuVh
+ jY1TPXx9waD6Vy4QloAYZM6b2gsFPJ0Uu2/5k7YyA0ij+r4=
+X-Google-Smtp-Source: APiQypL0pxMfUkRZB39ETX6gCuuJ9rTMWtGzYXuY2CUB+5+5/AJ6im9vfsMkXxmuVyXcdjMOkjANqkHvEIgASmCdW/4=
+X-Received: by 2002:aca:aac1:: with SMTP id t184mr12629410oie.14.1586176382379; 
+ Mon, 06 Apr 2020 05:33:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
- <20200403135828.2542770-3-daniel.vetter@ffwll.ch>
- <20200406120049.GI4757@pendragon.ideasonboard.com>
-In-Reply-To: <20200406120049.GI4757@pendragon.ideasonboard.com>
+ <20200403135828.2542770-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200403135828.2542770-2-daniel.vetter@ffwll.ch>
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 6 Apr 2020 14:18:19 +0200
-Message-ID: <CAKMK7uFO+uB-1TWBJuyv_5wi48b0b8UqfJYiBJCayUYc_yOOuQ@mail.gmail.com>
-Subject: Re: [PATCH 02/44] drm: Add devm_drm_dev_alloc macro
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Mon, 6 Apr 2020 14:32:51 +0200
+Message-ID: <CAKMK7uEEi8NMCopSd+7LqmhaqW0U4ZMif7YLgYQZ58fD7jRfzA@mail.gmail.com>
+Subject: Re: [PATCH 01/44] drivers/base: Always release devres on device_del
+To: DRI Development <dri-devel@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,183 +58,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 6, 2020 at 2:01 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On Fri, Apr 3, 2020 at 3:58 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 >
-> Hi Daniel,
+> In drm we've added nice drm_device (the main gpu driver thing, which
+> also represents the userspace interfaces and has everything else
+> dangling off it) init functions using devres, devm_drm_dev_init and
+> soon devm_drm_dev_alloc (this patch series adds that).
 >
-> Thank you for the patch.
+> A slight trouble is that drm_device itself holds a reference on the
+> struct device it's sitting on top (for sysfs links and dmesg debug and
+> lots of other things), so there's a reference loop. For real drivers
+> this is broken at remove/unplug time, where all devres resources are
+> released device_release_driver(), before the final device reference is
+> dropped. So far so good.
 >
-> On Fri, Apr 03, 2020 at 03:57:46PM +0200, Daniel Vetter wrote:
-> > The kerneldoc is only added for this new function. Existing kerneldoc
-> > and examples will be udated at the very end, since once all drivers
-> > are converted over to devm_drm_dev_alloc we can unexport a lot of
-> > interim functions and make the documentation for driver authors a lot
-> > cleaner and less confusing. There will be only one true way to
-> > initialize a drm_device at the end of this, which is going to be
-> > devm_drm_dev_alloc.
+> There's 2 exceptions:
+> - drm/vkms|vgem: Virtual drivers for which we create a fake/virtual
+>   platform device to make them look more like normal devices to
+>   userspace. These aren't drivers in the driver model sense, we simple
+>   create a platform_device and register it.
 >
-> How about drivers that expose another interface towards userspace ? If
-> the other related subsystem also required allocation of the driver
-> private structure through its corresponding API, we'd be stuck. As
-> stated before, I want this API to be optional.
+> - drm/i915/selftests, where we create minimal mock devices, and again
+>   the selftests aren't proper drivers in the driver model sense.
+>
+> For these two cases the reference loop isn't broken, because devres is
+> only cleaned up when the last device reference is dropped. But that's
+> not happening, because the drm_device holds that last struct device
+> reference.
+>
+> Thus far this wasn't a problem since the above cases simply
+> hand-rolled their cleanup code. But I want to convert all drivers over
+> to the devm_ versions, hence it would be really nice if these
+> virtual/fake/mock uses-cases could also be managed with devres
+> cleanup.
+>
+> I see three possible approaches:
 
-So maybe we need to import a little bit more of our epic irc
-discussion here, because this is leaving out all the context. There's
-a few more things:
+Restarting this at the top level, because the discussion thus far just
+ended in a long "you're doing it wrong", despite that I think we're
+doing what v4l is doing (plus/minus that we can't do an exact matching
+handling in drm because our uapi has a lot more warts, which we can't
+change because no breaking userspace).
 
-- Since the merging of the previous patch series this is already
-mandatory, because the kfree(drm_device.managed.final_kfree) is the
-last thing that will run. So I already killed your use-case (and it
-seems to work just fine for all the drivers in-tree, and we have a
-lot).
+So which one of the three below is the right approach?
 
-- As part of doing all these patches here and in the previous series
-and in a next one I've seen that drivers just get this wrong. I'm
-extremely hesitant to give that rope back to drivers, so I really
-don't want to merge anything until we're ready to merge a driver that
-needs it. I've set myself a goal to fix up all 40 odd drivers still
-using drm_dev_alloc(), and that's itself already pretty stupid idea.
-It's definitely not going to work if new drivers keep adding bad usage
-patterns.
+Aside, looking at the v4l solution I think there's also a confusion
+about struct device representing a char device (which v4l directly
+uses as its userspace interface refcounted thing, and which drm does
+_not_ directly). And a struct device embedded into something like
+platform_device or a virtual device, where a driver can bind to. My
+question here is about the former, I don't care how cdev struct device
+are cleaned up one bit. Now if other subsystems relies on the devres
+cleanup behaviour we currently have because of such cdev usage, then
+yeah first approach doesn't work (and I have a big surprised that use
+case, but hey would actually learn something).
 
-- Now I'm not opposed to allowing this, if/when we actually need it. I
-think a very clean long-term solution would be to have a struct
-kref_res, which augments a kref with automatic resource cleanup. We'd
-probably need to fully demidlayer that, i.e. if you supply your own
-->release hook then it's your job to call kref_release_all() at the
-right point in there. With that we could then do a devm_drm_dev_init()
-again, which would take that kref_res structure and the drm_device,
-both embedded somewhere in your overall driver struture, and use your
-drivers kref_res to attach all drm related auto-cleanup. In that case
-it would then also be that kref_res' responsibility to do the final
-kfree, hence drm wouldn't insist on doing that either. Prototype would
-be something like:
-
-devm_drm_dev_init(struct device *dev, struct drm_device *drm,
-    struct drm_driver *driver, struct kref_res *kref);
-
-The trouble with the above idea is that it assumes I have endless
-amounts of time and that I can convince Greg KH that I understand
-driver unload lifetime issues. The former is atm the more realistic
-looking one of these two, so interim solution would be to add some
-hack or another meanwhile to do this within drm only. Or as an
-alternative solution, easy to convert over to an eventual kref_res
-world:
-
-#define kref_res_get() drm_dev_get()
-#define kref_res_put() drm_dev_put()
-
-With suitable amounts of casting to make this work out correctly like
-the real kref_res solution.
-
-Until we do have such drivers though I really don't want to open the
-barn door again to all the bugs that'll bring, while I'm trying to get
-the other barn doors closed down and fixed meanwhile.
+End of aside, since again I want to figure out which of the tree
+approaches it the right one. Not about how wrong one of them is,
+ignoring the other three I laid out. And maybe there's even more
+options for this.
 -Daniel
 
+> - Clean up devres from device_del (or platform_device_unregister) even
+>   when no driver is bound. This seems like the simplest solution, but
+>   also the one with the widest impact, and what this patch implements.
+>   We might want to include more of the cleanup than just
+>   devres_release_all, but this is all I need to get my use case going.
 >
-> > Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_drv.c | 23 +++++++++++++++++++++++
-> >  include/drm/drm_drv.h     | 33 +++++++++++++++++++++++++++++++++
-> >  2 files changed, 56 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> > index 1bb4f636b83c..9e60b784b3ac 100644
-> > --- a/drivers/gpu/drm/drm_drv.c
-> > +++ b/drivers/gpu/drm/drm_drv.c
-> > @@ -739,6 +739,29 @@ int devm_drm_dev_init(struct device *parent,
-> >  }
-> >  EXPORT_SYMBOL(devm_drm_dev_init);
-> >
-> > +void* __devm_drm_dev_alloc(struct device *parent, struct drm_driver *driver,
-> > +                        size_t size, size_t offset)
-> > +{
-> > +     void *container;
-> > +     struct drm_device *drm;
-> > +     int ret;
-> > +
-> > +     container = kzalloc(size, GFP_KERNEL);
-> > +     if (!container)
-> > +             return ERR_PTR(-ENOMEM);
-> > +
-> > +     drm = container + offset;
-> > +     ret = devm_drm_dev_init(parent, drm, driver);
-> > +     if (ret) {
-> > +             kfree(container);
-> > +             return ERR_PTR(ret);
-> > +     }
-> > +     drmm_add_final_kfree(drm, container);
-> > +
-> > +     return container;
-> > +}
-> > +EXPORT_SYMBOL(__devm_drm_dev_alloc);
-> > +
-> >  /**
-> >   * drm_dev_alloc - Allocate new DRM device
-> >   * @driver: DRM driver to allocate device for
-> > diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> > index e7c6ea261ed1..26776be5a21e 100644
-> > --- a/include/drm/drm_drv.h
-> > +++ b/include/drm/drm_drv.h
-> > @@ -626,6 +626,39 @@ int devm_drm_dev_init(struct device *parent,
-> >                     struct drm_device *dev,
-> >                     struct drm_driver *driver);
-> >
-> > +void* __devm_drm_dev_alloc(struct device *parent, struct drm_driver *driver,
-> > +                        size_t size, size_t offset);
-> > +
-> > +/**
-> > + * devm_drm_dev_alloc - Resource managed allocation of a &drm_device instance
-> > + * @parent: Parent device object
-> > + * @driver: DRM driver
-> > + * @type: the type of the struct which contains struct &drm_device
-> > + * @member: the name of the &drm_device within @type.
-> > + *
-> > + * This allocates and initialize a new DRM device. No device registration is done.
-> > + * Call drm_dev_register() to advertice the device to user space and register it
-> > + * with other core subsystems. This should be done last in the device
-> > + * initialization sequence to make sure userspace can't access an inconsistent
-> > + * state.
-> > + *
-> > + * The initial ref-count of the object is 1. Use drm_dev_get() and
-> > + * drm_dev_put() to take and drop further ref-counts.
-> > + *
-> > + * It is recommended that drivers embed &struct drm_device into their own device
-> > + * structure.
-> > + *
-> > + * Note that this manages the lifetime of the resulting &drm_device
-> > + * automatically using devres. The DRM device initialized with this function is
-> > + * automatically put on driver detach using drm_dev_put().
-> > + *
-> > + * RETURNS:
-> > + * Pointer to new DRM device, or ERR_PTR on failure.
-> > + */
-> > +#define devm_drm_dev_alloc(parent, driver, type, member) \
-> > +     ((type *) __devm_drm_dev_alloc(parent, driver, sizeof(type), \
-> > +                                    offsetof(type, member)))
-> > +
-> >  struct drm_device *drm_dev_alloc(struct drm_driver *driver,
-> >                                struct device *parent);
-> >  int drm_dev_register(struct drm_device *dev, unsigned long flags);
+> - Create a devres group and release that when we unbind. The code in
+>   virtual drivers gets a bit ugly, since every error case has a
+>   different cleanup code until we've chained everything
+>   (platform_device, devres group and then drm_device) together and a
+>   devres_release_group takes care of everything. Doable, but a bit
+>   confusing when I typed it out.
+>
+> - Convert the virtual drivers to real (in the device model sense)
+>   drivers. Feels like too much boilerplate for not much gain. And
+>   especially with the mock objects minimal mocking is kinda the goal,
+>   to limit the amount of accidentally pulled in code into our unit
+>   tests as much as possible.
+>
+> Either way I think time to discuss this a bit and figure out what's
+> the recommended approach here.
+
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> ---
+>  drivers/base/dd.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> index b25bcab2a26b..1bcfb0ff5f44 100644
+> --- a/drivers/base/dd.c
+> +++ b/drivers/base/dd.c
+> @@ -1155,6 +1155,8 @@ static void __device_release_driver(struct device *dev, struct device *parent)
+>                                                      dev);
+>
+>                 kobject_uevent(&dev->kobj, KOBJ_UNBIND);
+> +       } else {
+> +               devres_release_all(dev);
+>         }
+>  }
 >
 > --
-> Regards,
+> 2.25.1
 >
-> Laurent Pinchart
-
 
 
 -- 
