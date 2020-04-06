@@ -1,65 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C2119F1CD
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 10:49:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A4619F1D4
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 10:51:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05E206E22B;
-	Mon,  6 Apr 2020 08:49:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A01189EB8;
+	Mon,  6 Apr 2020 08:51:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7312E6E07B
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 08:49:30 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id j19so14890151wmi.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 01:49:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=hB/cttD2PIQJrbz4bzuL3i++GH0OSgasFqo3xqjEQAo=;
- b=KlcQa7lIt+n/wVEV8JdYNkiUDQQp+hGTfkU1Mu02PywtjHqp63UeXe/YmyUw018Kdc
- lpl1WphuIEEQUPCuEbfiYH37JUXWUTrg26Sf4c64ZSxRRDOVgszt6TP6yfeIKKv4bnBC
- w3jj2IBcjWCz177Pxk5VvdWa2Y40lDC/vS6pXi98sdU+jDGOH7l9ozbD6p+C4Ah8Nsap
- AB/D6Od+pOXPDjy792trBcGT+iJ0/81trVcYIVx4YxoA9gCgCvFxxtHf0GNkk09CRmxo
- BTql6k2kwaGkNcIiaIY/53x86i7F0xHwY9eXlCwZPZzQEaMUhBuLdt9X9dmS8LyJB3ZM
- EsVQ==
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+ [209.85.167.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7FC689EB8
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 08:51:20 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id k9so12393032oia.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 01:51:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=hB/cttD2PIQJrbz4bzuL3i++GH0OSgasFqo3xqjEQAo=;
- b=R6jWKgsHxikVXy0g1AcqqKpSACf3RQfX3vFUebKcM5zR153CKjo4P7flSFqtTIBJ6M
- yUKl6/5LYZO8WzcrKi9h5uUYagi5ngfK6FO1rGyieg5QIe1k/YQtrbmd/4HC7DJbFKrv
- oyyKKZRc0ZS7dhOjDMclEzVTaRhmIjGXiC/Cpet9Ivcwk+N4GUgchhelXqm1CO69E2ih
- 7+XpeTX5t3FviBMb2/WlINUDrnBlKBjM2ecwmSTFyzYQ+9ApVRV2CQBwXPpv5OEIgl+o
- cuvPayVJhIEzR/VTRWfCqkBh8Luk3k+YfEW5fbSpRJh6mqEehtan/wMAP7lg/c15Gy+l
- mLOg==
-X-Gm-Message-State: AGi0PuaHe3h8NhpcsLmWtY9tVLCvGja7fLUAS5UtwU8UaFNMBvbUku9Y
- Pqjv99Ox8KEMhn+l5C3lSpCMXg==
-X-Google-Smtp-Source: APiQypL6NsZE4UH6W7CHGi4ojlUeqMxw4vdKpXkAYqw432CMd+116S8Nw19uLsayC9FcZNch4FCf5A==
-X-Received: by 2002:a1c:9d84:: with SMTP id g126mr6730754wme.184.1586162968744; 
- Mon, 06 Apr 2020 01:49:28 -0700 (PDT)
-Received: from dell ([2.27.35.179])
- by smtp.gmail.com with ESMTPSA id t26sm14548888wmj.12.2020.04.06.01.49.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 01:49:27 -0700 (PDT)
-Date: Mon, 6 Apr 2020 09:50:24 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH V4 1/4] backlight: qcom-wled: convert the wled bindings
- to .yaml format
-Message-ID: <20200406085024.GF30614@dell>
-References: <1584985618-25689-1-git-send-email-kgunda@codeaurora.org>
- <1584985618-25689-2-git-send-email-kgunda@codeaurora.org>
- <20200331175401.GA9791@bogus>
- <ac8f25113a3bb233c11fd7cd9e62c2cf@codeaurora.org>
- <20200403114651.m6rholzufzqinanc@holly.lan>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fXYbNmUk7gx6u1EZ+3zkQdCAzF6iKPs8wapVvWfN48o=;
+ b=Ciev4gHRxi96xYFi28Qt6iQTZCZ6xle2s6MnRkKQEWNtGQ6pn1XgMASuFTxCKDnNap
+ l0bW1x0qIRs+ihRhecXd21PpffcS8rhw8dFC54gzCFxLrrE/ZK3WsSdPu3zlmNAlAFeX
+ vr53lod8OpaJing3fMzIlS3nzU8GnLMWAL03PZj+i1t1ZdzZCmaSNy/E98N8qBHcp/wZ
+ XzOxzNOF/C4cNFDRh9sYNVZvV95v7XK1h/Iy6mPODxww8UlpNWnpcxRWh77egjqhHC71
+ 5E3rbqqGxQuKjWnVzcuVp/Hpvgb+qpah8EXWyrik37wXtvpnZdrJ33tA+8O2O+NOqS1Z
+ Xj1w==
+X-Gm-Message-State: AGi0Puatc9jia8bMgIgEjAzXst71MqyHNP/DwqPBiWCIGyHLGkzi2RnE
+ UdfXCmVDHOEUSzn4BLa0ES+EUoro9oXfhF5yD4iu9q6j
+X-Google-Smtp-Source: APiQypIR0yeblmw39zrWYRRtW33lWN0V41HsYayCa9b+tH6tni6QJUl7ScskTs14bJYWvH1xLH3vofcWL4Y1Ilevefo=
+X-Received: by 2002:aca:cdd1:: with SMTP id
+ d200mr11498601oig.153.1586163080068; 
+ Mon, 06 Apr 2020 01:51:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200403114651.m6rholzufzqinanc@holly.lan>
+References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405233935.27599-3-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200405233935.27599-3-laurent.pinchart+renesas@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 6 Apr 2020 10:51:08 +0200
+Message-ID: <CAMuHMdW2-JdDk5KB+K1-QMp20edU-5U--y4utvTn0H-RDYgyaQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC 2/6] dt-bindings: display: bridge: renesas,dw-hdmi:
+ Convert binding to YAML
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,54 +54,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, kgunda@codeaurora.org, b.zolnierkie@samsung.com,
- jingoohan1@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- devicetree@vger.kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- linux-arm-msm@vger.kernel.org,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
- linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Mark Yao <mark.yao@rock-chips.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAwMyBBcHIgMjAyMCwgRGFuaWVsIFRob21wc29uIHdyb3RlOgoKPiBPbiBGcmksIEFw
-ciAwMywgMjAyMCBhdCAwNDo0NTo0OVBNICswNTMwLCBrZ3VuZGFAY29kZWF1cm9yYS5vcmcgd3Jv
-dGU6Cj4gPiBPbiAyMDIwLTAzLTMxIDIzOjI0LCBSb2IgSGVycmluZyB3cm90ZToKPiA+ID4gT24g
-TW9uLCBNYXIgMjMsIDIwMjAgYXQgMTE6MTY6NTVQTSArMDUzMCwgS2lyYW4gR3VuZGEgd3JvdGU6
-Cj4gPiA+ID4gZGlmZiAtLWdpdAo+ID4gPiA+IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2xlZHMvYmFja2xpZ2h0L3Fjb20td2xlZC55YW1sCj4gPiA+ID4gYi9Eb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbGVkcy9iYWNrbGlnaHQvcWNvbS13bGVkLnlhbWwKPiA+
-ID4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+ID4gPiA+IGluZGV4IDAwMDAwMDAuLjhhMzg4YmYK
-PiA+ID4gPiAtLS0gL2Rldi9udWxsCj4gPiA+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL2xlZHMvYmFja2xpZ2h0L3Fjb20td2xlZC55YW1sCj4gPiA+ID4gQEAgLTAs
-MCArMSwxODQgQEAKPiA+ID4gPiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1v
-bmx5Cj4gPiA+ID4gKyVZQU1MIDEuMgo+ID4gPiA+ICstLS0KPiA+ID4gPiArJGlkOiBodHRwOi8v
-ZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9sZWRzL2JhY2tsaWdodC9xY29tLXdsZWQueWFtbCMKPiA+
-ID4gPiArJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlh
-bWwjCj4gPiA+ID4gKwo+ID4gPiA+ICt0aXRsZTogQmluZGluZyBmb3IgUXVhbGNvbW0gVGVjaG5v
-bG9naWVzLCBJbmMuIFdMRUQgZHJpdmVyCj4gPiA+ID4gKwo+ID4gPiA+ICttYWludGFpbmVyczoK
-PiA+ID4gPiArICAtIExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Cj4gPiA+IAo+ID4g
-PiBTaG91bGQgYmUgdGhlIGgvdyBvd25lciAoeW91KSwgbm90IHdobyBhcHBsaWVzIHBhdGNoZXMu
-Cj4gPiA+IAo+ID4gd2lsbCBhZGRyZXNzIGluIG5leHQgcG9zdC4KPiA+IDxzbmlwPgo+ID4gd2ls
-bCBhZGRyZXNzIGluIG5leHQgcG9zdC4KPiA+IDxzbmlwPgo+ID4gd2lsbCBhZGRyZXNzIGluIG5l
-eHQgcG9zdC4KPiA+IDxzbmlwPgo+ID4gd2lsbCBhZGRyZXNzIGluIG5leHQgcG9zdC4KPiA+IDxz
-bmlwPgo+ID4gd2lsbCBhZGRyZXNzIGluIG5leHQgcG9zdC4KPiA+IDxzbmlwPgo+ID4gd2lsbCBh
-ZGRyZXNzIGluIG5leHQgcG9zdC4KPiA+IDxzbmlwPgo+ID4gd2lsbCBhZGRyZXNzIGluIG5leHQg
-cG9zdC4KPiA+IDxzbmlwPgo+ID4gd2lsbCBhZGRyZXNzIGluIG5leHQgcG9zdC4KPiA+IDxzbmlw
-Pgo+ID4gd2lsbCBhZGRyZXNzIGluIG5leHQgcG9zdC4KPiAKPiBJZiB5b3UgYWdyZWUgb24gYWxs
-IHBvaW50cyByYWlzZWQgSSBkb3VidCB0aGVyZSBpcyBhbnkgbmVlZCBmb3IgYSBwb2ludAo+IGJ5
-IHBvaW50IHJlcGx5IHNpbmNlIGV2ZXJ5b25lIHdobyByZWFkcyBpdCB3aWxsIGhhdmUgdG8gc2Ny
-b2xsIGRvd24KPiBzaW1wbHkgdG8gZmluZCBvdXQgdGhhdCB5b3UgYWdyZWUgb24gYWxsIHBvaW50
-cy4KPiAKPiBCZXR0ZXIganVzdCB0byBhY2tub3dsZWRnZSB0aGUgZmVlZGJhY2sgYW5kIHJlcGx5
-IHRvIHRoZSBmaXJzdCBvbmUKPiBzYXlpbmcgeW91J2xsIGFncmVlIG9uIGFsbCBwb2ludHMgYW5k
-IHdpbGwgYWRkcmVzcyBhbGwgZmVlZGJhY2sgaW4gdGhlCj4gbmV4dCByZXZpc2lvbiAoYW5kIHRo
-ZW4gdHJpbSB0aGUgcmVwbHkgdG8ga2VlcCBpdCBzaG9ydCkuCgpPciBiZXR0ZXIgc3RpbGwsIGp1
-c3Qgc3VibWl0IHRoZSBuZXh0IHJldmlzaW9uIHdpdGggYWxsIHRoZSBmaXhlcy4gOikKCi0tIApM
-ZWUgSm9uZXMgW+adjueQvOaWr10KTGluYXJvIFNlcnZpY2VzIFRlY2huaWNhbCBMZWFkCkxpbmFy
-by5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBUk0gU29DcwpGb2xsb3cgTGluYXJv
-OiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+Hi Laurent,
+
+On Mon, Apr 6, 2020 at 1:40 AM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> Convert the Renesas R-Car DWC HDMI TX text binding to YAML.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+Thanks for your patch!
+
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +        - renesas,r8a774a1-hdmi # for R8A774A1 (RZ/G2M) compatible HDMI TX
+> +        - renesas,r8a774b1-hdmi # for R8A774B1 (RZ/G2N) compatible HDMI TX
+> +        - renesas,r8a7795-hdmi # for R8A7795 (R-Car H3) compatible HDMI TX
+> +        - renesas,r8a7796-hdmi # for R8A7796 (R-Car M3-W) compatible HDMI TX
+
+R8A77960 (I know you don't support R8A77961 yet ;-)
+
+> +        - renesas,r8a77965-hdmi # for R8A77965 (R-Car M3-N) compatible HDMI TX
+
+Wouldn't it be sufficient to just have the SoC name (e.g. "R-Car M3-N") in
+the comments?
+
+> +      - const: renesas,rcar-gen3-hdmi
+
+# R-Car Gen3 and RZ/G2
+
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/power/r8a7795-sysc.h>
+> +
+> +    hdmi@fead0000 {
+> +        compatible = "renesas,r8a7795-hdmi", "renesas,rcar-gen3-hdmi";
+> +        reg = <0 0xfead0000 0 0x10000>;
+
+Examples are built with #{address,size}-cells = <1>.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
