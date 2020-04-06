@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5891F19F43E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 13:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E700F19F473
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 13:19:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 849906E32C;
-	Mon,  6 Apr 2020 11:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59EF86E32E;
+	Mon,  6 Apr 2020 11:19:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62EC36E32C
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 11:15:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 451026E32E
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 11:19:39 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6BF0080E;
- Mon,  6 Apr 2020 13:15:52 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3EB6580E;
+ Mon,  6 Apr 2020 13:19:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1586171752;
- bh=yyEsGrubUp166va2A/YeFJLQbB3EJnYU4das1rpKeNQ=;
+ s=mail; t=1586171977;
+ bh=IWAE7fiWWyJbCmxMSYZ4nVedZ7TWLiwjdCOV/Y+r3m8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NV6V1nFeJ04+hy53y3aAiCdcGOrEi9TK2FQhGYTNjSfMMra+GFYjg7biMmrCtZ2A4
- Uvt2hoghqV13eyAAx9PnY6J4PqEFNdrYWM6ODZz5LNm5dfG8D6lAKRQuxjZ5vb7mWK
- b3R+MPTPbYK4UhUOZw8TLm5ijbgEu4BLRj44GgYY=
-Date: Mon, 6 Apr 2020 14:15:43 +0300
+ b=SkglU31c+fBP8OWeHF+yPqdtpqZrPAityh1sgKtfRd/Di6FH3FFVquLsmID4/GZhx
+ ZljmH3/uAyY70/GJcPIzifM+FdVU0lagTxBPoq4xJSKlWMCkoeJDOxMEEy8tTT0M5t
+ l2Pic+wrgl/mayMY9hVJPrZnFqg7Y6LlevSBy+uQ=
+Date: Mon, 6 Apr 2020 14:19:27 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH 3/4] dt-bindings: display: bridge: thc63lvd1024: Convert
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH/RFC 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
  binding to YAML
-Message-ID: <20200406111543.GC4757@pendragon.ideasonboard.com>
-References: <20200405232318.26833-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200405232318.26833-4-laurent.pinchart+renesas@ideasonboard.com>
- <20200406064031.huwbq3wqd6t46idq@uno.localdomain>
+Message-ID: <20200406111927.GD4757@pendragon.ideasonboard.com>
+References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200406064031.huwbq3wqd6t46idq@uno.localdomain>
+In-Reply-To: <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,260 +50,213 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Maxime Ripard <maxime@cerno.tech>
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Mark Yao <mark.yao@rock-chips.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jacopo,
+Hi Maxime,
 
-On Mon, Apr 06, 2020 at 08:40:31AM +0200, Jacopo Mondi wrote:
-> On Mon, Apr 06, 2020 at 02:23:17AM +0300, Laurent Pinchart wrote:
-> > Convert the Thine THC63LVD1024 text binding to YAML.
+On Mon, Apr 06, 2020 at 10:00:32AM +0200, Maxime Ripard wrote:
+> On Mon, Apr 06, 2020 at 02:39:33AM +0300, Laurent Pinchart wrote:
+> > Convert the Rockchip HDMI TX text binding to YAML.
 > >
 > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > > ---
-> >  .../display/bridge/thine,thc63lvd1024.txt     |  66 ----------
-> >  .../display/bridge/thine,thc63lvd1024.yaml    | 121 ++++++++++++++++++
-> >  2 files changed, 121 insertions(+), 66 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+> >  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
+> >  .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
+> >  2 files changed, 178 insertions(+), 74 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> >  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
 > >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
+> > diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
 > > deleted file mode 100644
-> > index d17d1e5820d7..000000000000
-> > --- a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
+> > index 3d32ce137e7f..000000000000
+> > --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
 > > +++ /dev/null
-> > @@ -1,66 +0,0 @@
-> > -Thine Electronics THC63LVD1024 LVDS decoder
-> > --------------------------------------------
+> > @@ -1,74 +0,0 @@
+> > -Rockchip DWC HDMI TX Encoder
+> > -============================
 > > -
-> > -The THC63LVD1024 is a dual link LVDS receiver designed to convert LVDS streams
-> > -to parallel data outputs. The chip supports single/dual input/output modes,
-> > -handling up to two LVDS input streams and up to two digital CMOS/TTL outputs.
+> > -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> > -with a companion PHY IP.
 > > -
-> > -Single or dual operation mode, output data mapping and DDR output modes are
-> > -configured through input signals and the chip does not expose any control bus.
+> > -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
+> > -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
+> > -following device-specific properties.
+> > -
 > > -
 > > -Required properties:
-> > -- compatible: Shall be "thine,thc63lvd1024"
-> > -- vcc-supply: Power supply for TTL output, TTL CLOCKOUT signal, LVDS input,
-> > -  PPL and digital circuitry
 > > -
-> > -Optional properties:
-> > -- powerdown-gpios: Power down GPIO signal, pin name "/PDWN". Active low
-> > -- oe-gpios: Output enable GPIO signal, pin name "OE". Active high
+> > -- compatible: should be one of the following:
+> > -		"rockchip,rk3228-dw-hdmi"
+> > -		"rockchip,rk3288-dw-hdmi"
+> > -		"rockchip,rk3328-dw-hdmi"
+> > -		"rockchip,rk3399-dw-hdmi"
+> > -- reg: See dw_hdmi.txt.
+> > -- reg-io-width: See dw_hdmi.txt. Shall be 4.
+> > -- interrupts: HDMI interrupt number
+> > -- clocks: See dw_hdmi.txt.
+> > -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
+> > -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
+> > -  corresponding to the video input of the controller. The port shall have two
+> > -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
+> > -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
 > > -
-> > -The THC63LVD1024 video port connections are modeled according
-> > -to OF graph bindings specified by Documentation/devicetree/bindings/graph.txt
+> > -Optional properties
 > > -
-> > -Required video port nodes:
-> > -- port@0: First LVDS input port
-> > -- port@2: First digital CMOS/TTL parallel output
+> > -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
+> > -  or the functionally-reduced I2C master contained in the DWC HDMI. When
+> > -  connected to a system I2C master this property contains a phandle to that
+> > -  I2C master controller.
+> > -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
+> > -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
+> > -- clock-names: May contain "grf", power for grf io.
+> > -- clock-names: May contain "vpll", external clock for some hdmi phy.
+> > -- phys: from general PHY binding: the phandle for the PHY device.
+> > -- phy-names: Should be "hdmi" if phys references an external phy.
 > > -
-> > -Optional video port nodes:
-> > -- port@1: Second LVDS input port
-> > -- port@3: Second digital CMOS/TTL parallel output
-> > -
-> > -The device can operate in single-link mode or dual-link mode. In single-link
-> > -mode, all pixels are received on port@0, and port@1 shall not contain any
-> > -endpoint. In dual-link mode, even-numbered pixels are received on port@0 and
-> > -odd-numbered pixels on port@1, and both port@0 and port@1 shall contain
-> > -endpoints.
+> > -Optional pinctrl entry:
+> > -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
+> > -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
+> > -  i2c timeout.  It's intended that this unwedge pinctrl entry will
+> > -  cause the SDA line to be driven low to work around a hardware
+> > -  errata.
 > > -
 > > -Example:
-> > ---------
 > > -
-> > -	thc63lvd1024: lvds-decoder {
-> > -		compatible = "thine,thc63lvd1024";
-> > -
-> > -		vcc-supply = <&reg_lvds_vcc>;
-> > -		powerdown-gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;
-> > -
-> > -		ports {
+> > -hdmi: hdmi@ff980000 {
+> > -	compatible = "rockchip,rk3288-dw-hdmi";
+> > -	reg = <0xff980000 0x20000>;
+> > -	reg-io-width = <4>;
+> > -	ddc-i2c-bus = <&i2c5>;
+> > -	rockchip,grf = <&grf>;
+> > -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> > -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
+> > -	clock-names = "iahb", "isfr";
+> > -	ports {
+> > -		hdmi_in: port {
 > > -			#address-cells = <1>;
 > > -			#size-cells = <0>;
-> > -
-> > -			port@0 {
+> > -			hdmi_in_vopb: endpoint@0 {
 > > -				reg = <0>;
-> > -
-> > -				lvds_dec_in_0: endpoint {
-> > -					remote-endpoint = <&lvds_out>;
-> > -				};
+> > -				remote-endpoint = <&vopb_out_hdmi>;
 > > -			};
-> > -
-> > -			port@2{
-> > -				reg = <2>;
-> > -
-> > -				lvds_dec_out_2: endpoint {
-> > -					remote-endpoint = <&adv7511_in>;
-> > -				};
+> > -			hdmi_in_vopl: endpoint@1 {
+> > -				reg = <1>;
+> > -				remote-endpoint = <&vopl_out_hdmi>;
 > > -			};
 > > -		};
 > > -	};
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+> > -};
+> > diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
 > > new file mode 100644
-> > index 000000000000..469ac4a34273
+> > index 000000000000..8ff544ae0ac2
 > > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> > @@ -0,0 +1,121 @@
+> > +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > @@ -0,0 +1,178 @@
 > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > > +%YAML 1.2
 > > +---
-> > +$id: http://devicetree.org/schemas/display/bridge/thine,thc63lvd1024.yaml#
+> > +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
 > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> > +title: Thine Electronics THC63LVD1024 LVDS Decoder
+> > +title: Rockchip DWC HDMI TX Encoder
 > > +
 > > +maintainers:
-> > +  - Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> Ack
-> 
-> > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > +  - Mark Yao <mark.yao@rock-chips.com>
 > > +
 > > +description: |
-> > +  The THC63LVD1024 is a dual link LVDS receiver designed to convert LVDS
-> > +  streams to parallel data outputs. The chip supports single/dual input/output
-> > +  modes, handling up to two LVDS input streams and up to two digital CMOS/TTL
-> > +  outputs.
+> > +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> > +  with a companion PHY IP.
 > > +
-> > +  Single or dual operation mode, output data mapping and DDR output modes are
-> > +  configured through input signals and the chip does not expose any control
-> > +  bus.
+> > +allOf:
+> > +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
 > > +
 > > +properties:
 > > +  compatible:
-> > +    const: thine,thc63lvd1024
+> > +    enum:
+> > +      - rockchip,rk3228-dw-hdmi
+> > +      - rockchip,rk3288-dw-hdmi
+> > +      - rockchip,rk3328-dw-hdmi
+> > +      - rockchip,rk3399-dw-hdmi
 > > +
-> > +  ports:
-> > +    type: object
-> > +    description: |
-> > +      This device has four video ports. Their connections are modeled using the
-> > +      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+> > +  reg: true
 > > +
-> > +      The device can operate in single-link mode or dual-link mode. In
-> > +      single-link mode, all pixels are received on port@0, and port@1 shall not
-> > +      contain any endpoint. In dual-link mode, even-numbered pixels are
-> > +      received on port@0 and odd-numbered pixels on port@1, and both port@0 and
-> > +      port@1 shall contain endpoints.
+> > +  reg-io-width:
+> > +    const: 4
+> > +
+> > +  clocks:
+> > +    minItems: 2
+> > +    maxItems: 5
+> > +    items:
+> > +      - description: The bus clock for either AHB and APB
+> > +      - description: The internal register configuration clock
+> > +      - description: The HDMI CEC controller main clock
+> > +      - description: Power for GRF IO
+> > +      - description: External clock for some HDMI PHY
+> > +
+> > +  clock-names:
+> > +    minItems: 2
+> > +    maxItems: 5
+> > +    items:
+> > +      - const: iahb
+> > +      - const: isfr
+> > +      - enum:
+> > +        - cec
+> > +        - grf
+> > +        - vpll
+> > +      - enum:
+> > +        - cec
+> > +        - grf
+> > +        - vpll
+> > +      - enum:
+> > +        - cec
+> > +        - grf
+> > +        - vpll
 > 
-> I wonder why we have documented only single/dual input mode and not
-> single/dual output mode too. The driver only supports single input and
-> single output, but this might be a good occasion to document the
-> output port mapping as well.
-> 
-> How about
-> 
->       The device can operate in single or dual input and output modes.
-> 
->       When operating in single input mode, all pixels are received on
->       port@0, and port@1 shall not contain any endpoint. In dual input
->       mode, even-numbered pixels are received on port@0 and
->       odd-numbered pixels on port@1, and both port@0 and port@1 shall
->       contain endpoints.
-> 
->       When operating in single output mode all pixels are output from
->       the first CMOS/TTL port and port@3 shall not contain any
->       endpoint. In dual output mode pixels are output from both
->       CMOS/TTL ports and both port@2 and port@3 shall contain
->       endpoints.
+> IIRC Rob wanted us to standardize the order of the clocks if possible,
+> since it's a pain to support properly here, and your description won't
+> match what you describe here either (and in general it's just a best
+> practice), so if all your DTs have the same order you should just set
+> that order in stone.
 
-This is a good idea, but I'll split it to a separate patch as it makes
-sense to review it independently of the conversion.
+But how do we handle the case where any of the cec, grf and vpll clocks
+can be set ? Assuming, for instance, that
 
-> With or without this, as the new bindings are not worse than what they
-> where already:
-> 
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> > +
-> > +    properties:
-> > +      '#address-cells':
-> > +        const: 1
-> > +
-> > +      '#size-cells':
-> > +        const: 0
-> > +
-> > +      port@0:
-> > +        type: object
-> > +        description: First LVDS input port
-> > +
-> > +      port@1:
-> > +        type: object
-> > +        description: Second LVDS input port
-> > +
-> > +      port@2:
-> > +        type: object
-> > +        description: First digital CMOS/TTL parallel output
-> > +
-> > +      port@3:
-> > +        type: object
-> > +        description: Second digital CMOS/TTL parallel output
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@2
-> > +
-> > +    additionalProperties: false
-> > +
-> > +  oe-gpios:
-> > +    maxItems: 1
-> > +    description: Output enable GPIO signal, pin name "OE", active high.
-> > +
-> > +  powerdown-gpios:
-> > +    maxItems: 1
-> > +    description: Power down GPIO signal, pin name "/PDWN", active low.
-> > +
-> > +  vcc-supply:
-> > +    maxItems: 1
+	clock-names = "iahb", "isfr", "cec";
+	clock-names = "iahb", "isfr", "vpll";
+	clock-names = "iahb", "isfr", "cec", "vpll";
+
+would all be valid.
+
+> > +  ddc-i2c-bus:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
 > > +    description:
-> > +      Power supply for the TTL output, TTL CLOCKOUT signal, LVDS input, PLL and
-> > +      digital circuitry.
+> > +      The HDMI DDC bus can be connected to either a system I2C master or the
+> > +      functionally-reduced I2C master contained in the DWC HDMI. When connected
+> > +      to a system I2C master this property contains a phandle to that I2C
+> > +      master controller.
 > > +
-> > +required:
-> > +  - compatible
-> > +  - ports
-> > +  - vcc-supply
+> > +  interrupts: true
 > > +
-> > +additionalProperties: false
+> > +  phys:
+> > +    maxItems: 1
+> > +    description: The HDMI PHY
 > > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
+> > +  phy-names:
+> > +    const: hdmi
 > > +
-> > +    lvds-decoder {
-> > +        compatible = "thine,thc63lvd1024";
-> > +
-> > +        vcc-supply = <&reg_lvds_vcc>;
-> > +        powerdown-gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;
-> > +
-> > +        ports {
-> > +            #address-cells = <1>;
-> > +            #size-cells = <0>;
-> > +
-> > +            port@0 {
-> > +                reg = <0>;
-> > +
-> > +                lvds_dec_in_0: endpoint {
-> > +                    remote-endpoint = <&lvds_out>;
-> > +                };
-> > +            };
-> > +
-> > +            port@2 {
-> > +                reg = <2>;
-> > +
-> > +                lvds_dec_out_2: endpoint {
-> > +                    remote-endpoint = <&adv7511_in>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
+> > +  pinctrl-0: true
+> > +  pinctrl-1: true
+> 
+> These two are already set by the tools on any schemas (up to
+> pinctrl-255 actually).
+
+Thank you for the information. I'll drop them.
 
 -- 
 Regards,
