@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B651A08F1
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 10:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66EA1A08FF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 10:10:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9386E59B;
-	Tue,  7 Apr 2020 08:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 259056E5A2;
+	Tue,  7 Apr 2020 08:09:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C06296E2D5
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 07:57:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EA996E2DE
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 08:00:35 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 4D5705C00FF;
- Mon,  6 Apr 2020 03:57:08 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 06 Apr 2020 03:57:08 -0400
+ by mailout.nyi.internal (Postfix) with ESMTP id D74F15C01A7;
+ Mon,  6 Apr 2020 04:00:34 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 06 Apr 2020 04:00:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=uipbJ06evO1VWcERbTQwcDSZSz6
- wiDJ3u9oVtH6H1PU=; b=mT9xqArbayew8An+Cs02objwfBKX0A3SEjcLnFiwWSx
- 2Vpezay7VUkviAttp0sWMo8hsn2Fr+f5zQavI4Y182ChEp20OPUyqjAHyJCmHePo
- 2PI7kfl1L+xlOonMNOV1vR362ntNzsrdFxom8NskVlnqmxIfbslg8qZ/Bgu479jf
- uHvyI9vSE/u7gxYXcRRRhk3NObUsofRUH8c4DSTon0J1t7wCI+6nlXkXqKWi4EsD
- FMKxC9+exWF6dmUWX5j7dPWZg8Ot8weHt94QX0lNVJndnmfaJTvB2ELGzS7A4Dd6
- Rz1ZmZfHX3HWkHB0fxsXQI72JSN+AM291zvpHlRWD7w==
+ :content-type:in-reply-to; s=fm2; bh=IkPl9GikYyHPmZc02tULTBn56d9
+ A0vpAp2YQ86XA7LU=; b=Hk12HmPSF34cbLkWUAQcbrVNM9pkdDGaOwf8CQPE3gN
+ 3cmfz1iVG6T+jojVuFEaba66i6jPUKckIOR41xehgGhrzSxc7HSnKW19vjY9AgR1
+ I7uvzHCh0sepjGu5LGPWnbzf9JeZ2j6XQAvxfJPZhEHTieGH/HDV485klUUapExU
+ GSYDyIDjW/8AYqGSQbH4SfA0P3iyb8KQoH2icqdKSuDEoo6wGfsy+81RGO3YGpGP
+ q7Hm5QKsxNrEQVjIIy3Ni0Wzhkk5TPO+9IfqAAlO9BznH341AleyrrqToDW6uo+y
+ XVIzW9sP52p539b9i7gAP+1tiADjghfjk4otspYVSzQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=uipbJ0
- 6evO1VWcERbTQwcDSZSz6wiDJ3u9oVtH6H1PU=; b=dbgXULK36Ts/4nbbv39hh+
- Wp+zH9pBB0t9uI96NisCvIW0H5phaJNCfeMXzljhseKWfdoc3ofrRgujTfP6/U3a
- dUyX5/2IeBmxSha2/P1GW7KMJxZbNmCADt2EkktQOqzXeFhjVzmGXbt6xWgHjeeB
- Sq6QxhLKMEgPr5aP1Kj7Gk1kREGnxIfEivxyhviC+m04U7la2lkcIjI7wewlWHM/
- MLUvR0waAcf7at1uyea863H1pUXVusu/xHXnN72qK1YJX+qucXpsJeZtzNqh2NmL
- vHxCk6rDYp6rCeAo4Q8tKuE9/LBBuTCC/eqvKWn14gHxh+KUUuoK0d5XV/5dkt0w
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=IkPl9G
+ ikYyHPmZc02tULTBn56d9A0vpAp2YQ86XA7LU=; b=ePEJvDotrB9gxXClxaSXwP
+ Dxva49fLYXmews7qJtotG3I8FxNN9rI+H6E6ExakqiV9UZMjrAIe/N8K7AkMMx/Z
+ NPuspa0CteKqG4JkB+AA8KYhgoXMffEd4qZbzcv27ggN+94Lv8VXebV+ZArdKw0P
+ PeoXu4CtscHrNNFr5qzi2VOY6Pkm+e2IIDeHslLMVI9CMIQbzoPlNlm3P2qq3OvV
+ rx8rbHVv72VoiYR2iEmOUa3Vae+32Y3JyU1Y6TGfI9YmKmrcr6kFpQrk4ZLdL3uX
+ PtVaM9A1tEZlO3y9keOrmC0g1ZW5bAQrlcopKnQoQPER5qPwvoh6DQaxU3emxRUg
  ==
-X-ME-Sender: <xms:0-CKXqyZS1uq9tB4EIF-z6sIQF0H8Tr602hG1O9GHxtJ1Y5X3gK6OA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgdduvdekucetufdoteggodetrfdotf
+X-ME-Sender: <xms:oeGKXqY9SPziKqWhImqe8gj8mkZl2z-C8yK3I5D3CrAMDumLd2jjMA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgdduvdelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
@@ -47,24 +47,24 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgdduvdekucetufdoteggod
  hnpeguvghvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekledrieekrdejieenucev
  lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvg
  estggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:0-CKXinje1_O4nld6RCD7ADbKivt2B2_s-9O-_fxEPDM0nmtFDI7Uw>
- <xmx:0-CKXvGXofwMRxqyckoVWC8_mLBKiQuOCwaW7l1OrHOPoA5x2kdayg>
- <xmx:0-CKXiXXD6gdtAJvWmDHCeWVacga9oOOOT8Yz-UqZP5XULn4lspZwQ>
- <xmx:1OCKXrKsIZxPsIBDELT6U89HaNwRp7_EYOOJDpnsmlVghpBt2sIyxA>
+X-ME-Proxy: <xmx:oeGKXptQ2NxTu6CDE-RM137L0F6nk1teCPjvITxYA62-NrLZ_LcpIw>
+ <xmx:oeGKXnudaCiGH0-eSxDdWUqpxuGB_jv_5RrzuaXrCyE6oTD8Gb-cgw>
+ <xmx:oeGKXucu_-HCmEH37qPzlM7itCCpPUlPEVPGjP0bRCD6t6vLo55iGQ>
+ <xmx:ouGKXtQYr8yqF5opG21J19m7iAK3Sh6iezGQXZKQ8oqWIx9FndZx2g>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id C7DC9328005D;
- Mon,  6 Apr 2020 03:57:06 -0400 (EDT)
-Date: Mon, 6 Apr 2020 09:57:05 +0200
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7D43F306D397;
+ Mon,  6 Apr 2020 04:00:33 -0400 (EDT)
+Date: Mon, 6 Apr 2020 10:00:32 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH/RFC 2/6] dt-bindings: display: bridge: renesas,dw-hdmi:
- Convert binding to YAML
-Message-ID: <20200406075705.a67tjx7jamdvqpl3@gilmour.lan>
+Subject: Re: [PATCH/RFC 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
+ binding to YAML
+Message-ID: <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
 References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200405233935.27599-3-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200405233935.27599-3-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailman-Approved-At: Tue, 07 Apr 2020 08:09:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,163 +82,225 @@ Cc: devicetree@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
  Mark Yao <mark.yao@rock-chips.com>
-Content-Type: multipart/mixed; boundary="===============1371709643=="
+Content-Type: multipart/mixed; boundary="===============0675948239=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1371709643==
+--===============0675948239==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="r46jetkjwl7c5lrh"
+	protocol="application/pgp-signature"; boundary="ofqcj6g3ss2qbhgm"
 Content-Disposition: inline
 
 
---r46jetkjwl7c5lrh
+--ofqcj6g3ss2qbhgm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Hi,
 
-On Mon, Apr 06, 2020 at 02:39:31AM +0300, Laurent Pinchart wrote:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+On Mon, Apr 06, 2020 at 02:39:33AM +0300, Laurent Pinchart wrote:
+> Convert the Rockchip HDMI TX text binding to YAML.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
+>  .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
+>  2 files changed, 178 insertions(+), 74 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> deleted file mode 100644
+> index 3d32ce137e7f..000000000000
+> --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> +++ /dev/null
+> @@ -1,74 +0,0 @@
+> -Rockchip DWC HDMI TX Encoder
+> -============================
+> -
+> -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> -with a companion PHY IP.
+> -
+> -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
+> -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
+> -following device-specific properties.
+> -
+> -
+> -Required properties:
+> -
+> -- compatible: should be one of the following:
+> -		"rockchip,rk3228-dw-hdmi"
+> -		"rockchip,rk3288-dw-hdmi"
+> -		"rockchip,rk3328-dw-hdmi"
+> -		"rockchip,rk3399-dw-hdmi"
+> -- reg: See dw_hdmi.txt.
+> -- reg-io-width: See dw_hdmi.txt. Shall be 4.
+> -- interrupts: HDMI interrupt number
+> -- clocks: See dw_hdmi.txt.
+> -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
+> -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
+> -  corresponding to the video input of the controller. The port shall have two
+> -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
+> -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
+> -
+> -Optional properties
+> -
+> -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
+> -  or the functionally-reduced I2C master contained in the DWC HDMI. When
+> -  connected to a system I2C master this property contains a phandle to that
+> -  I2C master controller.
+> -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
+> -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
+> -- clock-names: May contain "grf", power for grf io.
+> -- clock-names: May contain "vpll", external clock for some hdmi phy.
+> -- phys: from general PHY binding: the phandle for the PHY device.
+> -- phy-names: Should be "hdmi" if phys references an external phy.
+> -
+> -Optional pinctrl entry:
+> -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
+> -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
+> -  i2c timeout.  It's intended that this unwedge pinctrl entry will
+> -  cause the SDA line to be driven low to work around a hardware
+> -  errata.
+> -
+> -Example:
+> -
+> -hdmi: hdmi@ff980000 {
+> -	compatible = "rockchip,rk3288-dw-hdmi";
+> -	reg = <0xff980000 0x20000>;
+> -	reg-io-width = <4>;
+> -	ddc-i2c-bus = <&i2c5>;
+> -	rockchip,grf = <&grf>;
+> -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
+> -	clock-names = "iahb", "isfr";
+> -	ports {
+> -		hdmi_in: port {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -			hdmi_in_vopb: endpoint@0 {
+> -				reg = <0>;
+> -				remote-endpoint = <&vopb_out_hdmi>;
+> -			};
+> -			hdmi_in_vopl: endpoint@1 {
+> -				reg = <1>;
+> -				remote-endpoint = <&vopl_out_hdmi>;
+> -			};
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
 > new file mode 100644
-> index 000000000000..9a543740c81d
+> index 000000000000..8ff544ae0ac2
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
-> @@ -0,0 +1,142 @@
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> @@ -0,0 +1,178 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/bridge/renesas,dw-hdmi.yaml#
+> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Renesas R-Car DWC HDMI TX Encoder
+> +title: Rockchip DWC HDMI TX Encoder
 > +
 > +maintainers:
-> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> +  - Mark Yao <mark.yao@rock-chips.com>
 > +
 > +description: |
 > +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
 > +  with a companion PHY IP.
 > +
 > +allOf:
-> +  - $ref: synopsys,dw-hdmi.yaml#
+> +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
 > +
 > +properties:
 > +  compatible:
-> +    items:
-> +      - enum:
-> +        - renesas,r8a774a1-hdmi # for R8A774A1 (RZ/G2M) compatible HDMI TX
-> +        - renesas,r8a774b1-hdmi # for R8A774B1 (RZ/G2N) compatible HDMI TX
-> +        - renesas,r8a7795-hdmi # for R8A7795 (R-Car H3) compatible HDMI TX
-> +        - renesas,r8a7796-hdmi # for R8A7796 (R-Car M3-W) compatible HDMI TX
-> +        - renesas,r8a77965-hdmi # for R8A77965 (R-Car M3-N) compatible HDMI TX
-> +      - const: renesas,rcar-gen3-hdmi
+> +    enum:
+> +      - rockchip,rk3228-dw-hdmi
+> +      - rockchip,rk3288-dw-hdmi
+> +      - rockchip,rk3328-dw-hdmi
+> +      - rockchip,rk3399-dw-hdmi
 > +
 > +  reg: true
 > +
 > +  reg-io-width:
-> +    const: 1
+> +    const: 4
 > +
 > +  clocks:
 > +    minItems: 2
-> +    maxItems: 2
-
-You don't need both, if one is missing the other will be filled by the
-dt-schema tools. In this particular case, I guess maxItems would make
-more sense.
-
+> +    maxItems: 5
+> +    items:
+> +      - description: The bus clock for either AHB and APB
+> +      - description: The internal register configuration clock
+> +      - description: The HDMI CEC controller main clock
+> +      - description: Power for GRF IO
+> +      - description: External clock for some HDMI PHY
 > +
 > +  clock-names:
+> +    minItems: 2
+> +    maxItems: 5
 > +    items:
 > +      - const: iahb
 > +      - const: isfr
+> +      - enum:
+> +        - cec
+> +        - grf
+> +        - vpll
+> +      - enum:
+> +        - cec
+> +        - grf
+> +        - vpll
+> +      - enum:
+> +        - cec
+> +        - grf
+> +        - vpll
+
+IIRC Rob wanted us to standardize the order of the clocks if possible,
+since it's a pain to support properly here, and your description won't
+match what you describe here either (and in general it's just a best
+practice), so if all your DTs have the same order you should just set
+that order in stone.
+
+> +  ddc-i2c-bus:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      The HDMI DDC bus can be connected to either a system I2C master or the
+> +      functionally-reduced I2C master contained in the DWC HDMI. When connected
+> +      to a system I2C master this property contains a phandle to that I2C
+> +      master controller.
 > +
 > +  interrupts: true
 > +
-> +  ports:
-> +    type: object
-> +    description: |
-> +      This device has three video ports. Their connections are modelled using the
-> +      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
-> +      Each port shall have a single endpoint.
-> +
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +
-> +      '#size-cells':
-> +        const: 0
-> +
-> +      port@0:
-> +        type: object
-> +        description: Parallel RGB input port
-> +
-> +      port@1:
-> +        type: object
-> +        description: HDMI output port
-> +
-> +      port@2:
-> +        type: object
-> +        description: Sound input port
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +      - port@2
-> +
-> +    additionalProperties: false
-> +
-> +  power-domains:
+> +  phys:
 > +    maxItems: 1
+> +    description: The HDMI PHY
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - ports
+> +  phy-names:
+> +    const: hdmi
 > +
-> +additionalProperties: false
+> +  pinctrl-0: true
+> +  pinctrl-1: true
 
-In the case where you have some kind of generic schema and then a more
-specific one like you have here, unevaluatedProperties make more sense
-that additionalProperties.
-
-additionalProperties checks that there are no extra properties on the
-current schema, which is a problem here since you have to duplicate
-the entire list of properties found in the generic schema, while
-unevaluatedProperties checks that there are no extra properties in the
-entire set of all schemas that apply to this node.
-
-This way, you can just put what is different from the generic schema,
-and you don't have to keep it in sync.
-
-It's a feature that has been added in the spec of the schemas that
-went on right after the one we support in the tools, so for now the
-kernel meta-schemas only allows that property to be there (just like
-deprecated) but won't do anything.
-
-This should be fixed quite soon however, the library we depend on
-has started to work on that spec apparently.
+These two are already set by the tools on any schemas (up to
+pinctrl-255 actually).
 
 Maxime
 
---r46jetkjwl7c5lrh
+--ofqcj6g3ss2qbhgm
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXorg0QAKCRDj7w1vZxhR
-xSn9AQDZooBi+cEuzpY81Mw7K18vMAyT3l83sgKXhjGIk9xvowD7B3lpQdTGblz4
-W5wB2hPhkp+cVu9VkpSFh4tpuXYvXAI=
-=GFZ5
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXorhoAAKCRDj7w1vZxhR
+xR4bAQCBWDdneD/u9+7PGzCDBNh8sIvQvVJSL+TgtX6FRplLagD/c7pS9CfDHxzG
+vQrFqWGofHKNGJWHWIUjh3BxqsuemQw=
+=wdbW
 -----END PGP SIGNATURE-----
 
---r46jetkjwl7c5lrh--
+--ofqcj6g3ss2qbhgm--
 
---===============1371709643==
+--===============0675948239==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -249,4 +311,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1371709643==--
+--===============0675948239==--
