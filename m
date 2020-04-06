@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B20DE19FB6E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 19:27:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 107BF19FBB1
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 19:35:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3493E6E452;
-	Mon,  6 Apr 2020 17:27:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59B8F6E3C4;
+	Mon,  6 Apr 2020 17:35:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F396E451
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 17:27:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71E986E436
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 17:35:02 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 7C927BB43;
- Mon,  6 Apr 2020 17:27:07 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 123E4C0DC;
+ Mon,  6 Apr 2020 17:34:59 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: noralf@tronnes.org, daniel@ffwll.ch, airlied@linux.ie,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
@@ -26,9 +26,10 @@ To: noralf@tronnes.org, daniel@ffwll.ch, airlied@linux.ie,
  sean@poorly.run, hdegoede@redhat.com, kraxel@redhat.com,
  emil.velikov@collabora.com, sam@ravnborg.org, yc_chen@aspeedtech.com,
  tiantao6@hisilicon.com
-Subject: [PATCH 05/10] drm/mediathek: Remove error check from fbdev setup
-Date: Mon,  6 Apr 2020 15:44:00 +0200
-Message-Id: <20200406134405.6232-6-tzimmermann@suse.de>
+Subject: [PATCH 06/10] drm/mgag200: Set up fbdev after registering device;
+ remove error checks
+Date: Mon,  6 Apr 2020 15:44:01 +0200
+Message-Id: <20200406134405.6232-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200406134405.6232-1-tzimmermann@suse.de>
 References: <20200406134405.6232-1-tzimmermann@suse.de>
@@ -51,29 +52,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the error check from the fbdev setup function. The function
-will print a warning.
+Generic fbdev support is a DRM client. Set it up after registering
+the new DRM device. Remove the error checks as the driver's probe
+function should not depend on a DRM client's state.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_drv.c  | 2 ++
+ drivers/gpu/drm/mgag200/mgag200_main.c | 4 ----
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 2eaa9080d2505..ce570283b55f7 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -347,9 +347,7 @@ static int mtk_drm_bind(struct device *dev)
- 	if (ret < 0)
- 		goto err_deinit;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+index 7a5bad2f57d70..3298b7ef18b03 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.c
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+@@ -77,6 +77,8 @@ static int mga_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (ret)
+ 		goto err_mgag200_driver_unload;
  
--	ret = drm_fbdev_generic_setup(drm, 32);
--	if (ret)
--		DRM_ERROR("Failed to initialize fbdev: %d\n", ret);
-+	drm_fbdev_generic_setup(drm, 32);
- 
++	drm_fbdev_generic_setup(dev, 0);
++
  	return 0;
  
+ err_mgag200_driver_unload:
+diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/mgag200/mgag200_main.c
+index e278b6a547bde..b680cf47cbb94 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_main.c
++++ b/drivers/gpu/drm/mgag200/mgag200_main.c
+@@ -181,10 +181,6 @@ int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
+ 		dev_warn(&dev->pdev->dev,
+ 			"Could not initialize cursors. Not doing hardware cursors.\n");
+ 
+-	r = drm_fbdev_generic_setup(mdev->dev, 0);
+-	if (r)
+-		goto err_modeset;
+-
+ 	return 0;
+ 
+ err_modeset:
 -- 
 2.26.0
 
