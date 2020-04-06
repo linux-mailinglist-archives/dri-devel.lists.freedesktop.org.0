@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F34919F4DC
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 13:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841FD19F48B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 13:29:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2026E6E393;
-	Mon,  6 Apr 2020 11:38:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 912DF6E332;
+	Mon,  6 Apr 2020 11:29:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F12F6E391;
- Mon,  6 Apr 2020 11:38:53 +0000 (UTC)
-IronPort-SDR: rZ7tr+chzaeuZEkplSHNcdXWgoZir4WdxfdzFGevsJTc7xV+corRnJwH/h/E1fMxk9N3bxkxnw
- cnQUJGQ3SqwA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2020 04:38:53 -0700
-IronPort-SDR: QUEFtgeeUwXM1baO9qGtKjHeNtU43z2MAPt7d7GHsY9dWgd5qJqESrKBYecy/v427CKzEmL+zn
- OTGITtzg65mg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,350,1580803200"; d="scan'208";a="361192576"
-Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2020 04:38:50 -0700
-From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH 18/18] drm/i915/runtime_pm: Prefer drm_WARN* over WARN*
-Date: Mon,  6 Apr 2020 16:58:00 +0530
-Message-Id: <20200406112800.23762-19-pankaj.laxminarayan.bharadiya@intel.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200406112800.23762-1-pankaj.laxminarayan.bharadiya@intel.com>
-References: <20200406112800.23762-1-pankaj.laxminarayan.bharadiya@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC2966E332
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 11:29:06 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 331C080E;
+ Mon,  6 Apr 2020 13:29:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1586172545;
+ bh=ItQjziW4f31binqQFfRgDtYi4pIxtnBBDvQ+3Y1Mw3Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZdBixX5gCelVYbCOMG9KOzA6VgCz151/VaFNZPY1biC02JWGXY6fugURrqMVP+QMg
+ f4E6L108nTL87yi1c7oQARguVCBtTHcz3LGSjiDDcwFMJcEZuZrfk6cq+dVNsmYO2U
+ FdfsFpeU83LnTTuQ8uJOSELbqzGwqhTCvvO6KNPA=
+Date: Mon, 6 Apr 2020 14:28:56 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH/RFC 2/6] dt-bindings: display: bridge: renesas,dw-hdmi:
+ Convert binding to YAML
+Message-ID: <20200406112856.GE4757@pendragon.ideasonboard.com>
+References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405233935.27599-3-laurent.pinchart+renesas@ideasonboard.com>
+ <20200406075705.a67tjx7jamdvqpl3@gilmour.lan>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200406075705.a67tjx7jamdvqpl3@gilmour.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,154 +48,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pankaj.laxminarayan.bharadiya@intel.com
+Cc: devicetree@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Mark Yao <mark.yao@rock-chips.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-struct drm_device specific drm_WARN* macros include device information
-in the backtrace, so we know what device the warnings originate from.
+Hi Maxime,
 
-Prefer drm_WARN* over WARN*.
+On Mon, Apr 06, 2020 at 09:57:05AM +0200, Maxime Ripard wrote:
+> On Mon, Apr 06, 2020 at 02:39:31AM +0300, Laurent Pinchart wrote:
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+> > new file mode 100644
+> > index 000000000000..9a543740c81d
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+> > @@ -0,0 +1,142 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/bridge/renesas,dw-hdmi.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas R-Car DWC HDMI TX Encoder
+> > +
+> > +maintainers:
+> > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > +
+> > +description: |
+> > +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> > +  with a companion PHY IP.
+> > +
+> > +allOf:
+> > +  - $ref: synopsys,dw-hdmi.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +        - renesas,r8a774a1-hdmi # for R8A774A1 (RZ/G2M) compatible HDMI TX
+> > +        - renesas,r8a774b1-hdmi # for R8A774B1 (RZ/G2N) compatible HDMI TX
+> > +        - renesas,r8a7795-hdmi # for R8A7795 (R-Car H3) compatible HDMI TX
+> > +        - renesas,r8a7796-hdmi # for R8A7796 (R-Car M3-W) compatible HDMI TX
+> > +        - renesas,r8a77965-hdmi # for R8A77965 (R-Car M3-N) compatible HDMI TX
+> > +      - const: renesas,rcar-gen3-hdmi
+> > +
+> > +  reg: true
+> > +
+> > +  reg-io-width:
+> > +    const: 1
+> > +
+> > +  clocks:
+> > +    minItems: 2
+> > +    maxItems: 2
+> 
+> You don't need both, if one is missing the other will be filled by the
+> dt-schema tools. In this particular case, I guess maxItems would make
+> more sense.
 
-Conversion is done with below semantic patch:
+Fixed.
 
-@@
-identifier func, T;
-@@
-func(struct intel_runtime_pm *T,...) {
-+ struct drm_i915_private *i915 = container_of(T, struct drm_i915_private, runtime_pm);
-<+...
-(
--WARN(
-+drm_WARN(&i915->drm,
-...)
-|
--WARN_ON(
-+drm_WARN_ON(&i915->drm,
-...)
-|
--WARN_ONCE(
-+drm_WARN_ONCE(&i915->drm,
-...)
-|
--WARN_ON_ONCE(
-+drm_WARN_ON_ONCE(&i915->drm,
-...)
-)
-...+>
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: iahb
+> > +      - const: isfr
+> > +
+> > +  interrupts: true
+> > +
+> > +  ports:
+> > +    type: object
+> > +    description: |
+> > +      This device has three video ports. Their connections are modelled using the
+> > +      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+> > +      Each port shall have a single endpoint.
+> > +
+> > +    properties:
+> > +      '#address-cells':
+> > +        const: 1
+> > +
+> > +      '#size-cells':
+> > +        const: 0
+> > +
+> > +      port@0:
+> > +        type: object
+> > +        description: Parallel RGB input port
+> > +
+> > +      port@1:
+> > +        type: object
+> > +        description: HDMI output port
+> > +
+> > +      port@2:
+> > +        type: object
+> > +        description: Sound input port
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +      - port@2
+> > +
+> > +    additionalProperties: false
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +  - interrupts
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> 
+> In the case where you have some kind of generic schema and then a more
+> specific one like you have here, unevaluatedProperties make more sense
+> that additionalProperties.
+> 
+> additionalProperties checks that there are no extra properties on the
+> current schema, which is a problem here since you have to duplicate
+> the entire list of properties found in the generic schema, while
+> unevaluatedProperties checks that there are no extra properties in the
+> entire set of all schemas that apply to this node.
+> 
+> This way, you can just put what is different from the generic schema,
+> and you don't have to keep it in sync.
+> 
+> It's a feature that has been added in the spec of the schemas that
+> went on right after the one we support in the tools, so for now the
+> kernel meta-schemas only allows that property to be there (just like
+> deprecated) but won't do anything.
+> 
+> This should be fixed quite soon however, the library we depend on
+> has started to work on that spec apparently.
 
-}
+Should I postpone this series until support for unevaluatedProperties is
+available, to be able to test this ?
 
-Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
----
- drivers/gpu/drm/i915/intel_runtime_pm.c | 39 ++++++++++++++++++-------
- 1 file changed, 28 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
-index ad719c9602af..31ccd0559c55 100644
---- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-+++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-@@ -116,6 +116,9 @@ track_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
- static void untrack_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm,
- 					     depot_stack_handle_t stack)
- {
-+	struct drm_i915_private *i915 = container_of(rpm,
-+						     struct drm_i915_private,
-+						     runtime_pm);
- 	unsigned long flags, n;
- 	bool found = false;
- 
-@@ -134,9 +137,9 @@ static void untrack_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm,
- 	}
- 	spin_unlock_irqrestore(&rpm->debug.lock, flags);
- 
--	if (WARN(!found,
--		 "Unmatched wakeref (tracking %lu), count %u\n",
--		 rpm->debug.count, atomic_read(&rpm->wakeref_count))) {
-+	if (drm_WARN(&i915->drm, !found,
-+		     "Unmatched wakeref (tracking %lu), count %u\n",
-+		     rpm->debug.count, atomic_read(&rpm->wakeref_count))) {
- 		char *buf;
- 
- 		buf = kmalloc(PAGE_SIZE, GFP_NOWAIT | __GFP_NOWARN);
-@@ -355,10 +358,14 @@ intel_runtime_pm_release(struct intel_runtime_pm *rpm, int wakelock)
- static intel_wakeref_t __intel_runtime_pm_get(struct intel_runtime_pm *rpm,
- 					      bool wakelock)
- {
-+	struct drm_i915_private *i915 = container_of(rpm,
-+						     struct drm_i915_private,
-+						     runtime_pm);
- 	int ret;
- 
- 	ret = pm_runtime_get_sync(rpm->kdev);
--	WARN_ONCE(ret < 0, "pm_runtime_get_sync() failed: %d\n", ret);
-+	drm_WARN_ONCE(&i915->drm, ret < 0,
-+		      "pm_runtime_get_sync() failed: %d\n", ret);
- 
- 	intel_runtime_pm_acquire(rpm, wakelock);
- 
-@@ -539,6 +546,9 @@ void intel_runtime_pm_put(struct intel_runtime_pm *rpm, intel_wakeref_t wref)
-  */
- void intel_runtime_pm_enable(struct intel_runtime_pm *rpm)
- {
-+	struct drm_i915_private *i915 = container_of(rpm,
-+						     struct drm_i915_private,
-+						     runtime_pm);
- 	struct device *kdev = rpm->kdev;
- 
- 	/*
-@@ -565,7 +575,8 @@ void intel_runtime_pm_enable(struct intel_runtime_pm *rpm)
- 
- 		pm_runtime_dont_use_autosuspend(kdev);
- 		ret = pm_runtime_get_sync(kdev);
--		WARN(ret < 0, "pm_runtime_get_sync() failed: %d\n", ret);
-+		drm_WARN(&i915->drm, ret < 0,
-+			 "pm_runtime_get_sync() failed: %d\n", ret);
- 	} else {
- 		pm_runtime_use_autosuspend(kdev);
- 	}
-@@ -580,11 +591,14 @@ void intel_runtime_pm_enable(struct intel_runtime_pm *rpm)
- 
- void intel_runtime_pm_disable(struct intel_runtime_pm *rpm)
- {
-+	struct drm_i915_private *i915 = container_of(rpm,
-+						     struct drm_i915_private,
-+						     runtime_pm);
- 	struct device *kdev = rpm->kdev;
- 
- 	/* Transfer rpm ownership back to core */
--	WARN(pm_runtime_get_sync(kdev) < 0,
--	     "Failed to pass rpm ownership back to core\n");
-+	drm_WARN(&i915->drm, pm_runtime_get_sync(kdev) < 0,
-+		 "Failed to pass rpm ownership back to core\n");
- 
- 	pm_runtime_dont_use_autosuspend(kdev);
- 
-@@ -594,12 +608,15 @@ void intel_runtime_pm_disable(struct intel_runtime_pm *rpm)
- 
- void intel_runtime_pm_driver_release(struct intel_runtime_pm *rpm)
- {
-+	struct drm_i915_private *i915 = container_of(rpm,
-+						     struct drm_i915_private,
-+						     runtime_pm);
- 	int count = atomic_read(&rpm->wakeref_count);
- 
--	WARN(count,
--	     "i915 raw-wakerefs=%d wakelocks=%d on cleanup\n",
--	     intel_rpm_raw_wakeref_count(count),
--	     intel_rpm_wakelock_count(count));
-+	drm_WARN(&i915->drm, count,
-+		 "i915 raw-wakerefs=%d wakelocks=%d on cleanup\n",
-+		 intel_rpm_raw_wakeref_count(count),
-+		 intel_rpm_wakelock_count(count));
- 
- 	untrack_all_intel_runtime_pm_wakerefs(rpm);
- }
 -- 
-2.23.0
+Regards,
 
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
