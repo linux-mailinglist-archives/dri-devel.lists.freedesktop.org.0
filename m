@@ -2,72 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C2819FE39
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 21:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B518D19FE59
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 21:46:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 351D689B97;
-	Mon,  6 Apr 2020 19:43:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E70ED6E48D;
+	Mon,  6 Apr 2020 19:46:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01FB289B97
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 19:43:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586202194;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KFxHLBTlZGSJjmkYL5akHsXXcvwkUtq9A7sXBQ1T5Mw=;
- b=bS2hbH2ikOicE45fEN+N3ReHYzbDJEJv/QT5QrwPXViK/96ZYczBJc2eZNl3EJTv61voJQ
- B7uvolto/48LU6D49nFkm5MPLTJxqQ7Cv1qmLk/oiYMBMzcQ4oS8mr37TaapYnORP4x6b+
- AS8gsBTn70n46Vr0vKJYezQc5jrFod0=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-wFePQMezMde1jogTmFKNFA-1; Mon, 06 Apr 2020 15:43:12 -0400
-X-MC-Unique: wFePQMezMde1jogTmFKNFA-1
-Received: by mail-qk1-f197.google.com with SMTP id 19so961203qkc.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 12:43:12 -0700 (PDT)
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
+ [IPv6:2607:f8b0:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 924FA6E48D
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 19:46:07 +0000 (UTC)
+Received: by mail-il1-x143.google.com with SMTP id x16so675514ilp.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 12:46:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1pqdM4albOPOy3AZvC52W1X+oMJ+ayp+9lG6bAjF590=;
+ b=EJZ4+f8FXWMH9z7TXBeHek+lsf+bw3y0S6R+vNG8yqluQyLJU9UHQc1j6V2FdbQozw
+ NWWwLzOsKgIzPavdkMoe6B/0uHbk4InVuIhtu5Ij3bTCPw4DxD+435BQHbB9WS/6nOwL
+ Ytft9w2UTujVbdkvuyXCXR9z+1LAszxrsZ2Y64wwLs1IO2HE05aW63dxyn8Bg7My2/7E
+ BPHKrzR0ZqG+R4mpOFUINLUx/Y/CXhVcyO6We88jUiYLK+LO5fHRp8KajrQoISnM05Dw
+ eMPbKWtHv5IjaDFpybeSf4zKR+uMk79mhaO3sSdXsOc7Y9PXWlRY9MyKXO0JB/H6g1si
+ SJag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=4FgxeFtNjl0qouniLNN2YFmv27Dp9D+qfMG9VLSyC7M=;
- b=JWsu8lGB6572nW4s9J6Xy4jJlufIJsL/ks6Js31xC5FxLbUqmOwu7iyCCqBhxZiWPa
- P0mcbCZw41ynizSxFs5nwwUoHgkL09FZ/GUuVub82uMfmT/q5q/IrEWIQQkjXSpC7F/R
- rRVsMEnkZ9J9GM409EG2T9CvCr8SJlJy5xQUogzb7h5RuHuDT6v9Gu5Nkk70gUQ4qjWM
- zIqfH1FQs0ft0Enuu9/6d2hoeWYvXWq0lQlg+os3ZP8VDcmESlnsYK9B7zQrQvt7GWFU
- TvVRmYhu1nPNgckYuCgok2CfqivN7GlzNjV5udZOP5vK79yl6q+cmn9j5DYi60HxwvcM
- YTSg==
-X-Gm-Message-State: AGi0PuZpBUTuqeZzt39sR1vi4b5ltIfK9I1tKHTfyvsw9ZKWqNhxoVpz
- aTwTY/ZA7mf5gsJ7DWMcYdSEzi7LkIo6JKIKdWu6fywePq1Fv6fMV1awc+L+oF/Lhj65c7ZpTkY
- 1UuekzZPhxP9kMNIwnBb/3HjJbkGN
-X-Received: by 2002:a0c:a181:: with SMTP id e1mr1465942qva.19.1586202191880;
- Mon, 06 Apr 2020 12:43:11 -0700 (PDT)
-X-Google-Smtp-Source: APiQypII+D3hQ4rA9orAMNS9EzduyFbgdxN85HHsI1cVwQUC0pNc/rMKoEF1qBT7Oy32pVztz1+9pA==
-X-Received: by 2002:a0c:a181:: with SMTP id e1mr1465915qva.19.1586202191527;
- Mon, 06 Apr 2020 12:43:11 -0700 (PDT)
-Received: from Ruby.lyude.net (static-173-76-190-23.bstnma.ftas.verizon.net.
- [173.76.190.23])
- by smtp.gmail.com with ESMTPSA id p14sm1159088qkp.63.2020.04.06.12.43.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 12:43:10 -0700 (PDT)
-Message-ID: <3eccd492237ee8797a8af2ea757594bc13ae055f.camel@redhat.com>
-Subject: Re: [PATCH 3/4] drm/dp_mst: Increase ACT retry timeout to 3s
-From: Lyude Paul <lyude@redhat.com>
-To: Sean Paul <sean@poorly.run>
-Date: Mon, 06 Apr 2020 15:43:09 -0400
-In-Reply-To: <CAMavQK+yVxFYNUR1wdfwB_UhRS2ziy0N5k+WTwAqUwRovX3GMA@mail.gmail.com>
-References: <20200403200757.886443-1-lyude@redhat.com>
- <20200403200757.886443-4-lyude@redhat.com>
- <CAMavQK+yVxFYNUR1wdfwB_UhRS2ziy0N5k+WTwAqUwRovX3GMA@mail.gmail.com>
-Organization: Red Hat
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1pqdM4albOPOy3AZvC52W1X+oMJ+ayp+9lG6bAjF590=;
+ b=WS1cd3IUqdumzMIUYig3sQhD/PGv1W8Fz9vYCaK2bCGW8yHUCI7E7kQr4z3D8sik8J
+ zOTWquI7RFK0Ige9R6O/PpVULCn8cMV5puKUm9ugatiMk9AG1K8o7OnOSYulCcXMbJBq
+ kE0+7YPb1vE4H2vndWaY9epltHujYFgeZvpAJvFD8BpBPFau06idd6DEBftMIl7Dxq9B
+ uycvoL5pElliPVBqeErnxAPmjo9IY/TyiSLsqgHFiMccoyzs3jf9P9IWTcaFWMAeSiFD
+ zGYI0mEOzi0LbdV4TXB4uV3CKOFyu5FGnUwkejP0zTI92d5UtJZlo6eeksBvwg8XLkyM
+ B86A==
+X-Gm-Message-State: AGi0PuZ9km7SC7v7lNC+mua8Uqqnmwkhzugz4dm2BZ2O/nEzQcNhHff5
+ K5pH87UBVOaK38+bVk3zZLjJlccjqPrhqROtCPrYgw==
+X-Google-Smtp-Source: APiQypIzxUc9lo8BfgwCF7ePRKNh7UGZuyaMOHCzkUQNYY3Os8wHIXONk+oHbmhLDFH2B5S1ofvx8r8osaKrZ9Rz8mw=
+X-Received: by 2002:a92:1dd9:: with SMTP id g86mr1095904ile.2.1586202367018;
+ Mon, 06 Apr 2020 12:46:07 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20200406193352.1245985-1-lyude@redhat.com>
+In-Reply-To: <20200406193352.1245985-1-lyude@redhat.com>
+From: Sean Paul <sean@poorly.run>
+Date: Mon, 6 Apr 2020 15:45:31 -0400
+Message-ID: <CAMavQK+tFSVx068FKnxD0X6TMWnf_TKPHy4ZmR=CD8kGtk5A_w@mail.gmail.com>
+Subject: Re: [PATCH] drm/dp_mst: Fix NULL deref in drm_dp_get_one_sb_msg()
+To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,99 +60,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Todd Previte <tprevite@gmail.com>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, stable <stable@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Wayne Lin <Wayne.Lin@amd.com>,
+ Wayne Lin <waynelin@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDIwLTA0LTA2IGF0IDE1OjQxIC0wNDAwLCBTZWFuIFBhdWwgd3JvdGU6Cj4gT24g
-RnJpLCBBcHIgMywgMjAyMCBhdCA0OjA4IFBNIEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+
-IHdyb3RlOgo+ID4gQ3VycmVudGx5IHdlIG9ubHkgcG9sbCBmb3IgYW4gQUNUIHVwIHRvIDMwIHRp
-bWVzLCB3aXRoIGEgYnVzeS13YWl0IGRlbGF5Cj4gPiBvZiAxMDDCtXMgYmV0d2VlbiBlYWNoIGF0
-dGVtcHQgLSBnaXZpbmcgdXMgYSB0aW1lb3V0IG9mIDI5MDDCtXMuIFdoaWxlCj4gPiB0aGlzIG1p
-Z2h0IHNlZW0gc2Vuc2libGUsIGl0IHdvdWxkIGFwcGVhciB0aGF0IGluIGNlcnRhaW4gc2NlbmFy
-aW9zIGl0Cj4gPiBjYW4gdGFrZSBkcmFtYXRpY2FsbHkgbG9uZ2VyIHRoZW4gdGhhdCBmb3IgdXMg
-dG8gcmVjZWl2ZSBhbiBBQ1QuIE9uIG9uZQo+ID4gb2YgdGhlIEVWR0EgTVNUIGh1YnMgdGhhdCBJ
-IGhhdmUgYXZhaWxhYmxlLCBJIG9ic2VydmVkIHNhaWQgaHViCj4gPiBzb21ldGltZXMgdGFraW5n
-IGxvbmdlciB0aGVuIGEgc2Vjb25kIGJlZm9yZSBzaWduYWxsaW5nIHRoZSBBQ1QuIFRoZXNlCj4g
-PiBkZWxheXMgbW9zdGx5IHNlZW0gdG8gb2NjdXIgd2hlbiBwcmV2aW91cyBzaWRlYmFuZCBtZXNz
-YWdlcyB3ZSd2ZSBzZW50Cj4gPiBhcmUgTkFLZCBieSB0aGUgaHViLCBob3dldmVyIGl0IHdvdWxk
-bid0IGJlIHBhcnRpY3VsYXJseSBzdXJwcmlzaW5nIGlmCj4gPiBpdCdzIHBvc3NpYmxlIHRvIHJl
-cHJvZHVjZSB0aW1lcyBsaWtlIHRoaXMgc2ltcGx5IGJ5IGludHJvZHVjaW5nIGJyYW5jaAo+ID4g
-ZGV2aWNlcyB3aXRoIGxhcmdlIExDVHMgc2luY2UgcGF5bG9hZCBhbGxvY2F0aW9ucyBoYXZlIHRv
-IHRha2UgZWZmZWN0IG9uCj4gPiBldmVyeSBkb3duc3RyZWFtIGRldmljZSB1cCB0byB0aGUgcGF5
-bG9hZCdzIHRhcmdldC4KPiA+IAo+ID4gU28sIGluc3RlYWQgb2YganVzdCByZXRyeWluZyAzMCB0
-aW1lcyB3ZSBwb2xsIGZvciB0aGUgQUNUIGZvciB1cCB0byAzbXMsCj4gPiBhbmQgYWRkaXRpb25h
-bGx5IHVzZSB1c2xlZXBfcmFuZ2UoKSB0byBhdm9pZCBhIHZlcnkgbG9uZyBhbmQgcnVkZQo+ID4g
-YnVzeS13YWl0LiBOb3RlIHRoYXQgdGhlIHByZXZpb3VzIHJldHJ5IGNvdW50IG9mIDMwIGFwcGVh
-cnMgdG8gaGF2ZSBiZWVuCj4gPiBhcmJpdHJhcmlseSBjaG9zZW4sIGFzIEkgY2FuJ3QgZmluZCBh
-bnkgbWVudGlvbiBvZiBhIHJlY29tbWVuZGVkIHRpbWVvdXQKPiA+IG9yIHJldHJ5IGNvdW50IGZv
-ciBBQ1RzIGluIHRoZSBEaXNwbGF5UG9ydCAyLjAgc3BlY2lmaWNhdGlvbi4gVGhpcyBhbHNvCj4g
-PiBnb2VzIGZvciB0aGUgcmFuZ2Ugd2Ugd2VyZSBwcmV2aW91c2x5IHVzaW5nIGZvciB1ZGVsYXko
-KSwgYWx0aG91Z2ggSQo+ID4gc3VzcGVjdCB0aGF0IHdhcyBqdXN0IGNvcGllZCBmcm9tIHRoZSBy
-ZWNvbW1lbmRlZCBkZWxheSBmb3IgbGluawo+ID4gdHJhaW5pbmcgb24gU1NUIGRldmljZXMuCj4g
-PiAKPiA+IFNpZ25lZC1vZmYtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4gPiBG
-aXhlczogYWQ3ZjhhMWY5Y2VkICgiZHJtL2hlbHBlcjogYWRkIERpc3BsYXlwb3J0IG11bHRpLXN0
-cmVhbSBoZWxwZXIKPiA+ICh2MC42KSIpCj4gPiBDYzogU2VhbiBQYXVsIDxzZWFuQHBvb3JseS5y
-dW4+Cj4gPiBDYzogPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+ICMgdjMuMTcrCj4gPiAtLS0KPiA+
-ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jIHwgMjYgKysrKysrKysrKysr
-KysrKysrKy0tLS0tLS0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTkgaW5zZXJ0aW9ucygrKSwgNyBk
-ZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBf
-bXN0X3RvcG9sb2d5LmMKPiA+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3ku
-Ywo+ID4gaW5kZXggN2FhZjE4NGEyZTVmLi5mMzEzNDA3Mzc0ZWQgMTAwNjQ0Cj4gPiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gPiBAQCAtNDQ2NiwxNyArNDQ2NiwzMCBAQCBz
-dGF0aWMgaW50IGRybV9kcF9kcGNkX3dyaXRlX3BheWxvYWQoc3RydWN0Cj4gPiBkcm1fZHBfbXN0
-X3RvcG9sb2d5X21nciAqbWdyLAo+ID4gICAqIEBtZ3I6IG1hbmFnZXIgdG8gdXNlCj4gPiAgICoK
-PiA+ICAgKiBUcmllcyB3YWl0aW5nIGZvciB0aGUgTVNUIGh1YiB0byBmaW5pc2ggdXBkYXRpbmcg
-aXQncyBwYXlsb2FkIHRhYmxlIGJ5Cj4gPiAtICogcG9sbGluZyBmb3IgdGhlIEFDVCBoYW5kbGVk
-IGJpdC4KPiA+ICsgKiBwb2xsaW5nIGZvciB0aGUgQUNUIGhhbmRsZWQgYml0IGZvciB1cCB0byAz
-IHNlY29uZHMgKHllcy1zb21lIGh1YnMKPiA+IHJlYWxseQo+ID4gKyAqIHRha2UgdGhhdCBsb25n
-KS4KPiA+ICAgKgo+ID4gICAqIFJldHVybnM6Cj4gPiAgICogMCBpZiB0aGUgQUNUIHdhcyBoYW5k
-bGVkIGluIHRpbWUsIG5lZ2F0aXZlIGVycm9yIGNvZGUgb24gZmFpbHVyZS4KPiA+ICAgKi8KPiA+
-ICBpbnQgZHJtX2RwX2NoZWNrX2FjdF9zdGF0dXMoc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lf
-bWdyICptZ3IpCj4gPiAgewo+ID4gLSAgICAgICBpbnQgY291bnQgPSAwLCByZXQ7Cj4gPiArICAg
-ICAgIC8qCj4gPiArICAgICAgICAqIFRoZXJlIGRvZXNuJ3Qgc2VlbSB0byBiZSBhbnkgcmVjb21t
-ZW5kZWQgcmV0cnkgY291bnQgb3IgdGltZW91dAo+ID4gaW4KPiA+ICsgICAgICAgICogdGhlIE1T
-VCBzcGVjaWZpY2F0aW9uLiBTaW5jZSBzb21lIGh1YnMgaGF2ZSBiZWVuIG9ic2VydmVkIHRvCj4g
-PiB0YWtlCj4gPiArICAgICAgICAqIG92ZXIgMSBzZWNvbmQgdG8gdXBkYXRlIHRoZWlyIHBheWxv
-YWQgYWxsb2NhdGlvbnMgdW5kZXIgY2VydGFpbgo+ID4gKyAgICAgICAgKiBjb25kaXRpb25zLCB3
-ZSB1c2UgYSByYXRoZXIgbGFyZ2UgdGltZW91dCB2YWx1ZS4KPiA+ICsgICAgICAgICovCj4gPiAr
-ICAgICAgIGNvbnN0IGludCB0aW1lb3V0X21zID0gMzAwMDsKPiA+ICsgICAgICB1bnNpZ25lZCBs
-b25nIHRpbWVvdXQgPSBqaWZmaWVzICsgbXNlY3NfdG9famlmZmllcyh0aW1lb3V0X21zKTsKPiA+
-ICsgICAgICAgaW50IHJldDsKPiA+ICsgICAgICAgYm9vbCByZXRyeWluZyA9IGZhbHNlOwo+ID4g
-ICAgICAgICB1OCBzdGF0dXM7Cj4gPiAKPiA+ICAgICAgICAgZG8gewo+ID4gKyAgICAgICAgICAg
-ICAgIGlmIChyZXRyeWluZykKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIHVzbGVlcF9yYW5n
-ZSgxMDAsIDEwMDApOwo+ID4gKwo+ID4gICAgICAgICAgICAgICAgIHJldCA9IGRybV9kcF9kcGNk
-X3JlYWRiKG1nci0+YXV4LAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIERQX1BBWUxPQURfVEFCTEVfVVBEQVRFX1NUQVRVUywKPiA+ICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAmc3RhdHVzKTsKPiA+IEBAIC00NDg4LDEzICs0NTAxLDEy
-IEBAIGludCBkcm1fZHBfY2hlY2tfYWN0X3N0YXR1cyhzdHJ1Y3QKPiA+IGRybV9kcF9tc3RfdG9w
-b2xvZ3lfbWdyICptZ3IpCj4gPiAKPiA+ICAgICAgICAgICAgICAgICBpZiAoc3RhdHVzICYgRFBf
-UEFZTE9BRF9BQ1RfSEFORExFRCkKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgIGJyZWFrOwo+
-ID4gLSAgICAgICAgICAgICAgIGNvdW50Kys7Cj4gPiAtICAgICAgICAgICAgICAgdWRlbGF5KDEw
-MCk7Cj4gPiAtICAgICAgIH0gd2hpbGUgKGNvdW50IDwgMzApOwo+ID4gKyAgICAgICAgICAgICAg
-IHJldHJ5aW5nID0gdHJ1ZTsKPiA+ICsgICAgICAgfSB3aGlsZSAoamlmZmllcyA8IHRpbWVvdXQp
-Owo+IAo+IFNvbWV3aGF0IGFjYWRlbWljLCBidXQgSSB0aGluayB0aGVyZSdzIGFuIG92ZXJmbG93
-IHBvc3NpYmlsaXR5IGhlcmUgaWYKPiB0aW1lb3V0IGlzIG5lYXIgdWxvbmdfbWF4IGFuZCBqaWZm
-aWVzIG92ZXJmbG93cyBkdXJpbmcgdGhlIHVzbGVlcC4gSW4KPiB0aGF0IGNhc2Ugd2UnbGwgYmUg
-cmV0cnlpbmcgZm9yIGEgdmVyeSBsb29uZyB0aW1lLgo+IAo+IEkgd2lzaCB3ZSBoYWQgaTkxNSdz
-IHdhaXRfZm9yKCkgbWFjcm8gYXZhaWxhYmxlIHRvIGFsbCBkcm0uLi4KCk1heWJlIHdlIGNvdWxk
-IGFkZCBpdCB0byB0aGUga2VybmVsIGxpYnJhcnkgc29tZXdoZXJlPyBJIGRvbid0IHNlZSB3aHkg
-d2UnZApuZWVkIHRvIHN0b3AgYXQgRFJNCgo+IAo+IFNlYW4KPiAKPiA+ICAgICAgICAgaWYgKCEo
-c3RhdHVzICYgRFBfUEFZTE9BRF9BQ1RfSEFORExFRCkpIHsKPiA+IC0gICAgICAgICAgICAgICBE
-Uk1fREVCVUdfS01TKCJmYWlsZWQgdG8gZ2V0IEFDVCBiaXQgJWQgYWZ0ZXIgJWQKPiA+IHJldHJp
-ZXNcbiIsCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdGF0dXMsIGNvdW50KTsK
-PiA+ICsgICAgICAgICAgICAgICBEUk1fREVCVUdfS01TKCJmYWlsZWQgdG8gZ2V0IEFDVCBiaXQg
-JWQgYWZ0ZXIgJWRtc1xuIiwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0YXR1
-cywgdGltZW91dF9tcyk7Cj4gPiAgICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7Cj4gPiAg
-ICAgICAgIH0KPiA+ICAgICAgICAgcmV0dXJuIDA7Cj4gPiAtLQo+ID4gMi4yNS4xCj4gPiAKLS0g
-CkNoZWVycywKCUx5dWRlIFBhdWwgKHNoZS9oZXIpCglBc3NvY2lhdGUgU29mdHdhcmUgRW5naW5l
-ZXIgYXQgUmVkIEhhdAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+On Mon, Apr 6, 2020 at 3:34 PM Lyude Paul <lyude@redhat.com> wrote:
+>
+> While we don't need this function to store an mstb anywhere for UP
+> requests since we process them asynchronously, we do need to make sure
+> that we don't try to write to **mstb for UP requests otherwise we'll
+> cause a NULL pointer deref:
+>
+>     RIP: 0010:drm_dp_get_one_sb_msg+0x4b/0x460 [drm_kms_helper]
+>     Call Trace:
+>      ? vprintk_emit+0x16a/0x230
+>      ? drm_dp_mst_hpd_irq+0x133/0x1010 [drm_kms_helper]
+>      drm_dp_mst_hpd_irq+0x133/0x1010 [drm_kms_helper]
+>      ? __drm_dbg+0x87/0x90 [drm]
+>      ? intel_dp_hpd_pulse+0x24b/0x400 [i915]
+>      intel_dp_hpd_pulse+0x24b/0x400 [i915]
+>      i915_digport_work_func+0xd6/0x160 [i915]
+>      process_one_work+0x1a9/0x370
+>      worker_thread+0x4d/0x3a0
+>      kthread+0xf9/0x130
+>      ? process_one_work+0x370/0x370
+>      ? kthread_park+0x90/0x90
+>      ret_from_fork+0x35/0x40
+>
+> So, fix this.
+
+Ugggh, what a fail! I found this in Feb and posted the patch in
+20200218171522.GF253734@art_vandelay. I had to migrate my workstation
+due to WFH order and didn't apply the patch before pushing. Messy
+messy messy.
+
+Thanks for fixing!
+
+Reviewed-by: Sean Paul <sean@poorly.run>
+
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Fixes: fbc821c4a506 ("drm/mst: Support simultaneous down replies")
+> Cc: Wayne Lin <Wayne.Lin@amd.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Wayne Lin <waynelin@amd.com>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 1ff49547b2e8..8751278b3941 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -3703,7 +3703,8 @@ static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up,
+>         int basereg = up ? DP_SIDEBAND_MSG_UP_REQ_BASE :
+>                            DP_SIDEBAND_MSG_DOWN_REP_BASE;
+>
+> -       *mstb = NULL;
+> +       if (!up)
+> +               *mstb = NULL;
+>         *seqno = -1;
+>
+>         len = min(mgr->max_dpcd_transaction_bytes, 16);
+> --
+> 2.25.1
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
