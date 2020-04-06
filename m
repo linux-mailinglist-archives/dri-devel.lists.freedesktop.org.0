@@ -1,51 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DEE019FE13
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 21:29:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3060C19FE02
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 21:23:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4D436E0E3;
-	Mon,  6 Apr 2020 19:29:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44A616E0E6;
+	Mon,  6 Apr 2020 19:23:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 358616E0E3
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 19:29:17 +0000 (UTC)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3278F2072F
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 19:19:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586200793;
- bh=zdj7yojVhBaB/Gk/gXB9gngRJZ5TCmP70WrifeTeWPo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=kesdoxmkVgj2Dqv1tQt4fCw9H0dMsOgGP9qPRjv6lxpDGHTZFQ1uelps6tnsNLOnV
- 9nh0Bo+fqKkQzQGZ419+d2v7FAG5G+QsZIATy+uKnjZeOBlQSb+tW7Q+Cgyo0nqrRD
- y8IuKO4hOpB0d8gYWFzx/ahsF9E58viGQiCokusg=
-Received: by mail-qt1-f182.google.com with SMTP id b10so714317qtt.9
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 12:19:53 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZNW4IwPtZBGFwJ8Q8jYAglxNYdejlvPA/p7LjUxt3h48VyxzYI
- smj9mH7mstOZUCAc4A5TGsFBZyRbWK/FB5NC8g==
-X-Google-Smtp-Source: APiQypJ1VgDGdNpHhWosDRaYn1Rfz/zEmplt4aAY7f96THP6EXWe5/sr8OVtCQdWt8FkwVCSRsBVmdwCf83I3b/uFa0=
-X-Received: by 2002:ac8:2668:: with SMTP id v37mr1115420qtv.143.1586200792283; 
- Mon, 06 Apr 2020 12:19:52 -0700 (PDT)
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+ [209.85.166.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADD736E0E3
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 19:23:12 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id s15so703134ioj.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 12:23:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=43HXVgJ+DiEVH1P2f9yVtx9VewU1GvCtyVKXZCcL8NA=;
+ b=ZuGdEOTD9N4jwjCU/i8i/+B+2F/G8mHv4MwHgrqiW0IkvfL2kn02yzQrj3bnYjEZUb
+ GV7NWiw3nMs/5TcIBCz4ZtD376LyHJ1PyHDIVbslGa2YB2DV0FPLtB+okiDJ1sRpdObM
+ 7fyIfuCruHRwTccgqyqwgJ7j5uv3luktjo29sp8qpCEwNj6s5RO1IYB5OaYCYYVQp/1/
+ 4/w/MrCHce1ItSoMdjaZLUPSyaBR2GPoqmEjkXrUl01z4uJepJIi3QrTjfVFRquc9d/b
+ O5oGYXIAEtNTCNiLSbuaPt709/RpRkMtcCo8wTIa/liwLUK78tyTKJSvjnoCi62ABqeK
+ XbyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=43HXVgJ+DiEVH1P2f9yVtx9VewU1GvCtyVKXZCcL8NA=;
+ b=l1zc7K+WjU70LMdqY3j5G19uT4B/guPJ4w+um1/GgrIsEsFEjza+gDKOtRpGXrTtgV
+ qZkPGKlTjIVMXTx3DxGHM5PfB2HqVnDKrVw01PdWguXCRS7kVai3/5U3zeZb72cnZcSj
+ df3zax7UKdWrAYnB6rnAuo7v7X0gy3MN52EC1vNVbudR1GF74ZkPZ4ILtxZ879FyZhDo
+ QisI0sydB/Q8U109+MTzLOOAHxCjtXyQSPzo6srrw9DHsmfn0m5rU3Pr98WToprY62Fo
+ ty8l0TdA0qtbyVWZDNE2NExVGNA/n8WuJqTtCw/zIY+sukjg+FjJTn+CyHbWvpms6CuO
+ kuAQ==
+X-Gm-Message-State: AGi0PubBukp/S4B17BACuY+WrkPBOSx8usI0XGZcnJacCmkAZ41FJSrX
+ tc/tCbvKJBKXK44Cjg1CbNOxqohZoIg4ECqxm4sqlA==
+X-Google-Smtp-Source: APiQypKbLX+EYrn5ISXhltuzxMnHhVG/jM5JqBjkhcE0PmL8GJTBlHiWzYMl6zAPAtT4U224p5ZDsjQt38CxSqog/Xc=
+X-Received: by 2002:a02:1c07:: with SMTP id c7mr858228jac.19.1586200930891;
+ Mon, 06 Apr 2020 12:22:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200405232318.26833-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200405232318.26833-5-laurent.pinchart+renesas@ideasonboard.com>
- <CAMuHMdXJcw0eGY7J=JcGv6Hs9E_GCybsYSeKKeH5pAH8nkdTrg@mail.gmail.com>
- <20200406110924.GB4757@pendragon.ideasonboard.com>
- <CAMuHMdWhj1uS6v1bb0ntsP_b29Sgw+M6KHPceDxmeF3329Aw=g@mail.gmail.com>
-In-Reply-To: <CAMuHMdWhj1uS6v1bb0ntsP_b29Sgw+M6KHPceDxmeF3329Aw=g@mail.gmail.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Mon, 6 Apr 2020 13:19:40 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKhdQdfX4bHe2dxR_TiK2jWpdY=pacHOme+qaJ-MdN_fg@mail.gmail.com>
-Message-ID: <CAL_JsqKhdQdfX4bHe2dxR_TiK2jWpdY=pacHOme+qaJ-MdN_fg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] dt-bindings: display: bridge: renesas,lvds: Convert
- binding to YAML
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20200403200757.886443-1-lyude@redhat.com>
+ <20200403200757.886443-2-lyude@redhat.com>
+In-Reply-To: <20200403200757.886443-2-lyude@redhat.com>
+From: Sean Paul <sean@poorly.run>
+Date: Mon, 6 Apr 2020 15:21:34 -0400
+Message-ID: <CAMavQK+fjw_Odj-nQkUnZVyGXv_62znBXk2MsUVzkZxuQDJC9A@mail.gmail.com>
+Subject: Re: [PATCH 1/4] drm/dp_mst: Improve kdocs for
+ drm_dp_check_act_status()
+To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,148 +62,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 6, 2020 at 5:40 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Fri, Apr 3, 2020 at 4:08 PM Lyude Paul <lyude@redhat.com> wrote:
 >
-> Hi Laurent,
+> No functional changes.
 >
-> On Mon, Apr 6, 2020 at 1:09 PM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> > On Mon, Apr 06, 2020 at 10:47:37AM +0200, Geert Uytterhoeven wrote:
-> > > On Mon, Apr 6, 2020 at 1:24 AM Laurent Pinchart wrote:
-> > > > Convert the Renesas R-Car LVDS encoder text binding to YAML.
-> > > >
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Cc: Sean Paul <sean@poorly.run>
+
+Reviewed-by: Sean Paul <sean@poorly.run>
+
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 >
-> > > > +if:
-> > > > +  properties:
-> > > > +    compatible:
-> > > > +      enum:
-> > > > +        - renesas,r8a774c0-lvds
-> > > > +        - renesas,r8a77990-lvds
-> > > > +        - renesas,r8a77995-lvds
-> > > > +then:
-> > > > +  properties:
-> > > > +    clocks:
-> > > > +      minItems: 1
-> > > > +      maxItems: 4
-> > > > +      items:
-> > > > +        - description: Functional clock
-> > > > +        - description: EXTAL input clock
-> > > > +        - description: DU_DOTCLKIN0 input clock
-> > > > +        - description: DU_DOTCLKIN1 input clock
-> > > > +
-> > > > +    clock-names:
-> > > > +      minItems: 1
-> > > > +      maxItems: 4
-> > > > +      items:
-> > > > +        - const: fck
-> > > > +        # The LVDS encoder can use the EXTAL or DU_DOTCLKINx clocks.
-> > > > +        # These clocks are optional.
-> > > > +        - enum:
-> > > > +          - extal
-> > > > +          - dclkin.0
-> > > > +          - dclkin.1
-> > > > +        - enum:
-> > > > +          - extal
-> > > > +          - dclkin.0
-> > > > +          - dclkin.1
-> > > > +        - enum:
-> > > > +          - extal
-> > > > +          - dclkin.0
-> > > > +          - dclkin.1
-> > >
-> > > Can the duplication of the last 3 entries be avoided?
-> > > Perhaps like in
-> > > Documentation/devicetree/bindings/serial/renesas,scif.yaml?
-> >
-> > I'd love to, if you can tell me how to make sure the fck entry is
-> > mandatory. The following
-> >
-> >   minItems: 1
-> >   maxItems: 4
-> >   items:
-> >     enum:
-> >       - fck
-> >       - extal
-> >       - dclkin.0
-> >       - dclkin.1
-> >
-> > passes the checks, but would accept
-> >
-> >         clock-names = "extal";
-> >
-> > which is not valid. Your
-> > Documentation/devicetree/bindings/serial/renesas,scif.yaml bindings
-> > suffer from the same problem :-)
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 10d0315af513..2b9ce965f044 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -4462,10 +4462,14 @@ static int drm_dp_dpcd_write_payload(struct drm_dp_mst_topology_mgr *mgr,
 >
-> Hmm....
 >
-> > > > +examples:
-> > > > +  - |
-> > > > +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
-> > > > +    #include <dt-bindings/power/r8a7795-sysc.h>
-> > > > +
-> > > > +    lvds@feb90000 {
-> > > > +        compatible = "renesas,r8a7795-lvds";
-> > > > +        reg = <0 0xfeb90000 0 0x14>;
-> > >
-> > > Examples are built with #{address,size}-cells = <1>.
-> >
-> > Are they ? I don't get any failure from make dt_binding_check.
+>  /**
+> - * drm_dp_check_act_status() - Check ACT handled status.
+> + * drm_dp_check_act_status() - Polls for ACT handled status.
+>   * @mgr: manager to use
+>   *
+> - * Check the payload status bits in the DPCD for ACT handled completion.
+> + * Tries waiting for the MST hub to finish updating it's payload table by
+> + * polling for the ACT handled bit.
+> + *
+> + * Returns:
+> + * 0 if the ACT was handled in time, negative error code on failure.
+>   */
+>  int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr)
+>  {
+> --
+> 2.25.1
 >
-> Hmm... And you do have "reg: maxItems: 1"...
-
-At first glance I was expecting an error too, but there isn't. As far
-as the schema is concerned, it's valid because it's a single entry
-(i.e. one entry in <>). And then dtc can only check that reg is a
-multiple of 2. The size check does work where we have more constraints
-like I2C.
-
-If we enforce bracketing, then we should be able to check these.
-Otherwise, knowing both the cell sizes and number of entries is a
-problem. With bracketing, we can split those checks. I'd been thinking
-checking cell sizes would be easier in dtc (we're already doing that
-in lots of cases), but thinking about it some more there is a way to
-do this with schema:
-
-if:
-  properties:
-    '#address-cells':
-      const: 2
-    '#size-cells':
-      const: 2
-  required:
-    - '#address-cells'
-    - '#size-cells'
-then:
-  patternProperties:
-    '@':
-      properties:
-        reg:
-          items:
-            minItems: 4
-            maxItems: 4
-      required:
-        - reg
-
-...and copy-n-paste for each size combination.
-
-I imagine implementing this will result in another set of fixes.
-
-Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
