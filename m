@@ -2,41 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0410B19F19F
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 10:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489D219F1CA
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 10:47:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA1EB6E040;
-	Mon,  6 Apr 2020 08:32:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DFE689F55;
+	Mon,  6 Apr 2020 08:47:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE0489F4A;
- Mon,  6 Apr 2020 08:32:51 +0000 (UTC)
-IronPort-SDR: 3EG8xOP8uM9tTUmMb965V7IJ/csY4lQlJ5l79Y2bjI4vaqL+W2njONvLkKoNhYwlfQlU/7BkQD
- p2NUw371ySgw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2020 01:32:51 -0700
-IronPort-SDR: xU6jgijA9eoJCsmfR0qbFbTkab9P66OIRSvk1kwD3zEsucMmbumlsuKGXaJsmIsTqjTTeslfCL
- 1akuhsVMbVwA==
-X-IronPort-AV: E=Sophos;i="5.72,350,1580803200"; d="scan'208";a="424285937"
-Received: from maytarsh-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.249.38.121])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2020 01:32:41 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: abhinavk@codeaurora.org, Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 03/17] drm: Nuke mode->vrefresh
-In-Reply-To: <5d677ff317089267407609a1faa64b13@codeaurora.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200403204008.14864-1-ville.syrjala@linux.intel.com>
- <20200403204008.14864-4-ville.syrjala@linux.intel.com>
- <5d677ff317089267407609a1faa64b13@codeaurora.org>
-Date: Mon, 06 Apr 2020 11:32:38 +0300
-Message-ID: <87tv1xko9l.fsf@intel.com>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9790589F55
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Apr 2020 08:47:49 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id k5so12378325oiw.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 01:47:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ofe9gpx/rAfxW7TO3g+sj7lCoLVUw0RfPyc4HUwJq/0=;
+ b=PvAVl6urem1HoQ5GQ4Kt7pPkAYanwGDCanLAvRzEI6HBSlXzZajJXy43puSINuibWv
+ HyjNS0f4d5VwYq7bF7epKPxKOqCv05xS03g4kNjmp1z0g1/CiVPVPJXSIABbXcpjcHY+
+ PqhULe6j3slV+PXl7BN96ewiCQqMm/hzSAgUQgRBmlvlgBdIDm3SRWBPMl9GH6EWh1d6
+ 2g0EjEQgP2WXvQYxgZdcJJ9Ja7cZe4aqQkTCWzCToN0UiZzGlhUwRihYYltMzVknz2Wt
+ DfSi8LPFO8HF89/J3qCVc6vcLMERlqHIO04T8ES6oMaHghCbgFIZlgtJLCD/aNG/tDOF
+ wiFg==
+X-Gm-Message-State: AGi0PuZCis83VZeNNwzCuRDDpy69PSvaMBWJez2VT53ucZIPspiRYe86
+ perw0YQe+2opETUhJtQHv/DcsYo6KT3qz+SKh5o=
+X-Google-Smtp-Source: APiQypI0xhIzfIwCX4pr1CeA1Z/0H4YxMtzB3XTU4byr19XfCp2qMUh0J0OZzFv0dnImP8Rwz0MkG5uV0lsmtuR32VU=
+X-Received: by 2002:aca:4e57:: with SMTP id c84mr11513006oib.148.1586162868764; 
+ Mon, 06 Apr 2020 01:47:48 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200405232318.26833-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405232318.26833-5-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200405232318.26833-5-laurent.pinchart+renesas@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 6 Apr 2020 10:47:37 +0200
+Message-ID: <CAMuHMdXJcw0eGY7J=JcGv6Hs9E_GCybsYSeKKeH5pAH8nkdTrg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] dt-bindings: display: bridge: renesas,lvds: Convert
+ binding to YAML
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,78 +53,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, nouveau@lists.freedesktop.org,
- Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, aravindh@quicinc.com,
- Emil Velikov <emil.velikov@collabora.com>,
- Thomas Hellstrom <thellstrom@vmware.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>, Stefan Mavrodiev <stefan@olimex.com>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
- pdhaval@quicinc.com, Ben Skeggs <bskeggs@redhat.com>,
- Jonas Karlman <jonas@kwiboo.se>, intel-gfx@lists.freedesktop.org,
- nganji@quicinc.com, linux-amlogic@lists.infradead.org,
- Vincent Abriou <vincent.abriou@st.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Purism Kernel Team <kernel@puri.sm>,
- jeykumar@quicinc.com, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Icenowy Zheng <icenowy@aosc.io>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 03 Apr 2020, abhinavk@codeaurora.org wrote:
-> On 2020-04-03 13:39, Ville Syrjala wrote:
->> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
->> index fec1c33b3045..e3d5f011f7bd 100644
->> --- a/drivers/gpu/drm/drm_modes.c
->> +++ b/drivers/gpu/drm/drm_modes.c
->> @@ -759,9 +759,7 @@ int drm_mode_vrefresh(const struct drm_display_mode 
->> *mode)
->>  {
->>  	int refresh = 0;
->> 
->> -	if (mode->vrefresh > 0)
->> -		refresh = mode->vrefresh;
+Hi Laurent,
+
+On Mon, Apr 6, 2020 at 1:24 AM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> Convert the Renesas R-Car LVDS encoder text binding to YAML.
 >
-> The mode->vrefresh has been replaced with calling this API in all its 
-> usages.
-> However in this API, the above if statement was returning the vrefresh 
-> if it was already
-> set. mode->clock is holding the pixel clock . So this will not cause any 
-> issues in non-compressed cases.
-> In case of compression like DSC, the pixel
-> clock will be different based on the compression ratio hence the 
-> mode->clock will change but fps will not.
-> So we did have usages in our downstream driver where we would use this 
-> API and the refresh rate
-> returned will be the mode->vrefresh which did not change but after this 
-> change for those cases it will end up returning the refresh rate 
-> calculated using mode->clock which will result in a different value now.
-> So is the recommendation that even in the case of compression 
-> mode->clock should always hold
-> uncompressed pixel clock value because with this part of the change we 
-> will now get a different value when we call this API.
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Yes. The mode remains the same regardless of compression, and
-compression is just an implementation detail of the transport.
+Thanks for your patch!
 
-You may need to maintain separate "physical port clock" and "logical
-port clock" for DSC, where the latter is a function of the former and
-the DSC parameters. And then you can see if your logical port clock
-provides enough bandwidth for your mode. But this is up to your driver
-and encoder implementation.
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+> @@ -0,0 +1,248 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/renesas,lvds.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas R-Car LVDS Encoder
+> +
+> +maintainers:
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> +
+> +description: |
+> +  These DT bindings describe the LVDS encoder embedded in the Renesas R-Car
+> +  Gen2, R-Car Gen3 and RZ/G SoCs.
 
-BR,
-Jani.
+RZ/G1 and RZ/G2 (no idea what'll RZ/G3 will bring ;-)
 
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,r8a7743-lvds # for R8A7743 (RZ/G1M) compatible LVDS encoders
+> +      - renesas,r8a7744-lvds # for R8A7744 (RZ/G1N) compatible LVDS encoders
+> +      - renesas,r8a774a1-lvds # for R8A774A1 (RZ/G2M) compatible LVDS encoders
+> +      - renesas,r8a774b1-lvds # for R8A774B1 (RZ/G2N) compatible LVDS encoders
+> +      - renesas,r8a774c0-lvds # for R8A774C0 (RZ/G2E) compatible LVDS encoders
+> +      - renesas,r8a7790-lvds # for R8A7790 (R-Car H2) compatible LVDS encoders
+> +      - renesas,r8a7791-lvds # for R8A7791 (R-Car M2-W) compatible LVDS encoders
+> +      - renesas,r8a7793-lvds # for R8A7793 (R-Car M2-N) compatible LVDS encoders
+> +      - renesas,r8a7795-lvds # for R8A7795 (R-Car H3) compatible LVDS encoders
+> +      - renesas,r8a7796-lvds # for R8A7796 (R-Car M3-W) compatible LVDS encoders
+
+R8A77960 (I know you don't have support for R8A77961 yet ;-)
+
+> +      - renesas,r8a77965-lvds # for R8A77965 (R-Car M3-N) compatible LVDS encoders
+> +      - renesas,r8a77970-lvds # for R8A77970 (R-Car V3M) compatible LVDS encoders
+> +      - renesas,r8a77980-lvds # for R8A77980 (R-Car V3H) compatible LVDS encoders
+> +      - renesas,r8a77990-lvds # for R8A77990 (R-Car E3) compatible LVDS encoders
+> +      - renesas,r8a77995-lvds # for R8A77995 (R-Car D3) compatible LVDS encoders
+
+Wouldn't it be sufficient to just have the SoC name (e.g. "R-Car D3") in
+the comments?
+
+> +if:
+> +  properties:
+> +    compatible:
+> +      enum:
+> +        - renesas,r8a774c0-lvds
+> +        - renesas,r8a77990-lvds
+> +        - renesas,r8a77995-lvds
+> +then:
+> +  properties:
+> +    clocks:
+> +      minItems: 1
+> +      maxItems: 4
+> +      items:
+> +        - description: Functional clock
+> +        - description: EXTAL input clock
+> +        - description: DU_DOTCLKIN0 input clock
+> +        - description: DU_DOTCLKIN1 input clock
+> +
+> +    clock-names:
+> +      minItems: 1
+> +      maxItems: 4
+> +      items:
+> +        - const: fck
+> +        # The LVDS encoder can use the EXTAL or DU_DOTCLKINx clocks.
+> +        # These clocks are optional.
+> +        - enum:
+> +          - extal
+> +          - dclkin.0
+> +          - dclkin.1
+> +        - enum:
+> +          - extal
+> +          - dclkin.0
+> +          - dclkin.1
+> +        - enum:
+> +          - extal
+> +          - dclkin.0
+> +          - dclkin.1
+
+Can the duplication of the last 3 entries be avoided?
+Perhaps like in
+Documentation/devicetree/bindings/serial/renesas,scif.yaml?
+
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +    #include <dt-bindings/power/r8a7795-sysc.h>
+> +
+> +    lvds@feb90000 {
+> +        compatible = "renesas,r8a7795-lvds";
+> +        reg = <0 0xfeb90000 0 0x14>;
+
+Examples are built with #{address,size}-cells = <1>.
+
+> +    lvds0: lvds@feb90000 {
+> +        compatible = "renesas,r8a77990-lvds";
+> +        reg = <0 0xfeb90000 0 0x20>;
+
+Likewise.
+
+> +    lvds1: lvds@feb90100 {
+> +        compatible = "renesas,r8a77990-lvds";
+> +        reg = <0 0xfeb90100 0 0x20>;
+
+Likewise.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
