@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD12E19F4CE
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 13:38:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 648B319F4CF
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Apr 2020 13:38:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A68346E36F;
-	Mon,  6 Apr 2020 11:38:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7891D6E370;
+	Mon,  6 Apr 2020 11:38:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 839A66E369;
- Mon,  6 Apr 2020 11:38:20 +0000 (UTC)
-IronPort-SDR: 9mD6gCNbMtqixFvPvL/RRsBxOo5l62NfI/GqKRGqPf9Tx89hNPCbPsu0wDifbm+AE1mSwp88F4
- qL8sBXL/vBig==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 133B06E370;
+ Mon,  6 Apr 2020 11:38:24 +0000 (UTC)
+IronPort-SDR: mWBNHxxCvDmPaL56qo0lg/mkV8poEzomUaGsosqv3IqIKQsEbC/bvK+bIQo5Xi+oMZMotIfvQL
+ Ih8QW2RPcEkQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2020 04:38:19 -0700
-IronPort-SDR: 9kGxgwzpqanac3qBDOtpm0aCOwVSDlvhVRmLDASgeCyPfRoJM79PcDps+wB3D/Fs6xRxHHShRa
- pbJS4vl/0XpA==
+ 06 Apr 2020 04:38:24 -0700
+IronPort-SDR: IXY5Vq6uH5MouuEOvdWObs7vOQjLRWIt+Iut1njvuZwlRFij5rh8nKylmqjbjLEi4BWE1LsvGo
+ SgIKa7hHqL0Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,350,1580803200"; d="scan'208";a="361192473"
+X-IronPort-AV: E=Sophos;i="5.72,350,1580803200"; d="scan'208";a="361192486"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2020 04:38:16 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2020 04:38:21 -0700
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Imre Deak <imre.deak@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Hans de Goede <hdegoede@redhat.com>,
  Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: [PATCH 12/18] drm/i915/display/tc: Prefer drm_WARN_ON over WARN_ON
-Date: Mon,  6 Apr 2020 16:57:54 +0530
-Message-Id: <20200406112800.23762-13-pankaj.laxminarayan.bharadiya@intel.com>
+Subject: [PATCH 13/18] drm/i915/display/vlv_dsi: Prefer drm_WARN_ON over
+ WARN_ON
+Date: Mon,  6 Apr 2020 16:57:55 +0530
+Message-Id: <20200406112800.23762-14-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200406112800.23762-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200406112800.23762-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -64,72 +64,24 @@ in the backtrace, so we know what device the warnings originate from.
 
 Prefer drm_WARN_ON over WARN_ON.
 
-Conversion is done with below sementic patch:
-
-@@
-identifier func, T;
-@@
-func(struct intel_digital_port *T,...) {
-<+...
--WARN_ON(
-+drm_WARN_ON(T->base.base.dev,
-...)
-...+>
-
-}
-
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_tc.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/display/vlv_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_tc.c b/drivers/gpu/drm/i915/display/intel_tc.c
-index 9b850c11aa78..7d4172498320 100644
---- a/drivers/gpu/drm/i915/display/intel_tc.c
-+++ b/drivers/gpu/drm/i915/display/intel_tc.c
-@@ -295,12 +295,12 @@ static void icl_tc_phy_connect(struct intel_digital_port *dig_port,
- 	}
- 
- 	if (!icl_tc_phy_set_safe_mode(dig_port, false) &&
--	    !WARN_ON(dig_port->tc_legacy_port))
-+	    !drm_WARN_ON(dig_port->base.base.dev, dig_port->tc_legacy_port))
- 		goto out_set_tbt_alt_mode;
- 
- 	max_lanes = intel_tc_port_fia_max_lane_count(dig_port);
- 	if (dig_port->tc_legacy_port) {
--		WARN_ON(max_lanes != 4);
-+		drm_WARN_ON(dig_port->base.base.dev, max_lanes != 4);
- 		dig_port->tc_mode = TC_PORT_LEGACY;
- 
- 		return;
-@@ -381,14 +381,16 @@ intel_tc_port_get_current_mode(struct intel_digital_port *dig_port)
- 	bool in_safe_mode = icl_tc_phy_is_in_safe_mode(dig_port);
- 	enum tc_port_mode mode;
- 
--	if (in_safe_mode || WARN_ON(!icl_tc_phy_status_complete(dig_port)))
-+	if (in_safe_mode || drm_WARN_ON(dig_port->base.base.dev,
-+					!icl_tc_phy_status_complete(dig_port)))
- 		return TC_PORT_TBT_ALT;
- 
- 	mode = dig_port->tc_legacy_port ? TC_PORT_LEGACY : TC_PORT_DP_ALT;
- 	if (live_status_mask) {
- 		enum tc_port_mode live_mode = fls(live_status_mask) - 1;
- 
--		if (!WARN_ON(live_mode == TC_PORT_TBT_ALT))
-+		if (!drm_WARN_ON(dig_port->base.base.dev,
-+				 live_mode == TC_PORT_TBT_ALT))
- 			mode = live_mode;
- 	}
- 
-@@ -432,7 +434,7 @@ static void
- intel_tc_port_link_init_refcount(struct intel_digital_port *dig_port,
- 				 int refcount)
+diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
+index 4e18d4627065..46e2895d916d 100644
+--- a/drivers/gpu/drm/i915/display/vlv_dsi.c
++++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
+@@ -864,7 +864,7 @@ static void bxt_dsi_enable(struct intel_atomic_state *state,
+ 			   const struct intel_crtc_state *crtc_state,
+ 			   const struct drm_connector_state *conn_state)
  {
--	WARN_ON(dig_port->tc_link_refcount);
-+	drm_WARN_ON(dig_port->base.base.dev, dig_port->tc_link_refcount);
- 	dig_port->tc_link_refcount = refcount;
- }
+-	WARN_ON(crtc_state->has_pch_encoder);
++	drm_WARN_ON(state->base.dev, crtc_state->has_pch_encoder);
  
+ 	intel_crtc_vblank_on(crtc_state);
+ }
 -- 
 2.23.0
 
