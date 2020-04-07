@@ -2,57 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08BF11A1C1F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 08:59:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22DC21A1C26
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 08:59:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 422AB6E958;
-	Wed,  8 Apr 2020 06:59:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 398056E95F;
+	Wed,  8 Apr 2020 06:59:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 043EB6E57A;
- Tue,  7 Apr 2020 07:51:05 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id i16so2811115edy.11;
- Tue, 07 Apr 2020 00:51:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zkfuDW17jfkPN1dCvN8DHeX6MUz3FMaoF3kV8FxBJ2Y=;
- b=vLE0V+tdU0sJbSxOeICNFbYJOLKyLEFwi3JYfBEboXICdwGBGqilq2PXLZX5Z9UE1E
- EIyTtsIfw0UZ8KDU0B87ExHk44lnLZvoFghaW+3YohtUU1i9TwCs+JfEi0aZAFcIxUqS
- GoHI/xFGBOmTlQEkq4caOE15Es5YkBVe4l2xx25soonPGr6SbX5LJv2wkde7wPgeBk2N
- 4m6kECgV2sxOKWnYeYw4q9eUcJDMPklKhgOMcbmzkJkja4/EWEbXnERQOYhIrwkOQ/5r
- A9liqnRISloCAw/7BBsspEg3GBXmbraH/JuxGuHw4SrvMGAXPgByirROtJedC+ha7sAK
- aE4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zkfuDW17jfkPN1dCvN8DHeX6MUz3FMaoF3kV8FxBJ2Y=;
- b=CxwFyz5j46EKEpAKc2pOhWUflsyhkjhJ/iZ3dzgCGA4hdFfdWYy1LS8uo3Xoj3QaVr
- ajIIxTHQbsf0u+p01KmGOXGO+BCw8NZKEXJpnoPUO57fxhT1vB5kxpqGFVv0klzaaSSM
- KdRb+a4hPljg8v9APE/yLg+yysDGd6hBJsDNai2XHdIOAw3eYIFY/wvNKNIom3rKZN6v
- 5F72SWo7j4PrS45bQelUOtH7n6J6kZ2qldHT1KXXhSxtlWzIZ7O3VPzCKrzM1dQA+dYi
- TjyTKdLw5kwe2HdQlWSU1Tz1+p45qcSYE/x0hPTG0fdiA0G2eazd8CBOdoflWDfIwuwc
- +v5A==
-X-Gm-Message-State: AGi0PubA1bvWLc32CLWuwNVvEz7viS+Z6VDhcEj6iYWJ/cEqY4QQ18MY
- Vhz+NGhFyUDF+AjUO/zZ/PtNEKofn9uhQ1AD54Y=
-X-Google-Smtp-Source: APiQypImMzBGUEo242NfHFmzuORygzwJdX5VTMNa3UBdn3sWFqwEZRmYuLMv61x8a3JnQ9OfGBT1vNbbaJ2OsT5Vgdc=
-X-Received: by 2002:a17:906:55d2:: with SMTP id
- z18mr770800ejp.359.1586245864611; 
- Tue, 07 Apr 2020 00:51:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAJgxT3-11eZqvysgCQMCYtKEUVsNWWHd+7au91uNC7SWK1Fyug@mail.gmail.com>
- <20200403111411.5e4e6bfe@eldfell.localdomain>
- <CABDcavY_00eeD-zR-CZNCwFdBL56DcFh4yAO_W4t+xC3j_qsow@mail.gmail.com>
- <20200403130306.1b4a171c@eldfell.localdomain>
-In-Reply-To: <20200403130306.1b4a171c@eldfell.localdomain>
-From: Guillermo Rodriguez <guillerodriguez.dev@gmail.com>
-Date: Tue, 7 Apr 2020 09:50:53 +0200
-Message-ID: <CABDcavaL10gf-40VYqCQRGwV9exeJUWL9YLMM295J6rUpdRyiw@mail.gmail.com>
-Subject: Re: Aliases for DRI connectors?
-To: Pekka Paalanen <ppaalanen@gmail.com>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B111F6E580
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 07:54:03 +0000 (UTC)
+Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37]
+ helo=localhost) by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <kai.heng.feng@canonical.com>)
+ id 1jLj3V-0003AW-VD; Tue, 07 Apr 2020 07:53:58 +0000
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/i915: Force DPCD backlight mode for HP CML 2020 system
+Date: Tue,  7 Apr 2020 15:53:53 +0800
+Message-Id: <20200407075353.12747-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Wed, 08 Apr 2020 06:59:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,68 +38,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Hoosier <matt.hoosier@gmail.com>, dri-devel@lists.freedesktop.org,
- wayland mailing list <wayland-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUGVra2EsCgpFbCB2aWUuLCAzIGFici4gMjAyMCBhIGxhcyAxMjowMywgUGVra2EgUGFhbGFu
-ZW4KKDxwcGFhbGFuZW5AZ21haWwuY29tPikgZXNjcmliacOzOgo+Cj4gT24gRnJpLCAzIEFwciAy
-MDIwIDEwOjI4OjUyICswMjAwCj4gR3VpbGxlcm1vIFJvZHJpZ3VleiA8Z3VpbGxlcm9kcmlndWV6
-LmRldkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gPiBIaSBQZWtrYSwKPiA+Cj4gPiBFbCB2aWUuLCAz
-IGFici4gMjAyMCBhIGxhcyAxMDoxNCwgUGVra2EgUGFhbGFuZW4KPiA+ICg8cHBhYWxhbmVuQGdt
-YWlsLmNvbT4pIGVzY3JpYmnDszoKPiA+ID4KPiA+ID4gT24gV2VkLCAxIEFwciAyMDIwIDE0OjM4
-OjM3IC0wNTAwCj4gPiA+IE1hdHQgSG9vc2llciA8bWF0dC5ob29zaWVyQGdtYWlsLmNvbT4gd3Jv
-dGU6Cj4gPiA+Cj4gPiA+ID4gSSdtIHNlYXJjaGluZyBmb3Igc29tZSBzb3J0IG9mIHNjaGVtZSB0
-aGF0IHdpbGwgbGV0IG15IERSSSBtYXN0ZXIgcXVlcnkgdGhlCj4gPiA+ID4gc2V0IG9mIGF2YWls
-YWJsZSBjb25uZWN0b3JzIGFuZCBzZWxlY3QgdGhlIG9uZSBjYXJyeWluZyBhIHByZWFycmFuZ2Vk
-Cj4gPiA+ID4gZGVzaWduYXRpb24uIFRoZSBwcm9ibGVtIEknbSB0cnlpbmcgdG8gc29sdmUgaXMg
-dG8gYWxsb3cgZGVwbG95aW5nIG9uZQo+ID4gPiA+IHN0YW5kYXJkaXplZCB1c2Vyc3BhY2UgY29t
-cG9uZW50IGFjcm9zcyBhIGZsZWV0IG9mIGRldmljZXMgdGhhdCBoYXZlCj4gPiA+ID4gdmFyeWlu
-ZyBudW1iZXJzIG9mIGRpc3BsYXlzLCB3aXRoIHRoZSB1c2UgY2FzZXMgbm90IGFsd2F5cyBkcml2
-ZW4gb24gdGhlCj4gPiA+ID4gc2FtZSBjb25uZWN0b3IgdG9wb2xvZ2ljYWxseS4KPiA+ID4gPgo+
-ID4gPiA+IEkgaGFkIGEgbG9vayBhcm91bmQgdGhlIHByb3BlcnRpZXMgYXZhaWxhYmxlIG9uIG15
-IHN5c3RlbSdzIERSSSBjb25uZWN0b3JzLAo+ID4gPiA+IGFuZCBub3RoaW5nIGltbWVkaWF0ZSBq
-dW1wZWQgb3V0IGF0IG1lLiBJcyB0aGVyZSBhIHN0YW5kYXJkIGNvbm5lY3Rvcgo+ID4gPiA+IHBy
-b3BlcnR5IHRoYXQgKGFzc3VtaW5nIEkgY2FuIGZpbmQgdGhlIHJpZ2h0IHBsYWNlIGluIERldmlj
-ZVRyZWUgb3Igc2ltaWxhcgo+ID4gPiA+IHRvKSB0aGF0IHdvdWxkIGJlIGEgZ29vZCBmaXQgZm9y
-IHRoaXM/Cj4gPiA+Cj4gPiA+IEhpLAo+ID4gPgo+ID4gPiBJJ3ZlIG5ldmVyIGhlYXJkIG9mIGEg
-dGhpbmcgdGhhdCBjb3VsZCBhY2NvbXBsaXNoIHRoYXQuIERSTSBjb25uZWN0b3IKPiA+ID4gbmFt
-ZXMgYXJlIG5vdCBldmVuIGFjdHVhbGx5IGNvbW11bmljYXRlZCB0byB1c2Vyc3BhY2UuIFdoYXQg
-dXNlcnNwYWNlCj4gPiA+IHNlZXMgaXMgY29ubmVjdG9yIHR5cGUgKGVudW0pIGFuZCBzb21lIGNv
-dW50ZXIgbnVtYmVycyAod2hpY2ggYXJlIG5vdAo+ID4gPiBwZXJzaXN0ZW50LCBzbyBub3QgcmVs
-aWFibGUgaWYgeW91IGhhdmUgZS5nLiBtdWx0aXBsZSBEUk0gZHJpdmVycwo+ID4gPiByYWNpbmcg
-dG8gaW5pdGlhbGl6ZSksCj4gPgo+ID4gSSBtYXkgYmUgbWlzcmVhZGluZyB5b3UsIGJ1dCBkb2Vz
-IHRoaXMgbWVhbiB0aGF0IHRoZSBjb25uZWN0b3IgbmFtZXMKPiA+IHVzZWQgaW4gdGhlIFtvdXRw
-dXRdIHNlY3Rpb24gb2YgdGhlIHdlc3Rvbi5pbmkgY29uZmlndXJhdGlvbiBmaWxlIGFyZQo+ID4g
-bm90IHJlbGlhYmxlPwo+Cj4gWWVzLCB0aGV5IGFyZSBub3QgZ2VuZXJhbGx5IHJlbGlhYmxlLiBU
-aGV5IGFyZSByZWxpYWJsZSBlbm91Z2ggaW4gbW9zdAo+IGNhc2VzLCBwYXJ0aWN1bGFybHkgaWYg
-eW91IGhhdmUgb25seSBvbmUgRFJNIGRldmljZSB3aXRoIGNvbm5lY3RvcnMuCj4gRFJNIGRyaXZl
-cnMgdGhlbXNlbHZlcyBvZnRlbiBtYW5hZ2UgdG8gbm90IHJhY2UgaW50ZXJuYWxseSwgc28gdGhl
-eSBhcmUKPiBmYWlybHkgY29uc2lzdGVudCBpbiB3aGF0IG9yZGVyIHRoZXkgY3JlYXRlIHRoZWly
-IGNvbm5lY3RvcnMgcGVyIGRldmljZS4KPgo+IFhvcmcgaGFzIHRoZSBleGFjdCBzYW1lIHByb2Js
-ZW0gSUlSQywgYXMgaGFzIHByb2JhYmx5IGFueSBkaXNwbGF5Cj4gc2VydmVyIG9uIExpbnV4LiBU
-aGlzIG1lYW5zIHRoYXQgdG8gZmluZCBhIGNhc2Ugd2hlcmUgdGhlIHJlbGlhYmlsaXR5Cj4gYWN0
-dWFsbHkgYnJlYWtzIGRvd24geW91IGhhdmUgdG8gdHJ5IHF1aXRlIGhhcmQgb3IgYmUgdmVyeSB1
-bmx1Y2t5LAo+IHNpbmNlIGl0IGhhcyBnb25lIHVuZml4ZWQgZm9yIHNvIGxvbmcuCj4KPiBMaWtl
-d2lzZSB5b3UgY2Fubm90IHJlbHkgdGhhdCAvZGV2L2RyaS9jYXJkMCBpcyBhbHdheXMgdGhlIHNh
-bWUgZGV2aWNlCj4gaWYgeW91IGhhdmUgbXVsdGlwbGUuIFRoYXQgaXNzdWUgaXMgc2hvd2luZyB1
-cCBhIGxpdHRsZSBtb3JlIHRoYW4gdGhlCj4gY29ubmVjdG9yIG5hbWluZyBpc3N1ZS4gSGVuY2Ug
-L2Rldi9kcmkvYnktcGF0aC8gYWxpYXNlcyBleGlzdC4gTmV0d29yawo+IGRldmljZXMgaGF2ZSBo
-aXQgdGhlIHNhbWUgbmFtaW5nIHByb2JsZW0gYSBsb25nIHRpbWUgYWdvIGFscmVhZHksIGhlbmNl
-Cj4gd2Ugbm93YWRheXMgaGF2ZSAiUHJlZGljdGFibGUgTmV0d29yayBJbnRlcmZhY2UgTmFtZXMi
-Lgo+Cj4gPiBUaGVuIHdoYXQgaXMgdGhlIHByb3BlciB3YXkgdG8gY29uZmlndXJlIG9uZSBzcGVj
-aWZpYyAocGh5c2ljYWwpCj4gPiBvdXRwdXQgaW4gV2VzdG9uPwo+Cj4gVGhlcmUgaXMgbm8gYmV0
-dGVyIHdheSB5ZXQuIEkndmUgaGFkIHNvbWUgaWRlYXMsIGJ1dCBubyB0aW1lIHRvIGxvb2sKPiBp
-bnRvIHRoZW0uCj4KPiBNU1QgY29ubmVjdG9ycyBoYXZlIGEgS01TIHByb3BlcnR5IGZvciB0aGUg
-aGFyZHdhcmUgcGF0aCwgYnV0IFdlc3Rvbgo+IGRvZXMgbm90IGxvb2sgYXQgdGhhdCwgYW5kIHRo
-ZSBvdGhlciBjb25uZWN0b3JzIGRvbid0IGV2ZW4gaGF2ZSBpdC4KCk9rIHNvIHRoaXMgaXMgYSBr
-bm93biAicHJvYmxlbSIgd2hpY2ggaGFzIG5ldmVyIGJlZW4gZml4ZWQsIHByb2JhYmx5CmJlY2F1
-c2UgaW4gbW9zdCBjYXNlcyAoc2luZ2xlIERSTSBkZXZpY2UpIHRoZSBjdXJyZW50IHNvbHV0aW9u
-IGlzIGdvb2QKZW5vdWdoLgoKVGhhbmsgeW91IGZvciB0aGUgY2xhcmlmaWNhdGlvbi4KCkJSLAoK
-R3VpbGxlcm1vIFJvZHJpZ3VleiBHYXJjaWEKZ3VpbGxlLnJvZHJpZ3VlekBnbWFpbC5jb20KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+There's another Samsung OLED panel needs to use DPCD aux interface to
+control backlight.
+
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+---
+ drivers/gpu/drm/drm_dp_helper.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index c6fbe6e6bc9d..d0cfee3b7a65 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -1299,6 +1299,8 @@ static const struct edid_quirk edid_quirk_list[] = {
+ 	 * only supports DPCD backlight controls
+ 	 */
+ 	{ MFG(0x4c, 0x83), PROD_ID(0x41, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
++	/* HP CML 2020 system */
++	{ MFG(0x4c, 0x83), PROD_ID(0x45, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+ 	/*
+ 	 * Some Dell CML 2020 systems have panels support both AUX and PWM
+ 	 * backlight control, and some only support AUX backlight control. All
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
