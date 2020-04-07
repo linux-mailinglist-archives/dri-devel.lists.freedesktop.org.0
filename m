@@ -2,41 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1051A0831
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 09:24:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC111A0833
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 09:24:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A47689956;
-	Tue,  7 Apr 2020 07:24:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72B466E53C;
+	Tue,  7 Apr 2020 07:24:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFB5D89956
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 07:24:10 +0000 (UTC)
-IronPort-SDR: NjHjcH6BRbiqdlDcwvKNWFRuQtSD0v6jkfvGTsVE+QJlVOH6OlROoilGp1OgGgr7NAr6OnWBkn
- q0ADXzpA/1Mg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2020 00:24:10 -0700
-IronPort-SDR: r85A28yrv6BGkczixoDwi3oYAwEGNDoh8KfstGxvxwklNQ5URCkjoYOt9q35JqYHaUgGXiaAtc
- 4Y6HmDga3luA==
-X-IronPort-AV: E=Sophos;i="5.72,353,1580803200"; d="scan'208";a="424653982"
-Received: from vogtstef-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.249.40.153])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2020 00:24:04 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 00/10] Set up generic fbdev after registering device
-In-Reply-To: <fe7d4cbb-5e44-60fb-c54a-6cb975154ad7@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200406134405.6232-1-tzimmermann@suse.de>
- <20200406200051.GA26582@ravnborg.org>
- <fe7d4cbb-5e44-60fb-c54a-6cb975154ad7@suse.de>
-Date: Tue, 07 Apr 2020 10:24:00 +0300
-Message-ID: <87blo3lpwv.fsf@intel.com>
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC7BC6E532
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 07:24:27 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id z5so2064880oth.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 00:24:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CXkPv5LaaaQEdkpBovQdqabWOfy9VVSLGPzBgesYbmI=;
+ b=UpstKD27HdwKJrlIJzd87EoFrDL3z/g56XJK209aJtNxFcmGSJMo+9Wt2bz7g9CHC0
+ jr2I5h1thjcySLW1fM3JC5iOaPXzqpRHt0e0ICfj0K4FbIJRujNiD/xloYQX/WgclD9Z
+ Ym2D9SWDSU6jH5GsboumhOEUV2Wj0ixHTNK34=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CXkPv5LaaaQEdkpBovQdqabWOfy9VVSLGPzBgesYbmI=;
+ b=tsyfOr7e+HVd9GzebbaNZF3LHRIrbqTxk/tR8mRrc0mTHneRdwl3NzuXJKzy7TYwaX
+ t6uggijZmKzwLqcBWEXqiWOvp73KEIirOjV/RbaPeNtg0jsIJd8tFD3HuF7Ef/Oaol9I
+ OFc361AqjYHGiygohzWUR8WsvNc2bd/fAbeZ1l/YMCTjoaPaDsEFUjTz7nXeSwgqFHxw
+ o9WtPQx/uI5C6TSSNblqmA+MNV7RfjIPrXHFWbw1zgoCNIeYtZWKaGvqixNjnhtIRaFE
+ 43tFpZlfwozxJRcFzYXnuo4CnqB+eWgijur6VHheYwxebr45kU8MJxCeufcl5NPX2rL3
+ 3N+Q==
+X-Gm-Message-State: AGi0PuYN300pNMiKKQrAbBzgwNJL7LdUY+VEpHDlLA/Fl1D9ZuF5O76K
+ R9AQhurDQ1GCdOV6j6WHiJdJu6z/JJ50gkvPJTPmdg==
+X-Google-Smtp-Source: APiQypKqtwjTAHu9NxQk3v42rxhI5GSzgV9b43MKSgFiYW9DhKte+GrdJ4PcqsAvo3jSijnyB+AZJ+G+bXTzTvnceb4=
+X-Received: by 2002:a05:6830:15d4:: with SMTP id
+ j20mr463906otr.303.1586244266940; 
+ Tue, 07 Apr 2020 00:24:26 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
+ <20200403135828.2542770-9-daniel.vetter@ffwll.ch>
+ <0e60d88e-0429-049a-b4b2-5e3b6b660bbc@suse.de>
+In-Reply-To: <0e60d88e-0429-049a-b4b2-5e3b6b660bbc@suse.de>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 7 Apr 2020 09:24:15 +0200
+Message-ID: <CAKMK7uEwKWAxiPwZKVQBN22S6D=_4FhfmyNGCnU9uftK+--V2A@mail.gmail.com>
+Subject: Re: [PATCH 08/44] drm/vboxvideo: Stop using drm_device->dev_private
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,109 +61,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, hdegoede@redhat.com, airlied@linux.ie,
- puck.chen@hisilicon.com, jsarha@ti.com, dri-devel@lists.freedesktop.org,
- paul@crapouillou.net, xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
- tomi.valkeinen@ti.com, kraxel@redhat.com, zourongrong@gmail.com,
- matthias.bgg@gmail.com, tiantao6@hisilicon.com, sean@poorly.run,
- emil.velikov@collabora.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 07 Apr 2020, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi Sam
->
-> Am 06.04.20 um 22:00 schrieb Sam Ravnborg:
->> Hi Thomas.
->> 
->> On Mon, Apr 06, 2020 at 03:43:55PM +0200, Thomas Zimmermann wrote:
->>> Generic fbdev emulation is a DRM client. If possible, it should behave
->>> like userspace clients. Therefore it should not run before the driver
->>> registered the new DRM device. If the setup function fails, the driver
->>> should not report an error.
->> 
->> Thanks for taking the time to refactor all the relevant drivers.
->> 
->> I have received some push-back in the past when suggesting this,
->> but cannot remember from who.
->> Let's see what review comments you get.
->> 
->> As the rule is that the fbdev setup shall be setup after registering
->> the DRM device - it would be nice to have this included in the
->> documentation of drm_fbdev_generic_setup
->> 
->> Could you try to to update the documentation to cover this?
->
-> Good idea. I'll add this to patchset's next iteration.
-
-How about something like:
-
-	drm_WARN_ON(dev, !dev->registered);
-
-(Not sure if that needs to be !dev->driver->load && !dev->registered).
-
-This can be a follow-up patch later too.
-
-BR,
-Jani.
-
-
->
-> Best regards
-> Thomas
->
->> 
->> I will get back to the patches later this week.
->> 
->> 	Sam
->> 
->>>
->>> This is a follow-up patchset to the discussion at [1].  I went
->>> through all calls to drm_fbdev_generic_setup(), moved them to the
->>> final operation of their driver's probe function, and removed the
->>> return value.
->>>
->>> Built-tested on x86-64, aarch64 and arm.
->>>
->>> [1] https://lore.kernel.org/dri-devel/20200403135828.2542770-1-daniel.vetter@ffwll.ch/T/#m216b5b37aeeb7b28d55ad73b7a702b3d1d7bf867
->>>
->>> Thomas Zimmermann (10):
->>>   drm/ast: Set up fbdev after registering device; remove error checks
->>>   drm/hibmc: Remove error check from fbdev setup
->>>   drm/kirin: Set up fbdev after fully registering device
->>>   drm/ingenic: Remove error check from fbdev setup
->>>   drm/mediathek: Remove error check from fbdev setup
->>>   drm/mgag200: Set up fbdev after registering device; remove error
->>>     checks
->>>   drm/tilcdc: Set up fbdev after fully registering device
->>>   drm/udl: Remove error check from fbdev setup
->>>   drm/vboxvideo: Set up fbdev after registering device; remove error
->>>     checks
->>>   drm/fb-helper: Remove return value from drm_fbdev_generic_setup()
->>>
->>>  drivers/gpu/drm/ast/ast_drv.c                  |  3 +++
->>>  drivers/gpu/drm/ast/ast_main.c                 |  5 -----
->>>  drivers/gpu/drm/drm_fb_helper.c                | 18 ++++++++----------
->>>  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |  6 +-----
->>>  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c    |  4 ++--
->>>  drivers/gpu/drm/ingenic/ingenic-drm.c          |  4 +---
->>>  drivers/gpu/drm/mediatek/mtk_drm_drv.c         |  4 +---
->>>  drivers/gpu/drm/mgag200/mgag200_drv.c          |  2 ++
->>>  drivers/gpu/drm/mgag200/mgag200_main.c         |  4 ----
->>>  drivers/gpu/drm/tilcdc/tilcdc_drv.c            |  3 +--
->>>  drivers/gpu/drm/udl/udl_drv.c                  |  6 +-----
->>>  drivers/gpu/drm/vboxvideo/vbox_drv.c           |  6 ++----
->>>  include/drm/drm_fb_helper.h                    |  5 +++--
->>>  13 files changed, 25 insertions(+), 45 deletions(-)
->>>
->>> --
->>> 2.26.0
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBBcHIgNiwgMjAyMCBhdCA3OjI3IFBNIFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
+bWFubkBzdXNlLmRlPiB3cm90ZToKPgo+IEhpCj4KPiBBbSAwMy4wNC4yMCB1bSAxNTo1NyBzY2hy
+aWViIERhbmllbCBWZXR0ZXI6Cj4gPiBXZSB1c2UgdGhlIGJhc2VjbGFzcyBwYXR0ZXJuIGhlcmUs
+IHNvIGxldHMgdG8gdGhlIHByb3BlciAoYW5kIG1vcmUKPiA+IHR5cGVzYWZlKSB1cGNhc3Rpbmcu
+Cj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRl
+bC5jb20+Cj4gPiBDYzogSGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KPiA+IC0t
+LQo+ID4gIGRyaXZlcnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9kcnYuYyAgfCAgMSAtCj4gPiAg
+ZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X2Rydi5oICB8ICAxICsKPiA+ICBkcml2ZXJz
+L2dwdS9kcm0vdmJveHZpZGVvL3Zib3hfaXJxLmMgIHwgIDIgKy0KPiA+ICBkcml2ZXJzL2dwdS9k
+cm0vdmJveHZpZGVvL3Zib3hfbW9kZS5jIHwgMTAgKysrKystLS0tLQo+ID4gIDQgZmlsZXMgY2hh
+bmdlZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vdmJveHZpZGVvL3Zib3hfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0v
+dmJveHZpZGVvL3Zib3hfZHJ2LmMKPiA+IGluZGV4IGJlMDYwMGIyMmNmNS4uZDM0Y2RkZDgwOWZk
+IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X2Rydi5jCj4g
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmJveHZpZGVvL3Zib3hfZHJ2LmMKPiA+IEBAIC01Miw3
+ICs1Miw2IEBAIHN0YXRpYyBpbnQgdmJveF9wY2lfcHJvYmUoc3RydWN0IHBjaV9kZXYgKnBkZXYs
+IGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkICplbnQpCj4gPiAgICAgICAgICAgICAgIHJldHVy
+biBQVFJfRVJSKHZib3gpOwo+ID4KPiA+ICAgICAgIHZib3gtPmRkZXYucGRldiA9IHBkZXY7Cj4g
+PiAtICAgICB2Ym94LT5kZGV2LmRldl9wcml2YXRlID0gdmJveDsKPiA+ICAgICAgIHBjaV9zZXRf
+ZHJ2ZGF0YShwZGV2LCB2Ym94KTsKPiA+ICAgICAgIG11dGV4X2luaXQoJnZib3gtPmh3X211dGV4
+KTsKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X2Ry
+di5oIGIvZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X2Rydi5oCj4gPiBpbmRleCA4NzQy
+MTkwMzgxNmMuLmFjN2MyZWZmYzQ2ZiAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92
+Ym94dmlkZW8vdmJveF9kcnYuaAo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92
+Ym94X2Rydi5oCj4gPiBAQCAtMTI3LDYgKzEyNyw3IEBAIHN0cnVjdCB2Ym94X2VuY29kZXIgewo+
+ID4gICNkZWZpbmUgdG9fdmJveF9jcnRjKHgpIGNvbnRhaW5lcl9vZih4LCBzdHJ1Y3QgdmJveF9j
+cnRjLCBiYXNlKQo+ID4gICNkZWZpbmUgdG9fdmJveF9jb25uZWN0b3IoeCkgY29udGFpbmVyX29m
+KHgsIHN0cnVjdCB2Ym94X2Nvbm5lY3RvciwgYmFzZSkKPiA+ICAjZGVmaW5lIHRvX3Zib3hfZW5j
+b2Rlcih4KSBjb250YWluZXJfb2YoeCwgc3RydWN0IHZib3hfZW5jb2RlciwgYmFzZSkKPiA+ICsj
+ZGVmaW5lIHRvX3Zib3hfZGV2KHgpIGNvbnRhaW5lcl9vZih4LCBzdHJ1Y3QgdmJveF9wcml2YXRl
+LCBkZGV2KQo+Cj4gSSBzdWdnZXN0IG90IGNhbGwgdGhpcyBtYWNybyB0byB0b192Ym94X2Rldmlj
+ZSgpLiBBdCBzb21lIHBvaW50LCB3ZQo+IHNob3VsZCByZW5hbWUgc3RydWN0IHZib3hfcHJpdmF0
+ZSB0byBzdHJ1Y3QgdmJveF9kZXZpY2UgZm9yIGNvbnNpc3RlbmN5Cj4gYW1vbmcgZHJpdmVycy4g
+VGhlIG5ldyBtYWNybydzIG5hbWUgd291bGQgdGhlbiBmaXQuCgpTbyBJJ3ZlIHNlZW4gbmFtaW5n
+IGNvbnZlbnRpb25zIGFyb3VuZCB0aGlzIHdpdGggYSBfZGV2IHN1ZmZpeCwgYSBfZHJtCnN1ZmZp
+eCwgYSBfcHJpdiBzdWZmaXggYW5kIG5vIHN1ZmZpeCAoc2luY2UgaXQncyB0aGUgdG9wIGxldmVs
+IG9iamVjdAp5b3Uga2luZGEgY2FuIGp1c3RpZnkgdGhhdCB0b28pLiBJIGFkbWl0IHRoZSBjaG9p
+Y2UgSSB3ZW50IHdpdGggd2FzCm9jY2FzaW9uYWxseSBhIGJpdCByYW5kb20sIGJ1dCB0aGF0J3Mg
+bW9zdGx5IGJlY2F1c2UgdGhlcmUncyBub3QgbXVjaApjb25zaXN0ZW5jeSBoZXJlIGF0IGFsbC4g
+VGhpcyBhcHBsaWVzIGJvdGggdG8gdGhlIHVwY2FzdCBtYWNybyBhbmQgdGhlCnN0cnVjdCBpdHNl
+bGYuCgppb3cgSSdtIG5vdCBzdXJlIHRoaXMgYmlrZXNoZWQgaXMgd29ydGggcmVwYWludGluZywg
+Y3VycmVudCBzdGF0dXMgaXMKcmF0aGVyIG11bHRpY29sb3IgYWxyZWFkeSAuLi4gSXQncyBhbHNv
+IGFuIGVub3Jtb3VzIGFtb3VudHMgb2YgY2h1cm4KdG8gcmVwYWludCB0aGlzIHN0dWZmIGFscmVh
+ZHkgKGp1c3QgZ2l0IGdyZXAgZGV2X3ByaXZhdGUgLS0KZHJpdmVycy9ncHUvZHJtKSwgc28gSSdt
+IG5vdCBzdXBlciBlbnRodXNpYXN0aWMgYWJvdXQgYWRkaW5nIG1vcmUKY2h1cm4gb24gdG9wIC4u
+LgoKU3RpbGwgZmVlbCBzdHJvbmdseSBhYm91dCB0aGlzIG9uZSBhbmQgdGhlIG90aGVycyB5b3Un
+dmUgYnJvdWdodCB1cD8KLURhbmllbAoKPiBGb3IgdGhlIG92ZXJhbGwgcGF0Y2g6Cj4KPiBBY2tl
+ZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4KPiBCZXN0IHJl
+Z2FyZHMKPiBUaG9tYXMKPgo+ID4KPiA+ICBib29sIHZib3hfY2hlY2tfc3VwcG9ydGVkKHUxNiBp
+ZCk7Cj4gPiAgaW50IHZib3hfaHdfaW5pdChzdHJ1Y3QgdmJveF9wcml2YXRlICp2Ym94KTsKPiA+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmJveHZpZGVvL3Zib3hfaXJxLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vdmJveHZpZGVvL3Zib3hfaXJxLmMKPiA+IGluZGV4IDE2YTFlMjlmNTI5Mi4u
+NjMxNjU3ZmE1NTRmIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92
+Ym94X2lycS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmJveHZpZGVvL3Zib3hfaXJxLmMK
+PiA+IEBAIC0zNCw3ICszNCw3IEBAIHZvaWQgdmJveF9yZXBvcnRfaG90cGx1ZyhzdHJ1Y3QgdmJv
+eF9wcml2YXRlICp2Ym94KQo+ID4gIGlycXJldHVybl90IHZib3hfaXJxX2hhbmRsZXIoaW50IGly
+cSwgdm9pZCAqYXJnKQo+ID4gIHsKPiA+ICAgICAgIHN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSAo
+c3RydWN0IGRybV9kZXZpY2UgKilhcmc7Cj4gPiAtICAgICBzdHJ1Y3QgdmJveF9wcml2YXRlICp2
+Ym94ID0gKHN0cnVjdCB2Ym94X3ByaXZhdGUgKilkZXYtPmRldl9wcml2YXRlOwo+ID4gKyAgICAg
+c3RydWN0IHZib3hfcHJpdmF0ZSAqdmJveCA9IHRvX3Zib3hfZGV2KGRldik7Cj4gPiAgICAgICB1
+MzIgaG9zdF9mbGFncyA9IHZib3hfZ2V0X2ZsYWdzKHZib3gpOwo+ID4KPiA+ICAgICAgIGlmICgh
+KGhvc3RfZmxhZ3MgJiBIR1NNSUhPU1RGTEFHU19JUlEpKQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9tb2RlLmMgYi9kcml2ZXJzL2dwdS9kcm0vdmJveHZp
+ZGVvL3Zib3hfbW9kZS5jCj4gPiBpbmRleCAwODgzYTQzNWU2MmIuLmQ5YTVhZjYyYWY4OSAxMDA2
+NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9tb2RlLmMKPiA+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9tb2RlLmMKPiA+IEBAIC0zNiw3ICsz
+Niw3IEBAIHN0YXRpYyB2b2lkIHZib3hfZG9fbW9kZXNldChzdHJ1Y3QgZHJtX2NydGMgKmNydGMp
+Cj4gPiAgICAgICB1MTYgZmxhZ3M7Cj4gPiAgICAgICBzMzIgeF9vZmZzZXQsIHlfb2Zmc2V0Owo+
+ID4KPiA+IC0gICAgIHZib3ggPSBjcnRjLT5kZXYtPmRldl9wcml2YXRlOwo+ID4gKyAgICAgdmJv
+eCA9IHRvX3Zib3hfZGV2KGNydGMtPmRldik7Cj4gPiAgICAgICB3aWR0aCA9IHZib3hfY3J0Yy0+
+d2lkdGggPyB2Ym94X2NydGMtPndpZHRoIDogNjQwOwo+ID4gICAgICAgaGVpZ2h0ID0gdmJveF9j
+cnRjLT5oZWlnaHQgPyB2Ym94X2NydGMtPmhlaWdodCA6IDQ4MDsKPiA+ICAgICAgIGJwcCA9IGZi
+ID8gZmItPmZvcm1hdC0+Y3BwWzBdICogOCA6IDMyOwo+ID4gQEAgLTc3LDcgKzc3LDcgQEAgc3Rh
+dGljIHZvaWQgdmJveF9kb19tb2Rlc2V0KHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKPiA+ICBzdGF0
+aWMgaW50IHZib3hfc2V0X3ZpZXcoc3RydWN0IGRybV9jcnRjICpjcnRjKQo+ID4gIHsKPiA+ICAg
+ICAgIHN0cnVjdCB2Ym94X2NydGMgKnZib3hfY3J0YyA9IHRvX3Zib3hfY3J0YyhjcnRjKTsKPiA+
+IC0gICAgIHN0cnVjdCB2Ym94X3ByaXZhdGUgKnZib3ggPSBjcnRjLT5kZXYtPmRldl9wcml2YXRl
+Owo+ID4gKyAgICAgc3RydWN0IHZib3hfcHJpdmF0ZSAqdmJveCA9IHRvX3Zib3hfZGV2KGNydGMt
+PmRldik7Cj4gPiAgICAgICBzdHJ1Y3QgdmJ2YV9pbmZvdmlldyAqcDsKPiA+Cj4gPiAgICAgICAv
+Kgo+ID4gQEAgLTE3NCw3ICsxNzQsNyBAQCBzdGF0aWMgdm9pZCB2Ym94X2NydGNfc2V0X2Jhc2Vf
+YW5kX21vZGUoc3RydWN0IGRybV9jcnRjICpjcnRjLAo+ID4gICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBpbnQgeCwgaW50IHkpCj4gPiAgewo+ID4gICAgICAgc3RydWN0IGRy
+bV9nZW1fdnJhbV9vYmplY3QgKmdibyA9IGRybV9nZW1fdnJhbV9vZl9nZW0oZmItPm9ialswXSk7
+Cj4gPiAtICAgICBzdHJ1Y3QgdmJveF9wcml2YXRlICp2Ym94ID0gY3J0Yy0+ZGV2LT5kZXZfcHJp
+dmF0ZTsKPiA+ICsgICAgIHN0cnVjdCB2Ym94X3ByaXZhdGUgKnZib3ggPSB0b192Ym94X2Rldihj
+cnRjLT5kZXYpOwo+ID4gICAgICAgc3RydWN0IHZib3hfY3J0YyAqdmJveF9jcnRjID0gdG9fdmJv
+eF9jcnRjKGNydGMpOwo+ID4gICAgICAgYm9vbCBuZWVkc19tb2Rlc2V0ID0gZHJtX2F0b21pY19j
+cnRjX25lZWRzX21vZGVzZXQoY3J0Yy0+c3RhdGUpOwo+ID4KPiA+IEBAIC0yNzIsNyArMjcyLDcg
+QEAgc3RhdGljIHZvaWQgdmJveF9wcmltYXJ5X2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFu
+ZSAqcGxhbmUsCj4gPiAgewo+ID4gICAgICAgc3RydWN0IGRybV9jcnRjICpjcnRjID0gcGxhbmUt
+PnN0YXRlLT5jcnRjOwo+ID4gICAgICAgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIgPSBwbGFu
+ZS0+c3RhdGUtPmZiOwo+ID4gLSAgICAgc3RydWN0IHZib3hfcHJpdmF0ZSAqdmJveCA9IGZiLT5k
+ZXYtPmRldl9wcml2YXRlOwo+ID4gKyAgICAgc3RydWN0IHZib3hfcHJpdmF0ZSAqdmJveCA9IHRv
+X3Zib3hfZGV2KGZiLT5kZXYpOwo+ID4gICAgICAgc3RydWN0IGRybV9tb2RlX3JlY3QgKmNsaXBz
+Owo+ID4gICAgICAgdWludDMyX3QgbnVtX2NsaXBzLCBpOwo+ID4KPiA+IEBAIC03MDQsNyArNzA0
+LDcgQEAgc3RhdGljIGludCB2Ym94X2dldF9tb2RlcyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29u
+bmVjdG9yKQo+ID4gICAgICAgaW50IHByZWZlcnJlZF93aWR0aCwgcHJlZmVycmVkX2hlaWdodDsK
+PiA+Cj4gPiAgICAgICB2Ym94X2Nvbm5lY3RvciA9IHRvX3Zib3hfY29ubmVjdG9yKGNvbm5lY3Rv
+cik7Cj4gPiAtICAgICB2Ym94ID0gY29ubmVjdG9yLT5kZXYtPmRldl9wcml2YXRlOwo+ID4gKyAg
+ICAgdmJveCA9IHRvX3Zib3hfZGV2KGNvbm5lY3Rvci0+ZGV2KTsKPiA+Cj4gPiAgICAgICBoZ3Nt
+aV9yZXBvcnRfZmxhZ3NfbG9jYXRpb24odmJveC0+Z3Vlc3RfcG9vbCwgR1VFU1RfSEVBUF9PRkZT
+RVQodmJveCkgKwo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEhPU1RfRkxB
+R1NfT0ZGU0VUKTsKPiA+Cj4KPiAtLQo+IFRob21hcyBaaW1tZXJtYW5uCj4gR3JhcGhpY3MgRHJp
+dmVyIERldmVsb3Blcgo+IFNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSAo+IE1h
+eGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQo+IChIUkIgMzY4MDksIEFHIE7D
+vHJuYmVyZykKPiBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCj4KCgotLSAK
+RGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KKzQxICgw
+KSA3OSAzNjUgNTcgNDggLSBodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
