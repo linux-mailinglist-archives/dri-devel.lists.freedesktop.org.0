@@ -1,92 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C860C1A08E2
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 10:06:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5105B1A08EA
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 10:09:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36FEC89D5F;
-	Tue,  7 Apr 2020 08:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD5C389DBA;
+	Tue,  7 Apr 2020 08:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2074.outbound.protection.outlook.com [40.107.93.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8489F89D5F;
- Tue,  7 Apr 2020 08:06:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OkAPQrDMGtax1MJjnAFGH+Yt1u9CiWAJ91rfX/Rwb/IONbIhm51sVmH7x66KS+ZGm2JxG6EUhMBH04XpakOYs8z+/RsvIgQB+iIsQ4fm1QTexkoOBkgzbtHwgrcwbQv9uIyKTq12TwGCD3hEVM+timtoKNq/5b+ZVYP8vVRfYh496EqWx+mQqWtKe4Y+YCnNfehf35o4vJrTYeIpUTZB1A9FzuXuhVnYOk6z5UMIlxx2s7FxNjyi4lPOcx97ShIFBeouVQ95F4bfM5ShkmULxZTpAZKJM4aeKqOSejQGdjWi6L643AC+JcJSUiPxtctgZnvDqfKpH6b213aIv8+YQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MkaVg5kRMeMkZzyy++SucmTdE5xcoKwRr88lUny2Orw=;
- b=cqq+jNw5xOu/UL6GPOvneSBSuCcSmQMTSWAi8gggBlMWir4Ukyfa1a9zm39ev1PF9HCZEZWDmRr8LcIAcw0hLVuFWxWyiPlcOnYqutywhGzQVrdutZULxOs029fbPf/cprS6sKCwQNmsqu883NSP62p9XeQQFECWPS+TX5QRrWH+6BvNlLqylcOWBvpMBpoi6yX/qK1PItokgP6qcGbkr/7jSPBXxiI4elYY7S/6U8xkvACbr2kZO6tETlNU2OItItFP2VnOwNy8ORbSw2cbIbf70/G3VHRGWxwauHfc51631eFqMCHu4nY13klZ8uVCxEFTeA02kXRQaTRekCPUaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MkaVg5kRMeMkZzyy++SucmTdE5xcoKwRr88lUny2Orw=;
- b=2bKtUIzbJRdX2tEO8m5gjLiKZTZFR1fjnCBCHN097ECQp22lUxZFL5m+xtMXkLyHGU6+B3luNBB7+qIMnkwkrxR/nCsXyTmoGKdAMLJjK0TywLug4YnQ4hoVa1InWG9NKZioh0t/v7dkCiaLwKydksBtMjG69oVdrjG1pr4OIac=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Ray.Huang@amd.com; 
-Received: from MN2PR12MB3309.namprd12.prod.outlook.com (2603:10b6:208:106::29)
- by MN2PR12MB3344.namprd12.prod.outlook.com (2603:10b6:208:c5::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.16; Tue, 7 Apr
- 2020 08:06:42 +0000
-Received: from MN2PR12MB3309.namprd12.prod.outlook.com
- ([fe80::6417:7247:12ed:1d7b]) by MN2PR12MB3309.namprd12.prod.outlook.com
- ([fe80::6417:7247:12ed:1d7b%5]) with mapi id 15.20.2878.018; Tue, 7 Apr 2020
- 08:06:42 +0000
-Date: Tue, 7 Apr 2020 16:06:34 +0800
-From: Huang Rui <ray.huang@amd.com>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>
-Subject: Re: [PATCH 1/2] drm/ttm: clean up
- ttm_trace_dma_map/ttm_trace_dma_unmap
-Message-ID: <20200407080633.GB27094@jenkins-Celadon-RN>
-References: <1586241885-25422-1-git-send-email-ray.huang@amd.com>
- <19af654b-ca0b-3077-01bb-939c56b440b6@amd.com>
-Content-Disposition: inline
-In-Reply-To: <19af654b-ca0b-3077-01bb-939c56b440b6@amd.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: HK2PR02CA0212.apcprd02.prod.outlook.com
- (2603:1096:201:20::24) To MN2PR12MB3309.namprd12.prod.outlook.com
- (2603:10b6:208:106::29)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F04989DBA
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 08:08:55 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id x25so792697wmc.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 01:08:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=d7KRz0KTDg48oLgZa5d1A3RRcl9za7nLkIf7O00lbPw=;
+ b=hO5xZOkOTEa17FQaz2R19IJTNHYAptlTxncXvUWzU7UVA1mWMdevbGJqPM6VxiIrrY
+ 8UTrE5tNJmYU0ej6EVbAHmCymU2kykCpUdlheWE10ZznXl/vXMAd8mBZP1Qo3mfmA6wS
+ EC11Q+Zj1A9Lf8MLfrX7tPNdKmBTj2Y9SVxuQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=d7KRz0KTDg48oLgZa5d1A3RRcl9za7nLkIf7O00lbPw=;
+ b=H7J+udtDyYz3uV1j5NHobZP+5HcqbrL6pWH+H5pRQI5B9zZL9Ql0eu+oVK+a8xsRAn
+ usUkMk5fHqwEZzynVc1uwUwK51iU7MH8LJ2NroPahTiDHCsHSXcisRegUzHn0w0SpQcm
+ nw33gQYWkkfnumvpZJ7sQ61/5u6GqW/Ttob0A4UFOd+XeJmlcryl5l8pMoPacRctOwRS
+ Uv2N1SUNpedmVVKyX4vqFWlQ18kyd9SZDmm3J4nZ41QgRALW9TxRltJV88PKmL0/ndj+
+ b6l4aQrgnlNMxN97XItNKi1X4dwdFr4JCjkXPqg8/DLZPHo2qKIJOw/eDhyUQRDxa2vO
+ roVg==
+X-Gm-Message-State: AGi0PuZaU8gmpXS+Q7iPnwUyYB8rh6hNxhwpTgvgFW7vTbI4MY0W0XZZ
+ YEKCFo8RE+Q9JA4SxFOyUqGHQg==
+X-Google-Smtp-Source: APiQypKpWSewGwKB9P4+a3hN3b/I0Y31w8oPvUUGWjyj4PEzvrPNnoQtvydMRYP+d9riRle7FTL15A==
+X-Received: by 2002:a1c:f315:: with SMTP id q21mr1080557wmq.169.1586246933988; 
+ Tue, 07 Apr 2020 01:08:53 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 9sm1278026wmm.6.2020.04.07.01.08.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Apr 2020 01:08:53 -0700 (PDT)
+Date: Tue, 7 Apr 2020 10:08:51 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 3/3] drm/writeback: wire drm_writeback.h to kernel-doc
+Message-ID: <20200407080851.GH3456981@phenom.ffwll.local>
+References: <20200406194746.26433-1-sam@ravnborg.org>
+ <20200406194746.26433-4-sam@ravnborg.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from jenkins-Celadon-RN (180.167.199.189) by
- HK2PR02CA0212.apcprd02.prod.outlook.com (2603:1096:201:20::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2878.15 via Frontend Transport; Tue, 7 Apr 2020 08:06:41 +0000
-X-Originating-IP: [180.167.199.189]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 78c5a7d0-3ead-4689-a15a-08d7daca9b9c
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3344:|MN2PR12MB3344:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3344599D665281246E996FD1ECC30@MN2PR12MB3344.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-Forefront-PRVS: 036614DD9C
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3309.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10009020)(4636009)(376002)(136003)(366004)(346002)(39860400002)(396003)(54906003)(6636002)(16526019)(26005)(81156014)(9686003)(86362001)(316002)(5660300002)(186003)(478600001)(33716001)(2906002)(33656002)(8676002)(66556008)(55016002)(8936002)(81166006)(1076003)(4326008)(52116002)(450100002)(6666004)(66946007)(66476007)(6862004)(6496006)(956004);
- DIR:OUT; SFP:1101; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GQ1IhHhVdT4rsc9Oe5pFg3mrQd/1iLZUGTRjCbXygnHnK/FM+eSRc5KYIrlg6rla1F4Eim04+Ra+WJJO5I68k4XYkx2g4tc/SR7wEs9eECzZWXTHhmNqqjgSxsBUuU1WeKGcnbbIk21f1xlJk3KVgPGOuW5V4vkHsUn0hsPy+rM7uq0FjYx36E0D9JHL3kLIeZUrjfMvwUJIO9iLBp9d3df35huZpGqTj5uUqJoBq1i37AXyU6QJcp9Yx4oiK9tPDvNfPeF7Cv7ujMRy9Ixp1y578FBl8EkfZmFz9cXoTSJodgs0pXFOqVVDfvQ8tJPkS20qfTAdfJ3QdYjHrlgoSdEmu2LaIHTjT2ERdqhKlrfVp8po9fnp5zuzcYGfsIubMcmB2lgjKGCSFjXlRu3wa6FhuXU/HqY5Y1wtSsiuvJhn2wMlbA47f96JjbgHKn1+
-X-MS-Exchange-AntiSpam-MessageData: iLNKbedgc7+b5Ni/OalqZKQIPbCCxZS9JZ9IQ9IOh4An86/Gz1+53r6QB4aAHia4KhJ29r+m69pRmgA+SPAduSaaLUCIS0/j5Y4mOuQv9tLlE6VTgZQISQWb0JkiwvblA0OpuxtOQW40yz+528/Z/Q==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78c5a7d0-3ead-4689-a15a-08d7daca9b9c
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2020 08:06:42.8275 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C+dFBnSExJsUMrAjtjT/sGfQ7ohH91jkIicgKgPNnr3R1phKNlP3mpQnPBXW/d+SomrGgRbouO0ZAoTzOCiOtg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3344
+Content-Disposition: inline
+In-Reply-To: <20200406194746.26433-4-sam@ravnborg.org>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,51 +65,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 07, 2020 at 03:06:01PM +0800, Koenig, Christian wrote:
-> Am 07.04.20 um 08:44 schrieb Huang Rui:
-> > ttm_trace_dma_map/ttm_trace_dma_unmap is never used anymore. Move the pr_fmt
-> > prefix into this header.
-> >
-> > Signed-off-by: Huang Rui <ray.huang@amd.com>
-> > ---
-> >   include/drm/ttm/ttm_debug.h | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/include/drm/ttm/ttm_debug.h b/include/drm/ttm/ttm_debug.h
-> > index b5e460f..bd7cf37 100644
-> > --- a/include/drm/ttm/ttm_debug.h
-> > +++ b/include/drm/ttm/ttm_debug.h
-> > @@ -27,5 +27,5 @@
-> >   /*
-> >    * Authors: Tom St Denis <tom.stdenis@amd.com>
-> >    */
-> > -extern void ttm_trace_dma_map(struct device *dev, struct ttm_dma_tt *tt);
-> > -extern void ttm_trace_dma_unmap(struct device *dev, struct ttm_dma_tt *tt);
+On Mon, Apr 06, 2020 at 09:47:46PM +0200, Sam Ravnborg wrote:
+> drm_writeback.h included a lot of nice kernel-doc comments.
+> Wire it up so the header file is included in the kernel-doc
+> generated documentation.
 > 
-> I would just completely remove the file since it isn't used any more.
+> Added a few simple comments to the two structs so they
+> get picked up by kernel-doc.
 > 
-> > +
-> > +#define pr_fmt(fmt) "[TTM] " fmt
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Brian Starkey <brian.starkey@arm.com>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Maxime Ripard <mripard@kernel.org>
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  Documentation/gpu/drm-kms.rst | 3 +++
+>  include/drm/drm_writeback.h   | 9 +++++++++
+>  2 files changed, 12 insertions(+)
 > 
-> Oh, that is most likely not a good idea. The pr_fmt define should be set 
-> for each file individually or otherwise we could accidentally include 
-> the file in a driver.
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index e1f685015807..397314d08f77 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -397,6 +397,9 @@ Connector Functions Reference
+>  Writeback Connectors
+>  --------------------
+>  
+> +.. kernel-doc:: include/drm/drm_writeback.h
+> +  :internal:
+> +
+>  .. kernel-doc:: drivers/gpu/drm/drm_writeback.c
+>    :doc: overview
+>  
+> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+> index 777c14c847f0..9697d2714d2a 100644
+> --- a/include/drm/drm_writeback.h
+> +++ b/include/drm/drm_writeback.h
+> @@ -15,7 +15,13 @@
+>  #include <drm/drm_encoder.h>
+>  #include <linux/workqueue.h>
+>  
+> +/**
+> + * struct drm_writeback_connector - DRM writeback connector
+> + */
+>  struct drm_writeback_connector {
+> +	/**
+> +	 * @base: base drm_connector object
+> +	 */
+>  	struct drm_connector base;
+>  
+>  	/**
+> @@ -78,6 +84,9 @@ struct drm_writeback_connector {
+>  	char timeline_name[32];
+>  };
+>  
+> +/**
+> + * struct drm_writeback_job - DRM writeback job
+> + */
+>  struct drm_writeback_job {
+>  	/**
+>  	 * @connector:
+> -- 
+> 2.20.1
 > 
 
-OK. I will modify the patch to remove the header completely.
-
-Thanks,
-Ray
-
-> Regards,
-> Christian.
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
