@@ -2,39 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9C61A120E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 18:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 831871A1C25
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 08:59:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D84DC6E116;
-	Tue,  7 Apr 2020 16:50:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A8F16E962;
+	Wed,  8 Apr 2020 06:59:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6740C6E116
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 16:50:08 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 7955A80539;
- Tue,  7 Apr 2020 18:50:03 +0200 (CEST)
-Date: Tue, 7 Apr 2020 18:50:02 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/10] Set up generic fbdev after registering device
-Message-ID: <20200407165002.GC2220@ravnborg.org>
-References: <20200406134405.6232-1-tzimmermann@suse.de>
- <879068d4-3920-b8ee-2a3c-6cd4fe9d9f88@tronnes.org>
- <eedb5061-56b5-d8c8-6cfa-0ead5e65aaff@suse.de>
+X-Greylist: delayed 352 seconds by postgrey-1.36 at gabe;
+ Tue, 07 Apr 2020 17:13:43 UTC
+Received: from mupuf.org (mupuf.org [167.71.42.210])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B5CD46E8B5;
+ Tue,  7 Apr 2020 17:13:43 +0000 (UTC)
+Received: from Tuvok.girton.cam.ac.uk (unknown [131.111.247.158])
+ by Neelix.spliet.org (Postfix) with ESMTPSA id 5A1AE60059;
+ Tue,  7 Apr 2020 18:07:44 +0100 (BST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 Neelix.spliet.org 5A1AE60059
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=spliet.org;
+ s=default; t=1586279264;
+ bh=X2w2xDcagc/pQzEHWdXxCK1IYG8QR0417EdzNbry4Tc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=DOWZ/EXfvqSg8yDeIFWeG2rcJA4Xzu2CbbGgkVytxkNJsk931cXjyJvSbr4qdugiC
+ EVu39kEnzY4mhyPxmxl8VucXlg++UQ36Q8jtJH3t6KxE8MJ1IbBHZhhuNqxZA8gwmi
+ N+PAEUkm/vyjjN/ER0X9857Nn1ZZJmuQ6WJeLMpk=
+From: Roy Spliet <nouveau@spliet.org>
+To: dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org
+Subject: [PATCH] drm/msm/mdp5: Fix mdp5_init error path for failed mdp5_kms
+ allocation
+Date: Tue,  7 Apr 2020 18:07:37 +0100
+Message-Id: <20200407170737.66651-1-nouveau@spliet.org>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <eedb5061-56b5-d8c8-6cfa-0ead5e65aaff@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8
- a=SJz97ENfAAAA:8 a=eNWDtqN9bXa1qs2-eqwA:9 a=CjuIK1q_8ugA:10
- a=AjGcO6oz07-iQ99wixmX:22 a=vFet0B0WnEQeilDPIY6i:22
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,UNPARSEABLE_RELAY autolearn=ham
+ autolearn_force=no version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on Neelix
+X-Virus-Scanned: clamav-milter 0.102.2 at Neelix
+X-Virus-Status: Clean
+X-Mailman-Approved-At: Wed, 08 Apr 2020 06:59:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,50 +53,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, paul@crapouillou.net,
- kraxel@redhat.com, emil.velikov@collabora.com, xinliang.liu@linaro.org,
- kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com, chunkuang.hu@kernel.org,
- puck.chen@hisilicon.com, hdegoede@redhat.com, jsarha@ti.com,
- matthias.bgg@gmail.com, sean@poorly.run, zourongrong@gmail.com,
- tiantao6@hisilicon.com
+Cc: robdclark@chromium.org, Roy Spliet <nouveau@spliet.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas/Noralf.
+When allocation for mdp5_kms fails, calling mdp5_destroy() leads to undefined
+behaviour, likely a nullptr exception or use-after-free troubles.
 
-> > Having DRM core take care of fbdev emulation was an idea Laurent had
-> > which was the spark that set me off making the generic fbdev emulation.
-> > 
-> > Maybe it's still too early to make this move, I don't know.
-> 
-> I think we should wait a bit. As you mentioned, there are drivers that
-> have an fbdev bpp that differs from the preferred one. There might also
-> be a chicken-and-egg problem with core and fb-helper modules.
+Signed-off-by: Roy Spliet <nouveau@spliet.org>
+---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Noralf - you had analyzed what drivers are (yet) to migrate to
-to the common fbdev emulation.
-Link: https://lore.kernel.org/dri-devel/34e654ae-0cc9-e393-ac02-e4ac6eda60f6@tronnes.org/
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+index 6650f478b226..02c2c7d48bae 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+@@ -943,7 +943,8 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
+ 
+ 	return 0;
+ fail:
+-	mdp5_destroy(pdev);
++	if (mdp5_kms)
++		mdp5_destroy(pdev);
+ 	return ret;
+ }
+ 
+-- 
+2.25.2
 
-rmada
-gma500
-amd
-omapdrm
-nouveau
-i915
-msm
-tegra
-exynos
-radeon
-rockchip
-
-Maybe add this list to todo.rst - and if someone knows about it
-we could have a small description what is required before a
-driver can migrate.
-I can cook up the patch if anyone thinks this is useful.
-
-	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
