@@ -1,66 +1,107 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7F01A0CCB
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 13:26:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6F41A0D26
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 13:59:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED7289193;
-	Tue,  7 Apr 2020 11:26:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17A2D6E843;
+	Tue,  7 Apr 2020 11:59:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74F9A89193
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 11:26:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 643853F368;
- Tue,  7 Apr 2020 13:26:42 +0200 (CEST)
-Authentication-Results: pio-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="piIxwkkk";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Vt4K3mBNS09h; Tue,  7 Apr 2020 13:26:41 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 221013F332;
- Tue,  7 Apr 2020 13:26:36 +0200 (CEST)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 3941D360153;
- Tue,  7 Apr 2020 13:26:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1586258796; bh=+12Mq5JWJsxkinHtNYSI6cx13fzoS7KcCMTCX6BhLGU=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=piIxwkkkLZtVXLkSsBihv4EBeAbqPIMXEHGRNcwFHpIHptwXbmT412OMcik/NkAMb
- 9hVLdnvGQzBVm/tYKlT9OG+0bNW/WV+IoNBYlHyZyFvXMVz6Cx2INk93o1baclh8fH
- 5nVo5XXLMOGPE3PglGBTdep+S8d8VUpf2HKORMTA=
-Subject: Re: Bad rss-counter state from drm/ttm, drm/vmwgfx: Support huge TTM
- pagefaults
-To: "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org
-References: <1586138158.v5u7myprlp.none.ref@localhost>
- <1586138158.v5u7myprlp.none@localhost>
- <0b12b28c-5f42-b56b-ea79-6e3d1052b332@shipmail.org>
- <1586219716.1a3fyi6lh5.none@localhost>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <37624a1f-8e6b-fe9c-8e0e-a9139e1bbe18@shipmail.org>
-Date: Tue, 7 Apr 2020 13:26:35 +0200
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEB0C6E84E
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 11:59:39 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 037Bx97i027208;
+ Tue, 7 Apr 2020 06:59:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1586260749;
+ bh=9u7Uej1h6QejZ1/SDsJ+yzTpFCRu7R9oWkmrZfDoVjo=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=X0+0SQ6gnqYXm8lqrRIwJZDSNCkgF2Vr+WPh5XAb1s+LRlqH63hu7lhloMP7R7Ee4
+ gT18qeduV0HEMrRi1yRUfJVWCuOp5aQOJjzBOh3YUlPDsrkzZ7X/3ACthumXQa5pZX
+ PhgI0vzV45tMbzVgcjnKQZFQE35X/G2nxW368f0o=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 037Bx9Mj004838;
+ Tue, 7 Apr 2020 06:59:09 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 7 Apr
+ 2020 06:59:09 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 7 Apr 2020 06:59:09 -0500
+Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 037Bx40t003850;
+ Tue, 7 Apr 2020 06:59:05 -0500
+Subject: Re: [PATCH 07/10] drm/tilcdc: Set up fbdev after fully registering
+ device
+To: Thomas Zimmermann <tzimmermann@suse.de>, <noralf@tronnes.org>,
+ <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <xinliang.liu@linaro.org>, <zourongrong@gmail.com>,
+ <john.stultz@linaro.org>, <kong.kongxinwei@hisilicon.com>,
+ <puck.chen@hisilicon.com>, <paul@crapouillou.net>,
+ <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>,
+ <matthias.bgg@gmail.com>, <tomi.valkeinen@ti.com>, <sean@poorly.run>,
+ <hdegoede@redhat.com>, <kraxel@redhat.com>,
+ <emil.velikov@collabora.com>, <sam@ravnborg.org>,
+ <yc_chen@aspeedtech.com>, <tiantao6@hisilicon.com>
+References: <20200406134405.6232-1-tzimmermann@suse.de>
+ <20200406134405.6232-8-tzimmermann@suse.de>
+From: Jyri Sarha <jsarha@ti.com>
+Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <ea7b71f9-8759-270d-1434-efcf9f6482dc@ti.com>
+Date: Tue, 7 Apr 2020 14:59:03 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <1586219716.1a3fyi6lh5.none@localhost>
-Content-Language: en-US
+In-Reply-To: <20200406134405.6232-8-tzimmermann@suse.de>
+Content-Language: en-GB
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,37 +114,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ralph Campbell <rcampbell@nvidia.com>, Michal Hocko <mhocko@suse.com>,
- pv-drivers@vmware.com, Roland Scheidegger <sroland@vmware.com>,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- linux-graphics-maintainer@vmware.com,
- Andrew Morton <akpm@linux-foundation.org>,
- Dan Williams <dan.j.williams@intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNC83LzIwIDI6MzggQU0sIEFsZXggWHUgKEhlbGxvNzEpIHdyb3RlOgo+IEV4Y2VycHRzIGZy
-b20gVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2FyZSkncyBtZXNzYWdlIG9mIEFwcmlsIDYsIDIwMjAg
-NTowNCBwbToKPj4gSGksCj4+Cj4+IE9uIDQvNi8yMCA5OjUxIFBNLCBBbGV4IFh1IChIZWxsbzcx
-KSB3cm90ZToKPj4+IFVzaW5nIDMxNGI2NTggd2l0aCBhbWRncHUsIHN0YXJ0aW5nIHN3YXkgYW5k
-IGZpcmVmb3ggY2F1c2VzICJCVUc6IEJhZAo+Pj4gcnNzLWNvdW50ZXIgc3RhdGUiIGFuZCAiQlVH
-OiBub24temVybyBwZ3RhYmxlc19ieXRlcyBvbiBmcmVlaW5nIG1tIiB0bwo+Pj4gc3RhcnQgZmls
-bGluZyBkbWVzZywgYW5kIHRoZW4gY2xvc2luZyBwcm9ncmFtcyBjYXVzZXMgbW9yZSBCVUdzIGFu
-ZAo+Pj4gaGFuZ3MsIGFuZCB0aGVuIGV2ZXJ5dGhpbmcgZ3JpbmRzIHRvIGEgaGFsdCAoY2FuJ3Qg
-c3RhcnQgbW9yZSBwcm9ncmFtcywKPj4+IGNhbid0IGV2ZW4gcmVib290IHRocm91Z2ggc3lzdGVt
-ZCkuCj4+Pgo+Pj4gVXNpbmcgbWFzdGVyIGFuZCByZXZlcnRpbmcgdGhhdCBicmFuY2ggdXAgdG8g
-dGhhdCBwb2ludCBmaXhlcyB0aGUKPj4+IHByb2JsZW0uCj4+Pgo+Pj4gSSdtIHVzaW5nIGEgUnl6
-ZW4gMTYwMCBhbmQgQU1EIFJhZGVvbiBSWCA0ODAgb24gYW4gQVNSb2NrIEI0NTAgUHJvNAo+Pj4g
-Ym9hcmQgd2l0aCBJT01NVSBlbmFibGVkLgo+PiBJZiB5b3UgY291bGQgdHJ5IHRoZSBhdHRhY2hl
-ZCBwYXRjaCwgdGhhdCdkIGJlIGdyZWF0IQo+Pgo+PiBUaGFua3MsCj4+Cj4+IFRob21hcwo+Pgo+
-IFllYWgsIHRoYXQgd29ya3MgdG9vLiBLZXJuZWwgY29uZmlnIHNlbnQgb2ZmLWxpc3QuCj4KPiBS
-ZWdhcmRzLAo+IEFsZXguCgpUaGFua3MuIERvIHlvdSB3YW50IG1lIHRvIGFkZCB5b3VyCgpSZXBv
-cnRlZC1ieTogYW5kIFRlc3RlZC1ieTogVG8gdGhpcyBwYXRjaD8KCi9UaG9tYXMKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 06/04/2020 16:44, Thomas Zimmermann wrote:
+> Generic fbdev support is a DRM client. Set it up after fully registering
+> the new DRM device.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Acked-by: Jyri Sarha <jsarha@ti.com>
+
+However, this change hardly makes any difference, as the only place
+where "is_registere"'s value is checked is in tilcdc_fini() which is
+also called to cleanup the resources if tilcdc_init() fails.
+
+Best regards,
+Jyri
+
+> ---
+>  drivers/gpu/drm/tilcdc/tilcdc_drv.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> index 78c1877d13a83..a5e9ee4c7fbf4 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> @@ -390,10 +390,9 @@ static int tilcdc_init(struct drm_driver *ddrv, struct device *dev)
+>  	ret = drm_dev_register(ddev, 0);
+>  	if (ret)
+>  		goto init_failed;
+> +	priv->is_registered = true;
+>  
+>  	drm_fbdev_generic_setup(ddev, bpp);
+> -
+> -	priv->is_registered = true;
+>  	return 0;
+>  
+>  init_failed:
+> 
+
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
