@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 841FD1A089A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 09:48:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BF11A1C1F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 08:59:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D44C6E575;
-	Tue,  7 Apr 2020 07:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 422AB6E958;
+	Wed,  8 Apr 2020 06:59:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8543C6E575
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 07:48:15 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id r26so757405wmh.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 00:48:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=bcEkOFfXXZd5u9NKuCuDe0ahlWfUYDe/CDpcHq/UZio=;
- b=O+9BI8Qvat3IFPNY730pzXmSTxvnPnEa3mVqAP3zJEyANUoSSGTEACv/fPgPj2J1Mu
- tY6WyPgg2nZPaYWktWlXGQkyvtUmrToJagfwQADQBisZBF1tYY5v+Tv6g+CMG1+1kiLS
- 0PvCJwibSlx1rje2e0Zs74L7yJrL3fvP0Enic=
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 043EB6E57A;
+ Tue,  7 Apr 2020 07:51:05 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id i16so2811115edy.11;
+ Tue, 07 Apr 2020 00:51:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zkfuDW17jfkPN1dCvN8DHeX6MUz3FMaoF3kV8FxBJ2Y=;
+ b=vLE0V+tdU0sJbSxOeICNFbYJOLKyLEFwi3JYfBEboXICdwGBGqilq2PXLZX5Z9UE1E
+ EIyTtsIfw0UZ8KDU0B87ExHk44lnLZvoFghaW+3YohtUU1i9TwCs+JfEi0aZAFcIxUqS
+ GoHI/xFGBOmTlQEkq4caOE15Es5YkBVe4l2xx25soonPGr6SbX5LJv2wkde7wPgeBk2N
+ 4m6kECgV2sxOKWnYeYw4q9eUcJDMPklKhgOMcbmzkJkja4/EWEbXnERQOYhIrwkOQ/5r
+ A9liqnRISloCAw/7BBsspEg3GBXmbraH/JuxGuHw4SrvMGAXPgByirROtJedC+ha7sAK
+ aE4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bcEkOFfXXZd5u9NKuCuDe0ahlWfUYDe/CDpcHq/UZio=;
- b=TyOuGhsqHOjTWbPm5R32E1LPlTnCdFzE7BmT6+mIwRRJ1CjIIboKVjfg4a2VdyBnz9
- dznx/5A6BGGGC3z/IdJfJCLgMSps79BTGOj2HOlogW5B4jTCYSPAkUdcoQMjX84GaXdE
- Xt6sEVg06sk3l38kWHfqsFCUKXruwOAWajoJ5/qz2HIy51Pqgk1ednTsaLiDcwRl4g6A
- pwPZ/Z1pFI0/7SvrA2n3RkYG+Jziqo0ZL238NbMM0UYnCOzjUsYeGAfC/fAzO9c0hpnb
- 0yqcgGkKTVJCNYTLVaE6NqsWV6RSl3GhVDKlkfAcVhOc1KmLDw3BVty32jYUiIfw7Rd1
- hcmQ==
-X-Gm-Message-State: AGi0Pua+eNmCiKSyeuA+wIMKSmLde3V8kW/aMAEsI0zbGj0nccC4+oLY
- Do0BqeEuX0UK8P7uIWcTBewYDg==
-X-Google-Smtp-Source: APiQypJ6TF2PRlgMW3si5sFyqj9PDKd6b5q0tTI80zMh8Qjx9XM3TK72SV3+cZjkvDYzStOmyE1D7g==
-X-Received: by 2002:a7b:c404:: with SMTP id k4mr953343wmi.37.1586245694137;
- Tue, 07 Apr 2020 00:48:14 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id r3sm30545628wrm.35.2020.04.07.00.48.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Apr 2020 00:48:13 -0700 (PDT)
-Date: Tue, 7 Apr 2020 09:48:11 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH] drm: plane: Verify that no or all planes have a zpos
- property
-Message-ID: <20200407074811.GE3456981@phenom.ffwll.local>
-References: <20200404181253.25873-1-laurent.pinchart+renesas@ideasonboard.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zkfuDW17jfkPN1dCvN8DHeX6MUz3FMaoF3kV8FxBJ2Y=;
+ b=CxwFyz5j46EKEpAKc2pOhWUflsyhkjhJ/iZ3dzgCGA4hdFfdWYy1LS8uo3Xoj3QaVr
+ ajIIxTHQbsf0u+p01KmGOXGO+BCw8NZKEXJpnoPUO57fxhT1vB5kxpqGFVv0klzaaSSM
+ KdRb+a4hPljg8v9APE/yLg+yysDGd6hBJsDNai2XHdIOAw3eYIFY/wvNKNIom3rKZN6v
+ 5F72SWo7j4PrS45bQelUOtH7n6J6kZ2qldHT1KXXhSxtlWzIZ7O3VPzCKrzM1dQA+dYi
+ TjyTKdLw5kwe2HdQlWSU1Tz1+p45qcSYE/x0hPTG0fdiA0G2eazd8CBOdoflWDfIwuwc
+ +v5A==
+X-Gm-Message-State: AGi0PubA1bvWLc32CLWuwNVvEz7viS+Z6VDhcEj6iYWJ/cEqY4QQ18MY
+ Vhz+NGhFyUDF+AjUO/zZ/PtNEKofn9uhQ1AD54Y=
+X-Google-Smtp-Source: APiQypImMzBGUEo242NfHFmzuORygzwJdX5VTMNa3UBdn3sWFqwEZRmYuLMv61x8a3JnQ9OfGBT1vNbbaJ2OsT5Vgdc=
+X-Received: by 2002:a17:906:55d2:: with SMTP id
+ z18mr770800ejp.359.1586245864611; 
+ Tue, 07 Apr 2020 00:51:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200404181253.25873-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+References: <CAJgxT3-11eZqvysgCQMCYtKEUVsNWWHd+7au91uNC7SWK1Fyug@mail.gmail.com>
+ <20200403111411.5e4e6bfe@eldfell.localdomain>
+ <CABDcavY_00eeD-zR-CZNCwFdBL56DcFh4yAO_W4t+xC3j_qsow@mail.gmail.com>
+ <20200403130306.1b4a171c@eldfell.localdomain>
+In-Reply-To: <20200403130306.1b4a171c@eldfell.localdomain>
+From: Guillermo Rodriguez <guillerodriguez.dev@gmail.com>
+Date: Tue, 7 Apr 2020 09:50:53 +0200
+Message-ID: <CABDcavaL10gf-40VYqCQRGwV9exeJUWL9YLMM295J6rUpdRyiw@mail.gmail.com>
+Subject: Re: Aliases for DRI connectors?
+To: Pekka Paalanen <ppaalanen@gmail.com>
+X-Mailman-Approved-At: Wed, 08 Apr 2020 06:59:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,101 +66,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Matt Hoosier <matt.hoosier@gmail.com>, dri-devel@lists.freedesktop.org,
+ wayland mailing list <wayland-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 04, 2020 at 09:12:53PM +0300, Laurent Pinchart wrote:
-> The zpos property is used by userspace to sort the order of planes.
-> While the property is not mandatory for drivers to implement, mixing
-> planes with and without zpos confuses userspace, and shall not be
-> allowed. Clarify this in the documentation and warn at runtime if the
-> drivers mixes planes with and without zpos properties.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/drm_blend.c | 10 ++++++----
->  drivers/gpu/drm/drm_plane.c |  9 +++++++++
->  2 files changed, 15 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-> index 88eedee018d3..f1dcad96f341 100644
-> --- a/drivers/gpu/drm/drm_blend.c
-> +++ b/drivers/gpu/drm/drm_blend.c
-> @@ -135,7 +135,9 @@
->   *	are underneath planes with higher Z position values. Two planes with the
->   *	same Z position value have undefined ordering. Note that the Z position
->   *	value can also be immutable, to inform userspace about the hard-coded
-> - *	stacking of planes, see drm_plane_create_zpos_immutable_property().
-> + *	stacking of planes, see drm_plane_create_zpos_immutable_property(). If
-> + *	any plane has a zpos property (either mutable or immutable), then all
-> + *	planes shall have a zpos property.
->   *
->   * pixel blend mode:
->   *	Pixel blend mode is set up with drm_plane_create_blend_mode_property().
-> @@ -344,10 +346,10 @@ EXPORT_SYMBOL(drm_rotation_simplify);
->   * should be set to 0 and max to maximal number of planes for given crtc - 1.
->   *
->   * If zpos of some planes cannot be changed (like fixed background or
-> - * cursor/topmost planes), driver should adjust min/max values and assign those
-> - * planes immutable zpos property with lower or higher values (for more
-> + * cursor/topmost planes), drivers shall adjust the min/max values and assign
-> + * those planes immutable zpos properties with lower or higher values (for more
->   * information, see drm_plane_create_zpos_immutable_property() function). In such
-> - * case driver should also assign proper initial zpos values for all planes in
-> + * case drivers shall also assign proper initial zpos values for all planes in
->   * its plane_reset() callback, so the planes will be always sorted properly.
->   *
->   * See also drm_atomic_normalize_zpos().
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index d6ad60ab0d38..efb9c16ddc21 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -289,6 +289,8 @@ EXPORT_SYMBOL(drm_universal_plane_init);
->  
->  int drm_plane_register_all(struct drm_device *dev)
->  {
-> +	unsigned int num_planes = 0;
-> +	unsigned int num_zpos = 0;
->  	struct drm_plane *plane;
->  	int ret = 0;
->  
-> @@ -297,8 +299,15 @@ int drm_plane_register_all(struct drm_device *dev)
->  			ret = plane->funcs->late_register(plane);
->  		if (ret)
->  			return ret;
-> +
-> +		if (plane->zpos_property)
-> +			num_zpos++;
-> +		num_planes++;
->  	}
->  
-> +	drm_WARN(dev, num_planes != num_zpos,
-
-0day spotted that you should change this to num_zpos && num_zpos ==
-num_planes. Otherwise it doesn't really implement what you claim it does
-implement. With that fixed:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> +		 "Mixing planes with and without zpos property is invalid\n");
-> +
->  	return 0;
->  }
->  
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgUGVra2EsCgpFbCB2aWUuLCAzIGFici4gMjAyMCBhIGxhcyAxMjowMywgUGVra2EgUGFhbGFu
+ZW4KKDxwcGFhbGFuZW5AZ21haWwuY29tPikgZXNjcmliacOzOgo+Cj4gT24gRnJpLCAzIEFwciAy
+MDIwIDEwOjI4OjUyICswMjAwCj4gR3VpbGxlcm1vIFJvZHJpZ3VleiA8Z3VpbGxlcm9kcmlndWV6
+LmRldkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gPiBIaSBQZWtrYSwKPiA+Cj4gPiBFbCB2aWUuLCAz
+IGFici4gMjAyMCBhIGxhcyAxMDoxNCwgUGVra2EgUGFhbGFuZW4KPiA+ICg8cHBhYWxhbmVuQGdt
+YWlsLmNvbT4pIGVzY3JpYmnDszoKPiA+ID4KPiA+ID4gT24gV2VkLCAxIEFwciAyMDIwIDE0OjM4
+OjM3IC0wNTAwCj4gPiA+IE1hdHQgSG9vc2llciA8bWF0dC5ob29zaWVyQGdtYWlsLmNvbT4gd3Jv
+dGU6Cj4gPiA+Cj4gPiA+ID4gSSdtIHNlYXJjaGluZyBmb3Igc29tZSBzb3J0IG9mIHNjaGVtZSB0
+aGF0IHdpbGwgbGV0IG15IERSSSBtYXN0ZXIgcXVlcnkgdGhlCj4gPiA+ID4gc2V0IG9mIGF2YWls
+YWJsZSBjb25uZWN0b3JzIGFuZCBzZWxlY3QgdGhlIG9uZSBjYXJyeWluZyBhIHByZWFycmFuZ2Vk
+Cj4gPiA+ID4gZGVzaWduYXRpb24uIFRoZSBwcm9ibGVtIEknbSB0cnlpbmcgdG8gc29sdmUgaXMg
+dG8gYWxsb3cgZGVwbG95aW5nIG9uZQo+ID4gPiA+IHN0YW5kYXJkaXplZCB1c2Vyc3BhY2UgY29t
+cG9uZW50IGFjcm9zcyBhIGZsZWV0IG9mIGRldmljZXMgdGhhdCBoYXZlCj4gPiA+ID4gdmFyeWlu
+ZyBudW1iZXJzIG9mIGRpc3BsYXlzLCB3aXRoIHRoZSB1c2UgY2FzZXMgbm90IGFsd2F5cyBkcml2
+ZW4gb24gdGhlCj4gPiA+ID4gc2FtZSBjb25uZWN0b3IgdG9wb2xvZ2ljYWxseS4KPiA+ID4gPgo+
+ID4gPiA+IEkgaGFkIGEgbG9vayBhcm91bmQgdGhlIHByb3BlcnRpZXMgYXZhaWxhYmxlIG9uIG15
+IHN5c3RlbSdzIERSSSBjb25uZWN0b3JzLAo+ID4gPiA+IGFuZCBub3RoaW5nIGltbWVkaWF0ZSBq
+dW1wZWQgb3V0IGF0IG1lLiBJcyB0aGVyZSBhIHN0YW5kYXJkIGNvbm5lY3Rvcgo+ID4gPiA+IHBy
+b3BlcnR5IHRoYXQgKGFzc3VtaW5nIEkgY2FuIGZpbmQgdGhlIHJpZ2h0IHBsYWNlIGluIERldmlj
+ZVRyZWUgb3Igc2ltaWxhcgo+ID4gPiA+IHRvKSB0aGF0IHdvdWxkIGJlIGEgZ29vZCBmaXQgZm9y
+IHRoaXM/Cj4gPiA+Cj4gPiA+IEhpLAo+ID4gPgo+ID4gPiBJJ3ZlIG5ldmVyIGhlYXJkIG9mIGEg
+dGhpbmcgdGhhdCBjb3VsZCBhY2NvbXBsaXNoIHRoYXQuIERSTSBjb25uZWN0b3IKPiA+ID4gbmFt
+ZXMgYXJlIG5vdCBldmVuIGFjdHVhbGx5IGNvbW11bmljYXRlZCB0byB1c2Vyc3BhY2UuIFdoYXQg
+dXNlcnNwYWNlCj4gPiA+IHNlZXMgaXMgY29ubmVjdG9yIHR5cGUgKGVudW0pIGFuZCBzb21lIGNv
+dW50ZXIgbnVtYmVycyAod2hpY2ggYXJlIG5vdAo+ID4gPiBwZXJzaXN0ZW50LCBzbyBub3QgcmVs
+aWFibGUgaWYgeW91IGhhdmUgZS5nLiBtdWx0aXBsZSBEUk0gZHJpdmVycwo+ID4gPiByYWNpbmcg
+dG8gaW5pdGlhbGl6ZSksCj4gPgo+ID4gSSBtYXkgYmUgbWlzcmVhZGluZyB5b3UsIGJ1dCBkb2Vz
+IHRoaXMgbWVhbiB0aGF0IHRoZSBjb25uZWN0b3IgbmFtZXMKPiA+IHVzZWQgaW4gdGhlIFtvdXRw
+dXRdIHNlY3Rpb24gb2YgdGhlIHdlc3Rvbi5pbmkgY29uZmlndXJhdGlvbiBmaWxlIGFyZQo+ID4g
+bm90IHJlbGlhYmxlPwo+Cj4gWWVzLCB0aGV5IGFyZSBub3QgZ2VuZXJhbGx5IHJlbGlhYmxlLiBU
+aGV5IGFyZSByZWxpYWJsZSBlbm91Z2ggaW4gbW9zdAo+IGNhc2VzLCBwYXJ0aWN1bGFybHkgaWYg
+eW91IGhhdmUgb25seSBvbmUgRFJNIGRldmljZSB3aXRoIGNvbm5lY3RvcnMuCj4gRFJNIGRyaXZl
+cnMgdGhlbXNlbHZlcyBvZnRlbiBtYW5hZ2UgdG8gbm90IHJhY2UgaW50ZXJuYWxseSwgc28gdGhl
+eSBhcmUKPiBmYWlybHkgY29uc2lzdGVudCBpbiB3aGF0IG9yZGVyIHRoZXkgY3JlYXRlIHRoZWly
+IGNvbm5lY3RvcnMgcGVyIGRldmljZS4KPgo+IFhvcmcgaGFzIHRoZSBleGFjdCBzYW1lIHByb2Js
+ZW0gSUlSQywgYXMgaGFzIHByb2JhYmx5IGFueSBkaXNwbGF5Cj4gc2VydmVyIG9uIExpbnV4LiBU
+aGlzIG1lYW5zIHRoYXQgdG8gZmluZCBhIGNhc2Ugd2hlcmUgdGhlIHJlbGlhYmlsaXR5Cj4gYWN0
+dWFsbHkgYnJlYWtzIGRvd24geW91IGhhdmUgdG8gdHJ5IHF1aXRlIGhhcmQgb3IgYmUgdmVyeSB1
+bmx1Y2t5LAo+IHNpbmNlIGl0IGhhcyBnb25lIHVuZml4ZWQgZm9yIHNvIGxvbmcuCj4KPiBMaWtl
+d2lzZSB5b3UgY2Fubm90IHJlbHkgdGhhdCAvZGV2L2RyaS9jYXJkMCBpcyBhbHdheXMgdGhlIHNh
+bWUgZGV2aWNlCj4gaWYgeW91IGhhdmUgbXVsdGlwbGUuIFRoYXQgaXNzdWUgaXMgc2hvd2luZyB1
+cCBhIGxpdHRsZSBtb3JlIHRoYW4gdGhlCj4gY29ubmVjdG9yIG5hbWluZyBpc3N1ZS4gSGVuY2Ug
+L2Rldi9kcmkvYnktcGF0aC8gYWxpYXNlcyBleGlzdC4gTmV0d29yawo+IGRldmljZXMgaGF2ZSBo
+aXQgdGhlIHNhbWUgbmFtaW5nIHByb2JsZW0gYSBsb25nIHRpbWUgYWdvIGFscmVhZHksIGhlbmNl
+Cj4gd2Ugbm93YWRheXMgaGF2ZSAiUHJlZGljdGFibGUgTmV0d29yayBJbnRlcmZhY2UgTmFtZXMi
+Lgo+Cj4gPiBUaGVuIHdoYXQgaXMgdGhlIHByb3BlciB3YXkgdG8gY29uZmlndXJlIG9uZSBzcGVj
+aWZpYyAocGh5c2ljYWwpCj4gPiBvdXRwdXQgaW4gV2VzdG9uPwo+Cj4gVGhlcmUgaXMgbm8gYmV0
+dGVyIHdheSB5ZXQuIEkndmUgaGFkIHNvbWUgaWRlYXMsIGJ1dCBubyB0aW1lIHRvIGxvb2sKPiBp
+bnRvIHRoZW0uCj4KPiBNU1QgY29ubmVjdG9ycyBoYXZlIGEgS01TIHByb3BlcnR5IGZvciB0aGUg
+aGFyZHdhcmUgcGF0aCwgYnV0IFdlc3Rvbgo+IGRvZXMgbm90IGxvb2sgYXQgdGhhdCwgYW5kIHRo
+ZSBvdGhlciBjb25uZWN0b3JzIGRvbid0IGV2ZW4gaGF2ZSBpdC4KCk9rIHNvIHRoaXMgaXMgYSBr
+bm93biAicHJvYmxlbSIgd2hpY2ggaGFzIG5ldmVyIGJlZW4gZml4ZWQsIHByb2JhYmx5CmJlY2F1
+c2UgaW4gbW9zdCBjYXNlcyAoc2luZ2xlIERSTSBkZXZpY2UpIHRoZSBjdXJyZW50IHNvbHV0aW9u
+IGlzIGdvb2QKZW5vdWdoLgoKVGhhbmsgeW91IGZvciB0aGUgY2xhcmlmaWNhdGlvbi4KCkJSLAoK
+R3VpbGxlcm1vIFJvZHJpZ3VleiBHYXJjaWEKZ3VpbGxlLnJvZHJpZ3VlekBnbWFpbC5jb20KX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
