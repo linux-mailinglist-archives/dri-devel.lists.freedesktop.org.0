@@ -1,59 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883E21A1C28
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 08:59:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 156931A0ADF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 12:14:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6078C6E961;
-	Wed,  8 Apr 2020 06:59:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9E186E80B;
+	Tue,  7 Apr 2020 10:14:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB0D96E804
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 09:58:06 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id y25so2172115qtv.7
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 02:58:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XlRrtk04Drccp1IaTlKa1DPuRVn27tHDYLsET4EpF9I=;
- b=wA6RVWrGZsTvyQtipGlQPkx/zUrMle6j/PotPS/Ubl+1rUlzDuQJHGGTaWn9pBGS94
- 16eiWdiG0Uj54QLqStMqvzt0Vrq+V/aGzVTBBEKpa6GoDtAtJ3Nwfa2MD4il9MQsiZu0
- +0YaAJkHWlROCy7YvKoMm3EGWcRaXOX3FgiFrZJ99qtqsJEnvq7c99tBL02yA0kMadQJ
- 3gMAPBRwaQi4ggynes7NGTM0NIeFUdLAuw0OMg+zsQaJgY/v9/KSEqpLpWFaBdYbDldX
- JLo5MsaJ9O2qScwUxYoer4R5IylAMN5UZ5C0/vp0fPMln72xoMrG/HMyoY/yznxhyxS6
- iz/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XlRrtk04Drccp1IaTlKa1DPuRVn27tHDYLsET4EpF9I=;
- b=oVyDUKNd7n5Auwd5vkHxlci1q0MdzktnFFeoSZkiu14ci6BzSjWut6nRpTleFm7kwQ
- ZMb+u4txzTR73KBkPehgrTDzJBdkdC84mBprjGMasd8TtXyhWX7H4yjV2Owl8j9bZY+2
- 1xtqo3+aortiS1Es2Pz1yFha/Nd2gzMU8tzFUxSOu4xmHeTMJ+VsfsiDqskiznADUofb
- mhQkZ552uel5DJ226zAR97FSMd8n1PvulHxx7RfyxafBpSk9Xb9PU0vgLve+T8kwSVUt
- L7Ihi5waDD0DNwpyGuCTtgQ4fXHr0aBwcmMOV/q8HwfcC45sFYtBjQ1wHV6L6DGFZYvE
- oPSQ==
-X-Gm-Message-State: AGi0PuZF1Yjq/aUknJGR3Nlg6b9Kli/jSzxGQKD2Gl7ra1O3DBhlZ8Qa
- tkd9CxiyQ2fq+Ecj8l7DBKOHFY9HHBwivb1SUR+O4g==
-X-Google-Smtp-Source: APiQypIVkup6lPiinv10OxautZSlD/0H+G8ygJP+Y1zlmhVZq44N0hs/Atb3q7hlgMorG94PI0Jdbec7sG00UJjWQWk=
-X-Received: by 2002:ac8:370c:: with SMTP id o12mr1366857qtb.380.1586253485793; 
- Tue, 07 Apr 2020 02:58:05 -0700 (PDT)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA5676E80B
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 10:14:03 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 3172420021;
+ Tue,  7 Apr 2020 12:13:56 +0200 (CEST)
+Date: Tue, 7 Apr 2020 12:13:54 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 00/10] Set up generic fbdev after registering device
+Message-ID: <20200407101354.GA12686@ravnborg.org>
+References: <20200406134405.6232-1-tzimmermann@suse.de>
+ <20200406200051.GA26582@ravnborg.org>
+ <fe7d4cbb-5e44-60fb-c54a-6cb975154ad7@suse.de>
 MIME-Version: 1.0
-References: <00000000000091056b05a2999f1e@google.com>
- <CACT4Y+b4RcgG_GrcpaghmqhX47zUVsAcGGd6vb6MYJT=6gf89g@mail.gmail.com>
- <20200406080612.v5ubxvyliuso6v5h@sirius.home.kraxel.org>
- <CAKMK7uE9uQ_YCXfDOH9zQBu_ffoz546hqRd1R_r1+L-T072Lew@mail.gmail.com>
- <20200406131602.ggugjwkm36r4zvkr@sirius.home.kraxel.org>
-In-Reply-To: <20200406131602.ggugjwkm36r4zvkr@sirius.home.kraxel.org>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Tue, 7 Apr 2020 11:57:54 +0200
-Message-ID: <CACT4Y+aF1fNRgq_1a2NnVdy9epQvy5TzRF8VQ8OUSSkh6HAc0g@mail.gmail.com>
-Subject: Re: upstream boot error: KASAN: slab-out-of-bounds Write in
- virtio_gpu_object_create
-To: Gerd Hoffmann <kraxel@redhat.com>
-X-Mailman-Approved-At: Wed, 08 Apr 2020 06:59:23 +0000
+Content-Disposition: inline
+In-Reply-To: <fe7d4cbb-5e44-60fb-c54a-6cb975154ad7@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=7gkXJVJtAAAA:8
+ a=VwQbUJbxAAAA:8 a=PeMLKsBA2vLvDOwWRwIA:9 a=wPNLvfGTeEIA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,47 +47,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- syzbot <syzbot+d3a7951ed361037407db@syzkaller.appspotmail.com>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- LKML <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>,
- "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, paul@crapouillou.net,
+ kraxel@redhat.com, emil.velikov@collabora.com, xinliang.liu@linaro.org,
+ kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com, chunkuang.hu@kernel.org,
+ puck.chen@hisilicon.com, hdegoede@redhat.com, jsarha@ti.com,
+ matthias.bgg@gmail.com, sean@poorly.run, zourongrong@gmail.com,
+ tiantao6@hisilicon.com
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 6, 2020 at 3:16 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->   Hi,
->
-> > > > +drivers/gpu/drm/virtio/virtgpu_object.c maintainers
-> > > > Now we have both mainline and linux-next boot broken (linux-next is
-> > > > broken for the past 40 days).
-> > > > No testing of new code happens.
-> > > >
-> > > > >  virtio_gpu_object_shmem_init drivers/gpu/drm/virtio/virtgpu_object.c:151 [inline]
-> > > > >  virtio_gpu_object_create+0x9f3/0xaa0 drivers/gpu/drm/virtio/virtgpu_object.c:230
-> > >
-> > > Ah, that one.
-> > >
-> > > broken patch: f651c8b05542 ("drm/virtio: factor out the sg_table from virtio_gpu_object")
-> > > fixed by: 0666a8d7f6a4 ("drm/virtio: fix OOB in virtio_gpu_object_create")
-> > >
-> > > Both are in drm-misc-next.  I suspect the fix was added after
-> > > drm-misc-next was closed for the 5.7 merge window and thus should
-> > > have been submitted to drm-misc-next-fixes instead.
-> > >
-> > > So, what to do now?  Should I cherry-pick 0666a8d7f6a4 into
-> > > drm-misc-next-fixes?  Or should it go into drm-misc-fixes instead?
-> >
-> > Yup cherry-pick it over, with -x, to drm-misc-next-fixes.
-> > -Daniel
->
-> Done.  So the next linux-next build should be green again.
+Hi Thomas.
 
-Linux-next is boot broken with 2 or 3 other bugs for a month. This
-won't fix linux-next.
+On Tue, Apr 07, 2020 at 08:28:59AM +0200, Thomas Zimmermann wrote:
+> Hi Sam
+> =
+
+> Am 06.04.20 um 22:00 schrieb Sam Ravnborg:
+> > Hi Thomas.
+> > =
+
+> > On Mon, Apr 06, 2020 at 03:43:55PM +0200, Thomas Zimmermann wrote:
+> >> Generic fbdev emulation is a DRM client. If possible, it should behave
+> >> like userspace clients. Therefore it should not run before the driver
+> >> registered the new DRM device. If the setup function fails, the driver
+> >> should not report an error.
+> > =
+
+> > Thanks for taking the time to refactor all the relevant drivers.
+> > =
+
+> > I have received some push-back in the past when suggesting this,
+> > but cannot remember from who.
+> > Let's see what review comments you get.
+> > =
+
+> > As the rule is that the fbdev setup shall be setup after registering
+> > the DRM device - it would be nice to have this included in the
+> > documentation of drm_fbdev_generic_setup
+> > =
+
+> > Could you try to to update the documentation to cover this?
+> =
+
+> Good idea. I'll add this to patchset's next iteration.
+
+Thanks
+
+Patch 1 to 9 are all:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+
+This patch "drm/tilcdc: Set up fbdev after fully registering device"
+looks a little point less, but I see from a consistency point of view
+why you did it.
+So therefore it is also acked.
+
+
+	Sam
+
+
+> =
+
+> Best regards
+> Thomas
+> =
+
+> > =
+
+> > I will get back to the patches later this week.
+> > =
+
+> > 	Sam
+> > =
+
+> >>
+> >> This is a follow-up patchset to the discussion at [1].  I went
+> >> through all calls to drm_fbdev_generic_setup(), moved them to the
+> >> final operation of their driver's probe function, and removed the
+> >> return value.
+> >>
+> >> Built-tested on x86-64, aarch64 and arm.
+> >>
+> >> [1] https://lore.kernel.org/dri-devel/20200403135828.2542770-1-daniel.=
+vetter@ffwll.ch/T/#m216b5b37aeeb7b28d55ad73b7a702b3d1d7bf867
+> >>
+> >> Thomas Zimmermann (10):
+> >>   drm/ast: Set up fbdev after registering device; remove error checks
+> >>   drm/hibmc: Remove error check from fbdev setup
+> >>   drm/kirin: Set up fbdev after fully registering device
+> >>   drm/ingenic: Remove error check from fbdev setup
+> >>   drm/mediathek: Remove error check from fbdev setup
+> >>   drm/mgag200: Set up fbdev after registering device; remove error
+> >>     checks
+> >>   drm/tilcdc: Set up fbdev after fully registering device
+> >>   drm/udl: Remove error check from fbdev setup
+> >>   drm/vboxvideo: Set up fbdev after registering device; remove error
+> >>     checks
+> >>   drm/fb-helper: Remove return value from drm_fbdev_generic_setup()
+> >>
+> >>  drivers/gpu/drm/ast/ast_drv.c                  |  3 +++
+> >>  drivers/gpu/drm/ast/ast_main.c                 |  5 -----
+> >>  drivers/gpu/drm/drm_fb_helper.c                | 18 ++++++++----------
+> >>  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |  6 +-----
+> >>  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c    |  4 ++--
+> >>  drivers/gpu/drm/ingenic/ingenic-drm.c          |  4 +---
+> >>  drivers/gpu/drm/mediatek/mtk_drm_drv.c         |  4 +---
+> >>  drivers/gpu/drm/mgag200/mgag200_drv.c          |  2 ++
+> >>  drivers/gpu/drm/mgag200/mgag200_main.c         |  4 ----
+> >>  drivers/gpu/drm/tilcdc/tilcdc_drv.c            |  3 +--
+> >>  drivers/gpu/drm/udl/udl_drv.c                  |  6 +-----
+> >>  drivers/gpu/drm/vboxvideo/vbox_drv.c           |  6 ++----
+> >>  include/drm/drm_fb_helper.h                    |  5 +++--
+> >>  13 files changed, 25 insertions(+), 45 deletions(-)
+> >>
+> >> --
+> >> 2.26.0
+> =
+
+> -- =
+
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> =
+
+
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
