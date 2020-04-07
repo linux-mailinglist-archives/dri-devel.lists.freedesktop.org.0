@@ -2,53 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84CE01A0E5F
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 15:30:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0340C1A0E95
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 15:43:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 812C56E876;
-	Tue,  7 Apr 2020 13:30:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECA5A6E87E;
+	Tue,  7 Apr 2020 13:43:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E92D6E876
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 13:30:09 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id t203so1748364wmt.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 06:30:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UOi57oHr5s/5E0FnEyTsvZU+8lzzIWA8Vs7n3i5sOy8=;
- b=lqs5NYs1YiLhL8UYGIe9i385jAjKdLyTNCC0mcSp8NXYVc3B3fKruAFL7KGE5997nk
- AU0NOF6D1n0vf9dPE/x6VuROP+Kk/iTWwRUXo7Z7h38U6gNJLzwFX7IHoiTG1s18TFcw
- z0AOpuGJ1dDsRgYdXKmlWbNw4BQQf3H5w4pXk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UOi57oHr5s/5E0FnEyTsvZU+8lzzIWA8Vs7n3i5sOy8=;
- b=HtviLHA+8MIp52CiyAe6jc8Lo9PtKGMbQMFxpDb0h9sOi0tV2CylOv06Fptowx1Jsi
- K3gsq2xGlfdZOmG/TVOjZ/40p/HwHz/dSn5AV7i1NiJmskhEgNt1LRpeA5W2ROHo2nV1
- olziOzU1gsDObrAnjIp4myi5rd+lvcMZxJh2MsgjuLIt2HWK8O/gSYol2Qlj7i5FC5LO
- CHUM1/ryRo9Q1Ryi7aHJz+afC2BUGXKJbe+DcqbNSksqHvqtdZEdYy+KYSdzQB8IZAkX
- x08FD2wYlCEGUGkcRS2a8F7nFe99kJkGwAYTQe8vAn+TRQE6wwwjnf+CN2Wkx4EZlDvy
- z0iA==
-X-Gm-Message-State: AGi0Pua4MmsLnTKbVRitnbdvc6ulktk+8blaADYXydyGUvr5azya7+K6
- j0fSuyBLY2r7l4SeSVpYXCmrZ9CwAVI=
-X-Google-Smtp-Source: APiQypLvHOdwXjsCrF5+Tv9IInpboZOwQ/KzmNwLIRILJMk/8AWfgULjQ2vlsEce0SADJExSiixc9g==
-X-Received: by 2002:a1c:e1c1:: with SMTP id y184mr2451445wmg.143.1586266207750; 
- Tue, 07 Apr 2020 06:30:07 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j11sm2446877wmi.33.2020.04.07.06.30.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Apr 2020 06:30:07 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] dma-buf: Fix SET_NAME ioctl uapi
-Date: Tue,  7 Apr 2020 15:30:02 +0200
-Message-Id: <20200407133002.3486387-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.25.1
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A8BD6E0CF
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 13:43:16 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200407134314euoutp0234fda9757b31e72f3aeccec681801a1b~DjW08AW3T1136211362euoutp02Q
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 13:43:14 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200407134314euoutp0234fda9757b31e72f3aeccec681801a1b~DjW08AW3T1136211362euoutp02Q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1586266994;
+ bh=sZhEvnyjn1LLj7ChRwT2XLrexvdgfcq+CTsOxSFK1Ko=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=L5RM/cPWOqJHjGxAVUWEcChkF4lsYcjzWKgn5bDD+2D95EU1vPuGSvlKpmS8148Pe
+ b2KwWjs4l83vVSfdEFTKLN58IT8zK+SImEhmNCCUuCTMMZ5oJ3YpVxxSoCBRvPjR6O
+ gptTVzTZ2sOvWCg4Typ5nNq4BgdqVDY7/U24doyg=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200407134313eucas1p2eac497eabe8c7345a52ec50e03c90e7d~DjW0pTy3e0299802998eucas1p2N;
+ Tue,  7 Apr 2020 13:43:13 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 5A.7D.61286.1738C8E5; Tue,  7
+ Apr 2020 14:43:13 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200407134313eucas1p1d55cc16cb66b11ee5e1e5fd94cf25473~DjW0WDLf-0333503335eucas1p1u;
+ Tue,  7 Apr 2020 13:43:13 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200407134313eusmtrp14e553aafc5171090e82581d380ffbd22~DjW0VZoq32789027890eusmtrp1L;
+ Tue,  7 Apr 2020 13:43:13 +0000 (GMT)
+X-AuditID: cbfec7f2-f0bff7000001ef66-39-5e8c83713b0e
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id ED.1F.08375.1738C8E5; Tue,  7
+ Apr 2020 14:43:13 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200407134313eusmtip1856272ac566a2b65054279b837a16272~DjWz9D5Ht0251902519eusmtip1n;
+ Tue,  7 Apr 2020 13:43:12 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
+Subject: [PATCH 0/3] ExynosDRM - rework GEM internals
+Date: Tue,  7 Apr 2020 15:42:53 +0200
+Message-Id: <20200407134256.9129-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKKsWRmVeSWpSXmKPExsWy7djP87qFzT1xBlfv6VjcWneO1WLjjPWs
+ Fle+vmezmHR/AovFjPP7mCzWHrnLbjFj8ks2B3aP+93HmTz6tqxi9Pi8SS6AOYrLJiU1J7Ms
+ tUjfLoErY+U7voKN7BXrnh1gaWBsZOti5OCQEDCRWD1HrIuRi0NIYAWjxPdLhxghnC+MEr9W
+ foZyPjNK7P36mqmLkROs4+C3vVCJ5YwSCy53s8K1/DvWzgZSxSZgKNH1tgvMFhFwk2g6PBOs
+ iFngOqPEtx+L2EESwgKmEp3bt4CNZRFQlTjzdBcziM0rYCNxfnYXI8Q6eYnVGw5AxQUlTs58
+ wgJiMwPFm7fOZgYZKiHwm03iwtYtUA0uEneW/2GDsIUlXh3fwg5hy0icntzDAtHQzCjx8Nxa
+ dginh1HictMMqG5riTvnfoHDhllAU2L9Ln2IsKPElk29zJAg45O48VYQ4gg+iUnbpkOFeSU6
+ 2oQgqtUkZh1fB7f24IVLzBC2h8Smpy/AbCGBWInz3x6yTWBUmIXktVlIXpuFcMMCRuZVjOKp
+ pcW56anFhnmp5XrFibnFpXnpesn5uZsYgYnl9L/jn3Ywfr2UdIhRgINRiYf3QWJPnBBrYllx
+ Ze4hRgkOZiURXqnezjgh3pTEyqrUovz4otKc1OJDjNIcLErivMaLXsYKCaQnlqRmp6YWpBbB
+ ZJk4OKUaGEv4FE+9n3WqUcm+Lf1W/NnMjoJah7T6kwWPv23L0lWPK+af1Sj/qV9xpcoG03lm
+ Vpr5r1h62ya+Cb4lnFvONMvrjaqM18fXj5+4Vky7Mof5yO/Ca269CY7bn0l/kvZp/Haihscr
+ f4MvZ99s3rVzfH0L7k3jeZz7vPRqEPvpvRdvR2jFJJq2KLEUZyQaajEXFScCADsBX3UoAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpkkeLIzCtJLcpLzFFi42I5/e/4Xd3C5p44g43vxS1urTvHarFxxnpW
+ iytf37NZTLo/gcVixvl9TBZrj9xlt5gx+SWbA7vH/e7jTB59W1YxenzeJBfAHKVnU5RfWpKq
+ kJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9nk5Kak1mWWqRvl6CXsfIdX8FG9op1zw6w
+ NDA2snUxcnJICJhIHPy2l7GLkYtDSGApo0TfkYssEAkZiZPTGlghbGGJP9e62CCKPjFKbP7S
+ zQiSYBMwlOh62wU2SUTAQ6L523F2kCJmgduMEks/zAObJCxgKtG5fQsTiM0ioCpx5ukuZhCb
+ V8BG4vzsLkaIDfISqzccgIoLSpyc+QSolwNokLrE+nlCIGFmoJLmrbOZJzDyz0JSNQuhahaS
+ qgWMzKsYRVJLi3PTc4sN9YoTc4tL89L1kvNzNzECg3/bsZ+bdzBe2hh8iFGAg1GJh/dBYk+c
+ EGtiWXFl7iFGCQ5mJRFeqd7OOCHelMTKqtSi/Pii0pzU4kOMpkAvTGSWEk3OB0ZmXkm8oamh
+ uYWlobmxubGZhZI4b4fAwRghgfTEktTs1NSC1CKYPiYOTqkGRo7lMbfPH54j9PGH+eFC0/lP
+ Z3Ttu9HR9mtDsU/w70+/bveKJv662Ldevb+vLdm/V2VmBPN+zt+9M7fwPN+oFz/71pXOvZa5
+ M66oHJi7bMkPlRMxXgE9XNvarAuVE15UPX23pj7/3apXETn2p76bs7Pn1W+9yOWwqlDhluuv
+ YIejx4r5lJf5KymxFGckGmoxFxUnAgABgoE2lAIAAA==
+X-CMS-MailID: 20200407134313eucas1p1d55cc16cb66b11ee5e1e5fd94cf25473
+X-Msg-Generator: CA
+X-RootMTR: 20200407134313eucas1p1d55cc16cb66b11ee5e1e5fd94cf25473
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200407134313eucas1p1d55cc16cb66b11ee5e1e5fd94cf25473
+References: <CGME20200407134313eucas1p1d55cc16cb66b11ee5e1e5fd94cf25473@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,73 +100,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Chenbo Feng <fengc@google.com>,
- Greg Hackmann <ghackmann@google.com>, linaro-mm-sig@lists.linaro.org,
- minchan@kernel.org, jenhaochen@google.com,
- Daniel Vetter <daniel.vetter@intel.com>, Martin Liu <liumartin@google.com>,
- surenb@google.com, linux-media@vger.kernel.org
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The uapi is the same on 32 and 64 bit, but the number isnt. Everyone
-who botched this please re-read:
+Hi
 
-https://www.kernel.org/doc/html/v5.4-preprc-cpu/ioctl/botching-up-ioctls.html
+The recent discussion under the 'drm/prime: fix extracting of the DMA
+addresses from a scatterlist' [1] patch inspired me to take a look again
+into the Exynos DRM GEM internals. I've made a little cleanup and
+reworked some parts to make them more error proof for the various
+corner-cases.
 
-Also, the type argument for the ioctl macros is for the type the void
-__user *arg pointer points at, which in this case would be the
-variable-sized char[] of a 0 terminated string. So this was botched in
-more than just the usual ways.
+[1] https://patchwork.freedesktop.org/patch/359081/ patch 
 
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Chenbo Feng <fengc@google.com>
-Cc: Greg Hackmann <ghackmann@google.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: minchan@kernel.org
-Cc: surenb@google.com
-Cc: jenhaochen@google.com
-Cc: Martin Liu <liumartin@google.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- drivers/dma-buf/dma-buf.c    | 3 ++-
- include/uapi/linux/dma-buf.h | 4 ++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+Best regards
+Marek Szyprowski
+Samsung R&D Institute Poland
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 570c923023e6..1d923b8e4c59 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -388,7 +388,8 @@ static long dma_buf_ioctl(struct file *file,
- 
- 		return ret;
- 
--	case DMA_BUF_SET_NAME:
-+	case DMA_BUF_SET_NAME_A:
-+	case DMA_BUF_SET_NAME_B:
- 		return dma_buf_set_name(dmabuf, (const char __user *)arg);
- 
- 	default:
-diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-index dbc7092e04b5..21dfac815dc0 100644
---- a/include/uapi/linux/dma-buf.h
-+++ b/include/uapi/linux/dma-buf.h
-@@ -39,6 +39,10 @@ struct dma_buf_sync {
- 
- #define DMA_BUF_BASE		'b'
- #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
-+/* 32/64bitness of this uapi was botched in android, there's no difference
-+ * between them in actual uapi, they're just different numbers. */
- #define DMA_BUF_SET_NAME	_IOW(DMA_BUF_BASE, 1, const char *)
-+#define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, u32)
-+#define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, u64)
- 
- #endif
+
+Patch summary:
+
+Marek Szyprowski (3):
+  drm/exynos: gem: Remove dead-code
+  drm/exynos: gem: Rework scatter-list contiguity check on Prime import
+  drm/exynos: gem: Get rid of the internal 'pages' array
+
+ drivers/gpu/drm/exynos/exynos_drm_drv.c   |   1 -
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c |  28 +---
+ drivers/gpu/drm/exynos/exynos_drm_gem.c   | 178 ++++++++--------------
+ drivers/gpu/drm/exynos/exynos_drm_gem.h   |  16 +-
+ 4 files changed, 66 insertions(+), 157 deletions(-)
+
 -- 
-2.25.1
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
