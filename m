@@ -1,64 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992BB1A1C23
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 08:59:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8131A1C30
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 08:59:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9346E6E963;
-	Wed,  8 Apr 2020 06:59:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A64336E969;
+	Wed,  8 Apr 2020 06:59:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic313-19.consmr.mail.gq1.yahoo.com
- (sonic313-19.consmr.mail.gq1.yahoo.com [98.137.65.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54F556E10F
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 15:36:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048;
- t=1586273807; bh=DRcjw4RWlx/WffnvzoKrFTQcWvavqs2gXoWOXywXOCk=;
- h=Date:From:Subject:To:Cc:References:In-Reply-To:From:Subject;
- b=LuiZA/a8J4tRv8OVyXpyrJG3TSZ8cWvWlv0C8Hb7y2zk+OODgV2AEqCDG7eze/O7WeQ+PFtabVgv4k0/GjnJxWiEvPxQ9DwLmvlerAkqcBzQBU1u70H2oDTPovXKlqpU3lGGtlmRqOxurDoFu3pN95CSJpeodeHwHRy7bESmwphTdYTqvgfT+z2BLQPluu5lM4ML+3XBLr3O6U+TE2ibBz4/wbOO9OkMls+TohZU1H/rHEn85kLlX/Nt45+bttpCfWOuVLT0skXbPABJ3gaGmpgEJe78Czd3dJDuhGYIob05zGAR+ohb62P6S5scKbOYKyJbMQP2u8xvUU6gYjFYqA==
-X-YMail-OSG: ZZge5_4VM1kR52e0GUo2fNzjRFaCBHWfxv3eFEqMjiW_9RaNaQc0GXkvJCJiqIE
- blLtaswVknj.HLQ0tq50cqppuya9hxO4FMYBbwvzGBP.G.1PPbNwr9QGozst0N7RxnXEQztLPS4U
- OZECCg.DlMptgSP8YIx5uHu9nxLOW2fGdvHSj8bVLOL7aeyYHkAlShHyGkLFrKf_rh1PhsjSPWeh
- Z9B01Xeh3TcsGQyGNw1Twjb8bVbjwJ7kwCfUm7Rk7LunS8r0stFudDfsKWj1epUigHejRKjnivrq
- iZErCkyY8ofZxWYSszvlmCdg40JharWeEPQe.LNAuLETD8JRdg2DRCbf125WKyQFGtqSN9oUwv9r
- dehtJYhYwg8PU1pV91yrfp8bQRPBgeIV6Plyrtj6IIYLox0EdKZlyG9e5EuVy5PLJRaWAZs0dbKB
- ENHl4qzBtTgpRuIAbBRtEHKb8MOWW58uKYJVp681a7UBW4zIdThVI8ZhzIc.MMLT2AC42HZaGRU1
- fCFgslw0pIF3ENIj2aUveZgqe_0hFT7EPyT2VSHbAc7NnaU8Lh7fHUV5ee6bUsMN06aIyoiEAWCS
- MUMD9UsHbd351IsRXRaXVzJOGvh9MsdaLtGgIQRxYYetjboypwjlG9CrqJzOncoLKrOVtFR_G70H
- 3yhvEJ3OUGXkGeMek4LUUfoyK_.IC0vbBUe.bn_A2yGIx4lhX1fsUc87l_VOrAm0sU3WQpM1945Q
- CjmkIBFjePN2atP1kIvJYfdJEnR0EnkVtwNOLy88bz_bLM1vSG8MACf2gYwygY6aaA3wQm4reNGx
- K01we4heQm1bV1hj6WfOdhGjglVO0SDKc_hEn44tuQQ3ahSMx5km_iFfVt2zy4V5VC.itVHKvUuQ
- wYnlCGxj6BDNTbpOzarAkWhJhvN1zgeiWvKXmyAH42yQ6PcFjZZc6NcKtf7QiDRw8FNziHcPV343
- bmF.oZlF7zbDfEjicxH9BUHmJLoqFZ63G9q3bLk5Wn46t8wegXSMGlIDa.pXUe6DMsXb_oBOsGvW
- Gen_7eZ4vVRHgMgXzS02.VvbmROcQzVuXEp0Dh7igqbqvCWMXfm5MQq4X2D2anGxK9tpL_3LNBDQ
- UmlAIXTVRIMPX0VIIDW17OsaNxC4LIy2FQnpVpswgy8XThGlQgNvHpRfTIrN8spsim4LvK5enMN.
- 4YfvUu1s6bsY18FYwTXkyckVX1kZ8Omar5erlWhLXn25WrNROGO7wbkIBUUu8aXeHv2eF2BuDrG8
- eDF.AppJEZsPCbWwrYRrznjUJK_O_RDbdPIB.8sqcFzstQhEpMWcFni4j.LY_O1YTlHvkWMBTLN6
- A.WCHw50Nhut4OOKQhIfNc1mR2TxklNTq4DO1TbKgu0qoDLYd_0kjMujgMEbbNSrvuaE9DWZd2.C
- lKXXUpniCGnMLktTt43mSyiRV4A--
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic313.consmr.mail.gq1.yahoo.com with HTTP; Tue, 7 Apr 2020 15:36:47 +0000
-Received: by smtp427.mail.ne1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
- ID 8d3a3a4d22c2dc4e05ca5abcebba6325; 
- Tue, 07 Apr 2020 15:36:42 +0000 (UTC)
-Date: Tue, 07 Apr 2020 11:36:39 -0400
-From: "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
-Subject: Re: Bad rss-counter state from drm/ttm, drm/vmwgfx: Support huge TTM
- pagefaults
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, Thomas =?iso-8859-1?q?Hellstr=F6m?= "(VMware)"
- <thomas_os@shipmail.org>
-References: <1586138158.v5u7myprlp.none.ref@localhost>
- <1586138158.v5u7myprlp.none@localhost>
- <0b12b28c-5f42-b56b-ea79-6e3d1052b332@shipmail.org>
- <1586219716.1a3fyi6lh5.none@localhost>
- <37624a1f-8e6b-fe9c-8e0e-a9139e1bbe18@shipmail.org>
-In-Reply-To: <37624a1f-8e6b-fe9c-8e0e-a9139e1bbe18@shipmail.org>
-MIME-Version: 1.0
-Message-Id: <1586273767.0q72rozj3x.none@localhost>
-X-Mailer: WebService/1.1.15620 hermes Apache-HttpAsyncClient/4.1.4
- (Java/11.0.6)
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BF3A6E8A1
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 15:47:34 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1586274454; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=9T9i2bhqi3VLaEw0ff7UrAhvelqlEdAg6Xi/18D6Cic=;
+ b=a/CLFpsa0V6i8EmW+Tj6eYe6XwJBBUpy9aY9LFkqfXzRiVHzoSUuKQRsvcwXhOMTcSKZVQY0
+ gw9m8gAwGnxXMpGmjs7Yc+CnfX/KQhVv0M1SRi0kwN9I4v5XtDdwQaDC8b8ZZjegp38BbVpS
+ LSD50h0NXhrcWBRdKICbTCEQUeY=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e8ca095.7f2cdd304ab0-smtp-out-n04;
+ Tue, 07 Apr 2020 15:47:33 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 00408C44788; Tue,  7 Apr 2020 15:47:32 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from kgunda-linux.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: kgunda)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id C1695C433F2;
+ Tue,  7 Apr 2020 15:47:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C1695C433F2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=kgunda@codeaurora.org
+From: Kiran Gunda <kgunda@codeaurora.org>
+To: bjorn.andersson@linaro.org, jingoohan1@gmail.com, lee.jones@linaro.org,
+ b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+ daniel.thompson@linaro.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+ robh+dt@kernel.org, mark.rutland@arm.com, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V5 0/4] Add support for WLED5
+Date: Tue,  7 Apr 2020 21:17:06 +0530
+Message-Id: <1586274430-28402-1-git-send-email-kgunda@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Wed, 08 Apr 2020 06:59:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,40 +67,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ralph Campbell <rcampbell@nvidia.com>, Michal Hocko <mhocko@suse.com>,
- pv-drivers@vmware.com, Roland Scheidegger <sroland@vmware.com>,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>,
- =?iso-8859-1?b?Suly9G1l?= Glisse <jglisse@redhat.com>,
- linux-graphics-maintainer@vmware.com,
- Andrew Morton <akpm@linux-foundation.org>,
- Dan Williams <dan.j.williams@intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-arm-msm@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RXhjZXJwdHMgZnJvbSBUaG9tYXMgSGVsbHN0csO2bSAoVk13YXJlKSdzIG1lc3NhZ2Ugb2YgQXBy
-aWwgNywgMjAyMCA3OjI2IGFtOgo+IE9uIDQvNy8yMCAyOjM4IEFNLCBBbGV4IFh1IChIZWxsbzcx
-KSB3cm90ZToKPj4gRXhjZXJwdHMgZnJvbSBUaG9tYXMgSGVsbHN0csO2bSAoVk13YXJlKSdzIG1l
-c3NhZ2Ugb2YgQXByaWwgNiwgMjAyMCA1OjA0IHBtOgo+Pj4gSGksCj4+Pgo+Pj4gT24gNC82LzIw
-IDk6NTEgUE0sIEFsZXggWHUgKEhlbGxvNzEpIHdyb3RlOgo+Pj4+IFVzaW5nIDMxNGI2NTggd2l0
-aCBhbWRncHUsIHN0YXJ0aW5nIHN3YXkgYW5kIGZpcmVmb3ggY2F1c2VzICJCVUc6IEJhZAo+Pj4+
-IHJzcy1jb3VudGVyIHN0YXRlIiBhbmQgIkJVRzogbm9uLXplcm8gcGd0YWJsZXNfYnl0ZXMgb24g
-ZnJlZWluZyBtbSIgdG8KPj4+PiBzdGFydCBmaWxsaW5nIGRtZXNnLCBhbmQgdGhlbiBjbG9zaW5n
-IHByb2dyYW1zIGNhdXNlcyBtb3JlIEJVR3MgYW5kCj4+Pj4gaGFuZ3MsIGFuZCB0aGVuIGV2ZXJ5
-dGhpbmcgZ3JpbmRzIHRvIGEgaGFsdCAoY2FuJ3Qgc3RhcnQgbW9yZSBwcm9ncmFtcywKPj4+PiBj
-YW4ndCBldmVuIHJlYm9vdCB0aHJvdWdoIHN5c3RlbWQpLgo+Pj4+Cj4+Pj4gVXNpbmcgbWFzdGVy
-IGFuZCByZXZlcnRpbmcgdGhhdCBicmFuY2ggdXAgdG8gdGhhdCBwb2ludCBmaXhlcyB0aGUKPj4+
-PiBwcm9ibGVtLgo+Pj4+Cj4+Pj4gSSdtIHVzaW5nIGEgUnl6ZW4gMTYwMCBhbmQgQU1EIFJhZGVv
-biBSWCA0ODAgb24gYW4gQVNSb2NrIEI0NTAgUHJvNAo+Pj4+IGJvYXJkIHdpdGggSU9NTVUgZW5h
-YmxlZC4KPj4+IElmIHlvdSBjb3VsZCB0cnkgdGhlIGF0dGFjaGVkIHBhdGNoLCB0aGF0J2QgYmUg
-Z3JlYXQhCj4+Pgo+Pj4gVGhhbmtzLAo+Pj4KPj4+IFRob21hcwo+Pj4KPj4gWWVhaCwgdGhhdCB3
-b3JrcyB0b28uIEtlcm5lbCBjb25maWcgc2VudCBvZmYtbGlzdC4KPj4KPj4gUmVnYXJkcywKPj4g
-QWxleC4KPiAKPiBUaGFua3MuIERvIHlvdSB3YW50IG1lIHRvIGFkZCB5b3VyCj4gCj4gUmVwb3J0
-ZWQtYnk6IGFuZCBUZXN0ZWQtYnk6IFRvIHRoaXMgcGF0Y2g/Cj4gCj4gL1Rob21hcwo+IAo+IAoK
-U3VyZS4gU2hvdWxkbid0IHdlIGZpeCBpdCBwcm9wZXJseSB0aG91Z2g/Cl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Currently, WLED driver supports only WLED4 peripherals that is present
+on pmi8998 and pm660L. This patch series  converts the existing WLED4
+bindings from .txt to .yaml format and adds the support for WLED5 peripheral
+that is present on PM8150L.
+
+PM8150L WLED supports the following.
+    - Two modulators and each sink can use any of the modulator
+    - Multiple CABC selection options
+    - Multiple brightness width selection (12 bits to 15 bits)
+
+Changes from V1:
+	- Rebased on top of the below commit.
+	  backlight: qcom-wled: Fix unsigned comparison to zero
+
+Changes from V2:
+	- Addressed Bjorn's comments by splitting the WLED4 changes
+	  in a seperate patch.
+	- Added WLED5 auto calibration support
+
+Changes from V3:
+        - Addressed comments from Daniel Thompson and Rob Herring
+        - Seperated the WLED5 bindings from the driver changes
+        - Squashed wled5 auto string detection and wled5 basic changes
+          to avoid the NULL callback function pointer issue.
+
+Changes from V4:
+        - Addressed the yaml formatting comments from Rob Herring.
+        - Addressed the comments from Daniel Thompson on the below patch
+  	  "backlight: qcom-wled: Add callback functions"
+
+Kiran Gunda (3):
+  backlight: qcom-wled: convert the wled bindings to .yaml format
+  backlight: qcom-wled: Add callback functions
+  backlight: qcom-wled: Add WLED5 bindings
+
+Subbaraman Narayanamurthy (1):
+  backlight: qcom-wled: Add support for WLED5 peripheral that is present
+    on PM8150L PMICs
+
+ .../bindings/leds/backlight/qcom-wled.txt          | 154 -----
+ .../bindings/leds/backlight/qcom-wled.yaml         | 255 ++++++++
+ drivers/video/backlight/qcom-wled.c                | 659 ++++++++++++++++++---
+ 3 files changed, 841 insertions(+), 227 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+ a Linux Foundation Collaborative Project
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
