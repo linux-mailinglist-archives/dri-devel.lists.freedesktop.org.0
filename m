@@ -1,45 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9FE1A12B5
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 19:28:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E96B51A12DD
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 19:42:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F410E6E135;
-	Tue,  7 Apr 2020 17:28:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D38BA6E12A;
+	Tue,  7 Apr 2020 17:42:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF5DC6E135;
- Tue,  7 Apr 2020 17:28:06 +0000 (UTC)
-IronPort-SDR: d47S7bYMJGV6R+X6AdRYLwG1wwLvheOCDB7Kw4IxNgTM8MSTQtgYLpeBjgeioBEC76wUFtbms4
- Su8yBtdla9pw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2020 10:28:06 -0700
-IronPort-SDR: EKxqNTzNf6jFD/9s8wi5KITUMKkiXFaaAzIPMLQ3e/3l2kEYkQxyfQaGpZUHFTe/T6KMCuAn6U
- yqY7dbevYgDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,356,1580803200"; d="scan'208";a="297003911"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by FMSMGA003.fm.intel.com with SMTP; 07 Apr 2020 10:28:02 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 07 Apr 2020 20:28:02 +0300
-Date: Tue, 7 Apr 2020 20:28:02 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: Re: [PATCH v3 1/5] drm: Introduce plane and CRTC scaling filter
- properties
-Message-ID: <20200407172802.GJ6112@intel.com>
-References: <20200330183857.13270-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200330183857.13270-2-pankaj.laxminarayan.bharadiya@intel.com>
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 849916E12A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 17:42:46 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id n10so4299665iom.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 10:42:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=b5j6zw5ZfXB9lEpVt/NTILUXrz7FT8+HfVyae5W7p/Y=;
+ b=Rq+ADldyWxQqp4k3Sqly0N0oHNs/prtr6ajGzgBwOkgV23KxvS5jOx0ofrYrZS94iA
+ UnWT6PDCXcY/3DZlUHKFLFolv6hHlp4kVRAXh0KAiKVa31qxL+knYPv5tUFPHxyf4QSH
+ WG3tu37fMYpt+Jw/ULqk1i6W1ft8PqRryetDJe7DecpX8unLLTyrrDt1fpcunnfPfjGv
+ WimKQLo5dwI18+PPjhOMJwoTVGW9Tcua5n+KnhSsd1tlUWTW3Phi7vZND/Y3IU0xGMAT
+ icudh/gYbZMzpk/wVutFDqF6szKgWqa7EUKQQB5BzrnQNFivb3lym0o8A0GsfeZWy4Mz
+ EVCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=b5j6zw5ZfXB9lEpVt/NTILUXrz7FT8+HfVyae5W7p/Y=;
+ b=Vm7cZvHOSWNItMEU8VDDWEeX8sKxZFRhKIRioj9D236Ap2Ts0lJ8ngsJySFFaMHlIf
+ PegiJsUpqgfW3zZPF1ughVNhPOnqrokyN5L2UUCBA4UwZqOMeN9CpH74PgPNRa6iseEY
+ 52Gp536DdZy1NmbfG9qIW9zf8YdWmnZg4jB90b+IL5Vz0AtUVmTatiHuDIOSo2CTalkM
+ dfsbM3QSql/isUe+yZ9UmpC9vVNEpQfQa2tfInT1TP6U88NSztdpO2LimY4yhDgSe3Ws
+ Ng+giCIOqLjA9qMr9Yx5FRoE/YaN9CN6f/ALJSI/CsFGOXhpun86Y81+pYJXXiBBFjLi
+ 1VGQ==
+X-Gm-Message-State: AGi0PuZg2PsZ20UHTlGZe+VMTn6+Y1yP22aqpRB8iusgnVwtZ9Dmuq33
+ vDZ28/rWfG7C5QWr0M7/IYspm4BF2GmDPDg+l+fKDA==
+X-Google-Smtp-Source: APiQypI9n1JqctpxXb2an7vmddN6FVi++2+Vo0vK84d8yh0rW346tKYBEJYvSDpE1acLEgm4NSV4RypXtXhges79df8=
+X-Received: by 2002:a5d:8c8a:: with SMTP id g10mr3141939ion.201.1586281365752; 
+ Tue, 07 Apr 2020 10:42:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200330183857.13270-2-pankaj.laxminarayan.bharadiya@intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200406221253.1307209-1-lyude@redhat.com>
+ <20200406221253.1307209-4-lyude@redhat.com>
+In-Reply-To: <20200406221253.1307209-4-lyude@redhat.com>
+From: Sean Paul <sean@poorly.run>
+Date: Tue, 7 Apr 2020 13:42:09 -0400
+Message-ID: <CAMavQKL_30XpTJ5VmVUEemi6vyT2E-WqioG+SS+9DQPgeusxxA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] drm/dp_mst: Increase ACT retry timeout to 3s
+To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,400 +62,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Todd Previte <tprevite@gmail.com>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, stable <stable@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 31, 2020 at 12:08:53AM +0530, Pankaj Bharadiya wrote:
-> Introduce per-plane and per-CRTC scaling filter properties to allow
-> userspace to select the driver's default scaling filter or
-> Nearest-neighbor(NN) filter for upscaling operations on CRTC and
-> plane.
-> =
-
-> Drivers can set up this property for a plane by calling
-> drm_plane_create_scaling_filter() and for a CRTC by calling
-> drm_crtc_create_scaling_filter().
-> =
-
-> NN filter works by filling in the missing color values in the upscaled
-> image with that of the coordinate-mapped nearest source pixel value.
-> =
-
-> NN filter for integer multiple scaling can be particularly useful for
-> for pixel art games that rely on sharp, blocky images to deliver their
-> distinctive look.
-> =
-
-> changes since v2:
-> * Create per-plane and per-CRTC scaling filter property (Ville)
-> changes since v1:
-> * None
-> changes since RFC:
-> * Add separate properties for plane and CRTC (Ville)
-> =
-
-> Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-> ---
->  drivers/gpu/drm/drm_atomic_uapi.c |  8 ++++
->  drivers/gpu/drm/drm_crtc.c        | 78 +++++++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_plane.c       | 78 +++++++++++++++++++++++++++++++
->  include/drm/drm_crtc.h            | 16 +++++++
->  include/drm/drm_plane.h           | 21 +++++++++
->  5 files changed, 201 insertions(+)
-> =
-
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
-ic_uapi.c
-> index a1e5e262bae2..ac7dabbf0bcf 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -469,6 +469,8 @@ static int drm_atomic_crtc_set_property(struct drm_cr=
-tc *crtc,
->  			return -EFAULT;
->  =
-
->  		set_out_fence_for_crtc(state->state, crtc, fence_ptr);
-> +	} else if (property =3D=3D crtc->scaling_filter_property) {
-> +		state->scaling_filter =3D val;
->  	} else if (crtc->funcs->atomic_set_property) {
->  		return crtc->funcs->atomic_set_property(crtc, state, property, val);
->  	} else {
-> @@ -503,6 +505,8 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
->  		*val =3D (state->gamma_lut) ? state->gamma_lut->base.id : 0;
->  	else if (property =3D=3D config->prop_out_fence_ptr)
->  		*val =3D 0;
-> +	else if (property =3D=3D crtc->scaling_filter_property)
-
-Random side observation: Why do we have two different styles to naming
-these things (prop_foo vs. foo_property)? Would be nice to unify this
-one way or the other.
-
-> +		*val =3D state->scaling_filter;
->  	else if (crtc->funcs->atomic_get_property)
->  		return crtc->funcs->atomic_get_property(crtc, state, property, val);
->  	else
-> @@ -583,6 +587,8 @@ static int drm_atomic_plane_set_property(struct drm_p=
-lane *plane,
->  					sizeof(struct drm_rect),
->  					&replaced);
->  		return ret;
-> +	} else if (property =3D=3D plane->scaling_filter_property) {
-> +		state->scaling_filter =3D val;
->  	} else if (plane->funcs->atomic_set_property) {
->  		return plane->funcs->atomic_set_property(plane, state,
->  				property, val);
-> @@ -641,6 +647,8 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
->  	} else if (property =3D=3D config->prop_fb_damage_clips) {
->  		*val =3D (state->fb_damage_clips) ?
->  			state->fb_damage_clips->base.id : 0;
-> +	} else if (property =3D=3D plane->scaling_filter_property) {
-> +		*val =3D state->scaling_filter;
->  	} else if (plane->funcs->atomic_get_property) {
->  		return plane->funcs->atomic_get_property(plane, state, property, val);
->  	} else {
-> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-> index 4936e1080e41..95502c88966b 100644
-> --- a/drivers/gpu/drm/drm_crtc.c
-> +++ b/drivers/gpu/drm/drm_crtc.c
-> @@ -748,3 +748,81 @@ int drm_mode_crtc_set_obj_prop(struct drm_mode_objec=
-t *obj,
->  =
-
->  	return ret;
->  }
-> +
-> +/**
-> + * DOC: CRTC scaling filter property
-> + *
-> + * SCALING_FILTER:
-> + *
-> + *	Indicates scaling filter to be used for CRTC scaler
-> + *
-> + *	The value of this property can be one of the following:
-> + *	Default:
-> + *		Driver's default scaling filter
-> + *	Nearest Neighbor:
-> + *		Nearest Neighbor scaling filter
-> + *
-> + * Drivers can set up this property for a CRTC by calling
-> + * drm_crtc_create_scaling_filter_property
-> + */
-> +
-> +/**
-> + * drm_crtc_create_scaling_filter_property - create a new scaling filter
-> + * property
-> + *
-> + * @crtc: drm CRTC
-> + * @supported_filters: bitmask of supported scaling filters, must include
-> + *		       BIT(DRM_SCALING_FILTER_DEFAULT).
-> + *
-> + * This function lets driver to enable the scaling filter property on a =
-given
-> + * CRTC.
-> + *
-> + * RETURNS:
-> + * Zero for success or -errno
-> + */
-> +int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
-> +					    unsigned int supported_filters)
-> +{
-> +	struct drm_device *dev =3D crtc->dev;
-> +	struct drm_property *prop;
-> +	static const struct drm_prop_enum_list props[] =3D {
-> +		{ DRM_SCALING_FILTER_DEFAULT, "Default" },
-> +		{ DRM_SCALING_FILTER_NEAREST_NEIGHBOR, "Nearest Neighbor" },
-> +	};
-> +	unsigned int valid_mode_mask =3D BIT(DRM_SCALING_FILTER_DEFAULT) |
-> +				       BIT(DRM_SCALING_FILTER_NEAREST_NEIGHBOR);
-> +	int i;
-> +
-> +	if (WARN_ON((supported_filters & ~valid_mode_mask) ||
-> +		    ((supported_filters & BIT(DRM_SCALING_FILTER_DEFAULT)) =3D=3D 0)))
-> +		return -EINVAL;
-> +
-> +	prop =3D drm_property_create(dev, DRM_MODE_PROP_ENUM,
-> +				   "SCALING_FILTER",
-> +				   hweight32(supported_filters));
-> +	if (!prop)
-> +		return -ENOMEM;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(props); i++) {
-> +		int ret;
-> +
-> +		if (!(BIT(props[i].type) & supported_filters))
-> +			continue;
-> +
-> +		ret =3D drm_property_add_enum(prop, props[i].type,
-> +					    props[i].name);
-> +
-> +		if (ret) {
-> +			drm_property_destroy(dev, prop);
-> +
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	drm_object_attach_property(&crtc->base, prop,
-> +				   DRM_SCALING_FILTER_DEFAULT);
-
-Everything up to here is identical between the crtc and plane. Needs a
-refactoring. In fact this whole thing seems pretty generic. Should
-probably think about just adding that bitmask to
-drm_property_create_enum(). I suppose we could try to avoid having to
-change all the existing callers by keeping the current thing without the
-bitmask (though it could probably internally just call the version which
-takes the bitmask, assuming our enum values aren't too big for that.
-
-Otherwise the patch seems reasonable.
-
-> +	crtc->scaling_filter_property =3D prop;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_crtc_create_scaling_filter_property);
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index d6ad60ab0d38..a6fc95942851 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -1221,3 +1221,81 @@ int drm_mode_page_flip_ioctl(struct drm_device *de=
-v,
->  =
-
->  	return ret;
->  }
-> +
-> +/**
-> + * DOC: Plane scaling filter property
-> + *
-> + * SCALING_FILTER:
-> + *
-> + *	Indicates scaling filter to be used for plane scaler
-> + *
-> + *	The value of this property can be one of the following:
-> + *	Default:
-> + *		Driver's default scaling filter
-> + *	Nearest Neighbor:
-> + *		Nearest Neighbor scaling filter
-> + *
-> + * Drivers can set up this property for a plane by calling
-> + * drm_plane_create_scaling_filter_property
-> + */
-> +
-> +/**
-> + * drm_plane_create_scaling_filter_property - create a new scaling filter
-> + * property
-> + *
-> + * @plane: drm plane
-> + * @supported_filters: bitmask of supported scaling filters, must include
-> + *		       BIT(DRM_SCALING_FILTER_DEFAULT).
-> + *
-> + * This function lets driver to enable the scaling filter property on a =
-given
-> + * plane.
-> + *
-> + * RETURNS:
-> + * Zero for success or -errno
-> + */
-> +int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
-> +					     unsigned int supported_filters)
-> +{
-> +	struct drm_device *dev =3D plane->dev;
-> +	struct drm_property *prop;
-> +	static const struct drm_prop_enum_list props[] =3D {
-> +		{ DRM_SCALING_FILTER_DEFAULT, "Default" },
-> +		{ DRM_SCALING_FILTER_NEAREST_NEIGHBOR, "Nearest Neighbor" },
-> +	};
-> +	unsigned int valid_mode_mask =3D BIT(DRM_SCALING_FILTER_DEFAULT) |
-> +				       BIT(DRM_SCALING_FILTER_NEAREST_NEIGHBOR);
-> +	int i;
-> +
-> +	if (WARN_ON((supported_filters & ~valid_mode_mask) ||
-> +		    ((supported_filters & BIT(DRM_SCALING_FILTER_DEFAULT)) =3D=3D 0)))
-> +		return -EINVAL;
-> +
-> +	prop =3D drm_property_create(dev, DRM_MODE_PROP_ENUM,
-> +				   "SCALING_FILTER",
-> +				   hweight32(supported_filters));
-> +	if (!prop)
-> +		return -ENOMEM;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(props); i++) {
-> +		int ret;
-> +
-> +		if (!(BIT(props[i].type) & supported_filters))
-> +			continue;
-> +
-> +		ret =3D drm_property_add_enum(prop, props[i].type,
-> +					    props[i].name);
-> +
-> +		if (ret) {
-> +			drm_property_destroy(dev, prop);
-> +
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	drm_object_attach_property(&plane->base, prop,
-> +				   DRM_SCALING_FILTER_DEFAULT);
-> +	plane->scaling_filter_property =3D prop;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_plane_create_scaling_filter_property);
-> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> index 59b51a09cae6..ba839e5e357d 100644
-> --- a/include/drm/drm_crtc.h
-> +++ b/include/drm/drm_crtc.h
-> @@ -324,6 +324,13 @@ struct drm_crtc_state {
->  	 */
->  	bool self_refresh_active;
->  =
-
-> +	/**
-> +	 * @scaling_filter:
-> +	 *
-> +	 * Scaling filter to be applied
-> +	 */
-> +	enum drm_scaling_filter scaling_filter;
-> +
->  	/**
->  	 * @event:
->  	 *
-> @@ -1083,6 +1090,12 @@ struct drm_crtc {
->  	/** @properties: property tracking for this CRTC */
->  	struct drm_object_properties properties;
->  =
-
-> +	/**
-> +	 * @scaling_filter_property: property to apply a particular filter while
-> +	 * scaling.
-> +	 */
-> +	struct drm_property *scaling_filter_property;
-> +
->  	/**
->  	 * @state:
->  	 *
-> @@ -1266,4 +1279,7 @@ static inline struct drm_crtc *drm_crtc_find(struct=
- drm_device *dev,
->  #define drm_for_each_crtc(crtc, dev) \
->  	list_for_each_entry(crtc, &(dev)->mode_config.crtc_list, head)
->  =
-
-> +int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
-> +					    unsigned int supported_filters);
-> +
->  #endif /* __DRM_CRTC_H__ */
-> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> index 3f396d94afe4..1d82b264e5e4 100644
-> --- a/include/drm/drm_plane.h
-> +++ b/include/drm/drm_plane.h
-> @@ -35,6 +35,11 @@ struct drm_crtc;
->  struct drm_printer;
->  struct drm_modeset_acquire_ctx;
->  =
-
-> +enum drm_scaling_filter {
-> +	DRM_SCALING_FILTER_DEFAULT,
-> +	DRM_SCALING_FILTER_NEAREST_NEIGHBOR,
-> +};
-> +
->  /**
->   * struct drm_plane_state - mutable plane state
->   *
-> @@ -214,6 +219,13 @@ struct drm_plane_state {
->  	 */
->  	bool visible;
->  =
-
-> +	/**
-> +	 * @scaling_filter:
-> +	 *
-> +	 * Scaling filter to be applied
-> +	 */
-> +	enum drm_scaling_filter scaling_filter;
-> +
->  	/**
->  	 * @commit: Tracks the pending commit to prevent use-after-free conditi=
-ons,
->  	 * and for async plane updates.
-> @@ -724,6 +736,12 @@ struct drm_plane {
->  	 * See drm_plane_create_color_properties().
->  	 */
->  	struct drm_property *color_range_property;
-> +
-> +	/**
-> +	 * @scaling_filter_property: property to apply a particular filter while
-> +	 * scaling.
-> +	 */
-> +	struct drm_property *scaling_filter_property;
->  };
->  =
-
->  #define obj_to_plane(x) container_of(x, struct drm_plane, base)
-> @@ -862,4 +880,7 @@ drm_plane_get_damage_clips(const struct drm_plane_sta=
-te *state)
->  					state->fb_damage_clips->data : NULL);
->  }
->  =
-
-> +int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
-> +					     unsigned int supported_filters);
-> +
->  #endif
-> -- =
-
-> 2.23.0
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBBcHIgNiwgMjAyMCBhdCA2OjEzIFBNIEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5j
+b20+IHdyb3RlOgo+Cj4gQ3VycmVudGx5IHdlIG9ubHkgcG9sbCBmb3IgYW4gQUNUIHVwIHRvIDMw
+IHRpbWVzLCB3aXRoIGEgYnVzeS13YWl0IGRlbGF5Cj4gb2YgMTAwwrVzIGJldHdlZW4gZWFjaCBh
+dHRlbXB0IC0gZ2l2aW5nIHVzIGEgdGltZW91dCBvZiAyOTAwwrVzLiBXaGlsZQo+IHRoaXMgbWln
+aHQgc2VlbSBzZW5zaWJsZSwgaXQgd291bGQgYXBwZWFyIHRoYXQgaW4gY2VydGFpbiBzY2VuYXJp
+b3MgaXQKPiBjYW4gdGFrZSBkcmFtYXRpY2FsbHkgbG9uZ2VyIHRoZW4gdGhhdCBmb3IgdXMgdG8g
+cmVjZWl2ZSBhbiBBQ1QuIE9uIG9uZQo+IG9mIHRoZSBFVkdBIE1TVCBodWJzIHRoYXQgSSBoYXZl
+IGF2YWlsYWJsZSwgSSBvYnNlcnZlZCBzYWlkIGh1Ygo+IHNvbWV0aW1lcyB0YWtpbmcgbG9uZ2Vy
+IHRoZW4gYSBzZWNvbmQgYmVmb3JlIHNpZ25hbGxpbmcgdGhlIEFDVC4gVGhlc2UKPiBkZWxheXMg
+bW9zdGx5IHNlZW0gdG8gb2NjdXIgd2hlbiBwcmV2aW91cyBzaWRlYmFuZCBtZXNzYWdlcyB3ZSd2
+ZSBzZW50Cj4gYXJlIE5BS2QgYnkgdGhlIGh1YiwgaG93ZXZlciBpdCB3b3VsZG4ndCBiZSBwYXJ0
+aWN1bGFybHkgc3VycHJpc2luZyBpZgo+IGl0J3MgcG9zc2libGUgdG8gcmVwcm9kdWNlIHRpbWVz
+IGxpa2UgdGhpcyBzaW1wbHkgYnkgaW50cm9kdWNpbmcgYnJhbmNoCj4gZGV2aWNlcyB3aXRoIGxh
+cmdlIExDVHMgc2luY2UgcGF5bG9hZCBhbGxvY2F0aW9ucyBoYXZlIHRvIHRha2UgZWZmZWN0IG9u
+Cj4gZXZlcnkgZG93bnN0cmVhbSBkZXZpY2UgdXAgdG8gdGhlIHBheWxvYWQncyB0YXJnZXQuCj4K
+PiBTbywgaW5zdGVhZCBvZiBqdXN0IHJldHJ5aW5nIDMwIHRpbWVzIHdlIHBvbGwgZm9yIHRoZSBB
+Q1QgZm9yIHVwIHRvIDNtcywKPiBhbmQgYWRkaXRpb25hbGx5IHVzZSB1c2xlZXBfcmFuZ2UoKSB0
+byBhdm9pZCBhIHZlcnkgbG9uZyBhbmQgcnVkZQo+IGJ1c3ktd2FpdC4gTm90ZSB0aGF0IHRoZSBw
+cmV2aW91cyByZXRyeSBjb3VudCBvZiAzMCBhcHBlYXJzIHRvIGhhdmUgYmVlbgo+IGFyYml0cmFy
+aWx5IGNob3NlbiwgYXMgSSBjYW4ndCBmaW5kIGFueSBtZW50aW9uIG9mIGEgcmVjb21tZW5kZWQg
+dGltZW91dAo+IG9yIHJldHJ5IGNvdW50IGZvciBBQ1RzIGluIHRoZSBEaXNwbGF5UG9ydCAyLjAg
+c3BlY2lmaWNhdGlvbi4gVGhpcyBhbHNvCj4gZ29lcyBmb3IgdGhlIHJhbmdlIHdlIHdlcmUgcHJl
+dmlvdXNseSB1c2luZyBmb3IgdWRlbGF5KCksIGFsdGhvdWdoIEkKPiBzdXNwZWN0IHRoYXQgd2Fz
+IGp1c3QgY29waWVkIGZyb20gdGhlIHJlY29tbWVuZGVkIGRlbGF5IGZvciBsaW5rCj4gdHJhaW5p
+bmcgb24gU1NUIGRldmljZXMuCj4KPiBDaGFuZ2VzIHNpbmNlIHYxOgo+ICogVXNlIHJlYWR4X3Bv
+bGxfdGltZW91dCgpIGluc3RlYWQgb2Ygb3Blbi1jb2RpbmcgdGltZW91dCBsb29wIC0gU2Vhbgo+
+ICAgUGF1bAo+Cj4gU2lnbmVkLW9mZi1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4K
+PiBGaXhlczogYWQ3ZjhhMWY5Y2VkICgiZHJtL2hlbHBlcjogYWRkIERpc3BsYXlwb3J0IG11bHRp
+LXN0cmVhbSBoZWxwZXIgKHYwLjYpIikKPiBDYzogU2VhbiBQYXVsIDxzZWFuQHBvb3JseS5ydW4+
+Cj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHYzLjE3Kwo+IC0tLQo+ICBkcml2ZXJz
+L2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jIHwgNTcgKysrKysrKysrKysrKysrKy0tLS0t
+LS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAzNCBpbnNlcnRpb25zKCspLCAyMyBkZWxldGlvbnMo
+LSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5j
+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+IGluZGV4IGM4M2FkYmRm
+YzFjZC4uY2U2MTk2NGJhYTdjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBf
+bXN0X3RvcG9sb2d5LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9n
+eS5jCj4gQEAgLTI3LDYgKzI3LDcgQEAKPiAgI2luY2x1ZGUgPGxpbnV4L2tlcm5lbC5oPgo+ICAj
+aW5jbHVkZSA8bGludXgvc2NoZWQuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L3NlcV9maWxlLmg+Cj4g
+KyNpbmNsdWRlIDxsaW51eC9pb3BvbGwuaD4KPgo+ICAjaWYgSVNfRU5BQkxFRChDT05GSUdfRFJN
+X0RFQlVHX0RQX01TVF9UT1BPTE9HWV9SRUZTKQo+ICAjaW5jbHVkZSA8bGludXgvc3RhY2t0cmFj
+ZS5oPgo+IEBAIC00NDYwLDQzICs0NDYxLDUzIEBAIHN0YXRpYyBpbnQgZHJtX2RwX2RwY2Rfd3Jp
+dGVfcGF5bG9hZChzdHJ1Y3QgZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1nciwKPiAgICAgICAg
+IHJldHVybiByZXQ7Cj4gIH0KPgo+ICtzdGF0aWMgaW50IGRvX2dldF9hY3Rfc3RhdHVzKHN0cnVj
+dCBkcm1fZHBfYXV4ICphdXgpCj4gK3sKPiArICAgICAgIGludCByZXQ7Cj4gKyAgICAgICB1OCBz
+dGF0dXM7Cj4gKwo+ICsgICAgICAgcmV0ID0gZHJtX2RwX2RwY2RfcmVhZGIoYXV4LCBEUF9QQVlM
+T0FEX1RBQkxFX1VQREFURV9TVEFUVVMsICZzdGF0dXMpOwo+ICsgICAgICAgaWYgKHJldCA8IDAp
+Cj4gKyAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gKwo+ICsgICAgICAgcmV0dXJuIHN0YXR1
+czsKPiArfQo+Cj4gIC8qKgo+ICAgKiBkcm1fZHBfY2hlY2tfYWN0X3N0YXR1cygpIC0gUG9sbHMg
+Zm9yIEFDVCBoYW5kbGVkIHN0YXR1cy4KPiAgICogQG1ncjogbWFuYWdlciB0byB1c2UKPiAgICoK
+PiAgICogVHJpZXMgd2FpdGluZyBmb3IgdGhlIE1TVCBodWIgdG8gZmluaXNoIHVwZGF0aW5nIGl0
+J3MgcGF5bG9hZCB0YWJsZSBieQo+IC0gKiBwb2xsaW5nIGZvciB0aGUgQUNUIGhhbmRsZWQgYml0
+Lgo+ICsgKiBwb2xsaW5nIGZvciB0aGUgQUNUIGhhbmRsZWQgYml0IGZvciB1cCB0byAzIHNlY29u
+ZHMgKHllcy1zb21lIGh1YnMgcmVhbGx5Cj4gKyAqIHRha2UgdGhhdCBsb25nKS4KPiAgICoKPiAg
+ICogUmV0dXJuczoKPiAgICogMCBpZiB0aGUgQUNUIHdhcyBoYW5kbGVkIGluIHRpbWUsIG5lZ2F0
+aXZlIGVycm9yIGNvZGUgb24gZmFpbHVyZS4KPiAgICovCj4gIGludCBkcm1fZHBfY2hlY2tfYWN0
+X3N0YXR1cyhzdHJ1Y3QgZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1ncikKPiAgewo+IC0gICAg
+ICAgaW50IGNvdW50ID0gMCwgcmV0Owo+IC0gICAgICAgdTggc3RhdHVzOwo+IC0KPiAtICAgICAg
+IGRvIHsKPiAtICAgICAgICAgICAgICAgcmV0ID0gZHJtX2RwX2RwY2RfcmVhZGIobWdyLT5hdXgs
+Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERQX1BBWUxPQURfVEFC
+TEVfVVBEQVRFX1NUQVRVUywKPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgJnN0YXR1cyk7Cj4gLSAgICAgICAgICAgICAgIGlmIChyZXQgPCAwKSB7Cj4gLSAgICAgICAg
+ICAgICAgICAgICAgICAgRFJNX0RFQlVHX0tNUygiZmFpbGVkIHRvIHJlYWQgcGF5bG9hZCB0YWJs
+ZSBzdGF0dXMgJWRcbiIsCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBy
+ZXQpOwo+IC0gICAgICAgICAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gLSAgICAgICAgICAg
+ICAgIH0KPiAtCj4gLSAgICAgICAgICAgICAgIGlmIChzdGF0dXMgJiBEUF9QQVlMT0FEX0FDVF9I
+QU5ETEVEKQo+IC0gICAgICAgICAgICAgICAgICAgICAgIGJyZWFrOwo+IC0gICAgICAgICAgICAg
+ICBjb3VudCsrOwo+IC0gICAgICAgICAgICAgICB1ZGVsYXkoMTAwKTsKPiAtICAgICAgIH0gd2hp
+bGUgKGNvdW50IDwgMzApOwo+IC0KPiAtICAgICAgIGlmICghKHN0YXR1cyAmIERQX1BBWUxPQURf
+QUNUX0hBTkRMRUQpKSB7Cj4gLSAgICAgICAgICAgICAgIERSTV9ERUJVR19LTVMoImZhaWxlZCB0
+byBnZXQgQUNUIGJpdCAlZCBhZnRlciAlZCByZXRyaWVzXG4iLAo+IC0gICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHN0YXR1cywgY291bnQpOwo+ICsgICAgICAgLyoKPiArICAgICAgICAqIFRo
+ZXJlIGRvZXNuJ3Qgc2VlbSB0byBiZSBhbnkgcmVjb21tZW5kZWQgcmV0cnkgY291bnQgb3IgdGlt
+ZW91dCBpbgo+ICsgICAgICAgICogdGhlIE1TVCBzcGVjaWZpY2F0aW9uLiBTaW5jZSBzb21lIGh1
+YnMgaGF2ZSBiZWVuIG9ic2VydmVkIHRvIHRha2UKPiArICAgICAgICAqIG92ZXIgMSBzZWNvbmQg
+dG8gdXBkYXRlIHRoZWlyIHBheWxvYWQgYWxsb2NhdGlvbnMgdW5kZXIgY2VydGFpbgo+ICsgICAg
+ICAgICogY29uZGl0aW9ucywgd2UgdXNlIGEgcmF0aGVyIGxhcmdlIHRpbWVvdXQgdmFsdWUuCj4g
+KyAgICAgICAgKi8KPiArICAgICAgIGNvbnN0IGludCB0aW1lb3V0X21zID0gMzAwMDsKPiArICAg
+ICAgIGludCByZXQsIHN0YXR1czsKPiArCj4gKyAgICAgICByZXQgPSByZWFkeF9wb2xsX3RpbWVv
+dXQoZG9fZ2V0X2FjdF9zdGF0dXMsIG1nci0+YXV4LCBzdGF0dXMsCj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgc3RhdHVzICYgRFBfUEFZTE9BRF9BQ1RfSEFORExFRCB8fCBzdGF0
+dXMgPCAwLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDEwMCwgdGltZW91dF9t
+cyAqIFVTRUNfUEVSX01TRUMpOwoKSW4gdjEgdGhlIHVzbGVlcCByYW5nZSB3YXMgMTAwIC0+IDEw
+MDAsIGluIHYyIGl0J3MgZ29pbmcgdG8gYmUgNTEgLT4KMTAwLiBQZXJoYXBzIGJ1bXAgdGhpcyB1
+cCB0byAyMDA/Cgo+ICsgICAgICAgaWYgKHJldCA8IDAgJiYgc3RhdHVzID49IDApIHsKPiArICAg
+ICAgICAgICAgICAgRFJNX0RFQlVHX0tNUygiRmFpbGVkIHRvIGdldCBBQ1QgYml0ICVkIGFmdGVy
+ICVkbXNcbiIsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RhdHVzLCB0aW1lb3V0
+X21zKTsKCkkgc3RpbGwgdGhpbmsgc3RhdHVzIHNob3VsZCBiZSBiYXNlIDE2IHdoZW4gcHJpbnRl
+ZAoKV2l0aCB0aG9zZSBuaXRzIGFkZHJlc3NlZCwKClJldmlld2VkLWJ5OiBTZWFuIFBhdWwgPHNl
+YW5AcG9vcmx5LnJ1bj4KCj4gICAgICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOwo+ICsgICAg
+ICAgfSBlbHNlIGlmIChzdGF0dXMgPCAwKSB7Cj4gKyAgICAgICAgICAgICAgIERSTV9ERUJVR19L
+TVMoIkZhaWxlZCB0byByZWFkIHBheWxvYWQgdGFibGUgc3RhdHVzOiAlZFxuIiwKPiArICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBzdGF0dXMpOwo+ICsgICAgICAgICAgICAgICByZXR1cm4g
+c3RhdHVzOwo+ICAgICAgICAgfQo+ICsKPiAgICAgICAgIHJldHVybiAwOwo+ICB9Cj4gIEVYUE9S
+VF9TWU1CT0woZHJtX2RwX2NoZWNrX2FjdF9zdGF0dXMpOwo+IC0tCj4gMi4yNS4xCj4KX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
