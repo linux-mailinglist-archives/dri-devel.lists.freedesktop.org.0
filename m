@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7B61A0886
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 09:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C151A0891
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 09:46:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0FD36E57E;
-	Tue,  7 Apr 2020 07:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7544589FD3;
+	Tue,  7 Apr 2020 07:46:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 711876E57A
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 07:42:54 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id j17so2608654wru.13
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 00:42:54 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4637389FD3
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 07:46:25 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id 31so2684549wre.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 00:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=jq4C3ivERiHGWYHnYULrL/YqTLEFidM1uG9DLMVZrU4=;
- b=jcD3Cp/NNO8tlS19HhBDJW8XSVHkGzjX615r/W0iEmI/dW05OIw9UkArP1Ym6sXsfr
- GrzVNLWOr4rBX+VdkYJIs7bqmc7rMEFhXaKU9tgP7O6upMGpkpl3PLaFjhoQQ+ILePHP
- PCRppTabfGv+X6IjqHudvZShSKZXU1HbLhmAA=
+ bh=lVZ+YdwfIk4PeMabQVzWIFSraf5btbPFfPJ0hBqt9yI=;
+ b=EF+k95AwD6bPpwIwEsasOreHbgtuI2K8eJjY1RRWNWTihPEHBWAhVO2k7cbSZjdDa+
+ Tk2y1/DEBUWlWPgyOsBB39WIkAVqA/2kgMtiu1E1gil2VadmaH58rAA4HUm/TP5XHmtW
+ SL+MBW36t8TMMLf75TBBkD3qBLf7X9qDpz4NY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=jq4C3ivERiHGWYHnYULrL/YqTLEFidM1uG9DLMVZrU4=;
- b=NAmAMVwD7AYUDCSzrcLjeRWF3OApw7wg0M3bthjwvtf0dZN+OIG+909DRkso5rQg4g
- +bChcWMCBjwriwChvLCzsvIfRy3RMyxlVnMQEufnkI4g5BnsCXirhilQysGOXA9+DMNo
- rAy2mG6cRWiYo8nZ9HTn7kruFwqRzkLAcbXauYJw/FxVuJkRP1GP+djnJtmMU6DfY1Nf
- Oqq1pAcwHtdR1zTNky9ZtuKM0H50T4xaVBsdAKA0h/yKtzC9HCsRQ8RrQol9M5gM6UrQ
- uP3kMohzIZKWdcA3bktFUNiRxjKLIl8B7S1QxjK2x3JCoL30rsEzm1w4dG2k4kReZvr3
- L5dw==
-X-Gm-Message-State: AGi0PuYD3PCXp9vnouDzJh9RxzxUnsAqpfETKTcUfS3q3MAc7OzOnHYk
- fYOckCMpEVzSRlm/L77hsta+YA==
-X-Google-Smtp-Source: APiQypJ0dRXDI93nwsVbUW/FK3rq4YdhPWN3FRgv1K5NG2KIlaHkzh4+Wjq+DWfXap98lroTPF+Ahg==
-X-Received: by 2002:a5d:4e4e:: with SMTP id r14mr1234597wrt.362.1586245372966; 
- Tue, 07 Apr 2020 00:42:52 -0700 (PDT)
+ bh=lVZ+YdwfIk4PeMabQVzWIFSraf5btbPFfPJ0hBqt9yI=;
+ b=AWlKC84Gj4SC2CNDPlT/Bf14MCmzitvcCSIdoOAv1+N8Akwbx+c4alR0zP8Vm17yuB
+ +td/3OhFTvWbQl6tQCYsxSEQ+csQP54MEzZ9fWMLXzTG6Md/l5/CXGk47wV2E4LNU0Wk
+ N+VXfhFAhpYhKf7nLoOs7laFpoGrXehj3bKhrn7wUtlkQo6kPkSC+u5mpsveaZC+DVuP
+ CxMZISDF44ezLUCy6iiOGsP+VDCJf5Whtze0N4BBXv18J0HDhIX164b90JnTozdWJ3w5
+ aWQ7vLyyh8sUhLqaGmU2Heasvy7VcYzeTbfm88pzUSZrKAvW5ybecx1NMqK8lkCPJKJm
+ DUzw==
+X-Gm-Message-State: AGi0PuazvPPyqwLagBHRyCR+ApAhBTsGe7xIBLNh3QDOyoNcTfk35qNY
+ NasA0lvVY0Gc0/Jt3zdxs+hhEUen3RM=
+X-Google-Smtp-Source: APiQypICjAebPo3knB98Owf+DaBh/JvQjgUTjZlGbvCFiqt7eMU5Aw4X36Lybdm/9gjYajp9OefX0g==
+X-Received: by 2002:adf:a406:: with SMTP id d6mr1236977wra.79.1586245583835;
+ Tue, 07 Apr 2020 00:46:23 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o13sm7528334wrm.74.2020.04.07.00.42.52
+ by smtp.gmail.com with ESMTPSA id n124sm1276376wma.11.2020.04.07.00.46.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Apr 2020 00:42:52 -0700 (PDT)
-Date: Tue, 7 Apr 2020 09:42:50 +0200
+ Tue, 07 Apr 2020 00:46:23 -0700 (PDT)
+Date: Tue, 7 Apr 2020 09:46:21 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 14/17] drm/i915: Replace I915_MODE_FLAG_INHERITED with
- a boolean
-Message-ID: <20200407074250.GC3456981@phenom.ffwll.local>
+Subject: Re: [PATCH v2 15/17] drm/gma500: Stop using mode->private_flags
+Message-ID: <20200407074621.GD3456981@phenom.ffwll.local>
 References: <20200403204008.14864-1-ville.syrjala@linux.intel.com>
- <20200403204008.14864-15-ville.syrjala@linux.intel.com>
+ <20200403204008.14864-16-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200403204008.14864-15-ville.syrjala@linux.intel.com>
+In-Reply-To: <20200403204008.14864-16-ville.syrjala@linux.intel.com>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,155 +66,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Velikov <emil.l.velikov@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 03, 2020 at 11:40:05PM +0300, Ville Syrjala wrote:
+On Fri, Apr 03, 2020 at 11:40:06PM +0300, Ville Syrjala wrote:
 > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
 > =
 
-> There's no reason for I915_MODE_FLAG_INHERITED to exist as a flag
-> anymore. Just make it a boolean.
+> gma500 only uses mode->private_flags to convey the sdvo pixel
+> multiplier from the encoder .mode_fixup() hook to the encoder
+> .mode_set() hook. Those always seems get called as a pair so
+> let's just stuff the pixel multiplier into the encoder itself
+> as there are no state objects we could use in this non-atomic
+> driver.
 > =
 
+> Paves the way for nuking mode->private_flag.
+
+Yeah the sdvo multiplier is why I originally started with creating the
+intel_pipe_config stuff ...
+
+The only semi-nasty thing with legacy crtc helpers is that they don't
+clean up anything from mode_fixup failures. But since the next modeset
+will go through the full dance again I think that's ok.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> =
+
+> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 > CC: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 > Cc: Emil Velikov <emil.l.velikov@gmail.com>
 > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
 > ---
->  drivers/gpu/drm/i915/display/intel_atomic.c       |  2 +-
->  drivers/gpu/drm/i915/display/intel_display.c      | 15 ++++++---------
->  .../gpu/drm/i915/display/intel_display_types.h    |  2 +-
->  3 files changed, 8 insertions(+), 11 deletions(-)
+>  drivers/gpu/drm/gma500/psb_intel_drv.h  | 19 -------------------
+>  drivers/gpu/drm/gma500/psb_intel_sdvo.c | 11 ++++++-----
+>  2 files changed, 6 insertions(+), 24 deletions(-)
 > =
 
-> diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/dr=
-m/i915/display/intel_atomic.c
-> index 5863e339a426..2deafaa9ec74 100644
-> --- a/drivers/gpu/drm/i915/display/intel_atomic.c
-> +++ b/drivers/gpu/drm/i915/display/intel_atomic.c
-> @@ -249,10 +249,10 @@ intel_crtc_duplicate_state(struct drm_crtc *crtc)
->  	crtc_state->update_wm_post =3D false;
->  	crtc_state->fifo_changed =3D false;
->  	crtc_state->preload_luts =3D false;
-> +	crtc_state->inherited =3D false;
->  	crtc_state->wm.need_postvbl_update =3D false;
->  	crtc_state->fb_bits =3D 0;
->  	crtc_state->update_planes =3D 0;
-> -	crtc_state->mode_flags &=3D ~I915_MODE_FLAG_INHERITED;
+> diff --git a/drivers/gpu/drm/gma500/psb_intel_drv.h b/drivers/gpu/drm/gma=
+500/psb_intel_drv.h
+> index fb601983cef0..3dd5718c3e31 100644
+> --- a/drivers/gpu/drm/gma500/psb_intel_drv.h
+> +++ b/drivers/gpu/drm/gma500/psb_intel_drv.h
+> @@ -56,25 +56,6 @@
+>  #define INTEL_OUTPUT_DISPLAYPORT 9
+>  #define INTEL_OUTPUT_EDP 10
 >  =
 
->  	return &crtc_state->uapi;
->  }
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
-rm/i915/display/intel_display.c
-> index d88cade45c35..550369444811 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -6413,8 +6413,7 @@ static bool hsw_post_update_enable_ips(const struct=
- intel_crtc_state *old_crtc_s
->  	 * We can't read out IPS on broadwell, assume the worst and
->  	 * forcibly enable IPS on the first fastset.
+> -#define INTEL_MODE_PIXEL_MULTIPLIER_SHIFT (0x0)
+> -#define INTEL_MODE_PIXEL_MULTIPLIER_MASK (0xf << INTEL_MODE_PIXEL_MULTIP=
+LIER_SHIFT)
+> -
+> -static inline void
+> -psb_intel_mode_set_pixel_multiplier(struct drm_display_mode *mode,
+> -				int multiplier)
+> -{
+> -	mode->clock *=3D multiplier;
+> -	mode->private_flags |=3D multiplier;
+> -}
+> -
+> -static inline int
+> -psb_intel_mode_get_pixel_multiplier(const struct drm_display_mode *mode)
+> -{
+> -	return (mode->private_flags & INTEL_MODE_PIXEL_MULTIPLIER_MASK)
+> -	       >> INTEL_MODE_PIXEL_MULTIPLIER_SHIFT;
+> -}
+> -
+> -
+>  /*
+>   * Hold information useally put on the device driver privates here,
+>   * since it needs to be shared across multiple of devices drivers privat=
+es.
+> diff --git a/drivers/gpu/drm/gma500/psb_intel_sdvo.c b/drivers/gpu/drm/gm=
+a500/psb_intel_sdvo.c
+> index 264d7ad004b4..9e88a37f55e9 100644
+> --- a/drivers/gpu/drm/gma500/psb_intel_sdvo.c
+> +++ b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
+> @@ -132,6 +132,8 @@ struct psb_intel_sdvo {
+>  	/* DDC bus used by this SDVO encoder */
+>  	uint8_t ddc_bus;
+>  =
+
+> +	u8 pixel_multiplier;
+> +
+>  	/* Input timings for adjusted_mode */
+>  	struct psb_intel_sdvo_dtd input_dtd;
+>  =
+
+> @@ -958,7 +960,6 @@ static bool psb_intel_sdvo_mode_fixup(struct drm_enco=
+der *encoder,
+>  				  struct drm_display_mode *adjusted_mode)
+>  {
+>  	struct psb_intel_sdvo *psb_intel_sdvo =3D to_psb_intel_sdvo(encoder);
+> -	int multiplier;
+>  =
+
+>  	/* We need to construct preferred input timings based on our
+>  	 * output timings.  To do that, we have to set the output
+> @@ -985,8 +986,9 @@ static bool psb_intel_sdvo_mode_fixup(struct drm_enco=
+der *encoder,
+>  	/* Make the CRTC code factor in the SDVO pixel multiplier.  The
+>  	 * SDVO device will factor out the multiplier during mode_set.
 >  	 */
-> -	if (new_crtc_state->update_pipe &&
-> -	    old_crtc_state->mode_flags & I915_MODE_FLAG_INHERITED)
-> +	if (new_crtc_state->update_pipe && old_crtc_state->inherited)
->  		return true;
+> -	multiplier =3D psb_intel_sdvo_get_pixel_multiplier(adjusted_mode);
+> -	psb_intel_mode_set_pixel_multiplier(adjusted_mode, multiplier);
+> +	psb_intel_sdvo->pixel_multiplier =3D
+> +		psb_intel_sdvo_get_pixel_multiplier(adjusted_mode);
+> +	adjusted_mode->clock *=3D psb_intel_sdvo->pixel_multiplier;
 >  =
 
->  	return !old_crtc_state->ips_enabled;
-> @@ -13516,8 +13515,7 @@ intel_pipe_config_compare(const struct intel_crtc=
-_state *current_config,
->  	bool ret =3D true;
->  	u32 bp_gamma =3D 0;
->  	bool fixup_inherited =3D fastset &&
-> -		(current_config->mode_flags & I915_MODE_FLAG_INHERITED) &&
-> -		!(pipe_config->mode_flags & I915_MODE_FLAG_INHERITED);
-> +		current_config->inherited && !pipe_config->inherited;
->  =
-
->  	if (fixup_inherited && !fastboot_enabled(dev_priv)) {
->  		drm_dbg_kms(&dev_priv->drm,
-> @@ -14667,10 +14665,9 @@ static int intel_atomic_check(struct drm_device =
-*dev,
->  	int ret, i;
->  	bool any_ms =3D false;
->  =
-
-> -	/* Catch I915_MODE_FLAG_INHERITED */
->  	for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state,
->  					    new_crtc_state, i) {
-> -		if (new_crtc_state->mode_flags !=3D old_crtc_state->mode_flags)
-> +		if (new_crtc_state->inherited !=3D old_crtc_state->inherited)
->  			new_crtc_state->uapi.mode_changed =3D true;
->  	}
->  =
-
-> @@ -15016,7 +15013,7 @@ static void intel_update_crtc(struct intel_atomic=
-_state *state,
->  	 * of enabling them on the CRTC's first fastset.
->  	 */
->  	if (new_crtc_state->update_pipe && !modeset &&
-> -	    old_crtc_state->mode_flags & I915_MODE_FLAG_INHERITED)
-> +	    old_crtc_state->inherited)
->  		intel_crtc_arm_fifo_underrun(crtc, new_crtc_state);
+>  	return true;
 >  }
+> @@ -1002,7 +1004,6 @@ static void psb_intel_sdvo_mode_set(struct drm_enco=
+der *encoder,
+>  	u32 sdvox;
+>  	struct psb_intel_sdvo_in_out_map in_out;
+>  	struct psb_intel_sdvo_dtd input_dtd;
+> -	int pixel_multiplier =3D psb_intel_mode_get_pixel_multiplier(adjusted_m=
+ode);
+>  	int rate;
+>  	int need_aux =3D IS_MRST(dev) ? 1 : 0;
 >  =
 
-> @@ -17494,7 +17491,7 @@ static int intel_initial_commit(struct drm_device=
- *dev)
->  			 * happen only for the first real commit from userspace.
->  			 * So preserve the inherited flag for the time being.
->  			 */
-> -			crtc_state->mode_flags |=3D I915_MODE_FLAG_INHERITED;
-> +			crtc_state->inherited =3D true;
+> @@ -1060,7 +1061,7 @@ static void psb_intel_sdvo_mode_set(struct drm_enco=
+der *encoder,
 >  =
 
->  			ret =3D drm_atomic_add_affected_planes(state, &crtc->base);
->  			if (ret)
-> @@ -18266,7 +18263,7 @@ static void intel_modeset_readout_hw_state(struct=
- drm_device *dev)
->  			 * set a flag to indicate that a full recalculation is
->  			 * needed on the next commit.
->  			 */
-> -			crtc_state->mode_flags |=3D I915_MODE_FLAG_INHERITED;
-> +			crtc_state->inherited =3D true;
+>  	(void) psb_intel_sdvo_set_input_timing(psb_intel_sdvo, &input_dtd);
 >  =
 
->  			intel_crtc_compute_pixel_rate(crtc_state);
->  =
-
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers=
-/gpu/drm/i915/display/intel_display_types.h
-> index 26df856f8b72..f529b14fbb2a 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -642,7 +642,6 @@ struct intel_crtc_scaler_state {
->  };
->  =
-
->  /* {crtc,crtc_state}->mode_flags */
-> -#define I915_MODE_FLAG_INHERITED (1<<0)
->  /* Flag to get scanline using frame time stamps */
->  #define I915_MODE_FLAG_GET_SCANLINE_FROM_TIMESTAMP (1<<1)
->  /* Flag to use the scanline counter instead of the pixel counter */
-> @@ -837,6 +836,7 @@ struct intel_crtc_state {
->  	bool update_wm_pre, update_wm_post; /* watermarks are updated */
->  	bool fifo_changed; /* FIFO split is changed */
->  	bool preload_luts;
-> +	bool inherited; /* state inherited from BIOS? */
->  =
-
->  	/* Pipe source size (ie. panel fitter input size)
->  	 * All planes will be positioned inside this space,
+> -	switch (pixel_multiplier) {
+> +	switch (psb_intel_sdvo->pixel_multiplier) {
+>  	default:
+>  	case 1: rate =3D SDVO_CLOCK_RATE_MULT_1X; break;
+>  	case 2: rate =3D SDVO_CLOCK_RATE_MULT_2X; break;
 > -- =
 
 > 2.24.1
