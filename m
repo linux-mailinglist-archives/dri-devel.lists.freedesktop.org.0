@@ -1,54 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6971A0905
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 10:10:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52FE91A07EC
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 09:06:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E4476E5D2;
-	Tue,  7 Apr 2020 08:09:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4B176E52F;
+	Tue,  7 Apr 2020 07:06:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5301::5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6576D6E525
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 07:01:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1586242869;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=VFXj4dpUOu/S9rLbC7KR7sOUmE95my22jH+cpwFuU5I=;
- b=McEsBMOUpzwInj/8E6LOIJiUyrt5oG8BPbe9MkNfNoqPDtbIZf7lIF9M532ZQjSpg8
- J0LyJeA/X21wWII2vMyx+OSmlpYhJogusreTrxKXkZwiC5shFGYhMQRrxtLQKyzj7NPH
- k4A9MM28KKaKyKsACztiDbH7Jz314+38UOxW1XafG59Byu7bbmhEeJCGUZlacDNcCv6V
- croa1SRC71V/D3R8LNob/orl6H3xjbcFRP+52lljDTHWfVTBN4jimGEL7J23f535T6fy
- cfbBN9Q/1s8bYVjEENhhvYAAgiWgb5xgQ3a3DNd4x/eMzZBO4IMiRUeETrFhZq2wwJfn
- CmXg==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBp5hRw/qOxWRk4dCzzVWjZMpPLf7DqeEVaZMNMnOlXq6WvfU0ov11g"
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2001:16b8:26f1:6300:3c47:ec38:42c4:72c6]
- by smtp.strato.de (RZmta 46.2.1 AUTH) with ESMTPSA id m02241w3770kj69
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Tue, 7 Apr 2020 09:00:46 +0200 (CEST)
-Subject: Re: [PATCH v5 1/8] dt-bindings: add img,
- pvrsgx.yaml for Imagination GPUs
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <000359713a45bb1a1adc0b609e4e659aedf99e6c.1585503505.git.hns@goldelico.com>
-Date: Tue, 7 Apr 2020 09:00:48 +0200
-Message-Id: <0E273453-861D-45A2-8FA4-D5EC4B78F490@goldelico.com>
-References: <cover.1585503505.git.hns@goldelico.com>
- <000359713a45bb1a1adc0b609e4e659aedf99e6c.1585503505.git.hns@goldelico.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>, Paul Cercueil <paul@crapouillou.net>,
- Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paulburton@kernel.org>,
- James Hogan <jhogan@kernel.org>
-X-Mailer: Apple Mail (2.3124)
-X-Mailman-Approved-At: Tue, 07 Apr 2020 08:09:32 +0000
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2071.outbound.protection.outlook.com [40.107.244.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1E856E526;
+ Tue,  7 Apr 2020 07:06:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WAR8aNhUmzGHT6qrG6h+w2fHbAdpLjjn72uua4ve1S/qCLtV+W19wIz7Gl6kHAMnI6CIuAU2FzFBTzI6wrIklWyH83t7HB7kvtKAAgdn3FUi4vy6ro4SdAIOjlX5UTUjygDLhscdEdMG3xpcc0NUQvsR6kRF9vccikfwK+3kiUEUMbhvDrHqd84gvgaEm+ZxlxPhHLlP7+wU+ck57goMTlJoU5ASZZge36ZebMaxY4lSKfwB/PuqKcxit+BhWE70NmlhUnWimQUHx58O3DuVMM+0cekbMmQThfAYoPOSnqZ2x2UCzhMKyg8PXC7LtkUQW04+DtaaWdo3XmS2n9WOpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DrQf7W/r/0YUl0MQvWQsaYEDD7EjjIiSIxtvPdsYnNA=;
+ b=Ut8+cCwA1oPx4zsIU5ev6YJWhClPid0eP6PbtUfK7cxs08c+YnaQzlavfHG30WbUXo9MM61gHSk3+RSLZWVTyzrYXA0tag4svJ3bE50k3jzMMvzd7oTCGXwaNbnF7FIDUBE2rx7XCFoa8HGkleTISHqGFmtrIn83zUYtp61A+TfhEdjvTVm2SPNAmAicOJ4TJnIPTa5vJMAr7PIaJ5b3iLHVoQOxKqdd9b3L+jl9/aUq4rSmmuAbxhFje6TUtq1XZwgwfBUoKwogNnh02oFq0afp6wxXiyjo7qUlj7KWw4ZBnq+G7kamwxWPW8Fyz78TKtwg1RyggKYU2s8uBM0P+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DrQf7W/r/0YUl0MQvWQsaYEDD7EjjIiSIxtvPdsYnNA=;
+ b=ffgN9gk2+YFd7We5t/LfWW4CCHSS2HHm9fKOgBuc8RZmR3q6+KrMo4rtwmGNxxhq3tI2chxSxawplyZAcyIdU3kppgvV9WvqzGdAjcDZvH+0u8tXpTR6/C8kH8QKBiMAPJwlErfEIwZ/NEN/rp1bTXgtMQCmJQCyEv2QJ5Va/Lk=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Christian.Koenig@amd.com; 
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
+ by DM6PR12MB3691.namprd12.prod.outlook.com (2603:10b6:5:1c5::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.15; Tue, 7 Apr
+ 2020 07:06:07 +0000
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::f164:85c4:1b51:14d2]) by DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::f164:85c4:1b51:14d2%4]) with mapi id 15.20.2878.018; Tue, 7 Apr 2020
+ 07:06:07 +0000
+Subject: Re: [PATCH 1/2] drm/ttm: clean up
+ ttm_trace_dma_map/ttm_trace_dma_unmap
+To: Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <1586241885-25422-1-git-send-email-ray.huang@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <19af654b-ca0b-3077-01bb-939c56b440b6@amd.com>
+Date: Tue, 7 Apr 2020 09:06:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+In-Reply-To: <1586241885-25422-1-git-send-email-ray.huang@amd.com>
+Content-Language: en-US
+X-ClientProxiedBy: AM5PR06CA0024.eurprd06.prod.outlook.com
+ (2603:10a6:206:2::37) To DM6PR12MB4401.namprd12.prod.outlook.com
+ (2603:10b6:5:2a9::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM5PR06CA0024.eurprd06.prod.outlook.com (2603:10a6:206:2::37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2878.16 via Frontend Transport; Tue, 7 Apr 2020 07:06:06 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 9b855bf4-b8d9-4dbd-27c9-08d7dac224f1
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3691:|DM6PR12MB3691:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3691115CD4C25D4F0B051CCF83C30@DM6PR12MB3691.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Forefront-PRVS: 036614DD9C
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4401.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10009020)(4636009)(376002)(136003)(366004)(396003)(346002)(39860400002)(2616005)(66556008)(52116002)(86362001)(36756003)(66476007)(31686004)(2906002)(66946007)(316002)(5660300002)(4744005)(478600001)(81166006)(186003)(16526019)(81156014)(6666004)(6486002)(31696002)(8676002)(450100002)(8936002);
+ DIR:OUT; SFP:1101; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XTuzJK8g6BazLjunduuk98+JdL3zHHbM3dAE+p0G96H/UjvNP5DGzomAe86d/NiN5MLXFt1LuTuQsrwRDF9sDqV/6upmtsOyHAJoHER7kT2By7YKSq/SiCwI/5HgU/X4+pwuTw1wNjiPPW+Fng5TC6DywnqtI8rR4cd8I0/mTzHG4GURCG/+egkJvT167L5y4m4yoQZV1JNTWgweONUO0CpYq9IC0pthCZkvbPyVRTpsBa15OypDgShLS4Rog7GOvI1WU6F9Rpq48FGGanJ0E1hdIudt1h0yBipNTG+M969FAoy/oF28bpd2ymcsz7mbv7bf+7gM9pZvun2xAj3ZREDVmt7Uo2tPzYxKoXLwqXOz9Z4Jr0iE5gh0azQQZZSV8TuxrxzC73BVjOYiAMqxMJxC95G8H7si/ul3eaCE82TjUERR2Vtrmoi4csp9VRnV
+X-MS-Exchange-AntiSpam-MessageData: XLEvx+U/yIgHhuCRog5uz/wrm04F506XlIX0+kqFfAZ3Lov+16rKF4i2/s9uJPIDUO3+Z2t3AmJoKfidYwCB/RV2hSySxXgX3MOEQjNtXG7jYiOU0+DUz6Tm/udmzB/n+0Uf62IIDCgL84sBBfdoKTffODGjkejYFxqdmw/STOQ5Nad3VP6xt/VRr1NvNT8Ez8KhiqxGjp1PmGS/A8Ldyg==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b855bf4-b8d9-4dbd-27c9-08d7dac224f1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2020 07:06:07.7058 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6W4fLFm6ashmZyFn+rN71Cnisb63J8B+5AwDfbtUnsu8KWicQbJYqXBmDssAx2jn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3691
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,167 +101,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Philipp Rossak <embed3d@gmail.com>,
- OpenPVRSGX Linux Driver Group <openpvrsgx-devgroup@letux.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- linux-mips@vger.kernel.org, kernel@pyra-handheld.com,
- linux-omap <linux-omap@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-> Am 29.03.2020 um 19:38 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
-> 
-> The Imagination PVR/SGX GPU is part of several SoC from
-> multiple vendors, e.g. TI OMAP, Ingenic JZ4780, Intel Poulsbo,
-> Allwinner A83 and others.
-> 
-> With this binding, we describe how the SGX processor is
-> interfaced to the SoC (registers, interrupt etc.).
-> 
-> In most cases, Clock, Reset and power management is handled
-> by a parent node or elsewhere (e.g. code in the driver).
-> 
-> Tested by make dt_binding_check dtbs_check
-> 
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+Am 07.04.20 um 08:44 schrieb Huang Rui:
+> ttm_trace_dma_map/ttm_trace_dma_unmap is never used anymore. Move the pr_fmt
+> prefix into this header.
+>
+> Signed-off-by: Huang Rui <ray.huang@amd.com>
 > ---
-> .../devicetree/bindings/gpu/img,pvrsgx.yaml   | 109 ++++++++++++++++++
-> 1 file changed, 109 insertions(+)
-> create mode 100644 Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml b/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
-> new file mode 100644
-> index 000000000000..aadfb2d9b012
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
-> @@ -0,0 +1,109 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/gpu/img,pvrsgx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Imagination PVR/SGX GPU
-> +
-> +maintainers:
-> +  - H. Nikolaus Schaller <hns@goldelico.com>
-> +
-> +description: |+
-> +  This binding describes the Imagination SGX5 series of 3D accelerators which
-> +  are found in several different SoC like TI OMAP, Sitara, Ingenic JZ4780,
-> +  Allwinner A83, and Intel Poulsbo and CedarView and more.
-> +
-> +  For an extensive list see: https://en.wikipedia.org/wiki/PowerVR#Implementations
-> +
-> +  The SGX node is usually a child node of some DT node belonging to the SoC
-> +  which handles clocks, reset and general address space mapping of the SGX
-> +  register area.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - description: SGX530-121 based SoC
-> +        items:
-> +          - enum:
-> +            - ti,omap3-sgx530-121 # BeagleBoard A/B/C, OpenPandora 600MHz and similar
-> +          - const: img,sgx530-121
-> +          - const: img,sgx530
-> +
-> +      - description: SGX530-125 based SoC
-> +        items:
-> +          - enum:
-> +            - ti,am3352-sgx530-125 # BeagleBone Black
-> +            - ti,am3517-sgx530-125
-> +            - ti,am4-sgx530-125
-> +            - ti,omap3-sgx530-125 # BeagleBoard XM, GTA04, OpenPandora 1GHz and similar
-> +            - ti,ti81xx-sgx530-125
-> +          - const: ti,omap3-sgx530-125
-> +          - const: img,sgx530-125
-> +          - const: img,sgx530
-> +
-> +      - description: SGX535-116 based SoC
-> +        items:
-> +          - const: intel,poulsbo-gma500-sgx535 # Atom Z5xx
-> +          - const: img,sgx535-116
-> +          - const: img,sgx535
-> +
-> +      - description: SGX540-116 based SoC
-> +        items:
-> +          - const: intel,medfield-gma-sgx540 # Atom Z24xx
-> +          - const: img,sgx540-116
-> +          - const: img,sgx540
-> +
-> +      - description: SGX540-120 based SoC
-> +        items:
-> +          - enum:
-> +            - ingenic,jz4780-sgx540-120 # CI20
-> +            - ti,omap4-sgx540-120 # Pandaboard, Pandaboard ES and similar
-> +          - const: img,sgx540-120
-> +          - const: img,sgx540
-> +
-> +      - description: SGX544-112 based SoC
-> +        items:
-> +          - const: ti,omap4-sgx544-112
-> +          - const: img,sgx544-112
-> +          - const: img,sgx544
-> +
-> +      - description: SGX544-116 based SoC
-> +        items:
-> +          - enum:
-> +            - allwinner,sun8i-a83t-sgx544-116 # Banana-Pi-M3 (Allwinner A83T) and similar
+>   include/drm/ttm/ttm_debug.h | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/drm/ttm/ttm_debug.h b/include/drm/ttm/ttm_debug.h
+> index b5e460f..bd7cf37 100644
+> --- a/include/drm/ttm/ttm_debug.h
+> +++ b/include/drm/ttm/ttm_debug.h
+> @@ -27,5 +27,5 @@
+>   /*
+>    * Authors: Tom St Denis <tom.stdenis@amd.com>
+>    */
+> -extern void ttm_trace_dma_map(struct device *dev, struct ttm_dma_tt *tt);
+> -extern void ttm_trace_dma_unmap(struct device *dev, struct ttm_dma_tt *tt);
 
-Philipp Rossak reported on a different list [1] that the a83t tells to have a sgx544-115 inside.
+I would just completely remove the file since it isn't used any more.
 
-So it needs a separate entry.
+> +
+> +#define pr_fmt(fmt) "[TTM] " fmt
 
-[1]: http://lists.goldelico.com/pipermail/openpvrsgx-devgroup/2020-April/000263.html
+Oh, that is most likely not a good idea. The pr_fmt define should be set 
+for each file individually or otherwise we could accidentally include 
+the file in a driver.
 
-> +            - ti,dra7-sgx544-116 # DRA7
-> +            - ti,omap5-sgx544-116 # OMAP5 UEVM, Pyra Handheld and similar
-> +          - const: img,sgx544-116
-> +          - const: img,sgx544
-> +
-> +      - description: SGX545-116 based SoC
-> +        items:
-> +          - const: intel,cedarview-gma3600-sgx545 # Atom N2600, D2500
-> +          - const: img,sgx545-116
-> +          - const: img,sgx545
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |+
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    gpu: gpu@fe00 {
-> +      compatible = "ti,omap5-sgx544-116", "img,sgx544-116", "img,sgx544";
-> +      reg = <0xfe00 0x200>;
-> +      interrupts = <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
-> +    };
-> +
-> +...
-> -- 
-> 2.25.1
-> 
-
+Regards,
+Christian.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
