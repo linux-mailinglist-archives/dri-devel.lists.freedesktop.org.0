@@ -1,55 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FEC1A0F74
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 16:43:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB0F1A0FE4
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 17:07:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09C856E0B9;
-	Tue,  7 Apr 2020 14:43:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730166E07F;
+	Tue,  7 Apr 2020 15:07:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 362A96E0B9
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 14:42:59 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id f20so2104574wmh.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 07:42:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=A5crluqDCJte+gNsyivK3djubR8UK9Qs7PguScT+Qrc=;
- b=Quu9H2X35Je3lDn75vwmWB3wYdlmJwwaMG6MIMLs/aIuBOAkwFsN3MLI46RoJjxcYY
- WMcS+L4Muq6q/vjXBCG3dcohsyzU+Ar50DZuqGSsHpD71jvWUAl+AfD9+GRpmteN2oel
- EbNVJAtX4EkxuTb0kWa/6LOuTbPF73VePHmKF3necktt++Suw/gvGhh2oCdkmTmkyJqK
- EO4R9Kqzj0uSvUMxz6iuWz3Sr3zhnK4AsutklnxcZfzwm8/aRj3iwDaxr9YwSHZOR6Zi
- gfzNhaREbZ1oD6VPgVF0RbpJ4D9i0YpgrmRm/lhFxFbMOKXScJipcW4oAvfcSyXqZBdi
- 1GCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=A5crluqDCJte+gNsyivK3djubR8UK9Qs7PguScT+Qrc=;
- b=LupxB9mC94IdVkTCs3dKZOTKnhCRCLtDRQycw2GRIZBOVy0/GAnxrNcRpPsW5LcPg8
- biN4xSxX6U01Ib8ZXesTpjyAqbR7I19nmp3hbGJrhmCfm+lUAlWQYL6ojk75f1QJSg14
- 1hbK+UJZg4rB2n3Cxk7a30FKykWI56vr7V3lR07TR8pCO48Nr17sQIO6yBfHhl6gLx/+
- M1ZBj2W0LfFFXNo7c1M/qbDOkvb+48D4sc/0aXWVVRfoXWedGwN3k2z2zZCPNiLntLmD
- S3Y3PDyduExW8HZALAf0g98QJmoZX18jBETnUFidgUbtdkdnOCroZ2sMKau/2nEtN2A2
- 3SYQ==
-X-Gm-Message-State: AGi0PuYThgVXESqF81QiRAonJ6B+GuhypyeUW2DjriudVyDwYRkbvXIq
- ZLoqrea8tnizXOH+9xwyTb1EqKlBiCoRgX9l2qUV2w==
-X-Google-Smtp-Source: APiQypJzqMFA+1I1/fObnNTNXx89uhUCMwniwNR8B3vOONTBcDTNckZgzdN0BYzjbu5VW71chR5SFsDEfRCVtql2R1o=
-X-Received: by 2002:a7b:cc8e:: with SMTP id p14mr2682091wma.70.1586270577731; 
- Tue, 07 Apr 2020 07:42:57 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5767E6E07F
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 15:07:54 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 202445] amdgpu/dc: framerate dropping below adaptive sync range
+ causes screen flickering
+Date: Tue, 07 Apr 2020 15:07:53 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jaapbuurman@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-202445-2300-K0pO0eJN4R@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-202445-2300@https.bugzilla.kernel.org/>
+References: <bug-202445-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20200406194746.26433-1-sam@ravnborg.org>
- <20200406194746.26433-2-sam@ravnborg.org>
-In-Reply-To: <20200406194746.26433-2-sam@ravnborg.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 7 Apr 2020 10:42:46 -0400
-Message-ID: <CADnq5_MtFw5KaNCW8G8RvxYW7S4-KoZg5-6GSn-59TS-QvOBYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] drm/vblank: Add intro to documentation
-To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,117 +52,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBBcHIgNiwgMjAyMCBhdCAzOjQ4IFBNIFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3Jn
-Lm9yZz4gd3JvdGU6Cj4KPiBMeXVkZSBQYXVsIHdyb3RlIGEgdmVyeSBnb29kIGludHJvIHRvIHZi
-bGFuayBoZXJlOgo+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC9mYWY2M2Q4YTll
-ZDIzYzE2YWY2OTc2MmY1OWQwZGNhNmIyYmYwODVmLmNhbWVsQHJlZGhhdC5jb20vVC8jbWNlNjQ4
-MGJlNzM4MTYwZTlkMDdjNWQwMjNlODhmZDc4ZDdhMDZkMjcKPgo+IEFkZCB0aGlzIHRvIHRoZSBp
-bnRybyBjaGFwdGVyIGluIGRybV92YmxhbmsuYyBzbyBvdGhlcnMKPiBjYW4gYmVuZWZpdCBmcm9t
-IGl0IHRvby4KPgo+IHYyOgo+ICAgLSBSZXdvcmRlZCB0byBpbXByb3ZlIHJlYWRhYmlsaXR5IChU
-aG9tYXMpCj4KPiB2MzoKPiAgIC0gQWRkZWQgbmljZSBhc2NpaSBkcmF3aW5nIGZyb20gTHl1ZGUg
-KEx5dWRlKQo+ICAgLSBBZGRlZCByZWZlcmVuZGUgdG8gaGlnaC1wcmVjaXNpb24gdGltZXN0YW1w
-IChEYW5pZWwpCj4gICAtIEltcHJvdmVkIGdyYW1tYXIgKFRob21hcykKPiAgIC0gQ29tYmluZWQg
-aXQgYWxsIGFuZCBtYWRlIGtlcm5lbC1kb2MgaGFwcHkKPiAgIC0gRHJvcHBlZCBhbnkgYS1iLCBy
-LWIgZG8gdG8gdGhlIGFtb3VudCBvZiBjaGFuZ2VzCj4KPiBTaWduZWQtb2ZmLWJ5OiBTYW0gUmF2
-bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gQ28tZGV2ZWxvcGVkLWJ5OiBMeXVkZSBQYXVsIDxs
-eXVkZUByZWRoYXQuY29tPgo+IENjOiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+IENj
-OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiBDYzogRGFuaWVsIFZl
-dHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiBDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1h
-YXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KPiBDYzogTWF4aW1lIFJpcGFyZCA8bXJp
-cGFyZEBrZXJuZWwub3JnPgo+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3Vz
-ZS5kZT4KPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+IC0tLQo+ICBkcml2
-ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jIHwgNTMgKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCA1MyBpbnNlcnRpb25zKCspCj4KPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-dmJsYW5rLmMKPiBpbmRleCBiY2YzNDZiM2U0ODYuLjk2MzMwOTJjOWFkNSAxMDA2NDQKPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV92YmxhbmsuYwo+IEBAIC00MSw2ICs0MSw1OSBAQAo+ICAvKioKPiAgICogRE9DOiB2Ymxhbmsg
-aGFuZGxpbmcKPiAgICoKPiArICogRnJvbSB0aGUgY29tcHV0ZXIncyBwZXJzcGVjdGl2ZSwgZXZl
-cnkgdGltZSB0aGUgbW9uaXRvciBkaXNwbGF5cwo+ICsgKiBhIG5ldyBmcmFtZSB0aGUgc2Nhbm91
-dCBlbmdpbmUgaGF2ZSAic2Nhbm5lZCBvdXQiIHRoZSBkaXNwbGF5IGltYWdlCj4gKyAqIGZyb20g
-dG9wIHRvIGJvdHRvbSwgb25lIHJvdyBvZiBwaXhlbHMgYXQgYSB0aW1lLgo+ICsgKiBUaGUgY3Vy
-cmVudCByb3cgb2YgcGl4ZWxzIGlzIHJlZmVycmVkIHRvIGFzIHRoZSBjdXJyZW50IHNjYW5saW5l
-Lgo+ICsgKgo+ICsgKiBJbiBhZGRpdGlvbiB0byB0aGUgZGlzcGxheSdzIHZpc2libGUgYXJlYSwg
-dGhlcmUncyB1c3VhbGx5IGEgY291cGxlIG9mCj4gKyAqIGV4dHJhIHNjYW5saW5lcyB3aGljaCBh
-cmVuJ3QgYWN0dWFsbHkgZGlzcGxheWVkIG9uIHRoZSBzY3JlZW4uCj4gKyAqIFRoZXNlIGV4dHJh
-IHNjYW5saW5lcyBkb24ndCBjb250YWluIGltYWdlIGRhdGEgYW5kIGFyZSBvY2Nhc2lvbmFsbHkg
-dXNlZAo+ICsgKiBmb3IgZmVhdHVyZXMgbGlrZSBhdWRpbyBhbmQgaW5mb2ZyYW1lcy4gVGhlIHJl
-Z2lvbiBtYWRlIHVwIG9mIHRoZXNlCj4gKyAqIHNjYW5saW5lcyBpcyByZWZlcnJlZCB0byBhcyB0
-aGUgdmVydGljYWwgYmxhbmtpbmcgcmVnaW9uLCBvciB2YmxhbmsgZm9yCj4gKyAqIHNob3J0LgoK
-Rm9yIGhpc3RvcmljYWwgcmVmZXJlbmNlLCB0aGUgdmVydGljYWwgYmxhbmtpbmcgcGVyaW9kIHdh
-cyBkZXNpZ25lZCB0bwpnaXZlIHRoZSBlbGVjdHJvbiBndW4gKG9uIENSVHMpIGVub3VnaCB0aW1l
-IHRvIG1vdmUgYmFjayB0byB0aGUgdG9wIG9mCnRoZSBzY3JlZW4gdG8gc3RhcnQgc2Nhbm5pbmcg
-b3V0IHRoZSBuZXh0IGZyYW1lLiAgU2ltaWxhciBmb3IKaG9yaXpvbnRhbCBibGFua2luZyBwZXJp
-b2RzLiAgVGhleSB3ZXJlIGRlc2lnbmVkIHRvIGdpdmUgdGhlIGVsZWN0cm9uCmd1biBlbm91Z2gg
-dGltZSB0byBtb3ZlIGJhY2sgdG8gdGhlIG90aGVyIHNpZGUgb2YgdGhlIHNjcmVlbiB0byBzdGFy
-dApzY2FubmluZyB0aGUgbmV4dCBzY2FubGluZS4gIE1pZ2h0IGJlIHdvcnRoIGFkZGluZyBzb21l
-dGhpbmcgbGlrZQp0aGF0LiAgRWl0aGVyIHdheToKUmV2aWV3ZWQtYnk6IEFsZXggRGV1Y2hlciA8
-YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KCj4gKyAqCj4gKyAqIDo6Cj4gKyAqCj4gKyAqCj4g
-KyAqICAgIHBoeXNpY2FsIOKGkiAgIOKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKO
-veKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKOveKO
-veKOveKOveKOveKOveKOveKOveKOveKOveKOvQo+ICsgKiAgICB0b3Agb2YgICAgICB8ICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKPiArICogICAgZGlzcGxheSAgICAg
-fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8Cj4gKyAqICAgICAgICAg
-ICAgICAgIHwgICAgICAgICAgICAgICBOZXcgZnJhbWUgICAgICAgICAgICAgICAgfAo+ICsgKiAg
-ICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwK
-PiArICogICAgICAgICAgICAgICAgfOKGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KG
-k+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KG
-k+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk3wKPiArICogICAgICAgICAgICAgICAgfH5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn58IOKGkCBTY2FubGluZSwgdXBkYXRl
-cwo+ICsgKiAgICAgICAgICAgICAgICB84oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT
-4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT
-4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaT4oaTfCAgIHRoZSBmcmFtZSBhcyBpdAo+ICsgKiAg
-ICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwg
-ICB0cmF2ZWxzIGRvd24KPiArICogICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8ICAgKCJzY2FuIG91dCIpCj4gKyAqICAgICAgICAgICAgICAg
-IHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAo+ICsgKiAgICAgICAg
-ICAgICAgICB8ICAgICAgICAgICAgICAgT2xkIGZyYW1lICAgICAgICAgICAgICAgIHwKPiArICog
-ICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
-Cj4gKyAqICAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgfAo+ICsgKiAgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHwKPiArICogICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8ICAgcGh5c2ljYWwKPiArICogICAgICAgICAgICAgICAgfCAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgYm90dG9tIG9mCj4gKyAq
-ICAgIHZlcnRpY2FsICAgIHzijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3i
-jr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3ijr3i
-jr3ijr3ijr3ijr3ijr3ijr3ijr3ijr18IOKGkCBkaXNwbGF5Cj4gKyAqICAgIGJsYW5raW5nICAg
-IOKUhnh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHjilIYKPiArICogICAg
-cmVnaW9uICAg4oaSICDilIZ4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4
-4pSGCj4gKyAqICAgICAgICAgICAgICAgIOKUhnh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4
-eHh4eHh4eHh4eHjilIYKPiArICogICAgc3RhcnQgb2Yg4oaSICAg4o694o694o694o694o694o69
-4o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o694o69
-4o694o694o694o694o694o694o694o694o694o694o694o694o694o694o69Cj4gKyAqICAgIG5l
-dyBmcmFtZQo+ICsgKgo+ICsgKiAiUGh5c2ljYWwgdG9wIG9mIGRpc3BsYXkiIGlzIHRoZSByZWZl
-cmVuY2UgcG9pbnQgZm9yIHRoZSBoaWdoLXByZWNpc2lvbi8KPiArICogY29ycmVjdGVkIHRpbWVz
-dGFtcC4KPiArICoKPiArICogT24gYSBsb3Qgb2YgZGlzcGxheSBoYXJkd2FyZSwgcHJvZ3JhbW1p
-bmcgbmVlZHMgdG8gdGFrZSBlZmZlY3QgZHVyaW5nIHRoZQo+ICsgKiB2ZXJ0aWNhbCBibGFua2lu
-ZyBwZXJpb2Qgc28gdGhhdCBzZXR0aW5ncyBsaWtlIGdhbW1hLCB0aGUgaW1hZ2UgYnVmZmVyCj4g
-KyAqIGJ1ZmZlciB0byBiZSBzY2FubmVkIG91dCwgZXRjLiBjYW4gc2FmZWx5IGJlIGNoYW5nZWQg
-d2l0aG91dCBzaG93aW5nCj4gKyAqIGFueSB2aXN1YWwgYXJ0aWZhY3RzIG9uIHRoZSBzY3JlZW4u
-IEluIHNvbWUgdW5mb3JnaXZpbmcgaGFyZHdhcmUsIHNvbWUgb2YKPiArICogdGhpcyBwcm9ncmFt
-bWluZyBoYXMgdG8gYm90aCBzdGFydCBhbmQgZW5kIGluIHRoZSBzYW1lIHZibGFuay4KPiArICoK
-PiArICogVGhlIHZibGFuayBpbnRlcnJ1cHQgbWF5IGJlIGZpcmVkIGF0IGRpZmZlcmVudCBwb2lu
-dHMgZGVwZW5kaW5nIG9uIHRoZQo+ICsgKiBoYXJkd2FyZS4gU29tZSBoYXJkd2FyZSBpbXBsZW1l
-bnRhdGlvbnMgd2lsbCBmaXJlIHRoZSBpbnRlcnJ1cHQgd2hlbiB0aGUKPiArICogbmV3IGZyYW1l
-IHN0YXJ0LCBvdGhlciBpbXBsZW1lbnRhdGlvbnMgd2lsbCBmaXJlIHRoZSBpbnRlcnJ1cHQgYXQg
-ZGlmZmVyZW50Cj4gKyAqIHBvaW50cyBpbiB0aW1lLgo+ICsgKgo+ICAgKiBWZXJ0aWNhbCBibGFu
-a2luZyBwbGF5cyBhIG1ham9yIHJvbGUgaW4gZ3JhcGhpY3MgcmVuZGVyaW5nLiBUbyBhY2hpZXZl
-Cj4gICAqIHRlYXItZnJlZSBkaXNwbGF5LCB1c2VycyBtdXN0IHN5bmNocm9uaXplIHBhZ2UgZmxp
-cHMgYW5kL29yIHJlbmRlcmluZyB0bwo+ICAgKiB2ZXJ0aWNhbCBibGFua2luZy4gVGhlIERSTSBB
-UEkgb2ZmZXJzIGlvY3RscyB0byBwZXJmb3JtIHBhZ2UgZmxpcHMKPiAtLQo+IDIuMjAuMQo+Cj4g
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+https://bugzilla.kernel.org/show_bug.cgi?id=202445
+
+--- Comment #38 from jaapbuurman@gmail.com ---
+While I previously also had to same luminance flickering as you were describing
+on older kernels, kernel 5.5 and unfortunately also 5.6 are showing me
+flickering between a completely black screeb and the game itself in very rapid
+succession. Not playable at all. I already considered it unplayable on older
+kernels due to the rapidly changing brightness, but the current situation is
+MUCH worse.
+
+Anything I can do to help debug this issue?
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
