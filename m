@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B2121A1698
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 22:13:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FABA1A16BE
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 22:25:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DBE76E8F7;
-	Tue,  7 Apr 2020 20:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B09406E8FC;
+	Tue,  7 Apr 2020 20:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 021FE6E8F7
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 20:13:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A496A6E8FC
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 20:24:54 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id F2C92804F2;
- Tue,  7 Apr 2020 22:12:59 +0200 (CEST)
-Date: Tue, 7 Apr 2020 22:12:58 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id B55DF80532;
+ Tue,  7 Apr 2020 22:24:51 +0200 (CEST)
+Date: Tue, 7 Apr 2020 22:24:50 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: display: panel: Convert feiyang,
- fy07024di26a30d to DT schema
-Message-ID: <20200407201258.GB28801@ravnborg.org>
-References: <20200403142453.25307-1-jagan@amarulasolutions.com>
+To: Johan Jonker <jbx6244@gmail.com>
+Subject: Re: [PATCH v5 1/2] dt-bindings: display: convert rockchip vop
+ bindings to yaml
+Message-ID: <20200407202450.GC28801@ravnborg.org>
+References: <20200403142235.8870-1-jbx6244@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200403142453.25307-1-jagan@amarulasolutions.com>
+In-Reply-To: <20200403142235.8870-1-jbx6244@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=iP-xVBlJAAAA:8
- a=gEfo2CItAAAA:8 a=e5mUnYsNAAAA:8 a=IP_fJxDYSyxqUQePLtIA:9
- a=CjuIK1q_8ugA:10 a=lHLH-nfn2y1bM_0xSXwp:22 a=sptkURWiP4Gy88Gu7hUp:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=pHzHmUro8NiASowvMSCR:22
- a=nt3jZW36AmriUCFCBwmW:22
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8
+ a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8 a=s8YR1HE3AAAA:8 a=e5mUnYsNAAAA:8
+ a=I1IL0Xl9k2phEoxdptwA:9 a=oHOzSfBX9ZjYUJn9:21 a=-5uzdQ6-SERdSyDy:21
+ a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22 a=sptkURWiP4Gy88Gu7hUp:22
+ a=jGH_LyMDp9YhSvY-UuyI:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,135 +48,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-amarula@amarulasolutions.com
+Cc: devicetree@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hjc@rock-chips.com,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan.
+Hi Johan.
 
-On Fri, Apr 03, 2020 at 07:54:51PM +0530, Jagan Teki wrote:
-> Convert the feiyang,fy07024di26a30d panel bindings to DT schema.
+On Fri, Apr 03, 2020 at 04:22:34PM +0200, Johan Jonker wrote:
+> Current dts files with 'vop' nodes are manually verified.
+> In order to automate this process rockchip-vop.txt
+> has to be converted to yaml.
 > 
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-Thanks, this and the two other patches are now pushed to drm-misc-next.
+Thanks, I have applied the patches to drm-misc-next.
+They will hit the upstream kernel when next merge window opens.
 
 	Sam
 
 > ---
-> Changes for v3:
-> - update the licence, used (GPL-2.0-only OR BSD-2-Clause) since
->   I'm the author for old binding
-> - use panel-common.yaml
-> - mark true for common properties 
-> - use maxItems: 1 for reg
-> - update example
-> Changes for v2:
-> - fix dt_binding_check 
+> Changes v5:
+>   Add reviewed by
+>   Fix irq.h already included in arm-gic.h
 > 
->  .../display/panel/feiyang,fy07024di26a30d.txt | 20 -------
->  .../panel/feiyang,fy07024di26a30d.yaml        | 58 +++++++++++++++++++
->  2 files changed, 58 insertions(+), 20 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
->  create mode 100644 Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+> Changes v4:
+>   Change description
+>   Replace compatible oneOf by enum
+>   Change interrupts description
+>   Remove resets minItems
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
+> Changes v3:
+>   Change description
+> 
+> Changes v2:
+>   No new properties
+> ---
+>  .../bindings/display/rockchip/rockchip-vop.txt     |  74 -------------
+>  .../bindings/display/rockchip/rockchip-vop.yaml    | 123 +++++++++++++++++++++
+>  2 files changed, 123 insertions(+), 74 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
 > deleted file mode 100644
-> index 82caa7b65ae8..000000000000
-> --- a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
+> index 8b3a5f514..000000000
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
 > +++ /dev/null
-> @@ -1,20 +0,0 @@
-> -Feiyang FY07024DI26A30-D 7" MIPI-DSI LCD Panel
+> @@ -1,74 +0,0 @@
+> -device-tree bindings for rockchip soc display controller (vop)
+> -
+> -VOP (Visual Output Processor) is the Display Controller for the Rockchip
+> -series of SoCs which transfers the image data from a video memory
+> -buffer to an external LCD interface.
 > -
 > -Required properties:
-> -- compatible: must be "feiyang,fy07024di26a30d"
-> -- reg: DSI virtual channel used by that screen
-> -- avdd-supply: analog regulator dc1 switch
-> -- dvdd-supply: 3v3 digital regulator
-> -- reset-gpios: a GPIO phandle for the reset pin
+> -- compatible: value should be one of the following
+> -		"rockchip,rk3036-vop";
+> -		"rockchip,rk3126-vop";
+> -		"rockchip,px30-vop-lit";
+> -		"rockchip,px30-vop-big";
+> -		"rockchip,rk3066-vop";
+> -		"rockchip,rk3188-vop";
+> -		"rockchip,rk3288-vop";
+> -		"rockchip,rk3368-vop";
+> -		"rockchip,rk3366-vop";
+> -		"rockchip,rk3399-vop-big";
+> -		"rockchip,rk3399-vop-lit";
+> -		"rockchip,rk3228-vop";
+> -		"rockchip,rk3328-vop";
 > -
-> -Optional properties:
-> -- backlight: phandle for the backlight control.
+> -- reg: Must contain one entry corresponding to the base address and length
+> -	of the register space. Can optionally contain a second entry
+> -	corresponding to the CRTC gamma LUT address.
 > -
-> -panel@0 {
-> -	compatible = "feiyang,fy07024di26a30d";
-> -	reg = <0>;
-> -	avdd-supply = <&reg_dc1sw>;
-> -	dvdd-supply = <&reg_dldo2>;
-> -	reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
-> -	backlight = <&backlight>;
-> -};
-> diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+> -- interrupts: should contain a list of all VOP IP block interrupts in the
+> -		 order: VSYNC, LCD_SYSTEM. The interrupt specifier
+> -		 format depends on the interrupt controller used.
+> -
+> -- clocks: must include clock specifiers corresponding to entries in the
+> -		clock-names property.
+> -
+> -- clock-names: Must contain
+> -		aclk_vop: for ddr buffer transfer.
+> -		hclk_vop: for ahb bus to R/W the phy regs.
+> -		dclk_vop: pixel clock.
+> -
+> -- resets: Must contain an entry for each entry in reset-names.
+> -  See ../reset/reset.txt for details.
+> -- reset-names: Must include the following entries:
+> -  - axi
+> -  - ahb
+> -  - dclk
+> -
+> -- iommus: required a iommu node
+> -
+> -- port: A port node with endpoint definitions as defined in
+> -  Documentation/devicetree/bindings/media/video-interfaces.txt.
+> -
+> -Example:
+> -SoC specific DT entry:
+> -	vopb: vopb@ff930000 {
+> -		compatible = "rockchip,rk3288-vop";
+> -		reg = <0x0 0xff930000 0x0 0x19c>, <0x0 0xff931000 0x0 0x1000>;
+> -		interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
+> -		clocks = <&cru ACLK_VOP0>, <&cru DCLK_VOP0>, <&cru HCLK_VOP0>;
+> -		clock-names = "aclk_vop", "dclk_vop", "hclk_vop";
+> -		resets = <&cru SRST_LCDC1_AXI>, <&cru SRST_LCDC1_AHB>, <&cru SRST_LCDC1_DCLK>;
+> -		reset-names = "axi", "ahb", "dclk";
+> -		iommus = <&vopb_mmu>;
+> -		vopb_out: port {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -			vopb_out_edp: endpoint@0 {
+> -				reg = <0>;
+> -				remote-endpoint=<&edp_in_vopb>;
+> -			};
+> -			vopb_out_hdmi: endpoint@1 {
+> -				reg = <1>;
+> -				remote-endpoint=<&hdmi_in_vopb>;
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
 > new file mode 100644
-> index 000000000000..95acf9e96f1c
+> index 000000000..42ee2b5c3
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
+> @@ -0,0 +1,123 @@
+> +# SPDX-License-Identifier: GPL-2.0
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/panel/feiyang,fy07024di26a30d.yaml#
+> +$id: http://devicetree.org/schemas/display/rockchip/rockchip-vop.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Feiyang FY07024DI26A30-D 7" MIPI-DSI LCD Panel
+> +title: Rockchip SoC display controller (VOP)
+> +
+> +description:
+> +  VOP (Video Output Processor) is the display controller for the Rockchip
+> +  series of SoCs which transfers the image data from a video memory
+> +  buffer to an external LCD interface.
 > +
 > +maintainers:
-> +  - Jagan Teki <jagan@amarulasolutions.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
+> +  - Sandy Huang <hjc@rock-chips.com>
+> +  - Heiko Stuebner <heiko@sntech.de>
 > +
 > +properties:
 > +  compatible:
-> +    const: feiyang,fy07024di26a30d
+> +    enum:
+> +      - rockchip,px30-vop-big
+> +      - rockchip,px30-vop-lit
+> +      - rockchip,rk3036-vop
+> +      - rockchip,rk3066-vop
+> +      - rockchip,rk3126-vop
+> +      - rockchip,rk3188-vop
+> +      - rockchip,rk3228-vop
+> +      - rockchip,rk3288-vop
+> +      - rockchip,rk3328-vop
+> +      - rockchip,rk3366-vop
+> +      - rockchip,rk3368-vop
+> +      - rockchip,rk3399-vop-big
+> +      - rockchip,rk3399-vop-lit
 > +
 > +  reg:
-> +    description: DSI virtual channel used by that screen
+> +    minItems: 1
+> +    items:
+> +      - description:
+> +          Must contain one entry corresponding to the base address and length
+> +          of the register space.
+> +      - description:
+> +          Can optionally contain a second entry corresponding to
+> +          the CRTC gamma LUT address.
+> +
+> +  interrupts:
 > +    maxItems: 1
+> +    description:
+> +      The VOP interrupt is shared by several interrupt sources, such as
+> +      frame start (VSYNC), line flag and other status interrupts.
 > +
-> +  avdd-supply:
-> +    description: analog regulator dc1 switch
+> +  clocks:
+> +    items:
+> +      - description: Clock for ddr buffer transfer.
+> +      - description: Pixel clock.
+> +      - description: Clock for the ahb bus to R/W the phy regs.
 > +
-> +  dvdd-supply:
-> +    description: 3v3 digital regulator
+> +  clock-names:
+> +    items:
+> +      - const: aclk_vop
+> +      - const: dclk_vop
+> +      - const: hclk_vop
 > +
-> +  reset-gpios: true
+> +  resets:
+> +    maxItems: 3
 > +
-> +  backlight: true
+> +  reset-names:
+> +    items:
+> +      - const: axi
+> +      - const: ahb
+> +      - const: dclk
+> +
+> +  port:
+> +    type: object
+> +    description:
+> +      A port node with endpoint definitions as defined in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +
+> +  iommus:
+> +    maxItems: 1
 > +
 > +required:
 > +  - compatible
 > +  - reg
-> +  - avdd-supply
-> +  - dvdd-supply
-> +  - reset-gpios
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - reset-names
+> +  - port
 > +
 > +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi {
+> +    #include <dt-bindings/clock/rk3288-cru.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    vopb: vopb@ff930000 {
+> +      compatible = "rockchip,rk3288-vop";
+> +      reg = <0x0 0xff930000 0x0 0x19c>,
+> +            <0x0 0xff931000 0x0 0x1000>;
+> +      interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
+> +      clocks = <&cru ACLK_VOP0>,
+> +               <&cru DCLK_VOP0>,
+> +               <&cru HCLK_VOP0>;
+> +      clock-names = "aclk_vop", "dclk_vop", "hclk_vop";
+> +      resets = <&cru SRST_LCDC1_AXI>,
+> +               <&cru SRST_LCDC1_AHB>,
+> +               <&cru SRST_LCDC1_DCLK>;
+> +      reset-names = "axi", "ahb", "dclk";
+> +      iommus = <&vopb_mmu>;
+> +      vopb_out: port {
 > +        #address-cells = <1>;
 > +        #size-cells = <0>;
-> +
-> +        panel@0 {
-> +            compatible = "feiyang,fy07024di26a30d";
-> +            reg = <0>;
-> +            avdd-supply = <&reg_dc1sw>;
-> +            dvdd-supply = <&reg_dldo2>;
-> +            reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
-> +            backlight = <&backlight>;
+> +        vopb_out_edp: endpoint@0 {
+> +          reg = <0>;
+> +          remote-endpoint=<&edp_in_vopb>;
 > +        };
+> +        vopb_out_hdmi: endpoint@1 {
+> +          reg = <1>;
+> +          remote-endpoint=<&hdmi_in_vopb>;
+> +        };
+> +      };
 > +    };
 > -- 
-> 2.17.1
+> 2.11.0
 > 
 > _______________________________________________
 > dri-devel mailing list
