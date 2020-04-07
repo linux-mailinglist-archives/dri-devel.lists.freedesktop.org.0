@@ -1,41 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785481A07D0
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 08:54:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BA21A07B2
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 08:52:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EDAF6E536;
-	Tue,  7 Apr 2020 06:54:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A0E16E51D;
+	Tue,  7 Apr 2020 06:52:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 172636E525;
- Tue,  7 Apr 2020 06:54:32 +0000 (UTC)
-IronPort-SDR: UqsO3Yr2IYvLVNaV4GvyGBOdv73wt4zw/7zVMBFZJ+lrh1Y+z4yBlZFNB0IqjGJhn16bnXClZm
- UOGikn7AHltA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2020 23:54:31 -0700
-IronPort-SDR: njAO21vxS7/47VGXcj5gz/IOqlmKoByl//4hvDVmNfXu4EJ20+I/7YNw4LdheTdrWBFF3YBEws
- UuO/LwV2aHJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,353,1580803200"; d="scan'208";a="451114746"
-Received: from unknown (HELO jeevan-desktop.iind.intel.com) ([10.223.74.85])
- by fmsmga005.fm.intel.com with ESMTP; 06 Apr 2020 23:54:28 -0700
-From: Jeevan B <jeevan.b@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 5/5] drm/amdgpu: utilize subconnector property for DP through
- DisplayManager
-Date: Tue,  7 Apr 2020 12:20:07 +0530
-Message-Id: <1586242207-23214-5-git-send-email-jeevan.b@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1586242207-23214-1-git-send-email-jeevan.b@intel.com>
-References: <1586242207-23214-1-git-send-email-jeevan.b@intel.com>
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9496E51C;
+ Tue,  7 Apr 2020 06:52:21 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 45FDE6A3;
+ Tue,  7 Apr 2020 02:52:18 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Tue, 07 Apr 2020 02:52:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=VnZixAcAV+VvdCuDr09IqmEOF+J
+ YKHYuBulHUlCgYuk=; b=TaIMA9ZQgg/1AK728uU80EWY0Dzy/7NdX4fFQ8Ep0LA
+ ZAB0fmL+QqCgUoiQkRPAUNt3noL9PV7j0A2PDHHJPX+OV3ZiljBrZsrZK6t6BEP1
+ lZb/MknPowHEpc2m8GFiwSv+uzIsLlJ6jvW8Ga6O3OQ7CUZE+5M+JFgnEtawB2IJ
+ IRxiAoNS2JzTilWYVSaO0yug78Zz6vqkm+uEFqUJOq3zHR7bqszKIiCg8jalAHjl
+ TCs7Ms4vqdObeokHk1sBcud5N3LV37zWLrYNf7I0ijLMxipc+kBBY8a2pYOUPL7h
+ GCQJNQovuRRy5ydldgYBSEsQuhX/JUBKMTC1gxskuoA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=VnZixA
+ cAV+VvdCuDr09IqmEOF+JYKHYuBulHUlCgYuk=; b=q6QAn03e0wbs4PwIN0sUj1
+ UiWWbWlm5ns3yYXKUi8jbFpsQDl2lumg319cpXyTVoqKdC+0kiLz3UeeJCiET7bE
+ JuxNGXHPHz9z7TQCzX6CJ2D8vKVh74oZGn8w3ln/AdokD6q+UdFU9SWbc2Eo8qPF
+ JRwBShWv7dYTwzFXckkHT7dQ/EzKSUxJJJ1b+azOCzwPmtNMbPuKamxvzkhLmsTt
+ l1PXiZORD99aowdQeDd8BAJlhSIl8M/wWLJ2fQNlzH3Jj3HOn2W9vpwU4nRd2wmL
+ RKV7OiwF+h0gDS7sidtb1nBEmJsTYkLWZKkGVBieBQ7mIHDFIus8fbchLlVPwutw
+ ==
+X-ME-Sender: <xms:ICOMXoB_jVTWE7wA_abyXwAN-_c3rC3qUZN0Fore_Q0G1Ls4uwgcew>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudeggdduuddtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+ mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucfkphepkeefrdekiedrkeelrddutd
+ ejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhr
+ vghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:ICOMXlqsNjKOd7pwu7022yxd7YpfBhq6hjale40JGRRhQ7O5kBAjRQ>
+ <xmx:ICOMXq-C8cMLrB0hNIBDXLKzYbe-3b-GJ99lFDt6AENgHcvHMfECKA>
+ <xmx:ICOMXuDMI5uIl8XLVFQYthPLiN0jCprgDCiTCHDqm6I1JQLJGkhQ5w>
+ <xmx:ISOMXkQtLndXvwjQVKC2VWc4F-t5aVW1oF7HXaBLmmRSxKocCGK6rQ>
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 933BF306C4E3;
+ Tue,  7 Apr 2020 02:52:15 -0400 (EDT)
+Date: Tue, 7 Apr 2020 08:52:10 +0200
+From: Greg KH <greg@kroah.com>
+To: Sultan Alsawaf <sultan@kerneltoast.com>
+Subject: Re: [PATCH 0/1] drm/i915: Fix a deadlock that only affects 5.4
+Message-ID: <20200407065210.GA263852@kroah.com>
+References: <20200407062622.6443-1-sultan@kerneltoast.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200407062622.6443-1-sultan@kerneltoast.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,88 +75,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, Oleg Vasilev <oleg.vasilev@intel.com>,
- amd-gfx@lists.freedesktop.org, Jeevan B <jeevan.b@intel.com>,
- uma.shankar@intel.com, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ stable@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogT2xlZyBWYXNpbGV2IDxvbGVnLnZhc2lsZXZAaW50ZWwuY29tPgoKU2luY2UgRFAtc3Bl
-Y2lmaWMgaW5mb3JtYXRpb24gaXMgc3RvcmVkIGluIGRyaXZlcidzIHN0cnVjdHVyZXMsIGV2ZXJ5
-CmRyaXZlciBuZWVkcyB0byBpbXBsZW1lbnQgc3ViY29ubmVjdG9yIHByb3BlcnR5IGJ5IGl0c2Vs
-Zi4gRGlzcGxheQpDb3JlIGFscmVhZHkgaGFzIHRoZSBzdWJjb25uZWN0b3IgaW5mb3JtYXRpb24s
-IHdlIG9ubHkgbmVlZCB0bwpleHBvc2UgaXQgdGhyb3VnaCBEUk0gcHJvcGVydHkuCgp2MjpyZWJh
-c2UKCkNjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+CkNjOiBDaHJp
-c3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CkNjOiBEYXZpZCAoQ2h1bk1p
-bmcpIFpob3UgPERhdmlkMS5aaG91QGFtZC5jb20+CkNjOiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpTaWduZWQtb2ZmLWJ5OiBKZWV2YW4gQiA8amVldmFuLmJAaW50ZWwuY29tPgpTaWdu
-ZWQtb2ZmLWJ5OiBPbGVnIFZhc2lsZXYgPG9sZWcudmFzaWxldkBpbnRlbC5jb20+ClRlc3RlZC1i
-eTogT2xlZyBWYXNpbGV2IDxvbGVnLnZhc2lsZXZAaW50ZWwuY29tPgpMaW5rOiBodHRwczovL3Bh
-dGNod29yay5mcmVlZGVza3RvcC5vcmcvcGF0Y2gvbXNnaWQvMjAxOTA4MjkxMTQ4NTQuMTUzOS03
-LW9sZWcudmFzaWxldkBpbnRlbC5jb20KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkv
-YW1kZ3B1X2RtL2FtZGdwdV9kbS5jICB8IDQxICsrKysrKysrKysrKysrKysrKysrKy0KIC4uLi9h
-bWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtX21zdF90eXBlcy5jICAgIHwgIDMgKysKIDIg
-ZmlsZXMgY2hhbmdlZCwgNDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jCmluZGV4IGQz
-Njc0ZDguLjkxYzBlZjIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9h
-bWRncHVfZG0vYW1kZ3B1X2RtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2Ft
-ZGdwdV9kbS9hbWRncHVfZG0uYwpAQCAtMTIxLDYgKzEyMSw0MiBAQCBNT0RVTEVfRklSTVdBUkUo
-RklSTVdBUkVfTkFWSTEyX0RNQ1UpOwogc3RhdGljIGludCBhbWRncHVfZG1faW5pdChzdHJ1Y3Qg
-YW1kZ3B1X2RldmljZSAqYWRldik7CiBzdGF0aWMgdm9pZCBhbWRncHVfZG1fZmluaShzdHJ1Y3Qg
-YW1kZ3B1X2RldmljZSAqYWRldik7CiAKK3N0YXRpYyBlbnVtIGRybV9tb2RlX3N1YmNvbm5lY3Rv
-ciBnZXRfc3ViY29ubmVjdG9yX3R5cGUoc3RydWN0IGRjX2xpbmsgKmxpbmspCit7CisJc3dpdGNo
-IChsaW5rLT5kcGNkX2NhcHMuZG9uZ2xlX3R5cGUpIHsKKwljYXNlIERJU1BMQVlfRE9OR0xFX05P
-TkU6CisJCXJldHVybiBEUk1fTU9ERV9TVUJDT05ORUNUT1JfTmF0aXZlOworCWNhc2UgRElTUExB
-WV9ET05HTEVfRFBfVkdBX0NPTlZFUlRFUjoKKwkJcmV0dXJuIERSTV9NT0RFX1NVQkNPTk5FQ1RP
-Ul9WR0E7CisJY2FzZSBESVNQTEFZX0RPTkdMRV9EUF9EVklfQ09OVkVSVEVSOgorCWNhc2UgRElT
-UExBWV9ET05HTEVfRFBfRFZJX0RPTkdMRToKKwkJcmV0dXJuIERSTV9NT0RFX1NVQkNPTk5FQ1RP
-Ul9EVklEOworCWNhc2UgRElTUExBWV9ET05HTEVfRFBfSERNSV9DT05WRVJURVI6CisJY2FzZSBE
-SVNQTEFZX0RPTkdMRV9EUF9IRE1JX0RPTkdMRToKKwkJcmV0dXJuIERSTV9NT0RFX1NVQkNPTk5F
-Q1RPUl9IRE1JQTsKKwljYXNlIERJU1BMQVlfRE9OR0xFX0RQX0hETUlfTUlTTUFUQ0hFRF9ET05H
-TEU6CisJZGVmYXVsdDoKKwkJcmV0dXJuIERSTV9NT0RFX1NVQkNPTk5FQ1RPUl9Vbmtub3duOwor
-CX0KK30KKworc3RhdGljIHZvaWQgdXBkYXRlX3N1YmNvbm5lY3Rvcl9wcm9wZXJ0eShzdHJ1Y3Qg
-YW1kZ3B1X2RtX2Nvbm5lY3RvciAqYWNvbm5lY3RvcikKK3sKKwlzdHJ1Y3QgZGNfbGluayAqbGlu
-ayA9IGFjb25uZWN0b3ItPmRjX2xpbms7CisJc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rv
-ciA9ICZhY29ubmVjdG9yLT5iYXNlOworCWVudW0gZHJtX21vZGVfc3ViY29ubmVjdG9yIHN1YmNv
-bm5lY3RvciA9IERSTV9NT0RFX1NVQkNPTk5FQ1RPUl9Vbmtub3duOworCisJaWYgKGNvbm5lY3Rv
-ci0+Y29ubmVjdG9yX3R5cGUgIT0gRFJNX01PREVfQ09OTkVDVE9SX0Rpc3BsYXlQb3J0KQorCQly
-ZXR1cm47CisKKwlpZiAoYWNvbm5lY3Rvci0+ZGNfc2luaykKKwkJc3ViY29ubmVjdG9yID0gZ2V0
-X3N1YmNvbm5lY3Rvcl90eXBlKGxpbmspOworCisJZHJtX29iamVjdF9wcm9wZXJ0eV9zZXRfdmFs
-dWUoJmNvbm5lY3Rvci0+YmFzZSwKKwkJCWNvbm5lY3Rvci0+ZGV2LT5tb2RlX2NvbmZpZy5kcF9z
-dWJjb25uZWN0b3JfcHJvcGVydHksCisJCQlzdWJjb25uZWN0b3IpOworfQorCiAvKgogICogaW5p
-dGlhbGl6ZXMgZHJtX2RldmljZSBkaXNwbGF5IHJlbGF0ZWQgc3RydWN0dXJlcywgYmFzZWQgb24g
-dGhlIGluZm9ybWF0aW9uCiAgKiBwcm92aWRlZCBieSBEQUwuIFRoZSBkcm0gc3RyY3V0dXJlcyBh
-cmU6IGRybV9jcnRjLCBkcm1fY29ubmVjdG9yLApAQCAtMTkxNyw3ICsxOTUzLDYgQEAgdm9pZCBh
-bWRncHVfZG1fdXBkYXRlX2Nvbm5lY3Rvcl9hZnRlcl9kZXRlY3QoCiAJaWYgKGFjb25uZWN0b3It
-Pm1zdF9tZ3IubXN0X3N0YXRlID09IHRydWUpCiAJCXJldHVybjsKIAotCiAJc2luayA9IGFjb25u
-ZWN0b3ItPmRjX2xpbmstPmxvY2FsX3Npbms7CiAJaWYgKHNpbmspCiAJCWRjX3NpbmtfcmV0YWlu
-KHNpbmspOwpAQCAtMjAzOCw2ICsyMDczLDggQEAgdm9pZCBhbWRncHVfZG1fdXBkYXRlX2Nvbm5l
-Y3Rvcl9hZnRlcl9kZXRlY3QoCiAKIAltdXRleF91bmxvY2soJmRldi0+bW9kZV9jb25maWcubXV0
-ZXgpOwogCisJdXBkYXRlX3N1YmNvbm5lY3Rvcl9wcm9wZXJ0eShhY29ubmVjdG9yKTsKKwogCWlm
-IChzaW5rKQogCQlkY19zaW5rX3JlbGVhc2Uoc2luayk7CiB9CkBAIC00NTE4LDYgKzQ1NTUsOCBA
-QCBhbWRncHVfZG1fY29ubmVjdG9yX2RldGVjdChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVj
-dG9yLCBib29sIGZvcmNlKQogCWVsc2UKIAkJY29ubmVjdGVkID0gKGFjb25uZWN0b3ItPmJhc2Uu
-Zm9yY2UgPT0gRFJNX0ZPUkNFX09OKTsKIAorCXVwZGF0ZV9zdWJjb25uZWN0b3JfcHJvcGVydHko
-YWNvbm5lY3Rvcik7CisKIAlyZXR1cm4gKGNvbm5lY3RlZCA/IGNvbm5lY3Rvcl9zdGF0dXNfY29u
-bmVjdGVkIDoKIAkJCWNvbm5lY3Rvcl9zdGF0dXNfZGlzY29ubmVjdGVkKTsKIH0KZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtX21zdF90
-eXBlcy5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG1f
-bXN0X3R5cGVzLmMKaW5kZXggZDU2Yjc1OC4uMjY3YzgyYyAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG1fbXN0X3R5cGVzLmMKKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG1fbXN0X3R5cGVz
-LmMKQEAgLTI2LDYgKzI2LDcgQEAKICNpbmNsdWRlIDxsaW51eC92ZXJzaW9uLmg+CiAjaW5jbHVk
-ZSA8ZHJtL2RybV9hdG9taWNfaGVscGVyLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9kcF9tc3RfaGVs
-cGVyLmg+CisjaW5jbHVkZSA8ZHJtL2RybV9kcF9oZWxwZXIuaD4KICNpbmNsdWRlICJkbV9zZXJ2
-aWNlcy5oIgogI2luY2x1ZGUgImFtZGdwdS5oIgogI2luY2x1ZGUgImFtZGdwdV9kbS5oIgpAQCAt
-NDY0LDYgKzQ2NSw4IEBAIHZvaWQgYW1kZ3B1X2RtX2luaXRpYWxpemVfZHBfY29ubmVjdG9yKHN0
-cnVjdCBhbWRncHVfZGlzcGxheV9tYW5hZ2VyICpkbSwKIAkJMTYsCiAJCTQsCiAJCWFjb25uZWN0
-b3ItPmNvbm5lY3Rvcl9pZCk7CisKKwlkcm1fbW9kZV9hZGRfZHBfc3ViY29ubmVjdG9yX3Byb3Bl
-cnR5KCZhY29ubmVjdG9yLT5iYXNlKTsKIH0KIAogaW50IGRtX21zdF9nZXRfcGJuX2RpdmlkZXIo
-c3RydWN0IGRjX2xpbmsgKmxpbmspCi0tIAoyLjcuNAoKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Apr 06, 2020 at 11:26:21PM -0700, Sultan Alsawaf wrote:
+> From: Sultan Alsawaf <sultan@kerneltoast.com>
+> 
+> Hi,
+> 
+> There's a mutex lock deadlock in i915 that only affects 5.4, but was fixed in
+> 5.5. Normally, I would send a backport of the fix from 5.5, but the patch set
+> that fixes the deadlock involves massive changes that are neither feasible nor
+> desirable for backporting [1][2][3]. Therefore, I've made a small patch that
+> only addresses the deadlock specifically for 5.4.
+
+This paragraph needs to go into the patch itself, otherwise just looking
+at that doesn't make any sense.
+
+And you do not need a cover letter for a single patch.
+
+Please fix up and resend.
+
+thanks,
+
+greg k-h
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
