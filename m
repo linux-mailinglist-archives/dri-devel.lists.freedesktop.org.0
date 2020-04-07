@@ -2,40 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A6A1A1630
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 21:48:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D63E01A1654
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 21:57:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA0136E8F3;
-	Tue,  7 Apr 2020 19:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F29DA6E154;
+	Tue,  7 Apr 2020 19:57:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D95096E8F3
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 19:48:28 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 0EAE380533;
- Tue,  7 Apr 2020 21:48:26 +0200 (CEST)
-Date: Tue, 7 Apr 2020 21:48:24 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Jules Irenge <jbi.octave@gmail.com>
-Subject: Re: [PATCH 2/5] video: Add missing annotation for
- cyber2000fb_enable_ddc() and cyber2000fb_disable_ddc()
-Message-ID: <20200407194824.GA28801@ravnborg.org>
-References: <0/5> <20200403160505.2832-1-jbi.octave@gmail.com>
- <20200403160505.2832-3-jbi.octave@gmail.com>
+Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
+ [213.80.101.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 716766E154
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 19:57:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id A6DCF3F423;
+ Tue,  7 Apr 2020 21:57:42 +0200 (CEST)
+Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=ADF7+uVu; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+ autolearn=ham autolearn_force=no
+Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id juSonQZZkhfi; Tue,  7 Apr 2020 21:57:41 +0200 (CEST)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35]) (Authenticated sender: mb878879)
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id CBCE53F3F1;
+ Tue,  7 Apr 2020 21:57:32 +0200 (CEST)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 8FBC3360153;
+ Tue,  7 Apr 2020 21:57:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1586289452; bh=n8v3kP19wHdlpasfsqLzlqOfhDoVJzv2qXSEHg2XIUw=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=ADF7+uVugZlqdmK5afrGpG3q5imNSOSM3I40tdQMKpNd14xTelmYZ5CMsLyPXrfjN
+ +XMf3b9C+ML4rnbmUkQ1nhVWV7VdVyHblKCmHYuUSFCagT/uOB+wwSM1N+yrpoCcQL
+ wuCcY4doZST4CAMHbIY+PSnC6wwUdMVLMkIrRL/U=
+Subject: Re: Bad rss-counter state from drm/ttm, drm/vmwgfx: Support huge TTM
+ pagefaults
+To: "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org
+References: <1586138158.v5u7myprlp.none.ref@localhost>
+ <1586138158.v5u7myprlp.none@localhost>
+ <0b12b28c-5f42-b56b-ea79-6e3d1052b332@shipmail.org>
+ <1586219716.1a3fyi6lh5.none@localhost>
+ <37624a1f-8e6b-fe9c-8e0e-a9139e1bbe18@shipmail.org>
+ <1586273767.0q72rozj3x.none@localhost>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
+Organization: VMware Inc.
+Message-ID: <d6d9b4e6-3f73-a4df-68da-60ec9c0a3873@shipmail.org>
+Date: Tue, 7 Apr 2020 21:57:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200403160505.2832-3-jbi.octave@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8
- a=e5mUnYsNAAAA:8 a=c_KzuGgbJLCNkQNsKyQA:9 a=CjuIK1q_8ugA:10
- a=Vxmtnl_E_bksehYqCbjh:22 a=pHzHmUro8NiASowvMSCR:22
- a=Ew2E2A-JSTLzCXPT_086:22
+In-Reply-To: <1586273767.0q72rozj3x.none@localhost>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,76 +78,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, boqun.feng@gmail.com,
- Russell King <linux@armlinux.org.uk>,
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
- linux-kernel@vger.kernel.org,
- "moderated list:CYBERPRO FB DRIVER" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ralph Campbell <rcampbell@nvidia.com>, Michal Hocko <mhocko@suse.com>,
+ pv-drivers@vmware.com, Roland Scheidegger <sroland@vmware.com>,
+ "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ linux-graphics-maintainer@vmware.com,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jules.
-
-On Fri, Apr 03, 2020 at 05:05:02PM +0100, Jules Irenge wrote:
-> Sparse reports warnings at cyber2000fb_enable_ddc()
-> 	and cyber2000fb_disable_ddc()
-> 
-> warning: context imbalance in cyber2000fb_enable_ddc()
-> 	- wrong count at exit
-> 
-> warning: context imbalance in cyber2000fb_disable_ddc()
-> 	- unexpected unlock
-> 
-> The root cause is the missing annotation at cyber2000fb_enable_ddc()
-> 	and cyber2000fb_disable_ddc()
-> 
-> Add the missing __acquires(&cfb->reg_b0_lock) annotation
-> Add the missing __releases(&cfb->reg_b0_lock) annotation
-> 
-> Signed-off-by: Jules Irenge <jbi.octave@gmail.com>
-
-Thanks, added to drm-misc-next, so the patch will hit the kernel
-when the merge windows opens the next time.
-
-Was this the only locking relevant warning in fbdev?
-I would expect a few more.
-
-	Sam
-
-> ---
->  drivers/video/fbdev/cyber2000fb.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/video/fbdev/cyber2000fb.c b/drivers/video/fbdev/cyber2000fb.c
-> index 460826a7ad55..513f58f28b0f 100644
-> --- a/drivers/video/fbdev/cyber2000fb.c
-> +++ b/drivers/video/fbdev/cyber2000fb.c
-> @@ -1160,12 +1160,14 @@ EXPORT_SYMBOL(cyber2000fb_detach);
->  #define DDC_SDA_IN	(1 << 6)
->  
->  static void cyber2000fb_enable_ddc(struct cfb_info *cfb)
-> +	__acquires(&cfb->reg_b0_lock)
->  {
->  	spin_lock(&cfb->reg_b0_lock);
->  	cyber2000fb_writew(0x1bf, 0x3ce, cfb);
->  }
->  
->  static void cyber2000fb_disable_ddc(struct cfb_info *cfb)
-> +	__releases(&cfb->reg_b0_lock)
->  {
->  	cyber2000fb_writew(0x0bf, 0x3ce, cfb);
->  	spin_unlock(&cfb->reg_b0_lock);
-> -- 
-> 2.24.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gNC83LzIwIDU6MzYgUE0sIEFsZXggWHUgKEhlbGxvNzEpIHdyb3RlOgo+IEV4Y2VycHRzIGZy
+b20gVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2FyZSkncyBtZXNzYWdlIG9mIEFwcmlsIDcsIDIwMjAg
+NzoyNiBhbToKPj4gT24gNC83LzIwIDI6MzggQU0sIEFsZXggWHUgKEhlbGxvNzEpIHdyb3RlOgo+
+Pj4gRXhjZXJwdHMgZnJvbSBUaG9tYXMgSGVsbHN0csO2bSAoVk13YXJlKSdzIG1lc3NhZ2Ugb2Yg
+QXByaWwgNiwgMjAyMCA1OjA0IHBtOgo+Pj4+IEhpLAo+Pj4+Cj4+Pj4gT24gNC82LzIwIDk6NTEg
+UE0sIEFsZXggWHUgKEhlbGxvNzEpIHdyb3RlOgo+Pj4+PiBVc2luZyAzMTRiNjU4IHdpdGggYW1k
+Z3B1LCBzdGFydGluZyBzd2F5IGFuZCBmaXJlZm94IGNhdXNlcyAiQlVHOiBCYWQKPj4+Pj4gcnNz
+LWNvdW50ZXIgc3RhdGUiIGFuZCAiQlVHOiBub24temVybyBwZ3RhYmxlc19ieXRlcyBvbiBmcmVl
+aW5nIG1tIiB0bwo+Pj4+PiBzdGFydCBmaWxsaW5nIGRtZXNnLCBhbmQgdGhlbiBjbG9zaW5nIHBy
+b2dyYW1zIGNhdXNlcyBtb3JlIEJVR3MgYW5kCj4+Pj4+IGhhbmdzLCBhbmQgdGhlbiBldmVyeXRo
+aW5nIGdyaW5kcyB0byBhIGhhbHQgKGNhbid0IHN0YXJ0IG1vcmUgcHJvZ3JhbXMsCj4+Pj4+IGNh
+bid0IGV2ZW4gcmVib290IHRocm91Z2ggc3lzdGVtZCkuCj4+Pj4+Cj4+Pj4+IFVzaW5nIG1hc3Rl
+ciBhbmQgcmV2ZXJ0aW5nIHRoYXQgYnJhbmNoIHVwIHRvIHRoYXQgcG9pbnQgZml4ZXMgdGhlCj4+
+Pj4+IHByb2JsZW0uCj4+Pj4+Cj4+Pj4+IEknbSB1c2luZyBhIFJ5emVuIDE2MDAgYW5kIEFNRCBS
+YWRlb24gUlggNDgwIG9uIGFuIEFTUm9jayBCNDUwIFBybzQKPj4+Pj4gYm9hcmQgd2l0aCBJT01N
+VSBlbmFibGVkLgo+Pj4+IElmIHlvdSBjb3VsZCB0cnkgdGhlIGF0dGFjaGVkIHBhdGNoLCB0aGF0
+J2QgYmUgZ3JlYXQhCj4+Pj4KPj4+PiBUaGFua3MsCj4+Pj4KPj4+PiBUaG9tYXMKPj4+Pgo+Pj4g
+WWVhaCwgdGhhdCB3b3JrcyB0b28uIEtlcm5lbCBjb25maWcgc2VudCBvZmYtbGlzdC4KPj4+Cj4+
+PiBSZWdhcmRzLAo+Pj4gQWxleC4KPj4gVGhhbmtzLiBEbyB5b3Ugd2FudCBtZSB0byBhZGQgeW91
+cgo+Pgo+PiBSZXBvcnRlZC1ieTogYW5kIFRlc3RlZC1ieTogVG8gdGhpcyBwYXRjaD8KPj4KPj4g
+L1Rob21hcwo+Pgo+Pgo+IFN1cmUuIFNob3VsZG4ndCB3ZSBmaXggaXQgcHJvcGVybHkgdGhvdWdo
+PwoKSXQncyBzdGlsbCBlbmFibGVkIGZvciB2bXdnZnggZm9yIHdoaWNoIGl0IGlzIHJlYXNvbmFi
+bHkgd2VsbCB0ZXN0ZWQgYW5kIAp3aGVyZSBJIGNhbid0IHNlZSBhbnkgc3VjaCBlcnJvcnMuCgpU
+aGUgY29kZSB3ZSByZW1vdmUgd2l0aCB0aGlzIHBhdGNoIGVuYWJsZXMgaHVnZSBwYWdlLXRhYmxl
+IGVudHJpZXMgaW4gCnNvbWUgY2lyY3Vtc3RhbmNlcyBmb3Igb3RoZXIgZHJpdmVycywgYnV0IGdp
+dmVuIHRoZSBwcm9ibGVtcyB5b3UncmUgCnNlZWluZyBmb3IgYW1kZ3B1LCBpdCdzIGJldHRlciB0
+byBlbmFibGUgdGhpcyBvbiBhIHBlci1kcml2ZXIgYmFzaXMgCmFmdGVyIHRob3JvdWdoIHRlc3Rp
+bmcuIFNpbmNlIEkgZG9uJ3QgaGF2ZSBhbWRncHUgaGFyZHdhcmUgSSdtIG5vdCBzdXJlIAp3aGF0
+IGl0J3MgZG9pbmcgZGlmZmVyZW50bHksIGFuZCBjYW4ndCBkZWJ1ZyB0aGUgaXNzdWUgcHJvcGVy
+bHkuCgovVGhvbWFzCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
