@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1371A10A5
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 17:51:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A46B41A10A8
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 17:52:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCDC789C0D;
-	Tue,  7 Apr 2020 15:51:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFABF6E8A7;
+	Tue,  7 Apr 2020 15:52:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3645989C0D
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 15:51:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B14989C55
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 15:51:59 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 45F928051F;
- Tue,  7 Apr 2020 17:51:27 +0200 (CEST)
-Date: Tue, 7 Apr 2020 17:51:25 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 07C9380462;
+ Tue,  7 Apr 2020 17:51:56 +0200 (CEST)
+Date: Tue, 7 Apr 2020 17:51:55 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Liviu Dudau <liviu.dudau@arm.com>
-Subject: Re: [PATCH v2 2/3] drm: writeback: document callbacks
-Message-ID: <20200407155125.GA24075@ravnborg.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2 3/3] drm/writeback: wire drm_writeback.h to kernel-doc
+Message-ID: <20200407155155.GB24075@ravnborg.org>
 References: <20200406194746.26433-1-sam@ravnborg.org>
- <20200406194746.26433-3-sam@ravnborg.org>
- <20200407120431.GI364558@e110455-lin.cambridge.arm.com>
+ <20200406194746.26433-4-sam@ravnborg.org>
+ <20200407080851.GH3456981@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200407120431.GI364558@e110455-lin.cambridge.arm.com>
+In-Reply-To: <20200407080851.GH3456981@phenom.ffwll.local>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=IkcTkHD0fZMA:10 a=7gkXJVJtAAAA:8
- a=P1BnusSwAAAA:8 a=7CQSdrXTAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8
- a=X1Zn1WoQdMwj0M2ppTEA:9 a=QEXdDO2ut3YA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=P1BnusSwAAAA:8 a=7CQSdrXTAAAA:8 a=VwQbUJbxAAAA:8 a=25-AhOLfAAAA:8
+ a=JbJgYhgYaR88VrxWCWoA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
  a=D0XLA9XvdZm18NrgonBM:22 a=a-qgeE7W1pNrGK8U0ZQC:22
- a=AjGcO6oz07-iQ99wixmX:22
+ a=AjGcO6oz07-iQ99wixmX:22 a=dnuY3_Gu-P7Vi9ynLKQe:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,78 +51,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBBcHIgMDcsIDIwMjAgYXQgMDE6MDQ6MzFQTSArMDEwMCwgTGl2aXUgRHVkYXUgd3Jv
-dGU6Cj4gT24gTW9uLCBBcHIgMDYsIDIwMjAgYXQgMDk6NDc6NDVQTSArMDIwMCwgU2FtIFJhdm5i
-b3JnIHdyb3RlOgo+ID4gRG9jdW1lbnQgdGhlIGNhbGxiYWNrczoKPiA+ICAgICBkcm1fY29ubmVj
-dG9yX2hlbHBlcl9mdW5jcy5wcmVwYXJlX3dyaXRlYmFja19qb2IKPiA+ICAgICBkcm1fY29ubmVj
-dG9yX2hlbHBlcl9mdW5jcy5jbGVhbnVwX3dyaXRlYmFja19qb2IKPiA+IAo+ID4gVGhlIGRvY3Vt
-ZW50YXRpb24gd2FzIHB1bGxlZCBmcm9tIHRoZSBjaGFuZ2Vsb25nIGludHJvZHVjaW5nIHRoZQo+
-ID4gY2FsbGJhY2tzLCBvcmlnaW5hbGx5IHdyaXR0ZW4gYnkgTGF1cmVudC4KPiA+IAo+ID4gQWRk
-aW5nIHRoZSBtaXNzaW5nIGRvY3VtZW50YXRpb24gZml4ZXMgdGhlIGZvbGxvd2luZyB3YXJuaW5n
-czoKPiA+IGRybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmg6MTA1Mjogd2FybmluZzogRnVuY3Rp
-b24gcGFyYW1ldGVyIG9yIG1lbWJlciAncHJlcGFyZV93cml0ZWJhY2tfam9iJyBub3QgZGVzY3Jp
-YmVkIGluICdkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5jcycKPiA+IGRybV9tb2Rlc2V0X2hlbHBl
-cl92dGFibGVzLmg6MTA1Mjogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAn
-Y2xlYW51cF93cml0ZWJhY2tfam9iJyBub3QgZGVzY3JpYmVkIGluICdkcm1fY29ubmVjdG9yX2hl
-bHBlcl9mdW5jcycKPiA+IAo+ID4gdjI6Cj4gPiAgIC0gRml4IGZvcm1hdHRpbmcgKERhbmllbCkK
-PiA+ICAgLSBEcm9wIGNoYW5nZWxvZyB0ZXh0IGFuZCBhZGQgcmVmZXJlbmNlIChEYW5pZWwpCj4g
-PiAgIC0gSW1wcm92ZSBncmFtbWFyLiBhbmQgdXNlICJvcGVyYXRpb24iIChMYXVyZW50KQo+ID4g
-Cj4gPiBTaWduZWQtb2ZmLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gPiBS
-ZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiA+IFJl
-dmlld2VkLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2Fy
-ZC5jb20+Cj4gPiBDYzogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydCtyZW5lc2Fz
-QGlkZWFzb25ib2FyZC5jb20+Cj4gPiBDYzogTGl2aXUgRHVkYXUgPGxpdml1LmR1ZGF1QGFybS5j
-b20+Cj4gCj4gUmV2aWV3ZWQtYnk6IExpdml1IER1ZGF1IDxsaXZpdS5kdWRhdUBhcm0uY29tPgpU
-aGFua3MsIGFwcGxpZWQgdG8gZHJtLW1pc2MtbmV4dCBhbmQgcHVzaGVkIG91dC4KCglTYW0KCj4g
-Cj4gVGhhbmtzIQo+IExpdml1Cj4gCj4gPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRl
-ckBmZndsbC5jaD4KPiA+IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RA
-bGludXguaW50ZWwuY29tPgo+ID4gQ2M6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9y
-Zz4KPiA+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiA+IENj
-OiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gPiAtLS0KPiA+ICBpbmNsdWRlL2Ry
-bS9kcm1fbW9kZXNldF9oZWxwZXJfdnRhYmxlcy5oIHwgMjcgKysrKysrKysrKysrKysrKysrKysr
-KysrCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDI3IGluc2VydGlvbnMoKykKPiA+IAo+ID4gZGlmZiAt
-LWdpdCBhL2luY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmggYi9pbmNsdWRl
-L2RybS9kcm1fbW9kZXNldF9oZWxwZXJfdnRhYmxlcy5oCj4gPiBpbmRleCA3YzIwYjFjOGI2YTcu
-LjQyMWEzMGYwODQ2MyAxMDA2NDQKPiA+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hl
-bHBlcl92dGFibGVzLmgKPiA+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92
-dGFibGVzLmgKPiA+IEBAIC0xMDc1LDggKzEwNzUsMzUgQEAgc3RydWN0IGRybV9jb25uZWN0b3Jf
-aGVscGVyX2Z1bmNzIHsKPiA+ICAJdm9pZCAoKmF0b21pY19jb21taXQpKHN0cnVjdCBkcm1fY29u
-bmVjdG9yICpjb25uZWN0b3IsCj4gPiAgCQkJICAgICAgc3RydWN0IGRybV9jb25uZWN0b3Jfc3Rh
-dGUgKnN0YXRlKTsKPiA+ICAKPiA+ICsJLyoqCj4gPiArCSAqIEBwcmVwYXJlX3dyaXRlYmFja19q
-b2I6Cj4gPiArCSAqCj4gPiArCSAqIEFzIHdyaXRlYmFjayBqb2JzIGNvbnRhaW4gYSBmcmFtZWJ1
-ZmZlciwgZHJpdmVycyBtYXkgbmVlZCB0bwo+ID4gKwkgKiBwcmVwYXJlIGFuZCBjbGVhbiB0aGVt
-IHVwIHRoZSBzYW1lIHdheSB0aGV5IGNhbiBwcmVwYXJlIGFuZAo+ID4gKwkgKiBjbGVhbiB1cCBm
-cmFtZWJ1ZmZlcnMgZm9yIHBsYW5lcy4gVGhpcyBvcHRpb25hbCBjb25uZWN0b3Igb3BlcmF0aW9u
-Cj4gPiArCSAqIGlzIHVzZWQgdG8gc3VwcG9ydCB0aGUgcHJlcGFyYXRpb24gb2Ygd3JpdGViYWNr
-IGpvYnMuIFRoZSBqb2IKPiA+ICsJICogcHJlcGFyZSBvcGVyYXRpb24gaXMgY2FsbGVkIGZyb20g
-ZHJtX2F0b21pY19oZWxwZXJfcHJlcGFyZV9wbGFuZXMoKQo+ID4gKwkgKiBmb3Igc3RydWN0ICZk
-cm1fd3JpdGViYWNrX2Nvbm5lY3RvciBjb25uZWN0b3JzIG9ubHkuCj4gPiArCSAqCj4gPiArCSAq
-IFRoaXMgb3BlcmF0aW9uIGlzIG9wdGlvbmFsLgo+ID4gKwkgKgo+ID4gKwkgKiBUaGlzIGNhbGxi
-YWNrIGlzIHVzZWQgYnkgdGhlIGF0b21pYyBtb2Rlc2V0IGhlbHBlcnMuCj4gPiArCSAqLwo+ID4g
-IAlpbnQgKCpwcmVwYXJlX3dyaXRlYmFja19qb2IpKHN0cnVjdCBkcm1fd3JpdGViYWNrX2Nvbm5l
-Y3RvciAqY29ubmVjdG9yLAo+ID4gIAkJCQkgICAgIHN0cnVjdCBkcm1fd3JpdGViYWNrX2pvYiAq
-am9iKTsKPiA+ICsJLyoqCj4gPiArCSAqIEBjbGVhbnVwX3dyaXRlYmFja19qb2I6Cj4gPiArCSAq
-Cj4gPiArCSAqIFRoaXMgb3B0aW9uYWwgY29ubmVjdG9yIG9wZXJhdGlvbiBpcyB1c2VkIHRvIHN1
-cHBvcnQgdGhlCj4gPiArCSAqIGNsZWFudXAgb2Ygd3JpdGViYWNrIGpvYnMuIFRoZSBqb2IgY2xl
-YW51cCBvcGVyYXRpb24gaXMgY2FsbGVkCj4gPiArCSAqIGZyb20gdGhlIGV4aXN0aW5nIGRybV93
-cml0ZWJhY2tfY2xlYW51cF9qb2IoKSBmdW5jdGlvbiwgaW52b2tlZAo+ID4gKwkgKiBib3RoIHdo
-ZW4gZGVzdHJveWluZyB0aGUgam9iIGFzIHBhcnQgb2YgYW4gYWJvcnRlZCBjb21taXQsIG9yIHdo
-ZW4KPiA+ICsJICogdGhlIGpvYiBjb21wbGV0ZXMuCj4gPiArCSAqCj4gPiArCSAqIFRoaXMgb3Bl
-cmF0aW9uIGlzIG9wdGlvbmFsLgo+ID4gKwkgKgo+ID4gKwkgKiBUaGlzIGNhbGxiYWNrIGlzIHVz
-ZWQgYnkgdGhlIGF0b21pYyBtb2Rlc2V0IGhlbHBlcnMuCj4gPiArCSAqLwo+ID4gIAl2b2lkICgq
-Y2xlYW51cF93cml0ZWJhY2tfam9iKShzdHJ1Y3QgZHJtX3dyaXRlYmFja19jb25uZWN0b3IgKmNv
-bm5lY3RvciwKPiA+ICAJCQkJICAgICAgc3RydWN0IGRybV93cml0ZWJhY2tfam9iICpqb2IpOwo+
-ID4gIH07Cj4gPiAtLSAKPiA+IDIuMjAuMQo+ID4gCj4gCj4gLS0gCj4gPT09PT09PT09PT09PT09
-PT09PT0KPiB8IEkgd291bGQgbGlrZSB0byB8Cj4gfCBmaXggdGhlIHdvcmxkLCAgfAo+IHwgYnV0
-IHRoZXkncmUgbm90IHwKPiB8IGdpdmluZyBtZSB0aGUgICB8Cj4gIFwgc291cmNlIGNvZGUhICAv
-Cj4gICAtLS0tLS0tLS0tLS0tLS0KPiAgICAgwq9cXyjjg4QpXy/CrwpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Apr 07, 2020 at 10:08:51AM +0200, Daniel Vetter wrote:
+> On Mon, Apr 06, 2020 at 09:47:46PM +0200, Sam Ravnborg wrote:
+> > drm_writeback.h included a lot of nice kernel-doc comments.
+> > Wire it up so the header file is included in the kernel-doc
+> > generated documentation.
+> > 
+> > Added a few simple comments to the two structs so they
+> > get picked up by kernel-doc.
+> > 
+> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > Cc: Brian Starkey <brian.starkey@arm.com>
+> > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> 
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Thanks. Applied to drm-misc-next and pushed out.
+
+	Sam
+
+> > ---
+> >  Documentation/gpu/drm-kms.rst | 3 +++
+> >  include/drm/drm_writeback.h   | 9 +++++++++
+> >  2 files changed, 12 insertions(+)
+> > 
+> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> > index e1f685015807..397314d08f77 100644
+> > --- a/Documentation/gpu/drm-kms.rst
+> > +++ b/Documentation/gpu/drm-kms.rst
+> > @@ -397,6 +397,9 @@ Connector Functions Reference
+> >  Writeback Connectors
+> >  --------------------
+> >  
+> > +.. kernel-doc:: include/drm/drm_writeback.h
+> > +  :internal:
+> > +
+> >  .. kernel-doc:: drivers/gpu/drm/drm_writeback.c
+> >    :doc: overview
+> >  
+> > diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+> > index 777c14c847f0..9697d2714d2a 100644
+> > --- a/include/drm/drm_writeback.h
+> > +++ b/include/drm/drm_writeback.h
+> > @@ -15,7 +15,13 @@
+> >  #include <drm/drm_encoder.h>
+> >  #include <linux/workqueue.h>
+> >  
+> > +/**
+> > + * struct drm_writeback_connector - DRM writeback connector
+> > + */
+> >  struct drm_writeback_connector {
+> > +	/**
+> > +	 * @base: base drm_connector object
+> > +	 */
+> >  	struct drm_connector base;
+> >  
+> >  	/**
+> > @@ -78,6 +84,9 @@ struct drm_writeback_connector {
+> >  	char timeline_name[32];
+> >  };
+> >  
+> > +/**
+> > + * struct drm_writeback_job - DRM writeback job
+> > + */
+> >  struct drm_writeback_job {
+> >  	/**
+> >  	 * @connector:
+> > -- 
+> > 2.20.1
+> > 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
