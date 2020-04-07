@@ -1,51 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED23A1A0681
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 07:21:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 369F51A0907
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 10:10:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B62A66E106;
-	Tue,  7 Apr 2020 05:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 943CF6E7EC;
+	Tue,  7 Apr 2020 08:09:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A55946E106
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 05:21:49 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id 204so1164128ybw.5
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 22:21:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=3206icedz2htcik+EFGE/oNerGEy5A8lngL5vhkLTgs=;
- b=kMHkdhjcapCr91M91y6OBJsSUmikQdlWTL7zAq27CVyA5+KaKrJ2YWO/8sSw6k7ZHN
- NDcfuJf4+/Z1guUKcPJgH1ZuaBJZloNOLwkaFurX5Txkgg5rj+/MeBVUEtYDTurqn5Us
- Wa6wq4s8zGZWBCgChGODVL3whuE4y/0gVO8CATpwZFVrhDE6KVosICyb46saLtm7fr/c
- QjNFcGvRyjjHxCcucbVNxfC+dC9B1JU8/yFW9DRlGxBS1CZArjC+A6Yyabw1//2cHdaZ
- rKR1R5dA9lTYuNaTFbG9RJQXFieMva9ZrWSUuvxPYw/yzncnwyxxYetxKgJcTi5c0nri
- McUA==
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2C006E10D
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 06:07:39 +0000 (UTC)
+Received: from mail-pj1-f70.google.com ([209.85.216.70])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <kai.heng.feng@canonical.com>) id 1jLhOb-0005XE-VR
+ for dri-devel@lists.freedesktop.org; Tue, 07 Apr 2020 06:07:38 +0000
+Received: by mail-pj1-f70.google.com with SMTP id l9so602737pjq.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Apr 2020 23:07:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=3206icedz2htcik+EFGE/oNerGEy5A8lngL5vhkLTgs=;
- b=SriQNKp1b9gqQAMqlL2m/HVFYRS2R5egMaLUYrKgSVSj3+lzEA508O/KJhqSvqajbU
- 9nX3snff65g87JfrJ3gbyJRmkEbaRko9qoIyTApw+VNZHVhlAnhGD6rqfZweBdvy/CLS
- BatDHGpC9g+hhYZQc/9shtpPKLkSm6TaEcgH9NLyD8OJb0gxvP38SCyo2xWXKoPNEHqz
- 3kJBnEv6O1A20wMJAG03KTDkP08FXJgf74dlvZuGt3sat/1LVrwDzaNmhljNsV6OGJEp
- N8E8mRg5HfaH8z9CaeVuvOTKpwT8Fc/xbVDS/ecVWEpU49YKHA/62fnASkbnruo60IYs
- n4hA==
-X-Gm-Message-State: AGi0PubXu2ELL9LCOm/QGQfdIay/WOPR8m3sZdEFS5k6GhfMIqBcmToH
- 1p9aZad6iQ+SlzjiA1yg9wBMf3V5I0k07DGy54Q=
-X-Google-Smtp-Source: APiQypIDkAY253qBcKPHDajMXk0PJMsj45naSGUnKxjwbpaiqJWgjkeIKMi7VxQ5QpkeAP+7CCV0rtP/xX4gy0v2/dI=
-X-Received: by 2002:a25:ab26:: with SMTP id u35mr977209ybi.147.1586236907312; 
- Mon, 06 Apr 2020 22:21:47 -0700 (PDT)
-MIME-Version: 1.0
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Tue, 7 Apr 2020 15:21:36 +1000
-Message-ID: <CACAvsv5Ef5YKS9EPBH3YUubzvVr++_rzjgSqV_B5nC0L2kB6-Q@mail.gmail.com>
-Subject: [PULL] nouveau-fixes 5.7
-To: Dave Airlie <airlied@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=rKcIrGYLaZasUY/dGlYc6IfmlJJj/4gRzNcvO+62t4g=;
+ b=hmQekTLJMhZlcD1fqDJrRMjVJ5l9MFGMi96q5niWf3rEXwWxGh1MgvrpmyYINPJzsZ
+ oi79ko16eln4aWIJa5ZOfvUV3AB1ggMf8IVnCSA+c95FqslUncooEYShsqxJEC4w3Q7K
+ 0IEo4Hvwa55UH7rbIUOVmMHB35m1nC8fVCyrNPPJEdazKzbAWwf3BosSqEVRVHjZ/tiN
+ 1nD0AHt4yYuPiZw6w2TwCT0UtFXlB48VOGVF7q6mHhu6/A8YhpQCOsN1IM4pmK2v4dul
+ 0ciEsX72FgMmYl54/fxnmYa1Wj3DS5CiYF0FCGlug9JC3ogFqUFPzAnZY40KApGDDOt/
+ mWPw==
+X-Gm-Message-State: AGi0PuYqu4h19SuGuy1AR5aIIbRBeUmlPGWYf3UIQomSWlqyEpRoeu/S
+ JWu4Ft5TqOnewYbGc31t+kmvItnpFg+NtqM5/cGnaGHE4Wf7ZrsDfB+OOATOEo0SgGEwZy0mQBy
+ FU5P0SG/BgNFTGHm8lbVPvJmO3dhn3sM69nMrMqO51+wyEQ==
+X-Received: by 2002:a17:902:bc4b:: with SMTP id
+ t11mr1002695plz.2.1586239656387; 
+ Mon, 06 Apr 2020 23:07:36 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIIVyuQxWKtSF5cfUw0BN07y2sRFKFXDRNq7JG6JKzUKbDp/X7Mq47CYE5saZCyJub5T1wzhg==
+X-Received: by 2002:a17:902:bc4b:: with SMTP id
+ t11mr1002678plz.2.1586239656091; 
+ Mon, 06 Apr 2020 23:07:36 -0700 (PDT)
+Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net.
+ [220.133.187.190])
+ by smtp.gmail.com with ESMTPSA id 8sm13108207pfv.65.2020.04.06.23.07.34
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 06 Apr 2020 23:07:35 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH] drm/i915: Force DPCD backlight mode for HP Spectre x360
+ Convertible 13t-aw100
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <41FD4AD2-81F9-45E8-B5D6-9CC255D0581B@canonical.com>
+Date: Tue, 7 Apr 2020 14:07:33 +0800
+Message-Id: <1F57CA05-3E23-4CA8-A138-6785906ED465@canonical.com>
+References: <20200323053528.3147-1-kai.heng.feng@canonical.com>
+ <41FD4AD2-81F9-45E8-B5D6-9CC255D0581B@canonical.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, mripard@kernel.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ "Deucher, Alexander" <alexander.deucher@amd.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+X-Mailman-Approved-At: Tue, 07 Apr 2020 08:09:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,87 +72,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Dave,
 
-A couple of misc fixes/workarounds for some issues that are causing a
-lot of pain for people.
 
-Of most interest are the PCI power management and GR init WARs, which
-effect a rather significant number of laptop systems that are in use
-today.
+> On Mar 27, 2020, at 19:03, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
+> 
+> Hi,
+> 
+>> On Mar 23, 2020, at 13:35, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
+>> 
+>> There's another OLED panel needs to use DPCD aux interface to control
+>> backlight.
+>> 
+>> BugLink: https://bugs.launchpad.net/bugs/1860303
+>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> 
+> Would it be possible to review this?
+> I'd like to send a similar quirk for a new panel, and I want to avoid causing any merge conflict.
 
-Ben.
+Another gentle ping...
 
-The following changes since commit 0e7e6198af28c1573267aba1be33dd0b7fb35691:
+> 
+> Kai-Heng
+> 
+>> ---
+>> drivers/gpu/drm/drm_dp_helper.c | 2 ++
+>> 1 file changed, 2 insertions(+)
+>> 
+>> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+>> index 8ba4531e808d..a0d4314663de 100644
+>> --- a/drivers/gpu/drm/drm_dp_helper.c
+>> +++ b/drivers/gpu/drm/drm_dp_helper.c
+>> @@ -1301,6 +1301,8 @@ static const struct edid_quirk edid_quirk_list[] = {
+>> 	 * only supports DPCD backlight controls
+>> 	 */
+>> 	{ MFG(0x4c, 0x83), PROD_ID(0x41, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+>> +	/* HP Spectre x360 Convertible 13t-aw100 */
+>> +	{ MFG(0x4c, 0x83), PROD_ID(0x42, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+>> 	/*
+>> 	 * Some Dell CML 2020 systems have panels support both AUX and PWM
+>> 	 * backlight control, and some only support AUX backlight control. All
+>> -- 
+>> 2.17.1
+>> 
+> 
 
-  Merge branch 'ttm-transhuge' of
-git://people.freedesktop.org/~thomash/linux into drm-next (2020-04-03
-09:07:49 +1000)
-
-are available in the Git repository at:
-
-  git://github.com/skeggsb/linux linux-5.7
-
-for you to fetch changes up to 374b55802cd567e9f340b7f27d2c5e20b069ac3c:
-
-  drm/nouveau/kms/nv50-: wait for FIFO space on PIO channels
-(2020-04-07 14:37:50 +1000)
-
-----------------------------------------------------------------
-Ben Skeggs (5):
-      drm/nouveau/ttm: evict other IO mappings when running out of BAR1 space
-      drm/nouveau/gr/gp107,gp108: implement workaround for HW hanging
-during init
-      drm/nouveau/nvif: access PTIMER through usermode class, if available
-      drm/nouveau/nvif: protect waits against GPU falling off the bus
-      drm/nouveau/kms/nv50-: wait for FIFO space on PIO channels
-
-Karol Herbst (1):
-      drm/nouveau: workaround runpm fail by disabling PCI power
-management on certain intel bridges
-
-Ralph Campbell (3):
-      drm/nouveau/svm: fix vma range check for migration
-      drm/nouveau/svm: check for SVM initialized before migrating
-      drm/nouveau/svm: remove useless SVM range check
-
-Wambui Karuga (1):
-      drm/nouveau: remove checks for return value of debugfs functions
-
- drivers/gpu/drm/nouveau/dispnv04/dac.c         |  3 ++-
- drivers/gpu/drm/nouveau/dispnv04/hw.c          |  1 +
- drivers/gpu/drm/nouveau/dispnv50/base507c.c    |  1 +
- drivers/gpu/drm/nouveau/dispnv50/core507d.c    |  1 +
- drivers/gpu/drm/nouveau/dispnv50/corec37d.c    |  2 ++
- drivers/gpu/drm/nouveau/dispnv50/curs507a.c    | 21 ++++++++++++++++++---
- drivers/gpu/drm/nouveau/dispnv50/cursc37a.c    |  9 ++++++---
- drivers/gpu/drm/nouveau/dispnv50/disp.c        |  1 +
- drivers/gpu/drm/nouveau/dispnv50/ovly827e.c    |  2 ++
- drivers/gpu/drm/nouveau/dispnv50/wndw.h        |  1 +
- drivers/gpu/drm/nouveau/include/nvif/device.h  | 21 ---------------------
- drivers/gpu/drm/nouveau/include/nvif/timer.h   | 35
-+++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/nouveau/include/nvif/user.h    |  1 +
- drivers/gpu/drm/nouveau/nouveau_bo.c           |  9 +++++++--
- drivers/gpu/drm/nouveau/nouveau_debugfs.c      | 20 ++++++++------------
- drivers/gpu/drm/nouveau/nouveau_drm.c          | 63
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/nouveau/nouveau_drv.h          |  2 ++
- drivers/gpu/drm/nouveau/nouveau_svm.c          |  9 ++++++---
- drivers/gpu/drm/nouveau/nvif/Kbuild            |  1 +
- drivers/gpu/drm/nouveau/nvif/device.c          | 14 +++++++++-----
- drivers/gpu/drm/nouveau/nvif/timer.c           | 56
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/nouveau/nvif/userc361.c        | 14 ++++++++++++++
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c | 26 ++++++++++++++++++++++++++
- 23 files changed, 263 insertions(+), 50 deletions(-)
- create mode 100644 drivers/gpu/drm/nouveau/include/nvif/timer.h
- create mode 100644 drivers/gpu/drm/nouveau/nvif/timer.c
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
