@@ -2,62 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35CE1A1C2A
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 08:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739621A0A09
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 11:27:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D19C6E967;
-	Wed,  8 Apr 2020 06:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF116E7F1;
+	Tue,  7 Apr 2020 09:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com
- [148.163.135.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 526BA89E1A
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 09:16:39 +0000 (UTC)
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
- by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0379DJsn025062; Tue, 7 Apr 2020 05:16:28 -0400
-Received: from nwd2mta3.analog.com ([137.71.173.56])
- by mx0a-00128a01.pphosted.com with ESMTP id 306q55hv5n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Apr 2020 05:16:27 -0400
-Received: from SCSQMBX10.ad.analog.com (scsqmbx10.ad.analog.com [10.77.17.5])
- by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 0379GQrE057461
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
- verify=FAIL); Tue, 7 Apr 2020 05:16:26 -0400
-Received: from SCSQCASHYB7.ad.analog.com (10.77.17.133) by
- SCSQMBX10.ad.analog.com (10.77.17.5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1779.2; Tue, 7 Apr 2020 02:16:25 -0700
-Received: from SCSQMBX11.ad.analog.com (10.77.17.10) by
- SCSQCASHYB7.ad.analog.com (10.77.17.133) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1779.2; Tue, 7 Apr 2020 02:16:24 -0700
-Received: from zeus.spd.analog.com (10.64.82.11) by SCSQMBX11.ad.analog.com
- (10.77.17.10) with Microsoft SMTP Server id 15.1.1779.2 via Frontend
- Transport; Tue, 7 Apr 2020 02:16:24 -0700
-Received: from localhost.localdomain ([10.48.65.12])
- by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 0379GFA6009115;
- Tue, 7 Apr 2020 05:16:21 -0400
-From: Bogdan Togorean <bogdan.togorean@analog.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [RESEND 2/2] drm: bridge: adv7511: Extend list of audio sample rates
-Date: Tue, 7 Apr 2020 12:13:07 +0300
-Message-ID: <20200407091309.58297-2-bogdan.togorean@analog.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200407091309.58297-1-bogdan.togorean@analog.com>
-References: <20200407091309.58297-1-bogdan.togorean@analog.com>
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCE916E7FA
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 09:27:00 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id a49so2362915otc.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 02:27:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nPe041wtYnw+L7YStvPaALToe3s0hcalxRt4ebfIIoQ=;
+ b=SfuVyQJh3rq55wdMyFMVbQBmSBNzBhHhLnY7/U1lXtVgeAoJD1Q56lXbOzZ8YjG3Bl
+ E/oo7b0IIjn3ru4xntlcEqc7nLwCJA+kMJI//691ItLXBzD6d5MEe3MqqUKOsE4d+BCW
+ Mlb0yt91fccLmUgF9JeG8Q9WuCc1RbXpsoH+Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nPe041wtYnw+L7YStvPaALToe3s0hcalxRt4ebfIIoQ=;
+ b=kq72c6/fB6eMjoS7okFwnf7gtbd7yfpQZEuOtPvC7ZDfVvp503GAJFpaccfw1yVj8Y
+ fFQ3SaCePK5Dyv1QcBcmNQ1LudfMh1xSFnreKwLu0dTJMa4Qw4omDgvRAfMg5JK9+paT
+ Xo29MfqRKV2VoZ6ndftqx+NTvjKhOlgu2Q0hx+fkBtlisC7Hft5PVRNf1HQzMM8Ns2wI
+ OUAiC7R+TEXFm0hF9QF8Jn3WHBlAQtgVbkhBhO982EonaDtgGnj6FNjq44V1nXp90oH6
+ WD3yGd4bVimy4XbWM/FmQjEwUJUrXO039rbF4rfKHHj0mxpi18QTOqT7I+DW7ILioo0a
+ M96g==
+X-Gm-Message-State: AGi0PuZpALA7KSDg07oW3PfwY7WMQC5sORqDfE4WzBAhM3o3SDm8qgR3
+ /sAsUb648LDF4AFRmYHJ/782wgnqvxiK6ejZrQrB9g==
+X-Google-Smtp-Source: APiQypKNI0YeXXUM7A+J8Apslf+lsw0YBOsWrfotn8Le7lnXUOjTXiB0OMPjog50oJxIt36L03iB3xNG1Dv9FF5XRUQ=
+X-Received: by 2002:a4a:c819:: with SMTP id s25mr1123867ooq.6.1586251619677;
+ Tue, 07 Apr 2020 02:26:59 -0700 (PDT)
 MIME-Version: 1.0
-X-ADIRoutedOnPrem: True
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-07_01:2020-04-07,
- 2020-04-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- malwarescore=0 suspectscore=1 lowpriorityscore=0 clxscore=1011 spamscore=0
- phishscore=0 mlxscore=0 adultscore=0 priorityscore=1501 bulkscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004070078
-X-Mailman-Approved-At: Wed, 08 Apr 2020 06:59:23 +0000
+References: <VmzN-pGfjaXAFb8aZXOnS2ibasRIsvB-EbfvxyvjLs07m-PBv4pTcX5hsB7yyrt78pxQQ6Bbu3I-hTtFSXEadxm8CkS60FLccIsZycguSfA=@emersion.fr>
+ <20200403152400.55fe5eac@eldfell.localdomain>
+ <CAPj87rOzsd4wLtkaZt4Xj5ndwHjU7iXQZnnU=+1QSXC2Xdf4Yw@mail.gmail.com>
+In-Reply-To: <CAPj87rOzsd4wLtkaZt4Xj5ndwHjU7iXQZnnU=+1QSXC2Xdf4Yw@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 7 Apr 2020 11:26:48 +0200
+Message-ID: <CAKMK7uGhJpHPbQVjJSnzD7mqMmtgGt-PX0SqKwmZ9A+OVEp8aA@mail.gmail.com>
+Subject: Re: KMS enums and bitfields UAPI
+To: Daniel Stone <daniel@fooishbar.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,56 +59,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Steve Winslow <swinslow@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Alexios Zavras <alexios.zavras@intel.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Richard Fontana <rfontana@redhat.com>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Bogdan Togorean <bogdan.togorean@analog.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ADV7511 support sample rates up to 192kHz. CTS and N parameters should
-be computed accordingly so this commit extend the list up to maximum
-supported sample rate.
+On Tue, Apr 7, 2020 at 10:19 AM Daniel Stone <daniel@fooishbar.org> wrote:
+>
+> Hi,
+>
+> On Fri, 3 Apr 2020 at 13:24, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > On Fri, 03 Apr 2020 10:15:21 +0000 Simon Ser <contact@emersion.fr> wrote:
+> > > At the very least, having a clear policy for both kernel public headers and
+> > > user-space would help a lot. Right now it's unclear for both parties what to do
+> > > regarding enum values.
+> > >
+> > > What do you think?
+> >
+> > I do not think it is unclear at all. You have to query the kernel for
+> > value by string names. Maybe it's not clearly communicated though?
+> >
+> > But I also don't have anything against changing that policy, if kernel
+> > maintainers agree.
+>
+> I'm in the same boat. The existing policy (runtime enum name lookups
+> are the only correct thing, and the presence of anything else in
+> headers is merely accidental) seems pretty clear to me. But I'd be
+> totally fine with changing it too, though it might require a cap to
+> say that this kernel version lets you use the stable integer
+> enumerations, and anything else requires runtime lookup.
+>
+> I had a quick look to see how drivers used properties, and was
+> pleasantly surprised to see that only the (very old) Intel driver,
+> VMware and QXL drivers have custom properties. So maybe we don't have
+> to really worry about vendor-extended properties too much ... though
+> someone will definitely try to use it on some kind of nightmare vendor
+> BSP and have to fork libliftoff for it at some point.
 
-Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
----
- drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Not sure what you grepped, but I'm also seeing amdgpu, armada, i915
+and gma500, nouveau, radeon, rcar and sti create custom properties.
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-index 1e9b128d229b..13e8cee6e827 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-@@ -27,6 +27,18 @@ static void adv7511_calc_cts_n(unsigned int f_tmds, unsigned int fs,
- 	case 48000:
- 		*n = 6144;
- 		break;
-+	case 88200:
-+		*n = 12544;
-+		break;
-+	case 96000:
-+		*n = 12288;
-+		break;
-+	case 176400:
-+		*n = 25088;
-+		break;
-+	case 192000:
-+		*n = 24576;
-+		break;
- 	}
- 
- 	*cts = ((f_tmds * *n) / (128 * fs)) * 1000;
+But yeah we've definitely become a lot better at this, with the
+cracked down rules on drm properties and what you all need to supply
+before merging is ok.
+-Daniel
 -- 
-2.17.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
