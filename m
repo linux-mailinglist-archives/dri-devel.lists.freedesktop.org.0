@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96B51A12DD
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 19:42:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F31E1A12E1
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 19:43:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D38BA6E12A;
-	Tue,  7 Apr 2020 17:42:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 782E96E134;
+	Tue,  7 Apr 2020 17:43:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
  [IPv6:2607:f8b0:4864:20::d42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 849916E12A
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 17:42:46 +0000 (UTC)
-Received: by mail-io1-xd42.google.com with SMTP id n10so4299665iom.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 10:42:46 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E05056E134
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 17:43:48 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id b12so4252054ion.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 10:43:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=b5j6zw5ZfXB9lEpVt/NTILUXrz7FT8+HfVyae5W7p/Y=;
- b=Rq+ADldyWxQqp4k3Sqly0N0oHNs/prtr6ajGzgBwOkgV23KxvS5jOx0ofrYrZS94iA
- UnWT6PDCXcY/3DZlUHKFLFolv6hHlp4kVRAXh0KAiKVa31qxL+knYPv5tUFPHxyf4QSH
- WG3tu37fMYpt+Jw/ULqk1i6W1ft8PqRryetDJe7DecpX8unLLTyrrDt1fpcunnfPfjGv
- WimKQLo5dwI18+PPjhOMJwoTVGW9Tcua5n+KnhSsd1tlUWTW3Phi7vZND/Y3IU0xGMAT
- icudh/gYbZMzpk/wVutFDqF6szKgWqa7EUKQQB5BzrnQNFivb3lym0o8A0GsfeZWy4Mz
- EVCw==
+ :cc; bh=nLa8vWF/VHkJLQ5tzbAupKSkO7Nd/GQhK2vTdnyt2y4=;
+ b=cxUdlynHEL2HXCInGiFUbupNgINSW8CZIPliUdfXDuBkfl9kG0+4OYer70mLLKEHr0
+ vqQXDHUHcRzSrzCluxfuT9/dha0FCNMZutjG/L4rpPtKF53DKgPRtuHjHhhlsYp2A9gT
+ lGg1I8AXOKRD6BuuaD4mpCepf4X4ssrueLB0LWmeGOHvxvHLLo+Cfsfl3GVCxSIMtBJ2
+ vc5nAAxFKSV7U4jZTZAKxx/JMFycQS+Gnb1ol6efME71kjoDqbMOLNfF7aljFlioXb0Y
+ U+N1gahyzWtPx1NpLQ5wYOVx7k38jtDr/tR8LS9s7LbG34dJt1bEeYpOElRiwhKXMWlX
+ ac9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=b5j6zw5ZfXB9lEpVt/NTILUXrz7FT8+HfVyae5W7p/Y=;
- b=Vm7cZvHOSWNItMEU8VDDWEeX8sKxZFRhKIRioj9D236Ap2Ts0lJ8ngsJySFFaMHlIf
- PegiJsUpqgfW3zZPF1ughVNhPOnqrokyN5L2UUCBA4UwZqOMeN9CpH74PgPNRa6iseEY
- 52Gp536DdZy1NmbfG9qIW9zf8YdWmnZg4jB90b+IL5Vz0AtUVmTatiHuDIOSo2CTalkM
- dfsbM3QSql/isUe+yZ9UmpC9vVNEpQfQa2tfInT1TP6U88NSztdpO2LimY4yhDgSe3Ws
- Ng+giCIOqLjA9qMr9Yx5FRoE/YaN9CN6f/ALJSI/CsFGOXhpun86Y81+pYJXXiBBFjLi
- 1VGQ==
-X-Gm-Message-State: AGi0PuZg2PsZ20UHTlGZe+VMTn6+Y1yP22aqpRB8iusgnVwtZ9Dmuq33
- vDZ28/rWfG7C5QWr0M7/IYspm4BF2GmDPDg+l+fKDA==
-X-Google-Smtp-Source: APiQypI9n1JqctpxXb2an7vmddN6FVi++2+Vo0vK84d8yh0rW346tKYBEJYvSDpE1acLEgm4NSV4RypXtXhges79df8=
-X-Received: by 2002:a5d:8c8a:: with SMTP id g10mr3141939ion.201.1586281365752; 
- Tue, 07 Apr 2020 10:42:45 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=nLa8vWF/VHkJLQ5tzbAupKSkO7Nd/GQhK2vTdnyt2y4=;
+ b=RgRSJn8ZB2+YmuQJKEsTpwQia4YIE3UIvJsCDvBfOWu2JI7zHTFd/p3LLeysvknUFM
+ B/p7Hhr7pUClJN3UJOz5W/nDoQ3LCpgov9hybgfSedrGzhGyQKmk+Kx32hxNEP152jCr
+ kqP6C2Mzx4pjENCtP/kHxH7KAi9BuE4vBvlOfa/U2z97IeCbq1qscFP+Dc8ILcCN/zfd
+ DvfQFfotdDeuUx2NUZuOnG1tLylciJo+u1OhiYxIwH/QrIwYZOfEXvbwzR2ghANwTZup
+ kOQ3t1X12vvR1j855f0HuM7lLx7erFq47lubFoGmcrnffZisA8ftZ3XlcRNd7CC+CSeT
+ Z4xg==
+X-Gm-Message-State: AGi0PuaedaPhfQyNhUXvzXZaZfDUgpzEAP5Aa7lr7ZP9xDLIr2qJ9tdp
+ CvwoAiHt0qT4zklop9ywND8Arzz9LZeOgR7/LFMjgA==
+X-Google-Smtp-Source: APiQypKdMl63j0jsbL/tOJdgN63pxjl9MivX+3Gy3v3cZnXqbMogOdk7L4fQdx+qIQ6fu9+1tIzzkvkw/t6Se/9Qp7k=
+X-Received: by 2002:a6b:b3c3:: with SMTP id c186mr3156512iof.85.1586281428368; 
+ Tue, 07 Apr 2020 10:43:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200406221253.1307209-1-lyude@redhat.com>
- <20200406221253.1307209-4-lyude@redhat.com>
-In-Reply-To: <20200406221253.1307209-4-lyude@redhat.com>
+ <20200406221253.1307209-5-lyude@redhat.com>
+In-Reply-To: <20200406221253.1307209-5-lyude@redhat.com>
 From: Sean Paul <sean@poorly.run>
-Date: Tue, 7 Apr 2020 13:42:09 -0400
-Message-ID: <CAMavQKL_30XpTJ5VmVUEemi6vyT2E-WqioG+SS+9DQPgeusxxA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] drm/dp_mst: Increase ACT retry timeout to 3s
+Date: Tue, 7 Apr 2020 13:43:11 -0400
+Message-ID: <CAMavQKJ5TaTbbS2iqkcQhwCbfiXoDvG5+V1qEa509GaqjBwM2g@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/dp_mst: Print errors on ACT timeouts
 To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,109 +61,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Todd Previte <tprevite@gmail.com>, David Airlie <airlied@linux.ie>,
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, stable <stable@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBBcHIgNiwgMjAyMCBhdCA2OjEzIFBNIEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5j
-b20+IHdyb3RlOgo+Cj4gQ3VycmVudGx5IHdlIG9ubHkgcG9sbCBmb3IgYW4gQUNUIHVwIHRvIDMw
-IHRpbWVzLCB3aXRoIGEgYnVzeS13YWl0IGRlbGF5Cj4gb2YgMTAwwrVzIGJldHdlZW4gZWFjaCBh
-dHRlbXB0IC0gZ2l2aW5nIHVzIGEgdGltZW91dCBvZiAyOTAwwrVzLiBXaGlsZQo+IHRoaXMgbWln
-aHQgc2VlbSBzZW5zaWJsZSwgaXQgd291bGQgYXBwZWFyIHRoYXQgaW4gY2VydGFpbiBzY2VuYXJp
-b3MgaXQKPiBjYW4gdGFrZSBkcmFtYXRpY2FsbHkgbG9uZ2VyIHRoZW4gdGhhdCBmb3IgdXMgdG8g
-cmVjZWl2ZSBhbiBBQ1QuIE9uIG9uZQo+IG9mIHRoZSBFVkdBIE1TVCBodWJzIHRoYXQgSSBoYXZl
-IGF2YWlsYWJsZSwgSSBvYnNlcnZlZCBzYWlkIGh1Ygo+IHNvbWV0aW1lcyB0YWtpbmcgbG9uZ2Vy
-IHRoZW4gYSBzZWNvbmQgYmVmb3JlIHNpZ25hbGxpbmcgdGhlIEFDVC4gVGhlc2UKPiBkZWxheXMg
-bW9zdGx5IHNlZW0gdG8gb2NjdXIgd2hlbiBwcmV2aW91cyBzaWRlYmFuZCBtZXNzYWdlcyB3ZSd2
-ZSBzZW50Cj4gYXJlIE5BS2QgYnkgdGhlIGh1YiwgaG93ZXZlciBpdCB3b3VsZG4ndCBiZSBwYXJ0
-aWN1bGFybHkgc3VycHJpc2luZyBpZgo+IGl0J3MgcG9zc2libGUgdG8gcmVwcm9kdWNlIHRpbWVz
-IGxpa2UgdGhpcyBzaW1wbHkgYnkgaW50cm9kdWNpbmcgYnJhbmNoCj4gZGV2aWNlcyB3aXRoIGxh
-cmdlIExDVHMgc2luY2UgcGF5bG9hZCBhbGxvY2F0aW9ucyBoYXZlIHRvIHRha2UgZWZmZWN0IG9u
-Cj4gZXZlcnkgZG93bnN0cmVhbSBkZXZpY2UgdXAgdG8gdGhlIHBheWxvYWQncyB0YXJnZXQuCj4K
-PiBTbywgaW5zdGVhZCBvZiBqdXN0IHJldHJ5aW5nIDMwIHRpbWVzIHdlIHBvbGwgZm9yIHRoZSBB
-Q1QgZm9yIHVwIHRvIDNtcywKPiBhbmQgYWRkaXRpb25hbGx5IHVzZSB1c2xlZXBfcmFuZ2UoKSB0
-byBhdm9pZCBhIHZlcnkgbG9uZyBhbmQgcnVkZQo+IGJ1c3ktd2FpdC4gTm90ZSB0aGF0IHRoZSBw
-cmV2aW91cyByZXRyeSBjb3VudCBvZiAzMCBhcHBlYXJzIHRvIGhhdmUgYmVlbgo+IGFyYml0cmFy
-aWx5IGNob3NlbiwgYXMgSSBjYW4ndCBmaW5kIGFueSBtZW50aW9uIG9mIGEgcmVjb21tZW5kZWQg
-dGltZW91dAo+IG9yIHJldHJ5IGNvdW50IGZvciBBQ1RzIGluIHRoZSBEaXNwbGF5UG9ydCAyLjAg
-c3BlY2lmaWNhdGlvbi4gVGhpcyBhbHNvCj4gZ29lcyBmb3IgdGhlIHJhbmdlIHdlIHdlcmUgcHJl
-dmlvdXNseSB1c2luZyBmb3IgdWRlbGF5KCksIGFsdGhvdWdoIEkKPiBzdXNwZWN0IHRoYXQgd2Fz
-IGp1c3QgY29waWVkIGZyb20gdGhlIHJlY29tbWVuZGVkIGRlbGF5IGZvciBsaW5rCj4gdHJhaW5p
-bmcgb24gU1NUIGRldmljZXMuCj4KPiBDaGFuZ2VzIHNpbmNlIHYxOgo+ICogVXNlIHJlYWR4X3Bv
-bGxfdGltZW91dCgpIGluc3RlYWQgb2Ygb3Blbi1jb2RpbmcgdGltZW91dCBsb29wIC0gU2Vhbgo+
-ICAgUGF1bAo+Cj4gU2lnbmVkLW9mZi1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4K
-PiBGaXhlczogYWQ3ZjhhMWY5Y2VkICgiZHJtL2hlbHBlcjogYWRkIERpc3BsYXlwb3J0IG11bHRp
-LXN0cmVhbSBoZWxwZXIgKHYwLjYpIikKPiBDYzogU2VhbiBQYXVsIDxzZWFuQHBvb3JseS5ydW4+
-Cj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHYzLjE3Kwo+IC0tLQo+ICBkcml2ZXJz
-L2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jIHwgNTcgKysrKysrKysrKysrKysrKy0tLS0t
-LS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAzNCBpbnNlcnRpb25zKCspLCAyMyBkZWxldGlvbnMo
-LSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5j
-IGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+IGluZGV4IGM4M2FkYmRm
-YzFjZC4uY2U2MTk2NGJhYTdjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBf
-bXN0X3RvcG9sb2d5LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9n
-eS5jCj4gQEAgLTI3LDYgKzI3LDcgQEAKPiAgI2luY2x1ZGUgPGxpbnV4L2tlcm5lbC5oPgo+ICAj
-aW5jbHVkZSA8bGludXgvc2NoZWQuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L3NlcV9maWxlLmg+Cj4g
-KyNpbmNsdWRlIDxsaW51eC9pb3BvbGwuaD4KPgo+ICAjaWYgSVNfRU5BQkxFRChDT05GSUdfRFJN
-X0RFQlVHX0RQX01TVF9UT1BPTE9HWV9SRUZTKQo+ICAjaW5jbHVkZSA8bGludXgvc3RhY2t0cmFj
-ZS5oPgo+IEBAIC00NDYwLDQzICs0NDYxLDUzIEBAIHN0YXRpYyBpbnQgZHJtX2RwX2RwY2Rfd3Jp
-dGVfcGF5bG9hZChzdHJ1Y3QgZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1nciwKPiAgICAgICAg
-IHJldHVybiByZXQ7Cj4gIH0KPgo+ICtzdGF0aWMgaW50IGRvX2dldF9hY3Rfc3RhdHVzKHN0cnVj
-dCBkcm1fZHBfYXV4ICphdXgpCj4gK3sKPiArICAgICAgIGludCByZXQ7Cj4gKyAgICAgICB1OCBz
-dGF0dXM7Cj4gKwo+ICsgICAgICAgcmV0ID0gZHJtX2RwX2RwY2RfcmVhZGIoYXV4LCBEUF9QQVlM
-T0FEX1RBQkxFX1VQREFURV9TVEFUVVMsICZzdGF0dXMpOwo+ICsgICAgICAgaWYgKHJldCA8IDAp
-Cj4gKyAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gKwo+ICsgICAgICAgcmV0dXJuIHN0YXR1
-czsKPiArfQo+Cj4gIC8qKgo+ICAgKiBkcm1fZHBfY2hlY2tfYWN0X3N0YXR1cygpIC0gUG9sbHMg
-Zm9yIEFDVCBoYW5kbGVkIHN0YXR1cy4KPiAgICogQG1ncjogbWFuYWdlciB0byB1c2UKPiAgICoK
-PiAgICogVHJpZXMgd2FpdGluZyBmb3IgdGhlIE1TVCBodWIgdG8gZmluaXNoIHVwZGF0aW5nIGl0
-J3MgcGF5bG9hZCB0YWJsZSBieQo+IC0gKiBwb2xsaW5nIGZvciB0aGUgQUNUIGhhbmRsZWQgYml0
-Lgo+ICsgKiBwb2xsaW5nIGZvciB0aGUgQUNUIGhhbmRsZWQgYml0IGZvciB1cCB0byAzIHNlY29u
-ZHMgKHllcy1zb21lIGh1YnMgcmVhbGx5Cj4gKyAqIHRha2UgdGhhdCBsb25nKS4KPiAgICoKPiAg
-ICogUmV0dXJuczoKPiAgICogMCBpZiB0aGUgQUNUIHdhcyBoYW5kbGVkIGluIHRpbWUsIG5lZ2F0
-aXZlIGVycm9yIGNvZGUgb24gZmFpbHVyZS4KPiAgICovCj4gIGludCBkcm1fZHBfY2hlY2tfYWN0
-X3N0YXR1cyhzdHJ1Y3QgZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1ncikKPiAgewo+IC0gICAg
-ICAgaW50IGNvdW50ID0gMCwgcmV0Owo+IC0gICAgICAgdTggc3RhdHVzOwo+IC0KPiAtICAgICAg
-IGRvIHsKPiAtICAgICAgICAgICAgICAgcmV0ID0gZHJtX2RwX2RwY2RfcmVhZGIobWdyLT5hdXgs
-Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERQX1BBWUxPQURfVEFC
-TEVfVVBEQVRFX1NUQVRVUywKPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgJnN0YXR1cyk7Cj4gLSAgICAgICAgICAgICAgIGlmIChyZXQgPCAwKSB7Cj4gLSAgICAgICAg
-ICAgICAgICAgICAgICAgRFJNX0RFQlVHX0tNUygiZmFpbGVkIHRvIHJlYWQgcGF5bG9hZCB0YWJs
-ZSBzdGF0dXMgJWRcbiIsCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBy
-ZXQpOwo+IC0gICAgICAgICAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gLSAgICAgICAgICAg
-ICAgIH0KPiAtCj4gLSAgICAgICAgICAgICAgIGlmIChzdGF0dXMgJiBEUF9QQVlMT0FEX0FDVF9I
-QU5ETEVEKQo+IC0gICAgICAgICAgICAgICAgICAgICAgIGJyZWFrOwo+IC0gICAgICAgICAgICAg
-ICBjb3VudCsrOwo+IC0gICAgICAgICAgICAgICB1ZGVsYXkoMTAwKTsKPiAtICAgICAgIH0gd2hp
-bGUgKGNvdW50IDwgMzApOwo+IC0KPiAtICAgICAgIGlmICghKHN0YXR1cyAmIERQX1BBWUxPQURf
-QUNUX0hBTkRMRUQpKSB7Cj4gLSAgICAgICAgICAgICAgIERSTV9ERUJVR19LTVMoImZhaWxlZCB0
-byBnZXQgQUNUIGJpdCAlZCBhZnRlciAlZCByZXRyaWVzXG4iLAo+IC0gICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHN0YXR1cywgY291bnQpOwo+ICsgICAgICAgLyoKPiArICAgICAgICAqIFRo
-ZXJlIGRvZXNuJ3Qgc2VlbSB0byBiZSBhbnkgcmVjb21tZW5kZWQgcmV0cnkgY291bnQgb3IgdGlt
-ZW91dCBpbgo+ICsgICAgICAgICogdGhlIE1TVCBzcGVjaWZpY2F0aW9uLiBTaW5jZSBzb21lIGh1
-YnMgaGF2ZSBiZWVuIG9ic2VydmVkIHRvIHRha2UKPiArICAgICAgICAqIG92ZXIgMSBzZWNvbmQg
-dG8gdXBkYXRlIHRoZWlyIHBheWxvYWQgYWxsb2NhdGlvbnMgdW5kZXIgY2VydGFpbgo+ICsgICAg
-ICAgICogY29uZGl0aW9ucywgd2UgdXNlIGEgcmF0aGVyIGxhcmdlIHRpbWVvdXQgdmFsdWUuCj4g
-KyAgICAgICAgKi8KPiArICAgICAgIGNvbnN0IGludCB0aW1lb3V0X21zID0gMzAwMDsKPiArICAg
-ICAgIGludCByZXQsIHN0YXR1czsKPiArCj4gKyAgICAgICByZXQgPSByZWFkeF9wb2xsX3RpbWVv
-dXQoZG9fZ2V0X2FjdF9zdGF0dXMsIG1nci0+YXV4LCBzdGF0dXMsCj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgc3RhdHVzICYgRFBfUEFZTE9BRF9BQ1RfSEFORExFRCB8fCBzdGF0
-dXMgPCAwLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDEwMCwgdGltZW91dF9t
-cyAqIFVTRUNfUEVSX01TRUMpOwoKSW4gdjEgdGhlIHVzbGVlcCByYW5nZSB3YXMgMTAwIC0+IDEw
-MDAsIGluIHYyIGl0J3MgZ29pbmcgdG8gYmUgNTEgLT4KMTAwLiBQZXJoYXBzIGJ1bXAgdGhpcyB1
-cCB0byAyMDA/Cgo+ICsgICAgICAgaWYgKHJldCA8IDAgJiYgc3RhdHVzID49IDApIHsKPiArICAg
-ICAgICAgICAgICAgRFJNX0RFQlVHX0tNUygiRmFpbGVkIHRvIGdldCBBQ1QgYml0ICVkIGFmdGVy
-ICVkbXNcbiIsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RhdHVzLCB0aW1lb3V0
-X21zKTsKCkkgc3RpbGwgdGhpbmsgc3RhdHVzIHNob3VsZCBiZSBiYXNlIDE2IHdoZW4gcHJpbnRl
-ZAoKV2l0aCB0aG9zZSBuaXRzIGFkZHJlc3NlZCwKClJldmlld2VkLWJ5OiBTZWFuIFBhdWwgPHNl
-YW5AcG9vcmx5LnJ1bj4KCj4gICAgICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOwo+ICsgICAg
-ICAgfSBlbHNlIGlmIChzdGF0dXMgPCAwKSB7Cj4gKyAgICAgICAgICAgICAgIERSTV9ERUJVR19L
-TVMoIkZhaWxlZCB0byByZWFkIHBheWxvYWQgdGFibGUgc3RhdHVzOiAlZFxuIiwKPiArICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBzdGF0dXMpOwo+ICsgICAgICAgICAgICAgICByZXR1cm4g
-c3RhdHVzOwo+ICAgICAgICAgfQo+ICsKPiAgICAgICAgIHJldHVybiAwOwo+ICB9Cj4gIEVYUE9S
-VF9TWU1CT0woZHJtX2RwX2NoZWNrX2FjdF9zdGF0dXMpOwo+IC0tCj4gMi4yNS4xCj4KX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Apr 6, 2020 at 6:13 PM Lyude Paul <lyude@redhat.com> wrote:
+>
+> Although it's not unexpected for drm_dp_check_act_status() to fail due
+> to DPCD read failures (as the hub may have just been unplugged
+> suddenly), timeouts are a bit more worrying as they either mean we need
+> a longer timeout value, or we aren't setting up payload allocations
+> properly. So, let's start printing errors on timeouts.
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Cc: Sean Paul <sean@poorly.run>
+
+Patches 1,2,4 are still
+
+Reviewed-by: Sean Paul <sean@poorly.run>
+
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index ce61964baa7c..0cbeb0f5c834 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -4499,10 +4499,14 @@ int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr)
+>                                  status & DP_PAYLOAD_ACT_HANDLED || status < 0,
+>                                  100, timeout_ms * USEC_PER_MSEC);
+>         if (ret < 0 && status >= 0) {
+> -               DRM_DEBUG_KMS("Failed to get ACT bit %d after %dms\n",
+> -                             status, timeout_ms);
+> +               DRM_ERROR("Failed to get ACT after %dms, last status: %02x\n",
+> +                         timeout_ms, status);
+>                 return -EINVAL;
+>         } else if (status < 0) {
+> +               /*
+> +                * Failure here isn't unexpected - the hub may have
+> +                * just been unplugged
+> +                */
+>                 DRM_DEBUG_KMS("Failed to read payload table status: %d\n",
+>                               status);
+>                 return status;
+> --
+> 2.25.1
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
