@@ -1,38 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 178C91A1372
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 20:18:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 318771A1C22
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 08:59:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4976E8C6;
-	Tue,  7 Apr 2020 18:18:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D3DD6E960;
+	Wed,  8 Apr 2020 06:59:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D1976E8C6
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 18:18:12 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 6FAD8804D5;
- Tue,  7 Apr 2020 20:18:06 +0200 (CEST)
-Date: Tue, 7 Apr 2020 20:18:05 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Tang Bin <tangbin@cmss.chinamobile.com>
-Subject: Re: [PATCH] video: fbdev: don't print error message on
- platform_get_irq() failure
-Message-ID: <20200407181805.GC6356@ravnborg.org>
-References: <20200406053450.8380-1-tangbin@cmss.chinamobile.com>
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1048289F35
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 18:26:24 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id m67so352768qke.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 11:26:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aurabindo.in; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tIzZDxt4owy5jO/YbfXWS31RiPx2ETthbOiAb1EV9P4=;
+ b=YtVBKm457AxFLluMcN6Nh5lxMwkhKLfQcFmIzF16UjpYwbi574i9IUsdKd+i1y8jEZ
+ QO7YgInPHWArXiIBcjFTESZaFPpm/XZUbS9LyoPsfi1H5/izGjt26qENa5Ffhy2rpsAf
+ kRbqe9ODSQeEpnL+6EleAyr9WmqvD6gXi++mPr+wsYADbd9cXnt4oPEXFO3pqcvfrQ3x
+ X6hUV8VWzIz1RB8h0egnBjFrOPNp5ewI4jMMUYtXnxzdx1hqS4quXLMc1USlubqy7332
+ HSu19PvLsoWcJkcu6IrFEeYVF9yuwTMSCOnTnl7maeVFD3V58yJZBio0R7w8JP8TRr3Y
+ NOuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tIzZDxt4owy5jO/YbfXWS31RiPx2ETthbOiAb1EV9P4=;
+ b=GOBJ+xqBrr+nMDwJS386grYk5rCw8CW6NwUdc3IZgNiQPzsrcsippAU5fIU6XSPRlK
+ GnKoPfPQo2KoVPAmF+XyLyG9MD5IdigL0iorxVXtYJ5ZaYQIc3CN0U2fKgCx5A59h6xe
+ YvtEXye7lvxkOOrxZPVM66wiGEKUeCiF79034KHiF+gBC8TZEu5iP2O8hjHoeHrcQy64
+ EqOOaprq1euxLKDFEyNJOc58SmmoNqnzw6pRspmxhtKudhZ1kwH81e6IJz0e7QL7CImZ
+ WaXeKDqK6ofXEICiqHwbUxjxjTjA8jHsbHLZw0UXtvEShngNjponM5QqqhFWMnWSIeUk
+ Q5fQ==
+X-Gm-Message-State: AGi0PuYpSpRDNEEFs5D0JWA+2mn56HtHV0RA7BUTCYtG+mQgIVM30FTo
+ FCKXteHLHBKSrmeR2U/RRR0Qeg==
+X-Google-Smtp-Source: APiQypI8YWAgQPWSYcS57KN14S6Q6DPtZWqlj+0qOHI2e6co5FZjn/hZaZ4asuloc3R4ftyLEEuEsA==
+X-Received: by 2002:a37:6356:: with SMTP id x83mr3757099qkb.339.1586283984192; 
+ Tue, 07 Apr 2020 11:26:24 -0700 (PDT)
+Received: from localhost.localdomain (135-23-249-169.cpe.pppoe.ca.
+ [135.23.249.169])
+ by smtp.gmail.com with ESMTPSA id f1sm16232830qkl.72.2020.04.07.11.26.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Apr 2020 11:26:21 -0700 (PDT)
+From: Aurabindo Pillai <mail@aurabindo.in>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, David1.Zhou@amd.com
+Subject: [PATCH] amdgpu_kms: Remove unnecessary condition check
+Date: Tue,  7 Apr 2020 14:26:18 -0400
+Message-Id: <20200407182618.2488-1-mail@aurabindo.in>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200406053450.8380-1-tangbin@cmss.chinamobile.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=R5C9hjxsAAAA:8
- a=X_j5bIVzEBSOzoI8NEYA:9 a=CjuIK1q_8ugA:10 a=KpS7wOGxO9l4JKx0McS0:22
+X-Mailman-Approved-At: Wed, 08 Apr 2020 06:59:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,42 +66,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, b.zolnierkie@samsung.com,
- nicolas.ferre@microchip.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, ludovic.desroches@microchip.com,
- linux-fbdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tang Bin
+Execution will only reach here if the asserted condition is true.
+Hence there is no need for the additional check.
 
-On Mon, Apr 06, 2020 at 01:34:50PM +0800, Tang Bin wrote:
-> The platform_get_irq() can print error message,so remove the redundant
-> dev_err() here.
-> 
-> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
-> ---
->  drivers/video/fbdev/atmel_lcdfb.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/atmel_lcdfb.c
-> index d567f5d56..1e2521925 100644
-> --- a/drivers/video/fbdev/atmel_lcdfb.c
-> +++ b/drivers/video/fbdev/atmel_lcdfb.c
-> @@ -1114,7 +1114,6 @@ static int __init atmel_lcdfb_probe(struct platform_device *pdev)
->  
->  	sinfo->irq_base = platform_get_irq(pdev, 0);
->  	if (sinfo->irq_base < 0) {
-> -		dev_err(dev, "unable to get irq\n");
->  		ret = sinfo->irq_base;
->  		goto stop_clk;
->  	}
+Signed-off-by: Aurabindo Pillai <mail@aurabindo.in>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-Thanks, applied to drm-misc-next. The fix will appear in kernel 5.8
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+index 60591dbc2..9fedfa531 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+@@ -179,12 +179,10 @@ int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
+ 	/* Call ACPI methods: require modeset init
+ 	 * but failure is not fatal
+ 	 */
+-	if (!r) {
+-		acpi_status = amdgpu_acpi_init(adev);
+-		if (acpi_status)
+-			dev_dbg(&dev->pdev->dev,
+-				"Error during ACPI methods call\n");
+-	}
++
++	acpi_status = amdgpu_acpi_init(adev);
++	if (acpi_status)
++		dev_dbg(&dev->pdev->dev, "Error during ACPI methods call\n");
+ 
+ 	if (adev->runpm) {
+ 		dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
+-- 
+2.26.0
 
-	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
