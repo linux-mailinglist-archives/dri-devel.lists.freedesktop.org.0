@@ -1,94 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FE91A07EC
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 09:06:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9E11A0912
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Apr 2020 10:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4B176E52F;
-	Tue,  7 Apr 2020 07:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C428F6E5CA;
+	Tue,  7 Apr 2020 08:09:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2071.outbound.protection.outlook.com [40.107.244.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1E856E526;
- Tue,  7 Apr 2020 07:06:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WAR8aNhUmzGHT6qrG6h+w2fHbAdpLjjn72uua4ve1S/qCLtV+W19wIz7Gl6kHAMnI6CIuAU2FzFBTzI6wrIklWyH83t7HB7kvtKAAgdn3FUi4vy6ro4SdAIOjlX5UTUjygDLhscdEdMG3xpcc0NUQvsR6kRF9vccikfwK+3kiUEUMbhvDrHqd84gvgaEm+ZxlxPhHLlP7+wU+ck57goMTlJoU5ASZZge36ZebMaxY4lSKfwB/PuqKcxit+BhWE70NmlhUnWimQUHx58O3DuVMM+0cekbMmQThfAYoPOSnqZ2x2UCzhMKyg8PXC7LtkUQW04+DtaaWdo3XmS2n9WOpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DrQf7W/r/0YUl0MQvWQsaYEDD7EjjIiSIxtvPdsYnNA=;
- b=Ut8+cCwA1oPx4zsIU5ev6YJWhClPid0eP6PbtUfK7cxs08c+YnaQzlavfHG30WbUXo9MM61gHSk3+RSLZWVTyzrYXA0tag4svJ3bE50k3jzMMvzd7oTCGXwaNbnF7FIDUBE2rx7XCFoa8HGkleTISHqGFmtrIn83zUYtp61A+TfhEdjvTVm2SPNAmAicOJ4TJnIPTa5vJMAr7PIaJ5b3iLHVoQOxKqdd9b3L+jl9/aUq4rSmmuAbxhFje6TUtq1XZwgwfBUoKwogNnh02oFq0afp6wxXiyjo7qUlj7KWw4ZBnq+G7kamwxWPW8Fyz78TKtwg1RyggKYU2s8uBM0P+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DrQf7W/r/0YUl0MQvWQsaYEDD7EjjIiSIxtvPdsYnNA=;
- b=ffgN9gk2+YFd7We5t/LfWW4CCHSS2HHm9fKOgBuc8RZmR3q6+KrMo4rtwmGNxxhq3tI2chxSxawplyZAcyIdU3kppgvV9WvqzGdAjcDZvH+0u8tXpTR6/C8kH8QKBiMAPJwlErfEIwZ/NEN/rp1bTXgtMQCmJQCyEv2QJ5Va/Lk=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
- by DM6PR12MB3691.namprd12.prod.outlook.com (2603:10b6:5:1c5::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.15; Tue, 7 Apr
- 2020 07:06:07 +0000
-Received: from DM6PR12MB4401.namprd12.prod.outlook.com
- ([fe80::f164:85c4:1b51:14d2]) by DM6PR12MB4401.namprd12.prod.outlook.com
- ([fe80::f164:85c4:1b51:14d2%4]) with mapi id 15.20.2878.018; Tue, 7 Apr 2020
- 07:06:07 +0000
-Subject: Re: [PATCH 1/2] drm/ttm: clean up
- ttm_trace_dma_map/ttm_trace_dma_unmap
-To: Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <1586241885-25422-1-git-send-email-ray.huang@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <19af654b-ca0b-3077-01bb-939c56b440b6@amd.com>
-Date: Tue, 7 Apr 2020 09:06:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <1586241885-25422-1-git-send-email-ray.huang@amd.com>
-Content-Language: en-US
-X-ClientProxiedBy: AM5PR06CA0024.eurprd06.prod.outlook.com
- (2603:10a6:206:2::37) To DM6PR12MB4401.namprd12.prod.outlook.com
- (2603:10b6:5:2a9::15)
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90DED6E525
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Apr 2020 07:12:57 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 41E5569F;
+ Tue,  7 Apr 2020 03:12:56 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 07 Apr 2020 03:12:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=I3/Di80PJiQMVee28CsWJsRHUhM
+ 5QeBlnEv3CyCX3cw=; b=ibq8DtWCdfm0bHWwPbVCXibtbNlIJqxKxTD84rikqV3
+ 7pnZHivzEgJ53yosvfy20zRHODxKBEl5UdXvui/if9DmAK47dFrOTB+nkx7oNwJe
+ MWlDfwK4WTEl+tft1p84vd9Bd6jouxGOCvJGS+BxLJRuE6Kwst+X0yVrHyyz4HQU
+ Ndiop1XNpX66ywiP3fcoHY0bqGnI4K8J8upUH4/TQ/xeJD8RLxVv/VUAAtSzOapk
+ weTJD8Vrw4gx2gHeRpTh5UcwlMAChl2uz2Yn0H9azOcQ4iC2nC/JkoBtlDag5zMJ
+ uDc771Jnni174T7ug8Saw3nAKcBmpY7Q8nInnD/vPNw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=I3/Di8
+ 0PJiQMVee28CsWJsRHUhM5QeBlnEv3CyCX3cw=; b=gDAM6Us5rJhFwmxx+jS3YE
+ ooZtFWM0Ie99/lwBFa97V5tm+EUFlo8+4EzyUF3FiEqgaFQ1WMbzK6l9nbUdWu1q
+ 9FCkRYs4hfXMr5oMF4efv675XtkK6e2rcN85hudKC1At+O1oYo8ZVfNRsiQET1YR
+ qnToFkGqvs4b1HnxdPdPY/jhPwi0OBhpZDWjDmRSzdeRokC0x27gFbYX+kwAaeXM
+ lGQH69KO7ICso6Dya2F+yzao4vmRulB0jteWPthFE6Vv+2U2DIHGhhMUy1bXGWpL
+ lWpPcROGGgXCmlhLhdAzSdRBp5HrBGgltUOWX/PJtPfJ0PRC64TVBdsezL4Xajqw
+ ==
+X-ME-Sender: <xms:9ieMXl3oS99-XBT_5tir_tTIAPd3_70h5SBJYSiNIfG7OtcoJPrnYQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudeggdduudehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuffhomhgrih
+ hnpeguvghvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekledrieekrdejieenucev
+ lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvg
+ estggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:9ieMXiH10_rqHyEdZflIo5vfCikMNoQyAWuikYFsBn4zeku-y8KzSA>
+ <xmx:9ieMXgtup2Ygjs61tDO6rO6JX-d2_iskig8x035_-LTs7oIHh8p4zQ>
+ <xmx:9ieMXlrNveAspHXEK-8GSbUOboFykOWnSXO5qqpVfQFuylmCLS_2Hg>
+ <xmx:9yeMXlb26CiBVMCef1RbgoKf0ML2VhbdnCDBamPn-OQvqIB8noDLyg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id C3EAE3280060;
+ Tue,  7 Apr 2020 03:12:53 -0400 (EDT)
+Date: Tue, 7 Apr 2020 09:12:51 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH/RFC 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
+ binding to YAML
+Message-ID: <20200407071251.npibrmzywiyigu2a@gilmour.lan>
+References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
+ <20200406111927.GD4757@pendragon.ideasonboard.com>
+ <20200406170915.x2ztz4q446h6vx2y@gilmour.lan>
+ <20200406175028.GI16885@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM5PR06CA0024.eurprd06.prod.outlook.com (2603:10a6:206:2::37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2878.16 via Frontend Transport; Tue, 7 Apr 2020 07:06:06 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 9b855bf4-b8d9-4dbd-27c9-08d7dac224f1
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3691:|DM6PR12MB3691:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB3691115CD4C25D4F0B051CCF83C30@DM6PR12MB3691.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-Forefront-PRVS: 036614DD9C
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4401.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10009020)(4636009)(376002)(136003)(366004)(396003)(346002)(39860400002)(2616005)(66556008)(52116002)(86362001)(36756003)(66476007)(31686004)(2906002)(66946007)(316002)(5660300002)(4744005)(478600001)(81166006)(186003)(16526019)(81156014)(6666004)(6486002)(31696002)(8676002)(450100002)(8936002);
- DIR:OUT; SFP:1101; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XTuzJK8g6BazLjunduuk98+JdL3zHHbM3dAE+p0G96H/UjvNP5DGzomAe86d/NiN5MLXFt1LuTuQsrwRDF9sDqV/6upmtsOyHAJoHER7kT2By7YKSq/SiCwI/5HgU/X4+pwuTw1wNjiPPW+Fng5TC6DywnqtI8rR4cd8I0/mTzHG4GURCG/+egkJvT167L5y4m4yoQZV1JNTWgweONUO0CpYq9IC0pthCZkvbPyVRTpsBa15OypDgShLS4Rog7GOvI1WU6F9Rpq48FGGanJ0E1hdIudt1h0yBipNTG+M969FAoy/oF28bpd2ymcsz7mbv7bf+7gM9pZvun2xAj3ZREDVmt7Uo2tPzYxKoXLwqXOz9Z4Jr0iE5gh0azQQZZSV8TuxrxzC73BVjOYiAMqxMJxC95G8H7si/ul3eaCE82TjUERR2Vtrmoi4csp9VRnV
-X-MS-Exchange-AntiSpam-MessageData: XLEvx+U/yIgHhuCRog5uz/wrm04F506XlIX0+kqFfAZ3Lov+16rKF4i2/s9uJPIDUO3+Z2t3AmJoKfidYwCB/RV2hSySxXgX3MOEQjNtXG7jYiOU0+DUz6Tm/udmzB/n+0Uf62IIDCgL84sBBfdoKTffODGjkejYFxqdmw/STOQ5Nad3VP6xt/VRr1NvNT8Ez8KhiqxGjp1PmGS/A8Ldyg==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b855bf4-b8d9-4dbd-27c9-08d7dac224f1
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2020 07:06:07.7058 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6W4fLFm6ashmZyFn+rN71Cnisb63J8B+5AwDfbtUnsu8KWicQbJYqXBmDssAx2jn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3691
+In-Reply-To: <20200406175028.GI16885@pendragon.ideasonboard.com>
+X-Mailman-Approved-At: Tue, 07 Apr 2020 08:09:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,43 +82,291 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: devicetree@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Mark Yao <mark.yao@rock-chips.com>
+Content-Type: multipart/mixed; boundary="===============2138319444=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.04.20 um 08:44 schrieb Huang Rui:
-> ttm_trace_dma_map/ttm_trace_dma_unmap is never used anymore. Move the pr_fmt
-> prefix into this header.
+
+--===============2138319444==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="dwn2vvpqb3gq7irh"
+Content-Disposition: inline
+
+
+--dwn2vvpqb3gq7irh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Apr 06, 2020 at 08:50:28PM +0300, Laurent Pinchart wrote:
+> Hi Maxime,
 >
-> Signed-off-by: Huang Rui <ray.huang@amd.com>
-> ---
->   include/drm/ttm/ttm_debug.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> On Mon, Apr 06, 2020 at 07:09:15PM +0200, Maxime Ripard wrote:
+> > On Mon, Apr 06, 2020 at 02:19:27PM +0300, Laurent Pinchart wrote:
+> > > On Mon, Apr 06, 2020 at 10:00:32AM +0200, Maxime Ripard wrote:
+> > > > On Mon, Apr 06, 2020 at 02:39:33AM +0300, Laurent Pinchart wrote:
+> > > > > Convert the Rockchip HDMI TX text binding to YAML.
+> > > > >
+> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > > ---
+> > > > >  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
+> > > > >  .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
+> > > > >  2 files changed, 178 insertions(+), 74 deletions(-)
+> > > > >  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> > > > >  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> > > > > deleted file mode 100644
+> > > > > index 3d32ce137e7f..000000000000
+> > > > > --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> > > > > +++ /dev/null
+> > > > > @@ -1,74 +0,0 @@
+> > > > > -Rockchip DWC HDMI TX Encoder
+> > > > > -============================
+> > > > > -
+> > > > > -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> > > > > -with a companion PHY IP.
+> > > > > -
+> > > > > -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
+> > > > > -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
+> > > > > -following device-specific properties.
+> > > > > -
+> > > > > -
+> > > > > -Required properties:
+> > > > > -
+> > > > > -- compatible: should be one of the following:
+> > > > > -		"rockchip,rk3228-dw-hdmi"
+> > > > > -		"rockchip,rk3288-dw-hdmi"
+> > > > > -		"rockchip,rk3328-dw-hdmi"
+> > > > > -		"rockchip,rk3399-dw-hdmi"
+> > > > > -- reg: See dw_hdmi.txt.
+> > > > > -- reg-io-width: See dw_hdmi.txt. Shall be 4.
+> > > > > -- interrupts: HDMI interrupt number
+> > > > > -- clocks: See dw_hdmi.txt.
+> > > > > -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
+> > > > > -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
+> > > > > -  corresponding to the video input of the controller. The port shall have two
+> > > > > -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
+> > > > > -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
+> > > > > -
+> > > > > -Optional properties
+> > > > > -
+> > > > > -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
+> > > > > -  or the functionally-reduced I2C master contained in the DWC HDMI. When
+> > > > > -  connected to a system I2C master this property contains a phandle to that
+> > > > > -  I2C master controller.
+> > > > > -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
+> > > > > -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
+> > > > > -- clock-names: May contain "grf", power for grf io.
+> > > > > -- clock-names: May contain "vpll", external clock for some hdmi phy.
+> > > > > -- phys: from general PHY binding: the phandle for the PHY device.
+> > > > > -- phy-names: Should be "hdmi" if phys references an external phy.
+> > > > > -
+> > > > > -Optional pinctrl entry:
+> > > > > -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
+> > > > > -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
+> > > > > -  i2c timeout.  It's intended that this unwedge pinctrl entry will
+> > > > > -  cause the SDA line to be driven low to work around a hardware
+> > > > > -  errata.
+> > > > > -
+> > > > > -Example:
+> > > > > -
+> > > > > -hdmi: hdmi@ff980000 {
+> > > > > -	compatible = "rockchip,rk3288-dw-hdmi";
+> > > > > -	reg = <0xff980000 0x20000>;
+> > > > > -	reg-io-width = <4>;
+> > > > > -	ddc-i2c-bus = <&i2c5>;
+> > > > > -	rockchip,grf = <&grf>;
+> > > > > -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> > > > > -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
+> > > > > -	clock-names = "iahb", "isfr";
+> > > > > -	ports {
+> > > > > -		hdmi_in: port {
+> > > > > -			#address-cells = <1>;
+> > > > > -			#size-cells = <0>;
+> > > > > -			hdmi_in_vopb: endpoint@0 {
+> > > > > -				reg = <0>;
+> > > > > -				remote-endpoint = <&vopb_out_hdmi>;
+> > > > > -			};
+> > > > > -			hdmi_in_vopl: endpoint@1 {
+> > > > > -				reg = <1>;
+> > > > > -				remote-endpoint = <&vopl_out_hdmi>;
+> > > > > -			};
+> > > > > -		};
+> > > > > -	};
+> > > > > -};
+> > > > > diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > > > > new file mode 100644
+> > > > > index 000000000000..8ff544ae0ac2
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > > > > @@ -0,0 +1,178 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title: Rockchip DWC HDMI TX Encoder
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Mark Yao <mark.yao@rock-chips.com>
+> > > > > +
+> > > > > +description: |
+> > > > > +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> > > > > +  with a companion PHY IP.
+> > > > > +
+> > > > > +allOf:
+> > > > > +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    enum:
+> > > > > +      - rockchip,rk3228-dw-hdmi
+> > > > > +      - rockchip,rk3288-dw-hdmi
+> > > > > +      - rockchip,rk3328-dw-hdmi
+> > > > > +      - rockchip,rk3399-dw-hdmi
+> > > > > +
+> > > > > +  reg: true
+> > > > > +
+> > > > > +  reg-io-width:
+> > > > > +    const: 4
+> > > > > +
+> > > > > +  clocks:
+> > > > > +    minItems: 2
+> > > > > +    maxItems: 5
+> > > > > +    items:
+> > > > > +      - description: The bus clock for either AHB and APB
+> > > > > +      - description: The internal register configuration clock
+> > > > > +      - description: The HDMI CEC controller main clock
+> > > > > +      - description: Power for GRF IO
+> > > > > +      - description: External clock for some HDMI PHY
+> > > > > +
+> > > > > +  clock-names:
+> > > > > +    minItems: 2
+> > > > > +    maxItems: 5
+> > > > > +    items:
+> > > > > +      - const: iahb
+> > > > > +      - const: isfr
+> > > > > +      - enum:
+> > > > > +        - cec
+> > > > > +        - grf
+> > > > > +        - vpll
+> > > > > +      - enum:
+> > > > > +        - cec
+> > > > > +        - grf
+> > > > > +        - vpll
+> > > > > +      - enum:
+> > > > > +        - cec
+> > > > > +        - grf
+> > > > > +        - vpll
+> > > >
+> > > > IIRC Rob wanted us to standardize the order of the clocks if possible,
+> > > > since it's a pain to support properly here, and your description won't
+> > > > match what you describe here either (and in general it's just a best
+> > > > practice), so if all your DTs have the same order you should just set
+> > > > that order in stone.
+> > >
+> > > But how do we handle the case where any of the cec, grf and vpll clocks
+> > > can be set ? Assuming, for instance, that
+> > >
+> > > 	clock-names = "iahb", "isfr", "cec";
+> > > 	clock-names = "iahb", "isfr", "vpll";
+> > > 	clock-names = "iahb", "isfr", "cec", "vpll";
+> > >
+> > > would all be valid.
+> >
+> > It would be painful then...
+> >
+> > The easiest way to do so would be to simply use an enum there, and not
+> > bother checking the array at all. You'll get a warning if there's
+> > multiple occurences of the same string, and I guess that's what you
+> > would be really concerned about.
+> >
+> > However, now that I think about it, what's the interaction between the
+> > generic binding and this one when it comes to the third clock? The
+> > generic one expects it to be cec, and here you have other options?
 >
-> diff --git a/include/drm/ttm/ttm_debug.h b/include/drm/ttm/ttm_debug.h
-> index b5e460f..bd7cf37 100644
-> --- a/include/drm/ttm/ttm_debug.h
-> +++ b/include/drm/ttm/ttm_debug.h
-> @@ -27,5 +27,5 @@
->   /*
->    * Authors: Tom St Denis <tom.stdenis@amd.com>
->    */
-> -extern void ttm_trace_dma_map(struct device *dev, struct ttm_dma_tt *tt);
-> -extern void ttm_trace_dma_unmap(struct device *dev, struct ttm_dma_tt *tt);
+> I'm not too familiar with the platform, but as far as I understand, any
+> of the cec, grf and vpll clock is optional (if someone could confirm
+> that, it would be useful). I don't care so much about the order, but
+> iahb and isfr are mandatory, and thus need to be specified as two const
+> items in the beginning as far as I understand. It would be nice to set
+> something along the lines of
+>
+>   minItems: 2
+>   maxItems: 5
+>   items:
+>     - const: iahb
+>     - const: isfr
+>     - enum:
+>       - cec
+>       - grf
+>       - vpll
 
-I would just completely remove the file since it isn't used any more.
+I guess you could do something like:
 
-> +
-> +#define pr_fmt(fmt) "[TTM] " fmt
+in the generic schema:
 
-Oh, that is most likely not a good idea. The pr_fmt define should be set 
-for each file individually or otherwise we could accidentally include 
-the file in a driver.
+clock-names:
+  allOf:
+    - minItems: 2
+    - enum:
+       - iahb
+       - isfr
+       - cec
+      additonalItems: true
+    - items:
+      - iahb
+      - isfr
 
-Regards,
-Christian.
+Or something along those lines, I haven't tested it, but the basic
+idea is that you want to enforce that:
+  a) there's a minimum of two clocks
+  b) valid clock names are iahb, isfr and cec, but we will allow more
+  c) the first two clocks are iahb and isfr
+
+Now, on the rockchip binding, we can simply have:
+
+clock-names:
+  enum:
+    - iahb
+    - isfr
+    - cec
+    - grf
+    - vpll
+
+This way, here we enforce the available clock names, while keeping the
+constraints set in the generic binding.
+
+Maxime
+
+--dwn2vvpqb3gq7irh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXown8wAKCRDj7w1vZxhR
+xbzqAP0b7YMyvbvLZHLqcSAfIdp0wf5sIUH6pAKOI1Xkaa2pNgEAukMeyr8RlQG5
+rHcRboMkeq2Ukf9PhorHisDa8FtteA0=
+=2hD7
+-----END PGP SIGNATURE-----
+
+--dwn2vvpqb3gq7irh--
+
+--===============2138319444==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2138319444==--
