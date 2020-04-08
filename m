@@ -1,44 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508451A1E19
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 11:35:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 938C71A1E32
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 11:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5795C89C9A;
-	Wed,  8 Apr 2020 09:35:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6687B6E9FE;
+	Wed,  8 Apr 2020 09:46:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3990089C07;
- Wed,  8 Apr 2020 09:35:00 +0000 (UTC)
-IronPort-SDR: D4Vj/v2g1VmOCdhMy3S0rOUZrDN7so5caaOFTuX5kRTS1bZHusHsnbc9EvkGiRF7Jcukf3TJmt
- EcONnW/lI1bw==
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D61F6E9FE;
+ Wed,  8 Apr 2020 09:46:37 +0000 (UTC)
+IronPort-SDR: pEL0szdkR53EDiULBPnwDe42WX+0dvhIqhFVdmmkvfVZnCCMkK+gW1LaOGwfO6sxKeO1UrQR60
+ EFYcmpCTXEwA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2020 02:34:59 -0700
-IronPort-SDR: /45HFkuAEGq5SyxnSaFbBFOIt9vQ82VWgVjEzUbCyfcMwn46nf85f3su1GKT5D3RQXgDQyHt9g
- PGWw15nDGINQ==
-X-IronPort-AV: E=Sophos;i="5.72,357,1580803200"; d="scan'208";a="451543046"
-Received: from slinke-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.60.237])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2020 02:34:56 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Daniel
- Vetter <daniel@ffwll.ch>
-Subject: Re: [Intel-gfx] [PATCH v2 13/17] drm/i915: Stop using
- mode->private_flags
-In-Reply-To: <20200407152050.GC6112@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200403204008.14864-1-ville.syrjala@linux.intel.com>
- <20200403204008.14864-14-ville.syrjala@linux.intel.com>
- <20200407073847.GB3456981@phenom.ffwll.local>
- <20200407152050.GC6112@intel.com>
-Date: Wed, 08 Apr 2020 12:34:54 +0300
-Message-ID: <875zeaiam9.fsf@intel.com>
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2020 02:46:36 -0700
+IronPort-SDR: XdNx99FG+N2SvwchpC71a/iJRjHJFHemBiys+nddzuOXTl9M8XIfO0MdqDzP3Xi09oOV0TxcbA
+ v3ZM3GV6mGaQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,357,1580803200"; d="scan'208";a="297193138"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by FMSMGA003.fm.intel.com with ESMTP; 08 Apr 2020 02:46:36 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 8 Apr 2020 02:46:36 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 8 Apr 2020 02:46:35 -0700
+Received: from bgsmsx106.gar.corp.intel.com (10.223.43.196) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Wed, 8 Apr 2020 02:46:35 -0700
+Received: from BGSMSX108.gar.corp.intel.com ([169.254.8.65]) by
+ BGSMSX106.gar.corp.intel.com ([169.254.1.82]) with mapi id 14.03.0439.000;
+ Wed, 8 Apr 2020 15:16:32 +0530
+From: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>
+To: "Nikula, Jani" <jani.nikula@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH RESEND 1/7] drm/dsc: use rc_model_size from DSC config
+ for PPS
+Thread-Topic: [PATCH RESEND 1/7] drm/dsc: use rc_model_size from DSC config
+ for PPS
+Thread-Index: AQHWBDU0SmW9BE1VVUahVNAS4weonqhvAxKQ
+Date: Wed, 8 Apr 2020 09:46:31 +0000
+Message-ID: <57510F3E2013164E925CD03ED7512A3B80A883C7@BGSMSX108.gar.corp.intel.com>
+References: <20200327124229.26461-1-jani.nikula@intel.com>
+In-Reply-To: <20200327124229.26461-1-jani.nikula@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.10]
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,90 +73,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Nikula, Jani" <jani.nikula@intel.com>, "Navare, Manasi
+ D" <manasi.d.navare@intel.com>, Harry Wentland <hwentlan@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAwNyBBcHIgMjAyMCwgVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4
-LmludGVsLmNvbT4gd3JvdGU6Cj4gT24gVHVlLCBBcHIgMDcsIDIwMjAgYXQgMDk6Mzg6NDdBTSAr
-MDIwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPj4gT24gRnJpLCBBcHIgMDMsIDIwMjAgYXQgMTE6
-NDA6MDRQTSArMDMwMCwgVmlsbGUgU3lyamFsYSB3cm90ZToKPj4gPiBGcm9tOiBWaWxsZSBTeXJq
-w6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+PiA+IAo+PiA+IFJlcGxhY2Ug
-dGhlIHVzZSBvZiBtb2RlLT5wcml2YXRlX2ZsYWdzIHdpdGggYSB0cnVseSBwcml2YXRlIGJpdG1h
-a3MKPj4gPiBpbiBvdXIgb3duIGNydGMgc3RhdGUuIFdlIGFsc28gbmVlZCBhIGNvcHkgaW4gdGhl
-IGNydGMgaXRzZWxmIHNvIHRoZQo+PiA+IHZibGFuayBjb2RlIGNhbiBnZXQgYXQgaXQuIFdlIGFs
-cmVhZHkgaGF2ZSBzY2FubGluZV9vZmZzZXQgaW4gdGhlcmUKPj4gPiBmb3IgYSBzaW1pbGFyIHJl
-YXNvbiwgYXMgd2VsbCBhcyB0aGUgdmJsYW5rLT5od21vZGUgd2hpY2ggaXMgYXNzaWduZWQKPj4g
-PiB2aWEgZHJtX2NhbGNfdGltZXN0YW1waW5nX2NvbnN0YW50cygpLiBGb3J0dW5hdGVseSB3ZSBu
-b3cgaGF2ZSBhCj4+ID4gbmljZSBwbGFjZSBmb3IgZG9pbmcgdGhlIGNydGNfc3RhdGUtPmNydGMg
-Y29weSBpbgo+PiA+IGludGVsX2NydGNfdXBkYXRlX2FjdGl2ZV90aW1pbmdzKCkgd2hpY2ggZ2V0
-cyBjYWxsZWQgYm90aCBmb3IKPj4gPiBtb2Rlc2V0cyBhbmQgaW5pdC9yZXN1bWUgcmVhZG91dC4K
-Pj4gPiAKPj4gPiBUaGUgb25lIHNsaWdodGx5IGlmZnkgc3BvdCBpcyB0aGUgSU5IRVJJVEVEIGZs
-YWcgd2hpY2ggd2Ugd2FudCB0bwo+PiA+IHByZXNlcnZlIHVudGlsIHVzZXJzcGFjZS9mYl9oZWxw
-ZXIgZG9lcyB0aGUgZmlyc3QgcHJvcGVyIGNvbW1pdCBhZnRlcgo+PiA+IGFjdHVhbGx5IGNhbGxp
-bmcgLmRldGVjdGkoKSBvbiB0aGUgY29ubmVjdG9ycy4gT3RoZXJ3aXNlIHdlIGRvbid0IGhhdmUK
-Pj4gPiB0aGUgZnVsbCBzaW5rIGNhcGFiaWxpdGllcyAoYXVkaW8saW5mb2ZyYW1lcyxldGMuKSB3
-aGVuIC5jb21wdXRlX2NvbmZpZygpCj4+ID4gZ2V0cyBjYWxsZWQgYW5kIHRodXMgd2Ugd2lsbCBm
-YWlsIHRvIGVuYWJsZSB0aG9zZSBmZWF0dXJlcyB3aGVuIHRoZQo+PiA+IGZpcnN0IHVzZXJzcGFj
-ZSBjb21taXQgaGFwcGVucy4gVGhlIG9ubHkgaW50ZXJuYWwgY29tbWl0IHdlIGRvIHByaW9yIHRv
-Cj4+ID4gdGhhdCBzaG91bGQgYmUgZnJvbSBpbnRlbF9pbml0aWFsX2NvbW1pdCgpIGFuZCB0aGVy
-ZSB3ZSBjYW4gc2ltcGx5Cj4+ID4gcHJlc2VydmUgdGhlIElOSEVSSVRFRCBmbGFnIGZyb20gdGhl
-IHJlYWRvdXQuCj4+ID4gCj4+ID4gQ0M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4K
-Pj4gPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPj4gPiBDYzog
-RW1pbCBWZWxpa292IDxlbWlsLmwudmVsaWtvdkBnbWFpbC5jb20+Cj4+ID4gU2lnbmVkLW9mZi1i
-eTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPj4gPiAt
-LS0KPj4gPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pY2xfZHNpLmMgICAgICAgIHwg
-MTMgKysrKy0tLS0tLQo+PiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2F0
-b21pYy5jICAgfCAgMSArCj4+ID4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
-ZGlzcGxheS5jICB8IDI0ICsrKysrKysrKysrKystLS0tLS0KPj4gPiAgLi4uL2RybS9pOTE1L2Rp
-c3BsYXkvaW50ZWxfZGlzcGxheV90eXBlcy5oICAgIHwgIDkgKysrKysrLQo+PiA+ICBkcml2ZXJz
-L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3R2LmMgICAgICAgfCAgNCArKy0tCj4+ID4gIGRy
-aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvdmx2X2RzaS5jICAgICAgICB8ICA2ICsrLS0tCj4+
-ID4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfaXJxLmMgICAgICAgICAgICAgICB8ICA0ICsr
-LS0KPj4gPiAgNyBmaWxlcyBjaGFuZ2VkLCAzNyBpbnNlcnRpb25zKCspLCAyNCBkZWxldGlvbnMo
-LSkKPj4gPiAKPj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
-Y2xfZHNpLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ljbF9kc2kuYwo+PiA+IGlu
-ZGV4IDk5YTI1YzBiYjA4Zi4uNGQ2Nzg4ZWYyZTVlIDEwMDY0NAo+PiA+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaWNsX2RzaS5jCj4+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2k5MTUvZGlzcGxheS9pY2xfZHNpLmMKPj4gPiBAQCAtMTQ2OSw4ICsxNDY5LDcgQEAgc3RhdGlj
-IHZvaWQgZ2VuMTFfZHNpX2dldF9jb25maWcoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIs
-Cj4+ID4gIAlwaXBlX2NvbmZpZy0+cGlwZV9icHAgPSBiZHdfZ2V0X3BpcGVtaXNjX2JwcChjcnRj
-KTsKPj4gPiAgCj4+ID4gIAlpZiAoZ2VuMTFfZHNpX2lzX3BlcmlvZGljX2NtZF9tb2RlKGludGVs
-X2RzaSkpCj4+ID4gLQkJcGlwZV9jb25maWctPmh3LmFkanVzdGVkX21vZGUucHJpdmF0ZV9mbGFn
-cyB8PQo+PiA+IC0JCQkJCUk5MTVfTU9ERV9GTEFHX0RTSV9QRVJJT0RJQ19DTURfTU9ERTsKPj4g
-PiArCQlwaXBlX2NvbmZpZy0+bW9kZV9mbGFncyB8PSBJOTE1X01PREVfRkxBR19EU0lfUEVSSU9E
-SUNfQ01EX01PREU7Cj4+ID4gIH0KPj4gPiAgCj4+ID4gIHN0YXRpYyBpbnQgZ2VuMTFfZHNpX2Rz
-Y19jb21wdXRlX2NvbmZpZyhzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwKPj4gPiBAQCAt
-MTU1NSwxMCArMTU1NCw2IEBAIHN0YXRpYyBpbnQgZ2VuMTFfZHNpX2NvbXB1dGVfY29uZmlnKHN0
-cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVyLAo+PiA+ICAKPj4gPiAgCXBpcGVfY29uZmlnLT5w
-b3J0X2Nsb2NrID0gYWZlX2NsayhlbmNvZGVyLCBwaXBlX2NvbmZpZykgLyA1Owo+PiA+ICAKPj4g
-PiAtCS8qIFdlIHdvdWxkIG5vdCBvcGVyYXRlIGluIHBlcmlvZGljIGNvbW1hbmQgbW9kZSAqLwo+
-PiA+IC0JcGlwZV9jb25maWctPmh3LmFkanVzdGVkX21vZGUucHJpdmF0ZV9mbGFncyAmPQo+PiA+
-IC0JCQkJCX5JOTE1X01PREVfRkxBR19EU0lfUEVSSU9ESUNfQ01EX01PREU7Cj4+ID4gLQo+PiAK
-Pj4gU2luY2UgeW91IGRlbGV0ZSB0aGlzIGhlcmUsIGJ1dCBub3QgYWJvdmUgKGFuZCB0aGVuIHlv
-dSBjb3VsZCBhbHNvIGRldGVsCj4+IGdlbjExX2RzaV9pc19wZXJpb2RpY19jbWRfbW9kZSBJIHRo
-aW5rKTogSXQncyBkZWFkIGNvZGUsIG1heWJlIHByZXAgcGF0Y2gKPj4gdG8ganVzdCBnYXJiYWdl
-IGNvbGxlY3QgSTkxNV9NT0RFX0ZMQUdfRFNJX1BFUklPRElDX0NNRF9NT0RFPwo+Cj4gSSB0aGlu
-ayB0aGlzIGZsYWcgaXMgc3RpbGwgV0lQLiBJdCB3YXMgYWRkZWQgdmVyeSByZWNlbnRseSBzbyBJ
-J20KPiBhc3N1bWluZyB0aGVyZSBpcyBzb21lIHBsYW4gZm9yIGl0IChub3QgdGhhdCBJIGxpa2Ug
-YWRkaW5nIGhhbGYKPiBiYWtlZCBkZWFkIHN0dWZmIGxpa2UgdGhpcykuIFNvIHdlIG1heSB3YW50
-IHRvIHdhaXQgYSBiaXQgdG8gc2VlCj4gd2hlcmUgaXQncyBnb2luZy4gVGhlIHJlYXNvbiBJIGRl
-bGV0ZWQgdGhpcyBzcGVjaWZpYyBzdGF0ZW1lbnQgaXMKPiB0aGF0IHdlIHplcm8gdGhlIGNydGMg
-c3RhdGUgYmVmb3JlIC5jb21wdXRlX2NvbmZpZygpIHNvIHRoaXMgb25lCj4gd291bGQgcmVtYWlu
-IGRlYWQgY29kZSBldmVuIGlmIHRoZSBmbGFnIHN0YXJ0cyB0byBnZXQgdXNlZCBmb3IKPiBzb21l
-dGhpbmcuCgpJdCdzIHBhcnQgb2YgYSBzZXJpZXMgdGhhdCdzIGhhbGZ3YXkgbWVyZ2VkLgoKQlIs
-CkphbmkuCgoKPgo+PiAKPj4gSSB0aGluayB0aGUgcHJvcGVyIHJlcGxhY2VtZW50IGlzIHRoZSBt
-b2RlIGZsYWcgc3R1ZmYgYmVsb3csIHRoaXMgaXMganVzdAo+PiBpbnRlcmltIHN0dWZmIHRoYXQg
-ZmVsbCB0aHJvdWdoIHRoZSByZXZpZXcuCj4+IAo+PiBXaXRoIHRoYXQgcHJlcCBwYXRjaCB0byBn
-ZXQgcmlkIG9mIHRoZXNlIDIgaHVua3MgYWJvdmU6Cj4+IAo+PiBSZXZpZXdlZC1ieTogRGFuaWVs
-IFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPj4gCj4+IEFsc28gc3VycGx1cyBBY2tl
-ZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4gb24gdGhlIHBhdGNo
-Cj4+IHRvIGRlbGV0ZSBJOTE1X01PREVfRkxBR19EU0lfUEVSSU9ESUNfQ01EX01PREUgaW4gY2Fz
-ZSBJIG1pc3MgdGhlIG5ldwo+PiB2ZXJzaW9uLgo+PiAKCi0tIApKYW5pIE5pa3VsYSwgSW50ZWwg
-T3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2VudGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+> -----Original Message-----
+> From: Jani Nikula <jani.nikula@intel.com>
+> Sent: Friday, March 27, 2020 6:12 PM
+> To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> Cc: Nikula, Jani <jani.nikula@intel.com>; Alex Deucher
+> <alexdeucher@gmail.com>; Harry Wentland <hwentlan@amd.com>; Navare,
+> Manasi D <manasi.d.navare@intel.com>; Kulkarni, Vandita
+> <vandita.kulkarni@intel.com>
+> Subject: [PATCH RESEND 1/7] drm/dsc: use rc_model_size from DSC config for
+> PPS
+> 
+> The PPS is supposed to reflect the DSC config instead of hard coding the
+> rc_model_size. Make it so.
+> 
+> Currently all users of drm_dsc_pps_payload_pack() hard code the size to
+> 8192 also in the DSC config, so this change should have no impact, other than
+> allowing the drivers to use other sizes as needed.
+> 
+> Cc: Alex Deucher <alexdeucher@gmail.com>
+> Cc: Harry Wentland <hwentlan@amd.com>
+> Cc: Manasi Navare <manasi.d.navare@intel.com>
+> Cc: Vandita Kulkarni <vandita.kulkarni@intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+
+Looks good to me.
+Reviewed-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
+> ---
+>  drivers/gpu/drm/drm_dsc.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dsc.c b/drivers/gpu/drm/drm_dsc.c index
+> 4a475d9696ff..09afbc01ea94 100644
+> --- a/drivers/gpu/drm/drm_dsc.c
+> +++ b/drivers/gpu/drm/drm_dsc.c
+> @@ -186,8 +186,7 @@ void drm_dsc_pps_payload_pack(struct
+> drm_dsc_picture_parameter_set *pps_payload,
+>  	pps_payload->flatness_max_qp = dsc_cfg->flatness_max_qp;
+> 
+>  	/* PPS 38, 39 */
+> -	pps_payload->rc_model_size =
+> -		cpu_to_be16(DSC_RC_MODEL_SIZE_CONST);
+> +	pps_payload->rc_model_size = cpu_to_be16(dsc_cfg->rc_model_size);
+> 
+>  	/* PPS 40 */
+>  	pps_payload->rc_edge_factor = DSC_RC_EDGE_FACTOR_CONST;
+> --
+> 2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
