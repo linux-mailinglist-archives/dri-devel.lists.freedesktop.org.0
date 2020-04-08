@@ -2,40 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD401A1DB2
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 10:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323BE1A1DBE
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 11:03:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 320D66E9D3;
-	Wed,  8 Apr 2020 08:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 438DC6E9D7;
+	Wed,  8 Apr 2020 09:03:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3F336E9D3
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 08:59:46 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 15FD820027;
- Wed,  8 Apr 2020 10:59:43 +0200 (CEST)
-Date: Wed, 8 Apr 2020 10:59:42 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v3 2/2] drm/panel: add panel driver for Leadtek
- LTK050H3146W
-Message-ID: <20200408085942.GA32152@ravnborg.org>
-References: <20200408085317.2624599-1-heiko@sntech.de>
- <20200408085317.2624599-2-heiko@sntech.de>
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDE036E9D7
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 09:03:37 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id q204so4029250oia.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 02:03:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TKV0NEsWQw/WwLXsHgDJt70f056rhfvht0rJVryOlNk=;
+ b=Vi94BGxbZCHXMZTeeRX55vNsN5rut7RPJ5ogl+unH7qhPrIP0WRCx31GVOCrnx/W7w
+ Uku3ckTsAhw7LzkI1Q2VLLsrl800HjFm6F/Wvk2bkryB/Mg1RB6KjCIJDVlDGiDzb4Ji
+ IfuUvF0/u7DC7AOp2MQBkEOXGwxPXMy86uQcY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TKV0NEsWQw/WwLXsHgDJt70f056rhfvht0rJVryOlNk=;
+ b=rJ4MnEz13PtS/VIf4CDgGrHoxoBQt0S8St8mVzDRgid9EbNdBRLA/r5moAqxdajfxW
+ eDk1u1zmzXZFVIecirQ36nn8AS+g7pkG6EM8e5hnk5woWLzPynrHN6l3OGh3tUq7XNUT
+ ZIo8rTwtzp5rcBB0ycKku7VUgCCyAMJGj6hNL4xiDIZBi38TAH9FKBfLL2T69cIgsFiL
+ WlodlXIjxGUlOqcfikCB3mklZKEquGZiDSPOcXti8DUjLzh+nEurToDwoP1x153G81Qb
+ e40zZ2gZHq2Lznh0ZwbLExerCIY0E5Z0D5wQ7ixujNuZEA6leKdfTT4KfupfoZh0JgJd
+ 5gtQ==
+X-Gm-Message-State: AGi0PubhPWv0Es53NeaKbfTWPS2JHwcTNE475ypcy6469lriiu8JJcr+
+ hAwQ44zKZXUOabTDsszon2T/GqMMbfyDrLr3RrPPQQ==
+X-Google-Smtp-Source: APiQypIIWM2TeydmeQyZR38aDULLLYpENkWeTFqbzT4eRpninX/V4Kz0EEMthzUvwVpq4a22ekPdn/o8omJ+zLnUjEk=
+X-Received: by 2002:a54:4189:: with SMTP id 9mr1700465oiy.128.1586336617075;
+ Wed, 08 Apr 2020 02:03:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200408085317.2624599-2-heiko@sntech.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=NXpJzYs8AAAA:8
- a=zK9Fu3Cg7LeSTS_gP80A:9 a=rHp_RtU1BPBzfY7K:21 a=KwU-2vaEj-SSVGNm:21
- a=CjuIK1q_8ugA:10 a=cwV61pgf2j4Cq8VD9hE_:22 a=pHzHmUro8NiASowvMSCR:22
- a=nt3jZW36AmriUCFCBwmW:22
+References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
+ <20200403135828.2542770-37-daniel.vetter@ffwll.ch>
+ <20200408084040.GA11347@jamwan02-TSP300>
+In-Reply-To: <20200408084040.GA11347@jamwan02-TSP300>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 8 Apr 2020 11:03:24 +0200
+Message-ID: <CAKMK7uGQoK-8U4=XOdq9UUwRx344Y1pPbvZ7m8Ejt8aOP-JTvQ@mail.gmail.com>
+Subject: Re: [PATCH 36/44] drm/komeda: use devm_drm_dev_alloc
+To: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,778 +59,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org, thierry.reding@gmail.com,
- christoph.muellner@theobroma-systems.com
+Cc: Mihail Atanassov <Mihail.Atanassov@arm.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Liviu Dudau <Liviu.Dudau@arm.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, nd <nd@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Goodmorning Heiko
+On Wed, Apr 8, 2020 at 10:41 AM james qian wang (Arm Technology China)
+<james.qian.wang@arm.com> wrote:
+>
+> On Fri, Apr 03, 2020 at 09:58:20PM +0800, Daniel Vetter wrote:
+> > Komeda uses the component framework, which does open/close a new
+> > devres group around all the bind callbacks. Which means we can use
+> > devm_ functions for managing the drm_device cleanup, with leaking
+> > stuff in case of deferred probes or other reasons to unbind
+> > components, or the component_master.
+> >
+> > Also note that this fixes a double-free in the probe unroll code, bot
+> > drm_dev_put and kfree(kms) result in the kms allocation getting freed.
+> >
+> > Aside: komeda_bind could be cleaned up a lot, devm_kfree is a bit
+> > redundant. Plus I'm not clear on why there's suballocations for
+> > mdrv->mdev and mdrv->kms. Plus I'm not sure the lifetimes are correct
+> > with all that devm_kzalloc usage ... That structure layout is also the
+> > reason why komeda still uses drm_device->dev_private and can't easily
+> > be replaced with a proper container_of upcasting. I'm pretty sure that
+> > there's endless amounts of hotunplug/hotremove bugs in there with all
+> > the unprotected dereferencing of drm_device->dev_private.
+>
+> Hi Daniel:
+>
+> Thank you for the patch.
+>
+> Reviewed-by: James Qian Wang <james.qian.wang@arm.com>
+>
+> For why komeda has two devices komeda_dev and komeda_kms_dev.
+> That because komeda treats drm_crtc/plane as virtual, which pick the real
+> komeda resources to satify the user's requirement. In the initial driver
+> design we want to clear the difference of these two class structures
+> so we defined two devices:
+>
+> - komeda_dev:
+>   managing the real komeda device and resources.
+>
+> - komeda_kms_dev
+>   the virtual device managing the drm related stuff like
+>   komeda_crtc/plane.
+>
+> And yes, even for that we don't need two sub-allocations, we are planing
+> to move the komeda_dev into the komeda_kms_dev or just merge two devices
+> together.
 
-On Wed, Apr 08, 2020 at 10:53:17AM +0200, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> 
-> The LTK050H3146W is 5.0" 720x1280 DSI display. There are two variants
-> with essentially the same name, LTK050H3146W and LTK050H3146W-A2.
-> 
-> They differ in their init sequence and mode details.
-> 
-> changes in v2:
-> - add display variants
-> changes in v3:
-> - fixed indentation and artifacts found by Sam
-> 
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Yeah I think the logical split makes a lot of sense, e.g. amdgpu has a
+similar split between the drm front-end structures, and the DC
+back-end stuff that deals with the hardware. Same as other drivers.
+The issue I think I'm seeing with komeda is all the pointer chasing
+(not a problem, just a bit of indirection that's not strictly needed),
+and that when you unload the back-end disappears right away, while the
+front-end might still be used by userspace. And then all the pointers
+you have lead to oopses.
 
-That was quick - thanks.
+I admit that for built-in hw hotunplug isn't really a major use-case.
+But we do have some usb drivers nowadays in drm, so I'm trying to
+clean this all up a bit and make sure that as many drivers as possible
+have clean&correct code in this area.
 
-Applied - and now I also have pushed the patches out.
+Anyway if you're already planning to look into this then awesome!
 
-	Sam
+Cheers, Daniel
 
-> ---
->  drivers/gpu/drm/panel/Kconfig                 |  11 +
->  drivers/gpu/drm/panel/Makefile                |   1 +
->  .../drm/panel/panel-leadtek-ltk050h3146w.c    | 691 ++++++++++++++++++
->  3 files changed, 703 insertions(+)
->  create mode 100644 drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-> 
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index a1723c1b5fbf..d56258b9fcaf 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -137,6 +137,17 @@ config DRM_PANEL_KINGDISPLAY_KD097D04
->  	  24 bit RGB per pixel. It provides a MIPI DSI interface to
->  	  the host and has a built-in LED backlight.
->  
-> +config DRM_PANEL_LEADTEK_LTK050H3146W
-> +	tristate "Leadtek LTK050H3146W panel"
-> +	depends on OF
-> +	depends on DRM_MIPI_DSI
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	help
-> +	  Say Y here if you want to enable support for Leadtek LTK050H3146W
-> +	  TFT-LCD modules. The panel has a 720x1280 resolution and uses
-> +	  24 bit RGB per pixel. It provides a MIPI DSI interface to
-> +	  the host and has a built-in LED backlight.
-> +
->  config DRM_PANEL_LEADTEK_LTK500HD1829
->  	tristate "Leadtek LTK500HD1829 panel"
->  	depends on OF
-> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-> index 96a883cd6630..2335a1e32ae0 100644
-> --- a/drivers/gpu/drm/panel/Makefile
-> +++ b/drivers/gpu/drm/panel/Makefile
-> @@ -12,6 +12,7 @@ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9881C) += panel-ilitek-ili9881c.o
->  obj-$(CONFIG_DRM_PANEL_INNOLUX_P079ZCA) += panel-innolux-p079zca.o
->  obj-$(CONFIG_DRM_PANEL_JDI_LT070ME05000) += panel-jdi-lt070me05000.o
->  obj-$(CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04) += panel-kingdisplay-kd097d04.o
-> +obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W) += panel-leadtek-ltk050h3146w.o
->  obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829) += panel-leadtek-ltk500hd1829.o
->  obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) += panel-lg-lb035q02.o
->  obj-$(CONFIG_DRM_PANEL_LG_LG4573) += panel-lg-lg4573.o
-> diff --git a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-> new file mode 100644
-> index 000000000000..5a7a31c8513e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-> @@ -0,0 +1,691 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2020 Theobroma Systems Design und Consulting GmbH
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/media-bus-format.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/regulator/consumer.h>
-> +
-> +#include <video/display_timing.h>
-> +#include <video/mipi_display.h>
-> +
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_modes.h>
-> +#include <drm/drm_panel.h>
-> +#include <drm/drm_print.h>
-> +
-> +struct ltk050h3146w_cmd {
-> +	char cmd;
-> +	char data;
-> +};
-> +
-> +struct ltk050h3146w;
-> +struct ltk050h3146w_desc {
-> +	const struct drm_display_mode *mode;
-> +	int (*init)(struct ltk050h3146w *ctx);
-> +};
-> +
-> +struct ltk050h3146w {
-> +	struct device *dev;
-> +	struct drm_panel panel;
-> +	struct gpio_desc *reset_gpio;
-> +	struct regulator *vci;
-> +	struct regulator *iovcc;
-> +	const struct ltk050h3146w_desc *panel_desc;
-> +	bool prepared;
-> +};
-> +
-> +static const struct ltk050h3146w_cmd page1_cmds[] = {
-> +	{ 0x22, 0x0A }, /* BGR SS GS */
-> +	{ 0x31, 0x00 }, /* column inversion */
-> +	{ 0x53, 0xA2 }, /* VCOM1 */
-> +	{ 0x55, 0xA2 }, /* VCOM2 */
-> +	{ 0x50, 0x81 }, /* VREG1OUT=5V */
-> +	{ 0x51, 0x85 }, /* VREG2OUT=-5V */
-> +	{ 0x62, 0x0D }, /* EQT Time setting */
-> +/*
-> + * The vendor init selected page 1 here _again_
-> + * Is this supposed to be page 2?
-> + */
-> +	{ 0xA0, 0x00 },
-> +	{ 0xA1, 0x1A },
-> +	{ 0xA2, 0x28 },
-> +	{ 0xA3, 0x13 },
-> +	{ 0xA4, 0x16 },
-> +	{ 0xA5, 0x29 },
-> +	{ 0xA6, 0x1D },
-> +	{ 0xA7, 0x1E },
-> +	{ 0xA8, 0x84 },
-> +	{ 0xA9, 0x1C },
-> +	{ 0xAA, 0x28 },
-> +	{ 0xAB, 0x75 },
-> +	{ 0xAC, 0x1A },
-> +	{ 0xAD, 0x19 },
-> +	{ 0xAE, 0x4D },
-> +	{ 0xAF, 0x22 },
-> +	{ 0xB0, 0x28 },
-> +	{ 0xB1, 0x54 },
-> +	{ 0xB2, 0x66 },
-> +	{ 0xB3, 0x39 },
-> +	{ 0xC0, 0x00 },
-> +	{ 0xC1, 0x1A },
-> +	{ 0xC2, 0x28 },
-> +	{ 0xC3, 0x13 },
-> +	{ 0xC4, 0x16 },
-> +	{ 0xC5, 0x29 },
-> +	{ 0xC6, 0x1D },
-> +	{ 0xC7, 0x1E },
-> +	{ 0xC8, 0x84 },
-> +	{ 0xC9, 0x1C },
-> +	{ 0xCA, 0x28 },
-> +	{ 0xCB, 0x75 },
-> +	{ 0xCC, 0x1A },
-> +	{ 0xCD, 0x19 },
-> +	{ 0xCE, 0x4D },
-> +	{ 0xCF, 0x22 },
-> +	{ 0xD0, 0x28 },
-> +	{ 0xD1, 0x54 },
-> +	{ 0xD2, 0x66 },
-> +	{ 0xD3, 0x39 },
-> +};
-> +
-> +static const struct ltk050h3146w_cmd page3_cmds[] = {
-> +	{ 0x01, 0x00 },
-> +	{ 0x02, 0x00 },
-> +	{ 0x03, 0x73 },
-> +	{ 0x04, 0x00 },
-> +	{ 0x05, 0x00 },
-> +	{ 0x06, 0x0a },
-> +	{ 0x07, 0x00 },
-> +	{ 0x08, 0x00 },
-> +	{ 0x09, 0x01 },
-> +	{ 0x0a, 0x00 },
-> +	{ 0x0b, 0x00 },
-> +	{ 0x0c, 0x01 },
-> +	{ 0x0d, 0x00 },
-> +	{ 0x0e, 0x00 },
-> +	{ 0x0f, 0x1d },
-> +	{ 0x10, 0x1d },
-> +	{ 0x11, 0x00 },
-> +	{ 0x12, 0x00 },
-> +	{ 0x13, 0x00 },
-> +	{ 0x14, 0x00 },
-> +	{ 0x15, 0x00 },
-> +	{ 0x16, 0x00 },
-> +	{ 0x17, 0x00 },
-> +	{ 0x18, 0x00 },
-> +	{ 0x19, 0x00 },
-> +	{ 0x1a, 0x00 },
-> +	{ 0x1b, 0x00 },
-> +	{ 0x1c, 0x00 },
-> +	{ 0x1d, 0x00 },
-> +	{ 0x1e, 0x40 },
-> +	{ 0x1f, 0x80 },
-> +	{ 0x20, 0x06 },
-> +	{ 0x21, 0x02 },
-> +	{ 0x22, 0x00 },
-> +	{ 0x23, 0x00 },
-> +	{ 0x24, 0x00 },
-> +	{ 0x25, 0x00 },
-> +	{ 0x26, 0x00 },
-> +	{ 0x27, 0x00 },
-> +	{ 0x28, 0x33 },
-> +	{ 0x29, 0x03 },
-> +	{ 0x2a, 0x00 },
-> +	{ 0x2b, 0x00 },
-> +	{ 0x2c, 0x00 },
-> +	{ 0x2d, 0x00 },
-> +	{ 0x2e, 0x00 },
-> +	{ 0x2f, 0x00 },
-> +	{ 0x30, 0x00 },
-> +	{ 0x31, 0x00 },
-> +	{ 0x32, 0x00 },
-> +	{ 0x33, 0x00 },
-> +	{ 0x34, 0x04 },
-> +	{ 0x35, 0x00 },
-> +	{ 0x36, 0x00 },
-> +	{ 0x37, 0x00 },
-> +	{ 0x38, 0x3C },
-> +	{ 0x39, 0x35 },
-> +	{ 0x3A, 0x01 },
-> +	{ 0x3B, 0x40 },
-> +	{ 0x3C, 0x00 },
-> +	{ 0x3D, 0x01 },
-> +	{ 0x3E, 0x00 },
-> +	{ 0x3F, 0x00 },
-> +	{ 0x40, 0x00 },
-> +	{ 0x41, 0x88 },
-> +	{ 0x42, 0x00 },
-> +	{ 0x43, 0x00 },
-> +	{ 0x44, 0x1F },
-> +	{ 0x50, 0x01 },
-> +	{ 0x51, 0x23 },
-> +	{ 0x52, 0x45 },
-> +	{ 0x53, 0x67 },
-> +	{ 0x54, 0x89 },
-> +	{ 0x55, 0xab },
-> +	{ 0x56, 0x01 },
-> +	{ 0x57, 0x23 },
-> +	{ 0x58, 0x45 },
-> +	{ 0x59, 0x67 },
-> +	{ 0x5a, 0x89 },
-> +	{ 0x5b, 0xab },
-> +	{ 0x5c, 0xcd },
-> +	{ 0x5d, 0xef },
-> +	{ 0x5e, 0x11 },
-> +	{ 0x5f, 0x01 },
-> +	{ 0x60, 0x00 },
-> +	{ 0x61, 0x15 },
-> +	{ 0x62, 0x14 },
-> +	{ 0x63, 0x0E },
-> +	{ 0x64, 0x0F },
-> +	{ 0x65, 0x0C },
-> +	{ 0x66, 0x0D },
-> +	{ 0x67, 0x06 },
-> +	{ 0x68, 0x02 },
-> +	{ 0x69, 0x07 },
-> +	{ 0x6a, 0x02 },
-> +	{ 0x6b, 0x02 },
-> +	{ 0x6c, 0x02 },
-> +	{ 0x6d, 0x02 },
-> +	{ 0x6e, 0x02 },
-> +	{ 0x6f, 0x02 },
-> +	{ 0x70, 0x02 },
-> +	{ 0x71, 0x02 },
-> +	{ 0x72, 0x02 },
-> +	{ 0x73, 0x02 },
-> +	{ 0x74, 0x02 },
-> +	{ 0x75, 0x01 },
-> +	{ 0x76, 0x00 },
-> +	{ 0x77, 0x14 },
-> +	{ 0x78, 0x15 },
-> +	{ 0x79, 0x0E },
-> +	{ 0x7a, 0x0F },
-> +	{ 0x7b, 0x0C },
-> +	{ 0x7c, 0x0D },
-> +	{ 0x7d, 0x06 },
-> +	{ 0x7e, 0x02 },
-> +	{ 0x7f, 0x07 },
-> +	{ 0x80, 0x02 },
-> +	{ 0x81, 0x02 },
-> +	{ 0x82, 0x02 },
-> +	{ 0x83, 0x02 },
-> +	{ 0x84, 0x02 },
-> +	{ 0x85, 0x02 },
-> +	{ 0x86, 0x02 },
-> +	{ 0x87, 0x02 },
-> +	{ 0x88, 0x02 },
-> +	{ 0x89, 0x02 },
-> +	{ 0x8A, 0x02 },
-> +};
-> +
-> +static const struct ltk050h3146w_cmd page4_cmds[] = {
-> +	{ 0x70, 0x00 },
-> +	{ 0x71, 0x00 },
-> +	{ 0x82, 0x0F }, /* VGH_MOD clamp level=15v */
-> +	{ 0x84, 0x0F }, /* VGH clamp level 15V */
-> +	{ 0x85, 0x0D }, /* VGL clamp level (-10V) */
-> +	{ 0x32, 0xAC },
-> +	{ 0x8C, 0x80 },
-> +	{ 0x3C, 0xF5 },
-> +	{ 0xB5, 0x07 }, /* GAMMA OP */
-> +	{ 0x31, 0x45 }, /* SOURCE OP */
-> +	{ 0x3A, 0x24 }, /* PS_EN OFF */
-> +	{ 0x88, 0x33 }, /* LVD */
-> +};
-> +
-> +static inline
-> +struct ltk050h3146w *panel_to_ltk050h3146w(struct drm_panel *panel)
-> +{
-> +	return container_of(panel, struct ltk050h3146w, panel);
-> +}
-> +
-> +#define dsi_dcs_write_seq(dsi, cmd, seq...) do {			\
-> +		static const u8 d[] = { seq };				\
-> +		int ret;						\
-> +		ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));	\
-> +		if (ret < 0)						\
-> +			return ret;					\
-> +	} while (0)
-> +
-> +static int ltk050h3146w_init_sequence(struct ltk050h3146w *ctx)
-> +{
-> +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-> +	int ret;
-> +
-> +	/*
-> +	 * Init sequence was supplied by the panel vendor without much
-> +	 * documentation.
-> +	 */
-> +	dsi_dcs_write_seq(dsi, 0xdf, 0x93, 0x65, 0xf8);
-> +	dsi_dcs_write_seq(dsi, 0xb0, 0x01, 0x03, 0x02, 0x00, 0x64, 0x06,
-> +			  0x01);
-> +	dsi_dcs_write_seq(dsi, 0xb2, 0x00, 0xb5);
-> +	dsi_dcs_write_seq(dsi, 0xb3, 0x00, 0xb5);
-> +	dsi_dcs_write_seq(dsi, 0xb7, 0x00, 0xbf, 0x00, 0x00, 0xbf, 0x00);
-> +
-> +	dsi_dcs_write_seq(dsi, 0xb9, 0x00, 0xc4, 0x23, 0x07);
-> +	dsi_dcs_write_seq(dsi, 0xbb, 0x02, 0x01, 0x24, 0x00, 0x28, 0x0f,
-> +			  0x28, 0x04, 0xcc, 0xcc, 0xcc);
-> +	dsi_dcs_write_seq(dsi, 0xbc, 0x0f, 0x04);
-> +	dsi_dcs_write_seq(dsi, 0xbe, 0x1e, 0xf2);
-> +	dsi_dcs_write_seq(dsi, 0xc0, 0x26, 0x03);
-> +	dsi_dcs_write_seq(dsi, 0xc1, 0x00, 0x12);
-> +	dsi_dcs_write_seq(dsi, 0xc3, 0x04, 0x02, 0x02, 0x76, 0x01, 0x80,
-> +			  0x80);
-> +	dsi_dcs_write_seq(dsi, 0xc4, 0x24, 0x80, 0xb4, 0x81, 0x12, 0x0f,
-> +			  0x16, 0x00, 0x00);
-> +	dsi_dcs_write_seq(dsi, 0xc8, 0x7f, 0x72, 0x67, 0x5d, 0x5d, 0x50,
-> +			  0x56, 0x41, 0x59, 0x57, 0x55, 0x70, 0x5b, 0x5f,
-> +			  0x4f, 0x47, 0x38, 0x23, 0x08, 0x7f, 0x72, 0x67,
-> +			  0x5d, 0x5d, 0x50, 0x56, 0x41, 0x59, 0x57, 0x55,
-> +			  0x70, 0x5b, 0x5f, 0x4f, 0x47, 0x38, 0x23, 0x08);
-> +	dsi_dcs_write_seq(dsi, 0xd0, 0x1e, 0x1f, 0x57, 0x58, 0x48, 0x4a,
-> +			  0x44, 0x46, 0x40, 0x1f, 0x42, 0x1f, 0x1f, 0x1f,
-> +			  0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
-> +	dsi_dcs_write_seq(dsi, 0xd1, 0x1e, 0x1f, 0x57, 0x58, 0x49, 0x4b,
-> +			  0x45, 0x47, 0x41, 0x1f, 0x43, 0x1f, 0x1f, 0x1f,
-> +			  0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
-> +	dsi_dcs_write_seq(dsi, 0xd2, 0x1f, 0x1e, 0x17, 0x18, 0x07, 0x05,
-> +			  0x0b, 0x09, 0x03, 0x1f, 0x01, 0x1f, 0x1f, 0x1f,
-> +			  0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
-> +	dsi_dcs_write_seq(dsi, 0xd3, 0x1f, 0x1e, 0x17, 0x18, 0x06, 0x04,
-> +			  0x0a, 0x08, 0x02, 0x1f, 0x00, 0x1f, 0x1f, 0x1f,
-> +			  0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
-> +	dsi_dcs_write_seq(dsi, 0xd4, 0x00, 0x00, 0x00, 0x0c, 0x06, 0x20,
-> +			  0x01, 0x02, 0x00, 0x60, 0x15, 0xb0, 0x30, 0x03,
-> +			  0x04, 0x00, 0x60, 0x72, 0x0a, 0x00, 0x60, 0x08);
-> +	dsi_dcs_write_seq(dsi, 0xd5, 0x00, 0x06, 0x06, 0x00, 0x30, 0x00,
-> +			  0x00, 0x00, 0x00, 0x00, 0xbc, 0x50, 0x00, 0x05,
-> +			  0x21, 0x00, 0x60);
-> +	dsi_dcs_write_seq(dsi, 0xdd, 0x2c, 0xa3, 0x00);
-> +	dsi_dcs_write_seq(dsi, 0xde, 0x02);
-> +	dsi_dcs_write_seq(dsi, 0xb2, 0x32, 0x1c);
-> +	dsi_dcs_write_seq(dsi, 0xb7, 0x3b, 0x70, 0x00, 0x04);
-> +	dsi_dcs_write_seq(dsi, 0xc1, 0x11);
-> +	dsi_dcs_write_seq(dsi, 0xbb, 0x21, 0x22, 0x23, 0x24, 0x36, 0x37);
-> +	dsi_dcs_write_seq(dsi, 0xc2, 0x20, 0x38, 0x1e, 0x84);
-> +	dsi_dcs_write_seq(dsi, 0xde, 0x00);
-> +
-> +	ret = mipi_dsi_dcs_set_tear_on(dsi, 1);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(ctx->dev, "failed to set tear on: %d\n",
-> +			      ret);
-> +		return ret;
-> +	}
-> +
-> +	msleep(60);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_display_mode ltk050h3146w_mode = {
-> +	.hdisplay	= 720,
-> +	.hsync_start	= 720 + 42,
-> +	.hsync_end	= 720 + 42 + 8,
-> +	.htotal		= 720 + 42 + 8 + 42,
-> +	.vdisplay	= 1280,
-> +	.vsync_start	= 1280 + 12,
-> +	.vsync_end	= 1280 + 12 + 4,
-> +	.vtotal		= 1280 + 12 + 4 + 18,
-> +	.clock		= 64018,
-> +	.width_mm	= 62,
-> +	.height_mm	= 110,
-> +};
-> +
-> +static const struct ltk050h3146w_desc ltk050h3146w_data = {
-> +	.mode = &ltk050h3146w_mode,
-> +	.init = ltk050h3146w_init_sequence,
-> +};
-> +
-> +static int ltk050h3146w_a2_select_page(struct ltk050h3146w *ctx, int page)
-> +{
-> +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-> +	u8 d[3] = { 0x98, 0x81, page };
-> +
-> +	return mipi_dsi_dcs_write(dsi, 0xff, d, ARRAY_SIZE(d));
-> +}
-> +
-> +static int ltk050h3146w_a2_write_page(struct ltk050h3146w *ctx, int page,
-> +				      const struct ltk050h3146w_cmd *cmds,
-> +				      int num)
-> +{
-> +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-> +	int i, ret;
-> +
-> +	ret = ltk050h3146w_a2_select_page(ctx, page);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(ctx->dev, "failed to select page %d: %d\n",
-> +			      page, ret);
-> +		return ret;
-> +	}
-> +
-> +	for (i = 0; i < num; i++) {
-> +		ret = mipi_dsi_generic_write(dsi, &cmds[i],
-> +					     sizeof(struct ltk050h3146w_cmd));
-> +		if (ret < 0) {
-> +			DRM_DEV_ERROR(ctx->dev,
-> +				      "failed to write page %d init cmds: %d\n",
-> +				       page, ret);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int ltk050h3146w_a2_init_sequence(struct ltk050h3146w *ctx)
-> +{
-> +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-> +	int ret;
-> +
-> +	/*
-> +	 * Init sequence was supplied by the panel vendor without much
-> +	 * documentation.
-> +	 */
-> +	ret = ltk050h3146w_a2_write_page(ctx, 3, page3_cmds,
-> +					 ARRAY_SIZE(page3_cmds));
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = ltk050h3146w_a2_write_page(ctx, 4, page4_cmds,
-> +					 ARRAY_SIZE(page4_cmds));
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = ltk050h3146w_a2_write_page(ctx, 1, page1_cmds,
-> +					 ARRAY_SIZE(page1_cmds));
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = ltk050h3146w_a2_select_page(ctx, 0);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(ctx->dev, "failed to select page 0: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	/* vendor code called this without param, where there should be one */
-> +	ret = mipi_dsi_dcs_set_tear_on(dsi, 0);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(ctx->dev, "failed to set tear on: %d\n",
-> +			      ret);
-> +		return ret;
-> +	}
-> +
-> +	msleep(60);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_display_mode ltk050h3146w_a2_mode = {
-> +	.hdisplay	= 720,
-> +	.hsync_start	= 720 + 42,
-> +	.hsync_end	= 720 + 42 + 10,
-> +	.htotal		= 720 + 42 + 10 + 60,
-> +	.vdisplay	= 1280,
-> +	.vsync_start	= 1280 + 18,
-> +	.vsync_end	= 1280 + 18 + 4,
-> +	.vtotal		= 1280 + 18 + 4 + 12,
-> +	.clock		= 65595,
-> +	.width_mm	= 62,
-> +	.height_mm	= 110,
-> +};
-> +
-> +static const struct ltk050h3146w_desc ltk050h3146w_a2_data = {
-> +	.mode = &ltk050h3146w_a2_mode,
-> +	.init = ltk050h3146w_a2_init_sequence,
-> +};
-> +
-> +static int ltk050h3146w_unprepare(struct drm_panel *panel)
-> +{
-> +	struct ltk050h3146w *ctx = panel_to_ltk050h3146w(panel);
-> +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-> +	int ret;
-> +
-> +	if (!ctx->prepared)
-> +		return 0;
-> +
-> +	ret = mipi_dsi_dcs_set_display_off(dsi);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(ctx->dev, "failed to set display off: %d\n",
-> +			      ret);
-> +		return ret;
-> +	}
-> +
-> +	mipi_dsi_dcs_enter_sleep_mode(dsi);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(ctx->dev, "failed to enter sleep mode: %d\n",
-> +			      ret);
-> +		return ret;
-> +	}
-> +
-> +	regulator_disable(ctx->iovcc);
-> +	regulator_disable(ctx->vci);
-> +
-> +	ctx->prepared = false;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ltk050h3146w_prepare(struct drm_panel *panel)
-> +{
-> +	struct ltk050h3146w *ctx = panel_to_ltk050h3146w(panel);
-> +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-> +	int ret;
-> +
-> +	if (ctx->prepared)
-> +		return 0;
-> +
-> +	DRM_DEV_DEBUG_DRIVER(ctx->dev, "Resetting the panel\n");
-> +	ret = regulator_enable(ctx->vci);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(ctx->dev,
-> +			      "Failed to enable vci supply: %d\n", ret);
-> +		return ret;
-> +	}
-> +	ret = regulator_enable(ctx->iovcc);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(ctx->dev,
-> +			      "Failed to enable iovcc supply: %d\n", ret);
-> +		goto disable_vci;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +	usleep_range(5000, 6000);
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> +	msleep(20);
-> +
-> +	ret = ctx->panel_desc->init(ctx);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(ctx->dev, "Panel init sequence failed: %d\n",
-> +			      ret);
-> +		goto disable_iovcc;
-> +	}
-> +
-> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(ctx->dev, "Failed to exit sleep mode: %d\n", ret);
-> +		goto disable_iovcc;
-> +	}
-> +
-> +	/* T9: 120ms */
-> +	msleep(120);
-> +
-> +	ret = mipi_dsi_dcs_set_display_on(dsi);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(ctx->dev, "Failed to set display on: %d\n", ret);
-> +		goto disable_iovcc;
-> +	}
-> +
-> +	msleep(50);
-> +
-> +	ctx->prepared = true;
-> +
-> +	return 0;
-> +
-> +disable_iovcc:
-> +	regulator_disable(ctx->iovcc);
-> +disable_vci:
-> +	regulator_disable(ctx->vci);
-> +	return ret;
-> +}
-> +
-> +static int ltk050h3146w_get_modes(struct drm_panel *panel,
-> +				  struct drm_connector *connector)
-> +{
-> +	struct ltk050h3146w *ctx = panel_to_ltk050h3146w(panel);
-> +	struct drm_display_mode *mode;
-> +
-> +	mode = drm_mode_duplicate(connector->dev, ctx->panel_desc->mode);
-> +	if (!mode)
-> +		return -ENOMEM;
-> +
-> +	drm_mode_set_name(mode);
-> +
-> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> +	connector->display_info.width_mm = mode->width_mm;
-> +	connector->display_info.height_mm = mode->height_mm;
-> +	drm_mode_probed_add(connector, mode);
-> +
-> +	return 1;
-> +}
-> +
-> +static const struct drm_panel_funcs ltk050h3146w_funcs = {
-> +	.unprepare	= ltk050h3146w_unprepare,
-> +	.prepare	= ltk050h3146w_prepare,
-> +	.get_modes	= ltk050h3146w_get_modes,
-> +};
-> +
-> +static int ltk050h3146w_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	struct ltk050h3146w *ctx;
-> +	int ret;
-> +
-> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> +	if (!ctx)
-> +		return -ENOMEM;
-> +
-> +	ctx->panel_desc = of_device_get_match_data(dev);
-> +	if (!ctx->panel_desc)
-> +		return -EINVAL;
-> +
-> +	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-> +	if (IS_ERR(ctx->reset_gpio)) {
-> +		DRM_DEV_ERROR(dev, "cannot get reset gpio\n");
-> +		return PTR_ERR(ctx->reset_gpio);
-> +	}
-> +
-> +	ctx->vci = devm_regulator_get(dev, "vci");
-> +	if (IS_ERR(ctx->vci)) {
-> +		ret = PTR_ERR(ctx->vci);
-> +		if (ret != -EPROBE_DEFER)
-> +			DRM_DEV_ERROR(dev,
-> +				      "Failed to request vci regulator: %d\n",
-> +				      ret);
-> +		return ret;
-> +	}
-> +
-> +	ctx->iovcc = devm_regulator_get(dev, "iovcc");
-> +	if (IS_ERR(ctx->iovcc)) {
-> +		ret = PTR_ERR(ctx->iovcc);
-> +		if (ret != -EPROBE_DEFER)
-> +			DRM_DEV_ERROR(dev,
-> +				      "Failed to request iovcc regulator: %d\n",
-> +				      ret);
-> +		return ret;
-> +	}
-> +
-> +	mipi_dsi_set_drvdata(dsi, ctx);
-> +
-> +	ctx->dev = dev;
-> +
-> +	dsi->lanes = 4;
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> +			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_EOT_PACKET;
-> +
-> +	drm_panel_init(&ctx->panel, &dsi->dev, &ltk050h3146w_funcs,
-> +		       DRM_MODE_CONNECTOR_DSI);
-> +
-> +	ret = drm_panel_of_backlight(&ctx->panel);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_panel_add(&ctx->panel);
-> +
-> +	ret = mipi_dsi_attach(dsi);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(dev, "mipi_dsi_attach failed: %d\n", ret);
-> +		drm_panel_remove(&ctx->panel);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void ltk050h3146w_shutdown(struct mipi_dsi_device *dsi)
-> +{
-> +	struct ltk050h3146w *ctx = mipi_dsi_get_drvdata(dsi);
-> +	int ret;
-> +
-> +	ret = drm_panel_unprepare(&ctx->panel);
-> +	if (ret < 0)
-> +		DRM_DEV_ERROR(&dsi->dev, "Failed to unprepare panel: %d\n",
-> +			      ret);
-> +
-> +	ret = drm_panel_disable(&ctx->panel);
-> +	if (ret < 0)
-> +		DRM_DEV_ERROR(&dsi->dev, "Failed to disable panel: %d\n",
-> +			      ret);
-> +}
-> +
-> +static int ltk050h3146w_remove(struct mipi_dsi_device *dsi)
-> +{
-> +	struct ltk050h3146w *ctx = mipi_dsi_get_drvdata(dsi);
-> +	int ret;
-> +
-> +	ltk050h3146w_shutdown(dsi);
-> +
-> +	ret = mipi_dsi_detach(dsi);
-> +	if (ret < 0)
-> +		DRM_DEV_ERROR(&dsi->dev, "Failed to detach from DSI host: %d\n",
-> +			      ret);
-> +
-> +	drm_panel_remove(&ctx->panel);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id ltk050h3146w_of_match[] = {
-> +	{
-> +		.compatible = "leadtek,ltk050h3146w",
-> +		.data = &ltk050h3146w_data,
-> +	},
-> +	{
-> +		.compatible = "leadtek,ltk050h3146w-a2",
-> +		.data = &ltk050h3146w_a2_data,
-> +	},
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, ltk050h3146w_of_match);
-> +
-> +static struct mipi_dsi_driver ltk050h3146w_driver = {
-> +	.driver = {
-> +		.name = "panel-leadtek-ltk050h3146w",
-> +		.of_match_table = ltk050h3146w_of_match,
-> +	},
-> +	.probe	= ltk050h3146w_probe,
-> +	.remove = ltk050h3146w_remove,
-> +	.shutdown = ltk050h3146w_shutdown,
-> +};
-> +module_mipi_dsi_driver(ltk050h3146w_driver);
-> +
-> +MODULE_AUTHOR("Heiko Stuebner <heiko.stuebner@theobroma-systems.com>");
-> +MODULE_DESCRIPTION("DRM driver for Leadtek LTK050H3146W MIPI DSI panel");
-> +MODULE_LICENSE("GPL v2");
-> -- 
-> 2.24.1
+> Thanks
+> James
+>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
+> > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > Cc: Mihail Atanassov <mihail.atanassov@arm.com>
+> > ---
+> >  drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 16 +++++-----------
+> >  1 file changed, 5 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > index 16dfd5cdb66c..6b85d5f4caa8 100644
+> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > @@ -261,18 +261,16 @@ static void komeda_kms_mode_config_init(struct komeda_kms_dev *kms,
+> >
+> >  struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
+> >  {
+> > -     struct komeda_kms_dev *kms = kzalloc(sizeof(*kms), GFP_KERNEL);
+> > +     struct komeda_kms_dev *kms;
+> >       struct drm_device *drm;
+> >       int err;
+> >
+> > -     if (!kms)
+> > -             return ERR_PTR(-ENOMEM);
+> > +     kms = devm_drm_dev_alloc(mdev->dev, &komeda_kms_driver,
+> > +                              struct komeda_kms_dev, base);
+> > +     if (IS_ERR(kms))
+> > +             return kms;
+> >
+> >       drm = &kms->base;
+> > -     err = drm_dev_init(drm, &komeda_kms_driver, mdev->dev);
+> > -     if (err)
+> > -             goto free_kms;
+> > -     drmm_add_final_kfree(drm, kms);
+> >
+> >       drm->dev_private = mdev;
+> >
+> > @@ -329,9 +327,6 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
+> >       drm_mode_config_cleanup(drm);
+> >       komeda_kms_cleanup_private_objs(kms);
+> >       drm->dev_private = NULL;
+> > -     drm_dev_put(drm);
+> > -free_kms:
+> > -     kfree(kms);
+> >       return ERR_PTR(err);
+> >  }
+> >
+> > @@ -348,5 +343,4 @@ void komeda_kms_detach(struct komeda_kms_dev *kms)
+> >       drm_mode_config_cleanup(drm);
+> >       komeda_kms_cleanup_private_objs(kms);
+> >       drm->dev_private = NULL;
+> > -     drm_dev_put(drm);
+> >  }
+> > --
+> > 2.25.1
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
