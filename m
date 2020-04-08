@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBA61A23B1
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 16:01:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1FA11A23B5
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 16:03:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A94F46EA6D;
-	Wed,  8 Apr 2020 14:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDC5B6EA6B;
+	Wed,  8 Apr 2020 14:03:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8B7D89DB5
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 14:01:18 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86BC9522;
- Wed,  8 Apr 2020 16:01:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1586354476;
- bh=XxzHVE6zlWTyguJ27GTvGM6nacHAH8FyWLtZvZFu2/o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d9jT2vK9pgwoxt9t1G3WP4tn7UhnCCiCzsRndoW75L4PWrqgQJsqRJxEGYc1gDsE0
- Gh9N0LYxSemAjirnWQy5I9reHelt7BYJPwgqUb2r0rVVkWqpJsQy/rZtwTUhGFmkDN
- hRLo7Y4g3NXpJxfFobSajUD90HyAzwKG7Ja+iwb8=
-Date: Wed, 8 Apr 2020 17:01:07 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH/RFC 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
- binding to YAML
-Message-ID: <20200408140107.GH4881@pendragon.ideasonboard.com>
-References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
- <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
- <20200406111927.GD4757@pendragon.ideasonboard.com>
- <20200406170915.x2ztz4q446h6vx2y@gilmour.lan>
- <20200406175028.GI16885@pendragon.ideasonboard.com>
- <20200407071251.npibrmzywiyigu2a@gilmour.lan>
- <20200408114552.GC4881@pendragon.ideasonboard.com>
- <20200408122519.epxtptdjlhkj3kru@gilmour.lan>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFC876E11A;
+ Wed,  8 Apr 2020 14:03:31 +0000 (UTC)
+IronPort-SDR: 3LSL3uViEFDDOaU8gXTUKZ2XhvCrDL9x5ZHuJgDll7pYC0kYjJCYQ4Tjpl30eF3QPJgK4Ljmek
+ R8e5r1/2BtkA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2020 07:03:31 -0700
+IronPort-SDR: 1LEUTT39CP391chqslTbrXClR/XQZlsqITEzl4rKJbGdVV2aO0ZwfoMsGaeCLmdJSC3/Zu/rFq
+ KSKCMCESb3mA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,358,1580803200"; d="scan'208";a="254808508"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 08 Apr 2020 07:03:28 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 08 Apr 2020 17:03:27 +0300
+Date: Wed, 8 Apr 2020 17:03:27 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH] drm: avoid spurious EBUSY due to nonblocking
+ atomic modesets
+Message-ID: <20200408140327.GT6112@intel.com>
+References: <20200225115024.2386811-1-daniel.vetter@ffwll.ch>
+ <20200225144814.GC13686@intel.com>
+ <CAKMK7uFKJd1G8qT2Kup8nOfp22V7eQmDZC=6bdU=UEpqO7K3QQ@mail.gmail.com>
+ <20200225153400.GE13686@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200408122519.epxtptdjlhkj3kru@gilmour.lan>
+In-Reply-To: <20200225153400.GE13686@intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,297 +54,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Mark Yao <mark.yao@rock-chips.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Stone <daniels@collabora.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ stable <stable@vger.kernel.org>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On Tue, Feb 25, 2020 at 05:34:00PM +0200, Ville Syrj=E4l=E4 wrote:
+> On Tue, Feb 25, 2020 at 04:09:26PM +0100, Daniel Vetter wrote:
+> > On Tue, Feb 25, 2020 at 3:48 PM Ville Syrj=E4l=E4
+> > <ville.syrjala@linux.intel.com> wrote:
+> > >
+> > > On Tue, Feb 25, 2020 at 12:50:24PM +0100, Daniel Vetter wrote:
+> > > > When doing an atomic modeset with ALLOW_MODESET drivers are allowed=
+ to
+> > > > pull in arbitrary other resources, including CRTCs (e.g. when
+> > > > reconfiguring global resources).
+> > > >
+> > > > But in nonblocking mode userspace has then no idea this happened,
+> > > > which can lead to spurious EBUSY calls, both:
+> > > > - when that other CRTC is currently busy doing a page_flip the
+> > > >   ALLOW_MODESET commit can fail with an EBUSY
+> > > > - on the other CRTC a normal atomic flip can fail with EBUSY because
+> > > >   of the additional commit inserted by the kernel without userspace=
+'s
+> > > >   knowledge
+> > > >
+> > > > For blocking commits this isn't a problem, because everyone else wi=
+ll
+> > > > just block until all the CRTC are reconfigured. Only thing userspace
+> > > > can notice is the dropped frames without any reason for why frames =
+got
+> > > > dropped.
+> > > >
+> > > > Consensus is that we need new uapi to handle this properly, but no =
+one
+> > > > has any idea what exactly the new uapi should look like. As a stop-=
+gap
+> > > > plug this problem by demoting nonblocking commits which might cause
+> > > > issues by including CRTCs not in the original request to blocking
+> > > > commits.
+> > > >
+> > > > v2: Add comments and a WARN_ON to enforce this only when allowed - =
+we
+> > > > don't want to silently convert page flips into blocking plane updat=
+es
+> > > > just because the driver is buggy.
+> > > >
+> > > > v3: Fix inverted WARN_ON (Pekka).
+> > > >
+> > > > References: https://lists.freedesktop.org/archives/dri-devel/2018-J=
+uly/182281.html
+> > > > Bugzilla: https://gitlab.freedesktop.org/wayland/weston/issues/24#n=
+ote_9568
+> > > > Cc: Daniel Stone <daniel@fooishbar.org>
+> > > > Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+> > > > Cc: stable@vger.kernel.org
+> > > > Reviewed-by: Daniel Stone <daniels@collabora.com>
+> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_atomic.c | 34 +++++++++++++++++++++++++++++++-=
+--
+> > > >  1 file changed, 31 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_ato=
+mic.c
+> > > > index 9ccfbf213d72..4c035abf98b8 100644
+> > > > --- a/drivers/gpu/drm/drm_atomic.c
+> > > > +++ b/drivers/gpu/drm/drm_atomic.c
+> > > > @@ -1362,15 +1362,43 @@ EXPORT_SYMBOL(drm_atomic_commit);
+> > > >  int drm_atomic_nonblocking_commit(struct drm_atomic_state *state)
+> > > >  {
+> > > >       struct drm_mode_config *config =3D &state->dev->mode_config;
+> > > > -     int ret;
+> > > > +     unsigned requested_crtc =3D 0;
+> > > > +     unsigned affected_crtc =3D 0;
+> > > > +     struct drm_crtc *crtc;
+> > > > +     struct drm_crtc_state *crtc_state;
+> > > > +     bool nonblocking =3D true;
+> > > > +     int ret, i;
+> > > > +
+> > > > +     /*
+> > > > +      * For commits that allow modesets drivers can add other CRTC=
+s to the
+> > > > +      * atomic commit, e.g. when they need to reallocate global re=
+sources.
+> > > > +      *
+> > > > +      * But when userspace also requests a nonblocking commit then=
+ userspace
+> > > > +      * cannot know that the commit affects other CRTCs, which can=
+ result in
+> > > > +      * spurious EBUSY failures. Until we have better uapi plug th=
+is by
+> > > > +      * demoting such commits to blocking mode.
+> > > > +      */
+> > > > +     for_each_new_crtc_in_state(state, crtc, crtc_state, i)
+> > > > +             requested_crtc |=3D drm_crtc_mask(crtc);
+> > > >
+> > > >       ret =3D drm_atomic_check_only(state);
+> > > >       if (ret)
+> > > >               return ret;
+> > > >
+> > > > -     DRM_DEBUG_ATOMIC("committing %p nonblocking\n", state);
+> > > > +     for_each_new_crtc_in_state(state, crtc, crtc_state, i)
+> > > > +             affected_crtc |=3D drm_crtc_mask(crtc);
+> > > > +
+> > > > +     if (affected_crtc !=3D requested_crtc) {
+> > > > +             /* adding other CRTC is only allowed for modeset comm=
+its */
+> > > > +             WARN_ON(!state->allow_modeset);
+> > >
+> > > Not sure that's really true. What if the driver needs to eg.
+> > > redistribute FIFO space or something between the pipes? Or do we
+> > > expect drivers to now examine state->allow_modeset to figure out
+> > > if they're allowed to do certain things?
+> > =
 
-On Wed, Apr 08, 2020 at 02:25:19PM +0200, Maxime Ripard wrote:
-> On Wed, Apr 08, 2020 at 02:45:52PM +0300, Laurent Pinchart wrote:
-> > On Tue, Apr 07, 2020 at 09:12:51AM +0200, Maxime Ripard wrote:
-> >> On Mon, Apr 06, 2020 at 08:50:28PM +0300, Laurent Pinchart wrote:
-> >>> On Mon, Apr 06, 2020 at 07:09:15PM +0200, Maxime Ripard wrote:
-> >>>> On Mon, Apr 06, 2020 at 02:19:27PM +0300, Laurent Pinchart wrote:
-> >>>>> On Mon, Apr 06, 2020 at 10:00:32AM +0200, Maxime Ripard wrote:
-> >>>>>> On Mon, Apr 06, 2020 at 02:39:33AM +0300, Laurent Pinchart wrote:
-> >>>>>>> Convert the Rockchip HDMI TX text binding to YAML.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >>>>>>> ---
-> >>>>>>>  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
-> >>>>>>>  .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
-> >>>>>>>  2 files changed, 178 insertions(+), 74 deletions(-)
-> >>>>>>>  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> >>>>>>>  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> >>>>>>>
-> >>>>>>> diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> >>>>>>> deleted file mode 100644
-> >>>>>>> index 3d32ce137e7f..000000000000
-> >>>>>>> --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> >>>>>>> +++ /dev/null
-> >>>>>>> @@ -1,74 +0,0 @@
-> >>>>>>> -Rockchip DWC HDMI TX Encoder
-> >>>>>>> -============================
-> >>>>>>> -
-> >>>>>>> -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> >>>>>>> -with a companion PHY IP.
-> >>>>>>> -
-> >>>>>>> -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
-> >>>>>>> -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
-> >>>>>>> -following device-specific properties.
-> >>>>>>> -
-> >>>>>>> -
-> >>>>>>> -Required properties:
-> >>>>>>> -
-> >>>>>>> -- compatible: should be one of the following:
-> >>>>>>> -		"rockchip,rk3228-dw-hdmi"
-> >>>>>>> -		"rockchip,rk3288-dw-hdmi"
-> >>>>>>> -		"rockchip,rk3328-dw-hdmi"
-> >>>>>>> -		"rockchip,rk3399-dw-hdmi"
-> >>>>>>> -- reg: See dw_hdmi.txt.
-> >>>>>>> -- reg-io-width: See dw_hdmi.txt. Shall be 4.
-> >>>>>>> -- interrupts: HDMI interrupt number
-> >>>>>>> -- clocks: See dw_hdmi.txt.
-> >>>>>>> -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
-> >>>>>>> -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
-> >>>>>>> -  corresponding to the video input of the controller. The port shall have two
-> >>>>>>> -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
-> >>>>>>> -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
-> >>>>>>> -
-> >>>>>>> -Optional properties
-> >>>>>>> -
-> >>>>>>> -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
-> >>>>>>> -  or the functionally-reduced I2C master contained in the DWC HDMI. When
-> >>>>>>> -  connected to a system I2C master this property contains a phandle to that
-> >>>>>>> -  I2C master controller.
-> >>>>>>> -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
-> >>>>>>> -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
-> >>>>>>> -- clock-names: May contain "grf", power for grf io.
-> >>>>>>> -- clock-names: May contain "vpll", external clock for some hdmi phy.
-> >>>>>>> -- phys: from general PHY binding: the phandle for the PHY device.
-> >>>>>>> -- phy-names: Should be "hdmi" if phys references an external phy.
-> >>>>>>> -
-> >>>>>>> -Optional pinctrl entry:
-> >>>>>>> -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
-> >>>>>>> -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
-> >>>>>>> -  i2c timeout.  It's intended that this unwedge pinctrl entry will
-> >>>>>>> -  cause the SDA line to be driven low to work around a hardware
-> >>>>>>> -  errata.
-> >>>>>>> -
-> >>>>>>> -Example:
-> >>>>>>> -
-> >>>>>>> -hdmi: hdmi@ff980000 {
-> >>>>>>> -	compatible = "rockchip,rk3288-dw-hdmi";
-> >>>>>>> -	reg = <0xff980000 0x20000>;
-> >>>>>>> -	reg-io-width = <4>;
-> >>>>>>> -	ddc-i2c-bus = <&i2c5>;
-> >>>>>>> -	rockchip,grf = <&grf>;
-> >>>>>>> -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> >>>>>>> -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
-> >>>>>>> -	clock-names = "iahb", "isfr";
-> >>>>>>> -	ports {
-> >>>>>>> -		hdmi_in: port {
-> >>>>>>> -			#address-cells = <1>;
-> >>>>>>> -			#size-cells = <0>;
-> >>>>>>> -			hdmi_in_vopb: endpoint@0 {
-> >>>>>>> -				reg = <0>;
-> >>>>>>> -				remote-endpoint = <&vopb_out_hdmi>;
-> >>>>>>> -			};
-> >>>>>>> -			hdmi_in_vopl: endpoint@1 {
-> >>>>>>> -				reg = <1>;
-> >>>>>>> -				remote-endpoint = <&vopl_out_hdmi>;
-> >>>>>>> -			};
-> >>>>>>> -		};
-> >>>>>>> -	};
-> >>>>>>> -};
-> >>>>>>> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> >>>>>>> new file mode 100644
-> >>>>>>> index 000000000000..8ff544ae0ac2
-> >>>>>>> --- /dev/null
-> >>>>>>> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> >>>>>>> @@ -0,0 +1,178 @@
-> >>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >>>>>>> +%YAML 1.2
-> >>>>>>> +---
-> >>>>>>> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-> >>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >>>>>>> +
-> >>>>>>> +title: Rockchip DWC HDMI TX Encoder
-> >>>>>>> +
-> >>>>>>> +maintainers:
-> >>>>>>> +  - Mark Yao <mark.yao@rock-chips.com>
-> >>>>>>> +
-> >>>>>>> +description: |
-> >>>>>>> +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> >>>>>>> +  with a companion PHY IP.
-> >>>>>>> +
-> >>>>>>> +allOf:
-> >>>>>>> +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
-> >>>>>>> +
-> >>>>>>> +properties:
-> >>>>>>> +  compatible:
-> >>>>>>> +    enum:
-> >>>>>>> +      - rockchip,rk3228-dw-hdmi
-> >>>>>>> +      - rockchip,rk3288-dw-hdmi
-> >>>>>>> +      - rockchip,rk3328-dw-hdmi
-> >>>>>>> +      - rockchip,rk3399-dw-hdmi
-> >>>>>>> +
-> >>>>>>> +  reg: true
-> >>>>>>> +
-> >>>>>>> +  reg-io-width:
-> >>>>>>> +    const: 4
-> >>>>>>> +
-> >>>>>>> +  clocks:
-> >>>>>>> +    minItems: 2
-> >>>>>>> +    maxItems: 5
-> >>>>>>> +    items:
-> >>>>>>> +      - description: The bus clock for either AHB and APB
-> >>>>>>> +      - description: The internal register configuration clock
-> >>>>>>> +      - description: The HDMI CEC controller main clock
-> >>>>>>> +      - description: Power for GRF IO
-> >>>>>>> +      - description: External clock for some HDMI PHY
-> >>>>>>> +
-> >>>>>>> +  clock-names:
-> >>>>>>> +    minItems: 2
-> >>>>>>> +    maxItems: 5
-> >>>>>>> +    items:
-> >>>>>>> +      - const: iahb
-> >>>>>>> +      - const: isfr
-> >>>>>>> +      - enum:
-> >>>>>>> +        - cec
-> >>>>>>> +        - grf
-> >>>>>>> +        - vpll
-> >>>>>>> +      - enum:
-> >>>>>>> +        - cec
-> >>>>>>> +        - grf
-> >>>>>>> +        - vpll
-> >>>>>>> +      - enum:
-> >>>>>>> +        - cec
-> >>>>>>> +        - grf
-> >>>>>>> +        - vpll
-> >>>>>>
-> >>>>>> IIRC Rob wanted us to standardize the order of the clocks if possible,
-> >>>>>> since it's a pain to support properly here, and your description won't
-> >>>>>> match what you describe here either (and in general it's just a best
-> >>>>>> practice), so if all your DTs have the same order you should just set
-> >>>>>> that order in stone.
-> >>>>>
-> >>>>> But how do we handle the case where any of the cec, grf and vpll clocks
-> >>>>> can be set ? Assuming, for instance, that
-> >>>>>
-> >>>>> 	clock-names = "iahb", "isfr", "cec";
-> >>>>> 	clock-names = "iahb", "isfr", "vpll";
-> >>>>> 	clock-names = "iahb", "isfr", "cec", "vpll";
-> >>>>>
-> >>>>> would all be valid.
-> >>>>
-> >>>> It would be painful then...
-> >>>>
-> >>>> The easiest way to do so would be to simply use an enum there, and not
-> >>>> bother checking the array at all. You'll get a warning if there's
-> >>>> multiple occurences of the same string, and I guess that's what you
-> >>>> would be really concerned about.
-> >>>>
-> >>>> However, now that I think about it, what's the interaction between the
-> >>>> generic binding and this one when it comes to the third clock? The
-> >>>> generic one expects it to be cec, and here you have other options?
-> >>>
-> >>> I'm not too familiar with the platform, but as far as I understand, any
-> >>> of the cec, grf and vpll clock is optional (if someone could confirm
-> >>> that, it would be useful). I don't care so much about the order, but
-> >>> iahb and isfr are mandatory, and thus need to be specified as two const
-> >>> items in the beginning as far as I understand. It would be nice to set
-> >>> something along the lines of
-> >>>
-> >>>   minItems: 2
-> >>>   maxItems: 5
-> >>>   items:
-> >>>     - const: iahb
-> >>>     - const: isfr
-> >>>     - enum:
-> >>>       - cec
-> >>>       - grf
-> >>>       - vpll
-> >>
-> >> I guess you could do something like:
-> >>
-> >> in the generic schema:
-> >>
-> >> clock-names:
-> >>   allOf:
-> >>     - minItems: 2
-> >>     - enum:
-> >>        - iahb
-> >>        - isfr
-> >>        - cec
-> >>       additonalItems: true
-> >>     - items:
-> >>       - iahb
-> >>       - isfr
-> >>
-> >> Or something along those lines, I haven't tested it, but the basic
-> >> idea is that you want to enforce that:
-> >>   a) there's a minimum of two clocks
-> >>   b) valid clock names are iahb, isfr and cec, but we will allow more
-> >>   c) the first two clocks are iahb and isfr
-> >
-> > Interesting idea. I've tried
-> >
-> >   clock-names:
-> >     allOf:
-> >       - minItems: 2
-> >       - enum:
-> >         - iahb
-> >         - isfr
-> >         - cec
-> >         additionalItems: true
-> >       - items:
-> >         - const: iahb
-> >         - const: isfr
-> >
-> > in the base synopsys,dw-hdmi.yaml schema, and
-> >
-> >   clock-names:
-> >     maxItems: 2
-> >
-> > in renesas,dw-hdmi.yaml, which resulted in the following validation
-> > errors:
-> >
-> > Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.example.dt.yaml: hdmi@fead0000: clock-names: ['iahb', 'isfr'] is too long
-> >
-> > This is caused by the enum entry.
-> 
-> What happens if you have instead of
-> - enum:
->  ...
-> 
-> - items:
->     enum:
->       ...
+> > Maybe we need more fine-grained flags here, but adding other states
+> > (and blocking a commit flow) is exactly the uapi headaches this patch
+> > tries to solve here. So if our driver currently adds crtc states to
+> > reallocate fifo between pipes for an atomic flip then yes we're
+> > breaking userspace. Well, everyone figured out by now that you get
+> > random EBUSY and dropped frames for no apparent reason at all, and
+> > work around it. But happy, they are not.
+> =
 
-That works, but if I then specify a cec clock in the example in
-renesas,dw-hdmi.yaml, I get
+> I don't think we do this currently for the FIFO, but in theory we
+> could.
+> =
 
-Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.example.dt.yaml: hdmi@fead0000: clock-names: ['iahb', 'isfr', 'cec'] is too long
-Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.example.dt.yaml: hdmi@fead0000: clock-names: Additional items are not allowed ('cec' was unexpected)
+> The one thing we might do currently is cdclk reprogramming, but that
+> can only happen without a full modeset when there's only a single
+> active pipe. So we shouldn't hit this right now. But that restriction
+> is going to disappear in the future, at which point we may want to
+> do this even with multiple active pipes.
 
-which is caused by
+Looks like we're hitting something like this on some CI systems.
+After a bit of pondering I guess we could fix that by not sending
+out any flips events until all crtcs have finished the commit. Not
+a full solution though as it can't help if there are multiple threads
+trying to commit independently on different CRTC and one thread
+happens to need a full modeset on all CRTCs. But seems like it
+should solve the the single threaded CI fails we're seeing.
 
-       - items:
-         - const: iahb
-         - const: isfr
+-- =
 
--- 
-Regards,
-
-Laurent Pinchart
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
