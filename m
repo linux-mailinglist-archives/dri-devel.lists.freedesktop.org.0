@@ -1,60 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1449E1A3015
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:33:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E21C71A233B
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 15:44:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04F246EB5F;
-	Thu,  9 Apr 2020 07:33:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F83E6EA67;
+	Wed,  8 Apr 2020 13:43:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F33706EA64
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 13:37:40 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id x66so31263qkd.9
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 06:37:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aurabindo.in; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=a8mBf/x6tKmxXEyAN6VSKYHc9JSU+mIaA50Z6TnFau4=;
- b=oNGBRMTTT4G0ujvkoAxRMd3XDpqMEs3ISjiGTl3+WMr3y0jNbTYWFZVr6oSkfSctjo
- 820mOtbknzXiP1a+VHzTLSrRoFPDtBkZyrvm3Y3KHV/5L1o66DFPQqYtjEqM7Q2tmeN2
- bZYbGMP/wDNJ20bM9UVlVtK9xYk0ZDHBaRHDUwPMUyRhgJFh220KAzu6Ob9GFKhlQauB
- xWQdo4bNV/1iV8qJjw+cDLSSoaWUxzOP+3oFmut9SJFXCDdi73L1QXjveEoi4S959mUF
- MlfOIVkuGAoI/PZErdQEivO3GhuWEOt1ALkBlCc746rf7CeiGoO3crXm+N6ddXc4vbo8
- YTZQ==
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D705C6EA6A;
+ Wed,  8 Apr 2020 13:43:56 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id d77so5204664wmd.3;
+ Wed, 08 Apr 2020 06:43:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5JeVxarE1Z1RiJROhmbNs4AI7L5YmBuO9l5ang6+c2c=;
+ b=Lpb0URCll2uC4ADQJYY7mI50YUF0YKFj5Wty4cYMWCdeGVhx0fncfLWtomod/N9nPY
+ F7HrkukZfy+0cuzfU1yzdg6gXZJGJiwbqWb2wZgIq2PKb/IEFLjIIHLYCjx4IQgUiiFv
+ tThQFvsr9XYztxj0ojy5TkKXV4gAdTSDwMuo/RtBCqroxK3K1sdaqzWn26369aphBCID
+ Q12SF0uW+aQh2s9rkMb5hrd6CUXdp72uGQULxsMa+vNe/aPCczKtclvPZVayDlWpX5BV
+ 3QjhurMMZIbBiiwBfZd2QkytcEt1327ymh4+gbsbeEuBUGYMRCfhtYuX57h4ZWOOH4DM
+ gCkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=a8mBf/x6tKmxXEyAN6VSKYHc9JSU+mIaA50Z6TnFau4=;
- b=hZoH2gKB8EDeNAv/0XAejenRg3xZJzFmclNnvq+bV6kdCYGYpHww7gTYpv/Jg7zhID
- +WtVf5lmn+eV96MkhthEG+sHxodzYxEODj54Hj80aqAuHANQKdz8d5pMA6t6Oi8zNIiv
- 3IO8q58VImE1yKo2bPCC678pzSNgaojMdpOre7x6F9eThnHLzYdKXc3Ai2qgBXf8/NCo
- fY9DoNeaCFgzCyqT+hGXO9qX+g3n0OdxoFYJhhcx2PODpjt14FMk7AZYNK8aZYhK8+Tl
- KPz8KPqDau7YFrOsIiNoMIZybKslzzo7njUZL9dwwC9q/6KVSUK3QBhVWG5iHOeM911A
- jIAQ==
-X-Gm-Message-State: AGi0PuZuItqFY+7lB1lJD3CgtKhAwpz4ArM2pmpNsh0XXSEu4Nka7/98
- ufvIDM7Z8N7+Wc3h9bBZMaFmLg==
-X-Google-Smtp-Source: APiQypLRBp+bZkFj4khOGASSTYhMEobSFxchIEOA/aHpRrEQBTYsVV97VRsDR3YR4b6DeyK0CmNFZA==
-X-Received: by 2002:a37:9e17:: with SMTP id h23mr7319606qke.315.1586353060016; 
- Wed, 08 Apr 2020 06:37:40 -0700 (PDT)
-Received: from localhost.localdomain (135-23-249-169.cpe.pppoe.ca.
- [135.23.249.169])
- by smtp.gmail.com with ESMTPSA id q5sm8493827qkn.59.2020.04.08.06.37.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Apr 2020 06:37:38 -0700 (PDT)
-From: Aurabindo Pillai <mail@aurabindo.in>
-To: alexander.deucher@amd.com,
-	christian.koenig@amd.com
-Subject: [PATCH] drm/amd/amdgpu: add prefix for pr_* prints
-Date: Wed,  8 Apr 2020 09:37:35 -0400
-Message-Id: <20200408133735.7679-1-mail@aurabindo.in>
-X-Mailer: git-send-email 2.26.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5JeVxarE1Z1RiJROhmbNs4AI7L5YmBuO9l5ang6+c2c=;
+ b=A5thQqEkpdp4k2K45BcS5nF2XUBADPZ9JCJ0NeQaoPAZNSwJZcBUpKkzK3evRcXnY8
+ euyECIDpdq76tGPI3v12Y7/WE/brbcpGb8A/5FcA3qEBqhqzi+m2qdeSIZr/GSZpbn8i
+ yvnej68LIUzaoCVDi4imLQXun89utFjabJvYZrLjlQ9BXmaTV5l9dId9fiNJtu7zPEvZ
+ iBYwf29Nzk72FcmCrixUkboTsEf0kVWIUJECcGgaHvxSdvzx40mIJ+z5B2AH+Eah2rxb
+ 3qRdM2f82cnk40suRUH5FAg4ic1sbX2UmCnYvUpVEwCuYvOXfmlMlTzjyxFFEwRPxQ1a
+ 0U4A==
+X-Gm-Message-State: AGi0PubIndKNhIyh9QY0q5TBgFLEf9NPV/+9KRhOxvpPqStYoE0E4GIh
+ Mo5+Oaqwb65rMS2DZnBmQTDgC9+XfE551uXEJZs=
+X-Google-Smtp-Source: APiQypKVw6l28/vf8DOlr+wvkyILlmlKHHNxDPwytq39w6kUSGnC9oKbQ4hvvCKuyfTXtGZzV1ALzsk2hRmrkhxMRGY=
+X-Received: by 2002:a1c:9d8c:: with SMTP id g134mr4851682wme.79.1586353435428; 
+ Wed, 08 Apr 2020 06:43:55 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
+References: <20200407182618.2488-1-mail@aurabindo.in>
+In-Reply-To: <20200407182618.2488-1-mail@aurabindo.in>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 8 Apr 2020 09:43:44 -0400
+Message-ID: <CADnq5_OCkhjVoJ8L-KHOo-2b-thAAcSCHoeJc-DsR7j-8ZX7Yw@mail.gmail.com>
+Subject: Re: [PATCH] amdgpu_kms: Remove unnecessary condition check
+To: Aurabindo Pillai <mail@aurabindo.in>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,46 +60,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, avid1.Zhou@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-amdgpu uses lots of pr_* calls for printing error messages.
-With this prefix, errors shall be more obvious to the end
-use regarding its origin, and may help debugging.
+On Tue, Apr 7, 2020 at 2:30 PM Aurabindo Pillai <mail@aurabindo.in> wrote:
+>
+> Execution will only reach here if the asserted condition is true.
+> Hence there is no need for the additional check.
+>
+> Signed-off-by: Aurabindo Pillai <mail@aurabindo.in>
 
-Prefix format:
+Applied.  Thanks!
 
-[xxx.xxxxx] amdgpu: ...
+Alex
 
-Signed-off-by: Aurabindo Pillai <mail@aurabindo.in>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index da3bcff61..67d654a89 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -28,6 +28,12 @@
- #ifndef __AMDGPU_H__
- #define __AMDGPU_H__
- 
-+#ifdef pr_fmt
-+#undef pr_fmt
-+#endif
-+
-+#define pr_fmt(fmt) "amdgpu: " fmt
-+
- #include "amdgpu_ctx.h"
- 
- #include <linux/atomic.h>
--- 
-2.26.0
-
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> index 60591dbc2..9fedfa531 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> @@ -179,12 +179,10 @@ int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
+>         /* Call ACPI methods: require modeset init
+>          * but failure is not fatal
+>          */
+> -       if (!r) {
+> -               acpi_status = amdgpu_acpi_init(adev);
+> -               if (acpi_status)
+> -                       dev_dbg(&dev->pdev->dev,
+> -                               "Error during ACPI methods call\n");
+> -       }
+> +
+> +       acpi_status = amdgpu_acpi_init(adev);
+> +       if (acpi_status)
+> +               dev_dbg(&dev->pdev->dev, "Error during ACPI methods call\n");
+>
+>         if (adev->runpm) {
+>                 dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
+> --
+> 2.26.0
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
