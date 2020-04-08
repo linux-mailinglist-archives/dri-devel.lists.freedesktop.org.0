@@ -1,54 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DFEF1A2718
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 18:24:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 632061A2736
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 18:31:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2C66EA9D;
-	Wed,  8 Apr 2020 16:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1EE26EA97;
+	Wed,  8 Apr 2020 16:31:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60AD96EA96
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 16:24:11 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id h2so44239wmb.4
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 09:24:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o1wXXAbri86QChEa50j3H0JwCub+mO1ccJpn2usVHv0=;
- b=HYp5Bq75xxTmKkQ+MwniWHFEFiXu9DoFPzIjKWs0sTP35Z4+14iO0Ez2Itb5g6Yzf4
- gGIW60ImXzKzNMVCeZNeLLmoYyzc/2bSB490taxtJsRyvN1rr5hsDcDs/Kxz6UI/Zg/g
- PLn57TkhnsaZH3nq26pN7Agbq8A8eE+yjcgoU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o1wXXAbri86QChEa50j3H0JwCub+mO1ccJpn2usVHv0=;
- b=tlqnz58avMOZfuGTh5XriNnAqqnTOoW6ua8OsX4ayerN5ZoLhDUrpP8KuL4sMy55m3
- XJdGH2hMnNenk9Bitf340ACaTIyhXUvigAtt5jf4VVzh6QByxTXhTbRy8ayQW0V1TJHG
- 4Fb+DwjY7a8v0jc0lenFqhmpWoCy8bvcA+G6Izv3plA17ZyTwGq16pOZOT0cw8bQcI2Y
- LjqXdC5bjg8NaAWXMMcsS9+5E823bfdLMMZfj7nE4FHqzlpi7K5mrz+nWiLQnHfusA+6
- VDQQe3JL7VAmvbYqYTdwVQ5GdAh/zkF26WNzBxHTZthn6XET6bvTdCp94fU8PNESuy4i
- 1TPw==
-X-Gm-Message-State: AGi0Pub2qZea/b2Xebbn3vtkwj2BzPDW2ey/JWJ9EIY/RyqQpYIEJ7O6
- 4jqDhkll4Cpn16RUZf7aE7WeTbEjbMU=
-X-Google-Smtp-Source: APiQypKz8wOvsiwaQ6yZhKkaOvbAB1KfIjZ7OheWj1K9qwQtTAOpdj5ga9Ksu7zXCCdYCbGmsA9ZIg==
-X-Received: by 2002:a1c:7ed0:: with SMTP id z199mr5427573wmc.60.1586363049729; 
- Wed, 08 Apr 2020 09:24:09 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m15sm47369wmc.35.2020.04.08.09.24.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Apr 2020 09:24:08 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm: avoid spurious EBUSY due to nonblocking atomic modesets
-Date: Wed,  8 Apr 2020 18:24:03 +0200
-Message-Id: <20200408162403.3616785-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.25.1
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50E826EA97
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 16:31:14 +0000 (UTC)
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1N8XHb-1jHHhA1YYr-014Tax; Wed, 08 Apr 2020 18:25:53 +0200
+From: Arnd Bergmann <arnd@arndb.de>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH] fbdev: mx3fb: avoid warning about psABI change
+Date: Wed,  8 Apr 2020 18:25:38 +0200
+Message-Id: <20200408162551.3928330-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
+X-Provags-ID: V03:K1:a1SttS1sh0V8p8yNp3DZOBnM7t3XNhEBzBMwVVmOUCS7K8nEh0c
+ 8njey4uOCRCAK8sgTmZLVKJHFuADY6t12iLayYT208LdNpRm9Nk2tYvZpNj7E+Yc/U2qtcA
+ ulytP8YPz81OEx7SWoYabgaStCwARP5d5nQqJ862NIg3i/L0a0t/j4a9gOK5SZYohRsPksi
+ bNGUs6HQEWyFiT+EgxmAg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vPHKk0PwzhY=:d3y0ZG8zO1rs58mykCJZCF
+ TPCj6A6KswBFUGQ4xtqjE2JJ2gIbMjkNNdbUX9XRJMf+vHvuM+4KwK182LYFBS1b25I3Cg1mQ
+ ikF7eQ5vYhLlCKGot0SmKmGgc4iqzizbI48XyV5hCD0HdYIZuN7z8TvqmoGs8QRYtTCOzV5oT
+ 8D7t2Y37L//oGxSHBXcjB8Kf8dkUrNt3is7vX7feGyWRhXwdIqNwCeBJTUq5fHN1+bW0uEnl7
+ gM+D9hI2sLYjEFLa4mnRKvwMCF4Zq+m3SSuCYhAtqe8ZZsiOdomuU02Vn/nNHarrbJmekACkM
+ VA/uDyQGVDC0mVnJX01xg+GzzCWub2ZBoCCxVlLo0YrYA6ane6sD1Si307Xf9/ipnb7voA/Xc
+ gloBw27FgqyTvmHWlrn9mbacx1NN6qB3vvpc0MHu+FRlLXxlXmcn4sC127M4jKvwob/xDZ7XC
+ r+wfcxHX0R2+3sZnX7ekCc270yQHiZPANhcIQYOxD8ACWpk05cs1V/+gMpTrKRSIV2FmYcRRq
+ Idu9A2sGK/bUZwkGZV28+g7qZ5P8X4j9hh5wzsG+vO+hUjMV1m6sJyMS9IxeLClZhWK8c4iFC
+ DIae33+m9roAFfZnuZk9Oq9IDzXQpjg6dp2UsAsTqCeI+OsCkQNn0O/BQupZPqVX3zQTbvUqs
+ c0GHdWF2ARvRJLk92OlzxnPGndO4JLWAYpPY78V8pvq8VF4gzWFTEQKAOgDdqGJnnaBOK3wtg
+ f37PWlvimRL2XMMqO0liD5AlGura+nhxKyeVi39dVOHo//aiWN72JVY4AV19gHllRbtgvnwrI
+ ns/pIqwpW6+svuVWUTb3AKQf4xq40TwuvuGmEZHavXolt5DgK4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,82 +52,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- stable@vger.kernel.org, Daniel Vetter <daniel.vetter@intel.com>,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Enrico Weigelt <info@metux.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hlbiBkb2luZyBhbiBhdG9taWMgbW9kZXNldCB3aXRoIEFMTE9XX01PREVTRVQgZHJpdmVycyBh
-cmUgYWxsb3dlZCB0bwpwdWxsIGluIGFyYml0cmFyeSBvdGhlciByZXNvdXJjZXMsIGluY2x1ZGlu
-ZyBDUlRDcyAoZS5nLiB3aGVuCnJlY29uZmlndXJpbmcgZ2xvYmFsIHJlc291cmNlcykuCgpCdXQg
-aW4gbm9uYmxvY2tpbmcgbW9kZSB1c2Vyc3BhY2UgaGFzIHRoZW4gbm8gaWRlYSB0aGlzIGhhcHBl
-bmVkLAp3aGljaCBjYW4gbGVhZCB0byBzcHVyaW91cyBFQlVTWSBjYWxscywgYm90aDoKLSB3aGVu
-IHRoYXQgb3RoZXIgQ1JUQyBpcyBjdXJyZW50bHkgYnVzeSBkb2luZyBhIHBhZ2VfZmxpcCB0aGUK
-ICBBTExPV19NT0RFU0VUIGNvbW1pdCBjYW4gZmFpbCB3aXRoIGFuIEVCVVNZCi0gb24gdGhlIG90
-aGVyIENSVEMgYSBub3JtYWwgYXRvbWljIGZsaXAgY2FuIGZhaWwgd2l0aCBFQlVTWSBiZWNhdXNl
-CiAgb2YgdGhlIGFkZGl0aW9uYWwgY29tbWl0IGluc2VydGVkIGJ5IHRoZSBrZXJuZWwgd2l0aG91
-dCB1c2Vyc3BhY2UncwogIGtub3dsZWRnZQoKRm9yIGJsb2NraW5nIGNvbW1pdHMgdGhpcyBpc24n
-dCBhIHByb2JsZW0sIGJlY2F1c2UgZXZlcnlvbmUgZWxzZSB3aWxsCmp1c3QgYmxvY2sgdW50aWwg
-YWxsIHRoZSBDUlRDIGFyZSByZWNvbmZpZ3VyZWQuIE9ubHkgdGhpbmcgdXNlcnNwYWNlCmNhbiBu
-b3RpY2UgaXMgdGhlIGRyb3BwZWQgZnJhbWVzIHdpdGhvdXQgYW55IHJlYXNvbiBmb3Igd2h5IGZy
-YW1lcyBnb3QKZHJvcHBlZC4KCkNvbnNlbnN1cyBpcyB0aGF0IHdlIG5lZWQgbmV3IHVhcGkgdG8g
-aGFuZGxlIHRoaXMgcHJvcGVybHksIGJ1dCBubyBvbmUKaGFzIGFueSBpZGVhIHdoYXQgZXhhY3Rs
-eSB0aGUgbmV3IHVhcGkgc2hvdWxkIGxvb2sgbGlrZS4gQXMgYSBzdG9wLWdhcApwbHVnIHRoaXMg
-cHJvYmxlbSBieSBkZW1vdGluZyBub25ibG9ja2luZyBjb21taXRzIHdoaWNoIG1pZ2h0IGNhdXNl
-Cmlzc3VlcyBieSBpbmNsdWRpbmcgQ1JUQ3Mgbm90IGluIHRoZSBvcmlnaW5hbCByZXF1ZXN0IHRv
-IGJsb2NraW5nCmNvbW1pdHMuCgp2MjogQWRkIGNvbW1lbnRzIGFuZCBhIFdBUk5fT04gdG8gZW5m
-b3JjZSB0aGlzIG9ubHkgd2hlbiBhbGxvd2VkIC0gd2UKZG9uJ3Qgd2FudCB0byBzaWxlbnRseSBj
-b252ZXJ0IHBhZ2UgZmxpcHMgaW50byBibG9ja2luZyBwbGFuZSB1cGRhdGVzCmp1c3QgYmVjYXVz
-ZSB0aGUgZHJpdmVyIGlzIGJ1Z2d5LgoKdjM6IEZpeCBpbnZlcnRlZCBXQVJOX09OIChQZWtrYSku
-CgpSZWZlcmVuY2VzOiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmkt
-ZGV2ZWwvMjAxOC1KdWx5LzE4MjI4MS5odG1sCkJ1Z3ppbGxhOiBodHRwczovL2dpdGxhYi5mcmVl
-ZGVza3RvcC5vcmcvd2F5bGFuZC93ZXN0b24vaXNzdWVzLzI0I25vdGVfOTU2OApDYzogRGFuaWVs
-IFN0b25lIDxkYW5pZWxAZm9vaXNoYmFyLm9yZz4KQ2M6IFBla2thIFBhYWxhbmVuIDxwZWtrYS5w
-YWFsYW5lbkBjb2xsYWJvcmEuY28udWs+CkNjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnClJldmll
-d2VkLWJ5OiBEYW5pZWwgU3RvbmUgPGRhbmllbHNAY29sbGFib3JhLmNvbT4KQ2M6IFZpbGxlIFN5
-cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+ClNpZ25lZC1vZmYtYnk6IERh
-bmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgotLQpSZXNlbmRpbmcgYmVjYXVz
-ZSBsYXN0IGF0dGVtcHQgZmFpbGVkIENJIGFuZCBtZWFud2hpbGUgdGhlIHJlc3VsdHMgYXJlCmxv
-c3QgOi0vCi1EYW5pZWwKLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jIHwgMzQgKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLQogMSBmaWxlIGNoYW5nZWQsIDMxIGluc2Vy
-dGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9hdG9taWMuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljLmMKaW5kZXggOTY1MTczZmQw
-YWMyLi40ZjE0MGZmNmZiOTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWlj
-LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWMuYwpAQCAtMTM2MiwxNSArMTM2Miw0
-MyBAQCBFWFBPUlRfU1lNQk9MKGRybV9hdG9taWNfY29tbWl0KTsKIGludCBkcm1fYXRvbWljX25v
-bmJsb2NraW5nX2NvbW1pdChzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpCiB7CiAJc3Ry
-dWN0IGRybV9tb2RlX2NvbmZpZyAqY29uZmlnID0gJnN0YXRlLT5kZXYtPm1vZGVfY29uZmlnOwot
-CWludCByZXQ7CisJdW5zaWduZWQgcmVxdWVzdGVkX2NydGMgPSAwOworCXVuc2lnbmVkIGFmZmVj
-dGVkX2NydGMgPSAwOworCXN0cnVjdCBkcm1fY3J0YyAqY3J0YzsKKwlzdHJ1Y3QgZHJtX2NydGNf
-c3RhdGUgKmNydGNfc3RhdGU7CisJYm9vbCBub25ibG9ja2luZyA9IHRydWU7CisJaW50IHJldCwg
-aTsKKworCS8qCisJICogRm9yIGNvbW1pdHMgdGhhdCBhbGxvdyBtb2Rlc2V0cyBkcml2ZXJzIGNh
-biBhZGQgb3RoZXIgQ1JUQ3MgdG8gdGhlCisJICogYXRvbWljIGNvbW1pdCwgZS5nLiB3aGVuIHRo
-ZXkgbmVlZCB0byByZWFsbG9jYXRlIGdsb2JhbCByZXNvdXJjZXMuCisJICoKKwkgKiBCdXQgd2hl
-biB1c2Vyc3BhY2UgYWxzbyByZXF1ZXN0cyBhIG5vbmJsb2NraW5nIGNvbW1pdCB0aGVuIHVzZXJz
-cGFjZQorCSAqIGNhbm5vdCBrbm93IHRoYXQgdGhlIGNvbW1pdCBhZmZlY3RzIG90aGVyIENSVENz
-LCB3aGljaCBjYW4gcmVzdWx0IGluCisJICogc3B1cmlvdXMgRUJVU1kgZmFpbHVyZXMuIFVudGls
-IHdlIGhhdmUgYmV0dGVyIHVhcGkgcGx1ZyB0aGlzIGJ5CisJICogZGVtb3Rpbmcgc3VjaCBjb21t
-aXRzIHRvIGJsb2NraW5nIG1vZGUuCisJICovCisJZm9yX2VhY2hfbmV3X2NydGNfaW5fc3RhdGUo
-c3RhdGUsIGNydGMsIGNydGNfc3RhdGUsIGkpCisJCXJlcXVlc3RlZF9jcnRjIHw9IGRybV9jcnRj
-X21hc2soY3J0Yyk7CiAKIAlyZXQgPSBkcm1fYXRvbWljX2NoZWNrX29ubHkoc3RhdGUpOwogCWlm
-IChyZXQpCiAJCXJldHVybiByZXQ7CiAKLQlEUk1fREVCVUdfQVRPTUlDKCJjb21taXR0aW5nICVw
-IG5vbmJsb2NraW5nXG4iLCBzdGF0ZSk7CisJZm9yX2VhY2hfbmV3X2NydGNfaW5fc3RhdGUoc3Rh
-dGUsIGNydGMsIGNydGNfc3RhdGUsIGkpCisJCWFmZmVjdGVkX2NydGMgfD0gZHJtX2NydGNfbWFz
-ayhjcnRjKTsKKworCWlmIChhZmZlY3RlZF9jcnRjICE9IHJlcXVlc3RlZF9jcnRjKSB7CisJCS8q
-IGFkZGluZyBvdGhlciBDUlRDIGlzIG9ubHkgYWxsb3dlZCBmb3IgbW9kZXNldCBjb21taXRzICov
-CisJCVdBUk5fT04oIXN0YXRlLT5hbGxvd19tb2Rlc2V0KTsKKworCQlEUk1fREVCVUdfQVRPTUlD
-KCJkZW1vdGluZyAlcCB0byBibG9ja2luZyBtb2RlIHRvIGF2b2lkIEVCVVNZXG4iLCBzdGF0ZSk7
-CisJCW5vbmJsb2NraW5nID0gZmFsc2U7CisJfSBlbHNlIHsKKwkJRFJNX0RFQlVHX0FUT01JQygi
-Y29tbWl0dGluZyAlcCBub25ibG9ja2luZ1xuIiwgc3RhdGUpOworCX0KIAotCXJldHVybiBjb25m
-aWctPmZ1bmNzLT5hdG9taWNfY29tbWl0KHN0YXRlLT5kZXYsIHN0YXRlLCB0cnVlKTsKKwlyZXR1
-cm4gY29uZmlnLT5mdW5jcy0+YXRvbWljX2NvbW1pdChzdGF0ZS0+ZGV2LCBzdGF0ZSwgbm9uYmxv
-Y2tpbmcpOwogfQogRVhQT1JUX1NZTUJPTChkcm1fYXRvbWljX25vbmJsb2NraW5nX2NvbW1pdCk7
-CiAKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+The arm64 gcc-9 release warns about a change in the calling
+conventions:
+
+drivers/video/fbdev/mx3fb.c: In function 'sdc_init_panel':
+drivers/video/fbdev/mx3fb.c:506:12: note: parameter passing for argument of type 'struct ipu_di_signal_cfg' changed in GCC 9.1
+  506 | static int sdc_init_panel(struct mx3fb_data *mx3fb, enum ipu_panel panel,
+      |            ^~~~~~~~~~~~~~
+drivers/video/fbdev/mx3fb.c: In function '__set_par':
+drivers/video/fbdev/mx3fb.c:848:7: note: parameter passing for argument of type 'struct ipu_di_signal_cfg' changed in GCC 9.1
+
+Change the file to just pass the struct by reference, which is
+unambiguous and avoids the warning.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/video/fbdev/mx3fb.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/video/fbdev/mx3fb.c b/drivers/video/fbdev/mx3fb.c
+index 4af28e4421e5..e13fea3a292f 100644
+--- a/drivers/video/fbdev/mx3fb.c
++++ b/drivers/video/fbdev/mx3fb.c
+@@ -509,7 +509,7 @@ static int sdc_init_panel(struct mx3fb_data *mx3fb, enum ipu_panel panel,
+ 			  uint16_t h_start_width, uint16_t h_sync_width,
+ 			  uint16_t h_end_width, uint16_t v_start_width,
+ 			  uint16_t v_sync_width, uint16_t v_end_width,
+-			  struct ipu_di_signal_cfg sig)
++			  struct ipu_di_signal_cfg *sig)
+ {
+ 	unsigned long lock_flags;
+ 	uint32_t reg;
+@@ -591,17 +591,17 @@ static int sdc_init_panel(struct mx3fb_data *mx3fb, enum ipu_panel panel,
+ 
+ 	/* DI settings */
+ 	old_conf = mx3fb_read_reg(mx3fb, DI_DISP_IF_CONF) & 0x78FFFFFF;
+-	old_conf |= sig.datamask_en << DI_D3_DATAMSK_SHIFT |
+-		sig.clksel_en << DI_D3_CLK_SEL_SHIFT |
+-		sig.clkidle_en << DI_D3_CLK_IDLE_SHIFT;
++	old_conf |= sig->datamask_en << DI_D3_DATAMSK_SHIFT |
++		sig->clksel_en << DI_D3_CLK_SEL_SHIFT |
++		sig->clkidle_en << DI_D3_CLK_IDLE_SHIFT;
+ 	mx3fb_write_reg(mx3fb, old_conf, DI_DISP_IF_CONF);
+ 
+ 	old_conf = mx3fb_read_reg(mx3fb, DI_DISP_SIG_POL) & 0xE0FFFFFF;
+-	old_conf |= sig.data_pol << DI_D3_DATA_POL_SHIFT |
+-		sig.clk_pol << DI_D3_CLK_POL_SHIFT |
+-		sig.enable_pol << DI_D3_DRDY_SHARP_POL_SHIFT |
+-		sig.Hsync_pol << DI_D3_HSYNC_POL_SHIFT |
+-		sig.Vsync_pol << DI_D3_VSYNC_POL_SHIFT;
++	old_conf |= sig->data_pol << DI_D3_DATA_POL_SHIFT |
++		sig->clk_pol << DI_D3_CLK_POL_SHIFT |
++		sig->enable_pol << DI_D3_DRDY_SHARP_POL_SHIFT |
++		sig->Hsync_pol << DI_D3_HSYNC_POL_SHIFT |
++		sig->Vsync_pol << DI_D3_VSYNC_POL_SHIFT;
+ 	mx3fb_write_reg(mx3fb, old_conf, DI_DISP_SIG_POL);
+ 
+ 	map = &di_mappings[mx3fb->disp_data_fmt];
+@@ -855,7 +855,7 @@ static int __set_par(struct fb_info *fbi, bool lock)
+ 				   fbi->var.upper_margin,
+ 				   fbi->var.vsync_len,
+ 				   fbi->var.lower_margin +
+-				   fbi->var.vsync_len, sig_cfg) != 0) {
++				   fbi->var.vsync_len, &sig_cfg) != 0) {
+ 			dev_err(fbi->device,
+ 				"mx3fb: Error initializing panel.\n");
+ 			return -EINVAL;
+-- 
+2.26.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
