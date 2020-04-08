@@ -2,192 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CCC1A3021
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFEF1A2718
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 18:24:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE3F16EB6A;
-	Thu,  9 Apr 2020 07:33:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2C66EA9D;
+	Wed,  8 Apr 2020 16:24:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
- [149.117.73.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4B5E6EA9E
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 16:22:22 +0000 (UTC)
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com
- [10.192.0.18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 741B040676;
- Wed,  8 Apr 2020 16:22:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1586362942; bh=l9sBrvrvegRKI9SUcUF/EwgfFTINGmPIkIT0DDuwJCw=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=C1mvJ/tHmANfHFcqhGvEddkcsG5+fHSlnGMlOlXxRkG6g7ilfF2Tn+xXu7Iv36gf9
- LiRKDVRxfLyK8ZUYSmeajVMFnhhCxIsPxoIdJgLTjpOdgfCvVNIbfRrhq/OziET4ou
- soLfi+rxWTte6RlksAdo5Dl1I2QQEohN/1DpWHhiwsqSUI6gW1nWwDofVIYEEnHe/i
- FlrBmU1k0CDFSzu+Hit7EKgGcfJitZsTZnj/bZeR/vgyLzGjaXSnJ7FY9qSnT/Mc73
- AgVy+OQ+Cft1j9EJcPGOf+TlY+itgE87CYgFrAjWVdRy9OAlC/yFJ8KcyDCle8IpEe
- 1aHYH+gx1zYvQ==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 10A12A006B;
- Wed,  8 Apr 2020 16:22:17 +0000 (UTC)
-Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Wed, 8 Apr 2020 09:22:17 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Wed, 8 Apr 2020 09:22:17 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D2JWZWK/ovm6s9Jbyc72aRYGEEBBABlrb592fj/KvgrG5rGTjIZOJ17AuhMcjPRiK+eHoWbfeTECpc4x+sKEG+I7q3lAT55tUgQJGyVV4wFAS/gb3TFfaFvh4HBIvSEV59srrZ/P2gWY2RTaQ6S+gZggl/koODiIa26yD40zSuCe2006RSx8PhRYViRZDqZfUw70OyA8yJMP4pHLcKGwiTViZQSDpYwi9veQo+vcZgu3F67GZ02Ob5C/gSyqaZjk4y8vJfq1yLWJ7d5GRmmh6yEUt+AUF6SdxW5ru4OpXFFGcrjHxj3TNpx/cH09UnKL/Q5EQcCkuY1xAQGpe9D2zA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HqEyPD3Zuf5UDS0a4jJPqSwDkuUp9+ePd4R3LGkqm/A=;
- b=QMal0Y1+A++X659UxogEEMqhRH72brojgHFoQTs8H/VQFTMexGCNHHjxzwP53gPe3t3EcHHzVZUruUu5AZ1m3G+XS1K3r5wLsXjyiGcXWV3lgV2sfLbSsYluHQ0AsGWtwyyFPsSqtojaGW4V84Y4y0iYUlVdBLC+enoVjGmDoEOzcUnyHdhGa/aOiipxZ181sADchsgG5xxfuJnRtmPXiPZe87Bgu/K8mhFgo+SYXSaqxiY0guiOszZyiFrZnp0B2qvmZ+oJwjbMy6RqYgQXcOsm6ec/3YARe/UotaFctUAjfLDAjiCwlUGk/srQU7lPzeW5/+cNHo0iqSTqKDMEBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HqEyPD3Zuf5UDS0a4jJPqSwDkuUp9+ePd4R3LGkqm/A=;
- b=PrXmRgO35/s0ktKBhP1Tn50X+lWxrnT5/vRiJzItRkxi6VmhxUy9Ve7RCAfF+qfFd5fRRq0UeKxR5zgek7lrn3AGYG3pj+1W5nWxEVVfR/MkZqO0Q8ZgZU5Tr5NalcY0srNxKRrRVGqDweNgkYH4C/Dk8uu2TmfI5jXH5CNEZSQ=
-Received: from CH2PR12MB3782.namprd12.prod.outlook.com (2603:10b6:610:23::28)
- by CH2PR12MB4327.namprd12.prod.outlook.com (2603:10b6:610:7d::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15; Wed, 8 Apr
- 2020 16:22:15 +0000
-Received: from CH2PR12MB3782.namprd12.prod.outlook.com
- ([fe80::98c8:5bfd:ae23:37cf]) by CH2PR12MB3782.namprd12.prod.outlook.com
- ([fe80::98c8:5bfd:ae23:37cf%7]) with mapi id 15.20.2878.022; Wed, 8 Apr 2020
- 16:22:15 +0000
-From: Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: RE: [PATCH v2 3/4] drm: ipk: Add extensions for DW MIPI DSI Host
- driver
-Thread-Topic: [PATCH v2 3/4] drm: ipk: Add extensions for DW MIPI DSI Host
- driver
-Thread-Index: AQHWDBbMvXG/yV0ow0quQOwBbF95eaht8kqAgAF258A=
-Date: Wed, 8 Apr 2020 16:22:15 +0000
-Message-ID: <CH2PR12MB37826C649EB8C3065722F032CBC00@CH2PR12MB3782.namprd12.prod.outlook.com>
-References: <cover.1586174459.git.angelo.ribeiro@synopsys.com>
- <8b63a8390bbc0e81d01540648da7e6b03b8577fa.1586174459.git.angelo.ribeiro@synopsys.com>
- <20200407175159.GB6356@ravnborg.org>
-In-Reply-To: <20200407175159.GB6356@ravnborg.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYW5nZWxvclxh?=
- =?us-ascii?Q?cHBkYXRhXHJvYW1pbmdcMDlkODQ5YjYtMzJkMy00YTQwLTg1ZWUtNmI4NGJh?=
- =?us-ascii?Q?MjllMzViXG1zZ3NcbXNnLTE5YjZmODk4LTc5YjUtMTFlYS05ZDcwLWZjNzc3?=
- =?us-ascii?Q?NGVlZGMyZVxhbWUtdGVzdFwxOWI2Zjg5OS03OWI1LTExZWEtOWQ3MC1mYzc3?=
- =?us-ascii?Q?NzRlZWRjMmVib2R5LnR4dCIgc3o9IjMzMjAiIHQ9IjEzMjMwODM2NTMzMDI1?=
- =?us-ascii?Q?MjI3NyIgaD0ia0JrTWF4bURQanNRM1dxd0VVMUg2K2pNYjRrPSIgaWQ9IiIg?=
- =?us-ascii?Q?Ymw9IjAiIGJvPSIxIiBjaT0iY0FBQUFFUkhVMVJTUlVGTkNnVUFBQlFKQUFE?=
- =?us-ascii?Q?MWdWTGN3UTNXQVMxbEcvL3lrQ1JzTFdVYi8vS1FKR3dPQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUhBQUFBQ2tDQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUVBQVFBQkFBQUFveW5uNlFBQUFBQUFBQUFBQUFBQUFKNEFBQUJtQUdrQWJn?=
- =?us-ascii?Q?QmhBRzRBWXdCbEFGOEFjQUJzQUdFQWJnQnVBR2tBYmdCbkFGOEFkd0JoQUhR?=
- =?us-ascii?Q?QVpRQnlBRzBBWVFCeUFHc0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?RUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHWUFid0IxQUc0QVpBQnlBSGtBWHdC?=
- =?us-ascii?Q?d0FHRUFjZ0IwQUc0QVpRQnlBSE1BWHdCbkFHWUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFDQUFB?=
- =?us-ascii?Q?QUFBQ2VBQUFBWmdCdkFIVUFiZ0JrQUhJQWVRQmZBSEFBWVFCeUFIUUFiZ0Js?=
- =?us-ascii?Q?QUhJQWN3QmZBSE1BWVFCdEFITUFkUUJ1QUdjQVh3QmpBRzhBYmdCbUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQm1BRzhB?=
- =?us-ascii?Q?ZFFCdUFHUUFjZ0I1QUY4QWNBQmhBSElBZEFCdUFHVUFjZ0J6QUY4QWN3QmhB?=
- =?us-ascii?Q?RzBBY3dCMUFHNEFad0JmQUhJQVpRQnpBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdZQWJ3QjFBRzRBWkFCeUFIa0FY?=
- =?us-ascii?Q?d0J3QUdFQWNnQjBBRzRBWlFCeUFITUFYd0J6QUcwQWFRQmpBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUNB?=
- =?us-ascii?Q?QUFBQUFDZUFBQUFaZ0J2QUhVQWJnQmtBSElBZVFCZkFIQUFZUUJ5QUhRQWJn?=
- =?us-ascii?Q?QmxBSElBY3dCZkFITUFkQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFCbUFH?=
- =?us-ascii?Q?OEFkUUJ1QUdRQWNnQjVBRjhBY0FCaEFISUFkQUJ1QUdVQWNnQnpBRjhBZEFC?=
- =?us-ascii?Q?ekFHMEFZd0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR1lBYndCMUFHNEFaQUJ5QUhr?=
- =?us-ascii?Q?QVh3QndBR0VBY2dCMEFHNEFaUUJ5QUhNQVh3QjFBRzBBWXdBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFB?=
- =?us-ascii?Q?Q0FBQUFBQUNlQUFBQVp3QjBBSE1BWHdCd0FISUFid0JrQUhVQVl3QjBBRjhB?=
- =?us-ascii?Q?ZEFCeUFHRUFhUUJ1QUdrQWJnQm5BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJ6?=
- =?us-ascii?Q?QUdFQWJBQmxBSE1BWHdCaEFHTUFZd0J2QUhVQWJnQjBBRjhBY0FCc0FHRUFi?=
- =?us-ascii?Q?Z0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFITUFZUUJzQUdVQWN3QmZB?=
- =?us-ascii?Q?SEVBZFFCdkFIUUFaUUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFB?=
- =?us-ascii?Q?QUFDQUFBQUFBQ2VBQUFBY3dCdUFIQUFjd0JmQUd3QWFRQmpBR1VBYmdCekFH?=
- =?us-ascii?Q?VUFYd0IwQUdVQWNnQnRBRjhBTVFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFB?=
- =?us-ascii?Q?QnpBRzRBY0FCekFGOEFiQUJwQUdNQVpRQnVBSE1BWlFCZkFIUUFaUUJ5QUcw?=
- =?us-ascii?Q?QVh3QnpBSFFBZFFCa0FHVUFiZ0IwQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUhZQVp3QmZBR3NBWlFC?=
- =?us-ascii?Q?NUFIY0Fid0J5QUdRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFB?=
- =?us-ascii?Q?QUFBQUNBQUFBQUFBPSIvPjwvbWV0YT4=3D?=
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=angelor@synopsys.com; 
-x-originating-ip: [95.136.124.74]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 87c72ef6-a2d9-49da-4ae0-08d7dbd90062
-x-ms-traffictypediagnostic: CH2PR12MB4327:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CH2PR12MB4327FCE0C1C59A8CE50AEE27CBC00@CH2PR12MB4327.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 0367A50BB1
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3782.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(366004)(396003)(376002)(346002)(39860400002)(136003)(316002)(186003)(2906002)(6506007)(54906003)(26005)(7696005)(71200400001)(8676002)(55016002)(9686003)(86362001)(107886003)(81166007)(4326008)(81156014)(52536014)(5660300002)(6916009)(8936002)(33656002)(478600001)(76116006)(66446008)(66946007)(66476007)(66556008)(64756008);
- DIR:OUT; SFP:1102; 
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0jRsTazwNf210tGFYj9ztlumMo83wI81HfgALBhREtc583LyTnRcunPdoda50b+2jaX7OePIY0RO5MOjp9P4Wwj2V6YrRJomkVs10Re4RL2ZxILT2hJyzja7fQXfQn1ZfsARvPBlVi5VrNA9ld7mUup0prPYREvNNukwUaiJHuNi3Mpm3izVJGip0vIk4WYlp52Cieen0AADCHQO2/+5X0ShunaARqeUB0LanBD1n7u3atTpVafrcDU4rVinA4h1c/e8m4DUoC3kzMXNWieJtA3ks01/OE1usg+Eaag4EIV83HPSu++OFBDQ1w47sYpRZwNhqv+kig+GwWqwDkiJ++GSA2Lel5O7kknW4vgeBxZlsRfG2LO/O1p7ImCARMexQYpuma18nAtx8vS0zqVVAQZdMaMF5wmbe83+WrMRzAhO/OYWgPuzg1oR4pcbLKLL
-x-ms-exchange-antispam-messagedata: ztahJxkxdK73meqkCZdmQXMuI9PyabA+sgwjkR5WYNdymaFeqKOc7IyVaOjAZUBPRMHL6UcdgKJqZILN0vls7MP2vrYWPcfYneyOTU72VbGWoxcK/Uf25LplJpzgjklpqGiB+vG5GizTAm1o2SxSFg==
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60AD96EA96
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 16:24:11 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id h2so44239wmb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 09:24:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=o1wXXAbri86QChEa50j3H0JwCub+mO1ccJpn2usVHv0=;
+ b=HYp5Bq75xxTmKkQ+MwniWHFEFiXu9DoFPzIjKWs0sTP35Z4+14iO0Ez2Itb5g6Yzf4
+ gGIW60ImXzKzNMVCeZNeLLmoYyzc/2bSB490taxtJsRyvN1rr5hsDcDs/Kxz6UI/Zg/g
+ PLn57TkhnsaZH3nq26pN7Agbq8A8eE+yjcgoU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=o1wXXAbri86QChEa50j3H0JwCub+mO1ccJpn2usVHv0=;
+ b=tlqnz58avMOZfuGTh5XriNnAqqnTOoW6ua8OsX4ayerN5ZoLhDUrpP8KuL4sMy55m3
+ XJdGH2hMnNenk9Bitf340ACaTIyhXUvigAtt5jf4VVzh6QByxTXhTbRy8ayQW0V1TJHG
+ 4Fb+DwjY7a8v0jc0lenFqhmpWoCy8bvcA+G6Izv3plA17ZyTwGq16pOZOT0cw8bQcI2Y
+ LjqXdC5bjg8NaAWXMMcsS9+5E823bfdLMMZfj7nE4FHqzlpi7K5mrz+nWiLQnHfusA+6
+ VDQQe3JL7VAmvbYqYTdwVQ5GdAh/zkF26WNzBxHTZthn6XET6bvTdCp94fU8PNESuy4i
+ 1TPw==
+X-Gm-Message-State: AGi0Pub2qZea/b2Xebbn3vtkwj2BzPDW2ey/JWJ9EIY/RyqQpYIEJ7O6
+ 4jqDhkll4Cpn16RUZf7aE7WeTbEjbMU=
+X-Google-Smtp-Source: APiQypKz8wOvsiwaQ6yZhKkaOvbAB1KfIjZ7OheWj1K9qwQtTAOpdj5ga9Ksu7zXCCdYCbGmsA9ZIg==
+X-Received: by 2002:a1c:7ed0:: with SMTP id z199mr5427573wmc.60.1586363049729; 
+ Wed, 08 Apr 2020 09:24:09 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m15sm47369wmc.35.2020.04.08.09.24.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Apr 2020 09:24:08 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm: avoid spurious EBUSY due to nonblocking atomic modesets
+Date: Wed,  8 Apr 2020 18:24:03 +0200
+Message-Id: <20200408162403.3616785-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87c72ef6-a2d9-49da-4ae0-08d7dbd90062
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2020 16:22:15.4803 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JpFdtwi70z1ODfXF17mPbyHuflaZHc2HQrSKy42bV2Na8ZUzD/PFFflc9Su07Y6wy4QtD5vO5tO55+8g1d+INw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4327
-X-OriginatorOrg: synopsys.com
-X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -200,113 +61,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Joao Pinto <Joao.Pinto@synopsys.com>, "airlied@linux.ie" <airlied@linux.ie>,
- Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Stone <daniels@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ stable@vger.kernel.org, Daniel Vetter <daniel.vetter@intel.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
-
-Thanks for your revision 
-
-Angelo
-
-From: Sam Ravnborg <sam@ravnborg.org>
-Date: Tue, Apr 07, 2020 at 18:51:59
-
-> Hi Angelo.
-> 
-> One nit below.
-> 
-> 	Sam
-> 
-> On Mon, Apr 06, 2020 at 03:24:13PM +0200, Angelo Ribeiro wrote:
-> > Add Synopsys DesignWare IPK specific extensions for Synopsys DesignWare
-> > MIPI DSI Host driver.
-> > 
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> > Cc: Joao Pinto <jpinto@synopsys.com>
-> > Signed-off-by: Angelo Ribeiro <angelo.ribeiro@synopsys.com>
-> > ---
-> >  drivers/gpu/drm/ipk/Kconfig           |   9 +
-> >  drivers/gpu/drm/ipk/Makefile          |   2 +
-> >  drivers/gpu/drm/ipk/dw-mipi-dsi-ipk.c | 556 ++++++++++++++++++++++++++++++++++
-> >  3 files changed, 567 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/ipk/dw-mipi-dsi-ipk.c
-> > 
-> > diff --git a/drivers/gpu/drm/ipk/Kconfig b/drivers/gpu/drm/ipk/Kconfig
-> > index 1f87444..49819e5 100644
-> > --- a/drivers/gpu/drm/ipk/Kconfig
-> > +++ b/drivers/gpu/drm/ipk/Kconfig
-> > @@ -11,3 +11,12 @@ config DRM_IPK
-> >  	  Enable support for the Synopsys DesignWare DRM DSI.
-> >  	  To compile this driver as a module, choose M here: the module
-> >  	  will be called ipk-drm.
-> > +
-> > +config DRM_IPK_DSI
-> > +	tristate "Synopsys DesignWare IPK specific extensions for MIPI DSI"
-> > +	depends on DRM_IPK
-> > +	select DRM_DW_MIPI_DSI
-> > +	help
-> > +	  Choose this option for Synopsys DesignWare IPK MIPI DSI support.
-> > +	  To compile this driver as a module, choose M here: the module
-> > +	  will be called dw-mipi-dsi-ipk.
-> > diff --git a/drivers/gpu/drm/ipk/Makefile b/drivers/gpu/drm/ipk/Makefile
-> > index 51d2774..c80503f 100644
-> > --- a/drivers/gpu/drm/ipk/Makefile
-> > +++ b/drivers/gpu/drm/ipk/Makefile
-> > @@ -4,3 +4,5 @@ ipk-drm-y := \
-> >  	dw-vpg.o
-> >  
-> >  obj-$(CONFIG_DRM_IPK) += ipk-drm.o
-> > +
-> > +obj-$(CONFIG_DRM_IPK_DSI) += dw-mipi-dsi-ipk.o
-> > diff --git a/drivers/gpu/drm/ipk/dw-mipi-dsi-ipk.c b/drivers/gpu/drm/ipk/dw-mipi-dsi-ipk.c
-> > new file mode 100644
-> > index 0000000..070eccb
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/ipk/dw-mipi-dsi-ipk.c
-> > @@ -0,0 +1,556 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (c) 2019-2020 Synopsys, Inc. and/or its affiliates.
-> > + * Synopsys DesignWare MIPI DSI solution driver
-> > + *
-> > + * Author: Angelo Ribeiro <angelo.ribeiro@synopsys.com>
-> > + * Author: Luis Oliveira <luis.oliveira@synopsys.com>
-> > + */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/iopoll.h>
-> > +#include <linux/module.h>
-> > +#include <drm/drm_mipi_dsi.h>
-> > +#include <drm/bridge/dw_mipi_dsi.h>
-> > +#include <video/mipi_display.h>
-> > +#include <linux/of.h>
-> > +#include <linux/platform_device.h>
-> > +
-> > +#include <drm/drm_crtc.h>
-> > +#include <drm/drm_device.h>
-> > +#include <drm/drm_print.h>
-> Same rant as in previous mail about include file.
-> 
-> 
-> Rest of the driver looked good while quickly browsing the code.
-> 
-> 	Sam
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+V2hlbiBkb2luZyBhbiBhdG9taWMgbW9kZXNldCB3aXRoIEFMTE9XX01PREVTRVQgZHJpdmVycyBh
+cmUgYWxsb3dlZCB0bwpwdWxsIGluIGFyYml0cmFyeSBvdGhlciByZXNvdXJjZXMsIGluY2x1ZGlu
+ZyBDUlRDcyAoZS5nLiB3aGVuCnJlY29uZmlndXJpbmcgZ2xvYmFsIHJlc291cmNlcykuCgpCdXQg
+aW4gbm9uYmxvY2tpbmcgbW9kZSB1c2Vyc3BhY2UgaGFzIHRoZW4gbm8gaWRlYSB0aGlzIGhhcHBl
+bmVkLAp3aGljaCBjYW4gbGVhZCB0byBzcHVyaW91cyBFQlVTWSBjYWxscywgYm90aDoKLSB3aGVu
+IHRoYXQgb3RoZXIgQ1JUQyBpcyBjdXJyZW50bHkgYnVzeSBkb2luZyBhIHBhZ2VfZmxpcCB0aGUK
+ICBBTExPV19NT0RFU0VUIGNvbW1pdCBjYW4gZmFpbCB3aXRoIGFuIEVCVVNZCi0gb24gdGhlIG90
+aGVyIENSVEMgYSBub3JtYWwgYXRvbWljIGZsaXAgY2FuIGZhaWwgd2l0aCBFQlVTWSBiZWNhdXNl
+CiAgb2YgdGhlIGFkZGl0aW9uYWwgY29tbWl0IGluc2VydGVkIGJ5IHRoZSBrZXJuZWwgd2l0aG91
+dCB1c2Vyc3BhY2UncwogIGtub3dsZWRnZQoKRm9yIGJsb2NraW5nIGNvbW1pdHMgdGhpcyBpc24n
+dCBhIHByb2JsZW0sIGJlY2F1c2UgZXZlcnlvbmUgZWxzZSB3aWxsCmp1c3QgYmxvY2sgdW50aWwg
+YWxsIHRoZSBDUlRDIGFyZSByZWNvbmZpZ3VyZWQuIE9ubHkgdGhpbmcgdXNlcnNwYWNlCmNhbiBu
+b3RpY2UgaXMgdGhlIGRyb3BwZWQgZnJhbWVzIHdpdGhvdXQgYW55IHJlYXNvbiBmb3Igd2h5IGZy
+YW1lcyBnb3QKZHJvcHBlZC4KCkNvbnNlbnN1cyBpcyB0aGF0IHdlIG5lZWQgbmV3IHVhcGkgdG8g
+aGFuZGxlIHRoaXMgcHJvcGVybHksIGJ1dCBubyBvbmUKaGFzIGFueSBpZGVhIHdoYXQgZXhhY3Rs
+eSB0aGUgbmV3IHVhcGkgc2hvdWxkIGxvb2sgbGlrZS4gQXMgYSBzdG9wLWdhcApwbHVnIHRoaXMg
+cHJvYmxlbSBieSBkZW1vdGluZyBub25ibG9ja2luZyBjb21taXRzIHdoaWNoIG1pZ2h0IGNhdXNl
+Cmlzc3VlcyBieSBpbmNsdWRpbmcgQ1JUQ3Mgbm90IGluIHRoZSBvcmlnaW5hbCByZXF1ZXN0IHRv
+IGJsb2NraW5nCmNvbW1pdHMuCgp2MjogQWRkIGNvbW1lbnRzIGFuZCBhIFdBUk5fT04gdG8gZW5m
+b3JjZSB0aGlzIG9ubHkgd2hlbiBhbGxvd2VkIC0gd2UKZG9uJ3Qgd2FudCB0byBzaWxlbnRseSBj
+b252ZXJ0IHBhZ2UgZmxpcHMgaW50byBibG9ja2luZyBwbGFuZSB1cGRhdGVzCmp1c3QgYmVjYXVz
+ZSB0aGUgZHJpdmVyIGlzIGJ1Z2d5LgoKdjM6IEZpeCBpbnZlcnRlZCBXQVJOX09OIChQZWtrYSku
+CgpSZWZlcmVuY2VzOiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmkt
+ZGV2ZWwvMjAxOC1KdWx5LzE4MjI4MS5odG1sCkJ1Z3ppbGxhOiBodHRwczovL2dpdGxhYi5mcmVl
+ZGVza3RvcC5vcmcvd2F5bGFuZC93ZXN0b24vaXNzdWVzLzI0I25vdGVfOTU2OApDYzogRGFuaWVs
+IFN0b25lIDxkYW5pZWxAZm9vaXNoYmFyLm9yZz4KQ2M6IFBla2thIFBhYWxhbmVuIDxwZWtrYS5w
+YWFsYW5lbkBjb2xsYWJvcmEuY28udWs+CkNjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnClJldmll
+d2VkLWJ5OiBEYW5pZWwgU3RvbmUgPGRhbmllbHNAY29sbGFib3JhLmNvbT4KQ2M6IFZpbGxlIFN5
+cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+ClNpZ25lZC1vZmYtYnk6IERh
+bmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgotLQpSZXNlbmRpbmcgYmVjYXVz
+ZSBsYXN0IGF0dGVtcHQgZmFpbGVkIENJIGFuZCBtZWFud2hpbGUgdGhlIHJlc3VsdHMgYXJlCmxv
+c3QgOi0vCi1EYW5pZWwKLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jIHwgMzQgKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLQogMSBmaWxlIGNoYW5nZWQsIDMxIGluc2Vy
+dGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9hdG9taWMuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljLmMKaW5kZXggOTY1MTczZmQw
+YWMyLi40ZjE0MGZmNmZiOTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWlj
+LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWMuYwpAQCAtMTM2MiwxNSArMTM2Miw0
+MyBAQCBFWFBPUlRfU1lNQk9MKGRybV9hdG9taWNfY29tbWl0KTsKIGludCBkcm1fYXRvbWljX25v
+bmJsb2NraW5nX2NvbW1pdChzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpCiB7CiAJc3Ry
+dWN0IGRybV9tb2RlX2NvbmZpZyAqY29uZmlnID0gJnN0YXRlLT5kZXYtPm1vZGVfY29uZmlnOwot
+CWludCByZXQ7CisJdW5zaWduZWQgcmVxdWVzdGVkX2NydGMgPSAwOworCXVuc2lnbmVkIGFmZmVj
+dGVkX2NydGMgPSAwOworCXN0cnVjdCBkcm1fY3J0YyAqY3J0YzsKKwlzdHJ1Y3QgZHJtX2NydGNf
+c3RhdGUgKmNydGNfc3RhdGU7CisJYm9vbCBub25ibG9ja2luZyA9IHRydWU7CisJaW50IHJldCwg
+aTsKKworCS8qCisJICogRm9yIGNvbW1pdHMgdGhhdCBhbGxvdyBtb2Rlc2V0cyBkcml2ZXJzIGNh
+biBhZGQgb3RoZXIgQ1JUQ3MgdG8gdGhlCisJICogYXRvbWljIGNvbW1pdCwgZS5nLiB3aGVuIHRo
+ZXkgbmVlZCB0byByZWFsbG9jYXRlIGdsb2JhbCByZXNvdXJjZXMuCisJICoKKwkgKiBCdXQgd2hl
+biB1c2Vyc3BhY2UgYWxzbyByZXF1ZXN0cyBhIG5vbmJsb2NraW5nIGNvbW1pdCB0aGVuIHVzZXJz
+cGFjZQorCSAqIGNhbm5vdCBrbm93IHRoYXQgdGhlIGNvbW1pdCBhZmZlY3RzIG90aGVyIENSVENz
+LCB3aGljaCBjYW4gcmVzdWx0IGluCisJICogc3B1cmlvdXMgRUJVU1kgZmFpbHVyZXMuIFVudGls
+IHdlIGhhdmUgYmV0dGVyIHVhcGkgcGx1ZyB0aGlzIGJ5CisJICogZGVtb3Rpbmcgc3VjaCBjb21t
+aXRzIHRvIGJsb2NraW5nIG1vZGUuCisJICovCisJZm9yX2VhY2hfbmV3X2NydGNfaW5fc3RhdGUo
+c3RhdGUsIGNydGMsIGNydGNfc3RhdGUsIGkpCisJCXJlcXVlc3RlZF9jcnRjIHw9IGRybV9jcnRj
+X21hc2soY3J0Yyk7CiAKIAlyZXQgPSBkcm1fYXRvbWljX2NoZWNrX29ubHkoc3RhdGUpOwogCWlm
+IChyZXQpCiAJCXJldHVybiByZXQ7CiAKLQlEUk1fREVCVUdfQVRPTUlDKCJjb21taXR0aW5nICVw
+IG5vbmJsb2NraW5nXG4iLCBzdGF0ZSk7CisJZm9yX2VhY2hfbmV3X2NydGNfaW5fc3RhdGUoc3Rh
+dGUsIGNydGMsIGNydGNfc3RhdGUsIGkpCisJCWFmZmVjdGVkX2NydGMgfD0gZHJtX2NydGNfbWFz
+ayhjcnRjKTsKKworCWlmIChhZmZlY3RlZF9jcnRjICE9IHJlcXVlc3RlZF9jcnRjKSB7CisJCS8q
+IGFkZGluZyBvdGhlciBDUlRDIGlzIG9ubHkgYWxsb3dlZCBmb3IgbW9kZXNldCBjb21taXRzICov
+CisJCVdBUk5fT04oIXN0YXRlLT5hbGxvd19tb2Rlc2V0KTsKKworCQlEUk1fREVCVUdfQVRPTUlD
+KCJkZW1vdGluZyAlcCB0byBibG9ja2luZyBtb2RlIHRvIGF2b2lkIEVCVVNZXG4iLCBzdGF0ZSk7
+CisJCW5vbmJsb2NraW5nID0gZmFsc2U7CisJfSBlbHNlIHsKKwkJRFJNX0RFQlVHX0FUT01JQygi
+Y29tbWl0dGluZyAlcCBub25ibG9ja2luZ1xuIiwgc3RhdGUpOworCX0KIAotCXJldHVybiBjb25m
+aWctPmZ1bmNzLT5hdG9taWNfY29tbWl0KHN0YXRlLT5kZXYsIHN0YXRlLCB0cnVlKTsKKwlyZXR1
+cm4gY29uZmlnLT5mdW5jcy0+YXRvbWljX2NvbW1pdChzdGF0ZS0+ZGV2LCBzdGF0ZSwgbm9uYmxv
+Y2tpbmcpOwogfQogRVhQT1JUX1NZTUJPTChkcm1fYXRvbWljX25vbmJsb2NraW5nX2NvbW1pdCk7
+CiAKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
