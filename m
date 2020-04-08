@@ -2,128 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56BD01A232F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 15:39:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 734971A231F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 15:36:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71CAD6EA61;
-	Wed,  8 Apr 2020 13:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61DD46EA63;
+	Wed,  8 Apr 2020 13:36:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 367 seconds by postgrey-1.36 at gabe;
- Wed, 08 Apr 2020 13:39:44 UTC
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB4F6EA61
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 13:39:44 +0000 (UTC)
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 038DWte0143363
- for <dri-devel@lists.freedesktop.org>; Wed, 8 Apr 2020 09:33:35 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3091ykmq9y-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 09:33:35 -0400
-Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <dri-devel@lists.freedesktop.org> from <borntraeger@de.ibm.com>;
- Wed, 8 Apr 2020 14:33:07 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 8 Apr 2020 14:33:00 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 038DXPaw53543040
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 8 Apr 2020 13:33:25 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 50EA711C050;
- Wed,  8 Apr 2020 13:33:25 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D147211C04C;
- Wed,  8 Apr 2020 13:33:23 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.145.153.96])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed,  8 Apr 2020 13:33:23 +0000 (GMT)
-Subject: Re: [PATCH 27/28] s390: use __vmalloc_node in alloc_vm_stack
-To: Christoph Hellwig <hch@lst.de>, Andrew Morton <akpm@linux-foundation.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Stephen Hemminger <sthemmin@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, x86@kernel.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Laura Abbott <labbott@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Minchan Kim
- <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>
-References: <20200408115926.1467567-1-hch@lst.de>
- <20200408115926.1467567-28-hch@lst.de>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Date: Wed, 8 Apr 2020 15:33:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD5066EA62;
+ Wed,  8 Apr 2020 13:35:59 +0000 (UTC)
+IronPort-SDR: M6r4IyTVbanGIGsJJNCwpTNycE603aIOCK8TaroMROmlN/Yc4oK4KxeEtEv5b11tSYPiZAoQty
+ hpEnNOa8TMiw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2020 06:35:59 -0700
+IronPort-SDR: 8IMh/o7yQaqcc1smZE/LaP58DUG2LoyXbvj9kC6TPiIe0XPdFBacZ18DwYHv367781OLmsPYAY
+ 4g7LOm663dug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,358,1580803200"; d="scan'208";a="361843103"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga001.fm.intel.com with SMTP; 08 Apr 2020 06:35:55 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 08 Apr 2020 16:35:54 +0300
+Date: Wed, 8 Apr 2020 16:35:54 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Bharadiya,Pankaj" <pankaj.laxminarayan.bharadiya@intel.com>
+Subject: Re: [PATCH v3 1/5] drm: Introduce plane and CRTC scaling filter
+ properties
+Message-ID: <20200408133554.GR6112@intel.com>
+References: <20200330183857.13270-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200330183857.13270-2-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200407172802.GJ6112@intel.com>
+ <20200408094726.GA9393@plaxmina-desktop.iind.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200408115926.1467567-28-hch@lst.de>
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 20040813-0016-0000-0000-00000300BF82
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20040813-0017-0000-0000-000033649F52
-Message-Id: <de7703c7-5d0c-51f1-87fa-6ce43ad69f60@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-07_10:2020-04-07,
- 2020-04-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- clxscore=1011 mlxscore=0 suspectscore=0 bulkscore=0 adultscore=0
- phishscore=0 priorityscore=1501 impostorscore=0 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004080113
+Content-Disposition: inline
+In-Reply-To: <20200408094726.GA9393@plaxmina-desktop.iind.intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,47 +54,421 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>, linux-arch@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-s390@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, bpf@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: daniels@collabora.com, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08.04.20 13:59, Christoph Hellwig wrote:
-> alloc_vm_stack can use a slightly higher level vmalloc function.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  arch/powerpc/kernel/irq.c | 5 ++---
+On Wed, Apr 08, 2020 at 03:17:27PM +0530, Bharadiya,Pankaj wrote:
+> On Tue, Apr 07, 2020 at 08:28:02PM +0300, Ville Syrj=E4l=E4 wrote:
+> > On Tue, Mar 31, 2020 at 12:08:53AM +0530, Pankaj Bharadiya wrote:
+> > > Introduce per-plane and per-CRTC scaling filter properties to allow
+> > > userspace to select the driver's default scaling filter or
+> > > Nearest-neighbor(NN) filter for upscaling operations on CRTC and
+> > > plane.
+> > > =
 
-wrong subject (power vs s390)
+> > > Drivers can set up this property for a plane by calling
+> > > drm_plane_create_scaling_filter() and for a CRTC by calling
+> > > drm_crtc_create_scaling_filter().
+> > > =
 
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/powerpc/kernel/irq.c b/arch/powerpc/kernel/irq.c
-> index a25ed47087ee..4518fb1d6bf4 100644
-> --- a/arch/powerpc/kernel/irq.c
-> +++ b/arch/powerpc/kernel/irq.c
-> @@ -735,9 +735,8 @@ void do_IRQ(struct pt_regs *regs)
->  
->  static void *__init alloc_vm_stack(void)
->  {
-> -	return __vmalloc_node_range(THREAD_SIZE, THREAD_ALIGN, VMALLOC_START,
-> -				    VMALLOC_END, THREADINFO_GFP, PAGE_KERNEL,
-> -				     0, NUMA_NO_NODE, (void*)_RET_IP_);
-> +	return __vmalloc_node(THREAD_SIZE, THREAD_ALIGN, THREADINFO_GFP,
-> +			      NUMA_NO_NODE, (void *)_RET_IP_);
+> > > NN filter works by filling in the missing color values in the upscaled
+> > > image with that of the coordinate-mapped nearest source pixel value.
+> > > =
+
+> > > NN filter for integer multiple scaling can be particularly useful for
+> > > for pixel art games that rely on sharp, blocky images to deliver their
+> > > distinctive look.
+> > > =
+
+> > > changes since v2:
+> > > * Create per-plane and per-CRTC scaling filter property (Ville)
+> > > changes since v1:
+> > > * None
+> > > changes since RFC:
+> > > * Add separate properties for plane and CRTC (Ville)
+> > > =
+
+> > > Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.=
+com>
+> > > ---
+> > >  drivers/gpu/drm/drm_atomic_uapi.c |  8 ++++
+> > >  drivers/gpu/drm/drm_crtc.c        | 78 +++++++++++++++++++++++++++++=
+++
+> > >  drivers/gpu/drm/drm_plane.c       | 78 +++++++++++++++++++++++++++++=
+++
+> > >  include/drm/drm_crtc.h            | 16 +++++++
+> > >  include/drm/drm_plane.h           | 21 +++++++++
+> > >  5 files changed, 201 insertions(+)
+> > > =
+
+> > > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_=
+atomic_uapi.c
+> > > index a1e5e262bae2..ac7dabbf0bcf 100644
+> > > --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> > > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> > > @@ -469,6 +469,8 @@ static int drm_atomic_crtc_set_property(struct dr=
+m_crtc *crtc,
+> > >  			return -EFAULT;
+> > >  =
+
+> > >  		set_out_fence_for_crtc(state->state, crtc, fence_ptr);
+> > > +	} else if (property =3D=3D crtc->scaling_filter_property) {
+> > > +		state->scaling_filter =3D val;
+> > >  	} else if (crtc->funcs->atomic_set_property) {
+> > >  		return crtc->funcs->atomic_set_property(crtc, state, property, val=
+);
+> > >  	} else {
+> > > @@ -503,6 +505,8 @@ drm_atomic_crtc_get_property(struct drm_crtc *crt=
+c,
+> > >  		*val =3D (state->gamma_lut) ? state->gamma_lut->base.id : 0;
+> > >  	else if (property =3D=3D config->prop_out_fence_ptr)
+> > >  		*val =3D 0;
+> > > +	else if (property =3D=3D crtc->scaling_filter_property)
+> > =
+
+> > Random side observation: Why do we have two different styles to naming
+> > these things (prop_foo vs. foo_property)? Would be nice to unify this
+> > one way or the other.
+> =
+
+> Need to handle this separately.
+> =
+
+> All per-plane props follow foo_property convention and we have mixed =
+
+> conventions for properties in struct drm_mode_config with majority being
+> foo_property.
+> =
+
+> > =
+
+> > > +		*val =3D state->scaling_filter;
+> > >  	else if (crtc->funcs->atomic_get_property)
+> > >  		return crtc->funcs->atomic_get_property(crtc, state, property, val=
+);
+> > >  	else
+> > > @@ -583,6 +587,8 @@ static int drm_atomic_plane_set_property(struct d=
+rm_plane *plane,
+> > >  					sizeof(struct drm_rect),
+> > >  					&replaced);
+> > >  		return ret;
+> > > +	} else if (property =3D=3D plane->scaling_filter_property) {
+> > > +		state->scaling_filter =3D val;
+> > >  	} else if (plane->funcs->atomic_set_property) {
+> > >  		return plane->funcs->atomic_set_property(plane, state,
+> > >  				property, val);
+> > > @@ -641,6 +647,8 @@ drm_atomic_plane_get_property(struct drm_plane *p=
+lane,
+> > >  	} else if (property =3D=3D config->prop_fb_damage_clips) {
+> > >  		*val =3D (state->fb_damage_clips) ?
+> > >  			state->fb_damage_clips->base.id : 0;
+> > > +	} else if (property =3D=3D plane->scaling_filter_property) {
+> > > +		*val =3D state->scaling_filter;
+> > >  	} else if (plane->funcs->atomic_get_property) {
+> > >  		return plane->funcs->atomic_get_property(plane, state, property, v=
+al);
+> > >  	} else {
+> > > diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+> > > index 4936e1080e41..95502c88966b 100644
+> > > --- a/drivers/gpu/drm/drm_crtc.c
+> > > +++ b/drivers/gpu/drm/drm_crtc.c
+> > > @@ -748,3 +748,81 @@ int drm_mode_crtc_set_obj_prop(struct drm_mode_o=
+bject *obj,
+> > >  =
+
+> > >  	return ret;
+> > >  }
+> > > +
+> > > +/**
+> > > + * DOC: CRTC scaling filter property
+> > > + *
+> > > + * SCALING_FILTER:
+> > > + *
+> > > + *	Indicates scaling filter to be used for CRTC scaler
+> > > + *
+> > > + *	The value of this property can be one of the following:
+> > > + *	Default:
+> > > + *		Driver's default scaling filter
+> > > + *	Nearest Neighbor:
+> > > + *		Nearest Neighbor scaling filter
+> > > + *
+> > > + * Drivers can set up this property for a CRTC by calling
+> > > + * drm_crtc_create_scaling_filter_property
+> > > + */
+> > > +
+> > > +/**
+> > > + * drm_crtc_create_scaling_filter_property - create a new scaling fi=
+lter
+> > > + * property
+> > > + *
+> > > + * @crtc: drm CRTC
+> > > + * @supported_filters: bitmask of supported scaling filters, must in=
+clude
+> > > + *		       BIT(DRM_SCALING_FILTER_DEFAULT).
+> > > + *
+> > > + * This function lets driver to enable the scaling filter property o=
+n a given
+> > > + * CRTC.
+> > > + *
+> > > + * RETURNS:
+> > > + * Zero for success or -errno
+> > > + */
+> > > +int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
+> > > +					    unsigned int supported_filters)
+> > > +{
+> > > +	struct drm_device *dev =3D crtc->dev;
+> > > +	struct drm_property *prop;
+> > > +	static const struct drm_prop_enum_list props[] =3D {
+> > > +		{ DRM_SCALING_FILTER_DEFAULT, "Default" },
+> > > +		{ DRM_SCALING_FILTER_NEAREST_NEIGHBOR, "Nearest Neighbor" },
+> > > +	};
+> > > +	unsigned int valid_mode_mask =3D BIT(DRM_SCALING_FILTER_DEFAULT) |
+> > > +				       BIT(DRM_SCALING_FILTER_NEAREST_NEIGHBOR);
+> > > +	int i;
+> > > +
+> > > +	if (WARN_ON((supported_filters & ~valid_mode_mask) ||
+> > > +		    ((supported_filters & BIT(DRM_SCALING_FILTER_DEFAULT)) =3D=3D =
+0)))
+> > > +		return -EINVAL;
+> > > +
+> > > +	prop =3D drm_property_create(dev, DRM_MODE_PROP_ENUM,
+> > > +				   "SCALING_FILTER",
+> > > +				   hweight32(supported_filters));
+> > > +	if (!prop)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	for (i =3D 0; i < ARRAY_SIZE(props); i++) {
+> > > +		int ret;
+> > > +
+> > > +		if (!(BIT(props[i].type) & supported_filters))
+> > > +			continue;
+> > > +
+> > > +		ret =3D drm_property_add_enum(prop, props[i].type,
+> > > +					    props[i].name);
+> > > +
+> > > +		if (ret) {
+> > > +			drm_property_destroy(dev, prop);
+> > > +
+> > > +			return ret;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	drm_object_attach_property(&crtc->base, prop,
+> > > +				   DRM_SCALING_FILTER_DEFAULT);
+> > =
+
+> > Everything up to here is identical between the crtc and plane. Needs a
+> > refactoring. In fact this whole thing seems pretty generic.
+> =
+
+> How about spliting code like below -
+> =
+
+> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_cr=
+tc_internal.h
+> --- a/drivers/gpu/drm/drm_crtc_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_internal.h
+> @@ -72,6 +72,9 @@ int drm_crtc_force_disable(struct drm_crtc *crtc);
+>  =
+
+>  struct dma_fence *drm_crtc_create_fence(struct drm_crtc *crtc);
+>  =
+
+> +struct drm_property *
+> +drm_prepare_scaling_filter_prop(struct drm_device *dev,
+> +				unsigned int supported_filters);
+
+s/prepare/create/
+with that seems good enough.
+
+>  /* IOCTLs */
+>  int drm_mode_getcrtc(struct drm_device *dev,
+>  		     void *data, struct drm_file *file_priv);
+> =
+
+> =
+
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index d6ad60ab0d38..e63614fe3eed 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -1221,3 +1221,93 @@ int drm_mode_page_flip_ioctl(struct drm_device *de=
+v,
+>  =
+
+>  	return ret;
 >  }
->  
->  static void __init vmap_irqstack_init(void)
-> 
+> +
+> +struct drm_property *
+> +drm_prepare_scaling_filter_prop(struct drm_device *dev,
+> +				unsigned int supported_filters)
+> +{
+> +	struct drm_property *prop;
+> +	static const struct drm_prop_enum_list props[] =3D {
+> +		{ DRM_SCALING_FILTER_DEFAULT, "Default" },
+> +		{ DRM_SCALING_FILTER_NEAREST_NEIGHBOR, "Nearest Neighbor" },
+> +	};
+> +	unsigned int valid_mode_mask =3D BIT(DRM_SCALING_FILTER_DEFAULT) |
+> +				       BIT(DRM_SCALING_FILTER_NEAREST_NEIGHBOR);
+> +	int i;
+> +
+> +	if (WARN_ON((supported_filters & ~valid_mode_mask) ||
+> +		    ((supported_filters & BIT(DRM_SCALING_FILTER_DEFAULT)) =3D=3D 0)))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	prop =3D drm_property_create(dev, DRM_MODE_PROP_ENUM,
+> +				   "SCALING_FILTER",
+> +				   hweight32(supported_filters));
+> +	if (!prop)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(props); i++) {
+> +		int ret;
+> +
+> +		if (!(BIT(props[i].type) & supported_filters))
+> +			continue;
+> +
+> +		ret =3D drm_property_add_enum(prop, props[i].type,
+> +					    props[i].name);
+> +
+> +		if (ret) {
+> +			drm_property_destroy(dev, prop);
+> +
+> +			return ERR_PTR(ret);
+> +		}
+> +	}
+> +
+> +	return prop;
+> +}
+> +
+> +/**
+> + * drm_plane_create_scaling_filter_property - create a new scaling filter
+> + * property
+> + *
+> + * @plane: drm plane
+> + * @supported_filters: bitmask of supported scaling filters, must include
+> + *		       BIT(DRM_SCALING_FILTER_DEFAULT).
+> + *
+> + * This function lets driver to enable the scaling filter property on a =
+given
+> + * plane.
+> + *
+> + * RETURNS:
+> + * Zero for success or -errno
+> + */
+> +int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
+> +					     unsigned int supported_filters)
+> +{
+> +	struct drm_property *prop =3D
+> +		drm_prepare_scaling_filter_prop(plane->dev, supported_filters);
+> +
+> +	if (IS_ERR(prop))
+> +		return PTR_ERR(prop);
+> +
+> +	drm_object_attach_property(&plane->base, prop,
+> +				   DRM_SCALING_FILTER_DEFAULT);
+> +	plane->scaling_filter_property =3D prop;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_plane_create_scaling_filter_property);
+> =
 
+> index 4936e1080e41..b48e0bce8f60 100644
+> --- a/drivers/gpu/drm/drm_crtc.c
+> +++ b/drivers/gpu/drm/drm_crtc.c
+> =
+
+> +int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
+> +					    unsigned int supported_filters)
+> +{
+> +	struct drm_property *prop =3D
+> +		drm_prepare_scaling_filter_prop(crtc->dev, supported_filters);
+> +
+> +	if (IS_ERR(prop))
+> +		return PTR_ERR(prop);
+> +
+> +	drm_object_attach_property(&crtc->base, prop,
+> +				   DRM_SCALING_FILTER_DEFAULT);
+> +	crtc->scaling_filter_property =3D prop;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_crtc_create_scaling_filter_property);
+> =
+
+> =
+
+> > Should probably think about just adding that bitmask to
+> > drm_property_create_enum(). I suppose we could try to avoid having to
+> > change all the existing callers by keeping the current thing without the
+> > bitmask (though it could probably internally just call the version which
+> > takes the bitmask, assuming our enum values aren't too big for that.
+> =
+
+> As more filters can be added in future and different hardwares can have
+> different capabilities, I think it make sense to provide a bitmask to the
+> callers so that drivers can expose *only* filters which they support.
+> =
+
+> What do you think?
+
+I was musing about something like =
+
+
+drm_property_create_enum(...
++	supported_bitmask
+	);
+
+Nothing specifically about the scaling filter prop.
+
+>  =
+
+> Thanks,
+> Pankaj
+> =
+
+> > =
+
+> > Otherwise the patch seems reasonable.
+> > =
+
+> > > +	crtc->scaling_filter_property =3D prop;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_crtc_create_scaling_filter_property);
+> > > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> =
+
+> [snip]
+> >  					state->fb_damage_clips->data : NULL);
+> > >  }
+> > >  =
+
+> > > +int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
+> > > +					     unsigned int supported_filters);
+> > > +
+> > >  #endif
+> > > -- =
+
+> > > 2.23.0
+> > =
+
+> > -- =
+
+> > Ville Syrj=E4l=E4
+> > Intel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
