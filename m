@@ -1,56 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D260A1A23AE
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 16:00:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BBA61A23B1
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 16:01:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83A306EA7A;
-	Wed,  8 Apr 2020 14:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A94F46EA6D;
+	Wed,  8 Apr 2020 14:01:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 191876EA76;
- Wed,  8 Apr 2020 14:00:41 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id p10so7942000wrt.6;
- Wed, 08 Apr 2020 07:00:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wSW9Rg6e/x/RGGPb22/90O250IXy1NlfHB3scrBda8A=;
- b=RH/x8LjaFMBGVzFuW38+KmJAsAJ3rdnXDVghhySU2kc6KXnbru+RAla4Z+T8FecDV8
- C2V1MPSLLSq5XQbk30qPdEVPsGb2rJ9jElA7AbrVnoMvOUtxjkmIXYXkgHGu0lwVA6Rb
- bFBfzAk+ZhQx3SxG0KQ9MTdRNwHvOkdY7pODHSa1Sq6K8+j8MgNGnREWQy0uJIpc1lKr
- 5CXr0kZa7ec/kfYLM1vaDrPbmhmCKNNithi6fKPBaIBj8AMGS+xrpee2VBUH/Wqoj2a5
- +iJMzm9DCfOJZmxKR/F4nwSGFyiMcFIggdfAVkBm3IH7MnOvSSwqPaFjlUA8q8Psu/OY
- OdaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wSW9Rg6e/x/RGGPb22/90O250IXy1NlfHB3scrBda8A=;
- b=DOgOAFKBLW6RjNPuiCMKau20xe5GWQI8QaDSSavWx/Hx7q5NF+TdzGGBsdjKLEzevL
- 2Hmn1PIdMCIU06BER5AH7hsJVe0McBgc5+8zna8yZAIC5a0t7JRX+MJMFGm30FkExC8X
- IAnomJh3nRkolYzRyJj7/OKfmTDgaWdrpE8fe5bI5AiOPs1Y3P3C/S2zJQwMB3jUJ90S
- +HfvUDsrtxPIYv8QxY47IOh+RH2mnR4n8DJJchP1T7FzSFKix4vvc28hM0+Ef4KJidx9
- G9UqQcits5Z6za/zco0vvQr1D083IUiNyGB8XD4tGuImqFtdXYdj7Tp+VQidakzoSBLW
- zSzQ==
-X-Gm-Message-State: AGi0PuattHN1d+ntyNTzmW72iUBuyXZAvHGTGxFixarqxgclf5f8+W4c
- cQpUCC2dWR4T1XiyD+spJj3D624qXRaIpGDNns5DkA==
-X-Google-Smtp-Source: APiQypIRxp4XUO0GKEduMN5R6TzsEVsvHb2tMo+wgNKSCzTUy+x+ueBDBEVo2JW5d4YPGlq/KRVDEGmvZIkAjT61f7A=
-X-Received: by 2002:a5d:45d1:: with SMTP id b17mr8518576wrs.111.1586354439749; 
- Wed, 08 Apr 2020 07:00:39 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8B7D89DB5
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 14:01:18 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86BC9522;
+ Wed,  8 Apr 2020 16:01:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1586354476;
+ bh=XxzHVE6zlWTyguJ27GTvGM6nacHAH8FyWLtZvZFu2/o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=d9jT2vK9pgwoxt9t1G3WP4tn7UhnCCiCzsRndoW75L4PWrqgQJsqRJxEGYc1gDsE0
+ Gh9N0LYxSemAjirnWQy5I9reHelt7BYJPwgqUb2r0rVVkWqpJsQy/rZtwTUhGFmkDN
+ hRLo7Y4g3NXpJxfFobSajUD90HyAzwKG7Ja+iwb8=
+Date: Wed, 8 Apr 2020 17:01:07 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH/RFC 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
+ binding to YAML
+Message-ID: <20200408140107.GH4881@pendragon.ideasonboard.com>
+References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
+ <20200406111927.GD4757@pendragon.ideasonboard.com>
+ <20200406170915.x2ztz4q446h6vx2y@gilmour.lan>
+ <20200406175028.GI16885@pendragon.ideasonboard.com>
+ <20200407071251.npibrmzywiyigu2a@gilmour.lan>
+ <20200408114552.GC4881@pendragon.ideasonboard.com>
+ <20200408122519.epxtptdjlhkj3kru@gilmour.lan>
 MIME-Version: 1.0
-References: <1586250773-31519-1-git-send-email-ray.huang@amd.com>
- <58129925-9bc4-25bb-6f26-69e8362b4c9e@gmail.com>
-In-Reply-To: <58129925-9bc4-25bb-6f26-69e8362b4c9e@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 8 Apr 2020 10:00:28 -0400
-Message-ID: <CADnq5_P8fFBj2R+owKoX+YEdgOExPMoRKrJUuhVBKroEtBW9Xw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/ttm: clean up ttm_trace_dma_map/ttm_trace_dma_unmap
- (v2)
-To: Christian Koenig <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <20200408122519.epxtptdjlhkj3kru@gilmour.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,61 +54,298 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Huang Rui <ray.huang@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Mark Yao <mark.yao@rock-chips.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBBcHIgNywgMjAyMCBhdCA1OjUwIEFNIENocmlzdGlhbiBLw7ZuaWcKPGNrb2VuaWcu
-bGVpY2h0enVtZXJrZW5AZ21haWwuY29tPiB3cm90ZToKPgo+IEFtIDA3LjA0LjIwIHVtIDExOjEy
-IHNjaHJpZWIgSHVhbmcgUnVpOgo+ID4gdHRtX3RyYWNlX2RtYV9tYXAvdHRtX3RyYWNlX2RtYV91
-bm1hcCBpcyBuZXZlciB1c2VkIGFueW1vcmUuCj4gPgo+ID4gdjI6IHJlbW92ZSB0aGUgZmlsZSBj
-b21wbGV0ZWx5Cj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogSHVhbmcgUnVpIDxyYXkuaHVhbmdAYW1k
-LmNvbT4KPgo+IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmln
-QGFtZC5jb20+Cj4KCkNhbiBvbmUgb2YgeW91IG1ha2Ugc3VyZSB0aGlzIGxhbmRzIGluIGRybS1t
-aXNjPwoKVGhhbmtzLAoKQWxleAoKPiA+IC0tLQo+ID4gICBpbmNsdWRlL2RybS90dG0vdHRtX2Rl
-YnVnLmggfCAzMSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiAgIDEgZmlsZSBj
-aGFuZ2VkLCAzMSBkZWxldGlvbnMoLSkKPiA+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUv
-ZHJtL3R0bS90dG1fZGVidWcuaAo+ID4KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS90dG0v
-dHRtX2RlYnVnLmggYi9pbmNsdWRlL2RybS90dG0vdHRtX2RlYnVnLmgKPiA+IGRlbGV0ZWQgZmls
-ZSBtb2RlIDEwMDY0NAo+ID4gaW5kZXggYjVlNDYwZi4uMDAwMDAwMAo+ID4gLS0tIGEvaW5jbHVk
-ZS9kcm0vdHRtL3R0bV9kZWJ1Zy5oCj4gPiArKysgL2Rldi9udWxsCj4gPiBAQCAtMSwzMSArMCww
-IEBACj4gPiAtLyoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqCj4gPiAtICoKPiA+IC0gKiBDb3B5cmlnaHQgKGMp
-IDIwMTcgQWR2YW5jZWQgTWljcm8gRGV2aWNlcywgSW5jLgo+ID4gLSAqIEFsbCBSaWdodHMgUmVz
-ZXJ2ZWQuCj4gPiAtICoKPiA+IC0gKiBQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVl
-IG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcgYQo+ID4gLSAqIGNvcHkgb2YgdGhp
-cyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUKPiA+IC0g
-KiAiU29mdHdhcmUiKSwgdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlv
-biwgaW5jbHVkaW5nCj4gPiAtICogd2l0aG91dCBsaW1pdGF0aW9uIHRoZSByaWdodHMgdG8gdXNl
-LCBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNoLAo+ID4gLSAqIGRpc3RyaWJ1dGUsIHN1YiBs
-aWNlbnNlLCBhbmQvb3Igc2VsbCBjb3BpZXMgb2YgdGhlIFNvZnR3YXJlLCBhbmQgdG8KPiA+IC0g
-KiBwZXJtaXQgcGVyc29ucyB0byB3aG9tIHRoZSBTb2Z0d2FyZSBpcyBmdXJuaXNoZWQgdG8gZG8g
-c28sIHN1YmplY3QgdG8KPiA+IC0gKiB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6Cj4gPiAtICoK
-PiA+IC0gKiBUaGUgYWJvdmUgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5v
-dGljZSAoaW5jbHVkaW5nIHRoZQo+ID4gLSAqIG5leHQgcGFyYWdyYXBoKSBzaGFsbCBiZSBpbmNs
-dWRlZCBpbiBhbGwgY29waWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zCj4gPiAtICogb2YgdGhl
-IFNvZnR3YXJlLgo+ID4gLSAqCj4gPiAtICogVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJBUyBJ
-UyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5ZIEtJTkQsIEVYUFJFU1MgT1IKPiA+IC0gKiBJTVBM
-SUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVTIE9GIE1FUkNI
-QU5UQUJJTElUWSwKPiA+IC0gKiBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQg
-Tk9OLUlORlJJTkdFTUVOVC4gSU4gTk8gRVZFTlQgU0hBTEwKPiA+IC0gKiBUSEUgQ09QWVJJR0hU
-IEhPTERFUlMsIEFVVEhPUlMgQU5EL09SIElUUyBTVVBQTElFUlMgQkUgTElBQkxFIEZPUiBBTlkg
-Q0xBSU0sCj4gPiAtICogREFNQUdFUyBPUiBPVEhFUiBMSUFCSUxJVFksIFdIRVRIRVIgSU4gQU4g
-QUNUSU9OIE9GIENPTlRSQUNULCBUT1JUIE9SCj4gPiAtICogT1RIRVJXSVNFLCBBUklTSU5HIEZS
-T00sIE9VVCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRQo+ID4g
-LSAqIFVTRSBPUiBPVEhFUiBERUFMSU5HUyBJTiBUSEUgU09GVFdBUkUuCj4gPiAtICoKPiA+IC0g
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKiovCj4gPiAtLyoKPiA+IC0gKiBBdXRob3JzOiBUb20gU3QgRGVuaXMg
-PHRvbS5zdGRlbmlzQGFtZC5jb20+Cj4gPiAtICovCj4gPiAtZXh0ZXJuIHZvaWQgdHRtX3RyYWNl
-X2RtYV9tYXAoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgdHRtX2RtYV90dCAqdHQpOwo+ID4g
-LWV4dGVybiB2b2lkIHR0bV90cmFjZV9kbWFfdW5tYXAoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1
-Y3QgdHRtX2RtYV90dCAqdHQpOwo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KPiBhbWQtZ2Z4IG1haWxpbmcgbGlzdAo+IGFtZC1nZnhAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9hbWQtZ2Z4Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+Hi Maxime,
+
+On Wed, Apr 08, 2020 at 02:25:19PM +0200, Maxime Ripard wrote:
+> On Wed, Apr 08, 2020 at 02:45:52PM +0300, Laurent Pinchart wrote:
+> > On Tue, Apr 07, 2020 at 09:12:51AM +0200, Maxime Ripard wrote:
+> >> On Mon, Apr 06, 2020 at 08:50:28PM +0300, Laurent Pinchart wrote:
+> >>> On Mon, Apr 06, 2020 at 07:09:15PM +0200, Maxime Ripard wrote:
+> >>>> On Mon, Apr 06, 2020 at 02:19:27PM +0300, Laurent Pinchart wrote:
+> >>>>> On Mon, Apr 06, 2020 at 10:00:32AM +0200, Maxime Ripard wrote:
+> >>>>>> On Mon, Apr 06, 2020 at 02:39:33AM +0300, Laurent Pinchart wrote:
+> >>>>>>> Convert the Rockchip HDMI TX text binding to YAML.
+> >>>>>>>
+> >>>>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> >>>>>>> ---
+> >>>>>>>  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
+> >>>>>>>  .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
+> >>>>>>>  2 files changed, 178 insertions(+), 74 deletions(-)
+> >>>>>>>  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> >>>>>>>  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> >>>>>>>
+> >>>>>>> diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> >>>>>>> deleted file mode 100644
+> >>>>>>> index 3d32ce137e7f..000000000000
+> >>>>>>> --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> >>>>>>> +++ /dev/null
+> >>>>>>> @@ -1,74 +0,0 @@
+> >>>>>>> -Rockchip DWC HDMI TX Encoder
+> >>>>>>> -============================
+> >>>>>>> -
+> >>>>>>> -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> >>>>>>> -with a companion PHY IP.
+> >>>>>>> -
+> >>>>>>> -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
+> >>>>>>> -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
+> >>>>>>> -following device-specific properties.
+> >>>>>>> -
+> >>>>>>> -
+> >>>>>>> -Required properties:
+> >>>>>>> -
+> >>>>>>> -- compatible: should be one of the following:
+> >>>>>>> -		"rockchip,rk3228-dw-hdmi"
+> >>>>>>> -		"rockchip,rk3288-dw-hdmi"
+> >>>>>>> -		"rockchip,rk3328-dw-hdmi"
+> >>>>>>> -		"rockchip,rk3399-dw-hdmi"
+> >>>>>>> -- reg: See dw_hdmi.txt.
+> >>>>>>> -- reg-io-width: See dw_hdmi.txt. Shall be 4.
+> >>>>>>> -- interrupts: HDMI interrupt number
+> >>>>>>> -- clocks: See dw_hdmi.txt.
+> >>>>>>> -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
+> >>>>>>> -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
+> >>>>>>> -  corresponding to the video input of the controller. The port shall have two
+> >>>>>>> -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
+> >>>>>>> -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
+> >>>>>>> -
+> >>>>>>> -Optional properties
+> >>>>>>> -
+> >>>>>>> -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
+> >>>>>>> -  or the functionally-reduced I2C master contained in the DWC HDMI. When
+> >>>>>>> -  connected to a system I2C master this property contains a phandle to that
+> >>>>>>> -  I2C master controller.
+> >>>>>>> -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
+> >>>>>>> -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
+> >>>>>>> -- clock-names: May contain "grf", power for grf io.
+> >>>>>>> -- clock-names: May contain "vpll", external clock for some hdmi phy.
+> >>>>>>> -- phys: from general PHY binding: the phandle for the PHY device.
+> >>>>>>> -- phy-names: Should be "hdmi" if phys references an external phy.
+> >>>>>>> -
+> >>>>>>> -Optional pinctrl entry:
+> >>>>>>> -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
+> >>>>>>> -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
+> >>>>>>> -  i2c timeout.  It's intended that this unwedge pinctrl entry will
+> >>>>>>> -  cause the SDA line to be driven low to work around a hardware
+> >>>>>>> -  errata.
+> >>>>>>> -
+> >>>>>>> -Example:
+> >>>>>>> -
+> >>>>>>> -hdmi: hdmi@ff980000 {
+> >>>>>>> -	compatible = "rockchip,rk3288-dw-hdmi";
+> >>>>>>> -	reg = <0xff980000 0x20000>;
+> >>>>>>> -	reg-io-width = <4>;
+> >>>>>>> -	ddc-i2c-bus = <&i2c5>;
+> >>>>>>> -	rockchip,grf = <&grf>;
+> >>>>>>> -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> >>>>>>> -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
+> >>>>>>> -	clock-names = "iahb", "isfr";
+> >>>>>>> -	ports {
+> >>>>>>> -		hdmi_in: port {
+> >>>>>>> -			#address-cells = <1>;
+> >>>>>>> -			#size-cells = <0>;
+> >>>>>>> -			hdmi_in_vopb: endpoint@0 {
+> >>>>>>> -				reg = <0>;
+> >>>>>>> -				remote-endpoint = <&vopb_out_hdmi>;
+> >>>>>>> -			};
+> >>>>>>> -			hdmi_in_vopl: endpoint@1 {
+> >>>>>>> -				reg = <1>;
+> >>>>>>> -				remote-endpoint = <&vopl_out_hdmi>;
+> >>>>>>> -			};
+> >>>>>>> -		};
+> >>>>>>> -	};
+> >>>>>>> -};
+> >>>>>>> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> >>>>>>> new file mode 100644
+> >>>>>>> index 000000000000..8ff544ae0ac2
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> >>>>>>> @@ -0,0 +1,178 @@
+> >>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >>>>>>> +%YAML 1.2
+> >>>>>>> +---
+> >>>>>>> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+> >>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>>>>>> +
+> >>>>>>> +title: Rockchip DWC HDMI TX Encoder
+> >>>>>>> +
+> >>>>>>> +maintainers:
+> >>>>>>> +  - Mark Yao <mark.yao@rock-chips.com>
+> >>>>>>> +
+> >>>>>>> +description: |
+> >>>>>>> +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> >>>>>>> +  with a companion PHY IP.
+> >>>>>>> +
+> >>>>>>> +allOf:
+> >>>>>>> +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> >>>>>>> +
+> >>>>>>> +properties:
+> >>>>>>> +  compatible:
+> >>>>>>> +    enum:
+> >>>>>>> +      - rockchip,rk3228-dw-hdmi
+> >>>>>>> +      - rockchip,rk3288-dw-hdmi
+> >>>>>>> +      - rockchip,rk3328-dw-hdmi
+> >>>>>>> +      - rockchip,rk3399-dw-hdmi
+> >>>>>>> +
+> >>>>>>> +  reg: true
+> >>>>>>> +
+> >>>>>>> +  reg-io-width:
+> >>>>>>> +    const: 4
+> >>>>>>> +
+> >>>>>>> +  clocks:
+> >>>>>>> +    minItems: 2
+> >>>>>>> +    maxItems: 5
+> >>>>>>> +    items:
+> >>>>>>> +      - description: The bus clock for either AHB and APB
+> >>>>>>> +      - description: The internal register configuration clock
+> >>>>>>> +      - description: The HDMI CEC controller main clock
+> >>>>>>> +      - description: Power for GRF IO
+> >>>>>>> +      - description: External clock for some HDMI PHY
+> >>>>>>> +
+> >>>>>>> +  clock-names:
+> >>>>>>> +    minItems: 2
+> >>>>>>> +    maxItems: 5
+> >>>>>>> +    items:
+> >>>>>>> +      - const: iahb
+> >>>>>>> +      - const: isfr
+> >>>>>>> +      - enum:
+> >>>>>>> +        - cec
+> >>>>>>> +        - grf
+> >>>>>>> +        - vpll
+> >>>>>>> +      - enum:
+> >>>>>>> +        - cec
+> >>>>>>> +        - grf
+> >>>>>>> +        - vpll
+> >>>>>>> +      - enum:
+> >>>>>>> +        - cec
+> >>>>>>> +        - grf
+> >>>>>>> +        - vpll
+> >>>>>>
+> >>>>>> IIRC Rob wanted us to standardize the order of the clocks if possible,
+> >>>>>> since it's a pain to support properly here, and your description won't
+> >>>>>> match what you describe here either (and in general it's just a best
+> >>>>>> practice), so if all your DTs have the same order you should just set
+> >>>>>> that order in stone.
+> >>>>>
+> >>>>> But how do we handle the case where any of the cec, grf and vpll clocks
+> >>>>> can be set ? Assuming, for instance, that
+> >>>>>
+> >>>>> 	clock-names = "iahb", "isfr", "cec";
+> >>>>> 	clock-names = "iahb", "isfr", "vpll";
+> >>>>> 	clock-names = "iahb", "isfr", "cec", "vpll";
+> >>>>>
+> >>>>> would all be valid.
+> >>>>
+> >>>> It would be painful then...
+> >>>>
+> >>>> The easiest way to do so would be to simply use an enum there, and not
+> >>>> bother checking the array at all. You'll get a warning if there's
+> >>>> multiple occurences of the same string, and I guess that's what you
+> >>>> would be really concerned about.
+> >>>>
+> >>>> However, now that I think about it, what's the interaction between the
+> >>>> generic binding and this one when it comes to the third clock? The
+> >>>> generic one expects it to be cec, and here you have other options?
+> >>>
+> >>> I'm not too familiar with the platform, but as far as I understand, any
+> >>> of the cec, grf and vpll clock is optional (if someone could confirm
+> >>> that, it would be useful). I don't care so much about the order, but
+> >>> iahb and isfr are mandatory, and thus need to be specified as two const
+> >>> items in the beginning as far as I understand. It would be nice to set
+> >>> something along the lines of
+> >>>
+> >>>   minItems: 2
+> >>>   maxItems: 5
+> >>>   items:
+> >>>     - const: iahb
+> >>>     - const: isfr
+> >>>     - enum:
+> >>>       - cec
+> >>>       - grf
+> >>>       - vpll
+> >>
+> >> I guess you could do something like:
+> >>
+> >> in the generic schema:
+> >>
+> >> clock-names:
+> >>   allOf:
+> >>     - minItems: 2
+> >>     - enum:
+> >>        - iahb
+> >>        - isfr
+> >>        - cec
+> >>       additonalItems: true
+> >>     - items:
+> >>       - iahb
+> >>       - isfr
+> >>
+> >> Or something along those lines, I haven't tested it, but the basic
+> >> idea is that you want to enforce that:
+> >>   a) there's a minimum of two clocks
+> >>   b) valid clock names are iahb, isfr and cec, but we will allow more
+> >>   c) the first two clocks are iahb and isfr
+> >
+> > Interesting idea. I've tried
+> >
+> >   clock-names:
+> >     allOf:
+> >       - minItems: 2
+> >       - enum:
+> >         - iahb
+> >         - isfr
+> >         - cec
+> >         additionalItems: true
+> >       - items:
+> >         - const: iahb
+> >         - const: isfr
+> >
+> > in the base synopsys,dw-hdmi.yaml schema, and
+> >
+> >   clock-names:
+> >     maxItems: 2
+> >
+> > in renesas,dw-hdmi.yaml, which resulted in the following validation
+> > errors:
+> >
+> > Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.example.dt.yaml: hdmi@fead0000: clock-names: ['iahb', 'isfr'] is too long
+> >
+> > This is caused by the enum entry.
+> 
+> What happens if you have instead of
+> - enum:
+>  ...
+> 
+> - items:
+>     enum:
+>       ...
+
+That works, but if I then specify a cec clock in the example in
+renesas,dw-hdmi.yaml, I get
+
+Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.example.dt.yaml: hdmi@fead0000: clock-names: ['iahb', 'isfr', 'cec'] is too long
+Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.example.dt.yaml: hdmi@fead0000: clock-names: Additional items are not allowed ('cec' was unexpected)
+
+which is caused by
+
+       - items:
+         - const: iahb
+         - const: isfr
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
