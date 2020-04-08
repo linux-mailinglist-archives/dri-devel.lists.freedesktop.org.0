@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73F11A1D65
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 10:27:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3061C1A1D67
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 10:27:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 910E66E9C3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91EC86E9C4;
 	Wed,  8 Apr 2020 08:27:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80D1D6E9B4
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 08:27:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78B886E9B4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 08:27:01 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 01BFAAE6F;
- Wed,  8 Apr 2020 08:26:57 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id A1508AE72;
+ Wed,  8 Apr 2020 08:26:58 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: noralf@tronnes.org, daniel@ffwll.ch, airlied@linux.ie,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
@@ -26,9 +26,10 @@ To: noralf@tronnes.org, daniel@ffwll.ch, airlied@linux.ie,
  sean@poorly.run, hdegoede@redhat.com, kraxel@redhat.com,
  emil.velikov@collabora.com, sam@ravnborg.org, yc_chen@aspeedtech.com,
  tiantao6@hisilicon.com
-Subject: [PATCH v2 08/10] drm/udl: Remove error check from fbdev setup
-Date: Wed,  8 Apr 2020 10:26:39 +0200
-Message-Id: <20200408082641.590-9-tzimmermann@suse.de>
+Subject: [PATCH v2 09/10] drm/vboxvideo: Set up fbdev after registering device;
+ remove error checks
+Date: Wed,  8 Apr 2020 10:26:40 +0200
+Message-Id: <20200408082641.590-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200408082641.590-1-tzimmermann@suse.de>
 References: <20200408082641.590-1-tzimmermann@suse.de>
@@ -51,23 +52,25 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UmVtb3ZlIHRoZSBlcnJvciBjaGVjayBmcm9tIHRoZSBmYmRldiBzZXR1cCBmdW5jdGlvbi4gVGhl
-IGRyaXZlcidzCnByb2JlIGZ1bmN0aW9uIHNob3VsZCBub3QgZGVwZW5kIG9uIGEgRFJNIGNsaWVu
-dCdzIHN0YXRlLgoKU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5u
-QHN1c2UuZGU+ClJldmlld2VkLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9y
-Zz4KQWNrZWQtYnk6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgotLS0KIGRyaXZl
-cnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jIHwgNiArLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-dWRsL3VkbF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jCmluZGV4IDFjZTJk
-ODY1YzM2ZGMuLjljYzZkMDc1Y2I0MDIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS91ZGwv
-dWRsX2Rydi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jCkBAIC05NywxNCAr
-OTcsMTAgQEAgc3RhdGljIGludCB1ZGxfdXNiX3Byb2JlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICpp
-bnRlcmZhY2UsCiAKIAlEUk1fSU5GTygiSW5pdGlhbGl6ZWQgdWRsIG9uIG1pbm9yICVkXG4iLCB1
-ZGwtPmRybS5wcmltYXJ5LT5pbmRleCk7CiAKLQlyID0gZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAo
-JnVkbC0+ZHJtLCAwKTsKLQlpZiAocikKLQkJZ290byBlcnJfZHJtX2Rldl91bnJlZ2lzdGVyOwor
-CWRybV9mYmRldl9nZW5lcmljX3NldHVwKCZ1ZGwtPmRybSwgMCk7CiAKIAlyZXR1cm4gMDsKIAot
-ZXJyX2RybV9kZXZfdW5yZWdpc3RlcjoKLQlkcm1fZGV2X3VucmVnaXN0ZXIoJnVkbC0+ZHJtKTsK
-IGVycl9mcmVlOgogCWRybV9kZXZfcHV0KCZ1ZGwtPmRybSk7CiAJcmV0dXJuIHI7Ci0tIAoyLjI2
-LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+R2VuZXJpYyBmYmRldiBzdXBwb3J0IGlzIGEgRFJNIGNsaWVudC4gU2V0IGl0IHVwIGFmdGVyIHJl
+Z2lzdGVyaW5nCnRoZSBuZXcgRFJNIGRldmljZS4gUmVtb3ZlIHRoZSBlcnJvciBjaGVja3MgYXMg
+dGhlIGRyaXZlcidzIHByb2JlCmZ1bmN0aW9uIHNob3VsZCBub3QgZGVwZW5kIG9uIGEgRFJNIGNs
+aWVudCdzIHN0YXRlLgoKU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
+YW5uQHN1c2UuZGU+ClJldmlld2VkLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVz
+Lm9yZz4KQWNrZWQtYnk6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgotLS0KIGRy
+aXZlcnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9kcnYuYyB8IDYgKystLS0tCiAxIGZpbGUgY2hh
+bmdlZCwgMiBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS92Ym94dmlk
+ZW8vdmJveF9kcnYuYwppbmRleCBkNjg1ZWMxOTdmYTA1Li4yODIzNDhlMDcxZmUzIDEwMDY0NAot
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vdmJveHZpZGVvL3Zib3hfZHJ2LmMKKysrIGIvZHJpdmVycy9n
+cHUvZHJtL3Zib3h2aWRlby92Ym94X2Rydi5jCkBAIC04MiwxNCArODIsMTIgQEAgc3RhdGljIGlu
+dCB2Ym94X3BjaV9wcm9iZShzdHJ1Y3QgcGNpX2RldiAqcGRldiwgY29uc3Qgc3RydWN0IHBjaV9k
+ZXZpY2VfaWQgKmVudCkKIAlpZiAocmV0KQogCQlnb3RvIGVycl9tb2RlX2Zpbmk7CiAKLQlyZXQg
+PSBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cCgmdmJveC0+ZGRldiwgMzIpOwotCWlmIChyZXQpCi0J
+CWdvdG8gZXJyX2lycV9maW5pOwotCiAJcmV0ID0gZHJtX2Rldl9yZWdpc3RlcigmdmJveC0+ZGRl
+diwgMCk7CiAJaWYgKHJldCkKIAkJZ290byBlcnJfaXJxX2Zpbmk7CiAKKwlkcm1fZmJkZXZfZ2Vu
+ZXJpY19zZXR1cCgmdmJveC0+ZGRldiwgMzIpOworCiAJcmV0dXJuIDA7CiAKIGVycl9pcnFfZmlu
+aToKLS0gCjIuMjYuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
