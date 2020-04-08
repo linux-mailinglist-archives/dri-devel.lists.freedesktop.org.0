@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B399F1A211D
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 14:01:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B71961A3019
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:33:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6CC989DC9;
-	Wed,  8 Apr 2020 12:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20F6D6EB60;
+	Thu,  9 Apr 2020 07:33:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F09489DC9
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 12:01:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 0AE723F51A;
- Wed,  8 Apr 2020 14:01:44 +0200 (CEST)
-Authentication-Results: pio-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=gpAcmKuO; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lggwzlOmZHFD; Wed,  8 Apr 2020 14:01:43 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id D73673F4B0;
- Wed,  8 Apr 2020 14:01:42 +0200 (CEST)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id DA78A360153;
- Wed,  8 Apr 2020 14:01:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1586347301; bh=iYXBddQRieutZJtwqJOa8w/8Jay2zYs2qvwKvN4GbvM=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=gpAcmKuOKQDRSCi+T8HzzA0H/CjesM7QQvvNf8l2TBO6+LpJ5LgL8rluxBOwuiofF
- PhoWFFVt9rVC701Wz83VUyb8oR3twZqFPBfoPsWbKSpjEUuKurSlyIZFUae5mnPLhQ
- yYMzul82TYQpMGOXnOYvCwSBWUwyxFfY1TtsmJ2I=
-Subject: Re: [PATCH] drm/ttm: Temporarily disable the huge_fault() callback
-To: dri-devel@lists.freedesktop.org
-References: <20200408115331.5529-1-thomas_os@shipmail.org>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <f7408653-39a1-e234-c45d-7a786e043b8f@shipmail.org>
-Date: Wed, 8 Apr 2020 14:01:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 953336EA44
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 12:04:28 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 48y2xf5jGrz9sRN;
+ Wed,  8 Apr 2020 22:04:06 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+ s=201909; t=1586347456;
+ bh=6sGJZKVDnng9zkVvNLQaMC2QdaABiEArzNpdTqX8bmw=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=WgCLIiUSpuBsBXqCPlZzidFYcoWAD1ZBafu6SLBHzZHI+KFxAv7gNGzohVSd3+CkZ
+ IjvhKsP9osZnu3lCySdAybzilsNS5UuZVHP2nBng/RcjGp+I2iwlz3bGKgwdxSLfan
+ RhhMHnZOWMh674CxamV9uQKAeJdSdBbIl7K9JR/0ZDotvPVrPq5/wwFcEiEoh3mmdU
+ sR8oL6kx73gdZYGqcrQsBBazPSQJXlHsc69IbBSwlLt7NNI9qV7j1a3MoYAgnxAUdL
+ oc/KwIMFjt+mCgfa7YMzF6zDhbuaisEd4kaeid/FO/VP19aJRTr51+VjFj5KwmoJ9p
+ vxLrPhfdg8W9w==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 0/2] powerpc: Remove support for ppc405/440 Xilinx
+ platforms
+In-Reply-To: <5782f9a42ad8acd8b234fa9c15a09db93552dc6b.camel@kernel.crashing.org>
+References: <cover.1585311091.git.michal.simek@xilinx.com>
+ <CAK8P3a2mKPRFbRE3MWScr9GSiL4cpLg0wqv1Q28XDCZVPWgHfg@mail.gmail.com>
+ <20200327131026.GT1922688@smile.fi.intel.com>
+ <20200327131531.GU1922688@smile.fi.intel.com>
+ <CAK8P3a1Z+ZPTDzgAjdz0a7d85R62BhUqkdEWgrwXh-OnYe6rog@mail.gmail.com>
+ <20200327141434.GA1922688@smile.fi.intel.com>
+ <b5adcc7a-9d10-d75f-50e3-9c150a7b4989@c-s.fr>
+ <87mu7xum41.fsf@mpe.ellerman.id.au>
+ <bac9af641140cf6df04e3532589a11c2f3bccd2f.camel@kernel.crashing.org>
+ <87pncprwp9.fsf@mpe.ellerman.id.au>
+ <5782f9a42ad8acd8b234fa9c15a09db93552dc6b.camel@kernel.crashing.org>
+Date: Wed, 08 Apr 2020 22:04:17 +1000
+Message-ID: <871roykwu6.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-In-Reply-To: <20200408115331.5529-1-thomas_os@shipmail.org>
-Content-Language: en-US
+X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,32 +63,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ "Desnes A. Nunes do Rosario" <desnesn@linux.ibm.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, "open
+ list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jaroslav Kysela <perex@perex.cz>,
+ Richard Fontana <rfontana@redhat.com>, Paul Mackerras <paulus@samba.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>,
+ Takashi Iwai <tiwai@suse.com>, YueHaibing <yuehaibing@huawei.com>,
+ Michal Simek <michal.simek@xilinx.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Leonardo Bras <leonardo@linux.ibm.com>,
+ Matt Porter <mporter@kernel.crashing.org>, DTML <devicetree@vger.kernel.org>,
+ Andrew Donnellan <ajd@linux.ibm.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Marc Zyngier <marc.zyngier@arm.com>, Alistair Popple <alistair@popple.id.au>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Nicholas Piggin <npiggin@gmail.com>, Alexios Zavras <alexios.zavras@intel.com>,
+ Mark Brown <broonie@kernel.org>, git@xilinx.com,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Allison Randal <allison@lohutok.net>,
+ Michal Simek <monstr@monstr.eu>, Wei Hu <weh@microsoft.com>,
+ Christian Lamparter <chunkeey@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Armijn Hemel <armijn@tjaldur.nl>, Rob Herring <robh+dt@kernel.org>,
+ Enrico Weigelt <info@metux.net>, "David S. Miller" <davem@davemloft.net>,
+ Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIENocmlzdGlhbiwKCk9uIDQvOC8yMCAxOjUzIFBNLCBUaG9tYXMgSGVsbHN0csO2bSAoVk13
-YXJlKSB3cm90ZToKPiBGcm9tOiAiVGhvbWFzIEhlbGxzdHJvbSAoVk13YXJlKSIgPHRob21hc19v
-c0BzaGlwbWFpbC5vcmc+Cj4KPiBXaXRoIGFtZGdwdSBhbmQgQ09ORklHX1RSQU5TUEFSRU5UX0hV
-R0VQQUdFX0FMV0FZUz15LCB0aGVyZSBhcmUKPiBlcnJvcnMgbGlrZToKPiBCVUc6IG5vbi16ZXJv
-IHBndGFibGVzX2J5dGVzIG9uIGZyZWVpbmcgbW0KPiBhbmQ6Cj4gQlVHOiBCYWQgcnNzLWNvdW50
-ZXIgc3RhdGUKPiB3aXRoIFRUTSB0cmFuc3BhcmVudCBodWdlLXBhZ2VzLgo+IFVudGlsIHdlJ3Zl
-IGZpZ3VyZWQgb3V0IHdoYXQgb3RoZXIgVFRNIGRyaXZlcnMgZG8gZGlmZmVyZW50bHkgY29tcGFy
-ZWQgdG8KPiB2bXdnZngsIGRpc2FibGUgdGhlIGh1Z2VfZmF1bHQoKSBjYWxsYmFjaywgZWxpbWlu
-YXRpbmcgdHJhbnNodWdlCj4gcGFnZS10YWJsZSBlbnRyaWVzLgo+Cj4gQ2M6IENocmlzdGlhbiBL
-w7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMg
-SGVsbHN0cm9tIChWTXdhcmUpIDx0aG9tYXNfb3NAc2hpcG1haWwub3JnPgo+IFJlcG9ydGVkLWJ5
-OiBBbGV4IFh1IChIZWxsbzcxKSA8YWxleF95X3h1QHlhaG9vLmNhPgo+IFRlc3RlZC1ieTogQWxl
-eCBYdSAoSGVsbG83MSkgPGFsZXhfeV94dUB5YWhvby5jYT4KPiAtLS0KCldpdGhvdXQgYmVpbmcg
-YWJsZSB0byB0ZXN0IGFuZCB0cmFjayB0aGlzIGRvd24gb24gYW1kZ3B1IHRoZXJlJ3MgbGl0dGxl
-IAptb3JlIHRoYW4gdGhpcyBJIGNhbiBkbyBhdCB0aGUgbW9tZW50LiBIb3BlZnVsbHkgSSdsbCBi
-ZSBhYmxlIHRvIHRlc3Qgb24gCm5vdXZlYXUvdHRtIGFmdGVyIGdldHRpbmcgYmFjayBmcm9tIHZh
-Y2F0aW9uIHRvIHNlZSBpZiBJIGNhbiByZXByb2R1Y2UuCgpJdCBsb29rcyBsaWtlIHNvbWUgcGFy
-dCBvZiB0aGUga2VybmVsIG1pc3Rha2VzIGEgaHVnZSBwYWdlLXRhYmxlIGVudHJ5IApmb3IgYSBw
-YWdlIGRpcmVjdG9yeSwgYW5kIHRoYXQgd291bGQgYmUgYSBwYXRoIHRoYXQgaXMgbm90IGhpdCB3
-aXRoIHZtd2dmeC4KCi9UaG9tYXMKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+Benjamin Herrenschmidt <benh@kernel.crashing.org> writes:
+> On Fri, 2020-04-03 at 15:59 +1100, Michael Ellerman wrote:
+>> Benjamin Herrenschmidt <benh@kernel.crashing.org> writes:
+>> > On Tue, 2020-03-31 at 16:30 +1100, Michael Ellerman wrote:
+>> > > I have no attachment to 40x, and I'd certainly be happy to have
+>> > > less
+>> > > code in the tree, we struggle to keep even the modern platforms
+>> > > well
+>> > > maintained.
+>> > > 
+>> > > At the same time I don't want to render anyone's hardware
+>> > > obsolete
+>> > > unnecessarily. But if there's really no one using 40x then we
+>> > > should
+>> > > remove it, it could well be broken already.
+>> > > 
+>> > > So I guess post a series to do the removal and we'll see if
+>> > > anyone
+>> > > speaks up.
+>> > 
+>> > We shouldn't remove 40x completely. Just remove the Xilinx 405
+>> > stuff.
+>> 
+>> Congratulations on becoming the 40x maintainer!
+>
+> Didn't I give you my last 40x system ? :-)
+
+Probably, but my desk is nearly as messy as yours so it's probably
+buried under some even more obscure hardware :P
+
+> IBM still put 40x cores inside POWER chips no ?
+
+Oh yeah that's true. I guess most folks don't know that, or that they
+run RHEL on them.
+
+cheers
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
