@@ -2,36 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E861A3035
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:34:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AA51A1EA3
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 12:19:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64ADF6EB80;
-	Thu,  9 Apr 2020 07:33:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 923BD6EA0F;
+	Wed,  8 Apr 2020 10:18:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6736EA0F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 10:12:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1586340756; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XHrGg1kJSJbVqULtFtoJ40tkSeQG6c2tAyLWZHr7Y9s=;
- b=QYg3ozUG1fuyCrM29sl/nZlbn3oH7p7oZtVxLZ1+yJZoycw5Ca/jO6fB6DbneZ5+ohlmIc
- y2QHAkweKrAICcYYMWXlFQcN4ul64o6cWE09OyVWbdqPPvDF9CM7CL/RIP9w5HwRnR47Gl
- X2fpx/pMTuMLH9tSzdudeouogOqEV6g=
-Date: Wed, 08 Apr 2020 12:12:26 +0200
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 1/2] drm/panel: NT39016: Add support for multiple modes
-To: Sam Ravnborg <sam@ravnborg.org>
-Message-Id: <QCSG8Q.N40UK3F20OVT2@crapouillou.net>
-In-Reply-To: <20200408100452.GA20795@ravnborg.org>
-References: <20200408095830.8131-1-paul@crapouillou.net>
- <20200408100452.GA20795@ravnborg.org>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8796B6EA0F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 10:18:56 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 4F37920029;
+ Wed,  8 Apr 2020 12:18:53 +0200 (CEST)
+Date: Wed, 8 Apr 2020 12:18:52 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Jason Yan <yanaijie@huawei.com>
+Subject: Re: [PATCH] video: fbdev: matroxfb: remove dead code and set but not
+ used variable
+Message-ID: <20200408101852.GC20795@ravnborg.org>
+References: <20200403021609.20968-1-yanaijie@huawei.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
+Content-Disposition: inline
+In-Reply-To: <20200403021609.20968-1-yanaijie@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=IkcTkHD0fZMA:10 a=i0EeH86SAAAA:8
+ a=e5mUnYsNAAAA:8 a=I71sJGB1j8iV39tR8JAA:9 a=QEXdDO2ut3YA:10
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,155 +46,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>, od@zcrc.me,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ b.zolnierkie@samsung.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
-
-
-Le mer. 8 avril 2020 =E0 12:04, Sam Ravnborg <sam@ravnborg.org> a =E9crit =
-
-:
-> Hi Paul.
-> =
-
-> On Wed, Apr 08, 2020 at 11:58:29AM +0200, Paul Cercueil wrote:
->>  Add support for multiple drm_display_mode entries. This will allow =
-
->> to
->>  add a 50 Hz mode later.
->> =
-
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Patch looks good.
-> =
-
-> Could we please use lower case in the $subject?
-
-You mean 's/Add/add/' or the panel name as well?
-
--Paul
-
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> =
-
-> I asume you will apply yourself.
-> =
-
-> 	Sam
-> =
-
->>  ---
->>   drivers/gpu/drm/panel/panel-novatek-nt39016.c | 33 =
-
->> +++++++++++++------
->>   1 file changed, 23 insertions(+), 10 deletions(-)
->> =
-
->>  diff --git a/drivers/gpu/drm/panel/panel-novatek-nt39016.c =
-
->> b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
->>  index a470810f7dbe..f1286cf6528b 100644
->>  --- a/drivers/gpu/drm/panel/panel-novatek-nt39016.c
->>  +++ b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
->>  @@ -49,7 +49,8 @@ enum nt39016_regs {
->>   #define NT39016_SYSTEM_STANDBY	BIT(1)
->> =
-
->>   struct nt39016_panel_info {
->>  -	struct drm_display_mode display_mode;
->>  +	const struct drm_display_mode *display_modes;
->>  +	unsigned int num_modes;
->>   	u16 width_mm, height_mm;
->>   	u32 bus_format, bus_flags;
->>   };
->>  @@ -212,15 +213,22 @@ static int nt39016_get_modes(struct drm_panel =
-
->> *drm_panel,
->>   	struct nt39016 *panel =3D to_nt39016(drm_panel);
->>   	const struct nt39016_panel_info *panel_info =3D panel->panel_info;
->>   	struct drm_display_mode *mode;
->>  +	unsigned int i;
->> =
-
->>  -	mode =3D drm_mode_duplicate(connector->dev, =
-
->> &panel_info->display_mode);
->>  -	if (!mode)
->>  -		return -ENOMEM;
->>  +	for (i =3D 0; i < panel_info->num_modes; i++) {
->>  +		mode =3D drm_mode_duplicate(connector->dev,
->>  +					  &panel_info->display_modes[i]);
->>  +		if (!mode)
->>  +			return -ENOMEM;
->>  +
->>  +		drm_mode_set_name(mode);
->> =
-
->>  -	drm_mode_set_name(mode);
->>  +		mode->type =3D DRM_MODE_TYPE_DRIVER;
->>  +		if (panel_info->num_modes =3D=3D 1)
->>  +			mode->type |=3D DRM_MODE_TYPE_PREFERRED;
->> =
-
->>  -	mode->type =3D DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
->>  -	drm_mode_probed_add(connector, mode);
->>  +		drm_mode_probed_add(connector, mode);
->>  +	}
->> =
-
->>   	connector->display_info.bpc =3D 8;
->>   	connector->display_info.width_mm =3D panel_info->width_mm;
->>  @@ -230,7 +238,7 @@ static int nt39016_get_modes(struct drm_panel =
-
->> *drm_panel,
->>   					 &panel_info->bus_format, 1);
->>   	connector->display_info.bus_flags =3D panel_info->bus_flags;
->> =
-
->>  -	return 1;
->>  +	return panel_info->num_modes;
->>   }
->> =
-
->>   static const struct drm_panel_funcs nt39016_funcs =3D {
->>  @@ -316,8 +324,8 @@ static int nt39016_remove(struct spi_device =
-
->> *spi)
->>   	return 0;
->>   }
->> =
-
->>  -static const struct nt39016_panel_info kd035g6_info =3D {
->>  -	.display_mode =3D {
->>  +static const struct drm_display_mode kd035g6_display_modes[] =3D {
->>  +	{
->>   		.clock =3D 6000,
->>   		.hdisplay =3D 320,
->>   		.hsync_start =3D 320 + 10,
->>  @@ -330,6 +338,11 @@ static const struct nt39016_panel_info =
-
->> kd035g6_info =3D {
->>   		.vrefresh =3D 60,
->>   		.flags =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
->>   	},
->>  +};
->>  +
->>  +static const struct nt39016_panel_info kd035g6_info =3D {
->>  +	.display_modes =3D kd035g6_display_modes,
->>  +	.num_modes =3D ARRAY_SIZE(kd035g6_display_modes),
->>   	.width_mm =3D 71,
->>   	.height_mm =3D 53,
->>   	.bus_format =3D MEDIA_BUS_FMT_RGB888_1X24,
->>  --
->>  2.25.1
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgSmFzb24uCgpPbiBGcmksIEFwciAwMywgMjAyMCBhdCAxMDoxNjowOUFNICswODAwLCBKYXNv
+biBZYW4gd3JvdGU6Cj4gRml4IHRoZSBmb2xsb3dpbmcgZ2NjIHdhcm5pbmc6Cj4gCj4gZHJpdmVy
+cy92aWRlby9mYmRldi9tYXRyb3gvZzQ1MF9wbGwuYzozMzY6MTU6IHdhcm5pbmc6IHZhcmlhYmxl
+Cj4g4oCYcGl4ZWxfdmNv4oCZIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFy
+aWFibGVdCj4gICB1bnNpZ25lZCBpbnQgcGl4ZWxfdmNvOwo+ICAgICAgICAgICAgICAgIF5+fn5+
+fn5+fgo+IAo+IFJlcG9ydGVkLWJ5OiBIdWxrIFJvYm90IDxodWxrY2lAaHVhd2VpLmNvbT4KPiBT
+aWduZWQtb2ZmLWJ5OiBKYXNvbiBZYW4gPHlhbmFpamllQGh1YXdlaS5jb20+CgpUaGFua3MsIGNv
+bW1pdHRlZCBhbmQgcHVzaGVkIHRvIGRybS1taXNjLW5leHQuClRoZSBmaXggd2lsbCBzaG93IHVw
+IGluIHVwc3RyZWFtIGtlcm5lbCBhdCB0aGUgbmV4dAptZXJnZSB3aW5kb3cuCgoJU2FtCgo+IC0t
+LQo+ICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L21hdHJveC9nNDUwX3BsbC5jIHwgMjIgLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMjIgZGVsZXRpb25zKC0pCj4gCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvbWF0cm94L2c0NTBfcGxsLmMgYi9kcml2ZXJz
+L3ZpZGVvL2ZiZGV2L21hdHJveC9nNDUwX3BsbC5jCj4gaW5kZXggYzE1ZjhhNTc0OThlLi5mZjhl
+MzIxYTIyY2UgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9tYXRyb3gvZzQ1MF9w
+bGwuYwo+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvbWF0cm94L2c0NTBfcGxsLmMKPiBAQCAt
+MzMzLDExICszMzMsOSBAQCBzdGF0aWMgaW50IF9fZzQ1MF9zZXRjbGsoc3RydWN0IG1hdHJveF9m
+Yl9pbmZvICptaW5mbywgdW5zaWduZWQgaW50IGZvdXQsCj4gIAkJCSB1bnNpZ25lZCBpbnQgKmRl
+bHRhYXJyYXkpCj4gIHsKPiAgCXVuc2lnbmVkIGludCBtbnBjb3VudDsKPiAtCXVuc2lnbmVkIGlu
+dCBwaXhlbF92Y287Cj4gIAljb25zdCBzdHJ1Y3QgbWF0cm94X3BsbF9saW1pdHMqIHBpOwo+ICAJ
+c3RydWN0IG1hdHJveF9wbGxfY2FjaGUqIGNpOwo+ICAKPiAtCXBpeGVsX3ZjbyA9IDA7Cj4gIAlz
+d2l0Y2ggKHBsbCkgewo+ICAJCWNhc2UgTV9QSVhFTF9QTExfQToKPiAgCQljYXNlIE1fUElYRUxf
+UExMX0I6Cj4gQEAgLTQyMCw3ICs0MTgsNiBAQCBzdGF0aWMgaW50IF9fZzQ1MF9zZXRjbGsoc3Ry
+dWN0IG1hdHJveF9mYl9pbmZvICptaW5mbywgdW5zaWduZWQgaW50IGZvdXQsCj4gIAkJCQkKPiAg
+CQkJCW1ucCA9IG1hdHJveGZiX0RBQ19pbihtaW5mbywgTTEwNjRfWFBJWFBMTENNKSA8PCAxNjsK
+PiAgCQkJCW1ucCB8PSBtYXRyb3hmYl9EQUNfaW4obWluZm8sIE0xMDY0X1hQSVhQTExDTikgPDwg
+ODsKPiAtCQkJCXBpeGVsX3ZjbyA9IGc0NTBfbW5wMnZjbyhtaW5mbywgbW5wKTsKPiAgCQkJCW1h
+dHJveGZiX0RBQ191bmxvY2tfaXJxcmVzdG9yZShmbGFncyk7Cj4gIAkJCX0KPiAgCQkJcGkgPSAm
+bWluZm8tPmxpbWl0cy52aWRlbzsKPiBAQCAtNDQxLDI1ICs0MzgsNiBAQCBzdGF0aWMgaW50IF9f
+ZzQ1MF9zZXRjbGsoc3RydWN0IG1hdHJveF9mYl9pbmZvICptaW5mbywgdW5zaWduZWQgaW50IGZv
+dXQsCj4gIAkJCXVuc2lnbmVkIGludCBkZWx0YTsKPiAgCj4gIAkJCXZjbyA9IGc0NTBfbW5wMnZj
+byhtaW5mbywgbW5wKTsKPiAtI2lmIDAJCQkKPiAtCQkJaWYgKHBsbCA9PSBNX1ZJREVPX1BMTCkg
+ewo+IC0JCQkJdW5zaWduZWQgaW50IGJpZywgc21hbGw7Cj4gLQo+IC0JCQkJaWYgKHZjbyA8IHBp
+eGVsX3Zjbykgewo+IC0JCQkJCXNtYWxsID0gdmNvOwo+IC0JCQkJCWJpZyA9IHBpeGVsX3ZjbzsK
+PiAtCQkJCX0gZWxzZSB7Cj4gLQkJCQkJc21hbGwgPSBwaXhlbF92Y287Cj4gLQkJCQkJYmlnID0g
+dmNvOwo+IC0JCQkJfQo+IC0JCQkJd2hpbGUgKGJpZyA+IHNtYWxsKSB7Cj4gLQkJCQkJYmlnID4+
+PSAxOwo+IC0JCQkJfQo+IC0JCQkJaWYgKGJpZyA9PSBzbWFsbCkgewo+IC0JCQkJCWNvbnRpbnVl
+Owo+IC0JCQkJfQo+IC0JCQl9Cj4gLSNlbmRpZgkJCQo+ICAJCQlkZWx0YSA9IHBsbF9mcmVxX2Rl
+bHRhKGZvdXQsIGc0NTBfdmNvMmYobW5wLCB2Y28pKTsKPiAgCQkJZm9yIChpZHggPSBtbnBjb3Vu
+dDsgaWR4ID4gMDsgaWR4LS0pIHsKPiAgCQkJCS8qID09IGlzIGltcG9ydGFudDsgZHVlIHRvIG5l
+eHRwbGwgYWxnb3JpdGhtIHdlIGdldAo+IC0tIAo+IDIuMTcuMgo+IAo+IF9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlz
+dAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
