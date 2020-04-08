@@ -1,28 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98B881A303A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:34:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 743BB1A3020
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:34:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 600456EB9E;
-	Thu,  9 Apr 2020 07:33:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68C146EB69;
+	Thu,  9 Apr 2020 07:33:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A46D16EB0A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 21:11:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 943BA297495
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] drm/mediatek: mtk_dsi: Create connector for bridges
-Date: Wed,  8 Apr 2020 23:11:20 +0200
-Message-Id: <20200408211120.1407512-8-enric.balletbo@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200408211120.1407512-1-enric.balletbo@collabora.com>
-References: <20200408211120.1407512-1-enric.balletbo@collabora.com>
+X-Greylist: delayed 382 seconds by postgrey-1.36 at gabe;
+ Wed, 08 Apr 2020 21:24:12 UTC
+Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEEB36E169
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 21:24:12 +0000 (UTC)
+Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
+ by pb-smtp2.pobox.com (Postfix) with ESMTP id 15C175069A;
+ Wed,  8 Apr 2020 17:17:49 -0400 (EDT)
+ (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+ :cc:subject:in-reply-to:message-id:references:mime-version
+ :content-type; s=sasl; bh=UIkb5A+H+jKDQ3GWp3Tbf0a8oXM=; b=AcgYlX
+ TnCHG5UcWgHkl8IlsC1e1uSPmTDBMpHTb4rnXL06C201X87TtsWkywbE7tyhVEgL
+ joaA4hStDMXuw8ZUssiqUmef7sB8CpImWNNVRynUk532oaFQQiq7ylZfjC6WKOG0
+ n438CvV7eUlVobxBSL2o/win8JdgiYwNnjPJU=
+Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
+ by pb-smtp2.pobox.com (Postfix) with ESMTP id EBD9250698;
+ Wed,  8 Apr 2020 17:17:48 -0400 (EDT)
+ (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type;
+ s=2016-12.pbsmtp; bh=C5qZnucLOvddU0/aYHUwvuoSJMokDJ9d4K7zprmELhs=;
+ b=rhI9Y9k7ariW+D63u1TPx511dXcnGqLfZWvC4hyySB7C8iu6lcGWtATA4lzrxivdp5SOwycFxqeXwlBHGMIZ+/TN4juy0TA9A3TTPQBm6TTbluFOmyrcr3+B1c5KEDP/2UtjGbuSvcOZxVxL1iYp3mQwA1ofghE5W48Ncw1e8cc=
+Received: from yoda.home (unknown [24.203.50.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 5F86F50697;
+ Wed,  8 Apr 2020 17:17:48 -0400 (EDT)
+ (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+ by yoda.home (Postfix) with ESMTPSA id 798F72DA0D4B;
+ Wed,  8 Apr 2020 17:17:47 -0400 (EDT)
+Date: Wed, 8 Apr 2020 17:17:47 -0400 (EDT)
+From: Nicolas Pitre <nico@fluxnic.net>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
+In-Reply-To: <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
+Message-ID: <nycvar.YSQ.7.76.2004081715080.2671@knanqh.ubzr>
+References: <20200408202711.1198966-1-arnd@arndb.de>
+ <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
+ <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
 MIME-Version: 1.0
+X-Pobox-Relay-ID: 65B28AAA-79DE-11EA-BF5C-D1361DBA3BAF-78420484!pb-smtp2.pobox.com
 X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -36,81 +66,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, drinkcat@chromium.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, laurent.pinchart@ideasonboard.com,
- hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Leon Romanovsky <leon@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Networking <netdev@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, Saeed Mahameed <saeedm@mellanox.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ linux-rdma <linux-rdma@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the drm_bridge_connector helper to create a connector for pipelines
-that use drm_bridge. This allows splitting connector operations across
-multiple bridges when necessary, instead of having the last bridge in
-the chain creating the connector and handling all connector operations
-internally.
+On Wed, 8 Apr 2020, Arnd Bergmann wrote:
 
-Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
----
+> On Wed, Apr 8, 2020 at 10:38 PM Nicolas Pitre <nico@fluxnic.net> wrote:
+> > On Wed, 8 Apr 2020, Arnd Bergmann wrote:
+> > > I have created workarounds for the Kconfig files, which now stop using
+> > > imply and do something else in each case. I don't know whether there was
+> > > a bug in the kconfig changes that has led to allowing configurations that
+> > > were not meant to be legal even with the new semantics, or if the Kconfig
+> > > files have simply become incorrect now and the tool works as expected.
+> >
+> > In most cases it is the code that has to be fixed. It typically does:
+> >
+> >         if (IS_ENABLED(CONFIG_FOO))
+> >                 foo_init();
+> >
+> > Where it should rather do:
+> >
+> >         if (IS_REACHABLE(CONFIG_FOO))
+> >                 foo_init();
+> >
+> > A couple of such patches have been produced and queued in their
+> > respective trees already.
+> 
+> I try to use IS_REACHABLE() only as a last resort, as it tends to
+> confuse users when a subsystem is built as a module and already
+> loaded but something relying on that subsystem does not use it.
 
- drivers/gpu/drm/mediatek/mtk_dsi.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+Then this is a usage policy issue, not a code correctness issue.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index f9706f306275..a36c86e174f4 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -17,6 +17,7 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-@@ -184,6 +185,7 @@ struct mtk_dsi {
- 	struct drm_bridge bridge;
- 	struct drm_bridge *panel_bridge;
- 	struct drm_bridge *next_bridge;
-+	struct drm_connector *connector;
- 	struct phy *phy;
- 
- 	void __iomem *regs;
-@@ -983,10 +985,19 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 	 */
- 	dsi->encoder.possible_crtcs = 1;
- 
--	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL, 0);
-+	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
-+				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret)
- 		goto err_cleanup_encoder;
- 
-+	dsi->connector = drm_bridge_connector_init(drm, &dsi->encoder);
-+	if (IS_ERR(dsi->connector)) {
-+		DRM_ERROR("Unable to create bridge connector\n");
-+		ret = PTR_ERR(dsi->connector);
-+		goto err_cleanup_encoder;
-+	}
-+	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
-+
- 	return 0;
- 
- err_cleanup_encoder:
-@@ -1145,6 +1156,7 @@ static int mtk_dsi_probe(struct platform_device *pdev)
- 
- 	dsi->bridge.funcs = &mtk_dsi_bridge_funcs;
- 	dsi->bridge.of_node = dev->of_node;
-+	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
- 
- 	drm_bridge_add(&dsi->bridge);
- 
--- 
-2.25.1
+The correctness issue is fixed with IS_REACHABLE(). If you want to 
+enforce a usage policy then this goes in Kconfig.
 
+But you still can do both.
+
+
+Nicolas
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
