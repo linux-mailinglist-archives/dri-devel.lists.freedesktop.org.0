@@ -1,42 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11CB71A1D97
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 10:51:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D392D1A1DA9
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 10:53:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62B726E9D5;
-	Wed,  8 Apr 2020 08:50:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 726BF6E9D8;
+	Wed,  8 Apr 2020 08:53:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DEEC6E9D5
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 08:50:56 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 26E6420027;
- Wed,  8 Apr 2020 10:50:51 +0200 (CEST)
-Date: Wed, 8 Apr 2020 10:50:44 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 10/10] drm/fb-helper: Remove return value from
- drm_fbdev_generic_setup()
-Message-ID: <20200408085044.GA23972@ravnborg.org>
-References: <20200408082641.590-1-tzimmermann@suse.de>
- <20200408082641.590-11-tzimmermann@suse.de>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D518E6E9D8
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 08:53:34 +0000 (UTC)
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
+ helo=phil.lan)
+ by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <heiko@sntech.de>)
+ id 1jM6Sg-0004Gq-It; Wed, 08 Apr 2020 10:53:30 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 1/2] dt-bindings: display: panel: Add binding document for
+ Leadtek LTK050H3146W
+Date: Wed,  8 Apr 2020 10:53:16 +0200
+Message-Id: <20200408085317.2624599-1-heiko@sntech.de>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200408082641.590-11-tzimmermann@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=VwQbUJbxAAAA:8
- a=7gkXJVJtAAAA:8 a=SJz97ENfAAAA:8 a=20KFwNOVAAAA:8 a=WWwATztPrksA4Y1E-tMA:9
- a=QzO-csg1wH-vQt3R:21 a=suLgOCcywbrmcIq3:21 a=wPNLvfGTeEIA:10
- a=AjGcO6oz07-iQ99wixmX:22 a=E9Po1WZjFZOl8hwRPBS3:22
- a=vFet0B0WnEQeilDPIY6i:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,166 +37,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, paul@crapouillou.net,
- kraxel@redhat.com, emil.velikov@collabora.com, xinliang.liu@linaro.org,
- kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com, chunkuang.hu@kernel.org,
- puck.chen@hisilicon.com, hdegoede@redhat.com, jsarha@ti.com,
- matthias.bgg@gmail.com, sean@poorly.run, zourongrong@gmail.com,
- tiantao6@hisilicon.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>, robh+dt@kernel.org,
+ thierry.reding@gmail.com, sam@ravnborg.org,
+ christoph.muellner@theobroma-systems.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas.
+From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 
-You missed my ack on the first 9 patches:
-https://lore.kernel.org/dri-devel/20200407101354.GA12686@ravnborg.org/
-Not that it matters as others have acked/reviewed them.
+The LTK050H3146W is a 5.0" 720x1280 DSI display.
 
-On Wed, Apr 08, 2020 at 10:26:41AM +0200, Thomas Zimmermann wrote:
-> Generic fbdev emulation is a DRM client. Drivers should invoke the
-> setup function, but not depend on its success. Hence remove the return
-> value.
-> =
+Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+---
+Sam said he had applied this to drm-misc-next already,
+but I can't see it so far, so included for completenes.
 
-> v2:
-> 	* warn if fbdev device has not been registered yet
-> 	* document the new behavior
-> 	* convert the existing warning to the new dev_ interface
-> =
+ .../display/panel/leadtek,ltk050h3146w.yaml   | 51 +++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml
 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Reviewed-by: Noralf Tr=F8nnes <noralf@tronnes.org>
-> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  drivers/gpu/drm/drm_fb_helper.c | 25 +++++++++++++------------
->  include/drm/drm_fb_helper.h     |  5 +++--
->  2 files changed, 16 insertions(+), 14 deletions(-)
-> =
+diff --git a/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml b/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml
+new file mode 100644
+index 000000000000..a372bdc5bde1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml
+@@ -0,0 +1,51 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/leadtek,ltk050h3146w.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Leadtek LTK050H3146W 5.0in 720x1280 DSI panel
++
++maintainers:
++  - Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - leadtek,ltk050h3146w
++      - leadtek,ltk050h3146w-a2
++  reg: true
++  backlight: true
++  reset-gpios: true
++  iovcc-supply:
++     description: regulator that supplies the iovcc voltage
++  vci-supply:
++     description: regulator that supplies the vci voltage
++
++required:
++  - compatible
++  - reg
++  - backlight
++  - iovcc-supply
++  - vci-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        panel@0 {
++            compatible = "leadtek,ltk050h3146w";
++            reg = <0>;
++            backlight = <&backlight>;
++            iovcc-supply = <&vcc_1v8>;
++            vci-supply = <&vcc3v3_lcd>;
++        };
++    };
++
++...
+-- 
+2.24.1
 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_hel=
-per.c
-> index 165c8dab50797..97f5e43837486 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -2169,7 +2169,9 @@ static const struct drm_client_funcs drm_fbdev_clie=
-nt_funcs =3D {
->   *                 @dev->mode_config.preferred_depth is used if this is =
-zero.
->   *
->   * This function sets up generic fbdev emulation for drivers that suppor=
-ts
-> - * dumb buffers with a virtual address and that can be mmap'ed.
-> + * dumb buffers with a virtual address and that can be mmap'ed. It's sup=
-posed
-> + * to run after the DRM driver registered the new DRM device with
-> + * drm_dev_register().
-OR maybe be more explicit - something like:
-drm_fbdev_generic_setup() shall be called after the DRM is registered
-with drm_dev_register().
-
-Either way is fine.
-
-	Sam
-
->   *
->   * Restore, hotplug events and teardown are all taken care of. Drivers t=
-hat do
->   * suspend/resume need to call drm_fb_helper_set_suspend_unlocked() them=
-selves.
-> @@ -2186,29 +2188,30 @@ static const struct drm_client_funcs drm_fbdev_cl=
-ient_funcs =3D {
->   * Setup will be retried on the next hotplug event.
->   *
->   * The fbdev is destroyed by drm_dev_unregister().
-> - *
-> - * Returns:
-> - * Zero on success or negative error code on failure.
->   */
-> -int drm_fbdev_generic_setup(struct drm_device *dev, unsigned int preferr=
-ed_bpp)
-> +void drm_fbdev_generic_setup(struct drm_device *dev,
-> +			     unsigned int preferred_bpp)
->  {
->  	struct drm_fb_helper *fb_helper;
->  	int ret;
->  =
-
-> -	WARN(dev->fb_helper, "fb_helper is already set!\n");
-> +	drm_WARN(dev, !dev->registered, "Device has not been registered.\n");
-> +	drm_WARN(dev, dev->fb_helper, "fb_helper is already set!\n");
->  =
-
->  	if (!drm_fbdev_emulation)
-> -		return 0;
-> +		return;
->  =
-
->  	fb_helper =3D kzalloc(sizeof(*fb_helper), GFP_KERNEL);
-> -	if (!fb_helper)
-> -		return -ENOMEM;
-> +	if (!fb_helper) {
-> +		drm_err(dev, "Failed to allocate fb_helper\n");
-> +		return;
-> +	}
->  =
-
->  	ret =3D drm_client_init(dev, &fb_helper->client, "fbdev", &drm_fbdev_cl=
-ient_funcs);
->  	if (ret) {
->  		kfree(fb_helper);
->  		drm_err(dev, "Failed to register client: %d\n", ret);
-> -		return ret;
-> +		return;
->  	}
->  =
-
->  	if (!preferred_bpp)
-> @@ -2222,8 +2225,6 @@ int drm_fbdev_generic_setup(struct drm_device *dev,=
- unsigned int preferred_bpp)
->  		drm_dbg_kms(dev, "client hotplug ret=3D%d\n", ret);
->  =
-
->  	drm_client_register(&fb_helper->client);
-> -
-> -	return 0;
->  }
->  EXPORT_SYMBOL(drm_fbdev_generic_setup);
->  =
-
-> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-> index 208dbf87afa3e..fb037be83997d 100644
-> --- a/include/drm/drm_fb_helper.h
-> +++ b/include/drm/drm_fb_helper.h
-> @@ -269,7 +269,8 @@ int drm_fb_helper_debug_leave(struct fb_info *info);
->  void drm_fb_helper_lastclose(struct drm_device *dev);
->  void drm_fb_helper_output_poll_changed(struct drm_device *dev);
->  =
-
-> -int drm_fbdev_generic_setup(struct drm_device *dev, unsigned int preferr=
-ed_bpp);
-> +void drm_fbdev_generic_setup(struct drm_device *dev,
-> +			     unsigned int preferred_bpp);
->  #else
->  static inline void drm_fb_helper_prepare(struct drm_device *dev,
->  					struct drm_fb_helper *helper,
-> @@ -443,7 +444,7 @@ static inline void drm_fb_helper_output_poll_changed(=
-struct drm_device *dev)
->  {
->  }
->  =
-
-> -static inline int
-> +static inline void
->  drm_fbdev_generic_setup(struct drm_device *dev, unsigned int preferred_b=
-pp)
->  {
->  	return 0;
-> -- =
-
-> 2.26.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
