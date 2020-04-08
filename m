@@ -1,43 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C72E1A1C20
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 08:59:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E107B1A1BC5
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 08:05:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6620B6E959;
-	Wed,  8 Apr 2020 06:59:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA1D6E1B2;
+	Wed,  8 Apr 2020 06:05:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD07A6E0A0
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 04:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
- Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=GvKjamk4sUiFDTkcqp3XAfdPqgx9QZfLYdf2cSZ1qKc=; b=SO1uPZFWq9Nmiok273flcRjei6
- zMiNn9DgT7zswypc0bl0FaKR3j57q4haOMi/ZvDXdsDn/3OobU92p2wJlwbawnvymVX1qvpIJTXia
- eA5VuDo+6U2R22v7+dEkLEV3Jxw2d1rNX8SdjOI0O/qcaZXaHXgE/rKUkLw9EsIHl3//62waCO7gW
- DW9Jozfe6VY+rz3vvdupHppSqaaj5yy+pOYrwfsVweB4OzZSpoBbTJ6MIiWpvlFdbiGVS1VRWwqbe
- yN84Q6GV05opH3H0DoKSBYsdHt/q54LqF64CWoxAwWpSxs++GDzfOuJzsIfzpXa55/oOrnR4xdOXu
- U0+7g4ig==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jM2Ca-0004vT-R1; Wed, 08 Apr 2020 04:20:36 +0000
-To: LKML <linux-kernel@vger.kernel.org>,
- linux-media <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH -next] dma-buf: fix documentation build warnings
-Message-ID: <7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org>
-Date: Tue, 7 Apr 2020 21:20:34 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AEBF6E1B2
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 06:05:42 +0000 (UTC)
+Received: by mail-qk1-x744.google.com with SMTP id j4so2037127qkc.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Apr 2020 23:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=i3YYftYCfrhJjBZZ31eyPIp2ch2qqn2ebn4+Xy1T8GM=;
+ b=mz1/1VoSkSn8lIOzYyt+hoarBQ1UWUZd5QYpTPClZskcGof5rbMLfBlcO0b6FeThy8
+ GivJZVp7anhPLhtV99KRCAA2/1kPkMjhIIj23PLzre2mRfXiczXolpQsPmtIUMgLGSUv
+ 72pYMDVrzBTXcE2VpUaKV1VY9AKeus3Q3x8j4regBUXTeZq8Z0IxDyFiZtWlQdPBOB3m
+ Cvb8Kq9ADE4bX3LQCfvrT4qkbalweYD0Mp5geM39vmknMkAlPnGPWqnWNAitM1zB0JQN
+ MAzolMAp3LlMUuEIlHMXS0kWg2IJBwwGgd1G3tlOdN5Z/XiXHlyi/COV0cHnZBYSi4jO
+ M1bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=i3YYftYCfrhJjBZZ31eyPIp2ch2qqn2ebn4+Xy1T8GM=;
+ b=VzNj95MEu8f1JS/2o2fq0XDFsRty10IaiJmOsypI5fxsehGqpFVG5ye8Ly9IM7SnKa
+ QDR7GxwkMlUcAmwk6S22rhCy84xE66xnRVZwKlagEBs6qaM1sLuqsL7s8tfX/3Q/pmDK
+ RLqvdhblV7werjfrT8IRO8E5lcALr6bS54XKjmubyXrp2jmZWtRQ2mgJWQg8sEC19Q/X
+ Iu+xkIqPUuep94oIXnNmgFFA+47QgVv06IVP1QR++4JVirK/ZlbAGabYQUPsK0qvrTbW
+ MYAnKhml0Q5lTM9bCsaKy5gNDeBgFtZ2Bucn/Bu0d8X1ZYFXoaLQUQVEr5LREPyhslG0
+ GHaA==
+X-Gm-Message-State: AGi0PuZA3zQtFZRZM1Hl8dE08TxbuqqfWCmFhifbSYldSrSMpegzlY0a
+ WGmXuANhsXVW2kXhdC4lCNc=
+X-Google-Smtp-Source: APiQypL97PJUfEmdYSkziP+A+Mrzd39ffS+akOz263Ejgd1uwHqIfFVDlMZwNT0XGGInVIQPwZHKdg==
+X-Received: by 2002:a37:67c8:: with SMTP id b191mr5720639qkc.166.1586325941141; 
+ Tue, 07 Apr 2020 23:05:41 -0700 (PDT)
+Received: from arch.localdomain (189-69-221-86.dial-up.telesp.net.br.
+ [189.69.221.86])
+ by smtp.gmail.com with ESMTPSA id w30sm19664170qtw.21.2020.04.07.23.05.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Apr 2020 23:05:40 -0700 (PDT)
+From: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
+To: rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com, daniel@ffwll.ch,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, manasi.d.navare@intel.com
+Subject: [PATCH 0/2] drm/vkms: Add Virtual hardware module option
+Date: Wed,  8 Apr 2020 03:05:01 -0300
+Message-Id: <20200408060503.47709-1-gabrielabittencourt00@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Language: en-US
-X-Mailman-Approved-At: Wed, 08 Apr 2020 06:59:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,62 +67,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Cc: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Hi,
 
-Fix documentation warnings in dma-buf.[hc]:
+I'm trying to implement the virtual hardware (virtual_hw) module option on
+VKMS module.
 
-../drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_ops' not described in 'dma_buf_dynamic_attach'
-../drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_priv' not described in 'dma_buf_dynamic_attach'
-../include/linux/dma-buf.h:339: warning: Incorrect use of kernel-doc format:          * @move_notify
+The virtual hardware module option is implemented as an option to skip the
+timing and vblank subtests. The main idea of virtual_hw is shorten the time
+used on each period of operation. For this, the timer for counting the
+period is eliminated and the KMS configurations are implemented along with
+the standard atomic operations.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/dma-buf/dma-buf.c |    4 ++--
- include/linux/dma-buf.h   |    3 +--
- 2 files changed, 3 insertions(+), 4 deletions(-)
+During the 'atomic_enable' and 'atomic_disable' the vblank is initialized
+only if the virtual_hw is disabled (and therefore, the vblank is enabled).
+A kick of crc/vblank is decoupled from vblank_simulate. Case the vblank
+is disabled (that is, the vblank_simulate will never execute) a
+vkms_composer_work routine is added to the end of the atomic_flush.
 
---- linux-next-20200407.orig/drivers/dma-buf/dma-buf.c
-+++ linux-next-20200407/drivers/dma-buf/dma-buf.c
-@@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
-  * calls attach() of dma_buf_ops to allow device-specific attach functionality
-  * @dmabuf:		[in]	buffer to attach device to.
-  * @dev:		[in]	device to be attached.
-- * @importer_ops	[in]	importer operations for the attachment
-- * @importer_priv	[in]	importer private pointer for the attachment
-+ * @importer_ops:	[in]	importer operations for the attachment
-+ * @importer_priv:	[in]	importer private pointer for the attachment
-  *
-  * Returns struct dma_buf_attachment pointer for this attachment. Attachments
-  * must be cleaned up by calling dma_buf_detach().
---- linux-next-20200407.orig/include/linux/dma-buf.h
-+++ linux-next-20200407/include/linux/dma-buf.h
-@@ -329,13 +329,12 @@ struct dma_buf {
- 
- /**
-  * struct dma_buf_attach_ops - importer operations for an attachment
-- * @move_notify: [optional] notification that the DMA-buf is moving
-  *
-  * Attachment operations implemented by the importer.
-  */
- struct dma_buf_attach_ops {
- 	/**
--	 * @move_notify
-+	 * @move_notify: [optional] notification that the DMA-buf is moving
- 	 *
- 	 * If this callback is provided the framework can avoid pinning the
- 	 * backing store while mappings exists.
+The IGT tests used to check the patch were the kms-flip, which kept the
+same results, with and without my alterations, with the exceptions of the
+tests that required vblank. The warning message and the related tests are
+presented below:
+
+Test requirement not met in function run_test_on_crtc_set, file ../tests/kms_flip.c:1285:
+Test requirement: vblank
+There is no VBlank
+Last errno: 95, Operation not supported
+ - wf_vblank-ts-check
+ - blocking-wf_vblank
+ - absolute-wf_vblank
+ - blocking-absolute-wf_vblank
+ - busy-flip
+ - plain-flip-ts-check
+ - plain-flip-fb-recreate
+ - flip-vs-expired-vblank
+ - flip-vs-absolute-wf_vblank
+ - basic-flip-vs-wf_vblank
+ - flip-vs-blocking-wf-vblank
+ - dpms-vs-vblank-race
+ - modeset-vs-vblank-race
+ - wf_vblank-ts-check-interruptible
+ - absolute-wf_vblank-interruptible
+ - blocking-absolute-wf_vblank-interruptible
+ - plain-flip-ts-check-interruptible
+ - plain-flip-fb-recreate-interruptible
+ - flip-vs-expired-vblank-interruptible
+ - flip-vs-absolute-wf_vblank-interruptible
+ - flip-vs-wf_vblank-interruptible
+ - dpms-vs-vblank-race-interruptible
+ - modeset-vs-vblank-race-interruptible
+
+Any suggestions are very welcome :)
+
+Gabriela Bittencourt (2):
+  drm/vkms: Rework vkms_vblank_simulate
+  drm/vkms: Add 'virtual_hw' module option
+
+ drivers/gpu/drm/vkms/vkms_crtc.c | 42 +++++++++++++++++++++++++++-----
+ drivers/gpu/drm/vkms/vkms_drv.c  | 13 ++++++++--
+ drivers/gpu/drm/vkms/vkms_drv.h  |  2 ++
+ 3 files changed, 49 insertions(+), 8 deletions(-)
+
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
