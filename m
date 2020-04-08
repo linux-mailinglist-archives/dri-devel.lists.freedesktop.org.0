@@ -1,59 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C195A1A2369
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 15:47:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABAB91A239B
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 15:50:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3BDB6EA6A;
-	Wed,  8 Apr 2020 13:47:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B97096EA66;
+	Wed,  8 Apr 2020 13:50:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
- [104.130.122.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A12856EA6A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 13:47:52 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1586353672; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=RM9BYTyqp04WdXbKEZKCnIV0N/XTyQ2Ga5uOfdecklE=;
- b=GBZoAhv+7IdsT0IxYtsFWMyuLJQHe4WNaS5bCt2DQLqu2NWvL8jnSa2JZHHtaOeFc9zekW63
- kgTQEpQvW61dj1PcD5zN6wwi70QYw7/mP7VoB53xEv34bHqoPcMwyGyLAkUbV9UC4YcwG/x+
- 1pe2mUnApHkV1+QxRN2Pnn4B5tk=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e8dd607.7fb9101dfdf8-smtp-out-n05;
- Wed, 08 Apr 2020 13:47:51 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 7E510C19432; Wed,  8 Apr 2020 13:47:50 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
+Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99B9E6EA66
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 13:50:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 909933F2F4;
+ Wed,  8 Apr 2020 15:49:58 +0200 (CEST)
+Authentication-Results: pio-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="Ys5N1rTp";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from blr-ubuntu-173.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: rnayak)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A0810C43637;
- Wed,  8 Apr 2020 13:47:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A0810C43637
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=rnayak@codeaurora.org
-From: Rajendra Nayak <rnayak@codeaurora.org>
-To: viresh.kumar@linaro.org, sboyd@kernel.org, bjorn.andersson@linaro.org,
- agross@kernel.org
-Subject: [PATCH 10/21] drm/msm: dsi: Use OPP API to set clk/perf state
-Date: Wed,  8 Apr 2020 19:16:36 +0530
-Message-Id: <1586353607-32222-11-git-send-email-rnayak@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1586353607-32222-1-git-send-email-rnayak@codeaurora.org>
-References: <1586353607-32222-1-git-send-email-rnayak@codeaurora.org>
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+ autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hbFYH2wiCcB4; Wed,  8 Apr 2020 15:49:57 +0200 (CEST)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35]) (Authenticated sender: mb878879)
+ by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 3AAA83F234;
+ Wed,  8 Apr 2020 15:49:55 +0200 (CEST)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 5EB8A360153;
+ Wed,  8 Apr 2020 15:49:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1586353795; bh=uKP1bbt2lQ/6DJwo/xx+8WkBUyNuuTZmAZi4smVVL4k=;
+ h=Subject:To:References:From:Date:In-Reply-To:From;
+ b=Ys5N1rTp9cN8d4To8nqSZro7FdC26M95VGzDpib/VMWVJAUHdGbuffnnuYEOsUy9c
+ BNeZc32y3LuOTrDwxupDvhSgMnaq0VnBGSS6i/ySm9uSxm3suGtIfYKMhKWu/IQ/bW
+ 2LaCqg9VKx3YwBCyigM/ljdQqsrbvl3Nq/3k2CCw=
+Subject: Re: [PATCH] drm/ttm: Temporarily disable the huge_fault() callback
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+References: <20200408115331.5529-1-thomas_os@shipmail.org>
+ <f7408653-39a1-e234-c45d-7a786e043b8f@shipmail.org>
+ <67f24846-0063-d435-1423-3cab8744854d@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
+Organization: VMware Inc.
+Message-ID: <9832f388-2227-8eb6-5a31-5cf38012eeff@shipmail.org>
+Date: Wed, 8 Apr 2020 15:49:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <67f24846-0063-d435-1423-3cab8744854d@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,161 +70,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Rajendra Nayak <rnayak@codeaurora.org>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On SDM845 DSI needs to express a perforamnce state
-requirement on a power domain depending on the clock rates.
-Use OPP table from DT to register with OPP framework and use
-dev_pm_opp_set_rate() to set the clk/perf state.
-
-Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/msm/dsi/dsi.h      |  2 ++
- drivers/gpu/drm/msm/dsi/dsi_cfg.c  |  4 ++--
- drivers/gpu/drm/msm/dsi/dsi_host.c | 48 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 52 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-index 4de771d..ba7583c 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi.h
-@@ -180,10 +180,12 @@ int msm_dsi_runtime_suspend(struct device *dev);
- int msm_dsi_runtime_resume(struct device *dev);
- int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host);
- int dsi_link_clk_set_rate_v2(struct msm_dsi_host *msm_host);
-+int dsi_link_clk_set_rate_6g_v2(struct msm_dsi_host *msm_host);
- int dsi_link_clk_enable_6g(struct msm_dsi_host *msm_host);
- int dsi_link_clk_enable_v2(struct msm_dsi_host *msm_host);
- void dsi_link_clk_disable_6g(struct msm_dsi_host *msm_host);
- void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host);
-+void dsi_link_clk_disable_6g_v2(struct msm_dsi_host *msm_host);
- int dsi_tx_buf_alloc_6g(struct msm_dsi_host *msm_host, int size);
- int dsi_tx_buf_alloc_v2(struct msm_dsi_host *msm_host, int size);
- void *dsi_tx_buf_get_6g(struct msm_dsi_host *msm_host);
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-index 813d69d..773c4fe 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-@@ -210,9 +210,9 @@ static const struct msm_dsi_host_cfg_ops msm_dsi_6g_host_ops = {
- };
- 
- static const struct msm_dsi_host_cfg_ops msm_dsi_6g_v2_host_ops = {
--	.link_clk_set_rate = dsi_link_clk_set_rate_6g,
-+	.link_clk_set_rate = dsi_link_clk_set_rate_6g_v2,
- 	.link_clk_enable = dsi_link_clk_enable_6g,
--	.link_clk_disable = dsi_link_clk_disable_6g,
-+	.link_clk_disable = dsi_link_clk_disable_6g_v2,
- 	.clk_init_ver = dsi_clk_init_6g_v2,
- 	.tx_buf_alloc = dsi_tx_buf_alloc_6g,
- 	.tx_buf_get = dsi_tx_buf_get_6g,
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 11ae5b8..c47d9af 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -14,6 +14,7 @@
- #include <linux/of_graph.h>
- #include <linux/of_irq.h>
- #include <linux/pinctrl/consumer.h>
-+#include <linux/pm_opp.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/spinlock.h>
-@@ -111,6 +112,8 @@ struct msm_dsi_host {
- 	struct clk *pixel_clk_src;
- 	struct clk *byte_intf_clk;
- 
-+	struct opp_table *opp;
-+
- 	u32 byte_clk_rate;
- 	u32 pixel_clk_rate;
- 	u32 esc_clk_rate;
-@@ -537,6 +540,40 @@ int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host)
- 	return 0;
- }
- 
-+int dsi_link_clk_set_rate_6g_v2(struct msm_dsi_host *msm_host)
-+{
-+	int ret;
-+	struct device *dev = &msm_host->pdev->dev;
-+
-+	DBG("Set clk rates: pclk=%d, byteclk=%d",
-+		msm_host->mode->clock, msm_host->byte_clk_rate);
-+
-+	ret = dev_pm_opp_set_rate(dev, msm_host->byte_clk_rate);
-+	if (ret) {
-+		pr_err("%s: dev_pm_opp_set_rate failed %d\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	ret = clk_set_rate(msm_host->pixel_clk, msm_host->pixel_clk_rate);
-+	if (ret) {
-+		pr_err("%s: Failed to set rate pixel clk, %d\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	if (msm_host->byte_intf_clk) {
-+		ret = clk_set_rate(msm_host->byte_intf_clk,
-+				   msm_host->byte_clk_rate / 2);
-+		if (ret) {
-+			pr_err("%s: Failed to set rate byte intf clk, %d\n",
-+			       __func__, ret);
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+
- 
- int dsi_link_clk_enable_6g(struct msm_dsi_host *msm_host)
- {
-@@ -665,6 +702,13 @@ void dsi_link_clk_disable_6g(struct msm_dsi_host *msm_host)
- 	clk_disable_unprepare(msm_host->byte_clk);
- }
- 
-+void dsi_link_clk_disable_6g_v2(struct msm_dsi_host *msm_host)
-+{
-+	/* Drop the performance state vote */
-+	dev_pm_opp_set_rate(&msm_host->pdev->dev, 0);
-+	dsi_link_clk_disable_6g(msm_host);
-+}
-+
- void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host)
- {
- 	clk_disable_unprepare(msm_host->pixel_clk);
-@@ -1879,6 +1923,9 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
- 		goto fail;
- 	}
- 
-+	msm_host->opp = dev_pm_opp_set_clkname(&pdev->dev, "byte");
-+	dev_pm_opp_of_add_table(&pdev->dev);
-+
- 	init_completion(&msm_host->dma_comp);
- 	init_completion(&msm_host->video_comp);
- 	mutex_init(&msm_host->dev_mutex);
-@@ -1904,6 +1951,7 @@ void msm_dsi_host_destroy(struct mipi_dsi_host *host)
- 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
- 
- 	DBG("");
-+	dev_pm_opp_of_remove_table(&msm_host->pdev->dev);
- 	dsi_tx_buf_free(msm_host);
- 	if (msm_host->workqueue) {
- 		flush_workqueue(msm_host->workqueue);
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gNC84LzIwIDI6MTkgUE0sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gQW0gMDguMDQuMjAg
+dW0gMTQ6MDEgc2NocmllYiBUaG9tYXMgSGVsbHN0csO2bSAoVk13YXJlKToKPj4gSGksIENocmlz
+dGlhbiwKPj4KPj4gT24gNC84LzIwIDE6NTMgUE0sIFRob21hcyBIZWxsc3Ryw7ZtIChWTXdhcmUp
+IHdyb3RlOgo+Pj4gRnJvbTogIlRob21hcyBIZWxsc3Ryb20gKFZNd2FyZSkiIDx0aG9tYXNfb3NA
+c2hpcG1haWwub3JnPgo+Pj4KPj4+IFdpdGggYW1kZ3B1IGFuZCBDT05GSUdfVFJBTlNQQVJFTlRf
+SFVHRVBBR0VfQUxXQVlTPXksIHRoZXJlIGFyZQo+Pj4gZXJyb3JzIGxpa2U6Cj4+PiBCVUc6IG5v
+bi16ZXJvIHBndGFibGVzX2J5dGVzIG9uIGZyZWVpbmcgbW0KPj4+IGFuZDoKPj4+IEJVRzogQmFk
+IHJzcy1jb3VudGVyIHN0YXRlCj4+PiB3aXRoIFRUTSB0cmFuc3BhcmVudCBodWdlLXBhZ2VzLgo+
+Pj4gVW50aWwgd2UndmUgZmlndXJlZCBvdXQgd2hhdCBvdGhlciBUVE0gZHJpdmVycyBkbyBkaWZm
+ZXJlbnRseSAKPj4+IGNvbXBhcmVkIHRvCj4+PiB2bXdnZngsIGRpc2FibGUgdGhlIGh1Z2VfZmF1
+bHQoKSBjYWxsYmFjaywgZWxpbWluYXRpbmcgdHJhbnNodWdlCj4+PiBwYWdlLXRhYmxlIGVudHJp
+ZXMuCj4+Pgo+Pj4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNv
+bT4KPj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBIZWxsc3Ryb20gKFZNd2FyZSkgPHRob21hc19v
+c0BzaGlwbWFpbC5vcmc+Cj4+PiBSZXBvcnRlZC1ieTogQWxleCBYdSAoSGVsbG83MSkgPGFsZXhf
+eV94dUB5YWhvby5jYT4KPj4+IFRlc3RlZC1ieTogQWxleCBYdSAoSGVsbG83MSkgPGFsZXhfeV94
+dUB5YWhvby5jYT4KPgo+IEFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29l
+bmlnQGFtZC5jb20+Cj4KPj4+IC0tLQo+Pgo+PiBXaXRob3V0IGJlaW5nIGFibGUgdG8gdGVzdCBh
+bmQgdHJhY2sgdGhpcyBkb3duIG9uIGFtZGdwdSB0aGVyZSdzIAo+PiBsaXR0bGUgbW9yZSB0aGFu
+IHRoaXMgSSBjYW4gZG8gYXQgdGhlIG1vbWVudC4gSG9wZWZ1bGx5IEknbGwgYmUgYWJsZSAKPj4g
+dG8gdGVzdCBvbiBub3V2ZWF1L3R0bSBhZnRlciBnZXR0aW5nIGJhY2sgZnJvbSB2YWNhdGlvbiB0
+byBzZWUgaWYgSSAKPj4gY2FuIHJlcHJvZHVjZS4KPj4KPj4gSXQgbG9va3MgbGlrZSBzb21lIHBh
+cnQgb2YgdGhlIGtlcm5lbCBtaXN0YWtlcyBhIGh1Z2UgcGFnZS10YWJsZSAKPj4gZW50cnkgZm9y
+IGEgcGFnZSBkaXJlY3RvcnksIGFuZCB0aGF0IHdvdWxkIGJlIGEgcGF0aCB0aGF0IGlzIG5vdCBo
+aXQgCj4+IHdpdGggdm13Z2Z4Lgo+Cj4gV2VsbCB0aGF0IGxvb2tzIGxpa2UgYW4gdWdseSBvbmUg
+YW5kIEkgZG9uJ3Qga25vdyBlbm91Z2ggYWJvdXQgdGhlIAo+IHBhZ2UgdGFibGUgaGFuZGxpbmcg
+dG8gaHVudCB0aGlzIGRvd24gZWl0aGVyLgo+Cj4gQlRXOiBIYXZlIHlvdSBzZWVuIHRoZSBjb3Zl
+cml0eSB3YXJuaW5nIGFib3V0wqAgIldBUk5fT05fT05DRShyZXQgPSAKPiBWTV9GQVVMVF9GQUxM
+QkFDSyk7Ij8KClllcywgdGhhdCdzIGEgZmFsc2Ugd2FybmluZyBidXQgaXQgbWlnaHQgYmUgdGhh
+dCBpdCBzaG91bGQgYmUgcmV3cml0dGVuIApmb3IgY2xhcml0eSBsaWtlIHNvOgoKcmV0ID0gVk1f
+RkFVTFRfRkFMTEJBQ0s7CldBUk5fT05fT05DRSh0cnVlKTsKCi9UaG9tYXMKCgoKPgo+IFJlZ2Fy
+ZHMsCj4gQ2hyaXN0aWFuLgo+Cj4+Cj4+IC9UaG9tYXMKPj4KPj4KCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
