@@ -2,55 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B1B1A2AA3
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 22:50:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD12D1A301C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A93C6EAFD;
-	Wed,  8 Apr 2020 20:50:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 650FE6EB63;
+	Thu,  9 Apr 2020 07:33:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C70196EAFD
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 20:50:07 +0000 (UTC)
-Received: from mail-qt1-f179.google.com ([209.85.160.179]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MpUlO-1ix49y0PQC-00puUK for <dri-devel@lists.freedesktop.org>; Wed, 08
- Apr 2020 22:50:06 +0200
-Received: by mail-qt1-f179.google.com with SMTP id x2so1110899qtr.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 13:50:05 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZZzq0V31wjy5WTqdlISzuy59w9d6nu1Iih8hX3DcaWWktkSth5
- a03VKyLoSVl4erlOKGbO6KhEYo5pMfBiD1yfIiQ=
-X-Google-Smtp-Source: APiQypIP5yghqg/2MrWIAF2lP5PX73f0nNW4IRcRHBZR7UjH98P/p+NK0Mdk7nj6cOkNVhU/171r9JSmuzucI6UHA5Q=
-X-Received: by 2002:ac8:12c2:: with SMTP id b2mr1560498qtj.7.1586379004961;
- Wed, 08 Apr 2020 13:50:04 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3FE46EB00
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 21:11:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 923C229746A
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] Convert mtk-dsi to drm_bridge API and get EDID for ps8640
+ bridge
+Date: Wed,  8 Apr 2020 23:11:13 +0200
+Message-Id: <20200408211120.1407512-1-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200408202711.1198966-1-arnd@arndb.de>
- <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
-In-Reply-To: <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Wed, 8 Apr 2020 22:49:48 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
-Message-ID: <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-To: Nicolas Pitre <nico@fluxnic.net>
-X-Provags-ID: V03:K1:jbTYwSHJ8UEmXDuTJ38v5RxVn7W3R+LKaVpPk8uYYiQ7elkb2Nt
- TLJgQu1tvMl3NKiJs/l9RdRamFGY5dT30SFmdMCPIOIHQWzPHxtejZ7wjvqmlYRHw1wHFgb
- iG+m2FHkBeXXY9BjH6yGJm3Hb+xFp0gbw+0olWROvKHHuLFJeKvHAtbuXlBUm63Swy1v5Lw
- vwvluU3ze5HPbNqpig9sg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Vbt7NN+bK68=:BOZ0Z0vKdiT34r7QXGQcrs
- 9+NTd4PbdEaMXeI7pepVqKsB0YR79xkoU13A3ULdWyRtzB2hUMbG7mM1+qkkkkSN6EAoj//L4
- 2z0RSdAki7ULn1Zx6ahQjaqN+0h6rVglHP7VZWlAorj/4wxt9XfnboTbtvGnGSVTjjhhiGLYm
- bFFkKK1b/OOEi6kr8j/nyuhIqa2UDvP57/2VhBtKiVV8r5T+JVEgoXSfkp2Qf0svBmKRbmSqF
- ecB1PRd3kOSWwqSnwp1mvZ9TekxDQ1ClDfrHV2OX8qnt3IvtW77AoHLZotvNqRpQ+TxkdDqGq
- zS2rdksOk83de0kz/HX4MGmz+oR3bXdHiOYQ7tz2j8qvD/0IjPYX7xWsR2VXWovHvE3TukWvQ
- OFLEu6GwXufpzYCz4tL6CvS0EruTgRjdQ+d1DEGmaWCNmENZQPu7ZxOIbRPzrrN0dqG2FYJOy
- SDPN9upAH6ShMGAa0aR8x75c3oKIBOUAkLJU+Id7sPKMtkvjqytOdd9RxySU58KWRCeeRi7b8
- zauLOWCYzVa4phYW+WzQOZx4LH+PmI7IHzx8Yx86/JgKhWHexq1Vq2fx82svyNdlnxHVsxhSV
- w6YR6cSr32e9RvlRSdIBlNTB8vejyFlEsxk4xAOVvFJBmtqiwjZuLI2KjZo77NZipXCwUoWdU
- pN7FcMJ5SP6TwibvQZlOEpy0vIfORLU6TxpGDtJJsfuA6GcpjCz4T1XEBTp2EcE+wsF7CdNsr
- hhdQ+gTEgcCLTlxr7assF6mMitHWf+hJBt0YAzCTWvdzo6XS3Vy0ilbXFA/q/DREe94fRmgru
- 4herof6H7wl0ExFLCwqlB1PIhMGF9RfYvXkYg5DSEyTPgYO5lI=
+X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,59 +36,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Leon Romanovsky <leon@kernel.org>,
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
  Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Networking <netdev@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Saeed Mahameed <saeedm@mellanox.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- "David S. Miller" <davem@davemloft.net>,
- linux-rdma <linux-rdma@vger.kernel.org>
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ linux-mediatek@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 8, 2020 at 10:38 PM Nicolas Pitre <nico@fluxnic.net> wrote:
-> On Wed, 8 Apr 2020, Arnd Bergmann wrote:
-> > I have created workarounds for the Kconfig files, which now stop using
-> > imply and do something else in each case. I don't know whether there was
-> > a bug in the kconfig changes that has led to allowing configurations that
-> > were not meant to be legal even with the new semantics, or if the Kconfig
-> > files have simply become incorrect now and the tool works as expected.
->
-> In most cases it is the code that has to be fixed. It typically does:
->
->         if (IS_ENABLED(CONFIG_FOO))
->                 foo_init();
->
-> Where it should rather do:
->
->         if (IS_REACHABLE(CONFIG_FOO))
->                 foo_init();
->
-> A couple of such patches have been produced and queued in their
-> respective trees already.
+The PS8640 dsi-to-eDP bridge driver is using the panel bridge API,
+however, not all the components in the chain have been ported to the
+drm_bridge API. Actually, when a panel is attached the default panel's mode
+is used, but in some cases we can't get display up if mode getting from
+eDP control EDID is not chosen.
 
-I try to use IS_REACHABLE() only as a last resort, as it tends to
-confuse users when a subsystem is built as a module and already
-loaded but something relying on that subsystem does not use it.
+This series address that problem, first implements the .get_edid()
+callback in the PS8640 driver (which is not used until the conversion is
+done) and then, converts the Mediatek DSI driver to use the drm_bridge
+API.
 
-In the six patches I made, I had to use IS_REACHABLE() once,
-for the others I tended to use a Kconfig dependency like
+As far as I know, we're the only users of the mediatek dsi driver in
+mainline, so should be safe to switch to the new chain of drm_bridge API
+unconditionally.
 
-'depends on FOO || FOO=n'
+The patches has been tested on a Acer Chromebook R13 (Elm) running a
+Chrome OS userspace and checking that the valid EDID mode reported by
+the bridge is selected.
 
-which avoids the case that IS_REACHABLE() works around badly.
+[1] https://lore.kernel.org/lkml/20200210063523.133333-1-hsinyi@chromium.org/
 
-I did come up with the IS_REACHABLE() macro originally, but that
-doesn't mean I think it's a good idea to use it liberally ;-)
 
-      Arnd
+Enric Balletbo i Serra (7):
+  drm/bridge: ps8640: Get the EDID from eDP control
+  drm/bridge_connector: Set default status connected for eDP connectors
+  drm/mediatek: mtk_dsi: Rename bridge to next_bridge
+  drm/mediatek: mtk_dsi: Convert to bridge driver
+  drm/mediatek: mtk_dsi: Use simple encoder
+  drm/mediatek: mtk_dsi: Use the drm_panel_bridge API
+  drm/mediatek: mtk_dsi: Create connector for bridges
+
+ drivers/gpu/drm/bridge/parade-ps8640.c |  12 ++
+ drivers/gpu/drm/drm_bridge_connector.c |   1 +
+ drivers/gpu/drm/mediatek/mtk_dsi.c     | 281 ++++++++-----------------
+ 3 files changed, 102 insertions(+), 192 deletions(-)
+
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
