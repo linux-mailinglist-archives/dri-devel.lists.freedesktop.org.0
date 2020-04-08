@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C41A1A29D0
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 21:52:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 590B81A29CC
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 21:52:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 737DD6EADA;
-	Wed,  8 Apr 2020 19:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD37A6EAD6;
+	Wed,  8 Apr 2020 19:52:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 252786EAD6
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 19:51:58 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id t17so8963722ljc.12
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 12:51:57 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8AB6EAD7
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 19:51:59 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id k28so6091419lfe.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 12:51:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DaICPVhWGMzYWehtRVbV/jO9Up7YjJ7XLHT6tmeYB5E=;
- b=HYnB/to8RJXQKnyDwMdbAnEqtL8JJbJA987j6GgWeJtT7Fz1wkLdhsfcoO7MkdcVol
- o0KcR5zXEZVl6NQbrBkGlbx14iQpYH755wNkDfJ2KHJ8EtRqleoUuVRHSCONchLtd/KD
- Hu7fdoiSZpbjJAdWStNO6AsKlzJQeZU5zR+EEs7JqkGI5UauudPO2qzDQws2pg64twl9
- Z6gshauG8+8Lnh4s4W3rZAdL0elmyp03uxO3k82X8d/FETZqm8BB1lyVEB8Sp4K71EPg
- vFNWfAGbmVvnYFclGoS5r/relJTypd2ifH6LsWU9uwegneI5LwzhLmFfhVh8UU5VMG7s
- J8fQ==
+ bh=79d8ydBEeVchzXXOzRIawXTAySSjx90jaugBrSZsHQA=;
+ b=bJrnqBT9cd9ybEv/ObtZp0zMaDd4qGK6riRu2c5RkkFvE1hIeZdFgxFt3VnPRKytqq
+ Hu/QOwH5M2GFx9b+4Kgr11iv2EMCl+THZ4SE73K7YrK5c8y2Q4/4KiM0uKAg960mKBDE
+ 4ZnVphSaUz5dNynfpZgPy7AX54RJ0EJTvx54Qbp8R1ZrqrTN/yBfWlVNhFi8ztTOx25u
+ CeMKyKYyGyBlZgZ7ZHqzfF30Hw4Lfr/cUyvKmPIVVj4g2txYD2av5w/1loBfJtwcbrbN
+ FpqgD1bpvU7lasHgbpc/9Tzi35tRBuhIbb4+oh3/2EIXItMJD5rYFiNZu1lPgm8MJlZi
+ fYew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=DaICPVhWGMzYWehtRVbV/jO9Up7YjJ7XLHT6tmeYB5E=;
- b=f6WDanzcvCjHu1Qo9SMmtzoVigkq16aq5HyV7sHFxpJd1qCePmfL+CQS2HN9/kjulY
- IM1Y9/qAgSWAhVvzHSn+ewvxLKrL7vVUS8KesRYzVUeh85UiWlYhAH2SXAPZVX/PBY5a
- 4S77xHJldAu5jtQsN3ho7+GNMczGP7A+226YX7E6p5WJpE+Xw5anZcIiuQ4E+TgxZiUf
- lR6Lsd9BWsr/axa0QFxs7I8R0j/7aHf+kd7yDNNpFnyRdqUnnG4yIJutfiMAQgPSzLuU
- lH2u6TrjWFChK9XIr2KNArOJPF0WPkAGrefAvrcIAZQ47r4mBcqmBIeYHSk3lvOS43xJ
- Vcug==
-X-Gm-Message-State: AGi0PuZ7XHhxv+kMBJ5prYW7ffOuYhMrv9TVWFhge1KilgynDgEtjTKD
- qgxY2wppNGsiYZTtwBx+jFiFMdpGEm8=
-X-Google-Smtp-Source: APiQypIRlLDB66S2v+CD42pwXG2CjA3QxlWHexQl/bSzdmSMgYVVWvSsx2LYOSWCZeX3WsoKJQEGGA==
-X-Received: by 2002:a2e:8612:: with SMTP id a18mr5580381lji.250.1586375516188; 
- Wed, 08 Apr 2020 12:51:56 -0700 (PDT)
+ bh=79d8ydBEeVchzXXOzRIawXTAySSjx90jaugBrSZsHQA=;
+ b=ifw11+naJsQprbFbqmIKlZRzb9O5RKOkvD/pzdOL1vc4M+ZvKoz5b9+D3PAr3DVKfl
+ xxIWJxnG8tQ7v70lhG6o07p1/xwc71W33GGP0Gc8PMCHuIctLtLkSFZRQHINJzrhudFh
+ CiM6NAHUkq2K3UUr6+sMb8FiiYCz1t+SaX/5KnqhmhGEXuJv21x+cEDF4tL9JqYYCVab
+ M079CFQx1p3K/0bAgdwaiY33yGaKnIjW8BI4u2bdFDqHJXabexX/RBVZqN21hXPdh0DT
+ klQvxxj7NhVqnf9p+9U8uKfarsIveBWzkGjd9bE5jXFAaKMVF7+fRFp3StTq2ryzRIDr
+ bg/g==
+X-Gm-Message-State: AGi0PubLi7b6PFomNZ7BSl05y51GVbwncXQXj3eDNs2L33cDF2Xib5Xr
+ sN3VhPOOaWVrfe9T7m+dGsCjv+pBEiw=
+X-Google-Smtp-Source: APiQypI93VEntAsC4tx0iRCQh3Hx52ByIPE/1htlLC1d+Sux+/LLEHizMFmf+jMbfcUIlQQJpr+jaw==
+X-Received: by 2002:ac2:5559:: with SMTP id l25mr5563589lfk.55.1586375517195; 
+ Wed, 08 Apr 2020 12:51:57 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- i20sm3961304lfe.15.2020.04.08.12.51.55
+ i20sm3961304lfe.15.2020.04.08.12.51.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Apr 2020 12:51:55 -0700 (PDT)
+ Wed, 08 Apr 2020 12:51:56 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v2 14/36] dt-bindings: display: convert kingdisplay,
- kd097d04 to DT Schema
-Date: Wed,  8 Apr 2020 21:50:47 +0200
-Message-Id: <20200408195109.32692-15-sam@ravnborg.org>
+Subject: [PATCH v2 15/36] dt-bindings: display: convert simple lg panels to DT
+ Schema
+Date: Wed,  8 Apr 2020 21:50:48 +0200
+Message-Id: <20200408195109.32692-16-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200408195109.32692-1-sam@ravnborg.org>
 References: <20200408195109.32692-1-sam@ravnborg.org>
@@ -69,71 +69,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nickey Yang <nickey.yang@rock-chips.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sam Ravnborg <sam@ravnborg.org>, Alexandre Courbot <acourbot@chromium.org>,
+ Brian Masney <masneyb@onstation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-kingdisplay,kd097d04 matches the panel-simple-dsi binding.
-The only difference is that enable-gpios is now an optional
-property.
-
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Nickey Yang <nickey.yang@rock-chips.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
----
- .../display/panel/kingdisplay,kd097d04.txt    | 22 -------------------
- .../display/panel/panel-simple-dsi.yaml       |  2 ++
- 2 files changed, 2 insertions(+), 22 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/kingdisplay,kd097d04.txt
-
-diff --git a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd097d04.txt b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd097d04.txt
-deleted file mode 100644
-index cfefff688614..000000000000
---- a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd097d04.txt
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Kingdisplay KD097D04 9.7" 1536x2048 TFT LCD panel
--
--Required properties:
--- compatible: should be "kingdisplay,kd097d04"
--- reg: DSI virtual channel of the peripheral
--- power-supply: phandle of the regulator that provides the supply voltage
--- enable-gpios: panel enable gpio
--
--Optional properties:
--- backlight: phandle of the backlight device attached to the panel
--
--Example:
--
--	&mipi_dsi {
--		panel@0 {
--			compatible = "kingdisplay,kd097d04";
--			reg = <0>;
--			power-supply = <...>;
--			backlight = <&backlight>;
--			enable-gpios = <&gpio1 13 GPIO_ACTIVE_HIGH>;
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-index b2e8742fd6af..949371db0a16 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-@@ -29,6 +29,8 @@ properties:
-       # compatible must be listed in alphabetical order, ordered by compatible.
-       # The description in the comment is mandatory for each compatible.
- 
-+        # Kingdisplay KD097D04 9.7" 1536x2048 TFT LCD panel
-+      - kingdisplay,kd097d04
-         # Panasonic 10" WUXGA TFT LCD panel
-       - panasonic,vvx10f034n00
- 
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QWRkIHRoZSBsZyBwYW5lbHMgdGhhdCBtYXRjaGVzIHRoZSBwYW5lbC1zaW1wbGUgYmluZGluZyB0
+bwpwYW5lbC1zaW1wbGUueWFtbAoKU2lnbmVkLW9mZi1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2
+bmJvcmcub3JnPgpSZXZpZXdlZC1ieTogQnJpYW4gTWFzbmV5IDxtYXNuZXliQG9uc3RhdGlvbi5v
+cmc+CkNjOiBCcmlhbiBNYXNuZXkgPG1hc25leWJAb25zdGF0aW9uLm9yZz4KQ2M6IEFsZXhhbmRy
+ZSBDb3VyYm90IDxhY291cmJvdEBjaHJvbWl1bS5vcmc+CkNjOiBUaGllcnJ5IFJlZGluZyA8dGhp
+ZXJyeS5yZWRpbmdAZ21haWwuY29tPgpDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3Jn
+PgotLS0KIC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbGcsYWN4NDY3YWtt
+LTcudHh0ICAgfCA3IC0tLS0tLS0KIC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFu
+ZWwvbGcsbGQwNzB3eDMtc2wwMS50eHQgfCA3IC0tLS0tLS0KIC4uLi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2Rpc3BsYXkvcGFuZWwvbGcsbGg1MDB3eDEtc2QwMy50eHQgfCA3IC0tLS0tLS0KIC4uLi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLnlhbWwgICAgfCA2
+ICsrKysrKwogNCBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDIxIGRlbGV0aW9ucygt
+KQogZGVsZXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9k
+aXNwbGF5L3BhbmVsL2xnLGFjeDQ2N2FrbS03LnR4dAogZGVsZXRlIG1vZGUgMTAwNjQ0IERvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2xnLGxkMDcwd3gzLXNs
+MDEudHh0CiBkZWxldGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2Rpc3BsYXkvcGFuZWwvbGcsbGg1MDB3eDEtc2QwMy50eHQKCmRpZmYgLS1naXQgYS9Eb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9sZyxhY3g0Njdha20t
+Ny50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9s
+ZyxhY3g0Njdha20tNy50eHQKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IGZjMWUxYjMy
+NWU0OS4uMDAwMDAwMDAwMDAwCi0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy9kaXNwbGF5L3BhbmVsL2xnLGFjeDQ2N2FrbS03LnR4dAorKysgL2Rldi9udWxsCkBAIC0xLDcg
+KzAsMCBAQAotTEcgQUNYNDY3QUtNLTcgNC45NSIgMTA4MMOXMTkyMCBMQ0QgUGFuZWwKLQotUmVx
+dWlyZWQgcHJvcGVydGllczoKLS0gY29tcGF0aWJsZTogbXVzdCBiZSAibGcsYWN4NDY3YWttLTci
+Ci0KLVRoaXMgYmluZGluZyBpcyBjb21wYXRpYmxlIHdpdGggdGhlIHNpbXBsZS1wYW5lbCBiaW5k
+aW5nLCB3aGljaCBpcyBzcGVjaWZpZWQKLWluIHNpbXBsZS1wYW5lbC50eHQgaW4gdGhpcyBkaXJl
+Y3RvcnkuCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
+cGxheS9wYW5lbC9sZyxsZDA3MHd4My1zbDAxLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2xnLGxkMDcwd3gzLXNsMDEudHh0CmRlbGV0ZWQgZmls
+ZSBtb2RlIDEwMDY0NAppbmRleCA1ZTY0OWNiOWFhMWEuLjAwMDAwMDAwMDAwMAotLS0gYS9Eb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9sZyxsZDA3MHd4My1z
+bDAxLnR4dAorKysgL2Rldi9udWxsCkBAIC0xLDcgKzAsMCBAQAotTEcgQ29ycG9yYXRpb24gNyIg
+V1hHQSBURlQgTENEIHBhbmVsCi0KLVJlcXVpcmVkIHByb3BlcnRpZXM6Ci0tIGNvbXBhdGlibGU6
+IHNob3VsZCBiZSAibGcsbGQwNzB3eDMtc2wwMSIKLQotVGhpcyBiaW5kaW5nIGlzIGNvbXBhdGli
+bGUgd2l0aCB0aGUgc2ltcGxlLXBhbmVsIGJpbmRpbmcsIHdoaWNoIGlzIHNwZWNpZmllZAotaW4g
+c2ltcGxlLXBhbmVsLnR4dCBpbiB0aGlzIGRpcmVjdG9yeS4KZGlmZiAtLWdpdCBhL0RvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2xnLGxoNTAwd3gxLXNkMDMu
+dHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbGcs
+bGg1MDB3eDEtc2QwMy50eHQKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IGEwNGZkMmIy
+ZTczZC4uMDAwMDAwMDAwMDAwCi0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy9kaXNwbGF5L3BhbmVsL2xnLGxoNTAwd3gxLXNkMDMudHh0CisrKyAvZGV2L251bGwKQEAgLTEs
+NyArMCwwIEBACi1MRyBDb3Jwb3JhdGlvbiA1IiBIRCBURlQgTENEIHBhbmVsCi0KLVJlcXVpcmVk
+IHByb3BlcnRpZXM6Ci0tIGNvbXBhdGlibGU6IHNob3VsZCBiZSAibGcsbGg1MDB3eDEtc2QwMyIK
+LQotVGhpcyBiaW5kaW5nIGlzIGNvbXBhdGlibGUgd2l0aCB0aGUgc2ltcGxlLXBhbmVsIGJpbmRp
+bmcsIHdoaWNoIGlzIHNwZWNpZmllZAotaW4gc2ltcGxlLXBhbmVsLnR4dCBpbiB0aGlzIGRpcmVj
+dG9yeS4KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNw
+bGF5L3BhbmVsL3BhbmVsLXNpbXBsZS55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
+bmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLnlhbWwKaW5kZXggMzI4ZGY5NWNiZTg4
+Li5lNGY4MTMzZjQ4YmIgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9kaXNwbGF5L3BhbmVsL3BhbmVsLXNpbXBsZS55YW1sCisrKyBiL0RvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL3BhbmVsLXNpbXBsZS55YW1sCkBAIC0x
+NTUsOCArMTU1LDE0IEBAIHByb3BlcnRpZXM6CiAgICAgICAtIGt5byx0Y2cxMjF4Z2xwCiAgICAg
+ICAgICMgTGVNYWtlciBCTDAzNS1SR0ItMDAyIDMuNSIgUVZHQSBURlQgTENEIHBhbmVsCiAgICAg
+ICAtIGxlbWFrZXIsYmwwMzUtcmdiLTAwMgorICAgICAgICAjIExHIEFDWDQ2N0FLTS03IDQuOTUi
+IDEwODDDlzE5MjAgTENEIFBhbmVsCisgICAgICAtIGxnLGFjeDQ2N2FrbS03CiAgICAgICAgICMg
+TEcgNyIgKDgwMHg0ODAgcGl4ZWxzKSBURlQgTENEIHBhbmVsCiAgICAgICAtIGxnLGxiMDcwd3Y4
+CisgICAgICAgICMgTEcgQ29ycG9yYXRpb24gNyIgV1hHQSBURlQgTENEIHBhbmVsCisgICAgICAt
+IGxnLGxkMDcwd3gzLXNsMDEKKyAgICAgICAgIyBMRyBDb3Jwb3JhdGlvbiA1IiBIRCBURlQgTENE
+IHBhbmVsCisgICAgICAtIGxnLGxoNTAwd3gxLXNkMDMKICAgICAgICAgIyBMRyBMUDA3OVFYMS1T
+UDBWIDcuOSIgKDE1MzZ4MjA0OCBwaXhlbHMpIFRGVCBMQ0QgcGFuZWwKICAgICAgIC0gbGcsbHAw
+NzlxeDEtc3AwdgogICAgICAgICAjIExHIDkuNyIgKDIwNDh4MTUzNiBwaXhlbHMpIFRGVCBMQ0Qg
+cGFuZWwKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
