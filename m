@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654731A29E4
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 21:52:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA51C1A29E8
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 21:52:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A8DE6EAE0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E11F96EAE5;
 	Wed,  8 Apr 2020 19:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
  [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E88E96EADE
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 19:52:07 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id t17so8964234ljc.12
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 12:52:07 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1037B6EAE0
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 19:52:09 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id q22so5253533ljg.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 12:52:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TqzV4MPdGVVHtAbugCExEo6BeL07NygrdK5YIjL8Q/Q=;
- b=vcHdk6V7p/5lvirdWFpNPQcRbqx5cD+mtI7uD4T8oLusG0CR/y0bhbc6+Oiwt5UXMo
- Jj7Zjc/msfeCLbvA18ikGO5cJN33BMywxhSh6KNbpRf7pLkt0800ALMN0PGojm49Tlfb
- xbw4gkwThDqL9pL4ydW0vpyR7YNVWP/bacnDfBregAiubw4I5IV3SUjwAnOfQ+6VFy2V
- mj2M8B86onRW3IM4EDdv7c0J5Qfomf/3ygf2IFF0aWRFegMCR3iDkQDEQ2537jxitsHq
- Hr3ftMMhSdPwfXMcdG+F+cAAboXHxM8am2DeiL5PhL5Cpx0ybSDVXg9c0qlLXLu4d7BZ
- whqA==
+ bh=7+CVMxbsPicV/fwxP5mLwljkIZSzu8S5meR2w3434dc=;
+ b=VUScjKUJ3sRl7kSkeR5/ppr6loUiu+5tonJIGWpPCL4kNi8kR5Zoy7JiymR25oaCA/
+ nJeOn2hvFFWA5WOSMJetivEqX3v71zZx5Wa4qNi5J6Nfa7K9G5+bmsca3b6CihJf5r3F
+ xqPPR8zpcvzEpN/5XcELi5QROI+ps1g8VjaC9azMRmwvCGwDMtEfJ4V/Bcvoz9gJizkU
+ z1hqxliuOC+Xwyh3gqKIuPZqbJ3Dwtxe9iQB4aR1kQoaWbgmrmmlHY4Qli+xK1QA8hmH
+ oEENC4oeIjQGIvp2YXQj2dyqFyjlLssBYmkXrE4aclCdclO5ZEQS3JIt8L81dehUocjK
+ 1BCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TqzV4MPdGVVHtAbugCExEo6BeL07NygrdK5YIjL8Q/Q=;
- b=D5GEknDfL1G4GjNNaJnNxiDZTltWofTxai7HwRIgag7hkc8tKe8jyvqWYRC3faOy93
- QirjqdP42qgKCQqLBdCq8IKQIaQQW9pyTD9Y9ST9KtWKd2iX3H5ATaeE/cAstSlsTord
- /64IG2S0QyL/cU10G+ylEiHSgF13mz1KKW0Bn4mLVRLDJI9D8lBCJjZw73JYBUNRqTAL
- 8N6q2LubfqWtY0UfaI3psRh/78+vloCY1a+9bRsNqdQDsfW2u+IzyDHustsxVb9j4C6r
- KZ8gaHJSgGCqmtRflqaI9WxcJByZhhZDLZ+UnBLIqZAfrydyHUn6yyETk4+66HftOcaz
- LyCQ==
-X-Gm-Message-State: AGi0PuaJLWRR5QtIzj1P/+b3mwd+TS+6AdCaeL9ZIBMNVDUQR5TeUe/f
- U6xRFfXiMD9Fz0X6/0VHICh5t+uA9JY=
-X-Google-Smtp-Source: APiQypL8PXxu9oEBPxLhH/oTLKAHkkiP8CiHzd1VfpObLjBK2GqPULA5CH3ShDykbJhXvtArNFoYCw==
-X-Received: by 2002:a05:651c:c4:: with SMTP id 4mr24549ljr.121.1586375525862; 
- Wed, 08 Apr 2020 12:52:05 -0700 (PDT)
+ bh=7+CVMxbsPicV/fwxP5mLwljkIZSzu8S5meR2w3434dc=;
+ b=qK5Wq0wLBrJDbHi8O9cbACp7is4oSSyg8kt067f5yM5o0kXedvTS0SSHHtjHP1WyMZ
+ GaTgVbDXVyEnSrdfrCQmijfPy7Z1ZgN0RSIYmrHDicxA3hyVuRwsWMxmmGqQL0crO8zX
+ j4mfEBwAr5W2r0Kev019V+5k7tBBUDx0VPnxbdh75rkH+9TA7LJTerQQMXRBEWpeqNSU
+ UQ7GTg8O6vQF8NNW2ASHWX6XwNz+EHF3Ro5WGFUNQS4A3eJl0dYcD492sTUw5h4mGGz1
+ q/n0PqnL1kYIJzelke6po6rD0wNOSJ+j6yzFWFQpKlAiNxVjRmKRbMEmvbRmCvGtW9e3
+ Zr7w==
+X-Gm-Message-State: AGi0PuaOUlzoaH6RRg0k9BtNuwk8gGNM/T3TdtGdMjN80y+jaQqtkJet
+ HSlme2YQvqkZUsYlKLpU/89B9SSI2DI=
+X-Google-Smtp-Source: APiQypIal03E0aeSlBE0puxuSkmOeXenB82LUpmrGBHh3y9Jup2eKAtFoxcs2ML/dx2TxC9LBhctiw==
+X-Received: by 2002:a2e:804a:: with SMTP id p10mr6314584ljg.289.1586375527126; 
+ Wed, 08 Apr 2020 12:52:07 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- i20sm3961304lfe.15.2020.04.08.12.52.05
+ i20sm3961304lfe.15.2020.04.08.12.52.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Apr 2020 12:52:05 -0700 (PDT)
+ Wed, 08 Apr 2020 12:52:06 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v2 23/36] dt-bindings: display: convert samsung,
- s6e8aa0 to DT Schema
-Date: Wed,  8 Apr 2020 21:50:56 +0200
-Message-Id: <20200408195109.32692-24-sam@ravnborg.org>
+Subject: [PATCH v2 24/36] dt-bindings: display: convert toppoly panels to DT
+ Schema
+Date: Wed,  8 Apr 2020 21:50:57 +0200
+Message-Id: <20200408195109.32692-25-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200408195109.32692-1-sam@ravnborg.org>
 References: <20200408195109.32692-1-sam@ravnborg.org>
@@ -69,187 +69,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: "H . Nikolaus Schaller" <hns@goldelico.com>,
+ Marek Belisko <marek@goldelico.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+v2:
+  - dropped use of spi-slave.yaml (Maxime)
+  - added unevaluatedProperties (Maxime)
+
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Marek Belisko <marek@goldelico.com>
+Cc: H. Nikolaus Schaller <hns@goldelico.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../display/panel/samsung,s6e8aa0.txt         | 56 -----------
- .../display/panel/samsung,s6e8aa0.yaml        | 96 +++++++++++++++++++
- 2 files changed, 96 insertions(+), 56 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
+ .../bindings/display/panel/tpo,td.yaml        | 65 +++++++++++++++++++
+ .../bindings/display/panel/tpo,td028ttec1.txt | 32 ---------
+ .../bindings/display/panel/tpo,td043mtea1.txt | 33 ----------
+ 3 files changed, 65 insertions(+), 65 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/tpo,td.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/tpo,td028ttec1.txt
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/tpo,td043mtea1.txt
 
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.txt b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.txt
-deleted file mode 100644
-index 9e766c5f86da..000000000000
---- a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.txt
-+++ /dev/null
-@@ -1,56 +0,0 @@
--Samsung S6E8AA0 AMOLED LCD 5.3 inch panel
--
--Required properties:
--  - compatible: "samsung,s6e8aa0"
--  - reg: the virtual channel number of a DSI peripheral
--  - vdd3-supply: core voltage supply
--  - vci-supply: voltage supply for analog circuits
--  - reset-gpios: a GPIO spec for the reset pin
--  - display-timings: timings for the connected panel as described by [1]
--
--Optional properties:
--  - power-on-delay: delay after turning regulators on [ms]
--  - reset-delay: delay after reset sequence [ms]
--  - init-delay: delay after initialization sequence [ms]
--  - panel-width-mm: physical panel width [mm]
--  - panel-height-mm: physical panel height [mm]
--  - flip-horizontal: boolean to flip image horizontally
--  - flip-vertical: boolean to flip image vertically
--
--The device node can contain one 'port' child node with one child
--'endpoint' node, according to the bindings defined in [2]. This
--node should describe panel's video bus.
--
--[1]: Documentation/devicetree/bindings/display/panel/display-timing.txt
--[2]: Documentation/devicetree/bindings/media/video-interfaces.txt
--
--Example:
--
--	panel {
--		compatible = "samsung,s6e8aa0";
--		reg = <0>;
--		vdd3-supply = <&vcclcd_reg>;
--		vci-supply = <&vlcd_reg>;
--		reset-gpios = <&gpy4 5 0>;
--		power-on-delay= <50>;
--		reset-delay = <100>;
--		init-delay = <100>;
--		panel-width-mm = <58>;
--		panel-height-mm = <103>;
--		flip-horizontal;
--		flip-vertical;
--
--		display-timings {
--			timing0: timing-0 {
--				clock-frequency = <57153600>;
--				hactive = <720>;
--				vactive = <1280>;
--				hfront-porch = <5>;
--				hback-porch = <5>;
--				hsync-len = <5>;
--				vfront-porch = <13>;
--				vback-porch = <1>;
--				vsync-len = <2>;
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
+diff --git a/Documentation/devicetree/bindings/display/panel/tpo,td.yaml b/Documentation/devicetree/bindings/display/panel/tpo,td.yaml
 new file mode 100644
-index 000000000000..67c99b0492e5
+index 000000000000..4aa605613445
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-@@ -0,0 +1,96 @@
++++ b/Documentation/devicetree/bindings/display/panel/tpo,td.yaml
+@@ -0,0 +1,65 @@
 +# SPDX-License-Identifier: GPL-2.0
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/panel/samsung,s6e8aa0.yaml#
++$id: http://devicetree.org/schemas/display/panel/tpo,td.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Samsung S6E8AA0 AMOLED LCD 5.3 inch panel
++title: Toppoly TD Panels
++
++description: |
++  The panel must obey the rules for a SPI slave device as specified in
++  spi/spi-controller.yaml
 +
 +maintainers:
-+  - Andrzej Hajda <a.hajda@samsung.com>
++  - Marek Belisko <marek@goldelico.com>
++  - H. Nikolaus Schaller <hns@goldelico.com>
 +
 +allOf:
 +  - $ref: panel-common.yaml#
 +
 +properties:
 +  compatible:
-+    const: samsung,s6e8aa0
++    enum:
++        # Toppoly TD028TTEC1 Panel
++      - tpo,td028ttec1
++        # Toppoly TD043MTEA1 Panel
++      - tpo,td043mtea1
 +
 +  reg: true
++  label: true
 +  reset-gpios: true
-+  display-timings: true
-+
-+  vdd3-supply:
-+    description: core voltage supply
-+
-+  vci-supply:
-+    description: voltage supply for analog circuits
-+ 
-+  power-on-delay:
-+    description: delay after turning regulators on [ms]
-+
-+  reset-delay:
-+    description: delay after reset sequence [ms]
-+
-+  init-delay:
-+    description: delay after initialization sequence [ms]
-+
-+  panel-width-mm:
-+    description: physical panel width [mm]
-+
-+  panel-height-mm:
-+    description: physical panel height [mm]
-+
-+  flip-horizontal:
-+    description: boolean to flip image horizontally
-+
-+  flip-vertical:
-+    description: boolean to flip image vertically
++  backlight: true
++  port: true
 +
 +required:
 +  - compatible
-+  - reg
-+  - vdd3-supply 
-+  - vci-supply
-+  - reset-gpios
-+  - display-timings
++  - port
 +
-+additionalProperties: false
++unevaluatedProperties: false
 +
 +examples:
 +  - |
-+    dsi {
++    spi {
 +        #address-cells = <1>;
 +        #size-cells = <0>;
 +
-+        panel {
-+            compatible = "samsung,s6e8aa0";
++        panel: panel@0 {
++            compatible = "tpo,td043mtea1";
 +            reg = <0>;
-+            vdd3-supply = <&vcclcd_reg>;
-+            vci-supply = <&vlcd_reg>;
-+            reset-gpios = <&gpy4 5 0>;
-+            power-on-delay= <50>;
-+            reset-delay = <100>;
-+            init-delay = <100>;
-+            panel-width-mm = <58>;
-+            panel-height-mm = <103>;
-+            flip-horizontal;
-+            flip-vertical;
++            spi-max-frequency = <100000>;
++            spi-cpol;
++            spi-cpha;
 +
-+            display-timings {
-+                timing0: timing-0 {
-+                    clock-frequency = <57153600>;
-+                    hactive = <720>;
-+                    vactive = <1280>;
-+                    hfront-porch = <5>;
-+                    hback-porch = <5>;
-+                    hsync-len = <5>;
-+                    vfront-porch = <13>;
-+                    vback-porch = <1>;
-+                    vsync-len = <2>;
++            label = "lcd";
++
++            reset-gpios = <&gpio7 7 0>;
++
++            port {
++                lcd_in: endpoint {
++                    remote-endpoint = <&dpi_out>;
 +                };
 +            };
 +        };
 +    };
 +
 +...
+diff --git a/Documentation/devicetree/bindings/display/panel/tpo,td028ttec1.txt b/Documentation/devicetree/bindings/display/panel/tpo,td028ttec1.txt
+deleted file mode 100644
+index 898e06ecf4ef..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/tpo,td028ttec1.txt
++++ /dev/null
+@@ -1,32 +0,0 @@
+-Toppoly TD028TTEC1 Panel
+-========================
+-
+-Required properties:
+-- compatible: "tpo,td028ttec1"
+-
+-Optional properties:
+-- label: a symbolic name for the panel
+-- backlight: phandle of the backlight device
+-
+-Required nodes:
+-- Video port for DPI input
+-
+-Example
+--------
+-
+-lcd-panel: td028ttec1@0 {
+-	compatible = "tpo,td028ttec1";
+-	reg = <0>;
+-	spi-max-frequency = <100000>;
+-	spi-cpol;
+-	spi-cpha;
+-
+-	label = "lcd";
+-	backlight = <&backlight>;
+-	port {
+-		lcd_in: endpoint {
+-			remote-endpoint = <&dpi_out>;
+-		};
+-	};
+-};
+-
+diff --git a/Documentation/devicetree/bindings/display/panel/tpo,td043mtea1.txt b/Documentation/devicetree/bindings/display/panel/tpo,td043mtea1.txt
+deleted file mode 100644
+index ec6d62975162..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/tpo,td043mtea1.txt
++++ /dev/null
+@@ -1,33 +0,0 @@
+-TPO TD043MTEA1 Panel
+-====================
+-
+-Required properties:
+-- compatible: "tpo,td043mtea1"
+-- reset-gpios: panel reset gpio
+-
+-Optional properties:
+-- label: a symbolic name for the panel
+-
+-Required nodes:
+-- Video port for DPI input
+-
+-Example
+--------
+-
+-lcd-panel: panel@0 {
+-	compatible = "tpo,td043mtea1";
+-	reg = <0>;
+-	spi-max-frequency = <100000>;
+-	spi-cpol;
+-	spi-cpha;
+-
+-	label = "lcd";
+-
+-	reset-gpios = <&gpio7 7 0>;
+-
+-	port {
+-		lcd_in: endpoint {
+-			remote-endpoint = <&dpi_out>;
+-		};
+-	};
+-};
 -- 
 2.20.1
 
