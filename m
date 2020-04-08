@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA531A303F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6542B1A3039
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:34:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 868036EBA0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0148D6EB7B;
 	Thu,  9 Apr 2020 07:33:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60F8B6E148
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 15:37:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 750CB6EA7E
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 15:38:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
  Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
  Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=NjrfXWzBHp9dUGtZC6AXf3gVdy3neXUwD6Zi4ikgFI4=; b=VNbrIglNX5XGXIm/NNZLA+p/Kj
- 5sP44g8Gpu4dV5GQq48I/VAqImWTTO7UOVLC/I93y9bsLUoXRrAZrGsO8pqaFrLK3hNNWcPpO7LH9
- sBbHuvgX3ssA94QgJvW5ecpOgR54ODRZMbvySxIZlw5wFH3PzF9jebAP4ULouyfQQPH9WOOPKUjGE
- SFEXAfLSq8aoH4PyEC3XZbMmEfljyKBbGbCbm+zAYF4emVk1HnLFKAZfR9+5/zqUGpO6yxi7UX57i
- QnssTPKyGTMpoTQgpDVnM9fMHQMfG8vEvg/t7TUqcXxvUGoeqIlv7lInyBmt6r7bZNjJr105FtD51
- eSrtUb/w==;
+ bh=zXlIsbDM28OKmK+7j6iTmvR4wjllvC+TzshTZOZR7TU=; b=gBMMD0VVRRKgOhHzpjDt/lZU1Y
+ u9BILt8VLhw0sO34uaQF8z0/PQuXdH0k8rq6aufu410mYc/h3uYsHE3q9jGtAR4M+g6usA+9c6hXK
+ qRLaLBonqPUOIZaYwx8mMo+2EsEG9nTiAccNRbs6mfHNotxOLNwE+DlKy1V2XzHirfFfsMPOVzUym
+ kj+8W0aL1LC5SGUCy/9LavI/NBI3tZTJ8tgBbvnAEsg8PZoPaY6ZqgBKJJoDlEFMhPCgeRUq/t2tJ
+ UNV8tw5S5/pX84WeHyxnsmLcEBTrdKEA6VvzmozcQ0Sa3ZoJrnu5VhBf+PUP8I8OdfHleFuFcY7pQ
+ OYfbsiKQ==;
 Received: from [2601:1c0:6280:3f0::19c2]
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jMCl9-00069a-K4; Wed, 08 Apr 2020 15:36:59 +0000
+ id 1jMCm9-0006Y5-CG; Wed, 08 Apr 2020 15:38:07 +0000
 Subject: Re: [PATCH 10/28] mm: only allow page table mappings for built-in
  zsmalloc
-To: Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>
+To: Christoph Hellwig <hch@lst.de>, Matthew Wilcox <willy@infradead.org>
 References: <20200408115926.1467567-1-hch@lst.de>
  <20200408115926.1467567-11-hch@lst.de>
  <c0c86feb-b3d8-78f2-127f-71d682ffc51f@infradead.org>
  <20200408151203.GN20730@hirez.programming.kicks-ass.net>
  <20200408151519.GQ21484@bombadil.infradead.org>
+ <20200408153602.GA28081@lst.de>
 From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <139a494a-f946-fd4b-4854-6ff625e4c24f@infradead.org>
-Date: Wed, 8 Apr 2020 08:36:56 -0700
+Message-ID: <ce1cb560-2670-c79d-48eb-e4dd423aecb0@infradead.org>
+Date: Wed, 8 Apr 2020 08:37:59 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200408151519.GQ21484@bombadil.infradead.org>
+In-Reply-To: <20200408153602.GA28081@lst.de>
 Content-Language: en-US
 X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,12 +56,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
+Cc: linux-hyperv@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
  dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
  "K. Y. Srinivasan" <kys@microsoft.com>, linux-arch@vger.kernel.org,
  linux-s390@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
  Stephen Hemminger <sthemmin@microsoft.com>, x86@kernel.org,
- Christoph Hellwig <hch@lst.de>, Laura Abbott <labbott@redhat.com>,
+ David Airlie <airlied@linux.ie>, Laura Abbott <labbott@redhat.com>,
  Nitin Gupta <ngupta@vflare.org>, Haiyang Zhang <haiyangz@microsoft.com>,
  linaro-mm-sig@lists.linaro.org, bpf@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org,
@@ -74,42 +75,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/8/20 8:15 AM, Matthew Wilcox wrote:
-> On Wed, Apr 08, 2020 at 05:12:03PM +0200, Peter Zijlstra wrote:
->> On Wed, Apr 08, 2020 at 08:01:00AM -0700, Randy Dunlap wrote:
->>> Hi,
+On 4/8/20 8:36 AM, Christoph Hellwig wrote:
+> On Wed, Apr 08, 2020 at 08:15:19AM -0700, Matthew Wilcox wrote:
+>>>>>  config ZSMALLOC_PGTABLE_MAPPING
+>>>>>  	bool "Use page table mapping to access object in zsmalloc"
+>>>>> -	depends on ZSMALLOC
+>>>>> +	depends on ZSMALLOC=y
+>>>>
+>>>> It's a bool so this shouldn't matter... not needed.
 >>>
->>> On 4/8/20 4:59 AM, Christoph Hellwig wrote:
->>>> diff --git a/mm/Kconfig b/mm/Kconfig
->>>> index 36949a9425b8..614cc786b519 100644
->>>> --- a/mm/Kconfig
->>>> +++ b/mm/Kconfig
->>>> @@ -702,7 +702,7 @@ config ZSMALLOC
->>>>  
->>>>  config ZSMALLOC_PGTABLE_MAPPING
->>>>  	bool "Use page table mapping to access object in zsmalloc"
->>>> -	depends on ZSMALLOC
->>>> +	depends on ZSMALLOC=y
+>>> My mm/Kconfig has:
 >>>
->>> It's a bool so this shouldn't matter... not needed.
+>>> config ZSMALLOC
+>>> 	tristate "Memory allocator for compressed pages"
+>>> 	depends on MMU
+>>>
+>>> which I think means it can be modular, no?
 >>
->> My mm/Kconfig has:
->>
->> config ZSMALLOC
->> 	tristate "Memory allocator for compressed pages"
->> 	depends on MMU
->>
->> which I think means it can be modular, no?
+>> Randy means that ZSMALLOC_PGTABLE_MAPPING is a bool, so I think hch's patch
+>> is wrong ... if ZSMALLOC is 'm' then ZSMALLOC_PGTABLE_MAPPING would become
+>> 'n' instead of 'y'.
+> 
+> In Linus' tree you can select PGTABLE_MAPPING=y with ZSMALLOC=m,
+> and that fits my understanding of the kbuild language.  With this
+> patch I can't anymore.
+> 
 
-ack. I misread it.
-
-> Randy means that ZSMALLOC_PGTABLE_MAPPING is a bool, so I think hch's patch
-> is wrong ... if ZSMALLOC is 'm' then ZSMALLOC_PGTABLE_MAPPING would become
-> 'n' instead of 'y'.
-
-sigh, I wish that I had meant that. :)
-
-thanks.
+Makes sense. thanks.
 
 -- 
 ~Randy
