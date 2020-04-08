@@ -2,52 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E21C71A233B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 15:44:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 947601A2407
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 16:26:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F83E6EA67;
-	Wed,  8 Apr 2020 13:43:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC67A6E12F;
+	Wed,  8 Apr 2020 14:26:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D705C6EA6A;
- Wed,  8 Apr 2020 13:43:56 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id d77so5204664wmd.3;
- Wed, 08 Apr 2020 06:43:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5JeVxarE1Z1RiJROhmbNs4AI7L5YmBuO9l5ang6+c2c=;
- b=Lpb0URCll2uC4ADQJYY7mI50YUF0YKFj5Wty4cYMWCdeGVhx0fncfLWtomod/N9nPY
- F7HrkukZfy+0cuzfU1yzdg6gXZJGJiwbqWb2wZgIq2PKb/IEFLjIIHLYCjx4IQgUiiFv
- tThQFvsr9XYztxj0ojy5TkKXV4gAdTSDwMuo/RtBCqroxK3K1sdaqzWn26369aphBCID
- Q12SF0uW+aQh2s9rkMb5hrd6CUXdp72uGQULxsMa+vNe/aPCczKtclvPZVayDlWpX5BV
- 3QjhurMMZIbBiiwBfZd2QkytcEt1327ymh4+gbsbeEuBUGYMRCfhtYuX57h4ZWOOH4DM
- gCkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5JeVxarE1Z1RiJROhmbNs4AI7L5YmBuO9l5ang6+c2c=;
- b=A5thQqEkpdp4k2K45BcS5nF2XUBADPZ9JCJ0NeQaoPAZNSwJZcBUpKkzK3evRcXnY8
- euyECIDpdq76tGPI3v12Y7/WE/brbcpGb8A/5FcA3qEBqhqzi+m2qdeSIZr/GSZpbn8i
- yvnej68LIUzaoCVDi4imLQXun89utFjabJvYZrLjlQ9BXmaTV5l9dId9fiNJtu7zPEvZ
- iBYwf29Nzk72FcmCrixUkboTsEf0kVWIUJECcGgaHvxSdvzx40mIJ+z5B2AH+Eah2rxb
- 3qRdM2f82cnk40suRUH5FAg4ic1sbX2UmCnYvUpVEwCuYvOXfmlMlTzjyxFFEwRPxQ1a
- 0U4A==
-X-Gm-Message-State: AGi0PubIndKNhIyh9QY0q5TBgFLEf9NPV/+9KRhOxvpPqStYoE0E4GIh
- Mo5+Oaqwb65rMS2DZnBmQTDgC9+XfE551uXEJZs=
-X-Google-Smtp-Source: APiQypKVw6l28/vf8DOlr+wvkyILlmlKHHNxDPwytq39w6kUSGnC9oKbQ4hvvCKuyfTXtGZzV1ALzsk2hRmrkhxMRGY=
-X-Received: by 2002:a1c:9d8c:: with SMTP id g134mr4851682wme.79.1586353435428; 
- Wed, 08 Apr 2020 06:43:55 -0700 (PDT)
+X-Greylist: delayed 2534 seconds by postgrey-1.36 at gabe;
+ Wed, 08 Apr 2020 14:26:55 UTC
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 892FA6E12F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 14:26:55 +0000 (UTC)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 038DXb7x027346
+ for <dri-devel@lists.freedesktop.org>; Wed, 8 Apr 2020 09:44:40 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30921gnnry-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 09:44:40 -0400
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <dri-devel@lists.freedesktop.org> from <borntraeger@de.ibm.com>;
+ Wed, 8 Apr 2020 14:44:25 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 8 Apr 2020 14:44:18 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 038DiUwG37421114
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Apr 2020 13:44:30 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EC36711C04A;
+ Wed,  8 Apr 2020 13:44:29 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A219611C04C;
+ Wed,  8 Apr 2020 13:44:28 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.145.153.96])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Apr 2020 13:44:28 +0000 (GMT)
+Subject: Re: [PATCH 28/28] s390: use __vmalloc_node in stack_alloc
+To: Christoph Hellwig <hch@lst.de>, Andrew Morton <akpm@linux-foundation.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ Stephen Hemminger <sthemmin@microsoft.com>,
+ Wei Liu <wei.liu@kernel.org>, x86@kernel.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Laura Abbott <labbott@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Minchan Kim
+ <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>
+References: <20200408115926.1467567-1-hch@lst.de>
+ <20200408115926.1467567-29-hch@lst.de>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Date: Wed, 8 Apr 2020 15:44:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200407182618.2488-1-mail@aurabindo.in>
-In-Reply-To: <20200407182618.2488-1-mail@aurabindo.in>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 8 Apr 2020 09:43:44 -0400
-Message-ID: <CADnq5_OCkhjVoJ8L-KHOo-2b-thAAcSCHoeJc-DsR7j-8ZX7Yw@mail.gmail.com>
-Subject: Re: [PATCH] amdgpu_kms: Remove unnecessary condition check
-To: Aurabindo Pillai <mail@aurabindo.in>
+In-Reply-To: <20200408115926.1467567-29-hch@lst.de>
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 20040813-0012-0000-0000-000003A0B568
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20040813-0013-0000-0000-000021DDDAB0
+Message-Id: <6689b12a-4473-af2e-0fa0-69097eb2bb52@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-04-07_10:2020-04-07,
+ 2020-04-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ impostorscore=0 lowpriorityscore=0 suspectscore=2 bulkscore=0 adultscore=0
+ mlxlogscore=999 priorityscore=1501 clxscore=1015 phishscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004080113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,59 +136,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>, linux-arch@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-s390@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, bpf@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 7, 2020 at 2:30 PM Aurabindo Pillai <mail@aurabindo.in> wrote:
->
-> Execution will only reach here if the asserted condition is true.
-> Hence there is no need for the additional check.
->
-> Signed-off-by: Aurabindo Pillai <mail@aurabindo.in>
 
-Applied.  Thanks!
 
-Alex
-
+On 08.04.20 13:59, Christoph Hellwig wrote:
+> stack_alloc can use a slightly higher level vmalloc function.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> index 60591dbc2..9fedfa531 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> @@ -179,12 +179,10 @@ int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
->         /* Call ACPI methods: require modeset init
->          * but failure is not fatal
->          */
-> -       if (!r) {
-> -               acpi_status = amdgpu_acpi_init(adev);
-> -               if (acpi_status)
-> -                       dev_dbg(&dev->pdev->dev,
-> -                               "Error during ACPI methods call\n");
-> -       }
-> +
-> +       acpi_status = amdgpu_acpi_init(adev);
-> +       if (acpi_status)
-> +               dev_dbg(&dev->pdev->dev, "Error during ACPI methods call\n");
->
->         if (adev->runpm) {
->                 dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
-> --
-> 2.26.0
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+>  arch/s390/kernel/setup.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/s390/kernel/setup.c b/arch/s390/kernel/setup.c
+> index 36445dd40fdb..0f0b140b5558 100644
+> --- a/arch/s390/kernel/setup.c
+> +++ b/arch/s390/kernel/setup.c
+> @@ -305,12 +305,9 @@ void *restart_stack __section(.data);
+>  unsigned long stack_alloc(void)
+>  {
+>  #ifdef CONFIG_VMAP_STACK
+> -	return (unsigned long)
+> -		__vmalloc_node_range(THREAD_SIZE, THREAD_SIZE,
+> -				     VMALLOC_START, VMALLOC_END,
+> -				     THREADINFO_GFP,
+> -				     PAGE_KERNEL, 0, NUMA_NO_NODE,
+> -				     __builtin_return_address(0));
+> +	return (unsigned long)__vmalloc_node(THREAD_SIZE, THREAD_SIZE,
+> +			THREADINFO_GFP, NUMA_NO_NODE,
+> +			__builtin_return_address(0));
+
+Looks sane.
+
+Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+
+
+>  #else
+>  	return __get_free_pages(GFP_KERNEL, THREAD_SIZE_ORDER);
+>  #endif
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
