@@ -1,106 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073A01A3036
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:34:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D74B1A21C0
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 14:21:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB0686EB86;
-	Thu,  9 Apr 2020 07:33:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 422D06E9E4;
+	Wed,  8 Apr 2020 12:21:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A010A6E99B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 12:20:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1586348431;
- bh=VNnQ6Zmj3bQlqQMA5yxB7qWSZuLfYMiaZZL53XywQbU=;
- h=X-UI-Sender-Class:To:From:Subject:Cc:Date;
- b=M6vaN3YcLlLdoMMhsHrF3vt0FqDIgaFoeMf4Jbo+wBlGg1VjFmmWJndwtz1N8zc8M
- K+dtUrTSLn6E13NNOvnAjVyG/1fsjhwMJj40kBZhi0lX/+5WwUTUM7hvnUD6DFZDHo
- ERQJXfphGZx0eMr9wfB1LmPYImYOrr6cDa2MMMeo=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.3] ([78.48.170.28]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MV4hR-1jnNEA0ytx-00YTk8; Wed, 08
- Apr 2020 14:20:31 +0200
-To: dri-devel@lists.freedesktop.org, Linus Walleij <linus.walleij@linaro.org>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: drm/mcde: Checking for a failed platform_get_irq() call in
- mcde_probe()
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <abd9674c-adf7-b040-814c-076e32a5a48e@web.de>
-Date: Wed, 8 Apr 2020 14:20:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51DF76E9E4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 12:21:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=3ZqnNnyTvHfqcEkmuTyQ2LPQ2OpYuhXibwpvxMqZKrM=; b=Wq6VQLh7N6K0YWKu3Ue3rhR1W6
+ uPBkkMsNf6/oDdxLwjvSEebhtXDxpta8ctMX3AXxxQtPmAR2J+2NvjDAQ2GuZQbEgQcRFIs0Uh8a4
+ q/KDbO0lwFUvtXqown2kw13Y2h8hXVn8KbPRn0q+BAyo1R4JeWx6mLApKc3oAhNA7djcKdAw1oQbM
+ KRmYIUtFQOJZvRFNoOcseeSgBXpm6Sgnq9wqzvLPflPkgGLBpryMqX12jZ7xIgN+vL/xiKvc+GPAO
+ H86wFLe8WEU+0qO5K7uXu5rgIXC3C0pN4XcAwuVMP5rzFHvMEfrrCJTR2fn2NFfwMo4f+UhEJBb/M
+ 0BvJqDAg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jM9hd-0001dI-4e; Wed, 08 Apr 2020 12:21:09 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id CE886307972;
+ Wed,  8 Apr 2020 14:21:04 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id B4EEE2B2354E8; Wed,  8 Apr 2020 14:21:04 +0200 (CEST)
+Date: Wed, 8 Apr 2020 14:21:04 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 17/28] mm: remove the prot argument from vm_map_ram
+Message-ID: <20200408122104.GZ20713@hirez.programming.kicks-ass.net>
+References: <20200408115926.1467567-1-hch@lst.de>
+ <20200408115926.1467567-18-hch@lst.de>
 MIME-Version: 1.0
-Content-Language: en-US
-X-Provags-ID: V03:K1:fJsj9EGtQRoIZSX4yIB+H9dYKQ11JanGW+a7+d0e0OVkqcsSRwR
- Q9SoK5nsw3jZOcPNpbB9t5YTqiHZvygGn9+Zbtlh7djw7YWLbY3Rgpnz0AbHgNBXoAcSxZC
- qyxRcihT9oSisP4I4/xQ9iXPU7mcBbMMwwfhCOK1fCT7gobUt3ftBy41dvYEuRGPgRgO8O4
- wwn3bherDf8Wq1qlZnqtQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YitY0hQW7l4=:70MIBtTbWPQO+81QXSQuAH
- ZbqvU1rGIu1KvNxfSJst9uYiGsUWPGrvvE6I3UriCT/s4+pHK2Qmzb5ncFK7BfoaSyWfylLYU
- 3eUieZ7+yBB8aX86E8JrtBoSTYiRgme7HvCaTYMUYeWNjwrhCUJqNxtlhF8jKjDnXL4CY+aEm
- nFhEqnUgv1vXukuvclaSijQJ5sV1WbVxGXJJ2+ZLi8QCVTs8O5P9EtKDPd9QIWWqOZUIdjfeb
- G7IsIjJ54s5MtUNvSIE7FFNNvP/CVs94XBsEck3h5I0mZp1DRX8sUlGegznwwdAmsHwkumDse
- PGGNK6Kp15PDVM1fEpyQpPik8MCv5XBp04MyOXv00saJgk/2y38rXoHzrKp/fSgo6fBL/vVeb
- cgKbp0u8UK/FMha/MJ/Bqe/P+s5ZnOh7KucmJO3fUxrmWAhGrybAU0UI9pHU2plZj1DC8jC3O
- P6C4VWITadD39+1b/5sBD48NnQyFrCv2euWJdnRTCKMcpDopVMxVBYB9M6ULAP/TVdYOPT3M5
- ziLTLSCILwTHD/aXUgGDHnwD2RvjNwTVoT4SgWqQbSwZ1bxOLoo2itep2nJ/qVGSB+XbY/Z+t
- V5z4RwdebSDuiB80suraTjqPJAk+UiBUAxS2JZfRsq5Gue8NMVCTYFa0eHbXwJEt103pZTzJe
- hcL0uGv/J+4LdVdW6SkRGyIUSdrqSHSdaXcRfPnbP06dHh6Z/j4d2G9xOYYA89raxniGrjLwD
- kvdQT8WHc5JnCLXV3klFBXOIzkTtjJf9CssG9uPuxZ3FU+kYlngp1dREpxYZ0YJX+3SF90Dfo
- HJze7RGYHpQAHH7Sw/onXBIcftUfAKHsrnAmm0NViQwDs3f+DgeGUNwB7B6A+jShgkkb4lbw5
- Yab3c0XhKmOZzbjjmLU66+uD3h1nfTXe2q+qpCJHng3jQSU3TrXHibDEKIzQWH31grQgFMJ+K
- uvMpyZNiXLdQHvGIJNk2wEQ1qySl9Pqa7YPY3IukKMG5vgmC42PVs/07LsHyAwk1exrJkzI1P
- Yurdfs0glqpoG57uIAz2Dc8YnsRNuwH9aqrI6T2fF5ep1aH3B2FjL2FGltNsVWQv8c4eusVXV
- Dmzy5NnnZ53jXc1o9M/8+9lqPpq6Otb90BchvN+IFPTFO3aagBJrUNEpRzfzurbfv7SyV2mIj
- CKfjtEsRlMjpdUfHbzQoM8soaNkQnsQCCJqovo2BNankCMxrU7X3pOIAglBWSwEMFp/pXEtBr
- eJt7ZP31rNBTwJ5yL
-X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
+Content-Disposition: inline
+In-Reply-To: <20200408115926.1467567-18-hch@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,31 +57,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, Tang Bin <tangbin@cmss.chinamobile.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>, linux-arch@vger.kernel.org,
+ linux-s390@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>, x86@kernel.org,
+ Laura Abbott <labbott@redhat.com>, Nitin Gupta <ngupta@vflare.org>,
+ Haiyang Zhang <haiyangz@microsoft.com>, linaro-mm-sig@lists.linaro.org,
+ bpf@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ Minchan Kim <minchan@kernel.org>, iommu@lists.linux-foundation.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8sCgpJIGhhdmUgdGFrZW4gYW5vdGhlciBsb29rIGF0IHRoZSBpbXBsZW1lbnRhdGlvbiBv
-ZiB0aGUgZnVuY3Rpb24g4oCcbWNkZV9wcm9iZeKAnS4KQSBzb2Z0d2FyZSBhbmFseXNpcyBhcHBy
-b2FjaCBwb2ludHMgdGhlIGZvbGxvd2luZyBzb3VyY2UgY29kZSBvdXQgZm9yCmZ1cnRoZXIgZGV2
-ZWxvcG1lbnQgY29uc2lkZXJhdGlvbnMuCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4
-L3Y1LjYuMi9zb3VyY2UvZHJpdmVycy9ncHUvZHJtL21jZGUvbWNkZV9kcnYuYyNMNDAxCmh0dHBz
-Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4
-LmdpdC90cmVlL2RyaXZlcnMvZ3B1L2RybS9tY2RlL21jZGVfZHJ2LmM/aWQ9ZjVlOTRkMTBlNGM0
-NjgzNTcwMTllNWMyOGQ0ODQ5OWY2NzdiMjg0ZiNuNDAyCgogCWlycSA9IHBsYXRmb3JtX2dldF9p
-cnEocGRldiwgMCk7CiAJaWYgKCFpcnEpIHsKIAkJcmV0ID0gLUVJTlZBTDsKIAkJZ290byBjbGtf
-ZGlzYWJsZTsKIAl9CgoKVGhlIHNvZnR3YXJlIGRvY3VtZW50YXRpb24gaXMgcHJvdmlkaW5nIHRo
-ZSBmb2xsb3dpbmcgaW5mb3JtYXRpb24KZm9yIHRoZSB1c2VkIHByb2dyYW1taW5nIGludGVyZmFj
-ZS4KaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFs
-ZHMvbGludXguZ2l0L3RyZWUvZHJpdmVycy9iYXNlL3BsYXRmb3JtLmM/aWQ9ZjVlOTRkMTBlNGM0
-NjgzNTcwMTllNWMyOGQ0ODQ5OWY2NzdiMjg0ZiNuMjIxCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4u
-Y29tL2xpbnV4L3Y1LjYuMi9zb3VyY2UvZHJpdmVycy9iYXNlL3BsYXRmb3JtLmMjTDIwMgoK4oCc
-4oCmCiAqIFJldHVybjogSVJRIG51bWJlciBvbiBzdWNjZXNzLCBuZWdhdGl2ZSBlcnJvciBudW1i
-ZXIgb24gZmFpbHVyZS4K4oCm4oCdCgpXb3VsZCB5b3UgbGlrZSB0byByZWNvbnNpZGVyIHRoZSBz
-aG93biBjb25kaXRpb24gY2hlY2s/CgpSZWdhcmRzLApNYXJrdXMKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Wed, Apr 08, 2020 at 01:59:15PM +0200, Christoph Hellwig wrote:
+> This is always GFP_KERNEL - for long term mappings with other properties
+> vmap should be used.
+
+ PAGE_KERNEL != GFP_KERNEL :-)
+
+> -	return vm_map_ram(mock->pages, mock->npages, 0, PAGE_KERNEL);
+> +	return vm_map_ram(mock->pages, mock->npages, 0);
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
