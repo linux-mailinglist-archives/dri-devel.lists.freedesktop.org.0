@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 679431A301B
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:33:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B1B1A2AA3
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 22:50:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8A9D6EB5D;
-	Thu,  9 Apr 2020 07:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A93C6EAFD;
+	Wed,  8 Apr 2020 20:50:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30A796EAFF
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 20:50:43 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id h6so6287817lfc.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 13:50:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eDe3jb7HYGWKX0IPhCmO+KPecpUQ19WATGRi38MLDt8=;
- b=FBwC1I1a34ApIWzE6B4w7yW2qmFoV/cQA1px9ZeFxvvbeW1FiME3PoKwClkh+AoJ0L
- LqfEmxGBhtbHdn1sNjTuvVzCMfT8bfaui1cmyUGqnRwwIaxF+OGdvDb1yJ5HyghAyYJr
- qY09GeU26TLBW6Cwm1JAdxGwbmgTpP04qwfEzGxMkly9ASqwph5vRlka4CynR1fHdPsg
- MKnfq6LnJEv9RXzwFqq1F7z2Ww0q/eS0kJWqy2Taa45wzAynHxyhx1Ftj4I+Z0SO+rpe
- IqcDtTG96GPg/V16BSxN9jFHgpUvD4my5oQwstg0XhrnTO3WEIU441DKMBqyE7kP0xXB
- w2ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eDe3jb7HYGWKX0IPhCmO+KPecpUQ19WATGRi38MLDt8=;
- b=JPe4JZ2kpFzXK7h1vpXIxUrKXQGxtAPs2YJvkwCecbeqXkzHXxtQ+7qKgA1ApZQMOn
- J8WjsZNsiRydWhwML26ljEvO3PIzxWmjUb8SCwIsHIcx5YDSJDBnGYUTGheSnPU12dfe
- bp6z/EHRo4OUBKndXFGjYyASFwUa4Zn+0zP+WzgM5X76bmaGinURHacwBMzifz9ZqJeq
- uhZUArdDn9eJ68JjsJ+V9gb5wbcOrinWNLSilOhhRHVw1i6YJdUsTDgXdxbMS2/9nuhR
- l3nMWNygu0x30fVBOpvtTq3MfEz3WJJf6vbv6hSMJx294eE1cjQk5RQhN78oZDuFLrN7
- a7Xg==
-X-Gm-Message-State: AGi0PuY8t/v7dhqwM5LPHvTGeP4EEIZ1JNd/cEFMxvS7IbfnnwX7YYVs
- 8GR27gHHWIpDHhJraWgu+OhIUEII
-X-Google-Smtp-Source: APiQypKIAZqNDZ6fKILmxrdiBcLQLUQ0IO4EO4MRSyuu/rYGA09NxSQUG6m6SANkkvtSSJazhxELFg==
-X-Received: by 2002:ac2:42d9:: with SMTP id n25mr5564921lfl.97.1586379041658; 
- Wed, 08 Apr 2020 13:50:41 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru.
- [91.78.208.152])
- by smtp.gmail.com with ESMTPSA id b73sm9225159lfg.86.2020.04.08.13.50.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Apr 2020 13:50:41 -0700 (PDT)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v1] drm/tegra: output: Support DRM bridges
-Date: Wed,  8 Apr 2020 23:49:20 +0300
-Message-Id: <20200408204920.19142-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C70196EAFD
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 20:50:07 +0000 (UTC)
+Received: from mail-qt1-f179.google.com ([209.85.160.179]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MpUlO-1ix49y0PQC-00puUK for <dri-devel@lists.freedesktop.org>; Wed, 08
+ Apr 2020 22:50:06 +0200
+Received: by mail-qt1-f179.google.com with SMTP id x2so1110899qtr.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 13:50:05 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZZzq0V31wjy5WTqdlISzuy59w9d6nu1Iih8hX3DcaWWktkSth5
+ a03VKyLoSVl4erlOKGbO6KhEYo5pMfBiD1yfIiQ=
+X-Google-Smtp-Source: APiQypIP5yghqg/2MrWIAF2lP5PX73f0nNW4IRcRHBZR7UjH98P/p+NK0Mdk7nj6cOkNVhU/171r9JSmuzucI6UHA5Q=
+X-Received: by 2002:ac8:12c2:: with SMTP id b2mr1560498qtj.7.1586379004961;
+ Wed, 08 Apr 2020 13:50:04 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
+References: <20200408202711.1198966-1-arnd@arndb.de>
+ <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
+In-Reply-To: <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Wed, 8 Apr 2020 22:49:48 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
+Message-ID: <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
+Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
+To: Nicolas Pitre <nico@fluxnic.net>
+X-Provags-ID: V03:K1:jbTYwSHJ8UEmXDuTJ38v5RxVn7W3R+LKaVpPk8uYYiQ7elkb2Nt
+ TLJgQu1tvMl3NKiJs/l9RdRamFGY5dT30SFmdMCPIOIHQWzPHxtejZ7wjvqmlYRHw1wHFgb
+ iG+m2FHkBeXXY9BjH6yGJm3Hb+xFp0gbw+0olWROvKHHuLFJeKvHAtbuXlBUm63Swy1v5Lw
+ vwvluU3ze5HPbNqpig9sg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Vbt7NN+bK68=:BOZ0Z0vKdiT34r7QXGQcrs
+ 9+NTd4PbdEaMXeI7pepVqKsB0YR79xkoU13A3ULdWyRtzB2hUMbG7mM1+qkkkkSN6EAoj//L4
+ 2z0RSdAki7ULn1Zx6ahQjaqN+0h6rVglHP7VZWlAorj/4wxt9XfnboTbtvGnGSVTjjhhiGLYm
+ bFFkKK1b/OOEi6kr8j/nyuhIqa2UDvP57/2VhBtKiVV8r5T+JVEgoXSfkp2Qf0svBmKRbmSqF
+ ecB1PRd3kOSWwqSnwp1mvZ9TekxDQ1ClDfrHV2OX8qnt3IvtW77AoHLZotvNqRpQ+TxkdDqGq
+ zS2rdksOk83de0kz/HX4MGmz+oR3bXdHiOYQ7tz2j8qvD/0IjPYX7xWsR2VXWovHvE3TukWvQ
+ OFLEu6GwXufpzYCz4tL6CvS0EruTgRjdQ+d1DEGmaWCNmENZQPu7ZxOIbRPzrrN0dqG2FYJOy
+ SDPN9upAH6ShMGAa0aR8x75c3oKIBOUAkLJU+Id7sPKMtkvjqytOdd9RxySU58KWRCeeRi7b8
+ zauLOWCYzVa4phYW+WzQOZx4LH+PmI7IHzx8Yx86/JgKhWHexq1Vq2fx82svyNdlnxHVsxhSV
+ w6YR6cSr32e9RvlRSdIBlNTB8vejyFlEsxk4xAOVvFJBmtqiwjZuLI2KjZo77NZipXCwUoWdU
+ pN7FcMJ5SP6TwibvQZlOEpy0vIfORLU6TxpGDtJJsfuA6GcpjCz4T1XEBTp2EcE+wsF7CdNsr
+ hhdQ+gTEgcCLTlxr7assF6mMitHWf+hJBt0YAzCTWvdzo6XS3Vy0ilbXFA/q/DREe94fRmgru
+ 4herof6H7wl0ExFLCwqlB1PIhMGF9RfYvXkYg5DSEyTPgYO5lI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,101 +63,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Leon Romanovsky <leon@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Networking <netdev@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, Saeed Mahameed <saeedm@mellanox.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ linux-rdma <linux-rdma@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Newer Tegra device-trees will define a video output graph which involves
-a bridge. This patch adds support for the DRM bridges to the Tegra's DRM
-output.
+On Wed, Apr 8, 2020 at 10:38 PM Nicolas Pitre <nico@fluxnic.net> wrote:
+> On Wed, 8 Apr 2020, Arnd Bergmann wrote:
+> > I have created workarounds for the Kconfig files, which now stop using
+> > imply and do something else in each case. I don't know whether there was
+> > a bug in the kconfig changes that has led to allowing configurations that
+> > were not meant to be legal even with the new semantics, or if the Kconfig
+> > files have simply become incorrect now and the tool works as expected.
+>
+> In most cases it is the code that has to be fixed. It typically does:
+>
+>         if (IS_ENABLED(CONFIG_FOO))
+>                 foo_init();
+>
+> Where it should rather do:
+>
+>         if (IS_REACHABLE(CONFIG_FOO))
+>                 foo_init();
+>
+> A couple of such patches have been produced and queued in their
+> respective trees already.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/tegra/drm.h    |  2 ++
- drivers/gpu/drm/tegra/output.c | 25 ++++++++++++++++++++++++-
- 2 files changed, 26 insertions(+), 1 deletion(-)
+I try to use IS_REACHABLE() only as a last resort, as it tends to
+confuse users when a subsystem is built as a module and already
+loaded but something relying on that subsystem does not use it.
 
-diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-index ed99b67deb29..9ca11989679c 100644
---- a/drivers/gpu/drm/tegra/drm.h
-+++ b/drivers/gpu/drm/tegra/drm.h
-@@ -16,6 +16,7 @@
- #include <drm/drm_encoder.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fixed.h>
-+#include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
- #include <uapi/drm/tegra_drm.h>
- 
-@@ -116,6 +117,7 @@ struct tegra_output {
- 	struct device_node *of_node;
- 	struct device *dev;
- 
-+	struct drm_bridge *bridge;
- 	struct drm_panel *panel;
- 	struct i2c_adapter *ddc;
- 	const struct edid *edid;
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index a264259b97a2..6b8fae4659b4 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -96,13 +96,28 @@ static irqreturn_t hpd_irq(int irq, void *data)
- 
- int tegra_output_probe(struct tegra_output *output)
- {
--	struct device_node *ddc, *panel;
-+	struct device_node *ddc, *panel, *port;
- 	unsigned long flags;
- 	int err, size;
- 
- 	if (!output->of_node)
- 		output->of_node = output->dev->of_node;
- 
-+	/* newer device-trees may utilize output graph */
-+	port = of_get_child_by_name(output->of_node, "port");
-+	if (port) {
-+		err = drm_of_find_panel_or_bridge(output->of_node, 0, 0,
-+						  &output->panel,
-+						  &output->bridge);
-+		of_node_put(port);
-+		if (err)
-+			return err;
-+	}
-+
-+	if (output->panel || output->bridge)
-+		goto edid_property;
-+
-+	/* for older device-trees we fall back to nvidia,panel */
- 	panel = of_parse_phandle(output->of_node, "nvidia,panel", 0);
- 	if (panel) {
- 		output->panel = of_drm_find_panel(panel);
-@@ -112,6 +127,7 @@ int tegra_output_probe(struct tegra_output *output)
- 		of_node_put(panel);
- 	}
- 
-+edid_property:
- 	output->edid = of_get_property(output->of_node, "nvidia,edid", &size);
- 
- 	ddc = of_parse_phandle(output->of_node, "nvidia,ddc-i2c-bus", 0);
-@@ -189,6 +205,13 @@ int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
- 		err = drm_panel_attach(output->panel, &output->connector);
- 		if (err < 0)
- 			return err;
-+	} else if (output->bridge) {
-+		err = drm_bridge_attach(&output->encoder, output->bridge,
-+					NULL, 0);
-+		if (err) {
-+			dev_err(drm->dev, "cannot connect bridge: %d\n", err);
-+			return err;
-+		}
- 	}
- 
- 	/*
--- 
-2.25.1
+In the six patches I made, I had to use IS_REACHABLE() once,
+for the others I tended to use a Kconfig dependency like
 
+'depends on FOO || FOO=n'
+
+which avoids the case that IS_REACHABLE() works around badly.
+
+I did come up with the IS_REACHABLE() macro originally, but that
+doesn't mean I think it's a good idea to use it liberally ;-)
+
+      Arnd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
