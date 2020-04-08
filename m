@@ -1,44 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E34A1A255E
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 17:37:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA531A303F
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:34:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 709FC6E148;
-	Wed,  8 Apr 2020 15:37:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 868036EBA0;
+	Thu,  9 Apr 2020 07:33:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0227.hostedemail.com
- [216.40.44.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 761916E148;
- Wed,  8 Apr 2020 15:37:22 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay05.hostedemail.com (Postfix) with ESMTP id 5739A18041E93;
- Wed,  8 Apr 2020 15:37:21 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 10, 1, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:599:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:1801:2195:2199:2393:2553:2559:2562:2828:3138:3139:3140:3141:3142:3308:3352:3622:3865:3866:3867:3868:3870:4250:4321:4605:5007:6119:6609:10004:10400:10848:11026:11232:11657:11658:11914:12043:12296:12297:12740:12760:12895:13019:13069:13181:13229:13311:13357:13439:13523:13524:14181:14659:14721:14819:21080:21433:21434:21451:21627:30054:30069:30090:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:3, LUA_SUMMARY:none
-X-HE-Tag: bone48_22e7092f25135
-X-Filterd-Recvd-Size: 2637
-Received: from XPS-9350.home (unknown [47.151.136.130])
- (Authenticated sender: joe@perches.com)
- by omf12.hostedemail.com (Postfix) with ESMTPA;
- Wed,  8 Apr 2020 15:37:19 +0000 (UTC)
-Message-ID: <bfa1a07f6f2046d5edac80d282cc710328d84d72.camel@perches.com>
-Subject: Re: [PATCH] drm/amd/amdgpu: add prefix for pr_* prints
-From: Joe Perches <joe@perches.com>
-To: Aurabindo Pillai <mail@aurabindo.in>, alexander.deucher@amd.com, 
- christian.koenig@amd.com
-Date: Wed, 08 Apr 2020 08:35:20 -0700
-In-Reply-To: <20200408133735.7679-1-mail@aurabindo.in>
-References: <20200408133735.7679-1-mail@aurabindo.in>
-User-Agent: Evolution 3.34.1-2 
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60F8B6E148
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 15:37:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=NjrfXWzBHp9dUGtZC6AXf3gVdy3neXUwD6Zi4ikgFI4=; b=VNbrIglNX5XGXIm/NNZLA+p/Kj
+ 5sP44g8Gpu4dV5GQq48I/VAqImWTTO7UOVLC/I93y9bsLUoXRrAZrGsO8pqaFrLK3hNNWcPpO7LH9
+ sBbHuvgX3ssA94QgJvW5ecpOgR54ODRZMbvySxIZlw5wFH3PzF9jebAP4ULouyfQQPH9WOOPKUjGE
+ SFEXAfLSq8aoH4PyEC3XZbMmEfljyKBbGbCbm+zAYF4emVk1HnLFKAZfR9+5/zqUGpO6yxi7UX57i
+ QnssTPKyGTMpoTQgpDVnM9fMHQMfG8vEvg/t7TUqcXxvUGoeqIlv7lInyBmt6r7bZNjJr105FtD51
+ eSrtUb/w==;
+Received: from [2601:1c0:6280:3f0::19c2]
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jMCl9-00069a-K4; Wed, 08 Apr 2020 15:36:59 +0000
+Subject: Re: [PATCH 10/28] mm: only allow page table mappings for built-in
+ zsmalloc
+To: Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>
+References: <20200408115926.1467567-1-hch@lst.de>
+ <20200408115926.1467567-11-hch@lst.de>
+ <c0c86feb-b3d8-78f2-127f-71d682ffc51f@infradead.org>
+ <20200408151203.GN20730@hirez.programming.kicks-ass.net>
+ <20200408151519.GQ21484@bombadil.infradead.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <139a494a-f946-fd4b-4854-6ff625e4c24f@infradead.org>
+Date: Wed, 8 Apr 2020 08:36:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20200408151519.GQ21484@bombadil.infradead.org>
+Content-Language: en-US
+X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,53 +55,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, avid1.Zhou@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>, linux-arch@vger.kernel.org,
+ linux-s390@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>, x86@kernel.org,
+ Christoph Hellwig <hch@lst.de>, Laura Abbott <labbott@redhat.com>,
+ Nitin Gupta <ngupta@vflare.org>, Haiyang Zhang <haiyangz@microsoft.com>,
+ linaro-mm-sig@lists.linaro.org, bpf@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ Minchan Kim <minchan@kernel.org>, iommu@lists.linux-foundation.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2020-04-08 at 09:37 -0400, Aurabindo Pillai wrote:
-> amdgpu uses lots of pr_* calls for printing error messages.
-> With this prefix, errors shall be more obvious to the end
-> use regarding its origin, and may help debugging.
-> 
-> Prefix format:
-> 
-> [xxx.xxxxx] amdgpu: ...
-[]
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-[]
-> @@ -28,6 +28,12 @@
->  #ifndef __AMDGPU_H__
->  #define __AMDGPU_H__
->  
-> +#ifdef pr_fmt
-> +#undef pr_fmt
-> +#endif
-> +
-> +#define pr_fmt(fmt) "amdgpu: " fmt
-> +
->  #include "amdgpu_ctx.h"
->  
->  #include <linux/atomic.h>
+On 4/8/20 8:15 AM, Matthew Wilcox wrote:
+> On Wed, Apr 08, 2020 at 05:12:03PM +0200, Peter Zijlstra wrote:
+>> On Wed, Apr 08, 2020 at 08:01:00AM -0700, Randy Dunlap wrote:
+>>> Hi,
+>>>
+>>> On 4/8/20 4:59 AM, Christoph Hellwig wrote:
+>>>> diff --git a/mm/Kconfig b/mm/Kconfig
+>>>> index 36949a9425b8..614cc786b519 100644
+>>>> --- a/mm/Kconfig
+>>>> +++ b/mm/Kconfig
+>>>> @@ -702,7 +702,7 @@ config ZSMALLOC
+>>>>  
+>>>>  config ZSMALLOC_PGTABLE_MAPPING
+>>>>  	bool "Use page table mapping to access object in zsmalloc"
+>>>> -	depends on ZSMALLOC
+>>>> +	depends on ZSMALLOC=y
+>>>
+>>> It's a bool so this shouldn't matter... not needed.
+>>
+>> My mm/Kconfig has:
+>>
+>> config ZSMALLOC
+>> 	tristate "Memory allocator for compressed pages"
+>> 	depends on MMU
+>>
+>> which I think means it can be modular, no?
 
-All the embedded uses of "amdgpu:" in logging
-messages should also be deleted.
+ack. I misread it.
 
-$ git grep -P '(?:dev_|pr_).*"amdgpu:' drivers/gpu/drm/amd/amdgpu/
-drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c:               pr_err("amdgpu: failed to validate PT BOs\n");
-drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c:               pr_err("amdgpu: failed to validate PD\n");
-drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c:                       pr_err("amdgpu: failed to kmap PD, ret=%d\n", ret);
-drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:             pr_info("amdgpu: switched on\n");
-drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:             pr_info("amdgpu: switched off\n");
-drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c:                        dev_dbg(adev->dev, "amdgpu: using MSI/MSI-X.\n");
-drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c:          dev_warn(adev->dev, "amdgpu: No suitable DMA available.\n");
-drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c:          pr_warn("amdgpu: No suitable DMA available\n");
-drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c:          pr_warn("amdgpu: No suitable DMA available\n");
+> Randy means that ZSMALLOC_PGTABLE_MAPPING is a bool, so I think hch's patch
+> is wrong ... if ZSMALLOC is 'm' then ZSMALLOC_PGTABLE_MAPPING would become
+> 'n' instead of 'y'.
 
+sigh, I wish that I had meant that. :)
 
+thanks.
+
+-- 
+~Randy
 
 _______________________________________________
 dri-devel mailing list
