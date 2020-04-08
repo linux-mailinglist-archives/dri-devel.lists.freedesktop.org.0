@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369CB1A29DA
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 21:52:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6111A29E9
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 21:52:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85FE16EADD;
-	Wed,  8 Apr 2020 19:52:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B67B6EAE1;
+	Wed,  8 Apr 2020 19:52:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 608F76EADB
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 19:52:03 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id x23so6121679lfq.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 12:52:03 -0700 (PDT)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE3E76EADD
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 19:52:04 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id n17so8976903lji.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 12:52:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LNUYG492p0LzUw743VYzwd+v9kMLkVKaGJFhNA4+IGs=;
- b=mN+q9T2Ox9nNdGI+Bg0QEtZ1gPcvLhLG9wEc3hS7zX1zyZfPfm45LpNnSNu3evoS7W
- fAFVjROotSXtb6Cr/JB4+/iCId9emJM5teg/6n9SXxBAspCr3xTBGYHp1HQgn/wR4pBs
- 9ZCxqaY5xxraCyezt9autnPhyalqeuwGmzEEJ+GAWUtjb/bbVFoPrltEMtrwvkxloGfQ
- Q/XemAyoHHOrBw0oe+tO01d/LPzlUUhzcySwncf8jzs0L7+8N6uKA5oD9pChPGzxfJWW
- 4wQ32Eqgk5unl3pqwjqls/KkAs7Vl2C8nYwQVxUPuk/gwfyaLS/EcseEaUAt/R9llmWq
- cgBw==
+ bh=K6Ojd94vjUcgSndzfprDVKF+JSlxG4uGRfRXsYpGzQ0=;
+ b=d5oFaK8UwOZi7H5F48rnNaK2R8v6LkGnKwHFDBzDgHi/ojGrvQzjwZ+lzvVLhz0wDG
+ lGhd6WN0q1JE2+li4ltylG/TjC0yKBgl0u3sye4rUxxuD3Yz8clpWWNnBhOsFx7/Mafh
+ UakuDeyrWRbksFKH9NKCB3XeXOdTpo4myPKOAHrIKOwhajzFT5fBB9DwJHqSpjDIFDtb
+ HLcLuC7pPaRLWLxjliscAUvZ9V4W4HxkqdPw92JiOYt/QKYttmCuaxJL9aNbjqaSnbAs
+ 8WoFH7iow2pBdcaIpYsQ79aKcFx+vXY9K4jLcLPwnz0upKHwAMWmDoONqvOKjBWFHjEe
+ Dueg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LNUYG492p0LzUw743VYzwd+v9kMLkVKaGJFhNA4+IGs=;
- b=C4+gkcdzY2FCFMZ/qzMcGy4EyRMtiiq9hP5rU/AfbL0q02Y2SRQ1fh4aFu7Rraz9e2
- bUwhD7ywDVGdqEN7ejLkCYcP43PEWikzINVXHF0o98HTg+Rm4B/OGcMRJ5vceRxcO26A
- oT7eYd193eAraLXZsWRKdtEY+ZpmsnyjF2jbcamYWuxPdjuWAXpyVPBCFzhArcv5Vm+E
- bgn5ZzuEYMCH3cVuAEbqHxqnrtcK7Xm6l5MpbsoyVnzWkC5OJnt2lNqmsM99IaK0JuUH
- TaIycAg0FVPBMh1oENWm9pisb/Di27U+m9Vy0TcuFqd8yGIActsNYxmWbywM1qtq6Vjo
- pqJg==
-X-Gm-Message-State: AGi0PuZfXKmPK+uq98vtjp9Z4vuON8+pxWFmhrvHxllHVoE8cYS8YXUD
- 6czV0ZN7kRPgyrcerH+CdWO401P/nD8=
-X-Google-Smtp-Source: APiQypIQDyNx4KNt5NxFsFdlnGw/HmO+tJL9kmeWTmTA6imYTfVNhAX3quWG+Z03RN9unpofs2Hhqw==
-X-Received: by 2002:ac2:4426:: with SMTP id w6mr5559037lfl.8.1586375521479;
- Wed, 08 Apr 2020 12:52:01 -0700 (PDT)
+ bh=K6Ojd94vjUcgSndzfprDVKF+JSlxG4uGRfRXsYpGzQ0=;
+ b=KeoD4A2Hn7WZCkvuLiEUnDKNVVy8EfaRNhCDjjYu93hkowCnKyQZDiOFAL7xAsiixm
+ WzvuqbNx7asHvta7xWzz3SzMlYWXuJUON1MQt+SOECDrsBSBj1kxtksqdl6u/w31mRGy
+ 4h+rlSgsSJOY6xp5HEpn9fAym8YWTRxHfs095JRMUMQqRTJWilZ+NwHZIRjUj+ib440t
+ i+IAIp3OtTDOCAzbliNTBPo4cu5OFMPJyJYXl0tqzxZiUEfXXGgvCHqh9Nh/3DI821wC
+ l0rV12iSHaQdYjkK0jRfttM2kLqZZtGvenPV0piYW0mMkMX4s2Sf1WfoRkJS7B9P1qcM
+ VsiA==
+X-Gm-Message-State: AGi0PuaPWvmu9PWR/9E9ogKd+nDCej43zz67HQIZoIFaeGNWYqCblZv2
+ 6d5rVOdGa61Ea2sCITprTc1XF11DOjE=
+X-Google-Smtp-Source: APiQypJbuaHNQe5dLcOoFSvhluuZKo2c0ks74xx7xSGRxc9QW9zx74abZXhtv300Khuz3xg3CEOWOA==
+X-Received: by 2002:a2e:7a0a:: with SMTP id v10mr6156018ljc.143.1586375522923; 
+ Wed, 08 Apr 2020 12:52:02 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- i20sm3961304lfe.15.2020.04.08.12.52.00
+ i20sm3961304lfe.15.2020.04.08.12.52.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Apr 2020 12:52:01 -0700 (PDT)
+ Wed, 08 Apr 2020 12:52:02 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v2 19/36] dt-bindings: display: convert rocktech,
- jh057n00900 to DT Schema
-Date: Wed,  8 Apr 2020 21:50:52 +0200
-Message-Id: <20200408195109.32692-20-sam@ravnborg.org>
+Subject: [PATCH v2 20/36] dt-bindings: display: convert samsung AMOLED to DT
+ Schema
+Date: Wed,  8 Apr 2020 21:50:53 +0200
+Message-Id: <20200408195109.32692-21-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200408195109.32692-1-sam@ravnborg.org>
 References: <20200408195109.32692-1-sam@ravnborg.org>
@@ -69,79 +69,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- Sam Ravnborg <sam@ravnborg.org>, Purism Kernel Team <kernel@puri.sm>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sam Ravnborg <sam@ravnborg.org>, Hoegeun Kwon <hoegeun.kwon@samsung.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-djI6CiAgLSBGaXggZW50cnkgaW4gTUFJTlRBSU5FUlMKClNpZ25lZC1vZmYtYnk6IFNhbSBSYXZu
-Ym9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KUmV2aWV3ZWQtYnk6IEd1aWRvIEfDvG50aGVyIDxhZ3hA
-c2lneGNwdS5vcmc+CkNjOiAiR3VpZG8gR8O8bnRoZXIiIDxhZ3hAc2lneGNwdS5vcmc+CkNjOiBQ
-dXJpc20gS2VybmVsIFRlYW0gPGtlcm5lbEBwdXJpLnNtPgpDYzogVGhpZXJyeSBSZWRpbmcgPHRo
-aWVycnkucmVkaW5nQGdtYWlsLmNvbT4KQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9y
-Zz4KLS0tCiAuLi4vZGlzcGxheS9wYW5lbC9yb2NrdGVjaCxqaDA1N24wMDkwMC50eHQgICAgfCAy
-MyAtLS0tLS0tLQogLi4uL2Rpc3BsYXkvcGFuZWwvcm9ja3RlY2gsamgwNTduMDA5MDAueWFtbCAg
-IHwgNTcgKysrKysrKysrKysrKysrKysrKwogTUFJTlRBSU5FUlMgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHwgIDIgKy0KIDMgZmlsZXMgY2hhbmdlZCwgNTggaW5zZXJ0aW9ucygr
-KSwgMjQgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcm9ja3RlY2gsamgwNTduMDA5MDAudHh0CiBj
-cmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3Bs
-YXkvcGFuZWwvcm9ja3RlY2gsamgwNTduMDA5MDAueWFtbAoKZGlmZiAtLWdpdCBhL0RvY3VtZW50
-YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL3JvY2t0ZWNoLGpoMDU3bjAw
-OTAwLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVs
-L3JvY2t0ZWNoLGpoMDU3bjAwOTAwLnR4dApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXgg
-YTM3MmM1ZDg0Njk1Li4wMDAwMDAwMDAwMDAKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcm9ja3RlY2gsamgwNTduMDA5MDAudHh0CisrKyAvZGV2
-L251bGwKQEAgLTEsMjMgKzAsMCBAQAotUm9ja3RlY2ggamgwNTduMDA5MDAgNS41IiA3MjB4MTQ0
-MCBURlQgTENEIHBhbmVsCi0KLVJlcXVpcmVkIHByb3BlcnRpZXM6Ci0tIGNvbXBhdGlibGU6IHNo
-b3VsZCBiZSAicm9ja3RlY2gsamgwNTduMDA5MDAiCi0tIHJlZzogRFNJIHZpcnR1YWwgY2hhbm5l
-bCBvZiB0aGUgcGVyaXBoZXJhbAotLSByZXNldC1ncGlvczogcGFuZWwgcmVzZXQgZ3BpbwotLSBi
-YWNrbGlnaHQ6IHBoYW5kbGUgb2YgdGhlIGJhY2tsaWdodCBkZXZpY2UgYXR0YWNoZWQgdG8gdGhl
-IHBhbmVsCi0tIHZjYy1zdXBwbHk6IHBoYW5kbGUgb2YgdGhlIHJlZ3VsYXRvciB0aGF0IHByb3Zp
-ZGVzIHRoZSB2Y2Mgc3VwcGx5IHZvbHRhZ2UuCi0tIGlvdmNjLXN1cHBseTogcGhhbmRsZSBvZiB0
-aGUgcmVndWxhdG9yIHRoYXQgcHJvdmlkZXMgdGhlIGlvdmNjIHN1cHBseQotICB2b2x0YWdlLgot
-Ci1FeGFtcGxlOgotCi0JJm1pcGlfZHNpIHsKLQkJcGFuZWxAMCB7Ci0JCQljb21wYXRpYmxlID0g
-InJvY2t0ZWNoLGpoMDU3bjAwOTAwIjsKLQkJCXJlZyA9IDwwPjsKLQkJCWJhY2tsaWdodCA9IDwm
-YmFja2xpZ2h0PjsKLQkJCXJlc2V0LWdwaW9zID0gPCZncGlvMyAxMyBHUElPX0FDVElWRV9MT1c+
-OwotCQkJdmNjLXN1cHBseSA9IDwmcmVnXzJ2OF9wPjsKLQkJCWlvdmNjLXN1cHBseSA9IDwmcmVn
-XzF2OF9wPjsKLQkJfTsKLQl9OwpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcm9ja3RlY2gsamgwNTduMDA5MDAueWFtbCBiL0RvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL3JvY2t0ZWNoLGpoMDU3
-bjAwOTAwLnlhbWwKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAwLi44Mjc0
-MTdiYmZmNjMKLS0tIC9kZXYvbnVsbAorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
-ZGluZ3MvZGlzcGxheS9wYW5lbC9yb2NrdGVjaCxqaDA1N24wMDkwMC55YW1sCkBAIC0wLDAgKzEs
-NTcgQEAKKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKKyVZQU1MIDEuMgorLS0t
-CiskaWQ6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9zY2hlbWFzL2Rpc3BsYXkvcGFuZWwvcm9ja3Rl
-Y2gsamgwNTduMDA5MDAueWFtbCMKKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRh
-LXNjaGVtYXMvY29yZS55YW1sIworCit0aXRsZTogUm9ja3RlY2ggamgwNTduMDA5MDAgNS41IiA3
-MjB4MTQ0MCBURlQgTENEIHBhbmVsCisKK21haW50YWluZXJzOgorICAtIEd1aWRvIEfDvG50aGVy
-IDxhZ3hAc2lneGNwdS5vcmc+CisKK2FsbE9mOgorICAtICRyZWY6IHBhbmVsLWNvbW1vbi55YW1s
-IworCitwcm9wZXJ0aWVzOgorICBjb21wYXRpYmxlOgorICAgIGNvbnN0OiByb2NrdGVjaCxqaDA1
-N24wMDkwMAorCisgIHJlZzogdHJ1ZQorICByZXNldC1ncGlvczogdHJ1ZQorICBiYWNrbGlnaHQ6
-IHRydWUKKworICB2Y2Mtc3VwcGx5OgorICAgIGRlc2NyaXB0aW9uOiBUaGUgcmVndWxhdG9yIHRo
-YXQgcHJvdmlkZXMgdGhlIHZjYyBzdXBwbHkgdm9sdGFnZQorCisgIGlvdmNjLXN1cHBseToKKyAg
-ICBkZXNjcmlwdGlvbjogVGhlIHJlZ3VsYXRvciB0aGF0IHByb3ZpZGVzIHRoZSBpb3ZjYyBzdXBw
-bHkgdm9sdGFnZQorCityZXF1aXJlZDoKKyAgLSBjb21wYXRpYmxlCisgIC0gcmVnCisgIC0gcmVz
-ZXQtZ3Bpb3MKKyAgLSBiYWNrbGlnaHQKKyAgLSB2Y2Mtc3VwcGx5CisgIC0gaW92Y2Mtc3VwcGx5
-CisKK2FkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQorCitleGFtcGxlczoKKyAgLSB8CisgICAg
-I2luY2x1ZGUgPGR0LWJpbmRpbmdzL2dwaW8vZ3Bpby5oPgorCisgICAgZHNpIHsKKyAgICAgICAg
-I2FkZHJlc3MtY2VsbHMgPSA8MT47CisgICAgICAgICNzaXplLWNlbGxzID0gPDA+OworCisgICAg
-ICAgIHBhbmVsQDAgeworICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJyb2NrdGVjaCxqaDA1N24w
-MDkwMCI7CisgICAgICAgICAgICByZWcgPSA8MD47CisgICAgICAgICAgICBiYWNrbGlnaHQgPSA8
-JmJhY2tsaWdodD47CisgICAgICAgICAgICByZXNldC1ncGlvcyA9IDwmZ3BpbzMgMTMgR1BJT19B
-Q1RJVkVfTE9XPjsKKyAgICAgICAgICAgIHZjYy1zdXBwbHkgPSA8JnJlZ18ydjhfcD47CisgICAg
-ICAgICAgICBpb3ZjYy1zdXBwbHkgPSA8JnJlZ18xdjhfcD47CisgICAgICAgIH07CisgICAgfTsK
-KworLi4uCmRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTCmluZGV4IDMzZGJl
-OTRlMDNhYi4uZWVjMzE2MTcxYjVlIDEwMDY0NAotLS0gYS9NQUlOVEFJTkVSUworKysgYi9NQUlO
-VEFJTkVSUwpAQCAtNTQwMCw3ICs1NDAwLDcgQEAgTToJR3VpZG8gR8O8bnRoZXIgPGFneEBzaWd4
-Y3B1Lm9yZz4KIFI6CVB1cmlzbSBLZXJuZWwgVGVhbSA8a2VybmVsQHB1cmkuc20+CiBTOglNYWlu
-dGFpbmVkCiBGOglkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtcm9ja3RlY2gtamgwNTduMDA5
-MDAuYwotRjoJRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwv
-cm9ja3RlY2gsamgwNTduMDA5MDAudHh0CitGOglEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
-ZGluZ3MvZGlzcGxheS9wYW5lbC9yb2NrdGVjaCxqaDA1N24wMDkwMC55YW1sCiAKIERSTSBEUklW
-RVIgRk9SIFNBVkFHRSBWSURFTyBDQVJEUwogUzoJT3JwaGFuIC8gT2Jzb2xldGUKLS0gCjIuMjAu
-MQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+For samsung there was two AMOLED panels with the same
+description.
+Collect them in one binding file.
+
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+---
+ .../panel/samsung,amoled-mipi-dsi.yaml        | 65 +++++++++++++++++++
+ .../display/panel/samsung,s6e3ha2.txt         | 31 ---------
+ .../display/panel/samsung,s6e63j0x03.txt      | 24 -------
+ 3 files changed, 65 insertions(+), 55 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,amoled-mipi-dsi.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e3ha2.txt
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e63j0x03.txt
+
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,amoled-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/panel/samsung,amoled-mipi-dsi.yaml
+new file mode 100644
+index 000000000000..96bdde9298e0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,amoled-mipi-dsi.yaml
+@@ -0,0 +1,65 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,amoled-mipi-dsi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung AMOLED MIPI-DSI panels
++
++maintainers:
++  - Hoegeun Kwon <hoegeun.kwon@samsung.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    enum:
++        # Samsung S6E63J0X03 1.63" 320x320 AMOLED panel
++      - samsung,s6e63j0x03
++        # Samsung S6E3HA2 5.7" 1440x2560 AMOLED panel
++      - samsung,s6e3ha2
++        # Samsung S6E3HF2 5.65" 1600x2560 AMOLED panel
++      - samsung,s6e3hf2
++
++  reg: true
++  reset-gpios: true
++  enable-gpios: true
++  te-gpios: true
++
++  vdd3-supply:
++    description: I/O voltage supply
++
++  vci-supply:
++    description: voltage supply for analog circuits
++
++required:
++  - compatible
++  - reg
++  - vdd3-supply
++  - vci-supply
++  - reset-gpios
++  - enable-gpios
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "samsung,s6e3ha2";
++            reg = <0>;
++            vdd3-supply = <&ldo27_reg>;
++            vci-supply = <&ldo28_reg>;
++            reset-gpios = <&gpg0 0 GPIO_ACTIVE_LOW>;
++            enable-gpios = <&gpf1 5 GPIO_ACTIVE_HIGH>;
++            te-gpios = <&gpf1 3 GPIO_ACTIVE_HIGH>;
++        };
++    };
++
++...
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha2.txt b/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha2.txt
+deleted file mode 100644
+index 4acea25c244b..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha2.txt
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Samsung S6E3HA2 5.7" 1440x2560 AMOLED panel
+-Samsung S6E3HF2 5.65" 1600x2560 AMOLED panel
+-
+-Required properties:
+-  - compatible: should be one of:
+-    "samsung,s6e3ha2",
+-    "samsung,s6e3hf2".
+-  - reg: the virtual channel number of a DSI peripheral
+-  - vdd3-supply: I/O voltage supply
+-  - vci-supply: voltage supply for analog circuits
+-  - reset-gpios: a GPIO spec for the reset pin (active low)
+-  - enable-gpios: a GPIO spec for the panel enable pin (active high)
+-
+-Optional properties:
+-  - te-gpios: a GPIO spec for the tearing effect synchronization signal
+-    gpio pin (active high)
+-
+-Example:
+-&dsi {
+-	...
+-
+-	panel@0 {
+-		compatible = "samsung,s6e3ha2";
+-		reg = <0>;
+-		vdd3-supply = <&ldo27_reg>;
+-		vci-supply = <&ldo28_reg>;
+-		reset-gpios = <&gpg0 0 GPIO_ACTIVE_LOW>;
+-		enable-gpios = <&gpf1 5 GPIO_ACTIVE_HIGH>;
+-		te-gpios = <&gpf1 3 GPIO_ACTIVE_HIGH>;
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e63j0x03.txt b/Documentation/devicetree/bindings/display/panel/samsung,s6e63j0x03.txt
+deleted file mode 100644
+index 3f1a8392af7f..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/samsung,s6e63j0x03.txt
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Samsung S6E63J0X03 1.63" 320x320 AMOLED panel (interface: MIPI-DSI command mode)
+-
+-Required properties:
+-  - compatible: "samsung,s6e63j0x03"
+-  - reg: the virtual channel number of a DSI peripheral
+-  - vdd3-supply: I/O voltage supply
+-  - vci-supply: voltage supply for analog circuits
+-  - reset-gpios: a GPIO spec for the reset pin (active low)
+-  - te-gpios: a GPIO spec for the tearing effect synchronization signal
+-    gpio pin (active high)
+-
+-Example:
+-&dsi {
+-	...
+-
+-	panel@0 {
+-		compatible = "samsung,s6e63j0x03";
+-		reg = <0>;
+-		vdd3-supply = <&ldo16_reg>;
+-		vci-supply = <&ldo20_reg>;
+-		reset-gpios = <&gpe0 1 GPIO_ACTIVE_LOW>;
+-		te-gpios = <&gpx0 6 GPIO_ACTIVE_HIGH>;
+-	};
+-};
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
