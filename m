@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806361A1D62
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 10:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C73F11A1D65
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 10:27:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF056E9B8;
-	Wed,  8 Apr 2020 08:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 910E66E9C3;
+	Wed,  8 Apr 2020 08:27:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C86D36E9B4
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 08:26:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80D1D6E9B4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 08:27:00 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 4B7D7AE6D;
+ by mx2.suse.de (Postfix) with ESMTP id 01BFAAE6F;
  Wed,  8 Apr 2020 08:26:57 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: noralf@tronnes.org, daniel@ffwll.ch, airlied@linux.ie,
@@ -26,10 +26,9 @@ To: noralf@tronnes.org, daniel@ffwll.ch, airlied@linux.ie,
  sean@poorly.run, hdegoede@redhat.com, kraxel@redhat.com,
  emil.velikov@collabora.com, sam@ravnborg.org, yc_chen@aspeedtech.com,
  tiantao6@hisilicon.com
-Subject: [PATCH v2 07/10] drm/tilcdc: Set up fbdev after fully registering
- device
-Date: Wed,  8 Apr 2020 10:26:38 +0200
-Message-Id: <20200408082641.590-8-tzimmermann@suse.de>
+Subject: [PATCH v2 08/10] drm/udl: Remove error check from fbdev setup
+Date: Wed,  8 Apr 2020 10:26:39 +0200
+Message-Id: <20200408082641.590-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200408082641.590-1-tzimmermann@suse.de>
 References: <20200408082641.590-1-tzimmermann@suse.de>
@@ -52,22 +51,23 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-R2VuZXJpYyBmYmRldiBzdXBwb3J0IGlzIGEgRFJNIGNsaWVudC4gU2V0IGl0IHVwIGFmdGVyIGZ1
-bGx5IHJlZ2lzdGVyaW5nCnRoZSBuZXcgRFJNIGRldmljZS4KClNpZ25lZC1vZmYtYnk6IFRob21h
-cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpBY2tlZC1ieTogSnlyaSBTYXJoYSA8
-anNhcmhhQHRpLmNvbT4KUmV2aWV3ZWQtYnk6IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25u
-ZXMub3JnPgpBY2tlZC1ieTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+Ci0tLQog
-ZHJpdmVycy9ncHUvZHJtL3RpbGNkYy90aWxjZGNfZHJ2LmMgfCAzICstLQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS90aWxjZGMvdGlsY2RjX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3RpbGNkYy90aWxj
-ZGNfZHJ2LmMKaW5kZXggNzhjMTg3N2QxM2E4My4uYTVlOWVlNGM3ZmJmNCAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3RpbGNkYy90aWxjZGNfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3RpbGNkYy90aWxjZGNfZHJ2LmMKQEAgLTM5MCwxMCArMzkwLDkgQEAgc3RhdGljIGludCB0aWxj
-ZGNfaW5pdChzdHJ1Y3QgZHJtX2RyaXZlciAqZGRydiwgc3RydWN0IGRldmljZSAqZGV2KQogCXJl
-dCA9IGRybV9kZXZfcmVnaXN0ZXIoZGRldiwgMCk7CiAJaWYgKHJldCkKIAkJZ290byBpbml0X2Zh
-aWxlZDsKKwlwcml2LT5pc19yZWdpc3RlcmVkID0gdHJ1ZTsKIAogCWRybV9mYmRldl9nZW5lcmlj
-X3NldHVwKGRkZXYsIGJwcCk7Ci0KLQlwcml2LT5pc19yZWdpc3RlcmVkID0gdHJ1ZTsKIAlyZXR1
-cm4gMDsKIAogaW5pdF9mYWlsZWQ6Ci0tIAoyLjI2LjAKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+UmVtb3ZlIHRoZSBlcnJvciBjaGVjayBmcm9tIHRoZSBmYmRldiBzZXR1cCBmdW5jdGlvbi4gVGhl
+IGRyaXZlcidzCnByb2JlIGZ1bmN0aW9uIHNob3VsZCBub3QgZGVwZW5kIG9uIGEgRFJNIGNsaWVu
+dCdzIHN0YXRlLgoKU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5u
+QHN1c2UuZGU+ClJldmlld2VkLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9y
+Zz4KQWNrZWQtYnk6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgotLS0KIGRyaXZl
+cnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jIHwgNiArLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+dWRsL3VkbF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jCmluZGV4IDFjZTJk
+ODY1YzM2ZGMuLjljYzZkMDc1Y2I0MDIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS91ZGwv
+dWRsX2Rydi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jCkBAIC05NywxNCAr
+OTcsMTAgQEAgc3RhdGljIGludCB1ZGxfdXNiX3Byb2JlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICpp
+bnRlcmZhY2UsCiAKIAlEUk1fSU5GTygiSW5pdGlhbGl6ZWQgdWRsIG9uIG1pbm9yICVkXG4iLCB1
+ZGwtPmRybS5wcmltYXJ5LT5pbmRleCk7CiAKLQlyID0gZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAo
+JnVkbC0+ZHJtLCAwKTsKLQlpZiAocikKLQkJZ290byBlcnJfZHJtX2Rldl91bnJlZ2lzdGVyOwor
+CWRybV9mYmRldl9nZW5lcmljX3NldHVwKCZ1ZGwtPmRybSwgMCk7CiAKIAlyZXR1cm4gMDsKIAot
+ZXJyX2RybV9kZXZfdW5yZWdpc3RlcjoKLQlkcm1fZGV2X3VucmVnaXN0ZXIoJnVkbC0+ZHJtKTsK
+IGVycl9mcmVlOgogCWRybV9kZXZfcHV0KCZ1ZGwtPmRybSk7CiAJcmV0dXJuIHI7Ci0tIAoyLjI2
+LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
