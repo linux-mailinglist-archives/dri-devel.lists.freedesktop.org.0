@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323BE1A1DBE
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 11:03:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586ED1A1DCA
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 11:05:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 438DC6E9D7;
-	Wed,  8 Apr 2020 09:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FDB16E9DC;
+	Wed,  8 Apr 2020 09:05:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDE036E9D7
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 09:03:37 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id q204so4029250oia.13
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 02:03:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TKV0NEsWQw/WwLXsHgDJt70f056rhfvht0rJVryOlNk=;
- b=Vi94BGxbZCHXMZTeeRX55vNsN5rut7RPJ5ogl+unH7qhPrIP0WRCx31GVOCrnx/W7w
- Uku3ckTsAhw7LzkI1Q2VLLsrl800HjFm6F/Wvk2bkryB/Mg1RB6KjCIJDVlDGiDzb4Ji
- IfuUvF0/u7DC7AOp2MQBkEOXGwxPXMy86uQcY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TKV0NEsWQw/WwLXsHgDJt70f056rhfvht0rJVryOlNk=;
- b=rJ4MnEz13PtS/VIf4CDgGrHoxoBQt0S8St8mVzDRgid9EbNdBRLA/r5moAqxdajfxW
- eDk1u1zmzXZFVIecirQ36nn8AS+g7pkG6EM8e5hnk5woWLzPynrHN6l3OGh3tUq7XNUT
- ZIo8rTwtzp5rcBB0ycKku7VUgCCyAMJGj6hNL4xiDIZBi38TAH9FKBfLL2T69cIgsFiL
- WlodlXIjxGUlOqcfikCB3mklZKEquGZiDSPOcXti8DUjLzh+nEurToDwoP1x153G81Qb
- e40zZ2gZHq2Lznh0ZwbLExerCIY0E5Z0D5wQ7ixujNuZEA6leKdfTT4KfupfoZh0JgJd
- 5gtQ==
-X-Gm-Message-State: AGi0PubhPWv0Es53NeaKbfTWPS2JHwcTNE475ypcy6469lriiu8JJcr+
- hAwQ44zKZXUOabTDsszon2T/GqMMbfyDrLr3RrPPQQ==
-X-Google-Smtp-Source: APiQypIIWM2TeydmeQyZR38aDULLLYpENkWeTFqbzT4eRpninX/V4Kz0EEMthzUvwVpq4a22ekPdn/o8omJ+zLnUjEk=
-X-Received: by 2002:a54:4189:: with SMTP id 9mr1700465oiy.128.1586336617075;
- Wed, 08 Apr 2020 02:03:37 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB926E9DC
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 09:05:25 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id BAA0DACBA;
+ Wed,  8 Apr 2020 09:05:22 +0000 (UTC)
+Subject: Re: [PATCH v2 10/10] drm/fb-helper: Remove return value from
+ drm_fbdev_generic_setup()
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200408082641.590-1-tzimmermann@suse.de>
+ <20200408082641.590-11-tzimmermann@suse.de>
+ <20200408085044.GA23972@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <3ee04af4-03ee-2813-571e-bce664ace95c@suse.de>
+Date: Wed, 8 Apr 2020 11:05:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
- <20200403135828.2542770-37-daniel.vetter@ffwll.ch>
- <20200408084040.GA11347@jamwan02-TSP300>
-In-Reply-To: <20200408084040.GA11347@jamwan02-TSP300>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 8 Apr 2020 11:03:24 +0200
-Message-ID: <CAKMK7uGQoK-8U4=XOdq9UUwRx344Y1pPbvZ7m8Ejt8aOP-JTvQ@mail.gmail.com>
-Subject: Re: [PATCH 36/44] drm/komeda: use devm_drm_dev_alloc
-To: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
+In-Reply-To: <20200408085044.GA23972@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,144 +66,243 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mihail Atanassov <Mihail.Atanassov@arm.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Liviu Dudau <Liviu.Dudau@arm.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, nd <nd@arm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, paul@crapouillou.net,
+ kraxel@redhat.com, emil.velikov@collabora.com, xinliang.liu@linaro.org,
+ kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com, chunkuang.hu@kernel.org,
+ puck.chen@hisilicon.com, hdegoede@redhat.com, jsarha@ti.com,
+ matthias.bgg@gmail.com, sean@poorly.run, zourongrong@gmail.com,
+ tiantao6@hisilicon.com
+Content-Type: multipart/mixed; boundary="===============1208929548=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 8, 2020 at 10:41 AM james qian wang (Arm Technology China)
-<james.qian.wang@arm.com> wrote:
->
-> On Fri, Apr 03, 2020 at 09:58:20PM +0800, Daniel Vetter wrote:
-> > Komeda uses the component framework, which does open/close a new
-> > devres group around all the bind callbacks. Which means we can use
-> > devm_ functions for managing the drm_device cleanup, with leaking
-> > stuff in case of deferred probes or other reasons to unbind
-> > components, or the component_master.
-> >
-> > Also note that this fixes a double-free in the probe unroll code, bot
-> > drm_dev_put and kfree(kms) result in the kms allocation getting freed.
-> >
-> > Aside: komeda_bind could be cleaned up a lot, devm_kfree is a bit
-> > redundant. Plus I'm not clear on why there's suballocations for
-> > mdrv->mdev and mdrv->kms. Plus I'm not sure the lifetimes are correct
-> > with all that devm_kzalloc usage ... That structure layout is also the
-> > reason why komeda still uses drm_device->dev_private and can't easily
-> > be replaced with a proper container_of upcasting. I'm pretty sure that
-> > there's endless amounts of hotunplug/hotremove bugs in there with all
-> > the unprotected dereferencing of drm_device->dev_private.
->
-> Hi Daniel:
->
-> Thank you for the patch.
->
-> Reviewed-by: James Qian Wang <james.qian.wang@arm.com>
->
-> For why komeda has two devices komeda_dev and komeda_kms_dev.
-> That because komeda treats drm_crtc/plane as virtual, which pick the real
-> komeda resources to satify the user's requirement. In the initial driver
-> design we want to clear the difference of these two class structures
-> so we defined two devices:
->
-> - komeda_dev:
->   managing the real komeda device and resources.
->
-> - komeda_kms_dev
->   the virtual device managing the drm related stuff like
->   komeda_crtc/plane.
->
-> And yes, even for that we don't need two sub-allocations, we are planing
-> to move the komeda_dev into the komeda_kms_dev or just merge two devices
-> together.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1208929548==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="J311umRTnUDCep8iQFPlzwyTPkPG855yh"
 
-Yeah I think the logical split makes a lot of sense, e.g. amdgpu has a
-similar split between the drm front-end structures, and the DC
-back-end stuff that deals with the hardware. Same as other drivers.
-The issue I think I'm seeing with komeda is all the pointer chasing
-(not a problem, just a bit of indirection that's not strictly needed),
-and that when you unload the back-end disappears right away, while the
-front-end might still be used by userspace. And then all the pointers
-you have lead to oopses.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--J311umRTnUDCep8iQFPlzwyTPkPG855yh
+Content-Type: multipart/mixed; boundary="J8WheCClXi4SvS9IfrGwK5tCWvvh8I1y1";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: noralf@tronnes.org, daniel@ffwll.ch, airlied@linux.ie,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ xinliang.liu@linaro.org, zourongrong@gmail.com, john.stultz@linaro.org,
+ kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
+ paul@crapouillou.net, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
+ matthias.bgg@gmail.com, jsarha@ti.com, tomi.valkeinen@ti.com,
+ sean@poorly.run, hdegoede@redhat.com, kraxel@redhat.com,
+ emil.velikov@collabora.com, yc_chen@aspeedtech.com, tiantao6@hisilicon.com,
+ dri-devel@lists.freedesktop.org
+Message-ID: <3ee04af4-03ee-2813-571e-bce664ace95c@suse.de>
+Subject: Re: [PATCH v2 10/10] drm/fb-helper: Remove return value from
+ drm_fbdev_generic_setup()
+References: <20200408082641.590-1-tzimmermann@suse.de>
+ <20200408082641.590-11-tzimmermann@suse.de>
+ <20200408085044.GA23972@ravnborg.org>
+In-Reply-To: <20200408085044.GA23972@ravnborg.org>
 
-I admit that for built-in hw hotunplug isn't really a major use-case.
-But we do have some usb drivers nowadays in drm, so I'm trying to
-clean this all up a bit and make sure that as many drivers as possible
-have clean&correct code in this area.
+--J8WheCClXi4SvS9IfrGwK5tCWvvh8I1y1
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Anyway if you're already planning to look into this then awesome!
+Hi Sam
 
-Cheers, Daniel
+Am 08.04.20 um 10:50 schrieb Sam Ravnborg:
+> Hi Thomas.
+>=20
+> You missed my ack on the first 9 patches:
+> https://lore.kernel.org/dri-devel/20200407101354.GA12686@ravnborg.org/
+> Not that it matters as others have acked/reviewed them.
 
-> Thanks
-> James
->
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
-> > Cc: Liviu Dudau <liviu.dudau@arm.com>
-> > Cc: Mihail Atanassov <mihail.atanassov@arm.com>
-> > ---
-> >  drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 16 +++++-----------
-> >  1 file changed, 5 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> > index 16dfd5cdb66c..6b85d5f4caa8 100644
-> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> > @@ -261,18 +261,16 @@ static void komeda_kms_mode_config_init(struct komeda_kms_dev *kms,
-> >
-> >  struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
-> >  {
-> > -     struct komeda_kms_dev *kms = kzalloc(sizeof(*kms), GFP_KERNEL);
-> > +     struct komeda_kms_dev *kms;
-> >       struct drm_device *drm;
-> >       int err;
-> >
-> > -     if (!kms)
-> > -             return ERR_PTR(-ENOMEM);
-> > +     kms = devm_drm_dev_alloc(mdev->dev, &komeda_kms_driver,
-> > +                              struct komeda_kms_dev, base);
-> > +     if (IS_ERR(kms))
-> > +             return kms;
-> >
-> >       drm = &kms->base;
-> > -     err = drm_dev_init(drm, &komeda_kms_driver, mdev->dev);
-> > -     if (err)
-> > -             goto free_kms;
-> > -     drmm_add_final_kfree(drm, kms);
-> >
-> >       drm->dev_private = mdev;
-> >
-> > @@ -329,9 +327,6 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
-> >       drm_mode_config_cleanup(drm);
-> >       komeda_kms_cleanup_private_objs(kms);
-> >       drm->dev_private = NULL;
-> > -     drm_dev_put(drm);
-> > -free_kms:
-> > -     kfree(kms);
-> >       return ERR_PTR(err);
-> >  }
-> >
-> > @@ -348,5 +343,4 @@ void komeda_kms_detach(struct komeda_kms_dev *kms)
-> >       drm_mode_config_cleanup(drm);
-> >       komeda_kms_cleanup_private_objs(kms);
-> >       drm->dev_private = NULL;
-> > -     drm_dev_put(drm);
-> >  }
-> > --
-> > 2.25.1
+This got lost. I'll add you acks. Thanks for taking another look at the
+patches.
+
+>=20
+> On Wed, Apr 08, 2020 at 10:26:41AM +0200, Thomas Zimmermann wrote:
+>> Generic fbdev emulation is a DRM client. Drivers should invoke the
+>> setup function, but not depend on its success. Hence remove the return=
+
+>> value.
+>>
+>> v2:
+>> 	* warn if fbdev device has not been registered yet
+>> 	* document the new behavior
+>> 	* convert the existing warning to the new dev_ interface
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+>> Reviewed-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+>> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+>> ---
+>>  drivers/gpu/drm/drm_fb_helper.c | 25 +++++++++++++------------
+>>  include/drm/drm_fb_helper.h     |  5 +++--
+>>  2 files changed, 16 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_=
+helper.c
+>> index 165c8dab50797..97f5e43837486 100644
+>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>> @@ -2169,7 +2169,9 @@ static const struct drm_client_funcs drm_fbdev_c=
+lient_funcs =3D {
+>>   *                 @dev->mode_config.preferred_depth is used if this =
+is zero.
+>>   *
+>>   * This function sets up generic fbdev emulation for drivers that sup=
+ports
+>> - * dumb buffers with a virtual address and that can be mmap'ed.
+>> + * dumb buffers with a virtual address and that can be mmap'ed. It's =
+supposed
+>> + * to run after the DRM driver registered the new DRM device with
+>> + * drm_dev_register().
+> OR maybe be more explicit - something like:
+> drm_fbdev_generic_setup() shall be called after the DRM is registered
+> with drm_dev_register().
+
+I think this one is even better.
+
+Best regards
+Thomas
+
+>=20
+> Either way is fine.
+>=20
+> 	Sam
+>=20
+>>   *
+>>   * Restore, hotplug events and teardown are all taken care of. Driver=
+s that do
+>>   * suspend/resume need to call drm_fb_helper_set_suspend_unlocked() t=
+hemselves.
+>> @@ -2186,29 +2188,30 @@ static const struct drm_client_funcs drm_fbdev=
+_client_funcs =3D {
+>>   * Setup will be retried on the next hotplug event.
+>>   *
+>>   * The fbdev is destroyed by drm_dev_unregister().
+>> - *
+>> - * Returns:
+>> - * Zero on success or negative error code on failure.
+>>   */
+>> -int drm_fbdev_generic_setup(struct drm_device *dev, unsigned int pref=
+erred_bpp)
+>> +void drm_fbdev_generic_setup(struct drm_device *dev,
+>> +			     unsigned int preferred_bpp)
+>>  {
+>>  	struct drm_fb_helper *fb_helper;
+>>  	int ret;
+>> =20
+>> -	WARN(dev->fb_helper, "fb_helper is already set!\n");
+>> +	drm_WARN(dev, !dev->registered, "Device has not been registered.\n")=
+;
+>> +	drm_WARN(dev, dev->fb_helper, "fb_helper is already set!\n");
+>> =20
+>>  	if (!drm_fbdev_emulation)
+>> -		return 0;
+>> +		return;
+>> =20
+>>  	fb_helper =3D kzalloc(sizeof(*fb_helper), GFP_KERNEL);
+>> -	if (!fb_helper)
+>> -		return -ENOMEM;
+>> +	if (!fb_helper) {
+>> +		drm_err(dev, "Failed to allocate fb_helper\n");
+>> +		return;
+>> +	}
+>> =20
+>>  	ret =3D drm_client_init(dev, &fb_helper->client, "fbdev", &drm_fbdev=
+_client_funcs);
+>>  	if (ret) {
+>>  		kfree(fb_helper);
+>>  		drm_err(dev, "Failed to register client: %d\n", ret);
+>> -		return ret;
+>> +		return;
+>>  	}
+>> =20
+>>  	if (!preferred_bpp)
+>> @@ -2222,8 +2225,6 @@ int drm_fbdev_generic_setup(struct drm_device *d=
+ev, unsigned int preferred_bpp)
+>>  		drm_dbg_kms(dev, "client hotplug ret=3D%d\n", ret);
+>> =20
+>>  	drm_client_register(&fb_helper->client);
+>> -
+>> -	return 0;
+>>  }
+>>  EXPORT_SYMBOL(drm_fbdev_generic_setup);
+>> =20
+>> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h=
+
+>> index 208dbf87afa3e..fb037be83997d 100644
+>> --- a/include/drm/drm_fb_helper.h
+>> +++ b/include/drm/drm_fb_helper.h
+>> @@ -269,7 +269,8 @@ int drm_fb_helper_debug_leave(struct fb_info *info=
+);
+>>  void drm_fb_helper_lastclose(struct drm_device *dev);
+>>  void drm_fb_helper_output_poll_changed(struct drm_device *dev);
+>> =20
+>> -int drm_fbdev_generic_setup(struct drm_device *dev, unsigned int pref=
+erred_bpp);
+>> +void drm_fbdev_generic_setup(struct drm_device *dev,
+>> +			     unsigned int preferred_bpp);
+>>  #else
+>>  static inline void drm_fb_helper_prepare(struct drm_device *dev,
+>>  					struct drm_fb_helper *helper,
+>> @@ -443,7 +444,7 @@ static inline void drm_fb_helper_output_poll_chang=
+ed(struct drm_device *dev)
+>>  {
+>>  }
+>> =20
+>> -static inline int
+>> +static inline void
+>>  drm_fbdev_generic_setup(struct drm_device *dev, unsigned int preferre=
+d_bpp)
+>>  {
+>>  	return 0;
+>> --=20
+>> 2.26.0
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
+--J8WheCClXi4SvS9IfrGwK5tCWvvh8I1y1--
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+--J311umRTnUDCep8iQFPlzwyTPkPG855yh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6Nk88ACgkQaA3BHVML
+eiPK6gf+LMIZxUiEF1IXdBIaB5ZuITgXaUTkG+EOeDKOiQP+ObRh1em/aGjtrqaA
++h8oojgrwDmlewAiI4VmZrLDtJ/pngmJnT7hd06UvoAfuOosNH51YjLnkC83/llT
++mPv1EPmUThkA6ZTR8PN+HcLmNAvxy+da9qBRttu7h1cdZcO3VpUj6QOYI8BADYw
+l8tjsVDpcOZsYlhO/PvXbZDdvaKVPKxXRNOrmkUOfM3IMoF+hJa9PHuCShvlyG5o
+7b9LVj0D96C7wqeQORUPsLXpGItY1xtPBXStqRO1vwFuMsJ3wE5tPMkQr//w0w4p
+gSJDynuAZ4U4A4/qJMJyelMAtu23fg==
+=iVE8
+-----END PGP SIGNATURE-----
+
+--J311umRTnUDCep8iQFPlzwyTPkPG855yh--
+
+--===============1208929548==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1208929548==--
