@@ -2,37 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 212C21A2835
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 20:02:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E301A2838
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 20:02:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E941F6EAB4;
-	Wed,  8 Apr 2020 18:02:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A95A16EA60;
+	Wed,  8 Apr 2020 18:02:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 845876EAB0
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 18:02:20 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id CA5AC80516;
- Wed,  8 Apr 2020 20:02:17 +0200 (CEST)
-Date: Wed, 8 Apr 2020 20:02:16 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH] fbdev: mx3fb: avoid warning about psABI change
-Message-ID: <20200408180216.GC24828@ravnborg.org>
-References: <20200408162551.3928330-1-arnd@arndb.de> <87pnchhp2s.fsf@intel.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 406016EA60
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 18:02:52 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id w10so8951792wrm.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 11:02:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aEcQ55ibRFK7AXPn8tBuEBfXFG9cbhFC58mmg9uXPtg=;
+ b=lf9Ts6U3jCUsqBGgmBxLulZ73U60x2S9pa76VvVszJnbPdvtYQ9W03I6zarSOjxquI
+ irDxo9wy1Q8TjRSiQ4877luhVhJISMxrvQV77w4PxJi2kpvHOFXgcA7nqRD/SOhBc7XL
+ owtIwDaoRaEHteth91tQjFbd+OXTX5ORu1BANT36apSN4kbkhJ+T3fXtgUFFGOXfNOfT
+ 1vRm3LaHANUexcyGxozZAl52w27oUPo+2a+vg7glZiyvdWMMn9JANFwqoTLlbbeSoyIK
+ CYu1bey/UrsYZWYVj+v3kF95wEoDHbgjWn97XxU1ewe03hG0G4/5PX8SP4GCqhfiGyn6
+ 6I9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aEcQ55ibRFK7AXPn8tBuEBfXFG9cbhFC58mmg9uXPtg=;
+ b=OyxdAAQENe1huYvx1yHVZ2sbzsKK3z/ZqdaAK/sAgBlSU9KQ+hSapi+lFb5OWDXcgM
+ HzBegsfhOYMIER9ik0hk4/Yy4YIQRQ+p40j+muO6QAz1/0JOJLa/q7J9TVIZ1svlc3RJ
+ wIg7pziMSwCpmm6VKOxsqXkEn19N/0B6fEGYxe0WyX4gfWgRa58YvV+AYMCqXEoZ5GPC
+ ygYsKFXggEC77Sj+NW/iCW2xfd8KzUyJZI2W9db7NowMBf66KfDAkJSpJOeYu/IpH56+
+ wGlHK8AGCgNyTyhhN5T8yVtkbplX+OBLLQWEzdHjiBpqGOHbjK6JCA9cWQHl/qz5nWeb
+ RXZA==
+X-Gm-Message-State: AGi0PuaiAX+3wAEnUGQ/yPJeH2eg8e9rnjgU6kYc/Y9pWdAaIGlRNEFF
+ pdMPZ5+c2L16V4YX9dUlP8g=
+X-Google-Smtp-Source: APiQypIvpKUxxFoSuOVyu3jyunFbDt5AMBn6/R62J/u8KG+Ic2bfo8fZLnJQ2UZyDBBT3/2jHqkxsw==
+X-Received: by 2002:adf:df8a:: with SMTP id z10mr9165884wrl.278.1586368969830; 
+ Wed, 08 Apr 2020 11:02:49 -0700 (PDT)
+Received: from localhost (pD9E51D62.dip0.t-ipconnect.de. [217.229.29.98])
+ by smtp.gmail.com with ESMTPSA id z8sm6681209wrr.86.2020.04.08.11.02.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Apr 2020 11:02:48 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH] drm/tegra: Use i2c_put_adapter() instead of put_device()
+Date: Wed,  8 Apr 2020 20:02:44 +0200
+Message-Id: <20200408180244.3079849-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87pnchhp2s.fsf@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8
- a=e5mUnYsNAAAA:8 a=gf0cKYegyjFaCekMSkcA:9 a=CjuIK1q_8ugA:10
- a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,107 +64,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Enrico Weigelt <info@metux.net>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani & Laurent.
+From: Thierry Reding <treding@nvidia.com>
 
-On Wed, Apr 08, 2020 at 08:20:11PM +0300, Jani Nikula wrote:
-> On Wed, 08 Apr 2020, Arnd Bergmann <arnd@arndb.de> wrote:
-> > The arm64 gcc-9 release warns about a change in the calling
-> > conventions:
-> >
-> > drivers/video/fbdev/mx3fb.c: In function 'sdc_init_panel':
-> > drivers/video/fbdev/mx3fb.c:506:12: note: parameter passing for argument of type 'struct ipu_di_signal_cfg' changed in GCC 9.1
-> >   506 | static int sdc_init_panel(struct mx3fb_data *mx3fb, enum ipu_panel panel,
-> >       |            ^~~~~~~~~~~~~~
-> > drivers/video/fbdev/mx3fb.c: In function '__set_par':
-> > drivers/video/fbdev/mx3fb.c:848:7: note: parameter passing for argument of type 'struct ipu_di_signal_cfg' changed in GCC 9.1
-> >
-> > Change the file to just pass the struct by reference, which is
-> > unambiguous and avoids the warning.
-> >
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > ---
-> >  drivers/video/fbdev/mx3fb.c | 20 ++++++++++----------
-> >  1 file changed, 10 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/video/fbdev/mx3fb.c b/drivers/video/fbdev/mx3fb.c
-> > index 4af28e4421e5..e13fea3a292f 100644
-> > --- a/drivers/video/fbdev/mx3fb.c
-> > +++ b/drivers/video/fbdev/mx3fb.c
-> > @@ -509,7 +509,7 @@ static int sdc_init_panel(struct mx3fb_data *mx3fb, enum ipu_panel panel,
-> >  			  uint16_t h_start_width, uint16_t h_sync_width,
-> >  			  uint16_t h_end_width, uint16_t v_start_width,
-> >  			  uint16_t v_sync_width, uint16_t v_end_width,
-> > -			  struct ipu_di_signal_cfg sig)
-> > +			  struct ipu_di_signal_cfg *sig)
-> 
-> I have no idea why get_maintainer.pl (I presume) is Cc'ing me... but
-> since it is, I'll note that the pointer could be const, while the patch
-> is
-> 
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+In order to properly release the I2C adapter used for DDC/CI, use the
+i2c_put_adapter() function provided by the I2C subsystem rather than the
+put_device() function which doesn't include code to drop a reference to
+the adapter's owner module.
 
-I was too quick to apply this - sorry.
-I will follow-up with a const fix.
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/drm/tegra/output.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	Sam
+diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
+index a264259b97a2..136fd2f56af0 100644
+--- a/drivers/gpu/drm/tegra/output.c
++++ b/drivers/gpu/drm/tegra/output.c
+@@ -177,7 +177,7 @@ void tegra_output_remove(struct tegra_output *output)
+ 		free_irq(output->hpd_irq, output);
+ 
+ 	if (output->ddc)
+-		put_device(&output->ddc->dev);
++		i2c_put_adapter(output->ddc);
+ }
+ 
+ int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
+-- 
+2.24.1
 
-> 
-> either way.
-> 
-> >  {
-> >  	unsigned long lock_flags;
-> >  	uint32_t reg;
-> > @@ -591,17 +591,17 @@ static int sdc_init_panel(struct mx3fb_data *mx3fb, enum ipu_panel panel,
-> >  
-> >  	/* DI settings */
-> >  	old_conf = mx3fb_read_reg(mx3fb, DI_DISP_IF_CONF) & 0x78FFFFFF;
-> > -	old_conf |= sig.datamask_en << DI_D3_DATAMSK_SHIFT |
-> > -		sig.clksel_en << DI_D3_CLK_SEL_SHIFT |
-> > -		sig.clkidle_en << DI_D3_CLK_IDLE_SHIFT;
-> > +	old_conf |= sig->datamask_en << DI_D3_DATAMSK_SHIFT |
-> > +		sig->clksel_en << DI_D3_CLK_SEL_SHIFT |
-> > +		sig->clkidle_en << DI_D3_CLK_IDLE_SHIFT;
-> >  	mx3fb_write_reg(mx3fb, old_conf, DI_DISP_IF_CONF);
-> >  
-> >  	old_conf = mx3fb_read_reg(mx3fb, DI_DISP_SIG_POL) & 0xE0FFFFFF;
-> > -	old_conf |= sig.data_pol << DI_D3_DATA_POL_SHIFT |
-> > -		sig.clk_pol << DI_D3_CLK_POL_SHIFT |
-> > -		sig.enable_pol << DI_D3_DRDY_SHARP_POL_SHIFT |
-> > -		sig.Hsync_pol << DI_D3_HSYNC_POL_SHIFT |
-> > -		sig.Vsync_pol << DI_D3_VSYNC_POL_SHIFT;
-> > +	old_conf |= sig->data_pol << DI_D3_DATA_POL_SHIFT |
-> > +		sig->clk_pol << DI_D3_CLK_POL_SHIFT |
-> > +		sig->enable_pol << DI_D3_DRDY_SHARP_POL_SHIFT |
-> > +		sig->Hsync_pol << DI_D3_HSYNC_POL_SHIFT |
-> > +		sig->Vsync_pol << DI_D3_VSYNC_POL_SHIFT;
-> >  	mx3fb_write_reg(mx3fb, old_conf, DI_DISP_SIG_POL);
-> >  
-> >  	map = &di_mappings[mx3fb->disp_data_fmt];
-> > @@ -855,7 +855,7 @@ static int __set_par(struct fb_info *fbi, bool lock)
-> >  				   fbi->var.upper_margin,
-> >  				   fbi->var.vsync_len,
-> >  				   fbi->var.lower_margin +
-> > -				   fbi->var.vsync_len, sig_cfg) != 0) {
-> > +				   fbi->var.vsync_len, &sig_cfg) != 0) {
-> >  			dev_err(fbi->device,
-> >  				"mx3fb: Error initializing panel.\n");
-> >  			return -EINVAL;
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
