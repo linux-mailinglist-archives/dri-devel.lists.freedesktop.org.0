@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C210E1A29EB
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 21:52:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 060DD1A29EF
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 21:52:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB4696EAE4;
-	Wed,  8 Apr 2020 19:52:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 437916EAEB;
+	Wed,  8 Apr 2020 19:52:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFC2D6EAE3
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 19:52:10 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id k21so9043868ljh.2
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 12:52:10 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CB236EAE7
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 19:52:12 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id g27so8958864ljn.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 12:52:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VLNfyRlmaYQ3/Tah2cpzN27telonR8g89G9XuIdJiRY=;
- b=lzzcPZNk3D+gr/CuCxW+wG0s2eiBtcOwaQ+4kVNKOjv0ELjFALUSyfhD6PMy82Is6W
- rfi0xNy6EBM6iiEwzcuMSyPtq25HJZrUGKE1dM5IaT7lgnO92QrVQrP/QveCFdPDQoB7
- fiNdNwH+Ut2D6kPE6+EgGEnNd3SIyqEO2XocbnaHXOyjHkFRbbRjasw4y/i9drd/aZSv
- o9Q7avZnj+YocaKUVMmIDhcKZOU88P9WtXCdyi9EplgE0PdAtMCYxcWEdD2TNNzBL8TD
- dpU1JaHDKISHIKJtTyKFuT2cRcbs3qVu5sSiW8wbsugOAL846McmY+wnFHjssBf0AM46
- u4Kw==
+ bh=fb/O1iqzcyrS2v32LjG3WdrjYOHgeGYkkI2/ikLgijE=;
+ b=IIdKm/dsQzEeEE8IwgUYjNSiF4ThVF7FrfU2Do8OhBrAzUWHOpnWItkhjkbKjSZsQ+
+ 4MnGDdkhyGGNRMkTbV3Yk8igK+BobCgPcvhrnYK3m/TLFuDAi5476fV5wZCnZInL2wFy
+ 22z6F/DkiNI7p8T190JgKke31C6A0SorYNJoV1A4Ampb1LDT6MGj3RrdZYQcp+alC2cv
+ Qa0+vBC70v99g/lEuDtNzHiG7ZETcAuFOdvNV1iy/Sc6fT5X9nF1d1H3C1ktUEqaFsSC
+ mNufRPd2/MVA5rizaBrju7nOJcjkl6ixmmKgiB8IPGOIqs0+Ax8KtFB1+y942/M1c/Ia
+ dMcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=VLNfyRlmaYQ3/Tah2cpzN27telonR8g89G9XuIdJiRY=;
- b=RmoB5ywmCpgKodtV1B52rmg+rqTTtd7VavtKxprMWz2sipa+p1QBX2SaGipEsNgKhs
- jxO4Tns/n8Sd9iM8XPqvsEFAIq37vdgv5jvB9ZOGp7Ca0xeRQB7U5hOs7y81PcZGzUL5
- +YVV+CtwDomCIQLRNZArJ16WzKfprNcnJe2ZShgk2COPmwGLqeJ4QjhFqAESl0G+qb/7
- WJmOCyWDXfvmJQ5Dd/AILSAgTd/jswwWkZ7OfIfNr2DCgRI495iAlzq0PeorMMEo/fVb
- 5BPysytBXdbjW8Y/ZQYvA1ynRIDML8bDWnV32GiqlYI+Q6PA9FEVHakI9aHNwjwN9gHM
- ulEw==
-X-Gm-Message-State: AGi0PuboBlu1OjT4U69vb/zQp5aAXYwcFeBlDRqxIMxtYqDM/n6CJnTD
- hciDDAOjZQq7SRUJDMwvGs08Iag5+5U=
-X-Google-Smtp-Source: APiQypJyrRv0aS4Yh2ooLaXwJplXtwi5QzSmKmOw4hVeMqh0eP+Sek81CoQP0pujKQ7qi07udXd0ag==
-X-Received: by 2002:a05:651c:c7:: with SMTP id 7mr5972954ljr.124.1586375528305; 
- Wed, 08 Apr 2020 12:52:08 -0700 (PDT)
+ bh=fb/O1iqzcyrS2v32LjG3WdrjYOHgeGYkkI2/ikLgijE=;
+ b=P7AH++EC+g1lJDXJ2AAQ7ICdKPNdsWw6nQMXwti1JerDnV8hfOFvx7L3k45QrYwnx/
+ /boM8hCN5li+my8hZhq3Xj8OiJsUbRyIeK+qj58agDx8TdihBICqpHD8jhgTursGt32A
+ 2B4FiqNuduh7aIDB6Nw05SRTD74U4Vpeh+LaK+4VQqUlcQu3akTGhHjDT1ISvU/SD8ot
+ dpfRTlWB6oTmznbV3XY7yljwNpsgQyak4JnsRyhHV176i+hOvQjudgvvXwZLsyXAZrq/
+ w20fWxKl8n6lKDu7o4vqC1/ac8Pm5oLbHHI/qisE0hFzIsMBEsdUGt2Ih2kqyauYjVF4
+ AS5w==
+X-Gm-Message-State: AGi0Publ2N3bPmgPSQtsLbAzqmZMyYPyL5fDOk3E66vfNxY2yV7u3mWu
+ Z1L7Vtp1NXRnfrYIG+7z6JEfLZUsQWU=
+X-Google-Smtp-Source: APiQypJDB0CsAPR1jEdlchfIOvppvvjcTprhDMVNzMBHv/ajNX2nk8Oz7+aBOS6HEvdTY9A9bvRkiA==
+X-Received: by 2002:a2e:8903:: with SMTP id d3mr6244305lji.266.1586375529315; 
+ Wed, 08 Apr 2020 12:52:09 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- i20sm3961304lfe.15.2020.04.08.12.52.07
+ i20sm3961304lfe.15.2020.04.08.12.52.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Apr 2020 12:52:07 -0700 (PDT)
+ Wed, 08 Apr 2020 12:52:08 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v2 25/36] dt-bindings: display: convert startek,
- startek-kd050c to DT Schema
-Date: Wed,  8 Apr 2020 21:50:58 +0200
-Message-Id: <20200408195109.32692-26-sam@ravnborg.org>
+Subject: [PATCH v2 26/36] dt-bindings: display: convert sony,
+ acx565akm to DT Schema
+Date: Wed,  8 Apr 2020 21:50:59 +0200
+Message-Id: <20200408195109.32692-27-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200408195109.32692-1-sam@ravnborg.org>
 References: <20200408195109.32692-1-sam@ravnborg.org>
@@ -69,70 +69,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Belisko <marek@goldelico.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+v2:
+  - drop use of spi-slave.yaml (Maxime)
+  - add unevaluatedProperties (Maxime)
+  - rename node in example to panel (Rob)
+
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Marek Belisko <marek@goldelico.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../display/panel/startek,startek-kd050c.txt  |  4 ---
- .../display/panel/startek,startek-kd050c.yaml | 33 +++++++++++++++++++
- 2 files changed, 33 insertions(+), 4 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/startek,startek-kd050c.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/startek,startek-kd050c.yaml
+ .../bindings/display/panel/sony,acx565akm.txt | 30 ----------
+ .../display/panel/sony,acx565akm.yaml         | 57 +++++++++++++++++++
+ 2 files changed, 57 insertions(+), 30 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/sony,acx565akm.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/sony,acx565akm.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/panel/startek,startek-kd050c.txt b/Documentation/devicetree/bindings/display/panel/startek,startek-kd050c.txt
+diff --git a/Documentation/devicetree/bindings/display/panel/sony,acx565akm.txt b/Documentation/devicetree/bindings/display/panel/sony,acx565akm.txt
 deleted file mode 100644
-index 70cd8d18d841..000000000000
---- a/Documentation/devicetree/bindings/display/panel/startek,startek-kd050c.txt
+index e12333280749..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/sony,acx565akm.txt
 +++ /dev/null
-@@ -1,4 +0,0 @@
--Startek Electronic Technology Co. KD050C 5.0" WVGA TFT LCD panel
+@@ -1,30 +0,0 @@
+-Sony ACX565AKM SDI Panel
+-========================
 -
 -Required properties:
--- compatible: should be "startek,startek-kd050c"
-diff --git a/Documentation/devicetree/bindings/display/panel/startek,startek-kd050c.yaml b/Documentation/devicetree/bindings/display/panel/startek,startek-kd050c.yaml
+-- compatible: "sony,acx565akm"
+-
+-Optional properties:
+-- label: a symbolic name for the panel
+-- reset-gpios: panel reset gpio
+-
+-Required nodes:
+-- Video port for SDI input
+-
+-Example
+--------
+-
+-acx565akm@2 {
+-	compatible = "sony,acx565akm";
+-	spi-max-frequency = <6000000>;
+-	reg = <2>;
+-
+-	label = "lcd";
+-	reset-gpios = <&gpio3 26 GPIO_ACTIVE_HIGH>; /* 90 */
+-
+-	port {
+-		lcd_in: endpoint {
+-			remote-endpoint = <&sdi_out>;
+-		};
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/display/panel/sony,acx565akm.yaml b/Documentation/devicetree/bindings/display/panel/sony,acx565akm.yaml
 new file mode 100644
-index 000000000000..fd668640afd1
+index 000000000000..95d053c548ab
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/startek,startek-kd050c.yaml
-@@ -0,0 +1,33 @@
++++ b/Documentation/devicetree/bindings/display/panel/sony,acx565akm.yaml
+@@ -0,0 +1,57 @@
 +# SPDX-License-Identifier: GPL-2.0
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/panel/startek,startek-kd050c.yaml#
++$id: http://devicetree.org/schemas/display/panel/sony,acx565akm.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Startek Electronic Technology Co. KD050C 5.0" WVGA TFT LCD panel
++title: Sony ACX565AKM SDI Panel
++
++description: |
++  The panel must obey the rules for a SPI slave device as specified in
++  spi/spi-controller.yaml
 +
 +maintainers:
-+  - Nikita Kiryanov <nikita@compulab.co.il>
++  - Tomi Valkeinen <tomi.valkeinen@ti.com>
 +
 +allOf:
-+  - $ref: panel-dpi.yaml#
++  - $ref: panel-common.yaml#
 +
 +properties:
 +  compatible:
-+    items:
-+      - const: startek,startek-kd050c
-+      - {} # panel-dpi, but not listed here to avoid false select
++    const: sony,acx565akm
 +
-+  backlight: true
-+  enable-gpios: true
-+  height-mm: true
 +  label: true
-+  panel-timing: true
-+  port: true
-+  power-supply: true
 +  reset-gpios: true
-+  width-mm: true
++  port: true
 +
-+additionalProperties: false
++required:
++  - compatible
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@2 {
++            compatible = "sony,acx565akm";
++            spi-max-frequency = <6000000>;
++            reg = <2>;
++
++            label = "lcd";
++            reset-gpios = <&gpio3 26 GPIO_ACTIVE_HIGH>; /* 90 */
++
++            port {
++                lcd_in: endpoint {
++                    remote-endpoint = <&sdi_out>;
++                };
++            };
++        };
++    };
 +
 +...
 -- 
