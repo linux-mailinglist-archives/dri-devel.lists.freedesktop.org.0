@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD0C1A29AB
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 21:51:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849AA1A29AE
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Apr 2020 21:51:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B31A6EACB;
-	Wed,  8 Apr 2020 19:51:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 004086EACA;
+	Wed,  8 Apr 2020 19:51:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F125E6EAC9
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 19:51:41 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id g27so8957070ljn.10
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 12:51:41 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 242D66EACA
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Apr 2020 19:51:44 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id m8so786794lji.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 12:51:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vKqNr/2OY3y1JwLr1v1LEruLN8ujEKMCeTY+OOF8/84=;
- b=bHS7qaEqvgeEmoXrdQAsSmgXvwjipMph7e2NhwD3DcZERvCsfX+fgHl2RzAZKQuwfc
- smDlse3qwJ7qVawxoHhHo5bWQabgy4Ghd4cWBGSdq9rGoKI2op9gp1ozuOwbXPLEMwkN
- DJFpNHC3K+VRp1PV4AhfVQ6p5/xpo8v0CgEJvsd4GQS/xuyIA2k3OZzDrseHQulq0/1B
- lj3rvJ8Ioo1pv7g5g8w4X5/SRFnw3b/sD//bkFKCCEFLEWLKer+Q/D3P5KLfK6fo27wp
- c+GgJD7ikj4wFLo7s2cFqdZsmd1CnZYRsE9VBFUFxP+pHEjrOjWPCqfnAKNQdUnE/6OZ
- kfwg==
+ bh=CHVjRzMuuU310GbyJK/QLhuR1wLfy8v28XEG79WdtmY=;
+ b=IvFfKCEWvxdkNAYPSEVha/dK8zD5QE0gDPK02BSmFJKlvn8XlaQ0htmZgD4gBw83c8
+ 3DTIjAB5biJaExkgbj2gj9kWsGPNvCIOWYW3mp5UG01Vp5dUfXxn7cYKc9nuaUNuk/Yv
+ 2IVcoh7hAko20Oyh5udG1nh37+n+iQXHNJH6Q3g8HK76c7uK3Mt1EEg9MkZtEwbVyjaP
+ U9WYdYFfGd/Z8nQUPyVs7yi/yDAry7UJYeWYpEbu2mjZT+wTqVoqRI9A18FJYfAFTACD
+ b/xzV8uEepea49dQhA/I7NPeN9+dcPnrN+5mz49nApt6Pjcr7xoR+lB81T7CTk31R5Ar
+ nAYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vKqNr/2OY3y1JwLr1v1LEruLN8ujEKMCeTY+OOF8/84=;
- b=bfKiXKcj93UBZt6130cWkZgAFGJJfuQMDM2MuNS20dLpiY0nbRTQ7kJipj8W1nlbZw
- VNmB68rb4oSPL0MNJVqNNpgO0W6Qx3WPzWfe7sIpza1V8WCU6ln6X1zaowMeAO8NE6fJ
- b6HpcJAKqH40LSExtLhXG2j7TQ+EG7HuHMzCd4iqXsUAxzN8sgOhrDSoox+/CeDXUO4F
- uIllzKm6wQSrJy8JjpfySg5uRBs8aBCDwI6SEF5WtDrzEtwXmhlr5zB2hYi2uxVJTI0u
- pRTQTvYWweqVYqPUsUso68m6sQ4LYpYSjqeeP8/oqm51SI5IRMH5H565Sx/h71NYn1vk
- h/EQ==
-X-Gm-Message-State: AGi0Pub5fMgjIPsr+DiowXCdp9aU76q9ROXzcgkJOSJWGjd9V78OUsAr
- y3/2XRENzj6yCsq7i7bVG9cJilPE8Dg=
-X-Google-Smtp-Source: APiQypJtn86WxJVj9pRVPHicvxUhAn0189Nw+j+tpzho9zVSCakjfHSw3LA2tLqOp2qOJOFhe6zNcg==
-X-Received: by 2002:a2e:9a89:: with SMTP id p9mr6061321lji.222.1586375499702; 
- Wed, 08 Apr 2020 12:51:39 -0700 (PDT)
+ bh=CHVjRzMuuU310GbyJK/QLhuR1wLfy8v28XEG79WdtmY=;
+ b=hAfBjKGUgWeKcWTeIurhdcEBB9ZytFrYABozU/TZViQuxA2llGRp8azfVhiYuFWOLB
+ M/qk2QwZtp+zDT5tqsk8H8cGGdz/H2QGPzhWPvqCBkklnW1rrCQzmB7KgzJHk71m0CGE
+ aj4hT9EBaKNoXdofcrMKSpzoI5YkmeLRNZvHg5GpRZxOhCayM2kF16/sQ6Zwfbr29Cjb
+ n5H7mfOsIXZJe5gPGiopCnogJYc3sX+oiO4tb7zE1oafP1yOvIpBAdWro6KDOP3Sh3dd
+ 15YLeaZ0CszcuZWf0uoSptfne9O6bYMGUFZf+448Nn/8duGgRjen/PdWQSoC1ceVsFch
+ p0LQ==
+X-Gm-Message-State: AGi0Pubh5HrTnXlkARz46WjzeMvyQQZS2fb1TMSJN3N8QDvxRDi/QlNG
+ YzJJOJsPLdWzLcF42T5+9xnRZAu0Ib8=
+X-Google-Smtp-Source: APiQypJ91Q004ZE4tYA8kCFhDwIemmIQEr19HuL+SR8e46lWnuO2JTTvQhsVGrNkjq1rTlBhv1izXw==
+X-Received: by 2002:a2e:b611:: with SMTP id r17mr6172730ljn.62.1586375502082; 
+ Wed, 08 Apr 2020 12:51:42 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- i20sm3961304lfe.15.2020.04.08.12.51.38
+ i20sm3961304lfe.15.2020.04.08.12.51.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Apr 2020 12:51:39 -0700 (PDT)
+ Wed, 08 Apr 2020 12:51:40 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v2 01/36] dt-bindings: display: allow port and ports in
- panel-lvds
-Date: Wed,  8 Apr 2020 21:50:34 +0200
-Message-Id: <20200408195109.32692-2-sam@ravnborg.org>
+Subject: [PATCH v2 02/36] dt-bindings: display: look for dsi* nodes in
+ dsi-controller
+Date: Wed,  8 Apr 2020 21:50:35 +0200
+Message-Id: <20200408195109.32692-3-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200408195109.32692-1-sam@ravnborg.org>
 References: <20200408195109.32692-1-sam@ravnborg.org>
@@ -69,50 +69,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both port and ports names may be used.
-port - for a single port
-ports - if there is more than one port in sub-nodes
+Rob wrote:
 
-Fixes the following warning:
-advantech,idk-2121wr.example.dt.yaml: panel-lvds: 'port' is a required property
+    Uhhh, it's looking for dsi-controller(@.*)? which is not the common
+    case found in dts files. We should fix that to dsi(@.*)?.
 
-advantech,idk-2121wr.yaml needs several ports, so uses a ports node.
+See: https://lore.kernel.org/dri-devel/20200319032222.GK29911@bogus/
+
+Fix it.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Rob Herring <robh@kernel.org>
 ---
- Documentation/devicetree/bindings/display/panel/lvds.yaml | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/display/dsi-controller.yaml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-index d0083301acbe..f9132d50821c 100644
---- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-@@ -102,6 +102,12 @@ required:
-   - width-mm
-   - height-mm
-   - panel-timing
--  - port
-+
-+if:
-+  required:
-+    - port
-+else:
-+  required:
-+    - ports
+diff --git a/Documentation/devicetree/bindings/display/dsi-controller.yaml b/Documentation/devicetree/bindings/display/dsi-controller.yaml
+index fd986c36c737..85b71b1fd28a 100644
+--- a/Documentation/devicetree/bindings/display/dsi-controller.yaml
++++ b/Documentation/devicetree/bindings/display/dsi-controller.yaml
+@@ -28,7 +28,7 @@ description: |
  
- ...
+ properties:
+   $nodename:
+-    pattern: "^dsi-controller(@.*)?$"
++    pattern: "^dsi(@.*)?$"
+ 
+   "#address-cells":
+     const: 1
+@@ -76,7 +76,7 @@ patternProperties:
+ examples:
+   - |
+     #include <dt-bindings/gpio/gpio.h>
+-    dsi-controller@a0351000 {
++    dsi@a0351000 {
+         reg = <0xa0351000 0x1000>;
+         #address-cells = <1>;
+         #size-cells = <0>;
 -- 
 2.20.1
 
