@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601791A2CFE
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 02:44:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3111A2D03
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 02:44:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 449FB6EB1E;
-	Thu,  9 Apr 2020 00:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D8A16EB1F;
+	Thu,  9 Apr 2020 00:44:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF18C6EB1E
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 00:44:11 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id z7so2064272wmk.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 17:44:11 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 581966EB1F
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 00:44:46 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id a81so2229254wmf.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 17:44:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UrFJbX5QUnC1F5EZcY/0F9Wd5dk2POQ8j91y5JKB14Y=;
- b=WFP70uAn9FltTW6hCcis8UnVdfP0SJKRvuuZMd2qrhk/07YKe23uh2Cm3N48yCPVve
- pmNsQ8JXayT0xHxaAWgAKgwOtXasHzy9GrghhLzrUHtmKNVDWt0Q0wtJBn4m68Q/qhCc
- SUpQg1RWiZ8KzTSQqSYsx8TCtSahWvd6d41mGUTaknYqGF3qil20WU+9UzFYHSon7z7X
- YcOG8hzZEe7wifnYmxUUQTqHbfRjKzrWVXTeZKeBeTY/Ty9jAzuOx1tLUs5iYvVnmAK9
- HMEn+qMRy6WaOnX6kUE5qpAqEzdAt/CY3OzeRVzZvJA5q4qFArzd0pxf5Lzut7fvjYce
- UZuA==
+ :cc; bh=Z/lED2v4iTnSKVVsHFAkJ1z5tM8iEmpHrJu7993hfzM=;
+ b=IqxLW65FXU4Q+HqoQJO3CJCtlI+jEQQyrO8t6f6nWPmKClIkpgOnNyt2m26N8tSjUL
+ Nfx5f1KgC+r0J35L7G2QoB+u7vBrcOBnI0baqvEPdkEj005zGoJc71i/f632wbhuDXgQ
+ WPKlQuYyXAjxAJM5u5gIJJcxMJ3X81Ku8tVgz7c62A7L7mflY2VDsxB7tIRD7d6ynYNn
+ 7/QfBlBaE6Wm4guZkPQkvlUhsMG+0jEplHRYqnqNs7R/A48y/b2BLVlXTuCcyQ0ontlD
+ Iw3QmB0SehvI7QLD1T1PzQaYlLHbzvYYpKUOK6mgoHUZeNo+6qlFt7hom8Vs1WecO7Nf
+ Bt1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=UrFJbX5QUnC1F5EZcY/0F9Wd5dk2POQ8j91y5JKB14Y=;
- b=FB4/w29LOHhqYN6v3mRvoC1AlsVWof5sSTGsuNAXY635V3aNoKI0TqxCbd/f2kDHh1
- 18r3mAbCBnqv4fNwDbsz3IdRdf1qjwfpyQJIsL7/IGp+x9S7JaWamnHKl04OPvvvq+JP
- cnADjc9f6HkLlcJyOEmhnz25yOBwm/WEI5bqjcASGsA9qZHz6Zbu25sSZr/7AMX0WnhJ
- S9QBXx000nuGuCFiNXoUCkUfvyG/x5Ym7NkJUMZ7fFeWsiMsyx3K6v7oDzb001sZ8Cmm
- 1ovVm1aasqqw1v5GKNtOmdHd2RXALsyaHq2v/dOCCBWotOmw2l7HVPzKI1cmxwONgZUM
- MMAA==
-X-Gm-Message-State: AGi0PubN3hKNrly4629008GfQNpB+vyddp8jwERc/9uQ+Z8bYs7fuNtC
- FSjJ3DndIeKmFCnL3YaYpbKHIn4z80evhTmkBHFYfA==
-X-Google-Smtp-Source: APiQypKGHfreOoY7ISM7lXZtkxyXml+xyGG3Wl3e7jLxhaaZZtYWqRaVqQQD6o6xbypLie2MwgR0s5eCI6kKUGefdIA=
-X-Received: by 2002:a1c:cc11:: with SMTP id h17mr7252848wmb.39.1586393049742; 
- Wed, 08 Apr 2020 17:44:09 -0700 (PDT)
+ bh=Z/lED2v4iTnSKVVsHFAkJ1z5tM8iEmpHrJu7993hfzM=;
+ b=j8lVnSpcGpW51rS7JHdP1k+Ft0GhirE0Mty4ojwZ1T8aKK7o82Uq7uhaRa+Nz/FnMG
+ m15BtyJgkvdc67aZ9Ph8svYags0zIwDsiGQIHfUzLmvHwJ8cZ5iJzVYYgPuoGKBdF+3q
+ WhQTDmCvUCQpgOIx5E9EgmNtqiKwKTH1C9FpYNABpIxYEaxhqwrMjmYDowt4F/fark9V
+ iFaVDoZZxDZzkZ7GX7WUnWVGUSiVHSCwHLFf6lKdKyVR5AI7YN/cipY+HTCuqxCht+YC
+ J/jpmYrvDkRnpce6Z9sKK7LpfwRBbrtTndYajPYVNFzLekag83kMGGjLiCMJvG04wf9T
+ JRVg==
+X-Gm-Message-State: AGi0PuZyhtVgQk6uNcKcZz2QEeT0/6jmG1DNLR/G4pWeU1ITORlx27LW
+ 7moPJqN4TTl4WeQWou3QnfazD7M+vAXLqmOTMh2DkQ==
+X-Google-Smtp-Source: APiQypI2m415jeKvNUDrHmu/CsLXdS4oaBgEkPl8+h6+DHAssZxG43kDXJLtzrVtwhIGADPil+4aGUxjsbAeBIcOQXc=
+X-Received: by 2002:a05:600c:225a:: with SMTP id
+ a26mr1856749wmm.104.1586393084699; 
+ Wed, 08 Apr 2020 17:44:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <1585044079-358-1-git-send-email-kalyan_t@codeaurora.org>
-In-Reply-To: <1585044079-358-1-git-send-email-kalyan_t@codeaurora.org>
+ <1585044079-358-2-git-send-email-kalyan_t@codeaurora.org>
+In-Reply-To: <1585044079-358-2-git-send-email-kalyan_t@codeaurora.org>
 From: Fritz Koenig <frkoenig@google.com>
-Date: Wed, 8 Apr 2020 17:43:57 -0700
-Message-ID: <CAMfZQby+bhjq9pLEAqeOCf1VwAAx=0-kUVNkxTUewOy+8z34PA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/msm/dpu: add support for color processing blocks
- in dpu driver
+Date: Wed, 8 Apr 2020 17:44:32 -0700
+Message-ID: <CAMfZQbwZi8-jFx83_2UHWNfy66=cuqH-NZn57njSmnmMcZht2A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/msm/dpu: add support for pcc color block in dpu
+ driver
 To: Kalyan Thota <kalyan_t@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,708 +75,285 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, Mar 25, 2020 at 1:17 AM Kalyan Thota <kalyan_t@codeaurora.org> wrote:
 >
-> This change adds support to configure dspp blocks in
-> the dpu driver.
->
-> Macro description of the changes coming in this patch.
-> 1) Add dspp definitions in the hw catalog.
-> 2) Add capability to reserve dspp blocks in the display data path.
-> 3) Attach the reserved block to the encoder.
+> This change adds support for color correction sub block
+> for SC7180 device.
 >
 > Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
 
 Tested-by: Fritz Koenig <frkoenig@google.com>
 
 > ---
->  drivers/gpu/drm/msm/Makefile                   |  1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h       |  2 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c    | 12 +++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 39 ++++++++----
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 39 ++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     | 26 ++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h     |  3 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c    | 82 ++++++++++++++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h    | 69 ++++++++++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h    |  2 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h        |  1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c         | 58 ++++++++++++++++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h         |  2 +
->  drivers/gpu/drm/msm/msm_drv.h                  |  1 +
->  14 files changed, 322 insertions(+), 15 deletions(-)
->  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
->  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       | 77 ++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  9 ++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c    | 49 +++++++++++++++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h    | 33 ++++++++++-
+>  4 files changed, 164 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-> index 1579cf0..42f8aae 100644
-> --- a/drivers/gpu/drm/msm/Makefile
-> +++ b/drivers/gpu/drm/msm/Makefile
-> @@ -65,6 +65,7 @@ msm-y := \
->         disp/dpu1/dpu_hw_lm.o \
->         disp/dpu1/dpu_hw_pingpong.o \
->         disp/dpu1/dpu_hw_sspp.o \
-> +       disp/dpu1/dpu_hw_dspp.o \
->         disp/dpu1/dpu_hw_top.o \
->         disp/dpu1/dpu_hw_util.o \
->         disp/dpu1/dpu_hw_vbif.o \
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> index 5174e86..cec3474 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> @@ -73,12 +73,14 @@ struct dpu_crtc_smmu_state_data {
->   * struct dpu_crtc_mixer: stores the map for each virtual pipeline in the CRTC
->   * @hw_lm:     LM HW Driver context
->   * @lm_ctl:    CTL Path HW driver context
-> + * @lm_dspp:   DSPP HW driver context
->   * @mixer_op_mode:     mixer blending operation mode
->   * @flush_mask:        mixer flush mask for ctl, mixer and pipe
->   */
->  struct dpu_crtc_mixer {
->         struct dpu_hw_mixer *hw_lm;
->         struct dpu_hw_ctl *lm_ctl;
-> +       struct dpu_hw_dspp *hw_dspp;
->         u32 mixer_op_mode;
->         u32 flush_mask;
->  };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 42bf5c8..deebbba 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -20,6 +20,7 @@
->  #include "dpu_hw_catalog.h"
->  #include "dpu_hw_intf.h"
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index bf51341..156a997 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/sort.h>
+>  #include <linux/debugfs.h>
+>  #include <linux/ktime.h>
+> +#include <linux/bits.h>
+>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_flip_work.h>
+> @@ -20,6 +21,7 @@
+>  #include "dpu_kms.h"
+>  #include "dpu_hw_lm.h"
 >  #include "dpu_hw_ctl.h"
 > +#include "dpu_hw_dspp.h"
->  #include "dpu_formats.h"
->  #include "dpu_encoder_phys.h"
 >  #include "dpu_crtc.h"
-> @@ -537,6 +538,7 @@ static struct msm_display_topology dpu_encoder_get_topology(
->          * 1 LM, 1 INTF
->          * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
->          *
-> +        * Adding color blocks only to primary interface
->          */
->         if (intf_count == 2)
->                 topology.num_lm = 2;
-> @@ -545,6 +547,9 @@ static struct msm_display_topology dpu_encoder_get_topology(
->         else
->                 topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
+>  #include "dpu_plane.h"
+>  #include "dpu_encoder.h"
+> @@ -40,6 +42,9 @@
+>  /* timeout in ms waiting for frame done */
+>  #define DPU_CRTC_FRAME_DONE_TIMEOUT_MS 60
 >
-> +       if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI)
-> +               topology.num_dspp = topology.num_lm;
+> +#define        CONVERT_S3_15(val) \
+> +       (((((u64)val) & ~BIT_ULL(63)) >> 17) & GENMASK_ULL(17, 0))
 > +
->         topology.num_enc = 0;
->         topology.num_intf = intf_count;
+>  static struct dpu_kms *_dpu_crtc_get_kms(struct drm_crtc *crtc)
+>  {
+>         struct msm_drm_private *priv = crtc->dev->dev_private;
+> @@ -422,6 +427,74 @@ static void _dpu_crtc_setup_lm_bounds(struct drm_crtc *crtc,
+>         drm_mode_debug_printmodeline(adj_mode);
+>  }
 >
-> @@ -960,7 +965,8 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
->         struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
->         struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
->         struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
-> -       int num_lm, num_ctl, num_pp;
-> +       struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_ENC] = { NULL };
-> +       int num_lm, num_ctl, num_pp, num_dspp;
->         int i, j;
+> +static void _dpu_crtc_get_pcc_coeff(struct drm_crtc_state *state,
+> +               struct dpu_hw_pcc_cfg *cfg)
+> +{
+> +       struct drm_color_ctm *ctm;
+> +
+> +       memset(cfg, 0, sizeof(struct dpu_hw_pcc_cfg));
+> +
+> +       ctm = (struct drm_color_ctm *)state->ctm->data;
+> +
+> +       if (!ctm)
+> +               return;
+> +
+> +       cfg->r.r = CONVERT_S3_15(ctm->matrix[0]);
+> +       cfg->g.r = CONVERT_S3_15(ctm->matrix[1]);
+> +       cfg->b.r = CONVERT_S3_15(ctm->matrix[2]);
+> +
+> +       cfg->r.g = CONVERT_S3_15(ctm->matrix[3]);
+> +       cfg->g.g = CONVERT_S3_15(ctm->matrix[4]);
+> +       cfg->b.g = CONVERT_S3_15(ctm->matrix[5]);
+> +
+> +       cfg->r.b = CONVERT_S3_15(ctm->matrix[6]);
+> +       cfg->g.b = CONVERT_S3_15(ctm->matrix[7]);
+> +       cfg->b.b = CONVERT_S3_15(ctm->matrix[8]);
+> +}
+> +
+> +static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
+> +{
+> +       struct drm_crtc_state *state = crtc->state;
+> +       struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
+> +       struct dpu_crtc_mixer *mixer = cstate->mixers;
+> +       struct dpu_hw_pcc_cfg cfg;
+> +       struct dpu_hw_ctl *ctl;
+> +       struct dpu_hw_mixer *lm;
+> +       struct dpu_hw_dspp *dspp;
+> +       int i;
+> +
+> +
+> +       if (!state->color_mgmt_changed)
+> +               return;
+> +
+> +       for (i = 0; i < cstate->num_mixers; i++) {
+> +               ctl = mixer[i].lm_ctl;
+> +               lm = mixer[i].hw_lm;
+> +               dspp = mixer[i].hw_dspp;
+> +
+> +               if (!dspp || !dspp->ops.setup_pcc)
+> +                       continue;
+> +
+> +               if (!state->ctm) {
+> +                       dspp->ops.setup_pcc(dspp, NULL);
+> +               } else {
+> +                       _dpu_crtc_get_pcc_coeff(state, &cfg);
+> +                       dspp->ops.setup_pcc(dspp, &cfg);
+> +               }
+> +
+> +               mixer[i].flush_mask |= ctl->ops.get_bitmask_dspp(ctl,
+> +                       mixer[i].hw_dspp->idx);
+> +
+> +               /* stage config flush mask */
+> +               ctl->ops.update_pending_flush(ctl, mixer[i].flush_mask);
+> +
+> +               DPU_DEBUG("lm %d, ctl %d, flush mask 0x%x\n",
+> +                       mixer[i].hw_lm->idx - DSPP_0,
+> +                       ctl->idx - CTL_0,
+> +                       mixer[i].flush_mask);
+> +       }
+> +}
+> +
+>  static void dpu_crtc_atomic_begin(struct drm_crtc *crtc,
+>                 struct drm_crtc_state *old_state)
+>  {
+> @@ -475,6 +548,8 @@ static void dpu_crtc_atomic_begin(struct drm_crtc *crtc,
 >
->         if (!drm_enc) {
-> @@ -1009,6 +1015,9 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
->                 drm_enc->base.id, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
->         num_lm = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
->                 drm_enc->base.id, DPU_HW_BLK_LM, hw_lm, ARRAY_SIZE(hw_lm));
-> +       num_dspp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-> +               drm_enc->base.id, DPU_HW_BLK_DSPP, hw_dspp,
-> +               ARRAY_SIZE(hw_dspp));
+>         _dpu_crtc_blend_setup(crtc);
 >
->         for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
->                 dpu_enc->hw_pp[i] = i < num_pp ? to_dpu_hw_pingpong(hw_pp[i])
-> @@ -1021,6 +1030,7 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+> +       _dpu_crtc_setup_cp_blocks(crtc);
+> +
+>         /*
+>          * PP_DONE irq is only used by command mode for now.
+>          * It is better to request pending before FLUSH and START trigger
+> @@ -1317,6 +1392,8 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
 >
->                 cstate->mixers[i].hw_lm = to_dpu_hw_mixer(hw_lm[i]);
->                 cstate->mixers[i].lm_ctl = to_dpu_hw_ctl(hw_ctl[ctl_idx]);
-> +               cstate->mixers[i].hw_dspp = to_dpu_hw_dspp(hw_dspp[i]);
->         }
+>         drm_crtc_helper_add(crtc, &dpu_crtc_helper_funcs);
 >
->         cstate->num_mixers = num_lm;
+> +       drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
+> +
+>         /* save user friendly CRTC name for later */
+>         snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base.id);
+>
 > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index c567917..19d065a 100644
+> index 19d065a..731b4fb 100644
 > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -41,6 +41,8 @@
+> @@ -41,7 +41,7 @@
 >  #define PINGPONG_SDM845_SPLIT_MASK \
 >         (PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
 >
-> +#define DSPP_SC7180_MASK 0
-> +
+> -#define DSPP_SC7180_MASK 0
+> +#define DSPP_SC7180_MASK BIT(DPU_DSPP_PCC)
+>
 >  #define DEFAULT_PIXEL_RAM_SIZE         (50 * 1024)
 >  #define DEFAULT_DPU_LINE_WIDTH         2048
->  #define DEFAULT_DPU_OUTPUT_LINE_WIDTH  2560
-> @@ -291,29 +293,30 @@
->         },
->  };
->
-> -#define LM_BLK(_name, _id, _base, _fmask, _sblk, _pp, _lmpair) \
-> +#define LM_BLK(_name, _id, _base, _fmask, _sblk, _pp, _lmpair, _dspp) \
->         { \
->         .name = _name, .id = _id, \
->         .base = _base, .len = 0x320, \
->         .features = _fmask, \
->         .sblk = _sblk, \
->         .pingpong = _pp, \
-> -       .lm_pair_mask = (1 << _lmpair) \
-> +       .lm_pair_mask = (1 << _lmpair), \
-> +       .dspp = _dspp \
->         }
->
->  static const struct dpu_lm_cfg sdm845_lm[] = {
->         LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
-> -               &sdm845_lm_sblk, PINGPONG_0, LM_1),
-> +               &sdm845_lm_sblk, PINGPONG_0, LM_1, 0),
->         LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
-> -               &sdm845_lm_sblk, PINGPONG_1, LM_0),
-> +               &sdm845_lm_sblk, PINGPONG_1, LM_0, 0),
->         LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
-> -               &sdm845_lm_sblk, PINGPONG_2, LM_5),
-> +               &sdm845_lm_sblk, PINGPONG_2, LM_5, 0),
->         LM_BLK("lm_3", LM_3, 0x0, MIXER_SDM845_MASK,
-> -               &sdm845_lm_sblk, PINGPONG_MAX, 0),
-> +               &sdm845_lm_sblk, PINGPONG_MAX, 0, 0),
->         LM_BLK("lm_4", LM_4, 0x0, MIXER_SDM845_MASK,
-> -               &sdm845_lm_sblk, PINGPONG_MAX, 0),
-> +               &sdm845_lm_sblk, PINGPONG_MAX, 0, 0),
->         LM_BLK("lm_5", LM_5, 0x49000, MIXER_SDM845_MASK,
-> -               &sdm845_lm_sblk, PINGPONG_3, LM_2),
-> +               &sdm845_lm_sblk, PINGPONG_3, LM_2, 0),
->  };
->
->  /* SC7180 */
-> @@ -328,12 +331,26 @@
->
->  static const struct dpu_lm_cfg sc7180_lm[] = {
->         LM_BLK("lm_0", LM_0, 0x44000, MIXER_SC7180_MASK,
-> -               &sc7180_lm_sblk, PINGPONG_0, LM_1),
-> +               &sc7180_lm_sblk, PINGPONG_0, LM_1, DSPP_0),
->         LM_BLK("lm_1", LM_1, 0x45000, MIXER_SC7180_MASK,
-> -               &sc7180_lm_sblk, PINGPONG_1, LM_0),
-> +               &sc7180_lm_sblk, PINGPONG_1, LM_0, 0),
->  };
->
+> @@ -339,12 +339,17 @@
 >  /*************************************************************
-> + * DSPP sub blocks config
-> + *************************************************************/
-> +#define DSPP_BLK(_name, _id, _base) \
-> +               {\
-> +               .name = _name, .id = _id, \
-> +               .base = _base, .len = 0x1800, \
-> +               .features = DSPP_SC7180_MASK, \
-> +               .sblk = NULL, \
-> +               }
-> +
-> +static const struct dpu_dspp_cfg sc7180_dspp[] = {
-> +       DSPP_BLK("dspp_0", DSPP_0, 0x54000),
-> +};
-> +/*************************************************************
->   * PINGPONG sub blocks config
+>   * DSPP sub blocks config
 >   *************************************************************/
->  static const struct dpu_pingpong_sub_blks sdm845_pp_sblk_te = {
-> @@ -587,6 +604,8 @@ static void sc7180_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
->                 .sspp = sc7180_sspp,
->                 .mixer_count = ARRAY_SIZE(sc7180_lm),
->                 .mixer = sc7180_lm,
-> +               .dspp_count = ARRAY_SIZE(sc7180_dspp),
-> +               .dspp = sc7180_dspp,
->                 .pingpong_count = ARRAY_SIZE(sc7180_pp),
->                 .pingpong = sc7180_pp,
->                 .intf_count = ARRAY_SIZE(sc7180_intf),
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index 09df7d8..f7de438 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -146,6 +146,17 @@ enum {
->  };
->
->  /**
-> + * DSPP sub-blocks
-> + * @DPU_DSPP_PCC             Panel color correction block
-> + * @DPU_DSPP_GC              Gamma correction block
-> + */
-> +enum {
-> +       DPU_DSPP_PCC = 0x1,
-> +       DPU_DSPP_GC,
-> +       DPU_DSPP_MAX
+> +static const struct dpu_dspp_sub_blks sc7180_dspp_sblk = {
+> +       .pcc = {.id = DPU_DSPP_PCC, .base = 0x1700,
+> +               .len = 0x90, .version = 0x10000},
 > +};
 > +
-> +/**
->   * PINGPONG sub-blocks
->   * @DPU_PINGPONG_TE         Tear check block
->   * @DPU_PINGPONG_TE2        Additional tear check block for split pipes
-> @@ -377,6 +388,16 @@ struct dpu_lm_sub_blks {
->         struct dpu_pp_blk gc;
->  };
->
-> +/**
-> + * struct dpu_dspp_sub_blks: Information of DSPP block
-> + * @gc : gamma correction block
-> + * @pcc: pixel color correction block
-> + */
-> +struct dpu_dspp_sub_blks {
-> +       struct dpu_pp_blk gc;
-> +       struct dpu_pp_blk pcc;
-> +};
-> +
->  struct dpu_pingpong_sub_blks {
->         struct dpu_pp_blk te;
->         struct dpu_pp_blk te2;
-> @@ -471,10 +492,24 @@ struct dpu_lm_cfg {
->         DPU_HW_BLK_INFO;
->         const struct dpu_lm_sub_blks *sblk;
->         u32 pingpong;
-> +       u32 dspp;
->         unsigned long lm_pair_mask;
->  };
->
->  /**
-> + * struct dpu_dspp_cfg - information of DSPP blocks
-> + * @id                 enum identifying this block
-> + * @base               register offset of this block
-> + * @features           bit mask identifying sub-blocks/features
-> + *                     supported by this block
-> + * @sblk               sub-blocks information
-> + */
-> +struct dpu_dspp_cfg  {
-> +       DPU_HW_BLK_INFO;
-> +       const struct dpu_dspp_sub_blks *sblk;
-> +};
-> +
-> +/**
->   * struct dpu_pingpong_cfg - information of PING-PONG blocks
->   * @id                 enum identifying this block
->   * @base               register offset of this block
-> @@ -688,6 +723,9 @@ struct dpu_mdss_cfg {
->
->         u32 ad_count;
->
-> +       u32 dspp_count;
-> +       const struct dpu_dspp_cfg *dspp;
-> +
->         /* Add additional block data structures here */
->
->         struct dpu_perf_cfg perf;
-> @@ -716,6 +754,7 @@ struct dpu_mdss_hw_cfg_handler {
->  #define BLK_PINGPONG(s) ((s)->pingpong)
->  #define BLK_INTF(s) ((s)->intf)
->  #define BLK_AD(s) ((s)->ad)
-> +#define BLK_DSPP(s) ((s)->dspp)
->
->  /**
->   * dpu_hw_catalog_init - dpu hardware catalog init API retrieves
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index 831e5f7..613ae8f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -272,6 +272,31 @@ static int dpu_hw_ctl_active_get_bitmask_intf(struct dpu_hw_ctl *ctx,
->         return 0;
->  }
->
-> +static uint32_t dpu_hw_ctl_get_bitmask_dspp(struct dpu_hw_ctl *ctx,
-> +       enum dpu_dspp dspp)
-> +{
-> +       uint32_t flushbits = 0;
-> +
-> +       switch (dspp) {
-> +       case DSPP_0:
-> +               flushbits = BIT(13);
-> +               break;
-> +       case DSPP_1:
-> +               flushbits = BIT(14);
-> +               break;
-> +       case DSPP_2:
-> +               flushbits = BIT(15);
-> +               break;
-> +       case DSPP_3:
-> +               flushbits = BIT(21);
-> +               break;
-> +       default:
-> +               return 0;
-> +       }
-> +
-> +       return flushbits;
-> +}
-> +
->  static u32 dpu_hw_ctl_poll_reset_status(struct dpu_hw_ctl *ctx, u32 timeout_us)
->  {
->         struct dpu_hw_blk_reg_map *c = &ctx->hw;
-> @@ -548,6 +573,7 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
->         ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
->         ops->get_bitmask_sspp = dpu_hw_ctl_get_bitmask_sspp;
->         ops->get_bitmask_mixer = dpu_hw_ctl_get_bitmask_mixer;
-> +       ops->get_bitmask_dspp = dpu_hw_ctl_get_bitmask_dspp;
->  };
->
->  static struct dpu_hw_blk_ops dpu_hw_ops;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> index 09e1263..ec579b47 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> @@ -139,6 +139,9 @@ struct dpu_hw_ctl_ops {
->         uint32_t (*get_bitmask_mixer)(struct dpu_hw_ctl *ctx,
->                 enum dpu_lm blk);
->
-> +       uint32_t (*get_bitmask_dspp)(struct dpu_hw_ctl *ctx,
-> +               enum dpu_dspp blk);
-> +
->         /**
->          * Query the value of the intf flush mask
->          * No effect on hardware
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> new file mode 100644
-> index 0000000..75c82e9
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> @@ -0,0 +1,82 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-> + */
-> +
-> +#include "dpu_hwio.h"
-> +#include "dpu_hw_catalog.h"
-> +#include "dpu_hw_lm.h"
-> +#include "dpu_hw_dspp.h"
-> +#include "dpu_kms.h"
-> +
-> +
-> +static void _setup_dspp_ops(struct dpu_hw_dspp *c,
-> +               unsigned long features)
-> +{
-> +       return;
-> +}
-> +
-> +static const struct dpu_dspp_cfg *_dspp_offset(enum dpu_dspp dspp,
-> +               const struct dpu_mdss_cfg *m,
-> +               void __iomem *addr,
-> +               struct dpu_hw_blk_reg_map *b)
-> +{
-> +       int i;
-> +
-> +       if (!m || !addr || !b)
-> +               return ERR_PTR(-EINVAL);
-> +
-> +       for (i = 0; i < m->dspp_count; i++) {
-> +               if (dspp == m->dspp[i].id) {
-> +                       b->base_off = addr;
-> +                       b->blk_off = m->dspp[i].base;
-> +                       b->length = m->dspp[i].len;
-> +                       b->hwversion = m->hwversion;
-> +                       b->log_mask = DPU_DBG_MASK_DSPP;
-> +                       return &m->dspp[i];
-> +               }
-> +       }
-> +
-> +       return ERR_PTR(-EINVAL);
-> +}
-> +
-> +static struct dpu_hw_blk_ops dpu_hw_ops;
-> +
-> +struct dpu_hw_dspp *dpu_hw_dspp_init(enum dpu_dspp idx,
-> +                       void __iomem *addr,
-> +                       const struct dpu_mdss_cfg *m)
-> +{
-> +       struct dpu_hw_dspp *c;
-> +       const struct dpu_dspp_cfg *cfg;
-> +
-> +       if (!addr || !m)
-> +               return ERR_PTR(-EINVAL);
-> +
-> +       c = kzalloc(sizeof(*c), GFP_KERNEL);
-> +       if (!c)
-> +               return ERR_PTR(-ENOMEM);
-> +
-> +       cfg = _dspp_offset(idx, m, addr, &c->hw);
-> +       if (IS_ERR_OR_NULL(cfg)) {
-> +               kfree(c);
-> +               return ERR_PTR(-EINVAL);
-> +       }
-> +
-> +       /* Assign ops */
-> +       c->idx = idx;
-> +       c->cap = cfg;
-> +       _setup_dspp_ops(c, c->cap->features);
-> +
-> +       dpu_hw_blk_init(&c->base, DPU_HW_BLK_DSPP, idx, &dpu_hw_ops);
-> +
-> +       return c;
-> +}
-> +
-> +void dpu_hw_dspp_destroy(struct dpu_hw_dspp *dspp)
-> +{
-> +       if (dspp)
-> +               dpu_hw_blk_destroy(&dspp->base);
-> +
-> +       kfree(dspp);
-> +}
-> +
-> +
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
-> new file mode 100644
-> index 0000000..09807ea
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
-> @@ -0,0 +1,69 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-> + */
-> +
-> +#ifndef _DPU_HW_DSPP_H
-> +#define _DPU_HW_DSPP_H
-> +
-> +#include "dpu_hw_blk.h"
-> +
-> +struct dpu_hw_dspp;
-> +
-> +/**
-> + * struct dpu_hw_dspp_ops - interface to the dspp hardware driver functions
-> + * Caller must call the init function to get the dspp context for each dspp
-> + * Assumption is these functions will be called after clocks are enabled
-> + */
-> +struct dpu_hw_dspp_ops {
-> +
-> +       void (*dummy)(struct dpu_hw_dspp *ctx);
-> +};
-> +
-> +/**
-> + * struct dpu_hw_dspp - dspp description
-> + * @base: Hardware block base structure
-> + * @hw: Block hardware details
-> + * @idx: DSPP index
-> + * @cap: Pointer to layer_cfg
-> + * @ops: Pointer to operations possible for this DSPP
-> + */
-> +struct dpu_hw_dspp {
-> +       struct dpu_hw_blk base;
-> +       struct dpu_hw_blk_reg_map hw;
-> +
-> +       /* dspp */
-> +       int idx;
-> +       const struct dpu_dspp_cfg *cap;
-> +
-> +       /* Ops */
-> +       struct dpu_hw_dspp_ops ops;
-> +};
-> +
-> +/**
-> + * dpu_hw_dspp - convert base object dpu_hw_base to container
-> + * @hw: Pointer to base hardware block
-> + * return: Pointer to hardware block container
-> + */
-> +static inline struct dpu_hw_dspp *to_dpu_hw_dspp(struct dpu_hw_blk *hw)
-> +{
-> +       return container_of(hw, struct dpu_hw_dspp, base);
-> +}
-> +
-> +/**
-> + * dpu_hw_dspp_init - initializes the dspp hw driver object.
-> + * should be called once before accessing every dspp.
-> + * @idx:  DSPP index for which driver object is required
-> + * @addr: Mapped register io address of MDP
-> + * @Return: pointer to structure or ERR_PTR
-> + */
-> +struct dpu_hw_dspp *dpu_hw_dspp_init(enum dpu_dspp idx,
-> +       void __iomem *addr, const struct dpu_mdss_cfg *m);
-> +
-> +/**
-> + * dpu_hw_dspp_destroy(): Destroys DSPP driver context
-> + * @dspp: Pointer to DSPP driver context
-> + */
-> +void dpu_hw_dspp_destroy(struct dpu_hw_dspp *dspp);
-> +
-> +#endif /*_DPU_HW_DSPP_H */
-> +
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> index 6868821..402dc58 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> @@ -95,6 +95,7 @@ enum dpu_hw_blk_type {
->         DPU_HW_BLK_PINGPONG,
->         DPU_HW_BLK_INTF,
->         DPU_HW_BLK_WB,
-> +       DPU_HW_BLK_DSPP,
->         DPU_HW_BLK_MAX,
->  };
->
-> @@ -425,5 +426,6 @@ struct dpu_mdss_color {
->  #define DPU_DBG_MASK_TOP      (1 << 7)
->  #define DPU_DBG_MASK_VBIF     (1 << 8)
->  #define DPU_DBG_MASK_ROT      (1 << 9)
-> +#define DPU_DBG_MASK_DSPP     (1 << 10)
->
->  #endif  /* _DPU_HW_MDSS_H */
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index 211f5de9..4e32d04 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -158,6 +158,7 @@ struct dpu_global_state {
->         uint32_t mixer_to_enc_id[LM_MAX - LM_0];
->         uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
->         uint32_t intf_to_enc_id[INTF_MAX - INTF_0];
-> +       uint32_t dspp_to_enc_id[DSPP_MAX - DSPP_0];
->  };
->
->  struct dpu_global_state
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index 9b62451..9b2b504 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -9,6 +9,7 @@
->  #include "dpu_hw_ctl.h"
->  #include "dpu_hw_pingpong.h"
->  #include "dpu_hw_intf.h"
-> +#include "dpu_hw_dspp.h"
->  #include "dpu_encoder.h"
->  #include "dpu_trace.h"
->
-> @@ -174,6 +175,23 @@ int dpu_rm_init(struct dpu_rm *rm,
->                 rm->ctl_blks[ctl->id - CTL_0] = &hw->base;
->         }
->
-> +       for (i = 0; i < cat->dspp_count; i++) {
-> +               struct dpu_hw_dspp *hw;
-> +               const struct dpu_dspp_cfg *dspp = &cat->dspp[i];
-> +
-> +               if (dspp->id < DSPP_0 || dspp->id >= DSPP_MAX) {
-> +                       DPU_ERROR("skip dspp %d with invalid id\n", dspp->id);
-> +                       continue;
-> +               }
-> +               hw = dpu_hw_dspp_init(dspp->id, mmio, cat);
-> +               if (IS_ERR_OR_NULL(hw)) {
-> +                       rc = PTR_ERR(hw);
-> +                       DPU_ERROR("failed dspp object creation: err %d\n", rc);
-> +                       goto fail;
-> +               }
-> +               rm->dspp_blks[dspp->id - DSPP_0] = &hw->base;
-> +       }
-> +
->         return 0;
->
->  fail:
-> @@ -222,12 +240,17 @@ static bool _dpu_rm_check_lm_peer(struct dpu_rm *rm, int primary_idx,
->   *      if lm, and all other hardwired blocks connected to the lm (pp) is
->   *      available and appropriate
->   * @pp_idx: output parameter, index of pingpong block attached to the layer
-> - *      mixer in rm->pongpong_blks[].
-> + *      mixer in rm->pingpong_blks[].
-> + * @dspp_idx: output parameter, index of dspp block attached to the layer
-> + *      mixer in rm->dspp_blks[].
-> + * @reqs: input parameter, rm requirements for HW blocks needed in the
-> + *      datapath.
->   * @Return: true if lm matches all requirements, false otherwise
->   */
->  static bool _dpu_rm_check_lm_and_get_connected_blks(struct dpu_rm *rm,
->                 struct dpu_global_state *global_state,
-> -               uint32_t enc_id, int lm_idx, int *pp_idx)
-> +               uint32_t enc_id, int lm_idx, int *pp_idx, int *dspp_idx,
-> +               struct dpu_rm_requirements *reqs)
->  {
->         const struct dpu_lm_cfg *lm_cfg;
->         int idx;
-> @@ -251,6 +274,23 @@ static bool _dpu_rm_check_lm_and_get_connected_blks(struct dpu_rm *rm,
->                 return false;
->         }
->         *pp_idx = idx;
-> +
-> +       if (!reqs->topology.num_dspp)
-> +               return true;
-> +
-> +       idx = lm_cfg->dspp - DSPP_0;
-> +       if (idx < 0 || idx >= ARRAY_SIZE(rm->dspp_blks)) {
-> +               DPU_ERROR("failed to get dspp on lm %d\n", lm_cfg->dspp);
-> +               return false;
-> +       }
-> +
-> +       if (reserved_by_other(global_state->dspp_to_enc_id, idx, enc_id)) {
-> +               DPU_DEBUG("lm %d dspp %d already reserved\n", lm_cfg->id,
-> +                               lm_cfg->dspp);
-> +               return false;
-> +       }
-> +       *dspp_idx = idx;
-> +
->         return true;
->  }
->
-> @@ -262,6 +302,7 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
->  {
->         int lm_idx[MAX_BLOCKS];
->         int pp_idx[MAX_BLOCKS];
-> +       int dspp_idx[MAX_BLOCKS] = {0};
->         int i, j, lm_count = 0;
->
->         if (!reqs->topology.num_lm) {
-> @@ -279,7 +320,8 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
->                 lm_idx[lm_count] = i;
->
->                 if (!_dpu_rm_check_lm_and_get_connected_blks(rm, global_state,
-> -                               enc_id, i, &pp_idx[lm_count])) {
-> +                               enc_id, i, &pp_idx[lm_count],
-> +                               &dspp_idx[lm_count], reqs)) {
->                         continue;
+>  #define DSPP_BLK(_name, _id, _base) \
+>                 {\
+>                 .name = _name, .id = _id, \
+>                 .base = _base, .len = 0x1800, \
+>                 .features = DSPP_SC7180_MASK, \
+> -               .sblk = NULL, \
+> +               .sblk = &sc7180_dspp_sblk \
 >                 }
 >
-> @@ -299,7 +341,8 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+>  static const struct dpu_dspp_cfg sc7180_dspp[] = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+> index 75c82e9..b5189ce 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+> @@ -9,10 +9,57 @@
+>  #include "dpu_kms.h"
 >
->                         if (!_dpu_rm_check_lm_and_get_connected_blks(rm,
->                                         global_state, enc_id, j,
-> -                                       &pp_idx[lm_count])) {
-> +                                       &pp_idx[lm_count], &dspp_idx[lm_count],
-> +                                       reqs)) {
->                                 continue;
->                         }
 >
-> @@ -316,6 +359,8 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
->         for (i = 0; i < lm_count; i++) {
->                 global_state->mixer_to_enc_id[lm_idx[i]] = enc_id;
->                 global_state->pingpong_to_enc_id[pp_idx[i]] = enc_id;
-> +               global_state->dspp_to_enc_id[dspp_idx[i]] =
-> +                       reqs->topology.num_dspp ? enc_id : 0;
+> +/* DSPP_PCC */
+> +#define PCC_EN BIT(0)
+> +#define PCC_DIS 0
+> +#define PCC_RED_R_OFF 0x10
+> +#define PCC_RED_G_OFF 0x1C
+> +#define PCC_RED_B_OFF 0x28
+> +#define PCC_GREEN_R_OFF 0x14
+> +#define PCC_GREEN_G_OFF 0x20
+> +#define PCC_GREEN_B_OFF 0x2C
+> +#define PCC_BLUE_R_OFF 0x18
+> +#define PCC_BLUE_G_OFF 0x24
+> +#define PCC_BLUE_B_OFF 0x30
+> +
+> +void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
+> +               struct dpu_hw_pcc_cfg *cfg)
+> +{
+> +
+> +       u32 base = ctx->cap->sblk->pcc.base;
+> +
+> +       if (!ctx || !base) {
+> +               DRM_ERROR("invalid ctx %pK pcc base 0x%x\n", ctx, base);
+> +               return;
+> +       }
+> +
+> +       if (!cfg) {
+> +               DRM_DEBUG_DRIVER("disable pcc feature\n");
+> +               DPU_REG_WRITE(&ctx->hw, base, PCC_DIS);
+> +               return;
+> +       }
+> +
+> +       DPU_REG_WRITE(&ctx->hw, base + PCC_RED_R_OFF, cfg->r.r);
+> +       DPU_REG_WRITE(&ctx->hw, base + PCC_RED_G_OFF, cfg->r.g);
+> +       DPU_REG_WRITE(&ctx->hw, base + PCC_RED_B_OFF, cfg->r.b);
+> +
+> +       DPU_REG_WRITE(&ctx->hw, base + PCC_GREEN_R_OFF, cfg->g.r);
+> +       DPU_REG_WRITE(&ctx->hw, base + PCC_GREEN_G_OFF, cfg->g.g);
+> +       DPU_REG_WRITE(&ctx->hw, base + PCC_GREEN_B_OFF, cfg->g.b);
+> +
+> +       DPU_REG_WRITE(&ctx->hw, base + PCC_BLUE_R_OFF, cfg->b.r);
+> +       DPU_REG_WRITE(&ctx->hw, base + PCC_BLUE_G_OFF, cfg->b.g);
+> +       DPU_REG_WRITE(&ctx->hw, base + PCC_BLUE_B_OFF, cfg->b.b);
+> +
+> +       DPU_REG_WRITE(&ctx->hw, base, PCC_EN);
+> +}
+> +
+>  static void _setup_dspp_ops(struct dpu_hw_dspp *c,
+>                 unsigned long features)
+>  {
+> -       return;
+> +       if (test_bit(DPU_DSPP_PCC, &features) &&
+> +               IS_SC7180_TARGET(c->hw.hwversion))
+> +               c->ops.setup_pcc = dpu_setup_dspp_pcc;
+>  }
 >
->                 trace_dpu_rm_reserve_lms(lm_idx[i] + LM_0, enc_id,
->                                          pp_idx[i] + PINGPONG_0);
-> @@ -560,6 +605,11 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
->                 hw_to_enc_id = global_state->intf_to_enc_id;
->                 max_blks = ARRAY_SIZE(rm->intf_blks);
->                 break;
-> +       case DPU_HW_BLK_DSPP:
-> +               hw_blks = rm->dspp_blks;
-> +               hw_to_enc_id = global_state->dspp_to_enc_id;
-> +               max_blks = ARRAY_SIZE(rm->dspp_blks);
-> +               break;
->         default:
->                 DPU_ERROR("blk type %d not managed by rm\n", type);
->                 return 0;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> index 6d2b04f..08726bb 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> @@ -19,6 +19,7 @@
->   * @mixer_blks: array of layer mixer hardware resources
->   * @ctl_blks: array of ctl hardware resources
->   * @intf_blks: array of intf hardware resources
-> + * @dspp_blks: array of dspp hardware resources
->   * @lm_max_width: cached layer mixer maximum width
->   * @rm_lock: resource manager mutex
+>  static const struct dpu_dspp_cfg *_dspp_offset(enum dpu_dspp dspp,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
+> index 09807ea..7fa189c 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
+> @@ -10,13 +10,44 @@
+>  struct dpu_hw_dspp;
+>
+>  /**
+> + * struct dpu_hw_pcc_coeff - PCC coefficient structure for each color
+> + *                            component.
+> + * @r: red coefficient.
+> + * @g: green coefficient.
+> + * @b: blue coefficient.
+> + */
+> +
+> +struct dpu_hw_pcc_coeff {
+> +       __u32 r;
+> +       __u32 g;
+> +       __u32 b;
+> +};
+> +
+> +/**
+> + * struct dpu_hw_pcc - pcc feature structure
+> + * @r: red coefficients.
+> + * @g: green coefficients.
+> + * @b: blue coefficients.
+> + */
+> +struct dpu_hw_pcc_cfg {
+> +       struct dpu_hw_pcc_coeff r;
+> +       struct dpu_hw_pcc_coeff g;
+> +       struct dpu_hw_pcc_coeff b;
+> +};
+> +
+> +/**
+>   * struct dpu_hw_dspp_ops - interface to the dspp hardware driver functions
+>   * Caller must call the init function to get the dspp context for each dspp
+>   * Assumption is these functions will be called after clocks are enabled
 >   */
-> @@ -27,6 +28,7 @@ struct dpu_rm {
->         struct dpu_hw_blk *mixer_blks[LM_MAX - LM_0];
->         struct dpu_hw_blk *ctl_blks[CTL_MAX - CTL_0];
->         struct dpu_hw_blk *intf_blks[INTF_MAX - INTF_0];
-> +       struct dpu_hw_blk *dspp_blks[DSPP_MAX - DSPP_0];
+>  struct dpu_hw_dspp_ops {
+> +       /**
+> +        * setup_pcc - setup dspp pcc
+> +        * @ctx: Pointer to dspp context
+> +        * @cfg: Pointer to configuration
+> +        */
+> +       void (*setup_pcc)(struct dpu_hw_dspp *ctx, struct dpu_hw_pcc_cfg *cfg);
 >
->         uint32_t lm_max_width;
->  };
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index 740bf7c..94f1607 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -105,6 +105,7 @@ struct msm_display_topology {
->         u32 num_lm;
->         u32 num_enc;
->         u32 num_intf;
-> +       u32 num_dspp;
+> -       void (*dummy)(struct dpu_hw_dspp *ctx);
 >  };
 >
 >  /**
