@@ -1,57 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D5F1A449C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 11:45:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E89521A31F1
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 11:40:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 070526EC9F;
-	Fri, 10 Apr 2020 09:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC82D6EB97;
+	Thu,  9 Apr 2020 09:39:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5CF36EB94
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 09:34:11 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id f20so3492866wmh.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Apr 2020 02:34:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=7Q2NlCB63D2LhEGr0HwhcxP6aGwq461tbuIJ0oEX06M=;
- b=vVpj55hQZQvgH3Z3cGf73X1rvd1ZOVmJt3Ojbs5phtb5O/acyRVL6aXtux8iatz1KW
- X5oGIWVhTAcFuSlTN6gsnCxnj1V62CTHduOJdt3pQ5QlskkmM78GJwS6/I/oUr3Qrxaj
- n+ngvXzE5rJbiNcEToDunyRvf+5xjbYfoswYjfHEds2j93MQ+kAokg+7Bnztmv7TBPvz
- 0x9nt1MHgx8bK+aE6PUNX84lPoYI+LUhDQFpxTnxL4fiodyCQQJkmGFuLeAJpGzC3g3e
- C5DWz/P5hQ1Eylw1ZkLkl2zGGSRsmb7uyjTvGD3AOVMZx7Leh0hqKUhfvkgePzvJlywS
- 45OQ==
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEFB66EB97
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 09:39:57 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id h6so7463979lfc.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Apr 2020 02:39:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=i9hj27ADd+17C+KGuD555EZkHehi83Ox596cp2GT9jY=;
+ b=V7oI1N4QzARgNUD+zjSXP9qPd1SwFm0eFfUrdMo0BWluWbqsr3Uj4VVBWqiH1lK8jG
+ iBjPK5A5i4YWQr19OtCvlx6F5JI5Kj6Tc5SIWupgmn2aoKs60bQB3KospHPVZJ996n2V
+ Pr6jxbDsrkrRbgCHISuFxmoCs/QZOkIXSAYinkIIORVXo/Fm4GuNQfdiYCtN41KqdK2M
+ UJkTdUkJUaln9HS4V5gS2m0GLIE3/437bEcVrVG8atfdWS2mBha3hMBf17+82UboQ1fk
+ adDoCYASdAxdDqfiVNxrYAtLmdRECdwwT5aSjUnPunb4jhnI016t+b+YZVouIVJKpsF6
+ 5MeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=7Q2NlCB63D2LhEGr0HwhcxP6aGwq461tbuIJ0oEX06M=;
- b=V89ge7ud4fplJoACmX8SvWQBCmUUC/eoVyqTyUsOqdUy3qfroUAuX858O5kJKU8z+6
- ra/gxwaD5h2jTRgJJOXUAFfjgDMmzDyY5e6RxJOWGiLTVMgjghVFHD51ZCA1Eu/9GkCZ
- xlJHQ5GnpXwWaNGPBLWrPc3NHBjGH/2ahXAti1cuJtJWD7sLSVVdgPY76EukG/PjvwOm
- ZqT1TV4X5VEbqN9EM+8VPMxGr8yGuQ0twYfW1hQNjHImYr+VfDPvrkNiYgZUJAinHF65
- sFthzs2em9bgFaqwy4/8bi1Ev95k7TN2k/wmNaajz7wLb6vPnWMfRx267MDtiGDODxOl
- 90JQ==
-X-Gm-Message-State: AGi0PubJ2jmKs8Kz4C6cSTSa5HpNT6KMXXCQbmECaMXNo/4mWXq8XABJ
- ACrRnAqtA3CZHhSqu0VFKpE=
-X-Google-Smtp-Source: APiQypKUHubOBZw6V5DlQzjZbiHuk+zbVkHxWC7aj0wXhW0gzw3QUStWWUeaA3X1nOIr1T7nMS9ajQ==
-X-Received: by 2002:a7b:c4c9:: with SMTP id g9mr282591wmk.171.1586424850185;
- Thu, 09 Apr 2020 02:34:10 -0700 (PDT)
-Received: from localhost (ip1f115f16.dynamic.kabel-deutschland.de.
- [31.17.95.22])
- by smtp.gmail.com with ESMTPSA id f63sm2764515wma.47.2020.04.09.02.34.09
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 09 Apr 2020 02:34:09 -0700 (PDT)
-From: Oliver Graute <oliver.graute@gmail.com>
-To: gregkh@linuxfoundation.org
-Subject: [PATCH v1] staging: fbtft: fb_st7789v: Initialize the Display
-Date: Thu,  9 Apr 2020 11:25:32 +0200
-Message-Id: <1586424337-26602-1-git-send-email-oliver.graute@gmail.com>
-X-Mailer: git-send-email 2.7.4
-X-Patchwork-Bot: notify
-X-Mailman-Approved-At: Fri, 10 Apr 2020 09:45:19 +0000
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=i9hj27ADd+17C+KGuD555EZkHehi83Ox596cp2GT9jY=;
+ b=bcVkUomNvgVPCZegexRblf116XKIEZCixWbPBAehKbtLiAo59X4t5poQyuu1D2o5uu
+ q2khqdQLDi9PvqtqlQmDQjj4oLegu8PJfTMNwop+Z6tCV2ZvqZ7cNT7Ck2zzWWzc8leO
+ oKxZaO3tpjGMfROg8InIE2iacYOzsO5t5q3Wx6gH7c4B/K4tL7P+Gtq1GiCRcIEk6lwf
+ LexExkkawvG4i9RYGzxxtsLHYoLKjgX02mnYIdrAJvUXVLapR6Kg5xr1J/no7a5BvsBp
+ vMXF8GUhDTM85pCTxUJVj8/YlFZs8OlhzmwU/iXQ3hLSlpEUudTirGnPfOjC7GMHqy3U
+ Burw==
+X-Gm-Message-State: AGi0PuaE/fyJt/5ul1DoMvDOfEpAk50iHmYf7ohqRkfoPyV1CiJVkpWt
+ ME9s43PpVcUvVGgXPp2vUMQ48w==
+X-Google-Smtp-Source: APiQypI8ZMs5zHNTel6RghTB6VGJ1Hiffnb8Q9ocT3qWKuwf1QRuH6Mu5rz8D1GHtiYNkRLnzg+A7A==
+X-Received: by 2002:a19:e049:: with SMTP id g9mr7454758lfj.198.1586425196108; 
+ Thu, 09 Apr 2020 02:39:56 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:429a:a2f1:594e:c9e:26a1:8a11?
+ ([2a00:1fa0:429a:a2f1:594e:c9e:26a1:8a11])
+ by smtp.gmail.com with ESMTPSA id c21sm3333953lfh.16.2020.04.09.02.39.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Apr 2020 02:39:55 -0700 (PDT)
+Subject: Re: [PATCH 0/2] drm: bridge: simple-bridge: Enable usage with DRM
+ bridge connector helper
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+References: <20200409003636.11792-1-laurent.pinchart+renesas@ideasonboard.com>
+From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-ID: <0b0eaf1e-793a-e67f-d5c2-d6e5f6ac2cb9@cogentembedded.com>
+Date: Thu, 9 Apr 2020 12:39:47 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <20200409003636.11792-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,74 +73,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
- Oliver Graute <oliver.graute@kococonnector.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, oliver.graute@gmail.com
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-renesas-soc@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Oliver Graute <oliver.graute@kococonnector.com>
+Hello!
 
-Set Gamma Values and Register Values for the HSD20_IPS
+On 09.04.2020 3:36, Laurent Pinchart wrote:
 
-Signed-off-by: Oliver Graute <oliver.graute@kococonnector.com>
----
- drivers/staging/fbtft/fb_st7789v.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+> This small patch series enables usage of the simple-bridge driver with
+> the DRM bridge connector helper (drm_bridge_connector.c). Patch 1/2
+> starts by simplifying the driver by delegating DDC handling to the next
+> bridge in the chain, and patch 2/2 makes the connector creation
+> optional.
+> 
+> I will continue converting existing bridge drivers to this new model,
+> starting with the adv7511, rcar-lvds and dw-hdmi bridges. Anyone willing
+> to give a
 
-diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-index 84c5af2dc9a0..b0aa96b703a8 100644
---- a/drivers/staging/fbtft/fb_st7789v.c
-+++ b/drivers/staging/fbtft/fb_st7789v.c
-@@ -17,8 +17,8 @@
- #define DRVNAME "fb_st7789v"
- 
- #define DEFAULT_GAMMA \
--	"70 2C 2E 15 10 09 48 33 53 0B 19 18 20 25\n" \
--	"70 2C 2E 15 10 09 48 33 53 0B 19 18 20 25"
-+	"D0 05 0A 09 08 05 2E 44 45 0F 17 16 2B 33\n" \
-+	"D0 05 0A 09 08 05 2E 43 45 0F 16 16 2B 33"
- 
- /**
-  * enum st7789v_command - ST7789V display controller commands
-@@ -83,13 +83,13 @@ static int init_display(struct fbtft_par *par)
- 	/* set pixel format to RGB-565 */
- 	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, MIPI_DCS_PIXEL_FMT_16BIT);
- 
--	write_reg(par, PORCTRL, 0x08, 0x08, 0x00, 0x22, 0x22);
-+	write_reg(par, PORCTRL, 0x05, 0x05, 0x00, 0x33, 0x33);
- 
- 	/*
- 	 * VGH = 13.26V
- 	 * VGL = -10.43V
- 	 */
--	write_reg(par, GCTRL, 0x35);
-+	write_reg(par, GCTRL, 0x75);
- 
- 	/*
- 	 * VDV and VRH register values come from command write
-@@ -101,13 +101,13 @@ static int init_display(struct fbtft_par *par)
- 	 * VAP =  4.1V + (VCOM + VCOM offset + 0.5 * VDV)
- 	 * VAN = -4.1V + (VCOM + VCOM offset + 0.5 * VDV)
- 	 */
--	write_reg(par, VRHS, 0x0B);
-+	write_reg(par, VRHS, 0x13);
- 
- 	/* VDV = 0V */
- 	write_reg(par, VDVS, 0x20);
- 
- 	/* VCOM = 0.9V */
--	write_reg(par, VCOMS, 0x20);
-+	write_reg(par, VCOMS, 0x22);
- 
- 	/* VCOM offset = 0V */
- 	write_reg(par, VCMOFSET, 0x20);
--- 
-2.17.1
+    What? :-)
 
+> and converting additional bridge drivers is more than welcome
+> :-)
+> 
+> Laurent Pinchart (2):
+>    drm: bridge: simple-bridge: Delegate operations to next bridge
+>    drm: bridge: simple-bridge: Make connector creation optional
+> 
+>   drivers/gpu/drm/bridge/simple-bridge.c | 107 +++++++++----------------
+>   1 file changed, 36 insertions(+), 71 deletions(-)
+
+MBR, Sergei
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
