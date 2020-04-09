@@ -2,49 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4A51A2FC4
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:10:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83EB61A2FCC
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:12:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 896426EB50;
-	Thu,  9 Apr 2020 07:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51AFA6EB51;
+	Thu,  9 Apr 2020 07:12:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F01AC6EB50
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 07:09:58 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id q2so6714530otk.7
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Apr 2020 00:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GlUPB+6q2mjcNuVTriGgW97+CB0wWd7mr5tulU4n63s=;
- b=Pn8bmpR4HLo/rUfUOGF+R/fNynlNfCPYfvRTLnCYr+qLDJPMm88Z2CpKpGDMNfapS7
- s0l0npj891/g/EmW1JvQX9+vAsgNUMj/enzIWNRWJOs+MNdzeIpA4n8hiREhGUgacS9M
- 0Owqo+5Rkn0ftDPJf32XCZj6MPEyxe7VXaaM4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GlUPB+6q2mjcNuVTriGgW97+CB0wWd7mr5tulU4n63s=;
- b=ttuUwMjurMqowfPzih4P3mEHj6DTM1r39JhSAuFcqeRhxCm0oDWX0YOPrXT3vrj1x+
- JtsHwCXSewsciqEa0g3RJLlkZRe9F2AF5R/55E/wKf66bwV9vqMTaKuiZxsIaPoQEn7a
- SO2qKj/NiyWJgBFq7E4Pgs7tnELev0t/LzFUkHRNnrMsMK5zi5klGpuTVtS7y1Pl2bGm
- 1E/9YAyDnAHFVO2/3SeImvo7YAirQPaHxnnFoRS8BMUnybjTablgh8ls60X1TfzFGed+
- aPrq8q/w6qjOuL0l38IqHXpXorl70heUqVa4tx48cNWdwarSWsOL1MqhfOSKykkuNmBo
- lS4w==
-X-Gm-Message-State: AGi0PuZOf8/BqHvk98SFESuZFN/aRa85NR3elXsZPNIjPDccMw5lmHtr
- W1SCDAwenkLi87qVuI1+QKeh33I+j4bToYOrUsi3Xw==
-X-Google-Smtp-Source: APiQypJTmXZ1C/k1LBwOpOzzXyn5auKKSntAs/wF2Or17hXByhXcRvRBCe+phy7aZ0bHhP6DYvYfauLei8ndvS539C4=
-X-Received: by 2002:a4a:4190:: with SMTP id x138mr8844225ooa.35.1586416198200; 
- Thu, 09 Apr 2020 00:09:58 -0700 (PDT)
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07EA26EB51
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 07:12:50 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id EA82A8053D;
+ Thu,  9 Apr 2020 09:12:43 +0200 (CEST)
+Date: Thu, 9 Apr 2020 09:12:37 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [RFC v3 4/8] dt-bindings: display: add ingenic-jz4780-hdmi DT
+ Schema
+Message-ID: <20200409071237.GA12367@ravnborg.org>
+References: <cover.1585503354.git.hns@goldelico.com>
+ <a1a5075ae6c970e97fb74c8dd5c626c35421cd4d.1585503354.git.hns@goldelico.com>
 MIME-Version: 1.0
-References: <20200408191224.947302-1-arnd@arndb.de>
-In-Reply-To: <20200408191224.947302-1-arnd@arndb.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 9 Apr 2020 09:09:46 +0200
-Message-ID: <CAKMK7uGsF-C7AXjLESDYb6=09qp0j+OXS9OgLEVCFd9-GAo-kg@mail.gmail.com>
-Subject: Re: [PATCH] drm: work around dma_addr_t/resource_size_t mixup warning
-To: Arnd Bergmann <arnd@arndb.de>
+Content-Disposition: inline
+In-Reply-To: <a1a5075ae6c970e97fb74c8dd5c626c35421cd4d.1585503354.git.hns@goldelico.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=ztCEdXhiAAAA:8 a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8 a=e5mUnYsNAAAA:8
+ a=_8fMXE9GZWbPDF1RzQ4A:9 a=NMQYXjR_ngKk-wD3:21 a=NsfBtDKyZ6-kNe2x:21
+ a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=nCm3ceeH17rKjHWsMeRo:22
+ a=AjGcO6oz07-iQ99wixmX:22 a=sptkURWiP4Gy88Gu7hUp:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,91 +50,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Gaignard <benjamin.gaignard@st.com>,
- David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Sean Paul <seanpaul@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>, Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Andi Kleen <ak@linux.intel.com>,
+ Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ mips-creator-ci20-dev@googlegroups.com, devicetree@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, linux-gpio@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, letux-kernel@openphoenux.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-kernel@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The fix got stuck a bit, I just pushed it out, should make it to the
-next linux-next:
+Hi Nikolaus.
 
-commit b2ecb89c27a4fd110187e0afeca70557215f55a1 (drm-misc-next-fixes)
-Author: Chris Wilson <chris@chris-wilson.co.uk>
-Date:   Thu Apr 2 22:59:26 2020 +0100
+On Sun, Mar 29, 2020 at 07:35:50PM +0200, H. Nikolaus Schaller wrote:
+> From: Sam Ravnborg <sam@ravnborg.org>
+> 
+> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
+> Based on .txt binding from Zubair Lutfullah Kakakhel
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
 
-    drm/legacy: Fix type for drm_local_map.offset
+There is a few mistakes that originate from my original patch - sorry.
 
-Cheers, Daniel
-
-On Wed, Apr 8, 2020 at 9:12 PM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On configurations with 64-bit dma_addr_t but 32-bit resource_size_t,
-> there is now a warning:
->
-> drivers/gpu/drm/drm_bufs.c: In function 'drm_addmap_core':
-> drivers/gpu/drm/drm_bufs.c:328:8: error: passing argument 3 of 'dma_alloc_coherent' from incompatible pointer type [-Werror=incompatible-pointer-types]
->   328 |        &map->offset,
->       |        ^~~~~~~~~~~~
->       |        |
->       |        resource_size_t * {aka unsigned int *}
-> In file included from include/linux/pci-dma-compat.h:8,
->                  from include/linux/pci.h:2392,
->                  from include/drm/drm_pci.h:35,
->                  from drivers/gpu/drm/drm_bufs.c:46:
-> include/linux/dma-mapping.h:642:15: note: expected 'dma_addr_t *' {aka 'long long unsigned int *'} but argument is of type 'resource_size_t *' {aka 'unsigned int *'}
->   642 |   dma_addr_t *dma_handle, gfp_t gfp)
->       |   ~~~~~~~~~~~~^~~~~~~~~~
->
-> I have no idea if this is safe on targets that may need a high DMA address,
-> or why we store a DMA address token in a resource_size_t in the first place,
-> but using a temporary variable avoids the warning.
->
-> Fixes: 8e4ff9b56957 ("drm: Remove the dma_alloc_coherent wrapper for internal usage")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/gpu/drm/drm_bufs.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-> index dcabf5698333..0fbe65c62f1e 100644
-> --- a/drivers/gpu/drm/drm_bufs.c
-> +++ b/drivers/gpu/drm/drm_bufs.c
-> @@ -149,6 +149,7 @@ static int drm_addmap_core(struct drm_device *dev, resource_size_t offset,
->  {
->         struct drm_local_map *map;
->         struct drm_map_list *list;
-> +       dma_addr_t dma_addr;
->         unsigned long user_token;
->         int ret;
->
-> @@ -325,8 +326,9 @@ static int drm_addmap_core(struct drm_device *dev, resource_size_t offset,
->                  * need to point to a 64bit variable first. */
->                 map->handle = dma_alloc_coherent(&dev->pdev->dev,
->                                                  map->size,
-> -                                                &map->offset,
-> +                                                &dma_addr,
->                                                  GFP_KERNEL);
-> +               map->offset = (resource_size_t)dma_addr;
->                 if (!map->handle) {
->                         kfree(map);
->                         return -ENOMEM;
-> --
-> 2.26.0
->
+>  .../bindings/display/ingenic-jz4780-hdmi.yaml | 82 +++++++++++++++++++
+>  1 file changed, 82 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml b/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+> new file mode 100644
+> index 000000000000..a545ff8704eb
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+> @@ -0,0 +1,82 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/ingenic-jz4780-hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Bindings for Ingenic JZ4780 HDMI Transmitter
+> +
+> +maintainers:
+> +  - H. Nikolaus Schaller <hns@goldelico.com>
+> +
+> +description: |
+> +  The HDMI Transmitter in the Ingenic JZ4780 is a Synopsys DesignWare HDMI 1.4
+> +  TX controller IP with accompanying PHY IP.
+> +
+> +allOf:
+> +  - $ref: panel/panel-common.yaml#
+panel-common is only supposed to be used by panels.
+There is a few users in display/ but this is bindings that are
+candidates to be moved to panel/ - and this binding describes a
+display controller and not a panel.
+
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: ingenic,jz4780-hdmi
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: the address & size of the LCD controller registers
+> +
+> +  reg-io-width:
+> +    const: 4
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: Specifies the interrupt provided by parent
+> +
+> +  clocks:
+> +    maxItems: 2
+> +    description: Clock specifiers for isrf and iahb clocks
+> +
+> +  clock-names:
+> +    items:
+> +      - const: isfr
+> +      - const: iahb
+> +
+> +  ddc-i2c-bus: true
+> +  ports: true
+As we no longer rely on panel-common this needs to be fully specified -
+for example like this:
+
+  ddc-i2c-bus:
+    $ref: /schemas/types.yaml#/definitions/phandle
+    description: phandle to the I2C bus that is connected to DDC
+
+  ports:
+    type: object
+    description: |
+      A ports node with endpoint definitions as defined in
+      Documentation/devicetree/bindings/media/video-interfaces.txt.
 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Thanks for taking care of this binding.
+
+	Sam
+
+
+> +
+> +required:
+> +    - compatible
+> +    - clocks
+> +    - clock-names
+> +    - ports
+> +    - reg-io-width
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/jz4780-cgu.h>
+> +
+> +    hdmi: hdmi@10180000 {
+> +        compatible = "ingenic,jz4780-hdmi";
+> +        reg = <0x10180000 0x8000>;
+> +        reg-io-width = <4>;
+> +        ddc-i2c-bus = <&i2c4>;
+> +        interrupt-parent = <&intc>;
+> +        interrupts = <3>;
+> +        clocks = <&cgu JZ4780_CLK_HDMI>, <&cgu JZ4780_CLK_AHB0>;
+> +        clock-names = "isfr", "iahb";
+> +
+> +        ports {
+> +            hdmi_in: port {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                hdmi_in_lcd: endpoint@0 {
+> +                    reg = <0>;
+> +                    remote-endpoint = <&jz4780_out_hdmi>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> -- 
+> 2.25.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
