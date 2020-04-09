@@ -1,41 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4051A38AB
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 19:10:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B278F1A44A4
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 11:45:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6506EC1C;
-	Thu,  9 Apr 2020 17:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A62826ECB6;
+	Fri, 10 Apr 2020 09:45:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7700F6EC1A
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 17:10:10 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 0FA0F20029;
- Thu,  9 Apr 2020 19:10:07 +0200 (CEST)
-Date: Thu, 9 Apr 2020 19:10:06 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: display: ltk500hd1829: Remove the reg
- property
-Message-ID: <20200409171006.GA31904@ravnborg.org>
-References: <20200328183641.11226-1-festevam@gmail.com>
- <20200328203001.GD32230@ravnborg.org>
- <CAL_Jsq+JXb3DHo-on-52TN6fGeukdPQPe+S+ZNrJmLxFT0rFOw@mail.gmail.com>
+X-Greylist: delayed 399 seconds by postgrey-1.36 at gabe;
+ Thu, 09 Apr 2020 17:20:10 UTC
+Received: from vkten.in (vkten.in [104.244.73.96])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3245A6EC1F
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 17:20:10 +0000 (UTC)
+Received: (qmail 1341 invoked from network); 9 Apr 2020 17:13:26 -0000
+Received: from unknown (HELO localhost) (vkor@vkten.in@117.209.168.92)
+ de/crypted with TLSv1.3: TLS_AES_256_GCM_SHA384 [256/256] DN=none
+ by vkten with ESMTPSA; 9 Apr 2020 17:13:26 -0000
+From: R Veera Kumar <vkor@vkten.in>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v2] staging: android: ion: use macro DEFINE_DEBUGFS_ATTRIBUTE
+ to define debugfs fops
+Date: Thu,  9 Apr 2020 22:43:18 +0530
+Message-Id: <20200409171318.1730-1-vkor@vkten.in>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+JXb3DHo-on-52TN6fGeukdPQPe+S+ZNrJmLxFT0rFOw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=pGLkceISAAAA:8 a=60QWDGjvRy7Pmp0JI_cA:9 a=CjuIK1q_8ugA:10
- a=E9Po1WZjFZOl8hwRPBS3:22
+X-Mailman-Approved-At: Fri, 10 Apr 2020 09:45:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,37 +39,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Cc: devel@driverdev.osuosl.org, R Veera Kumar <vkor@vkten.in>,
+ Todd Kjos <tkjos@android.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+ Joel Fernandes <joel@joelfernandes.org>, Laura Abbott <labbott@redhat.com>,
+ Martijn Coenen <maco@android.com>, Christian Brauner <christian@brauner.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob.
+It is more clear to use DEFINE_DEBUGFS_ATTRIBUTE to define debugfs file
+operation rather than DEFINE_SIMPLE_ATTRIBUTE.
 
-On Thu, Apr 09, 2020 at 10:04:13AM -0600, Rob Herring wrote:
-> On Sat, Mar 28, 2020 at 2:30 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> >
-> > On Sat, Mar 28, 2020 at 03:36:40PM -0300, Fabio Estevam wrote:
-> > > Commit 52120e8c7ae3 ("dt-bindings: display: fix panel warnings") removed
-> > > the dsi unit name, but missed to remove the 'reg' property, which causes
-> > > the following 'make dt_binding_check' warning:
-> > >
-> > > Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.example.dts:17.5-29.11: Warning (unit_address_vs_reg): /example-0/dsi: node has a reg or ranges property, but no unit name
-> > >
-> > > Fix it by removing the unneeded 'reg' property.
-> > >
-> > > Fixes: 52120e8c7ae3 ("dt-bindings: display: fix panel warnings")
-> > > Signed-off-by: Fabio Estevam <festevam@gmail.com>
-> >
-> > Thanks, applied to drm-misc-next.
-> 
-> This should go in fixes for 5.7 as well as the one for xinpeng,xpp055c272.
-Will take care later this week or start next week.
-Ping me if you continue to see panel releated warnings in late -rc1.
+Found using coccinelle.
 
-	Sam
+Signed-off-by: R Veera Kumar <vkor@vkten.in>
+---
+Changes in v2:
+ - Give correct explanation for patch
+ - Adjust git commit tag and msg accordingly
+---
+ drivers/staging/android/ion/ion.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/android/ion/ion.c b/drivers/staging/android/ion/ion.c
+index 38b51eace4f9..dbe4018a6f83 100644
+--- a/drivers/staging/android/ion/ion.c
++++ b/drivers/staging/android/ion/ion.c
+@@ -554,8 +554,8 @@ static int debug_shrink_get(void *data, u64 *val)
+ 	return 0;
+ }
+ 
+-DEFINE_SIMPLE_ATTRIBUTE(debug_shrink_fops, debug_shrink_get,
+-			debug_shrink_set, "%llu\n");
++DEFINE_DEBUGFS_ATTRIBUTE(debug_shrink_fops, debug_shrink_get,
++			 debug_shrink_set, "%llu\n");
+ 
+ void ion_device_add_heap(struct ion_heap *heap)
+ {
+-- 
+2.20.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
