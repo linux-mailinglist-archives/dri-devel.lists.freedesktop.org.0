@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15BE81A301F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:33:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 118321A3016
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:33:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE856EB68;
-	Thu,  9 Apr 2020 07:33:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B806EB5B;
+	Thu,  9 Apr 2020 07:33:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sonic308-37.consmr.mail.ne1.yahoo.com
  (sonic308-37.consmr.mail.ne1.yahoo.com [66.163.187.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C50A16EB1C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C47DB6EB1A
  for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 00:41:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
  t=1586392912; bh=/6EYCRlfa2umBwyf6HMqnS88iYA4EIXadLKaqqSMGXc=;
