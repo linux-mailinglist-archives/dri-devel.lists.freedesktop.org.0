@@ -2,53 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C601A3037
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5571A3032
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:34:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B16E16EB8F;
-	Thu,  9 Apr 2020 07:33:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9CB6EB7A;
+	Thu,  9 Apr 2020 07:33:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73AE56EB47
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 06:02:14 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id c23so4496986pgj.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 23:02:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LIZVAq7xeySwQmWqTMtWLzT3ZnpjRce1QK8YJF3B6lA=;
- b=L1WRbXtfVXrT3HXPWD00KG1nxuFSYrWBgXFk4bRo9iE2SQC73JN4rDwGcVRRLRd76w
- 5840611TdDz7Jp7c8mLSuUuEAaUCM2OD6SGmXB8Blb4eyN/OXSWfgn7pk/WgYfn3Juwt
- 9uDSZVlPK7PibTEsypLQ/DEdelkme+qsc1Pag=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LIZVAq7xeySwQmWqTMtWLzT3ZnpjRce1QK8YJF3B6lA=;
- b=e/ZqpZGMA6AuTyWYisjbFRthrgZZllD9R2hZUlO34kLVt7dkrCht6/Ca+X1j/P77CA
- RyOd6VfFU+ThgXUcWNk6pSVU3tp54psC98DODdSddOxMDYpjHxObjhWhMqAZkXQv/cKm
- sbHTWIJJb+dLU4Mi81W+u86pp5bFVX8Vye8cjW/TDIZG2FG5DxEV2y2pFCIT08j+er5N
- o6ZlTlElzk+GQMciRn1kY/QUMZx9v0tUTm+vKYNhw9AIDpYsHKm635/L3irnDz+OfPMb
- yDYDVMegwkCxccY+OxJu3w+N278CsBkxPppZwOK2g3BPmlf5ZVLbUN/yR6wl0CnxpZXj
- yJDQ==
-X-Gm-Message-State: AGi0PuYxX6oRamV3F6vS6JKDoOeXuAgky0s3BnCP/EFuA+utcoGqXFNe
- Hxs+r6xrDnVDYOdSzUgELNE4aQ==
-X-Google-Smtp-Source: APiQypJ9qI2t3pspPrOWIlE7/3vyVy7azmPo/Qc+dpNgwSnPI0bXNEXcIKDQeD8aDbDAZmL3cT8sHg==
-X-Received: by 2002:aa7:99d1:: with SMTP id v17mr12234526pfi.165.1586412133880; 
- Wed, 08 Apr 2020 23:02:13 -0700 (PDT)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:b852:bd51:9305:4261])
- by smtp.gmail.com with ESMTPSA id w205sm18193515pfc.75.2020.04.08.23.02.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Apr 2020 23:02:13 -0700 (PDT)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2] drm: mediatek: fix device passed to cmdq
-Date: Thu,  9 Apr 2020 14:02:09 +0800
-Message-Id: <20200409060209.202677-1-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.26.0.292.g33ef6b2f38-goog
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FED26EB4F;
+ Thu,  9 Apr 2020 06:52:55 +0000 (UTC)
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 08 Apr 2020 23:52:54 -0700
+Received: from gurus-linux.qualcomm.com ([10.46.162.81])
+ by ironmsg01-sd.qualcomm.com with ESMTP; 08 Apr 2020 23:52:53 -0700
+Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
+ id F24854BF6; Wed,  8 Apr 2020 23:52:53 -0700 (PDT)
+From: Guru Das Srinagesh <gurus@codeaurora.org>
+To: linux-pwm@vger.kernel.org
+Subject: [PATCH v12 01/11] drm/i915: Use 64-bit division macro
+Date: Wed,  8 Apr 2020 23:52:30 -0700
+Message-Id: <13845382bcb686ec707f7d3ab2e05a2aabde4e33.1586414867.git.gurus@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1586414867.git.gurus@codeaurora.org>
+References: <cover.1586414867.git.gurus@codeaurora.org>
+In-Reply-To: <cover.1586414867.git.gurus@codeaurora.org>
+References: <cover.1586414867.git.gurus@codeaurora.org>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,72 +43,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Guru Das Srinagesh <gurus@codeaurora.org>,
+ David Collins <collinsd@codeaurora.org>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm device is now probed from mmsys. We need to use mmsys device to get gce
-nodes. Fix following errors:
-
-[    0.740068] mediatek-drm mediatek-drm.1.auto: error -2 can't parse gce-client-reg property (0)
-[    0.748721] mediatek-drm mediatek-drm.1.auto: error -2 can't parse gce-client-reg property (0)
-...
-[    2.659645] mediatek-drm mediatek-drm.1.auto: failed to request channel
-[    2.666270] mediatek-drm mediatek-drm.1.auto: failed to request channel
-
-Fixes: 1d367541aded ("soc / drm: mediatek: Fix mediatek-drm device probing")
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
----
-The patch is based on
-https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git
-branch v5.6-next/soc
-
-Change log:
-v1->v2:
-align with 60fa8c13ab1a ("drm/mediatek: Move gce event property to mutex device node")
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 3 ++-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 615a54e60fe2..7247c6f87f4a 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -822,7 +822,8 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	mtk_crtc->cmdq_client =
--			cmdq_mbox_create(dev, drm_crtc_index(&mtk_crtc->base),
-+			cmdq_mbox_create(mtk_crtc->mmsys_dev,
-+					 drm_crtc_index(&mtk_crtc->base),
- 					 2000);
- 	if (IS_ERR(mtk_crtc->cmdq_client)) {
- 		dev_dbg(dev, "mtk_crtc %d failed to create mailbox client, writing register by CPU now\n",
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index e2bb0d19ef99..28418e5b83ee 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -517,7 +517,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 				goto err_node;
- 			}
- 
--			ret = mtk_ddp_comp_init(dev, node, comp, comp_id, NULL);
-+			ret = mtk_ddp_comp_init(dev->parent, node, comp, comp_id, NULL);
- 			if (ret) {
- 				of_node_put(node);
- 				goto err_node;
--- 
-2.26.0.292.g33ef6b2f38-goog
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+U2luY2UgdGhlIFBXTSBmcmFtZXdvcmsgaXMgc3dpdGNoaW5nIHN0cnVjdCBwd21fc3RhdGUuZHV0
+eV9jeWNsZSdzCmRhdGF0eXBlIHRvIHU2NCwgcHJlcGFyZSBmb3IgdGhpcyB0cmFuc2l0aW9uIGJ5
+IHVzaW5nIERJVl9ST1VORF9VUF9VTEwKdG8gaGFuZGxlIGEgNjQtYml0IGRpdmlkZW5kLgoKQ2M6
+IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+CkNjOiBKb29uYXMgTGFo
+dGluZW4gPGpvb25hcy5sYWh0aW5lbkBsaW51eC5pbnRlbC5jb20+CkNjOiBEYXZpZCBBaXJsaWUg
+PGFpcmxpZWRAbGludXguaWU+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+CkNj
+OiBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KQ2M6ICJWaWxsZSBTeXJq
+w6Rsw6QiIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KQ2M6IGludGVsLWdmeEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKClNp
+Z25lZC1vZmYtYnk6IEd1cnUgRGFzIFNyaW5hZ2VzaCA8Z3VydXNAY29kZWF1cm9yYS5vcmc+ClJl
+dmlld2VkLWJ5OiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgotLS0KIGRyaXZl
+cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfcGFuZWwuYyB8IDIgKy0KIDEgZmlsZSBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfcGFuZWwuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2Rpc3BsYXkvaW50ZWxfcGFuZWwuYwppbmRleCA3YjNlYzZlYi4uYjQ1ZWFiZiAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9wYW5lbC5jCisrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfcGFuZWwuYwpAQCAtMTg3Nyw3ICsxODc3LDcg
+QEAgc3RhdGljIGludCBwd21fc2V0dXBfYmFja2xpZ2h0KHN0cnVjdCBpbnRlbF9jb25uZWN0b3Ig
+KmNvbm5lY3RvciwKIAogCXBhbmVsLT5iYWNrbGlnaHQubWluID0gMDsgLyogMCUgKi8KIAlwYW5l
+bC0+YmFja2xpZ2h0Lm1heCA9IDEwMDsgLyogMTAwJSAqLwotCXBhbmVsLT5iYWNrbGlnaHQubGV2
+ZWwgPSBESVZfUk9VTkRfVVAoCisJcGFuZWwtPmJhY2tsaWdodC5sZXZlbCA9IERJVl9ST1VORF9V
+UF9VTEwoCiAJCQkJIHB3bV9nZXRfZHV0eV9jeWNsZShwYW5lbC0+YmFja2xpZ2h0LnB3bSkgKiAx
+MDAsCiAJCQkJIENSQ19QTUlDX1BXTV9QRVJJT0RfTlMpOwogCXBhbmVsLT5iYWNrbGlnaHQuZW5h
+YmxlZCA9IHBhbmVsLT5iYWNrbGlnaHQubGV2ZWwgIT0gMDsKLS0gClRoZSBRdWFsY29tbSBJbm5v
+dmF0aW9uIENlbnRlciwgSW5jLiBpcyBhIG1lbWJlciBvZiB0aGUgQ29kZSBBdXJvcmEgRm9ydW0s
+CmEgTGludXggRm91bmRhdGlvbiBDb2xsYWJvcmF0aXZlIFByb2plY3QKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
