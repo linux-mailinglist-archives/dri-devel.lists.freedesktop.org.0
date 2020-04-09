@@ -2,60 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FAEB1A37BD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 18:08:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0741A37CF
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 18:10:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E42906E245;
-	Thu,  9 Apr 2020 16:08:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A86066EC06;
+	Thu,  9 Apr 2020 16:10:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5A536E245
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 16:08:30 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id u65so4316245pfb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Apr 2020 09:08:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Bv5T4MVa9umd8pCEPysPH2jSGjRAmk+aGGhx29rknXE=;
- b=ovy0PS179BjEGMUbAV2YUjlkuVA7wmm5oMqdDajjp0TOKuVkoKJNQkBmal3FBh3iyk
- 6uQVZEQZEmdg0/J26gmqgI3Xbf+Y9SwaKDT64/0Z8CygXa+0ktwKWdiNPZDog7inLt6j
- EkNOW+ZQR5kRoBjRRrAAWzyEACYmqWpUvYZJGZKKegZXwil+zgJHu093SKQthM1j8MLC
- 8Rf5ULsWMKhJYVAk3C2yHu3UnAeVJgnEj0auKCeACDctiuS3MWj/DOurMbx2MkaY2pLJ
- LiDf/+F+qoyR8JD20gbatncLOb49n47pMUxVIU2+YzFasivC6WMkGvIWS3obeKnzK4ew
- qc7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=Bv5T4MVa9umd8pCEPysPH2jSGjRAmk+aGGhx29rknXE=;
- b=bxtinGObXCi7yJJUbGI8OXLffGksriALKUjkHwdGxtNrxxu0LFywQvfAEsfWY2vqf8
- AEQzAjut57q6K160P+KbU5g/L02cvB3oohiBLIq3WG8SNcsh3nFK41tz1W0ixpSGhKL7
- tpK/RBG53cfWHquVD7fVrBZxC0rIW1h6pYrIN1IywX2mrqrtG0CfcLUI4YQb2UiHALWI
- H/zZ1nulGPl7GV7bzZ1tH3G2eqqMN2LzT4yQp555P1zoCjl6co4DgWmN8Eys+/wR63as
- N5o4CuuKRE/6ptdW9aZbswMhdBmEb8/r4SDQXYjXRfH20wBidrHet0rr3samX6xHU3wB
- DRNw==
-X-Gm-Message-State: AGi0PuZHwARVuk/wNC0y4CuHpHL+oVXbIn5Ccy5XqAUm3jiCWYVOpcAH
- QxsLcoyvK2u8YWdWmDMCNkj3Dmzz
-X-Google-Smtp-Source: APiQypJFLGcG6dVXLdib9gF5oJvHoXpdIxKhy+0DVfXFFx+ZgGNqEvh6DF50PGrfKmNfspKnDLZDsQ==
-X-Received: by 2002:a62:7e0e:: with SMTP id z14mr269015pfc.27.1586448510359;
- Thu, 09 Apr 2020 09:08:30 -0700 (PDT)
-Received: from google.com ([2601:647:4001:3000::50e3])
- by smtp.gmail.com with ESMTPSA id k12sm5867045pgj.33.2020.04.09.09.08.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Apr 2020 09:08:29 -0700 (PDT)
-Date: Thu, 9 Apr 2020 09:08:26 -0700
-From: Minchan Kim <minchan@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 10/28] mm: only allow page table mappings for built-in
- zsmalloc
-Message-ID: <20200409160826.GC247701@google.com>
-References: <20200408115926.1467567-1-hch@lst.de>
- <20200408115926.1467567-11-hch@lst.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F20D56EC05
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 16:10:35 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8CB4321BE5
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 16:10:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1586448635;
+ bh=fVvP6SUlDpMc2d96/92LswakbtL1VsS55y5+h6rpY3A=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=jPmvECc5MbxkT11rQVdweMo1GgfsCfCfDNCAb+WP6gNKjHVsXFd+wiq5nPbJM9rWR
+ oi1Y8TrzMQpsHiTJWSKQNwJn8sKA2SuCvEjBpTUxBVMMbVi3lgg7w7wPBJkyGWuq1j
+ 1gKHuIJqTuvJ+4FER8B1iIS7N5fmmYGhXzW7f7oU=
+Received: by mail-ed1-f46.google.com with SMTP id de14so435578edb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Apr 2020 09:10:35 -0700 (PDT)
+X-Gm-Message-State: AGi0Puass/Xy7FEYhR7U29iSPo7S+zZci/dYbW2tHM2epq1Om+lGAiiT
+ ISJWwFdQb29EHrkG24b9IozCepKCK/UHxBr8DA==
+X-Google-Smtp-Source: APiQypL+qKD7yHrEW+JUzCaJa3ePCbbv5DvvhgZrZM52zY343hHolUioqNBoHQwpr2Z/SpKf/sp3enrttnW+5MQ39NE=
+X-Received: by 2002:a05:6402:335:: with SMTP id
+ q21mr720860edw.47.1586448633893; 
+ Thu, 09 Apr 2020 09:10:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200408115926.1467567-11-hch@lst.de>
+References: <20200409060209.202677-1-hsinyi@chromium.org>
+In-Reply-To: <20200409060209.202677-1-hsinyi@chromium.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Fri, 10 Apr 2020 00:10:22 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9hOoW754+sFmr_cCf+kU7H2qv261Me777dcccKv5LFwg@mail.gmail.com>
+Message-ID: <CAAOTY_9hOoW754+sFmr_cCf+kU7H2qv261Me777dcccKv5LFwg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: mediatek: fix device passed to cmdq
+To: Hsin-Yi Wang <hsinyi@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,78 +54,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- "K. Y. Srinivasan" <kys@microsoft.com>, linux-arch@vger.kernel.org,
- linux-s390@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>, x86@kernel.org,
- Peter Zijlstra <peterz@infradead.org>, Laura Abbott <labbott@redhat.com>,
- Nitin Gupta <ngupta@vflare.org>, Haiyang Zhang <haiyangz@microsoft.com>,
- linaro-mm-sig@lists.linaro.org, bpf@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Christophe Leroy <christophe.leroy@c-s.fr>,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- sergey.senozhatsky@gmail.com, iommu@lists.linux-foundation.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 08, 2020 at 01:59:08PM +0200, Christoph Hellwig wrote:
-> This allows to unexport map_vm_area and unmap_kernel_range, which are
-> rather deep internal and should not be available to modules.
-
-Even though I don't know how many usecase we have using zsmalloc as
-module(I heard only once by dumb reason), it could affect existing
-users. Thus, please include concrete explanation in the patch to
-justify when the complain occurs.
-
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  mm/Kconfig   | 2 +-
->  mm/vmalloc.c | 2 --
->  2 files changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 36949a9425b8..614cc786b519 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -702,7 +702,7 @@ config ZSMALLOC
->  
->  config ZSMALLOC_PGTABLE_MAPPING
->  	bool "Use page table mapping to access object in zsmalloc"
-> -	depends on ZSMALLOC
-> +	depends on ZSMALLOC=y
->  	help
->  	  By default, zsmalloc uses a copy-based object mapping method to
->  	  access allocations that span two pages. However, if a particular
-> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> index 3375f9508ef6..9183fc0d365a 100644
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -2046,7 +2046,6 @@ void unmap_kernel_range(unsigned long addr, unsigned long size)
->  	vunmap_page_range(addr, end);
->  	flush_tlb_kernel_range(addr, end);
->  }
-> -EXPORT_SYMBOL_GPL(unmap_kernel_range);
->  
->  int map_vm_area(struct vm_struct *area, pgprot_t prot, struct page **pages)
->  {
-> @@ -2058,7 +2057,6 @@ int map_vm_area(struct vm_struct *area, pgprot_t prot, struct page **pages)
->  
->  	return err > 0 ? 0 : err;
->  }
-> -EXPORT_SYMBOL_GPL(map_vm_area);
->  
->  static inline void setup_vmalloc_vm_locked(struct vm_struct *vm,
->  	struct vmap_area *va, unsigned long flags, const void *caller)
-> -- 
-> 2.25.1
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEhzaW4tWWk6CgpIc2luLVlpIFdhbmcgPGhzaW55aUBjaHJvbWl1bS5vcmc+IOaWvCAyMDIw
+5bm0NOaciDnml6Ug6YCx5ZubIOS4i+WNiDI6MDLlr6vpgZPvvJoKPgo+IGRybSBkZXZpY2UgaXMg
+bm93IHByb2JlZCBmcm9tIG1tc3lzLiBXZSBuZWVkIHRvIHVzZSBtbXN5cyBkZXZpY2UgdG8gZ2V0
+IGdjZQo+IG5vZGVzLiBGaXggZm9sbG93aW5nIGVycm9yczoKPgo+IFsgICAgMC43NDAwNjhdIG1l
+ZGlhdGVrLWRybSBtZWRpYXRlay1kcm0uMS5hdXRvOiBlcnJvciAtMiBjYW4ndCBwYXJzZSBnY2Ut
+Y2xpZW50LXJlZyBwcm9wZXJ0eSAoMCkKPiBbICAgIDAuNzQ4NzIxXSBtZWRpYXRlay1kcm0gbWVk
+aWF0ZWstZHJtLjEuYXV0bzogZXJyb3IgLTIgY2FuJ3QgcGFyc2UgZ2NlLWNsaWVudC1yZWcgcHJv
+cGVydHkgKDApCj4gLi4uCj4gWyAgICAyLjY1OTY0NV0gbWVkaWF0ZWstZHJtIG1lZGlhdGVrLWRy
+bS4xLmF1dG86IGZhaWxlZCB0byByZXF1ZXN0IGNoYW5uZWwKPiBbICAgIDIuNjY2MjcwXSBtZWRp
+YXRlay1kcm0gbWVkaWF0ZWstZHJtLjEuYXV0bzogZmFpbGVkIHRvIHJlcXVlc3QgY2hhbm5lbAoK
+UmV2aWV3ZWQtYnk6IENodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3JnPgoKPgo+
+IEZpeGVzOiAxZDM2NzU0MWFkZWQgKCJzb2MgLyBkcm06IG1lZGlhdGVrOiBGaXggbWVkaWF0ZWst
+ZHJtIGRldmljZSBwcm9iaW5nIikKPiBTaWduZWQtb2ZmLWJ5OiBIc2luLVlpIFdhbmcgPGhzaW55
+aUBjaHJvbWl1bS5vcmc+Cj4gUmV2aWV3ZWQtYnk6IEVucmljIEJhbGxldGJvIGkgU2VycmEgPGVu
+cmljLmJhbGxldGJvQGNvbGxhYm9yYS5jb20+Cj4gVGVzdGVkLWJ5OiBFbnJpYyBCYWxsZXRibyBp
+IFNlcnJhIDxlbnJpYy5iYWxsZXRib0Bjb2xsYWJvcmEuY29tPgo+IC0tLQo+IFRoZSBwYXRjaCBp
+cyBiYXNlZCBvbgo+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwv
+Z2l0L21hdHRoaWFzLmJnZy9saW51eC5naXQKPiBicmFuY2ggdjUuNi1uZXh0L3NvYwo+Cj4gQ2hh
+bmdlIGxvZzoKPiB2MS0+djI6Cj4gYWxpZ24gd2l0aCA2MGZhOGMxM2FiMWEgKCJkcm0vbWVkaWF0
+ZWs6IE1vdmUgZ2NlIGV2ZW50IHByb3BlcnR5IHRvIG11dGV4IGRldmljZSBub2RlIikKPiAtLS0K
+PiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5jIHwgMyArKy0KPiAgZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMgIHwgMiArLQo+ICAyIGZpbGVzIGNo
+YW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMgYi9kcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMKPiBpbmRleCA2MTVhNTRlNjBmZTIuLjcyNDdjNmY4N2Y0
+YSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMKPiBAQCAtODIy
+LDcgKzgyMiw4IEBAIGludCBtdGtfZHJtX2NydGNfY3JlYXRlKHN0cnVjdCBkcm1fZGV2aWNlICpk
+cm1fZGV2LAo+Cj4gICNpZiBJU19SRUFDSEFCTEUoQ09ORklHX01US19DTURRKQo+ICAgICAgICAg
+bXRrX2NydGMtPmNtZHFfY2xpZW50ID0KPiAtICAgICAgICAgICAgICAgICAgICAgICBjbWRxX21i
+b3hfY3JlYXRlKGRldiwgZHJtX2NydGNfaW5kZXgoJm10a19jcnRjLT5iYXNlKSwKPiArICAgICAg
+ICAgICAgICAgICAgICAgICBjbWRxX21ib3hfY3JlYXRlKG10a19jcnRjLT5tbXN5c19kZXYsCj4g
+KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkcm1fY3J0Y19pbmRleCgm
+bXRrX2NydGMtPmJhc2UpLAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgMjAwMCk7Cj4gICAgICAgICBpZiAoSVNfRVJSKG10a19jcnRjLT5jbWRxX2NsaWVudCkpIHsK
+PiAgICAgICAgICAgICAgICAgZGV2X2RiZyhkZXYsICJtdGtfY3J0YyAlZCBmYWlsZWQgdG8gY3Jl
+YXRlIG1haWxib3ggY2xpZW50LCB3cml0aW5nIHJlZ2lzdGVyIGJ5IENQVSBub3dcbiIsCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jIGIvZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMKPiBpbmRleCBlMmJiMGQxOWVmOTkuLjI4
+NDE4ZTViODNlZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Ry
+bV9kcnYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jCj4g
+QEAgLTUxNyw3ICs1MTcsNyBAQCBzdGF0aWMgaW50IG10a19kcm1fcHJvYmUoc3RydWN0IHBsYXRm
+b3JtX2RldmljZSAqcGRldikKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGdvdG8g
+ZXJyX25vZGU7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgfQo+Cj4gLSAgICAgICAgICAgICAg
+ICAgICAgICAgcmV0ID0gbXRrX2RkcF9jb21wX2luaXQoZGV2LCBub2RlLCBjb21wLCBjb21wX2lk
+LCBOVUxMKTsKPiArICAgICAgICAgICAgICAgICAgICAgICByZXQgPSBtdGtfZGRwX2NvbXBfaW5p
+dChkZXYtPnBhcmVudCwgbm9kZSwgY29tcCwgY29tcF9pZCwgTlVMTCk7Cj4gICAgICAgICAgICAg
+ICAgICAgICAgICAgaWYgKHJldCkgewo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+b2Zfbm9kZV9wdXQobm9kZSk7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBnb3Rv
+IGVycl9ub2RlOwo+IC0tCj4gMi4yNi4wLjI5Mi5nMzNlZjZiMmYzOC1nb29nCj4KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
