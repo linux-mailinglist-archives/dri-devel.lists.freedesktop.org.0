@@ -2,47 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD051A3AD1
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 21:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243951A3B63
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 22:34:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D33A6E25F;
-	Thu,  9 Apr 2020 19:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4A016E270;
+	Thu,  9 Apr 2020 20:34:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 884956E25F;
- Thu,  9 Apr 2020 19:54:33 +0000 (UTC)
-IronPort-SDR: BrEPkX+GGXgocsblcsdrtx0BWsKWDY/qFbP3P62qJu3WlxSapVC/Of8yRPOsoco4hqbsxQJU3P
- 6OMMwET6E2jQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Apr 2020 12:54:32 -0700
-IronPort-SDR: yY1VYe29l0Zv9IFtrHVcJmp7EykBCz1QzniZUwfXPsdGaZkeqK4Y27TUhehAUuKcYcpckPNI94
- 7VE0cBUgemLg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,363,1580803200"; d="scan'208";a="258596492"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga008.jf.intel.com with SMTP; 09 Apr 2020 12:54:29 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 09 Apr 2020 22:54:29 +0300
-Date: Thu, 9 Apr 2020 22:54:29 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 15/17] drm/gma500: Stop using mode->private_flags
-Message-ID: <20200409195428.GA6112@intel.com>
-References: <20200403204008.14864-1-ville.syrjala@linux.intel.com>
- <20200403204008.14864-16-ville.syrjala@linux.intel.com>
- <20200407185653.GL6356@ravnborg.org>
- <20200407190800.GO6112@intel.com>
- <20200407193537.GA28584@ravnborg.org>
- <20200409194952.GZ6112@intel.com>
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9136E270
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 20:34:25 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id cb27so1596729edb.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Apr 2020 13:34:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CvdErTO6U0il2KD8DgCYbTp6haBW7g9kcMjS1ob9sTc=;
+ b=AyoM/WW9Y/joWJhvLud14aFplTN+uxQLlkR6Il+9aZmzLG/xF73kvQoVIec9EX00dz
+ kqooHptAUMkN25VjadVm/Hk724Gt+lzbjZ/N/kT5y52t1Q36DTtTe/IIUdd7ZLeCffZ+
+ qq7u89gTnsD7s0STrxfcQc+DKFhNIQ7Hg12xEzlCYPkEEvQUeR4pv9YrvDQtPo48UwT7
+ u+YzIxB4Sk4lbpLAHDie0FfLLFjqbPHo1ORx2weryPcPR6G58NMeNfOCjRu6KY2Fl3aL
+ 8fDRyam0Hrbud2yWJ/iR+vIvuZaZg+g7/GJ4K7pL+2kcNaSLUKqqa9oeWnveY9Jl3XLj
+ ma2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CvdErTO6U0il2KD8DgCYbTp6haBW7g9kcMjS1ob9sTc=;
+ b=MSRxUNrsoH9JrLWafV21p6tB6g88ttRQZXAyppoPtXKseBhTtCfHpu3htA2pg6PHjB
+ pv0wiaucTzUGsrmy/B4++Z8d1LIzpMpYBf7AZBltxwgvie4xM+UsG0r0JyRTSTewc4Aw
+ LHvDBDA6GZ4pLbjWkTUxeZBBuf0W0NpBg0+Wq9utODYqCDOJYt4bHhtvGvtXx7zUabwW
+ GJ35QwMpXhVc4QplEZzv7hBdIJ9Y0Kl6WXQ8OIqCcoICenLeNsnD9KgPcJY2ms+FiivE
+ SJ+tCFno2uYYt/rMds3kQflQrRZCN+iuZlABsgh/KPp1+/PTWc9ANY14goR9HovPyWaN
+ dSJQ==
+X-Gm-Message-State: AGi0PubSGt+w9tP2l9zl4rFZF0wjL/3YiTdKTfB1GUVfKfYdKaatTTk/
+ ky7dSyaiLLigUWQWjSzqj9peA9DUVDMXd5XAF5U=
+X-Google-Smtp-Source: APiQypKgyNagTaee47bpfXgt6UsYLQUOhCh39aR+S834vUw5O7lePHdKeVGR2+DetAZBmAjhT6ueOXRb0HyAWRXsT3o=
+X-Received: by 2002:a17:906:484:: with SMTP id f4mr838021eja.61.1586464463482; 
+ Thu, 09 Apr 2020 13:34:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200409194952.GZ6112@intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200409164925.11912-1-thomas_os@shipmail.org>
+ <85a0a97b-0c8f-9121-94de-1f794c2bd294@shipmail.org>
+In-Reply-To: <85a0a97b-0c8f-9121-94de-1f794c2bd294@shipmail.org>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 10 Apr 2020 06:34:11 +1000
+Message-ID: <CAPM=9tyj+M2du6qgzK7+vHuN+jaSMzoKX8jBqrPsf31LoOmdeQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/ttm: Temporarily disable the huge_fault() callback
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28VMware=29?= <thomas_os@shipmail.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,131 +62,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Alex Xu <alex_y_xu@yahoo.ca>, Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 09, 2020 at 10:49:52PM +0300, Ville Syrj=E4l=E4 wrote:
-> On Tue, Apr 07, 2020 at 09:35:37PM +0200, Sam Ravnborg wrote:
-> > On Tue, Apr 07, 2020 at 10:08:00PM +0300, Ville Syrj=E4l=E4 wrote:
-> > > On Tue, Apr 07, 2020 at 08:56:53PM +0200, Sam Ravnborg wrote:
-> > > > Hi Ville.
-> > > > =
-
-> > > > On Fri, Apr 03, 2020 at 11:40:06PM +0300, Ville Syrjala wrote:
-> > > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > > =
-
-> > > > > gma500 only uses mode->private_flags to convey the sdvo pixel
-> > > > > multiplier from the encoder .mode_fixup() hook to the encoder
-> > > > > .mode_set() hook. Those always seems get called as a pair so
-> > > > > let's just stuff the pixel multiplier into the encoder itself
-> > > > > as there are no state objects we could use in this non-atomic
-> > > > > driver.
-> > > > > =
-
-> > > > > Paves the way for nuking mode->private_flag.
-> > > > Nice little clean-up. One comment below.
-> > > > =
-
-> > > > 	Sam
-> > > > > =
-
-> > > > > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> > > > > CC: Sam Ravnborg <sam@ravnborg.org>
-> > > > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > > > Cc: Emil Velikov <emil.l.velikov@gmail.com>
-> > > > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/gma500/psb_intel_drv.h  | 19 -------------------
-> > > > >  drivers/gpu/drm/gma500/psb_intel_sdvo.c | 11 ++++++-----
-> > > > >  2 files changed, 6 insertions(+), 24 deletions(-)
-> > > > > =
-
-> > > > > diff --git a/drivers/gpu/drm/gma500/psb_intel_drv.h b/drivers/gpu=
-/drm/gma500/psb_intel_drv.h
-> > > > > index fb601983cef0..3dd5718c3e31 100644
-> > > > > --- a/drivers/gpu/drm/gma500/psb_intel_drv.h
-> > > > > +++ b/drivers/gpu/drm/gma500/psb_intel_drv.h
-> > > > > @@ -56,25 +56,6 @@
-> > > > >  #define INTEL_OUTPUT_DISPLAYPORT 9
-> > > > >  #define INTEL_OUTPUT_EDP 10
-> > > > >  =
-
-> > > > > -#define INTEL_MODE_PIXEL_MULTIPLIER_SHIFT (0x0)
-> > > > > -#define INTEL_MODE_PIXEL_MULTIPLIER_MASK (0xf << INTEL_MODE_PIXE=
-L_MULTIPLIER_SHIFT)
-> > > > > -
-> > > > > -static inline void
-> > > > > -psb_intel_mode_set_pixel_multiplier(struct drm_display_mode *mod=
-e,
-> > > > > -				int multiplier)
-> > > > > -{
-> > > > > -	mode->clock *=3D multiplier;
-> > > > > -	mode->private_flags |=3D multiplier;
-> > > > > -}
-> > > > > -
-> > > > > -static inline int
-> > > > > -psb_intel_mode_get_pixel_multiplier(const struct drm_display_mod=
-e *mode)
-> > > > > -{
-> > > > > -	return (mode->private_flags & INTEL_MODE_PIXEL_MULTIPLIER_MASK)
-> > > > > -	       >> INTEL_MODE_PIXEL_MULTIPLIER_SHIFT;
-> > > > > -}
-> > > > > -
-> > > > > -
-> > > > >  /*
-> > > > >   * Hold information useally put on the device driver privates he=
-re,
-> > > > >   * since it needs to be shared across multiple of devices driver=
-s privates.
-> > > > > diff --git a/drivers/gpu/drm/gma500/psb_intel_sdvo.c b/drivers/gp=
-u/drm/gma500/psb_intel_sdvo.c
-> > > > > index 264d7ad004b4..9e88a37f55e9 100644
-> > > > > --- a/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-> > > > > +++ b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-> > > > > @@ -132,6 +132,8 @@ struct psb_intel_sdvo {
-> > > > >  	/* DDC bus used by this SDVO encoder */
-> > > > >  	uint8_t ddc_bus;
-> > > > >  =
-
-> > > > > +	u8 pixel_multiplier;
-> > > > > +
-> > > > =
-
-> > > > There is really no good reason to use an u8 here.
-> > > =
-
-> > > Wastes less space.
-> > =
-
-> > When there is a good reason - use the size limited variants.
-> > But in this use case there is no reason to space optimize it.
-> =
-
-> IMO when it's stuffed into a structure there's no reason not to
-> optimize it. At some point it all starts to add up.
-> =
-
-> At least i915 suffers a lot from bloated structures (dev_priv
-> and atomic state structs being the prime examples) where we
-> could probably shave dozens if not hundreds of bytes if
-> everything just used the smallest type possible. In fact
-> this series does shave dozens of bytes from the crtc state
-> alone.
-
-Make that hundreds of bytes actually. I think we have three or more
-copies of drm_display_mode embedded in there and this series shrinks
-each one by 80 bytes (iirc).
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCAxMCBBcHIgMjAyMCBhdCAwMjo1MSwgVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2FyZSkK
+PHRob21hc19vc0BzaGlwbWFpbC5vcmc+IHdyb3RlOgo+Cj4gRGF2ZSwgQ2hyaXN0aWFuLAo+Cj4g
+Q291bGQgYW55IG9mIHlvdSBwaWNrIHRoaXMgdXAgKEknbSBjdXJyZW50bHkgb24gdmFjYXRpb24p
+IHRvIGhhdmUgYQo+IGNoYW5jZSBvZiBnZXR0aW5nIGl0IGluIGJlZm9yZSAtcmMxPwoKSSdsbCBw
+dWxsIHRoaXMgaW4gZGlyZWN0bHkgdG8gZml4ZXMgdG9kYXkuCgpEYXZlLgoKPiBUaGFua3MsCj4g
+VGhvbWFzCj4KPgo+IE9uIDQvOS8yMCA2OjQ5IFBNLCBUaG9tYXMgSGVsbHN0csO2bSAoVk13YXJl
+KSB3cm90ZToKPiA+IEZyb206ICJUaG9tYXMgSGVsbHN0cm9tIChWTXdhcmUpIiA8dGhvbWFzX29z
+QHNoaXBtYWlsLm9yZz4KPiA+Cj4gPiBXaXRoIGFtZGdwdSBhbmQgQ09ORklHX1RSQU5TUEFSRU5U
+X0hVR0VQQUdFX0FMV0FZUz15LCB0aGVyZSBhcmUKPiA+IGVycm9ycyBsaWtlOgo+ID4gQlVHOiBu
+b24temVybyBwZ3RhYmxlc19ieXRlcyBvbiBmcmVlaW5nIG1tCj4gPiBhbmQ6Cj4gPiBCVUc6IEJh
+ZCByc3MtY291bnRlciBzdGF0ZQo+ID4gd2l0aCBUVE0gdHJhbnNwYXJlbnQgaHVnZS1wYWdlcy4K
+PiA+IFVudGlsIHdlJ3ZlIGZpZ3VyZWQgb3V0IHdoYXQgb3RoZXIgVFRNIGRyaXZlcnMgZG8gZGlm
+ZmVyZW50bHkgY29tcGFyZWQgdG8KPiA+IHZtd2dmeCwgZGlzYWJsZSB0aGUgaHVnZV9mYXVsdCgp
+IGNhbGxiYWNrLCBlbGltaW5hdGluZyB0cmFuc2h1Z2UKPiA+IHBhZ2UtdGFibGUgZW50cmllcy4K
+PiA+Cj4gPiBDYzogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+
+ID4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIEhlbGxzdHJvbSAoVk13YXJlKSA8dGhvbWFzX29zQHNo
+aXBtYWlsLm9yZz4KPiA+IFJlcG9ydGVkLWJ5OiBBbGV4IFh1IChIZWxsbzcxKSA8YWxleF95X3h1
+QHlhaG9vLmNhPgo+ID4gVGVzdGVkLWJ5OiBBbGV4IFh1IChIZWxsbzcxKSA8YWxleF95X3h1QHlh
+aG9vLmNhPgo+ID4gQWNrZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdA
+YW1kLmNvbT4KPiA+IC0tLQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jIHwg
+NjMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiAgIDEgZmlsZSBjaGFuZ2Vk
+LCA2MyBkZWxldGlvbnMoLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0
+bS90dG1fYm9fdm0uYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMKPiA+IGluZGV4
+IDZlZTNiOTZmMGQxMy4uMGFkMzBiMTEyOTgyIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL3R0bS90dG1fYm9fdm0uYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9f
+dm0uYwo+ID4gQEAgLTQ0Miw2NiArNDQyLDYgQEAgdm1fZmF1bHRfdCB0dG1fYm9fdm1fZmF1bHQo
+c3RydWN0IHZtX2ZhdWx0ICp2bWYpCj4gPiAgIH0KPiA+ICAgRVhQT1JUX1NZTUJPTCh0dG1fYm9f
+dm1fZmF1bHQpOwo+ID4KPiA+IC0jaWZkZWYgQ09ORklHX1RSQU5TUEFSRU5UX0hVR0VQQUdFCj4g
+PiAtLyoqCj4gPiAtICogdHRtX3BncHJvdF9pc193cnByb3RlY3RpbmcgLSBJcyBhIHBhZ2UgcHJv
+dGVjdGlvbiB2YWx1ZSB3cml0ZS1wcm90ZWN0aW5nPwo+ID4gLSAqIEBwcm90OiBUaGUgcGFnZSBw
+cm90ZWN0aW9uIHZhbHVlCj4gPiAtICoKPiA+IC0gKiBSZXR1cm46IHRydWUgaWYgQHByb3QgaXMg
+d3JpdGUtcHJvdGVjdGluZy4gZmFsc2Ugb3RoZXJ3aXNlLgo+ID4gLSAqLwo+ID4gLXN0YXRpYyBi
+b29sIHR0bV9wZ3Byb3RfaXNfd3Jwcm90ZWN0aW5nKHBncHJvdF90IHByb3QpCj4gPiAtewo+ID4g
+LSAgICAgLyoKPiA+IC0gICAgICAqIFRoaXMgaXMgbWVhbnQgdG8gc2F5ICJwZ3Byb3Rfd3Jwcm90
+ZWN0KHByb3QpID09IHByb3QiIGluIGEgZ2VuZXJpYwo+ID4gLSAgICAgICogd2F5LiBVbmZvcnR1
+bmF0ZWx5IHRoZXJlIGlzIG5vIGdlbmVyaWMgcGdwcm90X3dycHJvdGVjdC4KPiA+IC0gICAgICAq
+Lwo+ID4gLSAgICAgcmV0dXJuIHB0ZV92YWwocHRlX3dycHJvdGVjdChfX3B0ZShwZ3Byb3RfdmFs
+KHByb3QpKSkpID09Cj4gPiAtICAgICAgICAgICAgIHBncHJvdF92YWwocHJvdCk7Cj4gPiAtfQo+
+ID4gLQo+ID4gLXN0YXRpYyB2bV9mYXVsdF90IHR0bV9ib192bV9odWdlX2ZhdWx0KHN0cnVjdCB2
+bV9mYXVsdCAqdm1mLAo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVu
+dW0gcGFnZV9lbnRyeV9zaXplIHBlX3NpemUpCj4gPiAtewo+ID4gLSAgICAgc3RydWN0IHZtX2Fy
+ZWFfc3RydWN0ICp2bWEgPSB2bWYtPnZtYTsKPiA+IC0gICAgIHBncHJvdF90IHByb3Q7Cj4gPiAt
+ICAgICBzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvID0gdm1hLT52bV9wcml2YXRlX2RhdGE7
+Cj4gPiAtICAgICB2bV9mYXVsdF90IHJldDsKPiA+IC0gICAgIHBnb2ZmX3QgZmF1bHRfcGFnZV9z
+aXplID0gMDsKPiA+IC0gICAgIGJvb2wgd3JpdGUgPSB2bWYtPmZsYWdzICYgRkFVTFRfRkxBR19X
+UklURTsKPiA+IC0KPiA+IC0gICAgIHN3aXRjaCAocGVfc2l6ZSkgewo+ID4gLSAgICAgY2FzZSBQ
+RV9TSVpFX1BNRDoKPiA+IC0gICAgICAgICAgICAgZmF1bHRfcGFnZV9zaXplID0gSFBBR0VfUE1E
+X1NJWkUgPj4gUEFHRV9TSElGVDsKPiA+IC0gICAgICAgICAgICAgYnJlYWs7Cj4gPiAtI2lmZGVm
+IENPTkZJR19IQVZFX0FSQ0hfVFJBTlNQQVJFTlRfSFVHRVBBR0VfUFVECj4gPiAtICAgICBjYXNl
+IFBFX1NJWkVfUFVEOgo+ID4gLSAgICAgICAgICAgICBmYXVsdF9wYWdlX3NpemUgPSBIUEFHRV9Q
+VURfU0laRSA+PiBQQUdFX1NISUZUOwo+ID4gLSAgICAgICAgICAgICBicmVhazsKPiA+IC0jZW5k
+aWYKPiA+IC0gICAgIGRlZmF1bHQ6Cj4gPiAtICAgICAgICAgICAgIFdBUk5fT05fT05DRSgxKTsK
+PiA+IC0gICAgICAgICAgICAgcmV0dXJuIFZNX0ZBVUxUX0ZBTExCQUNLOwo+ID4gLSAgICAgfQo+
+ID4gLQo+ID4gLSAgICAgLyogRmFsbGJhY2sgb24gd3JpdGUgZGlydHktdHJhY2tpbmcgb3IgQ09X
+ICovCj4gPiAtICAgICBpZiAod3JpdGUgJiYgdHRtX3BncHJvdF9pc193cnByb3RlY3Rpbmcodm1h
+LT52bV9wYWdlX3Byb3QpKQo+ID4gLSAgICAgICAgICAgICByZXR1cm4gVk1fRkFVTFRfRkFMTEJB
+Q0s7Cj4gPiAtCj4gPiAtICAgICByZXQgPSB0dG1fYm9fdm1fcmVzZXJ2ZShibywgdm1mKTsKPiA+
+IC0gICAgIGlmIChyZXQpCj4gPiAtICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gPiAtCj4gPiAt
+ICAgICBwcm90ID0gdm1fZ2V0X3BhZ2VfcHJvdCh2bWEtPnZtX2ZsYWdzKTsKPiA+IC0gICAgIHJl
+dCA9IHR0bV9ib192bV9mYXVsdF9yZXNlcnZlZCh2bWYsIHByb3QsIDEsIGZhdWx0X3BhZ2Vfc2l6
+ZSk7Cj4gPiAtICAgICBpZiAocmV0ID09IFZNX0ZBVUxUX1JFVFJZICYmICEodm1mLT5mbGFncyAm
+IEZBVUxUX0ZMQUdfUkVUUllfTk9XQUlUKSkKPiA+IC0gICAgICAgICAgICAgcmV0dXJuIHJldDsK
+PiA+IC0KPiA+IC0gICAgIGRtYV9yZXN2X3VubG9jayhiby0+YmFzZS5yZXN2KTsKPiA+IC0KPiA+
+IC0gICAgIHJldHVybiByZXQ7Cj4gPiAtfQo+ID4gLSNlbmRpZgo+ID4gLQo+ID4gICB2b2lkIHR0
+bV9ib192bV9vcGVuKHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKQo+ID4gICB7Cj4gPiAgICAg
+ICBzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvID0gdm1hLT52bV9wcml2YXRlX2RhdGE7Cj4g
+PiBAQCAtNjA0LDkgKzU0NCw2IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgdm1fb3BlcmF0aW9uc19z
+dHJ1Y3QgdHRtX2JvX3ZtX29wcyA9IHsKPiA+ICAgICAgIC5vcGVuID0gdHRtX2JvX3ZtX29wZW4s
+Cj4gPiAgICAgICAuY2xvc2UgPSB0dG1fYm9fdm1fY2xvc2UsCj4gPiAgICAgICAuYWNjZXNzID0g
+dHRtX2JvX3ZtX2FjY2VzcywKPiA+IC0jaWZkZWYgQ09ORklHX1RSQU5TUEFSRU5UX0hVR0VQQUdF
+Cj4gPiAtICAgICAuaHVnZV9mYXVsdCA9IHR0bV9ib192bV9odWdlX2ZhdWx0LAo+ID4gLSNlbmRp
+Zgo+ID4gICB9Owo+ID4KPiA+ICAgc3RhdGljIHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqdHRt
+X2JvX3ZtX2xvb2t1cChzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKPgo+Cl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
