@@ -2,56 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F22A1A322E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 12:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6691A325E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 12:16:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 055096E079;
-	Thu,  9 Apr 2020 10:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57E476E0C5;
+	Thu,  9 Apr 2020 10:16:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49E4C6E079
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 10:05:13 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 039A57ho057328;
- Thu, 9 Apr 2020 05:05:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1586426707;
- bh=j1GslTHceembFNhT40rMOJP6pLMS4NODDHZOZOkVCV4=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=LPOJzDJIaY0Q4xl4sWHQmUvTs/JSANyVc525+I96/6K3Q4Ev23vvttckGTDX9+Gt1
- 3tvbfDlYRnhUjgW2d+x9mHl8yCJMmR7LqvRlM0iDp/u0KIdHgnAD4rjEHzdHieChIc
- S12PHxmv7F4s2oa03Bbb2Y5CTCozzSoZfKSfG1ms=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 039A57EL108371
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 9 Apr 2020 05:05:07 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 9 Apr
- 2020 05:05:07 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 9 Apr 2020 05:05:07 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 039A547a014611;
- Thu, 9 Apr 2020 05:05:04 -0500
-Subject: Re: [PATCH v9 0/5] drm/tidss: New driver for TI Keystone platform
- Display SubSystem
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <cover.1580129724.git.jsarha@ti.com>
- <d3931419-aa73-daeb-c8f6-8e29166d586a@ti.com>
- <20200407164426.GB2220@ravnborg.org>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <1aaa420d-a29b-3266-d152-209a87a81ba6@ti.com>
-Date: Thu, 9 Apr 2020 13:05:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECDE6E0C5
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 10:16:40 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 039ADtZl069500;
+ Thu, 9 Apr 2020 10:16:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=39Ni081FXBK7Yqe2dP5DkBkYVP3K7UrlF3aJOoZyVRU=;
+ b=mjDUXopOwz5JjapBHkk4egTZ+9hEIiMoV1gq+KdePC/2pa/W+f5m5Ah5GZ09RJk2IU1Q
+ GqQR9h9HPdQb1gYMMLAa05i3R8jfnGUyR6ggHA0q1nN94s3vH/QjM/+xIdL5fp4NYFuB
+ 511yMNHDqedn0vhfyvcKroOoMt+9f0M4nMv9wK65RAHJtrJePS2T5ialLOfnpa01mA1j
+ Hq6MuIXoOvOdSqrrKmMSK4YcR/xgLy/+5aF8ZtfUqV6TW28l/wRhmfUxAN2Q/UVTiM/s
+ 1x9vDJp4rvMzLVoAiyUSDLjXOfEHUOGSaSiOSYQIXu83++uRlYv5mRLix+cE0SqyG/Pg VA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 3091m10nsc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 09 Apr 2020 10:16:29 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 039ABlp1070488;
+ Thu, 9 Apr 2020 10:14:29 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 3091m7fj9e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 09 Apr 2020 10:14:29 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 039AEO0q032019;
+ Thu, 9 Apr 2020 10:14:24 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 09 Apr 2020 03:14:23 -0700
+Date: Thu, 9 Apr 2020 13:14:16 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Oliver Graute <oliver.graute@gmail.com>
+Subject: Re: [PATCH v1] staging: fbtft: fb_st7789v: enabled inversion
+Message-ID: <20200409101416.GN2001@kadam>
+References: <1586424250-25897-1-git-send-email-oliver.graute@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200407164426.GB2220@ravnborg.org>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <1586424250-25897-1-git-send-email-oliver.graute@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9585
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0 mlxscore=0
+ malwarescore=0 spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004090077
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9585
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxlogscore=999 mlxscore=0
+ priorityscore=1501 phishscore=0 suspectscore=0 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 malwarescore=0 clxscore=1011
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004090077
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,35 +78,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
- sjakhade@cadence.com, dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com,
- Jyri Sarha <jsarha@ti.com>, subhajit_paul@ti.com,
- laurent.pinchart@ideasonboard.com
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ gregkh@linuxfoundation.org, Oliver Graute <oliver.graute@kococonnector.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/04/2020 19:44, Sam Ravnborg wrote:
-> On Tue, Apr 07, 2020 at 04:18:20PM +0300, Tomi Valkeinen wrote:
->> Hi Jyri,
->>
->> On 27/01/2020 18:00, Jyri Sarha wrote:
->>> This is intended to be the last patch series. I'll apply these trough
->>> drm-misc-next tomorrow.
->>
->> Were these ever merged?
+On Thu, Apr 09, 2020 at 11:24:05AM +0200, Oliver Graute wrote:
+> From: Oliver Graute <oliver.graute@kococonnector.com>
 > 
-> See 32a1795f57eecc3974901760400618571c9d357f
-> ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
-Ah, sorry, I replied to a wrong thread. I was looking for the patch that adds the DT data to the soc 
-dts file... Somehow I thought it's in this series.
+> Enable inversion mode
+> 
+> Signed-off-by: Oliver Graute <oliver.graute@kococonnector.com>
+> ---
+>  drivers/staging/fbtft/fb_st7789v.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
+> index 3c3f387936e8..84c5af2dc9a0 100644
+> --- a/drivers/staging/fbtft/fb_st7789v.c
+> +++ b/drivers/staging/fbtft/fb_st7789v.c
+> @@ -120,6 +120,10 @@ static int init_display(struct fbtft_par *par)
+>  	write_reg(par, PWCTRL1, 0xA4, 0xA1);
+>  
+>  	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
+> +
+> +	/* enable inversion mode */
+> +	write_reg(par, 0x21);
 
-  Tomi
+Use the define and delete the comment.
 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+	write_reg(par, MIPI_DCS_ENTER_INVERT_MODE);
+
+regards,
+dan carpenter
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
