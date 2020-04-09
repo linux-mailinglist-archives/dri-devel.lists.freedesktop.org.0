@@ -1,43 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECD571A2FF9
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:26:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D94171A306B
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:45:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C18126EB57;
-	Thu,  9 Apr 2020 07:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 997A46EB82;
+	Thu,  9 Apr 2020 07:45:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5591C6EB57
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 07:26:04 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A66F6EB82
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 07:45:52 +0000 (UTC)
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 67894804E6;
- Thu,  9 Apr 2020 09:26:00 +0200 (CEST)
-Date: Thu, 9 Apr 2020 09:25:59 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [RFC v3 1/8] dt-bindings: display: convert ingenic, lcd.txt to
- ingenic, lcd.yaml
-Message-ID: <20200409072559.GB12367@ravnborg.org>
-References: <cover.1585503354.git.hns@goldelico.com>
- <a75c77fa8528f44832993f9780ae4ea409125a90.1585503354.git.hns@goldelico.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id CA93220678;
+ Thu,  9 Apr 2020 07:45:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1586418352;
+ bh=l8NzhKGSW5e+lStH7nKV3Pogb9us5XvLBT3TJJbhUwI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=sYKMi/Pgr13POQ6gmP2oi1lDrpn0nXxjqswB/Pr0GVxUUE+paQiHl6fsf+8ORfw6p
+ L/+reWUwuP4P8hdIMinREX2O1BP64AYLh1TPcAsIW4aj9dvSHOLHu9B9rDtMVJ6+I+
+ zkCoLKp3seuZveLxmB2+9h6enwMZ8mlPopqLj3wM=
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=why) by disco-boy.misterjones.org with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <maz@kernel.org>)
+ id 1jMRsk-001qL2-00; Thu, 09 Apr 2020 08:45:50 +0100
+Date: Thu, 9 Apr 2020 08:45:46 +0100
+From: Marc Zyngier <maz@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 03/35] docs: fix broken references to text files
+Message-ID: <20200409084546.51ecb701@why>
+In-Reply-To: <2e12bf13355bd06748fed5d135fd4de3d94ad5fd.1586359676.git.mchehab+huawei@kernel.org>
+References: <cover.1586359676.git.mchehab+huawei@kernel.org>
+ <2e12bf13355bd06748fed5d135fd4de3d94ad5fd.1586359676.git.mchehab+huawei@kernel.org>
+Organization: Approximate
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <a75c77fa8528f44832993f9780ae4ea409125a90.1585503354.git.hns@goldelico.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8
- a=7gkXJVJtAAAA:8 a=ztCEdXhiAAAA:8 a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8
- a=EOonHDGkKxT7KvGTIpcA:9 a=gAFmQjLz7WC3uhn-:21 a=lEZKnLxH932zqgqy:21
- a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22 a=E9Po1WZjFZOl8hwRPBS3:22
- a=nCm3ceeH17rKjHWsMeRo:22 a=AjGcO6oz07-iQ99wixmX:22
- a=sptkURWiP4Gy88Gu7hUp:22
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, corbet@lwn.net, stern@rowland.harvard.edu,
+ parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org,
+ boqun.feng@gmail.com, npiggin@gmail.com, dhowells@redhat.com,
+ j.alglave@ucl.ac.uk, luc.maranget@inria.fr, paulmck@kernel.org,
+ akiyks@gmail.com, dlustig@nvidia.com, federico.vaga@vaga.pv.it,
+ harryxiyou@gmail.com, alex.shi@linux.alibaba.com, pbonzini@redhat.com,
+ paulus@ozlabs.org, mpe@ellerman.id.au, benh@kernel.crashing.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, mathieu.poirier@linaro.org,
+ suzuki.poulose@arm.com, mike.leach@linaro.org,
+ alexander.shishkin@linux.intel.com, hirofumi@mail.parknet.co.jp,
+ miklos@szeredi.hu, akpm@linux-foundation.org, dledford@redhat.com,
+ jgg@ziepe.ca, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ linux-arch@vger.kernel.org, kvm@vger.kernel.org, kvm-ppc@vger.kernel.org,
+ linux
+ ppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, linux-mm@kvack.org, linux-rdma@vger.kernel.org,
+ kvmarm@lists.cs.columbia.edu
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,256 +77,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Andi Kleen <ak@linux.intel.com>,
- Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- mips-creator-ci20-dev@googlegroups.com, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, linux-gpio@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, letux-kernel@openphoenux.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-kernel@vger.kernel.org,
- Ralf Baechle <ralf@linux-mips.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: kvm@vger.kernel.org, Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Akira Yokosawa <akiyks@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-unionfs@vger.kernel.org,
+ Paul Mackerras <paulus@ozlabs.org>, linux-mm@kvack.org,
+ Harry Wei <harryxiyou@gmail.com>, Alex Shi <alex.shi@linux.alibaba.com>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ linux-arch@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, kvm-ppc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Doug Ledford <dledford@redhat.com>,
+ Alan Stern <stern@rowland.harvard.edu>, linux-arm-kernel@lists.infradead.org,
+ Federico Vaga <federico.vaga@vaga.pv.it>, Jade Alglave <j.alglave@ucl.ac.uk>,
+ Daniel Lustig <dlustig@nvidia.com>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>,
+ Mike Leach <mike.leach@linaro.org>, Andrea Parri <parri.andrea@gmail.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Nicholas Piggin <npiggin@gmail.com>, Luc Maranget <luc.maranget@inria.fr>,
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+ David Howells <dhowells@redhat.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ James Morse <james.morse@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus
+On Wed,  8 Apr 2020 17:45:55 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-
-Some comments below that will result in a simplee binding that passes
-the checks.
-Thanks for pushing this.
-
-	Sam
-
-On Sun, Mar 29, 2020 at 07:35:47PM +0200, H. Nikolaus Schaller wrote:
-> and add compatible: jz4780-lcd, including an example how to
-> configure both lcd controllers.
+> Several references got broken due to txt to ReST conversion.
 > 
-> Also fix the clock names and examples.
+> Several of them can be automatically fixed with:
 > 
-> Based on work by Paul Cercueil <paul@crapouillou.net> and
-> Sam Ravnborg <sam@ravnborg.org>
+> 	scripts/documentation-file-ref-check --fix
 > 
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
+> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org> # hwtracing/coresight/Kconfig
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  .../bindings/display/ingenic,lcd.txt          |  45 ------
->  .../bindings/display/ingenic,lcd.yaml         | 128 ++++++++++++++++++
->  2 files changed, 128 insertions(+), 45 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/ingenic,lcd.txt
->  create mode 100644 Documentation/devicetree/bindings/display/ingenic,lcd.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/ingenic,lcd.txt b/Documentation/devicetree/bindings/display/ingenic,lcd.txt
-> deleted file mode 100644
-> index 01e3261defb6..000000000000
-> --- a/Documentation/devicetree/bindings/display/ingenic,lcd.txt
-> +++ /dev/null
-> @@ -1,45 +0,0 @@
-> -Ingenic JZ47xx LCD driver
-> -
-> -Required properties:
-> -- compatible: one of:
-> -  * ingenic,jz4740-lcd
-> -  * ingenic,jz4725b-lcd
-> -  * ingenic,jz4770-lcd
-> -- reg: LCD registers location and length
-> -- clocks: LCD pixclock and device clock specifiers.
-> -	   The device clock is only required on the JZ4740.
-> -- clock-names: "lcd_pclk" and "lcd"
-> -- interrupts: Specifies the interrupt line the LCD controller is connected to.
-> -
-> -Example:
-> -
-> -panel {
-> -	compatible = "sharp,ls020b1dd01d";
-> -
-> -	backlight = <&backlight>;
-> -	power-supply = <&vcc>;
-> -
-> -	port {
-> -		panel_input: endpoint {
-> -			remote-endpoint = <&panel_output>;
-> -		};
-> -	};
-> -};
-> -
-> -
-> -lcd: lcd-controller@13050000 {
-> -	compatible = "ingenic,jz4725b-lcd";
-> -	reg = <0x13050000 0x1000>;
-> -
-> -	interrupt-parent = <&intc>;
-> -	interrupts = <31>;
-> -
-> -	clocks = <&cgu JZ4725B_CLK_LCD>;
-> -	clock-names = "lcd";
-> -
-> -	port {
-> -		panel_output: endpoint {
-> -			remote-endpoint = <&panel_input>;
-> -		};
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/display/ingenic,lcd.yaml b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
-> new file mode 100644
-> index 000000000000..8b6467cfc191
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
-> @@ -0,0 +1,128 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/ingenic,lcd.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Bindings for Ingenic JZ4780 LCD Controller
-> +
-> +maintainers:
-> +  - Paul Cercueil <paul@crapouillou.net>
-> +
-> +description: |
-> +  LCD Controller is the Display Controller for the Ingenic JZ47xx SoC
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +     - const: ingenic,jz4725b-lcd
-> +     - const: ingenic,jz4740-lcd
-> +     - const: ingenic,jz4770-lcd
-> +     - const: ingenic,jz4780-lcd
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: LCD registers location and length
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description: Specifies the interrupt provided by parent
-> +
-> +  clocks:
-> +    maxItems: 2
-> +    description: Clock specifiers for LCD pixclock and device clock.
-> +      The device clock is only required on the JZ4740 and JZ4780
-> +
-> +  clock-names:
-> +    items:
-> +      - const: lcd
-> +      - const: lcd_pclk
-> +
-> +  port:
-> +    type: object
-> +    description: |
-> +      A port node with endpoint definitions as defined in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> +
-> +required:
-> +    - compatible
-> +    - reg
-> +    - interrupts
-> +    - clocks
-> +    - clock-names
-> +    - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/jz4725b-cgu.h>
-> +
-> +    panel {
-> +      compatible = "sharp,ls020b1dd01d";
-> +
-> +      backlight = <&backlight>;
-> +      power-supply = <&vcc>;
-> +
-> +      port {
-> +        panel_input: endpoint {
-> +          remote-endpoint = <&panel_output>;
-> +          };
-> +        };
-> +      };
-The panel part is not needed - better to drop it.
+>  Documentation/virt/kvm/arm/pvtime.rst                |  2 +-
+>  virt/kvm/arm/vgic/vgic-mmio-v3.c                     |  2 +-
+>  virt/kvm/arm/vgic/vgic.h                             |  4 ++--
 
+Acked-by: Marc Zyngier <maz@kernel.org> # kvm/arm64
 
-> +
-> +    lcd: lcd-controller@13050000 {
-> +      compatible = "ingenic,jz4725b-lcd";
-> +      reg = <0x13050000 0x1000>;
-> +
-> +      interrupt-parent = <&intc>;
-> +      interrupts = <31>;
-> +
-> +      clocks = <&cgu JZ4725B_CLK_LCD>;
-> +      clock-names = "lcd", "lcd_pclk";
-> +
-> +      port {
-> +        panel_output: endpoint {
-> +          remote-endpoint = <&panel_input>;
-> +          };
-> +        };
-> +      };
-We know this example will not pass the check, as there is only
-one clock specified.
-I suggest to drop this example.
-If it later turns out that jz4725b only have one clock, then the binding
-needs to be updated. But the best guess is that the example is wrong.
-
-The example below for jz4780-lcd cover all relevant parts - so
-just keep it as the only example.
-
-> +
-> +  - |
-> +    #include <dt-bindings/clock/jz4780-cgu.h>
-> +
-> +    lcdc0: lcdc0@13050000 {
-Name this lcdc
-And drop "lcdc0@13050000" as this is not relevant for this example.
-
-Remember - the examples exist to explain the binding. They are
-just examples.
-
-> +        compatible = "ingenic,jz4780-lcd";
-> +        reg = <0x13050000 0x1800>;
-> +
-> +        clocks = <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
-> +        clock-names = "lcd", "lcd_pclk";
-> +
-> +        interrupt-parent = <&intc>;
-> +        interrupts = <31>;
-> +
-> +        jz4780_lcd_out: port {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            jz4780_out_hdmi: endpoint@0 {
-> +                reg = <0>;
-> +                remote-endpoint = <&hdmi_in_lcd>;
-> +            };
-> +        };
-> +    };
-> +
-
-And drop this as it does not add anything extra.
-> +    lcdc1: lcdc1@130a0000 {
-> +        compatible = "ingenic,jz4780-lcd";
-> +        reg = <0x130a0000 0x1800>;
-> +
-> +        clocks = <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD1PIXCLK>;
-> +        clock-names = "lcd", "lcd_pclk";
-> +
-> +        interrupt-parent = <&intc>;
-> +        interrupts = <31>;
-> +
-> +        status = "disabled";
-> +    };
-
-	Sam
+	M.
+-- 
+Jazz is not dead. It just smells funny...
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
