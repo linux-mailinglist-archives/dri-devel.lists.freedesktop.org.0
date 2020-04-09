@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1361A3BC1
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 23:14:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 306801A3C2A
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 23:58:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34E896EC28;
-	Thu,  9 Apr 2020 21:14:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5316EC2A;
+	Thu,  9 Apr 2020 21:58:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 426C26EC28
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 21:14:02 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207183] New: radeon.dpm=1 with second monitor runs hot
-Date: Thu, 09 Apr 2020 21:14:01 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ehuels@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-207183-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8CBC6EC2A;
+ Thu,  9 Apr 2020 21:58:23 +0000 (UTC)
+IronPort-SDR: I0SvzK11s3il3/brROHn9JYNWetaWC0H9u2Wwj6U2qO3eSk71A0tr8LWyBzqEabnoyv0Sou4rv
+ Ye0q6jS1xiBg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Apr 2020 14:58:23 -0700
+IronPort-SDR: D0pm5353ktocpv3kpo6A6WHysf3MP6G8D5ge3b2t4SECFo5NL7i7GSNW6qc7EkQ/UyECLinL/P
+ sDP9uCGUF1yA==
+X-IronPort-AV: E=Sophos;i="5.72,364,1580803200"; d="scan'208";a="425675703"
+Received: from ashakhno-mobl.ccr.corp.intel.com (HELO localhost)
+ ([10.252.61.38])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Apr 2020 14:58:18 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 2/2] drm/i915: remove gvt/Makefile
+In-Reply-To: <20200409150627.29205-2-masahiroy@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200409150627.29205-1-masahiroy@kernel.org>
+ <20200409150627.29205-2-masahiroy@kernel.org>
+Date: Fri, 10 Apr 2020 00:58:16 +0300
+Message-ID: <87h7xsgw3r.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,56 +50,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, Masahiro Yamada <masahiroy@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207183
+On Fri, 10 Apr 2020, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> Including subdirectory Makefile from the driver main Makefile does not
+> buy us much because this is not real isolation.
 
-            Bug ID: 207183
-           Summary: radeon.dpm=1 with second monitor runs hot
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.3.18
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: ehuels@gmail.com
-        Regression: No
+The isolation it does buy us is that gvt/ subdirectory is developed and
+maintained on a separate mailing list and separate git repo. I think at
+some point there were plans to make it an actual module too.
 
-Created attachment 288315
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288315&action=edit
-dmesg | grep -iE "drm|radeon"
+So while you could quip about Conway's law here, I think it might be
+better to keep this as it is.
 
-for a long time, I've been searching for the reason why my card was running
-fans high on Linux. (It started after a kernel update; don't know which one --
-years ago) While at the time, I ran Windows on the same laptop every now and
-then, it would work correctly.
-
-My card reports `lspci | grep VGA`:
-
-01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Venus
-XT [Radeon HD 8870M / R9 M270X/M370X]
+Zhenyu, Zhi, what do you think?
 
 
-Without radeon.dpm or with radeon.dpm=1, the card runs hot: within minutes fans
-will run at 3300+ RPM keeping the card barely below 66 degC. Note that
-`radeontop` reports an `Graphics pipe` of 0.00% most of the time.
+BR,
+Jani.
 
-After discovery of the setting radeon.dpm yesterday, after a few failed trials
-to set the setting to '1', I set `radeon.dpm=0`. After letting the PC cool down
-(turned off) and starting again, the PC ran 10 minutes without fans and is
-running at 53 degC with fans running at 2100 RPM.
+
+>
+> Having a single Makefile at the top of the module is clearer, and
+> it is what this driver almost does.
+>
+> Move all gvt objects to the i915 main Makefile.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  drivers/gpu/drm/i915/Makefile     | 28 ++++++++++++++++++++++++----
+>  drivers/gpu/drm/i915/gvt/Makefile |  8 --------
+>  2 files changed, 24 insertions(+), 12 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/i915/gvt/Makefile
+>
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 6cd1f6253814..74e965882a98 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -275,10 +275,30 @@ i915-$(CONFIG_DRM_I915_SELFTEST) += \
+>  # virtual gpu code
+>  i915-y += i915_vgpu.o
+>  
+> -ifeq ($(CONFIG_DRM_I915_GVT),y)
+> -i915-y += intel_gvt.o
+> -include $(src)/gvt/Makefile
+> -endif
+> +i915-$(CONFIG_DRM_I915_GVT) += \
+> +	intel_gvt.o \
+> +	gvt/gvt.o \
+> +	gvt/aperture_gm.o \
+> +	gvt/handlers.o \
+> +	gvt/vgpu.o \
+> +	gvt/trace_points.o \
+> +	gvt/firmware.o \
+> +	gvt/interrupt.o \
+> +	gvt/gtt.o \
+> +	gvt/cfg_space.o \
+> +	gvt/opregion.o \
+> +	gvt/mmio.o \
+> +	gvt/display.o \
+> +	gvt/edid.o \
+> +	gvt/execlist.o \
+> +	gvt/scheduler.o \
+> +	gvt/sched_policy.o \
+> +	gvt/mmio_context.o \
+> +	gvt/cmd_parser.o \
+> +	gvt/debugfs.o \
+> +	gvt/fb_decoder.o \
+> +	gvt/dmabuf.o \
+> +	gvt/page_track.o
+>  
+>  obj-$(CONFIG_DRM_I915) += i915.o
+>  obj-$(CONFIG_DRM_I915_GVT_KVMGT) += gvt/kvmgt.o
+> diff --git a/drivers/gpu/drm/i915/gvt/Makefile b/drivers/gpu/drm/i915/gvt/Makefile
+> deleted file mode 100644
+> index 4d70f4689479..000000000000
+> --- a/drivers/gpu/drm/i915/gvt/Makefile
+> +++ /dev/null
+> @@ -1,8 +0,0 @@
+> -# SPDX-License-Identifier: GPL-2.0
+> -GVT_DIR := gvt
+> -GVT_SOURCE := gvt.o aperture_gm.o handlers.o vgpu.o trace_points.o firmware.o \
+> -	interrupt.o gtt.o cfg_space.o opregion.o mmio.o display.o edid.o \
+> -	execlist.o scheduler.o sched_policy.o mmio_context.o cmd_parser.o debugfs.o \
+> -	fb_decoder.o dmabuf.o page_track.o
+> -
+> -i915-y					+= $(addprefix $(GVT_DIR)/, $(GVT_SOURCE))
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
