@@ -1,32 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B278F1A44A4
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 11:45:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DAF81A3A74
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 21:19:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A62826ECB6;
-	Fri, 10 Apr 2020 09:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEA716E14A;
+	Thu,  9 Apr 2020 19:19:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 399 seconds by postgrey-1.36 at gabe;
- Thu, 09 Apr 2020 17:20:10 UTC
-Received: from vkten.in (vkten.in [104.244.73.96])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3245A6EC1F
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 17:20:10 +0000 (UTC)
-Received: (qmail 1341 invoked from network); 9 Apr 2020 17:13:26 -0000
-Received: from unknown (HELO localhost) (vkor@vkten.in@117.209.168.92)
- de/crypted with TLSv1.3: TLS_AES_256_GCM_SHA384 [256/256] DN=none
- by vkten with ESMTPSA; 9 Apr 2020 17:13:26 -0000
-From: R Veera Kumar <vkor@vkten.in>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2] staging: android: ion: use macro DEFINE_DEBUGFS_ATTRIBUTE
- to define debugfs fops
-Date: Thu,  9 Apr 2020 22:43:18 +0530
-Message-Id: <20200409171318.1730-1-vkor@vkten.in>
-X-Mailer: git-send-email 2.20.1
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 523D26E14A;
+ Thu,  9 Apr 2020 19:19:31 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 20856328-1500050 for multiple; Thu, 09 Apr 2020 20:19:27 +0100
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 10 Apr 2020 09:45:19 +0000
+In-Reply-To: <20200409133107.415812-1-colin.king@canonical.com>
+References: <20200409133107.415812-1-colin.king@canonical.com>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH] drm/i915: remove redundant assignment to variable err
+To: Colin King <colin.king@canonical.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Message-ID: <158645996713.23161.4368543521925428819@build.alporthouse.com>
+User-Agent: alot/0.8.1
+Date: Thu, 09 Apr 2020 20:19:27 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,49 +42,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, R Veera Kumar <vkor@vkten.in>,
- Todd Kjos <tkjos@android.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
- Joel Fernandes <joel@joelfernandes.org>, Laura Abbott <labbott@redhat.com>,
- Martijn Coenen <maco@android.com>, Christian Brauner <christian@brauner.io>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is more clear to use DEFINE_DEBUGFS_ATTRIBUTE to define debugfs file
-operation rather than DEFINE_SIMPLE_ATTRIBUTE.
+Quoting Colin King (2020-04-09 14:31:07)
+> From: Colin Ian King <colin.king@canonical.com>
+> 
+> The variable err is being initialized with a value that is never read
+> and it is being updated later with a new value.  The initialization is
+> redundant and can be removed.
+> 
+> Addresses-Coverity: ("Unused value")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 
-Found using coccinelle.
-
-Signed-off-by: R Veera Kumar <vkor@vkten.in>
----
-Changes in v2:
- - Give correct explanation for patch
- - Adjust git commit tag and msg accordingly
----
- drivers/staging/android/ion/ion.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/android/ion/ion.c b/drivers/staging/android/ion/ion.c
-index 38b51eace4f9..dbe4018a6f83 100644
---- a/drivers/staging/android/ion/ion.c
-+++ b/drivers/staging/android/ion/ion.c
-@@ -554,8 +554,8 @@ static int debug_shrink_get(void *data, u64 *val)
- 	return 0;
- }
- 
--DEFINE_SIMPLE_ATTRIBUTE(debug_shrink_fops, debug_shrink_get,
--			debug_shrink_set, "%llu\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(debug_shrink_fops, debug_shrink_get,
-+			 debug_shrink_set, "%llu\n");
- 
- void ion_device_add_heap(struct ion_heap *heap)
- {
--- 
-2.20.1
-
+Could be useful... No, let's not look at that function again.
+Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
