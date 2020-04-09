@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C8C1A31FA
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 11:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F22A1A322E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 12:05:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4744899F0;
-	Thu,  9 Apr 2020 09:41:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 055096E079;
+	Thu,  9 Apr 2020 10:05:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD8BA6EB98
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 09:41:32 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id x11so9857634otp.6
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Apr 2020 02:41:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AAmPcakirZ+49aStGKItq0c+j+VEsXqfcBH/BMyGspk=;
- b=WXfJC2xvujS1NMEJmo8auNqU+zz3KoHNnFI/ZwIoQGqsenIlj1/rLp7i8g0wrHhNMA
- tB4UaPYqL8fo1FBLJD1QspR85zqLl/OHQQ2XW2wZhxbVmnvXaj4OEg2HGRtpK4xkfIA5
- QryyOXVdb1eBXsQfmBlDoe7W6QRuDag4YOw+c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AAmPcakirZ+49aStGKItq0c+j+VEsXqfcBH/BMyGspk=;
- b=L6NuIOPGjjKJYzBplm332iFtdHY1UkfbpEzvxgXRHg5Vkf/sPvMlesTIXb10Iym+8Z
- BYv8sx8SmShxa8/h1HO5Sq27h+QFSoRZVv8d2O8uo4NMsgyeTyq0gnbfw9kcsy0sDvec
- 9BEk9I2iF6TmtqLODdc2mjJaq9lxG+Nmhx2qjHlPyfyfaL0VSn8n42v6R1CLzj1GXPI2
- 242blInKmZ0g/b+ipsvfLG1nhyfI8mE+2NZNASkjVbZkyMNaXKCfNEZSfso1NqbSVYLq
- O3rvBT4AXYwP++oeGNaS21EjTLtAUaEuhNKGvaE6hp6tRmPGo0Lqa11o+9YYXYIK5BsU
- 74Ew==
-X-Gm-Message-State: AGi0PuY3vujju0RZYXRkhTNiHC1GGEMR4KQShrhtMQBhZkC2LmWR9T3c
- z9aspEMAMIYDLOGsKsJd3GXgfiQrZ4HIcHih+DWfNQ==
-X-Google-Smtp-Source: APiQypLHBVJAv55CZxyRjUHHZPFErxI7m2EAB+edMw28HekqHKAMU8pcbynFySqYUgFQY0OpR/l48dylQu4jTtXwGxw=
-X-Received: by 2002:a4a:4190:: with SMTP id x138mr9186341ooa.35.1586425291875; 
- Thu, 09 Apr 2020 02:41:31 -0700 (PDT)
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49E4C6E079
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 10:05:13 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 039A57ho057328;
+ Thu, 9 Apr 2020 05:05:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1586426707;
+ bh=j1GslTHceembFNhT40rMOJP6pLMS4NODDHZOZOkVCV4=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=LPOJzDJIaY0Q4xl4sWHQmUvTs/JSANyVc525+I96/6K3Q4Ev23vvttckGTDX9+Gt1
+ 3tvbfDlYRnhUjgW2d+x9mHl8yCJMmR7LqvRlM0iDp/u0KIdHgnAD4rjEHzdHieChIc
+ S12PHxmv7F4s2oa03Bbb2Y5CTCozzSoZfKSfG1ms=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 039A57EL108371
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 9 Apr 2020 05:05:07 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 9 Apr
+ 2020 05:05:07 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Thu, 9 Apr 2020 05:05:07 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 039A547a014611;
+ Thu, 9 Apr 2020 05:05:04 -0500
+Subject: Re: [PATCH v9 0/5] drm/tidss: New driver for TI Keystone platform
+ Display SubSystem
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <cover.1580129724.git.jsarha@ti.com>
+ <d3931419-aa73-daeb-c8f6-8e29166d586a@ti.com>
+ <20200407164426.GB2220@ravnborg.org>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <1aaa420d-a29b-3266-d152-209a87a81ba6@ti.com>
+Date: Thu, 9 Apr 2020 13:05:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200408115926.1467567-1-hch@lst.de>
- <20200408115926.1467567-20-hch@lst.de>
- <20200408122504.GO3456981@phenom.ffwll.local>
- <eb48f7b6327e482ea9911b129210c0417ab48345.camel@kernel.crashing.org>
-In-Reply-To: <eb48f7b6327e482ea9911b129210c0417ab48345.camel@kernel.crashing.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 9 Apr 2020 11:41:20 +0200
-Message-ID: <CAKMK7uHtkLvdsWFGiAtkzVa5mpnDvXkn3CHZQ6bgJ_enbyAc8A@mail.gmail.com>
-Subject: Re: [PATCH 19/28] gpu/drm: remove the powerpc hack in
- drm_legacy_sg_alloc
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+In-Reply-To: <20200407164426.GB2220@ravnborg.org>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,116 +64,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>, Linux MM <linux-mm@kvack.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- "open list:GENERIC INCLUDE/A..." <linux-arch@vger.kernel.org>,
- linux-s390@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>, X86 ML <x86@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Peter Zijlstra <peterz@infradead.org>,
- Laura Abbott <labbott@redhat.com>, Nitin Gupta <ngupta@vflare.org>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- bpf <bpf@vger.kernel.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Christophe Leroy <christophe.leroy@c-s.fr>,
- Robin Murphy <robin.murphy@arm.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Minchan Kim <minchan@kernel.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
+ sjakhade@cadence.com, dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com,
+ Jyri Sarha <jsarha@ti.com>, subhajit_paul@ti.com,
+ laurent.pinchart@ideasonboard.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 9, 2020 at 10:54 AM Benjamin Herrenschmidt
-<benh@kernel.crashing.org> wrote:
->
-> On Wed, 2020-04-08 at 14:25 +0200, Daniel Vetter wrote:
-> > On Wed, Apr 08, 2020 at 01:59:17PM +0200, Christoph Hellwig wrote:
-> > > If this code was broken for non-coherent caches a crude powerpc hack
-> > > isn't going to help anyone else.  Remove the hack as it is the last
-> > > user of __vmalloc passing a page protection flag other than PAGE_KERNEL.
-> >
-> > Well Ben added this to make stuff work on ppc, ofc the home grown dma
-> > layer in drm from back then isn't going to work in other places. I guess
-> > should have at least an ack from him, in case anyone still cares about
-> > this on ppc. Adding Ben to cc.
->
-> This was due to some drivers (radeon ?) trying to use vmalloc pages for
-> coherent DMA, which means on those 4xx powerpc's need to be non-cached.
->
-> There were machines using that (440 based iirc), though I honestly
-> can't tell if anybody still uses any of it.
+On 07/04/2020 19:44, Sam Ravnborg wrote:
+> On Tue, Apr 07, 2020 at 04:18:20PM +0300, Tomi Valkeinen wrote:
+>> Hi Jyri,
+>>
+>> On 27/01/2020 18:00, Jyri Sarha wrote:
+>>> This is intended to be the last patch series. I'll apply these trough
+>>> drm-misc-next tomorrow.
+>>
+>> Were these ever merged?
+> 
+> See 32a1795f57eecc3974901760400618571c9d357f
+> ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
+Ah, sorry, I replied to a wrong thread. I was looking for the patch that adds the DT data to the soc 
+dts file... Somehow I thought it's in this series.
 
-agp subsystem still seems to happily do that (vmalloc memory for
-device access), never having been ported to dma apis (or well
-converted to iommu drivers, which they kinda are really). So I think
-this all still works exactly as back then, even with the kms radeon
-drivers. Question really is whether we have users left, and I have no
-clue about that either.
-
-Now if these boxes didn't ever have agp then I think we can get away
-with deleting this, since we've already deleted the legacy radeon
-driver. And that one used vmalloc for everything. The new kms one does
-use the dma-api if the gpu isn't connected through agp.
--Daniel
-
-> Cheers,
-> Ben.
->
-> > -Daniel
-> >
-> > >
-> > > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > > ---
-> > >  drivers/gpu/drm/drm_scatter.c | 11 +----------
-> > >  1 file changed, 1 insertion(+), 10 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_scatter.c b/drivers/gpu/drm/drm_scatter.c
-> > > index ca520028b2cb..f4e6184d1877 100644
-> > > --- a/drivers/gpu/drm/drm_scatter.c
-> > > +++ b/drivers/gpu/drm/drm_scatter.c
-> > > @@ -43,15 +43,6 @@
-> > >
-> > >  #define DEBUG_SCATTER 0
-> > >
-> > > -static inline void *drm_vmalloc_dma(unsigned long size)
-> > > -{
-> > > -#if defined(__powerpc__) && defined(CONFIG_NOT_COHERENT_CACHE)
-> > > -   return __vmalloc(size, GFP_KERNEL, pgprot_noncached_wc(PAGE_KERNEL));
-> > > -#else
-> > > -   return vmalloc_32(size);
-> > > -#endif
-> > > -}
-> > > -
-> > >  static void drm_sg_cleanup(struct drm_sg_mem * entry)
-> > >  {
-> > >     struct page *page;
-> > > @@ -126,7 +117,7 @@ int drm_legacy_sg_alloc(struct drm_device *dev, void *data,
-> > >             return -ENOMEM;
-> > >     }
-> > >
-> > > -   entry->virtual = drm_vmalloc_dma(pages << PAGE_SHIFT);
-> > > +   entry->virtual = vmalloc_32(pages << PAGE_SHIFT);
-> > >     if (!entry->virtual) {
-> > >             kfree(entry->busaddr);
-> > >             kfree(entry->pagelist);
-> > > --
-> > > 2.25.1
-> > >
-> >
-> >
->
-
+  Tomi
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
