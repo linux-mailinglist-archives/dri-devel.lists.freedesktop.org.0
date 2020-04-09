@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D89F1A3391
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 13:52:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131BC1A3392
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 13:53:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 772F46E11F;
-	Thu,  9 Apr 2020 11:52:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E00B16EBA8;
+	Thu,  9 Apr 2020 11:52:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2BB86E11F
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 11:52:55 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id 142so6585859ljj.7
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Apr 2020 04:52:55 -0700 (PDT)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0325C6E13B
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 11:52:56 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id r24so11145451ljd.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Apr 2020 04:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cugNM0MYMwvYB6JVKjp6QBOC3m4PBIaM8fGQ3sI5RXI=;
- b=ZQRLkz8SrqGBoy1cFTCaOpQ3gsz4gwawLH0iPCjo/NAQKLyHl+sj2/ma2N1kbcLe24
- feCzNRKC+HNo13gii3tgI6gKirTm+SkSTLP0Q5h78Pjr7d5QfmM6rS6/WlClq9JPVJh4
- JSYzlej3jis/47nYRe1TQUjIbHV7+a7Ew65JMIdWnJ5KZLwo5e/F64lUp5VTyfjUp93N
- XY1KCuTsGHfOHy7ASDDzAQMORv6Q+h7R3i8gsUgSGbtusjpjWlHjNAocMmGyGslQUB+I
- aef0Vk65zBojDI7KuFbAnpn1x+70zv0v56rKd++2KY53qjDRXjh66T0w/+Zxx3F/TMv3
- lFdQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1l4SOldI+GGSH/xqOl92sTZONKbtPt9sYPoT53D+xoA=;
+ b=TmrqRPVge8AdAU68eFD/+HBAra2JgIYtMKy6LeipOwUqn0idTQfwbr+60WA+VareuU
+ Begs5FyNztI85oSd4rAznHm8sYquf6WywnwZo+caGBrg5bwCQEvIOxIVs8Q/JG20p+y/
+ mxlLh20h0v4F9oFw596OmaZAeoNQJ7yBR9VKOfp2DMfdf/bQQhDgUJbC/UHNuPwEdSjS
+ iCiZ8ATfqwHBLEs2kCoHMxu9n/CGOrsW9xw6vqvP6ooFt5TJMeuYjvUkGdZWPWD6NwCP
+ TtkOhQaScroDM2I6FGFDe6Yh1brKho2EKV+2csPcSg1OGj9feezWe6itA9gpkoAOTUrZ
+ ya7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=cugNM0MYMwvYB6JVKjp6QBOC3m4PBIaM8fGQ3sI5RXI=;
- b=aoE2dPIEoheZdkfpcb2//AFNTl2Y5l+7ME8cGI49q4uEN/NWML8g5Rk3zb/Pgdg+4C
- RYcEYBmxQ5OkzI/18dKPkTIebQ9FXBaPwzXkdlIOj/KiAbYR9OTfWLZWDecwu+fAR9BK
- VbDh9gGZbLZHKI5gojnLjIl1vuPxnwmNGTC/Wz67q1jDV1q0IpjAqS3bFoQ6MZnFJebV
- qdtZigGSB+TYvK+mYulA4ThaROZ7CVUxQxyHkpetBf3sL8Vg9bIYuQKUFcT+HZaN+3m4
- RfLZoU+VpsAC3tnVVEEIxlPbG5CdGXO9lZYMF/pKferWfYeevHjIE6SZkjXzuf0B/OSl
- sAUA==
-X-Gm-Message-State: AGi0Pua86O9JQDwuSzftZJdHKM2mpIQbDBnfwMTcmT8tzlgoi+sDDYUx
- 78vG7O7RplUo9hqr7l87xvH6aof9fU0=
-X-Google-Smtp-Source: APiQypKZ5DaP3UgdMuxkNI56uABnXE2pC8whhrqSPxH6ODD/2V/U5/KncOpMEYz76mTwSGFY0mkTdw==
-X-Received: by 2002:a2e:9f13:: with SMTP id u19mr8155637ljk.14.1586433173814; 
- Thu, 09 Apr 2020 04:52:53 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=1l4SOldI+GGSH/xqOl92sTZONKbtPt9sYPoT53D+xoA=;
+ b=rslJ1GSssKW1vixsgQkyU5Q8UcWhRbwfu3/h/Jxg+u2fNiP86tc7HY75YRb0C/a2ZM
+ Sda2z8WTtXjcr+7uIwSxp85c2hGjnNz/nftP+DZm2dkXPF9nKpmBt+qonRnngxfTKf/o
+ +2pCYgCmcDsE4IqFxSXV3mD2VITya/KYUapZBqmKy8PcEhO+yAeRkVLk0VAmkajEz3gd
+ OwH/CfIKaS9tw+J+xDy6pDruluMh5e3ekH2rx1y/ZaYwvtNxCorIXFzgXlCqVikdzvBN
+ kEDaulovSKNP6dCBVlBY7PHg0YZ2Gbr+b6OB0o+MQ+vMGHtfa1kwPfGs+DFTB2ouK6pX
+ dZbQ==
+X-Gm-Message-State: AGi0PubF32cchfNndLiS/gWeQeE95l/oKIa5ALugv1zZ8BMZ2s6T+xOS
+ GaO1vZk0ujwRhJ8A4gaqhjtjQCipwbQ=
+X-Google-Smtp-Source: APiQypLFAceixrPzBz+OYDD8TvNhb66IPioos131r4anDowpomUKY5qbp75pMkAtk7+bFzj74wupEg==
+X-Received: by 2002:a2e:3202:: with SMTP id y2mr1382350ljy.60.1586433175079;
+ Thu, 09 Apr 2020 04:52:55 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- q21sm14959850ljh.38.2020.04.09.04.52.52
+ q21sm14959850ljh.38.2020.04.09.04.52.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Apr 2020 04:52:52 -0700 (PDT)
+ Thu, 09 Apr 2020 04:52:54 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
  =?UTF-8?q?Joonas=20Kylm=C3=A4l=C3=A4?= <joonas.kylmala@iki.fi>
-Subject: [PATCH v1 0/3] drm/panel: update backlight support for samsung panels
-Date: Thu,  9 Apr 2020 13:52:36 +0200
-Message-Id: <20200409115239.5149-1-sam@ravnborg.org>
+Subject: [PATCH v1 1/3] drm/panel: update backlight handling for
+ samsung-s6e3ha2
+Date: Thu,  9 Apr 2020 13:52:37 +0200
+Message-Id: <20200409115239.5149-2-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200409115239.5149-1-sam@ravnborg.org>
+References: <20200409115239.5149-1-sam@ravnborg.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,38 +74,101 @@ Cc: Andrzej Hajda <a.hajda@samsung.com>,
  Hyungwon Hwang <human.hwang@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
  Hoegeun Kwon <hoegeun.kwon@samsung.com>,
  =?UTF-8?q?Pawe=C5=82=20Chmiel?= <pawel.mikolaj.chmiel@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the backlight handling in three samsung panels.
-  - Use devm_ functions to automate cleanup
-  - Utilize backlight support in drm_panel
-  - Introduce a register backlight helper in all panels
-    Using the same pattern in all panels makes it simpler
-    to read the code.
-
-With this change the backlight handling in these panels
-is now much more like what we see in other panels.
-
-Testing or any other feedback appreciated!
-
-	Sam
-
-
-Sam Ravnborg (3):
-      drm/panel: update backlight handling for samsung-s6e3ha2
-      drm/panel: update backlight handling for samsung-s6e63j0x03
-      drm/panel: update backlight handling for samsung-s6e63m0
-
- drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c    | 55 +++++++++++++-----------
- drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c | 55 +++++++++++++-----------
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.c    | 20 ++++-----
- 3 files changed, 68 insertions(+), 62 deletions(-)
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlIHNhbXN1bmctczZlM2hhMiBoYWQgYSBsb2NhbCB3YXkgdG8gaGFuZGxlIGJhY2tsaWdodC4K
+ClVwZGF0ZSB0aGUgZHJpdmVyIHRvIHVzZSBhIGRldm1fIGJhc2VkIHJlZ2lzdGVyIGZ1bmN0aW9u
+CmFuZCB1dGlsaXplIGRybV9wYW5lbCBiYWNrbGlnaHQgc3VwcG9ydC4gVGhlIGNoYW5nZXMgcmVz
+dWx0cwppbiBhIHNpbXBsZXIgZHJpdmVyIHdpdGggdGhlIHNhbWUgZnVuY3Rpb25hbGl0eS4KClNp
+Z25lZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KQ2M6IEpvb25hcyBL
+eWxtw6Rsw6QgPGpvb25hcy5reWxtYWxhQGlraS5maT4KQ2M6IEFuZHJ6ZWogSGFqZGEgPGEuaGFq
+ZGFAc2Ftc3VuZy5jb20+CkNjOiBUaGllcnJ5IFJlZGluZyA8dGhpZXJyeS5yZWRpbmdAZ21haWwu
+Y29tPgpDYzogSW5raSBEYWUgPGlua2kuZGFlQHNhbXN1bmcuY29tPgpDYzogSHl1bmd3b24gSHdh
+bmcgPGh1bWFuLmh3YW5nQHNhbXN1bmcuY29tPgpDYzogSG9lZ2V1biBLd29uIDxob2VnZXVuLmt3
+b25Ac2Ftc3VuZy5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1bmct
+czZlM2hhMi5jIHwgNTUgKysrKysrKysrKystLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDMxIGlu
+c2VydGlvbnMoKyksIDI0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9wYW5lbC9wYW5lbC1zYW1zdW5nLXM2ZTNoYTIuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9w
+YW5lbC1zYW1zdW5nLXM2ZTNoYTIuYwppbmRleCAzNmViZDVhNGFjN2IuLjA4ODYyMTQ2YWVjMyAx
+MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1bmctczZlM2hhMi5j
+CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zYW1zdW5nLXM2ZTNoYTIuYwpAQCAt
+MjMzLDcgKzIzMyw2IEBAIHN0cnVjdCBzNmUzaGEyX3BhbmVsX2Rlc2Mgewogc3RydWN0IHM2ZTNo
+YTIgewogCXN0cnVjdCBkZXZpY2UgKmRldjsKIAlzdHJ1Y3QgZHJtX3BhbmVsIHBhbmVsOwotCXN0
+cnVjdCBiYWNrbGlnaHRfZGV2aWNlICpibF9kZXY7CiAKIAlzdHJ1Y3QgcmVndWxhdG9yX2J1bGtf
+ZGF0YSBzdXBwbGllc1syXTsKIAlzdHJ1Y3QgZ3Bpb19kZXNjICpyZXNldF9ncGlvOwpAQCAtNDE1
+LDcgKzQxNCw3IEBAIHN0YXRpYyBpbnQgczZlM2hhMl9nZXRfYnJpZ2h0bmVzcyhzdHJ1Y3QgYmFj
+a2xpZ2h0X2RldmljZSAqYmxfZGV2KQogCiBzdGF0aWMgaW50IHM2ZTNoYTJfc2V0X3ZpbnQoc3Ry
+dWN0IHM2ZTNoYTIgKmN0eCkKIHsKLQlzdHJ1Y3QgYmFja2xpZ2h0X2RldmljZSAqYmxfZGV2ID0g
+Y3R4LT5ibF9kZXY7CisJc3RydWN0IGJhY2tsaWdodF9kZXZpY2UgKmJsX2RldiA9IGN0eC0+cGFu
+ZWwuYmFja2xpZ2h0OwogCXVuc2lnbmVkIGludCBicmlnaHRuZXNzID0gYmxfZGV2LT5wcm9wcy5i
+cmlnaHRuZXNzOwogCXVuc2lnbmVkIGNoYXIgZGF0YVtdID0geyAweGY0LCAweDhiLAogCQkJdmlu
+dF90YWJsZVticmlnaHRuZXNzICogKFM2RTNIQTJfVklOVF9TVEFUVVNfTUFYIC0gMSkgLwpAQCAt
+NDMyLDcgKzQzMSw3IEBAIHN0YXRpYyB1bnNpZ25lZCBpbnQgczZlM2hhMl9nZXRfYnJpZ2h0bmVz
+c19pbmRleCh1bnNpZ25lZCBpbnQgYnJpZ2h0bmVzcykKIAogc3RhdGljIGludCBzNmUzaGEyX3Vw
+ZGF0ZV9nYW1tYShzdHJ1Y3QgczZlM2hhMiAqY3R4LCB1bnNpZ25lZCBpbnQgYnJpZ2h0bmVzcykK
+IHsKLQlzdHJ1Y3QgYmFja2xpZ2h0X2RldmljZSAqYmxfZGV2ID0gY3R4LT5ibF9kZXY7CisJc3Ry
+dWN0IGJhY2tsaWdodF9kZXZpY2UgKmJsX2RldiA9IGN0eC0+cGFuZWwuYmFja2xpZ2h0OwogCXVu
+c2lnbmVkIGludCBpbmRleCA9IHM2ZTNoYTJfZ2V0X2JyaWdodG5lc3NfaW5kZXgoYnJpZ2h0bmVz
+cyk7CiAJdTggZGF0YVtTNkUzSEEyX0dBTU1BX0NNRF9DTlQgKyAxXSA9IHsgMHhjYSwgfTsKIAlp
+bnQgcmV0OwpAQCAtNDc2LDYgKzQ3NSwzMCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGJhY2tsaWdo
+dF9vcHMgczZlM2hhMl9ibF9vcHMgPSB7CiAJLnVwZGF0ZV9zdGF0dXMgPSBzNmUzaGEyX3NldF9i
+cmlnaHRuZXNzLAogfTsKIAorc3RhdGljIGludCBzNmUzaGEyX2JhY2tsaWdodF9yZWdpc3Rlcihz
+dHJ1Y3QgczZlM2hhMiAqY3R4KQoreworCXN0cnVjdCBiYWNrbGlnaHRfcHJvcGVydGllcyBwcm9w
+cyA9IHsKKwkJLnR5cGUJCT0gQkFDS0xJR0hUX1JBVywKKwkJLmJyaWdodG5lc3MJPSBTNkUzSEEy
+X0RFRkFVTFRfQlJJR0hUTkVTUywKKwkJLm1heF9icmlnaHRuZXNzCT0gUzZFM0hBMl9NQVhfQlJJ
+R0hUTkVTUywKKwl9OworCXN0cnVjdCBiYWNrbGlnaHRfZGV2aWNlICpiYWNrbGlnaHQ7CisJc3Ry
+dWN0IGRldmljZSAqZGV2ID0gY3R4LT5kZXY7CisJaW50IHJldCA9IDA7CisKKwliYWNrbGlnaHQg
+PSBkZXZtX2JhY2tsaWdodF9kZXZpY2VfcmVnaXN0ZXIoZGV2LCAicGFuZWwiLCBkZXYsIGN0eCwK
+KwkJCQkJCSAgICZzNmUzaGEyX2JsX29wcywKKwkJCQkJCSAgICZwcm9wcyk7CisJaWYgKElTX0VS
+UihiYWNrbGlnaHQpKSB7CisJCXJldCA9IFBUUl9FUlIoYmFja2xpZ2h0KTsKKwkJRFJNX0RFVl9F
+UlJPUihkZXYsICJlcnJvciByZWdpc3RlcmluZyBiYWNrbGlnaHQgZGV2aWNlICglZClcbiIsCisJ
+CQkgICAgICByZXQpOworCX0KKwljdHgtPnBhbmVsLmJhY2tsaWdodCA9IGJhY2tsaWdodDsKKwor
+CXJldHVybiByZXQ7Cit9CisKIHN0YXRpYyBpbnQgczZlM2hhMl9wYW5lbF9pbml0KHN0cnVjdCBz
+NmUzaGEyICpjdHgpCiB7CiAJc3RydWN0IG1pcGlfZHNpX2RldmljZSAqZHNpID0gdG9fbWlwaV9k
+c2lfZGV2aWNlKGN0eC0+ZGV2KTsKQEAgLTUwOSw3ICs1MzIsNiBAQCBzdGF0aWMgaW50IHM2ZTNo
+YTJfZGlzYWJsZShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCkKIAlzNmUzaGEyX2NhbGxfd3JpdGVf
+ZnVuYyhyZXQsIG1pcGlfZHNpX2Rjc19zZXRfZGlzcGxheV9vZmYoZHNpKSk7CiAKIAltc2xlZXAo
+NDApOwotCWN0eC0+YmxfZGV2LT5wcm9wcy5wb3dlciA9IEZCX0JMQU5LX05PUk1BTDsKIAogCXJl
+dHVybiAwOwogfQpAQCAtNTU1LDggKzU3Nyw2IEBAIHN0YXRpYyBpbnQgczZlM2hhMl9wcmVwYXJl
+KHN0cnVjdCBkcm1fcGFuZWwgKnBhbmVsKQogCWlmIChyZXQgPCAwKQogCQlnb3RvIGVycjsKIAot
+CWN0eC0+YmxfZGV2LT5wcm9wcy5wb3dlciA9IEZCX0JMQU5LX05PUk1BTDsKLQogCXJldHVybiAw
+OwogCiBlcnI6CkBAIC01ODgsNyArNjA4LDYgQEAgc3RhdGljIGludCBzNmUzaGEyX2VuYWJsZShz
+dHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCkKIAlzNmUzaGEyX2NhbGxfd3JpdGVfZnVuYyhyZXQsIHM2
+ZTNoYTJfdGVfc3RhcnRfc2V0dGluZyhjdHgpKTsKIAogCS8qIGJyaWdodG5lc3Mgc2V0dGluZyAq
+LwotCXM2ZTNoYTJfY2FsbF93cml0ZV9mdW5jKHJldCwgczZlM2hhMl9zZXRfYnJpZ2h0bmVzcyhj
+dHgtPmJsX2RldikpOwogCXM2ZTNoYTJfY2FsbF93cml0ZV9mdW5jKHJldCwgczZlM2hhMl9hb3Jf
+Y29udHJvbChjdHgpKTsKIAlzNmUzaGEyX2NhbGxfd3JpdGVfZnVuYyhyZXQsIHM2ZTNoYTJfY2Fw
+c19lbHZzc19zZXQoY3R4KSk7CiAJczZlM2hhMl9jYWxsX3dyaXRlX2Z1bmMocmV0LCBzNmUzaGEy
+X2dhbW1hX3VwZGF0ZShjdHgpKTsKQEAgLTYwMiw3ICs2MjEsNiBAQCBzdGF0aWMgaW50IHM2ZTNo
+YTJfZW5hYmxlKHN0cnVjdCBkcm1fcGFuZWwgKnBhbmVsKQogCXM2ZTNoYTJfY2FsbF93cml0ZV9m
+dW5jKHJldCwgczZlM2hhMl90ZXN0X2tleV9vZmZfZjAoY3R4KSk7CiAKIAlzNmUzaGEyX2NhbGxf
+d3JpdGVfZnVuYyhyZXQsIG1pcGlfZHNpX2Rjc19zZXRfZGlzcGxheV9vbihkc2kpKTsKLQljdHgt
+PmJsX2Rldi0+cHJvcHMucG93ZXIgPSBGQl9CTEFOS19VTkJMQU5LOwogCiAJcmV0dXJuIDA7CiB9
+CkBAIC03MjEsMjMgKzczOSwxNiBAQCBzdGF0aWMgaW50IHM2ZTNoYTJfcHJvYmUoc3RydWN0IG1p
+cGlfZHNpX2RldmljZSAqZHNpKQogCQlyZXR1cm4gUFRSX0VSUihjdHgtPmVuYWJsZV9ncGlvKTsK
+IAl9CiAKLQljdHgtPmJsX2RldiA9IGJhY2tsaWdodF9kZXZpY2VfcmVnaXN0ZXIoInM2ZTNoYTIi
+LCBkZXYsIGN0eCwKLQkJCQkJCSZzNmUzaGEyX2JsX29wcywgTlVMTCk7Ci0JaWYgKElTX0VSUihj
+dHgtPmJsX2RldikpIHsKLQkJZGV2X2VycihkZXYsICJmYWlsZWQgdG8gcmVnaXN0ZXIgYmFja2xp
+Z2h0IGRldmljZVxuIik7Ci0JCXJldHVybiBQVFJfRVJSKGN0eC0+YmxfZGV2KTsKLQl9Ci0KLQlj
+dHgtPmJsX2Rldi0+cHJvcHMubWF4X2JyaWdodG5lc3MgPSBTNkUzSEEyX01BWF9CUklHSFRORVNT
+OwotCWN0eC0+YmxfZGV2LT5wcm9wcy5icmlnaHRuZXNzID0gUzZFM0hBMl9ERUZBVUxUX0JSSUdI
+VE5FU1M7Ci0JY3R4LT5ibF9kZXYtPnByb3BzLnBvd2VyID0gRkJfQkxBTktfUE9XRVJET1dOOwot
+CiAJZHJtX3BhbmVsX2luaXQoJmN0eC0+cGFuZWwsIGRldiwgJnM2ZTNoYTJfZHJtX2Z1bmNzLAog
+CQkgICAgICAgRFJNX01PREVfQ09OTkVDVE9SX0RTSSk7CiAKKwlyZXQgPSBzNmUzaGEyX2JhY2ts
+aWdodF9yZWdpc3RlcihjdHgpOworCWlmIChyZXQpCisJCXJldHVybiByZXQ7CisKIAlyZXQgPSBk
+cm1fcGFuZWxfYWRkKCZjdHgtPnBhbmVsKTsKIAlpZiAocmV0IDwgMCkKLQkJZ290byB1bnJlZ2lz
+dGVyX2JhY2tsaWdodDsKKwkJcmV0dXJuIHJldDsKIAogCXJldCA9IG1pcGlfZHNpX2F0dGFjaChk
+c2kpOwogCWlmIChyZXQgPCAwKQpAQCAtNzQ4LDkgKzc1OSw2IEBAIHN0YXRpYyBpbnQgczZlM2hh
+Ml9wcm9iZShzdHJ1Y3QgbWlwaV9kc2lfZGV2aWNlICpkc2kpCiByZW1vdmVfcGFuZWw6CiAJZHJt
+X3BhbmVsX3JlbW92ZSgmY3R4LT5wYW5lbCk7CiAKLXVucmVnaXN0ZXJfYmFja2xpZ2h0OgotCWJh
+Y2tsaWdodF9kZXZpY2VfdW5yZWdpc3RlcihjdHgtPmJsX2Rldik7Ci0KIAlyZXR1cm4gcmV0Owog
+fQogCkBAIC03NjAsNyArNzY4LDYgQEAgc3RhdGljIGludCBzNmUzaGEyX3JlbW92ZShzdHJ1Y3Qg
+bWlwaV9kc2lfZGV2aWNlICpkc2kpCiAKIAltaXBpX2RzaV9kZXRhY2goZHNpKTsKIAlkcm1fcGFu
+ZWxfcmVtb3ZlKCZjdHgtPnBhbmVsKTsKLQliYWNrbGlnaHRfZGV2aWNlX3VucmVnaXN0ZXIoY3R4
+LT5ibF9kZXYpOwogCiAJcmV0dXJuIDA7CiB9Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
