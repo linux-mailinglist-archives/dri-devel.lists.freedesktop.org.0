@@ -1,39 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A411A2CFC
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 02:43:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15BE81A301F
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:33:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A36A6EB1D;
-	Thu,  9 Apr 2020 00:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE856EB68;
+	Thu,  9 Apr 2020 07:33:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E5076EB1C
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 00:43:13 +0000 (UTC)
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B2B9B76;
- Thu,  9 Apr 2020 02:36:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1586392611;
- bh=dIuh372jzYXzncChXgfk20Ez/UBFgtea7xive7cCeZI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MglICWq/haQu8Ta9lCuIU1Of7OvUHLp6hLUXBBVbk6kEGnhujMkn2xXtZJaZdXCLY
- dCkaENJO9ck85CfsLgKzBfdzOI3UiDQCumtUx1vu2MqakZ+jw1BhWTMhUtk+6/XaPH
- 7G71cwM6NW4PjOqdSJI7MTjXnJ/+75GMZ4ENsZBE=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm: bridge: simple-bridge: Make connector creation
- optional
-Date: Thu,  9 Apr 2020 03:36:36 +0300
-Message-Id: <20200409003636.11792-3-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200409003636.11792-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20200409003636.11792-1-laurent.pinchart+renesas@ideasonboard.com>
+Received: from sonic308-37.consmr.mail.ne1.yahoo.com
+ (sonic308-37.consmr.mail.ne1.yahoo.com [66.163.187.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C50A16EB1C
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 00:41:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1586392912; bh=/6EYCRlfa2umBwyf6HMqnS88iYA4EIXadLKaqqSMGXc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Subject;
+ b=Nw9PSYl5kPo55rK57kdK+1rouIyZmFH49XmlmNnt+EPGCmzv5/R562708lCkK9bcS1996WRvY6AWWRgP5phZau+eJxoQmqe+LtCwNJEbiYUjQhQT/OXacraRjiO5WRZ8qsSlVAMXGIKXGWVMix1s+I5tt6JSaqGsGWqa8zr1hJE6ZyAxPEoEYv5ZFlm/QM4zwfuDMMiG5yQiMafwtotoMJIbhnQ91EvX2WyiEWFjhDLOt5DLpnzrXKB58PBcZ/9RDKamP6jFx1FoPm8nUGivG9s/e+4lgHMoB8j5kGsRyJMdGA9c8cLBXg+peTceR8BZpBB9DLsp3YkeaGOsTusoSA==
+X-YMail-OSG: Kjs_hFQVM1mYR3Bbv__auOf2fhoaIk9dbexLkMUvZvDcgibPrEIH2uN_nb7TSk.
+ AjTVDttprz38pf2agkDENCO9OlpstM6AKa5fqJSzz9g9BDnD9cEKZ6Kcqg9CatwzLNYThMuSUeYX
+ 2yEgN2U8e5xgtZHtWmAFsIbznPJD_UPhljYJl2r_EoL5qqrqeJu9Nnd9Y.Ff.0cQ6SO_SlnVXMbj
+ JYEgiFEkwq6TWViREF0oZDh5a7V1WTHk_fQL7mKo.zfkeUUkf9r2PC3YbrlM36YDrBNE7Vu_H_23
+ 7SUm_oYUdCkn.imVzOSTsbg1UKej12C_c6DVKmb2bShJF7ckagBec7h.F7Pz2jADVU.RAf_SzeRw
+ jnXQU.OYwZs7DtYvRPtgjcVfmgAxeq8RUp0VPoOeRchdyRoGHKkYEH1l0ufQv3CAgRqC9S3zsOd9
+ fnhObZjDMfX58eXYxHjcxjHRReqFOhx5Hz6aq8FIq7jw8y8OEbWPMrjaCpR4FKEn_bozdR4qyDFm
+ 4sbsu66FrZifwa3kj9UeUr.wGSL5S042VmSyGfETFpHOTRvx51GHTkDHF4kqnnRQjnt9cOY_TXoy
+ 6ikjZzl8Rym8MnuDSY3t2UEnyXfrQM8zmKcZMaBXZA.1JruNMW__SZDUsuarZwJACQIZFjYaEYcB
+ 6Fx2cC_OXlNG7d102FBbLxbbWE51eCCn6.Ao3BUdftIqkSfQqE8AmEChvpnb3Hjczsgr87hSe_ZY
+ FNPGuabtMxRjTV5vOhJN9EVsFZjNMIpNdxApHaOp9BBa0mK8Hd4Y8_sLLzgFE_OX._p_ww8OgQCS
+ _PZw5TJANZTRxfmtlnIT9WY8nJxFEz0ZzkRbyJrD7lBRVCuL2qRMMrbnVCU.d3atpGGNT71.FMTl
+ XJp9kOjDwdiPhEHaNTf0wy9.286eHx9hDHZx13ycI4lCw.BNZVla9tTflJZSkBR622oDAvju0pYi
+ chnjA_f0d_Rs3Y.w_0UWDDtsiqrp7Nd.ENOvnjBk3WtBBjbeqzYHxInpU0ICw.akO5xUiF4HXGRD
+ NGu7bFyqgIPHiVSYVkpfC.PnR3fZmrfgYy1Ktc5D_y5Xh2Z7vFADl5LC6uRiCqJ9Y4yLuHo1ATrn
+ PxNppKa486Nn86yT5d.pKQ3q49VQAxNEB7EGZ_QmK0uyT9X6oF2qpuwBBPhXWKUMiK3EbPuATGVw
+ L.4MdTecfHCHslUWJtwrtw2v46CslPDJY3TtzPBEF3b6hKOBHSxZ.8CqTxF3S2_xcA64udxpFdja
+ 9c_vKNU82cTswpLxDeBimIz._J7Xaum1i6dZEwCbc.uspehQ3L04kL45bX0fhpi7dDoUJat5aE3S
+ p_Fl8AHbSq3P.bkBJGmoklW4vRdsCXSUz4v5SYoPxJ86d1eVDsQ0qrpylWpfgRvkXgRw467FBrzC
+ _ECRk3ijYTNyDsC7idxPty4i4XJSa9KM2uH5RWvaV.R8phY0hHU.lO54DG8mygB9TxdZscMBwbtP
+ JqFlYvAh9BGSO_QyxpGrs
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic308.consmr.mail.ne1.yahoo.com with HTTP; Thu, 9 Apr 2020 00:41:52 +0000
+Received: by smtp412.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
+ ID 07bc1f76d2033b5244ea2e327c66bf87; 
+ Thu, 09 Apr 2020 00:39:51 +0000 (UTC)
+Date: Thu, 9 Apr 2020 08:39:35 +0800
+From: Gao Xiang <hsiangkao@aol.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 17/28] mm: remove the prot argument from vm_map_ram
+Message-ID: <20200409003931.GA8418@hsiangkao-HP-ZHAN-66-Pro-G1>
+References: <20200408115926.1467567-1-hch@lst.de>
+ <20200408115926.1467567-18-hch@lst.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200408115926.1467567-18-hch@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailer: WebService/1.1.15620 hermes Apache-HttpAsyncClient/4.1.4
+ (Java/11.0.6)
+X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,60 +69,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-renesas-soc@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>
+Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>, linux-arch@vger.kernel.org,
+ linux-s390@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>, x86@kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, Laura Abbott <labbott@redhat.com>,
+ Nitin Gupta <ngupta@vflare.org>, Haiyang Zhang <haiyangz@microsoft.com>,
+ linaro-mm-sig@lists.linaro.org, bpf@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ Minchan Kim <minchan@kernel.org>, iommu@lists.linux-foundation.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make the connector creation optional to enable usage of the
-simple-bridge with the DRM bridge connector helper.
+On Wed, Apr 08, 2020 at 01:59:15PM +0200, Christoph Hellwig wrote:
+> This is always GFP_KERNEL - for long term mappings with other properties
+> vmap should be used.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c   | 2 +-
+>  drivers/media/common/videobuf2/videobuf2-dma-sg.c  | 3 +--
+>  drivers/media/common/videobuf2/videobuf2-vmalloc.c | 3 +--
+>  fs/erofs/decompressor.c                            | 2 +-
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/gpu/drm/bridge/simple-bridge.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+For EROFS part,
 
-diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index bac223d0430d..bad638088029 100644
---- a/drivers/gpu/drm/bridge/simple-bridge.c
-+++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -101,16 +101,14 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
- 	struct simple_bridge *sbridge = drm_bridge_to_simple_bridge(bridge);
- 	int ret;
- 
--	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
--		DRM_ERROR("Fix bridge driver to make connector optional!");
--		return -EINVAL;
--	}
--
- 	ret = drm_bridge_attach(bridge->encoder, sbridge->next_bridge, bridge,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret < 0)
- 		return ret;
- 
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-+		return 0;
-+
- 	if (!bridge->encoder) {
- 		DRM_ERROR("Missing encoder\n");
- 		return -ENODEV;
-@@ -127,8 +125,7 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
- 		return ret;
- 	}
- 
--	drm_connector_attach_encoder(&sbridge->connector,
--					  bridge->encoder);
-+	drm_connector_attach_encoder(&sbridge->connector, bridge->encoder);
- 
- 	return 0;
- }
--- 
-Regards,
+Acked-by: Gao Xiang <xiang@kernel.org>
 
-Laurent Pinchart
+Thanks,
+Gao Xiang
 
 _______________________________________________
 dri-devel mailing list
