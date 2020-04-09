@@ -1,61 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1991A3025
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:34:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE4F1A2D5A
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 03:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 057556EB6D;
-	Thu,  9 Apr 2020 07:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 064C36EB2E;
+	Thu,  9 Apr 2020 01:32:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 992C76EB32
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 01:28:25 +0000 (UTC)
-Received: by mail-qt1-x843.google.com with SMTP id m33so1619786qtb.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Apr 2020 18:28:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aurabindo.in; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=n5kw2Wbvm+jeuA0TKaixDRv8+MULXqVay3QBIHkyklY=;
- b=IdhsTx1X7K+gu0qszXrpQefgwGzG8CB0RvoL1PoE6xMluCGUybvuH1Y1hDU0yhH3lb
- S7ZxnE671zW/V5dVCMIOgpJYyC6qX5dEi8rT9ldP5rLRXGT846mhZ4uTxSNMgJq8hgiy
- DVf+/oXW92XTx+Ke/57DO0CfcC3ryfBU3gwHz3BbjYvxCYPFGah+zYcwZG7q8cWAt+Bn
- VIcoN22EpwE9vvdtIKTtUjvSq0zQv4hHLEppbWzfwOwGFjYq+r3btl1GVxJzPRz8Otf/
- qDz08PtlqeYREFn5SzmohAt6B1fCFjcFdODvQ8szTdoaDTK7sYBdq6qNVFfqbhUZsGdf
- gcXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=n5kw2Wbvm+jeuA0TKaixDRv8+MULXqVay3QBIHkyklY=;
- b=RBeXaVf9GLNLV3YlAVcuPwJXuoR7yJEah5cfszL9FzXo09kFOORI1B/PfPm5Ygp5L7
- VLrcEEvtc6TkgcgcouuJOaKApLPzxOpnMVBPZJ0KL10qrXIzFJ4EKH83hFUEnA+W4Ufy
- JRZ7WlY8SX6J+cT6clBtEjSALZzWPI90rWj9lXle4Q5BB+CLMmrJ++KfxDIvJa1ajXgv
- 2Tnul1WmueNdu3xNRxy+KfLDgroBamd1BPQouIV1scbpuLe7EJzSubkmG6cfbSsrPkwT
- tnG7o/AJctPSpw806snLvXbG5ndoqc5Ltpjy0znVP9VXPdiQD6Ci4kZLxEVeKD1HH4z7
- LViQ==
-X-Gm-Message-State: AGi0Pub5eusby6I9XK/Agg+AtvQR8jX6rWyhT1s6AJbNC06/EPnz99TS
- /fz5AjID+O8WobDv5cx5FqOWcQ==
-X-Google-Smtp-Source: APiQypKkLtyEqv2exCrhc0LFffwP7h8eu9YlvpRilNhQ13nMJibLG+kUqVy7Zkjty2jLqU3zF9iILA==
-X-Received: by 2002:ac8:6719:: with SMTP id e25mr10113060qtp.367.1586395704610; 
- Wed, 08 Apr 2020 18:28:24 -0700 (PDT)
-Received: from localhost.localdomain (135-23-249-169.cpe.pppoe.ca.
- [135.23.249.169])
- by smtp.gmail.com with ESMTPSA id h13sm11710186qkj.21.2020.04.08.18.28.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Apr 2020 18:28:24 -0700 (PDT)
-From: Aurabindo Pillai <mail@aurabindo.in>
-To: christian.koenig@amd.com, alexander.deucher@amd.com, David1.Zhou@amd.com
-Subject: [PATCH v2 3/3] drm/amd/amdgpu: remove hardcoded module name in prints
-Date: Wed,  8 Apr 2020 21:28:15 -0400
-Message-Id: <20200409012815.22309-4-mail@aurabindo.in>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200409012815.22309-1-mail@aurabindo.in>
-References: <20200409012815.22309-1-mail@aurabindo.in>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2049.outbound.protection.outlook.com [40.107.243.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE17989D64;
+ Thu,  9 Apr 2020 01:32:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KMnKRzDbmJr6tqFdFQKKA3Yr+hd5okqIrj/IHKaaA/cj8BLlT9lY0qvRdSlQvsQS5gWbGiogYLji2lafL4l1BY1oTPcTkZyQyi7hCLnxIEvJZcJJ1LHXB1CK0WEAAQ7owpcAovEaT3/GxkCqrjW5PdsfV+8wsR5M+cM6Ue2Q1+YHj1GTea+t+VCabry7snwGS0MiTDEd+pXM1atdTVgTbp89P/VCo0K5XbscQJGe+Zd/kd3kf7asL32cQyhKD+fj02md/+aIOIUOpl66YH7cXhvrklj9whGbBx3DAGRWfE+FUrYre7GNbKLrT3LahQ3vETMgjce6BHxZfCD07bNujA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OQ1bbuLvKGjyJxOw4LZTxXXk3b0NfnxSqOUpzZWImHI=;
+ b=PatWNMkLkBNy5Y4pWuWCutZ331+IZsR8VsdEhShWElQltqBXjFyiMuuebRREmuBMRef1Jf7Z+keWFutjPOPAklFj+vblbcE1op/1Gwy1loby9OT5m32Hm52RMycLNCccNjehuBEFQB9+Nh27wpTAqQ3Goxes/soowOVBwNE73vbnl6FAFHbiLM72sX75OPURtraLefY+X2UNGr2R+RU1WJDL3EvxYLyvJcQZ5IbDWJXUUiyabEPQYfulmm1er27zO9uN/vXFwqs3T7iBpGLFrEYmAi+l8v0VaNK521wWmZiCXaxZ2RImgPw8rezq6MJEuAzNeClvF9juFQtI3CuaYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OQ1bbuLvKGjyJxOw4LZTxXXk3b0NfnxSqOUpzZWImHI=;
+ b=IKGsER7m3AwGqR0G/2KBD+xBvE0QSxYrqcFUAYyhiDtjrfBecYsaGi8GNpMwgwwAMFOivYqdtfHbb8iBMnoaTXIWKplaMAxO+5eEf1d0ZrVzzMK83jD2IumMn502cU8XHjIpQzpvH1q2yXNe2kSGwUZqmgxAo2aYr405xm1S15w=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Xinhui.Pan@amd.com; 
+Received: from SN1PR12MB2558.namprd12.prod.outlook.com (2603:10b6:802:2b::18)
+ by SN1PR12MB2414.namprd12.prod.outlook.com (2603:10b6:802:2e::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.20; Thu, 9 Apr
+ 2020 01:32:45 +0000
+Received: from SN1PR12MB2558.namprd12.prod.outlook.com
+ ([fe80::8815:8e06:d0f2:c41e]) by SN1PR12MB2558.namprd12.prod.outlook.com
+ ([fe80::8815:8e06:d0f2:c41e%3]) with mapi id 15.20.2878.022; Thu, 9 Apr 2020
+ 01:32:45 +0000
+From: xinhui pan <xinhui.pan@amd.com>
+To: amd-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: Schedule out if possibe in bo delayed delete worker
+Date: Thu,  9 Apr 2020 09:31:48 +0800
+Message-Id: <20200409013148.4219-1-xinhui.pan@amd.com>
+X-Mailer: git-send-email 2.17.1
+X-ClientProxiedBy: HK0PR03CA0102.apcprd03.prod.outlook.com
+ (2603:1096:203:b0::18) To SN1PR12MB2558.namprd12.prod.outlook.com
+ (2603:10b6:802:2b::18)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 09 Apr 2020 07:33:24 +0000
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pp-server-two.amd.com (180.167.199.189) by
+ HK0PR03CA0102.apcprd03.prod.outlook.com (2603:1096:203:b0::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2900.15 via Frontend Transport; Thu, 9 Apr 2020 01:32:43 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [180.167.199.189]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 0937499e-2888-459a-cd6c-08d7dc25e747
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2414:|SN1PR12MB2414:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN1PR12MB2414B681AEBBA6EDA0FB0C5C87C10@SN1PR12MB2414.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Forefront-PRVS: 0368E78B5B
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN1PR12MB2558.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10009020)(4636009)(376002)(366004)(39860400002)(396003)(346002)(136003)(16526019)(81156014)(66946007)(66556008)(8936002)(4326008)(6916009)(8676002)(478600001)(86362001)(316002)(52116002)(450100002)(7696005)(36756003)(4744005)(66476007)(81166007)(2906002)(186003)(26005)(5660300002)(2616005)(956004)(1076003)(6486002);
+ DIR:OUT; SFP:1101; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Yt2kpOfFDWO+hRPZSmI+vtnUBlkd0l+R70MAQ4oeb5YFfQTW4B++7TuPIo9ypsDRk1pp1liKMNA80xDROKCwax2wk7qQc+fc9BSPcVri5RFm7oVsBnpHSYP/iqQKThSwT937nADQEV0dmQLaxjuyPHzoA5G48uWy/2FqtXUvXSbNpBqA1ZjoaQxGZv06UUpHyAoxLp6HaTE/8UWUqGzHEyZ57O/3RtOmCtu1xCE7uHr9YqyJtq3fR2VX0zhHXVwNpHA2k2UVDTW77odyz9BJL8ygbBU5RGz/S/+bop2kZbSF8SXMSpd9vf9G63gOG36j+2+p/yw0dv9LfjLtzP0TFslZ3TVZkJUfd81PNbggwhQ+UsNzGep4UWPaLvf3lJADQRgOtX0oYeq3QXRq+Fic6uVxcAHamgzwBF6YKl1I4KAdL4+puAcHNXs0MS7VwMwF
+X-MS-Exchange-AntiSpam-MessageData: WXEEQsf3j3hlhCZ2Qh55e8/pcQLB1/uuQZ0zbnUZ3nVlt7aopPR8AgqZ8DOzlNk6LJkBbBXX+ZVeZb3WNQSpwdBFvKU06KTybwlCbTKdBWc1ZBrV2tnPEHRjVM5X8EAffDN0/dWRNovX0r/xeyyAxA==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0937499e-2888-459a-cd6c-08d7dc25e747
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2020 01:32:45.2275 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: naBczMxh2EpFcNQgOXvpNC0zTF/tM2QdGrRI01GqMHhM6AUinHtJubwtH+PyIdVi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2414
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,131 +95,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Felix.Kuehling@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: xinhui pan <xinhui.pan@amd.com>, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let format prefixes take care of printing the module name
-through pr_fmt and dev_fmt definitions.
+The delayed delete list is per device which might be very huge. And in
+a heavy workload test, the list might always not be empty. That will
+trigger any RCU stall warnings or softlockups in non-preemptible kernels
+Lets do schedule out if possible in that case.
 
-Signed-off-by: Aurabindo Pillai <mail@aurabindo.in>
+Signed-off-by: xinhui pan <xinhui.pan@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 6 +++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c       | 4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c          | 2 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c            | 2 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c            | 2 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c            | 2 +-
- 6 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index fa8ac9d19..4afd4ef54 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -325,13 +325,13 @@ static int vm_validate_pt_pd_bos(struct amdgpu_vm *vm)
- 	ret = amdgpu_vm_validate_pt_bos(adev, vm, amdgpu_amdkfd_validate,
- 					&param);
- 	if (ret) {
--		pr_err("amdgpu: failed to validate PT BOs\n");
-+		pr_err("failed to validate PT BOs\n");
- 		return ret;
- 	}
- 
- 	ret = amdgpu_amdkfd_validate(&param, pd);
- 	if (ret) {
--		pr_err("amdgpu: failed to validate PD\n");
-+		pr_err("failed to validate PD\n");
- 		return ret;
- 	}
- 
-@@ -340,7 +340,7 @@ static int vm_validate_pt_pd_bos(struct amdgpu_vm *vm)
- 	if (vm->use_cpu_for_update) {
- 		ret = amdgpu_bo_kmap(pd, NULL);
- 		if (ret) {
--			pr_err("amdgpu: failed to kmap PD, ret=%d\n", ret);
-+			pr_err("failed to kmap PD, ret=%d\n", ret);
- 			return ret;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 9e07c3f75156..b8d853cab33b 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -541,6 +541,7 @@ static bool ttm_bo_delayed_delete(struct ttm_bo_device *bdev, bool remove_all)
  		}
+ 
+ 		ttm_bo_put(bo);
++		cond_resched();
+ 		spin_lock(&glob->lru_lock);
  	}
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index b8975857d..0a8c4a266 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -1092,7 +1092,7 @@ static void amdgpu_switcheroo_set_state(struct pci_dev *pdev, enum vga_switchero
- 		return;
- 
- 	if (state == VGA_SWITCHEROO_ON) {
--		pr_info("amdgpu: switched on\n");
-+		pr_info("switched on\n");
- 		/* don't suspend or resume card normally */
- 		dev->switch_power_state = DRM_SWITCH_POWER_CHANGING;
- 
-@@ -1106,7 +1106,7 @@ static void amdgpu_switcheroo_set_state(struct pci_dev *pdev, enum vga_switchero
- 		dev->switch_power_state = DRM_SWITCH_POWER_ON;
- 		drm_kms_helper_poll_enable(dev);
- 	} else {
--		pr_info("amdgpu: switched off\n");
-+		pr_info("switched off\n");
- 		drm_kms_helper_poll_disable(dev);
- 		dev->switch_power_state = DRM_SWITCH_POWER_CHANGING;
- 		amdgpu_device_suspend(dev, true);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-index 5ed4227f3..0cc4c67f9 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-@@ -260,7 +260,7 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
- 		nvec = pci_alloc_irq_vectors(adev->pdev, 1, 1, flags);
- 		if (nvec > 0) {
- 			adev->irq.msi_enabled = true;
--			dev_dbg(adev->dev, "amdgpu: using MSI/MSI-X.\n");
-+			dev_dbg(adev->dev, "using MSI/MSI-X.\n");
- 		}
- 	}
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
-index b20503935..c1a530dbe 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
-@@ -858,7 +858,7 @@ static int gmc_v6_0_sw_init(void *handle)
- 
- 	r = dma_set_mask_and_coherent(adev->dev, DMA_BIT_MASK(44));
- 	if (r) {
--		dev_warn(adev->dev, "amdgpu: No suitable DMA available.\n");
-+		dev_warn(adev->dev, "No suitable DMA available.\n");
- 		return r;
- 	}
- 	adev->need_swiotlb = drm_need_swiotlb(44);
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-index 9da9596a3..e8529e244 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-@@ -1019,7 +1019,7 @@ static int gmc_v7_0_sw_init(void *handle)
- 
- 	r = dma_set_mask_and_coherent(adev->dev, DMA_BIT_MASK(40));
- 	if (r) {
--		pr_warn("amdgpu: No suitable DMA available\n");
-+		pr_warn("No suitable DMA available\n");
- 		return r;
- 	}
- 	adev->need_swiotlb = drm_need_swiotlb(40);
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-index 27d83204f..0aa5b8280 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-@@ -1144,7 +1144,7 @@ static int gmc_v8_0_sw_init(void *handle)
- 
- 	r = dma_set_mask_and_coherent(adev->dev, DMA_BIT_MASK(40));
- 	if (r) {
--		pr_warn("amdgpu: No suitable DMA available\n");
-+		pr_warn("No suitable DMA available\n");
- 		return r;
- 	}
- 	adev->need_swiotlb = drm_need_swiotlb(40);
+ 	list_splice_tail(&removed, &bdev->ddestroy);
 -- 
-2.26.0
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
