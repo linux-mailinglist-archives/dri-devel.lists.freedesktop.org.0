@@ -2,62 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7964F1A44A8
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 11:46:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFCA01A2FC0
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Apr 2020 09:07:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1287B6ECB8;
-	Fri, 10 Apr 2020 09:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2DD96EB4F;
+	Thu,  9 Apr 2020 07:07:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 675 seconds by postgrey-1.36 at gabe;
- Thu, 09 Apr 2020 07:18:35 UTC
-Received: from mx.kolabnow.com (mx.kolabnow.com [95.128.36.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C966E6EB56
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 07:18:35 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
- by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 87520BB8;
- Thu,  9 Apr 2020 09:07:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :references:in-reply-to:message-id:date:date:subject:subject
- :from:from:received:received:received; s=dkim20160331; t=
- 1586416036; x=1588230437; bh=CR6YNXrsOFFgGGN4E5h4mEiC7xqdpy0fPI3
- euxlrRik=; b=hV2TUNwJO5MJ2HIDsZTAGAoyMMYw1shO1io2Z+OaLWJR6uS6SFs
- ApD8Xh9Zj29Z6f8iFz249nu4R3j4EJBU6WmIamE5XQy5v+JPInUaCFd8siPb3zw3
- kBauPIUue9EMo2URDi9aLLnwEZgusLXdD1gfYc/F88sfyTAJlQrrJvxjEJagcIwt
- Y9w341+MLh+kvXPwHPvpF1ExHOgE8bzlIyRdvldMvFv27NOzBUgMtcvFVR3Om81d
- n61jSIVlzN2nZPU4F/xpn3PuZtecjssI0LCJindaFQGWpDGSlg97hVlCHK3o+2ZE
- KHqPzI+nr2TlELjcGi+0RfSQGbmRGLeg1Eupev0lQ84qGuq3KtMYntttI0Du3e1D
- WlaYC94qGE3hpzUemlqromTKDYPqIc0Q697HGosu0fjmt9qcEfNL2hBc9Wlri+Kh
- cU4vjgK0YVT4Dwvn0HHcuAPbhYGoB3dootjQ8ml5HAkv8kA9br+P4D5sLqvnujRY
- rkIs2H5vdnOMv0W08ffI/Gc/CMZlDetfY8s+K69Ry3udMsVIy/MjvwyVSY2stzN3
- wHDVlMD/qnjh+nLSzezaBv1gIvZnIFm7zEFyL05Gg1UxywFFyFqjPLf9ZETyRoKM
- wIvmk9yPvK3HBbdkza0j3ltoblnbkQtF/h0nsAgwHrv7BLnyKNEJyNy4=
-X-Virus-Scanned: amavisd-new at mykolab.com
-X-Spam-Flag: NO
-X-Spam-Score: -1.9
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 tagged_above=-10 required=5
- tests=[BAYES_00=-1.9] autolearn=ham autolearn_force=no
-Received: from mx.kolabnow.com ([127.0.0.1])
- by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gPRTEy1MsLlq; Thu,  9 Apr 2020 09:07:16 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
- by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id B59B83E1;
- Thu,  9 Apr 2020 09:07:16 +0200 (CEST)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
- by int-mx001.mykolab.com (Postfix) with ESMTPS id 194D6526;
- Thu,  9 Apr 2020 09:07:15 +0200 (CEST)
-From: Federico Vaga <federico.vaga@vaga.pv.it>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 03/35] docs: fix broken references to text files
-Date: Thu, 09 Apr 2020 09:07:13 +0200
-Message-ID: <2427906.fv9odQMh6t@harkonnen>
-In-Reply-To: <2e12bf13355bd06748fed5d135fd4de3d94ad5fd.1586359676.git.mchehab+huawei@kernel.org>
-References: <cover.1586359676.git.mchehab+huawei@kernel.org>
- <2e12bf13355bd06748fed5d135fd4de3d94ad5fd.1586359676.git.mchehab+huawei@kernel.org>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2BE6EB4F
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Apr 2020 07:07:38 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id z6so3040132wml.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Apr 2020 00:07:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3fzlk+1a2b3q0EKRRkBiDFhrc/J/PvVywQ93uFwgEgk=;
+ b=SFCS+RErUyseIyzdWmRg7SzDZMib4Xfg2GXUyA+nAt+SYSGs/E1Ed5M78k0qjfj4uG
+ 1h0es5fAaghIusxx0DGZw84ApN8oVuD8UmwsSjZvtRNYy6+JCL5FSe9W9tsQi+gKmBIs
+ 4g97B8u6ragxgWcFUotn0rOizq64hf2vkgLsA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=3fzlk+1a2b3q0EKRRkBiDFhrc/J/PvVywQ93uFwgEgk=;
+ b=dtdgHSyhw00LlKFe7GwzAoSAq9s+4UPkD2Nz544CUYHa7j1o0M74dtDfFJELK7DZgs
+ 1l3DGaWDo8I7wPyB2UfcKIjqwCcuDg/+JQHzieBROSUg5FrdR0G8rJQuOeSodeSKc+Wv
+ 7e2nRf5JSDkrcP/MT3B6owO4LlYfCr7pZGJNGwt4GBRyhMD1B1EYbmmkpm521IUgQTe0
+ rfPKZkbrJjbGzGeVRS0kCeP4pSboI0h4Npsk18TeQifiOQsa13U6CIfz6HukqjHnDhjt
+ vtqR7a6EeO68LB60/BShFPmqfroPSSP+qlBTGE5XtJUU+jD+sZy14u/WhDRfgIyubaKx
+ BtQA==
+X-Gm-Message-State: AGi0PubDiZlWXEbh7OiC6pfU6Gr6JdwvkEAcb1EKewoUzEbT30PeKct/
+ ADEwzHJK/xeA7PdVp9GtOmn1+w==
+X-Google-Smtp-Source: APiQypJejUoX6TC2lyEVkPMafhE+khuYPp3is5HDsmNy2y6qcIUU0KFigHolaP5n7n03Cz1IWsvzbg==
+X-Received: by 2002:a1c:dc8b:: with SMTP id t133mr8610965wmg.117.1586416056950; 
+ Thu, 09 Apr 2020 00:07:36 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h6sm2627936wmf.31.2020.04.09.00.07.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Apr 2020 00:07:36 -0700 (PDT)
+Date: Thu, 9 Apr 2020 09:07:34 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH] drm/legacy: Fix type for drm_local_map.offset
+Message-ID: <20200409070734.GP3456981@phenom.ffwll.local>
+Mail-Followup-To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20200402203317.GA34560@ubuntu-m2-xlarge-x86>
+ <20200402215926.30714-1-chris@chris-wilson.co.uk>
+ <20200403013420.GA11516@ubuntu-m2-xlarge-x86>
+ <CAKMK7uE9pv23edViQBC=Jy5fQV=-NQTNdk1qi91Z8shpeuL7FA@mail.gmail.com>
+ <CAHk-=whMhCTdx0fDRnNT4doKGYw1BBBei0KcXDZcmtVpk_GvEw@mail.gmail.com>
+ <CAKMK7uE2t=z71dtJitmoKwrrZxgciEDRrNPMQ1FyiLO7s-VKag@mail.gmail.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 10 Apr 2020 09:45:19 +0000
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uE2t=z71dtJitmoKwrrZxgciEDRrNPMQ1FyiLO7s-VKag@mail.gmail.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,56 +75,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Akira Yokosawa <akiyks@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-unionfs@vger.kernel.org,
- Paul Mackerras <paulus@ozlabs.org>, linux-mm@kvack.org,
- Harry Wei <harryxiyou@gmail.com>, Alex Shi <alex.shi@linux.alibaba.com>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- linux-arch@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, kvm-ppc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Doug Ledford <dledford@redhat.com>,
- Alan Stern <stern@rowland.harvard.edu>, linux-arm-kernel@lists.infradead.org,
- Jade Alglave <j.alglave@ucl.ac.uk>, Daniel Lustig <dlustig@nvidia.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>,
- Mike Leach <mike.leach@linaro.org>, Andrea Parri <parri.andrea@gmail.com>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Boqun Feng <boqun.feng@gmail.com>,
- Nicholas Piggin <npiggin@gmail.com>, Luc Maranget <luc.maranget@inria.fr>,
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
- David Howells <dhowells@redhat.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- James Morse <james.morse@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Marc Zyngier <maz@kernel.org>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org
+Cc: Nathan Chancellor <natechancellor@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, April 8, 2020 5:45:55 PM CEST Mauro Carvalho Chehab wrote:
-> Several references got broken due to txt to ReST conversion.
+On Fri, Apr 03, 2020 at 07:16:28PM +0200, Daniel Vetter wrote:
+> On Fri, Apr 3, 2020 at 7:14 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > On Fri, Apr 3, 2020 at 1:29 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > > Tested-by: Nathan Chancellor <natechancellor@gmail.com> # build
+> > >
+> > > This works too, missed it when replying to Linus
+> > >
+> > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > >
+> > > Linus I guess this one is better, but like I explained it really
+> > > doesn't matter what we do with drm legacy code, it's a horror show
+> > > that should be disabled on all modern distros anyway. We just keep it
+> > > because of "never break old uapi".
+> >
+> > Ok, That patch from Chris looks fine to me too.
+> >
+> > dma_addr_t and resource_size_t aren't the same, but at least
+> > dma_addr_t should always be the bigger one.
+> >
+> > And it does look like nothing else ever takes the address of this
+> > field, so the ones that might want just the resource_size_t part will
+> > at least have enough bits.
+> >
+> > So I think Chris' patch is the way to go. I'm assuming I'll get it
+> > through the normal drm tree channels, this doesn't sound _so_ urgent
+> > that I'd need to expedite that patch into my tree and apply it
+> > directly.
 > 
-> Several of them can be automatically fixed with:
+> Ok, sounds good.
 > 
-> 	scripts/documentation-file-ref-check --fix
-> 
-> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org> #
-> hwtracing/coresight/Kconfig Signed-off-by: Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org>
-> ---
->  Documentation/memory-barriers.txt                    |  2 +-
->  Documentation/process/submit-checklist.rst           |  2 +-
->  .../translations/it_IT/process/submit-checklist.rst  |  2 +-
+> Chris can you pls push this to drm-misc-next-fixes? That should be
+> enough for the pull request train next week.
 
-Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
-
-
-
+Ok I applied this now, seems to have fallen through a few cracks. Might
+only make it after easter :-/
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
