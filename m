@@ -2,48 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B8771A41FB
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 06:33:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5929F1A4255
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 07:54:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D77506EC56;
-	Fri, 10 Apr 2020 04:33:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0ED6EC65;
+	Fri, 10 Apr 2020 05:54:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id E1A856EC56
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 04:33:04 +0000 (UTC)
-X-UUID: cad6a353866c418a8ecd2f0370e21662-20200410
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=mHf6jiGpr7KeVe7S0awWVzvSk807Yo2QlCE0YtnWX7w=; 
- b=GismMTcnv5BtfTLILJE6ntl/jGOc4Ha7h3YdiVZ8wZBaF39M5sqQVK1cy/9rJ0P33QOVciZLS2ViSO+9yO8DxUwaGWjY4KlkZVUcQ0ilSLodOzmOvFJcchyTNswNtPR8eiFRmNn2ZkODLkSst5Xd16Os+yDKfIBfoE4VtHzwNOo=;
-X-UUID: cad6a353866c418a8ecd2f0370e21662-20200410
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <jitao.shi@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1734901447; Fri, 10 Apr 2020 12:32:58 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33DR.mediatek.inc
- (172.27.6.106) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 10 Apr 2020 12:32:57 +0800
-Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
- MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Fri, 10 Apr 2020 12:32:55 +0800
-From: Jitao Shi <jitao.shi@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 4/4] drm/mediatek: config mipitx impedance with calibration
- data
-Date: Fri, 10 Apr 2020 12:32:48 +0800
-Message-ID: <20200410043248.114384-5-jitao.shi@mediatek.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200410043248.114384-1-jitao.shi@mediatek.com>
-References: <20200410043248.114384-1-jitao.shi@mediatek.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 040956EC63;
+ Fri, 10 Apr 2020 05:54:45 +0000 (UTC)
+IronPort-SDR: 8H9+uRgCCsJHo7mOCEL4BPmTcXeWMeopOr/iTUtks0EiXtAFhePmRLhgo9N280CxA/zywnaf7Y
+ fXIi5xlXa0Yw==
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Apr 2020 22:54:44 -0700
+IronPort-SDR: neQ7V9BrtVs+lpG9al2irFFnbVHHjZ/ITmulTc10fSr/Ts1diyctt1UOZJ8ozUdvILKsu1W89J
+ v9yq1WSKecDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,364,1580803200"; 
+ d="asc'?scan'208";a="255386528"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.147])
+ by orsmga006.jf.intel.com with ESMTP; 09 Apr 2020 22:54:41 -0700
+Date: Fri, 10 Apr 2020 13:41:08 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 2/2] drm/i915: remove gvt/Makefile
+Message-ID: <20200410054108.GK11247@zhen-hp.sh.intel.com>
+References: <20200409150627.29205-1-masahiroy@kernel.org>
+ <20200409150627.29205-2-masahiroy@kernel.org>
+ <87h7xsgw3r.fsf@intel.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: E7751B2F5E74A0DD2D4F9F4687FC3C9AA570AB677C0BBF1D9A0DD199084342622000:8
-X-MTK: N
+In-Reply-To: <87h7xsgw3r.fsf@intel.com>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,157 +50,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
- srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
- cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
- yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: David Airlie <airlied@linux.ie>, Masahiro Yamada <masahiroy@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
+Content-Type: multipart/mixed; boundary="===============1354212128=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Read calibration data from nvmem, and config mipitx impedance with
-calibration data to make sure their impedance are 100ohm.
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_mipi_tx.c        | 40 +++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_mipi_tx.h        |  3 ++
- drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c | 21 ++++++++++
- 3 files changed, 64 insertions(+)
+--===============1354212128==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="KIzF6Cje4W/osXrF"
+Content-Disposition: inline
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_mipi_tx.c b/drivers/gpu/drm/mediatek/mtk_mipi_tx.c
-index e301af64809e..5e91fc2c1318 100644
---- a/drivers/gpu/drm/mediatek/mtk_mipi_tx.c
-+++ b/drivers/gpu/drm/mediatek/mtk_mipi_tx.c
-@@ -88,6 +88,44 @@ static const struct phy_ops mtk_mipi_tx_ops = {
- 	.owner = THIS_MODULE,
- };
- 
-+static void mtk_mipi_tx_get_calibration_datal(struct mtk_mipi_tx *mipi_tx)
-+{
-+	struct nvmem_cell *cell;
-+	size_t len;
-+	u32 *buf;
-+
-+	memset(mipi_tx->rt_code, 0, sizeof(mipi_tx->rt_code));
-+	cell = nvmem_cell_get(mipi_tx->dev, "calibration-data");
-+	if (IS_ERR(cell)) {
-+		dev_info(mipi_tx->dev, "can't get nvmem_cell_get, ignore it\n");
-+	} else {
-+		buf = (u32 *)nvmem_cell_read(cell, &len);
-+		nvmem_cell_put(cell);
-+
-+		if (IS_ERR(buf)) {
-+			dev_info(mipi_tx->dev, "can't get data, ignore it\n");
-+		} else {
-+			if (len < 3 * sizeof(u32)) {
-+				dev_info(mipi_tx->dev, "invalid calibration data\n");
-+				kfree(buf);
-+				return;
-+			}
-+
-+			mipi_tx->rt_code[0] = ((buf[0] >> 6 & 0x1f) << 5) |
-+					       (buf[0] >> 11 & 0x1f);
-+			mipi_tx->rt_code[1] = ((buf[1] >> 27 & 0x1f) << 5) |
-+					       (buf[0] >> 1 & 0x1f);
-+			mipi_tx->rt_code[2] = ((buf[1] >> 17 & 0x1f) << 5) |
-+					       (buf[1] >> 22 & 0x1f);
-+			mipi_tx->rt_code[3] = ((buf[1] >> 7 & 0x1f) << 5) |
-+					       (buf[1] >> 12 & 0x1f);
-+			mipi_tx->rt_code[4] = ((buf[2] >> 27 & 0x1f) << 5) |
-+					       (buf[1] >> 2 & 0x1f);
-+			kfree(buf);
-+		}
-+	}
-+}
-+
- static int mtk_mipi_tx_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -174,6 +212,8 @@ static int mtk_mipi_tx_probe(struct platform_device *pdev)
- 
- 	mipi_tx->dev = dev;
- 
-+	mtk_mipi_tx_get_calibration_datal(mipi_tx);
-+
- 	return of_clk_add_provider(dev->of_node, of_clk_src_simple_get,
- 				   mipi_tx->pll);
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_mipi_tx.h b/drivers/gpu/drm/mediatek/mtk_mipi_tx.h
-index eea44327fe9f..c76f07c3fdeb 100644
---- a/drivers/gpu/drm/mediatek/mtk_mipi_tx.h
-+++ b/drivers/gpu/drm/mediatek/mtk_mipi_tx.h
-@@ -12,9 +12,11 @@
- #include <linux/delay.h>
- #include <linux/io.h>
- #include <linux/module.h>
-+#include <linux/nvmem-consumer.h>
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/phy/phy.h>
-+#include <linux/slab.h>
- 
- struct mtk_mipitx_data {
- 	const u32 mppll_preserve;
-@@ -28,6 +30,7 @@ struct mtk_mipi_tx {
- 	void __iomem *regs;
- 	u32 data_rate;
- 	u32 mipitx_drive;
-+	u32 rt_code[5];
- 	const struct mtk_mipitx_data *driver_data;
- 	struct clk_hw pll_hw;
- 	struct clk *pll;
-diff --git a/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c b/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
-index e4cc967750cb..9f3e55aeebb2 100644
---- a/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
-+++ b/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
-@@ -28,6 +28,7 @@
- #define MIPITX_PLL_CON4		0x003c
- #define RG_DSI_PLL_IBIAS		(3 << 10)
- 
-+#define MIPITX_D2P_RTCODE	0x0100
- #define MIPITX_D2_SW_CTL_EN	0x0144
- #define MIPITX_D0_SW_CTL_EN	0x0244
- #define MIPITX_CK_CKMODE_EN	0x0328
-@@ -108,6 +109,24 @@ static const struct clk_ops mtk_mipi_tx_pll_ops = {
- 	.recalc_rate = mtk_mipi_tx_pll_recalc_rate,
- };
- 
-+static void mtk_mipi_tx_config_calibration_data(struct mtk_mipi_tx *mipi_tx)
-+{
-+	int i, j;
-+
-+	for (i = 0; i < 5; i++) {
-+		if ((mipi_tx->rt_code[i] & 0x1f) == 0)
-+			mipi_tx->rt_code[i] |= 0x10;
-+
-+		if ((mipi_tx->rt_code[i] >> 5 & 0x1f) == 0)
-+			mipi_tx->rt_code[i] |= 0x10 << 5;
-+
-+		for (j = 0; j < 10; j++)
-+			mtk_mipi_tx_update_bits(mipi_tx,
-+				MIPITX_D2P_RTCODE * (i + 1) + j * 4,
-+				1, mipi_tx->rt_code[i] >> j & 1);
-+	}
-+}
-+
- static void mtk_mipi_tx_power_on_signal(struct phy *phy)
- {
- 	struct mtk_mipi_tx *mipi_tx = phy_get_drvdata(phy);
-@@ -130,6 +149,8 @@ static void mtk_mipi_tx_power_on_signal(struct phy *phy)
- 				RG_DSI_HSTX_LDO_REF_SEL,
- 				(mipi_tx->mipitx_drive - 3000) / 200 << 6);
- 
-+	mtk_mipi_tx_config_calibration_data(mipi_tx);
-+
- 	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_CK_CKMODE_EN, DSI_CK_CKMODE_EN);
- }
- 
--- 
-2.21.0
+
+--KIzF6Cje4W/osXrF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 2020.04.10 00:58:16 +0300, Jani Nikula wrote:
+> On Fri, 10 Apr 2020, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > Including subdirectory Makefile from the driver main Makefile does not
+> > buy us much because this is not real isolation.
+>=20
+> The isolation it does buy us is that gvt/ subdirectory is developed and
+> maintained on a separate mailing list and separate git repo. I think at
+> some point there were plans to make it an actual module too.
+>=20
+> So while you could quip about Conway's law here, I think it might be
+> better to keep this as it is.
+>=20
+> Zhenyu, Zhi, what do you think?
+
+Yeah, I have the same feeling, maybe we can add some comment in gvt Makefile
+to state that point.
+
+Thanks
+
+> >
+> > Having a single Makefile at the top of the module is clearer, and
+> > it is what this driver almost does.
+> >
+> > Move all gvt objects to the i915 main Makefile.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  drivers/gpu/drm/i915/Makefile     | 28 ++++++++++++++++++++++++----
+> >  drivers/gpu/drm/i915/gvt/Makefile |  8 --------
+> >  2 files changed, 24 insertions(+), 12 deletions(-)
+> >  delete mode 100644 drivers/gpu/drm/i915/gvt/Makefile
+> >
+> > diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makef=
+ile
+> > index 6cd1f6253814..74e965882a98 100644
+> > --- a/drivers/gpu/drm/i915/Makefile
+> > +++ b/drivers/gpu/drm/i915/Makefile
+> > @@ -275,10 +275,30 @@ i915-$(CONFIG_DRM_I915_SELFTEST) +=3D \
+> >  # virtual gpu code
+> >  i915-y +=3D i915_vgpu.o
+> > =20
+> > -ifeq ($(CONFIG_DRM_I915_GVT),y)
+> > -i915-y +=3D intel_gvt.o
+> > -include $(src)/gvt/Makefile
+> > -endif
+> > +i915-$(CONFIG_DRM_I915_GVT) +=3D \
+> > +	intel_gvt.o \
+> > +	gvt/gvt.o \
+> > +	gvt/aperture_gm.o \
+> > +	gvt/handlers.o \
+> > +	gvt/vgpu.o \
+> > +	gvt/trace_points.o \
+> > +	gvt/firmware.o \
+> > +	gvt/interrupt.o \
+> > +	gvt/gtt.o \
+> > +	gvt/cfg_space.o \
+> > +	gvt/opregion.o \
+> > +	gvt/mmio.o \
+> > +	gvt/display.o \
+> > +	gvt/edid.o \
+> > +	gvt/execlist.o \
+> > +	gvt/scheduler.o \
+> > +	gvt/sched_policy.o \
+> > +	gvt/mmio_context.o \
+> > +	gvt/cmd_parser.o \
+> > +	gvt/debugfs.o \
+> > +	gvt/fb_decoder.o \
+> > +	gvt/dmabuf.o \
+> > +	gvt/page_track.o
+> > =20
+> >  obj-$(CONFIG_DRM_I915) +=3D i915.o
+> >  obj-$(CONFIG_DRM_I915_GVT_KVMGT) +=3D gvt/kvmgt.o
+> > diff --git a/drivers/gpu/drm/i915/gvt/Makefile b/drivers/gpu/drm/i915/g=
+vt/Makefile
+> > deleted file mode 100644
+> > index 4d70f4689479..000000000000
+> > --- a/drivers/gpu/drm/i915/gvt/Makefile
+> > +++ /dev/null
+> > @@ -1,8 +0,0 @@
+> > -# SPDX-License-Identifier: GPL-2.0
+> > -GVT_DIR :=3D gvt
+> > -GVT_SOURCE :=3D gvt.o aperture_gm.o handlers.o vgpu.o trace_points.o f=
+irmware.o \
+> > -	interrupt.o gtt.o cfg_space.o opregion.o mmio.o display.o edid.o \
+> > -	execlist.o scheduler.o sched_policy.o mmio_context.o cmd_parser.o deb=
+ugfs.o \
+> > -	fb_decoder.o dmabuf.o page_track.o
+> > -
+> > -i915-y					+=3D $(addprefix $(GVT_DIR)/, $(GVT_SOURCE))
+>=20
+> --=20
+> Jani Nikula, Intel Open Source Graphics Center
+
+--=20
+Open Source Technology Center, Intel ltd.
+
+$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
+
+--KIzF6Cje4W/osXrF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCXpAG9AAKCRCxBBozTXgY
+J5rLAJ45nWTbStFQsqc5yvlIr+XX8Ig8YACdFQ67J8jqCGmeYx/Y196ZAH2skGM=
+=Zhzu
+-----END PGP SIGNATURE-----
+
+--KIzF6Cje4W/osXrF--
+
+--===============1354212128==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1354212128==--
