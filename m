@@ -1,38 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE411A4A99
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 21:38:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 888811A4AD2
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 21:52:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 394DC6ED3A;
-	Fri, 10 Apr 2020 19:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B620A6ED3D;
+	Fri, 10 Apr 2020 19:52:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51AF46ED3A;
- Fri, 10 Apr 2020 19:38:02 +0000 (UTC)
-Received: from localhost (mobile-166-170-220-109.mycingular.net
- [166.170.220.109])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BB1CC20732;
- Fri, 10 Apr 2020 19:38:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586547482;
- bh=76FW6bsyi+GvI3cA1295vPvYzfcdLfIdfR/uMK0cqIM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=f5aqyeY5H8P+Dg0VtR5VXhNEaIBxx4R/gGzchOa7w+V/JIMrsYuYNV7aLVSvrZntH
- WWv3dp0kGmlDxfECQgMchX8GExkaXAsoMWQhr1nrjc+24qlq2ngw+8X5Yw7mD9qxHN
- rCJAnLyi2B0qmE9qQBazZ/B4H3+CIp6g7so4MwFk=
-Date: Fri, 10 Apr 2020 14:38:00 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: Re: [PATCH 5/7] PM: sleep: core: Rename DPM_FLAG_NEVER_SKIP
-Message-ID: <20200410193800.GA5202@google.com>
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D50076ED3D;
+ Fri, 10 Apr 2020 19:51:59 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id f3so2880804ioj.1;
+ Fri, 10 Apr 2020 12:51:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=QeIu0nBH2w6lmp41iXG53bGhVpbraC4KJVd4JGc3z+I=;
+ b=bNT17xUuUKeGG3lFwb8tjYEUCdXSphISqnjWiU9319OOU8IcuESv9kCf1EXThaLVyh
+ QSc7zrm33Wb3/7dSH+GL1miEk1CyU54yTYWtcQA/nFVwTb4gXtUG5GI7apVD2xDBIybv
+ K7hwiVUoE2G+LwDrHZLiNHVFtP3vmn/kWStldyWEpeKF+Ljwo8XFyKb5wMwgWuRNcHxC
+ AOfQlYNANPNaKJUeIYJ/tNNKTDfxIIpGVRySK8l7ACd4b4Krns0bxwg2UhJcybrcD38T
+ ny+Gx0y/oHHBD+bVHzNEbB1enRxEkIblGvjsnK/Vv38Nz3yBW5BSiPE+0WIdRpSH6D/N
+ DmbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=QeIu0nBH2w6lmp41iXG53bGhVpbraC4KJVd4JGc3z+I=;
+ b=GeiHn5bnkBuHZuU3cmnd0WgF7DC6n7DB2DpBkYwz9CpLAvY6+Qmq+QyW8n/FdwS8WD
+ SXAQogBmVt29q3cMzJcrwrfIQCO3l5x3/drUSkEaYxhd22tPq/YzK0LbPPU6cYJXj5fD
+ rxADZnC943NDXM4JIrMp4eBQfnVOGbRl9xZHKLzC7XGHKz66c+KayvvCPE2iI/dQqqj5
+ J25LrmF7EK9QGnLUE618eO6KU+XyvGtaIv/kKZsmfd+/8TctZ8ERHJlKSj7T0xS8mHJg
+ xbJNNTiGKIPr8TL03CjHmM2tzu3E5fJy20bmtXNeHuhXk1vXhOXtYOw3Kg0HhabAvZ/C
+ NlUQ==
+X-Gm-Message-State: AGi0PuaMx1w6kOt2n1nXdqLEW1H3Ee67mlHG3B1dcA1chy+qcR4iahgA
+ br90EMU6R+4wmICoc3n4G9B7jsyahPIq3eX4SHDLf3Qd5L4=
+X-Google-Smtp-Source: APiQypKTmZIwDBIGnT34zKo1s9IZHsvMPjtJMNZTaCve4AomuVNGvWzeRoxR7ceokDyX4Il8xJTBmbygQd1sUQ2BPek=
+X-Received: by 2002:a02:603:: with SMTP id 3mr6105672jav.132.1586548318795;
+ Fri, 10 Apr 2020 12:51:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5092680.jloV5Ae5OO@kreacher>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Sat, 11 Apr 2020 00:51:48 +0500
+Message-ID: <CABXGCsN=SNp7Ub3KHmsGrg+5R1g13HMea2+Jw+hTer3g74q21Q@mail.gmail.com>
+Subject: BUG: kernel NULL pointer dereference, address: 0000000000000026 after
+ switching to 5.7 kernel
+To: amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,111 +60,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans De Goede <hdegoede@redhat.com>, Linux PM <linux-pm@vger.kernel.org>,
- Linux PCI <linux-pci@vger.kernel.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI-devel <dri-devel@lists.freedesktop.org>,
- Linux ACPI <linux-acpi@vger.kernel.org>,
- Alan Stern <stern@rowland.harvard.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-wired-lan@lists.osuosl.org, Ulf Hansson <ulf.hansson@linaro.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 10, 2020 at 05:56:13PM +0200, Rafael J. Wysocki wrote:
-> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-> 
-> Rename DPM_FLAG_NEVER_SKIP to DPM_FLAG_NO_DIRECT_COMPLETE which
-> matches its purpose more closely.
-> 
-> No functional impact.
-> 
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Hi folks.
+After upgrade kernel to 5.7 I see every boot in kernel log following
+error messages:
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com> # for PCI parts
+[    2.569513] [drm] Found UVD firmware ENC: 1.2 DEC: .43 Family ID: 19
+[    2.569538] [drm] PSP loading UVD firmware
+[    2.570038] BUG: kernel NULL pointer dereference, address: 0000000000000026
+[    2.570045] #PF: supervisor read access in kernel mode
+[    2.570050] #PF: error_code(0x0000) - not-present page
+[    2.570055] PGD 0 P4D 0
+[    2.570060] Oops: 0000 [#1] SMP NOPTI
+[    2.570065] CPU: 5 PID: 667 Comm: uvd_enc_1.1 Not tainted
+5.7.0-0.rc0.git6.1.2.fc33.x86_64 #1
+[    2.570072] Hardware name: System manufacturer System Product
+Name/ROG STRIX X570-I GAMING, BIOS 1405 11/19/2019
+[    2.570085] RIP: 0010:__kthread_should_park+0x5/0x30
+[    2.570090] Code: 00 e9 fe fe ff ff e8 ca 3a 08 00 e9 49 fe ff ff
+48 89 df e8 dd 38 08 00 84 c0 0f 84 6a ff ff ff e9 a6 fe ff ff 0f 1f
+44 00 00 <f6> 47 26 20 74 12 48 8b 87 88 09 00 00 48 8b 00 48 c1 e8 02
+83 e0
+[    2.570103] RSP: 0018:ffffad8141723e50 EFLAGS: 00010246
+[    2.570107] RAX: 7fffffffffffffff RBX: ffff8a8d1d116ed8 RCX: 0000000000000000
+[    2.570112] RDX: 0000000000000000 RSI: 00000000ffffffff RDI: 0000000000000000
+[    2.570116] RBP: ffff8a8d28c11300 R08: 0000000000000000 R09: 0000000000000000
+[    2.570120] R10: 0000000000000000 R11: 0000000000000000 R12: ffff8a8d1d152e40
+[    2.570125] R13: ffff8a8d1d117280 R14: ffff8a8d1d116ed8 R15: ffff8a8d1ca68000
+[    2.570131] FS:  0000000000000000(0000) GS:ffff8a8d3aa00000(0000)
+knlGS:0000000000000000
+[    2.570137] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    2.570142] CR2: 0000000000000026 CR3: 00000007e3dc6000 CR4: 00000000003406e0
+[    2.570147] Call Trace:
+[    2.570157]  drm_sched_get_cleanup_job+0x42/0x130 [gpu_sched]
+[    2.570166]  drm_sched_main+0x6f/0x530 [gpu_sched]
+[    2.570173]  ? lockdep_hardirqs_on+0x11e/0x1b0
+[    2.570179]  ? drm_sched_get_cleanup_job+0x130/0x130 [gpu_sched]
+[    2.570185]  kthread+0x131/0x150
+[    2.570189]  ? __kthread_bind_mask+0x60/0x60
+[    2.570196]  ret_from_fork+0x27/0x50
+[    2.570203] Modules linked in: fjes(-) amdgpu(+) amd_iommu_v2
+gpu_sched ttm drm_kms_helper drm crc32c_intel igb nvme nvme_core dca
+i2c_algo_bit wmi pinctrl_amd br_netfilter bridge stp llc fuse
+[    2.570223] CR2: 0000000000000026
+[    2.570228] ---[ end trace 80c25d326e1e0d7c ]---
+[    2.570233] RIP: 0010:__kthread_should_park+0x5/0x30
+[    2.570238] Code: 00 e9 fe fe ff ff e8 ca 3a 08 00 e9 49 fe ff ff
+48 89 df e8 dd 38 08 00 84 c0 0f 84 6a ff ff ff e9 a6 fe ff ff 0f 1f
+44 00 00 <f6> 47 26 20 74 12 48 8b 87 88 09 00 00 48 8b 00 48 c1 e8 02
+83 e0
+[    2.570250] RSP: 0018:ffffad8141723e50 EFLAGS: 00010246
+[    2.570255] RAX: 7fffffffffffffff RBX: ffff8a8d1d116ed8 RCX: 0000000000000000
+[    2.570260] RDX: 0000000000000000 RSI: 00000000ffffffff RDI: 0000000000000000
+[    2.570265] RBP: ffff8a8d28c11300 R08: 0000000000000000 R09: 0000000000000000
+[    2.570271] R10: 0000000000000000 R11: 0000000000000000 R12: ffff8a8d1d152e40
+[    2.570276] R13: ffff8a8d1d117280 R14: ffff8a8d1d116ed8 R15: ffff8a8d1ca68000
+[    2.570281] FS:  0000000000000000(0000) GS:ffff8a8d3aa00000(0000)
+knlGS:0000000000000000
+[    2.570287] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    2.570292] CR2: 0000000000000026 CR3: 00000007e3dc6000 CR4: 00000000003406e0
+[    2.570299] BUG: sleeping function called from invalid context at
+include/linux/percpu-rwsem.h:49
+[    2.570306] in_atomic(): 0, irqs_disabled(): 1, non_block: 0, pid:
+667, name: uvd_enc_1.1
+[    2.570311] INFO: lockdep is turned off.
+[    2.570315] irq event stamp: 14
+[    2.570319] hardirqs last  enabled at (13): [<ffffffffb1b8c976>]
+_raw_spin_unlock_irqrestore+0x46/0x60
+[    2.570330] hardirqs last disabled at (14): [<ffffffffb1004932>]
+trace_hardirqs_off_thunk+0x1a/0x1c
+[    2.570338] softirqs last  enabled at (0): [<ffffffffb10e04f6>]
+copy_process+0x706/0x1bc0
+[    2.570345] softirqs last disabled at (0): [<0000000000000000>] 0x0
+[    2.570351] CPU: 5 PID: 667 Comm: uvd_enc_1.1 Tainted: G      D
+      5.7.0-0.rc0.git6.1.2.fc33.x86_64 #1
+[    2.570358] Hardware name: System manufacturer System Product
+Name/ROG STRIX X570-I GAMING, BIOS 1405 11/19/2019
+[    2.570365] Call Trace:
+[    2.570373]  dump_stack+0x8b/0xc8
+[    2.570380]  ___might_sleep.cold+0xb6/0xc6
+[    2.570385]  exit_signals+0x1c/0x2d0
+[    2.570390]  do_exit+0xb1/0xc30
+[    2.570395]  ? kthread+0x131/0x150
+[    2.570400]  rewind_stack_do_exit+0x17/0x20
+[    2.570559] [drm] Found VCE firmware Version: 57.6 Binary ID: 4
+[    2.570572] [drm] PSP loading VCE firmware
+[    3.146462] [drm] reserve 0x400000 from 0x83fe800000 for PSP TMR
 
-> ---
->  Documentation/driver-api/pm/devices.rst    |  6 +++---
->  Documentation/power/pci.rst                | 10 +++++-----
->  drivers/base/power/main.c                  |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    |  2 +-
->  drivers/gpu/drm/i915/intel_runtime_pm.c    |  2 +-
->  drivers/gpu/drm/radeon/radeon_kms.c        |  2 +-
->  drivers/misc/mei/pci-me.c                  |  2 +-
->  drivers/misc/mei/pci-txe.c                 |  2 +-
->  drivers/net/ethernet/intel/e1000e/netdev.c |  2 +-
->  drivers/net/ethernet/intel/igb/igb_main.c  |  2 +-
->  drivers/net/ethernet/intel/igc/igc_main.c  |  2 +-
->  drivers/pci/pcie/portdrv_pci.c             |  2 +-
->  include/linux/pm.h                         |  6 +++---
->  13 files changed, 21 insertions(+), 21 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
-> index f66c7b9126ea..4ace0eba4506 100644
-> --- a/Documentation/driver-api/pm/devices.rst
-> +++ b/Documentation/driver-api/pm/devices.rst
-> @@ -361,9 +361,9 @@ the phases are: ``prepare``, ``suspend``, ``suspend_late``, ``suspend_noirq``.
->  	runtime PM disabled.
+$ /usr/src/kernels/`uname -r`/scripts/faddr2line
+/lib/debug/lib/modules/`uname -r`/vmlinux __kthread_should_park+0x5
+__kthread_should_park+0x5/0x30:
+to_kthread at kernel/kthread.c:75
+(inlined by) __kthread_should_park at kernel/kthread.c:109
 
-Minor question about a preceding paragraph that ends:
+I think this issue related to amdgpu driver.
+Can anyone look into it?
 
-  In that case, the ``->complete`` callback will be invoked directly
-  after the ``->prepare`` callback and is entirely responsible for
-  putting the device into a consistent state as appropriate.
+Thanks.
 
-What does" a consistent state as appropriate" mean?  I know this is
-generic documentation at a high level, so maybe there's no good
-explanation for "consistent state," but I don't know what to imagine
-there.
+Full kernel log here:
+https://pastebin.com/RrSp6KYL
 
-And what does "as appropriate" mean?  Would it change the meaning to
-drop those two words, or are there situations where it's not
-appropriate to put the device into a consistent state?  Or maybe it's
-just that the type of device determines what the consistent state is?
-
->  	This feature also can be controlled by device drivers by using the
-> -	``DPM_FLAG_NEVER_SKIP`` and ``DPM_FLAG_SMART_PREPARE`` driver power
-> -	management flags.  [Typically, they are set at the time the driver is
-> -	probed against the device in question by passing them to the
-> +	``DPM_FLAG_NO_DIRECT_COMPLETE`` and ``DPM_FLAG_SMART_PREPARE`` driver
-> +	power management flags.  [Typically, they are set at the time the driver
-> +	is probed against the device in question by passing them to the
->  	:c:func:`dev_pm_set_driver_flags` helper function.]  If the first of
->  	these flags is set, the PM core will not apply the direct-complete
->  	procedure described above to the given device and, consequenty, to any
-
-s/consequenty/consequently/
-
-Drive-by comment: I looked for a definition of "direct-complete".  The
-closest I found is a couple paragraphs above this, where it says "Note
-that this direct-complete procedure ...," but that leaves me to try to
-reconstruct the definition from the preceding text.
-
-AFAICT, going to freeze, standby, or memory sleep includes these
-callbacks:
-
-  ->prepare
-  ->suspend
-  ->suspend_late
-  ->suspend_noirq
-  ->complete         (not mentioned in the list of phases)
-
-And "direct-complete" means we skip the suspend, suspend_late,
-and suspend_noirq callbacks so we only use these:
-
-  ->prepare
-  ->complete
-
-And apparently we skip those callbacks for device X if ->prepare() for
-X and all its descendents returns a positive value AND they are all
-runtime-suspended, except if a driver for X or a descendent sets
-DPM_FLAG_NO_DIRECT_COMPLETE.
-
-Bjorn
+--
+Best Regards,
+Mike Gavrilov.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
