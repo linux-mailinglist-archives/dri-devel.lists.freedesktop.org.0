@@ -1,36 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 572601A449A
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 11:45:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8F31A443E
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 11:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8251F6ECAE;
-	Fri, 10 Apr 2020 09:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43A806EC98;
+	Fri, 10 Apr 2020 09:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3BCE36EC92
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 08:44:14 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3B717FA;
- Fri, 10 Apr 2020 01:44:13 -0700 (PDT)
-Received: from e123648.arm.com (unknown [10.37.12.30])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0CD1F3F68F;
- Fri, 10 Apr 2020 01:44:02 -0700 (PDT)
-From: Lukasz Luba <lukasz.luba@arm.com>
-To: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-imx@nxp.com
-Subject: [PATCH v6 10/10] drm/panfrost: Register devfreq cooling and attempt
- to add Energy Model
-Date: Fri, 10 Apr 2020 09:42:10 +0100
-Message-Id: <20200410084210.24932-11-lukasz.luba@arm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200410084210.24932-1-lukasz.luba@arm.com>
-References: <20200410084210.24932-1-lukasz.luba@arm.com>
-X-Mailman-Approved-At: Fri, 10 Apr 2020 09:45:19 +0000
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 427656EC98;
+ Fri, 10 Apr 2020 09:08:41 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9DA44206F7;
+ Fri, 10 Apr 2020 09:08:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1586509721;
+ bh=vveq8hq4tZ4KJEkqR2DPVe2ODOea/E2UKD483B1OMqI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hfXrj0TKtmzmyGTpTS6yZPQPvGrK5/rDkwRaELSo41Vc7PKlEbCsOL4vYTwiztZvf
+ SGeMGSTStb3bsOpfqFmz8O3DFtFBM6BrMKxN1sXWiXX0NmcATYnFJADWkpM9wQSuzx
+ ozrElzpwYOAY/BtU6FcpMSm2pN4u2lB3+BdSIANE=
+Date: Fri, 10 Apr 2020 11:08:38 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sultan Alsawaf <sultan@kerneltoast.com>
+Subject: Re: [PATCH v2] drm/i915: Fix ref->mutex deadlock in i915_active_wait()
+Message-ID: <20200410090838.GD1691838@kroah.com>
+References: <20200407065210.GA263852@kroah.com>
+ <20200407071809.3148-1-sultan@kerneltoast.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200407071809.3148-1-sultan@kerneltoast.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,53 +47,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
- viresh.kumar@linaro.org, liviu.dudau@arm.com, bjorn.andersson@linaro.org,
- bsegall@google.com, mka@chromium.org, amit.kucheria@verdurent.com,
- lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
- daniel.lezcano@linaro.org, steven.price@arm.com, cw00.choi@samsung.com,
- mingo@redhat.com, mgorman@suse.de, rui.zhang@intel.com,
- alyssa.rosenzweig@collabora.com, orjan.eide@arm.com, b.zolnierkie@samsung.com,
- s.hauer@pengutronix.de, rostedt@goodmis.org, matthias.bgg@gmail.com,
- Dietmar.Eggemann@arm.com, airlied@linux.ie, tomeu.vizoso@collabora.com,
- qperret@google.com, sboyd@kernel.org, rdunlap@infradead.org, rjw@rjwysocki.net,
- agross@kernel.org, kernel@pengutronix.de, sudeep.holla@arm.com,
- patrick.bellasi@matbug.net, shawnguo@kernel.org, lukasz.luba@arm.com
-MIME-Version: 1.0
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ stable@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Register devfreq cooling device and attempt to register Energy Model. This
-will add the devfreq device to the Energy Model framework. It will create
-a dedicated and unified data structures used i.e. in thermal framework.
-The last NULL parameter indicates that the power model is simplified and
-created based on DT 'dynamic-power-coefficient', voltage and frequency.
+On Tue, Apr 07, 2020 at 12:18:09AM -0700, Sultan Alsawaf wrote:
+> From: Sultan Alsawaf <sultan@kerneltoast.com>
+> 
+> The following deadlock exists in i915_active_wait() due to a double lock
+> on ref->mutex (call chain listed in order from top to bottom):
+>  i915_active_wait();
+>  mutex_lock_interruptible(&ref->mutex); <-- ref->mutex first acquired
+>  i915_active_request_retire();
+>  node_retire();
+>  active_retire();
+>  mutex_lock_nested(&ref->mutex, SINGLE_DEPTH_NESTING); <-- DEADLOCK
+> 
+> Fix the deadlock by skipping the second ref->mutex lock when
+> active_retire() is called through i915_active_request_retire().
+> 
+> Note that this bug only affects 5.4 and has since been fixed in 5.5.
+> Normally, a backport of the fix from 5.5 would be in order, but the
+> patch set that fixes this deadlock involves massive changes that are
+> neither feasible nor desirable for backporting [1][2][3]. Therefore,
+> this small patch was made to address the deadlock specifically for 5.4.
+> 
+> [1] 274cbf20fd10 ("drm/i915: Push the i915_active.retire into a worker")
+> [2] 093b92287363 ("drm/i915: Split i915_active.mutex into an irq-safe spinlock for the rbtree")
+> [3] 750bde2fd4ff ("drm/i915: Serialise with remote retirement")
+> 
+> Fixes: 12c255b5dad1 ("drm/i915: Provide an i915_active.acquire callback")
+> Cc: <stable@vger.kernel.org> # 5.4.x
+> Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
+> ---
+>  drivers/gpu/drm/i915/i915_active.c | 27 +++++++++++++++++++++++----
+>  drivers/gpu/drm/i915/i915_active.h |  4 ++--
+>  2 files changed, 25 insertions(+), 6 deletions(-)
 
-Reviewed-by: Steven Price <steven.price@arm.com>
-Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
----
- drivers/gpu/drm/panfrost/panfrost_devfreq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Now queued up, thanks.
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-index 413987038fbf..8759a73db153 100644
---- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-@@ -105,7 +105,7 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
- 	}
- 	pfdev->devfreq.devfreq = devfreq;
- 
--	cooling = of_devfreq_cooling_register(dev->of_node, devfreq);
-+	cooling = devfreq_cooling_em_register(devfreq, NULL);
- 	if (IS_ERR(cooling))
- 		DRM_DEV_INFO(dev, "Failed to register cooling device\n");
- 	else
--- 
-2.17.1
-
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
