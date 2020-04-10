@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B8F31A443E
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 11:08:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6F11A4511
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 12:18:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43A806EC98;
-	Fri, 10 Apr 2020 09:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C98836ECBF;
+	Fri, 10 Apr 2020 10:18:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 427656EC98;
- Fri, 10 Apr 2020 09:08:41 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99B416ECBF
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 10:18:36 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9DA44206F7;
- Fri, 10 Apr 2020 09:08:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586509721;
- bh=vveq8hq4tZ4KJEkqR2DPVe2ODOea/E2UKD483B1OMqI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hfXrj0TKtmzmyGTpTS6yZPQPvGrK5/rDkwRaELSo41Vc7PKlEbCsOL4vYTwiztZvf
- SGeMGSTStb3bsOpfqFmz8O3DFtFBM6BrMKxN1sXWiXX0NmcATYnFJADWkpM9wQSuzx
- ozrElzpwYOAY/BtU6FcpMSm2pN4u2lB3+BdSIANE=
-Date: Fri, 10 Apr 2020 11:08:38 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sultan Alsawaf <sultan@kerneltoast.com>
-Subject: Re: [PATCH v2] drm/i915: Fix ref->mutex deadlock in i915_active_wait()
-Message-ID: <20200410090838.GD1691838@kroah.com>
-References: <20200407065210.GA263852@kroah.com>
- <20200407071809.3148-1-sultan@kerneltoast.com>
+ by asavdk3.altibox.net (Postfix) with ESMTPS id D106720029;
+ Fri, 10 Apr 2020 12:18:32 +0200 (CEST)
+Date: Fri, 10 Apr 2020 12:18:31 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Subject: Re: drm/tve200: Checking for a failed platform_get_irq() call in
+ tve200_probe()
+Message-ID: <20200410101831.GA27723@ravnborg.org>
+References: <0263f4fb-c349-7651-b590-8722cdd30c85@web.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200407071809.3148-1-sultan@kerneltoast.com>
+In-Reply-To: <0263f4fb-c349-7651-b590-8722cdd30c85@web.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=IkcTkHD0fZMA:10 a=P-IC7800AAAA:8
+ a=VwQbUJbxAAAA:8 a=JCZqW-9RZpn1hzHRehAA:9 a=MPcP9uqrSlW2Lgt8:21
+ a=4ciHVacbEfDAk_G1:21 a=QEXdDO2ut3YA:10 a=d3PnA9EDa4IxuAV0gXij:22
+ a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,51 +47,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- stable@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 07, 2020 at 12:18:09AM -0700, Sultan Alsawaf wrote:
-> From: Sultan Alsawaf <sultan@kerneltoast.com>
-> 
-> The following deadlock exists in i915_active_wait() due to a double lock
-> on ref->mutex (call chain listed in order from top to bottom):
->  i915_active_wait();
->  mutex_lock_interruptible(&ref->mutex); <-- ref->mutex first acquired
->  i915_active_request_retire();
->  node_retire();
->  active_retire();
->  mutex_lock_nested(&ref->mutex, SINGLE_DEPTH_NESTING); <-- DEADLOCK
-> 
-> Fix the deadlock by skipping the second ref->mutex lock when
-> active_retire() is called through i915_active_request_retire().
-> 
-> Note that this bug only affects 5.4 and has since been fixed in 5.5.
-> Normally, a backport of the fix from 5.5 would be in order, but the
-> patch set that fixes this deadlock involves massive changes that are
-> neither feasible nor desirable for backporting [1][2][3]. Therefore,
-> this small patch was made to address the deadlock specifically for 5.4.
-> 
-> [1] 274cbf20fd10 ("drm/i915: Push the i915_active.retire into a worker")
-> [2] 093b92287363 ("drm/i915: Split i915_active.mutex into an irq-safe spinlock for the rbtree")
-> [3] 750bde2fd4ff ("drm/i915: Serialise with remote retirement")
-> 
-> Fixes: 12c255b5dad1 ("drm/i915: Provide an i915_active.acquire callback")
-> Cc: <stable@vger.kernel.org> # 5.4.x
-> Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
-> ---
->  drivers/gpu/drm/i915/i915_active.c | 27 +++++++++++++++++++++++----
->  drivers/gpu/drm/i915/i915_active.h |  4 ++--
->  2 files changed, 25 insertions(+), 6 deletions(-)
-
-Now queued up, thanks.
-
-greg k-h
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTWFya3VzLgoKT24gVGh1LCBBcHIgMDksIDIwMjAgYXQgMDM6MDU6MTdQTSArMDIwMCwgTWFy
+a3VzIEVsZnJpbmcgd3JvdGU6Cj4gSGVsbG8sCj4gCj4gSSBoYXZlIHRha2VuIGFub3RoZXIgbG9v
+ayBhdCB0aGUgaW1wbGVtZW50YXRpb24gb2YgdGhlIGZ1bmN0aW9uIOKAnHR2ZTIwMF9wcm9iZeKA
+nS4KPiBBIHNvZnR3YXJlIGFuYWx5c2lzIGFwcHJvYWNoIHBvaW50cyB0aGUgZm9sbG93aW5nIHNv
+dXJjZSBjb2RlIG91dCBmb3IKPiBmdXJ0aGVyIGRldmVsb3BtZW50IGNvbnNpZGVyYXRpb25zLgo+
+IGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y1LjYuMy9zb3VyY2UvZHJpdmVycy9n
+cHUvZHJtL3R2ZTIwMC90dmUyMDBfZHJ2LmMjTDIxMgo+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcv
+cHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90cmVlL2RyaXZlcnMv
+Z3B1L2RybS90dmUyMDAvdHZlMjAwX2Rydi5jP2lkPTVkMzBiY2FjZDkxYWY2ODc0NDgxMTI5Nzk3
+YWYzNjRhNTNjZDliNDYjbjIxMgo+IAo+IAlpcnEgPSBwbGF0Zm9ybV9nZXRfaXJxKHBkZXYsIDAp
+Owo+IAlpZiAoIWlycSkgewo+IAkJcmV0ID0gLUVJTlZBTDsKPiAJCWdvdG8gY2xrX2Rpc2FibGU7
+Cj4gCX0KPiAKPiAKPiBUaGUgc29mdHdhcmUgZG9jdW1lbnRhdGlvbiBpcyBwcm92aWRpbmcgdGhl
+IGZvbGxvd2luZyBpbmZvcm1hdGlvbgo+IGZvciB0aGUgdXNlZCBwcm9ncmFtbWluZyBpbnRlcmZh
+Y2UuCj4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9y
+dmFsZHMvbGludXguZ2l0L3RyZWUvZHJpdmVycy9iYXNlL3BsYXRmb3JtLmM/aWQ9NWQzMGJjYWNk
+OTFhZjY4NzQ0ODExMjk3OTdhZjM2NGE1M2NkOWI0NiNuMjIxCj4gaHR0cHM6Ly9lbGl4aXIuYm9v
+dGxpbi5jb20vbGludXgvdjUuNi4zL3NvdXJjZS9kcml2ZXJzL2Jhc2UvcGxhdGZvcm0uYyNMMjAy
+Cj4gCj4g4oCc4oCmCj4gICogUmV0dXJuOiBJUlEgbnVtYmVyIG9uIHN1Y2Nlc3MsIG5lZ2F0aXZl
+IGVycm9yIG51bWJlciBvbiBmYWlsdXJlLgo+IOKApuKAnQo+IAo+IFdvdWxkIHlvdSBsaWtlIHRv
+IHJlY29uc2lkZXIgdGhlIHNob3duIGNvbmRpdGlvbiBjaGVjaz8KVGhhbnNrIGZvciBzcG90dGlu
+ZyB0aGlzLgoKVGhlIHJpZ2h0IHdheSB0byBjaGVjayBmb3IgZXJyb3JzIGlzIHRvIGNoZWNrIGlm
+IHRoZSByZXR1cm4gdmFsdWUgaXMKbGVzcyB0aGFuIDAuCkNvdWxkIHlvdSBwbGVhc2UgYXVkaXQg
+YWxsIHVzZXMgb2YgcGxhdGZvcm1fZ2V0X2lycSgpIGluIGRyaXZlcnMvZ3B1LwphbmQgc2VuZCBh
+IHNlcmllcyBvZiBwYXRjaGVzLCBvbmUgZm9yIGVhY2ggZHJpdmVyLgoKQSBxdWljayAiZ2l0IGdy
+ZXAgLUMgNSBwbGF0Zm9ybV9nZXRfaXJxIiBpZGVudGlmaWVkIGEgZmV3IGV4dHJhIGRyaXZlcnMK
+dGhhdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIHJlY29tbWVuZCB3YXkgdG8gY2hlY2sgZm9yIGVy
+cm9ycy4KClRyeSB0byBiZSBhIGJpdCBtb3JlIHRlcnNlIGluIHRoZSBjaGFuZ2Vsb2cgLSBidXQg
+cmVmZXIgdG8KdGhlIGRvY3VtZW50YXRpb24gb2YgcGxhdGZvcm1fZ2V0X2lycSgpOgoKICogRXhh
+bXBsZToKICoJCWludCBpcnEgPSBwbGF0Zm9ybV9nZXRfaXJxKHBkZXYsIDApOwogKgkJaWYgKGly
+cSA8IDApCiAqCQkJcmV0dXJuIGlycTsKCkVhc2llciB0byBlbWJlZCBpdCAtIHJhdGhlciB0aGFu
+IHRvIGxpbmsgaXQuCkZpbmUgd2l0aCBsaW5rcyBpbiB0aGUgaW50cm8gbWFpbC4KCiAJU2FtCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
