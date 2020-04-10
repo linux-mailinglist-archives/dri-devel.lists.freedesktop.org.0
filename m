@@ -2,88 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833261A4570
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 12:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A021A522B
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Apr 2020 14:54:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 491CA6E17E;
-	Fri, 10 Apr 2020 10:58:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECF656E317;
+	Sat, 11 Apr 2020 12:54:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2075.outbound.protection.outlook.com [40.107.92.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DB816E0D4;
- Fri, 10 Apr 2020 10:58:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EoErLRbiKq80DcyhNatMF6ow3K8AvzfpAm7uK9KveXcP96pN8Rs7MBWd3jPRCSVuZBJ8REDnnqa16Zgqig+8DthlORfHqwHYWuWFkWlwZEgh5AZXbY1duSwN91kPOTGx3Yg1IJFmqy5HUfpLPqs7M6XqoEwLW2Gqh3WTfNSnISQPegRGqlKx4vsfeUvXwBs/TeOYYoc+GVvP2Lhdvhp6SHv9/AnRud0AqfsGnD9ZqgNxFiVMGZsncHmeDkrqibUMXLmhSRbSL5i1kaMY8neQHf0q5NZnzboKf0067mZPfJs+fI9ZLkk7ElOTl+j4NWzWppN+u950CbewIk794GrEjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/UKeaRx36gcdW60QkZkz5GonuXTLlhTv/hWNtApQtXk=;
- b=c6xsZhV7Z9o5rLPxnjaFw32giWuQTDgsQ+olzIMHQdsdnYdSWYvzHKGzflS+IGhys6PTvanan9v9h+awe5QKCg1ULEeg5ZXXo/iulEEF8/8fayEOnL+UoDAY/pSaXRwDTPXdL+gOTfZhsNRsbLvPnTEBSE3w6Sxuly+rNOqXTH+z3KFWz2fmafVu1mijr/SmXAEHy17b/t4GdMFnPmFfGaJ6sYNyzoqdJn3Y2aSiMe/mt23m11GVf7r2VS/Zahz1tCmPLd5wJO0Yankn+FvWBe9mGxAdkj8SYo+S7Ewnie8UvKq98s5NyE1+E+wVLEcdt9Jv1wxnoNtknvWEtBxVBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/UKeaRx36gcdW60QkZkz5GonuXTLlhTv/hWNtApQtXk=;
- b=cXBs9ADXyppCE8ifaNKMryNvnG3svYwLCUNVOJkm8iZAzqDNSzcrBuEQxL6Uq9Bllo3pPmNGv6Bgj3F6tPX/kkGd5dACkThU6IDakxRW2oAt0oKKMMsQ3EFK4UQ2oORXbibUn7iZHWAXgbTw2oTsLjPow8qilJUXDZGaDyCWQ8g=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Xinhui.Pan@amd.com; 
-Received: from SN1PR12MB2558.namprd12.prod.outlook.com (2603:10b6:802:2b::18)
- by SN1PR12MB2366.namprd12.prod.outlook.com (2603:10b6:802:25::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15; Fri, 10 Apr
- 2020 10:58:45 +0000
-Received: from SN1PR12MB2558.namprd12.prod.outlook.com
- ([fe80::ec5f:a26:8530:3b9f]) by SN1PR12MB2558.namprd12.prod.outlook.com
- ([fe80::ec5f:a26:8530:3b9f%6]) with mapi id 15.20.2900.015; Fri, 10 Apr 2020
- 10:58:45 +0000
-From: xinhui pan <xinhui.pan@amd.com>
-To: amd-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: Break out the loops if need_resched in bo delayed
- delete worker
-Date: Fri, 10 Apr 2020 18:58:25 +0800
-Message-Id: <20200410105825.2492-1-xinhui.pan@amd.com>
-X-Mailer: git-send-email 2.17.1
-X-ClientProxiedBy: HK2PR02CA0155.apcprd02.prod.outlook.com
- (2603:1096:201:1f::15) To SN1PR12MB2558.namprd12.prod.outlook.com
- (2603:10b6:802:2b::18)
+X-Greylist: delayed 495 seconds by postgrey-1.36 at gabe;
+ Fri, 10 Apr 2020 11:21:02 UTC
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 359B56E1D3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 11:21:02 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id D0C895808B7;
+ Fri, 10 Apr 2020 07:12:42 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute7.internal (MEProxy); Fri, 10 Apr 2020 07:12:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=luisgerhorst.de;
+ h=references:from:to:cc:subject:in-reply-to:date:message-id
+ :mime-version:content-type; s=mesmtp; bh=1XCTRzA4r6t+aW/YmemVZF7
+ K9mMd/HGoO3EIq2+dA90=; b=qIrPPVsbiwtiPCG914yDDwQbRVGekh653wn5tFg
+ 3OXdht3GDey5g1KxO9bQPKJBaZjXrLahuzs7uwHaDn1hha4c8tqr9U6h/enmMfmq
+ axrVJWAkDeXqxnz5S/s0WX+23JNsmfvxG76MaCu5yoZ/10otB8aw6fJY8I0RJhAL
+ UKCE=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=1XCTRz
+ A4r6t+aW/YmemVZF7K9mMd/HGoO3EIq2+dA90=; b=W9Z+DKjhWSrSdyvjUXQWV0
+ Ht2PBs1Ju8IyieMn6zSkkE0Ul7b4auQXJoekqKJj2FzKU9A+TGuBoFK1SeMMbtzb
+ 8oMu2rI+B4LzmSkiLSgoieRYIg+B8B0W2HubEz8VgtrlMAXtwwV8LwPnsaNl7ENf
+ Hnjisw0YwgMkCsP9gyq9jSxPZWrZ9Ts2HPNybosCeGMKZtC5AH9R3c92CP8iSrSH
+ gHS5Yf6zBUWVLj0ZbW7UWf0jF0G8RyBbIZtZRddWT5nYI7Y5ITHyhHNZMoDcYH6U
+ Tdhl71Pqk4drxYS2/9BHw9I+ui37vmZMPZYDw+naFkx8jWWMgcUvkw4fFivbpqgw
+ ==
+X-ME-Sender: <xms:o1SQXtej93cVqf0lMq7BjSBnI80YT6WTnh_bM3bafOgyIiQWYNJntw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrvddvgdefjecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpehffgfhvffujgffkfggtgesthdtredttdertdenucfhrhhomhepnfhuihhsucfi
+ vghrhhhorhhsthcuoehlihhnuhigqdhkvghrnhgvlheslhhuihhsghgvrhhhohhrshhtrd
+ guvgeqnecukfhppeelvddruddujedrudefiedrkeeknecuvehluhhsthgvrhfuihiivgep
+ tdenucfrrghrrghmpehmrghilhhfrhhomheplhhinhhugidqkhgvrhhnvghlsehluhhish
+ hgvghrhhhorhhsthdruggv
+X-ME-Proxy: <xmx:o1SQXsJqEEpdAVlBBNOrPjECiypCvsioWJAkkkqB7OV1k6G1cJ037Q>
+ <xmx:o1SQXm3GbM5jjQeq5Fw3vlWvqURZgDtwUCKygupmqpZPjSWL5fF5KQ>
+ <xmx:o1SQXlY0lL6nr4XO4VhiScv6QkQfeTRa26Q3bZiNQCcnAlci-1NBaA>
+ <xmx:qlSQXgnwI9ZSlZ3EtewA6ucmkah78uuNHQkFyCGi-HgqJe16QWXm_g>
+Received: from luis-debian.fastmail.com (unknown [92.117.136.88])
+ by mail.messagingengine.com (Postfix) with ESMTPA id DA33E3280060;
+ Fri, 10 Apr 2020 07:12:29 -0400 (EDT)
+References: <20200410084210.24932-1-lukasz.luba@arm.com>
+ <20200410084210.24932-5-lukasz.luba@arm.com>
+User-agent: mu4e 1.0; emacs 26.1
+From: Luis Gerhorst <linux-kernel@luisgerhorst.de>
+To: Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH v6 04/10] PM / EM: add support for other devices than CPUs
+ in Energy Model
+In-reply-to: <20200410084210.24932-5-lukasz.luba@arm.com>
+Date: Fri, 10 Apr 2020 13:12:28 +0200
+Message-ID: <87ftdboaqr.fsf@luis-debian.luis-debian-domain>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pp-server-two.amd.com (180.167.199.189) by
- HK2PR02CA0155.apcprd02.prod.outlook.com (2603:1096:201:1f::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2900.15 via Frontend Transport; Fri, 10 Apr 2020 10:58:43 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [180.167.199.189]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 02d2641e-eb97-478c-845e-08d7dd3e2366
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2366:|SN1PR12MB2366:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN1PR12MB2366DD50432D40CAFB83C6C887DE0@SN1PR12MB2366.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-Forefront-PRVS: 0369E8196C
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN1PR12MB2558.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10009020)(4636009)(376002)(136003)(366004)(396003)(39860400002)(346002)(66946007)(86362001)(6486002)(450100002)(316002)(4744005)(4326008)(6666004)(5660300002)(2906002)(2616005)(52116002)(7696005)(956004)(81156014)(1076003)(186003)(8936002)(66556008)(66476007)(6916009)(16526019)(478600001)(8676002)(36756003)(26005);
- DIR:OUT; SFP:1101; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: F8E562K3Po4Ab4nDWT+c1K7I5lXdkvJ4XBaHvSW8AftNERs8auyr00kMjUjDMjNh52duFIVQ3v+hXc+M6XcuHQOhjaJGP4Vb5w62uhrkhTNZWn/0i1sUxiORZzw9zX5Z7BG3RIgzMeHCn4qVJKV4In8bIabF9xDHr8FXqTA1tJfb+aXNmG0wzGtcEDGIMDLlMZ00Lp9nb8f4QuHPTFOVTJ0S3mY/Q7WUJHPUBpvmdTHa4wGBJyFxy33AohyhY2o6SaSRsR/D/0jlWZtrLMKLDwYHDvX6IS9peZWYa4UVIqebSAO1Vew5Q7DcrR4ud4mPLDld1JT+QB84OqumeeExVSkaMg2FgNfWL8lgOHExfe9uNLBFbaCbqSicekEDYFMRmHpyNLUrp3YvDtt5GfGWkGcFug8sl8r7cGfmNYJ2ehDldUVtZ0MU3NnomwIFZoaw
-X-MS-Exchange-AntiSpam-MessageData: av2xQJZnwn57n6Trm/14VLMsCeefAUapg4fCclXlq0w/jDm9kL6HvOti8upuGVhCp88oeuJmx+eIRPzfUPPxvngXYdm7cVyS21/UFLHYB0PwlpTCBEo6uCLtb4Zh5xPmqyS/ZRisEg7yK9R2UuHfWw==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02d2641e-eb97-478c-845e-08d7dd3e2366
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2020 10:58:45.2793 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2hEz91cGBu5G+g6abquMwch9/lSU0CT4AYxTvqtcb/1K77VuUhgFSH6ZWQzbx+5I
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2366
+X-Mailman-Approved-At: Sat, 11 Apr 2020 12:53:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,39 +78,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xinhui pan <xinhui.pan@amd.com>, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, bsegall@google.com,
+ alyssa.rosenzweig@collabora.com, mka@chromium.org, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ agross@kernel.org, daniel.lezcano@linaro.org, steven.price@arm.com,
+ cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
+ rui.zhang@intel.com, mgorman@suse.de, orjan.eide@arm.com,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ s.hauer@pengutronix.de, rostedt@goodmis.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
+ linux-arm-kernel@lists.infradead.org, airlied@linux.ie,
+ tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
+ rdunlap@infradead.org, rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
+ b.zolnierkie@samsung.com, kernel@pengutronix.de, sudeep.holla@arm.com,
+ patrick.bellasi@matbug.net, shawnguo@kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The delayed delete list is per device which might be very huge. And in
-a heavy workload test, the list might always not be empty. That will
-trigger any RCU stall warnings or softlockups in non-preemptible kernels
-Lets do break out the loops in that case.
 
-Signed-off-by: xinhui pan <xinhui.pan@amd.com>
----
- drivers/gpu/drm/ttm/ttm_bo.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Lukasz Luba writes:
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 9e07c3f75156..c5b516fa4eae 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -518,7 +518,7 @@ static bool ttm_bo_delayed_delete(struct ttm_bo_device *bdev, bool remove_all)
- 	INIT_LIST_HEAD(&removed);
- 
- 	spin_lock(&glob->lru_lock);
--	while (!list_empty(&bdev->ddestroy)) {
-+	while (!list_empty(&bdev->ddestroy) && !need_resched()) {
- 		struct ttm_buffer_object *bo;
- 
- 		bo = list_first_entry(&bdev->ddestroy, struct ttm_buffer_object,
--- 
-2.17.1
+> +/**
+> + * em_dev_unregister_perf_domain() - Unregister Energy Model 
+> (EM) for a device
+> + * @dev		: Device for which the EM is registered
+> + *
+> + * Try to unregister the EM for the specified device (it checks 
+> current
+> + * reference counter). The EM for CPUs will not be freed.
+> + */
+> +void em_dev_unregister_perf_domain(struct device *dev)
+> +{
+> +	struct em_device *em_dev, *tmp;
+> +
+> +	if (IS_ERR_OR_NULL(dev))
+> +		return;
+> +
+> +	/* We don't support freeing CPU structures in hotplug */
+> +	if (_is_cpu_device(dev)) {
+> +		dev_dbg_once(dev, "EM: the structures are not going to be 
+> removed\n");
+> +		return;
+> +	}
+> +
+> +	mutex_lock(&em_pd_mutex);
+> +
+> +	if (list_empty(&em_pd_dev_list)) {
+> +		mutex_unlock(&em_pd_mutex);
+> +		return;
+> +	}
+> +
+> +	list_for_each_entry_safe(em_dev, tmp, &em_pd_dev_list, 
+> em_dev_list) {
+> +		if (em_dev->dev == dev) {
+> +			kref_put(&em_dev->kref, _em_release);
+> +			break;
+> +		}
+> +	}
+> +
+> +	mutex_unlock(&em_pd_mutex);
+> +}
+> +EXPORT_SYMBOL_GPL(em_dev_unregister_perf_domain);
 
+Ok, so em_dev_unregister_perf_domain() does not support the CPU 
+device
+and a subsequent em_register_perf_domain() will fail with EEXIST.
+
+Is there a way to unregister/change the CPU's energy model during
+runtime without restarting the whole system?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
