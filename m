@@ -2,37 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E411A4563
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 12:48:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 823481A5226
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Apr 2020 14:54:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 132216E18F;
-	Fri, 10 Apr 2020 10:48:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A2A46E088;
+	Sat, 11 Apr 2020 12:53:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F1C96E18F
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 10:48:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 85414FB03;
- Fri, 10 Apr 2020 12:48:37 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bW2A5ldcPbjn; Fri, 10 Apr 2020 12:48:36 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id ECBD840601; Fri, 10 Apr 2020 12:48:35 +0200 (CEST)
-Date: Fri, 10 Apr 2020 12:48:35 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v11 0/2] drm: bridge: Add NWL MIPI DSI host controller
- support
-Message-ID: <20200410104835.GA22010@bogon.m.sigxcpu.org>
-References: <cover.1586427783.git.agx@sigxcpu.org>
- <20200409140130.GA11188@ravnborg.org>
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D63F6E0D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 10:56:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1586516187;
+ bh=fXhaD07NjfL91yOXDHRZNEEr5NaybQZwWj/cYtVKaAc=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=E7+n06URj96WDpmyDK3LfmVGzuxk09r0cv1Q1etwWrDl+mYMsOB/5ChW0XvUIuvEZ
+ 5vjvEpfaqqjSGMYWnkdhWG7NVYyKmsNs3lcuxnklcWFUUFFp4Cd/rw5mw9zlEuWxiZ
+ nmTm+uEIgi9eCXBSP8bl/G4F4bmJgSwRuidFFZ2g=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.3] ([78.48.110.107]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0M41Bm-1j5se90ySA-00rXpN; Fri, 10
+ Apr 2020 12:56:27 +0200
+Subject: Re: drm/tve200: Checking for a failed platform_get_irq() call in
+ tve200_probe()
+To: Sam Ravnborg <sam@ravnborg.org>, Linus Walleij
+ <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org
+References: <0263f4fb-c349-7651-b590-8722cdd30c85@web.de>
+ <20200410101831.GA27723@ravnborg.org>
+From: Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <235b500a-0e5e-9ca3-4be5-9026c7d9f87f@web.de>
+Date: Fri, 10 Apr 2020 12:56:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200409140130.GA11188@ravnborg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200410101831.GA27723@ravnborg.org>
+Content-Language: en-US
+X-Provags-ID: V03:K1:C/jrja9K2QgghT7CCmZZh7za7qQGU/Lep6p/xvtDn+QNIDIBWI/
+ bn2Hrp3KtYDnliCSyLnaOe56I1z8IMrzhQfikOM3tJinmMEFA8Rn8TFfElR111FYdKAgyrC
+ ciWaYnARttCLa++GYym0LjCe1sGFJt/Amsj+RjhNSBG/p2iUPb/v6rJ5lHnSVF3A4ycacDJ
+ ebn9jBSjcR4AvGBG8mdYw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6e2dTCMQjmQ=:b1/6dD52FnISJ5L11D1ORW
+ lHvxfXQckmXVXirdiuJTDpsvQh0ZkN5xHVFvG2sfjZf5rsVeGhQdZ/wkfNzLnX9v0a0HHLqO4
+ 9AUxr1c96dL4JagLdbSw+A1MQW0N5BRmrG6RZsg+/5H9aCpwffDzHsYwGdRbaoy2jM8GIwc8+
+ 3cbUSYTJB6LMXoQiJ0ocj2zjOg61AwxSTvRDGGrQYsulBEob8MriIl+j15mkAGUtwqiElqk53
+ 1OmIWI/ZhPI5sDB/V+Ck/CfoY2P/oGuZ6J88cR1A5clhDNs7FV9cPbMc3OAiL+oDM0VkofR7b
+ 1q9Xm65gFmHBVhlzmkECakXDsY3bCVMnJIROqkMgfDDi1AOJ65T5+jk+/NjJamFLrKIhMatGj
+ 2KnSGeJ3nDfWZGFl5WkkmvzhLYe9fW4TH2ZlVFMwYRdjs1ISrRVn0oEDl027aCkXtCckt0jA2
+ 0vrr1ZuG93BlnAtFJEu0MVTPJMDW9Td80wubZUYjEYtH65xS1HzcRMPggLJGRfKSzYVjVgO0S
+ wOiBjaQatidcTvYjlaOblYw/bhzvNKfLcUoc6fCmhWhGIAIj2OVKU1ypKqif3xm9Xl/Jy/rVV
+ aXmLHAdsL5Ag+8x2QJd8J/gAboh9H0HIq5wBmR64G05dyn6eJpX9KxFIBjXw9GoqCnPyBlKRI
+ NU0qo607cqnE8cjiBLNbVpRnHJkai6Vs98t0NFCoO5bdZHZQlLSqbF0YrkF0Ezrr+6We1FXdC
+ h/ByV+ykNVoCYqKeVcCA4cq6WbAW2f5kZjIiMrciWvt4z1xHmAtJWlq4VczzRyLgRiMzJhV9R
+ QAOFit41IhR9pc5JF3uJ+Ofa1JnP4TKpnIlieiU950kipIM/wfancZj6o/Euksy3U34MJIsWM
+ Jr5iDDWWB0moAsgnAdzcvS7WbZMOSYrllpthm6/rgnM5d2WjER6MRb0nHa9rBMJOUuvLEhK86
+ 5b/yWVu/U8oKlRIOA++xsmCrQzNLJo6vYrtChzmUuNXTO5xC9PJT0NE8u4lyGQZmJ5/mS+bhb
+ nlbjmWlYIlHU4whb8Jd/g9CsBLhuth0C4LiUwOudnfmld4K1nzuiKxpaEfoW1PMyUqsOfORVg
+ ErUnNvA0wjois3gJGT/KFzoV+jf8DdxevCWqyGbpcbeKVIXSDfEXIrlyArfK/SdK/GUGvpGhS
+ 9LbHiwzvkKtq7k21vrsYEP41FM5w5921QEa/yPq63W2BgM6qM76VpZpYXJ51MqZdcLjNYrW+D
+ BCkS1SgfXcryWezl4
+X-Mailman-Approved-At: Sat, 11 Apr 2020 12:53:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,83 +117,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Arnd Bergmann <arnd@arndb.de>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Sascha Hauer <s.hauer@pengutronix.de>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>, Robert Chiras <robert.chiras@nxp.com>,
- Lee Jones <lee.jones@linaro.org>, Shawn Guo <shawnguo@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, Tang Bin <tangbin@cmss.chinamobile.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Thu, Apr 09, 2020 at 04:01:30PM +0200, Sam Ravnborg wrote:
-> Hi Guido.
-> =
-
-> On Thu, Apr 09, 2020 at 12:42:00PM +0200, Guido G=FCnther wrote:
-> > This adds initial support for the NWL MIPI DSI Host controller found on=
- i.MX8
-> > SoCs.
-> > =
-
-> > It adds support for the i.MX8MQ but the same IP core can also be found =
-on e.g.
-> > i.MX8QXP. I added the necessary hooks to support other imx8 variants bu=
-t since
-> > I only have imx8mq boards to test I omitted the platform data for other=
- SoCs.
-> > =
-
-> > The code is based on NXPs BSP so I added Robert Chiras as Co-authored-b=
-y.
-> > =
-
-> > The most notable changes over the BSP driver are
-> >  - Calculate HS mode timing from phy_configure_opts_mipi_dphy
-> >  - Perform all clock setup via DT
-> >  - Merge nwl-imx and nwl drivers
-> >  - Add B0 silion revision quirk
-> >  - become a bridge driver to hook into mxsfb / dcss
-> >    imx-display-subsystem so it makes sense to make it drive a bridge fo=
-r dsi as
-> >    well).
-> >  - Use panel_bridge to attach the panel
-> >  - Use multiplex framework instead of accessing syscon directly
-> > =
-
-> > This has been tested on a Librem 5 devkit using mxsfb with Robert's pat=
-ches[1]
-> > and the mainline rocktech-jh057n00900 DSI panel driver on next-20200317=
- and on
-> > the Librem5 with the a Mantix MLAF057WE51-X DSI panel driver (not yet m=
-ainline)
-> > The DCSS (submitted for mainline inclusion now too) can also act as inp=
-ut
-> > source.
-> =
-
-> Thanks for your persistence with this driver.
-> I got ack from Laurent on IRC to apply it (not for the driver as he had
-> no time to review it).
-> So applied to drm-misc-next now.
-> =
-
-> I look forward for the update to support DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> in this driver and the corresponding display driver.
-
-Thanks. I'll have a look at that (currently checking where the larger
-mxsfb rework of Laurent is going so i can use that as a base
-eventually).
-Cheers,
- -- Guido
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+PiBUaGUgcmlnaHQgd2F5IHRvIGNoZWNrIGZvciBlcnJvcnMgaXMgdG8gY2hlY2sgaWYgdGhlIHJl
+dHVybiB2YWx1ZSBpcwo+IGxlc3MgdGhhbiAwLgoKVGhhbmtzIGZvciB5b3VyIGNvbnN0cnVjdGl2
+ZSBmZWVkYmFjay4KCkkgd2FzIHVuc3VyZSBpZiBJIG5vdGljZWQgYW5vdGhlciBwcm9ncmFtbWlu
+ZyBtaXN0YWtlLgoKCj4gQ291bGQgeW91IHBsZWFzZSBhdWRpdCBhbGwgdXNlcyBvZiBwbGF0Zm9y
+bV9nZXRfaXJxKCkgaW4gZHJpdmVycy9ncHUvCgpJIGZvdW5kIDIwIHNvdXJjZSBmaWxlcyBmcm9t
+IHRoZSBzb2Z0d2FyZSDigJxMaW51eCBuZXh0LTIwMjAwNDA44oCdCndoaWNoIHNlZW0gdG8gY29u
+dGFpbiBzaW1pbGFyIHVwZGF0ZSBjYW5kaWRhdGVzLgpXb3VsZCB5b3UgbGlrZSB0byBjbGFyaWZ5
+IGFueSBleHRlbnNpb25zIGZvciBpbXByb3ZlZCBhcHBsaWNhdGlvbnMKb2Ygc2NyaXB0cyB3aXRo
+IHRoZSBzZW1hbnRpYyBwYXRjaCBsYW5ndWFnZSAoQ29jY2luZWxsZSBzb2Z0d2FyZSkKZm9yIGNv
+cnJlc3BvbmRpbmcgYW5hbHlzaXMgYW5kIHRyYW5zZm9ybWF0aW9uIHB1cnBvc2VzPwoKCj4gYW5k
+IHNlbmQgYSBzZXJpZXMgb2YgcGF0Y2hlcywgb25lIGZvciBlYWNoIGRyaXZlci4KCkRvIG90aGVy
+IGNvbnRyaWJ1dG9ycyBrbm93IHRoZSBhZmZlY3RlZCBzb2Z0d2FyZSBtb2R1bGUgYmV0dGVyIHRo
+YW4gbWU/CgpSZWdhcmRzLApNYXJrdXMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
