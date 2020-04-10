@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8AB71A4935
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 19:38:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 692AD1A4916
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 19:37:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 987076ED26;
-	Fri, 10 Apr 2020 17:38:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72EC46E288;
+	Fri, 10 Apr 2020 17:37:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
- [209.85.167.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04D396ED26
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 17:38:15 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id b10so1979498oic.2
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 10:38:15 -0700 (PDT)
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB2006E288
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 17:37:10 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id n25so2482178otr.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 10:37:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=xMUIst4uwZNit/kezR50BEXwVLAD+7IMlqqlt2PZF4M=;
- b=chdQRRmdZpV8qAqXAQAMpSAGyVSHTWg2Hhlt6Qa317lil6fkIdz7OMs8x5QSSmBoBe
- KsPxkwrD1TkB/tkTRMplof6spcF22VW4JeY4NUVUOLvWuLTS/HaJ5c9kJ3k/vNwAyNf6
- VSOhccsOxDRADn9jyYrPXVvUVb/jlecYxtiYSIKi86k64kI/tJ4cSj7fPED6uhpMQZ9M
- NhcjJrJ11nevSQz+1Q7OQ8Q4Z96Qv7KxtwdvLqRWATV74E5onHoRRIRxmzSdLqXnmlFF
- 1xvlW8Y0Ss2zEvIxFNZ/6BsCBuIstc3nqtBA4rUAw6z+Ibb9GTdFwrU3FGQmrNWSrxEi
- ZCyQ==
-X-Gm-Message-State: AGi0PuZU/xlHhs7cGt8CYTTtpgEExUpvyGqeRIrDhmD1z0i89pJh2Jfc
- 8inIidpotosqE3QRiR3ZHA==
-X-Google-Smtp-Source: APiQypJwusuEqgU1CYkOWOgcrzLL32tqNKeweZKcGAtisZ1kThdf4338Sn41hKMfM5QqP5/sISiZCg==
-X-Received: by 2002:aca:891:: with SMTP id 139mr4109648oii.137.1586540295214; 
- Fri, 10 Apr 2020 10:38:15 -0700 (PDT)
+ bh=OvsHNilOxSyiwGW3V/imzWzd5sgcwB1R86uU7/0uLTg=;
+ b=Jzu/tn6TpXZlU1hPjBVAfmkByQffz/vnoUmpfiVs4WIaqcm+7WjA0PM/VN3Wj8K2Vz
+ oRmF9OHi/zG9R16snEZISrA+PSMYsrC/r8Nxj5uQtUx5jzcH+NNMlXEfPMMhEpcornx4
+ CLINCYVn5bGy8+0+GS5jADhg4HmUTjNoxdoLoXVOrRZreC3z/Sd6t0kJZeRjndXYbz3f
+ cwZj/ppbWS2puWD2kI70YSPn6mlWDe9PcXB6QmeFY/jSD0c0di2ZPQAVbY/OlpapYCB0
+ BJjfCkXqXBPDmNjN54YuG+kM0CCkUC14ISYQQeWHpHf9O4oAFfRJpDqc3gMJRDB6dj9K
+ 68XA==
+X-Gm-Message-State: AGi0PuaL7DgcVqSu+5XqXkHg/RwH3oAiH369w/ibDxBroJ8LXi2fibu6
+ rDXMq4kBq8SgxT8KeDfemA==
+X-Google-Smtp-Source: APiQypL0WB5tGIuunT3qritEJX9PvG/EVqigMCAxoki77FmP/HPVGri3fzYS6+Bezx2cJ8PtdYYb+Q==
+X-Received: by 2002:a4a:9cd8:: with SMTP id d24mr4988155ook.84.1586540230111; 
+ Fri, 10 Apr 2020 10:37:10 -0700 (PDT)
 Received: from rob-hp-laptop (ip-99-203-29-27.pools.cgn.spcsdns.net.
  [99.203.29.27])
- by smtp.gmail.com with ESMTPSA id 89sm1469196otj.66.2020.04.10.10.38.07
+ by smtp.gmail.com with ESMTPSA id d3sm1480526oth.81.2020.04.10.10.37.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Apr 2020 10:38:14 -0700 (PDT)
-Received: (nullmailer pid 12197 invoked by uid 1000);
- Fri, 10 Apr 2020 16:52:01 -0000
-Date: Fri, 10 Apr 2020 11:52:01 -0500
+ Fri, 10 Apr 2020 10:37:08 -0700 (PDT)
+Received: (nullmailer pid 30639 invoked by uid 1000);
+ Fri, 10 Apr 2020 17:05:13 -0000
+Date: Fri, 10 Apr 2020 12:05:13 -0500
 From: Rob Herring <robh@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [PATCH v5 1/8] dt-bindings: add img,pvrsgx.yaml for Imagination
- GPUs
-Message-ID: <20200410165201.GA9521@bogus>
-References: <cover.1585503505.git.hns@goldelico.com>
- <000359713a45bb1a1adc0b609e4e659aedf99e6c.1585503505.git.hns@goldelico.com>
- <0E273453-861D-45A2-8FA4-D5EC4B78F490@goldelico.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v2 01/22] dt-bindings: memory: tegra20: mc: Document new
+ interconnect property
+Message-ID: <20200410170513.GA30556@bogus>
+References: <20200330010904.27643-1-digetx@gmail.com>
+ <20200330010904.27643-2-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0E273453-861D-45A2-8FA4-D5EC4B78F490@goldelico.com>
+In-Reply-To: <20200330010904.27643-2-digetx@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,134 +62,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Philipp Rossak <embed3d@gmail.com>, Paul Burton <paulburton@kernel.org>,
- David Airlie <airlied@linux.ie>, James Hogan <jhogan@kernel.org>,
- OpenPVRSGX Linux Driver Group <openpvrsgx-devgroup@letux.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, Tony Lindgren <tony@atomide.com>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
- kernel@pyra-handheld.com, linux-omap <linux-omap@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Artur =?utf-8?B?xZp3aWdvxYQ=?= <a.swigon@samsung.com>,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
+ Georgi Djakov <georgi.djakov@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 07, 2020 at 09:00:48AM +0200, H. Nikolaus Schaller wrote:
+On Mon, 30 Mar 2020 04:08:43 +0300, Dmitry Osipenko wrote:
+> Memory controller is interconnected with memory clients and with the
+> external memory controller. Document new interconnect property which
+> turns memory controller into interconnect provider.
 > 
-> > Am 29.03.2020 um 19:38 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
-> > 
-> > The Imagination PVR/SGX GPU is part of several SoC from
-> > multiple vendors, e.g. TI OMAP, Ingenic JZ4780, Intel Poulsbo,
-> > Allwinner A83 and others.
-> > 
-> > With this binding, we describe how the SGX processor is
-> > interfaced to the SoC (registers, interrupt etc.).
-> > 
-> > In most cases, Clock, Reset and power management is handled
-> > by a parent node or elsewhere (e.g. code in the driver).
-> > 
-> > Tested by make dt_binding_check dtbs_check
-> > 
-> > Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> > ---
-> > .../devicetree/bindings/gpu/img,pvrsgx.yaml   | 109 ++++++++++++++++++
-> > 1 file changed, 109 insertions(+)
-> > create mode 100644 Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml b/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
-> > new file mode 100644
-> > index 000000000000..aadfb2d9b012
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
-> > @@ -0,0 +1,109 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/gpu/img,pvrsgx.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Imagination PVR/SGX GPU
-> > +
-> > +maintainers:
-> > +  - H. Nikolaus Schaller <hns@goldelico.com>
-> > +
-> > +description: |+
-> > +  This binding describes the Imagination SGX5 series of 3D accelerators which
-> > +  are found in several different SoC like TI OMAP, Sitara, Ingenic JZ4780,
-> > +  Allwinner A83, and Intel Poulsbo and CedarView and more.
-> > +
-> > +  For an extensive list see: https://en.wikipedia.org/wiki/PowerVR#Implementations
-> > +
-> > +  The SGX node is usually a child node of some DT node belonging to the SoC
-> > +  which handles clocks, reset and general address space mapping of the SGX
-> > +  register area.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - description: SGX530-121 based SoC
-> > +        items:
-> > +          - enum:
-> > +            - ti,omap3-sgx530-121 # BeagleBoard A/B/C, OpenPandora 600MHz and similar
-> > +          - const: img,sgx530-121
-> > +          - const: img,sgx530
-> > +
-> > +      - description: SGX530-125 based SoC
-> > +        items:
-> > +          - enum:
-> > +            - ti,am3352-sgx530-125 # BeagleBone Black
-> > +            - ti,am3517-sgx530-125
-> > +            - ti,am4-sgx530-125
-> > +            - ti,omap3-sgx530-125 # BeagleBoard XM, GTA04, OpenPandora 1GHz and similar
-> > +            - ti,ti81xx-sgx530-125
-> > +          - const: ti,omap3-sgx530-125
-> > +          - const: img,sgx530-125
-> > +          - const: img,sgx530
-> > +
-> > +      - description: SGX535-116 based SoC
-> > +        items:
-> > +          - const: intel,poulsbo-gma500-sgx535 # Atom Z5xx
-> > +          - const: img,sgx535-116
-> > +          - const: img,sgx535
-> > +
-> > +      - description: SGX540-116 based SoC
-> > +        items:
-> > +          - const: intel,medfield-gma-sgx540 # Atom Z24xx
-> > +          - const: img,sgx540-116
-> > +          - const: img,sgx540
-> > +
-> > +      - description: SGX540-120 based SoC
-> > +        items:
-> > +          - enum:
-> > +            - ingenic,jz4780-sgx540-120 # CI20
-> > +            - ti,omap4-sgx540-120 # Pandaboard, Pandaboard ES and similar
-> > +          - const: img,sgx540-120
-> > +          - const: img,sgx540
-> > +
-> > +      - description: SGX544-112 based SoC
-> > +        items:
-> > +          - const: ti,omap4-sgx544-112
-> > +          - const: img,sgx544-112
-> > +          - const: img,sgx544
-> > +
-> > +      - description: SGX544-116 based SoC
-> > +        items:
-> > +          - enum:
-> > +            - allwinner,sun8i-a83t-sgx544-116 # Banana-Pi-M3 (Allwinner A83T) and similar
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  .../bindings/memory-controllers/nvidia,tegra20-mc.txt          | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> Philipp Rossak reported on a different list [1] that the a83t tells to have a sgx544-115 inside.
-> 
-> So it needs a separate entry.
 
-Okay, it looks fine otherwise.
-
-Rob
+Acked-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
