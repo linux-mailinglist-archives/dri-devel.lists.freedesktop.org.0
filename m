@@ -1,44 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED781A4788
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 16:35:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 817221A483B
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 18:07:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65C876ECEE;
-	Fri, 10 Apr 2020 14:35:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DF336ED13;
+	Fri, 10 Apr 2020 16:07:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C76B76ECEE
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 14:35:47 +0000 (UTC)
-IronPort-SDR: sjQ2G147nFHXll8Xpf3cOCSUF9Qwf/+c+h4U6SQnomPyYWjE1DzWLtDDjEfKfLgDj7GH7SUKnZ
- ZTyCEVb/BEyw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2020 07:35:46 -0700
-IronPort-SDR: zbr0ICL8riBJrAXbriEa/9w1ujdIoqqgAGMjnLyN9w4Nec3cKPTFsGtKgxVvoM//J3X4m11JrW
- N6k7oPxJliCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,367,1580803200"; d="scan'208";a="260698530"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by orsmga008.jf.intel.com with ESMTP; 10 Apr 2020 07:35:36 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
- (envelope-from <lkp@intel.com>)
- id 1jMukq-000Dv4-1O; Fri, 10 Apr 2020 22:35:36 +0800
-Date: Fri, 10 Apr 2020 22:35:28 +0800
-From: kbuild test robot <lkp@intel.com>
-To: Lukasz Luba <lukasz.luba@arm.com>
-Subject: Re: [PATCH v6 04/10] PM / EM: add support for other devices than
- CPUs in Energy Model
-Message-ID: <202004102201.DHeSXu2d%lkp@intel.com>
-References: <20200410084210.24932-5-lukasz.luba@arm.com>
+X-Greylist: delayed 401 seconds by postgrey-1.36 at gabe;
+ Fri, 10 Apr 2020 16:07:29 UTC
+Received: from cloudserver094114.home.pl (cloudserver094114.home.pl
+ [79.96.170.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A3696ED14
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 16:07:29 +0000 (UTC)
+Received: from 185.80.35.16 (185.80.35.16) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.415)
+ id 3a80db90d5ade516; Fri, 10 Apr 2020 18:00:46 +0200
+From: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To: Linux PM <linux-pm@vger.kernel.org>, Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH 5/7] PM: sleep: core: Rename DPM_FLAG_NEVER_SKIP
+Date: Fri, 10 Apr 2020 17:56:13 +0200
+Message-ID: <5092680.jloV5Ae5OO@kreacher>
+In-Reply-To: <1888197.j9z7NJ8yPn@kreacher>
+References: <1888197.j9z7NJ8yPn@kreacher>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200410084210.24932-5-lukasz.luba@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,178 +38,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
- viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, bsegall@google.com,
- alyssa.rosenzweig@collabora.com, mka@chromium.org, amit.kucheria@verdurent.com,
- lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
- agross@kernel.org, daniel.lezcano@linaro.org, steven.price@arm.com,
- cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
- rui.zhang@intel.com, mgorman@suse.de, orjan.eide@arm.com,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- s.hauer@pengutronix.de, rostedt@goodmis.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
- linux-arm-kernel@lists.infradead.org, airlied@linux.ie,
- kbuild-all@lists.01.org, tomeu.vizoso@collabora.com, qperret@google.com,
- sboyd@kernel.org, rdunlap@infradead.org, rjw@rjwysocki.net,
- linux-kernel@vger.kernel.org, b.zolnierkie@samsung.com, kernel@pengutronix.de,
- sudeep.holla@arm.com, patrick.bellasi@matbug.net, shawnguo@kernel.org,
- lukasz.luba@arm.com
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Hans De Goede <hdegoede@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI-devel <dri-devel@lists.freedesktop.org>,
+ Linux ACPI <linux-acpi@vger.kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+ Linux PCI <linux-pci@vger.kernel.org>, intel-wired-lan@lists.osuosl.org,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lukasz,
+From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 
-I love your patch! Perhaps something to improve:
+Rename DPM_FLAG_NEVER_SKIP to DPM_FLAG_NO_DIRECT_COMPLETE which
+matches its purpose more closely.
 
-[auto build test WARNING on next-20200409]
-[cannot apply to pm/linux-next tip/sched/core linus/master linux/master v5.6 v5.6-rc7 v5.6-rc6 v5.6]
-[if your patch is applied to the wrong git tree, please drop us a note to help
-improve the system. BTW, we also suggest to use '--base' option to specify the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+No functional impact.
 
-url:    https://github.com/0day-ci/linux/commits/Lukasz-Luba/Add-support-for-devices-in-the-Energy-Model/20200410-172456
-base:    873e37a44b1ee8ad4628ca257dc51c0c7c654326
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kbuild test robot <lkp@intel.com>
-
-
-cppcheck warnings: (new ones prefixed by >>)
-
->> kernel/power/energy_model.c:394:15: warning: Variable 'ret' is assigned a value that is never used. [unreadVariable]
-    int cpu, ret = 0;
-                 ^
-
-vim +/ret +394 kernel/power/energy_model.c
-
-27871f7a8a341e Quentin Perret  2018-12-03  370  
-27871f7a8a341e Quentin Perret  2018-12-03  371  /**
-b4dc5cca354b8a Lukasz Luba     2020-04-10  372   * em_dev_register_perf_domain() - Register the Energy Model (EM) for a device
-b4dc5cca354b8a Lukasz Luba     2020-04-10  373   * @dev		: Device for which the EM is to register
-1ccc27ced21bf5 Lukasz Luba     2020-04-10  374   * @nr_states	: Number of performance states to register
-27871f7a8a341e Quentin Perret  2018-12-03  375   * @cb		: Callback functions providing the data of the Energy Model
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  376   * @cpus	: Pointer to cpumask_t, which in case of a CPU device is
-b4dc5cca354b8a Lukasz Luba     2020-04-10  377   *		obligatory. It can be taken from i.e. 'policy->cpus'. For other
-b4dc5cca354b8a Lukasz Luba     2020-04-10  378   *		type of devices this should be set to NULL.
-27871f7a8a341e Quentin Perret  2018-12-03  379   *
-27871f7a8a341e Quentin Perret  2018-12-03  380   * Create Energy Model tables for a performance domain using the callbacks
-27871f7a8a341e Quentin Perret  2018-12-03  381   * defined in cb.
-27871f7a8a341e Quentin Perret  2018-12-03  382   *
-27871f7a8a341e Quentin Perret  2018-12-03  383   * If multiple clients register the same performance domain, all but the first
-27871f7a8a341e Quentin Perret  2018-12-03  384   * registration will be ignored.
-27871f7a8a341e Quentin Perret  2018-12-03  385   *
-27871f7a8a341e Quentin Perret  2018-12-03  386   * Return 0 on success
-27871f7a8a341e Quentin Perret  2018-12-03  387   */
-b4dc5cca354b8a Lukasz Luba     2020-04-10  388  int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  389  				struct em_data_callback *cb, cpumask_t *cpus)
-27871f7a8a341e Quentin Perret  2018-12-03  390  {
-27871f7a8a341e Quentin Perret  2018-12-03  391  	unsigned long cap, prev_cap = 0;
-27871f7a8a341e Quentin Perret  2018-12-03  392  	struct em_perf_domain *pd;
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  393  	struct em_device *em_dev;
-27871f7a8a341e Quentin Perret  2018-12-03 @394  	int cpu, ret = 0;
-27871f7a8a341e Quentin Perret  2018-12-03  395  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  396  	if (!dev || !nr_states || !cb)
-27871f7a8a341e Quentin Perret  2018-12-03  397  		return -EINVAL;
-27871f7a8a341e Quentin Perret  2018-12-03  398  
-27871f7a8a341e Quentin Perret  2018-12-03  399  	/*
-27871f7a8a341e Quentin Perret  2018-12-03  400  	 * Use a mutex to serialize the registration of performance domains and
-27871f7a8a341e Quentin Perret  2018-12-03  401  	 * let the driver-defined callback functions sleep.
-27871f7a8a341e Quentin Perret  2018-12-03  402  	 */
-27871f7a8a341e Quentin Perret  2018-12-03  403  	mutex_lock(&em_pd_mutex);
-27871f7a8a341e Quentin Perret  2018-12-03  404  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  405  	em_dev = _em_dev_find_existing(dev);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  406  	if (em_dev) {
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  407  		mutex_unlock(&em_pd_mutex);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  408  		dev_dbg(dev, "EM: found exisiting pd%d\n", em_dev->id);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  409  		return -EEXIST;
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  410  	}
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  411  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  412  	if (_is_cpu_device(dev)) {
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  413  		if (!cpus) {
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  414  			mutex_unlock(&em_pd_mutex);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  415  			dev_err(dev, "EM: invalid CPU mask\n");
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  416  			return -EINVAL;
-27871f7a8a341e Quentin Perret  2018-12-03  417  		}
-27871f7a8a341e Quentin Perret  2018-12-03  418  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  419  		/* Make sure we don't register domain for existing CPUs */
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  420  		if (em_cpus_pd_exist(cpus)) {
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  421  			mutex_unlock(&em_pd_mutex);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  422  			return -EEXIST;
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  423  		}
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  424  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  425  		for_each_cpu(cpu, cpus) {
-27871f7a8a341e Quentin Perret  2018-12-03  426  			/*
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  427  			 * All CPUs of a domain must have the same
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  428  			 * micro-architecture since they all share the same
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  429  			 * table.
-27871f7a8a341e Quentin Perret  2018-12-03  430  			 */
-8ec59c0f5f4966 Vincent Guittot 2019-06-17  431  			cap = arch_scale_cpu_capacity(cpu);
-27871f7a8a341e Quentin Perret  2018-12-03  432  			if (prev_cap && prev_cap != cap) {
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  433  				dev_err(dev, "EM: CPUs of %*pbl must have the same capacity\n",
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  434  					cpumask_pr_args(cpus));
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  435  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  436  				mutex_unlock(&em_pd_mutex);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  437  				return -EINVAL;
-27871f7a8a341e Quentin Perret  2018-12-03  438  			}
-27871f7a8a341e Quentin Perret  2018-12-03  439  			prev_cap = cap;
-27871f7a8a341e Quentin Perret  2018-12-03  440  		}
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  441  	}
-27871f7a8a341e Quentin Perret  2018-12-03  442  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  443  	pd = em_create_pd(dev, nr_states, cb, cpus);
-27871f7a8a341e Quentin Perret  2018-12-03  444  	if (!pd) {
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  445  		mutex_unlock(&em_pd_mutex);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  446  		return -EINVAL;
-27871f7a8a341e Quentin Perret  2018-12-03  447  	}
-27871f7a8a341e Quentin Perret  2018-12-03  448  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  449  	em_dev = kzalloc(sizeof(struct em_device), GFP_KERNEL);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  450  	if (!em_dev) {
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  451  		ret = -ENOMEM;
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  452  		goto free_pd;
-27871f7a8a341e Quentin Perret  2018-12-03  453  	}
-27871f7a8a341e Quentin Perret  2018-12-03  454  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  455  	em_dev->id = ida_simple_get(&em_dev_ida, 0, 0, GFP_KERNEL);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  456  	if (em_dev->id < 0) {
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  457  		ret = em_dev->id;
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  458  		goto free_em_dev;
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  459  	}
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  460  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  461  	em_dev->em_pd = pd;
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  462  	em_dev->dev = dev;
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  463  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  464  	kref_init(&em_dev->kref);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  465  	list_add(&em_dev->em_dev_list, &em_pd_dev_list);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  466  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  467  	em_debug_create_pd(em_dev);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  468  	dev_dbg(dev, "EM: created perf domain pd%d\n", em_dev->id);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  469  
-27871f7a8a341e Quentin Perret  2018-12-03  470  	mutex_unlock(&em_pd_mutex);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  471  	return 0;
-27871f7a8a341e Quentin Perret  2018-12-03  472  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  473  free_em_dev:
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  474  	kfree(em_dev);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  475  free_pd:
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  476  	kfree(pd->table);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  477  	kfree(pd);
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  478  
-9cf8494b5f4eb8 Lukasz Luba     2020-04-10  479  	mutex_unlock(&em_pd_mutex);
-27871f7a8a341e Quentin Perret  2018-12-03  480  	return ret;
-27871f7a8a341e Quentin Perret  2018-12-03  481  }
-b4dc5cca354b8a Lukasz Luba     2020-04-10  482  EXPORT_SYMBOL_GPL(em_dev_register_perf_domain);
-b4dc5cca354b8a Lukasz Luba     2020-04-10  483  
-
-:::::: The code at line 394 was first introduced by commit
-:::::: 27871f7a8a341ef5c636a337856369acf8013e4e PM: Introduce an Energy Model management framework
-
-:::::: TO: Quentin Perret <quentin.perret@arm.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
-
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ Documentation/driver-api/pm/devices.rst    |  6 +++---
+ Documentation/power/pci.rst                | 10 +++++-----
+ drivers/base/power/main.c                  |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    |  2 +-
+ drivers/gpu/drm/i915/intel_runtime_pm.c    |  2 +-
+ drivers/gpu/drm/radeon/radeon_kms.c        |  2 +-
+ drivers/misc/mei/pci-me.c                  |  2 +-
+ drivers/misc/mei/pci-txe.c                 |  2 +-
+ drivers/net/ethernet/intel/e1000e/netdev.c |  2 +-
+ drivers/net/ethernet/intel/igb/igb_main.c  |  2 +-
+ drivers/net/ethernet/intel/igc/igc_main.c  |  2 +-
+ drivers/pci/pcie/portdrv_pci.c             |  2 +-
+ include/linux/pm.h                         |  6 +++---
+ 13 files changed, 21 insertions(+), 21 deletions(-)
+
+diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
+index f66c7b9126ea..4ace0eba4506 100644
+--- a/Documentation/driver-api/pm/devices.rst
++++ b/Documentation/driver-api/pm/devices.rst
+@@ -361,9 +361,9 @@ the phases are: ``prepare``, ``suspend``, ``suspend_late``, ``suspend_noirq``.
+ 	runtime PM disabled.
+ 
+ 	This feature also can be controlled by device drivers by using the
+-	``DPM_FLAG_NEVER_SKIP`` and ``DPM_FLAG_SMART_PREPARE`` driver power
+-	management flags.  [Typically, they are set at the time the driver is
+-	probed against the device in question by passing them to the
++	``DPM_FLAG_NO_DIRECT_COMPLETE`` and ``DPM_FLAG_SMART_PREPARE`` driver
++	power management flags.  [Typically, they are set at the time the driver
++	is probed against the device in question by passing them to the
+ 	:c:func:`dev_pm_set_driver_flags` helper function.]  If the first of
+ 	these flags is set, the PM core will not apply the direct-complete
+ 	procedure described above to the given device and, consequenty, to any
+diff --git a/Documentation/power/pci.rst b/Documentation/power/pci.rst
+index aa1c7fce6cd0..9e1408121bea 100644
+--- a/Documentation/power/pci.rst
++++ b/Documentation/power/pci.rst
+@@ -1004,11 +1004,11 @@ including the PCI bus type.  The flags should be set once at the driver probe
+ time with the help of the dev_pm_set_driver_flags() function and they should not
+ be updated directly afterwards.
+ 
+-The DPM_FLAG_NEVER_SKIP flag prevents the PM core from using the direct-complete
+-mechanism allowing device suspend/resume callbacks to be skipped if the device
+-is in runtime suspend when the system suspend starts.  That also affects all of
+-the ancestors of the device, so this flag should only be used if absolutely
+-necessary.
++The DPM_FLAG_NO_DIRECT_COMPLETE flag prevents the PM core from using the
++direct-complete mechanism allowing device suspend/resume callbacks to be skipped
++if the device is in runtime suspend when the system suspend starts.  That also
++affects all of the ancestors of the device, so this flag should only be used if
++absolutely necessary.
+ 
+ The DPM_FLAG_SMART_PREPARE flag instructs the PCI bus type to only return a
+ positive value from pci_pm_prepare() if the ->prepare callback provided by the
+diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+index 21187ee37b22..aa9c8df9fc4b 100644
+--- a/drivers/base/power/main.c
++++ b/drivers/base/power/main.c
+@@ -1850,7 +1850,7 @@ static int device_prepare(struct device *dev, pm_message_t state)
+ 	spin_lock_irq(&dev->power.lock);
+ 	dev->power.direct_complete = state.event == PM_EVENT_SUSPEND &&
+ 		(ret > 0 || dev->power.no_pm_callbacks) &&
+-		!dev_pm_test_driver_flags(dev, DPM_FLAG_NEVER_SKIP);
++		!dev_pm_test_driver_flags(dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+ 	spin_unlock_irq(&dev->power.lock);
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+index fd1dc3236eca..a9086ea1ab60 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+@@ -191,7 +191,7 @@ int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
+ 	}
+ 
+ 	if (adev->runpm) {
+-		dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
++		dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+ 		pm_runtime_use_autosuspend(dev->dev);
+ 		pm_runtime_set_autosuspend_delay(dev->dev, 5000);
+ 		pm_runtime_set_active(dev->dev);
+diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
+index ad719c9602af..9cb2d7548daa 100644
+--- a/drivers/gpu/drm/i915/intel_runtime_pm.c
++++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+@@ -549,7 +549,7 @@ void intel_runtime_pm_enable(struct intel_runtime_pm *rpm)
+ 	 * becaue the HDA driver may require us to enable the audio power
+ 	 * domain during system suspend.
+ 	 */
+-	dev_pm_set_driver_flags(kdev, DPM_FLAG_NEVER_SKIP);
++	dev_pm_set_driver_flags(kdev, DPM_FLAG_NO_DIRECT_COMPLETE);
+ 
+ 	pm_runtime_set_autosuspend_delay(kdev, 10000); /* 10s */
+ 	pm_runtime_mark_last_busy(kdev);
+diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
+index 58176db85952..372962358a18 100644
+--- a/drivers/gpu/drm/radeon/radeon_kms.c
++++ b/drivers/gpu/drm/radeon/radeon_kms.c
+@@ -158,7 +158,7 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
+ 	}
+ 
+ 	if (radeon_is_px(dev)) {
+-		dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
++		dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+ 		pm_runtime_use_autosuspend(dev->dev);
+ 		pm_runtime_set_autosuspend_delay(dev->dev, 5000);
+ 		pm_runtime_set_active(dev->dev);
+diff --git a/drivers/misc/mei/pci-me.c b/drivers/misc/mei/pci-me.c
+index 3d21c38e2dbb..53f16f3bd091 100644
+--- a/drivers/misc/mei/pci-me.c
++++ b/drivers/misc/mei/pci-me.c
+@@ -240,7 +240,7 @@ static int mei_me_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	 * MEI requires to resume from runtime suspend mode
+ 	 * in order to perform link reset flow upon system suspend.
+ 	 */
+-	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
++	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+ 
+ 	/*
+ 	 * ME maps runtime suspend/resume to D0i states,
+diff --git a/drivers/misc/mei/pci-txe.c b/drivers/misc/mei/pci-txe.c
+index beacf2a2f2b5..4bf26ce61044 100644
+--- a/drivers/misc/mei/pci-txe.c
++++ b/drivers/misc/mei/pci-txe.c
+@@ -128,7 +128,7 @@ static int mei_txe_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	 * MEI requires to resume from runtime suspend mode
+ 	 * in order to perform link reset flow upon system suspend.
+ 	 */
+-	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
++	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+ 
+ 	/*
+ 	 * TXE maps runtime suspend/resume to own power gating states,
+diff --git a/drivers/net/ethernet/intel/e1000e/netdev.c b/drivers/net/ethernet/intel/e1000e/netdev.c
+index 177c6da80c57..2730b1c7dddb 100644
+--- a/drivers/net/ethernet/intel/e1000e/netdev.c
++++ b/drivers/net/ethernet/intel/e1000e/netdev.c
+@@ -7549,7 +7549,7 @@ static int e1000_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 
+ 	e1000_print_device_info(adapter);
+ 
+-	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
++	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+ 
+ 	if (pci_dev_run_wake(pdev) && hw->mac.type < e1000_pch_cnp)
+ 		pm_runtime_put_noidle(&pdev->dev);
+diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
+index b46bff8fe056..8bb3db2cbd41 100644
+--- a/drivers/net/ethernet/intel/igb/igb_main.c
++++ b/drivers/net/ethernet/intel/igb/igb_main.c
+@@ -3445,7 +3445,7 @@ static int igb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 		}
+ 	}
+ 
+-	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
++	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+ 
+ 	pm_runtime_put_noidle(&pdev->dev);
+ 	return 0;
+diff --git a/drivers/net/ethernet/intel/igc/igc_main.c b/drivers/net/ethernet/intel/igc/igc_main.c
+index 69fa1ce1f927..59fc0097438f 100644
+--- a/drivers/net/ethernet/intel/igc/igc_main.c
++++ b/drivers/net/ethernet/intel/igc/igc_main.c
+@@ -4825,7 +4825,7 @@ static int igc_probe(struct pci_dev *pdev,
+ 	pcie_print_link_status(pdev);
+ 	netdev_info(netdev, "MAC: %pM\n", netdev->dev_addr);
+ 
+-	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
++	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+ 
+ 	pm_runtime_put_noidle(&pdev->dev);
+ 
+diff --git a/drivers/pci/pcie/portdrv_pci.c b/drivers/pci/pcie/portdrv_pci.c
+index 160d67c59310..3acf151ae015 100644
+--- a/drivers/pci/pcie/portdrv_pci.c
++++ b/drivers/pci/pcie/portdrv_pci.c
+@@ -115,7 +115,7 @@ static int pcie_portdrv_probe(struct pci_dev *dev,
+ 
+ 	pci_save_state(dev);
+ 
+-	dev_pm_set_driver_flags(&dev->dev, DPM_FLAG_NEVER_SKIP |
++	dev_pm_set_driver_flags(&dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE |
+ 					   DPM_FLAG_SMART_SUSPEND);
+ 
+ 	if (pci_bridge_d3_possible(dev)) {
+diff --git a/include/linux/pm.h b/include/linux/pm.h
+index d89b7099f241..28fd444fb5c9 100644
+--- a/include/linux/pm.h
++++ b/include/linux/pm.h
+@@ -544,7 +544,7 @@ struct pm_subsys_data {
+  * These flags can be set by device drivers at the probe time.  They need not be
+  * cleared by the drivers as the driver core will take care of that.
+  *
+- * NEVER_SKIP: Do not skip all system suspend/resume callbacks for the device.
++ * NO_DIRECT_COMPLETE: Do not apply direct-complete optimization to the device.
+  * SMART_PREPARE: Check the return value of the driver's ->prepare callback.
+  * SMART_SUSPEND: No need to resume the device from runtime suspend.
+  * LEAVE_SUSPENDED: Avoid resuming the device during system resume if possible.
+@@ -554,7 +554,7 @@ struct pm_subsys_data {
+  * their ->prepare callbacks if the driver's ->prepare callback returns 0 (in
+  * other words, the system suspend/resume callbacks can only be skipped for the
+  * device if its driver doesn't object against that).  This flag has no effect
+- * if NEVER_SKIP is set.
++ * if NO_DIRECT_COMPLETE is set.
+  *
+  * Setting SMART_SUSPEND instructs bus types and PM domains which may want to
+  * runtime resume the device upfront during system suspend that doing so is not
+@@ -565,7 +565,7 @@ struct pm_subsys_data {
+  * Setting LEAVE_SUSPENDED informs the PM core and middle-layer code that the
+  * driver prefers the device to be left in suspend after system resume.
+  */
+-#define DPM_FLAG_NEVER_SKIP		BIT(0)
++#define DPM_FLAG_NO_DIRECT_COMPLETE	BIT(0)
+ #define DPM_FLAG_SMART_PREPARE		BIT(1)
+ #define DPM_FLAG_SMART_SUSPEND		BIT(2)
+ #define DPM_FLAG_LEAVE_SUSPENDED	BIT(3)
+-- 
+2.16.4
+
+
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
