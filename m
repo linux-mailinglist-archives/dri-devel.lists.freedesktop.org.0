@@ -2,70 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FA11A522A
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Apr 2020 14:54:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE0CB1A4955
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 19:39:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0880A6E31C;
-	Sat, 11 Apr 2020 12:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AB186ED28;
+	Fri, 10 Apr 2020 17:39:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED6A6E1FB
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 17:13:23 +0000 (UTC)
-Received: by mail-qk1-x744.google.com with SMTP id z15so2796789qki.7
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 10:13:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=IM1Dms+6Kk6uSoOVXDf++gqgf8pSHSOrUNNPGKpHdFY=;
- b=HV2la9hQONCVfSMQQuksMMkJuwjAeD273zC8VodiNbmtqcBgp2ySsLByOsTc1wzOMr
- Q9UfQ3z57uAE/AWLeIkDYBqxMsgSFKVaorYpEBWRMLbBFkKVnmwYANj6bP3Btwm2uths
- L9byXcBZfaHUEkD0RCnPWYbb3RLvr6yjpdT+E3khm/EiDCkUDGNNZMO4Fom5Xpr1b0rM
- lbfhPKbdmkL+FSBFPFKRkQPoLz4AWsJLrV3BqyY8BMDpnEVBFFhkxyXkMSxZ//Z/bz2W
- VRZdiIuzKZZicmBrIzbxO4CEGwy9CxOfE/paIO4nviIEqyU173faTtrmigfjHx+WYbQX
- 5o7Q==
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+ [209.85.167.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9668C6ED28
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 17:39:24 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id e4so1954365oig.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 10:39:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=IM1Dms+6Kk6uSoOVXDf++gqgf8pSHSOrUNNPGKpHdFY=;
- b=a83eHoHaq6zMi07VIjF75l0C0xgWS2nvWUPklWsAEtloReq89js/RsIF6CD8Ohr5J7
- VZ5ayHdIYdiicKoIFNILLx852HqXu+h4fDBPblAAv+1f83rs+ADHtnsIR+2S+OD7kvog
- +uvvO2+t1fukVBoh3Ddn4VTjXTYR5/hKaiOC7IiKMibo5U/JZYwoy/LbdeuKdsImyzNq
- oXzyqKFtl6zpqRuZt85NFPbb1oGZXWgFZ/RWcTaF3KO6f+xHfrZzjBmTazKQ0ewC4aIC
- 4IlNmeMe2ncUFaBqCmcHM96jZRSV6M/Jnmv1kBo6K2hxO3Xmqyj4Nq2znKtyfbFNwuZE
- rs3w==
-X-Gm-Message-State: AGi0PuaIeGzLYPEhvdJdp349xZUMt4t2Fd3tLiMZcF0C7R9dzQxWDNr9
- RYzRnodKq1fYgYN+2O7YAfUEzw==
-X-Google-Smtp-Source: APiQypLmE/MEQtipGhULJ9OlLMq9pEcPOhlrkTjtMbVWOYt8l+l3qlb93NNl4fBSv7xFKi5pNqJpBA==
-X-Received: by 2002:a05:620a:a41:: with SMTP id
- j1mr5046527qka.86.1586538802345; 
- Fri, 10 Apr 2020 10:13:22 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id m10sm1997447qte.71.2020.04.10.10.13.21
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 10 Apr 2020 10:13:21 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1jMxDU-0006Dq-Uh; Fri, 10 Apr 2020 14:13:20 -0300
-Date: Fri, 10 Apr 2020 14:13:20 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Saeed Mahameed <saeedm@mellanox.com>
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-Message-ID: <20200410171320.GN11886@ziepe.ca>
-References: <20200408202711.1198966-1-arnd@arndb.de>
- <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
- <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
- <20200408224224.GD11886@ziepe.ca> <87k12pgifv.fsf@intel.com>
- <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
+ bh=UVlxIE0CSKdKwuyXIBQDvbaJJFV3N43f9jUNTBByOKM=;
+ b=WDGD5Ldniu2Mcou0gTUijxCRwZ4qBh5IPySXF5I06DP8/OM1GLwGTINArZg3P5MhXw
+ lIWRV8o+WZbSZ8VfZbwRcvPhCaHGeIcE+tzsYmKNWqzJMhCOKVAuGepGf2ClA7lt7cNn
+ TPxqsgT+sB+w5+hm00w/WNcp5JvIc2Ep51guapMYX+M1Zobj5oz0nkgVPRXv5O90vU8i
+ rD3OX+FF/kz9veduS+GG9QVVVk7keioSznp+0w45L7qjTP1PwgJf4rQ1E2O7wrobSRgx
+ 36fQwbA3jI5mRSngYHBnURY83O+xJC5mJ38io9ueAQc1LsNNnfy7HQ66eOqTRsMaqsR0
+ KSnw==
+X-Gm-Message-State: AGi0PubSvk4vP7erkqngVv9OEPV7xL7vCP7HSEzkkXvMuejHFthor7/F
+ fzrAhuOAPP1RsT3T6GS/YQ==
+X-Google-Smtp-Source: APiQypIbEr9eAuDn8ap/2ErWe8F05Nq4R1u7xjJ+3zCkjJKKNwFWVUzijYYdI42B6WOSqS3yiJsmAw==
+X-Received: by 2002:a05:6808:1c1:: with SMTP id
+ x1mr3845478oic.55.1586540363863; 
+ Fri, 10 Apr 2020 10:39:23 -0700 (PDT)
+Received: from rob-hp-laptop (ip-99-203-29-27.pools.cgn.spcsdns.net.
+ [99.203.29.27])
+ by smtp.gmail.com with ESMTPSA id d21sm1480776otp.39.2020.04.10.10.39.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Apr 2020 10:39:23 -0700 (PDT)
+Received: (nullmailer pid 6854 invoked by uid 1000);
+ Fri, 10 Apr 2020 17:33:24 -0000
+Date: Fri, 10 Apr 2020 12:33:24 -0500
+From: Rob Herring <robh@kernel.org>
+To: Michal Simek <michal.simek@xilinx.com>
+Subject: Re: [PATCH v2 2/2] powerpc: Remove Xilinx PPC405/PPC440 support
+Message-ID: <20200410173324.GA28512@bogus>
+References: <cover.1585575111.git.michal.simek@xilinx.com>
+ <9c3e02ffa9812c6f046708b45932d40f33e8817a.1585575111.git.michal.simek@xilinx.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Sat, 11 Apr 2020 12:53:57 +0000
+In-Reply-To: <9c3e02ffa9812c6f046708b45932d40f33e8817a.1585575111.git.michal.simek@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,65 +62,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
- "arnd@arndb.de" <arnd@arndb.de>, "leon@kernel.org" <leon@kernel.org>,
- "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "masahiroy@kernel.org" <masahiroy@kernel.org>,
- "nico@fluxnic.net" <nico@fluxnic.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "a.hajda@samsung.com" <a.hajda@samsung.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "davem@davemloft.net" <davem@davemloft.net>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ "Desnes A. Nunes do Rosario" <desnesn@linux.ibm.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-doc@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Paul Mackerras <paulus@samba.org>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, sfr@canb.auug.org.au,
+ Jonathan Corbet <corbet@lwn.net>, maz@kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>, YueHaibing <yuehaibing@huawei.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Allison Randal <allison@lohutok.net>,
+ Matt Porter <mporter@kernel.crashing.org>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Alistair Popple <alistair@popple.id.au>, linuxppc-dev@lists.ozlabs.org,
+ Nicholas Piggin <npiggin@gmail.com>, Alexios Zavras <alexios.zavras@intel.com>,
+ git@xilinx.com, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Christophe Leroy <christophe.leroy@c-s.fr>,
+ monstr@monstr.eu, Wei Hu <weh@microsoft.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Enrico Weigelt <info@metux.net>,
+ "David S. Miller" <davem@davemloft.net>,
+ Thiago Jung Bauermann <bauerman@linux.ibm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 10, 2020 at 02:40:42AM +0000, Saeed Mahameed wrote:
+On Mon, Mar 30, 2020 at 03:32:17PM +0200, Michal Simek wrote:
+> The latest Xilinx design tools called ISE and EDK has been released in
+> October 2013. New tool doesn't support any PPC405/PPC440 new designs.
+> These platforms are no longer supported and tested.
+> 
+> PowerPC 405/440 port is orphan from 2013 by
+> commit cdeb89943bfc ("MAINTAINERS: Fix incorrect status tag") and
+> commit 19624236cce1 ("MAINTAINERS: Update Grant's email address and maintainership")
+> that's why it is time to remove the support fot these platforms.
+> 
+> Signed-off-by: Michal Simek <michal.simek@xilinx.com>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> 
+> Changes in v2:
+> - Based on my chat with Arnd I removed arch/powerpc/xmon/ changes done in
+>   v1 to keep them the same as before. (kbuild reported some issues with it
+>   too)
+> 
+>  Documentation/devicetree/bindings/xilinx.txt | 143 ------
 
-> This assumes that the module using FOO has its own flag representing
-> FOO which is not always the case.
-> 
-> for example in mlx5 we use VXLAN config flag directly to compile VXLAN
-> related files:
-> 
-> mlx5/core/Makefile:
-> 
-> obj-$(CONFIG_MLX5_CORE) += mlx5_core.o
-> 
-> mlx5_core-y := mlx5_core.o
-> mlx5_core-$(VXLAN) += mlx5_vxlan.o
-> 
-> and in mlx5_main.o we do:
+Acked-by: Rob Herring <robh@kernel.org>
 
-Does this work if VXLAN = m ?
-
-> if (IS_ENABLED(VXLAN))
->        mlx5_vxlan_init()
-> 
-> after the change in imply semantics:
-> our options are:
-> 
-> 1) use IS_REACHABLE(VXLAN) instead of IS_ENABLED(VXLAN)
-> 
-> 2) have MLX5_VXLAN in mlx5 Kconfig and use IS_ENABLED(MLX5_VXLAN) 
-> config MLX5_VXLAN
-> 	depends on VXLAN || !VXLAN
-> 	bool
-
-Does this trick work when vxlan is a bool not a tristate?
-
-Why not just put the VXLAN || !VXLAN directly on MLX5_CORE?
-
-Jason
+>  Documentation/powerpc/bootwrapper.rst        |  28 +-
+>  MAINTAINERS                                  |   6 -
+>  arch/powerpc/Kconfig.debug                   |   2 +-
+>  arch/powerpc/boot/Makefile                   |   7 +-
+>  arch/powerpc/boot/dts/Makefile               |   1 -
+>  arch/powerpc/boot/dts/virtex440-ml507.dts    | 406 ----------------
+>  arch/powerpc/boot/dts/virtex440-ml510.dts    | 466 -------------------
+>  arch/powerpc/boot/ops.h                      |   1 -
+>  arch/powerpc/boot/serial.c                   |   5 -
+>  arch/powerpc/boot/uartlite.c                 |  79 ----
+>  arch/powerpc/boot/virtex.c                   |  97 ----
+>  arch/powerpc/boot/virtex405-head.S           |  31 --
+>  arch/powerpc/boot/wrapper                    |   8 -
+>  arch/powerpc/configs/40x/virtex_defconfig    |  75 ---
+>  arch/powerpc/configs/44x/virtex5_defconfig   |  74 ---
+>  arch/powerpc/configs/ppc40x_defconfig        |   8 -
+>  arch/powerpc/configs/ppc44x_defconfig        |   8 -
+>  arch/powerpc/include/asm/xilinx_intc.h       |  16 -
+>  arch/powerpc/include/asm/xilinx_pci.h        |  21 -
+>  arch/powerpc/kernel/cputable.c               |  39 --
+>  arch/powerpc/platforms/40x/Kconfig           |  31 --
+>  arch/powerpc/platforms/40x/Makefile          |   1 -
+>  arch/powerpc/platforms/40x/virtex.c          |  54 ---
+>  arch/powerpc/platforms/44x/Kconfig           |  37 --
+>  arch/powerpc/platforms/44x/Makefile          |   2 -
+>  arch/powerpc/platforms/44x/virtex.c          |  60 ---
+>  arch/powerpc/platforms/44x/virtex_ml510.c    |  30 --
+>  arch/powerpc/platforms/Kconfig               |   4 -
+>  arch/powerpc/sysdev/Makefile                 |   2 -
+>  arch/powerpc/sysdev/xilinx_intc.c            |  88 ----
+>  arch/powerpc/sysdev/xilinx_pci.c             | 132 ------
+>  drivers/char/Kconfig                         |   2 +-
+>  drivers/video/fbdev/Kconfig                  |   2 +-
+>  34 files changed, 7 insertions(+), 1959 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
