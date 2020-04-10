@@ -2,30 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817221A483B
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 18:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBE71A4842
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Apr 2020 18:12:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DF336ED13;
-	Fri, 10 Apr 2020 16:07:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7D316ED12;
+	Fri, 10 Apr 2020 16:12:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 401 seconds by postgrey-1.36 at gabe;
- Fri, 10 Apr 2020 16:07:29 UTC
-Received: from cloudserver094114.home.pl (cloudserver094114.home.pl
- [79.96.170.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A3696ED14
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 16:07:29 +0000 (UTC)
-Received: from 185.80.35.16 (185.80.35.16) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.415)
- id 3a80db90d5ade516; Fri, 10 Apr 2020 18:00:46 +0200
-From: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To: Linux PM <linux-pm@vger.kernel.org>, Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH 5/7] PM: sleep: core: Rename DPM_FLAG_NEVER_SKIP
-Date: Fri, 10 Apr 2020 17:56:13 +0200
-Message-ID: <5092680.jloV5Ae5OO@kreacher>
-In-Reply-To: <1888197.j9z7NJ8yPn@kreacher>
-References: <1888197.j9z7NJ8yPn@kreacher>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 546CE6ED14
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 16:12:29 +0000 (UTC)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id D4EB02137B
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 16:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1586535149;
+ bh=160JUGp3x1fpb1yme+uQZZt6RXsBzoX4rWwBvTmptUk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=W5wYd2EuxFFOf5RELEUzJliKZesmTsdbiM43S8uvK0l++0HiMbTrQt6XsIAGL4Wns
+ y5YgMtu5OtZuC8hYq66rdGRTGWADpy/5wnBH0STWqvG+EhEbo54Rmbhq57vNgA9HDU
+ l8ZFGOzumzy1DTerTfgkolsxj0YgGOA/Su1sveIQ=
+Received: by mail-ed1-f43.google.com with SMTP id w4so1277485edv.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 09:12:28 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYaw/dIBqlaSaD4m5oUX9X9d5YL0ODxt9AzCQyo68m2s3byGeaQ
+ uQ+eLAa8qSdpTk0lUzSEMTMsZNVYoSEud6OW4A==
+X-Google-Smtp-Source: APiQypKcvCktS/0AVOVss/azeh/f4lcTILgqeqaAL4onaaElSMhRA6mYYv8/89RCCzeYggvhT45miRzpgBtQ4McZm4g=
+X-Received: by 2002:a05:6402:335:: with SMTP id
+ q21mr5420732edw.47.1586535147130; 
+ Fri, 10 Apr 2020 09:12:27 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200410043248.114384-1-jitao.shi@mediatek.com>
+ <20200410043248.114384-5-jitao.shi@mediatek.com>
+In-Reply-To: <20200410043248.114384-5-jitao.shi@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sat, 11 Apr 2020 00:12:16 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-ZiMKn5wVuhECnL4E6BM_=QoF9goorHB-GK-hRL40gyA@mail.gmail.com>
+Message-ID: <CAAOTY_-ZiMKn5wVuhECnL4E6BM_=QoF9goorHB-GK-hRL40gyA@mail.gmail.com>
+Subject: Re: [PATCH v5 4/4] drm/mediatek: config mipitx impedance with
+ calibration data
+To: Jitao Shi <jitao.shi@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,249 +56,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Hans De Goede <hdegoede@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI-devel <dri-devel@lists.freedesktop.org>,
- Linux ACPI <linux-acpi@vger.kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
- Linux PCI <linux-pci@vger.kernel.org>, intel-wired-lan@lists.osuosl.org,
- Mika Westerberg <mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ huijuan.xie@mediatek.com, stonea168@163.com,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, cawa.cheng@mediatek.com,
+ Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
+ eddie.huang@mediatek.com, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-
-Rename DPM_FLAG_NEVER_SKIP to DPM_FLAG_NO_DIRECT_COMPLETE which
-matches its purpose more closely.
-
-No functional impact.
-
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
- Documentation/driver-api/pm/devices.rst    |  6 +++---
- Documentation/power/pci.rst                | 10 +++++-----
- drivers/base/power/main.c                  |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    |  2 +-
- drivers/gpu/drm/i915/intel_runtime_pm.c    |  2 +-
- drivers/gpu/drm/radeon/radeon_kms.c        |  2 +-
- drivers/misc/mei/pci-me.c                  |  2 +-
- drivers/misc/mei/pci-txe.c                 |  2 +-
- drivers/net/ethernet/intel/e1000e/netdev.c |  2 +-
- drivers/net/ethernet/intel/igb/igb_main.c  |  2 +-
- drivers/net/ethernet/intel/igc/igc_main.c  |  2 +-
- drivers/pci/pcie/portdrv_pci.c             |  2 +-
- include/linux/pm.h                         |  6 +++---
- 13 files changed, 21 insertions(+), 21 deletions(-)
-
-diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
-index f66c7b9126ea..4ace0eba4506 100644
---- a/Documentation/driver-api/pm/devices.rst
-+++ b/Documentation/driver-api/pm/devices.rst
-@@ -361,9 +361,9 @@ the phases are: ``prepare``, ``suspend``, ``suspend_late``, ``suspend_noirq``.
- 	runtime PM disabled.
- 
- 	This feature also can be controlled by device drivers by using the
--	``DPM_FLAG_NEVER_SKIP`` and ``DPM_FLAG_SMART_PREPARE`` driver power
--	management flags.  [Typically, they are set at the time the driver is
--	probed against the device in question by passing them to the
-+	``DPM_FLAG_NO_DIRECT_COMPLETE`` and ``DPM_FLAG_SMART_PREPARE`` driver
-+	power management flags.  [Typically, they are set at the time the driver
-+	is probed against the device in question by passing them to the
- 	:c:func:`dev_pm_set_driver_flags` helper function.]  If the first of
- 	these flags is set, the PM core will not apply the direct-complete
- 	procedure described above to the given device and, consequenty, to any
-diff --git a/Documentation/power/pci.rst b/Documentation/power/pci.rst
-index aa1c7fce6cd0..9e1408121bea 100644
---- a/Documentation/power/pci.rst
-+++ b/Documentation/power/pci.rst
-@@ -1004,11 +1004,11 @@ including the PCI bus type.  The flags should be set once at the driver probe
- time with the help of the dev_pm_set_driver_flags() function and they should not
- be updated directly afterwards.
- 
--The DPM_FLAG_NEVER_SKIP flag prevents the PM core from using the direct-complete
--mechanism allowing device suspend/resume callbacks to be skipped if the device
--is in runtime suspend when the system suspend starts.  That also affects all of
--the ancestors of the device, so this flag should only be used if absolutely
--necessary.
-+The DPM_FLAG_NO_DIRECT_COMPLETE flag prevents the PM core from using the
-+direct-complete mechanism allowing device suspend/resume callbacks to be skipped
-+if the device is in runtime suspend when the system suspend starts.  That also
-+affects all of the ancestors of the device, so this flag should only be used if
-+absolutely necessary.
- 
- The DPM_FLAG_SMART_PREPARE flag instructs the PCI bus type to only return a
- positive value from pci_pm_prepare() if the ->prepare callback provided by the
-diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-index 21187ee37b22..aa9c8df9fc4b 100644
---- a/drivers/base/power/main.c
-+++ b/drivers/base/power/main.c
-@@ -1850,7 +1850,7 @@ static int device_prepare(struct device *dev, pm_message_t state)
- 	spin_lock_irq(&dev->power.lock);
- 	dev->power.direct_complete = state.event == PM_EVENT_SUSPEND &&
- 		(ret > 0 || dev->power.no_pm_callbacks) &&
--		!dev_pm_test_driver_flags(dev, DPM_FLAG_NEVER_SKIP);
-+		!dev_pm_test_driver_flags(dev, DPM_FLAG_NO_DIRECT_COMPLETE);
- 	spin_unlock_irq(&dev->power.lock);
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index fd1dc3236eca..a9086ea1ab60 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -191,7 +191,7 @@ int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
- 	}
- 
- 	if (adev->runpm) {
--		dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
-+		dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
- 		pm_runtime_use_autosuspend(dev->dev);
- 		pm_runtime_set_autosuspend_delay(dev->dev, 5000);
- 		pm_runtime_set_active(dev->dev);
-diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
-index ad719c9602af..9cb2d7548daa 100644
---- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-+++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-@@ -549,7 +549,7 @@ void intel_runtime_pm_enable(struct intel_runtime_pm *rpm)
- 	 * becaue the HDA driver may require us to enable the audio power
- 	 * domain during system suspend.
- 	 */
--	dev_pm_set_driver_flags(kdev, DPM_FLAG_NEVER_SKIP);
-+	dev_pm_set_driver_flags(kdev, DPM_FLAG_NO_DIRECT_COMPLETE);
- 
- 	pm_runtime_set_autosuspend_delay(kdev, 10000); /* 10s */
- 	pm_runtime_mark_last_busy(kdev);
-diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
-index 58176db85952..372962358a18 100644
---- a/drivers/gpu/drm/radeon/radeon_kms.c
-+++ b/drivers/gpu/drm/radeon/radeon_kms.c
-@@ -158,7 +158,7 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
- 	}
- 
- 	if (radeon_is_px(dev)) {
--		dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
-+		dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
- 		pm_runtime_use_autosuspend(dev->dev);
- 		pm_runtime_set_autosuspend_delay(dev->dev, 5000);
- 		pm_runtime_set_active(dev->dev);
-diff --git a/drivers/misc/mei/pci-me.c b/drivers/misc/mei/pci-me.c
-index 3d21c38e2dbb..53f16f3bd091 100644
---- a/drivers/misc/mei/pci-me.c
-+++ b/drivers/misc/mei/pci-me.c
-@@ -240,7 +240,7 @@ static int mei_me_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	 * MEI requires to resume from runtime suspend mode
- 	 * in order to perform link reset flow upon system suspend.
- 	 */
--	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
-+	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
- 
- 	/*
- 	 * ME maps runtime suspend/resume to D0i states,
-diff --git a/drivers/misc/mei/pci-txe.c b/drivers/misc/mei/pci-txe.c
-index beacf2a2f2b5..4bf26ce61044 100644
---- a/drivers/misc/mei/pci-txe.c
-+++ b/drivers/misc/mei/pci-txe.c
-@@ -128,7 +128,7 @@ static int mei_txe_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	 * MEI requires to resume from runtime suspend mode
- 	 * in order to perform link reset flow upon system suspend.
- 	 */
--	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
-+	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
- 
- 	/*
- 	 * TXE maps runtime suspend/resume to own power gating states,
-diff --git a/drivers/net/ethernet/intel/e1000e/netdev.c b/drivers/net/ethernet/intel/e1000e/netdev.c
-index 177c6da80c57..2730b1c7dddb 100644
---- a/drivers/net/ethernet/intel/e1000e/netdev.c
-+++ b/drivers/net/ethernet/intel/e1000e/netdev.c
-@@ -7549,7 +7549,7 @@ static int e1000_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 
- 	e1000_print_device_info(adapter);
- 
--	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
-+	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
- 
- 	if (pci_dev_run_wake(pdev) && hw->mac.type < e1000_pch_cnp)
- 		pm_runtime_put_noidle(&pdev->dev);
-diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
-index b46bff8fe056..8bb3db2cbd41 100644
---- a/drivers/net/ethernet/intel/igb/igb_main.c
-+++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -3445,7 +3445,7 @@ static int igb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 		}
- 	}
- 
--	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
-+	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
- 
- 	pm_runtime_put_noidle(&pdev->dev);
- 	return 0;
-diff --git a/drivers/net/ethernet/intel/igc/igc_main.c b/drivers/net/ethernet/intel/igc/igc_main.c
-index 69fa1ce1f927..59fc0097438f 100644
---- a/drivers/net/ethernet/intel/igc/igc_main.c
-+++ b/drivers/net/ethernet/intel/igc/igc_main.c
-@@ -4825,7 +4825,7 @@ static int igc_probe(struct pci_dev *pdev,
- 	pcie_print_link_status(pdev);
- 	netdev_info(netdev, "MAC: %pM\n", netdev->dev_addr);
- 
--	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
-+	dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
- 
- 	pm_runtime_put_noidle(&pdev->dev);
- 
-diff --git a/drivers/pci/pcie/portdrv_pci.c b/drivers/pci/pcie/portdrv_pci.c
-index 160d67c59310..3acf151ae015 100644
---- a/drivers/pci/pcie/portdrv_pci.c
-+++ b/drivers/pci/pcie/portdrv_pci.c
-@@ -115,7 +115,7 @@ static int pcie_portdrv_probe(struct pci_dev *dev,
- 
- 	pci_save_state(dev);
- 
--	dev_pm_set_driver_flags(&dev->dev, DPM_FLAG_NEVER_SKIP |
-+	dev_pm_set_driver_flags(&dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE |
- 					   DPM_FLAG_SMART_SUSPEND);
- 
- 	if (pci_bridge_d3_possible(dev)) {
-diff --git a/include/linux/pm.h b/include/linux/pm.h
-index d89b7099f241..28fd444fb5c9 100644
---- a/include/linux/pm.h
-+++ b/include/linux/pm.h
-@@ -544,7 +544,7 @@ struct pm_subsys_data {
-  * These flags can be set by device drivers at the probe time.  They need not be
-  * cleared by the drivers as the driver core will take care of that.
-  *
-- * NEVER_SKIP: Do not skip all system suspend/resume callbacks for the device.
-+ * NO_DIRECT_COMPLETE: Do not apply direct-complete optimization to the device.
-  * SMART_PREPARE: Check the return value of the driver's ->prepare callback.
-  * SMART_SUSPEND: No need to resume the device from runtime suspend.
-  * LEAVE_SUSPENDED: Avoid resuming the device during system resume if possible.
-@@ -554,7 +554,7 @@ struct pm_subsys_data {
-  * their ->prepare callbacks if the driver's ->prepare callback returns 0 (in
-  * other words, the system suspend/resume callbacks can only be skipped for the
-  * device if its driver doesn't object against that).  This flag has no effect
-- * if NEVER_SKIP is set.
-+ * if NO_DIRECT_COMPLETE is set.
-  *
-  * Setting SMART_SUSPEND instructs bus types and PM domains which may want to
-  * runtime resume the device upfront during system suspend that doing so is not
-@@ -565,7 +565,7 @@ struct pm_subsys_data {
-  * Setting LEAVE_SUSPENDED informs the PM core and middle-layer code that the
-  * driver prefers the device to be left in suspend after system resume.
-  */
--#define DPM_FLAG_NEVER_SKIP		BIT(0)
-+#define DPM_FLAG_NO_DIRECT_COMPLETE	BIT(0)
- #define DPM_FLAG_SMART_PREPARE		BIT(1)
- #define DPM_FLAG_SMART_SUSPEND		BIT(2)
- #define DPM_FLAG_LEAVE_SUSPENDED	BIT(3)
--- 
-2.16.4
-
-
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEppdGFvOgoKSml0YW8gU2hpIDxqaXRhby5zaGlAbWVkaWF0ZWsuY29tPiDmlrwgMjAyMOW5
+tDTmnIgxMOaXpSDpgLHkupQg5LiL5Y2IMTI6MzPlr6vpgZPvvJoKPgo+IFJlYWQgY2FsaWJyYXRp
+b24gZGF0YSBmcm9tIG52bWVtLCBhbmQgY29uZmlnIG1pcGl0eCBpbXBlZGFuY2Ugd2l0aAo+IGNh
+bGlicmF0aW9uIGRhdGEgdG8gbWFrZSBzdXJlIHRoZWlyIGltcGVkYW5jZSBhcmUgMTAwb2htLgo+
+Cj4gU2lnbmVkLW9mZi1ieTogSml0YW8gU2hpIDxqaXRhby5zaGlAbWVkaWF0ZWsuY29tPgo+IC0t
+LQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX21pcGlfdHguYyAgICAgICAgfCA0MCAr
+KysrKysrKysrKysrKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfbWlwaV90
+eC5oICAgICAgICB8ICAzICsrCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfbXQ4MTgz
+X21pcGlfdHguYyB8IDIxICsrKysrKysrKysKPiAgMyBmaWxlcyBjaGFuZ2VkLCA2NCBpbnNlcnRp
+b25zKCspCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19taXBp
+X3R4LmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX21pcGlfdHguYwo+IGluZGV4IGUz
+MDFhZjY0ODA5ZS4uNWU5MWZjMmMxMzE4IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9t
+ZWRpYXRlay9tdGtfbWlwaV90eC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19taXBpX3R4LmMKPiBAQCAtODgsNiArODgsNDQgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBwaHlf
+b3BzIG10a19taXBpX3R4X29wcyA9IHsKPiAgICAgICAgIC5vd25lciA9IFRISVNfTU9EVUxFLAo+
+ICB9Owo+Cj4gK3N0YXRpYyB2b2lkIG10a19taXBpX3R4X2dldF9jYWxpYnJhdGlvbl9kYXRhbChz
+dHJ1Y3QgbXRrX21pcGlfdHggKm1pcGlfdHgpCj4gK3sKPiArICAgICAgIHN0cnVjdCBudm1lbV9j
+ZWxsICpjZWxsOwo+ICsgICAgICAgc2l6ZV90IGxlbjsKPiArICAgICAgIHUzMiAqYnVmOwo+ICsK
+PiArICAgICAgIG1lbXNldChtaXBpX3R4LT5ydF9jb2RlLCAwLCBzaXplb2YobWlwaV90eC0+cnRf
+Y29kZSkpOwoKWW91IHVzZSBremFsbG9jKCkgdG8gYWxsb2NhdGUgbWlwaV90eCwgc28gdGhpcyBp
+cyBhbHJlYWR5IHplcm8taW5pdGlhbGl6ZWQuCgo+ICsgICAgICAgY2VsbCA9IG52bWVtX2NlbGxf
+Z2V0KG1pcGlfdHgtPmRldiwgImNhbGlicmF0aW9uLWRhdGEiKTsKPiArICAgICAgIGlmIChJU19F
+UlIoY2VsbCkpIHsKPiArICAgICAgICAgICAgICAgZGV2X2luZm8obWlwaV90eC0+ZGV2LCAiY2Fu
+J3QgZ2V0IG52bWVtX2NlbGxfZ2V0LCBpZ25vcmUgaXRcbiIpOwo+ICsgICAgICAgfSBlbHNlIHsK
+CklmIHlvdSByZXR1cm4gd2hlbiBlcnJvciwgeW91IGNvdWxkIGdldCByaWQgb2YgdGhlICdlbHNl
+Jywgc28geW91CmNvdWxkIHJlZHVjZSBtYW55ICd0YWInIGFuZCByZWR1Y2UgdGhlIHByb2JhYmls
+aXR5IG9mIG9uZSBsaW5lIG92ZXIgODAKY2hhcmFjdGVyLgoKPiArICAgICAgICAgICAgICAgYnVm
+ID0gKHUzMiAqKW52bWVtX2NlbGxfcmVhZChjZWxsLCAmbGVuKTsKPiArICAgICAgICAgICAgICAg
+bnZtZW1fY2VsbF9wdXQoY2VsbCk7Cj4gKwo+ICsgICAgICAgICAgICAgICBpZiAoSVNfRVJSKGJ1
+ZikpIHsKPiArICAgICAgICAgICAgICAgICAgICAgICBkZXZfaW5mbyhtaXBpX3R4LT5kZXYsICJj
+YW4ndCBnZXQgZGF0YSwgaWdub3JlIGl0XG4iKTsKPiArICAgICAgICAgICAgICAgfSBlbHNlIHsK
+CkRpdHRvLgoKUmVnYXJkcywKQ2h1bi1LdWFuZy4KCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
+aWYgKGxlbiA8IDMgKiBzaXplb2YodTMyKSkgewo+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgZGV2X2luZm8obWlwaV90eC0+ZGV2LCAiaW52YWxpZCBjYWxpYnJhdGlvbiBkYXRhXG4i
+KTsKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGtmcmVlKGJ1Zik7Cj4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICByZXR1cm47Cj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgfQo+ICsKPiArICAgICAgICAgICAgICAgICAgICAgICBtaXBpX3R4LT5ydF9jb2RlWzBdID0g
+KChidWZbMF0gPj4gNiAmIDB4MWYpIDw8IDUpIHwKPiArICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIChidWZbMF0gPj4gMTEgJiAweDFmKTsKPiArICAgICAgICAg
+ICAgICAgICAgICAgICBtaXBpX3R4LT5ydF9jb2RlWzFdID0gKChidWZbMV0gPj4gMjcgJiAweDFm
+KSA8PCA1KSB8Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAoYnVmWzBdID4+IDEgJiAweDFmKTsKPiArICAgICAgICAgICAgICAgICAgICAgICBtaXBpX3R4
+LT5ydF9jb2RlWzJdID0gKChidWZbMV0gPj4gMTcgJiAweDFmKSA8PCA1KSB8Cj4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAoYnVmWzFdID4+IDIyICYgMHgx
+Zik7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgbWlwaV90eC0+cnRfY29kZVszXSA9ICgoYnVm
+WzFdID4+IDcgJiAweDFmKSA8PCA1KSB8Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAoYnVmWzFdID4+IDEyICYgMHgxZik7Cj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgbWlwaV90eC0+cnRfY29kZVs0XSA9ICgoYnVmWzJdID4+IDI3ICYgMHgxZikgPDwg
+NSkgfAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKGJ1
+ZlsxXSA+PiAyICYgMHgxZik7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAga2ZyZWUoYnVmKTsK
+PiArICAgICAgICAgICAgICAgfQo+ICsgICAgICAgfQo+ICt9Cj4gKwo+ICBzdGF0aWMgaW50IG10
+a19taXBpX3R4X3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gIHsKPiAgICAg
+ICAgIHN0cnVjdCBkZXZpY2UgKmRldiA9ICZwZGV2LT5kZXY7Cj4gQEAgLTE3NCw2ICsyMTIsOCBA
+QCBzdGF0aWMgaW50IG10a19taXBpX3R4X3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBk
+ZXYpCj4KPiAgICAgICAgIG1pcGlfdHgtPmRldiA9IGRldjsKPgo+ICsgICAgICAgbXRrX21pcGlf
+dHhfZ2V0X2NhbGlicmF0aW9uX2RhdGFsKG1pcGlfdHgpOwo+ICsKPiAgICAgICAgIHJldHVybiBv
+Zl9jbGtfYWRkX3Byb3ZpZGVyKGRldi0+b2Zfbm9kZSwgb2ZfY2xrX3NyY19zaW1wbGVfZ2V0LAo+
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbWlwaV90eC0+cGxsKTsKPiAgfQo+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX21pcGlfdHguaCBiL2Ry
+aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfbWlwaV90eC5oCj4gaW5kZXggZWVhNDQzMjdmZTlm
+Li5jNzZmMDdjM2ZkZWIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19taXBpX3R4LmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX21pcGlfdHgu
+aAo+IEBAIC0xMiw5ICsxMiwxMSBAQAo+ICAjaW5jbHVkZSA8bGludXgvZGVsYXkuaD4KPiAgI2lu
+Y2x1ZGUgPGxpbnV4L2lvLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KPiArI2luY2x1
+ZGUgPGxpbnV4L252bWVtLWNvbnN1bWVyLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9vZl9kZXZpY2Uu
+aD4KPiAgI2luY2x1ZGUgPGxpbnV4L3BsYXRmb3JtX2RldmljZS5oPgo+ICAjaW5jbHVkZSA8bGlu
+dXgvcGh5L3BoeS5oPgo+ICsjaW5jbHVkZSA8bGludXgvc2xhYi5oPgo+Cj4gIHN0cnVjdCBtdGtf
+bWlwaXR4X2RhdGEgewo+ICAgICAgICAgY29uc3QgdTMyIG1wcGxsX3ByZXNlcnZlOwo+IEBAIC0y
+OCw2ICszMCw3IEBAIHN0cnVjdCBtdGtfbWlwaV90eCB7Cj4gICAgICAgICB2b2lkIF9faW9tZW0g
+KnJlZ3M7Cj4gICAgICAgICB1MzIgZGF0YV9yYXRlOwo+ICAgICAgICAgdTMyIG1pcGl0eF9kcml2
+ZTsKPiArICAgICAgIHUzMiBydF9jb2RlWzVdOwo+ICAgICAgICAgY29uc3Qgc3RydWN0IG10a19t
+aXBpdHhfZGF0YSAqZHJpdmVyX2RhdGE7Cj4gICAgICAgICBzdHJ1Y3QgY2xrX2h3IHBsbF9odzsK
+PiAgICAgICAgIHN0cnVjdCBjbGsgKnBsbDsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL210a19tdDgxODNfbWlwaV90eC5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
+L210a19tdDgxODNfbWlwaV90eC5jCj4gaW5kZXggZTRjYzk2Nzc1MGNiLi45ZjNlNTVhZWViYjIg
+MTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19tdDgxODNfbWlwaV90
+eC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19tdDgxODNfbWlwaV90eC5j
+Cj4gQEAgLTI4LDYgKzI4LDcgQEAKPiAgI2RlZmluZSBNSVBJVFhfUExMX0NPTjQgICAgICAgICAg
+ICAgICAgMHgwMDNjCj4gICNkZWZpbmUgUkdfRFNJX1BMTF9JQklBUyAgICAgICAgICAgICAgICgz
+IDw8IDEwKQo+Cj4gKyNkZWZpbmUgTUlQSVRYX0QyUF9SVENPREUgICAgICAweDAxMDAKPiAgI2Rl
+ZmluZSBNSVBJVFhfRDJfU1dfQ1RMX0VOICAgIDB4MDE0NAo+ICAjZGVmaW5lIE1JUElUWF9EMF9T
+V19DVExfRU4gICAgMHgwMjQ0Cj4gICNkZWZpbmUgTUlQSVRYX0NLX0NLTU9ERV9FTiAgICAweDAz
+MjgKPiBAQCAtMTA4LDYgKzEwOSwyNCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGNsa19vcHMgbXRr
+X21pcGlfdHhfcGxsX29wcyA9IHsKPiAgICAgICAgIC5yZWNhbGNfcmF0ZSA9IG10a19taXBpX3R4
+X3BsbF9yZWNhbGNfcmF0ZSwKPiAgfTsKPgo+ICtzdGF0aWMgdm9pZCBtdGtfbWlwaV90eF9jb25m
+aWdfY2FsaWJyYXRpb25fZGF0YShzdHJ1Y3QgbXRrX21pcGlfdHggKm1pcGlfdHgpCj4gK3sKPiAr
+ICAgICAgIGludCBpLCBqOwo+ICsKPiArICAgICAgIGZvciAoaSA9IDA7IGkgPCA1OyBpKyspIHsK
+PiArICAgICAgICAgICAgICAgaWYgKChtaXBpX3R4LT5ydF9jb2RlW2ldICYgMHgxZikgPT0gMCkK
+PiArICAgICAgICAgICAgICAgICAgICAgICBtaXBpX3R4LT5ydF9jb2RlW2ldIHw9IDB4MTA7Cj4g
+Kwo+ICsgICAgICAgICAgICAgICBpZiAoKG1pcGlfdHgtPnJ0X2NvZGVbaV0gPj4gNSAmIDB4MWYp
+ID09IDApCj4gKyAgICAgICAgICAgICAgICAgICAgICAgbWlwaV90eC0+cnRfY29kZVtpXSB8PSAw
+eDEwIDw8IDU7Cj4gKwo+ICsgICAgICAgICAgICAgICBmb3IgKGogPSAwOyBqIDwgMTA7IGorKykK
+PiArICAgICAgICAgICAgICAgICAgICAgICBtdGtfbWlwaV90eF91cGRhdGVfYml0cyhtaXBpX3R4
+LAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTUlQSVRYX0QyUF9SVENPREUgKiAo
+aSArIDEpICsgaiAqIDQsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAxLCBtaXBp
+X3R4LT5ydF9jb2RlW2ldID4+IGogJiAxKTsKPiArICAgICAgIH0KPiArfQo+ICsKPiAgc3RhdGlj
+IHZvaWQgbXRrX21pcGlfdHhfcG93ZXJfb25fc2lnbmFsKHN0cnVjdCBwaHkgKnBoeSkKPiAgewo+
+ICAgICAgICAgc3RydWN0IG10a19taXBpX3R4ICptaXBpX3R4ID0gcGh5X2dldF9kcnZkYXRhKHBo
+eSk7Cj4gQEAgLTEzMCw2ICsxNDksOCBAQCBzdGF0aWMgdm9pZCBtdGtfbWlwaV90eF9wb3dlcl9v
+bl9zaWduYWwoc3RydWN0IHBoeSAqcGh5KQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgUkdfRFNJX0hTVFhfTERPX1JFRl9TRUwsCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAobWlwaV90eC0+bWlwaXR4X2RyaXZlIC0gMzAwMCkgLyAyMDAgPDwgNik7Cj4KPiArICAg
+ICAgIG10a19taXBpX3R4X2NvbmZpZ19jYWxpYnJhdGlvbl9kYXRhKG1pcGlfdHgpOwo+ICsKPiAg
+ICAgICAgIG10a19taXBpX3R4X3NldF9iaXRzKG1pcGlfdHgsIE1JUElUWF9DS19DS01PREVfRU4s
+IERTSV9DS19DS01PREVfRU4pOwo+ICB9Cj4KPiAtLQo+IDIuMjEuMAo+IF9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlz
+dAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
