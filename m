@@ -1,65 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C3531A5225
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Apr 2020 14:54:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC951A5234
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Apr 2020 14:54:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 483766E093;
-	Sat, 11 Apr 2020 12:53:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03CB76E32D;
+	Sat, 11 Apr 2020 12:54:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B696B6ED38
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 18:28:25 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id m8so2819354lji.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 11:28:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=q+S9FQcm44gCkUcVdVprrI4SiEYMw4o+DCvVDXTf1yI=;
- b=SwMy/QxroluHVUM/6FKQ9+IjMym0OdlVEJKFzpjegXVVqhuLuWEfr20uoodqRoOjw6
- uq+cxx0rfMJPB6s2le8gCs8JBuibGGUBV+UL3HQzGhtDGpSXSoijrdjL9ZNPMPhHwd5R
- YdUk53GHoolSl/2lIcXaByAF/ny4tC1WEYi3ppiPSOY9+g8nVM8+4kpvTQgvHoRYwaK0
- uBrSLTeQFZw+9gp9cQAPvUIvnnBeQl4YfWTF13D2e8h0N8KzEzCuTZZEzej3/KVmfvfd
- LEBwQRNlNzYStJK76cU/05M/P32BTPi90t2JfffuZzQ5nT407MJghhQu1deDjYOYKjLc
- mZ4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=q+S9FQcm44gCkUcVdVprrI4SiEYMw4o+DCvVDXTf1yI=;
- b=uPIPsLsVPeGpXRA8hMAhuhA0ceIfSbOIcrQeE9taHt9jACAMTATB7w1wGhJ/xnbHs9
- qYzlNrfYdVyEaDggFyu27laseRL59wtuj5AKlswiQaP3qqudaK9qAtnicG9MGe96N8gr
- MekXrNWCsOoIq8Oc3pC9J0zoCPo+L7yXOjEy987j/ip1NY/oeMz4k+L0rJ1+4C9OhDUQ
- jNQwY97ufd4BjL7t/yy6NpWyTFcEgfLc3upgN1Hu0N2lsWUGX8h/Jqza14UcXDwaQbaz
- 50dNC5WgMd9g8xYHVzXK4v5rTTgucGMJRN2hGtOkaaymABhjczseeb+Z+7aK8yVxw4Gh
- gobw==
-X-Gm-Message-State: AGi0PuZ1kUoMOb5QX7jP0j+sq1a/L50Qe/DgHh6r9g3LEeiVCEGfm0a/
- /bKCNhzEF221PhWtzQD+MMM=
-X-Google-Smtp-Source: APiQypJDMRwiWxqCQIVoO1DjqAKbxN9a3USsG+5h8JhkdiiSyqW5X2ClXQ9wa/FUBYCazlrhcZe10w==
-X-Received: by 2002:a2e:904b:: with SMTP id n11mr3658147ljg.171.1586543304167; 
- Fri, 10 Apr 2020 11:28:24 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru.
- [91.78.208.152])
- by smtp.googlemail.com with ESMTPSA id u13sm1487881lji.27.2020.04.10.11.28.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Apr 2020 11:28:23 -0700 (PDT)
-Subject: Re: [PATCH v2 05/22] dt-bindings: host1x: Document new interconnect
- properties
-To: Rob Herring <robh@kernel.org>
-References: <20200330010904.27643-1-digetx@gmail.com>
- <20200330010904.27643-6-digetx@gmail.com> <20200410170929.GA1498@bogus>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <98d28983-0c50-1155-adc0-8ddbd15cc701@gmail.com>
-Date: Fri, 10 Apr 2020 21:28:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200410170929.GA1498@bogus>
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr10084.outbound.protection.outlook.com [40.107.1.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 944B16E291
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 19:04:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xh+zoKCxqI8Mf8cPX007AbeUwa3mZQpnVxm0WezUWcRwdCYr0vFxwBq5Smxe2W1a4pF1HGP+EPuVI+LAaidZC9I8QWjbYgGpzgWs6ZNWZE4vUEULLNILOLanMB8V52Bni8AD7GQXk+rg8RVVEqZRyy6g/FeTHZc+27f6udac5Ol/2Rdnfs+I0rgLaemAKoXwRdCghsmUPdSJK9/nnKleQWvdyXwL8t7VbIcUNBGO72xQsTEMhDfboaRSdMmwFpz3lSkto9vjJfXh6IsbJPcLNFhr2qFpTUvCe9iuOg0OH6S3NMYw5DYKp5CkkWm9H+XpiIEzoVwKAv57vSUXs28clg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qREnRW9ITHwIv0VmfQhKf0SU7+cAcX76d6f6wyC33Q0=;
+ b=cqzbf9l1/ogm5fyfbeqmjVmHHGMM/BH0qdkYgkUCT5QIcD5khi1Hl8ToVMd44If6sT863+xDSr5x2WvojYCO+D+xb0oJ93kC5B1pLspJgiA/67HA7U+uBAOJyKu5aLc+eidR39UdXIp0f9EMr4ywAjO0tCCYay8uOD4qSPuma9THNFl7MeuxwlrAdoOar0GVKi0H+n90YyC2rMeje+4ZbaWMALyqj1sAMMJp5NkoIdlJjuyPu4lbqW/9dVjM8AcpsmGOFcKop+f+KHvLxUpHiHOyyOOiRlkUydlh2B7ZZpHY5QtWAnou3l2SJvfz5XD70LAG9bYFsDt1joSNAxr/wA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qREnRW9ITHwIv0VmfQhKf0SU7+cAcX76d6f6wyC33Q0=;
+ b=Da7wUhQLBzrVWdsbTF45GZB05me//iP7OIZsJ49df5+a2chZY3FJljWQLikCiW4ewhOjCFsktJpRL1HXe9uDX0PEWHiuNaxeh+S8G2muzPzangCJHvM4YcN5xO9esvpnYp+DaDnix8XJtVeDv2M6UojWSZb6TeXw7P02L/YiHkw=
+Received: from VI1PR05MB5102.eurprd05.prod.outlook.com (2603:10a6:803:5e::23)
+ by VI1PR05MB6464.eurprd05.prod.outlook.com (2603:10a6:803:f4::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15; Fri, 10 Apr
+ 2020 19:04:27 +0000
+Received: from VI1PR05MB5102.eurprd05.prod.outlook.com
+ ([fe80::9d19:a564:b84e:7c19]) by VI1PR05MB5102.eurprd05.prod.outlook.com
+ ([fe80::9d19:a564:b84e:7c19%7]) with mapi id 15.20.2878.021; Fri, 10 Apr 2020
+ 19:04:27 +0000
+From: Saeed Mahameed <saeedm@mellanox.com>
+To: "jgg@ziepe.ca" <jgg@ziepe.ca>
+Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
+Thread-Topic: [RFC 0/6] Regressions for "imply" behavior change
+Thread-Index: AQHWDeQiJzc7TgrcN0yUMWAEU5j98qhvr4mAgAADKgCAAB92AIAAp0gAgAEtnwCAAPPSAIAAHv4A
+Date: Fri, 10 Apr 2020 19:04:27 +0000
+Message-ID: <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com>
+References: <20200408202711.1198966-1-arnd@arndb.de>
+ <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
+ <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
+ <20200408224224.GD11886@ziepe.ca> <87k12pgifv.fsf@intel.com>
+ <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
+ <20200410171320.GN11886@ziepe.ca>
+In-Reply-To: <20200410171320.GN11886@ziepe.ca>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=saeedm@mellanox.com; 
+x-originating-ip: [73.15.39.150]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 604cbf34-e6de-480d-3b6a-08d7dd81fdee
+x-ms-traffictypediagnostic: VI1PR05MB6464:
+x-microsoft-antispam-prvs: <VI1PR05MB64645727AC499AC722926512BEDE0@VI1PR05MB6464.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0369E8196C
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR05MB5102.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10009020)(4636009)(396003)(346002)(376002)(39860400002)(136003)(366004)(66946007)(71200400001)(478600001)(6512007)(36756003)(66476007)(2906002)(316002)(66446008)(66556008)(6486002)(81156014)(76116006)(91956017)(8936002)(2616005)(64756008)(8676002)(26005)(6506007)(4326008)(7416002)(6916009)(86362001)(186003)(5660300002)(54906003);
+ DIR:OUT; SFP:1101; 
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Sk7LWu09ZwoByjIkmEQvlLQxqiH4RnuIMEtq/nKvClwtDup+cg/MnOZeo3XzsmVxtjERbGPfXzf6oYuK37UG5LqOyyTn+bgLI030iA83xYLd2zDtcrLUvV86hNgTYXTgUiqcwjOOHu77v8f0NovbBVSfSnbE79N5R3L1iw3ZcqOgW4cFHt1Z7pxLZeVXtbEm1PA0mkXAQbKbMIvm+FbSIj4OXo9dKNjXD/xTWrKtVmhQUJglYayCmbt5SQ5BMsdGLCNl2ww4DJK476m9xoUaD7yPiUmEOoR720JX4m+a66OBsyOcOR44E7LBF55F7/euhU5ZVO5XI5gPa0ZodXqTl6M1gQ9QlQOAZXcl1JxQOZ0lPAvqsFPMmjkZLa/un7Hxv+pJC4C6yHMQPL5rpy+chuoRidHN9tMjyF0UOyRFAFG0JaBL1vsB1MCmjxApk2eN
+x-ms-exchange-antispam-messagedata: fRQRQ8i7wmC+3vtBoyMYeekeUdQoSpgPVRQipw7kyIsHXSlOhW2jhWSnv4RBi2axI5vyBCdqO7xCaxauTeMDlsP2XrmTgkJnMhYDf3ja4fNNLQfSy8fHU/cdKo0ff2XyDDG1Ufb6NJdTZXOo3ugDJQ==
+x-ms-exchange-transport-forked: True
+Content-ID: <127F1870F5B4654CB5433164FF4CFAA0@eurprd05.prod.outlook.com>
+MIME-Version: 1.0
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 604cbf34-e6de-480d-3b6a-08d7dd81fdee
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Apr 2020 19:04:27.5793 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XSqGcjR4gDuk13O12RhpESN0GjCOS9QCAV6UySkbBvWeWDsTQ4NoiFvRJVRRO4+iiH7j27O5w0Plz65dwzXynw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6464
 X-Mailman-Approved-At: Sat, 11 Apr 2020 12:53:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,27 +101,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
- Georgi Djakov <georgi.djakov@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+ "arnd@arndb.de" <arnd@arndb.de>, "leon@kernel.org" <leon@kernel.org>,
+ "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "masahiroy@kernel.org" <masahiroy@kernel.org>,
+ "nico@fluxnic.net" <nico@fluxnic.net>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "a.hajda@samsung.com" <a.hajda@samsung.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "kieran.bingham+renesas@ideasonboard.com"
+ <kieran.bingham+renesas@ideasonboard.com>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "davem@davemloft.net" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTAuMDQuMjAyMCAyMDowOSwgUm9iIEhlcnJpbmcg0L/QuNGI0LXRgjoKLi4uCj4+ICsgIE9wdGlv
-bmFsIHByb3BlcnRpZXM6Cj4+ICsgIC0gaW50ZXJjb25uZWN0czogTXVzdCBjb250YWluIGVudHJ5
-IGZvciB0aGUgTVBFIG1lbW9yeSBjbGllbnRzLgo+PiArICAtIGludGVyY29ubmVjdC1uYW1lczog
-TXVzdCBpbmNsdWRlIG5hbWUgb2YgdGhlIGludGVyY29ubmVjdCBwYXRoIGZvciBlYWNoCj4+ICsg
-ICAgaW50ZXJjb25uZWN0IGVudHJ5LiBDb25zdWx0IFRSTSBkb2N1bWVudGF0aW9uIGZvciBpbmZv
-cm1hdGlvbiBhYm91dAo+PiArICAgIGF2YWlsYWJsZSBtZW1vcnkgY2xpZW50cy4KPiAKPiBJcyB0
-aGUgVFJNIHB1YmxpYz8gUGVyaGFwcyByZWZlciB0byB0aGUgaGVhZGVyLgoKWWVzLCB5b3UgY2Fu
-IGRvd25sb2FkIGl0IGZyb20gTlZJRElBIHdlYnNpdGUgKGFmdGVyIHJlZ2lzdHJhdGlvbikuCgpJ
-J2xsIGFkZCAiQ29uc3VsdCBNZW1vcnkgQ29udHJvbGxlciBzZWN0aW9uIG9mIFRSTS4uLiIgaW4g
-dGhlIG5leHQgdmVyc2lvbi4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+On Fri, 2020-04-10 at 14:13 -0300, Jason Gunthorpe wrote:
+> On Fri, Apr 10, 2020 at 02:40:42AM +0000, Saeed Mahameed wrote:
+> 
+> > This assumes that the module using FOO has its own flag
+> > representing
+> > FOO which is not always the case.
+> > 
+> > for example in mlx5 we use VXLAN config flag directly to compile
+> > VXLAN
+> > related files:
+> > 
+> > mlx5/core/Makefile:
+> > 
+> > obj-$(CONFIG_MLX5_CORE) += mlx5_core.o
+> > 
+> > mlx5_core-y := mlx5_core.o
+> > mlx5_core-$(VXLAN) += mlx5_vxlan.o
+> > 
+> > and in mlx5_main.o we do:
+> 
+> Does this work if VXLAN = m ?
+
+Yes, if VXLAN IS_REACHABLE to MLX5, mlx5_vxlan.o will be
+compiled/linked.
+
+> 
+> > if (IS_ENABLED(VXLAN))
+> >        mlx5_vxlan_init()
+> > 
+> > after the change in imply semantics:
+> > our options are:
+> > 
+> > 1) use IS_REACHABLE(VXLAN) instead of IS_ENABLED(VXLAN)
+> > 
+> > 2) have MLX5_VXLAN in mlx5 Kconfig and use IS_ENABLED(MLX5_VXLAN) 
+> > config MLX5_VXLAN
+> > 	depends on VXLAN || !VXLAN
+> > 	bool
+> 
+> Does this trick work when vxlan is a bool not a tristate?
+> 
+> Why not just put the VXLAN || !VXLAN directly on MLX5_CORE?
+> 
+
+so force MLX5_CORE to n if vxlan is not reachable ? why ? mlx5_core can
+perfectly live without vxlan .. all we need to know is if VXLAN is
+supported and reachable, if so, then we want to also support vxlan in
+mlx5 (i.e compile mlx5_vxlan.o) 
+
+and how do we compile mlx5_vxlan.o wihout a single flag 
+can i do in Makefile :
+mlx5_core-$(VXLAN || !VXLAN) += mlx5_vxlan.o ?? 
+
+
+> Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
