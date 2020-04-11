@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C579A1A5413
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:04:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7BA71A5419
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:04:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5659E6E0F2;
-	Sat, 11 Apr 2020 23:04:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4A616E156;
+	Sat, 11 Apr 2020 23:04:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84BD26E0F2;
- Sat, 11 Apr 2020 23:04:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C932F6E156;
+ Sat, 11 Apr 2020 23:04:16 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7E60E215A4;
- Sat, 11 Apr 2020 23:04:07 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D8315214D8;
+ Sat, 11 Apr 2020 23:04:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586646248;
- bh=YcOvtEFVJrutp/9W1WRv5YDCngfPlONYfoUpGWnRMjY=;
+ s=default; t=1586646256;
+ bh=b9PSEA+YG/1WY21aDwSoSP7Lj/mwh9DIxAkoaspyNac=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=0goR96Hdb4JkTwkju5o9d6U93etYzOmjQZViP7sHiNGtj2piXqliwi1f19i4XU0aY
- 1W2Fl1xBA2GyI0KG2ex02hixQZoq84jYmRQDtPVu/h7T8mwgtGj8qRPtdt+P8enwIx
- B8OHeOQ7GJgSrWtKyEVgWGVAkbNn3og9ehs3R8uU=
+ b=cVIYHio23RN4BzYBpS9VtpxCDtuSlMVnIDGUz1V2B8PouGi3q4w2ZmdY2+CM361RB
+ +VRyIHFPRiQvsUE6j0gXo/of6n4w7bQCLiXdC2B3iVoBVOBFywdwJ3tR98SiFvPu3/
+ dGqCBNl5tw4soaBdCo+l1unDZ/Eq64nXNjhcdgsg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 016/149] drm/amd/display: Fix test pattern color
- space inconsistency for Linux
-Date: Sat, 11 Apr 2020 19:01:33 -0400
-Message-Id: <20200411230347.22371-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 023/149] drm/amdgpu: check GFX RAS capability
+ before reset counters
+Date: Sat, 11 Apr 2020 19:01:40 -0400
+Message-Id: <20200411230347.22371-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200411230347.22371-1-sashal@kernel.org>
 References: <20200411230347.22371-1-sashal@kernel.org>
@@ -50,57 +50,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- "Jerry \(Fangzhi\) Zuo" <Jerry.Zuo@amd.com>, Hersen Wu <hersenxs.wu@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Monk Liu <monk.liu@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Jerry (Fangzhi) Zuo" <Jerry.Zuo@amd.com>
+From: Hawking Zhang <Hawking.Zhang@amd.com>
 
-[ Upstream commit ef65c702d40637ed9ee25edc8e8a994168a32377 ]
+[ Upstream commit 06dcd7eb83ee65382305ce48686e3dadaad42088 ]
 
-[why]
-When reprogram MSA with updated color space, the test color space shows
-inconsistency. Linux has separate routine to set up test pattern color
-space, but it fails to configure RGB.
+disallow the logical to be enabled on platforms that
+don't support gfx ras at this stage, like sriov skus,
+dgpu with legacy ras.etc
 
-[How]
-Add RGB to test pattern.
-
-Fixes: 43563bc2e6a769 ("drm/amd/display: update MSA and VSC SDP on video test pattern request")
-Signed-off-by: Jerry (Fangzhi) Zuo <Jerry.Zuo@amd.com>
-Reviewed-by: Hersen Wu <hersenxs.wu@amd.com>
-Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Reviewed-by: Monk Liu <monk.liu@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 3 +++
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-index fd9e69634c50a..f01bc378a51ee 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-@@ -2654,9 +2654,12 @@ static void dp_test_send_link_test_pattern(struct dc_link *link)
- 	break;
- 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+index 889154a78c4a8..beba9c596c493 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+@@ -6326,6 +6326,9 @@ static void gfx_v9_0_clear_ras_edc_counter(struct amdgpu_device *adev)
+ {
+ 	int i, j, k;
  
--	test_pattern_color_space = dpcd_test_params.bits.YCBCR_COEFS ?
--			DP_TEST_PATTERN_COLOR_SPACE_YCBCR709 :
--			DP_TEST_PATTERN_COLOR_SPACE_YCBCR601;
-+	if (dpcd_test_params.bits.CLR_FORMAT == 0)
-+		test_pattern_color_space = DP_TEST_PATTERN_COLOR_SPACE_RGB;
-+	else
-+		test_pattern_color_space = dpcd_test_params.bits.YCBCR_COEFS ?
-+				DP_TEST_PATTERN_COLOR_SPACE_YCBCR709 :
-+				DP_TEST_PATTERN_COLOR_SPACE_YCBCR601;
++	if (!amdgpu_ras_is_supported(adev, AMDGPU_RAS_BLOCK__GFX))
++		return;
++
+ 	/* read back registers to clear the counters */
+ 	mutex_lock(&adev->grbm_idx_mutex);
+ 	for (i = 0; i < ARRAY_SIZE(gfx_v9_0_edc_counter_regs); i++) {
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
+index f099f13d7f1e9..9955532345ec0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
+@@ -897,6 +897,9 @@ void gfx_v9_4_clear_ras_edc_counter(struct amdgpu_device *adev)
+ {
+ 	int i, j, k;
  
- 	dc_link_dp_set_test_pattern(
- 			link,
++	if (!amdgpu_ras_is_supported(adev, AMDGPU_RAS_BLOCK__GFX))
++		return;
++
+ 	mutex_lock(&adev->grbm_idx_mutex);
+ 	for (i = 0; i < ARRAY_SIZE(gfx_v9_4_edc_counter_regs); i++) {
+ 		for (j = 0; j < gfx_v9_4_edc_counter_regs[i].se_num; j++) {
 -- 
 2.20.1
 
