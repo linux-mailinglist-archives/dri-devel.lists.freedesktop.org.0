@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899CA1A5611
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 915A71A5639
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:15:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A65976E3DB;
-	Sat, 11 Apr 2020 23:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EDF66E3DF;
+	Sat, 11 Apr 2020 23:15:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA086E3DB
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 23:14:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 166BB6E3DF
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 23:14:59 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C911921655;
- Sat, 11 Apr 2020 23:14:30 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9E12420787;
+ Sat, 11 Apr 2020 23:14:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586646872;
- bh=W9xeHLvxnfp7OAlyDmpEcJksKjbNpTjLof1gM0nKeFA=;
+ s=default; t=1586646899;
+ bh=G3UUIHyg7xSxPYcVcLYBK8Zfu2gVBd/q3PMHYp8s44I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J3If3CsTxNRULiMamR2B4/QieR1kYuxPdH+bMtcLFmF/jhDrf497HsgVvfnghtQ0n
- wX1TiusyGvMzLttPokpy1ZBeP1SwPMevrzCyu9AJiV6MBzzUSeYJXvF7XbQASA0xVP
- OIdn43a5rCJCa4grtEcm0n3RCtiU0WvqEM0xlPBk=
+ b=wxXM3FzuI8ztVk3zO/jVKpX3cgXyBxl3bbQTRbeCqM6cZXFL2P04vmhQULMvynQvC
+ 4kh8e2j79VylXJ8t3VlNTYKgXR85DlfWj2jJYsEB4/ac6ZiKilMk7+MKTqEIan/z1y
+ sXSFNvEWyoAvFXOR3mmtSbfdONg1yFFj9csMUvpA=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 15/26] drm/omap: fix possible object reference leak
-Date: Sat, 11 Apr 2020 19:14:02 -0400
-Message-Id: <20200411231413.26911-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 09/16] drm/omap: fix possible object reference leak
+Date: Sat, 11 Apr 2020 19:14:39 -0400
+Message-Id: <20200411231447.27182-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200411231413.26911-1-sashal@kernel.org>
-References: <20200411231413.26911-1-sashal@kernel.org>
+In-Reply-To: <20200411231447.27182-1-sashal@kernel.org>
+References: <20200411231447.27182-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -49,13 +49,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>,
- Mukesh Ojha <mojha@codeaurora.org>,
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Mukesh Ojha <mojha@codeaurora.org>,
  Sebastian Reichel <sebastian.reichel@collabora.com>,
  dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
  Markus Elfring <Markus.Elfring@web.de>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Wen Yang <wen.yang99@zte.com.cn>
+ linux-omap@vger.kernel.org, Wen Yang <wen.yang99@zte.com.cn>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -88,13 +88,13 @@ Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Link: https://patchwork.freedesktop.org/patch/msgid/1554692313-28882-2-git-send-email-wen.yang99@zte.com.cn
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c | 4 +++-
+ drivers/video/fbdev/omap2/dss/omapdss-boot-init.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
-index 136d30484d023..46111e9ee9a25 100644
---- a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
-+++ b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+diff --git a/drivers/video/fbdev/omap2/dss/omapdss-boot-init.c b/drivers/video/fbdev/omap2/dss/omapdss-boot-init.c
+index 8b6f6d5fdd68b..43186fa8a13c9 100644
+--- a/drivers/video/fbdev/omap2/dss/omapdss-boot-init.c
++++ b/drivers/video/fbdev/omap2/dss/omapdss-boot-init.c
 @@ -194,7 +194,7 @@ static int __init omapdss_boot_init(void)
  	dss = of_find_matching_node(NULL, omapdss_of_match);
  
@@ -104,7 +104,7 @@ index 136d30484d023..46111e9ee9a25 100644
  
  	omapdss_walk_device(dss, true);
  
-@@ -219,6 +219,8 @@ static int __init omapdss_boot_init(void)
+@@ -221,6 +221,8 @@ static int __init omapdss_boot_init(void)
  		kfree(n);
  	}
  
