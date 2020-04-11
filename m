@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7CEF1A5450
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:05:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D821A5452
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:05:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD9CE6E24B;
-	Sat, 11 Apr 2020 23:05:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E80E76E286;
+	Sat, 11 Apr 2020 23:05:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 697CB6E24B;
- Sat, 11 Apr 2020 23:05:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02E796E286
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 23:05:13 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 64D4120787;
- Sat, 11 Apr 2020 23:05:10 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B2DC120CC7;
+ Sat, 11 Apr 2020 23:05:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586646311;
- bh=K7zwUITdBLR4r8jCBQwmIbnYlFoD5S4Q3pLZJNuKCbs=;
+ s=default; t=1586646312;
+ bh=Wzja1lnSxcvyujKbql1QcN7eEshT9Y47jqXMe56SKFg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=zy+ii8ndF9GnVLIideKVWiLoJXvHmWRWUysDem2hyVvK6Rit8cC7TBCewnTuFp3bE
- NCdGcsDB1+1xFKLpRcbLihaGdvAVu6Fz9IN9yg2zVUJT6bLF4pVINDhv9aucMsxCuD
- GAPrpcfCZjkWIHPMRSf7u8paPQ1ailMIXP6p32eU=
+ b=wYadVdE0IIv28LOhnz4KFnzZ8/wKw88T5ms6OgC4zp1Ic2TSlrCacSWflBqyGMxbH
+ VIFjK6UbufK5UXdlpWUoVvZwJvunPb/yYwRK3GSmZcrOwBdWpPtS4nApViKClmt3Gq
+ iCWaC4AcuKw/sDg57WQxe1jnRW3n6bHLzvQiJsOg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 068/149] drm/amd/display: always apply T7/T9 delay
- logic
-Date: Sat, 11 Apr 2020 19:02:25 -0400
-Message-Id: <20200411230347.22371-68-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 069/149] drm/omap: fix possible object reference
+ leak
+Date: Sat, 11 Apr 2020 19:02:26 -0400
+Message-Id: <20200411230347.22371-69-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200411230347.22371-1-sashal@kernel.org>
 References: <20200411230347.22371-1-sashal@kernel.org>
@@ -50,110 +50,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Martin Leung <martin.leung@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Anthony Koo <Anthony.Koo@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>,
+ Mukesh Ojha <mojha@codeaurora.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Markus Elfring <Markus.Elfring@web.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Wen Yang <wen.yang99@zte.com.cn>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Leung <martin.leung@amd.com>
+From: Wen Yang <wen.yang99@zte.com.cn>
 
-[ Upstream commit cb8348fec250e517b5facb4cab3125ddc597f9aa ]
+[ Upstream commit 47340e46f34a3b1d80e40b43ae3d7a8da34a3541 ]
 
-[why]
-before we exit early in edp_reciever_ready if we detect that panel
-is not edp or below rev 1.2. This will skip the backlight/t7 delay panel
-patch.
+The call to of_find_matching_node returns a node pointer with refcount
+incremented thus it must be explicitly decremented after the last
+usage.
 
-[how]
-edit logic to ensure panel patch is applied regardless of edp rev.
+Detected by coccinelle with the following warnings:
+drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:212:2-8: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
+drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:237:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
 
-Signed-off-by: Martin Leung <martin.leung@amd.com>
-Reviewed-by: Anthony Koo <Anthony.Koo@amd.com>
-Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Wen Yang <wen.yang99@zte.com.cn>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Mukesh Ojha <mojha@codeaurora.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Markus Elfring <Markus.Elfring@web.de>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/1554692313-28882-2-git-send-email-wen.yang99@zte.com.cn
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/display/dc/core/dc_link_hwss.c    | 56 ++++++++++---------
- 1 file changed, 29 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
-index ddb8550457672..58634f191a55d 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
-@@ -153,18 +153,19 @@ bool edp_receiver_ready_T9(struct dc_link *link)
- 	unsigned char edpRev = 0;
- 	enum dc_status result = DC_OK;
- 	result = core_link_read_dpcd(link, DP_EDP_DPCD_REV, &edpRev, sizeof(edpRev));
--	if (edpRev < DP_EDP_12)
--		return true;
--	/* start from eDP version 1.2, SINK_STAUS indicate the sink is ready.*/
--	do {
--		sinkstatus = 1;
--		result = core_link_read_dpcd(link, DP_SINK_STATUS, &sinkstatus, sizeof(sinkstatus));
--		if (sinkstatus == 0)
--			break;
--		if (result != DC_OK)
--			break;
--		udelay(100); //MAx T9
--	} while (++tries < 50);
-+
-+     /* start from eDP version 1.2, SINK_STAUS indicate the sink is ready.*/
-+	if (result == DC_OK && edpRev >= DP_EDP_12) {
-+		do {
-+			sinkstatus = 1;
-+			result = core_link_read_dpcd(link, DP_SINK_STATUS, &sinkstatus, sizeof(sinkstatus));
-+			if (sinkstatus == 0)
-+				break;
-+			if (result != DC_OK)
-+				break;
-+			udelay(100); //MAx T9
-+		} while (++tries < 50);
-+	}
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+index 31502857f013d..ce67891eedd46 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+@@ -192,7 +192,7 @@ static int __init omapdss_boot_init(void)
+ 	dss = of_find_matching_node(NULL, omapdss_of_match);
  
- 	if (link->local_sink->edid_caps.panel_patch.extra_delay_backlight_off > 0)
- 		udelay(link->local_sink->edid_caps.panel_patch.extra_delay_backlight_off * 1000);
-@@ -183,21 +184,22 @@ bool edp_receiver_ready_T7(struct dc_link *link)
- 	unsigned long long time_taken_in_ns = 0;
+ 	if (dss == NULL || !of_device_is_available(dss))
+-		return 0;
++		goto put_node;
  
- 	result = core_link_read_dpcd(link, DP_EDP_DPCD_REV, &edpRev, sizeof(edpRev));
--	if (result == DC_OK && edpRev < DP_EDP_12)
--		return true;
--	/* start from eDP version 1.2, SINK_STAUS indicate the sink is ready.*/
--	enter_timestamp = dm_get_timestamp(link->ctx);
--	do {
--		sinkstatus = 0;
--		result = core_link_read_dpcd(link, DP_SINK_STATUS, &sinkstatus, sizeof(sinkstatus));
--		if (sinkstatus == 1)
--			break;
--		if (result != DC_OK)
--			break;
--		udelay(25);
--		finish_timestamp = dm_get_timestamp(link->ctx);
--		time_taken_in_ns = dm_get_elapse_time_in_ns(link->ctx, finish_timestamp, enter_timestamp);
--	} while (time_taken_in_ns < 50 * 1000000); //MAx T7 is 50ms
-+
-+	if (result == DC_OK && edpRev >= DP_EDP_12) {
-+		/* start from eDP version 1.2, SINK_STAUS indicate the sink is ready.*/
-+		enter_timestamp = dm_get_timestamp(link->ctx);
-+		do {
-+			sinkstatus = 0;
-+			result = core_link_read_dpcd(link, DP_SINK_STATUS, &sinkstatus, sizeof(sinkstatus));
-+			if (sinkstatus == 1)
-+				break;
-+			if (result != DC_OK)
-+				break;
-+			udelay(25);
-+			finish_timestamp = dm_get_timestamp(link->ctx);
-+			time_taken_in_ns = dm_get_elapse_time_in_ns(link->ctx, finish_timestamp, enter_timestamp);
-+		} while (time_taken_in_ns < 50 * 1000000); //MAx T7 is 50ms
-+	}
+ 	omapdss_walk_device(dss, true);
  
- 	if (link->local_sink->edid_caps.panel_patch.extra_t7_ms > 0)
- 		udelay(link->local_sink->edid_caps.panel_patch.extra_t7_ms * 1000);
+@@ -217,6 +217,8 @@ static int __init omapdss_boot_init(void)
+ 		kfree(n);
+ 	}
+ 
++put_node:
++	of_node_put(dss);
+ 	return 0;
+ }
+ 
 -- 
 2.20.1
 
