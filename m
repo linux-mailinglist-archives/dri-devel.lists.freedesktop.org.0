@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B9F1A5565
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:11:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 571061A5592
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:12:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA6289178;
-	Sat, 11 Apr 2020 23:11:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 180736E071;
+	Sat, 11 Apr 2020 23:11:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1E556E3B0;
- Sat, 11 Apr 2020 23:11:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2D326E071;
+ Sat, 11 Apr 2020 23:11:58 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id F01A620CC7;
- Sat, 11 Apr 2020 23:11:15 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8351C2173E;
+ Sat, 11 Apr 2020 23:11:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586646676;
- bh=wS3jFTMM2C4qr3WLroCLDV8LJ8TkwN/96ofrMrcEvqQ=;
+ s=default; t=1586646718;
+ bh=9AgB5xU8/OmGvwSeCAS7bDIEocxLDpLkEL0FnpXfADc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PShKxyJuqDRFJ9sSUQ1buuW7vNtLlL9XO8ENozNo7g7wruWwR2D6V9foICHzmclLm
- bxjyHE00x7pR84Lzk7P77Tf4Txij98TEv5mOi1eb6//1El9arLvZ+/+i/XODo/1RSA
- +eTLi8MviqPIhtOHlgVXpgvXoJARzCws4IBTEWQk=
+ b=R+F9mD/qczaZGiS1T5/esUPAS0+EewNPwc9mJxY9dvLwr4Wgd5c+HTGIp3jJVp/QJ
+ fMZ47FmwDl0TUOwGDICVps4WGJUdsf7QQ7SVdBgSXdtSXNfD4x/6FvQnkzOVDdPXev
+ 2f40oxhthB+CTQYkL/N7CZNLXS0lTs+LcC+WUslE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 074/108] drm/msm: devcoredump should dump
- MSM_SUBMIT_BO_DUMP buffers
-Date: Sat, 11 Apr 2020 19:09:09 -0400
-Message-Id: <20200411230943.24951-74-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 108/108] PCI: Use ioremap(),
+ not phys_to_virt() for platform ROM
+Date: Sat, 11 Apr 2020 19:09:43 -0400
+Message-Id: <20200411230943.24951-108-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200411230943.24951-1-sashal@kernel.org>
 References: <20200411230943.24951-1-sashal@kernel.org>
@@ -50,124 +50,250 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ Mikel Rychliski <mikel@mikelr.com>, Bjorn Helgaas <bhelgaas@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+From: Mikel Rychliski <mikel@mikelr.com>
 
-[ Upstream commit e515af8d4a6f18f96c360724568a7497868101a8 ]
+[ Upstream commit 72e0ef0e5f067fd991f702f0b2635d911d0cf208 ]
 
-Also log buffers with the DUMP flag set, to ensure we capture all useful
-cmdstream in crashdump state with modern mesa.
+On some EFI systems, the video BIOS is provided by the EFI firmware.  The
+boot stub code stores the physical address of the ROM image in pdev->rom.
+Currently we attempt to access this pointer using phys_to_virt(), which
+doesn't work with CONFIG_HIGHMEM.
 
-Otherwise we miss out on the contents of "state object" cmdstream
-buffers.
+On these systems, attempting to load the radeon module on a x86_32 kernel
+can result in the following:
 
-v2: add missing 'inline'
+  BUG: unable to handle page fault for address: 3e8ed03c
+  #PF: supervisor read access in kernel mode
+  #PF: error_code(0x0000) - not-present page
+  *pde = 00000000
+  Oops: 0000 [#1] PREEMPT SMP
+  CPU: 0 PID: 317 Comm: systemd-udevd Not tainted 5.6.0-rc3-next-20200228 #2
+  Hardware name: Apple Computer, Inc. MacPro1,1/Mac-F4208DC8, BIOS     MP11.88Z.005C.B08.0707021221 07/02/07
+  EIP: radeon_get_bios+0x5ed/0xe50 [radeon]
+  Code: 00 00 84 c0 0f 85 12 fd ff ff c7 87 64 01 00 00 00 00 00 00 8b 47 08 8b 55 b0 e8 1e 83 e1 d6 85 c0 74 1a 8b 55 c0 85 d2 74 13 <80> 38 55 75 0e 80 78 01 aa 0f 84 a4 03 00 00 8d 74 26 00 68 dc 06
+  EAX: 3e8ed03c EBX: 00000000 ECX: 3e8ed03c EDX: 00010000
+  ESI: 00040000 EDI: eec04000 EBP: eef3fc60 ESP: eef3fbe0
+  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068 EFLAGS: 00010206
+  CR0: 80050033 CR2: 3e8ed03c CR3: 2ec77000 CR4: 000006d0
+  Call Trace:
+   r520_init+0x26/0x240 [radeon]
+   radeon_device_init+0x533/0xa50 [radeon]
+   radeon_driver_load_kms+0x80/0x220 [radeon]
+   drm_dev_register+0xa7/0x180 [drm]
+   radeon_pci_probe+0x10f/0x1a0 [radeon]
+   pci_device_probe+0xd4/0x140
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
+Fix the issue by updating all drivers which can access a platform provided
+ROM. Instead of calling the helper function pci_platform_rom() which uses
+phys_to_virt(), call ioremap() directly on the pdev->rom.
+
+radeon_read_platform_bios() previously directly accessed an __iomem
+pointer. Avoid this by calling memcpy_fromio() instead of kmemdup().
+
+pci_platform_rom() now has no remaining callers, so remove it.
+
+Link: https://lore.kernel.org/r/20200319021623.5426-1-mikel@mikelr.com
+Signed-off-by: Mikel Rychliski <mikel@mikelr.com>
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/msm_gem.h | 10 ++++++++++
- drivers/gpu/drm/msm/msm_gpu.c | 28 +++++++++++++++++++++++-----
- drivers/gpu/drm/msm/msm_rd.c  |  8 +-------
- 3 files changed, 34 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c      | 31 +++++++++++--------
+ .../drm/nouveau/nvkm/subdev/bios/shadowpci.c  | 17 ++++++++--
+ drivers/gpu/drm/radeon/radeon_bios.c          | 30 +++++++++++-------
+ drivers/pci/rom.c                             | 17 ----------
+ include/linux/pci.h                           |  1 -
+ 5 files changed, 52 insertions(+), 44 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 9e0953c2b7cea..dcee0e223ed86 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -160,4 +160,14 @@ struct msm_gem_submit {
- 	} bos[0];
- };
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
+index 50dff69a0f6e3..b1172d93c99c3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
+@@ -192,30 +192,35 @@ static bool amdgpu_read_bios_from_rom(struct amdgpu_device *adev)
  
-+/* helper to determine of a buffer in submit should be dumped, used for both
-+ * devcoredump and debugfs cmdstream dumping:
-+ */
-+static inline bool
-+should_dump(struct msm_gem_submit *submit, int idx)
-+{
-+	extern bool rd_full;
-+	return rd_full || (submit->bos[idx].flags & MSM_SUBMIT_BO_DUMP);
-+}
+ static bool amdgpu_read_platform_bios(struct amdgpu_device *adev)
+ {
+-	uint8_t __iomem *bios;
+-	size_t size;
++	phys_addr_t rom = adev->pdev->rom;
++	size_t romlen = adev->pdev->romlen;
++	void __iomem *bios;
+ 
+ 	adev->bios = NULL;
+ 
+-	bios = pci_platform_rom(adev->pdev, &size);
+-	if (!bios) {
++	if (!rom || romlen == 0)
+ 		return false;
+-	}
+ 
+-	adev->bios = kzalloc(size, GFP_KERNEL);
+-	if (adev->bios == NULL)
++	adev->bios = kzalloc(romlen, GFP_KERNEL);
++	if (!adev->bios)
+ 		return false;
+ 
+-	memcpy_fromio(adev->bios, bios, size);
++	bios = ioremap(rom, romlen);
++	if (!bios)
++		goto free_bios;
+ 
+-	if (!check_atom_bios(adev->bios, size)) {
+-		kfree(adev->bios);
+-		return false;
+-	}
++	memcpy_fromio(adev->bios, bios, romlen);
++	iounmap(bios);
+ 
+-	adev->bios_size = size;
++	if (!check_atom_bios(adev->bios, romlen))
++		goto free_bios;
 +
- #endif /* __MSM_GEM_H__ */
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index edd45f434ccd6..aea93e5035758 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -355,16 +355,34 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
- 	state->cmd = kstrdup(cmd, GFP_KERNEL);
++	adev->bios_size = romlen;
  
- 	if (submit) {
--		int i;
--
--		state->bos = kcalloc(submit->nr_cmds,
-+		int i, nr = 0;
-+
-+		/* count # of buffers to dump: */
-+		for (i = 0; i < submit->nr_bos; i++)
-+			if (should_dump(submit, i))
-+				nr++;
-+		/* always dump cmd bo's, but don't double count them: */
-+		for (i = 0; i < submit->nr_cmds; i++)
-+			if (!should_dump(submit, submit->cmd[i].idx))
-+				nr++;
-+
-+		state->bos = kcalloc(nr,
- 			sizeof(struct msm_gpu_state_bo), GFP_KERNEL);
- 
-+		for (i = 0; i < submit->nr_bos; i++) {
-+			if (should_dump(submit, i)) {
-+				msm_gpu_crashstate_get_bo(state, submit->bos[i].obj,
-+					submit->bos[i].iova, submit->bos[i].flags);
-+			}
-+		}
-+
- 		for (i = 0; state->bos && i < submit->nr_cmds; i++) {
- 			int idx = submit->cmd[i].idx;
- 
--			msm_gpu_crashstate_get_bo(state, submit->bos[idx].obj,
--				submit->bos[idx].iova, submit->bos[idx].flags);
-+			if (!should_dump(submit, submit->cmd[i].idx)) {
-+				msm_gpu_crashstate_get_bo(state, submit->bos[idx].obj,
-+					submit->bos[idx].iova, submit->bos[idx].flags);
-+			}
- 		}
- 	}
- 
-diff --git a/drivers/gpu/drm/msm/msm_rd.c b/drivers/gpu/drm/msm/msm_rd.c
-index c7832a951039f..4acebaefaed74 100644
---- a/drivers/gpu/drm/msm/msm_rd.c
-+++ b/drivers/gpu/drm/msm/msm_rd.c
-@@ -43,7 +43,7 @@
- #include "msm_gpu.h"
- #include "msm_gem.h"
- 
--static bool rd_full = false;
-+bool rd_full = false;
- MODULE_PARM_DESC(rd_full, "If true, $debugfs/.../rd will snapshot all buffer contents");
- module_param_named(rd_full, rd_full, bool, 0600);
- 
-@@ -333,12 +333,6 @@ static void snapshot_buf(struct msm_rd_state *rd,
- 	msm_gem_put_vaddr(&obj->base);
+ 	return true;
++free_bios:
++	kfree(adev->bios);
++	return false;
  }
  
--static bool
--should_dump(struct msm_gem_submit *submit, int idx)
--{
--	return rd_full || (submit->bos[idx].flags & MSM_SUBMIT_BO_DUMP);
--}
+ #ifdef CONFIG_ACPI
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowpci.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowpci.c
+index 9b91da09dc5f8..8d9812a51ef63 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowpci.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowpci.c
+@@ -101,9 +101,13 @@ platform_init(struct nvkm_bios *bios, const char *name)
+ 	else
+ 		return ERR_PTR(-ENODEV);
+ 
++	if (!pdev->rom || pdev->romlen == 0)
++		return ERR_PTR(-ENODEV);
++
+ 	if ((priv = kmalloc(sizeof(*priv), GFP_KERNEL))) {
++		priv->size = pdev->romlen;
+ 		if (ret = -ENODEV,
+-		    (priv->rom = pci_platform_rom(pdev, &priv->size)))
++		    (priv->rom = ioremap(pdev->rom, pdev->romlen)))
+ 			return priv;
+ 		kfree(priv);
+ 	}
+@@ -111,11 +115,20 @@ platform_init(struct nvkm_bios *bios, const char *name)
+ 	return ERR_PTR(ret);
+ }
+ 
++static void
++platform_fini(void *data)
++{
++	struct priv *priv = data;
++
++	iounmap(priv->rom);
++	kfree(priv);
++}
++
+ const struct nvbios_source
+ nvbios_platform = {
+ 	.name = "PLATFORM",
+ 	.init = platform_init,
+-	.fini = (void(*)(void *))kfree,
++	.fini = platform_fini,
+ 	.read = pcirom_read,
+ 	.rw = true,
+ };
+diff --git a/drivers/gpu/drm/radeon/radeon_bios.c b/drivers/gpu/drm/radeon/radeon_bios.c
+index 4d1490fbb0750..756a50e8aff20 100644
+--- a/drivers/gpu/drm/radeon/radeon_bios.c
++++ b/drivers/gpu/drm/radeon/radeon_bios.c
+@@ -108,25 +108,33 @@ static bool radeon_read_bios(struct radeon_device *rdev)
+ 
+ static bool radeon_read_platform_bios(struct radeon_device *rdev)
+ {
+-	uint8_t __iomem *bios;
+-	size_t size;
++	phys_addr_t rom = rdev->pdev->rom;
++	size_t romlen = rdev->pdev->romlen;
++	void __iomem *bios;
+ 
+ 	rdev->bios = NULL;
+ 
+-	bios = pci_platform_rom(rdev->pdev, &size);
+-	if (!bios) {
++	if (!rom || romlen == 0)
+ 		return false;
+-	}
+ 
+-	if (size == 0 || bios[0] != 0x55 || bios[1] != 0xaa) {
++	rdev->bios = kzalloc(romlen, GFP_KERNEL);
++	if (!rdev->bios)
+ 		return false;
+-	}
+-	rdev->bios = kmemdup(bios, size, GFP_KERNEL);
+-	if (rdev->bios == NULL) {
+-		return false;
+-	}
++
++	bios = ioremap(rom, romlen);
++	if (!bios)
++		goto free_bios;
++
++	memcpy_fromio(rdev->bios, bios, romlen);
++	iounmap(bios);
++
++	if (rdev->bios[0] != 0x55 || rdev->bios[1] != 0xaa)
++		goto free_bios;
+ 
+ 	return true;
++free_bios:
++	kfree(rdev->bios);
++	return false;
+ }
+ 
+ #ifdef CONFIG_ACPI
+diff --git a/drivers/pci/rom.c b/drivers/pci/rom.c
+index 137bf0cee897c..8fc9a4e911e3a 100644
+--- a/drivers/pci/rom.c
++++ b/drivers/pci/rom.c
+@@ -195,20 +195,3 @@ void pci_unmap_rom(struct pci_dev *pdev, void __iomem *rom)
+ 		pci_disable_rom(pdev);
+ }
+ EXPORT_SYMBOL(pci_unmap_rom);
 -
- /* called under struct_mutex */
- void msm_rd_dump_submit(struct msm_rd_state *rd, struct msm_gem_submit *submit,
- 		const char *fmt, ...)
+-/**
+- * pci_platform_rom - provides a pointer to any ROM image provided by the
+- * platform
+- * @pdev: pointer to pci device struct
+- * @size: pointer to receive size of pci window over ROM
+- */
+-void __iomem *pci_platform_rom(struct pci_dev *pdev, size_t *size)
+-{
+-	if (pdev->rom && pdev->romlen) {
+-		*size = pdev->romlen;
+-		return phys_to_virt((phys_addr_t)pdev->rom);
+-	}
+-
+-	return NULL;
+-}
+-EXPORT_SYMBOL(pci_platform_rom);
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index f39f22f9ee474..e92bd9b32f369 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1216,7 +1216,6 @@ int pci_enable_rom(struct pci_dev *pdev);
+ void pci_disable_rom(struct pci_dev *pdev);
+ void __iomem __must_check *pci_map_rom(struct pci_dev *pdev, size_t *size);
+ void pci_unmap_rom(struct pci_dev *pdev, void __iomem *rom);
+-void __iomem __must_check *pci_platform_rom(struct pci_dev *pdev, size_t *size);
+ 
+ /* Power management related routines */
+ int pci_save_state(struct pci_dev *dev);
 -- 
 2.20.1
 
