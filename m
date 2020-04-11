@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BA71A5419
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:04:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A2CE1A5423
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:04:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4A616E156;
-	Sat, 11 Apr 2020 23:04:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2316F6E19B;
+	Sat, 11 Apr 2020 23:04:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C932F6E156;
- Sat, 11 Apr 2020 23:04:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DE476E19B
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 23:04:26 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D8315214D8;
- Sat, 11 Apr 2020 23:04:15 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 81C8320CC7;
+ Sat, 11 Apr 2020 23:04:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586646256;
- bh=b9PSEA+YG/1WY21aDwSoSP7Lj/mwh9DIxAkoaspyNac=;
+ s=default; t=1586646266;
+ bh=RDf0IwB6pbgawCvfT6ZQKVrQehfWd21JQ8a5a+4VaN0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cVIYHio23RN4BzYBpS9VtpxCDtuSlMVnIDGUz1V2B8PouGi3q4w2ZmdY2+CM361RB
- +VRyIHFPRiQvsUE6j0gXo/of6n4w7bQCLiXdC2B3iVoBVOBFywdwJ3tR98SiFvPu3/
- dGqCBNl5tw4soaBdCo+l1unDZ/Eq64nXNjhcdgsg=
+ b=KUysD0yZY22puJrBzOjNs0n6Cr9JD8cdu+blByuD4smj5s8/v/yVe6AVGIQEKnNqv
+ RCPUC6ly5mOgxjv+5rgBIA9XcR6gsvFCoJj5iju8umNL1G6tveM/R+n3/XltnNjHrj
+ G6ybETfNluCqc2Bkd/iweP8y/7+00n0c9Nj6ixvk=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 023/149] drm/amdgpu: check GFX RAS capability
- before reset counters
-Date: Sat, 11 Apr 2020 19:01:40 -0400
-Message-Id: <20200411230347.22371-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 031/149] drm/tegra: dc: Release PM and RGB output
+ when client's registration fails
+Date: Sat, 11 Apr 2020 19:01:48 -0400
+Message-Id: <20200411230347.22371-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200411230347.22371-1-sashal@kernel.org>
 References: <20200411230347.22371-1-sashal@kernel.org>
@@ -50,59 +50,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Monk Liu <monk.liu@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
+ Dmitry Osipenko <digetx@gmail.com>, Thierry Reding <treding@nvidia.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hawking Zhang <Hawking.Zhang@amd.com>
+From: Dmitry Osipenko <digetx@gmail.com>
 
-[ Upstream commit 06dcd7eb83ee65382305ce48686e3dadaad42088 ]
+[ Upstream commit 0411ea89a689531e1829fdf8af3747646c02c721 ]
 
-disallow the logical to be enabled on platforms that
-don't support gfx ras at this stage, like sriov skus,
-dgpu with legacy ras.etc
+Runtime PM and RGB output need to be released when host1x client
+registration fails. The releasing is missed in the code, let's correct it.
 
-Signed-off-by: Hawking Zhang <Hawking.Zhang@amd.com>
-Reviewed-by: Monk Liu <monk.liu@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 3 +++
- drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c | 3 +++
- 2 files changed, 6 insertions(+)
+ drivers/gpu/drm/tegra/dc.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-index 889154a78c4a8..beba9c596c493 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-@@ -6326,6 +6326,9 @@ static void gfx_v9_0_clear_ras_edc_counter(struct amdgpu_device *adev)
- {
- 	int i, j, k;
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 7c70fd31a4c24..870f9a68ad2c5 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -2588,10 +2588,16 @@ static int tegra_dc_probe(struct platform_device *pdev)
+ 	if (err < 0) {
+ 		dev_err(&pdev->dev, "failed to register host1x client: %d\n",
+ 			err);
+-		return err;
++		goto disable_pm;
+ 	}
  
-+	if (!amdgpu_ras_is_supported(adev, AMDGPU_RAS_BLOCK__GFX))
-+		return;
+ 	return 0;
 +
- 	/* read back registers to clear the counters */
- 	mutex_lock(&adev->grbm_idx_mutex);
- 	for (i = 0; i < ARRAY_SIZE(gfx_v9_0_edc_counter_regs); i++) {
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
-index f099f13d7f1e9..9955532345ec0 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
-@@ -897,6 +897,9 @@ void gfx_v9_4_clear_ras_edc_counter(struct amdgpu_device *adev)
- {
- 	int i, j, k;
++disable_pm:
++	pm_runtime_disable(&pdev->dev);
++	tegra_dc_rgb_remove(dc);
++
++	return err;
+ }
  
-+	if (!amdgpu_ras_is_supported(adev, AMDGPU_RAS_BLOCK__GFX))
-+		return;
-+
- 	mutex_lock(&adev->grbm_idx_mutex);
- 	for (i = 0; i < ARRAY_SIZE(gfx_v9_4_edc_counter_regs); i++) {
- 		for (j = 0; j < gfx_v9_4_edc_counter_regs[i].se_num; j++) {
+ static int tegra_dc_remove(struct platform_device *pdev)
 -- 
 2.20.1
 
