@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079641A55FB
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:13:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2681A5606
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:13:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09A9A6E3CB;
-	Sat, 11 Apr 2020 23:13:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30AD26E3D3;
+	Sat, 11 Apr 2020 23:13:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDCC56E3CB
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 23:13:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91CA36E3D3
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 23:13:52 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1EB95215A4;
- Sat, 11 Apr 2020 23:13:41 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4BAD720787;
+ Sat, 11 Apr 2020 23:13:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586646821;
- bh=1f0C9+h3Ca875KB6G7eOrSbb0hcwgHXQUUmOxZgbUVM=;
+ s=default; t=1586646832;
+ bh=TzM/SWg7N0SF+1EpVQxkbMiR46P25mK/oHaGpAH0d2Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cYLEWoJj9jA9e6VIszTMrTlVXsw4qM1jgSNQ0vJzI7H/EBYQuZP05fF1jbfPh6tVX
- /5pVlho0raQsXn3dctMaJCTDEHmtVN+L31Ph343uYNzLMSmSn2uBF6TkP0EmkiiLbf
- VOM4keqnhcALpXx4jR38jhZM3K4vDSD3vHrAIH14=
+ b=AZtKsjE1evxOUmTHTMz62TOp3iGeEPSQk+SHzGjh9s5kqkIUbeNbSsYh7obQGMdwx
+ Tq9NZyXRYAmhqr5QcwdWfw1nJ6eDGbxR/BZGXCNo711n1gW26CQR8XzMSdlI6SiFhp
+ 88/v/oiPUZSMWMo1iMAL+k6B0JMX1Fv0TLe5aHRE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 12/37] drm/tegra: dc: Release PM and RGB output
- when client's registration fails
-Date: Sat, 11 Apr 2020 19:13:01 -0400
-Message-Id: <20200411231327.26550-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 21/37] drm/omap: fix possible object reference
+ leak
+Date: Sat, 11 Apr 2020 19:13:10 -0400
+Message-Id: <20200411231327.26550-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200411231327.26550-1-sashal@kernel.org>
 References: <20200411231327.26550-1-sashal@kernel.org>
@@ -50,50 +50,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>, Thierry Reding <treding@nvidia.com>,
- dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>,
+ Mukesh Ojha <mojha@codeaurora.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Markus Elfring <Markus.Elfring@web.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Wen Yang <wen.yang99@zte.com.cn>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmitry Osipenko <digetx@gmail.com>
+From: Wen Yang <wen.yang99@zte.com.cn>
 
-[ Upstream commit 0411ea89a689531e1829fdf8af3747646c02c721 ]
+[ Upstream commit 47340e46f34a3b1d80e40b43ae3d7a8da34a3541 ]
 
-Runtime PM and RGB output need to be released when host1x client
-registration fails. The releasing is missed in the code, let's correct it.
+The call to of_find_matching_node returns a node pointer with refcount
+incremented thus it must be explicitly decremented after the last
+usage.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+Detected by coccinelle with the following warnings:
+drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:212:2-8: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
+drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:237:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
+
+Signed-off-by: Wen Yang <wen.yang99@zte.com.cn>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Mukesh Ojha <mojha@codeaurora.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Markus Elfring <Markus.Elfring@web.de>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/1554692313-28882-2-git-send-email-wen.yang99@zte.com.cn
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/tegra/dc.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 4df39112e38ec..176fb9a40ddf9 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -2059,10 +2059,16 @@ static int tegra_dc_probe(struct platform_device *pdev)
- 	if (err < 0) {
- 		dev_err(&pdev->dev, "failed to register host1x client: %d\n",
- 			err);
--		return err;
-+		goto disable_pm;
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+index bf626acae2712..cd8e9b799b9a5 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+@@ -193,7 +193,7 @@ static int __init omapdss_boot_init(void)
+ 	dss = of_find_matching_node(NULL, omapdss_of_match);
+ 
+ 	if (dss == NULL || !of_device_is_available(dss))
+-		return 0;
++		goto put_node;
+ 
+ 	omapdss_walk_device(dss, true);
+ 
+@@ -218,6 +218,8 @@ static int __init omapdss_boot_init(void)
+ 		kfree(n);
  	}
  
++put_node:
++	of_node_put(dss);
  	return 0;
-+
-+disable_pm:
-+	pm_runtime_disable(&pdev->dev);
-+	tegra_dc_rgb_remove(dc);
-+
-+	return err;
  }
  
- static int tegra_dc_remove(struct platform_device *pdev)
 -- 
 2.20.1
 
