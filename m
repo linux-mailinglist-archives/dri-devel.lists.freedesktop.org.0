@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CA21A5269
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Apr 2020 15:56:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09D31A526C
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Apr 2020 15:59:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A89F6E095;
-	Sat, 11 Apr 2020 13:56:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A24E26E237;
+	Sat, 11 Apr 2020 13:59:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1586E095
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 13:56:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DAC86E237
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 13:59:33 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206575] [amdgpu] [drm] No video signal on resume from suspend,
  R9 380
-Date: Sat, 11 Apr 2020 13:56:52 +0000
+Date: Sat, 11 Apr 2020 13:59:32 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206575-2300-u4yjPFvtV1@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-206575-2300-taHUvijHsm@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206575-2300@https.bugzilla.kernel.org/>
 References: <bug-206575-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,8 +59,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206575
 
---- Comment #20 from Noel Maersk (veox+kernel@veox.pw) ---
-I'll do a bisect to identify the fix. Roughly 15 steps.
+--- Comment #21 from Noel Maersk (veox+kernel@veox.pw) ---
+Created attachment 288351
+  --> https://bugzilla.kernel.org/attachment.cgi?id=288351&action=edit
+git bisect log to find the culprit
+
+Attaching original git bisect log (was posted to github previously).
 
 -- 
 You are receiving this mail because:
