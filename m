@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D931A5545
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE871A554E
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:10:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CBEF6E384;
-	Sat, 11 Apr 2020 23:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A73096E393;
+	Sat, 11 Apr 2020 23:10:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2876E384;
- Sat, 11 Apr 2020 23:10:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 528236E393
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 23:10:35 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 63A76216FD;
- Sat, 11 Apr 2020 23:10:22 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7879A20757;
+ Sat, 11 Apr 2020 23:10:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586646623;
- bh=ZXMzDijToI0Xp1tlWp3wP7ZbDdz7Yh1T+un0pHOH3tA=;
+ s=default; t=1586646635;
+ bh=G6doahWEhEoWqA7g3gA5FqgZGobBc8m5pKoJLoAJSdA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cHt2675JR0RR5xZqC7j3MU584QtfuGN1Ja8OTijfp2SHnxbJ5xH/Zvge04A7Mrb41
- bwOF/uIZ/VomXvH3fQbcEVeIwjFhlaZElR7DY6vlLsZEhst5amZOf1Xd6U9FGXFjRM
- pYYI3AUZdlb+0W0YE4/EXQcIp8f70VnHwlfjZBK8=
+ b=Ea3/W8vppEjMZBJj+YmXu2blDJKIRzCSlAVkoW/H0Uw6rrUBqo8faOJgXm/6oivrv
+ uXPNKghB+oLNk6ueZPpGIeGWRa3tq4or1e/crA55rViajBXgSYwBUnSNt4a9n/lHdg
+ Q5m+HQK07EEMmGN4DJbyl2PoNIvY5xaQE/LjBoPM=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 032/108] drm/amd/display: Only round InfoFrame
- refresh rates
-Date: Sat, 11 Apr 2020 19:08:27 -0400
-Message-Id: <20200411230943.24951-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 042/108] drm/sun4i: dsi: Use NULL to signify "no
+ panel"
+Date: Sat, 11 Apr 2020 19:08:37 -0400
+Message-Id: <20200411230943.24951-42-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200411230943.24951-1-sashal@kernel.org>
 References: <20200411230943.24951-1-sashal@kernel.org>
@@ -50,66 +50,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Anthony Koo <Anthony.Koo@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
+ Samuel Holland <samuel@sholland.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aric Cyr <aric.cyr@amd.com>
+From: Samuel Holland <samuel@sholland.org>
 
-[ Upstream commit 3fc6376ed6f2f67bc9fb0c7a3cf07967d6aa6216 ]
+[ Upstream commit 0e4e3fb4901d19f49e5c0a582f383b10dda8d1c5 ]
 
-[Why]
-When calculating nominal refresh rates, don't round.
-Only the VSIF needs to be rounded.
+The continued use of an ERR_PTR to signify "no panel" outside of
+sun6i_dsi_attach is confusing because it is a double negative. Because
+the connector always reports itself as connected, there is also the
+possibility of sending an ERR_PTR to drm_panel_get_modes(), which would
+crash.
 
-[How]
-Revert rounding change for nominal and just round when forming the
-FreeSync VSIF.
+Solve both of these by only storing the panel pointer if it is valid.
 
-Signed-off-by: Aric Cyr <aric.cyr@amd.com>
-Reviewed-by: Anthony Koo <Anthony.Koo@amd.com>
-Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Acked-by: Harry Wentland <harry.wentland@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Fixes: 133add5b5ad4 ("drm/sun4i: Add Allwinner A31 MIPI-DSI controller support")
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200211072858.30784-2-samuel@sholland.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/modules/freesync/freesync.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-index 7d67cb2c61f04..37090384c2302 100644
---- a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-+++ b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-@@ -520,12 +520,12 @@ static void build_vrr_infopacket_data(const struct mod_vrr_params *vrr,
- 		infopacket->sb[6] |= 0x04;
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+index f83522717488a..d2ade0ad67708 100644
+--- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+@@ -748,7 +748,7 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+ 	phy_configure(dsi->dphy, &opts);
+ 	phy_power_on(dsi->dphy);
  
- 	/* PB7 = FreeSync Minimum refresh rate (Hz) */
--	infopacket->sb[7] = (unsigned char)(vrr->min_refresh_in_uhz / 1000000);
-+	infopacket->sb[7] = (unsigned char)((vrr->min_refresh_in_uhz + 500000) / 1000000);
+-	if (!IS_ERR(dsi->panel))
++	if (dsi->panel)
+ 		drm_panel_prepare(dsi->panel);
  
- 	/* PB8 = FreeSync Maximum refresh rate (Hz)
- 	 * Note: We should never go above the field rate of the mode timing set.
+ 	/*
+@@ -763,7 +763,7 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+ 	 * ordering on the panels I've tested it with, so I guess this
+ 	 * will do for now, until that IP is better understood.
  	 */
--	infopacket->sb[8] = (unsigned char)(vrr->max_refresh_in_uhz / 1000000);
-+	infopacket->sb[8] = (unsigned char)((vrr->max_refresh_in_uhz + 500000) / 1000000);
+-	if (!IS_ERR(dsi->panel))
++	if (dsi->panel)
+ 		drm_panel_enable(dsi->panel);
  
+ 	sun6i_dsi_start(dsi, DSI_START_HSC);
+@@ -779,7 +779,7 @@ static void sun6i_dsi_encoder_disable(struct drm_encoder *encoder)
  
- 	//FreeSync HDR
-@@ -743,10 +743,6 @@ void mod_freesync_build_vrr_params(struct mod_freesync *mod_freesync,
- 	nominal_field_rate_in_uhz =
- 			mod_freesync_calc_nominal_field_rate(stream);
+ 	DRM_DEBUG_DRIVER("Disabling DSI output\n");
  
--	/* Rounded to the nearest Hz */
--	nominal_field_rate_in_uhz = 1000000ULL *
--			div_u64(nominal_field_rate_in_uhz + 500000, 1000000);
--
- 	min_refresh_in_uhz = in_config->min_refresh_in_uhz;
- 	max_refresh_in_uhz = in_config->max_refresh_in_uhz;
+-	if (!IS_ERR(dsi->panel)) {
++	if (dsi->panel) {
+ 		drm_panel_disable(dsi->panel);
+ 		drm_panel_unprepare(dsi->panel);
+ 	}
+@@ -941,11 +941,13 @@ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+ 			    struct mipi_dsi_device *device)
+ {
+ 	struct sun6i_dsi *dsi = host_to_sun6i_dsi(host);
++	struct drm_panel *panel = of_drm_find_panel(device->dev.of_node);
+ 
++	if (IS_ERR(panel))
++		return PTR_ERR(panel);
++
++	dsi->panel = panel;
+ 	dsi->device = device;
+-	dsi->panel = of_drm_find_panel(device->dev.of_node);
+-	if (IS_ERR(dsi->panel))
+-		return PTR_ERR(dsi->panel);
+ 
+ 	dev_info(host->dev, "Attached device %s\n", device->name);
  
 -- 
 2.20.1
