@@ -1,65 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9051A64A8
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 11:29:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1691A540C
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:04:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8CF89E11;
-	Mon, 13 Apr 2020 09:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C94E36E06D;
+	Sat, 11 Apr 2020 23:04:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2A66E0E3
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 20:06:48 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id x25so5711138wmc.0
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 13:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zoldyKJXtADkuzgLMxvc+aHQ8la7JVhSLGXOECKmOcc=;
- b=hrjRuhiQBhcZ1WdJ1Gq9N8RInWD2+8L6tzMXKTt9nRC+YJSlhe8o2apD1lBuGHue63
- Gz72gk10Zomzi4uGEfF3sk1XpJPCLdmSGvztUeSx3G8GrSFxCKwtL4OLh4Nou5ySW1HH
- NbtcXX3XCTFKitlpLdHotw/U0MXkWnNWhIVU3/EH+tzgY6BG/FM9cIY0Ztba2yNOkKew
- 1S14PgZe1f14Nigk4Q+Vmhmidu2QglqQ4QBLWgKPeGfdufLgIGe2YLL8yxP41aLV/BNw
- 1EcNjmXLluI3nk18jkOu3nxiT0sq/SymW2ZYG0wT+LqRc+fjijZuJ1wXbP/V0I1yzIJy
- bxww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zoldyKJXtADkuzgLMxvc+aHQ8la7JVhSLGXOECKmOcc=;
- b=siV/DzQyGgR6NZYaupk2w3IIacZl+mpHKPgtzJS9cMlae2WUEjjQQJ1jEI0OcIj9+j
- F+GIjzstj45wHHU97MOmzbwzKSop3Ko+613GRwvK8oPVt9dboFDnvhcPiPH9JforYA1j
- cfDTqSyWghliPDEHqje7IH3LSoAj47029eH7FW5sJPv2yldPI8WfP37Mwb/3LcoStUJV
- bmvoJa3R1ZIZw9BzLld4lyE14UjtZC8sbLa5jtVAuPdlpFfbTyXhGIOEAkHILR3tLu6O
- Tq1OPalyxQoAVyple2cJzYivlINssVXBr6r+uX9P+VUAhZgoDIoX3xpwrruqI5wVB7Vh
- inxQ==
-X-Gm-Message-State: AGi0Pua4AzeDwB7/b+0lhhaplL6iuTLVAoazOYR/fXHnJWIU1ezk1wwv
- ahxmsPRpYgOd7qKEJuguYOc=
-X-Google-Smtp-Source: APiQypLbsvsk9zLeeFB8Obt5V3v8jpdg3Qf2EvxxzUQlswj5qD7Vw52StvIIPRQTWSewjjjJ1SYvAg==
-X-Received: by 2002:a1c:9aca:: with SMTP id c193mr10824862wme.38.1586635606681; 
- Sat, 11 Apr 2020 13:06:46 -0700 (PDT)
-Received: from localhost.localdomain (91-167-199-67.subs.proxad.net.
- [91.167.199.67])
- by smtp.gmail.com with ESMTPSA id y5sm8712670wru.15.2020.04.11.13.06.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Apr 2020 13:06:45 -0700 (PDT)
-From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>
-Subject: [PATCH 2/2] drm/panfrost: add devfreq regulator support
-Date: Sat, 11 Apr 2020 22:06:32 +0200
-Message-Id: <20200411200632.4045-2-peron.clem@gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F1EE6E046;
+ Sat, 11 Apr 2020 23:04:02 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3F2D3214D8;
+ Sat, 11 Apr 2020 23:04:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1586646241;
+ bh=Q99g52Fta1ZERSHsYKSqKAe6lrAJVypTbK5kyGjfU20=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=x2TWd87KqSaWTitxTQn12h6DfN2PavhYEvKc9ZW/3SDVaGAqCQAX1Kfoc5w4CjeUm
+ W+r3z2CRH9no5qBfdEIO2jcwjBGDORYNQLZrtt1r9jY/AlIxPayPJYxB35pgM3UbxH
+ 7w84O2rP2+KZUfJMBcPxZoVraLw5P824rmPbQTJQ=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.6 010/149] drm/amd/display: differentiate vsc sdp
+ colorimetry use criteria between MST and SST
+Date: Sat, 11 Apr 2020 19:01:27 -0400
+Message-Id: <20200411230347.22371-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200411200632.4045-1-peron.clem@gmail.com>
-References: <20200411200632.4045-1-peron.clem@gmail.com>
+In-Reply-To: <20200411230347.22371-1-sashal@kernel.org>
+References: <20200411230347.22371-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 13 Apr 2020 09:29:25 +0000
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,59 +50,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, Martin Tsai <martin.tsai@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Wenjing Liu <Wenjing.Liu@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T1BQIHRhYmxlIGNhbiBkZWZpbmVkIGJvdGggZnJlcXVlbmN5IGFuZCB2b2x0YWdlLgoKUmVnaXN0
-ZXIgdGhlIG1hbGkgcmVndWxhdG9yIGlmIGl0IGV4aXN0LgoKU2lnbmVkLW9mZi1ieTogQ2zDqW1l
-bnQgUMOpcm9uIDxwZXJvbi5jbGVtQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcGFu
-ZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5jIHwgMzQgKysrKysrKysrKysrKysrKysrLS0tCiBkcml2
-ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2aWNlLmggIHwgIDEgKwogMiBmaWxlcyBj
-aGFuZ2VkLCAzMSBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZmcmVxLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5jCmluZGV4IDYyNTQxZjRlZGQ4MS4uMmRjOGUy
-MzU1MzU4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2
-ZnJlcS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZmcmVxLmMK
-QEAgLTc4LDEyICs3OCwyNiBAQCBpbnQgcGFuZnJvc3RfZGV2ZnJlcV9pbml0KHN0cnVjdCBwYW5m
-cm9zdF9kZXZpY2UgKnBmZGV2KQogCXN0cnVjdCBkZXZpY2UgKmRldiA9ICZwZmRldi0+cGRldi0+
-ZGV2OwogCXN0cnVjdCBkZXZmcmVxICpkZXZmcmVxOwogCXN0cnVjdCB0aGVybWFsX2Nvb2xpbmdf
-ZGV2aWNlICpjb29saW5nOworCWNvbnN0IGNoYXIgKm1hbGkgPSAibWFsaSI7CisJc3RydWN0IG9w
-cF90YWJsZSAqb3BwX3RhYmxlID0gTlVMTDsKKworCS8qIFJlZ3VsYXRvciBpcyBvcHRpb25hbCAq
-LworCW9wcF90YWJsZSA9IGRldl9wbV9vcHBfc2V0X3JlZ3VsYXRvcnMoZGV2LCAmbWFsaSwgMSk7
-CisJaWYgKElTX0VSUihvcHBfdGFibGUpKSB7CisJCXJldCA9IFBUUl9FUlIob3BwX3RhYmxlKTsK
-KwkJaWYgKHJldCAhPSAtRU5PREVWKSB7CisJCQlEUk1fREVWX0VSUk9SKGRldiwgIkZhaWxlZCB0
-byBzZXQgcmVndWxhdG9yOiAlZFxuIiwgcmV0KTsKKwkJCXJldHVybiByZXQ7CisJCX0KKwl9CisJ
-cGZkZXYtPmRldmZyZXEub3BwX3RhYmxlID0gb3BwX3RhYmxlOwogCiAJcmV0ID0gZGV2X3BtX29w
-cF9vZl9hZGRfdGFibGUoZGV2KTsKLQlpZiAocmV0ID09IC1FTk9ERVYpIC8qIE9wdGlvbmFsLCBj
-b250aW51ZSB3aXRob3V0IGRldmZyZXEgKi8KLQkJcmV0dXJuIDA7Ci0JZWxzZSBpZiAocmV0KQot
-CQlyZXR1cm4gcmV0OworCWlmIChyZXQpIHsKKwkJaWYgKHJldCA9PSAtRU5PREVWKSAvKiBPcHRp
-b25hbCwgY29udGludWUgd2l0aG91dCBkZXZmcmVxICovCisJCQlyZXQgPSAwOworCQlnb3RvIGVy
-cl9vcHBfcmVnOworCX0KIAogCXBhbmZyb3N0X2RldmZyZXFfcmVzZXQocGZkZXYpOwogCkBAIC0x
-MTksNiArMTMzLDEyIEBAIGludCBwYW5mcm9zdF9kZXZmcmVxX2luaXQoc3RydWN0IHBhbmZyb3N0
-X2RldmljZSAqcGZkZXYpCiBlcnJfb3BwOgogCWRldl9wbV9vcHBfb2ZfcmVtb3ZlX3RhYmxlKGRl
-dik7CiAKK2Vycl9vcHBfcmVnOgorCWlmIChwZmRldi0+ZGV2ZnJlcS5vcHBfdGFibGUpIHsKKwkJ
-ZGV2X3BtX29wcF9wdXRfcmVndWxhdG9ycyhwZmRldi0+ZGV2ZnJlcS5vcHBfdGFibGUpOworCQlw
-ZmRldi0+ZGV2ZnJlcS5vcHBfdGFibGUgPSBOVUxMOworCX0KKwogCXJldHVybiByZXQ7CiB9CiAK
-QEAgLTEyNiw3ICsxNDYsMTMgQEAgdm9pZCBwYW5mcm9zdF9kZXZmcmVxX2Zpbmkoc3RydWN0IHBh
-bmZyb3N0X2RldmljZSAqcGZkZXYpCiB7CiAJaWYgKHBmZGV2LT5kZXZmcmVxLmNvb2xpbmcpCiAJ
-CWRldmZyZXFfY29vbGluZ191bnJlZ2lzdGVyKHBmZGV2LT5kZXZmcmVxLmNvb2xpbmcpOworCiAJ
-ZGV2X3BtX29wcF9vZl9yZW1vdmVfdGFibGUoJnBmZGV2LT5wZGV2LT5kZXYpOworCisJaWYgKHBm
-ZGV2LT5kZXZmcmVxLm9wcF90YWJsZSkgeworCQlkZXZfcG1fb3BwX3B1dF9yZWd1bGF0b3JzKHBm
-ZGV2LT5kZXZmcmVxLm9wcF90YWJsZSk7CisJCXBmZGV2LT5kZXZmcmVxLm9wcF90YWJsZSA9IE5V
-TEw7CisJfQogfQogCiB2b2lkIHBhbmZyb3N0X2RldmZyZXFfcmVzdW1lKHN0cnVjdCBwYW5mcm9z
-dF9kZXZpY2UgKnBmZGV2KQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3Bh
-bmZyb3N0X2RldmljZS5oIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rldmlj
-ZS5oCmluZGV4IDA2NzEzODExYjkyYy4uZjZiMGM3NzlkZmU1IDEwMDY0NAotLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2aWNlLmgKKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3BhbmZyb3N0L3BhbmZyb3N0X2RldmljZS5oCkBAIC04Niw2ICs4Niw3IEBAIHN0cnVjdCBwYW5m
-cm9zdF9kZXZpY2UgewogCXN0cnVjdCB7CiAJCXN0cnVjdCBkZXZmcmVxICpkZXZmcmVxOwogCQlz
-dHJ1Y3QgdGhlcm1hbF9jb29saW5nX2RldmljZSAqY29vbGluZzsKKwkJc3RydWN0IG9wcF90YWJs
-ZSAqb3BwX3RhYmxlOwogCQlrdGltZV90IGJ1c3lfdGltZTsKIAkJa3RpbWVfdCBpZGxlX3RpbWU7
-CiAJCWt0aW1lX3QgdGltZV9sYXN0X3VwZGF0ZTsKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+From: Martin Tsai <martin.tsai@amd.com>
+
+[ Upstream commit c38cc6770fd5f78a0918ed0b01af14de31aba5cb ]
+
+[Why]
+We should check MST BU support capability on output port before building
+vsc info packet.
+
+[How]
+Add a new definition for port and sink capability check.
+
+Signed-off-by: Martin Tsai <martin.tsai@amd.com>
+Reviewed-by: Wenjing Liu <Wenjing.Liu@amd.com>
+Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 19 +++++++++++++++---
+ drivers/gpu/drm/amd/display/dc/dc.h           |  2 ++
+ .../amd/display/modules/inc/mod_info_packet.h |  3 +--
+ .../display/modules/info_packet/info_packet.c | 20 +++----------------
+ 4 files changed, 22 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 6240259b3a937..b9853fd724d60 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -4200,9 +4200,22 @@ create_stream_for_sink(struct amdgpu_dm_connector *aconnector,
+ 			struct dmcu *dmcu = core_dc->res_pool->dmcu;
+ 
+ 			stream->psr_version = dmcu->dmcu_version.psr_version;
+-			mod_build_vsc_infopacket(stream,
+-					&stream->vsc_infopacket,
+-					&stream->use_vsc_sdp_for_colorimetry);
++
++			//
++			// should decide stream support vsc sdp colorimetry capability
++			// before building vsc info packet
++			//
++			stream->use_vsc_sdp_for_colorimetry = false;
++			if (aconnector->dc_sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT_MST) {
++				stream->use_vsc_sdp_for_colorimetry =
++					aconnector->dc_sink->is_vsc_sdp_colorimetry_supported;
++			} else {
++				if (stream->link->dpcd_caps.dpcd_rev.raw >= 0x14 &&
++					stream->link->dpcd_caps.dprx_feature.bits.VSC_SDP_COLORIMETRY_SUPPORTED) {
++					stream->use_vsc_sdp_for_colorimetry = true;
++				}
++			}
++			mod_build_vsc_infopacket(stream, &stream->vsc_infopacket);
+ 		}
+ 	}
+ finish:
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index 8ff25b5dd2f6d..4afe33c6aeb5b 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -1019,6 +1019,8 @@ struct dc_sink {
+ 
+ 	struct dc_sink_dsc_caps sink_dsc_caps;
+ 
++	bool is_vsc_sdp_colorimetry_supported;
++
+ 	/* private to DC core */
+ 	struct dc_link *link;
+ 	struct dc_context *ctx;
+diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
+index 42cbeffac6402..13c57ff2abdce 100644
+--- a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
++++ b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
+@@ -34,8 +34,7 @@ struct dc_info_packet;
+ struct mod_vrr_params;
+ 
+ void mod_build_vsc_infopacket(const struct dc_stream_state *stream,
+-		struct dc_info_packet *info_packet,
+-		bool *use_vsc_sdp_for_colorimetry);
++		struct dc_info_packet *info_packet);
+ 
+ void mod_build_hf_vsif_infopacket(const struct dc_stream_state *stream,
+ 		struct dc_info_packet *info_packet, int ALLMEnabled, int ALLMValue);
+diff --git a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
+index 6a8a056424b85..cff3ab15fc0cc 100644
+--- a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
++++ b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
+@@ -130,8 +130,7 @@ enum ColorimetryYCCDP {
+ };
+ 
+ void mod_build_vsc_infopacket(const struct dc_stream_state *stream,
+-		struct dc_info_packet *info_packet,
+-		bool *use_vsc_sdp_for_colorimetry)
++		struct dc_info_packet *info_packet)
+ {
+ 	unsigned int vsc_packet_revision = vsc_packet_undefined;
+ 	unsigned int i;
+@@ -139,11 +138,6 @@ void mod_build_vsc_infopacket(const struct dc_stream_state *stream,
+ 	unsigned int colorimetryFormat = 0;
+ 	bool stereo3dSupport = false;
+ 
+-	/* Initialize first, later if infopacket is valid determine if VSC SDP
+-	 * should be used to signal colorimetry format and pixel encoding.
+-	 */
+-	*use_vsc_sdp_for_colorimetry = false;
+-
+ 	if (stream->timing.timing_3d_format != TIMING_3D_FORMAT_NONE && stream->view_format != VIEW_3D_FORMAT_NONE) {
+ 		vsc_packet_revision = vsc_packet_rev1;
+ 		stereo3dSupport = true;
+@@ -153,9 +147,8 @@ void mod_build_vsc_infopacket(const struct dc_stream_state *stream,
+ 	if (stream->psr_version != 0)
+ 		vsc_packet_revision = vsc_packet_rev2;
+ 
+-	/* Update to revision 5 for extended colorimetry support for DPCD 1.4+ */
+-	if (stream->link->dpcd_caps.dpcd_rev.raw >= 0x14 &&
+-			stream->link->dpcd_caps.dprx_feature.bits.VSC_SDP_COLORIMETRY_SUPPORTED)
++	/* Update to revision 5 for extended colorimetry support */
++	if (stream->use_vsc_sdp_for_colorimetry)
+ 		vsc_packet_revision = vsc_packet_rev5;
+ 
+ 	/* VSC packet not needed based on the features
+@@ -269,13 +262,6 @@ void mod_build_vsc_infopacket(const struct dc_stream_state *stream,
+ 
+ 		info_packet->valid = true;
+ 
+-		/* If we are using VSC SDP revision 05h, use this to signal for
+-		 * colorimetry format and pixel encoding. HW should later be
+-		 * programmed to set MSA MISC1 bit 6 to indicate ignore
+-		 * colorimetry format and pixel encoding in the MSA.
+-		 */
+-		*use_vsc_sdp_for_colorimetry = true;
+-
+ 		/* Set VSC SDP fields for pixel encoding and colorimetry format from DP 1.3 specs
+ 		 * Data Bytes DB 18~16
+ 		 * Bits 3:0 (Colorimetry Format)        |  Bits 7:4 (Pixel Encoding)
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
