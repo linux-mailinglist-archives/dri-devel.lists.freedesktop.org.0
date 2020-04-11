@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B5671A64A6
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 11:29:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6A41A537A
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Apr 2020 21:03:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D45EC89DD2;
-	Mon, 13 Apr 2020 09:29:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 580916E0D2;
+	Sat, 11 Apr 2020 19:03:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D11C56E2DE
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 16:57:27 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id k11so4979292wrp.5
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 09:57:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20161025;
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
+ [IPv6:2607:f8b0:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76ACE6E0D2
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 19:03:00 +0000 (UTC)
+Received: by mail-il1-x144.google.com with SMTP id t10so4898717iln.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 12:03:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=XHtQD/meuXaYe8UaCWq5ou0S7rpgnlSgQuuCrxXrgqE=;
- b=RWrw26nqS4KT9PlkFPDn2JxIpRqcyPHhXMFaV2xV/LRA5u0k8ivXmdSjtFyCEqZfs/
- w6d951CQrL1mkIvQKsxH9o9MjSCclbzSWvG8mH72tmFcKpKfRqa3g1YP8QzUIoSPuWRl
- VfC7wxNrZMh142P0OaR5q4xJ3A8rcTAIzhZSXShlqTSlELXp0V+oV4zQjnrmXwL8gBp7
- 8Iy1gSh8L065we/ErvRTUYKpFeXymglr0A96fJfQmniKcFkQnfRxAr6e07HealZfhgrm
- H0r7FiZGM1Np9CXQUXmq3rMU4WLM/x6xnx8oh3NXwpxvXewCfyiF5eM6LzfF1sZdS2hU
- IflA==
+ bh=geygEetnxFUbF7qcnow6BWFQrHKQpMqo/AimQRIb2J8=;
+ b=owX5RmHWoLMAOlS0chOL9zLwquEDbLi5abb4351ycfJCC13LsOIMlJuH0N2iamMmg+
+ Thy/jUp9BRuG03nMWO8O/Fcrlz/6AvEQiaE5+yV4vA2hIvHsj8d9gNUNRhgh0UsItOYo
+ c6QrLDxK+OuujGZdxaWnLOCCyvbh+Y/k+xOnnWIMcsmIHy5UBBeyZyN4NlmQsgdsmm57
+ Gq+xxcbFpeLfpLD5Z0mEXsbXacDKPZxzy4S2OU5GD39LsOL0aRXTZWKxgVlbODwLLRfH
+ DjGxgcLtdnjkTETCtyOzfYLS9nFLs4Mqojhwif4A1UMAfQWZj8fwrSUK76CAf5Qnitdg
+ 23rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=XHtQD/meuXaYe8UaCWq5ou0S7rpgnlSgQuuCrxXrgqE=;
- b=mcYUJznJHdiRzUXzOfZZ6Dsk1h8rmoqhAqEZAC6VOjUS4mlQ5NG3UQLfohJyFWfvGd
- lhvj1O3sIG+duIqwzNKuuTCVd7OJaj4wNKJK0K8r1vI/n1aohQJ6SCh1EIwAg5o+DP/+
- qEzFFR0ITS8+2bdykBqOYCZkOBRsuDsuNFHy0LsI54w7ixT7LJ8+MdNCAbmZo56SndtM
- Zd+j4hEyYKN3oAXq6SDTtaxuVcWI+6K+EetjZiHjAC6AjV/16YqSAHT92Yh06sx82pjr
- IeeJbzWChRDEs/rgsh6lnpDI9F4pQ3RHwDVR3cpW3tjqHLFoA2d6R/xE3L7bYhRjVxpX
- hHRQ==
-X-Gm-Message-State: AGi0PuaqNKQjAOkNbgUEidMNMm9p7ce4/MgK3lOnC6Qb92olhxCNeD9a
- MhkXReJgJ0C/b/lR041eUFhoTeg70RE=
-X-Google-Smtp-Source: APiQypI831li2YGPKN/VZUe6xPsQn9Sks+evd0nSUfRQDu+keljhtZbYvFFAXX996GgtLV3jKygrbA==
-X-Received: by 2002:adf:80af:: with SMTP id 44mr10792605wrl.241.1586624246453; 
- Sat, 11 Apr 2020 09:57:26 -0700 (PDT)
-Received: from localhost.localdomain
- (p200300F13710ED00428D5CFFFEB99DB8.dip0.t-ipconnect.de.
- [2003:f1:3710:ed00:428d:5cff:feb9:9db8])
- by smtp.googlemail.com with ESMTPSA id z11sm7781992wrv.58.2020.04.11.09.57.25
+ bh=geygEetnxFUbF7qcnow6BWFQrHKQpMqo/AimQRIb2J8=;
+ b=BVQLzWwL7oQbeNt7r/usfYkH+NEbdX+u96RHzqkXKMiF1m4xAXKKStzcbCKb6/+DMG
+ tLV/gllcKxNBa9+Uy36e+TMdr47QL9h2bMvULGFOafGX9OK+P0GEzFOTvS6yeZFB4Ogs
+ VMOoCBsJwDnXRTgnNnT2HcQ0kivvm/v8giABdwcjI33WEGfT/DcDRcZP09d6LW1Qncn/
+ BUnMaJxAaf7zxOCM6jdeTVdUW+sgmdZjqCCyZgw/connVpzy8tJvQRKxcM3V8gVeg+ef
+ jHxr9IRlAiYzQkDW0qdX7iWsEblpUaRWqxBf/Psh+BS7Mv26QDVhMQ1I5gXPpRV8r3Mr
+ NliQ==
+X-Gm-Message-State: AGi0PuY6D07Rz1wt6RLP07wYefVKlwqQB9SAvYlTLxuezQnlGA5psViz
+ eQH/f5+LzHM3ywRLuTx+Be+xGj9G
+X-Google-Smtp-Source: APiQypKhOkOaKU7yvl4bRHK+wGd8oLUZN00ujbv8m7RB6wstiOfYYw3Imh0iaB6PBH4j59Vb2vD77g==
+X-Received: by 2002:a92:834b:: with SMTP id f72mr10268736ild.128.1586631779441; 
+ Sat, 11 Apr 2020 12:02:59 -0700 (PDT)
+Received: from james-x399.localdomain (97-118-146-253.hlrn.qwest.net.
+ [97.118.146.253])
+ by smtp.gmail.com with ESMTPSA id v17sm2068309ill.5.2020.04.11.12.02.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Apr 2020 09:57:25 -0700 (PDT)
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-To: robh+dt@kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: [PATCH v5] dt-bindings: gpu: mali-utgard: Add the #cooling-cells
- property
-Date: Sat, 11 Apr 2020 18:57:00 +0200
-Message-Id: <20200411165700.1576314-1-martin.blumenstingl@googlemail.com>
-X-Mailer: git-send-email 2.26.0
+ Sat, 11 Apr 2020 12:02:58 -0700 (PDT)
+From: James Hilliard <james.hilliard1@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] component: Silence bind error on -EPROBE_DEFER
+Date: Sat, 11 Apr 2020 13:02:41 -0600
+Message-Id: <20200411190241.89404-1-james.hilliard1@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 13 Apr 2020 09:29:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,57 +65,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-amlogic@lists.infradead.org, Qiang Yu <yuq825@gmail.com>,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ James Hilliard <james.hilliard1@gmail.com>, linux-kernel@vger.kernel.org,
+ "Rafael J . Wysocki" <rafael@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GPU can be one of the big heat sources on a SoC. Allow the
-"#cooling-cells" property to be specified for ARM Mali Utgard GPUs so
-the GPU clock speeds (and voltages) can be reduced to prevent a SoC from
-overheating.
+If a component fails to bind due to -EPROBE_DEFER we should not log an
+error as this is not a real failure.
 
-Reviewed-by: Qiang Yu <yuq825@gmail.com>
-Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Fixes:
+vc4-drm soc:gpu: failed to bind 3f902000.hdmi (ops vc4_hdmi_ops): -517
+vc4-drm soc:gpu: master bind failed: -517
+
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
-Changes since v4 at [0]:
-- Added Qiang's Reviewed-by (many thanks)
-- re-send because I missed the devicetree mailing list in v4
+Changes v1 -> v2:
+  - remove braces
+---
+ drivers/base/component.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-
-[0] https://patchwork.kernel.org/patch/11448013/
-
-
- Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-index f5401cc8de4a..4869258daadb 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-@@ -107,6 +107,9 @@ properties:
+diff --git a/drivers/base/component.c b/drivers/base/component.c
+index e97704104784..dcfbe7251dc4 100644
+--- a/drivers/base/component.c
++++ b/drivers/base/component.c
+@@ -256,7 +256,8 @@ static int try_to_bring_up_master(struct master *master,
+ 	ret = master->ops->bind(master->dev);
+ 	if (ret < 0) {
+ 		devres_release_group(master->dev, NULL);
+-		dev_info(master->dev, "master bind failed: %d\n", ret);
++		if (ret != -EPROBE_DEFER)
++			dev_info(master->dev, "master bind failed: %d\n", ret);
+ 		return ret;
+ 	}
  
-   operating-points-v2: true
+@@ -611,8 +612,9 @@ static int component_bind(struct component *component, struct master *master,
+ 		devres_release_group(component->dev, NULL);
+ 		devres_release_group(master->dev, NULL);
  
-+  "#cooling-cells":
-+    const: 2
-+
- required:
-   - compatible
-   - reg
-@@ -164,6 +167,7 @@ examples:
-       clocks = <&ccu 1>, <&ccu 2>;
-       clock-names = "bus", "core";
-       resets = <&ccu 1>;
-+      #cooling-cells = <2>;
-     };
+-		dev_err(master->dev, "failed to bind %s (ops %ps): %d\n",
+-			dev_name(component->dev), component->ops, ret);
++		if (ret != -EPROBE_DEFER)
++			dev_err(master->dev, "failed to bind %s (ops %ps): %d\n",
++				dev_name(component->dev), component->ops, ret);
+ 	}
  
- ...
+ 	return ret;
 -- 
-2.26.0
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
