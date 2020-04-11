@@ -2,57 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA121A4E39
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Apr 2020 07:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8F61A5231
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Apr 2020 14:54:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C88B6ED77;
-	Sat, 11 Apr 2020 05:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 562436E326;
+	Sat, 11 Apr 2020 12:54:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A64A36ED77
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 05:46:36 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id w20so3815289iob.2
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Apr 2020 22:46:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3WiNGtbaTEgFI2Ambw/NBjeXjSKphhfC2LjH8nGfubE=;
- b=f++FdS/1K/hAONc1GYsMc4l3FNQXu/bZO3znxAgObdFW8zHNlK9yRPvUF/q3GJYSJK
- fBAblfrG2987eHf6lRFRMNqoVsQa4HZAZG6fB06kWJ48CO4HXt2tTpPWQTa/8CvnDvV2
- nlMtJC6us9ZodxrDn7rvctlez/9PiOQ/lL51hxT+VGBxspLDqeptVWNFc6TSg/cIviM7
- ve5NPYGzejpW7pzft9jYzIiOmWA5bWjIaC9W8ilZ8NDf7E7G91BnvtQe5bnxpRah/wHU
- qfO6Ml882P6E9LxVspzvpRI9YJ/F48QgoOk2FhRz2vS/WpjWaybm71KKLuvKlNMiXnPH
- UhQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3WiNGtbaTEgFI2Ambw/NBjeXjSKphhfC2LjH8nGfubE=;
- b=Uz/xoADsOnq6bn2ltNLgrGSj/eGW8MBYR8zWQ6EE5LMep3Xn5ujuzC9FfnsvQr1Cir
- KkbUqDHCEMElnqFQwsu2z13UZRVS+0llt0ljZ2OnMeZso407YAIsOha/k7Z74ZwPRkiX
- WGHlnVZytUCc3dMAHLb6eKFp+tehRfYlPmPLmTc0H/aU+S4F/45LJSYR1fjChgT4YuJj
- BS1d/ocuEcSPTsZRXFe2bCC1kHA+DoU7F6TGpApQRxuJNQNyoXxctFNO8WS7Rmo53gN7
- B7rcgty6hex6OdiYZPD6hnRRvRFOKJzc36dXpUcFhqcmvvm0kt+GKZogsQUkE4GfEVvy
- KGSQ==
-X-Gm-Message-State: AGi0Pub0rC0bHwNVbkOJT6MJ5T4c3vpd7srdrBCvvrTkM7Lk3LDvEgz2
- kPhoZEnLnjCBvm2ti8mbWK6g0i8x
-X-Google-Smtp-Source: APiQypL4T1XANVKA4cYdcSxOvp9eDvywSjs6+0UJNv7O4UQgMT2TzxevSei5HattpSlJq2OhushA2Q==
-X-Received: by 2002:a6b:ba07:: with SMTP id k7mr7408801iof.24.1586583995731;
- Fri, 10 Apr 2020 22:46:35 -0700 (PDT)
-Received: from james-x399.localdomain (97-118-146-253.hlrn.qwest.net.
- [97.118.146.253])
- by smtp.gmail.com with ESMTPSA id m4sm1464114ill.78.2020.04.10.22.46.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Apr 2020 22:46:34 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vc4: hdmi: Silence pixel clock error on -EPROBE_DEFER
-Date: Fri, 10 Apr 2020 23:46:11 -0600
-Message-Id: <20200411054611.25647-1-james.hilliard1@gmail.com>
-X-Mailer: git-send-email 2.20.1
+X-Greylist: delayed 940 seconds by postgrey-1.36 at gabe;
+ Sat, 11 Apr 2020 06:28:41 UTC
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB65B6E029
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 06:28:41 +0000 (UTC)
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 7C8EB85205F380D36F76;
+ Sat, 11 Apr 2020 14:12:58 +0800 (CST)
+Received: from [127.0.0.1] (10.57.60.129) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Sat, 11 Apr 2020
+ 14:12:48 +0800
+Subject: Re: [PATCH] drm/hisilicon: Code refactoring for hibmc_drv_vdac
+To: Joe Perches <joe@perches.com>, Tian Tao <tiantao6@hisilicon.com>,
+ <puck.chen@hisilicon.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <tzimmermann@suse.de>, <kraxel@redhat.com>, <alexander.deucher@amd.com>,
+ <tglx@linutronix.de>, <dri-devel@lists.freedesktop.org>,
+ <xinliang.liu@linaro.org>, <linux-kernel@vger.kernel.org>
+References: <1586573387-42003-1-git-send-email-tiantao6@hisilicon.com>
+ <78e966cacffbab8c43be6a02aa3f5af2478917d0.camel@perches.com>
+From: "tiantao (H)" <tiantao6@huawei.com>
+Message-ID: <e2b9f9f1-693e-57bc-6b0b-a6a5f095be16@huawei.com>
+Date: Sat, 11 Apr 2020 14:12:48 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <78e966cacffbab8c43be6a02aa3f5af2478917d0.camel@perches.com>
+X-Originating-IP: [10.57.60.129]
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Sat, 11 Apr 2020 12:53:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,42 +50,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, James Hilliard <james.hilliard1@gmail.com>,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linuxarm@huawei.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="gbk"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the vc4 hdmi driver loads before the pixel clock is available we
-see a spurious "*ERROR* Failed to get pixel clock" error.
-
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 340719238753..6d4ee3f6b445 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1338,8 +1338,10 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 
- 	hdmi->pixel_clock = devm_clk_get(dev, "pixel");
- 	if (IS_ERR(hdmi->pixel_clock)) {
--		DRM_ERROR("Failed to get pixel clock\n");
--		return PTR_ERR(hdmi->pixel_clock);
-+		ret = PTR_ERR(hdmi->pixel_clock);
-+		if (ret != -EPROBE_DEFER)
-+			DRM_ERROR("Failed to get pixel clock\n");
-+		return ret;
- 	}
- 	hdmi->hsm_clock = devm_clk_get(dev, "hdmi");
- 	if (IS_ERR(hdmi->hsm_clock)) {
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+ClRoYW5rIHlvdSwgeW91ciBzdWdnZXN0aW9uIGlzIGFjY2VwdGVkIGFuZCBJIHdpbGwgaXNzdWUg
+djIKCtTaIDIwMjAvNC8xMSAxMTo0MywgSm9lIFBlcmNoZXMg0LS1wDoKPiBPbiBTYXQsIDIwMjAt
+MDQtMTEgYXQgMTA6NDkgKzA4MDAsIFRpYW4gVGFvIHdyb3RlOgo+PiBjb2RlIHJlZmFjdG9yaW5n
+IGZvciBoaWJtY19kcnZfdmRhYy5jLCBubyBhY3R1YWwgZnVuY3Rpb24gY2hhbmdlcy4KPiAKPiBT
+ZWVtcyBzZW5zaWJsZS4KPiAKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGlj
+b24vaGlibWMvaGlibWNfZHJtX3ZkYWMuYyBiL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGli
+bWMvaGlibWNfZHJtX3ZkYWMuYwo+IFtdCj4+IEBAIC0xMDksMTMgKzgzLDYgQEAgaW50IGhpYm1j
+X3ZkYWNfaW5pdChzdHJ1Y3QgaGlibWNfZHJtX3ByaXZhdGUgKnByaXYpCj4+ICAgCXN0cnVjdCBk
+cm1fY29ubmVjdG9yICpjb25uZWN0b3I7Cj4+ICAgCWludCByZXQ7Cj4+ICAgCj4+IC0JY29ubmVj
+dG9yID0gaGlibWNfY29ubmVjdG9yX2luaXQocHJpdik7Cj4+IC0JaWYgKElTX0VSUihjb25uZWN0
+b3IpKSB7Cj4+IC0JCURSTV9FUlJPUigiZmFpbGVkIHRvIGNyZWF0ZSBjb25uZWN0b3I6ICVsZFxu
+IiwKPj4gLQkJCSAgUFRSX0VSUihjb25uZWN0b3IpKTsKPj4gLQkJcmV0dXJuIFBUUl9FUlIoY29u
+bmVjdG9yKTsKPj4gLQl9Cj4+IC0KPj4gICAJZW5jb2RlciA9IGRldm1fa3phbGxvYyhkZXYtPmRl
+diwgc2l6ZW9mKCplbmNvZGVyKSwgR0ZQX0tFUk5FTCk7Cj4+ICAgCWlmICghZW5jb2Rlcikgewo+
+PiAgIAkJRFJNX0VSUk9SKCJmYWlsZWQgdG8gYWxsb2MgbWVtb3J5IHdoZW4gaW5pdCBlbmNvZGVy
+XG4iKTsKPiAKPiBUaGUgYWxsb2MgZXJyb3IgbWVzc2FnZXMgY291bGQgYmUgcmVtb3ZlZC4KPiAK
+Pj4gQEAgLTEzMSw2ICs5OCwyMSBAQCBpbnQgaGlibWNfdmRhY19pbml0KHN0cnVjdCBoaWJtY19k
+cm1fcHJpdmF0ZSAqcHJpdikKPj4gICAJfQo+PiAgIAo+PiAgIAlkcm1fZW5jb2Rlcl9oZWxwZXJf
+YWRkKGVuY29kZXIsICZoaWJtY19lbmNvZGVyX2hlbHBlcl9mdW5jcyk7Cj4+ICsKPj4gKwljb25u
+ZWN0b3IgPSBkZXZtX2t6YWxsb2MoZGV2LT5kZXYsIHNpemVvZigqY29ubmVjdG9yKSwgR0ZQX0tF
+Uk5FTCk7Cj4+ICsJaWYgKCFjb25uZWN0b3IpIHsKPj4gKwkJRFJNX0VSUk9SKCJmYWlsZWQgdG8g
+YWxsb2MgbWVtb3J5IHdoZW4gaW5pdCBjb25uZWN0b3JcbiIpOwo+IAo+IGFuZCBoZXJlLgo+IAo+
+IAo+IAo+IC4KPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
