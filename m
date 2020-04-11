@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D6E61A5455
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:05:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C15171A5456
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:05:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 910486E2DC;
-	Sat, 11 Apr 2020 23:05:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7B66E311;
+	Sat, 11 Apr 2020 23:05:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 927CC6E2E6
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 23:05:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06C8E6E2DC
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Apr 2020 23:05:20 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C1F392166E;
- Sat, 11 Apr 2020 23:05:16 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E2B1D20708;
+ Sat, 11 Apr 2020 23:05:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586646318;
- bh=qEoARqz4/n5PdvblnFfRlp7Dyltg2aXrVy7LZo+J3Go=;
+ s=default; t=1586646319;
+ bh=JVCRg00qyN38+Kp/WP5eK6VO6v1UbC+S0gqc9TyclDg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=wgCyGmbZintb8ejUvmPH7OU3uqKYiJPOeNIzAmMVs5A7W/eExoDzeJZLr8zTyty/X
- dtUzkgONOZKDEnrO7ti2BLBiiDgjC2mpB3z0uK02I37xJMSxMf3bjRxEp3LzMueUk+
- KmIezcJQGyfr9ti95FvfG3mwv1jTuY3YIgc1SxRY=
+ b=ONt+Lv5oCvVpUBj7Q6hLfeHCwk2nAhhUYfXx+/BVqJbZDixcxwI+PTW/Eecc4Cy/s
+ /Slq8C08PxFjTmujUpmN8w3wiVnLPHPqHRUSYBOHCXraVOBAb6F/Q9tuMw2YL/i/VM
+ zJlQ/eSiwvoVZ+FRWvPNw4kHitVSF/C3aTOQtmBY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 073/149] fbdev: potential information leak in
- do_fb_ioctl()
-Date: Sat, 11 Apr 2020 19:02:30 -0400
-Message-Id: <20200411230347.22371-73-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 074/149] drm/crc: Actually allow to change the crc
+ source
+Date: Sat, 11 Apr 2020 19:02:31 -0400
+Message-Id: <20200411230347.22371-74-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200411230347.22371-1-sashal@kernel.org>
 References: <20200411230347.22371-1-sashal@kernel.org>
@@ -50,67 +50,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Andrew Morton <akpm@linux-foundation.org>, Sam Ravnborg <sam@ravnborg.org>,
- Peter Rosin <peda@axentia.se>, Dan Carpenter <dan.carpenter@oracle.com>,
- Andrea Righi <righi.andrea@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sasha Levin <sashal@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
-
-[ Upstream commit d3d19d6fc5736a798b118971935ce274f7deaa82 ]
-
-The "fix" struct has a 2 byte hole after ->ywrapstep and the
-"fix = info->fix;" assignment doesn't necessarily clear it.  It depends
-on the compiler.  The solution is just to replace the assignment with an
-memcpy().
-
-Fixes: 1f5e31d7e55a ("fbmem: don't call copy_from/to_user() with mutex held")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Andrea Righi <righi.andrea@gmail.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Peter Rosin <peda@axentia.se>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200113100132.ixpaymordi24n3av@kili.mountain
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/video/fbdev/core/fbmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index d04554959ea7e..bb8d8dbc0461c 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1115,7 +1115,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
- 		break;
- 	case FBIOGET_FSCREENINFO:
- 		lock_fb_info(info);
--		fix = info->fix;
-+		memcpy(&fix, &info->fix, sizeof(fix));
- 		if (info->flags & FBINFO_HIDE_SMEM_START)
- 			fix.smem_start = 0;
- 		unlock_fb_info(info);
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KClsgVXBzdHJlYW0g
+Y29tbWl0IDNjYjZkOGU1Y2Y5ODExYTYyZTI3ZjM2NmZkMWMwNWY5MDMxMGE4ZmQgXQoKT29wcy4K
+CkZpeGVzOiA5ZWRiZjFmYTYwMGEgKCJkcm06IEFkZCBBUEkgZm9yIGNhcHR1cmluZyBmcmFtZSBD
+UkNzIikKQ2M6IFRvbWV1IFZpem9zbyA8dG9tZXUudml6b3NvQGNvbGxhYm9yYS5jb20+CkNjOiBF
+bWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBjb2xsYWJvcmEuY29tPgpDYzogQmVuamFtaW4gR2Fp
+Z25hcmQgPGJlbmphbWluLmdhaWduYXJkQGxpbmFyby5vcmc+ClNpZ25lZC1vZmYtYnk6IERhbmll
+bCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgpSZXZpZXdlZC1ieTogVmlsbGUgU3ly
+asOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KTGluazogaHR0cHM6Ly9wYXRj
+aHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoL21zZ2lkLzIwMTkwODIxMjAzODM1LjE4MzE0LTEt
+ZGFuaWVsLnZldHRlckBmZndsbC5jaApTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFs
+QGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9kZWJ1Z2ZzX2NyYy5jIHwgMiAr
+LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kZWJ1Z2ZzX2NyYy5jIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9kZWJ1Z2ZzX2NyYy5jCmluZGV4IGUyMmI4MTJjNGI4MDIuLjVkNjdhNDFmN2MzYTggMTAw
+NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZGVidWdmc19jcmMuYworKysgYi9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2RlYnVnZnNfY3JjLmMKQEAgLTM3Miw3ICszNzIsNyBAQCB2b2lkIGRybV9k
+ZWJ1Z2ZzX2NydGNfY3JjX2FkZChzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCiAKIAljcmNfZW50ID0g
+ZGVidWdmc19jcmVhdGVfZGlyKCJjcmMiLCBjcnRjLT5kZWJ1Z2ZzX2VudHJ5KTsKIAotCWRlYnVn
+ZnNfY3JlYXRlX2ZpbGUoImNvbnRyb2wiLCBTX0lSVUdPLCBjcmNfZW50LCBjcnRjLAorCWRlYnVn
+ZnNfY3JlYXRlX2ZpbGUoImNvbnRyb2wiLCBTX0lSVUdPIHwgU19JV1VTUiwgY3JjX2VudCwgY3J0
+YywKIAkJCSAgICAmZHJtX2NydGNfY3JjX2NvbnRyb2xfZm9wcyk7CiAJZGVidWdmc19jcmVhdGVf
+ZmlsZSgiZGF0YSIsIFNfSVJVR08sIGNyY19lbnQsIGNydGMsCiAJCQkgICAgJmRybV9jcnRjX2Ny
+Y19kYXRhX2ZvcHMpOwotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
