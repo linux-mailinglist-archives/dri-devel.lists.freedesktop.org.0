@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFE61A5559
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9761A555B
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 01:11:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2421C6E39E;
-	Sat, 11 Apr 2020 23:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C02556E3A4;
+	Sat, 11 Apr 2020 23:11:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CACC6E39B;
- Sat, 11 Apr 2020 23:10:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B05B66E37F;
+ Sat, 11 Apr 2020 23:10:59 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5357A21924;
- Sat, 11 Apr 2020 23:10:51 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9865C21924;
+ Sat, 11 Apr 2020 23:10:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586646652;
- bh=JKifc22C2UL+b3jQWkj/4fHSC1WFMr8V0XiS/e49728=;
+ s=default; t=1586646659;
+ bh=j7Y74wBYzbYdiPB2ZGWXKhrRT4g6qM8+fdvfvY24KyQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=s+S58iBHl+TaPsMDf5PfA7GxFAGfx3ah7gPrivEnyAL8i+m5HRCUYzX+m5wZ60bfU
- hTyRantXQfcm8EMGNnVIBDpFpbd6Z3wfUOB3uVOcuQ4g4ZBa/xXftbiCOcoeRm03cb
- 4uLFUoXIi9Q7AmRX/czaf3/ZQXSpzIkK9KSDyr9I=
+ b=FpHkorfBhPekSm7u3Q+MfDd0de3mqe4TGrWDc/YFrfU544OQ4oM9wI09Xv1R0FaFV
+ eR9adCzpyDMsbZA1duYl4qH9B019lxNXdpAsF5L/NXXbpMaBp8uo2CNmSWkITjs34N
+ C19K7zTzd8kRNipG2yytdEuvNtIWsTWPbfvCr8wY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 055/108] drm/amd/display: dc_get_vmid_use_vector()
- crashes when get called
-Date: Sat, 11 Apr 2020 19:08:50 -0400
-Message-Id: <20200411230943.24951-55-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 061/108] drm/amd/display:
+ dal_ddc_i2c_payloads_create can fail causing panic
+Date: Sat, 11 Apr 2020 19:08:56 -0400
+Message-Id: <20200411230943.24951-61-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200411230943.24951-1-sashal@kernel.org>
 References: <20200411230943.24951-1-sashal@kernel.org>
@@ -50,47 +50,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
- Peikang Zhang <peikang.zhang@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Jun Lei <Jun.Lei@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Joshua Aberback <Joshua.Aberback@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Peikang Zhang <peikang.zhang@amd.com>
+From: Aric Cyr <aric.cyr@amd.com>
 
-[ Upstream commit 68bbca15e7062f4ae16531e29893f78d0b4840b6 ]
+[ Upstream commit 6a6c4a4d459ecacc9013c45dcbf2bc9747fdbdbd ]
 
 [Why]
-int i can go out of boundary which will cause crash
+Since the i2c payload allocation can fail need to check return codes
 
 [How]
-Fixed the maximum value of i to avoid i going out of boundary
+Clean up i2c payload allocations and check for errors
 
-Signed-off-by: Peikang Zhang <peikang.zhang@amd.com>
-Reviewed-by: Jun Lei <Jun.Lei@amd.com>
-Acked-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Signed-off-by: Aric Cyr <aric.cyr@amd.com>
+Reviewed-by: Joshua Aberback <Joshua.Aberback@amd.com>
+Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Acked-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_vm_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/drm/amd/display/dc/core/dc_link_ddc.c | 52 +++++++++----------
+ 1 file changed, 25 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_vm_helper.c b/drivers/gpu/drm/amd/display/dc/core/dc_vm_helper.c
-index a96d8de9380e6..f2b39ec35c898 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_vm_helper.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_vm_helper.c
-@@ -62,7 +62,7 @@ int dc_get_vmid_use_vector(struct dc *dc)
- 	int i;
- 	int in_use = 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
+index 51991bf26a93c..4c90d68db2307 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
+@@ -126,22 +126,16 @@ struct aux_payloads {
+ 	struct vector payloads;
+ };
  
--	for (i = 0; i < dc->vm_helper->num_vmid; i++)
-+	for (i = 0; i < MAX_HUBP; i++)
- 		in_use |= dc->vm_helper->hubp_vmid_usage[i].vmid_usage[0]
- 			| dc->vm_helper->hubp_vmid_usage[i].vmid_usage[1];
- 	return in_use;
+-static struct i2c_payloads *dal_ddc_i2c_payloads_create(struct dc_context *ctx, uint32_t count)
++static bool dal_ddc_i2c_payloads_create(
++		struct dc_context *ctx,
++		struct i2c_payloads *payloads,
++		uint32_t count)
+ {
+-	struct i2c_payloads *payloads;
+-
+-	payloads = kzalloc(sizeof(struct i2c_payloads), GFP_KERNEL);
+-
+-	if (!payloads)
+-		return NULL;
+-
+ 	if (dal_vector_construct(
+ 		&payloads->payloads, ctx, count, sizeof(struct i2c_payload)))
+-		return payloads;
+-
+-	kfree(payloads);
+-	return NULL;
++		return true;
+ 
++	return false;
+ }
+ 
+ static struct i2c_payload *dal_ddc_i2c_payloads_get(struct i2c_payloads *p)
+@@ -154,14 +148,12 @@ static uint32_t dal_ddc_i2c_payloads_get_count(struct i2c_payloads *p)
+ 	return p->payloads.count;
+ }
+ 
+-static void dal_ddc_i2c_payloads_destroy(struct i2c_payloads **p)
++static void dal_ddc_i2c_payloads_destroy(struct i2c_payloads *p)
+ {
+-	if (!p || !*p)
++	if (!p)
+ 		return;
+-	dal_vector_destruct(&(*p)->payloads);
+-	kfree(*p);
+-	*p = NULL;
+ 
++	dal_vector_destruct(&p->payloads);
+ }
+ 
+ #define DDC_MIN(a, b) (((a) < (b)) ? (a) : (b))
+@@ -521,9 +513,13 @@ bool dal_ddc_service_query_ddc_data(
+ 
+ 	uint32_t payloads_num = write_payloads + read_payloads;
+ 
++
+ 	if (write_size > EDID_SEGMENT_SIZE || read_size > EDID_SEGMENT_SIZE)
+ 		return false;
+ 
++	if (!payloads_num)
++		return false;
++
+ 	/*TODO: len of payload data for i2c and aux is uint8!!!!,
+ 	 *  but we want to read 256 over i2c!!!!*/
+ 	if (dal_ddc_service_is_in_aux_transaction_mode(ddc)) {
+@@ -556,23 +552,25 @@ bool dal_ddc_service_query_ddc_data(
+ 
+ 		ret = dc_link_aux_transfer_with_retries(ddc, &read_payload);
+ 	} else {
+-		struct i2c_payloads *payloads =
+-			dal_ddc_i2c_payloads_create(ddc->ctx, payloads_num);
++		struct i2c_command command = {0};
++		struct i2c_payloads payloads;
++
++		if (!dal_ddc_i2c_payloads_create(ddc->ctx, &payloads, payloads_num))
++			return false;
+ 
+-		struct i2c_command command = {
+-			.payloads = dal_ddc_i2c_payloads_get(payloads),
+-			.number_of_payloads = 0,
+-			.engine = DDC_I2C_COMMAND_ENGINE,
+-			.speed = ddc->ctx->dc->caps.i2c_speed_in_khz };
++		command.payloads = dal_ddc_i2c_payloads_get(&payloads);
++		command.number_of_payloads = 0;
++		command.engine = DDC_I2C_COMMAND_ENGINE;
++		command.speed = ddc->ctx->dc->caps.i2c_speed_in_khz;
+ 
+ 		dal_ddc_i2c_payloads_add(
+-			payloads, address, write_size, write_buf, true);
++			&payloads, address, write_size, write_buf, true);
+ 
+ 		dal_ddc_i2c_payloads_add(
+-			payloads, address, read_size, read_buf, false);
++			&payloads, address, read_size, read_buf, false);
+ 
+ 		command.number_of_payloads =
+-			dal_ddc_i2c_payloads_get_count(payloads);
++			dal_ddc_i2c_payloads_get_count(&payloads);
+ 
+ 		ret = dm_helpers_submit_i2c(
+ 				ddc->ctx,
 -- 
 2.20.1
 
