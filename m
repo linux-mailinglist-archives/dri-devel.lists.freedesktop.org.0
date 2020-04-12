@@ -1,38 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8B41A64AE
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 11:29:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B051A5FBC
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 20:20:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 991D16E250;
-	Mon, 13 Apr 2020 09:29:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 874BC6E125;
+	Sun, 12 Apr 2020 18:20:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 371 seconds by postgrey-1.36 at gabe;
- Sun, 12 Apr 2020 17:48:37 UTC
-Received: from out1.migadu.com (out1.migadu.com [IPv6:2001:41d0:2:863f::])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C85E89E63
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Apr 2020 17:48:37 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kl.wtf; s=default;
- t=1586713341;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=QGTj9vacKFMe4KyrGZOKCTbV4bswudoVDUKoucM67y8=;
- b=qjzzKIFTCoUEqkc0DGzsUhIqN58i8tuW/sStNYiH4CjG9TbQ4WDzmF7EXJcvp+mhx+VsiR
- mUDd0w9MZj5fytBVT6iNwx8BIGgeV8iG+KPituHpcHAphUQLuzCBLh0ZFrj38LX7vzVAn0
- v7jNSrD3VsUQ6dgbQCPJugnx9W1/sgw=
-From: Kenny Levinsen <kl@kl.wtf>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: make drm_file use keyed wakeups
-Date: Sun, 12 Apr 2020 19:41:21 +0200
-Message-Id: <20200412174121.5841-1-kl@kl.wtf>
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC206E125
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Apr 2020 18:20:22 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id k28so4975124lfe.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Apr 2020 11:20:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tY4gV3mbBh6YlZ2Mos/NaX4/rY14UmtFD7+t3Jb3dMw=;
+ b=ROGEJ/CaGdsXBF+PbMesBFoHnpYqw7ZVM6SOtq5GVNwVH7JNVbYjZLzv1ohpJM5FKi
+ 9yji4QogiO9wbeUziw3EMOSYGKDXOyQSuxnXSkto+8bG4DRbKQ9+kRMivEUZnc8Q41vj
+ GW+0MfxC5jUQX0SOEmjR7I9I57AVGTbYZEERr17C44weIY/7oc6XSfrJZYiHq+qPxkgm
+ MY0XEfA7eiuPrSoRWtWrIJHVaAACeP/rdLUMOSzIsppr8S9ACK4KdOp5t00VwhaYAxvG
+ vLWCdoJOe0/vqTEvmyYBmkEN0O2qtTmQ3g5EYShAMySr+h1z6SNs7YkoiBOoqp+VLysR
+ wCPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=tY4gV3mbBh6YlZ2Mos/NaX4/rY14UmtFD7+t3Jb3dMw=;
+ b=Sn+KqbUssunl6DwZIXaGLhtCaybtYrdexkqtmia9mcvj0kqVJ1zQBGtqJMZHaSdlee
+ a2C4zBKcme37la65Av4CiFM0BilCiO+OCExUF6wQdM4G1iHRmOOW20Ga3MJ7q6sPaxqy
+ /190sHAT5N5E1CEZN/XXiT8SFSahxreJ0EpAL9n1LeWFLuKDKInF7DfazEJQs3UmdoRk
+ D+ZW2sO3h2XJ3O5QHcVfwCgf9Q6Ita+W0WMUOrBEAIsbIj4e2X8i3uWMp8KHe9o3sAfL
+ H5tQcUmnJ78N9GijQNcoLcuu/Z7IZcbMho/6OafwuuQzjBc6EnvhwoFA16wJYmXz4L8e
+ 7oZQ==
+X-Gm-Message-State: AGi0PuYKTVJJnPA4T1+q20aaaCD/Jjyhfy2VxY1HVHW5HjK+rKNVduAG
+ Go9kOUi6Otqjfslnfe1h3pg=
+X-Google-Smtp-Source: APiQypIxqPYcw7sG0yOL2g9KSN6dtoshvVOHq2rXNtGX+hzY3j3+hLYI18RMgDenrT3GLFgvbP7kjQ==
+X-Received: by 2002:a05:6512:1c5:: with SMTP id
+ f5mr8183363lfp.138.1586715620757; 
+ Sun, 12 Apr 2020 11:20:20 -0700 (PDT)
+Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
+ by smtp.gmail.com with ESMTPSA id
+ m13sm6434394lfk.12.2020.04.12.11.20.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 12 Apr 2020 11:20:20 -0700 (PDT)
+From: Sam Ravnborg <sam@ravnborg.org>
+To: devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v1 0/4] dt-bindings: DT Schema variants of atmel lcdc, hlcdc
+Date: Sun, 12 Apr 2020 20:20:08 +0200
+Message-Id: <20200412182012.27515-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Spam-Score: 4.90
-X-Mailman-Approved-At: Mon, 13 Apr 2020 09:29:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,51 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenny Levinsen <kl@kl.wtf>, tzimmermann@suse.de,
- linux-kernel@vger.kernel.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some processes, such as systemd, are only polling for EPOLLERR|EPOLLHUP.
-As drm_file uses unkeyed wakeups, such a poll receives many spurious
-wakeups from uninteresting events.
+The following four patches update the bindings for Atmel
+LCDC, HLCDC display controllers to DT Schema.
 
-Use keyed wakeups to allow the wakeup target to more efficiently discard
-these uninteresting events.
+The bindings were re-written in DT Schema format,
+and examples adjusted/updated to fit.
 
-Signed-off-by: Kenny Levinsen <kl@kl.wtf>
----
- drivers/gpu/drm/drm_file.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+This patch-set introduces a new endpoint property in video-interfaces
+used to tell if red and blue wiring is reversed.
+Red and blue wires are reversed as the LCDC IP natively supports BGR
+whereas most SW expects RGB. With the wires reversed the SW thinks
+the IP supports RGB.
+See more details in the changelog of the patch.
 
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index c4c704e01961..ec25b3d979d9 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -608,7 +608,8 @@ ssize_t drm_read(struct file *filp, char __user *buffer,
- 				file_priv->event_space -= length;
- 				list_add(&e->link, &file_priv->event_list);
- 				spin_unlock_irq(&dev->event_lock);
--				wake_up_interruptible(&file_priv->event_wait);
-+				wake_up_interruptible_poll(&file_priv->event_wait,
-+					EPOLLIN | EPOLLRDNORM);
- 				break;
- 			}
- 
-@@ -804,7 +805,8 @@ void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e)
- 	list_del(&e->pending_link);
- 	list_add_tail(&e->link,
- 		      &e->file_priv->event_list);
--	wake_up_interruptible(&e->file_priv->event_wait);
-+	wake_up_interruptible_poll(&e->file_priv->event_wait,
-+		EPOLLIN | EPOLLRDNORM);
- }
- EXPORT_SYMBOL(drm_send_event_locked);
- 
--- 
-2.26.0
+The Atmel lcdc binding deprecate a lot of properties in other
+to update it to an up-to-date binding. There are no users of the
+updated binding, thats something I work on.
+
+Note a big difference between LCDC and HLCDC.
+LCDC has all in one binding (interrupts, pwm, display controller).
+HLCDC has individual sub-nodes for the PWM and the display contoller.
+
+When posting an update on the old atmel,lcdc.txt file the feedback
+was back then that we did not want the split like done for hlcdc.
+And it makes for a simpler binding in this way - so feedback looks right.
+
+Despite that Microchip has purchased Atmel, the atmel name is kept.
+Also the files are placed in a directory named atmel/.
+
+Feedback welcome!
+
+	Sam
+
+Sam Ravnborg (4):
+      dt-bindings: display: convert atmel-hlcdc to DT Schema
+      dt-bindings: display: convert atmel lcdc to DT Schema
+      dt-bindings: media: add wiring property to video-interfaces
+      dt-bindings: display: add port support to atmel lcdc
+
+ .../devicetree/bindings/display/atmel,lcdc.txt     |  88 --------
+ .../devicetree/bindings/display/atmel/hlcdc-dc.txt |  75 -------
+ .../bindings/display/atmel/hlcdc-dc.yaml           | 102 +++++++++
+ .../devicetree/bindings/display/atmel/lcdc.yaml    | 229 +++++++++++++++++++++
+ .../devicetree/bindings/media/video-interfaces.txt |   3 +
+ .../devicetree/bindings/mfd/atmel-hlcdc.txt        |  55 -----
+ .../devicetree/bindings/mfd/atmel-hlcdc.yaml       |  78 +++++++
+ .../devicetree/bindings/pwm/atmel-hlcdc-pwm.txt    |  29 ---
+ .../devicetree/bindings/pwm/atmel-hlcdc-pwm.yaml   |  39 ++++
+ 9 files changed, 451 insertions(+), 247 deletions(-)
+
 
 _______________________________________________
 dri-devel mailing list
