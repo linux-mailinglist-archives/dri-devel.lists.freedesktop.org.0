@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620AE1A5FBD
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 20:20:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81B2E1A5FBF
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 20:20:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2743F6E12A;
-	Sun, 12 Apr 2020 18:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2786E12E;
+	Sun, 12 Apr 2020 18:20:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 045B26E126
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Apr 2020 18:20:24 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id h6so5011975lfc.0
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Apr 2020 11:20:24 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F49C6E127
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Apr 2020 18:20:26 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id v16so6765137ljg.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Apr 2020 11:20:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0pbLfr+nqgYUtCdJqqKNf5Tp0hM3f65yvGA3bZ3B05c=;
- b=W/4THMap5VWgZDYSArlhOr/33w32rR4CrPznKwmf4eV2YeNbx38QUxz5LIYOC1XUvy
- QynF4DiZhe7K72ILNnLVmWYt0LElk/+22TpObOkdthky9U2bZoHrBemU7FssxMaolzr9
- OHnNY8ppUS93RaVSkq+1MUtg0yHEs2ORexVabJ8FFXQ9wqzZy9Uhks9s14AJnJKccOSR
- Ua9ZyAM2UDq1YSxtliwJAe29MgAsRdIIjD6RATDIr5mSfBuq1NtATe57ARWO7qnvhnj5
- zTbBmEA3msDdK4CFjFJwiiAFSeY7isfdvSuQawtCkuB+LqXv2VdPAiUgSe+YOjswPCkz
- qTSw==
+ bh=did1T2/HwLMbYWYOlmzUGj6USB2Yk/B/7FfjOftQ9s8=;
+ b=hipBb+D/jP/qEHd5BxbwYSODqx8BortuRIMkzRERp+XNGiT4yk7To7/dmj1lelc1as
+ +0NSQvV64w2t/PnzKb1LJ3XbFzahoqefh/RWPrxsSegizIkWgg36JQCN7Pzo1nK5cvN0
+ lJGNzou6X3se3VQTxHXXbePUXVNBOzKlaBO7QS8ktk7UZG46dTbDykrRvVjsRkLAqgvJ
+ nurSgm8718ek6yzWafK9i7ZgFVeXqFJyZ81gy03GMLVQhUJHCwpBjnj6wwSdxV6cn8Pu
+ EsR5rTAsyO+knJtNRCnAFVxaQC0KxbtqlP0eGap3QBlcASp7GH3XKhXAjIACUV/Pci/X
+ cG2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0pbLfr+nqgYUtCdJqqKNf5Tp0hM3f65yvGA3bZ3B05c=;
- b=QZBQzTrx84x682yFOerFAC+1L8Nwu4rwLbVRiw/b3KmmHlWjk7P7OV3FJ9XIrm2wNW
- pwNmFq1X7cHcsyZJVIcLm2+axOY5qWOC/mf+LXGc1zyAD5usq+VPK7mV43ShwrEjcgM5
- BwWWuLzb5YKklZ7002b5irPw18NVdE1u7l8R+tHkeyE/hlaOLjnS67qki+2KBLIvkOcs
- rs6d8Ims7bEPezv6362BqHN9oBAV5lssCOPftnrGtI3lFRKMlPfqqu5xY/ayxUB6EekD
- euKrwvzktpwPlVlgHMrHoKQUz0KOPRxphcK5nTj0bRwQ7qMHnkNPSPhjJULsTH0WbKuF
- 0UsA==
-X-Gm-Message-State: AGi0PuZL0jK+HkcWzwzpv5bXEzCFrVypmuMUC+giM78FpOHPCIzAp5vU
- mQlgG8xzChsjU/IewmG6s7w=
-X-Google-Smtp-Source: APiQypLNQSDf9U1QklVk237XXcfj1gMY0TpODl2xX9qpvSdr5iq3/V3MK6IVO8SZUNmLTlln272Snw==
-X-Received: by 2002:ac2:57cb:: with SMTP id k11mr8378106lfo.19.1586715623259; 
- Sun, 12 Apr 2020 11:20:23 -0700 (PDT)
+ bh=did1T2/HwLMbYWYOlmzUGj6USB2Yk/B/7FfjOftQ9s8=;
+ b=tELv/uihRLwAh/+3GnE1HHz5GL0cpXu15n1YpsBtKY309V23bImEmktOQ+8sJbb9GG
+ nRs9JtA8UPDRXOeP/W1sYQEtr/RVge2VjnBuuuCFgOJ9yniKwkNwNkob+qKozR9mCcp6
+ 67v2sWc3CP9S0pvXBP4bI8z366H54+KqywDmMFEpLImbvUp+RxWOXFKLqiNa0Mr4lyka
+ b7Dbt8jnwvFaXshLAu8lJ7H1+bV9IsyB0JqNhhaNhVSoEDt89Z4pDSOsvAbAKmv6bDeW
+ SXPG9Avi81OV4a96ZynC3oJHYl2V8cy/tS2hCAVdKG9RO9nvNoCmfd62dtUs4VcOmvGr
+ 0zsA==
+X-Gm-Message-State: AGi0PuZN19FlvYL/XfbRi7apDy1RbQAoM+FYk8252v9lHqnBMGjeKVqt
+ kNQ9Q45JULj+TQ4/1OlKavE=
+X-Google-Smtp-Source: APiQypLW6zIR1umbR/uxwiVl6Mu1txVZ1wgbVD7efr/eOYIQSegWjWS1ZWxFJ0MQHCvZ9C0SrDDCRg==
+X-Received: by 2002:a2e:7d09:: with SMTP id y9mr8491929ljc.146.1586715624424; 
+ Sun, 12 Apr 2020 11:20:24 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- m13sm6434394lfk.12.2020.04.12.11.20.22
+ m13sm6434394lfk.12.2020.04.12.11.20.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Apr 2020 11:20:22 -0700 (PDT)
+ Sun, 12 Apr 2020 11:20:23 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 2/4] dt-bindings: display: convert atmel lcdc to DT Schema
-Date: Sun, 12 Apr 2020 20:20:10 +0200
-Message-Id: <20200412182012.27515-3-sam@ravnborg.org>
+Subject: [PATCH v1 3/4] dt-bindings: media: add wiring property to
+ video-interfaces
+Date: Sun, 12 Apr 2020 20:20:11 +0200
+Message-Id: <20200412182012.27515-4-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200412182012.27515-1-sam@ravnborg.org>
 References: <20200412182012.27515-1-sam@ravnborg.org>
@@ -78,263 +79,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new binding file to describe the bindings
-for the Atmel LCDC IP.
-This replaces the old txt based binding.
+The wiring property is used to describe the wiring between
+the connector and the panel. The property can be used when the
+wiring is used to change the mode from for example
+BGR to RGB. The first users are the at91sam9 family where
+such a wiring trick is sometimes used.
+The possilbe values are so far limited to what is required
+by the at91sam9 family, but using "text" allows us to extend
+this in the future.
 
-The binding file describes the current binding,
-including properties to specify register values etc.
-The binding will be updated in a follow-up patch,
-the current binding describes the actual situation.
+There exists similar properties today:
+ - display/tilcdc/tilcdc.txt: blue-and-red-wiring
+ - display/atmel,lcdc.txt: atmel,lcd-wiring-mode
 
-This new binding file replaces the old .txt based
-binding which is deleted.
+Neither of the above are defined as endpoint properties.
+
+The new property "wiring" has a more general name and
+is defined as an endpoint property.
+It will replace atmel,lcd-wiring-mode and may replace
+blue-and-red-wiring.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
 ---
- .../bindings/display/atmel,lcdc.txt           |  88 -----------
- .../bindings/display/atmel/lcdc.yaml          | 137 ++++++++++++++++++
- 2 files changed, 137 insertions(+), 88 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/atmel,lcdc.txt
- create mode 100644 Documentation/devicetree/bindings/display/atmel/lcdc.yaml
+ Documentation/devicetree/bindings/media/video-interfaces.txt | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/atmel,lcdc.txt b/Documentation/devicetree/bindings/display/atmel,lcdc.txt
-deleted file mode 100644
-index acb5a0132127..000000000000
---- a/Documentation/devicetree/bindings/display/atmel,lcdc.txt
-+++ /dev/null
-@@ -1,88 +0,0 @@
--Atmel LCDC Framebuffer
-------------------------------------------------------
--
--Required properties:
--- compatible :
--	"atmel,at91sam9261-lcdc" , 
--	"atmel,at91sam9263-lcdc" ,
--	"atmel,at91sam9g10-lcdc" ,
--	"atmel,at91sam9g45-lcdc" ,
--	"atmel,at91sam9g45es-lcdc" ,
--	"atmel,at91sam9rl-lcdc" ,
--	"atmel,at32ap-lcdc"
--- reg : Should contain 1 register ranges(address and length).
--	Can contain an additional register range(address and length)
--	for fixed framebuffer memory. Useful for dedicated memories.
--- interrupts : framebuffer controller interrupt
--- display: a phandle pointing to the display node
--
--Required nodes:
--- display: a display node is required to initialize the lcd panel
--	This should be in the board dts.
--- default-mode: a videomode within the display with timing parameters
--	as specified below.
--
--Optional properties:
--- lcd-supply: Regulator for LCD supply voltage.
--
--Example:
--
--	fb0: fb@00500000 {
--		compatible = "atmel,at91sam9g45-lcdc";
--		reg = <0x00500000 0x1000>;
--		interrupts = <23 3 0>;
--		pinctrl-names = "default";
--		pinctrl-0 = <&pinctrl_fb>;
--		display = <&display0>;
--		#address-cells = <1>;
--		#size-cells = <1>;
--
--	};
--
--Example for fixed framebuffer memory:
--
--	fb0: fb@00500000 {
--		compatible = "atmel,at91sam9263-lcdc";
--		reg = <0x00700000 0x1000 0x70000000 0x200000>;
--		[...]
--	};
--
--Atmel LCDC Display
-------------------------------------------------------
--Required properties (as per of_videomode_helper):
--
-- - atmel,dmacon: dma controller configuration
-- - atmel,lcdcon2: lcd controller configuration
-- - atmel,guard-time: lcd guard time (Delay in frame periods)
-- - bits-per-pixel: lcd panel bit-depth.
--
--Optional properties (as per of_videomode_helper):
-- - atmel,lcdcon-backlight: enable backlight
-- - atmel,lcdcon-backlight-inverted: invert backlight PWM polarity
-- - atmel,lcd-wiring-mode: lcd wiring mode "RGB" or "BRG"
-- - atmel,power-control-gpio: gpio to power on or off the LCD (as many as needed)
--
--Example:
--	display0: display {
--		bits-per-pixel = <32>;
--		atmel,lcdcon-backlight;
--		atmel,dmacon = <0x1>;
--		atmel,lcdcon2 = <0x80008002>;
--		atmel,guard-time = <9>;
--		atmel,lcd-wiring-mode = <1>;
--
--		display-timings {
--			native-mode = <&timing0>;
--			timing0: timing0 {
--				clock-frequency = <9000000>;
--				hactive = <480>;
--				vactive = <272>;
--				hback-porch = <1>;
--				hfront-porch = <1>;
--				vback-porch = <40>;
--				vfront-porch = <1>;
--				hsync-len = <45>;
--				vsync-len = <1>;
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/atmel/lcdc.yaml b/Documentation/devicetree/bindings/display/atmel/lcdc.yaml
-new file mode 100644
-index 000000000000..7dcb9a4d5902
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/atmel/lcdc.yaml
-@@ -0,0 +1,137 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/atmel/lcdc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Atmel LCDC (LCD Controller) display controller with PWM
-+
-+maintainers:
-+  - Sam Ravnborg <sam@ravnborg.org>
-+
-+description: |
-+  The Atmel LCDC Display Controller is display controller that
-+  includes a PWM for backlight/contrast.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - atmel,at91sam9261-lcdc
-+      - atmel,at91sam9263-lcdc
-+      - atmel,at91sam9g10-lcdc
-+      - atmel,at91sam9g45-lcdc
-+      - atmel,at91sam9g45es-lcdc
-+      - atmel,at91sam9g46-lcdc
-+      - atmel,at91sam9m10-lcdc
-+      - atmel,at91sam9m11-lcdc
-+      - atmel,at91sam9rl-lcdc
-+
-+  "#address-cells":
-+    const: 1
-+  "#size-cells":
-+    const: 0
-+
-+  reg:
-+    description: |
-+      Contains 1 register range (address and length).
-+      Can contain an additional register range (address and length)
-+      for fixed framebuffer memory
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  lcd-supply:
-+    description: Regulator for LCD supply voltage.
-+
-+  display:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: phandle to display node
-+
-+patternProperties:
-+  "^display[0-9]$":
-+    type: object
-+    description: |
-+      Display node is required to initialize the lcd panel.
-+      This should be in the board dts
-+
-+    properties:
-+            
-+      atmel,dmacon:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: DMA controller configuration
-+
-+      atmel,lcdcon2:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: LCD controller configuration
-+
-+      atmel,guard-time:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: LCD guard time (Delay in frame periods)
-+
-+      bits-per-pixel:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: LCD panel bit-depth.
-+
-+      atmel,lcdcon-backlight:
-+        type: boolean
-+        description: Enable backlight
-+
-+      atmel,lcdcon-backlight-inverted:
-+        type: boolean
-+        description: Invert backlight PWM polarity
-+
-+      atmel,lcd-wiring-mode:
-+        enum:
-+          - RGB
-+          - BGR
-+        description: LCD wiring mode
-+
-+      atmel,power-control-gpio:
-+        description: gpio to power on or off the LCD
-+
-+      display-timings:
-+        type: object
-+        description: |
-+          display-timings node as described in ../display-timings.yaml
-+
-+    required:
-+      - atmel,dmacon
-+      - atmel,lcdcon2
-+      - atmel,guard-time
-+      - bits-per-pixel
-+      - display-timings
-+
-+required:
-+  - compatible
-+  - reg
-+
-+examples:
-+  - |
-+    fb {
-+        compatible = "atmel,at91sam9263-lcdc";
-+        reg = <0x00700000 0x1000>;
-+        interrupts = <23 3 0>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+    };
-+
-+  - |
-+    fb {
-+        compatible = "atmel,at91sam9263-lcdc";
-+        reg = <0x00700000 0x1000 0x70000000 0x200000>;
-+        display = <&display0>;
-+
-+        display0 {
-+            bits-per-pixel = <32>;
-+            atmel,lcdcon-backlight;
-+            atmel,dmacon = <0x1>;
-+            atmel,lcdcon2 = <0x80008002>;
-+            atmel,guard-time = <9>;
-+            atmel,lcd-wiring-mode = "BGR";
-+
-+            display-timings {
-+            };
-+        };
-+    };
-+
-+...
+diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
+index f884ada0bffc..c3bb87c5c9a9 100644
+--- a/Documentation/devicetree/bindings/media/video-interfaces.txt
++++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
+@@ -141,6 +141,9 @@ Optional endpoint properties
+ - link-frequencies: Allowed data bus frequencies. For MIPI CSI-2, for
+   instance, this is the actual frequency of the bus, not bits per clock per
+   lane value. An array of 64-bit unsigned integers.
++- wiring: Wiring of data lines to display.
++  "straight" - normal wiring.
++  "red-blue-reversed" - red and blue lines reversed.
+ - lane-polarities: an array of polarities of the lanes starting from the clock
+   lane and followed by the data lanes in the same order as in data-lanes.
+   Valid values are 0 (normal) and 1 (inverted). The length of the array
 -- 
 2.20.1
 
