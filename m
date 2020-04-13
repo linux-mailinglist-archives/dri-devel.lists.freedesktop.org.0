@@ -1,59 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E27F1A7435
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 09:06:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5888C1A7434
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 09:06:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C85B36E45F;
-	Tue, 14 Apr 2020 07:06:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F8EC6E466;
+	Tue, 14 Apr 2020 07:06:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F27B689CA8
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 14:50:53 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1586789457; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=uvf3bpTwOKniLL1tkFEZ8lUYaBxnlGE9DNXjmA347Xc=;
- b=AVbQpecXE/vjIhtDWsL7yjXUwrFT3ux4//gHSa3gmOv5AE2j7B7tMGOWv/ZRR9jF5Uv6Oxug
- WO34YbwIC0PcP5PxAkazESpNIv59gyqRXhDz7vZR5MUkOah70MVOizyP3ky+BXSz5JPEiwlN
- nkqjNqqFCJqrFsTemxQwlgbt8c4=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e947c49.7fdce22d7f80-smtp-out-n03;
- Mon, 13 Apr 2020 14:50:49 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 77C07C43636; Mon, 13 Apr 2020 14:50:48 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: kgunda)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A50E3C433F2;
- Mon, 13 Apr 2020 14:50:47 +0000 (UTC)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABDBF89E26
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 15:01:10 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id w145so6775466lff.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 08:01:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ru0QSPI9P9UnB6fBmE8CYo+keKBVUlIYNIIDkobQ4LQ=;
+ b=Y6rUG6M+j0aiSfmg6JaVatWMejLQsTEbkp+Py4z65rU+aUir3yH4IntWg02ep3JdhB
+ Usx5lvplfJa0s5cxCQggtxc7W1wuy/8j1mK4AZtTraerenGI/fqV/T+OEco9I8hWTw3G
+ H5eZJiTMnm9GprAVPGhUU7X7wHFEgQoqJDxH1gSMg4mpw4wjthr9obdVLEixRldPLNnf
+ XW/AIcU3Kw0c7BABMeRaSSqzB//NmqUeCTH+hoMqFLxXYzFcNL0yf5+hERb3K+Zb1/T1
+ oO1zLQ4iHnn+63mj5PtkZjuKKVjSrvSA7ffFDGrGQdVV2vvFVpai2yo/VXtWCSj+XtIx
+ wcvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ru0QSPI9P9UnB6fBmE8CYo+keKBVUlIYNIIDkobQ4LQ=;
+ b=mpSISUo43M1StJmcTfHmlP7rXzjV4NS/TSaWTmcAZJAxSZGiGd9tMVtcYCJI/jVF1r
+ hcVqXbEJEoQxkiSx1PbsSlLfURccAfaHI1n5ooiSdILYowX+yCbLZSA01Mv/8wbUFbVb
+ NO1Ite2WDD+QjHFLtTlzSTaqZCCbBbDb34ebDK3zqSEcsfK89oQpHby3XDBr44QhD3O9
+ IwOv1w7CW2+HVRVCBep6eYtlotDFbqMAkz3rl8hqtnRRbAGYIkw++qE6eb+Pv2JESofy
+ KBc+dpkRxlluZk1wMIdct4xIfU9svxaGW5NNjYhAy0Y+kyUgzs2mO7fn40g+G/taiPFv
+ FIEQ==
+X-Gm-Message-State: AGi0PuYBzLMVB1xXpDoKqSkKXRERrPFimbb45INXGklDyf5/W7JvzADx
+ QDVWAeXCdcQZnuhdnMwPGJs=
+X-Google-Smtp-Source: APiQypJuMbGzqumA19vjCipPNUMuK6knNtWelRmhSmQ7RHP5iQyyKfnbir6+7o6qjvFvRW6ssE2yTw==
+X-Received: by 2002:a19:ee06:: with SMTP id g6mr9366702lfb.90.1586790069000;
+ Mon, 13 Apr 2020 08:01:09 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru.
+ [91.78.208.152])
+ by smtp.googlemail.com with ESMTPSA id b28sm8190875lfo.46.2020.04.13.08.01.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Apr 2020 08:01:08 -0700 (PDT)
+Subject: Re: [PATCH v2 11/22] memory: tegra: Register as interconnect provider
+To: Georgi Djakov <georgi.djakov@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>
+References: <20200330010904.27643-1-digetx@gmail.com>
+ <20200330010904.27643-12-digetx@gmail.com>
+ <70f724d6-5cb2-0ebe-ffc1-5dbb77d9dc74@linaro.org>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <8d8dd1aa-71b3-e090-5637-578e23150bf1@gmail.com>
+Date: Mon, 13 Apr 2020 18:01:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Date: Mon, 13 Apr 2020 20:20:47 +0530
-From: kgunda@codeaurora.org
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH V4 1/4] backlight: qcom-wled: convert the wled bindings to
- .yaml format
-In-Reply-To: <20200406085024.GF30614@dell>
-References: <1584985618-25689-1-git-send-email-kgunda@codeaurora.org>
- <1584985618-25689-2-git-send-email-kgunda@codeaurora.org>
- <20200331175401.GA9791@bogus>
- <ac8f25113a3bb233c11fd7cd9e62c2cf@codeaurora.org>
- <20200403114651.m6rholzufzqinanc@holly.lan> <20200406085024.GF30614@dell>
-Message-ID: <4fb0643342e512a248f57198cbafe50c@codeaurora.org>
-X-Sender: kgunda@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+In-Reply-To: <70f724d6-5cb2-0ebe-ffc1-5dbb77d9dc74@linaro.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 14 Apr 2020 07:06:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,76 +74,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, Daniel Thompson <daniel.thompson@linaro.org>,
- b.zolnierkie@samsung.com, jingoohan1@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- devicetree@vger.kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- linux-arm-msm@vger.kernel.org,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
- linux-arm-msm-owner@vger.kernel.org, linux-leds@vger.kernel.org,
- Dan Murphy <dmurphy@ti.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
+ Jonathan Hunter <jonathanh@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-04-06 14:20, Lee Jones wrote:
-> On Fri, 03 Apr 2020, Daniel Thompson wrote:
-> 
->> On Fri, Apr 03, 2020 at 04:45:49PM +0530, kgunda@codeaurora.org wrote:
->> > On 2020-03-31 23:24, Rob Herring wrote:
->> > > On Mon, Mar 23, 2020 at 11:16:55PM +0530, Kiran Gunda wrote:
->> > > > diff --git
->> > > > a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
->> > > > b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
->> > > > new file mode 100644
->> > > > index 0000000..8a388bf
->> > > > --- /dev/null
->> > > > +++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
->> > > > @@ -0,0 +1,184 @@
->> > > > +# SPDX-License-Identifier: GPL-2.0-only
->> > > > +%YAML 1.2
->> > > > +---
->> > > > +$id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
->> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> > > > +
->> > > > +title: Binding for Qualcomm Technologies, Inc. WLED driver
->> > > > +
->> > > > +maintainers:
->> > > > +  - Lee Jones <lee.jones@linaro.org>
->> > >
->> > > Should be the h/w owner (you), not who applies patches.
->> > >
->> > will address in next post.
->> > <snip>
->> > will address in next post.
->> > <snip>
->> > will address in next post.
->> > <snip>
->> > will address in next post.
->> > <snip>
->> > will address in next post.
->> > <snip>
->> > will address in next post.
->> > <snip>
->> > will address in next post.
->> > <snip>
->> > will address in next post.
->> > <snip>
->> > will address in next post.
->> 
->> If you agree on all points raised I doubt there is any need for a 
->> point
->> by point reply since everyone who reads it will have to scroll down
->> simply to find out that you agree on all points.
->> 
->> Better just to acknowledge the feedback and reply to the first one
->> saying you'll agree on all points and will address all feedback in the
->> next revision (and then trim the reply to keep it short).
-> 
-> Or better still, just submit the next revision with all the fixes. :)
-Noted.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGVsbG8gR2VvcmdpLAoKMTMuMDQuMjAyMCAxNTo0MywgR2VvcmdpIERqYWtvdiDQv9C40YjQtdGC
+OgouLi4KPj4gKwlpZiAoSVNfRU5BQkxFRChDT05GSUdfSU5URVJDT05ORUNUKSkgewo+IAo+IFRo
+ZSBpbnRlcmNvbm5lY3QgZnJhbWV3b3JrIGNhbiBiZSBhbHNvIGEgbW9kdWxlIGFuZCB0aGUgdGhl
+biB0aGUgYnVpbGQgd2lsbCBmYWlsLgoKVGhhdCdzIGEgZ29vZCBjYXRjaCEKCj4+ICsJCWVyciA9
+IHRlZ3JhX21jX2ludGVyY29ubmVjdF9zZXR1cChtYyk7Cj4gCj4gTWF5YmUgcmVnaXN0ZXIgdGhl
+IGludGVyY29ubmVjdCBwcm92aWRlciBhcyBhIHBsYXRmb3JtIHN1Yi1kZXZpY2UgaW5zdGVhZD8K
+ClRoZSBzdWItZGV2aWNlIHNvdW5kIGxpa2UgYSBiaXQgdG9vIG11Y2ggb2YgaGFzc2xlLiBJJ20g
+Y3VyaW91cyB3aGV0aGVyCndlIGNvdWxkIHRyeSB0byBtYWtlIGFsbCB0aGUgdGVncmEtbWVtb3J5
+IGRyaXZlcnMgbW9kdWxhciwgcGxlYXNlIGxldCBtZQp0cnkuLgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
