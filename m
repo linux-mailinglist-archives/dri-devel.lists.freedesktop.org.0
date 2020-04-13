@@ -2,99 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970AF1A619E
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 04:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A721A625A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 07:33:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CCC489DA4;
-	Mon, 13 Apr 2020 02:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A96BC6E182;
+	Mon, 13 Apr 2020 05:33:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2088.outbound.protection.outlook.com [40.107.236.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30A0189DA4;
- Mon, 13 Apr 2020 02:50:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a2/BpQT+NBixYEUp3p5nNetsehpKsv7epICOb9/zg2t2UJU/QE4pIfjG9fpdQHQ8AfPaVjtR3RUotdQSGO6vw9LxjezXkwWqlnsRuxWSKEzknSMgysKB6JoaQTPQpLbKVV0DI8md4bQh1BBP6FcpEuqGifPCR348rOKTnMkLRtzl/FQaBrVGE4mTxXZVIddN5g+RlnvQbND47FY7rfgAo7ORGOQon+nnpFLqRHI8WYwuI3FctWy6HOtsMDC4mLO9lWzOupVtFMAlrBvcdkPPKCrvl92kN3MW/sXEo3QgpYWonnGWc5bWzBPRDaYkPQmY72u6FJR57EceeqQq7J22rw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gi3z6D7LI1jyYn0qGYcdPriGslYwAbsq3EWVtQMA9ZY=;
- b=WuU58Y5rNcHBROTblJcMpMXjNOPofBGmnRF8mLIHPTuXfv/TQmhSeljmqOYfJrcihzkgiDSzj7OOIS8o+R6vwYDgxFJFo+ugr9lqEJUghNCr6BD9GI3tXK6cfsFJrRikC2RHUo2xCWJdcVFXsm+U6dFd2K92yTXR3SM4AOOn6Ai9Poc1wTm4yHDoSTl4tghTXHKbHEEY/Qmqut6DyP6gIXWg4251+5cTEl3nz7H15iSIoV+pcfWcNc5xJ/E1SBz0BXxL8DdGUviXAn/2WHQ4SeIQDpoiLgykQVCqk9q4DYFPCRCvmvv8kdYt+xxqzZquccyWpF9c9C30346fkI/eiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gi3z6D7LI1jyYn0qGYcdPriGslYwAbsq3EWVtQMA9ZY=;
- b=H3DqDbhRw5+Up7Jl45w8YfVToshtZbs8zO+rkOrTtWCmf5rKvBhIBaiXxuywkwEWtAfJ9duc1NDiyKv1M5OZrK2Os9gYJAnAJldcLKkTEtcymgLIVPAFfYXCXO8ghv2rpNzAc7gtYk+aWAfn34E5gmzjGEg9SMSrE434XoI/9XA=
-Received: from DM6PR12MB2619.namprd12.prod.outlook.com (2603:10b6:5:45::18) by
- DM6PR12MB3915.namprd12.prod.outlook.com (2603:10b6:5:1c4::20) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2900.26; Mon, 13 Apr 2020 02:50:09 +0000
-Received: from DM6PR12MB2619.namprd12.prod.outlook.com
- ([fe80::5c27:185c:be20:1fb6]) by DM6PR12MB2619.namprd12.prod.outlook.com
- ([fe80::5c27:185c:be20:1fb6%5]) with mapi id 15.20.2878.022; Mon, 13 Apr 2020
- 02:50:09 +0000
-From: "Quan, Evan" <Evan.Quan@amd.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>,
- "Zhou, David(ChunMing)" <David1.Zhou@amd.com>, "airlied@linux.ie"
- <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>, "Zhang, Hawking"
- <Hawking.Zhang@amd.com>, "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>,
- "Liu, Monk" <Monk.Liu@amd.com>, "Russell, Kent" <Kent.Russell@amd.com>, "Ma,
- Le" <Le.Ma@amd.com>
-Subject: RE: [PATCH] drm/amdgpu: Add missing '\n' in log messages
-Thread-Topic: [PATCH] drm/amdgpu: Add missing '\n' in log messages
-Thread-Index: AQHWEAoQdASoACOpX0iyhRsgnE8QdKh2XEiA
-Date: Mon, 13 Apr 2020 02:50:08 +0000
-Message-ID: <DM6PR12MB26190847ADE19FC3BC5BBD56E4DD0@DM6PR12MB2619.namprd12.prod.outlook.com>
-References: <20200411140356.28211-1-christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20200411140356.28211-1-christophe.jaillet@wanadoo.fr>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ActionId=2c42595f-1e44-4d72-a3f0-00002f97f841;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=true;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
- Use Only - Unrestricted;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2020-04-13T02:49:42Z;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Evan.Quan@amd.com; 
-x-originating-ip: [180.167.199.189]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: a4ba2bde-aeca-4796-38ed-08d7df55611d
-x-ms-traffictypediagnostic: DM6PR12MB3915:|DM6PR12MB3915:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR12MB3915B58C6479831090EB4F3BE4DD0@DM6PR12MB3915.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:619;
-x-forefront-prvs: 037291602B
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB2619.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10009020)(4636009)(376002)(136003)(366004)(396003)(39860400002)(346002)(76116006)(316002)(6636002)(6506007)(26005)(86362001)(64756008)(66446008)(478600001)(66556008)(81156014)(66946007)(53546011)(4326008)(110136005)(33656002)(8676002)(71200400001)(8936002)(7696005)(186003)(15650500001)(54906003)(66476007)(9686003)(5660300002)(2906002)(52536014)(55016002)(921003)(21314003)(1121003);
- DIR:OUT; SFP:1101; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6MOFRRZzYGuUkNsFy46ictYesbxAYFLebIoZTVT5zNVZVQNPC+KPZfCjhHMt09U1Mk3oHFGjOSmmLBUKkGUGhY8IngYYr8TI3q3HC5U7gihGg3GDU8Enq3R1o5RwzFBSDjntxWjEByzh+YfOEO2kZRvxbtoHHYmb8+kwt2OCdS349vgeF6GSWpRh+FfJqe0uaxYHvfO7VYo07WKeuHBajkxFaTarOpOCInmC+C4jqU3iVBq5t9TSamYxT0CMKmrmy824ochUWcsbAoVOYaryrHeK72oGohueWt1x3E4XTuRmkwFqR81QqNpaF0z53ih/9xDPRE1/dST6L6sBn6XH3udiQpiV5AV258YVminRe1me2AoCyTXvyrPso6DUohQ3RNi5TLcxZcPZUMaS79nzCGt0TZLF3nmwq0U7MwOs9lUWCiArPdyYpbgxABvYm7H86c5va+mtjPwqKFpV0nmSBKrP69J1i0Jf22GXBso8TQwNRPeBMTOGVxR2VHxgG20vcz93oQuDL2ztjag8nJJQfg==
-x-ms-exchange-antispam-messagedata: AKbkIEBHTy1KNg8QhMJ0/b7Lbt0657TrSUk35v6FMBPtQvE6SXKSIE4AWn0MZ2/V7LL1zdQXpslZh42yaiBOKBSboV62HqoqwuBGoFbTkvLdJQF0nH6NahVjzG5SK1R5lZn4w+qttIRHNZfinr7czQ==
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAF426E182
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 05:33:30 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id DC9F280487;
+ Mon, 13 Apr 2020 07:33:26 +0200 (CEST)
+Date: Mon, 13 Apr 2020 07:33:25 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH 1/2] drm: bridge: simple-bridge: Delegate operations to
+ next bridge
+Message-ID: <20200413053325.GA6324@ravnborg.org>
+References: <20200409003636.11792-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200409003636.11792-2-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4ba2bde-aeca-4796-38ed-08d7df55611d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Apr 2020 02:50:08.9590 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fhqJj1T+d7TOTp3VzoBeVe4XDDehkCrqwbnFBuJTAklGe0y95JBlrqrFzJVCcY3g
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3915
+Content-Disposition: inline
+In-Reply-To: <20200409003636.11792-2-laurent.pinchart+renesas@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=P1BnusSwAAAA:8 a=e5mUnYsNAAAA:8 a=vZk7UPHPJn3jWLt6Te8A:9
+ a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=D0XLA9XvdZm18NrgonBM:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,96 +48,234 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Evan Quan <evan.quan@amd.com>
+Hi Laurent.
 
------Original Message-----
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr> 
-Sent: Saturday, April 11, 2020 10:04 PM
-To: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; Zhou, David(ChunMing) <David1.Zhou@amd.com>; airlied@linux.ie; daniel@ffwll.ch; Zhang, Hawking <Hawking.Zhang@amd.com>; Quan, Evan <Evan.Quan@amd.com>; Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; Liu, Monk <Monk.Liu@amd.com>; Russell, Kent <Kent.Russell@amd.com>; Ma, Le <Le.Ma@amd.com>
-Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; kernel-janitors@vger.kernel.org; Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] drm/amdgpu: Add missing '\n' in log messages
+On Thu, Apr 09, 2020 at 03:36:35AM +0300, Laurent Pinchart wrote:
+> Instead of poking into the DT node of the next bridge for its DDC bus
+> and implementing the .get_modes() and .detect() connector operations
+> manually, retrieve the next bridge in the chain and delegate these
+> operations to it.
 
-Message logged by 'dev_xxx()' or 'pr_xxx()' should end with a '\n'.
+I had the impression that we could have any number of bridges,
+and the approach was to request some info further down in the chain for
+info, without knowing if the next or the next->next was the bridge that
+could provide the information.
+But this seems not to be the case - here we assume ->next can get the
+edid - or if not we have a fallback.
 
-While at it, split some long lines that where not that far.
+The relation that the next bridge was the one with i2c was present
+before this patch - so it is not directly related to this patch but
+a more general observation.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Most of them have been added in commit bd607166af7f ("drm/amdgpu: Enable reading FRU chip via I2C v3")
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+A few nits below. With these nits considered the patch is:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 87f7c129c8ce..3d0a50e8c36b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3249,25 +3249,25 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 
- 	r = device_create_file(adev->dev, &dev_attr_pcie_replay_count);
- 	if (r) {
--		dev_err(adev->dev, "Could not create pcie_replay_count");
-+		dev_err(adev->dev, "Could not create pcie_replay_count\n");
- 		return r;
- 	}
- 
- 	r = device_create_file(adev->dev, &dev_attr_product_name);
- 	if (r) {
--		dev_err(adev->dev, "Could not create product_name");
-+		dev_err(adev->dev, "Could not create product_name\n");
- 		return r;
- 	}
- 
- 	r = device_create_file(adev->dev, &dev_attr_product_number);
- 	if (r) {
--		dev_err(adev->dev, "Could not create product_number");
-+		dev_err(adev->dev, "Could not create product_number\n");
- 		return r;
- 	}
- 
- 	r = device_create_file(adev->dev, &dev_attr_serial_number);
- 	if (r) {
--		dev_err(adev->dev, "Could not create serial_number");
-+		dev_err(adev->dev, "Could not create serial_number\n");
- 		return r;
- 	}
- 
-@@ -4270,7 +4270,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- 		job_signaled = true;
- 
- 	if (job_signaled) {
--		dev_info(adev->dev, "Guilty job already signaled, skipping HW reset");
-+		dev_info(adev->dev, "Guilty job already signaled, skipping HW reset\n");
- 		goto skip_hw_reset;
- 	}
- 
-@@ -4339,10 +4339,12 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- 
- 		if (r) {
- 			/* bad news, how to tell it to userspace ? */
--			dev_info(tmp_adev->dev, "GPU reset(%d) failed\n", atomic_read(&tmp_adev->gpu_reset_counter));
-+			dev_info(tmp_adev->dev, "GPU reset(%d) failed\n",
-+				 atomic_read(&tmp_adev->gpu_reset_counter));
- 			amdgpu_vf_error_put(tmp_adev, AMDGIM_ERROR_VF_GPU_RESET_FAIL, 0, r);
- 		} else {
--			dev_info(tmp_adev->dev, "GPU reset(%d) succeeded!\n", atomic_read(&tmp_adev->gpu_reset_counter));
-+			dev_info(tmp_adev->dev, "GPU reset(%d) succeeded!\n",
-+				 atomic_read(&tmp_adev->gpu_reset_counter));
- 		}
- 	}
- 
--- 
-2.20.1
+	Sam
 
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/bridge/simple-bridge.c | 98 +++++++++-----------------
+>  1 file changed, 33 insertions(+), 65 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+> index a2dca7a3ef03..bac223d0430d 100644
+> --- a/drivers/gpu/drm/bridge/simple-bridge.c
+> +++ b/drivers/gpu/drm/bridge/simple-bridge.c
+> @@ -29,7 +29,7 @@ struct simple_bridge {
+>  
+>  	const struct simple_bridge_info *info;
+>  
+> -	struct i2c_adapter	*ddc;
+> +	struct drm_bridge	*next_bridge;
+>  	struct regulator	*vdd;
+>  	struct gpio_desc	*enable;
+>  };
+> @@ -52,29 +52,24 @@ static int simple_bridge_get_modes(struct drm_connector *connector)
+>  	struct edid *edid;
+>  	int ret;
+>  
+> -	if (!sbridge->ddc)
+> -		goto fallback;
+> -
+> -	edid = drm_get_edid(connector, sbridge->ddc);
+> -	if (!edid) {
+> -		DRM_INFO("EDID readout failed, falling back to standard modes\n");
+> -		goto fallback;
+> +	edid = drm_bridge_get_edid(sbridge->next_bridge, connector);
+
+drm_bridge_get_edid() is not documented to return NULL:
+"The retrieved EDID on success, or an error pointer otherwise."
+So IS_ERR() would do the trick here.
+
+> +	if (IS_ERR_OR_NULL(edid)) {
+> +		if (!edid)
+> +			DRM_INFO("EDID readout failed, falling back to standard modes\n");
+> +
+> +		/*
+> +		 * In case we cannot retrieve the EDIDs (missing or broken DDC
+> +		 * bus from the next bridge), fallback on the XGA standards and
+> +		 * prefer a mode pretty much anyone can handle.
+> +		 */
+> +		ret = drm_add_modes_noedid(connector, 1920, 1200);
+> +		drm_set_preferred_mode(connector, 1024, 768);
+> +		return ret;
+>  	}
+>  
+>  	drm_connector_update_edid_property(connector, edid);
+>  	ret = drm_add_edid_modes(connector, edid);
+>  	kfree(edid);
+> -	return ret;
+> -
+> -fallback:
+> -	/*
+> -	 * In case we cannot retrieve the EDIDs (broken or missing i2c
+> -	 * bus), fallback on the XGA standards
+> -	 */
+> -	ret = drm_add_modes_noedid(connector, 1920, 1200);
+> -
+> -	/* And prefer a mode pretty much anyone can handle */
+> -	drm_set_preferred_mode(connector, 1024, 768);
+>  
+>  	return ret;
+>  }
+> @@ -88,16 +83,7 @@ simple_bridge_connector_detect(struct drm_connector *connector, bool force)
+>  {
+>  	struct simple_bridge *sbridge = drm_connector_to_simple_bridge(connector);
+>  
+> -	/*
+> -	 * Even if we have an I2C bus, we can't assume that the cable
+> -	 * is disconnected if drm_probe_ddc fails. Some cables don't
+> -	 * wire the DDC pins, or the I2C bus might not be working at
+> -	 * all.
+> -	 */
+> -	if (sbridge->ddc && drm_probe_ddc(sbridge->ddc))
+> -		return connector_status_connected;
+> -
+> -	return connector_status_unknown;
+> +	return drm_bridge_detect(sbridge->next_bridge);
+>  }
+>  
+>  static const struct drm_connector_funcs simple_bridge_con_funcs = {
+> @@ -120,6 +106,11 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
+>  		return -EINVAL;
+>  	}
+>  
+> +	ret = drm_bridge_attach(bridge->encoder, sbridge->next_bridge, bridge,
+> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> +	if (ret < 0)
+> +		return ret;
+> +
+>  	if (!bridge->encoder) {
+>  		DRM_ERROR("Missing encoder\n");
+>  		return -ENODEV;
+> @@ -130,7 +121,7 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
+>  	ret = drm_connector_init_with_ddc(bridge->dev, &sbridge->connector,
+>  					  &simple_bridge_con_funcs,
+>  					  sbridge->info->connector_type,
+> -					  sbridge->ddc);
+> +					  sbridge->next_bridge->ddc);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to initialize connector\n");
+>  		return ret;
+> @@ -172,31 +163,10 @@ static const struct drm_bridge_funcs simple_bridge_bridge_funcs = {
+>  	.disable	= simple_bridge_disable,
+>  };
+>  
+> -static struct i2c_adapter *simple_bridge_retrieve_ddc(struct device *dev)
+> -{
+> -	struct device_node *phandle, *remote;
+> -	struct i2c_adapter *ddc;
+> -
+> -	remote = of_graph_get_remote_node(dev->of_node, 1, -1);
+> -	if (!remote)
+> -		return ERR_PTR(-EINVAL);
+> -
+> -	phandle = of_parse_phandle(remote, "ddc-i2c-bus", 0);
+> -	of_node_put(remote);
+> -	if (!phandle)
+> -		return ERR_PTR(-ENODEV);
+> -
+> -	ddc = of_get_i2c_adapter_by_node(phandle);
+> -	of_node_put(phandle);
+> -	if (!ddc)
+> -		return ERR_PTR(-EPROBE_DEFER);
+> -
+> -	return ddc;
+> -}
+> -
+>  static int simple_bridge_probe(struct platform_device *pdev)
+>  {
+>  	struct simple_bridge *sbridge;
+> +	struct device_node *remote;
+>  
+>  	sbridge = devm_kzalloc(&pdev->dev, sizeof(*sbridge), GFP_KERNEL);
+>  	if (!sbridge)
+> @@ -222,16 +192,17 @@ static int simple_bridge_probe(struct platform_device *pdev)
+>  		return PTR_ERR(sbridge->enable);
+>  	}
+>  
+> -	sbridge->ddc = simple_bridge_retrieve_ddc(&pdev->dev);
+> -	if (IS_ERR(sbridge->ddc)) {
+> -		if (PTR_ERR(sbridge->ddc) == -ENODEV) {
+> -			dev_dbg(&pdev->dev,
+> -				"No i2c bus specified. Disabling EDID readout\n");
+> -			sbridge->ddc = NULL;
+> -		} else {
+> -			dev_err(&pdev->dev, "Couldn't retrieve i2c bus\n");
+> -			return PTR_ERR(sbridge->ddc);
+> -		}
+> +	/* Get the next bridge in the pipeline. */
+> +	remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
+> +	if (!remote)
+> +		return -EINVAL;
+> +
+> +	sbridge->next_bridge = of_drm_find_bridge(remote);
+> +	of_node_put(remote);
+> +
+> +	if (!sbridge->next_bridge) {
+> +		dev_dbg(&pdev->dev, "Next bridge not found, deferring probe\n");
+The patch mixes logging style.
+In some cases DRM_INFO(...), and here dev_dbg(...)
+
+
+> +		return -EPROBE_DEFER;
+Retreiving the next bridge may fail with a PROBE_DEFER.
+So should this be doen a little earlier in the probe function, so we
+fail as fast as we can?
+I am not sure it has any practical impact, was just wondering.
+
+>  	}
+>  
+>  	sbridge->bridge.funcs = &simple_bridge_bridge_funcs;
+> @@ -249,9 +220,6 @@ static int simple_bridge_remove(struct platform_device *pdev)
+>  
+>  	drm_bridge_remove(&sbridge->bridge);
+>  
+> -	if (sbridge->ddc)
+> -		i2c_put_adapter(sbridge->ddc);
+> -
+>  	return 0;
+>  }
+>  
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
