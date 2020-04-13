@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C023C1A6887
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 17:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F93B1A6896
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 17:15:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 132BE89D84;
-	Mon, 13 Apr 2020 15:12:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B921E89E8C;
+	Mon, 13 Apr 2020 15:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9380189D84;
- Mon, 13 Apr 2020 15:12:36 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id k11so9883749wrp.5;
- Mon, 13 Apr 2020 08:12:36 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3682589E4C;
+ Mon, 13 Apr 2020 15:15:53 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id h2so9632132wmb.4;
+ Mon, 13 Apr 2020 08:15:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=miTpPmRVhDhvijKW/x5oMYTRNn8wvs0mLO5J0nr2084=;
- b=U7eqRinwsYrq6IXBxzyvvKAcVM+VYOkoiiIpkOLjJI/+uGkiQ2ae19esSWNmX7/55x
- HLE1SQmDAHBajHl1h3Zvpge1o1RT3GQVhMVRodlQW3VO5iGEcuqlvLsRnqh6mH1AdUYj
- vagO0XSwWvclpM/77+sVeGD6j9xh08Wsz+91K3i9dj20TbwbY4DX0Qn994aJVc5XwUVK
- M0o3YAn9eyqIVMFO923iGZfMpmTUdxTDGhleGVq4wnNC+1pZDSMSTPfdFATABJHIQwPx
- dthoumPisb59N7MwkZXcwAHOOnNbLsLCO1EA7iiaSQ4Wto8XAePzLitKlTn3lj43zuDR
- rKWA==
+ :cc; bh=ZOE2P5jEH093/SFJkXAgVgRQaZk9Rt+ir8LjiFeoQis=;
+ b=aff51BbTFzKsXCpL5YhrA7DxEgyrrRCPmWwZUOL3KHYaxbOFqz2qgeZWsZxz0soAsP
+ UWdXdUwjE6+rqWK6X8x3JrDIYZfySNLGRtMr/hGTw4BxYQRgRoQqIkjhy2Ui+DsPeJU/
+ 3w0XtJekYhySKH5t6TkwnBpWYKOJ4cQhY4Kihj0k5hGnmRfZBPSGH8M9wCx1VD/i5Kaa
+ 8oVeKu6Q9+fxZPQRI6RJcb/7+6nXXHMalCRkZ8eBwVXKpH9stjFi02JGZ+ai3Avkzitp
+ nTZry48J4GQGvTh6EATNQOiLsE7Poc6LQl+TgMJ7Dw+MxALVuie46Z3gUHxr/1ERsuBg
+ /NdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=miTpPmRVhDhvijKW/x5oMYTRNn8wvs0mLO5J0nr2084=;
- b=RS/58Z2upzE99tuomm16OPnlLFEt7dgBlmGc9O7mFNak/VL8dXTlmGICXFHWLl/JWl
- RsFVmaZ0PFXbJbapkzItXPxmu+QcnswhPFTCw/ti0jz00H8Gdr7md21ESX4K4fbTse8k
- uWkpLlkYkn+3exGfoX1HxESVcUoowdaIEQ4/BH+1VEk8iYmoeVis1Yc/0Ka5d4RObq8l
- nUN2GQoxe980lO7LphcfE25wPv5tn/gXw3z54tZJsMlaqmnawQm8mOvs9/MSuhIwcMRm
- 2LIPWG8WNDEQcjKAkmiTHzhvAtbzz8Ufv9HFYato+jpkqnSi9L3nBU0GkZDfICLZr5nJ
- poyA==
-X-Gm-Message-State: AGi0PuZHiZESJWPDmQsta9m2VA90lMifvt+t48y74RhX4mouIRsIXcji
- 0J5yKTfKv+vTZX5L2bEdLXG4Ea37h8rpbBAonRk=
-X-Google-Smtp-Source: APiQypIlLep4ObkUpbnYLb9374cQ+lM33eeD4kNIbr7Zh/DtnITfyepbEUmDzUasVC3tnJvdqsT5XjWr66ibsXXlM/s=
-X-Received: by 2002:a5d:498d:: with SMTP id r13mr14736737wrq.374.1586790755179; 
- Mon, 13 Apr 2020 08:12:35 -0700 (PDT)
+ bh=ZOE2P5jEH093/SFJkXAgVgRQaZk9Rt+ir8LjiFeoQis=;
+ b=Y5szM0bdjU36rV0jPc4Umf5VtuspxMzbLd6G2yBZpS/MeETPEjGMJjAMtSzKRH8VZ5
+ cECbcX/3a8eLdF/l9+6iKGXPkQ5d4KhJwe256smjcYmhH/jq+V/v9uuqvdcrsR0xOODh
+ q18tOTyTio7j9E1+QmxKGwmoyfVB3RURkYBgwxlYzFuZmydyFrTwx1qwdjmGCls4y53r
+ SqFl/vf1x9QaItl6+LZqLLVJH6TsCt9IIn3tiEozUIvKIQdRmIqCO9R6V8dN5wXpAnO1
+ rKDAfkuwjmBymmmVzCHmAspjdvn8MB3ZVBuS7Vn4Bm0wz3/c9uQVJFptHWEmb+zvZH75
+ yqyA==
+X-Gm-Message-State: AGi0PuZt+kPnz/zVVwLbf3+S5r+gdRbtsEjJJw/Szdq+6t5dQw6VduRa
+ R9Hjeb6CkaFLNwjZY8ETs1CVbXZrcV9RLEYvxx0=
+X-Google-Smtp-Source: APiQypLHuiS6scHkDpSNfTRPyoEdHVy8Bj6zjoCNDYrKSaz9THG91uzh6/pXXdN3L1Hm1QzrZ4lPTVZY3QJSZiT3zhA=
+X-Received: by 2002:a7b:cc0e:: with SMTP id f14mr2795738wmh.39.1586790951873; 
+ Mon, 13 Apr 2020 08:15:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200409012815.22309-1-mail@aurabindo.in>
-In-Reply-To: <20200409012815.22309-1-mail@aurabindo.in>
+References: <20200413143235.22945-1-yanaijie@huawei.com>
+In-Reply-To: <20200413143235.22945-1-yanaijie@huawei.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 13 Apr 2020 11:12:23 -0400
-Message-ID: <CADnq5_O+xg1Lro4UP3+_4GdkDQk-HzJaXMWzWWSn0ZiYG9Xt7A@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] drm/amd/amdgpu: Add print format prefix
-To: Aurabindo Pillai <mail@aurabindo.in>
+Date: Mon, 13 Apr 2020 11:15:40 -0400
+Message-ID: <CADnq5_NejL35EFrK3doJHQXE3z5qeE_KVydB4AxbmGC=-_-++Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: remove dead code in si_dpm.c
+To: Jason Yan <yanaijie@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,45 +60,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, "Kuehling, Felix" <Felix.Kuehling@amd.com>,
+Cc: Yassine Oudjana <y.oudjana@protonmail.com>, Dave Airlie <airlied@linux.ie>,
  LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Hulk Robot <hulkci@huawei.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
  Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 8, 2020 at 9:42 PM Aurabindo Pillai <mail@aurabindo.in> wrote:
->
-> Changes in v2
->
-> * Add dev_fmt format prefix
-> * Removed hardcoded module names in pr_* and dev_* prints
->
-> Aurabindo Pillai (3):
->   drm/amd/amdgpu: add prefix for pr_* prints
->   drm/amd/amdgpu: add print prefix for dev_* variants
->   drm/amd/amdgpu: remove hardcoded module name in prints
+Applied.  Thanks!
 
-Applied.  thanks!
-
-Alex
-
+On Mon, Apr 13, 2020 at 10:06 AM Jason Yan <yanaijie@huawei.com> wrote:
 >
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h              | 12 ++++++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c |  6 +++---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c       |  4 ++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c          |  2 +-
->  drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c            |  2 +-
->  drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c            |  2 +-
->  drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c            |  2 +-
->  7 files changed, 21 insertions(+), 9 deletions(-)
+> This code is dead, let's remove it.
 >
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Jason Yan <yanaijie@huawei.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/si_dpm.c | 20 --------------------
+>  1 file changed, 20 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/si_dpm.c b/drivers/gpu/drm/amd/amdgpu/si_dpm.c
+> index 0860e85a2d35..c00ba4b23c9a 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/si_dpm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/si_dpm.c
+> @@ -345,26 +345,6 @@ static const struct si_dte_data dte_data_tahiti =
+>         false
+>  };
+>
+> -#if 0
+> -static const struct si_dte_data dte_data_tahiti_le =
+> -{
+> -       { 0x1E8480, 0x7A1200, 0x2160EC0, 0x3938700, 0 },
+> -       { 0x7D, 0x7D, 0x4E4, 0xB00, 0 },
+> -       0x5,
+> -       0xAFC8,
+> -       0x64,
+> -       0x32,
+> -       1,
+> -       0,
+> -       0x10,
+> -       { 0x78, 0x7C, 0x82, 0x88, 0x8E, 0x94, 0x9A, 0xA0, 0xA6, 0xAC, 0xB0, 0xB4, 0xB8, 0xBC, 0xC0, 0xC4 },
+> -       { 0x3938700, 0x3938700, 0x3938700, 0x3938700, 0x3938700, 0x3938700, 0x3938700, 0x3938700, 0x3938700, 0x3938700, 0x3938700, 0x3938700, 0x3938700, 0x3938700, 0x3938700, 0x3938700 },
+> -       { 0x2AF8, 0x2AF8, 0x29BB, 0x27F9, 0x2637, 0x2475, 0x22B3, 0x20F1, 0x1F2F, 0x1D6D, 0x1734, 0x1414, 0x10F4, 0xDD4, 0xAB4, 0x794 },
+> -       85,
+> -       true
+> -};
+> -#endif
+> -
+>  static const struct si_dte_data dte_data_tahiti_pro =
+>  {
+>         { 0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0x0 },
 > --
-> 2.26.0
+> 2.21.1
 >
 > _______________________________________________
 > amd-gfx mailing list
