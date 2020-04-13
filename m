@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64711A6316
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 08:36:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E891A64AB
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 11:29:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27D1B6E0A0;
-	Mon, 13 Apr 2020 06:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B70189E9E;
+	Mon, 13 Apr 2020 09:29:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8A1889B5F;
- Mon, 13 Apr 2020 06:36:00 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id x66so8484843qkd.9;
- Sun, 12 Apr 2020 23:36:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KMpw6K79lA/hKqIcCn2kKRSspiTDXkb2D8JjBGFr8zQ=;
- b=uz5+521nlHBocaytihEXa/MzRtF6lSl6OnhByj/4tYGgzxMgsJepipn9S0nNQZMDJz
- P9ee2v+EOPvrZl1stRWdTm9Of9V5vQioB7DSLHUIFvX8TZX3V1LKRUTYZ0fERav4znaL
- ZQk7orz6i9h4g6ZzPYHczp93XiJ1euMZ2rulHWmEGDtfoxa4CRd/aewcwaAEHQdI75YQ
- umHMLAFnEEzpJsCqD/LGFB7rPxGqxW9NBs//tY0mSGGrX1NmQJq+BRbg3orUyls6Eq5f
- nMjVM/Z+9Tvx9dFxQHWvQGH1c63oXgjcGODdQ7gvgZTD0bQCB1/tpNBC/EHYReMxxX+J
- oKMQ==
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D58289DE6
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 07:53:42 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id f13so9246083wrm.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 00:53:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=spiyZxT4E+JmLBsDsV1seik/2tk8bWL3YTlzlnavzgI=;
+ b=f7pV8rfFH7lOGO3h5/nULD5HFllQxOEL05FTUF2SiEU7MAF1JJPc8mKH7k/3mp1dKC
+ FdUtjdGVIhPaaHxiz+2ZaWsvZCsBdBLkUc0vwbtipe+jfJJ55AY7x9j9o7z3iU3ftoEb
+ Bv3Ej6Xplpkv9hOYt6QwjKJzP4A3G62gst9hKhD5eBAYTvgF9Wr4JygtFDUu1AyZxBEn
+ wNjlO5+VD0sorsLos6LHRByHb8qvslGj1FTporIbvRQfVEods0O9oLMrmXmySRNdjWmj
+ QcA6UC/bsomklfXgRa3zN0/xG2DhA+CKHljfC40QOQW0cpHOsm/s4JnXCNvoy3PfS2Za
+ 3XdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KMpw6K79lA/hKqIcCn2kKRSspiTDXkb2D8JjBGFr8zQ=;
- b=T2cglWjchOkn2JZpzDjVNOQi2HjmcQFI3T4uf5BPK4kUEqY7WcyHu/ltutrr1lCYoN
- CAyBYsFc1Xf08y8XpfbjH9VGvH5xs1p2rOKfSFCf42VOjQ61PPzQ42P1vt1fv4MQ8wQa
- nxy7lKpaCU6Our4qzyycjQ0DUE1jPAta+s7vVjUy6nbE8siwI1Tsl1zcbVw5cRtsz/xT
- XdZ3xY8PO1Ej9931XRe3tWImZf6aKd0zkRHCYGEr5GFUE0YA2jpyjxBwMJyFQSVUUwHF
- JTyRP/I07Q63rtYwenjHnpdFieJY6pvb89GMoa8avEj2bCF8uQfcLEFsAAVxpojk+E2C
- GzFQ==
-X-Gm-Message-State: AGi0PuaK3dIOD2tNgcqOc6RVNlPQbtTZVuWwlTHzfVSVj8vvaXRZgn5N
- fcc8Kex51DX0c5O4JsLvSEsuyEvGZopaDzCggwA=
-X-Google-Smtp-Source: APiQypLAkeIgbG9vE5BMPoUzyd5dJuTAeNpXUZF1UwhH8UT1xsBlzhBm3dFEKEbDE+I8yBJb7oDCmyFUzPvyYPBCdUQ=
-X-Received: by 2002:a37:ac6:: with SMTP id 189mr952703qkk.60.1586759759747;
- Sun, 12 Apr 2020 23:35:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <1888197.j9z7NJ8yPn@kreacher> <5092680.jloV5Ae5OO@kreacher>
-In-Reply-To: <5092680.jloV5Ae5OO@kreacher>
-From: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-Date: Sun, 12 Apr 2020 23:35:48 -0700
-Message-ID: <CAL3LdT71aa3NfqoGTvmz-XzS7Ng=LqpwPROWyf=w_+PyvEET-w@mail.gmail.com>
-Subject: Re: [PATCH 5/7] PM: sleep: core: Rename DPM_FLAG_NEVER_SKIP
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=spiyZxT4E+JmLBsDsV1seik/2tk8bWL3YTlzlnavzgI=;
+ b=OTGUiH13TKhfSOZtxKjSBGi+buUT0XNMIpIXgodB11Bfhff3ZiqXu82D0U6B8eHdcW
+ p8VK+p86IZ6gg/HURCKGY9osW9/TF5IGBSY2FItFZiYaL8oooweGgXDr34Y2vI7ZS1dO
+ 1msx8ljMnty4w1zFaseDbw3y7DhX815Ty/rEujQcYmHPzAt7NelwzOCo/g7VmTEC+JKN
+ FHm19UlH2WQdkU0F+OghNCCeWXfzefWuJhdvEjM0ewZejghFmhBmP7N2CuI7AkzTGHaV
+ kPaE6jMPgQSCbr6/y3B22NO4l33+aT0Q8VG+O3KlY8vJApsI8WTwPU2riw14wl/NZMxO
+ 8aAQ==
+X-Gm-Message-State: AGi0Pub9IwQ/B+zLJ4ubS29BA0hHIFb/b/vHjox7xnb9r1t8yQKKJ9Aq
+ 0WaFGOGuTLYWtVHnnuxLoDSDiFNhKEc=
+X-Google-Smtp-Source: APiQypI3ADIddYujUXFFd3J7qJbmarkuNkmp+vZH8NiU3NHgBxky845LmO+SMRcLmZhfAGYfIIblKg==
+X-Received: by 2002:a5d:6785:: with SMTP id v5mr3023648wru.376.1586764421177; 
+ Mon, 13 Apr 2020 00:53:41 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2da9:2f00:c0be:812e:7fb0:ebe0])
+ by smtp.gmail.com with ESMTPSA id s14sm14009619wme.33.2020.04.13.00.53.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Apr 2020 00:53:40 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Maxime Ripard <maxime@cerno.tech>,
+	Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH] MAINTAINERS: point to display schemas in DRM DRIVERS FOR
+ ALLWINNER A10
+Date: Mon, 13 Apr 2020 09:53:29 +0200
+Message-Id: <20200413075329.10717-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Approved-At: Mon, 13 Apr 2020 09:29:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,52 +64,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans De Goede <hdegoede@redhat.com>, Linux PM <linux-pm@vger.kernel.org>,
- Linux PCI <linux-pci@vger.kernel.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI-devel <dri-devel@lists.freedesktop.org>,
- Linux ACPI <linux-acpi@vger.kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Stern <stern@rowland.harvard.edu>, Ulf Hansson <ulf.hansson@linaro.org>,
- intel-wired-lan <intel-wired-lan@lists.osuosl.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: devicetree@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Joe Perches <joe@perches.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 10, 2020 at 9:03 AM Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
->
-> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
->
-> Rename DPM_FLAG_NEVER_SKIP to DPM_FLAG_NO_DIRECT_COMPLETE which
-> matches its purpose more closely.
->
-> No functional impact.
->
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Commit f5a98bfe7b37 ("dt-bindings: display: Convert Allwinner display
+pipeline to schemas") replaced sunxi/sun4i-drm.txt with
+allwinner,sun*.yaml files in Documentation/devicetree/bindings/display/,
+but did not adjust DRM DRIVERS FOR ALLWINNER A10.
 
-Acked-by: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+Since then, ./scripts/get_maintainer.pl --self-test complains:
 
-For the driver changes to e1000e, igb and igc.
+  warning: no file matches \
+  F: Documentation/devicetree/bindings/display/sunxi/sun4i-drm.txt
 
-> ---
->  Documentation/driver-api/pm/devices.rst    |  6 +++---
->  Documentation/power/pci.rst                | 10 +++++-----
->  drivers/base/power/main.c                  |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    |  2 +-
->  drivers/gpu/drm/i915/intel_runtime_pm.c    |  2 +-
->  drivers/gpu/drm/radeon/radeon_kms.c        |  2 +-
->  drivers/misc/mei/pci-me.c                  |  2 +-
->  drivers/misc/mei/pci-txe.c                 |  2 +-
->  drivers/net/ethernet/intel/e1000e/netdev.c |  2 +-
->  drivers/net/ethernet/intel/igb/igb_main.c  |  2 +-
->  drivers/net/ethernet/intel/igc/igc_main.c  |  2 +-
->  drivers/pci/pcie/portdrv_pci.c             |  2 +-
->  include/linux/pm.h                         |  6 +++---
->  13 files changed, 21 insertions(+), 21 deletions(-)
->
+Point to allwinner display schemas in DRM DRIVERS FOR ALLWINNER A10.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+Maxime, please ack.
+Rob, please pick this non-urgent minor clean-up patch.
+
+
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e64e5db31497..1f6c9bec872a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5552,7 +5552,7 @@ M:	Chen-Yu Tsai <wens@csie.org>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+-F:	Documentation/devicetree/bindings/display/sunxi/sun4i-drm.txt
++F:	Documentation/devicetree/bindings/display/allwinner,sun*.yaml
+ F:	drivers/gpu/drm/sun4i/
+ 
+ DRM DRIVERS FOR AMLOGIC SOCS
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
