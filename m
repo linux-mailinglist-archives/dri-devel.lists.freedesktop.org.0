@@ -2,64 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827921A7442
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 09:06:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF9E1A6B8F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 19:41:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DBED6E47A;
-	Tue, 14 Apr 2020 07:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA4C289F43;
+	Mon, 13 Apr 2020 17:41:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45A6289CF8
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 17:33:48 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id d77so10017048wmd.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 10:33:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8aUMUy/wOX/7K0dS1U3BUrwSzoWMPHBW5fhBQA8MxGM=;
- b=joPKK1pt9Q1roRgAEHNzrtbiAO9UqKMcrjasUBKJbXFLK0l7M9MR8SUoEGycMZVJKI
- SUfGpJSvMsvbuer6EW9fqrR+A7GY/I27Yr11B+kbcPgNXAW9E7u/C+d6MTT65VycrIz+
- oO4Iwdj5DoyWNBIWMEfnRE7u5asYx4o9fvK7rPy1wGSrAbctgmG14b14+LHjBBrS1/JM
- Wc1LN3roDxpiS9yIHx0e6eD86QcKwav7/wQS7FNUw3SdDcF1RpSl1EJ/4gE70PgoOdBN
- ah9yH7s35tO+J0JHouUz0/ahj9yZTAP6U39eVALf3/DyDBgyzHgKYyD+MrontQ+fjRCx
- TUmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8aUMUy/wOX/7K0dS1U3BUrwSzoWMPHBW5fhBQA8MxGM=;
- b=S0Q8puX/8A0QfW8bCVXOGOwzvq4viSxHPIR/6lxoy+RpkPUdQCsyhYpgmPdl4D9xJj
- 8YMsqxZCTEGeET0fFbBBNZ/Z6rKRSB9W6HCSBMS/5JbNchdV3nkqSJSfPJ+mqiVEmPTb
- mcqRS8RKTcaTzQKW7laHeOmIAx1Q8VUqpbob1cpOqGoF0FVCTF6M2sGx1OHh5GMJd9dK
- WO0kFy/Zaj+q11Lwn7Nbg+C1Y7rrEQKQ9c/oMqCPqL/Ptc+HdVch+wwUN4cIx8jHDxaR
- J0oOIk/omMfuyL5eivJCe4LmnG7ufLzPA3fMA9vV4JkEjvNAvpxfzCc8V+KiV/mVtm8b
- zCAw==
-X-Gm-Message-State: AGi0Pubb+nFG5ZJ+v0YE2v/OGg8ajPql8khh05skUXPgW66fQMRSG7Ms
- CdL1CsWQQcJTLmXWjctcaZgBj4BqX6Q=
-X-Google-Smtp-Source: APiQypLfNEB9bAOtFdIH8RmANnwshXM6x6H3qFZOwYXkmx+YDtINIiwe6Qu3boNCWaiCCL285aMJYA==
-X-Received: by 2002:a05:600c:214b:: with SMTP id
- v11mr20754687wml.151.1586799226743; 
- Mon, 13 Apr 2020 10:33:46 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:1f1:d0f0::42f0:c285])
- by smtp.gmail.com with ESMTPSA id v7sm17025219wmg.3.2020.04.13.10.33.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Apr 2020 10:33:46 -0700 (PDT)
-From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>
-Subject: [PATCH v2 2/2] drm/panfrost: add devfreq regulator support
-Date: Mon, 13 Apr 2020 19:33:38 +0200
-Message-Id: <20200413173338.8294-2-peron.clem@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200413173338.8294-1-peron.clem@gmail.com>
-References: <20200413173338.8294-1-peron.clem@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A51989F43
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 17:41:03 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA07B24B;
+ Mon, 13 Apr 2020 19:41:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1586799661;
+ bh=7GGnxXz596xE6qXJCVCk00KXP0fqWA8iM/U7mwyRezo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Eug4XSG7xzVUXvMD7PhrSzcSJyWq73obVCJfrlebv65MgHWP36sJJkK9TN5J48wNb
+ XCx0OHPPFIxKPSX6bXgLxqp1gU32R/fpkrwLnSdtSnsTaByliIJJtgFHedG7b/YHXm
+ yVS6wM/NM3EvH72KE3PYf9Vxa7tAJ0/JUUYkOtIc=
+Date: Mon, 13 Apr 2020 20:40:50 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 1/2] drm: bridge: simple-bridge: Delegate operations to
+ next bridge
+Message-ID: <20200413174050.GE4875@pendragon.ideasonboard.com>
+References: <20200409003636.11792-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200409003636.11792-2-laurent.pinchart+renesas@ideasonboard.com>
+ <20200413053325.GA6324@ravnborg.org>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 14 Apr 2020 07:06:18 +0000
+Content-Disposition: inline
+In-Reply-To: <20200413053325.GA6324@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,59 +48,247 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T1BQIHRhYmxlIGNhbiBkZWZpbmVkIGJvdGggZnJlcXVlbmN5IGFuZCB2b2x0YWdlLgoKUmVnaXN0
-ZXIgbWFsaSByZWd1bGF0b3JzIHRvIE9QUCBkcml2ZXIuCgpTaWduZWQtb2ZmLWJ5OiBDbMOpbWVu
-dCBQw6lyb24gPHBlcm9uLmNsZW1AZ21haWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9wYW5m
-cm9zdC9wYW5mcm9zdF9kZXZmcmVxLmMgfCAzNCArKysrKysrKysrKysrKysrKystLS0KIGRyaXZl
-cnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaCAgfCAgMSArCiAyIGZpbGVzIGNo
-YW5nZWQsIDMxIGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZmcmVxLmMKaW5kZXggNjI1NDFmNGVkZDgxLi41NGExMDli
-YmRjMTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZm
-cmVxLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuYwpA
-QCAtNzgsMTIgKzc4LDI2IEBAIGludCBwYW5mcm9zdF9kZXZmcmVxX2luaXQoc3RydWN0IHBhbmZy
-b3N0X2RldmljZSAqcGZkZXYpCiAJc3RydWN0IGRldmljZSAqZGV2ID0gJnBmZGV2LT5wZGV2LT5k
-ZXY7CiAJc3RydWN0IGRldmZyZXEgKmRldmZyZXE7CiAJc3RydWN0IHRoZXJtYWxfY29vbGluZ19k
-ZXZpY2UgKmNvb2xpbmc7CisJc3RydWN0IG9wcF90YWJsZSAqb3BwX3RhYmxlOworCisJLyogUmVn
-dWxhdG9yIGlzIG9wdGlvbmFsICovCisJb3BwX3RhYmxlID0gZGV2X3BtX29wcF9zZXRfcmVndWxh
-dG9ycyhkZXYsIHBmZGV2LT5jb21wLT5zdXBwbHlfbmFtZXMsCisJCQkJCSAgICAgIHBmZGV2LT5j
-b21wLT5udW1fc3VwcGxpZXMpOworCWlmIChJU19FUlIob3BwX3RhYmxlKSkgeworCQlyZXQgPSBQ
-VFJfRVJSKG9wcF90YWJsZSk7CisJCWlmIChyZXQgIT0gLUVOT0RFVikgeworCQkJRFJNX0RFVl9F
-UlJPUihkZXYsICJGYWlsZWQgdG8gc2V0IHJlZ3VsYXRvcjogJWRcbiIsIHJldCk7CisJCQlyZXR1
-cm4gcmV0OworCQl9CisJfQorCXBmZGV2LT5kZXZmcmVxLm9wcF90YWJsZSA9IG9wcF90YWJsZTsK
-IAogCXJldCA9IGRldl9wbV9vcHBfb2ZfYWRkX3RhYmxlKGRldik7Ci0JaWYgKHJldCA9PSAtRU5P
-REVWKSAvKiBPcHRpb25hbCwgY29udGludWUgd2l0aG91dCBkZXZmcmVxICovCi0JCXJldHVybiAw
-OwotCWVsc2UgaWYgKHJldCkKLQkJcmV0dXJuIHJldDsKKwlpZiAocmV0KSB7CisJCWlmIChyZXQg
-PT0gLUVOT0RFVikgLyogT3B0aW9uYWwsIGNvbnRpbnVlIHdpdGhvdXQgZGV2ZnJlcSAqLworCQkJ
-cmV0ID0gMDsKKwkJZ290byBlcnJfb3BwX3JlZzsKKwl9CiAKIAlwYW5mcm9zdF9kZXZmcmVxX3Jl
-c2V0KHBmZGV2KTsKIApAQCAtMTE5LDYgKzEzMywxMiBAQCBpbnQgcGFuZnJvc3RfZGV2ZnJlcV9p
-bml0KHN0cnVjdCBwYW5mcm9zdF9kZXZpY2UgKnBmZGV2KQogZXJyX29wcDoKIAlkZXZfcG1fb3Bw
-X29mX3JlbW92ZV90YWJsZShkZXYpOwogCitlcnJfb3BwX3JlZzoKKwlpZiAocGZkZXYtPmRldmZy
-ZXEub3BwX3RhYmxlKSB7CisJCWRldl9wbV9vcHBfcHV0X3JlZ3VsYXRvcnMocGZkZXYtPmRldmZy
-ZXEub3BwX3RhYmxlKTsKKwkJcGZkZXYtPmRldmZyZXEub3BwX3RhYmxlID0gTlVMTDsKKwl9CisK
-IAlyZXR1cm4gcmV0OwogfQogCkBAIC0xMjYsNyArMTQ2LDEzIEBAIHZvaWQgcGFuZnJvc3RfZGV2
-ZnJlcV9maW5pKHN0cnVjdCBwYW5mcm9zdF9kZXZpY2UgKnBmZGV2KQogewogCWlmIChwZmRldi0+
-ZGV2ZnJlcS5jb29saW5nKQogCQlkZXZmcmVxX2Nvb2xpbmdfdW5yZWdpc3RlcihwZmRldi0+ZGV2
-ZnJlcS5jb29saW5nKTsKKwogCWRldl9wbV9vcHBfb2ZfcmVtb3ZlX3RhYmxlKCZwZmRldi0+cGRl
-di0+ZGV2KTsKKworCWlmIChwZmRldi0+ZGV2ZnJlcS5vcHBfdGFibGUpIHsKKwkJZGV2X3BtX29w
-cF9wdXRfcmVndWxhdG9ycyhwZmRldi0+ZGV2ZnJlcS5vcHBfdGFibGUpOworCQlwZmRldi0+ZGV2
-ZnJlcS5vcHBfdGFibGUgPSBOVUxMOworCX0KIH0KIAogdm9pZCBwYW5mcm9zdF9kZXZmcmVxX3Jl
-c3VtZShzdHJ1Y3QgcGFuZnJvc3RfZGV2aWNlICpwZmRldikKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaCBiL2RyaXZlcnMvZ3B1L2RybS9wYW5m
-cm9zdC9wYW5mcm9zdF9kZXZpY2UuaAppbmRleCBjMzBjNzE5YTgwNTkuLmMxMWQxOTQzMGMwZiAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmljZS5oCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaApAQCAtMTEwLDYg
-KzExMCw3IEBAIHN0cnVjdCBwYW5mcm9zdF9kZXZpY2UgewogCXN0cnVjdCB7CiAJCXN0cnVjdCBk
-ZXZmcmVxICpkZXZmcmVxOwogCQlzdHJ1Y3QgdGhlcm1hbF9jb29saW5nX2RldmljZSAqY29vbGlu
-ZzsKKwkJc3RydWN0IG9wcF90YWJsZSAqb3BwX3RhYmxlOwogCQlrdGltZV90IGJ1c3lfdGltZTsK
-IAkJa3RpbWVfdCBpZGxlX3RpbWU7CiAJCWt0aW1lX3QgdGltZV9sYXN0X3VwZGF0ZTsKLS0gCjIu
-MjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Sam,
+
+On Mon, Apr 13, 2020 at 07:33:25AM +0200, Sam Ravnborg wrote:
+> On Thu, Apr 09, 2020 at 03:36:35AM +0300, Laurent Pinchart wrote:
+> > Instead of poking into the DT node of the next bridge for its DDC bus
+> > and implementing the .get_modes() and .detect() connector operations
+> > manually, retrieve the next bridge in the chain and delegate these
+> > operations to it.
+> 
+> I had the impression that we could have any number of bridges,
+> and the approach was to request some info further down in the chain for
+> info, without knowing if the next or the next->next was the bridge that
+> could provide the information.
+> But this seems not to be the case - here we assume ->next can get the
+> edid - or if not we have a fallback.
+> 
+> The relation that the next bridge was the one with i2c was present
+> before this patch - so it is not directly related to this patch but
+> a more general observation.
+
+You're absolutely right, and this is just an interim measure. Delegating
+operations to the next bridge in the chain is legacy code, only used
+when DRM_BRIDGE_ATTACH_NO_CONNECTOR isn't set. It should eventually go
+away when all users will be converted to the new model.
+
+> A few nits below. With these nits considered the patch is:
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  drivers/gpu/drm/bridge/simple-bridge.c | 98 +++++++++-----------------
+> >  1 file changed, 33 insertions(+), 65 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+> > index a2dca7a3ef03..bac223d0430d 100644
+> > --- a/drivers/gpu/drm/bridge/simple-bridge.c
+> > +++ b/drivers/gpu/drm/bridge/simple-bridge.c
+> > @@ -29,7 +29,7 @@ struct simple_bridge {
+> >  
+> >  	const struct simple_bridge_info *info;
+> >  
+> > -	struct i2c_adapter	*ddc;
+> > +	struct drm_bridge	*next_bridge;
+> >  	struct regulator	*vdd;
+> >  	struct gpio_desc	*enable;
+> >  };
+> > @@ -52,29 +52,24 @@ static int simple_bridge_get_modes(struct drm_connector *connector)
+> >  	struct edid *edid;
+> >  	int ret;
+> >  
+> > -	if (!sbridge->ddc)
+> > -		goto fallback;
+> > -
+> > -	edid = drm_get_edid(connector, sbridge->ddc);
+> > -	if (!edid) {
+> > -		DRM_INFO("EDID readout failed, falling back to standard modes\n");
+> > -		goto fallback;
+> > +	edid = drm_bridge_get_edid(sbridge->next_bridge, connector);
+> 
+> drm_bridge_get_edid() is not documented to return NULL:
+> "The retrieved EDID on success, or an error pointer otherwise."
+> So IS_ERR() would do the trick here.
+
+Except that drm_bridge_funcs.get_edid() is documented as returning NULL,
+and drm_get_edid() returns NULL on errors. I'm thus tempted to just fix
+the documentation of drm_bridge_get_edid() to return NULL on error.
+There could be value in using error pointers through the whole EDID API,
+but that's a subsystem-wide change that is out of scope for this series.
+
+> > +	if (IS_ERR_OR_NULL(edid)) {
+> > +		if (!edid)
+> > +			DRM_INFO("EDID readout failed, falling back to standard modes\n");
+> > +
+> > +		/*
+> > +		 * In case we cannot retrieve the EDIDs (missing or broken DDC
+> > +		 * bus from the next bridge), fallback on the XGA standards and
+> > +		 * prefer a mode pretty much anyone can handle.
+> > +		 */
+> > +		ret = drm_add_modes_noedid(connector, 1920, 1200);
+> > +		drm_set_preferred_mode(connector, 1024, 768);
+> > +		return ret;
+> >  	}
+> >  
+> >  	drm_connector_update_edid_property(connector, edid);
+> >  	ret = drm_add_edid_modes(connector, edid);
+> >  	kfree(edid);
+> > -	return ret;
+> > -
+> > -fallback:
+> > -	/*
+> > -	 * In case we cannot retrieve the EDIDs (broken or missing i2c
+> > -	 * bus), fallback on the XGA standards
+> > -	 */
+> > -	ret = drm_add_modes_noedid(connector, 1920, 1200);
+> > -
+> > -	/* And prefer a mode pretty much anyone can handle */
+> > -	drm_set_preferred_mode(connector, 1024, 768);
+> >  
+> >  	return ret;
+> >  }
+> > @@ -88,16 +83,7 @@ simple_bridge_connector_detect(struct drm_connector *connector, bool force)
+> >  {
+> >  	struct simple_bridge *sbridge = drm_connector_to_simple_bridge(connector);
+> >  
+> > -	/*
+> > -	 * Even if we have an I2C bus, we can't assume that the cable
+> > -	 * is disconnected if drm_probe_ddc fails. Some cables don't
+> > -	 * wire the DDC pins, or the I2C bus might not be working at
+> > -	 * all.
+> > -	 */
+> > -	if (sbridge->ddc && drm_probe_ddc(sbridge->ddc))
+> > -		return connector_status_connected;
+> > -
+> > -	return connector_status_unknown;
+> > +	return drm_bridge_detect(sbridge->next_bridge);
+> >  }
+> >  
+> >  static const struct drm_connector_funcs simple_bridge_con_funcs = {
+> > @@ -120,6 +106,11 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > +	ret = drm_bridge_attach(bridge->encoder, sbridge->next_bridge, bridge,
+> > +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> >  	if (!bridge->encoder) {
+> >  		DRM_ERROR("Missing encoder\n");
+> >  		return -ENODEV;
+> > @@ -130,7 +121,7 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
+> >  	ret = drm_connector_init_with_ddc(bridge->dev, &sbridge->connector,
+> >  					  &simple_bridge_con_funcs,
+> >  					  sbridge->info->connector_type,
+> > -					  sbridge->ddc);
+> > +					  sbridge->next_bridge->ddc);
+> >  	if (ret) {
+> >  		DRM_ERROR("Failed to initialize connector\n");
+> >  		return ret;
+> > @@ -172,31 +163,10 @@ static const struct drm_bridge_funcs simple_bridge_bridge_funcs = {
+> >  	.disable	= simple_bridge_disable,
+> >  };
+> >  
+> > -static struct i2c_adapter *simple_bridge_retrieve_ddc(struct device *dev)
+> > -{
+> > -	struct device_node *phandle, *remote;
+> > -	struct i2c_adapter *ddc;
+> > -
+> > -	remote = of_graph_get_remote_node(dev->of_node, 1, -1);
+> > -	if (!remote)
+> > -		return ERR_PTR(-EINVAL);
+> > -
+> > -	phandle = of_parse_phandle(remote, "ddc-i2c-bus", 0);
+> > -	of_node_put(remote);
+> > -	if (!phandle)
+> > -		return ERR_PTR(-ENODEV);
+> > -
+> > -	ddc = of_get_i2c_adapter_by_node(phandle);
+> > -	of_node_put(phandle);
+> > -	if (!ddc)
+> > -		return ERR_PTR(-EPROBE_DEFER);
+> > -
+> > -	return ddc;
+> > -}
+> > -
+> >  static int simple_bridge_probe(struct platform_device *pdev)
+> >  {
+> >  	struct simple_bridge *sbridge;
+> > +	struct device_node *remote;
+> >  
+> >  	sbridge = devm_kzalloc(&pdev->dev, sizeof(*sbridge), GFP_KERNEL);
+> >  	if (!sbridge)
+> > @@ -222,16 +192,17 @@ static int simple_bridge_probe(struct platform_device *pdev)
+> >  		return PTR_ERR(sbridge->enable);
+> >  	}
+> >  
+> > -	sbridge->ddc = simple_bridge_retrieve_ddc(&pdev->dev);
+> > -	if (IS_ERR(sbridge->ddc)) {
+> > -		if (PTR_ERR(sbridge->ddc) == -ENODEV) {
+> > -			dev_dbg(&pdev->dev,
+> > -				"No i2c bus specified. Disabling EDID readout\n");
+> > -			sbridge->ddc = NULL;
+> > -		} else {
+> > -			dev_err(&pdev->dev, "Couldn't retrieve i2c bus\n");
+> > -			return PTR_ERR(sbridge->ddc);
+> > -		}
+> > +	/* Get the next bridge in the pipeline. */
+> > +	remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
+> > +	if (!remote)
+> > +		return -EINVAL;
+> > +
+> > +	sbridge->next_bridge = of_drm_find_bridge(remote);
+> > +	of_node_put(remote);
+> > +
+> > +	if (!sbridge->next_bridge) {
+> > +		dev_dbg(&pdev->dev, "Next bridge not found, deferring probe\n");
+>
+> The patch mixes logging style.
+> In some cases DRM_INFO(...), and here dev_dbg(...)
+
+The patch tries to keep the existing coding style in the driver. I could
+convert everything to dev_*, but that should go in a separate patch.
+
+> > +		return -EPROBE_DEFER;
+>
+> Retreiving the next bridge may fail with a PROBE_DEFER.
+> So should this be doen a little earlier in the probe function, so we
+> fail as fast as we can?
+> I am not sure it has any practical impact, was just wondering.
+
+It's a good point, I'll fix that.
+
+> >  	}
+> >  
+> >  	sbridge->bridge.funcs = &simple_bridge_bridge_funcs;
+> > @@ -249,9 +220,6 @@ static int simple_bridge_remove(struct platform_device *pdev)
+> >  
+> >  	drm_bridge_remove(&sbridge->bridge);
+> >  
+> > -	if (sbridge->ddc)
+> > -		i2c_put_adapter(sbridge->ddc);
+> > -
+> >  	return 0;
+> >  }
+> >  
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
