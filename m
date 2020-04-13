@@ -1,43 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B331A6087
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Apr 2020 22:34:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B7D1A64AD
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 11:29:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D1176E141;
-	Sun, 12 Apr 2020 20:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83A26E41B;
+	Mon, 13 Apr 2020 09:29:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 486476E141
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Apr 2020 20:34:08 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 924C72001F;
- Sun, 12 Apr 2020 22:34:04 +0200 (CEST)
-Date: Sun, 12 Apr 2020 22:34:03 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] fbdev: mx3fb: const pointer to ipu_di_signal_cfg
-Message-ID: <20200412203402.GA27677@ravnborg.org>
-References: <20200408162551.3928330-1-arnd@arndb.de> <87pnchhp2s.fsf@intel.com>
- <20200408180216.GC24828@ravnborg.org>
- <20200408182926.GA21997@ravnborg.org>
- <20200408200141.GM4881@pendragon.ideasonboard.com>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0433A89DA5
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 01:39:58 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id a81so8596033wmf.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Apr 2020 18:39:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AyN/h3gL1049cpXdFDaYnbMCFESReQmxEl5EsV/QxIE=;
+ b=Y7Mar2Y92zLTJMkiLnBFdWA9rU3I5813JGr8i83ybHOb4pP4+PNGPokjnSgfEz5+/R
+ 8MYnyp1ecfae0+5tamHFcQGnTCpFsdezVxDuM960nkfph2/lvEzASa3DRjIqMz3nLYGL
+ 7TIppEfABo7f5zHm72kV4gTc+G+HxCNjikMKAI5JTNPKk5CJgFl6YPXrquwnts4cP4Iz
+ PMzvPU6Ys1AJPKuMrgMv9bnvYJCvXK5hiP6ZDoGBuaDhEznwe47IQkcPGH2ddDQBGjSf
+ /YfXgcTJe73wOdYVBXUZDqpj77riDNgoT8RgB+6fB6wl1EjgeMz1oqF+PTya2BMyaKVr
+ sVFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AyN/h3gL1049cpXdFDaYnbMCFESReQmxEl5EsV/QxIE=;
+ b=S5E9TAhdceF0owvJQ5YY4qoDUstbi40sKs05Ps7oQkGOj+7my266tg0DdsjpjeBPMa
+ P19cba0Ozr9TE2PnQ/i4vJ2lNQe8uQlAaEdwE+cq3TcAX185nXt/Bg3EbdvT4ccY7Cnl
+ 17rsDJWjOKZYc3vfDmU27vAYE2qDzKT4EQaHUcF1A0RRcVO1T2k4XtQWVb2EXVt2Ox4U
+ rpNQyUAd5ZjyrcB25OGE2thwc3Kny8niQgZzKQ39Hj1byJij8YaOiv619QpcqzJ/jiF8
+ yfh0Jxti1q0CvqbDEedhCz3pcDe/4H6vKDDtEl8yLLG62/iCna7+NBIoO52v/L9cte3I
+ P5BA==
+X-Gm-Message-State: AGi0PuYBGdgTUp7Xl+YswYYEF7jpspNe5gqrFofQWAxBWoYPJJOski0d
+ DT03l+1/TLtrqqrtvBXdwD3UFUoVDtvgCT+oXphBjA==
+X-Google-Smtp-Source: APiQypJGmt365lwnDZunq5BXifhgZnKlqlq44CQy7pdjPF0L6QT7kprUreBXQsd9BlOpcEgNXG8x1dTxwAnCXi37pUQ=
+X-Received: by 2002:a1c:7212:: with SMTP id n18mr17213521wmc.53.1586741997265; 
+ Sun, 12 Apr 2020 18:39:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200408200141.GM4881@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8
- a=QyXUC8HyAAAA:8 a=7gkXJVJtAAAA:8 a=ZTmiYS-oAAAA:8 a=hD80L64hAAAA:8
- a=VwQbUJbxAAAA:8 a=ouh9qIkmRCoZiYK3H64A:9 a=CjuIK1q_8ugA:10
- a=D0XLA9XvdZm18NrgonBM:22 a=E9Po1WZjFZOl8hwRPBS3:22
- a=Bgfdu2smNuKfk3vLOmSO:22 a=AjGcO6oz07-iQ99wixmX:22
+References: <20200409004306.18541-1-john.stultz@linaro.org>
+In-Reply-To: <20200409004306.18541-1-john.stultz@linaro.org>
+From: Xinliang Liu <xinliang.liu@linaro.org>
+Date: Mon, 13 Apr 2020 09:39:45 +0800
+Message-ID: <CAKoKPbzCiEJRoFWMMNx+O261G6=-6Dc90qbPhNQ=M-y67LXOMg@mail.gmail.com>
+Subject: Re: [PATCH] drm: kirin: Revert change to add register connect helper
+ functions
+To: John Stultz <john.stultz@linaro.org>
+X-Mailman-Approved-At: Mon, 13 Apr 2020 09:29:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,45 +62,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Enrico Weigelt <info@metux.net>
+Cc: Xu YiPing <xuyiping@hisilicon.com>, David Airlie <airlied@linux.ie>,
+ Chen Feng <puck.chen@hisilicon.com>, lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Rongrong Zou <zourongrong@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 08, 2020 at 11:01:41PM +0300, Laurent Pinchart wrote:
-> Hi Sam,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Apr 08, 2020 at 08:29:26PM +0200, Sam Ravnborg wrote:
-> > Laurent Pinchart <laurent.pinchart@ideasonboard.com> and
-> > Jani Nikula <jani.nikula@intel.com> both
-> > suggested to make the pointer to struct ipu_di_signal_cfg const.
-> > 
-> > Fix this.
-> > 
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Fixes: 3f6c93ec9254 ("fbdev: mx3fb: avoid warning about psABI change")
-> > Cc: Jani Nikula <jani.nikula@intel.com>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Arnd Bergmann <arnd@arndb.de>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Enrico Weigelt <info@metux.net>
-> > Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> > Cc: linux-fbdev@vger.kernel.org
-> 
-> Assuming this is compile-tested,
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Thu, 9 Apr 2020 at 08:43, John Stultz <john.stultz@linaro.org> wrote:
+>
+> Daniel noted[1] that commit d606dc9a6323 ("drm: kirin: Add
+> register connect helper functions in drm init") was unnecessary
+> and incorrect, as drm_dev_register does register connectors for
+> us.
+>
+> Thus, this patch reverts the change as suggested by Daniel.
+>
+> [1]: https://lore.kernel.org/lkml/CAKMK7uHr5U-pPsxdQ4MpfK5v8iLjphDFug_3VTiUAf06nhS=yQ@mail.gmail.com/
+>
+> Cc: Xu YiPing <xuyiping@hisilicon.com>
+> Cc: Rongrong Zou <zourongrong@gmail.com>
+> Cc: Xinliang Liu <xinliang.liu@linaro.org>
+> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+> Cc: Chen Feng <puck.chen@hisilicon.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: dri-devel <dri-devel@lists.freedesktop.org>
+> Signed-off-by: John Stultz <john.stultz@linaro.org>
 
-Thanks. Applied and pushed out to drm-misc-next.
+Thanks John for the fix.
+Acked-by: Xinliang Liu <xinliang.liu@linaro.org>
+Applied to drm-misc.
 
-	Sam
+-Xinliang
+
+> ---
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |  1 -
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   | 43 -------------------
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.h   |  1 -
+>  3 files changed, 45 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+> index 86000127d4ee..c339e632522a 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+> @@ -940,7 +940,6 @@ static struct drm_driver ade_driver = {
+>  };
+>
+>  struct kirin_drm_data ade_driver_data = {
+> -       .register_connects = false,
+>         .num_planes = ADE_CH_NUM,
+>         .prim_plane = ADE_CH1,
+>         .channel_formats = channel_formats,
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
+> index d3145ae877d7..4349da3e2379 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
+> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
+> @@ -219,40 +219,6 @@ static int kirin_drm_kms_cleanup(struct drm_device *dev)
+>         return 0;
+>  }
+>
+> -static int kirin_drm_connectors_register(struct drm_device *dev)
+> -{
+> -       struct drm_connector *connector;
+> -       struct drm_connector *failed_connector;
+> -       struct drm_connector_list_iter conn_iter;
+> -       int ret;
+> -
+> -       mutex_lock(&dev->mode_config.mutex);
+> -       drm_connector_list_iter_begin(dev, &conn_iter);
+> -       drm_for_each_connector_iter(connector, &conn_iter) {
+> -               ret = drm_connector_register(connector);
+> -               if (ret) {
+> -                       failed_connector = connector;
+> -                       goto err;
+> -               }
+> -       }
+> -       drm_connector_list_iter_end(&conn_iter);
+> -       mutex_unlock(&dev->mode_config.mutex);
+> -
+> -       return 0;
+> -
+> -err:
+> -       drm_connector_list_iter_begin(dev, &conn_iter);
+> -       drm_for_each_connector_iter(connector, &conn_iter) {
+> -               if (failed_connector == connector)
+> -                       break;
+> -               drm_connector_unregister(connector);
+> -       }
+> -       drm_connector_list_iter_end(&conn_iter);
+> -       mutex_unlock(&dev->mode_config.mutex);
+> -
+> -       return ret;
+> -}
+> -
+>  static int kirin_drm_bind(struct device *dev)
+>  {
+>         struct kirin_drm_data *driver_data;
+> @@ -279,17 +245,8 @@ static int kirin_drm_bind(struct device *dev)
+>
+>         drm_fbdev_generic_setup(drm_dev, 32);
+>
+> -       /* connectors should be registered after drm device register */
+> -       if (driver_data->register_connects) {
+> -               ret = kirin_drm_connectors_register(drm_dev);
+> -               if (ret)
+> -                       goto err_drm_dev_unregister;
+> -       }
+> -
+>         return 0;
+>
+> -err_drm_dev_unregister:
+> -       drm_dev_unregister(drm_dev);
+>  err_kms_cleanup:
+>         kirin_drm_kms_cleanup(drm_dev);
+>  err_drm_dev_put:
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.h b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.h
+> index 4d5c05a24065..dee8ec2f7f2e 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.h
+> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.h
+> @@ -37,7 +37,6 @@ struct kirin_drm_data {
+>         u32 channel_formats_cnt;
+>         int config_max_width;
+>         int config_max_height;
+> -       bool register_connects;
+>         u32 num_planes;
+>         u32 prim_plane;
+>
+> --
+> 2.17.1
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
