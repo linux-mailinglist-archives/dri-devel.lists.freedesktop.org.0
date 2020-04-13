@@ -1,47 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019301A6E8D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 23:44:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C427A1A6EB8
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Apr 2020 23:53:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A433489EA3;
-	Mon, 13 Apr 2020 21:44:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A276C6E10B;
+	Mon, 13 Apr 2020 21:53:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E72748926A
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 21:44:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586814263;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=KQIqrFGUphmuFkBfyVpa5uYKSuyV3byu56jJQa16wH8=;
- b=MxAQT7wIa7ybCkSrJEGseoKf/EUC+nvWVM3tjnAG5vY4S/EIXDG1XR6780hfuP9n90aAaL
- e8bK/N7uSO56BvY2XXUG0NjWWESCwAJAKGZiXRLvgjdm2+JPILao3i/1USY4y0v3CUQNBI
- JsjgMexpWfOaBHH18hBmhWrcpUqXV2c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-zHFU6IkTOpqpXbCPmWIjow-1; Mon, 13 Apr 2020 17:44:22 -0400
-X-MC-Unique: zHFU6IkTOpqpXbCPmWIjow-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E10DB8010F1;
- Mon, 13 Apr 2020 21:44:18 +0000 (UTC)
-Received: from Ruby.redhat.com (ovpn-119-134.rdu2.redhat.com [10.10.119.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C43D719C69;
- Mon, 13 Apr 2020 21:44:12 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/dpcd_bl: Unbreak enable_dpcd_backlight modparam
-Date: Mon, 13 Apr 2020 17:44:06 -0400
-Message-Id: <20200413214407.1851002-1-lyude@redhat.com>
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB9E6E0CA;
+ Mon, 13 Apr 2020 21:53:33 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id 20so3153776qkl.10;
+ Mon, 13 Apr 2020 14:53:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=kr/9d9Xct1hX07rDbEYx8wUsf1dJ+pFlOXTM040jufY=;
+ b=gt6u/J4rlzknBml16vacwiBKZilSvdoYDgWZrDknJ+/046sco+2EB80oMUdV/xHBPs
+ JXsoYf9KaaFkZbzeDRtByuMlHipVMlzej9/sgWSKPxw3Y2bbq19joPpCqEeVpFGZN/kW
+ LGzexbW2TXKA87eDlyeQPbwbYK//L1/PGzT+32hn9sEykCWesA9Z4Z+XJ6qgnQblAwke
+ zxLDzq78qEG9KKKCo/BbyLfOgUYD3uVPXzDtQOaEHP2kvWOMG1rr9rTw2Hse/IGwcYsD
+ 8Xg55dDgYHJ90FzihCUobI7Sv7LeHFHd7CqDtHUuB7DdwAEPvH+OY+6IqE3xGXs/m7+0
+ 7kxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=kr/9d9Xct1hX07rDbEYx8wUsf1dJ+pFlOXTM040jufY=;
+ b=WVx3JHWCRIaTBzMwMuhCF6gx4m1vzqMt96EQ75oDZAfgmaipfEEfqEi6U0RChOH44S
+ EXfdyPv/goVk7y+b/Z3nd7Cfv+QcVMiYE11lfwLT1OJzNeBd/Hv9XedMMRlwN2bhZli6
+ n/5bQEXPn9Ukei/DESgBlU2Kbp6za3hW727Lh8OIFOq8vZKo/igQZenx6uU/20NrUPXh
+ Js9Dm6cYQewkMwD6EnJp12moUleK4E4TpR7a1KH3wdsPDTGDBn7pQvyhLSkgsELTaZg8
+ W6CrfQ+AOxYBHDHpEiD3/ggmhoxaekDVonmkV9TaSnpRQrwGADmchWHSaYlAAfwgZVIK
+ cr0w==
+X-Gm-Message-State: AGi0PuYlmcwObTrwTWu6WvnrFnedZjUwPDPLQiqEy/PdsoedxjlWL4zr
+ 0EI6EnH0Qma8/hSNRHeJHAA=
+X-Google-Smtp-Source: APiQypKYvGVAUQdJvUhUcfpVugeCgnmzh+M4+j8oxN9vOsaUt+g4IHvXRJi0IouPshrZh4OlXSZCIA==
+X-Received: by 2002:a37:a0c7:: with SMTP id j190mr9233931qke.461.1586814812277; 
+ Mon, 13 Apr 2020 14:53:32 -0700 (PDT)
+Received: from localhost ([199.96.181.106])
+ by smtp.gmail.com with ESMTPSA id y127sm9339458qkb.76.2020.04.13.14.53.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Apr 2020 14:53:31 -0700 (PDT)
+Date: Mon, 13 Apr 2020 17:53:30 -0400
+From: Tejun Heo <tj@kernel.org>
+To: Kenny Ho <y2kenny@gmail.com>
+Subject: Re: [PATCH v2 00/11] new cgroup controller for gpu/drm subsystem
+Message-ID: <20200413215330.GN60335@mtj.duckdns.org>
+References: <20200226190152.16131-1-Kenny.Ho@amd.com>
+ <CAOWid-eyMGZfOyfEQikwCmPnKxx6MnTm17pBvPeNpgKWi0xN-w@mail.gmail.com>
+ <20200324184633.GH162390@mtj.duckdns.org>
+ <CAOWid-cS-5YkFBLACotkZZCH0RSjHH94_r3VFH8vEPOubzSpPA@mail.gmail.com>
+ <20200413191136.GI60335@mtj.duckdns.org>
+ <CAOWid-dM=38faGOF9=-Pq=sxssaL+gm2umctyGVQWVx2etShyQ@mail.gmail.com>
+ <20200413205436.GM60335@mtj.duckdns.org>
+ <CAOWid-fvmxSXtGUtQSZ4Ow1fK+wR8hbnUe5PcsM56EZMOMwb6g@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Disposition: inline
+In-Reply-To: <CAOWid-fvmxSXtGUtQSZ4Ow1fK+wR8hbnUe5PcsM56EZMOMwb6g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,36 +73,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Lee Shawn C <shawn.c.lee@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Kenny Ho <Kenny.Ho@amd.com>, "Kuehling, Felix" <felix.kuehling@amd.com>,
+ jsparks@cray.com, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ lkaplan@cray.com, dri-devel <dri-devel@lists.freedesktop.org>, "Greathouse,
+ Joseph" <joseph.greathouse@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ cgroups@vger.kernel.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TG9va3MgbGlrZSBJIGFjY2lkZW50YWxseSBtYWRlIGl0IHNvIHlvdSBjb3VsZG4ndCBmb3JjZSBE
-UENEIGJhY2tsaWdodApzdXBwb3J0IG9uLCB3aG9vcHMuIEZpeCB0aGF0LgoKU2lnbmVkLW9mZi1i
-eTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KRml4ZXM6IDE3ZjVkNTc5MTViZSAoImRy
-bS9pOTE1OiBGb3JjZSBEUENEIGJhY2tsaWdodCBtb2RlIG9uIFgxIEV4dHJlbWUgMm5kIEdlbiA0
-SyBBTU9MRUQgcGFuZWwiKQpDYzogQWRhbSBKYWNrc29uIDxhamF4QHJlZGhhdC5jb20+CkNjOiBK
-YW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAbGludXguaW50ZWwuY29tPgpDYzogSm9vbmFzIExhaHRp
-bmVuIDxqb29uYXMubGFodGluZW5AbGludXguaW50ZWwuY29tPgpDYzogIlZpbGxlIFN5cmrDpGzD
-pCIgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvaW50ZWxfZHBfYXV4X2JhY2tsaWdodC5jIHwgMSArCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
-bGF5L2ludGVsX2RwX2F1eF9iYWNrbGlnaHQuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
-YXkvaW50ZWxfZHBfYXV4X2JhY2tsaWdodC5jCmluZGV4IDRiOTE2NDY4NTQwZi4uMDcyMjU0MGQ2
-NGFkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX2F1
-eF9iYWNrbGlnaHQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rw
-X2F1eF9iYWNrbGlnaHQuYwpAQCAtMzU4LDYgKzM1OCw3IEBAIGludCBpbnRlbF9kcF9hdXhfaW5p
-dF9iYWNrbGlnaHRfZnVuY3Moc3RydWN0IGludGVsX2Nvbm5lY3RvciAqaW50ZWxfY29ubmVjdG9y
-KQogCSAqLwogCWlmIChpOTE1LT52YnQuYmFja2xpZ2h0LnR5cGUgIT0KIAkgICAgSU5URUxfQkFD
-S0xJR0hUX1ZFU0FfRURQX0FVWF9JTlRFUkZBQ0UgJiYKKwkgICAgaTkxNV9tb2RwYXJhbXMuZW5h
-YmxlX2RwY2RfYmFja2xpZ2h0ICE9IDEgJiYKIAkgICAgIWRybV9kcF9oYXNfcXVpcmsoJmludGVs
-X2RwLT5kZXNjLCBpbnRlbF9kcC0+ZWRpZF9xdWlya3MsCiAJCQkgICAgICBEUF9RVUlSS19GT1JD
-RV9EUENEX0JBQ0tMSUdIVCkpIHsKIAkJZHJtX2luZm8oJmk5MTUtPmRybSwKLS0gCjIuMjUuMQoK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hello,
+
+On Mon, Apr 13, 2020 at 05:40:32PM -0400, Kenny Ho wrote:
+> By lack of consense, do you mean Intel's assertion that a standard is
+> not a standard until Intel implements it? (That was in the context of
+> OpenCL language standard with the concept of SubDevice.)  I thought
+> the discussion so far has established that the concept of a compute
+> unit, while named differently (AMD's CUs, ARM's SCs, Intel's EUs,
+> Nvidia's SMs, Qualcomm's SPs), is cross vendor.  While an AMD CU is
+> not the same as an Intel EU or Nvidia SM, the same can be said for CPU
+> cores.  If cpuset is acceptable for a diversity of CPU core designs
+> and arrangements, I don't understand why an interface derived from GPU
+> SubDevice is considered premature.
+
+CPUs are a lot more uniform across vendors than GPUs and have way higher user
+observability and awareness. And, even then, it's something which has limited
+usefulness because the configuration is inherently more complex involving
+topology details and the end result is not work-conserving.
+
+cpuset is there partly due to historical reasons and its features can often be
+trivially replicated with some scripting around taskset. If that's all you're
+trying to add, I don't see why it needs to be in cgroup at all. Just implement
+a tool similar to taskset and build sufficient tooling around it. Given how
+hardware specific it can become, that is likely the better direction anyway.
+
+Thanks.
+
+-- 
+tejun
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
