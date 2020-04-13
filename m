@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441C41A7433
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 09:06:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C798B1A7437
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 09:06:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D95B26E461;
-	Tue, 14 Apr 2020 07:06:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22A3B6E46B;
+	Tue, 14 Apr 2020 07:06:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF7E889D40
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 11:33:54 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id f3so9013504ioj.1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 04:33:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5U6Bj9i0gIdPLwBp8umxYd6pZYRi0c0EHgLRbpxB/0g=;
- b=GDtG40OM3G/EoT7QXGL3chbN9AWZSWjjq58w7Ef6mKvOI4jF2oYjTEIUk0ru20aldK
- /lSfgXoAfrTHq2/Zo9Q7f/ysCmGmtaOqrTu7fMAFtiOLwN/fqMu4qk55reZNLOvr8Rj1
- qJaLn/09uXRJQVNh5TV8BxPepfyJfHB5lmzbYaZFvfgJa9gTI/RlP+z2USb4mT764Cea
- CdmShFIkekf/BGQ7gKW2h5UxBdaSvPcOnFIJVNJCaXR1/8/vsgMlUxzOCxIFQI6a51YL
- 2UoCHKs5jI0D6Z6rluRrFAZaEZwt1F6TbqORC9VlcQoqqHm7ck19SyxR07sAflaAX9bq
- Kc/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5U6Bj9i0gIdPLwBp8umxYd6pZYRi0c0EHgLRbpxB/0g=;
- b=I2pqaXg8ZQYZUzaL5GZ/dVlH9VoqFt4PIfPrbLAU+ookxU5SSkiS8i0GSXfyBRgtlP
- uD+NzuvqFIy/5n92h3nnWdUn6bfe5bXwPzbMUqNKnWopZFhjkVUhqngVpbucxa0gJh7U
- 3VKphJl10W1JWpgWA33RLBbROYyp2nXH258EBMAeVHMqJGWcckKZLEYkLKHSbXlhdNp0
- QeiQF6QPlFK1mLKGA0X3K9id3lmf72UCgoaNbVg1gPDoftJNgXVihiNXi9urIYNjTDdz
- DXY//fPpABtdC5PohqO0MrUhd5nl21V42ZETw9AsY9Ew3U4FPwpHrY/6PZLDwsvNE3Vu
- UNUw==
-X-Gm-Message-State: AGi0PubR15OOy349XCiemIWiLnd7W6lD0qsDX8njG1IeUA0gM7258/9P
- bh+o2JH9Rh/3txS5kDcrnuZ8y4Zve+l168+/x5Y=
-X-Google-Smtp-Source: APiQypJzjdhs6nLAwZfjeWYqnN0hdrSRFvDI0iSrW/3hMiqbzXHO6BNDEmKxFnIy8YsoiHy2E7nMG3suuYfOou9mllE=
-X-Received: by 2002:a02:6a5c:: with SMTP id m28mr15207535jaf.144.1586777632939; 
- Mon, 13 Apr 2020 04:33:52 -0700 (PDT)
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com
+ [148.163.135.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A66E89D49
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Apr 2020 11:36:34 +0000 (UTC)
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+ by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 03DBYvqL025875; Mon, 13 Apr 2020 07:36:15 -0400
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+ by mx0a-00128a01.pphosted.com with ESMTP id 30b7r5y2kn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Apr 2020 07:36:15 -0400
+Received: from SCSQMBX10.ad.analog.com (scsqmbx10.ad.analog.com [10.77.17.5])
+ by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 03DBaD4G041729
+ (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+ verify=FAIL); Mon, 13 Apr 2020 07:36:13 -0400
+Received: from SCSQCASHYB7.ad.analog.com (10.77.17.133) by
+ SCSQMBX10.ad.analog.com (10.77.17.5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1779.2; Mon, 13 Apr 2020 04:36:12 -0700
+Received: from SCSQMBX11.ad.analog.com (10.77.17.10) by
+ SCSQCASHYB7.ad.analog.com (10.77.17.133) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1779.2; Mon, 13 Apr 2020 04:36:12 -0700
+Received: from zeus.spd.analog.com (10.64.82.11) by SCSQMBX11.ad.analog.com
+ (10.77.17.10) with Microsoft SMTP Server id 15.1.1779.2 via Frontend
+ Transport; Mon, 13 Apr 2020 04:36:11 -0700
+Received: from localhost.localdomain ([10.48.65.12])
+ by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 03DBa4qQ004884;
+ Mon, 13 Apr 2020 07:36:05 -0400
+From: Bogdan Togorean <bogdan.togorean@analog.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [v2 1/2] drm: bridge: adv7511: Enable SPDIF DAI
+Date: Mon, 13 Apr 2020 14:35:07 +0300
+Message-ID: <20200413113513.86091-1-bogdan.togorean@analog.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200411200632.4045-1-peron.clem@gmail.com>
- <20200411200632.4045-2-peron.clem@gmail.com>
-In-Reply-To: <20200411200632.4045-2-peron.clem@gmail.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Mon, 13 Apr 2020 13:33:41 +0200
-Message-ID: <CAJiuCcfOOwxSQkPg7MicKQovweSNu-VMpK3Ek4tJd1z4Jv6Jnw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/panfrost: add devfreq regulator support
-To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>, 
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, 
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>
+X-ADIRoutedOnPrem: True
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-04-13_05:2020-04-13,
+ 2020-04-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 spamscore=0 clxscore=1015 malwarescore=0 adultscore=0
+ suspectscore=1 phishscore=0 priorityscore=1501 bulkscore=0 mlxscore=0
+ mlxlogscore=857 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004130085
 X-Mailman-Approved-At: Tue, 14 Apr 2020 07:06:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,80 +68,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Richard Fontana <rfontana@redhat.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Allison Randal <allison@lohutok.net>,
+ Bogdan Togorean <bogdan.togorean@analog.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUGFuZnJvc3QgYW5kIE9QUCBNYWludGFpbmVycywKCk9uIFNhdCwgMTEgQXByIDIwMjAgYXQg
-MjI6MDYsIENsw6ltZW50IFDDqXJvbiA8cGVyb24uY2xlbUBnbWFpbC5jb20+IHdyb3RlOgo+Cj4g
-T1BQIHRhYmxlIGNhbiBkZWZpbmVkIGJvdGggZnJlcXVlbmN5IGFuZCB2b2x0YWdlLgo+Cj4gUmVn
-aXN0ZXIgdGhlIG1hbGkgcmVndWxhdG9yIGlmIGl0IGV4aXN0LgoKQWZ0ZXIgdGhpcyBwYXRjaCwg
-UGFuZnJvc3QgdXBkYXRlIHByb3Blcmx5IGJvdGggdm9sdGFnZSBhbmQgZnJlcXVlbmN5LgpCdXQg
-dGhlIEdQVSBpcyBzdGlsbCBub3QgcHJvcGVybHkgZG93bi1jbG9ja2VkIHdoZW4gdGVtcGVyYXR1
-cmUgaXMgaGlnaC4KCkkgdHJ5IHRvIGFkZCBhIGNvb2xpbmcgbWFwIGxpa2UgdGhpcyA6Cmh0dHBz
-Oi8vZ2l0aHViLmNvbS9jbGVtZW50cGVyb24vbGludXgvY29tbWl0Lzk1NTk2MWM3YzAzNWFiYmY0
-NGU3NGY2MDhmZThmMDU5YzA2YTJmYmUKCkJ1dCBnb3QgdGhlIGZvbGxvd2luZyBlcnJvcjoKWyAg
-ICAyLjcxMjA4Ml0gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IFtkcm06cGFuZnJvc3RfZGV2ZnJlcV9p
-bml0CltwYW5mcm9zdF1dIEZhaWxlZCB0byByZWdpc3RlciBjb29saW5nIGRldmljZQoKRG8geW91
-IHNlZSB3aGF0IEknbSBtaXNzaW5nPwoKVGhhbmtzIGZvciB5b3VyIGhlbHAsCkNsZW1lbnQKCgoK
-Pgo+IFNpZ25lZC1vZmYtYnk6IENsw6ltZW50IFDDqXJvbiA8cGVyb24uY2xlbUBnbWFpbC5jb20+
-Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZmcmVxLmMgfCAz
-NCArKysrKysrKysrKysrKysrKystLS0KPiAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZy
-b3N0X2RldmljZS5oICB8ICAxICsKPiAgMiBmaWxlcyBjaGFuZ2VkLCAzMSBpbnNlcnRpb25zKCsp
-LCA0IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9z
-dC9wYW5mcm9zdF9kZXZmcmVxLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3Rf
-ZGV2ZnJlcS5jCj4gaW5kZXggNjI1NDFmNGVkZDgxLi4yZGM4ZTIzNTUzNTggMTAwNjQ0Cj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuYwo+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZmcmVxLmMKPiBAQCAtNzgsMTIgKzc4
-LDI2IEBAIGludCBwYW5mcm9zdF9kZXZmcmVxX2luaXQoc3RydWN0IHBhbmZyb3N0X2RldmljZSAq
-cGZkZXYpCj4gICAgICAgICBzdHJ1Y3QgZGV2aWNlICpkZXYgPSAmcGZkZXYtPnBkZXYtPmRldjsK
-PiAgICAgICAgIHN0cnVjdCBkZXZmcmVxICpkZXZmcmVxOwo+ICAgICAgICAgc3RydWN0IHRoZXJt
-YWxfY29vbGluZ19kZXZpY2UgKmNvb2xpbmc7Cj4gKyAgICAgICBjb25zdCBjaGFyICptYWxpID0g
-Im1hbGkiOwo+ICsgICAgICAgc3RydWN0IG9wcF90YWJsZSAqb3BwX3RhYmxlID0gTlVMTDsKPiAr
-Cj4gKyAgICAgICAvKiBSZWd1bGF0b3IgaXMgb3B0aW9uYWwgKi8KPiArICAgICAgIG9wcF90YWJs
-ZSA9IGRldl9wbV9vcHBfc2V0X3JlZ3VsYXRvcnMoZGV2LCAmbWFsaSwgMSk7Cj4gKyAgICAgICBp
-ZiAoSVNfRVJSKG9wcF90YWJsZSkpIHsKPiArICAgICAgICAgICAgICAgcmV0ID0gUFRSX0VSUihv
-cHBfdGFibGUpOwo+ICsgICAgICAgICAgICAgICBpZiAocmV0ICE9IC1FTk9ERVYpIHsKPiArICAg
-ICAgICAgICAgICAgICAgICAgICBEUk1fREVWX0VSUk9SKGRldiwgIkZhaWxlZCB0byBzZXQgcmVn
-dWxhdG9yOiAlZFxuIiwgcmV0KTsKPiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0
-Owo+ICsgICAgICAgICAgICAgICB9Cj4gKyAgICAgICB9Cj4gKyAgICAgICBwZmRldi0+ZGV2ZnJl
-cS5vcHBfdGFibGUgPSBvcHBfdGFibGU7Cj4KPiAgICAgICAgIHJldCA9IGRldl9wbV9vcHBfb2Zf
-YWRkX3RhYmxlKGRldik7Cj4gLSAgICAgICBpZiAocmV0ID09IC1FTk9ERVYpIC8qIE9wdGlvbmFs
-LCBjb250aW51ZSB3aXRob3V0IGRldmZyZXEgKi8KPiAtICAgICAgICAgICAgICAgcmV0dXJuIDA7
-Cj4gLSAgICAgICBlbHNlIGlmIChyZXQpCj4gLSAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4g
-KyAgICAgICBpZiAocmV0KSB7Cj4gKyAgICAgICAgICAgICAgIGlmIChyZXQgPT0gLUVOT0RFVikg
-LyogT3B0aW9uYWwsIGNvbnRpbnVlIHdpdGhvdXQgZGV2ZnJlcSAqLwo+ICsgICAgICAgICAgICAg
-ICAgICAgICAgIHJldCA9IDA7Cj4gKyAgICAgICAgICAgICAgIGdvdG8gZXJyX29wcF9yZWc7Cj4g
-KyAgICAgICB9Cj4KPiAgICAgICAgIHBhbmZyb3N0X2RldmZyZXFfcmVzZXQocGZkZXYpOwo+Cj4g
-QEAgLTExOSw2ICsxMzMsMTIgQEAgaW50IHBhbmZyb3N0X2RldmZyZXFfaW5pdChzdHJ1Y3QgcGFu
-ZnJvc3RfZGV2aWNlICpwZmRldikKPiAgZXJyX29wcDoKPiAgICAgICAgIGRldl9wbV9vcHBfb2Zf
-cmVtb3ZlX3RhYmxlKGRldik7Cj4KPiArZXJyX29wcF9yZWc6Cj4gKyAgICAgICBpZiAocGZkZXYt
-PmRldmZyZXEub3BwX3RhYmxlKSB7Cj4gKyAgICAgICAgICAgICAgIGRldl9wbV9vcHBfcHV0X3Jl
-Z3VsYXRvcnMocGZkZXYtPmRldmZyZXEub3BwX3RhYmxlKTsKPiArICAgICAgICAgICAgICAgcGZk
-ZXYtPmRldmZyZXEub3BwX3RhYmxlID0gTlVMTDsKPiArICAgICAgIH0KPiArCj4gICAgICAgICBy
-ZXR1cm4gcmV0Owo+ICB9Cj4KPiBAQCAtMTI2LDcgKzE0NiwxMyBAQCB2b2lkIHBhbmZyb3N0X2Rl
-dmZyZXFfZmluaShzdHJ1Y3QgcGFuZnJvc3RfZGV2aWNlICpwZmRldikKPiAgewo+ICAgICAgICAg
-aWYgKHBmZGV2LT5kZXZmcmVxLmNvb2xpbmcpCj4gICAgICAgICAgICAgICAgIGRldmZyZXFfY29v
-bGluZ191bnJlZ2lzdGVyKHBmZGV2LT5kZXZmcmVxLmNvb2xpbmcpOwo+ICsKPiAgICAgICAgIGRl
-dl9wbV9vcHBfb2ZfcmVtb3ZlX3RhYmxlKCZwZmRldi0+cGRldi0+ZGV2KTsKPiArCj4gKyAgICAg
-ICBpZiAocGZkZXYtPmRldmZyZXEub3BwX3RhYmxlKSB7Cj4gKyAgICAgICAgICAgICAgIGRldl9w
-bV9vcHBfcHV0X3JlZ3VsYXRvcnMocGZkZXYtPmRldmZyZXEub3BwX3RhYmxlKTsKPiArICAgICAg
-ICAgICAgICAgcGZkZXYtPmRldmZyZXEub3BwX3RhYmxlID0gTlVMTDsKPiArICAgICAgIH0KPiAg
-fQo+Cj4gIHZvaWQgcGFuZnJvc3RfZGV2ZnJlcV9yZXN1bWUoc3RydWN0IHBhbmZyb3N0X2Rldmlj
-ZSAqcGZkZXYpCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9z
-dF9kZXZpY2UuaCBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaAo+
-IGluZGV4IDA2NzEzODExYjkyYy4uZjZiMGM3NzlkZmU1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaAo+IEBAIC04Niw2ICs4Niw3IEBAIHN0cnVjdCBw
-YW5mcm9zdF9kZXZpY2Ugewo+ICAgICAgICAgc3RydWN0IHsKPiAgICAgICAgICAgICAgICAgc3Ry
-dWN0IGRldmZyZXEgKmRldmZyZXE7Cj4gICAgICAgICAgICAgICAgIHN0cnVjdCB0aGVybWFsX2Nv
-b2xpbmdfZGV2aWNlICpjb29saW5nOwo+ICsgICAgICAgICAgICAgICBzdHJ1Y3Qgb3BwX3RhYmxl
-ICpvcHBfdGFibGU7Cj4gICAgICAgICAgICAgICAgIGt0aW1lX3QgYnVzeV90aW1lOwo+ICAgICAg
-ICAgICAgICAgICBrdGltZV90IGlkbGVfdGltZTsKPiAgICAgICAgICAgICAgICAga3RpbWVfdCB0
-aW1lX2xhc3RfdXBkYXRlOwo+IC0tCj4gMi4yMC4xCj4KX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+ADV7511 support I2S or SPDIF as audio input interfaces. This commit
+enable support for SPDIF.
+
+Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
+Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+---
+ drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+index a428185be2c1..1e9b128d229b 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+@@ -119,6 +119,9 @@ int adv7511_hdmi_hw_params(struct device *dev, void *data,
+ 		audio_source = ADV7511_AUDIO_SOURCE_I2S;
+ 		i2s_format = ADV7511_I2S_FORMAT_LEFT_J;
+ 		break;
++	case HDMI_SPDIF:
++		audio_source = ADV7511_AUDIO_SOURCE_SPDIF;
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -175,11 +178,21 @@ static int audio_startup(struct device *dev, void *data)
+ 	/* use Audio infoframe updated info */
+ 	regmap_update_bits(adv7511->regmap, ADV7511_REG_GC(1),
+ 				BIT(5), 0);
++	/* enable SPDIF receiver */
++	if (adv7511->audio_source == ADV7511_AUDIO_SOURCE_SPDIF)
++		regmap_update_bits(adv7511->regmap, ADV7511_REG_AUDIO_CONFIG,
++				   BIT(7), BIT(7));
++
+ 	return 0;
+ }
+ 
+ static void audio_shutdown(struct device *dev, void *data)
+ {
++	struct adv7511 *adv7511 = dev_get_drvdata(dev);
++
++	if (adv7511->audio_source == ADV7511_AUDIO_SOURCE_SPDIF)
++		regmap_update_bits(adv7511->regmap, ADV7511_REG_AUDIO_CONFIG,
++				   BIT(7), 0);
+ }
+ 
+ static int adv7511_hdmi_i2s_get_dai_id(struct snd_soc_component *component,
+@@ -213,6 +226,7 @@ static const struct hdmi_codec_pdata codec_data = {
+ 	.ops = &adv7511_codec_ops,
+ 	.max_i2s_channels = 2,
+ 	.i2s = 1,
++	.spdif = 1,
+ };
+ 
+ int adv7511_audio_init(struct device *dev, struct adv7511 *adv7511)
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
