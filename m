@@ -1,77 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8051A85C0
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 18:53:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB551A87BA
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 19:41:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5D776E4FE;
-	Tue, 14 Apr 2020 16:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A08146E50B;
+	Tue, 14 Apr 2020 17:41:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 874A96E4F9
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 16:52:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586883177;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NH9riSJWIwA5MJGEKQ1bph+dSoJ7N2LR20v9on+n36c=;
- b=DEfA6DnDToVNektqackuxJE0Xrq80DG3HGf9ipu5rPxtHVlwa3XMWz7rd/aLpJ0EMrZSX+
- gTtxuXotWmbXGfyGU2H2mT0+sL6x+aOGLcEFq1Z+Ws5khk0kGddUe16zZdNdDMCqxU7B7W
- z2nkN7nUvd8p1Sg1si8hmFikUXl1B/8=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-7hAXRb9LNwmDRWHDyFJDeA-1; Tue, 14 Apr 2020 12:52:54 -0400
-X-MC-Unique: 7hAXRb9LNwmDRWHDyFJDeA-1
-Received: by mail-qk1-f198.google.com with SMTP id k138so12266954qke.15
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 09:52:53 -0700 (PDT)
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
+ [209.85.167.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B30D06E50C
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 17:41:09 +0000 (UTC)
+Received: by mail-oi1-f193.google.com with SMTP id k9so11137240oia.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 10:41:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=NH9riSJWIwA5MJGEKQ1bph+dSoJ7N2LR20v9on+n36c=;
- b=tL99xkTUlISRzwYhmq7hveJLgQBGZ5epboA63YaxMKoLNrAuRARp2oZW1/Y1YOyJ5G
- Nwf5obfq9UU3p8pw0LJFOAKI8l5388oNggZadqSopQ6WYDsPngZ0TPOv7rwlKt7wNrbO
- 3jGLSiLI37I5WVGdfwBuwSANUp4t+0FCjnbAqdAmgHIRitXPWk06znJPwclUc1cUweMl
- Y/nKKLXaTITtml2EbJC66u4da3onJ5ve5hwtCMW/JFk/O9PI4YbpPeJIUvaJqhBNYk6y
- 5omo3yV8T97WP/2AhVRQW8yHRyoPHn2wSsboePwY1YsN7lGrF7ifS1UVMe6gFWl9e5yr
- Jp6w==
-X-Gm-Message-State: AGi0PuYpNuM93DHO3pPok/CQkSgWUkegDtiACI+WnxJeQqKRNQoYM0YB
- nMCznZzAkfcDrvJd1EywpvaAnEpJtfsCaWvMaHQRzlIJgV8nkB1Te3Zf/PK69OgCnZs8iJuF333
- TLxLlYp+suTE7rz1/KbEmfGKKfD5b
-X-Received: by 2002:aed:33a4:: with SMTP id v33mr16397039qtd.289.1586883173351; 
- Tue, 14 Apr 2020 09:52:53 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLJ3Yw9j9pzYkEgXk1oqksYr1eCgriQZ9BixGsOQAVs0d1y/GYfsWqxFhJ8l+Ojwa6qT9mvYQ==
-X-Received: by 2002:aed:33a4:: with SMTP id v33mr16397015qtd.289.1586883173059; 
- Tue, 14 Apr 2020 09:52:53 -0700 (PDT)
-Received: from Ruby.lyude.net (static-173-76-190-23.bstnma.ftas.verizon.net.
- [173.76.190.23])
- by smtp.gmail.com with ESMTPSA id c27sm11511330qte.49.2020.04.14.09.52.51
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=oy5Pa2pThiwkYu8G4GkTHJjme1DMBn7sY2MflS7Zuig=;
+ b=Axv1gH5vXi/SEoFWZ7naxdIg4+sGDGnJR31VfIOLTASX8dBiDD+u5yMY9FJZIcoRyr
+ wsJcTfbYT92F5Ke0XNCVIQdaerSfk9aeolUvjxuyVNaG51FYBPLL2CJOM53MIykHaJQK
+ 1pTkSEaqr1L1aHljlFDtWuG5r6kPOx+HhYYfBZK6e6Zda/8in28OAvypFo38gykmSGJG
+ d1GgBwkbN7WMegPBtswl+x5Yluhfsc2c9JhS4i4xDw4BjoCMOqqJZPZ7gtbQGKIeJPs/
+ IQOzdfkF2x2ZXdp/v7GQSusuRErsFJVwUT7iIpnRIZJfIdcWQ09eFrGpQ5nOPB7NwH7k
+ YWpw==
+X-Gm-Message-State: AGi0Puans4366Q9J7Sgf/bti3W6bDx79arhQYJrQn41Iv7v9FurnSqh3
+ sTlMMhUM+52qwUK+MTEQvTKW8EE=
+X-Google-Smtp-Source: APiQypKD41PgBlcTSotaK7Yjth1ocx/nKnHfnnEGSNYS9OULrLgLODfCIhLnCRAsdGgLQ4hyeSvY7w==
+X-Received: by 2002:aca:ef82:: with SMTP id n124mr15636268oih.73.1586886069014; 
+ Tue, 14 Apr 2020 10:41:09 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id e22sm3984048otk.59.2020.04.14.10.41.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 09:52:52 -0700 (PDT)
-Message-ID: <a2d9da054ace3f0ff59373c5a6252f25e1c3df4b.camel@redhat.com>
-Subject: Re: [PATCH 1/9] drm/vblank: Add vblank works
-From: Lyude Paul <lyude@redhat.com>
-To: Tejun Heo <tj@kernel.org>
-Date: Tue, 14 Apr 2020 12:52:51 -0400
-In-Reply-To: <20200413204243.GL60335@mtj.duckdns.org>
-References: <20200318004159.235623-1-lyude@redhat.com>
- <20200318004159.235623-2-lyude@redhat.com>
- <20200318134657.GV2363188@phenom.ffwll.local>
- <e4fb0c39ec024d60587e5e1e70b171b99eb537f4.camel@redhat.com>
- <faf63d8a9ed23c16af69762f59d0dca6b2bf085f.camel@redhat.com>
- <96cb912809f99d04cd5cdd46c77b66b8c1163380.camel@redhat.com>
- <20200413204243.GL60335@mtj.duckdns.org>
-Organization: Red Hat
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+ Tue, 14 Apr 2020 10:41:08 -0700 (PDT)
+Received: (nullmailer pid 6218 invoked by uid 1000);
+ Tue, 14 Apr 2020 17:41:07 -0000
+Date: Tue, 14 Apr 2020 12:41:07 -0500
+From: Rob Herring <robh@kernel.org>
+To: Jitao Shi <jitao.shi@mediatek.com>
+Subject: Re: [PATCH v14 1/3] dt-bindings: display: mediatek: control dpi pins
+ mode to avoid leakage
+Message-ID: <20200414174107.GA6165@bogus>
+References: <20200403080350.95826-1-jitao.shi@mediatek.com>
+ <20200403080350.95826-2-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <20200403080350.95826-2-jitao.shi@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,40 +62,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Jitao Shi <jitao.shi@mediatek.com>, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, huijuan.xie@mediatek.com, stonea168@163.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
+ eddie.huang@mediatek.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2020-04-13 at 16:42 -0400, Tejun Heo wrote:
-> Hello,
+On Fri, 3 Apr 2020 16:03:48 +0800, Jitao Shi wrote:
+> Add property "pinctrl-names" to swap pin mode between gpio and dpi mode. Set
+> the dpi pins to gpio mode and output-low to avoid leakage current when dpi
+> disabled.
 > 
-> On Mon, Apr 13, 2020 at 04:18:57PM -0400, Lyude Paul wrote:
-> > Hi Tejun! Sorry to bother you, but have you had a chance to look at any of
-> > this yet? Would like to continue moving this forward
-> 
-> Sorry, wasn't following this thread. Have you looked at kthread_worker?
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> ---
+>  .../devicetree/bindings/display/mediatek/mediatek,dpi.txt   | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
 
-Hi, thanks for the response! And yes-I think this would actually be perfect
-for what we need, I guess one question I might as well ask since I've got you
-here: would patches to expose an unlocked version of kthread_queue_worker() be
-accepted? With something like that I should be able to just reuse the
-delayed_work_list and spinlocks that come with kthread_worker which would make
-the vblank works implementation a bit easier
->  
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/linux/kthread.h#n71
-> 
-> And, thanks a lot for the vblank explanation. I really enjoyed readin it. :)
-> 
--- 
-Cheers,
-	Lyude Paul (she/her)
-	Associate Software Engineer at Red Hat
-
+Acked-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
