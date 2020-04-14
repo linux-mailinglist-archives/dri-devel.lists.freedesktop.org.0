@@ -1,64 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A451A7FCB
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 16:29:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4841A93F6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:18:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C164A6E17C;
-	Tue, 14 Apr 2020 14:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73A136E84B;
+	Wed, 15 Apr 2020 07:17:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0538A6E17C;
- Tue, 14 Apr 2020 14:29:37 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id k11so13951442wrp.5;
- Tue, 14 Apr 2020 07:29:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NN/N/vC8yy9yn1dSzJq7yVqBlSa2o6+uOJvDXpLTAQU=;
- b=kd5qfu8YUtzzvDO+htmr4EI98+O8OO7zGM3RPGd2gNW/ICIyQ73uMilQJ4V+vubY+b
- DgX4ujHO4brJz1ZQspIqqP8BW6M1hx0UBPI3IpAKVyOlhdkTXd+KZ0NoTlHZvfmkKInA
- kdrqtVCm9qDKuIK3VwTYrfc+mdHLe3WBVSjR62ulMId/gIwFtT3/OFtAcct19h/9/CND
- KDPCImWv+1J8YMiu25vHssP+R79lHFR1MJAstmHLphbTdC38L4bg5gdN1RvmjAc9y/SQ
- XoLFD6f4b6hnr6ZAarf8MqaJSNIhGllnWgZcafYnMjhvRb9fKcf5fryRxD+Tcu0gj8yt
- HOCw==
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 829FB6E1D2;
+ Tue, 14 Apr 2020 14:35:23 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id i3so2062262pgk.1;
+ Tue, 14 Apr 2020 07:35:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NN/N/vC8yy9yn1dSzJq7yVqBlSa2o6+uOJvDXpLTAQU=;
- b=RafvfOhZ7NSI2NXYCDcFp/8iqFFQMMieUoHvWD4pyMXr1+ZSdfNqvYU6v1V6clGorZ
- tARwsiuOjDRl247PdMTGJtHSkyKgPsQtC7XRt+eoLwx3wP+HTN6EdJPC0ovA/A/kxhma
- ke2zPryzicGX7rJa0y4NlWP42JbnB9W7n1optE0XhsaHAdCSyMgZQwk7ESJECZjb792K
- eYDCfziUq9rwKPuitsWOJQyrgwmZbjv+dAzwR9KQ8yc3Vs6FIxZ3Ev15wmuFGnd9havT
- FM8AHZvnEF5sfDz5+EjNsSLvxutMGPUJx95NUsE6BvOS2n0ErCMotWqNoL4ea+MVIsUD
- EaUA==
-X-Gm-Message-State: AGi0PuY5bKjDVcBIZf/uVOMCaOhzLuvN48yxMId33mqzKNPHK5McOJr2
- GBUrg25LaVVU0jb0GIYFp7noURzTaqzSb2AkKUs=
-X-Google-Smtp-Source: APiQypK7DVeTHvRVNA7KWmL1h/VYKQr9zjeXnI1NBaki6BszL6NTZkquqm2KSKdABHLA0JjFyUi7Zz3UL1kRuKfcT24=
-X-Received: by 2002:a5d:50c9:: with SMTP id f9mr5299226wrt.191.1586874575556; 
- Tue, 14 Apr 2020 07:29:35 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=rBqTt0fHqGzLLLy8qeio9bjdtjym9/WMds2EnBXmXZQ=;
+ b=qYKGpU8kAuSIUjPnBiVhVainmm6RUwWexvPY8624t7CN9JnPRqEU0IQoleLfwNVUs8
+ BTnppzoomw9C0qGESbtU7lwuUoxa6Eu0KqtEf7p2MgT0UhJcGIYHVkV0CNff5lnYsqfa
+ JM5TkeYXR4eqdBjit/e710zpwRyw0uGoEiy20/S+6dGEvyb9ZCrSXc+58OSaQL8SYAUg
+ s40Og+DDhzPRHVJGzMY2d4Nsrn8zMxpMSxtbK++04aLNvloVkbM8k1yk6/nhIlsFTH/d
+ HYSROP3dMPhHsTGTQPWU5zMnOlJdnItWvLpeDqgldz3RJ2Ii2wvPO3zBVFtnBVPhQDDn
+ rTQQ==
+X-Gm-Message-State: AGi0PuajynD/Yk4n410owrm2Mrz7zhJdc9VT3EmZK9k9UcjijAUPJnG7
+ 3XKxjvmco9SmUYMk1tRhFg4=
+X-Google-Smtp-Source: APiQypLeApFBSy8U/PtpeBuAxlxao12boDe4O39ePDAlMjL1FL/bamWKZ5BnsQ9TQXvtr20djFEifQ==
+X-Received: by 2002:a62:8202:: with SMTP id w2mr23015058pfd.117.1586874922890; 
+ Tue, 14 Apr 2020 07:35:22 -0700 (PDT)
+Received: from sultan-box.localdomain (static-198-54-129-52.cust.tzulo.com.
+ [198.54.129.52])
+ by smtp.gmail.com with ESMTPSA id x18sm4147758pfi.22.2020.04.14.07.35.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Apr 2020 07:35:22 -0700 (PDT)
+Date: Tue, 14 Apr 2020 07:35:18 -0700
+From: Sultan Alsawaf <sultan@kerneltoast.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH v2] drm/i915: Fix ref->mutex deadlock in i915_active_wait()
+Message-ID: <20200414143518.GA2082@sultan-box.localdomain>
+References: <20200407065210.GA263852@kroah.com>
+ <20200407071809.3148-1-sultan@kerneltoast.com>
+ <20200410090838.GD1691838@kroah.com>
+ <20200410141738.GB2025@sultan-box.localdomain>
+ <20200411113957.GB2606747@kroah.com>
+ <158685210730.16269.15932754047962572236@build.alporthouse.com>
 MIME-Version: 1.0
-References: <20200226190152.16131-1-Kenny.Ho@amd.com>
- <CAOWid-eyMGZfOyfEQikwCmPnKxx6MnTm17pBvPeNpgKWi0xN-w@mail.gmail.com>
- <20200324184633.GH162390@mtj.duckdns.org>
- <CAOWid-cS-5YkFBLACotkZZCH0RSjHH94_r3VFH8vEPOubzSpPA@mail.gmail.com>
- <20200413191136.GI60335@mtj.duckdns.org>
- <20200414122015.GR3456981@phenom.ffwll.local>
- <CAOWid-f-XWyg0o3znH28xYndZ0OMzWfv3OOuWw08iJDKjrqFGA@mail.gmail.com>
- <CAKMK7uEs5QvUrxKcTFksO30D+x=XJnV+_TA-ebawcihtLqDG0Q@mail.gmail.com>
- <CAOWid-fwEOk+4CvUAumo=byWpq4vVUoCiwW1N6F-0aEd6G7d4A@mail.gmail.com>
- <CAKMK7uHwX9NbGb1ptnP=CAwxDayfM_z9kvFMMb=YiH+ynjNqKQ@mail.gmail.com>
- <CAOWid-dJckd8kV57MKNA_W83SN4OHnOGPURL7oOm-SqoYRLX=w@mail.gmail.com>
- <CAKMK7uGWxE-gDa25mi4EtLqPKZZfacm0VhTem=StHAQABRAkUQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uGWxE-gDa25mi4EtLqPKZZfacm0VhTem=StHAQABRAkUQ@mail.gmail.com>
-From: Kenny Ho <y2kenny@gmail.com>
-Date: Tue, 14 Apr 2020 10:29:24 -0400
-Message-ID: <CAOWid-eaASFFdA5zLxaLO72OGsUVz_BgM-sGP2OQykXCzizmnw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/11] new cgroup controller for gpu/drm subsystem
-To: Daniel Vetter <daniel@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <158685210730.16269.15932754047962572236@build.alporthouse.com>
+X-Mailman-Approved-At: Wed, 15 Apr 2020 07:17:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,158 +63,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenny Ho <Kenny.Ho@amd.com>, "Kuehling, Felix" <felix.kuehling@amd.com>,
- jsparks@cray.com, dri-devel <dri-devel@lists.freedesktop.org>,
- lkaplan@cray.com, Alex Deucher <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Greathouse,
- Joseph" <joseph.greathouse@amd.com>, Tejun Heo <tj@kernel.org>,
- cgroups@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Greg KH <gregkh@linuxfoundation.org>, intel-gfx@lists.freedesktop.org,
+ stable@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 10:04 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> This has _nothing_ to do with Intel (I think over the past 25 years or
-> so intel has implemented all 4 versions of gpu splitting that I
-> listed, but not entirely sure).
->
-> So again pls less tribal fighting, more collaboration. If you can't do
-> that, let's pick nouveau/nvidia as arbitrary neutral ground.
+On Tue, Apr 14, 2020 at 09:15:07AM +0100, Chris Wilson wrote:
+> The patch does not fix a deadlock. Greg, this patch is not a backport of
+> a bugfix, why is it in stable?
+> -Chris
 
-So are you saying Intel has implemented a form of masking before?  I
-don't think we need to just pick a vendor as a neutral ground.  The
-idea of spatial sharing vs time sharing is not vendor specific... it's
-not even GPU specific.  This is why I asked the two questions below.
+Here's the deadlock this supposedly doesn't fix:
+INFO: task kswapd0:178 blocked for more than 122 seconds.
+      Tainted: G     U            5.4.28-00014-gd1e04f91d2c5 #4
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+kswapd0         D    0   178      2 0x80004000
+Call Trace:
+ ? __schedule+0x2f3/0x750
+ schedule+0x39/0xa0
+ schedule_preempt_disabled+0xa/0x10
+ __mutex_lock.isra.0+0x19b/0x500
+ ? i915_request_wait+0x25b/0x370
+ active_retire+0x26/0x30
+ i915_active_wait+0xa3/0x1a0
+ i915_vma_unbind+0xe2/0x1c0
+ i915_gem_object_unbind+0x111/0x140
+ i915_gem_shrink+0x21b/0x530
+ i915_gem_shrinker_scan+0xfd/0x120
+ do_shrink_slab+0x154/0x2c0
+ shrink_slab+0xd0/0x2f0
+ shrink_node+0xdf/0x420
+ balance_pgdat+0x2e3/0x540
+ kswapd+0x200/0x3c0
+ ? __wake_up_common_lock+0xc0/0xc0
+ kthread+0xfb/0x130
+ ? balance_pgdat+0x540/0x540
+ ? __kthread_parkme+0x60/0x60
+ ret_from_fork+0x1f/0x40
+INFO: task kworker/u32:5:222 blocked for more than 122 seconds.
+      Tainted: G     U            5.4.28-00014-gd1e04f91d2c5 #4
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+kworker/u32:5   D    0   222      2 0x80004000
+Workqueue: i915 idle_work_handler
+Call Trace:
+ ? __schedule+0x2f3/0x750
+ schedule+0x39/0xa0
+ schedule_preempt_disabled+0xa/0x10
+ __mutex_lock.isra.0+0x19b/0x500
+ idle_work_handler+0x34/0x120
+ process_one_work+0x1ea/0x3a0
+ worker_thread+0x4d/0x3f0
+ kthread+0xfb/0x130
+ ? process_one_work+0x3a0/0x3a0
+ ? __kthread_parkme+0x60/0x60
+ ret_from_fork+0x1f/0x40
+INFO: task mpv:1535 blocked for more than 122 seconds.
+      Tainted: G     U            5.4.28-00014-gd1e04f91d2c5 #4
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+mpv             D    0  1535      1 0x00000000
+Call Trace:
+ ? __schedule+0x2f3/0x750
+ schedule+0x39/0xa0
+ schedule_preempt_disabled+0xa/0x10
+ __mutex_lock.isra.0+0x19b/0x500
+ __i915_gem_free_objects+0x68/0x190
+ i915_gem_create_ioctl+0x18/0x30
+ ? i915_gem_dumb_create+0xa0/0xa0
+ drm_ioctl_kernel+0xb2/0x100
+ drm_ioctl+0x209/0x360
+ ? i915_gem_dumb_create+0xa0/0xa0
+ do_vfs_ioctl+0x43f/0x6c0
+ ksys_ioctl+0x5e/0x90
+ __x64_sys_ioctl+0x16/0x20
+ do_syscall_64+0x4e/0x140
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x7fb49f1b32eb
+Code: Bad RIP value.
+RSP: 002b:00007ffef9eb0948 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007ffef9eb09c0 RCX: 00007fb49f1b32eb
+RDX: 00007ffef9eb09c0 RSI: 00000000c010645b RDI: 0000000000000008
+RBP: 00000000c010645b R08: 000055fdb80c1370 R09: 000055fdb80c14e0
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007fb4781e56b0
+R13: 0000000000000008 R14: 00007fb4781e5560 R15: 00007fb4781e56b0
+INFO: task kswapd0:178 blocked for more than 245 seconds.
+      Tainted: G     U            5.4.28-00014-gd1e04f91d2c5 #4
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+kswapd0         D    0   178      2 0x80004000
+Call Trace:
+ ? __schedule+0x2f3/0x750
+ schedule+0x39/0xa0
+ schedule_preempt_disabled+0xa/0x10
+ __mutex_lock.isra.0+0x19b/0x500
+ ? i915_request_wait+0x25b/0x370
+ active_retire+0x26/0x30
+ i915_active_wait+0xa3/0x1a0
+ i915_vma_unbind+0xe2/0x1c0
+ i915_gem_object_unbind+0x111/0x140
+ i915_gem_shrink+0x21b/0x530
+ i915_gem_shrinker_scan+0xfd/0x120
+ do_shrink_slab+0x154/0x2c0
+ shrink_slab+0xd0/0x2f0
+ shrink_node+0xdf/0x420
+ balance_pgdat+0x2e3/0x540
+ kswapd+0x200/0x3c0
+ ? __wake_up_common_lock+0xc0/0xc0
+ kthread+0xfb/0x130
+ ? balance_pgdat+0x540/0x540
+ ? __kthread_parkme+0x60/0x60
+ ret_from_fork+0x1f/0x40
+INFO: task kworker/u32:5:222 blocked for more than 245 seconds.
+      Tainted: G     U            5.4.28-00014-gd1e04f91d2c5 #4
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+kworker/u32:5   D    0   222      2 0x80004000
+Workqueue: i915 idle_work_handler
+Call Trace:
+ ? __schedule+0x2f3/0x750
+ schedule+0x39/0xa0
+ schedule_preempt_disabled+0xa/0x10
+ __mutex_lock.isra.0+0x19b/0x500
+ idle_work_handler+0x34/0x120
+ process_one_work+0x1ea/0x3a0
+ worker_thread+0x4d/0x3f0
+ kthread+0xfb/0x130
+ ? process_one_work+0x3a0/0x3a0
+ ? __kthread_parkme+0x60/0x60
+ ret_from_fork+0x1f/0x40
+INFO: task mpv:1535 blocked for more than 245 seconds.
+      Tainted: G     U            5.4.28-00014-gd1e04f91d2c5 #4
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+mpv             D    0  1535      1 0x00000000
+Call Trace:
+ ? __schedule+0x2f3/0x750
+ schedule+0x39/0xa0
+ schedule_preempt_disabled+0xa/0x10
+ __mutex_lock.isra.0+0x19b/0x500
+ __i915_gem_free_objects+0x68/0x190
+ i915_gem_create_ioctl+0x18/0x30
+ ? i915_gem_dumb_create+0xa0/0xa0
+ drm_ioctl_kernel+0xb2/0x100
+ drm_ioctl+0x209/0x360
+ ? i915_gem_dumb_create+0xa0/0xa0
+ do_vfs_ioctl+0x43f/0x6c0
+ ksys_ioctl+0x5e/0x90
+ __x64_sys_ioctl+0x16/0x20
+ do_syscall_64+0x4e/0x140
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x7fb49f1b32eb
+Code: Bad RIP value.
+RSP: 002b:00007ffef9eb0948 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007ffef9eb09c0 RCX: 00007fb49f1b32eb
+RDX: 00007ffef9eb09c0 RSI: 00000000c010645b RDI: 0000000000000008
+RBP: 00000000c010645b R08: 000055fdb80c1370 R09: 000055fdb80c14e0
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007fb4781e56b0
+R13: 0000000000000008 R14: 00007fb4781e5560 R15: 00007fb4781e56b0
 
-> > Perhaps the following questions can help keep the discussion technical:
-> > 1)  Is it possible to implement non-work-conserving distribution of
-> > GPU without spatial sharing?  (If yes, I'd love to hear a suggestion,
-> > if not...question 2.)
-> > 2)  If spatial sharing is required to support GPU HPC use cases, what
-> > would you implement if you have the hardware support today?
->
-> The thing we can currently do in upstream (from how I'm understanding
-> hw) is assign entire PCI devices to containers, so essentially only
-> the entire /dev/dri/* cdev. That works, and it works across all
-> drivers we have in upstream right now.
->
-> Anything more fine-grained I don't think is currently possible,
-> because everyone has a different idea of how to split up gpus. It
-> would be nice to have it, but in upstream, cross-vendor, I'm just not
-> seeing it happen right now.
+Dead inside the shrinker, and very easy to reproduce.
 
-I understand the reality, but what would you implement to support the
-concept (GPU in HPC, which you said you are not against) if you have
-the hw support today?  How would you support low-jitter/low-latency
-sharing of a single GPU if you have whatever hardware support you need
-today?
-
-Regards,
-Kenny
-
-
-> > On Tue, Apr 14, 2020 at 9:26 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Tue, Apr 14, 2020 at 3:14 PM Kenny Ho <y2kenny@gmail.com> wrote:
-> > > >
-> > > > Ok.  I was hoping you can clarify the contradiction between the
-> > > > existance of the spec below and your "not something any other gpu can
-> > > > reasonably support" statement.  I mean, OneAPI is Intel's spec and
-> > > > doesn't that at least make SubDevice support "reasonable" for one more
-> > > > vendor?
-> > > >
-> > > > Partisanship aside, as a drm co-maintainer, do you really not see the
-> > > > need for non-work-conserving way of distributing GPU as a resource?
-> > > > You recognized the latencies involved (although that's really just
-> > > > part of the story... time sharing is never going to be good enough
-> > > > even if your switching cost is zero.)  As a drm co-maintainer, are you
-> > > > suggesting GPU has no place in the HPC use case?
-> > >
-> > >  So I did chat with people and my understanding for how this subdevice
-> > > stuff works is roughly, from least to most fine grained support:
-> > > - Not possible at all, hw doesn't have any such support
-> > > - The hw is actually not a single gpu, but a bunch of chips behind a
-> > > magic bridge/interconnect, and there's a scheduler load-balancing
-> > > stuff and you can't actually run on all "cores" in parallel with one
-> > > compute/3d job. So subdevices just give you some of these cores, but
-> > > from client api pov they're exactly as powerful as the full device. So
-> > > this kinda works like assigning an entire NUMA node, including all the
-> > > cpu cores and memory bandwidth and everything.
-> > > - Hw has multiple "engines" which share resources (like compute cores
-> > > or whatever) behind the scenes. There's no control over how this
-> > > sharing works really, and whether you have guarantees about minimal
-> > > execution resources or not. This kinda works like hyperthreading.
-> > > - Then finally we have the CU mask thing amdgpu has. Which works like
-> > > what you're proposing, works on amd.
-> > >
-> > > So this isn't something that I think we should standardize in a
-> > > resource management framework like cgroups. Because it's a complete
-> > > mess. Note that _all_ the above things (including the "no subdevices"
-> > > one) are valid implementations of "subdevices" in the various specs.
-> > >
-> > > Now on your question on "why was this added to various standards?"
-> > > because opencl has that too (and the rocm thing, and everything else
-> > > it seems). What I heard is that a few people pushed really hard, and
-> > > no one objected hard enough (because not having subdevices is a
-> > > standards compliant implementation), so that's why it happened. Just
-> > > because it's in various standards doesn't mean that a) it's actually
-> > > standardized in a useful fashion and b) something we should just
-> > > blindly adopt.
-> > >
-> > > Also like where exactly did you understand that I'm against gpus in
-> > > HPC uses cases. Approaching this in a slightly less tribal way would
-> > > really, really help to get something landed (which I'd like to see
-> > > happen, personally). Always spinning this as an Intel vs AMD thing
-> > > like you do here with every reply really doesn't help moving this in.
-> > >
-> > > So yeah stricter isolation is something customers want, it's just not
-> > > something we can really give out right now at a level below the
-> > > device.
-> > > -Daniel
-> > >
-> > > >
-> > > > Regards,
-> > > > Kenny
-> > > >
-> > > > On Tue, Apr 14, 2020 at 8:52 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > >
-> > > > > On Tue, Apr 14, 2020 at 2:47 PM Kenny Ho <y2kenny@gmail.com> wrote:
-> > > > > > On Tue, Apr 14, 2020 at 8:20 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > > My understanding from talking with a few other folks is that
-> > > > > > > the cpumask-style CU-weight thing is not something any other gpu can
-> > > > > > > reasonably support (and we have about 6+ of those in-tree)
-> > > > > >
-> > > > > > How does Intel plan to support the SubDevice API as described in your
-> > > > > > own spec here:
-> > > > > > https://spec.oneapi.com/versions/0.7/oneL0/core/INTRO.html#subdevice-support
-> > > > >
-> > > > > I can't talk about whether future products might or might not support
-> > > > > stuff and in what form exactly they might support stuff or not support
-> > > > > stuff. Or why exactly that's even in the spec there or not.
-> > > > >
-> > > > > Geez
-> > > > > -Daniel
-> > > > > --
-> > > > > Daniel Vetter
-> > > > > Software Engineer, Intel Corporation
-> > > > > +41 (0) 79 365 57 48 - http://blog.ffwll.ch
-> > >
-> > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > +41 (0) 79 365 57 48 - http://blog.ffwll.ch
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Sultan
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
