@@ -2,54 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B47C1A7E2F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 15:34:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 096E31A7E44
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 15:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE206E11B;
-	Tue, 14 Apr 2020 13:34:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E18C46E1EC;
+	Tue, 14 Apr 2020 13:36:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B12A6E11B
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 13:34:10 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id e20so796523otl.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 06:34:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=awnEJcjFLgtoFzsuSTC/khNWvXnkdjNoNV8n75401qg=;
- b=ize/UCa2DCDrf2j2tJiq1VfsGQ8rmrUM74l1LzvnHIECZKj5FotiClc7V4GwbvDtIo
- MZVsa7Du+XixvhPTH3lk5cLZ9079GyQN34LVcJ9VK3LQgjGGSRCrTeE6uVujZjeJzpCv
- 2jm8n2ap2zRbQOx67ZtyJxvFIuF7oW3VQoJug=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=awnEJcjFLgtoFzsuSTC/khNWvXnkdjNoNV8n75401qg=;
- b=SHu3X00uu30w8mc9HQiBjlWo1x5iHqh70z1DqQNpfjyhLU7ajP3vVpukWd4EMBP/iJ
- t+/Qrg2XdvY8W4AKGVdQ90jJZy8HFm8UCDXwu8QjRXrreoHoNV+MicYKKZXV0BD27rVn
- 1hiI017JFXL0MJAEJ+J4Leunvarp31Mvxj2hpM4kAj1+Jr+WOsx9gfGojtql50byWm1h
- G1dU9W4DUzZeY+gZ8FPuDjUBDif/3eaZJ2xszGRznyi358TzVUL9atotajA3d6rgwSiq
- v3edIK7cuJtMJfkCNifOej/wPZlwxfBWJNygJv+usCBMwMGPFnSP3BZT+ogMYHGnGaxw
- gJWA==
-X-Gm-Message-State: AGi0PuYbbQ8qqH/kAc42xP5jnsD6aNgPMjvXqLLdrrApWXJr7a0BmrhR
- DyUeMfwzKbmN7xcp3Cry+61KTPJ/NuffyAOoJutGtQ==
-X-Google-Smtp-Source: APiQypIPg1E71LDE+DG9+dmX+SgBRXQtlJRixgilEwfR9DE4dxASc8ahxmO2xeIP7ZugUKBPIQmXxhF1bqoq9EDVQ+8=
-X-Received: by 2002:a9d:2056:: with SMTP id n80mr19451012ota.281.1586871249191; 
- Tue, 14 Apr 2020 06:34:09 -0700 (PDT)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADCC36E1EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 13:36:31 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 61D8620033;
+ Tue, 14 Apr 2020 15:36:28 +0200 (CEST)
+Date: Tue, 14 Apr 2020 15:36:26 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v1 4/4] drm/bridge: tc358764: make connector creation
+ optional
+Message-ID: <20200414133626.GA14282@ravnborg.org>
+References: <20200414084727.8326-1-sam@ravnborg.org>
+ <20200414084727.8326-5-sam@ravnborg.org>
+ <20200414093816.GD19819@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <VmzN-pGfjaXAFb8aZXOnS2ibasRIsvB-EbfvxyvjLs07m-PBv4pTcX5hsB7yyrt78pxQQ6Bbu3I-hTtFSXEadxm8CkS60FLccIsZycguSfA=@emersion.fr>
- <u5X6K68v0waX25yZHLng0H_WDIFjNU-MgmnbLCoBZN7bqys3ofRm203wrYKdMnR1f4CStz3q5a12Y0ou8lCZWNMuhRmCCZ1dkTCSuDZjdy4=@emersion.fr>
- <20200414122402.GS3456981@phenom.ffwll.local>
- <gpwDGBjR8hMLhneuVUgofPTRR5r79EHlaSULKoTmIvavvl52qCQS7bXfqihSRC_ABzsDO1xmG0GSbU1d6DPanLEfW0IcsCBqbN0SFvd7gv4=@emersion.fr>
- <20200414123945.GU3456981@phenom.ffwll.local>
- <sxighAwzjE_uFWBRdafDj7J1HgLR_yV0SwWQKMpqZGgD1p0yaeeRvmw9rOUCLEMXoARE99aAm5YSGENfTsA3PK9qADKweKPeE6uGguhxpLU=@emersion.fr>
-In-Reply-To: <sxighAwzjE_uFWBRdafDj7J1HgLR_yV0SwWQKMpqZGgD1p0yaeeRvmw9rOUCLEMXoARE99aAm5YSGENfTsA3PK9qADKweKPeE6uGguhxpLU=@emersion.fr>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 14 Apr 2020 15:33:58 +0200
-Message-ID: <CAKMK7uH+xY4DroWyB6J4+M8rZrNACDde8sbFAO1dFFWvR146kA@mail.gmail.com>
-Subject: Re: KMS enums and bitfields UAPI
-To: Simon Ser <contact@emersion.fr>
+Content-Disposition: inline
+In-Reply-To: <20200414093816.GD19819@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=hD80L64hAAAA:8 a=IpJZQVW2AAAA:8 a=P1BnusSwAAAA:8 a=RwHePtW7AAAA:8
+ a=TWEMfCem_vsuCYETDDUA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=IawgGOuG5U0WyFbmm1f5:22 a=D0XLA9XvdZm18NrgonBM:22
+ a=FqraQwd7dyEg5dwJgZJs:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,85 +50,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 3:25 PM Simon Ser <contact@emersion.fr> wrote:
->
-> On Tuesday, April 14, 2020 2:39 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> > On Tue, Apr 14, 2020 at 12:34:17PM +0000, Simon Ser wrote:
-> >
-> > > On Tuesday, April 14, 2020 2:24 PM, Daniel Vetter daniel@ffwll.ch wrote:
-> > >
-> > > > On Mon, Apr 13, 2020 at 10:38:37PM +0000, Simon Ser wrote:
-> > > >
-> > > > > Daniel Vetter, Ville, any thoughts about this?
-> > > >
-> > > > Magic 8ball says "unclear", and I feel like I keep flip-flopping around on
-> > > > this.
-> > > > I think best-case outcome here is that we're a) consistent across
-> > > > compositors and b) document that consensus in the kernel's uapi section
-> > > > (for lack of better places).
-> > >
-> > > Agreed.
-> > >
-> > > > I'm not hung up on what exactly that consensus should be, as long as it's
-> > > > a consistent across projects. If you folks can't figure this out I'll do a
-> > > > live youtube sessions and throw a dice :-P
-> > >
-> > > It seems like everyone's fine with whatever decision we make as long as
-> > > we make one. :P
-> > > I guess I'll summarize again my main point here: requiring user-space
-> > > to use the KMS API to get enum values just makes it more difficult for
-> > > user-space to use KMS. I can't think of any reason why the kernel would
-> > > want to use different enum values for a standard property.
-> > > Does anybody remember if there was such a use-case when this UAPI was
-> > > introduced?
-> >
-> > I just rang across one, and boy does it suck.
-> >
-> > So we're trying to standardize across drivers as much as possible. Within
-> > the kernel we do that by decoding standardized properties directly into
-> > state structures (including any backwards compat hacks), and outside of
-> > the kernel by requiring igts so compliance across drivers can be tested.
-> >
-> > But we still have a pile of legacy properties, and there's pure wild west
-> > out there. Some have mispelled version of the same stuff, some have same
-> > naming but different values. If userspace hardcodes values then we're more
-> > screwed than if we have some indirection here to remap to standardized
-> > properties. And legacy userspace did do that full remapping dance, because
-> > that's how the first X property decoder for connectors was coded.
-> >
-> > So given that I think everyone should do the symbolic decoding, so that we
-> > can more seamlessly upgrade when we standardize props.
-> >
-> > Like I said, I'm flip-flopping on this all the time, but since I just ran
-> > over an example of trying to standardize another one of the old horrors,
-> > maybe better to make that slightly easier going forward. Userspace should
-> > be able to just stuff this all into a library and be done.
->
-> What I'm suggesting isn't to make all enum values UAPI. I'm suggesting
-> to add standard enum values as #defines in the UAPI headers to make
-> these values UAPI. Non-standard properties wouldn't be in the UAPI
-> headers, so user-space would need to query values from KMS just like
-> they do now.
+On Tue, Apr 14, 2020 at 12:38:16PM +0300, Laurent Pinchart wrote:
+> Hi Sam,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Apr 14, 2020 at 10:47:27AM +0200, Sam Ravnborg wrote:
+> > Make the connector creation optional to enable usage of the
+> > tc358764 bridge with the DRM bridge connector helper.
+> > 
+> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Andrzej Hajda <a.hajda@samsung.com>
+> > Cc: Neil Armstrong <narmstrong@baylibre.com>
+> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Hm that sounds like the half-way that wont work. Because then some
-compositors will only use the hard-coded versions, and if they don't
-have them, nag us to add them. And then be really disappointed if we
-don't (or we screw up and add them where we shouldn't). That's the
-status quo "let's have it both ways" that I think is the worst of all
-options we have. So I guess from that pov the "userspace needs to
-decode from symbolic values, always" as the only consistent one.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Thanks. I will wait a few days for more feedback before applying.
+ 
+> Thank you for the conversion. "Just a few" more bridge drivers to go,
+> and then there will be no more excuse not to use the DRM bridge
+> connector helper :-)
+
+A quick grep for ATTACH and drm_bridge_attach_flags gave me following list:
+
+adv7511				ongoing, Laurent
+analogix/analogix-anx6345	todo
+analogix/analogix-anx78xx	todo
+analogix/analogix_dp_core	todo
+cdns-dsi			done?
+display-connector.c		done
+lvds-codec			done?
+megachips-stdpxxxx-ge-b850v3-fw	todo
+nwl-dsi				(ongoing), Guido
+nxp-ptn3460			todo
+panel.c				done
+parade-ps8622			todo
+parade-ps8640			done?
+sii902x				todo
+sil-sii8620			done?
+simple-bridge			ongoing, Laurent
+synopsys/dw-hdmi		todo
+synopsys/dw-mipi-dsi		done?
+tc358764			ongoing, Sam
+tc358767			todo
+tc358768			done?
+thc63lvd1024			done?
+ti-sn65dsi86			todo
+ti-tfp410			done
+ti-tpd12s015			todo
+
+3	done
+7	done?
+4	ongoing
+11	todo
+
+Maybe a little simplistic - but gives some kind of overview.
+
+Drivers marked with "Done?" do not have any hits for ATTACH,
+dunno if they need more attantion.
+
+I will try to take a look at a few of the trivial conversions
+later this week.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
