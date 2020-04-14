@@ -1,58 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E071A7AA1
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 14:24:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7525D1A7AE0
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 14:34:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 334C26E053;
-	Tue, 14 Apr 2020 12:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 110746E06E;
+	Tue, 14 Apr 2020 12:34:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C9196E053
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 12:24:06 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id z6so13742386wml.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 05:24:06 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 083A189B99
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 12:34:09 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id h26so2711701wrb.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 05:34:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=0FDEWVqVz1x771UuIfGETq4wU09dKK2AQm/aWgRNbsQ=;
- b=d2uUj8QMIVNZ3e+9G9z4FAfuvymWHrc8SSWbJ1RdfDkfnnkqMpfTU1Jen1lBU9qnVT
- T7cILEGfn4dgJptteqBz0FTqcj+JRVJuCq1pqNZAmmJbOB6UCdybUOg18YSZUOINbFBQ
- o0Oc2L2+vtQZR8zghdhLV3sFTWmqPGf8gWt5s=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/0jr+GG3LyvDkB/zvwi8pImlCt3g6GJqvkh08zDnpzk=;
+ b=Y8MoA+jt5jFWw7uXusRhRJQ8ORQ00uQOwPjwmK0LCFbnGb/MKF4Hzd/Qj/EYMROORR
+ uqJopqMXSv/roMf7C+iiqZZvRfqv48qxA07Kg/3ftbyBgJNlGOf6ctCXoiquytT6liQ+
+ 2DyBWTGgZbV4qBp0S4Yn60sxJYWX7VgFqK/Jc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0FDEWVqVz1x771UuIfGETq4wU09dKK2AQm/aWgRNbsQ=;
- b=PpKa/+ZJ4plMKMGRD7x694XXvYzIlEfwol81IpZjOivCSbU02dYOjt1li8CmZW4Dkl
- 4x94r3KSKFjY/WtyfUCDWC3wZziG4eE1ygrJ0/4LbJVf9U2tXLEu4DL1vEx8Ozl8WXAt
- UzCwIPfPVCRgTqbd9KJJiVRHBbb+FPzwQzL7Z/80C7H5SZXVIYj73a8oir5xqF2SY4VR
- dyweihlN/ngCboO8m94NOfwN7XU0QlteStK4CD2Q7sS1oXgpRSgkX87boKym47f/PvOJ
- pSPMXy3lCLcE7/z4k+YjsjDSDziICP+pRZ5NEiAjev4dXqmD5jo8IrhIE0LQGsO/mmGW
- DHYw==
-X-Gm-Message-State: AGi0PuaJVDT5u3QOfdhZCLL9ao0Sbqmc4j64349Q08qTy2Wr6tPh3+5q
- Tt3qEMkd7bz9anfaBTr10FQV/vMhqT8=
-X-Google-Smtp-Source: APiQypLTcUaAVYGUqgd8v0LtaSxBa2I+B0hhrOT9/qYRgkyXoT63IefCm+om7MGnU0MoqxhwTr69zA==
-X-Received: by 2002:a1c:808c:: with SMTP id
- b134mr13151077wmd.131.1586867044877; 
- Tue, 14 Apr 2020 05:24:04 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=/0jr+GG3LyvDkB/zvwi8pImlCt3g6GJqvkh08zDnpzk=;
+ b=chZf57GhtGXza6dc20LGQmbQEgHF1aUWQy+XrniCw1sBt9eo119+KY16bMR87CSPH0
+ tmoCHMQuHlGgCl3Q9BDfZFxTmHueI6jSUXmGEv98YzLdKW/wMV8dQDC+tIDNdv0/nNFB
+ N1V1Gn0SVsRGh2qG01+/cdS3QLhgwa4dVi2cGQgtpYEZ+nnl4WWQ5kmWVJEBb32NjEY5
+ MTYyiIWKqKxnSWckMYsb8IIQ0cRMTMOnxKNe3mvNZXAPRaeXUS+bjH/8/iwCVVuI/tLZ
+ fOYL7FR51JSsKblQ76jxYUkqAmBtU6nQFpHQYkOLJquUSXNLoSKoMUD4iKjLSaBRixCo
+ 9QyQ==
+X-Gm-Message-State: AGi0PuaVxmxX0mloUjMh9iyPLoPhLcxGUYJZW3rhB0YKdtqlxrs3vW6N
+ 8wru9u7WMd8vIZJ4e5hHdPKtqg==
+X-Google-Smtp-Source: APiQypLhB5mouYy4rFQGtlVpSX6rVjC9jg0eJ/6UH9dcaDMtkDp3vzfrksr11KLN6Er/jKfsmK4Y0A==
+X-Received: by 2002:a5d:42cf:: with SMTP id t15mr10089331wrr.354.1586867647689; 
+ Tue, 14 Apr 2020 05:34:07 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w7sm19305309wrr.60.2020.04.14.05.24.03
+ by smtp.gmail.com with ESMTPSA id q17sm10461927wmj.45.2020.04.14.05.34.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 05:24:03 -0700 (PDT)
-Date: Tue, 14 Apr 2020 14:24:02 +0200
+ Tue, 14 Apr 2020 05:34:06 -0700 (PDT)
+Date: Tue, 14 Apr 2020 14:34:04 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: KMS enums and bitfields UAPI
-Message-ID: <20200414122402.GS3456981@phenom.ffwll.local>
-References: <VmzN-pGfjaXAFb8aZXOnS2ibasRIsvB-EbfvxyvjLs07m-PBv4pTcX5hsB7yyrt78pxQQ6Bbu3I-hTtFSXEadxm8CkS60FLccIsZycguSfA=@emersion.fr>
- <u5X6K68v0waX25yZHLng0H_WDIFjNU-MgmnbLCoBZN7bqys3ofRm203wrYKdMnR1f4CStz3q5a12Y0ou8lCZWNMuhRmCCZ1dkTCSuDZjdy4=@emersion.fr>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 5/5] drm/i915: Replace "Broadcast RGB" with "RGB
+ quantization range" property
+Message-ID: <20200414123404.GT3456981@phenom.ffwll.local>
+Mail-Followup-To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Simon Ser <contact@emersion.fr>, Yussuf Khalil <dev@pp3345.net>,
+ David Airlie <airlied@linux.ie>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20200413214024.46500-1-dev@pp3345.net>
+ <20200413214024.46500-6-dev@pp3345.net>
+ <daCvJk4O6rHOwEometGSPENJupb6adPr583_dLEetvftUQPbK4198VDijHGzM9uTm9bP3TEyGCZvxKe5PSvqWBg5xhXkL_7EiAQlmEPKWQI=@emersion.fr>
+ <87ftd6mi3e.fsf@intel.com> <87d08amhy5.fsf@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <u5X6K68v0waX25yZHLng0H_WDIFjNU-MgmnbLCoBZN7bqys3ofRm203wrYKdMnR1f4CStz3q5a12Y0ou8lCZWNMuhRmCCZ1dkTCSuDZjdy4=@emersion.fr>
+In-Reply-To: <87d08amhy5.fsf@intel.com>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,27 +75,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Yussuf Khalil <dev@pp3345.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 13, 2020 at 10:38:37PM +0000, Simon Ser wrote:
-> Daniel Vetter, Ville, any thoughts about this?
+On Tue, Apr 14, 2020 at 02:21:06PM +0300, Jani Nikula wrote:
+> On Tue, 14 Apr 2020, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> > On Mon, 13 Apr 2020, Simon Ser <contact@emersion.fr> wrote:
+> >> On Monday, April 13, 2020 11:40 PM, Yussuf Khalil <dev@pp3345.net> wrote:
+> >>
+> >>> DRM now has a globally available "RGB quantization range" connector
+> >>> property. i915's "Broadcast RGB" that fulfils the same purpose is now
+> >>> considered deprecated, so drop it in favor of the DRM property.
+> >>
+> >> For a UAPI point-of-view, I'm not sure this is fine. Some user-space
+> >> might depend on this property, dropping it would break such user-space.
+> >
+> > Agreed.
+> >
+> >> Can we make this property deprecated but still keep it for backwards
+> >> compatibility?
+> >
+> > Would be nice to make the i915 specific property an "alias" for the new
+> > property, however I'm not sure how you'd make that happen. Otherwise
+> > juggling between the two properties is going to be a nightmare.
+> 
+> Ah, the obvious easy choice is to use the property and enum names
+> already being used by i915 and gma500, and you have no problem. Perhaps
+> they're not the names you'd like, but then looking at the total lack of
+> consistency across property naming makes them fit right in. ;)
 
-Magic 8ball says "unclear", and I feel like I keep flip-flopping around on
-this.
-
-I think best-case outcome here is that we're a) consistent across
-compositors and b) document that consensus in the kernel's uapi section
-(for lack of better places).
-
-I'm not hung up on what exactly that consensus should be, as long as it's
-a consistent across projects. If you folks can't figure this out I'll do a
-live youtube sessions and throw a dice :-P
-
-Cheers, Daniel
+Yeah if we don't have contradictory usage across drivers when modernizing
+these properties, then let's just stick with the names already there. It's
+not pretty, but works better since more userspace/internet howtos know how
+to use this stuff.
+-Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
