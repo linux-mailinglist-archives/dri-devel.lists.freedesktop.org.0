@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19271A8A53
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 20:58:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D431A8A5C
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 20:59:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D37886E544;
-	Tue, 14 Apr 2020 18:58:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 512636E546;
+	Tue, 14 Apr 2020 18:59:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
- [209.85.210.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77D586E544
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 18:58:32 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id j26so571119ots.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 11:58:32 -0700 (PDT)
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+ [209.85.167.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 834BA6E546
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 18:59:33 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id q204so11364976oia.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 11:59:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Yng5I6SxhHzfkzr2Hr0xo1uj8i038bsOL/UPbVnFotM=;
- b=Xq/lH0ATEfjAjmuZ/H2wvdzDND0GLKEyIzPkyBIMSK+O0AJezAw8G8DXAMNE8nasxA
- Q1GBIB3q/M/E91rZp+aq3sgCDzzwmJmOmL78GrHR3OE6eM58xHj7hUglZT1w68MkEloV
- cn59WWrQf1G6RBD1B2hptE8W7aEaza38Xi8bwMIJVPrhjUWacDI7xk7G4H/5hT9O6FwS
- kZNLvZ5Tz5utOR5PXgyHr9iQ7GllylqMeqVQDa0s3rQOspuFHMr0g/9DU2gjRMXRrFUg
- iEH2/DJVidhxwAjWfzooteA9TOgqdFcykPwN6Q7ZgfCVQ/ZZSe7OZRDzQclTtxQeQ9wK
- 5sEg==
-X-Gm-Message-State: AGi0PubYfWKrXjwygfPrIWMBTHCN1zGsA1opMs0BxZvhbsSVNXHuKiRI
- EWomPmfaMFrnbjFgrOOMEH1wwFU=
-X-Google-Smtp-Source: APiQypJAXLhCXOxbvzoI0+y87beqq2cSSLCYqoDH1f37RG8woHymrKR90IKI0Ay88yoSJW1lCaVPjA==
-X-Received: by 2002:a05:6830:11d8:: with SMTP id
- v24mr20303578otq.258.1586890711805; 
- Tue, 14 Apr 2020 11:58:31 -0700 (PDT)
+ bh=5u7BxuFqo0AsKPaehfCrl3JV4bPrvYynDN6TrrNgOp0=;
+ b=b01bTZYchICvtfXU+b8m+YCc0D+W1+ESLxgqnFR9TFQxUMZ1bHMJkIFHFjEZKmtbWc
+ TucVb0JowSnfx5495U7V7uxrFx2pYTC310ZCBQPS2Yk1R/IpwwmhaRPjF0tVzm9U+NzK
+ jaCh+LEoETjX63gimFNSg4Rh+8SzvgsXc1kDNa2xYinnJ4G//Usc5fZMEIFAwN1MC/ZG
+ /Ye+shAd31v+yOmmK5aiPcP1rcRBFzYAVLcSXRQzjU9FWS2CTh1kPVRhDsmUa6M7tU3h
+ +kvmR0fsqHctJ2NzK+GSNCdfuguvQ3pJ3ellLwSZLx90l3RxW3LidqTBvtMDnvpLp0pf
+ 3Dvg==
+X-Gm-Message-State: AGi0Puas/mRy0USKtNrImGnjUw/HHBJj3tAV4D5hL0wwsXfrslU5Ds2c
+ 42dOHm3v07fkMAqpQyNYYxS2smE=
+X-Google-Smtp-Source: APiQypIYSZeiObdDTXu+7PV3q0cY3+ppv2j+7b915oM8YtOruly96BaIfJiq4M1y0bN1I5jirrtJ9A==
+X-Received: by 2002:aca:4243:: with SMTP id p64mr16808259oia.21.1586890772851; 
+ Tue, 14 Apr 2020 11:59:32 -0700 (PDT)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id 85sm803962oie.17.2020.04.14.11.58.30
+ by smtp.gmail.com with ESMTPSA id 26sm6359408oot.25.2020.04.14.11.59.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 11:58:31 -0700 (PDT)
-Received: (nullmailer pid 15450 invoked by uid 1000);
- Tue, 14 Apr 2020 18:58:30 -0000
-Date: Tue, 14 Apr 2020 13:58:30 -0500
+ Tue, 14 Apr 2020 11:59:32 -0700 (PDT)
+Received: (nullmailer pid 16956 invoked by uid 1000);
+ Tue, 14 Apr 2020 18:59:31 -0000
+Date: Tue, 14 Apr 2020 13:59:31 -0500
 From: Rob Herring <robh@kernel.org>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 31/36] dt-bindings: display: convert sharp, ls037v7dw01
+Subject: Re: [PATCH v2 32/36] dt-bindings: display: convert sharp, lq150x1lg11
  to DT Schema
-Message-ID: <20200414185830.GA15392@bogus>
+Message-ID: <20200414185931.GA16898@bogus>
 References: <20200408195109.32692-1-sam@ravnborg.org>
- <20200408195109.32692-32-sam@ravnborg.org>
+ <20200408195109.32692-33-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200408195109.32692-32-sam@ravnborg.org>
+In-Reply-To: <20200408195109.32692-33-sam@ravnborg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,30 +62,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, devicetree@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+Cc: devicetree@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Peter Rosin <peda@axentia.se>,
  dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed,  8 Apr 2020 21:51:04 +0200, Sam Ravnborg wrote:
-> v2:
->   - Add min/maxItems to mode-gpios (Rob)
->   - Fix bug in description, mode is up to three gpios (Rob)
-> 
+On Wed,  8 Apr 2020 21:51:05 +0200, Sam Ravnborg wrote:
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Tony Lindgren <tony@atomide.com>
+> Cc: Peter Rosin <peda@axentia.se>
 > Cc: Thierry Reding <thierry.reding@gmail.com>
 > Cc: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  .../display/panel/sharp,ls037v7dw01.txt       | 43 ------------
->  .../display/panel/sharp,ls037v7dw01.yaml      | 68 +++++++++++++++++++
->  2 files changed, 68 insertions(+), 43 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/panel/sharp,ls037v7dw01.txt
->  create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,ls037v7dw01.yaml
+>  .../display/panel/sharp,lq150x1lg11.txt       | 36 ------------
+>  .../display/panel/sharp,lq150x1lg11.yaml      | 58 +++++++++++++++++++
+>  2 files changed, 58 insertions(+), 36 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.yaml
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
