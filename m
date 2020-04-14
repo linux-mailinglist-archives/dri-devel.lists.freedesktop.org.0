@@ -2,58 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24BDF1A8D4F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 23:10:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2441A8D53
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 23:11:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B23616E58B;
-	Tue, 14 Apr 2020 21:10:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5E8689B0D;
+	Tue, 14 Apr 2020 21:11:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04DDB6E58B
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 21:10:28 +0000 (UTC)
-Received: from mail-qt1-f172.google.com ([209.85.160.172]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MRCBm-1jae1d3XvQ-00NAuj for <dri-devel@lists.freedesktop.org>; Tue, 14
- Apr 2020 23:10:26 +0200
-Received: by mail-qt1-f172.google.com with SMTP id l60so3128911qtd.8
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 14:10:25 -0700 (PDT)
-X-Gm-Message-State: AGi0PubNHRr28Nqq09dz8DS9N5gBUMYcfXG1xBBbTYTrVtrPGrnHQzP8
- ZSaZmCgD/ZGQXfZrNvFvXdiJfzFTEXu+/tw2AOU=
-X-Google-Smtp-Source: APiQypIfZFDXhI4lfhgtQhLYBcr5CwllPu4hW9XiyLfwj2+0CNULa+LPLq/UglD75HRb9VggpbRIiRppC0fPBwcpn5M=
-X-Received: by 2002:ac8:296f:: with SMTP id z44mr16506720qtz.18.1586898624486; 
- Tue, 14 Apr 2020 14:10:24 -0700 (PDT)
+Received: from saul.pp3345.net (saul.pp3345.net [163.172.111.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16CAD89449
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 21:11:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1]) (Authenticated sender:
+ dev@pp3345.net)
+ by saul.pp3345.net (Postcow) with ESMTPSA id 3BA379A460D;
+ Tue, 14 Apr 2020 23:11:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pp3345.net; s=saul;
+ t=1586898672; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:autocrypt;
+ bh=dlSDoutPT33xOVXUFaJb/6vXllGM0ISsKTqsxM9cpT0=;
+ b=kADJdAdBnCzNpbP1Tk5AcFKwIID3OpRRqCYqSr5KRV02Z/J8YwOdGwiqiUg2Z9hTaqTori
+ bibno0ZXercCDBJWOihH4wZ9VaTkyJFpWpldGzonYitnC0w1+MlGmrz2Dfbhkv3NGo4jmY
+ GGMMOVeYGfd0KgV/xBAxuU/QsA23D2cUS3c924BCNOTsiVl4PHU4nHcJ6u9c/0445RatH2
+ fIprRdmhfk6+M+TjKjKkh0xBX8HRf4OR5lUhXPLTZUn6GtokvU93sdAKSTXJPiprBS1w0R
+ LmgF0hnW5Ulf69YYSOlbK0qN+UTsp2ekLl0T9nisyhNBao7ULVqvCN4IX1hjIg==
+Message-ID: <2cfe44c96818515939050ad19e9c248e50519be2.camel@pp3345.net>
+Subject: Re: [PATCH 5/5] drm/i915: Replace "Broadcast RGB" with "RGB
+ quantization range" property
+From: Yussuf Khalil <dev@pp3345.net>
+To: Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>
+Date: Tue, 14 Apr 2020 23:11:07 +0200
+In-Reply-To: <20200414123404.GT3456981@phenom.ffwll.local>
+References: <20200413214024.46500-1-dev@pp3345.net>
+ <20200413214024.46500-6-dev@pp3345.net>
+ <daCvJk4O6rHOwEometGSPENJupb6adPr583_dLEetvftUQPbK4198VDijHGzM9uTm9bP3TEyGCZvxKe5PSvqWBg5xhXkL_7EiAQlmEPKWQI=@emersion.fr>
+ <87ftd6mi3e.fsf@intel.com> <87d08amhy5.fsf@intel.com>
+ <20200414123404.GT3456981@phenom.ffwll.local>
+User-Agent: Evolution 3.36.1 (3.36.1-1.fc32) 
 MIME-Version: 1.0
-References: <20200408202711.1198966-1-arnd@arndb.de>
- <20200408202711.1198966-6-arnd@arndb.de>
- <20200414201739.GJ19819@pendragon.ideasonboard.com>
- <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
- <20200414205158.GM19819@pendragon.ideasonboard.com>
-In-Reply-To: <20200414205158.GM19819@pendragon.ideasonboard.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 14 Apr 2020 23:10:08 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
-Message-ID: <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
-Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-X-Provags-ID: V03:K1:JPmKxfDZblwJXPWrA1Sm9476PnPVVUEuG6AUiCXTKrB+G1T3PfP
- qWWCEqa3IrtKjJSU/vbMNiGtuMAMWfSEIPIKBK6xE5zGSzomNcLPNlgj1FhCe7eDsvhI2rQ
- H9oGSt6HUODKl18OexvaVgUkFb0Ux5PgzLfvqI4jOYuRrOgOnZ0X9BVgRyvfvMNX9cc/o2H
- I/9hRCCiyY9GoylUWRYbg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:C/b2+rSC5pQ=:0/QJ0eEzMKdRmV01lc6P/D
- KNg9ceYNKMCjdTILbJmbcu/KdbGtu1CKdgl/lZH2/z+vBNG5EJ7gxDxmXdrFKWW4kFWg0oQYc
- 0t8V118PMbC4XarabuAbOGcEVuVNt4Lcsviq6HULAFwEWAfG/i7IDyTxydV287cBCsBEsby1D
- gVUoSOa/xJZMmommZ6B9xCp1m4TblJe6ig79FL4qhnMQYP/c/PuMBqCwE2JkpJVTwk8Z0XWHl
- NZLRcH/XQmqv5oAfR7c0bWcl99/x/9ouLWXRB6ZDCoc3yKFgJt7O/px24t68CezZ8EHdT8vSj
- kXS5khU133kyuSsgByByXHNLNKq11FLOMGNCVTCSDaolqQli6KgMknaqZ33edJHyXvceOEakx
- jd30K75AcltdW81kq4v9OUXXs3Q6zq5Mv172md3wds3jVBn4etE5Jhtn0DVdrrPbXmBmG1Oet
- CP7bEvLqidfCp5+dyHbiwQxomzaQrykoEiVH5PQNYdH4G+P5oSQO11DAOazTH7OYjN9C/OsW1
- /iki4PiodgNCbWouV51306fUJytuxJ4picke80N+fiqcOPcDtbQ8N+k9J5BzOab6QcCZ6OarZ
- j/witQpO66sOvPLgk3YmSGOOhljuAwsPMpgnKX7nlcwumFZUk0KV7rfvdow7NTQRADcKAmZnC
- WQoZweNZ7UGoWR+6kVTX+lpeI4lRZxyqkv3AUcVCXnVIWAWkpnm3c+M/HPkTTXwX9oKceIRTT
- rgno7zyQGn/vwipDk2P7d2KUC0xl+W1AZlijhr45wKC5vhAk97raOy/YR6f9yEkECaKoPfWkn
- lDtS9VLcCWu0nvl/8dmnH/zlLLLYMDaE8zNNp4CIWb7hY7S9mU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,107 +54,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Leon Romanovsky <leon@kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Networking <netdev@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Saeed Mahameed <saeedm@mellanox.com>,
+Cc: David Airlie <airlied@linux.ie>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Nicolas Pitre <nico@fluxnic.net>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- "David S. Miller" <davem@davemloft.net>,
- linux-rdma <linux-rdma@vger.kernel.org>
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 10:52 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Arnd,
->
-> On Tue, Apr 14, 2020 at 10:38:27PM +0200, Arnd Bergmann wrote:
-> > On Tue, Apr 14, 2020 at 10:17 PM Laurent Pinchart wrote:
-> > > On Wed, Apr 08, 2020 at 10:27:10PM +0200, Arnd Bergmann wrote:
-> > > > The 'imply' statement does not seem to have an effect, as it's
-> > > > still possible to turn the CMM code into a loadable module
-> > > > in a randconfig build, leading to a link error:
-> > > >
-> > > > arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
-> > > > rcar_du_crtc.c:(.text+0xad4): undefined reference to `rcar_lvds_clk_enable'
-> > > > arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
-> > > > rcar_du_crtc.c:(.text+0xd7c): undefined reference to `rcar_lvds_clk_disable'
-> > > > arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_drv.o: in function `rcar_du_init':
-> > > > rcar_du_drv.c:(.init.text+0x4): undefined reference to `rcar_du_of_init'
-> > > > arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_encoder.o: in function `rcar_du_encoder_init':
-> > > >
-> > > > Remove the 'imply', and instead use a silent symbol that defaults
-> > > > to the correct setting.
-> > >
-> > > This will result in the CMM always being selected when DU is, increasing
-> > > the kernel size even for devices that don't need it. I believe we need a
-> > > better construct in Kconfig to fix this.
-> >
-> > I had expected this to have the same meaning that we had before the
-> > Kconfig change: whenever the dependencies are available, turn it on,
-> > otherwise leave it disabled.
-> >
-> > Can you describe what behavior you actually want instead?
->
-> Doesn't "imply" mean it gets selected by default but can be manually
-> disabled ?
+On Tue, 2020-04-14 at 14:34 +0200, Daniel Vetter wrote:
+> On Tue, Apr 14, 2020 at 02:21:06PM +0300, Jani Nikula wrote:
+> > On Tue, 14 Apr 2020, Jani Nikula <jani.nikula@linux.intel.com>
+> > wrote:
+> > > On Mon, 13 Apr 2020, Simon Ser <contact@emersion.fr> wrote:
+> > > > On Monday, April 13, 2020 11:40 PM, Yussuf Khalil <
+> > > > dev@pp3345.net> wrote:
+> > > > 
+> > > > > DRM now has a globally available "RGB quantization range"
+> > > > > connector
+> > > > > property. i915's "Broadcast RGB" that fulfils the same
+> > > > > purpose is now
+> > > > > considered deprecated, so drop it in favor of the DRM
+> > > > > property.
+> > > > 
+> > > > For a UAPI point-of-view, I'm not sure this is fine. Some user-
+> > > > space
+> > > > might depend on this property, dropping it would break such
+> > > > user-space.
+> > > 
+> > > Agreed.
+> > > 
+> > > > Can we make this property deprecated but still keep it for
+> > > > backwards
+> > > > compatibility?
+> > > 
+> > > Would be nice to make the i915 specific property an "alias" for
+> > > the new
+> > > property, however I'm not sure how you'd make that happen.
+> > > Otherwise
+> > > juggling between the two properties is going to be a nightmare.
+> > 
+> > Ah, the obvious easy choice is to use the property and enum names
+> > already being used by i915 and gma500, and you have no problem.
+> > Perhaps
+> > they're not the names you'd like, but then looking at the total
+> > lack of
+> > consistency across property naming makes them fit right in. ;)
+> 
+> Yeah if we don't have contradictory usage across drivers when
+> modernizing
+> these properties, then let's just stick with the names already there.
+> It's
+> not pretty, but works better since more userspace/internet howtos
+> know how
+> to use this stuff.
+> -Daniel
 
-That may be what it means now (I still don't understand how it's defined
-as of v5.7-rc1), but traditionally it was more like a 'select if all
-dependencies
-are met'.
+Note that i915's "Broadcast RGB" isn't the same as gma500's: i915 has an
+"Automatic" option, whereas gma500 does not. Also, radeon has a property called
+"output_csc" that fulfills a similar purpose. Looking at the code, though, it
+seems that radeon does not adhere to the standard correctly (or I am missing
+something).
 
-> > > > --- a/drivers/gpu/drm/rcar-du/Kconfig
-> > > > +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> > > > @@ -4,7 +4,6 @@ config DRM_RCAR_DU
-> > > >       depends on DRM && OF
-> > > >       depends on ARM || ARM64
-> > > >       depends on ARCH_RENESAS || COMPILE_TEST
-> > > > -     imply DRM_RCAR_CMM
-> > > >       imply DRM_RCAR_LVDS
-> > > >       select DRM_KMS_HELPER
-> > > >       select DRM_KMS_CMA_HELPER
-> > > > @@ -15,9 +14,8 @@ config DRM_RCAR_DU
-> > > >         If M is selected the module will be called rcar-du-drm.
-> > > >
-> > > >  config DRM_RCAR_CMM
-> > > > -     tristate "R-Car DU Color Management Module (CMM) Support"
-> > > > +     def_tristate DRM_RCAR_DU
-> > > >       depends on DRM && OF
-> > > > -     depends on DRM_RCAR_DU
-> > > >       help
-> >
-> > It would be easy enough to make this a visible 'bool' symbol and
-> > build it into the rcu-du-drm.ko module itself. Would that help you?
->
-> That could indeed simplify a few things. I wonder if it could introduce
-> a few small issues though (but likely nothing we can't fix). The two
-> that come to mind are the fact that the module would have two
-> MODULE_DESCRIPTION and MODULE_LICENSE entries (I have no idea if that
-> could cause breakages), and that it could make module unloading more
-> difficult as the CMM being used by the DU would increase the refcount on
-> the module. I think the latter could be worked around by manually
-> unbinding the DU device through sysfs before unloading the module (and I
-> can't say for sure that unloading the DU module is not broken today
-> *innocent and naive look* :-)).
+An alternative would be to leave the existing driver-specific properties and
+change them to be pseudo-aliases for the "RGB quantization range" property.
+This can be done by letting the drivers read from and write to the new property
+when user-space tries to read or modify the driver's property. This way we could
+retain full backwards compatibility for all drivers equally.
 
-In that case, a Makefile trick could also work, doing
+What do you think?
 
-ifdef CONFIG_DRM_RCAR_CMM
-obj-$(CONFIG_DRM_RCAR_DU) += rcar-cmm.o
-endif
+Regards
+Yussuf
 
-Thereby making the cmm module have the same state (y or m) as
-the du module whenever the option is enabled.
-
-       Arnd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
