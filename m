@@ -1,49 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D011A940B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:18:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C381A881D
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 19:59:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F5B16E85B;
-	Wed, 15 Apr 2020 07:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB8926E15C;
+	Tue, 14 Apr 2020 17:59:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.siol.net (mailoutvs31.siol.net [185.57.226.222])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09A476E15C
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 17:53:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTP id 7F40452394D;
- Tue, 14 Apr 2020 19:53:37 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
- by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new,
- port 10032)
- with ESMTP id zT-bx81lubdB; Tue, 14 Apr 2020 19:53:37 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTPS id 304EC52395E;
- Tue, 14 Apr 2020 19:53:37 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net
- [194.152.20.232]) (Authenticated sender: jernej.skrabec@siol.net)
- by mail.siol.net (Postfix) with ESMTPA id D84D852394D;
- Tue, 14 Apr 2020 19:53:34 +0200 (CEST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Torsten Duwe <duwe@lst.de>,
- Maxime Ripard <maxime@cerno.tech>, Icenowy Zheng <icenowy@aosc.io>,
- Sam Ravnborg <sam@ravnborg.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Vasily Khoruzhick <anarsoul@gmail.com>
-Subject: Re: drm/bridge: anx6345: set correct BPC for display_info of connector
-Date: Tue, 14 Apr 2020 19:53:34 +0200
-Message-ID: <12495893.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <20200329222253.2941405-1-anarsoul@gmail.com>
-References: <20200329222253.2941405-1-anarsoul@gmail.com>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CBBF6E15C
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 17:59:14 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id d7so6155497oif.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 10:59:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=MbLt7+mg6Oetm1gbvDN0HE/9QqLc7vIPQSx4pz/IWko=;
+ b=J50/tYO079nCkkegGXiRa3liG/NjbB+Zos9wGBiXYqIQk5w48ZKla8rkZdeJ0h912k
+ 0qBcODpQjIN+Z+B/TFwkvdbPm5JGAWMbYfq3ApCeaFZrl4GCpCO1D1UVQhGuvSZb5cT+
+ vQq6Y445XMppQCTI1qNXodjh/TU10bO8o6PRZ/LXpmpb8Sgt0R3qWXS8LPKTDvb6JDAG
+ KsB75yUOcyRCNpdoqkpj1MQnbsdFANcjrb6Qoc6UrWeawwXUs3i/tfttxU7hHSFf5uvr
+ ZgXmQccf7TMsBvaoaxkY5dTAtm+Jauug+sS3pTyt0Gg4jcGzYcYxMRetq2ECuMfrRlsj
+ Glug==
+X-Gm-Message-State: AGi0PuaEOxnsYoOAKvfVrvBPMayWf6u0Yjm2QEQ869FJK96HDD92GMTx
+ VJJwuZFQ036Tij7YI/EKMQ==
+X-Google-Smtp-Source: APiQypJlaXG4zu9PmD/DgToYH3heydOg9ica+o6s8kLB78gY3Gm05N1iYUwxCQz5c3+ZNDu+sl4n8A==
+X-Received: by 2002:aca:f491:: with SMTP id
+ s139mr16592669oih.128.1586887153366; 
+ Tue, 14 Apr 2020 10:59:13 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id k64sm5691828oia.57.2020.04.14.10.59.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Apr 2020 10:59:12 -0700 (PDT)
+Received: (nullmailer pid 4704 invoked by uid 1000);
+ Tue, 14 Apr 2020 17:59:11 -0000
+Date: Tue, 14 Apr 2020 12:59:11 -0500
+From: Rob Herring <robh@kernel.org>
+To: Johan Jonker <jbx6244@gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: display: convert rockchip rk3066 hdmi
+ bindings to yaml
+Message-ID: <20200414175911.GA4583@bogus>
+References: <20200403133630.7377-1-jbx6244@gmail.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 15 Apr 2020 07:17:53 +0000
+Content-Disposition: inline
+In-Reply-To: <20200403133630.7377-1-jbx6244@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,30 +62,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>
+Cc: devicetree@vger.kernel.org, airlied@linux.ie, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne ponedeljek, 30. marec 2020 ob 00:22:53 CEST je Vasily Khoruzhick 
-napisal(a):
-> Some drivers (e.g. sun4i-drm) need this info to decide whether they
-> need to enable dithering. Currently driver reports what panel supports
-> and if panel supports 8 we don't get dithering enabled.
+On Fri,  3 Apr 2020 15:36:30 +0200, Johan Jonker wrote:
+> Current dts files with 'hdmi' nodes for rk3066 are manually verified.
+> In order to automate this process rockchip,rk3066-hdmi.txt
+> has to be converted to yaml.
 > 
-> Hardcode BPC to 6 for now since that's the only BPC
-> that driver supports.
+> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+> ---
+> Changes v2:
+>   Fix irq.h already included in arm-gic.h
+> ---
+>  .../display/rockchip/rockchip,rk3066-hdmi.txt      |  72 -----------
+>  .../display/rockchip/rockchip,rk3066-hdmi.yaml     | 140 +++++++++++++++++++++
+>  2 files changed, 140 insertions(+), 72 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml
 > 
-> Fixes: 6aa192698089 ("drm/bridge: Add Analogix anx6345 support")
-> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
 
-Applied to drm-misc-fixes. Thanks!
-
-Best regards,
-Jernej
-
-
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
