@@ -2,54 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E9C1A8EF0
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 01:11:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC5071A8F2D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 01:35:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A3B66E5CC;
-	Tue, 14 Apr 2020 23:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2F7C6E5D2;
+	Tue, 14 Apr 2020 23:35:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
- [209.85.210.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D63189830
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 23:11:21 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id i27so1520662ota.7
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 16:11:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=uQbA1hm4F1ECx3Q8+dWpAWgcwSDF1dFS3d3ZIaptT0s=;
- b=Cv5o5pJg1vI1cACjQXaswEfRfoFHyohPm876qottClEYnA1Rf2pphvKYeHchcLdZn9
- 0vpeBWbAqxBZde6yw2DVjS4WkUrXw3fuzUAsXhI2qUSoAYGp85dc8lPcNUq9+Rt4O0kz
- 6jJKXEHt9C51FvA6vJoNx3K2E+KRaj3Aewlf6JbxWfl1dIPQ1AhEZpB+izCPSaOoRaDg
- YmBIQcWxgrOTdlqYZWnUBsnP4jOdZawt4daNgFntv4O6CV3LXcpZyDyiXFNKFXeCZLAx
- V9y54Sn71W4bAmFcfwW6xX7f61QJJXR3cRrdSVf7/memJV5sNxj4snjYl3XAyzBioExd
- OnUQ==
-X-Gm-Message-State: AGi0PuZ+utv0QyvwGjY8j7Qc37bXMHHTUjztAUyxWBgbDRQfLkdWFhYS
- /XlkTH3NFRpVqUuO2bbc7g==
-X-Google-Smtp-Source: APiQypK8ZzZ8C2d2xHIP7/hVcEIpx48D8sjnAVUS4VjaxOXBvRO5TMBQWpnOXEbSUqJLeeI5tihRSg==
-X-Received: by 2002:a4a:e151:: with SMTP id p17mr16389352oot.28.1586905879376; 
- Tue, 14 Apr 2020 16:11:19 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id p130sm5952795oig.51.2020.04.14.16.11.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 16:11:18 -0700 (PDT)
-Received: (nullmailer pid 6378 invoked by uid 1000);
- Tue, 14 Apr 2020 23:11:18 -0000
-Date: Tue, 14 Apr 2020 18:11:18 -0500
-From: Rob Herring <robh@kernel.org>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH/RFC 6/6] dt-bindings: display: bridge: Remove deprecated
- dw_hdmi.txt
-Message-ID: <20200414231118.GA6328@bogus>
-References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200405233935.27599-7-laurent.pinchart+renesas@ideasonboard.com>
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
+ [149.117.87.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0506E5D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 23:35:19 +0000 (UTC)
+Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
+ [10.225.0.210])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id D0DC6C00CC;
+ Tue, 14 Apr 2020 23:29:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1586906982; bh=cbwVPNBBMDU3Qsse2SdkAJsbA5fiCp4ztKxUhtvleWQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=I9YbktXPbOUEqFICj4aMMImlRJrFxMgJgrPXue5z/GF4twcfeXC/PudnuBQn/VckG
+ UR6hyiuapJKc6nnZJDCLPw9BhOl2EvPC3lUesbR3nRrOEupwJl/JhCZI0Qq3qpqaSi
+ s3vpDOALJcUmc5XQnImHE2OW97N8JMnMhcns0wW8/Yz4A5AJQsu6X42DHNof/xPm3T
+ vU79f60Ouz3TYNOu9mPeLnfLmNjj/l9XwNgQDGTO9ny9ZV32AtbPMnqeYa7v96JpZ7
+ NjleVLXs3Rs23sIhNZkjNnuwq5KLIDG+s6ITwpIUXowkS/VvMPE62/Vd3Rm7Jd3IrZ
+ x3+BBCnZoG6uQ==
+Received: from paltsev-e7480.internal.synopsys.com
+ (ru20-e7250.internal.synopsys.com [10.225.48.89])
+ by mailhost.synopsys.com (Postfix) with ESMTP id C1FB0A005C;
+ Tue, 14 Apr 2020 23:29:35 +0000 (UTC)
+From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+To: dri-devel@lists.freedesktop.org,
+ Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+Subject: [PATCH v3 0/2] DRM: ARC: add HDMI 2.0 TX encoder support
+Date: Wed, 15 Apr 2020 02:29:27 +0300
+Message-Id: <20200414232929.22788-1-Eugeniy.Paltsev@synopsys.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200405233935.27599-7-laurent.pinchart+renesas@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,27 +52,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
- Mark Yao <mark.yao@rock-chips.com>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-snps-arc@lists.infradead.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon,  6 Apr 2020 02:39:35 +0300, Laurent Pinchart wrote:
-> dw_hdmi.txt has been replaced with synopsys,dw-hdmi.yaml, and all
-> references to the old file have been converted. Remove it.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  .../bindings/display/bridge/dw_hdmi.txt       | 33 -------------------
->  1 file changed, 33 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
-> 
+Changes v1->v2:
+ * use DT Schema format please (.yaml files) for DT bindings
 
-Acked-by: Rob Herring <robh@kernel.org>
+Changes v2->v3:
+ * Add missing 'interrupts' property in DT bindings
+ * Drop dummy 'dw_hdmi_bridge_mode_valid'
+ * Change bracing format of 'of_device_id' structure
+ * Change compatible string to "snps,arc-dw-hdmi-hsdk"
+   Now DT binding file is snps,arc-dw-hdmi.yaml and compatible is
+   "snps,arc-dw-hdmi-<soc/board>"
+ * Minor fixes
+
+Eugeniy Paltsev (2):
+  DRM: ARC: add HDMI 2.0 TX encoder support
+  dt-bindings: Document the Synopsys ARC HDMI TX bindings
+
+ .../display/bridge/snps,arc-dw-hdmi.yaml      | 136 ++++++++++++++++++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/Makefile                      |   2 +-
+ drivers/gpu/drm/arc/Kconfig                   |   7 +
+ drivers/gpu/drm/arc/Makefile                  |   1 +
+ drivers/gpu/drm/arc/arc-dw-hdmi.c             | 116 +++++++++++++++
+ 6 files changed, 267 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
+ create mode 100644 drivers/gpu/drm/arc/arc-dw-hdmi.c
+
+-- 
+2.21.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
