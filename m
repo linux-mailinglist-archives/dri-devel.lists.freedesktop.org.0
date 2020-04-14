@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15D81A7950
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 13:21:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC691A9410
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:18:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE056E0C5;
-	Tue, 14 Apr 2020 11:21:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8E0A6E86A;
+	Wed, 15 Apr 2020 07:17:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E17646E0C5
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 11:21:12 +0000 (UTC)
-IronPort-SDR: OQlvjR/sDd0a/0Cme7j+7zxFfAR6XkdY49hUEFjKJ9ULpZZ00Di8uww8EM8Vi8vYg2CRnShkWF
- Ic5jwErPddsg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2020 04:21:12 -0700
-IronPort-SDR: nBh+HDJOG1IQJScmUMIMFGy/LFqCdBemrRKIn7RuiyV93w4yPA5GwtKIR6yoVpjAtr89ryOHZW
- 3VEk34ZEzXzw==
-X-IronPort-AV: E=Sophos;i="5.72,382,1580803200"; d="scan'208";a="399921309"
-Received: from mdoerbec-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.38.76])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2020 04:21:09 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Simon Ser <contact@emersion.fr>, Yussuf Khalil <dev@pp3345.net>
-Subject: Re: [PATCH 5/5] drm/i915: Replace "Broadcast RGB" with "RGB
- quantization range" property
-In-Reply-To: <87ftd6mi3e.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200413214024.46500-1-dev@pp3345.net>
- <20200413214024.46500-6-dev@pp3345.net>
- <daCvJk4O6rHOwEometGSPENJupb6adPr583_dLEetvftUQPbK4198VDijHGzM9uTm9bP3TEyGCZvxKe5PSvqWBg5xhXkL_7EiAQlmEPKWQI=@emersion.fr>
- <87ftd6mi3e.fsf@intel.com>
-Date: Tue, 14 Apr 2020 14:21:06 +0300
-Message-ID: <87d08amhy5.fsf@intel.com>
-MIME-Version: 1.0
+X-Greylist: delayed 383 seconds by postgrey-1.36 at gabe;
+ Tue, 14 Apr 2020 11:41:50 UTC
+Received: from m17618.mail.qiye.163.com (m17618.mail.qiye.163.com
+ [59.111.176.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 745AE89A0E;
+ Tue, 14 Apr 2020 11:41:50 +0000 (UTC)
+Received: from ubuntu.localdomain (unknown [157.0.31.122])
+ by m17618.mail.qiye.163.com (Hmail) with ESMTPA id 8F71F4E1434;
+ Tue, 14 Apr 2020 19:35:23 +0800 (CST)
+From: Bernard Zhao <bernard@vivo.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Bernard Zhao <bernard@vivo.com>,
+ Xiaojie Yuan <xiaojie.yuan@amd.com>, Oak Zeng <Oak.Zeng@amd.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Alex Sierra <alex.sierra@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Kent Russell <kent.russell@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] Optimized division operation to shift operation
+Date: Tue, 14 Apr 2020 04:35:08 -0700
+Message-Id: <1586864113-30682-1-git-send-email-bernard@vivo.com>
+X-Mailer: git-send-email 2.7.4
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZT1VOS01LS0tLT0pCTUpNTFlXWShZQU
+ hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nxw6Ajo*Tjg1TwoNNAg1Fz4v
+ Lk0KFDJVSlVKTkNNQ01PSklIQk5OVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSUlZV1kIAVlBT0NPSTcG
+X-HM-Tid: 0a717878efd19376kuws8f71f4e1434
+X-Mailman-Approved-At: Wed, 15 Apr 2020 07:17:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,46 +52,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: kernel@vivo.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Apr 2020, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> On Mon, 13 Apr 2020, Simon Ser <contact@emersion.fr> wrote:
->> On Monday, April 13, 2020 11:40 PM, Yussuf Khalil <dev@pp3345.net> wrote:
->>
->>> DRM now has a globally available "RGB quantization range" connector
->>> property. i915's "Broadcast RGB" that fulfils the same purpose is now
->>> considered deprecated, so drop it in favor of the DRM property.
->>
->> For a UAPI point-of-view, I'm not sure this is fine. Some user-space
->> might depend on this property, dropping it would break such user-space.
->
-> Agreed.
->
->> Can we make this property deprecated but still keep it for backwards
->> compatibility?
->
-> Would be nice to make the i915 specific property an "alias" for the new
-> property, however I'm not sure how you'd make that happen. Otherwise
-> juggling between the two properties is going to be a nightmare.
+On some processors, the / operate will call the compiler`s div lib,
+which is low efficient, We can replace the / operation with shift,
+so that we can replace the call of the division library with one
+shift assembly instruction.
 
-Ah, the obvious easy choice is to use the property and enum names
-already being used by i915 and gma500, and you have no problem. Perhaps
-they're not the names you'd like, but then looking at the total lack of
-consistency across property naming makes them fit right in. ;)
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
+---
+ drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 4 ++--
+ drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c | 4 ++--
+ drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-BR,
-Jani.
-
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
+index b205039..66cd078 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
+@@ -175,10 +175,10 @@ static int gmc_v6_0_mc_load_microcode(struct amdgpu_device *adev)
+ 	amdgpu_ucode_print_mc_hdr(&hdr->header);
+ 
+ 	adev->gmc.fw_version = le32_to_cpu(hdr->header.ucode_version);
+-	regs_size = le32_to_cpu(hdr->io_debug_size_bytes) / (4 * 2);
++	regs_size = le32_to_cpu(hdr->io_debug_size_bytes) >> 3;
+ 	new_io_mc_regs = (const __le32 *)
+ 		(adev->gmc.fw->data + le32_to_cpu(hdr->io_debug_array_offset_bytes));
+-	ucode_size = le32_to_cpu(hdr->header.ucode_size_bytes) / 4;
++	ucode_size = le32_to_cpu(hdr->header.ucode_size_bytes) >> 2;
+ 	new_fw_data = (const __le32 *)
+ 		(adev->gmc.fw->data + le32_to_cpu(hdr->header.ucode_array_offset_bytes));
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
+index 9da9596..ca26d63 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
+@@ -193,10 +193,10 @@ static int gmc_v7_0_mc_load_microcode(struct amdgpu_device *adev)
+ 	amdgpu_ucode_print_mc_hdr(&hdr->header);
+ 
+ 	adev->gmc.fw_version = le32_to_cpu(hdr->header.ucode_version);
+-	regs_size = le32_to_cpu(hdr->io_debug_size_bytes) / (4 * 2);
++	regs_size = le32_to_cpu(hdr->io_debug_size_bytes) >> 3;
+ 	io_mc_regs = (const __le32 *)
+ 		(adev->gmc.fw->data + le32_to_cpu(hdr->io_debug_array_offset_bytes));
+-	ucode_size = le32_to_cpu(hdr->header.ucode_size_bytes) / 4;
++	ucode_size = le32_to_cpu(hdr->header.ucode_size_bytes) >> 2;
+ 	fw_data = (const __le32 *)
+ 		(adev->gmc.fw->data + le32_to_cpu(hdr->header.ucode_array_offset_bytes));
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
+index 27d83204..295039c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
+@@ -318,10 +318,10 @@ static int gmc_v8_0_tonga_mc_load_microcode(struct amdgpu_device *adev)
+ 	amdgpu_ucode_print_mc_hdr(&hdr->header);
+ 
+ 	adev->gmc.fw_version = le32_to_cpu(hdr->header.ucode_version);
+-	regs_size = le32_to_cpu(hdr->io_debug_size_bytes) / (4 * 2);
++	regs_size = le32_to_cpu(hdr->io_debug_size_bytes) >> 3;
+ 	io_mc_regs = (const __le32 *)
+ 		(adev->gmc.fw->data + le32_to_cpu(hdr->io_debug_array_offset_bytes));
+-	ucode_size = le32_to_cpu(hdr->header.ucode_size_bytes) / 4;
++	ucode_size = le32_to_cpu(hdr->header.ucode_size_bytes) >> 2;
+ 	fw_data = (const __le32 *)
+ 		(adev->gmc.fw->data + le32_to_cpu(hdr->header.ucode_array_offset_bytes));
+ 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
