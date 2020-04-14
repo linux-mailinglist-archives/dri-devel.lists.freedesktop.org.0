@@ -2,46 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FEE71A8A4D
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 20:55:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23D71A8A52
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 20:57:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C2916E56A;
-	Tue, 14 Apr 2020 18:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CB3789FC3;
+	Tue, 14 Apr 2020 18:57:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE666E54C
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 18:55:26 +0000 (UTC)
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 420B42074D;
- Tue, 14 Apr 2020 18:55:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586890525;
- bh=D4uD8lJngE4r0vCQv58R/Cgz9fWEBtk9Yx3Wo3ClZqs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tUBphm2Rb7rh1cocNFCF1O3d+uVd8Mn+1KwUOvaIashLzhYAJJs6WNDl3X86yG9DI
- 9aLh5UjxG3LWYb5CqkQZi3z3ge5ZDoA2lJw2UnrACJBojsjTRDcGYSATVnqgk+gwd7
- hv1wN/PhGiKOWf6tqhg7U4DyL5tiqkU8Ii2fGoQY=
-Date: Tue, 14 Apr 2020 19:55:23 +0100
-From: Mark Brown <broonie@kernel.org>
-To: =?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
-Subject: Re: [PATCH 2/2] drm/panfrost: add devfreq regulator support
-Message-ID: <20200414185523.GO5412@sirena.org.uk>
-References: <20200411200632.4045-1-peron.clem@gmail.com>
- <20200411200632.4045-2-peron.clem@gmail.com>
- <c96f31a2-6ff4-31aa-aaac-2ce9eafb3bfe@arm.com>
- <CAJiuCcegkNGQ7j4jcT1rBpSLqG1c-nb8g0wq+Nbvt-dGj7am2Q@mail.gmail.com>
- <CAJiuCceU662o7QGJ=mmT3pzVWK7uJUN=6+NKQnZ=Cfj9c2nw7A@mail.gmail.com>
- <d6465e7e-8e05-8b7d-16bd-f40877969089@arm.com>
- <CAJiuCccv2XPLY6sjcgvvrG5a8ONYHa_xn9i-YUDKUDK5a0DY=A@mail.gmail.com>
- <CAJiuCcfa9ro1V4nBzfD48cCuHpEsLaNA5P0bb-tQ3hcWUCtpkA@mail.gmail.com>
- <000f26f4-3640-797f-c7f6-4b31a5e2669e@arm.com>
- <CAJiuCccF3tmbmMWNh0nC5WRJ1_iPdj6f1oH1zYMSue_pFrXsPQ@mail.gmail.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24F5B89FC3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 18:57:27 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id i22so724468otp.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 11:57:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=S4V0K4DXloHPwiW2ZAuipSmnqt0O7XyONIjKHMDXTA8=;
+ b=tTk0JPChO1Hr6wWMVoE2udoO4Ka956T0F6ssgjNvyOsW/KnUmU/g5o6eMNBS0fF5Ej
+ 9IY32idgnnVqeEC/bhYmTc6sMn7FHPUZZ7EXxb4pQl6lX+HN2SUltC0cgN5dQ+Zk6Mro
+ v1iQDPSCUzglYSXhW7K/9kJlY7wfoDuaQ/Xljs9rLXQVyRVoJXkCvRehyvbNnSdo4OYH
+ 9ZT9ONACB+BiE6Mie2XY6gNMOP1oBemu5yZOEUwXr5y+j2PIdndbnNL0B398rhIUNwYJ
+ YIHgllUavn3nwHMbMEt27JgFRPIu6OXJFcHuBTC3IVqYDKT8ABTVw+35BBZE9TcXMpkm
+ HmtA==
+X-Gm-Message-State: AGi0Pua2+yuOx4xQjy4rONaReq2Ej7KIKKTvRipLEDiRf0nh5Il3y4cJ
+ ByHV0X11slIL154oxK5txw==
+X-Google-Smtp-Source: APiQypKI77UPIxMD8w1IXEHDuJFuSTM92fqT4/xAc4vWPFbAk2SzZ33WE5qLXfrRfERU75j9SKay6w==
+X-Received: by 2002:a9d:77d5:: with SMTP id w21mr8197777otl.5.1586890646394;
+ Tue, 14 Apr 2020 11:57:26 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id j3sm1210071otq.22.2020.04.14.11.57.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Apr 2020 11:57:25 -0700 (PDT)
+Received: (nullmailer pid 13838 invoked by uid 1000);
+ Tue, 14 Apr 2020 18:57:24 -0000
+Date: Tue, 14 Apr 2020 13:57:24 -0500
+From: Rob Herring <robh@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 30/36] dt-bindings: display: convert sharp, lq101r1sx01
+ to DT Schema
+Message-ID: <20200414185724.GA9292@bogus>
+References: <20200408195109.32692-1-sam@ravnborg.org>
+ <20200408195109.32692-31-sam@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <CAJiuCccF3tmbmMWNh0nC5WRJ1_iPdj6f1oH1zYMSue_pFrXsPQ@mail.gmail.com>
-X-Cookie: I've only got 12 cards.
+Content-Disposition: inline
+In-Reply-To: <20200408195109.32692-31-sam@ravnborg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,79 +62,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============0934042377=="
+Cc: devicetree@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Apr 08, 2020 at 09:51:03PM +0200, Sam Ravnborg wrote:
+> This binding describes a panel with a secondary channel.
+> 
+> v2:
+>   - add check for required properties if link2 is present (Rob)
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  .../display/panel/sharp,lq101r1sx01.txt       | 49 -----------
+>  .../display/panel/sharp,lq101r1sx01.yaml      | 85 +++++++++++++++++++
+>  2 files changed, 85 insertions(+), 49 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.txt b/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.txt
+> deleted file mode 100644
+> index f522bb8e47e1..000000000000
+> --- a/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.txt
+> +++ /dev/null
+> @@ -1,49 +0,0 @@
+> -Sharp Microelectronics 10.1" WQXGA TFT LCD panel
+> -
+> -This panel requires a dual-channel DSI host to operate. It supports two modes:
+> -- left-right: each channel drives the left or right half of the screen
+> -- even-odd: each channel drives the even or odd lines of the screen
+> -
+> -Each of the DSI channels controls a separate DSI peripheral. The peripheral
+> -driven by the first link (DSI-LINK1), left or even, is considered the primary
+> -peripheral and controls the device. The 'link2' property contains a phandle
+> -to the peripheral driven by the second link (DSI-LINK2, right or odd).
+> -
+> -Note that in video mode the DSI-LINK1 interface always provides the left/even
+> -pixels and DSI-LINK2 always provides the right/odd pixels. In command mode it
+> -is possible to program either link to drive the left/even or right/odd pixels
+> -but for the sake of consistency this binding assumes that the same assignment
+> -is chosen as for video mode.
+> -
+> -Required properties:
+> -- compatible: should be "sharp,lq101r1sx01"
+> -- reg: DSI virtual channel of the peripheral
+> -
+> -Required properties (for DSI-LINK1 only):
+> -- link2: phandle to the DSI peripheral on the secondary link. Note that the
+> -  presence of this property marks the containing node as DSI-LINK1.
+> -- power-supply: phandle of the regulator that provides the supply voltage
+> -
+> -Optional properties (for DSI-LINK1 only):
+> -- backlight: phandle of the backlight device attached to the panel
+> -
+> -Example:
+> -
+> -	dsi@54300000 {
+> -		panel: panel@0 {
+> -			compatible = "sharp,lq101r1sx01";
+> -			reg = <0>;
+> -
+> -			link2 = <&secondary>;
+> -
+> -			power-supply = <...>;
+> -			backlight = <...>;
+> -		};
+> -	};
+> -
+> -	dsi@54400000 {
+> -		secondary: panel@0 {
+> -			compatible = "sharp,lq101r1sx01";
+> -			reg = <0>;
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml b/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml
+> new file mode 100644
+> index 000000000000..956608cada77
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml
+> @@ -0,0 +1,85 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/sharp,lq101r1sx01.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sharp Microelectronics 10.1" WQXGA TFT LCD panel
+> +
+> +maintainers:
+> +  - Thierry Reding <treding@nvidia.com>
+> +
+> +description: |
+> +  This panel requires a dual-channel DSI host to operate. It supports two modes:
+> +  - left-right: each channel drives the left or right half of the screen
+> +  - even-odd: each channel drives the even or odd lines of the screen
+> +
+> +  Each of the DSI channels controls a separate DSI peripheral. The peripheral
+> +  driven by the first link (DSI-LINK1), left or even, is considered the primary
+> +  peripheral and controls the device. The 'link2' property contains a phandle
+> +  to the peripheral driven by the second link (DSI-LINK2, right or odd).
+> +
+> +  Note that in video mode the DSI-LINK1 interface always provides the left/even
+> +  pixels and DSI-LINK2 always provides the right/odd pixels. In command mode it
+> +  is possible to program either link to drive the left/even or right/odd pixels
+> +  but for the sake of consistency this binding assumes that the same assignment
+> +  is chosen as for video mode.
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: sharp,lq101r1sx01
+> +
+> +  reg: true
+> +  power-supply: true
+> +  backlight: true
+> +
+> +  link2:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      phandle to the DSI peripheral on the secondary link. Note that the
+> +      presence of this property marks the containing node as DSI-LINK1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +if:
+> +  required:
+> +    - link2
+> +then:
+> +  required:
+> +    - power-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    dsi0 {
 
---===============0934042377==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WoqaC9TUMqqIOlla"
-Content-Disposition: inline
+Probably should put a reg property and unit-address here so the 
+dsi-controller schema will match on these.
 
+With that,
 
---WoqaC9TUMqqIOlla
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-On Tue, Apr 14, 2020 at 08:20:23PM +0200, Cl=E9ment P=E9ron wrote:
-> Hi Liam and Mark,
-
-You might want to flag stuff like this in the subject line, I very
-nearly deleted this without opening it since most of the email I get
-about panfrost appears to be coming from me having sent patches rather
-than being relevant.
-
-> We are having an issue with Panfrost driver registering two times the
-> same regulator and giving an error when trying to create the debugfs
-> folder.
-
-> Could you clarify if it is allowed for a device to register two times
-> the same regulator?
-
-> I check Documentation/power/regulator/regulator.rst but this point is
-> not specified.
-
-We don't actively prevent it and I can't think what other than debugfs
-might run into problems (and that's just a warning) but it does seem
-like a weird thing to want to do and like it's pointing to some
-confusion in your code with two different parts of the device
-controlling the same supply independently.  What's the use case here?
-
---WoqaC9TUMqqIOlla
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl6WBxoACgkQJNaLcl1U
-h9AufQf/b6efImc7LvBHGoIjbHuK7UiFNve0LJJqjKwvdUwdpOp/m+WzrHWaNAvO
-5JNbL9U5h7T5oGh5A9AiToEysk1Fo7St5WLmbEJBXqD8Nhg9yQU/3OtCTgHi+2LP
-gx3nA1upkwg3OVkAt5RO1jX70kRXebrAPGy4FgGUyiLhNKnK6Nqf8FXnVzhy6Szl
-wH1/jGJlNphErY6s9t9nQLHSY8uS2h2AVvRHA8m5TJeGCGVcfr9iH8r/lLgfIWZI
-9SiBZkDSSPsqPOaUylAF2QPyGRx8hNQrJX0Ih4MFsuts0JW1YUO1iNTW6HGj7gL9
-8c4/u0KEtqVMiq2q6PnG7cfk2XlkNA==
-=+uTF
------END PGP SIGNATURE-----
-
---WoqaC9TUMqqIOlla--
-
---===============0934042377==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        panel: panel@0 {
+> +            compatible = "sharp,lq101r1sx01";
+> +            reg = <0>;
+> +
+> +            link2 = <&secondary>;
+> +
+> +            power-supply = <&power>;
+> +            backlight = <&backlight>;
+> +        };
+> +    };
+> +
+> +    dsi1 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        secondary: panel@0 {
+> +            compatible = "sharp,lq101r1sx01";
+> +            reg = <0>;
+> +        };
+> +    };
+> +
+> +...
+> -- 
+> 2.20.1
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0934042377==--
