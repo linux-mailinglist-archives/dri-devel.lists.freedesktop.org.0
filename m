@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41411A8EED
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 01:11:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E9C1A8EF0
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 01:11:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01C546E5C8;
-	Tue, 14 Apr 2020 23:11:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A3B66E5CC;
+	Tue, 14 Apr 2020 23:11:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
- [209.85.167.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CEA26E5C8
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 23:11:01 +0000 (UTC)
-Received: by mail-oi1-f180.google.com with SMTP id o25so11947187oic.11
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 16:11:01 -0700 (PDT)
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D63189830
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 23:11:21 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id i27so1520662ota.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 16:11:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=VwlQ6VCZgV5ka7iVLQq2H1q/L90kjoFQN48DbNs7kyk=;
- b=nHGMR3cKnOClTVY5ehbxaU6rGcraZEruNoob3GbJpAC0lu+9sskd2jWtlM1OTjP989
- KQIU33dHLdBNA4umEzeOhmwpY2aGZzozY9KKL/njmTnd+1s4Vk8EnoLdJHj5dEzGzzTl
- 8617a0MwWguIFyb9U9xA0v2Nohndrn8LZKSAJj/wOM1w7i849EcH2eU2B+olQa5YLQc7
- 445ECljo8gPnO120dJ2cTzk4pI6fM7+fALP8gRvrjHl9a0oOnbe7WkcvYFZtYPUoBo83
- IHmMKOeQ4qMBZkbRxa+z7HLXUxuOvLa2VoG/dHc9lCpFHjakjt5/eUtdhJoBxTqW7jqm
- os0g==
-X-Gm-Message-State: AGi0PuYUE4nWOJC5CzH+1ehQ2H5JP8zoIEd1t89hXlp7uz0OgelfNoL7
- Q7OzjqGO7MIvOtOYrr4Y6g==
-X-Google-Smtp-Source: APiQypKCV80Py52kn0+PiM6nVbpJK4+Z+kN+SUuLi9kw5wkrmmpi+wDUYzmHfcVYyrFztmgZUUOjTA==
-X-Received: by 2002:a05:6808:3a9:: with SMTP id
- n9mr16580256oie.124.1586905860910; 
- Tue, 14 Apr 2020 16:11:00 -0700 (PDT)
+ bh=uQbA1hm4F1ECx3Q8+dWpAWgcwSDF1dFS3d3ZIaptT0s=;
+ b=Cv5o5pJg1vI1cACjQXaswEfRfoFHyohPm876qottClEYnA1Rf2pphvKYeHchcLdZn9
+ 0vpeBWbAqxBZde6yw2DVjS4WkUrXw3fuzUAsXhI2qUSoAYGp85dc8lPcNUq9+Rt4O0kz
+ 6jJKXEHt9C51FvA6vJoNx3K2E+KRaj3Aewlf6JbxWfl1dIPQ1AhEZpB+izCPSaOoRaDg
+ YmBIQcWxgrOTdlqYZWnUBsnP4jOdZawt4daNgFntv4O6CV3LXcpZyDyiXFNKFXeCZLAx
+ V9y54Sn71W4bAmFcfwW6xX7f61QJJXR3cRrdSVf7/memJV5sNxj4snjYl3XAyzBioExd
+ OnUQ==
+X-Gm-Message-State: AGi0PuZ+utv0QyvwGjY8j7Qc37bXMHHTUjztAUyxWBgbDRQfLkdWFhYS
+ /XlkTH3NFRpVqUuO2bbc7g==
+X-Google-Smtp-Source: APiQypK8ZzZ8C2d2xHIP7/hVcEIpx48D8sjnAVUS4VjaxOXBvRO5TMBQWpnOXEbSUqJLeeI5tihRSg==
+X-Received: by 2002:a4a:e151:: with SMTP id p17mr16389352oot.28.1586905879376; 
+ Tue, 14 Apr 2020 16:11:19 -0700 (PDT)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id j186sm1188168oia.31.2020.04.14.16.10.59
+ by smtp.gmail.com with ESMTPSA id p130sm5952795oig.51.2020.04.14.16.11.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 16:11:00 -0700 (PDT)
-Received: (nullmailer pid 5848 invoked by uid 1000);
- Tue, 14 Apr 2020 23:10:59 -0000
-Date: Tue, 14 Apr 2020 18:10:59 -0500
+ Tue, 14 Apr 2020 16:11:18 -0700 (PDT)
+Received: (nullmailer pid 6378 invoked by uid 1000);
+ Tue, 14 Apr 2020 23:11:18 -0000
+Date: Tue, 14 Apr 2020 18:11:18 -0500
 From: Rob Herring <robh@kernel.org>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH/RFC 5/6] dt-bindings: display: sun8i-a83t-dw-hdmi:
- Reference dw-hdmi YAML schema
-Message-ID: <20200414231059.GA5789@bogus>
+Subject: Re: [PATCH/RFC 6/6] dt-bindings: display: bridge: Remove deprecated
+ dw_hdmi.txt
+Message-ID: <20200414231118.GA6328@bogus>
 References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200405233935.27599-6-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405233935.27599-7-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200405233935.27599-6-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200405233935.27599-7-laurent.pinchart+renesas@ideasonboard.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,14 +71,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon,  6 Apr 2020 02:39:34 +0300, Laurent Pinchart wrote:
-> Replace the reference to the DWC HDMI text DT binding with a reference
-> to the YAML equivalent.
+On Mon,  6 Apr 2020 02:39:35 +0300, Laurent Pinchart wrote:
+> dw_hdmi.txt has been replaced with synopsys,dw-hdmi.yaml, and all
+> references to the old file have been converted. Remove it.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  .../bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml        | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  .../bindings/display/bridge/dw_hdmi.txt       | 33 -------------------
+>  1 file changed, 33 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
 > 
 
 Acked-by: Rob Herring <robh@kernel.org>
