@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8701A7B68
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 14:54:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C176F1A7B70
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 14:55:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD3B6E119;
-	Tue, 14 Apr 2020 12:54:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C53296E13F;
+	Tue, 14 Apr 2020 12:55:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E131E6E119
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 12:54:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 927646E4C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 12:55:06 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3F0D220775;
- Tue, 14 Apr 2020 12:54:20 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 75B9C206A2;
+ Tue, 14 Apr 2020 12:55:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586868861;
- bh=w6XXP195+Jxp1MIJYohG3U+bL2LY4rMomokRATUVj6Y=;
+ s=default; t=1586868906;
+ bh=3mtVbazOODlWmZkI2pC3OZrxU4xuKxy4xYMqOMi+DOo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KUUWawnRhZWVZA4Mx1xQ7dOhftFNPIxzf1waPD79QN2nHLTwGwIA6cevta1EjCSOo
- //wKDlEIhBkx41x9paKY8+IyKktSaZFdJL/+3KUH2daqkCRS3WinhuXoTw3ctowKfO
- 34eA1F0TTUmwr4Vr1nPyvba5Bm60H1KoF4fIh+7c=
-Date: Tue, 14 Apr 2020 14:54:18 +0200
+ b=owjpvTR/99cTOPzzwnkDnpkDpyHwqR3u/28s6xClkS7BDEyhyW63auTVtn9fbzvgw
+ gSPxDTRm63N6w859trpZorcERRfHwuo0gOq3qU8enok4JrslGok4+0RyU/6hKXTvQp
+ N1FGoKtqAWcRwtbvdskl4jZY6mpYC1zWhMkP0m6o=
+Date: Tue, 14 Apr 2020 14:55:03 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 2/8] fs: extract simple_pin/release_fs to separate files
-Message-ID: <20200414125418.GA720679@kroah.com>
+Subject: Re: [PATCH 5/8] simplefs: add alloc_anon_inode wrapper
+Message-ID: <20200414125503.GB720679@kroah.com>
 References: <20200414124304.4470-1-eesposit@redhat.com>
- <20200414124304.4470-3-eesposit@redhat.com>
+ <20200414124304.4470-6-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200414124304.4470-3-eesposit@redhat.com>
+In-Reply-To: <20200414124304.4470-6-eesposit@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,52 +94,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 02:42:56PM +0200, Emanuele Giuseppe Esposito wrote:
-> We will augment this family of functions with inode management.  To avoid
-> littering include/linux/fs.h and fs/libfs.c, move them to a separate header,
-> with a Kconfig symbol to enable them.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+On Tue, Apr 14, 2020 at 02:42:59PM +0200, Emanuele Giuseppe Esposito wrote:
+> Start adding file creation wrappers, the simplest returns an anonymous
+> inode.
 
-You have a lot of people on cc:, this is going to be hard for everyone
-to review...
-
-
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index d1398cef3b18..fc38a6f0fc11 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -288,12 +288,16 @@ config STRIP_ASM_SYMS
->  
->  config READABLE_ASM
->  	bool "Generate readable assembler code"
-> -	depends on DEBUG_KERNEL
-> -	help
-> -	  Disable some compiler optimizations that tend to generate human unreadable
-> -	  assembler output. This may make the kernel slightly slower, but it helps
-> -	  to keep kernel developers who have to stare a lot at assembler listings
-> -	  sane.
-> +    depends on DEBUG_KERNEL
-> +    help
-> +      Disable some compiler optimizations that tend to generate human unreadable
-> +      assembler output. This may make the kernel slightly slower, but it helps
-> +      to keep kernel developers who have to stare a lot at assembler listings
-> +      sane.
-> +	  
-
-Why did you loose the indentation here and add trailing whitespace?
-
-> +config DEBUG_FS
-> +	bool "Debug Filesystem"
-> +	select SIMPLEFS
->  
-
-We already have a DEBUG_FS config option in this file, why another one?
-And what happened to the help text?
-
-I think you need to rework your patch series to do smaller things on
-each step, which would make it reviewable much easier, and prevent
-mistakes like this one.
+This changelog text does not make much sense on its own.  Please say why
+you are doing something, not just what you are doing.
 
 thanks,
 
