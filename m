@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C176F1A7B70
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 14:55:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A661A7B79
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 14:56:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C53296E13F;
-	Tue, 14 Apr 2020 12:55:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F62489D40;
+	Tue, 14 Apr 2020 12:56:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 927646E4C9
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 12:55:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 111B889D40
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 12:56:29 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 75B9C206A2;
- Tue, 14 Apr 2020 12:55:05 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 040772076D;
+ Tue, 14 Apr 2020 12:56:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586868906;
- bh=3mtVbazOODlWmZkI2pC3OZrxU4xuKxy4xYMqOMi+DOo=;
+ s=default; t=1586868988;
+ bh=cUsRBw4xRJcezB/ZRtjYiCyoUTShgzDF9QmHT/uunvY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=owjpvTR/99cTOPzzwnkDnpkDpyHwqR3u/28s6xClkS7BDEyhyW63auTVtn9fbzvgw
- gSPxDTRm63N6w859trpZorcERRfHwuo0gOq3qU8enok4JrslGok4+0RyU/6hKXTvQp
- N1FGoKtqAWcRwtbvdskl4jZY6mpYC1zWhMkP0m6o=
-Date: Tue, 14 Apr 2020 14:55:03 +0200
+ b=O+0/+J3q6IpztwhxEGT0OVnfIh3pCJ6dMzQN4HIku+0vphymoWpQOOM8ckygO7bvj
+ tEo5/7yl4Jc4KVFc6uDRp76itFJ6WWgv+Y89NA119rqZSOnLZidaj8mNe2CoW6MsD9
+ WuhJF5efIRKL5VDTIVeF02sAYzd85r8Rx8V2Id0A=
+Date: Tue, 14 Apr 2020 14:56:26 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 5/8] simplefs: add alloc_anon_inode wrapper
-Message-ID: <20200414125503.GB720679@kroah.com>
+Subject: Re: [PATCH 6/8] simplefs: add file creation functions
+Message-ID: <20200414125626.GC720679@kroah.com>
 References: <20200414124304.4470-1-eesposit@redhat.com>
- <20200414124304.4470-6-eesposit@redhat.com>
+ <20200414124304.4470-7-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200414124304.4470-6-eesposit@redhat.com>
+In-Reply-To: <20200414124304.4470-7-eesposit@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,12 +94,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 02:42:59PM +0200, Emanuele Giuseppe Esposito wrote:
-> Start adding file creation wrappers, the simplest returns an anonymous
-> inode.
+On Tue, Apr 14, 2020 at 02:43:00PM +0200, Emanuele Giuseppe Esposito wrote:
+> A bunch of code is duplicated between debugfs and tracefs, unify it to the
+> simplefs library.
+> 
+> The code is very similar, except that dentry and inode creation are unified
+> into a single function (unlike start_creating in debugfs and tracefs, which
+> only takes care of dentries).  This adds an output parameter to the creation
+> functions, but pushes all error recovery into fs/simplefs.c.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  fs/simplefs.c            | 150 +++++++++++++++++++++++++++++++++++++++
+>  include/linux/simplefs.h |  19 +++++
+>  2 files changed, 169 insertions(+)
 
-This changelog text does not make much sense on its own.  Please say why
-you are doing something, not just what you are doing.
+What's wrong with libfs, isn't that supposed to be for these types of
+"common" filesystem interactions?
+
+Why create a whole "new" fs for this?
 
 thanks,
 
