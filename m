@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D861A89A8
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 20:34:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C041A89AD
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 20:35:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A2926E51C;
-	Tue, 14 Apr 2020 18:34:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41ABC6E520;
+	Tue, 14 Apr 2020 18:35:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B0266E51C
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 18:34:53 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id x11so696679otp.6
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 11:34:53 -0700 (PDT)
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+ [209.85.167.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78C6D6E520
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 18:35:30 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id b7so8752830oic.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 11:35:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=YaA1doZo6XeG3a/kjw3o15hxftnD9UG0Sj5L9mPEsis=;
- b=JonUAkONbD3NH/UHktUisSZ/lJC/A0o2SA/RD/P250g1THjQEaHwc9T/RHTZbMuEEk
- ra7LMaJIYn8937gddmsfOBFb/VWnSO2JtabTpl53nOrFwbxJe141sSUWubaA14841OAZ
- 1Ss0JKDR6QC+S5OkFQwo4Cs3mxcdBd09bygQ1FJGfOkBB72Jnl3alv8KVe3ByJBhFoup
- KchAixoTLkNOyKox2K5Oqa8EjSfX3TJd+vAIAEeTAFO7r8/5YKp8mUTxQhpMkvVBz70h
- BvODb7RzOZ7MkG53CNP1Bt79Wdu8M6Wf2pICZiGZUTN6VOulSfCXC4QVJmaYszw3vj9k
- WzUQ==
-X-Gm-Message-State: AGi0Pubue/1xvRQlxfzNGejPk1KL1VshXPmSpi/oKxZNMTYOxR2TkKPc
- KwmLJ0pAK6KA60PEwhNJM6XlEqQ=
-X-Google-Smtp-Source: APiQypL6Fe1HDUNpz669SwTSzUB6G9QhuQv7sSJxBX3BK1gqEAGSUwypmrn/VxXVGSXj6DK5rQU7Hw==
-X-Received: by 2002:a4a:a126:: with SMTP id i38mr19808895ool.11.1586889292391; 
- Tue, 14 Apr 2020 11:34:52 -0700 (PDT)
+ bh=fV7vj2hdsN/omKrh1X0aQ+zsFE9pUR8bPAA1ylHGHnc=;
+ b=H0tC6S5m6OyA5FZ+tCef4GS68Z38Qxbf38laNVABMRJxdSgIhjIBUByWilzWCxzDnn
+ WxzfA7H7ktcvwyV8PCArhUwuDuSP2eeC69pgq56zbbwMix8PC/6l+nsccB9Yy06AaNiz
+ fb1h8TF1bwlkBCM+QlVvjYSAtbNWG6s69PlMxz90wgMHM3VVY5kJnTfSX4Kr2afqU4Mj
+ iXYLNsnZZKjfIrNJGHhdu7aCgaJ8w74gXYTKObp67vCL5jlZUgkolXJoyMI4mIcW+lol
+ +dwPKn0vL7Yf4UfxMa9PIsRHa9CWvt/f0ob/xFUOtjPvzk1ou81gDuex0mTdScbmFivp
+ GfFg==
+X-Gm-Message-State: AGi0PuYuCzQ6Oft93nev2AO+/ayAobyYeKuLJWYMDp0wy92DRTMv+DpL
+ Z+kjCpZJLlopHlhmkXjvHg==
+X-Google-Smtp-Source: APiQypJY0vPZjljdUXaMHLmjIMz3V2j5tiJWfzw53eV6fYU4IVdOitVJ9RMLmiT4O+j2shITieQqtg==
+X-Received: by 2002:aca:c70f:: with SMTP id x15mr16071865oif.80.1586889329793; 
+ Tue, 14 Apr 2020 11:35:29 -0700 (PDT)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id c15sm6341423oot.23.2020.04.14.11.34.51
+ by smtp.gmail.com with ESMTPSA id f1sm6367367ooj.38.2020.04.14.11.35.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 11:34:51 -0700 (PDT)
-Received: (nullmailer pid 10111 invoked by uid 1000);
- Tue, 14 Apr 2020 18:34:51 -0000
-Date: Tue, 14 Apr 2020 13:34:51 -0500
+ Tue, 14 Apr 2020 11:35:29 -0700 (PDT)
+Received: (nullmailer pid 11895 invoked by uid 1000);
+ Tue, 14 Apr 2020 18:35:28 -0000
+Date: Tue, 14 Apr 2020 13:35:28 -0500
 From: Rob Herring <robh@kernel.org>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 16/36] dt-bindings: display: convert lg,lg4573 to DT
- Schema
-Message-ID: <20200414183450.GA10047@bogus>
+Subject: Re: [PATCH v2 17/36] dt-bindings: display: convert
+ osddisplays,osd101t2587-53ts to DT Schema
+Message-ID: <20200414183528.GA11819@bogus>
 References: <20200408195109.32692-1-sam@ravnborg.org>
- <20200408195109.32692-17-sam@ravnborg.org>
+ <20200408195109.32692-18-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200408195109.32692-17-sam@ravnborg.org>
+In-Reply-To: <20200408195109.32692-18-sam@ravnborg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,33 +62,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org, Heiko Schocher <hs@denx.de>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed,  8 Apr 2020 21:50:49 +0200, Sam Ravnborg wrote:
+On Wed,  8 Apr 2020 21:50:50 +0200, Sam Ravnborg wrote:
+> osddisplays,osd101t2587-53ts is compatible with panel-simple-dsi binding,
+> so list the compatible in the panel-simple-dsi binding file.
+> 
 > v2:
->   - Dropped spi-slave (Maxime)
->   - Added unevaluatedProperties (Maxime)
->   - Deleted needless compatible from example (Rob)
+>   - It is a DSI panel, move to -dsi binding (Tomi)
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Reviewed-by: Heiko Schocher <hs@denx.de>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Heiko Schocher <hs@denx.de>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Cc: Peter Ujfalusi <peter.ujfalusi@ti.com>
 > Cc: Thierry Reding <thierry.reding@gmail.com>
 > Cc: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  .../bindings/display/panel/lg,lg4573.txt      | 19 --------
->  .../bindings/display/panel/lg,lg4573.yaml     | 45 +++++++++++++++++++
->  2 files changed, 45 insertions(+), 19 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/panel/lg,lg4573.txt
->  create mode 100644 Documentation/devicetree/bindings/display/panel/lg,lg4573.yaml
+>  .../display/panel/osddisplays,osd101t2587-53ts.txt | 14 --------------
+>  .../bindings/display/panel/panel-simple-dsi.yaml   |  2 ++
+>  2 files changed, 2 insertions(+), 14 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/panel/osddisplays,osd101t2587-53ts.txt
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
