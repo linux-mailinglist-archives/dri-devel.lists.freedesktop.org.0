@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6C21A940A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:18:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E64C1A8EEA
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 01:10:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7557D6E85A;
-	Wed, 15 Apr 2020 07:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 340F06E115;
+	Tue, 14 Apr 2020 23:10:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0B656E5B2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 22:20:22 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id j3so1102086ljg.8
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 15:20:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=onnXURnDKlMg1uxo6qnz+iE+q0NRBVnox8AeT5i1HKQ=;
- b=qMMpe9cdrz7x4TJjmfaO5VHmQbNxFkDe2pVnhslgkSnWNj83Y0vjcvV2f1RQLROfHZ
- rox+B8BeaGYOnyn1RoiXIYkD8d0moANyTzwDMbg2/wKQgc6t4kgqaeYfQoGwGcTpXFN0
- rh1+4YV5pfrftLUrKZeykau1/fuLm7VsZItuWqOfqK9/bixQMpPHS++g1wYZpXwhDfLk
- 4K8jTISGXO3wDuzlc5KWJX7YBzkXJKtDM85m2+0tYibU2BG//4jtnnfV1i9j2qPKUuBU
- 9IauDIjwQodV4UxcABcPBdUfSZ0fagMBbKPNX8lAkyC3hJGof7O8ZZzzid6KpjvBSkEU
- rxCw==
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+ [209.85.167.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 685956E115
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 23:10:08 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id o25so11945472oic.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 16:10:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=onnXURnDKlMg1uxo6qnz+iE+q0NRBVnox8AeT5i1HKQ=;
- b=m0l50PY0t3lHUTA67jNvDSaGqcoN4/gQ6YQd+axM+X3A/RAxuCeGue5PEqYF6II45O
- GX+T+Bh8zLTTx/sQEPlQ0iXK4n+Q8Tv9MJXUvP59aIJ3D6lpEu0F68/09+YyFLdgT9Qr
- cO3zmAWfQEvspFLbap0Xm3HWkJi/eJ5EqRYFapHwVqL5MoKiSJe14yhINA1J8WZkTQlx
- b8iIUdkSJWB38GmsBqiwMC1SsXySuOLvUgJjdl4JdPJgu5+x3Fdwa0sb9DW6OXwH7roq
- 2R9AhbksWsoFm+gCFc0T5fUfGV/h1h4ZxUEO48Gl1IBolQoy2A7aavSK61FRkP0eRfjc
- qXjA==
-X-Gm-Message-State: AGi0PuYsUuxdbs21ZTmJ8dzNDDP0mhyn8dm1yB1eri/lIfZj0dZZVGqU
- AXOlnNFgwoz0iaIatlsQegs=
-X-Google-Smtp-Source: APiQypLpYz8jfKSPIBcjC/VEtLmf4Lu78UHdIMgYpTMwUzxmRljvh+WvmekbJEyXhoYHYWqxOGXryA==
-X-Received: by 2002:a2e:8410:: with SMTP id z16mr1339187ljg.197.1586902821153; 
- Tue, 14 Apr 2020 15:20:21 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru.
- [91.78.208.152])
- by smtp.gmail.com with ESMTPSA id k11sm11120064lfe.44.2020.04.14.15.20.20
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=nnA+hiteX7SC+b7tbnuixdpiQ4jhYp1NDyyYVqLC8Kk=;
+ b=EFWOFNbd3J8WR91H3zDHBLfnAM9GhR5oWDj0Y6CXLt+dDfF9wotv9Y10mSPtLiVMBM
+ DKHanGFjgdbu3TcYkM64A/Q7iuxSQoE3mUhEH6Gn93FnLn/qdaZnHPXTKDKCTK7BWwOD
+ kJSHtSdAWRiiIjH7KEp9f0YnyYNiomBZX6nH/OlFLvQQi1TIUlSWFwTFyJ6HD25vh5Aa
+ HPWr/3gFYKElK3jVdIxQPImWlPzNSy06kTD0sB55W2w442eq6FpLooOw0lNnlUtuq2Kd
+ /IESko1YqpZEFTHfSfu+c91cTllJPSwCEQFIzHFqvSBbh8DYCfUW+pckfzL5hjY6JA8/
+ h3TQ==
+X-Gm-Message-State: AGi0PuaA8Nq0TnjU0iOjtVH4tInHaUbUUPAR+TNp7fxNPXfo+lpw+idU
+ SIiOhKFiM+QjM+3PL0TV7w==
+X-Google-Smtp-Source: APiQypJtzbcIYHC3GUgn2zyO2j2evzOR6eKeQ7eqShmZOkQRjj/3ILyd6wKDsY7XyxDA98fIRmPd5w==
+X-Received: by 2002:aca:f541:: with SMTP id t62mr2857983oih.148.1586905807549; 
+ Tue, 14 Apr 2020 16:10:07 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id a131sm5937481oii.30.2020.04.14.16.10.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 15:20:20 -0700 (PDT)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v2 2/2] drm/tegra: output: rgb: Don't register connector if
- bridge is used
-Date: Wed, 15 Apr 2020 01:20:07 +0300
-Message-Id: <20200414222007.31306-3-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200414222007.31306-1-digetx@gmail.com>
-References: <20200414222007.31306-1-digetx@gmail.com>
+ Tue, 14 Apr 2020 16:10:06 -0700 (PDT)
+Received: (nullmailer pid 4550 invoked by uid 1000);
+ Tue, 14 Apr 2020 23:10:05 -0000
+Date: Tue, 14 Apr 2020 18:10:05 -0500
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH/RFC 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
+ binding to YAML
+Message-ID: <20200414231005.GA24462@bogus>
+References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
+ <20200406111927.GD4757@pendragon.ideasonboard.com>
+ <20200406170915.x2ztz4q446h6vx2y@gilmour.lan>
+ <20200406175028.GI16885@pendragon.ideasonboard.com>
+ <20200407071251.npibrmzywiyigu2a@gilmour.lan>
+ <20200408114552.GC4881@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 15 Apr 2020 07:17:53 +0000
+Content-Disposition: inline
+In-Reply-To: <20200408114552.GC4881@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,66 +68,274 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+ Maxime Ripard <maxime@cerno.tech>, Mark Yao <mark.yao@rock-chips.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We rely on the connector that is created by the bridge, and thus, the
-Tegra's output connector is not needed in this case because it will be
-an unused connector.
+On Wed, Apr 08, 2020 at 02:45:52PM +0300, Laurent Pinchart wrote:
+> Hi Maxime,
+> 
+> On Tue, Apr 07, 2020 at 09:12:51AM +0200, Maxime Ripard wrote:
+> > On Mon, Apr 06, 2020 at 08:50:28PM +0300, Laurent Pinchart wrote:
+> > > On Mon, Apr 06, 2020 at 07:09:15PM +0200, Maxime Ripard wrote:
+> > > > On Mon, Apr 06, 2020 at 02:19:27PM +0300, Laurent Pinchart wrote:
+> > > > > On Mon, Apr 06, 2020 at 10:00:32AM +0200, Maxime Ripard wrote:
+> > > > > > On Mon, Apr 06, 2020 at 02:39:33AM +0300, Laurent Pinchart wrote:
+> > > > > > > Convert the Rockchip HDMI TX text binding to YAML.
+> > > > > > >
+> > > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > > > > ---
+> > > > > > >  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
+> > > > > > >  .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
+> > > > > > >  2 files changed, 178 insertions(+), 74 deletions(-)
+> > > > > > >  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> > > > > > >  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > > > > > >
+> > > > > > > diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> > > > > > > deleted file mode 100644
+> > > > > > > index 3d32ce137e7f..000000000000
+> > > > > > > --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> > > > > > > +++ /dev/null
+> > > > > > > @@ -1,74 +0,0 @@
+> > > > > > > -Rockchip DWC HDMI TX Encoder
+> > > > > > > -============================
+> > > > > > > -
+> > > > > > > -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> > > > > > > -with a companion PHY IP.
+> > > > > > > -
+> > > > > > > -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
+> > > > > > > -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
+> > > > > > > -following device-specific properties.
+> > > > > > > -
+> > > > > > > -
+> > > > > > > -Required properties:
+> > > > > > > -
+> > > > > > > -- compatible: should be one of the following:
+> > > > > > > -		"rockchip,rk3228-dw-hdmi"
+> > > > > > > -		"rockchip,rk3288-dw-hdmi"
+> > > > > > > -		"rockchip,rk3328-dw-hdmi"
+> > > > > > > -		"rockchip,rk3399-dw-hdmi"
+> > > > > > > -- reg: See dw_hdmi.txt.
+> > > > > > > -- reg-io-width: See dw_hdmi.txt. Shall be 4.
+> > > > > > > -- interrupts: HDMI interrupt number
+> > > > > > > -- clocks: See dw_hdmi.txt.
+> > > > > > > -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
+> > > > > > > -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
+> > > > > > > -  corresponding to the video input of the controller. The port shall have two
+> > > > > > > -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
+> > > > > > > -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
+> > > > > > > -
+> > > > > > > -Optional properties
+> > > > > > > -
+> > > > > > > -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
+> > > > > > > -  or the functionally-reduced I2C master contained in the DWC HDMI. When
+> > > > > > > -  connected to a system I2C master this property contains a phandle to that
+> > > > > > > -  I2C master controller.
+> > > > > > > -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
+> > > > > > > -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
+> > > > > > > -- clock-names: May contain "grf", power for grf io.
+> > > > > > > -- clock-names: May contain "vpll", external clock for some hdmi phy.
+> > > > > > > -- phys: from general PHY binding: the phandle for the PHY device.
+> > > > > > > -- phy-names: Should be "hdmi" if phys references an external phy.
+> > > > > > > -
+> > > > > > > -Optional pinctrl entry:
+> > > > > > > -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
+> > > > > > > -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
+> > > > > > > -  i2c timeout.  It's intended that this unwedge pinctrl entry will
+> > > > > > > -  cause the SDA line to be driven low to work around a hardware
+> > > > > > > -  errata.
+> > > > > > > -
+> > > > > > > -Example:
+> > > > > > > -
+> > > > > > > -hdmi: hdmi@ff980000 {
+> > > > > > > -	compatible = "rockchip,rk3288-dw-hdmi";
+> > > > > > > -	reg = <0xff980000 0x20000>;
+> > > > > > > -	reg-io-width = <4>;
+> > > > > > > -	ddc-i2c-bus = <&i2c5>;
+> > > > > > > -	rockchip,grf = <&grf>;
+> > > > > > > -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> > > > > > > -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
+> > > > > > > -	clock-names = "iahb", "isfr";
+> > > > > > > -	ports {
+> > > > > > > -		hdmi_in: port {
+> > > > > > > -			#address-cells = <1>;
+> > > > > > > -			#size-cells = <0>;
+> > > > > > > -			hdmi_in_vopb: endpoint@0 {
+> > > > > > > -				reg = <0>;
+> > > > > > > -				remote-endpoint = <&vopb_out_hdmi>;
+> > > > > > > -			};
+> > > > > > > -			hdmi_in_vopl: endpoint@1 {
+> > > > > > > -				reg = <1>;
+> > > > > > > -				remote-endpoint = <&vopl_out_hdmi>;
+> > > > > > > -			};
+> > > > > > > -		};
+> > > > > > > -	};
+> > > > > > > -};
+> > > > > > > diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > > > > > > new file mode 100644
+> > > > > > > index 000000000000..8ff544ae0ac2
+> > > > > > > --- /dev/null
+> > > > > > > +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > > > > > > @@ -0,0 +1,178 @@
+> > > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > > > +%YAML 1.2
+> > > > > > > +---
+> > > > > > > +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+> > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > > > +
+> > > > > > > +title: Rockchip DWC HDMI TX Encoder
+> > > > > > > +
+> > > > > > > +maintainers:
+> > > > > > > +  - Mark Yao <mark.yao@rock-chips.com>
+> > > > > > > +
+> > > > > > > +description: |
+> > > > > > > +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> > > > > > > +  with a companion PHY IP.
+> > > > > > > +
+> > > > > > > +allOf:
+> > > > > > > +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> > > > > > > +
+> > > > > > > +properties:
+> > > > > > > +  compatible:
+> > > > > > > +    enum:
+> > > > > > > +      - rockchip,rk3228-dw-hdmi
+> > > > > > > +      - rockchip,rk3288-dw-hdmi
+> > > > > > > +      - rockchip,rk3328-dw-hdmi
+> > > > > > > +      - rockchip,rk3399-dw-hdmi
+> > > > > > > +
+> > > > > > > +  reg: true
+> > > > > > > +
+> > > > > > > +  reg-io-width:
+> > > > > > > +    const: 4
+> > > > > > > +
+> > > > > > > +  clocks:
+> > > > > > > +    minItems: 2
+> > > > > > > +    maxItems: 5
+> > > > > > > +    items:
+> > > > > > > +      - description: The bus clock for either AHB and APB
+> > > > > > > +      - description: The internal register configuration clock
+> > > > > > > +      - description: The HDMI CEC controller main clock
+> > > > > > > +      - description: Power for GRF IO
+> > > > > > > +      - description: External clock for some HDMI PHY
+> > > > > > > +
+> > > > > > > +  clock-names:
+> > > > > > > +    minItems: 2
+> > > > > > > +    maxItems: 5
+> > > > > > > +    items:
+> > > > > > > +      - const: iahb
+> > > > > > > +      - const: isfr
+> > > > > > > +      - enum:
+> > > > > > > +        - cec
+> > > > > > > +        - grf
+> > > > > > > +        - vpll
+> > > > > > > +      - enum:
+> > > > > > > +        - cec
+> > > > > > > +        - grf
+> > > > > > > +        - vpll
+> > > > > > > +      - enum:
+> > > > > > > +        - cec
+> > > > > > > +        - grf
+> > > > > > > +        - vpll
+> > > > > >
+> > > > > > IIRC Rob wanted us to standardize the order of the clocks if possible,
+> > > > > > since it's a pain to support properly here, and your description won't
+> > > > > > match what you describe here either (and in general it's just a best
+> > > > > > practice), so if all your DTs have the same order you should just set
+> > > > > > that order in stone.
+> > > > >
+> > > > > But how do we handle the case where any of the cec, grf and vpll clocks
+> > > > > can be set ? Assuming, for instance, that
+> > > > >
+> > > > > 	clock-names = "iahb", "isfr", "cec";
+> > > > > 	clock-names = "iahb", "isfr", "vpll";
+> > > > > 	clock-names = "iahb", "isfr", "cec", "vpll";
+> > > > >
+> > > > > would all be valid.
+> > > >
+> > > > It would be painful then...
+> > > >
+> > > > The easiest way to do so would be to simply use an enum there, and not
+> > > > bother checking the array at all. You'll get a warning if there's
+> > > > multiple occurences of the same string, and I guess that's what you
+> > > > would be really concerned about.
+> > > >
+> > > > However, now that I think about it, what's the interaction between the
+> > > > generic binding and this one when it comes to the third clock? The
+> > > > generic one expects it to be cec, and here you have other options?
+> > >
+> > > I'm not too familiar with the platform, but as far as I understand, any
+> > > of the cec, grf and vpll clock is optional (if someone could confirm
+> > > that, it would be useful). I don't care so much about the order, but
+> > > iahb and isfr are mandatory, and thus need to be specified as two const
+> > > items in the beginning as far as I understand. It would be nice to set
+> > > something along the lines of
+> > >
+> > >   minItems: 2
+> > >   maxItems: 5
+> > >   items:
+> > >     - const: iahb
+> > >     - const: isfr
+> > >     - enum:
+> > >       - cec
+> > >       - grf
+> > >       - vpll
+> > 
+> > I guess you could do something like:
+> > 
+> > in the generic schema:
+> > 
+> > clock-names:
+> >   allOf:
+> >     - minItems: 2
+> >     - enum:
+> >        - iahb
+> >        - isfr
+> >        - cec
+> >       additonalItems: true
+> >     - items:
+> >       - iahb
+> >       - isfr
+> > 
+> > Or something along those lines, I haven't tested it, but the basic
+> > idea is that you want to enforce that:
+> >   a) there's a minimum of two clocks
+> >   b) valid clock names are iahb, isfr and cec, but we will allow more
+> >   c) the first two clocks are iahb and isfr
+> 
+> Interesting idea. I've tried
+> 
+>   clock-names:
+>     allOf:
+>       - minItems: 2
+>       - enum:
+>         - iahb
+>         - isfr
+>         - cec
+>         additionalItems: true
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/tegra/rgb.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+Instead of these 2, you want:
 
-diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
-index 4be4dfd4a68a..6e6b3fee1d87 100644
---- a/drivers/gpu/drm/tegra/rgb.c
-+++ b/drivers/gpu/drm/tegra/rgb.c
-@@ -275,21 +275,32 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
- 	if (!dc->rgb)
- 		return -ENODEV;
- 
-+	drm_encoder_init(drm, &output->encoder, &tegra_rgb_encoder_funcs,
-+			 DRM_MODE_ENCODER_LVDS, NULL);
-+	drm_encoder_helper_add(&output->encoder,
-+			       &tegra_rgb_encoder_helper_funcs);
-+
-+	/*
-+	 * We don't create a parent "output bridge" that sets the
-+	 * DRM_BRIDGE_ATTACH_NO_CONNECTOR flag for drm_bridge_attach(),
-+	 * and thus, the bridge creates connector for us in this case.
-+	 * The output's connector is unused and not needed if bridge is
-+	 * used, so skip the connector's registration in this case.
-+	 */
-+	if (output->bridge)
-+		goto init_output;
-+
- 	drm_connector_init(drm, &output->connector, &tegra_rgb_connector_funcs,
- 			   DRM_MODE_CONNECTOR_LVDS);
- 	drm_connector_helper_add(&output->connector,
- 				 &tegra_rgb_connector_helper_funcs);
- 	output->connector.dpms = DRM_MODE_DPMS_OFF;
- 
--	drm_encoder_init(drm, &output->encoder, &tegra_rgb_encoder_funcs,
--			 DRM_MODE_ENCODER_LVDS, NULL);
--	drm_encoder_helper_add(&output->encoder,
--			       &tegra_rgb_encoder_helper_funcs);
--
- 	drm_connector_attach_encoder(&output->connector,
- 					  &output->encoder);
- 	drm_connector_register(&output->connector);
- 
-+init_output:
- 	err = tegra_output_init(drm, output);
- 	if (err < 0) {
- 		dev_err(output->dev, "failed to initialize output: %d\n", err);
--- 
-2.26.0
+items:
+  enum: [ iahb, isfr, cec ]
+minItems: 2
+maxItems: 3
 
+Though I assume there's some others missing as with this and below, the 
+3rd clock can only be 'cec'.
+
+>       - items:
+>         - const: iahb
+>         - const: isfr
+
+And this needs 'maxItems: 3' added.
+
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
