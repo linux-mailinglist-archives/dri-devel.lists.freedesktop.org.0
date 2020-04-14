@@ -1,47 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 114481A77EB
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 11:55:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F54C1A780C
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 12:05:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86A3B89CA0;
-	Tue, 14 Apr 2020 09:55:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 247D56E03C;
+	Tue, 14 Apr 2020 10:05:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0747789CA0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 09:55:34 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03E9tVEi020102;
- Tue, 14 Apr 2020 04:55:31 -0500
+X-Greylist: delayed 617 seconds by postgrey-1.36 at gabe;
+ Tue, 14 Apr 2020 10:05:38 UTC
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ABA16E039;
+ Tue, 14 Apr 2020 10:05:38 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03E9tj1e025418;
+ Tue, 14 Apr 2020 04:55:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1586858131;
- bh=2vfDE/UDiAAIXwZSC66VTPzR+TiMbKXqSyJA07trdiM=;
+ s=ti-com-17Q1; t=1586858145;
+ bh=gV5xZxIe+WUh1dPqiZjz+hw7rehq3RINPKq/eatymxc=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=WDwarCoblaLZSXxQXb7eYaBaO+pkaW+fdQhmHfKNKnhMFCmijXWpBIeS/4jPi5+oA
- VKqx80DxrU8wY+qS7bTnLh3YRJA+X0XWWLssnRxE8xea3+G4gU3u3xPSXWo4T22ghr
- TWv6QO50xDeLLtAvjElXFFmTuP7a6c0BDmTMIuJM=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03E9tVt7088945
+ b=mEYzIIKRXyCk/LIcPPZHUGzulNRvvcLUUZh1X7pIN7hBMF+x+Y/bdO0zqbYid8us6
+ Bbm91xZZN9V8YJj5pF9R5cX11ywZP2Ny+fPx6aLURvEdOF1JgQI/cckA37aFvrs+7T
+ MQ2OMswM4TJjJea9p/a/cu+D6nW3wEXB0cizAby8=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03E9tjPv066608
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 14 Apr 2020 04:55:31 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 14 Apr 2020 04:55:45 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 14
- Apr 2020 04:55:31 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ Apr 2020 04:55:45 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 14 Apr 2020 04:55:31 -0500
+ Frontend Transport; Tue, 14 Apr 2020 04:55:45 -0500
 Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03E9tTLP000539;
- Tue, 14 Apr 2020 04:55:30 -0500
-Subject: Re: [PATCH 28/44] drm/tidss: Don't use drm_device->dev_private
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03E9tiSf000672;
+ Tue, 14 Apr 2020 04:55:44 -0500
+Subject: Re: [PATCH 29/44] drm/tidss: Delete tidss->saved_state
 To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
  <dri-devel@lists.freedesktop.org>
 References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
- <20200403135828.2542770-29-daniel.vetter@ffwll.ch>
+ <20200403135828.2542770-30-daniel.vetter@ffwll.ch>
 From: Jyri Sarha <jsarha@ti.com>
 Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
  xsFNBFbdWt8BEADnCIkQrHIvAmuDcDzp1h2pO9s22nacEffl0ZyzIS//ruiwjMfSnuzhhB33
@@ -85,12 +87,12 @@ Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
  uBrUXDDhCoiZnjQaNz/J+o9iYjuMTpY1Wp+igjIretYr9+kLvGsoPo/kTPWyiuh/WiFU2d6J
  PMCGFGhodTS5qmQA6IOuazek1qSZIl475u3E2uG98AEX/kRhSzgpsbvADPEUPaz75uvlmOCX
  tv+Sye9QT4Z1QCh3lV/Zh4GlY5lt4MwYnqFCxroK/1LpkLgdyQ4rRVw=
-Message-ID: <7911216a-4319-daeb-70a2-ed849f590b8e@ti.com>
-Date: Tue, 14 Apr 2020 12:55:29 +0300
+Message-ID: <a4a71db0-83d7-71bf-c7a8-3b2c812d8ac4@ti.com>
+Date: Tue, 14 Apr 2020 12:55:43 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200403135828.2542770-29-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200403135828.2542770-30-daniel.vetter@ffwll.ch>
 Content-Language: en-GB
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,8 +116,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 03/04/2020 16:58, Daniel Vetter wrote:
-> Upcasting using a container_of macro is more typesafe, faster and
-> easier for the compiler to optimize.
+> Not used anymore since the switch to suspend/resume helpers.
 > 
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > Cc: Jyri Sarha <jsarha@ti.com>
@@ -124,218 +125,22 @@ On 03/04/2020 16:58, Daniel Vetter wrote:
 Tested-by: Jyri Sarha <jsarha@ti.com>
 
 > ---
->  drivers/gpu/drm/tidss/tidss_crtc.c  | 16 ++++++++--------
->  drivers/gpu/drm/tidss/tidss_drv.c   |  2 --
->  drivers/gpu/drm/tidss/tidss_drv.h   |  2 ++
->  drivers/gpu/drm/tidss/tidss_irq.c   | 12 ++++++------
->  drivers/gpu/drm/tidss/tidss_kms.c   |  2 +-
->  drivers/gpu/drm/tidss/tidss_plane.c |  6 +++---
->  6 files changed, 20 insertions(+), 20 deletions(-)
+>  drivers/gpu/drm/tidss/tidss_drv.h | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-> index d4ce9bab8c7e..2396262c09e4 100644
-> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-> @@ -24,7 +24,7 @@
->  static void tidss_crtc_finish_page_flip(struct tidss_crtc *tcrtc)
->  {
->  	struct drm_device *ddev = tcrtc->crtc.dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  	struct drm_pending_vblank_event *event;
->  	unsigned long flags;
->  	bool busy;
-> @@ -88,7 +88,7 @@ static int tidss_crtc_atomic_check(struct drm_crtc *crtc,
->  				   struct drm_crtc_state *state)
->  {
->  	struct drm_device *ddev = crtc->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  	struct dispc_device *dispc = tidss->dispc;
->  	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
->  	u32 hw_videoport = tcrtc->hw_videoport;
-> @@ -165,7 +165,7 @@ static void tidss_crtc_atomic_flush(struct drm_crtc *crtc,
->  {
->  	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
->  	struct drm_device *ddev = crtc->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  	unsigned long flags;
->  
->  	dev_dbg(ddev->dev,
-> @@ -216,7 +216,7 @@ static void tidss_crtc_atomic_enable(struct drm_crtc *crtc,
->  {
->  	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
->  	struct drm_device *ddev = crtc->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  	const struct drm_display_mode *mode = &crtc->state->adjusted_mode;
->  	unsigned long flags;
->  	int r;
-> @@ -259,7 +259,7 @@ static void tidss_crtc_atomic_disable(struct drm_crtc *crtc,
->  {
->  	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
->  	struct drm_device *ddev = crtc->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  	unsigned long flags;
->  
->  	dev_dbg(ddev->dev, "%s, event %p\n", __func__, crtc->state->event);
-> @@ -295,7 +295,7 @@ enum drm_mode_status tidss_crtc_mode_valid(struct drm_crtc *crtc,
->  {
->  	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
->  	struct drm_device *ddev = crtc->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  
->  	return dispc_vp_mode_valid(tidss->dispc, tcrtc->hw_videoport, mode);
->  }
-> @@ -314,7 +314,7 @@ static const struct drm_crtc_helper_funcs tidss_crtc_helper_funcs = {
->  static int tidss_crtc_enable_vblank(struct drm_crtc *crtc)
->  {
->  	struct drm_device *ddev = crtc->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  
->  	dev_dbg(ddev->dev, "%s\n", __func__);
->  
-> @@ -328,7 +328,7 @@ static int tidss_crtc_enable_vblank(struct drm_crtc *crtc)
->  static void tidss_crtc_disable_vblank(struct drm_crtc *crtc)
->  {
->  	struct drm_device *ddev = crtc->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  
->  	dev_dbg(ddev->dev, "%s\n", __func__);
->  
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-> index 7d4465d58be8..99edc66ebdef 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.c
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
-> @@ -147,8 +147,6 @@ static int tidss_probe(struct platform_device *pdev)
->  
->  	platform_set_drvdata(pdev, tidss);
->  
-> -	ddev->dev_private = tidss;
-> -
->  	ret = dispc_init(tidss);
->  	if (ret) {
->  		dev_err(dev, "failed to initialize dispc: %d\n", ret);
 > diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
-> index e2aa6436ad18..b23cd95c8d78 100644
+> index b23cd95c8d78..3b0a3d87b7c4 100644
 > --- a/drivers/gpu/drm/tidss/tidss_drv.h
 > +++ b/drivers/gpu/drm/tidss/tidss_drv.h
-> @@ -33,6 +33,8 @@ struct tidss_device {
->  	struct drm_atomic_state *saved_state;
+> @@ -29,8 +29,6 @@ struct tidss_device {
+>  
+>  	spinlock_t wait_lock;	/* protects the irq masks */
+>  	dispc_irq_t irq_mask;	/* enabled irqs in addition to wait_list */
+> -
+> -	struct drm_atomic_state *saved_state;
 >  };
 >  
-> +#define to_tidss(__dev) container_of(__dev, struct tidss_device, ddev)
-> +
->  int tidss_runtime_get(struct tidss_device *tidss);
->  void tidss_runtime_put(struct tidss_device *tidss);
->  
-> diff --git a/drivers/gpu/drm/tidss/tidss_irq.c b/drivers/gpu/drm/tidss/tidss_irq.c
-> index 612c046738e5..1b80f2d62e0a 100644
-> --- a/drivers/gpu/drm/tidss/tidss_irq.c
-> +++ b/drivers/gpu/drm/tidss/tidss_irq.c
-> @@ -23,7 +23,7 @@ static void tidss_irq_update(struct tidss_device *tidss)
->  void tidss_irq_enable_vblank(struct drm_crtc *crtc)
->  {
->  	struct drm_device *ddev = crtc->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
->  	u32 hw_videoport = tcrtc->hw_videoport;
->  	unsigned long flags;
-> @@ -38,7 +38,7 @@ void tidss_irq_enable_vblank(struct drm_crtc *crtc)
->  void tidss_irq_disable_vblank(struct drm_crtc *crtc)
->  {
->  	struct drm_device *ddev = crtc->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
->  	u32 hw_videoport = tcrtc->hw_videoport;
->  	unsigned long flags;
-> @@ -53,7 +53,7 @@ void tidss_irq_disable_vblank(struct drm_crtc *crtc)
->  irqreturn_t tidss_irq_handler(int irq, void *arg)
->  {
->  	struct drm_device *ddev = (struct drm_device *)arg;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  	unsigned int id;
->  	dispc_irq_t irqstatus;
->  
-> @@ -95,7 +95,7 @@ void tidss_irq_resume(struct tidss_device *tidss)
->  
->  void tidss_irq_preinstall(struct drm_device *ddev)
->  {
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  
->  	spin_lock_init(&tidss->wait_lock);
->  
-> @@ -109,7 +109,7 @@ void tidss_irq_preinstall(struct drm_device *ddev)
->  
->  int tidss_irq_postinstall(struct drm_device *ddev)
->  {
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  	unsigned long flags;
->  	unsigned int i;
->  
-> @@ -138,7 +138,7 @@ int tidss_irq_postinstall(struct drm_device *ddev)
->  
->  void tidss_irq_uninstall(struct drm_device *ddev)
->  {
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  
->  	tidss_runtime_get(tidss);
->  	dispc_set_irqenable(tidss->dispc, 0);
-> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-> index 4bd339a467a4..4b99e9fa84a5 100644
-> --- a/drivers/gpu/drm/tidss/tidss_kms.c
-> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
-> @@ -25,7 +25,7 @@
->  static void tidss_atomic_commit_tail(struct drm_atomic_state *old_state)
->  {
->  	struct drm_device *ddev = old_state->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  
->  	dev_dbg(ddev->dev, "%s\n", __func__);
->  
-> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-> index ff99b2dd4a17..23bb3e59504b 100644
-> --- a/drivers/gpu/drm/tidss/tidss_plane.c
-> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
-> @@ -22,7 +22,7 @@ static int tidss_plane_atomic_check(struct drm_plane *plane,
->  				    struct drm_plane_state *state)
->  {
->  	struct drm_device *ddev = plane->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  	struct tidss_plane *tplane = to_tidss_plane(plane);
->  	const struct drm_format_info *finfo;
->  	struct drm_crtc_state *crtc_state;
-> @@ -101,7 +101,7 @@ static void tidss_plane_atomic_update(struct drm_plane *plane,
->  				      struct drm_plane_state *old_state)
->  {
->  	struct drm_device *ddev = plane->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  	struct tidss_plane *tplane = to_tidss_plane(plane);
->  	struct drm_plane_state *state = plane->state;
->  	u32 hw_videoport;
-> @@ -133,7 +133,7 @@ static void tidss_plane_atomic_disable(struct drm_plane *plane,
->  				       struct drm_plane_state *old_state)
->  {
->  	struct drm_device *ddev = plane->dev;
-> -	struct tidss_device *tidss = ddev->dev_private;
-> +	struct tidss_device *tidss = to_tidss(ddev);
->  	struct tidss_plane *tplane = to_tidss_plane(plane);
->  
->  	dev_dbg(ddev->dev, "%s\n", __func__);
+>  #define to_tidss(__dev) container_of(__dev, struct tidss_device, ddev)
 > 
 
 
