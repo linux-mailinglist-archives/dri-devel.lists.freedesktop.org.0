@@ -2,59 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C791A9407
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:18:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE211A82A2
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 17:26:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60FEA6E857;
-	Wed, 15 Apr 2020 07:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B2A0897FD;
+	Tue, 14 Apr 2020 15:26:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
- [IPv6:2607:f8b0:4864:20::f42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBB9589A9A
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 15:23:14 +0000 (UTC)
-Received: by mail-qv1-xf42.google.com with SMTP id s3so4326401qvk.12
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 08:23:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=mFojnywoPNyFdhtgvXnmkYzEiNUOhwI6TxTxAvK3xdg=;
- b=SS4y0WhvQF1bhRQ3pn3wLMCiWkfm25jaLNJNqFQ3AGdG5Ie+8aNc3U9tGocHDfSWTi
- nP+oDC2NmQXii1RTPcUNQIL8gVaiNDH9qzhRCfQwRsuSwl/EmmYHOIZ9KjxJur5xTeSL
- 7Vjbus/zWtsfWnZ8bBIMSrZuDZ0y/TqLZ0QIUfvodRUt9yC0QUXhZMc9fdqbHI2yoa6K
- w1ySea+kHv4r8Ugu79ALt3mtAd1B/Ihd2AamFw/3d/AtK6QauU6u7ZaiyS4j+fQmNDwy
- EDJOBUhMExnxLYWwN9HQ1rqa8gZ/OgdahR8fmY45lXLkUx5Vq8b+XdpMp0OL1rfhdNWu
- ti+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=mFojnywoPNyFdhtgvXnmkYzEiNUOhwI6TxTxAvK3xdg=;
- b=pBkkS/6RIXs4J5+v682i5C1A6DPfE3vscf/h2Ksy1xXy6h+3rVzNZNFLCWt4QvhlpT
- R49bXeeNd+MeKTR32BVQ/pkPqBD3mVvqzDnw1XZlCXEajidfvWckEJyTeM1QwunYcSaw
- zFhVgWp+h4H15nhVahtvpQ1pRVGBpq6tU9eg+7PMDW9GfMrtGoIa7tAzMO9QOdn4rC/j
- 7mkWLYKnLiQj0bNh8+KnfLY1aFTEvWT5n5G8yXjBS2ZCg8OYE9YUFoloRrCyj+GEbd15
- bDBrAlMCdrrEvdFWlxXEp81OQnvrL304z6kjESeEwbyW8IYAYI31xp8zj0obcWqFs3cs
- 9fDw==
-X-Gm-Message-State: AGi0PuZzt7PtbM05WpRKSwbJ6r9JX0oYChlpHqgxQQEJoarzKAqXD9+g
- cTLvzae6vKjDMafktzacWeAuxw==
-X-Google-Smtp-Source: APiQypKtItLidlBv85QFnpoyu7Va9Voe4R7MeN23XgRqelBoPM+HtCP/PCBCt2N7ezfG4+eyRUxTjA==
-X-Received: by 2002:a0c:ac48:: with SMTP id m8mr509910qvb.13.1586877793898;
- Tue, 14 Apr 2020 08:23:13 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id m11sm10391993qkg.130.2020.04.14.08.23.12
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 14 Apr 2020 08:23:13 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1jONP6-0005EN-Cy; Tue, 14 Apr 2020 12:23:12 -0300
-Date: Tue, 14 Apr 2020 12:23:12 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-Message-ID: <20200414152312.GF5100@ziepe.ca>
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A20FD897FD
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 15:25:58 +0000 (UTC)
+Received: from mail-qt1-f170.google.com ([209.85.160.170]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1Mc02Z-1iqQ8p2jzb-00dSpq for <dri-devel@lists.freedesktop.org>; Tue, 14
+ Apr 2020 17:25:56 +0200
+Received: by mail-qt1-f170.google.com with SMTP id o10so10417125qtr.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 08:25:56 -0700 (PDT)
+X-Gm-Message-State: AGi0PuaerHgU4c8eN8t1mhHrDFYLMLSJfjjNa6VzNqWue+YdNWNsFCWL
+ IcJzKXttnkz1eZYcLwpn2p6OOeiodnIqVrWNOpA=
+X-Google-Smtp-Source: APiQypL2bnXf86E03hawsz8pxDqc8oMdZRSmBA+dTNzneuRbxAzCaV1aI5lbgXSqxBtoHIjMy0g/toQKbqbs9h0eD6I=
+X-Received: by 2002:aed:20e3:: with SMTP id 90mr16307053qtb.142.1586877955579; 
+ Tue, 14 Apr 2020 08:25:55 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200408202711.1198966-1-arnd@arndb.de>
  <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
  <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
@@ -64,11 +33,32 @@ References: <20200408202711.1198966-1-arnd@arndb.de>
  <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com>
  <20200414132900.GD5100@ziepe.ca>
  <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Wed, 15 Apr 2020 07:17:53 +0000
+ <20200414152312.GF5100@ziepe.ca>
+In-Reply-To: <20200414152312.GF5100@ziepe.ca>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 14 Apr 2020 17:25:39 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1PjP9_b5NdmqTLeGN4y+3JXx_yyTE8YAf1u5rYHWPA9g@mail.gmail.com>
+Message-ID: <CAK8P3a1PjP9_b5NdmqTLeGN4y+3JXx_yyTE8YAf1u5rYHWPA9g@mail.gmail.com>
+Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
+To: Jason Gunthorpe <jgg@ziepe.ca>
+X-Provags-ID: V03:K1:xZ1x9Ie/RuXD47U0TswgA8+JaNcPyVCIuo1WbtTu1VwQCvRxY3o
+ +DrY8lFoyNHurRiUS38xaFxmu+k7GEEf7milomMQit14KFTGfg9ZhwTLk2p74dlvvEBo1UO
+ jpEWOEMr/o/SljYYgtZRXT7aRh0p4vKjMz1DKo9NiQmni7LYW/0mGrRC95/Sp9QdASnKbRD
+ FfAxragqaLErznHvoy0Bg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9+f6+jBDzPI=:d+T/IvRxAOwG4qA2PSNoIP
+ ToK476Dsaj/wSRR1LJ0pSFcDHDOrndz3mVKPZ9cE8GwG75iEC4NZ00k5YP+Vbzmn0P+esKYoX
+ QgizZtvu0kM+zpM/d+bCpRU3i+5Vb7qqAjuWCF+cmt1Qn44VYCOm5yh6yyR02N2NiBaNblBQ/
+ DDsyoRMsXTqhZDXbnfEXA2ID7HupB3HHX68BIGFc/Di6XQlG8kXrqCc5ucymyS6Os1hJ0Ua/c
+ pyF2YtSXgvNz1ogPfxrFJRn9yoMy9qbDot6EQGDfOoQTc4forNFpLDAIZniS+6HINOavBFz7q
+ Gt8ZswCIERCJ+fp01PFiQP7wc6UQJrVqywq/kHyi+Ak2nXW/Ho5/uWeV4dPXkxPjiYL7Xsvg8
+ P6EiVs4uiBD/KSzodIjKd6m0SbUUE2KmyM9ozbT8QSjsdRRr9qj3GZQfpxTRZptckerROq3hp
+ cmdTDrrcFdyzp/6fJHH+0/1D0BHabVggDk5TmfvBd9v/NNGNdsG1qBigCZ65u1rRs5eRdeUqk
+ u9eXAkF/6UqL+2BvuF+AHZrzIPJu3A0wDRpDUzMUofqeB1ZrgBfhlYPBsh0qS/8JuaoqDKrKH
+ 4TsO44bdMIzUPgawltHYVw4imXOKgy8pg7VmC5SE2Dy2jQfTTTCAqrdCqL5YGoKuPjv5Lfnu9
+ ffqp/rU3+/6bEkMezNOQPK9bz89FbRMw7XrzVqbuSy3DamVA065IAchjZUO0mmDIiOUI7NacT
+ KNu9u/khG3/MKv0ZM2YGgynvIluvHSeE6ws5zRnzYvLSGXaRaNCvvVPC70Hlw+fysdtii8rA/
+ tgkuken4Tu8dIMUqza6Ftkv/jn8NtvkYRuURm86Hw+5LZQB3GY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,61 +93,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 04:27:41PM +0200, Arnd Bergmann wrote:
-> On Tue, Apr 14, 2020 at 3:29 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > On Fri, Apr 10, 2020 at 07:04:27PM +0000, Saeed Mahameed wrote:
-> > > On Fri, 2020-04-10 at 14:13 -0300, Jason Gunthorpe wrote:
-> > > > On Fri, Apr 10, 2020 at 02:40:42AM +0000, Saeed Mahameed wrote:
-> > > >
-> > > > > This assumes that the module using FOO has its own flag
-> > > > > representing
-> > > > > FOO which is not always the case.
-> > > > >
-> > > > > for example in mlx5 we use VXLAN config flag directly to compile
-> > > > > VXLAN related files:
-> > > > >
-> > > > > mlx5/core/Makefile:
-> > > > >
-> > > > > obj-$(CONFIG_MLX5_CORE) += mlx5_core.o
-> > > > >
-> > > > > mlx5_core-y := mlx5_core.o
-> > > > > mlx5_core-$(VXLAN) += mlx5_vxlan.o
-> > > > >
-> > > > > and in mlx5_main.o we do:
-> > > >
-> > > > Does this work if VXLAN = m ?
-> > >
-> > > Yes, if VXLAN IS_REACHABLE to MLX5, mlx5_vxlan.o will be
-> > > compiled/linked.
+On Tue, Apr 14, 2020 at 5:23 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Tue, Apr 14, 2020 at 04:27:41PM +0200, Arnd Bergmann wrote:
+> > On Tue, Apr 14, 2020 at 3:29 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > > On Fri, Apr 10, 2020 at 07:04:27PM +0000, Saeed Mahameed wrote:
+> > which in turn leads to mlx5_core.ko *not* containing mlx5_vxlan.o,
+> > and in turn causing that link error against
+> > mlx5_vxlan_create/mlx5_vxlan_destroy, unless the IS_ENABLED()
+> > is changed to IS_REACHABLE().
+>
+> What about the reverse if mlx5_core is 'm' and VLXAN is 'y'?
+>
+>  mlx5_core-m := mlx5_core.o
+>  mlx5_core-y += mlx5_vxlan.o
+>
+> Magically works out?
+
+Yes, Kbuild takes care of that case.
+
+> > > IIRC that isn't what the expression does, if vxlan is 'n' then
+> > >   n || !n == true
 > >
-> > So mlx5_core-m does the right thing somehow?
-> 
-> What happens with CONFIG_VXLAN=m is that the above turns into
-> 
-> mlx5_core-y := mlx5_core.o
-> mlx5_core-m += mlx5_vxlan.o
-> 
-> which in turn leads to mlx5_core.ko *not* containing mlx5_vxlan.o,
-> and in turn causing that link error against
-> mlx5_vxlan_create/mlx5_vxlan_destroy, unless the IS_ENABLED()
-> is changed to IS_REACHABLE().
+> > It forces MLX5_CORE to 'm' or 'n' but not 'y' if VXLAN=m,
+> > but allows any option if VXLAN=y
+>
+> And any option if VXLAN=n ?
 
-What about the reverse if mlx5_core is 'm' and VLXAN is 'y'?
+Correct.
 
- mlx5_core-m := mlx5_core.o
- mlx5_core-y += mlx5_vxlan.o
-
-Magically works out?
-
-> > IIRC that isn't what the expression does, if vxlan is 'n' then
-> >   n || !n == true
-> 
-> It forces MLX5_CORE to 'm' or 'n' but not 'y' if VXLAN=m,
-> but allows any option if VXLAN=y
-
-And any option if VXLAN=n ?
-
-Jason
+      Arnd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
