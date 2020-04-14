@@ -1,51 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA861A81B1
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 17:13:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1EAA1A81E3
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 17:18:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE1426E11E;
-	Tue, 14 Apr 2020 15:13:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE183897F3;
+	Tue, 14 Apr 2020 15:18:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BED2A6E11E
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 15:13:48 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id y24so14374940wma.4
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 08:13:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=HmBLSR0xc1v+9c640X8yq/gCGBtmZiJRhg2yrai8Uso=;
- b=iDyQB28/hB6MzA+X1l6cG3XIXyVNCrB9ckL616u3+V/9bsVu1ZLzCXvoif4DMDo/jo
- 7dcTSCe1n3DaR/q6bRP+FizyL9fqx24X5cLjQ1MWYclCFRqs1qzPeZjl7RBYVAmSHEyy
- ZbCm4Z7u2Wle0nGNHUqtQN+vVSb0p8UppnT/fKYn6avde9wXYBtE2YD8tjd9JMAlx+9L
- EolZ6Ew2xDQFZ2ZuBeWLpXt5UGvSiGqKHSJTpDFlIWo4r4gWaQiLWditDJSFfjJ8RUZ8
- WUjO9JG2dTS5er8bqGYsN52DyMVeozfDVPy55blb3/0m1O3XlKt++1x6pmmlnoL/yJ++
- cy8w==
-X-Gm-Message-State: AGi0PuZYZhWDByICVXcUvuIDTWOsP2+PuYOOUgDk8Vka3L5G5XUbsxoe
- 7iTXkVJdgQOoNjNbqJrE8GA=
-X-Google-Smtp-Source: APiQypKJS2zs752mK3EmkKLPxDY+LMikzE4AHuLMlZzMU6rlOFHrjCq5D1gZZCfYEUzJLxq6M+CEVA==
-X-Received: by 2002:a7b:c190:: with SMTP id y16mr393464wmi.50.1586877227391;
- Tue, 14 Apr 2020 08:13:47 -0700 (PDT)
-Received: from debian (44.142.6.51.dyn.plus.net. [51.6.142.44])
- by smtp.gmail.com with ESMTPSA id t67sm20386094wmg.40.2020.04.14.08.13.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 08:13:46 -0700 (PDT)
-Date: Tue, 14 Apr 2020 16:13:44 +0100
-From: Wei Liu <wei.liu@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 21/29] mm: remove the pgprot argument to __vmalloc
-Message-ID: <20200414151344.zgt2pnq7cjq2bgv6@debian>
-References: <20200414131348.444715-1-hch@lst.de>
- <20200414131348.444715-22-hch@lst.de>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF6C897F3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 15:18:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: aratiu) with ESMTPSA id 6FFF72A16F6
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
+To: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-rockchip@lists.infradead.org
+Subject: [PATCH v6 0/8] Genericize DW MIPI DSI bridge and add i.MX 6 driver
+Date: Tue, 14 Apr 2020 18:19:47 +0300
+Message-Id: <20200414151955.311949-1-adrian.ratiu@collabora.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200414131348.444715-22-hch@lst.de>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,52 +35,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Michael Kelley <mikelley@microsoft.com>,
- linux-mm@kvack.org, "K. Y. Srinivasan" <kys@microsoft.com>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
- x86@kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Gao Xiang <xiang@kernel.org>, Laura Abbott <labbott@redhat.com>,
- Nitin Gupta <ngupta@vflare.org>, Haiyang Zhang <haiyangz@microsoft.com>,
- linaro-mm-sig@lists.linaro.org, bpf@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Christophe Leroy <christophe.leroy@c-s.fr>,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- Minchan Kim <minchan@kernel.org>, iommu@lists.linux-foundation.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-imx@nxp.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 03:13:40PM +0200, Christoph Hellwig wrote:
-> The pgprot argument to __vmalloc is always PROT_KERNEL now, so remove
-> it.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Michael Kelley <mikelley@microsoft.com> [hyperv]
-> Acked-by: Gao Xiang <xiang@kernel.org> [erofs]
-> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  arch/x86/hyperv/hv_init.c              |  3 +--
-[...]
-> 
-> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-> index 5a4b363ba67b..a3d689dfc745 100644
-> --- a/arch/x86/hyperv/hv_init.c
-> +++ b/arch/x86/hyperv/hv_init.c
-> @@ -95,8 +95,7 @@ static int hv_cpu_init(unsigned int cpu)
->  	 * not be stopped in the case of CPU offlining and the VM will hang.
->  	 */
->  	if (!*hvp) {
-> -		*hvp = __vmalloc(PAGE_SIZE, GFP_KERNEL | __GFP_ZERO,
-> -				 PAGE_KERNEL);
-> +		*hvp = __vmalloc(PAGE_SIZE, GFP_KERNEL | __GFP_ZERO);
->  	}
+Hello everyone,
 
-Acked-by: Wei Liu <wei.liu@kernel.org>
+Many thanks to all who have contributed to this new iteration,
+especially to Arnaud Ferraris for his stm32mp1 testing and to
+Adrian Pop for his stm32f7 testing & debugging help.
+
+Further testing, especially on Rockchip devices, is very much
+appreciated.
+
+All reported issues have been addressed and this series should
+apply cleanly on latest next-20200414 tree.
+
+Tested on imx6dl, stm32mp1 and stm32f7.
+
+Best wishes,
+Adrian
+
+Adrian Ratiu (8):
+  drm: bridge: dw_mipi_dsi: add initial regmap infrastructure
+  drm: bridge: dw_mipi_dsi: abstract register access using reg_fields
+  drm: bridge: synopsis: add dsi v1.01 support
+  drm: imx: Add i.MX 6 MIPI DSI host platform driver
+  dt-bindings: display: add i.MX6 MIPI DSI host controller doc
+  drm: stm: dw-mipi-dsi: let the bridge handle the HW version check
+  drm: bridge: dw-mipi-dsi: split low power cfg register into fields
+  drm: bridge: dw-mipi-dsi: fix bad register field offsets
+
+ .../display/imx/fsl,mipi-dsi-imx6.yaml        | 139 ++++
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 691 +++++++++++++-----
+ drivers/gpu/drm/imx/Kconfig                   |   7 +
+ drivers/gpu/drm/imx/Makefile                  |   1 +
+ drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c        | 409 +++++++++++
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         |  12 +-
+ 6 files changed, 1050 insertions(+), 209 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+ create mode 100644 drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c
+
+-- 
+2.26.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
