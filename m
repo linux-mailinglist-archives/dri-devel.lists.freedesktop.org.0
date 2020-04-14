@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82CE11A7660
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 10:47:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C1F1A7661
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 10:47:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F22BA6E499;
-	Tue, 14 Apr 2020 08:47:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2F016E49A;
+	Tue, 14 Apr 2020 08:47:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80FEA6E499
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 08:47:37 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id z26so11562488ljz.11
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 01:47:37 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0176E499
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 08:47:38 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id f8so8707974lfe.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 01:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ljl5+BwdHIBF7fsWFemFIeV6fRgEdvNWeKI3Xl/4UVc=;
- b=iPII0NIKUsH+XiAUh6QtLAjlK7GiIAzK6GtA8+fQ4GSdldW7jTEAifOUmAUuBqbsFB
- DLsUGIRsAf654+wHQTNcwcbAwQBnXPMKLWUDNLpJJ0hQ7GbWgW9Af7qC7VHHTzz2smdH
- hQIkg7BFh4XHCa6ouxCqeVswxPnH2Em+Zd9r7SF++BSE0qZFu/kdojGQZjQVvKkpiokC
- kd1QruDK43PrVVolLvuy7x+uCfppkwwT9G9x0uNY4dwXqwHe5OQF5yookMgFbNp9EPGy
- ntmliskB14tGzsbK+zfGJCx8XyODpJrqpMQ9RSESyLxDCKrMmc3hdszU5nu/fpzreLMT
- uDcw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YwbI5H3nSrkPHMhpDRGij6sZQOSpEJF2+4Voifzos4U=;
+ b=ircLMLOsJC83e7Pf/vyYNu6VKOUELtouwIBZDc9LANnRBNnldRFWq6ihFC6PaGlcvq
+ C+SWe7YVnMMGE3Wb67IQQUOpoo3WnvDcIXgUiqp11M4ciXC0EKCg7raO72m9tkRMIaSG
+ 6kF3pi7a/Dly3gYGBRcni5UMo9RkYBUh6Ub5W302vA6gqhfBdAuTax7wJialYr3XXXTI
+ yY7GmXzZzqN0bYUkoH1Gai8mcrfzvyzL2BYUFPM6x40Lf0Bas+pX2LCeaNPCk/wVfKrM
+ 6bm6IQitwme7FuQcub+DMIQXDPKpYN+grWA3UzcpCOczMcbOvK1FRYZe+APYR8GfZHcV
+ F3rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=ljl5+BwdHIBF7fsWFemFIeV6fRgEdvNWeKI3Xl/4UVc=;
- b=q2w9N4FuZIwWEBlzqe07FgfSW1YnK4JjvXcsbZaE6WU0TgIZLKGd1cL8h067XpG91/
- ZSnr25Ma59frwDhd8KgDvYQsmSFsMHA5zZSPFHSWTZ+8h/nAcAJOY4ktsM0kGkzTDEzh
- xvnQ56JPUo3aKDcHip09/rbCtZmY/Ma7IsnCdY2mqoivfYUc04+iA4e+j+KUTGZNptzW
- a9zRZtPXJ4qROxJLZQrhdU7IcSRer84kCJJTkJEFGfvyfr2E7XWpxkkPNqnv0dmVKzNh
- BhxekTnGQ7XkaEIdXFIJixaS1twh22jAQhDKMKEOaz16QfSeVCQKFijXjrU3LdKZ/FfH
- lrVA==
-X-Gm-Message-State: AGi0PuaLii+QOrUwbDfchtyt4pN5JH4uJJ8cxO6fAy2ucoyPONt/bs3u
- LtJ0DUfkDmPqkeScsIb7VLt8bzQdPHk=
-X-Google-Smtp-Source: APiQypLdtkhf0PwiWGHbwcr0jVcE/fwzN2m4+1IV5bMcYCQ4WknuY3n3acEonIuHkwK4x91GyjJNdQ==
-X-Received: by 2002:a2e:9712:: with SMTP id r18mr5491737lji.225.1586854055512; 
- Tue, 14 Apr 2020 01:47:35 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=YwbI5H3nSrkPHMhpDRGij6sZQOSpEJF2+4Voifzos4U=;
+ b=pNs3yyftVg8upS9aR1OvEZxIPH1hdXBEk3ITmxq34jojQ3bQKRHstDs8fc/FVWA4vr
+ uBRS1cYIDLnCgzD4w83qrzfU6PegDFQzeS+kvmrpqLVayiJKbVkBOmnsP1B4N3/hxJ3/
+ rjBZVOOwrsyxkBZ++m1afDhY8wVSRgAOpuK2Z+qn7aiJxm63tdLtqk/nEa/5V2amqyEL
+ uplTEJHVWXrBePw67vAWcx2MU8TiCaKRWkEg+zpI4NQYoUoqbr82MZvVUTU271+1BG0g
+ VxVtw/qstUBUaYrF/jvCRqfOf2PqQChIUxRsodL0nVBkv46NMrUL43bOVh2a3JssO3Oq
+ 2m6w==
+X-Gm-Message-State: AGi0PuZRB+RYbOsIOht47DnUfNDzBErVfu66Wujdagu9H0tfmzd1HD9y
+ aheycHdML4c9OKgW1BthaQNt0BoavGs=
+X-Google-Smtp-Source: APiQypJCQVrVmuvh0NVCtCFeQVugtoMW6xtE3uBuI6yudRJ5Va8f85yyYoU2eDFLp9W4AKZBMP4ztA==
+X-Received: by 2002:a19:7407:: with SMTP id v7mr13432936lfe.124.1586854056639; 
+ Tue, 14 Apr 2020 01:47:36 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- q10sm9834979lfa.29.2020.04.14.01.47.33
+ q10sm9834979lfa.29.2020.04.14.01.47.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 01:47:34 -0700 (PDT)
+ Tue, 14 Apr 2020 01:47:36 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Inki Dae <inki.dae@samsung.com>
-Subject: [PATCH v1 0/4] drm: tc358764: support drm bridge connector helper
-Date: Tue, 14 Apr 2020 10:47:23 +0200
-Message-Id: <20200414084727.8326-1-sam@ravnborg.org>
+Subject: [PATCH v1 1/4] drm/panel: add connector type to boe,
+ hv070wsa-100 panel
+Date: Tue, 14 Apr 2020 10:47:24 +0200
+Message-Id: <20200414084727.8326-2-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200414084727.8326-1-sam@ravnborg.org>
+References: <20200414084727.8326-1-sam@ravnborg.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,49 +79,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Somehow Laurent tricked me into updating a bridge driver.
-In reality, having updated a driver yourself makes for much
-better understanding of what is going on.
-So in order to provide proper review feedback I deciced to give
-it a spin. tc358764 was selected as it is a simple bridge driver,
-so a good driver to start out with.
+The boe,hv070wsa-100 panel is a LVDS panel.
+Fix connector type to reflect this.
 
-We are moving to a model where the panel tell what connector
-it uses - so this patch assumes this model is in place.
+With this change users of this panel do not have to specify the
+connector type.
 
-The only device tree in the kernel that uses tc358764
-use the boe,hv070wsa-100 panel, so update this panel to report
-the correct connector type to support the model described above.
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+---
+ drivers/gpu/drm/panel/panel-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-The "drop drm_connector_(un)register" patch drops some
-unnessesary calls related to drm_connector.
-
-Next update tc358764 to use drm_panel_bridge - which was a
-nice simplification of the driver.
-
-The last patch to support optional connector creation was
-then simple to implement.
-
-The patchset has not seen any run-time test.
-So testing feedback is appreciated. The only in-kernel
-user seems to be: exynos5250-arndale
-
-Review feedback is likewise appreciated/expected - bridge
-drivers is not my expertise area.
-
-	Sam
-
-
-Sam Ravnborg (4):
-      drm/panel: add connector type to boe,hv070wsa-100 panel
-      drm/bridge: tc358764: drop drm_connector_(un)register
-      drm/bridge: tc358764: add drm_panel_bridge support
-      drm/bridge: tc358764: make connector creation optional
-
- drivers/gpu/drm/bridge/tc358764.c    | 68 ++++++++++--------------------------
- drivers/gpu/drm/panel/panel-simple.c |  1 +
- 2 files changed, 19 insertions(+), 50 deletions(-)
-
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 44a1f5dfb571..749115c98ee2 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1059,6 +1059,7 @@ static const struct panel_desc boe_hv070wsa = {
+ 		.width = 154,
+ 		.height = 90,
+ 	},
++	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
+ static const struct drm_display_mode boe_nv101wxmn51_modes[] = {
+-- 
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
