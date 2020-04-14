@@ -2,59 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E630C1A7C1B
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 15:14:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFFA01A7DA4
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 15:25:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DDC86E4D2;
-	Tue, 14 Apr 2020 13:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A4B56E4DD;
+	Tue, 14 Apr 2020 13:25:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C37C76E4D2;
- Tue, 14 Apr 2020 13:14:39 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id d27so5059629wra.1;
- Tue, 14 Apr 2020 06:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ll4eqAKYtjTVgiWa+EM/tj8opR8soYnFbaqkSa8MX0w=;
- b=isQPS0YRieB7ch7fx9vRbFH6vVJ4/QFAfFtOxs7dl7WJwGeHCeTQS+qrGd9s7WRif5
- JqpVOBi2Cqe2E6ez62qE4/a7Sji/QthpWmK44OsPX7WYNXpcdiI2oOhmjb+4yRlXO5QK
- l23pyo3SDKhsQmdSNfmOZFuVUtenQdOdPK50FCKUU5z8N82ZFzdmWe+gVIcmuCw0h3Zn
- ArG3qdgBx2OhGRZcmg9uBy/DC+NSzJXr4coBZOznjpbpcYXf5kvVjA5L6qfe93w03on6
- O8wsBlWmpEmcZMWVG7vUxga9csu/DS5M8ieHTQ+WFXB78toa2EvqDVzMqTE5flLxLus+
- dqaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ll4eqAKYtjTVgiWa+EM/tj8opR8soYnFbaqkSa8MX0w=;
- b=mCoYkk2xGpQnRBbM3g7SxKqAErx8G6VNj+lV5hBJmsHfuv04LxD3RCR4GqUS1Pihop
- AWHJm1wJv8GjnWRYxgIiAn5vRFNzNSP/abbVbqUJd9eb63O22RgDE+i1DMu2LvWvnkrQ
- vB/ywKVqZ1/JRZHihKG82wFdILJhR2et//GZ5fWbY4zxBu5QLdRF16yHeni6DLwBGGDV
- IBibIm6Q7XAgLUVQZAmaHKDr5EBEcFAvz1b2ENuN39/gdDjTYckqxU9ntOUHxyMXViWG
- noli2i3sg4Kn4j9cpRzzibNHqCesV5TMVno+3jTLbq5qkdFH+hgppsSuQcctrVmxymVI
- EevQ==
-X-Gm-Message-State: AGi0PubaLCP0D8sqY2aBqauj9nNbRYds3gTbMBIaF8oZEXrju4b9/971
- CFPmX4/zfXr+uklLk0n4zOtJPd7QfMjvMjTyQC0=
-X-Google-Smtp-Source: APiQypKDWYE7ro/xZ4gZ+BUY0l4LRMksuXmT+3J4sb0z0oWxfdy2Qap6WOfuUwiVUau7i+EWwS9jFojCnbujMqGjuj0=
-X-Received: by 2002:a5d:65cb:: with SMTP id e11mr23399657wrw.402.1586870078292; 
- Tue, 14 Apr 2020 06:14:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200226190152.16131-1-Kenny.Ho@amd.com>
- <CAOWid-eyMGZfOyfEQikwCmPnKxx6MnTm17pBvPeNpgKWi0xN-w@mail.gmail.com>
- <20200324184633.GH162390@mtj.duckdns.org>
- <CAOWid-cS-5YkFBLACotkZZCH0RSjHH94_r3VFH8vEPOubzSpPA@mail.gmail.com>
- <20200413191136.GI60335@mtj.duckdns.org>
- <20200414122015.GR3456981@phenom.ffwll.local>
- <CAOWid-f-XWyg0o3znH28xYndZ0OMzWfv3OOuWw08iJDKjrqFGA@mail.gmail.com>
- <CAKMK7uEs5QvUrxKcTFksO30D+x=XJnV+_TA-ebawcihtLqDG0Q@mail.gmail.com>
-In-Reply-To: <CAKMK7uEs5QvUrxKcTFksO30D+x=XJnV+_TA-ebawcihtLqDG0Q@mail.gmail.com>
-From: Kenny Ho <y2kenny@gmail.com>
-Date: Tue, 14 Apr 2020 09:14:27 -0400
-Message-ID: <CAOWid-fwEOk+4CvUAumo=byWpq4vVUoCiwW1N6F-0aEd6G7d4A@mail.gmail.com>
-Subject: Re: [PATCH v2 00/11] new cgroup controller for gpu/drm subsystem
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
+ [185.70.40.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCC936E4DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 13:25:21 +0000 (UTC)
+Date: Tue, 14 Apr 2020 13:25:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1586870718;
+ bh=WGNtHS2toza39mURIF+6PWggoUU0iTfkKZIfxcU59GY=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=pR/5zNHrvKiGX7U8b9DBUQhEEAt/hlm9Vl8PxgeY4twLMxSexLlVvD6xIcejiZXw7
+ w0JoMn+d8PY6ufSK8YU17PlwmY7rrVMxv2gZV7750k5msKvKNSbj6m2RWT6+9+THGq
+ ptStlGUvnkwSrxNcSOtu3xbm0bmp+N71ogu1vTDc=
 To: Daniel Vetter <daniel@ffwll.ch>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: KMS enums and bitfields UAPI
+Message-ID: <sxighAwzjE_uFWBRdafDj7J1HgLR_yV0SwWQKMpqZGgD1p0yaeeRvmw9rOUCLEMXoARE99aAm5YSGENfTsA3PK9qADKweKPeE6uGguhxpLU=@emersion.fr>
+In-Reply-To: <20200414123945.GU3456981@phenom.ffwll.local>
+References: <VmzN-pGfjaXAFb8aZXOnS2ibasRIsvB-EbfvxyvjLs07m-PBv4pTcX5hsB7yyrt78pxQQ6Bbu3I-hTtFSXEadxm8CkS60FLccIsZycguSfA=@emersion.fr>
+ <u5X6K68v0waX25yZHLng0H_WDIFjNU-MgmnbLCoBZN7bqys3ofRm203wrYKdMnR1f4CStz3q5a12Y0ou8lCZWNMuhRmCCZ1dkTCSuDZjdy4=@emersion.fr>
+ <20200414122402.GS3456981@phenom.ffwll.local>
+ <gpwDGBjR8hMLhneuVUgofPTRR5r79EHlaSULKoTmIvavvl52qCQS7bXfqihSRC_ABzsDO1xmG0GSbU1d6DPanLEfW0IcsCBqbN0SFvd7gv4=@emersion.fr>
+ <20200414123945.GU3456981@phenom.ffwll.local>
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,56 +48,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenny Ho <Kenny.Ho@amd.com>, "Kuehling, Felix" <felix.kuehling@amd.com>,
- jsparks@cray.com, dri-devel <dri-devel@lists.freedesktop.org>,
- lkaplan@cray.com, Alex Deucher <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Greathouse,
- Joseph" <joseph.greathouse@amd.com>, Tejun Heo <tj@kernel.org>,
- cgroups@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ok.  I was hoping you can clarify the contradiction between the
-existance of the spec below and your "not something any other gpu can
-reasonably support" statement.  I mean, OneAPI is Intel's spec and
-doesn't that at least make SubDevice support "reasonable" for one more
-vendor?
+On Tuesday, April 14, 2020 2:39 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
 
-Partisanship aside, as a drm co-maintainer, do you really not see the
-need for non-work-conserving way of distributing GPU as a resource?
-You recognized the latencies involved (although that's really just
-part of the story... time sharing is never going to be good enough
-even if your switching cost is zero.)  As a drm co-maintainer, are you
-suggesting GPU has no place in the HPC use case?
-
-Regards,
-Kenny
-
-On Tue, Apr 14, 2020 at 8:52 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Tue, Apr 14, 2020 at 12:34:17PM +0000, Simon Ser wrote:
 >
-> On Tue, Apr 14, 2020 at 2:47 PM Kenny Ho <y2kenny@gmail.com> wrote:
-> > On Tue, Apr 14, 2020 at 8:20 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > My understanding from talking with a few other folks is that
-> > > the cpumask-style CU-weight thing is not something any other gpu can
-> > > reasonably support (and we have about 6+ of those in-tree)
+> > On Tuesday, April 14, 2020 2:24 PM, Daniel Vetter daniel@ffwll.ch wrote:
 > >
-> > How does Intel plan to support the SubDevice API as described in your
-> > own spec here:
-> > https://spec.oneapi.com/versions/0.7/oneL0/core/INTRO.html#subdevice-support
+> > > On Mon, Apr 13, 2020 at 10:38:37PM +0000, Simon Ser wrote:
+> > >
+> > > > Daniel Vetter, Ville, any thoughts about this?
+> > >
+> > > Magic 8ball says "unclear", and I feel like I keep flip-flopping around on
+> > > this.
+> > > I think best-case outcome here is that we're a) consistent across
+> > > compositors and b) document that consensus in the kernel's uapi section
+> > > (for lack of better places).
+> >
+> > Agreed.
+> >
+> > > I'm not hung up on what exactly that consensus should be, as long as it's
+> > > a consistent across projects. If you folks can't figure this out I'll do a
+> > > live youtube sessions and throw a dice :-P
+> >
+> > It seems like everyone's fine with whatever decision we make as long as
+> > we make one. :P
+> > I guess I'll summarize again my main point here: requiring user-space
+> > to use the KMS API to get enum values just makes it more difficult for
+> > user-space to use KMS. I can't think of any reason why the kernel would
+> > want to use different enum values for a standard property.
+> > Does anybody remember if there was such a use-case when this UAPI was
+> > introduced?
 >
-> I can't talk about whether future products might or might not support
-> stuff and in what form exactly they might support stuff or not support
-> stuff. Or why exactly that's even in the spec there or not.
+> I just rang across one, and boy does it suck.
 >
-> Geez
-> -Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+> So we're trying to standardize across drivers as much as possible. Within
+> the kernel we do that by decoding standardized properties directly into
+> state structures (including any backwards compat hacks), and outside of
+> the kernel by requiring igts so compliance across drivers can be tested.
+>
+> But we still have a pile of legacy properties, and there's pure wild west
+> out there. Some have mispelled version of the same stuff, some have same
+> naming but different values. If userspace hardcodes values then we're more
+> screwed than if we have some indirection here to remap to standardized
+> properties. And legacy userspace did do that full remapping dance, because
+> that's how the first X property decoder for connectors was coded.
+>
+> So given that I think everyone should do the symbolic decoding, so that we
+> can more seamlessly upgrade when we standardize props.
+>
+> Like I said, I'm flip-flopping on this all the time, but since I just ran
+> over an example of trying to standardize another one of the old horrors,
+> maybe better to make that slightly easier going forward. Userspace should
+> be able to just stuff this all into a library and be done.
+
+What I'm suggesting isn't to make all enum values UAPI. I'm suggesting
+to add standard enum values as #defines in the UAPI headers to make
+these values UAPI. Non-standard properties wouldn't be in the UAPI
+headers, so user-space would need to query values from KMS just like
+they do now.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
