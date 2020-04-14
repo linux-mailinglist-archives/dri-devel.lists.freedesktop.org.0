@@ -1,40 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D1B1A7FBD
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 16:28:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A451A7FCB
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 16:29:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 862EA6E174;
-	Tue, 14 Apr 2020 14:28:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C164A6E17C;
+	Tue, 14 Apr 2020 14:29:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FEC86E174
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 14:28:12 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 911E7206D5;
- Tue, 14 Apr 2020 14:28:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586874492;
- bh=AUCP5LBXtPGJHjbn/Oope7bBN8YqMNL+wwsvw4qP3kg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=H3IYucfMVmoo+un3KX+EOcHYqVdDOVrDLZRI2LvpvT48wGw3GAG383C3V6cHD8c6n
- IftZ5V3CcP1AL1DtUz8dWDECPuGtky0eivrzBKEODddbpefvrUrwHnTMj5S7Lo2vEY
- WlixpeUCffKCDY4igxJYWeEsjBILC5sBgzc2S70Y=
-Date: Tue, 14 Apr 2020 16:28:10 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>
-Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
-Message-ID: <20200414142810.GA958163@kroah.com>
-References: <20200414134629.54567-1-orjan.eide@arm.com>
- <20200414141849.55654-1-orjan.eide@arm.com>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0538A6E17C;
+ Tue, 14 Apr 2020 14:29:37 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id k11so13951442wrp.5;
+ Tue, 14 Apr 2020 07:29:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NN/N/vC8yy9yn1dSzJq7yVqBlSa2o6+uOJvDXpLTAQU=;
+ b=kd5qfu8YUtzzvDO+htmr4EI98+O8OO7zGM3RPGd2gNW/ICIyQ73uMilQJ4V+vubY+b
+ DgX4ujHO4brJz1ZQspIqqP8BW6M1hx0UBPI3IpAKVyOlhdkTXd+KZ0NoTlHZvfmkKInA
+ kdrqtVCm9qDKuIK3VwTYrfc+mdHLe3WBVSjR62ulMId/gIwFtT3/OFtAcct19h/9/CND
+ KDPCImWv+1J8YMiu25vHssP+R79lHFR1MJAstmHLphbTdC38L4bg5gdN1RvmjAc9y/SQ
+ XoLFD6f4b6hnr6ZAarf8MqaJSNIhGllnWgZcafYnMjhvRb9fKcf5fryRxD+Tcu0gj8yt
+ HOCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NN/N/vC8yy9yn1dSzJq7yVqBlSa2o6+uOJvDXpLTAQU=;
+ b=RafvfOhZ7NSI2NXYCDcFp/8iqFFQMMieUoHvWD4pyMXr1+ZSdfNqvYU6v1V6clGorZ
+ tARwsiuOjDRl247PdMTGJtHSkyKgPsQtC7XRt+eoLwx3wP+HTN6EdJPC0ovA/A/kxhma
+ ke2zPryzicGX7rJa0y4NlWP42JbnB9W7n1optE0XhsaHAdCSyMgZQwk7ESJECZjb792K
+ eYDCfziUq9rwKPuitsWOJQyrgwmZbjv+dAzwR9KQ8yc3Vs6FIxZ3Ev15wmuFGnd9havT
+ FM8AHZvnEF5sfDz5+EjNsSLvxutMGPUJx95NUsE6BvOS2n0ErCMotWqNoL4ea+MVIsUD
+ EaUA==
+X-Gm-Message-State: AGi0PuY5bKjDVcBIZf/uVOMCaOhzLuvN48yxMId33mqzKNPHK5McOJr2
+ GBUrg25LaVVU0jb0GIYFp7noURzTaqzSb2AkKUs=
+X-Google-Smtp-Source: APiQypK7DVeTHvRVNA7KWmL1h/VYKQr9zjeXnI1NBaki6BszL6NTZkquqm2KSKdABHLA0JjFyUi7Zz3UL1kRuKfcT24=
+X-Received: by 2002:a5d:50c9:: with SMTP id f9mr5299226wrt.191.1586874575556; 
+ Tue, 14 Apr 2020 07:29:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200414141849.55654-1-orjan.eide@arm.com>
+References: <20200226190152.16131-1-Kenny.Ho@amd.com>
+ <CAOWid-eyMGZfOyfEQikwCmPnKxx6MnTm17pBvPeNpgKWi0xN-w@mail.gmail.com>
+ <20200324184633.GH162390@mtj.duckdns.org>
+ <CAOWid-cS-5YkFBLACotkZZCH0RSjHH94_r3VFH8vEPOubzSpPA@mail.gmail.com>
+ <20200413191136.GI60335@mtj.duckdns.org>
+ <20200414122015.GR3456981@phenom.ffwll.local>
+ <CAOWid-f-XWyg0o3znH28xYndZ0OMzWfv3OOuWw08iJDKjrqFGA@mail.gmail.com>
+ <CAKMK7uEs5QvUrxKcTFksO30D+x=XJnV+_TA-ebawcihtLqDG0Q@mail.gmail.com>
+ <CAOWid-fwEOk+4CvUAumo=byWpq4vVUoCiwW1N6F-0aEd6G7d4A@mail.gmail.com>
+ <CAKMK7uHwX9NbGb1ptnP=CAwxDayfM_z9kvFMMb=YiH+ynjNqKQ@mail.gmail.com>
+ <CAOWid-dJckd8kV57MKNA_W83SN4OHnOGPURL7oOm-SqoYRLX=w@mail.gmail.com>
+ <CAKMK7uGWxE-gDa25mi4EtLqPKZZfacm0VhTem=StHAQABRAkUQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uGWxE-gDa25mi4EtLqPKZZfacm0VhTem=StHAQABRAkUQ@mail.gmail.com>
+From: Kenny Ho <y2kenny@gmail.com>
+Date: Tue, 14 Apr 2020 10:29:24 -0400
+Message-ID: <CAOWid-eaASFFdA5zLxaLO72OGsUVz_BgM-sGP2OQykXCzizmnw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] new cgroup controller for gpu/drm subsystem
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,94 +71,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, nd@arm.com, Todd Kjos <tkjos@android.com>,
- Lecopzer Chen <lecopzer.chen@mediatek.com>, Arnd Bergmann <arnd@arndb.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>, anders.pedersen@arm.com,
- Joel Fernandes <joel@joelfernandes.org>,
- "Darren Hart \(VMware\)" <dvhart@infradead.org>,
- Laura Abbott <labbott@redhat.com>, Martijn Coenen <maco@android.com>,
- Christian Brauner <christian@brauner.io>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Kenny Ho <Kenny.Ho@amd.com>, "Kuehling, Felix" <felix.kuehling@amd.com>,
+ jsparks@cray.com, dri-devel <dri-devel@lists.freedesktop.org>,
+ lkaplan@cray.com, Alex Deucher <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Greathouse,
+ Joseph" <joseph.greathouse@amd.com>, Tejun Heo <tj@kernel.org>,
+ cgroups@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 04:18:47PM +0200, =D8rjan Eide wrote:
-> Only sync the sg-list of an Ion dma-buf attachment when the attachment
-> is actually mapped on the device.
-> =
+On Tue, Apr 14, 2020 at 10:04 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> This has _nothing_ to do with Intel (I think over the past 25 years or
+> so intel has implemented all 4 versions of gpu splitting that I
+> listed, but not entirely sure).
+>
+> So again pls less tribal fighting, more collaboration. If you can't do
+> that, let's pick nouveau/nvidia as arbitrary neutral ground.
 
-> dma-bufs may be synced at any time. It can be reached from user space
-> via DMA_BUF_IOCTL_SYNC, so there are no guarantees from callers on when
-> syncs may be attempted, and dma_buf_end_cpu_access() and
-> dma_buf_begin_cpu_access() may not be paired.
-> =
+So are you saying Intel has implemented a form of masking before?  I
+don't think we need to just pick a vendor as a neutral ground.  The
+idea of spatial sharing vs time sharing is not vendor specific... it's
+not even GPU specific.  This is why I asked the two questions below.
 
-> Since the sg_list's dma_address isn't set up until the buffer is used
-> on the device, and dma_map_sg() is called on it, the dma_address will be
-> NULL if sync is attempted on the dma-buf before it's mapped on a device.
-> =
+> > Perhaps the following questions can help keep the discussion technical:
+> > 1)  Is it possible to implement non-work-conserving distribution of
+> > GPU without spatial sharing?  (If yes, I'd love to hear a suggestion,
+> > if not...question 2.)
+> > 2)  If spatial sharing is required to support GPU HPC use cases, what
+> > would you implement if you have the hardware support today?
+>
+> The thing we can currently do in upstream (from how I'm understanding
+> hw) is assign entire PCI devices to containers, so essentially only
+> the entire /dev/dri/* cdev. That works, and it works across all
+> drivers we have in upstream right now.
+>
+> Anything more fine-grained I don't think is currently possible,
+> because everyone has a different idea of how to split up gpus. It
+> would be nice to have it, but in upstream, cross-vendor, I'm just not
+> seeing it happen right now.
 
-> Before v5.0 (commit 55897af63091 ("dma-direct: merge swiotlb_dma_ops
-> into the dma_direct code")) this was a problem as the dma-api (at least
-> the swiotlb_dma_ops on arm64) would use the potentially invalid
-> dma_address. How that failed depended on how the device handled physical
-> address 0. If 0 was a valid address to physical ram, that page would get
-> flushed a lot, while the actual pages in the buffer would not get synced
-> correctly. While if 0 is an invalid physical address it may cause a
-> fault and trigger a crash.
-> =
+I understand the reality, but what would you implement to support the
+concept (GPU in HPC, which you said you are not against) if you have
+the hw support today?  How would you support low-jitter/low-latency
+sharing of a single GPU if you have whatever hardware support you need
+today?
 
-> In v5.0 this was incidentally fixed by commit 55897af63091 ("dma-direct:
-> merge swiotlb_dma_ops into the dma_direct code"), as this moved the
-> dma-api to use the page pointer in the sg_list, and (for Ion buffers at
-> least) this will always be valid if the sg_list exists at all.
-> =
+Regards,
+Kenny
 
-> But, this issue is re-introduced in v5.3 with
-> commit 449fa54d6815 ("dma-direct: correct the physical addr in
-> dma_direct_sync_sg_for_cpu/device") moves the dma-api back to the old
-> behaviour and picks the dma_address that may be invalid.
-> =
 
-> dma-buf core doesn't ensure that the buffer is mapped on the device, and
-> thus have a valid sg_list, before calling the exporter's
-> begin_cpu_access.
-> =
-
-> Signed-off-by: =D8rjan Eide <orjan.eide@arm.com>
-> ---
->  drivers/staging/android/ion/ion.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> =
-
-> Resubmit without disclaimer, sorry about that.
-> =
-
-> This seems to be part of a bigger issue where dma-buf exporters assume
-> that their dma-buf begin_cpu_access and end_cpu_access callbacks have a
-> certain guaranteed behavior, which isn't ensured by dma-buf core.
-> =
-
-> This patch fixes this in ion only, but it also needs to be fixed for
-> other exporters, either handled like this in each exporter, or in
-> dma-buf core before calling into the exporters.
-> =
-
-> diff --git a/drivers/staging/android/ion/ion.c b/drivers/staging/android/=
-ion/ion.c
-> index 38b51eace4f9..7b752ba0cb6d 100644
-> --- a/drivers/staging/android/ion/ion.c
-> +++ b/drivers/staging/android/ion/ion.c
-
-Now that we have the dma-buff stuff in the tree, do we even need the
-ion code in the kernel anymore?  Can't we delete it now?
-
-thanks,
-
-greg k-h
+> > On Tue, Apr 14, 2020 at 9:26 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > On Tue, Apr 14, 2020 at 3:14 PM Kenny Ho <y2kenny@gmail.com> wrote:
+> > > >
+> > > > Ok.  I was hoping you can clarify the contradiction between the
+> > > > existance of the spec below and your "not something any other gpu can
+> > > > reasonably support" statement.  I mean, OneAPI is Intel's spec and
+> > > > doesn't that at least make SubDevice support "reasonable" for one more
+> > > > vendor?
+> > > >
+> > > > Partisanship aside, as a drm co-maintainer, do you really not see the
+> > > > need for non-work-conserving way of distributing GPU as a resource?
+> > > > You recognized the latencies involved (although that's really just
+> > > > part of the story... time sharing is never going to be good enough
+> > > > even if your switching cost is zero.)  As a drm co-maintainer, are you
+> > > > suggesting GPU has no place in the HPC use case?
+> > >
+> > >  So I did chat with people and my understanding for how this subdevice
+> > > stuff works is roughly, from least to most fine grained support:
+> > > - Not possible at all, hw doesn't have any such support
+> > > - The hw is actually not a single gpu, but a bunch of chips behind a
+> > > magic bridge/interconnect, and there's a scheduler load-balancing
+> > > stuff and you can't actually run on all "cores" in parallel with one
+> > > compute/3d job. So subdevices just give you some of these cores, but
+> > > from client api pov they're exactly as powerful as the full device. So
+> > > this kinda works like assigning an entire NUMA node, including all the
+> > > cpu cores and memory bandwidth and everything.
+> > > - Hw has multiple "engines" which share resources (like compute cores
+> > > or whatever) behind the scenes. There's no control over how this
+> > > sharing works really, and whether you have guarantees about minimal
+> > > execution resources or not. This kinda works like hyperthreading.
+> > > - Then finally we have the CU mask thing amdgpu has. Which works like
+> > > what you're proposing, works on amd.
+> > >
+> > > So this isn't something that I think we should standardize in a
+> > > resource management framework like cgroups. Because it's a complete
+> > > mess. Note that _all_ the above things (including the "no subdevices"
+> > > one) are valid implementations of "subdevices" in the various specs.
+> > >
+> > > Now on your question on "why was this added to various standards?"
+> > > because opencl has that too (and the rocm thing, and everything else
+> > > it seems). What I heard is that a few people pushed really hard, and
+> > > no one objected hard enough (because not having subdevices is a
+> > > standards compliant implementation), so that's why it happened. Just
+> > > because it's in various standards doesn't mean that a) it's actually
+> > > standardized in a useful fashion and b) something we should just
+> > > blindly adopt.
+> > >
+> > > Also like where exactly did you understand that I'm against gpus in
+> > > HPC uses cases. Approaching this in a slightly less tribal way would
+> > > really, really help to get something landed (which I'd like to see
+> > > happen, personally). Always spinning this as an Intel vs AMD thing
+> > > like you do here with every reply really doesn't help moving this in.
+> > >
+> > > So yeah stricter isolation is something customers want, it's just not
+> > > something we can really give out right now at a level below the
+> > > device.
+> > > -Daniel
+> > >
+> > > >
+> > > > Regards,
+> > > > Kenny
+> > > >
+> > > > On Tue, Apr 14, 2020 at 8:52 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > >
+> > > > > On Tue, Apr 14, 2020 at 2:47 PM Kenny Ho <y2kenny@gmail.com> wrote:
+> > > > > > On Tue, Apr 14, 2020 at 8:20 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > > > My understanding from talking with a few other folks is that
+> > > > > > > the cpumask-style CU-weight thing is not something any other gpu can
+> > > > > > > reasonably support (and we have about 6+ of those in-tree)
+> > > > > >
+> > > > > > How does Intel plan to support the SubDevice API as described in your
+> > > > > > own spec here:
+> > > > > > https://spec.oneapi.com/versions/0.7/oneL0/core/INTRO.html#subdevice-support
+> > > > >
+> > > > > I can't talk about whether future products might or might not support
+> > > > > stuff and in what form exactly they might support stuff or not support
+> > > > > stuff. Or why exactly that's even in the spec there or not.
+> > > > >
+> > > > > Geez
+> > > > > -Daniel
+> > > > > --
+> > > > > Daniel Vetter
+> > > > > Software Engineer, Intel Corporation
+> > > > > +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+> > >
+> > >
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+>
+>
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
