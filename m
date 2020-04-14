@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DBD81A7449
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 09:07:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDBA1A73CF
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 08:43:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF6CD6E47E;
-	Tue, 14 Apr 2020 07:06:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCEC389CF8;
+	Tue, 14 Apr 2020 06:43:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 320526E452;
- Tue, 14 Apr 2020 06:13:17 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id e16so4550048pjp.1;
- Mon, 13 Apr 2020 23:13:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5vYUlFRrmo48Z6uIstdlFK2RpwU8zu6bS3VJnypHQaI=;
- b=Ni1gJ/SRRaCwlu/HKk4f90wV2rq5KhyBN7v+R1AjcbKhLHf1vXKk3I+QND4167E7bb
- UAsD7F7srr+YA9LY1eh/v+MWu8rpmxIc/xg2hrfXn9Koh+cZuQXUm9qGILWAYiCFtwSp
- IBr9IRJ98NQHuAtZ6l2kUiN4zQMLEPbqwBHW9sAyEl2vcYSyUq4YfjQ5wgliC32RjNzt
- TXUyJOuUYhPvh3X3hlkVjWW2EBuVidlfZ0XCx5KcLPGUsWizWk85N8M1QdgK4nlYg1h1
- 5BIao7d/uDEkJgYNvw5xAZ/7VCcNXfCNhsjSgRH/UF3659KoIyxmagvMcFL/wr64noAF
- La9w==
-X-Gm-Message-State: AGi0Pub+f+yvMdcJKo8xhzYLpN8O74/83s+e4K9SQD0PTpJP5JIqL8i9
- 3f0XEjRxpGAsEKb3M5SIhi8=
-X-Google-Smtp-Source: APiQypLHuOqX8NGAjwM3Onpv7qlpUvNmBWIvQMcbKF0BZVkrwkXbgqqRtvcb5m94Vum2lGnSjxaFOQ==
-X-Received: by 2002:a17:90a:d0c5:: with SMTP id
- y5mr7451458pjw.26.1586844796676; 
- Mon, 13 Apr 2020 23:13:16 -0700 (PDT)
-Received: from sultan-box.localdomain (static-198-54-129-52.cust.tzulo.com.
- [198.54.129.52])
- by smtp.gmail.com with ESMTPSA id h4sm9455050pgg.67.2020.04.13.23.13.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Apr 2020 23:13:15 -0700 (PDT)
-Date: Mon, 13 Apr 2020 23:13:12 -0700
-From: Sultan Alsawaf <sultan@kerneltoast.com>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH v4] drm/i915: Synchronize active and retire callbacks
-Message-ID: <20200414061312.GA90768@sultan-box.localdomain>
-References: <20200404024156.GA10382@sultan-box.localdomain>
- <20200407064007.7599-1-sultan@kerneltoast.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE7689CF8
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 06:43:06 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 02FBDAB3D;
+ Tue, 14 Apr 2020 06:43:03 +0000 (UTC)
+Subject: Re: [PATCH] drm: Don't return 0 from a void drm_fbdev_generic_setup
+To: Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org
+References: <20200408212407.4309-1-chris@chris-wilson.co.uk>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <74d1e64b-6c22-29ac-f508-aeb4364de6ec@suse.de>
+Date: Tue, 14 Apr 2020 08:43:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200407064007.7599-1-sultan@kerneltoast.com>
-X-Mailman-Approved-At: Tue, 14 Apr 2020 07:06:18 +0000
+In-Reply-To: <20200408212407.4309-1-chris@chris-wilson.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,22 +63,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthew Auld <matthew.auld@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============1939499392=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Chris,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1939499392==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="jppki7syK0O0ajLzsGQuOmYWtRXflr0eZ"
 
-Could you please take a look at this? This really is quite an important fix.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jppki7syK0O0ajLzsGQuOmYWtRXflr0eZ
+Content-Type: multipart/mixed; boundary="mu3DHdi5osr3fQRBAK8EOTeK21WsOxZFX";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Message-ID: <74d1e64b-6c22-29ac-f508-aeb4364de6ec@suse.de>
+Subject: Re: [PATCH] drm: Don't return 0 from a void drm_fbdev_generic_setup
+References: <20200408212407.4309-1-chris@chris-wilson.co.uk>
+In-Reply-To: <20200408212407.4309-1-chris@chris-wilson.co.uk>
 
-Thanks,
-Sultan
+--mu3DHdi5osr3fQRBAK8EOTeK21WsOxZFX
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Am 08.04.20 um 23:24 schrieb Chris Wilson:
+> drm_fbdev_generic_setup() was changed to be a void return, but the stub=
+
+> was left returning 0.
+>=20
+> ./include/drm/drm_fb_helper.h: In function =E2=80=98drm_fbdev_generic_s=
+etup=E2=80=99:
+> ./include/drm/drm_fb_helper.h:450:9: warning: =E2=80=98return=E2=80=99 =
+with a value, in function returning void [-Wreturn-type]
+> ./include/drm/drm_fb_helper.h:448:1: note: declared here
+>   448 | drm_fbdev_generic_setup(struct drm_device *dev, unsigned int pr=
+eferred_bpp)
+>=20
+> Fixes: 1aed9509b29a ("drm/fb-helper: Remove return value from drm_fbdev=
+_generic_setup()")
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  include/drm/drm_fb_helper.h | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+> index fb037be83997..306aa3a60be9 100644
+> --- a/include/drm/drm_fb_helper.h
+> +++ b/include/drm/drm_fb_helper.h
+> @@ -447,7 +447,6 @@ static inline void drm_fb_helper_output_poll_change=
+d(struct drm_device *dev)
+>  static inline void
+>  drm_fbdev_generic_setup(struct drm_device *dev, unsigned int preferred=
+_bpp)
+>  {
+> -	return 0;
+>  }
+
+Ah, I forgot about that. Thank you so much!
+
+Best regards
+Thomas
+
+> =20
+>  #endif
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--mu3DHdi5osr3fQRBAK8EOTeK21WsOxZFX--
+
+--jppki7syK0O0ajLzsGQuOmYWtRXflr0eZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6VW3cACgkQaA3BHVML
+eiNYzQgAv2t1Abo3drtCrEVq5l6bkFPuT0N6Jc/gb+3JH53o4xwerOi86uHhJzAG
+XJCFgJEakOiEEz0xyaPt754EeXySD6lNKrbkHBPMYpbhc6mC8hA7ir3Q41Iy/c5x
+jAX6gIFwnmVjNgvZb6vdBaEd0IzLOi1ID9QIQ3m/RELP/EC2fPCK+JeTElfGGqmf
+6WBRyLt+zDZ3oNo6to+2pqPVHxyQzOnXoVl0zjLfW8xbqUqTU8xvMPtTgb8WUGwL
+pC+lik7ltHT/f+cb0i1ekRikbnlvMHCjEZUZlog4gmC8+RmeBjxFeVDWyFqHrpqa
+3X4A+b8i+9z3OWfB7hZeNkgA2NPGIw==
+=8uUM
+-----END PGP SIGNATURE-----
+
+--jppki7syK0O0ajLzsGQuOmYWtRXflr0eZ--
+
+--===============1939499392==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1939499392==--
