@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96FFE1A8E24
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 00:00:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 717671A8E29
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 00:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAA876E5A9;
-	Tue, 14 Apr 2020 22:00:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E50E6E5AE;
+	Tue, 14 Apr 2020 22:01:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3E076E5A9
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 22:00:02 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id b13so1378840oti.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 15:00:02 -0700 (PDT)
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+ [209.85.167.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D44E6E5AE
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 22:01:42 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id j16so11840409oih.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 15:01:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=L1I6J+GVjnlwCVqQEMnud8REAvNZ6BVdyLiYBiiCNQU=;
- b=ahXDEOtObkIhKwsA/Ds7iRDEuht5+NXqFEuCdLEsdhAZSjXbFsc+zWl+YcIzMBP4rW
- En8B4FSuIAcUR0x2Gz/h0tblwFpCDzz/3ftFQm3zY1EO8xnm4B2dKKIXjXh796Grsojv
- Zbe3BeDHQXPlgWv/JoRQrFt42e49IUCiEPymbwwAKIt8rbT+r1oxBlwQ7b+ZBIBYoldR
- iCOUttXAAGeKYKCTawacqFsRAO/5CtrmvVE6F3Xa98IisHhSqwwCJLE2DhEpNmd/h+PS
- +WCBnTtq4o2EEJyER9KTogKTDKm3fRYzaAunzJb18KyJD9Sh6IJh735DxUm7iKSJ5Jmn
- HMlg==
-X-Gm-Message-State: AGi0PuZ1Yr46Gc0vilK4Y96PUMaNdqqISfgh+X8vkP06SgJMBTUemPdl
- CKZloW8qfabw+/AXwLSwUQ==
-X-Google-Smtp-Source: APiQypJbdgOqQtDbAuA0ml+fwiQ0T0JQ1mWT/DZowS+twshAN8exXxrEeN2/uqlQ6qDxjO/f1OGnFQ==
-X-Received: by 2002:a05:6830:1d2:: with SMTP id
- r18mr20268515ota.327.1586901602102; 
- Tue, 14 Apr 2020 15:00:02 -0700 (PDT)
+ bh=G6PPt1QnSaN0ApJ5RR4KQrnjQemnxVXWfSc9EvEQLP0=;
+ b=eRtGucDMJSuCJoPKjL+9Dq/zNkwp9gFfzp372JqUywjzMUPElSOIf4sbx+LP3KB/F8
+ iDhJu7N3BpBnEseY6yOit5FoWnGoYtvqvrXU5uBm6iCEZIFK7XxsNbgC68zg8WPk3wN4
+ 1IwwjDkYCDm0KXTqTY9dGeBuboLYCnSQ1sHp0IEHOSVQNyY7XUuOvqJbtqvjrpIf3Br+
+ 9PaUGK2/APWQIheOaWOF5xtELs6vzKQkhvvcuQDsabOGLSCXnMJS0WJ4DmJlA/C4MVo9
+ ebg5FagGZ4QxkXgspzAr9Gm5HTqWJ+0Zacqi3ZqAC9k0TKY8eZrgLOTp0qNtzkImrX0b
+ K4Zw==
+X-Gm-Message-State: AGi0Pua0jNgXsInn3VE8xyG4cx+u8DmWBFTQtGQYe50oJeOaAColmPdx
+ 79rwivSqEV8gVohEeCNFYw==
+X-Google-Smtp-Source: APiQypJgNGOt5RJHf7DTmxuYa6cjzVowN5sTDAOvfa5ylnYX6d3lhAnN5erFU66Pa0EwwqBW8CNfUw==
+X-Received: by 2002:a05:6808:181:: with SMTP id
+ w1mr3029236oic.26.1586901701741; 
+ Tue, 14 Apr 2020 15:01:41 -0700 (PDT)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id r65sm5924724oig.0.2020.04.14.15.00.00
+ by smtp.gmail.com with ESMTPSA id y8sm3631228otg.6.2020.04.14.15.01.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 15:00:01 -0700 (PDT)
-Received: (nullmailer pid 4140 invoked by uid 1000);
- Tue, 14 Apr 2020 22:00:00 -0000
-Date: Tue, 14 Apr 2020 17:00:00 -0500
+ Tue, 14 Apr 2020 15:01:41 -0700 (PDT)
+Received: (nullmailer pid 6545 invoked by uid 1000);
+ Tue, 14 Apr 2020 22:01:40 -0000
+Date: Tue, 14 Apr 2020 17:01:40 -0500
 From: Rob Herring <robh@kernel.org>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH 2/4] dt-bindings: display: bridge: Convert simple-bridge
- bindings to YAML
-Message-ID: <20200414220000.GA31265@bogus>
+Subject: Re: [PATCH 3/4] dt-bindings: display: bridge: thc63lvd1024: Convert
+ binding to YAML
+Message-ID: <20200414220140.GA6489@bogus>
 References: <20200405232318.26833-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200405232318.26833-3-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405232318.26833-4-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200405232318.26833-3-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200405232318.26833-4-laurent.pinchart+renesas@ideasonboard.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,49 +71,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 06, 2020 at 02:23:16AM +0300, Laurent Pinchart wrote:
-> The simple-bridge driver supports multiple simple or dumb bridges,
-> covered by different compatible strings but otherwise identical DT
-> bindings. Some of those bridges have undocumented bindings, while others
-> are documented in text form in separate files. Group them all in a
-> single binding and convert it to YAML.
+On Mon,  6 Apr 2020 02:23:17 +0300, Laurent Pinchart wrote:
+> Convert the Thine THC63LVD1024 text binding to YAML.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  .../bindings/display/bridge/adi,adv7123.txt   | 50 ----------
->  .../bindings/display/bridge/dumb-vga-dac.txt  | 50 ----------
->  .../display/bridge/simple-bridge.yaml         | 99 +++++++++++++++++++
->  .../bindings/display/bridge/ti,ths813x.txt    | 51 ----------
->  4 files changed, 99 insertions(+), 151 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/adi,adv7123.txt
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/dumb-vga-dac.txt
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/ti,ths813x.txt
+>  .../display/bridge/thine,thc63lvd1024.txt     |  66 ----------
+>  .../display/bridge/thine,thc63lvd1024.yaml    | 121 ++++++++++++++++++
+>  2 files changed, 121 insertions(+), 66 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/adi,adv7123.txt b/Documentation/devicetree/bindings/display/bridge/adi,adv7123.txt
-> deleted file mode 100644
-> index a6b2b2b8f3d9..000000000000
-> --- a/Documentation/devicetree/bindings/display/bridge/adi,adv7123.txt
-> +++ /dev/null
-> @@ -1,50 +0,0 @@
-> -Analog Device ADV7123 Video DAC
-> --------------------------------
-> -
-> -The ADV7123 is a digital-to-analog converter that outputs VGA signals from a
-> -parallel video input.
-> -
-> -Required properties:
-> -
-> -- compatible: Should be "adi,adv7123"
-> -
-> -Optional properties:
-> -
-> -- psave-gpios: Power save control GPIO
 
-Not documented in the new schema. Did you intend to change to 
-'enable-gpios'?
-
-Rob
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
