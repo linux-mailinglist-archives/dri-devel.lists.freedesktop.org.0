@@ -1,46 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 087FE1A8014
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 16:44:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 929661A940D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:18:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A5E26E178;
-	Tue, 14 Apr 2020 14:44:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A83FE6E862;
+	Wed, 15 Apr 2020 07:17:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
- [149.117.73.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3D4989CDF
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 14:44:09 +0000 (UTC)
-Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
- [10.225.0.210])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 98B2F40484;
- Tue, 14 Apr 2020 14:44:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1586875449; bh=eIIjCzTpeJMIfjiUtE1G7XmBmAu7WJWsaBPpYxUyTbY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZjpJwCvjTZ21Cw6M82VbKtkgqmtUwYkUiWoPlLLJG+DfRoun9E8cp9Xvx8Itvp3wt
- LlC9t4GqFfRUGGr6le6HQNBMia/TtaTMPbNX9fVX3FuA6ekNnOiH1QRKYgpMa/75MH
- DKdRc6xdsas3aQyo9kmM+0t9Nbs+LEF6vMjz61MYT5rEu3xtZ+S1rzaJJWe85jaLh8
- ZFWvMB3i6OkPlPdgdB/DySbCKVKRo90Pu7d92gpl3nihdJ7dgji/68V4/GHsGyxS6W
- PW5qWMekRh4C/2HlCgCL5ENxJer93//39vyh0ueus1G988FsoofGhWeL4HGSlWYRTm
- vPELGrUEnHjNQ==
-Received: from paltsev-e7480.internal.synopsys.com (unknown [10.225.48.89])
- by mailhost.synopsys.com (Postfix) with ESMTP id D6D14A0065;
- Tue, 14 Apr 2020 14:44:06 +0000 (UTC)
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-To: dri-devel@lists.freedesktop.org,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-Subject: [PATCH v2 2/2] dt-bindings: Document the Synopsys ARC HDMI TX bindings
-Date: Tue, 14 Apr 2020 17:44:02 +0300
-Message-Id: <20200414144402.27643-3-Eugeniy.Paltsev@synopsys.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200414144402.27643-1-Eugeniy.Paltsev@synopsys.com>
-References: <20200414144402.27643-1-Eugeniy.Paltsev@synopsys.com>
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93DC86E197;
+ Tue, 14 Apr 2020 14:52:17 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id m21so6406pff.13;
+ Tue, 14 Apr 2020 07:52:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4WBdHUkYY7smG8N50aarxY/4v+FvQTuqufQXoC73mFQ=;
+ b=MEXki3BaFWnYoRR85tDAQx5t+k2hbOoYL1UqxELV4hJ9Q/vNcmjnM/eNLsd3Ut0Dug
+ 8Sg0yl+favtQwMzms5YE30YSRcIkEOGPnc0+of4JYt8tWMd4ZFhi/G83ivnIOh1jZFtx
+ pNIa3474B2SkRtM0KFb1ef5ktSAvpCqX3EHYHtTCY9zct1IhmCuH286dv9chQseJzmmx
+ dGiWnBIUCU4DBMUUrZhRbJuaCf5b1AL2u2QGUW/R2IGdpVssI4X4Krj+TpvuUP7Wz0nG
+ Qx5+jhpNbi3WwMy+xdgPBuARVPQ80BG3/cfDityDixgrGRqW41iGACfIUJf81cD/kjXL
+ qzpQ==
+X-Gm-Message-State: AGi0Puayc0mPdAlIR6C4f9N1UQmG82Bmh6zJx6bMKSI27I06Rdk4j8DC
+ bYDWgXJ29k/3Fqi6bkTKqiE=
+X-Google-Smtp-Source: APiQypLsvkblz51WUZpaRhQYiOLEZSBo6rwtEWCpFLomKuFySQ2et7hfOCSdy26kKt9i4WSgUjZekA==
+X-Received: by 2002:a63:2cce:: with SMTP id
+ s197mr23209940pgs.184.1586875937101; 
+ Tue, 14 Apr 2020 07:52:17 -0700 (PDT)
+Received: from sultan-box.localdomain (static-198-54-129-52.cust.tzulo.com.
+ [198.54.129.52])
+ by smtp.gmail.com with ESMTPSA id i190sm9442055pfc.119.2020.04.14.07.52.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Apr 2020 07:52:16 -0700 (PDT)
+Date: Tue, 14 Apr 2020 07:52:13 -0700
+From: Sultan Alsawaf <sultan@kerneltoast.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH 1/1] drm/i915: Fix ref->mutex deadlock in
+ i915_active_wait()
+Message-ID: <20200414145213.GC2082@sultan-box.localdomain>
+References: <20200407062622.6443-1-sultan@kerneltoast.com>
+ <20200407062622.6443-2-sultan@kerneltoast.com>
+ <158685200854.16269.9481176231557533815@build.alporthouse.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <158685200854.16269.9481176231557533815@build.alporthouse.com>
+X-Mailman-Approved-At: Wed, 15 Apr 2020 07:17:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,164 +62,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-snps-arc@lists.infradead.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds documentation of device tree bindings for the Synopsys
-HDMI 2.0 TX encoder driver for ARC SoCs.
+On Tue, Apr 14, 2020 at 09:13:28AM +0100, Chris Wilson wrote:
+> Quoting Sultan Alsawaf (2020-04-07 07:26:22)
+> > From: Sultan Alsawaf <sultan@kerneltoast.com>
+> > 
+> > The following deadlock exists in i915_active_wait() due to a double lock
+> > on ref->mutex (call chain listed in order from top to bottom):
+> >  i915_active_wait();
+> >  mutex_lock_interruptible(&ref->mutex); <-- ref->mutex first acquired
+> >  i915_active_request_retire();
+> >  node_retire();
+> >  active_retire();
+> >  mutex_lock_nested(&ref->mutex, SINGLE_DEPTH_NESTING); <-- DEADLOCK
+> > 
+> > Fix the deadlock by skipping the second ref->mutex lock when
+> > active_retire() is called through i915_active_request_retire().
+> > 
+> > Fixes: 12c255b5dad1 ("drm/i915: Provide an i915_active.acquire callback")
+> > Cc: <stable@vger.kernel.org> # 5.4.x
+> > Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
+> 
+> Incorrect. 
+> 
+> You missed that it cannot retire from inside the wait due to the active
+> reference held on the i915_active for the wait.
+> 
+> The only point it can enter retire from inside i915_active_wait() is via
+> the terminal __active_retire() which releases the mutex in doing so.
+> -Chris
 
-Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
----
- .../display/bridge/snps,arc-dw-hdmi.yaml      | 131 ++++++++++++++++++
- 1 file changed, 131 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
+The terminal __active_retire() and rbtree_postorder_for_each_entry_safe() loop
+retire different objects, so this isn't true.
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
-new file mode 100644
-index 000000000000..f52fc3b114b0
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
-@@ -0,0 +1,131 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/snps,arc-dw-hdmi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Synopsys DesignWare HDMI 2.0 TX encoder driver
-+
-+maintainers:
-+  - Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-+
-+description: |
-+  The HDMI transmitter is a Synopsys DesignWare HDMI 2.0 TX controller IP
-+  with a companion of Synopsys DesignWare HDMI 2.0 TX PHY IP.
-+
-+  These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
-+  Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
-+  with the following device-specific properties.
-+
-+properties:
-+  compatible:
-+    const: snps,dw-hdmi-hsdk
-+
-+  reg:
-+    maxItems: 1
-+    description: |
-+      Memory mapped base address and length of the DWC HDMI TX registers.
-+
-+  clocks:
-+    items:
-+      - description: The bus clock for AHB / APB
-+      - description: The internal register configuration clock
-+
-+  clock-names:
-+    items:
-+      - const: iahb
-+      - const: isfr
-+
-+  reg-io-width:
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - enum: [1, 4]
-+        description:
-+          Width of the registers specified by the reg property. The
-+          value is expressed in bytes and must be equal to 1 or 4 if specified.
-+          The register width defaults to 1 if the property is not present.
-+
-+  ports:
-+    type: object
-+    description: |
-+      A ports node with endpoint definitions as defined in
-+      Documentation/devicetree/bindings/media/video-interfaces.txt
-+
-+    properties:
-+      "#address-cells":
-+        const: 1
-+
-+      "#size-cells":
-+        const: 0
-+
-+      port@0:
-+        type: object
-+        description: |
-+          Video input endpoints of the controller.
-+          Usually the associated with PGU.
-+
-+      port@1:
-+        type: object
-+        description: |
-+          Output endpoints of the controller. HDMI connector.
-+
-+    required:
-+      - "#address-cells"
-+      - "#size-cells"
-+      - port@0
-+      - port@1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    hdmi: hdmi@0x10000 {
-+        compatible = "snps,dw-hdmi-hsdk";
-+        reg = <0x10000 0x10000>;
-+        reg-io-width = <4>;
-+        interrupts = <14>;
-+        clocks = <&apbclk>, <&hdmi_pix_clk>;
-+        clock-names = "iahb", "isfr";
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                hdmi_enc_input: endpoint {
-+                    remote-endpoint = <&pgu_output>;
-+                };
-+            };
-+
-+            port@1 {
-+                reg = <1>;
-+                hdmi_enc_out: endpoint {
-+                    remote-endpoint = <&hdmi_con>;
-+                };
-+            };
-+        };
-+    };
-+
-+    hdmi-out {
-+        port {
-+            hdmi_con: endpoint {
-+                remote-endpoint = <&hdmi_enc_out>;
-+            };
-+        };
-+    };
-+
-+    pgu {
-+        port_o: port {
-+            pgu_output: endpoint {
-+                remote-endpoint = <&hdmi_enc_input>;
-+            };
-+        };
-+    };
--- 
-2.21.1
-
+Sultan
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
