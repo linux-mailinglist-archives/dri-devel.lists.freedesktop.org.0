@@ -2,54 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03F51A8B21
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 21:40:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB9B1A8C26
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 22:17:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37DC06E177;
-	Tue, 14 Apr 2020 19:40:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0988589FC0;
+	Tue, 14 Apr 2020 20:17:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
- [209.85.210.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A95FE6E177
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 19:40:56 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id i27so917989ota.7
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 12:40:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=rA3IETH0xgn8ebwBJlBRbndhRKsHnPU2NvYNY3hNsKA=;
- b=Oo5Ixps4fJJeEZnUuFLQuIRtl3VOyomE4KRlcviMZECsn7MyNs0FoOhTl3a8a1nPEP
- c3Lmi7JAR38KltIg1AUiHQeGoLZnqjq65pxXO5MSdpGDA2glCMyQf9tuOuEGbLUBtWih
- jaC0g5CqpzpTVxT3S+Z0GlSgRX37+JjqBK+zAKZVc9OgYiq8cYxLPLRqpONjOr433kD5
- wlvqX6sY3+D+ypJVGYeabBnMZds3AJhWO3sIWK0I/9v1HiNcPMI60ImWl4Li2iRbIuZs
- iMdjjfY1xjTchITLmGfHF/z+djHOhkCscYnMxS2YUmCADwPP1I0bkcQctjs/qS6x7h/u
- vR0w==
-X-Gm-Message-State: AGi0PuYV/ePlqsei+1AKU6VMCVYaVL8bXlrPE4ODcAsCrLTIm5HiWwJY
- 7JsxeLhouXZszcan7bzuFg==
-X-Google-Smtp-Source: APiQypLI/AKUFg7kJsQaGhZnEKT2eudBr8nOypqMfZWA4MgD+9PzQn1dP3iPfKOpVxnuDsfLnEXp4g==
-X-Received: by 2002:a9d:24a4:: with SMTP id z33mr18571236ota.326.1586893255888; 
- Tue, 14 Apr 2020 12:40:55 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id h14sm2044908oov.11.2020.04.14.12.40.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 12:40:55 -0700 (PDT)
-Received: (nullmailer pid 14986 invoked by uid 1000);
- Tue, 14 Apr 2020 19:40:54 -0000
-Date: Tue, 14 Apr 2020 14:40:54 -0500
-From: Rob Herring <robh@kernel.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v1 3/4] dt-bindings: media: add wiring property to
- video-interfaces
-Message-ID: <20200414194054.GB29184@bogus>
-References: <20200412182012.27515-1-sam@ravnborg.org>
- <20200412182012.27515-4-sam@ravnborg.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73B4589FC0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 20:17:54 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37C1A521;
+ Tue, 14 Apr 2020 22:17:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1586895471;
+ bh=c6Xr5+2L0DxCtZfSvJoou6RSwZxi4WmjMmnUCKihyVA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=A5kQMUxsLc5akyV7IZRrNEf5uWfY0EWXJPRdjxLlff3vbw/+enM8JPoV9d/klth3g
+ zy8/qwAIcychqwGy6M1fbNCf4BFOlly2O0efLT8+BkhrXO+ravDVV+cX9ixjTqoIF6
+ JhgwFOeRP6FoG1U7zCp4n/vRB5aCityKHQlGUGzU=
+Date: Tue, 14 Apr 2020 23:17:39 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
+Message-ID: <20200414201739.GJ19819@pendragon.ideasonboard.com>
+References: <20200408202711.1198966-1-arnd@arndb.de>
+ <20200408202711.1198966-6-arnd@arndb.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200412182012.27515-4-sam@ravnborg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200408202711.1198966-6-arnd@arndb.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,66 +46,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, dri-devel@lists.freedesktop.org,
- Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Leon Romanovsky <leon@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ netdev@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Saeed Mahameed <saeedm@mellanox.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nicolas Pitre <nico@fluxnic.net>, linux-renesas-soc@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ "David S. Miller" <davem@davemloft.net>, linux-rdma@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 12, 2020 at 08:20:11PM +0200, Sam Ravnborg wrote:
-> The wiring property is used to describe the wiring between
-> the connector and the panel. The property can be used when the
-> wiring is used to change the mode from for example
-> BGR to RGB. The first users are the at91sam9 family where
-> such a wiring trick is sometimes used.
-> The possilbe values are so far limited to what is required
-> by the at91sam9 family, but using "text" allows us to extend
-> this in the future.
+Hi Arnd,
+
+Thank you for the patch.
+
+On Wed, Apr 08, 2020 at 10:27:10PM +0200, Arnd Bergmann wrote:
+> The 'imply' statement does not seem to have an effect, as it's
+> still possible to turn the CMM code into a loadable module
+> in a randconfig build, leading to a link error:
 > 
-> There exists similar properties today:
->  - display/tilcdc/tilcdc.txt: blue-and-red-wiring
->  - display/atmel,lcdc.txt: atmel,lcd-wiring-mode
+> arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
+> rcar_du_crtc.c:(.text+0xad4): undefined reference to `rcar_lvds_clk_enable'
+> arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
+> rcar_du_crtc.c:(.text+0xd7c): undefined reference to `rcar_lvds_clk_disable'
+> arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_drv.o: in function `rcar_du_init':
+> rcar_du_drv.c:(.init.text+0x4): undefined reference to `rcar_du_of_init'
+> arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_encoder.o: in function `rcar_du_encoder_init':
 > 
-> Neither of the above are defined as endpoint properties.
-> 
-> The new property "wiring" has a more general name and
-> is defined as an endpoint property.
-> It will replace atmel,lcd-wiring-mode and may replace
-> blue-and-red-wiring.
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Hans Verkuil <hverkuil@xs4all.nl>
-> Cc: linux-media@vger.kernel.org
+> Remove the 'imply', and instead use a silent symbol that defaults
+> to the correct setting.
+
+This will result in the CMM always being selected when DU is, increasing
+the kernel size even for devices that don't need it. I believe we need a
+better construct in Kconfig to fix this.
+
+> Fixes: e08e934d6c28 ("drm: rcar-du: Add support for CMM")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  Documentation/devicetree/bindings/media/video-interfaces.txt | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/gpu/drm/rcar-du/Kconfig | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> index f884ada0bffc..c3bb87c5c9a9 100644
-> --- a/Documentation/devicetree/bindings/media/video-interfaces.txt
-> +++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> @@ -141,6 +141,9 @@ Optional endpoint properties
->  - link-frequencies: Allowed data bus frequencies. For MIPI CSI-2, for
->    instance, this is the actual frequency of the bus, not bits per clock per
->    lane value. An array of 64-bit unsigned integers.
-> +- wiring: Wiring of data lines to display.
-> +  "straight" - normal wiring.
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> index 0919f1f159a4..5e35f5934d62 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -4,7 +4,6 @@ config DRM_RCAR_DU
+>  	depends on DRM && OF
+>  	depends on ARM || ARM64
+>  	depends on ARCH_RENESAS || COMPILE_TEST
+> -	imply DRM_RCAR_CMM
+>  	imply DRM_RCAR_LVDS
+>  	select DRM_KMS_HELPER
+>  	select DRM_KMS_CMA_HELPER
+> @@ -15,9 +14,8 @@ config DRM_RCAR_DU
+>  	  If M is selected the module will be called rcar-du-drm.
+>  
+>  config DRM_RCAR_CMM
+> -	tristate "R-Car DU Color Management Module (CMM) Support"
+> +	def_tristate DRM_RCAR_DU
+>  	depends on DRM && OF
+> -	depends on DRM_RCAR_DU
+>  	help
+>  	  Enable support for R-Car Color Management Module (CMM).
+>  
 
-Don't really need a property to express this...
+-- 
+Regards,
 
-> +  "red-blue-reversed" - red and blue lines reversed.
-
-For a common property, I think this needs to be looked at in terms of 
-formats and some of the format negotiation work Boris was doing.
-
-Rob
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
