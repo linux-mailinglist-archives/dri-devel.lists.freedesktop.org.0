@@ -2,40 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C65F1A7BA9
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 15:03:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A21BD1A7BCA
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 15:08:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 918636E1CF;
-	Tue, 14 Apr 2020 13:03:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 672BA6E4C7;
+	Tue, 14 Apr 2020 13:08:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BEF26E1CF
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 13:03:53 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6A7BF2075E;
- Tue, 14 Apr 2020 13:03:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586869433;
- bh=EOypBrU9tcg2QQEPNGGQltllXks3y35z6IXUGjl1DG4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XLWBhRlVYg1iCtB++EIMGXPAVeF1ZU6z7ff1mOzRtuHPt0RW282VdRwUJrVcq7xeD
- 10yO4veG3HRuw+wEo+nv2oXA/aW+uL5LE1lsss39dNDwE7jHcFqC693e0pj+pbc2Iw
- pkZZOnW468SR89YvW+ma9CDlA+A8SG2buRxyANGk=
-Date: Tue, 14 Apr 2020 15:03:50 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 3/8] fs: wrap simple_pin_fs/simple_release_fs arguments
- in a struct
-Message-ID: <20200414130350.GE720679@kroah.com>
-References: <20200414124304.4470-1-eesposit@redhat.com>
- <20200414124304.4470-4-eesposit@redhat.com>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC036E4C7;
+ Tue, 14 Apr 2020 13:08:01 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id a201so13493045wme.1;
+ Tue, 14 Apr 2020 06:08:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=NTg88EBEg4qOXVBL74JDWDn01n0VKUHWmo8g8ottwjk=;
+ b=doeIn3Si97S/MngUsuOx9N4xLfiWQ81AHOxJsgpJhSAaWdJ2Vx25UzrTmv1oMFjUT5
+ 2QrtYy8fiNH4Kn3zuur6CtddJ+sA9PjIDuvapuo+7hezmgeX1gCLq8q/cvM0dqtWRJ+s
+ RRbl7AO5mYAqbZIYfFOfsLhszvuoM1XdzCh6gHiYb2MIgUpFnlvCr3wmp+TG3kxnoWi2
+ KTfOQAqt+s4VSLVL7pdljX4nIVsSCXJW1iUCV2XueyHuhYle+s3TZXZVNctwVQ/UWr18
+ WrkPmWYC/UlioNHys+m0chulDlp4tIJTjsliPfReuZdcpT6juGkIrPquN6zRthwd3wzu
+ 0ZSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=NTg88EBEg4qOXVBL74JDWDn01n0VKUHWmo8g8ottwjk=;
+ b=a4OXyMo6MvgVHmeZoB0IZNGk8AdVJI9PvYbItiMN7PC1e9J9tqAs2dbaoCvXgI9Sd/
+ 3mHzTB3mpZK3GIgJlaHjfoGON1i6bUVT5WU0X65XOxEnGwloYebqiSXVdXUlEv8g1t6j
+ g7HKSixR6RRJpa+05EVRK3aK0r2khnFRME3k0gmXJFwDUrtsQ6IziwNa/XcSEMY6Zh0Q
+ xZ9EEM5BvfbYnzTVPgq39OmGH39MYxxJR/C0Fys4P+kuLyDkNbUKZnWpF80cBIpTxn6L
+ 3QbNatLcIy9BOLAXmZOK45ADSOCCtzBE2q8CEfm7SIRBtsQKQj2SPBcouAQSfgAi5zaa
+ u8Tg==
+X-Gm-Message-State: AGi0PubljUJcKK+UKeol5NlvKSAgDuxNmPUlfY6n42aUwmJs0HE/8Aps
+ uxmkZ0cy55CcklZpTglBPyxm/E5o84EJONiDXdM=
+X-Google-Smtp-Source: APiQypLRdOptdfBucYqQMnGBtfQiQYTTSA5SWpTYFLPJ+tWQQHwbFT4r0uERcCDlgiqUc8evR7fd9G2UXxUjtwOwvAI=
+X-Received: by 2002:a7b:cc8e:: with SMTP id p14mr23079662wma.70.1586869680226; 
+ Tue, 14 Apr 2020 06:08:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200414124304.4470-4-eesposit@redhat.com>
+References: <f4eaf0ca-6cd6-c224-9205-bf64ca533ff5@molgen.mpg.de>
+ <dcc4851e-0ab5-683a-2cf2-687d64a3c9da@molgen.mpg.de>
+ <CADnq5_OXdpEebFY3+kyQb-WEw0Rb6cqoOFKGqgxaigU5hean1g@mail.gmail.com>
+ <20200414082150.GD4149624@kroah.com>
+In-Reply-To: <20200414082150.GD4149624@kroah.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 14 Apr 2020 09:07:49 -0400
+Message-ID: <CADnq5_NCnHFO9kZY-8L34B3uVX5aghXO8+gXNC_cPMOnP7UGAg@mail.gmail.com>
+Subject: Re: [regression 5.7-rc1] System does not power off, just halts
+To: Greg KH <greg@kroah.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,72 +64,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Song Liu <songliubraving@fb.com>, linux-usb@vger.kernel.org,
- bpf@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
- David Airlie <airlied@linux.ie>, Heiko Carstens <heiko.carstens@de.ibm.com>,
- Alexei Starovoitov <ast@kernel.org>, dri-devel@lists.freedesktop.org,
- "J. Bruce Fields" <bfields@fieldses.org>,
- Joseph Qi <joseph.qi@linux.alibaba.com>, Hugh Dickins <hughd@google.com>,
- Paul Mackerras <paulus@samba.org>, John Johansen <john.johansen@canonical.com>,
- netdev@vger.kernel.org, ocfs2-devel@oss.oracle.com,
- Christoph Hellwig <hch@lst.de>, Andrew Donnellan <ajd@linux.ibm.com>,
- Matthew Garrett <matthew.garrett@nebula.com>, linux-efi@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Daniel Borkmann <daniel@iogearbox.net>,
- Christian Borntraeger <borntraeger@de.ibm.com>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Mark Fasheh <mark@fasheh.com>,
- Anton Vorontsov <anton@enomsg.org>, John Fastabend <john.fastabend@gmail.com>,
- James Morris <jmorris@namei.org>, Ard Biesheuvel <ardb@kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
- oprofile-list@lists.sf.net, Yonghong Song <yhs@fb.com>,
- Ian Kent <raven@themaw.net>, Andrii Nakryiko <andriin@fb.com>,
- Alexey Dobriyan <adobriyan@gmail.com>, "Serge E. Hallyn" <serge@hallyn.com>,
- Robert Richter <rric@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Vasily Gorbik <gor@linux.ibm.com>, Tony Luck <tony.luck@intel.com>,
- Kees Cook <keescook@chromium.org>, "James E.J. Bottomley" <jejb@linux.ibm.com>,
- autofs@vger.kernel.org, Mike Marciniszyn <mike.marciniszyn@intel.com>,
- linux-fsdevel@vger.kernel.org, "Manoj N. Kumar" <manoj@linux.ibm.com>,
- Uma Krishnan <ukrishn@linux.ibm.com>, Jakub Kicinski <kuba@kernel.org>,
- KP Singh <kpsingh@chromium.org>,
- Trond Myklebust <trond.myklebust@hammerspace.com>,
- "Matthew R. Ochs" <mrochs@linux.ibm.com>,
- "David S. Miller" <davem@davemloft.net>, Felipe Balbi <balbi@kernel.org>,
- linux-nfs@vger.kernel.org, Iurii Zaikin <yzaikin@google.com>,
- linux-scsi@vger.kernel.org, "Martin K. Petersen" <martin.petersen@oracle.com>,
- linux-mm@kvack.org, linux-s390@vger.kernel.org,
- Dennis Dalessandro <dennis.dalessandro@intel.com>,
- Miklos Szeredi <miklos@szeredi.hu>, linux-security-module@vger.kernel.org,
- linux-kernel@vger.kernel.org, Anna Schumaker <anna.schumaker@netapp.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
- Jeremy Kerr <jk@ozlabs.org>, Colin Cross <ccross@android.com>,
- Frederic Barrat <fbarrat@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>, linuxppc-dev@lists.ozlabs.org,
- Martin KaFai Lau <kafai@fb.com>, Joel Becker <jlbec@evilplan.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ X86 ML <x86@kernel.org>, Huang Rui <ray.huang@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Prike Liang <Prike.Liang@amd.com>, regressions@leemhuis.info,
+ "for 3.8" <stable@vger.kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Mengbing Wang <Mengbing.Wang@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 02:42:57PM +0200, Emanuele Giuseppe Esposito wrote:
-> @@ -676,9 +674,9 @@ static void __debugfs_file_removed(struct dentry *dentry)
->  
->  static void remove_one(struct dentry *victim)
->  {
-> -        if (d_is_reg(victim))
-> +    if (d_is_reg(victim))
->  		__debugfs_file_removed(victim);
-> -	simple_release_fs(&debugfs_mount, &debugfs_mount_count);
-> +	simple_release_fs(&debugfs);
->  }
->  
->  /**
-
-Always run checkpatch.pl on your patches so you do not get grumpy
-maintainers telling you to run checkpatch.pl on your patches...
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBBcHIgMTQsIDIwMjAgYXQgNDoyMSBBTSBHcmVnIEtIIDxncmVnQGtyb2FoLmNvbT4g
+d3JvdGU6Cj4KPiBPbiBNb24sIEFwciAxMywgMjAyMCBhdCAwMTo0ODo1OFBNIC0wNDAwLCBBbGV4
+IERldWNoZXIgd3JvdGU6Cj4gPiBPbiBNb24sIEFwciAxMywgMjAyMCBhdCAxOjQ3IFBNIFBhdWwg
+TWVuemVsIDxwbWVuemVsQG1vbGdlbi5tcGcuZGU+IHdyb3RlOgo+ID4gPgo+ID4gPiBEZWFyIFBy
+aWtlLCBkZWFyIEFsZXgsIGRlYXIgTGludXggZm9sa3MsCj4gPiA+Cj4gPiA+Cj4gPiA+IEFtIDEz
+LjA0LjIwIHVtIDEwOjQ0IHNjaHJpZWIgUGF1bCBNZW56ZWw6Cj4gPiA+Cj4gPiA+ID4gQSByZWdy
+ZXNzaW9uIGJldHdlZW4gY2F1c2VzIGEgc3lzdGVtIHdpdGggdGhlIEFNRCBib2FyZCBNU0kgQjM1
+ME0gTU9SVEFSCj4gPiA+ID4gKE1TLTdBMzcpIHdpdGggYW4gQU1EIFJ5emVuIDMgMjIwMEcgbm90
+IHRvIHBvd2VyIG9mZiBhbnkgbW9yZSBidXQganVzdAo+ID4gPiA+IHRvIGhhbHQuCj4gPiA+ID4K
+PiA+ID4gPiBUaGUgcmVncmVzc2lvbiBpcyBpbnRyb2R1Y2VkIGluIDllYmU1NDIyYWQ2Yy4uYjAz
+MjIyN2M2MjkzLiBJIGFtIGluIHRoZQo+ID4gPiA+IHByb2Nlc3MgdG8gYmlzZWN0IHRoaXMsIGJ1
+dCBtYXliZSBzb21lYm9keSBhbHJlYWR5IGhhcyBhbiBpZGVhLgo+ID4gPgo+ID4gPiBJIGZvdW5k
+IHRoZSBFYXN0ZXIgZWdnOgo+ID4gPgo+ID4gPiA+IGNvbW1pdCA0ODdlY2ExMWEzMjFlZjMzYmNm
+NGNhNWFkYjNjMGM0OTU0ZGIxYjU4Cj4gPiA+ID4gQXV0aG9yOiBQcmlrZSBMaWFuZyA8UHJpa2Uu
+TGlhbmdAYW1kLmNvbT4KPiA+ID4gPiBEYXRlOiAgIFR1ZSBBcHIgNyAyMDoyMToyNiAyMDIwICsw
+ODAwCj4gPiA+ID4KPiA+ID4gPiAgICAgZHJtL2FtZGdwdTogZml4IGdmeCBoYW5nIGR1cmluZyBz
+dXNwZW5kIHdpdGggdmlkZW8gcGxheWJhY2sgKHYyKQo+ID4gPiA+Cj4gPiA+ID4gICAgIFRoZSBz
+eXN0ZW0gd2lsbCBiZSBoYW5nIHVwIGR1cmluZyBTMyBzdXNwZW5kIGJlY2F1c2Ugb2YgU01VIGlz
+IHBlbmRpbmcKPiA+ID4gPiAgICAgZm9yIEdDIG5vdCByZXNwb3NlIHRoZSByZWdpc3RlciBDUF9I
+UURfQUNUSVZFIGFjY2VzcyByZXF1ZXN0LlRoaXMgaXNzdWUKPiA+ID4gPiAgICAgcm9vdCBjYXVz
+ZSBvZiBhY2Nlc3NpbmcgdGhlIEdDIHJlZ2lzdGVyIHVuZGVyIGVudGVyIEdGWCBDR0dQRyBhbmQg
+Y2FuCj4gPiA+ID4gICAgIGJlIGZpeGVkIGJ5IGRpc2FibGUgR0ZYIENHUEcgYmVmb3JlIHBlcmZv
+cm0gc3VzcGVuZC4KPiA+ID4gPgo+ID4gPiA+ICAgICB2MjogVXNlIGRpc2FibGUgdGhlIEdGWCBD
+R1BHIGluc3RlYWQgb2YgUkxDIHNhZmUgbW9kZSBndWFyZC4KPiA+ID4gPgo+ID4gPiA+ICAgICBT
+aWduZWQtb2ZmLWJ5OiBQcmlrZSBMaWFuZyA8UHJpa2UuTGlhbmdAYW1kLmNvbT4KPiA+ID4gPiAg
+ICAgVGVzdGVkLWJ5OiBNZW5nYmluZyBXYW5nIDxNZW5nYmluZy5XYW5nQGFtZC5jb20+Cj4gPiA+
+ID4gICAgIFJldmlld2VkLWJ5OiBIdWFuZyBSdWkgPHJheS5odWFuZ0BhbWQuY29tPgo+ID4gPiA+
+ICAgICBTaWduZWQtb2ZmLWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5j
+b20+Cj4gPiA+ID4gICAgIENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnCj4gPiA+Cj4gPiA+IEl0
+IHJldmVydHMgY2xlYW5seSBvbiB0b3Agb2YgNS43LXJjMSwgYW5kIHRoaXMgZml4ZXMgdGhlIGlz
+c3VlLgo+ID4gPgo+ID4gPiBHcmVnLCBwbGVhc2UgZG8gbm90IGFwcGx5IHRoaXMgdG8gdGhlIHN0
+YWJsZSBzZXJpZXMuIFRoZSBjb21taXQgbWVzc2FnZQo+ID4gPiBkb2VzbuKAmXQgZXZlbiByZWZl
+cmVuY2UgYSBpc3N1ZS9idWcgcmVwb3J0LCBhbmQgZG9lc27igJl0IGdpdmUgYSBkZXRhaWxlZAo+
+ID4gPiBwcm9ibGVtIGRlc2NyaXB0aW9uLiBXaGF0IHN5c3RlbSBpcyBpdD8KPiA+ID4KPiA+ID4g
+RGF2ZSwgQWxleCwgaG93IHRvIHByb2NlZWQ/IFJldmVydD8gSSBjcmVhdGVkIGlzc3VlIDEwOTQg
+WzFdLgo+ID4KPiA+IEFscmVhZHkgZml4ZWQ6Cj4gPiBodHRwczovL3BhdGNod29yay5mcmVlZGVz
+a3RvcC5vcmcvcGF0Y2gvMzYxMTk1Lwo+Cj4gQW55IHJlYXNvbiB0aGF0IGRvZXNuJ3QgaGF2ZSBh
+IGNjOiBzdGFibGUgdGFnIG9uIGl0Pwo+Cj4gQW5kIGlzIGl0IGNvbW1pdHRlZCB0byBhbnkgdHJl
+ZSBhdCB0aGUgbW9tZW50PwoKSXQncyBnb2luZyBvdXQgaW4gbXkgLWZpeGVzIHB1bGwgdGhpcyB3
+ZWVrIHdpdGggYSBzdGFibGUgdGFnLgoKQWxleAoKPgo+IHRoYW5rcywKPgo+IGdyZWcgay1oCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
