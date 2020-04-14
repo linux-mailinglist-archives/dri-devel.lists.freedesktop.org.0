@@ -1,57 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7AA11A8C9A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 22:38:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F266D1A8CB2
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 22:42:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEF2B6E262;
-	Tue, 14 Apr 2020 20:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D26889D8A;
+	Tue, 14 Apr 2020 20:42:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96CAB6E598
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 20:38:46 +0000 (UTC)
-Received: from mail-qv1-f42.google.com ([209.85.219.42]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MeTwa-1ioIAC2XP2-00aRZH for <dri-devel@lists.freedesktop.org>; Tue, 14
- Apr 2020 22:38:44 +0200
-Received: by mail-qv1-f42.google.com with SMTP id p19so640862qve.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 13:38:44 -0700 (PDT)
-X-Gm-Message-State: AGi0Puausiyxq8oUW/rA2RLj79rRkpw7XADpH43rtQs+XYOUxhKjYITx
- RLmjZGILJLkyKHP1GDSPPqKZDsIXSQRHXpiMC3g=
-X-Google-Smtp-Source: APiQypItYypDsjCwUbSgds2sz8DtaSNucgF8fWN3bMg92RuY+7b77MZXAmlayTdn31FZhJ2svnHHXIwy2Ox7TvokgAw=
-X-Received: by 2002:a0c:9e2f:: with SMTP id p47mr1723210qve.211.1586896723453; 
- Tue, 14 Apr 2020 13:38:43 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8272389D8A
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 20:42:15 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D7B05521;
+ Tue, 14 Apr 2020 22:42:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1586896934;
+ bh=gUuaIJ3u+fel6jj4JqVEOGrL2STu9lBIgJke/U/dqJY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NKMoMvq3toxLJ00KSu+xAkx6PhAfgq5ehyu67cm63r7bdZK3F9M+Js50OYUTf5wd8
+ ZkgyL8zrnF//1II9JfEzZnO+35ZpPAjQnZmABcq7cU8O04VTa066J3H3sIaMy+amCC
+ 0SIQj5mTegDI2a6TIb2y7j6rmdPML5PQiY9e61M0=
+Date: Tue, 14 Apr 2020 23:42:02 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Adrian Ratiu <adrian.ratiu@collabora.com>
+Subject: Re: [PATCH v6 5/8] dt-bindings: display: add i.MX6 MIPI DSI host
+ controller doc
+Message-ID: <20200414204202.GL19819@pendragon.ideasonboard.com>
+References: <20200414151955.311949-1-adrian.ratiu@collabora.com>
+ <20200414151955.311949-6-adrian.ratiu@collabora.com>
 MIME-Version: 1.0
-References: <20200408202711.1198966-1-arnd@arndb.de>
- <20200408202711.1198966-6-arnd@arndb.de>
- <20200414201739.GJ19819@pendragon.ideasonboard.com>
-In-Reply-To: <20200414201739.GJ19819@pendragon.ideasonboard.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 14 Apr 2020 22:38:27 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
-Message-ID: <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
-Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-X-Provags-ID: V03:K1:9JVd+gQBjL1UUR8KPEwnZUbka5PhMMLp/OQsVOF9QfSioZguJY5
- 0uNNTPtBZ91kTXZhO4pn0End+90E+SospLU6OgWsVv3z0Z6CQSN82D43V+LAz+EmRaqquhj
- hNDHh6BEv/wpSeAaNcxt0fsZHXZrG76PWwBS1vy7Xqj+cf5SiUyzs/GtXztexdX0ckvj9VL
- dGrHQ0N8PWEvMdSWvn54g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lls/oU1qYkw=:aYtt0LYpXLCH4wfLLFhbf+
- +xIm1ju7iF/KRIup8G/HlxCRgLiMNgIfKW+0XfR+VsFSlzRsEHaafXK8p+G5Vuxu8cjkMktFc
- woilmO1Y3cNH5t501FMhQpkHlrTPL1Hz4HT5ZPvsxS5H5Mbm4/TBkkRM/utgDwtzf0fDUH/ml
- QqUabo+i4edF/QW+g0mtM6h2A+A6HU5g5HeUwvmPWV+CnlHS2b+8rNjhurhoDzIJVKrBROUJW
- eZY3oZU2gTXEo+I/t8dKh/CjB0NDDJzzng1clAzKdri229ovQYHqHQKfRQmN1k0SxZhqO4MaU
- AoLZEJnBkaDIgXm8Dl+WZ8bscxXKXZrFZp9gsaO03JDDucqCdEGPC/gTvWpug9AhmHmo24PGA
- nTEiOssLiQdjDPBx+ENdoKVsr5TbHppi89L1/DL2hAM8cE4fyH2I0tJEm3oRlzl6PiJVZdrml
- 5VmYi+UbhPExg38aTazssVfDAxzoVLCyj47YmCFrufNXfAPeeRGUkYUiIaRnyzCFeUhDGd7Nb
- XnEL00irE92aRaLkLlYWauUc2SNhMl/bFGlO475aROzK2IlX2nImiVFiJPIjcBmoTH04evdns
- WJxSrzusmFnEHTnvon5nmBhZ4e2wqcF7DqRZAiFaLh3hXT74QkU1qQEp2ah30Pg6E1L4yuQBJ
- N5IH/y2/ptFKjipa13Lc1MXHezeDFO6OlUaM0ALVsB0IrJQAB5E/Dc01oXjUmT7PK68n/DgxP
- tSGFuzVLrmir1FZX5CiK/mssNQP5U+mvBtSuOdSyWCJ6JfWY6auy5QPItPsXhFMk5OubySdww
- 5sZ3U5M1Z0ieqea5CMFthfbZwelPNUXWB7u4dCfctzpkT7gvAA=
+Content-Disposition: inline
+In-Reply-To: <20200414151955.311949-6-adrian.ratiu@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,78 +47,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Leon Romanovsky <leon@kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Networking <netdev@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Saeed Mahameed <saeedm@mellanox.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Nicolas Pitre <nico@fluxnic.net>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- "David S. Miller" <davem@davemloft.net>,
- linux-rdma <linux-rdma@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Sjoerd Simons <sjoerd.simons@collabora.com>,
+ Adrian Pop <pop.adrian61@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Martyn Welch <martyn.welch@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ linux-imx@nxp.com, Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+ linux-rockchip@lists.infradead.org, kernel@collabora.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 10:17 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Arnd,
->
-> Thank you for the patch.
->
-> On Wed, Apr 08, 2020 at 10:27:10PM +0200, Arnd Bergmann wrote:
-> > The 'imply' statement does not seem to have an effect, as it's
-> > still possible to turn the CMM code into a loadable module
-> > in a randconfig build, leading to a link error:
-> >
-> > arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
-> > rcar_du_crtc.c:(.text+0xad4): undefined reference to `rcar_lvds_clk_enable'
-> > arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
-> > rcar_du_crtc.c:(.text+0xd7c): undefined reference to `rcar_lvds_clk_disable'
-> > arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_drv.o: in function `rcar_du_init':
-> > rcar_du_drv.c:(.init.text+0x4): undefined reference to `rcar_du_of_init'
-> > arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_encoder.o: in function `rcar_du_encoder_init':
-> >
-> > Remove the 'imply', and instead use a silent symbol that defaults
-> > to the correct setting.
->
-> This will result in the CMM always being selected when DU is, increasing
-> the kernel size even for devices that don't need it. I believe we need a
-> better construct in Kconfig to fix this.
+Hi Adrian,
 
-I had expected this to have the same meaning that we had before the
-Kconfig change: whenever the dependencies are available, turn it on,
-otherwise leave it disabled.
+Thank you for the patch.
 
-Can you describe what behavior you actually want instead?
-> > --- a/drivers/gpu/drm/rcar-du/Kconfig
-> > +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> > @@ -4,7 +4,6 @@ config DRM_RCAR_DU
-> >       depends on DRM && OF
-> >       depends on ARM || ARM64
-> >       depends on ARCH_RENESAS || COMPILE_TEST
-> > -     imply DRM_RCAR_CMM
-> >       imply DRM_RCAR_LVDS
-> >       select DRM_KMS_HELPER
-> >       select DRM_KMS_CMA_HELPER
-> > @@ -15,9 +14,8 @@ config DRM_RCAR_DU
-> >         If M is selected the module will be called rcar-du-drm.
-> >
-> >  config DRM_RCAR_CMM
-> > -     tristate "R-Car DU Color Management Module (CMM) Support"
-> > +     def_tristate DRM_RCAR_DU
-> >       depends on DRM && OF
-> > -     depends on DRM_RCAR_DU
-> >       help
+On Tue, Apr 14, 2020 at 06:19:52PM +0300, Adrian Ratiu wrote:
+> This provides an example DT binding for the MIPI DSI host controller
+> present on the i.MX6 SoC based on Synopsis DesignWare v1.01 IP.
+> 
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: devicetree@vger.kernel.org
+> Tested-by: Adrian Pop <pop.adrian61@gmail.com>
+> Tested-by: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+> Signed-off-by: Sjoerd Simons <sjoerd.simons@collabora.com>
+> Signed-off-by: Martyn Welch <martyn.welch@collabora.com>
+> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> ---
+> Changes since v5:
+>   - Fixed missing reg warning (Fabio)
+>   - Updated dt-schema and fixed warnings (Rob)
+> 
+> Changes since v4:
+>   - Fixed yaml binding to pass `make dt_binding_check dtbs_check`
+>   and addressed received binding feedback (Rob)
+> 
+> Changes since v3:
+>   - Added commit message (Neil)
+>   - Converted to yaml format (Neil)
+>   - Minor dt node + driver fixes (Rob)
+>   - Added small panel example to the host controller binding
+> 
+> Changes since v2:
+>   - Fixed commit tags (Emil)
+> ---
+>  .../display/imx/fsl,mipi-dsi-imx6.yaml        | 139 ++++++++++++++++++
+>  1 file changed, 139 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml b/Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+> new file mode 100644
+> index 000000000000..10e289ea219a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+> @@ -0,0 +1,139 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,mipi-dsi-imx6.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX6 DW MIPI DSI Host Controller
+> +
+> +maintainers:
+> +  - Adrian Ratiu <adrian.ratiu@collabora.com>
+> +
+> +description: |
+> +  The i.MX6 DSI host controller is a Synopsys DesignWare MIPI DSI v1.01
+> +  IP block with a companion PHY IP.
+> +
+> +  These DT bindings follow the Synopsys DW MIPI DSI bindings defined in
+> +  Documentation/devicetree/bindings/display/bridge/dw_mipi_dsi.txt with
+> +  the following device-specific properties.
 
-It would be easy enough to make this a visible 'bool' symbol and
-build it into the rcu-du-drm.ko module itself. Would that help you?
+Not necessarily a prerequisite for this patch, but it would be nice to
+get that converted to yaml, and included here with
 
-       Arnd
+allOf:
+  $ref: ../bridge/snps,dw-mipi-dsi.yaml#
+
+(assuming that's how the file will be called).
+
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: fsl,imx6q-mipi-dsi
+> +      - const: snps,dw-mipi-dsi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Module Clock
+> +      - description: DSI bus clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: ref
+> +      - const: pclk
+> +
+> +  fsl,gpr:
+> +    description: Phandle to the iomuxc-gpr region containing the multiplexer control register.
+
+Could you please wrap liens at a 80 columns boundary ?
+
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +  ports:
+> +    type: object
+> +    description: |
+> +      A node containing DSI input & output port nodes with endpoint
+> +      definitions as documented in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +      Documentation/devicetree/bindings/graph.txt
+> +    properties:
+
+You should add
+
+       '#address-cells':
+         const: 1
+
+       '#size-cells':
+         const: 0
+
+> +      port@0:
+> +        type: object
+> +        description:
+> +          DSI input port node, connected to the ltdc rgb output port.
+> +
+> +      port@1:
+> +        type: object
+> +        description:
+> +          DSI output port node, connected to a panel or a bridge input port"
+
+
+Should this be "RGB output port node" ? And s/"/./
+
+And here you should add
+
+       additionalProperties: false
+
+> +
+> +patternProperties:
+> +  "^panel@[0-3]$":
+> +    type: object
+> +    description: |
+> +      A node containing the panel or bridge description as documented in
+> +      Documentation/devicetree/bindings/display/mipi-dsi-bus.txt
+> +    properties:
+> +      port:
+> +        type: object
+> +        description:
+> +          Panel or bridge port node, connected to the DSI output port (port@1)
+
+Does this belong here ? I think the port property for the panel needs to
+be described in the panel's binding instead.
+
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+
+These two properties are not pattern properties, right ? Should they be
+listed under the properties above ?
+
+> +
+> +required:
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |+
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/imx6qdl-clock.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+
+Alphabetical order ?
+
+> +
+> +    dsi: dsi@21e0000 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        compatible = "fsl,imx6q-mipi-dsi", "snps,dw-mipi-dsi";
+> +        reg = <0x021e0000 0x4000>;
+> +        interrupts = <0 102 IRQ_TYPE_LEVEL_HIGH>;
+> +        fsl,gpr = <&gpr>;
+> +        clocks = <&clks IMX6QDL_CLK_MIPI_CORE_CFG>,
+> +                 <&clks IMX6QDL_CLK_MIPI_IPG>;
+> +        clock-names = "ref", "pclk";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            port@1 {
+> +                reg = <1>;
+> +                dsi_out: endpoint {
+> +                    remote-endpoint = <&panel_in>;
+> +                };
+> +            };
+> +        };
+> +
+> +        panel@0 {
+> +            compatible = "sharp,ls032b3sx01";
+> +            reg = <0>;
+> +            reset-gpios = <&gpio6 8 GPIO_ACTIVE_LOW>;
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                port@0 {
+> +                    reg = <0>;
+> +                    panel_in: endpoint {
+> +                        remote-endpoint = <&dsi_out>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
