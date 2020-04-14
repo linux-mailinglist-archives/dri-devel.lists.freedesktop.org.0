@@ -2,39 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A661A7B79
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 14:56:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6AC1A7B94
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 15:00:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F62489D40;
-	Tue, 14 Apr 2020 12:56:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1FB46E199;
+	Tue, 14 Apr 2020 13:00:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 111B889D40
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 12:56:29 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 040772076D;
- Tue, 14 Apr 2020 12:56:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586868988;
- bh=cUsRBw4xRJcezB/ZRtjYiCyoUTShgzDF9QmHT/uunvY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=O+0/+J3q6IpztwhxEGT0OVnfIh3pCJ6dMzQN4HIku+0vphymoWpQOOM8ckygO7bvj
- tEo5/7yl4Jc4KVFc6uDRp76itFJ6WWgv+Y89NA119rqZSOnLZidaj8mNe2CoW6MsD9
- WuhJF5efIRKL5VDTIVeF02sAYzd85r8Rx8V2Id0A=
-Date: Tue, 14 Apr 2020 14:56:26 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 6/8] simplefs: add file creation functions
-Message-ID: <20200414125626.GC720679@kroah.com>
-References: <20200414124304.4470-1-eesposit@redhat.com>
- <20200414124304.4470-7-eesposit@redhat.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 799316E199
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 13:00:42 +0000 (UTC)
+IronPort-SDR: sIO9D9ogbFudYdv4eNGPYlSUQOLVgoz7CFx0r5ylkjjEDmz/Er2FPzjMKmipUjQYp4eF+Qedrc
+ PUlNG7z1zhUw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2020 06:00:42 -0700
+IronPort-SDR: PK96sqppHm6BAZTp40dXNxiwYyTHsXkBs6S3+wEg2PS5uKVCQkdl5DIEu5DvD/I6kRDZUhiNs5
+ EpLLBuWoiZ3w==
+X-IronPort-AV: E=Sophos;i="5.72,382,1580803200"; d="scan'208";a="427052761"
+Received: from mdoerbec-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.38.76])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2020 06:00:39 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Tang Bin <tangbin@cmss.chinamobile.com>,
+ Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH] drm/dp_mst: Fix drm_dp_mst_topology.c selftest
+ compilation warning
+In-Reply-To: <ba9202f9-0373-52e7-9d74-4997e33c516d@cmss.chinamobile.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200411141740.14584-1-tangbin@cmss.chinamobile.com>
+ <CADnq5_MD6LkOEJC-hKKQSAmFAHY7LMZ2WU_ER-ttNrP20AxoQA@mail.gmail.com>
+ <87imi2miin.fsf@intel.com>
+ <ba9202f9-0373-52e7-9d74-4997e33c516d@cmss.chinamobile.com>
+Date: Tue, 14 Apr 2020 16:00:36 +0300
+Message-ID: <877dyimdcb.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200414124304.4470-7-eesposit@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,76 +52,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Song Liu <songliubraving@fb.com>, linux-usb@vger.kernel.org,
- bpf@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
- David Airlie <airlied@linux.ie>, Heiko Carstens <heiko.carstens@de.ibm.com>,
- Alexei Starovoitov <ast@kernel.org>, dri-devel@lists.freedesktop.org,
- "J. Bruce Fields" <bfields@fieldses.org>,
- Joseph Qi <joseph.qi@linux.alibaba.com>, Hugh Dickins <hughd@google.com>,
- Paul Mackerras <paulus@samba.org>, John Johansen <john.johansen@canonical.com>,
- netdev@vger.kernel.org, ocfs2-devel@oss.oracle.com,
- Christoph Hellwig <hch@lst.de>, Andrew Donnellan <ajd@linux.ibm.com>,
- Matthew Garrett <matthew.garrett@nebula.com>, linux-efi@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Daniel Borkmann <daniel@iogearbox.net>,
- Christian Borntraeger <borntraeger@de.ibm.com>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Mark Fasheh <mark@fasheh.com>,
- Anton Vorontsov <anton@enomsg.org>, John Fastabend <john.fastabend@gmail.com>,
- James Morris <jmorris@namei.org>, Ard Biesheuvel <ardb@kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
- oprofile-list@lists.sf.net, Yonghong Song <yhs@fb.com>,
- Ian Kent <raven@themaw.net>, Andrii Nakryiko <andriin@fb.com>,
- Alexey Dobriyan <adobriyan@gmail.com>, "Serge E. Hallyn" <serge@hallyn.com>,
- Robert Richter <rric@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Vasily Gorbik <gor@linux.ibm.com>, Tony Luck <tony.luck@intel.com>,
- Kees Cook <keescook@chromium.org>, "James E.J. Bottomley" <jejb@linux.ibm.com>,
- autofs@vger.kernel.org, Mike Marciniszyn <mike.marciniszyn@intel.com>,
- linux-fsdevel@vger.kernel.org, "Manoj N. Kumar" <manoj@linux.ibm.com>,
- Uma Krishnan <ukrishn@linux.ibm.com>, Jakub Kicinski <kuba@kernel.org>,
- KP Singh <kpsingh@chromium.org>,
- Trond Myklebust <trond.myklebust@hammerspace.com>,
- "Matthew R. Ochs" <mrochs@linux.ibm.com>,
- "David S. Miller" <davem@davemloft.net>, Felipe Balbi <balbi@kernel.org>,
- linux-nfs@vger.kernel.org, Iurii Zaikin <yzaikin@google.com>,
- linux-scsi@vger.kernel.org, "Martin K. Petersen" <martin.petersen@oracle.com>,
- linux-mm@kvack.org, linux-s390@vger.kernel.org,
- Dennis Dalessandro <dennis.dalessandro@intel.com>,
- Miklos Szeredi <miklos@szeredi.hu>, linux-security-module@vger.kernel.org,
- linux-kernel@vger.kernel.org, Anna Schumaker <anna.schumaker@netapp.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
- Jeremy Kerr <jk@ozlabs.org>, Colin Cross <ccross@android.com>,
- Frederic Barrat <fbarrat@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>, linuxppc-dev@lists.ozlabs.org,
- Martin KaFai Lau <kafai@fb.com>, Joel Becker <jlbec@evilplan.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 02:43:00PM +0200, Emanuele Giuseppe Esposito wrote:
-> A bunch of code is duplicated between debugfs and tracefs, unify it to the
-> simplefs library.
-> 
-> The code is very similar, except that dentry and inode creation are unified
-> into a single function (unlike start_creating in debugfs and tracefs, which
-> only takes care of dentries).  This adds an output parameter to the creation
-> functions, but pushes all error recovery into fs/simplefs.c.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  fs/simplefs.c            | 150 +++++++++++++++++++++++++++++++++++++++
->  include/linux/simplefs.h |  19 +++++
->  2 files changed, 169 insertions(+)
+On Tue, 14 Apr 2020, Tang Bin <tangbin@cmss.chinamobile.com> wrote:
+> But someone may query '{}' could not initialize all members, that's
+> why I brought '{{{0}}}' up.
 
-What's wrong with libfs, isn't that supposed to be for these types of
-"common" filesystem interactions?
+{} *does* initialize everything. What are you trying to say?
 
-Why create a whole "new" fs for this?
+BR,
+Jani.
 
-thanks,
-
-greg k-h
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
