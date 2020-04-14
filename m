@@ -1,39 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C5D1A7919
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 13:07:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5B41A791F
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Apr 2020 13:08:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A4716E079;
-	Tue, 14 Apr 2020 11:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70F7B6E086;
+	Tue, 14 Apr 2020 11:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC0AE6E079
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 11:07:07 +0000 (UTC)
-IronPort-SDR: mLij580rPov+oYjkrHtJKqgRVOBKaCb1BAZDJrhkzmjReCwH5R6grOSd4xugr1OEuY2TlUnYal
- pSPY/1vV6GNA==
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6148E6E086
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 11:08:54 +0000 (UTC)
+IronPort-SDR: /c+kgJwOAd9CyM/0IptFrW8hLlSUv2NxtX2Kna6gDJeWKCGLTjUon4Z+Vh939ObgfnpdGVoU7r
+ lQ8PfLw5Z6iw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2020 04:07:07 -0700
-IronPort-SDR: pA7/gJMubPfJMQ+e+plvninRb7LQT9IuPX6aKRV0HMneYUaN57/nWrJxnfeeFNVC9hvq+8bQLQ
- FC3QtUzAYLdQ==
-X-IronPort-AV: E=Sophos;i="5.72,382,1580803200"; d="scan'208";a="427025524"
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2020 04:08:54 -0700
+IronPort-SDR: L9wwlBfNleH1/PNFWLrfG8Jz/cNseahXJi07CLOpQvdthm6csrngaZnL+xYYyhWKxND8O6vUIl
+ /JKfUAQ1HUJQ==
+X-IronPort-AV: E=Sophos;i="5.72,382,1580803200"; d="scan'208";a="427025903"
 Received: from mdoerbec-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.38.76])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2020 04:07:04 -0700
+ 14 Apr 2020 04:08:51 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: James Hilliard <james.hilliard1@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] component: Silence bind error on -EPROBE_DEFER
-In-Reply-To: <20200411054106.25366-1-james.hilliard1@gmail.com>
+To: Alex Deucher <alexdeucher@gmail.com>,
+ Tang Bin <tangbin@cmss.chinamobile.com>
+Subject: Re: [PATCH] drm/dp_mst: Fix drm_dp_mst_topology.c selftest
+ compilation warning
+In-Reply-To: <CADnq5_MD6LkOEJC-hKKQSAmFAHY7LMZ2WU_ER-ttNrP20AxoQA@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200411054106.25366-1-james.hilliard1@gmail.com>
-Date: Tue, 14 Apr 2020 14:07:01 +0300
-Message-ID: <87lfmymilm.fsf@intel.com>
+References: <20200411141740.14584-1-tangbin@cmss.chinamobile.com>
+ <CADnq5_MD6LkOEJC-hKKQSAmFAHY7LMZ2WU_ER-ttNrP20AxoQA@mail.gmail.com>
+Date: Tue, 14 Apr 2020 14:08:48 +0300
+Message-ID: <87imi2miin.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,61 +50,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- James Hilliard <james.hilliard1@gmail.com>, linux-kernel@vger.kernel.org,
- "Rafael J . Wysocki" <rafael@kernel.org>
+Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Shengju Zhang <zhangshengju@cmss.chinamobile.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 10 Apr 2020, James Hilliard <james.hilliard1@gmail.com> wrote:
-> If a component fails to bind due to -EPROBE_DEFER we should not log an
-> error as this is not a real failure.
+On Mon, 13 Apr 2020, Alex Deucher <alexdeucher@gmail.com> wrote:
+> On Mon, Apr 13, 2020 at 5:29 AM Tang Bin <tangbin@cmss.chinamobile.com> wrote:
+>>
+>> The struct drm_dp_desc contains struct drm_dp_dpcd_ident, and the struct
+>> drm_dp_dpcd_ident contains the array, so zero-initialization requires a
+>> more couple of braces. In the ARM compiler environment, the compile
+>> warning pointing it out:
+>>     drivers/gpu/drm/drm_dp_mst_topology.c: In function 'drm_dp_mst_dsc_aux_for_port':
+>>     drivers/gpu/drm/drm_dp_mst_topology.c:5494:9: warning: missing braces around initializer [-Wmissing-braces]
+>>       struct drm_dp_desc desc = { 0 };
+>>
 >
-> Fixes:
-> vc4-drm soc:gpu: failed to bind 3f902000.hdmi (ops vc4_hdmi_ops): -517
-> vc4-drm soc:gpu: master bind failed: -517
+> This seems to vary based on compilers.  Maybe a memset would be better.
 
-I'd think the probe defer is useful information anyway. Maybe just tone
-down the severity and/or the message?
+= {}; will do the trick.
 
 BR,
 Jani.
 
+
 >
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> ---
->  drivers/base/component.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+> Alex
 >
-> diff --git a/drivers/base/component.c b/drivers/base/component.c
-> index e97704104784..157c6c790578 100644
-> --- a/drivers/base/component.c
-> +++ b/drivers/base/component.c
-> @@ -256,7 +256,8 @@ static int try_to_bring_up_master(struct master *master,
->  	ret = master->ops->bind(master->dev);
->  	if (ret < 0) {
->  		devres_release_group(master->dev, NULL);
-> -		dev_info(master->dev, "master bind failed: %d\n", ret);
-> +		if (ret != -EPROBE_DEFER)
-> +			dev_info(master->dev, "master bind failed: %d\n", ret);
->  		return ret;
->  	}
->  
-> @@ -611,8 +612,10 @@ static int component_bind(struct component *component, struct master *master,
->  		devres_release_group(component->dev, NULL);
->  		devres_release_group(master->dev, NULL);
->  
-> -		dev_err(master->dev, "failed to bind %s (ops %ps): %d\n",
-> -			dev_name(component->dev), component->ops, ret);
-> +		if (ret != -EPROBE_DEFER) {
-> +			dev_err(master->dev, "failed to bind %s (ops %ps): %d\n",
-> +				dev_name(component->dev), component->ops, ret);
-> +		}
->  	}
->  
->  	return ret;
+>> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+>> Signed-off-by: Shengju Zhang <zhangshengju@cmss.chinamobile.com>
+>> ---
+>>  drivers/gpu/drm/drm_dp_mst_topology.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+>> index 70c4b7a..4d8d1fd 100644
+>> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+>> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+>> @@ -5494,7 +5494,7 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
+>>  {
+>>         struct drm_dp_mst_port *immediate_upstream_port;
+>>         struct drm_dp_mst_port *fec_port;
+>> -       struct drm_dp_desc desc = { 0 };
+>> +       struct drm_dp_desc desc = { { { 0 } } };
+>>         u8 endpoint_fec;
+>>         u8 endpoint_dsc;
+>>
+>> --
+>> 2.7.4
+>>
+>>
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
