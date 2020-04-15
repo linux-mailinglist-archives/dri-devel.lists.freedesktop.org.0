@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700181A94D7
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67EB01A94D4
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:42:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 552B76E8C5;
-	Wed, 15 Apr 2020 07:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A1E56E8BE;
+	Wed, 15 Apr 2020 07:41:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1B36E8D7
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 07:41:33 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id a81so17656860wmf.5
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 00:41:33 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40C3C6E8B7
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 07:41:34 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id h9so17868301wrc.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 00:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IjRKCvQnax8Hr9HMieuWtqdt4NWaHQuHMi1pqK/vEmI=;
- b=VtjZ8nihv1+6HvyC2c/wzktMg0GGxVgm/4jm05zbEUSQXqaiUr44JodvAAvmmytulL
- serDVcNtbplSUa/2Z2IvjHYGBWthkgCGniQi1LLwCI/WH/fjQQIgVo7jdOHNOXKnzrqy
- tiKt7mqmwXsH0f5ulkc0vfnCTrNs7qXDC3FKk=
+ bh=kErLpjRYJBhy/Weq4KwxSuU0kVtPDRe4USp/mdkeAaI=;
+ b=JbEncKQbtG6o3LJEdkJ3CjhnMtqbyjSuPNqeQhV/DHbeGn1ZTXUpgpPztVmZjCHCY5
+ sHyWsF9X6vcmearS0w1SvwUUrAqMn7+KKIoR22swZwEWPMJJen1+AEH5XOyz3Wlaog8h
+ X+ps6OL0kLwGf5DbwXNojNaUmimKKgU8zZ9Pc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IjRKCvQnax8Hr9HMieuWtqdt4NWaHQuHMi1pqK/vEmI=;
- b=axFxufvX14RKBjfOM8vqN5s1tdSf0y+jFig97SkooGxrOIgAZYPeKdcJM8AiVxMlt6
- C80XAX3zxccWWphd/+v+rxKVQ3F/GExzASbVPgjDqoHfPuLuK3jEN81i2u5YAvpCJ9gX
- Aw/DSxOFLFnb+31NJ86MWzkym1bmFtmDKg+ESmS7Jd19BAae/sD+CVHm0Hsjc1myxnuV
- 28caw2idBkpqBvDILf0Xjahtc6dBRVsoTe91KijfA4WW/Oyoi3Cqvc6B4zhI+/FvXgR5
- 4syhii3C7j7Vv05OlkdIkhcVa4zd7GZqVlscLuedmlpY4LSITFOan9IQAh/8vDIH/5SD
- XgrA==
-X-Gm-Message-State: AGi0PuYY0x3NcQhl6+oUDZNUZ4hlAydIFaDMWwK5NbnocMqCJf88djkv
- Prgjn3f7ma5LiJ+0f4WX10WMTA==
-X-Google-Smtp-Source: APiQypJzv9wEkX2E7bBSJdK2ny557CRsG1p/d/HhX+NSwgCmRxh3cj7L5u2tPYSg+9/ZBiYeP6iBJg==
-X-Received: by 2002:a1c:e1c1:: with SMTP id y184mr3862923wmg.143.1586936492031; 
+ bh=kErLpjRYJBhy/Weq4KwxSuU0kVtPDRe4USp/mdkeAaI=;
+ b=XmlFc30MPtM1YPsjruGCo6ApIPG5F+upl8x9a1Qc5fWbzRVJlIfTDsP0gDHkmDyEpf
+ WgF9PkkSrmpbYYwN0BHx8eSR9djf8fJy4uZSGZwQLlrSbk9mchdEXfDmLMIp0n0um7gc
+ X6tDMuFi5oIsU1wLzYGY5JIv6JDnv6gFf7Qc/jM0pfpI46TueLkSRUPicZYyRC4s4LpF
+ p3ExA2O7tWosGO1Gbz4KFph5hLUKiIbjoXWSCm9EZABP/taoBmrxTWobXS29EJU4HtJe
+ fy3O+tUjOKwPWI5cwxsKYYPZI29GZggiAYPgpLoma/XhnqsiByXxzu0A0pNp4MhaK4ii
+ Caug==
+X-Gm-Message-State: AGi0PubkbxaMvRbP+km5wVIAbfs3yw7R4kReZsm4EsOT6iBb6w2I4Rdv
+ 3iQmIGALR9VukHjgNuE1uAhevA==
+X-Google-Smtp-Source: APiQypJoyw1TfeqxauR/aAkU6Gneg3cI7FUi++Sagm8MQ+a2/w7+lNLDpyd4CAIKk/uXyfL+RsGdEw==
+X-Received: by 2002:adf:800e:: with SMTP id 14mr26792286wrk.369.1586936492814; 
  Wed, 15 Apr 2020 00:41:32 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u30sm1878552wru.13.2020.04.15.00.41.31
+ by smtp.gmail.com with ESMTPSA id u30sm1878552wru.13.2020.04.15.00.41.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Apr 2020 00:41:31 -0700 (PDT)
+ Wed, 15 Apr 2020 00:41:32 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH 50/59] drm/arc: Inline arcpgu_drm_hdmi_init
-Date: Wed, 15 Apr 2020 09:40:25 +0200
-Message-Id: <20200415074034.175360-51-daniel.vetter@ffwll.ch>
+Subject: [PATCH 51/59] drm/arc: Inline remaining files
+Date: Wed, 15 Apr 2020 09:40:26 +0200
+Message-Id: <20200415074034.175360-52-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
 References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
@@ -71,68 +71,238 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Really not worth the function, much less the separate file now that
-almost all the code is gone.
+At less than 500 lines total feels like the right thing to do.
+
+Also noticed that the simple wrapper around drm_connector_cleanup can
+be dropped.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/arc/Makefile      |  2 +-
- drivers/gpu/drm/arc/arcpgu.h      |  1 -
- drivers/gpu/drm/arc/arcpgu_drv.c  | 12 +++++++++---
- drivers/gpu/drm/arc/arcpgu_hdmi.c | 27 ---------------------------
- 4 files changed, 10 insertions(+), 32 deletions(-)
- delete mode 100644 drivers/gpu/drm/arc/arcpgu_hdmi.c
+ drivers/gpu/drm/arc/Makefile      |   2 +-
+ drivers/gpu/drm/arc/arcpgu.h      |  39 ------------
+ drivers/gpu/drm/arc/arcpgu_drv.c  | 102 +++++++++++++++++++++++++++++-
+ drivers/gpu/drm/arc/arcpgu_regs.h |  31 ---------
+ drivers/gpu/drm/arc/arcpgu_sim.c  |  74 ----------------------
+ 5 files changed, 101 insertions(+), 147 deletions(-)
+ delete mode 100644 drivers/gpu/drm/arc/arcpgu.h
+ delete mode 100644 drivers/gpu/drm/arc/arcpgu_regs.h
+ delete mode 100644 drivers/gpu/drm/arc/arcpgu_sim.c
 
 diff --git a/drivers/gpu/drm/arc/Makefile b/drivers/gpu/drm/arc/Makefile
-index c686e0287a71..379a1145bc2f 100644
+index 379a1145bc2f..b26f2495c532 100644
 --- a/drivers/gpu/drm/arc/Makefile
 +++ b/drivers/gpu/drm/arc/Makefile
 @@ -1,3 +1,3 @@
  # SPDX-License-Identifier: GPL-2.0-only
--arcpgu-y := arcpgu_hdmi.o arcpgu_sim.o arcpgu_drv.o
-+arcpgu-y := arcpgu_sim.o arcpgu_drv.o
+-arcpgu-y := arcpgu_sim.o arcpgu_drv.o
++arcpgu-y := arcpgu_drv.o
  obj-$(CONFIG_DRM_ARCPGU) += arcpgu.o
 diff --git a/drivers/gpu/drm/arc/arcpgu.h b/drivers/gpu/drm/arc/arcpgu.h
-index cee2448a07d6..7dce0c2313ba 100644
+deleted file mode 100644
+index 7dce0c2313ba..000000000000
 --- a/drivers/gpu/drm/arc/arcpgu.h
-+++ b/drivers/gpu/drm/arc/arcpgu.h
-@@ -34,7 +34,6 @@ static inline u32 arc_pgu_read(struct arcpgu_drm_private *arcpgu,
- 	return ioread32(arcpgu->regs + reg);
- }
- 
--int arcpgu_drm_hdmi_init(struct drm_device *drm, struct device_node *np);
- int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np);
- 
- #endif
++++ /dev/null
+@@ -1,39 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * ARC PGU DRM driver.
+- *
+- * Copyright (C) 2016 Synopsys, Inc. (www.synopsys.com)
+- */
+-
+-#ifndef _ARCPGU_H_
+-#define _ARCPGU_H_
+-
+-#include <drm/drm_simple_kms_helper.h>
+-
+-struct arcpgu_drm_private {
+-	struct drm_device	drm;
+-	void __iomem		*regs;
+-	struct clk		*clk;
+-	struct drm_simple_display_pipe pipe;
+-	struct drm_connector	sim_conn;
+-};
+-
+-#define dev_to_arcpgu(x) container_of(x, struct arcpgu_drm_private, drm)
+-
+-#define pipe_to_arcpgu_priv(x) container_of(x, struct arcpgu_drm_private, pipe)
+-
+-static inline void arc_pgu_write(struct arcpgu_drm_private *arcpgu,
+-				 unsigned int reg, u32 value)
+-{
+-	iowrite32(value, arcpgu->regs + reg);
+-}
+-
+-static inline u32 arc_pgu_read(struct arcpgu_drm_private *arcpgu,
+-			       unsigned int reg)
+-{
+-	return ioread32(arcpgu->regs + reg);
+-}
+-
+-int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np);
+-
+-#endif
 diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-index 2443e3c78a76..8fbfd956de0a 100644
+index 8fbfd956de0a..b0c941d91545 100644
 --- a/drivers/gpu/drm/arc/arcpgu_drv.c
 +++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-@@ -227,9 +227,15 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
- 	}
+@@ -17,13 +17,111 @@
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/module.h>
+ #include <linux/of_reserved_mem.h>
+ #include <linux/platform_device.h>
  
- 	if (encoder_node) {
--		ret = arcpgu_drm_hdmi_init(drm, encoder_node);
--		of_node_put(encoder_node);
--		if (ret < 0)
-+		struct drm_bridge *bridge;
+-#include "arcpgu.h"
+-#include "arcpgu_regs.h"
++#define ARCPGU_REG_CTRL		0x00
++#define ARCPGU_REG_STAT		0x04
++#define ARCPGU_REG_FMT		0x10
++#define ARCPGU_REG_HSYNC	0x14
++#define ARCPGU_REG_VSYNC	0x18
++#define ARCPGU_REG_ACTIVE	0x1c
++#define ARCPGU_REG_BUF0_ADDR	0x40
++#define ARCPGU_REG_STRIDE	0x50
++#define ARCPGU_REG_START_SET	0x84
 +
-+		/* Locate drm bridge from the hdmi encoder DT node */
-+		bridge = of_drm_find_bridge(encoder_node);
-+		if (!bridge)
-+			return -EPROBE_DEFER;
++#define ARCPGU_REG_ID		0x3FC
 +
-+		ret = drm_simple_display_pipe_attach_bridge(&arcpgu->pipe, bridge);
-+		if (ret)
- 			return ret;
- 	} else {
- 		dev_info(drm->dev, "no encoder found. Assumed virtual LCD on simulation platform\n");
-diff --git a/drivers/gpu/drm/arc/arcpgu_hdmi.c b/drivers/gpu/drm/arc/arcpgu_hdmi.c
++#define ARCPGU_CTRL_ENABLE_MASK	0x02
++#define ARCPGU_CTRL_VS_POL_MASK	0x1
++#define ARCPGU_CTRL_VS_POL_OFST	0x3
++#define ARCPGU_CTRL_HS_POL_MASK	0x1
++#define ARCPGU_CTRL_HS_POL_OFST	0x4
++#define ARCPGU_MODE_XRGB8888	BIT(2)
++#define ARCPGU_STAT_BUSY_MASK	0x02
++
++struct arcpgu_drm_private {
++	struct drm_device	drm;
++	void __iomem		*regs;
++	struct clk		*clk;
++	struct drm_simple_display_pipe pipe;
++	struct drm_connector	sim_conn;
++};
++
++#define dev_to_arcpgu(x) container_of(x, struct arcpgu_drm_private, drm)
++
++#define pipe_to_arcpgu_priv(x) container_of(x, struct arcpgu_drm_private, pipe)
++
++static inline void arc_pgu_write(struct arcpgu_drm_private *arcpgu,
++				 unsigned int reg, u32 value)
++{
++	iowrite32(value, arcpgu->regs + reg);
++}
++
++static inline u32 arc_pgu_read(struct arcpgu_drm_private *arcpgu,
++			       unsigned int reg)
++{
++	return ioread32(arcpgu->regs + reg);
++}
++
++#define XRES_DEF	640
++#define YRES_DEF	480
++
++#define XRES_MAX	8192
++#define YRES_MAX	8192
++
++static int arcpgu_drm_connector_get_modes(struct drm_connector *connector)
++{
++	int count;
++
++	count = drm_add_modes_noedid(connector, XRES_MAX, YRES_MAX);
++	drm_set_preferred_mode(connector, XRES_DEF, YRES_DEF);
++	return count;
++}
++
++static const struct drm_connector_helper_funcs
++arcpgu_drm_connector_helper_funcs = {
++	.get_modes = arcpgu_drm_connector_get_modes,
++};
++
++static const struct drm_connector_funcs arcpgu_drm_connector_funcs = {
++	.reset = drm_atomic_helper_connector_reset,
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_connector_cleanup,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++static int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
++{
++	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
++	struct drm_encoder *encoder;
++	struct drm_connector *connector;
++	int ret;
++
++	encoder = &arcpgu->pipe.encoder;
++
++	connector = &arcpgu->sim_conn;
++	drm_connector_helper_add(connector, &arcpgu_drm_connector_helper_funcs);
++
++	ret = drm_connector_init(drm, connector, &arcpgu_drm_connector_funcs,
++			DRM_MODE_CONNECTOR_VIRTUAL);
++	if (ret < 0) {
++		dev_err(drm->dev, "failed to initialize drm connector\n");
++		return ret;
++	}
++
++	ret = drm_connector_attach_encoder(connector, encoder);
++	if (ret < 0) {
++		dev_err(drm->dev, "could not attach connector to encoder\n");
++		return ret;
++	}
++
++	return 0;
++}
+ 
+ #define ENCODE_PGU_XY(x, y)	((((x) - 1) << 16) | ((y) - 1))
+ 
+diff --git a/drivers/gpu/drm/arc/arcpgu_regs.h b/drivers/gpu/drm/arc/arcpgu_regs.h
 deleted file mode 100644
-index d430af686cbc..000000000000
---- a/drivers/gpu/drm/arc/arcpgu_hdmi.c
+index b689a382d556..000000000000
+--- a/drivers/gpu/drm/arc/arcpgu_regs.h
 +++ /dev/null
-@@ -1,27 +0,0 @@
+@@ -1,31 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * ARC PGU DRM driver.
+- *
+- * Copyright (C) 2016 Synopsys, Inc. (www.synopsys.com)
+- */
+-
+-#ifndef _ARC_PGU_REGS_H_
+-#define _ARC_PGU_REGS_H_
+-
+-#define ARCPGU_REG_CTRL		0x00
+-#define ARCPGU_REG_STAT		0x04
+-#define ARCPGU_REG_FMT		0x10
+-#define ARCPGU_REG_HSYNC	0x14
+-#define ARCPGU_REG_VSYNC	0x18
+-#define ARCPGU_REG_ACTIVE	0x1c
+-#define ARCPGU_REG_BUF0_ADDR	0x40
+-#define ARCPGU_REG_STRIDE	0x50
+-#define ARCPGU_REG_START_SET	0x84
+-
+-#define ARCPGU_REG_ID		0x3FC
+-
+-#define ARCPGU_CTRL_ENABLE_MASK	0x02
+-#define ARCPGU_CTRL_VS_POL_MASK	0x1
+-#define ARCPGU_CTRL_VS_POL_OFST	0x3
+-#define ARCPGU_CTRL_HS_POL_MASK	0x1
+-#define ARCPGU_CTRL_HS_POL_OFST	0x4
+-#define ARCPGU_MODE_XRGB8888	BIT(2)
+-#define ARCPGU_STAT_BUSY_MASK	0x02
+-
+-#endif
+diff --git a/drivers/gpu/drm/arc/arcpgu_sim.c b/drivers/gpu/drm/arc/arcpgu_sim.c
+deleted file mode 100644
+index 1a63f0868504..000000000000
+--- a/drivers/gpu/drm/arc/arcpgu_sim.c
++++ /dev/null
+@@ -1,74 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0-only
 -/*
 - * ARC PGU DRM driver.
@@ -140,25 +310,72 @@ index d430af686cbc..000000000000
 - * Copyright (C) 2016 Synopsys, Inc. (www.synopsys.com)
 - */
 -
--#include <drm/drm_bridge.h>
--#include <drm/drm_crtc.h>
--#include <drm/drm_encoder.h>
+-#include <drm/drm_atomic_helper.h>
 -#include <drm/drm_device.h>
+-#include <drm/drm_probe_helper.h>
 -
 -#include "arcpgu.h"
 -
--int arcpgu_drm_hdmi_init(struct drm_device *drm, struct device_node *np)
+-#define XRES_DEF	640
+-#define YRES_DEF	480
+-
+-#define XRES_MAX	8192
+-#define YRES_MAX	8192
+-
+-
+-static int arcpgu_drm_connector_get_modes(struct drm_connector *connector)
+-{
+-	int count;
+-
+-	count = drm_add_modes_noedid(connector, XRES_MAX, YRES_MAX);
+-	drm_set_preferred_mode(connector, XRES_DEF, YRES_DEF);
+-	return count;
+-}
+-
+-static void arcpgu_drm_connector_destroy(struct drm_connector *connector)
+-{
+-	drm_connector_cleanup(connector);
+-}
+-
+-static const struct drm_connector_helper_funcs
+-arcpgu_drm_connector_helper_funcs = {
+-	.get_modes = arcpgu_drm_connector_get_modes,
+-};
+-
+-static const struct drm_connector_funcs arcpgu_drm_connector_funcs = {
+-	.reset = drm_atomic_helper_connector_reset,
+-	.fill_modes = drm_helper_probe_single_connector_modes,
+-	.destroy = arcpgu_drm_connector_destroy,
+-	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+-};
+-
+-int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
 -{
 -	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
--	struct drm_bridge *bridge;
+-	struct drm_encoder *encoder;
+-	struct drm_connector *connector;
+-	int ret;
 -
--	/* Locate drm bridge from the hdmi encoder DT node */
--	bridge = of_drm_find_bridge(np);
--	if (!bridge)
--		return -EPROBE_DEFER;
+-	encoder = &arcpgu->pipe.encoder;
 -
--	/* Link drm_bridge to encoder */
--	return drm_simple_display_pipe_attach_bridge(&arcpgu->pipe, bridge);
+-	connector = &arcpgu->sim_conn;
+-	drm_connector_helper_add(connector, &arcpgu_drm_connector_helper_funcs);
+-
+-	ret = drm_connector_init(drm, connector, &arcpgu_drm_connector_funcs,
+-			DRM_MODE_CONNECTOR_VIRTUAL);
+-	if (ret < 0) {
+-		dev_err(drm->dev, "failed to initialize drm connector\n");
+-		return ret;
+-	}
+-
+-	ret = drm_connector_attach_encoder(connector, encoder);
+-	if (ret < 0) {
+-		dev_err(drm->dev, "could not attach connector to encoder\n");
+-		return ret;
+-	}
+-
+-	return 0;
 -}
 -- 
 2.25.1
