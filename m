@@ -2,39 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465811A9096
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 03:46:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1081A9400
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:18:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 839276E81A;
-	Wed, 15 Apr 2020 01:46:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D656E6E85D;
+	Wed, 15 Apr 2020 07:17:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8711E6E81A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 01:46:30 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4924vh236Hz9s71;
- Wed, 15 Apr 2020 11:46:23 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1586915187;
- bh=AZwhKCRiMMV9G2odRXf4T0pjybHzWXSzQe/OjKDzQlE=;
- h=Date:From:To:Cc:Subject:From;
- b=P2fAxpTDVV9pgSO12pTS8+KiEfDLpJ270TLCgGmr7fSBqvGQE2HdrMHf0Xn6CDB/0
- LhXAHQdPrMTKtHYdC7grh5wV97U8PIcBBgLEjEnTao8evhE683P0aLfWZvSpJ6ch/K
- ECpADd1sfpo3WFuw2cRZpkozMPQtlNhB1q0YY8IChACT7eTcD5i1I9IR04tS5uFi9B
- J3VaAvwCqP9L5+Xfddb6UF1odjAAklJFVLApfLHfhRkBPKowfHxyzKmo0Gm86E8p4T
- 0qYrAPH25Qg/nYOmUuKVzmJ994J19waCNFtIneuZAzQIJSrksnuV43VzYQ1OIqQ+iZ
- X6rpFMZiDF0Yw==
-Date: Wed, 15 Apr 2020 11:46:20 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-misc tree with Linus' tree
-Message-ID: <20200415114620.0657d62c@canb.auug.org.au>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44A506E81D
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 01:48:18 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id j14so1324403lfg.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 18:48:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=871UxjBdggCjSPvo7fytf1ugzP/6XaBJPXc3zm0RbzI=;
+ b=mab98fNdiJbs2kn65jBxwPTFilqaqYE9wvjL2PsR6wYG4VcNO86Bliwx8oE4qBiuaY
+ 4TnlG+QmY107a/dtQ82ChlRjmZEWBXd5HnoPVcJWM22Gxn35Zcq/tOcwH91uBIhYhwqk
+ PDL8kxoUWTMF+C9W6i2FGr75lpx1xBo+Rz8G/XRzrwD49WVJ5beYCDKxZ9oiZj24jtUf
+ suoSGpE1MrX9710nxM7MBZucY1X560yO/wVZ1/kuM1R9zOD0pbnfn2V6GBHAPVkSC4av
+ DowKOfdp0CwsU3yx5h+ZNHD2ZJlXtQt8i3vorc5JFUbxuqJB3rUEFS87TxByBTKMsECX
+ T3EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=871UxjBdggCjSPvo7fytf1ugzP/6XaBJPXc3zm0RbzI=;
+ b=ciexGDrY73JzwhLXgBILw9RiBcYZQtGhvBd50sBLGXZ+7BjJ6ysnUA17GHQywRbqO2
+ R0AndcaTbO9FmODGxpZSj3MubEq6sWhc7vO45XrlxLj8YKuh9ZuLsM9ZP9+/76187Ptp
+ ktRew2EtYXutRqEHexH1ZscRAjg9UGcUi+e7dQlBCXBiWDrX3stOM9vOEPn3yqI1UhFZ
+ 1p/2Jz5MfmelTdzcq1z+Vcw6cqMqtYbboieF+zBLtvCbSPR+PTIiTvVn/Vl33T+Sefss
+ jDiAyzNtCOrFg38t8EW75JZqgVHctnnne+HygsBEbYv7wRxNgOt4RDp5E3NGGZ47B2Qd
+ 1JCg==
+X-Gm-Message-State: AGi0PuZEja3OZJJjNzLciELtr99QdMS23RayPPLlQmxcdF40USrC3tzS
+ xO9EKncEmUoWIOUXh4vllzMHx9YtU5J7G3jrA4hs/J22
+X-Google-Smtp-Source: APiQypJo5OAqdTYBHi1J/hyuSLzFwxa4JDzt887P717fJDiqeareS0ezIEjMsad4Ka2txr6TLCiozGB7+JmfP6OwbAo=
+X-Received: by 2002:a19:9109:: with SMTP id t9mr1538457lfd.10.1586915296379;
+ Tue, 14 Apr 2020 18:48:16 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200224230155.120894-1-ytht.net@gmail.com>
+ <20200225102928.vnaamhecu5tnoaq2@sirius.home.kraxel.org>
+ <CALqoU4wtYQtLg=wVkepP29wYZYKKVx3PA1Nytfy+fZdqrp-_Jg@mail.gmail.com>
+ <20200226071517.4cbgfcaeknmmvyo3@sirius.home.kraxel.org>
+ <CALqoU4z7GYNu3DWRQcK=boGFZ=n7yHLEhEeOgXHZQ=17DMrjzQ@mail.gmail.com>
+ <20200226153845.nyyq4quatznhetio@sirius.home.kraxel.org>
+ <CALqoU4ztV6KGZDYdd2-fUY2+bJgie3-RhrgoC8B9anqTUO06zQ@mail.gmail.com>
+ <20200327082000.vhjs2wixv4ouxuj4@sirius.home.kraxel.org>
+In-Reply-To: <20200327082000.vhjs2wixv4ouxuj4@sirius.home.kraxel.org>
+From: lepton <ytht.net@gmail.com>
+Date: Tue, 14 Apr 2020 18:48:05 -0700
+Message-ID: <CALqoU4yuzkTDPsYCaXRT-n9xv1h0ZfqLmrgTUQ3VdSczWGr_gg@mail.gmail.com>
+Subject: Re: RFC: drm/virtio: Dummy virtio GPU
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+X-Mailman-Approved-At: Wed, 15 Apr 2020 07:17:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,163 +68,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Jagan Teki <jagan@amarulasolutions.com>, Joe Perches <joe@perches.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0839916386=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0839916386==
-Content-Type: multipart/signed; boundary="Sig_/+CkTOH=5qhaT9s/HIUbzqRo";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/+CkTOH=5qhaT9s/HIUbzqRo
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-Today's linux-next merge of the drm-misc tree got a conflict in:
-
-  MAINTAINERS
-
-between commitis:
-
-  4400b7d68f6e ("MAINTAINERS: sort entries by entry name")
-  3b50142d8528 ("MAINTAINERS: sort field names for all entries")
-
-from Linus' tree and commits:
-
-  8edb69970739 ("MAINTAINERS: Better regex for dma_buf|fence|resv")
-  7fd9681e8fd0 ("MAINTAINERS: Update feiyang,st7701 panel bindings converte=
-d as YAML")
-
-from the drm-misc tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc MAINTAINERS
-index c3cd17dbcb88,50b068f3580a..000000000000
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@@ -5037,14 -5019,32 +5037,14 @@@ M:	Sumit Semwal <sumit.semwal@linaro.or
-  L:	linux-media@vger.kernel.org
-  L:	dri-devel@lists.freedesktop.org
-  L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
- +S:	Maintained
- +T:	git git://anongit.freedesktop.org/drm/drm-misc
- +F:	Documentation/driver-api/dma-buf.rst
-  F:	drivers/dma-buf/
- +F:	include/linux/*fence.h
-  F:	include/linux/dma-buf*
-  F:	include/linux/dma-resv.h
-- K:	dma_(buf|fence|resv)
- -F:	include/linux/*fence.h
- -F:	Documentation/driver-api/dma-buf.rst
-+ K:	\bdma_(?:buf|fence|resv)\b
- -T:	git git://anongit.freedesktop.org/drm/drm-misc
- -
- -DMA-BUF HEAPS FRAMEWORK
- -M:	Sumit Semwal <sumit.semwal@linaro.org>
- -R:	Andrew F. Davis <afd@ti.com>
- -R:	Benjamin Gaignard <benjamin.gaignard@linaro.org>
- -R:	Liam Mark <lmark@codeaurora.org>
- -R:	Laura Abbott <labbott@redhat.com>
- -R:	Brian Starkey <Brian.Starkey@arm.com>
- -R:	John Stultz <john.stultz@linaro.org>
- -S:	Maintained
- -L:	linux-media@vger.kernel.org
- -L:	dri-devel@lists.freedesktop.org
- -L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
- -F:	include/uapi/linux/dma-heap.h
- -F:	include/linux/dma-heap.h
- -F:	drivers/dma-buf/dma-heap.c
- -F:	drivers/dma-buf/heaps/*
- -T:	git git://anongit.freedesktop.org/drm/drm-misc
- =20
-  DMA GENERIC OFFLOAD ENGINE SUBSYSTEM
-  M:	Vinod Koul <vkoul@kernel.org>
-@@@ -5301,8 -5272,8 +5301,8 @@@ F:	drivers/gpu/drm/panel/panel-feixin-k
-  DRM DRIVER FOR FEIYANG FY07024DI26A30-D MIPI-DSI LCD PANELS
-  M:	Jagan Teki <jagan@amarulasolutions.com>
-  S:	Maintained
-- F:	Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30=
-d.txt
- -F:	drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-+ F:	Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30=
-d.yaml
- +F:	drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
- =20
-  DRM DRIVER FOR GRAIN MEDIA GM12U320 PROJECTORS
-  M:	Hans de Goede <hdegoede@redhat.com>
-@@@ -5441,18 -5412,18 +5441,18 @@@ S:	Orphan / Obsolet
-  F:	drivers/gpu/drm/sis/
-  F:	include/uapi/drm/sis_drm.h
- =20
- -DRM DRIVER FOR SITRONIX ST7701 PANELS
- -M:	Jagan Teki <jagan@amarulasolutions.com>
- -S:	Maintained
- -F:	drivers/gpu/drm/panel/panel-sitronix-st7701.c
- -F:	Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
- -
-  DRM DRIVER FOR SITRONIX ST7586 PANELS
-  M:	David Lechner <david@lechnology.com>
- -T:	git git://anongit.freedesktop.org/drm/drm-misc
-  S:	Maintained
- -F:	drivers/gpu/drm/tiny/st7586.c
- +T:	git git://anongit.freedesktop.org/drm/drm-misc
-  F:	Documentation/devicetree/bindings/display/sitronix,st7586.txt
- +F:	drivers/gpu/drm/tiny/st7586.c
- +
- +DRM DRIVER FOR SITRONIX ST7701 PANELS
- +M:	Jagan Teki <jagan@amarulasolutions.com>
- +S:	Maintained
-- F:	Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
-++F:	Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
- +F:	drivers/gpu/drm/panel/panel-sitronix-st7701.c
- =20
-  DRM DRIVER FOR SITRONIX ST7735R PANELS
-  M:	David Lechner <david@lechnology.com>
-
---Sig_/+CkTOH=5qhaT9s/HIUbzqRo
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl6WZ20ACgkQAVBC80lX
-0GzLFAf/SMZKAtp0iebrAlMGrp5RRDHWLgz+i/gN17fxYppZbAHYIweHp5h81PWS
-85/0MihZnwU378qLKc1FqASC8cuKgCA1mbKyZXeJSlRjxj9bkGg1/pyyDHmfS2Cj
-a9qqkt7t5pXR9Ws8VKGHPnvIA0BY+17I5AFI1T33pXW1R52vHwxH/dQYVws+t/O+
-p0Ti2JuBSY3mZXYSBHKTb0c/hJoq8LgSCa1thsTEyqnpItQ0Oh9abazGWyQy4OyO
-OQ1R1fnv275TUIHLXNzsNuioEPH7C/9EfMk98PZZLl7Ao6WSYglE9Og989aAMOig
-b30mYtPk4B29mGj5yNJnAJ1YVtaLqg==
-=eIsG
------END PGP SIGNATURE-----
-
---Sig_/+CkTOH=5qhaT9s/HIUbzqRo--
-
---===============0839916386==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+On Fri, Mar 27, 2020 at 1:20 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> > > Hmm, yes, I can see loopback virtio being useful for various cases.
+> > > Testing being one.  A dummy virtio-gpu could be done too, or a more
+> > > advanced version which exports the display as vnc.
+> > So what's your suggestion on this? Changing this to drivers/virtio dir
+> > and then add some user space api?  I am thinking about introducing a new
+> > /dev/dummy-virtio, then user space can open it, use ioctl to create new virtio
+> > hardware, and can handle the virtio traffic with read/write to simulate the
+> > different virtio hardware.
+>
+> Yep, sounds useful.  You might want check out the uinput driver which
+> does something simliar for input devices.  I wouldn't name this dummy,
+> maybe uvirtio.
+>
+> cheers,
+>   Gerd
+>
+Add back mail list so other people can follow.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0839916386==--
