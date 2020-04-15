@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA951AB1F0
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 21:43:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E231AB1FE
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 21:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BBAB6E28B;
-	Wed, 15 Apr 2020 19:43:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD6AD6E279;
+	Wed, 15 Apr 2020 19:50:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB6976E28B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 19:43:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2D6A6E279
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 19:50:09 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Wed, 15 Apr 2020 19:43:11 +0000
+Date: Wed, 15 Apr 2020 19:50:08 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc attachments.created
-Message-ID: <bug-204241-2300-UU8X1dC2NW@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204241-2300-G8Enf6Z2v1@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
 References: <bug-204241-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,16 +58,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=204241
 
-Jaya Balan Aaron (bucket.size@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |bucket.size@gmail.com
-
---- Comment #58 from Jaya Balan Aaron (bucket.size@gmail.com) ---
-Created attachment 288507
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288507&action=edit
+--- Comment #59 from Jaya Balan Aaron (bucket.size@gmail.com) ---
+Comment on attachment 288507
+  --> https://bugzilla.kernel.org/attachment.cgi?id=288507
 arch linux 5.6 resolution with kernel params
+
+Hi,
+
+Using arch linux kernel 5.5zen, 5.6. Not sure if it's a solution but,
+interesting to note.
+
+
+With 5.6, with kernel params 'amd_iommu=on iommu=pt', able to suspend/resume
+correctly 10/10 times. Without the params resume hanged with a blank and
+backlit screen 2/2 times.
+
+
+With 5.5zen, even with the same kernel params, resume hanged 2/2 times.
+
+
+Reason for the kernel params is that I was trying to set up gpu passthrough
+with kvm.
+
+Suspend resumes immediately sometimes, but I think that's because of
+mis-configured, keyboard/mouse/usb wake triggers.
 
 -- 
 You are receiving this mail because:
