@@ -1,43 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99C21AB8F1
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 08:59:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E36BB1AB01B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 19:54:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D5316EAE0;
-	Thu, 16 Apr 2020 06:59:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 232B96EA4F;
+	Wed, 15 Apr 2020 17:54:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.siol.net (mailoutvs3.siol.net [185.57.226.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B23DF6EA4D
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 17:52:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTP id 7DA5B523E2D;
- Wed, 15 Apr 2020 19:52:38 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
- by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new,
- port 10032)
- with ESMTP id Mn71HVJwTzMB; Wed, 15 Apr 2020 19:52:38 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTPS id 1B19B52389F;
- Wed, 15 Apr 2020 19:52:38 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net
- [194.152.20.232]) (Authenticated sender: jernej.skrabec@siol.net)
- by mail.siol.net (Postfix) with ESMTPA id 832A5523E96;
- Wed, 15 Apr 2020 19:52:34 +0200 (CEST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH] drm/sun4i: hdmi ddc clk: Fix size of m divider
-Date: Wed, 15 Apr 2020 19:52:28 +0200
-Message-ID: <1785843.taCxCBeP46@jernej-laptop>
-In-Reply-To: <20200415104214.ndkkxfnufkxgu53r@gilmour.lan>
-References: <20200413095457.1176754-1-jernej.skrabec@siol.net>
- <1742537.tdWV9SEqCh@jernej-laptop>
- <20200415104214.ndkkxfnufkxgu53r@gilmour.lan>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D02256EA4F
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 17:54:27 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id o81so595197wmo.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 10:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=8bkn92kPQHiLkAthtGEIINildisZhreozUyE/wq5zn4=;
+ b=TYyGIO2ukOm9oeJERHKtrerITn1Jz4oGm/vN3C8FKMb0+aGkW1WTD6xtCrBjG1b+CC
+ 0eal1BwMOK1zqGjR+76/fapoehNTDST+819CaxAYtoSOw8S6FDNqwBvP6JS6nvnz4NLb
+ R9yjRXMbnVJ1r4Sg2RxM2fwLM6FYFB8KYPDZY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8bkn92kPQHiLkAthtGEIINildisZhreozUyE/wq5zn4=;
+ b=SWsmTUzEMEipAlIO0n0FAX7XZ+xe2k5lH+jCBA9g1YF0blo7tmJJ68+QC457qIGwpZ
+ 2mrr0X+c5Hw0rqqz6Y/1yKciJu4LnLKJl6AAUPW3UjUo2mFyYMRrJQH0j8b+RoY7zlbT
+ F1/ZugitfDR9Wvh/dpE6bX60qkDsoW2TR+s5/t8lkz70N/wg7NUKBIVuFxeMswttJke6
+ dKCjsylAG2SQmeFH9nGDTcoQk84MwS7q+w+AutS/5jeBwajc3Ly2WobykgylRfR2DgYw
+ R3pDE4bpXbJ6kWU4CM88F/fKKploBdiAIfzgcZ8byUo68yyvVm3LItPITKJ34/HZkHj6
+ 7Q4A==
+X-Gm-Message-State: AGi0PuY64z1haui4syWq3fNavKwNA40XCJn6ppYChIugmJvWztEypD2z
+ 6gpn1gOgZ3/p44aDLNAZSHaL7A==
+X-Google-Smtp-Source: APiQypL44mQDZGdfnRpnSV7lvAOqXLdHSWl36n2Yxjlxz+1HxS5EBbbpe5Rq7dGFRqeMWPjQr5T1qQ==
+X-Received: by 2002:a1c:1dc3:: with SMTP id d186mr393544wmd.90.1586973266409; 
+ Wed, 15 Apr 2020 10:54:26 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id b191sm332485wmd.39.2020.04.15.10.54.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Apr 2020 10:54:25 -0700 (PDT)
+Date: Wed, 15 Apr 2020 19:54:23 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: RFC: Drm-connector properties managed by another driver /
+ privacy screen support
+Message-ID: <20200415175423.GJ3456981@phenom.ffwll.local>
+References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
+ <CAKMK7uFzA-2GEvAftNEysHZvPovxfXC2eC8y5VSa8RAUjMWoYg@mail.gmail.com>
+ <a2516eed-d7a7-c0a4-d287-5927aadf1d18@redhat.com>
+ <CAKMK7uESUVHLwMDujCDvapOBZ+Lnp1k-5juxQxcsNj+1QuN0Ww@mail.gmail.com>
+ <a053e2a7-77c8-8874-eaf8-afe970ad8f9c@redhat.com>
+ <20200415120135.GB3456981@phenom.ffwll.local>
+ <794191aa-e92d-d44c-f4ff-72fd6c9bf0e7@redhat.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 16 Apr 2020 06:59:07 +0000
+Content-Disposition: inline
+In-Reply-To: <794191aa-e92d-d44c-f4ff-72fd6c9bf0e7@redhat.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,71 +71,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Christian Kellner <ckellner@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Nitin Joshi1 <njoshi1@lenovo.com>,
+ Rajat Jain <rajatja@google.com>, Mark Pearson <mpearson@lenovo.com>,
+ Benjamin Berg <bberg@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RG5lIHNyZWRhLCAxNS4gYXByaWwgMjAyMCBvYiAxMjo0MjoxNCBDRVNUIGplIE1heGltZSBSaXBh
-cmQgbmFwaXNhbChhKToKPiBPbiBNb24sIEFwciAxMywgMjAyMCBhdCAwNjowOTowOFBNICswMjAw
-LCBKZXJuZWogxaBrcmFiZWMgd3JvdGU6Cj4gPiBEbmUgcG9uZWRlbGplaywgMTMuIGFwcmlsIDIw
-MjAgb2IgMTY6MTI6MzkgQ0VTVCBqZSBDaGVuLVl1IFRzYWkgCm5hcGlzYWwoYSk6Cj4gPiA+IE9u
-IE1vbiwgQXByIDEzLCAyMDIwIGF0IDY6MTEgUE0gQ2hlbi1ZdSBUc2FpIDx3ZW5zQGNzaWUub3Jn
-PiB3cm90ZToKPiA+ID4gPiBPbiBNb24sIEFwciAxMywgMjAyMCBhdCA1OjU1IFBNIEplcm5laiBT
-a3JhYmVjCj4gPiA+ID4gPGplcm5lai5za3JhYmVjQHNpb2wubmV0Pgo+ID4gCj4gPiB3cm90ZToK
-PiA+ID4gPiA+IG0gZGl2aWRlciBpbiBEREMgY2xvY2sgcmVnaXN0ZXIgaXMgNCBiaXRzIHdpZGUu
-IEZpeCB0aGF0Lgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBGaXhlczogOWM1NjgxMDExYTBjICgiZHJt
-L3N1bjRpOiBBZGQgSERNSSBzdXBwb3J0IikKPiA+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEplcm5l
-aiBTa3JhYmVjIDxqZXJuZWouc2tyYWJlY0BzaW9sLm5ldD4KPiA+ID4gPiAKPiA+ID4gPiBSZXZp
-ZXdlZC1ieTogQ2hlbi1ZdSBUc2FpIDx3ZW5zQGNzaWUub3JnPgo+ID4gPiAKPiA+ID4gQ2Mgc3Rh
-YmxlPwo+ID4gCj4gPiBJIGRvbid0IHRoaW5rIGl0J3MgbmVjZXNzYXJ5Ogo+ID4gMS4gSXQgZG9l
-c24ndCBjaGFuZ2UgbXVjaCAoYW55dGhpbmc/KSBmb3IgbWUgd2hlbiByZWFkaW5nIEVESUQuIEkg
-ZG9uJ3QKPiA+IHRoaW5rIGl0J3Mgc3VwZXIgaW1wb3J0YW50IHRvIGhhdmUgcHJlY2lzZSBEREMg
-Y2xvY2sgaW4gb3JkZXIgdG8gcHJvcGVybHkKPiA+IHJlYWQgRURJRC4gMi4gTm8gbWF0dGVyIGlm
-IGl0IGhhcyAiQ2Mgc3RhYmxlIiB0YWcgb3Igbm90LCBpdCB3aWxsIGJlCj4gPiBldmVudHVhbGx5
-IHBpY2tlZCBmb3Igc3RhYmxlIGR1ZSB0byBmaXhlcyB0YWcuCj4gPiAKPiA+IFRoaXMgd2FzIG9u
-bHkgc21hbGwgb2JzZXJ2YXRpb24gd2hlbiBJIHdhcyByZXNlYXJjaGluZyBFRElEIHJlYWRvdXQg
-aXNzdWUKPiA+IG9uIEEyMCBib2FyZCwgYnV0IHNhZGx5LCBJIHdhc24ndCBhYmxlIHRvIGZpZ3Vy
-ZSBvdXQgd2h5IHJlYWRpbmcgaXQKPiA+IHNvbWV0aW1lcyBmYWlscy4gSSBub3RpY2VkIHNpbWls
-YXIgaXNzdWUgb24gU29DcyB3aXRoIERFMiAobW9zdAo+ID4gcHJvbWluZW50bHkgb24gT3Jhbmdl
-UGkgUEMyIC0gSDUpLCBidXQgdGhlcmUgd2FzIGVhc3kgd29ya2Fyb3VuZCAtIEkganVzdAo+ID4g
-ZGlzYWJsZWQgdmlkZW8gZHJpdmVyIGluIFUtIEJvb3QuIEhvd2V2ZXIsIGlmIEEyMCBkaXNwbGF5
-IGRyaXZlciBnZXRzCj4gPiBkaXNhYmxlZCBpbiBVLUJvb3QsIGl0IHRvdGFsbHkgYnJlYWtzIHZp
-ZGVvIG91dHB1dCBvbiBteSBUViB3aGVuIExpbnV4Cj4gPiBib290cyAobm8gb3V0cHV0KS4gSSBn
-dWVzcyB0aGVyZSBpcyBtb3JlIGZ1bmRhbWVudGFsIHByb2JsZW0gd2l0aCBjbG9ja3MKPiA+IHRo
-YW4ganVzdCBmaWVsZCBzaXplLiBJIHRoaW5rIHdlIHNob3VsZCBhZGQgbW9yZSBjb25zdHJhaW50
-cyBpbiBjbG9jawo+ID4gZHJpdmVyLCBsaWtlIHByZXNldCBzb21lIGNsb2NrIHBhcmVudHMgYW5k
-IG5vdCBhbGxvdyB0byBjaGFuZ2UgcGFyZW50cwo+ID4gd2hlbiBzZXR0aW5nIHJhdGUsIGJ1dCBj
-YXJlZnVsbHksIHNvIHNpbXBsZWZiIGRvZXNuJ3QgYnJlYWsuIFN1Y2gKPiA+IGNvbnN0cmFpbnRz
-IHNob3VsZCBhbHNvIHNvbHZlIHByb2JsZW1zIHdpdGggZHVhbCBoZWFkIHNldHVwcy4KPiBJIGRp
-c2FncmVlIGhlcmUuIERvaW5nIGFsbCBzb3J0cyBvZiBzcGVjaWFsIGNhc2UganVzdCBkb2Vzbid0
-IHNjYWxlLAo+IGFuZCB3ZSdsbCBuZXZlciBoYXZlIHRoZSBzcGVjaWFsIGNhc2VzIHNvcnRlZCBv
-dXQgb24gYWxsIHRoZSBib2FyZHMKPiAoYW5kIGl0J3MgYSBuaWdodG1hcmUgdG8gbWFpbnRhaW4p
-Lgo+IAo+IEVzcGVjaWFsbHkgc2luY2UgaXQncyBiYXNpY2FsbHkgcHV0dGluZyBhIGJsYW5rZXQg
-b3ZlciB0aGUgYWN0dWFsCj4gaXNzdWUgYW5kIGxvb2tpbmcgdGhlIG90aGVyIHdheS4gSWYgdGhl
-cmUncyBzb21ldGhpbmcgd3Jvbmcgd2l0aCBob3cKPiB3ZSBkZWFsIHdpdGggKHJlKXBhcmVudGlu
-Zywgd2Ugc2hvdWxkIGZpeCB0aGF0LiBJdCBpbXBhY3RzIG1vcmUgdGhhbgo+IGp1c3QgRFJNLCBh
-bmQgYWxsIHRoZSBTb0NzLgoKSSBhZ3JlZSB3aXRoIHlvdSB0aGF0IGF1dG9tYXRpYyBzb2x1dGlv
-biB3b3VsZCBiZSBiZXN0LCBidXQgSSBqdXN0IGRvbid0IHNlZSAKaXQgaG93IGl0IHdvdWxkIGJl
-IGRvbmUuIER1YWwgaGVhZCBkaXNwbGF5IHBpcGVsaW5lIGlzIHByZXR0eSBjb21wbGV4IGZvciAK
-Y2xvY2sgZHJpdmVyIHRvIGdldCBpdCByaWdodCBvbiBpdCdzIG93bi4gVGhlcmUgYXJlIGRpZmZl
-cmVudCBwb3NzaWJsZSBzZXR1cHMgCmFuZCBzb21lIG9mIHRoZW0gYXJlIGhvdCBwbHVnZ2FibGUs
-IGxpa2UgSERNSS4gQW5kIHRoZXJlIGFyZSBhbHNvIFNvQyBzcGVjaWZpYyAKcXVpcmtzLCBsaWtl
-IEE2NCwgd2hlcmUgZm9yIHNvbWUgcmVhc29uLCBNSVBJIERQSFkgYW5kIEhETUkgUEhZIHNoYXJl
-IHNhbWUgCmNsb2NrIHBhcmVudCAtIFBMTF9WSURFTzAuIFRlY2huaWNhbGx5LCBNSVBJIERQSFkg
-Y2FuIGJlIGNsb2NrZWQgZnJvbSAKUExMX1BFUklQSDAgKGZpeGVkIHRvIDYwMCBNSHopLCBidXQg
-dGhhdCdzIG5vdCByZWFsbHkgaGVscGZ1bC4gSSdtIG5vdCBldmVuIApzdXJlIGlmIHRoZXJlIGlz
-IGFueSBnb29kIHNvbHV0aW9uIHRvIHRoaXMgLSBjZXJ0YWlubHkgSERNSSBhbmQgTUlQSSBjYW4n
-dCAKY2xhaW0gZXhjbHVzaXZpdHkgYW5kIHNvbWVob3cgYmVzdCBjb21tb24gcmF0ZSBtdXN0IGJl
-IGZvdW5kIGZvciBQTExfVklERU8wLCAKaWYgdGhhdCdzIGV2ZW4gcG9zc2libGUuIEkgd2FzIHN1
-cmUgdGhhdCBIRE1JIFBIWSBvbiBBNjQgY2FuIGJlIGNsb2NrZWQgZnJvbSAKUExMX1ZJREVPMSwg
-d2hpY2ggd291bGQgc29sdmUgbWFpbiBpc3N1ZSwgYnV0IHRvIGRhdGUsIEkgZGlkbid0IGZpbmQg
-YW55IHdheSB0byAKZG8gdGhhdC4KClRoYXQncyBwcmV0dHkgb2ZmIHRvcGljLCBzbyBJIGhvcGUg
-b3JpZ2luYWwgcGF0Y2ggY2FuIGJlIG1lcmdlZCBhcy1pcy4KCkJlc3QgcmVnYXJkcywKSmVybmVq
-CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Wed, Apr 15, 2020 at 03:02:53PM +0200, Hans de Goede wrote:
+> Hi,
+> 
+> On 4/15/20 2:01 PM, Daniel Vetter wrote:
+> > On Wed, Apr 15, 2020 at 01:39:23PM +0200, Hans de Goede wrote:
+> > > Hi,
+> > > 
+> > > On 4/15/20 12:22 PM, Daniel Vetter wrote:
+> > > > On Wed, Apr 15, 2020 at 12:11 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> > > > > 
+> > > > > Hi,
+> > > > > 
+> > > > > On 4/15/20 11:52 AM, Daniel Vetter wrote:
+> > > 
+> > > <snip>
+> > > 
+> > > > > > iv. What every SoC subsystem does:
+> > > > > > 
+> > > > > > - lcdshadow drivers register drivers
+> > > > > > - drm drivers look them up
+> > > > > > - if stuff isn't there yet, we delay loading with EPROBE_DEFER until
+> > > > > > the entire thing is assembled.
+> > > > > > 
+> > > > > > That's what we're doing already for other standardized components like
+> > > > > > drm_bridge or drm_panel, and I think that's also the right approach
+> > > > > > for backlight and anything else like that. Hand-rolling our own
+> > > > > > EPROBE_DEFER handling, or some other duct-tape monsters imo just leads
+> > > > > > to real pain. Also, with EPROBE_DEFER we have one standard way of
+> > > > > > building a driver from component, which spans subsystems and is also
+> > > > > > the underlying magic that makes stuff like component.c work.
+> > > > > 
+> > > > > On the SoCs we have devicetree telling us what components there
+> > > > > are, so we can wait for them to show up. The only way to figure out
+> > > > > if the lcdshadow thing is there on a ThinkPad is asking thinkpad_acpi,
+> > > > > or duplicating a lot of code from thinkpad_acpi. Edit:
+> > > > > also see below for a possible solution.
+> > > > 
+> > > > Yup it sucks. I think all we can do is have a small acpi match
+> > > > function (which yes will duplicate some of the thinkpad_acpi driver
+> > > > logic) to re-create that information and give us a "should we have a
+> > > > lcdshadow driver for this $pci_device" answer.
+> > > 
+> > > Ok, so questions about this solution:
+> > > 
+> > > 1. Where should that match-function live ?
+> > > 
+> > > 2. An acpi_thinkpad derived match-function will only be able to
+> > >     answer if there is an lcdshadow device/driver for the internal
+> > >     panel. It will not be able to tie this info to a certain PCI
+> > >     device. My plan is to pass NULL as dev_name when registering
+> > >     the lcdshadow-device and have lcdshadow_get(dev, <connector-name>)
+> > >     skip device-name matching (consider everything a match) for
+> > >     lcdshadow-devices registered with NULL as dev_name.
+> > > 
+> > >     So I guess in this case the mini match function should just
+> > >     ignore the passed in device?
+> > 
+> > Yeah I think we can't really avoid that. I also expect that we'll need
+> > ACPI and dt versions of this, and driver needs to know which one to call.
+> > Since at least in a dt world the driver knows exactly for which dt node it
+> > needs a lcdshadow driver for (with the phandle stuff), so we can be a lot
+> > more strict.
+> > 
+> > For the acpi version I'm not even sure we can do more than provide the
+> > struct device * pointer of the gpu. I think if we ever get more than 1
+> > lcdshadow driver on acpi systems we can add more stuff later on, for now
+> > I'd just leave that out.
+> > 
+> > So maybe
+> > 
+> > acpi_lcdshadow_get(struct device *dev);
+> > 
+> > of_lcdshadow_get(struct device_node *np);
+> > 
+> > And with maybe a future plan to add some kind of enum or whatever to
+> > acpi_lcdshadow_get(). Both would return either the lcdshadow pointer, or
+> > an PTR_ERR() so that we could encode EPROBE_DEFER vs ENOENT.
+> 
+> Ok, note I plan to only implement the acpi version for now, I do
+> expect some non ACPI/x86 devices to show up with his feature
+> eventually but I believe it is best to implement this once
+> those actually show up. Esp. since this will also involve adding
+> some devicetree bindings for this.
+
+ofc, just wanted to lay out the entire thing. The DT version needs some
+good bikeshed on the dt schema first anyway (so that the helper can decode
+that directly).
+
+> > We might also want a low-level lcdshadow_get() which only returns ENOENT
+> > when the driver isn't there, and which leaves "do we really need one?" to
+> > higher levels to answer.
+> 
+> Right, so my latest idea on that is indeed a high-level lcdshadow_get()
+> which takes a struct device * and a connector-name and which never
+> returns EPROBE_DEFER.
+> 
+> As for leaving things to the higher levels to answer, as explained
+> in my other follow-up email I think that we should probably add a
+> lcdshadow_probe_defer() helper for this and call that early on
+> in the PCI-driver probe functions for the 3 major x86 GPU drivers.
+> Does that sound ok to you?
+
+Uh ... not pretty. There's still a lifetime problem that strictly speaking
+there's nothing stopping the other driver from getting unloaded between
+your _probe_defer and the subsequent _get. I think fixing this properly
+(and screaming a bit at the error code, oh well) is better.
+
+> > I'd also lean towards putting lcdshadow headers/interfaces into
+> > drivers/gpu,
+> 
+> Ack, I think we should even make this drm specific and prefix it with
+> drm_ so that we get drm_lcdshadow_foo as functions, just to make
+> clear that this is maintained together with the other drm bits.
+
+I want to avoid the impression that I'm on an evil plan to take over the
+entire world, but personally very happy with a drm_ prefix for this.
+
+> But my question about "where should this live" was mainly about
+> the light weight match helpers you suggested to use to figure out
+> if the device supports lcdshadow at all (and we thus should wait
+> for a driver) or not. E.g. I can see us adding a:
+> 
+> drivers/gpu/drm/drm_lcdshadow.c
+> 
+> file for the core bits and then maybe a:
+> 
+> drivers/gpu/drm/drm_lcdshadow_detect.c
+> 
+> file with the light weight match helpers, with each helper
+> wrapped in #if IS_ENABLED(CONFIG_THINKPAD_ACPI), etc. ?
+
+I'd expect it's all going to be so tiny that separate file wont make much
+sense. Thus far we're simply adding the 1-2 of_ helpers to the
+corresponding file, with an #ifdef CONFIG_OF around them. It's ok enough.
+
+> > with driver implementations all over.
+> 
+> Ack.
+> 
+> Regards,
+> 
+> Hans
+> 
+
+Cheers, Daniel
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
