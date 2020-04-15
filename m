@@ -1,42 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5961A97F4
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 11:07:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D341A9828
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 11:15:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D80146E924;
-	Wed, 15 Apr 2020 09:07:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CAEC6E926;
+	Wed, 15 Apr 2020 09:15:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B216F6E923;
- Wed, 15 Apr 2020 09:07:52 +0000 (UTC)
-IronPort-SDR: S/kW969uv6uWbupWxzjJmqD7+iC/tnbmowY4L923BDsIyX0j0RBgk3vmzRJ5ppAnfMs1biy1gF
- 56sktdp47Jfw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2020 02:07:52 -0700
-IronPort-SDR: dIcvUqmm8vkltmzBbRt7swG9EIHcpliBK18dHSes44YOxPl9GSHu+CpHbMxzexYHs+shu+VVQy
- da/XylUQ7VEQ==
-X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; d="scan'208";a="427370602"
-Received: from ssolodk-mobl1.ccr.corp.intel.com (HELO localhost)
- ([10.252.48.37])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2020 02:07:47 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Colin Ian King <colin.king@canonical.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, kbuild@lists.01.org
-Subject: Re: [PATCH] drm/i915/gt: remove redundant assignment to variable x
-In-Reply-To: <43eb0cbb-9bf0-c99a-470d-8121c3108a5e@canonical.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200414092359.GC1163@kadam>
- <43eb0cbb-9bf0-c99a-470d-8121c3108a5e@canonical.com>
-Date: Wed, 15 Apr 2020 12:07:44 +0300
-Message-ID: <87blnt5d7j.fsf@intel.com>
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83BCB6E926
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 09:15:29 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id r24so2868924ljd.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 02:15:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=69T9ZGqlIy7aImGgwrs75/hfGvsilwincFfwWiQFobg=;
+ b=QmYfPFaxi91fzgnYBmzUnbNLZxOG0Qvv9XHtQXYm/D+sTky/Yc25iONfxBlY/7wqsB
+ fRtQYUCgyxgK4p3vjoCdR1E4K1nsTfSz3bWGNyVBA7FGlzJ7W7xAZUor5i5MsgsA0hU6
+ 1sVmcbUlUP1cDxtb+3jC+HIaRfadnrNzRFcNUoV22EicSEE5dlVf6RJieO6E9yC3PemP
+ qMb4hRiVMAXxE1MiwCuSopLulXmT+VCKUbpRSEH+BCrvLMZ4tKOYKabhdtdCWnXgNuRk
+ 9lpcy+vti6/lVgJJk2gVDZg/BOarCjaD0Ak6NlGy7RcdUdyYk3SImWtP+7AMtEZqo2NA
+ +piQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=69T9ZGqlIy7aImGgwrs75/hfGvsilwincFfwWiQFobg=;
+ b=SksDefeozySv7WKqLLEmlyDU6IUNCUMatoegsbuRUWdo3e3mT74xFGPjIK1DcsNLJ1
+ 9DHzv7DBJEHA6T9W6VYXSrGoApD3X/c0XM7YQloysLWGGAP8txzNLE/MPsxt8ODYA50p
+ 3racyPNFc2yGHEgKA9xj7JaFIxUMTuMpIDcsPVeKiO+i0nHZ+DW9qhQAT6/vbKKi/ri+
+ yF0mITanbDrcIfhe6zPtMWHXc3aEOr8U3LU0IWSPsxFB0nOMn8jh6IbYY2ec9uENOLsw
+ EsLQfi+VPYINJFpqW5YwtkJHxpqwwtasr8Tnk8FIWHg0YI/KJLMZ6PTmmNg4B28Zqmw9
+ rPew==
+X-Gm-Message-State: AGi0PubOqnIgQyF6M+krFIF72sOScrhfIz7FmmcPafOnaNpH3GfrZ14A
+ gvjgtRejOaaeDykx1JUy4+vZAw==
+X-Google-Smtp-Source: APiQypJt4bgg1yrZutHX1jnCNUTiEGk5PA6dcO1xYRoqGEwzcnoywOgKJNgJRfEssnCyTOQijG6tmA==
+X-Received: by 2002:a2e:6c0a:: with SMTP id h10mr2542581ljc.195.1586942127891; 
+ Wed, 15 Apr 2020 02:15:27 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:81b:6e8d:a1dd:9870:4166:dead?
+ ([2a00:1fa0:81b:6e8d:a1dd:9870:4166:dead])
+ by smtp.gmail.com with ESMTPSA id m13sm12192031lfk.12.2020.04.15.02.15.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Apr 2020 02:15:27 -0700 (PDT)
+Subject: Re: [PATCH v6 08/12] arm: dts: s5pv210: Add G3D node
+To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
+ Tony Lindgren <tony@atomide.com>, Paul Cercueil <paul@crapouillou.net>,
+ Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paulburton@kernel.org>,
+ James Hogan <jhogan@kernel.org>, Kukjin Kim <kgene@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+References: <cover.1586939718.git.hns@goldelico.com>
+ <b6733f80546bf3e6b3799f716b9c8e0f407de03d.1586939718.git.hns@goldelico.com>
+From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-ID: <b6ffa74a-acef-f329-0d9e-981483499e16@cogentembedded.com>
+Date: Wed, 15 Apr 2020 12:15:17 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <b6733f80546bf3e6b3799f716b9c8e0f407de03d.1586939718.git.hns@goldelico.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,96 +80,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, lkp@intel.com, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: devicetree@vger.kernel.org, letux-kernel@openphoenux.org,
+ Philipp Rossak <embed3d@gmail.com>, Jonathan Bakker <xc-racer2@live.ca>,
+ openpvrsgx-devgroup@letux.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, kernel@pyra-handheld.com,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Apr 2020, Colin Ian King <colin.king@canonical.com> wrote:
-> Hi Dan,
->
-> I'd post a revert, but I don't seem to see an upstream commit for this
-> this to revert against. What's the revert policy in these cases? Or can
-> the patch be just ignored by the maintainers so it's not applied?
+Hello!
 
-It has not been applied, and will be ignored, in part thanks to the
-report.
+On 15.04.2020 11:35, H. Nikolaus Schaller wrote:
 
-However I think Dan's report is misleading in that it looks like it's
-about a commit while I think it should emphasize that it's a pre-merge
-report on the patch on the mailing list.
+> From: Jonathan Bakker <xc-racer2@live.ca>
+> 
+> to add support for SGX540 GPU.
+> 
+> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> ---
+>   arch/arm/boot/dts/s5pv210.dtsi | 15 +++++++++++++++
+>   1 file changed, 15 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/s5pv210.dtsi b/arch/arm/boot/dts/s5pv210.dtsi
+> index 2ad642f51fd9..e7fc709c0cca 100644
+> --- a/arch/arm/boot/dts/s5pv210.dtsi
+> +++ b/arch/arm/boot/dts/s5pv210.dtsi
+> @@ -512,6 +512,21 @@ vic3: interrupt-controller@f2300000 {
+>   			#interrupt-cells = <1>;
+>   		};
+>   
+> +		g3d: g3d@f3000000 {
 
-BR,
-Jani.
+    Should be named generically, "gpu@f3000000", according to the DT spec 0.2, 
+section 2.2.2. It's either "gpu" or "display" TTBOMK...
 
+[...]
 
-
->
-> Colin
->
->
-> On 14/04/2020 10:23, Dan Carpenter wrote:
->> Hi Colin,
->> 
->> url:    https://github.com/0day-ci/linux/commits/Colin-King/drm-i915-gt-remove-redundant-assignment-to-variable-x/20200411-032731
->> base:   git://anongit.freedesktop.org/drm-intel for-linux-next
->> 
->> If you fix the issue, kindly add following tag as appropriate
->> Reported-by: kbuild test robot <lkp@intel.com>
->> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
->> 
->> smatch warnings:
->> drivers/gpu/drm/i915/gt/intel_engine_cs.c:1210 print_request() error: uninitialized symbol 'x'.
->> 
->> # https://github.com/0day-ci/linux/commit/6ee08d455bba0066e8f5f276dcd43d9e3e594dc5
->> git remote add linux-review https://github.com/0day-ci/linux
->> git remote update linux-review
->> git checkout 6ee08d455bba0066e8f5f276dcd43d9e3e594dc5
->> vim +/x +1210 drivers/gpu/drm/i915/gt/intel_engine_cs.c
->> 
->> f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2017-10-09  1202  static void print_request(struct drm_printer *m,
->> e61e0f51ba7974 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-02-21  1203  			  struct i915_request *rq,
->> f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2017-10-09  1204  			  const char *prefix)
->> f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2017-10-09  1205  {
->> ab2681512b4c10 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-03-14  1206  	const char *name = rq->fence.ops->get_timeline_name(&rq->fence);
->> 96d4f03c20d04c drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-05-17  1207  	char buf[80] = "";
->> 6ee08d455bba00 drivers/gpu/drm/i915/gt/intel_engine_cs.c Colin Ian King 2020-04-10  1208  	int x;
->>                                                                                                 ^^^^^
->> 
->> 247870ac8ea729 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-04-24  1209  
->> 247870ac8ea729 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-04-24 @1210  	x = print_sched_attr(rq->i915, &rq->sched.attr, buf, x, sizeof(buf));
->>                                                                                                                                                      ^
->> Uninitialized variable
->> 
->> ab2681512b4c10 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-03-14  1211  
->> b300fde8965fdd drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2019-02-26  1212  	drm_printf(m, "%s %llx:%llx%s%s %s @ %dms: %s\n",
->> b7268c5eed0ab4 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-04-18  1213  		   prefix,
->> b300fde8965fdd drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2019-02-26  1214  		   rq->fence.context, rq->fence.seqno,
->> 8547444137ec61 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2019-01-29  1215  		   i915_request_completed(rq) ? "!" :
->> 8547444137ec61 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2019-01-29  1216  		   i915_request_started(rq) ? "*" :
->> 8547444137ec61 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2019-01-29  1217  		   "",
->> 8c334f24e3b448 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson   2019-05-01  1218  		   test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->> 8c334f24e3b448 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson   2019-05-01  1219  			    &rq->fence.flags) ? "+" :
->> 52c0fdb25c7c91 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2019-01-29  1220  		   test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
->> 8c334f24e3b448 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson   2019-05-01  1221  			    &rq->fence.flags) ? "-" :
->> 8c334f24e3b448 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson   2019-05-01  1222  		   "",
->> 247870ac8ea729 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-04-24  1223  		   buf,
->> f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2017-10-09  1224  		   jiffies_to_msecs(jiffies - rq->emitted_jiffies),
->> ab2681512b4c10 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-03-14  1225  		   name);
->> f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2017-10-09  1226  }
->> 
->> ---
->> 0-DAY CI Kernel Test Service, Intel Corporation
->> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
->> 
->
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+MBR, Sergei
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
