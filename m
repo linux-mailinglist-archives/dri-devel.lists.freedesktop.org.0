@@ -1,45 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3AE41A9D2E
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:44:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52EF01A9D50
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:45:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C011F6E98F;
-	Wed, 15 Apr 2020 11:44:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF4D06E99E;
+	Wed, 15 Apr 2020 11:45:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6A976E98F
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 11:44:01 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206575] [amdgpu] [drm] No video signal on resume from suspend,
- R9 380
-Date: Wed, 15 Apr 2020 11:44:01 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: veox+kernel@veox.pw
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206575-2300-4xlryR5hA8@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206575-2300@https.bugzilla.kernel.org/>
-References: <bug-206575-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 986986E99B;
+ Wed, 15 Apr 2020 11:45:38 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id BE9942078A;
+ Wed, 15 Apr 2020 11:45:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1586951138;
+ bh=HwwyHRg0ZPQDirdfAAsga1hDTp9J9Yf9FyLxGAaxAx8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=HVle0SlAED82z7e/aohAGuZYjZpa0N3Ix+BjgpXPTu5/g4MpG8R0ss2fnOdOTYVGw
+ vVpnzCltcQxSTAFwAAS+jaXCzLL6Of6CFia+w82cy7kkbZGFUNQh2qr4AVA58LGd+8
+ JDVpibHylCsQhhrZBdhzUkUCubBZ4Yu+jDFl9vrY=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 48/84] drm/nouveau/svm: check for SVM initialized
+ before migrating
+Date: Wed, 15 Apr 2020 07:44:05 -0400
+Message-Id: <20200415114442.14166-48-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200415114442.14166-1-sashal@kernel.org>
+References: <20200415114442.14166-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,23 +50,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
+ Ralph Campbell <rcampbell@nvidia.com>, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206575
+From: Ralph Campbell <rcampbell@nvidia.com>
 
---- Comment #27 from Noel Maersk (veox+kernel@veox.pw) ---
-Created attachment 288483
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288483&action=edit
-git bisect log to find the fix (successful)
+[ Upstream commit 822cab6150d3002952407a8297ff5a0d32bb7b54 ]
 
-Attaching successful git bisect log.
+When migrating system memory to GPU memory, check that SVM has been
+enabled. Even though most errors can be ignored since migration is
+a performance optimization, return an error because this is a violation
+of the API.
 
+Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
+Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/nouveau/nouveau_svm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index 668d4bd0c118f..25b7055949c45 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -173,6 +173,11 @@ nouveau_svmm_bind(struct drm_device *dev, void *data,
+ 	mm = get_task_mm(current);
+ 	down_read(&mm->mmap_sem);
+ 
++	if (!cli->svm.svmm) {
++		up_read(&mm->mmap_sem);
++		return -EINVAL;
++	}
++
+ 	for (addr = args->va_start, end = args->va_start + size; addr < end;) {
+ 		struct vm_area_struct *vma;
+ 		unsigned long next;
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.20.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
