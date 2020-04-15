@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4407E1AB33C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 23:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2D61AB33D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 23:22:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED72D6E0E3;
-	Wed, 15 Apr 2020 21:21:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5322F6EA68;
+	Wed, 15 Apr 2020 21:22:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D12446E0E3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 21:21:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586985691;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QLUlQE0JskPyH3bNGy6m16cs6UOPb+RPsXhfD3emDuY=;
- b=d6iVO0+xZd/rQGvd1R15eqebiOfN/B3MJuAIlTA/GOsHFE6wEOLQl4KRfColab+rd8y5zm
- INXu6yz2pshzwd5SQXpZQhqoI6FXpae1akqL8QgtxDUipcYrK8BRmQODgH/SfAjOGX1Yv/
- c1YLMeb/GKbRh1shQy/u0qiNhB4EGgE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-463-MGPW6gqiOXCsSneDTwHukA-1; Wed, 15 Apr 2020 17:21:28 -0400
-X-MC-Unique: MGPW6gqiOXCsSneDTwHukA-1
-Received: by mail-wm1-f72.google.com with SMTP id h22so515137wml.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 14:21:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QLUlQE0JskPyH3bNGy6m16cs6UOPb+RPsXhfD3emDuY=;
- b=IQ84oLLdMs/erExV+JXYahNLeIegxn4nyIizLftLWBR8GdJEZcEplMFK+OWMDZBsuI
- hYMySoZ5Q9tZsw7Ofg/FblWcKSxb3UOG5R+nBQo7sLumXUI8fzPHgGANWMneg03XOrsM
- NQXQ8GKqQoYzfgn3clumC4Xo9AFYSNoTCIlLwUIf0RTGcv32UiNMlqorlybyhCkE185h
- +P/Came8aryEhI++MFoKnJ3C0wpTSOHLpudBMRE9QMVKVR0b/e+EtfawTLLKJ5BGkO/s
- OO31yeMI7B412peGDpwg+2rioODKyPWbmBunauBv1AplUriG84cs0PyernD9jYNDUvHl
- uaEg==
-X-Gm-Message-State: AGi0PubU+zdJZBBnZcsv05pX4RUauDcCWUGjxsB4dED+0RmRO1z7dhBS
- /bUFrgukWQ40AbkmEHTti4Po5LZZ6Bcbdl0nII/lq5UP9ggUxl4YMDomdyO4P+r2gy3Xvu3n4/d
- YhYm6iEllng28IBpGq3742HTVE55x
-X-Received: by 2002:a7b:c156:: with SMTP id z22mr1321030wmi.51.1586985687418; 
- Wed, 15 Apr 2020 14:21:27 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIyHcrPlcMEXQxxYIwH1gVltMGEH6DlmSMtFQ0yTAYJBOTGAqJu/89WfxfDITlktqO6P/gURg==
-X-Received: by 2002:a7b:c156:: with SMTP id z22mr1321011wmi.51.1586985687159; 
- Wed, 15 Apr 2020 14:21:27 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
- by smtp.gmail.com with ESMTPSA id p6sm17424840wrt.3.2020.04.15.14.21.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Apr 2020 14:21:26 -0700 (PDT)
-Subject: Re: RFC: Drm-connector properties managed by another driver / privacy
- screen support
-To: Jani Nikula <jani.nikula@linux.intel.com>, Rajat Jain <rajatja@google.com>
-References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
- <87tv1k4vl6.fsf@intel.com> <d47ba6ef-efd0-9f28-1ae4-b971b95a8f8b@redhat.com>
- <CACK8Z6HZe0iiyYUR57LvQVJjZCt+dbK9Vc9Tr+Ch8fUuh0h-gw@mail.gmail.com>
- <87pnc84frl.fsf@intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <895edf22-8138-b3c7-52e8-5a46588badd4@redhat.com>
-Date: Wed, 15 Apr 2020 23:21:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FF1E6EA68
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 21:22:28 +0000 (UTC)
+Received: from mail-qt1-f170.google.com ([209.85.160.170]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MryCb-1iskKd2gXV-00nzcJ for <dri-devel@lists.freedesktop.org>; Wed, 15
+ Apr 2020 23:22:26 +0200
+Received: by mail-qt1-f170.google.com with SMTP id w24so14679384qts.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 14:22:26 -0700 (PDT)
+X-Gm-Message-State: AGi0PuaLL5gk6k0STswaAdihFnDidWl7AONVBUfc7Edw6r7+SbhIqsmd
+ hFrAZDB38h7fiG2x54VvdbNpRtrY+QV7SifwgCQ=
+X-Google-Smtp-Source: APiQypINvvbbsDvc+K5sPwo+K7MzKlFLIqVVyQJIWMYe8UMUC3pk7MCSaMVSsYr2RgizX7z/824mZq3G5jLNLnmv4G8=
+X-Received: by 2002:ac8:6757:: with SMTP id n23mr10344447qtp.304.1586985745338; 
+ Wed, 15 Apr 2020 14:22:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87pnc84frl.fsf@intel.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20200408202711.1198966-1-arnd@arndb.de>
+ <20200408202711.1198966-6-arnd@arndb.de>
+ <20200414201739.GJ19819@pendragon.ideasonboard.com>
+ <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
+ <20200414205158.GM19819@pendragon.ideasonboard.com>
+ <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
+ <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com>
+ <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
+ <CAK8P3a0CoPUTSJp6ddDnmabo59iE73pugGSYayoeB5N57az9_w@mail.gmail.com>
+ <20200415211220.GQ4758@pendragon.ideasonboard.com>
+In-Reply-To: <20200415211220.GQ4758@pendragon.ideasonboard.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Wed, 15 Apr 2020 23:22:08 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1rDZO4cuL6VAXgu9sOiedcHqOSL7ELhpvULz+YYRaGbA@mail.gmail.com>
+Message-ID: <CAK8P3a1rDZO4cuL6VAXgu9sOiedcHqOSL7ELhpvULz+YYRaGbA@mail.gmail.com>
+Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-Provags-ID: V03:K1:K+N8PzMs/bo3+clFfxNSLOS1oHkPeubQwwK5X999TDxuWTy2vpq
+ U3yOdOgFDhFqkcfnSYtwrueIUlnTfzIFgehUdGsnHmzzsnHQtUv2bAxVOm3I8Pu5OhbpNBE
+ UsdIb+j3iVKlCB5RtjkQKKPs3sE7OMKNO8bNO0Ddk5XFBqEzRduh30J95i8bi8X8c7brSnL
+ MXxPIJ5GgolRSqvA27Bjg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:16rXmnt6GWI=:q5W5oh1yP8a+hatBo9puvm
+ cRp63PJkggmiuqlZZynmFyPQpZjFpKH1JpRJnQ/Bnkx1GPUPEdBcSzNBlEzhuiqzCxt1gYiNr
+ 1fbQyc0G29iHJnzz7SApdeWWuqwGZbaEwHNy46Bh37rfXckBJJ5voqmIG0XugCONo56aCDut3
+ sif1N7sYSs8UFe+BJt4yPKxqzX6kNExW9qC4WEBYp4p64035doiVKIoVFsmMaOfsbJCL/UNr9
+ mqMFCWw25c3GCEo/Q3QGF+FknicYn9Ffjb8GC9des6lBI8SRYby4nx8JY+SBa2G14wB0pAEk6
+ DwJQdOrRzUpkHUwMmctMZxU+22B2m/YIci2NJqaLBuXlcVxrOU0bS6m+AAJf0uf9lBfXmTCrR
+ aN/sjm0MDil3dcYp1a2VpuNxBDmbKaTyvMPh0bR1nKk2VHpVxR61NODE0Oq9jOIcdS1PxmuX9
+ D/HvfpHvLdFXxWxspEzySua01uGYDBrU0GFH/SYuDZUmzrDCaOuAGUWKwvMoxFM9nBO28yTA4
+ QcmNiR4noMR8Bv0l6Rs9WHbN7Gkg9l+d6B8jJg3X1tfAWahybh73QJkeNsNHOMJwfbkv6unBw
+ Ir0XsyY2JhyIf0UO1REyaf5fBDeoDvmX2K5gh3fgWJgn7sutPDmZbw0z5ffuAEXp1phbCkDT6
+ Vh8dclFX3/LOJp6G9SGwSvNAMHalYOC3S1o5kpoIjUNcATilRMBS9nItqtWl2CPI0xJ8kAu4i
+ WCodRlEpBMwaEoM+Z4WriTBJWEj4WnGc8IS9/XjIyp510aP5/vfBFQI7Qow1FI7cQzWCYSIjm
+ ShSOLoE7OErcEqV1NwX4id4LYD5PC5QizjPbfOpH4+RmfJeROY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,104 +71,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Christian Kellner <ckellner@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Nitin Joshi1 <njoshi1@lenovo.com>, Mark Pearson <mpearson@lenovo.com>,
- Benjamin Berg <bberg@redhat.com>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Leon Romanovsky <leon@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Networking <netdev@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nicolas Pitre <nico@fluxnic.net>, Saeed Mahameed <saeedm@mellanox.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ linux-rdma <linux-rdma@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Apr 15, 2020 at 11:12 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Wed, Apr 15, 2020 at 09:07:14PM +0200, Arnd Bergmann wrote:
+> > On Wed, Apr 15, 2020 at 5:18 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > On Wed, Apr 15, 2020 at 4:13 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > On Wed, Apr 15, 2020 at 3:47 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > > > On Tue, Apr 14, 2020 at 10:52 PM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> > > > > > Doesn't "imply" mean it gets selected by default but can be manually
+> > > > > > disabled ?
+> > > > >
+> > > > > That may be what it means now (I still don't understand how it's defined
+> > > > > as of v5.7-rc1), but traditionally it was more like a 'select if all
+> > > > > dependencies are met'.
+> > > >
+> > > > That's still what it is supposed to mean right now ;-)
+> > > > Except that now it should correctly handle the modular case, too.
+> > >
+> > > Then there is a bug. If I run 'make menuconfig' now on a mainline kernel
+> > > and enable CONFIG_DRM_RCAR_DU, I can set
+> > > DRM_RCAR_CMM and DRM_RCAR_LVDS to 'y', 'n' or 'm' regardless
+> > > of whether CONFIG_DRM_RCAR_DU is 'm' or 'y'. The 'implies'
+> > > statement seems to be ignored entirely, except as reverse 'default'
+> > > setting.
+> >
+> > Here is another version that should do what we want and is only
+> > half-ugly. I can send that as a proper patch if it passes my testing
+> > and nobody hates it too much.
+>
+> This may be a stupid question, but doesn't this really call for fixing
+> Kconfig ? This seems to be such a common pattern that requiring
+> constructs similar to the ones below will be a never-ending chase of
+> offenders.
 
-On 4/15/20 11:10 PM, Jani Nikula wrote:
-> On Wed, 15 Apr 2020, Rajat Jain <rajatja@google.com> wrote:
->> Hello,
->>
->> On Wed, Apr 15, 2020 at 8:40 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>>
->>> Hi,
->>>
->>> On 4/15/20 5:28 PM, Jani Nikula wrote:
->>>> On Wed, 15 Apr 2020, Hans de Goede <hdegoede@redhat.com> wrote:
->>>>> ii. Currently the "privacy-screen" property added by Rajat's
->>>>> patch-set is an enum with 2 possible values:
->>>>> "Enabled"
->>>>> "Disabled"
->>>>>
->>>>> We could add a third value "Not Available", which would be the
->>>>> default and then for internal panels always add the property
->>>>> so that we avoid the problem that detecting if the laptop has
->>>>> an internal privacy screen needs to be done before the connector
->>>>> is registered. Then we can add some hooks which allow an
->>>>> lcdshadow-driver to register itself against a connector later
->>>>> (which is non trivial wrt probe order, but lets ignore that for now).
->>>>
->>>> I regret dropping the ball on Rajat's series (sorry!).
->>>>
->>>> I do think having the connector property for this is the way to go.
->>>
->>> I 100% agree.
->>>
->>>> Even
->>>> if we couldn't necessarily figure out all the details on the kernel
->>>> internal connections, can we settle on the property though, so we could
->>>> move forward with Rajat's series?
->>
->> Thanks, it would be great!.
->>
->>>
->>> Yes please, this will also allow us to move forward with userspace
->>> support even if for testing that we do some hacks for the kernel's
->>> internal connections for now.
->>>
->>>> Moreover, do we actually need two properties, one which could indicate
->>>> userspace's desire for the property, and another that tells the hardware
->>>> state?
->>>
->>> No I do not think so. I would expect there to just be one property,
->>> I guess that if the state is (partly) firmware controlled then there
->>> might be a race, but we will need a notification mechanism (*) for
->>> firmware triggered state changes anyways, so shortly after loosing
->>> the race userspace will process the notification and it will know
->>> about it.
->>
->> I agree with Hans here that I think it would be better if we could do
->> it with one property.
->>
->>   * I can imagine demand for laptops that have a "hardware kill switch"
->> for privacy screen (just like there are for camera etc today). So I
->> think in future we may have to deal with this case anyway. In such
->> devices it's the hardware (as opposite to firmware) that will change
->> the state. The HW will likely provide an interrupt to the software to
->> notify of the change. This is all imaginative at this point though.
->>
->> * I think having 2 properties might be a confusing UAPI. Also, we have
->> existing properties like link-status that can be changed by both the
->> user and the hardware.
-> 
-> I think the consensus is that all properties that get changed by both
-> userspace and the kernel are mistakes, and the way to handle it is to
-> have two properties.
+Maybe, I suppose the hardest part here would be to come up with
+an appropriate name for the keyword ;-)
 
-But the actual privacy screen has only 1 state, having two properties
-for this will only be confusing. As I mentioned before we have a similar
-case with e.g. keyboard backlighting and there the userspace API
-also has a single sysfs attribute for the brightness, with change
-notifications to userspace if the firmware changes the brightness
-on its own and this works well.
+Any suggestions?
 
-What would the semantics of these 2 different properties be? And
-what sort of extra functionality would these semantics offer which
-the single property versions does not offer?
+This specific issue is fairly rare though, in most cases the dependencies
+are in the right order so a Kconfig symbol 'depends on' a second one
+when the corresponding loadable module uses symbols from that second
+module. The problem here is that the two are mixed up.
 
-Regards,
+The much more common problem is the one where one needs to
+wrong
 
-Hans
+config FOO
+       depends on BAR || !BAR
 
+To ensure the dependency is either met or BAR is disabled, but
+not FOO=y with BAR=m. If you have any suggestions for a keyword
+for that thing, we can clean up hundreds of such instances.
+
+        Arnd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
