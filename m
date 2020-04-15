@@ -1,38 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4FC1A9C5A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:34:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E831A9C7C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:36:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE8286E97E;
-	Wed, 15 Apr 2020 11:34:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF3BE6E979;
+	Wed, 15 Apr 2020 11:35:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70DCC6E982
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 11:34:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3287A6E977;
+ Wed, 15 Apr 2020 11:35:58 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7506520737;
- Wed, 15 Apr 2020 11:34:46 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 47B9E2078A;
+ Wed, 15 Apr 2020 11:35:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586950487;
- bh=ic5MMHZntN33IMBrTIWsQVmdcrIefTFAyiQjjyVZ7jg=;
- h=From:To:Cc:Subject:Date:From;
- b=cM6GbIxiSTcsD0vtJWc6VQBGC1DcfVTWzf3Qa0GEW8FCzZ9eTdxmSCrXomBAs4b7T
- NO50eLOJ00/T1d6lkQT7b3FjbVJ+EOKFllVyw+8Cshc1XFAFPX/OB6JC2jr5R5+2ws
- ylGqOYTFy3mVNXuz+Vgt8X+rk/Hzqkh8pXC1yMMY=
+ s=default; t=1586950558;
+ bh=uC9JFgoKOhfTK98rPb7jgE0oqaQzBDX/tz1p1CqrX0I=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=KkILaa7gsvdkLsSqT7xFTSG/6ZreZ50rfR+GJLvyTPywPp2W+VmXqS3j8naKOvyoD
+ VzAw4cOv13OSA+ud1awhVGSsP0EloBtLrVqHUT5vaxhUEIgw7h1kvEmVTrDFBi+AVr
+ Qw0/aKFra7PpYLrYF13fpuYDiqgDBZppTsGz2sp8=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 001/129] drm/ttm: flush the fence on the bo after
- we individualize the reservation object
-Date: Wed, 15 Apr 2020 07:32:36 -0400
-Message-Id: <20200415113445.11881-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 063/129] drm/amd/display: Don't try hdcp1.4 when
+ content_type is set to type1
+Date: Wed, 15 Apr 2020 07:33:38 -0400
+Message-Id: <20200415113445.11881-63-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200415113445.11881-1-sashal@kernel.org>
+References: <20200415113445.11881-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -48,40 +50,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, xinhui pan <xinhui.pan@amd.com>,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogeGluaHVpIHBhbiA8eGluaHVpLnBhbkBhbWQuY29tPgoKWyBVcHN0cmVhbSBjb21taXQg
-MWJiY2Y2OWU0MmZlN2ZkNDliNmY0MzM5Yzk3MDcyOWQwZTM0Mzc1MyBdCgpBcyB3ZSBtb3ZlIHRo
-ZSB0dG1fYm9faW5kaXZpZHVhbGl6ZV9yZXN2KCkgdXB3YXJkcywgd2UgbmVlZCBmbHVzaCB0aGUK
-Y29waWVkIGZlbmNlIHRvby4gT3RoZXJ3aXNlIHRoZSBkcml2ZXIga2VlcHMgd2FpdGluZyBmb3Ig
-ZmVuY2UuCgpydW4mS2lsbCBrZmR0ZXN0LCB0aGVuIHBlcmYgdG9wLgoKICAyNS41MyUgIFt0dG1d
-ICAgICAgICAgICAgICAgICAgICAgW2tdIHR0bV9ib19kZWxheWVkX2RlbGV0ZQogIDI0LjI5JSAg
-W2tlcm5lbF0gICAgICAgICAgICAgICAgICBba10gZG1hX3Jlc3ZfdGVzdF9zaWduYWxlZF9yY3UK
-ICAxOS43MiUgIFtrZXJuZWxdICAgICAgICAgICAgICAgICAgW2tdIHd3X211dGV4X2xvY2sKCkZp
-eDogMzc4ZTJkNWIoImRybS90dG06IGZpeCB0dG1fYm9fY2xlYW51cF9yZWZzX29yX3F1ZXVlIG9u
-Y2UgbW9yZSIpClNpZ25lZC1vZmYtYnk6IHhpbmh1aSBwYW4gPHhpbmh1aS5wYW5AYW1kLmNvbT4K
-UmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4K
-TGluazogaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy83MjMzOS8KU2ln
-bmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpT
-aWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVy
-cy9ncHUvZHJtL3R0bS90dG1fYm8uYyB8IDQgKysrLQogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0
-aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0v
-dHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCmluZGV4IDVkZjU5NmZiMDI4
-MGMuLmZlNDIwY2E0NTRlMGEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Jv
-LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwpAQCAtNDk4LDggKzQ5OCwxMCBA
-QCBzdGF0aWMgdm9pZCB0dG1fYm9fY2xlYW51cF9yZWZzX29yX3F1ZXVlKHN0cnVjdCB0dG1fYnVm
-ZmVyX29iamVjdCAqYm8pCiAKIAkJZG1hX3Jlc3ZfdW5sb2NrKGJvLT5iYXNlLnJlc3YpOwogCX0K
-LQlpZiAoYm8tPmJhc2UucmVzdiAhPSAmYm8tPmJhc2UuX3Jlc3YpCisJaWYgKGJvLT5iYXNlLnJl
-c3YgIT0gJmJvLT5iYXNlLl9yZXN2KSB7CisJCXR0bV9ib19mbHVzaF9hbGxfZmVuY2VzKGJvKTsK
-IAkJZG1hX3Jlc3ZfdW5sb2NrKCZiby0+YmFzZS5fcmVzdik7CisJfQogCiBlcnJvcjoKIAlrcmVm
-X2dldCgmYm8tPmxpc3Rfa3JlZik7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+
+[ Upstream commit c2850c125d919efbb3a9ab46410d23912934f585 ]
+
+[Why]
+When content type property is set to 1. We should enable hdcp2.2 and if we cant
+then stop. Currently the way it works in DC is that if we fail hdcp2, we will
+try hdcp1 after.
+
+[How]
+Use link config to force disable hdcp1.4 when type1 is set.
+
+Signed-off-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
+index 0acd3409dd6ce..3abeff7722e3d 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
+@@ -113,10 +113,13 @@ void hdcp_update_display(struct hdcp_workqueue *hdcp_work,
+ 
+ 		if (enable_encryption) {
+ 			display->adjust.disable = 0;
+-			if (content_type == DRM_MODE_HDCP_CONTENT_TYPE0)
++			if (content_type == DRM_MODE_HDCP_CONTENT_TYPE0) {
++				hdcp_w->link.adjust.hdcp1.disable = 0;
+ 				hdcp_w->link.adjust.hdcp2.force_type = MOD_HDCP_FORCE_TYPE_0;
+-			else if (content_type == DRM_MODE_HDCP_CONTENT_TYPE1)
++			} else if (content_type == DRM_MODE_HDCP_CONTENT_TYPE1) {
++				hdcp_w->link.adjust.hdcp1.disable = 1;
+ 				hdcp_w->link.adjust.hdcp2.force_type = MOD_HDCP_FORCE_TYPE_1;
++			}
+ 
+ 			schedule_delayed_work(&hdcp_w->property_validate_dwork,
+ 					      msecs_to_jiffies(DRM_HDCP_CHECK_PERIOD_MS));
+@@ -334,6 +337,7 @@ static void update_config(void *handle, struct cp_psp_stream_config *config)
+ 	link->dp.rev = aconnector->dc_link->dpcd_caps.dpcd_rev.raw;
+ 	display->adjust.disable = 1;
+ 	link->adjust.auth_delay = 2;
++	link->adjust.hdcp1.disable = 0;
+ 
+ 	hdcp_update_display(hdcp_work, link_index, aconnector, DRM_MODE_HDCP_CONTENT_TYPE0, false);
+ }
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
