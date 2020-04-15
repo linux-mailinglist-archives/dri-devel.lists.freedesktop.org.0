@@ -1,42 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CED1A9D5A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:46:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 325C11A9D53
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:45:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D551B6E9A8;
-	Wed, 15 Apr 2020 11:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23EB06E9A0;
+	Wed, 15 Apr 2020 11:45:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81D906E9A8
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 11:46:03 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 950212137B;
- Wed, 15 Apr 2020 11:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586951163;
- bh=FIPNM7KHXezPRFmRpolI3sdXFbEDJs3ESlzqr8tNr1o=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MqDLlu9zPIRqYjgo+wCiatdvJ/ZOe706y/Z6WPXzJktElRB5NA8ziCmVIFnCg/6cS
- kIFLaUUrNBC31t4nyaHAPlY8fZCgCpPBSvSiRpI2pdgvh+qNYDWtlgoDOXvLssTKnj
- CWY1UA7z0Oai0jha9Jax8Iip4qUvytN3kxtpljKU=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 68/84] drm/vc4: Fix HDMI mode validation
-Date: Wed, 15 Apr 2020 07:44:25 -0400
-Message-Id: <20200415114442.14166-68-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200415114442.14166-1-sashal@kernel.org>
-References: <20200415114442.14166-1-sashal@kernel.org>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 708846E9A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 11:45:45 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206575] [amdgpu] [drm] No video signal on resume from suspend,
+ R9 380
+Date: Wed, 15 Apr 2020 11:45:44 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: veox+kernel@veox.pw
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-206575-2300-dtuFN7DskK@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206575-2300@https.bugzilla.kernel.org/>
+References: <bug-206575-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,71 +52,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>, Sasha Levin <sashal@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+https://bugzilla.kernel.org/show_bug.cgi?id=206575
 
-[ Upstream commit b1e7396a1d0e6af6806337fdaaa44098d6b3343c ]
+Noel Maersk (veox+kernel@veox.pw) changed:
 
-Current mode validation impedes setting up some video modes which should
-be supported otherwise. Namely 1920x1200@60Hz.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
 
-Fix this by lowering the minimum HDMI state machine clock to pixel clock
-ratio allowed.
+--- Comment #28 from Noel Maersk (veox+kernel@veox.pw) ---
+Closing as resolved - fix already in tree and released versions.
 
-Fixes: 32e823c63e90 ("drm/vc4: Reject HDMI modes with too high of clocks.")
-Reported-by: Stefan Wahren <stefan.wahren@i2se.com>
-Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200326122001.22215-1-nsaenzjulienne@suse.de
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 0853b980bcb31..d5f5ba4105241 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -681,11 +681,23 @@ static enum drm_mode_status
- vc4_hdmi_encoder_mode_valid(struct drm_encoder *crtc,
- 			    const struct drm_display_mode *mode)
- {
--	/* HSM clock must be 108% of the pixel clock.  Additionally,
--	 * the AXI clock needs to be at least 25% of pixel clock, but
--	 * HSM ends up being the limiting factor.
-+	/*
-+	 * As stated in RPi's vc4 firmware "HDMI state machine (HSM) clock must
-+	 * be faster than pixel clock, infinitesimally faster, tested in
-+	 * simulation. Otherwise, exact value is unimportant for HDMI
-+	 * operation." This conflicts with bcm2835's vc4 documentation, which
-+	 * states HSM's clock has to be at least 108% of the pixel clock.
-+	 *
-+	 * Real life tests reveal that vc4's firmware statement holds up, and
-+	 * users are able to use pixel clocks closer to HSM's, namely for
-+	 * 1920x1200@60Hz. So it was decided to have leave a 1% margin between
-+	 * both clocks. Which, for RPi0-3 implies a maximum pixel clock of
-+	 * 162MHz.
-+	 *
-+	 * Additionally, the AXI clock needs to be at least 25% of
-+	 * pixel clock, but HSM ends up being the limiting factor.
- 	 */
--	if (mode->clock > HSM_CLOCK_FREQ / (1000 * 108 / 100))
-+	if (mode->clock > HSM_CLOCK_FREQ / (1000 * 101 / 100))
- 		return MODE_CLOCK_HIGH;
- 
- 	return MODE_OK;
 -- 
-2.20.1
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
