@@ -1,93 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5DE1AB90D
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 09:00:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D21111AB078
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 20:19:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D8AC6EAFC;
-	Thu, 16 Apr 2020 06:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19A816E105;
+	Wed, 15 Apr 2020 18:19:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com
- (mail-oln040092004105.outbound.protection.outlook.com [40.92.4.105])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C41D6E105
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 18:17:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cKsYw22Jdn4RnDwUfvKUz45jCp4ostZYV6998+bBAWVR59m9+Lqh5FaycLdvzKelwNrL3/oxJMCOt+7fgKmKL2zCnAlLuD73UQUkH/onphbBlJ9V4xleMXU1NaYgUTouRmQWnWHCGg58b9aJ2Kmf3LowihgcEc4/mYl0Bn/Aw2ZrEN7lnzFdLKk5+dPySCQmseZ0FFBFI5Xytr5iUDJdXbFWVMccAvwA7YNaI2VZ2xBewEViebRX9d2uUOogSXCbdcS0NrR3Qd1nWvG1x2KPiWN8CtBWQdkNDrZ5v+JBC0ayps/HKVLGi2gGVMuR1TWlPNMihzeG5QyC1lZ2g/P/jA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6qm0J12ynSYfizp+lk8C4gGwJh5pUu+JJ25HKljGqzc=;
- b=YAJEDDH1MbPFwDcV7ZLTWrHltNrze0V4ZdyUAjuLozgS2S+YjKXMRnsTDhB4Ul/zu6IvENJWHkGe/Z1W1prwSuz4OKKfkihJBuQo2fV4yVni78e3HgPY4rU1NQPZ44XU1As89Y3DwM3kD4ocN+PiF87xp3BQ7Lzu8BtIjgplTHbUChJoE0f+D4KwqIt4ikXNgGny1iToCrBLSegTXZ4iiSWLQx+GFXF+qmrXJ1fCzFaKJejzWLMFAGm0aDHpWPJApsMNbwmg9NIQEVag8w07Xr2g+/l1RFQhqeb/6aRJSbf4QjfPj/q7ldcL0bG4WHGm8JDVdDsKyZtQaDxT29bk1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=live.ca; dmarc=pass action=none header.from=live.ca; dkim=pass
- header.d=live.ca; arc=none
-Received: from BL2NAM02FT046.eop-nam02.prod.protection.outlook.com
- (10.152.76.51) by BL2NAM02HT009.eop-nam02.prod.protection.outlook.com
- (10.152.77.83) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25; Wed, 15 Apr
- 2020 18:17:22 +0000
-Received: from BN6PR04MB0660.namprd04.prod.outlook.com
- (2a01:111:e400:7e46::53) by BL2NAM02FT046.mail.protection.outlook.com
- (2a01:111:e400:7e46::118) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
- Transport; Wed, 15 Apr 2020 18:17:22 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:8BD68E2A26C952ABD585DB347D4BADB994C1700DADB921EE431499921C4B8EA2;
- UpperCasedChecksum:85458A7AC59CC987BE425960761D72725327EDA927052EB94E85E11BFC6396EB;
- SizeAsReceived:10107; Count:50
-Received: from BN6PR04MB0660.namprd04.prod.outlook.com
- ([fe80::ad10:4127:4bc8:76fc]) by BN6PR04MB0660.namprd04.prod.outlook.com
- ([fe80::ad10:4127:4bc8:76fc%6]) with mapi id 15.20.2900.028; Wed, 15 Apr 2020
- 18:17:22 +0000
-Subject: Re: [PATCH v6 08/12] arm: dts: s5pv210: Add G3D node
-To: "H. Nikolaus Schaller" <hns@goldelico.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
-References: <cover.1586939718.git.hns@goldelico.com>
- <b6733f80546bf3e6b3799f716b9c8e0f407de03d.1586939718.git.hns@goldelico.com>
- <CAJKOXPcb9KWNAem-CAx_zCS+sZoEHYc0J8x0nk1xjY9hD4-M4w@mail.gmail.com>
- <AB9B8741-CFF7-414D-9489-D381B539538D@goldelico.com>
-From: Jonathan Bakker <xc-racer2@live.ca>
-Message-ID: <BN6PR04MB0660640B15550F75C8CCD4DEA3DB0@BN6PR04MB0660.namprd04.prod.outlook.com>
-Date: Wed, 15 Apr 2020 11:17:16 -0700
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB3726E105
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 18:19:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586974759;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IBX5zwY+J/EKXGAGN+5Np9ZXlGpGNbFy2MGDlDZjZN8=;
+ b=UdTwpfH91D7OkaU7H8XXzS2HRa31rjP13obrhtA/+5TU7RJHX+Q6QJ6DWz+5piKU8eDobJ
+ E6Hv+BYuNA7akwhrnSk2MI+rWg4xKoWc2vWEMbiSP14lKuHWKca/wYlMn0Kl0AtxBOIxZA
+ 2gBufK94TPcIzV9p3JWLDp5ReYM9h2Q=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-361-dcTU_sL5PQWdn5XzqFlf6w-1; Wed, 15 Apr 2020 14:19:14 -0400
+X-MC-Unique: dcTU_sL5PQWdn5XzqFlf6w-1
+Received: by mail-wm1-f71.google.com with SMTP id n127so209339wme.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 11:19:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IBX5zwY+J/EKXGAGN+5Np9ZXlGpGNbFy2MGDlDZjZN8=;
+ b=H+4CJg+tjWmb6bG2ezVe9T6C7rSJHXejiDOg+5mk8cpBphFSPekfbcBNR77FaQOBhE
+ DjRY8A2DstWACJSrEje0bqX4uuW3lvo2UbCW766cPbeGKMu2wGIQwSOWCsCnMuRfGunO
+ g+0PPHOOlB3BgRjZp1gE7V0828yedS8oW8YUmRL42ruPkYpYLP2QwNW+YKG6SZudQbjG
+ s4CdF3iScTlF94lzu/Kzlh42zTkMhuloOKb0RN9VPpc52HXFhBH8kvMrOghSzDIxoZBo
+ 1RPW+hdShv3QuK4GAgwndunkPuvrH3vaGxLB9RzG2ij7CHPIpJJz9uXEIwp72AqdN8tS
+ jEJQ==
+X-Gm-Message-State: AGi0PubrUfOIE/syx7a410gSmdE6E0HrQeukfLpHXQNdkZtuLmYwU1Es
+ hxuOl6kwyHNTnyydUa0ZPtvVZH85HuDMg+I+MbE+jLRMzbelccIHoR9X76U+bbjCw2AOmPslMp0
+ 0+IUHFXLbqiBHe/R80Y3BI7lBCyzo
+X-Received: by 2002:adf:fa04:: with SMTP id m4mr29946704wrr.30.1586974753482; 
+ Wed, 15 Apr 2020 11:19:13 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJj3QTwhcNeJfTNKToEEc12Dhv7ubsNgrFGFgNCZhxmNAnVzAZq/6BlNqIUWV0lpAfqCJfNnA==
+X-Received: by 2002:adf:fa04:: with SMTP id m4mr29946677wrr.30.1586974753180; 
+ Wed, 15 Apr 2020 11:19:13 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id c20sm416421wmd.36.2020.04.15.11.19.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Apr 2020 11:19:12 -0700 (PDT)
+Subject: Re: RFC: Drm-connector properties managed by another driver / privacy
+ screen support
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
+ <CAKMK7uFzA-2GEvAftNEysHZvPovxfXC2eC8y5VSa8RAUjMWoYg@mail.gmail.com>
+ <a2516eed-d7a7-c0a4-d287-5927aadf1d18@redhat.com>
+ <CAKMK7uESUVHLwMDujCDvapOBZ+Lnp1k-5juxQxcsNj+1QuN0Ww@mail.gmail.com>
+ <a053e2a7-77c8-8874-eaf8-afe970ad8f9c@redhat.com>
+ <20200415120135.GB3456981@phenom.ffwll.local>
+ <794191aa-e92d-d44c-f4ff-72fd6c9bf0e7@redhat.com>
+ <20200415175423.GJ3456981@phenom.ffwll.local>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <58012f16-1fce-122b-3818-b18d421ed87e@redhat.com>
+Date: Wed, 15 Apr 2020 20:19:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-In-Reply-To: <AB9B8741-CFF7-414D-9489-D381B539538D@goldelico.com>
-Content-Language: en-US
-X-ClientProxiedBy: MWHPR12CA0067.namprd12.prod.outlook.com
- (2603:10b6:300:103::29) To BN6PR04MB0660.namprd04.prod.outlook.com
- (2603:10b6:404:d9::21)
-X-Microsoft-Original-Message-ID: <ada9183b-f363-cd20-1f9d-386525b03c95@live.ca>
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2001:569:fb67:7300:9f89:4b96:de0b:cd14]
- (2001:569:fb67:7300:9f89:4b96:de0b:cd14) by
- MWHPR12CA0067.namprd12.prod.outlook.com (2603:10b6:300:103::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
- Transport; Wed, 15 Apr 2020 18:17:19 +0000
-X-Microsoft-Original-Message-ID: <ada9183b-f363-cd20-1f9d-386525b03c95@live.ca>
-X-TMN: [U2G2OSqe5A/BZuCGGWOHtqUzj1cujfbs+umOObyOl+oDyfyAAsfjGd2eoRhHsiD0]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 50
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 30933129-d48e-48d1-e9cf-08d7e1693dc0
-X-MS-TrafficTypeDiagnostic: BL2NAM02HT009:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Gp3BiXN1m8OUI9TUXrEcbDnQB9zzSz88GXXW103qz0KuM0Zg94zLf6W4p8efgOxI+d1OTcBJWheBrYX+EXRjQqwvqFsw9BKU8x8PDiXbg+A9uYvM+ON6CYgpKaLMavDNOS2PBRFsMEMoh4nsPl2JNIU32k+fiP80519ML+w0mr2AiKu4hq9DKSuj3uCh4XfC
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:0; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR04MB0660.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:; SFS:; DIR:OUT; SFP:1901; 
-X-MS-Exchange-AntiSpam-MessageData: onrRf+pkiHCwQy/Q/3gVZHQrKcjInLcW20cEMXd8uF4+NSQTUzhoAODCmzzeqGGFuHe/zVe8a2ePYbAQOV+elESnWpx/32G/WpIdgoaQzZqmqgDfNtQuLL5el+yr8OIEKZay23wVidb4uYhu3EG3Qj4/1dq5ob2hBKDtEnHjWZqwpaXJ7zBJh8HkRPf149AVYqJ0G2rdUOLqlHjnyczX4w==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30933129-d48e-48d1-e9cf-08d7e1693dc0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2020 18:17:22.5620 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL2NAM02HT009
-X-Mailman-Approved-At: Thu, 16 Apr 2020 06:59:07 +0000
+In-Reply-To: <20200415175423.GJ3456981@phenom.ffwll.local>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,122 +88,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
- James Hogan <jhogan@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- linux-omap@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
- Tony Lindgren <tony@atomide.com>, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>, devicetree@vger.kernel.org,
- =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, letux-kernel@openphoenux.org,
- linux-arm-kernel@lists.infradead.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>, kernel@pyra-handheld.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: Benjamin Berg <bberg@redhat.com>, David Airlie <airlied@linux.ie>,
+ Christian Kellner <ckellner@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Nitin Joshi1 <njoshi1@lenovo.com>,
+ Rajat Jain <rajatja@google.com>, Mark Pearson <mpearson@lenovo.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus,
+Hi,
 
-On 2020-04-15 5:50 a.m., H. Nikolaus Schaller wrote:
-> 
->> Am 15.04.2020 um 13:49 schrieb Krzysztof Kozlowski <krzk@kernel.org>:
+On 4/15/20 7:54 PM, Daniel Vetter wrote:
+> On Wed, Apr 15, 2020 at 03:02:53PM +0200, Hans de Goede wrote:
+>> Hi,
 >>
->> On Wed, 15 Apr 2020 at 10:36, H. Nikolaus Schaller <hns@goldelico.com> wrote:
+>> On 4/15/20 2:01 PM, Daniel Vetter wrote:
+>>> On Wed, Apr 15, 2020 at 01:39:23PM +0200, Hans de Goede wrote:
+>>>> Hi,
+>>>>
+>>>> On 4/15/20 12:22 PM, Daniel Vetter wrote:
+>>>>> On Wed, Apr 15, 2020 at 12:11 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>>>>>
+>>>>>> Hi,
+>>>>>>
+>>>>>> On 4/15/20 11:52 AM, Daniel Vetter wrote:
+>>>>
+>>>> <snip>
+>>>>
+>>>>>>> iv. What every SoC subsystem does:
+>>>>>>>
+>>>>>>> - lcdshadow drivers register drivers
+>>>>>>> - drm drivers look them up
+>>>>>>> - if stuff isn't there yet, we delay loading with EPROBE_DEFER until
+>>>>>>> the entire thing is assembled.
+>>>>>>>
+>>>>>>> That's what we're doing already for other standardized components like
+>>>>>>> drm_bridge or drm_panel, and I think that's also the right approach
+>>>>>>> for backlight and anything else like that. Hand-rolling our own
+>>>>>>> EPROBE_DEFER handling, or some other duct-tape monsters imo just leads
+>>>>>>> to real pain. Also, with EPROBE_DEFER we have one standard way of
+>>>>>>> building a driver from component, which spans subsystems and is also
+>>>>>>> the underlying magic that makes stuff like component.c work.
+>>>>>>
+>>>>>> On the SoCs we have devicetree telling us what components there
+>>>>>> are, so we can wait for them to show up. The only way to figure out
+>>>>>> if the lcdshadow thing is there on a ThinkPad is asking thinkpad_acpi,
+>>>>>> or duplicating a lot of code from thinkpad_acpi. Edit:
+>>>>>> also see below for a possible solution.
+>>>>>
+>>>>> Yup it sucks. I think all we can do is have a small acpi match
+>>>>> function (which yes will duplicate some of the thinkpad_acpi driver
+>>>>> logic) to re-create that information and give us a "should we have a
+>>>>> lcdshadow driver for this $pci_device" answer.
+>>>>
+>>>> Ok, so questions about this solution:
+>>>>
+>>>> 1. Where should that match-function live ?
+>>>>
+>>>> 2. An acpi_thinkpad derived match-function will only be able to
+>>>>      answer if there is an lcdshadow device/driver for the internal
+>>>>      panel. It will not be able to tie this info to a certain PCI
+>>>>      device. My plan is to pass NULL as dev_name when registering
+>>>>      the lcdshadow-device and have lcdshadow_get(dev, <connector-name>)
+>>>>      skip device-name matching (consider everything a match) for
+>>>>      lcdshadow-devices registered with NULL as dev_name.
+>>>>
+>>>>      So I guess in this case the mini match function should just
+>>>>      ignore the passed in device?
 >>>
->>> From: Jonathan Bakker <xc-racer2@live.ca>
+>>> Yeah I think we can't really avoid that. I also expect that we'll need
+>>> ACPI and dt versions of this, and driver needs to know which one to call.
+>>> Since at least in a dt world the driver knows exactly for which dt node it
+>>> needs a lcdshadow driver for (with the phandle stuff), so we can be a lot
+>>> more strict.
 >>>
->>> to add support for SGX540 GPU.
->>
->> Do not continue the subject in commit msg like it is one sentence.
->> These are two separate sentences, so commit msg starts with capital
->> letter and it is sentence by itself.
->>
-
-Sorry, that's my fault, I should know better.
-
-Nikolaus took this from my testing tree and I apparently didn't have it in
-as good as state as I should have.
-
->>> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
->>> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
->>> ---
->>> arch/arm/boot/dts/s5pv210.dtsi | 15 +++++++++++++++
->>> 1 file changed, 15 insertions(+)
+>>> For the acpi version I'm not even sure we can do more than provide the
+>>> struct device * pointer of the gpu. I think if we ever get more than 1
+>>> lcdshadow driver on acpi systems we can add more stuff later on, for now
+>>> I'd just leave that out.
 >>>
->>> diff --git a/arch/arm/boot/dts/s5pv210.dtsi b/arch/arm/boot/dts/s5pv210.dtsi
->>> index 2ad642f51fd9..e7fc709c0cca 100644
->>> --- a/arch/arm/boot/dts/s5pv210.dtsi
->>> +++ b/arch/arm/boot/dts/s5pv210.dtsi
->>> @@ -512,6 +512,21 @@ vic3: interrupt-controller@f2300000 {
->>>                        #interrupt-cells = <1>;
->>>                };
+>>> So maybe
 >>>
->>> +               g3d: g3d@f3000000 {
->>> +                       compatible = "samsung,s5pv210-sgx540-120";
->>> +                       reg = <0xf3000000 0x10000>;
->>> +                       interrupt-parent = <&vic2>;
->>> +                       interrupts = <10>;
->>> +                       clock-names = "sclk";
->>> +                       clocks = <&clocks CLK_G3D>;
+>>> acpi_lcdshadow_get(struct device *dev);
+>>>
+>>> of_lcdshadow_get(struct device_node *np);
+>>>
+>>> And with maybe a future plan to add some kind of enum or whatever to
+>>> acpi_lcdshadow_get(). Both would return either the lcdshadow pointer, or
+>>> an PTR_ERR() so that we could encode EPROBE_DEFER vs ENOENT.
 >>
->> Not part of bindings, please remove or add to the bindings.
+>> Ok, note I plan to only implement the acpi version for now, I do
+>> expect some non ACPI/x86 devices to show up with his feature
+>> eventually but I believe it is best to implement this once
+>> those actually show up. Esp. since this will also involve adding
+>> some devicetree bindings for this.
 > 
-> Well, the bindings should describe what is common for all SoC
-> and they are quite different in what they need in addition.
+> ofc, just wanted to lay out the entire thing. The DT version needs some
+> good bikeshed on the dt schema first anyway (so that the helper can decode
+> that directly).
 > 
-> Thererfore we have no "additionalProperties: false" in the
-> bindings [PATCH v6 01/12].
-> 
+>>> We might also want a low-level lcdshadow_get() which only returns ENOENT
+>>> when the driver isn't there, and which leaves "do we really need one?" to
+>>> higher levels to answer.
 >>
->>> +
->>> +                       power-domains = <&pd S5PV210_PD_G3D>;
+>> Right, so my latest idea on that is indeed a high-level lcdshadow_get()
+>> which takes a struct device * and a connector-name and which never
+>> returns EPROBE_DEFER.
 >>
->> Ditto
+>> As for leaving things to the higher levels to answer, as explained
+>> in my other follow-up email I think that we should probably add a
+>> lcdshadow_probe_defer() helper for this and call that early on
+>> in the PCI-driver probe functions for the 3 major x86 GPU drivers.
+>> Does that sound ok to you?
 > 
-> In this case it might be possible to add the clock/power-domains
-> etc. to a wrapper node compatible to "simple-pm-bus" or similar
-> and make the gpu a child of it.
-> 
-> @Jontahan: can you please give it a try?
-> 
-> 
+> Uh ... not pretty. There's still a lifetime problem that strictly speaking
+> there's nothing stopping the other driver from getting unloaded between
+> your _probe_defer and the subsequent _get. I think fixing this properly
+> (and screaming a bit at the error code, oh well) is better.
 
-The power-domains comes from a (so far) non-upstreamed power domain driver
-for s5pv210 that I've been playing around with.  It's not necessary for proper
-operation as it's on by default.
+I would really like to separate the discussion and the work
+on getting the 3 major x86 GPU drivers ready to deal with EPROBE_DEFER
+from the lcdshadow discussion and work.  I expect getting these
+3 drivers ready for EPROBE_DEFER is going to be a major undertaking
+and I would like avoid introducing this significant scope creep
+to the lcdshadow discussion, because it simply is a too big undertaking
+to undertake without us getting a significant amount of manpower
+specifically for this from somewhere.
 
-Looking at simple-pm-bus, I don't really understand its purpose.  Is it a way of separating
-out a power domain from a main device's node?  Or is it designed for when you have multiple
-devices under the same power domain?
+Note I do agree with you that getting these 3 drivers ready
+for EPROBE_DEFER handling is a worthwhile undertaking, but
+it simply will take too much extra time and as such IMHO it
+really is out of scope for the lcdshadow stuff.
+I expect the amount of work (esp. also dealing with testing
+and regressions) for the EPROBE_DEFER project by itself
+to be a lot *more* work then the actual lcdshadow project.
 
-Nikolaus, I can regenerate a proper patch for you if you want that's not based on my testing tree.
+So going with the assumption/decision that adding proper
+EPROBE_DEFER handling to these 3 drivers is out of scope,
+I believe that adding a lcdshadow_probe_defer() helper is
+an ok solution/workaround for now.
 
+As for your case of the other driver getting unloaded in between
+the check and use of it, that can only happen by explicit user
+action and in that case the worst thing what will happen
+is the "privacy-screen" property missing from the connector,
+which in that case is more or less exactly what the user
+asked for.
+
+>>> I'd also lean towards putting lcdshadow headers/interfaces into
+>>> drivers/gpu,
 >>
->>> +
->>> +                       assigned-clocks = <&clocks MOUT_G3D>, <&clocks DOUT_G3D>;
->>> +                       assigned-clock-rates = <0>, <66700000>;
->>> +                       assigned-clock-parents = <&clocks MOUT_MPLL>;
->>
->> Probably this should have status disabled because you do not set
->> regulator supply.
-
-I don't believe there is a regulator on s5pv210, if there is, then it is a
-fixed regulator with no control on both s5pv210 devices that I have.
-
-The vendor driver did use the regulator framework for its power domain
-implementation, but that definitely shouldn't be upstreamed.
-
-> BR and thanks,
-> Nikolaus
+>> Ack, I think we should even make this drm specific and prefix it with
+>> drm_ so that we get drm_lcdshadow_foo as functions, just to make
+>> clear that this is maintained together with the other drm bits.
 > 
+> I want to avoid the impression that I'm on an evil plan to take over the
+> entire world, but personally very happy with a drm_ prefix for this.
 
-Thanks,
-Jonathan
+Hehe, ok.
+
+>> But my question about "where should this live" was mainly about
+>> the light weight match helpers you suggested to use to figure out
+>> if the device supports lcdshadow at all (and we thus should wait
+>> for a driver) or not. E.g. I can see us adding a:
+>>
+>> drivers/gpu/drm/drm_lcdshadow.c
+>>
+>> file for the core bits and then maybe a:
+>>
+>> drivers/gpu/drm/drm_lcdshadow_detect.c
+>>
+>> file with the light weight match helpers, with each helper
+>> wrapped in #if IS_ENABLED(CONFIG_THINKPAD_ACPI), etc. ?
+> 
+> I'd expect it's all going to be so tiny that separate file wont make much
+> sense. Thus far we're simply adding the 1-2 of_ helpers to the
+> corresponding file, with an #ifdef CONFIG_OF around them. It's ok enough.
+
+Ok, lets start with one file for now, we can always split it later.
+
+Regards,
+
+Hans
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
