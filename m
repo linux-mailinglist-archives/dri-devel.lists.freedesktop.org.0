@@ -1,61 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1081A9400
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:18:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 295A51A90A4
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 03:52:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D656E6E85D;
-	Wed, 15 Apr 2020 07:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E87A86E81E;
+	Wed, 15 Apr 2020 01:52:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44A506E81D
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 01:48:18 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id j14so1324403lfg.9
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 18:48:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=871UxjBdggCjSPvo7fytf1ugzP/6XaBJPXc3zm0RbzI=;
- b=mab98fNdiJbs2kn65jBxwPTFilqaqYE9wvjL2PsR6wYG4VcNO86Bliwx8oE4qBiuaY
- 4TnlG+QmY107a/dtQ82ChlRjmZEWBXd5HnoPVcJWM22Gxn35Zcq/tOcwH91uBIhYhwqk
- PDL8kxoUWTMF+C9W6i2FGr75lpx1xBo+Rz8G/XRzrwD49WVJ5beYCDKxZ9oiZj24jtUf
- suoSGpE1MrX9710nxM7MBZucY1X560yO/wVZ1/kuM1R9zOD0pbnfn2V6GBHAPVkSC4av
- DowKOfdp0CwsU3yx5h+ZNHD2ZJlXtQt8i3vorc5JFUbxuqJB3rUEFS87TxByBTKMsECX
- T3EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=871UxjBdggCjSPvo7fytf1ugzP/6XaBJPXc3zm0RbzI=;
- b=ciexGDrY73JzwhLXgBILw9RiBcYZQtGhvBd50sBLGXZ+7BjJ6ysnUA17GHQywRbqO2
- R0AndcaTbO9FmODGxpZSj3MubEq6sWhc7vO45XrlxLj8YKuh9ZuLsM9ZP9+/76187Ptp
- ktRew2EtYXutRqEHexH1ZscRAjg9UGcUi+e7dQlBCXBiWDrX3stOM9vOEPn3yqI1UhFZ
- 1p/2Jz5MfmelTdzcq1z+Vcw6cqMqtYbboieF+zBLtvCbSPR+PTIiTvVn/Vl33T+Sefss
- jDiAyzNtCOrFg38t8EW75JZqgVHctnnne+HygsBEbYv7wRxNgOt4RDp5E3NGGZ47B2Qd
- 1JCg==
-X-Gm-Message-State: AGi0PuZEja3OZJJjNzLciELtr99QdMS23RayPPLlQmxcdF40USrC3tzS
- xO9EKncEmUoWIOUXh4vllzMHx9YtU5J7G3jrA4hs/J22
-X-Google-Smtp-Source: APiQypJo5OAqdTYBHi1J/hyuSLzFwxa4JDzt887P717fJDiqeareS0ezIEjMsad4Ka2txr6TLCiozGB7+JmfP6OwbAo=
-X-Received: by 2002:a19:9109:: with SMTP id t9mr1538457lfd.10.1586915296379;
- Tue, 14 Apr 2020 18:48:16 -0700 (PDT)
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9926E81E;
+ Wed, 15 Apr 2020 01:52:08 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 49252G1V8jz9s71;
+ Wed, 15 Apr 2020 11:52:06 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1586915526;
+ bh=fV1TG65RHgW5mIIIywIzh+2jkntYkoQhdhBIuj+ePD0=;
+ h=Date:From:To:Cc:Subject:From;
+ b=FUUAvjfwRzKEGTbuUm4Y1r7k7qnFRNUM2MLeVhoodY3Ji61ZSmq6NwbBmJW8G99ap
+ M+9fugTMZoHdjjTBdES84Gthquced4zaLFGk9TbkqpMoJnjdTWRvlMVEycVcPc08ju
+ QDYtjX3BOHNa3k/gCmFhKhDZN2aQnFsd+WnqsSHAlGL6hToPU8cyJR7DYkEnZ4i3Wu
+ 6Ve3qH3UDtLPHqT4eXewLm1MD7aEhRNiPIj+D+rpnPXjzYbBlQo6sIl9wH3fVmI5R7
+ rMlnwRYpDkFf2/WE1Na/ro0hL2n1AyX8kzzHkDmomMRMyjwz/wI9PyjZj0TReKawN1
+ 3pIUwlmDtnMGA==
+Date: Wed, 15 Apr 2020 11:52:04 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-misc tree with the drm-intel tree
+Message-ID: <20200415115204.4929f663@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20200224230155.120894-1-ytht.net@gmail.com>
- <20200225102928.vnaamhecu5tnoaq2@sirius.home.kraxel.org>
- <CALqoU4wtYQtLg=wVkepP29wYZYKKVx3PA1Nytfy+fZdqrp-_Jg@mail.gmail.com>
- <20200226071517.4cbgfcaeknmmvyo3@sirius.home.kraxel.org>
- <CALqoU4z7GYNu3DWRQcK=boGFZ=n7yHLEhEeOgXHZQ=17DMrjzQ@mail.gmail.com>
- <20200226153845.nyyq4quatznhetio@sirius.home.kraxel.org>
- <CALqoU4ztV6KGZDYdd2-fUY2+bJgie3-RhrgoC8B9anqTUO06zQ@mail.gmail.com>
- <20200327082000.vhjs2wixv4ouxuj4@sirius.home.kraxel.org>
-In-Reply-To: <20200327082000.vhjs2wixv4ouxuj4@sirius.home.kraxel.org>
-From: lepton <ytht.net@gmail.com>
-Date: Tue, 14 Apr 2020 18:48:05 -0700
-Message-ID: <CALqoU4yuzkTDPsYCaXRT-n9xv1h0ZfqLmrgTUQ3VdSczWGr_gg@mail.gmail.com>
-Subject: Re: RFC: drm/virtio: Dummy virtio GPU
-To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
-X-Mailman-Approved-At: Wed, 15 Apr 2020 07:17:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,31 +47,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1736454841=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 27, 2020 at 1:20 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> > > Hmm, yes, I can see loopback virtio being useful for various cases.
-> > > Testing being one.  A dummy virtio-gpu could be done too, or a more
-> > > advanced version which exports the display as vnc.
-> > So what's your suggestion on this? Changing this to drivers/virtio dir
-> > and then add some user space api?  I am thinking about introducing a new
-> > /dev/dummy-virtio, then user space can open it, use ioctl to create new virtio
-> > hardware, and can handle the virtio traffic with read/write to simulate the
-> > different virtio hardware.
->
-> Yep, sounds useful.  You might want check out the uinput driver which
-> does something simliar for input devices.  I wouldn't name this dummy,
-> maybe uvirtio.
->
-> cheers,
->   Gerd
->
-Add back mail list so other people can follow.
+--===============1736454841==
+Content-Type: multipart/signed; boundary="Sig_/hn/Ojf3YwBFqzq4+MhBG6XU";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/hn/Ojf3YwBFqzq4+MhBG6XU
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+Today's linux-next merge of the drm-misc tree got a conflict in:
+
+  drivers/gpu/drm/i915/display/intel_dp_mst.c
+
+between commit:
+
+  743acd115070 ("drm/i915: Get rid of silly void* from MST code")
+
+from the drm-intel tree and commit:
+
+  20c22ad32957 ("drm/dp_mst: Remove drm_dp_mst_has_audio()")
+
+from the drm-misc tree.
+
+I fixed it up (I just used the latter version) and can carry the fix as
+necessary. This is now fixed as far as linux-next is concerned, but any
+non trivial conflicts should be mentioned to your upstream maintainer
+when your tree is submitted for merging.  You may also want to consider
+cooperating with the maintainer of the conflicting tree to minimise any
+particularly complex conflicts.
+
+
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/hn/Ojf3YwBFqzq4+MhBG6XU
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl6WaMQACgkQAVBC80lX
+0GzpcQf8CYjcwn/7zvb9NfTafo2jJWZDi0WdDDL19Jt/R0k+404h9D2DL44+bf1v
+8892nWITiUWZmjrnjM/D6J4Q86CVyTVavZ8Fb0rdmxKWBm5EjjZV7//aV4hphYt3
+24y37cVvGpxeWvLHlWq7NR5sBs1yRZjzACsw4mKxGuJcVdHD22jJhcPqF09QKTq/
+53CJvOc4i/czFo6GwaUoKzpAmYdl0pbrfwglzooNWZBhKZp6HcVogLQ0nmLSKR2B
+zd0+Tx69+zThCSfO1ZCo7sr1xn4cCJuXvtqn3cUuV1epxMi0ve/Ty6XCk24XIqmx
+TYX+mwcJrKasdiy3kYV6TUsVa+Lo7A==
+=mYXD
+-----END PGP SIGNATURE-----
+
+--Sig_/hn/Ojf3YwBFqzq4+MhBG6XU--
+
+--===============1736454841==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1736454841==--
