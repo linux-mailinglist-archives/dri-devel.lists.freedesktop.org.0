@@ -2,64 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E860A1AAD05
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 18:12:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1FD1AB8F6
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 08:59:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7326EA26;
-	Wed, 15 Apr 2020 16:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A20E6EAE7;
+	Thu, 16 Apr 2020 06:59:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A430D6EA26
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 16:12:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586967140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Mv9YA2m75EYzFmUAbMrQPFP314ZNb88wltZTyC27b4E=;
- b=CH28gb59RUdIvdjKIEAp7JpKMp5tT5nyo4gQjiQbEEsLjOUeYLC2usprcOQ4LO9/viHRBf
- p9JTJ/g9BoVbQ8vqMh0PoY3umucXW5DYkCanPcuMe0kj+BOogPrwza9GECD12uFDq0hmkS
- /4Z355NVk9za8iqvepkGdYpJIwK+txA=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-kjf-Zz2mPqe5DD_QRUmogA-1; Wed, 15 Apr 2020 12:12:14 -0400
-X-MC-Unique: kjf-Zz2mPqe5DD_QRUmogA-1
-Received: by mail-qk1-f198.google.com with SMTP id g63so8008127qkd.7
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 09:12:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Mv9YA2m75EYzFmUAbMrQPFP314ZNb88wltZTyC27b4E=;
- b=RxKm8ahpZK2TcdRmItETVWH6FmYMSvczMf2thfvDiGWsy7Fb8sya5GVSANnAZniRbu
- OrespptzwO5HXbg9Qx9qgEbAJ3XQnDWy6nWrMYghqHlhp2+9Wk/JCU8s3ZQgNGHUDxkf
- L2u3dAmRqWdgsJCAabaLfGciFEXFmfgAgVv5zPKaM4fYqoV7Rpn6LG+crLNmAiCASvlW
- xZ7Sy0Oc1LqNLotHqwUoUhUpjuwhFD6NPriUkitubl0AzW5yoa72+mTc8I8a6ksFInkb
- HdE1b60cIGYswL3VNU9C//RtTltK3TK6cUgxE1vYT5MBAw/52WKt1lDgarwF5BmnYDmg
- l/eQ==
-X-Gm-Message-State: AGi0PuYxvtlFkP1HzRl6myhcC7Qk4wSGe8p8GNNdp2A17Z8Ps0wC0ujb
- Gi7u+VR/5Rt+761yCzoS6JjfEyKSPU9UPZ0klxb3O/xKizkARjw1KWUCorxGv5VACn84afLLD5G
- Nx2nTHcy8ujBr7NYzq7+bjVBqrpf/BL/+bIajH6jyzLSZ
-X-Received: by 2002:a37:9b0f:: with SMTP id d15mr15707289qke.62.1586967131510; 
- Wed, 15 Apr 2020 09:12:11 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLoETwcvu72/DFo++b6OpDCehy7qLAHOH0i0rvrjp7Z+YqxMfS+Eb/JmjOkhPMj+ZIQVxJAZa62zL5VHxYGGyU=
-X-Received: by 2002:a37:9b0f:: with SMTP id d15mr15707269qke.62.1586967131214; 
- Wed, 15 Apr 2020 09:12:11 -0700 (PDT)
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 175996EA2B
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 16:21:57 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 3E027580133;
+ Wed, 15 Apr 2020 12:21:55 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 15 Apr 2020 12:21:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=u9scvMZX0d04Kn3R0y+CYoy7IVW
+ oF9BUIBhBMZ7xTQ4=; b=MTTjB7zbrBmqyMSWXv7QRhsmX2Q1vGgqO+YM7nHlyCz
+ C1LNlyMorpxShEuJf2md4RxGK5nIGMKIcj6UroWHCoPMTZu2UZ1ZyWBcak71X57N
+ bkCkS/SzxYxu3YP7dvK+R7C4J5j9sDlloifFD2Uny8p2t05p2OeyYQuMmppF80qv
+ 8UFAjNPuLiqCbBTrsY9wM/Oftztaw+6yI00noEzhHgbKDGIfLJI/fTLSQCkOLg0N
+ Po90TKLlEJpDqyWTPaq+V3LPX1g3IGW0DSwranqmS4w0rr2q1hm3UUsTUIFYTmj1
+ MPFdzeC65CKFW7CG3Z4SZ2PxMA3aOgLiGdShESqWBhA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=u9scvM
+ ZX0d04Kn3R0y+CYoy7IVWoF9BUIBhBMZ7xTQ4=; b=VW+8LawDZdtk7jKnlusa8f
+ 0j0jUmRLsYCwbK6kqpfjHSPVbujw7FvpOjCiVzfg8PRdVY2igHyC0ffQ8Qs9CXI1
+ 6MaPtRW2y/VN1k1eKp7tX/503/m4whChKErTvNnwmlCB0qxBCt28TKnKE8Q5LBCD
+ AJo4Zkfww+08FJ1kXQ6Tr1CdcxiWGRqCHfaLGfPy4HtRjpsW4a8y5cvzgZuNHYUM
+ ufmUGKTz/SbpHvcomPx07lVUa06GkJnL73PjwH5CbRzCgZQwpkucTecpCPop1SEz
+ X5ooxv+wfX+XCW7vHwMyz4i8+sgtAwql3AW++j2ZS1UpvvGggsD/54zLlNumMO/g
+ ==
+X-ME-Sender: <xms:oTSXXoIWnMvlqGVy8AaStKXEUhQPrkvTcQ86pmg8HWSqUs3uANtqTg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrfeefgdeltdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
+ ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+ fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:oTSXXsZWqwp5ohe7OpVmOzP-_EQI_bDpXSWr2pKmZzhJrg7nq6Qo7Q>
+ <xmx:oTSXXjvDHO9_QmqdCkTjvg2-Zj78oQPE0lPP4iy7yWuuzc3-0kQdkw>
+ <xmx:oTSXXpsrCdreATG0MCLBoDdeITl5U9d7Josa7Th3OY0r4Lnm0pgXKw>
+ <xmx:ozSXXtSsjCJYztWsp3i-3gOwsHTwJ-4VBerx14NJRu-GtrkbjDF6bw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D563D3280066;
+ Wed, 15 Apr 2020 12:21:52 -0400 (EDT)
+Date: Wed, 15 Apr 2020 18:21:51 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH v6 01/12] dt-bindings: add img, pvrsgx.yaml for
+ Imagination GPUs
+Message-ID: <20200415162151.rwym4ioqz27migfn@gilmour.lan>
+References: <cover.1586939718.git.hns@goldelico.com>
+ <06fb6569259bb9183d0a0d0fe70ec4f3033b8aab.1586939718.git.hns@goldelico.com>
+ <20200415101251.o3wi5t6xvf56xmhq@gilmour.lan>
+ <72919514-0657-4B71-902F-3E775E528F64@goldelico.com>
+ <f4fdca8a-d18c-a8d2-7f51-d1ebbbab3647@baylibre.com>
+ <535CAEBE-F43E-4BFC-B989-612C81F0D7EF@goldelico.com>
+ <20200415142124.yzfh6mtqq7cdq22e@gilmour.lan>
+ <DC0A2DE2-3D77-46F8-8DE1-55050FDACC9B@goldelico.com>
 MIME-Version: 1.0
-References: <20200415113445.11881-1-sashal@kernel.org>
- <20200415113445.11881-84-sashal@kernel.org>
-In-Reply-To: <20200415113445.11881-84-sashal@kernel.org>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Wed, 15 Apr 2020 18:11:10 +0200
-Message-ID: <CACO55ttpvfoyt1p_5Y-Q1=+5NruF5kMoug85jE9y+jG+FW=HGw@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 5.6 084/129] drm/nouveau: workaround runpm fail by
- disabling PCI power management on certain intel bridges
-To: Sasha Levin <sashal@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <DC0A2DE2-3D77-46F8-8DE1-55050FDACC9B@goldelico.com>
+X-Mailman-Approved-At: Thu, 16 Apr 2020 06:59:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,130 +83,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux PM <linux-pm@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>,
- Mika Westerberg <mika.westerberg@intel.com>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>,
- stable@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- nouveau <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ James Hogan <jhogan@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ linux-samsung-soc@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Tony Lindgren <tony@atomide.com>,
+ Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
+ linux-mips@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+ =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+ kernel@pyra-handheld.com, letux-kernel@openphoenux.org
+Content-Type: multipart/mixed; boundary="===============1707226718=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aW4gYWRkaXRpb24gdG8gdGhhdCAwMjhhMTJmNWFhODI5ICJkcm0vbm91dmVhdS9nci9ncDEwNyxn
-cDEwODoKaW1wbGVtZW50IHdvcmthcm91bmQgZm9yIEhXIGhhbmdpbmcgZHVyaW5nIGluaXQiIHNo
-b3VsZCBwcm9iYWJseSBnZXQKcGlja2VkIGFzIHdlbGwgYXMgaXQncyBmaXhpbmcgc29tZSBydW50
-aW1lIHBtIHJlbGF0ZWQgaXNzdWUgb24gYQpoYW5kZnVsIG9mIGFkZGl0aW9uYWwgR1BVcy4gSSBo
-YXZlIGEgbGFwdG9wIG15c2VsZiB3aGljaCByZXF1aXJlcyBib3RoCm9mIHRob3NlIHBhdGNoZXMu
-CgpBcHBsaWVzIHRvIDUuNSBhbmQgNS4uNCBhcyB3ZWxsLgoKQW5kIGJvdGggY29tbWl0cyBzaG91
-bGQgcHJvYmFibHkgZ2V0IGFwcGxpZWQgdG8gb2xkZXIgdHJlZXMgYXMgd2VsbC4KYnV0IEkgZGlk
-bid0IGdldCB0byBpdCB5ZXQgdG8gc2VlIGlmIHRoZXkgYXBwbHkgYW5kIHdvcmsgYXMgZXhwZWN0
-ZWQuCgoKT24gV2VkLCBBcHIgMTUsIDIwMjAgYXQgMTozNiBQTSBTYXNoYSBMZXZpbiA8c2FzaGFs
-QGtlcm5lbC5vcmc+IHdyb3RlOgo+Cj4gRnJvbTogS2Fyb2wgSGVyYnN0IDxraGVyYnN0QHJlZGhh
-dC5jb20+Cj4KPiBbIFVwc3RyZWFtIGNvbW1pdCA0MzRmZGI1MTUxM2JmMzA1N2FjMTQ0ZDE1MmU2
-ZjJmMmI1MDllODU3IF0KPgo+IEZpeGVzIHRoZSBpbmZhbW91cyAncnVudGltZSBQTScgYnVnIG1h
-bnkgdXNlcnMgYXJlIGZhY2luZyBvbiBMYXB0b3BzIHdpdGgKPiBOdmlkaWEgUGFzY2FsIEdQVXMg
-Ynkgc2tpcHBpbmcgc2FpZCBQQ0kgcG93ZXIgc3RhdGUgY2hhbmdlcyBvbiB0aGUgR1BVLgo+Cj4g
-RGVwZW5kaW5nIG9uIHRoZSB1c2VkIGtlcm5lbCB0aGVyZSBtaWdodCBiZSBtZXNzYWdlcyBsaWtl
-IHRob3NlIGluIGRlbXNnOgo+Cj4gIm5vdXZlYXUgMDAwMDowMTowMC4wOiBSZWZ1c2VkIHRvIGNo
-YW5nZSBwb3dlciBzdGF0ZSwgY3VycmVudGx5IGluIEQzIgo+ICJub3V2ZWF1IDAwMDA6MDE6MDAu
-MDogY2FuJ3QgY2hhbmdlIHBvd2VyIHN0YXRlIGZyb20gRDNjb2xkIHRvIEQwIChjb25maWcKPiBz
-cGFjZSBpbmFjY2Vzc2libGUpIgo+IGZvbGxvd2VkIGJ5IGJhY2t0cmFjZXMgb2Yga2VybmVsIGNy
-YXNoZXMgb3IgdGltZW91dHMgd2l0aGluIG5vdXZlYXUuCj4KPiBJdCdzIHN0aWxsIHVua293biB3
-aHkgdGhpcyBpc3N1ZSBleGlzdHMsIGJ1dCB0aGlzIGlzIGEgcmVsaWFibGUgd29ya2Fyb3VuZAo+
-IGFuZCBzb2x2ZXMgYSB2ZXJ5IGFubm95aW5nIGlzc3VlIGZvciB1c2VyIGhhdmluZyB0byBjaG9v
-c2UgYmV0d2VlbiBhCj4gY3Jhc2hpbmcga2VybmVsIG9yIGhpZ2hlciBwb3dlciBjb25zdW1wdGlv
-biBvZiB0aGVpciBMYXB0b3BzLgo+Cj4gU2lnbmVkLW9mZi1ieTogS2Fyb2wgSGVyYnN0IDxraGVy
-YnN0QHJlZGhhdC5jb20+Cj4gQ2M6IEJqb3JuIEhlbGdhYXMgPGJoZWxnYWFzQGdvb2dsZS5jb20+
-Cj4gQ2M6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4gQ2M6IFJhZmFlbCBKLiBXeXNv
-Y2tpIDxyandAcmp3eXNvY2tpLm5ldD4KPiBDYzogTWlrYSBXZXN0ZXJiZXJnIDxtaWthLndlc3Rl
-cmJlcmdAaW50ZWwuY29tPgo+IENjOiBsaW51eC1wY2lAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGxp
-bnV4LXBtQHZnZXIua2VybmVsLm9yZwo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCj4gQ2M6IG5vdXZlYXVAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQnVnemlsbGE6IGh0dHBz
-Oi8vYnVnemlsbGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MjA1NjIzCj4gU2lnbmVkLW9m
-Zi1ieTogQmVuIFNrZWdncyA8YnNrZWdnc0ByZWRoYXQuY29tPgo+IFNpZ25lZC1vZmYtYnk6IFNh
-c2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL25v
-dXZlYXUvbm91dmVhdV9kcm0uYyB8IDYzICsrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ICBk
-cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Rydi5oIHwgIDIgKwo+ICAyIGZpbGVzIGNo
-YW5nZWQsIDY1IGluc2VydGlvbnMoKykKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-bm91dmVhdS9ub3V2ZWF1X2RybS5jIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9k
-cm0uYwo+IGluZGV4IGI2NWFlODE3ZWFiZjUuLjJkNGM4OTllMWY4YjkgMTAwNjQ0Cj4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcm0uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJtLmMKPiBAQCAtNjE4LDYgKzYxOCw2NCBAQCBub3V2ZWF1
-X2RybV9kZXZpY2VfZmluaShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQo+ICAgICAgICAga2ZyZWUo
-ZHJtKTsKPiAgfQo+Cj4gKy8qCj4gKyAqIE9uIHNvbWUgSW50ZWwgUENJZSBicmlkZ2UgY29udHJv
-bGxlcnMgZG9pbmcgYQo+ICsgKiBEMCAtPiBEM2hvdCAtPiBEM2NvbGQgLT4gRDAgc2VxdWVuY2Ug
-Y2F1c2VzIE52aWRpYSBHUFVzIHRvIG5vdCByZWFwcGVhci4KPiArICogU2tpcHBpbmcgdGhlIGlu
-dGVybWVkaWF0ZSBEM2hvdCBzdGVwIHNlZW1zIHRvIG1ha2UgaXQgd29yayBhZ2Fpbi4gVGhpcyBp
-cwo+ICsgKiBwcm9iYWJseSBjYXVzZWQgYnkgbm90IG1lZXRpbmcgdGhlIGV4cGVjdGF0aW9uIHRo
-ZSBpbnZvbHZlZCBBTUwgY29kZSBoYXMKPiArICogd2hlbiB0aGUgR1BVIGlzIHB1dCBpbnRvIEQz
-aG90IHN0YXRlIGJlZm9yZSBpbnZva2luZyBpdC4KPiArICoKPiArICogVGhpcyBsZWFkcyB0byB2
-YXJpb3VzIG1hbmlmZXN0YXRpb25zIG9mIHRoaXMgaXNzdWU6Cj4gKyAqICAtIEFNTCBjb2RlIGV4
-ZWN1dGlvbiB0byBwb3dlciBvbiB0aGUgR1BVIGhpdHMgYW4gaW5maW5pdGUgbG9vcCAoYXMgdGhl
-Cj4gKyAqICAgIGNvZGUgd2FpdHMgb24gZGV2aWNlIG1lbW9yeSB0byBjaGFuZ2UpLgo+ICsgKiAg
-LSBrZXJuZWwgY3Jhc2hlcywgYXMgYWxsIFBDSSByZWFkcyByZXR1cm4gLTEsIHdoaWNoIG1vc3Qg
-Y29kZSBpc24ndCBhYmxlCj4gKyAqICAgIHRvIGhhbmRsZSB3ZWxsIGVub3VnaC4KPiArICoKPiAr
-ICogSW4gYWxsIGNhc2VzIGRtZXNnIHdpbGwgY29udGFpbiBhdCBsZWFzdCBvbmUgbGluZSBsaWtl
-IHRoaXM6Cj4gKyAqICdub3V2ZWF1IDAwMDA6MDE6MDAuMDogUmVmdXNlZCB0byBjaGFuZ2UgcG93
-ZXIgc3RhdGUsIGN1cnJlbnRseSBpbiBEMycKPiArICogZm9sbG93ZWQgYnkgYSBsb3Qgb2Ygbm91
-dmVhdSB0aW1lb3V0cy4KPiArICoKPiArICogSW4gdGhlIFxfU0IuUENJMC5QRUcwLlBHMDAuX09G
-RiBjb2RlIGRlZXBlciBkb3duIHdyaXRlcyBiaXQgMHg4MCB0byB0aGUgbm90Cj4gKyAqIGRvY3Vt
-ZW50ZWQgUENJIGNvbmZpZyBzcGFjZSByZWdpc3RlciAweDI0OCBvZiB0aGUgSW50ZWwgUENJZSBi
-cmlkZ2UKPiArICogY29udHJvbGxlciAoMHgxOTAxKSBpbiBvcmRlciB0byBjaGFuZ2UgdGhlIHN0
-YXRlIG9mIHRoZSBQQ0llIGxpbmsgYmV0d2Vlbgo+ICsgKiB0aGUgUENJZSBwb3J0IGFuZCB0aGUg
-R1BVLiBUaGVyZSBhcmUgYWx0ZXJuYXRpdmUgY29kZSBwYXRocyB1c2luZyBvdGhlcgo+ICsgKiBy
-ZWdpc3RlcnMsIHdoaWNoIHNlZW0gdG8gd29yayBmaW5lIChleGVjdXRlZCBwcmUgV2luZG93cyA4
-KToKPiArICogIC0gMHhiYyBiaXQgMHgyMCAocHVibGljbHkgYXZhaWxhYmxlIGRvY3VtZW50YXRp
-b24gY2xhaW1zICdyZXNlcnZlZCcpCj4gKyAqICAtIDB4YjAgYml0IDB4MTAgKGxpbmsgZGlzYWJs
-ZSkKPiArICogQ2hhbmdpbmcgdGhlIGNvbmRpdGlvbnMgaW5zaWRlIHRoZSBmaXJtd2FyZSBieSBw
-b2tpbmcgaW50byB0aGUgcmVsZXZhbnQKPiArICogYWRkcmVzc2VzIGRvZXMgcmVzb2x2ZSB0aGUg
-aXNzdWUsIGJ1dCBpdCBzZWVtZWQgdG8gYmUgQUNQSSBwcml2YXRlIG1lbW9yeQo+ICsgKiBhbmQg
-bm90IGFueSBkZXZpY2UgYWNjZXNzaWJsZSBtZW1vcnkgYXQgYWxsLCBzbyB0aGVyZSBpcyBubyBw
-b3J0YWJsZSB3YXkgb2YKPiArICogY2hhbmdpbmcgdGhlIGNvbmRpdGlvbnMuCj4gKyAqIE9uIGEg
-WFBTIDk1NjAgdGhhdCBtZWFucyBiaXRzIFswLDNdIG9uIFxDUEVYIG5lZWQgdG8gYmUgY2xlYXJl
-ZC4KPiArICoKPiArICogVGhlIG9ubHkgc3lzdGVtcyB3aGVyZSB0aGlzIGJlaGF2aW9yIGNhbiBi
-ZSBzZWVuIGFyZSBoeWJyaWQgZ3JhcGhpY3MgbGFwdG9wcwo+ICsgKiB3aXRoIGEgc2Vjb25kYXJ5
-IE52aWRpYSBNYXh3ZWxsLCBQYXNjYWwgb3IgVHVyaW5nIEdQVS4gSXQncyB1bmNsZWFyIHdoZXRo
-ZXIKPiArICogdGhpcyBpc3N1ZSBvbmx5IG9jY3VycyBpbiBjb21iaW5hdGlvbiB3aXRoIGxpc3Rl
-ZCBJbnRlbCBQQ0llIGJyaWRnZQo+ICsgKiBjb250cm9sbGVycyBhbmQgdGhlIG1lbnRpb25lZCBH
-UFVzIG9yIG90aGVyIGRldmljZXMgYXMgd2VsbC4KPiArICoKPiArICogZG9jdW1lbnRhdGlvbiBv
-biB0aGUgUENJZSBicmlkZ2UgY29udHJvbGxlciBjYW4gYmUgZm91bmQgaW4gdGhlCj4gKyAqICI3
-dGggR2VuZXJhdGlvbiBJbnRlbMKuIFByb2Nlc3NvciBGYW1pbGllcyBmb3IgSCBQbGF0Zm9ybXMg
-RGF0YXNoZWV0IFZvbHVtZSAyIgo+ICsgKiBTZWN0aW9uICIxMiBQQ0kgRXhwcmVzcyogQ29udHJv
-bGxlciAoeDE2KSBSZWdpc3RlcnMiCj4gKyAqLwo+ICsKPiArc3RhdGljIHZvaWQgcXVpcmtfYnJv
-a2VuX252X3J1bnBtKHN0cnVjdCBwY2lfZGV2ICpwZGV2KQo+ICt7Cj4gKyAgICAgICBzdHJ1Y3Qg
-ZHJtX2RldmljZSAqZGV2ID0gcGNpX2dldF9kcnZkYXRhKHBkZXYpOwo+ICsgICAgICAgc3RydWN0
-IG5vdXZlYXVfZHJtICpkcm0gPSBub3V2ZWF1X2RybShkZXYpOwo+ICsgICAgICAgc3RydWN0IHBj
-aV9kZXYgKmJyaWRnZSA9IHBjaV91cHN0cmVhbV9icmlkZ2UocGRldik7Cj4gKwo+ICsgICAgICAg
-aWYgKCFicmlkZ2UgfHwgYnJpZGdlLT52ZW5kb3IgIT0gUENJX1ZFTkRPUl9JRF9JTlRFTCkKPiAr
-ICAgICAgICAgICAgICAgcmV0dXJuOwo+ICsKPiArICAgICAgIHN3aXRjaCAoYnJpZGdlLT5kZXZp
-Y2UpIHsKPiArICAgICAgIGNhc2UgMHgxOTAxOgo+ICsgICAgICAgICAgICAgICBkcm0tPm9sZF9w
-bV9jYXAgPSBwZGV2LT5wbV9jYXA7Cj4gKyAgICAgICAgICAgICAgIHBkZXYtPnBtX2NhcCA9IDA7
-Cj4gKyAgICAgICAgICAgICAgIE5WX0lORk8oZHJtLCAiRGlzYWJsaW5nIFBDSSBwb3dlciBtYW5h
-Z2VtZW50IHRvIGF2b2lkIGJ1Z1xuIik7Cj4gKyAgICAgICAgICAgICAgIGJyZWFrOwo+ICsgICAg
-ICAgfQo+ICt9Cj4gKwo+ICBzdGF0aWMgaW50IG5vdXZlYXVfZHJtX3Byb2JlKHN0cnVjdCBwY2lf
-ZGV2ICpwZGV2LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0IHBj
-aV9kZXZpY2VfaWQgKnBlbnQpCj4gIHsKPiBAQCAtNjk5LDYgKzc1Nyw3IEBAIHN0YXRpYyBpbnQg
-bm91dmVhdV9kcm1fcHJvYmUoc3RydWN0IHBjaV9kZXYgKnBkZXYsCj4gICAgICAgICBpZiAocmV0
-KQo+ICAgICAgICAgICAgICAgICBnb3RvIGZhaWxfZHJtX2Rldl9pbml0Owo+Cj4gKyAgICAgICBx
-dWlya19icm9rZW5fbnZfcnVucG0ocGRldik7Cj4gICAgICAgICByZXR1cm4gMDsKPgo+ICBmYWls
-X2RybV9kZXZfaW5pdDoKPiBAQCAtNzM0LDcgKzc5MywxMSBAQCBzdGF0aWMgdm9pZAo+ICBub3V2
-ZWF1X2RybV9yZW1vdmUoc3RydWN0IHBjaV9kZXYgKnBkZXYpCj4gIHsKPiAgICAgICAgIHN0cnVj
-dCBkcm1fZGV2aWNlICpkZXYgPSBwY2lfZ2V0X2RydmRhdGEocGRldik7Cj4gKyAgICAgICBzdHJ1
-Y3Qgbm91dmVhdV9kcm0gKmRybSA9IG5vdXZlYXVfZHJtKGRldik7Cj4KPiArICAgICAgIC8qIHJl
-dmVydCBvdXIgd29ya2Fyb3VuZCAqLwo+ICsgICAgICAgaWYgKGRybS0+b2xkX3BtX2NhcCkKPiAr
-ICAgICAgICAgICAgICAgcGRldi0+cG1fY2FwID0gZHJtLT5vbGRfcG1fY2FwOwo+ICAgICAgICAg
-bm91dmVhdV9kcm1fZGV2aWNlX3JlbW92ZShkZXYpOwo+ICAgICAgICAgcGNpX2Rpc2FibGVfZGV2
-aWNlKHBkZXYpOwo+ICB9Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25v
-dXZlYXVfZHJ2LmggYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Rydi5oCj4gaW5k
-ZXggYzJjMzMyZmJkZTk3OS4uMmE2NTE5NzM3ODAwYyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Rydi5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZl
-YXUvbm91dmVhdV9kcnYuaAo+IEBAIC0xNDAsNiArMTQwLDggQEAgc3RydWN0IG5vdXZlYXVfZHJt
-IHsKPgo+ICAgICAgICAgc3RydWN0IGxpc3RfaGVhZCBjbGllbnRzOwo+Cj4gKyAgICAgICB1OCBv
-bGRfcG1fY2FwOwo+ICsKPiAgICAgICAgIHN0cnVjdCB7Cj4gICAgICAgICAgICAgICAgIHN0cnVj
-dCBhZ3BfYnJpZGdlX2RhdGEgKmJyaWRnZTsKPiAgICAgICAgICAgICAgICAgdTMyIGJhc2U7Cj4g
-LS0KPiAyLjIwLjEKPgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+
+--===============1707226718==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="tfobgrwcfdirkzal"
+Content-Disposition: inline
+
+
+--tfobgrwcfdirkzal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Wed, Apr 15, 2020 at 05:09:45PM +0200, H. Nikolaus Schaller wrote:
+> Hi Maxime,
+>
+> > Am 15.04.2020 um 16:21 schrieb Maxime Ripard <maxime@cerno.tech>:
+> >
+> >>
+> >> Well we could add clocks and resets as optional but that would
+> >> allow to wrongly define omap.
+> >>
+> >> Or delegate them to a parent "simple-pm-bus" node.
+> >>
+> >> I have to study that material more to understand what you seem
+> >> to expect.
+> >
+> > The thing is, once that binding is in, it has to be backward
+> > compatible. So every thing that you leave out is something that you'll
+> > need to support in the driver eventually.
+>
+> >
+> > If you don't want it to be a complete nightmare, you'll want to figure
+> > out as much as possible on how the GPU is integrated and make a
+> > binding out of that.
+>
+> Hm. Yes. We know that there likely are clocks and maybe reset
+> but for some SoC this seems to be undocumented and the reset
+> line the VHDL of the sgx gpu provides may be permanently tied
+> to "inactive".
+>
+> So if clocks are optional and not provided, a driver simply can assume
+> they are enabled somewhere else and does not have to care about. If
+> they are specified, the driver can enable/disable them.
+
+Except that at the hardware level, the clock is always going to be
+there. You can't control it, but it's there.
+
+> > If OMAP is too much of a pain, you can also make
+> > a separate binding for it, and a generic one for the rest of us.
+>
+> No, omap isn't any pain at all.
+>
+> The pain is that some other SoC are most easily defined by clocks in
+> the gpu node which the omap doesn't need to explicitly specify.
+>
+> I would expect a much bigger nightmare if we split this into two
+> bindings variants.
+>
+> > I'd say that it's pretty unlikely that the clocks, interrupts (and
+> > even regulators) are optional. It might be fixed on some SoCs, but
+> > that's up to the DT to express that using fixed clocks / regulators,
+> > not the GPU binding itself.
+>
+> omap already has these defined them not to be part of the GPU binding.
+> The reason seems to be that this needs special clock gating control
+> especially for idle states which is beyond simple clock-enable.
+>
+> This sysc target-module@56000000 node is already merged and therefore
+> we are only adding the gpu child node. Without defining clocks.
+>
+> For example:
+>
+> 		sgx_module: target-module@56000000 {
+> 			compatible = "ti,sysc-omap4", "ti,sysc";
+> 			reg = <0x5600fe00 0x4>,
+> 			      <0x5600fe10 0x4>;
+> 			reg-names = "rev", "sysc";
+> 			ti,sysc-midle = <SYSC_IDLE_FORCE>,
+> 					<SYSC_IDLE_NO>,
+> 					<SYSC_IDLE_SMART>;
+> 			ti,sysc-sidle = <SYSC_IDLE_FORCE>,
+> 					<SYSC_IDLE_NO>,
+> 					<SYSC_IDLE_SMART>;
+> 			clocks = <&gpu_clkctrl OMAP5_GPU_CLKCTRL 0>;
+> 			clock-names = "fck";
+> 			#address-cells = <1>;
+> 			#size-cells = <1>;
+> 			ranges = <0 0x56000000 0x2000000>;
+>
+> 			gpu: gpu@0 {
+> 				compatible = "ti,omap5-sgx544-116", "img,sgx544-116", "img,sgx544";
+> 				reg = <0x0 0x10000>;
+> 				interrupts = <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
+> 			};
+> 		};
+>
+> The jz4780 example will like this:
+>
+> 	gpu: gpu@13040000 {
+> 		compatible = "ingenic,jz4780-sgx540-130", "img,sgx540-130", "img,sgx540";
+> 		reg = <0x13040000 0x4000>;
+>
+> 		clocks = <&cgu JZ4780_CLK_GPU>;
+> 		clock-names = "gpu";
+>
+> 		interrupt-parent = <&intc>;
+> 		interrupts = <63>;
+> 	};
+>
+> So the question is which one is "generic for the rest of us"?
+
+I'd say the latter.
+
+> And how can we make a single binding for the sgx. Not one for each
+> special SoC variant that may exist.
+>
+> IMHO the best answer is to make clocks an optional property.
+> Or if we do not want to define them explicitly, we use
+> additionalProperties: true.
+
+If your clock is optional, then you define it but don't mandate
+it. Not documenting it will only result in a mess where everyone will
+put some clock into it, possibly with different semantics each and
+every time.
+
+> An alternative could be to use a simple-pm-bus like:
+>
+> 	sgx_module: sgx_module@13040000 {
+> 		compatible = "simple-pm-bus";
+>
+> 		clocks = <&cgu JZ4780_CLK_GPU>;
+> 		clock-names = "gpu";
+>
+> 		#address-cells = <1>;
+> 		#size-cells = <1>;
+> 		ranges = <0 0x13040000 0x10000>;
+>
+> 		gpu: gpu@0 {
+> 			compatible = "ingenic,jz4780-sgx540-130", "img,sgx540-130", "img,sgx540";
+> 			reg = <0x0 0x4000>;
+>
+> 			interrupt-parent = <&intc>;
+> 			interrupts = <63>;
+> 		};
+> 	};
+>
+> This gets rid of any clock, reset and pm definitions for the sgx bindings.
+> But how this is done is outside this sgx bindings.
+>
+> With such a scheme, the binding I propose here would be complete and fully
+> generic. We can even add additionalProperties: false.
+
+This has nothing to do with the binding being complete. And if you use
+a binding like this one, you'll be severely limited when you'll want
+to implement things like DVFS.
+
+Maxime
+
+--tfobgrwcfdirkzal
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXpc0nwAKCRDj7w1vZxhR
+xUDXAQCc7y/+vAoavZRmglq4lR2jquJFLRkH7PYZvWPuzBNdAAD/cb0ol1cdNUpA
+oCJwB2WILZ+2E78cCeIXmjyL7nqW6AA=
+=GQ1H
+-----END PGP SIGNATURE-----
+
+--tfobgrwcfdirkzal--
+
+--===============1707226718==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1707226718==--
