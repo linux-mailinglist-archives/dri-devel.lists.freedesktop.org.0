@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E831A9C7C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:36:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CC11A9C83
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:36:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF3BE6E979;
-	Wed, 15 Apr 2020 11:35:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81EEC6E97F;
+	Wed, 15 Apr 2020 11:36:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3287A6E977;
- Wed, 15 Apr 2020 11:35:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1EAC6E97F;
+ Wed, 15 Apr 2020 11:36:16 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 47B9E2078A;
- Wed, 15 Apr 2020 11:35:57 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id C825820737;
+ Wed, 15 Apr 2020 11:36:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586950558;
- bh=uC9JFgoKOhfTK98rPb7jgE0oqaQzBDX/tz1p1CqrX0I=;
+ s=default; t=1586950576;
+ bh=Lw5BH7pmk+9cni4ByfUZ7qQ8QaNhnIgwh6zVSoOuQGM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KkILaa7gsvdkLsSqT7xFTSG/6ZreZ50rfR+GJLvyTPywPp2W+VmXqS3j8naKOvyoD
- VzAw4cOv13OSA+ud1awhVGSsP0EloBtLrVqHUT5vaxhUEIgw7h1kvEmVTrDFBi+AVr
- Qw0/aKFra7PpYLrYF13fpuYDiqgDBZppTsGz2sp8=
+ b=cJzzyOIzl1vFC0JQlLjrDHOMuHVQ2iamfFifRqS6vsIQDQTmulgWKtylE75NvSaON
+ JK9mtefBnG8plgc+v5WEt+8sa01PQWezdcmiWzk6AxAsnbVHKjBZF/HXLgI9HEd7EL
+ 7yD8Vcw8CA8XLyk5a9lPMxG6mxkhHwUVcejwLQJc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 063/129] drm/amd/display: Don't try hdcp1.4 when
- content_type is set to type1
-Date: Wed, 15 Apr 2020 07:33:38 -0400
-Message-Id: <20200415113445.11881-63-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 077/129] drm/nouveau/svm: check for SVM
+ initialized before migrating
+Date: Wed, 15 Apr 2020 07:33:52 -0400
+Message-Id: <20200415113445.11881-77-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200415113445.11881-1-sashal@kernel.org>
 References: <20200415113445.11881-1-sashal@kernel.org>
@@ -50,63 +50,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
+ Ralph Campbell <rcampbell@nvidia.com>, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+From: Ralph Campbell <rcampbell@nvidia.com>
 
-[ Upstream commit c2850c125d919efbb3a9ab46410d23912934f585 ]
+[ Upstream commit 822cab6150d3002952407a8297ff5a0d32bb7b54 ]
 
-[Why]
-When content type property is set to 1. We should enable hdcp2.2 and if we cant
-then stop. Currently the way it works in DC is that if we fail hdcp2, we will
-try hdcp1 after.
+When migrating system memory to GPU memory, check that SVM has been
+enabled. Even though most errors can be ignored since migration is
+a performance optimization, return an error because this is a violation
+of the API.
 
-[How]
-Use link config to force disable hdcp1.4 when type1 is set.
-
-Signed-off-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
+Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_svm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
-index 0acd3409dd6ce..3abeff7722e3d 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
-@@ -113,10 +113,13 @@ void hdcp_update_display(struct hdcp_workqueue *hdcp_work,
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index df9bf1fd1bc0b..3ec5da025bea7 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -171,6 +171,11 @@ nouveau_svmm_bind(struct drm_device *dev, void *data,
+ 	mm = get_task_mm(current);
+ 	down_read(&mm->mmap_sem);
  
- 		if (enable_encryption) {
- 			display->adjust.disable = 0;
--			if (content_type == DRM_MODE_HDCP_CONTENT_TYPE0)
-+			if (content_type == DRM_MODE_HDCP_CONTENT_TYPE0) {
-+				hdcp_w->link.adjust.hdcp1.disable = 0;
- 				hdcp_w->link.adjust.hdcp2.force_type = MOD_HDCP_FORCE_TYPE_0;
--			else if (content_type == DRM_MODE_HDCP_CONTENT_TYPE1)
-+			} else if (content_type == DRM_MODE_HDCP_CONTENT_TYPE1) {
-+				hdcp_w->link.adjust.hdcp1.disable = 1;
- 				hdcp_w->link.adjust.hdcp2.force_type = MOD_HDCP_FORCE_TYPE_1;
-+			}
- 
- 			schedule_delayed_work(&hdcp_w->property_validate_dwork,
- 					      msecs_to_jiffies(DRM_HDCP_CHECK_PERIOD_MS));
-@@ -334,6 +337,7 @@ static void update_config(void *handle, struct cp_psp_stream_config *config)
- 	link->dp.rev = aconnector->dc_link->dpcd_caps.dpcd_rev.raw;
- 	display->adjust.disable = 1;
- 	link->adjust.auth_delay = 2;
-+	link->adjust.hdcp1.disable = 0;
- 
- 	hdcp_update_display(hdcp_work, link_index, aconnector, DRM_MODE_HDCP_CONTENT_TYPE0, false);
- }
++	if (!cli->svm.svmm) {
++		up_read(&mm->mmap_sem);
++		return -EINVAL;
++	}
++
+ 	for (addr = args->va_start, end = args->va_start + size; addr < end;) {
+ 		struct vm_area_struct *vma;
+ 		unsigned long next;
 -- 
 2.20.1
 
