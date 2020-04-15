@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58D121AB308
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 23:10:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13EB91AB30C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 23:12:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55A966EA8A;
-	Wed, 15 Apr 2020 21:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 453206EA6C;
+	Wed, 15 Apr 2020 21:12:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C63B96EA8A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 21:10:14 +0000 (UTC)
-IronPort-SDR: OnEaj0HZwv+eY9mfwDkegF7BY/64M00ZK41iuoz2naA1p2C3J7Vp/Bun/nThG2EGl7cUWLWwzE
- tuJU4jQaylxA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2020 14:10:14 -0700
-IronPort-SDR: 2OGrKVz6wMKDQmQgg2RPyMcP3S1F+0LLC1Hk3QPuyMbOhK8ZrJYjGKhUun2X9E2DhnEfJtYLF4
- Lf0/dYmMzjMQ==
-X-IronPort-AV: E=Sophos;i="5.72,388,1580803200"; d="scan'208";a="427574602"
-Received: from ssolodk-mobl1.ccr.corp.intel.com (HELO localhost)
- ([10.252.48.37])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2020 14:10:09 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Rajat Jain <rajatja@google.com>, Hans de Goede <hdegoede@redhat.com>
-Subject: Re: RFC: Drm-connector properties managed by another driver / privacy
- screen support
-In-Reply-To: <CACK8Z6HZe0iiyYUR57LvQVJjZCt+dbK9Vc9Tr+Ch8fUuh0h-gw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
- <87tv1k4vl6.fsf@intel.com> <d47ba6ef-efd0-9f28-1ae4-b971b95a8f8b@redhat.com>
- <CACK8Z6HZe0iiyYUR57LvQVJjZCt+dbK9Vc9Tr+Ch8fUuh0h-gw@mail.gmail.com>
-Date: Thu, 16 Apr 2020 00:10:06 +0300
-Message-ID: <87pnc84frl.fsf@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4826EA6C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 21:12:34 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 498802D1;
+ Wed, 15 Apr 2020 23:12:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1586985152;
+ bh=6ZsvRs7bRQKm2uUaVr3nSLa1kHFG0xzNrbDdN57gCCQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Asq687MHzIHKq43berIYmZ59aeoEo+vMV3L0Kmj60d9CPYdYFrSOTpzamKOx7ty4P
+ RovcFHD6tSHE6LH/oKFii6xcTJvMhpSzgSQSO/AwUu9TmSH0HB8/5jwj5kQHQpGG3I
+ HaqY0Wr/aUbcwlF7mJE34yCw4xZy4KOu4ykEJTyI=
+Date: Thu, 16 Apr 2020 00:12:20 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
+Message-ID: <20200415211220.GQ4758@pendragon.ideasonboard.com>
+References: <20200408202711.1198966-1-arnd@arndb.de>
+ <20200408202711.1198966-6-arnd@arndb.de>
+ <20200414201739.GJ19819@pendragon.ideasonboard.com>
+ <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
+ <20200414205158.GM19819@pendragon.ideasonboard.com>
+ <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
+ <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com>
+ <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
+ <CAK8P3a0CoPUTSJp6ddDnmabo59iE73pugGSYayoeB5N57az9_w@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a0CoPUTSJp6ddDnmabo59iE73pugGSYayoeB5N57az9_w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,124 +53,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Christian Kellner <ckellner@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Nitin Joshi1 <njoshi1@lenovo.com>, Mark Pearson <mpearson@lenovo.com>,
- Benjamin Berg <bberg@redhat.com>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Leon Romanovsky <leon@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Networking <netdev@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nicolas Pitre <nico@fluxnic.net>, Saeed Mahameed <saeedm@mellanox.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ linux-rdma <linux-rdma@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Apr 2020, Rajat Jain <rajatja@google.com> wrote:
-> Hello,
->
-> On Wed, Apr 15, 2020 at 8:40 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 4/15/20 5:28 PM, Jani Nikula wrote:
->> > On Wed, 15 Apr 2020, Hans de Goede <hdegoede@redhat.com> wrote:
->> >> ii. Currently the "privacy-screen" property added by Rajat's
->> >> patch-set is an enum with 2 possible values:
->> >> "Enabled"
->> >> "Disabled"
->> >>
->> >> We could add a third value "Not Available", which would be the
->> >> default and then for internal panels always add the property
->> >> so that we avoid the problem that detecting if the laptop has
->> >> an internal privacy screen needs to be done before the connector
->> >> is registered. Then we can add some hooks which allow an
->> >> lcdshadow-driver to register itself against a connector later
->> >> (which is non trivial wrt probe order, but lets ignore that for now).
->> >
->> > I regret dropping the ball on Rajat's series (sorry!).
->> >
->> > I do think having the connector property for this is the way to go.
->>
->> I 100% agree.
->>
->> > Even
->> > if we couldn't necessarily figure out all the details on the kernel
->> > internal connections, can we settle on the property though, so we could
->> > move forward with Rajat's series?
->
-> Thanks, it would be great!.
->
->>
->> Yes please, this will also allow us to move forward with userspace
->> support even if for testing that we do some hacks for the kernel's
->> internal connections for now.
->>
->> > Moreover, do we actually need two properties, one which could indicate
->> > userspace's desire for the property, and another that tells the hardware
->> > state?
->>
->> No I do not think so. I would expect there to just be one property,
->> I guess that if the state is (partly) firmware controlled then there
->> might be a race, but we will need a notification mechanism (*) for
->> firmware triggered state changes anyways, so shortly after loosing
->> the race userspace will process the notification and it will know
->> about it.
->
-> I agree with Hans here that I think it would be better if we could do
-> it with one property.
->
->  * I can imagine demand for laptops that have a "hardware kill switch"
-> for privacy screen (just like there are for camera etc today). So I
-> think in future we may have to deal with this case anyway. In such
-> devices it's the hardware (as opposite to firmware) that will change
-> the state. The HW will likely provide an interrupt to the software to
-> notify of the change. This is all imaginative at this point though.
->
-> * I think having 2 properties might be a confusing UAPI. Also, we have
-> existing properties like link-status that can be changed by both the
-> user and the hardware.
+Hi Arnd,
 
-I think the consensus is that all properties that get changed by both
-userspace and the kernel are mistakes, and the way to handle it is to
-have two properties.
+On Wed, Apr 15, 2020 at 09:07:14PM +0200, Arnd Bergmann wrote:
+> On Wed, Apr 15, 2020 at 5:18 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > On Wed, Apr 15, 2020 at 4:13 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > On Wed, Apr 15, 2020 at 3:47 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > > On Tue, Apr 14, 2020 at 10:52 PM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> > > > > Doesn't "imply" mean it gets selected by default but can be manually
+> > > > > disabled ?
+> > > >
+> > > > That may be what it means now (I still don't understand how it's defined
+> > > > as of v5.7-rc1), but traditionally it was more like a 'select if all
+> > > > dependencies are met'.
+> > >
+> > > That's still what it is supposed to mean right now ;-)
+> > > Except that now it should correctly handle the modular case, too.
+> >
+> > Then there is a bug. If I run 'make menuconfig' now on a mainline kernel
+> > and enable CONFIG_DRM_RCAR_DU, I can set
+> > DRM_RCAR_CMM and DRM_RCAR_LVDS to 'y', 'n' or 'm' regardless
+> > of whether CONFIG_DRM_RCAR_DU is 'm' or 'y'. The 'implies'
+> > statement seems to be ignored entirely, except as reverse 'default'
+> > setting.
+> 
+> Here is another version that should do what we want and is only
+> half-ugly. I can send that as a proper patch if it passes my testing
+> and nobody hates it too much.
 
-BR,
-Jani.
+This may be a stupid question, but doesn't this really call for fixing
+Kconfig ? This seems to be such a common pattern that requiring
+constructs similar to the ones below will be a never-ending chase of
+offenders.
 
-
->
-> Thanks,
->
-> Rajat
->
->>
->> One thing which might be useful is a way to signal that the property
->> is read-only in case we ever hit hw where that is the case.
->>
->> > I'd so very much like to have no in-kernel/in-firmware shortcuts
->> > to enable/disable the privacy screen, and instead have any hardware
->> > buttons just be events that the userspace could react to. However I
->> > don't think that'll be the case unfortunately.
->>
->> In my experience with keyboard-backlight support, we will (unfortunately)
->> see a mix and in some case we will get a notification that the firmware
->> has adjusted the state, rather then just getting a keypress and
->> dealing with that ourselves.  In some cases we may even be able to
->> choose, so the fw will deal with it by default but we can ask it
->> to just send a key-press.  But I do believe that we can *not* expect
->> that we will always just get a keypress for userspace to deal with.
->>
->> Regards,
->>
->> Hans
->>
->>
->> *) Some udev event I guess, I sorta assume there already is a
->> notification mechanism for property change notifications ?
->>
->>
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> index 0919f1f159a4..d2fcec807dfa 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -4,8 +4,6 @@ config DRM_RCAR_DU
+>         depends on DRM && OF
+>         depends on ARM || ARM64
+>         depends on ARCH_RENESAS || COMPILE_TEST
+> -       imply DRM_RCAR_CMM
+> -       imply DRM_RCAR_LVDS
+>         select DRM_KMS_HELPER
+>         select DRM_KMS_CMA_HELPER
+>         select DRM_GEM_CMA_HELPER
+> @@ -14,13 +12,17 @@ config DRM_RCAR_DU
+>           Choose this option if you have an R-Car chipset.
+>           If M is selected the module will be called rcar-du-drm.
+> 
+> -config DRM_RCAR_CMM
+> -       tristate "R-Car DU Color Management Module (CMM) Support"
+> -       depends on DRM && OF
+> +config DRM_RCAR_USE_CMM
+> +       bool "R-Car DU Color Management Module (CMM) Support"
+>         depends on DRM_RCAR_DU
+> +       default DRM_RCAR_DU
+>         help
+>           Enable support for R-Car Color Management Module (CMM).
+> 
+> +config DRM_RCAR_CMM
+> +       def_tristate DRM_RCAR_DU
+> +       depends on DRM_RCAR_USE_CMM
+> +
+>  config DRM_RCAR_DW_HDMI
+>         tristate "R-Car DU Gen3 HDMI Encoder Support"
+>         depends on DRM && OF
+> @@ -28,15 +30,20 @@ config DRM_RCAR_DW_HDMI
+>         help
+>           Enable support for R-Car Gen3 internal HDMI encoder.
+> 
+> -config DRM_RCAR_LVDS
+> -       tristate "R-Car DU LVDS Encoder Support"
+> -       depends on DRM && DRM_BRIDGE && OF
+> +config DRM_RCAR_USE_LVDS
+> +       bool "R-Car DU LVDS Encoder Support"
+> +       depends on DRM_BRIDGE && OF
+> +       default DRM_RCAR_DU
+>         select DRM_PANEL
+>         select OF_FLATTREE
+>         select OF_OVERLAY
+>         help
+>           Enable support for the R-Car Display Unit embedded LVDS encoders.
+> 
+> +config DRM_RCAR_LVDS
+> +       def_tristate DRM_RCAR_DU
+> +       depends on DRM_RCAR_USE_LVDS
+> +
+>  config DRM_RCAR_VSP
+>         bool "R-Car DU VSP Compositor Support" if ARM
+>         default y if ARM64
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
