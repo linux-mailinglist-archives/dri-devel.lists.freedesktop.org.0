@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39F21A94B5
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:42:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE371A94C5
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:42:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F354389E33;
-	Wed, 15 Apr 2020 07:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F39EC6E8C9;
+	Wed, 15 Apr 2020 07:41:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15FEE89022
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 07:41:20 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id j2so17882523wrs.9
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 00:41:20 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4478920F
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 07:41:21 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id g12so9842353wmh.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 00:41:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XedkJmxjsSw5iGyEbJMrjH+8XvxXV8jZNQZcH9D7ls4=;
- b=hlBUuEnw0cvcyM55N5GFKDKVz+iuS4rDb0JUNP5hF7k0Y7wzt5kiTqJQGXl9/dbUwV
- PmsBpzrAslauDltt9RncT+iL42zTVBDvLhgh7r1WWFBc1cCdUta5QUTXfhXhHmsLA8Cy
- LQFR2QK8dg0UrplcwHpX77mK6U++eM8/+KWSI=
+ bh=2H30jIEDD11qSxQxpCleB9uk8qmGhVe/WOieJFi7LTw=;
+ b=OFvhQt+wzABIdksPxx9xVuNqEN7IekHKj8l+0SlgB7+6jRXeGJ4/RisMZm6OoXpo5i
+ 3cQIQEE/s8jQ6SkV2mkouXky8Usy7J/6XIOYM6VOvA56lHjXrHMhJIt6mTGUxaC49h2w
+ uT5KJkz9EkyxQeNn+GPZzUH2Wo75tVoztazDE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XedkJmxjsSw5iGyEbJMrjH+8XvxXV8jZNQZcH9D7ls4=;
- b=jgd76tJ0GoNg4k2Ueh5aqznOp5RUtnjee8vTRN8wXhCWOgk9dFyVmn8MYIkP9WDg9C
- MTyt3UFDa/eR3eV//lVSJ9iY5i17nAmfv/yowamTroRbNa30j6JmhwLRD6meeWNMYDGH
- MxzdSI3HF0AOtCrCMtDdZKDeowaVoTK4agdmzZaNZqoIsZcEUhLYr/F2fdxORW9iFSYz
- 7ciE8KrOeb4xTLS5ovRMU/3SP2OZ4OR1FSZkcTeGY/GgW+0zmgOhtlRKAjVKPbvIKdGX
- E79cykp6kO8QM5WVIMVilqr/QVuLz2M/Oa04ZNZtDRWQAxH5b5OBQD1uz3uK5Ep/gW4Z
- PhqQ==
-X-Gm-Message-State: AGi0PuY7I1W2Ie3YdyqiBpE37k/MgaHLxiRRvin6U9dbfwcWYUhpyLkA
- aXHjdElzUPAWpeoSyl5ngdH9YA==
-X-Google-Smtp-Source: APiQypImEFWjI/mCGsxrHaTlwwEuBcDEHWeOGY/Vgwm1Ce7LQXsW12usA7t3oLVS57so3p0UqpfgCg==
-X-Received: by 2002:a5d:404a:: with SMTP id w10mr1080324wrp.397.1586936478721; 
- Wed, 15 Apr 2020 00:41:18 -0700 (PDT)
+ bh=2H30jIEDD11qSxQxpCleB9uk8qmGhVe/WOieJFi7LTw=;
+ b=I3X0zLUDik8fx9vZbPfguKRh6zKjtAHvqCAskTiarjVtQ8EjmkCLKGCVvp672XzNbW
+ Bl8CtdE76oXkJUpUzXGgHdxI5NXHFFaDSI0iaVOI/Z0zt2eMwnzflE5Ji1S1KHn5Vqd/
+ yY7o3egLSDZhwKfyyIn5nDAwXpGU6sS+7dalGSKRXc6LjqxwxYYhlUAoOAx6gSqX1skZ
+ T6v29XQiwFYT5mLY2szyVnsgWrtJgXQLiq/MJjZiJre4lnH+5dYN/fMtvbQE65vrvDMb
+ Ks0y85l9BiD+M7OXqAPc3Qe7UZkjF/oZuXqVlJO8yUnfrDiCV9mdo+wL30lTfjQFQYzh
+ zL0g==
+X-Gm-Message-State: AGi0PuaSjv17Bw+D+nod3tzb5KtXZC/60XM8PYnwnu8ENAf+8RmbyNCp
+ PZu8Aw3MV4fmfVos9Sm1J+c5Gg==
+X-Google-Smtp-Source: APiQypLs5r80mVEEP1uzMzAmmqWiKQSAQy7ew3+iWYVMq92xN6QC2hhYFiEZMck6gWVDyQtJdrs+QA==
+X-Received: by 2002:a05:600c:2f17:: with SMTP id
+ r23mr3597690wmn.81.1586936479698; 
+ Wed, 15 Apr 2020 00:41:19 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u30sm1878552wru.13.2020.04.15.00.41.17
+ by smtp.gmail.com with ESMTPSA id u30sm1878552wru.13.2020.04.15.00.41.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Apr 2020 00:41:18 -0700 (PDT)
+ Wed, 15 Apr 2020 00:41:19 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH 36/59] drm/cirrus: Don't use drm_device->dev_private
-Date: Wed, 15 Apr 2020 09:40:11 +0200
-Message-Id: <20200415074034.175360-37-daniel.vetter@ffwll.ch>
+Subject: [PATCH 37/59] drm/cirrus: Move to drm/tiny
+Date: Wed, 15 Apr 2020 09:40:12 +0200
+Message-Id: <20200415074034.175360-38-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
 References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
@@ -66,59 +67,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VXBjYXN0aW5nIHVzaW5nIGEgY29udGFpbmVyX29mIG1hY3JvIGlzIG1vcmUgdHlwZXNhZmUsIGZh
-c3RlciBhbmQKZWFzaWVyIGZvciB0aGUgY29tcGlsZXIgdG8gb3B0aW1pemUuCgpBY2tlZC1ieTog
-RXJpYyBBbmhvbHQgPGVyaWNAYW5ob2x0Lm5ldD4KQWNrZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2Ft
-QHJhdm5ib3JnLm9yZz4KU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRl
-ckBpbnRlbC5jb20+CkNjOiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgpDYzogR2Vy
-ZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
-dmV0dGVyQGZmd2xsLmNoPgpDYzogIk5vcmFsZiBUcsO4bm5lcyIgPG5vcmFsZkB0cm9ubmVzLm9y
-Zz4KQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KQ2M6IEVyaWMgQW5ob2x0IDxl
-cmljQGFuaG9sdC5uZXQ+CkNjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
-ZT4KQ2M6IHZpcnR1YWxpemF0aW9uQGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCi0tLQogZHJp
-dmVycy9ncHUvZHJtL2NpcnJ1cy9jaXJydXMuYyB8IDkgKysrKystLS0tCiAxIGZpbGUgY2hhbmdl
-ZCwgNSBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9jaXJydXMvY2lycnVzLmMgYi9kcml2ZXJzL2dwdS9kcm0vY2lycnVzL2NpcnJ1cy5j
-CmluZGV4IDRiNjU2MzcxNDdiYS4uNzQ0YThlMzM3ZTQxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vY2lycnVzL2NpcnJ1cy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9jaXJydXMvY2lycnVz
-LmMKQEAgLTU5LDYgKzU5LDggQEAgc3RydWN0IGNpcnJ1c19kZXZpY2UgewogCXZvaWQgX19pb21l
-bQkJICAgICAgICptbWlvOwogfTsKIAorI2RlZmluZSB0b19jaXJydXMoX2RldikgY29udGFpbmVy
-X29mKF9kZXYsIHN0cnVjdCBjaXJydXNfZGV2aWNlLCBkZXYpCisKIC8qIC0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAqLwog
-LyoKICAqIFRoZSBtZWF0IG9mIHRoaXMgZHJpdmVyLiBUaGUgY29yZSBwYXNzZXMgdXMgYSBtb2Rl
-IGFuZCB3ZSBoYXZlIHRvIHByb2dyYW0KQEAgLTMxMSw3ICszMTMsNyBAQCBzdGF0aWMgaW50IGNp
-cnJ1c19tb2RlX3NldChzdHJ1Y3QgY2lycnVzX2RldmljZSAqY2lycnVzLAogc3RhdGljIGludCBj
-aXJydXNfZmJfYmxpdF9yZWN0KHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLAogCQkJICAgICAg
-IHN0cnVjdCBkcm1fcmVjdCAqcmVjdCkKIHsKLQlzdHJ1Y3QgY2lycnVzX2RldmljZSAqY2lycnVz
-ID0gZmItPmRldi0+ZGV2X3ByaXZhdGU7CisJc3RydWN0IGNpcnJ1c19kZXZpY2UgKmNpcnJ1cyA9
-IHRvX2NpcnJ1cyhmYi0+ZGV2KTsKIAl2b2lkICp2bWFwOwogCWludCBpZHgsIHJldDsKIApAQCAt
-NDM2LDcgKzQzOCw3IEBAIHN0YXRpYyB2b2lkIGNpcnJ1c19waXBlX2VuYWJsZShzdHJ1Y3QgZHJt
-X3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUsCiAJCQkgICAgICAgc3RydWN0IGRybV9jcnRjX3N0
-YXRlICpjcnRjX3N0YXRlLAogCQkJICAgICAgIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnBsYW5l
-X3N0YXRlKQogewotCXN0cnVjdCBjaXJydXNfZGV2aWNlICpjaXJydXMgPSBwaXBlLT5jcnRjLmRl
-di0+ZGV2X3ByaXZhdGU7CisJc3RydWN0IGNpcnJ1c19kZXZpY2UgKmNpcnJ1cyA9IHRvX2NpcnJ1
-cyhwaXBlLT5jcnRjLmRldik7CiAKIAljaXJydXNfbW9kZV9zZXQoY2lycnVzLCAmY3J0Y19zdGF0
-ZS0+bW9kZSwgcGxhbmVfc3RhdGUtPmZiKTsKIAljaXJydXNfZmJfYmxpdF9mdWxsc2NyZWVuKHBs
-YW5lX3N0YXRlLT5mYik7CkBAIC00NDUsNyArNDQ3LDcgQEAgc3RhdGljIHZvaWQgY2lycnVzX3Bp
-cGVfZW5hYmxlKHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZSAqcGlwZSwKIHN0YXRpYyB2
-b2lkIGNpcnJ1c19waXBlX3VwZGF0ZShzdHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBp
-cGUsCiAJCQkgICAgICAgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqb2xkX3N0YXRlKQogewotCXN0
-cnVjdCBjaXJydXNfZGV2aWNlICpjaXJydXMgPSBwaXBlLT5jcnRjLmRldi0+ZGV2X3ByaXZhdGU7
-CisJc3RydWN0IGNpcnJ1c19kZXZpY2UgKmNpcnJ1cyA9IHRvX2NpcnJ1cyhwaXBlLT5jcnRjLmRl
-dik7CiAJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqc3RhdGUgPSBwaXBlLT5wbGFuZS5zdGF0ZTsK
-IAlzdHJ1Y3QgZHJtX2NydGMgKmNydGMgPSAmcGlwZS0+Y3J0YzsKIAlzdHJ1Y3QgZHJtX3JlY3Qg
-cmVjdDsKQEAgLTU3Myw3ICs1NzUsNiBAQCBzdGF0aWMgaW50IGNpcnJ1c19wY2lfcHJvYmUoc3Ry
-dWN0IHBjaV9kZXYgKnBkZXYsCiAJCXJldHVybiBQVFJfRVJSKGNpcnJ1cyk7CiAKIAlkZXYgPSAm
-Y2lycnVzLT5kZXY7Ci0JZGV2LT5kZXZfcHJpdmF0ZSA9IGNpcnJ1czsKIAogCWNpcnJ1cy0+dnJh
-bSA9IGRldm1faW9yZW1hcCgmcGRldi0+ZGV2LCBwY2lfcmVzb3VyY2Vfc3RhcnQocGRldiwgMCks
-CiAJCQkJICAgIHBjaV9yZXNvdXJjZV9sZW4ocGRldiwgMCkpOwotLSAKMi4yNS4xCgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Because it is. Huge congrats to everyone who made this kind of
+refactoring happen!
+
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: virtualization@lists.linux-foundation.org
+---
+ MAINTAINERS                               |  2 +-
+ drivers/gpu/drm/Kconfig                   |  2 --
+ drivers/gpu/drm/Makefile                  |  1 -
+ drivers/gpu/drm/cirrus/Kconfig            | 19 -------------------
+ drivers/gpu/drm/cirrus/Makefile           |  2 --
+ drivers/gpu/drm/tiny/Kconfig              | 19 +++++++++++++++++++
+ drivers/gpu/drm/tiny/Makefile             |  1 +
+ drivers/gpu/drm/{cirrus => tiny}/cirrus.c |  0
+ 8 files changed, 21 insertions(+), 25 deletions(-)
+ delete mode 100644 drivers/gpu/drm/cirrus/Kconfig
+ delete mode 100644 drivers/gpu/drm/cirrus/Makefile
+ rename drivers/gpu/drm/{cirrus => tiny}/cirrus.c (100%)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7b3255d96d1d..0a5cf105ee37 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5397,7 +5397,7 @@ L:	virtualization@lists.linux-foundation.org
+ S:	Obsolete
+ W:	https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-considered-harmful/
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+-F:	drivers/gpu/drm/cirrus/
++F:	drivers/gpu/drm/tiny/cirrus.c
+ 
+ DRM DRIVER FOR QXL VIRTUAL GPU
+ M:	Dave Airlie <airlied@redhat.com>
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 43594978958e..4f4e7fa001c1 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -310,8 +310,6 @@ source "drivers/gpu/drm/ast/Kconfig"
+ 
+ source "drivers/gpu/drm/mgag200/Kconfig"
+ 
+-source "drivers/gpu/drm/cirrus/Kconfig"
+-
+ source "drivers/gpu/drm/armada/Kconfig"
+ 
+ source "drivers/gpu/drm/atmel-hlcdc/Kconfig"
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index f34d08c83485..2c0e5a7e5953 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -74,7 +74,6 @@ obj-$(CONFIG_DRM_I915)	+= i915/
+ obj-$(CONFIG_DRM_MGAG200) += mgag200/
+ obj-$(CONFIG_DRM_V3D)  += v3d/
+ obj-$(CONFIG_DRM_VC4)  += vc4/
+-obj-$(CONFIG_DRM_CIRRUS_QEMU) += cirrus/
+ obj-$(CONFIG_DRM_SIS)   += sis/
+ obj-$(CONFIG_DRM_SAVAGE)+= savage/
+ obj-$(CONFIG_DRM_VMWGFX)+= vmwgfx/
+diff --git a/drivers/gpu/drm/cirrus/Kconfig b/drivers/gpu/drm/cirrus/Kconfig
+deleted file mode 100644
+index c6bbd988b0e5..000000000000
+--- a/drivers/gpu/drm/cirrus/Kconfig
++++ /dev/null
+@@ -1,19 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-config DRM_CIRRUS_QEMU
+-	tristate "Cirrus driver for QEMU emulated device"
+-	depends on DRM && PCI && MMU
+-	select DRM_KMS_HELPER
+-	select DRM_GEM_SHMEM_HELPER
+-	help
+-	 This is a KMS driver for emulated cirrus device in qemu.
+-	 It is *NOT* intended for real cirrus devices. This requires
+-	 the modesetting userspace X.org driver.
+-
+-	 Cirrus is obsolete, the hardware was designed in the 90ies
+-	 and can't keep up with todays needs.  More background:
+-	 https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-considered-harmful/
+-
+-	 Better alternatives are:
+-	   - stdvga (DRM_BOCHS, qemu -vga std, default in qemu 2.2+)
+-	   - qxl (DRM_QXL, qemu -vga qxl, works best with spice)
+-	   - virtio (DRM_VIRTIO_GPU), qemu -vga virtio)
+diff --git a/drivers/gpu/drm/cirrus/Makefile b/drivers/gpu/drm/cirrus/Makefile
+deleted file mode 100644
+index 0c1ed3f99725..000000000000
+--- a/drivers/gpu/drm/cirrus/Makefile
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-obj-$(CONFIG_DRM_CIRRUS_QEMU) += cirrus.o
+diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+index 4160e74e4751..2b6414f0fa75 100644
+--- a/drivers/gpu/drm/tiny/Kconfig
++++ b/drivers/gpu/drm/tiny/Kconfig
+@@ -1,5 +1,24 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
++config DRM_CIRRUS_QEMU
++	tristate "Cirrus driver for QEMU emulated device"
++	depends on DRM && PCI && MMU
++	select DRM_KMS_HELPER
++	select DRM_GEM_SHMEM_HELPER
++	help
++	 This is a KMS driver for emulated cirrus device in qemu.
++	 It is *NOT* intended for real cirrus devices. This requires
++	 the modesetting userspace X.org driver.
++
++	 Cirrus is obsolete, the hardware was designed in the 90ies
++	 and can't keep up with todays needs.  More background:
++	 https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-considered-harmful/
++
++	 Better alternatives are:
++	   - stdvga (DRM_BOCHS, qemu -vga std, default in qemu 2.2+)
++	   - qxl (DRM_QXL, qemu -vga qxl, works best with spice)
++	   - virtio (DRM_VIRTIO_GPU), qemu -vga virtio)
++
+ config DRM_GM12U320
+ 	tristate "GM12U320 driver for USB projectors"
+ 	depends on DRM && USB
+diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+index c96ceee71453..6ae4e9e5a35f 100644
+--- a/drivers/gpu/drm/tiny/Makefile
++++ b/drivers/gpu/drm/tiny/Makefile
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
++obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus.o
+ obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
+ obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
+ obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
+diff --git a/drivers/gpu/drm/cirrus/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
+similarity index 100%
+rename from drivers/gpu/drm/cirrus/cirrus.c
+rename to drivers/gpu/drm/tiny/cirrus.c
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
