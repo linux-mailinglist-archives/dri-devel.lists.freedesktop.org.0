@@ -1,40 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E181AB064
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 20:12:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5DE1AB90D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 09:00:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21E4D8916A;
-	Wed, 15 Apr 2020 18:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D8AC6EAFC;
+	Thu, 16 Apr 2020 06:59:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30E018916A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 18:12:39 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9B81A2D1;
- Wed, 15 Apr 2020 20:12:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1586974357;
- bh=Dap3YfL37otGvAkUdRZ/+gsy5KBCCN0SCqw8sMkaAxs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QfxwrcBfx69+YxIIAAmmR3Jqz0p4S8a1uYnt9am/A2s4bJfyRDC0Y8fKtAosrl3pE
- jWxLaJhWkVEQP2Pqh9FTBgLI4I3YNKT+IDgjrg5v6eEPZc8k1lGnnb2UzanJBAPJ+1
- /OvnM2Lw4ZkAkS7yrS+FlPcLyUb1O/3atrO0qBoo=
-Date: Wed, 15 Apr 2020 21:12:23 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/bridge: Move mhl.h into driver directory
-Message-ID: <20200415181223.GN4758@pendragon.ideasonboard.com>
-References: <20200415173833.312706-1-daniel.vetter@ffwll.ch>
- <20200415174806.GL4758@pendragon.ideasonboard.com>
- <20200415180620.GK3456981@phenom.ffwll.local>
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+ (mail-oln040092004105.outbound.protection.outlook.com [40.92.4.105])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C41D6E105
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 18:17:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cKsYw22Jdn4RnDwUfvKUz45jCp4ostZYV6998+bBAWVR59m9+Lqh5FaycLdvzKelwNrL3/oxJMCOt+7fgKmKL2zCnAlLuD73UQUkH/onphbBlJ9V4xleMXU1NaYgUTouRmQWnWHCGg58b9aJ2Kmf3LowihgcEc4/mYl0Bn/Aw2ZrEN7lnzFdLKk5+dPySCQmseZ0FFBFI5Xytr5iUDJdXbFWVMccAvwA7YNaI2VZ2xBewEViebRX9d2uUOogSXCbdcS0NrR3Qd1nWvG1x2KPiWN8CtBWQdkNDrZ5v+JBC0ayps/HKVLGi2gGVMuR1TWlPNMihzeG5QyC1lZ2g/P/jA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6qm0J12ynSYfizp+lk8C4gGwJh5pUu+JJ25HKljGqzc=;
+ b=YAJEDDH1MbPFwDcV7ZLTWrHltNrze0V4ZdyUAjuLozgS2S+YjKXMRnsTDhB4Ul/zu6IvENJWHkGe/Z1W1prwSuz4OKKfkihJBuQo2fV4yVni78e3HgPY4rU1NQPZ44XU1As89Y3DwM3kD4ocN+PiF87xp3BQ7Lzu8BtIjgplTHbUChJoE0f+D4KwqIt4ikXNgGny1iToCrBLSegTXZ4iiSWLQx+GFXF+qmrXJ1fCzFaKJejzWLMFAGm0aDHpWPJApsMNbwmg9NIQEVag8w07Xr2g+/l1RFQhqeb/6aRJSbf4QjfPj/q7ldcL0bG4WHGm8JDVdDsKyZtQaDxT29bk1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=live.ca; dmarc=pass action=none header.from=live.ca; dkim=pass
+ header.d=live.ca; arc=none
+Received: from BL2NAM02FT046.eop-nam02.prod.protection.outlook.com
+ (10.152.76.51) by BL2NAM02HT009.eop-nam02.prod.protection.outlook.com
+ (10.152.77.83) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25; Wed, 15 Apr
+ 2020 18:17:22 +0000
+Received: from BN6PR04MB0660.namprd04.prod.outlook.com
+ (2a01:111:e400:7e46::53) by BL2NAM02FT046.mail.protection.outlook.com
+ (2a01:111:e400:7e46::118) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
+ Transport; Wed, 15 Apr 2020 18:17:22 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:8BD68E2A26C952ABD585DB347D4BADB994C1700DADB921EE431499921C4B8EA2;
+ UpperCasedChecksum:85458A7AC59CC987BE425960761D72725327EDA927052EB94E85E11BFC6396EB;
+ SizeAsReceived:10107; Count:50
+Received: from BN6PR04MB0660.namprd04.prod.outlook.com
+ ([fe80::ad10:4127:4bc8:76fc]) by BN6PR04MB0660.namprd04.prod.outlook.com
+ ([fe80::ad10:4127:4bc8:76fc%6]) with mapi id 15.20.2900.028; Wed, 15 Apr 2020
+ 18:17:22 +0000
+Subject: Re: [PATCH v6 08/12] arm: dts: s5pv210: Add G3D node
+To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+References: <cover.1586939718.git.hns@goldelico.com>
+ <b6733f80546bf3e6b3799f716b9c8e0f407de03d.1586939718.git.hns@goldelico.com>
+ <CAJKOXPcb9KWNAem-CAx_zCS+sZoEHYc0J8x0nk1xjY9hD4-M4w@mail.gmail.com>
+ <AB9B8741-CFF7-414D-9489-D381B539538D@goldelico.com>
+From: Jonathan Bakker <xc-racer2@live.ca>
+Message-ID: <BN6PR04MB0660640B15550F75C8CCD4DEA3DB0@BN6PR04MB0660.namprd04.prod.outlook.com>
+Date: Wed, 15 Apr 2020 11:17:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+In-Reply-To: <AB9B8741-CFF7-414D-9489-D381B539538D@goldelico.com>
+Content-Language: en-US
+X-ClientProxiedBy: MWHPR12CA0067.namprd12.prod.outlook.com
+ (2603:10b6:300:103::29) To BN6PR04MB0660.namprd04.prod.outlook.com
+ (2603:10b6:404:d9::21)
+X-Microsoft-Original-Message-ID: <ada9183b-f363-cd20-1f9d-386525b03c95@live.ca>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200415180620.GK3456981@phenom.ffwll.local>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2001:569:fb67:7300:9f89:4b96:de0b:cd14]
+ (2001:569:fb67:7300:9f89:4b96:de0b:cd14) by
+ MWHPR12CA0067.namprd12.prod.outlook.com (2603:10b6:300:103::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
+ Transport; Wed, 15 Apr 2020 18:17:19 +0000
+X-Microsoft-Original-Message-ID: <ada9183b-f363-cd20-1f9d-386525b03c95@live.ca>
+X-TMN: [U2G2OSqe5A/BZuCGGWOHtqUzj1cujfbs+umOObyOl+oDyfyAAsfjGd2eoRhHsiD0]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 50
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 30933129-d48e-48d1-e9cf-08d7e1693dc0
+X-MS-TrafficTypeDiagnostic: BL2NAM02HT009:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Gp3BiXN1m8OUI9TUXrEcbDnQB9zzSz88GXXW103qz0KuM0Zg94zLf6W4p8efgOxI+d1OTcBJWheBrYX+EXRjQqwvqFsw9BKU8x8PDiXbg+A9uYvM+ON6CYgpKaLMavDNOS2PBRFsMEMoh4nsPl2JNIU32k+fiP80519ML+w0mr2AiKu4hq9DKSuj3uCh4XfC
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:0; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN6PR04MB0660.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:; SFS:; DIR:OUT; SFP:1901; 
+X-MS-Exchange-AntiSpam-MessageData: onrRf+pkiHCwQy/Q/3gVZHQrKcjInLcW20cEMXd8uF4+NSQTUzhoAODCmzzeqGGFuHe/zVe8a2ePYbAQOV+elESnWpx/32G/WpIdgoaQzZqmqgDfNtQuLL5el+yr8OIEKZay23wVidb4uYhu3EG3Qj4/1dq5ob2hBKDtEnHjWZqwpaXJ7zBJh8HkRPf149AVYqJ0G2rdUOLqlHjnyczX4w==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30933129-d48e-48d1-e9cf-08d7e1693dc0
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2020 18:17:22.5620 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL2NAM02HT009
+X-Mailman-Approved-At: Thu, 16 Apr 2020 06:59:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,170 +100,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Jonas Karlman <jonas@kwiboo.se>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>, Allison Randal <allison@lohutok.net>
+Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
+ James Hogan <jhogan@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ linux-omap@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
+ Tony Lindgren <tony@atomide.com>, Chen-Yu Tsai <wens@csie.org>,
+ Kukjin Kim <kgene@kernel.org>, devicetree@vger.kernel.org,
+ =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, letux-kernel@openphoenux.org,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Ralf Baechle <ralf@linux-mips.org>, kernel@pyra-handheld.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+Hi Nikolaus,
 
-On Wed, Apr 15, 2020 at 08:06:20PM +0200, Daniel Vetter wrote:
-> On Wed, Apr 15, 2020 at 08:48:06PM +0300, Laurent Pinchart wrote:
-> > On Wed, Apr 15, 2020 at 07:38:33PM +0200, Daniel Vetter wrote:
-> > > include/drm/bridge is a bit a mistake, drivers are supposed to find
-> > > their bridges using one of the standard of_* functions the drm_bridge
-> > > core provides.
-> > 
-> > I'm confused, I don't really see how that's related to mhl.h. The header
-> > defines constants and structures related to the MHL (Mobile
-> > High-Definition Link) protocol, which is an industry standard. If you
-> > want to move it out of include/drm/bridge/ to eventually remove that
-> > directory, I think it should be renamted to include/drm/drm_mhl.h.
+On 2020-04-15 5:50 a.m., H. Nikolaus Schaller wrote:
 > 
-> It looked misplaced at least ... I guess moving this out of drm/bridge
-> makes more sense.
+>> Am 15.04.2020 um 13:49 schrieb Krzysztof Kozlowski <krzk@kernel.org>:
+>>
+>> On Wed, 15 Apr 2020 at 10:36, H. Nikolaus Schaller <hns@goldelico.com> wrote:
+>>>
+>>> From: Jonathan Bakker <xc-racer2@live.ca>
+>>>
+>>> to add support for SGX540 GPU.
+>>
+>> Do not continue the subject in commit msg like it is one sentence.
+>> These are two separate sentences, so commit msg starts with capital
+>> letter and it is sentence by itself.
+>>
+
+Sorry, that's my fault, I should know better.
+
+Nikolaus took this from my testing tree and I apparently didn't have it in
+as good as state as I should have.
+
+>>> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
+>>> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+>>> ---
+>>> arch/arm/boot/dts/s5pv210.dtsi | 15 +++++++++++++++
+>>> 1 file changed, 15 insertions(+)
+>>>
+>>> diff --git a/arch/arm/boot/dts/s5pv210.dtsi b/arch/arm/boot/dts/s5pv210.dtsi
+>>> index 2ad642f51fd9..e7fc709c0cca 100644
+>>> --- a/arch/arm/boot/dts/s5pv210.dtsi
+>>> +++ b/arch/arm/boot/dts/s5pv210.dtsi
+>>> @@ -512,6 +512,21 @@ vic3: interrupt-controller@f2300000 {
+>>>                        #interrupt-cells = <1>;
+>>>                };
+>>>
+>>> +               g3d: g3d@f3000000 {
+>>> +                       compatible = "samsung,s5pv210-sgx540-120";
+>>> +                       reg = <0xf3000000 0x10000>;
+>>> +                       interrupt-parent = <&vic2>;
+>>> +                       interrupts = <10>;
+>>> +                       clock-names = "sclk";
+>>> +                       clocks = <&clocks CLK_G3D>;
+>>
+>> Not part of bindings, please remove or add to the bindings.
 > 
-> > > dw-hdmi and analogix-dp are the only, historically
-> > > grown exception that we haven't managed to get rid of yet.
-> > 
-> > The reason why we have shared headers for those is because they're IP
-> > cores integrated with different glue layers in different SoCs. There's
-> > one driver for the IP core itself, and SoC-specific glue drivers that
-> > need to provide the IP core drivers with data and callbacks, defined in
-> > shared headers. Granted, there's also data in those headers that are
-> > only internal to the IP core drivers, and that should be moved out, but
-> > for the interface header, include/drm/bridge/ doesn't seem to be a bad
-> > location to me.
+> Well, the bindings should describe what is common for all SoC
+> and they are quite different in what they need in addition.
 > 
-> The thing that irks me on them is that they kinda implement bridges, but
-> they don't load like bridges. That's the part I think should get changed,
-> or we need to finally figure out what exactly isn't good with the current
-> drm_bridge handling and get that fixed (the relevant patches seem forever
-> stuck in limbo, hence why I'm kicking).
-
-dw-hdmi certainly loads like a bridge when used with R-Car DU :-) Are
-you referring to the component-based probe mode for that driver ?
-
-> If that's not possible because these things just dont fit as drm_bridge,
-> then maybe they shouldn't be a bridge, but something else. But looking at
-> both dw-hdmi and analogix-dp these things look a lot like midlayers that
-> get fed huge structures. Instead of more bare-bones toolboxes to build a
-> set of similar drm_bridge drivers, which drivers then bind into using dt.
+> Thererfore we have no "additionalProperties: false" in the
+> bindings [PATCH v6 01/12].
 > 
-> So all a bit fishy imo.
+>>
+>>> +
+>>> +                       power-domains = <&pd S5PV210_PD_G3D>;
+>>
+>> Ditto
 > 
-> I guess step 1 at least would be to throw the connector and encoder code
-> out of all these drivers, that would be at least a first step.
-
-Oh yes!! DRM_BRIDGE_ATTACH_NO_CONNECTOR for everybody :-) It's a
-step-by-step process though:
-
-1. Convert bridge drivers to support both modes (adding support for
-   DRM_BRIDGE_ATTACH_NO_CONNECTOR).
-2. Convert display drivers to make use of DRM_BRIDGE_ATTACH_NO_CONNECTOR
-   (with the DRM bridge connector helper, or custom code if really
-   needed).
-3. Remove support for the !DRM_BRIDGE_ATTACH_NO_CONNECTOR mode in bridge
-   drivers.
-4. Drop the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag itself.
-
-Sam and I are working on the first step (I'll convert the dw-hdmi driver
-soon), and we're passing the message around that new bridge drivers
-must support DRM_BRIDGE_ATTACH_NO_CONNECTOR and new display controller
-drivers must use it.
-
-> Next one maybe push the per-variant bind code into drm/bridge and out of
-> drivers, and use more standard of_ functions to find the bridges and tie
-> them into the drm_device.
+> In this case it might be possible to add the clock/power-domains
+> etc. to a wrapper node compatible to "simple-pm-bus" or similar
+> and make the gpu a child of it.
 > 
-> Then 3rd round, some refactoring to demidlayer these libraries and make
-> them real toolboxes.
+> @Jontahan: can you please give it a try?
 > 
-> > > Make sure that at least no new ones grow by moving hardware header
-> > > files into the correct driver directory.
-> > > 
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > Cc: Alexey Brodkin <abrodkin@synopsys.com>
-> > > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > > Cc: Andrzej Hajda <a.hajda@samsung.com>
-> > > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > > Cc: Jonas Karlman <jonas@kwiboo.se>
-> > > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > Cc: Kate Stewart <kstewart@linuxfoundation.org>
-> > > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > > Cc: Allison Randal <allison@lohutok.net>
-> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-> > > ---
-> > >  {include => drivers/gpu}/drm/bridge/mhl.h | 0
-> > >  drivers/gpu/drm/bridge/sii9234.c          | 3 ++-
-> > >  drivers/gpu/drm/bridge/sil-sii8620.c      | 2 +-
-> > >  3 files changed, 3 insertions(+), 2 deletions(-)
-> > >  rename {include => drivers/gpu}/drm/bridge/mhl.h (100%)
-> > > 
-> > > diff --git a/include/drm/bridge/mhl.h b/drivers/gpu/drm/bridge/mhl.h
-> > > similarity index 100%
-> > > rename from include/drm/bridge/mhl.h
-> > > rename to drivers/gpu/drm/bridge/mhl.h
-> > > diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
-> > > index b1258f0ed205..4c862c3af038 100644
-> > > --- a/drivers/gpu/drm/bridge/sii9234.c
-> > > +++ b/drivers/gpu/drm/bridge/sii9234.c
-> > > @@ -12,7 +12,6 @@
-> > >   *    Shankar Bandal <shankar.b@samsung.com>
-> > >   *    Dharam Kumar <dharam.kr@samsung.com>
-> > >   */
-> > > -#include <drm/bridge/mhl.h>
-> > >  #include <drm/drm_bridge.h>
-> > >  #include <drm/drm_crtc.h>
-> > >  #include <drm/drm_edid.h>
-> > > @@ -29,6 +28,8 @@
-> > >  #include <linux/regulator/consumer.h>
-> > >  #include <linux/slab.h>
-> > >  
-> > > +#include "mhl.h"
-> > > +
-> > >  #define CBUS_DEVCAP_OFFSET		0x80
-> > >  
-> > >  #define SII9234_MHL_VERSION		0x11
-> > > diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
-> > > index 92acd336aa89..017dbb67404e 100644
-> > > --- a/drivers/gpu/drm/bridge/sil-sii8620.c
-> > > +++ b/drivers/gpu/drm/bridge/sil-sii8620.c
-> > > @@ -8,7 +8,6 @@
-> > >  
-> > >  #include <asm/unaligned.h>
-> > >  
-> > > -#include <drm/bridge/mhl.h>
-> > >  #include <drm/drm_bridge.h>
-> > >  #include <drm/drm_crtc.h>
-> > >  #include <drm/drm_edid.h>
-> > > @@ -31,6 +30,7 @@
-> > >  
-> > >  #include <media/rc-core.h>
-> > >  
-> > > +#include "mhl.h"
-> > >  #include "sil-sii8620.h"
-> > >  
-> > >  #define SII8620_BURST_BUF_LEN 288
+> 
 
--- 
-Regards,
+The power-domains comes from a (so far) non-upstreamed power domain driver
+for s5pv210 that I've been playing around with.  It's not necessary for proper
+operation as it's on by default.
 
-Laurent Pinchart
+Looking at simple-pm-bus, I don't really understand its purpose.  Is it a way of separating
+out a power domain from a main device's node?  Or is it designed for when you have multiple
+devices under the same power domain?
+
+Nikolaus, I can regenerate a proper patch for you if you want that's not based on my testing tree.
+
+>>
+>>> +
+>>> +                       assigned-clocks = <&clocks MOUT_G3D>, <&clocks DOUT_G3D>;
+>>> +                       assigned-clock-rates = <0>, <66700000>;
+>>> +                       assigned-clock-parents = <&clocks MOUT_MPLL>;
+>>
+>> Probably this should have status disabled because you do not set
+>> regulator supply.
+
+I don't believe there is a regulator on s5pv210, if there is, then it is a
+fixed regulator with no control on both s5pv210 devices that I have.
+
+The vendor driver did use the regulator framework for its power domain
+implementation, but that definitely shouldn't be upstreamed.
+
+> BR and thanks,
+> Nikolaus
+> 
+
+Thanks,
+Jonathan
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
