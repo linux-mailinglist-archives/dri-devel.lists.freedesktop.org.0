@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFFC21A9029
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 03:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD0F1A902A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 03:13:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB6B56E802;
-	Wed, 15 Apr 2020 01:13:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E88066E1A7;
+	Wed, 15 Apr 2020 01:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 044526E7FE
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 01:13:30 +0000 (UTC)
-X-UUID: 70736340d81e496583dd8dbb1851b30c-20200415
+ by gabe.freedesktop.org (Postfix) with ESMTP id 397D16E1A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 01:13:31 +0000 (UTC)
+X-UUID: 1a62970a25f54caf91d28c4de27047a8-20200415
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=nO2lhFsFTjN3a8s+w5ZBw2IIxzBf8mtfZDk0MhET6LE=; 
- b=tudRCOWc91CaWwBzUKK/c0qOSUjruaP2pvC+O8N8SGZ4BKdT7CnbeN8d9zVIG1eJsB+IHIze101XYvwtZxpCU7sDwdLumsZ74MQnJnCjQWEQfbgeqPj9No4u+rZGyU4hRbFJZf3WWxDYXW40MrDB81mDgklafPidJJj1xWCIQxk=;
-X-UUID: 70736340d81e496583dd8dbb1851b30c-20200415
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ bh=sbmwqRaPnFNnVMN+0QzsLnHsob5l0i9xYF51mT12EvM=; 
+ b=MFg9ZJT5Rj0MX8VczA9Exs8st5V6Y5SnSHfrwnQpXE+OEHGiDW09sT4UClhxqxxcLkzMfdWVxRwU9Y36TkpgG/PoxMPQZq8lnwlVDIIR8r5mx10cpJnV4covtbXj53FCYEJcn13jvZxidQfzhpQO8jTiTKQPCq+jss4eS58V+uU=;
+X-UUID: 1a62970a25f54caf91d28c4de27047a8-20200415
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 642352115; Wed, 15 Apr 2020 09:13:24 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
- (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 15 Apr 2020 09:13:22 +0800
+ with ESMTP id 2060372180; Wed, 15 Apr 2020 09:13:26 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33DR.mediatek.inc
+ (172.27.6.106) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 15 Apr 2020 09:13:25 +0800
 Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
  MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Wed, 15 Apr 2020 09:13:21 +0800
+ 15.0.1497.2 via Frontend Transport; Wed, 15 Apr 2020 09:13:22 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v15 1/3] dt-bindings: display: mediatek: control dpi pins mode
- to avoid leakage
-Date: Wed, 15 Apr 2020 09:13:17 +0800
-Message-ID: <20200415011319.25559-2-jitao.shi@mediatek.com>
+Subject: [PATCH v15 2/3] dt-bindings: display: mediatek: convert the document
+ format from txt to yaml
+Date: Wed, 15 Apr 2020 09:13:18 +0800
+Message-ID: <20200415011319.25559-3-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.12.5
 In-Reply-To: <20200415011319.25559-1-jitao.shi@mediatek.com>
 References: <20200415011319.25559-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 9899C9B523F3F3B15CB65ED031246E6D74C76EFC8F4B91273DA2E99FED1ABD0D2000:8
+X-TM-SNTS-SMTP: 054F3D6F7D350A99C00CE8F24EED9ECEABC3F08F71BCF1A53B28F1ECF983E8D82000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,41 +66,165 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add property "pinctrl-names" to swap pin mode between gpio and dpi mode. Set
-the dpi pins to gpio mode and output-low to avoid leakage current when dpi
-disabled.
-
-Acked-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 ---
- Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../bindings/display/mediatek/mediatek,dpi.txt     | 42 ----------
+ .../bindings/display/mediatek/mediatek,dpi.yaml    | 97 ++++++++++++++++++++++
+ 2 files changed, 97 insertions(+), 42 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
 
 diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-index 58914cf681b8..77def4456706 100644
+deleted file mode 100644
+index 77def4456706..000000000000
 --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-@@ -17,6 +17,9 @@ Required properties:
-   Documentation/devicetree/bindings/graph.txt. This port should be connected
-   to the input port of an attached HDMI or LVDS encoder chip.
- 
-+Optional properties:
-+- pinctrl-names: Contain "default" and "sleep".
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Mediatek DPI Device
+-===================
+-
+-The Mediatek DPI function block is a sink of the display subsystem and
+-provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
+-output bus.
+-
+-Required properties:
+-- compatible: "mediatek,<chip>-dpi"
+-  the supported chips are mt2701 , mt8173 and mt8183.
+-- reg: Physical base address and length of the controller's registers
+-- interrupts: The interrupt signal from the function block.
+-- clocks: device clocks
+-  See Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
+-- clock-names: must contain "pixel", "engine", and "pll"
+-- port: Output port node with endpoint definitions as described in
+-  Documentation/devicetree/bindings/graph.txt. This port should be connected
+-  to the input port of an attached HDMI or LVDS encoder chip.
+-
+-Optional properties:
+-- pinctrl-names: Contain "default" and "sleep".
+-
+-Example:
+-
+-dpi0: dpi@1401d000 {
+-	compatible = "mediatek,mt8173-dpi";
+-	reg = <0 0x1401d000 0 0x1000>;
+-	interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_LOW>;
+-	clocks = <&mmsys CLK_MM_DPI_PIXEL>,
+-		 <&mmsys CLK_MM_DPI_ENGINE>,
+-		 <&apmixedsys CLK_APMIXED_TVDPLL>;
+-	clock-names = "pixel", "engine", "pll";
+-	pinctrl-names = "default", "sleep";
+-	pinctrl-0 = <&dpi_pin_func>;
+-	pinctrl-1 = <&dpi_pin_idle>;
+-
+-	port {
+-		dpi0_out: endpoint {
+-			remote-endpoint = <&hdmi0_in>;
+-		};
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+new file mode 100644
+index 000000000000..2c2d6a71cb8b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+@@ -0,0 +1,97 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- Example:
- 
- dpi0: dpi@1401d000 {
-@@ -27,6 +30,9 @@ dpi0: dpi@1401d000 {
- 		 <&mmsys CLK_MM_DPI_ENGINE>,
- 		 <&apmixedsys CLK_APMIXED_TVDPLL>;
- 	clock-names = "pixel", "engine", "pll";
-+	pinctrl-names = "default", "sleep";
-+	pinctrl-0 = <&dpi_pin_func>;
-+	pinctrl-1 = <&dpi_pin_idle>;
- 
- 	port {
- 		dpi0_out: endpoint {
++title: mediatek DPI Controller Device Tree Bindings
++
++maintainers:
++  - CK Hu <ck.hu@mediatek.com>
++  - Jitao shi <jitao.shi@mediatek.com>
++
++description: |
++  The Mediatek DPI function block is a sink of the display subsystem and
++  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
++  output bus.
++
++properties:
++  compatible:
++    enum:
++      - mediatek,mt2701-dpi
++      - mediatek,mt8173-dpi
++      - mediatek,mt8183-dpi
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Pixel Clock
++      - description: Engine Clock
++      - description: DPI PLL
++
++  clock-names:
++    items:
++      - const: pixel
++      - const: engine
++      - const: pll
++
++  pinctrl-0: true
++  pinctrl-1: true
++
++  pinctrl-names:
++    items:
++      - const: default
++      - const: sleep
++
++  port:
++    type: object
++    description:
++      Output port node with endpoint definitions as described in
++      Documentation/devicetree/bindings/graph.txt. This port should be connected
++      to the input port of an attached HDMI or LVDS encoder chip.
++
++    properties:
++      endpoint:
++        type: object
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/mt8173-clk.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    dpi0: dpi@1401d000 {
++        compatible = "mediatek,mt8173-dpi";
++        reg = <0 0x1401d000 0 0x1000>;
++        interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_LOW>;
++        clocks = <&mmsys CLK_MM_DPI_PIXEL>,
++             <&mmsys CLK_MM_DPI_ENGINE>,
++             <&apmixedsys CLK_APMIXED_TVDPLL>;
++        clock-names = "pixel", "engine", "pll";
++        pinctrl-names = "default", "sleep";
++        pinctrl-0 = <&dpi_pin_func>;
++        pinctrl-1 = <&dpi_pin_idle>;
++
++        port {
++            dpi0_out: endpoint {
++                remote-endpoint = <&hdmi0_in>;
++            };
++        };
++    };
++
++...
 -- 
 2.12.5
 _______________________________________________
