@@ -1,50 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109C31AB284
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 22:33:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 421261AB286
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 22:33:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0702D6EA62;
-	Wed, 15 Apr 2020 20:33:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68F7D6EA65;
+	Wed, 15 Apr 2020 20:33:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D26806EA62
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 20:33:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586982783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3/8KUtsnW6PKzv+JyQxeDkng6h8D93TNwqRBT5VMBaA=;
- b=IBQtmqsL8b13zjCxcg4hHRgvP/4iM8c1ORdVhjeG1I0KJWAsRU6bbfdOdq+XGQgtFV7nzb
- rZDhTLEzzsUasITXW8EjIXJ4j06OfTWl2OuZydecgg2imbfJd+m1pF8/6vluS1H8EQGGmT
- 3Jamul5j08QsQS77eYuGQ9PaDnKPgwk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-AYD5ubVRPHaPt6L3V-c56Q-1; Wed, 15 Apr 2020 16:32:52 -0400
-X-MC-Unique: AYD5ubVRPHaPt6L3V-c56Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E8BD801A01;
- Wed, 15 Apr 2020 20:32:50 +0000 (UTC)
-Received: from Ruby.redhat.com (ovpn-119-161.rdu2.redhat.com [10.10.119.161])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5402A18A85;
- Wed, 15 Apr 2020 20:32:47 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: gregkh@linuxfoundation.org
-Subject: [PATCH] drm/dp_mst: Fix clearing payload state on topology disable
-Date: Wed, 15 Apr 2020 16:32:37 -0400
-Message-Id: <20200415203237.2064485-1-lyude@redhat.com>
-In-Reply-To: <1586950297139145@kroah.com>
-References: <1586950297139145@kroah.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAA746EA65
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 20:33:11 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4BCC8DD3;
+ Wed, 15 Apr 2020 22:33:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1586982789;
+ bh=ZWrQLQiITcnJHS7w+LOALjXfWMs5iz+rT8aFRxucxtw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GQiAUrd7WJjvq8jNIeeljZaHhBNFa/QhJS4yGJW5WND2eu3EUuqC3ud3FcqdxopQf
+ XSO0UCi7+yJP0gda51b3GJ5gC4HhTREnnvjaC0aBVqfHLALAzWwxAUjKVIJuL19Bua
+ VngkH6/jze8rIhCrN/ha0VSue9EADOCMji40G+to=
+Date: Wed, 15 Apr 2020 23:32:56 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH 2/3] dt-bindings: drm/bridge: ti-sn65dsi86: Add hpd-gpios
+ to the bindings
+Message-ID: <20200415203256.GP4758@pendragon.ideasonboard.com>
+References: <20200415084758.1.Ifcdc4ecb12742a27862744ee1e8753cb95a38a7f@changeid>
+ <20200415084758.2.Ic98f6622c60a1aa547ed85781f2c3b9d3e56b734@changeid>
+ <158698038289.105027.2860892334897893887@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Disposition: inline
+In-Reply-To: <158698038289.105027.2860892334897893887@swboyd.mtv.corp.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,81 +48,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Wayne Lin <Wayne.Lin@amd.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: robdclark@chromium.org, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
+ narmstrong@baylibre.com, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ jonas@kwiboo.se, jeffrey.l.hugo@gmail.com,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ spanda@codeaurora.org, a.hajda@samsung.com, robh+dt@kernel.org,
+ bjorn.andersson@linaro.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGlzc3VlcyBjYXVzZWQgYnk6Cgpjb21taXQgNjRlNjJiZGYwNGFiICgiZHJtL2RwX21zdDog
-UmVtb3ZlIFZDUEkgd2hpbGUgZGlzYWJsaW5nIHRvcG9sb2d5Cm1nciIpCgpQcm9tcHRlZCBtZSB0
-byB0YWtlIGEgY2xvc2VyIGxvb2sgYXQgaG93IHdlIGNsZWFyIHRoZSBwYXlsb2FkIHN0YXRlIGlu
-CmdlbmVyYWwgd2hlbiBkaXNhYmxpbmcgdGhlIHRvcG9sb2d5LCBhbmQgaXQgdHVybnMgb3V0IHRo
-ZXJlJ3MgYWN0dWFsbHkKdHdvIHN1YnRsZSBpc3N1ZXMgaGVyZS4KClRoZSBmaXJzdCBpcyB0aGF0
-IHdlJ3JlIG5vdCBncmFiYmluZyAmbWdyLnBheWxvYWRfbG9jayB3aGVuIGNsZWFyaW5nIHRoZQpw
-YXlsb2FkcyBpbiBkcm1fZHBfbXN0X3RvcG9sb2d5X21ncl9zZXRfbXN0KCkuIFNlZWluZyBhcyB0
-aGUgY2Fub25pY2FsCmxvY2sgb3JkZXIgaXMgJm1nci5wYXlsb2FkX2xvY2sgLT4gJm1nci5sb2Nr
-IChiZWNhdXNlIHdlIGFsd2F5cyB3YW50CiZtZ3IubG9jayB0byBiZSB0aGUgaW5uZXItbW9zdCBs
-b2NrIHNvIHRvcG9sb2d5IHZhbGlkYXRpb24gYWx3YXlzCndvcmtzKSwgdGhpcyBtYWtlcyBwZXJm
-ZWN0IHNlbnNlLiBJdCBhbHNvIG1lYW5zIHRoYXQgLXRlY2huaWNhbGx5LSB0aGVyZQpjb3VsZCBi
-ZSByYWNpbmcgYmV0d2VlbiBzb21lb25lIGNhbGxpbmcKZHJtX2RwX21zdF90b3BvbG9neV9tZ3Jf
-c2V0X21zdCgpIHRvIGRpc2FibGUgdGhlIHRvcG9sb2d5LCBhbG9uZyB3aXRoIGEKbW9kZXNldCBv
-Y2N1cnJpbmcgdGhhdCdzIG1vZGlmeWluZyB0aGUgcGF5bG9hZCBzdGF0ZSBhdCB0aGUgc2FtZSB0
-aW1lLgoKVGhlIHNlY29uZCBpcyB0aGUgbW9yZSBvYnZpb3VzIGlzc3VlIHRoYXQgV2F5bmUgTGlu
-IGRpc2NvdmVyZWQsIHRoYXQKd2UncmUgbm90IGNsZWFyaW5nIHByb3Bvc2VkX3BheWxvYWRzIHdo
-ZW4gZGlzYWJsaW5nIHRoZSB0b3BvbG9neS4KCkkgYWN0dWFsbHkgY2FuJ3Qgc2VlIGFueSBvYnZp
-b3VzIHBsYWNlcyB3aGVyZSB0aGUgcmFjaW5nIGNhdXNlZCBieSB0aGUKZmlyc3QgaXNzdWUgd291
-bGQgYnJlYWsgc29tZXRoaW5nLCBhbmQgaXQgY291bGQgYmUgdGhhdCBzb21lIG9mIG91cgpoaWdo
-ZXItbGV2ZWwgbG9ja3MgYWxyZWFkeSBwcmV2ZW50IHRoaXMgYnkgaGFwcGVuc3RhbmNlLCBidXQg
-YmV0dGVyIHNhZmUKdGhlbiBzb3JyeS4gU28sIGxldCdzIG1ha2UgaXQgc28gdGhhdCBkcm1fZHBf
-bXN0X3RvcG9sb2d5X21ncl9zZXRfbXN0KCkKZmlyc3QgZ3JhYnMgJm1nci5wYXlsb2FkX2xvY2sg
-Zm9sbG93ZWQgYnkgJm1nci5sb2NrIHNvIHRoYXQgd2UgbmV2ZXIKcmFjZSB3aGVuIG1vZGlmeWlu
-ZyB0aGUgcGF5bG9hZCBzdGF0ZS4gVGhlbiwgd2UgYWxzbyBjbGVhcgpwcm9wb3NlZF9wYXlsb2Fk
-cyB0byBmaXggdGhlIG9yaWdpbmFsIGlzc3VlIG9mIGVuYWJsaW5nIGEgbmV3IHRvcG9sb2d5Cndp
-dGggYSBkaXJ0eSBwYXlsb2FkIHN0YXRlLiBUaGlzIGRvZXNuJ3QgY2xlYXIgYW55IG9mIHRoZSBk
-cm1fZHBfdmNwaQpzdHJ1Y3R1cmVzLCBidXQgdGhvc2UgYXJlIGdldHRpbmcgZGVzdHJveWVkIGFs
-b25nIHdpdGggdGhlIHBvcnRzIGFueXdheS4KCkNoYW5nZXMgc2luY2UgdjE6CiogVXNlIHNpemVv
-ZihtZ3ItPnBheWxvYWRzWzBdKS9zaXplb2YobWdyLT5wcm9wb3NlZF92Y3Bpc1swXSkgaW5zdGVh
-ZCAtCiAgdnN5cmphbGEKCkNjOiBTZWFuIFBhdWwgPHNlYW5AcG9vcmx5LnJ1bj4KQ2M6IFdheW5l
-IExpbiA8V2F5bmUuTGluQGFtZC5jb20+CkNjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmph
-bGFAbGludXguaW50ZWwuY29tPgpDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZyAjIHY0LjQrClNp
-Z25lZC1vZmYtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+ClJldmlld2VkLWJ5OiBW
-aWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgpMaW5rOiBodHRw
-czovL3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcvcGF0Y2gvbXNnaWQvMjAyMDAxMjIxOTQzMjEu
-MTQ5NTMtMS1seXVkZUByZWRoYXQuY29tCi0tLQoKSGV5IEdyZWchIFRoaXMgc2hvdWxkIGFwcGx5
-IHRvIDUuNiwgSSdsbCBjaGVjayBpbiBqdXN0IGEgbGl0dGxlIGJpdAp3aGV0aGVyIG9yIG5vdCBJ
-IG5lZWQgdG8gYmFja3BvcnQgdGhpcyB0byBvdGhlciBrZXJuZWwgdmVyc2lvbnMgYXMgd2VsbAoK
-IGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgfCAxMCArKysrKystLS0tCiAx
-IGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2RwX21zdF90b3BvbG9neS5jCmluZGV4IGVkMGZlYTJhYzMyMi4uNTA2MDdmMTRmYWQy
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMKQEAgLTM1MDcsNiArMzUwNyw3
-IEBAIGludCBkcm1fZHBfbXN0X3RvcG9sb2d5X21ncl9zZXRfbXN0KHN0cnVjdCBkcm1fZHBfbXN0
-X3RvcG9sb2d5X21nciAqbWdyLCBib29sIG1zCiAJaW50IGkgPSAwOwogCXN0cnVjdCBkcm1fZHBf
-bXN0X2JyYW5jaCAqbXN0YiA9IE5VTEw7CiAKKwltdXRleF9sb2NrKCZtZ3ItPnBheWxvYWRfbG9j
-ayk7CiAJbXV0ZXhfbG9jaygmbWdyLT5sb2NrKTsKIAlpZiAobXN0X3N0YXRlID09IG1nci0+bXN0
-X3N0YXRlKQogCQlnb3RvIG91dF91bmxvY2s7CkBAIC0zNTY1LDggKzM1NjYsMTAgQEAgaW50IGRy
-bV9kcF9tc3RfdG9wb2xvZ3lfbWdyX3NldF9tc3Qoc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lf
-bWdyICptZ3IsIGJvb2wgbXMKIAkJLyogdGhpcyBjYW4gZmFpbCBpZiB0aGUgZGV2aWNlIGlzIGdv
-bmUgKi8KIAkJZHJtX2RwX2RwY2Rfd3JpdGViKG1nci0+YXV4LCBEUF9NU1RNX0NUUkwsIDApOwog
-CQlyZXQgPSAwOwotCQltdXRleF9sb2NrKCZtZ3ItPnBheWxvYWRfbG9jayk7Ci0JCW1lbXNldCht
-Z3ItPnBheWxvYWRzLCAwLCBtZ3ItPm1heF9wYXlsb2FkcyAqIHNpemVvZihzdHJ1Y3QgZHJtX2Rw
-X3BheWxvYWQpKTsKKwkJbWVtc2V0KG1nci0+cGF5bG9hZHMsIDAsCisJCSAgICAgICBtZ3ItPm1h
-eF9wYXlsb2FkcyAqIHNpemVvZihtZ3ItPnBheWxvYWRzWzBdKSk7CisJCW1lbXNldChtZ3ItPnBy
-b3Bvc2VkX3ZjcGlzLCAwLAorCQkgICAgICAgbWdyLT5tYXhfcGF5bG9hZHMgKiBzaXplb2YobWdy
-LT5wcm9wb3NlZF92Y3Bpc1swXSkpOwogCQltZ3ItPnBheWxvYWRfbWFzayA9IDA7CiAJCXNldF9i
-aXQoMCwgJm1nci0+cGF5bG9hZF9tYXNrKTsKIAkJZm9yIChpID0gMDsgaSA8IG1nci0+bWF4X3Bh
-eWxvYWRzOyBpKyspIHsKQEAgLTM1NzksMTMgKzM1ODIsMTIgQEAgaW50IGRybV9kcF9tc3RfdG9w
-b2xvZ3lfbWdyX3NldF9tc3Qoc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsIGJv
-b2wgbXMKIAkJCW1nci0+cHJvcG9zZWRfdmNwaXNbaV0gPSBOVUxMOwogCQl9CiAJCW1nci0+dmNw
-aV9tYXNrID0gMDsKLQkJbXV0ZXhfdW5sb2NrKCZtZ3ItPnBheWxvYWRfbG9jayk7Ci0KIAkJbWdy
-LT5wYXlsb2FkX2lkX3RhYmxlX2NsZWFyZWQgPSBmYWxzZTsKIAl9CiAKIG91dF91bmxvY2s6CiAJ
-bXV0ZXhfdW5sb2NrKCZtZ3ItPmxvY2spOworCW11dGV4X3VubG9jaygmbWdyLT5wYXlsb2FkX2xv
-Y2spOwogCWlmIChtc3RiKQogCQlkcm1fZHBfbXN0X3RvcG9sb2d5X3B1dF9tc3RiKG1zdGIpOwog
-CXJldHVybiByZXQ7Ci0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+On Wed, Apr 15, 2020 at 12:53:02PM -0700, Stephen Boyd wrote:
+> Quoting Douglas Anderson (2020-04-15 08:48:40)
+> > Allow people to specify to use a GPIO for hot-plug-detect.  Add an
+> > example.
+> > 
+> > NOTE: The current patch adding support for hpd-gpios to the Linux
+> > driver for hpd-gpios only adds enough support to the driver so that
+> > the bridge can use one of its own GPIOs.  The bindings, however, are
+> > written generically.
+> > 
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > ---
+> > 
+> >  .../bindings/display/bridge/ti,sn65dsi86.yaml          | 10 +++++++++-
+> >  1 file changed, 9 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+> > index 8cacc6db33a9..554bfd003000 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+> > @@ -60,6 +60,10 @@ properties:
+> >      const: 1
+> >      description: See ../../pwm/pwm.yaml for description of the cell formats.
+> >  
+> > +  hpd-gpios:
+> > +    maxItems: 1
+> > +    description: If present use the given GPIO for hot-plug-detect.
+> 
+> Shouldn't this go in the panel node? And the panel driver should get the
+> gpio and poll it after powering up the panel? Presumably that's why we
+> have the no-hpd property in the simple panel binding vs. putting it here
+> in the bridge.
+
+Same question really, I think this belongs to the panel (or connector)
+node indeed.
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
