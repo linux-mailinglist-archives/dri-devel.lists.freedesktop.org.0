@@ -1,192 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2020C1AB8E5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 08:59:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC3D1A9F94
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 14:17:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C6776EAD4;
-	Thu, 16 Apr 2020 06:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 943B76E1D8;
+	Wed, 15 Apr 2020 12:17:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
- [149.117.73.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8A636E1D8
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 12:03:04 +0000 (UTC)
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
- [10.192.0.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 52A3740545;
- Wed, 15 Apr 2020 12:03:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1586952184; bh=a1BG2cRUDyJ7mHc/DBMCJ4LTepf4iXXifiXVLRm5DNk=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=JFNfzqn5pbLOnvJKWMCkAF1XXNTVIhgUChRDgxZJyppcnomGl1zfRTfnfRBb/jk/z
- +FlS/rnHq8CfiVN3KEZoirk4qEzVjH2p1q41KdujEKjMdDgGZVMgi4EEfutlWujXUH
- yikubJc7PwXudy+G1rKDS9d8LWfF+9/ST8hVBsmvXouh9ldqj/rtYAibmEth0Wh6IO
- E8e5Cvv/dDE71q0AQBE9yw3WB3uHPTco9Tw6KrNeya122tR2PCy+XFm4Ce/aWwIuWe
- 3OmeOlQn+aHSsz71eawJyU1GMk2E+hah60f9R0dzETX/z8qwYbGVj/clAowyMUsjZD
- b00r9zcap4upw==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id D4C2AA008A;
- Wed, 15 Apr 2020 12:03:01 +0000 (UTC)
-Received: from us01hybrid1.internal.synopsys.com (10.200.27.51) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Wed, 15 Apr 2020 05:02:52 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.200.27.51) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Wed, 15 Apr 2020 05:02:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hVvynnPFewqNWviWJSqoxJTgh6098kRSOAB265ukZQ71te2KsellRUB+y4DcqUkC8HnZQQnzs31qnQTuEqvZAY5oopDhK14w7iS1EHt33Ec+995J/lXFIZAct4OiBNamCpWitp2CIsDmOYIVXiIFWJXNJCxFrkWaojCVMYTJgrTo2woN6QgTYI/StJd+LpsyW1qrUP92EheeWkGHXnS9BsyM3SIK9XyqH/CPYyxVN8nlOFZbumZcGJ/dLzHT1nUPzE2nusFS2F1a5kKZELM8+RybtaU6aOjb5ah5FeNoVXxhATXgEsjtoTSeXFxsVGjknNVTuNvM47XzIs+Mqfqrmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o7NiDeP1bxmdImgj2AsO9GPRHlRF0wzT5toGkwoMsCU=;
- b=PJCCr+JnOFSPg2DKRAsHJI7nDLtJ9H5fXWv8Vkb45eHbfw6zmrN1NCdH1oTc2wpmkv1+sZ+qE2DAE/WyptVnzdmPedFCZapsomidwm/Y9Ay+nuPMTvYt4ZSbY8wgTeUIQfv2rqcaRMhuN3jE5kC7MV1kb7EmkCj1kJFaE01t/K31sINPP1LEOO4UekRtyKndD0dHMwAF6CRLMvlCG6Fva064IV/l0lM0fi2upwZRMLydcHqeHLUohSA19wC7vQGjA+Z9WGdePJxSDkmE2SWZDgW/8aZLgumSemqUQv2D3lIVE+EVCpuKQj8ju1LLwK4U3lwgqizdKcIbNdMUlvvHvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o7NiDeP1bxmdImgj2AsO9GPRHlRF0wzT5toGkwoMsCU=;
- b=U1SfVCGPQ+WUaUtP/pc3cJGCrBK0c4ZN4JYkHss169Rc+FzihBFlo16Zu29dk51pYeZZuj/4vFORIjzBuN99Y0BKgSiue/avTmF2gGTjrxjoqnEWsuqtm1Z8xJKhmJnorXBb8EqlTQeABMfb/yNYJHRbWwgeE/maKXNAzbOL+eQ=
-Received: from MWHPR12MB1453.namprd12.prod.outlook.com (2603:10b6:301:e::22)
- by MWHPR12MB1213.namprd12.prod.outlook.com (2603:10b6:300:f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.20; Wed, 15 Apr
- 2020 12:02:48 +0000
-Received: from MWHPR12MB1453.namprd12.prod.outlook.com
- ([fe80::a83f:1f42:67e9:dde6]) by MWHPR12MB1453.namprd12.prod.outlook.com
- ([fe80::a83f:1f42:67e9:dde6%4]) with mapi id 15.20.2900.028; Wed, 15 Apr 2020
- 12:02:48 +0000
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: RE: [PATCH 53/59] drm/arc: Move to drm/tiny
-Thread-Topic: [PATCH 53/59] drm/arc: Move to drm/tiny
-Thread-Index: AQHWEvlb5mSQq60T60WU0QolrVlsW6h57yoAgAAle+A=
-Date: Wed, 15 Apr 2020 12:02:48 +0000
-Message-ID: <MWHPR12MB14532DA5713E3B579ABFE1F4A1DB0@MWHPR12MB1453.namprd12.prod.outlook.com>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-54-daniel.vetter@ffwll.ch>
- <20200415094512.GA30444@ravnborg.org>
-In-Reply-To: <20200415094512.GA30444@ravnborg.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWJyb2RraW5c?=
- =?us-ascii?Q?YXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRi?=
- =?us-ascii?Q?YTI5ZTM1Ylxtc2dzXG1zZy0wNDZhYTYzZi03ZjExLTExZWEtODAzYi04OGIx?=
- =?us-ascii?Q?MTFjZGUyMTdcYW1lLXRlc3RcMDQ2YWE2NDEtN2YxMS0xMWVhLTgwM2ItODhi?=
- =?us-ascii?Q?MTExY2RlMjE3Ym9keS50eHQiIHN6PSIyMTIwIiB0PSIxMzIzMTQyNTc2NjM2?=
- =?us-ascii?Q?NTUyNjIiIGg9Im5XblNqMktESDVGSmhKZGVwM3JlcWRHT0RJdz0iIGlkPSIi?=
- =?us-ascii?Q?IGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk5DZ1VBQUJRSkFB?=
- =?us-ascii?Q?QmUvY0xHSFJQV0FmcXlNVitMaHo2WitySXhYNHVIUHBrT0FBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFIQUFBQUNrQ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFFQUFRQUJBQUFBRGVCS0lRQUFBQUFBQUFBQUFBQUFBSjRBQUFCbUFHa0Fi?=
- =?us-ascii?Q?Z0JoQUc0QVl3QmxBRjhBY0FCc0FHRUFiZ0J1QUdrQWJnQm5BRjhBZHdCaEFI?=
- =?us-ascii?Q?UUFaUUJ5QUcwQVlRQnlBR3NBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR1lBYndCMUFHNEFaQUJ5QUhrQVh3?=
- =?us-ascii?Q?QndBR0VBY2dCMEFHNEFaUUJ5QUhNQVh3Qm5BR1lBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFBQ0FB?=
- =?us-ascii?Q?QUFBQUNlQUFBQVpnQnZBSFVBYmdCa0FISUFlUUJmQUhBQVlRQnlBSFFBYmdC?=
- =?us-ascii?Q?bEFISUFjd0JmQUhNQVlRQnRBSE1BZFFCdUFHY0FYd0JqQUc4QWJnQm1BQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJtQUc4?=
- =?us-ascii?Q?QWRRQnVBR1FBY2dCNUFGOEFjQUJoQUhJQWRBQnVBR1VBY2dCekFGOEFjd0Jo?=
- =?us-ascii?Q?QUcwQWN3QjFBRzRBWndCZkFISUFaUUJ6QUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHWUFid0IxQUc0QVpBQnlBSGtB?=
- =?us-ascii?Q?WHdCd0FHRUFjZ0IwQUc0QVpRQnlBSE1BWHdCekFHMEFhUUJqQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFD?=
- =?us-ascii?Q?QUFBQUFBQ2VBQUFBWmdCdkFIVUFiZ0JrQUhJQWVRQmZBSEFBWVFCeUFIUUFi?=
- =?us-ascii?Q?Z0JsQUhJQWN3QmZBSE1BZEFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQm1B?=
- =?us-ascii?Q?RzhBZFFCdUFHUUFjZ0I1QUY4QWNBQmhBSElBZEFCdUFHVUFjZ0J6QUY4QWRB?=
- =?us-ascii?Q?QnpBRzBBWXdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdZQWJ3QjFBRzRBWkFCeUFI?=
- =?us-ascii?Q?a0FYd0J3QUdFQWNnQjBBRzRBWlFCeUFITUFYd0IxQUcwQVl3QUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFB?=
- =?us-ascii?Q?QUNBQUFBQUFDZUFBQUFad0IwQUhNQVh3QndBSElBYndCa0FIVUFZd0IwQUY4?=
- =?us-ascii?Q?QWRBQnlBR0VBYVFCdUFHa0FiZ0JuQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFC?=
- =?us-ascii?Q?ekFHRUFiQUJsQUhNQVh3QmhBR01BWXdCdkFIVUFiZ0IwQUY4QWNBQnNBR0VB?=
- =?us-ascii?Q?YmdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBSE1BWVFCc0FHVUFjd0Jm?=
- =?us-ascii?Q?QUhFQWRRQnZBSFFBWlFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFB?=
- =?us-ascii?Q?QUFBQ0FBQUFBQUNlQUFBQWN3QnVBSEFBY3dCZkFHd0FhUUJqQUdVQWJnQnpB?=
- =?us-ascii?Q?R1VBWHdCMEFHVUFjZ0J0QUY4QU1RQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFB?=
- =?us-ascii?Q?QUJ6QUc0QWNBQnpBRjhBYkFCcEFHTUFaUUJ1QUhNQVpRQmZBSFFBWlFCeUFH?=
- =?us-ascii?Q?MEFYd0J6QUhRQWRRQmtBR1VBYmdCMEFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFIWUFad0JmQUdzQVpR?=
- =?us-ascii?Q?QjVBSGNBYndCeUFHUUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFB?=
- =?us-ascii?Q?QUFBQUFDQUFBQUFBQT0iLz48L21ldGE+?=
-x-dg-rorf: true
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=abrodkin@synopsys.com; 
-x-originating-ip: [188.243.7.154]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fe3fb8e7-42cf-4af0-54cf-08d7e134ea67
-x-ms-traffictypediagnostic: MWHPR12MB1213:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR12MB121306ED115CC8B8F552C9D8A1DB0@MWHPR12MB1213.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4303;
-x-forefront-prvs: 0374433C81
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR12MB1453.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(39860400002)(376002)(136003)(346002)(366004)(396003)(966005)(2906002)(478600001)(53546011)(6506007)(71200400001)(9686003)(4326008)(55016002)(186003)(26005)(8936002)(5660300002)(66946007)(316002)(81156014)(8676002)(54906003)(76116006)(7696005)(52536014)(6916009)(86362001)(64756008)(66476007)(66556008)(33656002)(66446008);
- DIR:OUT; SFP:1102; 
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fxfcamuU6Pg2OpV3FxvE0ldXMb5FCWl1PlqY9Y/XIeC3jkNnV6lYV2+ZX/SEmMCFiB3WvPZFfwFCHNdTQx6+fd+Wm46ntt4kL4c95K9S/v1pTEJ8EXh4EeAawGz/kaLUtymft4ChK3LuKVQICssElJciTdCDuPFHPsoTanE0VRvhJUjJX0Mp1i0CmdDuGjl88iSZGKBpxE9ZN5ODT8YnoMbr/FggTFvmFLZNdZb6dazt3bizaG/lq2ixih+GmBUxIpiovayij+UxIJSHDJtGrAsyFH3RBiKfP1QOaAWQP69o3uBWS/9hh3V6Idv6r3jWKAY7R/XKPg00dRFo3nRCG9JAbXGCU2BAKQ+J3iElv+fGgSoWbkzA2I5AJUdseGkVAIvWsMZLhdcAEGjGjsybqtP6nGqoHyG2cI0tM0+LvEy3X3gk09p6QlKuqVw/m/z1JozAKRa8ZQzNt3zXnir5F/s5F7e9U+nbqoxn34tQCl4=
-x-ms-exchange-antispam-messagedata: 03lqNxlS4Y6OeWUAURcl/1ErHbnTVmnGxJex6xhR7u+O7L5KeHC7JFZ9BNOmvAEFFXLR7sJnM7ZHYUO+kMvNddTvE4Vz7VXHHdnBQi8rMhy6deNmxeUK06OBJEuK4rHGDaFc5Ii7yIut1sE77jAe0A==
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37F876E1D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 12:17:00 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id r7so3351011ljg.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 05:17:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ad60j8Gtj4fIlixhTAvardkqdLx6oG1rYvkVZA0T7NA=;
+ b=p3sHGb1CakOl7CSez2eNx9kXTsV+W2Tww5xgYV6wePvS8+FeVaRnTsKs5vx4leAC8b
+ jXlBCAn90NjkYf5DC9e12GWQR1FYrv7lBkKC2DBKfNfmcEF5+yDYsgJzhRz0c+WbYODC
+ tgg8YnJsCPaxKPXqkKbsPiYPLIHRUpR/nxdTdHiYqUjJfjnBuUzWfGMDAOlQtWLNJaT0
+ BDitGJUPJ0vlnmF2UZbJ0KuXXBHvOAddybHCM+wLhqTZSb8Tr4zI/RmhjwzsIhdsk7lg
+ FDXLnFNBVedKx2CrYXdL3TBn7gwawzQIvaCkE5Mj8SYuxa9BOWaQJk9gM7xaCwVNq9wV
+ Uk5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ad60j8Gtj4fIlixhTAvardkqdLx6oG1rYvkVZA0T7NA=;
+ b=V8hOZrr1kz651v+RGwibEoKlsADETvSYHE3d8O+9FuYvHK36q7LCyLqz2269YsmYza
+ XtW30n1qTKWgCqMpdawnbfJvPz1d/mSQPMZJR3txWtmLbaqXCI5ugS6tDuYrzdl09iix
+ ij2Lr8Yt7oqgalx8VOLBXVwZCl04AMcy4yxpXNtcGnekuACtwI9DOxheeARexbZgZEy6
+ hwtHm26me0RhMdGknaw+3uJpI+hqvRYXqRtMGqYHvsKn7OFyrcIGoKoJyJed17OED/5E
+ 7cAnbU1Quyw9oYfkkLlf3UDbYdGARJSIrgoFtk0F5kiMVMCA8ii7vKpsMZuQzg9Y3Ugw
+ smOw==
+X-Gm-Message-State: AGi0PuZ9Acy6jXRbr57a6eb2adUR2nHgna49NcXkobopBMgnAg976Xuv
+ eKiTodgHcdyMjIdR28nq5/BErw==
+X-Google-Smtp-Source: APiQypJI/jNYX6qdlR8FiCF0alKrskzVggLzxeqWPQGboL99vh92NpYhuFZ+ARMpr8Q9oAZGxvEtQw==
+X-Received: by 2002:a2e:9193:: with SMTP id f19mr3296496ljg.47.1586953018453; 
+ Wed, 15 Apr 2020 05:16:58 -0700 (PDT)
+Received: from localhost.localdomain
+ (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
+ by smtp.gmail.com with ESMTPSA id u7sm12601436lfb.84.2020.04.15.05.16.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Apr 2020 05:16:57 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] backlight: l4f00242t03: Convert to GPIO descriptors
+Date: Wed, 15 Apr 2020 14:14:49 +0200
+Message-Id: <20200415121449.111043-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe3fb8e7-42cf-4af0-54cf-08d7e134ea67
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2020 12:02:48.0745 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fVSAUPBEQLmIs/yrDMQu+ClpeIlj1WsviIsq2+YX7jqM4Y5bbAeYinyerpudnod/5KnISC+/UPiWTTjZVSMxlw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1213
-X-OriginatorOrg: synopsys.com
-X-Mailman-Approved-At: Thu, 16 Apr 2020 06:59:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -199,61 +67,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam  Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- DRI  Development <dri-devel@lists.freedesktop.org>
+Cc: Alberto Panizzo <maramaopercheseimorto@gmail.com>,
+ Anson Huang <Anson.Huang@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+This converts the l4f00242t03 backlight driver to use GPIO
+descriptors and switches the two Freescale i.MX boards over
+to passing descriptors instead of global GPIO numbers.
 
-> -----Original Message-----
-> From: Sam Ravnborg <sam@ravnborg.org>
-> Sent: Wednesday, April 15, 2020 12:45 PM
-> To: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>; Alexey Brodkin
-> <abrodkin@synopsys.com>; DRI Development <dri-devel@lists.freedesktop.org>; Daniel Vetter
-> <daniel.vetter@intel.com>
-> Subject: Re: [PATCH 53/59] drm/arc: Move to drm/tiny
-> 
-> Hi Daniel.
-> On Wed, Apr 15, 2020 at 09:40:28AM +0200, Daniel Vetter wrote:
-> > Because it is.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Alexey Brodkin <abrodkin@synopsys.com>
-> > ---
-> >  MAINTAINERS                                         |  2 +-
-> >  drivers/gpu/drm/Kconfig                             |  2 --
-> >  drivers/gpu/drm/Makefile                            |  1 -
-> >  drivers/gpu/drm/arc/Kconfig                         | 10 ----------
-> >  drivers/gpu/drm/arc/Makefile                        |  3 ---
-> >  drivers/gpu/drm/tiny/Kconfig                        | 10 ++++++++++
-> >  drivers/gpu/drm/tiny/Makefile                       |  1 +
-> >  drivers/gpu/drm/{arc/arcpgu_drv.c => tiny/arcpgu.c} |  0
-> >  8 files changed, 12 insertions(+), 17 deletions(-)
-> >  delete mode 100644 drivers/gpu/drm/arc/Kconfig
-> >  delete mode 100644 drivers/gpu/drm/arc/Makefile
-> >  rename drivers/gpu/drm/{arc/arcpgu_drv.c => tiny/arcpgu.c} (100%)
-> 
-> We have "DRM: ARC: add HDMI 2.0 TX encoder support" which
-> adds another platform driver to drm/arc/
-> This speaks against the move to tiny IMO
+We use the typical names "enable" and "reset" as found in
+the device tree bindings for panel GPIOs.
 
-Indeed that's an interesting question, see v3 series here:
-https://lists.freedesktop.org/archives/dri-devel/2020-April/262352.html
+This saves a lot of code in the driver and makes it possible
+to get rid of the platform data header altogether.
 
-BTW should I pull that series in my tree and send you a pull-request
-or that kind of change needs to go through another tree?
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Anson Huang <Anson.Huang@nxp.com>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: Alberto Panizzo <maramaopercheseimorto@gmail.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+i.MX folks: please test if you can or at least ACK so Lee
+knows if this is OK for you.
+---
+ arch/arm/mach-imx/mach-mx27_3ds.c     | 21 +++++++++----
+ arch/arm/mach-imx/mach-mx31_3ds.c     | 24 +++++++++++---
+ drivers/video/backlight/l4f00242t03.c | 45 +++++++++++----------------
+ include/linux/spi/l4f00242t03.h       | 17 ----------
+ 4 files changed, 52 insertions(+), 55 deletions(-)
+ delete mode 100644 include/linux/spi/l4f00242t03.h
 
-Also I'd like to test the change we discuss here to make sure stuff
-still works. Once we do that I'll send an update. Any hint on
-when that change needs to be acked/nacked?
+diff --git a/arch/arm/mach-imx/mach-mx27_3ds.c b/arch/arm/mach-imx/mach-mx27_3ds.c
+index 7b8325fb5b41..1da5f07952ac 100644
+--- a/arch/arm/mach-imx/mach-mx27_3ds.c
++++ b/arch/arm/mach-imx/mach-mx27_3ds.c
+@@ -13,6 +13,7 @@
+ 
+ #include <linux/platform_device.h>
+ #include <linux/gpio.h>
++#include <linux/gpio/machine.h>
+ #include <linux/irq.h>
+ #include <linux/usb/otg.h>
+ #include <linux/usb/ulpi.h>
+@@ -20,8 +21,6 @@
+ #include <linux/mfd/mc13783.h>
+ #include <linux/spi/spi.h>
+ #include <linux/regulator/machine.h>
+-#include <linux/spi/l4f00242t03.h>
+-
+ 
+ #include <asm/mach-types.h>
+ #include <asm/mach/arch.h>
+@@ -351,9 +350,19 @@ static const struct imx_fb_platform_data mx27_3ds_fb_data __initconst = {
+ };
+ 
+ /* LCD */
+-static struct l4f00242t03_pdata mx27_3ds_lcd_pdata = {
+-	.reset_gpio		= LCD_RESET,
+-	.data_enable_gpio	= LCD_ENABLE,
++static struct gpiod_lookup_table mx27_3ds_lcd_gpiod_table = {
++	.dev_id = "spi0.0", /* Bus 0 chipselect 0 */
++	.table = {
++		/*
++		 * The i.MX27 has the i.MX21 GPIO controller, the GPIOs
++		 * numbered IMX_GPIO_NR(1, 3) and IMX_GPIO_NR(1, 31)
++		 * are in "bank 1" which is subtracted by one in the macro
++		 * so these are actually bank 0 on "imx21-gpio.0".
++		 */
++		GPIO_LOOKUP("imx21-gpio.0", 3, "reset", GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("imx21-gpio.0", 31, "enable", GPIO_ACTIVE_HIGH),
++		{ },
++	},
+ };
+ 
+ static struct spi_board_info mx27_3ds_spi_devs[] __initdata = {
+@@ -370,7 +379,6 @@ static struct spi_board_info mx27_3ds_spi_devs[] __initdata = {
+ 		.max_speed_hz	= 5000000,
+ 		.bus_num	= 0,
+ 		.chip_select	= 0, /* SS0 */
+-		.platform_data	= &mx27_3ds_lcd_pdata,
+ 	},
+ };
+ 
+@@ -416,6 +424,7 @@ static void __init mx27pdk_late_init(void)
+ 	if (!otg_mode_host)
+ 		imx27_add_fsl_usb2_udc(&otg_device_pdata);
+ 
++	gpiod_add_lookup_table(&mx27_3ds_lcd_gpiod_table);
+ 	mx27_3ds_spi_devs[0].irq = gpio_to_irq(PMIC_INT);
+ 	spi_register_board_info(mx27_3ds_spi_devs,
+ 				ARRAY_SIZE(mx27_3ds_spi_devs));
+diff --git a/arch/arm/mach-imx/mach-mx31_3ds.c b/arch/arm/mach-imx/mach-mx31_3ds.c
+index 716d2ad51103..e81386190479 100644
+--- a/arch/arm/mach-imx/mach-mx31_3ds.c
++++ b/arch/arm/mach-imx/mach-mx31_3ds.c
+@@ -10,10 +10,10 @@
+ #include <linux/clk.h>
+ #include <linux/irq.h>
+ #include <linux/gpio.h>
++#include <linux/gpio/machine.h>
+ #include <linux/platform_device.h>
+ #include <linux/mfd/mc13783.h>
+ #include <linux/spi/spi.h>
+-#include <linux/spi/l4f00242t03.h>
+ #include <linux/regulator/machine.h>
+ #include <linux/usb/otg.h>
+ #include <linux/usb/ulpi.h>
+@@ -160,9 +160,23 @@ static struct mx3fb_platform_data mx3fb_pdata __initdata = {
+ };
+ 
+ /* LCD */
+-static struct l4f00242t03_pdata mx31_3ds_l4f00242t03_pdata = {
+-	.reset_gpio		= IOMUX_TO_GPIO(MX31_PIN_LCS1),
+-	.data_enable_gpio	= IOMUX_TO_GPIO(MX31_PIN_SER_RS),
++static struct gpiod_lookup_table mx31_3ds_lcd_gpiod_table = {
++	.dev_id = "spi0.2", /* Bus 0 chipselect 2 */
++	.table = {
++		/*
++		 * "reset" has IOMUX_TO_GPIO(IOMUX_PIN(88, 28)).
++		 * The macro only shifts 88 to bits 9..16 and then
++		 * mask it and shift it back. The GPIO number is 88.
++		 * 88 is 2*32+24
++		 */
++		GPIO_LOOKUP("imx31-gpio.2", 24, "reset", GPIO_ACTIVE_HIGH),
++		/*
++		 * Same reasoning as above for
++		 * IOMUX_TO_GPIO(IOMUX_PIN(89, 27), pin 89 is 2*32+25.
++		 */
++		GPIO_LOOKUP("imx31-gpio.2", 25, "enable", GPIO_ACTIVE_HIGH),
++		{ },
++	},
+ };
+ 
+ /*
+@@ -387,7 +401,6 @@ static struct spi_board_info mx31_3ds_spi_devs[] __initdata = {
+ 		.max_speed_hz	= 5000000,
+ 		.bus_num	= 0,
+ 		.chip_select	= 2, /* SS2 */
+-		.platform_data	= &mx31_3ds_l4f00242t03_pdata,
+ 	},
+ };
+ 
+@@ -566,6 +579,7 @@ static void __init mx31_3ds_init(void)
+ 
+ static void __init mx31_3ds_late(void)
+ {
++	gpiod_add_lookup_table(&mx31_3ds_lcd_gpiod_table);
+ 	mx31_3ds_spi_devs[0].irq = gpio_to_irq(IOMUX_TO_GPIO(MX31_PIN_GPIO1_3));
+ 	spi_register_board_info(mx31_3ds_spi_devs,
+ 				ARRAY_SIZE(mx31_3ds_spi_devs));
+diff --git a/drivers/video/backlight/l4f00242t03.c b/drivers/video/backlight/l4f00242t03.c
+index 8554b4aa980c..46f97d1c3d21 100644
+--- a/drivers/video/backlight/l4f00242t03.c
++++ b/drivers/video/backlight/l4f00242t03.c
+@@ -14,13 +14,11 @@
+ #include <linux/kernel.h>
+ #include <linux/delay.h>
+ #include <linux/module.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/lcd.h>
+ #include <linux/slab.h>
+ #include <linux/regulator/consumer.h>
+-
+ #include <linux/spi/spi.h>
+-#include <linux/spi/l4f00242t03.h>
+ 
+ struct l4f00242t03_priv {
+ 	struct spi_device	*spi;
+@@ -28,16 +26,18 @@ struct l4f00242t03_priv {
+ 	int lcd_state;
+ 	struct regulator *io_reg;
+ 	struct regulator *core_reg;
++	struct gpio_desc *reset;
++	struct gpio_desc *enable;
+ };
+ 
+-static void l4f00242t03_reset(unsigned int gpio)
++static void l4f00242t03_reset(struct gpio_desc *gpiod)
+ {
+ 	pr_debug("l4f00242t03_reset.\n");
+-	gpio_set_value(gpio, 1);
++	gpiod_set_value(gpiod, 1);
+ 	mdelay(100);
+-	gpio_set_value(gpio, 0);
++	gpiod_set_value(gpiod, 0);
+ 	mdelay(10);	/* tRES >= 100us */
+-	gpio_set_value(gpio, 1);
++	gpiod_set_value(gpiod, 1);
+ 	mdelay(20);
+ }
+ 
+@@ -45,7 +45,6 @@ static void l4f00242t03_reset(unsigned int gpio)
+ 
+ static void l4f00242t03_lcd_init(struct spi_device *spi)
+ {
+-	struct l4f00242t03_pdata *pdata = dev_get_platdata(&spi->dev);
+ 	struct l4f00242t03_priv *priv = spi_get_drvdata(spi);
+ 	const u16 cmd[] = { 0x36, param(0), 0x3A, param(0x60) };
+ 	int ret;
+@@ -76,21 +75,20 @@ static void l4f00242t03_lcd_init(struct spi_device *spi)
+ 		return;
+ 	}
+ 
+-	l4f00242t03_reset(pdata->reset_gpio);
++	l4f00242t03_reset(priv->reset);
+ 
+-	gpio_set_value(pdata->data_enable_gpio, 1);
++	gpiod_set_value(priv->enable, 1);
+ 	msleep(60);
+ 	spi_write(spi, (const u8 *)cmd, ARRAY_SIZE(cmd) * sizeof(u16));
+ }
+ 
+ static void l4f00242t03_lcd_powerdown(struct spi_device *spi)
+ {
+-	struct l4f00242t03_pdata *pdata = dev_get_platdata(&spi->dev);
+ 	struct l4f00242t03_priv *priv = spi_get_drvdata(spi);
+ 
+ 	dev_dbg(&spi->dev, "Powering down LCD\n");
+ 
+-	gpio_set_value(pdata->data_enable_gpio, 0);
++	gpiod_set_value(priv->enable, 0);
+ 
+ 	regulator_disable(priv->io_reg);
+ 	regulator_disable(priv->core_reg);
+@@ -168,13 +166,6 @@ static struct lcd_ops l4f_ops = {
+ static int l4f00242t03_probe(struct spi_device *spi)
+ {
+ 	struct l4f00242t03_priv *priv;
+-	struct l4f00242t03_pdata *pdata = dev_get_platdata(&spi->dev);
+-	int ret;
+-
+-	if (pdata == NULL) {
+-		dev_err(&spi->dev, "Uninitialized platform data.\n");
+-		return -EINVAL;
+-	}
+ 
+ 	priv = devm_kzalloc(&spi->dev, sizeof(struct l4f00242t03_priv),
+ 				GFP_KERNEL);
+@@ -187,21 +178,21 @@ static int l4f00242t03_probe(struct spi_device *spi)
+ 
+ 	priv->spi = spi;
+ 
+-	ret = devm_gpio_request_one(&spi->dev, pdata->reset_gpio,
+-			GPIOF_OUT_INIT_HIGH, "lcd l4f00242t03 reset");
+-	if (ret) {
++	priv->reset = devm_gpiod_get(&spi->dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(priv->reset)) {
+ 		dev_err(&spi->dev,
+ 			"Unable to get the lcd l4f00242t03 reset gpio.\n");
+-		return ret;
++		return PTR_ERR(priv->reset);
+ 	}
++	gpiod_set_consumer_name(priv->reset, "lcd l4f00242t03 reset");
+ 
+-	ret = devm_gpio_request_one(&spi->dev, pdata->data_enable_gpio,
+-			GPIOF_OUT_INIT_LOW, "lcd l4f00242t03 data enable");
+-	if (ret) {
++	priv->enable = devm_gpiod_get(&spi->dev, "enable", GPIOD_OUT_LOW);
++	if (IS_ERR(priv->enable)) {
+ 		dev_err(&spi->dev,
+ 			"Unable to get the lcd l4f00242t03 data en gpio.\n");
+-		return ret;
++		return PTR_ERR(priv->enable);
+ 	}
++	gpiod_set_consumer_name(priv->enable, "lcd l4f00242t03 data enable");
+ 
+ 	priv->io_reg = devm_regulator_get(&spi->dev, "vdd");
+ 	if (IS_ERR(priv->io_reg)) {
+diff --git a/include/linux/spi/l4f00242t03.h b/include/linux/spi/l4f00242t03.h
+deleted file mode 100644
+index 831a5de7a0e2..000000000000
+--- a/include/linux/spi/l4f00242t03.h
++++ /dev/null
+@@ -1,17 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * l4f00242t03.h -- Platform glue for Epson L4F00242T03 LCD
+- *
+- * Copyright (c) 2009 Alberto Panizzo <maramaopercheseimorto@gmail.com>
+- * Based on Marek Vasut work in lms283gf05.h
+-*/
+-
+-#ifndef _INCLUDE_LINUX_SPI_L4F00242T03_H_
+-#define _INCLUDE_LINUX_SPI_L4F00242T03_H_
+-
+-struct l4f00242t03_pdata {
+-	unsigned int	reset_gpio;
+-	unsigned int	data_enable_gpio;
+-};
+-
+-#endif /* _INCLUDE_LINUX_SPI_L4F00242T03_H_ */
+-- 
+2.25.2
 
--Alexey 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
