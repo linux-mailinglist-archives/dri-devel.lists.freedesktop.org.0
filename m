@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 701B81AA913
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 15:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319481AA914
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 15:53:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD9C6E9E3;
-	Wed, 15 Apr 2020 13:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B2886E9E2;
+	Wed, 15 Apr 2020 13:53:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1AEE6E9E3;
- Wed, 15 Apr 2020 13:53:50 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id a32so6792818pje.5;
- Wed, 15 Apr 2020 06:53:50 -0700 (PDT)
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED9E66E9E2;
+ Wed, 15 Apr 2020 13:53:54 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id r20so1529482pfh.9;
+ Wed, 15 Apr 2020 06:53:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=1TYZv9JP92N2J8178uaV6manbwZcTV06YpVK5S4w03I=;
- b=o+WjCXvhOlwuC56C99X7KpmBzCTUYU9ur807NWiZZa44gzNiIGdyansYFg6dxP8dqs
- wSA9KAgsrMQhNpqwmqExvnsoXpPRJPieOSOjuu4Q28CQ+YxZ9xNk8M37x9VJmyaVsVNe
- YLAe6oiq/zOwZVmNFc7ebBEkoKDa7ZCWhKvv9RjQkxFZbsXtnD/FnjAFOZCmYhMAOuj8
- KEhTH73c+vcqsZWx7tG+0Em3EOQ/ewztl1+d0l3b4vRIK+UIfpU2R+f5DyXlzKVsR9D/
- g7+mxMRQA98t++IoRUBOAgJjWjewoXp1/39xCzfFDXKpLS4JLkxEuRbtAM8IjMAAjNw5
- gVtw==
+ bh=APD8naIxhIgzrQrp0S3J3+YjemTB4ReRwsyGwC+Q20E=;
+ b=Rf8H7V6Ky/3QcXQkzOBLEIoKfF31DR/myN5wOLOoNe7AsinkMNIemTHpwPDHGkrN2m
+ 3Lr0ZzL/y2ldNsxOpD5aQsK0ZAmdlS+eJkC11c+aTSW8DQXchJh1Mgo4GL2DMuARLg5h
+ 4AzRBNKfM/HMbwAZzDSyndmz4OVDsSsxEt4HaYJ29nf3K76MqHo9DqE0U5vUU/ijZALf
+ 9Zn8H0wrnUhJB3+QRTtXwkMsldHnlCnwtLBlGEm4QA9L5UNywkG9d1qvXFYD9dEYBkuk
+ 44ukj4D4+UKaTokF6UnVazHAcka2Uk9xkThctNdpYKvL5VHUutfUhtI3c/oZLsgqjl8P
+ hClA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=1TYZv9JP92N2J8178uaV6manbwZcTV06YpVK5S4w03I=;
- b=Ri6gE+kCgntOIUxIJ+6ZauJXSv6VclY/IZUuYSJBpdtaNr7Fe8Sx8SWMmPa6PkHEc6
- vVIJzLqaocWzV8cQtsB6NfzsjwssIzjKrToJvrwZmvBJdiH5F0P9M3SLhwBv32xmnZbr
- LJqmXc5FsukctLWhzsrlKsaDqsYWgYYj1jw+P0iTme8TyXYLEgaN17XAOX4JBpdpqKkY
- V36YYI2xg4Z5ve8mOEtky5iJG8aMovmOjVt+aE6t3IGEXpVTzjBikZNH+e3a2OLMWHu7
- 6OJWwG5XuDyy1WbYyoarvtMPQR1fC/9msbCzPfXDRepftrOFcMstZ55S0doFT/2tWOXh
- oD4g==
-X-Gm-Message-State: AGi0PuYYsOnlEQMVaVCmicpyDdp6NPUKzDmLEjd15iMpNkbZS39XbLba
- 3bO9ADlQPN23MIWeatsSiLHNfFKHhCLukA==
-X-Google-Smtp-Source: APiQypJMmSaxC3gUHz4p/DqRXW6rpY2v8Ti/p/a8gG5UatE2K+H331ZCtW+Tmkz767QcqF+L2O0yPA==
-X-Received: by 2002:a17:902:a40f:: with SMTP id
- p15mr5241736plq.154.1586958829719; 
- Wed, 15 Apr 2020 06:53:49 -0700 (PDT)
+ bh=APD8naIxhIgzrQrp0S3J3+YjemTB4ReRwsyGwC+Q20E=;
+ b=rhymY01TkaHQNqVLkNrEzYU1B8Kjf1kZzmabx02dJuRnDWbBcR3AmC8ZuSRCv3jisz
+ SE/CA7T/TWViSwHnKoFfjkxaBSREN6eipW5uyN5qLRtBqlty2fBaShw4dI/eDYKEtmXd
+ e26ptUuEUmp2W2x5o4UoiMKOKET61NaRX4qXMyZ+ikeYTfIykoDs0JrUeNweiuaQ4rjt
+ oFHgmTrWq6zrq2z0D9pJeUCo6LL6sJ7SnGZLSx50fUm8GHzyWwZWF3j0oAMzLcsLJxCt
+ 8Zzyta14Dm2JSwPTqSmkpZIPEuvt8APnjMU9edQm8yHubdrFmPP45Z55Z1Z1o+ZiOmvZ
+ VF2w==
+X-Gm-Message-State: AGi0PuYIdcuMexW1Q8SssVrHWaQLCclXcONRnNDPGnHxVjwq+Y5/Eriq
+ VBCq6TaFP42jXHm/00GmxGW7917mMijptw==
+X-Google-Smtp-Source: APiQypL8kq0dJNbt8OSn7TFiXbKTg+jj/ASY79ngDF1X/0/ru3Rmh5EUCx2/13rjAOrROdh0SFC6DQ==
+X-Received: by 2002:a63:d40a:: with SMTP id a10mr25888822pgh.53.1586958834274; 
+ Wed, 15 Apr 2020 06:53:54 -0700 (PDT)
 Received: from yuq-Aspire-4738G.lan (li2017-195.members.linode.com.
  [172.105.124.195])
- by smtp.gmail.com with ESMTPSA id z1sm3331069pjt.42.2020.04.15.06.53.45
+ by smtp.gmail.com with ESMTPSA id z1sm3331069pjt.42.2020.04.15.06.53.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Apr 2020 06:53:49 -0700 (PDT)
+ Wed, 15 Apr 2020 06:53:53 -0700 (PDT)
 From: Qiang Yu <yuq825@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/4] drm/lima: add resume/suspend callback for each ip
-Date: Wed, 15 Apr 2020 21:52:07 +0800
-Message-Id: <20200415135208.8960-4-yuq825@gmail.com>
+Subject: [PATCH 4/4] drm/lima: add pm resume/suspend
+Date: Wed, 15 Apr 2020 21:52:08 +0800
+Message-Id: <20200415135208.8960-5-yuq825@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200415135208.8960-1-yuq825@gmail.com>
 References: <20200415135208.8960-1-yuq825@gmail.com>
@@ -76,512 +75,138 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For called when PM do resume/suspend.
+Do hardware resume/suspend.
 
 Tested-by: Bhushan Shah <bshah@kde.org>
 Signed-off-by: Qiang Yu <yuq825@gmail.com>
 ---
- drivers/gpu/drm/lima/lima_bcast.c    | 25 ++++++++++++----
- drivers/gpu/drm/lima/lima_bcast.h    |  2 ++
- drivers/gpu/drm/lima/lima_device.c   |  4 +++
- drivers/gpu/drm/lima/lima_device.h   |  2 +-
- drivers/gpu/drm/lima/lima_dlbu.c     | 17 ++++++++++-
- drivers/gpu/drm/lima/lima_dlbu.h     |  2 ++
- drivers/gpu/drm/lima/lima_gp.c       | 21 +++++++++++--
- drivers/gpu/drm/lima/lima_gp.h       |  2 ++
- drivers/gpu/drm/lima/lima_l2_cache.c | 37 ++++++++++++++++-------
- drivers/gpu/drm/lima/lima_l2_cache.h |  2 ++
- drivers/gpu/drm/lima/lima_mmu.c      | 45 ++++++++++++++++++++--------
- drivers/gpu/drm/lima/lima_mmu.h      |  2 ++
- drivers/gpu/drm/lima/lima_pmu.c      | 25 ++++++++++++++--
- drivers/gpu/drm/lima/lima_pmu.h      |  2 ++
- drivers/gpu/drm/lima/lima_pp.c       | 31 +++++++++++++++++--
- drivers/gpu/drm/lima/lima_pp.h       |  4 +++
- 16 files changed, 186 insertions(+), 37 deletions(-)
+ drivers/gpu/drm/lima/lima_device.c | 65 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/lima/lima_device.h |  3 ++
+ drivers/gpu/drm/lima/lima_drv.c    |  7 ++++
+ 3 files changed, 75 insertions(+)
 
-diff --git a/drivers/gpu/drm/lima/lima_bcast.c b/drivers/gpu/drm/lima/lima_bcast.c
-index 288398027bfa..fbc43f243c54 100644
---- a/drivers/gpu/drm/lima/lima_bcast.c
-+++ b/drivers/gpu/drm/lima/lima_bcast.c
-@@ -26,18 +26,33 @@ void lima_bcast_enable(struct lima_device *dev, int num_pp)
- 	bcast_write(LIMA_BCAST_BROADCAST_MASK, mask);
- }
- 
-+static int lima_bcast_hw_init(struct lima_ip *ip)
-+{
-+	bcast_write(LIMA_BCAST_BROADCAST_MASK, ip->data.mask << 16);
-+	bcast_write(LIMA_BCAST_INTERRUPT_MASK, ip->data.mask);
-+	return 0;
-+}
-+
-+int lima_bcast_resume(struct lima_ip *ip)
-+{
-+	return lima_bcast_hw_init(ip);
-+}
-+
-+void lima_bcast_suspend(struct lima_ip *ip)
-+{
-+
-+}
-+
- int lima_bcast_init(struct lima_ip *ip)
- {
--	int i, mask = 0;
-+	int i;
- 
- 	for (i = lima_ip_pp0; i <= lima_ip_pp7; i++) {
- 		if (ip->dev->ip[i].present)
--			mask |= 1 << (i - lima_ip_pp0);
-+			ip->data.mask |= 1 << (i - lima_ip_pp0);
- 	}
- 
--	bcast_write(LIMA_BCAST_BROADCAST_MASK, mask << 16);
--	bcast_write(LIMA_BCAST_INTERRUPT_MASK, mask);
--	return 0;
-+	return lima_bcast_hw_init(ip);
- }
- 
- void lima_bcast_fini(struct lima_ip *ip)
-diff --git a/drivers/gpu/drm/lima/lima_bcast.h b/drivers/gpu/drm/lima/lima_bcast.h
-index c47e58563d0a..465ee587bceb 100644
---- a/drivers/gpu/drm/lima/lima_bcast.h
-+++ b/drivers/gpu/drm/lima/lima_bcast.h
-@@ -6,6 +6,8 @@
- 
- struct lima_ip;
- 
-+int lima_bcast_resume(struct lima_ip *ip);
-+void lima_bcast_suspend(struct lima_ip *ip);
- int lima_bcast_init(struct lima_ip *ip);
- void lima_bcast_fini(struct lima_ip *ip);
- 
 diff --git a/drivers/gpu/drm/lima/lima_device.c b/drivers/gpu/drm/lima/lima_device.c
-index 247f51fd40a2..e5f1f84ba85a 100644
+index e5f1f84ba85a..aca2cab9899b 100644
 --- a/drivers/gpu/drm/lima/lima_device.c
 +++ b/drivers/gpu/drm/lima/lima_device.c
-@@ -25,6 +25,8 @@ struct lima_ip_desc {
+@@ -213,6 +213,27 @@ static void lima_fini_ip(struct lima_device *ldev, int index)
+ 		desc->fini(ip);
+ }
  
- 	int (*init)(struct lima_ip *ip);
- 	void (*fini)(struct lima_ip *ip);
-+	int (*resume)(struct lima_ip *ip);
-+	void (*suspend)(struct lima_ip *ip);
- };
++static int lima_resume_ip(struct lima_device *ldev, int index)
++{
++	struct lima_ip_desc *desc = lima_ip_desc + index;
++	struct lima_ip *ip = ldev->ip + index;
++	int ret = 0;
++
++	if (ip->present)
++		ret = desc->resume(ip);
++
++	return ret;
++}
++
++static void lima_suspend_ip(struct lima_device *ldev, int index)
++{
++	struct lima_ip_desc *desc = lima_ip_desc + index;
++	struct lima_ip *ip = ldev->ip + index;
++
++	if (ip->present)
++		desc->suspend(ip);
++}
++
+ static int lima_init_gp_pipe(struct lima_device *dev)
+ {
+ 	struct lima_sched_pipe *pipe = dev->pipe + lima_pipe_gp;
+@@ -408,3 +429,47 @@ void lima_device_fini(struct lima_device *ldev)
  
- #define LIMA_IP_DESC(ipname, mst0, mst1, off0, off1, func, irq) \
-@@ -41,6 +43,8 @@ struct lima_ip_desc {
- 		}, \
- 		.init = lima_##func##_init, \
- 		.fini = lima_##func##_fini, \
-+		.resume = lima_##func##_resume, \
-+		.suspend = lima_##func##_suspend, \
- 	}
- 
- static struct lima_ip_desc lima_ip_desc[lima_ip_num] = {
+ 	lima_clk_fini(ldev);
+ }
++
++int lima_device_resume(struct device *dev)
++{
++	struct lima_device *ldev = dev_get_drvdata(dev);
++	int i, err;
++
++	for (i = 0; i < lima_ip_num; i++) {
++		err = lima_resume_ip(ldev, i);
++		if (err)
++			goto err_out;
++	}
++
++	err = lima_devfreq_resume(&ldev->devfreq);
++	if (err)
++		goto err_out;
++
++	return 0;
++
++err_out:
++	while (--i >= 0)
++		lima_suspend_ip(ldev, i);
++	return err;
++}
++
++int lima_device_suspend(struct device *dev)
++{
++	struct lima_device *ldev = dev_get_drvdata(dev);
++	int i, err;
++
++	/* check any task running */
++	for (i = 0; i < lima_pipe_num; i++) {
++		if (atomic_read(&ldev->pipe[i].base.hw_rq_count))
++			return -EBUSY;
++	}
++
++	err = lima_devfreq_suspend(&ldev->devfreq);
++	if (err)
++		return err;
++
++	for (i = lima_ip_num - 1; i >= 0; i--)
++		lima_suspend_ip(ldev, i);
++
++	return 0;
++}
 diff --git a/drivers/gpu/drm/lima/lima_device.h b/drivers/gpu/drm/lima/lima_device.h
-index 1a5032b08883..095a0b5f1703 100644
+index 095a0b5f1703..e06d1955f4a3 100644
 --- a/drivers/gpu/drm/lima/lima_device.h
 +++ b/drivers/gpu/drm/lima/lima_device.h
-@@ -64,7 +64,7 @@ struct lima_ip {
- 		bool async_reset;
- 		/* l2 cache */
- 		spinlock_t lock;
--		/* pmu */
-+		/* pmu/bcast */
- 		u32 mask;
- 	} data;
+@@ -141,4 +141,7 @@ static inline int lima_poll_timeout(struct lima_ip *ip, lima_poll_func_t func,
+ 	return 0;
+ }
+ 
++int lima_device_suspend(struct device *dev);
++int lima_device_resume(struct device *dev);
++
+ #endif
+diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
+index bbbdc8455e2f..be66b448d44e 100644
+--- a/drivers/gpu/drm/lima/lima_drv.c
++++ b/drivers/gpu/drm/lima/lima_drv.c
+@@ -5,6 +5,7 @@
+ #include <linux/of_platform.h>
+ #include <linux/uaccess.h>
+ #include <linux/slab.h>
++#include <linux/pm_runtime.h>
+ #include <drm/drm_ioctl.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_prime.h>
+@@ -452,11 +453,17 @@ static const struct of_device_id dt_match[] = {
  };
-diff --git a/drivers/gpu/drm/lima/lima_dlbu.c b/drivers/gpu/drm/lima/lima_dlbu.c
-index 8399ceffb94b..c1d5ea35daa7 100644
---- a/drivers/gpu/drm/lima/lima_dlbu.c
-+++ b/drivers/gpu/drm/lima/lima_dlbu.c
-@@ -42,7 +42,7 @@ void lima_dlbu_set_reg(struct lima_ip *ip, u32 *reg)
- 	dlbu_write(LIMA_DLBU_START_TILE_POS, reg[3]);
- }
+ MODULE_DEVICE_TABLE(of, dt_match);
  
--int lima_dlbu_init(struct lima_ip *ip)
-+static int lima_dlbu_hw_init(struct lima_ip *ip)
- {
- 	struct lima_device *dev = ip->dev;
- 
-@@ -52,6 +52,21 @@ int lima_dlbu_init(struct lima_ip *ip)
- 	return 0;
- }
- 
-+int lima_dlbu_resume(struct lima_ip *ip)
-+{
-+	return lima_dlbu_hw_init(ip);
-+}
++static const struct dev_pm_ops lima_pm_ops = {
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
++	SET_RUNTIME_PM_OPS(lima_device_suspend, lima_device_resume, NULL)
++};
 +
-+void lima_dlbu_suspend(struct lima_ip *ip)
-+{
-+
-+}
-+
-+int lima_dlbu_init(struct lima_ip *ip)
-+{
-+	return lima_dlbu_hw_init(ip);
-+}
-+
- void lima_dlbu_fini(struct lima_ip *ip)
- {
- 
-diff --git a/drivers/gpu/drm/lima/lima_dlbu.h b/drivers/gpu/drm/lima/lima_dlbu.h
-index 16f877984466..be71daaaee89 100644
---- a/drivers/gpu/drm/lima/lima_dlbu.h
-+++ b/drivers/gpu/drm/lima/lima_dlbu.h
-@@ -12,6 +12,8 @@ void lima_dlbu_disable(struct lima_device *dev);
- 
- void lima_dlbu_set_reg(struct lima_ip *ip, u32 *reg);
- 
-+int lima_dlbu_resume(struct lima_ip *ip);
-+void lima_dlbu_suspend(struct lima_ip *ip);
- int lima_dlbu_init(struct lima_ip *ip);
- void lima_dlbu_fini(struct lima_ip *ip);
- 
-diff --git a/drivers/gpu/drm/lima/lima_gp.c b/drivers/gpu/drm/lima/lima_gp.c
-index d8841c870d90..8dd501b7a3d0 100644
---- a/drivers/gpu/drm/lima/lima_gp.c
-+++ b/drivers/gpu/drm/lima/lima_gp.c
-@@ -274,6 +274,23 @@ static void lima_gp_print_version(struct lima_ip *ip)
- static struct kmem_cache *lima_gp_task_slab;
- static int lima_gp_task_slab_refcnt;
- 
-+static int lima_gp_hw_init(struct lima_ip *ip)
-+{
-+	ip->data.async_reset = false;
-+	lima_gp_soft_reset_async(ip);
-+	return lima_gp_soft_reset_async_wait(ip);
-+}
-+
-+int lima_gp_resume(struct lima_ip *ip)
-+{
-+	return lima_gp_hw_init(ip);
-+}
-+
-+void lima_gp_suspend(struct lima_ip *ip)
-+{
-+
-+}
-+
- int lima_gp_init(struct lima_ip *ip)
- {
- 	struct lima_device *dev = ip->dev;
-@@ -281,9 +298,7 @@ int lima_gp_init(struct lima_ip *ip)
- 
- 	lima_gp_print_version(ip);
- 
--	ip->data.async_reset = false;
--	lima_gp_soft_reset_async(ip);
--	err = lima_gp_soft_reset_async_wait(ip);
-+	err = lima_gp_hw_init(ip);
- 	if (err)
- 		return err;
- 
-diff --git a/drivers/gpu/drm/lima/lima_gp.h b/drivers/gpu/drm/lima/lima_gp.h
-index 516e5c1babbb..02ec9af78a51 100644
---- a/drivers/gpu/drm/lima/lima_gp.h
-+++ b/drivers/gpu/drm/lima/lima_gp.h
-@@ -7,6 +7,8 @@
- struct lima_ip;
- struct lima_device;
- 
-+int lima_gp_resume(struct lima_ip *ip);
-+void lima_gp_suspend(struct lima_ip *ip);
- int lima_gp_init(struct lima_ip *ip);
- void lima_gp_fini(struct lima_ip *ip);
- 
-diff --git a/drivers/gpu/drm/lima/lima_l2_cache.c b/drivers/gpu/drm/lima/lima_l2_cache.c
-index 6873a7af5a5c..c67fa34fba18 100644
---- a/drivers/gpu/drm/lima/lima_l2_cache.c
-+++ b/drivers/gpu/drm/lima/lima_l2_cache.c
-@@ -38,9 +38,34 @@ int lima_l2_cache_flush(struct lima_ip *ip)
- 	return ret;
- }
- 
-+static int lima_l2_cache_hw_init(struct lima_ip *ip)
-+{
-+	int err;
-+
-+	err = lima_l2_cache_flush(ip);
-+	if (err)
-+		return err;
-+
-+	l2_cache_write(LIMA_L2_CACHE_ENABLE,
-+		       LIMA_L2_CACHE_ENABLE_ACCESS|LIMA_L2_CACHE_ENABLE_READ_ALLOCATE);
-+	l2_cache_write(LIMA_L2_CACHE_MAX_READS, 0x1c);
-+
-+	return 0;
-+}
-+
-+int lima_l2_cache_resume(struct lima_ip *ip)
-+{
-+	return lima_l2_cache_hw_init(ip);
-+}
-+
-+void lima_l2_cache_suspend(struct lima_ip *ip)
-+{
-+
-+}
-+
- int lima_l2_cache_init(struct lima_ip *ip)
- {
--	int i, err;
-+	int i;
- 	u32 size;
- 	struct lima_device *dev = ip->dev;
- 
-@@ -63,15 +88,7 @@ int lima_l2_cache_init(struct lima_ip *ip)
- 		 1 << (size & 0xff),
- 		 1 << ((size >> 24) & 0xff));
- 
--	err = lima_l2_cache_flush(ip);
--	if (err)
--		return err;
--
--	l2_cache_write(LIMA_L2_CACHE_ENABLE,
--		       LIMA_L2_CACHE_ENABLE_ACCESS|LIMA_L2_CACHE_ENABLE_READ_ALLOCATE);
--	l2_cache_write(LIMA_L2_CACHE_MAX_READS, 0x1c);
--
--	return 0;
-+	return lima_l2_cache_hw_init(ip);
- }
- 
- void lima_l2_cache_fini(struct lima_ip *ip)
-diff --git a/drivers/gpu/drm/lima/lima_l2_cache.h b/drivers/gpu/drm/lima/lima_l2_cache.h
-index c63fb676ff14..1aeeefd53fb9 100644
---- a/drivers/gpu/drm/lima/lima_l2_cache.h
-+++ b/drivers/gpu/drm/lima/lima_l2_cache.h
-@@ -6,6 +6,8 @@
- 
- struct lima_ip;
- 
-+int lima_l2_cache_resume(struct lima_ip *ip);
-+void lima_l2_cache_suspend(struct lima_ip *ip);
- int lima_l2_cache_init(struct lima_ip *ip);
- void lima_l2_cache_fini(struct lima_ip *ip);
- 
-diff --git a/drivers/gpu/drm/lima/lima_mmu.c b/drivers/gpu/drm/lima/lima_mmu.c
-index f79d2af427e7..c12521ee94ce 100644
---- a/drivers/gpu/drm/lima/lima_mmu.c
-+++ b/drivers/gpu/drm/lima/lima_mmu.c
-@@ -59,12 +59,43 @@ static irqreturn_t lima_mmu_irq_handler(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
--int lima_mmu_init(struct lima_ip *ip)
-+static int lima_mmu_hw_init(struct lima_ip *ip)
- {
- 	struct lima_device *dev = ip->dev;
- 	int err;
- 	u32 v;
- 
-+	mmu_write(LIMA_MMU_COMMAND, LIMA_MMU_COMMAND_HARD_RESET);
-+	err = lima_mmu_send_command(LIMA_MMU_COMMAND_HARD_RESET,
-+				    LIMA_MMU_DTE_ADDR, v, v == 0);
-+	if (err)
-+		return err;
-+
-+	mmu_write(LIMA_MMU_INT_MASK, LIMA_MMU_INT_PAGE_FAULT | LIMA_MMU_INT_READ_BUS_ERROR);
-+	mmu_write(LIMA_MMU_DTE_ADDR, dev->empty_vm->pd.dma);
-+	return lima_mmu_send_command(LIMA_MMU_COMMAND_ENABLE_PAGING,
-+				     LIMA_MMU_STATUS, v,
-+				     v & LIMA_MMU_STATUS_PAGING_ENABLED);
-+}
-+
-+int lima_mmu_resume(struct lima_ip *ip)
-+{
-+	if (ip->id == lima_ip_ppmmu_bcast)
-+		return 0;
-+
-+	return lima_mmu_hw_init(ip);
-+}
-+
-+void lima_mmu_suspend(struct lima_ip *ip)
-+{
-+
-+}
-+
-+int lima_mmu_init(struct lima_ip *ip)
-+{
-+	struct lima_device *dev = ip->dev;
-+	int err;
-+
- 	if (ip->id == lima_ip_ppmmu_bcast)
- 		return 0;
- 
-@@ -74,12 +105,6 @@ int lima_mmu_init(struct lima_ip *ip)
- 		return -EIO;
- 	}
- 
--	mmu_write(LIMA_MMU_COMMAND, LIMA_MMU_COMMAND_HARD_RESET);
--	err = lima_mmu_send_command(LIMA_MMU_COMMAND_HARD_RESET,
--				    LIMA_MMU_DTE_ADDR, v, v == 0);
--	if (err)
--		return err;
--
- 	err = devm_request_irq(dev->dev, ip->irq, lima_mmu_irq_handler,
- 			       IRQF_SHARED, lima_ip_name(ip), ip);
- 	if (err) {
-@@ -87,11 +112,7 @@ int lima_mmu_init(struct lima_ip *ip)
- 		return err;
- 	}
- 
--	mmu_write(LIMA_MMU_INT_MASK, LIMA_MMU_INT_PAGE_FAULT | LIMA_MMU_INT_READ_BUS_ERROR);
--	mmu_write(LIMA_MMU_DTE_ADDR, dev->empty_vm->pd.dma);
--	return lima_mmu_send_command(LIMA_MMU_COMMAND_ENABLE_PAGING,
--				     LIMA_MMU_STATUS, v,
--				     v & LIMA_MMU_STATUS_PAGING_ENABLED);
-+	return lima_mmu_hw_init(ip);
- }
- 
- void lima_mmu_fini(struct lima_ip *ip)
-diff --git a/drivers/gpu/drm/lima/lima_mmu.h b/drivers/gpu/drm/lima/lima_mmu.h
-index 4f8ccbebcba1..f0c97ac75ea0 100644
---- a/drivers/gpu/drm/lima/lima_mmu.h
-+++ b/drivers/gpu/drm/lima/lima_mmu.h
-@@ -7,6 +7,8 @@
- struct lima_ip;
- struct lima_vm;
- 
-+int lima_mmu_resume(struct lima_ip *ip);
-+void lima_mmu_suspend(struct lima_ip *ip);
- int lima_mmu_init(struct lima_ip *ip);
- void lima_mmu_fini(struct lima_ip *ip);
- 
-diff --git a/drivers/gpu/drm/lima/lima_pmu.c b/drivers/gpu/drm/lima/lima_pmu.c
-index 7f26bf384e15..014b07c55b46 100644
---- a/drivers/gpu/drm/lima/lima_pmu.c
-+++ b/drivers/gpu/drm/lima/lima_pmu.c
-@@ -63,7 +63,7 @@ static u32 lima_pmu_get_ip_mask(struct lima_ip *ip)
- 	return ret;
- }
- 
--int lima_pmu_init(struct lima_ip *ip)
-+static int lima_pmu_hw_init(struct lima_ip *ip)
- {
- 	int err;
- 	u32 stat;
-@@ -88,7 +88,7 @@ int lima_pmu_init(struct lima_ip *ip)
- 	return 0;
- }
- 
--void lima_pmu_fini(struct lima_ip *ip)
-+static void lima_pmu_hw_fini(struct lima_ip *ip)
- {
- 	u32 stat;
- 
-@@ -101,3 +101,24 @@ void lima_pmu_fini(struct lima_ip *ip)
- 		lima_pmu_wait_cmd(ip);
- 	}
- }
-+
-+int lima_pmu_resume(struct lima_ip *ip)
-+{
-+	return lima_pmu_hw_init(ip);
-+}
-+
-+void lima_pmu_suspend(struct lima_ip *ip)
-+{
-+	lima_pmu_hw_fini(ip);
-+}
-+
-+
-+int lima_pmu_init(struct lima_ip *ip)
-+{
-+	return lima_pmu_hw_init(ip);
-+}
-+
-+void lima_pmu_fini(struct lima_ip *ip)
-+{
-+	lima_pmu_hw_fini(ip);
-+}
-diff --git a/drivers/gpu/drm/lima/lima_pmu.h b/drivers/gpu/drm/lima/lima_pmu.h
-index a2a18775eb07..652dc7af3047 100644
---- a/drivers/gpu/drm/lima/lima_pmu.h
-+++ b/drivers/gpu/drm/lima/lima_pmu.h
-@@ -6,6 +6,8 @@
- 
- struct lima_ip;
- 
-+int lima_pmu_resume(struct lima_ip *ip);
-+void lima_pmu_suspend(struct lima_ip *ip);
- int lima_pmu_init(struct lima_ip *ip);
- void lima_pmu_fini(struct lima_ip *ip);
- 
-diff --git a/drivers/gpu/drm/lima/lima_pp.c b/drivers/gpu/drm/lima/lima_pp.c
-index 8fef224b93c8..33f01383409c 100644
---- a/drivers/gpu/drm/lima/lima_pp.c
-+++ b/drivers/gpu/drm/lima/lima_pp.c
-@@ -223,6 +223,23 @@ static void lima_pp_print_version(struct lima_ip *ip)
- 		 lima_ip_name(ip), name, major, minor);
- }
- 
-+static int lima_pp_hw_init(struct lima_ip *ip)
-+{
-+	ip->data.async_reset = false;
-+	lima_pp_soft_reset_async(ip);
-+	return lima_pp_soft_reset_async_wait(ip);
-+}
-+
-+int lima_pp_resume(struct lima_ip *ip)
-+{
-+	return lima_pp_hw_init(ip);
-+}
-+
-+void lima_pp_suspend(struct lima_ip *ip)
-+{
-+
-+}
-+
- int lima_pp_init(struct lima_ip *ip)
- {
- 	struct lima_device *dev = ip->dev;
-@@ -230,9 +247,7 @@ int lima_pp_init(struct lima_ip *ip)
- 
- 	lima_pp_print_version(ip);
- 
--	ip->data.async_reset = false;
--	lima_pp_soft_reset_async(ip);
--	err = lima_pp_soft_reset_async_wait(ip);
-+	err = lima_pp_hw_init(ip);
- 	if (err)
- 		return err;
- 
-@@ -254,6 +269,16 @@ void lima_pp_fini(struct lima_ip *ip)
- 
- }
- 
-+int lima_pp_bcast_resume(struct lima_ip *ip)
-+{
-+	return 0;
-+}
-+
-+void lima_pp_bcast_suspend(struct lima_ip *ip)
-+{
-+
-+}
-+
- int lima_pp_bcast_init(struct lima_ip *ip)
- {
- 	struct lima_device *dev = ip->dev;
-diff --git a/drivers/gpu/drm/lima/lima_pp.h b/drivers/gpu/drm/lima/lima_pp.h
-index bf60c77b2633..16ec96de15a9 100644
---- a/drivers/gpu/drm/lima/lima_pp.h
-+++ b/drivers/gpu/drm/lima/lima_pp.h
-@@ -7,9 +7,13 @@
- struct lima_ip;
- struct lima_device;
- 
-+int lima_pp_resume(struct lima_ip *ip);
-+void lima_pp_suspend(struct lima_ip *ip);
- int lima_pp_init(struct lima_ip *ip);
- void lima_pp_fini(struct lima_ip *ip);
- 
-+int lima_pp_bcast_resume(struct lima_ip *ip);
-+void lima_pp_bcast_suspend(struct lima_ip *ip);
- int lima_pp_bcast_init(struct lima_ip *ip);
- void lima_pp_bcast_fini(struct lima_ip *ip);
- 
+ static struct platform_driver lima_platform_driver = {
+ 	.probe      = lima_pdev_probe,
+ 	.remove     = lima_pdev_remove,
+ 	.driver     = {
+ 		.name   = "lima",
++		.pm	= &lima_pm_ops,
+ 		.of_match_table = dt_match,
+ 	},
+ };
 -- 
 2.17.1
 
