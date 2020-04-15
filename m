@@ -2,57 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B6A1A953F
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:55:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7601D1A9549
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 101EA6E8F7;
-	Wed, 15 Apr 2020 07:55:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7441E6E8FD;
+	Wed, 15 Apr 2020 07:56:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 410CF6E8F1;
- Wed, 15 Apr 2020 07:55:09 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 000A4ACB0;
- Wed, 15 Apr 2020 07:55:06 +0000 (UTC)
-Subject: Re: [PATCH 11/59] drm/udl: Use devm_drm_dev_alloc
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-12-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <6d9cd277-6e07-4db1-a7e1-01d3de1c84db@suse.de>
-Date: Wed, 15 Apr 2020 09:55:06 +0200
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6BFB6E8A9
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 07:56:42 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id h2so16207163wmb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 00:56:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pSd8qbiYbAtfmst7OijulRMd3WJ5z01ypkQKLIZqZok=;
+ b=yK6dX17+cvwnbEKilDfvRJgPysqPQaOhqOcDFnUWTwNTUcNlmft+jOZNDi292ntJ2l
+ kj8MhwLARdLFZQKHh3vGVp8pk4X5eSRG7mpvhl9Gb1ncGcdh5wPScau0bBXWJRcizTkW
+ YioEbcc+FfUtG7ehev32FVJAwfe17MnWO6TJgD4LRwjj0ThJPgtxI9iHU5CcXmobSssd
+ j71TTX//G1saATx+Znj6E1Q5og5FR/Y6P6VELlqA1x8O4FO9kJlnZefTggiQsrpsNs6J
+ ZMoViK/0WPcIZDWIQLZRE+70NvkJdbfBxXS+4zXAvJu+2FUMgCrIeRK28CnH0BoFyirJ
+ kEjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=pSd8qbiYbAtfmst7OijulRMd3WJ5z01ypkQKLIZqZok=;
+ b=YWgVGq1CR7zmWU3BogkITEtVog3cKn2j8nA45EyI6dIVAegyYaTaCJCMz8R9bRPn+h
+ mJGPSk6Sx1dfH+kEfSQxsb/9pgeuMkB742yqz5gAho5etorR4W3vmnakN52CUxSTKfer
+ yzPt88Wp51Wqh17XO+rE7IPrm2/vz9DBmp2jFjlVXifsfaC6K3JbK+2dcAEoBnPl6mda
+ Kj4GpgZJvaBuWFe0t40BEO6x0D4NjyDF9sNcDXq074miAZCjsD1JE0xtyhRdvExXZqr/
+ 4NRjaoCVmHdHDWZbpy9sJzIHkrz54h82lKzD0VmSxCi11nrqEqHVW9Fs5u2h3oEMh5og
+ Udlw==
+X-Gm-Message-State: AGi0PubwDSGuYep1DEOZMSQ53H/Xcszu+M5jjrpsbGS4zjh371u2W2dA
+ Obn61O3kVyg9/Cb5N5Vz1eS7oA==
+X-Google-Smtp-Source: APiQypJKOCIwnWh8GtFBc++8oLUPehct2YypJMuYQcUh6XPplOHdyOE52LPU3ioZ9kxnxcghDzsaVg==
+X-Received: by 2002:a7b:cb17:: with SMTP id u23mr1910534wmj.130.1586937401352; 
+ Wed, 15 Apr 2020 00:56:41 -0700 (PDT)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:39cc:a07:8b48:cc56?
+ ([2a01:e35:2ec0:82b0:39cc:a07:8b48:cc56])
+ by smtp.gmail.com with ESMTPSA id k14sm22764484wrp.53.2020.04.15.00.56.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Apr 2020 00:56:40 -0700 (PDT)
+Subject: Re: [PATCH] drm/meson: Delete an error message in meson_dw_hdmi_bind()
+To: Markus Elfring <Markus.Elfring@web.de>, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Kevin Hilman <khilman@baylibre.com>
+References: <76f24122-4d3f-7670-9f06-edb4731a0661@web.de>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <54e0b6e4-4a39-c567-7355-2b2330a95294@baylibre.com>
+Date: Wed, 15 Apr 2020 09:56:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200415074034.175360-12-daniel.vetter@ffwll.ch>
+In-Reply-To: <76f24122-4d3f-7670-9f06-edb4731a0661@web.de>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,179 +125,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.l.velikov@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============1473407707=="
+Cc: kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Tang Bin <tangbin@cmss.chinamobile.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1473407707==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="m6l5uby3AaTIacvlB2wLP2zkrkZ0ML1AS"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---m6l5uby3AaTIacvlB2wLP2zkrkZ0ML1AS
-Content-Type: multipart/mixed; boundary="Zv4BKzCpSxGaNzSCdUDPIxx48phv31ZOM";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>, Dave Airlie <airlied@redhat.com>,
- Sean Paul <sean@poorly.run>, Emil Velikov <emil.l.velikov@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Thomas Gleixner <tglx@linutronix.de>
-Message-ID: <6d9cd277-6e07-4db1-a7e1-01d3de1c84db@suse.de>
-Subject: Re: [PATCH 11/59] drm/udl: Use devm_drm_dev_alloc
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-12-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200415074034.175360-12-daniel.vetter@ffwll.ch>
-
---Zv4BKzCpSxGaNzSCdUDPIxx48phv31ZOM
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-
-
-Am 15.04.20 um 09:39 schrieb Daniel Vetter:
-> Also init the fbdev emulation before we register the device, that way
-> we can rely on the auto-cleanup and simplify the probe error code even
-> more.
->=20
-> v2: Rebase on top of Thomas' patches to remove the return value from
-> drm_fbdev_generic_setup()
->=20
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Emil Velikov <emil.l.velikov@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
->  drivers/gpu/drm/udl/udl_drv.c | 26 +++++++-------------------
->  1 file changed, 7 insertions(+), 19 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_dr=
-v.c
-> index 9cc6d075cb40..523f60e02a85 100644
-> --- a/drivers/gpu/drm/udl/udl_drv.c
-> +++ b/drivers/gpu/drm/udl/udl_drv.c
-> @@ -57,27 +57,20 @@ static struct udl_device *udl_driver_create(struct =
-usb_interface *interface)
->  	struct udl_device *udl;
->  	int r;
-> =20
-> -	udl =3D kzalloc(sizeof(*udl), GFP_KERNEL);
-> -	if (!udl)
-> -		return ERR_PTR(-ENOMEM);
-> -
-> -	r =3D drm_dev_init(&udl->drm, &driver, &interface->dev);
-> -	if (r) {
-> -		kfree(udl);
-> -		return ERR_PTR(r);
-> -	}
-> +	udl =3D devm_drm_dev_alloc(&interface->dev, &driver,
-> +				 struct udl_device, drm);
-> +	if (IS_ERR(udl))
-> +		return udl;
-> =20
->  	udl->udev =3D udev;
->  	udl->drm.dev_private =3D udl;
-> -	drmm_add_final_kfree(&udl->drm, udl);
-> =20
->  	r =3D udl_init(udl);
-> -	if (r) {
-> -		drm_dev_put(&udl->drm);
-> +	if (r)
->  		return ERR_PTR(r);
-> -	}
-> =20
->  	usb_set_intfdata(interface, udl);
-> +
->  	return udl;
->  }
-> =20
-> @@ -93,17 +86,13 @@ static int udl_usb_probe(struct usb_interface *inte=
-rface,
-> =20
->  	r =3D drm_dev_register(&udl->drm, 0);
->  	if (r)
-> -		goto err_free;
-> +		return r;
-> =20
->  	DRM_INFO("Initialized udl on minor %d\n", udl->drm.primary->index);
-> =20
->  	drm_fbdev_generic_setup(&udl->drm, 0);
-> =20
->  	return 0;
-> -
-> -err_free:
-> -	drm_dev_put(&udl->drm);
-> -	return r;
->  }
-> =20
->  static void udl_usb_disconnect(struct usb_interface *interface)
-> @@ -113,7 +102,6 @@ static void udl_usb_disconnect(struct usb_interface=
- *interface)
->  	drm_kms_helper_poll_fini(dev);
->  	udl_drop_usb(dev);
->  	drm_dev_unplug(dev);
-> -	drm_dev_put(dev);
->  }
-> =20
->  /*
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---Zv4BKzCpSxGaNzSCdUDPIxx48phv31ZOM--
-
---m6l5uby3AaTIacvlB2wLP2zkrkZ0ML1AS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6WvdoACgkQaA3BHVML
-eiOpxwf+K6Svt+ZHHlU4OC3AEY0CrvVpJlY+W3aPIY+R/A9Pr4AjlG3mKxcP6wpr
-A/kAMpdxPE5PRTLcOCL4Yt59YE1WONAW9rG215qL8TaHWhVpdGrOnrBnclWlU5PE
-+Ys+3Vbvf7gP1MOVdcCn0HMCJgCkQg8jmHfgSFXuhZ//VNgoKhf0E0fa0IjRfel9
-5W0JSmqFijpJ9c0GGp4NF5FYIjG0kfTPzKa2mOvzNtWpw0mTdBnIRiIfzYrGcnA0
-WMAw/C+awSJP/AFl9baca5a6AmlydhG9Ip4SnJY4UG+BpboXdLOzepiQQJGd5Ik0
-Xps9rVqg8uhQb/xjhOzOHPoS9PfDIg==
-=xF8S
------END PGP SIGNATURE-----
-
---m6l5uby3AaTIacvlB2wLP2zkrkZ0ML1AS--
-
---===============1473407707==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1473407707==--
+SGksCgpPbiAwNS8wNC8yMDIwIDEzOjIzLCBNYXJrdXMgRWxmcmluZyB3cm90ZToKPiBGcm9tOiBN
+YXJrdXMgRWxmcmluZyA8ZWxmcmluZ0B1c2Vycy5zb3VyY2Vmb3JnZS5uZXQ+Cj4gRGF0ZTogU3Vu
+LCA1IEFwciAyMDIwIDEzOjEzOjAzICswMjAwCj4gCj4gVGhlIGZ1bmN0aW9uIOKAnHBsYXRmb3Jt
+X2dldF9pcnHigJ0gY2FuIGxvZyBhbiBlcnJvciBhbHJlYWR5Lgo+IFRodXMgb21pdCBhIHJlZHVu
+ZGFudCBtZXNzYWdlIGZvciB0aGUgZXhjZXB0aW9uIGhhbmRsaW5nIGluIHRoZQo+IGNhbGxpbmcg
+ZnVuY3Rpb24uCj4gCj4gVGhpcyBpc3N1ZSB3YXMgZGV0ZWN0ZWQgYnkgdXNpbmcgdGhlIENvY2Np
+bmVsbGUgc29mdHdhcmUuCj4gCj4gU2lnbmVkLW9mZi1ieTogTWFya3VzIEVsZnJpbmcgPGVsZnJp
+bmdAdXNlcnMuc291cmNlZm9yZ2UubmV0Pgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVzb24v
+bWVzb25fZHdfaGRtaS5jIHwgNCArLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
+KSwgMyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lc29u
+L21lc29uX2R3X2hkbWkuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9kd19oZG1pLmMK
+PiBpbmRleCBlOGM5NDkxNWE0ZmMuLjY0Y2I2YmE0YmM0MiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vbWVzb24vbWVzb25fZHdfaGRtaS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21l
+c29uL21lc29uX2R3X2hkbWkuYwo+IEBAIC0xMDM0LDEwICsxMDM0LDggQEAgc3RhdGljIGludCBt
+ZXNvbl9kd19oZG1pX2JpbmQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0
+ZXIsCj4gIAkJcmV0dXJuIFBUUl9FUlIoZHdfcGxhdF9kYXRhLT5yZWdtKTsKPiAKPiAgCWlycSA9
+IHBsYXRmb3JtX2dldF9pcnEocGRldiwgMCk7Cj4gLQlpZiAoaXJxIDwgMCkgewo+IC0JCWRldl9l
+cnIoZGV2LCAiRmFpbGVkIHRvIGdldCBoZG1pIHRvcCBpcnFcbiIpOwo+ICsJaWYgKGlycSA8IDAp
+Cj4gIAkJcmV0dXJuIGlycTsKPiAtCX0KPiAKPiAgCXJldCA9IGRldm1fcmVxdWVzdF90aHJlYWRl
+ZF9pcnEoZGV2LCBpcnEsIGR3X2hkbWlfdG9wX2lycSwKPiAgCQkJCQlkd19oZG1pX3RvcF90aHJl
+YWRfaXJxLCBJUlFGX1NIQVJFRCwKPiAtLQo+IDIuMjYuMAo+IAoKTWlzc2luZyBGaXhlcyB0YWcs
+IGJ1dCBJJ2xsIGFwcGx5IG5ldmVydGhlbGVzczoKRml4ZXM6IDNmNjhiZTdkOGU5NiAoImRybS9t
+ZXNvbjogQWRkIHN1cHBvcnQgZm9yIEhETUkgZW5jb2RlciBhbmQgRFctSERNSSBicmlkZ2UgKyBQ
+SFkiKQoKTmVpbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
