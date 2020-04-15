@@ -1,53 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A16001A9833
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 11:16:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 960A11A986B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 11:20:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF2726E928;
-	Wed, 15 Apr 2020 09:16:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 356E66E929;
+	Wed, 15 Apr 2020 09:20:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C8B16E927
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 09:16:14 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id 8so2681879oiy.6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 02:16:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=NUFpX5X0+874xazg12sL5+CoHp00OHExFRdbolbY+Cs=;
- b=gKxyrbz+omFe6Izpzdw477lRVjZG0kgsOz7iuDPWRAwYjbuD5qUP4qJpSjabKDJRaU
- +BL/HXfY1tVxiHnTeWH8KCK+k02R+pu5jEbLxWwl+TxfwTXDN4tTRUJso2o+f0xlBhaL
- JFNM8p4ka2TKysv2KB+QMx+MQKqRwKC00GVek=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NUFpX5X0+874xazg12sL5+CoHp00OHExFRdbolbY+Cs=;
- b=h5LqbyvIciCXKtb6b8N5VEqHgrDt6uswDaRai4rhUVQXip6kpbjUc6hxYQXiQKECRV
- 5TY9L0Neb6Hi5OdHWlWb1MILpSIRCPuZcfg9y1i42IQ0rsQJyyJlLeBm+0y8FHo/pbu1
- BzzXA1n1N4zoz04QauQxLYmlBbXEfjgE631YR42j+1/u4UDb8NnJ3Nx779qgTYfkbhWl
- N0WINJhlKQKAxkkTsctwi5X9PbYnKv2UE7t9Dg8GFB6uey1+v8fIyO3+JPdsThasF6uE
- VoDSonrg020QVLxSwlQHSI5zwy/DU7WDtgKAeTeOEQZTQvvAqjoQL1ZtdMbgxWkjtqR7
- gtYQ==
-X-Gm-Message-State: AGi0Pua8OvUFLXymfsyCCpB8jXU2djU7ZOiyTWBz+gVNGEM1MS01u7YF
- 2pfCfEyh/WhwDzts7n5c8qBGQ1KAObaiVLUa/Gpneg==
-X-Google-Smtp-Source: APiQypJjUOh6nv2pcgwPQMR6DVT/UE/f75S+/R0sjUu4lPd87AIjXo6A/D8OV/vl3Tae3FRr61UndcOwlV+jMRFnJps=
-X-Received: by 2002:aca:4408:: with SMTP id r8mr16355603oia.14.1586942173410; 
- Wed, 15 Apr 2020 02:16:13 -0700 (PDT)
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 957AA6E929
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 09:20:46 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03F9KfE4009961;
+ Wed, 15 Apr 2020 04:20:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1586942442;
+ bh=MB0TNw8Gk1jsagDWx4q5iYuNzD3Gk7EYrK8Hzwxo+jU=;
+ h=From:To:CC:Subject:Date;
+ b=lre7FjMtFvNX7aaqyMqGc349qbqLvqYHyoFaahAKZ382GOjWRPkQs73KDV9a6CiNW
+ tW6DBzLv+BHeXeyrWYkxicTEw2t7M7yxRAemydzb0ar1/ysYoDggk+4E8p7hJkttb3
+ K3ejsfn4Kzndn+pA9CrVD5nKSZlZjjgiBx1Tv4Lo=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03F9KfBT046160
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 15 Apr 2020 04:20:41 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 15
+ Apr 2020 04:20:39 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Wed, 15 Apr 2020 04:20:40 -0500
+Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03F9Kc8T036571;
+ Wed, 15 Apr 2020 04:20:38 -0500
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+To: <dri-devel@lists.freedesktop.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH] drm/tidss: fix crash related to accessing freed memory
+Date: Wed, 15 Apr 2020 12:20:06 +0300
+Message-ID: <20200415092006.26675-1-tomi.valkeinen@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <1586864113-30682-1-git-send-email-bernard@vivo.com>
- <CADnq5_Phca3L-HGOQz0DPBoARHgwcJRK_a7-WmeFMPkrPWeOeg@mail.gmail.com>
- <87lfmx5h72.fsf@intel.com> <b5ffc6b7-bfa5-0827-a267-4e8c20027982@amd.com>
-In-Reply-To: <b5ffc6b7-bfa5-0827-a267-4e8c20027982@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 15 Apr 2020 11:16:01 +0200
-Message-ID: <CAKMK7uEYUnX3p0QUtosOaiB_9Z8epFkc8HxtBDW=mCTUrziPxw@mail.gmail.com>
-Subject: Re: [PATCH] Optimized division operation to shift operation
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,130 +58,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, Kent Russell <kent.russell@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Bernard Zhao <bernard@vivo.com>, Oak Zeng <Oak.Zeng@amd.com>,
- LKML <linux-kernel@vger.kernel.org>, kernel@vivo.com,
- Huang Rui <ray.huang@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>, Xiaojie Yuan <xiaojie.yuan@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBBcHIgMTUsIDIwMjAgYXQgOTo1NyBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
-YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMTUuMDQuMjAgdW0gMDk6NDEgc2Nocmll
-YiBKYW5pIE5pa3VsYToKPiA+IE9uIFR1ZSwgMTQgQXByIDIwMjAsIEFsZXggRGV1Y2hlciA8YWxl
-eGRldWNoZXJAZ21haWwuY29tPiB3cm90ZToKPiA+PiBPbiBUdWUsIEFwciAxNCwgMjAyMCBhdCA5
-OjA1IEFNIEJlcm5hcmQgWmhhbyA8YmVybmFyZEB2aXZvLmNvbT4gd3JvdGU6Cj4gPj4+IE9uIHNv
-bWUgcHJvY2Vzc29ycywgdGhlIC8gb3BlcmF0ZSB3aWxsIGNhbGwgdGhlIGNvbXBpbGVyYHMgZGl2
-IGxpYiwKPiA+Pj4gd2hpY2ggaXMgbG93IGVmZmljaWVudCwgV2UgY2FuIHJlcGxhY2UgdGhlIC8g
-b3BlcmF0aW9uIHdpdGggc2hpZnQsCj4gPj4+IHNvIHRoYXQgd2UgY2FuIHJlcGxhY2UgdGhlIGNh
-bGwgb2YgdGhlIGRpdmlzaW9uIGxpYnJhcnkgd2l0aCBvbmUKPiA+Pj4gc2hpZnQgYXNzZW1ibHkg
-aW5zdHJ1Y3Rpb24uCj4gPiBUaGlzIHdhcyBhcHBsaWVkIGFscmVhZHksIGFuZCBpdCdzIG5vdCBp
-biBhIGRyaXZlciBJIGxvb2sgYWZ0ZXIuLi4gYnV0Cj4gPiB0byBtZSB0aGlzIGZlZWxzIGxpa2Ug
-c29tZXRoaW5nIHRoYXQgcmVhbGx5IHNob3VsZCBiZQo+ID4ganVzdGlmaWVkLiBVc2luZyA+PiBp
-bnN0ZWFkIG9mIC8gZm9yIG11bHRpcGxlcyBvZiAyIGRpdmlzaW9uIG1hdHRlcmVkIDIwCj4gPiB5
-ZWFycyBhZ28sIEknZCBiZSBzdXJwcmlzZWQgaWYgaXQgc3RpbGwgZGlkIG9uIG1vZGVybiBjb21w
-aWxlcnMuCj4KPiBJIGhhdmUgc2ltaWxhciB3b3JyaWVzLCBlc3BlY2lhbGx5IHNpbmNlIHdlIHJl
-cGxhY2UgdGhlICIvICg0ICogMikiIHdpdGgKPiAiPj4gMyIgaXQncyBtYWtpbmcgdGhlIGNvZGUg
-anVzdCBhIGJpdCBsZXNzIHJlYWRhYmxlLgo+Cj4gQW5kIHRoYXQgdGhlIGNvZGUgcnVucyBleGFj
-dGx5IG9uY2Ugd2hpbGUgbG9hZGluZyB0aGUgZHJpdmVyIGFuZCBwdXNoaW5nCj4gdGhlIGZpcm13
-YXJlIGludG8gdGhlIGhhcmR3YXJlLiBTbyBwZXJmb3JtYW5jZSBpcyBjb21wbGV0ZWx5IGlycmVs
-ZXZhbnQKPiBoZXJlLgoKWWVhaCwgYW5kIGV2ZW4gaW4gZ2VuZXJhbCBJJ2QgcmVhbGx5IHdhbnQg
-dG8gc2VlIHByb29mIHRoYXQgc3VjaCBiYWQKY29tcGlsZXJzIGV4aXN0IGZpcnN0LiBEb2luZyBh
-IHBlZXBob2xlIHBhc3MgZm9yIHN0dWZmIGxpa2UgdGhpcyBpcwpsaWtlIHVuZGVyZ3JhZCBjb21w
-aWxlciBjb3Vyc2Ugc3R1ZmYuIEFsc28gSSdkIHRydXN0IHRoZSBjb21waWxlcidzCmNhbGwgb24g
-d2hpY2ggaXMgZmFzdGVyIG11Y2ggbW9yZSB0aGFuIGh1bWFucyBkb2luZyBhIG1hbnVhbCBwZWVw
-aG9sZQpwYXNzLgoKT3IgYW0gSSBqdXN0IG1hc3NpdmVseSBiaWFzZWQgZnJvbSBhbGwgdGhlIGxh
-eW1hbiBmb2xsb3dpbmcgb2Ygd2hhdApraW5kIG9mIG91ciBnbC92ay9jb21wdXRlIGNvbXBpbGVy
-IHBlb3BsZSBhcmUgZG9pbmcgb24gYSBkYWlseSBiYXNpcz8KLURhbmllbAoKPgo+IFJlZ2FyZHMs
-Cj4gQ2hyaXN0aWFuLgo+Cj4gPgo+ID4gQlIsCj4gPiBKYW5pLgo+ID4KPiA+Cj4gPj4+IFNpZ25l
-ZC1vZmYtYnk6IEJlcm5hcmQgWmhhbyA8YmVybmFyZEB2aXZvLmNvbT4KPiA+PiBBcHBsaWVkLiAg
-dGhhbmtzLgo+ID4+Cj4gPj4gQWxleAo+ID4+Cj4gPj4+IC0tLQo+ID4+PiAgIGRyaXZlcnMvZ3B1
-L2RybS9hbWQvYW1kZ3B1L2dtY192Nl8wLmMgfCA0ICsrLS0KPiA+Pj4gICBkcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9nbWNfdjdfMC5jIHwgNCArKy0tCj4gPj4+ICAgZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvZ21jX3Y4XzAuYyB8IDQgKystLQo+ID4+PiAgIDMgZmlsZXMgY2hhbmdlZCwg
-NiBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQo+ID4+Pgo+ID4+PiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ21jX3Y2XzAuYyBiL2RyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2dtY192Nl8wLmMKPiA+Pj4gaW5kZXggYjIwNTAzOS4uNjZjZDA3OCAxMDA2NDQK
-PiA+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ21jX3Y2XzAuYwo+ID4+PiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nbWNfdjZfMC5jCj4gPj4+IEBAIC0xNzUs
-MTAgKzE3NSwxMCBAQCBzdGF0aWMgaW50IGdtY192Nl8wX21jX2xvYWRfbWljcm9jb2RlKHN0cnVj
-dCBhbWRncHVfZGV2aWNlICphZGV2KQo+ID4+PiAgICAgICAgICBhbWRncHVfdWNvZGVfcHJpbnRf
-bWNfaGRyKCZoZHItPmhlYWRlcik7Cj4gPj4+Cj4gPj4+ICAgICAgICAgIGFkZXYtPmdtYy5md192
-ZXJzaW9uID0gbGUzMl90b19jcHUoaGRyLT5oZWFkZXIudWNvZGVfdmVyc2lvbik7Cj4gPj4+IC0g
-ICAgICAgcmVnc19zaXplID0gbGUzMl90b19jcHUoaGRyLT5pb19kZWJ1Z19zaXplX2J5dGVzKSAv
-ICg0ICogMik7Cj4gPj4+ICsgICAgICAgcmVnc19zaXplID0gbGUzMl90b19jcHUoaGRyLT5pb19k
-ZWJ1Z19zaXplX2J5dGVzKSA+PiAzOwo+ID4+PiAgICAgICAgICBuZXdfaW9fbWNfcmVncyA9IChj
-b25zdCBfX2xlMzIgKikKPiA+Pj4gICAgICAgICAgICAgICAgICAoYWRldi0+Z21jLmZ3LT5kYXRh
-ICsgbGUzMl90b19jcHUoaGRyLT5pb19kZWJ1Z19hcnJheV9vZmZzZXRfYnl0ZXMpKTsKPiA+Pj4g
-LSAgICAgICB1Y29kZV9zaXplID0gbGUzMl90b19jcHUoaGRyLT5oZWFkZXIudWNvZGVfc2l6ZV9i
-eXRlcykgLyA0Owo+ID4+PiArICAgICAgIHVjb2RlX3NpemUgPSBsZTMyX3RvX2NwdShoZHItPmhl
-YWRlci51Y29kZV9zaXplX2J5dGVzKSA+PiAyOwo+ID4+PiAgICAgICAgICBuZXdfZndfZGF0YSA9
-IChjb25zdCBfX2xlMzIgKikKPiA+Pj4gICAgICAgICAgICAgICAgICAoYWRldi0+Z21jLmZ3LT5k
-YXRhICsgbGUzMl90b19jcHUoaGRyLT5oZWFkZXIudWNvZGVfYXJyYXlfb2Zmc2V0X2J5dGVzKSk7
-Cj4gPj4+Cj4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nbWNf
-djdfMC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ21jX3Y3XzAuYwo+ID4+PiBpbmRl
-eCA5ZGE5NTk2Li5jYTI2ZDYzIDEwMDY0NAo+ID4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1k
-L2FtZGdwdS9nbWNfdjdfMC5jCj4gPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
-L2dtY192N18wLmMKPiA+Pj4gQEAgLTE5MywxMCArMTkzLDEwIEBAIHN0YXRpYyBpbnQgZ21jX3Y3
-XzBfbWNfbG9hZF9taWNyb2NvZGUoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpCj4gPj4+ICAg
-ICAgICAgIGFtZGdwdV91Y29kZV9wcmludF9tY19oZHIoJmhkci0+aGVhZGVyKTsKPiA+Pj4KPiA+
-Pj4gICAgICAgICAgYWRldi0+Z21jLmZ3X3ZlcnNpb24gPSBsZTMyX3RvX2NwdShoZHItPmhlYWRl
-ci51Y29kZV92ZXJzaW9uKTsKPiA+Pj4gLSAgICAgICByZWdzX3NpemUgPSBsZTMyX3RvX2NwdSho
-ZHItPmlvX2RlYnVnX3NpemVfYnl0ZXMpIC8gKDQgKiAyKTsKPiA+Pj4gKyAgICAgICByZWdzX3Np
-emUgPSBsZTMyX3RvX2NwdShoZHItPmlvX2RlYnVnX3NpemVfYnl0ZXMpID4+IDM7Cj4gPj4+ICAg
-ICAgICAgIGlvX21jX3JlZ3MgPSAoY29uc3QgX19sZTMyICopCj4gPj4+ICAgICAgICAgICAgICAg
-ICAgKGFkZXYtPmdtYy5mdy0+ZGF0YSArIGxlMzJfdG9fY3B1KGhkci0+aW9fZGVidWdfYXJyYXlf
-b2Zmc2V0X2J5dGVzKSk7Cj4gPj4+IC0gICAgICAgdWNvZGVfc2l6ZSA9IGxlMzJfdG9fY3B1KGhk
-ci0+aGVhZGVyLnVjb2RlX3NpemVfYnl0ZXMpIC8gNDsKPiA+Pj4gKyAgICAgICB1Y29kZV9zaXpl
-ID0gbGUzMl90b19jcHUoaGRyLT5oZWFkZXIudWNvZGVfc2l6ZV9ieXRlcykgPj4gMjsKPiA+Pj4g
-ICAgICAgICAgZndfZGF0YSA9IChjb25zdCBfX2xlMzIgKikKPiA+Pj4gICAgICAgICAgICAgICAg
-ICAoYWRldi0+Z21jLmZ3LT5kYXRhICsgbGUzMl90b19jcHUoaGRyLT5oZWFkZXIudWNvZGVfYXJy
-YXlfb2Zmc2V0X2J5dGVzKSk7Cj4gPj4+Cj4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9nbWNfdjhfMC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ21j
-X3Y4XzAuYwo+ID4+PiBpbmRleCAyN2Q4MzIwNC4uMjk1MDM5YyAxMDA2NDQKPiA+Pj4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ21jX3Y4XzAuYwo+ID4+PiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vYW1kL2FtZGdwdS9nbWNfdjhfMC5jCj4gPj4+IEBAIC0zMTgsMTAgKzMxOCwxMCBA
-QCBzdGF0aWMgaW50IGdtY192OF8wX3RvbmdhX21jX2xvYWRfbWljcm9jb2RlKHN0cnVjdCBhbWRn
-cHVfZGV2aWNlICphZGV2KQo+ID4+PiAgICAgICAgICBhbWRncHVfdWNvZGVfcHJpbnRfbWNfaGRy
-KCZoZHItPmhlYWRlcik7Cj4gPj4+Cj4gPj4+ICAgICAgICAgIGFkZXYtPmdtYy5md192ZXJzaW9u
-ID0gbGUzMl90b19jcHUoaGRyLT5oZWFkZXIudWNvZGVfdmVyc2lvbik7Cj4gPj4+IC0gICAgICAg
-cmVnc19zaXplID0gbGUzMl90b19jcHUoaGRyLT5pb19kZWJ1Z19zaXplX2J5dGVzKSAvICg0ICog
-Mik7Cj4gPj4+ICsgICAgICAgcmVnc19zaXplID0gbGUzMl90b19jcHUoaGRyLT5pb19kZWJ1Z19z
-aXplX2J5dGVzKSA+PiAzOwo+ID4+PiAgICAgICAgICBpb19tY19yZWdzID0gKGNvbnN0IF9fbGUz
-MiAqKQo+ID4+PiAgICAgICAgICAgICAgICAgIChhZGV2LT5nbWMuZnctPmRhdGEgKyBsZTMyX3Rv
-X2NwdShoZHItPmlvX2RlYnVnX2FycmF5X29mZnNldF9ieXRlcykpOwo+ID4+PiAtICAgICAgIHVj
-b2RlX3NpemUgPSBsZTMyX3RvX2NwdShoZHItPmhlYWRlci51Y29kZV9zaXplX2J5dGVzKSAvIDQ7
-Cj4gPj4+ICsgICAgICAgdWNvZGVfc2l6ZSA9IGxlMzJfdG9fY3B1KGhkci0+aGVhZGVyLnVjb2Rl
-X3NpemVfYnl0ZXMpID4+IDI7Cj4gPj4+ICAgICAgICAgIGZ3X2RhdGEgPSAoY29uc3QgX19sZTMy
-ICopCj4gPj4+ICAgICAgICAgICAgICAgICAgKGFkZXYtPmdtYy5mdy0+ZGF0YSArIGxlMzJfdG9f
-Y3B1KGhkci0+aGVhZGVyLnVjb2RlX2FycmF5X29mZnNldF9ieXRlcykpOwo+ID4+Pgo+ID4+PiAt
-LQo+ID4+PiAyLjcuNAo+ID4+Pgo+ID4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwo+ID4+PiBhbWQtZ2Z4IG1haWxpbmcgbGlzdAo+ID4+PiBhbWQtZ2Z4
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90
-ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5v
-cmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZhbWQtZ2Z4JmFtcDtkYXRhPTAyJTdDMDElN0NjaHJp
-c3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3QzFlOTFmN2VkY2ZlMDQ3M2IwZDcwMDhkN2UxMTA3NGE4
-JTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzIyNTMzMzEw
-Mzg5Mzg4OSZhbXA7c2RhdGE9VkRKbEVZMiUyQmwxU1NPOEZ3MWRZcXFQRnFRdHlIcHN4UTBUbTdp
-Vk9nSlFZJTNEJmFtcDtyZXNlcnZlZD0wCj4gPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KPiA+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPj4gZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtz
-LnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmxpc3RzLmZyZWVkZXNr
-dG9wLm9yZyUyRm1haWxtYW4lMkZsaXN0aW5mbyUyRmRyaS1kZXZlbCZhbXA7ZGF0YT0wMiU3QzAx
-JTdDY2hyaXN0aWFuLmtvZW5pZyU0MGFtZC5jb20lN0MxZTkxZjdlZGNmZTA0NzNiMGQ3MDA4ZDdl
-MTEwNzRhOCU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2Mzcy
-MjUzMzMxMDM4OTM4ODkmYW1wO3NkYXRhPUVwcVJSYkNpa3N1ciUyQmpNbFZRcGxFeHVKc213NlVQ
-T0RoeUJPdXRPVnVrdyUzRCZhbXA7cmVzZXJ2ZWQ9MAo+Cj4gX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3
-YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0
-dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+tidss uses devm_kzalloc to allocate DRM plane, encoder and crtc objects.
+This is not correct as the lifetime of those objects should be longer
+than the underlying device's.
+
+When unloading tidss module, the devm_kzalloc'ed objects have already
+been freed when tidss_release() is called, and the driver will accesses
+freed memory possibly causing a crash, a kernel WARN, or other undefined
+behavior, and also KASAN will give a bug.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+---
+ drivers/gpu/drm/tidss/tidss_crtc.c    | 16 +++++++++++++---
+ drivers/gpu/drm/tidss/tidss_encoder.c | 14 +++++++++++---
+ drivers/gpu/drm/tidss/tidss_plane.c   | 24 ++++++++++++++++++------
+ 3 files changed, 42 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+index d4ce9bab8c7e..3221a707e073 100644
+--- a/drivers/gpu/drm/tidss/tidss_crtc.c
++++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+@@ -379,9 +379,17 @@ static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
+ 	return &state->base;
+ }
+ 
++static void tidss_crtc_destroy(struct drm_crtc *crtc)
++{
++	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
++
++	drm_crtc_cleanup(crtc);
++	kfree(tcrtc);
++}
++
+ static const struct drm_crtc_funcs tidss_crtc_funcs = {
+ 	.reset = tidss_crtc_reset,
+-	.destroy = drm_crtc_cleanup,
++	.destroy = tidss_crtc_destroy,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+ 	.atomic_duplicate_state = tidss_crtc_duplicate_state,
+@@ -400,7 +408,7 @@ struct tidss_crtc *tidss_crtc_create(struct tidss_device *tidss,
+ 	bool has_ctm = tidss->feat->vp_feat.color.has_ctm;
+ 	int ret;
+ 
+-	tcrtc = devm_kzalloc(tidss->dev, sizeof(*tcrtc), GFP_KERNEL);
++	tcrtc = kzalloc(sizeof(*tcrtc), GFP_KERNEL);
+ 	if (!tcrtc)
+ 		return ERR_PTR(-ENOMEM);
+ 
+@@ -411,8 +419,10 @@ struct tidss_crtc *tidss_crtc_create(struct tidss_device *tidss,
+ 
+ 	ret = drm_crtc_init_with_planes(&tidss->ddev, crtc, primary,
+ 					NULL, &tidss_crtc_funcs, NULL);
+-	if (ret < 0)
++	if (ret < 0) {
++		kfree(tcrtc);
+ 		return ERR_PTR(ret);
++	}
+ 
+ 	drm_crtc_helper_add(crtc, &tidss_crtc_helper_funcs);
+ 
+diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
+index 83785b0a66a9..30bf2a65949c 100644
+--- a/drivers/gpu/drm/tidss/tidss_encoder.c
++++ b/drivers/gpu/drm/tidss/tidss_encoder.c
+@@ -55,12 +55,18 @@ static int tidss_encoder_atomic_check(struct drm_encoder *encoder,
+ 	return 0;
+ }
+ 
++static void tidss_encoder_destroy(struct drm_encoder *encoder)
++{
++	drm_encoder_cleanup(encoder);
++	kfree(encoder);
++}
++
+ static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
+ 	.atomic_check = tidss_encoder_atomic_check,
+ };
+ 
+ static const struct drm_encoder_funcs encoder_funcs = {
+-	.destroy = drm_encoder_cleanup,
++	.destroy = tidss_encoder_destroy,
+ };
+ 
+ struct drm_encoder *tidss_encoder_create(struct tidss_device *tidss,
+@@ -69,7 +75,7 @@ struct drm_encoder *tidss_encoder_create(struct tidss_device *tidss,
+ 	struct drm_encoder *enc;
+ 	int ret;
+ 
+-	enc = devm_kzalloc(tidss->dev, sizeof(*enc), GFP_KERNEL);
++	enc = kzalloc(sizeof(*enc), GFP_KERNEL);
+ 	if (!enc)
+ 		return ERR_PTR(-ENOMEM);
+ 
+@@ -77,8 +83,10 @@ struct drm_encoder *tidss_encoder_create(struct tidss_device *tidss,
+ 
+ 	ret = drm_encoder_init(&tidss->ddev, enc, &encoder_funcs,
+ 			       encoder_type, NULL);
+-	if (ret < 0)
++	if (ret < 0) {
++		kfree(enc);
+ 		return ERR_PTR(ret);
++	}
+ 
+ 	drm_encoder_helper_add(enc, &encoder_helper_funcs);
+ 
+diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
+index ff99b2dd4a17..798488948fc5 100644
+--- a/drivers/gpu/drm/tidss/tidss_plane.c
++++ b/drivers/gpu/drm/tidss/tidss_plane.c
+@@ -141,6 +141,14 @@ static void tidss_plane_atomic_disable(struct drm_plane *plane,
+ 	dispc_plane_enable(tidss->dispc, tplane->hw_plane_id, false);
+ }
+ 
++static void drm_plane_destroy(struct drm_plane *plane)
++{
++	struct tidss_plane *tplane = to_tidss_plane(plane);
++
++	drm_plane_cleanup(plane);
++	kfree(tplane);
++}
++
+ static const struct drm_plane_helper_funcs tidss_plane_helper_funcs = {
+ 	.atomic_check = tidss_plane_atomic_check,
+ 	.atomic_update = tidss_plane_atomic_update,
+@@ -151,7 +159,7 @@ static const struct drm_plane_funcs tidss_plane_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+ 	.reset = drm_atomic_helper_plane_reset,
+-	.destroy = drm_plane_cleanup,
++	.destroy = drm_plane_destroy,
+ 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+ };
+@@ -175,7 +183,7 @@ struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
+ 			   BIT(DRM_MODE_BLEND_COVERAGE));
+ 	int ret;
+ 
+-	tplane = devm_kzalloc(tidss->dev, sizeof(*tplane), GFP_KERNEL);
++	tplane = kzalloc(sizeof(*tplane), GFP_KERNEL);
+ 	if (!tplane)
+ 		return ERR_PTR(-ENOMEM);
+ 
+@@ -190,7 +198,7 @@ struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
+ 				       formats, num_formats,
+ 				       NULL, type, NULL);
+ 	if (ret < 0)
+-		return ERR_PTR(ret);
++		goto err;
+ 
+ 	drm_plane_helper_add(&tplane->plane, &tidss_plane_helper_funcs);
+ 
+@@ -203,15 +211,19 @@ struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
+ 						default_encoding,
+ 						default_range);
+ 	if (ret)
+-		return ERR_PTR(ret);
++		goto err;
+ 
+ 	ret = drm_plane_create_alpha_property(&tplane->plane);
+ 	if (ret)
+-		return ERR_PTR(ret);
++		goto err;
+ 
+ 	ret = drm_plane_create_blend_mode_property(&tplane->plane, blend_modes);
+ 	if (ret)
+-		return ERR_PTR(ret);
++		goto err;
+ 
+ 	return tplane;
++
++err:
++	kfree(tplane);
++	return ERR_PTR(ret);
+ }
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
