@@ -2,53 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546DB1A8F56
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 01:56:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A5B1A8FEC
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 02:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88BE76E198;
-	Tue, 14 Apr 2020 23:56:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DDC06E7E5;
+	Wed, 15 Apr 2020 00:54:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCE76E198
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 23:56:16 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id z6so16587179wml.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Apr 2020 16:56:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=be0q2rjhwVc9Yi+ssBzQr/Anw/EWaI6N7hXKtZkKaXo=;
- b=BnROSGwWErO6usd963RDM9CrXkCe/C3WwHV48iMWS0xU8hgTUZ6IWFLCdsfosVR613
- kYN2FjLWavy4GevURW0TJrJoGlULIB9Qzg0KL508TX7wa5P8A1qQNME4XQ+qfxwNKgVB
- UJ0tz410q4X2itfyjMsbRcsK6McJcmuUBol6WGkE/h7G1LJRcj0ZaVIsg7S7CGpp2sTR
- ektMAVG03Gal6IV44EzW7P3p9b7SVXb24TihSxfjWnVufsL/3x8dMbXP6OXtVPE2RK1S
- ddfo7xwCXOaPOhGci5ijR/vgEIg26wkJFS0vv/hn3YLOAWXIfB9tVU4hBGja4OoeO/CY
- EtTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=be0q2rjhwVc9Yi+ssBzQr/Anw/EWaI6N7hXKtZkKaXo=;
- b=Mly51dQkdp1X4TNFlWnzSIA6lwu7qyIKxWvmxUi3pj4mOffWhxiWc47yfiQMeuDbe9
- /3+pKmIMadfeKh/zcMMIZI8yXQyqYwH7TMYM8xZiJ0rHUqY/g7h+oEjkN4p/KsL+NkAa
- tmBAoPFkkr0nf7v1eT3VYLS9mBsXp8VNlAANQ1yKBVRX0Xyz/d9C7uBoZHGMssHEikC6
- paXOnMHz11rFtFbMoRg+WqC5bwsWHnoU6xPEYFZ1gONPohn86MLOmC/yhAjgmeZ09s5Y
- y4vFaLBRuFSdK9dlwFtXuMAjmz24fX5KOg06K6W3nogFH2/W90sxAAOVUMyiRQoVaW4S
- j7Ig==
-X-Gm-Message-State: AGi0PuZQF/GrqJ/vQQHu/O0PIAVGWkZBh/UvrBD/rCCExHeP/RyF8LP0
- kY/dUsF7pPOGa96OzTJX+pOY6nk78mtTEWHXx9c=
-X-Google-Smtp-Source: APiQypIoyQf9rsh8NwC2QO9zZBBORwk52k2MlKH4VNIqO9Di2R2EXDJTUqqyGfZiHfI3Qc/9JXUmoX7tIVXjMb1GkOI=
-X-Received: by 2002:a1c:a4c2:: with SMTP id n185mr2396333wme.104.1586908575106; 
- Tue, 14 Apr 2020 16:56:15 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A38BD6E7E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 00:54:42 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A422521;
+ Wed, 15 Apr 2020 02:54:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1586912079;
+ bh=t/s3cFaprX7TQgkKtf3BVyw0MwfDpYj0dFVoO/TDuXw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=eVHUoihtAmBgramO/GhT99Seqkul5d/u62tGrXDHYQvQSqbUU7Sw+ZUl0suUDOBjH
+ Ib2qE7AMpG3vFcOfNBOrzXsQYevvUVThKSZpee18Yn8tRP5LgXr/QGWHYm+YK8gz1t
+ UQJHwhWVButreXqgrcjjJoQkFuUrkhU+iHWlrva4=
+Date: Wed, 15 Apr 2020 03:54:27 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 2/4] dt-bindings: display: bridge: Convert simple-bridge
+ bindings to YAML
+Message-ID: <20200415005427.GY19819@pendragon.ideasonboard.com>
+References: <20200405232318.26833-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405232318.26833-3-laurent.pinchart+renesas@ideasonboard.com>
+ <20200414220000.GA31265@bogus>
 MIME-Version: 1.0
-References: <20200411054106.25366-1-james.hilliard1@gmail.com>
- <87lfmymilm.fsf@intel.com>
-In-Reply-To: <87lfmymilm.fsf@intel.com>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Tue, 14 Apr 2020 17:56:03 -0600
-Message-ID: <CADvTj4oyK1f5fLM63GZybqdFReEa7sqQqqPyhtRWtLeyWzoDFw@mail.gmail.com>
-Subject: Re: [PATCH] component: Silence bind error on -EPROBE_DEFER
-To: Jani Nikula <jani.nikula@linux.intel.com>
+Content-Disposition: inline
+In-Reply-To: <20200414220000.GA31265@bogus>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,71 +48,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, "Rafael J . Wysocki" <rafael@kernel.org>
+Cc: devicetree@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 5:07 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
->
-> On Fri, 10 Apr 2020, James Hilliard <james.hilliard1@gmail.com> wrote:
-> > If a component fails to bind due to -EPROBE_DEFER we should not log an
-> > error as this is not a real failure.
-> >
-> > Fixes:
-> > vc4-drm soc:gpu: failed to bind 3f902000.hdmi (ops vc4_hdmi_ops): -517
-> > vc4-drm soc:gpu: master bind failed: -517
->
-> I'd think the probe defer is useful information anyway. Maybe just tone
-> down the severity and/or the message?
-That's probably not needed as there's dev_dbg logging for -EPROBE_DEFER
-elsewhere from what it looks like.
+Hi Rob,
 
-For example:
-https://github.com/torvalds/linux/blob/v5.6/drivers/base/dd.c#L621
->
-> BR,
-> Jani.
->
-> >
-> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+On Tue, Apr 14, 2020 at 05:00:00PM -0500, Rob Herring wrote:
+> On Mon, Apr 06, 2020 at 02:23:16AM +0300, Laurent Pinchart wrote:
+> > The simple-bridge driver supports multiple simple or dumb bridges,
+> > covered by different compatible strings but otherwise identical DT
+> > bindings. Some of those bridges have undocumented bindings, while others
+> > are documented in text form in separate files. Group them all in a
+> > single binding and convert it to YAML.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > > ---
-> >  drivers/base/component.c | 9 ++++++---
-> >  1 file changed, 6 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/base/component.c b/drivers/base/component.c
-> > index e97704104784..157c6c790578 100644
-> > --- a/drivers/base/component.c
-> > +++ b/drivers/base/component.c
-> > @@ -256,7 +256,8 @@ static int try_to_bring_up_master(struct master *master,
-> >       ret = master->ops->bind(master->dev);
-> >       if (ret < 0) {
-> >               devres_release_group(master->dev, NULL);
-> > -             dev_info(master->dev, "master bind failed: %d\n", ret);
-> > +             if (ret != -EPROBE_DEFER)
-> > +                     dev_info(master->dev, "master bind failed: %d\n", ret);
-> >               return ret;
-> >       }
-> >
-> > @@ -611,8 +612,10 @@ static int component_bind(struct component *component, struct master *master,
-> >               devres_release_group(component->dev, NULL);
-> >               devres_release_group(master->dev, NULL);
-> >
-> > -             dev_err(master->dev, "failed to bind %s (ops %ps): %d\n",
-> > -                     dev_name(component->dev), component->ops, ret);
-> > +             if (ret != -EPROBE_DEFER) {
-> > +                     dev_err(master->dev, "failed to bind %s (ops %ps): %d\n",
-> > +                             dev_name(component->dev), component->ops, ret);
-> > +             }
-> >       }
-> >
-> >       return ret;
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+> >  .../bindings/display/bridge/adi,adv7123.txt   | 50 ----------
+> >  .../bindings/display/bridge/dumb-vga-dac.txt  | 50 ----------
+> >  .../display/bridge/simple-bridge.yaml         | 99 +++++++++++++++++++
+> >  .../bindings/display/bridge/ti,ths813x.txt    | 51 ----------
+> >  4 files changed, 99 insertions(+), 151 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/display/bridge/adi,adv7123.txt
+> >  delete mode 100644 Documentation/devicetree/bindings/display/bridge/dumb-vga-dac.txt
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/display/bridge/ti,ths813x.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/adi,adv7123.txt b/Documentation/devicetree/bindings/display/bridge/adi,adv7123.txt
+> > deleted file mode 100644
+> > index a6b2b2b8f3d9..000000000000
+> > --- a/Documentation/devicetree/bindings/display/bridge/adi,adv7123.txt
+> > +++ /dev/null
+> > @@ -1,50 +0,0 @@
+> > -Analog Device ADV7123 Video DAC
+> > --------------------------------
+> > -
+> > -The ADV7123 is a digital-to-analog converter that outputs VGA signals from a
+> > -parallel video input.
+> > -
+> > -Required properties:
+> > -
+> > -- compatible: Should be "adi,adv7123"
+> > -
+> > -Optional properties:
+> > -
+> > -- psave-gpios: Power save control GPIO
+> 
+> Not documented in the new schema. Did you intend to change to 
+> 'enable-gpios'?
+
+Oops, I forgot to mention that, my bad. The psave GPIO isn't supported
+by the driver, and isn't used in any upstream DT files, so I thought it
+would be safe to drop it, and add support it later (possibly through the
+enable GPIO) if/when needed. I'll mention it in the commit message.
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
