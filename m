@@ -2,51 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B215C1A93C9
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:01:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66FD1A9450
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:33:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50B736E84A;
-	Wed, 15 Apr 2020 07:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BC526E864;
+	Wed, 15 Apr 2020 07:33:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D77696E849
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 07:01:01 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id b7so10096835oic.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 00:01:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lU+luablGvCrZZtuzKXbUNbAb0SeQVBtIxM0fjG8aoM=;
- b=VT3Xb8HdbY9XlVf29v4w+Xwo5ORekLw2e++rDmOtEP1JfGMoODXfqn8wtd3R0y3mSE
- lstc8ruVU0gAreenkfI1n4OgFIsb8TUrFCwVOz/C7sGiMVVdyjeHw2AoyFJUgF0HNznz
- SQTVArJracLIE795F2Qu4/M/3LQa+TYANhygw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lU+luablGvCrZZtuzKXbUNbAb0SeQVBtIxM0fjG8aoM=;
- b=ni74H12IBfJ3UGDQuCPLiySqGZVeUrTrq6QMhb93/cqKNSEF39IPL52v8frh3uNAik
- rxxeVyiX/ybgJ0DKvSd7qnjbLb+qpo0VEuATXJs7vmyLvVs2Ic5G+Z0vj7zWBvMwO2/c
- Uc6ZKw6yDAiSIcb4/RycIM2btgh3zrVdI00ByufdGEk4xge2MDFABzNwiadm2fzNV/Rd
- J2PPpFS4Q9bTtFHDpgHtkIKD0EneYLtVKjDaTDl6tASxvbXT6EwI1crHD1thNAJHK7mu
- r25nns/hKaA49ENYIWc/UJOP+fqceA5CV9D2mdTyaqDTpo52ag09ekqP4mu/CUIBVxKJ
- 6aMw==
-X-Gm-Message-State: AGi0PubaqC109Q9KDh8HxXWfy34I1FNjHTYxbMmEGXdFfyHv88efC+Tk
- DvlVkgJuiMbmQloP5p6YXCorjcNbjzOMh6ZZL/GeVA==
-X-Google-Smtp-Source: APiQypLbgQnruNzn4opx1TRRqUTZGpBXHYEqPa0rcXM0gpdgBfu246aBX6AHOSSsTzjZ8P1+NXBUlZlElr1agqD54ew=
-X-Received: by 2002:aca:b20a:: with SMTP id b10mr16880893oif.101.1586934061134; 
- Wed, 15 Apr 2020 00:01:01 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD126E864
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 07:33:32 +0000 (UTC)
+IronPort-SDR: y7oXLXC+Ye7daj79mykWzhLSUuKJIZtk2qaU7516xty2RxJN81oB9oek6yr+vXIeR9jP/FBNJF
+ sxjHTPBgb/aA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2020 00:33:32 -0700
+IronPort-SDR: 9LZ/+cGlJal2nOD6KrYU8t20P/pQz48b1fG4ws+BB68kWPKKEZGu8jsE4yebXpEkxDTLpQ0Kon
+ FTvkvZc4Ea4A==
+X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; d="scan'208";a="427347028"
+Received: from ssolodk-mobl1.ccr.corp.intel.com (HELO localhost)
+ ([10.252.48.37])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2020 00:33:28 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Yussuf Khalil <dev@pp3345.net>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 5/5] drm/i915: Replace "Broadcast RGB" with "RGB
+ quantization range" property
+In-Reply-To: <2cfe44c96818515939050ad19e9c248e50519be2.camel@pp3345.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200413214024.46500-1-dev@pp3345.net>
+ <20200413214024.46500-6-dev@pp3345.net>
+ <daCvJk4O6rHOwEometGSPENJupb6adPr583_dLEetvftUQPbK4198VDijHGzM9uTm9bP3TEyGCZvxKe5PSvqWBg5xhXkL_7EiAQlmEPKWQI=@emersion.fr>
+ <87ftd6mi3e.fsf@intel.com> <87d08amhy5.fsf@intel.com>
+ <20200414123404.GT3456981@phenom.ffwll.local>
+ <2cfe44c96818515939050ad19e9c248e50519be2.camel@pp3345.net>
+Date: Wed, 15 Apr 2020 10:33:25 +0300
+Message-ID: <87r1wp5hkq.fsf@intel.com>
 MIME-Version: 1.0
-References: <efb3d0d9-2cf7-046b-3a9b-2548d086258e@linux.intel.com>
- <87wo6h5k0d.fsf@intel.com>
-In-Reply-To: <87wo6h5k0d.fsf@intel.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 15 Apr 2020 09:00:50 +0200
-Message-ID: <CAKMK7uEWkGA2e2ZV9H0m8ParE_9DNtgAhG3FuqPzvgv-xeVcng@mail.gmail.com>
-Subject: Re: [PULL] topic/phy-compliance
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,104 +53,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "DRM maintainer tools announcements, discussion,
- and development" <dim-tools@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Manasi Navare <manasi.d.navare@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 15, 2020 at 8:40 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+On Tue, 14 Apr 2020, Yussuf Khalil <dev@pp3345.net> wrote:
+> On Tue, 2020-04-14 at 14:34 +0200, Daniel Vetter wrote:
+>> On Tue, Apr 14, 2020 at 02:21:06PM +0300, Jani Nikula wrote:
+>> > On Tue, 14 Apr 2020, Jani Nikula <jani.nikula@linux.intel.com>
+>> > wrote:
+>> > > On Mon, 13 Apr 2020, Simon Ser <contact@emersion.fr> wrote:
+>> > > > On Monday, April 13, 2020 11:40 PM, Yussuf Khalil <
+>> > > > dev@pp3345.net> wrote:
+>> > > > 
+>> > > > > DRM now has a globally available "RGB quantization range"
+>> > > > > connector
+>> > > > > property. i915's "Broadcast RGB" that fulfils the same
+>> > > > > purpose is now
+>> > > > > considered deprecated, so drop it in favor of the DRM
+>> > > > > property.
+>> > > > 
+>> > > > For a UAPI point-of-view, I'm not sure this is fine. Some user-
+>> > > > space
+>> > > > might depend on this property, dropping it would break such
+>> > > > user-space.
+>> > > 
+>> > > Agreed.
+>> > > 
+>> > > > Can we make this property deprecated but still keep it for
+>> > > > backwards
+>> > > > compatibility?
+>> > > 
+>> > > Would be nice to make the i915 specific property an "alias" for
+>> > > the new
+>> > > property, however I'm not sure how you'd make that happen.
+>> > > Otherwise
+>> > > juggling between the two properties is going to be a nightmare.
+>> > 
+>> > Ah, the obvious easy choice is to use the property and enum names
+>> > already being used by i915 and gma500, and you have no problem.
+>> > Perhaps
+>> > they're not the names you'd like, but then looking at the total
+>> > lack of
+>> > consistency across property naming makes them fit right in. ;)
+>> 
+>> Yeah if we don't have contradictory usage across drivers when
+>> modernizing
+>> these properties, then let's just stick with the names already there.
+>> It's
+>> not pretty, but works better since more userspace/internet howtos
+>> know how
+>> to use this stuff.
+>> -Daniel
 >
-> On Wed, 08 Apr 2020, Maarten Lankhorst <maarten.lankhorst@linux.intel.com> wrote:
-> > Hey,
-> >
-> > Here's a pull request to pull in the DP PHY Compliance series.
-> > It's based on top of drm/drm-next, and contains all patches for core, amd and i915. :)
->
-> Ping, I don't see this merged in any tree yet.
+> Note that i915's "Broadcast RGB" isn't the same as gma500's: i915 has an
+> "Automatic" option, whereas gma500 does not.
 
-Generally topic pull requests get pulled into all relevant trees,
-which would be drm-misc, drm-intel and drm-amd here. All of the
-optional ofc if you do instead maintainer-acks for merging through
-another tree.
+Adding "Automatic" option that just defaults to "Full" in gma500 does
+not break existing userspace, but allows for extending it to do more
+clever things later.
 
-Since I wasn't involved in this no idea who requested the topic tree
-instead of acks, and the pull isn't addressed to specific people who
-should pull it in (I generally add that to avoid confusion like this
-here), but this aint something that drm.git needs to pull. Just stuff
-it into one of the trees as usual. Also just noticed that amd
-maintainers arent even cc'ed, adding Alex. You guys pls figure this
-out :-)
--Daniel
+> Also, radeon has a property called
+> "output_csc" that fulfills a similar purpose. Looking at the code, though, it
+> seems that radeon does not adhere to the standard correctly (or I am missing
+> something).
+>
+> An alternative would be to leave the existing driver-specific properties and
+> change them to be pseudo-aliases for the "RGB quantization range" property.
+> This can be done by letting the drivers read from and write to the new property
+> when user-space tries to read or modify the driver's property. This way we could
+> retain full backwards compatibility for all drivers equally.
+>
+> What do you think?
 
->
-> BR,
-> Jani.
->
->
-> >
-> > Cheers,
-> > Maarten
-> >
-> > topic/phy-compliance-2020-04-08:
-> > Topic pull request for topic/phy-compliance:
-> > - Standardize DP_PHY_TEST_PATTERN name.
-> > - Add support for setting/getting test pattern from sink.
-> > - Implement DP PHY compliance to i915.
-> > The following changes since commit 12ab316ced2c5f32ced0e6300a054db644b5444a:
-> >
-> >   Merge tag 'amd-drm-next-5.7-2020-04-01' of git://people.freedesktop.org/~agd5f/linux into drm-next (2020-04-08 09:34:27 +1000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://anongit.freedesktop.org/drm/drm-misc tags/topic/phy-compliance-2020-04-08
-> >
-> > for you to fetch changes up to 8cdf727119289db3a98835662eb28e1c5ad835f1:
-> >
-> >   drm/i915/dp: Program vswing, pre-emphasis, test-pattern (2020-04-08 14:41:09 +0200)
-> >
-> > ----------------------------------------------------------------
-> > Topic pull request for topic/phy-compliance:
-> > - Standardize DP_PHY_TEST_PATTERN name.
-> > - Add support for setting/getting test pattern from sink.
-> > - Implement DP PHY compliance to i915.
-> >
-> > ----------------------------------------------------------------
-> > Animesh Manna (7):
-> >       drm/amd/display: Align macro name as per DP spec
-> >       drm/dp: get/set phy compliance pattern
-> >       drm/i915/dp: Made intel_dp_adjust_train() non-static
-> >       drm/i915/dp: Preparation for DP phy compliance auto test
-> >       drm/i915/dp: Add debugfs entry for DP phy compliance
-> >       drm/i915/dp: Register definition for DP compliance register
-> >       drm/i915/dp: Program vswing, pre-emphasis, test-pattern
-> >
-> >  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |   2 +-
-> >  drivers/gpu/drm/drm_dp_helper.c                    |  94 +++++++++++
-> >  .../gpu/drm/i915/display/intel_display_debugfs.c   |  12 +-
-> >  drivers/gpu/drm/i915/display/intel_display_types.h |   1 +
-> >  drivers/gpu/drm/i915/display/intel_dp.c            | 171 +++++++++++++++++++++
-> >  drivers/gpu/drm/i915/display/intel_dp.h            |   1 +
-> >  .../gpu/drm/i915/display/intel_dp_link_training.c  |   9 +-
-> >  .../gpu/drm/i915/display/intel_dp_link_training.h  |   4 +
-> >  drivers/gpu/drm/i915/i915_reg.h                    |  18 +++
-> >  include/drm/drm_dp_helper.h                        |  33 +++-
-> >  10 files changed, 337 insertions(+), 8 deletions(-)
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+I'm obviously biased and predisposed to avoid adding extra complexity to
+i915 when it's not necessary. We'd have *two* connector properties for
+the same thing until the end of time, even if one is an alias for the
+other.
 
+BR,
+Jani.
 
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
