@@ -1,42 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C371A9C97
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:36:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA521A9C8B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:36:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86A256E1D6;
-	Wed, 15 Apr 2020 11:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB406E986;
+	Wed, 15 Apr 2020 11:36:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 078786E1D6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 11:36:53 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0F1B820737;
- Wed, 15 Apr 2020 11:36:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586950612;
- bh=zGk6FoANVMQFUDEne0uQaTPVZoZV1cfRSWWFR3MDCFw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=u5HkiRhqxMosgeAs7ATZO7fLuryfgspsd4K2o49iMLuoAJmBACfEC1IP69aEzDlaT
- ZgWFy3CmKPasSEf2GOgyPfXpM3k1dQdJ/gGjO3B+0krkbGpeNys9aYuP3GHjrcGw2F
- gME7gIRPNP/uvcTiaCvR3HruQNcVc13buXJdvo6M=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 106/129] drm/vc4: Fix HDMI mode validation
-Date: Wed, 15 Apr 2020 07:34:21 -0400
-Message-Id: <20200415113445.11881-106-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200415113445.11881-1-sashal@kernel.org>
-References: <20200415113445.11881-1-sashal@kernel.org>
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com
+ [IPv6:2607:f8b0:4864:20::b44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A08C6E986
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 11:36:34 +0000 (UTC)
+Received: by mail-yb1-xb44.google.com with SMTP id f14so8961154ybr.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 04:36:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=TUXSYZ7hMkNWDoyRg7MzYt+A9LdW4iQ72kZBND5bJeI=;
+ b=XFiBVjUYMUb+E2YHh4tyOBG4uU+NMyL0U0iLIm27/qyNNg2SfC7+4+tjOWZm/7+rUc
+ 7vFtvuOvKb3/+KhJx9BObz5PMWkpwEG1RpThm0FvlOkiinYc4eXkbbMWZjhYLo/ThfBx
+ knBY48hXkyIf6aUxYmIAdRS0hUPh8WQvoJDRoco8aroccH9DnZw3OgnrpH9efzPxizlU
+ /CWbxlhnP0LhgpJ/bEdd20ObmaxL5XcoSxaTfDnzp79viYc9V/sgyuKBF584Phg4hv/a
+ yph7Q964kEdxjTE8rDkC8oEPnM/Hd9EKHFS3NnYxQpfk3cs1JBPvVkYo9brS3CJ1aA0I
+ OscA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=TUXSYZ7hMkNWDoyRg7MzYt+A9LdW4iQ72kZBND5bJeI=;
+ b=maStf7gBcEQMF1ZTlseim82wiakrpC0ENb4MSIBV6RaHKXJrChBZPmAcwSwt/Fl/wZ
+ XXnQNvNmZuMBf7vuloGv8cLbF2IGbAXFBgCDZ6qlfEBwx++xPsbVBDky+oY3N0XQ9aey
+ LpKVQQEucIy7n0YkjyWbOp0Uc1Kj0DQCgv6bHho3pyvLJvkH1wNE8tbhBCQUiP8hyoc6
+ US3EpUlP51+/dGAZ/soXwqsMzBjKB4q6vctUU+K8i8vV+9c7UzSDO1wd9iHiCidg59Kt
+ 4/+QeKLbjbe3o/wYJv/FX8SnXUoPOpi91tptPYUvNZDvq/q/DAW4hXcdonKLXS43kv4C
+ Fqpw==
+X-Gm-Message-State: AGi0PuaFsFVxS5jvtB3Qpv8awgGfKsPkF1D9A9YHsSyJL7uaKAWoyswJ
+ PT/hPpZGI71yzam6Dpw0NdgJnLFbjFQAHT3/AbCQMVcgkD4=
+X-Google-Smtp-Source: APiQypLL3gnOSN3755AOU3znqoS0fzA6REWBYXOWhTdp2CmQ5xFGu8pKKh22+dOsKgLdEl4FLqDF5z4Uhu1xbNf6+7s=
+X-Received: by 2002:a25:d482:: with SMTP id m124mr7792442ybf.103.1586950593334; 
+ Wed, 15 Apr 2020 04:36:33 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+From: Sandeep <sandy.8925@gmail.com>
+Date: Wed, 15 Apr 2020 17:06:28 +0530
+Message-ID: <CAGPDPzCSaiXdL6ocFtL1VoFtiQLHDE5YQhw-ikWkFVjpaW9GAg@mail.gmail.com>
+Subject: [PATCH 1/1] AMDGPU: Correctly initialize thermal controller for GPUs
+ with Powerplay table v0 (e.g Hawaii)
+To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ alexander.deucher@amd.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,71 +59,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>, Sasha Levin <sashal@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-
-[ Upstream commit b1e7396a1d0e6af6806337fdaaa44098d6b3343c ]
-
-Current mode validation impedes setting up some video modes which should
-be supported otherwise. Namely 1920x1200@60Hz.
-
-Fix this by lowering the minimum HDMI state machine clock to pixel clock
-ratio allowed.
-
-Fixes: 32e823c63e90 ("drm/vc4: Reject HDMI modes with too high of clocks.")
-Reported-by: Stefan Wahren <stefan.wahren@i2se.com>
-Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200326122001.22215-1-nsaenzjulienne@suse.de
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Initialize thermal controller fields in the PowerPlay table for Hawaii
+GPUs, so that fan speeds are reported.
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ .../drm/amd/powerplay/hwmgr/processpptables.c | 28 +++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index cea18dc15f77c..340719238753d 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -681,11 +681,23 @@ static enum drm_mode_status
- vc4_hdmi_encoder_mode_valid(struct drm_encoder *crtc,
- 			    const struct drm_display_mode *mode)
+diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
+b/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
+index 77c14671866c..bb58cfab1033 100644
+--- a/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
++++ b/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
+@@ -984,6 +984,34 @@ static int init_thermal_controller(
+  struct pp_hwmgr *hwmgr,
+  const ATOM_PPLIB_POWERPLAYTABLE *powerplay_table)
  {
--	/* HSM clock must be 108% of the pixel clock.  Additionally,
--	 * the AXI clock needs to be at least 25% of pixel clock, but
--	 * HSM ends up being the limiting factor.
-+	/*
-+	 * As stated in RPi's vc4 firmware "HDMI state machine (HSM) clock must
-+	 * be faster than pixel clock, infinitesimally faster, tested in
-+	 * simulation. Otherwise, exact value is unimportant for HDMI
-+	 * operation." This conflicts with bcm2835's vc4 documentation, which
-+	 * states HSM's clock has to be at least 108% of the pixel clock.
-+	 *
-+	 * Real life tests reveal that vc4's firmware statement holds up, and
-+	 * users are able to use pixel clocks closer to HSM's, namely for
-+	 * 1920x1200@60Hz. So it was decided to have leave a 1% margin between
-+	 * both clocks. Which, for RPi0-3 implies a maximum pixel clock of
-+	 * 162MHz.
-+	 *
-+	 * Additionally, the AXI clock needs to be at least 25% of
-+	 * pixel clock, but HSM ends up being the limiting factor.
- 	 */
--	if (mode->clock > HSM_CLOCK_FREQ / (1000 * 108 / 100))
-+	if (mode->clock > HSM_CLOCK_FREQ / (1000 * 101 / 100))
- 		return MODE_CLOCK_HIGH;
- 
- 	return MODE_OK;
--- 
-2.20.1
++ hwmgr->thermal_controller.ucType =
++ powerplay_table->sThermalController.ucType;
++ hwmgr->thermal_controller.ucI2cLine =
++ powerplay_table->sThermalController.ucI2cLine;
++ hwmgr->thermal_controller.ucI2cAddress =
++ powerplay_table->sThermalController.ucI2cAddress;
++
++ hwmgr->thermal_controller.fanInfo.bNoFan =
++ (0 != (powerplay_table->sThermalController.ucFanParameters &
++ ATOM_PP_FANPARAMETERS_NOFAN));
++
++ hwmgr->thermal_controller.fanInfo.ucTachometerPulsesPerRevolution =
++ powerplay_table->sThermalController.ucFanParameters &
++ ATOM_PP_FANPARAMETERS_TACHOMETER_PULSES_PER_REVOLUTION_MASK;
++
++ hwmgr->thermal_controller.fanInfo.ulMinRPM
++ = powerplay_table->sThermalController.ucFanMinRPM * 100UL;
++ hwmgr->thermal_controller.fanInfo.ulMaxRPM
++ = powerplay_table->sThermalController.ucFanMaxRPM * 100UL;
++
++ set_hw_cap(
++ hwmgr,
++ ATOM_PP_THERMALCONTROLLER_NONE != hwmgr->thermal_controller.ucType,
++ PHM_PlatformCaps_ThermalController
++   );
++
++ hwmgr->thermal_controller.use_hw_fan_control = 1;
++
+  return 0;
+ }
 
+--
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
