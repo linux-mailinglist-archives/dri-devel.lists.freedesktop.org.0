@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB011AA478
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 15:31:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2BB1AA48C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 15:38:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 040766E824;
-	Wed, 15 Apr 2020 13:31:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4EAC6E95F;
+	Wed, 15 Apr 2020 13:38:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB6E6E824
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 13:31:27 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03FDVNXs107173;
- Wed, 15 Apr 2020 08:31:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1586957483;
- bh=bLcmO1wP2LuxaPXNyrd89fecV1tT61snwlRqhfcr+wk=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=cFWlfj3Eb5lgFQ4AsFRcGSVrs5KOd698My8/sNlfJgu5Rs9Gh2Ljod55tEsiPauPJ
- fzH/dwnBCUVxQcw4MjgWc1dZ/n5Zp7266QJ4XshKtChEZxunKLFfrvM99SbYubpMwH
- Js97nJz3/+ZjV9rkjr0M3iWTIKJDJ5yeNM8ar0Ac=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03FDVNvq040779
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 15 Apr 2020 08:31:23 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 15
- Apr 2020 08:31:22 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 15 Apr 2020 08:31:22 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03FDVLF3089740;
- Wed, 15 Apr 2020 08:31:21 -0500
-Subject: Re: [PATCH] drm/tidss: fix crash related to accessing freed memory
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20200415092006.26675-1-tomi.valkeinen@ti.com>
- <20200415124550.GC4758@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <e5fac8b0-8025-96bd-92cd-9cdea5ef8955@ti.com>
-Date: Wed, 15 Apr 2020 16:31:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 638C26E95F
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 13:38:02 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id x4so17494436wmj.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 06:38:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YmDZqgzwCc+hOVGexi2AyWXoOpA3FaRQv7djgmGzJ2Q=;
+ b=r7DG+HfDR2f07OTLanCrptCJZhFuu7eOJRpbBSvo5SGFI+0Etxf2MnZPDEiZSjbtqq
+ bOmZ6U5GrLo0HzB7rNf+LjGZDs/1wXsgDxuCMeceU9v8UHBSDmemgAlEARGQMO0G8mSV
+ tcUj/Kn/HU/x2YDQYTkXVHag230ddJloC53a9KHD0mAt4pkijvboovgcfUpg8Wm3jFns
+ kYivcpawG2HGuI85JnuyDNbZoMaeny1e1dZtTE+zuDuX6MtCjt8Fjhxta2u4Nji7WiLN
+ RjCHH3So61iYOgspB66yGd/Hoe87g2zStwFTA6bEbnjnzIXHCEz9LLsMsYgyxPeQXXbD
+ Of0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YmDZqgzwCc+hOVGexi2AyWXoOpA3FaRQv7djgmGzJ2Q=;
+ b=kTFM9h4zLh8UTZViovemfDV3DUkDlBEOWMU0OHOBxv6CqkgG9jmad6xcUAecb0sGtX
+ 5byZJS8UDFHU589mAE9qRoKqPly1Ey53A0aTRVvO9v9sLaSR92GupwL0IckQOmzOjqnO
+ g/f6aWIwQzmT2Uech/sSP2vO6iZ4LZyjvIesp2ZMDjBuBNt2SMhecW3EB8BY7RvRUIOJ
+ YueqnXKoZxju4OE86GNyJ8WhSrXvAryVNxB+MloJSiu56IQIAQML9N4rcTchQGdfhCF1
+ bT9d2LJKZMWmWdsVxIGuyzF3fH+eVTvEQxSEdBWJ6CK5q+IgJOQhCSSa9fy8CufPqwwj
+ +29g==
+X-Gm-Message-State: AGi0Puacao6hodw6MSWFp6eNSCcWzewoybaRTNsdQ//QHNMDcUvTCuZv
+ Ar32DzziKyKqHQOSVRq3M/BskGSRGrww2xrBDrvraA==
+X-Google-Smtp-Source: APiQypKE/VZ08E2XAveZNtkLPdHqDijPRN4SHWJAUvc0Zi8W5LxQoqQwhkdTsWctfZrPKqQ0hnIazj1DFETKzRaG/f0=
+X-Received: by 2002:a1c:9d8c:: with SMTP id g134mr5459752wme.79.1586957881041; 
+ Wed, 15 Apr 2020 06:38:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200415124550.GC4758@pendragon.ideasonboard.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <CAGPDPzCSaiXdL6ocFtL1VoFtiQLHDE5YQhw-ikWkFVjpaW9GAg@mail.gmail.com>
+In-Reply-To: <CAGPDPzCSaiXdL6ocFtL1VoFtiQLHDE5YQhw-ikWkFVjpaW9GAg@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 15 Apr 2020 09:37:49 -0400
+Message-ID: <CADnq5_MTLNJ8mh6nZyH14b+RQx1mXwG3hX_x5wco6oQo2d2pUw@mail.gmail.com>
+Subject: Re: [PATCH 1/1] AMDGPU: Correctly initialize thermal controller for
+ GPUs with Powerplay table v0 (e.g Hawaii)
+To: Sandeep <sandy.8925@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,40 +61,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Apr 15, 2020 at 7:36 AM Sandeep <sandy.8925@gmail.com> wrote:
+>
+> Initialize thermal controller fields in the PowerPlay table for Hawaii
+> GPUs, so that fan speeds are reported.
 
-On 15/04/2020 15:45, Laurent Pinchart wrote:
+Missing your signed-off-by.
 
->> +static void tidss_crtc_destroy(struct drm_crtc *crtc)
->> +{
->> +	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
->> +
->> +	drm_crtc_cleanup(crtc);
->> +	kfree(tcrtc);
-> 
-> I would personally store the CRTC pointers, or embed the CRTC instances
-> in the tidss_device structure, and free everything in the top-level
-> tidss_release() handler, to avoid spreading the release code all around
-> the driver. Same for planes and encoders. It may be a matter of personal
-> taste though, but it would allow dropping the kfree() calls in
-> individual error paths and centralize them in a single place if you
-> store the allocated pointer in tidss_device right after allocation.
+> ---
+>  .../drm/amd/powerplay/hwmgr/processpptables.c | 28 +++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
+> b/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
+> index 77c14671866c..bb58cfab1033 100644
+> --- a/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
+> +++ b/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
+> @@ -984,6 +984,34 @@ static int init_thermal_controller(
+>   struct pp_hwmgr *hwmgr,
+>   const ATOM_PPLIB_POWERPLAYTABLE *powerplay_table)
+>  {
+> + hwmgr->thermal_controller.ucType =
+> + powerplay_table->sThermalController.ucType;
+> + hwmgr->thermal_controller.ucI2cLine =
+> + powerplay_table->sThermalController.ucI2cLine;
+> + hwmgr->thermal_controller.ucI2cAddress =
+> + powerplay_table->sThermalController.ucI2cAddress;
+> +
+> + hwmgr->thermal_controller.fanInfo.bNoFan =
+> + (0 != (powerplay_table->sThermalController.ucFanParameters &
+> + ATOM_PP_FANPARAMETERS_NOFAN));
+> +
+> + hwmgr->thermal_controller.fanInfo.ucTachometerPulsesPerRevolution =
+> + powerplay_table->sThermalController.ucFanParameters &
+> + ATOM_PP_FANPARAMETERS_TACHOMETER_PULSES_PER_REVOLUTION_MASK;
+> +
+> + hwmgr->thermal_controller.fanInfo.ulMinRPM
+> + = powerplay_table->sThermalController.ucFanMinRPM * 100UL;
+> + hwmgr->thermal_controller.fanInfo.ulMaxRPM
+> + = powerplay_table->sThermalController.ucFanMaxRPM * 100UL;
+> +
+> + set_hw_cap(
+> + hwmgr,
+> + ATOM_PP_THERMALCONTROLLER_NONE != hwmgr->thermal_controller.ucType,
+> + PHM_PlatformCaps_ThermalController
+> +   );
+> +
+> + hwmgr->thermal_controller.use_hw_fan_control = 1;
+> +
 
-This seemed the easiest way to fix this for 5.7-rcs, without doing too many changes all around that 
-might cause conflicts. The allocs and frees are close to each other, in the same files, although 
-there's repetition of course.
+Please fix the indentation.
 
-  Tomi
+Alex
 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+>   return 0;
+>  }
+>
+> --
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
