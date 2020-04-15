@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4241A9471
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:41:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 182D51A946E
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:41:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD636E879;
-	Wed, 15 Apr 2020 07:40:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 083A86E875;
+	Wed, 15 Apr 2020 07:40:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
  [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA4C6E872
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 07:40:43 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id x4so16184529wmj.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 00:40:43 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD8926E873
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 07:40:44 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id v8so14256129wma.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 00:40:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=i/6OJckg0FYtxGo8Frv5fio5z4VslBD7hEowA01at0E=;
- b=gJcQMs+HXh33ciPIiREiLc4c2GiJdwJhYgv3DmecZo+60AK1eIyFdKWGhhlY34cErl
- Pf1oYs1E6guvvhBabs2KJULHUmSBNkgrFRHDdJevjb98kbOfYXs8eZp+BkYz4Kf3yyrn
- AOWZwxBmICrjccmAgTM7wLaOyDHEsHo8boF/Y=
+ bh=Edar0dJgASsuiNacXP5y3gT+G+sfZKS1INHqXKgta1c=;
+ b=iOlbo5IODl5oJibVyA+BMkzBoKPwtRFcNDsX+kK/R0PbP8EKrbu0pAQDJyXpvk1tBJ
+ 8RQRUN3ai55VeCZqB+zBxkmpXnH1ceRgtLfOgygkQ98QEVxYqWTgJG9jZu+x15oTNWPQ
+ LPUgsO6Ay3LL3QRzC1Siv3jOuBkh+4pOZGVDo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=i/6OJckg0FYtxGo8Frv5fio5z4VslBD7hEowA01at0E=;
- b=LNLEmBm/CIP/BRgA9r752SzmgFLiSkYi0rUda2wX2wa/P7F3zmLkdKJ58QQTugkGTJ
- UXPvR1ItPRnDpdpa4jQZR6w5gfZkQ+h6qw4SzGvTyS35CWZQM0r5OHnMRs8V9SpslrWh
- XYHokHAnbGfamsIqS2GTkyUhsGVQJD7CaOjqzur+GZiM+otnFbkgQmra43ACaye5Hofm
- /tEKtbeD1ngAyIbR5iNJYQ/t2J6MglfxQCaXF68+wjaVYuGzcFvt2FS7tUwV/iwalmJ+
- 24LhHthbQXgXuEvMcn/4bCaXJkOOu8NlUYBu712r1W7B5cGVs5JR5D39yacc9WINqwwN
- pFuQ==
-X-Gm-Message-State: AGi0PuYR+Z+pLy9f7emod6LcSF3q1xFTtSsOXkZq9qI3fVefOwEuD3G1
- oBe696j3wobTQvlyoPIY+Y/Rsg==
-X-Google-Smtp-Source: APiQypLN5ahm7RORRP3/C29Nq7g1nINWPZ3tqBsoiG6EcAVPdODfwy5kBwtHbJlwaiQ0+IIuHOJ/5w==
-X-Received: by 2002:a7b:c1d4:: with SMTP id a20mr3929735wmj.111.1586936442238; 
- Wed, 15 Apr 2020 00:40:42 -0700 (PDT)
+ bh=Edar0dJgASsuiNacXP5y3gT+G+sfZKS1INHqXKgta1c=;
+ b=docABE1u8HvjlfeJrBpksPkbFtUgy92EJGNrCxNS46a9Iba64cyEWLAwqveo75tJqI
+ s16wAmuQbpfNz49QevKLGoISR/rHAdH0wVHMw0q6yI7b8HkgvmlNkfXwoZ+E3R3394Kv
+ apEddaiDEmy9pH2Mbp1YYHSfaoU4r88bBKLI0ixDcfBQ7xQUdqBdOutwY1Of9cfSZTFO
+ TPI4VejhQxZxVdQWpWDeyOPNJLQ1SoDHavcsUGqq4Swn6Mh+pMy3z29xAU22TUcvx4QO
+ /JNwLwlOGjywxtLsoPRy9ms3dduivr54tgCtynRrizYVeqvzYUT77dRHp9Eyf0+nJ2fq
+ RKlg==
+X-Gm-Message-State: AGi0PuZVngWBSg6W6G1Nisvq3RjyGC61KL71+C1dkExRSmDZshsWX/d7
+ nlIj7pTMTojJMxE5fPYnnjs3Fg==
+X-Google-Smtp-Source: APiQypJ+8USxF4F+YfbP4YCK9Z2PcrCzJP//mPnmKu6If5zMkAOYr4r9KfYP4ztfkFKbX5HIqRwiQQ==
+X-Received: by 2002:a05:600c:a:: with SMTP id
+ g10mr3847157wmc.153.1586936443498; 
+ Wed, 15 Apr 2020 00:40:43 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u30sm1878552wru.13.2020.04.15.00.40.41
+ by smtp.gmail.com with ESMTPSA id u30sm1878552wru.13.2020.04.15.00.40.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Apr 2020 00:40:41 -0700 (PDT)
+ Wed, 15 Apr 2020 00:40:42 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH 02/59] drm/vboxvideo: drop DRM_MTRR_WC #define
-Date: Wed, 15 Apr 2020 09:39:37 +0200
-Message-Id: <20200415074034.175360-3-daniel.vetter@ffwll.ch>
+Subject: [PATCH 03/59] drm/vboxvideo: Use devm_drm_dev_alloc
+Date: Wed, 15 Apr 2020 09:39:38 +0200
+Message-Id: <20200415074034.175360-4-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
 References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
@@ -64,7 +65,6 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
@@ -72,45 +72,66 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Doesn't apply to upstream kernels since a rather long time.
+Straightforward conversion.
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/vboxvideo/vbox_ttm.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ drivers/gpu/drm/vboxvideo/vbox_drv.c | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_ttm.c b/drivers/gpu/drm/vboxvideo/vbox_ttm.c
-index 976423d0c3cc..f5a06675da43 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_ttm.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_ttm.c
-@@ -24,25 +24,13 @@ int vbox_mm_init(struct vbox_private *vbox)
+diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxvideo/vbox_drv.c
+index 282348e071fe..7dd25c7a3768 100644
+--- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
++++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
+@@ -46,25 +46,19 @@ static int vbox_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (ret)
  		return ret;
- 	}
  
--#ifdef DRM_MTRR_WC
--	vbox->fb_mtrr = drm_mtrr_add(pci_resource_start(dev->pdev, 0),
--				     pci_resource_len(dev->pdev, 0),
--				     DRM_MTRR_WC);
--#else
- 	vbox->fb_mtrr = arch_phys_wc_add(pci_resource_start(dev->pdev, 0),
- 					 pci_resource_len(dev->pdev, 0));
--#endif
- 	return 0;
+-	vbox = kzalloc(sizeof(*vbox), GFP_KERNEL);
+-	if (!vbox)
+-		return -ENOMEM;
+-
+-	ret = drm_dev_init(&vbox->ddev, &driver, &pdev->dev);
+-	if (ret) {
+-		kfree(vbox);
+-		return ret;
+-	}
++	vbox = devm_drm_dev_alloc(&pdev->dev, &driver,
++				  struct vbox_private, ddev);
++	if (IS_ERR(vbox))
++		return PTR_ERR(vbox);
+ 
+ 	vbox->ddev.pdev = pdev;
+ 	vbox->ddev.dev_private = vbox;
+ 	pci_set_drvdata(pdev, vbox);
+-	drmm_add_final_kfree(&vbox->ddev, vbox);
+ 	mutex_init(&vbox->hw_mutex);
+ 
+ 	ret = pci_enable_device(pdev);
+ 	if (ret)
+-		goto err_dev_put;
++		return ret;
+ 
+ 	ret = vbox_hw_init(vbox);
+ 	if (ret)
+@@ -100,8 +94,6 @@ static int vbox_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	vbox_hw_fini(vbox);
+ err_pci_disable:
+ 	pci_disable_device(pdev);
+-err_dev_put:
+-	drm_dev_put(&vbox->ddev);
+ 	return ret;
  }
  
- void vbox_mm_fini(struct vbox_private *vbox)
- {
--#ifdef DRM_MTRR_WC
--	drm_mtrr_del(vbox->fb_mtrr,
--		     pci_resource_start(vbox->ddev.pdev, 0),
--		     pci_resource_len(vbox->ddev.pdev, 0), DRM_MTRR_WC);
--#else
- 	arch_phys_wc_del(vbox->fb_mtrr);
--#endif
- 	drm_vram_helper_release_mm(&vbox->ddev);
+@@ -114,7 +106,6 @@ static void vbox_pci_remove(struct pci_dev *pdev)
+ 	vbox_mode_fini(vbox);
+ 	vbox_mm_fini(vbox);
+ 	vbox_hw_fini(vbox);
+-	drm_dev_put(&vbox->ddev);
  }
+ 
+ #ifdef CONFIG_PM_SLEEP
 -- 
 2.25.1
 
