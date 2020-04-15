@@ -1,43 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180021A99DA
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 12:05:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B43551AB8FF
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 09:00:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81F136E93F;
-	Wed, 15 Apr 2020 10:05:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 840616EAEF;
+	Thu, 16 Apr 2020 06:59:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBBC66E93D;
- Wed, 15 Apr 2020 10:05:00 +0000 (UTC)
-IronPort-SDR: BNmrgxxent7xyICqVrAgA0AHqxVI2xm+1upNt2D4vMDewPHDJW+HxQrLxt0GJ2HHfiKxxNvQa0
- r/afLSmd7QlQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2020 03:05:00 -0700
-IronPort-SDR: ghz2RAXc5u8E96SqMJC6toCqj3AWhj5BOHuiyX2pOMsNhb3Ol/3kiEQ7JYMTEpEITOr+1UDhU3
- z9hZZb3j7RaQ==
-X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; d="scan'208";a="277567623"
-Received: from ssolodk-mobl1.ccr.corp.intel.com (HELO localhost)
- ([10.252.48.37])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2020 03:04:56 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Jeevan B <jeevan.b@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 4/5] drm/amdgpu: utilize subconnector property
- for DP through atombios
-In-Reply-To: <1586242207-23214-4-git-send-email-jeevan.b@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <1586242207-23214-1-git-send-email-jeevan.b@intel.com>
- <1586242207-23214-4-git-send-email-jeevan.b@intel.com>
-Date: Wed, 15 Apr 2020 13:04:53 +0300
-Message-ID: <871rop5aka.fsf@intel.com>
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28CE96E945
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 10:10:14 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 62196580375;
+ Wed, 15 Apr 2020 06:10:13 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 15 Apr 2020 06:10:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=tiwnh7t3J9dCc6nvhOkiy49H6Ti
+ N6hjDJXDgkFXp10U=; b=Ov/r13gv/FzeqiK7EXa2MVeWNvbtGoln8v1lZeNVTDo
+ d/OBMcFNmf93rYl1dCE1+t8hxGIcBvwQn1digYa/muGYf7q0QPqzHkNxIrfTvAC5
+ tOh+VmGGScNRPukR67X3s70Aaxb+m3l57KrJbUGZjPSpm1PHG5zaKEypCDS6Jzbf
+ zcaXRlSFpb60fySXUEgbzV1gECrM87+2LNevWftl3sL0+W9p8Fhjx6MAEda4JGxo
+ 2jXL2xrhs95ybDu2qfjPAvTQtYXUljlb0vtPswczOxmkqAcFgD3JwLc6TChCwIum
+ 37fgD3VAhGbEFg2XQa1P7XfklKkVnMWkJL3YUqsc2TA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=tiwnh7
+ t3J9dCc6nvhOkiy49H6TiN6hjDJXDgkFXp10U=; b=XCrhzL/Xe6ze4BgUhH61Sd
+ 8T4PZhQ5yllJD1PxNmKHkEWWP7xApPJG12ii/tljCURwuQeB1KjLvAxx6b8wXcqW
+ 9Gy47bQoLliDjRVR8/t7x3NnG4zsZ/cAnTOIBxhdc7KXJYLVYeNbWtzbieH2hiyw
+ uPfCPPkRVoe+KFOvDrqzuE9uWqtGmHABy6xIM6h1jKLLKVelBWk9s11yjmRJVI6Y
+ OcNkemPNftLCWhOaoPV3gFTaab8hRa+0Vd+EfjQyZbjY4u4sMOfWF+eKkHljqP1c
+ 9lM0B58UTX/I6NxoBLvbWMCYCs4aRH8IBRUxJOC5ewLgoFDHglS80fZvTNbdRmFQ
+ ==
+X-ME-Sender: <xms:gt2WXnImK0S9xi3AqSCkzOFDvgdNet3Kkr6Vn01_cxH_u_hDqsKq2w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrfeefgddugecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
+ ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+ fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:gt2WXoiiH3RLarjfPLHQ89zKsXtEVIU2fDv1eDj90V1IMXnSM3kd3A>
+ <xmx:gt2WXnDb4Hsh0ws82UIxfQqGZt0NnEmLFSogaEeqXcPk7GvYkVBJ2Q>
+ <xmx:gt2WXq535ML7IV_YSCHAHCRK2WpKKG6MhBYv3IlvKdn-hD4R3r3gCg>
+ <xmx:hd2WXrM1KZACbLXcsL4KatHHzZI3aT0OIxW_WxpKcDuk9zkIasNyaw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D579F3280066;
+ Wed, 15 Apr 2020 06:10:09 -0400 (EDT)
+Date: Wed, 15 Apr 2020 12:10:08 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH v6 00/12] ARM/MIPS: DTS: add child nodes describing the
+ PVRSGX GPU present in some OMAP SoC and JZ4780 (and many more)
+Message-ID: <20200415101008.zxzxca2vlfsefpdv@gilmour.lan>
+References: <cover.1586939718.git.hns@goldelico.com>
 MIME-Version: 1.0
+In-Reply-To: <cover.1586939718.git.hns@goldelico.com>
+X-Mailman-Approved-At: Thu, 16 Apr 2020 06:59:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,88 +76,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeevan B <jeevan.b@intel.com>, Oleg Vasilev <oleg.vasilev@intel.com>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Harry Wentland <hwentlan@amd.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
+ James Hogan <jhogan@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ linux-samsung-soc@vger.kernel.org, letux-kernel@openphoenux.org,
+ Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Tony Lindgren <tony@atomide.com>, Chen-Yu Tsai <wens@csie.org>,
+ Kukjin Kim <kgene@kernel.org>, devicetree@vger.kernel.org,
+ =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
+ linux-kernel@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+ kernel@pyra-handheld.com
+Content-Type: multipart/mixed; boundary="===============2027263944=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkFsZXgsIEhhcnJ5LCBDaHJpc3RpYW4sIGNhbiB5b3UgcGxlYXNlIGV5ZWJhbGwgdGhpcyBzZXJp
-ZXMgYW5kIHNlZSBpZiBpdAptYWtlcyBzZW5zZSBmb3IgeW91PwoKVGhhbmtzLApKYW5pLgoKCk9u
-IFR1ZSwgMDcgQXByIDIwMjAsIEplZXZhbiBCIDxqZWV2YW4uYkBpbnRlbC5jb20+IHdyb3RlOgo+
-IEZyb206IE9sZWcgVmFzaWxldiA8b2xlZy52YXNpbGV2QGludGVsLmNvbT4KPgo+IFNpbmNlIERQ
-LXNwZWNpZmljIGluZm9ybWF0aW9uIGlzIHN0b3JlZCBpbiBkcml2ZXIncyBzdHJ1Y3R1cmVzLCBl
-dmVyeQo+IGRyaXZlciBuZWVkcyB0byBpbXBsZW1lbnQgc3ViY29ubmVjdG9yIHByb3BlcnR5IGJ5
-IGl0c2VsZi4KPgo+IHYyOiByZWJhc2UKPgo+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5k
-ZXVjaGVyQGFtZC5jb20+Cj4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdA
-YW1kLmNvbT4KPiBDYzogRGF2aWQgKENodW5NaW5nKSBaaG91IDxEYXZpZDEuWmhvdUBhbWQuY29t
-Pgo+IENjOiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IFNpZ25lZC1vZmYtYnk6IEpl
-ZXZhbiBCIDxqZWV2YW4uYkBpbnRlbC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogT2xlZyBWYXNpbGV2
-IDxvbGVnLnZhc2lsZXZAaW50ZWwuY29tPgo+IFJldmlld2VkLWJ5OiBFbWlsIFZlbGlrb3YgPGVt
-aWwudmVsaWtvdkBjb2xsYWJvcmEuY29tPgo+IExpbms6IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVk
-ZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDE5MDgyOTExNDg1NC4xNTM5LTYtb2xlZy52YXNpbGV2
-QGludGVsLmNvbQo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY29u
-bmVjdG9ycy5jIHwgMTAgKysrKysrKysrKwo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
-bWRncHVfbW9kZS5oICAgICAgIHwgIDEgKwo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
-dG9tYmlvc19kcC5jICAgICAgIHwgMTggKysrKysrKysrKysrKysrKystCj4gIDMgZmlsZXMgY2hh
-bmdlZCwgMjggaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+Cj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9jb25uZWN0b3JzLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY29ubmVjdG9ycy5jCj4gaW5kZXggZjM1NWQ5YS4uNzFh
-YWRlMCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY29u
-bmVjdG9ycy5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Nvbm5l
-Y3RvcnMuYwo+IEBAIC0yNiw2ICsyNiw3IEBACj4gIAo+ICAjaW5jbHVkZSA8ZHJtL2RybV9lZGlk
-Lmg+Cj4gICNpbmNsdWRlIDxkcm0vZHJtX2ZiX2hlbHBlci5oPgo+ICsjaW5jbHVkZSA8ZHJtL2Ry
-bV9kcF9oZWxwZXIuaD4KPiAgI2luY2x1ZGUgPGRybS9kcm1fcHJvYmVfaGVscGVyLmg+Cj4gICNp
-bmNsdWRlIDxkcm0vYW1kZ3B1X2RybS5oPgo+ICAjaW5jbHVkZSAiYW1kZ3B1LmgiCj4gQEAgLTE0
-MDUsNiArMTQwNiwxMCBAQCBhbWRncHVfY29ubmVjdG9yX2RwX2RldGVjdChzdHJ1Y3QgZHJtX2Nv
-bm5lY3RvciAqY29ubmVjdG9yLCBib29sIGZvcmNlKQo+ICAJCXBtX3J1bnRpbWVfcHV0X2F1dG9z
-dXNwZW5kKGNvbm5lY3Rvci0+ZGV2LT5kZXYpOwo+ICAJfQo+ICAKPiArCWRybV9kcF9zZXRfc3Vi
-Y29ubmVjdG9yX3Byb3BlcnR5KCZhbWRncHVfY29ubmVjdG9yLT5iYXNlLAo+ICsJCQkJCSByZXQs
-Cj4gKwkJCQkJIGFtZGdwdV9kaWdfY29ubmVjdG9yLT5kcGNkLAo+ICsJCQkJCSBhbWRncHVfZGln
-X2Nvbm5lY3Rvci0+ZG93bnN0cmVhbV9wb3J0cyk7Cj4gIAlyZXR1cm4gcmV0Owo+ICB9Cj4gIAo+
-IEBAIC0xOTUxLDYgKzE5NTYsMTEgQEAgYW1kZ3B1X2Nvbm5lY3Rvcl9hZGQoc3RydWN0IGFtZGdw
-dV9kZXZpY2UgKmFkZXYsCj4gIAlpZiAoaGFzX2F1eCkKPiAgCQlhbWRncHVfYXRvbWJpb3NfZHBf
-YXV4X2luaXQoYW1kZ3B1X2Nvbm5lY3Rvcik7Cj4gIAo+ICsJaWYgKGNvbm5lY3Rvcl90eXBlID09
-IERSTV9NT0RFX0NPTk5FQ1RPUl9EaXNwbGF5UG9ydCB8fAo+ICsJICAgIGNvbm5lY3Rvcl90eXBl
-ID09IERSTV9NT0RFX0NPTk5FQ1RPUl9lRFApIHsKPiArCQlkcm1fbW9kZV9hZGRfZHBfc3ViY29u
-bmVjdG9yX3Byb3BlcnR5KCZhbWRncHVfY29ubmVjdG9yLT5iYXNlKTsKPiArCX0KPiArCj4gIAly
-ZXR1cm47Cj4gIAo+ICBmYWlsZWQ6Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV9tb2RlLmggYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
-bW9kZS5oCj4gaW5kZXggMzdiYTA3ZS4uMDRhNDMwZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfbW9kZS5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9hbWRncHUvYW1kZ3B1X21vZGUuaAo+IEBAIC00NjksNiArNDY5LDcgQEAgc3RydWN0IGFtZGdw
-dV9lbmNvZGVyIHsKPiAgc3RydWN0IGFtZGdwdV9jb25uZWN0b3JfYXRvbV9kaWcgewo+ICAJLyog
-ZGlzcGxheXBvcnQgKi8KPiAgCXU4IGRwY2RbRFBfUkVDRUlWRVJfQ0FQX1NJWkVdOwo+ICsJdTgg
-ZG93bnN0cmVhbV9wb3J0c1tEUF9NQVhfRE9XTlNUUkVBTV9QT1JUU107Cj4gIAl1OCBkcF9zaW5r
-X3R5cGU7Cj4gIAlpbnQgZHBfY2xvY2s7Cj4gIAlpbnQgZHBfbGFuZV9jb3VudDsKPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYXRvbWJpb3NfZHAuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1kZ3B1L2F0b21iaW9zX2RwLmMKPiBpbmRleCA5Yjc0Y2ZkLi45MDBiMjcy
-IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2F0b21iaW9zX2RwLmMK
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hdG9tYmlvc19kcC5jCj4gQEAgLTMy
-OCw2ICszMjgsMjIgQEAgc3RhdGljIHZvaWQgYW1kZ3B1X2F0b21iaW9zX2RwX3Byb2JlX291aShz
-dHJ1Y3QgYW1kZ3B1X2Nvbm5lY3RvciAqYW1kZ3B1X2Nvbm5lY3QKPiAgCQkJICAgICAgYnVmWzBd
-LCBidWZbMV0sIGJ1ZlsyXSk7Cj4gIH0KPiAgCj4gK3N0YXRpYyB2b2lkIGFtZGdwdV9hdG9tYmlv
-c19kcF9kc19wb3J0cyhzdHJ1Y3QgYW1kZ3B1X2Nvbm5lY3RvciAqYW1kZ3B1X2Nvbm5lY3RvcikK
-PiArewo+ICsJc3RydWN0IGFtZGdwdV9jb25uZWN0b3JfYXRvbV9kaWcgKmRpZ19jb25uZWN0b3Ig
-PSBhbWRncHVfY29ubmVjdG9yLT5jb25fcHJpdjsKPiArCWludCByZXQ7Cj4gKwo+ICsJaWYgKGRp
-Z19jb25uZWN0b3ItPmRwY2RbRFBfRFBDRF9SRVZdID4gMHgxMCkgewo+ICsJCXJldCA9IGRybV9k
-cF9kcGNkX3JlYWQoJmFtZGdwdV9jb25uZWN0b3ItPmRkY19idXMtPmF1eCwKPiArCQkJCSAgICAg
-ICBEUF9ET1dOU1RSRUFNX1BPUlRfMCwKPiArCQkJCSAgICAgICBkaWdfY29ubmVjdG9yLT5kb3du
-c3RyZWFtX3BvcnRzLAo+ICsJCQkJICAgICAgIERQX01BWF9ET1dOU1RSRUFNX1BPUlRTKTsKPiAr
-CQlpZiAocmV0KQo+ICsJCQltZW1zZXQoZGlnX2Nvbm5lY3Rvci0+ZG93bnN0cmVhbV9wb3J0cywg
-MCwKPiArCQkJICAgICAgIERQX01BWF9ET1dOU1RSRUFNX1BPUlRTKTsKPiArCX0KPiArfQo+ICsK
-PiAgaW50IGFtZGdwdV9hdG9tYmlvc19kcF9nZXRfZHBjZChzdHJ1Y3QgYW1kZ3B1X2Nvbm5lY3Rv
-ciAqYW1kZ3B1X2Nvbm5lY3RvcikKPiAgewo+ICAJc3RydWN0IGFtZGdwdV9jb25uZWN0b3JfYXRv
-bV9kaWcgKmRpZ19jb25uZWN0b3IgPSBhbWRncHVfY29ubmVjdG9yLT5jb25fcHJpdjsKPiBAQCAt
-MzQzLDcgKzM1OSw3IEBAIGludCBhbWRncHVfYXRvbWJpb3NfZHBfZ2V0X2RwY2Qoc3RydWN0IGFt
-ZGdwdV9jb25uZWN0b3IgKmFtZGdwdV9jb25uZWN0b3IpCj4gIAkJCSAgICAgIGRpZ19jb25uZWN0
-b3ItPmRwY2QpOwo+ICAKPiAgCQlhbWRncHVfYXRvbWJpb3NfZHBfcHJvYmVfb3VpKGFtZGdwdV9j
-b25uZWN0b3IpOwo+IC0KPiArCQlhbWRncHVfYXRvbWJpb3NfZHBfZHNfcG9ydHMoYW1kZ3B1X2Nv
-bm5lY3Rvcik7Cj4gIAkJcmV0dXJuIDA7Cj4gIAl9CgotLSAKSmFuaSBOaWt1bGEsIEludGVsIE9w
-ZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+
+--===============2027263944==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="spbhycqlgpxqdc65"
+Content-Disposition: inline
+
+
+--spbhycqlgpxqdc65
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi,
+
+On Wed, Apr 15, 2020 at 10:35:07AM +0200, H. Nikolaus Schaller wrote:
+> * rebased to v5.7-rc1
+> * added DTS for for a31, a31s, a83t - by Philipp Rossak <embed3d@gmail.com>
+> * added DTS for "samsung,s5pv210-sgx540-120" - by Jonathan Bakker <xc-racer2@live.ca>
+> * bindings.yaml fixes:
+>   - added a31, a31
+>   - fixes for omap4470
+>   - jz4780 contains an sgx540-130 and not -120
+>   - a83t contains an sgx544-115 and not -116
+>   - removed "additionalProperties: false" because some SoC may need additional properties
+>
+> PATCH V5 2020-03-29 19:38:32:
+> * reworked YAML bindings to pass dt_binding_check and be better grouped
+> * rename all nodes to "gpu: gpu@<address>"
+> * removed "img,sgx5" from example - suggested by Rob Herring <robh+dt@kernel.org>
+>
+> PATCH V4 2019-12-17 19:02:11:
+> * MIPS: DTS: jz4780: removed "img,sgx5" from bindings
+> * YAML bindings: updated according to suggestions by Rob Herring
+> * MIPS: DTS: jz4780: insert-sorted gpu node by register address - suggested by Paul Cercueil
+>
+> PATCH V3 2019-11-24 12:40:33:
+> * reworked YAML format with help by Rob Herring
+> * removed .txt binding document
+> * change compatible "ti,am335x-sgx" to "ti,am3352-sgx" - suggested by Tony Lindgren
+>
+> PATCH V2 2019-11-07 12:06:17:
+> * tried to convert bindings to YAML format - suggested by Rob Herring
+> * added JZ4780 DTS node (proven to load the driver)
+> * removed timer and img,cores properties until we know we really need them - suggested by Rob Herring
+>
+> PATCH V1 2019-10-18 20:46:35:
+>
+> This patch series defines child nodes for the SGX5xx interface inside
+> different SoC so that a driver can be found and probed by the
+> compatible strings and can retrieve information about the SGX revision
+> that is included in a specific SoC. It also defines the interrupt number
+> to be used by the SGX driver.
+>
+> There is currently no mainline driver for these GPUs, but a project
+> [1] is ongoing with the goal to get the open-source part as provided
+> by TI/IMG and others into drivers/gpu/drm/pvrsgx.
+
+Just a heads up, DRM requires an open-source user-space, so if your
+plan is to move the open-source kernel driver while using the
+closed-source library (as that page seem to suggest), that might
+change a few things.
+
+> The kernel modules built from this project have successfully
+> demonstrated to work with the DTS definitions from this patch set on
+> AM335x BeagleBone Black, DM3730 and OMAP5 Pyra and Droid 4. They
+> partially work on OMAP3530 and PandaBoard ES but that is likely a
+> problem in the kernel driver or the (non-free) user-space libraries
+> and binaries.
+>
+> Wotk for JZ4780 (CI20 board) is in progress and there is potential
+> to extend this work to e.g. BananaPi-M3 (A83) and some Intel Poulsbo
+> and CedarView devices.
+
+If it's not been tested on any Allwinner board yet, I'll leave it
+aside until it's been properly shown to work.
+
+Maxime
+
+--spbhycqlgpxqdc65
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXpbdgAAKCRDj7w1vZxhR
+xfFrAP93okt+UedPkk9I3Q8d4NjjJQupvTn5SXqE9t4DNT4cOAD/UrA0Qy0Kn9Tr
+R9ol+rlZA6+bkgWLM1ddBT4uVccQmQw=
+=uJBG
+-----END PGP SIGNATURE-----
+
+--spbhycqlgpxqdc65--
+
+--===============2027263944==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2027263944==--
