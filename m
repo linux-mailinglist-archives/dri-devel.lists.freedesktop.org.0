@@ -2,57 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424BC1AAF96
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 19:32:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7711AAF98
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 19:33:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35C616E1FB;
-	Wed, 15 Apr 2020 17:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E09D76EA44;
+	Wed, 15 Apr 2020 17:33:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57A266E1FB;
- Wed, 15 Apr 2020 17:32:54 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 26923AF3F;
- Wed, 15 Apr 2020 17:32:52 +0000 (UTC)
-Subject: Re: [PATCH 05/59] drm/vboxvidoe: use managed pci functions
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-6-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <30509d8f-f2ce-ce32-1de6-b807c3eb5b4b@suse.de>
-Date: Wed, 15 Apr 2020 19:32:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 336AB6EA44
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 17:33:25 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id y24so548754wma.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 10:33:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Rkck/HArmjgepuHn4NJVu+OJYGwshBlSqBTd3E9eO9s=;
+ b=aXAmvMC38ItFa/I/ODNZFZ8Nrx7rhomjxXCK4J5+GBQd1yCzGiDpI4dIGYKTYh2tJN
+ VgaKRL1AocDuGGpa+VM0K6CIIoL7tYRLv7yvbYFf+kfSv+MtKPOJkdAv3gmwpi8cCspn
+ A/2EOdtw7HqI2BzdJb3cX7WC5xqxOjIvuzdDc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=Rkck/HArmjgepuHn4NJVu+OJYGwshBlSqBTd3E9eO9s=;
+ b=AdaP3ZIYEYNaktL7kdFkYG5fZbHE0JlcMo5CgGVb5a9RPUstug1s2jplRDK1uYcjmQ
+ gdEtxXq07dZNJXjImYJgXe7Vliy47Wb0ArHyYxYgTwxHgZTYDX2HeRolCrzpnTM1h2+W
+ hYsJM8tKWkKZnEtipnoaVEecVo9tqIKddKniGOqvDRj3NFpCr7tvmy09gVhp5EjWbkKf
+ kmTQv94S4mMigiRYAdlOBj/hxEdKTFWEZkXryFJNDlgqt6oZF2cD/ASOd/PGVccA/hit
+ OdHrY4uro+GQbPAVhLY7k2ZVXMzwvNUZPCNul00AEJfMZHPMvweZFWqhimYz0Gt3tX+3
+ QfrQ==
+X-Gm-Message-State: AGi0PuapoJih85vTA91HLZgte73itzhv7Al4VRfLMbfdMRBnGeEWTmlL
+ Std3A3DaiEruJXqQ1h9deT25sA==
+X-Google-Smtp-Source: APiQypIdl3rsjfv/Is2Bm6qZeSmQZagNruwgJ+J30Wx3YvhKi8ugAsblhQ2s/uQ8MCyGKbgMoJvuIQ==
+X-Received: by 2002:a1c:1f96:: with SMTP id f144mr297157wmf.114.1586972003719; 
+ Wed, 15 Apr 2020 10:33:23 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z8sm3996060wrr.40.2020.04.15.10.33.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Apr 2020 10:33:23 -0700 (PDT)
+Date: Wed, 15 Apr 2020 19:33:20 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+Subject: Re: [PATCH v3 1/2] DRM: ARC: add HDMI 2.0 TX encoder support
+Message-ID: <20200415173320.GG3456981@phenom.ffwll.local>
+Mail-Followup-To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ dri-devel@lists.freedesktop.org,
+ Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+ linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+References: <20200414232929.22788-1-Eugeniy.Paltsev@synopsys.com>
+ <20200414232929.22788-2-Eugeniy.Paltsev@synopsys.com>
 MIME-Version: 1.0
-In-Reply-To: <20200415074034.175360-6-daniel.vetter@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <20200414232929.22788-2-Eugeniy.Paltsev@synopsys.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,172 +74,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============1276254460=="
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Alexey Brodkin <Alexey.Brodkin@synopsys.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ linux-snps-arc@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1276254460==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ez2CnJveTAfgLs2uiV80M236OHAYLxMig"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ez2CnJveTAfgLs2uiV80M236OHAYLxMig
-Content-Type: multipart/mixed; boundary="lTmyJdGtNFbhQSBGjE4UBXjX0F9OhdDda";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <30509d8f-f2ce-ce32-1de6-b807c3eb5b4b@suse.de>
-Subject: Re: [PATCH 05/59] drm/vboxvidoe: use managed pci functions
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-6-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200415074034.175360-6-daniel.vetter@ffwll.ch>
-
---lTmyJdGtNFbhQSBGjE4UBXjX0F9OhdDda
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-The commit's headline says 'vboxvidoe'.
-
-Am 15.04.20 um 09:39 schrieb Daniel Vetter:
-> Allows us to drop the cleanup code on the floor.
->=20
-> Sam noticed in his review:
->> With this change we avoid calling pci_disable_device()
->> twise in case vbox_mm_init() fails.
->> Once in vbox_hw_fini() and once in the error path.
->=20
-> v2: Include Sam's review remarks
->=20
+On Wed, Apr 15, 2020 at 02:29:28AM +0300, Eugeniy Paltsev wrote:
+> The Synopsys ARC SoCs (like HSDK4xD) include on-chip DesignWare HDMI
+> encoders. Support them with a platform driver to provide platform glue
+> data to the dw-hdmi driver.
+> 
 > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 > ---
->  drivers/gpu/drm/vboxvideo/vbox_drv.c  | 6 ++----
->  drivers/gpu/drm/vboxvideo/vbox_main.c | 7 +------
->  2 files changed, 3 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vbo=
-xvideo/vbox_drv.c
-> index cfa4639c5142..cf2e3e6a2388 100644
-> --- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> +++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> @@ -55,13 +55,13 @@ static int vbox_pci_probe(struct pci_dev *pdev, con=
-st struct pci_device_id *ent)
->  	pci_set_drvdata(pdev, vbox);
->  	mutex_init(&vbox->hw_mutex);
-> =20
-> -	ret =3D pci_enable_device(pdev);
-> +	ret =3D pcim_enable_device(pdev);
->  	if (ret)
->  		return ret;
-> =20
->  	ret =3D vbox_hw_init(vbox);
->  	if (ret)
-> -		goto err_pci_disable;
-> +		return ret;
-> =20
->  	ret =3D vbox_mm_init(vbox);
->  	if (ret)
-> @@ -91,8 +91,6 @@ static int vbox_pci_probe(struct pci_dev *pdev, const=
- struct pci_device_id *ent)
->  	vbox_mm_fini(vbox);
->  err_hw_fini:
->  	vbox_hw_fini(vbox);
-> -err_pci_disable:
-> -	pci_disable_device(pdev);
->  	return ret;
->  }
-> =20
-> diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vb=
-oxvideo/vbox_main.c
-> index 9dcab115a261..1336ab9795fc 100644
-> --- a/drivers/gpu/drm/vboxvideo/vbox_main.c
-> +++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
-> @@ -71,8 +71,6 @@ static void vbox_accel_fini(struct vbox_private *vbox=
-)
-> =20
->  	for (i =3D 0; i < vbox->num_crtcs; ++i)
->  		vbva_disable(&vbox->vbva_info[i], vbox->guest_pool, i);
-> -
-> -	pci_iounmap(vbox->ddev.pdev, vbox->vbva_buffers);
->  }
-> =20
->  /* Do we support the 4.3 plus mode hint reporting interface? */
-> @@ -125,7 +123,7 @@ int vbox_hw_init(struct vbox_private *vbox)
->  	/* Create guest-heap mem-pool use 2^4 =3D 16 byte chunks */
->  	vbox->guest_pool =3D gen_pool_create(4, -1);
->  	if (!vbox->guest_pool)
-> -		goto err_unmap_guest_heap;
-> +		return -ENOMEM;
-> =20
->  	ret =3D gen_pool_add_virt(vbox->guest_pool,
->  				(unsigned long)vbox->guest_heap,
-> @@ -168,8 +166,6 @@ int vbox_hw_init(struct vbox_private *vbox)
-> =20
->  err_destroy_guest_pool:
->  	gen_pool_destroy(vbox->guest_pool);
-> -err_unmap_guest_heap:
-> -	pci_iounmap(vbox->ddev.pdev, vbox->guest_heap);
->  	return ret;
->  }
-> =20
-> @@ -177,5 +173,4 @@ void vbox_hw_fini(struct vbox_private *vbox)
->  {
->  	vbox_accel_fini(vbox);
->  	gen_pool_destroy(vbox->guest_pool);
-> -	pci_iounmap(vbox->ddev.pdev, vbox->guest_heap);
->  }
->=20
+>  MAINTAINERS                       |   6 ++
+>  drivers/gpu/drm/Makefile          |   2 +-
+>  drivers/gpu/drm/arc/Kconfig       |   7 ++
+>  drivers/gpu/drm/arc/Makefile      |   1 +
+>  drivers/gpu/drm/arc/arc-dw-hdmi.c | 116 ++++++++++++++++++++++++++++++
+>  5 files changed, 131 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/arc/arc-dw-hdmi.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a6fbdf354d34..2aaed1190370 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1258,6 +1258,12 @@ S:	Supported
+>  F:	drivers/gpu/drm/arc/
+>  F:	Documentation/devicetree/bindings/display/snps,arcpgu.txt
+>  
+> +ARC DW HDMI DRIVER
+> +M:	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+> +S:	Supported
+> +F:	drivers/gpu/drm/arc/arc-dw-hdmi.c
+> +F:	Documentation/devicetree/bindings/display/bridge/snps,arc-dw-hdmi.yaml
+> +
+>  ARCNET NETWORK LAYER
+>  M:	Michael Grzeschik <m.grzeschik@pengutronix.de>
+>  L:	netdev@vger.kernel.org
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 6493088a0fdd..5b0bcf7f45cd 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -109,7 +109,7 @@ obj-y			+= panel/
+>  obj-y			+= bridge/
+>  obj-$(CONFIG_DRM_FSL_DCU) += fsl-dcu/
+>  obj-$(CONFIG_DRM_ETNAVIV) += etnaviv/
+> -obj-$(CONFIG_DRM_ARCPGU)+= arc/
+> +obj-y			+= arc/
+>  obj-y			+= hisilicon/
+>  obj-$(CONFIG_DRM_ZTE)	+= zte/
+>  obj-$(CONFIG_DRM_MXSFB)	+= mxsfb/
+> diff --git a/drivers/gpu/drm/arc/Kconfig b/drivers/gpu/drm/arc/Kconfig
+> index e8f3d63e0b91..baec9d2a4fba 100644
+> --- a/drivers/gpu/drm/arc/Kconfig
+> +++ b/drivers/gpu/drm/arc/Kconfig
+> @@ -8,3 +8,10 @@ config DRM_ARCPGU
+>  	  Choose this option if you have an ARC PGU controller.
+>  
+>  	  If M is selected the module will be called arcpgu.
+> +
+> +config DRM_ARC_DW_HDMI
+> +	tristate "ARC DW HDMI"
+> +	depends on DRM && OF
+> +	select DRM_DW_HDMI
+> +	help
+> +	  Synopsys DW HDMI driver for various ARC development boards
+> diff --git a/drivers/gpu/drm/arc/Makefile b/drivers/gpu/drm/arc/Makefile
+> index c7028b7427b3..7a156d8c2c3c 100644
+> --- a/drivers/gpu/drm/arc/Makefile
+> +++ b/drivers/gpu/drm/arc/Makefile
+> @@ -1,3 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  arcpgu-y := arcpgu_crtc.o arcpgu_hdmi.o arcpgu_sim.o arcpgu_drv.o
+>  obj-$(CONFIG_DRM_ARCPGU) += arcpgu.o
+> +obj-$(CONFIG_DRM_ARC_DW_HDMI) += arc-dw-hdmi.o
+> diff --git a/drivers/gpu/drm/arc/arc-dw-hdmi.c b/drivers/gpu/drm/arc/arc-dw-hdmi.c
+> new file mode 100644
+> index 000000000000..46a6ee09b302
+> --- /dev/null
+> +++ b/drivers/gpu/drm/arc/arc-dw-hdmi.c
+> @@ -0,0 +1,116 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +//
+> +// Synopsys DW HDMI driver for various ARC development boards
+> +//
+> +// Copyright (C) 2020 Synopsys
+> +// Author: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+> +
+> +#include <linux/component.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <drm/bridge/dw_hdmi.h>
+> +#include <drm/drm_crtc_helper.h>
+> +#include <drm/drm_edid.h>
+> +#include <drm/drm_encoder_slave.h>
+> +#include <drm/drm_of.h>
+> +
+> +static const struct dw_hdmi_mpll_config snps_hdmi_mpll_cfg[] = {
+> +	{
+> +		27000000, {
+> +			{ 0x00B3, 0x0000 },
+> +			{ 0x00B3, 0x0000 },
+> +			{ 0x00B3, 0x0000 }
+> +		},
+> +	}, {
+> +		74250000, {
+> +			{ 0x0072, 0x0001},
+> +			{ 0x0072, 0x0001},
+> +			{ 0x0072, 0x0001}
+> +		},
+> +	}, {
+> +		148500000, {
+> +			{ 0x0051, 0x0002},
+> +			{ 0x0051, 0x0002},
+> +			{ 0x0051, 0x0002}
+> +		},
+> +	}, {
+> +		~0UL, {
+> +			{ 0x00B3, 0x0000 },
+> +			{ 0x00B3, 0x0000 },
+> +			{ 0x00B3, 0x0000 },
+> +		},
+> +	}
+> +};
+> +
+> +static const struct dw_hdmi_curr_ctrl snps_hdmi_cur_ctr[] = {
+> +	/* pixelclk    bpp8    bpp10   bpp12 */
+> +	{ 27000000,  { 0x0000, 0x0000, 0x0000 }, },
+> +	{ 74250000,  { 0x0008, 0x0008, 0x0008 }, },
+> +	{ 148500000, { 0x001b, 0x001b, 0x001b }, },
+> +	{ ~0UL,      { 0x0000, 0x0000, 0x0000 }, }
+> +};
+> +
+> +
+> +static const struct dw_hdmi_phy_config snps_hdmi_phy_config[] = {
+> +	/* pixelclk   symbol  term    vlev */
+> +	{ 27000000,   0x8009, 0x0004, 0x0232},
+> +	{ 74250000,   0x8009, 0x0004, 0x0232},
+> +	{ 148500000,  0x8009, 0x0004, 0x0232},
+> +	{ ~0UL,       0x8009, 0x0004, 0x0232}
+> +};
+> +
+> +static struct dw_hdmi_plat_data snps_dw_hdmi_drv_data = {
+> +	.mpll_cfg   = snps_hdmi_mpll_cfg,
+> +	.cur_ctr    = snps_hdmi_cur_ctr,
+> +	.phy_config = snps_hdmi_phy_config,
+> +};
+> +
+> +static const struct of_device_id snps_dw_hdmi_dt_ids[] = {
+> +	{ .compatible = "snps,arc-dw-hdmi-hsdk", .data = &snps_dw_hdmi_drv_data },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, snps_dw_hdmi_dt_ids);
+> +
+> +static int snps_dw_hdmi_probe(struct platform_device *pdev)
+> +{
+> +	const struct dw_hdmi_plat_data *plat_data;
+> +	const struct of_device_id *match;
+> +	struct dw_hdmi *hdmi;
+> +
+> +	if (!pdev->dev.of_node)
+> +		return -ENODEV;
+> +
+> +	match = of_match_node(snps_dw_hdmi_dt_ids, pdev->dev.of_node);
+> +	plat_data = match->data;
+> +
+> +	hdmi = dw_hdmi_probe(pdev, plat_data);
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+So this is kinda not how bridge drivers are supposed to be done nowadays,
+direct calling into the driver was the old way, and dw-hdmi still works
+like that. Modern way is roughly
+- bridge drivers bind automatically to any bridge they support
+- bridge drivers publish a bridge with drm_bridge_add()
+- the driver using the bridge fishes out with dt magic using
+  of_drm_find_bridge() or another of the related of_ functions
 
+I know a bit late, just spotted this because you brought your series here
+up in my arc cleanup series, but can you pls look into adjusting
+accordingly?
 
---lTmyJdGtNFbhQSBGjE4UBXjX0F9OhdDda--
+I shouldn't take more than moving this binding here into the dw-hdmi
+driver, and switching arc itself over to the of_drm_find_bridge() call.
+That way we could slowly work to transform old bridge drivers like dw-hdmi
+to the new way, instead of adding more cases that will never get
+converted.
 
---ez2CnJveTAfgLs2uiV80M236OHAYLxMig
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Other upside is that arc stays a neat&tiny driver :-)
 
------BEGIN PGP SIGNATURE-----
+Thanks, Daniel
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6XRUEACgkQaA3BHVML
-eiOrYwgAnXeD43oIm5bYpq4i2M2BmFSH1jJoznWUMNaNHjEKf9r9H4lV1lq74Ntp
-/IBYeEGaDGBMch54y83tEPlKUVCGEon710jVLDKECwxNtO6ypkLlKC4YKHdvojWp
-+QyhCEjijNzlh1HaNVdVJUGkQjoKyUWton2GxbcYM4x2DAbIFB4C7DJ2mF40T3oE
-/DNc2KhX8KRxtm5sTG7N0xxCG8d77Fh3WZDmwwcp45pOFlHJkN5D8/5gVPSo4c3G
-MtTCjPw16i7hwLjoDOqThY9lS1SWxjJeQQwAWgvG+NiEZ/En1eZ6HuaeQVZgZnQM
-BQ7YXSwczR4NHfKX/sBuiIRVqNvMVQ==
-=dCP8
------END PGP SIGNATURE-----
+> +	if (IS_ERR(hdmi))
+> +		return PTR_ERR(hdmi);
+> +
+> +	platform_set_drvdata(pdev, hdmi);
+> +
+> +	return 0;
+> +}
+> +
+> +static int snps_dw_hdmi_remove(struct platform_device *pdev)
+> +{
+> +	struct dw_hdmi *hdmi = platform_get_drvdata(pdev);
+> +
+> +	dw_hdmi_remove(hdmi);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver snps_dw_hdmi_platform_driver = {
+> +	.probe  = snps_dw_hdmi_probe,
+> +	.remove = snps_dw_hdmi_remove,
+> +	.driver = {
+> +		.name = KBUILD_MODNAME,
+> +		.of_match_table = snps_dw_hdmi_dt_ids,
+> +	},
+> +};
+> +module_platform_driver(snps_dw_hdmi_platform_driver);
+> +
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_DESCRIPTION("ARC specific DW-HDMI driver extension");
+> +MODULE_AUTHOR("Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>");
+> -- 
+> 2.21.1
+> 
 
---ez2CnJveTAfgLs2uiV80M236OHAYLxMig--
-
---===============1276254460==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1276254460==--
