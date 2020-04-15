@@ -1,49 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D661AB8FC
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 08:59:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4E3C1A9DA7
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:47:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F409A6EAED;
-	Thu, 16 Apr 2020 06:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E4B66E9A9;
+	Wed, 15 Apr 2020 11:46:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC9AC6E1F8
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 12:47:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1586954827;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=6/o2eUBt4iN9I0U74c2I8jHNfikxj7yqfISGp3x31ZE=;
- b=onQBInnTZ632a/LE2p3u+7Q10lF8HLtAltgbGuJrpEjTmrwGXAaBgiCFexUMS7Ld3j
- +aFYlGEfxBQGTcbfDpuCONGwdT4LiTgU88CufrpYnoucujd8GWtxsdcLCDUziKEWz5BP
- PUYBqLqPYFzyHUzr4QRDUl+0CF7YZC0Sj7/xT/+QX4ApR7KQNrD9eDAjtZJSsn0Rd8Pw
- Q0zynYPoEC51wa/rzZeje4oI1YN6uZHg9uQohjx3k0rHTz1aAdE97IB0e38TRl9pOyAK
- g90KRgYZdvehuNzidvyzquoddMoyfU8iB14/g2ri6KhGiDEJV33pPSHUms64TI8In/zz
- nuEw==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBp5hRw/qOxWRk4dCz3b9m9rH79DVZTKLB3vWvm2T1hRBz6in0C9d6y"
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2001:16b8:26b3:fd00:4058:8a66:740e:2249]
- by smtp.strato.de (RZmta 46.4.0 AUTH) with ESMTPSA id 6028a2w3FCkp1ws
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 15 Apr 2020 14:46:51 +0200 (CEST)
-Subject: Re: [PATCH v6 07/12] ARM: DTS: omap5: add sgx gpu child node
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <CAJKOXPdEkWniffmGZmf=S6E5UxWTdVGXnycqTFftXwo_45rz3w@mail.gmail.com>
-Date: Wed, 15 Apr 2020 13:46:06 +0200
-Message-Id: <EFA7F2F0-96EA-45D9-B8C8-00DC8C72344D@goldelico.com>
-References: <cover.1586939718.git.hns@goldelico.com>
- <004611c9660943759b635a87484932869927cf74.1586939718.git.hns@goldelico.com>
- <CAJKOXPdEkWniffmGZmf=S6E5UxWTdVGXnycqTFftXwo_45rz3w@mail.gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-X-Mailer: Apple Mail (2.3124)
-X-Mailman-Approved-At: Thu, 16 Apr 2020 06:59:07 +0000
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36EEE6E9A7;
+ Wed, 15 Apr 2020 11:46:57 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 487F721569;
+ Wed, 15 Apr 2020 11:46:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1586951217;
+ bh=1ftGPW7s24C2jbr6ck2vAVvoAxyuPjtTL4lXJBW5RAc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Dd9A9e+qiXkN4JwU28Hd+wxqBN2Zvxtu+beIgiaZzGuMJ05xhCGSQOtvGIzR2Ol4i
+ Ungtls93eYm7SRig04uDVnClTIIQoqReRhAs7qVTbW8oFFXx//ptoCCtlokm4hTBPF
+ UjBPQmqXeo2PsdADQO4gZiv5cuBLhGGK9HDJOaxc=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 28/40] drm/amdkfd: kfree the wrong pointer
+Date: Wed, 15 Apr 2020 07:46:11 -0400
+Message-Id: <20200415114623.14972-28-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200415114623.14972-1-sashal@kernel.org>
+References: <20200415114623.14972-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,48 +49,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
- James Hogan <jhogan@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- linux-omap@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
- Tony Lindgren <tony@atomide.com>, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>, devicetree@vger.kernel.org,
- =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, letux-kernel@openphoenux.org,
- linux-arm-kernel@lists.infradead.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>, kernel@pyra-handheld.com
+Cc: Sasha Levin <sashal@kernel.org>, Jack Zhang <Jack.Zhang1@amd.com>,
+ dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@amd.com>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
+From: Jack Zhang <Jack.Zhang1@amd.com>
 
-> Am 15.04.2020 um 13:38 schrieb Krzysztof Kozlowski <krzk@kernel.org>:
-> 
-> On Wed, 15 Apr 2020 at 10:36, H. Nikolaus Schaller <hns@goldelico.com> wrote:
->> 
->> and add interrupt.
->> 
->> Tested-by: H. Nikolaus Schaller <hns@goldelico.com> # Pyra-Handheld.
-> 
-> Don't add your own Tested-by tags. These are implied by authorship,
-> otherwise all patches people make should have such tag.
+[ Upstream commit 3148a6a0ef3cf93570f30a477292768f7eb5d3c3 ]
 
-Ok I see. AFAIR it originates in several phases of editing to report on which device it was tested.
+Originally, it kfrees the wrong pointer for mem_obj.
+It would cause memory leak under stress test.
 
-Is there a canonical way of writing "tested-on: ${HARDWARE}"?
+Signed-off-by: Jack Zhang <Jack.Zhang1@amd.com>
+Acked-by: Nirmoy Das <nirmoy.das@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-E.g. would this be ok?
-
-Signed-off: H. Nikolaus Schaller <hns@goldelico.com> # tested on Pyra-Handheld
-
-BR and thanks,
-Nikolaus Schaller
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+index 938d0053a8208..28022d1cb0f07 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+@@ -921,9 +921,9 @@ int kfd_gtt_sa_allocate(struct kfd_dev *kfd, unsigned int size,
+ 	return 0;
+ 
+ kfd_gtt_no_free_chunk:
+-	pr_debug("Allocation failed with mem_obj = %p\n", mem_obj);
++	pr_debug("Allocation failed with mem_obj = %p\n", *mem_obj);
+ 	mutex_unlock(&kfd->gtt_sa_lock);
+-	kfree(mem_obj);
++	kfree(*mem_obj);
+ 	return -ENOMEM;
+ }
+ 
+-- 
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
