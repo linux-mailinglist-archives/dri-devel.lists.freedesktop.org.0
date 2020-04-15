@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 655C91AB906
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 09:00:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E47921AB8F9
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 08:59:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E117E6EAF5;
-	Thu, 16 Apr 2020 06:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2CDC6EAE4;
+	Thu, 16 Apr 2020 06:59:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
  [IPv6:2a01:238:20a:202:5304::5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9C646E91A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 08:35:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1586939752;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B3FF6E926
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 08:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1586939762;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=dI0VDCpAYn4kjTlYFF4mkRzHkNsrf7BBn1IDt/EnVco=;
- b=iOdW1LNUgZQ/+loao/PRBxwcC2P4U9XFfxfqhSANnAYB4dBKf+eO6WEEcqerUq4maG
- odtgnTm3PVeJK6MoNPpsWzZQqTxDTnjzY1F7/lIEiUdiw9BCKOsJyf7WF50xGkxFiDqY
- YqbaJvls99jyXpsy2JRD8LU8+76JkSfiEo7gugCN8KhhCADz72MJa7urEEbcJsvZaMJ1
- OV7UAkLYy4x7Tv+x1d02Jy7CkeOVeATSUU0rdBvTszN6nGdDwG8EvKTPFvbEOkGISZoJ
- kb5KXTM3ycVEAoTexctzyqrNU/Kkjdiw12IXncHeUZHwy6iv269+FJjqU0rgG5Hmv1EU
- UNhA==
+ bh=NojKpJsr295KKzeE6Kfg0J7/g3gnxL5pXSLXeEqbQIE=;
+ b=iUyQjSG6HwytzZmArbrROzHkbRFvp+zFRq/u0FHcHaTZmIt0HMo6L9WlYBQuPIoNjH
+ 4hiKUR1bV0gqXTa0Q/BnmBjYGy+th9AjfUg2yx205F5DopNxPT2IMKmJ6CRdaR4sMFdv
+ KNhbzn+oqxh8VLjrdfSItX1xJJAia0FHBpkZk4ENVGQyQXK2rFulKmfXJJaJrozsKBEX
+ Bx16x5o8mm1KQyUoKCqHt5sCD9UQhwSXGPGzdRzT+d7MB5UiB0Jqwd/9MWPkANl30Btg
+ ddIAfbqamkpjL/drAIDowEvGViSOkx/PRUcWxT2XRGyvRQP7j3ds/PtkCwTyBYPfnEGR
+ 4BJQ==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1OAA2UNf2M7O2CKN9ej"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.4.0 DYNA|AUTH)
- with ESMTPSA id 6028a2w3F8ZR0Iu
+ with ESMTPSA id 6028a2w3F8ZS0Iv
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Wed, 15 Apr 2020 10:35:27 +0200 (CEST)
+ Wed, 15 Apr 2020 10:35:28 +0200 (CEST)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
@@ -41,9 +41,9 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Krzysztof Kozlowski <krzk@kernel.org>, Maxime Ripard <mripard@kernel.org>,
  Chen-Yu Tsai <wens@csie.org>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: [PATCH v6 08/12] arm: dts: s5pv210: Add G3D node
-Date: Wed, 15 Apr 2020 10:35:15 +0200
-Message-Id: <b6733f80546bf3e6b3799f716b9c8e0f407de03d.1586939718.git.hns@goldelico.com>
+Subject: [PATCH v6 09/12] ARM: dts: sun6i: a31: add sgx gpu child node
+Date: Wed, 15 Apr 2020 10:35:16 +0200
+Message-Id: <65bf7033dfedf303387d2e5882c6ce672832a9c8.1586939718.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1586939718.git.hns@goldelico.com>
 References: <cover.1586939718.git.hns@goldelico.com>
@@ -63,8 +63,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, letux-kernel@openphoenux.org,
  Philipp Rossak <embed3d@gmail.com>,
- "H . Nikolaus Schaller" <hns@goldelico.com>,
- Jonathan Bakker <xc-racer2@live.ca>, openpvrsgx-devgroup@letux.org,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, openpvrsgx-devgroup@letux.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-mips@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
  kernel@pyra-handheld.com, linux-omap@vger.kernel.org,
@@ -74,42 +73,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jonathan Bakker <xc-racer2@live.ca>
+From: Philipp Rossak <embed3d@gmail.com>
 
-to add support for SGX540 GPU.
+We are adding the devicetree binding for the PVR-SGX-544-115 gpu.
 
-Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
+This driver is currently under development in the openpvrsgx-devgroup.
+Right now the full binding is not figured out, so we provide here a
+placeholder. It will be completed as soon as there is a demo available.
+
+The currently used binding that is used during development is more
+complete and was already verifyed by loading the kernelmodule successful.
+
+Signed-off-by: Philipp Rossak <embed3d@gmail.com>
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- arch/arm/boot/dts/s5pv210.dtsi | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ arch/arm/boot/dts/sun6i-a31.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/arch/arm/boot/dts/s5pv210.dtsi b/arch/arm/boot/dts/s5pv210.dtsi
-index 2ad642f51fd9..e7fc709c0cca 100644
---- a/arch/arm/boot/dts/s5pv210.dtsi
-+++ b/arch/arm/boot/dts/s5pv210.dtsi
-@@ -512,6 +512,21 @@ vic3: interrupt-controller@f2300000 {
- 			#interrupt-cells = <1>;
+diff --git a/arch/arm/boot/dts/sun6i-a31.dtsi b/arch/arm/boot/dts/sun6i-a31.dtsi
+index f3425a66fc0a..933a825bf460 100644
+--- a/arch/arm/boot/dts/sun6i-a31.dtsi
++++ b/arch/arm/boot/dts/sun6i-a31.dtsi
+@@ -1417,5 +1417,16 @@ p2wi: i2c@1f03400 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
  		};
- 
-+		g3d: g3d@f3000000 {
-+			compatible = "samsung,s5pv210-sgx540-120";
-+			reg = <0xf3000000 0x10000>;
-+			interrupt-parent = <&vic2>;
-+			interrupts = <10>;
-+			clock-names = "sclk";
-+			clocks = <&clocks CLK_G3D>;
 +
-+			power-domains = <&pd S5PV210_PD_G3D>;
-+
-+			assigned-clocks = <&clocks MOUT_G3D>, <&clocks DOUT_G3D>;
-+			assigned-clock-rates = <0>, <66700000>;
-+			assigned-clock-parents = <&clocks MOUT_MPLL>;
++		gpu: gpu@1c400000 {
++			compatible = "allwinner,sun8i-a31-sgx544-115",
++				     "img,sgx544-115", "img,sgx544";
++			reg = <0x01c40000 0x10000>;
++			/*
++			 * This node is currently a placeholder for the gpu.
++			 * This will be completed when a full demonstration
++			 * of the openpvrsgx driver is available for this board.
++			 */
 +		};
-+
- 		fimd: fimd@f8000000 {
- 			compatible = "samsung,s5pv210-fimd";
- 			interrupt-parent = <&vic2>;
+ 	};
+ };
 -- 
 2.25.1
 
