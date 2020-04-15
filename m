@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FAE11A9484
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:41:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA771A948A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:41:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A64E6E887;
-	Wed, 15 Apr 2020 07:40:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C69106E895;
+	Wed, 15 Apr 2020 07:40:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEB726E880
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 07:40:54 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a201so17305876wme.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 00:40:54 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 933FC6E889
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 07:40:56 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id c195so14279362wme.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 00:40:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/DX0QsbRa63TTvCzzh1mF+p8stjcHGqiXL0nsgXQFuE=;
- b=cS8F2Da2ZcoqwL2CTn69oHiBMS1d+wCbQIkZbUZJ7vvdbFHy5Kln8opYhymiskD9fp
- W8AwUELWmXte0kaeLySKRlETlOON99xEKi28Spf+4v85aWOygk3bkpGXDzlRidlKf5fh
- vl5W5PYEsf6KYaiz30FDOwEEZS9LtQlX76Bhc=
+ bh=KgK3G2A1STC7flhBaGiCXJKQEoHrUb4s+30Xdgv1uqQ=;
+ b=lTcj+h5t2CqxfLJxf0bB4D4i4UDznI9GJV0h5edSX5tgEJMWEu+5pTEMgEY3+h5IPG
+ cMWVC8xSo/9rZWfREShCC1w+f5CDw+v9rnlfNkdFhbsDuuluGiq5A57GAJONAoq5Fbc/
+ fi+NxN8CGCy5VhFkgxJqaOcVb9zFNiGZv54UU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/DX0QsbRa63TTvCzzh1mF+p8stjcHGqiXL0nsgXQFuE=;
- b=hQ1WHjTZYVUTyOAFPV3pILgyAM1rETkVsZZi3fAcBqA2+dV/8CUkzngoZoizu9eRyA
- WRjEzvf84id+Q4h6qKposMmU46MVuX33nmmLVTr1D25eE4rU4RJD04IQ18REb+mHLhM1
- aOYbcd2BPglZ9K2UOmMP8BtTJgYJgRuPdBxcFJ55MYQ6pm1wvDeS/idcZCqBDZsqCKs8
- b1lvzO7J12XyWaxqHF4QZAIIhWP15rJLiC4s3VpmHxfi4c+bTyPpGx19To5gTCmKUKwE
- +d27douGbm7g5Ofy2YRdGyj9iDdtYNZc7ZdOipbmt+32w25xLlnIeJCcbxDWJXzrDeFq
- +Fhw==
-X-Gm-Message-State: AGi0PuZZeQOXqMNt7gdzPROwxv5BiBMvc55TJ1eNXT3jdvIBOhibiRAq
- cIzPIawMEWIjlGzvNyQOYfnylA==
-X-Google-Smtp-Source: APiQypKFSsZNvxWy2vdb4x3nq1YkV/oAq1dCFeUGmZgkoTZGxpVZDT5p3FooFMDAPfjA3f1tY0gxCA==
-X-Received: by 2002:a1c:9e43:: with SMTP id h64mr3747898wme.0.1586936453453;
- Wed, 15 Apr 2020 00:40:53 -0700 (PDT)
+ bh=KgK3G2A1STC7flhBaGiCXJKQEoHrUb4s+30Xdgv1uqQ=;
+ b=UNKBp1vkubeEM0df81X/rkGCle7HUK7RCO8DHtyFEB8kJmGvci8kzDPLLj2V/Vm1xN
+ WogvEd4TnxyZMctRGnN3MxhXR+4rucCm7cziURERSmm//l6OWeiMs7PZh6LaGx1xVoDM
+ ji0hz4Ur5s6lWTT7ttaUZxms3k0vx4Dfhze2Yz3FPJWpvBWUp8pfeZBIHlTxXQZlReOb
+ wgbO5pQBggAGRBNjy0RFn4eGFjziy7PrtAHtPeYfhkLyiS8q5De8PFYGfip7OZwoilrL
+ QdVCUr2mZFLYYMALo3Oe67BT5nYGYhfRy67yLqXa/03ZMNQtqw2tr15HuhZuGqgNq/ti
+ oxaQ==
+X-Gm-Message-State: AGi0PuYWiXi473aTYIdqKcax9Te7TGoSzDBrVfJosU05SEstm0LiZieF
+ CyS/72xq8QP5nV0agJhsmZl15g==
+X-Google-Smtp-Source: APiQypI//pOtyMwKjVsVow+4np140pwXpH1ebyPslWByrMVyzbIVabB98l2YWR70QpAl50DQ6nvCTg==
+X-Received: by 2002:a05:600c:225a:: with SMTP id
+ a26mr3811166wmm.104.1586936454521; 
+ Wed, 15 Apr 2020 00:40:54 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u30sm1878552wru.13.2020.04.15.00.40.52
+ by smtp.gmail.com with ESMTPSA id u30sm1878552wru.13.2020.04.15.00.40.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Apr 2020 00:40:52 -0700 (PDT)
+ Wed, 15 Apr 2020 00:40:53 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH 12/59] drm/udl: don't set drm_device->dev_private
-Date: Wed, 15 Apr 2020 09:39:47 +0200
-Message-Id: <20200415074034.175360-13-daniel.vetter@ffwll.ch>
+Subject: [PATCH 13/59] drm/st7735r: Use devm_drm_dev_alloc
+Date: Wed, 15 Apr 2020 09:39:48 +0200
+Message-Id: <20200415074034.175360-14-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
 References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
@@ -63,85 +64,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Emil Velikov <emil.l.velikov@gmail.com>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
+ David Lechner <david@lechnology.com>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Alexios Zavras <alexios.zavras@intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Dave Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>, Allison Randal <allison@lohutok.net>,
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UncmUgbW9zdGx5IHRoZXJlIGFscmVhZHksIGp1c3QgYSBoYW5kZnVsIG9mIHBsYWNlcyB0aGF0
-IGRpZG4ndCB1c2UKdGhlIHRvX3VkbCBjb250YWluZXJfb2YgY2FzdC4gVG8gbWFrZSBzdXJlIG5v
-IG5ldyBhcHBlYXIsIGRvbid0IHNldAotPmRldl9wcml2YXRlLgoKUmV2aWV3ZWQtYnk6IFRob21h
-cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpBY2tlZC1ieTogU2FtIFJhdm5ib3Jn
-IDxzYW1AcmF2bmJvcmcub3JnPgpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
-dmV0dGVyQGludGVsLmNvbT4KQ2M6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+CkNj
-OiBTZWFuIFBhdWwgPHNlYW5AcG9vcmx5LnJ1bj4KQ2M6IEVtaWwgVmVsaWtvdiA8ZW1pbC5sLnZl
-bGlrb3ZAZ21haWwuY29tPgpDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
-ZGU+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpDYzogQWxleGlv
-cyBaYXZyYXMgPGFsZXhpb3MuemF2cmFzQGludGVsLmNvbT4KQ2M6IExhdXJlbnQgUGluY2hhcnQg
-PGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KQ2M6IFRob21hcyBHbGVpeG5lciA8
-dGdseEBsaW51dHJvbml4LmRlPgpDYzogIkpvc8OpIFJvYmVydG8gZGUgU291emEiIDxqb3NlLnNv
-dXphQGludGVsLmNvbT4KQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KQ2M6IEdl
-cmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgpDYzogQWxsaXNvbiBSYW5kYWwgPGFsbGlz
-b25AbG9odXRvay5uZXQ+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfY29ubmVjdG9yLmMg
-fCA0ICsrLS0KIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jICAgICAgIHwgMSAtCiBkcml2
-ZXJzL2dwdS9kcm0vdWRsL3VkbF9tb2Rlc2V0LmMgICB8IDYgKysrLS0tCiAzIGZpbGVzIGNoYW5n
-ZWQsIDUgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vdWRsL3VkbF9jb25uZWN0b3IuYyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Nv
-bm5lY3Rvci5jCmluZGV4IDBhZmRmYjBkMWZlMS4uY2RjMWM0MmUxNjY5IDEwMDY0NAotLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9jb25uZWN0b3IuYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
-dWRsL3VkbF9jb25uZWN0b3IuYwpAQCAtNTksNyArNTksNyBAQCBzdGF0aWMgaW50IHVkbF9nZXRf
-bW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikKIHN0YXRpYyBlbnVtIGRybV9t
-b2RlX3N0YXR1cyB1ZGxfbW9kZV92YWxpZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9y
-LAogCQkJICBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSkKIHsKLQlzdHJ1Y3QgdWRsX2Rl
-dmljZSAqdWRsID0gY29ubmVjdG9yLT5kZXYtPmRldl9wcml2YXRlOworCXN0cnVjdCB1ZGxfZGV2
-aWNlICp1ZGwgPSB0b191ZGwoY29ubmVjdG9yLT5kZXYpOwogCWlmICghdWRsLT5za3VfcGl4ZWxf
-bGltaXQpCiAJCXJldHVybiAwOwogCkBAIC03Miw3ICs3Miw3IEBAIHN0YXRpYyBlbnVtIGRybV9t
-b2RlX3N0YXR1cyB1ZGxfbW9kZV92YWxpZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9y
-LAogc3RhdGljIGVudW0gZHJtX2Nvbm5lY3Rvcl9zdGF0dXMKIHVkbF9kZXRlY3Qoc3RydWN0IGRy
-bV9jb25uZWN0b3IgKmNvbm5lY3RvciwgYm9vbCBmb3JjZSkKIHsKLQlzdHJ1Y3QgdWRsX2Rldmlj
-ZSAqdWRsID0gY29ubmVjdG9yLT5kZXYtPmRldl9wcml2YXRlOworCXN0cnVjdCB1ZGxfZGV2aWNl
-ICp1ZGwgPSB0b191ZGwoY29ubmVjdG9yLT5kZXYpOwogCXN0cnVjdCB1ZGxfZHJtX2Nvbm5lY3Rv
-ciAqdWRsX2Nvbm5lY3RvciA9CiAJCQkJCWNvbnRhaW5lcl9vZihjb25uZWN0b3IsCiAJCQkJCXN0
-cnVjdCB1ZGxfZHJtX2Nvbm5lY3RvciwKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91ZGwv
-dWRsX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmMKaW5kZXggNTIzZjYwZTAy
-YTg1Li5kMWFhNTBmZDZkNjUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Ry
-di5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5jCkBAIC02Myw3ICs2Myw2IEBA
-IHN0YXRpYyBzdHJ1Y3QgdWRsX2RldmljZSAqdWRsX2RyaXZlcl9jcmVhdGUoc3RydWN0IHVzYl9p
-bnRlcmZhY2UgKmludGVyZmFjZSkKIAkJcmV0dXJuIHVkbDsKIAogCXVkbC0+dWRldiA9IHVkZXY7
-Ci0JdWRsLT5kcm0uZGV2X3ByaXZhdGUgPSB1ZGw7CiAKIAlyID0gdWRsX2luaXQodWRsKTsKIAlp
-ZiAocikKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21vZGVzZXQuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS91ZGwvdWRsX21vZGVzZXQuYwppbmRleCA4Y2FkMDFmM2QxNjMuLjk5NTE4
-YTgyNjQzNSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbW9kZXNldC5jCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX21vZGVzZXQuYwpAQCAtMjE1LDcgKzIxNSw3IEBA
-IHN0YXRpYyBjaGFyICp1ZGxfZHVtbXlfcmVuZGVyKGNoYXIgKndycHRyKQogc3RhdGljIGludCB1
-ZGxfY3J0Y193cml0ZV9tb2RlX3RvX2h3KHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKIHsKIAlzdHJ1
-Y3QgZHJtX2RldmljZSAqZGV2ID0gY3J0Yy0+ZGV2OwotCXN0cnVjdCB1ZGxfZGV2aWNlICp1ZGwg
-PSBkZXYtPmRldl9wcml2YXRlOworCXN0cnVjdCB1ZGxfZGV2aWNlICp1ZGwgPSB0b191ZGwoZGV2
-KTsKIAlzdHJ1Y3QgdXJiICp1cmI7CiAJY2hhciAqYnVmOwogCWludCByZXR2YWw7CkBAIC0zNjks
-NyArMzY5LDcgQEAgdWRsX3NpbXBsZV9kaXNwbGF5X3BpcGVfZW5hYmxlKHN0cnVjdCBkcm1fc2lt
-cGxlX2Rpc3BsYXlfcGlwZSAqcGlwZSwKIAlzdHJ1Y3QgZHJtX2NydGMgKmNydGMgPSAmcGlwZS0+
-Y3J0YzsKIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gY3J0Yy0+ZGV2OwogCXN0cnVjdCBkcm1f
-ZnJhbWVidWZmZXIgKmZiID0gcGxhbmVfc3RhdGUtPmZiOwotCXN0cnVjdCB1ZGxfZGV2aWNlICp1
-ZGwgPSBkZXYtPmRldl9wcml2YXRlOworCXN0cnVjdCB1ZGxfZGV2aWNlICp1ZGwgPSB0b191ZGwo
-ZGV2KTsKIAlzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSA9ICZjcnRjX3N0YXRlLT5tb2Rl
-OwogCWNoYXIgKmJ1ZjsKIAljaGFyICp3cnB0cjsKQEAgLTQ2NCw3ICs0NjQsNyBAQCBzdGF0aWMg
-Y29uc3Qgc3RydWN0IGRybV9tb2RlX2NvbmZpZ19mdW5jcyB1ZGxfbW9kZV9mdW5jcyA9IHsKIGlu
-dCB1ZGxfbW9kZXNldF9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCiB7CiAJc2l6ZV90IGZv
-cm1hdF9jb3VudCA9IEFSUkFZX1NJWkUodWRsX3NpbXBsZV9kaXNwbGF5X3BpcGVfZm9ybWF0cyk7
-Ci0Jc3RydWN0IHVkbF9kZXZpY2UgKnVkbCA9IGRldi0+ZGV2X3ByaXZhdGU7CisJc3RydWN0IHVk
-bF9kZXZpY2UgKnVkbCA9IHRvX3VkbChkZXYpOwogCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25u
-ZWN0b3I7CiAJaW50IHJldDsKIAotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+Already using devm_drm_dev_init, so very simple replacment.
+
+Aside: There was an oddity in the old code, we allocated priv but in
+the error path we've freed priv->dbidev ...
+
+Acked-by: David Lechner <david@lechnology.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: David Lechner <david@lechnology.com>
+---
+ drivers/gpu/drm/tiny/st7735r.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
+index 631801c36f46..ccbf49a53202 100644
+--- a/drivers/gpu/drm/tiny/st7735r.c
++++ b/drivers/gpu/drm/tiny/st7735r.c
+@@ -195,21 +195,16 @@ static int st7735r_probe(struct spi_device *spi)
+ 	if (!cfg)
+ 		cfg = (void *)spi_get_device_id(spi)->driver_data;
+ 
+-	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+-	if (!priv)
+-		return -ENOMEM;
++	priv = devm_drm_dev_alloc(dev, &st7735r_driver,
++				  struct st7735r_priv, dbidev.drm);
++	if (IS_ERR(priv))
++		return PTR_ERR(priv);
+ 
+ 	dbidev = &priv->dbidev;
+ 	priv->cfg = cfg;
+ 
+ 	dbi = &dbidev->dbi;
+ 	drm = &dbidev->drm;
+-	ret = devm_drm_dev_init(dev, drm, &st7735r_driver);
+-	if (ret) {
+-		kfree(dbidev);
+-		return ret;
+-	}
+-	drmm_add_final_kfree(drm, dbidev);
+ 
+ 	dbi->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(dbi->reset)) {
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
