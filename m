@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C241AB91C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 09:00:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9344D1AAB86
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 17:12:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13A6C6EB11;
-	Thu, 16 Apr 2020 06:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56BD36EA0B;
+	Wed, 15 Apr 2020 15:12:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 535F96EA0C
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 15:10:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1586963413;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=Q34KzgY6NfPQVgFm3W+dvYTabU2j2V7jhKL4UKLxuBE=;
- b=o0GNznUypLn4x1ET3a1iUM7hTTcuase+apk72Fvc+RiOjyR0ysHJpnw1JIWlJezMF7
- K2YquEaIErWVeVNsN8yzv365Qk1SJrEl+mcSMnU+b6dE6q6xqrQPPx8DOxjeE8RIuhXr
- X5XrGrzvid0QN8onzwiYGDm1cm/GVINrS4GuJ0EkEcJjf6UisQ91bYR4PBtzFa3a5d7F
- 4+axG716XunQfYMyAlLW9zF4uTYdG3LQWhgvkpuSUBlDn57krx+5CtGqsugmxGFNHsue
- KYmBpoGlMXSsxb7OBuEslUSLKS23XYaXbvkLvHP+eDjmdsG9CKHehIU6LPDFgIMCaw6o
- FxlQ==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGH/PtwDConyM="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.4.0 DYNA|AUTH)
- with ESMTPSA id 6028a2w3FF9k2b9
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 15 Apr 2020 17:09:46 +0200 (CEST)
-Subject: Re: [PATCH v6 01/12] dt-bindings: add img,
- pvrsgx.yaml for Imagination GPUs
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20200415142124.yzfh6mtqq7cdq22e@gilmour.lan>
-Date: Wed, 15 Apr 2020 17:09:45 +0200
-Message-Id: <DC0A2DE2-3D77-46F8-8DE1-55050FDACC9B@goldelico.com>
-References: <cover.1586939718.git.hns@goldelico.com>
- <06fb6569259bb9183d0a0d0fe70ec4f3033b8aab.1586939718.git.hns@goldelico.com>
- <20200415101251.o3wi5t6xvf56xmhq@gilmour.lan>
- <72919514-0657-4B71-902F-3E775E528F64@goldelico.com>
- <f4fdca8a-d18c-a8d2-7f51-d1ebbbab3647@baylibre.com>
- <535CAEBE-F43E-4BFC-B989-612C81F0D7EF@goldelico.com>
- <20200415142124.yzfh6mtqq7cdq22e@gilmour.lan>
-To: Maxime Ripard <maxime@cerno.tech>
-X-Mailer: Apple Mail (2.3124)
-X-Mailman-Approved-At: Thu, 16 Apr 2020 06:59:07 +0000
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+ [209.85.210.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77CAB6EA0B
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 15:12:40 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id f52so208518otf.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 08:12:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ZFCMh2H9Eh+ryRXkXK/V7+2w4B+PUgVzUEm1sj08lm0=;
+ b=nrbDKPV2n/SQ4di/0K44jxB8Q98qNM04RoPHiMKXwffgxtMg5l8cokUsQjEPHHEg9t
+ tnaggFNWlGvDaLUgNgJS/ondDkJ10OrG2v8SptarmUNd4l0Z0TBgOXZqgczUNpX2O005
+ LbdsdgXyDxD2F8EqgKdSQdjWhMO9Rr/Ua7qRaubqKavdv0IUbpQ+swKn86FwkvnwM48d
+ GmfRI2my4pdY4zC6HHM9XK8z6SwgalP/7cFIwb0lCsOhEqDqaDPFbM5Vnsao8r3vtTzu
+ PRHB4oBCnrSlOit99CSBZawuFUT37xQscJXtW0vUdR5glkWgUueFFaoarWabsNNsa6Hy
+ ByUg==
+X-Gm-Message-State: AGi0PuboeJ03NV+pXVTuMI0XCWcQW4Dsp6KLKk+yl/BqIyyHBoLx5aaC
+ l25ScoEmprAkb8QlaGZerQ==
+X-Google-Smtp-Source: APiQypIKxwXtUrjwfyuCqVzzKfMogJVdKDlcIeltnelwgqKhG6bH+DblCsEbrigze1USzStBxtor4A==
+X-Received: by 2002:a9d:4102:: with SMTP id o2mr22206640ote.98.1586963559689; 
+ Wed, 15 Apr 2020 08:12:39 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id r205sm6395829oih.47.2020.04.15.08.12.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Apr 2020 08:12:35 -0700 (PDT)
+Received: (nullmailer pid 30324 invoked by uid 1000);
+ Wed, 15 Apr 2020 15:12:34 -0000
+Date: Wed, 15 Apr 2020 10:12:34 -0500
+From: Rob Herring <robh@kernel.org>
+To: Kiran Gunda <kgunda@codeaurora.org>
+Subject: Re: [PATCH V5 3/4] backlight: qcom-wled: Add WLED5 bindings
+Message-ID: <20200415151234.GA25862@bogus>
+References: <1586274430-28402-1-git-send-email-kgunda@codeaurora.org>
+ <1586274430-28402-4-git-send-email-kgunda@codeaurora.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1586274430-28402-4-git-send-email-kgunda@codeaurora.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,157 +61,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- James Hogan <jhogan@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- linux-samsung-soc@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
- linux-mips@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
- =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- kernel@pyra-handheld.com, letux-kernel@openphoenux.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ daniel.thompson@linaro.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+ linux-arm-msm@vger.kernel.org,
+ Subbaraman Narayanamurthy <subbaram@codeaurora.org>, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-> Am 15.04.2020 um 16:21 schrieb Maxime Ripard <maxime@cerno.tech>:
+On Tue, Apr 07, 2020 at 09:17:09PM +0530, Kiran Gunda wrote:
+> Add WLED5 specific bindings.
 > 
->> 
->> Well we could add clocks and resets as optional but that would
->> allow to wrongly define omap.
->> 
->> Or delegate them to a parent "simple-pm-bus" node.
->> 
->> I have to study that material more to understand what you seem
->> to expect.
+
+checkpatch.pl complains about some trailing whitespace. The previous 
+patch too.
+
+> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+> Signed-off-by: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+> ---
+>  .../bindings/leds/backlight/qcom-wled.yaml         | 60 ++++++++++++++++++++--
+>  1 file changed, 57 insertions(+), 3 deletions(-)
 > 
-> The thing is, once that binding is in, it has to be backward
-> compatible. So every thing that you leave out is something that you'll
-> need to support in the driver eventually.
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+> index 770e780..5714631 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+> +++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+> @@ -21,6 +21,7 @@ properties:
+>        - qcom,pm8941-wled
+>        - qcom,pmi8998-wled
+>        - qcom,pm660l-wled
+> +      - qcom,pm8150l-wled
+>  
+>    reg:
+>      maxItems: 1
+> @@ -28,12 +29,13 @@ properties:
+>    default-brightness:
+>      description:
+>        brightness value on boot.
+> -    minimum: 0
+> -    maximum: 4095
+> -    default: 2048
+>  
+>    label: true
+>  
+> +  max-brightness:
+> +    description:
+> +      Maximum brightness level.
+> +
+>    qcom,cs-out:
+>      description:
+>        enable current sink output.
+> @@ -130,6 +132,31 @@ properties:
+>        This feature is not supported for WLED3.
+>      type: boolean
+>  
+> +  qcom,modulator-sel:
+> +    description:
 
+Need a '|' at the end to preserve formatting.
+
+> +      Selects the modulator used for brightness modulation.
+> +      Allowed values are,
+> +           0 - Modulator A
+> +           1 - Modulator B
+> +      This property is applicable only to WLED5 peripheral.
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +      - enum: [ 0, 1 ]
+> +      - default: 0
+> +
+> +  qcom,cabc-sel:
+> +    description:
+
+Need a '|'.
+
+> +      Selects the CABC pin signal used for brightness modulation.
+> +      Allowed values are,
+> +           0 - CABC disabled
+> +           1 - CABC 1
+> +           2 - CABC 2
+> +           3 - External signal (e.g. LPG) is used for dimming
+> +      This property is applicable only to WLED5 peripheral.
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +      - enum: [ 0, 1, 2, 3 ]
+> +
+>  allOf:
+>    - if:
+>        properties:
+> @@ -179,6 +206,33 @@ allOf:
+>              - const: ovp
+>              - const: short
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,pm8150l-wled
+> +
+> +    then:
+> +      properties:
+> +        default-brightness:
+> +          minimum: 0
+> +          maximum: 32767
+> +        
+> +        max-brightness:
+> +          minimum: 0
+> +          maximum: 32767
+> +
+> +    else:
+> +      properties:
+> +        default-brightness:
+> +            minimum: 0
+> +            maximum: 4095
+
+Wrong indentation.
+
+> +        
+> +        max-brightness:
+> +          minimum: 0
+> +          maximum: 4095
+> +
+>  required:
+>    - compatible
+>    - reg
+> -- 
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+>  a Linux Foundation Collaborative Project
 > 
-> If you don't want it to be a complete nightmare, you'll want to figure
-> out as much as possible on how the GPU is integrated and make a
-> binding out of that.
-
-Hm. Yes. We know that there likely are clocks and maybe reset
-but for some SoC this seems to be undocumented and the reset
-line the VHDL of the sgx gpu provides may be permanently tied
-to "inactive".
-
-So if clocks are optional and not provided, a driver simply can assume
-they are enabled somewhere else and does not have to care about. If
-they are specified, the driver can enable/disable them.
-
-> If OMAP is too much of a pain, you can also make
-> a separate binding for it, and a generic one for the rest of us.
-
-No, omap isn't any pain at all.
-
-The pain is that some other SoC are most easily defined by clocks in
-the gpu node which the omap doesn't need to explicitly specify.
-
-I would expect a much bigger nightmare if we split this into two
-bindings variants.
-
-> I'd say that it's pretty unlikely that the clocks, interrupts (and
-> even regulators) are optional. It might be fixed on some SoCs, but
-> that's up to the DT to express that using fixed clocks / regulators,
-> not the GPU binding itself.
-
-omap already has these defined them not to be part of the GPU binding.
-The reason seems to be that this needs special clock gating control
-especially for idle states which is beyond simple clock-enable.
-
-This sysc target-module@56000000 node is already merged and therefore
-we are only adding the gpu child node. Without defining clocks.
-
-For example:
-
-		sgx_module: target-module@56000000 {
-			compatible = "ti,sysc-omap4", "ti,sysc";
-			reg = <0x5600fe00 0x4>,
-			      <0x5600fe10 0x4>;
-			reg-names = "rev", "sysc";
-			ti,sysc-midle = <SYSC_IDLE_FORCE>,
-					<SYSC_IDLE_NO>,
-					<SYSC_IDLE_SMART>;
-			ti,sysc-sidle = <SYSC_IDLE_FORCE>,
-					<SYSC_IDLE_NO>,
-					<SYSC_IDLE_SMART>;
-			clocks = <&gpu_clkctrl OMAP5_GPU_CLKCTRL 0>;
-			clock-names = "fck";
-			#address-cells = <1>;
-			#size-cells = <1>;
-			ranges = <0 0x56000000 0x2000000>;
-
-			gpu: gpu@0 {
-				compatible = "ti,omap5-sgx544-116", "img,sgx544-116", "img,sgx544";
-				reg = <0x0 0x10000>;
-				interrupts = <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
-			};
-		};
-
-The jz4780 example will like this:
-
-	gpu: gpu@13040000 {
-		compatible = "ingenic,jz4780-sgx540-130", "img,sgx540-130", "img,sgx540";
-		reg = <0x13040000 0x4000>;
-
-		clocks = <&cgu JZ4780_CLK_GPU>;
-		clock-names = "gpu";
-
-		interrupt-parent = <&intc>;
-		interrupts = <63>;
-	};
-
-So the question is which one is "generic for the rest of us"?
-
-And how can we make a single binding for the sgx. Not one for each
-special SoC variant that may exist.
-
-IMHO the best answer is to make clocks an optional property.
-Or if we do not want to define them explicitly, we use
-additionalProperties: true.
-
-An alternative could be to use a simple-pm-bus like:
-
-	sgx_module: sgx_module@13040000 {
-		compatible = "simple-pm-bus";
-
-		clocks = <&cgu JZ4780_CLK_GPU>;
-		clock-names = "gpu";
-		
-		#address-cells = <1>;
-		#size-cells = <1>;
-		ranges = <0 0x13040000 0x10000>;
-
-		gpu: gpu@0 {
-			compatible = "ingenic,jz4780-sgx540-130", "img,sgx540-130", "img,sgx540";
-			reg = <0x0 0x4000>;
-
-			interrupt-parent = <&intc>;
-			interrupts = <63>;
-		};
-	};
-
-This gets rid of any clock, reset and pm definitions for the sgx bindings.
-But how this is done is outside this sgx bindings.
-
-With such a scheme, the binding I propose here would be complete and fully
-generic. We can even add additionalProperties: false.
-
-BR,
-Nikolaus
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
