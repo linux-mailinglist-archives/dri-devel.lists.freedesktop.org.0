@@ -2,78 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E17C1AA2B3
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 15:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057B21AA2B6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 15:04:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DAE06E9DB;
-	Wed, 15 Apr 2020 13:03:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 046956E9DE;
+	Wed, 15 Apr 2020 13:03:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97D046E9DB
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 13:03:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586955781;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qPRnCQyTy0lozHXpxaHNgT4K4emDups1HsgpbCCiNIM=;
- b=ABAuXmg55L5o2FKTUHiL9WKU9UWRucUeB283gBzpZ0RHtfF1MrTX3t6iksiKQxd45dNqfK
- j4Vcf+G3Iw9h+uKAxpbdpthsM1dJkg9S9XDpsET/VOb/uFIfjH5Rwebl9ePAixDW+D8DjJ
- +SyFShl5WNykzHnscEIT3I2FIwOXUBA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-F8PaAM33PuCgViREiW0r4A-1; Wed, 15 Apr 2020 09:02:59 -0400
-X-MC-Unique: F8PaAM33PuCgViREiW0r4A-1
-Received: by mail-wr1-f70.google.com with SMTP id j16so9847174wrw.20
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 06:02:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qPRnCQyTy0lozHXpxaHNgT4K4emDups1HsgpbCCiNIM=;
- b=V0iQqi5AYVGhV1uEtCoHExWASkzmGvpwHgrXxqvkquYF22xGUPuKv/+Dtu3IAxnDYF
- yieRLBd0Emmv6RGJSk35JNTOBsBK4lrDoc1SV6dJzV4UKu0Xq+iANAJOLeeqG4cbgLwL
- o7HAJZPzJO127zQ6QM9+iHLCIeMMlviCmqAFVurQVADgasGdMN0sx1Z08ZFKDgUIWnD2
- l65Y/vc4TsF1iCJIwirg1C2Mc5LJJUTpdWCsDjvVPFeCpt3UXb/dTFia8uoA9TWewzL4
- MX/sLk26//139XIa2O1il1ZmqKjfdw9sm6XL0n3VuC6vtGe8oqaA+H2zCPN9vIaH2H4i
- 3lzw==
-X-Gm-Message-State: AGi0PuYV2l/BZBd607uEYaR6X5TZondrx7ez4E5NFErHP22wWAUp4MHb
- f0NZ/ORlPGshiG4FH4/HnyDrrqhMyYJSW87Ins+YfTLc7AJBUxcd5n5gKUMzNMzVqNK4jAuURj0
- n6VYDBiHB/PQR2v69F2iM0uBy7Ncq
-X-Received: by 2002:a7b:cbc6:: with SMTP id n6mr5507545wmi.155.1586955778663; 
- Wed, 15 Apr 2020 06:02:58 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJNH12nbw3KgGEDNh8UX4CL4lp2KILn9SiA4zWsCw6oBZCrlFlqgV4cgMCGePEP4y2+WbupjA==
-X-Received: by 2002:a7b:cbc6:: with SMTP id n6mr5507512wmi.155.1586955778380; 
- Wed, 15 Apr 2020 06:02:58 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
- by smtp.gmail.com with ESMTPSA id b66sm23416430wmh.12.2020.04.15.06.02.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Apr 2020 06:02:57 -0700 (PDT)
-Subject: Re: RFC: Drm-connector properties managed by another driver / privacy
- screen support
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CEF86E9DE
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 13:03:58 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 118BA2D1;
+ Wed, 15 Apr 2020 15:03:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1586955836;
+ bh=LPjiT1voMrDQdQXzURCSNeh+rheQ2Xf9K/wbwziFDVQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lrtzKsCs1oR2/dj00Qtqy4waPJFVwVUpky/0yfPHLPyBWV2eQwcHFbpyxSDHJzhlF
+ v6rWeFSnMQawrbqWPsuFctoADmgBCpxyfx1GC5qmFGVntVfWUXgjpEImR/A/V6wC1x
+ PNionP1KOY47rnqKSzuj/ivSV8k4b9THEg11kdoM=
+Date: Wed, 15 Apr 2020 16:03:44 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Daniel Vetter <daniel@ffwll.ch>
-References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
- <CAKMK7uFzA-2GEvAftNEysHZvPovxfXC2eC8y5VSa8RAUjMWoYg@mail.gmail.com>
- <a2516eed-d7a7-c0a4-d287-5927aadf1d18@redhat.com>
- <CAKMK7uESUVHLwMDujCDvapOBZ+Lnp1k-5juxQxcsNj+1QuN0Ww@mail.gmail.com>
- <a053e2a7-77c8-8874-eaf8-afe970ad8f9c@redhat.com>
- <20200415120135.GB3456981@phenom.ffwll.local>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <794191aa-e92d-d44c-f4ff-72fd6c9bf0e7@redhat.com>
-Date: Wed, 15 Apr 2020 15:02:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Subject: Re: [PATCH] drm/tidss: fix crash related to accessing freed memory
+Message-ID: <20200415130344.GD4758@pendragon.ideasonboard.com>
+References: <20200415092006.26675-1-tomi.valkeinen@ti.com>
+ <20200415124550.GC4758@pendragon.ideasonboard.com>
+ <20200415125243.GE3456981@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <20200415120135.GB3456981@phenom.ffwll.local>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <20200415125243.GE3456981@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,143 +47,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Berg <bberg@redhat.com>, David Airlie <airlied@linux.ie>,
- Christian Kellner <ckellner@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Nitin Joshi1 <njoshi1@lenovo.com>,
- Rajat Jain <rajatja@google.com>, Mark Pearson <mpearson@lenovo.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Daniel,
 
-On 4/15/20 2:01 PM, Daniel Vetter wrote:
-> On Wed, Apr 15, 2020 at 01:39:23PM +0200, Hans de Goede wrote:
->> Hi,
->>
->> On 4/15/20 12:22 PM, Daniel Vetter wrote:
->>> On Wed, Apr 15, 2020 at 12:11 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>>>
->>>> Hi,
->>>>
->>>> On 4/15/20 11:52 AM, Daniel Vetter wrote:
->>
->> <snip>
->>
->>>>> iv. What every SoC subsystem does:
->>>>>
->>>>> - lcdshadow drivers register drivers
->>>>> - drm drivers look them up
->>>>> - if stuff isn't there yet, we delay loading with EPROBE_DEFER until
->>>>> the entire thing is assembled.
->>>>>
->>>>> That's what we're doing already for other standardized components like
->>>>> drm_bridge or drm_panel, and I think that's also the right approach
->>>>> for backlight and anything else like that. Hand-rolling our own
->>>>> EPROBE_DEFER handling, or some other duct-tape monsters imo just leads
->>>>> to real pain. Also, with EPROBE_DEFER we have one standard way of
->>>>> building a driver from component, which spans subsystems and is also
->>>>> the underlying magic that makes stuff like component.c work.
->>>>
->>>> On the SoCs we have devicetree telling us what components there
->>>> are, so we can wait for them to show up. The only way to figure out
->>>> if the lcdshadow thing is there on a ThinkPad is asking thinkpad_acpi,
->>>> or duplicating a lot of code from thinkpad_acpi. Edit:
->>>> also see below for a possible solution.
->>>
->>> Yup it sucks. I think all we can do is have a small acpi match
->>> function (which yes will duplicate some of the thinkpad_acpi driver
->>> logic) to re-create that information and give us a "should we have a
->>> lcdshadow driver for this $pci_device" answer.
->>
->> Ok, so questions about this solution:
->>
->> 1. Where should that match-function live ?
->>
->> 2. An acpi_thinkpad derived match-function will only be able to
->>     answer if there is an lcdshadow device/driver for the internal
->>     panel. It will not be able to tie this info to a certain PCI
->>     device. My plan is to pass NULL as dev_name when registering
->>     the lcdshadow-device and have lcdshadow_get(dev, <connector-name>)
->>     skip device-name matching (consider everything a match) for
->>     lcdshadow-devices registered with NULL as dev_name.
->>
->>     So I guess in this case the mini match function should just
->>     ignore the passed in device?
+On Wed, Apr 15, 2020 at 02:52:43PM +0200, Daniel Vetter wrote:
+> On Wed, Apr 15, 2020 at 03:45:50PM +0300, Laurent Pinchart wrote:
+> > On Wed, Apr 15, 2020 at 12:20:06PM +0300, Tomi Valkeinen wrote:
+> >> tidss uses devm_kzalloc to allocate DRM plane, encoder and crtc objects.
+> >> This is not correct as the lifetime of those objects should be longer
+> >> than the underlying device's.
+> >> 
+> >> When unloading tidss module, the devm_kzalloc'ed objects have already
+> >> been freed when tidss_release() is called, and the driver will accesses
+> >> freed memory possibly causing a crash, a kernel WARN, or other undefined
+> >> behavior, and also KASAN will give a bug.
+> >> 
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> >> ---
+> >>  drivers/gpu/drm/tidss/tidss_crtc.c    | 16 +++++++++++++---
+> >>  drivers/gpu/drm/tidss/tidss_encoder.c | 14 +++++++++++---
+> >>  drivers/gpu/drm/tidss/tidss_plane.c   | 24 ++++++++++++++++++------
+> >>  3 files changed, 42 insertions(+), 12 deletions(-)
+> >> 
+> >> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+> >> index d4ce9bab8c7e..3221a707e073 100644
+> >> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> >> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> >> @@ -379,9 +379,17 @@ static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
+> >>  	return &state->base;
+> >>  }
+> >>  
+> >> +static void tidss_crtc_destroy(struct drm_crtc *crtc)
+> >> +{
+> >> +	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+> >> +
+> >> +	drm_crtc_cleanup(crtc);
+> >> +	kfree(tcrtc);
+> > 
+> > I would personally store the CRTC pointers, or embed the CRTC instances
+> > in the tidss_device structure, and free everything in the top-level
+> > tidss_release() handler, to avoid spreading the release code all around
+> > the driver. Same for planes and encoders. It may be a matter of personal
+> > taste though, but it would allow dropping the kfree() calls in
+> > individual error paths and centralize them in a single place if you
+> > store the allocated pointer in tidss_device right after allocation.
 > 
-> Yeah I think we can't really avoid that. I also expect that we'll need
-> ACPI and dt versions of this, and driver needs to know which one to call.
-> Since at least in a dt world the driver knows exactly for which dt node it
-> needs a lcdshadow driver for (with the phandle stuff), so we can be a lot
-> more strict.
+> I'm working (well plan to at least) on some nice infrastructure so that
+> all this can be garbage collected again. I think embeddeding into the
+> top-level structure is only neat if you have a very simple device (and
+> then maybe just embed the drm_simple_kms thing). tidss didn't look quite
+> that simple, but maybe I'm missing the big picture ...
+
+I think embedding is the best option when you have a fixed number of
+CRTCs, encoders and planes. If they're variable but reasonably bounded,
+embedding will waste a bit of memory, but massively simplify the code.
+Even with the helpers you're working on, it will save memory as devres
+allocates memory to track objects, and will certainly save CPU time too,
+so it could be a net gain in the end. That's the method I recommend if
+it can be used, but it may be a matter of taste.
+
+> Oh and on the patch:
 > 
-> For the acpi version I'm not even sure we can do more than provide the
-> struct device * pointer of the gpu. I think if we ever get more than 1
-> lcdshadow driver on acpi systems we can add more stuff later on, for now
-> I'd just leave that out.
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > 
-> So maybe
-> 
-> acpi_lcdshadow_get(struct device *dev);
-> 
-> of_lcdshadow_get(struct device_node *np);
-> 
-> And with maybe a future plan to add some kind of enum or whatever to
-> acpi_lcdshadow_get(). Both would return either the lcdshadow pointer, or
-> an PTR_ERR() so that we could encode EPROBE_DEFER vs ENOENT.
+> >> +}
+> >> +
+> >>  static const struct drm_crtc_funcs tidss_crtc_funcs = {
+> >>  	.reset = tidss_crtc_reset,
+> >> -	.destroy = drm_crtc_cleanup,
+> >> +	.destroy = tidss_crtc_destroy,
+> >>  	.set_config = drm_atomic_helper_set_config,
+> >>  	.page_flip = drm_atomic_helper_page_flip,
+> >>  	.atomic_duplicate_state = tidss_crtc_duplicate_state,
+> >> @@ -400,7 +408,7 @@ struct tidss_crtc *tidss_crtc_create(struct tidss_device *tidss,
+> >>  	bool has_ctm = tidss->feat->vp_feat.color.has_ctm;
+> >>  	int ret;
+> >>  
+> >> -	tcrtc = devm_kzalloc(tidss->dev, sizeof(*tcrtc), GFP_KERNEL);
+> >> +	tcrtc = kzalloc(sizeof(*tcrtc), GFP_KERNEL);
+> >>  	if (!tcrtc)
+> >>  		return ERR_PTR(-ENOMEM);
+> >>  
+> >> @@ -411,8 +419,10 @@ struct tidss_crtc *tidss_crtc_create(struct tidss_device *tidss,
+> >>  
+> >>  	ret = drm_crtc_init_with_planes(&tidss->ddev, crtc, primary,
+> >>  					NULL, &tidss_crtc_funcs, NULL);
+> >> -	if (ret < 0)
+> >> +	if (ret < 0) {
+> >> +		kfree(tcrtc);
+> >>  		return ERR_PTR(ret);
+> >> +	}
+> >>  
+> >>  	drm_crtc_helper_add(crtc, &tidss_crtc_helper_funcs);
+> >>  
+> >> diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
+> >> index 83785b0a66a9..30bf2a65949c 100644
+> >> --- a/drivers/gpu/drm/tidss/tidss_encoder.c
+> >> +++ b/drivers/gpu/drm/tidss/tidss_encoder.c
+> >> @@ -55,12 +55,18 @@ static int tidss_encoder_atomic_check(struct drm_encoder *encoder,
+> >>  	return 0;
+> >>  }
+> >>  
+> >> +static void tidss_encoder_destroy(struct drm_encoder *encoder)
+> >> +{
+> >> +	drm_encoder_cleanup(encoder);
+> >> +	kfree(encoder);
+> >> +}
+> >> +
+> >>  static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
+> >>  	.atomic_check = tidss_encoder_atomic_check,
+> >>  };
+> >>  
+> >>  static const struct drm_encoder_funcs encoder_funcs = {
+> >> -	.destroy = drm_encoder_cleanup,
+> >> +	.destroy = tidss_encoder_destroy,
+> >>  };
+> >>  
+> >>  struct drm_encoder *tidss_encoder_create(struct tidss_device *tidss,
+> >> @@ -69,7 +75,7 @@ struct drm_encoder *tidss_encoder_create(struct tidss_device *tidss,
+> >>  	struct drm_encoder *enc;
+> >>  	int ret;
+> >>  
+> >> -	enc = devm_kzalloc(tidss->dev, sizeof(*enc), GFP_KERNEL);
+> >> +	enc = kzalloc(sizeof(*enc), GFP_KERNEL);
+> >>  	if (!enc)
+> >>  		return ERR_PTR(-ENOMEM);
+> >>  
+> >> @@ -77,8 +83,10 @@ struct drm_encoder *tidss_encoder_create(struct tidss_device *tidss,
+> >>  
+> >>  	ret = drm_encoder_init(&tidss->ddev, enc, &encoder_funcs,
+> >>  			       encoder_type, NULL);
+> >> -	if (ret < 0)
+> >> +	if (ret < 0) {
+> >> +		kfree(enc);
+> >>  		return ERR_PTR(ret);
+> >> +	}
+> >>  
+> >>  	drm_encoder_helper_add(enc, &encoder_helper_funcs);
+> >>  
+> >> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
+> >> index ff99b2dd4a17..798488948fc5 100644
+> >> --- a/drivers/gpu/drm/tidss/tidss_plane.c
+> >> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
+> >> @@ -141,6 +141,14 @@ static void tidss_plane_atomic_disable(struct drm_plane *plane,
+> >>  	dispc_plane_enable(tidss->dispc, tplane->hw_plane_id, false);
+> >>  }
+> >>  
+> >> +static void drm_plane_destroy(struct drm_plane *plane)
+> >> +{
+> >> +	struct tidss_plane *tplane = to_tidss_plane(plane);
+> >> +
+> >> +	drm_plane_cleanup(plane);
+> >> +	kfree(tplane);
+> >> +}
+> >> +
+> >>  static const struct drm_plane_helper_funcs tidss_plane_helper_funcs = {
+> >>  	.atomic_check = tidss_plane_atomic_check,
+> >>  	.atomic_update = tidss_plane_atomic_update,
+> >> @@ -151,7 +159,7 @@ static const struct drm_plane_funcs tidss_plane_funcs = {
+> >>  	.update_plane = drm_atomic_helper_update_plane,
+> >>  	.disable_plane = drm_atomic_helper_disable_plane,
+> >>  	.reset = drm_atomic_helper_plane_reset,
+> >> -	.destroy = drm_plane_cleanup,
+> >> +	.destroy = drm_plane_destroy,
+> >>  	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+> >>  	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+> >>  };
+> >> @@ -175,7 +183,7 @@ struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
+> >>  			   BIT(DRM_MODE_BLEND_COVERAGE));
+> >>  	int ret;
+> >>  
+> >> -	tplane = devm_kzalloc(tidss->dev, sizeof(*tplane), GFP_KERNEL);
+> >> +	tplane = kzalloc(sizeof(*tplane), GFP_KERNEL);
+> >>  	if (!tplane)
+> >>  		return ERR_PTR(-ENOMEM);
+> >>  
+> >> @@ -190,7 +198,7 @@ struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
+> >>  				       formats, num_formats,
+> >>  				       NULL, type, NULL);
+> >>  	if (ret < 0)
+> >> -		return ERR_PTR(ret);
+> >> +		goto err;
+> >>  
+> >>  	drm_plane_helper_add(&tplane->plane, &tidss_plane_helper_funcs);
+> >>  
+> >> @@ -203,15 +211,19 @@ struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
+> >>  						default_encoding,
+> >>  						default_range);
+> >>  	if (ret)
+> >> -		return ERR_PTR(ret);
+> >> +		goto err;
+> >>  
+> >>  	ret = drm_plane_create_alpha_property(&tplane->plane);
+> >>  	if (ret)
+> >> -		return ERR_PTR(ret);
+> >> +		goto err;
+> >>  
+> >>  	ret = drm_plane_create_blend_mode_property(&tplane->plane, blend_modes);
+> >>  	if (ret)
+> >> -		return ERR_PTR(ret);
+> >> +		goto err;
+> >>  
+> >>  	return tplane;
+> >> +
+> >> +err:
+> >> +	kfree(tplane);
+> >> +	return ERR_PTR(ret);
+> >>  }
 
-Ok, note I plan to only implement the acpi version for now, I do
-expect some non ACPI/x86 devices to show up with his feature
-eventually but I believe it is best to implement this once
-those actually show up. Esp. since this will also involve adding
-some devicetree bindings for this.
-
-> We might also want a low-level lcdshadow_get() which only returns ENOENT
-> when the driver isn't there, and which leaves "do we really need one?" to
-> higher levels to answer.
-
-Right, so my latest idea on that is indeed a high-level lcdshadow_get()
-which takes a struct device * and a connector-name and which never
-returns EPROBE_DEFER.
-
-As for leaving things to the higher levels to answer, as explained
-in my other follow-up email I think that we should probably add a
-lcdshadow_probe_defer() helper for this and call that early on
-in the PCI-driver probe functions for the 3 major x86 GPU drivers.
-Does that sound ok to you?
-
-> I'd also lean towards putting lcdshadow headers/interfaces into
-> drivers/gpu,
-
-Ack, I think we should even make this drm specific and prefix it with
-drm_ so that we get drm_lcdshadow_foo as functions, just to make
-clear that this is maintained together with the other drm bits.
-
-But my question about "where should this live" was mainly about
-the light weight match helpers you suggested to use to figure out
-if the device supports lcdshadow at all (and we thus should wait
-for a driver) or not. E.g. I can see us adding a:
-
-drivers/gpu/drm/drm_lcdshadow.c
-
-file for the core bits and then maybe a:
-
-drivers/gpu/drm/drm_lcdshadow_detect.c
-
-file with the light weight match helpers, with each helper
-wrapped in #if IS_ENABLED(CONFIG_THINKPAD_ACPI), etc. ?
-
-> with driver implementations all over.
-
-Ack.
-
+-- 
 Regards,
 
-Hans
-
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
