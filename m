@@ -2,39 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC7E1A94F2
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA0E1A950F
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 09:48:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92F4E6E8EA;
-	Wed, 15 Apr 2020 07:41:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45EF06E8E7;
+	Wed, 15 Apr 2020 07:48:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CE436E8E6;
- Wed, 15 Apr 2020 07:41:47 +0000 (UTC)
-IronPort-SDR: JmhIiPPA8kK6llGoMMW2mgbTBxZkfPHuO/vO3rGveW298QeeezJfYaCzQyUpshOVNztaEGxO3V
- vyDqe5HnVvaQ==
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E84CF6E8B2;
+ Wed, 15 Apr 2020 07:48:25 +0000 (UTC)
+IronPort-SDR: dwpJyfeH60hfcJfItdgOV4ZQBJ5nmrKEr6kZOcPN4ThVgfLyF4+QdZPvLlFNubE98ZMlDIOAlV
+ U9Rmi5rNSE5Q==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2020 00:41:46 -0700
-IronPort-SDR: xgNl2Gj6HE2Gw18Pl4vLDPZpmTopzDm+0O6eyyi3TvCEhbIFddpB7JlWvW9q/uchtjVyUU+/tu
- yoYiN1esP0YQ==
-X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; d="scan'208";a="427348570"
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2020 00:48:25 -0700
+IronPort-SDR: Yw3vkIFrF1PjnK/eiFxqhgmc+7IR8tBi1rTI5Hz52EXIJ4rDUpav5BEc3bvDOwwSrCzdtwdflg
+ AfO7UBDPAt8A==
+X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; d="scan'208";a="427350052"
 Received: from ssolodk-mobl1.ccr.corp.intel.com (HELO localhost)
  ([10.252.48.37])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2020 00:41:40 -0700
+ 15 Apr 2020 00:48:20 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Alex Deucher <alexdeucher@gmail.com>, Bernard Zhao <bernard@vivo.com>
-Subject: Re: [PATCH] Optimized division operation to shift operation
-In-Reply-To: <CADnq5_Phca3L-HGOQz0DPBoARHgwcJRK_a7-WmeFMPkrPWeOeg@mail.gmail.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PULL] topic/phy-compliance
+In-Reply-To: <CAKMK7uEWkGA2e2ZV9H0m8ParE_9DNtgAhG3FuqPzvgv-xeVcng@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <1586864113-30682-1-git-send-email-bernard@vivo.com>
- <CADnq5_Phca3L-HGOQz0DPBoARHgwcJRK_a7-WmeFMPkrPWeOeg@mail.gmail.com>
-Date: Wed, 15 Apr 2020 10:41:37 +0300
-Message-ID: <87lfmx5h72.fsf@intel.com>
+References: <efb3d0d9-2cf7-046b-3a9b-2548d086258e@linux.intel.com>
+ <87wo6h5k0d.fsf@intel.com>
+ <CAKMK7uEWkGA2e2ZV9H0m8ParE_9DNtgAhG3FuqPzvgv-xeVcng@mail.gmail.com>
+Date: Wed, 15 Apr 2020 10:48:15 +0300
+Message-ID: <87imi15gw0.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,111 +50,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, David Airlie <airlied@linux.ie>,
- Oak Zeng <Oak.Zeng@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, kernel@vivo.com,
- Huang Rui <ray.huang@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Xiaojie Yuan <xiaojie.yuan@amd.com>,
- Sam Ravnborg <sam@ravnborg.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Kent Russell <kent.russell@amd.com>
+Cc: "DRM maintainer tools announcements, discussion,
+ and development" <dim-tools@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Manasi Navare <manasi.d.navare@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Apr 2020, Alex Deucher <alexdeucher@gmail.com> wrote:
-> On Tue, Apr 14, 2020 at 9:05 AM Bernard Zhao <bernard@vivo.com> wrote:
+On Wed, 15 Apr 2020, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> On Wed, Apr 15, 2020 at 8:40 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
 >>
->> On some processors, the / operate will call the compiler`s div lib,
->> which is low efficient, We can replace the / operation with shift,
->> so that we can replace the call of the division library with one
->> shift assembly instruction.
+>> On Wed, 08 Apr 2020, Maarten Lankhorst <maarten.lankhorst@linux.intel.com> wrote:
+>> > Hey,
+>> >
+>> > Here's a pull request to pull in the DP PHY Compliance series.
+>> > It's based on top of drm/drm-next, and contains all patches for core, amd and i915. :)
+>>
+>> Ping, I don't see this merged in any tree yet.
+>
+> Generally topic pull requests get pulled into all relevant trees,
+> which would be drm-misc, drm-intel and drm-amd here. All of the
+> optional ofc if you do instead maintainer-acks for merging through
+> another tree.
+>
+> Since I wasn't involved in this no idea who requested the topic tree
+> instead of acks, and the pull isn't addressed to specific people who
+> should pull it in (I generally add that to avoid confusion like this
+> here), but this aint something that drm.git needs to pull. Just stuff
+> it into one of the trees as usual. Also just noticed that amd
+> maintainers arent even cc'ed, adding Alex. You guys pls figure this
+> out :-)
 
-This was applied already, and it's not in a driver I look after... but
-to me this feels like something that really should be
-justified. Using >> instead of / for multiples of 2 division mattered 20
-years ago, I'd be surprised if it still did on modern compilers.
+It seemed like drm-misc and drm-intel would be out-of-sync for too long
+before we'd get all of them eventually (back)merged together, so I
+leaned towards the topic branch. Of course, the point starts to be moot
+if it has already taken more than a week to merge this anywhere...
+
+And I'm pinging about merging the topic pull to drm-misc and drm-intel;
+I'm currently not covering drm-intel.
 
 BR,
 Jani.
 
 
->>
->> Signed-off-by: Bernard Zhao <bernard@vivo.com>
+
+
+> -Daniel
 >
-> Applied.  thanks.
->
-> Alex
->
->> ---
->>  drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 4 ++--
->>  drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c | 4 ++--
->>  drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c | 4 ++--
->>  3 files changed, 6 insertions(+), 6 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
->> index b205039..66cd078 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
->> @@ -175,10 +175,10 @@ static int gmc_v6_0_mc_load_microcode(struct amdgpu_device *adev)
->>         amdgpu_ucode_print_mc_hdr(&hdr->header);
+>> BR,
+>> Jani.
 >>
->>         adev->gmc.fw_version = le32_to_cpu(hdr->header.ucode_version);
->> -       regs_size = le32_to_cpu(hdr->io_debug_size_bytes) / (4 * 2);
->> +       regs_size = le32_to_cpu(hdr->io_debug_size_bytes) >> 3;
->>         new_io_mc_regs = (const __le32 *)
->>                 (adev->gmc.fw->data + le32_to_cpu(hdr->io_debug_array_offset_bytes));
->> -       ucode_size = le32_to_cpu(hdr->header.ucode_size_bytes) / 4;
->> +       ucode_size = le32_to_cpu(hdr->header.ucode_size_bytes) >> 2;
->>         new_fw_data = (const __le32 *)
->>                 (adev->gmc.fw->data + le32_to_cpu(hdr->header.ucode_array_offset_bytes));
 >>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->> index 9da9596..ca26d63 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->> @@ -193,10 +193,10 @@ static int gmc_v7_0_mc_load_microcode(struct amdgpu_device *adev)
->>         amdgpu_ucode_print_mc_hdr(&hdr->header);
->>
->>         adev->gmc.fw_version = le32_to_cpu(hdr->header.ucode_version);
->> -       regs_size = le32_to_cpu(hdr->io_debug_size_bytes) / (4 * 2);
->> +       regs_size = le32_to_cpu(hdr->io_debug_size_bytes) >> 3;
->>         io_mc_regs = (const __le32 *)
->>                 (adev->gmc.fw->data + le32_to_cpu(hdr->io_debug_array_offset_bytes));
->> -       ucode_size = le32_to_cpu(hdr->header.ucode_size_bytes) / 4;
->> +       ucode_size = le32_to_cpu(hdr->header.ucode_size_bytes) >> 2;
->>         fw_data = (const __le32 *)
->>                 (adev->gmc.fw->data + le32_to_cpu(hdr->header.ucode_array_offset_bytes));
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
->> index 27d83204..295039c 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
->> @@ -318,10 +318,10 @@ static int gmc_v8_0_tonga_mc_load_microcode(struct amdgpu_device *adev)
->>         amdgpu_ucode_print_mc_hdr(&hdr->header);
->>
->>         adev->gmc.fw_version = le32_to_cpu(hdr->header.ucode_version);
->> -       regs_size = le32_to_cpu(hdr->io_debug_size_bytes) / (4 * 2);
->> +       regs_size = le32_to_cpu(hdr->io_debug_size_bytes) >> 3;
->>         io_mc_regs = (const __le32 *)
->>                 (adev->gmc.fw->data + le32_to_cpu(hdr->io_debug_array_offset_bytes));
->> -       ucode_size = le32_to_cpu(hdr->header.ucode_size_bytes) / 4;
->> +       ucode_size = le32_to_cpu(hdr->header.ucode_size_bytes) >> 2;
->>         fw_data = (const __le32 *)
->>                 (adev->gmc.fw->data + le32_to_cpu(hdr->header.ucode_array_offset_bytes));
+>> >
+>> > Cheers,
+>> > Maarten
+>> >
+>> > topic/phy-compliance-2020-04-08:
+>> > Topic pull request for topic/phy-compliance:
+>> > - Standardize DP_PHY_TEST_PATTERN name.
+>> > - Add support for setting/getting test pattern from sink.
+>> > - Implement DP PHY compliance to i915.
+>> > The following changes since commit 12ab316ced2c5f32ced0e6300a054db644b5444a:
+>> >
+>> >   Merge tag 'amd-drm-next-5.7-2020-04-01' of git://people.freedesktop.org/~agd5f/linux into drm-next (2020-04-08 09:34:27 +1000)
+>> >
+>> > are available in the Git repository at:
+>> >
+>> >   git://anongit.freedesktop.org/drm/drm-misc tags/topic/phy-compliance-2020-04-08
+>> >
+>> > for you to fetch changes up to 8cdf727119289db3a98835662eb28e1c5ad835f1:
+>> >
+>> >   drm/i915/dp: Program vswing, pre-emphasis, test-pattern (2020-04-08 14:41:09 +0200)
+>> >
+>> > ----------------------------------------------------------------
+>> > Topic pull request for topic/phy-compliance:
+>> > - Standardize DP_PHY_TEST_PATTERN name.
+>> > - Add support for setting/getting test pattern from sink.
+>> > - Implement DP PHY compliance to i915.
+>> >
+>> > ----------------------------------------------------------------
+>> > Animesh Manna (7):
+>> >       drm/amd/display: Align macro name as per DP spec
+>> >       drm/dp: get/set phy compliance pattern
+>> >       drm/i915/dp: Made intel_dp_adjust_train() non-static
+>> >       drm/i915/dp: Preparation for DP phy compliance auto test
+>> >       drm/i915/dp: Add debugfs entry for DP phy compliance
+>> >       drm/i915/dp: Register definition for DP compliance register
+>> >       drm/i915/dp: Program vswing, pre-emphasis, test-pattern
+>> >
+>> >  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |   2 +-
+>> >  drivers/gpu/drm/drm_dp_helper.c                    |  94 +++++++++++
+>> >  .../gpu/drm/i915/display/intel_display_debugfs.c   |  12 +-
+>> >  drivers/gpu/drm/i915/display/intel_display_types.h |   1 +
+>> >  drivers/gpu/drm/i915/display/intel_dp.c            | 171 +++++++++++++++++++++
+>> >  drivers/gpu/drm/i915/display/intel_dp.h            |   1 +
+>> >  .../gpu/drm/i915/display/intel_dp_link_training.c  |   9 +-
+>> >  .../gpu/drm/i915/display/intel_dp_link_training.h  |   4 +
+>> >  drivers/gpu/drm/i915/i915_reg.h                    |  18 +++
+>> >  include/drm/drm_dp_helper.h                        |  33 +++-
+>> >  10 files changed, 337 insertions(+), 8 deletions(-)
 >>
 >> --
->> 2.7.4
->>
->> _______________________________________________
->> amd-gfx mailing list
->> amd-gfx@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>> Jani Nikula, Intel Open Source Graphics Center
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
