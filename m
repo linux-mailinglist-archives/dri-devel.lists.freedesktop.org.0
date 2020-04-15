@@ -2,46 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD6C1A9CB6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:38:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30AD91A9CD3
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 13:39:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4106E1BA;
-	Wed, 15 Apr 2020 11:38:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 485766E98C;
+	Wed, 15 Apr 2020 11:39:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B6776E1BA
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 11:38:38 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1E59E20775
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 11:38:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586950718;
- bh=R43hO9Q3If9QrtnZ5K9TcR/a0ZvrCDhZjgGwgzT0xFE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=E5odArf/RDc2lUAWXYieDSICfp9q8nBXEpH8oGXMbl511ftW6vzpHvHktcBE2iKiC
- CKixYDKgMb9QlA1aORiC5Eu+aRqxfTt+PKHC5/btAAOBgUVlxZbVPCpfvrqokmXOdZ
- CbKDC6mtkLWOW1EL3z3pC7fdPh/RNVXyWZm30v4k=
-Received: by mail-lf1-f53.google.com with SMTP id h6so2397275lfc.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 04:38:38 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZkZqQe13IyCjI0ncmfSlKnmBAuZJd7O2YhuXB41uk5GdMM2Ggb
- HWt72VFXFYUnY+k1iwXaTXIYIyct9SajqCTN9d4=
-X-Google-Smtp-Source: APiQypI+VI3dpF2YbI7yVr/aHwnSBVAysHwaY+SScdUs4Jyyh+GbDgIy/bRBbEhJiawYLq4RWaZKVJOwvX1RTOgkOWY=
-X-Received: by 2002:a19:ae16:: with SMTP id f22mr2914229lfc.2.1586950716265;
- Wed, 15 Apr 2020 04:38:36 -0700 (PDT)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 049E46E98C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 11:39:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586950768;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vyj7U61xQs8WWLRRUxISr/kwadu5g5DuAESzd4RhLHw=;
+ b=coxpdssp4jdI5P1yLP4CBuZcnOXUb0Gn+gErJfcze1LYr9WiZaS9nQ+aoDpvZk1OmpPrC4
+ XOsmfTwt0DrQThiU3H2HRBnN73I500xyOJYIuLDGPU90xAcEkk6USgg/YSv3grp3OC/HdP
+ nRQOQEQZ3xZS3XYOTaBTh4Tu0LuxK3s=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-3_Mf0ydVPyWAzYiwwID3CQ-1; Wed, 15 Apr 2020 07:39:27 -0400
+X-MC-Unique: 3_Mf0ydVPyWAzYiwwID3CQ-1
+Received: by mail-wr1-f70.google.com with SMTP id g6so10395834wru.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 04:39:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Vyj7U61xQs8WWLRRUxISr/kwadu5g5DuAESzd4RhLHw=;
+ b=n4753i6bJWbTmr3L4TerA4DnOFLy/FB2or3hywxZjtGW+JAO3RSoRtsjpGselBXmSj
+ /qS0BaMo56PTLBnGeBck4+RsQdEZFc43ZKfksuRkORJedwZgXx3ZAKLRwNByupifKboM
+ iTzgJxoar83b+xdP4+5RYub/9I4suH/K6wdLWqFGdJRFnEZbAG1pCXncU+mA1OY0ArFo
+ 4hYoeRmX+LK+YagpxLrnBgsEuOTuXU5iVnFy0W5WALbiP866CXuTl1pGfGIwgsAOmSWC
+ Y8a3Fl642A86G2+GWPRus0keviGUytz4x23nZqJVr63Zeh16SS4VEZiSKvr44WlU3/KG
+ Pixw==
+X-Gm-Message-State: AGi0PuZj+kTG/DLgyA3M4sIcllZ59dm7euJW2KaV07EkRmZbVPTfshGx
+ sFN5cRWqGwnMo9fOK0SwIIyCpT4CqSel4DH1JIzGqpsWCnY4ghZfwxld0IVszdris2suqT8Cqdm
+ TLoi0BEe27tqwQDSGRztzuvyQCz6P
+X-Received: by 2002:a1c:cc0a:: with SMTP id h10mr4555481wmb.127.1586950765960; 
+ Wed, 15 Apr 2020 04:39:25 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKOz28d4HuMQ2FU6bDyzb/z+a+mSgVQkHzwAXixlh8pqVK4EvvekTe+GKeHd7XwczdvSo7xcA==
+X-Received: by 2002:a1c:cc0a:: with SMTP id h10mr4555460wmb.127.1586950765577; 
+ Wed, 15 Apr 2020 04:39:25 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id c17sm23196263wrp.28.2020.04.15.04.39.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Apr 2020 04:39:24 -0700 (PDT)
+Subject: Re: RFC: Drm-connector properties managed by another driver / privacy
+ screen support
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
+ <CAKMK7uFzA-2GEvAftNEysHZvPovxfXC2eC8y5VSa8RAUjMWoYg@mail.gmail.com>
+ <a2516eed-d7a7-c0a4-d287-5927aadf1d18@redhat.com>
+ <CAKMK7uESUVHLwMDujCDvapOBZ+Lnp1k-5juxQxcsNj+1QuN0Ww@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <a053e2a7-77c8-8874-eaf8-afe970ad8f9c@redhat.com>
+Date: Wed, 15 Apr 2020 13:39:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <cover.1586939718.git.hns@goldelico.com>
- <004611c9660943759b635a87484932869927cf74.1586939718.git.hns@goldelico.com>
-In-Reply-To: <004611c9660943759b635a87484932869927cf74.1586939718.git.hns@goldelico.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Wed, 15 Apr 2020 13:38:25 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPdEkWniffmGZmf=S6E5UxWTdVGXnycqTFftXwo_45rz3w@mail.gmail.com>
-Message-ID: <CAJKOXPdEkWniffmGZmf=S6E5UxWTdVGXnycqTFftXwo_45rz3w@mail.gmail.com>
-Subject: Re: [PATCH v6 07/12] ARM: DTS: omap5: add sgx gpu child node
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <CAKMK7uESUVHLwMDujCDvapOBZ+Lnp1k-5juxQxcsNj+1QuN0Ww@mail.gmail.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,36 +84,280 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
- James Hogan <jhogan@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- linux-omap@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
- Tony Lindgren <tony@atomide.com>, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>, devicetree@vger.kernel.org,
- =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, letux-kernel@openphoenux.org,
- linux-arm-kernel@lists.infradead.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>, kernel@pyra-handheld.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: Benjamin Berg <bberg@redhat.com>, David Airlie <airlied@linux.ie>,
+ Christian Kellner <ckellner@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Nitin Joshi1 <njoshi1@lenovo.com>,
+ Rajat Jain <rajatja@google.com>, Mark Pearson <mpearson@lenovo.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Apr 2020 at 10:36, H. Nikolaus Schaller <hns@goldelico.com> wrote:
->
-> and add interrupt.
->
-> Tested-by: H. Nikolaus Schaller <hns@goldelico.com> # Pyra-Handheld.
+Hi,
 
-Don't add your own Tested-by tags. These are implied by authorship,
-otherwise all patches people make should have such tag.
+On 4/15/20 12:22 PM, Daniel Vetter wrote:
+> On Wed, Apr 15, 2020 at 12:11 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> Hi,
+>>
+>> On 4/15/20 11:52 AM, Daniel Vetter wrote:
 
-Best regards,
-Krzysztof
+<snip>
+
+>>> iv. What every SoC subsystem does:
+>>>
+>>> - lcdshadow drivers register drivers
+>>> - drm drivers look them up
+>>> - if stuff isn't there yet, we delay loading with EPROBE_DEFER until
+>>> the entire thing is assembled.
+>>>
+>>> That's what we're doing already for other standardized components like
+>>> drm_bridge or drm_panel, and I think that's also the right approach
+>>> for backlight and anything else like that. Hand-rolling our own
+>>> EPROBE_DEFER handling, or some other duct-tape monsters imo just leads
+>>> to real pain. Also, with EPROBE_DEFER we have one standard way of
+>>> building a driver from component, which spans subsystems and is also
+>>> the underlying magic that makes stuff like component.c work.
+>>
+>> On the SoCs we have devicetree telling us what components there
+>> are, so we can wait for them to show up. The only way to figure out
+>> if the lcdshadow thing is there on a ThinkPad is asking thinkpad_acpi,
+>> or duplicating a lot of code from thinkpad_acpi. Edit:
+>> also see below for a possible solution.
+> 
+> Yup it sucks. I think all we can do is have a small acpi match
+> function (which yes will duplicate some of the thinkpad_acpi driver
+> logic) to re-create that information and give us a "should we have a
+> lcdshadow driver for this $pci_device" answer.
+
+Ok, so questions about this solution:
+
+1. Where should that match-function live ?
+
+2. An acpi_thinkpad derived match-function will only be able to
+    answer if there is an lcdshadow device/driver for the internal
+    panel. It will not be able to tie this info to a certain PCI
+    device. My plan is to pass NULL as dev_name when registering
+    the lcdshadow-device and have lcdshadow_get(dev, <connector-name>)
+    skip device-name matching (consider everything a match) for
+    lcdshadow-devices registered with NULL as dev_name.
+
+    So I guess in this case the mini match function should just
+    ignore the passed in device?
+
+> This need for an in-kernel source of truth for "which backlight, if
+> any, do I need" is why the backlight stuff never got fixed. It's a
+> really hard problem, and doing the table flip and just letting
+> userspace deal with the mess at least avoids having to face the fact
+> that the kernel is totally failing here. It's made worse for backlight
+> because of 20 years of hacked up systems that "work", and we can't
+> regress any of them.
+
+Right, as discussed during last plumbers Christian Kellner and I
+have written a plan to slowly resolve this. Unfortunately Christian
+has not found the time to work on this yet.
+
+> I really want to avoid that situation for anything new like lcdshadow.
+
+Ack.
+
+>>> Wrt the actual userspace interface, I think the drm core should handle
+>>> this as much as possible. Same way we let drm core handle a lot of the
+>>> atomic property stuff, to make sure things are standardized.
+>>
+>> Agreed.
+>>
+>>
+>>> So
+>>>
+>>> - add an lcdshadow pointer to struct drm_connector
+>>> - implement the property glue code in drm core completely, at least
+>>> for the read side
+>>> - for the write side we might want to have some drm wrappers drivers
+>>> can call to at the appropriate times to e.g. restore privacy screen
+>>> settings when the panel gets enabled. In case that's needed.
+>>>
+>>> Also one thing that the EPROBE_DEFER stuff forces us to handle
+>>> correctly is to track these depencies. That's the other nightmare in
+>>> backlight land, essentially you have no idea of knowing (in userspace)
+>>> whether the backlight driver you want is actually loaded, resulting in
+>>> lots of fun. The kernel is the only thing that can know, and for hw
+>>> that's built-in there's really no excuse to not know. So a model where
+>>> stuff gets assembled after drm_dev_register() is imo just plain buggy.
+>>>
+>>> This means that the lcdshadow subsystem needs to have some idea of
+>>> whether it needs a driver, so that it can correctly differentiate
+>>> between EPROBE_DEFER and ENOENT error cases. In the latter the driver
+>>> should continue loading ofc.
+>>
+>> Right, so how would the lcdshadow subsystem do this? The only way
+>> would be for it to say try and modprobe thinkpad_acpi from its
+>> core init function (if thinkpad_acpi is enabled).  IOW it is the usual
+>> x86 mess.  I guess we could have something like this in a theoretical
+>> to be added lcdshadow subsystem:
+>>
+>> /* Add comment explaining why we need this messy stuff here */
+>> const char * const shadow_providers[] = {
+>> #ifdef CONFIG_THINKPAD_ACPI_MODULE
+>>          "thinkpad_acpi",
+>> #endif
+>> #ifdef CONFIG_OTHER_MODULE
+>>          "other",
+>> #endif
+>>          NULL
+>> };
+>>
+>> int module_init(void)
+>> {
+>>          /* do actual setup of the ?class? */
+>>
+>>          for (i = 0; shadow_providers[i]; i++)
+>>                  request_module(shadow_providers[i]);
+>>
+>>          return 0;
+>> }
+> 
+> Hm I think explicitly loading drivers feels very much not device model
+> like. Don't these drivers auto-load, matching on acpi functions?
+
+thinkpad_acpi does autoload based on a number of ACPI device-ids,
+the idea behind the above request_module is to avoid the need
+to have the acpi-match function you mentioned above.
+
+Basically what would happen is e.g. :
+
+1. i915 loads, calls lcdshadow_get(dev, "eDP-1");
+2. if this is the first lcdshadow_get() call then
+    the lcdshadow core will do the request_module calls,
+    allowing any of these modules to get loaded + probed and
+    call e.g. lcdshadow_register(&mylcdshadowdev, <gfx-adapter-dev-name>, "eDP-1");
+3. After the request modules the lcdshadow_get() will walk over
+    the list of registered devices, including the ones just registered
+    by the request_module calls and then hopefully find a match
+
+So by doing the request-module calls before checking for
+a matching lcdshadow dev, we avoid the need of having some of
+the knowledge currently abstracted away in the thinkpad_acpi driver
+duplicated inside the drm code somewhere.
+
+> I guess if that doesn't exist, then we'd need to fix that one first :-/
+> In general no request_module please, that shouldn't be needed either.
+> 
+> The trouble with request_module is also that (afaiui) it doesn't
+> really work well with parallel module load and all that, for
+> EPROBE_DEFER to work we do need to be able to answer "should we have a
+> driver?" independently of whether that driver has loaded already or
+> not.
+
+The idea here is to avoid using EPROBE_DEFER (on x86 at least)
+and either directly return the lcdshadow_dev or ENOENT. Also
+see below.
+
+>> And then simply have the function which gets a lcd_shadow provider
+>> provide -ENOENT if there are none.
+>>
+>> One problem here is that this will work for modules since
+>> the drm-core will depend on modules from the lcdshadow-core,
+>> so the lcdshadow-core module will get loaded first and will
+>> then try to load thinkpad_acpi, which will return with -ENODEV
+>> from its module_init on non ThinkPads. We could even put the
+>> request_module loop in some other init_once function so that
+>> things will also work when the lcdshadow-core is builtin.
+>>
+>> But how do we ensure that thinkpad_acpi will get to register
+>> its lcdshadow before say i915 gets probed if everything is builtin?
+> 
+> EPROBE_DEFER. Everyone hates it, but it does work. It's really kinda
+> neat magic. The only pain point is that you might need to wire
+> EPROBE_DEFER through a few layers in i915, but we do have a lot of
+> that in place already,
+
+AFAIK we do not have any EPROBE_DEFER handling in i915 in place at
+all! There are _0_ checks for an EPROBE_DEFER return in all of the i915
+code. We actually have a similar problem with backlight control when
+controlled by an external PWM controller such as the PWM controller
+of the Crystal Cove PMIC found on some BYT/CHT drivers or the
+PWM controller found in the LPSS bits of BYT/CHT SoCs.
+
+Since again we lack a clear hardware model like device tree,
+we use lookup tables for the (external) PWM controllers on x86,
+see the pwm_add_table calls in drivers/acpi/acpi_lpss.c
+and drivers/mfd/intel_soc_pmic_core.c and the pwm_get call
+in the i915 code simply continues on its happy way without
+backlight control if the pwm_get fails, rather then dealing
+with -EPROBE_DEFER. I looked into untangling this back then
+but the i915 code really is not ready to unroll everything
+it has done already once we are probing connectors.
+
+I actually "fixed" the PWM issue by:
+
+1. Adding a module-name field to the PWM lookup table
+registered by the pwm_add_table calls.
+
+2. Have the PWM core call request_module on that module_name
+if it finds a match in the registered lookup_table (which
+get registered early on), but the matching pwm_dev has not
+been registered yet.
+
+So I agree with you that ideally i915 would handle EPROBE_DEFER
+but atm AFAIK it really does not handle that at all and
+we are pretty far away from getting to a point where it
+does handle that.
+
+Assuming we are going to add some device/model specific
+lcdshadow knowledge inside the lcdshadow core as you
+suggested with your "small acpi match function" above,
+we could do something similar to what the vga_switcheroo
+code is doing for this and have a lcdshadow_defer_probe()
+helper and call that really early in i915_pci_probe(),
+which currently already has this for the vgaswitcheroo case:
+
+         if (vga_switcheroo_client_probe_defer(pdev))
+                 return -EPROBE_DEFER;
+
+The reason why I suggested the request_module approach
+is because as said it will allow lcdshadow_get()
+to return either a device or -ENOENT and never -EPROBE_DEFER
+and currently none of the i915 code, nor the nouveau code
+nor the amdgpu code has any EPROBE_DEFER checks. They all
+assume that once there probe function is called they can
+continue on forward without unrolling and exiting from
+probe with EPROBE_DEFER ever. I agree that that is somewhat
+of a bad assumption now a days but fixing that is going to
+be massive undertakig and I'm afraid that trying to deal
+with it will lead to many many regressions.
+
+So I would rather work around it by using request_module.
+
+> plus we have solid error-injecting load error
+> tests in igt. So that part shouldn't be a big deal.
+> 
+>> I guess my SOFTDEP solution has the same issue though. Do you
+>> know has this is dealt with for kvmgt ?
+> 
+> kvmgt? What do you mean there? kvmgt is just a user of i915-gem, if
+> you enable it in the config (and module option too iirc) then it works
+> more like an additional uapi layer, similar to how we handle fbdev
+> emulation. So totally different scenario, since the main driver is
+> 100% in control of the situation and controls the register/unregister
+> lifetime cycles completely. There's no indepedent part somewhere else
+> for kvmgt or fbdev emulation.
+> 
+> Or I'm totally misunderstanding what you mean with this example here.
+
+The i915 driver used to have a:
+
+MODULE_SOFTDEP("pre: kvmgt")
+
+But it seems that that has been replaced with some mechanism
+or maybe the need for kvmgt to be loaded first has been removed/
+
+Regards,
+
+Hans
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
