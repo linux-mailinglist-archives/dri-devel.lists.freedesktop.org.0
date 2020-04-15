@@ -2,58 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C0D01A9740
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 10:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D5961A97F4
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Apr 2020 11:07:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF4B6E266;
-	Wed, 15 Apr 2020 08:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D80146E924;
+	Wed, 15 Apr 2020 09:07:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77D676E1F9;
- Wed, 15 Apr 2020 08:46:28 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 27335AC12;
- Wed, 15 Apr 2020 08:46:26 +0000 (UTC)
-Subject: Re: [PATCH 37/59] drm/cirrus: Move to drm/tiny
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-38-daniel.vetter@ffwll.ch>
- <fe4fdf57-b039-02d3-ae89-24953304c79d@suse.de>
- <CAKMK7uHKqmUDMwsZ9OufZE-ZHqUHscmgiZ_HvRyr9TbH3UcYFQ@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <1d8288b5-883c-fcda-0108-b1fecc5637e6@suse.de>
-Date: Wed, 15 Apr 2020 10:46:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B216F6E923;
+ Wed, 15 Apr 2020 09:07:52 +0000 (UTC)
+IronPort-SDR: S/kW969uv6uWbupWxzjJmqD7+iC/tnbmowY4L923BDsIyX0j0RBgk3vmzRJ5ppAnfMs1biy1gF
+ 56sktdp47Jfw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2020 02:07:52 -0700
+IronPort-SDR: dIcvUqmm8vkltmzBbRt7swG9EIHcpliBK18dHSes44YOxPl9GSHu+CpHbMxzexYHs+shu+VVQy
+ da/XylUQ7VEQ==
+X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; d="scan'208";a="427370602"
+Received: from ssolodk-mobl1.ccr.corp.intel.com (HELO localhost)
+ ([10.252.48.37])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2020 02:07:47 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Colin Ian King <colin.king@canonical.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>, kbuild@lists.01.org
+Subject: Re: [PATCH] drm/i915/gt: remove redundant assignment to variable x
+In-Reply-To: <43eb0cbb-9bf0-c99a-470d-8121c3108a5e@canonical.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200414092359.GC1163@kadam>
+ <43eb0cbb-9bf0-c99a-470d-8121c3108a5e@canonical.com>
+Date: Wed, 15 Apr 2020 12:07:44 +0300
+Message-ID: <87blnt5d7j.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uHKqmUDMwsZ9OufZE-ZHqUHscmgiZ_HvRyr9TbH3UcYFQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,281 +49,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, "open list:VIRTIO CORE,
- NET..." <virtualization@lists.linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============1016104600=="
+Cc: kbuild-all@lists.01.org, lkp@intel.com, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1016104600==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="nyXfRRKUSNJFSss05h7E4qmPW4psHqZj5"
+On Tue, 14 Apr 2020, Colin Ian King <colin.king@canonical.com> wrote:
+> Hi Dan,
+>
+> I'd post a revert, but I don't seem to see an upstream commit for this
+> this to revert against. What's the revert policy in these cases? Or can
+> the patch be just ignored by the maintainers so it's not applied?
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---nyXfRRKUSNJFSss05h7E4qmPW4psHqZj5
-Content-Type: multipart/mixed; boundary="8FplsbkvjG1J7atIv627aY0FKM93Herzb";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <1d8288b5-883c-fcda-0108-b1fecc5637e6@suse.de>
-Subject: Re: [PATCH 37/59] drm/cirrus: Move to drm/tiny
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-38-daniel.vetter@ffwll.ch>
- <fe4fdf57-b039-02d3-ae89-24953304c79d@suse.de>
- <CAKMK7uHKqmUDMwsZ9OufZE-ZHqUHscmgiZ_HvRyr9TbH3UcYFQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uHKqmUDMwsZ9OufZE-ZHqUHscmgiZ_HvRyr9TbH3UcYFQ@mail.gmail.com>
+It has not been applied, and will be ignored, in part thanks to the
+report.
 
---8FplsbkvjG1J7atIv627aY0FKM93Herzb
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+However I think Dan's report is misleading in that it looks like it's
+about a commit while I think it should emphasize that it's a pre-merge
+report on the patch on the mailing list.
+
+BR,
+Jani.
 
 
 
-Am 15.04.20 um 10:19 schrieb Daniel Vetter:
-> On Wed, Apr 15, 2020 at 10:01 AM Thomas Zimmermann <tzimmermann@suse.de=
-> wrote:
->>
->>
->>
->> Am 15.04.20 um 09:40 schrieb Daniel Vetter:
->>> Because it is. Huge congrats to everyone who made this kind of
->>> refactoring happen!
->>
->> Every other week, I felt an urge to send out this patch. Thank you so
->> much, Daniel! There are more candidates for tiny/. They are all <20k
->> LOCs and all we'd have to do is to move their code into a single file.=
+>
+> Colin
+>
+>
+> On 14/04/2020 10:23, Dan Carpenter wrote:
+>> Hi Colin,
+>> 
+>> url:    https://github.com/0day-ci/linux/commits/Colin-King/drm-i915-gt-remove-redundant-assignment-to-variable-x/20200411-032731
+>> base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+>> 
+>> If you fix the issue, kindly add following tag as appropriate
+>> Reported-by: kbuild test robot <lkp@intel.com>
+>> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+>> 
+>> smatch warnings:
+>> drivers/gpu/drm/i915/gt/intel_engine_cs.c:1210 print_request() error: uninitialized symbol 'x'.
+>> 
+>> # https://github.com/0day-ci/linux/commit/6ee08d455bba0066e8f5f276dcd43d9e3e594dc5
+>> git remote add linux-review https://github.com/0day-ci/linux
+>> git remote update linux-review
+>> git checkout 6ee08d455bba0066e8f5f276dcd43d9e3e594dc5
+>> vim +/x +1210 drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>> 
+>> f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2017-10-09  1202  static void print_request(struct drm_printer *m,
+>> e61e0f51ba7974 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-02-21  1203  			  struct i915_request *rq,
+>> f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2017-10-09  1204  			  const char *prefix)
+>> f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2017-10-09  1205  {
+>> ab2681512b4c10 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-03-14  1206  	const char *name = rq->fence.ops->get_timeline_name(&rq->fence);
+>> 96d4f03c20d04c drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-05-17  1207  	char buf[80] = "";
+>> 6ee08d455bba00 drivers/gpu/drm/i915/gt/intel_engine_cs.c Colin Ian King 2020-04-10  1208  	int x;
+>>                                                                                                 ^^^^^
+>> 
+>> 247870ac8ea729 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-04-24  1209  
+>> 247870ac8ea729 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-04-24 @1210  	x = print_sched_attr(rq->i915, &rq->sched.attr, buf, x, sizeof(buf));
+>>                                                                                                                                                      ^
+>> Uninitialized variable
+>> 
+>> ab2681512b4c10 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-03-14  1211  
+>> b300fde8965fdd drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2019-02-26  1212  	drm_printf(m, "%s %llx:%llx%s%s %s @ %dms: %s\n",
+>> b7268c5eed0ab4 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-04-18  1213  		   prefix,
+>> b300fde8965fdd drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2019-02-26  1214  		   rq->fence.context, rq->fence.seqno,
+>> 8547444137ec61 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2019-01-29  1215  		   i915_request_completed(rq) ? "!" :
+>> 8547444137ec61 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2019-01-29  1216  		   i915_request_started(rq) ? "*" :
+>> 8547444137ec61 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2019-01-29  1217  		   "",
+>> 8c334f24e3b448 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson   2019-05-01  1218  		   test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+>> 8c334f24e3b448 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson   2019-05-01  1219  			    &rq->fence.flags) ? "+" :
+>> 52c0fdb25c7c91 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2019-01-29  1220  		   test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>> 8c334f24e3b448 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson   2019-05-01  1221  			    &rq->fence.flags) ? "-" :
+>> 8c334f24e3b448 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson   2019-05-01  1222  		   "",
+>> 247870ac8ea729 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-04-24  1223  		   buf,
+>> f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2017-10-09  1224  		   jiffies_to_msecs(jiffies - rq->emitted_jiffies),
+>> ab2681512b4c10 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2018-03-14  1225  		   name);
+>> f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   2017-10-09  1226  }
+>> 
+>> ---
+>> 0-DAY CI Kernel Test Service, Intel Corporation
+>> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>> 
+>
 
-
-I meant <20k file size, not LOCs.
-
->> bochs or arc come into my mind.
->=20
-> arc I have (later in the series), bochs I feel like is maybe a bit too
-> big. I'd put the limit for tiny well below 1kloc including whitespace
-> and all that. bochs might be a candidate once we've helperized a few
-> more things perhaps.
-
-True. The largest tiny driver is repaper with ~1.1k LOCS. Reading this
-code, it seems like it has reached an upper bound of what is feasible.
-
-Best regards
-Thomas
-
->=20
-> btw I drmm_ version of vram helpers would help a bunch of these drivers=
- I think.
-> -Daniel
->=20
->>
->>>
->>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>> Cc: Dave Airlie <airlied@redhat.com>
->>> Cc: Gerd Hoffmann <kraxel@redhat.com>
->>> Cc: virtualization@lists.linux-foundation.org
->>
->> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->>
->>> ---
->>>  MAINTAINERS                               |  2 +-
->>>  drivers/gpu/drm/Kconfig                   |  2 --
->>>  drivers/gpu/drm/Makefile                  |  1 -
->>>  drivers/gpu/drm/cirrus/Kconfig            | 19 -------------------
->>>  drivers/gpu/drm/cirrus/Makefile           |  2 --
->>>  drivers/gpu/drm/tiny/Kconfig              | 19 +++++++++++++++++++
->>>  drivers/gpu/drm/tiny/Makefile             |  1 +
->>>  drivers/gpu/drm/{cirrus =3D> tiny}/cirrus.c |  0
->>>  8 files changed, 21 insertions(+), 25 deletions(-)
->>>  delete mode 100644 drivers/gpu/drm/cirrus/Kconfig
->>>  delete mode 100644 drivers/gpu/drm/cirrus/Makefile
->>>  rename drivers/gpu/drm/{cirrus =3D> tiny}/cirrus.c (100%)
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index 7b3255d96d1d..0a5cf105ee37 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -5397,7 +5397,7 @@ L:      virtualization@lists.linux-foundation.o=
-rg
->>>  S:   Obsolete
->>>  W:   https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-considere=
-d-harmful/
->>>  T:   git git://anongit.freedesktop.org/drm/drm-misc
->>> -F:   drivers/gpu/drm/cirrus/
->>> +F:   drivers/gpu/drm/tiny/cirrus.c
->>>
->>>  DRM DRIVER FOR QXL VIRTUAL GPU
->>>  M:   Dave Airlie <airlied@redhat.com>
->>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->>> index 43594978958e..4f4e7fa001c1 100644
->>> --- a/drivers/gpu/drm/Kconfig
->>> +++ b/drivers/gpu/drm/Kconfig
->>> @@ -310,8 +310,6 @@ source "drivers/gpu/drm/ast/Kconfig"
->>>
->>>  source "drivers/gpu/drm/mgag200/Kconfig"
->>>
->>> -source "drivers/gpu/drm/cirrus/Kconfig"
->>> -
->>>  source "drivers/gpu/drm/armada/Kconfig"
->>>
->>>  source "drivers/gpu/drm/atmel-hlcdc/Kconfig"
->>> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
->>> index f34d08c83485..2c0e5a7e5953 100644
->>> --- a/drivers/gpu/drm/Makefile
->>> +++ b/drivers/gpu/drm/Makefile
->>> @@ -74,7 +74,6 @@ obj-$(CONFIG_DRM_I915)      +=3D i915/
->>>  obj-$(CONFIG_DRM_MGAG200) +=3D mgag200/
->>>  obj-$(CONFIG_DRM_V3D)  +=3D v3d/
->>>  obj-$(CONFIG_DRM_VC4)  +=3D vc4/
->>> -obj-$(CONFIG_DRM_CIRRUS_QEMU) +=3D cirrus/
->>>  obj-$(CONFIG_DRM_SIS)   +=3D sis/
->>>  obj-$(CONFIG_DRM_SAVAGE)+=3D savage/
->>>  obj-$(CONFIG_DRM_VMWGFX)+=3D vmwgfx/
->>> diff --git a/drivers/gpu/drm/cirrus/Kconfig b/drivers/gpu/drm/cirrus/=
-Kconfig
->>> deleted file mode 100644
->>> index c6bbd988b0e5..000000000000
->>> --- a/drivers/gpu/drm/cirrus/Kconfig
->>> +++ /dev/null
->>> @@ -1,19 +0,0 @@
->>> -# SPDX-License-Identifier: GPL-2.0-only
->>> -config DRM_CIRRUS_QEMU
->>> -     tristate "Cirrus driver for QEMU emulated device"
->>> -     depends on DRM && PCI && MMU
->>> -     select DRM_KMS_HELPER
->>> -     select DRM_GEM_SHMEM_HELPER
->>> -     help
->>> -      This is a KMS driver for emulated cirrus device in qemu.
->>> -      It is *NOT* intended for real cirrus devices. This requires
->>> -      the modesetting userspace X.org driver.
->>> -
->>> -      Cirrus is obsolete, the hardware was designed in the 90ies
->>> -      and can't keep up with todays needs.  More background:
->>> -      https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-consider=
-ed-harmful/
->>> -
->>> -      Better alternatives are:
->>> -        - stdvga (DRM_BOCHS, qemu -vga std, default in qemu 2.2+)
->>> -        - qxl (DRM_QXL, qemu -vga qxl, works best with spice)
->>> -        - virtio (DRM_VIRTIO_GPU), qemu -vga virtio)
->>> diff --git a/drivers/gpu/drm/cirrus/Makefile b/drivers/gpu/drm/cirrus=
-/Makefile
->>> deleted file mode 100644
->>> index 0c1ed3f99725..000000000000
->>> --- a/drivers/gpu/drm/cirrus/Makefile
->>> +++ /dev/null
->>> @@ -1,2 +0,0 @@
->>> -# SPDX-License-Identifier: GPL-2.0-only
->>> -obj-$(CONFIG_DRM_CIRRUS_QEMU) +=3D cirrus.o
->>> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kcon=
-fig
->>> index 4160e74e4751..2b6414f0fa75 100644
->>> --- a/drivers/gpu/drm/tiny/Kconfig
->>> +++ b/drivers/gpu/drm/tiny/Kconfig
->>> @@ -1,5 +1,24 @@
->>>  # SPDX-License-Identifier: GPL-2.0-only
->>>
->>> +config DRM_CIRRUS_QEMU
->>> +     tristate "Cirrus driver for QEMU emulated device"
->>> +     depends on DRM && PCI && MMU
->>> +     select DRM_KMS_HELPER
->>> +     select DRM_GEM_SHMEM_HELPER
->>> +     help
->>> +      This is a KMS driver for emulated cirrus device in qemu.
->>> +      It is *NOT* intended for real cirrus devices. This requires
->>> +      the modesetting userspace X.org driver.
->>> +
->>> +      Cirrus is obsolete, the hardware was designed in the 90ies
->>> +      and can't keep up with todays needs.  More background:
->>> +      https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-consider=
-ed-harmful/
->>> +
->>> +      Better alternatives are:
->>> +        - stdvga (DRM_BOCHS, qemu -vga std, default in qemu 2.2+)
->>> +        - qxl (DRM_QXL, qemu -vga qxl, works best with spice)
->>> +        - virtio (DRM_VIRTIO_GPU), qemu -vga virtio)
->>> +
->>>  config DRM_GM12U320
->>>       tristate "GM12U320 driver for USB projectors"
->>>       depends on DRM && USB
->>> diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Mak=
-efile
->>> index c96ceee71453..6ae4e9e5a35f 100644
->>> --- a/drivers/gpu/drm/tiny/Makefile
->>> +++ b/drivers/gpu/drm/tiny/Makefile
->>> @@ -1,5 +1,6 @@
->>>  # SPDX-License-Identifier: GPL-2.0-only
->>>
->>> +obj-$(CONFIG_DRM_CIRRUS_QEMU)                +=3D cirrus.o
->>>  obj-$(CONFIG_DRM_GM12U320)           +=3D gm12u320.o
->>>  obj-$(CONFIG_TINYDRM_HX8357D)                +=3D hx8357d.o
->>>  obj-$(CONFIG_TINYDRM_ILI9225)                +=3D ili9225.o
->>> diff --git a/drivers/gpu/drm/cirrus/cirrus.c b/drivers/gpu/drm/tiny/c=
-irrus.c
->>> similarity index 100%
->>> rename from drivers/gpu/drm/cirrus/cirrus.c
->>> rename to drivers/gpu/drm/tiny/cirrus.c
->>>
->>
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---8FplsbkvjG1J7atIv627aY0FKM93Herzb--
-
---nyXfRRKUSNJFSss05h7E4qmPW4psHqZj5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6Wyd4ACgkQaA3BHVML
-eiPa+Af8CVapqi1hBYrMT47endqvJfDWOWsM7KWfjN1LisYrMDL6Hnvm65sBIzDX
-fT2f3pKbuWP3clORnAUacZfKi1WIzgrGAwtx87Xql/DXABmQkOgzzYOYonNN9iB2
-5Bnqx+6f1s4ObhoqZjE/S2xntRM8f3GaII6jcIVVFWytoRI0+uyOFInjB52o8gGw
-5yoqNLN0Oc05Gz/Fxiwh+tqDIdYLfdv6y4iHFjMQ1UbOtc0UG1q17XXtb3RFByNW
-BTs63Hzk9jiAdD06lQdlEv/rOrNAjuuXr25u4tWZvSFVS/3gC8pZI3+8buw97Q/k
-ULIsfLHOX6EcG24upLy1XgD7q0aANw==
-=4Hvi
------END PGP SIGNATURE-----
-
---nyXfRRKUSNJFSss05h7E4qmPW4psHqZj5--
-
---===============1016104600==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1016104600==--
