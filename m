@@ -1,61 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C7B1AD161
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 22:43:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F044A1AD17D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 22:50:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEE4F6EB69;
-	Thu, 16 Apr 2020 20:43:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA0E6E0E4;
+	Thu, 16 Apr 2020 20:50:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 958C96EB69
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 20:43:18 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id w11so2186497pga.12
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 13:43:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=uRgyzvRokr7ai+Xbzs2rruJuXsUX0gI+b1jlIGwtZfU=;
- b=Oyt/oE4Ouu2LsqJ33+344yy9kTnzp8/CWBPr7eZxkvWVB8IZf0+J46FH47n3dNy47b
- kice3lT1TD1ImxQCmYZXk7jvpWZg6z2mlPpY+Ys0QsgGXJZASv5HCmVZZlmcrHIT3Ph1
- RKXMfEG5U32cSw2YdADUYO/EfTtD9hhgBLJykOZsHZxahfZ5hvKGj73ZVuWHyjvAGPoR
- RHWgpNuleLC3zAE0hLLzQ7w33YGWM89r44CUTwO3o99AukFCQ236ORK+lQr8hmH9KMgP
- UlVILhg/WfSY98sw4aGVs5qRfCrdXOIUD0WC5/KQPrk9NkEuUE7EvhH2UBMwt4f/4YfC
- w6PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=uRgyzvRokr7ai+Xbzs2rruJuXsUX0gI+b1jlIGwtZfU=;
- b=BbG/oM6UyPJo2EIzM57IXJBCZAYV06zxvhkLpSkUGhc5R39ygNEI3rEcSNbkIKUfWv
- 9Ahn3Qy4GEdJDm3fnU4JhsMeKQN8ZjbHgBXuF4BS6MUolU8yuijaLuydJYEnbsIY6klf
- dIMY1kH4wbZiYhovQu1sDtCYqevhv55CFT3wnX3aWRud//rAbYTSEqQpaGJ/DLYHAila
- PUJOX9//uESHz503bOCIwg1odUZjXoMeCXacC5JDqCI7hVYnakBQafuWyPujrVdC0gKs
- GN2fGkqQmT/zHhqm1b2wCqTaRVtqpuMct1zJo+RGyPjTW+3moBsEe1hY/puL24YGrEhi
- CpLg==
-X-Gm-Message-State: AGi0PuZSWfuSvhL4woEDGNH+sqhvi2lrh0GLc58t5T88NyuVwTqKxJq3
- 0BsLCuGq4h3FeEaM0a7SAJk=
-X-Google-Smtp-Source: APiQypIXiJO4KCjTGpKvDHmXGV5HxR6F5ChtTIbUrCsBU11gVwLi7psgN6LJANKPucmqiSohUc35Kg==
-X-Received: by 2002:a65:611a:: with SMTP id z26mr3767121pgu.341.1587069797727; 
- Thu, 16 Apr 2020 13:43:17 -0700 (PDT)
-Received: from google.com ([2601:647:4001:3000::50e3])
- by smtp.gmail.com with ESMTPSA id d8sm12215742pfd.159.2020.04.16.13.43.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Apr 2020 13:43:16 -0700 (PDT)
-Date: Thu, 16 Apr 2020 13:43:14 -0700
-From: Minchan Kim <minchan@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 11/29] mm: only allow page table mappings for built-in
- zsmalloc
-Message-ID: <20200416204314.GA59451@google.com>
-References: <20200414131348.444715-1-hch@lst.de>
- <20200414131348.444715-12-hch@lst.de>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F06E86E0E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 20:50:27 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 577CA97D;
+ Thu, 16 Apr 2020 22:50:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1587070224;
+ bh=+3HruF7BWI3dgo7B6OhbPOuvAroBWE8pf/TumbaPCNE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GOwCpuEhOVC5GevTvJXEoi/Qk7P1KlX897QfWZMYhfj4ComYApD7KvhqkllmU19mP
+ QldRhosz0iZgv73AxKq3hbxz4Q1RDTJXLXX0uV0Pc3hFo4bxYuDTfakUEaiF0aWeID
+ T94H6CCO0JaBNJsP6wmSzCTC6+UjjieK9mSOxKwQ=
+Date: Thu, 16 Apr 2020 23:50:12 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/tegra: output: rgb: Support LVDS encoder bridge
+Message-ID: <20200416205012.GA28162@pendragon.ideasonboard.com>
+References: <20200416172405.5051-1-digetx@gmail.com>
+ <20200416172405.5051-3-digetx@gmail.com>
+ <20200416174112.GS4796@pendragon.ideasonboard.com>
+ <6275bcd3-c0b2-4c1c-1817-9e713d3747c7@gmail.com>
+ <7cf27640-4fdc-8617-01cb-85f4c5847bb8@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200414131348.444715-12-hch@lst.de>
+In-Reply-To: <7cf27640-4fdc-8617-01cb-85f4c5847bb8@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +49,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, sergey.senozhatsky.work@gmail.com,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, "K. Y. Srinivasan" <kys@microsoft.com>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
- x86@kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Laura Abbott <labbott@redhat.com>, Nitin Gupta <ngupta@vflare.org>,
- Haiyang Zhang <haiyangz@microsoft.com>, linaro-mm-sig@lists.linaro.org,
- bpf@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Christophe Leroy <christophe.leroy@c-s.fr>,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 03:13:30PM +0200, Christoph Hellwig wrote:
-> This allows to unexport map_vm_area and unmap_kernel_range, which are
-> rather deep internal and should not be available to modules, as they for
-> example allow fine grained control of mapping permissions, and also
-> allow splitting the setup of a vmalloc area and the actual mapping and
-> thus expose vmalloc internals.
-> 
-> zsmalloc is typically built-in and continues to work (just like the
-> percpu-vm code using a similar patter), while modular zsmalloc also
-> continues to work, but must use copies.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Acked-by: Minchan Kim <minchan@kernel.org>
-
-Thanks!
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgRG1pdHJ5LAoKT24gVGh1LCBBcHIgMTYsIDIwMjAgYXQgMTE6MjE6NDBQTSArMDMwMCwgRG1p
+dHJ5IE9zaXBlbmtvIHdyb3RlOgo+IDE2LjA0LjIwMjAgMjE6NTIsIERtaXRyeSBPc2lwZW5rbyDQ
+v9C40YjQtdGCOgo+IC4uLgo+ID4+IE1heSBJIGFsc28gcmVjb21tZW5kIHN3aXRjaGluZyB0byB0
+aGUgRFJNIHBhbmVsIGJyaWRnZSBoZWxwZXIgPyBJdCB3aWxsCj4gPj4gc2ltcGxpZnkgdGhlIGNv
+ZGUuCj4gPiAKPiA+IENvdWxkIHlvdSBwbGVhc2UgY2xhcmlmeSB3aGF0IGlzIHRoZSAiRFJNIHBh
+bmVsIGJyaWRnZSBoZWxwZXIiPwo+ID4gCj4gPiBJIHRoaW5rIHdlIHdvbid0IG5lZWQgYW55IGFk
+ZGl0aW9uYWwgaGVscGVycyBhZnRlciBzd2l0Y2hpbmcgdG8gdGhlCj4gPiBicmlkZ2UgY29ubmVj
+dG9yIGhlbHBlciwgbm8/Cj4gCj4gQWN0dWFsbHksIEkgbm93IHNlZSB0aGF0IHRoZSBwYW5lbCBu
+ZWVkcyB0byBiZSBtYW51YWxseSBhdHRhY2hlZCB0byB0aGUKPiBjb25uZWN0b3IuCgpUaGUgRFJN
+IHBhbmVsIGJyaWRnZSBoZWxwZXIgY3JlYXRlcyBhIGJyaWRnZSBmcm9tIGEgcGFuZWwgKHdpdGgK
+ZGV2bV9kcm1fcGFuZWxfYnJpZGdlX2FkZCgpKS4gWW91IGNhbiB0aGVuIGF0dGFjaCB0aGF0IGJy
+aWRnZSB0byB0aGUKY2hhaW4sIGxpa2UgYW55IG90aGVyIGJyaWRnZSwgYW5kIHRoZSBlbmFibGUv
+ZGlzYWJsZSBvcGVyYXRpb25zIHdpbGwgYmUKY2FsbGVkIGF1dG9tYXRpY2FsbHkgd2l0aG91dCBh
+bnkgbmVlZCB0byBjYWxsIHRoZSBwYW5lbCBlbmFibGUvZGlzYWJsZQptYW51YWxseSBhcyBkb25l
+IGN1cnJlbnRseS4KCj4gU3RpbGwgaXQncyBub3QgYXBwYXJlbnQgdG8gbWUgaG93IHRvIGdldCBw
+YW5lbCBvdXQgb2YgdGhlIGJyaWRnZS4gSXQKPiBsb29rcyBsaWtlIHRoZXJlIGlzIG5vIHN1Y2gg
+InBhbmVsIGhlbHBlciIgZm9yIHRoZSBicmlkZ2UgQVBJIG9yIEkganVzdAo+IGNhbid0IGZpbmQg
+aXQuCgpZb3UgZG9uJ3QgbmVlZCB0byBnZXQgYSBwYW5lbCBvdXQgb2YgdGhlIGJyaWRnZS4gWW91
+IHNob3VsZCBnZXQgdGhlCmJyaWRnZSBhcyBkb25lIHRvZGF5LCBhbmQgd3JhcCBpdCBpbiBhIGJy
+aWRnZSB3aXRoCmRldm1fZHJtX3BhbmVsX2JyaWRnZV9hZGQoKS4KCi0tIApSZWdhcmRzLAoKTGF1
+cmVudCBQaW5jaGFydApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
