@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDA01ACE68
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 19:08:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4921ACE94
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 19:22:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44F746E4E6;
-	Thu, 16 Apr 2020 17:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 969526E4F3;
+	Thu, 16 Apr 2020 17:22:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4696E4AB;
- Thu, 16 Apr 2020 17:08:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 686416E4F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:22:29 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C473B97D;
- Thu, 16 Apr 2020 19:08:26 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A42A797D;
+ Thu, 16 Apr 2020 19:22:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1587056907;
- bh=K0mOM4H6FgfHW3pGrtqvqk5/8aQTEAC2tBSYLPwGdzE=;
+ s=mail; t=1587057747;
+ bh=h7Pg0Y2dXKQzjE9xqP+G1tsaeFjJ76gvJMp9vlOEtg8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KP+bGVGExbrP/7TaCTeVbAB56HRP2M7DQSQ+VDGMOJ8oFIuBbhbYyjE2nPdnwNuoO
- YHQxCjpa6RU9imTzUKOfg5weDArn+38tcLPINFIZllCTPFtBOILUdWI+YVdy7tEYva
- setK70L3qusC8eSBsedTEIJjjh36YBPLxEVO93mo=
-Date: Thu, 16 Apr 2020 20:08:14 +0300
+ b=h3iZ4KAoTnGQsGA/NFPqERbdrTRB2t1MFry/EEFw91i6Tu/Rdr2aaU/wzJ4+INHJC
+ 1jRxLyzEGbC+hJWu8brX3ud4NWdW3kVXlOKeyfGJGu05x4TuYYe8beDpNHmOQxuxwj
+ wfWMi+/rq0KmFnCPt4/BYzCB4TztXSzeWLcOr/40=
+Date: Thu, 16 Apr 2020 20:22:15 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm: Fix page flip ioctl format check
-Message-ID: <20200416170814.GI4796@pendragon.ideasonboard.com>
-References: <20200416170420.23657-1-ville.syrjala@linux.intel.com>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Subject: Re: [PATCH v2 1/7] drm/bridge: ps8640: Get the EDID from eDP control
+Message-ID: <20200416172215.GK4796@pendragon.ideasonboard.com>
+References: <20200416155720.2360443-1-enric.balletbo@collabora.com>
+ <20200416155720.2360443-2-enric.balletbo@collabora.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200416170420.23657-1-ville.syrjala@linux.intel.com>
+In-Reply-To: <20200416155720.2360443-2-enric.balletbo@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,65 +46,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ hsinyi@chromium.org, matthias.bgg@gmail.com,
+ Collabora Kernel ML <kernel@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVmlsbGUsCgpUaGFuayB5b3UgZm9yIHRoZSBwYXRjaC4KCk9uIFRodSwgQXByIDE2LCAyMDIw
-IGF0IDA4OjA0OjIwUE0gKzAzMDAsIFZpbGxlIFN5cmphbGEgd3JvdGU6Cj4gRnJvbTogVmlsbGUg
-U3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiAKPiBSZXZlcnQgYmFj
-ayB0byBjb21wYXJpbmcgZmItPmZvcm1hdC0+Zm9ybWF0IGluc3RlYWQgZmItPmZvcm1hdCBmb3Ig
-dGhlCj4gcGFnZSBmbGlwIGlvY3RsLiBUaGlzIGNoZWNrIHdhcyBvcmlnaW5hbGx5IG9ubHkgaGVy
-ZSB0byBkaXNhbGxvdyBwaXhlbAo+IGZvcm1hdCBjaGFuZ2VzLCBidXQgd2hlbiB3ZSBjaGFuZ2Vk
-IGl0IHRvIGRvIHRoZSBwb2ludGVyIGNvbXBhcmlzb24KPiB3ZSBwb3RlbnRpYWxseSBzdGFydGVk
-IHRvIHJlamVjdCBzb21lIChidXQgZGVmaW5pdGVseSBub3QgYWxsKSBtb2RpZmllcgo+IGNoYW5n
-ZXMgYXMgd2VsbC4gSW4gZmFjdCB0aGUgY3VycmVudCBiZWhhdmlvdXIgZGVwZW5kcyBvbiB3aGV0
-aGVyIHRoZQo+IGRyaXZlciBvdmVycmlkZXMgdGhlIGZvcm1hdCBpbmZvIGZvciBhIHNwZWNpZmlj
-IGZvcm1hdCttb2RpZmllciBjb21iby4KPiBFZy4gb24gaTkxNSB0aGlzIG5vdyByZWplY3RzIGNv
-bXByZXNzaW9uIHZzLiBubyBjb21wcmVzc2lvbiBjaGFuZ2VzIGJ1dAo+IGRvZXMgbm90IHJlamVj
-dCBhbnkgb3RoZXIgdGlsaW5nIGNoYW5nZXMuIFRoYXQncyBqdXN0IGluY29uc2lzdGVudAo+IG5v
-bnNlbnNlLgo+IAo+IFRoZSBtYWluIHJlYXNvbiB3ZSBoYXZlIHRvIGdvIGJhY2sgdG8gdGhlIG9s
-ZCBiZWhhdmlvdXIgaXMgdG8gZml4IHBhZ2UKPiBmbGlwcGluZyB3aXRoIFhvcmcuIEF0IHNvbWUg
-cG9pbnQgWG9yZyBnb3QgaXRzIGF0b21pYyByaWdodHMgdGFrZW4gYXdheQo+IGFuZCBzaW5jZSB0
-aGVuIHdlIGNhbid0IHBhZ2UgZmxpcCBiZXR3ZWVuIGNvbXByZXNzZWQgYW5kIG5vbi1jb21wcmVz
-c2VkCj4gZmJzIG9uIGk5MTUuIEN1cnJlbnRseSB3ZSBnZXQgbm8gcGFnZSBmbGlwcGluZyBmb3Ig
-YW55IGdhbWVzIHByZXR0eSBtdWNoCj4gc2luY2UgTWVzYSBsaWtlcyB0byB1c2UgY29tcHJlc3Nl
-ZCBidWZmZXJzLiBOb3Qgc3VyZSBob3cgY29tcG9zaXRvcnMgYXJlCj4gd29ya2luZyBhcm91bmQg
-dGhpcyAoZG9uJ3QgdXNlIG9uZSBteXNlbGYpLiBJIGd1ZXNzIHRoZXkgbXVzdCBiZSBkb2luZwo+
-IHNvbWV0aGluZyB0byBnZXQgbm9uLWNvbXByZXNzZWQgYnVmZmVycyBpbnN0ZWFkLiBFaXRoZXIg
-dGhhdCBvcgo+IHNvbWVob3cgbm8gb25lIG5vdGljZWQgdGhlIHRlYXJpbmcgZnJvbSB0aGUgYmxp
-dCBmYWxsYmFjay4KPiAKPiBMb29raW5nIGJhY2sgYXQgdGhlIG9yaWdpbmFsIGRpc2N1c3Npb24g
-b24gdGhpcyBjaGFuZ2Ugd2UgcHJldHR5IG11Y2gKPiBqdXN0IGRpZCBpdCBpbiB0aGUgbmFtZSBv
-ZiBza2lwcGluZyBhIGZldyBleHRyYSBwb2ludGVyIGRlcmVmZXJlbmNlcy4KPiBIb3dldmVyLCBJ
-J3ZlIGRlY2lkZWQgbm90IHRvIHJldmVydCB0aGUgd2hvbGUgdGhpbmcgaW4gY2FzZSBzb21lb25l
-Cj4gaGFzIHNpbmNlIHN0YXJ0ZWQgdG8gZGVwZW5kIG9uIHRoZXNlIGNoYW5nZXMuIE5vbmUgb2Yg
-dGhlIG90aGVyIGNoZWNrcwo+IGFyZSByZWxldmFudCBmb3IgaTkxNSBhbnl3YXlzLgoKRG8gZGlz
-cGxheSBjb250cm9sbGVyIHVzdWFsbHkgc3VwcG9ydCBjaGFuZ2luZyBtb2RpZmllcnMgZm9yIHBh
-Z2UgZmxpcHMKPyBJIHVuZGVyc3RhbmQgZnJvbSB0aGUgaW5mb3JtYXRpb24gYWJvdXQgdGhhdCBp
-OTE1IGRvZXMsIGJ1dCBpcyB0aGF0CnVzdWFsID8gQ291bGQgdGhlcmUgYmUgZHJpdmVycyB0aGF0
-IHJlYWxseSBvbiB0aGlzIGNoZWNrIHRvIHJlamVjdAptb2RpZmllciBjaGFuZ2VzLCBhbmQgdGhh
-dCBhcmVuJ3QgcHJlcGFyZWQgdG8gaGFuZGxlIHRoZW0gaWYgdGhleSBhcmUKbm90IHJlamVjdGVk
-IGJ5IHRoZSBjb3JlID8gSSdtIG5vdCBvcHBvc2VkIHRvIHRoaXMgY2hhbmdlLCBidXQgSSdkIGxp
-a2UKdG8gY2FyZWZ1bGx5IGNvbnNpZGVyIHRoZSBmYWxsb3V0LgoKPiBDYzogc3RhYmxlQHZnZXIu
-a2VybmVsLm9yZwo+IENjOiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFz
-b25ib2FyZC5jb20+Cj4gRml4ZXM6IGRiZDRkNTc2MWUxZiAoImRybTogUmVwbGFjZSAnZm9ybWF0
-LT5mb3JtYXQnIGNvbXBhcmlzb25zIHRvIGp1c3QgJ2Zvcm1hdCcgY29tcGFyaXNvbnMiKQo+IFNp
-Z25lZC1vZmYtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5j
-b20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYyB8IDIgKy0KPiAgMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUu
-Ywo+IGluZGV4IGQ2YWQ2MGFiMGQzOC4uZjJjYTUzMTVmMjNiIDEwMDY0NAo+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fcGxhbmUuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUu
-Ywo+IEBAIC0xMTUzLDcgKzExNTMsNyBAQCBpbnQgZHJtX21vZGVfcGFnZV9mbGlwX2lvY3RsKHN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gIAlpZiAocmV0KQo+ICAJCWdvdG8gb3V0Owo+ICAKPiAt
-CWlmIChvbGRfZmItPmZvcm1hdCAhPSBmYi0+Zm9ybWF0KSB7Cj4gKwlpZiAob2xkX2ZiLT5mb3Jt
-YXQtPmZvcm1hdCAhPSBmYi0+Zm9ybWF0LT5mb3JtYXQpIHsKPiAgCQlEUk1fREVCVUdfS01TKCJQ
-YWdlIGZsaXAgaXMgbm90IGFsbG93ZWQgdG8gY2hhbmdlIGZyYW1lIGJ1ZmZlciBmb3JtYXQuXG4i
-KTsKPiAgCQlyZXQgPSAtRUlOVkFMOwo+ICAJCWdvdG8gb3V0OwoKLS0gClJlZ2FyZHMsCgpMYXVy
-ZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+Hi Enric,
+
+Thank you for the patch.
+
+On Thu, Apr 16, 2020 at 05:57:13PM +0200, Enric Balletbo i Serra wrote:
+> The PS8640 DSI-to-eDP bridge can retrieve the EDID, so implement the
+> .get_edid callback and set the flag to indicate the core to use it.
+> 
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> ---
+> 
+> Changes in v2: None
+> 
+>  drivers/gpu/drm/bridge/parade-ps8640.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+> index d3a53442d449..956b76e0a44d 100644
+> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> @@ -242,8 +242,18 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
+>  	return ret;
+>  }
+>  
+> +static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
+> +					   struct drm_connector *connector)
+> +{
+> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> +
+> +	return drm_get_edid(connector,
+> +			    ps_bridge->page[PAGE0_DP_CNTL]->adapter);
+
+This will only work if the DDC signals are connected to the PS8640
+(quite obviously). Is that guaranteed, or could some systems connect
+them directory to an SoC I2C controller ? In the latter case we would
+have to report this in the DT bindings of the PS8640. That's not
+blocking for this patch, I am just wondering, as I would have expected
+the driver to already expose EDID one way or another if this was
+available and used.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +}
+> +
+>  static const struct drm_bridge_funcs ps8640_bridge_funcs = {
+>  	.attach = ps8640_bridge_attach,
+> +	.get_edid = ps8640_bridge_get_edid,
+>  	.post_disable = ps8640_post_disable,
+>  	.pre_enable = ps8640_pre_enable,
+>  };
+> @@ -296,6 +306,8 @@ static int ps8640_probe(struct i2c_client *client)
+>  
+>  	ps_bridge->bridge.funcs = &ps8640_bridge_funcs;
+>  	ps_bridge->bridge.of_node = dev->of_node;
+> +	ps_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
+> +	ps_bridge->bridge.type = DRM_MODE_CONNECTOR_eDP;
+>  
+>  	ps_bridge->page[PAGE0_DP_CNTL] = client;
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
