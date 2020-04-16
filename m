@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9F51AD69D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D85091AD686
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A5CC6E37F;
-	Fri, 17 Apr 2020 06:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 350216E34B;
+	Fri, 17 Apr 2020 06:59:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
  [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4706C6E0B6
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:26:25 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id k28so6184682lfe.10
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 10:26:25 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51C6A6E0B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:26:26 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id l11so6226470lfc.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 10:26:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z/MhmV+tzvMVyTZ+hbXLTjNNEHkIH/FwOHSo977XNI0=;
- b=h4emgDt+LvITvR7yotrGC7DQa7Wpeu0jeqRjX8y+OXCYOSzN4A5WVfyJuLh+XxftJu
- lsY5lmDYAgOQqvpprcdlY3BK6hx54CxljSyam7qdjJaCrD4nBrtyCsIJWcblqGVkPV6b
- 6sKk0X8ZPJarvyEUe3Hdda88110MRwsK/Fdfrsu/GfqjnGxED2CVpgTqZyKwSNz0yBOT
- w5a3yCiP4y2iMbEsGwOji8ES9i+84U/qC7x6KtJWz4lik4w0YM8Fz70kkeZbQmNLb1kI
- tEwZosvRjowapArxaeFrlEc9c9QpjHWRZc7ZJQO9GCkUy+Z99Z0pGjAchEaje3JFUT+r
- +oww==
+ bh=BFzc6fT7PJhOVc2PmEDvrBnBpynDH67qawUCdvlDUBA=;
+ b=XtJDuxVSs63q0EVoGLvIoGPtPP7Hv/oO6lZvbqj5/JWUrSsEb+fCWFWmuuucmMpuhf
+ TKwH27fiOd3qNrhl/mWe6UGRPxfDcRfxtlSSqinEM90hrGFRiPo2R1p1B0bu36R4pDIV
+ 5QqkPRzPX89xSkpG9QI1vTMnOodL/HNM0nRvr2YZY/wNGCfor1g6RamfpcLVjDEZz79c
+ wEgiW2x3nFLTY3a1j6VNXjXKiSxCnVbX7p8Qp7oh0Tu/svGdZkIC3oTFt/Ox+ELmgAsC
+ IyLvejJRj/Nsnw/aeUnAHDWTNPKrTLF11g3Col6priDNVx/zUbU0zqe5VAq1b8LbZyaR
+ JfTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z/MhmV+tzvMVyTZ+hbXLTjNNEHkIH/FwOHSo977XNI0=;
- b=E5YC4IdjL8XePt04uI+EXjj9E5Arw7Z9LMfMgkBftTY/C0ORMq4KRri8Ne1OsuWfRv
- 6xvc/Xdo4cD1iEA0q2Yj7kixcE3SEAFLByXRBJwtYSgHStGQM0FQcDE7vZMwHG26Q1nj
- mBEXR0/mkUpUlPceoPk38s2fS5uRBGCm1jMk2+sGVIKAQNrcX6oXp1tbXSlk0L6EaQry
- FF+9iyGYkMO0UYHu52BB28wkaUCj48ael8v8AFnfLl4XDlGO4dsuOgjID31atWWqmPcU
- A8waXNcAr5Jjmlz9GNaKpAif61f1kSb5CrvnkURV54UYcCAjKEfL2DKk4P6T9A1MRJqn
- NXyQ==
-X-Gm-Message-State: AGi0PuY1tRSihw9nAvDm1hC20YLCfgwIEGZWJLAroQEiK63QioQTcrTd
- 42X4htauQyFo6bOih7XPkdQ=
-X-Google-Smtp-Source: APiQypL6WC/JhsvoIKdwk+ofEsGfvm5ZkWQ1KcRrCNOVS+Ec4rlqGkCk2QwMltYmTa896nctz0qz0g==
-X-Received: by 2002:ac2:5c07:: with SMTP id r7mr6829502lfp.160.1587057983693; 
- Thu, 16 Apr 2020 10:26:23 -0700 (PDT)
+ bh=BFzc6fT7PJhOVc2PmEDvrBnBpynDH67qawUCdvlDUBA=;
+ b=R7+8klpgHZfgQ/gCJ/U033Rgm6Urk8BGQ0aaTJIDKIQkzV0Qfo/aB7RY6ApD2w1bFo
+ rBxBeonikKw8VSG/vfpLHSmTl5SvPyvioRKsNF2T/2sr9wOuhqyeavIM3Td4Gg4m62ua
+ 1lY+tzyuzdLxQLmVWm6JnrpKKDD+4Ln2oJYW3T5LS83Ie/KfmP9URInwYyHiyMizNj+i
+ aEDLAMWcLhF0fiEOt09djh9mU2M1MTzLu/t9ckyNJZjvTMx4PhlQREn0tuT1UMhLlYPb
+ Wh4dKxdzqI88BJFlaUeK2Jl575Tex8pJntcOf70t34O40bxCKPJCEqcHU7ZTX3+jpq7c
+ Bv/w==
+X-Gm-Message-State: AGi0PuZZI8FdzxdJKraafQ9ho4SsM658LDnd7VbL1TUK9HywM2mY/aC/
+ HIjP4YyivRYceRK6TkBHv0M=
+X-Google-Smtp-Source: APiQypIiyjkqz7+51N41EvFkk++/rxy4a2pb95TOvbOxygyTMT2pz6q4DvMSYi+QJF4ZmBV9xlBjAA==
+X-Received: by 2002:a19:d3:: with SMTP id 202mr6549662lfa.24.1587057984730;
+ Thu, 16 Apr 2020 10:26:24 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru.
  [91.78.208.152])
- by smtp.gmail.com with ESMTPSA id q26sm5367381ljg.47.2020.04.16.10.26.22
+ by smtp.gmail.com with ESMTPSA id q26sm5367381ljg.47.2020.04.16.10.26.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Apr 2020 10:26:23 -0700 (PDT)
+ Thu, 16 Apr 2020 10:26:24 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v3 1/2] drm/tegra: output: Don't leak OF node on error
-Date: Thu, 16 Apr 2020 20:24:04 +0300
-Message-Id: <20200416172405.5051-2-digetx@gmail.com>
+Subject: [PATCH v3 2/2] drm/tegra: output: rgb: Support LVDS encoder bridge
+Date: Thu, 16 Apr 2020 20:24:05 +0300
+Message-Id: <20200416172405.5051-3-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200416172405.5051-1-digetx@gmail.com>
 References: <20200416172405.5051-1-digetx@gmail.com>
@@ -75,47 +75,117 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The OF node should be put before returning error in tegra_output_probe(),
-otherwise node's refcount will be leaked.
+Newer Tegra device-trees will specify a video output graph that involves
+LVDS encoder bridge, This patch adds support for the LVDS encoder bridge
+to the RGB output, allowing us to model display hardware properly.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/output.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/tegra/drm.h    |  2 ++
+ drivers/gpu/drm/tegra/output.c | 10 ++++++++++
+ drivers/gpu/drm/tegra/rgb.c    | 34 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 46 insertions(+)
 
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index 804869799305..cccd368b6752 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -12,6 +12,7 @@
+ #include <linux/of_gpio.h>
+ 
+ #include <drm/drm_atomic.h>
++#include <drm/drm_bridge.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_encoder.h>
+ #include <drm/drm_fb_helper.h>
+@@ -116,6 +117,7 @@ struct tegra_output {
+ 	struct device_node *of_node;
+ 	struct device *dev;
+ 
++	struct drm_bridge *bridge;
+ 	struct drm_panel *panel;
+ 	struct i2c_adapter *ddc;
+ 	const struct edid *edid;
 diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index e36e5e7c2f69..a6a711d54e88 100644
+index a6a711d54e88..37fc6b8c173f 100644
 --- a/drivers/gpu/drm/tegra/output.c
 +++ b/drivers/gpu/drm/tegra/output.c
-@@ -102,10 +102,10 @@ int tegra_output_probe(struct tegra_output *output)
- 	panel = of_parse_phandle(output->of_node, "nvidia,panel", 0);
- 	if (panel) {
- 		output->panel = of_drm_find_panel(panel);
-+		of_node_put(panel);
-+
- 		if (IS_ERR(output->panel))
- 			return PTR_ERR(output->panel);
--
--		of_node_put(panel);
- 	}
+@@ -180,6 +180,16 @@ int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
+ 	int connector_type;
+ 	int err;
  
- 	output->edid = of_get_property(output->of_node, "nvidia,edid", &size);
-@@ -113,13 +113,12 @@ int tegra_output_probe(struct tegra_output *output)
- 	ddc = of_parse_phandle(output->of_node, "nvidia,ddc-i2c-bus", 0);
- 	if (ddc) {
- 		output->ddc = of_find_i2c_adapter_by_node(ddc);
-+		of_node_put(ddc);
++	if (output->bridge) {
++		err = drm_bridge_attach(&output->encoder, output->bridge,
++					NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
++		if (err) {
++			dev_err(output->dev, "cannot connect bridge: %d\n",
++				err);
++			return err;
++		}
++	}
 +
- 		if (!output->ddc) {
- 			err = -EPROBE_DEFER;
--			of_node_put(ddc);
- 			return err;
- 		}
--
--		of_node_put(ddc);
- 	}
+ 	if (output->panel) {
+ 		err = drm_panel_attach(output->panel, &output->connector);
+ 		if (err < 0)
+diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
+index 0562a7eb793f..0df213e92664 100644
+--- a/drivers/gpu/drm/tegra/rgb.c
++++ b/drivers/gpu/drm/tegra/rgb.c
+@@ -5,6 +5,7 @@
+  */
  
- 	output->hpd_gpio = devm_gpiod_get_from_of_node(output->dev,
+ #include <linux/clk.h>
++#include <linux/of_graph.h>
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_panel.h>
+@@ -210,6 +211,7 @@ static const struct drm_encoder_helper_funcs tegra_rgb_encoder_helper_funcs = {
+ 
+ int tegra_dc_rgb_probe(struct tegra_dc *dc)
+ {
++	const unsigned int encoder_port = 0, panel_port = 1;
+ 	struct device_node *np;
+ 	struct tegra_rgb *rgb;
+ 	int err;
+@@ -226,6 +228,38 @@ int tegra_dc_rgb_probe(struct tegra_dc *dc)
+ 	rgb->output.of_node = np;
+ 	rgb->dc = dc;
+ 
++	/*
++	 * Tegra devices that have LVDS panel utilize LVDS-encoder bridge
++	 * for converting 24/18 RGB data-lanes into 8 lanes. Encoder usually
++	 * have a powerdown control which needs to be enabled in order to
++	 * transfer data to the panel. Historically devices that use an older
++	 * device-tree version didn't model the bridge, assuming that encoder
++	 * is turned ON by default, while today's DRM allows us to model LVDS
++	 * encoder properly.
++	 *
++	 * Newer device-trees may utilize output->encoder->panel graph.
++	 *
++	 * For older device-trees we fall back to use nvidia,panel phandle.
++	 */
++	np = of_graph_get_remote_node(rgb->output.of_node, encoder_port, -1);
++	if (np) {
++		rgb->output.bridge = of_drm_find_bridge(np);
++		of_node_put(np);
++
++		if (!rgb->output.bridge)
++			return -EPROBE_DEFER;
++
++		np = of_graph_get_remote_node(rgb->output.bridge->of_node,
++					      panel_port, -1);
++		if (np) {
++			rgb->output.panel = of_drm_find_panel(np);
++			of_node_put(np);
++
++			if (IS_ERR(rgb->output.panel))
++				return PTR_ERR(rgb->output.panel);
++		}
++	}
++
+ 	err = tegra_output_probe(&rgb->output);
+ 	if (err < 0)
+ 		return err;
 -- 
 2.26.0
 
