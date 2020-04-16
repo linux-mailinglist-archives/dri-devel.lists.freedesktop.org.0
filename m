@@ -1,42 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F044A1AD17D
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 22:50:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7EC1AD69C
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA0E6E0E4;
-	Thu, 16 Apr 2020 20:50:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E0926E362;
+	Fri, 17 Apr 2020 06:59:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F06E86E0E4
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 20:50:27 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 577CA97D;
- Thu, 16 Apr 2020 22:50:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1587070224;
- bh=+3HruF7BWI3dgo7B6OhbPOuvAroBWE8pf/TumbaPCNE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GOwCpuEhOVC5GevTvJXEoi/Qk7P1KlX897QfWZMYhfj4ComYApD7KvhqkllmU19mP
- QldRhosz0iZgv73AxKq3hbxz4Q1RDTJXLXX0uV0Pc3hFo4bxYuDTfakUEaiF0aWeID
- T94H6CCO0JaBNJsP6wmSzCTC6+UjjieK9mSOxKwQ=
-Date: Thu, 16 Apr 2020 23:50:12 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/tegra: output: rgb: Support LVDS encoder bridge
-Message-ID: <20200416205012.GA28162@pendragon.ideasonboard.com>
-References: <20200416172405.5051-1-digetx@gmail.com>
- <20200416172405.5051-3-digetx@gmail.com>
- <20200416174112.GS4796@pendragon.ideasonboard.com>
- <6275bcd3-c0b2-4c1c-1817-9e713d3747c7@gmail.com>
- <7cf27640-4fdc-8617-01cb-85f4c5847bb8@gmail.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 610AD6EB71
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 21:07:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 4501F2A23DF
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/bridge: panel: Return always an error pointer in
+ drm_panel_bridge_add()
+Date: Thu, 16 Apr 2020 23:06:54 +0200
+Message-Id: <20200416210654.2468805-1-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <7cf27640-4fdc-8617-01cb-85f4c5847bb8@gmail.com>
+X-Mailman-Approved-At: Fri, 17 Apr 2020 06:59:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,34 +35,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Collabora Kernel ML <kernel@collabora.com>, sam@ravnborg.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRG1pdHJ5LAoKT24gVGh1LCBBcHIgMTYsIDIwMjAgYXQgMTE6MjE6NDBQTSArMDMwMCwgRG1p
-dHJ5IE9zaXBlbmtvIHdyb3RlOgo+IDE2LjA0LjIwMjAgMjE6NTIsIERtaXRyeSBPc2lwZW5rbyDQ
-v9C40YjQtdGCOgo+IC4uLgo+ID4+IE1heSBJIGFsc28gcmVjb21tZW5kIHN3aXRjaGluZyB0byB0
-aGUgRFJNIHBhbmVsIGJyaWRnZSBoZWxwZXIgPyBJdCB3aWxsCj4gPj4gc2ltcGxpZnkgdGhlIGNv
-ZGUuCj4gPiAKPiA+IENvdWxkIHlvdSBwbGVhc2UgY2xhcmlmeSB3aGF0IGlzIHRoZSAiRFJNIHBh
-bmVsIGJyaWRnZSBoZWxwZXIiPwo+ID4gCj4gPiBJIHRoaW5rIHdlIHdvbid0IG5lZWQgYW55IGFk
-ZGl0aW9uYWwgaGVscGVycyBhZnRlciBzd2l0Y2hpbmcgdG8gdGhlCj4gPiBicmlkZ2UgY29ubmVj
-dG9yIGhlbHBlciwgbm8/Cj4gCj4gQWN0dWFsbHksIEkgbm93IHNlZSB0aGF0IHRoZSBwYW5lbCBu
-ZWVkcyB0byBiZSBtYW51YWxseSBhdHRhY2hlZCB0byB0aGUKPiBjb25uZWN0b3IuCgpUaGUgRFJN
-IHBhbmVsIGJyaWRnZSBoZWxwZXIgY3JlYXRlcyBhIGJyaWRnZSBmcm9tIGEgcGFuZWwgKHdpdGgK
-ZGV2bV9kcm1fcGFuZWxfYnJpZGdlX2FkZCgpKS4gWW91IGNhbiB0aGVuIGF0dGFjaCB0aGF0IGJy
-aWRnZSB0byB0aGUKY2hhaW4sIGxpa2UgYW55IG90aGVyIGJyaWRnZSwgYW5kIHRoZSBlbmFibGUv
-ZGlzYWJsZSBvcGVyYXRpb25zIHdpbGwgYmUKY2FsbGVkIGF1dG9tYXRpY2FsbHkgd2l0aG91dCBh
-bnkgbmVlZCB0byBjYWxsIHRoZSBwYW5lbCBlbmFibGUvZGlzYWJsZQptYW51YWxseSBhcyBkb25l
-IGN1cnJlbnRseS4KCj4gU3RpbGwgaXQncyBub3QgYXBwYXJlbnQgdG8gbWUgaG93IHRvIGdldCBw
-YW5lbCBvdXQgb2YgdGhlIGJyaWRnZS4gSXQKPiBsb29rcyBsaWtlIHRoZXJlIGlzIG5vIHN1Y2gg
-InBhbmVsIGhlbHBlciIgZm9yIHRoZSBicmlkZ2UgQVBJIG9yIEkganVzdAo+IGNhbid0IGZpbmQg
-aXQuCgpZb3UgZG9uJ3QgbmVlZCB0byBnZXQgYSBwYW5lbCBvdXQgb2YgdGhlIGJyaWRnZS4gWW91
-IHNob3VsZCBnZXQgdGhlCmJyaWRnZSBhcyBkb25lIHRvZGF5LCBhbmQgd3JhcCBpdCBpbiBhIGJy
-aWRnZSB3aXRoCmRldm1fZHJtX3BhbmVsX2JyaWRnZV9hZGQoKS4KCi0tIApSZWdhcmRzLAoKTGF1
-cmVudCBQaW5jaGFydApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+Since commit 89958b7cd955 ("drm/bridge: panel: Infer connector type from
+panel by default"), drm_panel_bridge_add() and their variants can return
+NULL and an error pointer. This is fine but none of the actual users of
+the API are checking for the NULL value. Instead of change all the
+users, seems reasonable to return an error pointer instead. So change
+the returned value for those functions when the connector type is unknown.
+
+Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+---
+
+ drivers/gpu/drm/bridge/panel.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index 8461ee8304ba..7a3df0f319f3 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -166,7 +166,7 @@ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
+  *
+  * The connector type is set to @panel->connector_type, which must be set to a
+  * known type. Calling this function with a panel whose connector type is
+- * DRM_MODE_CONNECTOR_Unknown will return NULL.
++ * DRM_MODE_CONNECTOR_Unknown will return ERR_PTR(-EINVAL).
+  *
+  * See devm_drm_panel_bridge_add() for an automatically managed version of this
+  * function.
+@@ -174,7 +174,7 @@ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
+ struct drm_bridge *drm_panel_bridge_add(struct drm_panel *panel)
+ {
+ 	if (WARN_ON(panel->connector_type == DRM_MODE_CONNECTOR_Unknown))
+-		return NULL;
++		return ERR_PTR(-EINVAL);
+ 
+ 	return drm_panel_bridge_add_typed(panel, panel->connector_type);
+ }
+@@ -265,7 +265,7 @@ struct drm_bridge *devm_drm_panel_bridge_add(struct device *dev,
+ 					     struct drm_panel *panel)
+ {
+ 	if (WARN_ON(panel->connector_type == DRM_MODE_CONNECTOR_Unknown))
+-		return NULL;
++		return ERR_PTR(-EINVAL);
+ 
+ 	return devm_drm_panel_bridge_add_typed(dev, panel,
+ 					       panel->connector_type);
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
