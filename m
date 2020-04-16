@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8FF1ABF18
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 13:26:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BE91ABF1D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 13:27:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF91A6E08A;
-	Thu, 16 Apr 2020 11:26:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DDA16E2E2;
+	Thu, 16 Apr 2020 11:27:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED9356E08A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 11:26:45 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id u15so7431796ljd.3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 04:26:45 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BA056E2D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 11:27:39 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id y4so7396205ljn.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 04:27:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ItMKLhoTTV7+wK6jse2c5OaBjQvnx9Iemy9x9CFhkc4=;
- b=JvISHrsRWazHdYXKKlYLrRFdELBOOow4Jw0w8jLB8I+kKrAW3K+XyJ4C0ZUCKrfDLB
- SXdvCSJ2taPL878hyP8+B9KlVKF7WXiA4YrRismX2hcWsERKIhSgw0H/wd5gy+h4hceg
- JedVIO+b2FRg3fiTm2xDGBYL8X/sPUpyDsRG3nNRLFAcVHgKwOkFXBJ+JVCrTgw0oYaz
- sP6F407pdOwux8LsVxgkg/oMNOZPkvA//c5J5ML5Dznp1eajfl0j1XxWAU3tLU2ais5U
- tt/Pe7BXE8G94vhYVpEgbMyPYwfIJaFiGxwu7T1UsxkUNuyvJ+yyO6XTb/ComqT0d7bQ
- nreA==
+ :cc; bh=7w8uSc7h8KgS1tb3yibkFzYY8qlF5pm6oSHV83Uw1Yo=;
+ b=fK5JsDocnEIQpMxmcyB3SNBb4AiE3ckwZUinj2ftQ0O4JRKTIbO7AkXbjTfZHrcW4F
+ Ph4c5dNJHtoDZPzBgS5P46KsV0i5vqL12l8Fs/R5cK17ebKdvWg/2V+X+dGThmiG0Mkv
+ CY8x/8PHE4auLNJwrIDut8yIQXTG48mnpFO4s9Bkdg7Jqu0V2DhS3i+8y7+iU/jAYrz5
+ gcPWZXxCD0D3Se2pwjLcJlq6OFklUaSAbw8qzQo2/9Eg8O6oPpRRVUNjnI8s5CRe/79x
+ RLkZULM9yPYZh8o1WkzqHdKmixESJch8RSdCExmIi23JUhWnw8TPN8DTSxP75/5Ij5fh
+ /jRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ItMKLhoTTV7+wK6jse2c5OaBjQvnx9Iemy9x9CFhkc4=;
- b=C+g1k7IPo672yopxvKq2KegidvEeqf+roPM+Nz0Rz/tbB/Cn+VOpUdBizBgVueG7+P
- E4nsEhwEaX/6ISY60ahlA0J0cFqvj1AXI/jw8jAy/JonctWkMchqCZsemkzhsRxjsjyT
- eKRtBydAXcc+nzW6ttKU6RgAudBpDe64Jy7jLm7xKFWOUjxB4oeLjAsFY04escdpEkB4
- P+A2IeLk9ABNNqXBCrIPXkaLyzNEIu8sbanHf1URHbRj84B0e1laPdB8aoBn13IP/Il8
- wpn1QgzdYNF+TafqW0MZq7IVQjpWk1m6P+eA0ieSKSPj0cFlsaNju5lj43QrBz2Vv/Wv
- gt3g==
-X-Gm-Message-State: AGi0PuZL3qayxwnHzwva6eq9+nrKBmB0kRhyarnVGfh4KQf04Z2pDJtc
- 70qAKgP2/7ZYnMmb0KcdjZFOhkhkDYYw/q7zuZjGvg==
-X-Google-Smtp-Source: APiQypLNKo+8PBIa8cWaqGfJbETe1Y+lXjOhLcXgDjTUKhJLS2kG20SytVqpK+1mdy1IOLnR0YF0xwYrUVk0CaPMNSU=
-X-Received: by 2002:a2e:b6cf:: with SMTP id m15mr5984508ljo.168.1587036404026; 
- Thu, 16 Apr 2020 04:26:44 -0700 (PDT)
+ bh=7w8uSc7h8KgS1tb3yibkFzYY8qlF5pm6oSHV83Uw1Yo=;
+ b=JDQ0rPETbM29D+RYk/ug0dQWNForFOIbdMdrDa5qfiBRV3OM3G1tQoDqUnUJlB+9Mt
+ rE1rTc72TN9Tbk5oxpeDoSfM6898/m44p1VSRT15iW1RdSozYyHEJlAI0JfS95XoJSuA
+ OZOwXjsOVVHxpelHrtfZvIMv7DsJxYBPz6aSG/xn8Vi5CK/mtJdqCk3h5nSfAHxlD0Cg
+ UV8zLxtN88/Nu1t+TjPLRRHwHg6fT7MyQ5n4qo2sFg1y9ftccGXj56DnyZlYMWvcFvoq
+ df+CDb96Ey7ho+FpNnY0N7+pkpckNuo8cL/2kqXITidOyZIVKBWpA5gjGZeqczDA8emB
+ /EYA==
+X-Gm-Message-State: AGi0Pua0VDBA0+nhO6+g2p0l443CHdmC9MUC6n7wyAv99VeobEr/Pekt
+ cySQ0MBdVwE4U9qoxqv2Re4pOavKv+0/WNqKgpGGT6DL
+X-Google-Smtp-Source: APiQypK+/66JCAU5dR9ygtoleJlBgRb0eW5swJDYGED+qjknJO+le0b3+Jc2JWnpyeRFTwKn69HDCp2PQXUZ6a9msV8=
+X-Received: by 2002:a05:651c:32e:: with SMTP id
+ b14mr1282479ljp.277.1587036457745; 
+ Thu, 16 Apr 2020 04:27:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200408195109.32692-1-sam@ravnborg.org>
- <20200408195109.32692-3-sam@ravnborg.org>
-In-Reply-To: <20200408195109.32692-3-sam@ravnborg.org>
+ <20200408195109.32692-6-sam@ravnborg.org>
+In-Reply-To: <20200408195109.32692-6-sam@ravnborg.org>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 16 Apr 2020 13:26:32 +0200
-Message-ID: <CACRpkdYVY7eqrWctUm2GzzZ=1y9Cznya8HUYTDco2bA8Z9Hq1Q@mail.gmail.com>
-Subject: Re: [PATCH v2 02/36] dt-bindings: display: look for dsi* nodes in
- dsi-controller
+Date: Thu, 16 Apr 2020 13:27:26 +0200
+Message-ID: <CACRpkdaG+WcckCK27HPx=tCKMHaz+TLbTkj3gi+4cyK+EbbO3g@mail.gmail.com>
+Subject: Re: [PATCH v2 05/36] dt-bindings: display: convert
+ arm,versatile-tft-panel to DT Schema
 To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,22 +74,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, Apr 8, 2020 at 9:51 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 
-> Rob wrote:
->
->     Uhhh, it's looking for dsi-controller(@.*)? which is not the common
->     case found in dts files. We should fix that to dsi(@.*)?.
->
-> See: https://lore.kernel.org/dri-devel/20200319032222.GK29911@bogus/
->
-> Fix it.
+> v2:
+>   - Fix entry in MAINTAINERS
 >
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
 
-I think I was instructed to use dsi-controller@ at some point but I
-suppose it was a misunderstanding.
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
 Linus Walleij
