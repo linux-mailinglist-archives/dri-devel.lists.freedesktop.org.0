@@ -2,53 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E081ABDBC
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 12:17:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1FA1ABDCA
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 12:25:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32DDC6E2DF;
-	Thu, 16 Apr 2020 10:17:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 481ED6EB36;
+	Thu, 16 Apr 2020 10:25:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DF336E2DD
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 10:17:46 +0000 (UTC)
-IronPort-SDR: UWVF6zZlxDMUH5gLQo8n4O/qWPtwQvlOqLKQrzYWfRU6MxAj/xLqRmvioVMFNLZbX4ZUHdv8DR
- fLqT8EwzT1GQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2020 03:17:42 -0700
-IronPort-SDR: PabvyhK/GDPyBjaf0paWWd5oAAbGpqHHyicWhdVU0osJ1cJkrEV/y2jitUhatIDlUFj03yE+KQ
- +MY52IYzL9ng==
-X-IronPort-AV: E=Sophos;i="5.72,390,1580803200"; d="scan'208";a="400622555"
-Received: from ellenfax-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.249.44.122])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2020 03:17:34 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Arnd Bergmann <arnd@arndb.de>, Saeed Mahameed <saeedm@mellanox.com>
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-In-Reply-To: <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200408202711.1198966-1-arnd@arndb.de>
- <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
- <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
- <20200408224224.GD11886@ziepe.ca> <87k12pgifv.fsf@intel.com>
- <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
- <20200410171320.GN11886@ziepe.ca>
- <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com>
- <20200414132900.GD5100@ziepe.ca>
- <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
- <20200414152312.GF5100@ziepe.ca>
- <CAK8P3a1PjP9_b5NdmqTLeGN4y+3JXx_yyTE8YAf1u5rYHWPA9g@mail.gmail.com>
- <f6d83b08fc0bc171b5ba5b2a0bc138727d92e2c0.camel@mellanox.com>
- <CAK8P3a1-J=4EAxh7TtQxugxwXk239u8ffgxZNRdw_WWy8ExFoQ@mail.gmail.com>
- <834c7606743424c64951dd2193ca15e29799bf18.camel@mellanox.com>
- <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
-Date: Thu, 16 Apr 2020 13:17:32 +0300
-Message-ID: <874ktj4tvn.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31FEF6EB36
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 10:25:12 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 457552192A;
+ Thu, 16 Apr 2020 10:25:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1587032711;
+ bh=lKwbnEdUTTba3AJVKzmuvKJ2X9FO6D210s3WkJT/zZQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=W2uMPyIU+mZIh4oNdYX1OAnVqWzjphWKBN2GBWPvfUx+i38L7tiemQkppi+gxHlZW
+ JlF2YNYah1X+HwUMB3yZOQ35X0ro+n9Y78fNlVj/EfyxfoZZsOyB5MYhQSYl8R4ERW
+ H/AbdIG7irc1sh8ffKpw66MvAQ+0sft+pvgi+fyg=
+Date: Thu, 16 Apr 2020 12:25:08 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: John Stultz <john.stultz@linaro.org>
+Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
+Message-ID: <20200416102508.GA820251@kroah.com>
+References: <20200414134629.54567-1-orjan.eide@arm.com>
+ <20200414141849.55654-1-orjan.eide@arm.com>
+ <20200414142810.GA958163@kroah.com>
+ <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,60 +49,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
- "leon@kernel.org" <leon@kernel.org>,
- "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "masahiroy@kernel.org" <masahiroy@kernel.org>,
- "nico@fluxnic.net" <nico@fluxnic.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "a.hajda@samsung.com" <a.hajda@samsung.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "jgg@ziepe.ca" <jgg@ziepe.ca>, "davem@davemloft.net" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: driverdevel <devel@driverdev.osuosl.org>, Laura Abbott <labbott@redhat.com>,
+ Todd Kjos <tkjos@android.com>, Lecopzer Chen <lecopzer.chen@mediatek.com>,
+ Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Anders Pedersen <anders.pedersen@arm.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ "Darren Hart \(VMware\)" <dvhart@infradead.org>,
+ =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>, nd <nd@arm.com>,
+ Martijn Coenen <maco@android.com>, Christian Brauner <christian@brauner.io>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Apr 2020, Arnd Bergmann <arnd@arndb.de> wrote:
-> On Thu, Apr 16, 2020 at 5:25 AM Saeed Mahameed <saeedm@mellanox.com> wrote:
->> BTW how about adding a new Kconfig option to hide the details of
->> ( BAR || !BAR) ? as Jason already explained and suggested, this will
->> make it easier for the users and developers to understand the actual
->> meaning behind this tristate weird condition.
->>
->> e.g have a new keyword:
->>      reach VXLAN
->> which will be equivalent to:
->>      depends on VXLAN && !VXLAN
->
-> I'd love to see that, but I'm not sure what keyword is best. For your
-> suggestion of "reach", that would probably do the job, but I'm not
-> sure if this ends up being more or less confusing than what we have
-> today.
+On Tue, Apr 14, 2020 at 09:41:31PM -0700, John Stultz wrote:
+> On Tue, Apr 14, 2020 at 7:28 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Tue, Apr 14, 2020 at 04:18:47PM +0200, =D8rjan Eide wrote:
+> > > Only sync the sg-list of an Ion dma-buf attachment when the attachment
+> > > is actually mapped on the device.
+> > >
+> > > dma-bufs may be synced at any time. It can be reached from user space
+> > > via DMA_BUF_IOCTL_SYNC, so there are no guarantees from callers on wh=
+en
+> > > syncs may be attempted, and dma_buf_end_cpu_access() and
+> > > dma_buf_begin_cpu_access() may not be paired.
+> > >
+> > > Since the sg_list's dma_address isn't set up until the buffer is used
+> > > on the device, and dma_map_sg() is called on it, the dma_address will=
+ be
+> > > NULL if sync is attempted on the dma-buf before it's mapped on a devi=
+ce.
+> > >
+> > > Before v5.0 (commit 55897af63091 ("dma-direct: merge swiotlb_dma_ops
+> > > into the dma_direct code")) this was a problem as the dma-api (at lea=
+st
+> > > the swiotlb_dma_ops on arm64) would use the potentially invalid
+> > > dma_address. How that failed depended on how the device handled physi=
+cal
+> > > address 0. If 0 was a valid address to physical ram, that page would =
+get
+> > > flushed a lot, while the actual pages in the buffer would not get syn=
+ced
+> > > correctly. While if 0 is an invalid physical address it may cause a
+> > > fault and trigger a crash.
+> > >
+> > > In v5.0 this was incidentally fixed by commit 55897af63091 ("dma-dire=
+ct:
+> > > merge swiotlb_dma_ops into the dma_direct code"), as this moved the
+> > > dma-api to use the page pointer in the sg_list, and (for Ion buffers =
+at
+> > > least) this will always be valid if the sg_list exists at all.
+> > >
+> > > But, this issue is re-introduced in v5.3 with
+> > > commit 449fa54d6815 ("dma-direct: correct the physical addr in
+> > > dma_direct_sync_sg_for_cpu/device") moves the dma-api back to the old
+> > > behaviour and picks the dma_address that may be invalid.
+> > >
+> > > dma-buf core doesn't ensure that the buffer is mapped on the device, =
+and
+> > > thus have a valid sg_list, before calling the exporter's
+> > > begin_cpu_access.
+> > >
+> > > Signed-off-by: =D8rjan Eide <orjan.eide@arm.com>
+> > > ---
+> > >  drivers/staging/android/ion/ion.c | 12 ++++++++++++
+> > >  1 file changed, 12 insertions(+)
+> > >
+> > > Resubmit without disclaimer, sorry about that.
+> > >
+> > > This seems to be part of a bigger issue where dma-buf exporters assume
+> > > that their dma-buf begin_cpu_access and end_cpu_access callbacks have=
+ a
+> > > certain guaranteed behavior, which isn't ensured by dma-buf core.
+> > >
+> > > This patch fixes this in ion only, but it also needs to be fixed for
+> > > other exporters, either handled like this in each exporter, or in
+> > > dma-buf core before calling into the exporters.
+> > >
+> > > diff --git a/drivers/staging/android/ion/ion.c b/drivers/staging/andr=
+oid/ion/ion.c
+> > > index 38b51eace4f9..7b752ba0cb6d 100644
+> > > --- a/drivers/staging/android/ion/ion.c
+> > > +++ b/drivers/staging/android/ion/ion.c
+> >
+> > Now that we have the dma-buff stuff in the tree, do we even need the
+> > ion code in the kernel anymore?  Can't we delete it now?
+> >
+> =
 
-Ah, perfect bikeshedding topic!
+> I agree that we shouldn't be taking further (non-security/cleanup)
+> patches to the ION code.
+> =
 
-Perhaps "uses"? If the dependency is enabled it gets used as a
-dependency.
+> I'd like to give developers a little bit of a transition period (I was
+> thinking a year, but really just one LTS release that has both would
+> do) where they can move their ION heaps over to dmabuf heaps and test
+> both against the same tree.
+> =
 
-Of course, this is all just talk until someone(tm) posts a patch
-actually making the change. I've looked at the kconfig tool sources
-before; not going to make the same mistake again.
+> But I do think we can mark it as deprecated and let folks know that
+> around the end of the year it will be deleted.
 
-BR,
-Jani.
+No one ever notices "depreciated" things, they only notice if the code
+is no longer there :)
 
+So I'm all for just deleting it and seeing who even notices...
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+thanks,
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
