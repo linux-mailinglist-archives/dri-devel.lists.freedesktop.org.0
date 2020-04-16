@@ -2,39 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1951ACE96
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 19:22:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20BFE1AD6A6
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C60A36E837;
-	Thu, 16 Apr 2020 17:22:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1506E39E;
+	Fri, 17 Apr 2020 07:00:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AFFC6E580
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:22:56 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3145897D;
- Thu, 16 Apr 2020 19:22:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1587057775;
- bh=bTfJZ+75ndQOARxqXeuOxJFXyYt8RzIOrx7gvZeGM5M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UhIfmKrRUNzc0klYEFAND1I5BO8RI0zq5GjDoZW2tHzP9cxwLQYneLPVCYJ6bl+02
- XVgqihJFaXzbRtD0iNQStH+CzDk+kbln0wVmmiI0D6U496AnHN2pJmiKOEEsagB50g
- PBTy+E/IcEX3vmXwbUlbFLnp1q9O0VQPqx3NMc+I=
-Date: Thu, 16 Apr 2020 20:22:43 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: Re: [PATCH v2 2/7] drm/bridge_connector: Set default status
- connected for eDP connectors
-Message-ID: <20200416172243.GL4796@pendragon.ideasonboard.com>
-References: <20200416155720.2360443-1-enric.balletbo@collabora.com>
- <20200416155720.2360443-3-enric.balletbo@collabora.com>
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB3496E0B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:26:24 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id r24so8730699ljd.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 10:26:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZiCNvkh9T+OdzJSCJmGWzbdtJNrMVTbSIfhdr+GotcQ=;
+ b=Ws4QXhiAvGNKHTMXP4AWNtMdYdAPVNiy3ni7wl4QQPu6caTsD4AcUpa2/HKUzesULz
+ RtTxjc7IBxFagwe4tNuD0sdvpf5FC/uTDYTlahrNXVd8l46j93mdjnosiExaiph3HZMf
+ jjxjyrvH7RRQRKMLgdA0XMG1uUcQlCjTibpp1EdDcvjEdqCgZcgD+QaSjKDaG7T9Vrdy
+ XWBNgnlBCrDgC0GUSWp4DhfmvZy7OBjOzuE0jH5BbsM3nDiSEhR7id+PXrrG+IDf5ZSS
+ yJKAfOyjf+VoeiVZXF8ZkN8O0/dj4LZbRZZTlHu7gfXMEktN7qTLOUzLlUvKCs4NstaF
+ zXPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZiCNvkh9T+OdzJSCJmGWzbdtJNrMVTbSIfhdr+GotcQ=;
+ b=Fs1If/L3MonhKMqqr6mZpqeNPqe7haHRL1zvm6RK6vYG+x3W+FxIFKahlOLCTml88A
+ gVrYN+cJZAAXs6XqgYnJXKtacTlkZhhFPbyrZ6hKMstzO1moC939UmU+vCBI8Z2MIp5c
+ n5dbyofkNPVmLam8RbUhMkcbB7AqKVEf0XsDW16cC4V30V50uPBrAjCx4WgZlpdYFtVa
+ mUd2I2WU++TpPNwEE0WKsqSV8mePgS4wc4f5d2pwTiqcCHFth0Yv9TvWHEXXYdIO/Zuu
+ oksCVAD3Ai7BLGrGhFfOpotApJzKFkH04e/RbAy/652YjODym8KmI1HQ1PVUTQj+go8p
+ LAdA==
+X-Gm-Message-State: AGi0PubzPwRJR56iHAcUCWAFlFI9GOkVCLCGHPEuCVOPu+ZzVKHPoz9M
+ /uh0iqzGyfN++5bF1vRQpz0=
+X-Google-Smtp-Source: APiQypIIC9kjgFxL1oSMIpuH+mLD6+GljcyOy3LohW83aCcQbZ1bimLKfLED+Ewq+wglUvrCkLaTrA==
+X-Received: by 2002:a2e:9a82:: with SMTP id p2mr7248376lji.279.1587057982791; 
+ Thu, 16 Apr 2020 10:26:22 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru.
+ [91.78.208.152])
+ by smtp.gmail.com with ESMTPSA id q26sm5367381ljg.47.2020.04.16.10.26.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Apr 2020 10:26:22 -0700 (PDT)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 0/2] Support DRM bridges on NVIDIA Tegra
+Date: Thu, 16 Apr 2020 20:24:03 +0300
+Message-Id: <20200416172405.5051-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200416155720.2360443-3-enric.balletbo@collabora.com>
+X-Mailman-Approved-At: Fri, 17 Apr 2020 06:59:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,53 +67,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: drinkcat@chromium.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Enric,
+Hello,
 
-Thank you for the patch.
+This small series adds initial support for the DRM bridges to NVIDIA Tegra
+DRM driver. This is required by newer device-trees where we model the LVDS
+encoder bridge properly.
 
-On Thu, Apr 16, 2020 at 05:57:14PM +0200, Enric Balletbo i Serra wrote:
-> In an eDP application, HPD is not required and on most bridge chips
-> useless. If HPD is not used, we need to set initial status as connected,
-> otherwise the connector created by the drm_bridge_connector API remains
-> in an unknown state.
-> 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Changelog:
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+v3: - Following recommendation from Sam Ravnborg, the new bridge attachment
+      model is now being used, i.e. we ask bridge to *not* create a connector
+      using the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
 
-> ---
-> 
-> Changes in v2: None
-> 
->  drivers/gpu/drm/drm_bridge_connector.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
-> index c6994fe673f3..a58cbde59c34 100644
-> --- a/drivers/gpu/drm/drm_bridge_connector.c
-> +++ b/drivers/gpu/drm/drm_bridge_connector.c
-> @@ -187,6 +187,7 @@ drm_bridge_connector_detect(struct drm_connector *connector, bool force)
->  		case DRM_MODE_CONNECTOR_DPI:
->  		case DRM_MODE_CONNECTOR_LVDS:
->  		case DRM_MODE_CONNECTOR_DSI:
-> +		case DRM_MODE_CONNECTOR_eDP:
->  			status = connector_status_connected;
->  			break;
->  		default:
+    - The bridge is now created only for the RGB (LVDS) output, and only
+      when necessary. For now we don't need bridges for HDMI or DSI outputs.
+
+    - I noticed that we're leaking OF node in the panel's error code path,
+      this is fixed now by the new patch "Don't leak OF node on error".
+
+v2: - Added the new "rgb: Don't register connector if bridge is used"
+      patch, which hides the unused connector provided by the Tegra DRM
+      driver when bridge is used, since bridge provides its own connector
+      to us.
+
+    - Please notice that the first "Support DRM bridges" patch was previously
+      sent out as a standalone v1 change.
+
+
+Dmitry Osipenko (2):
+  drm/tegra: output: Don't leak OF node on error
+  drm/tegra: output: rgb: Support LVDS encoder bridge
+
+ drivers/gpu/drm/tegra/drm.h    |  2 ++
+ drivers/gpu/drm/tegra/output.c | 19 ++++++++++++++-----
+ drivers/gpu/drm/tegra/rgb.c    | 34 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 50 insertions(+), 5 deletions(-)
 
 -- 
-Regards,
+2.26.0
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
