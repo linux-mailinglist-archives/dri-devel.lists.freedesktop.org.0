@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8551ABDED
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 12:31:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F821ABDE8
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 12:31:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42A286E048;
-	Thu, 16 Apr 2020 10:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F42F6EB3A;
+	Thu, 16 Apr 2020 10:31:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD84B89A91
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 10:31:23 +0000 (UTC)
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D63236EB39
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 10:31:13 +0000 (UTC)
 Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:fd83:81bb:c1d7:433d])
- by andre.telenet-ops.be with bizsmtp
- id TNWz2200b4dKHqf01NX0RZ; Thu, 16 Apr 2020 12:31:23 +0200
+ by baptiste.telenet-ops.be with bizsmtp
+ id TNWz2200j4dKHqf01NWzN6; Thu, 16 Apr 2020 12:31:11 +0200
 Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1jP1nP-0001cw-Ou; Thu, 16 Apr 2020 12:30:59 +0200
+ id 1jP1nP-0001cz-Q0; Thu, 16 Apr 2020 12:30:59 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1jP1nP-0003zL-Nb; Thu, 16 Apr 2020 12:30:59 +0200
+ id 1jP1nP-0003zO-OP; Thu, 16 Apr 2020 12:30:59 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Rob Herring <robh+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -32,9 +32,9 @@ To: Rob Herring <robh+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
  =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jiri Kosina <trivial@kernel.org>
-Subject: [PATCH trivial 5/6] ALSA: Fix misspellings of "Analog Devices"
-Date: Thu, 16 Apr 2020 12:30:57 +0200
-Message-Id: <20200416103058.15269-6-geert+renesas@glider.be>
+Subject: [PATCH trivial 6/6] ASoC: Fix misspellings of "Analog Devices"
+Date: Thu, 16 Apr 2020 12:30:58 +0200
+Message-Id: <20200416103058.15269-7-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200416103058.15269-1-geert+renesas@glider.be>
 References: <20200416103058.15269-1-geert+renesas@glider.be>
@@ -65,54 +65,50 @@ According to https://www.analog.com/, the company name is spelled
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- sound/isa/ad1816a/ad1816a.c | 2 +-
- sound/pci/ac97/ac97_patch.c | 2 +-
- sound/pci/hda/Kconfig       | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ sound/soc/codecs/ad1980.c  | 2 +-
+ sound/soc/codecs/ad73311.c | 2 +-
+ sound/soc/codecs/wm8782.c  | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/isa/ad1816a/ad1816a.c b/sound/isa/ad1816a/ad1816a.c
-index ce4c8ba2fa9873e7..ca18fe3ff8a59a9f 100644
---- a/sound/isa/ad1816a/ad1816a.c
-+++ b/sound/isa/ad1816a/ad1816a.c
-@@ -54,7 +54,7 @@ MODULE_PARM_DESC(clockfreq, "Clock frequency for ad1816a driver (default = 0).")
- static const struct pnp_card_device_id snd_ad1816a_pnpids[] = {
- 	/* Analog Devices AD1815 */
- 	{ .id = "ADS7150", .devs = { { .id = "ADS7150" }, { .id = "ADS7151" } } },
--	/* Analog Device AD1816? */
-+	/* Analog Devices AD1816? */
- 	{ .id = "ADS7180", .devs = { { .id = "ADS7180" }, { .id = "ADS7181" } } },
- 	/* Analog Devices AD1816A - added by Kenneth Platz <kxp@atl.hp.com> */
- 	{ .id = "ADS7181", .devs = { { .id = "ADS7180" }, { .id = "ADS7181" } } },
-diff --git a/sound/pci/ac97/ac97_patch.c b/sound/pci/ac97/ac97_patch.c
-index ebf926728c5f84af..45ef0f52ec55b803 100644
---- a/sound/pci/ac97/ac97_patch.c
-+++ b/sound/pci/ac97/ac97_patch.c
-@@ -1356,7 +1356,7 @@ static int patch_cx20551(struct snd_ac97 *ac97)
- }
- 
+diff --git a/sound/soc/codecs/ad1980.c b/sound/soc/codecs/ad1980.c
+index c4414c725c1f945a..43b1337bac37f70f 100644
+--- a/sound/soc/codecs/ad1980.c
++++ b/sound/soc/codecs/ad1980.c
+@@ -2,7 +2,7 @@
  /*
-- * Analog Device AD18xx, AD19xx codecs
-+ * Analog Devices AD18xx, AD19xx codecs
+  * ad1980.c  --  ALSA Soc AD1980 codec support
+  *
+- * Copyright:	Analog Device Inc.
++ * Copyright:	Analog Devices Inc.
+  * Author:	Roy Huang <roy.huang@analog.com>
+  * 		Cliff Cai <cliff.cai@analog.com>
   */
- #ifdef CONFIG_PM
- static void ad18xx_resume(struct snd_ac97 *ac97)
-diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
-index e1d3082a4fe93153..7ba542e45a3d7f88 100644
---- a/sound/pci/hda/Kconfig
-+++ b/sound/pci/hda/Kconfig
-@@ -99,10 +99,10 @@ comment "Set to Y if you want auto-loading the codec driver"
- 	depends on SND_HDA=y && SND_HDA_CODEC_REALTEK=m
+diff --git a/sound/soc/codecs/ad73311.c b/sound/soc/codecs/ad73311.c
+index 10daf61f02940b46..b98bf19f594e097f 100644
+--- a/sound/soc/codecs/ad73311.c
++++ b/sound/soc/codecs/ad73311.c
+@@ -2,7 +2,7 @@
+ /*
+  * ad73311.c  --  ALSA Soc AD73311 codec support
+  *
+- * Copyright:	Analog Device Inc.
++ * Copyright:	Analog Devices Inc.
+  * Author:	Cliff Cai <cliff.cai@analog.com>
+  */
  
- config SND_HDA_CODEC_ANALOG
--	tristate "Build Analog Device HD-audio codec support"
-+	tristate "Build Analog Devices HD-audio codec support"
- 	select SND_HDA_GENERIC
- 	help
--	  Say Y or M here to include Analog Device HD-audio codec support in
-+	  Say Y or M here to include Analog Devices HD-audio codec support in
- 	  snd-hda-intel driver, such as AD1986A.
+diff --git a/sound/soc/codecs/wm8782.c b/sound/soc/codecs/wm8782.c
+index aa5577e364d01360..f89855c616ebe6e6 100644
+--- a/sound/soc/codecs/wm8782.c
++++ b/sound/soc/codecs/wm8782.c
+@@ -7,7 +7,7 @@
+  * Author: Johannes Stezenbach <js@sig21.net>
+  *
+  * based on ad73311.c
+- * Copyright:	Analog Device Inc.
++ * Copyright:	Analog Devices Inc.
+  * Author:	Cliff Cai <cliff.cai@analog.com>
+  */
  
- comment "Set to Y if you want auto-loading the codec driver"
 -- 
 2.17.1
 
