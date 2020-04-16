@@ -2,72 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924D71ABB55
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 10:35:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E27DB1ABBB1
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 10:51:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A31086E2B0;
-	Thu, 16 Apr 2020 08:34:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8C4D6EB2B;
+	Thu, 16 Apr 2020 08:51:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27DF66E233;
- Thu, 16 Apr 2020 08:34:57 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03G8SBh4154558;
- Thu, 16 Apr 2020 08:34:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=p+Dt8afETPBHGWQDAy3rSGf9i8tLMRVwu8kfmVUG6wo=;
- b=HZg4J+j8vulLiiwBTFKGbIIM4hK6WjOL7JwEW1UmSHi3sNs6eJUdJ4iMDnvnlzccXpPp
- OCqyCrIOrtc0/lpsB/0c7GAgZ7/8VU+lwaKjHlqxE3bja2bsxJdoYuTdB5eXUCSnudZM
- zeJkS2FZbAisBDAS61/HFUp+FkbmSHFMC4ashOsMPE5gg6PJ50TwjZBiGcI5w12SmVTs
- 8SHr6h2w2xtDDrsiZHv9rs8MsFjAcsYDOGL7+7MKUylK6ZYbqFckSxtbmuVwGx+pcmlE
- vUPBUEuoA5yb0LBAEJd1c6+7ktCCBMZIKRoKsNOek/+6TFoU4EppC8xwYbbB21ADWBgA HA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 30dn95r09v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Apr 2020 08:34:43 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03G8S68c022555;
- Thu, 16 Apr 2020 08:34:43 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 30dn9eq3rp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Apr 2020 08:34:43 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03G8Yewx012445;
- Thu, 16 Apr 2020 08:34:40 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 16 Apr 2020 01:34:39 -0700
-Date: Thu, 16 Apr 2020 11:34:28 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH] drm/i915/gt: remove redundant assignment to variable x
-Message-ID: <20200416083427.GK1163@kadam>
-References: <20200414092359.GC1163@kadam>
- <43eb0cbb-9bf0-c99a-470d-8121c3108a5e@canonical.com>
- <87blnt5d7j.fsf@intel.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+ [209.85.208.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F00EA6EB2B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 08:51:00 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id e5so7999275edq.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 01:51:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=612iSfEdCExrydRb4c/BtgR5OtI+RlzyNcwVt1HFejQ=;
+ b=JHsJ+z80yf3lSSWHtxlPdFNcywQa/PXF8XtgJupOX4L0XVp0Y4iNhp8lCNU9q3vjTx
+ LDN0oUm4Egc6xSInuiy5FKlm1eKFbTChcGqXS37vcxMqdlXMt5boHm7beSh+3RySWatU
+ LfE31yjlAs/q+SEIP/AtfH4QUwVBQLHRWWp+AjerkFO7aZU0jErSp0e5fch42FhUI377
+ KdyKwocs8KeA8+xY0Kuq7xKKB+pVwRNvLLAAKZTPzkl9WWoJDAcZsYKJDwMu8/is3WIW
+ p8VJmEaJM7pvl+wXBiNtl72D2Sg3HV6DAICeqgS5IjySJVKOufL7Vup2G3pa6xi0ioII
+ wdFQ==
+X-Gm-Message-State: AGi0PuYxeVr8l/DQO79APzCb3WXfXPFUStrAAuzFn2LD7od1tGcHY7hp
+ Ef1i5e0AHhTNja//kd4zM+4=
+X-Google-Smtp-Source: APiQypLBJohNWBf8al3U6Nm7wdqmu7TVhKtwUuNuYqABpoxhkFpKFPfFew2b9nU4yPhd8D2/wycwag==
+X-Received: by 2002:aa7:d1d6:: with SMTP id g22mr7466242edp.36.1587027059468; 
+ Thu, 16 Apr 2020 01:50:59 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.125])
+ by smtp.googlemail.com with ESMTPSA id b15sm2495600edn.69.2020.04.16.01.50.54
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 16 Apr 2020 01:50:58 -0700 (PDT)
+Date: Thu, 16 Apr 2020 10:50:49 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jonathan Bakker <xc-racer2@live.ca>
+Subject: Re: [PATCH v6 08/12] arm: dts: s5pv210: Add G3D node
+Message-ID: <20200416085049.GA7193@kozik-lap>
+References: <cover.1586939718.git.hns@goldelico.com>
+ <b6733f80546bf3e6b3799f716b9c8e0f407de03d.1586939718.git.hns@goldelico.com>
+ <CAJKOXPcb9KWNAem-CAx_zCS+sZoEHYc0J8x0nk1xjY9hD4-M4w@mail.gmail.com>
+ <AB9B8741-CFF7-414D-9489-D381B539538D@goldelico.com>
+ <BN6PR04MB0660640B15550F75C8CCD4DEA3DB0@BN6PR04MB0660.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <87blnt5d7j.fsf@intel.com>
+In-Reply-To: <BN6PR04MB0660640B15550F75C8CCD4DEA3DB0@BN6PR04MB0660.namprd04.prod.outlook.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9592
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- mlxscore=0 adultscore=0
- spamscore=0 phishscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004160058
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9592
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- clxscore=1015
- malwarescore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
- mlxscore=0 phishscore=0 spamscore=0 impostorscore=0 suspectscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004160058
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,37 +61,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, lkp@intel.com, David Airlie <airlied@linux.ie>,
- kbuild@lists.01.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Colin Ian King <colin.king@canonical.com>, intel-gfx@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ linux-omap@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
+ Tony Lindgren <tony@atomide.com>, Chen-Yu Tsai <wens@csie.org>,
+ Kukjin Kim <kgene@kernel.org>, James Hogan <jhogan@kernel.org>,
+ devicetree@vger.kernel.org,
+ =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, letux-kernel@openphoenux.org,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Ralf Baechle <ralf@linux-mips.org>, kernel@pyra-handheld.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 15, 2020 at 12:07:44PM +0300, Jani Nikula wrote:
-> On Tue, 14 Apr 2020, Colin Ian King <colin.king@canonical.com> wrote:
-> > Hi Dan,
-> >
-> > I'd post a revert, but I don't seem to see an upstream commit for this
-> > this to revert against. What's the revert policy in these cases? Or can
-> > the patch be just ignored by the maintainers so it's not applied?
+On Wed, Apr 15, 2020 at 11:17:16AM -0700, Jonathan Bakker wrote:
+ 
+> >>
+> >>> +
+> >>> +                       assigned-clocks = <&clocks MOUT_G3D>, <&clocks DOUT_G3D>;
+> >>> +                       assigned-clock-rates = <0>, <66700000>;
+> >>> +                       assigned-clock-parents = <&clocks MOUT_MPLL>;
+> >>
+> >> Probably this should have status disabled because you do not set
+> >> regulator supply.
 > 
-> It has not been applied, and will be ignored, in part thanks to the
-> report.
+> I don't believe there is a regulator on s5pv210, if there is, then it is a
+> fixed regulator with no control on both s5pv210 devices that I have.
 > 
-> However I think Dan's report is misleading in that it looks like it's
-> about a commit while I think it should emphasize that it's a pre-merge
-> report on the patch on the mailing list.
-> 
+> The vendor driver did use the regulator framework for its power domain
+> implementation, but that definitely shouldn't be upstreamed.
 
-To be honest, these are auto-generated by the kbuild bot and I was a bit
-confused myself.
+Starting with Exynos4210 usually they have separate regulator from PMIC
+but maybe S5Pv210 indeed is different.  Leave it then without it.
 
-regards,
-dan carpenter
+Best regards,
+Krzysztof
 
 _______________________________________________
 dri-devel mailing list
