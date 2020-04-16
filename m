@@ -1,30 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0EF31AD68C
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3280A1ACE49
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 19:03:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BA6D6E388;
-	Fri, 17 Apr 2020 06:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72BDE6E415;
+	Thu, 16 Apr 2020 17:03:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68E276E33E
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 16:44:13 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 340102A22F6
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drm/bridge: ps8640: Let panel to set the connector type
-Date: Thu, 16 Apr 2020 18:44:04 +0200
-Message-Id: <20200416164404.2418426-2-enric.balletbo@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200416164404.2418426-1-enric.balletbo@collabora.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A51036E415
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:03:40 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7957F97D;
+ Thu, 16 Apr 2020 19:03:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1587056617;
+ bh=ub1B1IcZSLEWleDHY8gnWOomy9qkKYullnvOHINq9K0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=i+E3b4Vf4b0hPQlkTJENwVcfiNm6KUV0Xlc8TZr/3iNoySXvfGXaa7MyIe0XG6Ufv
+ 0dSoj9phmYSsdxKMEGJpPSNBw9sdUSoMZ4zWVkY4dCUvOwB3I9zFV8wupZSnljch+B
+ 2U2WXN1I7ge3yOWErGvygFj3xHpS86/cODsZdyFo=
+Date: Thu, 16 Apr 2020 20:03:25 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Subject: Re: [PATCH 1/2] drm: panel: Set connector type for LP120UP1
+Message-ID: <20200416170325.GG4796@pendragon.ideasonboard.com>
 References: <20200416164404.2418426-1-enric.balletbo@collabora.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 17 Apr 2020 06:59:46 +0000
+Content-Disposition: inline
+In-Reply-To: <20200416164404.2418426-1-enric.balletbo@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,11 +45,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
+Cc: drinkcat@chromium.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>, hsinyi@chromium.org,
  matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
  sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
@@ -49,31 +55,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The panel connector type should be set by the panel not the bridge, so
-remove the connector_type assignment.
+Hi Enric,
 
-Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
----
+Thank you for the patch.
 
- drivers/gpu/drm/bridge/parade-ps8640.c | 2 --
- 1 file changed, 2 deletions(-)
+On Thu, Apr 16, 2020 at 06:44:03PM +0200, Enric Balletbo i Serra wrote:
+> The LP120UP1 is a eDP panel, set the connector type accordingly.
+> 
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 956b76e0a44d..13755d278db6 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -278,8 +278,6 @@ static int ps8640_probe(struct i2c_client *client)
- 	if (!panel)
- 		return -ENODEV;
- 
--	panel->connector_type = DRM_MODE_CONNECTOR_eDP;
--
- 	ps_bridge->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
- 	if (IS_ERR(ps_bridge->panel_bridge))
- 		return PTR_ERR(ps_bridge->panel_bridge);
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+> 
+>  drivers/gpu/drm/panel/panel-simple.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 3ad828eaefe1..6253635601bb 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -2168,6 +2168,7 @@ static const struct panel_desc lg_lp120up1 = {
+>  		.width = 267,
+>  		.height = 183,
+>  	},
+> +	.connector_type = DRM_MODE_CONNECTOR_eDP,
+>  };
+>  
+>  static const struct drm_display_mode lg_lp129qe_mode = {
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
