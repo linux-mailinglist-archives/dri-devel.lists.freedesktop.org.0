@@ -1,39 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F2C1ACEB1
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 19:28:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6D31AD6A7
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CF076E83C;
-	Thu, 16 Apr 2020 17:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1444F6E39B;
+	Fri, 17 Apr 2020 07:00:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD4556E83C
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:28:18 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29D80B23;
- Thu, 16 Apr 2020 19:28:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1587058097;
- bh=Oj91pC7/IRNpYTXN/WrbzyvLhGtWtBnGpXvUxA3rjhU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WJJpZV91WJIj81TCMas3zaNzfZosA6cV7RHUTnTfipprXlKhlvW0TVhcoN7l2Z4o4
- Ro6rLjJ+vZZ8FhBEEG50GRmoWXCzcnkAM7920YQ658Pf9+N6EqvBc3044kjGsyQjiV
- k6xDTRGgRCRl2N+WB1hIeLZ7yRPBhx+8rPZEN4vA=
-Date: Thu, 16 Apr 2020 20:28:05 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: Re: [PATCH v2 5/7] drm/mediatek: mtk_dsi: Use simple encoder
-Message-ID: <20200416172805.GO4796@pendragon.ideasonboard.com>
-References: <20200416155720.2360443-1-enric.balletbo@collabora.com>
- <20200416155720.2360443-6-enric.balletbo@collabora.com>
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C8676E83F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:30:27 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id q19so8673387ljp.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 10:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PzXYo6swgx9ErVWXLPhxkfiU9vzkaSg3H3Qei59zPVk=;
+ b=EMKTHWrZe1g6E1jAx3Mm6n4rNEbgdAY2tazlr947do0XAmQrCx7fqdG7Y/NQ7ZvIGa
+ +Vr2LStXg+i/M68mtRtC7AGVSWpk0b8ZZXgW7BQQefZb38i6cKZqmBLA5gzPrXhzgUGd
+ 9Ljsx+ARG6EHoZhu+sblmtC8ZIZvW7Vh+P11bc3+R7eS+1ZkJbAmloYpBj0ocpIg188O
+ qRxHoayqIWP6gQ9nmQLxRXXzgb9Ff9O3gBoMs0KUwIwUSu+7MncsrUXKf3caQ02xkaCz
+ 9nyD32+f+p8xtfm3+H0VnrbT+0WAHkMyi+/6XhdOL+/RtVEYM+i63Nr2V9ns56qfe9XI
+ wqiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PzXYo6swgx9ErVWXLPhxkfiU9vzkaSg3H3Qei59zPVk=;
+ b=QAZPGSYkZG9CwLHTCqjPMry/32WDXToRaShB4RQxJP+ZOBPM0W5JwEMcb+w2s8fSO7
+ 8Dax8jDtffWTlYOPpMPri18hxBD/BaKIrVx9lj2QRnp6r9I550/zIhqmpLdk3zFY/mMf
+ daHE1dL7voMPeBwy1Sikr7QjhvlrFXSOa3gJUBmJ/KIe1A0ioxVBUpoFUZaGQLedWoME
+ P4IGpMh6hYD+1c+DyMpgzpkxUKoSTJnVkFCSYNM/wbUlYg4er1WLmzq5tz/zxnSIzAOl
+ DGOfM6tgd/oP+xnqh5snzFN9AkFI+fZZy5qzjMeeFJ1eSf1r4v0VVnR5dM1uVwz7hdOw
+ /KgA==
+X-Gm-Message-State: AGi0PuYA7NPxUxq0bqqEgCITa8TPgpJDRD+1hnIE2na3JKIxvt57Lnto
+ UPBPL0EQsHUhxvU7izzN7DU=
+X-Google-Smtp-Source: APiQypKtQyEgNh58ni0ovy2jVpR3dc7TEccd1Z071GjbZqt59NIctX8jyj1HZRyg/Uuy9PaODkOlWw==
+X-Received: by 2002:a2e:9a54:: with SMTP id k20mr7012405ljj.272.1587058225547; 
+ Thu, 16 Apr 2020 10:30:25 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru.
+ [91.78.208.152])
+ by smtp.googlemail.com with ESMTPSA id u19sm12879858lji.61.2020.04.16.10.30.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Apr 2020 10:30:24 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] drm/tegra: output: Don't leak OF node on error
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200416172405.5051-1-digetx@gmail.com>
+ <20200416172405.5051-2-digetx@gmail.com>
+ <20200416172727.GN4796@pendragon.ideasonboard.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <304a2a58-0031-bf88-6290-e72ab025d8c5@gmail.com>
+Date: Thu, 16 Apr 2020 20:30:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200416155720.2360443-6-enric.balletbo@collabora.com>
+In-Reply-To: <20200416172727.GN4796@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Fri, 17 Apr 2020 06:59:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,81 +73,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, drinkcat@chromium.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Enric,
-
-Thank you for the patch.
-
-On Thu, Apr 16, 2020 at 05:57:17PM +0200, Enric Balletbo i Serra wrote:
-> The mtk_dsi driver uses an empty implementation for its encoder. Replace
-> the code with the generic simple encoder.
-> 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
-> 
-> Changes in v2: None
-> 
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 14 +++-----------
->  1 file changed, 3 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 3400d6686c85..48361c1e9f34 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -22,6 +22,7 @@
->  #include <drm/drm_panel.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
->  
->  #include "mtk_drm_ddp_comp.h"
->  
-> @@ -788,15 +789,6 @@ static void mtk_output_dsi_disable(struct mtk_dsi *dsi)
->  	dsi->enabled = false;
->  }
->  
-> -static void mtk_dsi_encoder_destroy(struct drm_encoder *encoder)
-> -{
-> -	drm_encoder_cleanup(encoder);
-> -}
-> -
-> -static const struct drm_encoder_funcs mtk_dsi_encoder_funcs = {
-> -	.destroy = mtk_dsi_encoder_destroy,
-> -};
-> -
->  static int mtk_dsi_create_conn_enc(struct drm_device *drm, struct mtk_dsi *dsi);
->  static void mtk_dsi_destroy_conn_enc(struct mtk_dsi *dsi);
->  
-> @@ -1126,8 +1118,8 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
->  {
->  	int ret;
->  
-> -	ret = drm_encoder_init(drm, &dsi->encoder, &mtk_dsi_encoder_funcs,
-> -			       DRM_MODE_ENCODER_DSI, NULL);
-> +	ret = drm_simple_encoder_init(drm, &dsi->encoder,
-> +				      DRM_MODE_ENCODER_DSI);
->  	if (ret) {
->  		DRM_ERROR("Failed to encoder init to drm\n");
->  		return ret;
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTYuMDQuMjAyMCAyMDoyNywgTGF1cmVudCBQaW5jaGFydCDQv9C40YjQtdGCOgo+IEhpIERtaXRy
+eSwKPiAKPiBUaGFuayB5b3UgZm9yIHRoZSBwYXRjaC4KPiAKPiBPbiBUaHUsIEFwciAxNiwgMjAy
+MCBhdCAwODoyNDowNFBNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+IFRoZSBPRiBu
+b2RlIHNob3VsZCBiZSBwdXQgYmVmb3JlIHJldHVybmluZyBlcnJvciBpbiB0ZWdyYV9vdXRwdXRf
+cHJvYmUoKSwKPj4gb3RoZXJ3aXNlIG5vZGUncyByZWZjb3VudCB3aWxsIGJlIGxlYWtlZC4KPj4K
+Pj4gU2lnbmVkLW9mZi1ieTogRG1pdHJ5IE9zaXBlbmtvIDxkaWdldHhAZ21haWwuY29tPgo+IAo+
+IFJldmlld2VkLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25i
+b2FyZC5jb20+CgpIZWxsbyBMYXVyZW50LAoKVGhhdCBpcyB0aGUgZmFzdGVzdCBrZXJuZWwgcmV2
+aWV3IEkgZXZlciBnb3QsIHRoYW5rIHlvdSA6KQpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
