@@ -2,55 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7A71AD0F9
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 22:18:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB7D1AD698
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 978176EB5E;
-	Thu, 16 Apr 2020 20:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53D076E38A;
+	Fri, 17 Apr 2020 06:59:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4085F6EB5F
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 20:18:25 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id x18so52864wrq.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 13:18:25 -0700 (PDT)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 194D06EB60
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 20:21:44 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id k21so9333763ljh.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 13:21:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d0sjIa/QB1zpATXN4/bUNeBrOCkbkU0g+VxZP5fTXW4=;
- b=XtMZ3xRM1jik9xWVA5bPXsw9mLiciX7gz4ZV1skt+1T7PeXjcUPdLfIzsA6av99zPt
- Kk1N8jWCMdlB8KzXjbqWJ7xx2bTYniJAWhdHoxE+clSkgzKSeaTzRVAi+drw1V88Bunu
- g1HgZ7xbdEnfuPxTXJzLn8DJkWhZrrxtESjokXDSwqq0TAlJ9sVmYIbDjyzvGGqCCY9I
- JVZPIh/nTKFPIXfukSRtCpSMf/ZcNAKguWfK+OLMsO5FMBwqBrvi1XV1uskT3NcJHI5S
- gNrjv3js88vyGepJB0k62bkb6aZnojQ7nq+tSm2BnYOsfoaQJwq98iMPCD9MPoZv8TwF
- ePJA==
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Toe9EFNHVHf4euVV41c+6ZKdGRmphziwECd1HLN5bj4=;
+ b=mp5QjqeXEpzz/RC5864mh4AGvSyk/YJUHBwd8EWL4iUI0WXJUJYYAMWFSnaGjqY8un
+ jPNtEMDugufQKUhBS2tU08lsUH5i4vY9DskaTzQGGSkm2Q7zgVfUxiyG13OV86oNJ5oJ
+ MneJa5vNL1WtdeQDBn0ZUIsakrJZsNms4JOrcXGjIs36exmCiDc2chUiXBLKvTD+sbix
+ yF534TfyCCLwDSFdRBYJrGpesrswqDrO1KOpS3ev7iE966bSLRZBpWCR93HdpMOLVwTH
+ BKVnY1WiwYV7htqOa2w/A69S7mNDpCicsLz5oj0LZNKDSKDR6ER4+GH6kzko2zmNuQzD
+ ZuUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=d0sjIa/QB1zpATXN4/bUNeBrOCkbkU0g+VxZP5fTXW4=;
- b=Zot87dsU+J9eVCS9IPzZX32tdOdJfkp/1BLZRr20Y+dDL9B4TR9qmInaMz1JiURS+2
- 1pNGmGI8Sv24uX3Zp52DJmAUyFTQ4BwFOq5Vy49y9FVQnKKS5+efeufND/6ke30oDVu2
- voFSv1cce4xjtH+yqcpVZ21AlG7vDXzOlRcgShNRiknFw4nfqE1Zbw8IqPHnaMc59d7y
- 3lOBtIektYSWWHFSR3DLWImZB4Ms9fAEoe0/VNySp0vfZmh+UCL+Auxn+rQjkkeHxl4/
- a8zUqT/T+CgOo9m8YX9NHhNIqZlx8G+7SDVF83IitX7LlL7oeN7pWLEZ2G/QMq+h/f51
- 8TUQ==
-X-Gm-Message-State: AGi0PuauhprlB02ILxDlTZesW8uhBy3zwsKcmIrbZC3odouRrTmefLmm
- qYEShhT1b9uaofvN9h5QqrQaMzpusRZyPp5aGUs=
-X-Google-Smtp-Source: APiQypI4klVWgDBiagAW/fI5xGnxGKLb9yGFyw3NsJtpUwccBfovKbGX9V68iGhRkK/n6LKvOk6RFnTf3ODyqtZT2Ms=
-X-Received: by 2002:adf:f844:: with SMTP id d4mr17565998wrq.362.1587068303837; 
- Thu, 16 Apr 2020 13:18:23 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Toe9EFNHVHf4euVV41c+6ZKdGRmphziwECd1HLN5bj4=;
+ b=o5d2xcP0PWtY2xpo82eANDzG0uw4wB/VRYKN2cAja9SfjOo60RM0VQSEyU9/kJ8DG2
+ vFHyTLNHiRJ4fVyh9fq/HMISYDFBRVQgkNW2RUz/BEmhRe3bpKwtbopXF+Q90oN7YOgg
+ P3SZzp3kjVzoQeQqkeDMoeKBjVwCGo6V1AuNs1x2ZW25hbn0ZwsF3o4cVNt67PLmTTn8
+ yFRTbRZFEVIU9Zpi4ncWSmFo0ZcLrCW8rneQshGjgcO/IJ7wO3ReMolDb4W9v0C5DM87
+ 6Npgyvk93m/vdge4iXTzLDPIAOb2ayikruwwc4LLXWO//2UkMOYrW5f+oqjCEfnar9Q1
+ I8fQ==
+X-Gm-Message-State: AGi0PuaHsasDc4pHiJh2IX7sBEEFDmsN1ifhO8hrPn1yPDeo2wKhkwqM
+ G917pOs1HQ2UrN9tkOW7LqI=
+X-Google-Smtp-Source: APiQypK9kdZSj1RLjRCfDhqZhxNr3HSkOJSkYEgiA0qwvIDJP5PyK2JI/rWYfPIScCP+cnZWmhS6KQ==
+X-Received: by 2002:a2e:8290:: with SMTP id y16mr7587501ljg.186.1587068502429; 
+ Thu, 16 Apr 2020 13:21:42 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru.
+ [91.78.208.152])
+ by smtp.googlemail.com with ESMTPSA id q26sm5684757ljg.47.2020.04.16.13.21.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Apr 2020 13:21:41 -0700 (PDT)
+Subject: Re: [PATCH v3 2/2] drm/tegra: output: rgb: Support LVDS encoder bridge
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200416172405.5051-1-digetx@gmail.com>
+ <20200416172405.5051-3-digetx@gmail.com>
+ <20200416174112.GS4796@pendragon.ideasonboard.com>
+ <6275bcd3-c0b2-4c1c-1817-9e713d3747c7@gmail.com>
+Message-ID: <7cf27640-4fdc-8617-01cb-85f4c5847bb8@gmail.com>
+Date: Thu, 16 Apr 2020 23:21:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <CAGPDPzCSaiXdL6ocFtL1VoFtiQLHDE5YQhw-ikWkFVjpaW9GAg@mail.gmail.com>
- <CADnq5_MTLNJ8mh6nZyH14b+RQx1mXwG3hX_x5wco6oQo2d2pUw@mail.gmail.com>
- <ec13c954-2adf-5a6a-2cbf-40c70c6ce1ba@gmail.com>
-In-Reply-To: <ec13c954-2adf-5a6a-2cbf-40c70c6ce1ba@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 16 Apr 2020 16:18:12 -0400
-Message-ID: <CADnq5_Naj5b9KmjHNYurEmPvcqxDG8YQxo8KG-P5kpWfSqjYMQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] AMDGPU: Correctly initialize thermal controller for
- GPUs with Powerplay table v0 (e.g Hawaii)
-To: Sandeep Raghuraman <sandy.8925@gmail.com>
+In-Reply-To: <6275bcd3-c0b2-4c1c-1817-9e713d3747c7@gmail.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Fri, 17 Apr 2020 06:59:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,70 +74,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 16, 2020 at 4:07 PM Sandeep Raghuraman <sandy.8925@gmail.com> wrote:
->
-> Initialize thermal controller fields in the PowerPlay table for Hawaii
-> GPUs, so that fan speeds are reported.
->
-> Signed-off-by: Sandeep Raghuraman <sandy.8925@gmail.com>
-
-Applied.  Thanks!
-
-Alex
-
->
-> ---
->  .../drm/amd/powerplay/hwmgr/processpptables.c | 28 +++++++++++++++++++
->  1 file changed, 28 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c b/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
-> index 77c14671866c..bb58cfab1033 100644
-> --- a/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
-> +++ b/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
-> @@ -984,6 +984,34 @@ static int init_thermal_controller(
->                         struct pp_hwmgr *hwmgr,
->                         const ATOM_PPLIB_POWERPLAYTABLE *powerplay_table)
->  {
-> +       hwmgr->thermal_controller.ucType =
-> +                       powerplay_table->sThermalController.ucType;
-> +       hwmgr->thermal_controller.ucI2cLine =
-> +                       powerplay_table->sThermalController.ucI2cLine;
-> +       hwmgr->thermal_controller.ucI2cAddress =
-> +                       powerplay_table->sThermalController.ucI2cAddress;
-> +
-> +       hwmgr->thermal_controller.fanInfo.bNoFan =
-> +               (0 != (powerplay_table->sThermalController.ucFanParameters &
-> +                       ATOM_PP_FANPARAMETERS_NOFAN));
-> +
-> +       hwmgr->thermal_controller.fanInfo.ucTachometerPulsesPerRevolution =
-> +               powerplay_table->sThermalController.ucFanParameters &
-> +               ATOM_PP_FANPARAMETERS_TACHOMETER_PULSES_PER_REVOLUTION_MASK;
-> +
-> +       hwmgr->thermal_controller.fanInfo.ulMinRPM
-> +               = powerplay_table->sThermalController.ucFanMinRPM * 100UL;
-> +       hwmgr->thermal_controller.fanInfo.ulMaxRPM
-> +               = powerplay_table->sThermalController.ucFanMaxRPM * 100UL;
-> +
-> +       set_hw_cap(
-> +                       hwmgr,
-> +                       ATOM_PP_THERMALCONTROLLER_NONE != hwmgr->thermal_controller.ucType,
-> +                       PHM_PlatformCaps_ThermalController
-> +                 );
-> +
-> +       hwmgr->thermal_controller.use_hw_fan_control = 1;
-> +
->         return 0;
->  }
->
-> --
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTYuMDQuMjAyMCAyMTo1MiwgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Ci4uLgo+PiBNYXkg
+SSBhbHNvIHJlY29tbWVuZCBzd2l0Y2hpbmcgdG8gdGhlIERSTSBwYW5lbCBicmlkZ2UgaGVscGVy
+ID8gSXQgd2lsbAo+PiBzaW1wbGlmeSB0aGUgY29kZS4KPiAKPiBDb3VsZCB5b3UgcGxlYXNlIGNs
+YXJpZnkgd2hhdCBpcyB0aGUgIkRSTSBwYW5lbCBicmlkZ2UgaGVscGVyIj8KPiAKPiBJIHRoaW5r
+IHdlIHdvbid0IG5lZWQgYW55IGFkZGl0aW9uYWwgaGVscGVycyBhZnRlciBzd2l0Y2hpbmcgdG8g
+dGhlCj4gYnJpZGdlIGNvbm5lY3RvciBoZWxwZXIsIG5vPwoKQWN0dWFsbHksIEkgbm93IHNlZSB0
+aGF0IHRoZSBwYW5lbCBuZWVkcyB0byBiZSBtYW51YWxseSBhdHRhY2hlZCB0byB0aGUKY29ubmVj
+dG9yLgoKU3RpbGwgaXQncyBub3QgYXBwYXJlbnQgdG8gbWUgaG93IHRvIGdldCBwYW5lbCBvdXQg
+b2YgdGhlIGJyaWRnZS4gSXQKbG9va3MgbGlrZSB0aGVyZSBpcyBubyBzdWNoICJwYW5lbCBoZWxw
+ZXIiIGZvciB0aGUgYnJpZGdlIEFQSSBvciBJIGp1c3QKY2FuJ3QgZmluZCBpdC4KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
