@@ -2,45 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D2821AB895
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 08:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FFA71AB87E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 08:51:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D85126EACD;
-	Thu, 16 Apr 2020 06:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2557B6EAC5;
+	Thu, 16 Apr 2020 06:51:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0017.hostedemail.com
- [216.40.44.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57E706EACD
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 06:52:00 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay01.hostedemail.com (Postfix) with ESMTP id 0A616100E7B43;
- Thu, 16 Apr 2020 06:51:59 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:599:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1539:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2828:2911:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:3872:3874:4321:4425:5007:6742:6743:7903:10004:10400:10903:11232:11658:11914:12297:12346:12740:12760:12895:13069:13311:13357:13439:14096:14097:14659:14721:21080:21433:21627:21740:30054:30070:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:1, LUA_SUMMARY:none
-X-HE-Tag: wheel34_84bb3b9f86d3c
-X-Filterd-Recvd-Size: 3344
-Received: from XPS-9350.home (unknown [47.151.136.130])
- (Authenticated sender: joe@perches.com)
- by omf07.hostedemail.com (Postfix) with ESMTPA;
- Thu, 16 Apr 2020 06:51:52 +0000 (UTC)
-Message-ID: <d93f90bbcc99967ed5ba458ba99d7e73de12e3b2.camel@perches.com>
-Subject: Re: [PATCH 2/2] dt-bindings: Remove cases of 'allOf' containing a
- '$ref'
-From: Joe Perches <joe@perches.com>
-To: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Date: Wed, 15 Apr 2020 23:49:40 -0700
-In-Reply-To: <20200416005549.9683-2-robh@kernel.org>
-References: <20200416005549.9683-1-robh@kernel.org>
- <20200416005549.9683-2-robh@kernel.org>
-User-Agent: Evolution 3.34.1-2 
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 552296EAC5
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 06:51:26 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id j16so15771712oih.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 23:51:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pLZEHboHrVUvSiMzAU5mB2mWJMs+hZ8IHC8retFcrgk=;
+ b=JHwymh36ehjFDNDrb8YuMyQ1MkWFaqFQka5rlpHvpOpNowJkEQBJjUJHh6tEn9ItJf
+ 44VDASM1Nm9+28OJ0BhPDfmpGS7h0JIyE4ei3cCTN1kvXMsSEqE7hJ6ugWHQLwwsjP4k
+ SXfyV81W2EeHu0cLCfENisqsTzpcXqPmUQBbg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pLZEHboHrVUvSiMzAU5mB2mWJMs+hZ8IHC8retFcrgk=;
+ b=GuKwQgebcI6xigr4Ff2WNYyL0PnTnXX1M3vZ0PsZIufSwHOveQihU6FbZAyfiJXfHu
+ 79Eop2bPwJeOpUGeVLMvvzBzP3oGxOgXIROcD+/D2qatyQKKOg4h/w4D/ueMCM27Fi3+
+ Tr9Ng1EZuqVzOJMbXbpvCRTYQLE0ocQdpqpwKFpHzHF16bXKwSkNdOV45Y9lwUkGS3Dx
+ 2hZAE9gFe4hxAjpT7dyTunnfT8kwc/BZwZmkN6smApOhKYAmcHMF3tHCzwZ0/VavxZNz
+ LEEeQFkKLjQ1WkIR3WG4VhyfpfjQ4uNc2LONyqeaW3Q65MZTtZlgmHUC3gaa3+EQ244W
+ y8rA==
+X-Gm-Message-State: AGi0Pua9LUzroRRea+NSteUdQnTrpLoTsMWf/VPy4qyQ5HLbG2FjfsoC
+ 4eXlu5qBF7j4uamtNInJoOhTVaiB6OrrB+Cc6YAGIw==
+X-Google-Smtp-Source: APiQypLyNc+eIs12WumzaBN5ipx1548wfPjx2IqBdj2oxsFx0exWa6GdqAAPbqs2svHCYqkW3eZbfQLmptUx4Q5ixiM=
+X-Received: by 2002:aca:2113:: with SMTP id 19mr2018002oiz.128.1587019885629; 
+ Wed, 15 Apr 2020 23:51:25 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200408202711.1198966-1-arnd@arndb.de>
+ <20200408202711.1198966-6-arnd@arndb.de>
+ <20200414201739.GJ19819@pendragon.ideasonboard.com>
+ <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
+ <20200414205158.GM19819@pendragon.ideasonboard.com>
+ <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
+ <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com>
+ <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
+ <CAK8P3a0CoPUTSJp6ddDnmabo59iE73pugGSYayoeB5N57az9_w@mail.gmail.com>
+ <20200415211220.GQ4758@pendragon.ideasonboard.com>
+ <CAK8P3a1rDZO4cuL6VAXgu9sOiedcHqOSL7ELhpvULz+YYRaGbA@mail.gmail.com>
+In-Reply-To: <CAK8P3a1rDZO4cuL6VAXgu9sOiedcHqOSL7ELhpvULz+YYRaGbA@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 16 Apr 2020 08:51:14 +0200
+Message-ID: <CAKMK7uEoZ1jC8c25tPVX20kcdC1=+TpUUNyf+-c=sg5iK2cTZA@mail.gmail.com>
+Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
+To: Arnd Bergmann <arnd@arndb.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,55 +67,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-iio@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
- linux-i2c@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- linux-riscv@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
- linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-rtc@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
- linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- Alexandre Torgue <alexandre.torgue@st.com>, alsa-devel@alsa-project.org,
- linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
- Amit Kucheria <amit.kucheria@linaro.org>, linux-spi@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, netdev@vger.kernel.org,
- Jonathan Cameron <jic23@kernel.org>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Leon Romanovsky <leon@kernel.org>,
+ Nicolas Pitre <nico@fluxnic.net>, David Airlie <airlied@linux.ie>,
+ Networking <netdev@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, Saeed Mahameed <saeedm@mellanox.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ linux-rdma <linux-rdma@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2020-04-15 at 19:55 -0500, Rob Herring wrote:
-> json-schema versions draft7 and earlier have a weird behavior in that
-> any keywords combined with a '$ref' are ignored (silently). The correct
-> form was to put a '$ref' under an 'allOf'. This behavior is now changed
-> in the 2019-09 json-schema spec and '$ref' can be mixed with other
-> keywords. The json-schema library doesn't yet support this, but the
-> tooling now does a fixup for this and either way works.
-> 
-> This has been a constant source of review comments, so let's change this
-> treewide so everyone copies the simpler syntax.
+On Wed, Apr 15, 2020 at 11:22 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Wed, Apr 15, 2020 at 11:12 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> > On Wed, Apr 15, 2020 at 09:07:14PM +0200, Arnd Bergmann wrote:
+> > > On Wed, Apr 15, 2020 at 5:18 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > > On Wed, Apr 15, 2020 at 4:13 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > > On Wed, Apr 15, 2020 at 3:47 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > > > > On Tue, Apr 14, 2020 at 10:52 PM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> > > > > > > Doesn't "imply" mean it gets selected by default but can be manually
+> > > > > > > disabled ?
+> > > > > >
+> > > > > > That may be what it means now (I still don't understand how it's defined
+> > > > > > as of v5.7-rc1), but traditionally it was more like a 'select if all
+> > > > > > dependencies are met'.
+> > > > >
+> > > > > That's still what it is supposed to mean right now ;-)
+> > > > > Except that now it should correctly handle the modular case, too.
+> > > >
+> > > > Then there is a bug. If I run 'make menuconfig' now on a mainline kernel
+> > > > and enable CONFIG_DRM_RCAR_DU, I can set
+> > > > DRM_RCAR_CMM and DRM_RCAR_LVDS to 'y', 'n' or 'm' regardless
+> > > > of whether CONFIG_DRM_RCAR_DU is 'm' or 'y'. The 'implies'
+> > > > statement seems to be ignored entirely, except as reverse 'default'
+> > > > setting.
+> > >
+> > > Here is another version that should do what we want and is only
+> > > half-ugly. I can send that as a proper patch if it passes my testing
+> > > and nobody hates it too much.
+> >
+> > This may be a stupid question, but doesn't this really call for fixing
+> > Kconfig ? This seems to be such a common pattern that requiring
+> > constructs similar to the ones below will be a never-ending chase of
+> > offenders.
+>
+> Maybe, I suppose the hardest part here would be to come up with
+> an appropriate name for the keyword ;-)
+>
+> Any suggestions?
+>
+> This specific issue is fairly rare though, in most cases the dependencies
+> are in the right order so a Kconfig symbol 'depends on' a second one
+> when the corresponding loadable module uses symbols from that second
+> module. The problem here is that the two are mixed up.
+>
+> The much more common problem is the one where one needs to
+> wrong
+>
+> config FOO
+>        depends on BAR || !BAR
+>
+> To ensure the dependency is either met or BAR is disabled, but
+> not FOO=y with BAR=m. If you have any suggestions for a keyword
+> for that thing, we can clean up hundreds of such instances.
 
-This is a large change.
+Some ideas:
 
-Was this done manually or by some script?
-If it was done manually, how likely is it there are defects
-in the conversion?
+config FOO
+    can use  BAR
+    maybe BAR
+    optional BAR
 
-
+We should probably double-check that this is only ever used for when
+both FOO and BAR are tri-state, since without that it doesn't make
+much sense.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
