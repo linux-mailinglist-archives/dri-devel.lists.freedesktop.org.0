@@ -1,34 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC681AD6A1
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3888E1AD201
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 23:39:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13F0C6E3A8;
-	Fri, 17 Apr 2020 06:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D9F66E33C;
+	Thu, 16 Apr 2020 21:39:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 760D06E2E4
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 21:33:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 768E62A1269
-Subject: Re: [PATCH v2 7/7] drm/mediatek: mtk_dsi: Create connector for bridges
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20200416155720.2360443-1-enric.balletbo@collabora.com>
- <20200416155720.2360443-8-enric.balletbo@collabora.com>
- <20200416173525.GQ4796@pendragon.ideasonboard.com>
- <20200416173615.GR4796@pendragon.ideasonboard.com>
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <cb5db1ad-c0c6-44aa-8a26-0c7731b973fd@collabora.com>
-Date: Thu, 16 Apr 2020 23:33:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE086E33C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 21:39:34 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 39C9197D;
+ Thu, 16 Apr 2020 23:39:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1587073171;
+ bh=h3jkGopyE4UqZMH1imIITHaJ0owcvi6lnBuR61oaZKw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BUkbDdKOVuvepyr3qU+yK0+y0FQ4MF83r1+nI5Eb/w0QP/aCswoWf542vq0qeyviQ
+ 6sKkZQEbw8oTOHWa1BB9H76GUjWcj+pbqas6kqZlS5xvH8uXPOir7NHbNA+J/BuJQg
+ texGYLq2/eehw2bd8ABZMEWb0XW+dwp6KAqFfTyA=
+Date: Fri, 17 Apr 2020 00:39:19 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/tegra: output: rgb: Support LVDS encoder bridge
+Message-ID: <20200416213919.GB28162@pendragon.ideasonboard.com>
+References: <20200416172405.5051-1-digetx@gmail.com>
+ <20200416172405.5051-3-digetx@gmail.com>
+ <20200416174112.GS4796@pendragon.ideasonboard.com>
+ <6275bcd3-c0b2-4c1c-1817-9e713d3747c7@gmail.com>
+ <7cf27640-4fdc-8617-01cb-85f4c5847bb8@gmail.com>
+ <20200416205012.GA28162@pendragon.ideasonboard.com>
+ <fbafa641-f2ed-22b5-eaeb-bd2726b53d0a@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200416173615.GR4796@pendragon.ideasonboard.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Fri, 17 Apr 2020 06:59:46 +0000
+Content-Disposition: inline
+In-Reply-To: <fbafa641-f2ed-22b5-eaeb-bd2726b53d0a@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,116 +51,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, drinkcat@chromium.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
-
-On 16/4/20 19:36, Laurent Pinchart wrote:
-> Hi Enric,
-> 
-> On Thu, Apr 16, 2020 at 08:35:26PM +0300, Laurent Pinchart wrote:
->> On Thu, Apr 16, 2020 at 05:57:19PM +0200, Enric Balletbo i Serra wrote:
->>> Use the drm_bridge_connector helper to create a connector for pipelines
->>> that use drm_bridge. This allows splitting connector operations across
->>> multiple bridges when necessary, instead of having the last bridge in
->>> the chain creating the connector and handling all connector operations
->>> internally.
->>
->> That's the right direction, but this should be done in the mtk display
->> controller driver core, not in here. I'm OK with the code being here as
->> an interim measure if needed to move forward, but that should then be
->> temporary only.
-
-It'd be nice if we can do this as an interim measure for now, so at least we
-have the embedded display working. IIUC to move that to the display controller
-driver core I should also convert/rework the mtk_dpi and mtk_hdmi drivers. This
-is used for the external display on my device but to fully support this I'll
-also need to rework the bridge chain logic to handle the multi-sink/multi-source
-use case. This is something I plan to work on but I suspect won't be easy and
-will trigger lots of discussions, and, of course, some time.
-
-So, if is fine I won't move this for now.
-
-Thanks,
- Enric
-
-
-> 
-> I forgot to mention that the drm_encoder should also move out of the
-> bridge driver to the display controller driver.
-> 
->>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
->>> ---
->>>
->>> Changes in v2: None
->>>
->>>  drivers/gpu/drm/mediatek/mtk_dsi.c | 14 +++++++++++++-
->>>  1 file changed, 13 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
->>> index 44718fa3d1ca..2f8876c32864 100644
->>> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
->>> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
->>> @@ -17,6 +17,7 @@
->>>  
->>>  #include <drm/drm_atomic_helper.h>
->>>  #include <drm/drm_bridge.h>
->>> +#include <drm/drm_bridge_connector.h>
->>>  #include <drm/drm_mipi_dsi.h>
->>>  #include <drm/drm_of.h>
->>>  #include <drm/drm_panel.h>
->>> @@ -184,6 +185,7 @@ struct mtk_dsi {
->>>  	struct drm_bridge bridge;
->>>  	struct drm_bridge *panel_bridge;
->>>  	struct drm_bridge *next_bridge;
->>> +	struct drm_connector *connector;
->>>  	struct phy *phy;
->>>  
->>>  	void __iomem *regs;
->>> @@ -983,10 +985,19 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
->>>  	 */
->>>  	dsi->encoder.possible_crtcs = 1;
->>>  
->>> -	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL, 0);
->>> +	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
->>> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->>>  	if (ret)
->>>  		goto err_cleanup_encoder;
->>>  
->>> +	dsi->connector = drm_bridge_connector_init(drm, &dsi->encoder);
->>> +	if (IS_ERR(dsi->connector)) {
->>> +		DRM_ERROR("Unable to create bridge connector\n");
->>> +		ret = PTR_ERR(dsi->connector);
->>> +		goto err_cleanup_encoder;
->>> +	}
->>> +	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
->>> +
->>>  	return 0;
->>>  
->>>  err_cleanup_encoder:
->>> @@ -1144,6 +1155,7 @@ static int mtk_dsi_probe(struct platform_device *pdev)
->>>  
->>>  	dsi->bridge.funcs = &mtk_dsi_bridge_funcs;
->>>  	dsi->bridge.of_node = dev->of_node;
->>> +	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
->>
->> I think this line belongs to the patch that adds drm_bridge support to
->> this driver.
->>
->>>  
->>>  	drm_bridge_add(&dsi->bridge);
->>>  
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgRG1pdHJ5LAoKT24gRnJpLCBBcHIgMTcsIDIwMjAgYXQgMTI6MTU6MzNBTSArMDMwMCwgRG1p
+dHJ5IE9zaXBlbmtvIHdyb3RlOgo+IDE2LjA0LjIwMjAgMjM6NTAsIExhdXJlbnQgUGluY2hhcnQg
+0L/QuNGI0LXRgjoKPiA+IE9uIFRodSwgQXByIDE2LCAyMDIwIGF0IDExOjIxOjQwUE0gKzAzMDAs
+IERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPiA+PiAxNi4wNC4yMDIwIDIxOjUyLCBEbWl0cnkgT3Np
+cGVua28g0L/QuNGI0LXRgjoKPiA+PiAuLi4KPiA+Pj4+IE1heSBJIGFsc28gcmVjb21tZW5kIHN3
+aXRjaGluZyB0byB0aGUgRFJNIHBhbmVsIGJyaWRnZSBoZWxwZXIgPyBJdCB3aWxsCj4gPj4+PiBz
+aW1wbGlmeSB0aGUgY29kZS4KPiA+Pj4KPiA+Pj4gQ291bGQgeW91IHBsZWFzZSBjbGFyaWZ5IHdo
+YXQgaXMgdGhlICJEUk0gcGFuZWwgYnJpZGdlIGhlbHBlciI/Cj4gPj4+Cj4gPj4+IEkgdGhpbmsg
+d2Ugd29uJ3QgbmVlZCBhbnkgYWRkaXRpb25hbCBoZWxwZXJzIGFmdGVyIHN3aXRjaGluZyB0byB0
+aGUKPiA+Pj4gYnJpZGdlIGNvbm5lY3RvciBoZWxwZXIsIG5vPwo+ID4+Cj4gPj4gQWN0dWFsbHks
+IEkgbm93IHNlZSB0aGF0IHRoZSBwYW5lbCBuZWVkcyB0byBiZSBtYW51YWxseSBhdHRhY2hlZCB0
+byB0aGUKPiA+PiBjb25uZWN0b3IuCj4gPiAKPiA+IFRoZSBEUk0gcGFuZWwgYnJpZGdlIGhlbHBl
+ciBjcmVhdGVzIGEgYnJpZGdlIGZyb20gYSBwYW5lbCAod2l0aAo+ID4gZGV2bV9kcm1fcGFuZWxf
+YnJpZGdlX2FkZCgpKS4gWW91IGNhbiB0aGVuIGF0dGFjaCB0aGF0IGJyaWRnZSB0byB0aGUKPiA+
+IGNoYWluLCBsaWtlIGFueSBvdGhlciBicmlkZ2UsIGFuZCB0aGUgZW5hYmxlL2Rpc2FibGUgb3Bl
+cmF0aW9ucyB3aWxsIGJlCj4gPiBjYWxsZWQgYXV0b21hdGljYWxseSB3aXRob3V0IGFueSBuZWVk
+IHRvIGNhbGwgdGhlIHBhbmVsIGVuYWJsZS9kaXNhYmxlCj4gPiBtYW51YWxseSBhcyBkb25lIGN1
+cnJlbnRseS4KPiA+IAo+ID4+IFN0aWxsIGl0J3Mgbm90IGFwcGFyZW50IHRvIG1lIGhvdyB0byBn
+ZXQgcGFuZWwgb3V0IG9mIHRoZSBicmlkZ2UuIEl0Cj4gPj4gbG9va3MgbGlrZSB0aGVyZSBpcyBu
+byBzdWNoICJwYW5lbCBoZWxwZXIiIGZvciB0aGUgYnJpZGdlIEFQSSBvciBJIGp1c3QKPiA+PiBj
+YW4ndCBmaW5kIGl0Lgo+ID4gCj4gPiBZb3UgZG9uJ3QgbmVlZCB0byBnZXQgYSBwYW5lbCBvdXQg
+b2YgdGhlIGJyaWRnZS4gWW91IHNob3VsZCBnZXQgdGhlCj4gPiBicmlkZ2UgYXMgZG9uZSB0b2Rh
+eSwKPiAKPiBZb3UgbWVhbiAiZ2V0IHRoZSBwYW5lbCIsIGNvcnJlY3Q/CgpZZXMsIHNvcnJ5LgoK
+PiA+IGFuZCB3cmFwIGl0IGluIGEgYnJpZGdlIHdpdGgKPiA+IGRldm1fZHJtX3BhbmVsX2JyaWRn
+ZV9hZGQoKS4KPiA+IAo+IAo+IFRoZSBsdmRzLWNvZGVjIGFscmVhZHkgd3JhcHMgcGFuZWwgaW50
+byB0aGUgYnJpZGdlIHVzaW5nCj4gZGV2bV9kcm1fcGFuZWxfYnJpZGdlX2FkZCgpIGFuZCBjaGFp
+bnMgaXQgZm9yIHVzLCBwbGVhc2Ugc2VlCj4gbHZkc19jb2RlY19wcm9iZSgpIC8gbHZkc19jb2Rl
+Y19hdHRhY2goKS4KPiAKPiBEb2VzIGl0IG1lYW4gdGhhdCBsdmRzLWNvZGVjIGlzIG5vdCBzdXBw
+b3J0aW5nIHRoZSBuZXcgbW9kZWw/CgpObywgdGhhdCAqaXMqIHRoZSBuZXcgbW9kZWwgOi0pIEFz
+IEkgdGhpbmsgSSd2ZSBjb21tZW50ZWQgZHVyaW5nIHJldmlldywKd2hlbiB5b3UgaGF2ZSBhbiBM
+VkRTIGVuY29kZXIgYW5kIGEgcGFuZWwsIHlvdSBkb24ndCBuZWVkIHRvIGhhbmRsZSB0aGUKcGFu
+ZWwgYXQgYWxsLiBXaGVuIHlvdSBoYXZlIGFuIFJHQiBwYW5lbCBjb25uZWN0ZWQgZGlyZWN0bHkg
+dG8gdGhlIFJHQgpvdXRwdXQsIHlvdSBuZWVkIHRvIHdyYXAgaXQgaW4gYSBicmlkZ2UsIGV4YWN0
+bHkgdGhlIHNhbWUgd2F5IGFzCmx2ZHMtY29kZWMgZG9lcyBmb3IgaXRzIHBhbmVsLgoKPiBFdmVy
+eXRoaW5nIHdvcmtzIG5pY2VseSB1c2luZyB0aGUgb2xkIG1vZGVsLCB3aGVyZSBicmlkZ2UgY3Jl
+YXRlcwo+IGNvbm5lY3RvciBhbmQgYXR0YWNoZXMgcGFuZWwgdG8gaXQgZm9yIHVzLgo+IAo+IFtJ
+J20gc3RpbGwgbm90IHN1cmUgd2hhdCBpcyB0aGUgcG9pbnQgdG8gdXNlIHRoZSBuZXcgbW9kZWwg
+aW4gYSBjYXNlIG9mCj4gYSBzaW1wbGUgY2hhaW4gb2YgYnJpZGdlc10KPiAKPiBVc2luZyB0aGUg
+bmV3IG1vZGVsLCB0aGUgY29ubmVjdG9yIGlzbid0IGNyZWF0ZWQgYnkgdGhlIGJyaWRnZSwgc28g
+SQo+IG5lZWQgdG8gZHVwbGljYXRlIHRoYXQgY3JlYXRpb24gZWZmb3J0IGluIHRoZSBkcml2ZXIu
+IE9uY2UgdGhlIGJyaWRnZQo+IGNvbm5lY3RvciBpcyBtYW51YWxseSBjcmVhdGVkLCBJIG5lZWQg
+dG8gYXR0YWNoIHBhbmVsIHRvIHRoaXMgY29ubmVjdG9yLAo+IGJ1dCBwYW5lbCBpcyByZWFjaGFi
+bGUgb25seSB2aWEgdGhlIHJlbW90ZSBicmlkZ2UgKHdoaWNoIHdyYXBzIHRoZSBwYW5lbCkuCj4g
+Cj4gZHJpdmVyIGNvbm5lY3RvciAtPiBMVkRTIGJyaWRnZSAtPiBwYW5lbCBicmlkZ2UgLT4gcGFu
+ZWwKCldpdGggdGhlIG5ldyBtb2RlbCwKCjEuIFRoZSBkaXNwbGF5IGRyaXZlciBhbmQgdGhlIGJy
+aWRnZSBkcml2ZXJzIG5lZWQgdG8gZ2V0IGhvbGQgb2YgdGhlCiAgIGJyaWRnZSBkaXJlY3RseSBj
+b25uZWN0ZWQgdG8gdGhlaXIgb3V0cHV0IChmb3IgaW5zdGFuY2Ugd2l0aAogICBvZl9kcm1fZmlu
+ZF9wYW5lbCgpKS4gSWYgdGhlIG91dHB1dCBpcyBjb25uZWN0ZWQgdG8gYSBwYW5lbCwgdGhleQog
+ICBuZWVkIHRvIHdyYXAgdGhhdCBwYW5lbCBpbiBhIGJyaWRnZSAod2l0aAogICBkZXZtX2RybV9w
+YW5lbF9icmlkZ2VfYWRkKCkpLiBJIHBsYW4sIGluIHRoZSBmdXR1cmUsIHRvIG1ha2UgY3JlYXRp
+b24KICAgb2YgcGFuZWwgYnJpZGdlcyBhdXRvbWF0aWMsIHNvIGRyaXZlcnMgd29uJ3QgaGF2ZSB0
+byBjYXJlLgoKMi4gVGhlIGRpc3BsYXkgZHJpdmVyIG5lZWRzIHRvIGNyZWF0ZSBhIGR1bW15IGRy
+bV9lbmNvZGVyIGZvciBlYWNoIG9mCiAgIGl0cyBvdXRwdXRzIChmb3IgaW5zdGFuY2Ugd2l0aCBk
+cm1fc2ltcGxlX2VuY29kZXJfaW5pdCgpKS4KCjMuIFRoZSBkaXNwbGF5IGRyaXZlciBuZWVkcyB0
+byBjcmVhdGUgYSBkcm1fY29ubmVjdG9yIGZvciBlYWNoIG9mIGl0cwogICBvdXRwdXRzLCBhbmQg
+aW1wbGVtZW50IGNvbm5lY3RvciBvcGVyYXRpb25zIGJ5IGRlbGVnYXRpbmcgdGhlbSB0byB0aGUK
+ICAgYnJpZGdlcyBpbiB0aGUgcGlwZWxpbmUuIFVubGVzcyB0aGVyZSdzIGEgZ29vZCByZWFzb24g
+bm90IHRvIGRvIHNvLAogICB0aGlzIHNob3VsZCBiZSBkb25lIHdpdGggZHJtX2JyaWRnZV9jb25u
+ZWN0b3JfaW5pdCgpLgoKVGhhdCdzIGl0LiBFdmVyeSBkcml2ZXIgdGhlbiBmb2N1c3NlcyBvbiBp
+dHMgb3duIG5lZWRzLCBicmlkZ2UgZHJpdmVycwpoYW5kbGUgb25seSB0aGUgZGV2aWNlIHRoZXkn
+cmUgYXNzb2NpYXRlZCB3aXRoLCBhbmQgdGhlIERSTSBjb3JlIGFuZCBEUk0KYnJpZGdlIGNvbm5l
+Y3RvciBoZWxwZXIgd2lsbCBoYW5kbGUgYWxsIHRoZSByZXN0LgoKLS0gClJlZ2FyZHMsCgpMYXVy
+ZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
