@@ -2,43 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79CF1AC3E8
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 15:51:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8991AC3FC
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 15:53:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 592536E062;
-	Thu, 16 Apr 2020 13:51:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1A526E128;
+	Thu, 16 Apr 2020 13:53:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from saul.pp3345.net (saul.pp3345.net [163.172.111.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A1076E0FA
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 13:51:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1]) (Authenticated sender:
- dev@pp3345.net)
- by saul.pp3345.net (Postcow) with ESMTPSA id 90B299A4642;
- Thu, 16 Apr 2020 15:51:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pp3345.net; s=saul;
- t=1587045100; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:autocrypt;
- bh=p72sMrzpjiFBe093N4lGaIhYqi5PDODmXWZRAmXL3do=;
- b=LPvAOFTHvmx2f6lB1iTk8U8tLB6dV9w5XwqI7PJuJaYAwrda2p7+AiHFfT3/PhQQzDYjDP
- oPxW4oVvEGSuJ0qS6/XkwSD/o7Z8N+mjBfqQbkCc2YRcHuY0A5D7BxZyjynC2WdSyKBt2n
- fBpqBRrq94kWjSoEoG9Q3NqfI8iG400Dd9g2Egy2dvd36Yih+uTDewxdd4AQWXuZxA2Emo
- //TVSphDSFvYpJmaxFI/giDgAoSBjvgeUA3pq9MF4bek4K2uzIdxlnMPiLdSL+XNRrVXGR
- VR0LhnxS6k24xrcs/h68mw/rC2ZYj9P66mQfOmcPHX6CakBpfSHwpXAnT6AkEA==
-Message-ID: <ac01c47a3b2c2ac73368882fb90eb6ee4e07fd04.camel@pp3345.net>
-Subject: Re: [PATCH 1/5] drm/modes: Indicate CEA-861 CE modes to user-space
-From: Yussuf Khalil <dev@pp3345.net>
-To: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 16 Apr 2020 15:51:36 +0200
-In-Reply-To: <20200414124132.GV3456981@phenom.ffwll.local>
-References: <20200413214024.46500-1-dev@pp3345.net>
- <20200413214024.46500-2-dev@pp3345.net>
- <20200414124132.GV3456981@phenom.ffwll.local>
-User-Agent: Evolution 3.36.1 (3.36.1-1.fc32) 
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0816D6E0FA;
+ Thu, 16 Apr 2020 13:53:40 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id d77so4677235wmd.3;
+ Thu, 16 Apr 2020 06:53:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xpjM2TMULppR6CN9yEjlHCh3iAEXVl1rLGZGsDU6Leg=;
+ b=LZJbaz/8gojHTMRmtJSolD47I7a+e3WF8802YwV/9xgbT0rLm9U1m1Wmm64HJSPQq5
+ iIX2CnuFxj5ZyTCFqK56kwX5dZWSjKiFQQ3Ic+STgIf+h51tcfCsEW9Pr7lEG5XJu2+Y
+ RtSVNxB9vKbvvJPvU2AK45zQh124e3qEXWQZiv4hyOlgWtfKoJzEze6zEXIOHFpXr940
+ qY12647B/u/LwbsA8q44QTJYC4tZs91bdF5L27Hj8lle0gMB1RRwcowjLZNRgtL50GA5
+ /rdshZZ3poVooJ7O8GXS9WrSVzO3DOC9HDU9/g/IlpImC1qfk/SjY/WDL8iTD/y8HmBT
+ i/Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xpjM2TMULppR6CN9yEjlHCh3iAEXVl1rLGZGsDU6Leg=;
+ b=Y+O1hvdor2Hr5eeVFOCsoEIu9YVQdu4CT6R/PkQ05N6nzHgZs1qQCa5ng+IgVYntTg
+ K59HLmHevvYtgoxwvmroEtMYG6BX/O+gkXQANNOi2QnLGSPUo9KgnDMy/zP2E202XAlS
+ sSTSjDtA1ukBtAQN/QUBgXgOZ6LeGcT9X1xzENkfn8yinEH3vBgtIK1dCbfjXgwNvixR
+ W/68zx06K8MrzjKVNqikF4hY/uyvB96Yx/Ph1+iXeQ55mnj+MIslelO6d+qQbDam+U8o
+ Z5WDDelLH94umjHd4vsPxTVQUF5tchsXSXCNZRJmuBye9zaJAuXfAiuiGmMO/fcWsPK9
+ QJzQ==
+X-Gm-Message-State: AGi0Puar6GxNkCRElULjsRQU098uMO0RJbkzNHDjfn11w1cYOBm8/DV3
+ rzDJXtbXfoc7DA5jqTyckDJd3+JJcVrRdbf6CwLDiQ==
+X-Google-Smtp-Source: APiQypLFveG3EWYAqe8440UHGyEaqsnqSx9TwUZapMkUxRfdVt2+Mf3wVOgA8xcNKQm6CdrpcOSjIPwTXfqpLBdy9ZY=
+X-Received: by 2002:a1c:2842:: with SMTP id o63mr4955995wmo.73.1587045219592; 
+ Thu, 16 Apr 2020 06:53:39 -0700 (PDT)
 MIME-Version: 1.0
+References: <1586242207-23214-1-git-send-email-jeevan.b@intel.com>
+ <1586242207-23214-4-git-send-email-jeevan.b@intel.com>
+ <871rop5aka.fsf@intel.com>
+In-Reply-To: <871rop5aka.fsf@intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 16 Apr 2020 09:53:27 -0400
+Message-ID: <CADnq5_PeB4LPKXY1g+MrZar9UQQewDzX4ZcDcFTu-TMNPqpv3A@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 4/5] drm/amdgpu: utilize subconnector property
+ for DP through atombios
+To: Jani Nikula <jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,116 +64,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Jeevan B <jeevan.b@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Oleg Vasilev <oleg.vasilev@intel.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Harry Wentland <hwentlan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2020-04-14 at 14:41 +0200, Daniel Vetter wrote:
-> On Mon, Apr 13, 2020 at 11:40:22PM +0200, Yussuf Khalil wrote:
-> > Add a new flag to mark modes that are considered a CE mode
-> > according to the
-> > CEA-861 specification. Modes without this flag are implicitly
-> > considered to
-> > be IT modes.
-> > 
-> > User-space applications may use this flag to determine possible
-> > implications of using a CE mode (e.g., limited RGB range).
-> > 
-> > There is no use for this flag inside the kernel, so we set it only
-> > when
-> > communicating a mode to user-space.
-> > 
-> > Signed-off-by: Yussuf Khalil <dev@pp3345.net>
-> 
-> Do we have userspace for this?
-> 
-> If we go with the existing quant range property you don't need new
-> userspace for the property itself. But this flag here is new uapi, so
-> needs userspace per
-> 
-> https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
-> 
-> Also since this standardizes kms uapi, we need testcases per
-> 
-> https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#testing-requirements-for-userspace-api
-> 
-> Cheers, Daniel
-> 
-> > ---
-> >  drivers/gpu/drm/drm_modes.c | 14 ++++++++++++++
-> >  include/uapi/drm/drm_mode.h |  2 ++
-> >  2 files changed, 16 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_modes.c
-> > b/drivers/gpu/drm/drm_modes.c
-> > index d4d64518e11b..0d8a032f437d 100644
-> > --- a/drivers/gpu/drm/drm_modes.c
-> > +++ b/drivers/gpu/drm/drm_modes.c
-> > @@ -1973,6 +1973,14 @@ void drm_mode_convert_to_umode(struct
-> > drm_mode_modeinfo *out,
-> >  		break;
-> >  	}
-> >  
-> > +	if (drm_match_cea_mode(in) > 1) {
-> > +		/*
-> > +		 * All modes in CTA-861-G Table 1 are CE modes, except
-> > 640x480p
-> > +		 * (VIC 1).
-> > +		 */
-> > +		out->flags |= DRM_MODE_FLAG_CEA_861_CE_MODE;
-> > +	}
-> > +
-> >  	strncpy(out->name, in->name, DRM_DISPLAY_MODE_LEN);
-> >  	out->name[DRM_DISPLAY_MODE_LEN-1] = 0;
-> >  }
-> > @@ -2045,6 +2053,12 @@ int drm_mode_convert_umode(struct drm_device
-> > *dev,
-> >  		return -EINVAL;
-> >  	}
-> >  
-> > +	/*
-> > +	 * The CEA-861 CE mode flag is purely informational and
-> > intended for
-> > +	 * userspace only.
-> > +	 */
-> > +	out->flags &= ~DRM_MODE_FLAG_CEA_861_CE_MODE;
-> > +
-> >  	out->status = drm_mode_validate_driver(dev, out);
-> >  	if (out->status != MODE_OK)
-> >  		return -EINVAL;
-> > diff --git a/include/uapi/drm/drm_mode.h
-> > b/include/uapi/drm/drm_mode.h
-> > index 735c8cfdaaa1..5e78b350b2e2 100644
-> > --- a/include/uapi/drm/drm_mode.h
-> > +++ b/include/uapi/drm/drm_mode.h
-> > @@ -124,6 +124,8 @@ extern "C" {
-> >  #define  DRM_MODE_FLAG_PIC_AR_256_135 \
-> >  			(DRM_MODE_PICTURE_ASPECT_256_135<<19)
-> >  
-> > +#define DRM_MODE_FLAG_CEA_861_CE_MODE (1<<23)
-> > +
-> >  #define  DRM_MODE_FLAG_ALL	(DRM_MODE_FLAG_PHSYNC |		\
-> >  				 DRM_MODE_FLAG_NHSYNC |		\
-> >  				 DRM_MODE_FLAG_PVSYNC |		\
-> > -- 
-> > 2.26.0
-> > 
-
-Sorry, I wasn't aware DRM had these additional requirements. I do have a user-
-space implementation in mutter and gnome-control-center that makes use of the
-new property and this flag on my local machine. I'll try to propose the branch
-upstream before sending in the next revision of this patchset.
-
-Do I understand it correctly that this will require test cases for both the
-property itself and the new flag? I'll write a patch for IGT then.
-
-Regards
-Yussuf
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBBcHIgMTUsIDIwMjAgYXQgNjowNSBBTSBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFA
+aW50ZWwuY29tPiB3cm90ZToKPgo+Cj4gQWxleCwgSGFycnksIENocmlzdGlhbiwgY2FuIHlvdSBw
+bGVhc2UgZXllYmFsbCB0aGlzIHNlcmllcyBhbmQgc2VlIGlmIGl0Cj4gbWFrZXMgc2Vuc2UgZm9y
+IHlvdT8KPgoKUGF0Y2hlcyA0LCA1IGFyZToKQWNrZWQtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFu
+ZGVyLmRldWNoZXJAYW1kLmNvbT4KRmVlbCBmcmVlIHRvIHRha2UgdGhlbSB0aHJvdWdoIHdoaWNo
+ZXZlciB0cmVlIHlvdSB3YW50LgoKQWxleAoKCj4gVGhhbmtzLAo+IEphbmkuCj4KPgo+IE9uIFR1
+ZSwgMDcgQXByIDIwMjAsIEplZXZhbiBCIDxqZWV2YW4uYkBpbnRlbC5jb20+IHdyb3RlOgo+ID4g
+RnJvbTogT2xlZyBWYXNpbGV2IDxvbGVnLnZhc2lsZXZAaW50ZWwuY29tPgo+ID4KPiA+IFNpbmNl
+IERQLXNwZWNpZmljIGluZm9ybWF0aW9uIGlzIHN0b3JlZCBpbiBkcml2ZXIncyBzdHJ1Y3R1cmVz
+LCBldmVyeQo+ID4gZHJpdmVyIG5lZWRzIHRvIGltcGxlbWVudCBzdWJjb25uZWN0b3IgcHJvcGVy
+dHkgYnkgaXRzZWxmLgo+ID4KPiA+IHYyOiByZWJhc2UKPiA+Cj4gPiBDYzogQWxleCBEZXVjaGVy
+IDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgo+ID4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNo
+cmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiA+IENjOiBEYXZpZCAoQ2h1bk1pbmcpIFpob3UgPERh
+dmlkMS5aaG91QGFtZC5jb20+Cj4gPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+PiA+IFNpZ25lZC1vZmYtYnk6IEplZXZhbiBCIDxqZWV2YW4uYkBpbnRlbC5jb20+Cj4gPiBTaWdu
+ZWQtb2ZmLWJ5OiBPbGVnIFZhc2lsZXYgPG9sZWcudmFzaWxldkBpbnRlbC5jb20+Cj4gPiBSZXZp
+ZXdlZC1ieTogRW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KPiA+IExp
+bms6IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDE5MDgy
+OTExNDg1NC4xNTM5LTYtb2xlZy52YXNpbGV2QGludGVsLmNvbQo+ID4gLS0tCj4gPiAgZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Nvbm5lY3RvcnMuYyB8IDEwICsrKysrKysrKysK
+PiA+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfbW9kZS5oICAgICAgIHwgIDEg
+Kwo+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2F0b21iaW9zX2RwLmMgICAgICAgfCAx
+OCArKysrKysrKysrKysrKysrKy0KPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDI4IGluc2VydGlvbnMo
+KyksIDEgZGVsZXRpb24oLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X2Nvbm5lY3RvcnMuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L2FtZGdwdV9jb25uZWN0b3JzLmMKPiA+IGluZGV4IGYzNTVkOWEuLjcxYWFkZTAgMTAwNjQ0Cj4g
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY29ubmVjdG9ycy5jCj4g
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY29ubmVjdG9ycy5jCj4g
+PiBAQCAtMjYsNiArMjYsNyBAQAo+ID4KPiA+ICAjaW5jbHVkZSA8ZHJtL2RybV9lZGlkLmg+Cj4g
+PiAgI2luY2x1ZGUgPGRybS9kcm1fZmJfaGVscGVyLmg+Cj4gPiArI2luY2x1ZGUgPGRybS9kcm1f
+ZHBfaGVscGVyLmg+Cj4gPiAgI2luY2x1ZGUgPGRybS9kcm1fcHJvYmVfaGVscGVyLmg+Cj4gPiAg
+I2luY2x1ZGUgPGRybS9hbWRncHVfZHJtLmg+Cj4gPiAgI2luY2x1ZGUgImFtZGdwdS5oIgo+ID4g
+QEAgLTE0MDUsNiArMTQwNiwxMCBAQCBhbWRncHVfY29ubmVjdG9yX2RwX2RldGVjdChzdHJ1Y3Qg
+ZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLCBib29sIGZvcmNlKQo+ID4gICAgICAgICAgICAgICBw
+bV9ydW50aW1lX3B1dF9hdXRvc3VzcGVuZChjb25uZWN0b3ItPmRldi0+ZGV2KTsKPiA+ICAgICAg
+IH0KPiA+Cj4gPiArICAgICBkcm1fZHBfc2V0X3N1YmNvbm5lY3Rvcl9wcm9wZXJ0eSgmYW1kZ3B1
+X2Nvbm5lY3Rvci0+YmFzZSwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHJldCwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFtZGdw
+dV9kaWdfY29ubmVjdG9yLT5kcGNkLAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgYW1kZ3B1X2RpZ19jb25uZWN0b3ItPmRvd25zdHJlYW1fcG9ydHMpOwo+ID4gICAg
+ICAgcmV0dXJuIHJldDsKPiA+ICB9Cj4gPgo+ID4gQEAgLTE5NTEsNiArMTk1NiwxMSBAQCBhbWRn
+cHVfY29ubmVjdG9yX2FkZChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwKPiA+ICAgICAgIGlm
+IChoYXNfYXV4KQo+ID4gICAgICAgICAgICAgICBhbWRncHVfYXRvbWJpb3NfZHBfYXV4X2luaXQo
+YW1kZ3B1X2Nvbm5lY3Rvcik7Cj4gPgo+ID4gKyAgICAgaWYgKGNvbm5lY3Rvcl90eXBlID09IERS
+TV9NT0RFX0NPTk5FQ1RPUl9EaXNwbGF5UG9ydCB8fAo+ID4gKyAgICAgICAgIGNvbm5lY3Rvcl90
+eXBlID09IERSTV9NT0RFX0NPTk5FQ1RPUl9lRFApIHsKPiA+ICsgICAgICAgICAgICAgZHJtX21v
+ZGVfYWRkX2RwX3N1YmNvbm5lY3Rvcl9wcm9wZXJ0eSgmYW1kZ3B1X2Nvbm5lY3Rvci0+YmFzZSk7
+Cj4gPiArICAgICB9Cj4gPiArCj4gPiAgICAgICByZXR1cm47Cj4gPgo+ID4gIGZhaWxlZDoKPiA+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfbW9kZS5oIGIv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X21vZGUuaAo+ID4gaW5kZXggMzdiYTA3
+ZS4uMDRhNDMwZSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
+ZGdwdV9tb2RlLmgKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9t
+b2RlLmgKPiA+IEBAIC00NjksNiArNDY5LDcgQEAgc3RydWN0IGFtZGdwdV9lbmNvZGVyIHsKPiA+
+ICBzdHJ1Y3QgYW1kZ3B1X2Nvbm5lY3Rvcl9hdG9tX2RpZyB7Cj4gPiAgICAgICAvKiBkaXNwbGF5
+cG9ydCAqLwo+ID4gICAgICAgdTggZHBjZFtEUF9SRUNFSVZFUl9DQVBfU0laRV07Cj4gPiArICAg
+ICB1OCBkb3duc3RyZWFtX3BvcnRzW0RQX01BWF9ET1dOU1RSRUFNX1BPUlRTXTsKPiA+ICAgICAg
+IHU4IGRwX3NpbmtfdHlwZTsKPiA+ICAgICAgIGludCBkcF9jbG9jazsKPiA+ICAgICAgIGludCBk
+cF9sYW5lX2NvdW50Owo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L2F0b21iaW9zX2RwLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hdG9tYmlvc19kcC5j
+Cj4gPiBpbmRleCA5Yjc0Y2ZkLi45MDBiMjcyIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvYXRvbWJpb3NfZHAuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYXRvbWJpb3NfZHAuYwo+ID4gQEAgLTMyOCw2ICszMjgsMjIgQEAgc3RhdGljIHZv
+aWQgYW1kZ3B1X2F0b21iaW9zX2RwX3Byb2JlX291aShzdHJ1Y3QgYW1kZ3B1X2Nvbm5lY3RvciAq
+YW1kZ3B1X2Nvbm5lY3QKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBidWZbMF0sIGJ1
+ZlsxXSwgYnVmWzJdKTsKPiA+ICB9Cj4gPgo+ID4gK3N0YXRpYyB2b2lkIGFtZGdwdV9hdG9tYmlv
+c19kcF9kc19wb3J0cyhzdHJ1Y3QgYW1kZ3B1X2Nvbm5lY3RvciAqYW1kZ3B1X2Nvbm5lY3RvcikK
+PiA+ICt7Cj4gPiArICAgICBzdHJ1Y3QgYW1kZ3B1X2Nvbm5lY3Rvcl9hdG9tX2RpZyAqZGlnX2Nv
+bm5lY3RvciA9IGFtZGdwdV9jb25uZWN0b3ItPmNvbl9wcml2Owo+ID4gKyAgICAgaW50IHJldDsK
+PiA+ICsKPiA+ICsgICAgIGlmIChkaWdfY29ubmVjdG9yLT5kcGNkW0RQX0RQQ0RfUkVWXSA+IDB4
+MTApIHsKPiA+ICsgICAgICAgICAgICAgcmV0ID0gZHJtX2RwX2RwY2RfcmVhZCgmYW1kZ3B1X2Nv
+bm5lY3Rvci0+ZGRjX2J1cy0+YXV4LAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIERQX0RPV05TVFJFQU1fUE9SVF8wLAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIGRpZ19jb25uZWN0b3ItPmRvd25zdHJlYW1fcG9ydHMsCj4gPiArICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRFBfTUFYX0RPV05TVFJFQU1fUE9SVFMpOwo+
+ID4gKyAgICAgICAgICAgICBpZiAocmV0KQo+ID4gKyAgICAgICAgICAgICAgICAgICAgIG1lbXNl
+dChkaWdfY29ubmVjdG9yLT5kb3duc3RyZWFtX3BvcnRzLCAwLAo+ID4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBEUF9NQVhfRE9XTlNUUkVBTV9QT1JUUyk7Cj4gPiArICAgICB9Cj4gPiAr
+fQo+ID4gKwo+ID4gIGludCBhbWRncHVfYXRvbWJpb3NfZHBfZ2V0X2RwY2Qoc3RydWN0IGFtZGdw
+dV9jb25uZWN0b3IgKmFtZGdwdV9jb25uZWN0b3IpCj4gPiAgewo+ID4gICAgICAgc3RydWN0IGFt
+ZGdwdV9jb25uZWN0b3JfYXRvbV9kaWcgKmRpZ19jb25uZWN0b3IgPSBhbWRncHVfY29ubmVjdG9y
+LT5jb25fcHJpdjsKPiA+IEBAIC0zNDMsNyArMzU5LDcgQEAgaW50IGFtZGdwdV9hdG9tYmlvc19k
+cF9nZXRfZHBjZChzdHJ1Y3QgYW1kZ3B1X2Nvbm5lY3RvciAqYW1kZ3B1X2Nvbm5lY3RvcikKPiA+
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkaWdfY29ubmVjdG9yLT5kcGNkKTsKPiA+Cj4g
+PiAgICAgICAgICAgICAgIGFtZGdwdV9hdG9tYmlvc19kcF9wcm9iZV9vdWkoYW1kZ3B1X2Nvbm5l
+Y3Rvcik7Cj4gPiAtCj4gPiArICAgICAgICAgICAgIGFtZGdwdV9hdG9tYmlvc19kcF9kc19wb3J0
+cyhhbWRncHVfY29ubmVjdG9yKTsKPiA+ICAgICAgICAgICAgICAgcmV0dXJuIDA7Cj4gPiAgICAg
+ICB9Cj4KPiAtLQo+IEphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50
+ZXIKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4g
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
