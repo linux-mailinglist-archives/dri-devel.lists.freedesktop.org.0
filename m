@@ -2,25 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B9B1AD691
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFBD31AD68D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88AD16E393;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40D566E384;
 	Fri, 17 Apr 2020 06:59:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1EF06E321
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 15:57:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E33116E321
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 15:57:29 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 6D65F2A22A6
+ (Authenticated sender: eballetbo) with ESMTPSA id D86A82A22A7
 From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/7] Convert mtk-dsi to drm_bridge API and get EDID for
- ps8640 bridge
-Date: Thu, 16 Apr 2020 17:57:12 +0200
-Message-Id: <20200416155720.2360443-1-enric.balletbo@collabora.com>
+Subject: [PATCH v2 1/7] drm/bridge: ps8640: Get the EDID from eDP control
+Date: Thu, 16 Apr 2020 17:57:13 +0200
+Message-Id: <20200416155720.2360443-2-enric.balletbo@collabora.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200416155720.2360443-1-enric.balletbo@collabora.com>
+References: <20200416155720.2360443-1-enric.balletbo@collabora.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 17 Apr 2020 06:59:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -35,59 +36,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
  Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- linux-mediatek@lists.infradead.org,
+ Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
- matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org
+ matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The PS8640 DSI-to-eDP bridge can retrieve the EDID, so implement the
+.get_edid callback and set the flag to indicate the core to use it.
 
-The PS8640 dsi-to-eDP bridge driver is using the panel bridge API,
-however, not all the components in the chain have been ported to the
-drm_bridge API. Actually, when a panel is attached the default panel's mode
-is used, but in some cases we can't get display up if mode getting from
-eDP control EDID is not chosen.
+Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+---
 
-This series address that problem, first implements the .get_edid()
-callback in the PS8640 driver (which is not used until the conversion is
-done) and then, converts the Mediatek DSI driver to use the drm_bridge
-API.
+Changes in v2: None
 
-As far as I know, we're the only users of the mediatek dsi driver in
-mainline, so should be safe to switch to the new chain of drm_bridge API
-unconditionally.
+ drivers/gpu/drm/bridge/parade-ps8640.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-The patches has been tested on a Acer Chromebook R13 (Elm) running a
-Chrome OS userspace and checking that the valid EDID mode reported by
-the bridge is selected.
-
-[1] https://lore.kernel.org/lkml/20200210063523.133333-1-hsinyi@chromium.org/
-
-Changes in v2:
-- Do not set connector_type for panel here. (Sam Ravnborg)
-
-Enric Balletbo i Serra (7):
-  drm/bridge: ps8640: Get the EDID from eDP control
-  drm/bridge_connector: Set default status connected for eDP connectors
-  drm/mediatek: mtk_dsi: Rename bridge to next_bridge
-  drm/mediatek: mtk_dsi: Convert to bridge driver
-  drm/mediatek: mtk_dsi: Use simple encoder
-  drm/mediatek: mtk_dsi: Use the drm_panel_bridge API
-  drm/mediatek: mtk_dsi: Create connector for bridges
-
- drivers/gpu/drm/bridge/parade-ps8640.c |  12 ++
- drivers/gpu/drm/drm_bridge_connector.c |   1 +
- drivers/gpu/drm/mediatek/mtk_dsi.c     | 280 ++++++++-----------------
- 3 files changed, 101 insertions(+), 192 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+index d3a53442d449..956b76e0a44d 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8640.c
++++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+@@ -242,8 +242,18 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
+ 	return ret;
+ }
+ 
++static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
++					   struct drm_connector *connector)
++{
++	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
++
++	return drm_get_edid(connector,
++			    ps_bridge->page[PAGE0_DP_CNTL]->adapter);
++}
++
+ static const struct drm_bridge_funcs ps8640_bridge_funcs = {
+ 	.attach = ps8640_bridge_attach,
++	.get_edid = ps8640_bridge_get_edid,
+ 	.post_disable = ps8640_post_disable,
+ 	.pre_enable = ps8640_pre_enable,
+ };
+@@ -296,6 +306,8 @@ static int ps8640_probe(struct i2c_client *client)
+ 
+ 	ps_bridge->bridge.funcs = &ps8640_bridge_funcs;
+ 	ps_bridge->bridge.of_node = dev->of_node;
++	ps_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
++	ps_bridge->bridge.type = DRM_MODE_CONNECTOR_eDP;
+ 
+ 	ps_bridge->page[PAGE0_DP_CNTL] = client;
+ 
 -- 
 2.25.1
 
