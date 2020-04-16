@@ -1,60 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B39A1AB996
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 09:19:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D9B81AB9A2
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 09:21:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7F876EB1F;
-	Thu, 16 Apr 2020 07:19:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C60456EB1A;
+	Thu, 16 Apr 2020 07:21:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 303376EB1A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 07:19:20 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id d27so3597754wra.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 00:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=3AEaWn5XeJ7hcX74F4NzwZbogUqZr77xLF5d73BlBfw=;
- b=x+7x1SRD1y/LTZJxHdO7NBoPBhyXEErUVgwIai9Txb2aqME7MbBYVN8PkA7MmFMlG/
- +PTNeDQuJeOieuyql513BpDrE+TR0fX/mGtYOkCA4N6z7VRTvWgnydlKHHjdN1pHbDi6
- FcrLT7q9Xm6W6XF2DKy+sVxRvrx2e8zXuCLbQfQ8d2nPd/iJ34SsziQVe8hgIZhAVDz1
- X39oeCEgZoTyWJybNtbP4u4Ik4a22WiM6sS1Gf+7ektT/jxfmy4EaiaU+raISKCA976c
- DL5uziLMISTg53DG/aGMYXA9DS9lwHatzi8LUvPjSHKrnZk+uf82Nr0GKjoaC8YAX62l
- Ovyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=3AEaWn5XeJ7hcX74F4NzwZbogUqZr77xLF5d73BlBfw=;
- b=IOI+lryEr4MoGwW9yYiuhfdovMcJ4Cv6bCwYlSWBgk7or7FazzfDFDU8+1ucrIjvHc
- iX1GBBqZdGDVncr76J6QosV1hZQSTZpyxKPaZSwKiFKNSaM8+y/5iCEQNc7EiYZFgZ3m
- kOWv6eNhVmukAhMfHNtjwVqAPHDMqUhRJOT95BSqlLLIKCiEx9gzwhKj79Qs9ikNjlDd
- Yauf80Lw5QXSjwoCSvnN4MRrb0DvD7EgId42n4mmCTwlkvnRuEIXU4LScEeGi1C6W3Qq
- orS0pqlN31K7KOcs3gC4rTWscLz17ezbgMF54AO7uXbnvKMw1VE4kJaGVsDKDXTSuPjY
- X13A==
-X-Gm-Message-State: AGi0PuYGKvcEaWvYBurZBFxyxs0rTjO0PBDenTstpvQihOZTA/i4eZJS
- GhEu2k91aY2NbFfxs2FhGqSduw==
-X-Google-Smtp-Source: APiQypLCNVZBL4RMlNf7UZFX5oU2xDT6SF7MjxuD7BsWZie9pUbnFA9tcL+f+7W6lePE+UdiJ1fBjg==
-X-Received: by 2002:adf:e4cc:: with SMTP id v12mr8967305wrm.106.1587021558557; 
- Thu, 16 Apr 2020 00:19:18 -0700 (PDT)
-Received: from dell ([95.149.164.124])
- by smtp.gmail.com with ESMTPSA id p16sm19943946wro.21.2020.04.16.00.19.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Apr 2020 00:19:17 -0700 (PDT)
-Date: Thu, 16 Apr 2020 08:20:18 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: Clean-up schema indentation formatting
-Message-ID: <20200416072018.GS2167633@dell>
-References: <20200416005549.9683-1-robh@kernel.org>
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AEE96EB1A
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 07:21:00 +0000 (UTC)
+Received: from mail-qt1-f180.google.com ([209.85.160.180]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MjjOl-1ixNuz2hT9-00lFfv for <dri-devel@lists.freedesktop.org>; Thu, 16
+ Apr 2020 09:20:58 +0200
+Received: by mail-qt1-f180.google.com with SMTP id c16so9876589qtv.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 00:20:58 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZ9y0/WhePNBoO7yIP/SXhnA0YN6JS3bGYzKyw+ol3iN1FHmbE8
+ AF0V7fQGBl3818EKrh7z9QgsQxYtF4aZ+6ZkBP4=
+X-Google-Smtp-Source: APiQypLki807vlF5rf3bUb/lMDePEthLpUaUBhHRg0/ZUfeGPkLYlO08Klb1Ee851xvIZfXGDxWFM30tec+bUhtYF5c=
+X-Received: by 2002:ac8:6757:: with SMTP id n23mr12043843qtp.304.1587021657410; 
+ Thu, 16 Apr 2020 00:20:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200416005549.9683-1-robh@kernel.org>
+References: <20200408202711.1198966-1-arnd@arndb.de>
+ <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
+ <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
+ <20200408224224.GD11886@ziepe.ca> <87k12pgifv.fsf@intel.com>
+ <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
+ <20200410171320.GN11886@ziepe.ca>
+ <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com>
+ <20200414132900.GD5100@ziepe.ca>
+ <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
+ <20200414152312.GF5100@ziepe.ca>
+ <CAK8P3a1PjP9_b5NdmqTLeGN4y+3JXx_yyTE8YAf1u5rYHWPA9g@mail.gmail.com>
+ <f6d83b08fc0bc171b5ba5b2a0bc138727d92e2c0.camel@mellanox.com>
+ <CAK8P3a1-J=4EAxh7TtQxugxwXk239u8ffgxZNRdw_WWy8ExFoQ@mail.gmail.com>
+ <834c7606743424c64951dd2193ca15e29799bf18.camel@mellanox.com>
+In-Reply-To: <834c7606743424c64951dd2193ca15e29799bf18.camel@mellanox.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Thu, 16 Apr 2020 09:20:40 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
+Message-ID: <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
+Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
+To: Saeed Mahameed <saeedm@mellanox.com>
+X-Provags-ID: V03:K1:5yfjy7iLdtWCjlg2JFdTSr6Ig7I2eW38Ge5byiktwIKwkpA54IB
+ NfojU1VQC9H3jnzGIoeBm16eodYxhdzp1/qJDsCeXcvb1qXFcvge08qkSIpg7PBccBKvwUX
+ 33F4Gap6wT4NsAM1Razmaa2Oj/QjjEWlkgN48FkdX5qdMI4OyyA/+lmdnYdpqf0eJTW0CgU
+ xAfR3XFa4U5Ntqzbo+y5w==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kqFBDuXmrdI=:2SujjyFX6vbqqZcQU1l6Kt
+ PVVTSKvjR+Nm1iG60BJvZH/yJ9JKfIkRXY46a0OPr9YKWdjEZBVzKPxe9B24YCH3d8B9qki6+
+ 8FbNm0doH5bIrcm6daJ0DenOr9KKOpaSfUpQM+HNQiOZo9XHK2jeJ5t/n9q/HtYxhP1ikC68w
+ 3p7IRvpXuRbCRl25NXB2/G93dSU2A/vUEK73mQp3Wqv9GFA7SCFbXm3QLe24zS6AsjiOCA6/Q
+ nhPKYFU7X/TEsIXmB886rkf4X1EWAzvt6cEiaDFm2VGg5uTigl31kwIyl0Qs12YxzOsC02ovp
+ 3fyLXSDFh2qc8htOPAQ1t7xX3pgUnjmg/ytYfc6YIrnBqki8n5KPqzLe1wEoGWvwDNwDBEIap
+ SBoLlexiQ/Ea7p2GsoP2Y1yvOvluIplTPazVwZsduuAkkk1a2QnJN/rz+6fnlTJoRMhdQ4/Lp
+ Xy6cKcxfegtlC8oyy/alwplW889NR6it1NkAOWKdS4Q3oPJqML7uNeTrizPNqVhMxUgnghLMn
+ m8p/f2w/JkDafavb9zP9oJfHOe2Tj/4xeYYS0ATgKatubjrgDHYbyp6wH8aw8VGTKAjj5UcOV
+ t/nOL44p+DBRtWwSnHuxwvfOoCiA/sV47ALBIlMtq758//Xa28wQjKv5GHVW+T0SwLa7wDnX7
+ kpiHerKleLo0uw1OWgheqLGZTCGomzg1R+fVdTsNx0B1VrYMLgc+UYEaj6oFs7wKTqQJ+e6Zh
+ YBLPcn6iUQ6cMH7GT3fn0udBhvwkSKv9o2p/mmpHC6VvcfOjXe3P9mSelvkKOyoFVTa36PxaL
+ VPHiZs+qd9Ym0TT9aX6rmuEZPFSaYYJ9Th+upko2EJ3PyI8ek4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,128 +75,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
- linux-pwm@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
- linux-i2c@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- linux-riscv@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
- Florian Fainelli <f.fainelli@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- Alexandre Torgue <alexandre.torgue@st.com>, alsa-devel@alsa-project.org,
- linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Amit Kucheria <amit.kucheria@linaro.org>,
- linux-spi@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- netdev@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+ "leon@kernel.org" <leon@kernel.org>,
+ "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "masahiroy@kernel.org" <masahiroy@kernel.org>,
+ "nico@fluxnic.net" <nico@fluxnic.net>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "a.hajda@samsung.com" <a.hajda@samsung.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "kieran.bingham+renesas@ideasonboard.com"
+ <kieran.bingham+renesas@ideasonboard.com>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "jgg@ziepe.ca" <jgg@ziepe.ca>, "davem@davemloft.net" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAxNSBBcHIgMjAyMCwgUm9iIEhlcnJpbmcgd3JvdGU6Cgo+IEZpeCB2YXJpb3VzIGlu
-Y29uc2lzdGVuY2llcyBpbiBzY2hlbWEgaW5kZW50YXRpb24uIE1vc3Qgb2YgdGhlc2UgYXJlCj4g
-bGlzdCBpbmRlbnRhdGlvbiB3aGljaCBzaG91bGQgYmUgMiBzcGFjZXMgbW9yZSB0aGFuIHRoZSBz
-dGFydCBvZiB0aGUKPiBlbmNsb3Npbmcga2V5d29yZC4gVGhpcyBkb2Vzbid0IG1hdHRlciBmdW5j
-dGlvbmFsbHksIGJ1dCBhZmZlY3RzIHJ1bm5pbmcKPiBzY3JpcHRzIHdoaWNoIGRvIHRyYW5zZm9y
-bXMgb24gdGhlIHNjaGVtYSBmaWxlcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBSb2IgSGVycmluZyA8
-cm9iaEBrZXJuZWwub3JnPgo+IC0tLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vYWx0
-ZXJhLnlhbWwgICAgICAgfCAgNiArLQo+ICAuLi4vYW1sb2dpYy9hbWxvZ2ljLG1lc29uLWd4LWFv
-LXNlY3VyZS55YW1sICAgfCAgMiArLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vYml0
-bWFpbi55YW1sICAgICAgfCAgMiArLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vbnhw
-L2xwYzMyeHgueWFtbCAgfCAgOSArKy0KPiAgLi4uL2JpbmRpbmdzL2FybS9zb2Npb25leHQvdW5p
-cGhpZXIueWFtbCAgICAgIHwgMjYgKysrKy0tLS0KPiAgLi4uL2JpbmRpbmdzL2FybS9zdG0zMi9z
-dCxtbGFoYi55YW1sICAgICAgICAgIHwgIDIgKy0KPiAgLi4uL2JpbmRpbmdzL2FybS9zdG0zMi9z
-dCxzdG0zMi1zeXNjb24ueWFtbCAgIHwgIDYgKy0KPiAgLi4uL2JpbmRpbmdzL2F0YS9mYXJhZGF5
-LGZ0aWRlMDEwLnlhbWwgICAgICAgIHwgIDQgKy0KPiAgLi4uL2JpbmRpbmdzL2J1cy9hbGx3aW5u
-ZXIsc3VuOGktYTIzLXJzYi55YW1sIHwgIDQgKy0KPiAgLi4uL2Nsb2NrL2FsbHdpbm5lcixzdW40
-aS1hMTAtZ2F0ZXMtY2xrLnlhbWwgIHwgIDggKy0tCj4gIC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L2Nsb2NrL2ZzbCxwbGxkaWcueWFtbCB8IDE3ICsrKy0tCj4gIC4uLi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL2Nsb2NrL3Fjb20sbW1jYy55YW1sICB8IDE2ICsrLS0tCj4gIC4uLi9iaW5kaW5ncy9jb25u
-ZWN0b3IvdXNiLWNvbm5lY3Rvci55YW1sICAgICB8ICA2ICstCj4gIC4uLi9jcnlwdG8vYWxsd2lu
-bmVyLHN1bjRpLWExMC1jcnlwdG8ueWFtbCAgICB8IDE0ICsrLS0KPiAgLi4uL2JpbmRpbmdzL2Ny
-eXB0by9hbGx3aW5uZXIsc3VuOGktY2UueWFtbCAgIHwgMTYgKystLS0KPiAgLi4uL2JpbmRpbmdz
-L2NyeXB0by9hbWxvZ2ljLGd4bC1jcnlwdG8ueWFtbCAgIHwgIDIgKy0KPiAgLi4uL2Rpc3BsYXkv
-YWxsd2lubmVyLHN1bjRpLWExMC1oZG1pLnlhbWwgICAgIHwgNDAgKysrKysrLS0tLS0tCj4gIC4u
-Li9kaXNwbGF5L2FsbHdpbm5lcixzdW40aS1hMTAtdGNvbi55YW1sICAgICB8IDU4ICsrKysrKysr
-LS0tLS0tLS0tCj4gIC4uLi9kaXNwbGF5L2FsbHdpbm5lcixzdW42aS1hMzEtbWlwaS1kc2kueWFt
-bCB8IDI4ICsrKystLS0tCj4gIC4uLi9kaXNwbGF5L2FsbHdpbm5lcixzdW44aS1hODN0LWR3LWhk
-bWkueWFtbCB8IDEwICstLQo+ICAuLi4vYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvbHZkcy1jb2Rl
-Yy55YW1sICAgfCAxOCArKystLS0KPiAgLi4uL2Rpc3BsYXkvcGFuZWwvc29ueSxhY3g0MjRha3Au
-eWFtbCAgICAgICAgIHwgIDIgKy0KPiAgLi4uL2Rpc3BsYXkvcGFuZWwveGlucGVuZyx4cHAwNTVj
-MjcyLnlhbWwgICAgIHwgIDQgKy0KPiAgLi4uL2JpbmRpbmdzL2Rpc3BsYXkvcmVuZXNhcyxjbW0u
-eWFtbCAgICAgICAgIHwgMTYgKystLS0KPiAgLi4uL2RldmljZXRyZWUvYmluZGluZ3MvZG1hL3Rp
-L2szLXVkbWEueWFtbCAgIHwgIDggKy0tCj4gIC4uLi9iaW5kaW5ncy9ncGlvL2JyY20seGdzLWlw
-cm9jLWdwaW8ueWFtbCAgICB8ICAyICstCj4gIC4uLi9iaW5kaW5ncy9ncHUvYXJtLG1hbGktbWlk
-Z2FyZC55YW1sICAgICAgICB8IDE4ICsrKy0tLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9n
-cHUvdml2YW50ZSxnYy55YW1sICAgfCAgMiArLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9p
-MmMvaTJjLXJrM3gueWFtbCAgICAgfCAxMCArLS0KPiAgLi4uL2JpbmRpbmdzL2lpby9hZGMvYWRp
-LGFkNzEyNC55YW1sICAgICAgICAgIHwgIDQgKy0KPiAgLi4uL2JpbmRpbmdzL2lpby9hZGMvbGx0
-YyxsdGMyNDk2LnlhbWwgICAgICAgIHwgIDYgKy0KPiAgLi4uL2lucHV0L2FsbHdpbm5lcixzdW40
-aS1hMTAtbHJhZGMta2V5cy55YW1sIHwgIDQgKy0KPiAgLi4uL2JpbmRpbmdzL2lucHV0L3RvdWNo
-c2NyZWVuL2dvb2RpeC55YW1sICAgIHwgIDIgKy0KPiAgLi4uL2JpbmRpbmdzL2ludGVyY29ubmVj
-dC9xY29tLG1zbTg5MTYueWFtbCAgIHwgIDQgKy0KPiAgLi4uL2JpbmRpbmdzL2ludGVyY29ubmVj
-dC9xY29tLG1zbTg5NzQueWFtbCAgIHwgIDQgKy0KPiAgLi4uL2JpbmRpbmdzL2ludGVyY29ubmVj
-dC9xY29tLHFjczQwNC55YW1sICAgIHwgIDQgKy0KPiAgLi4uL2FsbHdpbm5lcixzdW43aS1hMjAt
-c2Mtbm1pLnlhbWwgICAgICAgICAgIHwgMTIgKystLQo+ICAuLi4vaW50ZWwsaXhwNHh4LWludGVy
-cnVwdC55YW1sICAgICAgICAgICAgICAgfCAgOCArLS0KPiAgLi4uL2ludGVycnVwdC1jb250cm9s
-bGVyL3N0LHN0bTMyLWV4dGkueWFtbCAgIHwgMTIgKystLQo+ICAuLi4vYmluZGluZ3MvaW9tbXUv
-c2Ftc3VuZyxzeXNtbXUueWFtbCAgICAgICAgfCAxMCArLS0KPiAgLi4uL2JpbmRpbmdzL21haWxi
-b3gvc3Qsc3RtMzItaXBjYy55YW1sICAgICAgIHwgIDIgKy0KPiAgLi4uL21lZGlhL2FsbHdpbm5l
-cixzdW40aS1hMTAtY3NpLnlhbWwgICAgICAgIHwgMjggKysrKy0tLS0KPiAgLi4uL2JpbmRpbmdz
-L21lZGlhL2FtbG9naWMsZ3gtdmRlYy55YW1sICAgICAgIHwgMTQgKystLQo+ICAuLi4vYmluZGlu
-Z3MvbWVkaWEvcmVuZXNhcyxjZXUueWFtbCAgICAgICAgICAgfCAyOCArKysrLS0tLQo+ICAuLi4v
-YmluZGluZ3MvbWVkaWEvcmVuZXNhcyx2aW4ueWFtbCAgICAgICAgICAgfCAgOCArLS0KPiAgLi4u
-L2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvdGksdnBlLnlhbWwgICAgIHwgIDIgKy0KPiAgLi4u
-L21lbW9yeS1jb250cm9sbGVycy9mc2wvaW14OG0tZGRyYy55YW1sICAgIHwgIDYgKy0KCj4gIC4u
-Li9iaW5kaW5ncy9tZmQvc3Qsc3RtMzItbHB0aW1lci55YW1sICAgICAgICB8ICA0ICstCj4gIC4u
-Li9iaW5kaW5ncy9tZmQvc3Qsc3RtMzItdGltZXJzLnlhbWwgICAgICAgICB8ICA0ICstCj4gIC4u
-Li9kZXZpY2V0cmVlL2JpbmRpbmdzL21mZC9zeXNjb24ueWFtbCAgICAgICB8IDEyICsrLS0KCkFj
-a2VkLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgoKPiAgLi4uL2RldmljZXRy
-ZWUvYmluZGluZ3MvbW1jL2NkbnMsc2RoY2kueWFtbCAgIHwgIDIgKy0KPiAgLi4uL2JpbmRpbmdz
-L21tYy9yb2NrY2hpcC1kdy1tc2hjLnlhbWwgICAgICAgIHwgMTYgKystLS0KPiAgLi4uL2JpbmRp
-bmdzL21tYy9zb2Npb25leHQsdW5pcGhpZXItc2QueWFtbCAgIHwgMTQgKystLQo+ICAuLi4vZGV2
-aWNldHJlZS9iaW5kaW5ncy9tdGQvZGVuYWxpLG5hbmQueWFtbCAgfCAgNCArLQo+ICAuLi4vbmV0
-L2FsbHdpbm5lcixzdW44aS1hODN0LWVtYWMueWFtbCAgICAgICAgfCAgNCArLQo+ICAuLi4vYmlu
-ZGluZ3MvbmV0L2Nhbi9ib3NjaCxtX2Nhbi55YW1sICAgICAgICAgfCA1MiArKysrKysrLS0tLS0t
-LS0KPiAgLi4uL2JpbmRpbmdzL25ldC9yZW5lc2FzLGV0aGVyLnlhbWwgICAgICAgICAgIHwgIDQg
-Ky0KPiAgLi4uL2JpbmRpbmdzL25ldC90aSxjcHN3LXN3aXRjaC55YW1sICAgICAgICAgIHwgMTIg
-KystLQo+ICAuLi4vYmluZGluZ3MvbmV0L3RpLGRhdmluY2ktbWRpby55YW1sICAgICAgICAgfCAy
-NyArKysrLS0tLQo+ICAuLi4vYmluZGluZ3MvcGh5L2ludGVsLGxnbS1lbW1jLXBoeS55YW1sICAg
-ICAgfCAgMiArLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9wd20vcHdtLXNhbXN1bmcueWFt
-bCAgfCAxNiArKy0tLQo+ICAuLi4vYmluZGluZ3MvcmVtb3RlcHJvYy9zdCxzdG0zMi1ycHJvYy55
-YW1sICAgfCAgMiArLQo+ICAuLi4vcmVzZXQvYnJjbSxiY203MjE2LXBjaWUtc2F0YS1yZXNjYWwu
-eWFtbCAgfCAgNCArLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9ydGMvc3Qsc3RtMzItcnRj
-LnlhbWwgfCAzOCArKysrKy0tLS0tLQo+ICAuLi4vYmluZGluZ3Mvc2VyaWFsL2FtbG9naWMsbWVz
-b24tdWFydC55YW1sICAgfCAxNiArKy0tLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9zZXJp
-YWwvcnM0ODUueWFtbCAgICAgfCAxNyArKy0tLQo+ICAuLi4vYmluZGluZ3Mvc29jL2FtbG9naWMv
-YW1sb2dpYyxjYW52YXMueWFtbCAgfCAxMCArLS0KPiAgLi4uL2JpbmRpbmdzL3NvdW5kL3JlbmVz
-YXMsZnNpLnlhbWwgICAgICAgICAgIHwgMTYgKystLS0KPiAgLi4uL2JpbmRpbmdzL3NwaS9xY29t
-LHNwaS1xY29tLXFzcGkueWFtbCAgICAgIHwgMTAgKy0tCj4gIC4uLi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL3NwaS9yZW5lc2FzLGhzcGkueWFtbCB8ICA0ICstCj4gIC4uLi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL3NwaS9zcGktcGwwMjIueWFtbCAgICB8ICAyICstCj4gIC4uLi9iaW5kaW5ncy9zcGkvc3Qs
-c3RtMzItcXNwaS55YW1sICAgICAgICAgICB8ICA0ICstCj4gIC4uLi9hbGx3aW5uZXIsc3VuNGkt
-YTEwLXN5c3RlbS1jb250cm9sLnlhbWwgICB8IDY0ICsrKysrKysrKy0tLS0tLS0tLS0KPiAgLi4u
-L2JpbmRpbmdzL3RoZXJtYWwvYW1sb2dpYyx0aGVybWFsLnlhbWwgICAgIHwgMTAgKy0tCj4gIC4u
-Li9iaW5kaW5ncy90aW1lci9hcm0sYXJjaF90aW1lci55YW1sICAgICAgICB8ICA0ICstCj4gIC4u
-Li9iaW5kaW5ncy90aW1lci9hcm0sYXJjaF90aW1lcl9tbWlvLnlhbWwgICB8ICA0ICstCj4gIC4u
-Li9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9kd2MyLnlhbWwgICAgICAgICB8ICA4ICstLQo+ICA3
-NyBmaWxlcyBjaGFuZ2VkLCA0NTAgaW5zZXJ0aW9ucygrKSwgNDUwIGRlbGV0aW9ucygtKQoKLS0g
-CkxlZSBKb25lcyBb5p2O55C85pavXQpMaW5hcm8gU2VydmljZXMgVGVjaG5pY2FsIExlYWQKTGlu
-YXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFSTSBTb0NzCkZvbGxvdyBMaW5h
-cm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Apr 16, 2020 at 5:25 AM Saeed Mahameed <saeedm@mellanox.com> wrote:
+>
+> On Tue, 2020-04-14 at 20:47 +0200, Arnd Bergmann wrote:
+> > On Tue, Apr 14, 2020 at 7:49 PM Saeed Mahameed <saeedm@mellanox.com>
+> > wrote:
+> > > On Tue, 2020-04-14 at 17:25 +0200, Arnd Bergmann wrote:
+> > > > On Tue, Apr 14, 2020 at 5:23 PM Jason Gunthorpe <jgg@ziepe.ca>
+> > > > wrote:
+> > > > Correct.
+> > > >
+> > >
+> > > Great !
+> > >
+> > > Then bottom line we will change mlx5/Kconfig: to
+> > >
+> > > depends on VXLAN || !VXLAN
+> >
+> > Ok
+> >
+>
+> BTW how about adding a new Kconfig option to hide the details of
+> ( BAR || !BAR) ? as Jason already explained and suggested, this will
+> make it easier for the users and developers to understand the actual
+> meaning behind this tristate weird condition.
+>
+> e.g have a new keyword:
+>      reach VXLAN
+> which will be equivalent to:
+>      depends on VXLAN && !VXLAN
+
+I'd love to see that, but I'm not sure what keyword is best. For your
+suggestion of "reach", that would probably do the job, but I'm not
+sure if this ends up being more or less confusing than what we have
+today.
+
+> > > This will force MLX5_CORE to m when necessary to make vxlan
+> > > reachable
+> > > to mlx5_core.  So no need for explicit use of IS_REACHABLE().
+> > > in mlx5 there are 4 of these:
+> > >
+> > >         imply PTP_1588_CLOCK
+> > >         imply VXLAN
+> > >         imply MLXFW
+> > >         imply PCI_HYPERV_INTERFACE
+> >
+> > As mentioned earlier, we do need to replace the 'imply
+> > PTP_1588_CLOCK'
+> > with the same
+> >
+> >          depends on PTP_1588_CLOCK || !PTP_1588_CLOCK
+> >
+> > So far I have not seen problems for the other two options, so I
+> > assume they
+> > are fine for now -- it seems to build just fine without
+> > PCI_HYPERV_INTERFACE,
+> > and MLXFW has no other dependencies, meaning that 'imply' is the
+> > same as 'select' here. Using 'select MLXFW' would make it clearer
+> > perhaps.
+>
+> No, I would like to avoid select and allow building mlx5 without MLXFW,
+> MLXFW already has a stub protected with IS_REACHABLE(), this is why we
+> don't have an issue with it.
+
+So the 'imply MLXFW' should be dropped then?
+
+        Arnd
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
