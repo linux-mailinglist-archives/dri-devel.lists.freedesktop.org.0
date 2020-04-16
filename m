@@ -2,56 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8991AC3FC
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 15:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF751AC42B
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 15:55:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1A526E128;
-	Thu, 16 Apr 2020 13:53:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 514406E0FA;
+	Thu, 16 Apr 2020 13:55:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0816D6E0FA;
- Thu, 16 Apr 2020 13:53:40 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id d77so4677235wmd.3;
- Thu, 16 Apr 2020 06:53:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xpjM2TMULppR6CN9yEjlHCh3iAEXVl1rLGZGsDU6Leg=;
- b=LZJbaz/8gojHTMRmtJSolD47I7a+e3WF8802YwV/9xgbT0rLm9U1m1Wmm64HJSPQq5
- iIX2CnuFxj5ZyTCFqK56kwX5dZWSjKiFQQ3Ic+STgIf+h51tcfCsEW9Pr7lEG5XJu2+Y
- RtSVNxB9vKbvvJPvU2AK45zQh124e3qEXWQZiv4hyOlgWtfKoJzEze6zEXIOHFpXr940
- qY12647B/u/LwbsA8q44QTJYC4tZs91bdF5L27Hj8lle0gMB1RRwcowjLZNRgtL50GA5
- /rdshZZ3poVooJ7O8GXS9WrSVzO3DOC9HDU9/g/IlpImC1qfk/SjY/WDL8iTD/y8HmBT
- i/Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xpjM2TMULppR6CN9yEjlHCh3iAEXVl1rLGZGsDU6Leg=;
- b=Y+O1hvdor2Hr5eeVFOCsoEIu9YVQdu4CT6R/PkQ05N6nzHgZs1qQCa5ng+IgVYntTg
- K59HLmHevvYtgoxwvmroEtMYG6BX/O+gkXQANNOi2QnLGSPUo9KgnDMy/zP2E202XAlS
- sSTSjDtA1ukBtAQN/QUBgXgOZ6LeGcT9X1xzENkfn8yinEH3vBgtIK1dCbfjXgwNvixR
- W/68zx06K8MrzjKVNqikF4hY/uyvB96Yx/Ph1+iXeQ55mnj+MIslelO6d+qQbDam+U8o
- Z5WDDelLH94umjHd4vsPxTVQUF5tchsXSXCNZRJmuBye9zaJAuXfAiuiGmMO/fcWsPK9
- QJzQ==
-X-Gm-Message-State: AGi0Puar6GxNkCRElULjsRQU098uMO0RJbkzNHDjfn11w1cYOBm8/DV3
- rzDJXtbXfoc7DA5jqTyckDJd3+JJcVrRdbf6CwLDiQ==
-X-Google-Smtp-Source: APiQypLFveG3EWYAqe8440UHGyEaqsnqSx9TwUZapMkUxRfdVt2+Mf3wVOgA8xcNKQm6CdrpcOSjIPwTXfqpLBdy9ZY=
-X-Received: by 2002:a1c:2842:: with SMTP id o63mr4955995wmo.73.1587045219592; 
- Thu, 16 Apr 2020 06:53:39 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 492DE6E0FC
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 13:55:34 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
+ [209.85.219.52])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0D91322203
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 13:55:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1587045334;
+ bh=lAG6zzq1Sqen9mJhj5pG0jXwK1qfgmptfKCYtqRavfc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=OJtBap6gxkn7B64p6YI3gTyfG+37GXhLma2wex7puLnTvEPVIckcw2EWyHIlGxpbU
+ axCPq/uLuHBCHTtrTyk9e9F01ZRfk1h5UwSfOVyg7KnEYG4Mh0g9CUMFFZUUhlg6Dn
+ cKIhtKmwFJOdPx1PSLWhEzhafdvl/OQ5lWzBbqUw=
+Received: by mail-qv1-f52.google.com with SMTP id y19so1821857qvv.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 06:55:34 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZyJRxcYabZnvd0y+KAvw2RsH4l5VBxvXKK0J6CkPt4e+KNcryx
+ ZtoaUOowMFeJRnqmlDgL1a0060+Aov3CDB8IsQ==
+X-Google-Smtp-Source: APiQypJP5/uECHnZPqCD8aDFNOvB3C1OTKaRvvNdGUWUD6LvJ9HnhAL59x+YqONzfmAtrwzd6yqnrOF4qnSJIJfw8nM=
+X-Received: by 2002:a05:6214:a8a:: with SMTP id
+ ev10mr9484527qvb.20.1587045333124; 
+ Thu, 16 Apr 2020 06:55:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <1586242207-23214-1-git-send-email-jeevan.b@intel.com>
- <1586242207-23214-4-git-send-email-jeevan.b@intel.com>
- <871rop5aka.fsf@intel.com>
-In-Reply-To: <871rop5aka.fsf@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 16 Apr 2020 09:53:27 -0400
-Message-ID: <CADnq5_PeB4LPKXY1g+MrZar9UQQewDzX4ZcDcFTu-TMNPqpv3A@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 4/5] drm/amdgpu: utilize subconnector property
- for DP through atombios
-To: Jani Nikula <jani.nikula@intel.com>
+References: <20200416005549.9683-1-robh@kernel.org>
+ <20200416005549.9683-2-robh@kernel.org>
+ <d93f90bbcc99967ed5ba458ba99d7e73de12e3b2.camel@perches.com>
+In-Reply-To: <d93f90bbcc99967ed5ba458ba99d7e73de12e3b2.camel@perches.com>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 16 Apr 2020 08:55:21 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLcJrFow_+-o2CxoPRCv4U-ELb2FHSbUgG=Mzt8PFn_CA@mail.gmail.com>
+Message-ID: <CAL_JsqLcJrFow_+-o2CxoPRCv4U-ELb2FHSbUgG=Mzt8PFn_CA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dt-bindings: Remove cases of 'allOf' containing a
+ '$ref'
+To: Joe Perches <joe@perches.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,108 +57,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeevan B <jeevan.b@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Oleg Vasilev <oleg.vasilev@intel.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Harry Wentland <hwentlan@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Linux PWM List <linux-pwm@vger.kernel.org>,
+ "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+ PCI <linux-pci@vger.kernel.org>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ MTD Maling List <linux-mtd@lists.infradead.org>,
+ Linux I2C <linux-i2c@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ linux-riscv <linux-riscv@lists.infradead.org>,
+ Lee Jones <lee.jones@linaro.org>, linux-clk <linux-clk@vger.kernel.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
+ Florian Fainelli <f.fainelli@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ Linux Input <linux-input@vger.kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ devicetree@vger.kernel.org, Alexandre Torgue <alexandre.torgue@st.com>,
+ Linux-ALSA <alsa-devel@alsa-project.org>, linux-can@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ Linux HWMON List <linux-hwmon@vger.kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Amit Kucheria <amit.kucheria@linaro.org>,
+ linux-spi <linux-spi@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ netdev <netdev@vger.kernel.org>, Jonathan Cameron <jic23@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBBcHIgMTUsIDIwMjAgYXQgNjowNSBBTSBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFA
-aW50ZWwuY29tPiB3cm90ZToKPgo+Cj4gQWxleCwgSGFycnksIENocmlzdGlhbiwgY2FuIHlvdSBw
-bGVhc2UgZXllYmFsbCB0aGlzIHNlcmllcyBhbmQgc2VlIGlmIGl0Cj4gbWFrZXMgc2Vuc2UgZm9y
-IHlvdT8KPgoKUGF0Y2hlcyA0LCA1IGFyZToKQWNrZWQtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFu
-ZGVyLmRldWNoZXJAYW1kLmNvbT4KRmVlbCBmcmVlIHRvIHRha2UgdGhlbSB0aHJvdWdoIHdoaWNo
-ZXZlciB0cmVlIHlvdSB3YW50LgoKQWxleAoKCj4gVGhhbmtzLAo+IEphbmkuCj4KPgo+IE9uIFR1
-ZSwgMDcgQXByIDIwMjAsIEplZXZhbiBCIDxqZWV2YW4uYkBpbnRlbC5jb20+IHdyb3RlOgo+ID4g
-RnJvbTogT2xlZyBWYXNpbGV2IDxvbGVnLnZhc2lsZXZAaW50ZWwuY29tPgo+ID4KPiA+IFNpbmNl
-IERQLXNwZWNpZmljIGluZm9ybWF0aW9uIGlzIHN0b3JlZCBpbiBkcml2ZXIncyBzdHJ1Y3R1cmVz
-LCBldmVyeQo+ID4gZHJpdmVyIG5lZWRzIHRvIGltcGxlbWVudCBzdWJjb25uZWN0b3IgcHJvcGVy
-dHkgYnkgaXRzZWxmLgo+ID4KPiA+IHYyOiByZWJhc2UKPiA+Cj4gPiBDYzogQWxleCBEZXVjaGVy
-IDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgo+ID4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNo
-cmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiA+IENjOiBEYXZpZCAoQ2h1bk1pbmcpIFpob3UgPERh
-dmlkMS5aaG91QGFtZC5jb20+Cj4gPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-PiA+IFNpZ25lZC1vZmYtYnk6IEplZXZhbiBCIDxqZWV2YW4uYkBpbnRlbC5jb20+Cj4gPiBTaWdu
-ZWQtb2ZmLWJ5OiBPbGVnIFZhc2lsZXYgPG9sZWcudmFzaWxldkBpbnRlbC5jb20+Cj4gPiBSZXZp
-ZXdlZC1ieTogRW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KPiA+IExp
-bms6IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDE5MDgy
-OTExNDg1NC4xNTM5LTYtb2xlZy52YXNpbGV2QGludGVsLmNvbQo+ID4gLS0tCj4gPiAgZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Nvbm5lY3RvcnMuYyB8IDEwICsrKysrKysrKysK
-PiA+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfbW9kZS5oICAgICAgIHwgIDEg
-Kwo+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2F0b21iaW9zX2RwLmMgICAgICAgfCAx
-OCArKysrKysrKysrKysrKysrKy0KPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDI4IGluc2VydGlvbnMo
-KyksIDEgZGVsZXRpb24oLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9hbWRncHUvYW1kZ3B1X2Nvbm5lY3RvcnMuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
-L2FtZGdwdV9jb25uZWN0b3JzLmMKPiA+IGluZGV4IGYzNTVkOWEuLjcxYWFkZTAgMTAwNjQ0Cj4g
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY29ubmVjdG9ycy5jCj4g
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY29ubmVjdG9ycy5jCj4g
-PiBAQCAtMjYsNiArMjYsNyBAQAo+ID4KPiA+ICAjaW5jbHVkZSA8ZHJtL2RybV9lZGlkLmg+Cj4g
-PiAgI2luY2x1ZGUgPGRybS9kcm1fZmJfaGVscGVyLmg+Cj4gPiArI2luY2x1ZGUgPGRybS9kcm1f
-ZHBfaGVscGVyLmg+Cj4gPiAgI2luY2x1ZGUgPGRybS9kcm1fcHJvYmVfaGVscGVyLmg+Cj4gPiAg
-I2luY2x1ZGUgPGRybS9hbWRncHVfZHJtLmg+Cj4gPiAgI2luY2x1ZGUgImFtZGdwdS5oIgo+ID4g
-QEAgLTE0MDUsNiArMTQwNiwxMCBAQCBhbWRncHVfY29ubmVjdG9yX2RwX2RldGVjdChzdHJ1Y3Qg
-ZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLCBib29sIGZvcmNlKQo+ID4gICAgICAgICAgICAgICBw
-bV9ydW50aW1lX3B1dF9hdXRvc3VzcGVuZChjb25uZWN0b3ItPmRldi0+ZGV2KTsKPiA+ICAgICAg
-IH0KPiA+Cj4gPiArICAgICBkcm1fZHBfc2V0X3N1YmNvbm5lY3Rvcl9wcm9wZXJ0eSgmYW1kZ3B1
-X2Nvbm5lY3Rvci0+YmFzZSwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIHJldCwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFtZGdw
-dV9kaWdfY29ubmVjdG9yLT5kcGNkLAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgYW1kZ3B1X2RpZ19jb25uZWN0b3ItPmRvd25zdHJlYW1fcG9ydHMpOwo+ID4gICAg
-ICAgcmV0dXJuIHJldDsKPiA+ICB9Cj4gPgo+ID4gQEAgLTE5NTEsNiArMTk1NiwxMSBAQCBhbWRn
-cHVfY29ubmVjdG9yX2FkZChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwKPiA+ICAgICAgIGlm
-IChoYXNfYXV4KQo+ID4gICAgICAgICAgICAgICBhbWRncHVfYXRvbWJpb3NfZHBfYXV4X2luaXQo
-YW1kZ3B1X2Nvbm5lY3Rvcik7Cj4gPgo+ID4gKyAgICAgaWYgKGNvbm5lY3Rvcl90eXBlID09IERS
-TV9NT0RFX0NPTk5FQ1RPUl9EaXNwbGF5UG9ydCB8fAo+ID4gKyAgICAgICAgIGNvbm5lY3Rvcl90
-eXBlID09IERSTV9NT0RFX0NPTk5FQ1RPUl9lRFApIHsKPiA+ICsgICAgICAgICAgICAgZHJtX21v
-ZGVfYWRkX2RwX3N1YmNvbm5lY3Rvcl9wcm9wZXJ0eSgmYW1kZ3B1X2Nvbm5lY3Rvci0+YmFzZSk7
-Cj4gPiArICAgICB9Cj4gPiArCj4gPiAgICAgICByZXR1cm47Cj4gPgo+ID4gIGZhaWxlZDoKPiA+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfbW9kZS5oIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X21vZGUuaAo+ID4gaW5kZXggMzdiYTA3
-ZS4uMDRhNDMwZSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
-ZGdwdV9tb2RlLmgKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9t
-b2RlLmgKPiA+IEBAIC00NjksNiArNDY5LDcgQEAgc3RydWN0IGFtZGdwdV9lbmNvZGVyIHsKPiA+
-ICBzdHJ1Y3QgYW1kZ3B1X2Nvbm5lY3Rvcl9hdG9tX2RpZyB7Cj4gPiAgICAgICAvKiBkaXNwbGF5
-cG9ydCAqLwo+ID4gICAgICAgdTggZHBjZFtEUF9SRUNFSVZFUl9DQVBfU0laRV07Cj4gPiArICAg
-ICB1OCBkb3duc3RyZWFtX3BvcnRzW0RQX01BWF9ET1dOU1RSRUFNX1BPUlRTXTsKPiA+ICAgICAg
-IHU4IGRwX3NpbmtfdHlwZTsKPiA+ICAgICAgIGludCBkcF9jbG9jazsKPiA+ICAgICAgIGludCBk
-cF9sYW5lX2NvdW50Owo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
-L2F0b21iaW9zX2RwLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hdG9tYmlvc19kcC5j
-Cj4gPiBpbmRleCA5Yjc0Y2ZkLi45MDBiMjcyIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvYXRvbWJpb3NfZHAuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9hbWRncHUvYXRvbWJpb3NfZHAuYwo+ID4gQEAgLTMyOCw2ICszMjgsMjIgQEAgc3RhdGljIHZv
-aWQgYW1kZ3B1X2F0b21iaW9zX2RwX3Byb2JlX291aShzdHJ1Y3QgYW1kZ3B1X2Nvbm5lY3RvciAq
-YW1kZ3B1X2Nvbm5lY3QKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBidWZbMF0sIGJ1
-ZlsxXSwgYnVmWzJdKTsKPiA+ICB9Cj4gPgo+ID4gK3N0YXRpYyB2b2lkIGFtZGdwdV9hdG9tYmlv
-c19kcF9kc19wb3J0cyhzdHJ1Y3QgYW1kZ3B1X2Nvbm5lY3RvciAqYW1kZ3B1X2Nvbm5lY3RvcikK
-PiA+ICt7Cj4gPiArICAgICBzdHJ1Y3QgYW1kZ3B1X2Nvbm5lY3Rvcl9hdG9tX2RpZyAqZGlnX2Nv
-bm5lY3RvciA9IGFtZGdwdV9jb25uZWN0b3ItPmNvbl9wcml2Owo+ID4gKyAgICAgaW50IHJldDsK
-PiA+ICsKPiA+ICsgICAgIGlmIChkaWdfY29ubmVjdG9yLT5kcGNkW0RQX0RQQ0RfUkVWXSA+IDB4
-MTApIHsKPiA+ICsgICAgICAgICAgICAgcmV0ID0gZHJtX2RwX2RwY2RfcmVhZCgmYW1kZ3B1X2Nv
-bm5lY3Rvci0+ZGRjX2J1cy0+YXV4LAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIERQX0RPV05TVFJFQU1fUE9SVF8wLAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIGRpZ19jb25uZWN0b3ItPmRvd25zdHJlYW1fcG9ydHMsCj4gPiArICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRFBfTUFYX0RPV05TVFJFQU1fUE9SVFMpOwo+
-ID4gKyAgICAgICAgICAgICBpZiAocmV0KQo+ID4gKyAgICAgICAgICAgICAgICAgICAgIG1lbXNl
-dChkaWdfY29ubmVjdG9yLT5kb3duc3RyZWFtX3BvcnRzLCAwLAo+ID4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBEUF9NQVhfRE9XTlNUUkVBTV9QT1JUUyk7Cj4gPiArICAgICB9Cj4gPiAr
-fQo+ID4gKwo+ID4gIGludCBhbWRncHVfYXRvbWJpb3NfZHBfZ2V0X2RwY2Qoc3RydWN0IGFtZGdw
-dV9jb25uZWN0b3IgKmFtZGdwdV9jb25uZWN0b3IpCj4gPiAgewo+ID4gICAgICAgc3RydWN0IGFt
-ZGdwdV9jb25uZWN0b3JfYXRvbV9kaWcgKmRpZ19jb25uZWN0b3IgPSBhbWRncHVfY29ubmVjdG9y
-LT5jb25fcHJpdjsKPiA+IEBAIC0zNDMsNyArMzU5LDcgQEAgaW50IGFtZGdwdV9hdG9tYmlvc19k
-cF9nZXRfZHBjZChzdHJ1Y3QgYW1kZ3B1X2Nvbm5lY3RvciAqYW1kZ3B1X2Nvbm5lY3RvcikKPiA+
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkaWdfY29ubmVjdG9yLT5kcGNkKTsKPiA+Cj4g
-PiAgICAgICAgICAgICAgIGFtZGdwdV9hdG9tYmlvc19kcF9wcm9iZV9vdWkoYW1kZ3B1X2Nvbm5l
-Y3Rvcik7Cj4gPiAtCj4gPiArICAgICAgICAgICAgIGFtZGdwdV9hdG9tYmlvc19kcF9kc19wb3J0
-cyhhbWRncHVfY29ubmVjdG9yKTsKPiA+ICAgICAgICAgICAgICAgcmV0dXJuIDA7Cj4gPiAgICAg
-ICB9Cj4KPiAtLQo+IEphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50
-ZXIKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4g
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Apr 16, 2020 at 1:52 AM Joe Perches <joe@perches.com> wrote:
+>
+> On Wed, 2020-04-15 at 19:55 -0500, Rob Herring wrote:
+> > json-schema versions draft7 and earlier have a weird behavior in that
+> > any keywords combined with a '$ref' are ignored (silently). The correct
+> > form was to put a '$ref' under an 'allOf'. This behavior is now changed
+> > in the 2019-09 json-schema spec and '$ref' can be mixed with other
+> > keywords. The json-schema library doesn't yet support this, but the
+> > tooling now does a fixup for this and either way works.
+> >
+> > This has been a constant source of review comments, so let's change this
+> > treewide so everyone copies the simpler syntax.
+>
+> This is a large change.
+>
+> Was this done manually or by some script?
+
+Scripted with python ruamel yaml, but then I had to filter out all the
+re-formatting (hence the first patch to cut down some of that).
+
+> If it was done manually, how likely is it there are defects
+> in the conversion?
+
+Either way, the schemas still have to pass the meta-schema checks.
+
+Rob
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
