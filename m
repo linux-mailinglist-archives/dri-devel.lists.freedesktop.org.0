@@ -1,54 +1,149 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A82D1ACD7D
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 18:23:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 832181AD69E
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47C7C6E33F;
-	Thu, 16 Apr 2020 16:23:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 837696E392;
+	Fri, 17 Apr 2020 06:59:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40A6E6E33F
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 16:23:06 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BACEB22265
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 16:23:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587054186;
- bh=dYe0L8knPjq4V+e3C0CynMr68uvk2h/61C1ujyYiF70=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=V7MEdxx39YfP2AZW0LEXomuLOzYhPDadjG1M1p7YwOqsORcQXVVHXqavfTvWDpr3Y
- V0GXNVV7w9U9mLckuLo1G5UOleiYYbm0f0waGgvIz8XD716xxxFe8xxthHC9utiK9J
- V7soWb53dKIFjDhjqfA3Y52gqMKkkEL6j8qy0tXg=
-Received: by mail-ej1-f53.google.com with SMTP id re23so1712073ejb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 09:23:05 -0700 (PDT)
-X-Gm-Message-State: AGi0PubICsoj6hR4/3ZQ5j/oN8xsxIW3HtG4Io4UH0qDrn7asm1S4JTL
- 4yAsAy8Hfc21QG4ZAaADVCzu1zEZEw8MovWrGQ==
-X-Google-Smtp-Source: APiQypJY17+s5/o0+wlz0famZC0WrI5UI7Klts8JPoOZRnB9zgY8QO2uzy/FBMWzeg9CvxriYGO6Q1j1IF4pKi5aPZw=
-X-Received: by 2002:a17:906:2ad4:: with SMTP id
- m20mr10975923eje.324.1587054183934; 
- Thu, 16 Apr 2020 09:23:03 -0700 (PDT)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2073.outbound.protection.outlook.com [40.107.20.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C21A6E33A
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 16:26:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z3BdR1s27uZzmOVlrwwjDDfw72acBDdM/TH3EcGetR4=;
+ b=sG4vSqV+5BmngQU1CAW1eQUyt3KJ4XIhW8CQ0Vgb1UuYyVD7D8Jv5EWYh6exGWCeaXzWOa+ymype1U3+jnsNpyj7yFDxD8xWd/Hpb3wszCJBSR9MP5jFLbRZCkzMEQ1yd5DwqNM3Bcaeiq/MRYeOYrJsLDUvb6wSiRJql+6Ck9s=
+Received: from AM6P191CA0078.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:8a::19)
+ by AM0PR08MB3905.eurprd08.prod.outlook.com (2603:10a6:208:10a::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25; Thu, 16 Apr
+ 2020 16:26:06 +0000
+Received: from AM5EUR03FT062.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:209:8a:cafe::a0) by AM6P191CA0078.outlook.office365.com
+ (2603:10a6:209:8a::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
+ Transport; Thu, 16 Apr 2020 16:26:06 +0000
+Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
+ dmarc=bestguesspass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM5EUR03FT062.mail.protection.outlook.com (10.152.17.120) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2900.18 via Frontend Transport; Thu, 16 Apr 2020 16:26:05 +0000
+Received: ("Tessian outbound a45624f5910b:v50");
+ Thu, 16 Apr 2020 16:26:05 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: fa3ba1870b24abd5
+X-CR-MTA-TID: 64aa7808
+Received: from 5aae0455c5e3.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 21E994C9-E8E4-41D2-8AC2-F7CDD84DA639.1; 
+ Thu, 16 Apr 2020 16:26:00 +0000
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 5aae0455c5e3.1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Thu, 16 Apr 2020 16:26:00 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lGs5soOMZg1HYdXl2Iu3khPYqyWpeh3JDNAKZdJBt80epV1OwSeJ/ZC5PkJAJ/Y1dCrA+chauJ5ZlZLUjXts6DqO52eCICaeyrn2va22CXABVvx7SpdrS9df84hQKO6mDlJY6Fy4kz7X6FG/DcAobfU1N9pmIwkho0jl0gtOCI2kopyzQ8bh02ZJ6qVqrFvbIJOJxQ7lzSaY8HHe1qxTijOOGtom5L3kaVDgs5Iep6QEqbYmrTxLSJrR/8ixvx2UrednqQJUa197hqEOeU62lduAy5E3gxyEYfaPtLXBcDZ945opte3z+uW9Vtn/hiznDjJ53EHmU7P+RxppMCdyCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z3BdR1s27uZzmOVlrwwjDDfw72acBDdM/TH3EcGetR4=;
+ b=IAxii/XU/sU/GeIBenOpPoVRU3gr/Qq8ZgyulYkJfcMNU0gBSzmXyWn/4mHDi2QOVwWAgiCwGGeYUf/PLaPQsOEl8UVLZS3Y5elgjPs+Jlk1SaTSVDQHOgVuow+FP/11FoeI5NC3dkingD3cnPu/w1u0RJjNJBhe6RQ+IZjMATtKUg5dl8TJvHfLQ19mhGyiFhGLeoUduIXFgZ1hpRjD/sb9kjhvWSLNIZM/ggIGbod4OCNfNyinLNecBH9BqHnouWA6qB+8ri4OHlSZ5PHxCrbXLaj1PdJQLaZONAFu0+WitmdIlwa9pdLAZMJcFLAg54Dwt6aR/6JGYN4sPSSEww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z3BdR1s27uZzmOVlrwwjDDfw72acBDdM/TH3EcGetR4=;
+ b=sG4vSqV+5BmngQU1CAW1eQUyt3KJ4XIhW8CQ0Vgb1UuYyVD7D8Jv5EWYh6exGWCeaXzWOa+ymype1U3+jnsNpyj7yFDxD8xWd/Hpb3wszCJBSR9MP5jFLbRZCkzMEQ1yd5DwqNM3Bcaeiq/MRYeOYrJsLDUvb6wSiRJql+6Ck9s=
+Authentication-Results-Original: spf=none (sender IP is )
+ smtp.mailfrom=Orjan.Eide@arm.com; 
+Received: from VI1PR08MB3885.eurprd08.prod.outlook.com (2603:10a6:803:c1::32)
+ by VI1PR08MB3821.eurprd08.prod.outlook.com (2603:10a6:803:b7::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25; Thu, 16 Apr
+ 2020 16:25:58 +0000
+Received: from VI1PR08MB3885.eurprd08.prod.outlook.com
+ ([fe80::c198:5f6d:b7d5:d80a]) by VI1PR08MB3885.eurprd08.prod.outlook.com
+ ([fe80::c198:5f6d:b7d5:d80a%7]) with mapi id 15.20.2921.027; Thu, 16 Apr 2020
+ 16:25:58 +0000
+Date: Thu, 16 Apr 2020 18:25:54 +0200
+From: =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
+Message-ID: <20200416162554.GA34684@e123356-lin.trondheim.arm.com>
+References: <20200414134629.54567-1-orjan.eide@arm.com>
+ <20200414141849.55654-1-orjan.eide@arm.com>
+ <20200416094955.GM1163@kadam>
+Content-Disposition: inline
+In-Reply-To: <20200416094955.GM1163@kadam>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: LO2P123CA0067.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1::31) To VI1PR08MB3885.eurprd08.prod.outlook.com
+ (2603:10a6:803:c1::32)
 MIME-Version: 1.0
-References: <20200311165322.1594233-1-enric.balletbo@collabora.com>
- <20200311165322.1594233-5-enric.balletbo@collabora.com>
- <02290a21-7392-a2cf-576c-215091ec05e8@suse.com>
- <1585177534.26117.4.camel@mtksdaap41>
- <f3c2926a-ef92-b004-9786-5be1645af497@suse.com>
- <1585234277.12089.3.camel@mtksdaap41>
- <73ef0b8e-2802-a047-2a56-936b63d264cb@suse.com>
-In-Reply-To: <73ef0b8e-2802-a047-2a56-936b63d264cb@suse.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Fri, 17 Apr 2020 00:22:52 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__EV8PHau9CzSiA8up1QAmZxfK2QnaTid0WrNOsn2Xcag@mail.gmail.com>
-Message-ID: <CAAOTY__EV8PHau9CzSiA8up1QAmZxfK2QnaTid0WrNOsn2Xcag@mail.gmail.com>
-Subject: Re: [PATCH v12 4/5] soc / drm: mediatek: Move routing control to
- mmsys device
-To: Matthias Brugger <mbrugger@suse.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from e123356-lin.trondheim.arm.com (217.140.106.39) by
+ LO2P123CA0067.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:1::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2921.25 via Frontend Transport; Thu, 16 Apr 2020 16:25:56 +0000
+X-Originating-IP: [217.140.106.39]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 89b0318e-0f8b-4a46-9fc5-08d7e222dcfb
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3821:|VI1PR08MB3821:|AM0PR08MB3905:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR08MB39059E1654C4F53A2B39F44D90D80@AM0PR08MB3905.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;OLM:7691;
+X-Forefront-PRVS: 0375972289
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI1PR08MB3885.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE; SFTY:;
+ SFS:(10009020)(4636009)(376002)(346002)(39860400002)(136003)(366004)(396003)(4326008)(16526019)(186003)(33656002)(2906002)(956004)(1076003)(66946007)(81156014)(8676002)(316002)(7416002)(66476007)(5660300002)(66556008)(86362001)(54906003)(7696005)(52116002)(478600001)(6916009)(8936002)(55016002)(26005);
+ DIR:OUT; SFP:1101; 
+Received-SPF: None (protection.outlook.com: arm.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: Zv8Nc5HFYTPJ9KYPU0GGQdfTY7ArLUJ8Sqej2v7WL/m1fnegNmK0S2LNPeMGb7fPX9QO5paJy2q3eH22jafSoGQvP5Trv+RJ6RkinYBYbYKj0XLrkIfNfIKF0VqYNEBgOm2301/eGKlFeYSu2pj68BqI9aOMfot7cORvma7FxUYN9q8SCw5PvgrBBVNY7IOihDlZVQ3+yzThPL6eHI2+if9esGlm+9mOLmqw7T8Q7cQxUox/ZPaAwLOOWDPpCGxzDGHsVA+VB2U2JWF3TjBVz3xSOe4Fu2siX0948Zk9Jkv6UvAhuu1EPkRx6KYA36zHIBYwxWpr7HbHnQ88oUJqnFi6Bt9dK1OfsOrrxEhMgEmCLsfgWMhI0wLpm80mK2U4cuRjc1X/Afcycz9Ca+o4YW6SwZla8igjrCLlE6c6kzewaevuA6dMYQwXjL6Nb1eb
+X-MS-Exchange-AntiSpam-MessageData: 4jV8i4ahR/9jmwAtTANWLh4TicU8nrLMmeJUs2AH7NjrYsxyUf+CYAEdJMTGe1mm4/nd18rvBFZF4SgScsQ1GalUOd/sm35gmCZ2WpNuv8v9Krze370ARXYqX+mM3WcWSphRc1mPo+KeiW8HAZ2XCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3821
+Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Orjan.Eide@arm.com; 
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT062.eop-EUR03.prod.protection.outlook.com
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE; SFTY:;
+ SFS:(10009020)(4636009)(39860400002)(346002)(376002)(396003)(136003)(46966005)(36906005)(4326008)(33656002)(336012)(5660300002)(107886003)(55016002)(316002)(356005)(82740400003)(86362001)(81166007)(7696005)(47076004)(2906002)(6862004)(54906003)(70206006)(8936002)(26005)(70586007)(81156014)(8676002)(16526019)(186003)(478600001)(26826003)(956004)(1076003);
+ DIR:OUT; SFP:1101; 
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 06983a84-bf67-482f-f2ff-08d7e222d837
+X-Forefront-PRVS: 0375972289
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Mro3LqQqgVps3xf8D+nkvsiUW5o4buWFYR2uINQfYo8vv8bTZBCtCOoriFcSSdKJqe91M3CmPaGXacuIs8JzPYW//TBDiGIBkGJ5/+tGcICCZqHOihZDNtgxXTCfdGj+uDx6xBMOc349MWKdhJy5QxN0/tO5cpSziZEY7WMI/HdowwSKSAVsQfAxs/semwsLqGEA0DYLUVaw+2j84RpHodIoajcELUeo8GZw4Nh0X2VuZ4+ltyE1CCkec+ICjy+Vom1bBA5eI+tZheECl+psi5M8zAssAZeb4u1BySclJqnDDZ1S5mcSQV6ujA++Wsd432H6jLrHy/LBH9fn1aNE+k+2JwWNvp3jw81LjsrfQr/f7f1qoeqtjojfMX0xT0vzoW0ORc6BKCsgCx5mm6mnR309IdiD1PxWFQiOn8D8qXy5+nqgnM3pgF0EJlcCSuy1vx8kCM+mAemfRdVu9b4uUSVvNwpkCP/ylOcQCTSWGkJdxuxmyaYvMz0rO+jP7P9FqJuelBlXz1b/nwOCO7ZJzg==
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2020 16:26:05.9817 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89b0318e-0f8b-4a46-9fc5-08d7e222dcfb
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3905
+X-Mailman-Approved-At: Fri, 17 Apr 2020 06:59:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,81 +156,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Kate Stewart <kstewart@linuxfoundation.org>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, David Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Richard Fontana <rfontana@redhat.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
- linux-clk@vger.kernel.org, Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- mtk01761 <wendell.lin@mediatek.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Frank Wunderlich <frank-w@public-files.de>,
- Seiya Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
- Houlong Wei <houlong.wei@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Allison Randal <allison@lohutok.net>, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
- linux-kernel <linux-kernel@vger.kernel.org>, matthias.bgg@kernel.org,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc: devel@driverdev.osuosl.org, Laura Abbott <labbott@redhat.com>,
+ Todd Kjos <tkjos@android.com>, Lecopzer Chen <lecopzer.chen@mediatek.com>,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>, anders.pedersen@arm.com,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ "Darren Hart \(VMware\)" <dvhart@infradead.org>, nd@arm.com,
+ Martijn Coenen <maco@android.com>, Christian Brauner <christian@brauner.io>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIE1hdHRoaWFzOgoKTWF0dGhpYXMgQnJ1Z2dlciA8bWJydWdnZXJAc3VzZS5jb20+IOaWvCAy
-MDIw5bm0M+aciDI25pelIOmAseWbmyDkuIvljYgxMTo0NeWvq+mBk++8mgo+Cj4KPgo+IE9uIDI2
-LzAzLzIwMjAgMTU6NTEsIENLIEh1IHdyb3RlOgo+ID4gSGksIE1hdHRoaWFzOgo+ID4KPiA+IE9u
-IFRodSwgMjAyMC0wMy0yNiBhdCAxMjo1NCArMDEwMCwgTWF0dGhpYXMgQnJ1Z2dlciB3cm90ZToK
-PiA+PiBIaSBDSywKPiA+Pgo+ID4+IE9uIDI2LzAzLzIwMjAgMDA6MDUsIENLIEh1IHdyb3RlOgo+
-ID4+PiBIaSwgTWF0dGhpYXM6Cj4gPj4+Cj4gPj4+IE9uIFdlZCwgMjAyMC0wMy0yNSBhdCAxNzox
-NiArMDEwMCwgTWF0dGhpYXMgQnJ1Z2dlciB3cm90ZToKPiA+Pj4+Cj4gPj4+PiBPbiAxMS8wMy8y
-MDIwIDE3OjUzLCBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIHdyb3RlOgo+ID4+Pj4+IFByb3ZpZGUg
-YSBtdGtfbW1zeXNfZGRwX2Nvbm5lY3QoKSBhbmQgbXRrX21tc3lzX2Rpc2Nvbm5lY3QoKSBmdW5j
-dGlvbnMgdG8KPiA+Pj4+PiByZXBsYWNlIG10a19kZHBfYWRkX2NvbXBfdG9fcGF0aCgpIGFuZCBt
-dGtfZGRwX3JlbW92ZV9jb21wX2Zyb21fcGF0aCgpLgo+ID4+Pj4+IFRob3NlIGZ1bmN0aW9ucyB3
-aWxsIGFsbG93IERSTSBkcml2ZXIgYW5kIG90aGVycyB0byBjb250cm9sIHRoZSBkYXRhCj4gPj4+
-Pj4gcGF0aCByb3V0aW5nLgo+ID4+Pj4+Cj4gPj4+Pj4gU2lnbmVkLW9mZi1ieTogRW5yaWMgQmFs
-bGV0Ym8gaSBTZXJyYSA8ZW5yaWMuYmFsbGV0Ym9AY29sbGFib3JhLmNvbT4KPiA+Pj4+PiBSZXZp
-ZXdlZC1ieTogTWF0dGhpYXMgQnJ1Z2dlciA8bWF0dGhpYXMuYmdnQGdtYWlsLmNvbT4KPiA+Pj4+
-PiBSZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4KPiA+Pj4+PiBBY2tlZC1i
-eTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4KPiA+Pj4+Cj4gPj4+PiBUaGlzIHBhdGNoIGRv
-ZXMgbm90IGFwcGx5IGFnYWluc3QgdjUuNi1yYzEuCj4gPj4+PiBQbGVhc2UgcmViYXNlIGFzIHRo
-aXMgaXMgYSBxdWl0ZSBiaWcgcGF0Y2ggYW5kIGl0IHdvbid0IGJlIGVhc3kgdG8gZG8gdGhhdCBi
-eSBoYW5kLgo+ID4+Pgo+ID4+PiBJIHRoaW5rIHRoaXMgcGF0Y2ggZGVwZW5kcyBvbiBbMV0gd2hp
-Y2ggaGFzIGJlZW4gYWNrZWQgYnkgbWUgYW5kIEkgaGF2ZQo+ID4+PiBub3QgcGlja2VkIGl0LiBU
-aGUgc2ltcGxlIHdheSBpcyB0aGF0IHlvdSBwaWNrIFsxXSBmaXJzdCBhbmQgdGhlbiBwaWNrCj4g
-Pj4+IHRoaXMgc2VyaWVzLgo+ID4+Pgo+ID4+PiBbMV0KPiA+Pj4gaHR0cHM6Ly9wYXRjaHdvcmsu
-a2VybmVsLm9yZy9wYXRjaC8xMTQwNjIyNy8KPiA+Pj4KPiA+Pgo+ID4+IFlvdSB3b3VsZCBuZWVk
-IHRvIHByb3ZpZGUgYSBzdGFibGUgdGFnIGZvciBtZSB0aGF0IEkgY2FuIG1lcmdlIGludG8gbXkg
-dHJlZS4gWW91Cj4gPj4gY2FuIGFsc28gdHJ5IHRvIG1lcmdlIG15IGZvci1uZXh0IFsxXSB3aGlj
-aCBoYXMgdGhlIG5ld2VzdCB2ZXJzaW9uIGZyb20gRW5yaWMuCj4gPj4gSWYgeW91IHNlZSBhbnkg
-bWVyZ2UgY29uZmxpY3QsIHRoZW4gd2UgaGF2ZSB0byBkbyBzb21ldGhpbmcgYWJvdXQgaXQgOikK
-PiA+Pgo+ID4+IFJlZ2FyZHMsCj4gPj4gTWF0dGhpYXMKPiA+Pgo+ID4+IFsxXQo+ID4+IGh0dHBz
-Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L21hdHRoaWFzLmJnZy9s
-aW51eC5naXQvbG9nLz9oPWZvci1uZXh0Cj4gPj4KPiA+Cj4gPiBZb3UgaGF2ZSBhcHBsaWVkIHRo
-aXMgc2VyaWVzLCBzbyBJIHdvdWxkIG5vdCBhcHBseSBvdGhlciBwYXRjaGVzIHdoaWNoCj4gPiB3
-b3VsZCBjb25mbGljdCB3aXRoIHRoaXMgc2VyaWVzLiBBZnRlciB0aGlzIHNlcmllcyBsYW5kIG9u
-IG1haW4gc3RyZWFtCj4gPiAod2lzaCBpdCBoYXBwZW4gaW4gdGhpcyBtZXJnZSB3aW5kb3cpLCBJ
-IHdvdWxkIHJlYmFzZSBvdGhlciBwYXRjaCBvbgo+ID4gbWFpbiBzdHJlYW0uCj4gPgo+Cj4gSSBo
-YXZlbid0ICh5ZXQpIHNlbmQgdGhlIHB1bGwgcmVxdWVzdC4gSWYgeW91IHdhbnQgdG8gYnJpbmcg
-aW4geW91ciBwYXRjaGVzIGluCj4gdjUuNyBhcyB3ZWxsIHdlIGNhbiBmaW5kIGEgc29sdXRpb24g
-dG8gdGhhdC4gU2hhbGwgSSBwcm92aWRlIHlvdSB3aXRoIGEgc3RhYmxlCj4gYnJhbmNoIHdoaWNo
-IHlvdSBjYW4gbWVyZ2U/IFRoaXMgd2F5IHlvdSBjYW4gYWRkIGFsbCB5b3VyIHBhdGNoZXMgaW4g
-dGhlIHB1bGwKPiByZXF1ZXN0IGFzIHdlbGwgYW5kIHdlIGRvbid0IGhhdmUgdG8gd2FpdCBmb3Ig
-djUuOCB0byBnZXQgdGhpbmdzIGludG8gbWFpbmxpbmUuCj4KPiBMZXQgbWUga25vdyBhbmQgSSds
-bCBwcm92aWRlIHlvdSB3aXRoIGEgc3RhYmxlIGJyYW5jaC4KClRoaXMgc2VyaWVzIGlzIGluIGxp
-bnV4LW5leHQgYnV0IGRvZXMgbm90IGluIG1haW4gc3RyZWFtLiBTbyB3b3VsZCB5b3UKcGxlYXNl
-IHByb3ZpZGUgYSBzdGFibGUgYnJhbmNoIHNvIEkgY291bGQgcHVsbCB0aGlzIHNlcmllcz8KClJl
-Z2FyZHMsCkNodW4tS3VhbmcuCgo+Cj4gUmVnYXJkcywKPiBNYXR0aGlhcwo+Cj4gPiBSZWdhcmRz
-LAo+ID4gQ0sKPiA+Cj4gPj4+IFJlZ2FyZHMsCj4gPj4+IENLCj4gPj4+Cj4gPj4+Pgo+ID4+Pj4g
-UmVnYXJkcywKPiA+Pj4+IE1hdHRoaWFzCj4gPj4+Pgo+ID4+Pj4+IC0tLQo+ID4+Pj4+Cl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+T24gVGh1LCBBcHIgMTYsIDIwMjAgYXQgMTI6NDk6NTZQTSArMDMwMCwgRGFuIENhcnBlbnRlciB3
+cm90ZToKPiBPbiBUdWUsIEFwciAxNCwgMjAyMCBhdCAwNDoxODo0N1BNICswMjAwLCDDmHJqYW4g
+RWlkZSB3cm90ZToKPiA+IEBAIC0yMzgsNiArMjQyLDEwIEBAIHN0YXRpYyB2b2lkIGlvbl91bm1h
+cF9kbWFfYnVmKHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaG1lbnQsCj4gPiAgCQkJ
+ICAgICAgc3RydWN0IHNnX3RhYmxlICp0YWJsZSwKPiA+ICAJCQkgICAgICBlbnVtIGRtYV9kYXRh
+X2RpcmVjdGlvbiBkaXJlY3Rpb24pCj4gPiAgewo+ID4gKwlzdHJ1Y3QgaW9uX2RtYV9idWZfYXR0
+YWNobWVudCAqYSA9IGF0dGFjaG1lbnQtPnByaXY7Cj4gPiArCj4gPiArCWEtPm1hcHBlZCA9IGZh
+bHNlOwo+IAo+IFBvc3NpYmx5IGEgc3R1cGlkIHF1ZXN0aW9uIGJ1dCBoZXJlIHdlJ3JlIG5vdCBo
+b2xkaW5nIGEgbG9jay4gIElzCj4gY29uY3VycmVuY3kgYW4gaXNzdWU/CgpUaGFua3MgZm9yIHRh
+a2luZyBhIGxvb2suCgpIZXJlIGFuZCBpbiBpb25fbWFwX2RtYV9idWYoKSwgd2hlcmUgbWFwcGVk
+IGlzIHNldCwgdGhpcyBzaG91bGQgYmUgc2FmZS4KVGhlIGNhbGxlcnMgbXVzdCBzeW5jaHJvbml6
+ZSBjYWxscyB0byBtYXAvdW5tYXAsIGFuZCBlbnN1cmUgdGhhdCB0aGV5CmFyZSBjYWxsZWQgaW4g
+cGFpcnMuCgpJIHRoaW5rIHRoZXJlIG1heSBiZSBhIHBvdGVudGlhbCBpc3N1ZSBiZXR3ZWVuIHdo
+ZXJlIG1hcHBlZCBpcyBzZXQgaGVyZSwKYW5kIHdoZXJlIGl0J3MgcmVhZCBpbiBpb25fZG1hX2J1
+Zl97YmVnaW4sZW5kfV9jcHVfYWNjZXNzKCkuIENvaGVyZW5jeQppc3N1ZXMgdGhlIG1hcHBlZCBi
+b29sIHdvbid0IGJsb3cgdXAsIGF0IHdvcnN0IHRoZSBjb250ZW50cyBvZiB0aGUKYnVmZmVyIG1h
+eSBiZSBpbnZhbGlkIGFzIGNhY2hlIHN5bmNocm9uaXphdGlvbiBtYXkgaGF2ZSBiZWVuIHNraXBw
+ZWQuClRoaXMgaXMgc3RpbGwgYW4gaW1wcm92ZW1lbnQgYXMgYmVmb3JlIGl0IHdvdWxkIGVpdGhl
+ciBjcmFzaCBvciBzeW5jIHRoZQp3cm9uZyBwYWdlIHJlcGVhdGVkbHkuCgpUaGUgbWFwcGVkIHN0
+YXRlIGlzIHRpZWQgdG8gdGhlIGRtYV9tYXBfc2coKSBjYWxsLCBzbyB3ZSB3b3VsZCBuZWVkIHRh
+a2UKdGhlIGJ1ZmZlci0+bG9jayBhcm91bmQgYm90aCBkbWFfbWFwX3NnIGFuZCBzZXR0aW5nIG1h
+cHBlZCB0byBiZSBzdXJlCnRoYXQgdGhlIGJ1ZmZlciB3aWxsIGFsd2F5cyBoYXZlIGJlZW4gc3lu
+Y2VkLgoKPiA+ICsKPiA+ICAJZG1hX3VubWFwX3NnKGF0dGFjaG1lbnQtPmRldiwgdGFibGUtPnNn
+bCwgdGFibGUtPm5lbnRzLCBkaXJlY3Rpb24pOwo+ID4gIH0KPiA+ICAKPiA+IEBAIC0yOTcsNiAr
+MzA1LDggQEAgc3RhdGljIGludCBpb25fZG1hX2J1Zl9iZWdpbl9jcHVfYWNjZXNzKHN0cnVjdCBk
+bWFfYnVmICpkbWFidWYsCj4gPiAgCj4gPiAgCW11dGV4X2xvY2soJmJ1ZmZlci0+bG9jayk7Cj4g
+PiAgCWxpc3RfZm9yX2VhY2hfZW50cnkoYSwgJmJ1ZmZlci0+YXR0YWNobWVudHMsIGxpc3QpIHsK
+PiA+ICsJCWlmICghYS0+bWFwcGVkKQo+ID4gKwkJCWNvbnRpbnVlOwo+ID4gIAkJZG1hX3N5bmNf
+c2dfZm9yX2NwdShhLT5kZXYsIGEtPnRhYmxlLT5zZ2wsIGEtPnRhYmxlLT5uZW50cywKPiA+ICAJ
+CQkJICAgIGRpcmVjdGlvbik7Cj4gPiAgCX0KCi0tIArDmHJqYW4KX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
