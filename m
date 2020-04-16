@@ -2,40 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 746B21ACEE1
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 19:45:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451331AD689
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2BE06E97A;
-	Thu, 16 Apr 2020 17:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5DF36E354;
+	Fri, 17 Apr 2020 06:59:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA0936E97A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:45:26 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A9AC97D;
- Thu, 16 Apr 2020 19:45:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1587059125;
- bh=Si+PzRRws6+4QDc7hynPy3aV2BYGQt/fRSsGgtq8sj0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=A3exe/dLkoRkW7lEsQ8BdExFrYDd58/ZG1h8n96EfHkx7BDjk+IrwtvIZezM2z5on
- 5y5MAj37PUdA2af/qbeQzCtF7HD2GfTrxEy6vypLrXJ4jIPlNNeNY/Mfl0PxRmUYTp
- sp7agrePntewR5vh0XcIiIjWjIf+Bdq8KH4T6wzw=
-Date: Thu, 16 Apr 2020 20:45:13 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v3 1/2] drm/tegra: output: Don't leak OF node on error
-Message-ID: <20200416174513.GT4796@pendragon.ideasonboard.com>
-References: <20200416172405.5051-1-digetx@gmail.com>
- <20200416172405.5051-2-digetx@gmail.com>
- <20200416172727.GN4796@pendragon.ideasonboard.com>
- <304a2a58-0031-bf88-6290-e72ab025d8c5@gmail.com>
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4FDD6E97D
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:55:28 +0000 (UTC)
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 16 Apr 2020 10:55:28 -0700
+Received: from gurus-linux.qualcomm.com ([10.46.162.81])
+ by ironmsg05-sd.qualcomm.com with ESMTP; 16 Apr 2020 10:55:28 -0700
+Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
+ id DD0574C5E; Thu, 16 Apr 2020 10:55:27 -0700 (PDT)
+Date: Thu, 16 Apr 2020 10:55:27 -0700
+From: Guru Das Srinagesh <gurus@codeaurora.org>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v12 09/11] backlight: pwm_bl: Use 64-bit division function
+Message-ID: <20200416175527.GA21388@codeaurora.org>
+References: <cover.1586414867.git.gurus@codeaurora.org>
+ <e2139a83008e9f301889f9384487c55de475a6a2.1586414867.git.gurus@codeaurora.org>
+ <20200416094420.GB2167633@dell>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <304a2a58-0031-bf88-6290-e72ab025d8c5@gmail.com>
+In-Reply-To: <20200416094420.GB2167633@dell>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Mailman-Approved-At: Fri, 17 Apr 2020 06:59:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,25 +44,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ David Collins <collinsd@codeaurora.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-fbdev@vger.kernel.org,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRG1pdHJ5LAoKT24gVGh1LCBBcHIgMTYsIDIwMjAgYXQgMDg6MzA6MjRQTSArMDMwMCwgRG1p
-dHJ5IE9zaXBlbmtvIHdyb3RlOgo+IDE2LjA0LjIwMjAgMjA6MjcsIExhdXJlbnQgUGluY2hhcnQg
-0L/QuNGI0LXRgjoKPiA+IE9uIFRodSwgQXByIDE2LCAyMDIwIGF0IDA4OjI0OjA0UE0gKzAzMDAs
-IERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPiA+PiBUaGUgT0Ygbm9kZSBzaG91bGQgYmUgcHV0IGJl
-Zm9yZSByZXR1cm5pbmcgZXJyb3IgaW4gdGVncmFfb3V0cHV0X3Byb2JlKCksCj4gPj4gb3RoZXJ3
-aXNlIG5vZGUncyByZWZjb3VudCB3aWxsIGJlIGxlYWtlZC4KPiA+Pgo+ID4+IFNpZ25lZC1vZmYt
-Ynk6IERtaXRyeSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWlsLmNvbT4KPiA+IAo+ID4gUmV2aWV3ZWQt
-Ynk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4K
-PiAKPiBIZWxsbyBMYXVyZW50LAo+IAo+IFRoYXQgaXMgdGhlIGZhc3Rlc3Qga2VybmVsIHJldmll
-dyBJIGV2ZXIgZ290LCB0aGFuayB5b3UgOikKCkkgdGhpbmsgSSdtIGFsc28gZ3VpbHR5IGZvciB0
-aGUgc2xvd2VzdCBrZXJuZWwgcmV2aWV3cyBldmVyLCBzbyBtYXliZSBpbgp0aGUgZW5kIGl0IHdp
-bGwgZXZlbiBvdXQgOi0pCgotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Apr 16, 2020 at 10:44:20AM +0100, Lee Jones wrote:
+> On Wed, 08 Apr 2020, Guru Das Srinagesh wrote:
+> 
+> > Since the PWM framework is switching struct pwm_state.period's datatype
+> > to u64, prepare for this transition by using div_u64 to handle a 64-bit
+> > dividend instead of a straight division operation.
+> > 
+> > Cc: Lee Jones <lee.jones@linaro.org>
+> > Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> > Cc: Jingoo Han <jingoohan1@gmail.com>
+> > Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> > Cc: linux-pwm@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linux-fbdev@vger.kernel.org
+> > 
+> > Signed-off-by: Guru Das Srinagesh <gurus@codeaurora.org>
+> > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> > ---
+> >  drivers/video/backlight/pwm_bl.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> I see that this is part of a large set, but the remainder of the
+> patches have been hidden from me.
+
+Sorry about that, the full series is here: [1].
+
+> Does this mean I can apply this patch on its own?
+
+I'll defer to Uwe on this point as I am not sure of the implications of
+taking in this single patch and not the entire series.
+
+Thank you.
+
+Guru Das.
+
+[1] https://www.spinics.net/lists/linux-pwm/msg12131.html
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
