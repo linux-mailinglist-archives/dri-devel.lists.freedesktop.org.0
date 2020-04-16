@@ -2,69 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361E01AB911
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 09:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC161AB856
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 08:44:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB6DD6EAF7;
-	Thu, 16 Apr 2020 06:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1393A6EAC7;
+	Thu, 16 Apr 2020 06:44:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89F246EAC9
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 06:43:38 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id C15CD717;
- Thu, 16 Apr 2020 02:43:34 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 16 Apr 2020 02:43:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=eYZf6ks0Ag4vWkdY+FBeNSBOYxZ
- kZ9RWoI7L/wXDw/Q=; b=pG92PCpDKEaySEE6b3KK5owRlyOg6omtcBJRh6H2P9g
- A4+dSJ8ZhNWYumPEo8RSeGX3Y1ofqBKY5EwBKyaQ4uWCzw59hiXAUOxV0z1366xq
- iuHHZUldbuzXYDjsaxnBz0RsGbyN9Oo/wuSRdS/D5gtGdR/DOID4nUO++5rp07K7
- LG4gEmPTqHamlJRrP5V34H6lR2pNC4zXGMW/GSE2CyOUmLq5FhAQ7reYixyNSF9S
- Sk3l1mb29qIgPDMYY0/5m7I+DShBoF71j+C3gAVSuV2Nq12oir1/bimsDQytaFI9
- rw3mdDAsOxKY1bvJX6PjvfGpx+6c3IrKClpgJXpZ0wA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eYZf6k
- s0Ag4vWkdY+FBeNSBOYxZkZ9RWoI7L/wXDw/Q=; b=Ybg5/gOxzIy3RezsVgMA1k
- TNS1SpWdG/vSznxDhwvoLrldOuulzJrzOesiyd4OdIPHp7Pvdeido6VN49AZFJjX
- vpbJjlQnZcrl0XVEenAR8HUbxv1iPLz1X4h7y0gO3Y8YvGQ+Gxco5vWU8dTZpAOa
- BZauQ/RaI9M2F28kXPygdaAyXtkuoiRko9nhnLAnG7Fj/vpriF3MX/GnDqw3vD54
- E2nE7ygWUQnJK7D2pMU5A92RDAXmSDVWG2auXATUw58gux8Zcplt8XXxS8uZEPyq
- dwoVwWzcbh8nau5x1J4Tli8kmRSzPV5DdHht5f7hGV1AlT9ldV7F13ym9Jw80idw
- ==
-X-ME-Sender: <xms:lv6XXlbZsjXCgRSobpV_OahNA0F2bAh_xQnNz30ENtpJCk6C2O5pKw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrfeeggdduudduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
- drkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghi
- lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:lv6XXtpOixejZqr7iO1LBzaErDc2trud85HnQReIvup6Nj_ECC1-ug>
- <xmx:lv6XXtQpwDnG3Phz4jTAefVSpE0PDruqeQW4tMGm8dv07y5H0bXPXQ>
- <xmx:lv6XXhnZDnOcsLKYGPwKo5ewvcFCHv464DpLD_f1alqPkiWElJ017g>
- <xmx:lv6XXk2v6et9oVVZCGJreRdM-Z9u-aFhl26_bHzMhmr4x9e7prVi_X54wQY>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id D7E56306005F;
- Thu, 16 Apr 2020 02:43:33 -0400 (EDT)
-Date: Thu, 16 Apr 2020 08:43:32 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 2/2] dt-bindings: Remove cases of 'allOf' containing a
- '$ref'
-Message-ID: <20200416064332.cbtmgnbwjityninz@gilmour.lan>
-References: <20200416005549.9683-1-robh@kernel.org>
- <20200416005549.9683-2-robh@kernel.org>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F0786EAC7
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 06:44:08 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id c23so1197897pgj.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 23:44:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=eihWpoiPluNClprWA5IrbR8QX54DG9JK4Pz3fjQ6jyU=;
+ b=aEjZJ2NiQf5SKFn/D2xSz3l+u1X8WLWYaDD09ZkiFktvFb4KAC8ij7RosLLcSczok8
+ UvVsABVoxhvta4sFsr/qwRMNY2JDEhJxXsS3usbRiAuOHHViY6GiqC2+xCgFhjWVNzQg
+ By01t9ckXs2JHbLuQuQIFnVqfikgEUM2w1MqvDcPRw8Pj/GTNgyxJvKpG4dfhGdYUMtO
+ a94pD0c84RJeOhNbBaec7+P0Wluix/pyaAMsbvD0d6SXtGkjC9abJO0eupyT1vuixDn4
+ 726613MfeYwb8dMpFsYArp5CF4TjDucAxxVwFNpSie6nwaPSNR+BtlaOe1PgZYbEdl7A
+ DyRg==
+X-Gm-Message-State: AGi0PuZdP9lvw39u36vUU3/IJVz1K5efTolg9ERk9MLYO8lwSU9dqc60
+ 8qtciS2AI2Fx/wobBhW6Ut9rVufCSYVv/A==
+X-Google-Smtp-Source: APiQypKU4BlzlMTwCZuRiYybUlVtNoxZaoUABDWWVme+WqLsgGvZg5mtQywjuvphRIQcwraiu04gQg==
+X-Received: by 2002:a63:6604:: with SMTP id a4mr28659379pgc.381.1587019447416; 
+ Wed, 15 Apr 2020 23:44:07 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+ by smtp.gmail.com with ESMTPSA id ml24sm1413754pjb.48.2020.04.15.23.44.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Apr 2020 23:44:05 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+ id 4F61640277; Thu, 16 Apr 2020 06:44:05 +0000 (UTC)
+Date: Thu, 16 Apr 2020 06:44:05 +0000
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Goldwyn Rodrigues <goldwynr@gmail.com>
+Subject: Re: [PATCH 1/8] apparmor: just use vfs_kern_mount to make .null
+Message-ID: <20200416064405.GP11244@42.do-not-panic.com>
+References: <20200414124304.4470-1-eesposit@redhat.com>
+ <20200414124304.4470-2-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200416005549.9683-2-robh@kernel.org>
-X-Mailman-Approved-At: Thu, 16 Apr 2020 06:59:07 +0000
+Content-Disposition: inline
+In-Reply-To: <20200414124304.4470-2-eesposit@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,88 +61,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-pwm@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-remoteproc@vger.kernel.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
- linux-i2c@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- linux-riscv@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
- linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-rtc@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- Alexandre Torgue <alexandre.torgue@st.com>, alsa-devel@alsa-project.org,
- linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Amit Kucheria <amit.kucheria@linaro.org>,
- linux-spi@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- netdev@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>
-Content-Type: multipart/mixed; boundary="===============0222675228=="
+Cc: Song Liu <songliubraving@fb.com>, linux-usb@vger.kernel.org,
+ bpf@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+ David Airlie <airlied@linux.ie>, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ Alexei Starovoitov <ast@kernel.org>, dri-devel@lists.freedesktop.org,
+ "J. Bruce Fields" <bfields@fieldses.org>,
+ Joseph Qi <joseph.qi@linux.alibaba.com>, Hugh Dickins <hughd@google.com>,
+ Paul Mackerras <paulus@samba.org>, John Johansen <john.johansen@canonical.com>,
+ linux-s390@vger.kernel.org, ocfs2-devel@oss.oracle.com,
+ Christoph Hellwig <hch@lst.de>, Andrew Donnellan <ajd@linux.ibm.com>,
+ Matthew Garrett <matthew.garrett@nebula.com>, linux-efi@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Daniel Borkmann <daniel@iogearbox.net>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, linux-rdma@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Mark Fasheh <mark@fasheh.com>,
+ Anton Vorontsov <anton@enomsg.org>, John Fastabend <john.fastabend@gmail.com>,
+ James Morris <jmorris@namei.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
+ oprofile-list@lists.sf.net, Yonghong Song <yhs@fb.com>,
+ Ian Kent <raven@themaw.net>, Andrii Nakryiko <andriin@fb.com>,
+ Alexey Dobriyan <adobriyan@gmail.com>, "Serge E. Hallyn" <serge@hallyn.com>,
+ netdev@vger.kernel.org, Robert Richter <rric@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ Tony Luck <tony.luck@intel.com>, Kees Cook <keescook@chromium.org>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, autofs@vger.kernel.org,
+ Mike Marciniszyn <mike.marciniszyn@intel.com>, linux-fsdevel@vger.kernel.org,
+ "Manoj N. Kumar" <manoj@linux.ibm.com>, Uma Krishnan <ukrishn@linux.ibm.com>,
+ Jakub Kicinski <kuba@kernel.org>, KP Singh <kpsingh@chromium.org>,
+ Trond Myklebust <trond.myklebust@hammerspace.com>,
+ "Matthew R. Ochs" <mrochs@linux.ibm.com>,
+ "David S. Miller" <davem@davemloft.net>, Felipe Balbi <balbi@kernel.org>,
+ linux-nfs@vger.kernel.org, Iurii Zaikin <yzaikin@google.com>,
+ linux-scsi@vger.kernel.org, "Martin K. Petersen" <martin.petersen@oracle.com>,
+ linux-mm@kvack.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dennis Dalessandro <dennis.dalessandro@intel.com>,
+ Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org,
+ Anna Schumaker <anna.schumaker@netapp.com>,
+ linux-security-module@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>,
+ Jeremy Kerr <jk@ozlabs.org>, Colin Cross <ccross@android.com>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>, linuxppc-dev@lists.ozlabs.org,
+ Martin KaFai Lau <kafai@fb.com>, Joel Becker <jlbec@evilplan.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Apr 14, 2020 at 02:42:55PM +0200, Emanuele Giuseppe Esposito wrote:
+> aa_mk_null_file is using simple_pin_fs/simple_release_fs with local
+> variables as arguments, for what would amount to a simple
+> vfs_kern_mount/mntput pair if everything was inlined.  Just use
+> the normal filesystem API since the reference counting is not needed
+> here.
 
---===============0222675228==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wl56qmwukpbi7dfb"
-Content-Disposition: inline
+*Why* is refcounting not needed here?
 
+   Luis
 
---wl56qmwukpbi7dfb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, Apr 15, 2020 at 07:55:49PM -0500, Rob Herring wrote:
-> json-schema versions draft7 and earlier have a weird behavior in that
-> any keywords combined with a '$ref' are ignored (silently). The correct
-> form was to put a '$ref' under an 'allOf'. This behavior is now changed
-> in the 2019-09 json-schema spec and '$ref' can be mixed with other
-> keywords. The json-schema library doesn't yet support this, but the
-> tooling now does a fixup for this and either way works.
->
-> This has been a constant source of review comments, so let's change this
-> treewide so everyone copies the simpler syntax.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-
-For allwinner,
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Maxime
-
---wl56qmwukpbi7dfb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXpf+lAAKCRDj7w1vZxhR
-xfXZAP9GMb4mpNd2CMjZwk5BxMrLzEIpKJTiQ4orqceXOWVHrwEA79RK8mnQLFzA
-6mFAQXdPtJjk58zdTQSSSDo30M+OtQk=
-=foV0
------END PGP SIGNATURE-----
-
---wl56qmwukpbi7dfb--
-
---===============0222675228==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  security/apparmor/apparmorfs.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/security/apparmor/apparmorfs.c b/security/apparmor/apparmorfs.c
+> index 280741fc0f5f..828bb1eb77ea 100644
+> --- a/security/apparmor/apparmorfs.c
+> +++ b/security/apparmor/apparmorfs.c
+> @@ -2525,14 +2525,14 @@ struct path aa_null;
+>  
+>  static int aa_mk_null_file(struct dentry *parent)
+>  {
+> -	struct vfsmount *mount = NULL;
+> +	struct file_system_type *type = parent->d_sb->s_type;
+> +	struct vfsmount *mount;
+>  	struct dentry *dentry;
+>  	struct inode *inode;
+> -	int count = 0;
+> -	int error = simple_pin_fs(parent->d_sb->s_type, &mount, &count);
+>  
+> -	if (error)
+> -		return error;
+> +	mount = vfs_kern_mount(type, SB_KERNMOUNT, type->name, NULL);
+> +	if (IS_ERR(mount))
+> +		return PTR_ERR(mount);
+>  
+>  	inode_lock(d_inode(parent));
+>  	dentry = lookup_one_len(NULL_FILE_NAME, parent, strlen(NULL_FILE_NAME));
+> @@ -2561,7 +2561,7 @@ static int aa_mk_null_file(struct dentry *parent)
+>  	dput(dentry);
+>  out:
+>  	inode_unlock(d_inode(parent));
+> -	simple_release_fs(&mount, &count);
+> +	mntput(mount);
+>  	return error;
+>  }
+>  
+> -- 
+> 2.25.2
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0222675228==--
