@@ -2,39 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78DB1ACEC5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 19:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 566B31ACECE
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 19:37:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC6EA6EA01;
-	Thu, 16 Apr 2020 17:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FFB96E32C;
+	Thu, 16 Apr 2020 17:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7577C6E980
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:36:28 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 030E797D;
- Thu, 16 Apr 2020 19:36:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1587058587;
- bh=A4kobtKnRgHR/0bO25uAPJpKtbu/t4ZwQa5A24AwJKc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ptHIh1HzKJ6pFVKISCU9v8/8MiCbgaGSpKfKWOvN71TqLrAOHifkVVpdMw8hg2RvO
- yuItEkEnFFQIVGiZWB9qWgAQlLymOAWNvBaVCH9XiLFTSLz4if72rTj14g2FG8iT1D
- 9jp2y83R3qOzZn0/saiU7ywhKEQpc4kz2t/5UxVc=
-Date: Thu, 16 Apr 2020 20:36:15 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: Re: [PATCH v2 7/7] drm/mediatek: mtk_dsi: Create connector for bridges
-Message-ID: <20200416173615.GR4796@pendragon.ideasonboard.com>
-References: <20200416155720.2360443-1-enric.balletbo@collabora.com>
- <20200416155720.2360443-8-enric.balletbo@collabora.com>
- <20200416173525.GQ4796@pendragon.ideasonboard.com>
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5B136E32C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:37:02 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03GHRgkk099966;
+ Thu, 16 Apr 2020 17:36:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=CB7WCQ9zN/j7Rovg3dS3N+9OOy+7osLpDgnl3qGkOlo=;
+ b=UsII69Sc+G7wJn4o5a0e6IzlkEEM9xK8O/qhglAMqKGK4i92NMkdMNDBhE+c3d5LWKcb
+ 8qAAYozAsVSr+DSpV4rbYRdLDqs50NP92MxcwgoA6oPv/lkMsF8F/n5xL1x9FZ1uyh4c
+ loL2miI2XIKFtRwlQqXqJ/oGZLvVDQRvzdQm7QMedrB54fXVk0j+wafMPaRPvZ8WlCnR
+ NMzrTqUXhBICRHteknxC9cNGcGmGyFMdI6IIkXWuiRrBlWBf/AUzzS/Vas0XAVIHL8+C
+ g6hSU3B6eBvUDkNLFreDvekuSYCm9SRaQBmiWI+OOMH+49Q2EVYEAcVMeHsliVO/9Eqs 5A== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 30e0aa8dfr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Apr 2020 17:36:44 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03GHS9lp018895;
+ Thu, 16 Apr 2020 17:36:43 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 30dn9g50nr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Apr 2020 17:36:43 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03GHaTg8015958;
+ Thu, 16 Apr 2020 17:36:30 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 16 Apr 2020 10:36:29 -0700
+Date: Thu, 16 Apr 2020 20:36:16 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>
+Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
+Message-ID: <20200416173616.GC12862@kadam>
+References: <20200414134629.54567-1-orjan.eide@arm.com>
+ <20200414141849.55654-1-orjan.eide@arm.com>
+ <20200416094955.GM1163@kadam>
+ <20200416162554.GA34684@e123356-lin.trondheim.arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200416173525.GQ4796@pendragon.ideasonboard.com>
+In-Reply-To: <20200416162554.GA34684@e123356-lin.trondheim.arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9593
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0 adultscore=0
+ spamscore=0 phishscore=0 bulkscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004160123
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9593
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ clxscore=1015
+ impostorscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 spamscore=0 malwarescore=0 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004160123
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,101 +81,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, drinkcat@chromium.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: devel@driverdev.osuosl.org, Laura Abbott <labbott@redhat.com>,
+ Todd Kjos <tkjos@android.com>, Lecopzer Chen <lecopzer.chen@mediatek.com>,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>, anders.pedersen@arm.com,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ "Darren Hart \(VMware\)" <dvhart@infradead.org>, nd@arm.com,
+ Martijn Coenen <maco@android.com>, Christian Brauner <christian@brauner.io>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Enric,
+Great!  Thanks!
 
-On Thu, Apr 16, 2020 at 08:35:26PM +0300, Laurent Pinchart wrote:
-> On Thu, Apr 16, 2020 at 05:57:19PM +0200, Enric Balletbo i Serra wrote:
-> > Use the drm_bridge_connector helper to create a connector for pipelines
-> > that use drm_bridge. This allows splitting connector operations across
-> > multiple bridges when necessary, instead of having the last bridge in
-> > the chain creating the connector and handling all connector operations
-> > internally.
-> 
-> That's the right direction, but this should be done in the mtk display
-> controller driver core, not in here. I'm OK with the code being here as
-> an interim measure if needed to move forward, but that should then be
-> temporary only.
+regards,
+dan carpenter
 
-I forgot to mention that the drm_encoder should also move out of the
-bridge driver to the display controller driver.
-
-> > Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> > ---
-> > 
-> > Changes in v2: None
-> > 
-> >  drivers/gpu/drm/mediatek/mtk_dsi.c | 14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > index 44718fa3d1ca..2f8876c32864 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > @@ -17,6 +17,7 @@
-> >  
-> >  #include <drm/drm_atomic_helper.h>
-> >  #include <drm/drm_bridge.h>
-> > +#include <drm/drm_bridge_connector.h>
-> >  #include <drm/drm_mipi_dsi.h>
-> >  #include <drm/drm_of.h>
-> >  #include <drm/drm_panel.h>
-> > @@ -184,6 +185,7 @@ struct mtk_dsi {
-> >  	struct drm_bridge bridge;
-> >  	struct drm_bridge *panel_bridge;
-> >  	struct drm_bridge *next_bridge;
-> > +	struct drm_connector *connector;
-> >  	struct phy *phy;
-> >  
-> >  	void __iomem *regs;
-> > @@ -983,10 +985,19 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
-> >  	 */
-> >  	dsi->encoder.possible_crtcs = 1;
-> >  
-> > -	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL, 0);
-> > +	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
-> > +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> >  	if (ret)
-> >  		goto err_cleanup_encoder;
-> >  
-> > +	dsi->connector = drm_bridge_connector_init(drm, &dsi->encoder);
-> > +	if (IS_ERR(dsi->connector)) {
-> > +		DRM_ERROR("Unable to create bridge connector\n");
-> > +		ret = PTR_ERR(dsi->connector);
-> > +		goto err_cleanup_encoder;
-> > +	}
-> > +	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
-> > +
-> >  	return 0;
-> >  
-> >  err_cleanup_encoder:
-> > @@ -1144,6 +1155,7 @@ static int mtk_dsi_probe(struct platform_device *pdev)
-> >  
-> >  	dsi->bridge.funcs = &mtk_dsi_bridge_funcs;
-> >  	dsi->bridge.of_node = dev->of_node;
-> > +	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
-> 
-> I think this line belongs to the patch that adds drm_bridge support to
-> this driver.
-> 
-> >  
-> >  	drm_bridge_add(&dsi->bridge);
-> >  
-
--- 
-Regards,
-
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
