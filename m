@@ -1,55 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640FB1AD059
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 21:31:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B53B1AD0A2
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 21:56:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7034C6EB4E;
-	Thu, 16 Apr 2020 19:31:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDF996E980;
+	Thu, 16 Apr 2020 19:56:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
- [209.85.167.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C66906EB4E
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 19:31:02 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id q204so17544377oia.13
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 12:31:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=83Bpp8uoGsIBtYSm1pLHa49KTy+QHzu3gut9+0c+dz8=;
- b=rsvZP40QxxxMyPGl8z3c1o7454IUKXRTO8LBAdNlBlCqX74547w8G9lCFBPnvT+G7t
- JIiFjMIn6waPnHRQ4QgdSFtePkl5bm0YOgqrDKId43xPcffiSRbxlib3rFzYJFo4mQsQ
- wBwA9mUfnROB/UiEy9DYGQ3mwtpgVDbZta2/pMM1cme/9tLYgMElv+cO8XWjvE9cqSPX
- XvCZFA3GOaS0/suoPekpLsFNftu4fGsMNaDXqWrx9q/LSc4H/nkDtEfmIDVd3Y6e/R/B
- ZjnRW2gNviHYB8l3tV0eXvjbFVvv8A2p17jhrPOswCPgNTYf5Y+Or3cG8GILHQxCiN9B
- lHiQ==
-X-Gm-Message-State: AGi0PuZFmq6pqXqztX/EefAM+WUCCy4lFkr66ozGvfrR8EC5mcRlkXxi
- IBZ96ttvTPvDgYOd2i/ciw==
-X-Google-Smtp-Source: APiQypKtFNn7klGmlxS7O33zd15hLes5Ce7gwnHv476q+1Q8X3OSIexFGD7vX+EbNCMQi+0zLh3qvw==
-X-Received: by 2002:aca:d705:: with SMTP id o5mr4155329oig.67.1587065461930;
- Thu, 16 Apr 2020 12:31:01 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id r205sm7324602oih.47.2020.04.16.12.31.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Apr 2020 12:31:01 -0700 (PDT)
-Received: (nullmailer pid 19733 invoked by uid 1000);
- Thu, 16 Apr 2020 19:31:00 -0000
-Date: Thu, 16 Apr 2020 14:31:00 -0500
-From: Rob Herring <robh@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH trivial 1/6] dt-bindings: Fix misspellings of "Analog
- Devices"
-Message-ID: <20200416193100.GA19671@bogus>
-References: <20200416103058.15269-1-geert+renesas@glider.be>
- <20200416103058.15269-2-geert+renesas@glider.be>
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB8A96E980
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 19:56:28 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200416195627euoutp02d63e5eb037fe8818970b451340956642~GZQQemAF31838318383euoutp027
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 19:56:27 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200416195627euoutp02d63e5eb037fe8818970b451340956642~GZQQemAF31838318383euoutp027
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1587066987;
+ bh=BOw44bJHIBFHurxhAMbHDokN2782/36M7XGTmR/A1xA=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=SKhtYDMcROFTsVGo3I71aZMkLzQ0QT8bFX3k3tCtx+KgwJ7NCtRw58YFadE2nbd72
+ VJi7dSHC2C5wY5X+E76Kly2tNMPpYMvyEVx5jZAFMNDMAgR6VdxfK8vRmZrDJEaFw3
+ WmtI519lIwPQmOtWOTMfCJ2q0SI/OFxD2KUhC9zM=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200416195626eucas1p2f906c0499eeabc32169c93bedfeffb98~GZQQECp_J1396513965eucas1p2f;
+ Thu, 16 Apr 2020 19:56:26 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id AD.78.60679.A68B89E5; Thu, 16
+ Apr 2020 20:56:26 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200416195625eucas1p18d95d63a8fb2f997d4c2eb63d15726f5~GZQPTXBN01641516415eucas1p1p;
+ Thu, 16 Apr 2020 19:56:25 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200416195625eusmtrp1dbd83e97ba803f69dadb91b7cc5e72c5~GZQPSjAJ50640106401eusmtrp1b;
+ Thu, 16 Apr 2020 19:56:25 +0000 (GMT)
+X-AuditID: cbfec7f4-0e5ff7000001ed07-81-5e98b86a0ece
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 1C.2E.08375.968B89E5; Thu, 16
+ Apr 2020 20:56:25 +0100 (BST)
+Received: from [106.210.85.205] (unknown [106.210.85.205]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200416195624eusmtip264d584c752fba6ab3caac4a381259466~GZQOPKqrq1596415964eusmtip2p;
+ Thu, 16 Apr 2020 19:56:24 +0000 (GMT)
+Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
+To: Jason Gunthorpe <jgg@ziepe.ca>, Nicolas Pitre <nico@fluxnic.net>
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <01f964ae-9c32-7531-1f07-2687616b6a71@samsung.com>
+Date: Thu, 16 Apr 2020 21:56:24 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200416103058.15269-2-geert+renesas@glider.be>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200416182106.GX5100@ziepe.ca>
+Content-Language: pl
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SaUwTQRjN7C7bhVhcSpEJKsaiiZpwKBon0aASoht/IZoYRYGqG+5CWrn0
+ h4jIIZRTOQo0xIgg0UDQApIQpECBcIhS5JAEahSBUIhUUDnUbhcj/9733vdm3psMhYuUpBMV
+ KrvJymXSCAlpQ9Trfr11DWssCvAoqHBByv5uDK3n6QSo9G0ygfRLCySqHKwBaOjHDI6Ki7oA
+ 6p4bItDihwyA0nOfCNDDlQocDTaVkmhKqySQZmYeQ4bJESukzfJHuvJtSD09TaJCpRE/ac+s
+ ruQBZmHkvoB59WwUY6a6UkmmJK3YiqmrTieZrpz3GNOwPGnFqLvPMRMZneaNwjaMeaPMJxhT
+ nTOjMX0kfG0v2xy/wUaExrJyd68gm5DB8RJBdJM4fmVMTyaCfPoBsKYgfRiuvczCHgAbSkRX
+ AbiQqwL88B1AVV72xmACcLY+yTxQFsu7SV/OLaIrAfyZLeZ3FgA03KvCOMGe9oKTBUqCw2La
+ Bz5KMZHcEk6rBVBfVmkRSHo/XH85SnKHCs2GniRvjibovTA1566FdqCvwsIPFzhaSNvB7uLP
+ BEdb066wYN6No3F6F2wwluI8FsORT8mWyJBup+Dz4RLAt/SBhlWTgMf2cLbz1QbeAXvyMwke
+ 34ETVck4b04DUFP7GueFY3C8f8WSBzdHrmly5+lTMHMxG+OfxBaOGO34DLYwr74Q52khTEsR
+ 8du74USfZuNAR1gxsETmAIlqUzHVpjaqTW1U/+8tB0Q1cGRjFJHBrOKQjI1zU0gjFTGyYLfr
+ UZF1wPxJe353fm8ETWvXtICmgGSLMOhEUYDIShqrSIjUAkjhErHQ9oiZEt6QJtxi5VGB8pgI
+ VqEF2ylC4ij0fDxzVUQHS2+y4Swbzcr/qRhl7ZQIntY8netVO18cOPutlik7sy98q0Gz/Mut
+ 1ujt37LWMvtVllvZ2/dH2nHpSvPFcrZgIEkX6KkPbN3TCgwzc+tG8ZdAWVxbw/x+/ahsy9Di
+ 79uOKdVhwztT/cmh9tOZvTvjw16EuQaI/Y6eN4qzlS6hXh7z0w5TDqt2frqOsVjQHC8hFCHS
+ gwdwuUL6F1b/5nugAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHec9tmzQ5zVkvhiWjoovOzmz6KmYSBudDhdW3ysvQg5puq50t
+ MgjM1HK50Kypy8woCYVuzltKUCumw0ukJes+o4aGc+HoZiptWrBvf378f8/DA48Ql9wgI4QF
+ Gj2n06iKZFQIMbjY/yGmoKc+c9vw7RhkGnFgaOGSXYAan5cR6OV3L4Vuj90D6NXPKRw11A8A
+ 5Jh+RaDZ8QsAVdbcEqDLcy04GuttpJDbZiJQ59QMhiZcThLZLh5G9uZVqGlykkJ1Jg+eGsb+
+ mbsEWK+zXMB2tL7GWPfAOYq9er6BZNvbKil2oHoUY7t/uEi2ybGf/Xih39+oe4qxj021BOtr
+ X8t2+t4S6aGH5Mk6rUHPReVref0O2WEGKeRMIpIrtifKmbiEjCSFUhabkpzLFRWc4HSxKdny
+ /LF3VwXHeqUn5968pEpALW0EQiGkt8MXrnQjCBFK6BYA33rnMSMQ+flq2Hfdgy/nMDg/bqSW
+ Sx4Af7luLpXC6BToMpuIQJbSafBKhW+phNPNAnhn4Ay2bIyT0OybWBpF0ZvhgvU1FVgt9tuD
+ pbsCmKA3wHPVZ5ZwOJ0By15sDmAxvRI6Gj4TASyiY6B5Rh7AOB0Pm6zLA3F6Hez2NP7LUuj8
+ VAaqgcQSZFuCFEuQYglSmgHRBqScgVfnqXlGzqvUvEGTJ8/RqtuB/z267L+tPWD0wUEboIVA
+ tkKcvbM+U0KqTvDFahuAQlwmFYcq/Uicqyo+xem0WTpDEcfbgNJ/Wg0eEZ6j9T+bRp/FKJkE
+ lMgkxCXExSPZavF5+skRCZ2n0nOFHHeM0/33MKEoogSUL7TutV1xR41cO7DH+ZCITE8OmU3d
+ F3M/XdH35fQaPGdkqAk/e7y5ospmTzNPrvpT2bXb7V5bWphZjllFsUNweP2eo4sdyNxS6GlN
+ Nj6LLCmd7rPerXNVkeRExvukmuhiNvprm3frqMO3qVPtpB4d/GZYMz1r3JtT0Z4xtRHJCD5f
+ xWzBdbzqL6xp3kE0AwAA
+X-CMS-MailID: 20200416195625eucas1p18d95d63a8fb2f997d4c2eb63d15726f5
+X-Msg-Generator: CA
+X-RootMTR: 20200416182112eucas1p1030595f63fe250ff02dbab2707df11e9
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200416182112eucas1p1030595f63fe250ff02dbab2707df11e9
+References: <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
+ <20200414152312.GF5100@ziepe.ca>
+ <CAK8P3a1PjP9_b5NdmqTLeGN4y+3JXx_yyTE8YAf1u5rYHWPA9g@mail.gmail.com>
+ <f6d83b08fc0bc171b5ba5b2a0bc138727d92e2c0.camel@mellanox.com>
+ <CAK8P3a1-J=4EAxh7TtQxugxwXk239u8ffgxZNRdw_WWy8ExFoQ@mail.gmail.com>
+ <834c7606743424c64951dd2193ca15e29799bf18.camel@mellanox.com>
+ <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
+ <874ktj4tvn.fsf@intel.com>
+ <CAK8P3a1S2x1jnx9Q5B22vX8gBHs0Ztu-znA9hqZ5xp5tRAykGg@mail.gmail.com>
+ <nycvar.YSQ.7.76.2004161106140.2671@knanqh.ubzr>
+ <CGME20200416182112eucas1p1030595f63fe250ff02dbab2707df11e9@eucas1p1.samsung.com>
+ <20200416182106.GX5100@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,31 +120,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dmaengine@vger.kernel.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+ "leon@kernel.org" <leon@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "masahiroy@kernel.org" <masahiroy@kernel.org>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Saeed Mahameed <saeedm@mellanox.com>,
+ "kieran.bingham+renesas@ideasonboard.com"
+ <kieran.bingham+renesas@ideasonboard.com>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "davem@davemloft.net" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Apr 2020 12:30:53 +0200, Geert Uytterhoeven wrote:
-> According to https://www.analog.com/, the company name is spelled
-> "Analog Devices".
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../devicetree/bindings/display/bridge/adi,adv7123.txt        | 4 ++--
->  .../devicetree/bindings/display/bridge/adi,adv7511.txt        | 4 ++--
->  Documentation/devicetree/bindings/dma/adi,axi-dmac.txt        | 2 +-
->  Documentation/devicetree/bindings/iio/dac/ad5755.txt          | 2 +-
->  4 files changed, 6 insertions(+), 6 deletions(-)
-> 
 
-Applied, thanks.
+On 16.04.2020 20:21, Jason Gunthorpe wrote:
+> On Thu, Apr 16, 2020 at 11:12:56AM -0400, Nicolas Pitre wrote:
+>> On Thu, 16 Apr 2020, Arnd Bergmann wrote:
+>>
+>>> On Thu, Apr 16, 2020 at 12:17 PM Jani Nikula
+>>> <jani.nikula@linux.intel.com> wrote:
+>>>> On Thu, 16 Apr 2020, Arnd Bergmann <arnd@arndb.de> wrote:
+>>>>> On Thu, Apr 16, 2020 at 5:25 AM Saeed Mahameed <saeedm@mellanox.com> wrote:
+>>>>>> BTW how about adding a new Kconfig option to hide the details of
+>>>>>> ( BAR || !BAR) ? as Jason already explained and suggested, this will
+>>>>>> make it easier for the users and developers to understand the actual
+>>>>>> meaning behind this tristate weird condition.
+>>>>>>
+>>>>>> e.g have a new keyword:
+>>>>>>       reach VXLAN
+>>>>>> which will be equivalent to:
+>>>>>>       depends on VXLAN && !VXLAN
+>>>>> I'd love to see that, but I'm not sure what keyword is best. For your
+>>>>> suggestion of "reach", that would probably do the job, but I'm not
+>>>>> sure if this ends up being more or less confusing than what we have
+>>>>> today.
+>>>> Ah, perfect bikeshedding topic!
+>>>>
+>>>> Perhaps "uses"? If the dependency is enabled it gets used as a
+>>>> dependency.
+>>> That seems to be the best naming suggestion so far
+>> What I don't like about "uses" is that it doesn't convey the conditional
+>> dependency. It could be mistaken as being synonymous to "select".
+>>
+>> What about "depends_if" ? The rationale is that this is actually a
+>> dependency, but only if the related symbol is set (i.e. not n or empty).
+> I think that stretches the common understanding of 'depends' a bit too
+> far.. A depends where the target can be N is just too strange.
+>
+> Somthing incorporating 'optional' seems like a better choice
+> 'optionally uses' seems particularly clear and doesn't overload
+> existing works like depends or select
 
-Rob
+
+I think the whole misunderstanding with imply is that ppl try to use it 
+as weak 'depend on' but it is weak 'select' - ie it enforces value of 
+implied symbol in contrast to 'depends' which enforces value of current 
+symbol.
+
+So if we want to add new symbol 'weak depend' it would be good to stress 
+out that difference.
+
+Moreover name imply is already cryptic, adding another keyword which for 
+sure will be cryptic (as there are no natural candidates) will 
+complicate things more.
+
+Maybe adding some decorator would be better, like optionally or weak, 
+for example:
+
+optionally depends on X
+
+optionally select Y
+
+Even more readable:
+
+depends on X if on
+
+depends on Y if enabled
+
+
+Regards
+
+Andrzej
+
+
+>
+> Jason
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
