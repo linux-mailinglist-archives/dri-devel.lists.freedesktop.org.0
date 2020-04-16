@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFA71AB87E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 08:51:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646431AB8B0
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 08:52:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2557B6EAC5;
-	Thu, 16 Apr 2020 06:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75F4B6EACE;
+	Thu, 16 Apr 2020 06:52:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 552296EAC5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 06:51:26 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id j16so15771712oih.10
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 23:51:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pLZEHboHrVUvSiMzAU5mB2mWJMs+hZ8IHC8retFcrgk=;
- b=JHwymh36ehjFDNDrb8YuMyQ1MkWFaqFQka5rlpHvpOpNowJkEQBJjUJHh6tEn9ItJf
- 44VDASM1Nm9+28OJ0BhPDfmpGS7h0JIyE4ei3cCTN1kvXMsSEqE7hJ6ugWHQLwwsjP4k
- SXfyV81W2EeHu0cLCfENisqsTzpcXqPmUQBbg=
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4C16EACE
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 06:52:50 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id q16so849081pje.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 23:52:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pLZEHboHrVUvSiMzAU5mB2mWJMs+hZ8IHC8retFcrgk=;
- b=GuKwQgebcI6xigr4Ff2WNYyL0PnTnXX1M3vZ0PsZIufSwHOveQihU6FbZAyfiJXfHu
- 79Eop2bPwJeOpUGeVLMvvzBzP3oGxOgXIROcD+/D2qatyQKKOg4h/w4D/ueMCM27Fi3+
- Tr9Ng1EZuqVzOJMbXbpvCRTYQLE0ocQdpqpwKFpHzHF16bXKwSkNdOV45Y9lwUkGS3Dx
- 2hZAE9gFe4hxAjpT7dyTunnfT8kwc/BZwZmkN6smApOhKYAmcHMF3tHCzwZ0/VavxZNz
- LEEeQFkKLjQ1WkIR3WG4VhyfpfjQ4uNc2LONyqeaW3Q65MZTtZlgmHUC3gaa3+EQ244W
- y8rA==
-X-Gm-Message-State: AGi0Pua9LUzroRRea+NSteUdQnTrpLoTsMWf/VPy4qyQ5HLbG2FjfsoC
- 4eXlu5qBF7j4uamtNInJoOhTVaiB6OrrB+Cc6YAGIw==
-X-Google-Smtp-Source: APiQypLyNc+eIs12WumzaBN5ipx1548wfPjx2IqBdj2oxsFx0exWa6GdqAAPbqs2svHCYqkW3eZbfQLmptUx4Q5ixiM=
-X-Received: by 2002:aca:2113:: with SMTP id 19mr2018002oiz.128.1587019885629; 
- Wed, 15 Apr 2020 23:51:25 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=u9FJuUtFkBVVe754ASFiMsIrGIfB932jO4gCk5SijoQ=;
+ b=r5Qc/SY6xBhlkLwMCUw2/1RYlsYrpVI8AsL1KHY7qp5A37ghzwb0hbiuJW0moq2zAl
+ 9J2OKcHc/qorJo+Dg8tVxCP46JGpeq55lGO36x+6bR/1ux9qNauPbMWn+RMvBT1sCTdm
+ T10DueLjidJmfKIQRRFmxmZprUdvxPqkGQpJBGSm4vb1+uCURkniHVB1GduNehZJSxOY
+ hERFsicHg3F/F2H6oGeg2om4bF52eqxYqfMt9p95hRptstvTlJ3fI0TfEpLedasKBZmp
+ v9/Aw+6L315HkjiT+1HYL1BfzQzXFp5Dnmuv5waB+8NpfUNDVHImy3WP88JLeNivQzP1
+ 81yQ==
+X-Gm-Message-State: AGi0PubVd5Uw2ZpnaBsDNoJeAXQurreJ6wpgtlkfWT16YIh/hwc+G8XG
+ +mfCAqdQEPALYLHAFn6Q31Q=
+X-Google-Smtp-Source: APiQypK5+Qi8v+j2Cen5/1BPiRlB86dhUu/rIfvP8w9PsnMxAFr/PXbROpQJkVyT4s4b2/52SOzkRw==
+X-Received: by 2002:a17:902:a515:: with SMTP id
+ s21mr8884962plq.41.1587019969803; 
+ Wed, 15 Apr 2020 23:52:49 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+ by smtp.gmail.com with ESMTPSA id e11sm16045565pfl.65.2020.04.15.23.52.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Apr 2020 23:52:48 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+ id 8222840277; Thu, 16 Apr 2020 06:52:47 +0000 (UTC)
+Date: Thu, 16 Apr 2020 06:52:47 +0000
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH 2/8] fs: extract simple_pin/release_fs to separate files
+Message-ID: <20200416065247.GR11244@42.do-not-panic.com>
+References: <20200414124304.4470-1-eesposit@redhat.com>
+ <20200414124304.4470-3-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20200408202711.1198966-1-arnd@arndb.de>
- <20200408202711.1198966-6-arnd@arndb.de>
- <20200414201739.GJ19819@pendragon.ideasonboard.com>
- <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
- <20200414205158.GM19819@pendragon.ideasonboard.com>
- <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
- <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com>
- <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
- <CAK8P3a0CoPUTSJp6ddDnmabo59iE73pugGSYayoeB5N57az9_w@mail.gmail.com>
- <20200415211220.GQ4758@pendragon.ideasonboard.com>
- <CAK8P3a1rDZO4cuL6VAXgu9sOiedcHqOSL7ELhpvULz+YYRaGbA@mail.gmail.com>
-In-Reply-To: <CAK8P3a1rDZO4cuL6VAXgu9sOiedcHqOSL7ELhpvULz+YYRaGbA@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 16 Apr 2020 08:51:14 +0200
-Message-ID: <CAKMK7uEoZ1jC8c25tPVX20kcdC1=+TpUUNyf+-c=sg5iK2cTZA@mail.gmail.com>
-Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
-To: Arnd Bergmann <arnd@arndb.de>
+Content-Disposition: inline
+In-Reply-To: <20200414124304.4470-3-eesposit@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,94 +61,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Leon Romanovsky <leon@kernel.org>,
- Nicolas Pitre <nico@fluxnic.net>, David Airlie <airlied@linux.ie>,
- Networking <netdev@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Saeed Mahameed <saeedm@mellanox.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "David S. Miller" <davem@davemloft.net>,
- linux-rdma <linux-rdma@vger.kernel.org>
+Cc: Song Liu <songliubraving@fb.com>, linux-usb@vger.kernel.org,
+ bpf@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+ David Airlie <airlied@linux.ie>, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ Alexei Starovoitov <ast@kernel.org>, dri-devel@lists.freedesktop.org,
+ "J. Bruce Fields" <bfields@fieldses.org>,
+ Joseph Qi <joseph.qi@linux.alibaba.com>, Hugh Dickins <hughd@google.com>,
+ Paul Mackerras <paulus@samba.org>, John Johansen <john.johansen@canonical.com>,
+ linux-s390@vger.kernel.org, ocfs2-devel@oss.oracle.com,
+ Christoph Hellwig <hch@lst.de>, Andrew Donnellan <ajd@linux.ibm.com>,
+ Matthew Garrett <matthew.garrett@nebula.com>, linux-efi@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Daniel Borkmann <daniel@iogearbox.net>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, linux-rdma@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Mark Fasheh <mark@fasheh.com>,
+ Anton Vorontsov <anton@enomsg.org>, John Fastabend <john.fastabend@gmail.com>,
+ James Morris <jmorris@namei.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
+ oprofile-list@lists.sf.net, Yonghong Song <yhs@fb.com>,
+ Ian Kent <raven@themaw.net>, Andrii Nakryiko <andriin@fb.com>,
+ Alexey Dobriyan <adobriyan@gmail.com>, "Serge E. Hallyn" <serge@hallyn.com>,
+ netdev@vger.kernel.org, Robert Richter <rric@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ Tony Luck <tony.luck@intel.com>, Kees Cook <keescook@chromium.org>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, autofs@vger.kernel.org,
+ Mike Marciniszyn <mike.marciniszyn@intel.com>, linux-fsdevel@vger.kernel.org,
+ "Manoj N. Kumar" <manoj@linux.ibm.com>, Uma Krishnan <ukrishn@linux.ibm.com>,
+ Jakub Kicinski <kuba@kernel.org>, KP Singh <kpsingh@chromium.org>,
+ Trond Myklebust <trond.myklebust@hammerspace.com>,
+ "Matthew R. Ochs" <mrochs@linux.ibm.com>,
+ "David S. Miller" <davem@davemloft.net>, Felipe Balbi <balbi@kernel.org>,
+ linux-nfs@vger.kernel.org, Iurii Zaikin <yzaikin@google.com>,
+ linux-scsi@vger.kernel.org, "Martin K. Petersen" <martin.petersen@oracle.com>,
+ linux-mm@kvack.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dennis Dalessandro <dennis.dalessandro@intel.com>,
+ Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org,
+ Anna Schumaker <anna.schumaker@netapp.com>,
+ linux-security-module@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>,
+ Jeremy Kerr <jk@ozlabs.org>, Colin Cross <ccross@android.com>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>, linuxppc-dev@lists.ozlabs.org,
+ Martin KaFai Lau <kafai@fb.com>, Joel Becker <jlbec@evilplan.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 15, 2020 at 11:22 PM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Wed, Apr 15, 2020 at 11:12 PM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> > On Wed, Apr 15, 2020 at 09:07:14PM +0200, Arnd Bergmann wrote:
-> > > On Wed, Apr 15, 2020 at 5:18 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > On Wed, Apr 15, 2020 at 4:13 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > On Wed, Apr 15, 2020 at 3:47 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > > > On Tue, Apr 14, 2020 at 10:52 PM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> > > > > > > Doesn't "imply" mean it gets selected by default but can be manually
-> > > > > > > disabled ?
-> > > > > >
-> > > > > > That may be what it means now (I still don't understand how it's defined
-> > > > > > as of v5.7-rc1), but traditionally it was more like a 'select if all
-> > > > > > dependencies are met'.
-> > > > >
-> > > > > That's still what it is supposed to mean right now ;-)
-> > > > > Except that now it should correctly handle the modular case, too.
-> > > >
-> > > > Then there is a bug. If I run 'make menuconfig' now on a mainline kernel
-> > > > and enable CONFIG_DRM_RCAR_DU, I can set
-> > > > DRM_RCAR_CMM and DRM_RCAR_LVDS to 'y', 'n' or 'm' regardless
-> > > > of whether CONFIG_DRM_RCAR_DU is 'm' or 'y'. The 'implies'
-> > > > statement seems to be ignored entirely, except as reverse 'default'
-> > > > setting.
-> > >
-> > > Here is another version that should do what we want and is only
-> > > half-ugly. I can send that as a proper patch if it passes my testing
-> > > and nobody hates it too much.
-> >
-> > This may be a stupid question, but doesn't this really call for fixing
-> > Kconfig ? This seems to be such a common pattern that requiring
-> > constructs similar to the ones below will be a never-ending chase of
-> > offenders.
->
-> Maybe, I suppose the hardest part here would be to come up with
-> an appropriate name for the keyword ;-)
->
-> Any suggestions?
->
-> This specific issue is fairly rare though, in most cases the dependencies
-> are in the right order so a Kconfig symbol 'depends on' a second one
-> when the corresponding loadable module uses symbols from that second
-> module. The problem here is that the two are mixed up.
->
-> The much more common problem is the one where one needs to
-> wrong
->
-> config FOO
->        depends on BAR || !BAR
->
-> To ensure the dependency is either met or BAR is disabled, but
-> not FOO=y with BAR=m. If you have any suggestions for a keyword
-> for that thing, we can clean up hundreds of such instances.
+On Tue, Apr 14, 2020 at 02:42:56PM +0200, Emanuele Giuseppe Esposito wrote:
+> We will augment this family of functions with inode management.  To avoid
+> littering include/linux/fs.h and fs/libfs.c, move them to a separate header,
+> with a Kconfig symbol to enable them.
 
-Some ideas:
+If there are no functional changes, indicating that on the commit log
+will make the review much easier.
 
-config FOO
-    can use  BAR
-    maybe BAR
-    optional BAR
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index d1398cef3b18..fc38a6f0fc11 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -288,12 +288,16 @@ config STRIP_ASM_SYMS
+>  
+>  config READABLE_ASM
+>  	bool "Generate readable assembler code"
+> -	depends on DEBUG_KERNEL
+> -	help
+> -	  Disable some compiler optimizations that tend to generate human unreadable
+> -	  assembler output. This may make the kernel slightly slower, but it helps
+> -	  to keep kernel developers who have to stare a lot at assembler listings
+> -	  sane.
+> +    depends on DEBUG_KERNEL
+> +    help
+> +      Disable some compiler optimizations that tend to generate human unreadable
+> +      assembler output. This may make the kernel slightly slower, but it helps
+> +      to keep kernel developers who have to stare a lot at assembler listings
+> +      sane.
+> +	  
 
-We should probably double-check that this is only ever used for when
-both FOO and BAR are tri-state, since without that it doesn't make
-much sense.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+This minor change above should just be a separate patch. Its just noise
+otherwise.
+
+> +config DEBUG_FS
+> +	bool "Debug Filesystem"
+> +	select SIMPLEFS
+
+I'm at a loss reviewing this,  my lib/Kconfig.debug already has a config
+DEBUG_FS.  But above I see it is being added for the very first time.
+I'm sure there is some odd conditional which is obscuring this, can
+this be explained in the commit log?
+
+  Luis
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
