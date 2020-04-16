@@ -2,69 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C018F1AC171
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 14:39:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFEC81AC185
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 14:42:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A7096E047;
-	Thu, 16 Apr 2020 12:39:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6D286E0CD;
+	Thu, 16 Apr 2020 12:42:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E76516E047
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 12:39:09 +0000 (UTC)
-Received: from mail-lj1-f171.google.com ([209.85.208.171]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MBmDy-1jWo5P33LY-00CBfx for <dri-devel@lists.freedesktop.org>; Thu, 16
- Apr 2020 14:39:07 +0200
-Received: by mail-lj1-f171.google.com with SMTP id u6so6024749ljl.6
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 05:39:07 -0700 (PDT)
-X-Gm-Message-State: AGi0PuapKd6JyA+shRz4ogiZoA9H/u3cavNE2pSOxMAf9tE/E1iHEBpZ
- //M5Uj+nqRfpTnZiIPhOJazuDxJnL7dApLKBqVo=
-X-Google-Smtp-Source: APiQypJBjKSJ60PBcmBCW4rJUa3iEMj8puJUFjtDtgFXYZenSiZo1kQ7qfLc3ugSe7HBLKnPyUhQlFliM3tyUpQ3SD4=
-X-Received: by 2002:a2e:6a08:: with SMTP id f8mr6773388ljc.8.1587040747110;
- Thu, 16 Apr 2020 05:39:07 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6CD76E06B;
+ Thu, 16 Apr 2020 12:42:01 +0000 (UTC)
+IronPort-SDR: 9mGEUM+35iJpWhfi+fuR+EfQi0Lp8mUk8NGpxZAut0TkLNFcUa3isldwhIsk+dOeF74xdmfGiX
+ nTz+xiPPhR7w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2020 05:42:01 -0700
+IronPort-SDR: 3w2vhqECzdnpCtsED/10Nzk8+xz25ltsQ+hzcypHdCzM6e8AVGjDOtapHZ10ATCcL6s8mYsEl/
+ Y4Tt8ydRUi3A==
+X-IronPort-AV: E=Sophos;i="5.72,391,1580803200"; d="scan'208";a="427819000"
+Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
+ ([10.252.62.235])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2020 05:41:58 -0700
 MIME-Version: 1.0
-References: <20200408202711.1198966-1-arnd@arndb.de>
- <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
- <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
- <20200408224224.GD11886@ziepe.ca> <87k12pgifv.fsf@intel.com>
- <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
- <20200410171320.GN11886@ziepe.ca>
- <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com>
- <20200414132900.GD5100@ziepe.ca>
- <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
- <20200414152312.GF5100@ziepe.ca>
- <CAK8P3a1PjP9_b5NdmqTLeGN4y+3JXx_yyTE8YAf1u5rYHWPA9g@mail.gmail.com>
- <f6d83b08fc0bc171b5ba5b2a0bc138727d92e2c0.camel@mellanox.com>
- <CAK8P3a1-J=4EAxh7TtQxugxwXk239u8ffgxZNRdw_WWy8ExFoQ@mail.gmail.com>
- <834c7606743424c64951dd2193ca15e29799bf18.camel@mellanox.com>
- <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
- <874ktj4tvn.fsf@intel.com>
-In-Reply-To: <874ktj4tvn.fsf@intel.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 16 Apr 2020 14:38:50 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1S2x1jnx9Q5B22vX8gBHs0Ztu-znA9hqZ5xp5tRAykGg@mail.gmail.com>
-Message-ID: <CAK8P3a1S2x1jnx9Q5B22vX8gBHs0Ztu-znA9hqZ5xp5tRAykGg@mail.gmail.com>
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-To: Jani Nikula <jani.nikula@linux.intel.com>
-X-Provags-ID: V03:K1:DmQM9zjp7ilcUF9kNZg38Y0y+umA332zjMWm6AXYpDqpy8Gumzb
- aOT6sKSZUYOGwAPyaxaJwQh3bWnLyILHujzTsZtUy/p75666R1h3EGo5Veug73Uy6uefFaM
- HkaCguDdg4YR8zsYcfxh+f7OBlH5k84JOWMfDhkhIatNxtJhyPQTU/UD25MQPupjEc89C5w
- 3BLHrWXZ720zqgFpuheoQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:leC4bSib19E=:qMwQ46Owtcb0adDuS1AMmI
- d/+/6FP1xVCwScODWBHl/DUbgVe9gcs+0h75UoZ5w1UmgVaaHgi90yVsLyomYu2vkie4eiihs
- u/uxLQaJmrN/tUyJ0V/u/G56Xa5T7LpOuzgiRfvWnhl2XgcRRWGsyp4cIjzgK42R83eY8bp/u
- NkZKvS1F/f3thtRMf7etdjMk49FDyqUHoSwt3diHQ4wUneywa/f/1q5LuTYbZHQBaUJW3mOy9
- IHx1CJokkg/Y+7CfD7XUTz7WfYjb2XT/u5Bwv+7UrcrvNdEYC9zEeY0jTEP1LvNHDbDeJvjXb
- CYNdDjy87AEDqVUdpGaXV66ak3VyOYdDQ5uyZsV6Yf/LVptxwHddX7j4Z8GlMGSYNJVL4vRfn
- xDcRXvmxCKBz3R7sSTxpVDz3ETKiX+hLJ7N3ULJkxnaQMa5kq9WZD5qwrBZGO9XblgyVnrwQo
- NzJgUYF7qWv4aZGsaYTT7MNOZa5XIC7ZzjN8ZyP6YUbb8zb8MjbpN1L4L2TJ5EqSdOLibIX/v
- LFFR7AfLk2NHxxsKaJAliaFqqNCp4nV0k2fToaYoMkmZHNR+ldHdB4QxQ2PIum0A1m8NV3g71
- 8iGKZKez10jC6urUc3hx0XqXmsjVhIqi+R7ZTMm9bn10zvIvwRuAc0om4Ij6+zHa7AMEvaAK2
- SnDWbM+EgQwzzUcMjcO+2COfSsu6njYEoCSVmhFFk35FIKZsdrrr3X7zqFBfJQJ9ySghGYbuW
- 2ZgzagoZWx7OSKTFUj3aBCPemfMPti/nzULVfss82Ke5Mq1RgW9BxcNYts1wixA23ZL7D6/Ae
- 5ANfA/z3nmHxRpATn71k4T1XLykMxdY+hFL8s464y1263eKxGk=
+In-Reply-To: <87imi15gw0.fsf@intel.com>
+References: <efb3d0d9-2cf7-046b-3a9b-2548d086258e@linux.intel.com>
+ <87wo6h5k0d.fsf@intel.com>
+ <CAKMK7uEWkGA2e2ZV9H0m8ParE_9DNtgAhG3FuqPzvgv-xeVcng@mail.gmail.com>
+ <87imi15gw0.fsf@intel.com>
+Subject: Re: [PULL] topic/phy-compliance
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Alex Deucher <alexdeucher@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Thu, 16 Apr 2020 15:41:55 +0300
+Message-ID: <158704091547.9336.6038156980180850144@jlahtine-desk.ger.corp.intel.com>
+User-Agent: alot/0.8.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,63 +54,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "a.hajda@samsung.com" <a.hajda@samsung.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
- "leon@kernel.org" <leon@kernel.org>,
- "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "masahiroy@kernel.org" <masahiroy@kernel.org>,
- "nico@fluxnic.net" <nico@fluxnic.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Saeed Mahameed <saeedm@mellanox.com>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "jgg@ziepe.ca" <jgg@ziepe.ca>, "davem@davemloft.net" <davem@davemloft.net>
+Cc: "DRM maintainer tools announcements, discussion,
+ and development" <dim-tools@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Manasi Navare <manasi.d.navare@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 16, 2020 at 12:17 PM Jani Nikula
-<jani.nikula@linux.intel.com> wrote:
->
-> On Thu, 16 Apr 2020, Arnd Bergmann <arnd@arndb.de> wrote:
-> > On Thu, Apr 16, 2020 at 5:25 AM Saeed Mahameed <saeedm@mellanox.com> wrote:
-> >> BTW how about adding a new Kconfig option to hide the details of
-> >> ( BAR || !BAR) ? as Jason already explained and suggested, this will
-> >> make it easier for the users and developers to understand the actual
-> >> meaning behind this tristate weird condition.
+Quoting Jani Nikula (2020-04-15 10:48:15)
+> On Wed, 15 Apr 2020, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > On Wed, Apr 15, 2020 at 8:40 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
 > >>
-> >> e.g have a new keyword:
-> >>      reach VXLAN
-> >> which will be equivalent to:
-> >>      depends on VXLAN && !VXLAN
+> >> On Wed, 08 Apr 2020, Maarten Lankhorst <maarten.lankhorst@linux.intel.com> wrote:
+> >> > Hey,
+> >> >
+> >> > Here's a pull request to pull in the DP PHY Compliance series.
+> >> > It's based on top of drm/drm-next, and contains all patches for core, amd and i915. :)
+> >>
+> >> Ping, I don't see this merged in any tree yet.
 > >
-> > I'd love to see that, but I'm not sure what keyword is best. For your
-> > suggestion of "reach", that would probably do the job, but I'm not
-> > sure if this ends up being more or less confusing than what we have
-> > today.
->
-> Ah, perfect bikeshedding topic!
->
-> Perhaps "uses"? If the dependency is enabled it gets used as a
-> dependency.
+> > Generally topic pull requests get pulled into all relevant trees,
+> > which would be drm-misc, drm-intel and drm-amd here. All of the
+> > optional ofc if you do instead maintainer-acks for merging through
+> > another tree.
+> >
+> > Since I wasn't involved in this no idea who requested the topic tree
+> > instead of acks, and the pull isn't addressed to specific people who
+> > should pull it in (I generally add that to avoid confusion like this
+> > here), but this aint something that drm.git needs to pull. Just stuff
+> > it into one of the trees as usual. Also just noticed that amd
+> > maintainers arent even cc'ed, adding Alex. You guys pls figure this
+> > out :-)
+> 
+> It seemed like drm-misc and drm-intel would be out-of-sync for too long
+> before we'd get all of them eventually (back)merged together, so I
+> leaned towards the topic branch. Of course, the point starts to be moot
+> if it has already taken more than a week to merge this anywhere...
+> 
+> And I'm pinging about merging the topic pull to drm-misc and drm-intel;
+> I'm currently not covering drm-intel.
 
-That seems to be the best naming suggestion so far
+Pulled to drm-intel-next-queued now.
 
-> Of course, this is all just talk until someone(tm) posts a patch
-> actually making the change. I've looked at the kconfig tool sources
-> before; not going to make the same mistake again.
+Regards, Joonas
 
-Right. OTOH whoever implements it gets to pick the color of the
-bikeshed. ;-)
-
-      Arnd
+> 
+> BR,
+> Jani.
+> 
+> 
+> 
+> 
+> > -Daniel
+> >
+> >>
+> >> BR,
+> >> Jani.
+> >>
+> >>
+> >> >
+> >> > Cheers,
+> >> > Maarten
+> >> >
+> >> > topic/phy-compliance-2020-04-08:
+> >> > Topic pull request for topic/phy-compliance:
+> >> > - Standardize DP_PHY_TEST_PATTERN name.
+> >> > - Add support for setting/getting test pattern from sink.
+> >> > - Implement DP PHY compliance to i915.
+> >> > The following changes since commit 12ab316ced2c5f32ced0e6300a054db644b5444a:
+> >> >
+> >> >   Merge tag 'amd-drm-next-5.7-2020-04-01' of git://people.freedesktop.org/~agd5f/linux into drm-next (2020-04-08 09:34:27 +1000)
+> >> >
+> >> > are available in the Git repository at:
+> >> >
+> >> >   git://anongit.freedesktop.org/drm/drm-misc tags/topic/phy-compliance-2020-04-08
+> >> >
+> >> > for you to fetch changes up to 8cdf727119289db3a98835662eb28e1c5ad835f1:
+> >> >
+> >> >   drm/i915/dp: Program vswing, pre-emphasis, test-pattern (2020-04-08 14:41:09 +0200)
+> >> >
+> >> > ----------------------------------------------------------------
+> >> > Topic pull request for topic/phy-compliance:
+> >> > - Standardize DP_PHY_TEST_PATTERN name.
+> >> > - Add support for setting/getting test pattern from sink.
+> >> > - Implement DP PHY compliance to i915.
+> >> >
+> >> > ----------------------------------------------------------------
+> >> > Animesh Manna (7):
+> >> >       drm/amd/display: Align macro name as per DP spec
+> >> >       drm/dp: get/set phy compliance pattern
+> >> >       drm/i915/dp: Made intel_dp_adjust_train() non-static
+> >> >       drm/i915/dp: Preparation for DP phy compliance auto test
+> >> >       drm/i915/dp: Add debugfs entry for DP phy compliance
+> >> >       drm/i915/dp: Register definition for DP compliance register
+> >> >       drm/i915/dp: Program vswing, pre-emphasis, test-pattern
+> >> >
+> >> >  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |   2 +-
+> >> >  drivers/gpu/drm/drm_dp_helper.c                    |  94 +++++++++++
+> >> >  .../gpu/drm/i915/display/intel_display_debugfs.c   |  12 +-
+> >> >  drivers/gpu/drm/i915/display/intel_display_types.h |   1 +
+> >> >  drivers/gpu/drm/i915/display/intel_dp.c            | 171 +++++++++++++++++++++
+> >> >  drivers/gpu/drm/i915/display/intel_dp.h            |   1 +
+> >> >  .../gpu/drm/i915/display/intel_dp_link_training.c  |   9 +-
+> >> >  .../gpu/drm/i915/display/intel_dp_link_training.h  |   4 +
+> >> >  drivers/gpu/drm/i915/i915_reg.h                    |  18 +++
+> >> >  include/drm/drm_dp_helper.h                        |  33 +++-
+> >> >  10 files changed, 337 insertions(+), 8 deletions(-)
+> >>
+> >> --
+> >> Jani Nikula, Intel Open Source Graphics Center
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
