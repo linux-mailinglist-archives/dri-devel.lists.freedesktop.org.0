@@ -1,71 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A22121AD682
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B821AC8FE
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 17:18:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEF836E343;
-	Fri, 17 Apr 2020 06:59:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A74E6E2CF;
+	Thu, 16 Apr 2020 15:18:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pb-smtp20.pobox.com (pb-smtp20.pobox.com [173.228.157.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0425B6E223
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 15:13:04 +0000 (UTC)
-Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
- by pb-smtp20.pobox.com (Postfix) with ESMTP id 2C30CCCAF9;
- Thu, 16 Apr 2020 11:13:02 -0400 (EDT)
- (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
- :cc:subject:in-reply-to:message-id:references:mime-version
- :content-type; s=sasl; bh=EmCc83cGpH1PK+OmfXhUEjWC8ds=; b=aVQ7ou
- 3WqM0s3ghVtQuQ+FnbxizM2oeosiePh15ekPxSOpZ5O+u89PgTaFwE+kQfwwhh25
- emmYOPZ6Wl2UWxq/FnmZHkgixpcMfM6nOkqGfWOK7E2x/KQGpJCzjT/f3Yl3zVqH
- Yb1epFuCEAxlCdVNqp5xcJA8BnxfM0KCv8YBk=
-Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
- by pb-smtp20.pobox.com (Postfix) with ESMTP id 22606CCAF8;
- Thu, 16 Apr 2020 11:13:02 -0400 (EDT)
- (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type;
- s=2016-12.pbsmtp; bh=ODtNsYZK2kcwPIZiYkxRnX/rGfukkhVwPZgiIX9m3Hc=;
- b=mhOwPOrLVNViEQcT6ZxueaJIaNS2OOL5Q6V5kVOJqurB2pQbu5SYf5agaBqzZzQgkrZS/H5Ymql18PTg+aPX++qwbVDZvTgLZvgJmFfIRVcrVkcryFpWoLdgyWxZkfPSOHs95eV/gNPMNi3xlcU4RtrraEQdGL7yRh3CzutY8jM=
-Received: from yoda.home (unknown [24.203.50.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by pb-smtp20.pobox.com (Postfix) with ESMTPSA id D99EDCCAF3;
- Thu, 16 Apr 2020 11:12:58 -0400 (EDT)
- (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
- by yoda.home (Postfix) with ESMTPSA id 09BC42DA0D32;
- Thu, 16 Apr 2020 11:12:57 -0400 (EDT)
-Date: Thu, 16 Apr 2020 11:12:56 -0400 (EDT)
-From: Nicolas Pitre <nico@fluxnic.net>
-To: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-In-Reply-To: <CAK8P3a1S2x1jnx9Q5B22vX8gBHs0Ztu-znA9hqZ5xp5tRAykGg@mail.gmail.com>
-Message-ID: <nycvar.YSQ.7.76.2004161106140.2671@knanqh.ubzr>
-References: <20200408202711.1198966-1-arnd@arndb.de>
- <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
- <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
- <20200408224224.GD11886@ziepe.ca> <87k12pgifv.fsf@intel.com>
- <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
- <20200410171320.GN11886@ziepe.ca>
- <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com>
- <20200414132900.GD5100@ziepe.ca>
- <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
- <20200414152312.GF5100@ziepe.ca>
- <CAK8P3a1PjP9_b5NdmqTLeGN4y+3JXx_yyTE8YAf1u5rYHWPA9g@mail.gmail.com>
- <f6d83b08fc0bc171b5ba5b2a0bc138727d92e2c0.camel@mellanox.com>
- <CAK8P3a1-J=4EAxh7TtQxugxwXk239u8ffgxZNRdw_WWy8ExFoQ@mail.gmail.com>
- <834c7606743424c64951dd2193ca15e29799bf18.camel@mellanox.com>
- <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
- <874ktj4tvn.fsf@intel.com>
- <CAK8P3a1S2x1jnx9Q5B22vX8gBHs0Ztu-znA9hqZ5xp5tRAykGg@mail.gmail.com>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CF166E2CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 15:18:05 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20E5497D;
+ Thu, 16 Apr 2020 17:18:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1587050283;
+ bh=kRV0TK76jaLsKumnRx9oBxQ+fB9EZ/hBhcVvcCrUN8Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KunL1GHnZWE+ve/sOLaoFkAzYPKX6+/n+r78iuYJs7x5e+okkGATOqE6ApGMnuikF
+ /2ayUcQFN/Z9UdwuSHJbBCZB/V8aA1w7KUzO09ROtISEFr9rEn/3j6xTfoHtnx7/rk
+ eGxptalaFyRgrldUK2vtce1M8FhIp7rddugLnmJg=
+Date: Thu, 16 Apr 2020 18:17:51 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
+Message-ID: <20200416151751.GD4796@pendragon.ideasonboard.com>
+References: <20200414201739.GJ19819@pendragon.ideasonboard.com>
+ <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
+ <20200414205158.GM19819@pendragon.ideasonboard.com>
+ <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
+ <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com>
+ <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
+ <CAK8P3a0CoPUTSJp6ddDnmabo59iE73pugGSYayoeB5N57az9_w@mail.gmail.com>
+ <20200415211220.GQ4758@pendragon.ideasonboard.com>
+ <CAK8P3a1rDZO4cuL6VAXgu9sOiedcHqOSL7ELhpvULz+YYRaGbA@mail.gmail.com>
+ <CAKMK7uEoZ1jC8c25tPVX20kcdC1=+TpUUNyf+-c=sg5iK2cTZA@mail.gmail.com>
 MIME-Version: 1.0
-X-Pobox-Relay-ID: C1D878A0-7FF4-11EA-9E0A-B0405B776F7B-78420484!pb-smtp20.pobox.com
-X-Mailman-Approved-At: Fri, 17 Apr 2020 06:59:46 +0000
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEoZ1jC8c25tPVX20kcdC1=+TpUUNyf+-c=sg5iK2cTZA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,70 +54,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "a.hajda@samsung.com" <a.hajda@samsung.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "leon@kernel.org" <leon@kernel.org>,
- "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "masahiroy@kernel.org" <masahiroy@kernel.org>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Leon Romanovsky <leon@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Nicolas Pitre <nico@fluxnic.net>,
+ David Airlie <airlied@linux.ie>, Networking <netdev@vger.kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, Saeed Mahameed <saeedm@mellanox.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Saeed Mahameed <saeedm@mellanox.com>,
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "jgg@ziepe.ca" <jgg@ziepe.ca>, "davem@davemloft.net" <davem@davemloft.net>
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ linux-rdma <linux-rdma@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Apr 2020, Arnd Bergmann wrote:
-
-> On Thu, Apr 16, 2020 at 12:17 PM Jani Nikula
-> <jani.nikula@linux.intel.com> wrote:
-> >
-> > On Thu, 16 Apr 2020, Arnd Bergmann <arnd@arndb.de> wrote:
-> > > On Thu, Apr 16, 2020 at 5:25 AM Saeed Mahameed <saeedm@mellanox.com> wrote:
-> > >> BTW how about adding a new Kconfig option to hide the details of
-> > >> ( BAR || !BAR) ? as Jason already explained and suggested, this will
-> > >> make it easier for the users and developers to understand the actual
-> > >> meaning behind this tristate weird condition.
-> > >>
-> > >> e.g have a new keyword:
-> > >>      reach VXLAN
-> > >> which will be equivalent to:
-> > >>      depends on VXLAN && !VXLAN
+On Thu, Apr 16, 2020 at 08:51:14AM +0200, Daniel Vetter wrote:
+> On Wed, Apr 15, 2020 at 11:22 PM Arnd Bergmann wrote:
+> > On Wed, Apr 15, 2020 at 11:12 PM Laurent Pinchart wrote:
+> > > On Wed, Apr 15, 2020 at 09:07:14PM +0200, Arnd Bergmann wrote:
+> > > > On Wed, Apr 15, 2020 at 5:18 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > > > On Wed, Apr 15, 2020 at 4:13 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > > > On Wed, Apr 15, 2020 at 3:47 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > > > > > On Tue, Apr 14, 2020 at 10:52 PM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> > > > > > > > Doesn't "imply" mean it gets selected by default but can be manually
+> > > > > > > > disabled ?
+> > > > > > >
+> > > > > > > That may be what it means now (I still don't understand how it's defined
+> > > > > > > as of v5.7-rc1), but traditionally it was more like a 'select if all
+> > > > > > > dependencies are met'.
+> > > > > >
+> > > > > > That's still what it is supposed to mean right now ;-)
+> > > > > > Except that now it should correctly handle the modular case, too.
+> > > > >
+> > > > > Then there is a bug. If I run 'make menuconfig' now on a mainline kernel
+> > > > > and enable CONFIG_DRM_RCAR_DU, I can set
+> > > > > DRM_RCAR_CMM and DRM_RCAR_LVDS to 'y', 'n' or 'm' regardless
+> > > > > of whether CONFIG_DRM_RCAR_DU is 'm' or 'y'. The 'implies'
+> > > > > statement seems to be ignored entirely, except as reverse 'default'
+> > > > > setting.
+> > > >
+> > > > Here is another version that should do what we want and is only
+> > > > half-ugly. I can send that as a proper patch if it passes my testing
+> > > > and nobody hates it too much.
 > > >
-> > > I'd love to see that, but I'm not sure what keyword is best. For your
-> > > suggestion of "reach", that would probably do the job, but I'm not
-> > > sure if this ends up being more or less confusing than what we have
-> > > today.
+> > > This may be a stupid question, but doesn't this really call for fixing
+> > > Kconfig ? This seems to be such a common pattern that requiring
+> > > constructs similar to the ones below will be a never-ending chase of
+> > > offenders.
 > >
-> > Ah, perfect bikeshedding topic!
+> > Maybe, I suppose the hardest part here would be to come up with
+> > an appropriate name for the keyword ;-)
 > >
-> > Perhaps "uses"? If the dependency is enabled it gets used as a
-> > dependency.
+> > Any suggestions?
+
+Would it make sense to fix the imply semantics ? Or are they use cases
+for the current behaviour of imply ? "recommend" could be another
+keyword. I think we should try to limit the number of keywords though,
+as it would otherwise become quite messy.
+
+> > This specific issue is fairly rare though, in most cases the dependencies
+> > are in the right order so a Kconfig symbol 'depends on' a second one
+> > when the corresponding loadable module uses symbols from that second
+> > module. The problem here is that the two are mixed up.
+> >
+> > The much more common problem is the one where one needs to
+> > wrong
+> >
+> > config FOO
+> >        depends on BAR || !BAR
+> >
+> > To ensure the dependency is either met or BAR is disabled, but
+> > not FOO=y with BAR=m. If you have any suggestions for a keyword
+> > for that thing, we can clean up hundreds of such instances.
 > 
-> That seems to be the best naming suggestion so far
+> Some ideas:
+> 
+> config FOO
+>     can use  BAR
+>     maybe BAR
+>     optional BAR
 
-What I don't like about "uses" is that it doesn't convey the conditional 
-dependency. It could be mistaken as being synonymous to "select".
+Another idea,
 
-What about "depends_if" ? The rationale is that this is actually a 
-dependency, but only if the related symbol is set (i.e. not n or empty).
+	depends optionally on BAR
 
-> Right. OTOH whoever implements it gets to pick the color of the
-> bikeshed. ;-)
+> We should probably double-check that this is only ever used for when
+> both FOO and BAR are tri-state, since without that it doesn't make
+> much sense.
 
-Absolutely. But some brainstorming can't hurt.
+-- 
+Regards,
 
-
-Nicolas
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
