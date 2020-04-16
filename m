@@ -1,36 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60711ACA57
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 17:34:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B9B1AD691
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F299A6E2F8;
-	Thu, 16 Apr 2020 15:34:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88AD16E393;
+	Fri, 17 Apr 2020 06:59:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5A96E2F8
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 15:34:16 +0000 (UTC)
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 66B0521927;
- Thu, 16 Apr 2020 15:34:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587051256;
- bh=uDzDRO2ytFQpd/vpRcyE5E3H4we81F4KkMdHp4892QQ=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=0jVthHTM4Q1PC0DLm4/7zyTFyXkXqQ9oURTeu65LFK32h6apzQp5OQe8r6spQYx7D
- exZpNA3pKIzfLh7hh8kejYoTzVqXPDKsYcg29n6M2YxH+7RRMC3sWtLlJAyWAISZo2
- htCo+NO3nQTw1x39+HMbBBGG53gyiwWUjlaVmdNU=
-Date: Thu, 16 Apr 2020 16:34:13 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich <Michael.Hennerich@analog.com>, Stefan Popa <stefan.popa@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>, Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Vinod Koul <vkoul@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Nuno Sá <nuno.sa@analog.com>, David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Jiri Kosina <trivial@kernel.org>
-In-Reply-To: <20200416103058.15269-1-geert+renesas@glider.be>
-References: <20200416103058.15269-1-geert+renesas@glider.be>
-Subject: Re: [PATCH trivial 0/6] Fix misspellings of "Analog Devices"
-Message-Id: <158705078452.48712.14851203073650565435.b4-ty@kernel.org>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1EF06E321
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 15:57:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 6D65F2A22A6
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/7] Convert mtk-dsi to drm_bridge API and get EDID for
+ ps8640 bridge
+Date: Thu, 16 Apr 2020 17:57:12 +0200
+Message-Id: <20200416155720.2360443-1-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+X-Mailman-Approved-At: Fri, 17 Apr 2020 06:59:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,59 +35,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dmaengine@vger.kernel.org
-MIME-Version: 1.0
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ linux-mediatek@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Apr 2020 12:30:52 +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> In several files the company also known as ADI is spelled as "Analog
-> Device".  However, according to https://www.analog.com/, the company
-> name is spelled "Analog Devices".
-> 
-> Hence this patch series, one per subsystem, fixes these misspellings.
-> 
-> [...]
 
-Applied, thanks!
+The PS8640 dsi-to-eDP bridge driver is using the panel bridge API,
+however, not all the components in the chain have been ported to the
+drm_bridge API. Actually, when a panel is attached the default panel's mode
+is used, but in some cases we can't get display up if mode getting from
+eDP control EDID is not chosen.
 
-[1/6] dt-bindings: Fix misspellings of "Analog Devices"
-      (not applied)
-[2/6] dma: Fix misspelling of "Analog Devices"
-      (not applied)
-[3/6] drm: Fix misspellings of "Analog Devices"
-      (not applied)
-[4/6] iio: Fix misspellings of "Analog Devices"
-      (not applied)
-[5/6] ALSA: Fix misspellings of "Analog Devices"
-      (not applied)
-[6/6] ASoC: Fix misspellings of "Analog Devices"
-      commit: b938b25f49cdb47397b0215b69cdd5251b4b2f8b
+This series address that problem, first implements the .get_edid()
+callback in the PS8640 driver (which is not used until the conversion is
+done) and then, converts the Mediatek DSI driver to use the drm_bridge
+API.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+As far as I know, we're the only users of the mediatek dsi driver in
+mainline, so should be safe to switch to the new chain of drm_bridge API
+unconditionally.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+The patches has been tested on a Acer Chromebook R13 (Elm) running a
+Chrome OS userspace and checking that the valid EDID mode reported by
+the bridge is selected.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+[1] https://lore.kernel.org/lkml/20200210063523.133333-1-hsinyi@chromium.org/
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Changes in v2:
+- Do not set connector_type for panel here. (Sam Ravnborg)
 
-Thanks,
-Mark
+Enric Balletbo i Serra (7):
+  drm/bridge: ps8640: Get the EDID from eDP control
+  drm/bridge_connector: Set default status connected for eDP connectors
+  drm/mediatek: mtk_dsi: Rename bridge to next_bridge
+  drm/mediatek: mtk_dsi: Convert to bridge driver
+  drm/mediatek: mtk_dsi: Use simple encoder
+  drm/mediatek: mtk_dsi: Use the drm_panel_bridge API
+  drm/mediatek: mtk_dsi: Create connector for bridges
+
+ drivers/gpu/drm/bridge/parade-ps8640.c |  12 ++
+ drivers/gpu/drm/drm_bridge_connector.c |   1 +
+ drivers/gpu/drm/mediatek/mtk_dsi.c     | 280 ++++++++-----------------
+ 3 files changed, 101 insertions(+), 192 deletions(-)
+
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
