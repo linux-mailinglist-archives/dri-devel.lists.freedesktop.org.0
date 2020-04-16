@@ -1,67 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB7D1AD698
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 09:00:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8DD11AD13A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 22:37:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53D076E38A;
-	Fri, 17 Apr 2020 06:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83D6F6EB65;
+	Thu, 16 Apr 2020 20:37:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 194D06EB60
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 20:21:44 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id k21so9333763ljh.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 13:21:43 -0700 (PDT)
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 706ED6EB65
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 20:37:41 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id g6so2183092pgs.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 13:37:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Toe9EFNHVHf4euVV41c+6ZKdGRmphziwECd1HLN5bj4=;
- b=mp5QjqeXEpzz/RC5864mh4AGvSyk/YJUHBwd8EWL4iUI0WXJUJYYAMWFSnaGjqY8un
- jPNtEMDugufQKUhBS2tU08lsUH5i4vY9DskaTzQGGSkm2Q7zgVfUxiyG13OV86oNJ5oJ
- MneJa5vNL1WtdeQDBn0ZUIsakrJZsNms4JOrcXGjIs36exmCiDc2chUiXBLKvTD+sbix
- yF534TfyCCLwDSFdRBYJrGpesrswqDrO1KOpS3ev7iE966bSLRZBpWCR93HdpMOLVwTH
- BKVnY1WiwYV7htqOa2w/A69S7mNDpCicsLz5oj0LZNKDSKDR6ER4+GH6kzko2zmNuQzD
- ZuUg==
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=XptGLsb8LK835cBV0jSCf0HRG/zsBSED6dv7tPgulp4=;
+ b=gnCYkWmGETLB8PFSLV04Wdrz2FK+gEIIVYi1koqv0Kj68T1sE9a0zKATXAPY7gyzfJ
+ suAROh/dNMoI6pHy/mCCmAEukmmvuLcuT+oRiOR7pSsJ7zs8in52Gebp1M1SYorAU4tK
+ gOw3D6aDwjxZUg6c2JW6Y26Oj3CTSIyaIex5HlRUwrN0Akr9mc2rJN/ETJ63AkMWNaPZ
+ lBqmfTlQr2tQLv3hxk3korpwrPMIzUOkCHKM9MiAc5EcYNrnyoXofMkm1N6eYHhs/DeF
+ 913mMDnNGshbbDlgR/ygTf2Uto9ROB2t1oEKoFobtuWYnROIBcT0nnQEOaLeZGRWafc8
+ pefQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Toe9EFNHVHf4euVV41c+6ZKdGRmphziwECd1HLN5bj4=;
- b=o5d2xcP0PWtY2xpo82eANDzG0uw4wB/VRYKN2cAja9SfjOo60RM0VQSEyU9/kJ8DG2
- vFHyTLNHiRJ4fVyh9fq/HMISYDFBRVQgkNW2RUz/BEmhRe3bpKwtbopXF+Q90oN7YOgg
- P3SZzp3kjVzoQeQqkeDMoeKBjVwCGo6V1AuNs1x2ZW25hbn0ZwsF3o4cVNt67PLmTTn8
- yFRTbRZFEVIU9Zpi4ncWSmFo0ZcLrCW8rneQshGjgcO/IJ7wO3ReMolDb4W9v0C5DM87
- 6Npgyvk93m/vdge4iXTzLDPIAOb2ayikruwwc4LLXWO//2UkMOYrW5f+oqjCEfnar9Q1
- I8fQ==
-X-Gm-Message-State: AGi0PuaHsasDc4pHiJh2IX7sBEEFDmsN1ifhO8hrPn1yPDeo2wKhkwqM
- G917pOs1HQ2UrN9tkOW7LqI=
-X-Google-Smtp-Source: APiQypK9kdZSj1RLjRCfDhqZhxNr3HSkOJSkYEgiA0qwvIDJP5PyK2JI/rWYfPIScCP+cnZWmhS6KQ==
-X-Received: by 2002:a2e:8290:: with SMTP id y16mr7587501ljg.186.1587068502429; 
- Thu, 16 Apr 2020 13:21:42 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru.
- [91.78.208.152])
- by smtp.googlemail.com with ESMTPSA id q26sm5684757ljg.47.2020.04.16.13.21.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Apr 2020 13:21:41 -0700 (PDT)
-Subject: Re: [PATCH v3 2/2] drm/tegra: output: rgb: Support LVDS encoder bridge
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20200416172405.5051-1-digetx@gmail.com>
- <20200416172405.5051-3-digetx@gmail.com>
- <20200416174112.GS4796@pendragon.ideasonboard.com>
- <6275bcd3-c0b2-4c1c-1817-9e713d3747c7@gmail.com>
-Message-ID: <7cf27640-4fdc-8617-01cb-85f4c5847bb8@gmail.com>
-Date: Thu, 16 Apr 2020 23:21:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=XptGLsb8LK835cBV0jSCf0HRG/zsBSED6dv7tPgulp4=;
+ b=TQ8JYq/odf/yFJmt1kGI1897d494N3fNz3yF4ZOsvF1tm08X3BNPUYby1X7w/XLHAW
+ X0CAtjgDQ+JjNyn1DWVh0oQUVMFvL6rGC2O6QDIOjQJsfbthmDPiCtkuB06fASRe8zKX
+ FZ+w+coiCze/n5BEKYvLTSeV/Tyz6iIavOHqxX9dJ1o/mUmGoGVXhCaFCNIOP2Zy/CWR
+ JsR5pGdIsF1dnYgApfg7fuNorEO5emapU0pwtyPmUA9rUtTy7vvmi236m30DYWzGDZEA
+ V8piI71I7jAKg8HpodEeYGU6G0QWIBmit97DZiEUoKPBVh/iFP0YRKXq5Mp4u1DVKKj1
+ GZ5g==
+X-Gm-Message-State: AGi0PuYTRbsQpmuiz+AVxDQbwkjTCeHRNF1rFSBnUpkh0hK+KNYnAivi
+ nxzdKfy7W3M3J6yKbSScx0E=
+X-Google-Smtp-Source: APiQypLz/G622vMAZI/1t7tx6iXdrAiprqdhsptFvPk2bcCnaQJR//IYq0Xxli2CBTatOLYd6eCB1g==
+X-Received: by 2002:a63:2e03:: with SMTP id u3mr15186804pgu.121.1587069460712; 
+ Thu, 16 Apr 2020 13:37:40 -0700 (PDT)
+Received: from google.com ([2601:647:4001:3000::50e3])
+ by smtp.gmail.com with ESMTPSA id u13sm3654978pjb.45.2020.04.16.13.37.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Apr 2020 13:37:38 -0700 (PDT)
+Date: Thu, 16 Apr 2020 13:37:36 -0700
+From: Minchan Kim <minchan@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 10/28] mm: only allow page table mappings for built-in
+ zsmalloc
+Message-ID: <20200416203736.GB50092@google.com>
+References: <20200408115926.1467567-1-hch@lst.de>
+ <20200408115926.1467567-11-hch@lst.de>
+ <20200409160826.GC247701@google.com>
+ <20200409165030.GG20713@hirez.programming.kicks-ass.net>
+ <20200409170813.GD247701@google.com>
+ <20200410023845.GA2354@jagdpanzerIV.localdomain>
+ <20200410231136.GA101325@google.com>
+ <20200411072052.GA31242@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <6275bcd3-c0b2-4c1c-1817-9e713d3747c7@gmail.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Fri, 17 Apr 2020 06:59:46 +0000
+Content-Disposition: inline
+In-Reply-To: <20200411072052.GA31242@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,23 +74,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>, linux-arch@vger.kernel.org,
+ linux-s390@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>, x86@kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, Laura Abbott <labbott@redhat.com>,
+ Nitin Gupta <ngupta@vflare.org>, Haiyang Zhang <haiyangz@microsoft.com>,
+ linaro-mm-sig@lists.linaro.org, bpf@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ iommu@lists.linux-foundation.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTYuMDQuMjAyMCAyMTo1MiwgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Ci4uLgo+PiBNYXkg
-SSBhbHNvIHJlY29tbWVuZCBzd2l0Y2hpbmcgdG8gdGhlIERSTSBwYW5lbCBicmlkZ2UgaGVscGVy
-ID8gSXQgd2lsbAo+PiBzaW1wbGlmeSB0aGUgY29kZS4KPiAKPiBDb3VsZCB5b3UgcGxlYXNlIGNs
-YXJpZnkgd2hhdCBpcyB0aGUgIkRSTSBwYW5lbCBicmlkZ2UgaGVscGVyIj8KPiAKPiBJIHRoaW5r
-IHdlIHdvbid0IG5lZWQgYW55IGFkZGl0aW9uYWwgaGVscGVycyBhZnRlciBzd2l0Y2hpbmcgdG8g
-dGhlCj4gYnJpZGdlIGNvbm5lY3RvciBoZWxwZXIsIG5vPwoKQWN0dWFsbHksIEkgbm93IHNlZSB0
-aGF0IHRoZSBwYW5lbCBuZWVkcyB0byBiZSBtYW51YWxseSBhdHRhY2hlZCB0byB0aGUKY29ubmVj
-dG9yLgoKU3RpbGwgaXQncyBub3QgYXBwYXJlbnQgdG8gbWUgaG93IHRvIGdldCBwYW5lbCBvdXQg
-b2YgdGhlIGJyaWRnZS4gSXQKbG9va3MgbGlrZSB0aGVyZSBpcyBubyBzdWNoICJwYW5lbCBoZWxw
-ZXIiIGZvciB0aGUgYnJpZGdlIEFQSSBvciBJIGp1c3QKY2FuJ3QgZmluZCBpdC4KX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Christoph,
+
+
+Sorry for the late.
+
+On Sat, Apr 11, 2020 at 09:20:52AM +0200, Christoph Hellwig wrote:
+> Hi Minchan,
+> 
+> On Fri, Apr 10, 2020 at 04:11:36PM -0700, Minchan Kim wrote:
+> > It doesn't mean we couldn't use zsmalloc as module any longer. It means
+> > we couldn't use zsmalloc as module with pgtable mapping whcih was little
+> > bit faster on microbenchmark in some architecutre(However, I usually temped
+> > to remove it since it had several problems). However, we could still use
+> > zsmalloc as module as copy way instead of pgtable mapping. Thus, if someone
+> > really want to rollback the feature, they should provide reasonable reason
+> > why it doesn't work for them. "A little fast" wouldn't be enough to exports
+> > deep internal to the module.
+> 
+> do you have any data how much faster it is on arm (and does that include
+> arm64 as well)?  Besides the exports which were my prime concern,
+
+https://github.com/sjenning/zsmapbench
+
+I need to recall the memory. IIRC, it was almost 30% faster at that time
+in ARM so was not trivial at that time. However, it was story from
+several years ago.
+
+> zsmalloc with pgtable mappings also is the only user of map_kernel_range
+> outside of vmalloc.c, if it really is another code base for tiny
+> improvements we could mark map_kernel_range or in fact remove it entirely
+> and open code it in the remaining callers.
+
+I alsh have temped to remove it. Let me have time to revist it in this
+chance.
+
+Thanks.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
