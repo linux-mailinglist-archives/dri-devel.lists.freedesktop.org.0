@@ -1,53 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646431AB8B0
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 08:52:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 219D51AB91A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 09:00:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75F4B6EACE;
-	Thu, 16 Apr 2020 06:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D66B6EB17;
+	Thu, 16 Apr 2020 06:59:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
- [209.85.216.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4C16EACE
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 06:52:50 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id q16so849081pje.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 23:52:50 -0700 (PDT)
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7B736EAEA
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 06:59:24 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id x26so1192687pgc.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Apr 2020 23:59:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=u9FJuUtFkBVVe754ASFiMsIrGIfB932jO4gCk5SijoQ=;
- b=r5Qc/SY6xBhlkLwMCUw2/1RYlsYrpVI8AsL1KHY7qp5A37ghzwb0hbiuJW0moq2zAl
- 9J2OKcHc/qorJo+Dg8tVxCP46JGpeq55lGO36x+6bR/1ux9qNauPbMWn+RMvBT1sCTdm
- T10DueLjidJmfKIQRRFmxmZprUdvxPqkGQpJBGSm4vb1+uCURkniHVB1GduNehZJSxOY
- hERFsicHg3F/F2H6oGeg2om4bF52eqxYqfMt9p95hRptstvTlJ3fI0TfEpLedasKBZmp
- v9/Aw+6L315HkjiT+1HYL1BfzQzXFp5Dnmuv5waB+8NpfUNDVHImy3WP88JLeNivQzP1
- 81yQ==
-X-Gm-Message-State: AGi0PubVd5Uw2ZpnaBsDNoJeAXQurreJ6wpgtlkfWT16YIh/hwc+G8XG
- +mfCAqdQEPALYLHAFn6Q31Q=
-X-Google-Smtp-Source: APiQypK5+Qi8v+j2Cen5/1BPiRlB86dhUu/rIfvP8w9PsnMxAFr/PXbROpQJkVyT4s4b2/52SOzkRw==
-X-Received: by 2002:a17:902:a515:: with SMTP id
- s21mr8884962plq.41.1587019969803; 
- Wed, 15 Apr 2020 23:52:49 -0700 (PDT)
+ bh=5dFbWwPMLFdLLdwYDe+nstRRn0RE7K4B+Qa2HC0tOOY=;
+ b=KCxcavUgeDdyoN0i6Un6/uWEbwt22nXA+8CbtXjmFjZ8XZ7pykXJCw4wk43fC+97y7
+ h1xUEqSX7rkycdlIf1TRsjk9Lutx1TndfiUgQgDLfhdAGBYtXhGhLARkNCAyGsIfcgJz
+ SEdfxKqwU0YTZ93gTtj/U7LD5ImBPmzrzPcSjV3OmDY1aHQlFu4dJtWbxSG9VqEBY4pc
+ DbYyk+oCzqBc0BuK9tOjX6P1mM3B5kFbftOkHV1dDqFAKtjmpWN/nUz5H2Vo0k52i/kM
+ j4jfR3aH30LfEx6q5cgD2x8x0H0kT4+Y/SrPe855utt8akFIWblHlQVZrsqeYfe0/dvb
+ zJ0Q==
+X-Gm-Message-State: AGi0PuZljVv/fsv2Iqb0EP/qPOdy8vOvLOeDPkMILMZFOo1Ru0UB1ceT
+ l4f6sO5ZrQpBhBup80YYE0M=
+X-Google-Smtp-Source: APiQypJZGq5fLgrVy29taLiihHKxD4A1T8eXY4M60RzcYsImGLylhhpJZd5BDHXDMlwu9qPWflNP1A==
+X-Received: by 2002:a63:4526:: with SMTP id s38mr7330142pga.410.1587020364470; 
+ Wed, 15 Apr 2020 23:59:24 -0700 (PDT)
 Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
- by smtp.gmail.com with ESMTPSA id e11sm16045565pfl.65.2020.04.15.23.52.48
+ by smtp.gmail.com with ESMTPSA id v24sm15687796pfm.94.2020.04.15.23.59.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Apr 2020 23:52:48 -0700 (PDT)
+ Wed, 15 Apr 2020 23:59:23 -0700 (PDT)
 Received: by 42.do-not-panic.com (Postfix, from userid 1000)
- id 8222840277; Thu, 16 Apr 2020 06:52:47 +0000 (UTC)
-Date: Thu, 16 Apr 2020 06:52:47 +0000
+ id 6A84140277; Thu, 16 Apr 2020 06:59:22 +0000 (UTC)
+Date: Thu, 16 Apr 2020 06:59:22 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 2/8] fs: extract simple_pin/release_fs to separate files
-Message-ID: <20200416065247.GR11244@42.do-not-panic.com>
+Subject: Re: [PATCH 0/8] Simplefs: group and simplify linux fs code
+Message-ID: <20200416065922.GS11244@42.do-not-panic.com>
 References: <20200414124304.4470-1-eesposit@redhat.com>
- <20200414124304.4470-3-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200414124304.4470-3-eesposit@redhat.com>
+In-Reply-To: <20200414124304.4470-1-eesposit@redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -108,47 +106,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 14, 2020 at 02:42:56PM +0200, Emanuele Giuseppe Esposito wrote:
-> We will augment this family of functions with inode management.  To avoid
-> littering include/linux/fs.h and fs/libfs.c, move them to a separate header,
-> with a Kconfig symbol to enable them.
+On Tue, Apr 14, 2020 at 02:42:54PM +0200, Emanuele Giuseppe Esposito wrote:
+> This series of patches introduce wrappers for functions,
+> arguments simplification in functions calls and most importantly
+> groups duplicated code in a single header, simplefs, to avoid redundancy
+> in the linux fs, especially debugfs and tracefs.
 
-If there are no functional changes, indicating that on the commit log
-will make the review much easier.
+The general goal seems worthy, but here I don't see explained why hasn't
+this gone through libfs, and what the intention was long term. For
+instance, you added some other generalizations which you have found. It
+was not clear that this was the goal here, to expand on these paths.
 
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index d1398cef3b18..fc38a6f0fc11 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -288,12 +288,16 @@ config STRIP_ASM_SYMS
->  
->  config READABLE_ASM
->  	bool "Generate readable assembler code"
-> -	depends on DEBUG_KERNEL
-> -	help
-> -	  Disable some compiler optimizations that tend to generate human unreadable
-> -	  assembler output. This may make the kernel slightly slower, but it helps
-> -	  to keep kernel developers who have to stare a lot at assembler listings
-> -	  sane.
-> +    depends on DEBUG_KERNEL
-> +    help
-> +      Disable some compiler optimizations that tend to generate human unreadable
-> +      assembler output. This may make the kernel slightly slower, but it helps
-> +      to keep kernel developers who have to stare a lot at assembler listings
-> +      sane.
-> +	  
-
-This minor change above should just be a separate patch. Its just noise
-otherwise.
-
-> +config DEBUG_FS
-> +	bool "Debug Filesystem"
-> +	select SIMPLEFS
-
-I'm at a loss reviewing this,  my lib/Kconfig.debug already has a config
-DEBUG_FS.  But above I see it is being added for the very first time.
-I'm sure there is some odd conditional which is obscuring this, can
-this be explained in the commit log?
+What if common code on fs is found which are not part of debugfs and
+tracefs, how does one decide if to move to libfs or simplefs?
 
   Luis
 _______________________________________________
