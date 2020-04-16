@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D661ACE52
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 19:04:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 237D81ACE4F
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 19:04:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 041506E4A5;
-	Thu, 16 Apr 2020 17:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19BB76E4BB;
+	Thu, 16 Apr 2020 17:04:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BACA46E4E6
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 17:04:30 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id ADD8D97D;
- Thu, 16 Apr 2020 19:04:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1587056668;
- bh=6anfdQG9yggTGdSflvo7pft6sQkL8/h+L8urd2XHqOs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X6s4aKYZ0HnypTp4DjT87L+G9p89XiHG75XXhtgoPJlyuqdJe6jG6rxE1UR1BOVlR
- J9FxNgivCQ2sJ0Mg2ZvkNq3WwWsB8rDs7T5aGPdg/tj5VvO1kh/hjKPtfVMu4QV7iM
- VGQI/Wkc0oD8lObB0dgS7lJPXvjmaWPLautl2Qbg=
-Date: Thu, 16 Apr 2020 20:04:16 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: Re: [PATCH 2/2] drm/bridge: ps8640: Let panel to set the connector
- type
-Message-ID: <20200416170416.GH4796@pendragon.ideasonboard.com>
-References: <20200416164404.2418426-1-enric.balletbo@collabora.com>
- <20200416164404.2418426-2-enric.balletbo@collabora.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89D956E4A5;
+ Thu, 16 Apr 2020 17:04:24 +0000 (UTC)
+IronPort-SDR: AtwD1cv02VZT5EinOBMNs/HOInwby06hlHwlCIOpP2L4z07JXkTH74RBugRY81RXr1c55nggK2
+ sFTAl8uOyR3A==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2020 10:04:23 -0700
+IronPort-SDR: CHlCpPPTn0wP84hCQFbtidgGiD3xrJB8aLRxv3YCNK+vUaNWxQe/io2+hmePQGg7C1FALNcyqo
+ SKp8Y1qqAmWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,391,1580803200"; d="scan'208";a="277385993"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga008.jf.intel.com with SMTP; 16 Apr 2020 10:04:20 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 16 Apr 2020 20:04:20 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: Fix page flip ioctl format check
+Date: Thu, 16 Apr 2020 20:04:20 +0300
+Message-Id: <20200416170420.23657-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200416164404.2418426-2-enric.balletbo@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,53 +46,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>, sam@ravnborg.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Enric,
-
-Thank you for the patch.
-
-On Thu, Apr 16, 2020 at 06:44:04PM +0200, Enric Balletbo i Serra wrote:
-> The panel connector type should be set by the panel not the bridge, so
-> remove the connector_type assignment.
-> 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
-> 
->  drivers/gpu/drm/bridge/parade-ps8640.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-> index 956b76e0a44d..13755d278db6 100644
-> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> @@ -278,8 +278,6 @@ static int ps8640_probe(struct i2c_client *client)
->  	if (!panel)
->  		return -ENODEV;
->  
-> -	panel->connector_type = DRM_MODE_CONNECTOR_eDP;
-> -
->  	ps_bridge->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
->  	if (IS_ERR(ps_bridge->panel_bridge))
->  		return PTR_ERR(ps_bridge->panel_bridge);
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClJl
+dmVydCBiYWNrIHRvIGNvbXBhcmluZyBmYi0+Zm9ybWF0LT5mb3JtYXQgaW5zdGVhZCBmYi0+Zm9y
+bWF0IGZvciB0aGUKcGFnZSBmbGlwIGlvY3RsLiBUaGlzIGNoZWNrIHdhcyBvcmlnaW5hbGx5IG9u
+bHkgaGVyZSB0byBkaXNhbGxvdyBwaXhlbApmb3JtYXQgY2hhbmdlcywgYnV0IHdoZW4gd2UgY2hh
+bmdlZCBpdCB0byBkbyB0aGUgcG9pbnRlciBjb21wYXJpc29uCndlIHBvdGVudGlhbGx5IHN0YXJ0
+ZWQgdG8gcmVqZWN0IHNvbWUgKGJ1dCBkZWZpbml0ZWx5IG5vdCBhbGwpIG1vZGlmaWVyCmNoYW5n
+ZXMgYXMgd2VsbC4gSW4gZmFjdCB0aGUgY3VycmVudCBiZWhhdmlvdXIgZGVwZW5kcyBvbiB3aGV0
+aGVyIHRoZQpkcml2ZXIgb3ZlcnJpZGVzIHRoZSBmb3JtYXQgaW5mbyBmb3IgYSBzcGVjaWZpYyBm
+b3JtYXQrbW9kaWZpZXIgY29tYm8uCkVnLiBvbiBpOTE1IHRoaXMgbm93IHJlamVjdHMgY29tcHJl
+c3Npb24gdnMuIG5vIGNvbXByZXNzaW9uIGNoYW5nZXMgYnV0CmRvZXMgbm90IHJlamVjdCBhbnkg
+b3RoZXIgdGlsaW5nIGNoYW5nZXMuIFRoYXQncyBqdXN0IGluY29uc2lzdGVudApub25zZW5zZS4K
+ClRoZSBtYWluIHJlYXNvbiB3ZSBoYXZlIHRvIGdvIGJhY2sgdG8gdGhlIG9sZCBiZWhhdmlvdXIg
+aXMgdG8gZml4IHBhZ2UKZmxpcHBpbmcgd2l0aCBYb3JnLiBBdCBzb21lIHBvaW50IFhvcmcgZ290
+IGl0cyBhdG9taWMgcmlnaHRzIHRha2VuIGF3YXkKYW5kIHNpbmNlIHRoZW4gd2UgY2FuJ3QgcGFn
+ZSBmbGlwIGJldHdlZW4gY29tcHJlc3NlZCBhbmQgbm9uLWNvbXByZXNzZWQKZmJzIG9uIGk5MTUu
+IEN1cnJlbnRseSB3ZSBnZXQgbm8gcGFnZSBmbGlwcGluZyBmb3IgYW55IGdhbWVzIHByZXR0eSBt
+dWNoCnNpbmNlIE1lc2EgbGlrZXMgdG8gdXNlIGNvbXByZXNzZWQgYnVmZmVycy4gTm90IHN1cmUg
+aG93IGNvbXBvc2l0b3JzIGFyZQp3b3JraW5nIGFyb3VuZCB0aGlzIChkb24ndCB1c2Ugb25lIG15
+c2VsZikuIEkgZ3Vlc3MgdGhleSBtdXN0IGJlIGRvaW5nCnNvbWV0aGluZyB0byBnZXQgbm9uLWNv
+bXByZXNzZWQgYnVmZmVycyBpbnN0ZWFkLiBFaXRoZXIgdGhhdCBvcgpzb21laG93IG5vIG9uZSBu
+b3RpY2VkIHRoZSB0ZWFyaW5nIGZyb20gdGhlIGJsaXQgZmFsbGJhY2suCgpMb29raW5nIGJhY2sg
+YXQgdGhlIG9yaWdpbmFsIGRpc2N1c3Npb24gb24gdGhpcyBjaGFuZ2Ugd2UgcHJldHR5IG11Y2gK
+anVzdCBkaWQgaXQgaW4gdGhlIG5hbWUgb2Ygc2tpcHBpbmcgYSBmZXcgZXh0cmEgcG9pbnRlciBk
+ZXJlZmVyZW5jZXMuCkhvd2V2ZXIsIEkndmUgZGVjaWRlZCBub3QgdG8gcmV2ZXJ0IHRoZSB3aG9s
+ZSB0aGluZyBpbiBjYXNlIHNvbWVvbmUKaGFzIHNpbmNlIHN0YXJ0ZWQgdG8gZGVwZW5kIG9uIHRo
+ZXNlIGNoYW5nZXMuIE5vbmUgb2YgdGhlIG90aGVyIGNoZWNrcwphcmUgcmVsZXZhbnQgZm9yIGk5
+MTUgYW55d2F5cy4KCkNjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnCkNjOiBMYXVyZW50IFBpbmNo
+YXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+CkZpeGVzOiBkYmQ0ZDU3NjFl
+MWYgKCJkcm06IFJlcGxhY2UgJ2Zvcm1hdC0+Zm9ybWF0JyBjb21wYXJpc29ucyB0byBqdXN0ICdm
+b3JtYXQnIGNvbXBhcmlzb25zIikKU2lnbmVkLW9mZi1ieTogVmlsbGUgU3lyasOkbMOkIDx2aWxs
+ZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX3BsYW5l
+LmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3BsYW5lLmMgYi9kcml2ZXJzL2dwdS9k
+cm0vZHJtX3BsYW5lLmMKaW5kZXggZDZhZDYwYWIwZDM4Li5mMmNhNTMxNWYyM2IgMTAwNjQ0Ci0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
+X3BsYW5lLmMKQEAgLTExNTMsNyArMTE1Myw3IEBAIGludCBkcm1fbW9kZV9wYWdlX2ZsaXBfaW9j
+dGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKIAlpZiAocmV0KQogCQlnb3RvIG91dDsKIAotCWlm
+IChvbGRfZmItPmZvcm1hdCAhPSBmYi0+Zm9ybWF0KSB7CisJaWYgKG9sZF9mYi0+Zm9ybWF0LT5m
+b3JtYXQgIT0gZmItPmZvcm1hdC0+Zm9ybWF0KSB7CiAJCURSTV9ERUJVR19LTVMoIlBhZ2UgZmxp
+cCBpcyBub3QgYWxsb3dlZCB0byBjaGFuZ2UgZnJhbWUgYnVmZmVyIGZvcm1hdC5cbiIpOwogCQly
+ZXQgPSAtRUlOVkFMOwogCQlnb3RvIG91dDsKLS0gCjIuMjQuMQoKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
