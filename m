@@ -1,65 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686041ACC3E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 17:58:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A82D1ACD7D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 18:23:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 988146E323;
-	Thu, 16 Apr 2020 15:58:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47C7C6E33F;
+	Thu, 16 Apr 2020 16:23:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54CFE6E321
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 15:58:51 +0000 (UTC)
-Received: from mail-qk1-f178.google.com ([209.85.222.178]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1M7am5-1jJuuS1lcr-0084wY for <dri-devel@lists.freedesktop.org>; Thu, 16
- Apr 2020 17:58:49 +0200
-Received: by mail-qk1-f178.google.com with SMTP id x66so21771848qkd.9
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 08:58:49 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYx/RHSBrLtxbQ0evvUSqoDvov3TxhaLI0QZk127AY7l++UiB8w
- e8B9rDhHuPntSO6sVwa6alskagtyaeoiMt50B5c=
-X-Google-Smtp-Source: APiQypKGrakVFJpHU6+2/9ubHFZSVsfORqHq+Dek4jgUuB+FQt0sMX/hFlCLPEJjO3Byfz+ywXPktI2/F+cmyK0/LA8=
-X-Received: by 2002:a37:851:: with SMTP id 78mr32467282qki.352.1587052728173; 
- Thu, 16 Apr 2020 08:58:48 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40A6E6E33F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 16:23:06 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id BACEB22265
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 16:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1587054186;
+ bh=dYe0L8knPjq4V+e3C0CynMr68uvk2h/61C1ujyYiF70=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=V7MEdxx39YfP2AZW0LEXomuLOzYhPDadjG1M1p7YwOqsORcQXVVHXqavfTvWDpr3Y
+ V0GXNVV7w9U9mLckuLo1G5UOleiYYbm0f0waGgvIz8XD716xxxFe8xxthHC9utiK9J
+ V7soWb53dKIFjDhjqfA3Y52gqMKkkEL6j8qy0tXg=
+Received: by mail-ej1-f53.google.com with SMTP id re23so1712073ejb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 09:23:05 -0700 (PDT)
+X-Gm-Message-State: AGi0PubICsoj6hR4/3ZQ5j/oN8xsxIW3HtG4Io4UH0qDrn7asm1S4JTL
+ 4yAsAy8Hfc21QG4ZAaADVCzu1zEZEw8MovWrGQ==
+X-Google-Smtp-Source: APiQypJY17+s5/o0+wlz0famZC0WrI5UI7Klts8JPoOZRnB9zgY8QO2uzy/FBMWzeg9CvxriYGO6Q1j1IF4pKi5aPZw=
+X-Received: by 2002:a17:906:2ad4:: with SMTP id
+ m20mr10975923eje.324.1587054183934; 
+ Thu, 16 Apr 2020 09:23:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200414132900.GD5100@ziepe.ca>
- <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
- <20200414152312.GF5100@ziepe.ca>
- <CAK8P3a1PjP9_b5NdmqTLeGN4y+3JXx_yyTE8YAf1u5rYHWPA9g@mail.gmail.com>
- <f6d83b08fc0bc171b5ba5b2a0bc138727d92e2c0.camel@mellanox.com>
- <CAK8P3a1-J=4EAxh7TtQxugxwXk239u8ffgxZNRdw_WWy8ExFoQ@mail.gmail.com>
- <834c7606743424c64951dd2193ca15e29799bf18.camel@mellanox.com>
- <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
- <874ktj4tvn.fsf@intel.com>
- <CAK8P3a1S2x1jnx9Q5B22vX8gBHs0Ztu-znA9hqZ5xp5tRAykGg@mail.gmail.com>
- <20200416145235.GR5100@ziepe.ca>
-In-Reply-To: <20200416145235.GR5100@ziepe.ca>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 16 Apr 2020 17:58:31 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3HwFYKfZftm2fWE=Lzi486rXpMBwjy1F4oohYU2+o7-g@mail.gmail.com>
-Message-ID: <CAK8P3a3HwFYKfZftm2fWE=Lzi486rXpMBwjy1F4oohYU2+o7-g@mail.gmail.com>
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-To: Jason Gunthorpe <jgg@ziepe.ca>
-X-Provags-ID: V03:K1:X52wEopCKOO/D9zWR8+b1VpLpgc8b8FRsWa/VWwBNJpXw0sm+0D
- y7Aj72gAYIr1oGS9yxeX2oNf8KP8qePH0baRTD6DEZ73h2icrHchMAjPBDmpZ0nur6MSeht
- vdAT7LlnTu/7MgrIAhaQ0udqJspeNX/i9u9625KXomc3V5GOAYS6yE3vOTW1P8lNb9z7fgQ
- 4gLV1KZ9Orl//xHiMiKMA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HUCBpFkB4mA=:yK12VrJje22Y2t1zve56Lc
- jPVI5r9JRmYBfgU4+yvXiOonWPErkcYQ6rcxaQQXth/ppbl+O9BZRtNj8gTpBWsKifk3NPkbk
- FOJRlbl65wlEf7njEG69X4fIGRUVAgda+TTSCHlyRPHzErW86jjSGOUff51+hOFRezRtrHP0M
- R77piA+WU5NIv/7AW7AHFGKichcVNamXVvFkG3glYAthxkfq8mZj5HRojFdVOPxJpGzwFO5Zk
- nf6aAqXWc6hMP2ZkfuuM6XVWlgOugvxIU9rgBkGOoVmXd1+AXKOVrlrKvDLLj8kkUgVZkG5cg
- 5Hih7UqgeHGj0iE68yAM44ppUrBQUjdex8CidyrtuhxxUFHnh4zNCl1II82b0X1WGoDf/oCKm
- FAqq8UbRX22j9cfmmPFudZ+KW20WDX8KRjFg7tQ50Ipu6hWd59EQjy73c0fUBKxgrLfVk6rdt
- 3ciT9Ci2lmlj8VL0oyBRwQw97ORz7MRBmurNrqHjVSk5JA+plcEGZqEG6jKR1T8tLhAL/QTM4
- GiJQYrfQO1EUUA+AS/qRiVRvRwkFMefakZGvxcTvGB7XP7gJHUp0+UbXOx4mTWB9Fg/YBd2L3
- GuTz6tdbDGQ6XnT1RnSgJG5+h4Un6GTnxaMZ59R/QQWnRcg+OrxavbAdd5RxqCJBaHN1tbj+W
- DswGSohHLMguepjIuf5f0PgMYF3M3IRd4kplOZjxWHPLBBEdKrAXvuPqSOhGHbVG/Yrxl67Sx
- tttEg/LC7jOmJRxR62GTBihlChzzD8dze3QeprEYqjyYeDShIDskOWlt1FbdExxnbum7vYDjv
- ChRxAQfpoCYI3nwLCUQ3+l6jqZRBphJQRzOeoslUKEqEujRLk4=
+References: <20200311165322.1594233-1-enric.balletbo@collabora.com>
+ <20200311165322.1594233-5-enric.balletbo@collabora.com>
+ <02290a21-7392-a2cf-576c-215091ec05e8@suse.com>
+ <1585177534.26117.4.camel@mtksdaap41>
+ <f3c2926a-ef92-b004-9786-5be1645af497@suse.com>
+ <1585234277.12089.3.camel@mtksdaap41>
+ <73ef0b8e-2802-a047-2a56-936b63d264cb@suse.com>
+In-Reply-To: <73ef0b8e-2802-a047-2a56-936b63d264cb@suse.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Fri, 17 Apr 2020 00:22:52 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__EV8PHau9CzSiA8up1QAmZxfK2QnaTid0WrNOsn2Xcag@mail.gmail.com>
+Message-ID: <CAAOTY__EV8PHau9CzSiA8up1QAmZxfK2QnaTid0WrNOsn2Xcag@mail.gmail.com>
+Subject: Re: [PATCH v12 4/5] soc / drm: mediatek: Move routing control to
+ mmsys device
+To: Matthias Brugger <mbrugger@suse.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,47 +61,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "a.hajda@samsung.com" <a.hajda@samsung.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "leon@kernel.org" <leon@kernel.org>,
- "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "masahiroy@kernel.org" <masahiroy@kernel.org>,
- "nico@fluxnic.net" <nico@fluxnic.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Saeed Mahameed <saeedm@mellanox.com>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "davem@davemloft.net" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Kate Stewart <kstewart@linuxfoundation.org>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Richard Fontana <rfontana@redhat.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ ulrich.hecht+renesas@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-clk@vger.kernel.org, Weiyi Lu <weiyi.lu@mediatek.com>, wens@csie.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ mtk01761 <wendell.lin@mediatek.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Frank Wunderlich <frank-w@public-files.de>,
+ Seiya Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
+ Houlong Wei <houlong.wei@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Allison Randal <allison@lohutok.net>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rdunlap@infradead.org,
+ linux-kernel <linux-kernel@vger.kernel.org>, matthias.bgg@kernel.org,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 16, 2020 at 4:52 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> On Thu, Apr 16, 2020 at 02:38:50PM +0200, Arnd Bergmann wrote:
-> > On Thu, Apr 16, 2020 at 12:17 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> > > Of course, this is all just talk until someone(tm) posts a patch
-> > > actually making the change. I've looked at the kconfig tool sources
-> > > before; not going to make the same mistake again.
-> >
-> > Right. OTOH whoever implements it gets to pick the color of the
-> > bikeshed. ;-)
->
-> I hope someone takes it up, especially now that imply, which
-> apparently used to do this, doesn't any more :)
-
-The old 'imply' was something completely different, it was more of a
-'try to select if you can so we can assume it's there, but give up
-if it can only be a module and we need it to be built-in".
-
-        Arnd
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIE1hdHRoaWFzOgoKTWF0dGhpYXMgQnJ1Z2dlciA8bWJydWdnZXJAc3VzZS5jb20+IOaWvCAy
+MDIw5bm0M+aciDI25pelIOmAseWbmyDkuIvljYgxMTo0NeWvq+mBk++8mgo+Cj4KPgo+IE9uIDI2
+LzAzLzIwMjAgMTU6NTEsIENLIEh1IHdyb3RlOgo+ID4gSGksIE1hdHRoaWFzOgo+ID4KPiA+IE9u
+IFRodSwgMjAyMC0wMy0yNiBhdCAxMjo1NCArMDEwMCwgTWF0dGhpYXMgQnJ1Z2dlciB3cm90ZToK
+PiA+PiBIaSBDSywKPiA+Pgo+ID4+IE9uIDI2LzAzLzIwMjAgMDA6MDUsIENLIEh1IHdyb3RlOgo+
+ID4+PiBIaSwgTWF0dGhpYXM6Cj4gPj4+Cj4gPj4+IE9uIFdlZCwgMjAyMC0wMy0yNSBhdCAxNzox
+NiArMDEwMCwgTWF0dGhpYXMgQnJ1Z2dlciB3cm90ZToKPiA+Pj4+Cj4gPj4+PiBPbiAxMS8wMy8y
+MDIwIDE3OjUzLCBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIHdyb3RlOgo+ID4+Pj4+IFByb3ZpZGUg
+YSBtdGtfbW1zeXNfZGRwX2Nvbm5lY3QoKSBhbmQgbXRrX21tc3lzX2Rpc2Nvbm5lY3QoKSBmdW5j
+dGlvbnMgdG8KPiA+Pj4+PiByZXBsYWNlIG10a19kZHBfYWRkX2NvbXBfdG9fcGF0aCgpIGFuZCBt
+dGtfZGRwX3JlbW92ZV9jb21wX2Zyb21fcGF0aCgpLgo+ID4+Pj4+IFRob3NlIGZ1bmN0aW9ucyB3
+aWxsIGFsbG93IERSTSBkcml2ZXIgYW5kIG90aGVycyB0byBjb250cm9sIHRoZSBkYXRhCj4gPj4+
+Pj4gcGF0aCByb3V0aW5nLgo+ID4+Pj4+Cj4gPj4+Pj4gU2lnbmVkLW9mZi1ieTogRW5yaWMgQmFs
+bGV0Ym8gaSBTZXJyYSA8ZW5yaWMuYmFsbGV0Ym9AY29sbGFib3JhLmNvbT4KPiA+Pj4+PiBSZXZp
+ZXdlZC1ieTogTWF0dGhpYXMgQnJ1Z2dlciA8bWF0dGhpYXMuYmdnQGdtYWlsLmNvbT4KPiA+Pj4+
+PiBSZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4KPiA+Pj4+PiBBY2tlZC1i
+eTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4KPiA+Pj4+Cj4gPj4+PiBUaGlzIHBhdGNoIGRv
+ZXMgbm90IGFwcGx5IGFnYWluc3QgdjUuNi1yYzEuCj4gPj4+PiBQbGVhc2UgcmViYXNlIGFzIHRo
+aXMgaXMgYSBxdWl0ZSBiaWcgcGF0Y2ggYW5kIGl0IHdvbid0IGJlIGVhc3kgdG8gZG8gdGhhdCBi
+eSBoYW5kLgo+ID4+Pgo+ID4+PiBJIHRoaW5rIHRoaXMgcGF0Y2ggZGVwZW5kcyBvbiBbMV0gd2hp
+Y2ggaGFzIGJlZW4gYWNrZWQgYnkgbWUgYW5kIEkgaGF2ZQo+ID4+PiBub3QgcGlja2VkIGl0LiBU
+aGUgc2ltcGxlIHdheSBpcyB0aGF0IHlvdSBwaWNrIFsxXSBmaXJzdCBhbmQgdGhlbiBwaWNrCj4g
+Pj4+IHRoaXMgc2VyaWVzLgo+ID4+Pgo+ID4+PiBbMV0KPiA+Pj4gaHR0cHM6Ly9wYXRjaHdvcmsu
+a2VybmVsLm9yZy9wYXRjaC8xMTQwNjIyNy8KPiA+Pj4KPiA+Pgo+ID4+IFlvdSB3b3VsZCBuZWVk
+IHRvIHByb3ZpZGUgYSBzdGFibGUgdGFnIGZvciBtZSB0aGF0IEkgY2FuIG1lcmdlIGludG8gbXkg
+dHJlZS4gWW91Cj4gPj4gY2FuIGFsc28gdHJ5IHRvIG1lcmdlIG15IGZvci1uZXh0IFsxXSB3aGlj
+aCBoYXMgdGhlIG5ld2VzdCB2ZXJzaW9uIGZyb20gRW5yaWMuCj4gPj4gSWYgeW91IHNlZSBhbnkg
+bWVyZ2UgY29uZmxpY3QsIHRoZW4gd2UgaGF2ZSB0byBkbyBzb21ldGhpbmcgYWJvdXQgaXQgOikK
+PiA+Pgo+ID4+IFJlZ2FyZHMsCj4gPj4gTWF0dGhpYXMKPiA+Pgo+ID4+IFsxXQo+ID4+IGh0dHBz
+Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L21hdHRoaWFzLmJnZy9s
+aW51eC5naXQvbG9nLz9oPWZvci1uZXh0Cj4gPj4KPiA+Cj4gPiBZb3UgaGF2ZSBhcHBsaWVkIHRo
+aXMgc2VyaWVzLCBzbyBJIHdvdWxkIG5vdCBhcHBseSBvdGhlciBwYXRjaGVzIHdoaWNoCj4gPiB3
+b3VsZCBjb25mbGljdCB3aXRoIHRoaXMgc2VyaWVzLiBBZnRlciB0aGlzIHNlcmllcyBsYW5kIG9u
+IG1haW4gc3RyZWFtCj4gPiAod2lzaCBpdCBoYXBwZW4gaW4gdGhpcyBtZXJnZSB3aW5kb3cpLCBJ
+IHdvdWxkIHJlYmFzZSBvdGhlciBwYXRjaCBvbgo+ID4gbWFpbiBzdHJlYW0uCj4gPgo+Cj4gSSBo
+YXZlbid0ICh5ZXQpIHNlbmQgdGhlIHB1bGwgcmVxdWVzdC4gSWYgeW91IHdhbnQgdG8gYnJpbmcg
+aW4geW91ciBwYXRjaGVzIGluCj4gdjUuNyBhcyB3ZWxsIHdlIGNhbiBmaW5kIGEgc29sdXRpb24g
+dG8gdGhhdC4gU2hhbGwgSSBwcm92aWRlIHlvdSB3aXRoIGEgc3RhYmxlCj4gYnJhbmNoIHdoaWNo
+IHlvdSBjYW4gbWVyZ2U/IFRoaXMgd2F5IHlvdSBjYW4gYWRkIGFsbCB5b3VyIHBhdGNoZXMgaW4g
+dGhlIHB1bGwKPiByZXF1ZXN0IGFzIHdlbGwgYW5kIHdlIGRvbid0IGhhdmUgdG8gd2FpdCBmb3Ig
+djUuOCB0byBnZXQgdGhpbmdzIGludG8gbWFpbmxpbmUuCj4KPiBMZXQgbWUga25vdyBhbmQgSSds
+bCBwcm92aWRlIHlvdSB3aXRoIGEgc3RhYmxlIGJyYW5jaC4KClRoaXMgc2VyaWVzIGlzIGluIGxp
+bnV4LW5leHQgYnV0IGRvZXMgbm90IGluIG1haW4gc3RyZWFtLiBTbyB3b3VsZCB5b3UKcGxlYXNl
+IHByb3ZpZGUgYSBzdGFibGUgYnJhbmNoIHNvIEkgY291bGQgcHVsbCB0aGlzIHNlcmllcz8KClJl
+Z2FyZHMsCkNodW4tS3VhbmcuCgo+Cj4gUmVnYXJkcywKPiBNYXR0aGlhcwo+Cj4gPiBSZWdhcmRz
+LAo+ID4gQ0sKPiA+Cj4gPj4+IFJlZ2FyZHMsCj4gPj4+IENLCj4gPj4+Cj4gPj4+Pgo+ID4+Pj4g
+UmVnYXJkcywKPiA+Pj4+IE1hdHRoaWFzCj4gPj4+Pgo+ID4+Pj4+IC0tLQo+ID4+Pj4+Cl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
