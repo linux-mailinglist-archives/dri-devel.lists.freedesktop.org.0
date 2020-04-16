@@ -1,47 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFEC81AC185
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 14:42:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 890061AC194
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Apr 2020 14:44:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6D286E0CD;
-	Thu, 16 Apr 2020 12:42:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D622D6E06B;
+	Thu, 16 Apr 2020 12:44:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6CD76E06B;
- Thu, 16 Apr 2020 12:42:01 +0000 (UTC)
-IronPort-SDR: 9mGEUM+35iJpWhfi+fuR+EfQi0Lp8mUk8NGpxZAut0TkLNFcUa3isldwhIsk+dOeF74xdmfGiX
- nTz+xiPPhR7w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2020 05:42:01 -0700
-IronPort-SDR: 3w2vhqECzdnpCtsED/10Nzk8+xz25ltsQ+hzcypHdCzM6e8AVGjDOtapHZ10ATCcL6s8mYsEl/
- Y4Tt8ydRUi3A==
-X-IronPort-AV: E=Sophos;i="5.72,391,1580803200"; d="scan'208";a="427819000"
-Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
- ([10.252.62.235])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2020 05:41:58 -0700
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCEDD6E06B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 12:44:09 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 924AA80487;
+ Thu, 16 Apr 2020 14:44:00 +0200 (CEST)
+Date: Thu, 16 Apr 2020 14:43:59 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: Clean-up schema indentation formatting
+Message-ID: <20200416124359.GB5785@ravnborg.org>
+References: <20200416005549.9683-1-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <87imi15gw0.fsf@intel.com>
-References: <efb3d0d9-2cf7-046b-3a9b-2548d086258e@linux.intel.com>
- <87wo6h5k0d.fsf@intel.com>
- <CAKMK7uEWkGA2e2ZV9H0m8ParE_9DNtgAhG3FuqPzvgv-xeVcng@mail.gmail.com>
- <87imi15gw0.fsf@intel.com>
-Subject: Re: [PULL] topic/phy-compliance
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Alex Deucher <alexdeucher@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 16 Apr 2020 15:41:55 +0300
-Message-ID: <158704091547.9336.6038156980180850144@jlahtine-desk.ger.corp.intel.com>
-User-Agent: alot/0.8.1
+Content-Disposition: inline
+In-Reply-To: <20200416005549.9683-1-robh@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=xJWM5Xtqm7-vkBAKM1YA:9 a=bxeknKLoBf6BnO7k:21 a=StjP_oZuoJ7ca4eH:21
+ a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,122 +45,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "DRM maintainer tools announcements, discussion,
- and development" <dim-tools@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Manasi Navare <manasi.d.navare@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-pwm@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
+ linux-i2c@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ linux-riscv@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Florian Fainelli <f.fainelli@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Alexandre Torgue <alexandre.torgue@st.com>, alsa-devel@alsa-project.org,
+ linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Amit Kucheria <amit.kucheria@linaro.org>,
+ linux-spi@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+ netdev@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Jani Nikula (2020-04-15 10:48:15)
-> On Wed, 15 Apr 2020, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > On Wed, Apr 15, 2020 at 8:40 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> >>
-> >> On Wed, 08 Apr 2020, Maarten Lankhorst <maarten.lankhorst@linux.intel.com> wrote:
-> >> > Hey,
-> >> >
-> >> > Here's a pull request to pull in the DP PHY Compliance series.
-> >> > It's based on top of drm/drm-next, and contains all patches for core, amd and i915. :)
-> >>
-> >> Ping, I don't see this merged in any tree yet.
-> >
-> > Generally topic pull requests get pulled into all relevant trees,
-> > which would be drm-misc, drm-intel and drm-amd here. All of the
-> > optional ofc if you do instead maintainer-acks for merging through
-> > another tree.
-> >
-> > Since I wasn't involved in this no idea who requested the topic tree
-> > instead of acks, and the pull isn't addressed to specific people who
-> > should pull it in (I generally add that to avoid confusion like this
-> > here), but this aint something that drm.git needs to pull. Just stuff
-> > it into one of the trees as usual. Also just noticed that amd
-> > maintainers arent even cc'ed, adding Alex. You guys pls figure this
-> > out :-)
-> 
-> It seemed like drm-misc and drm-intel would be out-of-sync for too long
-> before we'd get all of them eventually (back)merged together, so I
-> leaned towards the topic branch. Of course, the point starts to be moot
-> if it has already taken more than a week to merge this anywhere...
-> 
-> And I'm pinging about merging the topic pull to drm-misc and drm-intel;
-> I'm currently not covering drm-intel.
+Hi Rob.
 
-Pulled to drm-intel-next-queued now.
+On Wed, Apr 15, 2020 at 07:55:48PM -0500, Rob Herring wrote:
+> Fix various inconsistencies in schema indentation. Most of these are
+> list indentation which should be 2 spaces more than the start of the
+> enclosing keyword. This doesn't matter functionally, but affects running
+> scripts which do transforms on the schema files.
 
-Regards, Joonas
+Are there any plans to improve the tooling so we get warnigns for this?
+Otherwise I am afraid we will see a lot of patches that gets this wrong.
 
+As a follow-up patch it would be good if example-schema.yaml
+could gain some comments about the correct indentions.
+
+Some comments in the following.
+
+> diff --git a/Documentation/devicetree/bindings/arm/altera.yaml b/Documentation/devicetree/bindings/arm/altera.yaml
+> index 49e0362ddc11..b388c5aa7984 100644
+> --- a/Documentation/devicetree/bindings/arm/altera.yaml
+> +++ b/Documentation/devicetree/bindings/arm/altera.yaml
+> @@ -13,8 +13,8 @@ properties:
+>    compatible:
+>      items:
+>        - enum:
+> -        - altr,socfpga-cyclone5
+> -        - altr,socfpga-arria5
+> -        - altr,socfpga-arria10
+> +          - altr,socfpga-cyclone5
+> +          - altr,socfpga-arria5
+> +          - altr,socfpga-arria10
+>        - const: altr,socfpga
+
+So here "- enum" do not need the extra indent.
+Is it because this is not a list?
+
+>  ...
+> diff --git a/Documentation/devicetree/bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml b/Documentation/devicetree/bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml
+> index 66213bd95e6e..6cc74523ebfd 100644
+> --- a/Documentation/devicetree/bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml
+> +++ b/Documentation/devicetree/bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml
+> @@ -25,7 +25,7 @@ select:
 > 
-> BR,
-> Jani.
-> 
-> 
-> 
-> 
-> > -Daniel
-> >
-> >>
-> >> BR,
-> >> Jani.
-> >>
-> >>
-> >> >
-> >> > Cheers,
-> >> > Maarten
-> >> >
-> >> > topic/phy-compliance-2020-04-08:
-> >> > Topic pull request for topic/phy-compliance:
-> >> > - Standardize DP_PHY_TEST_PATTERN name.
-> >> > - Add support for setting/getting test pattern from sink.
-> >> > - Implement DP PHY compliance to i915.
-> >> > The following changes since commit 12ab316ced2c5f32ced0e6300a054db644b5444a:
-> >> >
-> >> >   Merge tag 'amd-drm-next-5.7-2020-04-01' of git://people.freedesktop.org/~agd5f/linux into drm-next (2020-04-08 09:34:27 +1000)
-> >> >
-> >> > are available in the Git repository at:
-> >> >
-> >> >   git://anongit.freedesktop.org/drm/drm-misc tags/topic/phy-compliance-2020-04-08
-> >> >
-> >> > for you to fetch changes up to 8cdf727119289db3a98835662eb28e1c5ad835f1:
-> >> >
-> >> >   drm/i915/dp: Program vswing, pre-emphasis, test-pattern (2020-04-08 14:41:09 +0200)
-> >> >
-> >> > ----------------------------------------------------------------
-> >> > Topic pull request for topic/phy-compliance:
-> >> > - Standardize DP_PHY_TEST_PATTERN name.
-> >> > - Add support for setting/getting test pattern from sink.
-> >> > - Implement DP PHY compliance to i915.
-> >> >
-> >> > ----------------------------------------------------------------
-> >> > Animesh Manna (7):
-> >> >       drm/amd/display: Align macro name as per DP spec
-> >> >       drm/dp: get/set phy compliance pattern
-> >> >       drm/i915/dp: Made intel_dp_adjust_train() non-static
-> >> >       drm/i915/dp: Preparation for DP phy compliance auto test
-> >> >       drm/i915/dp: Add debugfs entry for DP phy compliance
-> >> >       drm/i915/dp: Register definition for DP compliance register
-> >> >       drm/i915/dp: Program vswing, pre-emphasis, test-pattern
-> >> >
-> >> >  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |   2 +-
-> >> >  drivers/gpu/drm/drm_dp_helper.c                    |  94 +++++++++++
-> >> >  .../gpu/drm/i915/display/intel_display_debugfs.c   |  12 +-
-> >> >  drivers/gpu/drm/i915/display/intel_display_types.h |   1 +
-> >> >  drivers/gpu/drm/i915/display/intel_dp.c            | 171 +++++++++++++++++++++
-> >> >  drivers/gpu/drm/i915/display/intel_dp.h            |   1 +
-> >> >  .../gpu/drm/i915/display/intel_dp_link_training.c  |   9 +-
-> >> >  .../gpu/drm/i915/display/intel_dp_link_training.h  |   4 +
-> >> >  drivers/gpu/drm/i915/i915_reg.h                    |  18 +++
-> >> >  include/drm/drm_dp_helper.h                        |  33 +++-
-> >> >  10 files changed, 337 insertions(+), 8 deletions(-)
-> >>
-> >> --
-> >> Jani Nikula, Intel Open Source Graphics Center
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+>  properties:
+>    compatible:
+> -   items:
+> +    items:
+>        - const: amlogic,meson-gx-ao-secure
+>        - const: syscon
+
+This is something I had expected the tooling to notice.
+I had expected the two "- const" to be indented with 4 spaces, not two.
+So there is something I do not understand.
+
+
+> diff --git a/Documentation/devicetree/bindings/arm/nxp/lpc32xx.yaml b/Documentation/devicetree/bindings/arm/nxp/lpc32xx.yaml
+> index 07f39d3eee7e..f7f024910e71 100644
+> --- a/Documentation/devicetree/bindings/arm/nxp/lpc32xx.yaml
+> +++ b/Documentation/devicetree/bindings/arm/nxp/lpc32xx.yaml
+> @@ -17,9 +17,8 @@ properties:
+>            - nxp,lpc3230
+>            - nxp,lpc3240
+>        - items:
+> -        - enum:
+> -            - ea,ea3250
+> -            - phytec,phy3250
+> -        - const: nxp,lpc3250
+> -
+> +          - enum:
+> +              - ea,ea3250
+> +              - phytec,phy3250
+> +          - const: nxp,lpc3250
+>  ...
+
+And here "- enum" receive extra indent.
+
+I trust you know what you are doing - but I do not get it.
+
+Some pointers or examples for the correct indention would be great.
+I cannot review this patch as long as I do not know the rules.
+
+My request to update example-schema.yaml was one way to teach me.
+(Some people will say that is difficult/impossible to teach me,
+but thats another story:-) ).
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
