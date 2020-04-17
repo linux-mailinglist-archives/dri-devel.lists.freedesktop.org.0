@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BD91ADCAB
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 13:58:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7981ADCB2
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 13:58:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1446EBBA;
-	Fri, 17 Apr 2020 11:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEA96EBC0;
+	Fri, 17 Apr 2020 11:58:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A3B66EBB8;
- Fri, 17 Apr 2020 11:58:28 +0000 (UTC)
-IronPort-SDR: nVfirB0KeVb5q7gvce5UjWtfY393mdFld8YCHrzqQC1irzYKILvWVRfGzXtVf+Djt9PKE4Anj1
- m24G6ys98Iag==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75E476EBB8;
+ Fri, 17 Apr 2020 11:58:30 +0000 (UTC)
+IronPort-SDR: jOaCAEBBj9MH2KSbW9Vc7V133OwjPs2To087KN30T3m6c8YRul1MGiwTPJt8bk2sUtNgmsGMcd
+ E3/0FDzktOyw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2020 04:58:28 -0700
-IronPort-SDR: 5o+sNLW3BC0gYE1qIO0thJIrrRP46Iw/RvTPdm+X97FHJ26Mb7onxas6yDkrZ0bcEEzxXAKoOC
- 2joFSHAqPHIQ==
+ 17 Apr 2020 04:58:30 -0700
+IronPort-SDR: cf/e9xRbkR2wmszxtlQRCS4ps82MJM65QGToKl5oZxuvrniCPMBSnMdRsareXF8BdvM+YiUou5
+ UwiAIdjwHSOg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,394,1580803200"; d="scan'208";a="279492029"
+X-IronPort-AV: E=Sophos;i="5.72,394,1580803200"; d="scan'208";a="279492048"
 Received: from elewis-mobl.ger.corp.intel.com (HELO
  helsinki.ger.corp.intel.com) ([10.251.94.8])
- by orsmga008.jf.intel.com with ESMTP; 17 Apr 2020 04:58:26 -0700
+ by orsmga008.jf.intel.com with ESMTP; 17 Apr 2020 04:58:28 -0700
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v10 09/14] drm/i915: Add state readout for DP VSC SDP
-Date: Fri, 17 Apr 2020 15:00:35 +0300
-Message-Id: <20200417120040.3432332-10-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v10 10/14] drm/i915: Fix enabled infoframe states of lspcon
+Date: Fri, 17 Apr 2020 15:00:36 +0300
+Message-Id: <20200417120040.3432332-11-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200417120040.3432332-1-gwan-gyeong.mun@intel.com>
 References: <20200417120040.3432332-1-gwan-gyeong.mun@intel.com>
@@ -50,118 +50,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-fbdev@vger.kernel.org, jani.nikula@intel.com,
  dri-devel@lists.freedesktop.org, uma.shankar@intel.com,
  laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Added state readout for DP VSC SDP and enabled state validation
-for DP VSC SDP.
-
-v2: Minor style fix
-v3: Replace a structure name to drm_dp_vsc_sdp from intel_dp_vsc_sdp
-v4: Use struct drm_device logging macros
-v10: Skip checking of VSC SDP when a crtc config has psr.
-
-Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
----
- drivers/gpu/drm/i915/display/intel_ddi.c     |  1 +
- drivers/gpu/drm/i915/display/intel_display.c | 44 ++++++++++++++++++++
- 2 files changed, 45 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index 5dbb54b88d0e..bb26ea665540 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -4218,6 +4218,7 @@ void intel_ddi_get_config(struct intel_encoder *encoder,
- 		bdw_get_trans_port_sync_config(pipe_config);
- 
- 	intel_read_dp_sdp(encoder, pipe_config, HDMI_PACKET_TYPE_GAMUT_METADATA);
-+	intel_read_dp_sdp(encoder, pipe_config, DP_SDP_VSC);
- }
- 
- static enum intel_output_type
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 332d857ad455..2e20c3447cb6 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -13467,6 +13467,13 @@ intel_compare_infoframe(const union hdmi_infoframe *a,
- 	return memcmp(a, b, sizeof(*a)) == 0;
- }
- 
-+static bool
-+intel_compare_dp_vsc_sdp(const struct drm_dp_vsc_sdp *a,
-+			 const struct drm_dp_vsc_sdp *b)
-+{
-+	return memcmp(a, b, sizeof(*a)) == 0;
-+}
-+
- static void
- pipe_config_infoframe_mismatch(struct drm_i915_private *dev_priv,
- 			       bool fastset, const char *name,
-@@ -13492,6 +13499,31 @@ pipe_config_infoframe_mismatch(struct drm_i915_private *dev_priv,
- 	}
- }
- 
-+static void
-+pipe_config_dp_vsc_sdp_mismatch(struct drm_i915_private *dev_priv,
-+				bool fastset, const char *name,
-+				const struct drm_dp_vsc_sdp *a,
-+				const struct drm_dp_vsc_sdp *b)
-+{
-+	if (fastset) {
-+		if (!drm_debug_enabled(DRM_UT_KMS))
-+			return;
-+
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "fastset mismatch in %s dp sdp\n", name);
-+		drm_dbg_kms(&dev_priv->drm, "expected:\n");
-+		drm_dp_vsc_sdp_log(KERN_DEBUG, dev_priv->drm.dev, a);
-+		drm_dbg_kms(&dev_priv->drm, "found:\n");
-+		drm_dp_vsc_sdp_log(KERN_DEBUG, dev_priv->drm.dev, b);
-+	} else {
-+		drm_err(&dev_priv->drm, "mismatch in %s dp sdp\n", name);
-+		drm_err(&dev_priv->drm, "expected:\n");
-+		drm_dp_vsc_sdp_log(KERN_ERR, dev_priv->drm.dev, a);
-+		drm_err(&dev_priv->drm, "found:\n");
-+		drm_dp_vsc_sdp_log(KERN_ERR, dev_priv->drm.dev, b);
-+	}
-+}
-+
- static void __printf(4, 5)
- pipe_config_mismatch(bool fastset, const struct intel_crtc *crtc,
- 		     const char *name, const char *format, ...)
-@@ -13693,6 +13725,17 @@ intel_pipe_config_compare(const struct intel_crtc_state *current_config,
- 	} \
- } while (0)
- 
-+#define PIPE_CONF_CHECK_DP_VSC_SDP(name) do { \
-+	if (!current_config->has_psr && !pipe_config->has_psr && \
-+	    !intel_compare_dp_vsc_sdp(&current_config->infoframes.name, \
-+				      &pipe_config->infoframes.name)) { \
-+		pipe_config_dp_vsc_sdp_mismatch(dev_priv, fastset, __stringify(name), \
-+						&current_config->infoframes.name, \
-+						&pipe_config->infoframes.name); \
-+		ret = false; \
-+	} \
-+} while (0)
-+
- #define PIPE_CONF_CHECK_COLOR_LUT(name1, name2, bit_precision) do { \
- 	if (current_config->name1 != pipe_config->name1) { \
- 		pipe_config_mismatch(fastset, crtc, __stringify(name1), \
-@@ -13868,6 +13911,7 @@ intel_pipe_config_compare(const struct intel_crtc_state *current_config,
- 	PIPE_CONF_CHECK_INFOFRAME(spd);
- 	PIPE_CONF_CHECK_INFOFRAME(hdmi);
- 	PIPE_CONF_CHECK_INFOFRAME(drm);
-+	PIPE_CONF_CHECK_DP_VSC_SDP(vsc);
- 
- 	PIPE_CONF_CHECK_X(sync_mode_slaves_mask);
- 	PIPE_CONF_CHECK_I(master_transcoder);
--- 
-2.25.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Q29tcGFyZWQgdG8gaW1wbGVtZW50YXRpb24gb2YgRFAgYW5kIEhETUkncyBlbmNvZGVyLT5pbmZv
+ZnJhbWVzX2VuYWJsZWQsCnRoZSBsc3Bjb24ncyBpbXBsZW1lbnRhdGlvbiByZXR1cm5zIGl0cyBh
+Y3RpdmUgc3RhdGUuICh3ZSBleHBlY3QgZW5hYmxlZAppbmZvZnJhbWUgc3RhdGVzIG9mIEhXLikg
+SXQgbGVhZHMgdG8gcGlwZSBzdGF0ZSBtaXNtYXRjaCBlcnJvcgp3aGVuIGRkaV9nZXRfY29uZmln
+IGlzIGNhbGxlZC4KCkJlY2F1c2UgdGhlIGN1cnJlbnQgaW1wbGVtZW50YXRpb24gb2YgbHNwY29u
+IGlzIG5vdCByZWFkeSB0byBzdXBwb3J0CnJlYWRvdXQgaW5mb2ZyYW1lcywgd2UgbmVlZCB0byBy
+ZXR1cm4gMCBoZXJlLgoKSW4gb3JkZXIgdG8gc3VwcG9ydCByZWFkb3V0IHRvIGxzcGNvbiwgd2Ug
+bmVlZCB0byBpbXBsZW1lbnQgcmVhZF9pbmZvZnJhbWUKYW5kIGluZm9mcmFtZXNfZW5hYmxlZC4g
+QW5kIHNldF9pbmZvZnJhbWVzIGFsc28gaGF2ZSB0byBzZXQgYW4gYXBwcm9wcmlhdGUKYml0IG9u
+IGNydGNfc3RhdGUtPmluZm9mcmFtZXMuZW5hYmxlCgpDYzogVmlsbGUgU3lyasOkbMOkIDx2aWxs
+ZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KU2lnbmVkLW9mZi1ieTogR3dhbi1neWVvbmcgTXVu
+IDxnd2FuLWd5ZW9uZy5tdW5AaW50ZWwuY29tPgpSZXZpZXdlZC1ieTogVW1hIFNoYW5rYXIgPHVt
+YS5zaGFua2FyQGludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
+dGVsX2xzcGNvbi5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
+bGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
+bF9sc3Bjb24uYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfbHNwY29uLmMK
+aW5kZXggZDgwN2M1NjQ4Yzg3Li42ZmY3YjIyNmYwYTEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfbHNwY29uLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZGlzcGxheS9pbnRlbF9sc3Bjb24uYwpAQCAtNTIyLDcgKzUyMiw3IEBAIHUzMiBsc3Bjb25f
+aW5mb2ZyYW1lc19lbmFibGVkKHN0cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVyLAogCQkJICAg
+ICAgY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKnBpcGVfY29uZmlnKQogewogCS8qIEZJ
+WE1FIGFjdHVhbGx5IHJlYWQgdGhpcyBmcm9tIHRoZSBodyAqLwotCXJldHVybiBlbmNfdG9faW50
+ZWxfbHNwY29uKGVuY29kZXIpLT5hY3RpdmU7CisJcmV0dXJuIDA7CiB9CiAKIHZvaWQgbHNwY29u
+X3Jlc3VtZShzdHJ1Y3QgaW50ZWxfbHNwY29uICpsc3Bjb24pCi0tIAoyLjI1LjAKCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
