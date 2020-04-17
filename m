@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB9B1ADC9E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 13:58:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4BD81ADCA0
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 13:58:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22ED76EBAA;
-	Fri, 17 Apr 2020 11:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A877D6EBAE;
+	Fri, 17 Apr 2020 11:58:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FEC06EBAA;
- Fri, 17 Apr 2020 11:58:12 +0000 (UTC)
-IronPort-SDR: q+4OhiWA6vj7OZcxrYhfT1NL/VznOiFi10sHN1yhWHb2sweXjUTP99+lEDZ3c5xjpLdaFCEi2l
- 0UFCLPScRDbA==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B02DD6EBAD;
+ Fri, 17 Apr 2020 11:58:14 +0000 (UTC)
+IronPort-SDR: kAi0b/vawVm8WPDVR7l+Z8WVBFDZs1yi6m58OSG6euDlC7+LMC3j/gVHLSW9+xt9D3xFq8cKPG
+ QHAxS18CQQkg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2020 04:58:12 -0700
-IronPort-SDR: 5fTsByEFRcPPwg/kj1WknFxUnNhj2ltSTmkAk0rWH8QlBpIJyrDX9R+c5OENglTi+ZR3m0+UU4
- SwA5DxuNSiqw==
+ 17 Apr 2020 04:58:14 -0700
+IronPort-SDR: pEd4dZW6z5CrVVHoWDZIrpUromNdbV4cIbLNJR5Dn7Rsftxd1Ig8+/EwgL6+Pbc/8+jD+IGVIK
+ NsO22vkOhgMg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,394,1580803200"; d="scan'208";a="279491945"
+X-IronPort-AV: E=Sophos;i="5.72,394,1580803200"; d="scan'208";a="279491952"
 Received: from elewis-mobl.ger.corp.intel.com (HELO
  helsinki.ger.corp.intel.com) ([10.251.94.8])
- by orsmga008.jf.intel.com with ESMTP; 17 Apr 2020 04:58:10 -0700
+ by orsmga008.jf.intel.com with ESMTP; 17 Apr 2020 04:58:12 -0700
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v10 02/14] drm/i915/dp: Read out DP SDPs
-Date: Fri, 17 Apr 2020 15:00:28 +0300
-Message-Id: <20200417120040.3432332-3-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v10 03/14] drm: Add logging function for DP VSC SDP
+Date: Fri, 17 Apr 2020 15:00:29 +0300
+Message-Id: <20200417120040.3432332-4-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200417120040.3432332-1-gwan-gyeong.mun@intel.com>
 References: <20200417120040.3432332-1-gwan-gyeong.mun@intel.com>
@@ -50,144 +50,226 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-fbdev@vger.kernel.org, jani.nikula@intel.com,
  dri-devel@lists.freedesktop.org, uma.shankar@intel.com,
  laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SXQgYWRkcyBjb2RlIHRvIHJlYWQgdGhlIERQIFNEUHMgZnJvbSB0aGUgdmlkZW8gRElQIGFuZCB1
-bnBhY2sgdGhlbSBpbnRvCnRoZSBjcnRjIHN0YXRlLgoKSXQgYWRkcyByb3V0aW5lcyB0aGF0IHJl
-YWQgb3V0IERQIFZTQyBTRFAgYW5kIERQIEhEUiBNZXRhZGF0YSBJbmZvZnJhbWUgU0RQCkluIG9y
-ZGVyIHRvIHVucGFjayBEUCBWU0MgU0RQLCBpdCBhZGRzIGludGVsX2RwX3ZzY19zZHBfdW5wYWNr
-KCkgZnVuY3Rpb24uCkl0IGZvbGxvd3MgRFAgMS40YSBzcGVjLiBbVGFibGUgMi0xMTY6IFZTQyBT
-RFAgSGVhZGVyIEJ5dGVzXSBhbmQKW1RhYmxlIDItMTE3OiBWU0MgU0RQIFBheWxvYWQgZm9yIERC
-MTYgdGhyb3VnaCBEQjE4XQoKSW4gb3JkZXIgdG8gdW5wYWNrIERQIEhEUiBNZXRhZGF0YSBJbmZv
-ZnJhbWUgU0RQLCBpdCBhZGRzCmludGVsX2RwX2hkcl9tZXRhZGF0YV9pbmZvZnJhbWVfc2RwX3Vu
-cGFjaygpLiBBbmQgaXQgZm9sbG93cyBEUCAxLjRhIHNwZWMuCihbVGFibGUgMi0xMjU6IElORk9G
-UkFNRSBTRFAgdjEuMiBIZWFkZXIgQnl0ZXNdIGFuZApbVGFibGUgMi0xMjY6IElORk9GUkFNRSBT
-RFAgdjEuMiBQYXlsb2FkIERhdGEgQnl0ZXMgLSBEQjAgdGhyb3VnaCBEQjMxXSkKYW5kIENUQS04
-NjEtRyBzcGVjLiBbVGFibGUtNDIgRHluYW1pYyBSYW5nZSBhbmQgTWFzdGVyaW5nIEluZm9GcmFt
-ZV0uCgpBIG5hbWluZyBydWxlIGFuZCBzdHlsZSBvZiBpbnRlbF9yZWFkX2RwX3NkcCgpIGZ1bmN0
-aW9uIHJlZmVyZW5jZXMKaW50ZWxfcmVhZF9pbmZvZnJhbWUoKSBmdW5jdGlvbiBvZiBpbnRlbF9o
-ZG1pLmMKCnYyOiBNaW5vciBzdHlsZSBmaXgKdjM6IFJlcGxhY2UgYSBzdHJ1Y3R1cmUgbmFtZSB0
-byBkcm1fZHBfdnNjX3NkcCBmcm9tIGludGVsX2RwX3ZzY19zZHAKdjQ6IFVzZSBzdHJ1Y3QgZHJt
-X2RldmljZSBsb2dnaW5nIG1hY3Jvcwp2NTogQWRkcmVzc2VkIHJldmlldyBjb21tZW50cyBmcm9t
-IFVtYQogIC0gUG9saXNoIGNvbW1pdCBtZXNzYWdlIGFuZCBjb21tZW50cwogIC0gQ29tYmluZSB0
-aGUgaWYgY2hlY2tzIG9mIHNkcC5IQjIgYW5kIHNkcC5IQjMKICAtIEFkZCA2YnBjIHRvIHVucGFj
-a2luZyBvZiBWU0MgU0RQCgpTaWduZWQtb2ZmLWJ5OiBHd2FuLWd5ZW9uZyBNdW4gPGd3YW4tZ3ll
-b25nLm11bkBpbnRlbC5jb20+ClJldmlld2VkLWJ5OiBVbWEgU2hhbmthciA8dW1hLnNoYW5rYXJA
-aW50ZWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyB8
-IDE4NyArKysrKysrKysrKysrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
-YXkvaW50ZWxfZHAuaCB8ICAgMyArCiAyIGZpbGVzIGNoYW5nZWQsIDE5MCBpbnNlcnRpb25zKCsp
-CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jCmluZGV4IDQ4Mzk3YjJjMDhj
-Zi4uYzQzNTA5ODE3OWI3IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
-L2ludGVsX2RwLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5j
-CkBAIC01MDI0LDYgKzUwMjQsMTkzIEBAIHZvaWQgaW50ZWxfZHBfc2V0X2luZm9mcmFtZXMoc3Ry
-dWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIsCiAJaW50ZWxfd3JpdGVfZHBfc2RwKGVuY29kZXIs
-IGNydGNfc3RhdGUsIEhETUlfUEFDS0VUX1RZUEVfR0FNVVRfTUVUQURBVEEpOwogfQogCitzdGF0
-aWMgaW50IGludGVsX2RwX3ZzY19zZHBfdW5wYWNrKHN0cnVjdCBkcm1fZHBfdnNjX3NkcCAqdnNj
-LAorCQkJCSAgIGNvbnN0IHZvaWQgKmJ1ZmZlciwgc2l6ZV90IHNpemUpCit7CisJY29uc3Qgc3Ry
-dWN0IGRwX3NkcCAqc2RwID0gYnVmZmVyOworCisJaWYgKHNpemUgPCBzaXplb2Yoc3RydWN0IGRw
-X3NkcCkpCisJCXJldHVybiAtRUlOVkFMOworCisJbWVtc2V0KHZzYywgMCwgc2l6ZSk7CisKKwlp
-ZiAoc2RwLT5zZHBfaGVhZGVyLkhCMCAhPSAwKQorCQlyZXR1cm4gLUVJTlZBTDsKKworCWlmIChz
-ZHAtPnNkcF9oZWFkZXIuSEIxICE9IERQX1NEUF9WU0MpCisJCXJldHVybiAtRUlOVkFMOworCisJ
-dnNjLT5zZHBfdHlwZSA9IHNkcC0+c2RwX2hlYWRlci5IQjE7CisJdnNjLT5yZXZpc2lvbiA9IHNk
-cC0+c2RwX2hlYWRlci5IQjI7CisJdnNjLT5sZW5ndGggPSBzZHAtPnNkcF9oZWFkZXIuSEIzOwor
-CisJaWYgKChzZHAtPnNkcF9oZWFkZXIuSEIyID09IDB4MiAmJiBzZHAtPnNkcF9oZWFkZXIuSEIz
-ID09IDB4OCkgfHwKKwkgICAgKHNkcC0+c2RwX2hlYWRlci5IQjIgPT0gMHg0ICYmIHNkcC0+c2Rw
-X2hlYWRlci5IQjMgPT0gMHhlKSkgeworCQkvKgorCQkgKiAtIEhCMiA9IDB4MiwgSEIzID0gMHg4
-CisJCSAqICAgVlNDIFNEUCBzdXBwb3J0aW5nIDNEIHN0ZXJlbyArIFBTUgorCQkgKiAtIEhCMiA9
-IDB4NCwgSEIzID0gMHhlCisJCSAqICAgVlNDIFNEUCBzdXBwb3J0aW5nIDNEIHN0ZXJlbyArIFBT
-UjIgd2l0aCBZLWNvb3JkaW5hdGUgb2YKKwkJICogICBmaXJzdCBzY2FuIGxpbmUgb2YgdGhlIFNV
-IHJlZ2lvbiAoYXBwbGllcyB0byBlRFAgdjEuNGIKKwkJICogICBhbmQgaGlnaGVyKS4KKwkJICov
-CisJCXJldHVybiAwOworCX0gZWxzZSBpZiAoc2RwLT5zZHBfaGVhZGVyLkhCMiA9PSAweDUgJiYg
-c2RwLT5zZHBfaGVhZGVyLkhCMyA9PSAweDEzKSB7CisJCS8qCisJCSAqIC0gSEIyID0gMHg1LCBI
-QjMgPSAweDEzCisJCSAqICAgVlNDIFNEUCBzdXBwb3J0aW5nIDNEIHN0ZXJlbyArIFBTUjIgKyBQ
-aXhlbCBFbmNvZGluZy9Db2xvcmltZXRyeQorCQkgKiAgIEZvcm1hdC4KKwkJICovCisJCXZzYy0+
-cGl4ZWxmb3JtYXQgPSAoc2RwLT5kYlsxNl0gPj4gNCkgJiAweGY7CisJCXZzYy0+Y29sb3JpbWV0
-cnkgPSBzZHAtPmRiWzE2XSAmIDB4ZjsKKwkJdnNjLT5keW5hbWljX3JhbmdlID0gKHNkcC0+ZGJb
-MTddID4+IDcpICYgMHgxOworCisJCXN3aXRjaCAoc2RwLT5kYlsxN10gJiAweDcpIHsKKwkJY2Fz
-ZSAweDA6CisJCQl2c2MtPmJwYyA9IDY7CisJCQlicmVhazsKKwkJY2FzZSAweDE6CisJCQl2c2Mt
-PmJwYyA9IDg7CisJCQlicmVhazsKKwkJY2FzZSAweDI6CisJCQl2c2MtPmJwYyA9IDEwOworCQkJ
-YnJlYWs7CisJCWNhc2UgMHgzOgorCQkJdnNjLT5icGMgPSAxMjsKKwkJCWJyZWFrOworCQljYXNl
-IDB4NDoKKwkJCXZzYy0+YnBjID0gMTY7CisJCQlicmVhazsKKwkJZGVmYXVsdDoKKwkJCU1JU1NJ
-TkdfQ0FTRShzZHAtPmRiWzE3XSAmIDB4Nyk7CisJCQlyZXR1cm4gLUVJTlZBTDsKKwkJfQorCisJ
-CXZzYy0+Y29udGVudF90eXBlID0gc2RwLT5kYlsxOF0gJiAweDc7CisJfSBlbHNlIHsKKwkJcmV0
-dXJuIC1FSU5WQUw7CisJfQorCisJcmV0dXJuIDA7Cit9CisKK3N0YXRpYyBpbnQKK2ludGVsX2Rw
-X2hkcl9tZXRhZGF0YV9pbmZvZnJhbWVfc2RwX3VucGFjayhzdHJ1Y3QgaGRtaV9kcm1faW5mb2Zy
-YW1lICpkcm1faW5mb2ZyYW1lLAorCQkJCQkgICBjb25zdCB2b2lkICpidWZmZXIsIHNpemVfdCBz
-aXplKQoreworCWludCByZXQ7CisKKwljb25zdCBzdHJ1Y3QgZHBfc2RwICpzZHAgPSBidWZmZXI7
-CisKKwlpZiAoc2l6ZSA8IHNpemVvZihzdHJ1Y3QgZHBfc2RwKSkKKwkJcmV0dXJuIC1FSU5WQUw7
-CisKKwlpZiAoc2RwLT5zZHBfaGVhZGVyLkhCMCAhPSAwKQorCQlyZXR1cm4gLUVJTlZBTDsKKwor
-CWlmIChzZHAtPnNkcF9oZWFkZXIuSEIxICE9IEhETUlfSU5GT0ZSQU1FX1RZUEVfRFJNKQorCQly
-ZXR1cm4gLUVJTlZBTDsKKworCS8qCisJICogTGVhc3QgU2lnbmlmaWNhbnQgRWlnaHQgQml0cyBv
-ZiAoRGF0YSBCeXRlIENvdW50IOKAkyAxKQorCSAqIDFEaCAoaS5lLiwgRGF0YSBCeXRlIENvdW50
-ID0gMzAgYnl0ZXMpLgorCSAqLworCWlmIChzZHAtPnNkcF9oZWFkZXIuSEIyICE9IDB4MUQpCisJ
-CXJldHVybiAtRUlOVkFMOworCisJLyogTW9zdCBTaWduaWZpY2FudCBUd28gQml0cyBvZiAoRGF0
-YSBCeXRlIENvdW50IOKAkyAxKSwgQ2xlYXIgdG8gMDBiLiAqLworCWlmICgoc2RwLT5zZHBfaGVh
-ZGVyLkhCMyAmIDB4MykgIT0gMCkKKwkJcmV0dXJuIC1FSU5WQUw7CisKKwkvKiBJTkZPRlJBTUUg
-U0RQIFZlcnNpb24gTnVtYmVyICovCisJaWYgKCgoc2RwLT5zZHBfaGVhZGVyLkhCMyA+PiAyKSAm
-IDB4M2YpICE9IDB4MTMpCisJCXJldHVybiAtRUlOVkFMOworCisJLyogQ1RBIEhlYWRlciBCeXRl
-IDIgKElORk9GUkFNRSBWZXJzaW9uIE51bWJlcikgKi8KKwlpZiAoc2RwLT5kYlswXSAhPSAxKQor
-CQlyZXR1cm4gLUVJTlZBTDsKKworCS8qIENUQSBIZWFkZXIgQnl0ZSAzIChMZW5ndGggb2YgSU5G
-T0ZSQU1FKTogSERNSV9EUk1fSU5GT0ZSQU1FX1NJWkUgKi8KKwlpZiAoc2RwLT5kYlsxXSAhPSBI
-RE1JX0RSTV9JTkZPRlJBTUVfU0laRSkKKwkJcmV0dXJuIC1FSU5WQUw7CisKKwlyZXQgPSBoZG1p
-X2RybV9pbmZvZnJhbWVfdW5wYWNrX29ubHkoZHJtX2luZm9mcmFtZSwgJnNkcC0+ZGJbMl0sCisJ
-CQkJCSAgICAgSERNSV9EUk1fSU5GT0ZSQU1FX1NJWkUpOworCisJcmV0dXJuIHJldDsKK30KKwor
-c3RhdGljIHZvaWQgaW50ZWxfcmVhZF9kcF92c2Nfc2RwKHN0cnVjdCBpbnRlbF9lbmNvZGVyICpl
-bmNvZGVyLAorCQkJCSAgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3RhdGUsCisJCQkJ
-ICBzdHJ1Y3QgZHJtX2RwX3ZzY19zZHAgKnZzYykKK3sKKwlzdHJ1Y3QgaW50ZWxfZGlnaXRhbF9w
-b3J0ICppbnRlbF9kaWdfcG9ydCA9IGVuY190b19kaWdfcG9ydChlbmNvZGVyKTsKKwlzdHJ1Y3Qg
-aW50ZWxfZHAgKmludGVsX2RwID0gZW5jX3RvX2ludGVsX2RwKGVuY29kZXIpOworCXN0cnVjdCBk
-cm1faTkxNV9wcml2YXRlICpkZXZfcHJpdiA9IHRvX2k5MTUoZW5jb2Rlci0+YmFzZS5kZXYpOwor
-CXVuc2lnbmVkIGludCB0eXBlID0gRFBfU0RQX1ZTQzsKKwlzdHJ1Y3QgZHBfc2RwIHNkcCA9IHt9
-OworCWludCByZXQ7CisKKwkvKiBXaGVuIFBTUiBpcyBlbmFibGVkLCBWU0MgU0RQIGlzIGhhbmRs
-ZWQgYnkgUFNSIHJvdXRpbmUgKi8KKwlpZiAoaW50ZWxfcHNyX2VuYWJsZWQoaW50ZWxfZHApKQor
-CQlyZXR1cm47CisKKwlpZiAoKGNydGNfc3RhdGUtPmluZm9mcmFtZXMuZW5hYmxlICYKKwkgICAg
-IGludGVsX2hkbWlfaW5mb2ZyYW1lX2VuYWJsZSh0eXBlKSkgPT0gMCkKKwkJcmV0dXJuOworCisJ
-aW50ZWxfZGlnX3BvcnQtPnJlYWRfaW5mb2ZyYW1lKGVuY29kZXIsIGNydGNfc3RhdGUsIHR5cGUs
-ICZzZHAsIHNpemVvZihzZHApKTsKKworCXJldCA9IGludGVsX2RwX3ZzY19zZHBfdW5wYWNrKHZz
-YywgJnNkcCwgc2l6ZW9mKHNkcCkpOworCisJaWYgKHJldCkKKwkJZHJtX2RiZ19rbXMoJmRldl9w
-cml2LT5kcm0sICJGYWlsZWQgdG8gdW5wYWNrIERQIFZTQyBTRFBcbiIpOworfQorCitzdGF0aWMg
-dm9pZCBpbnRlbF9yZWFkX2RwX2hkcl9tZXRhZGF0YV9pbmZvZnJhbWVfc2RwKHN0cnVjdCBpbnRl
-bF9lbmNvZGVyICplbmNvZGVyLAorCQkJCQkJICAgICBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAq
-Y3J0Y19zdGF0ZSwKKwkJCQkJCSAgICAgc3RydWN0IGhkbWlfZHJtX2luZm9mcmFtZSAqZHJtX2lu
-Zm9mcmFtZSkKK3sKKwlzdHJ1Y3QgaW50ZWxfZGlnaXRhbF9wb3J0ICppbnRlbF9kaWdfcG9ydCA9
-IGVuY190b19kaWdfcG9ydChlbmNvZGVyKTsKKwlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2
-X3ByaXYgPSB0b19pOTE1KGVuY29kZXItPmJhc2UuZGV2KTsKKwl1bnNpZ25lZCBpbnQgdHlwZSA9
-IEhETUlfUEFDS0VUX1RZUEVfR0FNVVRfTUVUQURBVEE7CisJc3RydWN0IGRwX3NkcCBzZHAgPSB7
-fTsKKwlpbnQgcmV0OworCisJaWYgKChjcnRjX3N0YXRlLT5pbmZvZnJhbWVzLmVuYWJsZSAmCisJ
-ICAgIGludGVsX2hkbWlfaW5mb2ZyYW1lX2VuYWJsZSh0eXBlKSkgPT0gMCkKKwkJcmV0dXJuOwor
-CisJaW50ZWxfZGlnX3BvcnQtPnJlYWRfaW5mb2ZyYW1lKGVuY29kZXIsIGNydGNfc3RhdGUsIHR5
-cGUsICZzZHAsCisJCQkJICAgICAgIHNpemVvZihzZHApKTsKKworCXJldCA9IGludGVsX2RwX2hk
-cl9tZXRhZGF0YV9pbmZvZnJhbWVfc2RwX3VucGFjayhkcm1faW5mb2ZyYW1lLCAmc2RwLAorCQkJ
-CQkJCSBzaXplb2Yoc2RwKSk7CisKKwlpZiAocmV0KQorCQlkcm1fZGJnX2ttcygmZGV2X3ByaXYt
-PmRybSwKKwkJCSAgICAiRmFpbGVkIHRvIHVucGFjayBEUCBIRFIgTWV0YWRhdGEgSW5mb2ZyYW1l
-IFNEUFxuIik7Cit9CisKK3ZvaWQgaW50ZWxfcmVhZF9kcF9zZHAoc3RydWN0IGludGVsX2VuY29k
-ZXIgKmVuY29kZXIsCisJCSAgICAgICBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0
-ZSwKKwkJICAgICAgIHVuc2lnbmVkIGludCB0eXBlKQoreworCXN3aXRjaCAodHlwZSkgeworCWNh
-c2UgRFBfU0RQX1ZTQzoKKwkJaW50ZWxfcmVhZF9kcF92c2Nfc2RwKGVuY29kZXIsIGNydGNfc3Rh
-dGUsCisJCQkJICAgICAgJmNydGNfc3RhdGUtPmluZm9mcmFtZXMudnNjKTsKKwkJYnJlYWs7CisJ
-Y2FzZSBIRE1JX1BBQ0tFVF9UWVBFX0dBTVVUX01FVEFEQVRBOgorCQlpbnRlbF9yZWFkX2RwX2hk
-cl9tZXRhZGF0YV9pbmZvZnJhbWVfc2RwKGVuY29kZXIsIGNydGNfc3RhdGUsCisJCQkJCQkJICZj
-cnRjX3N0YXRlLT5pbmZvZnJhbWVzLmRybS5kcm0pOworCQlicmVhazsKKwlkZWZhdWx0OgorCQlN
-SVNTSU5HX0NBU0UodHlwZSk7CisJCWJyZWFrOworCX0KK30KKwogc3RhdGljIHZvaWQKIGludGVs
-X2RwX3NldHVwX3ZzY19zZHAoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCwKIAkJICAgICAgIGNv
-bnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLApkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5oIGIvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZGlzcGxheS9pbnRlbF9kcC5oCmluZGV4IDY2NTljZTE1YTY5My4uZmFhMmEzYzVlZTRlIDEw
-MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmgKKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5oCkBAIC0xMTcsNiArMTE3LDkg
-QEAgdm9pZCBpbnRlbF9kcF9oZHJfbWV0YWRhdGFfZW5hYmxlKHN0cnVjdCBpbnRlbF9kcCAqaW50
-ZWxfZHAsCiB2b2lkIGludGVsX2RwX3NldF9pbmZvZnJhbWVzKHN0cnVjdCBpbnRlbF9lbmNvZGVy
-ICplbmNvZGVyLCBib29sIGVuYWJsZSwKIAkJCSAgICAgY29uc3Qgc3RydWN0IGludGVsX2NydGNf
-c3RhdGUgKmNydGNfc3RhdGUsCiAJCQkgICAgIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX3N0
-YXRlICpjb25uX3N0YXRlKTsKK3ZvaWQgaW50ZWxfcmVhZF9kcF9zZHAoc3RydWN0IGludGVsX2Vu
-Y29kZXIgKmVuY29kZXIsCisJCSAgICAgICBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19z
-dGF0ZSwKKwkJICAgICAgIHVuc2lnbmVkIGludCB0eXBlKTsKIGJvb2wgaW50ZWxfZGlnaXRhbF9w
-b3J0X2Nvbm5lY3RlZChzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2Rlcik7CiB2b2lkIGludGVs
-X2RwX3Byb2Nlc3NfcGh5X3JlcXVlc3Qoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCk7CiAKLS0g
-CjIuMjUuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+When receiving video it is very useful to be able to log DP VSC SDP.
+This greatly simplifies debugging.
+
+v2: Minor style fix
+v3: Move logging functions to drm core [Jani N]
+v5: Rebased
+v10: Rebased
+
+Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+---
+ drivers/gpu/drm/drm_dp_helper.c | 174 ++++++++++++++++++++++++++++++++
+ include/drm/drm_dp_helper.h     |   3 +
+ 2 files changed, 177 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 612a59ec8116..43e57632b00a 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -1629,3 +1629,177 @@ int drm_dp_set_phy_test_pattern(struct drm_dp_aux *aux,
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_dp_set_phy_test_pattern);
++
++static const char *dp_pixelformat_get_name(enum dp_pixelformat pixelformat)
++{
++	if (pixelformat < 0 || pixelformat > DP_PIXELFORMAT_RESERVED)
++		return "Invalid";
++
++	switch (pixelformat) {
++	case DP_PIXELFORMAT_RGB:
++		return "RGB";
++	case DP_PIXELFORMAT_YUV444:
++		return "YUV444";
++	case DP_PIXELFORMAT_YUV422:
++		return "YUV422";
++	case DP_PIXELFORMAT_YUV420:
++		return "YUV420";
++	case DP_PIXELFORMAT_Y_ONLY:
++		return "Y_ONLY";
++	case DP_PIXELFORMAT_RAW:
++		return "RAW";
++	default:
++		return "Reserved";
++	}
++}
++
++static const char *dp_colorimetry_get_name(enum dp_pixelformat pixelformat,
++					   enum dp_colorimetry colorimetry)
++{
++	if (pixelformat < 0 || pixelformat > DP_PIXELFORMAT_RESERVED)
++		return "Invalid";
++
++	switch (colorimetry) {
++	case DP_COLORIMETRY_DEFAULT:
++		switch (pixelformat) {
++		case DP_PIXELFORMAT_RGB:
++			return "sRGB";
++		case DP_PIXELFORMAT_YUV444:
++		case DP_PIXELFORMAT_YUV422:
++		case DP_PIXELFORMAT_YUV420:
++			return "BT.601";
++		case DP_PIXELFORMAT_Y_ONLY:
++			return "DICOM PS3.14";
++		case DP_PIXELFORMAT_RAW:
++			return "Custom Color Profile";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_RGB_WIDE_FIXED: /* and DP_COLORIMETRY_BT709_YCC */
++		switch (pixelformat) {
++		case DP_PIXELFORMAT_RGB:
++			return "Wide Fixed";
++		case DP_PIXELFORMAT_YUV444:
++		case DP_PIXELFORMAT_YUV422:
++		case DP_PIXELFORMAT_YUV420:
++			return "BT.709";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_RGB_WIDE_FLOAT: /* and DP_COLORIMETRY_XVYCC_601 */
++		switch (pixelformat) {
++		case DP_PIXELFORMAT_RGB:
++			return "Wide Float";
++		case DP_PIXELFORMAT_YUV444:
++		case DP_PIXELFORMAT_YUV422:
++		case DP_PIXELFORMAT_YUV420:
++			return "xvYCC 601";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_OPRGB: /* and DP_COLORIMETRY_XVYCC_709 */
++		switch (pixelformat) {
++		case DP_PIXELFORMAT_RGB:
++			return "OpRGB";
++		case DP_PIXELFORMAT_YUV444:
++		case DP_PIXELFORMAT_YUV422:
++		case DP_PIXELFORMAT_YUV420:
++			return "xvYCC 709";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_DCI_P3_RGB: /* and DP_COLORIMETRY_SYCC_601 */
++		switch (pixelformat) {
++		case DP_PIXELFORMAT_RGB:
++			return "DCI-P3";
++		case DP_PIXELFORMAT_YUV444:
++		case DP_PIXELFORMAT_YUV422:
++		case DP_PIXELFORMAT_YUV420:
++			return "sYCC 601";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_RGB_CUSTOM: /* and DP_COLORIMETRY_OPYCC_601 */
++		switch (pixelformat) {
++		case DP_PIXELFORMAT_RGB:
++			return "Custom Profile";
++		case DP_PIXELFORMAT_YUV444:
++		case DP_PIXELFORMAT_YUV422:
++		case DP_PIXELFORMAT_YUV420:
++			return "OpYCC 601";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_BT2020_RGB: /* and DP_COLORIMETRY_BT2020_CYCC */
++		switch (pixelformat) {
++		case DP_PIXELFORMAT_RGB:
++			return "BT.2020 RGB";
++		case DP_PIXELFORMAT_YUV444:
++		case DP_PIXELFORMAT_YUV422:
++		case DP_PIXELFORMAT_YUV420:
++			return "BT.2020 CYCC";
++		default:
++			return "Reserved";
++		}
++	case DP_COLORIMETRY_BT2020_YCC:
++		switch (pixelformat) {
++		case DP_PIXELFORMAT_YUV444:
++		case DP_PIXELFORMAT_YUV422:
++		case DP_PIXELFORMAT_YUV420:
++			return "BT.2020 YCC";
++		default:
++			return "Reserved";
++		}
++	default:
++		return "Invalid";
++	}
++}
++
++static const char *dp_dynamic_range_get_name(enum dp_dynamic_range dynamic_range)
++{
++	switch (dynamic_range) {
++	case DP_DYNAMIC_RANGE_VESA:
++		return "VESA range";
++	case DP_DYNAMIC_RANGE_CTA:
++		return "CTA range";
++	default:
++		return "Invalid";
++	}
++}
++
++static const char *dp_content_type_get_name(enum dp_content_type content_type)
++{
++	switch (content_type) {
++	case DP_CONTENT_TYPE_NOT_DEFINED:
++		return "Not defined";
++	case DP_CONTENT_TYPE_GRAPHICS:
++		return "Graphics";
++	case DP_CONTENT_TYPE_PHOTO:
++		return "Photo";
++	case DP_CONTENT_TYPE_VIDEO:
++		return "Video";
++	case DP_CONTENT_TYPE_GAME:
++		return "Game";
++	default:
++		return "Reserved";
++	}
++}
++
++void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
++			const struct drm_dp_vsc_sdp *vsc)
++{
++#define DP_SDP_LOG(fmt, ...) dev_printk(level, dev, fmt, ##__VA_ARGS__)
++	DP_SDP_LOG("DP SDP: %s, revision %u, length %u\n", "VSC",
++		   vsc->revision, vsc->length);
++	DP_SDP_LOG("    pixelformat: %s\n",
++		   dp_pixelformat_get_name(vsc->pixelformat));
++	DP_SDP_LOG("    colorimetry: %s\n",
++		   dp_colorimetry_get_name(vsc->pixelformat, vsc->colorimetry));
++	DP_SDP_LOG("    bpc: %u\n", vsc->bpc);
++	DP_SDP_LOG("    dynamic range: %s\n",
++		   dp_dynamic_range_get_name(vsc->dynamic_range));
++	DP_SDP_LOG("    content type: %s\n",
++		   dp_content_type_get_name(vsc->content_type));
++#undef DP_SDP_LOG
++}
++EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index 3beb2aac8c4c..cd44509772cb 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -1348,6 +1348,9 @@ struct drm_dp_vsc_sdp {
+ 	enum dp_content_type content_type;
+ };
+ 
++void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
++			const struct drm_dp_vsc_sdp *vsc);
++
+ int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
+ 
+ static inline int
+-- 
+2.25.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
