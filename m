@@ -1,67 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD401AEB41
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 11:27:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB60A1AEB3B
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 11:27:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 507956EC6F;
-	Sat, 18 Apr 2020 09:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1682F6EC63;
+	Sat, 18 Apr 2020 09:26:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
- [IPv6:2607:f8b0:4864:20::d2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FF326E3F5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 12:33:26 +0000 (UTC)
-Received: by mail-io1-xd2c.google.com with SMTP id 19so2074905ioz.10
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 05:33:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R/DFFcAX16DLaq9WdO2qiN8rBml+MJK+Egu3pWqI85c=;
- b=rKrnZ/ZIdm1aeUPIX2i7Z77058PYDAyNI6+iFrsFSDl7Je/8OlgZDCy9z5ii3rx9bw
- gLH9lHRSc7kG5idpQgApSohV1Wts12wfoCocXqxJ7RGXlYL7wXut+NkfjnWBjxe+c84P
- 5zbwC5uXVCo23D5lkdwM6MYjBe7JgeBmr1VycqpHixyxRgUohE5P4qRn7FnQl4If7cRQ
- VFaunHobZ42q9csRi2N7XlnSGOOLQgrEBaDnNLJqS+jo3hykyly0n0zAaPDNZu8TFf/f
- pxenS/GTz2RYzFkthc5Q2EsN3kzDihUUVfhVnJQkb7OqJ+3FdagJ8GRpyNSlS2DFJdh2
- gGcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=R/DFFcAX16DLaq9WdO2qiN8rBml+MJK+Egu3pWqI85c=;
- b=KjAjsTAMtzBmsy5hZUzbikdZLcbthgyaJyK1A9RYsZOgcGc5h5F7ljs932SIYWUQfv
- lhxrSHnGjb/hLrni73llJ8ieAcs+jqENiRFfsUnwYuPwAUwYWcGKV6uiVem9LdufklQh
- +kuTsOFe54VIiVdwfwyfVRSJSqEJzql/y2nA+6ygMkPn7nGgnFIF8KclP6FJsDmZDvky
- G+8P8Q0zGQezsy4hZM138vPwW5uSi/jJ2+AZQhoqWoS2uuspzWj4wieY9CZqaeiYB+Gs
- yZ2INNvHjnQj1r1ZmvV5Utpafjjei9Dh9W8sV8nQmQJfIAeeaAb5mSH9Fhnu9r1yT/a4
- XOnA==
-X-Gm-Message-State: AGi0PuZFLzWJ6zSqT31cixjxOZTXrOzayjJVrviRET9pFoh7TYsXQX94
- D0PGrA5j9Fsgb7WZK3Q7gb/pKGxlGHG4twv/vYc=
-X-Google-Smtp-Source: APiQypIMz5q9puyyBCHECnAJTResjfLLf+aqAmOmoCL1sM4QnW8xe6r7rdXvDq1VFz83xdHIPkyef4LGIVeKFPSENdQ=
-X-Received: by 2002:a5d:9494:: with SMTP id v20mr2793842ioj.101.1587126805638; 
- Fri, 17 Apr 2020 05:33:25 -0700 (PDT)
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 639AC6EBD7
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 12:44:28 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id CADD25C0207;
+ Fri, 17 Apr 2020 08:44:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 17 Apr 2020 08:44:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=KRTBXgxtnpIGY2Rffw9qnshJuWR
+ 4Sx3VOxgPioXE+Wk=; b=jKWNIpb/gchBDf8b6tKNx9h+rDp7o4zch5BMhABV1n+
+ wYXsXhr1CgAGK4NKTUSTmgFAXTqguJokWrd6lnE7g4UnTP7FsDSva4SwfoYDD1M4
+ k1K0ALePbSPZUgucMePPt7GRVzhG+5lDTYcHJQ3Qq2csr5YMVHbSRFgkv8jUPEwi
+ R9uljDj82HviF/ps6TEdURJyYwVkkxST9ENeNwi9w6+pUgNZFCX+RNNAO7bycJLL
+ r9GZcFZW12/zIdU2cpaMU9oL7ZVNP52zn0kIXy/cUY+k60m7Y905lDkr5nKZUEOW
+ GxESfZB0+Qhx/kbU9Sob7BLa6ei4qMt6ND3AJlDf71Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=KRTBXg
+ xtnpIGY2Rffw9qnshJuWR4Sx3VOxgPioXE+Wk=; b=L7tx7yWXT+ng7Dx1Ke2XfS
+ sdGjM1pjvpjHhqXk1xeR1VoBT/N/taUYgna2syAjD48iIi/lnFOkQ3ItbSQPt7wG
+ RkZkD3g2GgflxLaYsunqlrqDr+WFvXjbUAKVP3aALdXzlS+Ty+XZ49YdZ0Yir9hG
+ a6wdM/ssM8EC03hSrt90ssH9PjESLw6lPxE5bvj3RaXwYwC6a3pTC+/O39Tt3q7/
+ 606iTkuo+kW0tkDKcA1IfR/IEXpRjboUT+mM/hSsMM4wDMOhm03+Y8rC76HSnrFt
+ plZM0znazF708XnT/SIe77wwdir0GW1OlzrTeGTdgI9iIr59js57nEUNG4Iyufdg
+ ==
+X-ME-Sender: <xms:qKSZXqT_lQ9VGLtM5z6SHltgALFrxtchQYkNDlC_m_v8jnWE8VOHaQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrfeejgdehhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinh
+ epkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgv
+ rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnh
+ hordhtvggthh
+X-ME-Proxy: <xmx:qKSZXhy4J0mzJxJiqN-NWWtzo-zPmD3n-6ZDoHri6kU3X3dQnWMx5A>
+ <xmx:qKSZXsJAXYlwU1AxxETriuzDAO_URZGf9Gx-WyhD8_p6Rkn3JInhRQ>
+ <xmx:qKSZXuP6nlV9mNq-dT-8l0qVPkYYwhFq2rWTEIXvQKzPOaY4FayoOg>
+ <xmx:qaSZXtX67zhIwYR17HlHWpPk22jyHhf3JobJ6CuEx-5Dg074wn3h6g>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 63CE23280060;
+ Fri, 17 Apr 2020 08:44:24 -0400 (EDT)
+Date: Fri, 17 Apr 2020 14:44:22 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [drm:simple_bridge_attach [simple_bridge]] *ERROR* Fix bridge
+ driver to make connector optional!
+Message-ID: <20200417124422.fl35igitvd7thpr5@gilmour.lan>
+References: <CB5A5B81-F06C-4CBE-95DE-96C8723D2AC5@goldelico.com>
 MIME-Version: 1.0
-References: <20200411200632.4045-1-peron.clem@gmail.com>
- <20200411200632.4045-2-peron.clem@gmail.com>
- <c96f31a2-6ff4-31aa-aaac-2ce9eafb3bfe@arm.com>
- <CAJiuCcegkNGQ7j4jcT1rBpSLqG1c-nb8g0wq+Nbvt-dGj7am2Q@mail.gmail.com>
- <CAJiuCceU662o7QGJ=mmT3pzVWK7uJUN=6+NKQnZ=Cfj9c2nw7A@mail.gmail.com>
- <d6465e7e-8e05-8b7d-16bd-f40877969089@arm.com>
- <CAJiuCccv2XPLY6sjcgvvrG5a8ONYHa_xn9i-YUDKUDK5a0DY=A@mail.gmail.com>
- <CAJiuCcfa9ro1V4nBzfD48cCuHpEsLaNA5P0bb-tQ3hcWUCtpkA@mail.gmail.com>
- <000f26f4-3640-797f-c7f6-4b31a5e2669e@arm.com>
- <CAJiuCccF3tmbmMWNh0nC5WRJ1_iPdj6f1oH1zYMSue_pFrXsPQ@mail.gmail.com>
- <20200414185523.GO5412@sirena.org.uk>
- <CAJiuCce5ekAed6RF8+x_ehruCXW3900wkFNKRXN_Xo_62MPXew@mail.gmail.com>
- <5e15e7ac-1d9c-d614-8fd9-27525c88cafb@arm.com>
- <5290a7a8-2a0a-cb89-9d62-270393123054@arm.com>
-In-Reply-To: <5290a7a8-2a0a-cb89-9d62-270393123054@arm.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Fri, 17 Apr 2020 14:33:14 +0200
-Message-ID: <CAJiuCccm4gTAUWhTy+gK0kt4of=8yWcz2n_JtnmeAJofcpBKeQ@mail.gmail.com>
-Subject: Re: Multiple regulators for one device [was drm/panfrost: add devfreq
- regulator support]
-To: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <CB5A5B81-F06C-4CBE-95DE-96C8723D2AC5@goldelico.com>
 X-Mailman-Approved-At: Sat, 18 Apr 2020 09:26:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,47 +77,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Mark Brown <broonie@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-omap <linux-omap@vger.kernel.org>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: multipart/mixed; boundary="===============0347766434=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Robin,
 
-On Fri, 17 Apr 2020 at 13:10, Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2020-04-16 2:42 pm, Steven Price wrote:
-> [...]
-> > Perhaps a better approach would be for Panfrost to hand over the struct
-> > regulator objects it has already got to the OPP framework. I.e. open
-> > code dev_pm_opp_set_regulators(), but instead of calling
-> > regulator_get_optional() simply populate the regulators we already have?
-> >
-> > The other benefit of that is it would provide a clear hand-over of
-> > responsibility between Panfrost handling it's own regulators and the OPP
-> > framework picking up the work. The disadvantage is that Panfrost would
-> > have to track whether the regulators have been handed over or not.
->
-> Sounds like the most logical thing to do is to shuffle things around so
-> we start by trying to set up an OPP table, then fall back to explicitly
-> claiming clocks and regulators if necessary. Then we can easily make the
-> devfreq decision later in probe based on how that turned out.
+--===============0347766434==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="uebxnokcear6r3sc"
+Content-Disposition: inline
 
-Ok I will propose a new serie with this behavior,
 
-Thanks
-Clement
+--uebxnokcear6r3sc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
-> Robin.
+Hi,
+
+Cc'ing Laurent
+
+On Fri, Apr 17, 2020 at 02:18:11PM +0200, H. Nikolaus Schaller wrote:
+> Hi Maxime,
+> I have started to test v5.7-rc1 and can't fully boot the GTA04
+> device any more.
+>=20
+> What I see in the log is:
+>=20
+> [   28.567840] [drm:simple_bridge_attach [simple_bridge]] *ERROR* Fix bri=
+dge driver to make connector optional!
+> [   28.567871] omapdrm omapdrm.0: unable to attach bridge /ocp@68000000/d=
+ss@48050000/encoder@48050c00
+> [   28.786529] omapdrm omapdrm.0: omap_modeset_init failed: ret=3D-22
+> [   28.841552] omapdrm: probe of omapdrm.0 failed with error -22
+>=20
+> This device uses the ti,opa362 chip which did have a dedicated
+> omapdss driver before (which is removed now) and which seems to
+> be supported by the simple_bridge now.
+>=20
+> The opa362 is sitting in the video out path from
+>=20
+> 	omapdrm -> venc -> opa362 -> video-out-connector.
+>=20
+> What does this error mean? How can it be fixed?
+
+-22 is usually EINVAL, which can be pretty much anything. A good thing to do
+ would be to bisect to see which actual commit broke it, but if I was to be=
+t on
+ something I guess it would be
+
+https://lore.kernel.org/dri-devel/20200226112514.12455-1-laurent.pinchart@i=
+deasonboard.com/
+
+Maxime
+
+--uebxnokcear6r3sc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXpmkpgAKCRDj7w1vZxhR
+xQiLAQCJ2xQosSagOkqyXxot5lEViVcLssIszdTzpkTitzEG6AEAvPbauwwDo1R9
+7QwBbCXIj9aSKnpQcBvxDQ0ooUEpIw8=
+=Tp4p
+-----END PGP SIGNATURE-----
+
+--uebxnokcear6r3sc--
+
+--===============0347766434==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0347766434==--
