@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8CA81AE44E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 20:10:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AA171AE48E
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 20:14:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C1386E425;
-	Fri, 17 Apr 2020 18:10:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B116E3B5;
+	Fri, 17 Apr 2020 18:14:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9D8F6E425
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 18:10:39 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id j4so2159299otr.11
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 11:10:39 -0700 (PDT)
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8829F6E3B5
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 18:14:36 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id r25so2866682oij.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 11:14:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=AVdZUd+aoV5hglGQdjkmyI25h/pfLO7UOhCP4bcSCiE=;
- b=hdNZikSMdnvITOdr5idNKrN1s6X3JhvTpoAifWfbNI8OucJyUTsbdw4aOT5mJ17OnY
- 21Iz5+JZrcLXxR3RohsYUaExGaGqD9GpC5XAzSGFVi3BxO+jxfUpcJFM8scSN2gQ9/V7
- 208IpIlcZahgGU9VLcoi9P+mf6EquFx5SuEro=
+ :cc; bh=8ZtGqnHCQ07/Ew2aP7iD3NcrezbX+AN+GwFRXoG4Q1s=;
+ b=VITfARv4/usebH48Hls8WBXhMUQ4Gj5ghaLuDkZLWDvu69+TtDM4myloJYEz7HGLG+
+ ctiSRBGjjHoQpLHe9ktSiWjtor4yQjJF8PlYuOTPZPpBh/G/DtZ2VrpUjQNhn4mcSqku
+ gJpuiLS0Y/WtCI7eT8UESFjBUlyfLMPIUWc9Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=AVdZUd+aoV5hglGQdjkmyI25h/pfLO7UOhCP4bcSCiE=;
- b=saM6TXFMAGep7pVISl/oS1x8NWPhwoEoih5fiYrpkuk5mRe79HCj9oFRmfcz8MFfE/
- 2EUeO5Lh1yKMFKY/aeiQIdAidWuIzN3/2bYeGd3mz3EBVlEjJibXUCzueqH6S0oh/F1R
- nRyzfjep5MPbxDBZwyi7+BvShqeBPlofxHEXSKV6m4d0BT8kIPE7R0Mprsu+k+4d/H3q
- iO0ih3IhBIb/WRy432Owy0uQ0V54sxJ6FmmNRh2oH9Htd9vXih2y5Wbo2WotbsDOPo+d
- AlruCdwfTgVqSNSQJji67EiSJd6mHGPGwxBjTE7g89P2lSMIabhPOLiXnTI7pOfTzz0G
- P4aA==
-X-Gm-Message-State: AGi0PuY19RlsOUNR1tLlfFnx7xoAMoiBliREoFbb5zRqOKLRr8L5m93J
- X/xDUmA5TPnSdfgNHn3BXBWAyPPWHOP6d27CMuO6qw==
-X-Google-Smtp-Source: APiQypLLEOl8ehPIa48TecTfBenMgM8WAuWmMT4h2itoYv51EVbbTPBbvw8pH+ub2oiqM6RgU+tkCpSAKtTF1/xpCLw=
-X-Received: by 2002:a05:6830:1d0:: with SMTP id
- r16mr26334ota.303.1587147038949; 
- Fri, 17 Apr 2020 11:10:38 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=8ZtGqnHCQ07/Ew2aP7iD3NcrezbX+AN+GwFRXoG4Q1s=;
+ b=G2BpU5BW3c0AtL+ZQXJtyuaTtzU541t7s9GSWKJsg5sbAN4o2gz2D3XUqpHbEPDWOF
+ sZWrSG9wQb8Hwj0h69Aew6eHCOoWjgSmSP2KvB2KzhvX+d4NNtv3F56DPEYJ4dnZuOWZ
+ 8zHDkpEZYe96YqtlO4slUxDBcl5ND87YGyIrpi34wDwxxAFrhtq1vWuPrX9fhaCpuEXs
+ BOtNFsWtyzFviv5m8bcDJ/rIHg/h4D3tEWpHSY6wp/lz1GIgfVRWwl+WSkstMKDyikeu
+ 0fag44Ly2/XMG/VPPfuVeKNDZYrPYcKvkniLg0Om67W0FWoQ5jdrL92iLmxvBGhq2t9i
+ QgoQ==
+X-Gm-Message-State: AGi0Pualjvx7dA/kdLnuo22mC9vwrLlDSinhc9x0KuahY/BMJwHdAeF6
+ khdkpQtQBGu48QHTwygEZok21wSO7mum7uqElV/5fQ==
+X-Google-Smtp-Source: APiQypL0F757LauIcBY+JcZyLMy1N/8zxDWB1hXSGdCXb1RXCdnwO8/JVGdpn2VXZvyWPj7TygkZGcDnOVapsu7/az8=
+X-Received: by 2002:aca:4408:: with SMTP id r8mr3135520oia.14.1587147275820;
+ Fri, 17 Apr 2020 11:14:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200416170420.23657-1-ville.syrjala@linux.intel.com>
- <20200417152310.GQ3456981@phenom.ffwll.local>
- <20200417154313.GO6112@intel.com>
-In-Reply-To: <20200417154313.GO6112@intel.com>
+References: <20200416152500.29429-1-narmstrong@baylibre.com>
+ <20200416152500.29429-2-narmstrong@baylibre.com>
+ <20200417150729.GP3456981@phenom.ffwll.local>
+ <65879a34-2e31-2908-3cc4-183f62c70ca0@baylibre.com>
+In-Reply-To: <65879a34-2e31-2908-3cc4-183f62c70ca0@baylibre.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 17 Apr 2020 20:10:26 +0200
-Message-ID: <CAKMK7uGBWyPtm0dva=Ndk6xJx7nUKJ20kn8S37iFB8s85WWmdw@mail.gmail.com>
-Subject: Re: [PATCH] drm: Fix page flip ioctl format check
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Date: Fri, 17 Apr 2020 20:14:24 +0200
+Message-ID: <CAKMK7uHXtcMFv6LpCEjTg5V-TXbkt2eLyitZoCfSc-nMnwJbuA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/8] drm/fourcc: Add modifier definitions for
+ describing Amlogic Video Framebuffer Compression
+To: Neil Armstrong <narmstrong@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,102 +61,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable <stable@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-amlogic@lists.infradead.org, Kevin Hilman <khilman@baylibre.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBBcHIgMTcsIDIwMjAgYXQgNTo0MyBQTSBWaWxsZSBTeXJqw6Rsw6QKPHZpbGxlLnN5
-cmphbGFAbGludXguaW50ZWwuY29tPiB3cm90ZToKPgo+IE9uIEZyaSwgQXByIDE3LCAyMDIwIGF0
-IDA1OjIzOjEwUE0gKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiBPbiBUaHUsIEFwciAx
-NiwgMjAyMCBhdCAwODowNDoyMFBNICswMzAwLCBWaWxsZSBTeXJqYWxhIHdyb3RlOgo+ID4gPiBG
-cm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+ID4g
-Pgo+ID4gPiBSZXZlcnQgYmFjayB0byBjb21wYXJpbmcgZmItPmZvcm1hdC0+Zm9ybWF0IGluc3Rl
-YWQgZmItPmZvcm1hdCBmb3IgdGhlCj4gPiA+IHBhZ2UgZmxpcCBpb2N0bC4gVGhpcyBjaGVjayB3
-YXMgb3JpZ2luYWxseSBvbmx5IGhlcmUgdG8gZGlzYWxsb3cgcGl4ZWwKPiA+ID4gZm9ybWF0IGNo
-YW5nZXMsIGJ1dCB3aGVuIHdlIGNoYW5nZWQgaXQgdG8gZG8gdGhlIHBvaW50ZXIgY29tcGFyaXNv
-bgo+ID4gPiB3ZSBwb3RlbnRpYWxseSBzdGFydGVkIHRvIHJlamVjdCBzb21lIChidXQgZGVmaW5p
-dGVseSBub3QgYWxsKSBtb2RpZmllcgo+ID4gPiBjaGFuZ2VzIGFzIHdlbGwuIEluIGZhY3QgdGhl
-IGN1cnJlbnQgYmVoYXZpb3VyIGRlcGVuZHMgb24gd2hldGhlciB0aGUKPiA+ID4gZHJpdmVyIG92
-ZXJyaWRlcyB0aGUgZm9ybWF0IGluZm8gZm9yIGEgc3BlY2lmaWMgZm9ybWF0K21vZGlmaWVyIGNv
-bWJvLgo+ID4gPiBFZy4gb24gaTkxNSB0aGlzIG5vdyByZWplY3RzIGNvbXByZXNzaW9uIHZzLiBu
-byBjb21wcmVzc2lvbiBjaGFuZ2VzIGJ1dAo+ID4gPiBkb2VzIG5vdCByZWplY3QgYW55IG90aGVy
-IHRpbGluZyBjaGFuZ2VzLiBUaGF0J3MganVzdCBpbmNvbnNpc3RlbnQKPiA+ID4gbm9uc2Vuc2Uu
-Cj4gPiA+Cj4gPiA+IFRoZSBtYWluIHJlYXNvbiB3ZSBoYXZlIHRvIGdvIGJhY2sgdG8gdGhlIG9s
-ZCBiZWhhdmlvdXIgaXMgdG8gZml4IHBhZ2UKPiA+ID4gZmxpcHBpbmcgd2l0aCBYb3JnLiBBdCBz
-b21lIHBvaW50IFhvcmcgZ290IGl0cyBhdG9taWMgcmlnaHRzIHRha2VuIGF3YXkKPiA+ID4gYW5k
-IHNpbmNlIHRoZW4gd2UgY2FuJ3QgcGFnZSBmbGlwIGJldHdlZW4gY29tcHJlc3NlZCBhbmQgbm9u
-LWNvbXByZXNzZWQKPiA+ID4gZmJzIG9uIGk5MTUuIEN1cnJlbnRseSB3ZSBnZXQgbm8gcGFnZSBm
-bGlwcGluZyBmb3IgYW55IGdhbWVzIHByZXR0eSBtdWNoCj4gPiA+IHNpbmNlIE1lc2EgbGlrZXMg
-dG8gdXNlIGNvbXByZXNzZWQgYnVmZmVycy4gTm90IHN1cmUgaG93IGNvbXBvc2l0b3JzIGFyZQo+
-ID4gPiB3b3JraW5nIGFyb3VuZCB0aGlzIChkb24ndCB1c2Ugb25lIG15c2VsZikuIEkgZ3Vlc3Mg
-dGhleSBtdXN0IGJlIGRvaW5nCj4gPiA+IHNvbWV0aGluZyB0byBnZXQgbm9uLWNvbXByZXNzZWQg
-YnVmZmVycyBpbnN0ZWFkLiBFaXRoZXIgdGhhdCBvcgo+ID4gPiBzb21laG93IG5vIG9uZSBub3Rp
-Y2VkIHRoZSB0ZWFyaW5nIGZyb20gdGhlIGJsaXQgZmFsbGJhY2suCj4gPgo+ID4gTWVzYSBvbmx5
-IHVzZXMgY29tcHJlc3NlZCBidWZmZXJzIGlmIHlvdSBlbmFibGUgbW9kaWZpZXJzLCBhbmQgdGhl
-cmUncyBhCj4gPiBfbG9vb29vb29vb29vb3RfIG1vcmUgdGhhdCBuZWVkcyB0byBiZSBmaXhlZCBp
-biBYb3JnIHRvIGVuYWJsZSB0aGF0IGZvcgo+ID4gcmVhbC4gTGlrZSByZWFsIGF0b21pYyBzdXBw
-b3J0Lgo+Cj4gV2h5IHdvdWxkIHlvdSBuZWVkIGF0b21pYyBmb3IgbW9kaWZpZXJzPyBYb3JnIGRv
-ZXNuJ3QgZXZlbiBoYXZlCj4gYW55IHNlbnNpYmxlIGZyYW1ld29yayBmb3IgYXRvbWljIGFuZCBJ
-IHN1c3BlY3QgaXQgbmV2ZXIgd2lsbC4KCkZyYW5rbHkgaWYgbm8gb25lIGNhcmVzIGFib3V0IGF0
-b21pYyBpbiBYIEkgZG9uJ3QgdGhpbmsgd2Ugc2hvdWxkIGRvCndvcmstYXJvdW5kcyBmb3IgbGFj
-ayBvZiBhdG9taWMgaW4gWC4KCj4gPiBXaXRob3V0IG1vZGlmaWVycyBhbGwgeW91IGdldCBpcyBY
-IHRpbGluZywKPiA+IGFuZCB0aGF0IHdvcmtzIGp1c3QgZmluZS4KPiA+Cj4gPiBXaGljaCB3b3Vs
-ZCBhbHNvIGZpeCB0aGlzIGlzc3VlIGhlcmUgeW91J3JlIHBhcGVyaW5nIG92ZXIuCj4gPgo+ID4g
-U28gaWYgdGhpcyBpcyB0aGUgZW50aXJlIHJlYXNvbiBmb3IgdGhpcywgSSdtIGluY2xpbmVkIHRv
-IG5vdCBkbyB0aGlzLgo+ID4gQ3VycmVudCBYb3JnIGlzIHRvYXN0IHdydCBtb2RpZmllcnMsIHRo
-YXQncyBub3QgbmV3cy4KPgo+IFdvcmtzIGp1c3QgZmluZS4gQWxzbyBwcmV0dHkgc3VyZSBtb2Rp
-ZmllcnMgYXJlIGV2ZW4gZW5hYmxlZCBieQo+IGRlZmF1bHQgbm93IGluIG1vZGVzZXR0aW5nLgoK
-WS9DU1MgaXMgaGFyZGVyIHRvIHNjYW4gb3V0LCB5b3UgbmVlZCB0byB2ZXJpZnkgd2l0aCBURVNU
-X09OTFkgd2hldGhlcgppdCB3b3Jrcy4gT3RoZXJ3aXNlIGdvb2QgY2hhbmNlcyBmb3Igc29tZSBv
-ZGRiYWxsIGJsYWNrIHNjcmVlbnMgb24KY29uZmlndXJhdGlvbnMgdGhhdCB3b3JrZWQgYmVmb3Jl
-LiBXaGljaCBpcyB3aHkgYWxsIG5vbi1hdG9taWMKY29tcG9zaXRvcnMgcmV2ZXJ0ZWQgbW9kaWZp
-ZXJzIGJ5IGRlZmF1bHQgYWdhaW4uCgo+IEFuZCBhcyBzdGF0ZWQgdGhlIGN1cnJlbnQgY2hlY2sg
-ZG9lc24ndCBoYXZlIGNvbnNpc3RlbnQgYmVoYXZpb3VyCj4gYW55d2F5LiBZb3UgY2FuIHN0aWxs
-IGZsaXAgYmV0d2VlbiBkaWZmZXJlbnQgbW9kaWZpZXJzIGFzIGxvbmcgYSB0aGUKPiBkcml2ZXIg
-ZG9lc24ndCBvdmVycmlkZSAuZ2V0X2Zvcm1hdF9pbmZvKCkgZm9yIG9uZSBvZiB0aGVtLiBUaGUg
-Km9ubHkqCj4gY2FzZSB3aGVyZSB0aGF0IGhhcHBlbnMgaXMgQ0NTIG9uIGk5MTUuIFRoZXJlIGlz
-IG5vIHZhbGlkIHJlYXNvbiB0bwo+IHNwZWNpYWwgY2FzZSB0aGF0IG9uZS4KClRoZSB0aGluZyBp
-cywgeW91IG5lZWQgYXRvbWljIHRvIG1ha2UgQ0NTIHdvcmsgcmVsaWFibHkgZW5vdWdoIGZvcgpj
-b21wb3NpdG9ycyBhbmQgZGlzdHJvcyB0byBkYXJlIGVuYWJsaW5nIGl0IGJ5IGRlZmF1bHQuIEND
-UyBmbGlwcGluZwp3b3JrcyB3aXRoIGF0b21pYy4gSSByZWFsbHkgc2VlIG5vIHBvaW50IGluIGJh
-a2luZyB0aGlzIGluIHdpdGggYXMKdWFwaS4gSnVzdCBmaXggWG9yZy4KLURhbmllbAoKPgo+ID4g
-LURhbmllbAo+ID4KPiA+ID4KPiA+ID4gTG9va2luZyBiYWNrIGF0IHRoZSBvcmlnaW5hbCBkaXNj
-dXNzaW9uIG9uIHRoaXMgY2hhbmdlIHdlIHByZXR0eSBtdWNoCj4gPiA+IGp1c3QgZGlkIGl0IGlu
-IHRoZSBuYW1lIG9mIHNraXBwaW5nIGEgZmV3IGV4dHJhIHBvaW50ZXIgZGVyZWZlcmVuY2VzLgo+
-ID4gPiBIb3dldmVyLCBJJ3ZlIGRlY2lkZWQgbm90IHRvIHJldmVydCB0aGUgd2hvbGUgdGhpbmcg
-aW4gY2FzZSBzb21lb25lCj4gPiA+IGhhcyBzaW5jZSBzdGFydGVkIHRvIGRlcGVuZCBvbiB0aGVz
-ZSBjaGFuZ2VzLiBOb25lIG9mIHRoZSBvdGhlciBjaGVja3MKPiA+ID4gYXJlIHJlbGV2YW50IGZv
-ciBpOTE1IGFueXdheXMuCj4gPiA+Cj4gPiA+IENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnCj4g
-PiA+IENjOiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5j
-b20+Cj4gPiA+IEZpeGVzOiBkYmQ0ZDU3NjFlMWYgKCJkcm06IFJlcGxhY2UgJ2Zvcm1hdC0+Zm9y
-bWF0JyBjb21wYXJpc29ucyB0byBqdXN0ICdmb3JtYXQnIGNvbXBhcmlzb25zIikKPiA+ID4gU2ln
-bmVkLW9mZi1ieTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNv
-bT4KPiA+ID4gLS0tCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX3BsYW5lLmMgfCAyICstCj4g
-PiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiA+ID4K
-PiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fcGxhbmUuYwo+ID4gPiBpbmRleCBkNmFkNjBhYjBkMzguLmYyY2E1MzE1ZjIz
-YiAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wbGFuZS5jCj4gPiA+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYwo+ID4gPiBAQCAtMTE1Myw3ICsxMTUzLDcg
-QEAgaW50IGRybV9tb2RlX3BhZ2VfZmxpcF9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+
-ID4gPiAgICAgaWYgKHJldCkKPiA+ID4gICAgICAgICAgICAgZ290byBvdXQ7Cj4gPiA+Cj4gPiA+
-IC0gICBpZiAob2xkX2ZiLT5mb3JtYXQgIT0gZmItPmZvcm1hdCkgewo+ID4gPiArICAgaWYgKG9s
-ZF9mYi0+Zm9ybWF0LT5mb3JtYXQgIT0gZmItPmZvcm1hdC0+Zm9ybWF0KSB7Cj4gPiA+ICAgICAg
-ICAgICAgIERSTV9ERUJVR19LTVMoIlBhZ2UgZmxpcCBpcyBub3QgYWxsb3dlZCB0byBjaGFuZ2Ug
-ZnJhbWUgYnVmZmVyIGZvcm1hdC5cbiIpOwo+ID4gPiAgICAgICAgICAgICByZXQgPSAtRUlOVkFM
-Owo+ID4gPiAgICAgICAgICAgICBnb3RvIG91dDsKPiA+ID4gLS0KPiA+ID4gMi4yNC4xCj4gPiA+
-Cj4gPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4g
-PiA+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiA+ID4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwo+ID4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo+ID4KPiA+IC0tCj4gPiBEYW5pZWwgVmV0dGVyCj4gPiBTb2Z0d2FyZSBF
-bmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPiA+IGh0dHA6Ly9ibG9nLmZmd2xsLmNoCj4KPiAt
-LQo+IFZpbGxlIFN5cmrDpGzDpAo+IEludGVsCgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJl
-IEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6
-Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+On Fri, Apr 17, 2020 at 6:05 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
+>
+> On 17/04/2020 17:07, Daniel Vetter wrote:
+> > On Thu, Apr 16, 2020 at 05:24:53PM +0200, Neil Armstrong wrote:
+> >> Amlogic uses a proprietary lossless image compression protocol and format
+> >> for their hardware video codec accelerators, either video decoders or
+> >> video input encoders.
+> >>
+> >> It considerably reduces memory bandwidth while writing and reading
+> >> frames in memory.
+> >>
+> >> The underlying storage is considered to be 3 components, 8bit or 10-bit
+> >> per component, YCbCr 420, single plane :
+> >> - DRM_FORMAT_YUV420_8BIT
+> >> - DRM_FORMAT_YUV420_10BIT
+> >>
+> >> This modifier will be notably added to DMA-BUF frames imported from the V4L2
+> >> Amlogic VDEC decoder.
+> >>
+> >> This introduces the basic layout composed of:
+> >> - a body content organized in 64x32 superblocks with 4096 bytes per
+> >>   superblock in default mode.
+> >> - a 32 bytes per 128x64 header block
+> >>
+> >> This layout is tranferrable between Amlogic SoCs supporting this modifier.
+> >>
+> >> Tested-by: Kevin Hilman <khilman@baylibre.com>
+> >> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> >> ---
+> >>  include/uapi/drm/drm_fourcc.h | 39 +++++++++++++++++++++++++++++++++++
+> >>  1 file changed, 39 insertions(+)
+> >>
+> >> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> >> index 8bc0b31597d8..a1b163a5641f 100644
+> >> --- a/include/uapi/drm/drm_fourcc.h
+> >> +++ b/include/uapi/drm/drm_fourcc.h
+> >> @@ -309,6 +309,7 @@ extern "C" {
+> >>  #define DRM_FORMAT_MOD_VENDOR_BROADCOM 0x07
+> >>  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+> >>  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+> >> +#define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+> >>
+> >>  /* add more to the end as needed */
+> >>
+> >> @@ -804,6 +805,44 @@ extern "C" {
+> >>   */
+> >>  #define DRM_FORMAT_MOD_ALLWINNER_TILED fourcc_mod_code(ALLWINNER, 1)
+> >>
+> >> +/*
+> >> + * Amlogic Video Framebuffer Compression modifiers
+> >> + *
+> >> + * Amlogic uses a proprietary lossless image compression protocol and format
+> >> + * for their hardware video codec accelerators, either video decoders or
+> >> + * video input encoders.
+> >> + *
+> >> + * It considerably reduces memory bandwidth while writing and reading
+> >> + * frames in memory.
+> >> + *
+> >> + * The underlying storage is considered to be 3 components, 8bit or 10-bit
+> >> + * per component YCbCr 420, single plane :
+> >> + * - DRM_FORMAT_YUV420_8BIT
+> >> + * - DRM_FORMAT_YUV420_10BIT
+> >> + *
+> >> + * The first 8 bits of the mode defines the layout, then the following 8 bits
+> >> + * defines the options changing the layout.
+> >
+> > None of the modifiers you're doing seem to have these other 8 bits
+> > defined anywhere. And it's not encoded in your modifiers. Can't we just
+> > enumerate the ones we have/need and done?
+>
+> It's introduced in patch 5
+
+Hm must have been blind, I overlooked the << 8 shift. I'd just do a
+macro which encoders all fields into the modifier, instead of
+hand-rolling this.
+
+> >
+> >> + *
+> >> + * Not all combinations are valid, and different SoCs may support different
+> >> + * combinations of layout and options.
+> >> + */
+> >> +#define DRM_FORMAT_MOD_AMLOGIC_FBC(__modes) fourcc_mod_code(AMLOGIC, __modes)
+> >> +
+> >> +/* Amlogic FBC Layouts */
+> >> +#define DRM_FORMAT_MOD_AMLOGIC_FBC_LAYOUT_MASK              (0xf << 0)
+> >> +
+> >> +/*
+> >> + * Amlogic FBC Basic Layout
+> >> + *
+> >> + * The basic layout is composed of:
+> >> + * - a body content organized in 64x32 superblocks with 4096 bytes per
+> >> + *   superblock in default mode.
+> >> + * - a 32 bytes per 128x64 header block
+> >> + *
+> >> + * This layout is transferrable between Amlogic SoCs supporting this modifier.
+> >> + */
+> >> +#define DRM_FORMAT_MOD_AMLOGIC_FBC_LAYOUT_BASIC             (1ULL << 0)
+> >
+> > This is kinda confusing, since this isn't actually the modifier, but the
+> > mode of the modifer. Generally what we do is only define the former, with
+> > maybe some macros to extract stuff.
+> >
+> > To make this more mistake-proof I'd only define the full modifier code.
+> > Definitely don't add a #define with the DRM_FORMAT_MOD_ prefix which isn't
+> > actually a full modifier code.
+>
+> Exact, I'll use the same scheme as AFBC: AMLOGIC_FBC_FORMAT_ ...
+
+Yup there's a number of parametried modifiers. As long as the stuff
+you get from a DRM_FORMAT_MOD_ ... macro is a full modifier with
+everything it should be all fine.
+-Daniel
+
+> Neil
+>
+> > -Daniel
+> >
+> >> +
+> >>  #if defined(__cplusplus)
+> >>  }
+> >>  #endif
+> >> --
+> >> 2.22.0
+> >>
+> >
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
