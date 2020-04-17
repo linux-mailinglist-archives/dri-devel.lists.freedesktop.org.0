@@ -2,49 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A51B1AEB45
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 11:27:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF1F1ADEDA
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 15:58:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34C2E6EC83;
-	Sat, 18 Apr 2020 09:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80AA56EC02;
+	Fri, 17 Apr 2020 13:58:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5301::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D8676EBFE
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 13:53:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587131634;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=X+miR8R8fyz7mYCdQoU4qb119uC9KuI5sxxMzCuMnyo=;
- b=swqrb/qcKG/+LZHLQYKEA43ktaXcBvC85XbkSjle2VnarahFL7LoY6cmSQ/iS3avWe
- UXPoaWZvV8SByHvSsM5npsYHS43TICnoNlOVu6wWWzjfwiFCsyMzRejpmTFJQ8Fq2Cx3
- g/P9BjYwB1j8VlcReqVlxlkva8zD3XIO+v6cqe+eaw0mA1O0XJuZPxVJURWFGLB05XEq
- yIQAH8WO2iGLirFuTQpRdOiSxZ5QIiKqqqptGZBpNoXP7MkA1LWgxVDynUD1lZ9Ncs87
- G+oQwuvQPDmWO+KuWd8SdCO953MdSMIT7WKSr/RH4baLe62MWxv9FVnJ5016F58TGIaR
- aLFQ==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGH/PgwDWjbQ=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.5.0 DYNA|AUTH)
- with ESMTPSA id g06d2dw3HDrk22z
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Fri, 17 Apr 2020 15:53:46 +0200 (CEST)
-Subject: Re: [drm:simple_bridge_attach [simple_bridge]] *ERROR* Fix bridge
- driver to make connector optional!
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20200417125840.GB4748@pendragon.ideasonboard.com>
-Date: Fri, 17 Apr 2020 15:53:46 +0200
-Message-Id: <401F61D0-B88C-4BF7-8CB1-907B0C5F7223@goldelico.com>
-References: <CB5A5B81-F06C-4CBE-95DE-96C8723D2AC5@goldelico.com>
- <20200417124422.fl35igitvd7thpr5@gilmour.lan>
- <20200417125840.GB4748@pendragon.ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-X-Mailer: Apple Mail (2.3124)
-X-Mailman-Approved-At: Sat, 18 Apr 2020 09:26:15 +0000
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C05B26EBFE;
+ Fri, 17 Apr 2020 13:58:15 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id b11so3163937wrs.6;
+ Fri, 17 Apr 2020 06:58:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3NhOD7WWCRFx2NWhkccCqUNA946AiGi6gVRl1iOG8JY=;
+ b=qyfnqLcP+9kRh0M5SMq3ClD2TyNOg2DQBddfRvlwEQF+YzANtODQE9oMBqhMir6PtP
+ nePvDTfrt8dYFjR3dD1sdiAvn1i+YB0JMDQsCNrBqQtw7wsRv6oJR66nY4BI/YqnCXNn
+ S7zOrxeniQ9CILrkRmG8vZ6jgdyfgpJ6UDD55lkPPoPnPwhzS7yzdbokS2ELU4gc+S/r
+ tZsF1DfgSbAdCjRLJ7UtFmZ8pWIUIUmeMGHrjOsJuTbbrsXYViOcMhwKBtg33lvptF6d
+ 4Osc+ftORpKT2meqaMhgycJPvtzeEMNpVepRknzSnhJ5QsfVcAlpSlLjWpscVcnh5lQl
+ ltMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3NhOD7WWCRFx2NWhkccCqUNA946AiGi6gVRl1iOG8JY=;
+ b=sFpGslRm1ZowPDrK57nMRJnpSoTTtMmz+YP9tdnGbRdWynCQbTQvGl/u0YmqeRRyrr
+ +2dnjxif5HR3wD5WP/WieJnj1jq2VXAEBzivmny1/+niKjbc6XZKgBAdbsCe4NNrAnJ4
+ t93TwKWq7bU/Wqdb2abj59N6nIBcyEjzqHzo7KCKIj8X8rFLGBVU/t+ZeviL1KZKiB4m
+ 4aKrtqND8An2D31X0VuqADl0tSXHt7njMtvY174R3sHUcKXaSBTAi8zuzsrzqSWm5nFu
+ PHFDD73m4vuUx8/qMwc4g0rYIuxGtnsL2s2eSs7jxcl1b4Y9bhuqaHxfvCn6PyA9xIQ4
+ K41g==
+X-Gm-Message-State: AGi0Pualblpbj8WN/6BjQ4h+nHYHaSGqVst+8SwfMxBkSHGJsrzkTd8+
+ 5oa+m9vxR1RrbtqHbJooqKoM221P/yistmF1rfY=
+X-Google-Smtp-Source: APiQypKZa7qguwGxfdxcCF2TK+61OAmPsOG+ZgPl4y3bjlh/AJZ2N3AnJWbmdkm8BbYfsOXpqUarNyQq6OUyOFFqJ3s=
+X-Received: by 2002:a5d:4106:: with SMTP id l6mr4008599wrp.111.1587131894437; 
+ Fri, 17 Apr 2020 06:58:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200417073219.40320-1-yanaijie@huawei.com>
+In-Reply-To: <20200417073219.40320-1-yanaijie@huawei.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 17 Apr 2020 09:58:03 -0400
+Message-ID: <CADnq5_OTQEvOFZ3WaOAGQqMpkcsSkQ2fwge2+YUV59URnwLHgw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/powerplay: remove defined but not used variables
+To: Jason Yan <yanaijie@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,62 +61,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-omap <linux-omap@vger.kernel.org>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Maxime Ripard <maxime@cerno.tech>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Hulk Robot <hulkci@huawei.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, "Quan, Evan" <evan.quan@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
-
-> Am 17.04.2020 um 14:58 schrieb Laurent Pinchart <laurent.pinchart@ideasonboard.com>:
-> 
-> Hello,
-> 
-> On Fri, Apr 17, 2020 at 02:44:22PM +0200, Maxime Ripard wrote:
->> On Fri, Apr 17, 2020 at 02:18:11PM +0200, H. Nikolaus Schaller wrote:
->>> Hi Maxime,
->>> I have started to test v5.7-rc1 and can't fully boot the GTA04
->>> device any more.
->>> 
->>> What I see in the log is:
->>> 
->>> [   28.567840] [drm:simple_bridge_attach [simple_bridge]] *ERROR* Fix bridge driver to make connector optional!
->>> [   28.567871] omapdrm omapdrm.0: unable to attach bridge /ocp@68000000/dss@48050000/encoder@48050c00
->>> [   28.786529] omapdrm omapdrm.0: omap_modeset_init failed: ret=-22
->>> [   28.841552] omapdrm: probe of omapdrm.0 failed with error -22
->>> 
->>> This device uses the ti,opa362 chip which did have a dedicated
->>> omapdss driver before (which is removed now) and which seems to
->>> be supported by the simple_bridge now.
->>> 
->>> The opa362 is sitting in the video out path from
->>> 
->>> 	omapdrm -> venc -> opa362 -> video-out-connector.
->>> 
->>> What does this error mean? How can it be fixed?
->> 
->> -22 is usually EINVAL, which can be pretty much anything. A good thing to do
->> would be to bisect to see which actual commit broke it, but if I was to bet on
->> something I guess it would be
->> 
->> https://lore.kernel.org/dri-devel/20200226112514.12455-1-laurent.pinchart@ideasonboard.com/
-> 
-> Would "[PATCH 0/2] drm: bridge: simple-bridge: Enable usage with DRM
-> bridge connector helper" solve it ?
-
-Yes, seems to magically solve the boot issue!
-
-I'll confirm later if the opa362 is still (or again) working.
-
-BR and thanks,
-Nikolaus Schaller
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBBcHIgMTcsIDIwMjAgYXQgOToxNiBBTSBKYXNvbiBZYW4gPHlhbmFpamllQGh1YXdl
+aS5jb20+IHdyb3RlOgo+Cj4gRml4IHRoZSBmb2xsb3dpbmcgZ2NjIHdhcm5pbmc6Cj4KPiBkcml2
+ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9wb3dlcnBsYXkvaHdtZ3IvdmVnYTEwX3Bvd2VydHVu
+ZS5jOjcxMDo0NjoKPiB3YXJuaW5nOiDigJhQU01HQ0VEQ1RocmVzaG9sZENvbmZpZ192ZWdhMTDi
+gJkgZGVmaW5lZCBidXQgbm90IHVzZWQKPiBbLVd1bnVzZWQtY29uc3QtdmFyaWFibGU9XQo+ICBz
+dGF0aWMgY29uc3Qgc3RydWN0IHZlZ2ExMF9kaWR0X2NvbmZpZ19yZWcKPiBQU01HQ0VEQ1RocmVz
+aG9sZENvbmZpZ192ZWdhMTBbXSA9Cj4gXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Cj4g
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vcG93ZXJwbGF5L2h3bWdyL3ZlZ2ExMF9wb3dl
+cnR1bmUuYzo2NTQ6NDY6Cj4gd2FybmluZzog4oCYUFNNU0VFRENUaHJlc2hvbGRDb25maWdfVmVn
+YTEw4oCZIGRlZmluZWQgYnV0IG5vdCB1c2VkCj4gWy1XdW51c2VkLWNvbnN0LXZhcmlhYmxlPV0K
+PiAgc3RhdGljIGNvbnN0IHN0cnVjdCB2ZWdhMTBfZGlkdF9jb25maWdfcmVnCj4gUFNNU0VFRENU
+aHJlc2hvbGRDb25maWdfVmVnYTEwW10gPQo+IF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fgo+Cj4gUmVwb3J0ZWQtYnk6IEh1bGsgUm9ib3QgPGh1bGtjaUBodWF3ZWkuY29tPgo+IFNpZ25l
+ZC1vZmYtYnk6IEphc29uIFlhbiA8eWFuYWlqaWVAaHVhd2VpLmNvbT4KCkFwcGxpZWQuICBUaGFu
+a3MhCgpBbGV4Cgo+IC0tLQo+ICAuLi4vYW1kL3Bvd2VycGxheS9od21nci92ZWdhMTBfcG93ZXJ0
+dW5lLmMgICAgfCAyMyAtLS0tLS0tLS0tLS0tLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyMyBk
+ZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxh
+eS9od21nci92ZWdhMTBfcG93ZXJ0dW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxh
+eS9od21nci92ZWdhMTBfcG93ZXJ0dW5lLmMKPiBpbmRleCBjYTliMjNiNWFiYzkuLjk3NTdkNDdk
+ZDZiOCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9od21nci92
+ZWdhMTBfcG93ZXJ0dW5lLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9o
+d21nci92ZWdhMTBfcG93ZXJ0dW5lLmMKPiBAQCAtNjUxLDE4ICs2NTEsNiBAQCBzdGF0aWMgY29u
+c3Qgc3RydWN0IHZlZ2ExMF9kaWR0X2NvbmZpZ19yZWcgICBQU01TRUVEQ1N0YWxsRGVsYXlDb25m
+aWdfVmVnYTEwW10gPQo+ICAgICAgICAgeyAgIDB4RkZGRkZGRkYgIH0gIC8qIEVuZCBvZiBsaXN0
+ICovCj4gIH07Cj4KPiAtc3RhdGljIGNvbnN0IHN0cnVjdCB2ZWdhMTBfZGlkdF9jb25maWdfcmVn
+ICAgUFNNU0VFRENUaHJlc2hvbGRDb25maWdfVmVnYTEwW10gPQo+IC17Cj4gLS8qIC0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+
+IC0gKiAgICAgIE9mZnNldCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTWFzayAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTaGlmdCAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgVmFsdWUKPiAtICogLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+Cj4gLSAqLwo+IC0gICAgICAgLyogU1EgRURDIFRIUkVTSE9MRCAqLwo+IC0gICAgICAgeyAgIGl4
+RElEVF9TUV9FRENfVEhSRVNIT0xELCAgICAgICAgICAgRElEVF9TUV9FRENfVEhSRVNIT0xEX19F
+RENfVEhSRVNIT0xEX01BU0ssICAgICAgICAgICBESURUX1NRX0VEQ19USFJFU0hPTERfX0VEQ19U
+SFJFU0hPTERfX1NISUZULCAgICAgICAgICAgIDB4MDAwMCB9LAo+IC0KPiAtICAgICAgIHsgICAw
+eEZGRkZGRkZGICB9ICAvKiBFbmQgb2YgbGlzdCAqLwo+IC19Owo+IC0KPiAgc3RhdGljIGNvbnN0
+IHN0cnVjdCB2ZWdhMTBfZGlkdF9jb25maWdfcmVnICAgUFNNU0VFRENDdHJsUmVzZXRDb25maWdf
+VmVnYTEwW10gPQo+ICB7Cj4gIC8qIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+IEBAIC03MDcsMTcgKzY5NSw2IEBAIHN0YXRp
+YyBjb25zdCBzdHJ1Y3QgdmVnYTEwX2RpZHRfY29uZmlnX3JlZyAgIFBTTVNFRURDQ3RybENvbmZp
+Z19WZWdhMTBbXSA9Cj4gICAgICAgICB7ICAgMHhGRkZGRkZGRiAgfSAgLyogRW5kIG9mIGxpc3Qg
+Ki8KPiAgfTsKPgo+IC1zdGF0aWMgY29uc3Qgc3RydWN0IHZlZ2ExMF9kaWR0X2NvbmZpZ19yZWcg
+ICBQU01HQ0VEQ1RocmVzaG9sZENvbmZpZ192ZWdhMTBbXSA9Cj4gLXsKPiAtLyogLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4g
+LSAqICAgICAgT2Zmc2V0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBNYXNrICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNoaWZ0ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBWYWx1ZQo+IC0gKiAtLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
+PiAtICovCj4gLSAgICAgICB7ICAgbW1HQ19FRENfVEhSRVNIT0xELCAgICAgICAgICAgICAgICBH
+Q19FRENfVEhSRVNIT0xEX19FRENfVEhSRVNIT0xEX01BU0ssICAgICAgICAgICAgICAgIEdDX0VE
+Q19USFJFU0hPTERfX0VEQ19USFJFU0hPTERfX1NISUZULCAgICAgICAgICAgICAgICAgMHgwMDAw
+MDAwIH0sCj4gLQo+IC0gICAgICAgeyAgIDB4RkZGRkZGRkYgIH0gIC8qIEVuZCBvZiBsaXN0ICov
+Cj4gLX07Cj4gLQo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IHZlZ2ExMF9kaWR0X2NvbmZpZ19yZWcg
+ICBQU01HQ0VEQ0Ryb29wQ3RybENvbmZpZ192ZWdhMTBbXSA9Cj4gIHsKPiAgLyogLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4g
+LS0KPiAyLjIxLjEKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1k
+LWdmeApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
