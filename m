@@ -2,43 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCEA1AE163
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 17:43:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 220B61AE19E
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 17:57:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 055D16EC47;
-	Fri, 17 Apr 2020 15:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD3D6E1F2;
+	Fri, 17 Apr 2020 15:56:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5828F6EC4E;
- Fri, 17 Apr 2020 15:43:19 +0000 (UTC)
-IronPort-SDR: xVOmT3jIEUeITTS4DL6pxDe4/36jG7LfZq+iQOmdMJ0Hu7OBX/K/fsLTzMn2oIoJchpTNHWUfe
- 5kHzwD4i062A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2020 08:43:18 -0700
-IronPort-SDR: WcLv1QNWJl57GpWwDOAQ9iRfQku3rP52s0EbmCy4dQKp4LuHb7WplwbGupvBzYE8a8Inajk0zA
- V1umjrf8bp8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,395,1580803200"; d="scan'208";a="244737378"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga007.fm.intel.com with SMTP; 17 Apr 2020 08:43:14 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 17 Apr 2020 18:43:13 +0300
-Date: Fri, 17 Apr 2020 18:43:13 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm: Fix page flip ioctl format check
-Message-ID: <20200417154313.GO6112@intel.com>
-References: <20200416170420.23657-1-ville.syrjala@linux.intel.com>
- <20200417152310.GQ3456981@phenom.ffwll.local>
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDF36E169
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 15:56:54 +0000 (UTC)
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1MdeSt-1iprPw3KU5-00ZfOr; Fri, 17 Apr 2020 17:56:21 +0200
+From: Arnd Bergmann <arnd@arndb.de>
+To: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ linux-fbdev@vger.kernel.org
+Subject: [PATCH 0/8] drm, fbdev: rework dependencies
+Date: Fri, 17 Apr 2020 17:55:45 +0200
+Message-Id: <20200417155553.675905-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200417152310.GQ3456981@phenom.ffwll.local>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Provags-ID: V03:K1:ihjqslpA75qTMF6wDF4+VNNTC1NuRX5DyjEZChnbH2+LduferQW
+ jC0LdL6btHPVgdMOdMSVPpZ+znLPsqbExhraTQcyb9rSJjMpz9m6IC8Rv/hCKvIPAJcBGd0
+ hoMUlKQPUxa5CWHHDUiR9HooUGxQKazIExDHqcmkZ2XigqkWeJHResaEL4oAKQcpaZIWAwD
+ ruyD6lxdbXrDz80gK0WHg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3tM+z2ZlTSg=:Y+9HE2EHWXdISGlEwzfCoA
+ znjKjlR25yaG0teoXA4D4CeSSX+90bjonxwvfbjYZQQcAEg91D0TCOo68kMmgHgdjxSeZ/cQE
+ h7ea4mzL0RV4U9lI8gHxzNG7B0A+rf1wcqF+02xr5G+kX4C2wqgW9HW3lxAW7aktqf4q5efZA
+ JXLi+n2fEBOILATNtcdS5xjaMq/0B3qRcSs/zMQKeCDxG+MvNjdR3AMR8grIoOesVD0m0wUvD
+ yeODH5YXBaQtCzFrIkoYRb1enxS0bPVu6rTX8POeJ4YVCxP1ABi+zbsuT4BXoeW7Iap00s+hz
+ 7xlD1BV37+gDlcxZ4GZUzs5tkkaPQIkMCGCvUJOJ3rRut1JwC7X/lr3drfx9hw5cjIaiE1LMC
+ JgK5KNaFDR7oPdLrOS/C1OEbrOiqB8gKsjT5ZPt+0NtBNIJtfgyv9fvvcX75UR1+nfhojAaLF
+ xC49KgXOQS2jnvO1w1VJdB5lRJmfPWJQDsRXP5sZTVRzYeLLqC0EHgTreGAoUOcQ+oxV5QDCL
+ T7OI5dkyb/qbyPE8C09N72z19941QqlXgY5M0x2NkO9rzCPWhDkHqXL9ivrf2NiNfu/G4uOal
+ BEFmbx0RKEk2vk9zgrHJasgEMe36VSFu6DggJ6Gk7Swe0drJO7GkfcCaQ5/jzUA+hgDkAMlWa
+ z5WnF+9VTwvi6zaTpktEnJEvJPz1hiLDMUl/Xt+t2c8zGxhmhMNv3lkHXnPQIcSk+YBRNVSPs
+ 5L8k0Ju92kqHNPL3aAP7VTgciERckhKIKlBGQpFCZz2DlY828VoHZGEjrZjRuxqZFZfd04ylz
+ wzH+eGBO8rrvCSJAO8TPvbKeMFvlMJr5uWCJBB8rNqGirwuBew=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,125 +53,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: marex@denx.de, dsd@laptop.org, Arnd Bergmann <arnd@arndb.de>,
+ Andrzej Hajda <a.hajda@samsung.com>, airlied@linux.ie, masahiroy@kernel.org,
+ Nicolas Pitre <nico@fluxnic.net>, Saeed Mahameed <saeedm@mellanox.com>,
+ thellstrom@vmware.com, haojian.zhuang@gmail.com, geert@linux-m68k.org,
+ linux-renesas-soc@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ kieran.bingham+renesas@ideasonboard.com, linux-graphics-maintainer@vmware.com,
+ Laurent.pinchart@ideasonboard.com, jfrederich@gmail.com,
+ robert.jarzmik@free.fr, daniel@zonque.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 17, 2020 at 05:23:10PM +0200, Daniel Vetter wrote:
-> On Thu, Apr 16, 2020 at 08:04:20PM +0300, Ville Syrjala wrote:
-> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > =
+I tried to fix up some dependencies after the sii8620 "imply EXTCON"
+statementn broke, trying a few things but in the backing out a
+change that would completely reverse the LEDS_CLASS selects into
+a 'depends on'. 
 
-> > Revert back to comparing fb->format->format instead fb->format for the
-> > page flip ioctl. This check was originally only here to disallow pixel
-> > format changes, but when we changed it to do the pointer comparison
-> > we potentially started to reject some (but definitely not all) modifier
-> > changes as well. In fact the current behaviour depends on whether the
-> > driver overrides the format info for a specific format+modifier combo.
-> > Eg. on i915 this now rejects compression vs. no compression changes but
-> > does not reject any other tiling changes. That's just inconsistent
-> > nonsense.
-> > =
+However, what I got now are multiple changes that remove gratious
+"selects" that lead to circular dependencies for sii8620 and others:
 
-> > The main reason we have to go back to the old behaviour is to fix page
-> > flipping with Xorg. At some point Xorg got its atomic rights taken away
-> > and since then we can't page flip between compressed and non-compressed
-> > fbs on i915. Currently we get no page flipping for any games pretty much
-> > since Mesa likes to use compressed buffers. Not sure how compositors are
-> > working around this (don't use one myself). I guess they must be doing
-> > something to get non-compressed buffers instead. Either that or
-> > somehow no one noticed the tearing from the blit fallback.
-> =
+- Anything doing "select FB" is now gone, or becomes "depends on FB",
 
-> Mesa only uses compressed buffers if you enable modifiers, and there's a
-> _loooooooooooot_ more that needs to be fixed in Xorg to enable that for
-> real. Like real atomic support.
+- DDC support depends on I2C instead of selecting it
 
-Why would you need atomic for modifiers? Xorg doesn't even have
-any sensible framework for atomic and I suspect it never will.
+- backlight class device support is never selected by framebuffer
+  drivers but has proper dependencies
 
-> Without modifiers all you get is X tiling,
-> and that works just fine.
-> =
+I have done thousands of randconfig build tests on this, but no
+runtime tests.
 
-> Which would also fix this issue here you're papering over.
-> =
+Some of the 'depends on FOO || !FOO' statements could be simplified
+into a new 'uses FOO' syntax based on a patch from Saeed Mahameed,
+but I would for the moment treat that as a cleanup that can be done
+later.
 
-> So if this is the entire reason for this, I'm inclined to not do this.
-> Current Xorg is toast wrt modifiers, that's not news.
+If we can agree on these changes, maybe someone can merge them
+through the drm-misc tree.
 
-Works just fine. Also pretty sure modifiers are even enabled by
-default now in modesetting.
+Please review
 
-And as stated the current check doesn't have consistent behaviour
-anyway. You can still flip between different modifiers as long a the
-driver doesn't override .get_format_info() for one of them. The *only*
-case where that happens is CCS on i915. There is no valid reason to
-special case that one.
+       Arnd
 
-> -Daniel
-> =
+Arnd Bergmann (8):
+  fbdev: w100fb: clean up mach-pxa compile-time dependency
+  fbdev/ARM: pxa: avoid selecting CONFIG_FB
+  fbdev: rework FB_DDC dependencies
+  drm/rcar: stop using 'imply' for dependencies
+  drm/vmwgfx: make framebuffer support optional
+  drm: decouple from CONFIG_FB
+  fbdev: rework backlight dependencies
+  drm/bridge/sii8620: fix extcon dependency
 
-> > =
+ arch/arm/configs/pxa_defconfig      |  3 ++
+ arch/arm/mach-pxa/Kconfig           |  7 ---
+ arch/arm/mach-pxa/eseries.c         | 14 +----
+ arch/arm/mach-pxa/saar.c            |  2 +-
+ arch/arm/mach-pxa/tavorevb.c        |  2 +-
+ drivers/auxdisplay/Kconfig          |  1 +
+ drivers/gpu/drm/Kconfig             |  5 +-
+ drivers/gpu/drm/bridge/Kconfig      |  2 +-
+ drivers/gpu/drm/mxsfb/Kconfig       |  1 -
+ drivers/gpu/drm/rcar-du/Kconfig     | 23 +++++---
+ drivers/gpu/drm/vmwgfx/Kconfig      | 17 +++---
+ drivers/gpu/drm/vmwgfx/Makefile     |  4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 35 +++++++-----
+ drivers/gpu/drm/zte/Kconfig         |  1 -
+ drivers/macintosh/Kconfig           |  1 +
+ drivers/staging/fbtft/Kconfig       |  1 +
+ drivers/staging/olpc_dcon/Kconfig   |  2 +-
+ drivers/video/fbdev/Kconfig         | 31 ++++++++---
+ drivers/video/fbdev/w100fb.c        | 84 +++++------------------------
+ include/video/w100fb.h              |  6 +--
+ 20 files changed, 101 insertions(+), 141 deletions(-)
 
-> > Looking back at the original discussion on this change we pretty much
-> > just did it in the name of skipping a few extra pointer dereferences.
-> > However, I've decided not to revert the whole thing in case someone
-> > has since started to depend on these changes. None of the other checks
-> > are relevant for i915 anyways.
-> > =
+-- 
+2.26.0
 
-> > Cc: stable@vger.kernel.org
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Fixes: dbd4d5761e1f ("drm: Replace 'format->format' comparisons to just=
- 'format' comparisons")
-> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_plane.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > =
-
-> > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> > index d6ad60ab0d38..f2ca5315f23b 100644
-> > --- a/drivers/gpu/drm/drm_plane.c
-> > +++ b/drivers/gpu/drm/drm_plane.c
-> > @@ -1153,7 +1153,7 @@ int drm_mode_page_flip_ioctl(struct drm_device *d=
-ev,
-> >  	if (ret)
-> >  		goto out;
-> >  =
-
-> > -	if (old_fb->format !=3D fb->format) {
-> > +	if (old_fb->format->format !=3D fb->format->format) {
-> >  		DRM_DEBUG_KMS("Page flip is not allowed to change frame buffer forma=
-t.\n");
-> >  		ret =3D -EINVAL;
-> >  		goto out;
-> > -- =
-
-> > 2.24.1
-> > =
-
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> =
-
-> -- =
-
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Nicolas Pitre <nico@fluxnic.net>
+Cc: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Saeed Mahameed <saeedm@mellanox.com>
+Cc: <masahiroy@kernel.org>
+Cc: <Laurent.pinchart@ideasonboard.com>
+Cc: <linux-renesas-soc@vger.kernel.org>,
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+Cc: <kieran.bingham+renesas@ideasonboard.com>,
+Cc: <airlied@linux.ie>
+Cc: daniel@zonque.org
+Cc: haojian.zhuang@gmail.com
+Cc: robert.jarzmik@free.fr
+Cc: daniel@ffwll.ch
+Cc: marex@denx.de
+Cc: stefan@agner.ch
+Cc: linux-graphics-maintainer@vmware.com
+Cc: thellstrom@vmware.com
+Cc: jfrederich@gmail.com
+Cc: dsd@laptop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: geert@linux-m68k.org
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
