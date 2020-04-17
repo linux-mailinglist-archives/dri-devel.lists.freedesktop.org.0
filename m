@@ -1,73 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17ED81AE044
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 16:54:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B951AE047
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 16:58:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 294A36E839;
-	Fri, 17 Apr 2020 14:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 764456E40F;
+	Fri, 17 Apr 2020 14:58:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77C426E40F
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 14:54:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587135271;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pYmeS57tTDUASATfniFOfmJDVBAaeuSIlwe+qMC1FpE=;
- b=Vh+9FhFk3POTPqBHIwkqgE/2+JftWz6xmqqfGrMWutt03l8AEYE2Zz7oHN9RTo/9SRw5Pr
- KnYPOofh1hdxGkr/NqvGSkv04HbeXMhnp0oImpOe/WIPJBzEOVOeRKECJ0uEp5bLJbkeXs
- mAnKRXmnRfqe5ZQW2iX0fm6c3fEBwpg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-cmJOGLWyNeSZmpjHHqX1Pg-1; Fri, 17 Apr 2020 10:54:29 -0400
-X-MC-Unique: cmJOGLWyNeSZmpjHHqX1Pg-1
-Received: by mail-wr1-f69.google.com with SMTP id o10so1122300wrj.7
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 07:54:29 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6FE26E40F
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 14:57:59 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id f13so3352469wrm.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 07:57:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=60VGtzwTiYwzXu9gSno8Albggq78bUOmhCjrGHuqcH0=;
+ b=i0P3U0FK9NGXGLuA53xyepLNIxHPyEzf7CRFj1/kqsSEfq7usXaKYHjNKTVeO14lzm
+ l+gvwwwSsSJD6qsl78aOdUwoiz9aO9r2c9l0/jlX46E2T3Gzu306zNYpvRYW7zRPR818
+ hqjKDFWxbLlMW5LSLV8fkyGJLmhC7HPpcJbY8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version;
- bh=Dd2wmr39LDxh+IlhqXuy12drhno4F3kJsYZKUqC9Pb8=;
- b=nvAE9+mWsi6DpgGqhZiGE7GwlCVkLrO9KCCPNqZ9bZ8FDRgcwkhOoeQL34sYatwpGB
- 6YWBEO0/UvJ0C7FAmioyxzDfSETcM7oEKq9CJOJ5aeCRXBWMVFfsuUOjJXmrm8b1dVlH
- 9k530F0yNX12I5llQI8wYC07TFSC8t+KjW2znzGTE8s9XucpLaRNcpLpOJLGrQHGZ0mQ
- gMR4eEy8krydJzeEHxyBVlFd1Uy/HYPBrIMrxWrL/dI+NBEa951XNXTpUCRCpDLvMbwO
- PD++vAAMFSLizXAJKki62OGx6EGCbIC4tpDnNAyZsLL0P8RcrIjRO1/KchkgKJWfH7/P
- RyKw==
-X-Gm-Message-State: AGi0PubuQC6uGRwTAv102xT2q7iDYy4JIVdj2GO5MIaRAbty8o6H+AA7
- 0XgjkiUSeK+79im+6v9JataaNuEdxe4qUJsoumBioJ2wIwiQwE7/p/+lLhZXMv1VFqmJBfa7ffl
- fA1EHJ1fr5fAwUFy12Z9/QYaAZYHl
-X-Received: by 2002:a5d:6985:: with SMTP id g5mr743487wru.398.1587135268228;
- Fri, 17 Apr 2020 07:54:28 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLECpzk6MgSUvBfAD1Fu9IQU1zSMm1/iMf4zZPH0eqE5c2+MoUudzqiSueuXt+3sPjQlE8sPw==
-X-Received: by 2002:a5d:6985:: with SMTP id g5mr743454wru.398.1587135267979;
- Fri, 17 Apr 2020 07:54:27 -0700 (PDT)
-Received: from 200116b82688d1f00000000000000381.dip.versatel-1u1.de
- (200116b82688d1f00000000000000381.dip.versatel-1u1.de.
- [2001:16b8:2688:d1f0::381])
- by smtp.gmail.com with ESMTPSA id c1sm32297164wrc.4.2020.04.17.07.54.26
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=60VGtzwTiYwzXu9gSno8Albggq78bUOmhCjrGHuqcH0=;
+ b=TTijiA7ZSNmB76VHHWzqaqOyE3X/xe6rVfvmPc0hBHUWDXdmF1f3A41dx1dm6xWPXa
+ 6WTAv/X8Id7wRe0vCSZYyFk3uypiBzRVe7NymTdHZlzqAD4OjacUgs1Lo45JmUnGYGRy
+ qIzl71rR/J+C5TzYnTp5S9gW4Tu5AS0GKdf+16Imja19a++2bcTYtS4kFf9xpB3kYcaG
+ 1q14+CQQ2VEyLoH3M6dEIhovb6RElal8IAyY2ndudY73L+GJ1PYPl956bdmUfT29L+1H
+ DLwB2I8RAhfVRcx4rB1SkcXiVZ7lc8XVPNQw2/3YOQgSlfJAUvUIB7ve4Qs9lqgR/Q/g
+ gM1g==
+X-Gm-Message-State: AGi0PuaLP7kS6iziHZ5rGlqUM0bc9mxgyA/6BSOQ+gMO5/hB+Tb9een2
+ jGkQAIcEtrg7AzFX57JECKSPVA==
+X-Google-Smtp-Source: APiQypLKC1eYBIJEQSftPCEpKucLkLsl9E3R3bE56ebfjr+BqL6bkLixosIGS46bokv29dR4G89U2w==
+X-Received: by 2002:a5d:658e:: with SMTP id q14mr4572943wru.92.1587135478501; 
+ Fri, 17 Apr 2020 07:57:58 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h16sm35085542wrw.36.2020.04.17.07.57.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Apr 2020 07:54:26 -0700 (PDT)
-Message-ID: <6325ac81a6c6d987f4fdee0471e33b3e17a2aae4.camel@redhat.com>
-Subject: Re: RFC: Drm-connector properties managed by another driver /
- privacy screen support
-From: Benjamin Berg <bberg@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>
-Date: Fri, 17 Apr 2020 16:54:24 +0200
-In-Reply-To: <CAKMK7uHKXTqwvyr3ocU4N+kpAnUBBZTjULSofqjP+0PcvGcFNQ@mail.gmail.com>
-References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
- <87tv1k4vl6.fsf@intel.com>
- <d47ba6ef-efd0-9f28-1ae4-b971b95a8f8b@redhat.com>
- <20200417120226.0cd6bc21@eldfell.localdomain> <87k12e2uoa.fsf@intel.com>
- <CAKMK7uHKXTqwvyr3ocU4N+kpAnUBBZTjULSofqjP+0PcvGcFNQ@mail.gmail.com>
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+ Fri, 17 Apr 2020 07:57:57 -0700 (PDT)
+Date: Fri, 17 Apr 2020 16:57:55 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Yussuf Khalil <dev@pp3345.net>
+Subject: Re: [PATCH 1/5] drm/modes: Indicate CEA-861 CE modes to user-space
+Message-ID: <20200417145755.GL3456981@phenom.ffwll.local>
+Mail-Followup-To: Yussuf Khalil <dev@pp3345.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20200413214024.46500-1-dev@pp3345.net>
+ <20200413214024.46500-2-dev@pp3345.net>
+ <20200414124132.GV3456981@phenom.ffwll.local>
+ <ac01c47a3b2c2ac73368882fb90eb6ee4e07fd04.camel@pp3345.net>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <ac01c47a3b2c2ac73368882fb90eb6ee4e07fd04.camel@pp3345.net>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,99 +74,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Christian Kellner <ckellner@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Hans de Goede <hdegoede@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Nitin Joshi1 <njoshi1@lenovo.com>,
- Rajat Jain <rajatja@google.com>, Mark Pearson <mpearson@lenovo.com>
-Content-Type: multipart/mixed; boundary="===============1551295601=="
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1551295601==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-rlQvbwycrlyFoNu+rjIJ"
+On Thu, Apr 16, 2020 at 03:51:36PM +0200, Yussuf Khalil wrote:
+> On Tue, 2020-04-14 at 14:41 +0200, Daniel Vetter wrote:
+> > On Mon, Apr 13, 2020 at 11:40:22PM +0200, Yussuf Khalil wrote:
+> > > Add a new flag to mark modes that are considered a CE mode
+> > > according to the
+> > > CEA-861 specification. Modes without this flag are implicitly
+> > > considered to
+> > > be IT modes.
+> > > 
+> > > User-space applications may use this flag to determine possible
+> > > implications of using a CE mode (e.g., limited RGB range).
+> > > 
+> > > There is no use for this flag inside the kernel, so we set it only
+> > > when
+> > > communicating a mode to user-space.
+> > > 
+> > > Signed-off-by: Yussuf Khalil <dev@pp3345.net>
+> > 
+> > Do we have userspace for this?
+> > 
+> > If we go with the existing quant range property you don't need new
+> > userspace for the property itself. But this flag here is new uapi, so
+> > needs userspace per
+> > 
+> > https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
+> > 
+> > Also since this standardizes kms uapi, we need testcases per
+> > 
+> > https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#testing-requirements-for-userspace-api
+> > 
+> > Cheers, Daniel
+> > 
+> > > ---
+> > >  drivers/gpu/drm/drm_modes.c | 14 ++++++++++++++
+> > >  include/uapi/drm/drm_mode.h |  2 ++
+> > >  2 files changed, 16 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_modes.c
+> > > b/drivers/gpu/drm/drm_modes.c
+> > > index d4d64518e11b..0d8a032f437d 100644
+> > > --- a/drivers/gpu/drm/drm_modes.c
+> > > +++ b/drivers/gpu/drm/drm_modes.c
+> > > @@ -1973,6 +1973,14 @@ void drm_mode_convert_to_umode(struct
+> > > drm_mode_modeinfo *out,
+> > >  		break;
+> > >  	}
+> > >  
+> > > +	if (drm_match_cea_mode(in) > 1) {
+> > > +		/*
+> > > +		 * All modes in CTA-861-G Table 1 are CE modes, except
+> > > 640x480p
+> > > +		 * (VIC 1).
+> > > +		 */
+> > > +		out->flags |= DRM_MODE_FLAG_CEA_861_CE_MODE;
+> > > +	}
+> > > +
+> > >  	strncpy(out->name, in->name, DRM_DISPLAY_MODE_LEN);
+> > >  	out->name[DRM_DISPLAY_MODE_LEN-1] = 0;
+> > >  }
+> > > @@ -2045,6 +2053,12 @@ int drm_mode_convert_umode(struct drm_device
+> > > *dev,
+> > >  		return -EINVAL;
+> > >  	}
+> > >  
+> > > +	/*
+> > > +	 * The CEA-861 CE mode flag is purely informational and
+> > > intended for
+> > > +	 * userspace only.
+> > > +	 */
+> > > +	out->flags &= ~DRM_MODE_FLAG_CEA_861_CE_MODE;
+> > > +
+> > >  	out->status = drm_mode_validate_driver(dev, out);
+> > >  	if (out->status != MODE_OK)
+> > >  		return -EINVAL;
+> > > diff --git a/include/uapi/drm/drm_mode.h
+> > > b/include/uapi/drm/drm_mode.h
+> > > index 735c8cfdaaa1..5e78b350b2e2 100644
+> > > --- a/include/uapi/drm/drm_mode.h
+> > > +++ b/include/uapi/drm/drm_mode.h
+> > > @@ -124,6 +124,8 @@ extern "C" {
+> > >  #define  DRM_MODE_FLAG_PIC_AR_256_135 \
+> > >  			(DRM_MODE_PICTURE_ASPECT_256_135<<19)
+> > >  
+> > > +#define DRM_MODE_FLAG_CEA_861_CE_MODE (1<<23)
+> > > +
+> > >  #define  DRM_MODE_FLAG_ALL	(DRM_MODE_FLAG_PHSYNC |		\
+> > >  				 DRM_MODE_FLAG_NHSYNC |		\
+> > >  				 DRM_MODE_FLAG_PVSYNC |		\
+> > > -- 
+> > > 2.26.0
+> > > 
+> 
+> Sorry, I wasn't aware DRM had these additional requirements. I do have a user-
+> space implementation in mutter and gnome-control-center that makes use of the
+> new property and this flag on my local machine. I'll try to propose the branch
+> upstream before sending in the next revision of this patchset.
+> 
+> Do I understand it correctly that this will require test cases for both the
+> property itself and the new flag? I'll write a patch for IGT then.
 
---=-rlQvbwycrlyFoNu+rjIJ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 2020-04-17 at 16:18 +0200, Daniel Vetter wrote:
-> > I suppose rf-kill is a bit similar.
-
-RfKill is actually much more complicated, and I don't really see how it
-is related. We may be in the situation where we cannot control the
-hardware state, but RfKill has two entirely separate "block" states and
-the real value is the logical OR of both.
-
-Also, RfKill key handling is a mess as userspace needs to tell the
-kernel it is handling the keys.
-
-> > You'd have a userspace controlled property to state what the userspace
-> > wants, and a kernel controlled property to show the hardware
-> > state. Userspace can ask for one or the other, and usually this happens=
-,
-> > but the hardware hotkey bypasses the whole thing.
-> >
-> > It's not perfect. But I think just one property changed nilly-willy by
-> > both the kernel and userspace (especially when it's really not in the
-> > kernel's full control either) is going to be a PITA.
->=20
-> Yeah that's what we've done in other cases where both kernel and
-> userspace can change stuff. These where just tri-states, but this here
-> sounds like we need all for, so best to just have 2 properties.
-
-As I see it, the requirements here are:
- * Userspace needs to be able to query the current state
-   (possibly unavailable?)
- * Userspace needs to know whether it can set the property
- * Userspace needs to be notified about changes
-   (by the firmware or possibly any other reason)
-
-But, should never get into the situation that both the firmware and
-software are trying to toggle the state in response to the same event.
-In the case of the Fn-key, we'll either deliver a key-press to
-userspace or just update the attribute because the firmware has already
-handled it. Only one of these two possibilities may happen.
-
-Benjamin
-
---=-rlQvbwycrlyFoNu+rjIJ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEED2NO4vMS33W8E4AFq6ZWhpmFY3AFAl6ZwyAACgkQq6ZWhpmF
-Y3CVMQ/+P/qq0rXyAEp1UECbiee+9uKhIX+wWFAlKOg2zj5FYy61W25SwL0npfK1
-PzRbv9hrqsKjDXtTU0f2r4gNTrR8OZbcxZ+TTm3bvKF/CthYu+HrQ/QNSldIJwRn
-ZgiJbMOjjMhrHSh5/cJ6vUsnJoYlVPheOIZ/NaGC4O3lYB2n8I5GlIz2pViGF3of
-cTus+i2TRq2jFVIJvYZ5M+GUGI/sWtUJXmA2aOZclRwU2EOOqhtQJkn/mZHrhvMq
-0+ArjIYQOYR7OOguZT0MzAO8cikT80CTWcGhm55PGGQJX0vb+8Jwt9cND2aclGfd
-COcyhmqN2MulB8H9mhhEYmM4rdGqIi6gXIRQo2Ar47tZ/Qzxt9azGRW5gtuNAlSy
-nJjEquAfwmvjdLARaEVG+HyMYg/93wkAndX0nsnF7oIsKznfSWEyDLSjK3ipfvek
-Tee+AK1Ajt1h5V/Q3g3TS83Bdb+NJq3SdlEBP/7gmqI94DFf/DR1KlpMCDyxzXHO
-HLnUYcw+FnPfCDmi5SQ4A/QCpfV8vKf2io/zBcKmkPMSZWN7GxmFxghLyMxG9X8b
-zB44/URMixB3aYrLNPRqej2eEuysVLGROA31UILDUyDXIdQnr4eIxoQWQYy77zm8
-8sPRAHSsDB9VEeKDIF0hBK0CUBqb9y0XKtDBpQB99pcjxFZ0dRI=
-=0VNE
------END PGP SIGNATURE-----
-
---=-rlQvbwycrlyFoNu+rjIJ--
-
-
---===============1551295601==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Yup. We even have some edid injection stuff so you can (for some value of
+"can") test this on systems without such a monitor. That would obviously
+be the gold standard for this, so that CI systems can make sure we don't
+break any of this in the driver side.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1551295601==--
-
