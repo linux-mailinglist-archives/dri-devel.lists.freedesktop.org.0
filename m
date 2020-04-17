@@ -1,48 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3908E1AEB36
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 11:26:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D8D1AEB3C
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 11:27:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8F8D6EB0E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDBD66EC5F;
 	Sat, 18 Apr 2020 09:26:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E64BF89824
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 12:16:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587125782;
+ [IPv6:2a01:238:20a:202:5302::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72EB46E405
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 12:18:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587125892;
  s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=RzdUw8/NV55WKlcwv7PC21SyWddKy4v1gy6xI/rF3XU=;
- b=sb2P5iCXrDb5PBZD9esuqals1ebyyGTwNqKQEse3IDPq1htogPJ+7/7wq/aoGjZWJU
- QoZVVbN8bP+DIklneZutnfxQIbUdRFOurWAkfMyLq+MVbuc1RQNlXYYztr2zxM1R9KOp
- oWvQK4VrJHUR8fcJbBE8q0TMCL/vln7I7rqaW1jna2kGybK/0Tk0p+Y9TyMSyg9fkp7w
- +o0oFi76I4JOiFKYaE5eHoqljYs5uaakPjcO/3q9iwkYMWVzLO7p163dc6bfo3BIsXxM
- HFc02c/RVFLD0hx/XPmg68pGVGGbBtMmrr3eQ9ZcD1BlabBgK0q6+6h4pLhqONWEJklG
- 7Xew==
+ h=To:Message-Id:Cc:Date:From:Subject:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+ Subject:Sender;
+ bh=PSiPnbfCSm2N4MjrJ4CWsT5t8wQGa5r1063Egonru1I=;
+ b=ltCgwNBOmvKk84NE9N5Ji8Ttl6uREIdFelvz9KPb1FxU6lgbDTwRj58SH6KVG+PVDy
+ Qu+gaqzSMnpcAQzZMKB1Fp1BTlxqaxQMSVz80uBb9X5imWywPmViPREHFsTUuNGSxVpj
+ ecIXWxx2mczPRwVKo5DssQxNSmjNYMkp3FD/wiLyIdIHCgUpXzsLsIuvg/qHBxWZUmqa
+ I7esULpDoHnbyoFNQgxkTDXOAz/BKTDvkDEsjFJeyc8vUzbHEhc3ADUGmCs2BohthsNH
+ LT5cdGwHprvL4nmU21F968ITaDNKCuK4BRP8D32a13cehicTuVg+p6A+TpbQQ5CrZaj5
+ n9vw==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGH/PgwDWjbQ=="
 X-RZG-CLASS-ID: mo00
 Received: from imac.fritz.box by smtp.strato.de (RZmta 46.5.0 DYNA|AUTH)
- with ESMTPSA id g06d2dw3HCG81cE
+ with ESMTPSA id g06d2dw3HCIC1cd
  (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
  ECDH bits, eq. 3072 bits RSA))
  (Client did not present a certificate);
- Fri, 17 Apr 2020 14:16:08 +0200 (CEST)
-Subject: Re: [PATCH v6 01/12] dt-bindings: add img,
- pvrsgx.yaml for Imagination GPUs
+ Fri, 17 Apr 2020 14:18:12 +0200 (CEST)
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+Subject: [drm:simple_bridge_attach [simple_bridge]] *ERROR* Fix bridge driver
+ to make connector optional!
 From: H. Nikolaus Schaller <hns@goldelico.com>
-In-Reply-To: <20200416204158.GA1006@bogus>
-Date: Fri, 17 Apr 2020 14:16:07 +0200
-Message-Id: <C7C58E41-99CB-49F6-934E-68FA458CB8B1@goldelico.com>
-References: <cover.1586939718.git.hns@goldelico.com>
- <06fb6569259bb9183d0a0d0fe70ec4f3033b8aab.1586939718.git.hns@goldelico.com>
- <20200416204158.GA1006@bogus>
-To: Rob Herring <robh@kernel.org>
+Date: Fri, 17 Apr 2020 14:18:11 +0200
+Message-Id: <CB5A5B81-F06C-4CBE-95DE-96C8723D2AC5@goldelico.com>
+To: Maxime Ripard <maxime@cerno.tech>
 X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Sat, 18 Apr 2020 09:26:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,72 +53,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Philipp Rossak <embed3d@gmail.com>, David Airlie <airlied@linux.ie>,
- openpvrsgx-devgroup@letux.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Chen-Yu Tsai <wens@csie.org>, linux-samsung-soc@vger.kernel.org,
- kernel@pyra-handheld.com, letux-kernel@openphoenux.org,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-omap <linux-omap@vger.kernel.org>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+Hi Maxime,
+I have started to test v5.7-rc1 and can't fully boot the GTA04
+device any more.
 
-> Am 16.04.2020 um 22:41 schrieb Rob Herring <robh@kernel.org>:
-> 
-> On Wed, 15 Apr 2020 10:35:08 +0200, "H. Nikolaus Schaller" wrote:
->> The Imagination PVR/SGX GPU is part of several SoC from
->> multiple vendors, e.g. TI OMAP, Ingenic JZ4780, Intel Poulsbo,
->> Allwinner A83 and others.
->> 
->> With this binding, we describe how the SGX processor is
->> interfaced to the SoC (registers, interrupt etc.).
->> 
->> In most cases, Clock, Reset and power management is handled
->> by a parent node or elsewhere (e.g. code in the driver).
->> 
->> Tested by make dt_binding_check dtbs_check
->> 
->> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
->> ---
->> .../devicetree/bindings/gpu/img,pvrsgx.yaml   | 122 ++++++++++++++++++
->> 1 file changed, 122 insertions(+)
->> create mode 100644 Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
->> 
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml:  while parsing a block mapping
->  in "<unicode string>", line 74, column 13
+What I see in the log is:
 
-It turned out that there was a stray " in line 74 from the last editing phase.
-Will be fixed in v7.
+[   28.567840] [drm:simple_bridge_attach [simple_bridge]] *ERROR* Fix bridge driver to make connector optional!
+[   28.567871] omapdrm omapdrm.0: unable to attach bridge /ocp@68000000/dss@48050000/encoder@48050c00
+[   28.786529] omapdrm omapdrm.0: omap_modeset_init failed: ret=-22
+[   28.841552] omapdrm: probe of omapdrm.0 failed with error -22
 
-Would it be possible to make dt_binding_check not only report line/column but the
-contents of the line instead of "<unicode string>"?
+This device uses the ti,opa362 chip which did have a dedicated
+omapdss driver before (which is removed now) and which seems to
+be supported by the simple_bridge now.
 
-> did not find expected key
->  in "<unicode string>", line 117, column 21
-> Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/gpu/img,pvrsgx.example.dts' failed
-> make[1]: *** [Documentation/devicetree/bindings/gpu/img,pvrsgx.example.dts] Error 1
-> make[1]: *** Waiting for unfinished jobs....
-> Makefile:1264: recipe for target 'dt_binding_check' failed
-> make: *** [dt_binding_check] Error 2
-> 
-> See https://patchwork.ozlabs.org/patch/1270997
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure dt-schema is up to date:
-> 
-> pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-> 
-> Please check and re-submit.
+The opa362 is sitting in the video out path from
+
+	omapdrm -> venc -> opa362 -> video-out-connector.
+
+What does this error mean? How can it be fixed?
 
 BR and thanks,
-Nikolaus Schaller
+Nikolaus
 
 _______________________________________________
 dri-devel mailing list
