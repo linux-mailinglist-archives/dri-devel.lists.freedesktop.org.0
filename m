@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63CDF1AE613
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 21:43:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7641AE61D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 21:43:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62A756E88C;
-	Fri, 17 Apr 2020 19:43:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C37DA6E92A;
+	Fri, 17 Apr 2020 19:43:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAA396E88C
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 19:43:00 +0000 (UTC)
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9E9A6E92A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 19:43:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587152579;
+ s=mimecast20190719; t=1587152588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vrv+BRobzxfIw8uzQhGRUQB+JV4ocho5fjC/dYNzxUs=;
- b=bGr4yqppwnhHjenqxudy3wLNiwC5olL1yNowqrY8wBg+WSk2NQ0l9iElrCaJL1MicmcGOe
- sImAtU1pb+wfjIBzLTqjdJDUwdiwxCoA+OawLPojdVSKS2LTIJr0ROJ03sgt0AATO4Q4cI
- h4tV21qVxsbykKMigaEbmYSr9I5UmJg=
+ bh=B9UDKl9q4SMe0iLTyb0J1NInjvyeAg31FlF/WzpwaPQ=;
+ b=jThvnWUMeeD51jbpSGOI7sWvLDVBjS5p+QcvKxy7pGKEF9Bwsr7ERBIB50E1LGgggff3Vi
+ rez4ojQ4srSyh/E+qEwV+Q8F3wPt0+A6g+qFlY0kcLygGcY3oM6OU3TCbk/4zwzWr21YVc
+ waAyy9TNiPCltHvH7WNzWBBlTNbE0Jk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-fqHCkSp2OpS57S8DAXJqCg-1; Fri, 17 Apr 2020 15:42:57 -0400
-X-MC-Unique: fqHCkSp2OpS57S8DAXJqCg-1
+ us-mta-70-e0znxQZyNseKvvRB8wAcuQ-1; Fri, 17 Apr 2020 15:43:06 -0400
+X-MC-Unique: e0znxQZyNseKvvRB8wAcuQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A79A0149C0;
- Fri, 17 Apr 2020 19:42:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B522801F78;
+ Fri, 17 Apr 2020 19:43:04 +0000 (UTC)
 Received: from Ruby.redhat.com (ovpn-114-140.rdu2.redhat.com [10.10.114.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6661B5D9CA;
- Fri, 17 Apr 2020 19:42:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DDA505D9CA;
+ Fri, 17 Apr 2020 19:42:59 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC v3 09/11] drm/nouveau/kms/nv50-: Expose nv50_outp_atom in disp.h
-Date: Fri, 17 Apr 2020 15:40:56 -0400
-Message-Id: <20200417194145.36350-10-lyude@redhat.com>
+Subject: [RFC v3 10/11] drm/nouveau/kms/nv50-: Move hard-coded object handles
+ into header
+Date: Fri, 17 Apr 2020 15:40:57 -0400
+Message-Id: <20200417194145.36350-11-lyude@redhat.com>
 In-Reply-To: <20200417194145.36350-1-lyude@redhat.com>
 References: <20200417194145.36350-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -57,82 +58,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, David Airlie <airlied@linux.ie>,
+Cc: David Airlie <airlied@linux.ie>,
  Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
  linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>,
  Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to make sure that we flush disable updates at the right time
-when disabling CRCs, we'll need to be able to look at the outp state to
-see if we're changing it at the same time that we're disabling CRCs.
+While most of the functionality on Nvidia GPUs doesn't require using an
+explicit handle instead of the main VRAM handle + offset, there are a
+couple of places that do require explicit handles, such as CRC
+functionality. Since this means we're about to add another
+nouveau-chosen handle, let's just go ahead and move any hard-coded
+handles into a single header. This is just to keep things slightly
+organized, and to make it a little bit easier if we need to add more
+handles in the future.
 
-So, expose the struct in disp.h.
+This patch should contain no functional changes.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 18 ------------------
- drivers/gpu/drm/nouveau/dispnv50/disp.h | 14 ++++++++++++++
- 2 files changed, 14 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/nouveau/dispnv50/disp.c    |  7 +++++--
+ drivers/gpu/drm/nouveau/dispnv50/handles.h | 15 +++++++++++++++
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c    |  3 ++-
+ 3 files changed, 22 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/nouveau/dispnv50/handles.h
 
 diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 5be036b3b533..5d5661967d50 100644
+index 5d5661967d50..568029825f62 100644
 --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
 +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -57,24 +57,6 @@
+@@ -26,6 +26,7 @@
+ #include "core.h"
+ #include "head.h"
+ #include "wndw.h"
++#include "handles.h"
  
- #include <subdev/bios/dp.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/hdmi.h>
+@@ -154,7 +155,8 @@ nv50_dmac_create(struct nvif_device *device, struct nvif_object *disp,
+ 	if (!syncbuf)
+ 		return 0;
  
--/******************************************************************************
-- * Atomic state
-- *****************************************************************************/
--
--struct nv50_outp_atom {
--	struct list_head head;
--
--	struct drm_encoder *encoder;
--	bool flush_disable;
--
--	union nv50_outp_atom_mask {
--		struct {
--			bool ctrl:1;
--		};
--		u8 mask;
--	} set, clr;
--};
--
- /******************************************************************************
-  * EVO channel
-  *****************************************************************************/
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.h b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-index d54fe00ac3a3..8935ebce8ab0 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-@@ -70,6 +70,20 @@ struct nv50_dmac {
- 	struct mutex lock;
- };
+-	ret = nvif_object_init(&dmac->base.user, 0xf0000000, NV_DMA_IN_MEMORY,
++	ret = nvif_object_init(&dmac->base.user, NV50_DISP_HANDLE_SYNCBUF,
++			       NV_DMA_IN_MEMORY,
+ 			       &(struct nv_dma_v0) {
+ 					.target = NV_DMA_V0_TARGET_VRAM,
+ 					.access = NV_DMA_V0_ACCESS_RDWR,
+@@ -165,7 +167,8 @@ nv50_dmac_create(struct nvif_device *device, struct nvif_object *disp,
+ 	if (ret)
+ 		return ret;
  
-+struct nv50_outp_atom {
-+	struct list_head head;
+-	ret = nvif_object_init(&dmac->base.user, 0xf0000001, NV_DMA_IN_MEMORY,
++	ret = nvif_object_init(&dmac->base.user, NV50_DISP_HANDLE_VRAM,
++			       NV_DMA_IN_MEMORY,
+ 			       &(struct nv_dma_v0) {
+ 					.target = NV_DMA_V0_TARGET_VRAM,
+ 					.access = NV_DMA_V0_ACCESS_RDWR,
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/handles.h b/drivers/gpu/drm/nouveau/dispnv50/handles.h
+new file mode 100644
+index 000000000000..e3a62c7a0d08
+--- /dev/null
++++ b/drivers/gpu/drm/nouveau/dispnv50/handles.h
+@@ -0,0 +1,15 @@
++/* SPDX-License-Identifier: MIT */
++#ifndef __NV50_KMS_HANDLES_H__
++#define __NV50_KMS_HANDLES_H__
 +
-+	struct drm_encoder *encoder;
-+	bool flush_disable;
++/*
++ * Various hard-coded object handles that nouveau uses. These are made-up by
++ * nouveau developers, not Nvidia. The only significance of the handles chosen
++ * is that they must all be unique.
++ */
++#define NV50_DISP_HANDLE_SYNCBUF                                        0xf0000000
++#define NV50_DISP_HANDLE_VRAM                                           0xf0000001
 +
-+	union nv50_outp_atom_mask {
-+		struct {
-+			bool ctrl:1;
-+		};
-+		u8 mask;
-+	} set, clr;
-+};
++#define NV50_DISP_HANDLE_WNDW_CTX(kind)                        (0xfb000000 | kind)
 +
- int nv50_dmac_create(struct nvif_device *device, struct nvif_object *disp,
- 		     const s32 *oclass, u8 head, void *data, u32 size,
- 		     u64 syncbuf, struct nv50_dmac *dmac);
++#endif /* !__NV50_KMS_HANDLES_H__ */
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+index 39cca8eaa066..cb67a715bd69 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+@@ -21,6 +21,7 @@
+  */
+ #include "wndw.h"
+ #include "wimm.h"
++#include "handles.h"
+ 
+ #include <nvif/class.h>
+ #include <nvif/cl0002.h>
+@@ -44,7 +45,7 @@ nv50_wndw_ctxdma_new(struct nv50_wndw *wndw, struct nouveau_framebuffer *fb)
+ 	struct nouveau_drm *drm = nouveau_drm(fb->base.dev);
+ 	struct nv50_wndw_ctxdma *ctxdma;
+ 	const u8    kind = fb->nvbo->kind;
+-	const u32 handle = 0xfb000000 | kind;
++	const u32 handle = NV50_DISP_HANDLE_WNDW_CTX(kind);
+ 	struct {
+ 		struct nv_dma_v0 base;
+ 		union {
 -- 
 2.25.1
 
