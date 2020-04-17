@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D6FE1ADEE2
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 15:59:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E77C1ADEF3
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 16:05:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEF86EC09;
-	Fri, 17 Apr 2020 13:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE156EBFE;
+	Fri, 17 Apr 2020 14:05:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53CC56EBFE;
- Fri, 17 Apr 2020 13:59:25 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id k1so3182383wrx.4;
- Fri, 17 Apr 2020 06:59:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nlisnDxdgaFK9V5Dj7hV44s/k7j4LFrmWkeS7EKcVH4=;
- b=oTlzjn5Ubl4uDmSRbU3FNlxzwSOHUoZihX42C64UMjMeA6UmGMLSduRX2Njrfk0gQ8
- D7e3DDH0eGcrclA1jzGtQm1/4cSMB4Tc2YEqQJu+mL2tFgr1UGH39zK6aGvKLeDvM8pG
- Xk3RoqwzEVQLAltynnwp+6f4lM4fRkgbrkhQC+gA/+lo9QKvD+FlAv/X2YzsFuDNXUKn
- X8+yg2mJz9U1D1JKy5l93PX9ooSZuVqTgwEslE+silEkn8aEg5PkQLkGKmaiBrrM4elF
- 4cltOgrlSgzxhBaXKqG5HQN/71J++ukpLMn3L86HnusRUKf/sYYZBaTz6/i57YuXt08e
- AW0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nlisnDxdgaFK9V5Dj7hV44s/k7j4LFrmWkeS7EKcVH4=;
- b=BG466oW8P4CWaUbMldW/FVhawcJs6CvWxTgnP57BUo3Z4NQZjwj4IPhTQ5PI+iJ9g/
- COMwTe05Rxz0tGi8PMm501SqB4tH6zExngNWS7Wc371AXvmKTj5qOHN6LK26jDvgNiuI
- H2dn9YtZDvFC9jhZ/vJNZe46RDuHjaaI9uR7ZWrQwC+LPQJ/HkbGQcHMGWlXnCrTWwYL
- eOEUWEQYST9vIHyRdgI7VzFhL0FpzSHYlJxGq4lg5Nw+r9C69btDDU+rD6KiCy/ZNjRM
- iWcNDFi+c+ZVhAmIxeaBTzuWe8QplXzLsduLUZLGqAqLElPsF3cjnXzLL0fFqI6z1GM6
- w+SA==
-X-Gm-Message-State: AGi0PuZwexZZ6hRtfrqUuIXEX5BqLsx+geFMPU0CaGEby2Cb5dxYjpX6
- UcZ8tXhr2WcSr0JAwAJSdoXPJe5t26NN+9M2Cg4=
-X-Google-Smtp-Source: APiQypJ5RuwNjBBNOOuUN0lsUE85uoH+Wm9g7IHWfDHg4sB7twV0nxMFj7A+ytVL+34mZSl79flpnTeuNeTKWvMKWbc=
-X-Received: by 2002:a5d:4106:: with SMTP id l6mr4013319wrp.111.1587131963996; 
- Fri, 17 Apr 2020 06:59:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200417101247.45616-1-yuehaibing@huawei.com>
-In-Reply-To: <20200417101247.45616-1-yuehaibing@huawei.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 17 Apr 2020 09:59:12 -0400
-Message-ID: <CADnq5_OCqKM3EYnjti0djh5hEPbRgO3qgJFeAU5tpqWc9PZiyA@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/dc: remove unused variable
- 'video_optimized_pixel_rates'
-To: YueHaibing <yuehaibing@huawei.com>
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 062966E978
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 14:05:39 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1587132340; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=CN4hjm7aZcN+iyfH3H8zWKIe1rY4Y4n7ceS2lTKBT6E=;
+ b=WeBM+gcriMORQwhIdmxFGfndGV3wz05W9yYrSI87FRgRP18Ckdk44KWHV+SDcM3eSABcDJ1o
+ IM00fWK4LPxecQPUWjn4q9Tr9sFy0tTK33DJSEs6bhBudM7pAzN4jqyz+NeGKxP7ccF6OOc3
+ i2LmraiZQvYn00TcDcmDrUHtpJY=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e99b7b2.7ff1f3e8da40-smtp-out-n05;
+ Fri, 17 Apr 2020 14:05:38 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 1BC87C44BFA; Fri, 17 Apr 2020 14:05:36 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from blr-ubuntu-173.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: rnayak)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 64B3CC44788;
+ Fri, 17 Apr 2020 14:05:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 64B3CC44788
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=rnayak@codeaurora.org
+From: Rajendra Nayak <rnayak@codeaurora.org>
+To: viresh.kumar@linaro.org, sboyd@kernel.org, bjorn.andersson@linaro.org,
+ agross@kernel.org
+Subject: [PATCH v2 05/17] drm/msm/dpu: Use OPP API to set clk/perf state
+Date: Fri, 17 Apr 2020 19:34:27 +0530
+Message-Id: <1587132279-27659-6-git-send-email-rnayak@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1587132279-27659-1-git-send-email-rnayak@codeaurora.org>
+References: <1587132279-27659-1-git-send-email-rnayak@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,80 +66,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, Rajendra Nayak <rnayak@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, mka@chromium.org, Sean Paul <sean@poorly.run>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBBcHIgMTcsIDIwMjAgYXQgOToxNiBBTSBZdWVIYWliaW5nIDx5dWVoYWliaW5nQGh1
-YXdlaS5jb20+IHdyb3RlOgo+Cj4gZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlzcGxh
-eS9kYy9kY2UvZGNlX2Nsb2NrX3NvdXJjZS5jOjEwMTc6NTA6Cj4gIHdhcm5pbmc6IOKAmHZpZGVv
-X29wdGltaXplZF9waXhlbF9yYXRlc+KAmSBkZWZpbmVkIGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQt
-Y29uc3QtdmFyaWFibGU9XQo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IHBpeGVsX3JhdGVfcmFuZ2Vf
-dGFibGVfZW50cnkgdmlkZW9fb3B0aW1pemVkX3BpeGVsX3JhdGVzW10gPSB7Cj4gICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn4KPgo+IGNvbW1pdCBkOGNkNTg3ZDJiZmQgKCJkcm0vYW1kL2Rpc3BsYXk6IHJl
-bW92aW5nIE1PRFVMTyBjaGFuZ2UgZm9yIGRjbjIiKQo+IGxlZnQgYmVoaW5kIHRoaXMgdW51c2Vk
-IHZhaXJhYmxlLCByZW1vdmUgaXQuCj4KPiBTaWduZWQtb2ZmLWJ5OiBZdWVIYWliaW5nIDx5dWVo
-YWliaW5nQGh1YXdlaS5jb20+CgpBcHBsaWVkLiAgVGhhbmtzIQoKQWxleAoKPiAtLS0KPiAgLi4u
-L2RybS9hbWQvZGlzcGxheS9kYy9kY2UvZGNlX2Nsb2NrX3NvdXJjZS5jIHwgMzMgLS0tLS0tLS0t
-LS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMzMgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjZS9kY2VfY2xvY2tfc291cmNl
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9jbG9ja19zb3VyY2Uu
-Ywo+IGluZGV4IDJlOTkyZmJjMGQ3MS4uZDJhZDA1MDRiMGRlIDEwMDY0NAo+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY2UvZGNlX2Nsb2NrX3NvdXJjZS5jCj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjZS9kY2VfY2xvY2tfc291cmNlLmMKPiBA
-QCAtMTAxNCwzOSArMTAxNCw2IEBAIHN0cnVjdCBwaXhlbF9yYXRlX3JhbmdlX3RhYmxlX2VudHJ5
-IHsKPiAgICAgICAgIHVuc2lnbmVkIHNob3J0IGRpdl9mYWN0b3I7Cj4gIH07Cj4KPiAtc3RhdGlj
-IGNvbnN0IHN0cnVjdCBwaXhlbF9yYXRlX3JhbmdlX3RhYmxlX2VudHJ5IHZpZGVvX29wdGltaXpl
-ZF9waXhlbF9yYXRlc1tdID0gewo+IC0gICAgICAgLy8gLzEuMDAxIHJhdGVzCj4gLSAgICAgICB7
-MjUxNzAsIDI1MTgwLCAyNTIwMCwgMTAwMCwgMTAwMX0sICAgICAgLy8yNS4yTUh6ICAgLT4gICAy
-NS4xNwo+IC0gICAgICAgezU5MzQwLCA1OTM1MCwgNTk0MDAsIDEwMDAsIDEwMDF9LCAgICAgIC8v
-NTkuNE1oeiAgIC0+ICAgNTkuMzQwCj4gLSAgICAgICB7NzQxNzAsIDc0MTgwLCA3NDI1MCwgMTAw
-MCwgMTAwMX0sICAgICAgLy83NC4yNU1oeiAgLT4gICA3NC4xNzU4Cj4gLSAgICAgICB7MTI1ODcw
-LCAxMjU4ODAsIDEyNjAwMCwgMTAwMCwgMTAwMX0sICAgLy8xMjZNaHogICAgLT4gIDEyNS44Nwo+
-IC0gICAgICAgezE0ODM1MCwgMTQ4MzYwLCAxNDg1MDAsIDEwMDAsIDEwMDF9LCAgIC8vMTQ4LjVN
-aHogIC0+ICAxNDguMzUxNgo+IC0gICAgICAgezE2NzgzMCwgMTY3ODQwLCAxNjgwMDAsIDEwMDAs
-IDEwMDF9LCAgIC8vMTY4TWh6ICAgIC0+ICAxNjcuODMKPiAtICAgICAgIHsyMjI1MjAsIDIyMjUz
-MCwgMjIyNzUwLCAxMDAwLCAxMDAxfSwgICAvLzIyMi43NU1oeiAtPiAgMjIyLjUyNwo+IC0gICAg
-ICAgezI1NzE0MCwgMjU3MTUwLCAyNTc0MDAsIDEwMDAsIDEwMDF9LCAgIC8vMjU3LjRNaHogIC0+
-ICAyNTcuMTQyOQo+IC0gICAgICAgezI5NjcwMCwgMjk2NzEwLCAyOTcwMDAsIDEwMDAsIDEwMDF9
-LCAgIC8vMjk3TWh6ICAgIC0+ICAyOTYuNzAzMwo+IC0gICAgICAgezM0Mjg1MCwgMzQyODYwLCAz
-NDMyMDAsIDEwMDAsIDEwMDF9LCAgIC8vMzQzLjJNaHogIC0+ICAzNDIuODU3Cj4gLSAgICAgICB7
-Mzk1NjAwLCAzOTU2MTAsIDM5NjAwMCwgMTAwMCwgMTAwMX0sICAgLy8zOTZNaHogICAgLT4gIDM5
-NS42Cj4gLSAgICAgICB7NDA5MDkwLCA0MDkxMDAsIDQwOTUwMCwgMTAwMCwgMTAwMX0sICAgLy80
-MDkuNU1oeiAgLT4gIDQwOS4wOTEKPiAtICAgICAgIHs0NDUwNTAsIDQ0NTA2MCwgNDQ1NTAwLCAx
-MDAwLCAxMDAxfSwgICAvLzQ0NS41TWh6ICAtPiAgNDQ1LjA1NQo+IC0gICAgICAgezQ2NzUzMCwg
-NDY3NTQwLCA0NjgwMDAsIDEwMDAsIDEwMDF9LCAgIC8vNDY4TWh6ICAgIC0+ICA0NjcuNTMyNQo+
-IC0gICAgICAgezUxOTIzMCwgNTE5MjQwLCA1MTk3NTAsIDEwMDAsIDEwMDF9LCAgIC8vNTE5Ljc1
-TWh6IC0+ICA1MTkuMjMxCj4gLSAgICAgICB7NTI1OTcwLCA1MjU5ODAsIDUyNjUwMCwgMTAwMCwg
-MTAwMX0sICAgLy81MjYuNU1oeiAgLT4gIDUyNS45NzQKPiAtICAgICAgIHs1NDU0NTAsIDU0NTQ2
-MCwgNTQ2MDAwLCAxMDAwLCAxMDAxfSwgICAvLzU0Nk1oeiAgICAtPiAgNTQ1LjQ1NQo+IC0gICAg
-ICAgezU5MzQwMCwgNTkzNDEwLCA1OTQwMDAsIDEwMDAsIDEwMDF9LCAgIC8vNTk0TWh6ICAgIC0+
-ICA1OTMuNDA2Ngo+IC0gICAgICAgezYyMzM3MCwgNjIzMzgwLCA2MjQwMDAsIDEwMDAsIDEwMDF9
-LCAgIC8vNjI0TWh6ICAgIC0+ICA2MjMuMzc3Cj4gLSAgICAgICB7NjkyMzAwLCA2OTIzMTAsIDY5
-MzAwMCwgMTAwMCwgMTAwMX0sICAgLy82OTNNaHogICAgLT4gIDY5Mi4zMDgKPiAtICAgICAgIHs3
-MDEyOTAsIDcwMTMwMCwgNzAyMDAwLCAxMDAwLCAxMDAxfSwgICAvLzcwMk1oeiAgICAtPiAgNzAx
-LjI5ODcKPiAtICAgICAgIHs3OTEyMDAsIDc5MTIxMCwgNzkyMDAwLCAxMDAwLCAxMDAxfSwgICAv
-Lzc5Mk1oeiAgICAtPiAgNzkxLjIwOQo+IC0gICAgICAgezg5MDEwMCwgODkwMTEwLCA4OTEwMDAs
-IDEwMDAsIDEwMDF9LCAgIC8vODkxTWh6ICAgIC0+ICA4OTAuMTA5OQo+IC0gICAgICAgezExODY4
-MTAsIDExODY4MjAsIDExODgwMDAsIDEwMDAsIDEwMDF9LC8vMTE4OE1oeiAgIC0+IDExODYuODEz
-MQo+IC0KPiAtICAgICAgIC8vICoxLjAwMSByYXRlcwo+IC0gICAgICAgezI3MDIwLCAyNzAzMCwg
-MjcwMDAsIDEwMDEsIDEwMDB9LCAvLzI3TWh6Cj4gLSAgICAgICB7NTQwNTAsIDU0MDYwLCA1NDAw
-MCwgMTAwMSwgMTAwMH0sIC8vNTRNaHoKPiAtICAgICAgIHsxMDgxMDAsIDEwODExMCwgMTA4MDAw
-LCAxMDAxLCAxMDAwfSwvLzEwOE1oego+IC19Owo+IC0KPiAgc3RhdGljIGJvb2wgZGNuMjBfcHJv
-Z3JhbV9waXhfY2xrKAo+ICAgICAgICAgICAgICAgICBzdHJ1Y3QgY2xvY2tfc291cmNlICpjbG9j
-a19zb3VyY2UsCj4gICAgICAgICAgICAgICAgIHN0cnVjdCBwaXhlbF9jbGtfcGFyYW1zICpwaXhf
-Y2xrX3BhcmFtcywKPiAtLQo+IDIuMTcuMQo+Cj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwo+IGFtZC1nZnggbWFpbGluZyBsaXN0Cj4gYW1kLWdmeEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2FtZC1nZngKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+On some qualcomm platforms DPU needs to express a perforamnce state
+requirement on a power domain depennding on the clock rates.
+Use OPP table from DT to register with OPP framework and use
+dev_pm_opp_set_rate() to set the clk/perf state.
+
+Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c |  3 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 20 +++++++++++++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  4 ++++
+ 3 files changed, 25 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+index 11f2beb..fe5717df 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+@@ -7,6 +7,7 @@
+ #include <linux/debugfs.h>
+ #include <linux/errno.h>
+ #include <linux/mutex.h>
++#include <linux/pm_opp.h>
+ #include <linux/sort.h>
+ #include <linux/clk.h>
+ #include <linux/bitmap.h>
+@@ -239,7 +240,7 @@ static int _dpu_core_perf_set_core_clk_rate(struct dpu_kms *kms, u64 rate)
+ 		rate = core_clk->max_rate;
+ 
+ 	core_clk->rate = rate;
+-	return msm_dss_clk_set_rate(core_clk, 1);
++	return dev_pm_opp_set_rate(&kms->pdev->dev, core_clk->rate);
+ }
+ 
+ static u64 _dpu_core_perf_get_core_clk_rate(struct dpu_kms *kms)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index ce19f1d..cfce642 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -10,6 +10,7 @@
+ #include <linux/debugfs.h>
+ #include <linux/dma-buf.h>
+ #include <linux/of_irq.h>
++#include <linux/pm_opp.h>
+ 
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_file.h>
+@@ -1033,11 +1034,18 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
+ 	if (!dpu_kms)
+ 		return -ENOMEM;
+ 
++	dpu_kms->opp = dev_pm_opp_set_clkname(dev, "core");
++	if (IS_ERR(dpu_kms->opp))
++		return PTR_ERR(dpu_kms->opp);
++	/* OPP table is optional */
++	if (!dev_pm_opp_of_add_table(dev))
++		dpu_kms->opp_table = true;
++
+ 	mp = &dpu_kms->mp;
+ 	ret = msm_dss_parse_clock(pdev, mp);
+ 	if (ret) {
+ 		DPU_ERROR("failed to parse clocks, ret=%d\n", ret);
+-		return ret;
++		goto err;
+ 	}
+ 
+ 	platform_set_drvdata(pdev, dpu_kms);
+@@ -1051,6 +1059,11 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	priv->kms = &dpu_kms->base;
+ 	return ret;
++err:
++	if (dpu_kms->opp_table)
++		dev_pm_opp_of_remove_table(dev);
++	dev_pm_opp_put_clkname(dpu_kms->opp);
++	return ret;
+ }
+ 
+ static void dpu_unbind(struct device *dev, struct device *master, void *data)
+@@ -1059,6 +1072,9 @@ static void dpu_unbind(struct device *dev, struct device *master, void *data)
+ 	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
+ 	struct dss_module_power *mp = &dpu_kms->mp;
+ 
++	if (dpu_kms->opp_table)
++		dev_pm_opp_of_remove_table(dev);
++	dev_pm_opp_put_clkname(dpu_kms->opp);
+ 	msm_dss_put_clk(mp->clk_config, mp->num_clk);
+ 	devm_kfree(&pdev->dev, mp->clk_config);
+ 	mp->num_clk = 0;
+@@ -1090,6 +1106,8 @@ static int __maybe_unused dpu_runtime_suspend(struct device *dev)
+ 	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
+ 	struct dss_module_power *mp = &dpu_kms->mp;
+ 
++	/* Drop the performance state vote */
++	dev_pm_opp_set_rate(dev, 0);
+ 	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, false);
+ 	if (rc)
+ 		DPU_ERROR("clock disable failed rc:%d\n", rc);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+index 211f5de9..0060709 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+@@ -128,6 +128,10 @@ struct dpu_kms {
+ 
+ 	struct platform_device *pdev;
+ 	bool rpm_enabled;
++
++	struct opp_table *opp;
++	bool opp_table;
++
+ 	struct dss_module_power mp;
+ 
+ 	/* reference count bandwidth requests, so we know when we can
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
