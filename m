@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6EA1AE199
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 17:56:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7911AE1A1
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 17:57:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0BA16E118;
-	Fri, 17 Apr 2020 15:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A00766E391;
+	Fri, 17 Apr 2020 15:57:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 840836E03A
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 15:56:44 +0000 (UTC)
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D14096E169
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 15:56:51 +0000 (UTC)
 Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
  (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1MBDvU-1jXlsH3ZNe-00Cfzq; Fri, 17 Apr 2020 17:56:23 +0200
+ 1MmU9X-1iyh6f2Ctl-00iQqH; Fri, 17 Apr 2020 17:56:24 +0200
 From: Arnd Bergmann <arnd@arndb.de>
 To: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
  linux-fbdev@vger.kernel.org
-Subject: [PATCH 3/8] fbdev: rework FB_DDC dependencies
-Date: Fri, 17 Apr 2020 17:55:48 +0200
-Message-Id: <20200417155553.675905-4-arnd@arndb.de>
+Subject: [PATCH 4/8] drm/rcar: stop using 'imply' for dependencies
+Date: Fri, 17 Apr 2020 17:55:49 +0200
+Message-Id: <20200417155553.675905-5-arnd@arndb.de>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200417155553.675905-1-arnd@arndb.de>
 References: <20200417155553.675905-1-arnd@arndb.de>
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:2U9gszbYbMjT+zyUR7sFhiOdIUZPycfMTKYG2cp0trTWIbAamkf
- JXJU/2QL4hsyz1HAy3tjg7sl9G8UVcB+oiwb7PUAAjXHy3WKwCoi6d78k/RIModYnifQMrp
- NyySFD2n64+7oJ5Hitx7uI7OtO2oWoFcEP8r3CP4qfi0rQ0dsXhJfAywuUalVLZtP61z0jC
- QSSwnzwbyzSCKvAQolKyg==
+X-Provags-ID: V03:K1:uo1PKQe5aWNhyhZcFZ9CjgTtBalbZwo94DNn1R7d79M+ZtxL4DH
+ DxKpYGp1fptO9Fs4eaFEDRkz5AjVdYui7SxSvwLwJF4Q9shlrUYKfku/gl5u66LWU+BPmXw
+ m3dDTjtsoJEuMrowemsBhNyK+S3xKKJP7VpWWzTlEKcaq+VtY6O+sntw1CeLTzsWIrIj1g9
+ 37OJQujT/P+UU3WH0C1cg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XrTAd9lyPFM=:1wciv0hqbcjGrbjumwW/E7
- 3WaLAFl1zx6dK+KQGgkXLYH3tLrf8+YGuDAuG9EU0rR+ga0chOOJYgsc/edXVBcei4DUtIVvR
- fZCYJtQCiFD3mPbtekRBtTW0hyGAyPSP5O7hKZLuIBu1u6rEJ8CiWaEwwstxzcMxBlWEg5eaM
- FmO7SBgN1t5+i/IR5iifChGTs7VkRIqhmbf6TDdsGZm8q5dUFGKSOePvJh/r/o675iGlZ+Q4S
- bW5n4+JEalu+krrSpEK+QIRmeUWjfdlQPxNfzoHa4F4st/lUBXDh156shwLr7w6vyUpjuH1Bb
- IuHNm7Aw4GLaS7fhq+yCiETnYncNZIteCKjaouYugDF3aBOqmb9MJ3DYyoVj3dZO/tj2u5YYG
- jOP8jx+1TX6r77BKMZTpWnhNqIrn7rUFsT+qR7HikkX3u51LSm6Uhfynf6uVNKzX4jp3RQOe5
- dcyBbB4LfBfYnXQRE3mQRLzsSzoGi+5j6Bezw1mDtIljapb+JnJogPxscRxgYMmECbTxt8jpj
- 4ULLVU2RneJxVGYSbXwT8XuPW0uEEVRfqKFKthqUbDdnhgIi9CE8EG+MCtC0eWeGA0+wuSNQr
- Q9nvJSsgDd2pOnFzuc+zP8SbOhe0WmVoLY/DhX1+0vQgdgJR8BZ+JTSqecWkF2+c802ig1Gf/
- sxBYO8k2BVrMlFqAKXR4I5fo1N1hNtT4I0xPGaddsRs4GIbuH2jFHSvMKMaU3TYmDG2WMOcBr
- KbspylQfr/Yqm23y91sN6ltcQ1nFhl+4P3bWSNWQSX1+6Muf/l6WmXbJIbxC4lRavmsalbfqG
- z/RXI26Q0r2QuOs8WrZV6R9veTTOr5HUfdZ4MHkML1EniqZWe8=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GEpQHVWHcgc=:1g5dy8zUp1/LQRhBEqoGpG
+ gNy5o2AjfmNTg/cuJVYhiswPZ+aEvQX4Ihc9fqKE/q4j4Z1fAL0XRhDmLGOonFpnw6BYRe0Yz
+ Yn2CEF9hPyze2jzlp0e3vKF++WoAFCYY+gOqN9mVOhTJ06W7q4Lu9sUY9VSLoYpze8DRN24tf
+ fBtMmjNOO6KvWelk7ueoJA4/87xZjNJAfFb5xLa7e/rpznyQcwnOUQl+XhgNdZbuMlOU9p5Um
+ rZXrK+oO0Dqmzae2Ht4p3X53cZbEEs8MEo6GOOUqTgouPTkbIZ35BwSrvlSXGCl5g6VeYBkZm
+ ClfdayJsYpqXMVoD7Cf+8z1TCb5toU023sY2BLsWfxVhGikBl/T7tVKs5Ivo3CNeHfaNwdlwp
+ xmQzkAyDdToLZRee/Nx1r8O//2oYEtAjb2AgOQzu1eCuocA1KJ0cyvBuv5qf30/xCCg0OdC/X
+ CFE/aadn0Fq0o5Yh9APTuMhEz96YWf2YfnF5s12q1dy1d+phbHgSQuyprHOJF7PzhIMKa5jSV
+ RtEzizaYfiJ93ZN8aJd5HumwDJczqso8goqJ2rbXPjaNO/SXLLX9g0o7knTdJavHmeMihpoWI
+ cQu3qV0uCE9yXX+gDFLu/0cEwaORh4dGMaG/WfLqaOjZntvmfdKlzyjAO4TrGuGZOFmZuw01l
+ hEDycmFhs79laZXuNUKp/OrflzBBI7G1o1J4/WmAIkazkIHL+2xJnLny74hgNbvbhI02QoC1z
+ RZXMgnSoTx1I3wglpMTSf4kPrAwgMhvcK2b/0CpGKY6MGBoGIftj/fD8f/38iSdXvIVW6wg9/
+ ZPaGliZZ32z/tutY7Xed7XyAzn0RNOPFP2x4ObJi7NpfglY/50=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,130 +68,79 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Selecting FB_DDC currently turns on CONFIG_I2C implicitly,
-which is often not desired and can lead to circular dependencies.
+The meaning of the 'imply' keyword has changed recently, and neither the
+old meaning (select the symbol if its dependencies are met) nor the new
+meaning (enable it by default, but let the user set any other setting)
+is what we want here.
 
-Change this to a 'depends on' and change all drivers that
-rely on FB_DDC to have an appropriate I2C dependency as well.
+Work around this by adding two more Kconfig options that lead to
+the correct behavior: if DRM_RCAR_USE_CMM and DRM_RCAR_USE_LVDS
+are enabled, that portion of the driver becomes usable, and no
+configuration results in a link error.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/video/fbdev/Kconfig | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/rcar-du/Kconfig | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 91b0a719d221..bcf7834dbdbf 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -62,9 +62,8 @@ config FIRMWARE_EDID
+diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+index 0919f1f159a4..d2fcec807dfa 100644
+--- a/drivers/gpu/drm/rcar-du/Kconfig
++++ b/drivers/gpu/drm/rcar-du/Kconfig
+@@ -4,8 +4,6 @@ config DRM_RCAR_DU
+ 	depends on DRM && OF
+ 	depends on ARM || ARM64
+ 	depends on ARCH_RENESAS || COMPILE_TEST
+-	imply DRM_RCAR_CMM
+-	imply DRM_RCAR_LVDS
+ 	select DRM_KMS_HELPER
+ 	select DRM_KMS_CMA_HELPER
+ 	select DRM_GEM_CMA_HELPER
+@@ -14,13 +12,17 @@ config DRM_RCAR_DU
+ 	  Choose this option if you have an R-Car chipset.
+ 	  If M is selected the module will be called rcar-du-drm.
  
- config FB_DDC
- 	tristate
--	depends on FB
-+	depends on FB && I2C
- 	select I2C_ALGOBIT
--	select I2C
+-config DRM_RCAR_CMM
+-	tristate "R-Car DU Color Management Module (CMM) Support"
+-	depends on DRM && OF
++config DRM_RCAR_USE_CMM
++	bool "R-Car DU Color Management Module (CMM) Support"
+ 	depends on DRM_RCAR_DU
++	default DRM_RCAR_DU
+ 	help
+ 	  Enable support for R-Car Color Management Module (CMM).
  
- config FB_BOOT_VESA_SUPPORT
- 	bool
-@@ -356,6 +355,7 @@ config FB_CYBER2000
- config FB_CYBER2000_DDC
- 	bool "DDC for CyberPro support"
- 	depends on FB_CYBER2000
-+	depends on I2C=y || I2C=FB_CYBER2000
- 	select FB_DDC
- 	default y
++config DRM_RCAR_CMM
++	def_tristate DRM_RCAR_DU
++	depends on DRM_RCAR_USE_CMM
++
+ config DRM_RCAR_DW_HDMI
+ 	tristate "R-Car DU Gen3 HDMI Encoder Support"
+ 	depends on DRM && OF
+@@ -28,15 +30,20 @@ config DRM_RCAR_DW_HDMI
  	help
-@@ -892,6 +892,7 @@ config FB_NVIDIA
- config FB_NVIDIA_I2C
- 	bool "Enable DDC Support"
- 	depends on FB_NVIDIA
-+	depends on I2C=y || I2C=FB_NVIDIA
- 	select FB_DDC
- 	help
- 	  This enables I2C support for nVidia Chipsets.  This is used
-@@ -938,6 +939,7 @@ config FB_RIVA
- config FB_RIVA_I2C
- 	bool "Enable DDC Support"
- 	depends on FB_RIVA
-+	depends on I2C=y || I2C=FB_RIVA
- 	select FB_DDC
- 	help
- 	  This enables I2C support for nVidia Chipsets.  This is used
-@@ -965,7 +967,7 @@ config FB_RIVA_BACKLIGHT
+ 	  Enable support for R-Car Gen3 internal HDMI encoder.
  
- config FB_I740
- 	tristate "Intel740 support"
--	depends on FB && PCI
-+	depends on FB && PCI && I2C
- 	select FB_MODE_HELPERS
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
-@@ -1019,6 +1021,7 @@ config FB_I810_GTF
- config FB_I810_I2C
- 	bool "Enable DDC Support"
- 	depends on FB_I810 && FB_I810_GTF
-+	depends on I2C=y || I2C=FB_I810
- 	select FB_DDC
+-config DRM_RCAR_LVDS
+-	tristate "R-Car DU LVDS Encoder Support"
+-	depends on DRM && DRM_BRIDGE && OF
++config DRM_RCAR_USE_LVDS
++	bool "R-Car DU LVDS Encoder Support"
++	depends on DRM_BRIDGE && OF
++	default DRM_RCAR_DU
+ 	select DRM_PANEL
+ 	select OF_FLATTREE
+ 	select OF_OVERLAY
  	help
- 	  Add DDC/I2C support for i810fb.  This will allow the driver to get
-@@ -1074,6 +1077,7 @@ config FB_INTEL_DEBUG
- config FB_INTEL_I2C
- 	bool "DDC/I2C for Intel framebuffer support"
- 	depends on FB_INTEL
-+	depends on I2C=y || I2C=FB_INTEL
- 	select FB_DDC
- 	default y
- 	help
-@@ -1153,6 +1157,7 @@ config FB_MATROX_G
- config FB_MATROX_I2C
- 	tristate "Matrox I2C support"
- 	depends on FB_MATROX
-+	depends on I2C=y || I2C=FB_MATROX
- 	select FB_DDC
- 	---help---
- 	  This drivers creates I2C buses which are needed for accessing the
-@@ -1218,6 +1223,7 @@ config FB_RADEON
- config FB_RADEON_I2C
- 	bool "DDC/I2C for ATI Radeon support"
- 	depends on FB_RADEON
-+	depends on I2C=y || I2C=FB_RADEON
- 	select FB_DDC
- 	default y
- 	help
-@@ -1327,6 +1333,7 @@ config FB_S3
- config FB_S3_DDC
- 	bool "DDC for S3 support"
- 	depends on FB_S3
-+	depends on I2C=y || I2C=FB_S3
- 	select FB_DDC
- 	default y
- 	help
-@@ -1352,6 +1359,7 @@ config FB_SAVAGE
- config FB_SAVAGE_I2C
- 	bool "Enable DDC2 Support"
- 	depends on FB_SAVAGE
-+	depends on I2C=y || I2C=FB_SAVAGE
- 	select FB_DDC
- 	help
- 	  This enables I2C support for S3 Savage Chipsets.  This is used
-@@ -1491,6 +1499,7 @@ config FB_3DFX_ACCEL
- config FB_3DFX_I2C
- 	bool "Enable DDC/I2C support"
- 	depends on FB_3DFX
-+	depends on I2C=y || I2C=FB_3DFX
- 	select FB_DDC
- 	default y
- 	help
-@@ -1530,7 +1539,7 @@ config FB_VT8623
+ 	  Enable support for the R-Car Display Unit embedded LVDS encoders.
  
- config FB_TRIDENT
- 	tristate "Trident/CyberXXX/CyberBlade support"
--	depends on FB && PCI
-+	depends on FB && PCI && I2C
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
++config DRM_RCAR_LVDS
++	def_tristate DRM_RCAR_DU
++	depends on DRM_RCAR_USE_LVDS
++
+ config DRM_RCAR_VSP
+ 	bool "R-Car DU VSP Compositor Support" if ARM
+ 	default y if ARM64
 -- 
 2.26.0
 
