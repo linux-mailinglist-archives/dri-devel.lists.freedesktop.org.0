@@ -1,69 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AC401AEB30
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 11:26:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4AD1AEB2D
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 11:26:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB2956E1A8;
-	Sat, 18 Apr 2020 09:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBBF06E194;
+	Sat, 18 Apr 2020 09:26:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A3666EBCA
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 12:09:10 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id k11so2776711wrp.5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 05:09:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YQmfy5glSWEhJacmHQcBoh0P5gI+y1xLhn/MI5MwRqk=;
- b=a0P/bUJk6o4KfMmFecVMQRsWuelunj5M3QJxQxTu6to4WAQob5LfbxChfRH0a6dwDj
- iNR57ygB8uH7UURrRNzWkQ8vspIJVqgol9MkvvXSz/cm+AnLhC+uKmwA3jpvuOobCcgc
- KON4uK1f+5Y1OLIVlTxIEEI3ASLbbuSLQ3NiS2NUfo5xrqJo/Q5iMZpWAjtWhx5/M0KN
- hRvTCofOnBp3OUfJMfth7Ov6eIlNj9MXG1acK/G7uyIUgNEBLcPBcKJ+tIH80fWO6DuJ
- rWftpSBDDApCaJzKHUzzK+sJRq2rmfLKHntuqUrJ3fCT5oPSY1tJwYLhRQuZIlZ5M9eF
- pKXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YQmfy5glSWEhJacmHQcBoh0P5gI+y1xLhn/MI5MwRqk=;
- b=WWTGCpgrSXoWVf3v1rBvacnPzgenOkQ3lDuPUMPhzYBncnHELJg3xPKCNMMZ6zm7td
- fM3Gzl4Ae3wstEzgSq4ZQmH1386drdtWxmuFiSW9fTpwn33BXEMqq605autLSmVApL2O
- 6b3U72gW0zQFy0muGKM0lImwe1SihVjsw5WzcYS4cGr6a5YJ3X/qrdjCAU9kD8SK6vHI
- EGX9ZtVw8utuYPgPNvsVUpPPdeS4bYS5nwBH+mCec8yxcCXo+67jR5xpX4DtThVzaZ1i
- 5Qb4uycs8sbOUkkqyv1TLkxTXUSCHup8Qfz4PBr+puv7b3wDi6ApBPJUfM2HAProsE33
- HKYg==
-X-Gm-Message-State: AGi0PuYkMLeos2G2WavEZ8QuIcF8co8g0FTU/Y2SpGRb4LhcSNBhCkUG
- Pl4Gg1433fSsWkQmEbhtFVs=
-X-Google-Smtp-Source: APiQypJw9RvOMBiofKtDCRe+QcAA+eB/l83Q4b2jSf0HWRF7CviGAUhDoTYoDphSTR+uEnZgPspyVA==
-X-Received: by 2002:a5d:4485:: with SMTP id j5mr3343798wrq.427.1587125348648; 
- Fri, 17 Apr 2020 05:09:08 -0700 (PDT)
-Received: from ?IPv6:2a02:810d:340:2e50:14a4:6f21:1f15:2088?
- ([2a02:810d:340:2e50:14a4:6f21:1f15:2088])
- by smtp.gmail.com with ESMTPSA id n2sm10823975wrq.74.2020.04.17.05.09.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Apr 2020 05:09:08 -0700 (PDT)
-Subject: Re: [PATCH v6 00/12] ARM/MIPS: DTS: add child nodes describing the
- PVRSGX GPU present in some OMAP SoC and JZ4780 (and many more)
-To: "H. Nikolaus Schaller" <hns@goldelico.com>,
- Maxime Ripard <maxime@cerno.tech>
+Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5302::10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66F6E6EBCA
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 12:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587125772;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=rWgceOhSWa758bgT+X6qKMY760KerwI9IfGOuR55b2U=;
+ b=pK7wvGzf/osUaiVE66w53oLQpH9o1LEVYPIJ9V2f5e3/REJTCN2nfDVezOLLGSIPA3
+ /jPFCdb/v9bfblMKT/1553NvZTJroFLV2S/5E1rzQGairs5+9wEgWr+kOYrS81RYKSwS
+ aTxw6wZTciEvmFO9Ued8zRcAg8kUtSQ7zldNeZL8PWvnhvimdu/bxPv9snvb29zYZA/Q
+ bRZzizX29ohZl2SBOvcfm3XPy+M4ccKqWMIXzyAs2aM+kPNgBPavXiH5fNgp80DAUXfk
+ oY4p9tqavuJPILwvYJerToLiThV1bHO0buzJSrADWykoX3j5Zmoxi81xTa2X4wl+I7Jq
+ LB3Q==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGH/PgwDWjbQ=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 46.5.0 DYNA|AUTH)
+ with ESMTPSA id g06d2dw3HCFa1c0
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Fri, 17 Apr 2020 14:15:36 +0200 (CEST)
+Subject: Re: [PATCH v6 08/12] arm: dts: s5pv210: Add G3D node
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <BN6PR04MB0660640B15550F75C8CCD4DEA3DB0@BN6PR04MB0660.namprd04.prod.outlook.com>
+Date: Fri, 17 Apr 2020 14:15:36 +0200
+Message-Id: <D44C023E-C8B3-4974-B800-1DBEC7B4F82C@goldelico.com>
 References: <cover.1586939718.git.hns@goldelico.com>
- <20200415101008.zxzxca2vlfsefpdv@gilmour.lan>
- <2E3401F1-A106-4396-8FE6-51CAB72926A4@goldelico.com>
- <20200415130233.rgn7xrtwqicptke2@gilmour.lan>
- <C589D06E-435E-4316-AD0A-8498325039E3@goldelico.com>
-From: Philipp Rossak <embed3d@gmail.com>
-Message-ID: <10969e64-fe1f-d692-4984-4ba916bd2161@gmail.com>
-Date: Fri, 17 Apr 2020 14:09:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <C589D06E-435E-4316-AD0A-8498325039E3@goldelico.com>
-Content-Language: en-US
+ <b6733f80546bf3e6b3799f716b9c8e0f407de03d.1586939718.git.hns@goldelico.com>
+ <CAJKOXPcb9KWNAem-CAx_zCS+sZoEHYc0J8x0nk1xjY9hD4-M4w@mail.gmail.com>
+ <AB9B8741-CFF7-414D-9489-D381B539538D@goldelico.com>
+ <BN6PR04MB0660640B15550F75C8CCD4DEA3DB0@BN6PR04MB0660.namprd04.prod.outlook.com>
+To: Jonathan Bakker <xc-racer2@live.ca>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Sat, 18 Apr 2020 09:26:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,101 +59,131 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
- James Hogan <jhogan@kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ James Hogan <jhogan@kernel.org>, dri-devel@lists.freedesktop.org,
  linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- linux-samsung-soc@vger.kernel.org,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Tony Lindgren <tony@atomide.com>, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, linux-omap <linux-omap@vger.kernel.org>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ linux-omap@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Tony Lindgren <tony@atomide.com>,
+ Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ letux-kernel@openphoenux.org, linux-arm-kernel@lists.infradead.org,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- OpenPVRSGX Linux Driver Group <openpvrsgx-devgroup@letux.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>, kernel@pyra-handheld.com
+ Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Ralf Baechle <ralf@linux-mips.org>,
+ =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+ kernel@pyra-handheld.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Hi Jonathan,
 
-On 15.04.20 15:04, H. Nikolaus Schaller wrote:
+> Am 15.04.2020 um 20:17 schrieb Jonathan Bakker <xc-racer2@live.ca>:
 > 
->> Am 15.04.2020 um 15:02 schrieb Maxime Ripard <maxime@cerno.tech>:
->>
->> On Wed, Apr 15, 2020 at 02:41:52PM +0200, H. Nikolaus Schaller wrote:
->>>>> The kernel modules built from this project have successfully
->>>>> demonstrated to work with the DTS definitions from this patch set on
->>>>> AM335x BeagleBone Black, DM3730 and OMAP5 Pyra and Droid 4. They
->>>>> partially work on OMAP3530 and PandaBoard ES but that is likely a
->>>>> problem in the kernel driver or the (non-free) user-space libraries
->>>>> and binaries.
->>>>>
->>>>> Wotk for JZ4780 (CI20 board) is in progress and there is potential
->>>>> to extend this work to e.g. BananaPi-M3 (A83) and some Intel Poulsbo
->>>>> and CedarView devices.
->>>>
->>>> If it's not been tested on any Allwinner board yet, I'll leave it
->>>> aside until it's been properly shown to work.
->>>
->>> Phillip has tested something on a83.
->>
-Yes I'm currently working on the a83t demo. The kernel module is loading 
-correctly and the clocks, interrupts and resets seems to be working 
-correctly.
-
-I'm currently working on getting the users space driver working with the 
-kernel driver. This is hopefully done soon.
-
->> I'm a bit skeptical on that one since it doesn't even list the
->> interrupts connected to the GPU that the binding mandates.
+> Hi Nikolaus,
 > 
-> I think he left it out for a future update.
-> But best he comments himself.
+> On 2020-04-15 5:50 a.m., H. Nikolaus Schaller wrote:
+>> 
+>>> Am 15.04.2020 um 13:49 schrieb Krzysztof Kozlowski <krzk@kernel.org>:
+>>> 
+>>> On Wed, 15 Apr 2020 at 10:36, H. Nikolaus Schaller <hns@goldelico.com> wrote:
+>>>> 
+>>>> From: Jonathan Bakker <xc-racer2@live.ca>
+>>>> 
+>>>> to add support for SGX540 GPU.
+>>> 
+>>> Do not continue the subject in commit msg like it is one sentence.
+>>> These are two separate sentences, so commit msg starts with capital
+>>> letter and it is sentence by itself.
+>>> 
+> 
+> Sorry, that's my fault, I should know better.
 
-I'm currently working on those bindings. They are now 90% done, but they 
-are not finished till now. Currently there is some mainline support 
-missing to add the full binding. The A83T and also the A31/A31s have a 
-GPU Power Off Gating Register in the R_PRCM module, that is not 
-supported right now in Mainline. The Register need to be written when 
-the GPU is powered on and off.
+Mine as well...
 
-@Maxime: I totally agree on your point that a demo needs to be provided 
-before the related DTS patches should be provided. That's the reason why 
-I added the gpu placeholder patches.
-Do you have an idea how a driver for the R_PRCM stuff can look like? I'm 
-not that experienced with the clock driver framework.
+> 
+> Nikolaus took this from my testing tree and I apparently didn't have it in
+> as good as state as I should have.
+> 
+>>>> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
+>>>> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+>>>> ---
+>>>> arch/arm/boot/dts/s5pv210.dtsi | 15 +++++++++++++++
+>>>> 1 file changed, 15 insertions(+)
+>>>> 
+>>>> diff --git a/arch/arm/boot/dts/s5pv210.dtsi b/arch/arm/boot/dts/s5pv210.dtsi
+>>>> index 2ad642f51fd9..e7fc709c0cca 100644
+>>>> --- a/arch/arm/boot/dts/s5pv210.dtsi
+>>>> +++ b/arch/arm/boot/dts/s5pv210.dtsi
+>>>> @@ -512,6 +512,21 @@ vic3: interrupt-controller@f2300000 {
+>>>>                       #interrupt-cells = <1>;
+>>>>               };
+>>>> 
+>>>> +               g3d: g3d@f3000000 {
+>>>> +                       compatible = "samsung,s5pv210-sgx540-120";
+>>>> +                       reg = <0xf3000000 0x10000>;
+>>>> +                       interrupt-parent = <&vic2>;
+>>>> +                       interrupts = <10>;
+>>>> +                       clock-names = "sclk";
+>>>> +                       clocks = <&clocks CLK_G3D>;
+>>> 
+>>> Not part of bindings, please remove or add to the bindings.
+>> 
+>> Well, the bindings should describe what is common for all SoC
+>> and they are quite different in what they need in addition.
+>> 
+>> Thererfore we have no "additionalProperties: false" in the
+>> bindings [PATCH v6 01/12].
+>> 
+>>> 
+>>>> +
+>>>> +                       power-domains = <&pd S5PV210_PD_G3D>;
+>>> 
+>>> Ditto
+>> 
+>> In this case it might be possible to add the clock/power-domains
+>> etc. to a wrapper node compatible to "simple-pm-bus" or similar
+>> and make the gpu a child of it.
+>> 
+>> @Jontahan: can you please give it a try?
+>> 
+>> 
+> 
+> The power-domains comes from a (so far) non-upstreamed power domain driver
+> for s5pv210 that I've been playing around with.  It's not necessary for proper
+> operation as it's on by default.
+> 
+> Looking at simple-pm-bus, I don't really understand its purpose.  Is it a way of separating
+> out a power domain from a main device's node?  Or is it designed for when you have multiple
+> devices under the same power domain?
+> 
+> Nikolaus, I can regenerate a proper patch for you if you want that's not based on my testing tree.
 
-The big question is right now how to proceed with the A83T and A31s 
-patches. I see there three options, which one do you prefer?:
+Yes, please.
 
-1. Provide now placeholder patches and send new patches, if everything 
-is clear and other things are mainlined
-2. Provide now patches as complete as possible and provide later patches 
-to complete them when the R_PRCM things are mainlined
-3. Leave them out, till the related work is mainlined and the bindings 
-are final.
+> 
+>>> 
+>>>> +
+>>>> +                       assigned-clocks = <&clocks MOUT_G3D>, <&clocks DOUT_G3D>;
+>>>> +                       assigned-clock-rates = <0>, <66700000>;
+>>>> +                       assigned-clock-parents = <&clocks MOUT_MPLL>;
+>>> 
+>>> Probably this should have status disabled because you do not set
+>>> regulator supply.
+> 
+> I don't believe there is a regulator on s5pv210, if there is, then it is a
+> fixed regulator with no control on both s5pv210 devices that I have.
+> 
+> The vendor driver did use the regulator framework for its power domain
+> implementation, but that definitely shouldn't be upstreamed.
 
+Ok, this means there is no need for regulators in the bindings.
 
-Since this GPU IP core is very flexible and the SOC manufactures can 
-configure it on their needs, I think the binding will extend in the 
-future. For example the SGX544 GPU is available in different 
-configurations: there is a SGX544 core and SGX544MPx core. The x stands 
-for the count of the USSE (Universal Scalable Shader Engine) cores. For 
-example the GPU in the A83T is a MP1 and the A31/A31s a MP2.
-In addition to that some of the GPU's have also a 2D engine.
-There might be even more differences in the GPU's that we don't know 
-right now and should be described in the Devicetree, but that's a 
-different topic that we should keep in mind.
+BR,
+Nikolaus
 
-Cheers
-Philipp
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
