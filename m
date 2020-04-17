@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438B61AE65E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 21:56:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2D51AE66F
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 22:03:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9F1D6E959;
-	Fri, 17 Apr 2020 19:56:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A80066E37C;
+	Fri, 17 Apr 2020 20:03:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE0756E959
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 19:56:03 +0000 (UTC)
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBB5A6E37C
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 20:03:42 +0000 (UTC)
 Received: from mail-qk1-f170.google.com ([209.85.222.170]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1M1YpJ-1jN3Bi1xk3-0032gV for <dri-devel@lists.freedesktop.org>; Fri, 17
- Apr 2020 21:56:01 +0200
-Received: by mail-qk1-f170.google.com with SMTP id s63so3780232qke.4
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 12:56:01 -0700 (PDT)
-X-Gm-Message-State: AGi0PuY1eYgvV7BceQydnKUcK0r/F1oEPAxPpxB64B12YA8K5l+l98eU
- VbTA9ljMcepLX7l8qldhDST8COZBKwrbebB/dnI=
-X-Google-Smtp-Source: APiQypL/aYirBTw1joqQ0inaCArzn25FqAScTc6+QUlF+iqIJ3O0t/oDB2nctjg42E3+diNZLCqFSq8zjwVtRBsHEo8=
-X-Received: by 2002:a37:63d0:: with SMTP id x199mr4824368qkb.3.1587153360346; 
- Fri, 17 Apr 2020 12:56:00 -0700 (PDT)
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MiZof-1imuvy0ZCZ-00fltQ for <dri-devel@lists.freedesktop.org>; Fri, 17
+ Apr 2020 22:03:41 +0200
+Received: by mail-qk1-f170.google.com with SMTP id v7so3840842qkc.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 13:03:40 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZbp/nDyH8QbhZsQ7thx0PbnUja8cY6tWjxvtmcbRhydaAkpG4O
+ AehNXMVEupujrlUpCSMSRHpTj/LRbISIKPTPWlw=
+X-Google-Smtp-Source: APiQypLHfVPeC+1JXO+hQtzRoij/Dspk+56syykO4JIxxM0xU/k6yi10dsuOkecP305cfjfVJkIKTLwVZe6iZOZzqio=
+X-Received: by 2002:a37:ba47:: with SMTP id k68mr5106432qkf.394.1587153820000; 
+ Fri, 17 Apr 2020 13:03:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200417155553.675905-1-arnd@arndb.de>
- <20200417155553.675905-8-arnd@arndb.de>
- <20200417170444.GB30483@ravnborg.org>
-In-Reply-To: <20200417170444.GB30483@ravnborg.org>
+ <20200417155553.675905-7-arnd@arndb.de>
+ <20200417165041.GA30483@ravnborg.org>
+In-Reply-To: <20200417165041.GA30483@ravnborg.org>
 From: Arnd Bergmann <arnd@arndb.de>
-Date: Fri, 17 Apr 2020 21:55:43 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a31OMHOycpGv5tjQXS=NBGw+OoFRGQ0Za7QWw9=EcwgZg@mail.gmail.com>
-Message-ID: <CAK8P3a31OMHOycpGv5tjQXS=NBGw+OoFRGQ0Za7QWw9=EcwgZg@mail.gmail.com>
-Subject: Re: [PATCH 7/8] fbdev: rework backlight dependencies
+Date: Fri, 17 Apr 2020 22:03:23 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a14G=Mv3jpZRciTgsSDf4Bd3ZOAqFRN1cc2FLYbwZZcbw@mail.gmail.com>
+Message-ID: <CAK8P3a14G=Mv3jpZRciTgsSDf4Bd3ZOAqFRN1cc2FLYbwZZcbw@mail.gmail.com>
+Subject: Re: [PATCH 6/8] drm: decouple from CONFIG_FB
 To: Sam Ravnborg <sam@ravnborg.org>
-X-Provags-ID: V03:K1:Vz///P1j34nWNehYwI0Ecmw+kWs84fYjxTJSEPICamAfYR5WF6d
- UXyvA/uTbuH2PiRbib0WCdwydP5LoMj1XWm1WXsxN5RohHs9ci2lGopVHUCIGMqiQyI18i5
- ZjyDpRkJIvbM0Zj7J6d10sE2FKMzJpFLyhq4He9VlbQurkrKhYrEFI7DC6/mprur2P82uo0
- N54i1oupG7VT9t3HH4p/A==
+X-Provags-ID: V03:K1:4JR6GTDtfuj0zYkA4vsWTW1SfrlaR/W3UeE0FkA1rkjOoJlcPK0
+ 404T0dqYiWu9H78FpgebqK9FRDuCKoEPKfJnfZRo7eLwS1QDiGDYIHtI/0RsQZ5EET9t4vU
+ RbiRci0M/vDkz6e5pVTxSbSyqK6O+HY8XlMo6tgels+hAQRM3DSakQjLNUd2/6aRji1vDm7
+ 7ewt8ydmevHhhCuxD5p3w==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dLLcLXZsqbc=:qnHKf/lzwG2TgXO6NR9b0I
- bb9V2AOoBuHAMfTLaF5UYa99S21F6kCX2NUKdACIdmuwM16vj+YSQQKOGLs0ozZUF4aTyFu8u
- EGgwkZ1n+f5eUSFoE586YxmzVDlFVdARIHDyNTTjEnQe7kk9TopsfRnHQuMItMKd1wyF91fqn
- vrgK5qkF/9gmClvhgVmuwLtRQ0lZLKhZj7u96G7CKMeshg4pG3hv7ozAXJtiT3mkyNpu/cUAw
- WpVpBIpNJpZ2J7JybBFSTpbYgYHxeuAeEVZg8PjS19FCZtjJH7MCkX4tFKiKJksPGM2WE7N+O
- TEE554uFCy/IsleafJz78s2X60IJGylqnVtcpyNro5BBfM1KgbW+APmynQSk1deU61BjA9MrR
- yfUm0ILP4jsdZHEcgRV7vioufMQhCoRM236c6w01KVjo29N8JpEOlKUZMDii4p97AF8ncg5Yr
- kZs8gRxjxw/hjjmLFKaGPuAmuw9112ifkFDn/5tMrYEA1v11lIebvFmavKeRXiTA+fmFsv/6V
- VAzLng3TJnfmMdtz/paI8pfXlOrYQ3wCRADRlR6I7ECJegfUF/T5fB9qeAVOpXZRoNeRehlTZ
- /B1tVRA4mxX16uw0CIFHMQO9/tuliPseONBAuauzVYRjKRzFT5KiIxDZnvzhjns80dBJIyTBC
- AoN6heFj+PK9EODnZkL7LYA88y4z4mdJzXUUWaUy1loscWSmIPMG1HYEQ22rUrAb0k8qT9StK
- eJzrp0inNkq01D0ZM+3NjAxZxk1x6B1xwJ1S9hZ69WQPRSwNbCAUp3Tz96aH5rLWluAyBopbO
- JbRIh5FdE3/33uXQm0L5/qwm4+aVGioRjg3OvizJ1bL3NjMRw0=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DTOAZutVO/w=:CK3hDUfp0/T2Bwrr+A+Xwg
+ dP29GUmt7cgfY4HttF+GGK0jkWFDvES/SJpUMt7ozY0qrDPUIYfxXSICL2sOtYxEgXTzKkrDx
+ 386sOFn8I6kSufwg0qDml6HomN2mVWcln3JxDE3MDIisklx083GXHtbxtbxxMQJa+21LVAwZ/
+ Gg+/EwUtnUec8NDR3VwQBfRQ4+dfBqnuVu4kR1HPvW/uTlcMDLFXYTj1Z5O/dlXoO4ezGP4n9
+ e34jGL75elsSMhABcb1Kg9Ik3cRjK4BbjACPF+wg1I2xuCVAuIIKA4KBJw6yc4uKKUK9O6yja
+ Fwkz5dPvNIdvgnA23TGT65ZolwCobNQZk+JuWJMN/NQKuBYSFkN3vM1G82zzWmFLjLEkSHu/1
+ CwFDJVrWB3VLcoUZKWRBx4UAMTlWp3rEvqER88FQYQ78QE9cB2T8qtdtHqT9RvXqEbYz8pVeM
+ aGF0ZIqgrSgxeRBdIhOu/oFLlvXa2DE44AmlJHhJKNU7eoDqqRE/Z2D1ZLUy3MVEP5AWGotFm
+ bLhs2pJ8nj4Sq9Ze772oHDF5gSQXhSFO/srutvXIxi2TunvsMgu/MT5uJqCPhZMjrg/ml7kpf
+ SVTs9bWJ8RN0DoIipJwPkji6J9Lx4mHU/zd3AJfg+rhrApId6AnToNfCheNnW9dSspnv6L+vx
+ iJG419H+uOua8uKGb8kYSvvT4hkMQnFo9Zgot2/uy0IMXh4Ip45jwiCLlaHoQL4tYvxfmNE4Q
+ jEzwqwvyooJQgS2b8lPxVNJV5DP/Y+4wqI2Etb/mooLcCW6NZLkAXhM6s0K2ZVKfmco/WCig5
+ H7N2fmmu2oCjftPzaa+xktZ/BN/HgosMKP9vMRcU22lipCjE80=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,60 +83,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 17, 2020 at 7:04 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Arnd.
->
-> On Fri, Apr 17, 2020 at 05:55:52PM +0200, Arnd Bergmann wrote:
-> > Rather than having CONFIG_FB_BACKLIGHT select CONFIG_BACKLIGHT_CLASS_DEVICE,
-> > make any driver that needs it have a dependency on the class device
-> > being available, to prevent circular dependencies.
-> >
-> > This is the same way that the backlight is already treated for the DRM
-> > subsystem.
->
-> I am not happy with the direction of this patch.
-> It is not easy to understand that one has to enable backlight to
-> be allowed to select a display or an fbdev driver.
->
->
-> How about somthing like this:
->
-> config BACKLIGHT_CLASS_DEVICE
->         tristate
->         # Will enable backlight module
->         # Has no dependencies
->
-> config  BACKLIGHT
->         bool "Backlight drivers"
->         # Will make the backlight drivers visible - a visibility option
->         # only
->
-> All drivers outside video/backlight/ can then select
-> BACKLIGHT_CLASS_DEVICE to get the backlight core
-> module.
-> Or in other words BACKLIGHT_CLASS_DEVICE is used as a sort
-> of library symbol that gices us access to backlight functionality.
+On Fri, Apr 17, 2020 at 6:50 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 
-Right, this could work as long as nobody puts back any "depends on
-BACKLIGHT_CLASS_DEVICE, but it does cause another problem: There
-are a couple of drivers that can optionally use backlight support
-or just leave it out depending on CONFIG_BACKLIGHT_CLASS_DEVICE.
+>
+> So what this try to say is that we cannot have FB a module while DRM is
+> built-in (marked N in the above).
 
-Changing them to select the class device support unconditionally
-would make it impossible to build those drivers without it.
-Instead we could all need an individual Kconfig symbol, or use
-have "select BACKLIGHT_CLASS_DEVICE if BACKLIGHT"
-in each case, but I'm not sure if that's still a win over having a
-simple 'depends on BACKLIGHT_CLASS_DEVICE'.
+Correct
 
-On a related note, the NEW_LEDS/LEDS_CLASS option probably
-falls into the same category, and could also be done as you suggest.
-At the moment, this has the problem that both symbols are user
-visible and also frequently selected by device drivers (but not others),
-which is causing another set of dependency issues.
+>
+> Could you explain in the changelog why this combination is not good.
+> (Or tell me if my analysis was flawed).
 
-      Arnd
+I agree in hindsight this was less obvious than I thought ;-)
+
+Added this text to the changelog:
+
+|  When CONFIG_FB is a loadable module, DRM_KMS_FB_HELPER cannot be
+| part of the built-in subsystem, so add dependency to ensure this
+| can only be enabled if the DRM module can successfully be linked.
+
+and this comment in the Kconfig file:
+
+@@ -112,7 +112,7 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+ config DRM_FBDEV_EMULATION
+        bool "Enable legacy fbdev support for your modesetting driver"
+        depends on DRM && FB
+-       depends on FB=y || DRM=m
++       depends on FB=y || DRM=m # DRM_KMS_FB_HELPER links against FB
+        select DRM_KMS_HELPER
+        select DRM_KMS_FB_HELPER
+        default y
+
+Let me know if you think those changes are sufficient
+
+> With this fixed (assuming I am right):
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+Thanks!
+
+        Arnd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
