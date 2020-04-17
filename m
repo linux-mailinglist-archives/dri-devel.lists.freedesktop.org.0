@@ -2,99 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59FA1ADEF9
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 16:07:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C561ADEFA
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 16:07:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6DE76EA88;
-	Fri, 17 Apr 2020 14:07:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F09116EC0B;
+	Fri, 17 Apr 2020 14:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A65B56E409
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 14:07:35 +0000 (UTC)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 863A86EC0B
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 14:07:39 +0000 (UTC)
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200417140734euoutp01e207f5036611a421de0c8b31d02511eb~GoI7sgQOV1953319533euoutp01k
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 14:07:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200417140734euoutp01e207f5036611a421de0c8b31d02511eb~GoI7sgQOV1953319533euoutp01k
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200417140737euoutp029b682cfbd6fa6edf3e4104f64e2ae920~GoI_4GA1u1552515525euoutp02b
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 14:07:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200417140737euoutp029b682cfbd6fa6edf3e4104f64e2ae920~GoI_4GA1u1552515525euoutp02b
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1587132454;
- bh=+mRo0y+WREjEvM6VZR45Y8nyy/gok+B+AK9fCUNLJY4=;
+ s=mail20170921; t=1587132457;
+ bh=AA9eWcExNDYAyO3MXfW9No2TG5apeJ8hc2l9WJQxLKY=;
  h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=M1xh9nbgeRpS+5C5hOus4iIqzF6YGARbG2bXwFKW+DP/S1/Dps+kGfT5AjbhrpeDR
- KUU/AbTZ0EYmM/8qEsya9OVyQipuwVLvibrOEKuMqYH7KJkCbvs2ZR+XfGQZfx2+zE
- LOxBZsGIlhxIB6PRb+vERbYNbUuZhIZ40ZmQfa6M=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ b=YdhmTjxmWbc9/4i6fotgb6MA6pu4Pjd+zaaXgjZLbRMNzuvC4aYtg0kU/l1Syz28N
+ /7kegiNVzsWNlJTdAjqXYZHJDZcXVwWaXvUQIgGf67M5DE/T2BsffUgrucmDDeiBDP
+ lQ+Dii7brftXAMbepB2SeVUjENd+CFglImRLLCWo=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200417140734eucas1p12e34024b5a4bed6f5f96ad3a7c1dc876~GoI7gSxWc1437814378eucas1p1T;
- Fri, 17 Apr 2020 14:07:34 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 51.4C.61286.628B99E5; Fri, 17
- Apr 2020 15:07:34 +0100 (BST)
+ 20200417140737eucas1p1a61434801629abdc5ec9890ce6b8ff40~GoI_yPNn21657716577eucas1p1n;
+ Fri, 17 Apr 2020 14:07:37 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 72.CA.60698.928B99E5; Fri, 17
+ Apr 2020 15:07:37 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200417140733eucas1p280e53209e70586c8dde064b6cd6c24d2~GoI7MSHCW1167511675eucas1p2v;
- Fri, 17 Apr 2020 14:07:33 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ 20200417140737eucas1p251bdf38e53ce14c3c9c75f7b6fd6340e~GoI_bqh_N2051220512eucas1p2j;
+ Fri, 17 Apr 2020 14:07:37 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200417140733eusmtrp18ef0244ee0d59e63f3cded17fb2191e2~GoI7JMhnm2210922109eusmtrp1o;
- Fri, 17 Apr 2020 14:07:33 +0000 (GMT)
-X-AuditID: cbfec7f2-ef1ff7000001ef66-fb-5e99b826acaa
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 67.B2.08375.528B99E5; Fri, 17
- Apr 2020 15:07:33 +0100 (BST)
+ 20200417140737eusmtrp1a984395c21cb7f66c5cb47477cbca200~GoI_bIleS2210922109eusmtrp13;
+ Fri, 17 Apr 2020 14:07:37 +0000 (GMT)
+X-AuditID: cbfec7f5-a0fff7000001ed1a-82-5e99b829b525
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id D6.D0.07950.928B99E5; Fri, 17
+ Apr 2020 15:07:37 +0100 (BST)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200417140733eusmtip1317ddb38855c782686c85c5d5640a138~GoI63dUps0911109111eusmtip1M;
- Fri, 17 Apr 2020 14:07:33 +0000 (GMT)
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200417140737eusmtip21aebf82b855b60431bafe9a255edfdb0~GoI_Lm03u2969929699eusmtip2Y;
+ Fri, 17 Apr 2020 14:07:37 +0000 (GMT)
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH v1 2/5] video: ssd1307fb: Introduce temporary variable
- to increase readability
+Subject: Re: [PATCH v1 3/5] video: ssd1307fb: Make use of device properties
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Message-ID: <3a7ef743-580a-d5e6-08b8-07507c6c6ea7@samsung.com>
-Date: Fri, 17 Apr 2020 16:07:33 +0200
+Message-ID: <5cb3805e-d4d1-1573-7d2c-1a2de6227d13@samsung.com>
+Date: Fri, 17 Apr 2020 16:07:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200324170532.44384-2-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20200324170532.44384-3-andriy.shevchenko@linux.intel.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCKsWRmVeSWpSXmKPExsWy7djP87pqO2bGGazczGbR2zSdyeLK1/ds
- Fif6PrBaLFu2ltWBxWPnrLvsHvNOBnrc7z7O5PF5k1wASxSXTUpqTmZZapG+XQJXRtOzzSwF
- n1Uqlj/Ra2C8ItvFyMkhIWAicelpP3MXIxeHkMAKRolra6ewQzhfGCWmNV5ng3A+M0rsaW5g
- hmmZ/eQqC0RiOaPE6tV/oKreMkqsv/QBrIpNwEpiYvsqxi5GDg5hgRSJtT/cQMIiAuYS6yYt
- YgOxmQVCJTY0vGcHsXkF7CS6bl5gBilnEVCVmHfeHSQsKhAh8enBYVaIEkGJkzOfsIDYnALu
- Eocv3GaHGCMucevJfCYIW15i+9s5YO9ICExml7j+cSsLxNEuEuc2bmWFsIUlXh3fwg5hy0ic
- ntzDAtGwjlHib8cLqO7tjBLLJ/9jg6iylrhz7hcbyHXMApoS63fpQ4QdJTraGthBwhICfBI3
- 3gpCHMEnMWnbdGaIMC9QiRBEtZrEhmUb2GDWdu1cyTyBUWkWktdmIXlnFpJ3ZiHsXcDIsopR
- PLW0ODc9tdgwL7Vcrzgxt7g0L10vOT93EyMwrZz+d/zTDsavl5IOMQpwMCrx8Br0zIwTYk0s
- K67MPcQowcGsJMJ70A0oxJuSWFmVWpQfX1Sak1p8iFGag0VJnNd40ctYIYH0xJLU7NTUgtQi
- mCwTB6dUA+Os0vobU3vXT+M8d+GGfFIpX2aD8ee2hck7UmdnXPmuYDYxdUnEZ505jw64M8Qc
- mX/jwLLZFzlyDk07+OzXkT3GVoXbVxm0q/3wtTRQXfLqD49KyYnymN9GG6cdTbK0dwqOe7T1
- kVEZ56NDi4O6Aw7829ywfc7jvztvh7Rt7bEKFhLYNEXFUuOsEktxRqKhFnNRcSIAncdoricD
- AAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGIsWRmVeSWpSXmKPExsVy+t/xu7qqO2bGGZx/rmPR2zSdyeLK1/ds
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKKsWRmVeSWpSXmKPExsWy7djPc7qaO2bGGWw/rGnR2zSdyeLK1/ds
+ Fif6PrBaLFu2ltWBxWPnrLvsHvNOBnrc7z7O5PF5k1wASxSXTUpqTmZZapG+XQJXRlvjJ7aC
+ y6oVv3dOZm1g/CnfxcjJISFgIvHu8ETGLkYuDiGBFYwSp143MUM4Xxgl9jW8ZoJwPjNKbDva
+ yALT0r3mE1TLckaJ7muf2CGct4wSi08eYgapYhOwkpjYvgqoioNDWMBbovtnEUhYRMBcYt2k
+ RWwgNrNAqMSGhvfsIDavgJ3E4ZWrmEBsFgFViRlfL4ItExWIkPj04DArRI2gxMmZT8DinALu
+ Enf3HmeFmCMucevJfCYIW15i+9s5YC9ICExml5j8+SMTxNUuEgu/z2WFsIUlXh3fwg5hy0ic
+ ntzDAtGwjlHib8cLqO7tjBLLJ/9jg6iylrhz7hcbyDfMApoS63fpg5gSAo4Szz56QJh8Ejfe
+ CkLcwCcxadt0Zogwr0RHmxDEDDWJDcs2sMFs7dq5knkCo9IsJJ/NQvLNLCTfzEJYu4CRZRWj
+ eGppcW56arFxXmq5XnFibnFpXrpecn7uJkZgYjn97/jXHYz7/iQdYhTgYFTi4TXomRknxJpY
+ VlyZe4hRgoNZSYT3oBtQiDclsbIqtSg/vqg0J7X4EKM0B4uSOK/xopexQgLpiSWp2ampBalF
+ MFkmDk6pBsZ++zuMcqvfrrrrmFua9ndp/4OaI/pnRWbXJ74SnRF87s3Wmzel2PUd5r0Nb+zt
+ 0mKeIPbjF/vm1+dfufe9qeQ6/8ol0LaukD1yemq9roncs2Dx7Iu163peT8gQ/fv78/n4Drb/
+ xQFNhsZh9tqi99sfdt5/xOh/g/nHjMKPam9uqcRdvPtUMESJpTgj0VCLuag4EQASVafPKAMA
+ AA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrOIsWRmVeSWpSXmKPExsVy+t/xe7qaO2bGGTx7LmjR2zSdyeLK1/ds
  Fif6PrBaLFu2ltWBxWPnrLvsHvNOBnrc7z7O5PF5k1wAS5SeTVF+aUmqQkZ+cYmtUrShhZGe
- oaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJeRtOzzSwFn1Uqlj/Ra2C8ItvFyMkhIWAi
- MfvJVZYuRi4OIYGljBJbtj1g62LkAErISBxfXwZRIyzx51oXG0TNa0aJQwe2MIMk2ASsJCa2
- r2IEsYUFUiQuPnnJDmKLCJhLrJu0iA3EZhYIlbh/ex0TRPN1Ron/t2exgCR4Bewkum5eYAZZ
- xiKgKjHvvDtIWFQgQuLwjlmMECWCEidnPgEr5xRwlzh84TY7xEx1iT/zLjFD2OISt57MZ4Kw
- 5SW2v53DPIFRaBaS9llIWmYhaZmFpGUBI8sqRpHU0uLc9NxiQ73ixNzi0rx0veT83E2MwDja
- duzn5h2MlzYGH2IU4GBU4uE16JkZJ8SaWFZcmXuIUYKDWUmE96AbUIg3JbGyKrUoP76oNCe1
- +BCjKdBvE5mlRJPzgTGeVxJvaGpobmFpaG5sbmxmoSTO2yFwMEZIID2xJDU7NbUgtQimj4mD
- U6qBsXupKbe/f1haZm7L366GWQfOe01d92yz4/40DZ2YJToHuX/8WL36bXPwkeUbKnc/mHzO
- l3u1/0+OqBeOqVJqs37Gec3ekbg99IMNw8/4/vpbS7WPHgtI3/YuwOno0yaVvh1m71/t7tsj
- wnqKY5fgrNS0SSp/jyd1Cl49qSik9IytOKXayuJ0hBJLcUaioRZzUXEiAM4uVc65AgAA
-X-CMS-MailID: 20200417140733eucas1p280e53209e70586c8dde064b6cd6c24d2
+ oaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJeRlvjJ7aCy6oVv3dOZm1g/CnfxcjJISFg
+ ItG95hNjFyMXh5DAUkaJvqcvmLoYOYASMhLH15dB1AhL/LnWxQZR85pR4ui0pywgCTYBK4mJ
+ 7asYQeqFBbwlun8WgYRFBMwl1k1axAZiMwuESty/vY4Jovc6o8T0VZcYQRK8AnYSh1euYgKx
+ WQRUJWZ8vQg2U1QgQuLwjllQNYISJ2c+AYtzCrhL3N17nBViqLrEn3mXmCFscYlbT+YzQdjy
+ EtvfzmGewCg0C0n7LCQts5C0zELSsoCRZRWjSGppcW56brGRXnFibnFpXrpecn7uJkZgJG07
+ 9nPLDsaud8GHGAU4GJV4eA16ZsYJsSaWFVfmHmKU4GBWEuE96AYU4k1JrKxKLcqPLyrNSS0+
+ xGgK9NxEZinR5HxglOeVxBuaGppbWBqaG5sbm1koifN2CByMERJITyxJzU5NLUgtgulj4uCU
+ amC04BcU+3fXq6lLvMXIgr/Se4Zs+KmH/z6Hy07cqtTE370hX9rIK971aHmlyHsLRs3pFXan
+ YgK+z4n6ukVLKv/fkZ195335ozumvVL9YZXz74Lr2aprT26+bZFr9e2TM1jgetP3zk/tjr8h
+ WU6zjyzZpl97pKsvyL76bd7EJ55XN1xSNfpyMU2JpTgj0VCLuag4EQD/TyruugIAAA==
+X-CMS-MailID: 20200417140737eucas1p251bdf38e53ce14c3c9c75f7b6fd6340e
 X-Msg-Generator: CA
-X-RootMTR: 20200324170551eucas1p2a568c0296a5773cdf70e162c5a1e9b72
+X-RootMTR: 20200324170554eucas1p164794d0c08b18a1d066b2b83957c73a1
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200324170551eucas1p2a568c0296a5773cdf70e162c5a1e9b72
+X-CMS-RootMailID: 20200324170554eucas1p164794d0c08b18a1d066b2b83957c73a1
 References: <20200324170532.44384-1-andriy.shevchenko@linux.intel.com>
- <CGME20200324170551eucas1p2a568c0296a5773cdf70e162c5a1e9b72@eucas1p2.samsung.com>
- <20200324170532.44384-2-andriy.shevchenko@linux.intel.com>
+ <CGME20200324170554eucas1p164794d0c08b18a1d066b2b83957c73a1@eucas1p1.samsung.com>
+ <20200324170532.44384-3-andriy.shevchenko@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,11 +117,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 [ added dri-devel ML to Cc: ]
 
 On 3/24/20 6:05 PM, Andy Shevchenko wrote:
-> Introduce temporary variable to increase readability of the code.
+> Device property API allows to gather device resources from different sources,
+> such as ACPI. Convert the drivers to unleash the power of device property API.
 > 
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Patch queued for v5.8 (w/ few lines over 80 characters fixed), thanks.
+Patch queued for v5.8, thanks.
 
 Best regards,
 --
@@ -131,117 +131,103 @@ Samsung R&D Institute Poland
 Samsung Electronics
 
 > ---
->  drivers/video/fbdev/ssd1307fb.c | 34 ++++++++++++++-------------------
->  1 file changed, 14 insertions(+), 20 deletions(-)
+>  drivers/video/fbdev/ssd1307fb.c | 40 ++++++++++++++++-----------------
+>  1 file changed, 19 insertions(+), 21 deletions(-)
 > 
 > diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
-> index 397eae246c2c..84dfd7b0f682 100644
+> index 84dfd7b0f682..7a6a44a0b7a6 100644
 > --- a/drivers/video/fbdev/ssd1307fb.c
 > +++ b/drivers/video/fbdev/ssd1307fb.c
-> @@ -588,6 +588,7 @@ MODULE_DEVICE_TABLE(of, ssd1307fb_of_match);
->  
->  static int ssd1307fb_probe(struct i2c_client *client)
->  {
-> +	struct device *dev = &client->dev;
+> @@ -12,8 +12,7 @@
+>  #include <linux/i2c.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> -#include <linux/of_device.h>
+> -#include <linux/of_gpio.h>
+> +#include <linux/property.h>
+>  #include <linux/pwm.h>
+>  #include <linux/uaccess.h>
+>  #include <linux/regulator/consumer.h>
+> @@ -592,7 +591,6 @@ static int ssd1307fb_probe(struct i2c_client *client)
 >  	struct backlight_device *bl;
 >  	char bl_name[12];
 >  	struct fb_info *info;
-> @@ -598,7 +599,7 @@ static int ssd1307fb_probe(struct i2c_client *client)
->  	void *vmem;
->  	int ret;
+> -	struct device_node *node = client->dev.of_node;
+>  	struct fb_deferred_io *ssd1307fb_defio;
+>  	u32 vmem_size;
+>  	struct ssd1307fb_par *par;
+> @@ -607,7 +605,7 @@ static int ssd1307fb_probe(struct i2c_client *client)
+>  	par->info = info;
+>  	par->client = client;
 >  
-> -	info = framebuffer_alloc(sizeof(struct ssd1307fb_par), &client->dev);
-> +	info = framebuffer_alloc(sizeof(struct ssd1307fb_par), dev);
->  	if (!info)
->  		return -ENOMEM;
+> -	par->device_info = of_device_get_match_data(&client->dev);
+> +	par->device_info = device_get_match_data(dev);
 >  
-> @@ -608,23 +609,20 @@ static int ssd1307fb_probe(struct i2c_client *client)
->  
->  	par->device_info = of_device_get_match_data(&client->dev);
->  
-> -	par->reset = devm_gpiod_get_optional(&client->dev, "reset",
-> -					     GPIOD_OUT_LOW);
-> +	par->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+>  	par->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
 >  	if (IS_ERR(par->reset)) {
-> -		dev_err(&client->dev, "failed to get reset gpio: %ld\n",
-> -			PTR_ERR(par->reset));
-> +		dev_err(dev, "failed to get reset gpio: %ld\n", PTR_ERR(par->reset));
->  		ret = PTR_ERR(par->reset);
->  		goto fb_alloc_error;
->  	}
->  
-> -	par->vbat_reg = devm_regulator_get_optional(&client->dev, "vbat");
-> +	par->vbat_reg = devm_regulator_get_optional(dev, "vbat");
->  	if (IS_ERR(par->vbat_reg)) {
->  		ret = PTR_ERR(par->vbat_reg);
->  		if (ret == -ENODEV) {
->  			par->vbat_reg = NULL;
->  		} else {
-> -			dev_err(&client->dev, "failed to get VBAT regulator: %d\n",
-> -				ret);
-> +			dev_err(dev, "failed to get VBAT regulator: %d\n", ret);
->  			goto fb_alloc_error;
+> @@ -627,44 +625,44 @@ static int ssd1307fb_probe(struct i2c_client *client)
 >  		}
 >  	}
-> @@ -674,15 +672,14 @@ static int ssd1307fb_probe(struct i2c_client *client)
->  	vmem = (void *)__get_free_pages(GFP_KERNEL | __GFP_ZERO,
->  					get_order(vmem_size));
->  	if (!vmem) {
-> -		dev_err(&client->dev, "Couldn't allocate graphical memory.\n");
-> +		dev_err(dev, "Couldn't allocate graphical memory.\n");
->  		ret = -ENOMEM;
->  		goto fb_alloc_error;
->  	}
 >  
-> -	ssd1307fb_defio = devm_kzalloc(&client->dev, sizeof(*ssd1307fb_defio),
-> -				       GFP_KERNEL);
-> +	ssd1307fb_defio = devm_kzalloc(dev, sizeof(*ssd1307fb_defio), GFP_KERNEL);
->  	if (!ssd1307fb_defio) {
-> -		dev_err(&client->dev, "Couldn't allocate deferred io.\n");
-> +		dev_err(dev, "Couldn't allocate deferred io.\n");
->  		ret = -ENOMEM;
->  		goto fb_alloc_error;
->  	}
-> @@ -720,8 +717,7 @@ static int ssd1307fb_probe(struct i2c_client *client)
->  	if (par->vbat_reg) {
->  		ret = regulator_enable(par->vbat_reg);
->  		if (ret) {
-> -			dev_err(&client->dev, "failed to enable VBAT: %d\n",
-> -				ret);
-> +			dev_err(dev, "failed to enable VBAT: %d\n", ret);
->  			goto reset_oled_error;
->  		}
->  	}
-> @@ -732,17 +728,15 @@ static int ssd1307fb_probe(struct i2c_client *client)
+> -	if (of_property_read_u32(node, "solomon,width", &par->width))
+> +	if (device_property_read_u32(dev, "solomon,width", &par->width))
+>  		par->width = 96;
 >  
->  	ret = register_framebuffer(info);
->  	if (ret) {
-> -		dev_err(&client->dev, "Couldn't register the framebuffer\n");
-> +		dev_err(dev, "Couldn't register the framebuffer\n");
->  		goto panel_init_error;
->  	}
+> -	if (of_property_read_u32(node, "solomon,height", &par->height))
+> +	if (device_property_read_u32(dev, "solomon,height", &par->height))
+>  		par->height = 16;
 >  
->  	snprintf(bl_name, sizeof(bl_name), "ssd1307fb%d", info->node);
-> -	bl = backlight_device_register(bl_name, &client->dev, par,
-> -				       &ssd1307fb_bl_ops, NULL);
-> +	bl = backlight_device_register(bl_name, dev, par, &ssd1307fb_bl_ops, NULL);
->  	if (IS_ERR(bl)) {
->  		ret = PTR_ERR(bl);
-> -		dev_err(&client->dev, "unable to register backlight device: %d\n",
-> -			ret);
-> +		dev_err(dev, "unable to register backlight device: %d\n", ret);
->  		goto bl_init_error;
->  	}
+> -	if (of_property_read_u32(node, "solomon,page-offset", &par->page_offset))
+> +	if (device_property_read_u32(dev, "solomon,page-offset", &par->page_offset))
+>  		par->page_offset = 1;
 >  
-> @@ -750,7 +744,7 @@ static int ssd1307fb_probe(struct i2c_client *client)
->  	bl->props.max_brightness = MAX_CONTRAST;
->  	info->bl_dev = bl;
+> -	if (of_property_read_u32(node, "solomon,com-offset", &par->com_offset))
+> +	if (device_property_read_u32(dev, "solomon,com-offset", &par->com_offset))
+>  		par->com_offset = 0;
 >  
-> -	dev_info(&client->dev, "fb%d: %s framebuffer device registered, using %d bytes of video memory\n", info->node, info->fix.id, vmem_size);
-> +	dev_info(dev, "fb%d: %s framebuffer device registered, using %d bytes of video memory\n", info->node, info->fix.id, vmem_size);
+> -	if (of_property_read_u32(node, "solomon,prechargep1", &par->prechargep1))
+> +	if (device_property_read_u32(dev, "solomon,prechargep1", &par->prechargep1))
+>  		par->prechargep1 = 2;
 >  
->  	return 0;
+> -	if (of_property_read_u32(node, "solomon,prechargep2", &par->prechargep2))
+> +	if (device_property_read_u32(dev, "solomon,prechargep2", &par->prechargep2))
+>  		par->prechargep2 = 2;
 >  
+> -	if (!of_property_read_u8_array(node, "solomon,lookup-table",
+> -				       par->lookup_table,
+> -				       ARRAY_SIZE(par->lookup_table)))
+> +	if (!device_property_read_u8_array(dev, "solomon,lookup-table",
+> +					   par->lookup_table,
+> +					   ARRAY_SIZE(par->lookup_table)))
+>  		par->lookup_table_set = 1;
+>  
+> -	par->seg_remap = !of_property_read_bool(node, "solomon,segment-no-remap");
+> -	par->com_seq = of_property_read_bool(node, "solomon,com-seq");
+> -	par->com_lrremap = of_property_read_bool(node, "solomon,com-lrremap");
+> -	par->com_invdir = of_property_read_bool(node, "solomon,com-invdir");
+> +	par->seg_remap = !device_property_read_bool(dev, "solomon,segment-no-remap");
+> +	par->com_seq = device_property_read_bool(dev, "solomon,com-seq");
+> +	par->com_lrremap = device_property_read_bool(dev, "solomon,com-lrremap");
+> +	par->com_invdir = device_property_read_bool(dev, "solomon,com-invdir");
+>  	par->area_color_enable =
+> -		of_property_read_bool(node, "solomon,area-color-enable");
+> -	par->low_power = of_property_read_bool(node, "solomon,low-power");
+> +		device_property_read_bool(dev, "solomon,area-color-enable");
+> +	par->low_power = device_property_read_bool(dev, "solomon,low-power");
+>  
+>  	par->contrast = 127;
+>  	par->vcomh = par->device_info->default_vcomh;
+>  
+>  	/* Setup display timing */
+> -	if (of_property_read_u32(node, "solomon,dclk-div", &par->dclk_div))
+> +	if (device_property_read_u32(dev, "solomon,dclk-div", &par->dclk_div))
+>  		par->dclk_div = par->device_info->default_dclk_div;
+> -	if (of_property_read_u32(node, "solomon,dclk-frq", &par->dclk_frq))
+> +	if (device_property_read_u32(dev, "solomon,dclk-frq", &par->dclk_frq))
+>  		par->dclk_frq = par->device_info->default_dclk_frq;
+>  
+>  	vmem_size = DIV_ROUND_UP(par->width, 8) * par->height;
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
