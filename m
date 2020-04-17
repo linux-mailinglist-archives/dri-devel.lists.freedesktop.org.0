@@ -2,57 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 803F41AE498
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 20:17:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32E41AE4BD
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 20:28:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D1486E46E;
-	Fri, 17 Apr 2020 18:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B15A26E4B3;
+	Fri, 17 Apr 2020 18:28:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD2C6E46E
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 18:17:27 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id m21so1411039pff.13
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 11:17:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=XsZBU4bhjV6O9KVbO6JPEje7KJLsMy5gzQ4J0zuUoG0=;
- b=a7UCge8KsNi+LrELJHDknwsXaFe2Vfj8hoi97RUEfDhQKmg2JbLscHmOe+FVZS+emQ
- 3KX6TUXU4du4NXQKSWyuf6DVtoloiXA/aJUzax11Ye4Xuj9TUwpK/I1U55VfbVwAIjJd
- Ybsh+3YSspq2pYRQchoW6mLkb2AU7yekjxUTA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=XsZBU4bhjV6O9KVbO6JPEje7KJLsMy5gzQ4J0zuUoG0=;
- b=oLnBy6O4cgCdXp6Fo7WKTUWHV8r2WM2yHr8oZptRYVYYI1dm7xXESwmcEmCziRmGfi
- dFaIzvOAIBqdnq1+4ET6NEVuy6d5oaXIjCUp2bvQq8n98kMweyHUH4kaN2ryzFTk+phr
- NPvfgo7kqLXfkg5RTfAUb4ICo697ZrbXaZNQSlwd24qvHvcI5IqcPcUrV7kc8WR2vdtB
- XpupK5SXzlxHyTI8GriRm/6sPdpUU1dHF8U9c/Xn+ZUh+TF9l883G3R54xCLX4VE9Ye0
- Ziw6kwYozO7S9ebpSHGFIB/9YBI/lSYXT8kQukY+WlPtYj3C0Zp3X9af6oDx9L4CiCba
- RMSQ==
-X-Gm-Message-State: AGi0Puaws0GJcuLCo44mue0Bx7JjMA2ypMXy/C7eY7sS6EMsR1fVmBLL
- oIbwztV5z11Rl1UgW46NDiS6kA==
-X-Google-Smtp-Source: APiQypIkeXBu6ylolmkKJSsiQ23LPbMq+pU1hKJH7sJLHh1ACpzIu3GZNXg9hm13C8XctxztyUIMFA==
-X-Received: by 2002:a65:4908:: with SMTP id p8mr4231124pgs.413.1587147446841; 
- Fri, 17 Apr 2020 11:17:26 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
- by smtp.gmail.com with ESMTPSA id g11sm19806944pfm.4.2020.04.17.11.17.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Apr 2020 11:17:25 -0700 (PDT)
-Date: Fri, 17 Apr 2020 11:17:24 -0700
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Rajendra Nayak <rnayak@codeaurora.org>
-Subject: Re: [PATCH v2 05/17] drm/msm/dpu: Use OPP API to set clk/perf state
-Message-ID: <20200417181724.GE199755@google.com>
-References: <1587132279-27659-1-git-send-email-rnayak@codeaurora.org>
- <1587132279-27659-6-git-send-email-rnayak@codeaurora.org>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02CC86E4B3;
+ Fri, 17 Apr 2020 18:28:38 +0000 (UTC)
+IronPort-SDR: g6cw2N+c1wx3khx9fyvFxpFR4kZmCfbLHfXkwlvDJEUKTQjj0djNihfZjcs4ta96mjO8in+xuU
+ ZObI/ItjL9VQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2020 11:28:38 -0700
+IronPort-SDR: V9FV1aztj3YODmKpHxiQG+8utpy9tAVRywC/JHnthL/wcvoiaOSryR5C+MH4l6QITld3joGzUx
+ BxTPKP26LMlQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,395,1580803200"; d="scan'208";a="244777861"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga007.fm.intel.com with SMTP; 17 Apr 2020 11:28:35 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 17 Apr 2020 21:28:34 +0300
+Date: Fri, 17 Apr 2020 21:28:34 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm: Fix page flip ioctl format check
+Message-ID: <20200417182834.GS6112@intel.com>
+References: <20200416170420.23657-1-ville.syrjala@linux.intel.com>
+ <20200417152310.GQ3456981@phenom.ffwll.local>
+ <20200417154313.GO6112@intel.com>
+ <CAKMK7uGBWyPtm0dva=Ndk6xJx7nUKJ20kn8S37iFB8s85WWmdw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1587132279-27659-6-git-send-email-rnayak@codeaurora.org>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <CAKMK7uGBWyPtm0dva=Ndk6xJx7nUKJ20kn8S37iFB8s85WWmdw@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,142 +53,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, sboyd@kernel.org, viresh.kumar@linaro.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, agross@kernel.org, linux-arm-msm@vger.kernel.org,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: stable <stable@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rajendra,
+On Fri, Apr 17, 2020 at 08:10:26PM +0200, Daniel Vetter wrote:
+> On Fri, Apr 17, 2020 at 5:43 PM Ville Syrj=E4l=E4
+> <ville.syrjala@linux.intel.com> wrote:
+> >
+> > On Fri, Apr 17, 2020 at 05:23:10PM +0200, Daniel Vetter wrote:
+> > > On Thu, Apr 16, 2020 at 08:04:20PM +0300, Ville Syrjala wrote:
+> > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > >
+> > > > Revert back to comparing fb->format->format instead fb->format for =
+the
+> > > > page flip ioctl. This check was originally only here to disallow pi=
+xel
+> > > > format changes, but when we changed it to do the pointer comparison
+> > > > we potentially started to reject some (but definitely not all) modi=
+fier
+> > > > changes as well. In fact the current behaviour depends on whether t=
+he
+> > > > driver overrides the format info for a specific format+modifier com=
+bo.
+> > > > Eg. on i915 this now rejects compression vs. no compression changes=
+ but
+> > > > does not reject any other tiling changes. That's just inconsistent
+> > > > nonsense.
+> > > >
+> > > > The main reason we have to go back to the old behaviour is to fix p=
+age
+> > > > flipping with Xorg. At some point Xorg got its atomic rights taken =
+away
+> > > > and since then we can't page flip between compressed and non-compre=
+ssed
+> > > > fbs on i915. Currently we get no page flipping for any games pretty=
+ much
+> > > > since Mesa likes to use compressed buffers. Not sure how compositor=
+s are
+> > > > working around this (don't use one myself). I guess they must be do=
+ing
+> > > > something to get non-compressed buffers instead. Either that or
+> > > > somehow no one noticed the tearing from the blit fallback.
+> > >
+> > > Mesa only uses compressed buffers if you enable modifiers, and there'=
+s a
+> > > _loooooooooooot_ more that needs to be fixed in Xorg to enable that f=
+or
+> > > real. Like real atomic support.
+> >
+> > Why would you need atomic for modifiers? Xorg doesn't even have
+> > any sensible framework for atomic and I suspect it never will.
+> =
 
-I have essentially the same comments as for "tty: serial: qcom_geni_serial:
-Use OPP API to set clk/perf state" (https://patchwork.kernel.org/patch/11495209/).
-about error handling of 'dev_pm_opp_of_add_table' and misleading struct
-member names 'opp'/'opp_table'. Please apply the requested changes to the
-entire series unless you disagree (we can keep the discussion in the patch
-referenced above).
+> Frankly if no one cares about atomic in X I don't think we should do
+> work-arounds for lack of atomic in X.
+> =
 
-On Fri, Apr 17, 2020 at 07:34:27PM +0530, Rajendra Nayak wrote:
-> On some qualcomm platforms DPU needs to express a perforamnce state
-> requirement on a power domain depennding on the clock rates.
-> Use OPP table from DT to register with OPP framework and use
-> dev_pm_opp_set_rate() to set the clk/perf state.
-> 
-> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c |  3 ++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 20 +++++++++++++++++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  4 ++++
->  3 files changed, 25 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> index 11f2beb..fe5717df 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> @@ -7,6 +7,7 @@
->  #include <linux/debugfs.h>
->  #include <linux/errno.h>
->  #include <linux/mutex.h>
-> +#include <linux/pm_opp.h>
->  #include <linux/sort.h>
->  #include <linux/clk.h>
->  #include <linux/bitmap.h>
-> @@ -239,7 +240,7 @@ static int _dpu_core_perf_set_core_clk_rate(struct dpu_kms *kms, u64 rate)
->  		rate = core_clk->max_rate;
->  
->  	core_clk->rate = rate;
-> -	return msm_dss_clk_set_rate(core_clk, 1);
-> +	return dev_pm_opp_set_rate(&kms->pdev->dev, core_clk->rate);
->  }
->  
->  static u64 _dpu_core_perf_get_core_clk_rate(struct dpu_kms *kms)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index ce19f1d..cfce642 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -10,6 +10,7 @@
->  #include <linux/debugfs.h>
->  #include <linux/dma-buf.h>
->  #include <linux/of_irq.h>
-> +#include <linux/pm_opp.h>
->  
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_file.h>
-> @@ -1033,11 +1034,18 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->  	if (!dpu_kms)
->  		return -ENOMEM;
->  
-> +	dpu_kms->opp = dev_pm_opp_set_clkname(dev, "core");
-> +	if (IS_ERR(dpu_kms->opp))
-> +		return PTR_ERR(dpu_kms->opp);
-> +	/* OPP table is optional */
-> +	if (!dev_pm_opp_of_add_table(dev))
-> +		dpu_kms->opp_table = true;
-> +
->  	mp = &dpu_kms->mp;
->  	ret = msm_dss_parse_clock(pdev, mp);
->  	if (ret) {
->  		DPU_ERROR("failed to parse clocks, ret=%d\n", ret);
-> -		return ret;
-> +		goto err;
->  	}
->  
->  	platform_set_drvdata(pdev, dpu_kms);
-> @@ -1051,6 +1059,11 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->  
->  	priv->kms = &dpu_kms->base;
->  	return ret;
-> +err:
-> +	if (dpu_kms->opp_table)
-> +		dev_pm_opp_of_remove_table(dev);
-> +	dev_pm_opp_put_clkname(dpu_kms->opp);
-> +	return ret;
->  }
->  
->  static void dpu_unbind(struct device *dev, struct device *master, void *data)
-> @@ -1059,6 +1072,9 @@ static void dpu_unbind(struct device *dev, struct device *master, void *data)
->  	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
->  	struct dss_module_power *mp = &dpu_kms->mp;
->  
-> +	if (dpu_kms->opp_table)
-> +		dev_pm_opp_of_remove_table(dev);
-> +	dev_pm_opp_put_clkname(dpu_kms->opp);
->  	msm_dss_put_clk(mp->clk_config, mp->num_clk);
->  	devm_kfree(&pdev->dev, mp->clk_config);
->  	mp->num_clk = 0;
-> @@ -1090,6 +1106,8 @@ static int __maybe_unused dpu_runtime_suspend(struct device *dev)
->  	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
->  	struct dss_module_power *mp = &dpu_kms->mp;
->  
-> +	/* Drop the performance state vote */
-> +	dev_pm_opp_set_rate(dev, 0);
->  	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, false);
->  	if (rc)
->  		DPU_ERROR("clock disable failed rc:%d\n", rc);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index 211f5de9..0060709 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -128,6 +128,10 @@ struct dpu_kms {
->  
->  	struct platform_device *pdev;
->  	bool rpm_enabled;
-> +
-> +	struct opp_table *opp;
-> +	bool opp_table;
-> +
->  	struct dss_module_power mp;
->  
->  	/* reference count bandwidth requests, so we know when we can
-> -- 
-> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-> of Code Aurora Forum, hosted by The Linux Foundation
+> > > Without modifiers all you get is X tiling,
+> > > and that works just fine.
+> > >
+> > > Which would also fix this issue here you're papering over.
+> > >
+> > > So if this is the entire reason for this, I'm inclined to not do this.
+> > > Current Xorg is toast wrt modifiers, that's not news.
+> >
+> > Works just fine. Also pretty sure modifiers are even enabled by
+> > default now in modesetting.
+> =
+
+> Y/CSS is harder to scan out, you need to verify with TEST_ONLY whether
+> it works. Otherwise good chances for some oddball black screens on
+> configurations that worked before. Which is why all non-atomic
+> compositors reverted modifiers by default again.
+
+Y alone is hard to scanout also, and yet we do nothing to reject that.
+It's just an inconsistent mess.
+
+If we really want to keep this check then we should rewrite it
+to be explicit:
+
+if (old_fb->format->format !=3D new_fb->format->format ||
+    is_ccs(old_fb->modifier) !=3D is_ccs(new_fb->modifier))
+    return -EINVAL;
+
+Now it's just a random thing that may even stop doing what it's
+currently doing if anyone touches their .get_format_info()
+implementation.
+
+> =
+
+> > And as stated the current check doesn't have consistent behaviour
+> > anyway. You can still flip between different modifiers as long a the
+> > driver doesn't override .get_format_info() for one of them. The *only*
+> > case where that happens is CCS on i915. There is no valid reason to
+> > special case that one.
+> =
+
+> The thing is, you need atomic to make CCS work reliably enough for
+> compositors and distros to dare enabling it by default.
+
+If it's not enabled by default then there is no harm in letting people
+explicitly enable it and get better performance.
+
+> CCS flipping
+> works with atomic. I really see no point in baking this in with as
+> uapi.
+
+It's just going back to the original intention of the check.
+Heck, the debug message doesn't even match what it's doing now.
+
+> Just fix Xorg.
+
+Be serious. No one is going to rewrite all the randr code to be atomic.
+
+> -Daniel
+> =
+
+> >
+> > > -Daniel
+> > >
+> > > >
+> > > > Looking back at the original discussion on this change we pretty mu=
+ch
+> > > > just did it in the name of skipping a few extra pointer dereference=
+s.
+> > > > However, I've decided not to revert the whole thing in case someone
+> > > > has since started to depend on these changes. None of the other che=
+cks
+> > > > are relevant for i915 anyways.
+> > > >
+> > > > Cc: stable@vger.kernel.org
+> > > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Fixes: dbd4d5761e1f ("drm: Replace 'format->format' comparisons to =
+just 'format' comparisons")
+> > > > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_plane.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plan=
+e.c
+> > > > index d6ad60ab0d38..f2ca5315f23b 100644
+> > > > --- a/drivers/gpu/drm/drm_plane.c
+> > > > +++ b/drivers/gpu/drm/drm_plane.c
+> > > > @@ -1153,7 +1153,7 @@ int drm_mode_page_flip_ioctl(struct drm_devic=
+e *dev,
+> > > >     if (ret)
+> > > >             goto out;
+> > > >
+> > > > -   if (old_fb->format !=3D fb->format) {
+> > > > +   if (old_fb->format->format !=3D fb->format->format) {
+> > > >             DRM_DEBUG_KMS("Page flip is not allowed to change frame=
+ buffer format.\n");
+> > > >             ret =3D -EINVAL;
+> > > >             goto out;
+> > > > --
+> > > > 2.24.1
+> > > >
+> > > > _______________________________________________
+> > > > dri-devel mailing list
+> > > > dri-devel@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+> >
+> > --
+> > Ville Syrj=E4l=E4
+> > Intel
+> =
+
+> =
+
+> =
+
+> -- =
+
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
