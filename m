@@ -2,31 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2201AEB3F
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 11:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E451AEB32
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 11:26:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE796EC6B;
-	Sat, 18 Apr 2020 09:26:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDA136E1B2;
+	Sat, 18 Apr 2020 09:26:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-blr-01.qualcomm.com (alexa-out-blr-01.qualcomm.com
- [103.229.18.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6080F6E394;
- Fri, 17 Apr 2020 07:12:59 +0000 (UTC)
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 17 Apr 2020 12:42:56 +0530
-Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
- by ironmsg02-blr.qualcomm.com with ESMTP; 17 Apr 2020 12:42:34 +0530
-Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 48D9C4832; Fri, 17 Apr 2020 12:42:33 +0530 (IST)
-From: Kalyan Thota <kalyan_t@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH] drm/msm/dpu: ensure device suspend happens during PM sleep
-Date: Fri, 17 Apr 2020 12:42:26 +0530
-Message-Id: <1587107546-7379-1-git-send-email-kalyan_t@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A46456E3A6;
+ Fri, 17 Apr 2020 07:06:13 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id E3852DE581F6460A0D08;
+ Fri, 17 Apr 2020 15:06:08 +0800 (CST)
+Received: from huawei.com (10.175.124.28) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Fri, 17 Apr 2020
+ 15:05:59 +0800
+From: Jason Yan <yanaijie@huawei.com>
+To: <evan.quan@amd.com>, <alexander.deucher@amd.com>,
+ <christian.koenig@amd.com>, <David1.Zhou@amd.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <yanaijie@huawei.com>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/amd/powerplay: remove defined but not used variables
+Date: Fri, 17 Apr 2020 15:32:19 +0800
+Message-ID: <20200417073219.40320-1-yanaijie@huawei.com>
+X-Mailer: git-send-email 2.21.1
+MIME-Version: 1.0
+X-Originating-IP: [10.175.124.28]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sat, 18 Apr 2020 09:26:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,121 +43,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mkrishn@codeaurora.org, travitej@codeaurora.org, dianders@chromium.org,
- linux-kernel@vger.kernel.org, seanpaul@chromium.org,
- Kalyan Thota <kalyan_t@codeaurora.org>, hoegsberg@chromium.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Hulk Robot <hulkci@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"The PM core always increments the runtime usage counter
-before calling the ->suspend() callback and decrements it
-after calling the ->resume() callback"
-
-DPU and DSI are managed as runtime devices. When
-suspend is triggered, PM core adds a refcount on all the
-devices and calls device suspend, since usage count is
-already incremented, runtime suspend was not getting called
-and it kept the clocks on which resulted in target not
-entering into XO shutdown.
-
-Add changes to force suspend on runtime devices during pm sleep.
-
-Changes in v1:
- - Remove unnecessary checks in the function
-    _dpu_kms_disable_dpu (Rob Clark).
-
-Changes in v2:
- - Avoid using suspend_late to reset the usagecount
-   as suspend_late might not be called during suspend
-   call failures (Doug).
-
-Changes in v3:
- - Use force suspend instead of managing device usage_count
-   via runtime put and get API's to trigger callbacks (Doug).
-
-Changes in v4:
- - Check the return values of pm_runtime_force_suspend and
-   pm_runtime_force_resume API's and pass appropriately (Doug).
-
-Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  2 ++
- drivers/gpu/drm/msm/dsi/dsi.c           |  2 ++
- drivers/gpu/drm/msm/msm_drv.c           | 14 +++++++++++++-
- 3 files changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index ce19f1d..b886d9d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1123,6 +1123,8 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
- 
- static const struct dev_pm_ops dpu_pm_ops = {
- 	SET_RUNTIME_PM_OPS(dpu_runtime_suspend, dpu_runtime_resume, NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-+				pm_runtime_force_resume)
- };
- 
- static const struct of_device_id dpu_dt_match[] = {
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-index 55ea4bc2..62704885 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi.c
-@@ -161,6 +161,8 @@ static int dsi_dev_remove(struct platform_device *pdev)
- 
- static const struct dev_pm_ops dsi_pm_ops = {
- 	SET_RUNTIME_PM_OPS(msm_dsi_runtime_suspend, msm_dsi_runtime_resume, NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-+				pm_runtime_force_resume)
- };
- 
- static struct platform_driver dsi_driver = {
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 7d985f8..4b93fc1 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -1040,6 +1040,7 @@ static int msm_pm_suspend(struct device *dev)
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct msm_drm_private *priv = ddev->dev_private;
-+	int ret, rc;
- 
- 	if (WARN_ON(priv->pm_state))
- 		drm_atomic_state_put(priv->pm_state);
-@@ -1051,7 +1052,14 @@ static int msm_pm_suspend(struct device *dev)
- 		return ret;
- 	}
- 
--	return 0;
-+	ret = pm_runtime_force_suspend(dev);
-+	if (ret) {
-+		rc = drm_atomic_helper_resume(ddev, priv->pm_state);
-+		if (!rc)
-+			priv->pm_state = NULL;
-+	}
-+
-+	return ret;
- }
- 
- static int msm_pm_resume(struct device *dev)
-@@ -1063,6 +1071,10 @@ static int msm_pm_resume(struct device *dev)
- 	if (WARN_ON(!priv->pm_state))
- 		return -ENOENT;
- 
-+	ret = pm_runtime_force_resume(dev);
-+	if (ret)
-+		return ret;
-+
- 	ret = drm_atomic_helper_resume(ddev, priv->pm_state);
- 	if (!ret)
- 		priv->pm_state = NULL;
--- 
-1.9.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4IHRoZSBmb2xsb3dpbmcgZ2NjIHdhcm5pbmc6Cgpkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS8uLi9wb3dlcnBsYXkvaHdtZ3IvdmVnYTEwX3Bvd2VydHVuZS5jOjcxMDo0NjoKd2FybmluZzog
+4oCYUFNNR0NFRENUaHJlc2hvbGRDb25maWdfdmVnYTEw4oCZIGRlZmluZWQgYnV0IG5vdCB1c2Vk
+ClstV3VudXNlZC1jb25zdC12YXJpYWJsZT1dCiBzdGF0aWMgY29uc3Qgc3RydWN0IHZlZ2ExMF9k
+aWR0X2NvbmZpZ19yZWcKUFNNR0NFRENUaHJlc2hvbGRDb25maWdfdmVnYTEwW10gPQpefn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vcG93
+ZXJwbGF5L2h3bWdyL3ZlZ2ExMF9wb3dlcnR1bmUuYzo2NTQ6NDY6Cndhcm5pbmc6IOKAmFBTTVNF
+RURDVGhyZXNob2xkQ29uZmlnX1ZlZ2ExMOKAmSBkZWZpbmVkIGJ1dCBub3QgdXNlZApbLVd1bnVz
+ZWQtY29uc3QtdmFyaWFibGU9XQogc3RhdGljIGNvbnN0IHN0cnVjdCB2ZWdhMTBfZGlkdF9jb25m
+aWdfcmVnClBTTVNFRURDVGhyZXNob2xkQ29uZmlnX1ZlZ2ExMFtdID0KXn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+CgpSZXBvcnRlZC1ieTogSHVsayBSb2JvdCA8aHVsa2NpQGh1YXdlaS5j
+b20+ClNpZ25lZC1vZmYtYnk6IEphc29uIFlhbiA8eWFuYWlqaWVAaHVhd2VpLmNvbT4KLS0tCiAu
+Li4vYW1kL3Bvd2VycGxheS9od21nci92ZWdhMTBfcG93ZXJ0dW5lLmMgICAgfCAyMyAtLS0tLS0t
+LS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMjMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3IvdmVnYTEwX3Bvd2VydHVuZS5j
+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3IvdmVnYTEwX3Bvd2VydHVuZS5j
+CmluZGV4IGNhOWIyM2I1YWJjOS4uOTc1N2Q0N2RkNmI4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vYW1kL3Bvd2VycGxheS9od21nci92ZWdhMTBfcG93ZXJ0dW5lLmMKKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3IvdmVnYTEwX3Bvd2VydHVuZS5jCkBAIC02NTEs
+MTggKzY1MSw2IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgdmVnYTEwX2RpZHRfY29uZmlnX3JlZyAg
+IFBTTVNFRURDU3RhbGxEZWxheUNvbmZpZ19WZWdhMTBbXSA9CiAJeyAgIDB4RkZGRkZGRkYgIH0g
+IC8qIEVuZCBvZiBsaXN0ICovCiB9OwogCi1zdGF0aWMgY29uc3Qgc3RydWN0IHZlZ2ExMF9kaWR0
+X2NvbmZpZ19yZWcgICBQU01TRUVEQ1RocmVzaG9sZENvbmZpZ19WZWdhMTBbXSA9Ci17Ci0vKiAt
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0KLSAqICAgICAgT2Zmc2V0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBNYXNrICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNoaWZ0ICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBWYWx1ZQotICogLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tCi0gKi8KLQkvKiBTUSBFREMgVEhSRVNIT0xEICovCi0JeyAgIGl4RElEVF9TUV9FRENfVEhS
+RVNIT0xELCAgICAgICAgICAgRElEVF9TUV9FRENfVEhSRVNIT0xEX19FRENfVEhSRVNIT0xEX01B
+U0ssICAgICAgICAgICBESURUX1NRX0VEQ19USFJFU0hPTERfX0VEQ19USFJFU0hPTERfX1NISUZU
+LCAgICAgICAgICAgIDB4MDAwMCB9LAotCi0JeyAgIDB4RkZGRkZGRkYgIH0gIC8qIEVuZCBvZiBs
+aXN0ICovCi19OwotCiBzdGF0aWMgY29uc3Qgc3RydWN0IHZlZ2ExMF9kaWR0X2NvbmZpZ19yZWcg
+ICBQU01TRUVEQ0N0cmxSZXNldENvbmZpZ19WZWdhMTBbXSA9CiB7CiAvKiAtLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KQEAgLTcw
+NywxNyArNjk1LDYgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCB2ZWdhMTBfZGlkdF9jb25maWdfcmVn
+ICAgUFNNU0VFRENDdHJsQ29uZmlnX1ZlZ2ExMFtdID0KIAl7ICAgMHhGRkZGRkZGRiAgfSAgLyog
+RW5kIG9mIGxpc3QgKi8KIH07CiAKLXN0YXRpYyBjb25zdCBzdHJ1Y3QgdmVnYTEwX2RpZHRfY29u
+ZmlnX3JlZyAgIFBTTUdDRURDVGhyZXNob2xkQ29uZmlnX3ZlZ2ExMFtdID0KLXsKLS8qIC0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LQotICogICAgICBPZmZzZXQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE1hc2sgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgU2hpZnQgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFZhbHVlCi0gKiAtLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
+LSAqLwotCXsgICBtbUdDX0VEQ19USFJFU0hPTEQsICAgICAgICAgICAgICAgIEdDX0VEQ19USFJF
+U0hPTERfX0VEQ19USFJFU0hPTERfTUFTSywgICAgICAgICAgICAgICAgR0NfRURDX1RIUkVTSE9M
+RF9fRURDX1RIUkVTSE9MRF9fU0hJRlQsICAgICAgICAgICAgICAgICAweDAwMDAwMDAgfSwKLQot
+CXsgICAweEZGRkZGRkZGICB9ICAvKiBFbmQgb2YgbGlzdCAqLwotfTsKLQogc3RhdGljIGNvbnN0
+IHN0cnVjdCB2ZWdhMTBfZGlkdF9jb25maWdfcmVnICAgUFNNR0NFRENEcm9vcEN0cmxDb25maWdf
+dmVnYTEwW10gPQogewogLyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCi0tIAoyLjIxLjEKCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
