@@ -1,58 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE571AD67B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 08:53:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2201AEB3F
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 11:27:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C619C6E347;
-	Fri, 17 Apr 2020 06:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE796EC6B;
+	Sat, 18 Apr 2020 09:26:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F12DE6E347
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 06:53:37 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id d27so1786684wra.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Apr 2020 23:53:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=K/0zoHrBlMR3DZlg98Em/9230jK4Ec4IG04PFP4xQ44=;
- b=BE2nEUk+WZiH1EJpZ9tC2vWtZqW87Kk/w06Raq2RF+GmPOtYQJXVFKix2TS3F8ygwD
- PwAxRr5bWf3KrV02zm6qOLjEaHPd4Hd+QYfiYalZRMWcr5HyNyR5sBDwrln1CLPiXnJv
- T+KQ7HNH3mU/e9lTYIc4Bv76cBy84puEFS7U8h5sZXk5N6PexuqCe/3gAP0nUzIrwXDJ
- fRssq44e1gUef/eVcsj24F77JR8C432FuwuI+vkZs8ADEkwb16ZodJB0eBRT983dK0ud
- pGUEv4MOsKX8KmrL19wnaqgi5v2TtlvpFHYHabVudUTiMOgcF/1SzSUvIBKdcGTSiuz4
- 4UKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=K/0zoHrBlMR3DZlg98Em/9230jK4Ec4IG04PFP4xQ44=;
- b=sBS4yaXRuCocwJQJqmXt9mrLkGvuTLp129jgv5h+mkOb4Gdeb2Yxbq6X33r/L1Agx3
- CadppkFTpAnyUJMIkdrL7bnG0V8BCKF5EWXKo6CAHjGi2iYguHSsWIRmGZ34qIl4y5Wh
- mxohMkHLb6byM/v3KnF9o31W5LaDLyHacFeWmf7CSilnPLym7G/2eP8STNaj8QfCokWi
- bfBdzYX1/WVLvk4hOuQ0+s/6P5KaALuqhzUgolIkbqj7SUXkqwu7RYe7I6Az0RMlAFxs
- ViHGx+mjoP4IxmdocJJSESWOq5s3RQMgGAsWRikaitTAEDFryUsTgIck4Kl0CrmwmBme
- Xt7A==
-X-Gm-Message-State: AGi0Pub5pytcwifXuhVkNSZJN16gIJW+gkY1rxguObS+Mrky2AAjhroc
- uXfv9abbZkR6WRHJI30TwwE=
-X-Google-Smtp-Source: APiQypIl5Ir0ioY2kZc0ZIdoCByjDBHyG6eBTWsNyaJmVZYmdVnIvz3yrByACmf7pUwLWKne+1AZ6Q==
-X-Received: by 2002:a5d:54d0:: with SMTP id x16mr2157112wrv.86.1587106416571; 
- Thu, 16 Apr 2020 23:53:36 -0700 (PDT)
-Received: from localhost (pD9E51D62.dip0.t-ipconnect.de. [217.229.29.98])
- by smtp.gmail.com with ESMTPSA id o18sm4236593wrp.23.2020.04.16.23.53.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Apr 2020 23:53:35 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Sam Ravnborg <sam@ravnborg.org>,
-	Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH] dt-bindings: panel: Document some missing compatible strings
-Date: Fri, 17 Apr 2020 08:53:28 +0200
-Message-Id: <20200417065328.1578603-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
-MIME-Version: 1.0
+Received: from alexa-out-blr-01.qualcomm.com (alexa-out-blr-01.qualcomm.com
+ [103.229.18.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6080F6E394;
+ Fri, 17 Apr 2020 07:12:59 +0000 (UTC)
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 17 Apr 2020 12:42:56 +0530
+Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 17 Apr 2020 12:42:34 +0530
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id 48D9C4832; Fri, 17 Apr 2020 12:42:33 +0530 (IST)
+From: Kalyan Thota <kalyan_t@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [PATCH] drm/msm/dpu: ensure device suspend happens during PM sleep
+Date: Fri, 17 Apr 2020 12:42:26 +0530
+Message-Id: <1587107546-7379-1-git-send-email-kalyan_t@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
+X-Mailman-Approved-At: Sat, 18 Apr 2020 09:26:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,51 +40,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: mkrishn@codeaurora.org, travitej@codeaurora.org, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, seanpaul@chromium.org,
+ Kalyan Thota <kalyan_t@codeaurora.org>, hoegsberg@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+"The PM core always increments the runtime usage counter
+before calling the ->suspend() callback and decrements it
+after calling the ->resume() callback"
 
-Add missing compatible strings for the Panasonic and Chunghwa panels
-found on NVIDIA Dalmore and Cardhu boards.
+DPU and DSI are managed as runtime devices. When
+suspend is triggered, PM core adds a refcount on all the
+devices and calls device suspend, since usage count is
+already incremented, runtime suspend was not getting called
+and it kept the clocks on which resulted in target not
+entering into XO shutdown.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+Add changes to force suspend on runtime devices during pm sleep.
+
+Changes in v1:
+ - Remove unnecessary checks in the function
+    _dpu_kms_disable_dpu (Rob Clark).
+
+Changes in v2:
+ - Avoid using suspend_late to reset the usagecount
+   as suspend_late might not be called during suspend
+   call failures (Doug).
+
+Changes in v3:
+ - Use force suspend instead of managing device usage_count
+   via runtime put and get API's to trigger callbacks (Doug).
+
+Changes in v4:
+ - Check the return values of pm_runtime_force_suspend and
+   pm_runtime_force_resume API's and pass appropriately (Doug).
+
+Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
 ---
- .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
- 2 files changed, 4 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  2 ++
+ drivers/gpu/drm/msm/dsi/dsi.c           |  2 ++
+ drivers/gpu/drm/msm/msm_drv.c           | 14 +++++++++++++-
+ 3 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-index b2e8742fd6af..88ac75333a5e 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-@@ -29,6 +29,8 @@ properties:
-       # compatible must be listed in alphabetical order, ordered by compatible.
-       # The description in the comment is mandatory for each compatible.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index ce19f1d..b886d9d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1123,6 +1123,8 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
  
-+        # Panasonic 10" WUXGA TFT LCD panel
-+      - panasonic,vvx10f004b00
-         # Panasonic 10" WUXGA TFT LCD panel
-       - panasonic,vvx10f034n00
+ static const struct dev_pm_ops dpu_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(dpu_runtime_suspend, dpu_runtime_resume, NULL)
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				pm_runtime_force_resume)
+ };
  
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 393ffc6acbba..6c21650664e2 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -82,6 +82,8 @@ properties:
-         # Chunghwa Picture Tubes Ltd. 10.1" WXGA TFT LCD panel
-       - chunghwa,claa101wa01a
-         # Chunghwa Picture Tubes Ltd. 10.1" WXGA TFT LCD panel
-+      - chunghwa,claa101wb01
-+        # Chunghwa Picture Tubes Ltd. 10.1" WXGA TFT LCD panel
-       - chunghwa,claa101wb03
-         # DataImage, Inc. 7" WVGA (800x480) TFT LCD panel with 24-bit parallel interface.
-       - dataimage,scf0700c48ggu18
+ static const struct of_device_id dpu_dt_match[] = {
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+index 55ea4bc2..62704885 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.c
++++ b/drivers/gpu/drm/msm/dsi/dsi.c
+@@ -161,6 +161,8 @@ static int dsi_dev_remove(struct platform_device *pdev)
+ 
+ static const struct dev_pm_ops dsi_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(msm_dsi_runtime_suspend, msm_dsi_runtime_resume, NULL)
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				pm_runtime_force_resume)
+ };
+ 
+ static struct platform_driver dsi_driver = {
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 7d985f8..4b93fc1 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -1040,6 +1040,7 @@ static int msm_pm_suspend(struct device *dev)
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct msm_drm_private *priv = ddev->dev_private;
++	int ret, rc;
+ 
+ 	if (WARN_ON(priv->pm_state))
+ 		drm_atomic_state_put(priv->pm_state);
+@@ -1051,7 +1052,14 @@ static int msm_pm_suspend(struct device *dev)
+ 		return ret;
+ 	}
+ 
+-	return 0;
++	ret = pm_runtime_force_suspend(dev);
++	if (ret) {
++		rc = drm_atomic_helper_resume(ddev, priv->pm_state);
++		if (!rc)
++			priv->pm_state = NULL;
++	}
++
++	return ret;
+ }
+ 
+ static int msm_pm_resume(struct device *dev)
+@@ -1063,6 +1071,10 @@ static int msm_pm_resume(struct device *dev)
+ 	if (WARN_ON(!priv->pm_state))
+ 		return -ENOENT;
+ 
++	ret = pm_runtime_force_resume(dev);
++	if (ret)
++		return ret;
++
+ 	ret = drm_atomic_helper_resume(ddev, priv->pm_state);
+ 	if (!ret)
+ 		priv->pm_state = NULL;
 -- 
-2.24.1
+1.9.1
 
 _______________________________________________
 dri-devel mailing list
