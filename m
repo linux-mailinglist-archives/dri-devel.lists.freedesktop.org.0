@@ -2,61 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2361A1AE0F9
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 17:24:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCEA1AE163
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 17:43:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A8376EC3A;
-	Fri, 17 Apr 2020 15:24:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 055D16EC47;
+	Fri, 17 Apr 2020 15:43:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28FD06EC3A
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 15:24:18 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id d17so3470558wrg.11
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 08:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=CgcNS7wVJx/cYNun6VjX20ZMzfaQsrimyYkXrWNoBus=;
- b=BKJl2UErpEu+NCY9uO9Lommds4DyzAm/iPucAVPnMLsQR63OHetIN0V662rSMjFT+O
- ukCQfenaTNg7x3n+oIzre3kDQrPHxB50BEIKsdqAZ9oFmtbbaDLhpr43UKqZuvlI8J+T
- aMljbWOC8YGA9LydrAhqBKclch1+eX66x/kgI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=CgcNS7wVJx/cYNun6VjX20ZMzfaQsrimyYkXrWNoBus=;
- b=lgwZ7PeS3D05BIoRGdUqQWsjmunRurHi1+c+5+q9nlo5x6nxUiRgnIDXWLuM4naisV
- ahK0+cmBscnxIrUSpalCrtJoFp3+wkE0ceYwbogXS9ZjPBlMUcLnoBDF0yrZejYELxVU
- F54PyOKqqJqDZdvjeOAJeygMWy7Mq6ZjA44Nzkn00+WbrieW53kmdQ8s9lEtVcX3JfzK
- 5HW2qVwdHmyilM//Z6NCIyDhKaYQQugzKLjDUmQfgHYDD1mi1L9pEouG0GwJKP9yprcn
- 0+hyMllauAWhKCnkOw0iQcpjYVjRIfUZPiznm2EQto1rNtm6auvtu9nwhg8EuVXCXeXa
- 4KsQ==
-X-Gm-Message-State: AGi0PuYSa4Oeyt5Fy3O3hzFsmkRMRvCrSYTW2lfjwD/Kna4oXxTlXPKl
- c2kx5nB6B3c/MDwuv0ngs6qdEw==
-X-Google-Smtp-Source: APiQypJ8TBKIbcM3sKU/AyEJfbOuZ02z9cZR91tRn6zeSl5vO8A9C4sU0ld0N/OBcLS5RBjM3z1S1w==
-X-Received: by 2002:a05:6000:162c:: with SMTP id
- v12mr4747537wrb.313.1587137056871; 
- Fri, 17 Apr 2020 08:24:16 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t63sm2703843wmt.37.2020.04.17.08.24.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Apr 2020 08:24:15 -0700 (PDT)
-Date: Fri, 17 Apr 2020 17:24:14 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: YueHaibing <yuehaibing@huawei.com>
-Subject: Re: [PATCH -next] drm/gma500: remove unused variable 'hdmi_ids'
-Message-ID: <20200417152414.GR3456981@phenom.ffwll.local>
-Mail-Followup-To: YueHaibing <yuehaibing@huawei.com>,
- patrik.r.jakobsson@gmail.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20200417101032.8140-1-yuehaibing@huawei.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5828F6EC4E;
+ Fri, 17 Apr 2020 15:43:19 +0000 (UTC)
+IronPort-SDR: xVOmT3jIEUeITTS4DL6pxDe4/36jG7LfZq+iQOmdMJ0Hu7OBX/K/fsLTzMn2oIoJchpTNHWUfe
+ 5kHzwD4i062A==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2020 08:43:18 -0700
+IronPort-SDR: WcLv1QNWJl57GpWwDOAQ9iRfQku3rP52s0EbmCy4dQKp4LuHb7WplwbGupvBzYE8a8Inajk0zA
+ V1umjrf8bp8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,395,1580803200"; d="scan'208";a="244737378"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga007.fm.intel.com with SMTP; 17 Apr 2020 08:43:14 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 17 Apr 2020 18:43:13 +0300
+Date: Fri, 17 Apr 2020 18:43:13 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm: Fix page flip ioctl format check
+Message-ID: <20200417154313.GO6112@intel.com>
+References: <20200416170420.23657-1-ville.syrjala@linux.intel.com>
+ <20200417152310.GQ3456981@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200417101032.8140-1-yuehaibing@huawei.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <20200417152310.GQ3456981@phenom.ffwll.local>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,35 +51,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: stable@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBBcHIgMTcsIDIwMjAgYXQgMDY6MTA6MzJQTSArMDgwMCwgWXVlSGFpYmluZyB3cm90
-ZToKPiBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL29ha3RyYWlsX2hkbWkuYzo2NzY6MzU6IHdhcm5p
-bmc6IOKAmGhkbWlfaWRz4oCZIGRlZmluZWQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1jb25zdC12
-YXJpYWJsZT1dCj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCBoZG1pX2lkc1td
-ID0gewo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn4KPiAKPiBJ
-dCBpcyBuZXZlciB1c2VkLCByZW1vdmUgaXQuCj4gCj4gUmVwb3J0ZWQtYnk6IEh1bGsgUm9ib3Qg
-PGh1bGtjaUBodWF3ZWkuY29tPgo+IFNpZ25lZC1vZmYtYnk6IFl1ZUhhaWJpbmcgPHl1ZWhhaWJp
-bmdAaHVhd2VpLmNvbT4KClF1ZXVlZCBmb3IgNS44LCB0aGFua3MgZm9yIHlvdXIgcGF0Y2guCi1E
-YW5pZWwKCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvb2FrdHJhaWxfaGRtaS5jIHwg
-NSAtLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNSBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9vYWt0cmFpbF9oZG1pLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vZ21hNTAwL29ha3RyYWlsX2hkbWkuYwo+IGluZGV4IGIyNTA4NmYyNTJhZS4uYTA5N2E1OWE5
-ZWFlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvb2FrdHJhaWxfaGRtaS5j
-Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9vYWt0cmFpbF9oZG1pLmMKPiBAQCAtNjYz
-LDExICs2NjMsNiBAQCB2b2lkIG9ha3RyYWlsX2hkbWlfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2LAo+ICAJa2ZyZWUoZ21hX2VuY29kZXIpOwo+ICB9Cj4gIAo+IC1zdGF0aWMgY29uc3Qgc3Ry
-dWN0IHBjaV9kZXZpY2VfaWQgaGRtaV9pZHNbXSA9IHsKPiAtCXsgUENJX0RFVklDRShQQ0lfVkVO
-RE9SX0lEX0lOVEVMLCAweDA4MGQpIH0sCj4gLQl7IDAgfQo+IC19Owo+IC0KPiAgdm9pZCBvYWt0
-cmFpbF9oZG1pX3NldHVwKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCj4gIHsKPiAgCXN0cnVjdCBk
-cm1fcHNiX3ByaXZhdGUgKmRldl9wcml2ID0gZGV2LT5kZXZfcHJpdmF0ZTsKPiAtLSAKPiAyLjE3
-LjEKPiAKPiAKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jw
-b3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+On Fri, Apr 17, 2020 at 05:23:10PM +0200, Daniel Vetter wrote:
+> On Thu, Apr 16, 2020 at 08:04:20PM +0300, Ville Syrjala wrote:
+> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > =
+
+> > Revert back to comparing fb->format->format instead fb->format for the
+> > page flip ioctl. This check was originally only here to disallow pixel
+> > format changes, but when we changed it to do the pointer comparison
+> > we potentially started to reject some (but definitely not all) modifier
+> > changes as well. In fact the current behaviour depends on whether the
+> > driver overrides the format info for a specific format+modifier combo.
+> > Eg. on i915 this now rejects compression vs. no compression changes but
+> > does not reject any other tiling changes. That's just inconsistent
+> > nonsense.
+> > =
+
+> > The main reason we have to go back to the old behaviour is to fix page
+> > flipping with Xorg. At some point Xorg got its atomic rights taken away
+> > and since then we can't page flip between compressed and non-compressed
+> > fbs on i915. Currently we get no page flipping for any games pretty much
+> > since Mesa likes to use compressed buffers. Not sure how compositors are
+> > working around this (don't use one myself). I guess they must be doing
+> > something to get non-compressed buffers instead. Either that or
+> > somehow no one noticed the tearing from the blit fallback.
+> =
+
+> Mesa only uses compressed buffers if you enable modifiers, and there's a
+> _loooooooooooot_ more that needs to be fixed in Xorg to enable that for
+> real. Like real atomic support.
+
+Why would you need atomic for modifiers? Xorg doesn't even have
+any sensible framework for atomic and I suspect it never will.
+
+> Without modifiers all you get is X tiling,
+> and that works just fine.
+> =
+
+> Which would also fix this issue here you're papering over.
+> =
+
+> So if this is the entire reason for this, I'm inclined to not do this.
+> Current Xorg is toast wrt modifiers, that's not news.
+
+Works just fine. Also pretty sure modifiers are even enabled by
+default now in modesetting.
+
+And as stated the current check doesn't have consistent behaviour
+anyway. You can still flip between different modifiers as long a the
+driver doesn't override .get_format_info() for one of them. The *only*
+case where that happens is CCS on i915. There is no valid reason to
+special case that one.
+
+> -Daniel
+> =
+
+> > =
+
+> > Looking back at the original discussion on this change we pretty much
+> > just did it in the name of skipping a few extra pointer dereferences.
+> > However, I've decided not to revert the whole thing in case someone
+> > has since started to depend on these changes. None of the other checks
+> > are relevant for i915 anyways.
+> > =
+
+> > Cc: stable@vger.kernel.org
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Fixes: dbd4d5761e1f ("drm: Replace 'format->format' comparisons to just=
+ 'format' comparisons")
+> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_plane.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> > index d6ad60ab0d38..f2ca5315f23b 100644
+> > --- a/drivers/gpu/drm/drm_plane.c
+> > +++ b/drivers/gpu/drm/drm_plane.c
+> > @@ -1153,7 +1153,7 @@ int drm_mode_page_flip_ioctl(struct drm_device *d=
+ev,
+> >  	if (ret)
+> >  		goto out;
+> >  =
+
+> > -	if (old_fb->format !=3D fb->format) {
+> > +	if (old_fb->format->format !=3D fb->format->format) {
+> >  		DRM_DEBUG_KMS("Page flip is not allowed to change frame buffer forma=
+t.\n");
+> >  		ret =3D -EINVAL;
+> >  		goto out;
+> > -- =
+
+> > 2.24.1
+> > =
+
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> =
+
+> -- =
+
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
