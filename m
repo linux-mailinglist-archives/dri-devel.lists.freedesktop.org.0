@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E561AE601
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 21:42:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F02951AE605
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 21:42:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCADF6E135;
-	Fri, 17 Apr 2020 19:42:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D54586E85E;
+	Fri, 17 Apr 2020 19:42:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22D616E135
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 19:42:29 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 009896E866
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 19:42:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587152548;
+ s=mimecast20190719; t=1587152552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sx8d7lrVpEcUzH6AwRgjUrQjeecIZrofUzOu/gD0BLs=;
- b=HVr4RPLS3pe5hfs9QwMl14h7CXgds76tOdf8CbNFhiyNRinYmP64Y3d3bNuSzUmjq4jUcm
- mShniFYQ49KJMiwCcm64hMKI7m28Aypn2ikmbzQc4ornU9+BC7gFHvZs/Hb8hVcDBZzqEp
- eCXchwBN0ndb5txhZSlb1dtDgkve5Ic=
+ bh=tw6iakFOYLBCIQFxeQmRTj7YdAKorrHXZZ6y3q0wXB8=;
+ b=Jw5EmA8ZuKiUbMBvzmltS8Iy/kxe6+A6qL3Xl2PMWwA8Hqf8C/LWcochUobh4O4lIBWusw
+ g1MSP/geNPgkkzszEYzOE0MpggnW+xlL7OKVc2GeyC0oEmXMfjzS8gr/ivSAnDsi4jHQOV
+ RDMcwdDDkNMfWxwErSboTusUtGcMPvo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-r966xwrGNKmN8EPj32UWHA-1; Fri, 17 Apr 2020 15:42:26 -0400
-X-MC-Unique: r966xwrGNKmN8EPj32UWHA-1
+ us-mta-226-DdxAzQy7O0W857mAi20rxQ-1; Fri, 17 Apr 2020 15:42:30 -0400
+X-MC-Unique: DdxAzQy7O0W857mAi20rxQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFCD8149C3;
- Fri, 17 Apr 2020 19:42:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 561BC10CE784;
+ Fri, 17 Apr 2020 19:42:28 +0000 (UTC)
 Received: from Ruby.redhat.com (ovpn-114-140.rdu2.redhat.com [10.10.114.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 025E85DA7C;
- Fri, 17 Apr 2020 19:42:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CBC55DA7C;
+ Fri, 17 Apr 2020 19:42:26 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC v3 01/11] drm/vblank: Register drmm cleanup action once per
- drm_vblank_crtc
-Date: Fri, 17 Apr 2020 15:40:48 -0400
-Message-Id: <20200417194145.36350-2-lyude@redhat.com>
+Subject: [RFC v3 02/11] kthread: Introduce __kthread_queue_work()
+Date: Fri, 17 Apr 2020 15:40:49 -0400
+Message-Id: <20200417194145.36350-3-lyude@redhat.com>
 In-Reply-To: <20200417194145.36350-1-lyude@redhat.com>
 References: <20200417194145.36350-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -57,73 +57,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Petr Mladek <pmladek@suse.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ "Steven Rostedt \(VMware\)" <rostedt@goodmis.org>,
+ Ben Dooks <ben.dooks@codethink.co.uk>, Tejun Heo <tj@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Suren Baghdasaryan <surenb@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Liang Chen <cl@rock-chips.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since we'll be allocating resources for kthread_create_worker() in the
-next commit (which could fail and require us to clean up the mess),
-let's simplify the cleanup process a bit by registering a
-drm_vblank_init_release() action for each drm_vblank_crtc so they're
-still cleaned up if we fail to initialize one of them.
+While kthread_queue_work() is fine for basic kthread_worker usecases,
+it's a little limiting if you want to create your own delayed work
+implementations that delay off things other than a clock. Looking at
+kthread_delayed_works for instance, all of the code shares the lock in
+kthread_work so that that both the timer_list and actual kthread_worker
+can be inspected and modified together atomically.
 
+Currently, we want to be able to implement a type of delayed
+kthread_work in DRM that delays until a specific vblank sequence has
+passed, which we refer to as a drm_vblank_work, as opposed to using a
+simple time-based delay. Some of the requirements we have for this are
+the ability to allow for rescheduling and flushing on drm_vblank_works,
+which become a lot harder to do properly if we can't re-queue work under
+lock. Additionally, being able to specify a custom position in the
+kthread_worker's work_list (which requires being under lock) is
+important to be able to do since it's needed for implementing a custom
+work flushing mechanism that waits for both the vblank sequence and
+kthread_worker to complete once.
+
+So - let's expose an unlocked version of kthread_queue_work() called
+__kthread_queue_work(), which also allows for specifying a custom list
+position in which to insert the work before.
+
+Cc: Tejun Heo <tj@kernel.org>
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- drivers/gpu/drm/drm_vblank.c | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+ include/linux/kthread.h |  3 +++
+ kernel/kthread.c        | 34 ++++++++++++++++++++++++++++++----
+ 2 files changed, 33 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 758bf74e1cab..bf8de10c131f 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -491,16 +491,12 @@ static void vblank_disable_fn(struct timer_list *t)
+diff --git a/include/linux/kthread.h b/include/linux/kthread.h
+index 8bbcaad7ef0f..02e0c1c157bf 100644
+--- a/include/linux/kthread.h
++++ b/include/linux/kthread.h
+@@ -179,6 +179,9 @@ __printf(3, 4) struct kthread_worker *
+ kthread_create_worker_on_cpu(int cpu, unsigned int flags,
+ 			     const char namefmt[], ...);
  
- static void drm_vblank_init_release(struct drm_device *dev, void *ptr)
- {
--	unsigned int pipe;
--
--	for (pipe = 0; pipe < dev->num_crtcs; pipe++) {
--		struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
-+	struct drm_vblank_crtc *vblank = ptr;
++bool __kthread_queue_work(struct kthread_worker *worker,
++			  struct kthread_work *work,
++			  struct list_head *pos);
+ bool kthread_queue_work(struct kthread_worker *worker,
+ 			struct kthread_work *work);
  
--		WARN_ON(READ_ONCE(vblank->enabled) &&
--			drm_core_check_feature(dev, DRIVER_MODESET));
-+	WARN_ON(READ_ONCE(vblank->enabled) &&
-+		drm_core_check_feature(dev, DRIVER_MODESET));
- 
--		del_timer_sync(&vblank->disable_timer);
--	}
-+	del_timer_sync(&vblank->disable_timer);
+diff --git a/kernel/kthread.c b/kernel/kthread.c
+index bfbfa481be3a..46de56142593 100644
+--- a/kernel/kthread.c
++++ b/kernel/kthread.c
+@@ -816,6 +816,35 @@ static void kthread_insert_work(struct kthread_worker *worker,
+ 		wake_up_process(worker->task);
  }
  
- /**
-@@ -529,10 +525,6 @@ int drm_vblank_init(struct drm_device *dev, unsigned int num_crtcs)
- 
- 	dev->num_crtcs = num_crtcs;
- 
--	ret = drmm_add_action(dev, drm_vblank_init_release, NULL);
--	if (ret)
--		return ret;
--
- 	for (i = 0; i < num_crtcs; i++) {
- 		struct drm_vblank_crtc *vblank = &dev->vblank[i];
- 
-@@ -541,6 +533,12 @@ int drm_vblank_init(struct drm_device *dev, unsigned int num_crtcs)
- 		init_waitqueue_head(&vblank->queue);
- 		timer_setup(&vblank->disable_timer, vblank_disable_fn, 0);
- 		seqlock_init(&vblank->seqlock);
++/**
++ * __kthread_queue_work - queue a kthread_work while under lock
++ * @worker: target kthread_worker
++ * @work: kthread_work to queue
++ * @pos: The position in @worker.work_list to insert @work before
++ *
++ * This is the same as kthread_queue_work(), except that it already expects
++ * the caller to be holding &kthread_worker.lock and allows for specifying a
++ * custom position in @worker.work_list to insert @work before.
++ *
++ * This function is mostly useful for users which might need to create their
++ * own delayed kthread_worker implementations.
++ *
++ * Returns: %true if @work was successfully queued, %false if it was already
++ * pending.
++ */
++bool __kthread_queue_work(struct kthread_worker *worker,
++			  struct kthread_work *work,
++			  struct list_head *pos)
++{
++	if (!queuing_blocked(worker, work)) {
++		kthread_insert_work(worker, work, pos);
++		return true;
++	}
 +
-+		ret = drmm_add_action(dev, drm_vblank_init_release, vblank);
-+		if (ret) {
-+			del_timer_sync(&vblank->disable_timer);
-+			return ret;
-+		}
- 	}
++	return false;
++}
++EXPORT_SYMBOL_GPL(__kthread_queue_work);
++
+ /**
+  * kthread_queue_work - queue a kthread_work
+  * @worker: target kthread_worker
+@@ -835,10 +864,7 @@ bool kthread_queue_work(struct kthread_worker *worker,
+ 	unsigned long flags;
  
- 	DRM_INFO("Supports vblank timestamp caching Rev 2 (21.10.2013).\n");
+ 	raw_spin_lock_irqsave(&worker->lock, flags);
+-	if (!queuing_blocked(worker, work)) {
+-		kthread_insert_work(worker, work, &worker->work_list);
+-		ret = true;
+-	}
++	ret = __kthread_queue_work(worker, work, &worker->work_list);
+ 	raw_spin_unlock_irqrestore(&worker->lock, flags);
+ 	return ret;
+ }
 -- 
 2.25.1
 
