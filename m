@@ -1,43 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE001AE70E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 22:58:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B99521AE718
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 23:04:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E9B36EACB;
-	Fri, 17 Apr 2020 20:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CBD86EB08;
+	Fri, 17 Apr 2020 21:04:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A2D96EACB
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 20:58:42 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6343297D;
- Fri, 17 Apr 2020 22:58:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1587157120;
- bh=6SI4dmlhllztRR9pK3rgtHcrelb+v8IARh7iYR9e0QA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hQ+J9iiofVWi4bLBC97a+y595x/upPgPWZL8HE6e1Rv9RcAHDW4+UMkCCObFNWNrY
- g8ydWqQpSQVbwaRsYozd1PG1t/7+dvHLu5QMf6UdXKcVvxN89GpiBEV/HjAjE81zcN
- fpBXTHnwSqTO1M7a68C7J3vUVI8lCP24SZHN5V38=
-Date: Fri, 17 Apr 2020 23:58:28 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v4 2/3] drm/tegra: output: Support DRM bridges
-Message-ID: <20200417205828.GM5861@pendragon.ideasonboard.com>
-References: <20200417175238.27154-1-digetx@gmail.com>
- <20200417175238.27154-3-digetx@gmail.com>
- <20200417193018.GI5861@pendragon.ideasonboard.com>
- <0acc35fd-a74b-e726-7a16-55db13265c39@gmail.com>
- <20200417203154.GK5861@pendragon.ideasonboard.com>
- <15002e6e-de36-899f-0d28-896c67a29a49@gmail.com>
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 707F76EB08
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 21:03:59 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id s30so3237425qth.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 14:03:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=rayXkPMTvyEUYklaCAtMjFG9Chmi5MuVc5AOhvk8N7Q=;
+ b=YPNeihe8y1OAZFazdpXRjIQpI3r+nJVGEdfGAbNf5sYUf0qUhr8nj2WB/cVcf2K7WO
+ PgLDX2OHZG2G7hGYobOwJX8Q4Yg1dkOOaba8wIMc9vt+OQsPwFtiHBnb1hUyjGqX4LAe
+ ++wecYiw1HIsF+Avn+rrzd1SxpNqmZbVtGjGQmXbtl5jX2QIGIs5mLCs5g4ZzThIJiVc
+ 1c6e5h2qpziyXZt5NqQdn8LlJfBNtHl1n843IUMSiEDrD3BY/tj7gOkhAnMl/cv+1SuW
+ cZc3gfv8k5daaugxxpOZS1I0iOI9iYqUyKEtbvZkyzlx/WTz26IOiWdb/OZvYK6GwOMD
+ EkxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=rayXkPMTvyEUYklaCAtMjFG9Chmi5MuVc5AOhvk8N7Q=;
+ b=jAHDes59qztJEQlSaS34uc9vmKrrcgOY2xoKTdYRV6W2XxhBH3SxGE1/bOf7sVVUOk
+ bKMjRWMPutma5HOp/xPOGSKUK0wzLbMzMfyJuOH8OSaFj7oIJQX19JVtu+eYBCq68djO
+ w3dtATEaHDPZt8deb3pfbTab6Z0DkXBcc3SiAsl52feKxwKiAk6W7iHaJxiN0425Y6dz
+ 2moU5gw34cqQkcA8/NeCggBxjl7D0d7WV8NwsP7pzJ3WYJLXlVQq87R5E1gfWdeQN7Nf
+ +BKX6HLJn5dHWP/gFTG9Z9ZuaEPKhumYzJCd3xOka/bJowqvd/lBcIib187qqDKS15Ha
+ sQfQ==
+X-Gm-Message-State: AGi0Puak0v0/2z+fzRIIzTHl35QpRIXna0uLCAsAnC5bGsZwv7yQ34Mc
+ 6by1BybDlnGWkS2Dm/DZ4n8=
+X-Google-Smtp-Source: APiQypKIVQ8hdaQ1vCuE867BQCUCmtBXe+Xpywn6R7+5hJxsZTFQRclqRPdZKOoS8F649kM4cVnHXg==
+X-Received: by 2002:ac8:5645:: with SMTP id 5mr5021838qtt.151.1587157438243;
+ Fri, 17 Apr 2020 14:03:58 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:480::c4b0])
+ by smtp.gmail.com with ESMTPSA id l24sm9684293qtp.8.2020.04.17.14.03.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Apr 2020 14:03:57 -0700 (PDT)
+Date: Fri, 17 Apr 2020 17:03:56 -0400
+From: Tejun Heo <tj@kernel.org>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [Poke: Tejun] Re: [RFC v3 03/11] drm/vblank: Add vblank works
+Message-ID: <20200417210356.GD43469@mtj.thefacebook.com>
+References: <20200417194145.36350-1-lyude@redhat.com>
+ <20200417194145.36350-4-lyude@redhat.com>
+ <ef9da9d93022822fe4bec7e906540fcc9852ce59.camel@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <15002e6e-de36-899f-0d28-896c67a29a49@gmail.com>
+In-Reply-To: <ef9da9d93022822fe4bec7e906540fcc9852ce59.camel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,51 +68,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRG1pdHJ5LAoKT24gRnJpLCBBcHIgMTcsIDIwMjAgYXQgMTE6NTI6MTFQTSArMDMwMCwgRG1p
-dHJ5IE9zaXBlbmtvIHdyb3RlOgo+IDE3LjA0LjIwMjAgMjM6MzEsIExhdXJlbnQgUGluY2hhcnQg
-0L/QuNGI0LXRgjoKPiA+IE9uIEZyaSwgQXByIDE3LCAyMDIwIGF0IDEwOjQxOjU5UE0gKzAzMDAs
-IERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPiA+PiAxNy4wNC4yMDIwIDIyOjMwLCBMYXVyZW50IFBp
-bmNoYXJ0INC/0LjRiNC10YI6Cj4gPj4gLi4uCj4gPj4+PiAgI2luY2x1ZGUgPGRybS9kcm1fYXRv
-bWljLmg+Cj4gPj4+PiArI2luY2x1ZGUgPGRybS9kcm1fYnJpZGdlLmg+Cj4gPj4+Cj4gPj4+IFlv
-dSBjb3VsZCBhZGQgYSBmb3J3YXJkIGRlY2xhcmF0aW9uIG9mIHN0cnVjdCBkcm1fYnJpZGdlIGlu
-c3RlYWQsIHRoYXQKPiA+Pj4gY2FuIGxvd2VyIHRoZSBjb21waWxhdGlvbiB0aW1lIGEgbGl0dGxl
-IGJpdC4KPiA+Pgo+ID4+IFRoaXMgaW5jbHVkZSBpcyBub3Qgb25seSBmb3IgdGhlIHN0cnVjdCwg
-YnV0IGFsc28gZm9yIHRoZQo+ID4+IGRybV9icmlkZ2VfYXR0YWNoKCkuIEl0IGxvb2tzIHRvIG1l
-IHRoYXQgaXQgc2hvdWxkIGJlIG5pY2VyIHRvIGtlZXAgdGhlCj4gPj4gaW5jbHVkZSBoZXJlLgo+
-ID4gCj4gPiBkcm1fYnJpZGdlX2F0dGFjaCgpIGlzIGNhbGxlZCBmcm9tIC5jIGZpbGVzLiBJbiB0
-aGUgLmggZmlsZSB5b3UgY2FuIHVzZQo+ID4gYSBmb3J3YXJkIGRlY2xhcmF0aW9uLiBJdCdzIGVu
-dGlyZWx5IHVwIHRvIHlvdSwgYnV0IGFzIGEgZ2VuZXJhbCBydWxlLCBJCj4gPiBwZXJzb25hbGx5
-IHRyeSB0byB1c2UgZm9yd2FyZCBzdHJ1Y3R1cmUgZGVjbGFyYXRpb25zIGluIC5oIGZpbGVzIGFz
-IG11Y2gKPiA+IGFzIHBvc3NpYmxlLgo+IAo+IFRoZSBjdXJyZW50IFRlZ3JhIERSTSBjb2RlIGlz
-IGEgYml0IGluY29uc2lzdGVudCBpbiByZWdhcmRzIHRvIGhhdmluZwo+IGZvcndhcmQgZGVjbGFy
-YXRpb25zLCBpdCBkb2Vzbid0IGhhdmUgdGhlbSBtb3JlIHRoYW4gaGF2ZS4KPiAKPiBJJ2xsIGFk
-ZCBhIGZvcndhcmQgZGVjbGFyYXRpb24gaWYgdGhlcmUgd2lsbCBiZSBuZWVkIHRvIG1ha2UgYSB2
-NSwgb2s/CgpJdCdzIHVwIHRvIHlvdSwgeW91IGRvbid0IGhhdmUgdG8gdXNlIGEgZm9yd2FyZCBk
-ZWNsYXJhdGlvbiBpZiB5b3UgZG9uJ3QKd2FudCB0bywgSSB3YXMganVzdCBwb2ludGluZyBvdXQg
-d2hhdCBJIHRoaW5rIGlzIGEgYmVzdCBwcmFjdGljZSBydWxlCjotKQoKPiA+PiAuLi4KPiA+Pj4+
-ICsJcG9ydCA9IG9mX2dldF9jaGlsZF9ieV9uYW1lKG91dHB1dC0+b2Zfbm9kZSwgInBvcnQiKTsK
-PiA+Pj4KPiA+Pj4gRG8geW91IG5lZWQgdG8gY2hlY2sgZm9yIHRoZSBwcmVzZW5jZSBvZiBhIHBv
-cnQgbm9kZSBmaXJzdCA/IENhbiB5b3UKPiA+Pj4ganVzdCBjaGVjayB0aGUgcmV0dXJuIHZhbHVl
-IG9mIGRybV9vZl9maW5kX3BhbmVsX29yX2JyaWRnZSgpLCBhbmQgZmFsbAo+ID4+PiBiYWNrIHRv
-ICJudmlkaWEscGFuZWwiIGlmIGl0IHJldHVybnMgLUVOT0RFViA/Cj4gPj4KPiA+PiBXaXRob3V0
-IHRoZSBjaGVjaywgdGhlIGRybV9vZl9maW5kX3BhbmVsX29yX2JyaWRnZSgpIHByaW50cyBhIHZl
-cnkgbm9pc3kKPiA+PiBlcnJvciBtZXNzYWdlIGFib3V0IG1pc3NpbmcgcG9ydCBub2RlIGZvciBl
-dmVyeSBvdXRwdXQgdGhhdCBkb2Vzbid0IGhhdmUKPiA+PiBhIGdyYXBoIHNwZWNpZmllZCBpbiBh
-IGRldmljZS10cmVlIChIRE1JLCBEU0kgYW5kIGV0YykuCj4gPj4KPiA+PiBodHRwczovL2VsaXhp
-ci5ib290bGluLmNvbS9saW51eC92NS43LXJjMS9zb3VyY2UvZHJpdmVycy9vZi9wcm9wZXJ0eS5j
-I0w2MjEKPiA+IAo+ID4gQWggeWVzIGluZGVlZC4gVGhhdCdzIG5vdCB2ZXJ5IG5pY2UuCj4gCj4g
-UGxlYXNlIGxldCBtZSBrbm93IGlmIHlvdSdsbCBoYXZlIGEgYmV0dGVyIGlkZWEgYWJvdXQgaG93
-IHRoaXMgY291bGQgYmUKPiBoYW5kbGVkLgoKSXQgc2hvdWxkIGJlIGdvb2QgZW5vdWdoIGFzLWlz
-IEkgdGhpbmsuIFlvdSBtYXkgaG93ZXZlciB3YW50IHRvIHN1cHBvcnQKYm90aCAicG9ydCIgYW5k
-ICJwb3J0cyIsIGFzIGV2ZW4gd2hlbiB0aGVyZSdzIGEgc2luZ2xlIHBvcnQgbm9kZSwgaXQKY291
-bGQgYmUgcHV0IGluc2lkZSBhIHBvcnRzIG5vZGUuCgotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGlu
-Y2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hello,
+
+On Fri, Apr 17, 2020 at 04:16:28PM -0400, Lyude Paul wrote:
+> Hey Tejun! So I ended up rewriting the drm_vblank_work stuff so that it used
+> kthread_worker. Things seem to work alright now. But while we're doing just
+> fine with vblank workers on nouveau, we're still having trouble meeting the
+> time constraints needed for using vblank works for i915's needs. There still
+> seems to be a considerable latency between when the irq handler for the vblank
+> interrupts fires, and when the actual drm_vblank_work we scheduled starts:
+...
+> Tejun, do you have any idea if we might be able to further reduce the latency
+> from the scheduler here? I believe we're already using pm_qos to at least
+> reduce the latency between when the vblank interrupt fires and the interrupt
+> handler starts, but that still isn't enough to fix the other latency issues
+> apparently. We're also already setting the priority of kthread_worker->task to
+> RT_FIFO as well.
+
+I don't think the kernel can do much better than what you're seeing. I don't
+know the time scale that you need - is it some tens of microseconds range? I'm
+definitely not an expert on the subject but on generic kernels I don't think
+you can achieve anything sub millisec with any kind of reliability.
+
+If the timing is that tight and it's not a hot path, the right solution may be
+polling for it rather than yielding the cpu and hoping to get scheduled in
+time.
+
+> Also, of course, let me know if you're not happy with the
+> __kthread_queue_work() changes/kthread_worker usage in drm_vblank_work as well
+
+Just glanced over it and I still wonder whether it needs to be that tightly
+integrated, but we can look into that once we settle on whether this is the
+right direction.
+
+Thanks.
+
+-- 
+tejun
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
