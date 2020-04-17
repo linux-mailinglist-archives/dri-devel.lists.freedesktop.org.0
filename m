@@ -2,73 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32541AE784
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 23:25:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B671AE7AB
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 23:37:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 312E76EB15;
-	Fri, 17 Apr 2020 21:25:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 156D16EC08;
+	Fri, 17 Apr 2020 21:37:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2FD6EB15
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 21:25:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587158700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=676iv0NwOpTsu4j3S5YhFnzxqEtKPiConQpSqMF3tS0=;
- b=iPda0/H9uRTxsSGkj0TlEqNFK92xBR5zDpJ6OGYAa8JOHQifIspcyV3yeD9f4nVjtkVL4f
- OyjR2khRFgWCea5FlwRcY63FMZ2IpOUXhIW2oWQ29/6FYFVYZwrDiievnXLKqmoePXiA0W
- V1UA/7ak96f/7aqj8Erf6pGB8TXz3ec=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-SSHp3_jxPziXidjKgXGE3g-1; Fri, 17 Apr 2020 17:24:56 -0400
-X-MC-Unique: SSHp3_jxPziXidjKgXGE3g-1
-Received: by mail-qv1-f71.google.com with SMTP id bm3so3151425qvb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 14:24:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=676iv0NwOpTsu4j3S5YhFnzxqEtKPiConQpSqMF3tS0=;
- b=l8RGijzghIr+z4Qn7cmGmg5DepaRPQKQfT6fY+48ia0oeJzpqqIJTLTX426iZI77tD
- P82F+HdM19M4N9PZBmyf40iAomyUDXQ7PCBaqs3Zf+AqjP9mOpSPcgTMNR9LnV6Sp2cc
- kIYWYYyiR3UAgP7Alj8GxGK/bkJbbILf2C9Tu2SoBA2LHHsvaZn61OfJFKVZlxMRpozZ
- ZFYp0Gv4dlBcrWtrHmitidEhfJZvB8O+xc15SAMEs/Ic/FchYoyK9qc5dJlUdqk8cRlc
- 0yqnm3zFXVWAtvicAiVRZsQXglCQtOZe78VsDEhWgZp0omTG/5EyjItv7S0hinB7o4Bz
- vROA==
-X-Gm-Message-State: AGi0PuZUfMyNfkRz/SidqQonmvmG7hS024VTJqSa3Ue2Limss9CnEN8D
- ktwPo92v9+0EbscqiXYOF33Hqd/I3kP/yy48hAN9Mv9IPOaVOKF/MdLNmKhgz0mkwYdTtcrMkbQ
- FlsExISROJhjj1F+rsewUPF4K7tCX
-X-Received: by 2002:aed:2006:: with SMTP id 6mr5259640qta.276.1587158696123;
- Fri, 17 Apr 2020 14:24:56 -0700 (PDT)
-X-Google-Smtp-Source: APiQypI1CPeoFj+QzDX5RrxcP3toefY4DTPQMttZYrN31kNR8CA407FSN+eHTT2P82xGEdUpFktFSQ==
-X-Received: by 2002:aed:2006:: with SMTP id 6mr5259619qta.276.1587158695863;
- Fri, 17 Apr 2020 14:24:55 -0700 (PDT)
-Received: from Ruby.lyude.net (static-173-76-190-23.bstnma.ftas.verizon.net.
- [173.76.190.23])
- by smtp.gmail.com with ESMTPSA id y52sm8647286qth.38.2020.04.17.14.24.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Apr 2020 14:24:55 -0700 (PDT)
-Message-ID: <dbdf3853cc1e6fa5a05ced6bc72667e24fa7d8ef.camel@redhat.com>
-Subject: Re: [Poke: Tejun] Re: [RFC v3 03/11] drm/vblank: Add vblank works
-From: Lyude Paul <lyude@redhat.com>
-To: Tejun Heo <tj@kernel.org>
-Date: Fri, 17 Apr 2020 17:24:54 -0400
-In-Reply-To: <20200417210356.GD43469@mtj.thefacebook.com>
-References: <20200417194145.36350-1-lyude@redhat.com>
- <20200417194145.36350-4-lyude@redhat.com>
- <ef9da9d93022822fe4bec7e906540fcc9852ce59.camel@redhat.com>
- <20200417210356.GD43469@mtj.thefacebook.com>
-Organization: Red Hat
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E21896EC08
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 21:37:24 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1587159447; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=HB+L37KyQrb8GTinL5TYTs4GRGjiEhXcQwxci8aNDKU=;
+ b=ieOKVMqMPBHGu0gy2T78YYyomM1pwvn4rbiqu5L8zIoerD6us2NOve+NXq9bsFPbbAm0HnoN
+ cizYkOOJlKPrm6BZq3hR+R+ly2FKTSSB6GmnZ1PFEC8MTwSjJ2we9gMURlv5FS4UHW2rNAup
+ vKIYnfJeUbWfK9CpVOCvJTCahIo=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e9a218e.7f500d846c70-smtp-out-n02;
+ Fri, 17 Apr 2020 21:37:18 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id B0FFCC43636; Fri, 17 Apr 2020 21:37:18 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id CF6EBC433F2;
+ Fri, 17 Apr 2020 21:37:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org CF6EBC433F2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=abhinavk@codeaurora.org
+From: Abhinav Kumar <abhinavk@codeaurora.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: increase DRM_OBJECT_MAX_PROPERTY to 64
+Date: Fri, 17 Apr 2020 14:37:09 -0700
+Message-Id: <20200417213709.24757-1-abhinavk@codeaurora.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,76 +64,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, pdhaval@codeaurora.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>, swboyd@chromium.org,
+ seanpaul@chromium.org, aravindh@codeaurora.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2020-04-17 at 17:03 -0400, Tejun Heo wrote:
-> Hello,
-> 
-> On Fri, Apr 17, 2020 at 04:16:28PM -0400, Lyude Paul wrote:
-> > Hey Tejun! So I ended up rewriting the drm_vblank_work stuff so that it
-> > used
-> > kthread_worker. Things seem to work alright now. But while we're doing
-> > just
-> > fine with vblank workers on nouveau, we're still having trouble meeting
-> > the
-> > time constraints needed for using vblank works for i915's needs. There
-> > still
-> > seems to be a considerable latency between when the irq handler for the
-> > vblank
-> > interrupts fires, and when the actual drm_vblank_work we scheduled starts:
-> ...
-> > Tejun, do you have any idea if we might be able to further reduce the
-> > latency
-> > from the scheduler here? I believe we're already using pm_qos to at least
-> > reduce the latency between when the vblank interrupt fires and the
-> > interrupt
-> > handler starts, but that still isn't enough to fix the other latency
-> > issues
-> > apparently. We're also already setting the priority of kthread_worker-
-> > >task to
-> > RT_FIFO as well.
-> 
-> I don't think the kernel can do much better than what you're seeing. I don't
-> know the time scale that you need - is it some tens of microseconds range?
-> I'm
-> definitely not an expert on the subject but on generic kernels I don't think
-> you can achieve anything sub millisec with any kind of reliability.
-yeah, it's microsecond range :(
+Increase DRM_OBJECT_MAX_PROPERTY to accommodate for additional
+DRM properties on MSM chipsets.
 
-> 
-> If the timing is that tight and it's not a hot path, the right solution may
-> be
-> polling for it rather than yielding the cpu and hoping to get scheduled in
-> time.
-> 
-> > Also, of course, let me know if you're not happy with the
-> > __kthread_queue_work() changes/kthread_worker usage in drm_vblank_work as
-> > well
-> 
-> Just glanced over it and I still wonder whether it needs to be that tightly
-> integrated, but we can look into that once we settle on whether this is the
-> right direction.
+Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+---
+ include/drm/drm_mode_object.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FWIW - I think everyone on the DRM side is happy with the concept of vblank
-workers, I think all that's really up for discussion at this point (ignoring
-the nouveau patches that need Ben's OK) is just getting the code itself
-reviewed and figuring out if we still want to use kthread_workers for this, or
-if we should just go back to using kthreadd. At least, since it sounds like
-there isn't much more we can do to improve on this latency-wise.
-
-> 
-> Thanks.
-> 
+diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
+index c34a3e8030e1..6292fa663844 100644
+--- a/include/drm/drm_mode_object.h
++++ b/include/drm/drm_mode_object.h
+@@ -60,7 +60,7 @@ struct drm_mode_object {
+ 	void (*free_cb)(struct kref *kref);
+ };
+ 
+-#define DRM_OBJECT_MAX_PROPERTY 24
++#define DRM_OBJECT_MAX_PROPERTY 64
+ /**
+  * struct drm_object_properties - property tracking for &drm_mode_object
+  */
 -- 
-Cheers,
-	Lyude Paul (she/her)
-	Associate Software Engineer at Red Hat
-
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
