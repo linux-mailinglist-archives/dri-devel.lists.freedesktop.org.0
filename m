@@ -1,46 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220B61AE19E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 17:57:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 164E51AE19A
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 17:56:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD3D6E1F2;
-	Fri, 17 Apr 2020 15:56:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1E306E03A;
+	Fri, 17 Apr 2020 15:56:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDF36E169
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 15:56:54 +0000 (UTC)
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25A716E03A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 15:56:44 +0000 (UTC)
 Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
  (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1MdeSt-1iprPw3KU5-00ZfOr; Fri, 17 Apr 2020 17:56:21 +0200
+ 1MLA6m-1jhYSy1x5e-00IH6g; Fri, 17 Apr 2020 17:56:22 +0200
 From: Arnd Bergmann <arnd@arndb.de>
 To: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
  linux-fbdev@vger.kernel.org
-Subject: [PATCH 0/8] drm, fbdev: rework dependencies
-Date: Fri, 17 Apr 2020 17:55:45 +0200
-Message-Id: <20200417155553.675905-1-arnd@arndb.de>
+Subject: [PATCH 1/8] fbdev: w100fb: clean up mach-pxa compile-time dependency
+Date: Fri, 17 Apr 2020 17:55:46 +0200
+Message-Id: <20200417155553.675905-2-arnd@arndb.de>
 X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200417155553.675905-1-arnd@arndb.de>
+References: <20200417155553.675905-1-arnd@arndb.de>
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:ihjqslpA75qTMF6wDF4+VNNTC1NuRX5DyjEZChnbH2+LduferQW
- jC0LdL6btHPVgdMOdMSVPpZ+znLPsqbExhraTQcyb9rSJjMpz9m6IC8Rv/hCKvIPAJcBGd0
- hoMUlKQPUxa5CWHHDUiR9HooUGxQKazIExDHqcmkZ2XigqkWeJHResaEL4oAKQcpaZIWAwD
- ruyD6lxdbXrDz80gK0WHg==
+X-Provags-ID: V03:K1:FSyLS2kD2Du4FJkr2PSO5IkSDJpM+w9TppbZSoEDwbAnlGno6cr
+ YdxN/mZKd7kefnolwRhTPLde2WQ0EoCyTZCr7cOP1aeyIqV6Ol3kYdvRjUPrKM2Jh5F0IRh
+ ikgcv4BOa4yHk3Q+8fTNKD0mrjUithBTDu+WQ5rtMVaA73zed4VfhnY36WE16r6Zo7h3JvL
+ 9yF1U57DofTc9Sr1hFqIA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3tM+z2ZlTSg=:Y+9HE2EHWXdISGlEwzfCoA
- znjKjlR25yaG0teoXA4D4CeSSX+90bjonxwvfbjYZQQcAEg91D0TCOo68kMmgHgdjxSeZ/cQE
- h7ea4mzL0RV4U9lI8gHxzNG7B0A+rf1wcqF+02xr5G+kX4C2wqgW9HW3lxAW7aktqf4q5efZA
- JXLi+n2fEBOILATNtcdS5xjaMq/0B3qRcSs/zMQKeCDxG+MvNjdR3AMR8grIoOesVD0m0wUvD
- yeODH5YXBaQtCzFrIkoYRb1enxS0bPVu6rTX8POeJ4YVCxP1ABi+zbsuT4BXoeW7Iap00s+hz
- 7xlD1BV37+gDlcxZ4GZUzs5tkkaPQIkMCGCvUJOJ3rRut1JwC7X/lr3drfx9hw5cjIaiE1LMC
- JgK5KNaFDR7oPdLrOS/C1OEbrOiqB8gKsjT5ZPt+0NtBNIJtfgyv9fvvcX75UR1+nfhojAaLF
- xC49KgXOQS2jnvO1w1VJdB5lRJmfPWJQDsRXP5sZTVRzYeLLqC0EHgTreGAoUOcQ+oxV5QDCL
- T7OI5dkyb/qbyPE8C09N72z19941QqlXgY5M0x2NkO9rzCPWhDkHqXL9ivrf2NiNfu/G4uOal
- BEFmbx0RKEk2vk9zgrHJasgEMe36VSFu6DggJ6Gk7Swe0drJO7GkfcCaQ5/jzUA+hgDkAMlWa
- z5WnF+9VTwvi6zaTpktEnJEvJPz1hiLDMUl/Xt+t2c8zGxhmhMNv3lkHXnPQIcSk+YBRNVSPs
- 5L8k0Ju92kqHNPL3aAP7VTgciERckhKIKlBGQpFCZz2DlY828VoHZGEjrZjRuxqZFZfd04ylz
- wzH+eGBO8rrvCSJAO8TPvbKeMFvlMJr5uWCJBB8rNqGirwuBew=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ogNLYWrB+oo=:z0WSPEoafwNG2cLJOcdNRg
+ 4iuJlVK2HhjWe+k8SExSQv4hsI8qssLLJO/lQyDXGMmprFboPKV7ZvEr44vsBg3qBx+F57F4/
+ xZRdCz8EGtQtyQiyazkUoV81uxF8VilRNT6zvxpyOCoqyd9RCIhcjxsrB2O85/i3Iqt7v3MPu
+ U3j4KkNT2QmtJP1zi9HN2R7dAQYcF/itwCf9rUvsjOQhtQYsVHCEOTFRcPn4Q9fSnW4YB/a3v
+ 1Cqg6gPD6xwkWYJfieB0Jh+Mnw3tSRFHQWp2HtjrXUqgpiv6v01i6OTxYC0Z2gAhbq6iBlYCE
+ cDBH0vL3yX36Ddt7fq7cS9LYNIvrXFR4QgAPcrlC/TtgsIpo5vmgQMKIKFt0h7+I3Bn1u/YLH
+ XGHBSvzAQ6+laXUzZgX3s4saVzy058/6DYJH9j0QNzHON/xpecaWH1wLSrgOYg8MY8gftZEc0
+ iC4h5RvSmDSximaq0Iumb2r5Ku482IMGcZhly4jD/dXe/2+iXXzvMjenvHix9RSRnOVV4Ldrs
+ JsE66YZUYg8cX8K9oP8nZvQa7DaiAbGMFamLpwTKfpEJf713q9ZGz/P1fgDqrBhFvg54jVG0A
+ 62hBGnK1yBGcRKyXCuGsBmoMuK/n0fCXi7VCQrY+rb5xc0XZZgrD9RUcIZYP8zIsxkQU2mXlo
+ JFuVqlbSKfn409OIadBpGveT/hItNOcLrxAdJiEkQqra1TehL0FWtFZAwYIucWRHmZM+MA0CM
+ 3XxpyfrrKJq578U7kun86fNmz9L0DyWXOvVT5IWyIR9LLOTDBhb/sLiZ0V0tkOnR9idzCSUIs
+ 90N1+uN6aSeaxQxLMKgomeVW8uSXrq0bp376Jo5Tda/1sY6Ip0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,95 +68,241 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I tried to fix up some dependencies after the sii8620 "imply EXTCON"
-statementn broke, trying a few things but in the backing out a
-change that would completely reverse the LEDS_CLASS selects into
-a 'depends on'. 
+In order to get rid of the 'select FB' line in Kconfig for all platforms,
+change the w100fb driver to handle the gpio lines itself rather than
+using an indirect function call.
 
-However, what I got now are multiple changes that remove gratious
-"selects" that lead to circular dependencies for sii8620 and others:
+This also allows removing the remaining exported interfaces from the
+driver, the only other symbol has been unused for a long time.
 
-- Anything doing "select FB" is now gone, or becomes "depends on FB",
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ arch/arm/configs/pxa_defconfig |  2 +
+ arch/arm/mach-pxa/Kconfig      |  3 --
+ arch/arm/mach-pxa/eseries.c    | 14 +-----
+ drivers/video/fbdev/w100fb.c   | 84 +++++-----------------------------
+ include/video/w100fb.h         |  6 +--
+ 5 files changed, 16 insertions(+), 93 deletions(-)
 
-- DDC support depends on I2C instead of selecting it
-
-- backlight class device support is never selected by framebuffer
-  drivers but has proper dependencies
-
-I have done thousands of randconfig build tests on this, but no
-runtime tests.
-
-Some of the 'depends on FOO || !FOO' statements could be simplified
-into a new 'uses FOO' syntax based on a patch from Saeed Mahameed,
-but I would for the moment treat that as a cleanup that can be done
-later.
-
-If we can agree on these changes, maybe someone can merge them
-through the drm-misc tree.
-
-Please review
-
-       Arnd
-
-Arnd Bergmann (8):
-  fbdev: w100fb: clean up mach-pxa compile-time dependency
-  fbdev/ARM: pxa: avoid selecting CONFIG_FB
-  fbdev: rework FB_DDC dependencies
-  drm/rcar: stop using 'imply' for dependencies
-  drm/vmwgfx: make framebuffer support optional
-  drm: decouple from CONFIG_FB
-  fbdev: rework backlight dependencies
-  drm/bridge/sii8620: fix extcon dependency
-
- arch/arm/configs/pxa_defconfig      |  3 ++
- arch/arm/mach-pxa/Kconfig           |  7 ---
- arch/arm/mach-pxa/eseries.c         | 14 +----
- arch/arm/mach-pxa/saar.c            |  2 +-
- arch/arm/mach-pxa/tavorevb.c        |  2 +-
- drivers/auxdisplay/Kconfig          |  1 +
- drivers/gpu/drm/Kconfig             |  5 +-
- drivers/gpu/drm/bridge/Kconfig      |  2 +-
- drivers/gpu/drm/mxsfb/Kconfig       |  1 -
- drivers/gpu/drm/rcar-du/Kconfig     | 23 +++++---
- drivers/gpu/drm/vmwgfx/Kconfig      | 17 +++---
- drivers/gpu/drm/vmwgfx/Makefile     |  4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 35 +++++++-----
- drivers/gpu/drm/zte/Kconfig         |  1 -
- drivers/macintosh/Kconfig           |  1 +
- drivers/staging/fbtft/Kconfig       |  1 +
- drivers/staging/olpc_dcon/Kconfig   |  2 +-
- drivers/video/fbdev/Kconfig         | 31 ++++++++---
- drivers/video/fbdev/w100fb.c        | 84 +++++------------------------
- include/video/w100fb.h              |  6 +--
- 20 files changed, 101 insertions(+), 141 deletions(-)
-
+diff --git a/arch/arm/configs/pxa_defconfig b/arch/arm/configs/pxa_defconfig
+index b817c57f05f1..8df88e8a3048 100644
+--- a/arch/arm/configs/pxa_defconfig
++++ b/arch/arm/configs/pxa_defconfig
+@@ -454,6 +454,8 @@ CONFIG_V4L_MEM2MEM_DRIVERS=y
+ CONFIG_SOC_CAMERA_MT9M111=m
+ CONFIG_DRM=m
+ CONFIG_FIRMWARE_EDID=y
++CONFIG_FB=y
++CONFIG_FB_W100=y
+ CONFIG_FB_TILEBLITTING=y
+ CONFIG_FB_PXA_OVERLAY=y
+ CONFIG_FB_PXA_PARAMETERS=y
+diff --git a/arch/arm/mach-pxa/Kconfig b/arch/arm/mach-pxa/Kconfig
+index f60bc29aef68..8444d40df1b3 100644
+--- a/arch/arm/mach-pxa/Kconfig
++++ b/arch/arm/mach-pxa/Kconfig
+@@ -549,9 +549,6 @@ config MACH_ICONTROL
+ 
+ config ARCH_PXA_ESERIES
+ 	bool "PXA based Toshiba e-series PDAs"
+-	select FB_W100
+-	select FB
+-	select PXA25x
+ 
+ config MACH_E330
+ 	bool "Toshiba e330"
+diff --git a/arch/arm/mach-pxa/eseries.c b/arch/arm/mach-pxa/eseries.c
+index f37c44b6139d..023ee901a7eb 100644
+--- a/arch/arm/mach-pxa/eseries.c
++++ b/arch/arm/mach-pxa/eseries.c
+@@ -849,20 +849,8 @@ static struct w100_mem_info e800_w100_mem_info = {
+ 	.size            = 0x1fffff,
+ };
+ 
+-static void e800_tg_change(struct w100fb_par *par)
+-{
+-	unsigned long tmp;
+-
+-	tmp = w100fb_gpio_read(W100_GPIO_PORT_A);
+-	if (par->mode->xres == 480)
+-		tmp |= 0x100;
+-	else
+-		tmp &= ~0x100;
+-	w100fb_gpio_write(W100_GPIO_PORT_A, tmp);
+-}
+-
+ static struct w100_tg_info e800_tg_info = {
+-	.change = e800_tg_change,
++	.change_e800 = true,
+ };
+ 
+ static struct w100fb_mach_info e800_fb_info = {
+diff --git a/drivers/video/fbdev/w100fb.c b/drivers/video/fbdev/w100fb.c
+index 2d6e2738b792..512c4d5a73a3 100644
+--- a/drivers/video/fbdev/w100fb.c
++++ b/drivers/video/fbdev/w100fb.c
+@@ -48,7 +48,6 @@ static void w100_init_lcd(struct w100fb_par*);
+ static void w100_set_dispregs(struct w100fb_par*);
+ static void w100_update_enable(void);
+ static void w100_update_disable(void);
+-static void calc_hsync(struct w100fb_par *par);
+ static void w100_init_graphic_engine(struct w100fb_par *par);
+ struct w100_pll_info *w100_get_xtal_table(unsigned int freq);
+ 
+@@ -101,8 +100,6 @@ static ssize_t flip_store(struct device *dev, struct device_attribute *attr, con
+ 	w100_set_dispregs(par);
+ 	w100_update_enable();
+ 
+-	calc_hsync(par);
+-
+ 	return count;
+ }
+ 
+@@ -157,7 +154,6 @@ static ssize_t fastpllclk_store(struct device *dev, struct device_attribute *att
+ 	}
+ 
+ 	w100_init_clocks(par);
+-	calc_hsync(par);
+ 
+ 	return count;
+ }
+@@ -173,23 +169,6 @@ static struct attribute *w100fb_attrs[] = {
+ };
+ ATTRIBUTE_GROUPS(w100fb);
+ 
+-/*
+- * Some touchscreens need hsync information from the video driver to
+- * function correctly. We export it here.
+- */
+-unsigned long w100fb_get_hsynclen(struct device *dev)
+-{
+-	struct fb_info *info = dev_get_drvdata(dev);
+-	struct w100fb_par *par=info->par;
+-
+-	/* If display is blanked/suspended, hsync isn't active */
+-	if (par->blanked)
+-		return 0;
+-	else
+-		return par->hsync_len;
+-}
+-EXPORT_SYMBOL(w100fb_get_hsynclen);
+-
+ static void w100fb_clear_screen(struct w100fb_par *par)
+ {
+ 	memset_io(remapped_fbuf + (W100_FB_BASE-MEM_WINDOW_BASE), 0, (par->xres * par->yres * BITS_PER_PIXEL/8));
+@@ -405,6 +384,15 @@ static void w100fb_copyarea(struct fb_info *info,
+ 	writel((w << 16) | (h & 0xffff), remapped_regs + mmDST_WIDTH_HEIGHT);
+ }
+ 
++static void w100fb_e800_tg_change(struct w100fb_par *par)
++{
++	u32 tmp = readl(remapped_regs + mmGPIO_DATA);
++	if (par->mode->xres == 480)
++		tmp |= 0x100;
++	else
++		tmp &= ~0x100;
++	writel(tmp, remapped_regs + mmGPIO_DATA);
++}
+ 
+ /*
+  *  Change the resolution by calling the appropriate hardware functions
+@@ -425,10 +413,9 @@ static void w100fb_activate_var(struct w100fb_par *par)
+ 	w100_update_enable();
+ 	w100_init_graphic_engine(par);
+ 
+-	calc_hsync(par);
+-
+-	if (!par->blanked && tg && tg->change)
+-		tg->change(par);
++	if (IS_ENABLED(CONFIG_ARCH_PXA_ESERIES) &&
++	    !par->blanked && tg && tg->change_e800)
++		w100fb_e800_tg_change(par);
+ }
+ 
+ 
+@@ -837,28 +824,6 @@ static void w100_update_enable(void)
+ 	writel((u32) (disp_db_buf_wr_cntl.val), remapped_regs + mmDISP_DB_BUF_CNTL);
+ }
+ 
+-unsigned long w100fb_gpio_read(int port)
+-{
+-	unsigned long value;
+-
+-	if (port==W100_GPIO_PORT_A)
+-		value = readl(remapped_regs + mmGPIO_DATA);
+-	else
+-		value = readl(remapped_regs + mmGPIO_DATA2);
+-
+-	return value;
+-}
+-
+-void w100fb_gpio_write(int port, unsigned long value)
+-{
+-	if (port==W100_GPIO_PORT_A)
+-		writel(value, remapped_regs + mmGPIO_DATA);
+-	else
+-		writel(value, remapped_regs + mmGPIO_DATA2);
+-}
+-EXPORT_SYMBOL(w100fb_gpio_read);
+-EXPORT_SYMBOL(w100fb_gpio_write);
+-
+ /*
+  * Initialization of critical w100 hardware
+  */
+@@ -1497,31 +1462,6 @@ static void w100_set_dispregs(struct w100fb_par *par)
+ 	writel((par->xres*BITS_PER_PIXEL/8), remapped_regs + mmGRAPHIC_PITCH);
+ }
+ 
+-
+-/*
+- * Work out how long the sync pulse lasts
+- * Value is 1/(time in seconds)
+- */
+-static void calc_hsync(struct w100fb_par *par)
+-{
+-	unsigned long hsync;
+-	struct w100_mode *mode = par->mode;
+-	union crtc_ss_u crtc_ss;
+-
+-	if (mode->pixclk_src == CLK_SRC_XTAL)
+-		hsync=par->mach->xtal_freq;
+-	else
+-		hsync=((par->fastpll_mode && mode->fast_pll_freq) ? mode->fast_pll_freq : mode->pll_freq)*100000;
+-
+-	hsync /= (w100_pwr_state.pclk_cntl.f.pclk_post_div + 1);
+-
+-	crtc_ss.val = readl(remapped_regs + mmCRTC_SS);
+-	if (crtc_ss.val)
+-		par->hsync_len = hsync / (crtc_ss.f.ss_end-crtc_ss.f.ss_start);
+-	else
+-		par->hsync_len = 0;
+-}
+-
+ static void w100_suspend(u32 mode)
+ {
+ 	u32 val;
+diff --git a/include/video/w100fb.h b/include/video/w100fb.h
+index a614654d8598..8f260ba4fcac 100644
+--- a/include/video/w100fb.h
++++ b/include/video/w100fb.h
+@@ -14,13 +14,9 @@
+ 
+ struct w100fb_par;
+ 
+-unsigned long w100fb_gpio_read(int port);
+-void w100fb_gpio_write(int port, unsigned long value);
+-unsigned long w100fb_get_hsynclen(struct device *dev);
+-
+ /* LCD Specific Routines and Config */
+ struct w100_tg_info {
+-	void (*change)(struct w100fb_par*);
++	bool change_e800;
+ 	void (*suspend)(struct w100fb_par*);
+ 	void (*resume)(struct w100fb_par*);
+ };
 -- 
 2.26.0
 
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Nicolas Pitre <nico@fluxnic.net>
-Cc: Andrzej Hajda <a.hajda@samsung.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Saeed Mahameed <saeedm@mellanox.com>
-Cc: <masahiroy@kernel.org>
-Cc: <Laurent.pinchart@ideasonboard.com>
-Cc: <linux-renesas-soc@vger.kernel.org>,
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-Cc: <kieran.bingham+renesas@ideasonboard.com>,
-Cc: <airlied@linux.ie>
-Cc: daniel@zonque.org
-Cc: haojian.zhuang@gmail.com
-Cc: robert.jarzmik@free.fr
-Cc: daniel@ffwll.ch
-Cc: marex@denx.de
-Cc: stefan@agner.ch
-Cc: linux-graphics-maintainer@vmware.com
-Cc: thellstrom@vmware.com
-Cc: jfrederich@gmail.com
-Cc: dsd@laptop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-fbdev@vger.kernel.org
-Cc: geert@linux-m68k.org
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
