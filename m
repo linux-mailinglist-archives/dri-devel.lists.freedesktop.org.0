@@ -2,56 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CAFB1AE383
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 19:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F5E1AE3D2
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 19:33:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AFEA6E127;
-	Fri, 17 Apr 2020 17:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E25F96E2A0;
+	Fri, 17 Apr 2020 17:33:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D630F6E1F7
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 17:14:57 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id j2so3900525wrs.9
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 10:14:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=SedhEjANQErpwU77RpqCFpguAIDMZbPe2/zGk7oJ1uE=;
- b=ZvkkLCyLbItWJ+r8xwdr0TIdfARZWvC6KCFlwZzze9dBY8bOQfP/SrCP87ujgmmRZK
- EtJEh2IrbkYF4isZPTuQNK1ECWqK1S0/f69O2eXEqLNgEiiqgKjCVKuT1hegksyBITI3
- LX0kGHgWiSyKwpsRmhmnc26WVVb8IUIgeZc9k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=SedhEjANQErpwU77RpqCFpguAIDMZbPe2/zGk7oJ1uE=;
- b=smXPG+4rwRXa0H4fx9hRn6qkNtShWKo9OxwRkJLkDW7sHL656X9D+v/oQcZ7t6ceGY
- or6dsHmeFH5hgnGIY1N4a2xvPIamb7j1yEHED8CvsL0ZkrJUrNzN3WC2Gi9n9u+mpUsW
- 7BbtudvrDjeJRGa0IArLS4BCjaCtn6jpIC12K8LimUitL5zWP1CZEtTmp1edoyPpQ5cr
- q9L8olxRC4StX0/aicwPK4EjC8Nrh7aecu2Hpnr3TzN5L9jhbqyOLH+dqCD27BHyPmzP
- RsTF3O4On+H2AngbdyZ3iIoX53zSeSUgXnu7V8fMOstCvfuwSNbjJnv1fe0NKDve9yD7
- ISHA==
-X-Gm-Message-State: AGi0PuZaPreTCdIguMkHbu5LAB9ly2mz+cJhtlnjLs/6wGemXjyiZLff
- kZ6q2tH/gO34ziQUNwplSgvugQ==
-X-Google-Smtp-Source: APiQypL2gS2a9dwMkf4Ijkq+tJDqXlCksrQZL+nL7t7odPzjDuw6TG9icwc5UUeeP/E3vPoVbkhjzQ==
-X-Received: by 2002:adf:aa9d:: with SMTP id h29mr5031902wrc.356.1587143696366; 
- Fri, 17 Apr 2020 10:14:56 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a205sm8371357wmh.29.2020.04.17.10.14.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Apr 2020 10:14:55 -0700 (PDT)
-Date: Fri, 17 Apr 2020 19:14:53 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 0/8] drm, fbdev: rework dependencies
-Message-ID: <20200417171453.GS3456981@phenom.ffwll.local>
-References: <20200417155553.675905-1-arnd@arndb.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 341A96E2A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 17:33:44 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
+ [209.85.219.43])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A5300208E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 17:33:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1587144823;
+ bh=mbO3g0ndIHqGlmqlQGolAW9tH9DRusvYtgnVwXC5+g0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ALfW9eh9qAJ8fZiNE08TRagAIHFyBsQx5/VSbIaRBUTuoBOH1Oco5D//LogpoReVH
+ klDG0QUoiRrD8EfqH7MCJPP7HL9376dxxswdbJ+Aq8tQxguabJykFyX15gaQAAKZNB
+ 9rcKp5uxEOl+vlCapJimHte0cijPfW7QkeULlxSU=
+Received: by mail-qv1-f43.google.com with SMTP id p13so1283280qvt.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 10:33:43 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZKaelRdg2PLOF/wqjwfi2MEN5dXvczbld5tkn2VuSJJcTXLcYi
+ aOVEZfDMBaYCqeuPSYjz74rjYy8mU/X4ayh+Qg==
+X-Google-Smtp-Source: APiQypJwxUzjNMg0EVWDJL1880iNDj2VwwzK98md7RPwzqAgUD+RKwDBdD66IFnTOjp4yoytvr5+78K8XvkZ3eo9b34=
+X-Received: by 2002:a0c:b651:: with SMTP id q17mr3615708qvf.135.1587144822462; 
+ Fri, 17 Apr 2020 10:33:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200417155553.675905-1-arnd@arndb.de>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+References: <20200409013947.12667-1-robh@kernel.org>
+ <20200409013947.12667-4-robh@kernel.org>
+ <20200409143448.GC4673@ravnborg.org>
+In-Reply-To: <20200409143448.GC4673@ravnborg.org>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 17 Apr 2020 12:33:29 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+pKubwZmmxr+EFVH_goDZ7zgeL912ChKsXS0P_tG-7Kg@mail.gmail.com>
+Message-ID: <CAL_Jsq+pKubwZmmxr+EFVH_goDZ7zgeL912ChKsXS0P_tG-7Kg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm: pl111: Move VExpress setup into versatile init
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,140 +55,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie,
- Andrzej Hajda <a.hajda@samsung.com>, Laurent.pinchart@ideasonboard.com,
- robert.jarzmik@free.fr, marex@denx.de, thellstrom@vmware.com, dsd@laptop.org,
- Jason Gunthorpe <jgg@ziepe.ca>, masahiroy@kernel.org,
- Saeed Mahameed <saeedm@mellanox.com>, linux-graphics-maintainer@vmware.com,
- geert@linux-m68k.org, haojian.zhuang@gmail.com,
- Nicolas Pitre <nico@fluxnic.net>, dri-devel@lists.freedesktop.org,
- jfrederich@gmail.com, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com, daniel@zonque.org
+Cc: "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 17, 2020 at 05:55:45PM +0200, Arnd Bergmann wrote:
-> I tried to fix up some dependencies after the sii8620 "imply EXTCON"
-> statementn broke, trying a few things but in the backing out a
-> change that would completely reverse the LEDS_CLASS selects into
-> a 'depends on'. 
-> 
-> However, what I got now are multiple changes that remove gratious
-> "selects" that lead to circular dependencies for sii8620 and others:
-> 
-> - Anything doing "select FB" is now gone, or becomes "depends on FB",
-> 
-> - DDC support depends on I2C instead of selecting it
-> 
-> - backlight class device support is never selected by framebuffer
->   drivers but has proper dependencies
-> 
-> I have done thousands of randconfig build tests on this, but no
-> runtime tests.
-> 
-> Some of the 'depends on FOO || !FOO' statements could be simplified
-> into a new 'uses FOO' syntax based on a patch from Saeed Mahameed,
-> but I would for the moment treat that as a cleanup that can be done
-> later.
-> 
-> If we can agree on these changes, maybe someone can merge them
-> through the drm-misc tree.
-> 
-> Please review
+On Thu, Apr 9, 2020 at 9:34 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Rob.
+>
+> On Wed, Apr 08, 2020 at 07:39:47PM -0600, Rob Herring wrote:
+> > Since the VExpress setup in pl111_vexpress.c is now just a single
+> > function call, let's move it into pl111_versatile.c and we can further
+> > simplify pl111_versatile_init() by moving the other pieces for VExpress
+> > into pl111_vexpress_clcd_init().
+> >
+> > Cc: Eric Anholt <eric@anholt.net>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> Patch looks good - nits below, but anyway:
+>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+>
+>
+> > ---
+> >  drivers/gpu/drm/pl111/Makefile          |   1 -
+> >  drivers/gpu/drm/pl111/pl111_versatile.c | 122 ++++++++++++++++++++----
+> >  drivers/gpu/drm/pl111/pl111_vexpress.c  |  96 -------------------
+> >  drivers/gpu/drm/pl111/pl111_vexpress.h  |  22 -----
+> >  4 files changed, 102 insertions(+), 139 deletions(-)
+> >  delete mode 100644 drivers/gpu/drm/pl111/pl111_vexpress.c
+> >  delete mode 100644 drivers/gpu/drm/pl111/pl111_vexpress.h
+> >
+> > diff --git a/drivers/gpu/drm/pl111/Makefile b/drivers/gpu/drm/pl111/Makefile
+> > index 0c70f0e91d21..67d430d433e0 100644
+> > --- a/drivers/gpu/drm/pl111/Makefile
+> > +++ b/drivers/gpu/drm/pl111/Makefile
+> > @@ -3,7 +3,6 @@ pl111_drm-y +=        pl111_display.o \
+> >               pl111_versatile.o \
+> >               pl111_drv.o
+> >
+> > -pl111_drm-$(CONFIG_ARCH_VEXPRESS) += pl111_vexpress.o
+> >  pl111_drm-$(CONFIG_ARCH_NOMADIK) += pl111_nomadik.o
+> >  pl111_drm-$(CONFIG_DEBUG_FS) += pl111_debugfs.o
+> >
+> > diff --git a/drivers/gpu/drm/pl111/pl111_versatile.c b/drivers/gpu/drm/pl111/pl111_versatile.c
+> > index 8c2551088f26..1b55f977e945 100644
+> > --- a/drivers/gpu/drm/pl111/pl111_versatile.c
+> > +++ b/drivers/gpu/drm/pl111/pl111_versatile.c
+> > @@ -11,7 +11,6 @@
+> >  #include <linux/vexpress.h>
+> >
+> >  #include "pl111_versatile.h"
+> > -#include "pl111_vexpress.h"
+> >  #include "pl111_drm.h"
+> >
+> >  static struct regmap *versatile_syscon_map;
+> > @@ -309,13 +308,110 @@ static const struct pl111_variant_data pl111_vexpress = {
+> >       .broken_clockdivider = true,
+> >  };
+> >
+> > +#define VEXPRESS_FPGAMUX_MOTHERBOARD         0x00
+> > +#define VEXPRESS_FPGAMUX_DAUGHTERBOARD_1     0x01
+> > +#define VEXPRESS_FPGAMUX_DAUGHTERBOARD_2     0x02
+> > +
+> > +static int pl111_vexpress_clcd_init(struct device *dev, struct device_node *np,
+> > +                                 struct pl111_drm_dev_private *priv)
+> > +{
+> > +     struct platform_device *pdev;
+> > +     struct device_node *root;
+> > +     struct device_node *child;
+> > +     struct device_node *ct_clcd = NULL;
+> > +     struct regmap *map;
+> > +     bool has_coretile_clcd = false;
+> > +     bool has_coretile_hdlcd = false;
+> > +     bool mux_motherboard = true;
+> > +     u32 val;
+> > +     int ret;
+> > +
+> > +     if (!IS_ENABLED(CONFIG_VEXPRESS_CONFIG))
+> > +             return -ENODEV;
+> Thats was a simple way to get out of this.
+> Maybe a WARN() was in place, because should we ever hit this?
 
-Biggest concern I have is that usability of make menuconfig is horrible,
-and it's very hard to find options that are hidden by depends on. You can
-use the search interface, if you happen to know the option.
+We didn't warn before if misconfigured. Adding an error print at the
+caller should be enough.
 
-Once you've surmounted that bar, the next one is trying to find what
-exactly you need to enable. Which again means endless of recursive
-screaming at Kconfig files, since make menuconfig doesn't help you at all.
+> > +
+> > +     /*
+> > +      * Check if we have a CLCD or HDLCD on the core tile by checking if a
+> > +      * CLCD or HDLCD is available in the root of the device tree.
+> > +      */
+> > +     root = of_find_node_by_path("/");
+> > +     if (!root)
+> > +             return -EINVAL;
+> > +
+> > +     for_each_available_child_of_node(root, child) {
+> > +             if (of_device_is_compatible(child, "arm,pl111")) {
+> > +                     has_coretile_clcd = true;
+> > +                     ct_clcd = child;
+> > +                     break;
+> > +             }
+> > +             if (of_device_is_compatible(child, "arm,hdlcd")) {
+> > +                     has_coretile_hdlcd = true;
+> > +                     of_node_put(child);
+> > +                     break;
+> > +             }
+> > +     }
+> > +
+> > +     of_node_put(root);
+> > +
+> > +     /*
+> > +      * If there is a coretile HDLCD and it has a driver,
+> > +      * do not mux the CLCD on the motherboard to the DVI.
+> > +      */
+> > +     if (has_coretile_hdlcd && IS_ENABLED(CONFIG_DRM_HDLCD))
+> > +             mux_motherboard = false;
+> > +
+> > +     /*
+> > +      * On the Vexpress CA9 we let the CLCD on the coretile
+> > +      * take precedence, so also in this case do not mux the
+> > +      * motherboard to the DVI.
+> > +      */
+> > +     if (has_coretile_clcd)
+> > +             mux_motherboard = false;
+> > +
+> > +     if (mux_motherboard) {
+> > +             dev_info(dev, "DVI muxed to motherboard CLCD\n");
+> > +             val = VEXPRESS_FPGAMUX_MOTHERBOARD;
+> > +     } else if (ct_clcd == dev->of_node) {
+> > +             dev_info(dev,
+> > +                      "DVI muxed to daughterboard 1 (core tile) CLCD\n");
+> > +             val = VEXPRESS_FPGAMUX_DAUGHTERBOARD_1;
+> > +     } else {
+> > +             dev_info(dev, "core tile graphics present\n");
+> > +             dev_info(dev, "this device will be deactivated\n");
+> > +             return -ENODEV;
+> > +     }
+> > +
+> > +     /* Call into deep Vexpress configuration API */
+> > +     pdev = of_find_device_by_node(np);
+> > +     if (!pdev) {
+> > +             dev_err(dev, "can't find the sysreg device, deferring\n");
+> > +             return -EPROBE_DEFER;
+> > +     }
+> > +
+> > +     map = devm_regmap_init_vexpress_config(&pdev->dev);
+> > +     if (IS_ERR(map)) {
+> > +             platform_device_put(pdev);
+> > +             return PTR_ERR(map);
+> > +     }
+> > +
+> > +     ret = regmap_write(map, 0, val);
+> > +     platform_device_put(pdev);
+> > +     if (ret) {
+> > +             dev_err(dev, "error setting DVI muxmode\n");
+> > +             return -ENODEV;
+> > +     }
+> > +
+> > +     priv->variant = &pl111_vexpress;
+> > +     dev_info(dev, "initializing Versatile Express PL111\n");
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >  int pl111_versatile_init(struct device *dev, struct pl111_drm_dev_private *priv)
+> >  {
+> >       const struct of_device_id *clcd_id;
+> >       enum versatile_clcd versatile_clcd_type;
+> >       struct device_node *np;
+> >       struct regmap *map;
+> > -     int ret;
+> >
+> >       np = of_find_matching_node_and_match(NULL, versatile_clcd_of_match,
+> >                                            &clcd_id);
+> > @@ -326,17 +422,10 @@ int pl111_versatile_init(struct device *dev, struct pl111_drm_dev_private *priv)
+> >       versatile_clcd_type = (enum versatile_clcd)clcd_id->data;
+> >
+> >       /* Versatile Express special handling */
+> > -     if (IS_ENABLED(CONFIG_VEXPRESS_CONFIG) && versatile_clcd_type == VEXPRESS_CLCD_V2M) {
+> > -             struct platform_device *pdev;
+> > -             /* Call into deep Vexpress configuration API */
+> > -             pdev = of_find_device_by_node(np);
+> > -             if (!pdev) {
+> > -                     dev_err(dev, "can't find the sysreg device, deferring\n");
+> > -                     of_node_put(np);
+> > -                     return -EPROBE_DEFER;
+> > -             }
+> > -             map = devm_regmap_init_vexpress_config(&pdev->dev);
+> > -             platform_device_put(pdev);
+> > +     if (versatile_clcd_type == VEXPRESS_CLCD_V2M) {
+> > +             int ret = pl111_vexpress_clcd_init(dev, np, priv);
+> > +             of_node_put(np);
+> > +             return ret;
+> It is often in error situations one return early, but in this case it is
+> a normal case. Maybe a small comment?
 
-That's pretty much why we've never pushed this in, and instead done the
-selects. I'm vary applying all this, since after after there'll be all the
-screaming again and we have to back it out.
+I'm adding a print here to address your other comments and I think
+that should be sufficient. I'll also move this up so the Vexpress
+handling is before everything else.
 
-I think to embrace this without regrets what we need is:
-- some way to list the hidden options
-- some way to browse the depedencies of those hidden options
+>
+>
+> >       } else {
 
-menuconfig cant do that, gconfig I cant build here (it's some old gtk2
-thing, where do you even get the deps for that). xconfig also cant do
-this easily, dependencies aren't linked.
+And I don't need this else.
 
-So yeah not sure this is a good idea at all, until at least menuconfig can
-cope.
--Daniel
+> >               map = syscon_node_to_regmap(np);
+> >       }
+> > @@ -380,13 +469,6 @@ int pl111_versatile_init(struct device *dev, struct pl111_drm_dev_private *priv)
+> >               priv->variant_display_disable = pl111_realview_clcd_disable;
+> >               dev_info(dev, "set up callbacks for RealView PL111\n");
+> >               break;
+> > -     case VEXPRESS_CLCD_V2M:
+> > -             priv->variant = &pl111_vexpress;
+> > -             dev_info(dev, "initializing Versatile Express PL111\n");
+> > -             ret = pl111_vexpress_clcd_init(dev, priv, map);
+> > -             if (ret)
+> > -                     return ret;
+> > -             break;
+>
+> The switch no longer includes VEXPRESS_CLCD_V2M - because we will never
+> reach the switch in this case.
+> I guess some gcc falgs may cause a warning that not all enums are
+> accounted for. But then again, the default may supress it.
 
-> 
->        Arnd
-> 
-> Arnd Bergmann (8):
->   fbdev: w100fb: clean up mach-pxa compile-time dependency
->   fbdev/ARM: pxa: avoid selecting CONFIG_FB
->   fbdev: rework FB_DDC dependencies
->   drm/rcar: stop using 'imply' for dependencies
->   drm/vmwgfx: make framebuffer support optional
->   drm: decouple from CONFIG_FB
->   fbdev: rework backlight dependencies
->   drm/bridge/sii8620: fix extcon dependency
-> 
->  arch/arm/configs/pxa_defconfig      |  3 ++
->  arch/arm/mach-pxa/Kconfig           |  7 ---
->  arch/arm/mach-pxa/eseries.c         | 14 +----
->  arch/arm/mach-pxa/saar.c            |  2 +-
->  arch/arm/mach-pxa/tavorevb.c        |  2 +-
->  drivers/auxdisplay/Kconfig          |  1 +
->  drivers/gpu/drm/Kconfig             |  5 +-
->  drivers/gpu/drm/bridge/Kconfig      |  2 +-
->  drivers/gpu/drm/mxsfb/Kconfig       |  1 -
->  drivers/gpu/drm/rcar-du/Kconfig     | 23 +++++---
->  drivers/gpu/drm/vmwgfx/Kconfig      | 17 +++---
->  drivers/gpu/drm/vmwgfx/Makefile     |  4 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 35 +++++++-----
->  drivers/gpu/drm/zte/Kconfig         |  1 -
->  drivers/macintosh/Kconfig           |  1 +
->  drivers/staging/fbtft/Kconfig       |  1 +
->  drivers/staging/olpc_dcon/Kconfig   |  2 +-
->  drivers/video/fbdev/Kconfig         | 31 ++++++++---
->  drivers/video/fbdev/w100fb.c        | 84 +++++------------------------
->  include/video/w100fb.h              |  6 +--
->  20 files changed, 101 insertions(+), 141 deletions(-)
-> 
-> -- 
-> 2.26.0
-> 
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Nicolas Pitre <nico@fluxnic.net>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Saeed Mahameed <saeedm@mellanox.com>
-> Cc: <masahiroy@kernel.org>
-> Cc: <Laurent.pinchart@ideasonboard.com>
-> Cc: <linux-renesas-soc@vger.kernel.org>,
-> Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-> Cc: <kieran.bingham+renesas@ideasonboard.com>,
-> Cc: <airlied@linux.ie>
-> Cc: daniel@zonque.org
-> Cc: haojian.zhuang@gmail.com
-> Cc: robert.jarzmik@free.fr
-> Cc: daniel@ffwll.ch
-> Cc: marex@denx.de
-> Cc: stefan@agner.ch
-> Cc: linux-graphics-maintainer@vmware.com
-> Cc: thellstrom@vmware.com
-> Cc: jfrederich@gmail.com
-> Cc: dsd@laptop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: geert@linux-m68k.org
+Yes, default suppresses that.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
