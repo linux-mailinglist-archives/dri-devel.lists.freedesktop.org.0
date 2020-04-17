@@ -1,48 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F62A1AE3EC
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 19:43:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF9D1AEB40
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 11:27:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 813AD6E121;
-	Fri, 17 Apr 2020 17:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 306506EC6C;
+	Sat, 18 Apr 2020 09:26:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B87A6E124
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 17:43:31 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5157D206F9
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 17:43:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587145411;
- bh=IWA91rnd7DCpei0UmWDuuHsPYJS5PswBsXNqf1I/niM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Pt6wA/969eDisaL2JzYfgBP6eOp0melahjfTfCi9H8EnLElbCxdvrIpAP5QQSevBM
- QXKkHqle4SxaXu46mg+7MIVWhvyOK+bANS8DDykJGLWDi9AJiRCZKix5mRwXs+cLd2
- 1RtwKes8OaezhnY7F0va/WgCzhFc+ZG9M3mNaieE=
-Received: by mail-qk1-f176.google.com with SMTP id s63so3306355qke.4
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 10:43:31 -0700 (PDT)
-X-Gm-Message-State: AGi0Pubo+zlTTuhKyHR7tZ9y+7mxE5qw6Gxo9bj2/8a5u+msWnGk0hrn
- 9WfZYj2xyJZxY+upx+Tv4FVF8B3GG9xMeVIINA==
-X-Google-Smtp-Source: APiQypKOFSzSrXp6TtG4ec8JhJUSBFuVeKwbSs75yAmLse130PcTkwzUaoj4aHrENTDYOHXuApeoXqGddN79f1x41JE=
-X-Received: by 2002:a37:cc1:: with SMTP id 184mr4446305qkm.254.1587145410403; 
- Fri, 17 Apr 2020 10:43:30 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D5E46E124
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 17:54:49 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id q22so2968904ljg.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 10:54:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kUgkvGxwUTj//f5ZA1Y2QPcTYYMvVcKNmfn7DC/ae88=;
+ b=jAGzA03gM2tyI7DEuYLXPYxmhX75m/zzh07gPgQHCIBoFLlx3ef2hZO69f4ELyWmGD
+ qZuCUePvuYuj3zjMUphXMqz/Wbd20m8rQHudTDWMXKxvxrcnHbWT3qDwBPWWhmbfy2qm
+ +KpD3KMOza8QKHR+pkLxNTSBQ5vtWHsIjAlNf3YUvXPLxpseeXcyY3BxEFYfASVUPUG5
+ XjngArpReFSx4M+Y5GHki3xpTKn+hM0bWBIWxDbddGlVafcMCPZEoNUerHU9IsMUzw56
+ COU8sMWkVeyUN9aJJwUO3BhTaZ/UEW45XUJlR7Pq57cIxQDOxdbOYUTZbe0CX4+2CwRK
+ u4Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kUgkvGxwUTj//f5ZA1Y2QPcTYYMvVcKNmfn7DC/ae88=;
+ b=fhO2hRJn1D1vNcK8syOfXSEXMYynMkg0CYV38CWKMT9abV88FVMmXcucxGEGe7qflV
+ lCM4HPhlrJSJ/KZFGh8OtYwrxa3x9VFjw/ETJcvszWHP+NOKgLBfozS9bZs3M4HaMMLy
+ a+utlI73HJ+GNEZ6d/SwJLEivIsS/x/eyASVZLSXqPB5MjaljqsNiRNCWsdSABCRXqnA
+ Nnog4lhvwiy31kq8rl947HsGqi2Np+gNAs3RFhfBR2YMhYWKvx+382S1dkQBuYSnKHYo
+ XCbr1uJJLHycZTVecNE9GM97ydm1wdrI1ctQ54jybMkGQlmHxQSvTHp8olDhNfV2GZ5z
+ yfXw==
+X-Gm-Message-State: AGi0PuZolUa8WjyFMq2R4gmEpYpaLB699bTQ5LVTxk0IPt5yMjmkwQJq
+ e5gDsgHTw1jTTo5zZyxZQ6E=
+X-Google-Smtp-Source: APiQypLvbpu1aJkpmbh9/md97PH+AYM6G8tvU1+7muvQuvQKdNG5OyeLYJ/z2UlpiwPJoY88DjmCgw==
+X-Received: by 2002:a2e:7004:: with SMTP id l4mr2911157ljc.55.1587146087930;
+ Fri, 17 Apr 2020 10:54:47 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru.
+ [91.78.208.152])
+ by smtp.gmail.com with ESMTPSA id j15sm7204358lja.71.2020.04.17.10.54.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Apr 2020 10:54:46 -0700 (PDT)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v4 0/3] Support DRM bridges on NVIDIA Tegra
+Date: Fri, 17 Apr 2020 20:52:35 +0300
+Message-Id: <20200417175238.27154-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-References: <20200409013947.12667-1-robh@kernel.org>
- <20200409013947.12667-3-robh@kernel.org>
- <20200409141603.GB4673@ravnborg.org>
-In-Reply-To: <20200409141603.GB4673@ravnborg.org>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 17 Apr 2020 12:43:17 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJGZ5jX+-xkVmK5-uJU5hJg3tEa52RanYjY_sF_n+7PsA@mail.gmail.com>
-Message-ID: <CAL_JsqJGZ5jX+-xkVmK5-uJU5hJg3tEa52RanYjY_sF_n+7PsA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm: pl111: Simplify vexpress init
-To: Sam Ravnborg <sam@ravnborg.org>
+X-Mailman-Approved-At: Sat, 18 Apr 2020 09:26:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,102 +67,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 9, 2020 at 9:16 AM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Rob.
->
-> On Wed, Apr 08, 2020 at 07:39:46PM -0600, Rob Herring wrote:
-> > The init VExpress variants currently instantiates a 'muxfpga' driver for
-> > the sole purpose of getting a regmap for it. There's no reason to
-> > instantiate a driver and doing so just complicates things. The muxfpga
-> > driver also isn't unregistered properly on module unload. Let's
-> > just simplify all this this by just calling
-> > devm_regmap_init_vexpress_config() directly.
-> >
-> > Cc: Eric Anholt <eric@anholt.net>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Rob Herring <robh@kernel.org>
->
-> Procastinating, so I took a look at this.
-> Nice simplification - on nit below.
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > ---
-> >  drivers/gpu/drm/pl111/pl111_versatile.c | 21 +++----------
-> >  drivers/gpu/drm/pl111/pl111_vexpress.c  | 42 -------------------------
-> >  drivers/gpu/drm/pl111/pl111_vexpress.h  |  7 -----
-> >  3 files changed, 4 insertions(+), 66 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/pl111/pl111_versatile.c b/drivers/gpu/drm/pl111/pl111_versatile.c
-> > index 09aeaffb7660..8c2551088f26 100644
-> > --- a/drivers/gpu/drm/pl111/pl111_versatile.c
-> > +++ b/drivers/gpu/drm/pl111/pl111_versatile.c
-> > @@ -8,6 +8,7 @@
-> >  #include <linux/of.h>
-> >  #include <linux/of_platform.h>
-> >  #include <linux/regmap.h>
-> > +#include <linux/vexpress.h>
-> >
-> >  #include "pl111_versatile.h"
-> >  #include "pl111_vexpress.h"
-> > @@ -325,17 +326,8 @@ int pl111_versatile_init(struct device *dev, struct pl111_drm_dev_private *priv)
-> >       versatile_clcd_type = (enum versatile_clcd)clcd_id->data;
-> >
-> >       /* Versatile Express special handling */
-> > -     if (versatile_clcd_type == VEXPRESS_CLCD_V2M) {
-> > +     if (IS_ENABLED(CONFIG_VEXPRESS_CONFIG) && versatile_clcd_type == VEXPRESS_CLCD_V2M) {
-> >               struct platform_device *pdev;
-> > -
-> > -             /* Registers a driver for the muxfpga */
-> > -             ret = vexpress_muxfpga_init();
-> > -             if (ret) {
-> > -                     dev_err(dev, "unable to initialize muxfpga driver\n");
-> > -                     of_node_put(np);
-> > -                     return ret;
-> > -             }
-> > -
-> >               /* Call into deep Vexpress configuration API */
-> >               pdev = of_find_device_by_node(np);
-> >               if (!pdev) {
-> > @@ -343,13 +335,8 @@ int pl111_versatile_init(struct device *dev, struct pl111_drm_dev_private *priv)
-> >                       of_node_put(np);
-> >                       return -EPROBE_DEFER;
-> >               }
-> > -             map = dev_get_drvdata(&pdev->dev);
-> > -             if (!map) {
-> > -                     dev_err(dev, "sysreg has not yet probed\n");
-> > -                     platform_device_put(pdev);
-> > -                     of_node_put(np);
-> > -                     return -EPROBE_DEFER;
-> > -             }
-> > +             map = devm_regmap_init_vexpress_config(&pdev->dev);
-> > +             platform_device_put(pdev);
-> >       } else {
-> >               map = syscon_node_to_regmap(np);
-> >       }
->
-> On the following line there is:
->         if (IS_ERR(map)) {
->                 dev_err(dev, "no Versatile syscon regmap\n");
->                 return PTR_ERR(map);
->         }
->
-> The error message no longer tell if this was
-> devm_regmap_init_vexpress_config() or syscon_node_to_regmap() that
-> caused the error.
+Hello,
 
-Hopefully you'd know what platform you are on.
+This small series adds initial support for the DRM bridges to NVIDIA Tegra
+DRM driver. This is required by newer device-trees where we model the LVDS
+encoder bridge properly.
 
-In any case, it's changed after patch 3.
+Changelog:
 
-Rob
+v4: - Following review comments that were made by Laurent Pinchart to the v3,
+      we now create and use the "bridge connector".
+
+v3: - Following recommendation from Sam Ravnborg, the new bridge attachment
+      model is now being used, i.e. we ask bridge to *not* create a connector
+      using the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
+
+    - The bridge is now created only for the RGB (LVDS) output, and only
+      when necessary. For now we don't need bridges for HDMI or DSI outputs.
+
+    - I noticed that we're leaking OF node in the panel's error code path,
+      this is fixed now by the new patch "Don't leak OF node on error".
+
+v2: - Added the new "rgb: Don't register connector if bridge is used"
+      patch, which hides the unused connector provided by the Tegra DRM
+      driver when bridge is used, since bridge provides its own connector
+      to us.
+
+    - Please notice that the first "Support DRM bridges" patch was previously
+      sent out as a standalone v1 change.
+
+Dmitry Osipenko (3):
+  drm/tegra: output: Don't leak OF node on error
+  drm/tegra: output: Support DRM bridges
+  drm/tegra: output: rgb: Support LVDS encoder bridge
+
+ drivers/gpu/drm/tegra/drm.h    |  2 ++
+ drivers/gpu/drm/tegra/output.c | 22 +++++++++----
+ drivers/gpu/drm/tegra/rgb.c    | 58 ++++++++++++++++++++++++++++------
+ 3 files changed, 67 insertions(+), 15 deletions(-)
+
+-- 
+2.26.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
