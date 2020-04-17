@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA1E1ADE0D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 15:11:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 063041ADE4B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Apr 2020 15:29:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCD926EBDD;
-	Fri, 17 Apr 2020 13:11:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45D9A6EBE2;
+	Fri, 17 Apr 2020 13:29:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E5C66EBDD
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 13:11:12 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 317466EBE2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Apr 2020 13:29:16 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 87B6597D;
- Fri, 17 Apr 2020 15:11:10 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2E4C97D;
+ Fri, 17 Apr 2020 15:29:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1587129070;
- bh=7193wIuK9xxfxyCeMGXk0h21dUcBAn3R8Nhtk/5Ub2o=;
+ s=mail; t=1587130154;
+ bh=A5tYWvya+wRvc9UmmGTGVWtr8Z7NO2TYBubILGp2Slg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sxkGqCfAyOynGO7MzoiD7coZhOWcbA2kmtLP+iIVIXvdQd/N6WYRmyarKl4OzuWEV
- oUgbMHtO29y2XW9Tl1hkYFH7YgFBaWfG88skKE6D6oWJHdPqafxQVJgevugNDHFduZ
- VSexBtTPfQl1b0MhLCDM20aE4F9IPJqXtbnymtgY=
-Date: Fri, 17 Apr 2020 16:10:58 +0300
+ b=oaQRiaZdQvgUA0sGmySDGkkfrBcrG8b24LXqCKsPBso9YByPLvKyJcbiaXze0QS07
+ t7G04arMCpqNYsdqqTXd1EIqziy1Ngu3z+Q4FPh1X05TjXA2TispZOuZky+TifdJkF
+ 6BDPlUUh8d8d8rJQKoVfQm86zUn+JpVSWiONof2E=
+Date: Fri, 17 Apr 2020 16:29:02 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH] drm/panel: panel-simple: Set AUO G101EVN010 panel type
-Message-ID: <20200417131058.GC4748@pendragon.ideasonboard.com>
-References: <20200417114043.25381-1-tomi.valkeinen@ti.com>
- <1163e6e1-254d-07c9-496b-7bf2d3157a51@ti.com>
+Subject: Re: [PATCH] drm/omap: change default signal polarities and drives
+Message-ID: <20200417132902.GA11473@pendragon.ideasonboard.com>
+References: <20200417114151.25843-1-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1163e6e1-254d-07c9-496b-7bf2d3157a51@ti.com>
+In-Reply-To: <20200417114151.25843-1-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,9 +45,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Gonzalez <alex.gonzalez@digi.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
+Cc: Jyri Sarha <jsarha@ti.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -58,40 +55,75 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Fri, Apr 17, 2020 at 04:00:34PM +0300, Tomi Valkeinen wrote:
-> (Adding Alex to the thread)
+On Fri, Apr 17, 2020 at 02:41:51PM +0300, Tomi Valkeinen wrote:
+> If the given videomode does not specify DISPLAY_FLAG_* for the specific
+> signal property, the driver used a default value. These defaults were
+> never thought through, as the expectation was that all the DISPLAY_FLAGS
+> are always set explicitly.
 > 
-> On 17/04/2020 14:40, Tomi Valkeinen wrote:
-> > The AUO G101EVN010 is a 18-bit LVDS panel, not a parallel panel, as
-> > indicated by the current bus_format.
-> > 
-> > Fix the bus_format to MEDIA_BUS_FMT_RGB666_1X7X3_SPWG, and also set the
-> > connector_type to LVDS.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> With DRM bridge and panel drivers this is not the case, and while that
+> issue should be resolved in the future, it's still good to have sane
+> signal defaults.
+> 
+> This patch changes the defaults to what the hardware has as reset
+> defaults. Also, based on my experience, I think they make sense and are
+> more likely correct than the defaults without this patch.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+>  drivers/gpu/drm/omapdrm/dss/dispc.c | 33 ++++++-----------------------
+>  1 file changed, 6 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
+> index dbb90f2d2ccd..6639ee9b05d3 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dispc.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
+> @@ -3137,33 +3137,12 @@ static void _dispc_mgr_set_lcd_timings(struct dispc_device *dispc,
+>  	dispc_write_reg(dispc, DISPC_TIMING_H(channel), timing_h);
+>  	dispc_write_reg(dispc, DISPC_TIMING_V(channel), timing_v);
+>  
+> -	if (vm->flags & DISPLAY_FLAGS_VSYNC_HIGH)
+> -		vs = false;
+> -	else
+> -		vs = true;
+> -
+> -	if (vm->flags & DISPLAY_FLAGS_HSYNC_HIGH)
+> -		hs = false;
+> -	else
+> -		hs = true;
+> -
+> -	if (vm->flags & DISPLAY_FLAGS_DE_HIGH)
+> -		de = false;
+> -	else
+> -		de = true;
+> -
+> -	if (vm->flags & DISPLAY_FLAGS_PIXDATA_POSEDGE)
+> -		ipc = false;
+> -	else
+> -		ipc = true;
+> -
+> -	/* always use the 'rf' setting */
+> -	onoff = true;
+> -
+> -	if (vm->flags & DISPLAY_FLAGS_SYNC_POSEDGE)
+> -		rf = true;
+> -	else
+> -		rf = false;
+> +	vs = !!(vm->flags & DISPLAY_FLAGS_VSYNC_LOW);
+> +	hs = !!(vm->flags & DISPLAY_FLAGS_HSYNC_LOW);
+> +	de = !!(vm->flags & DISPLAY_FLAGS_DE_LOW);
+> +	ipc = !!(vm->flags & DISPLAY_FLAGS_PIXDATA_NEGEDGE);
+> +	onoff = true; /* always use the 'rf' setting */
+> +	rf = !!(vm->flags & DISPLAY_FLAGS_SYNC_POSEDGE);
 
-I'll trust you on the format,
+Would it make sense to WARN() if flags are not set, to catch offenders
+and fix them ? Apart from that,
 
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> > ---
-> >   drivers/gpu/drm/panel/panel-simple.c | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> > index 3ad828eaefe1..bf781e260fe7 100644
-> > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > @@ -836,7 +836,8 @@ static const struct panel_desc auo_g101evn010 = {
-> >   		.width = 216,
-> >   		.height = 135,
-> >   	},
-> > -	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-> > +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-> > +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> >   };
-> >   
-> >   static const struct drm_display_mode auo_g104sn02_mode = {
+>  
+>  	l = FLD_VAL(onoff, 17, 17) |
+>  		FLD_VAL(rf, 16, 16) |
 
 -- 
 Regards,
