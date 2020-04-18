@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 922D11AEB8E
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 12:07:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FDB11B01E5
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 08:55:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7CB56E209;
-	Sat, 18 Apr 2020 10:07:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 403946E1A4;
+	Mon, 20 Apr 2020 06:55:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cmccmta3.chinamobile.com (cmccmta3.chinamobile.com
- [221.176.66.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id CCF096E1D5
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Apr 2020 10:01:27 +0000 (UTC)
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.1]) by
- rmmx-syy-dmz-app12-12012 (RichMail) with SMTP id 2eec5e9acfe6ca7-aceeb;
- Sat, 18 Apr 2020 18:01:13 +0800 (CST)
-X-RM-TRANSID: 2eec5e9acfe6ca7-aceeb
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from localhost.localdomain (unknown[112.1.172.61])
- by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee15e9acfe69d5-6ed96;
- Sat, 18 Apr 2020 18:01:12 +0800 (CST)
-X-RM-TRANSID: 2ee15e9acfe69d5-6ed96
-From: Tang Bin <tangbin@cmss.chinamobile.com>
-To: l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
- christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/etnaviv: Omit superfluous error message in
- etnaviv_gpu_platform_probe()
-Date: Sat, 18 Apr 2020 18:02:48 +0800
-Message-Id: <20200418100248.4552-1-tangbin@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.20.1.windows.1
+Received: from smtp.smtpout.orange.fr (smtp07.smtpout.orange.fr
+ [80.12.242.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 405D06E419
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Apr 2020 10:11:03 +0000 (UTC)
+Received: from belgarion ([86.210.245.36]) by mwinf5d13 with ME
+ id UAAm2200A0nqnCN03AAtbJ; Sat, 18 Apr 2020 12:11:01 +0200
+X-ME-Helo: belgarion
+X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
+X-ME-Date: Sat, 18 Apr 2020 12:11:01 +0200
+X-ME-IP: 86.210.245.36
+From: Robert Jarzmik <robert.jarzmik@free.fr>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 1/8] fbdev: w100fb: clean up mach-pxa compile-time
+ dependency
+References: <20200417155553.675905-1-arnd@arndb.de>
+ <20200417155553.675905-2-arnd@arndb.de>
+X-URL: http://belgarath.falguerolles.org/
+Date: Sat, 18 Apr 2020 12:10:46 +0200
+In-Reply-To: <20200417155553.675905-2-arnd@arndb.de> (Arnd Bergmann's message
+ of "Fri, 17 Apr 2020 17:55:46 +0200")
+Message-ID: <877dydp0ih.fsf@belgarion.home>
+User-Agent: Gnus/5.130008 (Ma Gnus v0.8) Emacs/26 (gnu/linux)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sat, 18 Apr 2020 10:07:49 +0000
+X-Mailman-Approved-At: Mon, 20 Apr 2020 06:55:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,43 +45,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tang Bin <tangbin@cmss.chinamobile.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie,
+ Andrzej Hajda <a.hajda@samsung.com>, Laurent.pinchart@ideasonboard.com,
+ marex@denx.de, thellstrom@vmware.com, dsd@laptop.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, masahiroy@kernel.org,
+ Saeed Mahameed <saeedm@mellanox.com>, geert@linux-m68k.org,
+ linux-graphics-maintainer@vmware.com, haojian.zhuang@gmail.com,
+ Nicolas Pitre <nico@fluxnic.net>, dri-devel@lists.freedesktop.org,
+ jfrederich@gmail.com, linux-renesas-soc@vger.kernel.org,
+ kieran.bingham+renesas@ideasonboard.com, daniel@zonque.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the function etnaviv_gpu_platform_probe(), when get irq failed,
-the function platform_get_irq() logs an error message, so remove
-redundant message here.
+Arnd Bergmann <arnd@arndb.de> writes:
 
-Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Hi Arnd,
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index a31eeff2b..6dbe0c45b 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1770,10 +1770,8 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 
- 	/* Get Interrupt: */
- 	gpu->irq = platform_get_irq(pdev, 0);
--	if (gpu->irq < 0) {
--		dev_err(dev, "failed to get irq: %d\n", gpu->irq);
-+	if (gpu->irq < 0)
- 		return gpu->irq;
--	}
- 
- 	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
- 			       dev_name(gpu->dev), gpu);
+> diff --git a/arch/arm/mach-pxa/Kconfig b/arch/arm/mach-pxa/Kconfig
+> index f60bc29aef68..8444d40df1b3 100644
+> --- a/arch/arm/mach-pxa/Kconfig
+> +++ b/arch/arm/mach-pxa/Kconfig
+> @@ -549,9 +549,6 @@ config MACH_ICONTROL
+>  
+>  config ARCH_PXA_ESERIES
+>  	bool "PXA based Toshiba e-series PDAs"
+> -	select FB_W100
+> -	select FB
+> -	select PXA25x
+This last line puzzles me a bit in this patch. Why removing the PXA25x select ?
+
+Cheers.
+
 -- 
-2.20.1.windows.1
-
-
-
+Robert
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
