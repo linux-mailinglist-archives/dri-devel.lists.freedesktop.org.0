@@ -2,35 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C30D1B01E4
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 08:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 139F31B01FD
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 08:55:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A90E76E1A7;
-	Mon, 20 Apr 2020 06:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14ECD6E21A;
+	Mon, 20 Apr 2020 06:55:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp07.smtpout.orange.fr
- [80.12.242.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80FA26E250
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Apr 2020 10:18:41 +0000 (UTC)
-Received: from belgarion ([86.210.245.36]) by mwinf5d13 with ME
- id UAJe220080nqnCN03AJeRj; Sat, 18 Apr 2020 12:18:39 +0200
-X-ME-Helo: belgarion
-X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
-X-ME-Date: Sat, 18 Apr 2020 12:18:39 +0200
-X-ME-IP: 86.210.245.36
-From: Robert Jarzmik <robert.jarzmik@free.fr>
-To: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 2/8] fbdev/ARM: pxa: avoid selecting CONFIG_FB
-References: <20200417155553.675905-1-arnd@arndb.de>
- <20200417155553.675905-3-arnd@arndb.de>
-X-URL: http://belgarath.falguerolles.org/
-Date: Sat, 18 Apr 2020 12:18:38 +0200
-In-Reply-To: <20200417155553.675905-3-arnd@arndb.de> (Arnd Bergmann's message
- of "Fri, 17 Apr 2020 17:55:47 +0200")
-Message-ID: <873691p05d.fsf@belgarion.home>
-User-Agent: Gnus/5.130008 (Ma Gnus v0.8) Emacs/26 (gnu/linux)
-MIME-Version: 1.0
+Received: from m176115.mail.qiye.163.com (m176115.mail.qiye.163.com
+ [59.111.176.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BC466E423
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Apr 2020 10:56:52 +0000 (UTC)
+Received: from ubuntu.localdomain (unknown [157.0.31.122])
+ by m176115.mail.qiye.163.com (Hmail) with ESMTPA id 107F8663346;
+ Sat, 18 Apr 2020 18:56:47 +0800 (CST)
+From: Bernard Zhao <bernard@vivo.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Philip Yang <Philip.Yang@amd.com>,
+ =?UTF-8?q?Nicolai=20H=C3=A4hnle?= <nicolai.haehnle@amd.com>,
+ Nirmoy Das <nirmoy.das@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] amdgpu_cs_bo_handles_chunk, remove check info NULL branch
+Date: Sat, 18 Apr 2020 03:56:35 -0700
+Message-Id: <1587207396-116489-1-git-send-email-bernard@vivo.com>
+X-Mailer: git-send-email 2.7.4
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSFVMTElCQkJMTUhPQ0NMTFlXWShZQU
+ hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Phg6EQw5Fjg9Cg0POg4iNBIZ
+ AzVPCwpVSlVKTkNMSUtMT0tMSEJLVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSUlZV1kIAVlBSUhJQjcG
+X-HM-Tid: 0a718cef06c79373kuws107f8663346
 X-Mailman-Approved-At: Mon, 20 Apr 2020 06:55:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,57 +48,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie,
- Andrzej Hajda <a.hajda@samsung.com>, Laurent.pinchart@ideasonboard.com,
- marex@denx.de, thellstrom@vmware.com, dsd@laptop.org,
- Jason Gunthorpe <jgg@ziepe.ca>, masahiroy@kernel.org,
- Saeed Mahameed <saeedm@mellanox.com>, geert@linux-m68k.org,
- linux-graphics-maintainer@vmware.com, haojian.zhuang@gmail.com,
- Nicolas Pitre <nico@fluxnic.net>, dri-devel@lists.freedesktop.org,
- jfrederich@gmail.com, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com, daniel@zonque.org
+Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Arnd Bergmann <arnd@arndb.de> writes:
+kvfree ensure that the null pointer will do nothing.
+If addr is NULL, first is_vmalloc_addr will not enter,
+and kfree function just return when addr is NULL. There
+will be no risk here.
 
-> In order to add more compile-time dependencies to CONFIG_FB, remove the
-> last few instances of selecting it from platform code.
->
-> This was originally written to allow a modular driver, but that never
-> worked because vmlinux cannot call exported functions from a loadable
-> module.
->
-> Just change the #ifdef check to what it should have been and remove
-> the 'select' statement.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Hi Arnd,
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Ok, so if you remove the select FB_PXA, I think there will be a couple of
-defconfigs which _might_ break, namely :
-	corgi_defconfig
-	h5000_defconfig
-	hx4700_good_defconfig
-	lubbock_defconfig
-	mmp2_defconfig
-	multi_v7_defconfig
-	mvebu_v7_defconfig
-	pcm027_defconfig
-	pxa168_defconfig
-	pxa910_defconfig
-	xcep_defconfig
-	zylonite_defconfig
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index af91627b..814bd5d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -98,8 +98,7 @@ static int amdgpu_cs_bo_handles_chunk(struct amdgpu_cs_parser *p,
+ 	return 0;
+ 
+ error_free:
+-	if (info)
+-		kvfree(info);
++	kvfree(info);
+ 
+ 	return r;
+ }
+-- 
+2.7.4
 
-Could you please have a look to see if they shouldn't have a CONFIG_FB_PXA=y and
-CONFIG_FB=y now with this change ?
-
-Cheers.
-
---
-Robert
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
