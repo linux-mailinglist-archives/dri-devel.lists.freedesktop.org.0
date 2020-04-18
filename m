@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551D61AEEF9
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 16:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B55E1AEEFD
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 16:42:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64AEE6ECA3;
-	Sat, 18 Apr 2020 14:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEE466ECA4;
+	Sat, 18 Apr 2020 14:42:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 495B26ECA2;
- Sat, 18 Apr 2020 14:41:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44A466EC94;
+ Sat, 18 Apr 2020 14:42:07 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3A73621D82;
- Sat, 18 Apr 2020 14:41:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3A95222244;
+ Sat, 18 Apr 2020 14:42:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587220913;
- bh=7Ui6ieL8UndMe7wdLp5Q7fxB6CMGCFtvQzYTT7O0X9s=;
+ s=default; t=1587220927;
+ bh=5rg1mbDvVPgqk2qdN1TJwA1lpQ8pvGe+EL4GcEoRhmI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J1WOEWFbSRdoY/ZY+KGPyjy0Zr/3s0pcuEnpqmtL5aNYcgqcgQshlWrMFDxn93al0
- TNwQAjkij+xV49tAB2p3UfKqPMg6bmMZj7Z6mC69AqEKjLppHsticg/v1Y4bQfo0Sw
- PThI4nsXR3X7GFS3xLBg5P9Q3DS2Ig/oWiAq1YHE=
+ b=pD5m0sazOQZ2VF9jw75mDsKVphLY9+j2GaPBmYyywrRntcPkgdqZ2XSaimgSbMlXl
+ 9mANJnGPolv7PkFM3An+iJ+QauBkpl5Rmn1Xe0V+FvyE/qbSca0PjHeQGuYT7LqbMv
+ OkYF0mbs7CJCq4vfrXumXWBbxu8h58I98Z6D9UTs=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 52/78] drm/amd/display: Calculate scaling ratios
- on every medium/full update
-Date: Sat, 18 Apr 2020 10:40:21 -0400
-Message-Id: <20200418144047.9013-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 64/78] drm/amd/display: Not doing optimize
+ bandwidth if flip pending.
+Date: Sat, 18 Apr 2020 10:40:33 -0400
+Message-Id: <20200418144047.9013-64-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200418144047.9013-1-sashal@kernel.org>
 References: <20200418144047.9013-1-sashal@kernel.org>
@@ -52,74 +52,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+ Yongqiang Sun <yongqiang.sun@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Tony Cheng <Tony.Cheng@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+From: Yongqiang Sun <yongqiang.sun@amd.com>
 
-[ Upstream commit 3bae20137cae6c03f58f96c0bc9f3d46f0bc17d4 ]
+[ Upstream commit 9941b8129030c9202aaf39114477a0e58c0d6ffc ]
 
 [Why]
-If a plane isn't being actively enabled or disabled then DC won't
-always recalculate scaling rects and ratios for the primary plane.
-
-This results in only a partial or corrupted rect being displayed on
-the screen instead of scaling to fit the screen.
+In some scenario like 1366x768 VSR enabled connected with a 4K monitor
+and playing 4K video in clone mode, underflow will be observed due to
+decrease dppclk when previouse surface scan isn't finished
 
 [How]
-Add back the logic to recalculate the scaling rects into
-dc_commit_updates_for_stream since this is the expected place to
-do it in DC.
+In this use case, surface flip is switching between 4K and 1366x768,
+1366x768 needs smaller dppclk, and when decrease the clk and previous
+surface scan is for 4K and scan isn't done, underflow will happen.  Not
+doing optimize bandwidth in case of flip pending.
 
-This was previously removed a few years ago to fix an underscan issue
-but underscan is still functional now with this change - and it should
-be, since this is only updating to the latest plane state getting passed
-in.
-
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Reviewed-by: Aric Cyr <Aric.Cyr@amd.com>
+Signed-off-by: Yongqiang Sun <yongqiang.sun@amd.com>
+Reviewed-by: Tony Cheng <Tony.Cheng@amd.com>
 Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 89bd0ba3db1df..71c574d1e8be2 100644
+index 71c574d1e8be2..2028dc017f7a0 100644
 --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
 +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -2154,7 +2154,7 @@ void dc_commit_updates_for_stream(struct dc *dc,
- 	enum surface_update_type update_type;
- 	struct dc_state *context;
- 	struct dc_context *dc_ctx = dc->ctx;
--	int i;
-+	int i, j;
+@@ -1182,6 +1182,26 @@ bool dc_commit_state(struct dc *dc, struct dc_state *context)
+ 	return (result == DC_OK);
+ }
  
- 	stream_status = dc_stream_get_status(stream);
- 	context = dc->current_state;
-@@ -2192,6 +2192,17 @@ void dc_commit_updates_for_stream(struct dc *dc,
- 
- 		copy_surface_update_to_plane(surface, &srf_updates[i]);
- 
-+		if (update_type >= UPDATE_TYPE_MED) {
-+			for (j = 0; j < dc->res_pool->pipe_count; j++) {
-+				struct pipe_ctx *pipe_ctx =
-+					&context->res_ctx.pipe_ctx[j];
++static bool is_flip_pending_in_pipes(struct dc *dc, struct dc_state *context)
++{
++	int i;
++	struct pipe_ctx *pipe;
 +
-+				if (pipe_ctx->plane_state != surface)
-+					continue;
++	for (i = 0; i < MAX_PIPES; i++) {
++		pipe = &context->res_ctx.pipe_ctx[i];
 +
-+				resource_build_scaling_params(pipe_ctx);
-+			}
-+		}
- 	}
++		if (!pipe->plane_state)
++			continue;
++
++		/* Must set to false to start with, due to OR in update function */
++		pipe->plane_state->status.is_flip_pending = false;
++		dc->hwss.update_pending_status(pipe);
++		if (pipe->plane_state->status.is_flip_pending)
++			return true;
++	}
++	return false;
++}
++
+ bool dc_post_update_surfaces_to_stream(struct dc *dc)
+ {
+ 	int i;
+@@ -1192,6 +1212,9 @@ bool dc_post_update_surfaces_to_stream(struct dc *dc)
  
- 	copy_stream_update_to_stream(dc, context, stream, stream_update);
+ 	post_surface_trace(dc);
+ 
++	if (is_flip_pending_in_pipes(dc, context))
++		return true;
++
+ 	for (i = 0; i < dc->res_pool->pipe_count; i++)
+ 		if (context->res_ctx.pipe_ctx[i].stream == NULL ||
+ 		    context->res_ctx.pipe_ctx[i].plane_state == NULL) {
 -- 
 2.20.1
 
