@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A191AEEF3
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 16:41:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 551D61AEEF9
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 16:41:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB706ECA0;
-	Sat, 18 Apr 2020 14:41:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64AEE6ECA3;
+	Sat, 18 Apr 2020 14:41:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55B296ECA0
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Apr 2020 14:41:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 495B26ECA2;
+ Sat, 18 Apr 2020 14:41:53 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5A47A22244;
- Sat, 18 Apr 2020 14:41:39 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3A73621D82;
+ Sat, 18 Apr 2020 14:41:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587220900;
- bh=FIPNM7KHXezPRFmRpolI3sdXFbEDJs3ESlzqr8tNr1o=;
+ s=default; t=1587220913;
+ bh=7Ui6ieL8UndMe7wdLp5Q7fxB6CMGCFtvQzYTT7O0X9s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SWi9xrL0U9FYuEdoqKn1y3o7aPWWuGA+5Pt0ENe+PQO8e/78yrAevKxFETdERUbWZ
- BuoqW1z4TnyYECJmgEvup7DTVsFUYHzWgGz8ioolIfapDAvIMDQZ8RumxP6HXalzKD
- +t7cysn2jVSII1JDbvMGAyE9rYuXSA6YwELtd1+g=
+ b=J1WOEWFbSRdoY/ZY+KGPyjy0Zr/3s0pcuEnpqmtL5aNYcgqcgQshlWrMFDxn93al0
+ TNwQAjkij+xV49tAB2p3UfKqPMg6bmMZj7Z6mC69AqEKjLppHsticg/v1Y4bQfo0Sw
+ PThI4nsXR3X7GFS3xLBg5P9Q3DS2Ig/oWiAq1YHE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 41/78] drm/vc4: Fix HDMI mode validation
-Date: Sat, 18 Apr 2020 10:40:10 -0400
-Message-Id: <20200418144047.9013-41-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 52/78] drm/amd/display: Calculate scaling ratios
+ on every medium/full update
+Date: Sat, 18 Apr 2020 10:40:21 -0400
+Message-Id: <20200418144047.9013-52-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200418144047.9013-1-sashal@kernel.org>
 References: <20200418144047.9013-1-sashal@kernel.org>
@@ -49,68 +50,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>, Sasha Levin <sashal@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 
-[ Upstream commit b1e7396a1d0e6af6806337fdaaa44098d6b3343c ]
+[ Upstream commit 3bae20137cae6c03f58f96c0bc9f3d46f0bc17d4 ]
 
-Current mode validation impedes setting up some video modes which should
-be supported otherwise. Namely 1920x1200@60Hz.
+[Why]
+If a plane isn't being actively enabled or disabled then DC won't
+always recalculate scaling rects and ratios for the primary plane.
 
-Fix this by lowering the minimum HDMI state machine clock to pixel clock
-ratio allowed.
+This results in only a partial or corrupted rect being displayed on
+the screen instead of scaling to fit the screen.
 
-Fixes: 32e823c63e90 ("drm/vc4: Reject HDMI modes with too high of clocks.")
-Reported-by: Stefan Wahren <stefan.wahren@i2se.com>
-Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200326122001.22215-1-nsaenzjulienne@suse.de
+[How]
+Add back the logic to recalculate the scaling rects into
+dc_commit_updates_for_stream since this is the expected place to
+do it in DC.
+
+This was previously removed a few years ago to fix an underscan issue
+but underscan is still functional now with this change - and it should
+be, since this is only updating to the latest plane state getting passed
+in.
+
+Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Reviewed-by: Aric Cyr <Aric.Cyr@amd.com>
+Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 0853b980bcb31..d5f5ba4105241 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -681,11 +681,23 @@ static enum drm_mode_status
- vc4_hdmi_encoder_mode_valid(struct drm_encoder *crtc,
- 			    const struct drm_display_mode *mode)
- {
--	/* HSM clock must be 108% of the pixel clock.  Additionally,
--	 * the AXI clock needs to be at least 25% of pixel clock, but
--	 * HSM ends up being the limiting factor.
-+	/*
-+	 * As stated in RPi's vc4 firmware "HDMI state machine (HSM) clock must
-+	 * be faster than pixel clock, infinitesimally faster, tested in
-+	 * simulation. Otherwise, exact value is unimportant for HDMI
-+	 * operation." This conflicts with bcm2835's vc4 documentation, which
-+	 * states HSM's clock has to be at least 108% of the pixel clock.
-+	 *
-+	 * Real life tests reveal that vc4's firmware statement holds up, and
-+	 * users are able to use pixel clocks closer to HSM's, namely for
-+	 * 1920x1200@60Hz. So it was decided to have leave a 1% margin between
-+	 * both clocks. Which, for RPi0-3 implies a maximum pixel clock of
-+	 * 162MHz.
-+	 *
-+	 * Additionally, the AXI clock needs to be at least 25% of
-+	 * pixel clock, but HSM ends up being the limiting factor.
- 	 */
--	if (mode->clock > HSM_CLOCK_FREQ / (1000 * 108 / 100))
-+	if (mode->clock > HSM_CLOCK_FREQ / (1000 * 101 / 100))
- 		return MODE_CLOCK_HIGH;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 89bd0ba3db1df..71c574d1e8be2 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -2154,7 +2154,7 @@ void dc_commit_updates_for_stream(struct dc *dc,
+ 	enum surface_update_type update_type;
+ 	struct dc_state *context;
+ 	struct dc_context *dc_ctx = dc->ctx;
+-	int i;
++	int i, j;
  
- 	return MODE_OK;
+ 	stream_status = dc_stream_get_status(stream);
+ 	context = dc->current_state;
+@@ -2192,6 +2192,17 @@ void dc_commit_updates_for_stream(struct dc *dc,
+ 
+ 		copy_surface_update_to_plane(surface, &srf_updates[i]);
+ 
++		if (update_type >= UPDATE_TYPE_MED) {
++			for (j = 0; j < dc->res_pool->pipe_count; j++) {
++				struct pipe_ctx *pipe_ctx =
++					&context->res_ctx.pipe_ctx[j];
++
++				if (pipe_ctx->plane_state != surface)
++					continue;
++
++				resource_build_scaling_params(pipe_ctx);
++			}
++		}
+ 	}
+ 
+ 	copy_stream_update_to_stream(dc, context, stream, stream_update);
 -- 
 2.20.1
 
