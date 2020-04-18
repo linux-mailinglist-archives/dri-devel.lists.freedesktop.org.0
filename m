@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A6B1B01F6
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 08:55:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1705E1B01FA
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 08:55:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A8DD6E20D;
-	Mon, 20 Apr 2020 06:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 656486E21B;
+	Mon, 20 Apr 2020 06:55:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E1EB6ECB6
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Apr 2020 17:07:19 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id n6so1965291ljg.12
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Apr 2020 10:07:18 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD186ECB6
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Apr 2020 17:07:20 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id e25so5341325ljg.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Apr 2020 10:07:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UjhBLAJmzhN057qQPLR85nlezCd0Cbg3wKL62JA+F0Y=;
- b=h6kMX8/a/MD+21migy24dxFEqMf8aW6xXDbzepMropt4ZX8BHN3GOTPCB9P4/mWpfC
- +zorigm2j4U6S9MKaU5zWQzA9Oek7rSlqwU7x5LeHtxj3w1+7hIoKiK0nI+eKB9bhRxp
- BMTGfoe93olsIYCuJ6TWCK2m+09QR/m0F61d0ue8dFpZE7wPF3moZSILOtqf0BEhrgJD
- sjcsOAd+kpRcbGfBeXpkdJSCmhN7KmwXcgj5dsqlkQaZSuqFAG8hlJaIUtDAAmYF0LGa
- QglQCB/UuKgn86AN+Q712QZ2/xoXbQgDHpQPG8yMGSin3tZhOFN0K2lM/ABXT4mESoKq
- Aw/A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=LF9qYPsgEt1mOQlLDUJnZ056rYW87d7CQEg+TJz1Umo=;
+ b=k8+tA4LgVm/G4HwuE5XkDVDgVP2w8rgA8cOUO3qaGJLBV/QXBgCtT8+izVcKJ9SH9i
+ dWi5cPGfPBEnUGD0+b8pcaw3xxATY/NlnPqvP1i5I4N1CaM6L9Afkbu38qDJAW6vakzO
+ UnEx4O2FNYFQ0RAo8p316b8SlGuYtPKe0V9Z0cwGQ304j80ERHW1vcnNsAOfAakWJzUt
+ iCz57nV9Xj0rJ+kg9evHgr2LN1pfLSXk7KpFmDDuUS2h19N84cD63v9860QXjnrBMS36
+ O0lHx8LkKbWZSa2ayFBTA7QJdRq1JzKZ5AiNLZFJ+qpFSSHT/4HzSJyQrASe9QFovvrB
+ khpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UjhBLAJmzhN057qQPLR85nlezCd0Cbg3wKL62JA+F0Y=;
- b=bbNbE2yl+ee2uzrOMc2SuTqhGWvIkBR1NMf2MDQC6ji7X5mfPKVTXfaAfICGnbcSr7
- 1+7CmbVs6dDCUlXhAyZOJqjFhNtiTqT7pLSkB3pHRXese0KM1ATxVToxAGnkr+ux3DKO
- cDP/1zpYNqIj9YQT1QDc8+zy1ljdOH8asy18K6YO+bFUSWosnf1SxN4duzFHwa0k9w3c
- znGgaoCClpdQSif3jyVQrF5wg8Z5fgG9plS9bAhW/n/CkNUVU49/RE7I9p5BoDR//7Cw
- pdm6to9v/sjGNkZrfTSAJqqZO2FVpa/UdTs9uY/QP+6HV8BrpM49IyjeYC4/NxFK/DeI
- rjDw==
-X-Gm-Message-State: AGi0PubSPwLQKGpFvRJgieZ8aZEz77zILicSy1eQ4XbrtKx29RJUR2Qs
- XYveduEMcDFn8vj/2eQtd/Q=
-X-Google-Smtp-Source: APiQypJO9Q9iUvGnqWW4hjfAjTVkvpc+Xh9pA8t+jnQA9ei8M3XpSh8CGKey1LqD9LuS39c/Z617jg==
-X-Received: by 2002:a2e:7006:: with SMTP id l6mr5124806ljc.269.1587229637344; 
- Sat, 18 Apr 2020 10:07:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=LF9qYPsgEt1mOQlLDUJnZ056rYW87d7CQEg+TJz1Umo=;
+ b=Rj5AE0tXbcP7c3HDoGXuF4o9Hk5/kmcEeJwEXoAYHpMOUrGo9x3dJxLXBeMF4CnkLy
+ JYAsbtD+XfI29We9igIPAJdxjqJ3jCRpnyQnWl6RVFTlJ+BT9L6QPffk1yg4wGR8+H3a
+ 8kyzvMdm55mZxzsvSPtwvXPOPuJa7DY5jHAffXZrFWNXaiK+Pl/USNx8izBX3cPl6Hub
+ Q+OpAia+/Bp8plBsOEMTWu7ZH8BNKIIrwXfqaoUPbcK3kek8hDEzv7mHel/pAfK//Q57
+ y1wKCnesI7ZQ3DgZyXUYrrE3TMg+Y3mbwDqfYyqIg2tryxHTAXwPu21lGfdUkUYuk7vd
+ S7yQ==
+X-Gm-Message-State: AGi0PuYspKJMaOh1u9QllXq/FqoHs+NFWpdZNrT3Fxwy4vAgM7ZfqI5A
+ EUSOXLeE7N1izfUTOyX2U1U=
+X-Google-Smtp-Source: APiQypLOLWFYy5XnCNRUduSZevMMwv/vy951mpF50dk/aGrJ00HsLstuqzx1B3gNuIYB77wn1VAJBQ==
+X-Received: by 2002:a2e:164e:: with SMTP id 14mr4869678ljw.253.1587229638510; 
+ Sat, 18 Apr 2020 10:07:18 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-78-208-152.pppoe.mtu-net.ru.
  [91.78.208.152])
- by smtp.gmail.com with ESMTPSA id e15sm8768909ljb.25.2020.04.18.10.07.16
+ by smtp.gmail.com with ESMTPSA id e15sm8768909ljb.25.2020.04.18.10.07.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Apr 2020 10:07:16 -0700 (PDT)
+ Sat, 18 Apr 2020 10:07:17 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH v5 0/6] Support DRM bridges on NVIDIA Tegra
-Date: Sat, 18 Apr 2020 20:06:57 +0300
-Message-Id: <20200418170703.1583-1-digetx@gmail.com>
+Subject: [PATCH v5 1/6] of_graph: add of_graph_get_local_port()
+Date: Sat, 18 Apr 2020 20:06:58 +0300
+Message-Id: <20200418170703.1583-2-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200418170703.1583-1-digetx@gmail.com>
+References: <20200418170703.1583-1-digetx@gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 20 Apr 2020 06:55:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,63 +77,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+In some case, like a DRM display code for example, it's useful to silently
+check whether port node exists at all in a device-tree before proceeding
+with parsing the graph.
 
-This series adds initial support for the DRM bridges to NVIDIA Tegra DRM
-driver. This is required by newer device-trees where we model the LVDS
-encoder bridge properly.
+This patch adds of_graph_get_local_port() which returns pointer to a local
+port node, or NULL if graph isn't specified in a device-tree for a given
+device node.
 
-Changelog:
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/of/property.c    | 32 +++++++++++++++++++++++---------
+ include/linux/of_graph.h |  7 +++++++
+ 2 files changed, 30 insertions(+), 9 deletions(-)
 
-v5: - Added new patches that make drm_of_find_panel_or_bridge() more usable
-      if graph isn't defined in a device-tree:
-
-        of_graph: add of_graph_get_local_port()
-        drm/of: Make drm_of_find_panel_or_bridge() to check graph's presence
-
-    - Updated "Support DRM bridges" patch to use drm_of_find_panel_or_bridge()
-      directly and added WARN_ON(output->panel || output->bridge) sanity-check.
-
-    - Added new "Wrap directly-connected panel into DRM bridge" patch, as
-      was suggested by Laurent Pinchart.
-
-v4: - Following review comments that were made by Laurent Pinchart to the v3,
-      we now create and use the "bridge connector".
-
-v3: - Following recommendation from Sam Ravnborg, the new bridge attachment
-      model is now being used, i.e. we ask bridge to *not* create a connector
-      using the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
-
-    - The bridge is now created only for the RGB (LVDS) output, and only
-      when necessary. For now we don't need bridges for HDMI or DSI outputs.
-
-    - I noticed that we're leaking OF node in the panel's error code path,
-      this is fixed now by the new patch "Don't leak OF node on error".
-
-v2: - Added the new "rgb: Don't register connector if bridge is used"
-      patch, which hides the unused connector provided by the Tegra DRM
-      driver when bridge is used, since bridge provides its own connector
-      to us.
-
-    - Please notice that the first "Support DRM bridges" patch was previously
-      sent out as a standalone v1 change.
-
-Dmitry Osipenko (6):
-  of_graph: add of_graph_get_local_port()
-  drm/of: Make drm_of_find_panel_or_bridge() to check graph's presence
-  drm/tegra: output: Don't leak OF node on error
-  drm/tegra: output: Support DRM bridges
-  drm/tegra: output: rgb: Support LVDS encoder bridge
-  drm/tegra: output: rgb: Wrap directly-connected panel into DRM bridge
-
- drivers/gpu/drm/drm_of.c       | 13 +++++-
- drivers/gpu/drm/tegra/drm.h    |  2 +
- drivers/gpu/drm/tegra/output.c | 21 +++++++--
- drivers/gpu/drm/tegra/rgb.c    | 85 +++++++++++++++++++++-------------
- drivers/of/property.c          | 32 +++++++++----
- include/linux/of_graph.h       |  7 +++
- 6 files changed, 114 insertions(+), 46 deletions(-)
-
+diff --git a/drivers/of/property.c b/drivers/of/property.c
+index 252e4f600155..5dbeccaabb86 100644
+--- a/drivers/of/property.c
++++ b/drivers/of/property.c
+@@ -608,15 +608,7 @@ struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
+ 	 * parent port node.
+ 	 */
+ 	if (!prev) {
+-		struct device_node *node;
+-
+-		node = of_get_child_by_name(parent, "ports");
+-		if (node)
+-			parent = node;
+-
+-		port = of_get_child_by_name(parent, "port");
+-		of_node_put(node);
+-
++		port = of_graph_get_local_port(parent);
+ 		if (!port) {
+ 			pr_err("graph: no port node found in %pOF\n", parent);
+ 			return NULL;
+@@ -765,6 +757,28 @@ struct device_node *of_graph_get_remote_port(const struct device_node *node)
+ }
+ EXPORT_SYMBOL(of_graph_get_remote_port);
+ 
++/**
++ * of_graph_get_local_port() - get local port node
++ * @node: pointer to a local endpoint device_node
++ *
++ * Return: First local port node associated with local endpoint node linked
++ *	   to @node. Use of_node_put() on it when done.
++ */
++struct device_node *of_graph_get_local_port(const struct device_node *node)
++{
++	struct device_node *ports, *port;
++
++	ports = of_get_child_by_name(node, "ports");
++	if (ports)
++		node = ports;
++
++	port = of_get_child_by_name(node, "port");
++	of_node_put(ports);
++
++	return port;
++}
++EXPORT_SYMBOL(of_graph_get_local_port);
++
+ int of_graph_get_endpoint_count(const struct device_node *np)
+ {
+ 	struct device_node *endpoint;
+diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
+index 01038a6aade0..1fdeb72c7765 100644
+--- a/include/linux/of_graph.h
++++ b/include/linux/of_graph.h
+@@ -54,6 +54,7 @@ struct device_node *of_graph_get_remote_port_parent(
+ struct device_node *of_graph_get_remote_port(const struct device_node *node);
+ struct device_node *of_graph_get_remote_node(const struct device_node *node,
+ 					     u32 port, u32 endpoint);
++struct device_node *of_graph_get_local_port(const struct device_node *node);
+ #else
+ 
+ static inline int of_graph_parse_endpoint(const struct device_node *node,
+@@ -116,6 +117,12 @@ static inline struct device_node *of_graph_get_remote_node(
+ 	return NULL;
+ }
+ 
++static inline struct device_node *of_graph_get_local_port(
++					const struct device_node *node)
++{
++	return NULL;
++}
++
+ #endif /* CONFIG_OF */
+ 
+ #endif /* __LINUX_OF_GRAPH_H */
 -- 
 2.26.0
 
