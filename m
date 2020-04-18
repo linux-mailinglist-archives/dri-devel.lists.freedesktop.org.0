@@ -2,36 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9EAA1AF1DC
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 17:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86F3E1AF20C
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 18:03:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 276236ECAB;
-	Sat, 18 Apr 2020 15:58:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E0DF6ECAC;
+	Sat, 18 Apr 2020 16:03:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8EE6ECAB
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Apr 2020 15:58:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17E166ECAC
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Apr 2020 16:03:41 +0000 (UTC)
 Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net
  [82.4.196.95])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 33DCF21D93;
- Sat, 18 Apr 2020 15:57:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 265E021D93;
+ Sat, 18 Apr 2020 16:03:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587225480;
- bh=zbhbQatjM2eXOrG9APic8H959Cd10uUV6Py1hhBStlI=;
+ s=default; t=1587225820;
+ bh=1De5fPfA8NlpQyTocewa07h9s/10o7DRNH2qDVFvqA8=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=k1Zh84QkrudlTAv9m6AMjBM6utliyD6gp79KPw2dt/sxRSgzeVRb8Z+NLrvV0Zncj
- ElWlTRj+nY5sKjM6FrsJFayyXCZ9wr/Tz/2dUJ0dh7zNdqEvHrpTlT89KnDt94jk+v
- 0Otbr8fxPgTwSNbah07g7nLl3XZKzc7gVcnNHvME=
-Date: Sat, 18 Apr 2020 16:57:48 +0100
+ b=hCjq0MAZUj3JKbCWIjnXWIz9oU3vpGOMvk/gvn814KBjM6utN9lAFJL+B2m6MmgOb
+ k0FKGfq6P773PBXkOofNwvIhcReneAEe9NcOSIdyxXFv35zQTjjLRM7pO4ATd9ITv9
+ kAdnoppSvnbrv7agegq0zfHzkamIw7ZjHlwMbaT8=
+Date: Sat, 18 Apr 2020 17:03:30 +0100
 From: Jonathan Cameron <jic23@kernel.org>
 To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: Clean-up schema indentation formatting
-Message-ID: <20200418165748.5cd5e979@archlinux>
-In-Reply-To: <20200416005549.9683-1-robh@kernel.org>
+Subject: Re: [PATCH 2/2] dt-bindings: Remove cases of 'allOf' containing a
+ '$ref'
+Message-ID: <20200418170330.65bff80c@archlinux>
+In-Reply-To: <20200416005549.9683-2-robh@kernel.org>
 References: <20200416005549.9683-1-robh@kernel.org>
+ <20200416005549.9683-2-robh@kernel.org>
 X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,2078 +75,289 @@ Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
  linux-kernel@vger.kernel.org, Amit Kucheria <amit.kucheria@linaro.org>,
  linux-spi@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
  netdev@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Apr 2020 19:55:48 -0500
-Rob Herring <robh@kernel.org> wrote:
-
-> Fix various inconsistencies in schema indentation. Most of these are
-> list indentation which should be 2 spaces more than the start of the
-> enclosing keyword. This doesn't matter functionally, but affects running
-> scripts which do transforms on the schema files.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-
-...
-
->  .../bindings/iio/adc/adi,ad7124.yaml          |  4 +-
->  .../bindings/iio/adc/lltc,ltc2496.yaml        |  6 +-
-
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
-
->  .../input/allwinner,sun4i-a10-lradc-keys.yaml |  4 +-
->  .../bindings/input/touchscreen/goodix.yaml    |  2 +-
->  .../bindings/interconnect/qcom,msm8916.yaml   |  4 +-
->  .../bindings/interconnect/qcom,msm8974.yaml   |  4 +-
->  .../bindings/interconnect/qcom,qcs404.yaml    |  4 +-
->  .../allwinner,sun7i-a20-sc-nmi.yaml           | 12 ++--
->  .../intel,ixp4xx-interrupt.yaml               |  8 +--
->  .../interrupt-controller/st,stm32-exti.yaml   | 12 ++--
->  .../bindings/iommu/samsung,sysmmu.yaml        | 10 +--
->  .../bindings/mailbox/st,stm32-ipcc.yaml       |  2 +-
->  .../media/allwinner,sun4i-a10-csi.yaml        | 28 ++++----
->  .../bindings/media/amlogic,gx-vdec.yaml       | 14 ++--
->  .../bindings/media/renesas,ceu.yaml           | 28 ++++----
->  .../bindings/media/renesas,vin.yaml           |  8 +--
->  .../devicetree/bindings/media/ti,vpe.yaml     |  2 +-
->  .../memory-controllers/fsl/imx8m-ddrc.yaml    |  6 +-
->  .../bindings/mfd/st,stm32-lptimer.yaml        |  4 +-
->  .../bindings/mfd/st,stm32-timers.yaml         |  4 +-
->  .../devicetree/bindings/mfd/syscon.yaml       | 12 ++--
->  .../devicetree/bindings/mmc/cdns,sdhci.yaml   |  2 +-
->  .../bindings/mmc/rockchip-dw-mshc.yaml        | 16 ++---
->  .../bindings/mmc/socionext,uniphier-sd.yaml   | 14 ++--
->  .../devicetree/bindings/mtd/denali,nand.yaml  |  4 +-
->  .../net/allwinner,sun8i-a83t-emac.yaml        |  4 +-
->  .../bindings/net/can/bosch,m_can.yaml         | 52 +++++++--------
->  .../bindings/net/renesas,ether.yaml           |  4 +-
->  .../bindings/net/ti,cpsw-switch.yaml          | 12 ++--
->  .../bindings/net/ti,davinci-mdio.yaml         | 27 ++++----
->  .../bindings/phy/intel,lgm-emmc-phy.yaml      |  2 +-
->  .../devicetree/bindings/pwm/pwm-samsung.yaml  | 16 ++---
->  .../bindings/remoteproc/st,stm32-rproc.yaml   |  2 +-
->  .../reset/brcm,bcm7216-pcie-sata-rescal.yaml  |  4 +-
->  .../devicetree/bindings/rtc/st,stm32-rtc.yaml | 38 +++++------
->  .../bindings/serial/amlogic,meson-uart.yaml   | 16 ++---
->  .../devicetree/bindings/serial/rs485.yaml     | 17 ++---
->  .../bindings/soc/amlogic/amlogic,canvas.yaml  | 10 +--
->  .../bindings/sound/renesas,fsi.yaml           | 16 ++---
->  .../bindings/spi/qcom,spi-qcom-qspi.yaml      | 10 +--
->  .../devicetree/bindings/spi/renesas,hspi.yaml |  4 +-
->  .../devicetree/bindings/spi/spi-pl022.yaml    |  2 +-
->  .../bindings/spi/st,stm32-qspi.yaml           |  4 +-
->  .../allwinner,sun4i-a10-system-control.yaml   | 64 +++++++++----------
->  .../bindings/thermal/amlogic,thermal.yaml     | 10 +--
->  .../bindings/timer/arm,arch_timer.yaml        |  4 +-
->  .../bindings/timer/arm,arch_timer_mmio.yaml   |  4 +-
->  .../devicetree/bindings/usb/dwc2.yaml         |  8 +--
->  77 files changed, 450 insertions(+), 450 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/altera.yaml b/Documentation/devicetree/bindings/arm/altera.yaml
-> index 49e0362ddc11..b388c5aa7984 100644
-> --- a/Documentation/devicetree/bindings/arm/altera.yaml
-> +++ b/Documentation/devicetree/bindings/arm/altera.yaml
-> @@ -13,8 +13,8 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -        - altr,socfpga-cyclone5
-> -        - altr,socfpga-arria5
-> -        - altr,socfpga-arria10
-> +          - altr,socfpga-cyclone5
-> +          - altr,socfpga-arria5
-> +          - altr,socfpga-arria10
->        - const: altr,socfpga
->  ...
-> diff --git a/Documentation/devicetree/bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml b/Documentation/devicetree/bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml
-> index 66213bd95e6e..6cc74523ebfd 100644
-> --- a/Documentation/devicetree/bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml
-> +++ b/Documentation/devicetree/bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml
-> @@ -25,7 +25,7 @@ select:
-> 
->  properties:
->    compatible:
-> -   items:
-> +    items:
->        - const: amlogic,meson-gx-ao-secure
->        - const: syscon
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/bitmain.yaml b/Documentation/devicetree/bindings/arm/bitmain.yaml
-> index 0efdb4ac028e..5cd5b36cff2d 100644
-> --- a/Documentation/devicetree/bindings/arm/bitmain.yaml
-> +++ b/Documentation/devicetree/bindings/arm/bitmain.yaml
-> @@ -13,6 +13,6 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -        - bitmain,sophon-edge
-> +          - bitmain,sophon-edge
->        - const: bitmain,bm1880
->  ...
-> diff --git a/Documentation/devicetree/bindings/arm/nxp/lpc32xx.yaml b/Documentation/devicetree/bindings/arm/nxp/lpc32xx.yaml
-> index 07f39d3eee7e..f7f024910e71 100644
-> --- a/Documentation/devicetree/bindings/arm/nxp/lpc32xx.yaml
-> +++ b/Documentation/devicetree/bindings/arm/nxp/lpc32xx.yaml
-> @@ -17,9 +17,8 @@ properties:
->            - nxp,lpc3230
->            - nxp,lpc3240
->        - items:
-> -        - enum:
-> -            - ea,ea3250
-> -            - phytec,phy3250
-> -        - const: nxp,lpc3250
-> -
-> +          - enum:
-> +              - ea,ea3250
-> +              - phytec,phy3250
-> +          - const: nxp,lpc3250
->  ...
-> diff --git a/Documentation/devicetree/bindings/arm/socionext/uniphier.yaml b/Documentation/devicetree/bindings/arm/socionext/uniphier.yaml
-> index 65ad6d8a3c99..113f93b9ae55 100644
-> --- a/Documentation/devicetree/bindings/arm/socionext/uniphier.yaml
-> +++ b/Documentation/devicetree/bindings/arm/socionext/uniphier.yaml
-> @@ -17,45 +17,45 @@ properties:
->        - description: LD4 SoC boards
->          items:
->            - enum:
-> -            - socionext,uniphier-ld4-ref
-> +              - socionext,uniphier-ld4-ref
->            - const: socionext,uniphier-ld4
->        - description: Pro4 SoC boards
->          items:
->            - enum:
-> -            - socionext,uniphier-pro4-ace
-> -            - socionext,uniphier-pro4-ref
-> -            - socionext,uniphier-pro4-sanji
-> +              - socionext,uniphier-pro4-ace
-> +              - socionext,uniphier-pro4-ref
-> +              - socionext,uniphier-pro4-sanji
->            - const: socionext,uniphier-pro4
->        - description: sLD8 SoC boards
->          items:
->            - enum:
-> -            - socionext,uniphier-sld8-ref
-> +              - socionext,uniphier-sld8-ref
->            - const: socionext,uniphier-sld8
->        - description: PXs2 SoC boards
->          items:
->            - enum:
-> -            - socionext,uniphier-pxs2-gentil
-> -            - socionext,uniphier-pxs2-vodka
-> +              - socionext,uniphier-pxs2-gentil
-> +              - socionext,uniphier-pxs2-vodka
->            - const: socionext,uniphier-pxs2
->        - description: LD6b SoC boards
->          items:
->            - enum:
-> -            - socionext,uniphier-ld6b-ref
-> +              - socionext,uniphier-ld6b-ref
->            - const: socionext,uniphier-ld6b
->        - description: LD11 SoC boards
->          items:
->            - enum:
-> -            - socionext,uniphier-ld11-global
-> -            - socionext,uniphier-ld11-ref
-> +              - socionext,uniphier-ld11-global
-> +              - socionext,uniphier-ld11-ref
->            - const: socionext,uniphier-ld11
->        - description: LD20 SoC boards
->          items:
->            - enum:
-> -            - socionext,uniphier-ld20-global
-> -            - socionext,uniphier-ld20-ref
-> +              - socionext,uniphier-ld20-global
-> +              - socionext,uniphier-ld20-ref
->            - const: socionext,uniphier-ld20
->        - description: PXs3 SoC boards
->          items:
->            - enum:
-> -            - socionext,uniphier-pxs3-ref
-> +              - socionext,uniphier-pxs3-ref
->            - const: socionext,uniphier-pxs3
-> diff --git a/Documentation/devicetree/bindings/arm/stm32/st,mlahb.yaml b/Documentation/devicetree/bindings/arm/stm32/st,mlahb.yaml
-> index 55f7938c4826..9f276bc9efa0 100644
-> --- a/Documentation/devicetree/bindings/arm/stm32/st,mlahb.yaml
-> +++ b/Documentation/devicetree/bindings/arm/stm32/st,mlahb.yaml
-> @@ -20,7 +20,7 @@ description: |
->    [2]: https://wiki.st.com/stm32mpu/wiki/STM32MP15_RAM_mapping
-> 
->  allOf:
-> - - $ref: /schemas/simple-bus.yaml#
-> +  - $ref: /schemas/simple-bus.yaml#
-> 
->  properties:
->    compatible:
-> diff --git a/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml b/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml
-> index baff80197d5a..cf5db5e273f3 100644
-> --- a/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml
-> +++ b/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml
-> @@ -14,9 +14,9 @@ properties:
->    compatible:
->      oneOf:
->        - items:
-> -        - enum:
-> -          - st,stm32mp157-syscfg
-> -        - const: syscon
-> +          - enum:
-> +              - st,stm32mp157-syscfg
-> +          - const: syscon
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/ata/faraday,ftide010.yaml b/Documentation/devicetree/bindings/ata/faraday,ftide010.yaml
-> index bfc6357476fd..6451928dd2ce 100644
-> --- a/Documentation/devicetree/bindings/ata/faraday,ftide010.yaml
-> +++ b/Documentation/devicetree/bindings/ata/faraday,ftide010.yaml
-> @@ -26,8 +26,8 @@ properties:
->      oneOf:
->        - const: faraday,ftide010
->        - items:
-> -        - const: cortina,gemini-pata
-> -        - const: faraday,ftide010
-> +          - const: cortina,gemini-pata
-> +          - const: faraday,ftide010
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml b/Documentation/devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml
-> index 80973619342d..32d33b983d66 100644
-> --- a/Documentation/devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml
-> +++ b/Documentation/devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml
-> @@ -21,8 +21,8 @@ properties:
->      oneOf:
->        - const: allwinner,sun8i-a23-rsb
->        - items:
-> -        - const: allwinner,sun8i-a83t-rsb
-> -        - const: allwinner,sun8i-a23-rsb
-> +          - const: allwinner,sun8i-a83t-rsb
-> +          - const: allwinner,sun8i-a23-rsb
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-gates-clk.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-gates-clk.yaml
-> index ed1b2126a81b..9a37a357cb4e 100644
-> --- a/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-gates-clk.yaml
-> +++ b/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-gates-clk.yaml
-> @@ -52,12 +52,12 @@ properties:
->        - const: allwinner,sun4i-a10-dram-gates-clk
-> 
->        - items:
-> -        - const: allwinner,sun5i-a13-dram-gates-clk
-> -        - const: allwinner,sun4i-a10-gates-clk
-> +          - const: allwinner,sun5i-a13-dram-gates-clk
-> +          - const: allwinner,sun4i-a10-gates-clk
-> 
->        - items:
-> -        - const: allwinner,sun8i-h3-apb0-gates-clk
-> -        - const: allwinner,sun4i-a10-gates-clk
-> +          - const: allwinner,sun8i-h3-apb0-gates-clk
-> +          - const: allwinner,sun4i-a10-gates-clk
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/clock/fsl,plldig.yaml b/Documentation/devicetree/bindings/clock/fsl,plldig.yaml
-> index a203d5d498db..8141f22410dd 100644
-> --- a/Documentation/devicetree/bindings/clock/fsl,plldig.yaml
-> +++ b/Documentation/devicetree/bindings/clock/fsl,plldig.yaml
-> @@ -28,15 +28,14 @@ properties:
->      const: 0
-> 
->    fsl,vco-hz:
-> -     description: Optional for VCO frequency of the PLL in Hertz.
-> -        The VCO frequency of this PLL cannot be changed during runtime
-> -        only at startup. Therefore, the output frequencies are very
-> -        limited and might not even closely match the requested frequency.
-> -        To work around this restriction the user may specify its own
-> -        desired VCO frequency for the PLL.
-> -     minimum: 650000000
-> -     maximum: 1300000000
-> -     default: 1188000000
-> +    description: Optional for VCO frequency of the PLL in Hertz. The VCO frequency
-> +      of this PLL cannot be changed during runtime only at startup. Therefore,
-> +      the output frequencies are very limited and might not even closely match
-> +      the requested frequency. To work around this restriction the user may specify
-> +      its own desired VCO frequency for the PLL.
-> +    minimum: 650000000
-> +    maximum: 1300000000
-> +    default: 1188000000
-> 
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/clock/qcom,mmcc.yaml b/Documentation/devicetree/bindings/clock/qcom,mmcc.yaml
-> index f684fe67db84..acc31b3991bd 100644
-> --- a/Documentation/devicetree/bindings/clock/qcom,mmcc.yaml
-> +++ b/Documentation/devicetree/bindings/clock/qcom,mmcc.yaml
-> @@ -15,15 +15,15 @@ description: |
->    power domains.
-> 
->  properties:
-> -  compatible :
-> +  compatible:
->      enum:
-> -       - qcom,mmcc-apq8064
-> -       - qcom,mmcc-apq8084
-> -       - qcom,mmcc-msm8660
-> -       - qcom,mmcc-msm8960
-> -       - qcom,mmcc-msm8974
-> -       - qcom,mmcc-msm8996
-> -       - qcom,mmcc-msm8998
-> +      - qcom,mmcc-apq8064
-> +      - qcom,mmcc-apq8084
-> +      - qcom,mmcc-msm8660
-> +      - qcom,mmcc-msm8960
-> +      - qcom,mmcc-msm8974
-> +      - qcom,mmcc-msm8996
-> +      - qcom,mmcc-msm8998
-> 
->    clocks:
->      items:
-> diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> index 4638d7adb806..369c58e22a06 100644
-> --- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> +++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> @@ -144,7 +144,7 @@ required:
-> 
->  examples:
->    # Micro-USB connector with HS lines routed via controller (MUIC).
-> -  - |+
-> +  - |
->      muic-max77843 {
->        usb_con1: connector {
->          compatible = "usb-b-connector";
-> @@ -156,7 +156,7 @@ examples:
->    # USB-C connector attached to CC controller (s2mm005), HS lines routed
->    # to companion PMIC (max77865), SS lines to USB3 PHY and SBU to DisplayPort.
->    # DisplayPort video lines are routed to the connector via SS mux in USB3 PHY.
-> -  - |+
-> +  - |
->      ccic: s2mm005 {
->        usb_con2: connector {
->          compatible = "usb-c-connector";
-> @@ -190,7 +190,7 @@ examples:
-> 
->    # USB-C connector attached to a typec port controller(ptn5110), which has
->    # power delivery support and enables drp.
-> -  - |+
-> +  - |
->      #include <dt-bindings/usb/pd.h>
->      typec: ptn5110 {
->        usb_con3: connector {
-> diff --git a/Documentation/devicetree/bindings/crypto/allwinner,sun4i-a10-crypto.yaml b/Documentation/devicetree/bindings/crypto/allwinner,sun4i-a10-crypto.yaml
-> index 8b9a8f337f16..fc823572bcff 100644
-> --- a/Documentation/devicetree/bindings/crypto/allwinner,sun4i-a10-crypto.yaml
-> +++ b/Documentation/devicetree/bindings/crypto/allwinner,sun4i-a10-crypto.yaml
-> @@ -15,16 +15,16 @@ properties:
->      oneOf:
->        - const: allwinner,sun4i-a10-crypto
->        - items:
-> -        - const: allwinner,sun5i-a13-crypto
-> -        - const: allwinner,sun4i-a10-crypto
-> +          - const: allwinner,sun5i-a13-crypto
-> +          - const: allwinner,sun4i-a10-crypto
->        - items:
-> -        - const: allwinner,sun6i-a31-crypto
-> -        - const: allwinner,sun4i-a10-crypto
-> +          - const: allwinner,sun6i-a31-crypto
-> +          - const: allwinner,sun4i-a10-crypto
->        - items:
-> -        - const: allwinner,sun7i-a20-crypto
-> -        - const: allwinner,sun4i-a10-crypto
-> +          - const: allwinner,sun7i-a20-crypto
-> +          - const: allwinner,sun4i-a10-crypto
->        - items:
-> -        - const: allwinner,sun8i-a33-crypto
-> +          - const: allwinner,sun8i-a33-crypto
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml b/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml
-> index 2c459b8c76ff..7a60d84289cc 100644
-> --- a/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml
-> +++ b/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml
-> @@ -50,16 +50,16 @@ if:
->          const: allwinner,sun50i-h6-crypto
->  then:
->    properties:
-> -      clocks:
-> -        minItems: 3
-> -      clock-names:
-> -        minItems: 3
-> +    clocks:
-> +      minItems: 3
-> +    clock-names:
-> +      minItems: 3
->  else:
->    properties:
-> -      clocks:
-> -        maxItems: 2
-> -      clock-names:
-> -        maxItems: 2
-> +    clocks:
-> +      maxItems: 2
-> +    clock-names:
-> +      maxItems: 2
-> 
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/crypto/amlogic,gxl-crypto.yaml b/Documentation/devicetree/bindings/crypto/amlogic,gxl-crypto.yaml
-> index 5becc60a0e28..385b23d255c3 100644
-> --- a/Documentation/devicetree/bindings/crypto/amlogic,gxl-crypto.yaml
-> +++ b/Documentation/devicetree/bindings/crypto/amlogic,gxl-crypto.yaml
-> @@ -12,7 +12,7 @@ maintainers:
->  properties:
->    compatible:
->      items:
-> -    - const: amlogic,gxl-crypto
-> +      - const: amlogic,gxl-crypto
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml
-> index 5d4915aed1e2..75e6479397a5 100644
-> --- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml
-> @@ -21,8 +21,8 @@ properties:
->        - const: allwinner,sun5i-a10s-hdmi
->        - const: allwinner,sun6i-a31-hdmi
->        - items:
-> -        - const: allwinner,sun7i-a20-hdmi
-> -        - const: allwinner,sun5i-a10s-hdmi
-> +          - const: allwinner,sun7i-a20-hdmi
-> +          - const: allwinner,sun5i-a10s-hdmi
-> 
->    reg:
->      maxItems: 1
-> @@ -33,32 +33,32 @@ properties:
->    clocks:
->      oneOf:
->        - items:
-> -        - description: The HDMI interface clock
-> -        - description: The HDMI module clock
-> -        - description: The first video PLL
-> -        - description: The second video PLL
-> +          - description: The HDMI interface clock
-> +          - description: The HDMI module clock
-> +          - description: The first video PLL
-> +          - description: The second video PLL
-> 
->        - items:
-> -        - description: The HDMI interface clock
-> -        - description: The HDMI module clock
-> -        - description: The HDMI DDC clock
-> -        - description: The first video PLL
-> -        - description: The second video PLL
-> +          - description: The HDMI interface clock
-> +          - description: The HDMI module clock
-> +          - description: The HDMI DDC clock
-> +          - description: The first video PLL
-> +          - description: The second video PLL
-> 
->    clock-names:
->      oneOf:
->        - items:
-> -        - const: ahb
-> -        - const: mod
-> -        - const: pll-0
-> -        - const: pll-1
-> +          - const: ahb
-> +          - const: mod
-> +          - const: pll-0
-> +          - const: pll-1
-> 
->        - items:
-> -        - const: ahb
-> -        - const: mod
-> -        - const: ddc
-> -        - const: pll-0
-> -        - const: pll-1
-> +          - const: ahb
-> +          - const: mod
-> +          - const: ddc
-> +          - const: pll-0
-> +          - const: pll-1
-> 
->    resets:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
-> index e5344c4ae226..87cb77b32ee3 100644
-> --- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
-> +++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
-> @@ -35,26 +35,26 @@ properties:
->        - const: allwinner,sun9i-a80-tcon-tv
-> 
->        - items:
-> -        - enum:
-> -          - allwinner,sun7i-a20-tcon0
-> -          - allwinner,sun7i-a20-tcon1
-> -        - const: allwinner,sun7i-a20-tcon
-> +          - enum:
-> +              - allwinner,sun7i-a20-tcon0
-> +              - allwinner,sun7i-a20-tcon1
-> +          - const: allwinner,sun7i-a20-tcon
-> 
->        - items:
-> -        - enum:
-> -            - allwinner,sun50i-a64-tcon-lcd
-> -        - const: allwinner,sun8i-a83t-tcon-lcd
-> +          - enum:
-> +              - allwinner,sun50i-a64-tcon-lcd
-> +          - const: allwinner,sun8i-a83t-tcon-lcd
-> 
->        - items:
-> -        - enum:
-> -          - allwinner,sun8i-h3-tcon-tv
-> -          - allwinner,sun50i-a64-tcon-tv
-> -        - const: allwinner,sun8i-a83t-tcon-tv
-> +          - enum:
-> +              - allwinner,sun8i-h3-tcon-tv
-> +              - allwinner,sun50i-a64-tcon-tv
-> +          - const: allwinner,sun8i-a83t-tcon-tv
-> 
->        - items:
-> -        - enum:
-> -          - allwinner,sun50i-h6-tcon-tv
-> -        - const: allwinner,sun8i-r40-tcon-tv
-> +          - enum:
-> +              - allwinner,sun50i-h6-tcon-tv
-> +          - const: allwinner,sun8i-r40-tcon-tv
-> 
->    reg:
->      maxItems: 1
-> @@ -83,37 +83,37 @@ properties:
->    resets:
->      anyOf:
->        - items:
-> -        - description: TCON Reset Line
-> +          - description: TCON Reset Line
-> 
->        - items:
-> -        - description: TCON Reset Line
-> -        - description: TCON LVDS Reset Line
-> +          - description: TCON Reset Line
-> +          - description: TCON LVDS Reset Line
-> 
->        - items:
-> -        - description: TCON Reset Line
-> -        - description: TCON eDP Reset Line
-> +          - description: TCON Reset Line
-> +          - description: TCON eDP Reset Line
-> 
->        - items:
-> -        - description: TCON Reset Line
-> -        - description: TCON eDP Reset Line
-> -        - description: TCON LVDS Reset Line
-> +          - description: TCON Reset Line
-> +          - description: TCON eDP Reset Line
-> +          - description: TCON LVDS Reset Line
-> 
->    reset-names:
->      oneOf:
->        - const: lcd
-> 
->        - items:
-> -        - const: lcd
-> -        - const: lvds
-> +          - const: lcd
-> +          - const: lvds
-> 
->        - items:
-> -        - const: lcd
-> -        - const: edp
-> +          - const: lcd
-> +          - const: edp
-> 
->        - items:
-> -        - const: lcd
-> -        - const: edp
-> -        - const: lvds
-> +          - const: lcd
-> +          - const: edp
-> +          - const: lvds
-> 
->    ports:
->      type: object
-> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-> index 9e90c2b00960..eed05b26cdf3 100644
-> --- a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-> @@ -76,28 +76,28 @@ required:
->  allOf:
->    - if:
->        properties:
-> -         compatible:
-> -           contains:
-> -             const: allwinner,sun6i-a31-mipi-dsi
-> +        compatible:
-> +          contains:
-> +            const: allwinner,sun6i-a31-mipi-dsi
-> 
->      then:
-> -        properties:
-> -          clocks:
-> -            minItems: 2
-> +      properties:
-> +        clocks:
-> +          minItems: 2
-> 
-> -        required:
-> -          - clock-names
-> +      required:
-> +        - clock-names
-> 
->    - if:
->        properties:
-> -         compatible:
-> -           contains:
-> -             const: allwinner,sun50i-a64-mipi-dsi
-> +        compatible:
-> +          contains:
-> +            const: allwinner,sun50i-a64-mipi-dsi
-> 
->      then:
-> -        properties:
-> -          clocks:
-> -            minItems: 1
-> +      properties:
-> +        clocks:
-> +          minItems: 1
-> 
->  additionalProperties: false
-> 
-> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
-> index 4d6795690ac3..fa4769a0b26e 100644
-> --- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
-> @@ -29,11 +29,11 @@ properties:
->        - const: allwinner,sun50i-h6-dw-hdmi
-> 
->        - items:
-> -        - enum:
-> -          - allwinner,sun8i-h3-dw-hdmi
-> -          - allwinner,sun8i-r40-dw-hdmi
-> -          - allwinner,sun50i-a64-dw-hdmi
-> -        - const: allwinner,sun8i-a83t-dw-hdmi
-> +          - enum:
-> +              - allwinner,sun8i-h3-dw-hdmi
-> +              - allwinner,sun8i-r40-dw-hdmi
-> +              - allwinner,sun50i-a64-dw-hdmi
-> +          - const: allwinner,sun8i-a83t-dw-hdmi
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> index 8f373029f5d2..e737951f5873 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> @@ -32,17 +32,17 @@ properties:
->    compatible:
->      oneOf:
->        - items:
-> -        - enum:
-> -          - ti,ds90c185       # For the TI DS90C185 FPD-Link Serializer
-> -          - ti,ds90c187       # For the TI DS90C187 FPD-Link Serializer
-> -          - ti,sn75lvds83     # For the TI SN75LVDS83 FlatLink transmitter
-> -        - const: lvds-encoder # Generic LVDS encoder compatible fallback
-> +          - enum:
-> +              - ti,ds90c185   # For the TI DS90C185 FPD-Link Serializer
-> +              - ti,ds90c187   # For the TI DS90C187 FPD-Link Serializer
-> +              - ti,sn75lvds83 # For the TI SN75LVDS83 FlatLink transmitter
-> +          - const: lvds-encoder # Generic LVDS encoder compatible fallback
->        - items:
-> -        - enum:
-> -          - ti,ds90cf384a     # For the DS90CF384A FPD-Link LVDS Receiver
-> -        - const: lvds-decoder # Generic LVDS decoders compatible fallback
-> +          - enum:
-> +              - ti,ds90cf384a # For the DS90CF384A FPD-Link LVDS Receiver
-> +          - const: lvds-decoder # Generic LVDS decoders compatible fallback
->        - enum:
-> -        - thine,thc63lvdm83d  # For the THC63LVDM83D LVDS serializer
-> +          - thine,thc63lvdm83d # For the THC63LVDM83D LVDS serializer
-> 
->    ports:
->      type: object
-> diff --git a/Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml b/Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml
-> index 185dcc8fd1f9..78d060097052 100644
-> --- a/Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml
-> @@ -18,7 +18,7 @@ properties:
->    reg: true
->    reset-gpios: true
->    vddi-supply:
-> -     description: regulator that supplies the vddi voltage
-> +    description: regulator that supplies the vddi voltage
->    enforce-video-mode: true
-> 
->  required:
-> diff --git a/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
-> index d9fdb58e06b4..891de2256d22 100644
-> --- a/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
-> @@ -19,9 +19,9 @@ properties:
->    backlight: true
->    reset-gpios: true
->    iovcc-supply:
-> -     description: regulator that supplies the iovcc voltage
-> +    description: regulator that supplies the iovcc voltage
->    vci-supply:
-> -     description: regulator that supplies the vci voltage
-> +    description: regulator that supplies the vci voltage
-> 
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/display/renesas,cmm.yaml b/Documentation/devicetree/bindings/display/renesas,cmm.yaml
-> index a57037b9e9ba..005406c89507 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,cmm.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,cmm.yaml
-> @@ -21,15 +21,15 @@ properties:
->    compatible:
->      oneOf:
->        - items:
-> -        - enum:
-> -          - renesas,r8a7795-cmm
-> -          - renesas,r8a7796-cmm
-> -          - renesas,r8a77965-cmm
-> -          - renesas,r8a77990-cmm
-> -          - renesas,r8a77995-cmm
-> -        - const: renesas,rcar-gen3-cmm
-> +          - enum:
-> +              - renesas,r8a7795-cmm
-> +              - renesas,r8a7796-cmm
-> +              - renesas,r8a77965-cmm
-> +              - renesas,r8a77990-cmm
-> +              - renesas,r8a77995-cmm
-> +          - const: renesas,rcar-gen3-cmm
->        - items:
-> -        - const: renesas,rcar-gen2-cmm
-> +          - const: renesas,rcar-gen2-cmm
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/dma/ti/k3-udma.yaml b/Documentation/devicetree/bindings/dma/ti/k3-udma.yaml
-> index 39ea05e6e5ff..85056982a242 100644
-> --- a/Documentation/devicetree/bindings/dma/ti/k3-udma.yaml
-> +++ b/Documentation/devicetree/bindings/dma/ti/k3-udma.yaml
-> @@ -69,10 +69,10 @@ properties:
->      maxItems: 3
-> 
->    reg-names:
-> -   items:
-> -     - const: gcfg
-> -     - const: rchanrt
-> -     - const: tchanrt
-> +    items:
-> +      - const: gcfg
-> +      - const: rchanrt
-> +      - const: tchanrt
-> 
->    msi-parent: true
-> 
-> diff --git a/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml b/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml
-> index 5f1ed20e43ee..4f2cbd8307a7 100644
-> --- a/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml
-> @@ -27,7 +27,7 @@ properties:
->    gpio-controller: true
-> 
->    '#gpio-cells':
-> -      const: 2
-> +    const: 2
-> 
->    ngpios:
->      minimum: 0
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-> index 0407e45eb8c4..a7a67e0a42e5 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-> @@ -16,33 +16,33 @@ properties:
->      oneOf:
->        - items:
->            - enum:
-> -             - samsung,exynos5250-mali
-> +              - samsung,exynos5250-mali
->            - const: arm,mali-t604
->        - items:
->            - enum:
-> -             - samsung,exynos5420-mali
-> +              - samsung,exynos5420-mali
->            - const: arm,mali-t628
->        - items:
->            - enum:
-> -             - allwinner,sun50i-h6-mali
-> +              - allwinner,sun50i-h6-mali
->            - const: arm,mali-t720
->        - items:
->            - enum:
-> -             - amlogic,meson-gxm-mali
-> -             - realtek,rtd1295-mali
-> +              - amlogic,meson-gxm-mali
-> +              - realtek,rtd1295-mali
->            - const: arm,mali-t820
->        - items:
->            - enum:
-> -             - arm,juno-mali
-> +              - arm,juno-mali
->            - const: arm,mali-t624
->        - items:
->            - enum:
-> -             - rockchip,rk3288-mali
-> -             - samsung,exynos5433-mali
-> +              - rockchip,rk3288-mali
-> +              - samsung,exynos5433-mali
->            - const: arm,mali-t760
->        - items:
->            - enum:
-> -             - rockchip,rk3399-mali
-> +              - rockchip,rk3399-mali
->            - const: arm,mali-t860
-> 
->            # "arm,mali-t830"
-> diff --git a/Documentation/devicetree/bindings/gpu/vivante,gc.yaml b/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
-> index 0bc4b38d5cbb..e1ac6ff5a230 100644
-> --- a/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
-> @@ -9,7 +9,7 @@ title: Vivante GPU Bindings
->  description: Vivante GPU core devices
-> 
->  maintainers:
-> -  -  Lucas Stach <l.stach@pengutronix.de>
-> +  - Lucas Stach <l.stach@pengutronix.de>
-> 
->  properties:
->    compatible:
-> diff --git a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-> index 61eac76c84c4..790aa7218ee0 100644
-> --- a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
-> @@ -28,14 +28,14 @@ properties:
->        - const: rockchip,rk3399-i2c
->        - items:
->            - enum:
-> -            - rockchip,rk3036-i2c
-> -            - rockchip,rk3368-i2c
-> +              - rockchip,rk3036-i2c
-> +              - rockchip,rk3368-i2c
->            - const: rockchip,rk3288-i2c
->        - items:
->            - enum:
-> -            - rockchip,px30-i2c
-> -            - rockchip,rk3308-i2c
-> -            - rockchip,rk3328-i2c
-> +              - rockchip,px30-i2c
-> +              - rockchip,rk3308-i2c
-> +              - rockchip,rk3328-i2c
->            - const: rockchip,rk3399-i2c
-> 
->    reg:
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
-> index f0934b295edc..97087a45ce54 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
-> @@ -72,8 +72,8 @@ patternProperties:
->            The channel number. It can have up to 8 channels on ad7124-4
->            and 16 channels on ad7124-8, numbered from 0 to 15.
->          items:
-> -         minimum: 0
-> -         maximum: 15
-> +          minimum: 0
-> +          maximum: 15
-> 
->        adi,reference-select:
->          description: |
-> diff --git a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
-> index 118809a03279..97f521d654ea 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
-> @@ -7,9 +7,9 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->  title: Linear Technology / Analog Devices LTC2496 ADC
-> 
->  maintainers:
-> - - Lars-Peter Clausen <lars@metafoo.de>
-> - - Michael Hennerich <Michael.Hennerich@analog.com>
-> - - Stefan Popa <stefan.popa@analog.com>
-> +  - Lars-Peter Clausen <lars@metafoo.de>
-> +  - Michael Hennerich <Michael.Hennerich@analog.com>
-> +  - Stefan Popa <stefan.popa@analog.com>
-> 
->  properties:
->    compatible:
-> diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-> index 5b3b71c9c018..512a6af5aa42 100644
-> --- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-> +++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-> @@ -16,8 +16,8 @@ properties:
->        - const: allwinner,sun4i-a10-lradc-keys
->        - const: allwinner,sun8i-a83t-r-lradc
->        - items:
-> -        - const: allwinner,sun50i-a64-lradc
-> -        - const: allwinner,sun8i-a83t-r-lradc
-> +          - const: allwinner,sun50i-a64-lradc
-> +          - const: allwinner,sun8i-a83t-r-lradc
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-> index c8ea9434c9cc..e81cfa56f25a 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-> @@ -63,7 +63,7 @@ required:
->    - interrupts
-> 
->  examples:
-> -- |
-> +  - |
->      i2c {
->        #address-cells = <1>;
->        #size-cells = <0>;
-> diff --git a/Documentation/devicetree/bindings/interconnect/qcom,msm8916.yaml b/Documentation/devicetree/bindings/interconnect/qcom,msm8916.yaml
-> index 4107e60cab12..e1009ae4e8f7 100644
-> --- a/Documentation/devicetree/bindings/interconnect/qcom,msm8916.yaml
-> +++ b/Documentation/devicetree/bindings/interconnect/qcom,msm8916.yaml
-> @@ -10,8 +10,8 @@ maintainers:
->    - Georgi Djakov <georgi.djakov@linaro.org>
-> 
->  description: |
-> -   The Qualcomm MSM8916 interconnect providers support adjusting the
-> -   bandwidth requirements between the various NoC fabrics.
-> +  The Qualcomm MSM8916 interconnect providers support adjusting the
-> +  bandwidth requirements between the various NoC fabrics.
-> 
->  properties:
->    compatible:
-> diff --git a/Documentation/devicetree/bindings/interconnect/qcom,msm8974.yaml b/Documentation/devicetree/bindings/interconnect/qcom,msm8974.yaml
-> index 9af3c6e59cff..8004c4baf397 100644
-> --- a/Documentation/devicetree/bindings/interconnect/qcom,msm8974.yaml
-> +++ b/Documentation/devicetree/bindings/interconnect/qcom,msm8974.yaml
-> @@ -10,8 +10,8 @@ maintainers:
->    - Brian Masney <masneyb@onstation.org>
-> 
->  description: |
-> -   The Qualcomm MSM8974 interconnect providers support setting system
-> -   bandwidth requirements between various network-on-chip fabrics.
-> +  The Qualcomm MSM8974 interconnect providers support setting system
-> +  bandwidth requirements between various network-on-chip fabrics.
-> 
->  properties:
->    reg:
-> diff --git a/Documentation/devicetree/bindings/interconnect/qcom,qcs404.yaml b/Documentation/devicetree/bindings/interconnect/qcom,qcs404.yaml
-> index 8d65c5f80679..3fbb8785fbc9 100644
-> --- a/Documentation/devicetree/bindings/interconnect/qcom,qcs404.yaml
-> +++ b/Documentation/devicetree/bindings/interconnect/qcom,qcs404.yaml
-> @@ -10,8 +10,8 @@ maintainers:
->    - Georgi Djakov <georgi.djakov@linaro.org>
-> 
->  description: |
-> -   The Qualcomm QCS404 interconnect providers support adjusting the
-> -   bandwidth requirements between the various NoC fabrics.
-> +  The Qualcomm QCS404 interconnect providers support adjusting the
-> +  bandwidth requirements between the various NoC fabrics.
-> 
->  properties:
->    reg:
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml b/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
-> index cf09055da78b..7cd6b8bacfa0 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
-> @@ -27,15 +27,15 @@ properties:
->          deprecated: true
->        - const: allwinner,sun7i-a20-sc-nmi
->        - items:
-> -        - const: allwinner,sun8i-a83t-r-intc
-> -        - const: allwinner,sun6i-a31-r-intc
-> +          - const: allwinner,sun8i-a83t-r-intc
-> +          - const: allwinner,sun6i-a31-r-intc
->        - const: allwinner,sun9i-a80-sc-nmi
->        - items:
-> -        - const: allwinner,sun50i-a64-r-intc
-> -        - const: allwinner,sun6i-a31-r-intc
-> +          - const: allwinner,sun50i-a64-r-intc
-> +          - const: allwinner,sun6i-a31-r-intc
->        - items:
-> -        - const: allwinner,sun50i-h6-r-intc
-> -        - const: allwinner,sun6i-a31-r-intc
-> +          - const: allwinner,sun50i-h6-r-intc
-> +          - const: allwinner,sun6i-a31-r-intc
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/intel,ixp4xx-interrupt.yaml b/Documentation/devicetree/bindings/interrupt-controller/intel,ixp4xx-interrupt.yaml
-> index ccc507f384d2..14dced11877b 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/intel,ixp4xx-interrupt.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/intel,ixp4xx-interrupt.yaml
-> @@ -25,10 +25,10 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -        - intel,ixp42x-interrupt
-> -        - intel,ixp43x-interrupt
-> -        - intel,ixp45x-interrupt
-> -        - intel,ixp46x-interrupt
-> +          - intel,ixp42x-interrupt
-> +          - intel,ixp43x-interrupt
-> +          - intel,ixp45x-interrupt
-> +          - intel,ixp46x-interrupt
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/st,stm32-exti.yaml b/Documentation/devicetree/bindings/interrupt-controller/st,stm32-exti.yaml
-> index 9e5c6608b4e3..2a5b29567926 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/st,stm32-exti.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/st,stm32-exti.yaml
-> @@ -14,13 +14,13 @@ properties:
->    compatible:
->      oneOf:
->        - items:
-> -        - enum:
-> -          - st,stm32-exti
-> -          - st,stm32h7-exti
-> +          - enum:
-> +              - st,stm32-exti
-> +              - st,stm32h7-exti
->        - items:
-> -        - enum:
-> -          - st,stm32mp1-exti
-> -        - const: syscon
-> +          - enum:
-> +              - st,stm32mp1-exti
-> +          - const: syscon
-> 
->    "#interrupt-cells":
->      const: 2
-> diff --git a/Documentation/devicetree/bindings/iommu/samsung,sysmmu.yaml b/Documentation/devicetree/bindings/iommu/samsung,sysmmu.yaml
-> index 0e33cd9e010e..af51b91c893e 100644
-> --- a/Documentation/devicetree/bindings/iommu/samsung,sysmmu.yaml
-> +++ b/Documentation/devicetree/bindings/iommu/samsung,sysmmu.yaml
-> @@ -54,13 +54,13 @@ properties:
->    clock-names:
->      oneOf:
->        - items:
-> -        - const: sysmmu
-> +          - const: sysmmu
->        - items:
-> -        - const: sysmmu
-> -        - const: master
-> +          - const: sysmmu
-> +          - const: master
->        - items:
-> -        - const: aclk
-> -        - const: pclk
-> +          - const: aclk
-> +          - const: pclk
-> 
->    "#iommu-cells":
->      const: 0
-> diff --git a/Documentation/devicetree/bindings/mailbox/st,stm32-ipcc.yaml b/Documentation/devicetree/bindings/mailbox/st,stm32-ipcc.yaml
-> index 5b13d6672996..db851541d619 100644
-> --- a/Documentation/devicetree/bindings/mailbox/st,stm32-ipcc.yaml
-> +++ b/Documentation/devicetree/bindings/mailbox/st,stm32-ipcc.yaml
-> @@ -24,7 +24,7 @@ properties:
->      maxItems: 1
-> 
->    clocks:
-> -     maxItems: 1
-> +    maxItems: 1
-> 
->    interrupts:
->      items:
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
-> index 8453ee340b9f..09318830db47 100644
-> --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
-> @@ -20,11 +20,11 @@ properties:
->        - const: allwinner,sun4i-a10-csi1
->        - const: allwinner,sun7i-a20-csi0
->        - items:
-> -        - const: allwinner,sun7i-a20-csi1
-> -        - const: allwinner,sun4i-a10-csi1
-> +          - const: allwinner,sun7i-a20-csi1
-> +          - const: allwinner,sun4i-a10-csi1
->        - items:
-> -        - const: allwinner,sun8i-r40-csi0
-> -        - const: allwinner,sun7i-a20-csi0
-> +          - const: allwinner,sun8i-r40-csi0
-> +          - const: allwinner,sun7i-a20-csi0
-> 
->    reg:
->      maxItems: 1
-> @@ -35,24 +35,24 @@ properties:
->    clocks:
->      oneOf:
->        - items:
-> -        - description: The CSI interface clock
-> -        - description: The CSI DRAM clock
-> +          - description: The CSI interface clock
-> +          - description: The CSI DRAM clock
-> 
->        - items:
-> -        - description: The CSI interface clock
-> -        - description: The CSI ISP clock
-> -        - description: The CSI DRAM clock
-> +          - description: The CSI interface clock
-> +          - description: The CSI ISP clock
-> +          - description: The CSI DRAM clock
-> 
->    clock-names:
->      oneOf:
->        - items:
-> -        - const: bus
-> -        - const: ram
-> +          - const: bus
-> +          - const: ram
-> 
->        - items:
-> -        - const: bus
-> -        - const: isp
-> -        - const: ram
-> +          - const: bus
-> +          - const: isp
-> +          - const: ram
-> 
->    resets:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
-> index 37d77e065491..5a1da4029c37 100644
-> --- a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
-> +++ b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
-> @@ -29,14 +29,14 @@ properties:
->    compatible:
->      oneOf:
->        - items:
-> -        - enum:
-> -          - amlogic,gxbb-vdec # GXBB (S905)
-> -          - amlogic,gxl-vdec # GXL (S905X, S905D)
-> -          - amlogic,gxm-vdec # GXM (S912)
-> -        - const: amlogic,gx-vdec
-> +          - enum:
-> +              - amlogic,gxbb-vdec # GXBB (S905)
-> +              - amlogic,gxl-vdec # GXL (S905X, S905D)
-> +              - amlogic,gxm-vdec # GXM (S912)
-> +          - const: amlogic,gx-vdec
->        - enum:
-> -        - amlogic,g12a-vdec # G12A (S905X2, S905D2)
-> -        - amlogic,sm1-vdec # SM1 (S905X3, S905D3)
-> +          - amlogic,g12a-vdec # G12A (S905X2, S905D2)
-> +          - amlogic,sm1-vdec # SM1 (S905X3, S905D3)
-> 
->    interrupts:
->      minItems: 2
-> diff --git a/Documentation/devicetree/bindings/media/renesas,ceu.yaml b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-> index fcb5f13704a5..f2393458814e 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-> @@ -32,23 +32,23 @@ properties:
->      additionalProperties: false
-> 
->      properties:
-> -       endpoint:
-> -         type: object
-> -         additionalProperties: false
-> +      endpoint:
-> +        type: object
-> +        additionalProperties: false
-> 
->           # Properties described in
->           # Documentation/devicetree/bindings/media/video-interfaces.txt
-> -         properties:
-> -           remote-endpoint: true
-> -           hsync-active: true
-> -           vsync-active: true
-> -           field-even-active: false
-> -           bus-width:
-> -             enum: [8, 16]
-> -             default: 8
-> -
-> -         required:
-> -           - remote-endpoint
-> +        properties:
-> +          remote-endpoint: true
-> +          hsync-active: true
-> +          vsync-active: true
-> +          field-even-active: false
-> +          bus-width:
-> +            enum: [8, 16]
-> +            default: 8
-> +
-> +        required:
-> +          - remote-endpoint
-> 
->      required:
->        - endpoint
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> index 1ec947b4781f..ecc09f1124d4 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> @@ -261,13 +261,13 @@ properties:
-> 
->          anyOf:
->            - required:
-> -            - endpoint@0
-> +              - endpoint@0
->            - required:
-> -            - endpoint@1
-> +              - endpoint@1
->            - required:
-> -            - endpoint@2
-> +              - endpoint@2
->            - required:
-> -            - endpoint@3
-> +              - endpoint@3
-> 
->          additionalProperties: false
-> 
-> diff --git a/Documentation/devicetree/bindings/media/ti,vpe.yaml b/Documentation/devicetree/bindings/media/ti,vpe.yaml
-> index f3a8a350e85f..ef473f287399 100644
-> --- a/Documentation/devicetree/bindings/media/ti,vpe.yaml
-> +++ b/Documentation/devicetree/bindings/media/ti,vpe.yaml
-> @@ -17,7 +17,7 @@ description: |-
-> 
->  properties:
->    compatible:
-> -      const: ti,dra7-vpe
-> +    const: ti,dra7-vpe
-> 
->    reg:
->      items:
-> diff --git a/Documentation/devicetree/bindings/memory-controllers/fsl/imx8m-ddrc.yaml b/Documentation/devicetree/bindings/memory-controllers/fsl/imx8m-ddrc.yaml
-> index c9e6c22cb5be..445e46feda69 100644
-> --- a/Documentation/devicetree/bindings/memory-controllers/fsl/imx8m-ddrc.yaml
-> +++ b/Documentation/devicetree/bindings/memory-controllers/fsl/imx8m-ddrc.yaml
-> @@ -25,9 +25,9 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -        - fsl,imx8mn-ddrc
-> -        - fsl,imx8mm-ddrc
-> -        - fsl,imx8mq-ddrc
-> +          - fsl,imx8mn-ddrc
-> +          - fsl,imx8mm-ddrc
-> +          - fsl,imx8mq-ddrc
->        - const: fsl,imx8m-ddrc
-> 
->    reg:
-> diff --git a/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml b/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml
-> index ddf190cb800b..e675611f80d0 100644
-> --- a/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml
-> @@ -66,8 +66,8 @@ patternProperties:
->        reg:
->          description: Identify trigger hardware block.
->          items:
-> -         minimum: 0
-> -         maximum: 2
-> +          minimum: 0
-> +          maximum: 2
-> 
->      required:
->        - compatible
-> diff --git a/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml b/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
-> index 590849ee9f32..4acda7ce3b44 100644
-> --- a/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
-> @@ -102,8 +102,8 @@ patternProperties:
->        reg:
->          description: Identify trigger hardware block.
->          items:
-> -         minimum: 0
-> -         maximum: 16
-> +          minimum: 0
-> +          maximum: 16
-> 
->      required:
->        - compatible
-> diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
-> index 39375e4313d2..7a39486b215a 100644
-> --- a/Documentation/devicetree/bindings/mfd/syscon.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
-> @@ -33,13 +33,13 @@ properties:
->    compatible:
->      anyOf:
->        - items:
-> -        - enum:
-> -          - allwinner,sun8i-a83t-system-controller
-> -          - allwinner,sun8i-h3-system-controller
-> -          - allwinner,sun8i-v3s-system-controller
-> -          - allwinner,sun50i-a64-system-controller
-> +          - enum:
-> +              - allwinner,sun8i-a83t-system-controller
-> +              - allwinner,sun8i-h3-system-controller
-> +              - allwinner,sun8i-v3s-system-controller
-> +              - allwinner,sun50i-a64-system-controller
-> 
-> -        - const: syscon
-> +          - const: syscon
-> 
->        - contains:
->            const: syscon
-> diff --git a/Documentation/devicetree/bindings/mmc/cdns,sdhci.yaml b/Documentation/devicetree/bindings/mmc/cdns,sdhci.yaml
-> index 2f45dd0d04db..d43a0c557a44 100644
-> --- a/Documentation/devicetree/bindings/mmc/cdns,sdhci.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/cdns,sdhci.yaml
-> @@ -17,7 +17,7 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -         - socionext,uniphier-sd4hc
-> +          - socionext,uniphier-sd4hc
->        - const: cdns,sd4hc
-> 
->    reg:
-> diff --git a/Documentation/devicetree/bindings/mmc/rockchip-dw-mshc.yaml b/Documentation/devicetree/bindings/mmc/rockchip-dw-mshc.yaml
-> index 89c3edd6a728..4ee3ed6efab4 100644
-> --- a/Documentation/devicetree/bindings/mmc/rockchip-dw-mshc.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/rockchip-dw-mshc.yaml
-> @@ -30,21 +30,21 @@ properties:
->        - items:
->            - enum:
->              # for Rockchip PX30
-> -            - rockchip,px30-dw-mshc
-> +              - rockchip,px30-dw-mshc
->              # for Rockchip RK3036
-> -            - rockchip,rk3036-dw-mshc
-> +              - rockchip,rk3036-dw-mshc
->              # for Rockchip RK322x
-> -            - rockchip,rk3228-dw-mshc
-> +              - rockchip,rk3228-dw-mshc
->              # for Rockchip RK3308
-> -            - rockchip,rk3308-dw-mshc
-> +              - rockchip,rk3308-dw-mshc
->              # for Rockchip RK3328
-> -            - rockchip,rk3328-dw-mshc
-> +              - rockchip,rk3328-dw-mshc
->              # for Rockchip RK3368
-> -            - rockchip,rk3368-dw-mshc
-> +              - rockchip,rk3368-dw-mshc
->              # for Rockchip RK3399
-> -            - rockchip,rk3399-dw-mshc
-> +              - rockchip,rk3399-dw-mshc
->              # for Rockchip RV1108
-> -            - rockchip,rv1108-dw-mshc
-> +              - rockchip,rv1108-dw-mshc
->            - const: rockchip,rk3288-dw-mshc
-> 
->    reg:
-> diff --git a/Documentation/devicetree/bindings/mmc/socionext,uniphier-sd.yaml b/Documentation/devicetree/bindings/mmc/socionext,uniphier-sd.yaml
-> index cdfac9b4411b..8d6413f48823 100644
-> --- a/Documentation/devicetree/bindings/mmc/socionext,uniphier-sd.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/socionext,uniphier-sd.yaml
-> @@ -35,15 +35,15 @@ properties:
->      oneOf:
->        - const: host
->        - items:
-> -        - const: host
-> -        - const: bridge
-> +          - const: host
-> +          - const: bridge
->        - items:
-> -        - const: host
-> -        - const: hw
-> +          - const: host
-> +          - const: hw
->        - items:
-> -        - const: host
-> -        - const: bridge
-> -        - const: hw
-> +          - const: host
-> +          - const: bridge
-> +          - const: hw
-> 
->    resets:
->      minItems: 1
-> diff --git a/Documentation/devicetree/bindings/mtd/denali,nand.yaml b/Documentation/devicetree/bindings/mtd/denali,nand.yaml
-> index 46e6b6726bc0..c07b91592cbd 100644
-> --- a/Documentation/devicetree/bindings/mtd/denali,nand.yaml
-> +++ b/Documentation/devicetree/bindings/mtd/denali,nand.yaml
-> @@ -54,8 +54,8 @@ properties:
->          reg:  register reset
->      oneOf:
->        - items:
-> -        - const: nand
-> -        - const: reg
-> +          - const: nand
-> +          - const: reg
->        - const: nand
->        - const: reg
-> 
-> diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> index db36b4d86484..c7c9ad4e3f9f 100644
-> --- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> +++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> @@ -19,8 +19,8 @@ properties:
->        - const: allwinner,sun8i-v3s-emac
->        - const: allwinner,sun50i-a64-emac
->        - items:
-> -        - const: allwinner,sun50i-h6-emac
-> -        - const: allwinner,sun50i-a64-emac
-> +          - const: allwinner,sun50i-h6-emac
-> +          - const: allwinner,sun50i-a64-emac
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml b/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml
-> index cccf8202c8f7..7a784dc4e513 100644
-> --- a/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml
-> +++ b/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml
-> @@ -9,7 +9,7 @@ title: Bosch MCAN controller Bindings
->  description: Bosch MCAN controller for CAN bus
-> 
->  maintainers:
-> -  -  Sriram Dash <sriram.dash@samsung.com>
-> +  - Sriram Dash <sriram.dash@samsung.com>
-> 
->  properties:
->    compatible:
-> @@ -51,31 +51,31 @@ properties:
-> 
->    bosch,mram-cfg:
->      description: |
-> -                 Message RAM configuration data.
-> -                 Multiple M_CAN instances can share the same Message RAM
-> -                 and each element(e.g Rx FIFO or Tx Buffer and etc) number
-> -                 in Message RAM is also configurable, so this property is
-> -                 telling driver how the shared or private Message RAM are
-> -                 used by this M_CAN controller.
-> -
-> -                 The format should be as follows:
-> -                 <offset sidf_elems xidf_elems rxf0_elems rxf1_elems rxb_elems txe_elems txb_elems>
-> -                 The 'offset' is an address offset of the Message RAM where
-> -                 the following elements start from. This is usually set to
-> -                 0x0 if you're using a private Message RAM. The remain cells
-> -                 are used to specify how many elements are used for each FIFO/Buffer.
-> -
-> -                 M_CAN includes the following elements according to user manual:
-> -                 11-bit Filter	0-128 elements / 0-128 words
-> -                 29-bit Filter	0-64 elements / 0-128 words
-> -                 Rx FIFO 0	0-64 elements / 0-1152 words
-> -                 Rx FIFO 1	0-64 elements / 0-1152 words
-> -                 Rx Buffers	0-64 elements / 0-1152 words
-> -                 Tx Event FIFO	0-32 elements / 0-64 words
-> -                 Tx Buffers	0-32 elements / 0-576 words
-> -
-> -                 Please refer to 2.4.1 Message RAM Configuration in Bosch
-> -                 M_CAN user manual for details.
-> +      Message RAM configuration data.
-> +      Multiple M_CAN instances can share the same Message RAM
-> +      and each element(e.g Rx FIFO or Tx Buffer and etc) number
-> +      in Message RAM is also configurable, so this property is
-> +      telling driver how the shared or private Message RAM are
-> +      used by this M_CAN controller.
-> +
-> +      The format should be as follows:
-> +      <offset sidf_elems xidf_elems rxf0_elems rxf1_elems rxb_elems txe_elems txb_elems>
-> +      The 'offset' is an address offset of the Message RAM where
-> +      the following elements start from. This is usually set to
-> +      0x0 if you're using a private Message RAM. The remain cells
-> +      are used to specify how many elements are used for each FIFO/Buffer.
-> +
-> +      M_CAN includes the following elements according to user manual:
-> +      11-bit Filter	0-128 elements / 0-128 words
-> +      29-bit Filter	0-64 elements / 0-128 words
-> +      Rx FIFO 0	0-64 elements / 0-1152 words
-> +      Rx FIFO 1	0-64 elements / 0-1152 words
-> +      Rx Buffers	0-64 elements / 0-1152 words
-> +      Tx Event FIFO	0-32 elements / 0-64 words
-> +      Tx Buffers	0-32 elements / 0-576 words
-> +
-> +      Please refer to 2.4.1 Message RAM Configuration in Bosch
-> +      M_CAN user manual for details.
->      allOf:
->        - $ref: /schemas/types.yaml#/definitions/int32-array
->        - items:
-> diff --git a/Documentation/devicetree/bindings/net/renesas,ether.yaml b/Documentation/devicetree/bindings/net/renesas,ether.yaml
-> index 7f84df9790e2..2eaa8799e002 100644
-> --- a/Documentation/devicetree/bindings/net/renesas,ether.yaml
-> +++ b/Documentation/devicetree/bindings/net/renesas,ether.yaml
-> @@ -40,8 +40,8 @@ properties:
-> 
->    reg:
->      items:
-> -       - description: E-DMAC/feLic registers
-> -       - description: TSU registers
-> +      - description: E-DMAC/feLic registers
-> +      - description: TSU registers
->      minItems: 1
-> 
->    interrupts:
-> diff --git a/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml b/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
-> index 976f139bb66e..8fc8d3be303b 100644
-> --- a/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
-> +++ b/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
-> @@ -23,14 +23,14 @@ properties:
->      oneOf:
->        - const: ti,cpsw-switch
->        - items:
-> -         - const: ti,am335x-cpsw-switch
-> -         - const: ti,cpsw-switch
-> +          - const: ti,am335x-cpsw-switch
-> +          - const: ti,cpsw-switch
->        - items:
-> -        - const: ti,am4372-cpsw-switch
-> -        - const: ti,cpsw-switch
-> +          - const: ti,am4372-cpsw-switch
-> +          - const: ti,cpsw-switch
->        - items:
-> -        - const: ti,dra7-cpsw-switch
-> -        - const: ti,cpsw-switch
-> +          - const: ti,dra7-cpsw-switch
-> +          - const: ti,cpsw-switch
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml b/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml
-> index 242ac4935a4b..2ea14ab29254 100644
-> --- a/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml
-> +++ b/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml
-> @@ -18,25 +18,24 @@ allOf:
->  properties:
->    compatible:
->      oneOf:
-> -       - const: ti,davinci_mdio
-> -       - items:
-> -         - const: ti,keystone_mdio
-> -         - const: ti,davinci_mdio
-> -       - items:
-> -         - const: ti,cpsw-mdio
-> -         - const: ti,davinci_mdio
-> -       - items:
-> -         - const: ti,am4372-mdio
-> -         - const: ti,cpsw-mdio
-> -         - const: ti,davinci_mdio
-> +      - const: ti,davinci_mdio
-> +      - items:
-> +          - const: ti,keystone_mdio
-> +          - const: ti,davinci_mdio
-> +      - items:
-> +          - const: ti,cpsw-mdio
-> +          - const: ti,davinci_mdio
-> +      - items:
-> +          - const: ti,am4372-mdio
-> +          - const: ti,cpsw-mdio
-> +          - const: ti,davinci_mdio
-> 
->    reg:
->      maxItems: 1
-> 
->    bus_freq:
-> -      maximum: 2500000
-> -      description:
-> -        MDIO Bus frequency
-> +    maximum: 2500000
-> +    description: MDIO Bus frequency
-> 
->    ti,hwmods:
->      description: TI hwmod name
-> diff --git a/Documentation/devicetree/bindings/phy/intel,lgm-emmc-phy.yaml b/Documentation/devicetree/bindings/phy/intel,lgm-emmc-phy.yaml
-> index 9a346d6290d9..77bb5309918e 100644
-> --- a/Documentation/devicetree/bindings/phy/intel,lgm-emmc-phy.yaml
-> +++ b/Documentation/devicetree/bindings/phy/intel,lgm-emmc-phy.yaml
-> @@ -23,7 +23,7 @@ description: |+
-> 
->  properties:
->    compatible:
-> -      const: intel,lgm-emmc-phy
-> +    const: intel,lgm-emmc-phy
-> 
->    "#phy-cells":
->      const: 0
-> diff --git a/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml b/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
-> index ea7f32905172..4fe64f4dd594 100644
-> --- a/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
-> +++ b/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
-> @@ -49,17 +49,17 @@ properties:
->        are available.
->      oneOf:
->        - items:
-> -        - const: timers
-> +          - const: timers
->        - items:
-> -        - const: timers
-> -        - const: pwm-tclk0
-> +          - const: timers
-> +          - const: pwm-tclk0
->        - items:
-> -        - const: timers
-> -        - const: pwm-tclk1
-> +          - const: timers
-> +          - const: pwm-tclk1
->        - items:
-> -        - const: timers
-> -        - const: pwm-tclk0
-> -        - const: pwm-tclk1
-> +          - const: timers
-> +          - const: pwm-tclk0
-> +          - const: pwm-tclk1
-> 
->    interrupts:
->      description:
-> diff --git a/Documentation/devicetree/bindings/remoteproc/st,stm32-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/st,stm32-rproc.yaml
-> index c0d83865e933..4ff4d3df0a06 100644
-> --- a/Documentation/devicetree/bindings/remoteproc/st,stm32-rproc.yaml
-> +++ b/Documentation/devicetree/bindings/remoteproc/st,stm32-rproc.yaml
-> @@ -25,7 +25,7 @@ properties:
->      maxItems: 3
-> 
->    resets:
-> -     maxItems: 1
-> +    maxItems: 1
-> 
->    st,syscfg-holdboot:
->      allOf:
-> diff --git a/Documentation/devicetree/bindings/reset/brcm,bcm7216-pcie-sata-rescal.yaml b/Documentation/devicetree/bindings/reset/brcm,bcm7216-pcie-sata-rescal.yaml
-> index 512a33bdb208..dfce6738b033 100644
-> --- a/Documentation/devicetree/bindings/reset/brcm,bcm7216-pcie-sata-rescal.yaml
-> +++ b/Documentation/devicetree/bindings/reset/brcm,bcm7216-pcie-sata-rescal.yaml
-> @@ -7,7 +7,9 @@ $schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> 
->  title: BCM7216 RESCAL reset controller
-> 
-> -description: This document describes the BCM7216 RESCAL reset controller which is responsible for controlling the reset of the SATA and PCIe0/1 instances on BCM7216.
-> +description: This document describes the BCM7216 RESCAL reset controller
-> +  which is responsible for controlling the reset of the SATA and PCIe0/1
-> +  instances on BCM7216.
-> 
->  maintainers:
->    - Florian Fainelli <f.fainelli@gmail.com>
-> diff --git a/Documentation/devicetree/bindings/rtc/st,stm32-rtc.yaml b/Documentation/devicetree/bindings/rtc/st,stm32-rtc.yaml
-> index 48c6cafca90c..57b087574aa1 100644
-> --- a/Documentation/devicetree/bindings/rtc/st,stm32-rtc.yaml
-> +++ b/Documentation/devicetree/bindings/rtc/st,stm32-rtc.yaml
-> @@ -38,10 +38,10 @@ properties:
->            minItems: 3
->            maxItems: 3
->      description: |
-> -       Phandle/offset/mask triplet. The phandle to pwrcfg used to
-> -       access control register at offset, and change the dbp (Disable Backup
-> -       Protection) bit represented by the mask, mandatory to disable/enable backup
-> -       domain (RTC registers) write protection.
-> +      Phandle/offset/mask triplet. The phandle to pwrcfg used to
-> +      access control register at offset, and change the dbp (Disable Backup
-> +      Protection) bit represented by the mask, mandatory to disable/enable backup
-> +      domain (RTC registers) write protection.
-> 
->    assigned-clocks:
->      description: |
-> @@ -78,14 +78,14 @@ allOf:
->              const: st,stm32h7-rtc
-> 
->      then:
-> -       properties:
-> -         clocks:
-> -           minItems: 2
-> -           maxItems: 2
-> +      properties:
-> +        clocks:
-> +          minItems: 2
-> +          maxItems: 2
-> 
-> -       required:
-> -         - clock-names
-> -         - st,syscfg
-> +      required:
-> +        - clock-names
-> +        - st,syscfg
-> 
->    - if:
->        properties:
-> @@ -94,16 +94,16 @@ allOf:
->              const: st,stm32mp1-rtc
-> 
->      then:
-> -       properties:
-> -         clocks:
-> -           minItems: 2
-> -           maxItems: 2
-> +      properties:
-> +        clocks:
-> +          minItems: 2
-> +          maxItems: 2
-> 
-> -         assigned-clocks: false
-> -         assigned-clock-parents: false
-> +        assigned-clocks: false
-> +        assigned-clock-parents: false
-> 
-> -       required:
-> -         - clock-names
-> +      required:
-> +        - clock-names
-> 
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/serial/amlogic,meson-uart.yaml b/Documentation/devicetree/bindings/serial/amlogic,meson-uart.yaml
-> index d4178ab0d675..75ebc9952a99 100644
-> --- a/Documentation/devicetree/bindings/serial/amlogic,meson-uart.yaml
-> +++ b/Documentation/devicetree/bindings/serial/amlogic,meson-uart.yaml
-> @@ -24,18 +24,18 @@ properties:
->      oneOf:
->        - description: Always-on power domain UART controller
->          items:
-> -        - enum:
-> +          - enum:
-> +              - amlogic,meson6-uart
-> +              - amlogic,meson8-uart
-> +              - amlogic,meson8b-uart
-> +              - amlogic,meson-gx-uart
-> +          - const: amlogic,meson-ao-uart
-> +      - description: Everything-Else power domain UART controller
-> +        enum:
->            - amlogic,meson6-uart
->            - amlogic,meson8-uart
->            - amlogic,meson8b-uart
->            - amlogic,meson-gx-uart
-> -        - const: amlogic,meson-ao-uart
-> -      - description: Everything-Else power domain UART controller
-> -        enum:
-> -        - amlogic,meson6-uart
-> -        - amlogic,meson8-uart
-> -        - amlogic,meson8b-uart
-> -        - amlogic,meson-gx-uart
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/serial/rs485.yaml b/Documentation/devicetree/bindings/serial/rs485.yaml
-> index d4beaf11222d..2b8261ea6d9c 100644
-> --- a/Documentation/devicetree/bindings/serial/rs485.yaml
-> +++ b/Documentation/devicetree/bindings/serial/rs485.yaml
-> @@ -6,13 +6,12 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
-> 
->  title: RS485 serial communications Bindings
-> 
-> -description: The RTS signal is capable of automatically controlling
-> -             line direction for the built-in half-duplex mode.
-> -             The properties described hereafter shall be given to a
-> -             half-duplex capable UART node.
-> +description: The RTS signal is capable of automatically controlling line
-> +  direction for the built-in half-duplex mode. The properties described
-> +  hereafter shall be given to a half-duplex capable UART node.
-> 
->  maintainers:
-> -  -  Rob Herring <robh@kernel.org>
-> +  - Rob Herring <robh@kernel.org>
-> 
->  properties:
->    rs485-rts-delay:
-> @@ -37,9 +36,11 @@ properties:
->      $ref: /schemas/types.yaml#/definitions/flag
-> 
->    linux,rs485-enabled-at-boot-time:
-> -    description: enables the rs485 feature at boot time. It can be disabled later with proper ioctl.
-> +    description: enables the rs485 feature at boot time. It can be disabled
-> +      later with proper ioctl.
->      $ref: /schemas/types.yaml#/definitions/flag
-> 
->    rs485-rx-during-tx:
-> -   description: enables the receiving of data even while sending data.
-> -   $ref: /schemas/types.yaml#/definitions/flag
-> +    description: enables the receiving of data even while sending data.
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +...
-> diff --git a/Documentation/devicetree/bindings/soc/amlogic/amlogic,canvas.yaml b/Documentation/devicetree/bindings/soc/amlogic/amlogic,canvas.yaml
-> index cb008fd188d8..02b2d5ba01d6 100644
-> --- a/Documentation/devicetree/bindings/soc/amlogic/amlogic,canvas.yaml
-> +++ b/Documentation/devicetree/bindings/soc/amlogic/amlogic,canvas.yaml
-> @@ -26,11 +26,11 @@ properties:
->    compatible:
->      oneOf:
->        - items:
-> -        - enum:
-> -          - amlogic,meson8-canvas
-> -          - amlogic,meson8b-canvas
-> -          - amlogic,meson8m2-canvas
-> -        - const: amlogic,canvas
-> +          - enum:
-> +              - amlogic,meson8-canvas
-> +              - amlogic,meson8b-canvas
-> +              - amlogic,meson8m2-canvas
-> +          - const: amlogic,canvas
->        - const: amlogic,canvas # GXBB and newer SoCs
-> 
->    reg:
-> diff --git a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
-> index d1b65554e681..91cf4176abd5 100644
-> --- a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
-> +++ b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
-> @@ -17,16 +17,16 @@ properties:
->      oneOf:
->        # for FSI2 SoC
->        - items:
-> -        - enum:
-> -          - renesas,fsi2-sh73a0
-> -          - renesas,fsi2-r8a7740
-> -        - enum:
-> -          - renesas,sh_fsi2
-> +          - enum:
-> +              - renesas,fsi2-sh73a0
-> +              - renesas,fsi2-r8a7740
-> +          - enum:
-> +              - renesas,sh_fsi2
->        # for Generic
->        - items:
-> -        - enum:
-> -          - renesas,sh_fsi
-> -          - renesas,sh_fsi2
-> +          - enum:
-> +              - renesas,sh_fsi
-> +              - renesas,sh_fsi2
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml b/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml
-> index 0cf470eaf2a0..406286149a6b 100644
-> --- a/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml
-> @@ -8,12 +8,12 @@ $schema: "http://devicetree.org/meta-schemas/core.yaml#"
->  title: Qualcomm Quad Serial Peripheral Interface (QSPI)
-> 
->  maintainers:
-> - - Mukesh Savaliya <msavaliy@codeaurora.org>
-> - - Akash Asthana <akashast@codeaurora.org>
-> +  - Mukesh Savaliya <msavaliy@codeaurora.org>
-> +  - Akash Asthana <akashast@codeaurora.org>
-> 
-> -description:
-> - The QSPI controller allows SPI protocol communication in single, dual, or quad
-> - wire transmission modes for read/write access to slaves such as NOR flash.
-> +description: The QSPI controller allows SPI protocol communication in single,
-> +  dual, or quad wire transmission modes for read/write access to slaves such
-> +  as NOR flash.
-> 
->  allOf:
->    - $ref: /spi/spi-controller.yaml#
-> diff --git a/Documentation/devicetree/bindings/spi/renesas,hspi.yaml b/Documentation/devicetree/bindings/spi/renesas,hspi.yaml
-> index c429cf4bea5b..f492cb9fea12 100644
-> --- a/Documentation/devicetree/bindings/spi/renesas,hspi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/renesas,hspi.yaml
-> @@ -16,8 +16,8 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -        - renesas,hspi-r8a7778 # R-Car M1A
-> -        - renesas,hspi-r8a7779 # R-Car H1
-> +          - renesas,hspi-r8a7778 # R-Car M1A
-> +          - renesas,hspi-r8a7779 # R-Car H1
->        - const: renesas,hspi
-> 
->    reg:
-> diff --git a/Documentation/devicetree/bindings/spi/spi-pl022.yaml b/Documentation/devicetree/bindings/spi/spi-pl022.yaml
-> index dfb697c69341..22ba4e90655b 100644
-> --- a/Documentation/devicetree/bindings/spi/spi-pl022.yaml
-> +++ b/Documentation/devicetree/bindings/spi/spi-pl022.yaml
-> @@ -51,7 +51,7 @@ properties:
-> 
->    pl022,rt:
->      description: indicates the controller should run the message pump with realtime
-> -               priority to minimise the transfer latency on the bus (boolean)
-> +      priority to minimise the transfer latency on the bus (boolean)
->      type: boolean
-> 
->    dmas:
-> diff --git a/Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml b/Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml
-> index 3665a5fe6b7f..1a342ce1f798 100644
-> --- a/Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml
-> @@ -24,8 +24,8 @@ properties:
-> 
->    reg-names:
->      items:
-> -     - const: qspi
-> -     - const: qspi_mm
-> +      - const: qspi
-> +      - const: qspi_mm
-> 
->    clocks:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-> index 4b5509436588..f5825935fd22 100644
-> --- a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-> +++ b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-> @@ -29,8 +29,8 @@ properties:
->        - const: allwinner,sun4i-a10-system-control
->        - const: allwinner,sun5i-a13-system-control
->        - items:
-> -        - const: allwinner,sun7i-a20-system-control
-> -        - const: allwinner,sun4i-a10-system-control
-> +          - const: allwinner,sun7i-a20-system-control
-> +          - const: allwinner,sun4i-a10-system-control
->        - const: allwinner,sun8i-a23-system-control
->        - const: allwinner,sun8i-h3-system-control
->        - const: allwinner,sun50i-a64-sram-controller
-> @@ -38,11 +38,11 @@ properties:
->        - const: allwinner,sun50i-a64-system-control
->        - const: allwinner,sun50i-h5-system-control
->        - items:
-> -        - const: allwinner,sun50i-h6-system-control
-> -        - const: allwinner,sun50i-a64-system-control
-> +          - const: allwinner,sun50i-h6-system-control
-> +          - const: allwinner,sun50i-a64-system-control
->        - items:
-> -        - const: allwinner,suniv-f1c100s-system-control
-> -        - const: allwinner,sun4i-a10-system-control
-> +          - const: allwinner,suniv-f1c100s-system-control
-> +          - const: allwinner,sun4i-a10-system-control
-> 
->    reg:
->      maxItems: 1
-> @@ -69,44 +69,44 @@ patternProperties:
->                - const: allwinner,sun4i-a10-sram-d
->                - const: allwinner,sun50i-a64-sram-c
->                - items:
-> -                - const: allwinner,sun5i-a13-sram-a3-a4
-> -                - const: allwinner,sun4i-a10-sram-a3-a4
-> +                  - const: allwinner,sun5i-a13-sram-a3-a4
-> +                  - const: allwinner,sun4i-a10-sram-a3-a4
->                - items:
-> -                - const: allwinner,sun7i-a20-sram-a3-a4
-> -                - const: allwinner,sun4i-a10-sram-a3-a4
-> +                  - const: allwinner,sun7i-a20-sram-a3-a4
-> +                  - const: allwinner,sun4i-a10-sram-a3-a4
->                - items:
-> -                - const: allwinner,sun5i-a13-sram-c1
-> -                - const: allwinner,sun4i-a10-sram-c1
-> +                  - const: allwinner,sun5i-a13-sram-c1
-> +                  - const: allwinner,sun4i-a10-sram-c1
->                - items:
-> -                - const: allwinner,sun7i-a20-sram-c1
-> -                - const: allwinner,sun4i-a10-sram-c1
-> +                  - const: allwinner,sun7i-a20-sram-c1
-> +                  - const: allwinner,sun4i-a10-sram-c1
->                - items:
-> -                - const: allwinner,sun8i-a23-sram-c1
-> -                - const: allwinner,sun4i-a10-sram-c1
-> +                  - const: allwinner,sun8i-a23-sram-c1
-> +                  - const: allwinner,sun4i-a10-sram-c1
->                - items:
-> -                - const: allwinner,sun8i-h3-sram-c1
-> -                - const: allwinner,sun4i-a10-sram-c1
-> +                  - const: allwinner,sun8i-h3-sram-c1
-> +                  - const: allwinner,sun4i-a10-sram-c1
->                - items:
-> -                - const: allwinner,sun50i-a64-sram-c1
-> -                - const: allwinner,sun4i-a10-sram-c1
-> +                  - const: allwinner,sun50i-a64-sram-c1
-> +                  - const: allwinner,sun4i-a10-sram-c1
->                - items:
-> -                - const: allwinner,sun50i-h5-sram-c1
-> -                - const: allwinner,sun4i-a10-sram-c1
-> +                  - const: allwinner,sun50i-h5-sram-c1
-> +                  - const: allwinner,sun4i-a10-sram-c1
->                - items:
-> -                - const: allwinner,sun50i-h6-sram-c1
-> -                - const: allwinner,sun4i-a10-sram-c1
-> +                  - const: allwinner,sun50i-h6-sram-c1
-> +                  - const: allwinner,sun4i-a10-sram-c1
->                - items:
-> -                - const: allwinner,sun5i-a13-sram-d
-> -                - const: allwinner,sun4i-a10-sram-d
-> +                  - const: allwinner,sun5i-a13-sram-d
-> +                  - const: allwinner,sun4i-a10-sram-d
->                - items:
-> -                - const: allwinner,sun7i-a20-sram-d
-> -                - const: allwinner,sun4i-a10-sram-d
-> +                  - const: allwinner,sun7i-a20-sram-d
-> +                  - const: allwinner,sun4i-a10-sram-d
->                - items:
-> -                - const: allwinner,suniv-f1c100s-sram-d
-> -                - const: allwinner,sun4i-a10-sram-d
-> +                  - const: allwinner,suniv-f1c100s-sram-d
-> +                  - const: allwinner,sun4i-a10-sram-d
->                - items:
-> -                - const: allwinner,sun50i-h6-sram-c
-> -                - const: allwinner,sun50i-a64-sram-c
-> +                  - const: allwinner,sun50i-h6-sram-c
-> +                  - const: allwinner,sun50i-a64-sram-c
-> 
->  required:
->    - "#address-cells"
-> diff --git a/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml b/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml
-> index e43ec50bda37..999c6b365f1d 100644
-> --- a/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml
-> @@ -13,11 +13,11 @@ description: Binding for Amlogic Thermal
-> 
->  properties:
->    compatible:
-> -      items:
-> -        - enum:
-> -            - amlogic,g12a-cpu-thermal
-> -            - amlogic,g12a-ddr-thermal
-> -        - const: amlogic,g12a-thermal
-> +    items:
-> +      - enum:
-> +          - amlogic,g12a-cpu-thermal
-> +          - amlogic,g12a-ddr-thermal
-> +      - const: amlogic,g12a-thermal
-> 
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml b/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
-> index fa255672e8e5..135186f83925 100644
-> --- a/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
-> +++ b/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
-> @@ -28,10 +28,10 @@ properties:
->                - arm,armv7-timer
->        - items:
->            - enum:
-> -            - arm,armv7-timer
-> +              - arm,armv7-timer
->        - items:
->            - enum:
-> -            - arm,armv8-timer
-> +              - arm,armv8-timer
-> 
->    interrupts:
->      items:
-> diff --git a/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml b/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml
-> index 582bbef62b95..6ff718ede184 100644
-> --- a/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml
-> +++ b/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml
-> @@ -20,7 +20,7 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -        - arm,armv7-timer-mem
-> +          - arm,armv7-timer-mem
-> 
->    reg:
->      maxItems: 1
-> @@ -77,7 +77,7 @@ patternProperties:
->            - description: physical timer irq
->            - description: virtual timer irq
-> 
-> -      reg :
-> +      reg:
->          minItems: 1
->          maxItems: 2
->          items:
-> diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml b/Documentation/devicetree/bindings/usb/dwc2.yaml
-> index 0d6d850a7f17..fb2f62aef5fa 100644
-> --- a/Documentation/devicetree/bindings/usb/dwc2.yaml
-> +++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
-> @@ -62,14 +62,14 @@ properties:
-> 
->    resets:
->      items:
-> -     - description: common reset
-> -     - description: ecc reset
-> +      - description: common reset
-> +      - description: ecc reset
->      minItems: 1
-> 
->    reset-names:
->      items:
-> -     - const: dwc2
-> -     - const: dwc2-ecc
-> +      - const: dwc2
-> +      - const: dwc2-ecc
->      minItems: 1
-> 
->    phys:
-> --
-> 2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCAxNSBBcHIgMjAyMCAxOTo1NTo0OSAtMDUwMApSb2IgSGVycmluZyA8cm9iaEBrZXJu
+ZWwub3JnPiB3cm90ZToKCj4ganNvbi1zY2hlbWEgdmVyc2lvbnMgZHJhZnQ3IGFuZCBlYXJsaWVy
+IGhhdmUgYSB3ZWlyZCBiZWhhdmlvciBpbiB0aGF0Cj4gYW55IGtleXdvcmRzIGNvbWJpbmVkIHdp
+dGggYSAnJHJlZicgYXJlIGlnbm9yZWQgKHNpbGVudGx5KS4gVGhlIGNvcnJlY3QKPiBmb3JtIHdh
+cyB0byBwdXQgYSAnJHJlZicgdW5kZXIgYW4gJ2FsbE9mJy4gVGhpcyBiZWhhdmlvciBpcyBub3cg
+Y2hhbmdlZAo+IGluIHRoZSAyMDE5LTA5IGpzb24tc2NoZW1hIHNwZWMgYW5kICckcmVmJyBjYW4g
+YmUgbWl4ZWQgd2l0aCBvdGhlcgo+IGtleXdvcmRzLiBUaGUganNvbi1zY2hlbWEgbGlicmFyeSBk
+b2Vzbid0IHlldCBzdXBwb3J0IHRoaXMsIGJ1dCB0aGUKPiB0b29saW5nIG5vdyBkb2VzIGEgZml4
+dXAgZm9yIHRoaXMgYW5kIGVpdGhlciB3YXkgd29ya3MuCj4gCj4gVGhpcyBoYXMgYmVlbiBhIGNv
+bnN0YW50IHNvdXJjZSBvZiByZXZpZXcgY29tbWVudHMsIHNvIGxldCdzIGNoYW5nZSB0aGlzCj4g
+dHJlZXdpZGUgc28gZXZlcnlvbmUgY29waWVzIHRoZSBzaW1wbGVyIHN5bnRheC4KPiAKPiBTaWdu
+ZWQtb2ZmLWJ5OiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgoKQSBmZXcgdW5yZWxhdGVk
+IHdoaXRlIHNwYWNlIGNoYW5nZXMgaW4gZW51bXMgaW4gdGhlIElJTyBjaHVua3MuCgpEb24ndCBz
+dXBwb3NlIHRoZXkgbWF0dGVyIGJ1dCBtYXliZSBuZWVkIHRoZSBkZXNjcmlwdGlvbiB0byBtZW50
+aW9uIHRoZXJlCm1heSBiZSBzb21lIG1pbm9yIGZvcm1hdHRpbmcgY2hhbmdlcyBhcyB3ZWxsIGlu
+IHNvbWUgY2FzZXMuCgpBY2tlZC1ieTogSm9uYXRoYW4gQ2FtZXJvbiA8Sm9uYXRoYW4uQ2FtZXJv
+bkBodWF3ZWkuY29tPiAjZm9yLWlpbwoKPiAtLS0KPiAgLi4uL2RldmljZXRyZWUvYmluZGluZ3Mv
+YXJtL2NwdXMueWFtbCAgICAgICAgIHwgIDgxICsrKy0tLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5k
+aW5ncy9hcm0vbDJjMngwLnlhbWwgICAgICAgfCAgODcgKysrLS0tCj4gIC4uLi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL2FybS9wc2NpLnlhbWwgICAgICAgICB8ICAxNSArLQo+ICAuLi4vYmluZGluZ3Mv
+YXJtL3NhbXN1bmcvZXh5bm9zLWNoaXBpZC55YW1sICAgfCAgIDUgKy0KPiAgLi4uL2J1cy9hbGx3
+aW5uZXIsc3VuNTBpLWE2NC1kZTIueWFtbCAgICAgICAgIHwgICA1ICstCj4gIC4uLi9iaW5kaW5n
+cy9jbG9jay9maXhlZC1mYWN0b3ItY2xvY2sueWFtbCAgICB8ICAgNSArLQo+ICAuLi4vYmluZGlu
+Z3MvY29ubmVjdG9yL3VzYi1jb25uZWN0b3IueWFtbCAgICAgfCAgMjggKy0KPiAgLi4uL2JpbmRp
+bmdzL2NyeXB0by9zdCxzdG0zMi1oYXNoLnlhbWwgICAgICAgIHwgICA5ICstCj4gIC4uLi9hbGx3
+aW5uZXIsc3VuNGktYTEwLWRpc3BsYXktZW5naW5lLnlhbWwgICB8ICAgNyArLQo+ICAuLi4vZGlz
+cGxheS9hbGx3aW5uZXIsc3VuNGktYTEwLXRjb24ueWFtbCAgICAgfCAgIDUgKy0KPiAgLi4uL2Jp
+bmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtY29tbW9uLnlhbWwgIHwgICA1ICstCj4gIC4uLi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2RtYS9kbWEtY29tbW9uLnlhbWwgICB8ICAgMyArLQo+ICAuLi4v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9kbWEvdGkvazMtdWRtYS55YW1sICAgfCAgMTggKy0KPiAgLi4u
+L2RldmljZXRyZWUvYmluZGluZ3MvZWVwcm9tL2F0MjQueWFtbCAgICAgIHwgIDExICstCj4gIC4u
+Li9kZXZpY2V0cmVlL2JpbmRpbmdzL2V4YW1wbGUtc2NoZW1hLnlhbWwgICB8ICAxNyArLQo+ICAu
+Li4vYmluZGluZ3MvaHdtb24vYWRpLGx0YzI5NDcueWFtbCAgICAgICAgICAgfCAgMzIgKy0tCj4g
+IC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL2h3bW9uL3RpLHRtcDUxMy55YW1sICB8ICAyMSArLQo+
+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9pMmMvc3Qsc3RtMzItaTJjLnlhbWwgfCAgIDkgKy0K
+PiAgLi4uL2JpbmRpbmdzL2lpby9hZGMvYWRpLGFkNzEyNC55YW1sICAgICAgICAgIHwgICA1ICst
+Cj4gIC4uLi9iaW5kaW5ncy9paW8vYWRjL2xsdGMsbHRjMjQ5Ni55YW1sICAgICAgICB8ICAgMyAr
+LQo+ICAuLi4vYmluZGluZ3MvaWlvL2FkYy9taWNyb2NoaXAsbWNwMzkxMS55YW1sICAgfCAgIDcg
+Ky0KPiAgLi4uL2JpbmRpbmdzL2lpby9hZGMvc3Qsc3RtMzItZGZzZG0tYWRjLnlhbWwgIHwgIDMx
+ICstCj4gIC4uLi9iaW5kaW5ncy9paW8vbGlnaHQvdHNsMjc3Mi55YW1sICAgICAgICAgICB8ICAx
+MyArLQo+ICAuLi4vYmluZGluZ3MvaWlvL3RlbXBlcmF0dXJlL2FkaSxsdGMyOTgzLnlhbWwgfCAg
+NTYgKystLQoKLi4uCgo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvaWlvL2FkYy9hZGksYWQ3MTI0LnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
+YmluZGluZ3MvaWlvL2FkYy9hZGksYWQ3MTI0LnlhbWwKPiBpbmRleCA5NzA4N2E0NWNlNTQuLmRl
+YjM0ZGVmZjBlOCAxMDA2NDQKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvaWlvL2FkYy9hZGksYWQ3MTI0LnlhbWwKPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvaWlvL2FkYy9hZGksYWQ3MTI0LnlhbWwKPiBAQCAtODMsOSArODMsOCBAQCBw
+YXR0ZXJuUHJvcGVydGllczoKPiAgICAgICAgICAgIDE6IFJFRklOMigrKS9SRUZJTjIo4oiSKS4K
+PiAgICAgICAgICAgIDM6IEFWREQKPiAgICAgICAgICAgIElmIHRoaXMgZmllbGQgaXMgbGVmdCBl
+bXB0eSwgaW50ZXJuYWwgcmVmZXJlbmNlIGlzIHNlbGVjdGVkLgo+IC0gICAgICAgIGFsbE9mOgo+
+IC0gICAgICAgICAgLSAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50
+MzIKPiAtICAgICAgICAgIC0gZW51bTogWzAsIDEsIDNdCj4gKyAgICAgICAgJHJlZjogL3NjaGVt
+YXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyCj4gKyAgICAgICAgZW51bTogWzAsIDEs
+IDNdCj4gCj4gICAgICAgIGRpZmYtY2hhbm5lbHM6Cj4gICAgICAgICAgZGVzY3JpcHRpb246IHNl
+ZSBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvaWlvL2FkYy9hZGMudHh0Cj4gZGlm
+ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9paW8vYWRjL2xsdGMs
+bHRjMjQ5Ni55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2lpby9hZGMv
+bGx0YyxsdGMyNDk2LnlhbWwKPiBpbmRleCA5N2Y1MjFkNjU0ZWEuLjZhOTkxZTlmNzhlMiAxMDA2
+NDQKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvaWlvL2FkYy9sbHRj
+LGx0YzI0OTYueWFtbAo+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9p
+aW8vYWRjL2xsdGMsbHRjMjQ5Ni55YW1sCj4gQEAgLTE4LDggKzE4LDcgQEAgcHJvcGVydGllczoK
+PiAKPiAgICB2cmVmLXN1cHBseToKPiAgICAgIGRlc2NyaXB0aW9uOiBwaGFuZGxlIHRvIGFuIGV4
+dGVybmFsIHJlZ3VsYXRvciBwcm92aWRpbmcgdGhlIHJlZmVyZW5jZSB2b2x0YWdlCj4gLSAgICBh
+bGxPZjoKPiAtICAgICAgLSAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy9w
+aGFuZGxlCj4gKyAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy9waGFu
+ZGxlCj4gCj4gICAgcmVnOgo+ICAgICAgZGVzY3JpcHRpb246IHNwaSBjaGlwc2VsZWN0IG51bWJl
+ciBhY2NvcmRpbmcgdG8gdGhlIHVzdWFsIHNwaSBiaW5kaW5ncwo+IGRpZmYgLS1naXQgYS9Eb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvaWlvL2FkYy9taWNyb2NoaXAsbWNwMzkxMS55
+YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2lpby9hZGMvbWljcm9jaGlw
+LG1jcDM5MTEueWFtbAo+IGluZGV4IDhmZmVjZWI2YWJhZS4uOTVhYjI4NWY0ZWJhIDEwMDY0NAo+
+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9paW8vYWRjL21pY3JvY2hp
+cCxtY3AzOTExLnlhbWwKPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
+aWlvL2FkYy9taWNyb2NoaXAsbWNwMzkxMS55YW1sCj4gQEAgLTM4LDEwICszOCw5IEBAIHByb3Bl
+cnRpZXM6Cj4gCj4gICAgbWljcm9jaGlwLGRldmljZS1hZGRyOgo+ICAgICAgZGVzY3JpcHRpb246
+IERldmljZSBhZGRyZXNzIHdoZW4gbXVsdGlwbGUgTUNQMzkxMSBjaGlwcyBhcmUgcHJlc2VudCBv
+biB0aGUgc2FtZSBTUEkgYnVzLgo+IC0gICAgYWxsT2Y6Cj4gLSAgICAgIC0gJHJlZjogL3NjaGVt
+YXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyCj4gLSAgICAgIC0gZW51bTogWzAsIDEs
+IDIsIDNdCj4gLSAgICAgIC0gZGVmYXVsdDogMAo+ICsgICAgJHJlZjogL3NjaGVtYXMvdHlwZXMu
+eWFtbCMvZGVmaW5pdGlvbnMvdWludDMyCj4gKyAgICBlbnVtOiBbMCwgMSwgMiwgM10KPiArICAg
+IGRlZmF1bHQ6IDAKPiAKPiAgICB2cmVmLXN1cHBseToKPiAgICAgIGRlc2NyaXB0aW9uOiB8Cj4g
+ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9paW8vYWRjL3N0
+LHN0bTMyLWRmc2RtLWFkYy55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L2lpby9hZGMvc3Qsc3RtMzItZGZzZG0tYWRjLnlhbWwKPiBpbmRleCBiMTYyNzQ0MWEwYjIuLmQ2
+OWNhNDkyZDAyMCAxMDA2NDQKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvaWlvL2FkYy9zdCxzdG0zMi1kZnNkbS1hZGMueWFtbAo+ICsrKyBiL0RvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9paW8vYWRjL3N0LHN0bTMyLWRmc2RtLWFkYy55YW1sCj4gQEAg
+LTk1LDE2ICs5NSwxNCBAQCBwYXR0ZXJuUHJvcGVydGllczoKPiAgICAgICAgICAgIE9uIHN0bTMy
+aDcgYW5kIHN0bTMybXAxOgo+ICAgICAgICAgICAgLSBGb3Igc3Qsc3RtMzItZGZzZG0tYWRjOiB1
+cCB0byA4IGNoYW5uZWxzIG51bWJlcmVkIGZyb20gMCB0byA3Lgo+ICAgICAgICAgICAgLSBGb3Ig
+c3Qsc3RtMzItZGZzZG0tZG1pYzogMSBjaGFubmVsIG51bWJlcmVkIGZyb20gMCB0byA3Lgo+IC0g
+ICAgICAgIGFsbE9mOgo+IC0gICAgICAgICAgLSAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9k
+ZWZpbml0aW9ucy91aW50MzItYXJyYXkKPiAtICAgICAgICAgIC0gaXRlbXM6Cj4gLSAgICAgICAg
+ICAgICAgbWluaW11bTogMAo+IC0gICAgICAgICAgICAgIG1heGltdW06IDcKPiArICAgICAgICAk
+cmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzItYXJyYXkKPiArICAg
+ICAgICBpdGVtczoKPiArICAgICAgICAgIG1pbmltdW06IDAKPiArICAgICAgICAgIG1heGltdW06
+IDcKPiAKPiAgICAgICAgc3QsYWRjLWNoYW5uZWwtbmFtZXM6Cj4gICAgICAgICAgZGVzY3JpcHRp
+b246IExpc3Qgb2Ygc2luZ2xlLWVuZGVkIGNoYW5uZWwgbmFtZXMuCj4gLSAgICAgICAgYWxsT2Y6
+Cj4gLSAgICAgICAgICAtICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3N0
+cmluZy1hcnJheQo+ICsgICAgICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRp
+b25zL3N0cmluZy1hcnJheQo+IAo+ICAgICAgICBzdCxmaWx0ZXItb3JkZXI6Cj4gICAgICAgICAg
+ZGVzY3JpcHRpb246IHwKPiBAQCAtMTEyLDExICsxMTAsMTAgQEAgcGF0dGVyblByb3BlcnRpZXM6
+Cj4gICAgICAgICAgICAtIDA6IEZhc3RTaW5DCj4gICAgICAgICAgICAtIFsxLTVdOiBvcmRlciAx
+IHRvIDUuCj4gICAgICAgICAgICBGb3IgYXVkaW8gcHVycG9zZSBpdCBpcyByZWNvbW1lbmRlZCB0
+byB1c2Ugb3JkZXIgMyB0byA1Lgo+IC0gICAgICAgIGFsbE9mOgo+IC0gICAgICAgICAgLSAkcmVm
+OiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzIKPiAtICAgICAgICAgIC0g
+aXRlbXM6Cj4gLSAgICAgICAgICAgICAgbWluaW11bTogMAo+IC0gICAgICAgICAgICAgIG1heGlt
+dW06IDUKPiArICAgICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91
+aW50MzIKPiArICAgICAgICBpdGVtczoKPiArICAgICAgICAgIG1pbmltdW06IDAKPiArICAgICAg
+ICAgIG1heGltdW06IDUKPiAKPiAgICAgICAgIiNpby1jaGFubmVsLWNlbGxzIjoKPiAgICAgICAg
+ICBjb25zdDogMQo+IEBAIC0xMjksOSArMTI2LDggQEAgcGF0dGVyblByb3BlcnRpZXM6Cj4gICAg
+ICAgICAgICAtICJNQU5DSF9SIjogbWFuY2hlc3RlciBjb2RlYywgcmlzaW5nIGVkZ2UgPSBsb2dp
+YyAwLCBmYWxsaW5nIGVkZ2UgPSBsb2dpYyAxCj4gICAgICAgICAgICAtICJNQU5DSF9GIjogbWFu
+Y2hlc3RlciBjb2RlYywgcmlzaW5nIGVkZ2UgPSBsb2dpYyAxLCBmYWxsaW5nIGVkZ2UgPSBsb2dp
+YyAwCj4gICAgICAgICAgaXRlbXM6Cj4gLSAgICAgICAgICBlbnVtOiBbIFNQSV9SLCBTUElfRiwg
+TUFOQ0hfUiwgTUFOQ0hfRiBdCj4gLSAgICAgICAgYWxsT2Y6Cj4gLSAgICAgICAgICAtICRyZWY6
+IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL25vbi11bmlxdWUtc3RyaW5nLWFycmF5
+Cj4gKyAgICAgICAgICBlbnVtOiBbU1BJX1IsIFNQSV9GLCBNQU5DSF9SLCBNQU5DSF9GXQoKSSBk
+b24ndCBzdXBwb3NlIGl0IG1hdHRlcnMgbXVjaCBidXQgdW5yZWxhdGVkIGNoYW5nZS4KCj4gKyAg
+ICAgICAgJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvbm9uLXVuaXF1ZS1z
+dHJpbmctYXJyYXkKPiAKPiAgICAgICAgc3QsYWRjLWNoYW5uZWwtY2xrLXNyYzoKPiAgICAgICAg
+ICBkZXNjcmlwdGlvbjogfAo+IEBAIC0xNDEsOSArMTM3LDggQEAgcGF0dGVyblByb3BlcnRpZXM6
+Cj4gICAgICAgICAgICAtICJDTEtPVVRfRiI6IGludGVybmFsIFNQSSBjbG9jayBkaXZpZGVkIGJ5
+IDIgKGZhbGxpbmcgZWRnZSkuCj4gICAgICAgICAgICAtICJDTEtPVVRfUiI6IGludGVybmFsIFNQ
+SSBjbG9jayBkaXZpZGVkIGJ5IDIgKHJpc2luZyBlZGdlKS4KPiAgICAgICAgICBpdGVtczoKPiAt
+ICAgICAgICAgIGVudW06IFsgQ0xLSU4sIENMS09VVCwgQ0xLT1VUX0YsIENMS09VVF9SIF0KClVu
+cmVsYXRlZCBjaGFuZ2UuCgo+IC0gICAgICAgIGFsbE9mOgo+IC0gICAgICAgICAgLSAkcmVmOiAv
+c2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy9ub24tdW5pcXVlLXN0cmluZy1hcnJheQo+
+ICsgICAgICAgICAgZW51bTogW0NMS0lOLCBDTEtPVVQsIENMS09VVF9GLCBDTEtPVVRfUl0KPiAr
+ICAgICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy9ub24tdW5pcXVl
+LXN0cmluZy1hcnJheQo+IAo+ICAgICAgICBzdCxhZGMtYWx0LWNoYW5uZWw6Cj4gICAgICAgICAg
+ZGVzY3JpcHRpb246Cj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9paW8vbGlnaHQvdHNsMjc3Mi55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
+bmRpbmdzL2lpby9saWdodC90c2wyNzcyLnlhbWwKPiBpbmRleCBlOGY3ZDFhZGE1N2IuLmQ4MTIy
+OTg1Nzk0NCAxMDA2NDQKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
+aWlvL2xpZ2h0L3RzbDI3NzIueWFtbAo+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9paW8vbGlnaHQvdHNsMjc3Mi55YW1sCj4gQEAgLTMzLDEzICszMywxMiBAQCBwcm9w
+ZXJ0aWVzOgo+IAo+ICAgIGFtc3Rhb3MscHJveGltaXR5LWRpb2RlczoKPiAgICAgIGRlc2NyaXB0
+aW9uOiBQcm94aW1pdHkgZGlvZGVzIHRvIGVuYWJsZQo+IC0gICAgYWxsT2Y6Cj4gLSAgICAgIC0g
+JHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyLWFycmF5Cj4gLSAg
+ICAgIC0gbWluSXRlbXM6IDEKPiAtICAgICAgICBtYXhJdGVtczogMgo+IC0gICAgICAgIGl0ZW1z
+Ogo+IC0gICAgICAgICAgbWluaW11bTogMAo+IC0gICAgICAgICAgbWF4aW11bTogMQo+ICsgICAg
+JHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyLWFycmF5Cj4gKyAg
+ICBtaW5JdGVtczogMQo+ICsgICAgbWF4SXRlbXM6IDIKPiArICAgIGl0ZW1zOgo+ICsgICAgICBt
+aW5pbXVtOiAwCj4gKyAgICAgIG1heGltdW06IDEKPiAKPiAgICBpbnRlcnJ1cHRzOgo+ICAgICAg
+bWF4SXRlbXM6IDEKPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2lpby90ZW1wZXJhdHVyZS9hZGksbHRjMjk4My55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZp
+Y2V0cmVlL2JpbmRpbmdzL2lpby90ZW1wZXJhdHVyZS9hZGksbHRjMjk4My55YW1sCj4gaW5kZXgg
+OGZiNDZkZTY2NDFkLi45NDgwZWRlNTljMzcgMTAwNjQ0Cj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2lpby90ZW1wZXJhdHVyZS9hZGksbHRjMjk4My55YW1sCj4gKysr
+IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2lpby90ZW1wZXJhdHVyZS9hZGks
+bHRjMjk4My55YW1sCj4gQEAgLTQyLDEwICs0Miw5IEBAIHByb3BlcnRpZXM6Cj4gICAgICAgIDAg
+LSA1MC82MEh6IHJlamVjdGlvbgo+ICAgICAgICAxIC0gNjBIeiByZWplY3Rpb24KPiAgICAgICAg
+MiAtIDUwSHogcmVqZWN0aW9uCj4gLSAgICBhbGxPZjoKPiAtICAgICAgLSAkcmVmOiAvc2NoZW1h
+cy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzIKPiAtICAgICAgLSBtaW5pbXVtOiAwCj4g
+LSAgICAgICAgbWF4aW11bTogMgo+ICsgICAgJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVm
+aW5pdGlvbnMvdWludDMyCj4gKyAgICBtaW5pbXVtOiAwCj4gKyAgICBtYXhpbXVtOiAyCj4gCj4g
+ICAgJyNhZGRyZXNzLWNlbGxzJzoKPiAgICAgIGNvbnN0OiAxCj4gQEAgLTkxLDggKzkwLDcgQEAg
+cGF0dGVyblByb3BlcnRpZXM6Cj4gICAgICAgICAgICA3IC0gVHlwZSBUIFRoZXJtb2NvdXBsZQo+
+ICAgICAgICAgICAgOCAtIFR5cGUgQiBUaGVybW9jb3VwbGUKPiAgICAgICAgICAgIDkgLSBDdXN0
+b20gVGhlcm1vY291cGxlCj4gLSAgICAgICAgYWxsT2Y6Cj4gLSAgICAgICAgICAtICRyZWY6IC9z
+Y2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMgo+ICsgICAgICAgICRyZWY6IC9z
+Y2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMgo+ICAgICAgICAgIG1pbmltdW06
+IDEKPiAgICAgICAgICBtYXhpbXVtOiA5Cj4gCj4gQEAgLTEyMSw4ICsxMTksNyBAQCBwYXR0ZXJu
+UHJvcGVydGllczoKPiAgICAgICAgICAgIG1vcmUgZGV0YWlscyBsb29rIGF0IHRhYmxlIDY5IGFu
+ZCA3MC4KPiAgICAgICAgICAgIE5vdGUgc2hvdWxkIGJlIHNpZ25lZCwgYnV0IGR0YyBkb2Vzbid0
+IGN1cnJlbnRseSBtYWludGFpbiB0aGUKPiAgICAgICAgICAgIHNpZ24uCj4gLSAgICAgICAgYWxs
+T2Y6Cj4gLSAgICAgICAgICAtICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25z
+L3VpbnQ2NC1tYXRyaXgKPiArICAgICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZp
+bml0aW9ucy91aW50NjQtbWF0cml4Cj4gICAgICAgICAgbWluSXRlbXM6IDMKPiAgICAgICAgICBt
+YXhJdGVtczogNjQKPiAgICAgICAgICBpdGVtczoKPiBAQCAtMTM4LDggKzEzNSw3IEBAIHBhdHRl
+cm5Qcm9wZXJ0aWVzOgo+ICAgICAgcHJvcGVydGllczoKPiAgICAgICAgYWRpLHNlbnNvci10eXBl
+Ogo+ICAgICAgICAgIGRlc2NyaXB0aW9uOiBJZGVudGlmaWVzIHRoZSBzZW5zb3IgYXMgYSBkaW9k
+ZS4KPiAtICAgICAgICBhbGxPZjoKPiAtICAgICAgICAgIC0gJHJlZjogL3NjaGVtYXMvdHlwZXMu
+eWFtbCMvZGVmaW5pdGlvbnMvdWludDMyCj4gKyAgICAgICAgJHJlZjogL3NjaGVtYXMvdHlwZXMu
+eWFtbCMvZGVmaW5pdGlvbnMvdWludDMyCj4gICAgICAgICAgY29uc3Q6IDI4Cj4gCj4gICAgICAg
+IGFkaSxzaW5nbGUtZW5kZWQ6Cj4gQEAgLTE5Niw4ICsxOTIsNyBAQCBwYXR0ZXJuUHJvcGVydGll
+czoKPiAgICAgICAgICAgIDE2IC0gUlREIFBULTEwMDAgKDAuMDAzNzUpCj4gICAgICAgICAgICAx
+NyAtIFJURCBOSS0xMjAKPiAgICAgICAgICAgIDE4IC0gUlREIEN1c3RvbQo+IC0gICAgICAgIGFs
+bE9mOgo+IC0gICAgICAgICAgLSAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9u
+cy91aW50MzIKPiArICAgICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9u
+cy91aW50MzIKPiAgICAgICAgICBtaW5pbXVtOiAxMAo+ICAgICAgICAgIG1heGltdW06IDE4Cj4g
+Cj4gQEAgLTIxMCw5ICsyMDUsOCBAQCBwYXR0ZXJuUHJvcGVydGllczoKPiAgICAgICAgICBkZXNj
+cmlwdGlvbjoKPiAgICAgICAgICAgIElkZW50aWZpZXMgdGhlIG51bWJlciBvZiB3aXJlcyB1c2Vk
+IGJ5IHRoZSBSVEQuIFNldHRpbmcgdGhpcwo+ICAgICAgICAgICAgcHJvcGVydHkgdG8gNSBtZWFu
+cyA0IHdpcmVzIHdpdGggS2VsdmluIFJzZW5zZS4KPiAtICAgICAgICBhbGxPZjoKPiAtICAgICAg
+ICAgIC0gJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyCj4gLSAg
+ICAgICAgICAtIGVudW06IFsyLCAzLCA0LCA1XQo+ICsgICAgICAgICRyZWY6IC9zY2hlbWFzL3R5
+cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMgo+ICsgICAgICAgIGVudW06IFsyLCAzLCA0LCA1
+XQo+IAo+ICAgICAgICBhZGkscnNlbnNlLXNoYXJlOgo+ICAgICAgICAgIGRlc2NyaXB0aW9uOgo+
+IEBAIC0yMzcsMTggKzIzMSwxNiBAQCBwYXR0ZXJuUHJvcGVydGllczoKPiAgICAgICAgICBkZXNj
+cmlwdGlvbjoKPiAgICAgICAgICAgIFRoaXMgcHJvcGVydHkgc2V0IHRoZSBSVEQgY3VydmUgdXNl
+ZCBhbmQgdGhlIGNvcnJlc3BvbmRpbmcKPiAgICAgICAgICAgIENhbGxlbmRhci1WYW5EdXNlbiBj
+b25zdGFudHMuIExvb2sgYXQgdGFibGUgMzAgb2YgdGhlIGRhdGFzaGVldC4KPiAtICAgICAgICBh
+bGxPZjoKPiAtICAgICAgICAgIC0gJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlv
+bnMvdWludDMyCj4gLSAgICAgICAgICAtIG1pbmltdW06IDAKPiAtICAgICAgICAgICAgbWF4aW11
+bTogMwo+ICsgICAgICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3Vp
+bnQzMgo+ICsgICAgICAgIG1pbmltdW06IDAKPiArICAgICAgICBtYXhpbXVtOiAzCj4gCj4gICAg
+ICAgIGFkaSxjdXN0b20tcnRkOgo+ICAgICAgICAgIGRlc2NyaXB0aW9uOgo+ICAgICAgICAgICAg
+VGhpcyBpcyBhIHRhYmxlLCB3aGVyZSBlYWNoIGVudHJ5IHNob3VsZCBiZSBhIHBhaXIgb2YKPiAg
+ICAgICAgICAgIHJlc2lzdGFuY2Uob2htKS10ZW1wZXJhdHVyZShLKS4gVGhlIGVudHJpZXMgYWRk
+ZWQgaGVyZSBhcmUgaW4gdW9obQo+ICAgICAgICAgICAgYW5kIHVLLiBGb3IgbW9yZSBkZXRhaWxz
+IHZhbHVlcyBsb29rIGF0IHRhYmxlIDc0IGFuZCA3NS4KPiAtICAgICAgICBhbGxPZjoKPiAtICAg
+ICAgICAgIC0gJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDY0LW1h
+dHJpeAo+ICsgICAgICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3Vp
+bnQ2NC1tYXRyaXgKPiAgICAgICAgICBpdGVtczoKPiAgICAgICAgICAgIG1pbkl0ZW1zOiAzCj4g
+ICAgICAgICAgICBtYXhJdGVtczogNjQKPiBAQCAtMjgwLDggKzI3Miw3IEBAIHBhdHRlcm5Qcm9w
+ZXJ0aWVzOgo+ICAgICAgICAgICAgMjUgLSBUaGVybWlzdG9yIFNwZWN0cnVtIDEwMDNrIDFrb2ht
+Cj4gICAgICAgICAgICAyNiAtIFRoZXJtaXN0b3IgQ3VzdG9tIFN0ZWluaGFydC1IYXJ0Cj4gICAg
+ICAgICAgICAyNyAtIEN1c3RvbSBUaGVybWlzdG9yCj4gLSAgICAgICAgYWxsT2Y6Cj4gLSAgICAg
+ICAgICAtICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMgo+ICsg
+ICAgICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMgo+ICAg
+ICAgICAgIG1pbmltdW06IDE5Cj4gICAgICAgICAgbWF4aW11bTogMjcKPiAKPiBAQCAtMzE0LDEw
+ICszMDUsOSBAQCBwYXR0ZXJuUHJvcGVydGllczoKPiAgICAgICAgICAgIFRoaXMgcHJvcGVydHkg
+Y29udHJvbHMgdGhlIG1hZ25pdHVkZSBvZiB0aGUgZXhjaXRhdGlvbiBjdXJyZW50Cj4gICAgICAg
+ICAgICBhcHBsaWVkIHRvIHRoZSB0aGVybWlzdG9yLiBWYWx1ZSAwIHNldCdzIHRoZSBzZW5zb3Ig
+aW4gYXV0by1yYW5nZQo+ICAgICAgICAgICAgbW9kZS4KPiAtICAgICAgICBhbGxPZjoKPiAtICAg
+ICAgICAgIC0gJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyCj4g
+LSAgICAgICAgICAtIGVudW06IFswLCAyNTAsIDUwMCwgMTAwMCwgNTAwMCwgMTAwMDAsIDI1MDAw
+LCA1MDAwMCwgMTAwMDAwLAo+IC0gICAgICAgICAgICAgICAgICAgMjUwMDAwLCA1MDAwMDAsIDEw
+MDAwMDBdCj4gKyAgICAgICAgJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMv
+dWludDMyCj4gKyAgICAgICAgZW51bTogWzAsIDI1MCwgNTAwLCAxMDAwLCA1MDAwLCAxMDAwMCwg
+MjUwMDAsIDUwMDAwLCAxMDAwMDAsIDI1MDAwMCwKPiArICAgICAgICAgIDUwMDAwMCwgMTAwMDAw
+MF0KPiAKPiAgICAgICAgYWRpLGN1c3RvbS10aGVybWlzdG9yOgo+ICAgICAgICAgIGRlc2NyaXB0
+aW9uOgo+IEBAIC0zMjUsOCArMzE1LDcgQEAgcGF0dGVyblByb3BlcnRpZXM6Cj4gICAgICAgICAg
+ICByZXNpc3RhbmNlKG9obSktdGVtcGVyYXR1cmUoSykuIFRoZSBlbnRyaWVzIGFkZGVkIGhlcmUg
+YXJlIGluIHVvaG0KPiAgICAgICAgICAgIGFuZCB1SyBvbmx5IGZvciBjdXN0b20gdGhlcm1pc3Rv
+cnMuIEZvciBtb3JlIGRldGFpbHMgbG9vayBhdCB0YWJsZQo+ICAgICAgICAgICAgNzggYW5kIDc5
+Lgo+IC0gICAgICAgIGFsbE9mOgo+IC0gICAgICAgICAgLSAkcmVmOiAvc2NoZW1hcy90eXBlcy55
+YW1sIy9kZWZpbml0aW9ucy91aW50NjQtbWF0cml4Cj4gKyAgICAgICAgJHJlZjogL3NjaGVtYXMv
+dHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDY0LW1hdHJpeAo+ICAgICAgICAgIG1pbkl0ZW1z
+OiAzCj4gICAgICAgICAgbWF4SXRlbXM6IDY0Cj4gICAgICAgICAgaXRlbXM6Cj4gQEAgLTMzOSw4
+ICszMjgsNyBAQCBwYXR0ZXJuUHJvcGVydGllczoKPiAgICAgICAgICAgIGJlIHByb2dyYW1tZWQg
+aW50byB0aGUgZGV2aWNlIG1lbW9yeSB1c2luZyB0aGlzIHByb3BlcnR5LiBGb3IKPiAgICAgICAg
+ICAgIFN0ZWluaGFydCBzZW5zb3JzIHRoZSBjb2VmZmljaWVudHMgYXJlIGdpdmVuIGluIHRoZSBy
+YXcKPiAgICAgICAgICAgIGZvcm1hdC4gTG9vayBhdCB0YWJsZSA4MiBmb3IgbW9yZSBpbmZvcm1h
+dGlvbi4KPiAtICAgICAgICBhbGxPZjoKPiAtICAgICAgICAgIC0gJHJlZjogL3NjaGVtYXMvdHlw
+ZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyLWFycmF5Cj4gKyAgICAgICAgJHJlZjogL3NjaGVt
+YXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyLWFycmF5Cj4gICAgICAgICAgaXRlbXM6
+Cj4gICAgICAgICAgICBtaW5JdGVtczogNgo+ICAgICAgICAgICAgbWF4SXRlbXM6IDYKPiBAQCAt
+MzU4LDggKzM0Niw3IEBAIHBhdHRlcm5Qcm9wZXJ0aWVzOgo+ICAgICAgcHJvcGVydGllczoKPiAg
+ICAgICAgYWRpLHNlbnNvci10eXBlOgo+ICAgICAgICAgIGRlc2NyaXB0aW9uOiBJZGVudGlmaWVz
+IHRoZSBzZW5zb3IgYXMgYSBkaXJlY3QgYWRjLgo+IC0gICAgICAgIGFsbE9mOgo+IC0gICAgICAg
+ICAgLSAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzIKPiArICAg
+ICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzIKPiAgICAg
+ICAgICBjb25zdDogMzAKPiAKPiAgICAgICAgYWRpLHNpbmdsZS1lbmRlZDoKPiBAQCAtMzc5LDgg
+KzM2Niw3IEBAIHBhdHRlcm5Qcm9wZXJ0aWVzOgo+IAo+ICAgICAgICBhZGksc2Vuc29yLXR5cGU6
+Cj4gICAgICAgICAgZGVzY3JpcHRpb246IElkZW50aWZpZXMgdGhlIHNlbnNvciBhcyBhIHJzZW5z
+ZS4KPiAtICAgICAgICBhbGxPZjoKPiAtICAgICAgICAgIC0gJHJlZjogL3NjaGVtYXMvdHlwZXMu
+eWFtbCMvZGVmaW5pdGlvbnMvdWludDMyCj4gKyAgICAgICAgJHJlZjogL3NjaGVtYXMvdHlwZXMu
+eWFtbCMvZGVmaW5pdGlvbnMvdWludDMyCj4gICAgICAgICAgY29uc3Q6IDI5Cj4gCj4gICAgICAg
+IGFkaSxyc2Vuc2UtdmFsLW1pbGxpLW9obXM6Cj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1dC9hbGx3aW5uZXIsc3VuNGktYTEwLWxyYWRjLWtleXMu
+eWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1dC9hbGx3aW5uZXIs
+c3VuNGktYTEwLWxyYWRjLWtleXMueWFtbAo+IGluZGV4IDUxMmE2YWY1YWE0Mi4uY2ZmZDAyMDI4
+ZDAyIDEwMDY0NAo+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1
+dC9hbGx3aW5uZXIsc3VuNGktYTEwLWxyYWRjLWtleXMueWFtbAo+ICsrKyBiL0RvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1dC9hbGx3aW5uZXIsc3VuNGktYTEwLWxyYWRjLWtl
+eXMueWFtbAo+IEBAIC00Miw5ICs0Miw4IEBAIHBhdHRlcm5Qcm9wZXJ0aWVzOgo+ICAgICAgICAg
+IGRlc2NyaXB0aW9uOiBLZXljb2RlIHRvIGVtaXQKPiAKPiAgICAgICAgY2hhbm5lbDoKPiAtICAg
+ICAgICBhbGxPZjoKPiAtICAgICAgICAgIC0gJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVm
+aW5pdGlvbnMvdWludDMyCj4gLSAgICAgICAgICAtIGVudW06IFswLCAxXQo+ICsgICAgICAgICRy
+ZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMgo+ICsgICAgICAgIGVu
+dW06IFswLCAxXQo+ICAgICAgICAgIGRlc2NyaXB0aW9uOiBBREMgQ2hhbm5lbCB0aGlzIGtleSBp
+cyBhdHRhY2hlZCB0bwo+IAo+ICAgICAgICB2b2x0YWdlOgo+IGRpZmYgLS1naXQgYS9Eb2N1bWVu
+dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvaW5wdXQvaW5wdXQueWFtbCBiL0RvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1dC9pbnB1dC55YW1sCj4gaW5kZXggNmQ1MTkwNDZi
+M2FmLi44ZWRjYjNjMzEyNzAgMTAwNjQ0Cj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL2lucHV0L2lucHV0LnlhbWwKPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvaW5wdXQvaW5wdXQueWFtbAo+IEBAIC0xOCwxMSArMTgsMTAgQEAgcHJvcGVy
+dGllczoKPiAgICAgIGRlc2NyaXB0aW9uOgo+ICAgICAgICBTcGVjaWZpZXMgYW4gYXJyYXkgb2Yg
+bnVtZXJpYyBrZXljb2RlIHZhbHVlcyB0byBiZSB1c2VkIGZvciByZXBvcnRpbmcKPiAgICAgICAg
+YnV0dG9uIHByZXNzZXMuCj4gLSAgICBhbGxPZjoKPiAtICAgICAgLSAkcmVmOiAvc2NoZW1hcy90
+eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzItYXJyYXkKPiAtICAgICAgLSBpdGVtczoKPiAt
+ICAgICAgICAgIG1pbmltdW06IDAKPiAtICAgICAgICAgIG1heGltdW06IDB4ZmYKPiArICAgICRy
+ZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMi1hcnJheQo+ICsgICAg
+aXRlbXM6Cj4gKyAgICAgIG1pbmltdW06IDAKPiArICAgICAgbWF4aW11bTogMHhmZgo+IAo+ICAg
+IHBvbGwtaW50ZXJ2YWw6Cj4gICAgICBkZXNjcmlwdGlvbjogUG9sbCBpbnRlcnZhbCB0aW1lIGlu
+IG1pbGxpc2Vjb25kcy4KLi4uCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbAo=
