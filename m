@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B55E1AEEFD
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 16:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C14E1AEF08
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 16:43:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEE466ECA4;
-	Sat, 18 Apr 2020 14:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 201976EC94;
+	Sat, 18 Apr 2020 14:42:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44A466EC94;
- Sat, 18 Apr 2020 14:42:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89E036EC94;
+ Sat, 18 Apr 2020 14:42:57 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3A95222244;
- Sat, 18 Apr 2020 14:42:06 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9249D22202;
+ Sat, 18 Apr 2020 14:42:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587220927;
- bh=5rg1mbDvVPgqk2qdN1TJwA1lpQ8pvGe+EL4GcEoRhmI=;
+ s=default; t=1587220977;
+ bh=1ftGPW7s24C2jbr6ck2vAVvoAxyuPjtTL4lXJBW5RAc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pD5m0sazOQZ2VF9jw75mDsKVphLY9+j2GaPBmYyywrRntcPkgdqZ2XSaimgSbMlXl
- 9mANJnGPolv7PkFM3An+iJ+QauBkpl5Rmn1Xe0V+FvyE/qbSca0PjHeQGuYT7LqbMv
- OkYF0mbs7CJCq4vfrXumXWBbxu8h58I98Z6D9UTs=
+ b=Hxti8XXLrO1+Vykyg7BHvP5L2Yb3JUyK+3FAGyCvpocGkPJNnzGqtaOqoxpoOxauL
+ vsyA33Cnrl3YJ1cLF7WsF+0Gj8VLjWjM8Kyp/ZjmMSakGzFS4D5WzCss9m+NQqqa4x
+ OBvqwbuQCwRpVLz8/q3sVi5obV63nOQubGpzWgcg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 64/78] drm/amd/display: Not doing optimize
- bandwidth if flip pending.
-Date: Sat, 18 Apr 2020 10:40:33 -0400
-Message-Id: <20200418144047.9013-64-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 23/47] drm/amdkfd: kfree the wrong pointer
+Date: Sat, 18 Apr 2020 10:42:03 -0400
+Message-Id: <20200418144227.9802-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200418144047.9013-1-sashal@kernel.org>
-References: <20200418144047.9013-1-sashal@kernel.org>
+In-Reply-To: <20200418144227.9802-1-sashal@kernel.org>
+References: <20200418144227.9802-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,80 +49,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Yongqiang Sun <yongqiang.sun@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Tony Cheng <Tony.Cheng@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Jack Zhang <Jack.Zhang1@amd.com>,
+ dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@amd.com>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yongqiang Sun <yongqiang.sun@amd.com>
+From: Jack Zhang <Jack.Zhang1@amd.com>
 
-[ Upstream commit 9941b8129030c9202aaf39114477a0e58c0d6ffc ]
+[ Upstream commit 3148a6a0ef3cf93570f30a477292768f7eb5d3c3 ]
 
-[Why]
-In some scenario like 1366x768 VSR enabled connected with a 4K monitor
-and playing 4K video in clone mode, underflow will be observed due to
-decrease dppclk when previouse surface scan isn't finished
+Originally, it kfrees the wrong pointer for mem_obj.
+It would cause memory leak under stress test.
 
-[How]
-In this use case, surface flip is switching between 4K and 1366x768,
-1366x768 needs smaller dppclk, and when decrease the clk and previous
-surface scan is for 4K and scan isn't done, underflow will happen.  Not
-doing optimize bandwidth in case of flip pending.
-
-Signed-off-by: Yongqiang Sun <yongqiang.sun@amd.com>
-Reviewed-by: Tony Cheng <Tony.Cheng@amd.com>
-Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Jack Zhang <Jack.Zhang1@amd.com>
+Acked-by: Nirmoy Das <nirmoy.das@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 71c574d1e8be2..2028dc017f7a0 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -1182,6 +1182,26 @@ bool dc_commit_state(struct dc *dc, struct dc_state *context)
- 	return (result == DC_OK);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+index 938d0053a8208..28022d1cb0f07 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+@@ -921,9 +921,9 @@ int kfd_gtt_sa_allocate(struct kfd_dev *kfd, unsigned int size,
+ 	return 0;
+ 
+ kfd_gtt_no_free_chunk:
+-	pr_debug("Allocation failed with mem_obj = %p\n", mem_obj);
++	pr_debug("Allocation failed with mem_obj = %p\n", *mem_obj);
+ 	mutex_unlock(&kfd->gtt_sa_lock);
+-	kfree(mem_obj);
++	kfree(*mem_obj);
+ 	return -ENOMEM;
  }
  
-+static bool is_flip_pending_in_pipes(struct dc *dc, struct dc_state *context)
-+{
-+	int i;
-+	struct pipe_ctx *pipe;
-+
-+	for (i = 0; i < MAX_PIPES; i++) {
-+		pipe = &context->res_ctx.pipe_ctx[i];
-+
-+		if (!pipe->plane_state)
-+			continue;
-+
-+		/* Must set to false to start with, due to OR in update function */
-+		pipe->plane_state->status.is_flip_pending = false;
-+		dc->hwss.update_pending_status(pipe);
-+		if (pipe->plane_state->status.is_flip_pending)
-+			return true;
-+	}
-+	return false;
-+}
-+
- bool dc_post_update_surfaces_to_stream(struct dc *dc)
- {
- 	int i;
-@@ -1192,6 +1212,9 @@ bool dc_post_update_surfaces_to_stream(struct dc *dc)
- 
- 	post_surface_trace(dc);
- 
-+	if (is_flip_pending_in_pipes(dc, context))
-+		return true;
-+
- 	for (i = 0; i < dc->res_pool->pipe_count; i++)
- 		if (context->res_ctx.pipe_ctx[i].stream == NULL ||
- 		    context->res_ctx.pipe_ctx[i].plane_state == NULL) {
 -- 
 2.20.1
 
