@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FAE31AED10
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 15:49:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 638781AEDCC
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Apr 2020 16:09:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C7926EC91;
-	Sat, 18 Apr 2020 13:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AB656EC8B;
+	Sat, 18 Apr 2020 14:09:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55D3B6EC8F;
- Sat, 18 Apr 2020 13:49:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ECBD6EC8A;
+ Sat, 18 Apr 2020 14:09:37 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4998F22240;
- Sat, 18 Apr 2020 13:49:31 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8966C22264;
+ Sat, 18 Apr 2020 14:09:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587217772;
- bh=K+Mwk65K/La2MVoY7m+jquMfV89IRWr8P72jJHI8WZ0=;
+ s=default; t=1587218977;
+ bh=t+ZPscPzbyfoTQHlhnzdFV0Ms4DnznSLNomF0dIU/q8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LSJnoKgUNqNK57QZhDKX6KPrMC44MXs/LYyvY6ZBKGMKeaypZThiGALXe/MkP5ycM
- 72JuoUKRRYPcUZUF+eh9b3bUoehke+6cd0eVqcphTd1r7Wq06/8T3fZo1WSM5KNhtQ
- JAxEeLH3+0kImT2+ICEWQPDlzGbZjAYj1+tQ6iUc=
+ b=cNOpOwh21cNpoqE8mlZgZwlPEpugpnJXu/TnAQFSec9ehhL+VpUdlY0b1kuj2iTyl
+ /9x16LcXozkIUjKvRxxEZJ59nJw9tSG2/dOwEcra/V9l/f+6UtUHVLJkOx4lOX4O6H
+ UUeFpwhc2/9y6UGnP13xUuI/g34N/vZ1XYa+1g90=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 61/73] drm/amd/display: Calculate scaling ratios
- on every medium/full update
-Date: Sat, 18 Apr 2020 09:48:03 -0400
-Message-Id: <20200418134815.6519-61-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 22/75] drm/amd/display: Update stream adjust in
+ dc_stream_adjust_vmin_vmax
+Date: Sat, 18 Apr 2020 10:08:17 -0400
+Message-Id: <20200418140910.8280-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200418134815.6519-1-sashal@kernel.org>
-References: <20200418134815.6519-1-sashal@kernel.org>
+In-Reply-To: <20200418140910.8280-1-sashal@kernel.org>
+References: <20200418140910.8280-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,76 +50,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Isabel Zhang <isabel.zhang@amd.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ amd-gfx@lists.freedesktop.org, Alvin Lee <Alvin.Lee2@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+From: Isabel Zhang <isabel.zhang@amd.com>
 
-[ Upstream commit 3bae20137cae6c03f58f96c0bc9f3d46f0bc17d4 ]
+[ Upstream commit 346d8a0a3c91888a412c2735d69daa09c00f0203 ]
 
 [Why]
-If a plane isn't being actively enabled or disabled then DC won't
-always recalculate scaling rects and ratios for the primary plane.
-
-This results in only a partial or corrupted rect being displayed on
-the screen instead of scaling to fit the screen.
+After v_total_min and max are updated in vrr structure, the changes are
+not reflected in stream adjust. When these values are read from stream
+adjust it does not reflect the actual state of the system.
 
 [How]
-Add back the logic to recalculate the scaling rects into
-dc_commit_updates_for_stream since this is the expected place to
-do it in DC.
+Set stream adjust values equal to vrr adjust values after vrr adjust
+values are updated.
 
-This was previously removed a few years ago to fix an underscan issue
-but underscan is still functional now with this change - and it should
-be, since this is only updating to the latest plane state getting passed
-in.
-
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Reviewed-by: Aric Cyr <Aric.Cyr@amd.com>
+Signed-off-by: Isabel Zhang <isabel.zhang@amd.com>
+Reviewed-by: Alvin Lee <Alvin.Lee2@amd.com>
 Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index fc25600107050..188e51600070b 100644
+index 8904a85186aab..7fdbb47e8c259 100644
 --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
 +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -2349,7 +2349,7 @@ void dc_commit_updates_for_stream(struct dc *dc,
- 	enum surface_update_type update_type;
- 	struct dc_state *context;
- 	struct dc_context *dc_ctx = dc->ctx;
--	int i;
-+	int i, j;
+@@ -283,6 +283,8 @@ bool dc_stream_adjust_vmin_vmax(struct dc *dc,
+ 	int i = 0;
+ 	bool ret = false;
  
- 	stream_status = dc_stream_get_status(stream);
- 	context = dc->current_state;
-@@ -2387,6 +2387,17 @@ void dc_commit_updates_for_stream(struct dc *dc,
- 
- 		copy_surface_update_to_plane(surface, &srf_updates[i]);
- 
-+		if (update_type >= UPDATE_TYPE_MED) {
-+			for (j = 0; j < dc->res_pool->pipe_count; j++) {
-+				struct pipe_ctx *pipe_ctx =
-+					&context->res_ctx.pipe_ctx[j];
++	stream->adjust = *adjust;
 +
-+				if (pipe_ctx->plane_state != surface)
-+					continue;
-+
-+				resource_build_scaling_params(pipe_ctx);
-+			}
-+		}
- 	}
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		struct pipe_ctx *pipe = &dc->current_state->res_ctx.pipe_ctx[i];
  
- 	copy_stream_update_to_stream(dc, context, stream, stream_update);
 -- 
 2.20.1
 
