@@ -2,36 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFDE11B01E6
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 08:55:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D85F81B01FE
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 08:55:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E16696E1BC;
-	Mon, 20 Apr 2020 06:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 690C36E22C;
+	Mon, 20 Apr 2020 06:55:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4926C6E42D
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Apr 2020 08:15:46 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B464F6E180
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Apr 2020 09:05:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1587284137;
- bh=nbpEpWlUW5cjEh1Bv3rGfJegbOGcwEJbutmkmwuZLD4=;
+ s=dbaedf251592; t=1587287109;
+ bh=pEOnXWUWJq32wcmWoEXmTWiIZi1eoe0kShcruVve2N0=;
  h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
- b=NR+b7snKh2E/IXWwhTPo7o0EaNqH/eJLmLx8sRCDOpGpFun8RvA96KrPki+uP/eGv
- jjZ6F5jkXrdtfZGdWVY3XYcOSc8KMPtB2vlEHl3iW10gRMM4B3GYgLXFgZUEt4gTtR
- HkpaMwhGjerUWSfwXRl7gY++IRwcmH9G2jTrn5WM=
+ b=dsex5SLwM2FWZ+kD3hHq/YWgw2bnGwpUuRmz/fjzvwowsM0xtRYHggcioDNFISf+z
+ 8RX/CwZdAXm7oo9Oc5pD9uShRNUnXdwd4upy2S1GeeYCnqdgoE32kNnR8oabfqJEc2
+ QLdOBaLRcYa03YqiJDcHdZhY9vXLzyXcLafEr3KA=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([2.243.85.208]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LfAoO-1itGOO45FY-00oo64; Sun, 19
- Apr 2020 10:15:37 +0200
+Received: from [192.168.1.2] ([2.243.85.208]) by smtp.web.de (mrweb102
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0Lpw6t-1imLDu1Dh1-00fioW; Sun, 19
+ Apr 2020 11:05:09 +0200
 To: Bernard Zhao <bernard@vivo.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
  Chunming Zhou <David1.Zhou@amd.com>, =?UTF-8?Q?Felix_K=c3=bchling?=
- <Felix.Kuehling@amd.com>, =?UTF-8?Q?Nicolai_H=c3=a4hnle?=
- <nicolai.haehnle@amd.com>, Nirmoy Das <nirmoy.das@amd.com>,
- Philip Yang <Philip.Yang@amd.com>
-Subject: Re: [PATCH] drm/amdgpu: Remove an unnecessary null pointer check in
- amdgpu_cs_bo_handles_chunk()
+ <Felix.Kuehling@amd.com>
+Subject: Re: [PATCH] drm/amdgpu: Reduce a lock scope in
+ amdgpu_amdkfd_gpuvm_free_memory_of_gpu()
 From: Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
@@ -76,36 +74,36 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <1d0f1eb5-a26f-1739-9222-a39c92ba3024@web.de>
-Date: Sun, 19 Apr 2020 10:15:35 +0200
+Message-ID: <af0aa64e-f097-76a7-1c7b-5bdf0ad55a31@web.de>
+Date: Sun, 19 Apr 2020 11:05:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Language: en-US
-X-Provags-ID: V03:K1:wOtp743KJHdMhl10cI6KVRBvss4Fdnb4/BtUFoR9+59x1tK3riY
- mY6nRjszPurBY7UT9LC0WtAwprPBVPF43VElnd8IyX9/aHVMvsuW5B8VAct0H5cO1SH0ajN
- gPSE9DjWrmG19bN+HGYDFczDz44gBXB37NTTj2YHQXNcI7UeY8yANM4zSlvmFsdfSSXGevO
- XduzCkzdsNQO4jjmwBWCg==
+Content-Language: en-GB
+X-Provags-ID: V03:K1:ejkFRws8u94G50TmJ+06NF8v58dM/Kg4QYRAJeDxA65iCsqyUK/
+ Q49VO2Za7oZHZZkUJN0I3iAODIrOyQIYm+l0M8q/ZXRdPABhI/AdTc5BclF6ys+nnR/DI2+
+ 9X/0Zw35mVrxBzS1j0BNpt2qoflkre6K2XKyljehSrh65S2jNmd5nykKuqggvwyMi2OUawR
+ aS9No9WtnCTIgv9vsI7ag==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:H0vJH86n/Ek=:ZfbLufiwwWQhDor183GtVr
- G+BfaT3z6iB4ASMR78Ywbr4XRpOUuSxx0NN3GvndckjzrmSVNVNxWZuSF+pZiHec5q385tw6E
- 23hhohC7h404kLRsGIGRrtlmapd1R03Mt4EPRt3emzTGWHBEt6E+AAX46grjCbD7+RRSWYtix
- GbVA5Wy5e1ZPO0Badk9+/nKssBrEbqEoGeIcCiUph3+YPsWYjWc6X6w6U4nYVOtNTUW4gKAan
- cl+xR6Fm0iusIgQtq/UW4fmlprSFU1wpk/w2lZd+DbFLdgLwboAG+0PUXSypK/fY2pimSfwDB
- VCuu8SvblgjmNPMZGC4rYQ1wKXae3gyAF9+a4W4oEl6SLGXalFZWUtbJvmGsDoPTyZEiTbBU8
- VWU3EcSei/qWgHeP0TCBbBHIZPTie7ukEQNPDY3hjJ5UnxfCJ5QnrianYuAKC+Z0+wzb/FlzE
- iL08cvODSeggwA7ToO8ZP2hJ1+78AvgipNKEscV5Fl1RmsgBu0DZzycWgOkx8nXFs7GkQ+zTD
- w77DTqi5qiGLTjLuKeehZ8/bfpGkARbAFzGGoMMmo+pGIjVHdv5b+5cj7eNMjOeLoC4z/+w4y
- EUmZjEU+Ghj/OoXdX62P6PtZZtJ0XNDtdCTWQSKcxVuJ1CNRm7CnJkFY4FkNeLHA3i2bAO9ta
- idDsFnjZnlb1atl3k1nzn+Pt51n5opyw+8sboWd2DBMZtzdy0Kcclw/4Bj+6DA7FXAF0ksEF7
- cTGxDQrfFjW1KFkqi3PYmyYEoUnHlVi33z8JsIxXq0B+Ua8+lU0KI9t5qdPbdgqXPUG0ThyCK
- KCPkdX6nybZf8zC2TiU50ckoIvmHT0Qu4DRVSN2BNi90BPVRXtBphD+e+MnHDjCied2HraJfq
- fE/lKZaUSSPGiqUxKt1uDzRSUbH1FgX+rPh5EkuZpzEERzr13UEV7qT4BFziRG/u7obHc8CJ/
- Be/Y5H2OBuGu2hFZ4b2eoY8ZfhzZ77SM+EbOYVEvd/yF8QTAMTLr4Ylvomnk+9mZfMHPKfuPF
- BNbW0IKOxuNi4mTGGXCkPfj/YEoIOl6u3bG7vN+X3frxbuJLX4OrZ8juDvbC1XgR3Mscu300G
- zVF5f+G65OkCi+aWxBI8kGJpNnaLB6tgeWYOICWLi34H9DWtq8gLhWVXMO4lON6lgf3BLWeJL
- VpL+Wtnt9J59+eBNIpOU6shaegL7TnrMKO+aFJMinavCmgPind4QPPEmCyd6KYsj8rVmTLfr7
- nqfmOmqkhGHXhJGMZ
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gurJBLGiZ/0=:p80neTvnogHsEmE7UdujdJ
+ 0oOyz9V03SF77HVltzReK3s2iy/sQvXOippGOlBFrPdEtz6fHDihpZV1ohdHCMFEsBQHD8nyI
+ /6Xm03a/EBQVhk0HR48N93eTApqBF6zJCwuZrn+kGJHml0Jjf2F2WQ61sLmxr2uBUNRCh2W01
+ N3vNP+tbraWfzu/uxX5XF/+/6kZ/KTui+9KZMsJ5VUdM8bZZ1h52uQ9hn5ebZK0tw7kAsCruS
+ LJNJzhNVpcg3o3FbtwKqfC2bfVJPlLjOGsJjhtXbglbd3jIGco6TLUpbcHcDjppCmHK2OX8RY
+ BXJC8ykeY4+zgzEipuTF1LmdZMK4yI9Ild9048ZcTTaPgx8hal9ho2BmUpfF0u4olQsGyv07F
+ hDzuTlVyAeQMwRyo96dQ3pNr/LGCyMiUhKP5M7Gz8ICvS4ZuaY0S/2RDOE4KBk/yFRfMgw3Ds
+ BxBAVtXgGAsqkOyIBIxKCCN8fnKy6ugFNkDQJ3utnZZ/bAvI5u46fb8BFuJPy6N7LwBd5kDlq
+ pD5sDhkyMXu9wTmdwLfri/cxDObo+zZfsHMicweVMb7OXTodMPsr6i3o7tLUQmEMa8tmAXYvS
+ ixtK4iUXM1eXSS0AwhyjBDsEZM4r5eQqKIm9djCbuEcE2F4Ei9a96ZO4doDC9Xxv3IB1+e2Yw
+ DKvBOcKIkNcG7jL1ZmbvndT8totiqPGnvmhbhvqbeUi7rAmlCB8GqcqPkNsilDGzOfYmmb3ZJ
+ i4decF4KkHaWuc5WsB7iuRJMpbzrhEMRFzfsOH52WBl24g5BplemK6K3dTelY0J2/oKsBPYXD
+ qWLRIiwL3IUUvmd5nBa3xhnvuDZMMV66aMLdyPmF41AiAhEYKahBaUAkwXXgHPYc1ypaVZoSe
+ B+jekkeXZ0U6CiwNIExyAJ9OlZ9GaMSkKzeCF+5NqDjkdMRf8O0HgQ9Kk1yJOrhxfqnf1kyxF
+ kN45qgrhImkuPCrwOkhp82m3ByWwUkrQKbm6jeNsnD7mryP0PORh3j+bcmhmMT2kGmbKo6eUC
+ UwdhkBCDZ/8x1yGol97Os5kcxW6GNF2fVSUOOEDbZ+Du7DlWPSVrGNtjOBPiSXbw2gsYBz7+V
+ MjxqRWQ0I2G7eSfVLhGONDggHe0C7xQd8gkyiVM2nicamGqj2onKTpPVaCx4EdGOD1/IXdc/X
+ R+SM2pOQhYZAyTt48t9GShh/Y1WL5PPAbdL497LBVKou/Y2Lp90k6T7LGslYbBARLhdpErYT9
+ yQ5nBvX0MaDZTWVLt
 X-Mailman-Approved-At: Mon, 20 Apr 2020 06:55:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -119,22 +117,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, opensource.kernel@vivo.com,
+Cc: David Airlie <airlied@linux.ie>, kernel@vivo.com,
  linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiBrdmZyZWUgZW5zdXJlIHRoYXQgdGhlIG51bGwgcG9pbnRlciB3aWxsIGRvIG5vdGhpbmcuCgpJ
-IHN1Z2dlc3QgdG8gaW1wcm92ZSB0aGUgY29tbWl0IG1lc3NhZ2UuCldvdWxkIHlvdSBsaWtlIHRv
-IGFkanVzdCB0aGUgcGF0Y2ggc3ViamVjdD8KCkFyZSB5b3UgbG9va2luZyBmb3IgZnVydGhlciBx
-dWVzdGlvbmFibGUgY29uZGl0aW9uIGNoZWNrcz8KCgrigKYKPiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9hbWRncHVfY3MuYwo+IEBAIC05OCw4ICs5OCw3IEBAIHN0YXRpYyBpbnQg
-YW1kZ3B1X2NzX2JvX2hhbmRsZXNfY2h1bmsoc3RydWN0IGFtZGdwdV9jc19wYXJzZXIgKnAsCuKA
-pgo+ICsJa3ZmcmVlKGluZm8pOwo+Cj4gIAlyZXR1cm4gcjsKPiAgfQoKSG93IGRvIHlvdSB0aGlu
-ayBhYm91dCB0byBvbWl0IGEgYmxhbmsgbGluZSBiZWhpbmQgdGhlIGZ1bmN0aW9uIGNhbGwKYXQg
-dGhpcyBzb3VyY2UgY29kZSBwbGFjZT8KClJlZ2FyZHMsCk1hcmt1cwpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+> Maybe we could reduce the mutex_lock(&mem->lock)`s protected code area,
+> and noneed to protect pr_debug.
+
+I suggest to improve the commit message.
+Would you like to adjust the patch subject?
+
+Do you imagine that data synchronisation should evolve in other ways?
+
+Regards,
+Markus
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
