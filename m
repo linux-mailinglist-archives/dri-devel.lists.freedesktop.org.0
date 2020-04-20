@@ -1,54 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D415F1B1F11
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:49:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B80961B03B1
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 10:02:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAF046E89B;
-	Tue, 21 Apr 2020 06:48:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A1188647;
+	Mon, 20 Apr 2020 08:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-fw-6001.amazon.com (smtp-fw-6001.amazon.com [52.95.48.154])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68C286E3FC
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 07:42:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1587368520; x=1618904520;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=diXxeA7g1XTByahSm1bZcJHQIm4bVeBMr5YsbeKB+8g=;
- b=k8HhJk73yPzsd2uHAVrH7x6M4JrT5AHw9Tstv9h20jTnYLbb3ZY+60vE
- WxoKjun8aDk1ZpZ+FKZWc51T4s2/QjQgaEbUlSdJ0x17/0wAv7wX/1wmn
- qBE+4LKXB+Vl/bAn3RmldeH8G15A7jHpr/lFW5Xe9a+Cjsh15sd8AOOLy k=;
-IronPort-SDR: AmsFB0BwD4OAWhfXLlxjCwyJV9epkON3aQtMBQZbecXGslCYlS6V1+aA3Q1QJU/BdPndTjo4D5
- 0YNf69AdKzVQ==
-X-IronPort-AV: E=Sophos;i="5.72,406,1580774400"; d="scan'208";a="27648254"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
- email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com) ([10.43.8.6])
- by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP;
- 20 Apr 2020 07:41:46 +0000
-Received: from EX13MTAUEA002.ant.amazon.com
- (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
- by email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com (Postfix) with ESMTPS
- id EE8A2A0716; Mon, 20 Apr 2020 07:41:45 +0000 (UTC)
-Received: from EX13D19EUB001.ant.amazon.com (10.43.166.229) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 20 Apr 2020 07:41:45 +0000
-Received: from EX13MTAUWA001.ant.amazon.com (10.43.160.58) by
- EX13D19EUB001.ant.amazon.com (10.43.166.229) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 20 Apr 2020 07:41:44 +0000
-Received: from 8c85908914bf.ant.amazon.com (10.1.212.20) by
- mail-relay.amazon.com (10.43.160.118) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Mon, 20 Apr 2020 07:41:40 +0000
-From: Gal Pressman <galpress@amazon.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] dma-buf: Couple of documentation typo fixes
-Date: Mon, 20 Apr 2020 10:41:15 +0300
-Message-ID: <20200420074115.23931-1-galpress@amazon.com>
-X-Mailer: git-send-email 2.26.1
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C5DF88647
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 08:02:44 +0000 (UTC)
+IronPort-SDR: XAI1l0nD/PLj2aKl5v2n3jNKbkcwKq1Y5vmiH4MT/eQQIgaOLCnYOTjiSw30+JkLmX4DaIGbPr
+ 3IQHu5v3lP4w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2020 01:02:43 -0700
+IronPort-SDR: FuTeOBDq3EWzERLG+wP/aJ56TVYKzRwUG7FrNE48/EOgCU8Fu6TO3rHp5dk/b68TrPcF0uOuYK
+ rKUR5Cm2VpCQ==
+X-IronPort-AV: E=Sophos;i="5.72,406,1580803200"; d="scan'208";a="429035397"
+Received: from iastakh-mobl.ccr.corp.intel.com (HELO localhost)
+ ([10.252.63.229])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2020 01:02:36 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 7/8] fbdev: rework backlight dependencies
+In-Reply-To: <20200417170444.GB30483@ravnborg.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200417155553.675905-1-arnd@arndb.de>
+ <20200417155553.675905-8-arnd@arndb.de> <20200417170444.GB30483@ravnborg.org>
+Date: Mon, 20 Apr 2020 11:02:33 +0300
+Message-ID: <871roi37qe.fsf@intel.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 21 Apr 2020 06:48:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,47 +48,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Gal Pressman <galpress@amazon.com>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: marex@denx.de, Jason Gunthorpe <jgg@ziepe.ca>, linux-fbdev@vger.kernel.org,
+ dsd@laptop.org, Nicolas Pitre <nico@fluxnic.net>, airlied@linux.ie,
+ masahiroy@kernel.org, jfrederich@gmail.com,
+ Saeed Mahameed <saeedm@mellanox.com>, thellstrom@vmware.com,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>, kieran.bingham+renesas@ideasonboard.com,
+ geert@linux-m68k.org, haojian.zhuang@gmail.com,
+ linux-graphics-maintainer@vmware.com, robert.jarzmik@free.fr,
+ daniel@zonque.org, Laurent.pinchart@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix a couple of typos: "as" -> "has" and "int" -> "in".
+On Fri, 17 Apr 2020, Sam Ravnborg <sam@ravnborg.org> wrote:
+> Hi Arnd.
+>
+> On Fri, Apr 17, 2020 at 05:55:52PM +0200, Arnd Bergmann wrote:
+>> Rather than having CONFIG_FB_BACKLIGHT select CONFIG_BACKLIGHT_CLASS_DEVICE,
+>> make any driver that needs it have a dependency on the class device
+>> being available, to prevent circular dependencies.
+>> 
+>> This is the same way that the backlight is already treated for the DRM
+>> subsystem.
+>
+> I am not happy with the direction of this patch.
+> It is not easy to understand that one has to enable backlight to
+> be allowed to select a display or an fbdev driver.
 
-Signed-off-by: Gal Pressman <galpress@amazon.com>
----
- Documentation/driver-api/dma-buf.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Arguably that is a problem in Kconfig, and that applies to *all*
+dependencies everywhere. It isn't something new to this patch.
 
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index c78db28519f7..63dec76d1d8d 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -11,7 +11,7 @@ course not limited to GPU use cases.
- The three main components of this are: (1) dma-buf, representing a
- sg_table and exposed to userspace as a file descriptor to allow passing
- between devices, (2) fence, which provides a mechanism to signal when
--one device as finished access, and (3) reservation, which manages the
-+one device has finished access, and (3) reservation, which manages the
- shared or exclusive fence(s) associated with the buffer.
- 
- Shared DMA Buffers
-@@ -31,7 +31,7 @@ The exporter
-  - implements and manages operations in :c:type:`struct dma_buf_ops
-    <dma_buf_ops>` for the buffer,
-  - allows other users to share the buffer by using dma_buf sharing APIs,
-- - manages the details of buffer allocation, wrapped int a :c:type:`struct
-+ - manages the details of buffer allocation, wrapped in a :c:type:`struct
-    dma_buf <dma_buf>`,
-  - decides about the actual backing storage where this allocation happens,
-  - and takes care of any migration of scatterlist - for all (shared) users of
+For example, in the context of this patch you have:
 
-base-commit: 8f3d9f354286745c751374f5f1fcafee6b3f3136
+  config HT16K33
+	 tristate "Holtek Ht16K33 LED controller with keyscan"
+	 depends on FB && OF && I2C && INPUT
+ +	depends on BACKLIGHT_CLASS_DEVICE
+
+The same thing could be said about FB and OF and IC2 and INPUT for
+HT16K33, right? Why would *backlight* be the tipping point that makes
+this difficult to understand?
+
+Yeah, I agree it's not straightforward, but I think depends is the right
+choice, not select.
+
+The effort for making this easier to understand should be directed at
+the various menuconfig tools to better highlight the dependencies that
+should be enabled to let you enable other options.
+
+> How about somthing like this:
+
+I think this is a hack in Kconfig files that should really be fixed in
+the Kconfig tooling instead. IMHO Kconfig should be as simple a
+description of the dependencies as possible, not so much a UI language.
+
+FWIW the patch is
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+BR,
+Jani.
+
+
+
 -- 
-2.26.1
-
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
