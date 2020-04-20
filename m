@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5D51B10DD
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 18:02:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2717A1B1F0D
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:49:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA4526E588;
-	Mon, 20 Apr 2020 16:01:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C0866E899;
+	Tue, 21 Apr 2020 06:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBD7E6E588
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 16:01:57 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id k1so12872556wrx.4
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 09:01:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=IMezaVorfzWAZ5yeIdxf4Ausp6aB2BLNNEifQh5SkWY=;
- b=bfonvl29r9uts8Xx8gfv7LMJyNxovCHoJSFIxE8RWvJJ6+blEswwjU5N1hA17W6C5H
- gKMHFTbrP00nq9Mn7bzgtME7pphzpGBaaCjZjrZPVkom+UVDIKQXqUajP+QW6A4HdddY
- rNHjqexUnIz8eQw6YAAndd9loKWUOPXNMYlEYraF7CyBIubMnTek+J9CqVh8E9vBzICd
- XqAkZMEm0i9zTOFtwe1/Zk7aod/5pelm7e/ZG0z3ir/YjkEscI5iHrt4x+txDo+fejUZ
- jqqw3CDC3kRtJYd38TjTfQcVJVJWKA1LAjPjcXr6drNg7zmTcHRKbYAA5pa4hCC5k6o/
- VRuw==
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAD716E7D5;
+ Mon, 20 Apr 2020 16:15:17 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id v2so4114758plp.9;
+ Mon, 20 Apr 2020 09:15:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=IMezaVorfzWAZ5yeIdxf4Ausp6aB2BLNNEifQh5SkWY=;
- b=EUSxcSE/wK7vDOFLPEuNYd6j8z3ISyepsRyHjcv1G1A9bMm75HAvOx+uC8uOLUkDzX
- DckXwzLumlT+UtvG852f+z+QoEob/TLL2Eg4vu1hxQY4BY/Hr4AAQN7+H9m4kaQ2dCN4
- WyLtWp35f/ovkcLBlQ6py72+fVIKYOG/DfXo9PcJ6P+iQjNG5JE4hY1Tn7MnPF2Edh8D
- luF9MVTz5Mem+diBfxPfV56WZvQ2g337NqfQs66GyZs2uMn3rgcqQGfBnxBtYz86SSyE
- TYFRAvo0r5OSB0m9e1z/Fl93PZEjN9FRiBZJzxU1iO6ZFFqSsw+COyqSSlR03v68lu7y
- B3lw==
-X-Gm-Message-State: AGi0PubUpncyKpEZys7MqNFDBrzzJbUmKV1XbbFW4dSeGwtzIsHCYJ7n
- 0f7ELa9YZDpNcV7BWLCf2oY4bQ==
-X-Google-Smtp-Source: APiQypL807DBomjCdoSGoqFBRQixL7aAWGyJgpt3/rhDhHVtNEJ2X8Z4Jo1x5Xfj9OZhfdd1B/MXzA==
-X-Received: by 2002:adf:a15d:: with SMTP id r29mr18316346wrr.134.1587398516436; 
- Mon, 20 Apr 2020 09:01:56 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id h5sm1815470wrp.97.2020.04.20.09.01.55
+ bh=mKMIW3mEg5t1gLoJ6mz8YW5V5YHdFX18CfmBOsT8+DM=;
+ b=YaM9kPSkpUQtJJS2VdkSGJa4JKewLVvCHUpqCA8mvW2+M3ac5NAgXUUF7EsP7gXMqk
+ 1fWNPHUKASzmUQjTA7nBFt3RXr9arXU0n2MSXzwiC8eHaZ4gVhQMbHWjVqVfx/a6t9UV
+ QTF69XnAPgqK8M5ojve8RhedLK68j+ooVJ1rKA5QDy2qbUAYSg7ee9p5PAKdkzN++1oY
+ fmtXprUZJA1jxnKcL7FsxupqQYJzUDEc+VcbZMP6LvxM6n2jKYblbvAkIkPyl5bzl8CE
+ pbCXpTLSE4TcEBNhCpeIN+uqCHXskVB6BKqtoG3DMOQRyvlDlmyfEy1RPboh2wSf7MP9
+ 1dtA==
+X-Gm-Message-State: AGi0PuaSo29lNAJ34XZP6bf5m3iJRUiPRm33gNaL33QN78c5KlODZ9gJ
+ XbTJu/6CsIMT67hKUT7w6DM=
+X-Google-Smtp-Source: APiQypIo65I60EmrvJr0Fn9k464/b4BsdAENW1ihErA04xVYqn/vV5ywXSVnzlYGX6PHk/VUYYyFKA==
+X-Received: by 2002:a17:90a:890a:: with SMTP id
+ u10mr161799pjn.154.1587399317254; 
+ Mon, 20 Apr 2020 09:15:17 -0700 (PDT)
+Received: from sultan-box.localdomain ([104.200.129.62])
+ by smtp.gmail.com with ESMTPSA id o1sm48749pjs.35.2020.04.20.09.15.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Apr 2020 09:01:55 -0700 (PDT)
-Date: Mon, 20 Apr 2020 17:01:54 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 5/5] backlight: led_bl: rewrite led_bl_parse_levels()
-Message-ID: <20200420160154.4xxv37fofx37ow7q@holly.lan>
-References: <20200417113312.24340-1-tomi.valkeinen@ti.com>
- <20200417113312.24340-5-tomi.valkeinen@ti.com>
+ Mon, 20 Apr 2020 09:15:16 -0700 (PDT)
+Date: Mon, 20 Apr 2020 09:15:14 -0700
+From: Sultan Alsawaf <sultan@kerneltoast.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH v4] drm/i915: Synchronize active and retire callbacks
+Message-ID: <20200420161514.GB1963@sultan-box.localdomain>
+References: <20200404024156.GA10382@sultan-box.localdomain>
+ <20200407064007.7599-1-sultan@kerneltoast.com>
+ <20200414061312.GA90768@sultan-box.localdomain>
+ <158685263618.16269.9317893477736764675@build.alporthouse.com>
+ <20200414144309.GB2082@sultan-box.localdomain>
+ <20200420052419.GA40250@sultan-box.localdomain>
+ <158737090265.8380.6644489879531344891@jlahtine-desk.ger.corp.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200417113312.24340-5-tomi.valkeinen@ti.com>
+In-Reply-To: <158737090265.8380.6644489879531344891@jlahtine-desk.ger.corp.intel.com>
+X-Mailman-Approved-At: Tue, 21 Apr 2020 06:48:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,130 +64,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
- Lee Jones <lee.jones@linaro.org>, dri-devel@lists.freedesktop.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, stable@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Matthew Auld <matthew.auld@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 17, 2020 at 02:33:12PM +0300, Tomi Valkeinen wrote:
-> led_bl_parse_levels() is rather difficult to follow. Rewrite it with a
-> more obvious code flow.
+On Mon, Apr 20, 2020 at 11:21:42AM +0300, Joonas Lahtinen wrote:
+> So it seems that the patch got pulled into v5.6 and has been backported
+> to v5.5 but not v5.4.
 
-... that introduces new behaviour.
+You're right, that's my mistake.
 
-There's a couple of new behaviours here but the one that particular
-attracted my attention is the disregarding the "default-brightness-level" if
-there is no table. That looks like a bug to me.
+> In doing that zeroing of ring->vaddr is removed so the test to do mdelay(1)
+> and "ring->vaddr = NULL;" is not correct.
 
-Please can you add any intended changes of behaviour in the patch
-header?
+I'm not so sure about this. Look at where `ring->vaddr` is assigned:
+-------------------------------------8<-----------------------------------------
+	ret = i915_vma_pin(vma, 0, 0, flags);
+	if (unlikely(ret))
+		goto err_unpin;
 
+	if (i915_vma_is_map_and_fenceable(vma))
+		addr = (void __force *)i915_vma_pin_iomap(vma);
+	else
+		addr = i915_gem_object_pin_map(vma->obj,
+					       i915_coherent_map_type(vma->vm->i915));
+	if (IS_ERR(addr)) {
+		ret = PTR_ERR(addr);
+		goto err_ring;
+	}
 
-Daniel.
+	i915_vma_make_unshrinkable(vma);
 
+	/* Discard any unused bytes beyond that submitted to hw. */
+	intel_ring_reset(ring, ring->emit);
 
+	ring->vaddr = addr;
+------------------------------------->8-----------------------------------------
 
+And then the converse of that is done *before* my reproducer patch does
+`ring->vaddr = NULL;`:
+-------------------------------------8<-----------------------------------------
+	i915_vma_unset_ggtt_write(vma);
+	if (i915_vma_is_map_and_fenceable(vma))
+		i915_vma_unpin_iomap(vma);
+	else
+		i915_gem_object_unpin_map(vma->obj);
 
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> ---
->  drivers/video/backlight/led_bl.c | 63 ++++++++++++++++----------------
->  1 file changed, 32 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
-> index 021b5edd895c..7b3889035540 100644
-> --- a/drivers/video/backlight/led_bl.c
-> +++ b/drivers/video/backlight/led_bl.c
-> @@ -132,50 +132,51 @@ static int led_bl_parse_levels(struct device *dev,
->  	int num_levels;
->  	u32 value;
->  	int ret;
-> +	int i;
-> +	u32 *levels;
->  
->  	if (!node)
->  		return -ENODEV;
->  
->  	num_levels = of_property_count_u32_elems(node, "brightness-levels");
-> -	if (num_levels > 1) {
-> -		int i;
-> -		unsigned int db;
-> -		u32 *levels;
-> -
-> -		levels = devm_kzalloc(dev, sizeof(u32) * num_levels,
-> -				      GFP_KERNEL);
-> -		if (!levels)
-> -			return -ENOMEM;
-> -
-> -		ret = of_property_read_u32_array(node, "brightness-levels",
-> -						 levels,
-> -						 num_levels);
-> -		if (ret < 0)
-> -			return ret;
-> -
-> -		/*
-> -		 * Try to map actual LED brightness to backlight brightness
-> -		 * level
-> -		 */
-> -		db = priv->default_brightness;
-> +
-> +	if (num_levels < 0)
-> +		return 0;
-> +
-> +	if (num_levels == 0) {
-> +		dev_warn(dev, "No brightness-levels defined\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	levels = devm_kzalloc(dev, sizeof(u32) * num_levels,
-> +			      GFP_KERNEL);
-> +	if (!levels)
-> +		return -ENOMEM;
-> +
-> +	ret = of_property_read_u32_array(node, "brightness-levels",
-> +					 levels,
-> +					 num_levels);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	priv->max_brightness = num_levels - 1;
-> +	priv->levels = levels;
-> +
-> +	ret = of_property_read_u32(node, "default-brightness-level", &value);
-> +	if (!ret) {
-> +		priv->default_brightness = min(value, priv->max_brightness);
-> +	} else {
-> +		/* Map LED default-brightness to backlight brightness level */
-> +		unsigned int db = priv->default_brightness;
-> +
->  		for (i = 0 ; i < num_levels; i++) {
->  			if ((i == 0 || db > levels[i - 1]) && db <= levels[i])
->  				break;
->  		}
->  
->  		priv->default_brightness = i < num_levels ? i : 0;
-> -		priv->max_brightness = num_levels - 1;
-> -		priv->levels = levels;
-> -	} else if (num_levels >= 0) {
-> -		dev_warn(dev, "Not enough levels defined\n");
->  	}
->  
-> -	ret = of_property_read_u32(node, "default-brightness-level", &value);
-> -	if (!ret && value <= priv->max_brightness)
-> -		priv->default_brightness = value;
-> -	else if (!ret  && value > priv->max_brightness)
-> -		dev_warn(dev, "Invalid default brightness. Ignoring it\n");
-> -
->  	return 0;
->  }
->  
-> -- 
-> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-> 
+	/* mdelay(1);
+	ring->vaddr = NULL; */
+
+	i915_vma_make_purgeable(vma);
+	i915_vma_unpin(vma);
+------------------------------------->8-----------------------------------------
+
+Isn't the value assigned to `ring->vaddr` trashed by those function calls above
+where I've got the mdelay? If so, why would it be correct to let the stale value
+sit in `ring->vaddr`?
+
+My interpretation of the zeroing of ring->vaddr being removed by Chris was that
+it was an unnecessary step before the ring was getting discarded anyway.
+
+Sultan
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
