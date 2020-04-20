@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FDB1B1F12
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A738B1B1F2A
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:49:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B01636E8B7;
-	Tue, 21 Apr 2020 06:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA9596E8AB;
+	Tue, 21 Apr 2020 06:49:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 429516E593
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 14:03:52 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id i68so2759908qtb.5
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 07:03:52 -0700 (PDT)
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 759426E598
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 14:03:56 +0000 (UTC)
+Received: by mail-qk1-x744.google.com with SMTP id t3so10635008qkg.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 07:03:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marek-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Jp8c/vByfKKqlYxQoHIH2aDBNiCrvKJ3GjxraMqpLdo=;
- b=Uirl2MPZVm8uIdFiMg+M2K0RVFyIBMrNs0G+kqcQoNrx7VXKAPYgMqJoP7oA4hKPlz
- SUKtYFnPwSLWOMHdj2fNYJjCc7XQZAxB6HaqNedJSKYFQcP7+ZiCE1wy/fYxem1gUXeM
- 94xlBwHisk6UXKWPm0B0xyeiuTkE9LjF9PT3fGx2baqGst1D3BR1uoH+uQcsFIZ84bx1
- exy8iFhb1u/3stOZbH8scSYJCC3fe3rQH6kDP/sTT3rRjPsL9Z4vmgvQZPtVtOGTkFEz
- tVrMVI1OyzJ7OPQabhA/P7TqWHwWOva4UGi8tNq2jxMjbZQNmO202UPJVYaRsaKJcOw2
- LL8A==
+ bh=5wiA5TpN8HWy5aksHuDRRPcXTpQtsJoeuncyM+XhNEU=;
+ b=i7P+eZZf3msTeWbAIPTGyLn7ln/IqwEkbnZEstnwQartX2fG4d5qRLf1re5K6gH4xP
+ ni20SsjiTIzzsIAhr0nNj3cf8ascYmfMG+yFnpgzumL01kmOGLIJcDUp7lml8Qoj9eK3
+ nrL/tAYq0df/vbTZlqq6Mb9ZC7pS4CqkOyiHjjnGEU/+EI7QwX7SZWEsD8GS22hvevGd
+ 9OFwwylgg+EsA39HXeYoFTePs3HW8WJCHLZBTL8UNLbH8DHc9jjbDQzbgRZOMs1tfgfz
+ EPSYXJKS9dZYzs8hsSQJFKKfMWnn4YWu21HLzsBJ54VlvNjqkRntgaXuOHaj7FSUIfZp
+ 8U0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Jp8c/vByfKKqlYxQoHIH2aDBNiCrvKJ3GjxraMqpLdo=;
- b=UcUno29fb/1dN6qUniPjwg2UElKuOlmQJ113qxEYe1bWkpauTRLBU9JoXa5EgVHwV8
- uo9LiS8NEBQbdGDPo6mRPOM53kIYUoUAgaf7Ftn4iB1awtNNwfjoQtxN+dDfTLT1aLrG
- 7FQTCrj5/yR/rwZF+ILWUAIbHupX9SULHW6v7QlhT4/MfshVIY7P8xS11nwQgzkmxWoj
- M6RAKywQsIodEWeviTQsAuI0wy4iaMliPQmVORqzBwghc29wCtbXQ3a2Uq57vEV5q5vm
- oQ++le26wleAKu5pWqTpl4760s7RGhxMQhyINEcGy6yEVjaFdGCMNZ3BBYEa9kBpcEru
- G3Lg==
-X-Gm-Message-State: AGi0PuZ8IXQdfwkt8boyE9RZRNP2/OOQw3lV9fiy+jTsOSUD2WyzqD1N
- hb75YVYOwr743ndysSdUYbVoXw==
-X-Google-Smtp-Source: APiQypLfVVerLKQ5iFXxJG8CT9DO9FI3UfedE+T9G+wKpwpf5jCv3+jk163/ZH36BBIBSj8XjwgHWg==
-X-Received: by 2002:ac8:4983:: with SMTP id f3mr16169700qtq.343.1587391430990; 
- Mon, 20 Apr 2020 07:03:50 -0700 (PDT)
+ bh=5wiA5TpN8HWy5aksHuDRRPcXTpQtsJoeuncyM+XhNEU=;
+ b=OtLXGSYHWiC5RJtmEO3CyNfwAfPjh3SOZF5OAxWB07T2m3ez6lGUF6eHh8b8UzTGUo
+ In7Bz14ayR0Dy9iLPZKP5d26FFKj+IGby/EyDWZYIf08sIsHRsz4o5zgaf5vhHsh/BOa
+ L0FPIutbwH/3y789UwZjC7TwOkD8QmCyibFFFVNV0/BBZY7U8ozdkOWpPOBTBNaNveRB
+ b7tHChLw+dfJdqhFgLIrn++RUSQnCllXMTEslv98zZv3Vb9A78Ft3zv0Hizdydx/tIZB
+ 8wc4K8QzbEM2O4BF3X84hxIWCVqrZ0peMRSyvFIO/8FxsZsFjCIXsGGev1aJlf/iQ9nO
+ O5eA==
+X-Gm-Message-State: AGi0PuYaTS+tWKQsu8keciZtBn5VltgTfkQsRqgHrbcEW5NyA8NFUP53
+ FkqqX5velyzb9C+5ChdVf/+nMA==
+X-Google-Smtp-Source: APiQypImwBZS/W4osorIoiXMrglEpKAksu4A1gbcuZp2TfFYEKih7JLgINAFFMD+Kcp01fMbWZ7Z5A==
+X-Received: by 2002:a05:620a:1458:: with SMTP id
+ i24mr16094926qkl.279.1587391435499; 
+ Mon, 20 Apr 2020 07:03:55 -0700 (PDT)
 Received: from localhost.localdomain ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id t75sm609424qke.127.2020.04.20.07.03.49
+ by smtp.gmail.com with ESMTPSA id t75sm609424qke.127.2020.04.20.07.03.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Apr 2020 07:03:50 -0700 (PDT)
+ Mon, 20 Apr 2020 07:03:55 -0700 (PDT)
 From: Jonathan Marek <jonathan@marek.ca>
 To: freedreno@lists.freedesktop.org
-Subject: [PATCH 4/9] drm/msm/a6xx: HFI v2 for A640 and A650
-Date: Mon, 20 Apr 2020 10:03:08 -0400
-Message-Id: <20200420140313.7263-5-jonathan@marek.ca>
+Subject: [PATCH 5/9] drm/msm/a6xx: A640/A650 GMU firmware path
+Date: Mon, 20 Apr 2020 10:03:09 -0400
+Message-Id: <20200420140313.7263-6-jonathan@marek.ca>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200420140313.7263-1-jonathan@marek.ca>
 References: <20200420140313.7263-1-jonathan@marek.ca>
@@ -72,7 +73,7 @@ Cc: David Airlie <airlied@linux.ie>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
  Sharat Masetty <smasetty@codeaurora.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
+ Stephen Boyd <swboyd@chromium.org>,
  "Michael J. Ruhl" <michael.j.ruhl@intel.com>, Sean Paul <sean@poorly.run>,
  open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
@@ -80,504 +81,276 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Newer GPUs have different gmu firmware path.
+
 Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  68 ++++++++++++---
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h |   7 ++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c |   6 +-
- drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 117 ++++++++++++++++++++++++--
- drivers/gpu/drm/msm/adreno/a6xx_hfi.h |  50 ++++++++++-
- 5 files changed, 224 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c     | 136 +++++++++++++++++++---
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h     |  11 ++
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h |   6 +
+ 3 files changed, 138 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index c6ecb3189ec5..dc2d69837110 100644
+index dc2d69837110..6dffd1095a24 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -126,8 +126,6 @@ static void __a6xx_gmu_set_freq(struct a6xx_gmu *gmu, int index)
- 	if (ret)
- 		dev_err(gmu->dev, "GMU set GPU frequency error: %d\n", ret);
+@@ -570,6 +570,8 @@ static void a6xx_gmu_power_config(struct a6xx_gmu *gmu)
+ {
+ 	/* Disable GMU WB/RB buffer */
+ 	gmu_write(gmu, REG_A6XX_GMU_SYS_BUS_CONFIG, 0x1);
++	gmu_write(gmu, REG_A6XX_GMU_ICACHE_CONFIG, 0x1);
++	gmu_write(gmu, REG_A6XX_GMU_DCACHE_CONFIG, 0x1);
  
--	gmu->freq = gmu->gpu_freqs[index];
--
- 	/*
- 	 * Eventually we will want to scale the path vote with the frequency but
- 	 * for now leave it at max so that the performance is nominal.
-@@ -151,7 +149,12 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, unsigned long freq)
+ 	gmu_write(gmu, REG_A6XX_GMU_PWR_COL_INTER_FRAME_CTRL, 0x9c40400);
  
- 	gmu->current_perf_index = perf_index;
- 
--	__a6xx_gmu_set_freq(gmu, perf_index);
-+	if (gmu->legacy)
-+		__a6xx_gmu_set_freq(gmu, perf_index);
-+	else
-+		a6xx_hfi_set_freq(gmu, perf_index);
-+
-+	gmu->freq = gmu->gpu_freqs[perf_index];
+@@ -599,14 +601,91 @@ static void a6xx_gmu_power_config(struct a6xx_gmu *gmu)
+ 		A6XX_GMU_RPMH_CTRL_GFX_VOTE_ENABLE);
  }
  
- unsigned long a6xx_gmu_get_freq(struct msm_gpu *gpu)
-@@ -231,19 +234,26 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
- 
- 	switch (state) {
- 	case GMU_OOB_GPU_SET:
--		request = GMU_OOB_GPU_SET_REQUEST;
--		ack = GMU_OOB_GPU_SET_ACK;
-+		if (gmu->legacy) {
-+			request = GMU_OOB_GPU_SET_REQUEST;
-+			ack = GMU_OOB_GPU_SET_ACK;
-+		} else {
-+			request = GMU_OOB_GPU_SET_REQUEST_NEW;
-+			ack = GMU_OOB_GPU_SET_ACK_NEW;
-+		}
- 		name = "GPU_SET";
- 		break;
- 	case GMU_OOB_BOOT_SLUMBER:
- 		request = GMU_OOB_BOOT_SLUMBER_REQUEST;
- 		ack = GMU_OOB_BOOT_SLUMBER_ACK;
- 		name = "BOOT_SLUMBER";
-+		WARN_ON(!gmu->legacy);
- 		break;
- 	case GMU_OOB_DCVS_SET:
- 		request = GMU_OOB_DCVS_REQUEST;
- 		ack = GMU_OOB_DCVS_ACK;
- 		name = "GPU_DCVS";
-+		WARN_ON(!gmu->legacy);
- 		break;
- 	default:
- 		return -EINVAL;
-@@ -271,6 +281,13 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
- /* Clear a pending OOB state in the GMU */
- void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
- {
-+	if (!gmu->legacy) {
-+		WARN_ON(state != GMU_OOB_GPU_SET);
-+		gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
-+			1 << GMU_OOB_GPU_SET_CLEAR_NEW);
-+		return;
-+	}
++static int in_range(u32 addr, u32 start, u32 size)
++{
++	return addr >= start && addr < start + size;
++}
 +
- 	switch (state) {
- 	case GMU_OOB_GPU_SET:
- 		gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
-@@ -293,6 +310,9 @@ static int a6xx_sptprac_enable(struct a6xx_gmu *gmu)
- 	int ret;
- 	u32 val;
- 
-+	if (!gmu->legacy)
-+		return 0;
-+
- 	gmu_write(gmu, REG_A6XX_GMU_GX_SPTPRAC_POWER_CONTROL, 0x778000);
- 
- 	ret = gmu_poll_timeout(gmu, REG_A6XX_GMU_SPTPRAC_PWR_CLK_STATUS, val,
-@@ -312,6 +332,9 @@ static void a6xx_sptprac_disable(struct a6xx_gmu *gmu)
- 	u32 val;
- 	int ret;
- 
-+	if (!gmu->legacy)
-+		return;
-+
- 	/* Make sure retention is on */
- 	gmu_rmw(gmu, REG_A6XX_GPU_CC_GX_GDSCR, 0, (1 << 11));
- 
-@@ -355,6 +378,11 @@ static int a6xx_gmu_notify_slumber(struct a6xx_gmu *gmu)
- 	if (gmu->idle_level < GMU_IDLE_STATE_SPTP)
- 		a6xx_sptprac_disable(gmu);
- 
-+	if (!gmu->legacy) {
-+		ret = a6xx_hfi_send_prep_slumber(gmu);
-+		goto out;
-+	}
-+
- 	/* Tell the GMU to get ready to slumber */
- 	gmu_write(gmu, REG_A6XX_GMU_BOOT_SLUMBER_OPTION, 1);
- 
-@@ -370,6 +398,7 @@ static int a6xx_gmu_notify_slumber(struct a6xx_gmu *gmu)
- 		}
- 	}
- 
-+out:
- 	/* Put fence into allow mode */
- 	gmu_write(gmu, REG_A6XX_GMU_AO_AHB_FENCE_CTRL, 0);
- 	return ret;
-@@ -639,9 +668,11 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
- 	if (ret)
- 		return ret;
- 
--	ret = a6xx_gmu_gfx_rail_on(gmu);
--	if (ret)
--		return ret;
-+	if (gmu->legacy) {
-+		ret = a6xx_gmu_gfx_rail_on(gmu);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	/* Enable SPTP_PC if the CPU is responsible for it */
- 	if (gmu->idle_level < GMU_IDLE_STATE_SPTP) {
-@@ -760,7 +791,10 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
- 	enable_irq(gmu->hfi_irq);
- 
- 	/* Set the GPU to the current freq */
--	__a6xx_gmu_set_freq(gmu, gmu->current_perf_index);
-+	if (gmu->legacy)
-+		__a6xx_gmu_set_freq(gmu, gmu->current_perf_index);
-+	else
-+		a6xx_hfi_set_freq(gmu, gmu->current_perf_index);
- 
- 	/*
- 	 * "enable" the GX power domain which won't actually do anything but it
-@@ -1305,6 +1339,7 @@ void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
- 
- int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- {
++static int a6xx_gmu_fw_load(struct a6xx_gmu *gmu)
++{
++	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
 +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
- 	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
- 	struct platform_device *pdev = of_find_device_by_node(node);
- 	int ret;
-@@ -1331,16 +1366,21 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 	if (ret)
- 		goto err_put_device;
- 
-+	if (!adreno_is_a640(adreno_gpu) && !adreno_is_a650(adreno_gpu)) {
-+		/* HFI v1, no sptprac */
-+		gmu->legacy = true;
++	const struct firmware *fw_image = adreno_gpu->fw[ADRENO_FW_GMU];
++	const struct block_header {
++		u32 addr;
++		u32 size;
++		u32 type;
++		u32 value;
++		u32 data[];
++	} *blk;
++	struct a6xx_gmu_bo *mem;
++	u32 reg;
 +
-+		/* Allocate memory for the GMU debug region */
-+		gmu->debug = a6xx_gmu_memory_alloc(gmu, SZ_16K, 0);
-+		if (IS_ERR(gmu->debug))
-+			goto err_memory;
++	u32 itcm_base = 0x00000000;
++	u32 dtcm_base = 0x00040000;
++
++	if (adreno_is_a650(adreno_gpu))
++		dtcm_base = 0x10004000;
++
++	if (gmu->legacy) {
++		/* Sanity check the size of the firmware that was loaded */
++		if (fw_image->size > 0x8000) {
++			DRM_DEV_ERROR(gmu->dev,
++				"GMU firmware is bigger than the available region\n");
++			return -EINVAL;
++		}
++
++		gmu_write_bulk(gmu, REG_A6XX_GMU_CM3_ITCM_START,
++			       (u32*) fw_image->data, fw_image->size >> 2);
++		return 0;
 +	}
 +
- 	/* Allocate memory for for the HFI queues */
- 	gmu->hfi = a6xx_gmu_memory_alloc(gmu, SZ_16K, 0);
- 	if (IS_ERR(gmu->hfi))
- 		goto err_memory;
- 
--	/* Allocate memory for the GMU debug region */
--	gmu->debug = a6xx_gmu_memory_alloc(gmu, SZ_16K, 0);
--	if (IS_ERR(gmu->debug))
--		goto err_memory;
--
- 	/* Map the GMU registers */
- 	gmu->mmio = a6xx_gmu_get_mmio(pdev, "gmu");
- 	if (IS_ERR(gmu->mmio))
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-index 2af91ed7ed0c..781714ffaa91 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-@@ -80,6 +80,7 @@ struct a6xx_gmu {
- 
- 	bool initialized;
- 	bool hung;
-+	bool legacy; /* a618 or a630 */
- };
- 
- static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
-@@ -160,10 +161,16 @@ enum a6xx_gmu_oob_state {
- #define GMU_OOB_GPU_SET_ACK	24
- #define GMU_OOB_GPU_SET_CLEAR	24
- 
-+#define GMU_OOB_GPU_SET_REQUEST_NEW	30
-+#define GMU_OOB_GPU_SET_ACK_NEW		31
-+#define GMU_OOB_GPU_SET_CLEAR_NEW	31
 +
- 
- void a6xx_hfi_init(struct a6xx_gmu *gmu);
- int a6xx_hfi_start(struct a6xx_gmu *gmu, int boot_state);
- void a6xx_hfi_stop(struct a6xx_gmu *gmu);
-+int a6xx_hfi_send_prep_slumber(struct a6xx_gmu *gmu);
-+int a6xx_hfi_set_freq(struct a6xx_gmu *gmu, int index);
- 
- bool a6xx_gmu_gx_is_on(struct a6xx_gmu *gmu);
- bool a6xx_gmu_sptprac_is_on(struct a6xx_gmu *gmu);
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 68af24150de5..a860d4970e10 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -566,8 +566,10 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 	 */
- 	a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_GPU_SET);
- 
--	/* Take the GMU out of its special boot mode */
--	a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_BOOT_SLUMBER);
-+	if (a6xx_gpu->gmu.legacy) {
-+		/* Take the GMU out of its special boot mode */
-+		a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_BOOT_SLUMBER);
++	for (blk = (const struct block_header *) fw_image->data;
++	     (const u8*) blk < fw_image->data + fw_image->size;
++	     blk = (const struct block_header *) &blk->data[blk->size >> 2]) {
++		if (blk->size == 0)
++			continue;
++
++		reg = 0;
++		mem = NULL;
++
++		if (in_range(blk->addr, itcm_base, SZ_16K))
++			reg = REG_A6XX_GMU_CM3_ITCM_START + ((blk->addr - itcm_base) >> 2);
++		else if (in_range(blk->addr, dtcm_base, SZ_16K))
++			reg = REG_A6XX_GMU_CM3_DTCM_START + ((blk->addr - dtcm_base) >> 2);
++		else if (in_range(blk->addr, gmu->icache->iova, gmu->icache->size))
++			mem = gmu->icache;
++		else if (in_range(blk->addr, gmu->dcache->iova, gmu->dcache->size))
++			mem = gmu->dcache;
++		else if (in_range(blk->addr, gmu->dummy->iova, gmu->dummy->size))
++			mem = gmu->dummy;
++		else {
++			DRM_DEV_ERROR(gmu->dev,
++				"failed to match fw block (addr=%.8x size=%d data[0]=%.8x)\n",
++				blk->addr, blk->size, blk->data[0]);
++		}
++
++		if (reg)
++			gmu_write_bulk(gmu, reg, blk->data, blk->size >> 2);
++
++		if (mem)
++			memcpy(mem->virt + blk->addr - mem->iova, blk->data, blk->size);
 +	}
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-index e450e0b97211..3d4b142d8fb3 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-@@ -17,10 +17,14 @@ static const char * const a6xx_hfi_msg_id[] = {
- 	HFI_MSG_ID(HFI_H2F_MSG_BW_TABLE),
- 	HFI_MSG_ID(HFI_H2F_MSG_PERF_TABLE),
- 	HFI_MSG_ID(HFI_H2F_MSG_TEST),
-+	HFI_MSG_ID(HFI_H2F_MSG_START),
-+	HFI_MSG_ID(HFI_H2F_MSG_CORE_FW_START),
-+	HFI_MSG_ID(HFI_H2F_MSG_GX_BW_PERF_VOTE),
-+	HFI_MSG_ID(HFI_H2F_MSG_PREPARE_SLUMBER),
- };
- 
--static int a6xx_hfi_queue_read(struct a6xx_hfi_queue *queue, u32 *data,
--		u32 dwords)
-+static int a6xx_hfi_queue_read(struct a6xx_gmu *gmu,
-+	struct a6xx_hfi_queue *queue, u32 *data, u32 dwords)
- {
- 	struct a6xx_hfi_queue_header *header = queue->header;
- 	u32 i, hdr, index = header->read_index;
-@@ -48,6 +52,9 @@ static int a6xx_hfi_queue_read(struct a6xx_hfi_queue *queue, u32 *data,
- 		index = (index + 1) % header->size;
- 	}
- 
-+	if (!gmu->legacy)
-+		index = ALIGN(index, 4) % header->size;
-+
- 	header->read_index = index;
- 	return HFI_HEADER_SIZE(hdr);
- }
-@@ -73,6 +80,12 @@ static int a6xx_hfi_queue_write(struct a6xx_gmu *gmu,
- 		index = (index + 1) % header->size;
- 	}
- 
-+	/* Cookify any non used data at the end of the write buffer */
-+	if (!gmu->legacy) {
-+		for (; index % 4; index = (index + 1) % header->size)
-+			queue->data[index] = 0xfafafafa;
-+	}
-+
- 	header->write_index = index;
- 	spin_unlock(&queue->lock);
- 
-@@ -106,7 +119,7 @@ static int a6xx_hfi_wait_for_ack(struct a6xx_gmu *gmu, u32 id, u32 seqnum,
- 		struct a6xx_hfi_msg_response resp;
- 
- 		/* Get the next packet */
--		ret = a6xx_hfi_queue_read(queue, (u32 *) &resp,
-+		ret = a6xx_hfi_queue_read(gmu, queue, (u32 *) &resp,
- 			sizeof(resp) >> 2);
- 
- 		/* If the queue is empty our response never made it */
-@@ -195,6 +208,28 @@ static int a6xx_hfi_get_fw_version(struct a6xx_gmu *gmu, u32 *version)
- 		version, sizeof(*version));
- }
- 
-+static int a6xx_hfi_send_perf_table_v1(struct a6xx_gmu *gmu)
-+{
-+	struct a6xx_hfi_msg_perf_table_v1 msg = { 0 };
-+	int i;
-+
-+	msg.num_gpu_levels = gmu->nr_gpu_freqs;
-+	msg.num_gmu_levels = gmu->nr_gmu_freqs;
-+
-+	for (i = 0; i < gmu->nr_gpu_freqs; i++) {
-+		msg.gx_votes[i].vote = gmu->gx_arc_votes[i];
-+		msg.gx_votes[i].freq = gmu->gpu_freqs[i] / 1000;
-+	}
-+
-+	for (i = 0; i < gmu->nr_gmu_freqs; i++) {
-+		msg.cx_votes[i].vote = gmu->cx_arc_votes[i];
-+		msg.cx_votes[i].freq = gmu->gmu_freqs[i] / 1000;
-+	}
-+
-+	return a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_PERF_TABLE, &msg, sizeof(msg),
-+		NULL, 0);
-+}
-+
- static int a6xx_hfi_send_perf_table(struct a6xx_gmu *gmu)
- {
- 	struct a6xx_hfi_msg_perf_table msg = { 0 };
-@@ -205,6 +240,7 @@ static int a6xx_hfi_send_perf_table(struct a6xx_gmu *gmu)
- 
- 	for (i = 0; i < gmu->nr_gpu_freqs; i++) {
- 		msg.gx_votes[i].vote = gmu->gx_arc_votes[i];
-+		msg.gx_votes[i].acd = 0xffffffff;
- 		msg.gx_votes[i].freq = gmu->gpu_freqs[i] / 1000;
- 	}
- 
-@@ -306,7 +342,45 @@ static int a6xx_hfi_send_test(struct a6xx_gmu *gmu)
- 		NULL, 0);
- }
- 
--int a6xx_hfi_start(struct a6xx_gmu *gmu, int boot_state)
-+int a6xx_hfi_send_start(struct a6xx_gmu *gmu)
-+{
-+	struct a6xx_hfi_msg_start msg = { 0 };
-+
-+	return a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_START, &msg, sizeof(msg),
-+		NULL, 0);
-+}
-+
-+int a6xx_hfi_send_core_fw_start(struct a6xx_gmu *gmu)
-+{
-+	struct a6xx_hfi_msg_core_fw_start msg = { 0 };
-+
-+	return a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_CORE_FW_START, &msg,
-+		sizeof(msg), NULL, 0);
-+}
-+
-+int a6xx_hfi_set_freq(struct a6xx_gmu *gmu, int index)
-+{
-+	struct a6xx_hfi_gx_bw_perf_vote_cmd msg = { 0 };
-+
-+	msg.ack_type = 1; /* blocking */
-+	msg.freq = index;
-+	msg.bw = 0; /* TODO: bus scaling */
-+
-+	return a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_GX_BW_PERF_VOTE, &msg,
-+		sizeof(msg), NULL, 0);
-+}
-+
-+int a6xx_hfi_send_prep_slumber(struct a6xx_gmu *gmu)
-+{
-+	struct a6xx_hfi_prep_slumber_cmd msg = { 0 };
-+
-+	/* TODO: should freq and bw fields be non-zero ? */
-+
-+	return a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_PREPARE_SLUMBER, &msg,
-+		sizeof(msg), NULL, 0);
-+}
-+
-+static int a6xx_hfi_start_v1(struct a6xx_gmu *gmu, int boot_state)
- {
- 	int ret;
- 
-@@ -324,7 +398,7 @@ int a6xx_hfi_start(struct a6xx_gmu *gmu, int boot_state)
- 	 * the GMU firmware
- 	 */
- 
--	ret = a6xx_hfi_send_perf_table(gmu);
-+	ret = a6xx_hfi_send_perf_table_v1(gmu);
- 	if (ret)
- 		return ret;
- 
-@@ -341,6 +415,37 @@ int a6xx_hfi_start(struct a6xx_gmu *gmu, int boot_state)
- 	return 0;
- }
- 
-+int a6xx_hfi_start(struct a6xx_gmu *gmu, int boot_state)
-+{
-+	int ret;
-+
-+	if (gmu->legacy)
-+		return a6xx_hfi_start_v1(gmu, boot_state);
-+
-+
-+	ret = a6xx_hfi_send_perf_table(gmu);
-+	if (ret)
-+		return ret;
-+
-+	ret = a6xx_hfi_send_bw_table(gmu);
-+	if (ret)
-+		return ret;
-+
-+	ret = a6xx_hfi_send_core_fw_start(gmu);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Downstream driver sends this in its "a6xx_hw_init" equivalent,
-+	 * but seems to be no harm in sending it here
-+	 */
-+	ret = a6xx_hfi_send_start(gmu);
-+	if (ret)
-+		return ret;
 +
 +	return 0;
 +}
 +
- void a6xx_hfi_stop(struct a6xx_gmu *gmu)
+ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
  {
- 	int i;
-@@ -415,5 +520,5 @@ void a6xx_hfi_init(struct a6xx_gmu *gmu)
- 	/* GMU response queue */
- 	offset += SZ_4K;
- 	a6xx_hfi_queue_init(&gmu->queues[1], &headers[1], hfi->virt + offset,
--		hfi->iova + offset, 4);
-+		hfi->iova + offset, gmu->legacy ? 4 : 1);
+ 	static bool rpmh_init;
+ 	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
+ 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+-	int i, ret;
++	int ret;
+ 	u32 chipid;
+-	u32 *image;
++
++	if (adreno_is_a650(adreno_gpu))
++		gmu_write(gmu, REG_A6XX_GPU_GMU_CX_GMU_CX_FAL_INTF, 1);
+ 
+ 	if (state == GMU_WARM_BOOT) {
+ 		ret = a6xx_rpmh_start(gmu);
+@@ -617,13 +696,6 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
+ 			"GMU firmware is not loaded\n"))
+ 			return -ENOENT;
+ 
+-		/* Sanity check the size of the firmware that was loaded */
+-		if (adreno_gpu->fw[ADRENO_FW_GMU]->size > 0x8000) {
+-			DRM_DEV_ERROR(gmu->dev,
+-				"GMU firmware is bigger than the available region\n");
+-			return -EINVAL;
+-		}
+-
+ 		/* Turn on register retention */
+ 		gmu_write(gmu, REG_A6XX_GMU_GENERAL_7, 1);
+ 
+@@ -637,11 +709,9 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
+ 				return ret;
+ 		}
+ 
+-		image = (u32 *) adreno_gpu->fw[ADRENO_FW_GMU]->data;
+-
+-		for (i = 0; i < adreno_gpu->fw[ADRENO_FW_GMU]->size >> 2; i++)
+-			gmu_write(gmu, REG_A6XX_GMU_CM3_ITCM_START + i,
+-				image[i]);
++		ret = a6xx_gmu_fw_load(gmu);
++		if (ret)
++			return ret;
+ 	}
+ 
+ 	gmu_write(gmu, REG_A6XX_GMU_CM3_FW_INIT_RESULT, 0);
+@@ -768,12 +838,20 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
+ 	/* Enable the GMU interrupt */
+ 	gmu_write(gmu, REG_A6XX_GMU_AO_HOST_INTERRUPT_CLR, ~0);
+ 	gmu_write(gmu, REG_A6XX_GMU_AO_HOST_INTERRUPT_MASK, ~A6XX_GMU_IRQ_MASK);
++
+ 	enable_irq(gmu->gmu_irq);
+ 
+ 	/* Check to see if we are doing a cold or warm boot */
+ 	status = gmu_read(gmu, REG_A6XX_GMU_GENERAL_7) == 1 ?
+ 		GMU_WARM_BOOT : GMU_COLD_BOOT;
+ 
++	/*
++	 * Warm boot path does not work on newer GPUs
++	 * Presumably this is because icache/dcache regions must be restored
++	 */
++	if (!gmu->legacy)
++		status = GMU_COLD_BOOT;
++
+ 	ret = a6xx_gmu_fw_start(gmu, status);
+ 	if (ret)
+ 		goto out;
+@@ -1322,6 +1400,10 @@ void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
+ 	iounmap(gmu->mmio);
+ 	gmu->mmio = NULL;
+ 
++	a6xx_gmu_memory_free(gmu, gmu->icache);
++	a6xx_gmu_memory_free(gmu, gmu->dcache);
++	a6xx_gmu_memory_free(gmu, gmu->dummy);
++	a6xx_gmu_memory_free(gmu, gmu->debug);
+ 	a6xx_gmu_memory_free(gmu, gmu->hfi);
+ 
+ 	iommu_detach_device(gmu->domain, gmu->dev);
+@@ -1366,7 +1448,27 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 	if (ret)
+ 		goto err_put_device;
+ 
+-	if (!adreno_is_a640(adreno_gpu) && !adreno_is_a650(adreno_gpu)) {
++	/*
++	 * Allocate memory for the GMU dummy page
++	 * note: allocated first so iova is 0x60000000
++	 */
++	gmu->dummy = a6xx_gmu_memory_alloc(gmu, SZ_4K, 0);
++	if (IS_ERR(gmu->dummy))
++		goto err_memory;
++
++	if (adreno_is_a650(adreno_gpu)) {
++		gmu->icache = a6xx_gmu_memory_alloc(gmu, SZ_16M - SZ_16K, 0x04000);
++		if (IS_ERR(gmu->icache))
++			goto err_memory;
++	} else if (adreno_is_a640(adreno_gpu)) {
++		gmu->icache = a6xx_gmu_memory_alloc(gmu, SZ_256K - SZ_16K, 0x04000);
++		if (IS_ERR(gmu->icache))
++			goto err_memory;
++
++		gmu->dcache = a6xx_gmu_memory_alloc(gmu, SZ_256K - SZ_16K, 0x44000);
++		if (IS_ERR(gmu->dcache))
++			goto err_memory;
++	} else {
+ 		/* HFI v1, no sptprac */
+ 		gmu->legacy = true;
+ 
+@@ -1414,6 +1516,10 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 	free_irq(gmu->gmu_irq, gmu);
+ 	free_irq(gmu->hfi_irq, gmu);
+ err_memory:
++	a6xx_gmu_memory_free(gmu, gmu->icache);
++	a6xx_gmu_memory_free(gmu, gmu->dcache);
++	a6xx_gmu_memory_free(gmu, gmu->dummy);
++	a6xx_gmu_memory_free(gmu, gmu->debug);
+ 	a6xx_gmu_memory_free(gmu, gmu->hfi);
+ 
+ 	if (gmu->domain) {
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+index 781714ffaa91..ff5d9c61e487 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+@@ -58,6 +58,9 @@ struct a6xx_gmu {
+ 
+ 	struct a6xx_gmu_bo *hfi;
+ 	struct a6xx_gmu_bo *debug;
++	struct a6xx_gmu_bo *icache;
++	struct a6xx_gmu_bo *dcache;
++	struct a6xx_gmu_bo *dummy;
+ 
+ 	int nr_clocks;
+ 	struct clk_bulk_data *clocks;
+@@ -93,6 +96,14 @@ static inline void gmu_write(struct a6xx_gmu *gmu, u32 offset, u32 value)
+ 	return msm_writel(value, gmu->mmio + (offset << 2));
  }
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h b/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
-index 60d1319fa44f..2bd670ca42d6 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
-@@ -51,7 +51,8 @@ struct a6xx_hfi_queue {
- /* HFI message types */
  
- #define HFI_MSG_CMD 0
--#define HFI_MSG_ACK 2
-+#define HFI_MSG_ACK 1
-+#define HFI_MSG_ACK_V1 2
++static inline void
++gmu_write_bulk(struct a6xx_gmu *gmu, u32 offset, const u32 *data, u32 size)
++{
++	int i;
++	for (i = 0; i < size; i++)
++		gmu_write(gmu, offset + i, data[i]);
++}
++
+ static inline void gmu_rmw(struct a6xx_gmu *gmu, u32 reg, u32 mask, u32 or)
+ {
+ 	u32 val = gmu_read(gmu, reg);
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
+index 1cc1c135236b..eb2cd41dae6e 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
+@@ -101,6 +101,10 @@ static inline uint32_t A6XX_HFI_IRQ_OOB_MASK(uint32_t val)
  
- #define HFI_F2H_MSG_ACK 126
+ #define REG_A6XX_GMU_DCVS_RETURN				0x000023ff
  
-@@ -94,7 +95,13 @@ struct perf_level {
- 	u32 freq;
- };
++#define REG_A6XX_GMU_ICACHE_CONFIG				0x00004c00
++
++#define REG_A6XX_GMU_DCACHE_CONFIG				0x00004c01
++
+ #define REG_A6XX_GMU_SYS_BUS_CONFIG				0x00004c0f
  
--struct a6xx_hfi_msg_perf_table {
-+struct perf_gx_level {
-+	u32 vote;
-+	u32 acd;
-+	u32 freq;
-+};
-+
-+struct a6xx_hfi_msg_perf_table_v1 {
- 	u32 header;
- 	u32 num_gpu_levels;
- 	u32 num_gmu_levels;
-@@ -103,6 +110,15 @@ struct a6xx_hfi_msg_perf_table {
- 	struct perf_level cx_votes[4];
- };
+ #define REG_A6XX_GMU_CM3_SYSRESET				0x00005000
+@@ -199,6 +203,8 @@ static inline uint32_t A6XX_GMU_GPU_NAP_CTRL_SID(uint32_t val)
  
-+struct a6xx_hfi_msg_perf_table {
-+	u32 header;
-+	u32 num_gpu_levels;
-+	u32 num_gmu_levels;
-+
-+	struct perf_gx_level gx_votes[16];
-+	struct perf_level cx_votes[4];
-+};
-+
- #define HFI_H2F_MSG_BW_TABLE 3
+ #define REG_A6XX_GPU_GMU_CX_GMU_RPMH_POWER_STATE		0x000050ec
  
- struct a6xx_hfi_msg_bw_table {
-@@ -124,4 +140,34 @@ struct a6xx_hfi_msg_test {
- 	u32 header;
- };
++#define REG_A6XX_GPU_GMU_CX_GMU_CX_FAL_INTF			0x000050f0
++
+ #define REG_A6XX_GMU_BOOT_KMD_LM_HANDSHAKE			0x000051f0
  
-+#define HFI_H2F_MSG_START 10
-+
-+struct a6xx_hfi_msg_start {
-+	u32 header;
-+};
-+
-+#define HFI_H2F_MSG_CORE_FW_START 14
-+
-+struct a6xx_hfi_msg_core_fw_start {
-+	u32 header;
-+	u32 handle;
-+};
-+
-+#define HFI_H2F_MSG_GX_BW_PERF_VOTE 30
-+
-+struct a6xx_hfi_gx_bw_perf_vote_cmd {
-+	u32 header;
-+	u32 ack_type;
-+	u32 freq;
-+	u32 bw;
-+};
-+
-+#define HFI_H2F_MSG_PREPARE_SLUMBER 33
-+
-+struct a6xx_hfi_prep_slumber_cmd {
-+	u32 header;
-+	u32 bw;
-+	u32 freq;
-+};
-+
- #endif
+ #define REG_A6XX_GMU_LLM_GLM_SLEEP_CTRL				0x00005157
 -- 
 2.26.1
 
