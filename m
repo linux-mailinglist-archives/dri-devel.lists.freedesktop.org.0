@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309721B058C
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 11:26:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D071B059A
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 11:28:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C39218930B;
-	Mon, 20 Apr 2020 09:26:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 043196E48D;
+	Mon, 20 Apr 2020 09:28:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
- [209.85.210.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6737F8930B
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 09:26:31 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id i22so7461002otp.12
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 02:26:31 -0700 (PDT)
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E4876E48D
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 09:28:08 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id j4so7465279otr.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 02:28:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vNmHcf3myzOB2u9F8M3SMwCNsUNlPCLfd3zAQRCW16Q=;
- b=fOkfw0ao80Be73m4Asjzk2GEczr2zeXCvnBuxxxF/1yPb+TZoMB0Dx8vqmVoZQmpNx
- ygaUKJsUh2K9k3EbtRKm/FfmCXWNFc66JGMbdPr6o52tp4vpug24FNdCOJyYIAWQRyk5
- qFkIuxI6w04aUJC6EJEeTnVANqCM7uNMTaLW5k4NIzQr7Yq1ClbzohSLuqyrT01KOWyw
- sfT2UTkbLALaLOAL10Dm6a7GGhCIY3FOFu3P4qz6/46zJbL0prAUCVHu5CzpC+2BrANo
- fM46gKN+R1a0X54lP98ftL7GDBgTzrh6imKvdpHrjU7kgb2fYcLMKoWp+oIiwqsQRdST
- lnFg==
-X-Gm-Message-State: AGi0PuboaLjIb1hqac9rhFXZivoGPr536WWvH34Gm/1m5c+btYZ/XAeN
- Pxo6vTYHzzQUDq23hwnMzmqwMGPXI6C1WSVt9BA=
-X-Google-Smtp-Source: APiQypLK0nAWizIJ4tO6vPe5OvpMxqQr4fd7LV61E3+C9yzFgEDzCpkHgr7Sqg0Lx1T9RyK7Z05pBaDYg8OyPFQJ0Pw=
+ bh=XArWxGkJ+VyTPp7Wsn4dbWWlVRq/sh+tie0xFdY8Wzs=;
+ b=YPqQakCXVzcYzLwibmXNajb03Nxx7msmXYOEJ3J4xQR84MvSzKC/MQjw/Qpu7OCKrd
+ T0bFwWxi7YnjjTQa7RL9wOx+y+cAC0WxoDAP+cytOsaYhiT6yo2ZtGsTw4wcYhyGSR/I
+ l+IEElovdpA5eSf0zvizAtCqkJu366N8atE5a5S1cTEOMe4o/uPJ3rBNKTBjEyllA6BH
+ WpjUI8nV0MGOI67u4T93gU/EpELMd6S7RqkOorZcEwVr+LsTJ2u8JerxV0Khx/igI435
+ nDIOkBufNhPQSyUmONL/3Q2Bk2xzi25QsmXVTuZJEwdF5NhB2AKieV15TaPLmr9wlyVY
+ gcpA==
+X-Gm-Message-State: AGi0PuaX4s3e6rBAsR/slMc0QT7DeRvcFBSpE2zWcA2TO/AwR09t0Yan
+ SrMYe9QaTakJL3pp9FhMCwshv4r6q52KfwNFobE=
+X-Google-Smtp-Source: APiQypKjsC6EXYlE5GmPZ4cHorgIglv7peKg70tltLFRlUNMnXipnoVRB6R66Yu9R4xLAwziPHJaRnQ/4in6/miu0rc=
 X-Received: by 2002:a05:6830:3104:: with SMTP id
- b4mr5221130ots.250.1587374790460; 
- Mon, 20 Apr 2020 02:26:30 -0700 (PDT)
+ b4mr5224618ots.250.1587374887535; 
+ Mon, 20 Apr 2020 02:28:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200414131348.444715-1-hch@lst.de>
- <20200414131348.444715-27-hch@lst.de>
-In-Reply-To: <20200414131348.444715-27-hch@lst.de>
+ <20200414131348.444715-25-hch@lst.de>
+In-Reply-To: <20200414131348.444715-25-hch@lst.de>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 20 Apr 2020 11:26:19 +0200
-Message-ID: <CAMuHMdXO0TV09XYxyxjEA8YdvXVwg1u6Zs=z3PzCVb9Mw5boTQ@mail.gmail.com>
-Subject: Re: [PATCH 26/29] mm: remove vmalloc_user_node_flags
+Date: Mon, 20 Apr 2020 11:27:56 +0200
+Message-ID: <CAMuHMdXktO=2n1tbE5RWRfE1CMd9bP-aHJQifO3J9HYxoQEuXQ@mail.gmail.com>
+Subject: Re: [PATCH 24/29] mm: remove __vmalloc_node_flags_caller
 To: Christoph Hellwig <hch@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,7 +70,6 @@ Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
  Minchan Kim <minchan@kernel.org>,
  Linux IOMMU <iommu@lists.linux-foundation.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
  Andrew Morton <akpm@linux-foundation.org>,
  linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 Content-Type: text/plain; charset="us-ascii"
@@ -80,41 +79,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Christoph,
 
-On Tue, Apr 14, 2020 at 3:22 PM Christoph Hellwig <hch@lst.de> wrote:
-> Open code it in __bpf_map_area_alloc, which is the only caller.  Also
-> clean up __bpf_map_area_alloc to have a single vmalloc call with
-> slightly different flags instead of the current two different calls.
+On Tue, Apr 14, 2020 at 3:21 PM Christoph Hellwig <hch@lst.de> wrote:
+> Just use __vmalloc_node instead which gets and extra argument.  To be
+> able to to use __vmalloc_node in all caller make it available outside
+> of vmalloc and implement it in nommu.c.
 >
-> For this to compile for the nommu case add a __vmalloc_node_range stub
-> to nommu.c.
-
-Apparently your nommu-cross-compilers are in quarantaine? ;-)
-
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+
+One more nommu failure below...
 
 > --- a/mm/nommu.c
 > +++ b/mm/nommu.c
-> @@ -150,6 +150,14 @@ void *__vmalloc(unsigned long size, gfp_t gfp_mask)
+> @@ -150,8 +150,8 @@ void *__vmalloc(unsigned long size, gfp_t gfp_mask)
 >  }
 >  EXPORT_SYMBOL(__vmalloc);
 >
-> +void *__vmalloc_node_range(unsigned long size, unsigned long align,
-> +               unsigned long start, unsigned long end, gfp_t gfp_mask,
-> +               pgprot_t prot, unsigned long vm_flags, int node,
-> +               const void *caller)
-> +{
-> +       return __vmalloc(size, flags);
+> -void *__vmalloc_node_flags_caller(unsigned long size, int node, gfp_t flags,
+> -               void *caller)
+> +void *__vmalloc_node(unsigned long size, unsigned long align, gfp_t gfp_mask,
+> +               int node, const void *caller)
+>  {
+>         return __vmalloc(size, flags);
 
 On Mon, Apr 20, 2020 at 10:39 AM <noreply@ellerman.id.au> wrote:
 > FAILED linux-next/m5272c3_defconfig/m68k-gcc8 Mon Apr 20, 18:38
 >
 > http://kisskb.ellerman.id.au/kisskb/buildresult/14213623/
 >
-> mm/nommu.c:158:25: error: 'flags' undeclared (first use in this function); did you mean 'class'?
+> mm/nommu.c:164:25: error: 'flags' undeclared (first use in this function); did you mean 'class'?
 
-"return __vmalloc(size, gfp_mask);", I assume?
+"return __vmalloc(size, gfp_mask);"
 
 Gr{oetje,eeting}s,
 
