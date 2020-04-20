@@ -2,77 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712901B0C6A
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 15:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB6B1B0CCE
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 15:37:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D3AC89225;
-	Mon, 20 Apr 2020 13:16:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B63A6E56D;
+	Mon, 20 Apr 2020 13:37:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B081589225
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 13:16:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587388586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N3D3JSsbxO6WF6Muo3MHngcoLOG28YIx1kdVBs8x2os=;
- b=F8IQZJ5mHaQiEOPI2NQE0po//3oUPEjab9VqLNZySAV9yYovjTJIWVx2kz9kk+WfjdsZYN
- Y3jUhLinRw3k3VgoJ4k821dhPyk0sKtK4lH0yasMujZqecR8CSdbo/RGUiFbxDiFcENZex
- PJGzTunxmxEBHYUDvNfarQjOGGLBbac=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-S1_xzJ6tPUuCiKDYJvTq9A-1; Mon, 20 Apr 2020 09:16:22 -0400
-X-MC-Unique: S1_xzJ6tPUuCiKDYJvTq9A-1
-Received: by mail-wm1-f69.google.com with SMTP id 72so1189wmb.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 06:16:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=N3D3JSsbxO6WF6Muo3MHngcoLOG28YIx1kdVBs8x2os=;
- b=bnINfWwANZdHr0mTirFyu1KJ2rQQQvJhsrNd2CfVL9XpJgCMnuzD6VFiZvYeB0rVTA
- hSzbB9cawtzXlHVbB0Rq04+7noK7avdscMMRUWHk4nwtCF754TkF98znAkPp6Xj4rJUj
- CDcQHLZO9CxSr6OLKVjPP943KhaPNcDG+XNrINTdVDUNvtWinDFEV8bI5x4d0kNkXyDT
- ji0DXQqIR0uXQ0ClrgHT/MFFwviyMh2as/OJXwjhz/TZ2n4UL+KgWaaOEtMxfQgOWT+9
- FhBZLk3X0P//t4Zy5BOt60u3m1ottOPET40rj1SA8Tk3y5SQOKiMhREfEBvuR1Mjhyrl
- UjJQ==
-X-Gm-Message-State: AGi0PuZfFOH08/gI2VJNl50Ur+4s3ZtH8bRw7UQai3VtzSDcJVkhuMsM
- RFGIiOvLQyT1su4sIoJoa3rrKBpcnhQ/324hbxuMyc6XVPJXXYemeTCqh33CBKQyFQeEJQtJ0/B
- KWl8i9Pbj1Qgd4PQMakELQ4eVwnMv
-X-Received: by 2002:a05:6000:4:: with SMTP id
- h4mr19403119wrx.386.1587388581616; 
- Mon, 20 Apr 2020 06:16:21 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIqyyYX6scPKU3CiblYUoeibM6qCE8uPbdLj2dnLZsrEbCdGxP66u5IklrPwlKOfm8z41KEVw==
-X-Received: by 2002:a05:6000:4:: with SMTP id
- h4mr19403100wrx.386.1587388581392; 
- Mon, 20 Apr 2020 06:16:21 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
- by smtp.gmail.com with ESMTPSA id i129sm1481115wmi.20.2020.04.20.06.16.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Apr 2020 06:16:20 -0700 (PDT)
-Subject: Re: [PATCH 05/59] drm/vboxvidoe: use managed pci functions
-To: Daniel Vetter <daniel@ffwll.ch>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EECB6E267;
+ Mon, 20 Apr 2020 13:37:05 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 346BBABAD;
+ Mon, 20 Apr 2020 13:37:03 +0000 (UTC)
+Subject: Re: [PATCH 01/59] drm: Add devm_drm_dev_alloc macro
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
 References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-6-daniel.vetter@ffwll.ch>
- <75d2db08-a47f-a331-84bc-b61072da94e8@redhat.com>
- <20200415174418.GH3456981@phenom.ffwll.local>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <e2699bf2-712f-7c60-a00d-300e91c2dfeb@redhat.com>
-Date: Mon, 20 Apr 2020 15:16:19 +0200
+ <20200415074034.175360-2-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <4d5229c2-acb4-b76f-13c7-88a5f3de4760@suse.de>
+Date: Mon, 20 Apr 2020 15:36:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200415174418.GH3456981@phenom.ffwll.local>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200415074034.175360-2-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,125 +65,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1198966902=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1198966902==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Yu6iFqa29W91N7Gjmk3pihack2wIuy9tF"
 
-On 4/15/20 7:44 PM, Daniel Vetter wrote:
-> On Wed, Apr 15, 2020 at 05:03:55PM +0200, Hans de Goede wrote:
->> Hi,
->>
->> On 4/15/20 9:39 AM, Daniel Vetter wrote:
->>> Allows us to drop the cleanup code on the floor.
->>>
->>> Sam noticed in his review:
->>>> With this change we avoid calling pci_disable_device()
->>>> twise in case vbox_mm_init() fails.
->>>> Once in vbox_hw_fini() and once in the error path.
->>>
->>> v2: Include Sam's review remarks
->>>
->>> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>> Cc: Hans de Goede <hdegoede@redhat.com>
->>> ---
->>>    drivers/gpu/drm/vboxvideo/vbox_drv.c  | 6 ++----
->>>    drivers/gpu/drm/vboxvideo/vbox_main.c | 7 +------
->>>    2 files changed, 3 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxvideo/vbox_drv.c
->>> index cfa4639c5142..cf2e3e6a2388 100644
->>> --- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
->>> +++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
->>> @@ -55,13 +55,13 @@ static int vbox_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->>>    	pci_set_drvdata(pdev, vbox);
->>>    	mutex_init(&vbox->hw_mutex);
->>> -	ret = pci_enable_device(pdev);
->>> +	ret = pcim_enable_device(pdev);
->>>    	if (ret)
->>>    		return ret;
->>>    	ret = vbox_hw_init(vbox);
->>>    	if (ret)
->>> -		goto err_pci_disable;
->>> +		return ret;
->>>    	ret = vbox_mm_init(vbox);
->>>    	if (ret)
->>> @@ -91,8 +91,6 @@ static int vbox_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->>>    	vbox_mm_fini(vbox);
->>>    err_hw_fini:
->>>    	vbox_hw_fini(vbox);
->>> -err_pci_disable:
->>> -	pci_disable_device(pdev);
->>>    	return ret;
->>>    }
->>> diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
->>> index 9dcab115a261..1336ab9795fc 100644
->>> --- a/drivers/gpu/drm/vboxvideo/vbox_main.c
->>> +++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
->>> @@ -71,8 +71,6 @@ static void vbox_accel_fini(struct vbox_private *vbox)
->>>    	for (i = 0; i < vbox->num_crtcs; ++i)
->>>    		vbva_disable(&vbox->vbva_info[i], vbox->guest_pool, i);
->>> -
->>> -	pci_iounmap(vbox->ddev.pdev, vbox->vbva_buffers);
->>>    }
->>>    /* Do we support the 4.3 plus mode hint reporting interface? */
->>
->> This seems to be missing the conversion of the iomap_range call to
->> the devm equivalent ?   :
->>
->> drivers/gpu/drm/vboxvideo/vbox_main.c
->> 44:     vbox->vbva_buffers = pci_iomap_range(vbox->ddev.pdev, 0, ...
-> 
-> pcim_enable_device is pure magic, it converts _all_ pci_ calls on that
-> device to the managed version. There's no other manged pci_ functions (ok
-> 1-2 more, but they're rather special).
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Yu6iFqa29W91N7Gjmk3pihack2wIuy9tF
+Content-Type: multipart/mixed; boundary="tT7KGiuHqCyEOyJfg9Z70bxVEhaiFvBBa";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Message-ID: <4d5229c2-acb4-b76f-13c7-88a5f3de4760@suse.de>
+Subject: Re: [PATCH 01/59] drm: Add devm_drm_dev_alloc macro
+References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
+ <20200415074034.175360-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200415074034.175360-2-daniel.vetter@ffwll.ch>
 
-Ah I see, magic indeed.
+--tT7KGiuHqCyEOyJfg9Z70bxVEhaiFvBBa
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Well with that explained, this is:
+Hi
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Am 15.04.20 um 09:39 schrieb Daniel Vetter:
+> Add a new macro helper to combine the usual init sequence in drivers,
+> consisting of a kzalloc + devm_drm_dev_init + drmm_add_final_kfree
+> triplet. This allows us to remove the rather unsightly
+> drmm_add_final_kfree from all currently merged drivers.
+>=20
+> The kerneldoc is only added for this new function. Existing kerneldoc
+> and examples will be udated at the very end, since once all drivers
+> are converted over to devm_drm_dev_alloc we can unexport a lot of
+> interim functions and make the documentation for driver authors a lot
+> cleaner and less confusing. There will be only one true way to
+> initialize a drm_device at the end of this, which is going to be
+> devm_drm_dev_alloc.
+>=20
+> v2:
+> - Actually explain what this is for in the commit message (Sam)
+> - Fix checkpatch issues (Sam)
+>=20
+> Acked-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
-Regards,
+Sorry for being late. A number of nits are listed below. In any case:
 
-Hans
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Best regards
+Thomas
+
+> ---
+>  drivers/gpu/drm/drm_drv.c | 23 +++++++++++++++++++++++
+>  include/drm/drm_drv.h     | 33 +++++++++++++++++++++++++++++++++
+>  2 files changed, 56 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 1bb4f636b83c..8e1813d2a12e 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -739,6 +739,29 @@ int devm_drm_dev_init(struct device *parent,
+>  }
+>  EXPORT_SYMBOL(devm_drm_dev_init);
+> =20
+> +void *__devm_drm_dev_alloc(struct device *parent, struct drm_driver *d=
+river,
+> +			   size_t size, size_t offset)
+
+Maybe rename 'offset' of 'dev_offset' to make the relationship clear.
+
+> +{
+> +	void *container;
+> +	struct drm_device *drm;
+> +	int ret;
+> +
+> +	container =3D kzalloc(size, GFP_KERNEL);
+> +	if (!container)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	drm =3D container + offset;
+
+While convenient, I somewhat dislike the use of void* variables. I'd use
+unsigned char* for container and do an explicit cast to struct
+drm_device* here.
+
+> +	ret =3D devm_drm_dev_init(parent, drm, driver);
+> +	if (ret) {
+> +		kfree(container);
+> +		return ERR_PTR(ret);
+> +	}
+> +	drmm_add_final_kfree(drm, container);
+> +
+> +	return container;
+> +}
+> +EXPORT_SYMBOL(__devm_drm_dev_alloc);
+> +
+>  /**
+>   * drm_dev_alloc - Allocate new DRM device
+>   * @driver: DRM driver to allocate device for
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index e7c6ea261ed1..f07f15721254 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -626,6 +626,39 @@ int devm_drm_dev_init(struct device *parent,
+>  		      struct drm_device *dev,
+>  		      struct drm_driver *driver);
+> =20
+> +void *__devm_drm_dev_alloc(struct device *parent, struct drm_driver *d=
+river,
+> +			   size_t size, size_t offset);
+> +
+> +/**
+> + * devm_drm_dev_alloc - Resource managed allocation of a &drm_device i=
+nstance
+> + * @parent: Parent device object
+> + * @driver: DRM driver
+> + * @type: the type of the struct which contains struct &drm_device
+> + * @member: the name of the &drm_device within @type.
+> + *
+> + * This allocates and initialize a new DRM device. No device registrat=
+ion is done.
+> + * Call drm_dev_register() to advertice the device to user space and r=
+egister it
+> + * with other core subsystems. This should be done last in the device
+> + * initialization sequence to make sure userspace can't access an inco=
+nsistent
+> + * state.
+> + *
+> + * The initial ref-count of the object is 1. Use drm_dev_get() and
+> + * drm_dev_put() to take and drop further ref-counts.
+> + *
+> + * It is recommended that drivers embed &struct drm_device into their =
+own device
+> + * structure.
+> + *
+> + * Note that this manages the lifetime of the resulting &drm_device
+> + * automatically using devres. The DRM device initialized with this fu=
+nction is
+> + * automatically put on driver detach using drm_dev_put().
+> + *
+> + * RETURNS:
+> + * Pointer to new DRM device, or ERR_PTR on failure.
+> + */
+> +#define devm_drm_dev_alloc(parent, driver, type, member) \
+
+I'd replace 'member' with 'dev_field' to make the relation ship clear.
+
+> +	((type *) __devm_drm_dev_alloc(parent, driver, sizeof(type), \
+> +				       offsetof(type, member)))
+> +
+>  struct drm_device *drm_dev_alloc(struct drm_driver *driver,
+>  				 struct device *parent);
+>  int drm_dev_register(struct drm_device *dev, unsigned long flags);
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
+--tT7KGiuHqCyEOyJfg9Z70bxVEhaiFvBBa--
 
->>> @@ -125,7 +123,7 @@ int vbox_hw_init(struct vbox_private *vbox)
->>>    	/* Create guest-heap mem-pool use 2^4 = 16 byte chunks */
->>>    	vbox->guest_pool = gen_pool_create(4, -1);
->>>    	if (!vbox->guest_pool)
->>> -		goto err_unmap_guest_heap;
->>> +		return -ENOMEM;
->>>    	ret = gen_pool_add_virt(vbox->guest_pool,
->>>    				(unsigned long)vbox->guest_heap,
->>> @@ -168,8 +166,6 @@ int vbox_hw_init(struct vbox_private *vbox)
->>>    err_destroy_guest_pool:
->>>    	gen_pool_destroy(vbox->guest_pool);
->>> -err_unmap_guest_heap:
->>> -	pci_iounmap(vbox->ddev.pdev, vbox->guest_heap);
->>>    	return ret;
->>>    }
->>> @@ -177,5 +173,4 @@ void vbox_hw_fini(struct vbox_private *vbox)
->>>    {
->>>    	vbox_accel_fini(vbox);
->>>    	gen_pool_destroy(vbox->guest_pool);
->>> -	pci_iounmap(vbox->ddev.pdev, vbox->guest_heap);
->>>    }
->>>
->>
-> 
+--Yu6iFqa29W91N7Gjmk3pihack2wIuy9tF
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6dpXsACgkQaA3BHVML
+eiOwOAf/Vc6ln+MHL6RpejOTZvAZqwWIyE5I2ICWXJcYLYGv6uu87WxH4qSXbZnz
+37PiqdZNSvu4O2jr6Jb+kb7l10UBWYrQi1g0yy2zQdc5z2hZNUqZGmSSOTfq+Jxj
+G69y+Fin2bYWThzjKPH7IG1Z3K0VDv+lAuTKTIja4woSG4wQ8W9/pSoHF+C0nhAh
+E6OO1ofjdWWx+72FveIkrUjm639M77QaJxzOT8PrxK+qeFLZ9d+0JBGMKpk+l6/y
+hf6LNAPUpUpf8VKbFeu2Yq4AZIU5Okhq0/xuBJQR9dQ4ojtnD55UFnHNfeaNWpl5
+B7uoOuZWySJC6fQAQLDidyE1nRgNvw==
+=mN2Z
+-----END PGP SIGNATURE-----
+
+--Yu6iFqa29W91N7Gjmk3pihack2wIuy9tF--
+
+--===============1198966902==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1198966902==--
