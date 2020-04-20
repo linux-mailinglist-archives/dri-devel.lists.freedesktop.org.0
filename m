@@ -2,41 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BAD81B040D
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 10:14:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1701B1B043A
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 10:21:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 857F56E46C;
-	Mon, 20 Apr 2020 08:14:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99E626E45C;
+	Mon, 20 Apr 2020 08:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20CBD6E45C
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 08:14:18 +0000 (UTC)
-IronPort-SDR: KkySJW5LmZEfxrw/ImaCSzl8xaRL0jMeVETZIa3XFVVQSWbbt1aQYb3l1d+4wYvdpqUpEC41uO
- FL7HL4vXfWxQ==
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 465638982D;
+ Mon, 20 Apr 2020 08:21:49 +0000 (UTC)
+IronPort-SDR: 14PXteEBDjzJTrf9pViiMTxjXkZsCESEv2fF/bVc0g1Smw3WfLvzSDukHVcv00HHwM+UVDbIXB
+ MwJr3Gah9B0Q==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2020 01:14:13 -0700
-IronPort-SDR: GQi+lZ63AuQCCQCozaTBET02e0q31aTNZ8Mhwo8nHFR6eJJau/IulOjjXySYruUpzlKYn8Glfu
- dahNvYB8YH7A==
-X-IronPort-AV: E=Sophos;i="5.72,406,1580803200"; d="scan'208";a="429039579"
-Received: from iastakh-mobl.ccr.corp.intel.com (HELO localhost)
- ([10.252.63.229])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2020 01:21:48 -0700
+IronPort-SDR: VftcpKwtEeA3P5jAsD0qeY0JUB3b0ewMhuRIXm8KrqnlVNM9jTn3h1VsNeDUl2x/j132iy1XLW
+ c5WLlUsKUUCA==
+X-IronPort-AV: E=Sophos;i="5.72,406,1580803200"; d="scan'208";a="429041855"
+Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
+ ([10.252.46.49])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2020 01:14:05 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 0/8] drm, fbdev: rework dependencies
-In-Reply-To: <20200417190854.GI26002@ziepe.ca>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200417155553.675905-1-arnd@arndb.de>
- <20200417171453.GS3456981@phenom.ffwll.local>
- <20200417190854.GI26002@ziepe.ca>
-Date: Mon, 20 Apr 2020 11:14:02 +0300
-Message-ID: <87y2qq1smt.fsf@intel.com>
+ 20 Apr 2020 01:21:45 -0700
 MIME-Version: 1.0
+In-Reply-To: <20200420052419.GA40250@sultan-box.localdomain>
+References: <20200404024156.GA10382@sultan-box.localdomain>
+ <20200407064007.7599-1-sultan@kerneltoast.com>
+ <20200414061312.GA90768@sultan-box.localdomain>
+ <158685263618.16269.9317893477736764675@build.alporthouse.com>
+ <20200414144309.GB2082@sultan-box.localdomain>
+ <20200420052419.GA40250@sultan-box.localdomain>
+Subject: Re: [PATCH v4] drm/i915: Synchronize active and retire callbacks
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>,
+ Sultan Alsawaf <sultan@kerneltoast.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Mon, 20 Apr 2020 11:21:42 +0300
+Message-ID: <158737090265.8380.6644489879531344891@jlahtine-desk.ger.corp.intel.com>
+User-Agent: alot/0.8.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,95 +54,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, linux-fbdev@vger.kernel.org, dsd@laptop.org,
- Arnd Bergmann <arnd@arndb.de>, Saeed Mahameed <saeedm@mellanox.com>,
- airlied@linux.ie, masahiroy@kernel.org, Nicolas Pitre <nico@fluxnic.net>,
- thellstrom@vmware.com, dri-devel@lists.freedesktop.org, geert@linux-m68k.org,
- linux-renesas-soc@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
- kieran.bingham+renesas@ideasonboard.com, linux-graphics-maintainer@vmware.com,
- Laurent.pinchart@ideasonboard.com, haojian.zhuang@gmail.com,
- jfrederich@gmail.com, robert.jarzmik@free.fr, daniel@zonque.org
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ stable@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 Apr 2020, Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> On Fri, Apr 17, 2020 at 07:14:53PM +0200, Daniel Vetter wrote:
->> On Fri, Apr 17, 2020 at 05:55:45PM +0200, Arnd Bergmann wrote:
->> > I tried to fix up some dependencies after the sii8620 "imply EXTCON"
->> > statementn broke, trying a few things but in the backing out a
->> > change that would completely reverse the LEDS_CLASS selects into
->> > a 'depends on'. 
->> > 
->> > However, what I got now are multiple changes that remove gratious
->> > "selects" that lead to circular dependencies for sii8620 and others:
->> > 
->> > - Anything doing "select FB" is now gone, or becomes "depends on FB",
->> > 
->> > - DDC support depends on I2C instead of selecting it
->> > 
->> > - backlight class device support is never selected by framebuffer
->> >   drivers but has proper dependencies
->> > 
->> > I have done thousands of randconfig build tests on this, but no
->> > runtime tests.
->> > 
->> > Some of the 'depends on FOO || !FOO' statements could be simplified
->> > into a new 'uses FOO' syntax based on a patch from Saeed Mahameed,
->> > but I would for the moment treat that as a cleanup that can be done
->> > later.
->> > 
->> > If we can agree on these changes, maybe someone can merge them
->> > through the drm-misc tree.
->> > 
->> > Please review
->> 
->> Biggest concern I have is that usability of make menuconfig is horrible,
->> and it's very hard to find options that are hidden by depends on. You can
->> use the search interface, if you happen to know the option.
->> 
->> Once you've surmounted that bar, the next one is trying to find what
->> exactly you need to enable. Which again means endless of recursive
->> screaming at Kconfig files, since make menuconfig doesn't help you at all.
->
-> +1 on this. But this is a general kconfig problem, and not unique to
-> DRM, I've done this screaming for many different things now.. eg to
-> turn on every single RDMA driver.
->
-> I hackily delt with it by creating this rather insane script based on
-> the python kconfiglib to try and sort things out mostly automatically:
->
-> https://github.com/jgunthorpe/Kernel-Maintainer-Tools/blob/master/gj_tools/cmd_kconfig.py
->
-> It would be great if menuconfig had a key to say 'hey, really, turn
-> this on and everything it depends on, recursively'
+Quoting Sultan Alsawaf (2020-04-20 08:24:19)
+> Chris,
+> 
+> Could you please look at this in earnest? This is a real bug that crashes my
+> laptop without any kind of provocation. It is undeniably a bug in i915, and I've
+> clearly described it in my patch. If you dont like the patch, I'm open to any
+> suggestions you have for an alternative solution. My goal here is to make i915
+> better, but it's difficult when communication only goes one way.
 
-I'm really all for switching to using depends when that is the
-semantically right thing to do. In many places using select is a hack to
-make the UI simpler, and that's just plain wrong. We'll be doomed to
-perpetual randconfig build failures and duct tape fixes.
+Hi Sultan,
 
-I'm pretty tired of this, and I regularly ignore those duct tape fixes
-to i915 backlight build issues on some bizarre configs that nobody will
-ever use, and would not exist if depends were used throughout.
+The patch Chris pointed out was not part of 5.4 release. The commit
+message describes that it fixes the functions to be tolerant to
+running simultaneously. In doing that zeroing of ring->vaddr is
+removed so the test to do mdelay(1) and "ring->vaddr = NULL;" is
+not correct.
 
-I'm fine with select but only when it's restricted to symbols that have
-no dependencies of their own and have no UI. This is in line with
-Documentation/kbuild/kconfig-language.rst. Not enforcing this is another
-Kconfig tool shortcoming.
+I think you might have used the wrong git command for checking the
+patch history:
 
-See also my reply to Sam [1].
+$ git describe a266bf420060
+v5.4-rc7-1996-ga266bf420060 # after -rc7 tag
 
-BR,
-Jani.
+$ git describe --contains a266bf420060
+v5.6-rc1~34^2~21^2~326 # included in v5.6-rc1
 
+And git log to double check:
 
-[1] https://lore.kernel.org/dri-devel/871roi37qe.fsf@intel.com/
+$ git log --format=oneline kernel.org/stable/linux-5.4.y --grep="drm/i915/gt: Make intel_ring_unpin() safe for concurrent pint"
+$ git log --format=oneline kernel.org/stable/linux-5.5.y --grep="drm/i915/gt: Make intel_ring_unpin() safe for concurrent pint"
+0725d9a31869e6c80630e99da366ede2848295cc drm/i915/gt: Make intel_ring_unpin() safe for concurrent pint
+$ git log --format=oneline kernel.org/stable/linux-5.6.y --grep="drm/i915/gt: Make intel_ring_unpin() safe for concurrent pint"
+a754012b9f2323a5d640da7eb7b095ac3b8cd012 drm/i915/execlists: Leave resetting ring to intel_ring
+0725d9a31869e6c80630e99da366ede2848295cc drm/i915/gt: Make intel_ring_unpin() safe for concurrent pint
+a266bf42006004306dd48a9082c35dfbff153307 drm/i915/gt: Make intel_ring_unpin() safe for concurrent pint
 
+So it seems that the patch got pulled into v5.6 and has been backported
+to v5.5 but not v5.4.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Could you try applying the patch to 5.4 and seeing if the problem
+persists?
+
+Regards, Joonas
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
