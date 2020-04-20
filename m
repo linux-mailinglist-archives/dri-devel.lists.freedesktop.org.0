@@ -2,44 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23EB41B095E
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 14:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D154E1B1F08
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:49:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 468556E527;
-	Mon, 20 Apr 2020 12:33:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 266EA6E889;
+	Tue, 21 Apr 2020 06:48:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
- [185.70.40.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D8986E527
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 12:33:31 +0000 (UTC)
-Date: Mon, 20 Apr 2020 12:33:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1587386009;
- bh=2dNCrji2nfWSXbRntkLSr+YuZJaEchR72GQhOEhxMDo=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=REiQ0S97rHb4cGGLHTX/lpihgPEQyd/061QpgTLep0sRfn82mOwpuI7ucWH7T9MCL
- llZQnIXpa1sH0MAleCR9z2vAU5vbRkMohdHF9wZFAE71QmmSqHljtwzFdmmbSMsB+W
- tg/kRgZyGUxbTe15rqlEYf70J4jT7iW9wJq0kn78=
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: Operating KMS UAPI (Re: RFC: Drm-connector properties managed by
- another driver / privacy screen support)
-Message-ID: <uJ44RSX2HiIaTgyv5Ja8mUntCnl4rtbjBapdV4IqubIHEauj_CWYMjDHztQdus6U75hUwdUd5AdxEV0HnZSdQboV0ai5mIlO_wmdxwcDfnU=@emersion.fr>
-In-Reply-To: <20200420152235.3473851f@eldfell.localdomain>
-References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
- <87tv1k4vl6.fsf@intel.com>
- <d47ba6ef-efd0-9f28-1ae4-b971b95a8f8b@redhat.com>
- <20200417120226.0cd6bc21@eldfell.localdomain>
- <CAKMK7uEv_khNFC=JUyuQgDZp1p5eudDCrH0we+UdEdTV3H=Tsg@mail.gmail.com>
- <20200420112704.68d02472@eldfell.localdomain>
- <eT7Xq1DV3kIBOemufORRm39_VF3D9VD08jWCOHvl2IcqmNXqpgtgDGtPcpT_CnQjhIzqth_VdU_A8U1dCFj02JzayLcYCdUlz_5Y-i2tNXk=@emersion.fr>
- <20200420152235.3473851f@eldfell.localdomain>
+X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
+ Mon, 20 Apr 2020 12:52:10 UTC
+Received: from forwardcorp1p.mail.yandex.net (forwardcorp1p.mail.yandex.net
+ [77.88.29.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABB9F6E54C
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 12:52:10 +0000 (UTC)
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::162])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 0BE5D2E14F4;
+ Mon, 20 Apr 2020 15:45:02 +0300 (MSK)
+Received: from vla1-81430ab5870b.qloud-c.yandex.net
+ (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
+ by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ EtuQCSZgVK-j0MapW8c; Mon, 20 Apr 2020 15:45:01 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1587386701; bh=T947b66npBF+lhx1Tm3Zuu80eoQBmoC7sHhaWKhVtX8=;
+ h=Message-ID:Date:To:From:Subject;
+ b=wh3geY0bOLiEUTZJMZgcBexeZYWn83rmoW7RJP4UKJaue2vAc8nPrfiwLI4piZarb
+ wna1iFzrN/NUHxFNZgfkwF05dP+A3ZmJJJRsiaQlJkEK1E7rJKuU8SELxb4ClV3ey6
+ kcxNxqTYFyGL0sfA80r3MTlJptfBJESJ4X/yoAH8=
+Authentication-Results: mxbackcorp1j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from unknown (unknown [2a02:6b8:b080:8201::1:2])
+ by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ PJQqGb4Oah-j0Wmabn9; Mon, 20 Apr 2020 15:45:00 +0300
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client certificate not present)
+Subject: [PATCH] drm/ast: Allocate initial CRTC state of the correct size
+From: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+To: David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Date: Mon, 20 Apr 2020 15:45:00 +0300
+Message-ID: <158738670022.7365.11535132795669408878.stgit@buzz>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
+X-Mailman-Approved-At: Tue, 21 Apr 2020 06:48:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,98 +58,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Benjamin Berg <bberg@redhat.com>, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Christian Kellner <ckellner@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Mark Pearson <mpearson@lenovo.com>,
- Rajat Jain <rajatja@google.com>, Nitin Joshi1 <njoshi1@lenovo.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, April 20, 2020 2:22 PM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
-
-> On Mon, 20 Apr 2020 10:15:39 +0000
-> Simon Ser contact@emersion.fr wrote:
->
-> > On Monday, April 20, 2020 10:27 AM, Pekka Paalanen ppaalanen@gmail.com wrote:
-> >
-> > > The only "random" KMS state is the properties the userspace KMS
-> > > program does not know that are set on start-up. I have been assuming
-> > > that as long as you had fbdev active before the KMS program started,
-> > > the unknown properties have "harmless" default values. And maybe even at
-> > > driver device init if fbdev does not exist?
->
-> I meant fbcon, not fbdev above.
->
-> > Note, this is not the case when using e.g. a display manager. In the
-> > past there have been cases of a display manager setting a hw cursor
-> > and launching a compositor not supporting hw cursors. This results in
-> > a stuck hw cursor.
->
-> Indeed. So the display manager might get sensible defaults, but the
-> session compositor might not. Or maybe boot splash uses KMS already, so
-> even display manager doesn't get all-defaults state.
->
-> It seems we really do need "sane defaults" from the kernel explicitly.
-> Writing a userspace tool to save it at boot time before any KMS program
-> runs would be awkward.
-
-Agreed.
-
-> > > Btw. I searched for all occurrences of link_status in
-> > > https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html and it seems it
-> > > only has two possible values, good and bad, and no mention whether it
-> > > is writable. Looks like it's writable. There does not seem to be a) an
-> > > explanation how exactly it needs to the handled (writing it does
-> > > something? what can you write?) or b) any way discern between kernel
-> > > and userspace set values like HDCP "Content Protection" has.
-> >
-> > User-space needs to reset the value to GOOD when recovering from a BAD
-> > value.
->
-> What if userspace writes BAD?
->
-> BAD cannot be default state, so getting default state from somewhere
-> would solve this property's restoring as well. Reading back the true
-> current value could accidentally return BAD.
+I've stumbled upon this too. Trivial fix was posted but stuck in review.
+This is patch from Thomas Zimmermann changed according to suggestions by
+Daniel Vetter from https://patchwork.kernel.org/patch/11356157/
 
 
-Interestingly, setting it to BAD is a no-op (BAD is silently
-discarded):
+The ast driver inherits from DRM's CRTC state, but still uses the atomic
+helper for struct drm_crtc_funcs.reset, drm_atomic_helper_crtc_reset().
 
-	/* Never downgrade from GOOD to BAD on userspace's request here,
-	 * only hw issues can do that.
-	 *
-	 * For an atomic property the userspace doesn't need to be able
-	 * to understand all the properties, but needs to be able to
-	 * restore the state it wants on VT switch. So if the userspace
-	 * tries to change the link_status from GOOD to BAD, driver
-	 * silently rejects it and returns a 0. This prevents userspace
-	 * from accidently breaking  the display when it restores the
-	 * state.
-	 */
-	if (state->link_status != DRM_LINK_STATUS_GOOD)
-		state->link_status = val;
+The helper only allocates enough memory for the core CRTC state. That
+results in an out-ouf-bounds access when duplicating the initial CRTC
+state. Simplified backtrace shown below:
 
-So restoring the "sane default" would be work, even if the link happens
-to be BAD when saving said "sane defaults".
+[   21.469321] ==================================================================
+[   21.469434] BUG: KASAN: slab-out-of-bounds in ast_crtc_atomic_duplicate_state+0x84/0x100 [ast]
+[   21.469445] Read of size 8 at addr ffff888036c1c5f8 by task systemd-udevd/382
+[   21.469451]
+[   21.469464] CPU: 2 PID: 382 Comm: systemd-udevd Tainted: G            E     5.5.0-rc6-1-default+ #214
+[   21.469473] Hardware name: Sun Microsystems SUN FIRE X2270 M2/SUN FIRE X2270 M2, BIOS 2.05    07/01/2010
+[   21.469480] Call Trace:
+[   21.469501]  dump_stack+0xb8/0x110
+[   21.469528]  print_address_description.constprop.0+0x1b/0x1e0
+[   21.469557]  ? ast_crtc_atomic_duplicate_state+0x84/0x100 [ast]
+[   21.469581]  ? ast_crtc_atomic_duplicate_state+0x84/0x100 [ast]
+[   21.469597]  __kasan_report.cold+0x1a/0x35
+[   21.469640]  ? ast_crtc_atomic_duplicate_state+0x84/0x100 [ast]
+[   21.469665]  kasan_report+0xe/0x20
+[   21.469693]  ast_crtc_atomic_duplicate_state+0x84/0x100 [ast]
+[   21.469733]  drm_atomic_get_crtc_state+0xbf/0x1c0
+[   21.469768]  __drm_atomic_helper_set_config+0x81/0x5a0
+[   21.469803]  ? drm_atomic_plane_check+0x690/0x690
+[   21.469843]  ? drm_client_rotation+0xae/0x240
+[   21.469876]  drm_client_modeset_commit_atomic+0x230/0x390
+[   21.469888]  ? __mutex_lock+0x8f0/0xbe0
+[   21.469929]  ? drm_client_firmware_config.isra.0+0xa60/0xa60
+[   21.469948]  ? drm_client_modeset_commit_force+0x28/0x230
+[   21.470031]  ? memset+0x20/0x40
+[   21.470078]  drm_client_modeset_commit_force+0x90/0x230
+[   21.470110]  drm_fb_helper_restore_fbdev_mode_unlocked+0x5f/0xc0
+[   21.470132]  drm_fb_helper_set_par+0x59/0x70
+[   21.470155]  fbcon_init+0x61d/0xad0
+[   21.470185]  ? drm_fb_helper_restore_fbdev_mode_unlocked+0xc0/0xc0
+[   21.470232]  visual_init+0x187/0x240
+[   21.470266]  do_bind_con_driver+0x2e3/0x460
+[   21.470321]  do_take_over_console+0x20a/0x290
+[   21.470371]  do_fbcon_takeover+0x85/0x100
+[   21.470402]  register_framebuffer+0x2fd/0x490
+[   21.470425]  ? kzalloc.constprop.0+0x10/0x10
+[   21.470503]  __drm_fb_helper_initial_config_and_unlock+0xf2/0x140
+[   21.470533]  drm_fbdev_client_hotplug+0x162/0x250
+[   21.470563]  drm_fbdev_generic_setup+0xd2/0x155
+[   21.470602]  ast_driver_load+0x688/0x850 [ast]
+<...>
+[   21.472625] ==================================================================
 
-> Just to reiterate for everyone, the important thing here is to figure
-> out how userspace is supposed to reset unknown properties to sensible
-> defaults. Once we know how that should work, we can review whether new
-> properties support or break that.
+Allocating enough memory for struct ast_crtc_state in a custom ast CRTC
+reset handler fixes the problem.
 
-Yes, that's a good description of the problem.
+Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Fixes: 83be6a3ceb11 ("drm/ast: Introduce struct ast_crtc_state")
+Link: https://patchwork.kernel.org/patch/11356157/
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/ast/ast_mode.c |   13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-I see two main solutions here: either the kernel provides the default
-values in its property descriptions (e.g. drmModeGetProperty), either
-user-space can ask the kernel to reset properties to their default
-values.
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index cdd6c46d6557..17143e6bbfec 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -918,8 +918,19 @@ static void ast_crtc_atomic_destroy_state(struct drm_crtc *crtc,
+ 	kfree(ast_state);
+ }
+ 
++static void ast_crtc_reset(struct drm_crtc *crtc)
++{
++	struct ast_crtc_state *state =
++		kzalloc(sizeof(*state), GFP_KERNEL);
++
++	if (crtc->state)
++		ast_crtc_atomic_destroy_state(crtc, crtc->state);
++
++	__drm_atomic_helper_crtc_reset(crtc, &state->base);
++}
++
+ static const struct drm_crtc_funcs ast_crtc_funcs = {
+-	.reset = drm_atomic_helper_crtc_reset,
++	.reset = ast_crtc_reset,
+ 	.set_config = drm_crtc_helper_set_config,
+ 	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ 	.destroy = ast_crtc_destroy,
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
