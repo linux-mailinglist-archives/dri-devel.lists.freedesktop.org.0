@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5271B1F2D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:49:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A8E1B1F2E
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:49:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 114A86E8C2;
-	Tue, 21 Apr 2020 06:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2DCA6E8B6;
+	Tue, 21 Apr 2020 06:49:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35FF26E1E2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 18:19:43 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id t9so231208pjw.0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 11:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=idNzN2pm7FEPN1n487Ax7LSZYU5+9Uhm24wE5AT9T4s=;
- b=Vd5D+k03lqQVldIAukk7ZSeEk3nNjGfLlRkJtZcPLZa1qUfbt3YNor+uzJPtjhDEdK
- siCEfcbX5/HSKmYiXqG/Dp0Z+kOqWn5OXn5OAls/y+r1Fh8h7HiQrhSig3OkH7/jBFNR
- X00tFwMEKdkCgynoNQ2UzSmdN8ShZotARmEbxM/brXav5nNLOLIXywDh17aaFbG6Fl2R
- dS7/NspoKF5bHe05Bp+zwCcaYv4YZHhCHIHd/2xJALdFt5fvQf8aMvDguHmzrgZ7edf7
- Ovi9Byyy9yXeTW13Qb8eM9Wxfha0gyXwnMoKrmelBbGjVwDZcZbxMvpZjAWm64MKU1c5
- +XQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=idNzN2pm7FEPN1n487Ax7LSZYU5+9Uhm24wE5AT9T4s=;
- b=ER14c6xBTZI6Mfd6/LJW6vbejfLJw3ZOiu8wFvlIobJMrbbk4vroGUG4Qf/c7pHf7N
- U9CK5yWtMKLmILs5wHd2E9xROGlbD9btar6XtIwWjjRacjvg/pwgE496coI+3Vf3ykkq
- apjAHatc+rRevuBYwmLcJb+yQRZYua3Ol+iu8doujrGUf7Wqn/V1JWZRk5j4JT233Vaj
- uzUvyjdLyN+9NFx/DIpruieIhhwEuaV1rqcpe7CgcB11HcT1CJtyIbYSBvxmeUTDUoqd
- oHjfcjvkvKuj2wfAiN116yewyE6OPndrixLfv2Y/Y0umaMlJE63NkEyX40azV82kXl0M
- 7wJA==
-X-Gm-Message-State: AGi0PuZbWstOj1PrSRWPiMs56gmuk71IK9/2NjPd2aMvmzrMYea4hXer
- BdfCg3h2bsHKxHMgGnF+MCM=
-X-Google-Smtp-Source: APiQypIa5no58EAZMdGt72lHrrO+ZVAYnEQIiK1hn+NTjKtEri8J0x2+rKim+soaz3PrHXk1Fg2vPQ==
-X-Received: by 2002:a17:90a:f0c6:: with SMTP id fa6mr783307pjb.5.1587406782749; 
- Mon, 20 Apr 2020 11:19:42 -0700 (PDT)
-Received: from jordon-HP-15-Notebook-PC.domain.name ([122.182.233.24])
- by smtp.gmail.com with ESMTPSA id x66sm146331pfb.173.2020.04.20.11.19.40
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 20 Apr 2020 11:19:42 -0700 (PDT)
-From: Souptick Joarder <jrdr.linux@gmail.com>
-To: adaplas@gmail.com,
-	b.zolnierkie@samsung.com
-Subject: [PATCH] video/fbdev/riva: Remove dead code
-Date: Mon, 20 Apr 2020 23:57:24 +0530
-Message-Id: <1587407244-32574-1-git-send-email-jrdr.linux@gmail.com>
-X-Mailer: git-send-email 1.9.1
+Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BCD36E843
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 18:36:37 +0000 (UTC)
+Received: from localhost (mailhub1-int [192.168.12.234])
+ by localhost (Postfix) with ESMTP id 495b4z3MXVz9v1w9;
+ Mon, 20 Apr 2020 20:36:35 +0200 (CEST)
+Authentication-Results: localhost; dkim=pass
+ reason="1024-bit key; insecure key"
+ header.d=c-s.fr header.i=@c-s.fr header.b=E+DWEZwJ; dkim-adsp=pass;
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+ by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+ with ESMTP id L4mwlUXAK_-i; Mon, 20 Apr 2020 20:36:35 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase1.c-s.fr (Postfix) with ESMTP id 495b4z2JLhz9v95f;
+ Mon, 20 Apr 2020 20:36:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
+ t=1587407795; bh=0fa57ddsyHEgiUKKkj3rA4MemZZkyaFbgYjKejGShaM=;
+ h=From:Subject:To:Cc:Date:From;
+ b=E+DWEZwJhz6Y/xgde33hxmuD3rGUtiRxeI/8EM0ccVSx3KfiQ4f7G5tlyiclyZlTv
+ G3EZfX0BGGT6pW9WIfnMkWEKqCSDbnWxGkJCDbptk9jvRRwxinuBROxEoLLsiTAxU+
+ 2fc5X+q61AH6lsZ6C9gAPrkXh1oIdYDt+A1N76WQ=
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 4F6AA8B78A;
+ Mon, 20 Apr 2020 20:36:35 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id 7Voh0XE4aIU2; Mon, 20 Apr 2020 20:36:35 +0200 (CEST)
+Received: from pc16570vm.idsi0.si.c-s.fr (unknown [192.168.4.90])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id EFABD8B77E;
+ Mon, 20 Apr 2020 20:36:34 +0200 (CEST)
+Received: by pc16570vm.idsi0.si.c-s.fr (Postfix, from userid 0)
+ id B0D97657AE; Mon, 20 Apr 2020 18:36:34 +0000 (UTC)
+Message-Id: <a5945463f86c984151962a475a3ee56a2893e85d.1587407777.git.christophe.leroy@c-s.fr>
+From: Christophe Leroy <christophe.leroy@c-s.fr>
+Subject: [PATCH 1/5] drivers/powerpc: Replace _ALIGN_UP() by ALIGN()
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>
+Date: Mon, 20 Apr 2020 18:36:34 +0000 (UTC)
 X-Mailman-Approved-At: Tue, 21 Apr 2020 06:48:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,53 +63,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Souptick Joarder <jrdr.linux@gmail.com>
+Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These are dead code since 3.15. These can be removed forever if no
-plan to use it further.
+_ALIGN_UP() is specific to powerpc
+ALIGN() is generic and does the same
 
-Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
+Replace _ALIGN_UP() by ALIGN()
+
+Signed-off-by: Christophe Leroy <christophe.leroy@c-s.fr>
 ---
- drivers/video/fbdev/riva/riva_hw.c | 18 ------------------
- 1 file changed, 18 deletions(-)
+ drivers/ps3/ps3-lpm.c               | 6 +++---
+ drivers/vfio/pci/vfio_pci_nvlink2.c | 2 +-
+ drivers/video/fbdev/ps3fb.c         | 4 ++--
+ sound/ppc/snd_ps3.c                 | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/video/fbdev/riva/riva_hw.c b/drivers/video/fbdev/riva/riva_hw.c
-index 0601c13..08c9ee4 100644
---- a/drivers/video/fbdev/riva/riva_hw.c
-+++ b/drivers/video/fbdev/riva/riva_hw.c
-@@ -1343,24 +1343,6 @@ static char nv3_get_param(nv3_fifo_info *res_info, nv3_sim_state * state, nv3_ar
- /*
-  * Load fixed function state and pre-calculated/stored state.
-  */
--#if 0
--#define LOAD_FIXED_STATE(tbl,dev)                                       \
--    for (i = 0; i < sizeof(tbl##Table##dev)/8; i++)                 \
--        chip->dev[tbl##Table##dev[i][0]] = tbl##Table##dev[i][1]
--#define LOAD_FIXED_STATE_8BPP(tbl,dev)                                  \
--    for (i = 0; i < sizeof(tbl##Table##dev##_8BPP)/8; i++)            \
--        chip->dev[tbl##Table##dev##_8BPP[i][0]] = tbl##Table##dev##_8BPP[i][1]
--#define LOAD_FIXED_STATE_15BPP(tbl,dev)                                 \
--    for (i = 0; i < sizeof(tbl##Table##dev##_15BPP)/8; i++)           \
--        chip->dev[tbl##Table##dev##_15BPP[i][0]] = tbl##Table##dev##_15BPP[i][1]
--#define LOAD_FIXED_STATE_16BPP(tbl,dev)                                 \
--    for (i = 0; i < sizeof(tbl##Table##dev##_16BPP)/8; i++)           \
--        chip->dev[tbl##Table##dev##_16BPP[i][0]] = tbl##Table##dev##_16BPP[i][1]
--#define LOAD_FIXED_STATE_32BPP(tbl,dev)                                 \
--    for (i = 0; i < sizeof(tbl##Table##dev##_32BPP)/8; i++)           \
--        chip->dev[tbl##Table##dev##_32BPP[i][0]] = tbl##Table##dev##_32BPP[i][1]
--#endif
--
- #define LOAD_FIXED_STATE(tbl,dev)                                       \
-     for (i = 0; i < sizeof(tbl##Table##dev)/8; i++)                 \
-         NV_WR32(&chip->dev[tbl##Table##dev[i][0]], 0, tbl##Table##dev[i][1])
+diff --git a/drivers/ps3/ps3-lpm.c b/drivers/ps3/ps3-lpm.c
+index 83c45659bc9d..064b5884ba13 100644
+--- a/drivers/ps3/ps3-lpm.c
++++ b/drivers/ps3/ps3-lpm.c
+@@ -1096,8 +1096,8 @@ int ps3_lpm_open(enum ps3_lpm_tb_type tb_type, void *tb_cache,
+ 		lpm_priv->tb_cache_internal = NULL;
+ 		lpm_priv->tb_cache = NULL;
+ 	} else if (tb_cache) {
+-		if (tb_cache != (void *)_ALIGN_UP((unsigned long)tb_cache, 128)
+-			|| tb_cache_size != _ALIGN_UP(tb_cache_size, 128)) {
++		if (tb_cache != (void *)ALIGN((unsigned long)tb_cache, 128)
++			|| tb_cache_size != ALIGN(tb_cache_size, 128)) {
+ 			dev_err(sbd_core(), "%s:%u: unaligned tb_cache\n",
+ 				__func__, __LINE__);
+ 			result = -EINVAL;
+@@ -1116,7 +1116,7 @@ int ps3_lpm_open(enum ps3_lpm_tb_type tb_type, void *tb_cache,
+ 			result = -ENOMEM;
+ 			goto fail_malloc;
+ 		}
+-		lpm_priv->tb_cache = (void *)_ALIGN_UP(
++		lpm_priv->tb_cache = (void *)ALIGN(
+ 			(unsigned long)lpm_priv->tb_cache_internal, 128);
+ 	}
+ 
+diff --git a/drivers/vfio/pci/vfio_pci_nvlink2.c b/drivers/vfio/pci/vfio_pci_nvlink2.c
+index ed20d73cc27c..65c61710c0e9 100644
+--- a/drivers/vfio/pci/vfio_pci_nvlink2.c
++++ b/drivers/vfio/pci/vfio_pci_nvlink2.c
+@@ -67,7 +67,7 @@ static size_t vfio_pci_nvgpu_rw(struct vfio_pci_device *vdev,
+ 	 *
+ 	 * This is not fast path anyway.
+ 	 */
+-	sizealigned = _ALIGN_UP(posoff + count, PAGE_SIZE);
++	sizealigned = ALIGN(posoff + count, PAGE_SIZE);
+ 	ptr = ioremap_cache(data->gpu_hpa + posaligned, sizealigned);
+ 	if (!ptr)
+ 		return -EFAULT;
+diff --git a/drivers/video/fbdev/ps3fb.c b/drivers/video/fbdev/ps3fb.c
+index 834f63edf700..9df78fb77267 100644
+--- a/drivers/video/fbdev/ps3fb.c
++++ b/drivers/video/fbdev/ps3fb.c
+@@ -44,7 +44,7 @@
+ #define GPU_CMD_BUF_SIZE			(2 * 1024 * 1024)
+ #define GPU_FB_START				(64 * 1024)
+ #define GPU_IOIF				(0x0d000000UL)
+-#define GPU_ALIGN_UP(x)				_ALIGN_UP((x), 64)
++#define GPU_ALIGN_UP(x)				ALIGN((x), 64)
+ #define GPU_MAX_LINE_LENGTH			(65536 - 64)
+ 
+ #define GPU_INTR_STATUS_VSYNC_0			0	/* vsync on head A */
+@@ -1015,7 +1015,7 @@ static int ps3fb_probe(struct ps3_system_bus_device *dev)
+ 	}
+ #endif
+ 
+-	max_ps3fb_size = _ALIGN_UP(GPU_IOIF, 256*1024*1024) - GPU_IOIF;
++	max_ps3fb_size = ALIGN(GPU_IOIF, 256*1024*1024) - GPU_IOIF;
+ 	if (ps3fb_videomemory.size > max_ps3fb_size) {
+ 		dev_info(&dev->core, "Limiting ps3fb mem size to %lu bytes\n",
+ 			 max_ps3fb_size);
+diff --git a/sound/ppc/snd_ps3.c b/sound/ppc/snd_ps3.c
+index 6d2a33b8faa0..b8161a08f2ca 100644
+--- a/sound/ppc/snd_ps3.c
++++ b/sound/ppc/snd_ps3.c
+@@ -926,7 +926,7 @@ static int snd_ps3_driver_probe(struct ps3_system_bus_device *dev)
+ 			    PAGE_SHIFT, /* use system page size */
+ 			    0, /* dma type; not used */
+ 			    NULL,
+-			    _ALIGN_UP(SND_PS3_DMA_REGION_SIZE, PAGE_SIZE));
++			    ALIGN(SND_PS3_DMA_REGION_SIZE, PAGE_SIZE));
+ 	dev->d_region->ioid = PS3_AUDIO_IOID;
+ 
+ 	ret = ps3_dma_region_create(dev->d_region);
 -- 
-1.9.1
+2.25.0
 
 _______________________________________________
 dri-devel mailing list
