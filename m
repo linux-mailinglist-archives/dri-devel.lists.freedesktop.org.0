@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9C11B0659
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 12:15:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A6B1B066B
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 12:18:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2012F6E4D2;
-	Mon, 20 Apr 2020 10:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E65876E4FF;
+	Mon, 20 Apr 2020 10:18:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
- [185.70.40.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 242BD6E4D2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 10:15:50 +0000 (UTC)
-Date: Mon, 20 Apr 2020 10:15:39 +0000
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D4786E4FF
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 10:18:51 +0000 (UTC)
+Date: Mon, 20 Apr 2020 10:18:43 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1587377747;
- bh=SJKNc/D6jtKC2XcsfP3v2Mt9OxeRp+t/wgufhdzhF58=;
+ s=protonmail; t=1587377928;
+ bh=qJz6QU9la/MBLKxC++RHua/fTTckbEfsgGnmW3CWFIk=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=Dwj7TLp/SKwwgkMcmSMuQbwsHgzmT2NDYMrfZuZnmTkckFpMqznAstpK/hdEuoPTR
- zUYlVNLvyNMuEEFReDIMAbDMkWsasKHzI0+DjEMbTWMQ1D0pCpvUoOwNpPgrVesf3O
- 0vtEZ3gWquitfZXm1fXm/dgjW2827NX3SRFBFzF0=
+ b=ED8PiZxCcCx1bWadhGT8Q6snjpVwUaxbKozTxovp8Vz/ldvOG6gQxZMpgMtf6h9eF
+ /pjtZqCbt4HI/YgAcQKgc2zvgrYghg2oXcQU1TLA/Z4Zw5eGdowCoXRcoE9Y/2Crxh
+ qQ522UFQU1HWqY7P0RvbPGgtnZpNOQlLiTYLlNZc=
 To: Pekka Paalanen <ppaalanen@gmail.com>
 From: Simon Ser <contact@emersion.fr>
 Subject: Re: Operating KMS UAPI (Re: RFC: Drm-connector properties managed by
  another driver / privacy screen support)
-Message-ID: <eT7Xq1DV3kIBOemufORRm39_VF3D9VD08jWCOHvl2IcqmNXqpgtgDGtPcpT_CnQjhIzqth_VdU_A8U1dCFj02JzayLcYCdUlz_5Y-i2tNXk=@emersion.fr>
-In-Reply-To: <20200420112704.68d02472@eldfell.localdomain>
+Message-ID: <V8lvxC6bp3xKCKOae73L1-LYfchQWljMFwZv5sfFxC7AyW9NM4BdQrHM60KK6GqCjsLuaKXvd5wO7Unbx-CY3uNdzxUH_0TdOUFKBWGRtkQ=@emersion.fr>
+In-Reply-To: <20200420130420.1a24197e@eldfell.localdomain>
 References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
  <87tv1k4vl6.fsf@intel.com>
  <d47ba6ef-efd0-9f28-1ae4-b971b95a8f8b@redhat.com>
  <20200417120226.0cd6bc21@eldfell.localdomain>
  <CAKMK7uEv_khNFC=JUyuQgDZp1p5eudDCrH0we+UdEdTV3H=Tsg@mail.gmail.com>
  <20200420112704.68d02472@eldfell.localdomain>
+ <20200420130420.1a24197e@eldfell.localdomain>
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
  DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
@@ -58,35 +58,13 @@ Cc: Benjamin Berg <bberg@redhat.com>, David Airlie <airlied@linux.ie>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  Hans de Goede <hdegoede@redhat.com>, Mark Pearson <mpearson@lenovo.com>,
  Rajat Jain <rajatja@google.com>, Nitin Joshi1 <njoshi1@lenovo.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, April 20, 2020 10:27 AM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
-
-> The only "random" KMS state is the properties the userspace KMS
-> program does not know that are set on start-up. I have been assuming
-> that as long as you had fbdev active before the KMS program started,
-> the unknown properties have "harmless" default values. And maybe even at
-> driver device init if fbdev does not exist?
-
-Note, this is not the case when using e.g. a display manager. In the
-past there have been cases of a display manager setting a hw cursor
-and launching a compositor not supporting hw cursors. This results in
-a stuck hw cursor.
-
-> Btw. I searched for all occurrences of link_status in
-> https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html and it seems it
-> only has two possible values, good and bad, and no mention whether it
-> is writable. Looks like it's writable. There does not seem to be a) an
-> explanation how exactly it needs to the handled (writing it does
-> something? what can you write?) or b) any way discern between kernel
-> and userspace set values like HDCP "Content Protection" has.
-
-User-space needs to reset the value to GOOD when recovering from a BAD
-value.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SSdkIHJlYWxseSBsaWtlIGEgZHJtTW9kZUF0b21pY0FkZERlZmF1bHRQcm9wZXJ0eSB0aGF0IHJl
+c2V0cyBhIHByb3AKdG8gaXRzIGRlZmF1bHQgdmFsdWXigKYKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
