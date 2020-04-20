@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BEB91B0D96
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 16:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1B31B0D9D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 16:01:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAB9C6E28A;
-	Mon, 20 Apr 2020 14:00:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD6976E58A;
+	Mon, 20 Apr 2020 14:01:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF9226E28A
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 14:00:34 +0000 (UTC)
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001C86E58A
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 14:01:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587391234;
+ s=mimecast20190719; t=1587391277;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ap4e89Z5vNdiNiGm/tjhzWgeUaBL0Wv/6U7AnurRbQ0=;
- b=hQCbZHoO5lkun0oPj9348wVbvz3Y2CVFm92AV0ujH85+h2w3AZkhFBhi4M2WvxHvEnB5Si
- zzf6o1i3Hpf4VyBitTIzcgkrqXU/ts22Ni28KOxTW/vB1bAU7Q27lC9d44zC+9YIfzGQSG
- zIf6+5e7WN3XzGemJrD+Rtnd+b2VsVs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-n5yBG0g_PUWPrtDLPgvJzA-1; Mon, 20 Apr 2020 10:00:25 -0400
-X-MC-Unique: n5yBG0g_PUWPrtDLPgvJzA-1
-Received: by mail-wr1-f70.google.com with SMTP id t8so5692090wrq.22
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 07:00:25 -0700 (PDT)
+ bh=CRCdhBzjtov7RvcoLcOwUA5fYrO6qOb+mWbouXaiL5k=;
+ b=fY2LJP82b0mA0vso6+vcqqdyQj2JpD112nTAJEGNfUpNAdbBe+i85z3rpxxALtKH4pm5Hy
+ /OjtPoxC8rxvXA570yuO26k+VScdVpVnKqORC87b9oMhf8XqlH7yiEVm9qkOrfmiKYZjPP
+ p37PDcwSI1a+2VokulA0+eKYJOuZpqo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-U4TlAGbhPkqaHlO7Vyk-8Q-1; Mon, 20 Apr 2020 10:01:15 -0400
+X-MC-Unique: U4TlAGbhPkqaHlO7Vyk-8Q-1
+Received: by mail-wr1-f72.google.com with SMTP id p2so4992179wrx.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 07:01:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:subject:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ap4e89Z5vNdiNiGm/tjhzWgeUaBL0Wv/6U7AnurRbQ0=;
- b=s+pjM/VQ5OXX0y85NCstArv8KkfVz4LdsWRYGT1uDLWN9OvpXwnB1my5wNH77WD/pT
- 1WhlB7UEuph9r+1XMjItNfyHJrLLrUjxp89j2/tqTfpR8TEI0zAqj0H8Sk6laY7ro/rV
- 8AIPGxu4vwVGiiP1Xgwekb3WaZtyKfafIEFSIUUdemtlYN8FliDfCHhQ9R39R3IVj3w2
- pp8sDa+yoEU0ENgh69aqH0dgvStKb/TJGYnR9uYAjmaD+tbzFJOV1rIe6F77ldZ59IPU
- ++/gXe/HUMztxLLzfapon1KWI0OBqKAJzhw7nIs5Q4l2SMeQ7255AQ6EByurpvpXpRnP
- idng==
-X-Gm-Message-State: AGi0PuaIH/ONmTm78etkG4KMNXPIcRuc4qEWXlqpIm3qKpISiF+tu+jr
- uEaTatnyW1ROMaY8J+pUDIXWzKCblwKivF0Uk8jnm+Nf+5lbtcjxXDXg/xKLDR6fJB6vdZq+SlE
- +SErlsTq3m+5i2ZsvyePd6qFaR2iE
-X-Received: by 2002:a5d:60ca:: with SMTP id x10mr18569364wrt.407.1587391224624; 
- Mon, 20 Apr 2020 07:00:24 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLuajiTV7NEgCOZK10Fc0BkrmLxAQ9cfXlRSa6GAO61DcTGLWRq8QjX/dO+TqmoPL2oG86JsA==
-X-Received: by 2002:a5d:60ca:: with SMTP id x10mr18569290wrt.407.1587391224344; 
- Mon, 20 Apr 2020 07:00:24 -0700 (PDT)
+ bh=CRCdhBzjtov7RvcoLcOwUA5fYrO6qOb+mWbouXaiL5k=;
+ b=AfDRQVrEAglnJ+XLanPMM0jnZBaba+1E8qdSSRmV/VIHYUgFFxulADbeakUdfRvsig
+ IvR0HQcrmdo27kETCZ8Re97PRLn+jET2cITw1DNvUn/6Zgfkv/ddejRaAyJtAIGd/wI0
+ xprN+SXQy+jl6WME6Pr0MlEiA/MeUQ1Nxy/Jo2nFs/JcBJUqdjRRUNaJTCgiN2ZzDqap
+ egr+b+1y48ez4AJBoWzOIVNyHavEONZ3qb9LsXWBi4VOp5fWD4E9wPU2sfn9uy8nTXeB
+ A9B9NIhdb2ed79W7MHrraoA6HUcxZ3N/mV2V9v5lF1tH7X4Fl8aTbn8yKt+ItNsmgTzp
+ ZV4A==
+X-Gm-Message-State: AGi0PuZqjIC0pp3MmDdAV58Il/voCaT0G8wP/8s0ta5EN05opAmwcv+x
+ 8E/PfC6zKtV5ItayYkkDDSFbS9AAbBGKBGhP48Mc+7t94I5QGWCA36iwhLJqXBlAMZ1zLsbbKvM
+ txEmyorcqVLop9KzdZnb//OnPP6/Z
+X-Received: by 2002:adf:dd8f:: with SMTP id x15mr20314171wrl.201.1587391274302; 
+ Mon, 20 Apr 2020 07:01:14 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKPnHC5LPyU8TDLr76kncprhTGb3bGNWjc4FM2HGpGEeoX6O6gIYtgQcBPwl5xg+T4TCSCY0A==
+X-Received: by 2002:adf:dd8f:: with SMTP id x15mr20314132wrl.201.1587391274111; 
+ Mon, 20 Apr 2020 07:01:14 -0700 (PDT)
 Received: from localhost.localdomain ([194.230.155.102])
- by smtp.gmail.com with ESMTPSA id p5sm1511446wrg.49.2020.04.20.07.00.20
+ by smtp.gmail.com with ESMTPSA id q17sm1265501wmj.45.2020.04.20.07.01.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Apr 2020 07:00:23 -0700 (PDT)
+ Mon, 20 Apr 2020 07:01:13 -0700 (PDT)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 1/8] apparmor: just use vfs_kern_mount to make .null
-To: Luis Chamberlain <mcgrof@kernel.org>,
- Goldwyn Rodrigues <goldwynr@gmail.com>
+Subject: Re: [PATCH 0/8] Simplefs: group and simplify linux fs code
+To: Luis Chamberlain <mcgrof@kernel.org>
 References: <20200414124304.4470-1-eesposit@redhat.com>
- <20200414124304.4470-2-eesposit@redhat.com>
- <20200416064405.GP11244@42.do-not-panic.com>
-Message-ID: <b5065645-1f80-27cb-52bd-a7748493967b@redhat.com>
-Date: Mon, 20 Apr 2020 16:00:19 +0200
+ <20200416065922.GS11244@42.do-not-panic.com>
+Message-ID: <79e3dd06-7cea-7798-42a2-596c185abd7b@redhat.com>
+Date: Mon, 20 Apr 2020 16:01:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200416064405.GP11244@42.do-not-panic.com>
+In-Reply-To: <20200416065922.GS11244@42.do-not-panic.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -130,69 +128,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 4/16/20 8:44 AM, Luis Chamberlain wrote:
-> On Tue, Apr 14, 2020 at 02:42:55PM +0200, Emanuele Giuseppe Esposito wrote:
->> aa_mk_null_file is using simple_pin_fs/simple_release_fs with local
->> variables as arguments, for what would amount to a simple
->> vfs_kern_mount/mntput pair if everything was inlined.  Just use
->> the normal filesystem API since the reference counting is not needed
->> here.
+On 4/16/20 8:59 AM, Luis Chamberlain wrote:
+> On Tue, Apr 14, 2020 at 02:42:54PM +0200, Emanuele Giuseppe Esposito wrote:
+>> This series of patches introduce wrappers for functions,
+>> arguments simplification in functions calls and most importantly
+>> groups duplicated code in a single header, simplefs, to avoid redundancy
+>> in the linux fs, especially debugfs and tracefs.
 > 
-> *Why* is refcounting not needed here?
+> The general goal seems worthy, but here I don't see explained why hasn't
+> this gone through libfs, and what the intention was long term. For
+> instance, you added some other generalizations which you have found. It
+> was not clear that this was the goal here, to expand on these paths.
+> 
+> What if common code on fs is found which are not part of debugfs and
+> tracefs, how does one decide if to move to libfs or simplefs?
 
-The refcount is a local variable and is always 0 on entry and exit, so 
-it is not necessary to have refcounting across function invocations, 
-such as what simple_pin_fs and simple_release_fs provide.
+The idea of simplefs (that I will also explain better in the cover 
+letter and commit messages) is that not only it groups common code, but 
+also introduces a new struct simple_fs that simplifies parameter 
+passing. This means all fs that use these functions and the struct 
+should include linux/simplefs.h, while all common functions that take a 
+simple_fs struct will be added in simplefs.c
 
-Thank you,
+Thank you for all the feedback, I will incorporate it and send a new 
+patch series soon.
 
 Emanuele
-> 
->     Luis
-> 
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>   security/apparmor/apparmorfs.c | 12 ++++++------
->>   1 file changed, 6 insertions(+), 6 deletions(-)
->>
->> diff --git a/security/apparmor/apparmorfs.c b/security/apparmor/apparmorfs.c
->> index 280741fc0f5f..828bb1eb77ea 100644
->> --- a/security/apparmor/apparmorfs.c
->> +++ b/security/apparmor/apparmorfs.c
->> @@ -2525,14 +2525,14 @@ struct path aa_null;
->>   
->>   static int aa_mk_null_file(struct dentry *parent)
->>   {
->> -	struct vfsmount *mount = NULL;
->> +	struct file_system_type *type = parent->d_sb->s_type;
->> +	struct vfsmount *mount;
->>   	struct dentry *dentry;
->>   	struct inode *inode;
->> -	int count = 0;
->> -	int error = simple_pin_fs(parent->d_sb->s_type, &mount, &count);
->>   
->> -	if (error)
->> -		return error;
->> +	mount = vfs_kern_mount(type, SB_KERNMOUNT, type->name, NULL);
->> +	if (IS_ERR(mount))
->> +		return PTR_ERR(mount);
->>   
->>   	inode_lock(d_inode(parent));
->>   	dentry = lookup_one_len(NULL_FILE_NAME, parent, strlen(NULL_FILE_NAME));
->> @@ -2561,7 +2561,7 @@ static int aa_mk_null_file(struct dentry *parent)
->>   	dput(dentry);
->>   out:
->>   	inode_unlock(d_inode(parent));
->> -	simple_release_fs(&mount, &count);
->> +	mntput(mount);
->>   	return error;
->>   }
->>   
->> -- 
->> 2.25.2
->>
-> 
 
 _______________________________________________
 dri-devel mailing list
