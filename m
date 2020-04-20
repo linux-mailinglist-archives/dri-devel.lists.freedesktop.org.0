@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE6C1AFD1C
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Apr 2020 20:15:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9D11B01F2
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 08:55:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC8C6E0C5;
-	Sun, 19 Apr 2020 18:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1E0D6E1F6;
+	Mon, 20 Apr 2020 06:55:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62E6C6E0C5;
- Sun, 19 Apr 2020 18:15:19 +0000 (UTC)
-Received: from kernel.org (unknown [104.132.0.74])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1BC5D20771;
- Sun, 19 Apr 2020 18:15:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587320119;
- bh=p4n++5U0A4OCyfDu3fVqzBUhH4zBoXeoQg5Bhyjk5vs=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=RmRFpgh9qOnCZcBjur/bkO1wxz/Io0VUZRVX9CVb6z+EdzgjT/udTJBdTVjGD2kKt
- 5W/mfVhMfxRmQDNmeSobboeL1B0AOsKg6aKQG6X8KtW/eCqhdMm7SObo/IXpu5XC8a
- amuXOAvjV+246gBjLzZUgEN7lSf6GsXiOxk2wF2Q=
+Received: from mail-m127108.qiye.163.com (mail-m127108.qiye.163.com
+ [115.236.127.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61D616E11F;
+ Mon, 20 Apr 2020 00:52:32 +0000 (UTC)
+Received: from vivo.com (wm-13.qy.internal [127.0.0.1])
+ by mail-m127108.qiye.163.com (Hmail) with ESMTP id 8C1C0842195;
+ Mon, 20 Apr 2020 08:51:54 +0800 (CST)
+Message-ID: <AJ6AmADaCLivAKtTLreYUqof.3.1587343914555.Hmail.bernard@vivo.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gZHJtL2FtZGdwdTogUmVkdWNlIGEgbG9jayBzY29wZSBpbiBhbWRncHVfYW1ka2ZkX2dwdXZtX2ZyZWVfbWVtb3J5X29mX2dwdSgp?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
+X-Originating-IP: 157.0.31.122
 MIME-Version: 1.0
-In-Reply-To: <1587030553-5990-1-git-send-email-hadar.gat@arm.com>
-References: <1587030553-5990-1-git-send-email-hadar.gat@arm.com>
-Subject: Re: [PATCH v2] of_device: removed #include that caused a recursion in
- included headers
-From: Stephen Boyd <sboyd@kernel.org>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexandre Torgue <alexandre.torgue@st.com>, Andy Gross <agross@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, David S. Miller <davem@davemloft.net>, Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, Frank Rowand <frowand.list@gmail.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hadar Gat <hadar.gat@arm.com>, Heiko Stübner <heiko@sntech.de>, JC Kuo <jckuo@nvidia.com>, Joerg Roedel <joro@8bytes.org>, Jonathan Cameron <jic23@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, Jose Abreu <joabreu@synopsys.com>, Kishon Vijay Abraham I <kishon@ti.com>, Krzysztof Kozlowski <krzk@kernel.org>, Kukjin Kim <kgene@kernel.org>, Lee Jones <lee.jones@linaro.org>, Linus Walleij <linus.walleij@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>, Lorenzo Pieralisi <lore
- nzo.pieralisi@arm.com>, Ludovic Desroches <ludovic.desroches@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime Ripard <mripard@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Richard Weinberger <richard@nod.at>, Rob Clark <robdclark@gmail.com>, Rob Herring <robh+dt@kernel.org>, Sandy Huang <hjc@rock-chips.com>, Sascha Hauer <s.hauer@pengutronix.de>, Sean Paul <sean@poorly.run>, Shawn Guo <shawnguo@kernel.org>, Stefan Agner <stefan@agner.ch>, Sudeep Holla <sudeep.holla@arm.com>, Thierry Reding <thierry.reding@gmail.com>, Tony Lindgren <tony@atomide.com>, Vignesh Raghavendra <vigneshr@ti.com>, Vinod Koul <vkoul@kernel.org>
-Date: Sun, 19 Apr 2020 11:15:18 -0700
-Message-ID: <158732011837.132238.3255039844840932086@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+Received: from bernard@vivo.com( [157.0.31.122) ] by ajax-webmail (
+ [127.0.0.1] ) ; Mon, 20 Apr 2020 08:51:54 +0800 (GMT+08:00)
+From: =?UTF-8?B?6LW15Yab5aWO?= <bernard@vivo.com>
+Date: Mon, 20 Apr 2020 08:51:54 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSFVNQk9LS0tJT09KT0tNSVlXWShZQU
+ hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
+X-HM-Sender-Digest: e1kJHlYWEh9ZQUhMSEtJTUlOTEJLN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
+ WUc6MU06Fjo*Gjg3Eg06MA8vNwkeIi4KFB1VSFVKTkNMSE9IQkpPTUNMVTMWGhIXVRkeCRUaCR87
+ DRINFFUYFBZFWVdZEgtZQVlKTkxVS1VISlVKSUlZV1kIAVlBSE5MSTcG
+X-HM-Tid: 0a719511f656986ckuuu8c1c0842195
+X-Mailman-Approved-At: Mon, 20 Apr 2020 06:55:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,33 +46,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, sparclinux@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Hadar Gat <hadar.gat@arm.com>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Ofir Drang <ofir.drang@arm.com>, Gilad Ben-Yossef <gilad@benyossef.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, dmaengine@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Felix_K=C3=BChling?= <Felix.Kuehling@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, kernel@vivo.com,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Hadar Gat (2020-04-16 02:49:03)
-> Both of_platform.h and of_device.h were included each other.
-> In of_device.h, removed unneeded #include to of_platform.h
-> and added include to of_platform.h in the files that needs it.
-> 
-> Signed-off-by: Hadar Gat <hadar.gat@arm.com>
-> ---
-
-Acked-by: Stephen Boyd <sboyd@kernel.org> # clk
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpGcm9tOiBNYXJrdXMgRWxmcmluZyA8TWFya3VzLkVsZnJpbmdAd2ViLmRlPgpEYXRlOiAyMDIw
+LTA0LTE5IDE3OjA1OjA3ClRvOiAgQmVybmFyZCBaaGFvIDxiZXJuYXJkQHZpdm8uY29tPixhbWQt
+Z2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZyxkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+LEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4sIkNocmlzdGlhbiBLw7Zu
+aWciIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+LENodW5taW5nIFpob3UgPERhdmlkMS5aaG91
+QGFtZC5jb20+LCJGZWxpeCBLw7xobGluZyIgPEZlbGl4Lkt1ZWhsaW5nQGFtZC5jb20+CkNjOiAg
+a2VybmVsQHZpdm8uY29tLGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcsRGFuaWVsIFZldHRl
+ciA8ZGFuaWVsQGZmd2xsLmNoPixEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+ClN1Ympl
+Y3Q6IFJlOiBbUEFUQ0hdIGRybS9hbWRncHU6IFJlZHVjZSBhIGxvY2sgc2NvcGUgaW4gYW1kZ3B1
+X2FtZGtmZF9ncHV2bV9mcmVlX21lbW9yeV9vZl9ncHUoKT4+IE1heWJlIHdlIGNvdWxkIHJlZHVj
+ZSB0aGUgbXV0ZXhfbG9jaygmbWVtLT5sb2NrKWBzIHByb3RlY3RlZCBjb2RlIGFyZWEsCj4+IGFu
+ZCBub25lZWQgdG8gcHJvdGVjdCBwcl9kZWJ1Zy4KPgo+SSBzdWdnZXN0IHRvIGltcHJvdmUgdGhl
+IGNvbW1pdCBtZXNzYWdlLgo+V291bGQgeW91IGxpa2UgdG8gYWRqdXN0IHRoZSBwYXRjaCBzdWJq
+ZWN0Pwo+Cj5EbyB5b3UgaW1hZ2luZSB0aGF0IGRhdGEgc3luY2hyb25pc2F0aW9uIHNob3VsZCBl
+dm9sdmUgaW4gb3RoZXIgd2F5cz8KPgo+UmVnYXJkcywKPk1hcmt1cwoKU3VyZSwgSSB3aWxsIG1v
+ZGlmeSB0aGUgY29kZSBhbmQgYWRqdXN0IHRoaXMgcGF0Y2ggc3ViamVjdC4gSSB3aWxsIHN1Ym1p
+dCBpdCBhZ2Fpbi4KCg0KDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
