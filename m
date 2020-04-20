@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947AE1B01F1
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 08:55:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A0C1B01DF
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 08:55:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E77156E1E8;
-	Mon, 20 Apr 2020 06:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 569556E1A5;
+	Mon, 20 Apr 2020 06:55:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 410 seconds by postgrey-1.36 at gabe;
- Mon, 20 Apr 2020 05:51:01 UTC
-Received: from fudan.edu.cn (mail.fudan.edu.cn [202.120.224.10])
- by gabe.freedesktop.org (Postfix) with ESMTP id 03AB86E176;
- Mon, 20 Apr 2020 05:51:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fudan.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
- Message-Id; bh=Kde4d4Iskv/eESUo3kW89uQutTL1AA81UbKX+DBEwr0=; b=W
- edNlbtZZjgiW2Kq8k8ac+CLyF4EGP7+i19/4xZApaEBNO3Wx9fyOFXDL9ZUPnIJ9
- tCPlGpUr8EKV9xrHIQy436U9ijsoldMg+xFYHIGRiReOY82ID4wcnuLFOwkaCy4i
- tdHmo+PT5icLN+7Fde4Y5v1nIBa83Xe9ysLpaFh88o=
-Received: from localhost.localdomain (unknown [120.229.255.67])
- by app1 (Coremail) with SMTP id XAUFCgD3_8dsNp1eenwWAA--.8407S3;
- Mon, 20 Apr 2020 13:43:09 +0800 (CST)
-From: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Chris Wilson <chris@chris-wilson.co.uk>,
- Matthew Auld <matthew.auld@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Imre Deak <imre.deak@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/i915/selftests:  Fix i915_address_space refcnt leak
-Date: Mon, 20 Apr 2020 13:41:54 +0800
-Message-Id: <1587361342-83494-1-git-send-email-xiyuyang19@fudan.edu.cn>
-X-Mailer: git-send-email 2.7.4
-X-CM-TRANSID: XAUFCgD3_8dsNp1eenwWAA--.8407S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7KF43Gry7CFy3Jw4xArW3trb_yoW8Cw13pr
- 45Ca4Iyr90yw47ta9Fvws5W3WfA3WxKay8Cr1kWwn5Gr1UJa4Skr1Sgry5JFWUCrWfXry2
- vrW2kFWava4FkaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9E14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl
- 6s0DM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
- YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkIecxEwVAFwVW8WwCF04k20xvY0x0EwIxGrw
- CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
- 14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
- IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAv
- wI8IcIk0rVW3JVWrJr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
- AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbfOz3UUUUU==
-X-CM-SenderInfo: irzsiiysuqikmy6i3vldqovvfxof0/
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B235F6E178
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 06:08:45 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id n24so3547860plp.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Apr 2020 23:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SezQvaqjYLbKiOOQWAcX/3BNfbHbuPlMP92AcIlOvpA=;
+ b=mh7u/Nzr3V0kjSRxTO0mKkatpJU809OLSLJJlsFt2qqISf72DiGj5xWDQAEvljElfV
+ FeYKApqTjmmOh8eLf4oP5EPyFuKRdTWijq0Bt4MVVh7MOdqoryB1MbCic8WbRgfkq6eg
+ E9a9BiB+TFtHM9d/GUjKY4K1Jx3aDv8xSb9Lk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SezQvaqjYLbKiOOQWAcX/3BNfbHbuPlMP92AcIlOvpA=;
+ b=Zy52FrPnveA77XIJguOcwz8dvhVe4cw7uvsOPsp7b4mv4wHKWLNlFLxPI9VtgLHAD2
+ GbvDh197MiE5tv1VtGxpTHx6aX545RiJAars+ZN6TL8xERZaPJ+Msn2GbN/KcBmMVYY4
+ FRzhVnZ80Uyf9iUGuJVEo3ZJxcRLle43WyyN5/LdmKZ5sFT0ht5RrQ8bFcelzuiAqn96
+ 5GR/HeWWv1mF+h17yrLaGk8jWMXJ+9DZiBbk2kbqakbB4kJC2gR0EqULz/RtmP0Nt71I
+ KIlEdDy7FlMSOF0hj8VHERekXxsufdigyJd0mq9+mMJa2SFBtJkRc6dzoBXYFXEl4gDn
+ Hqmg==
+X-Gm-Message-State: AGi0PuakvgDKM+Jr9tBkqaB0RIsYW4/M3foEcSTiVTymSC0BlECgTwgM
+ QnveuRpweow2JFuax03yi9mFOg==
+X-Google-Smtp-Source: APiQypJ7/kohKua8cbRIlf5c1h2ySfX9UyLVzIyb/i9csqaqSHKdHfXhwGV1/987z+JuCjIkPug5+Q==
+X-Received: by 2002:a17:90a:340c:: with SMTP id
+ o12mr20794100pjb.22.1587362925217; 
+ Sun, 19 Apr 2020 23:08:45 -0700 (PDT)
+Received: from localhost ([2401:fa00:9:14:a274:40bd:f640:b6c6])
+ by smtp.gmail.com with ESMTPSA id t188sm21384pfb.102.2020.04.19.23.08.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 19 Apr 2020 23:08:44 -0700 (PDT)
+From: Anand K Mistry <amistry@chromium.org>
+X-Google-Original-From: Anand K Mistry <amistry@google.com>
+To: linux-mediatek@lists.infradead.org
+Subject: [PATCH] drm/mediatek: stop iterating dma addresses when sg_dma_len()
+ == 0
+Date: Mon, 20 Apr 2020 16:08:34 +1000
+Message-Id: <20200420060834.44461-1-amistry@google.com>
+X-Mailer: git-send-email 2.26.1.301.g55bc3eb7cb9-goog
+MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 20 Apr 2020 06:55:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,68 +65,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xin Tan <tanxin.ctf@gmail.com>, yuanxzhang@fudan.edu.cn, kjlu@umn.edu,
- Xiyu Yang <xiyuyang19@fudan.edu.cn>
-MIME-Version: 1.0
+Cc: matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, Anand K Mistry <amistry@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-igt_ppgtt_pin_update() invokes i915_gem_context_get_vm_rcu(), which
-returns a reference of the i915_address_space object to "vm" with
-increased refcount.
+If dma_map_sg() merges pages when creating the mapping, only the first
+entries will have a valid sg_dma_address() and sg_dma_len(), followed by
+entries with sg_dma_len() == 0.
 
-When igt_ppgtt_pin_update() returns, "vm" becomes invalid, so the
-refcount should be decreased to keep refcount balanced.
-
-The reference counting issue happens in two exception handling paths of
-igt_ppgtt_pin_update(). When i915_gem_object_create_internal() returns
-IS_ERR, the refcnt increased by i915_gem_context_get_vm_rcu() is not
-decreased, causing a refcnt leak.
-
-Fix this issue by jumping to "out_vm" label when
-i915_gem_object_create_internal() returns IS_ERR.
-
-Fixes: 4049866f0913 ("drm/i915/selftests: huge page tests")
-Signed-off-by: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
+Signed-off-by: Anand K Mistry <amistry@google.com>
 ---
- drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-index 9311250d7d6f..7a7763be6b2e 100644
---- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-@@ -1578,8 +1578,10 @@ static int igt_ppgtt_pin_update(void *arg)
- 		unsigned int page_size = BIT(first);
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+index b04a3c2b111e09..f8fd8b98c30e3d 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+@@ -224,6 +224,9 @@ struct drm_gem_object *mtk_gem_prime_import_sg_table(struct drm_device *dev,
  
- 		obj = i915_gem_object_create_internal(dev_priv, page_size);
--		if (IS_ERR(obj))
--			return PTR_ERR(obj);
-+		if (IS_ERR(obj)) {
-+			err = PTR_ERR(obj);
-+			goto out_vm;
-+		}
- 
- 		vma = i915_vma_instance(obj, vm, NULL);
- 		if (IS_ERR(vma)) {
-@@ -1632,8 +1634,10 @@ static int igt_ppgtt_pin_update(void *arg)
- 	}
- 
- 	obj = i915_gem_object_create_internal(dev_priv, PAGE_SIZE);
--	if (IS_ERR(obj))
--		return PTR_ERR(obj);
-+	if (IS_ERR(obj)) {
-+		err = PTR_ERR(obj);
-+		goto out_vm;
-+	}
- 
- 	vma = i915_vma_instance(obj, vm, NULL);
- 	if (IS_ERR(vma)) {
+ 	expected = sg_dma_address(sg->sgl);
+ 	for_each_sg(sg->sgl, s, sg->nents, i) {
++		if (!sg_dma_len(s))
++			break;
++
+ 		if (sg_dma_address(s) != expected) {
+ 			DRM_ERROR("sg_table is not contiguous");
+ 			ret = -EINVAL;
 -- 
-2.7.4
+2.26.1.301.g55bc3eb7cb9-goog
 
 _______________________________________________
 dri-devel mailing list
