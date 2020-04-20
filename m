@@ -2,54 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D651B187B
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 23:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBE01B189E
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 23:43:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A73F689668;
-	Mon, 20 Apr 2020 21:31:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5146E857;
+	Mon, 20 Apr 2020 21:43:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
- [209.85.167.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A06F89668
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 21:31:32 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id j16so10158011oih.10
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 14:31:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=xCbMSBWE/K7CMTFoStyxNkJaPmhk/SFie0hTZQJVUuE=;
- b=fl5uj6qRw1W3MfkcLdVIa+YvzXYmsTzF+oVzyTQ2Yj4q1jh/+YMMod/OgSWc3WYgk7
- HYz+srsSS3VnymCCTqOhmFelyNgWfETktwr6frbkEaziE1/4e/GSfW5nhKRpThZRP4OU
- +PnUEo4bRSDKP8RdJ83E9XNvSRySVu8qIycg9pseVJeoyBW5FqiqW5qb1I0PZBoImzeb
- 437tV/7wvV16jmQOxc/ORfvDC0aeRNp8u7eF/kIL/215Hm1HziB2sEeJQh/77oYWU72u
- WvqRUgSQ/UYHWAr+IlJTVG+AMuxlleyqdFm0hxAwSTS1rebMVibHzyQXb2GuMl+nbiOB
- k9DQ==
-X-Gm-Message-State: AGi0Puac1SybPBAcUegbz95qSEg9r77VG7UE/DAnT8x2MTehkqlBKkBz
- 2I5OZSVUYawHrEC/HmyVAQ==
-X-Google-Smtp-Source: APiQypKp/aMom3WcZIgx4KD9/tZ1PBp+icqSBiPeREh6uL2GtZ7nUmS6xX3EHcojP7gq2hudxYyZ2A==
-X-Received: by 2002:aca:4155:: with SMTP id o82mr1118364oia.16.1587418291457; 
- Mon, 20 Apr 2020 14:31:31 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id s73sm171791oih.14.2020.04.20.14.31.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Apr 2020 14:31:30 -0700 (PDT)
-Received: (nullmailer pid 22338 invoked by uid 1000);
- Mon, 20 Apr 2020 21:31:29 -0000
-Date: Mon, 20 Apr 2020 16:31:29 -0500
-From: Rob Herring <robh@kernel.org>
-To: Jitao Shi <jitao.shi@mediatek.com>
-Subject: Re: [PATCH v15 2/3] dt-bindings: display: mediatek: convert the
- document format from txt to yaml
-Message-ID: <20200420213129.GA22262@bogus>
-References: <20200415011319.25559-1-jitao.shi@mediatek.com>
- <20200415011319.25559-3-jitao.shi@mediatek.com>
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E8476E0E3;
+ Mon, 20 Apr 2020 21:43:20 +0000 (UTC)
+Received: from lwn.net (localhost [127.0.0.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id 632E4823;
+ Mon, 20 Apr 2020 21:43:17 +0000 (UTC)
+Date: Mon, 20 Apr 2020 15:43:16 -0600
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v2 00/33] Documentation fixes for Kernel 5.8
+Message-ID: <20200420154316.28e42905@lwn.net>
+In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
+References: <cover.1586881715.git.mchehab+huawei@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200415011319.25559-3-jitao.shi@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,29 +38,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Jitao Shi <jitao.shi@mediatek.com>, srv_heupstream@mediatek.com,
- David Airlie <airlied@linux.ie>, huijuan.xie@mediatek.com, stonea168@163.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
- eddie.huang@mediatek.com, linux-arm-kernel@lists.infradead.org
+Cc: kvm@vger.kernel.org, Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-unionfs@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+ kvmarm@lists.cs.columbia.edu, linux-arch@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-rdma@vger.kernel.org,
+ Kishon Vijay Abraham I <kishon@ti.com>, linux-rockchip@lists.infradead.org,
+ Matthias Kaehlcke <mka@chromium.org>, Sandeep Maheswaram <sanm@codeaurora.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-afs@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ ecryptfs@vger.kernel.org, kvm-ppc@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, Maxime Ripard <maxime@cerno.tech>,
+ linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+ Matthias Brugger <mbrugger@suse.com>, Yuti Amonkar <yamonkar@cadence.com>,
+ linux-ide@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+ freedreno@lists.freedesktop.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-crypto@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ ocfs2-devel@oss.oracle.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Apr 2020 09:13:18 +0800, Jitao Shi wrote:
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> ---
->  .../bindings/display/mediatek/mediatek,dpi.txt     | 42 ----------
->  .../bindings/display/mediatek/mediatek,dpi.yaml    | 97 ++++++++++++++++++++++
->  2 files changed, 97 insertions(+), 42 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-> 
+On Tue, 14 Apr 2020 18:48:26 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> Patches 1 to 5 contain changes to the documentation toolset:
+> 
+> - The first 3 patches help to reduce a lot the number of reported
+>   kernel-doc issues, by making the tool more smart.
+> 
+> - Patches 4 and 5 are meant to partially address the PDF
+>   build, with now requires Sphinx version 2.4 or upper.
+> 
+> The remaining patches fix broken references detected by
+> this tool:
+> 
+>         ./scripts/documentation-file-ref-check
+> 
+> and address other random errors due to tags being mis-interpreted
+> or mis-used.
+> 
+> They are independent each other, but some may depend on
+> the kernel-doc improvements.
+> 
+> PS.: Due to the large number of C/C, I opted to keep a smaller
+> set of C/C at this first e-mail (only e-mails with "L:" tag from
+> MAINTAINERS file).
+
+OK, I've applied this set, minus #17 which was applied elsewhere.
+
+Thanks,
+
+jon
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
