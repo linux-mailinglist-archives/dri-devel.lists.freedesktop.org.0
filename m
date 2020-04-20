@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E9B1B08C6
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 14:08:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8821B093F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 14:22:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5469A6E17E;
-	Mon, 20 Apr 2020 12:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A19446E1BD;
+	Mon, 20 Apr 2020 12:22:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A42A06E191
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 12:08:01 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id F0007AF3F;
- Mon, 20 Apr 2020 12:07:58 +0000 (UTC)
-Subject: Re: [PATCH 5/8] drm/vmwgfx: make framebuffer support optional
-To: Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>, linux-fbdev@vger.kernel.org
-References: <20200417155553.675905-1-arnd@arndb.de>
- <20200417155553.675905-6-arnd@arndb.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <9cba223a-7255-4170-f7be-ba4f45bae5a7@suse.de>
-Date: Mon, 20 Apr 2020 14:07:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 494EF6E1BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 12:22:41 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id x23so7747333lfq.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 05:22:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=ywahJUlPIvAuvMNQ5b8O/KtZrJ5+36G7/0LF8ECxV2A=;
+ b=bdEPODPHNsRB7Nwhun/ySM5X7AB04ckp86EYYZ1Wpdv9sz4aw7/0vxOzyDKnr7CWdf
+ KUaJ0bJzwjWGSyt7pN9spxeb385shkihunf1ym1SNxiQDjR+/vZDPHC2ALJOGO6qlb1p
+ lAIX1Uid432XGBvgZjdbnfJeWMOK2yMjNtnIU0Z2r29alG68vWmQvoe0z2+siQ8VT93H
+ dTMTkiamiD6VQLbtc8kOQ/fNcv7EKnYEPhGjRUwUPyFxLeSxARC2WSnhyqrhSJTYQfdW
+ 4JlPXCxEIdCUKhs44IFy/aVxqHCWh8ox8DDN+TN51LjDXAhCmFI0xNGiv9ng53w8LPtw
+ qfqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=ywahJUlPIvAuvMNQ5b8O/KtZrJ5+36G7/0LF8ECxV2A=;
+ b=l1KZ5BLv83hujDTkclcb2Q01cPXmLsRNBVr+QYXIquimI/WpmlrJ072UrD3Xmm43/w
+ IukSw5TI951OzvhqfWEFq9+hf4eE3CPbjtVRZW9KjlrHK03+6ael0UlLEl3E5lYX+bk1
+ QkSB9eDaV+9Iylef5w+eTbkM1GzILSqU4J3teL94gDa+kI6tDIC+kwVqgyCwGTS+JGB+
+ yx8PpMaaIUas+YhvBvaOQ216Qup5kwmji4eKVpTwrYVu/eHKlLXj8vXP1pksaMXZLT2e
+ DB5uz2nwjNVlnkSE5f1/Y4dP6eXERlgJh6bhKoMjd5Tnv8ujVvOcA8xZ3OBl3SEtGF42
+ jkLw==
+X-Gm-Message-State: AGi0Puakv6TDdDbZmk0yu6EDGReARoS+ORtFTFC2GHwCr7nj7yLN7gFH
+ 9goRdD+jYLrFxq65ahcMfu0=
+X-Google-Smtp-Source: APiQypLvvCo8A4Ud5n7ImYu+E9h45Xpi3sEVhRXWYGrLym5k7DeWzh5kwLfxcKA7ZwA9iPvuLZQwSQ==
+X-Received: by 2002:ac2:4c89:: with SMTP id d9mr10567791lfl.165.1587385359618; 
+ Mon, 20 Apr 2020 05:22:39 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id l12sm724966lfp.35.2020.04.20.05.22.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Apr 2020 05:22:39 -0700 (PDT)
+Date: Mon, 20 Apr 2020 15:22:35 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: Operating KMS UAPI (Re: RFC: Drm-connector properties managed
+ by another driver / privacy screen support)
+Message-ID: <20200420152235.3473851f@eldfell.localdomain>
+In-Reply-To: <eT7Xq1DV3kIBOemufORRm39_VF3D9VD08jWCOHvl2IcqmNXqpgtgDGtPcpT_CnQjhIzqth_VdU_A8U1dCFj02JzayLcYCdUlz_5Y-i2tNXk=@emersion.fr>
+References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
+ <87tv1k4vl6.fsf@intel.com>
+ <d47ba6ef-efd0-9f28-1ae4-b971b95a8f8b@redhat.com>
+ <20200417120226.0cd6bc21@eldfell.localdomain>
+ <CAKMK7uEv_khNFC=JUyuQgDZp1p5eudDCrH0we+UdEdTV3H=Tsg@mail.gmail.com>
+ <20200420112704.68d02472@eldfell.localdomain>
+ <eT7Xq1DV3kIBOemufORRm39_VF3D9VD08jWCOHvl2IcqmNXqpgtgDGtPcpT_CnQjhIzqth_VdU_A8U1dCFj02JzayLcYCdUlz_5Y-i2tNXk=@emersion.fr>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200417155553.675905-6-arnd@arndb.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,310 +72,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, dsd@laptop.org, Andrzej Hajda <a.hajda@samsung.com>,
- airlied@linux.ie, masahiroy@kernel.org, Nicolas Pitre <nico@fluxnic.net>,
- Saeed Mahameed <saeedm@mellanox.com>, thellstrom@vmware.com,
- haojian.zhuang@gmail.com, geert@linux-m68k.org,
- linux-renesas-soc@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
- kieran.bingham+renesas@ideasonboard.com, linux-graphics-maintainer@vmware.com,
- Laurent.pinchart@ideasonboard.com, jfrederich@gmail.com,
- robert.jarzmik@free.fr, daniel@zonque.org
-Content-Type: multipart/mixed; boundary="===============0871134073=="
+Cc: Benjamin Berg <bberg@redhat.com>, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian Kellner <ckellner@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, Mark Pearson <mpearson@lenovo.com>,
+ Rajat Jain <rajatja@google.com>, Nitin Joshi1 <njoshi1@lenovo.com>
+Content-Type: multipart/mixed; boundary="===============1238478564=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0871134073==
+--===============1238478564==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="QjdARr8dfpLxynX6OA5uCzKDKiNzxQLlP"
+ boundary="Sig_/G7=48=5iszT/sBsfntkB+mH"; protocol="application/pgp-signature"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---QjdARr8dfpLxynX6OA5uCzKDKiNzxQLlP
-Content-Type: multipart/mixed; boundary="9bkVbYw8uZtom442BoBKH6gzY8ZRJOq4V";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>, linux-fbdev@vger.kernel.org
-Cc: Nicolas Pitre <nico@fluxnic.net>, Andrzej Hajda <a.hajda@samsung.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Saeed Mahameed <saeedm@mellanox.com>,
- masahiroy@kernel.org, Laurent.pinchart@ideasonboard.com,
- linux-renesas-soc@vger.kernel.org, kieran.bingham+renesas@ideasonboard.com,
- airlied@linux.ie, daniel@zonque.org, haojian.zhuang@gmail.com,
- robert.jarzmik@free.fr, daniel@ffwll.ch, marex@denx.de, stefan@agner.ch,
- linux-graphics-maintainer@vmware.com, thellstrom@vmware.com,
- jfrederich@gmail.com, dsd@laptop.org, geert@linux-m68k.org
-Message-ID: <9cba223a-7255-4170-f7be-ba4f45bae5a7@suse.de>
-Subject: Re: [PATCH 5/8] drm/vmwgfx: make framebuffer support optional
-References: <20200417155553.675905-1-arnd@arndb.de>
- <20200417155553.675905-6-arnd@arndb.de>
-In-Reply-To: <20200417155553.675905-6-arnd@arndb.de>
-
---9bkVbYw8uZtom442BoBKH6gzY8ZRJOq4V
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--Sig_/G7=48=5iszT/sBsfntkB+mH
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Mon, 20 Apr 2020 10:15:39 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-IMHO, at some point console support will require a change where there's
-a single config option enables/disables fbdev emulation for all drivers.
-But this patch is a step in the right direction. Thanks!
-
-Am 17.04.20 um 17:55 schrieb Arnd Bergmann:
-> CONFIG_FB causes unnecessary Kconfig dependency problems when selected
-> from another driver. Since it is already optional in vmwgfx at runtime,=
-
-> turn this into a compile-time dependency so the support can be complete=
-ly
-> left out of the driver and enabled only if CONFIG_FB is explicitly
-> selected in the configuration.
+> On Monday, April 20, 2020 10:27 AM, Pekka Paalanen <ppaalanen@gmail.com> =
+wrote:
 >=20
-> When the FB support is built into the driver, it is turned on by
-> default, but can still be disabled when loading the module.
+> > The only "random" KMS state is the properties the userspace KMS
+> > program does not know that are set on start-up. I have been assuming
+> > that as long as you had fbdev active before the KMS program started,
+> > the unknown properties have "harmless" default values. And maybe even at
+> > driver device init if fbdev does not exist? =20
+
+I meant fbcon, not fbdev above.
+
+> Note, this is not the case when using e.g. a display manager. In the
+> past there have been cases of a display manager setting a hw cursor
+> and launching a compositor not supporting hw cursors. This results in
+> a stuck hw cursor.
+
+Indeed. So the display manager might get sensible defaults, but the
+session compositor might not. Or maybe boot splash uses KMS already, so
+even display manager doesn't get all-defaults state.
+
+It seems we really do need "sane defaults" from the kernel explicitly.
+Writing a userspace tool to save it at boot time before any KMS program
+runs would be awkward.
+
+> > Btw. I searched for all occurrences of link_status in
+> > https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html and it seems it
+> > only has two possible values, good and bad, and no mention whether it
+> > is writable. Looks like it's writable. There does not seem to be a) an
+> > explanation how exactly it needs to the handled (writing it does
+> > something? what can you write?) or b) any way discern between kernel
+> > and userspace set values like HDCP "Content Protection" has. =20
 >=20
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/gpu/drm/vmwgfx/Kconfig      | 17 +++++++-------
->  drivers/gpu/drm/vmwgfx/Makefile     |  4 +++-
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 35 +++++++++++++++++++----------=
+> User-space needs to reset the value to GOOD when recovering from a BAD
+> value.
 
->  3 files changed, 35 insertions(+), 21 deletions(-)
+What if userspace writes BAD?
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
->=20
-> diff --git a/drivers/gpu/drm/vmwgfx/Kconfig b/drivers/gpu/drm/vmwgfx/Kc=
-onfig
-> index 15acdf2a7c0f..b2835636991b 100644
-> --- a/drivers/gpu/drm/vmwgfx/Kconfig
-> +++ b/drivers/gpu/drm/vmwgfx/Kconfig
-> @@ -2,12 +2,7 @@
->  config DRM_VMWGFX
->  	tristate "DRM driver for VMware Virtual GPU"
->  	depends on DRM && PCI && X86 && MMU
-> -	select FB_DEFERRED_IO
-> -	select FB_CFB_FILLRECT
-> -	select FB_CFB_COPYAREA
-> -	select FB_CFB_IMAGEBLIT
->  	select DRM_TTM
-> -	select FB
->  	select MAPPING_DIRTY_HELPERS
->  	# Only needed for the transitional use of drm_crtc_init - can be remo=
-ved
->  	# again once vmwgfx sets up the primary plane itself.
-> @@ -20,9 +15,15 @@ config DRM_VMWGFX
->  	  The compiled module will be called "vmwgfx.ko".
-> =20
->  config DRM_VMWGFX_FBCON
-> -	depends on DRM_VMWGFX && FB
-> -	bool "Enable framebuffer console under vmwgfx by default"
-> +	bool "Enable framebuffer console under vmwgfx"
-> +	depends on DRM_VMWGFX
-> +	depends on FB=3Dy || FB=3DDRM_VMWGFX
-> +	select FB_DEFERRED_IO
-> +	select FB_CFB_FILLRECT
-> +	select FB_CFB_COPYAREA
-> +	select FB_CFB_IMAGEBLIT
->  	help
->  	   Choose this option if you are shipping a new vmwgfx
-> -	   userspace driver that supports using the kernel driver.
-> +	   userspace driver that supports using the kernel driver
-> +	   and you have framebuffer support enabled.
-> =20
-> diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/M=
-akefile
-> index 31f85f09f1fc..905ebabc79fc 100644
-> --- a/drivers/gpu/drm/vmwgfx/Makefile
-> +++ b/drivers/gpu/drm/vmwgfx/Makefile
-> @@ -1,6 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0
->  vmwgfx-y :=3D vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_kms.o vmwgfx_drv.o =
-\
-> -	    vmwgfx_fb.o vmwgfx_ioctl.o vmwgfx_resource.o vmwgfx_ttm_buffer.o =
-\
-> +	    vmwgfx_ioctl.o vmwgfx_resource.o vmwgfx_ttm_buffer.o \
->  	    vmwgfx_fifo.o vmwgfx_irq.o vmwgfx_ldu.o vmwgfx_ttm_glue.o \
->  	    vmwgfx_overlay.o vmwgfx_marker.o vmwgfx_gmrid_manager.o \
->  	    vmwgfx_fence.o vmwgfx_bo.o vmwgfx_scrn.o vmwgfx_context.o \
-> @@ -11,5 +11,7 @@ vmwgfx-y :=3D vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_km=
-s.o vmwgfx_drv.o \
->  	    vmwgfx_validation.o vmwgfx_page_dirty.o vmwgfx_streamoutput.o \
->  	    ttm_object.o ttm_lock.o
-> =20
-> +vmwgfx-$(CONFIG_DRM_VMWGFX_FBCON) +=3D vmwgfx_fb.o
-> +
->  vmwgfx-$(CONFIG_TRANSPARENT_HUGEPAGE) +=3D vmwgfx_thp.o
->  obj-$(CONFIG_DRM_VMWGFX) :=3D vmwgfx.o
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwg=
-fx/vmwgfx_drv.c
-> index c2247a893ed4..a471a659b89d 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -258,7 +258,6 @@ static const struct pci_device_id vmw_pci_id_list[]=
- =3D {
->  };
->  MODULE_DEVICE_TABLE(pci, vmw_pci_id_list);
-> =20
-> -static int enable_fbdev =3D IS_ENABLED(CONFIG_DRM_VMWGFX_FBCON);
->  static int vmw_force_iommu;
->  static int vmw_restrict_iommu;
->  static int vmw_force_coherent;
-> @@ -269,8 +268,21 @@ static int vmw_probe(struct pci_dev *, const struc=
-t pci_device_id *);
->  static int vmwgfx_pm_notifier(struct notifier_block *nb, unsigned long=
- val,
->  			      void *ptr);
-> =20
-> +#ifdef CONFIG_DRM_VMWGFX_FBCON
-> +static int enable_fbdev =3D 1;
->  MODULE_PARM_DESC(enable_fbdev, "Enable vmwgfx fbdev");
->  module_param_named(enable_fbdev, enable_fbdev, int, 0600);
-> +static inline bool vmw_fb_enabled(struct vmw_private *dev_priv)
-> +{
-> +	return dev_priv->enable_fb;
-> +}
-> +#else
-> +#define enable_fbdev 0
-> +static inline bool vmw_fb_enabled(struct vmw_private *dev_priv)
-> +{
-> +	return false;
-> +}
-> +#endif
->  MODULE_PARM_DESC(force_dma_api, "Force using the DMA API for TTM pages=
-");
->  module_param_named(force_dma_api, vmw_force_iommu, int, 0600);
->  MODULE_PARM_DESC(restrict_iommu, "Try to limit IOMMU usage for TTM pag=
-es");
-> @@ -669,7 +681,6 @@ static int vmw_driver_load(struct drm_device *dev, =
-unsigned long chipset)
->  	dev_priv->mmio_start =3D pci_resource_start(dev->pdev, 2);
-> =20
->  	dev_priv->assume_16bpp =3D !!vmw_assume_16bpp;
-> -
->  	dev_priv->enable_fb =3D enable_fbdev;
-> =20
->  	vmw_write(dev_priv, SVGA_REG_ID, SVGA_ID_2);
-> @@ -945,7 +956,7 @@ static int vmw_driver_load(struct drm_device *dev, =
-unsigned long chipset)
->  		VMWGFX_DRIVER_PATCHLEVEL);
->  	vmw_host_log(host_log);
-> =20
-> -	if (dev_priv->enable_fb) {
-> +	if (vmw_fb_enabled(dev_priv)) {
->  		vmw_fifo_resource_inc(dev_priv);
->  		vmw_svga_enable(dev_priv);
->  		vmw_fb_init(dev_priv);
-> @@ -1001,7 +1012,7 @@ static void vmw_driver_unload(struct drm_device *=
-dev)
->  	if (dev_priv->ctx.res_ht_initialized)
->  		drm_ht_remove(&dev_priv->ctx.res_ht);
->  	vfree(dev_priv->ctx.cmd_bounce);
-> -	if (dev_priv->enable_fb) {
-> +	if (vmw_fb_enabled(dev_priv)) {
->  		vmw_fb_off(dev_priv);
->  		vmw_fb_close(dev_priv);
->  		vmw_fifo_resource_dec(dev_priv);
-> @@ -1149,7 +1160,7 @@ static void vmw_master_drop(struct drm_device *de=
-v,
->  	struct vmw_private *dev_priv =3D vmw_priv(dev);
-> =20
->  	vmw_kms_legacy_hotspot_clear(dev_priv);
-> -	if (!dev_priv->enable_fb)
-> +	if (vmw_fb_enabled(dev_priv))
->  		vmw_svga_disable(dev_priv);
->  }
-> =20
-> @@ -1347,7 +1358,7 @@ static int vmw_pm_freeze(struct device *kdev)
->  		DRM_ERROR("Failed to freeze modesetting.\n");
->  		return ret;
->  	}
-> -	if (dev_priv->enable_fb)
-> +	if (vmw_fb_enabled(dev_priv))
->  		vmw_fb_off(dev_priv);
-> =20
->  	ttm_suspend_lock(&dev_priv->reservation_sem);
-> @@ -1355,18 +1366,18 @@ static int vmw_pm_freeze(struct device *kdev)
->  	vmw_resource_evict_all(dev_priv);
->  	vmw_release_device_early(dev_priv);
->  	ttm_bo_swapout_all(&dev_priv->bdev);
-> -	if (dev_priv->enable_fb)
-> +	if (vmw_fb_enabled(dev_priv))
->  		vmw_fifo_resource_dec(dev_priv);
->  	if (atomic_read(&dev_priv->num_fifo_resources) !=3D 0) {
->  		DRM_ERROR("Can't hibernate while 3D resources are active.\n");
-> -		if (dev_priv->enable_fb)
-> +		if (vmw_fb_enabled(dev_priv))
->  			vmw_fifo_resource_inc(dev_priv);
->  		WARN_ON(vmw_request_device_late(dev_priv));
->  		dev_priv->suspend_locked =3D false;
->  		ttm_suspend_unlock(&dev_priv->reservation_sem);
->  		if (dev_priv->suspend_state)
->  			vmw_kms_resume(dev);
-> -		if (dev_priv->enable_fb)
-> +		if (vmw_fb_enabled(dev_priv))
->  			vmw_fb_on(dev_priv);
->  		return -EBUSY;
->  	}
-> @@ -1388,14 +1399,14 @@ static int vmw_pm_restore(struct device *kdev)
->  	vmw_write(dev_priv, SVGA_REG_ID, SVGA_ID_2);
->  	(void) vmw_read(dev_priv, SVGA_REG_ID);
-> =20
-> -	if (dev_priv->enable_fb)
-> +	if (vmw_fb_enabled(dev_priv))
->  		vmw_fifo_resource_inc(dev_priv);
-> =20
->  	ret =3D vmw_request_device(dev_priv);
->  	if (ret)
->  		return ret;
-> =20
-> -	if (dev_priv->enable_fb)
-> +	if (vmw_fb_enabled(dev_priv))
->  		__vmw_svga_enable(dev_priv);
-> =20
->  	vmw_fence_fifo_up(dev_priv->fman);
-> @@ -1404,7 +1415,7 @@ static int vmw_pm_restore(struct device *kdev)
->  	if (dev_priv->suspend_state)
->  		vmw_kms_resume(dev_priv->dev);
-> =20
-> -	if (dev_priv->enable_fb)
-> +	if (vmw_fb_enabled(dev_priv))
->  		vmw_fb_on(dev_priv);
-> =20
->  	return 0;
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+BAD cannot be default state, so getting default state from somewhere
+would solve this property's restoring as well. Reading back the true
+current value could accidentally return BAD.
 
 
---9bkVbYw8uZtom442BoBKH6gzY8ZRJOq4V--
+Just to reiterate for everyone, the important thing here is to figure
+out how userspace is supposed to reset unknown properties to sensible
+defaults. Once we know how that should work, we can review whether new
+properties support or break that.
 
---QjdARr8dfpLxynX6OA5uCzKDKiNzxQLlP
-Content-Type: application/pgp-signature; name="signature.asc"
+
+Thanks,
+pq
+
+--Sig_/G7=48=5iszT/sBsfntkB+mH
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6dkJ0ACgkQaA3BHVML
-eiNQIgf/e8s3ypOiYHxl2v7FJPYgv5qwsIV3nKEfaeOBK0t+T3O5Zn6LJyJ0gT1X
-XZPW6d9baoxEy8AK0CoD7d6mjfyhRtm1CpVsIWQhVQ9lvlE3uQck24rinn3mMb7o
-WOeOmeFSwDBEJKRex1zhHq8c2slsMbro6tcXv6zVB6ulgHcV35qroiRiSMORmOFi
-udMO8P+5/b/Yf2rx9AUsFmsgk0rO/cpmdOJD1TIVlNEbl74r2FnrgbBo/CiertKa
-y33VQU5WO6PB0wFYiXCMsFGoHc2ajD5Sacx4KdWd8L4w2yaAxeYouMvDI1R7whyi
-NJMCrp1s+MvH9aTjVm8sinKmegJ5yg==
-=eZG8
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl6dlAsACgkQI1/ltBGq
+qqeegA/+MH07hUeCM7TqwBBDpmym3CSKKtFF5BpXRgJTUIznzeG6KujF+z0YTaMq
+dreVkXYW/LwZXsfAhHkCw5muPzQ9EJNb378Z3NZi0l2y2eQEqLo2laec9wLeo22e
+iqJpRlzTGQApDJTJmMNBpppdL0RD3bFMIwGxomAGdmxcOn/S1lSu117WvWmUIu++
+fkzXJKXDFzrHHC8JyPaHU2hURBkTZPBnD2gkbTOCCat1o9eaROUY2RkScMkhHrpc
+HO7eBVH887qWJ886zPlO1OwMHzLWuK6fOJ4OB8+MKRwLYnfac1MLHnInAsvDsCqW
+ags2nl4mNv1jfZGs7L19h5dDvNdrJ4mejl/CawHEZ9zhWMtDZ8BT5WAuzCcxptug
+zD/zr1eXW/y5Yq8tUeBUvvNgBtY3y3Gs7so5rrXZf+TZrqhc8j1qLsBAWaYj1+9s
+pYQNNFOjAolYU/xTX+MqL1C1d/k57LMIGqT0MlfGiAfrzRyExLXvbf11YoJ1oq83
+gefSjhxcFfz5V2fDgJ9HFiSpuWHZaGEQ2/bBD9+/BBBzgfMjhOm7YZ2yKx2hUwbP
+76tAXY223f2JMJub7vD0gwd0LYM40ZQWFhy9srqeySHqQH0Yyq7JbapcZeGapoau
+l8VGG9qPfGO0v5gaGZvOsNLSyLmJj5VvnEnw1ALjE6V8y3nraak=
+=lvX4
 -----END PGP SIGNATURE-----
 
---QjdARr8dfpLxynX6OA5uCzKDKiNzxQLlP--
+--Sig_/G7=48=5iszT/sBsfntkB+mH--
 
---===============0871134073==
+--===============1238478564==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -379,4 +179,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0871134073==--
+--===============1238478564==--
