@@ -2,36 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569501B1F07
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D266F1B045E
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 10:27:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD5886E893;
-	Tue, 21 Apr 2020 06:48:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D2F48921D;
+	Mon, 20 Apr 2020 08:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F22089EB4
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 08:22:19 +0000 (UTC)
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131]
- helo=wittgenstein) by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <christian.brauner@ubuntu.com>)
- id 1jQRgv-0004mr-1c; Mon, 20 Apr 2020 08:22:09 +0000
-Date: Mon, 20 Apr 2020 10:22:07 +0200
-From: Christian Brauner <christian.brauner@ubuntu.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
-Message-ID: <20200420082207.ui7iyg7dsnred2vv@wittgenstein>
-References: <20200414134629.54567-1-orjan.eide@arm.com>
- <20200414141849.55654-1-orjan.eide@arm.com>
- <20200414142810.GA958163@kroah.com>
- <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
- <20200416102508.GA820251@kroah.com>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B50038921D
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 08:27:16 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id h6so7207367lfc.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 01:27:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=mjfEPMlPvHbtRsfYrtr2lqjfHh/qWe9aOir+0r9/G70=;
+ b=VwBgQdplvc34BPUyRmmK8GdUhgecP/DCU93tSbTk2He6CnKY00dSKCu4hfnG04P4mU
+ h3P/ilL/ag1Ke1E616wGEjeWsDSGXDJiUvdfGmEGGn8jBFrOoHGveDdoJp/wSkpeeD3t
+ ZR7eDlcEhMxGkI8fSTIPY/9g6rNxaFuSvCVJEhS+RRvVU56N7DjGMzdwTAJNr7UpVBbD
+ k1n5Zs11ncH1IdRuULdGvnzuov71Rd26sscqjsd36zIOT0UVgmMjbXrYO1Ek/qqbBiYu
+ CQeliFHfvclW8VzRiVrowMiUeksD8SSozBFzCLP+os7dVnDfQJFQFpJyNkr2s7RiStmW
+ DGCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=mjfEPMlPvHbtRsfYrtr2lqjfHh/qWe9aOir+0r9/G70=;
+ b=eJLhcquLa6liLb/5OkJIarIfkVgt8VHhEFD/C8B5W6DO9czERAqNLcoxLisxrg0ID5
+ FkNQlrp4dQANbRCUpDpZNg67irVtbQjrZ4ej/0ARd45O6FBmO7qRVFWvCYipUX+PaVXK
+ wHSFOvOuJ3VFUBbDGNHi4/tRdaMMRY/heYrt8QlVvdkMtppE2tuxFxeRJcM3SW2kPFbE
+ NyHazhXufAoxCYSfqSzLR4iEGYNg04D+UTedN7HdG1XwjRZDGZldBO/L/5loUHv7JhGp
+ lc8wnCaDvL8+EIF4VglhnSItb3Be9aLGXncDxiVehMkle5L4dTlJI9++rQyGCaZfTVGm
+ CKVA==
+X-Gm-Message-State: AGi0Pubr4wpzwFe0M23r49RDAoV48p+VzVGe5en02Yl9Dz9LprCqdYPQ
+ M+xdF0s2KPcTgMnBRGBjTys=
+X-Google-Smtp-Source: APiQypKBwPK/xegS8kQHfb2L/cTBoN2B+3RVKAAqQ77+Cc4K1fXt0iMAKoghX0CzTbh9g0szQNt0bQ==
+X-Received: by 2002:a05:6512:3f4:: with SMTP id
+ n20mr9957846lfq.100.1587371234905; 
+ Mon, 20 Apr 2020 01:27:14 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id i3sm362868ljg.82.2020.04.20.01.27.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Apr 2020 01:27:14 -0700 (PDT)
+Date: Mon, 20 Apr 2020 11:27:04 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Operating KMS UAPI (Re: RFC: Drm-connector properties managed by
+ another driver / privacy screen support)
+Message-ID: <20200420112704.68d02472@eldfell.localdomain>
+In-Reply-To: <CAKMK7uEv_khNFC=JUyuQgDZp1p5eudDCrH0we+UdEdTV3H=Tsg@mail.gmail.com>
+References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
+ <87tv1k4vl6.fsf@intel.com>
+ <d47ba6ef-efd0-9f28-1ae4-b971b95a8f8b@redhat.com>
+ <20200417120226.0cd6bc21@eldfell.localdomain>
+ <CAKMK7uEv_khNFC=JUyuQgDZp1p5eudDCrH0we+UdEdTV3H=Tsg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200416102508.GA820251@kroah.com>
-X-Mailman-Approved-At: Tue, 21 Apr 2020 06:48:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,97 +71,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: driverdevel <devel@driverdev.osuosl.org>, nd <nd@arm.com>,
- Todd Kjos <tkjos@android.com>, Lecopzer Chen <lecopzer.chen@mediatek.com>,
- Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>,
- Anders Pedersen <anders.pedersen@arm.com>,
- Joel Fernandes <joel@joelfernandes.org>,
- "Darren Hart \(VMware\)" <dvhart@infradead.org>,
- =?utf-8?B?w5hyamFu?= Eide <orjan.eide@arm.com>,
- Laura Abbott <labbott@redhat.com>, Martijn Coenen <maco@android.com>,
- Christian Brauner <christian@brauner.io>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Benjamin Berg <bberg@redhat.com>, David Airlie <airlied@linux.ie>,
+ Christian Kellner <ckellner@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Nitin Joshi1 <njoshi1@lenovo.com>, Rajat Jain <rajatja@google.com>,
+ Mark Pearson <mpearson@lenovo.com>
+Content-Type: multipart/mixed; boundary="===============1563125147=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBcHIgMTYsIDIwMjAgYXQgMTI6MjU6MDhQTSArMDIwMCwgR3JlZyBLcm9haC1IYXJ0
-bWFuIHdyb3RlOgo+IE9uIFR1ZSwgQXByIDE0LCAyMDIwIGF0IDA5OjQxOjMxUE0gLTA3MDAsIEpv
-aG4gU3R1bHR6IHdyb3RlOgo+ID4gT24gVHVlLCBBcHIgMTQsIDIwMjAgYXQgNzoyOCBBTSBHcmVn
-IEtyb2FoLUhhcnRtYW4KPiA+IDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6Cj4g
-PiA+Cj4gPiA+IE9uIFR1ZSwgQXByIDE0LCAyMDIwIGF0IDA0OjE4OjQ3UE0gKzAyMDAsIMOYcmph
-biBFaWRlIHdyb3RlOgo+ID4gPiA+IE9ubHkgc3luYyB0aGUgc2ctbGlzdCBvZiBhbiBJb24gZG1h
-LWJ1ZiBhdHRhY2htZW50IHdoZW4gdGhlIGF0dGFjaG1lbnQKPiA+ID4gPiBpcyBhY3R1YWxseSBt
-YXBwZWQgb24gdGhlIGRldmljZS4KPiA+ID4gPgo+ID4gPiA+IGRtYS1idWZzIG1heSBiZSBzeW5j
-ZWQgYXQgYW55IHRpbWUuIEl0IGNhbiBiZSByZWFjaGVkIGZyb20gdXNlciBzcGFjZQo+ID4gPiA+
-IHZpYSBETUFfQlVGX0lPQ1RMX1NZTkMsIHNvIHRoZXJlIGFyZSBubyBndWFyYW50ZWVzIGZyb20g
-Y2FsbGVycyBvbiB3aGVuCj4gPiA+ID4gc3luY3MgbWF5IGJlIGF0dGVtcHRlZCwgYW5kIGRtYV9i
-dWZfZW5kX2NwdV9hY2Nlc3MoKSBhbmQKPiA+ID4gPiBkbWFfYnVmX2JlZ2luX2NwdV9hY2Nlc3Mo
-KSBtYXkgbm90IGJlIHBhaXJlZC4KPiA+ID4gPgo+ID4gPiA+IFNpbmNlIHRoZSBzZ19saXN0J3Mg
-ZG1hX2FkZHJlc3MgaXNuJ3Qgc2V0IHVwIHVudGlsIHRoZSBidWZmZXIgaXMgdXNlZAo+ID4gPiA+
-IG9uIHRoZSBkZXZpY2UsIGFuZCBkbWFfbWFwX3NnKCkgaXMgY2FsbGVkIG9uIGl0LCB0aGUgZG1h
-X2FkZHJlc3Mgd2lsbCBiZQo+ID4gPiA+IE5VTEwgaWYgc3luYyBpcyBhdHRlbXB0ZWQgb24gdGhl
-IGRtYS1idWYgYmVmb3JlIGl0J3MgbWFwcGVkIG9uIGEgZGV2aWNlLgo+ID4gPiA+Cj4gPiA+ID4g
-QmVmb3JlIHY1LjAgKGNvbW1pdCA1NTg5N2FmNjMwOTEgKCJkbWEtZGlyZWN0OiBtZXJnZSBzd2lv
-dGxiX2RtYV9vcHMKPiA+ID4gPiBpbnRvIHRoZSBkbWFfZGlyZWN0IGNvZGUiKSkgdGhpcyB3YXMg
-YSBwcm9ibGVtIGFzIHRoZSBkbWEtYXBpIChhdCBsZWFzdAo+ID4gPiA+IHRoZSBzd2lvdGxiX2Rt
-YV9vcHMgb24gYXJtNjQpIHdvdWxkIHVzZSB0aGUgcG90ZW50aWFsbHkgaW52YWxpZAo+ID4gPiA+
-IGRtYV9hZGRyZXNzLiBIb3cgdGhhdCBmYWlsZWQgZGVwZW5kZWQgb24gaG93IHRoZSBkZXZpY2Ug
-aGFuZGxlZCBwaHlzaWNhbAo+ID4gPiA+IGFkZHJlc3MgMC4gSWYgMCB3YXMgYSB2YWxpZCBhZGRy
-ZXNzIHRvIHBoeXNpY2FsIHJhbSwgdGhhdCBwYWdlIHdvdWxkIGdldAo+ID4gPiA+IGZsdXNoZWQg
-YSBsb3QsIHdoaWxlIHRoZSBhY3R1YWwgcGFnZXMgaW4gdGhlIGJ1ZmZlciB3b3VsZCBub3QgZ2V0
-IHN5bmNlZAo+ID4gPiA+IGNvcnJlY3RseS4gV2hpbGUgaWYgMCBpcyBhbiBpbnZhbGlkIHBoeXNp
-Y2FsIGFkZHJlc3MgaXQgbWF5IGNhdXNlIGEKPiA+ID4gPiBmYXVsdCBhbmQgdHJpZ2dlciBhIGNy
-YXNoLgo+ID4gPiA+Cj4gPiA+ID4gSW4gdjUuMCB0aGlzIHdhcyBpbmNpZGVudGFsbHkgZml4ZWQg
-YnkgY29tbWl0IDU1ODk3YWY2MzA5MSAoImRtYS1kaXJlY3Q6Cj4gPiA+ID4gbWVyZ2Ugc3dpb3Rs
-Yl9kbWFfb3BzIGludG8gdGhlIGRtYV9kaXJlY3QgY29kZSIpLCBhcyB0aGlzIG1vdmVkIHRoZQo+
-ID4gPiA+IGRtYS1hcGkgdG8gdXNlIHRoZSBwYWdlIHBvaW50ZXIgaW4gdGhlIHNnX2xpc3QsIGFu
-ZCAoZm9yIElvbiBidWZmZXJzIGF0Cj4gPiA+ID4gbGVhc3QpIHRoaXMgd2lsbCBhbHdheXMgYmUg
-dmFsaWQgaWYgdGhlIHNnX2xpc3QgZXhpc3RzIGF0IGFsbC4KPiA+ID4gPgo+ID4gPiA+IEJ1dCwg
-dGhpcyBpc3N1ZSBpcyByZS1pbnRyb2R1Y2VkIGluIHY1LjMgd2l0aAo+ID4gPiA+IGNvbW1pdCA0
-NDlmYTU0ZDY4MTUgKCJkbWEtZGlyZWN0OiBjb3JyZWN0IHRoZSBwaHlzaWNhbCBhZGRyIGluCj4g
-PiA+ID4gZG1hX2RpcmVjdF9zeW5jX3NnX2Zvcl9jcHUvZGV2aWNlIikgbW92ZXMgdGhlIGRtYS1h
-cGkgYmFjayB0byB0aGUgb2xkCj4gPiA+ID4gYmVoYXZpb3VyIGFuZCBwaWNrcyB0aGUgZG1hX2Fk
-ZHJlc3MgdGhhdCBtYXkgYmUgaW52YWxpZC4KPiA+ID4gPgo+ID4gPiA+IGRtYS1idWYgY29yZSBk
-b2Vzbid0IGVuc3VyZSB0aGF0IHRoZSBidWZmZXIgaXMgbWFwcGVkIG9uIHRoZSBkZXZpY2UsIGFu
-ZAo+ID4gPiA+IHRodXMgaGF2ZSBhIHZhbGlkIHNnX2xpc3QsIGJlZm9yZSBjYWxsaW5nIHRoZSBl
-eHBvcnRlcidzCj4gPiA+ID4gYmVnaW5fY3B1X2FjY2Vzcy4KPiA+ID4gPgo+ID4gPiA+IFNpZ25l
-ZC1vZmYtYnk6IMOYcmphbiBFaWRlIDxvcmphbi5laWRlQGFybS5jb20+Cj4gPiA+ID4gLS0tCj4g
-PiA+ID4gIGRyaXZlcnMvc3RhZ2luZy9hbmRyb2lkL2lvbi9pb24uYyB8IDEyICsrKysrKysrKysr
-Kwo+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKQo+ID4gPiA+Cj4gPiA+
-ID4gUmVzdWJtaXQgd2l0aG91dCBkaXNjbGFpbWVyLCBzb3JyeSBhYm91dCB0aGF0Lgo+ID4gPiA+
-Cj4gPiA+ID4gVGhpcyBzZWVtcyB0byBiZSBwYXJ0IG9mIGEgYmlnZ2VyIGlzc3VlIHdoZXJlIGRt
-YS1idWYgZXhwb3J0ZXJzIGFzc3VtZQo+ID4gPiA+IHRoYXQgdGhlaXIgZG1hLWJ1ZiBiZWdpbl9j
-cHVfYWNjZXNzIGFuZCBlbmRfY3B1X2FjY2VzcyBjYWxsYmFja3MgaGF2ZSBhCj4gPiA+ID4gY2Vy
-dGFpbiBndWFyYW50ZWVkIGJlaGF2aW9yLCB3aGljaCBpc24ndCBlbnN1cmVkIGJ5IGRtYS1idWYg
-Y29yZS4KPiA+ID4gPgo+ID4gPiA+IFRoaXMgcGF0Y2ggZml4ZXMgdGhpcyBpbiBpb24gb25seSwg
-YnV0IGl0IGFsc28gbmVlZHMgdG8gYmUgZml4ZWQgZm9yCj4gPiA+ID4gb3RoZXIgZXhwb3J0ZXJz
-LCBlaXRoZXIgaGFuZGxlZCBsaWtlIHRoaXMgaW4gZWFjaCBleHBvcnRlciwgb3IgaW4KPiA+ID4g
-PiBkbWEtYnVmIGNvcmUgYmVmb3JlIGNhbGxpbmcgaW50byB0aGUgZXhwb3J0ZXJzLgo+ID4gPiA+
-Cj4gPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3RhZ2luZy9hbmRyb2lkL2lvbi9pb24uYyBi
-L2RyaXZlcnMvc3RhZ2luZy9hbmRyb2lkL2lvbi9pb24uYwo+ID4gPiA+IGluZGV4IDM4YjUxZWFj
-ZTRmOS4uN2I3NTJiYTBjYjZkIDEwMDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvc3RhZ2luZy9h
-bmRyb2lkL2lvbi9pb24uYwo+ID4gPiA+ICsrKyBiL2RyaXZlcnMvc3RhZ2luZy9hbmRyb2lkL2lv
-bi9pb24uYwo+ID4gPgo+ID4gPiBOb3cgdGhhdCB3ZSBoYXZlIHRoZSBkbWEtYnVmZiBzdHVmZiBp
-biB0aGUgdHJlZSwgZG8gd2UgZXZlbiBuZWVkIHRoZQo+ID4gPiBpb24gY29kZSBpbiB0aGUga2Vy
-bmVsIGFueW1vcmU/ICBDYW4ndCB3ZSBkZWxldGUgaXQgbm93Pwo+ID4gPgo+ID4gCj4gPiBJIGFn
-cmVlIHRoYXQgd2Ugc2hvdWxkbid0IGJlIHRha2luZyBmdXJ0aGVyIChub24tc2VjdXJpdHkvY2xl
-YW51cCkKPiA+IHBhdGNoZXMgdG8gdGhlIElPTiBjb2RlLgo+ID4gCj4gPiBJJ2QgbGlrZSB0byBn
-aXZlIGRldmVsb3BlcnMgYSBsaXR0bGUgYml0IG9mIGEgdHJhbnNpdGlvbiBwZXJpb2QgKEkgd2Fz
-Cj4gPiB0aGlua2luZyBhIHllYXIsIGJ1dCByZWFsbHkganVzdCBvbmUgTFRTIHJlbGVhc2UgdGhh
-dCBoYXMgYm90aCB3b3VsZAo+ID4gZG8pIHdoZXJlIHRoZXkgY2FuIG1vdmUgdGhlaXIgSU9OIGhl
-YXBzIG92ZXIgdG8gZG1hYnVmIGhlYXBzIGFuZCB0ZXN0Cj4gPiBib3RoIGFnYWluc3QgdGhlIHNh
-bWUgdHJlZS4KPiA+IAo+ID4gQnV0IEkgZG8gdGhpbmsgd2UgY2FuIG1hcmsgaXQgYXMgZGVwcmVj
-YXRlZCBhbmQgbGV0IGZvbGtzIGtub3cgdGhhdAo+ID4gYXJvdW5kIHRoZSBlbmQgb2YgdGhlIHll
-YXIgaXQgd2lsbCBiZSBkZWxldGVkLgo+IAo+IE5vIG9uZSBldmVyIG5vdGljZXMgImRlcHJlY2lh
-dGVkIiB0aGluZ3MsIHRoZXkgb25seSBub3RpY2UgaWYgdGhlIGNvZGUKPiBpcyBubyBsb25nZXIg
-dGhlcmUgOikKPiAKPiBTbyBJJ20gYWxsIGZvciBqdXN0IGRlbGV0aW5nIGl0IGFuZCBzZWVpbmcg
-d2hvIGV2ZW4gbm90aWNlcy4uLgoKQWdyZWVkLgpBY2tlZC1ieTogQ2hyaXN0aWFuIEJyYXVuZXIg
-PGNocmlzdGlhbi5icmF1bmVyQHVidW50dS5jb20+Cl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+--===============1563125147==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/N8/lUunJtCOVuZCbfn41kZ."; protocol="application/pgp-signature"
+
+--Sig_/N8/lUunJtCOVuZCbfn41kZ.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 17 Apr 2020 16:17:18 +0200
+Daniel Vetter <daniel@ffwll.ch> wrote:
+
+> On Fri, Apr 17, 2020 at 11:02 AM Pekka Paalanen <ppaalanen@gmail.com> wro=
+te:
+> >
+> > Hi,
+> >
+> > let's think about how userspace uses atomic KMS UAPI. The simplest way
+> > to use atomic correctly is that userspace will for every update send the
+> > full, complete set of all properties that exist, both known and unknown
+> > to userspace (to recover from temporarily VT-switching to another KMS
+> > program that changes unknown properties). Attempting to track which
+> > properties already have their correct values in the kernel is extra
+> > work for just extra bugs. =20
+>=20
+> Uh if you do that you'll get random surprising failures if you don't
+> also set ALLOW_MODESET, because that way you'll automatically repair
+> link failures and stuff like that. I'm assuming your userspace only
+> supplies all the properties for crtc and planes, and leaves connectors
+> as-is? Otherwise you already have some fun bugs.
+>=20
+> In general I'd say userspace shouldn't write stuff it doesn't
+> understand. If you limit yourself to just the properties you do want
+> to (re)set, that's safe. But if you just blindly write everything all
+> the time, random modesets, and hence random failures if you don't set
+> ALLOW_MODESET.
+
+Hi,
+
+how should userspace KMS program A recover from the situation when
+switching the VT back from KMS program B who changed properties that
+program A does not recognise? (I believe Weston does not recover at
+the moment.) This is very important for getting e.g. reliable color
+reproduction, since not all KMS programs are always up-to-date with
+everything the kernel exposes and people may switch between them. Not
+resetting everything may even encourage people to write hacks where you
+temporarily VT-switch away, run a KMS program to set one property, and
+then switch back assuming the property remains set. I have already seen
+someone mention they can enable VRR behind the display server's back
+like this.
+
+I don't think Weston records and re-sets unknown properties yet, but I
+assumed it is what it needs to do to be able to reliably recover from
+VT-switches. In that case ALLOW_MODESET is of course set since all
+state is unknown and assumed bad.
+
+I do believe Weston re-submits *everything* it knows about every
+update, except for CRTCs and connectors it has already disabled and
+knows are in disabled state (this could change though).
+
+However, during steady-state operation when ALLOW_MODESET should not be
+necessary, is it still harmful to re-program *all* properties on every
+update?
+
+After all, the kernel will just no-op all property setting where the
+value is already the right one, does it not?
+
+The only "random" KMS state is the properties the userspace KMS
+program does not know that are set on start-up. I have been assuming
+that as long as you had fbdev active before the KMS program started,
+the unknown properties have "harmless" default values. And maybe even at
+driver device init if fbdev does not exist?
+
+Is there something more up-to-date than
+https://blog.ffwll.ch/2016/01/vt-switching-with-atomic-modeset.html ?
+
+> > Assuming the property is userspace-writable: if kernel goes and
+> > changes the property value on its own, it will very likely be just
+> > overwritten by userspace right after if userspace does not manage to
+> > process the uevent first. If that happens and userspace later
+> > processes the uevent, userspace queries the kernel for the current
+> > proprerty state which is now what userspace wrote, not what firmware
+> > set.
+> >
+> > Therefore you end up with the firmware hotkey working only randomly.
+> >
+> > It would be much better to have the hotkey events delivered to
+> > userspace so that userspace can control the privacy screen and
+> > everything will be reliable, both the hotkeys and any GUI for it. The
+> > other reliable option is that userspace must never be able to change
+> > privacy screen state, only the hardware hotkeys can. =20
+>=20
+> We have fancy new uevents which give you both the connector and the
+> property, so you know what's going on.
+
+Yeah, userspace can know what changed, but not the new value with the
+uevent.
+
+> Also, a property which userspace and the kernel can race like you
+> describe above is broken. We don't have these, and we won't merge
+> them.
+
+That's what I would expect, yes, but I'm not that optimistic that the
+knowledgeable maintainers can always catch them all, which is why I try
+to comment on UAPI additions that look fishy to me.
+
+> The ones we do have the state transitions are a lot clearer, and
+> userspace overwriting what the kernel has done is not actually going
+> to cause a big pain. At least in the sense of the transition will be
+> lost, since for e.g. both link_status and hdcp the value the kernel
+> sets is not a value userspace can set. But it can result in problems
+> if you just blindly write them again causing modesets you'd not
+> expect.
+
+Yeah, HDCP "Content Protection" is very carefully engineered to cope
+with the awkwardness that both userspace and kernel will write it. It's
+cumbersome.
+
+Btw. I searched for all occurrences of link_status in
+https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html and it seems it
+only has two possible values, good and bad, and no mention whether it
+is writable. Looks like it's writable. There does not seem to be a) an
+explanation how exactly it needs to the handled (writing it does
+something? what can you write?) or b) any way discern between kernel
+and userspace set values like HDCP "Content Protection" has.
+
+Weston does not support link_status yet, FWIW.
+
+Unless you have some other idea on how to reset unknown KMS state to
+sensible defaults that are always the same, I think any KMS property
+where the query can return a value that cannot be written back to it
+with ALLOW_MODESET is broken.
+
+
+Thanks,
+pq
+
+--Sig_/N8/lUunJtCOVuZCbfn41kZ.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl6dXNgACgkQI1/ltBGq
+qqfxHw/9GZZANVQaaMueTPysm9/N4wmvu4BgdcjDTEpmA+TGmvzLo+5yTDPZxCmP
+wF7HhuSN4EvQfbCgeHEidXJ5pGo+5xSL9NxpTVgKn5ZjQI5zEUtdHvG22gmJHnuW
+TRzOJ5L4NJF3T4d+/snqH3ASqzSVG4V3ritNFL/0ZhMJlw3Q1HBvpqg6Cacbnnn9
+W5XdcHx6x6nw5eRfwXO8bpjsyIG5FXfu5Q+CbBQbD1Nrk6huNZe5s0p2zAvLKN9n
+gOgwYE/CokLDqgVTAjI7w4e0RGBl5Ru4TW8kibpXQoJORtKQoVcXhA9HMhwtXgaN
+++TSNxKMZ97GtET0V1zA0hilaWWlMWb7ct1cyqL7ESH2EH3IWejNISWu0T9bpRlu
+hA4REHvVMexjOoWpAZmsDmPrzhv+8HrcbMr+F821UZ0QH9zMX41LAqPrctmC6PBE
+eOvZUyOxBPGzKg6f5g+nUQ/TXlGoab3VlZgC2xpQNoZWa+hGXX5uD/wERqWkFRKA
+LKQo13Iybc2mQYPKqZQiHAxfpr/owMO1c0uB8v+CeAuFO0/9XId5CEFW284X54ZS
+o6jIukee3luJkPgKAxNbDEciEi5XCXjIrEhOBJinB6S6/AkGvNu3HTTZRvis5QP5
+EHqW21lau80bwohtmahfgrEsqDZkYLZzc88XTDr/xsh4qwqZ+NI=
+=QiMa
+-----END PGP SIGNATURE-----
+
+--Sig_/N8/lUunJtCOVuZCbfn41kZ.--
+
+--===============1563125147==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1563125147==--
