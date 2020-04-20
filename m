@@ -1,54 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858321B0F5C
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 17:10:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CEFE1B0FD8
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 17:21:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE4566E5B6;
-	Mon, 20 Apr 2020 15:10:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 872CD6E5B9;
+	Mon, 20 Apr 2020 15:21:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
- [IPv6:2607:f8b0:4864:20::e43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C83276E5B6;
- Mon, 20 Apr 2020 15:10:39 +0000 (UTC)
-Received: by mail-vs1-xe43.google.com with SMTP id b5so6226470vsb.1;
- Mon, 20 Apr 2020 08:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dNzKdVNw/y2yDQaVrRieyT4KFZArRiYw0+stJCrhWMM=;
- b=JNPvc9kLgjs5c9Uy8hyHPgxiH8+0negQy6zmpAHp2KR6Ir9JpMb7vP75WjtW3y0ml3
- duKpnVNLX7bu1KKmfoNSSZTd2XfqLNgfybcp7NcogR/KjElgrEgPekEydh+OYoHy7WX1
- 5Q35lOKzjXK6z+M81TfHZLXOyDX4SrnLSb7JlKtPgsA8BYznUlwbOMver8L5++NGeUty
- CyPJtO3+WaFWoxFV0kx1ALlDuCBjDedXYhzrQnL6PClY6VeGZOrfR4hOo01pSmF7BAI+
- To9EM+eupvrq1bDopsdFZXw5gapsU0Uu45aXg1/+jrS7mbxs7w5xBq8kQIfLGZkcn/9B
- s+Xg==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64D686E5B9
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 15:21:19 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id x25so11521501wmc.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 08:21:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=G/xNrmOfxlip1kYuKwMzJ0K+Zw7TpTWKwNC8FLYeOVE=;
+ b=scR/lsr/ImzL3Xwqj5p4gcDJy46jbSvEA+k6tsVX8NbGfGf7kL1pwUz5qgUfnMOmK4
+ sVlmO/s7PPlbf045xBeI1d/TB9SeihN6OvnYW0eiNx3MGrmW9uumiPeDiX6+6UUpteu1
+ XEO/hQIdGxWtJj0d6atjm/Hkys8CjOMLEh0PCdoz2UjdPdUJUdwngqqFLLw1KC68Frxo
+ LlY8SA26MGHXf/KuAj7nnNMtCBoaeEKmOSswZoSHWS4TJzKnGh2E1h4tHo5lwsLl9Smg
+ ojJk8H0rzWjHcg61LBoGR5ubxZUn+3WUhLcU+JUSZAUK37ej3wOTunBF0T/dEsPJZ+AI
+ evkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dNzKdVNw/y2yDQaVrRieyT4KFZArRiYw0+stJCrhWMM=;
- b=NA5QNHnJLN1d1peGKVCSJfp/FoXdSTk5R6l5wYFCMYc3+hbr9kNxaHAmGp0T97tbPs
- FAzEfMEV2e9wuzORNF5mdBbMiHZmfCAkhsTsXz8uXnqO2cbKP83vmcPg84t8+1bQL3jy
- D53sgTm54dWcJ0CTrquk11YXgk5w975y9J3xdEsNU1hlMoXTYYF8yhOLHYlVazYD2hQv
- XjtRi0EUnJbyd7t5vsg0+6zQl5S8hFp7ZEBPziVmHULon7K7vsIu2yoFpPFG0ENHyyUS
- hdph2OSRMGjum/w9o9bcjtm+cmZVUFIdM0q+wLoXasP96/XWYlBz14RTLD71yTG/LhEj
- q1eA==
-X-Gm-Message-State: AGi0PuZsQfDlr15tPfYYW7RTqlsly/o5knKR/mzKPgoeEKh/p41tVMeg
- 4NNIGK61gkEiBqWV/+GG9oE1NeBJ4KvhAX8584w=
-X-Google-Smtp-Source: APiQypL2QQKbpGTWOQ+R3+RLwT9Wlq4zMNhd6n1JfD0GCVkNSx+1rXyQG12GB7grmz3Zt9kxXQTBLbme8f5g5qTDxc0=
-X-Received: by 2002:a67:7d83:: with SMTP id y125mr10557611vsc.96.1587395438822; 
- Mon, 20 Apr 2020 08:10:38 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=G/xNrmOfxlip1kYuKwMzJ0K+Zw7TpTWKwNC8FLYeOVE=;
+ b=jvc//P+K9eW87dyrr798En9kX7NtMow4LdwgMLe3tWsis1PGPJk6HZiv6W5KKH82m7
+ sttpv5yzrV1lB5jhGHnZAlHrSH5sLmNxdChyL7CMjQhAKl3J26LeXOks+Seo+X/YBX/+
+ wDVLG898XQej1cKxrZd0ixrqJp9rrb7oXKSSha5XIQRKdhgMp8jlmXQ9xMzMSaCS11se
+ buialAPuviO/wH440gXtv90OJkB8Ku9yWYltANT/Lw6VsP6PDTnpupmwwIZbrZm8u6GT
+ HIAhxEnRHMPGVGrj6KqWjpPFpDPCR66ra8/Oc2/4/YZgbQmPnUogaldy43UxWSI+hx7Z
+ Canw==
+X-Gm-Message-State: AGi0PuadalQ7b0vVu8RbJAcDK7jxgAlJ+1auQ8BridCoarQEr7UfMMBO
+ eF0qsf4XYey7ZGlkjnXMEI3hsg==
+X-Google-Smtp-Source: APiQypK1bWqXkN8H3kmS+x+OEHJtMNHLIBzrzFR184iWS16f3+5krcSMVxzHcjyGzFeVUFyZmgYmzA==
+X-Received: by 2002:a1c:96c6:: with SMTP id
+ y189mr19216914wmd.106.1587396076953; 
+ Mon, 20 Apr 2020 08:21:16 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id e21sm1684652wrc.1.2020.04.20.08.21.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Apr 2020 08:21:16 -0700 (PDT)
+Date: Mon, 20 Apr 2020 16:21:14 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Jason Yan <yanaijie@huawei.com>
+Subject: Re: [PATCH] backlight: qcom-wled: remove 'wled4_string_cfg' and
+ 'wled3_string_cfg'
+Message-ID: <20200420152114.b7licril3r6itd45@holly.lan>
+References: <20200417092335.14163-1-yanaijie@huawei.com>
 MIME-Version: 1.0
-References: <20200418100248.4552-1-tangbin@cmss.chinamobile.com>
-In-Reply-To: <20200418100248.4552-1-tangbin@cmss.chinamobile.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 20 Apr 2020 17:10:27 +0200
-Message-ID: <CAH9NwWck5KwOGNcYWOAsfKa5CQjJHqMr2j8FW9SmWUYiyu1ebA@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: Omit superfluous error message in
- etnaviv_gpu_platform_probe()
-To: Tang Bin <tangbin@cmss.chinamobile.com>
+Content-Disposition: inline
+In-Reply-To: <20200417092335.14163-1-yanaijie@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,61 +70,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org, kgunda@codeaurora.org,
+ b.zolnierkie@samsung.com, jingoohan1@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ Hulk Robot <hulkci@huawei.com>, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, lee.jones@linaro.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Sa., 18. Apr. 2020 um 12:01 Uhr schrieb Tang Bin
-<tangbin@cmss.chinamobile.com>:
->
-> In the function etnaviv_gpu_platform_probe(), when get irq failed,
-> the function platform_get_irq() logs an error message, so remove
-> redundant message here.
->
-> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
-
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index a31eeff2b..6dbe0c45b 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1770,10 +1770,8 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
->
->         /* Get Interrupt: */
->         gpu->irq = platform_get_irq(pdev, 0);
-> -       if (gpu->irq < 0) {
-> -               dev_err(dev, "failed to get irq: %d\n", gpu->irq);
-> +       if (gpu->irq < 0)
->                 return gpu->irq;
-> -       }
->
->         err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
->                                dev_name(gpu->dev), gpu);
-> --
-> 2.20.1.windows.1
->
->
->
-
-
--- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBBcHIgMTcsIDIwMjAgYXQgMDU6MjM6MzVQTSArMDgwMCwgSmFzb24gWWFuIHdyb3Rl
+Ogo+IEZpeCB0aGUgZm9sbG93aW5nIGdjYyB3YXJuaW5nOgo+IAo+IGRyaXZlcnMvdmlkZW8vYmFj
+a2xpZ2h0L3Fjb20td2xlZC5jOjkzOTozNDogd2FybmluZzog4oCYd2xlZDRfc3RyaW5nX2NmZ+KA
+mQo+IGRlZmluZWQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1jb25zdC12YXJpYWJsZT1dCj4gIHN0
+YXRpYyBjb25zdCBzdHJ1Y3Qgd2xlZF92YXJfY2ZnIHdsZWQ0X3N0cmluZ19jZmcgPSB7Cj4gICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn4KPiBkcml2ZXJz
+L3ZpZGVvL2JhY2tsaWdodC9xY29tLXdsZWQuYzo5MzU6MzQ6IHdhcm5pbmc6IOKAmHdsZWQzX3N0
+cmluZ19jZmfigJkKPiBkZWZpbmVkIGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtY29uc3QtdmFyaWFi
+bGU9XQo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IHdsZWRfdmFyX2NmZyB3bGVkM19zdHJpbmdfY2Zn
+ID0gewo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+
+Cj4gCj4gUmVwb3J0ZWQtYnk6IEh1bGsgUm9ib3QgPGh1bGtjaUBodWF3ZWkuY29tPgo+IFNpZ25l
+ZC1vZmYtYnk6IEphc29uIFlhbiA8eWFuYWlqaWVAaHVhd2VpLmNvbT4KClJldmlld2VkLWJ5OiBE
+YW5pZWwgVGhvbXBzb24gPGRhbmllbC50aG9tcHNvbkBsaW5hcm8ub3JnPgoKCj4gLS0tCj4gIGRy
+aXZlcnMvdmlkZW8vYmFja2xpZ2h0L3Fjb20td2xlZC5jIHwgOCAtLS0tLS0tLQo+ICAxIGZpbGUg
+Y2hhbmdlZCwgOCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9i
+YWNrbGlnaHQvcWNvbS13bGVkLmMgYi9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9xY29tLXdsZWQu
+Ywo+IGluZGV4IDNkMjc2YjMwYTc4Yy4uZGY1M2ZiZDVjZDAzIDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvdmlkZW8vYmFja2xpZ2h0L3Fjb20td2xlZC5jCj4gKysrIGIvZHJpdmVycy92aWRlby9iYWNr
+bGlnaHQvcWNvbS13bGVkLmMKPiBAQCAtOTMyLDE0ICs5MzIsNiBAQCBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IHdsZWRfdmFyX2NmZyB3bGVkNF9zdHJpbmdfaV9saW1pdF9jZmcgPSB7Cj4gIAkuc2l6ZSA9
+IEFSUkFZX1NJWkUod2xlZDRfc3RyaW5nX2lfbGltaXRfdmFsdWVzKSwKPiAgfTsKPiAgCj4gLXN0
+YXRpYyBjb25zdCBzdHJ1Y3Qgd2xlZF92YXJfY2ZnIHdsZWQzX3N0cmluZ19jZmcgPSB7Cj4gLQku
+c2l6ZSA9IDgsCj4gLX07Cj4gLQo+IC1zdGF0aWMgY29uc3Qgc3RydWN0IHdsZWRfdmFyX2NmZyB3
+bGVkNF9zdHJpbmdfY2ZnID0gewo+IC0JLnNpemUgPSAxNiwKPiAtfTsKPiAtCj4gIHN0YXRpYyB1
+MzIgd2xlZF92YWx1ZXMoY29uc3Qgc3RydWN0IHdsZWRfdmFyX2NmZyAqY2ZnLCB1MzIgaWR4KQo+
+ICB7Cj4gIAlpZiAoaWR4ID49IGNmZy0+c2l6ZSkKPiAtLSAKPiAyLjIxLjEKPiAKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
