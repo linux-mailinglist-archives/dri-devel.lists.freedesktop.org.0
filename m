@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 510231B101B
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 17:29:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E738B1B1024
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 17:30:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 463E76E5C6;
-	Mon, 20 Apr 2020 15:29:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6D866E5CC;
+	Mon, 20 Apr 2020 15:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
  [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80AD56E5C6
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 15:29:53 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id x18so12747812wrq.2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 08:29:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=rRuKmbK6PwqWVFEf4NCbIZ/sdAUEPs0XWhgaR5GQdu4=;
- b=BjfHQm3+4hBnp0JqjA408JQJh9WCU7VabxE1gH4uXEabh4Q8spOIaCWnHW/wrQ/LEX
- sCdl+8F3kzeSqsBYpYWgEbubA1mzRerxIXe3RDe6BzwNiSYvCHpv5Gh7/z84PsNpOiaM
- dHoWhTlrSuDUdGdPsQ84He3cMDcPVACyp5/HK24uY/plpHIc/vCy3f5Q5K5TqajFUmoX
- nMQOJoF761TJ6+NxwFYY78i7yrgv93k5yPso2cw+keCvT6rb2mJ7luHUOr9+IKBmW3zD
- xWi4VTqxq5eqk7/hUtukRnXrxuKbnhrbvIwgiiiXWlzfompI10Vq4KpsfvdSewGnfFcT
- 37Ow==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B8D16E5CA;
+ Mon, 20 Apr 2020 15:30:25 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id s10so3569942wrr.0;
+ Mon, 20 Apr 2020 08:30:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PD5DeOdqi6e0MkxPAfwdJyP3eDR+86tLjrIumXPzzT4=;
+ b=bp8Y7lB6hXvn9JH54tFD2UDbpwmiblTLlKAIT3+DCmvZle1bg3aC3vYn1nqOyiR5OY
+ HgL3OGsbeJva2GrenO/QQ9jEXf99AjvliEDPB66I7Q3lm0BMgokvt7k9nT4P1r6k8aCn
+ 5PLeAowMTscry4PrfawUrthTM4pC+ndE/nZL5Zv9YlQ0cyO1KWbw11HmyXClk5QiMx+G
+ 1A+0vJ5x/0My02ge4tzFk8os5rcxhHmpPqt88QASYX3j7OJFqLDkeX20CT4Ald8jIsYD
+ jUITLIwrB69buHlkbfNn8nJX2dyIUQkrPgAK9AToP92RpJSZ0C5ftuPFuOyAtZ5ipn3C
+ ralw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rRuKmbK6PwqWVFEf4NCbIZ/sdAUEPs0XWhgaR5GQdu4=;
- b=fpk4PLFPjH+wuOQTUSOx94IQlLrBXW2VnhPWghTeil816VChqJXSGxor1ovOtnLiXA
- c4I2vHfzNt9rE8ylcIliFXPpQZkIjygljgIUPnBKsITynK/ge1XOMxpwpCFJwXjmcoT9
- zuCqqYGQvhDFoMryWb3w3urQXLc8iy5GZzaw9U+cqucRxdWhnNfRbQdVzKxuLBAciBm8
- Ji1wO/OA/2ESTIWBsW3v4AX3vyKBcitNawoNWTX2FBERmUk8FZx8I6jiaqvKWXfOQv7l
- 3NJH7Y5vtC8Dx7F9szL6ynIFCOFFocD3vuAwb49p7wjhAGZUUE65bAkeG0G50xEGw6i3
- 9kLA==
-X-Gm-Message-State: AGi0PuYyASKE15SY5zI7QFEHFMDLU7mldrKvO9BlrlQpDLKvJvDr0Bqf
- 52ywdibw7DRmOmIW1wx7u3C4Bw==
-X-Google-Smtp-Source: APiQypK5RfbPvKdwfP8P/l0O9IIsLTzCSbRFf/E1gHpNWUtZ8QfVvGc/PqRja08Oj+g7RQAo24Q2Cg==
-X-Received: by 2002:a5d:4d50:: with SMTP id a16mr21185532wru.219.1587396592213; 
- Mon, 20 Apr 2020 08:29:52 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id l4sm1622167wrv.60.2020.04.20.08.29.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Apr 2020 08:29:51 -0700 (PDT)
-Date: Mon, 20 Apr 2020 16:29:50 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 2/5] backlight: led_bl: drop useless NULL initialization
-Message-ID: <20200420152950.hbc54fzxta7lq5ug@holly.lan>
-References: <20200417113312.24340-1-tomi.valkeinen@ti.com>
- <20200417113312.24340-2-tomi.valkeinen@ti.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PD5DeOdqi6e0MkxPAfwdJyP3eDR+86tLjrIumXPzzT4=;
+ b=XsFhJEUrHUbPHgYvaDcFM98G3jZp7kw5MFUxnwEAqzb2p4zz5akTOz5AC8QJ/pJRRP
+ hCiCrMRLtd+hBgan0YkabcnTC5MExCkOs/xD6yHDspg0E6oa1nkZwY1bM309qTI1I1dj
+ NuKwAD8TGWzBgQqDM/bgBpgYwzhl1x3T5ZXOappANoygTk2l7FK2qkcl6khi/TI/7BGX
+ hQ9HfeynFBNDL8f7AIpdRXyuybvB5uxqA3EHSz99eD104GQi4GsQ1jtfMUhoUVDTBILh
+ IcDi9DgrwWQ26+Auoh1jlmYa2llzT0yGHbLpkoz6bNpCASnu79ngFA+cowtGPWhwq3bd
+ SMFQ==
+X-Gm-Message-State: AGi0PuZYSSNKz/wPtYp7JI4igOyb0LuGGt4rf6KR6rpL5RhpHsXtvgsZ
+ /T2zWiW5hio3j6FdlcaLjlaRZ5tz7lbDa/25UMg4DGuV
+X-Google-Smtp-Source: APiQypJNVGW7y4CcAc7fYlBuLAQtsl07x5NtoSods0LPEQbSJ1ymdgu97+hTSGZ3nDodKZ90UfA1dTb1tUYmxNTUDzs=
+X-Received: by 2002:a5d:498d:: with SMTP id r13mr20138167wrq.374.1587396623955; 
+ Mon, 20 Apr 2020 08:30:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200417113312.24340-2-tomi.valkeinen@ti.com>
+References: <CABXGCsN=SNp7Ub3KHmsGrg+5R1g13HMea2+Jw+hTer3g74q21Q@mail.gmail.com>
+ <4a9ae285-f126-c83b-b55f-36bd7a4403a0@gmail.com>
+ <CABXGCsNSni7cjufva_n-VZQ4HKY2osBL4JB2kk_z7Pzv2u10MQ@mail.gmail.com>
+In-Reply-To: <CABXGCsNSni7cjufva_n-VZQ4HKY2osBL4JB2kk_z7Pzv2u10MQ@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 20 Apr 2020 11:30:12 -0400
+Message-ID: <CADnq5_NXtSfn1C8kceQ_Bfmu9LbgRTPVq_s6yk-6BG23ZB10Qg@mail.gmail.com>
+Subject: Re: BUG: kernel NULL pointer dereference, address: 0000000000000026
+ after switching to 5.7 kernel
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,44 +64,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
- Lee Jones <lee.jones@linaro.org>, dri-devel@lists.freedesktop.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Russell,
+ Kent" <Kent.Russell@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 17, 2020 at 02:33:09PM +0300, Tomi Valkeinen wrote:
-> There's no need to set 'levels' to NULL.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-
-
-> ---
->  drivers/video/backlight/led_bl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
-> index d4e1ce684366..c46ecdfe8b0a 100644
-> --- a/drivers/video/backlight/led_bl.c
-> +++ b/drivers/video/backlight/led_bl.c
-> @@ -140,7 +140,7 @@ static int led_bl_parse_levels(struct device *dev,
->  	if (num_levels > 1) {
->  		int i;
->  		unsigned int db;
-> -		u32 *levels = NULL;
-> +		u32 *levels;
->  
->  		levels = devm_kzalloc(dev, sizeof(u32) * num_levels,
->  				      GFP_KERNEL);
-> -- 
-> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU2F0LCBBcHIgMTgsIDIwMjAgYXQgNzoxMyBBTSBNaWtoYWlsIEdhdnJpbG92CjxtaWtoYWls
+LnYuZ2F2cmlsb3ZAZ21haWwuY29tPiB3cm90ZToKPgo+IE9uIFNhdCwgMTEgQXByIDIwMjAgYXQg
+MTQ6NTYsIENocmlzdGlhbiBLw7ZuaWcKPiA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5j
+b20+IHdyb3RlOgo+ID4KPiA+IFllYWgsIHRoYXQgaXMgYSBrbm93biBpc3N1ZS4KPiA+Cj4gPiBZ
+b3UgY291bGQgdHJ5IHRoZSBhdHRhY2hlZCBwYXRjaCwgYnV0IHBsZWFzZSBiZSBhd2FyZSB0aGF0
+IGl0IGlzIG5vdAo+ID4gZXZlbiBjb21waWxlIHRlc3RlZCBiZWNhdXNlIG9mIHRoZSBFYXN0ZXIg
+aG9saWRheXMgaGVyZS4KPiA+Cj4KPiBMb29rcyBnb29kIHRvIG1lLCBzbyBpdCdzIHBpdHkgdGhh
+dCB0aGlzIHBhdGNoIGRpZCBub3QgZXhpc3QgaW4gdGhlCj4gcHVsbCByZXF1ZXN0IGh0dHBzOi8v
+cGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTE0OTIwODMvCgpJdCBzaG91bGQgc2hvdyB1cCBp
+biB0aGUgbmV4dCBkcm0tbWlzYyBQUjoKaHR0cHM6Ly9jZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0v
+ZHJtLW1pc2MvY29tbWl0Lz9oPWRybS1taXNjLWZpeGVzJmlkPTg2MjNiNTI1NWFlN2NjYWYyNzZh
+YWMzOTIwNzg3YmY1NzVmYTZiMzcKCkFsZXgKCj4KPiAtLQo+IEJlc3QgUmVnYXJkcywKPiBNaWtl
+IEdhdnJpbG92Lgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9y
+Zwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdm
+eApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
