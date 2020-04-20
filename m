@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4FE1B0E76
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 16:33:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C731B1F1C
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:49:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAF5289B33;
-	Mon, 20 Apr 2020 14:33:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 562DD6E8A8;
+	Tue, 21 Apr 2020 06:48:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4483B89B33
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 14:33:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587393193;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/BICmOxm1sDjBE0Fw16pReYLCBtQ7NAWk0hypsbt5YE=;
- b=bmnKa3ezmg3iI1DZKglhGQwcaUqqoKFPkyirnCM0wiPWofvL2/8XTfnhKKSjE+mQosu2Rt
- Xpc1rFgIYoVZKrD/z6J08LP+pZfYLCkUvCRqRkwlA/B1ZP4k+/bH8kpjoHcgGs+ms7/C7y
- 70S5aLHgxpF9yoEc7Fy/WSHeit0ncEg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-Zy3AKphUNV68387UVBdKyg-1; Mon, 20 Apr 2020 10:33:11 -0400
-X-MC-Unique: Zy3AKphUNV68387UVBdKyg-1
-Received: by mail-wr1-f71.google.com with SMTP id p2so5037754wrx.12
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Apr 2020 07:33:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/BICmOxm1sDjBE0Fw16pReYLCBtQ7NAWk0hypsbt5YE=;
- b=TuwlZII6sfmuYA+EVo4Gu9WT5P2Hd/gIsDqAQb+Eq0hEcSR/uWDEgEpdEisBMSNO6H
- 7lASNnVskCrokHnlQ3J+LzBPu5z1tobDaDyK9drHXak8GIG8BCr7ZrvhgT25fHFWSZN6
- R2xFWkURKjV45jZY3tGU1+TgF5aT0AzWkvMiZ88vooT6fhY9AFM5FMB0QxLQihJgX1bt
- MGVFyPkfDkjH75JFET+3pliNaAaFa/UM70WoFgHIHXOXQMrgQ1xumKkIcKSDuljsGP7o
- GZCTi34IMUFUKRQi+IqH+8p1/BBLNvGbM6I4anrYxh6jWoQkd8Z11vT4/TFooNYqAVin
- wJ9g==
-X-Gm-Message-State: AGi0Pua51O9kctoZOeawt14eV9ABwm4mcNIlMxk7S6PNZaVFCoQbmnJR
- opq5e41S4dHhR4lJyiuETR10hF9u2NW7jrfuZKIv/LYUt72CPGhyVbLUAhVTuLV2ycpYa1tkZJ0
- YZC7uiYmogdxK8yYN6fX47VZ/Vrea
-X-Received: by 2002:a5d:6689:: with SMTP id l9mr10607529wru.261.1587393190509; 
- Mon, 20 Apr 2020 07:33:10 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIE3DMH5xFDwGNUfVPw+X70x/SDiUNUfiLWd0azjzp9qQ2tZy+YP/738/NNIg43An+9cygOww==
-X-Received: by 2002:a5d:6689:: with SMTP id l9mr10607487wru.261.1587393190204; 
- Mon, 20 Apr 2020 07:33:10 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:199a:e5ab:a38c:544c?
- ([2001:b07:6468:f312:199a:e5ab:a38c:544c])
- by smtp.gmail.com with ESMTPSA id l5sm1432000wrm.66.2020.04.20.07.33.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Apr 2020 07:33:09 -0700 (PDT)
-Subject: Re: [PATCH 6/8] simplefs: add file creation functions
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-References: <20200414124304.4470-1-eesposit@redhat.com>
- <20200414124304.4470-7-eesposit@redhat.com>
- <20200414125626.GC720679@kroah.com>
- <f371bcc0-266a-cb0b-3bde-fed336b8c9b5@redhat.com>
- <20200420142842.GA4125486@kroah.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7d7a9ccc-022d-f60d-d28a-f063ab9494bc@redhat.com>
-Date: Mon, 20 Apr 2020 16:33:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <20200420142842.GA4125486@kroah.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 33CA06E5B2;
+ Mon, 20 Apr 2020 15:05:09 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6F74531B;
+ Mon, 20 Apr 2020 08:05:08 -0700 (PDT)
+Received: from ssg-dev-vb.arm.com (unknown [10.57.26.77])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 03E073F73D;
+ Mon, 20 Apr 2020 08:04:51 -0700 (PDT)
+From: Hadar Gat <hadar.gat@arm.com>
+To: "David S. Miller" <davem@davemloft.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Tony Lindgren <tony@atomide.com>, Lee Jones <lee.jones@linaro.org>,
+ Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Jose Abreu <joabreu@synopsys.com>, JC Kuo <jckuo@nvidia.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>,
+ Stefan Agner <stefan@agner.ch>, Linus Walleij <linus.walleij@linaro.org>,
+ Kukjin Kim <kgene@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
+Subject: [PATCH v3] of_device: removed #include that caused a recursion in
+ included headers
+Date: Mon, 20 Apr 2020 18:04:29 +0300
+Message-Id: <1587395080-15722-1-git-send-email-hadar.gat@arm.com>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Tue, 21 Apr 2020 06:48:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,70 +71,509 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Song Liu <songliubraving@fb.com>, linux-usb@vger.kernel.org,
- bpf@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
- David Airlie <airlied@linux.ie>, Heiko Carstens <heiko.carstens@de.ibm.com>,
- Alexei Starovoitov <ast@kernel.org>, dri-devel@lists.freedesktop.org,
- "J. Bruce Fields" <bfields@fieldses.org>,
- Joseph Qi <joseph.qi@linux.alibaba.com>, Hugh Dickins <hughd@google.com>,
- Paul Mackerras <paulus@samba.org>, John Johansen <john.johansen@canonical.com>,
- netdev@vger.kernel.org, ocfs2-devel@oss.oracle.com,
- Christoph Hellwig <hch@lst.de>, Andrew Donnellan <ajd@linux.ibm.com>,
- Matthew Garrett <matthew.garrett@nebula.com>, linux-efi@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Daniel Borkmann <daniel@iogearbox.net>,
- Christian Borntraeger <borntraeger@de.ibm.com>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Mark Fasheh <mark@fasheh.com>,
- Anton Vorontsov <anton@enomsg.org>, John Fastabend <john.fastabend@gmail.com>,
- James Morris <jmorris@namei.org>, Ard Biesheuvel <ardb@kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
- oprofile-list@lists.sf.net, Yonghong Song <yhs@fb.com>,
- Ian Kent <raven@themaw.net>, Andrii Nakryiko <andriin@fb.com>,
- Alexey Dobriyan <adobriyan@gmail.com>, "Serge E. Hallyn" <serge@hallyn.com>,
- Robert Richter <rric@kernel.org>, Vasily Gorbik <gor@linux.ibm.com>,
- Tony Luck <tony.luck@intel.com>, Kees Cook <keescook@chromium.org>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, autofs@vger.kernel.org,
- Mike Marciniszyn <mike.marciniszyn@intel.com>, linux-fsdevel@vger.kernel.org,
- "Manoj N. Kumar" <manoj@linux.ibm.com>, Uma Krishnan <ukrishn@linux.ibm.com>,
- Jakub Kicinski <kuba@kernel.org>, KP Singh <kpsingh@chromium.org>,
- Trond Myklebust <trond.myklebust@hammerspace.com>,
- "Matthew R. Ochs" <mrochs@linux.ibm.com>,
- "David S. Miller" <davem@davemloft.net>, Felipe Balbi <balbi@kernel.org>,
- linux-nfs@vger.kernel.org, Iurii Zaikin <yzaikin@google.com>,
- linux-scsi@vger.kernel.org, "Martin K. Petersen" <martin.petersen@oracle.com>,
- linux-mm@kvack.org, linux-s390@vger.kernel.org,
- Dennis Dalessandro <dennis.dalessandro@intel.com>,
- Miklos Szeredi <miklos@szeredi.hu>, linux-security-module@vger.kernel.org,
- linux-kernel@vger.kernel.org, Anna Schumaker <anna.schumaker@netapp.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
- Jeremy Kerr <jk@ozlabs.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Colin Cross <ccross@android.com>, Frederic Barrat <fbarrat@linux.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>, linuxppc-dev@lists.ozlabs.org,
- Martin KaFai Lau <kafai@fb.com>, Joel Becker <jlbec@evilplan.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mtd@lists.infradead.org, sparclinux@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Hadar Gat <hadar.gat@arm.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Ofir Drang <ofir.drang@arm.com>,
+ Gilad Ben-Yossef <gilad@benyossef.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ dmaengine@vger.kernel.org, freedreno@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/04/20 16:28, Greg Kroah-Hartman wrote:
->> I assume you meant a new file. These new functions are used only by a few
->> filesystems, and I didn't want to include them in vmlinux unconditionally,
->> so I introduced simplefs.c and CONFIG_SIMPLEFS instead of extending libfs.c.
->> In this way only fs that need this code like debugfs and tracefs will load
->> it.
-> Nothing "loads it", why not just make these libfs functions instead?  As
-> the difference between the two is not obvious at all, please don't make
-> things confusing.
+Both of_platform.h and of_device.h were included each other.
+In of_device.h, removed unneeded #include to of_platform.h
+and added include to of_platform.h in the files that needs it.
 
-I think Emanuele meant "will link it" not "will load it".
+Signed-off-by: Hadar Gat <hadar.gat@arm.com>
+Reported-by: kbuild test robot <lkp@intel.com>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
+Acked-by: Stephen Boyd <sboyd@kernel.org> # clk
+---
+v3: add include to of_platform.h in more files. (reported due other builds)
+v2: add include to of_platform.h in more files. (reported due other builds)
 
-Emanuele, you can just move everything to libfs.c and get rid of
-CONFIG_SIMPLEFS too.  "Do less" is not an offer you want to turn down!
+ arch/sparc/kernel/pci.c                           | 1 +
+ arch/sparc/kernel/pci_sabre.c                     | 1 +
+ arch/sparc/kernel/pci_schizo.c                    | 1 +
+ arch/sparc/kernel/sbus.c                          | 1 +
+ arch/sparc/mm/io-unit.c                           | 1 +
+ arch/sparc/mm/iommu.c                             | 1 +
+ drivers/base/platform.c                           | 1 +
+ drivers/bus/imx-weim.c                            | 1 +
+ drivers/bus/vexpress-config.c                     | 1 +
+ drivers/clk/mediatek/clk-mt7622-aud.c             | 1 +
+ drivers/dma/at_hdmac.c                            | 1 +
+ drivers/dma/stm32-dmamux.c                        | 1 +
+ drivers/dma/ti/dma-crossbar.c                     | 1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c             | 1 +
+ drivers/gpu/drm/msm/hdmi/hdmi.c                   | 1 +
+ drivers/gpu/drm/msm/msm_drv.c                     | 1 +
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 1 +
+ drivers/gpu/drm/sun4i/sun4i_tcon.c                | 1 +
+ drivers/iio/adc/stm32-adc-core.c                  | 1 +
+ drivers/iio/adc/stm32-dfsdm-adc.c                 | 1 +
+ drivers/iio/adc/stm32-dfsdm-core.c                | 1 +
+ drivers/iommu/tegra-smmu.c                        | 1 +
+ drivers/media/platform/coda/coda-common.c         | 1 +
+ drivers/memory/atmel-ebi.c                        | 1 +
+ drivers/mfd/palmas.c                              | 1 +
+ drivers/mfd/ssbi.c                                | 1 +
+ drivers/mtd/nand/raw/omap2.c                      | 1 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
+ drivers/net/ethernet/ti/cpsw.c                    | 1 +
+ drivers/phy/tegra/xusb.c                          | 1 +
+ drivers/pinctrl/freescale/pinctrl-imx1-core.c     | 1 +
+ drivers/pinctrl/nomadik/pinctrl-nomadik.c         | 1 +
+ drivers/soc/samsung/exynos-pmu.c                  | 1 +
+ drivers/soc/sunxi/sunxi_sram.c                    | 1 +
+ include/linux/of_device.h                         | 2 --
+ lib/genalloc.c                                    | 1 +
+ 36 files changed, 35 insertions(+), 2 deletions(-)
 
-Thanks,
-
-Paolo
+diff --git a/arch/sparc/kernel/pci.c b/arch/sparc/kernel/pci.c
+index 5ed4382..89ea658 100644
+--- a/arch/sparc/kernel/pci.c
++++ b/arch/sparc/kernel/pci.c
+@@ -21,6 +21,7 @@
+ #include <linux/init.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ #include <linux/uaccess.h>
+ #include <asm/pgtable.h>
+diff --git a/arch/sparc/kernel/pci_sabre.c b/arch/sparc/kernel/pci_sabre.c
+index 3c38ca4..16761d0 100644
+--- a/arch/sparc/kernel/pci_sabre.c
++++ b/arch/sparc/kernel/pci_sabre.c
+@@ -14,6 +14,7 @@
+ #include <linux/slab.h>
+ #include <linux/interrupt.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ #include <asm/apb.h>
+ #include <asm/iommu.h>
+diff --git a/arch/sparc/kernel/pci_schizo.c b/arch/sparc/kernel/pci_schizo.c
+index 421aba0..733f069 100644
+--- a/arch/sparc/kernel/pci_schizo.c
++++ b/arch/sparc/kernel/pci_schizo.c
+@@ -12,6 +12,7 @@
+ #include <linux/export.h>
+ #include <linux/interrupt.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/numa.h>
+ 
+ #include <asm/iommu.h>
+diff --git a/arch/sparc/kernel/sbus.c b/arch/sparc/kernel/sbus.c
+index 32141e1..2f4051f 100644
+--- a/arch/sparc/kernel/sbus.c
++++ b/arch/sparc/kernel/sbus.c
+@@ -15,6 +15,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/numa.h>
+ 
+ #include <asm/page.h>
+diff --git a/arch/sparc/mm/io-unit.c b/arch/sparc/mm/io-unit.c
+index 289276b..5638399 100644
+--- a/arch/sparc/mm/io-unit.c
++++ b/arch/sparc/mm/io-unit.c
+@@ -15,6 +15,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ #include <asm/pgalloc.h>
+ #include <asm/pgtable.h>
+diff --git a/arch/sparc/mm/iommu.c b/arch/sparc/mm/iommu.c
+index b00dde1..9cbb2e7 100644
+--- a/arch/sparc/mm/iommu.c
++++ b/arch/sparc/mm/iommu.c
+@@ -16,6 +16,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ #include <asm/pgalloc.h>
+ #include <asm/pgtable.h>
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index 5255550..f549274b 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -12,6 +12,7 @@
+ #include <linux/string.h>
+ #include <linux/platform_device.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_irq.h>
+ #include <linux/module.h>
+ #include <linux/init.h>
+diff --git a/drivers/bus/imx-weim.c b/drivers/bus/imx-weim.c
+index 28bb65a..8c786da 100644
+--- a/drivers/bus/imx-weim.c
++++ b/drivers/bus/imx-weim.c
+@@ -11,6 +11,7 @@
+ #include <linux/clk.h>
+ #include <linux/io.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/mfd/syscon/imx6q-iomuxc-gpr.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/bus/vexpress-config.c b/drivers/bus/vexpress-config.c
+index ff70575..12b8b0b 100644
+--- a/drivers/bus/vexpress-config.c
++++ b/drivers/bus/vexpress-config.c
+@@ -8,6 +8,7 @@
+ #include <linux/init.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/vexpress.h>
+ 
+ 
+diff --git a/drivers/clk/mediatek/clk-mt7622-aud.c b/drivers/clk/mediatek/clk-mt7622-aud.c
+index 2bd4295..8cbb68f 100644
+--- a/drivers/clk/mediatek/clk-mt7622-aud.c
++++ b/drivers/clk/mediatek/clk-mt7622-aud.c
+@@ -9,6 +9,7 @@
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ 
+ #include "clk-mtk.h"
+diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
+index 73a2078..388f8e10 100644
+--- a/drivers/dma/at_hdmac.c
++++ b/drivers/dma/at_hdmac.c
+@@ -20,6 +20,7 @@
+ #include <linux/slab.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_dma.h>
+ 
+ #include "at_hdmac_regs.h"
+diff --git a/drivers/dma/stm32-dmamux.c b/drivers/dma/stm32-dmamux.c
+index 12f7637..b704896 100644
+--- a/drivers/dma/stm32-dmamux.c
++++ b/drivers/dma/stm32-dmamux.c
+@@ -16,6 +16,7 @@
+ #include <linux/init.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_dma.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/reset.h>
+diff --git a/drivers/dma/ti/dma-crossbar.c b/drivers/dma/ti/dma-crossbar.c
+index 4ba8fa5..2c0fd44 100644
+--- a/drivers/dma/ti/dma-crossbar.c
++++ b/drivers/dma/ti/dma-crossbar.c
+@@ -10,6 +10,7 @@
+ #include <linux/io.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_dma.h>
+ 
+ #define TI_XBAR_DRA7		0
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index c4e71ab..f523254 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -6,6 +6,7 @@
+ #include <linux/interconnect.h>
+ #include <linux/pm_domain.h>
+ #include <linux/pm_opp.h>
++#include <linux/of_platform.h>
+ #include <soc/qcom/cmd-db.h>
+ 
+ #include "a6xx_gpu.h"
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+index 737453b..5034d40 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/of_irq.h>
+ #include <linux/of_gpio.h>
++#include <linux/of_platform.h>
+ 
+ #include <sound/hdmi-codec.h>
+ #include "hdmi.h"
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 29295de..ddc9e85 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -8,6 +8,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/kthread.h>
+ #include <linux/uaccess.h>
++#include <linux/of_platform.h>
+ #include <uapi/linux/sched/types.h>
+ 
+ #include <drm/drm_drv.h>
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+index 6e1270e..d038bae 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+@@ -12,6 +12,7 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/phy/phy.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index 624437b..aa35757 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_irq.h>
+ #include <linux/regmap.h>
+ #include <linux/reset.h>
+diff --git a/drivers/iio/adc/stm32-adc-core.c b/drivers/iio/adc/stm32-adc-core.c
+index 2df88d2..3dc3453 100644
+--- a/drivers/iio/adc/stm32-adc-core.c
++++ b/drivers/iio/adc/stm32-adc-core.c
+@@ -17,6 +17,7 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+diff --git a/drivers/iio/adc/stm32-dfsdm-adc.c b/drivers/iio/adc/stm32-dfsdm-adc.c
+index 76a60d9..e83848cb 100644
+--- a/drivers/iio/adc/stm32-dfsdm-adc.c
++++ b/drivers/iio/adc/stm32-dfsdm-adc.c
+@@ -20,6 +20,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+diff --git a/drivers/iio/adc/stm32-dfsdm-core.c b/drivers/iio/adc/stm32-dfsdm-core.c
+index 26e2011..f6a53ab 100644
+--- a/drivers/iio/adc/stm32-dfsdm-core.c
++++ b/drivers/iio/adc/stm32-dfsdm-core.c
+@@ -12,6 +12,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
+index 63a147b..3797caa 100644
+--- a/drivers/iommu/tegra-smmu.c
++++ b/drivers/iommu/tegra-smmu.c
+@@ -10,6 +10,7 @@
+ #include <linux/kernel.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/dma-mapping.h>
+diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+index d0d093d..0874824 100644
+--- a/drivers/media/platform/coda/coda-common.c
++++ b/drivers/media/platform/coda/coda-common.c
+@@ -20,6 +20,7 @@
+ #include <linux/kfifo.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/slab.h>
+diff --git a/drivers/memory/atmel-ebi.c b/drivers/memory/atmel-ebi.c
+index 14386d0..272b1a8 100644
+--- a/drivers/memory/atmel-ebi.c
++++ b/drivers/memory/atmel-ebi.c
+@@ -13,6 +13,7 @@
+ #include <linux/mfd/syscon/atmel-smc.h>
+ #include <linux/init.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/regmap.h>
+ #include <soc/at91/atmel-sfr.h>
+ 
+diff --git a/drivers/mfd/palmas.c b/drivers/mfd/palmas.c
+index f5b3fa9..cca44bc 100644
+--- a/drivers/mfd/palmas.c
++++ b/drivers/mfd/palmas.c
+@@ -19,6 +19,7 @@
+ #include <linux/mfd/core.h>
+ #include <linux/mfd/palmas.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ static const struct regmap_config palmas_regmap_config[PALMAS_NUM_CLIENTS] = {
+ 	{
+diff --git a/drivers/mfd/ssbi.c b/drivers/mfd/ssbi.c
+index 94f60df..72cd45a 100644
+--- a/drivers/mfd/ssbi.c
++++ b/drivers/mfd/ssbi.c
+@@ -20,6 +20,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ /* SSBI 2.0 controller registers */
+ #define SSBI2_CMD			0x0008
+diff --git a/drivers/mtd/nand/raw/omap2.c b/drivers/mtd/nand/raw/omap2.c
+index ad77c11..d851ec7 100644
+--- a/drivers/mtd/nand/raw/omap2.c
++++ b/drivers/mtd/nand/raw/omap2.c
+@@ -22,6 +22,7 @@
+ #include <linux/slab.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ #include <linux/mtd/nand_bch.h>
+ #include <linux/platform_data/elm.h>
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 58e0511..d704d57 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -12,6 +12,7 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_mdio.h>
+ #include <linux/of_net.h>
+ #include <linux/phy.h>
+diff --git a/drivers/net/ethernet/ti/cpsw.c b/drivers/net/ethernet/ti/cpsw.c
+index c2c5bf8..6932945 100644
+--- a/drivers/net/ethernet/ti/cpsw.c
++++ b/drivers/net/ethernet/ti/cpsw.c
+@@ -28,6 +28,7 @@
+ #include <linux/of_mdio.h>
+ #include <linux/of_net.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/if_vlan.h>
+ #include <linux/kmemleak.h>
+ #include <linux/sys_soc.h>
+diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
+index de4a46f..0eac1b8 100644
+--- a/drivers/phy/tegra/xusb.c
++++ b/drivers/phy/tegra/xusb.c
+@@ -9,6 +9,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/phy/phy.h>
+ #include <linux/phy/tegra/xusb.h>
+ #include <linux/platform_device.h>
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx1-core.c b/drivers/pinctrl/freescale/pinctrl-imx1-core.c
+index c00d002..d1c171e 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx1-core.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx1-core.c
+@@ -16,6 +16,7 @@
+ #include <linux/io.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/pinctrl/machine.h>
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinctrl.h>
+diff --git a/drivers/pinctrl/nomadik/pinctrl-nomadik.c b/drivers/pinctrl/nomadik/pinctrl-nomadik.c
+index ca7bbe4..44974ac 100644
+--- a/drivers/pinctrl/nomadik/pinctrl-nomadik.c
++++ b/drivers/pinctrl/nomadik/pinctrl-nomadik.c
+@@ -19,6 +19,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/slab.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_address.h>
+ #include <linux/bitops.h>
+ #include <linux/pinctrl/machine.h>
+diff --git a/drivers/soc/samsung/exynos-pmu.c b/drivers/soc/samsung/exynos-pmu.c
+index 17304fa..25129b0 100644
+--- a/drivers/soc/samsung/exynos-pmu.c
++++ b/drivers/soc/samsung/exynos-pmu.c
+@@ -8,6 +8,7 @@
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/platform_device.h>
+ #include <linux/delay.h>
+diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+index 1b0d50f..423cec3 100644
+--- a/drivers/soc/sunxi/sunxi_sram.c
++++ b/drivers/soc/sunxi/sunxi_sram.c
+@@ -16,6 +16,7 @@
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ 
+diff --git a/include/linux/of_device.h b/include/linux/of_device.h
+index 8d31e39..752999b 100644
+--- a/include/linux/of_device.h
++++ b/include/linux/of_device.h
+@@ -4,8 +4,6 @@
+ 
+ #include <linux/cpu.h>
+ #include <linux/platform_device.h>
+-#include <linux/of_platform.h> /* temporary until merge */
+-
+ #include <linux/of.h>
+ #include <linux/mod_devicetable.h>
+ 
+diff --git a/lib/genalloc.c b/lib/genalloc.c
+index 7f1244b..08e21eeb 100644
+--- a/lib/genalloc.c
++++ b/lib/genalloc.c
+@@ -33,6 +33,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/genalloc.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/vmalloc.h>
+ 
+ static inline size_t chunk_size(const struct gen_pool_chunk *chunk)
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
