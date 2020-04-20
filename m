@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E738B1B1024
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Apr 2020 17:30:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B80F1B1F02
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:48:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6D866E5CC;
-	Mon, 20 Apr 2020 15:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8442C6E892;
+	Tue, 21 Apr 2020 06:48:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B8D16E5CA;
- Mon, 20 Apr 2020 15:30:25 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id s10so3569942wrr.0;
- Mon, 20 Apr 2020 08:30:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PD5DeOdqi6e0MkxPAfwdJyP3eDR+86tLjrIumXPzzT4=;
- b=bp8Y7lB6hXvn9JH54tFD2UDbpwmiblTLlKAIT3+DCmvZle1bg3aC3vYn1nqOyiR5OY
- HgL3OGsbeJva2GrenO/QQ9jEXf99AjvliEDPB66I7Q3lm0BMgokvt7k9nT4P1r6k8aCn
- 5PLeAowMTscry4PrfawUrthTM4pC+ndE/nZL5Zv9YlQ0cyO1KWbw11HmyXClk5QiMx+G
- 1A+0vJ5x/0My02ge4tzFk8os5rcxhHmpPqt88QASYX3j7OJFqLDkeX20CT4Ald8jIsYD
- jUITLIwrB69buHlkbfNn8nJX2dyIUQkrPgAK9AToP92RpJSZ0C5ftuPFuOyAtZ5ipn3C
- ralw==
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D5C589D9B;
+ Mon, 20 Apr 2020 15:42:20 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id o15so4671189pgi.1;
+ Mon, 20 Apr 2020 08:42:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PD5DeOdqi6e0MkxPAfwdJyP3eDR+86tLjrIumXPzzT4=;
- b=XsFhJEUrHUbPHgYvaDcFM98G3jZp7kw5MFUxnwEAqzb2p4zz5akTOz5AC8QJ/pJRRP
- hCiCrMRLtd+hBgan0YkabcnTC5MExCkOs/xD6yHDspg0E6oa1nkZwY1bM309qTI1I1dj
- NuKwAD8TGWzBgQqDM/bgBpgYwzhl1x3T5ZXOappANoygTk2l7FK2qkcl6khi/TI/7BGX
- hQ9HfeynFBNDL8f7AIpdRXyuybvB5uxqA3EHSz99eD104GQi4GsQ1jtfMUhoUVDTBILh
- IcDi9DgrwWQ26+Auoh1jlmYa2llzT0yGHbLpkoz6bNpCASnu79ngFA+cowtGPWhwq3bd
- SMFQ==
-X-Gm-Message-State: AGi0PuZYSSNKz/wPtYp7JI4igOyb0LuGGt4rf6KR6rpL5RhpHsXtvgsZ
- /T2zWiW5hio3j6FdlcaLjlaRZ5tz7lbDa/25UMg4DGuV
-X-Google-Smtp-Source: APiQypJNVGW7y4CcAc7fYlBuLAQtsl07x5NtoSods0LPEQbSJ1ymdgu97+hTSGZ3nDodKZ90UfA1dTb1tUYmxNTUDzs=
-X-Received: by 2002:a5d:498d:: with SMTP id r13mr20138167wrq.374.1587396623955; 
- Mon, 20 Apr 2020 08:30:23 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=urvVKwhYFVo9YmQiRyB75pp00JNNKb1DATs7THuAxM0=;
+ b=dmaktFAjAVHGKFEaXRD3dTgDGIzfJWbXPgTFW3qq+ToMQG3qAsaBNiTvf4k/U0FTAP
+ 8csRiuyEpIza0cLOaV3PUGn0EuPrQhtJ//zL5OuTRnZmiTCS0al3e8n86U3680Bj/c4f
+ WaWZNMUrZsYziIpwqnLFRtV28n4LMuZ3EKeS7/GGu45mH8DwsBvSu5Pxi02MwKRss9cL
+ aEkcm4l53s2VQYf2LtRjRKU34vdeNtwtaweXtxkpPHiN7p29xtKZW2EyWOhe9qhVHRe/
+ qtdg1l68NCPGwbgAe2q6NKOqwtXweyUea22FCwKtkmx9Kxnr6s/K1Rdu7LuP8KvxpcYR
+ 24iQ==
+X-Gm-Message-State: AGi0PuZvPI8IdAKTg0dHfZkLQ4yBP3CeIDX0tUCzAfGVxjY1yZlN7XDn
+ 8ahlobSP0y/pyiYbiqmKmxo=
+X-Google-Smtp-Source: APiQypJd+fuBqEfot8z8i+/En/kswujqoCNHKitTBMgG/Ivm4ah5wWFtimdwR+Mbm6rnh82tN5hnTA==
+X-Received: by 2002:a63:1d4a:: with SMTP id d10mr17258952pgm.188.1587397339635; 
+ Mon, 20 Apr 2020 08:42:19 -0700 (PDT)
+Received: from sultan-box.localdomain ([104.200.129.62])
+ by smtp.gmail.com with ESMTPSA id h5sm10591pjv.4.2020.04.20.08.42.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Apr 2020 08:42:18 -0700 (PDT)
+Date: Mon, 20 Apr 2020 08:42:16 -0700
+From: Sultan Alsawaf <sultan@kerneltoast.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH v2] drm/i915: Fix ref->mutex deadlock in i915_active_wait()
+Message-ID: <20200420154216.GA1963@sultan-box.localdomain>
+References: <20200407065210.GA263852@kroah.com>
+ <20200407071809.3148-1-sultan@kerneltoast.com>
+ <20200410090838.GD1691838@kroah.com>
+ <20200410141738.GB2025@sultan-box.localdomain>
+ <20200411113957.GB2606747@kroah.com>
+ <158685210730.16269.15932754047962572236@build.alporthouse.com>
+ <20200414082344.GA10645@kroah.com>
+ <158737335977.8380.15005528012712372014@jlahtine-desk.ger.corp.intel.com>
 MIME-Version: 1.0
-References: <CABXGCsN=SNp7Ub3KHmsGrg+5R1g13HMea2+Jw+hTer3g74q21Q@mail.gmail.com>
- <4a9ae285-f126-c83b-b55f-36bd7a4403a0@gmail.com>
- <CABXGCsNSni7cjufva_n-VZQ4HKY2osBL4JB2kk_z7Pzv2u10MQ@mail.gmail.com>
-In-Reply-To: <CABXGCsNSni7cjufva_n-VZQ4HKY2osBL4JB2kk_z7Pzv2u10MQ@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 20 Apr 2020 11:30:12 -0400
-Message-ID: <CADnq5_NXtSfn1C8kceQ_Bfmu9LbgRTPVq_s6yk-6BG23ZB10Qg@mail.gmail.com>
-Subject: Re: BUG: kernel NULL pointer dereference, address: 0000000000000026
- after switching to 5.7 kernel
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <158737335977.8380.15005528012712372014@jlahtine-desk.ger.corp.intel.com>
+X-Mailman-Approved-At: Tue, 21 Apr 2020 06:48:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,31 +64,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Russell,
- Kent" <Kent.Russell@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Greg KH <gregkh@linuxfoundation.org>, intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, stable@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCBBcHIgMTgsIDIwMjAgYXQgNzoxMyBBTSBNaWtoYWlsIEdhdnJpbG92CjxtaWtoYWls
-LnYuZ2F2cmlsb3ZAZ21haWwuY29tPiB3cm90ZToKPgo+IE9uIFNhdCwgMTEgQXByIDIwMjAgYXQg
-MTQ6NTYsIENocmlzdGlhbiBLw7ZuaWcKPiA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5j
-b20+IHdyb3RlOgo+ID4KPiA+IFllYWgsIHRoYXQgaXMgYSBrbm93biBpc3N1ZS4KPiA+Cj4gPiBZ
-b3UgY291bGQgdHJ5IHRoZSBhdHRhY2hlZCBwYXRjaCwgYnV0IHBsZWFzZSBiZSBhd2FyZSB0aGF0
-IGl0IGlzIG5vdAo+ID4gZXZlbiBjb21waWxlIHRlc3RlZCBiZWNhdXNlIG9mIHRoZSBFYXN0ZXIg
-aG9saWRheXMgaGVyZS4KPiA+Cj4KPiBMb29rcyBnb29kIHRvIG1lLCBzbyBpdCdzIHBpdHkgdGhh
-dCB0aGlzIHBhdGNoIGRpZCBub3QgZXhpc3QgaW4gdGhlCj4gcHVsbCByZXF1ZXN0IGh0dHBzOi8v
-cGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTE0OTIwODMvCgpJdCBzaG91bGQgc2hvdyB1cCBp
-biB0aGUgbmV4dCBkcm0tbWlzYyBQUjoKaHR0cHM6Ly9jZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0v
-ZHJtLW1pc2MvY29tbWl0Lz9oPWRybS1taXNjLWZpeGVzJmlkPTg2MjNiNTI1NWFlN2NjYWYyNzZh
-YWMzOTIwNzg3YmY1NzVmYTZiMzcKCkFsZXgKCj4KPiAtLQo+IEJlc3QgUmVnYXJkcywKPiBNaWtl
-IEdhdnJpbG92Lgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9y
-Zwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdm
-eApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Apr 20, 2020 at 12:02:39PM +0300, Joonas Lahtinen wrote:
+> I think the the patch should be dropped for now before the issue is
+> properly addressed. Either by backporting the mainline fixes or if
+> those are too big and there indeed is a smaller alternative patch
+> that is properly reviewed. But the above patch is not, at least yet.
+
+Why should a fix for a bona-fide issue be dropped due to political reasons? This
+doesn't make sense to me. This just hurts miserable i915 users even more. If my
+patch is going to be dropped, it should be replaced by a different fix at the
+same time.
+
+Also, the mainline fixes just *happen* to fix this deadlock by removing the
+mutex lock from the path in question and creating multiple other bugs in the
+process that had to be addressed with "Fixes:" commits. The regression potential
+was too high to include those patches for a "stable" kernel, so I made this
+patch which fixes the issue in the simplest way possible. We put this patch into
+Ubuntu now as well, because praying for a response from i915 maintainers while
+the 20.04 release was on the horizon was not an option.
+
+> There is an another similar thread where there's jumping into
+> conclusions and doing ad-hoc patches for already fixed issues:
+> 
+> https://lore.kernel.org/dri-devel/20200414144309.GB2082@sultan-box.localdomain/
+
+Maybe this wouldn't have happened if I had received a proper response for that
+issue on gitlab from the get-go... Instead I got the run-around from Chris
+claiming that it wasn't an i915 bug:
+
+https://gitlab.freedesktop.org/drm/intel/issues/1599
+
+> I appreciate enthusiasm to provide fixes to i915 but we should
+> continue do the regular due diligence to make sure we're properly
+> fixing bugs in upstream kernels. And when fixing them, to make
+> sure we're not simply papering over them for a single use case.
+> 
+> It would be preferred to file a bug for the seen issues,
+> describing how to reproduce them with vanilla upstream kernels:
+> 
+> https://gitlab.freedesktop.org/drm/intel/-/wikis/How-to-file-i915-bugs
+
+gitlab.freedesktop.org/drm/intel is where bugs go to be neglected, as noted
+above. I really see no reason to send anything there anymore, when the vast
+majority of community-sourced bug reports go ignored. 
+
+Sultan
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
