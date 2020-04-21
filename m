@@ -1,76 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7061B3824
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:55:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B73EC1B24F9
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 13:23:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA3B6E97A;
-	Wed, 22 Apr 2020 06:54:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38BFD6E918;
+	Tue, 21 Apr 2020 11:22:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF91A6E917
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 11:21:38 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id BAF3D58033F;
- Tue, 21 Apr 2020 07:21:35 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 21 Apr 2020 07:21:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=2qvNJ91IEb/AUiTXH8N0o6OegdF
- zI2xnwcLyFKBhmMg=; b=DNBSndQeBovAjuo60LXetRogX5AaJdhObX1sjwe4xcf
- CMMKX9QJTfF3+rlM36/XMBdZdLJXp1icf6pZtviVuNalueXOigbtH1QTRtnfsPtZ
- TVanzwcq2ykxH3BuowaZjElynooJjih7PGmbX1G9kYfeYGWuzIgsbBIHIYNi1+Y0
- qCjUhMSoau/3xr1yvYpU/Z3L+8mmxso/ek/ZXyer0tJEUcLEfZgonb2zrTShaDHs
- PhgJ9HkBexWIwEEfTZZ7g4BphUuRegIWwuSoCTIR8nTwkQAo/09Jg9+73e9ykzm0
- Qke4n693CDezgFuysXUZueqrhHDh2GQWkqp/d3k9GZg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=2qvNJ9
- 1IEb/AUiTXH8N0o6OegdFzI2xnwcLyFKBhmMg=; b=IJl+L5/geetMjN0XJzV3I6
- UmgXvOceReTexMcUdkNPZUUBWhzKBS0xqgmTKNzYFV3pD7V2bA+mZ6jggj+yubnE
- OPexT32D4Ok+h2o3gryATORbu2W667LHIzIK+TkxYZxngRmnL8SOMVgNdWxei0pm
- ICzB6Cm855XL/C4a+Hg8S2GrgtuPyqwG5b84k/fCS2ulC1U3Vm6nEJ0r/9gqt8r7
- Ave1Zuu5XyKUaX/4y2mQmePO54LN9NEp8RBRclCmvuzWFMAiEkxl9DFYpE/cqKRW
- yZaOK/zOseCiM/zs7u7U9pOztzOVoIzVpVsrwjsDcbZat7fL88C1oYrN6GEykR/Q
- ==
-X-ME-Sender: <xms:PNeeXnX3SmQG_u6OQi__5pBgi3j-koafOIeW1WBPVRoeu6KFqHqblg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrgeehgdegtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
- ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
- fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:PNeeXuEChcO2S-tZ7fJK0z9aQAzoj90uEOW7EOuqdXysmOZ60Ko7HQ>
- <xmx:PNeeXu6ewiM2DHh0QSD66uXdfHCHIQZfx3bLwEuShb8Ny4Dl5-0Dqg>
- <xmx:PNeeXscSi97OlRj2s-EX6uC6eUYe1bPw7EVnrbNk7R-Of5rCmeQ6GQ>
- <xmx:P9eeXuB6eG0fsJ1kExaStSp_hhHi7Bo7rTJCux1YR72gUeDHVqxesw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id EC25B328005D;
- Tue, 21 Apr 2020 07:21:31 -0400 (EDT)
-Date: Tue, 21 Apr 2020 13:21:29 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Philipp Rossak <embed3d@gmail.com>
-Subject: Re: [PATCH v6 00/12] ARM/MIPS: DTS: add child nodes describing the
- PVRSGX GPU present in some OMAP SoC and JZ4780 (and many more)
-Message-ID: <20200421112129.zjmkmzo3aftksgka@gilmour.lan>
-References: <cover.1586939718.git.hns@goldelico.com>
- <20200415101008.zxzxca2vlfsefpdv@gilmour.lan>
- <2E3401F1-A106-4396-8FE6-51CAB72926A4@goldelico.com>
- <20200415130233.rgn7xrtwqicptke2@gilmour.lan>
- <C589D06E-435E-4316-AD0A-8498325039E3@goldelico.com>
- <10969e64-fe1f-d692-4984-4ba916bd2161@gmail.com>
- <20200420073842.nx4xb3zqvu23arkc@gilmour.lan>
- <b5a06c19-7a3e-bcb8-5ae3-76901b9c6c35@gmail.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2071.outbound.protection.outlook.com [40.107.94.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 437DE6E915;
+ Tue, 21 Apr 2020 11:22:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ML7tO0PVofd6IohyidasbE+14yBh50DhDsUB/XMchXiOqqbZKHXmvxPfkridfUPd0EDsDiY06jd43ZN5tA9NMrKGSdQCBnKCValiIEdNoUIeKnvVMiPHMGmHqrzO2a8umC2XgJIXca06VuiUbWOrSnGC1LLg4WD2nLv+YQlpEmau3R+Qc4nxBwmWOoMUI0u4/vHpPTYX8BaO0hhge+wKXckd5qOvdpFECKiCgU7vM6iDPS/rU4CyJrR5Tnb+3bNsRvGA2M2zyaAebGw2aR8t62AgAeGkp9xhKS/RvO7bcc2gpyzfQuN7KDL0cDNwXbuxCIon+g8vMCdEKI8IsjPizQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Rs6AICS8p1PCY63kBZimaiO9wK+KBoeM4cctno0bHzU=;
+ b=Idl3GhaqvdI+V4z215OpoIrfUw/Y62QS2kU26yw/AaL+rCZMTeF4RFPqJn9at5Rcd2dTTFznro9mwAOBYjwV9zxvlPh9FBAp1prvq2vDm7RCXBeXv85PEpjH4c6PG+/7x0SxxaD4K8w8keiRFLCGEj8kwmQ4HaI+l1kuNSzzj+vndQM+GCPZkt8SK3AlBVohD1iLEsWZcDvRj9acRhL8vDlIoi+2wRP/MWZNjftX5y+vXlUWWlrLuXjoEfffcgVNc4MQFA1h3HYa5KYgQhBbTnJCsoi4ayl4eulNYnab5t9tYf090Y6njRgbxdC5riAq0PU5r3GEtK7RJcIiqyYhSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Rs6AICS8p1PCY63kBZimaiO9wK+KBoeM4cctno0bHzU=;
+ b=tMjqIakoqp29HV31WEJVAq+UdfnwRpWlzwY8OfjsmpRJG5LcmS0M2p8FK/JZyKKBL/MMF/lyTKFjfeBkVX/cPhiEc0B9v5hDuKmb4elkB5/wpoux7f3KT8XyrnihLN+7VSTOHLq0oUXXHaKt62Sd89Gz+oIY2gy44w3kitZGNrk=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Christian.Koenig@amd.com; 
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
+ by DM6PR12MB4092.namprd12.prod.outlook.com (2603:10b6:5:214::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Tue, 21 Apr
+ 2020 11:22:55 +0000
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::7949:b580:a2d5:f766]) by DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::7949:b580:a2d5:f766%3]) with mapi id 15.20.2921.030; Tue, 21 Apr 2020
+ 11:22:55 +0000
+Subject: Re: [PATCH] amdgpu: fixes memleak issue when init failed
+To: Bernard Zhao <bernard@vivo.com>, Alex Deucher
+ <alexander.deucher@amd.com>, "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Tom St Denis <tom.stdenis@amd.com>, Ori Messinger <Ori.Messinger@amd.com>,
+ Sam Ravnborg <sam@ravnborg.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20200421111715.1231-1-bernard@vivo.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <738537e5-9a1a-25c8-3dd0-b1f5fd045979@amd.com>
+Date: Tue, 21 Apr 2020 13:22:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+In-Reply-To: <20200421111715.1231-1-bernard@vivo.com>
+Content-Language: en-US
+X-ClientProxiedBy: AM3PR05CA0147.eurprd05.prod.outlook.com
+ (2603:10a6:207:3::25) To DM6PR12MB4401.namprd12.prod.outlook.com
+ (2603:10b6:5:2a9::15)
 MIME-Version: 1.0
-In-Reply-To: <b5a06c19-7a3e-bcb8-5ae3-76901b9c6c35@gmail.com>
-X-Mailman-Approved-At: Wed, 22 Apr 2020 06:54:41 +0000
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM3PR05CA0147.eurprd05.prod.outlook.com (2603:10a6:207:3::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2921.25 via Frontend Transport; Tue, 21 Apr 2020 11:22:52 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: a6d5d009-78b7-4700-2d5b-08d7e5e65657
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4092:|DM6PR12MB4092:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB40926CB0AC40952B26684D7383D50@DM6PR12MB4092.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:901;
+X-Forefront-PRVS: 038002787A
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4401.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10009020)(4636009)(376002)(366004)(136003)(346002)(39860400002)(396003)(8676002)(86362001)(110136005)(81156014)(186003)(6486002)(16526019)(8936002)(316002)(36756003)(31686004)(31696002)(478600001)(2906002)(66946007)(4326008)(66556008)(66476007)(52116002)(6666004)(2616005)(5660300002)(921003);
+ DIR:OUT; SFP:1101; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ro6dKssc6Xoll+rIkVijxGtN9aoaqHLwhva4GPMtJVtkDVKoidvwkF5WEvv9Mm9fkliEi8YY3AgYDQ6CMb4+jVQOaXnhH0WdDFIhWeFoJJSXBVO6ZZx9ABP3LHVRzc57ewNInPRnAUOv7wbuwRTbCXAjY3UL3rIcMbrrQxmXIOjEjRpP3ZQDkgspm6+XOfFJ9rYql9ZMsBjnDPjWNgMiONCfO4fEMSbDK/1BNV5l03Qo96ihKELL8E3XiKvGp64xcsR2TkVsLI9tFSJifBvL0aU6xL4jvKzUNf6S/DeP7bblOuFv0zm/j8JzQar7kXEqMbDyrtQy/1L28mEJwiaMcu+1a40WE7DPZQH4cnZYNKeDhb2HmUTx/9ou/I3kppUD/MA/yXpMok2hgxbH+OBa7Q/htl2IuTsIPrAehWuWr89zKrlEI7qpRxBeAclcPY60m3G7NA6TfzkqOTycZa2nf4K99mT/ss8YZcC+0jRSJY0=
+X-MS-Exchange-AntiSpam-MessageData: CMUz8vPcnBp5m2eXZWij7dBzLD51fL14Get60rJi1vPARrZGT+NNm6L3jbkB4jpJVctQ8r3PbgTJB+7BEK3Ehfb4K1sedD/laAquAf2fDucBJbf8ll3C6oVJ5TzZ96HJURdARUo1H4Dav3jcikcXp/zD3BEOMuyEnD11PvH/yN9dEARPWdWtcXxDujn+aFnCICRluwihcPTmrqNEf5b2Yuxj46NB2l+SBAnRfhuTl0kYbIb51vRWI5mBV3qqzUnTnMyIRIOyGC4sHGKV5aV2SNB+4LPjEoexMSi11HwzbluF1bCdpWZ+jLmhX/bzOJl/GBCBgxGnmOWOujXGzLQ0AwBhruuzvMNWSX/pDUwUSjKlw4/nxzN9KbehZc7Og4F4T+T8K/m0RoEdn2v6SFb2JJdjUuhXi2qhPR2Bk3zkzWhWhac+1eQq9Q4PBCFcOJHcii4A9OzNIGqmaWBpaSPu7/4g7cK3lbIfP8JIeD0xFvBIDrLJteHsJoAfgBunyakALES7iHuFPvFqhD+WM6FW+M4m9a9Jw6ESBU1KYXX/Zthf8jX9xb6vXLzhFsH/lQCn4poWlD6pQ9dPIy7Mfl8m/3pBSvTXgIHOwvtW484DwORL3YyHtGU2sadq2swlRhp4kBiohHcfLotqCDn1JVAcCzjmKs5PVGj8ej8dQ3AQwazAN2AVRQeeBv/x7Cj8h6Zek0SXE7yVLPun7ULkILoGCY7wPN25eTcF/p7+mV1sa7Y/OJGOooNI0AUnvXd1A0r0wvxV36vScbaCy1TXdYV5lt+Nb10XXWyD3D0KuWHdWzMl7qF/uproCmquImtA2IjWnF00WX68wkijaQZ405gBQxvuFCXOwq/I5Qpuo2f+I1k=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6d5d009-78b7-4700-2d5b-08d7e5e65657
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 11:22:55.1878 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dVE1zkraV3suuiuUZ7jYwAx2EiAjOsVzfqIxv82hspcyMcuuZEG7ubo/7g5Zud55
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4092
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,153 +104,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- linux-samsung-soc@vger.kernel.org,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Tony Lindgren <tony@atomide.com>, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>, James Hogan <jhogan@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, linux-omap <linux-omap@vger.kernel.org>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- OpenPVRSGX Linux Driver Group <openpvrsgx-devgroup@letux.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>, kernel@pyra-handheld.com
-Content-Type: multipart/mixed; boundary="===============0475543182=="
+Cc: opensource.kernel@vivo.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 21.04.20 um 13:17 schrieb Bernard Zhao:
+> VRAM manager and DRM MM when init failed, there is no operaction
+> to free kzalloc memory & remove device file.
+> This will lead to memleak & cause stability issue.
 
---===============0475543182==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="bsmwn6lsujflbhcr"
-Content-Disposition: inline
+NAK, failure to create sysfs nodes are not critical.
 
+Christian.
 
---bsmwn6lsujflbhcr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Tue, Apr 21, 2020 at 11:57:33AM +0200, Philipp Rossak wrote:
-> On 20.04.20 09:38, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Fri, Apr 17, 2020 at 02:09:06PM +0200, Philipp Rossak wrote:
-> > > > > I'm a bit skeptical on that one since it doesn't even list the
-> > > > > interrupts connected to the GPU that the binding mandates.
-> > > >=20
-> > > > I think he left it out for a future update.
-> > > > But best he comments himself.
-> > >=20
-> > > I'm currently working on those bindings. They are now 90% done, but t=
-hey are
-> > > not finished till now. Currently there is some mainline support missi=
-ng to
-> > > add the full binding. The A83T and also the A31/A31s have a GPU Power=
- Off
-> > > Gating Register in the R_PRCM module, that is not supported right now=
- in
-> > > Mainline. The Register need to be written when the GPU is powered on =
-and
-> > > off.
-> > >=20
-> > > @Maxime: I totally agree on your point that a demo needs to be provid=
-ed
-> > > before the related DTS patches should be provided. That's the reason =
-why I
-> > > added the gpu placeholder patches.
-> > > Do you have an idea how a driver for the R_PRCM stuff can look like? =
-I'm not
-> > > that experienced with the clock driver framework.
-> >=20
-> > It looks like a power-domain to me, so you'd rather plug that into the =
-genpd
-> > framework.
->=20
-> I had a look on genpd and I'm not really sure if that fits.
->=20
-> It is basically some bit that verify that the clocks should be enabled or
-> disabled.
-
-No, it can do much more than that. It's a framework to control the SoCs pow=
-er
-domains, so clocks might be a part of it, but most of the time it's going t=
-o be
-about powering up a particular device.
-
-> I think this is better placed somewhere in the clocking framework.
-> I see there more similarities to the gating stuff.
-> Do you think it is suitable to implement it like the clock gating?
-
-I'm really not sure what makes you think that this should be modelled as a
-clock?
-
-> > > The big question is right now how to proceed with the A83T and A31s p=
-atches.
-> > > I see there three options, which one do you prefer?:
-> > >=20
-> > > 1. Provide now placeholder patches and send new patches, if everythin=
-g is
-> > > clear and other things are mainlined
-> > > 2. Provide now patches as complete as possible and provide later patc=
-hes to
-> > > complete them when the R_PRCM things are mainlined
-> > > 3. Leave them out, till the related work is mainlined and the binding=
-s are
-> > > final.
-> >=20
-> > Like I said, the DT *has* to be backward-compatible, so for any DT patc=
-h that
-> > you are asking to be merged, you should be prepared to support it indef=
-initely
-> > and be able to run from it, and you won't be able to change the binding=
-s later
-> > on.
->=20
-> I agree on your points. But is this also suitable to drivers that are
-> currently off tree and might be merged in one or two years?
-
-This is what we done for the Mali. The devicetree binding was first done fo=
-r the
-out-of-tree driver, and then lima/panfrost reused it.
-
-The key thing here is to have enough confidence about how the hardware work=
-s so
-that you can accurately describe it.
-
-Maxime
-
---bsmwn6lsujflbhcr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXp7XOQAKCRDj7w1vZxhR
-xY2FAP98NEADiujPOYdZcBw58gJhiTHRG5M+7cY4QmY6LLWi6wEAmaVzzE9csrhP
-gszgPuCUwSKxGaUpbu0VHqeb3LVqwQs=
-=LITU
------END PGP SIGNATURE-----
-
---bsmwn6lsujflbhcr--
-
---===============0475543182==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+>
+> Signed-off-by: Bernard Zhao <bernard@vivo.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 24 ++++++++++++++++----
+>   1 file changed, 19 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> index 82a3299e53c0..4c5fb153e6b4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> @@ -175,30 +175,44 @@ static int amdgpu_vram_mgr_init(struct ttm_mem_type_manager *man,
+>   	ret = device_create_file(adev->dev, &dev_attr_mem_info_vram_total);
+>   	if (ret) {
+>   		DRM_ERROR("Failed to create device file mem_info_vram_total\n");
+> -		return ret;
+> +		goto VRAM_TOTAL_FAIL;
+>   	}
+>   	ret = device_create_file(adev->dev, &dev_attr_mem_info_vis_vram_total);
+>   	if (ret) {
+>   		DRM_ERROR("Failed to create device file mem_info_vis_vram_total\n");
+> -		return ret;
+> +		goto VIS_VRAM_TOTA_FAIL;
+>   	}
+>   	ret = device_create_file(adev->dev, &dev_attr_mem_info_vram_used);
+>   	if (ret) {
+>   		DRM_ERROR("Failed to create device file mem_info_vram_used\n");
+> -		return ret;
+> +		goto VRAM_USED_FAIL;
+>   	}
+>   	ret = device_create_file(adev->dev, &dev_attr_mem_info_vis_vram_used);
+>   	if (ret) {
+>   		DRM_ERROR("Failed to create device file mem_info_vis_vram_used\n");
+> -		return ret;
+> +		goto VIS_VRAM_USED_FAIL;
+>   	}
+>   	ret = device_create_file(adev->dev, &dev_attr_mem_info_vram_vendor);
+>   	if (ret) {
+>   		DRM_ERROR("Failed to create device file mem_info_vram_vendor\n");
+> -		return ret;
+> +		goto VRAM_VERDOR_FAIL;
+>   	}
+>   
+>   	return 0;
+> +
+> +VRAM_VERDOR_FAIL:
+> +	device_remove_file(adev->dev, &dev_attr_mem_info_vis_vram_used);
+> +VIS_VRAM_USED_FAIL:
+> +	device_remove_file(adev->dev, &dev_attr_mem_info_vram_used);
+> +RVAM_USED_FAIL:
+> +	device_remove_file(adev->dev, &dev_attr_mem_info_vis_vram_total);
+> +VIS_VRAM_TOTA_FAIL:
+> +	device_remove_file(adev->dev, &dev_attr_mem_info_vram_total);
+> +VRAM_TOTAL_FAIL:
+> +	kfree(mgr);
+> +	man->priv = NULL;
+> +
+> +	return ret;
+>   }
+>   
+>   /**
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0475543182==--
