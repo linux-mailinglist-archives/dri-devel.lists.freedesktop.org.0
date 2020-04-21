@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A94A1B1B67
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 03:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22FC31B1F25
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:49:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9E886E200;
-	Tue, 21 Apr 2020 01:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C04456E8C4;
+	Tue, 21 Apr 2020 06:48:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 064A16E200;
- Tue, 21 Apr 2020 01:52:50 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 495mmD1y73z9sP7;
- Tue, 21 Apr 2020 11:52:43 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1587433968;
- bh=dcUAjJ2YJIPcKjtL3wg3Tuk27IdwMehCCVY6JTOAw1E=;
- h=Date:From:To:Cc:Subject:From;
- b=JNdxsR9PF+B4CRxWmv3jF7EQ02zp/iKtW9THCtCW9RpWDwZQtjW8U7p80ccJr5hae
- ggw2Ok0fm3xKBrEOAdtl5I4LSMdXnSwSSIsqp73ezcimqFMT/eUp3OzDn15Yv0pgPH
- 3sEbA40XxqsMLKK5Jb7G+tg+GFqqIBAqI/sRkdrIVh2f32hP+GggeEIeFY3otsmVyZ
- 2sMo0EMGYGt0+PzyaIy4SUGJDfOBnBaVDeO08L252EaWxL9WDz8Hypos1h863ppnzZ
- XWQGwemazVDpiuCH6SjvSk7sj/ooeOYgwqgVZudsvFiJF0LsMR74xurp7/8DxfBsOe
- EHyU/6k6NaI3A==
-Date: Tue, 21 Apr 2020 11:52:41 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-misc tree with the
- drm-misc-fixes tree
-Message-ID: <20200421115241.704f2fbf@canb.auug.org.au>
-MIME-Version: 1.0
+Received: from m176115.mail.qiye.163.com (m176115.mail.qiye.163.com
+ [59.111.176.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69F2D6E86D
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 02:08:09 +0000 (UTC)
+Received: from ubuntu.localdomain (unknown [157.0.31.122])
+ by m176115.mail.qiye.163.com (Hmail) with ESMTPA id DF450664DB9;
+ Tue, 21 Apr 2020 10:08:02 +0800 (CST)
+From: Bernard Zhao <bernard@vivo.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Lyude Paul <lyude@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Bernard Zhao <bernard@vivo.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] amdgpu: fixes error branch not return errno issue
+Date: Mon, 20 Apr 2020 19:07:50 -0700
+Message-Id: <1587434874-123252-1-git-send-email-bernard@vivo.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1587202042-115745-1-git-send-email-bernard@vivo.com>
+References: <1587202042-115745-1-git-send-email-bernard@vivo.com>
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSlVOTE5CQkJCTE5JS09PTFlXWShZQU
+ hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mz46MRw4EjgxGgMvA0IzLE5K
+ TyEKCjdVSlVKTkNMT0hPQ0NITUpNVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSUlZV1kIAVlBT05CSDcG
+X-HM-Tid: 0a719a7e090d9373kuwsdf450664db9
+X-Mailman-Approved-At: Tue, 21 Apr 2020 06:48:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,77 +52,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: multipart/mixed; boundary="===============1875992960=="
+Cc: opensource.kernel@vivo.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1875992960==
-Content-Type: multipart/signed; boundary="Sig_/q6d+VS6IJMID_hHtC8zLY7g";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+The "if(!encoder)" branch return the same value 0 of the success
+branch, maybe return -EINVAL is more better.
 
---Sig_/q6d+VS6IJMID_hHtC8zLY7g
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
 
-Hi all,
+---
+Changes since V1:
+* commit message improve
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Today's linux-next merge of the drm-misc tree got a conflict in:he drm-misc=
- tree with the drm-misc-fixes tree
-
-  drivers/gpu/drm/tidss/tidss_encoder.c
-
-between commit:
-
-  9da67433f64e ("drm/tidss: fix crash related to accessing freed memory")
-
-from the drm-misc-fixes tree and commit:
-
-  b28ad7deb2f2 ("drm/tidss: Use simple encoder")
-
-from the drm-misc tree.
-
-I fixed it up (I just used the latter version of this file) and can
-carry the fix as necessary. This is now fixed as far as linux-next is
-concerned, but any non trivial conflicts should be mentioned to your
-upstream maintainer when your tree is submitted for merging.  You may
-also want to consider cooperating with the maintainer of the conflicting
-tree to minimise any particularly complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/q6d+VS6IJMID_hHtC8zLY7g
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl6eUekACgkQAVBC80lX
-0Gz6JAgAkmrmiMLfCI2OjzKabtaC7XpRHlyRj3kBAUcrMAJ5SJyTWqAg0XRSbh4C
-JUNvPZUthTxLKvOgI3JaTD3Ue9/9AkExIAxM5lc6sMG4H5bV+6xAAr0vdkFxW4k4
-EwZ1Ejd3tHr+CTz8X5CB27195yC3vq0TTxhE6F7nXIxr1/VAjL5iJ8eM7jhj6myh
-FtOb7GQxs9rSaa6d85ZiCtop/C1j/e6jccrtNH9XHRM54ppa/7yTwEpSwnnN9Vs9
-kz85bKzuZ+1Lv2z2LQlynykF8WWgclyeJI/S900Dkt1/h4d6b+Q2a2RHCAmwBe98
-lwkK+BQb1YLNEtXWkQ7+MGHswJxSQw==
-=JWOC
------END PGP SIGNATURE-----
-
---Sig_/q6d+VS6IJMID_hHtC8zLY7g--
-
---===============1875992960==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index f355d9a..1f8c6b4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -474,12 +474,12 @@ static int amdgpu_connector_set_property(struct drm_connector *connector,
+ 		/* need to find digital encoder on connector */
+ 		encoder = amdgpu_connector_find_encoder(connector, DRM_MODE_ENCODER_TMDS);
+ 		if (!encoder)
+-			return 0;
++			return -EINVAL;
+ 
+ 		amdgpu_encoder = to_amdgpu_encoder(encoder);
+ 
+ 		if (!amdgpu_encoder->enc_priv)
+-			return 0;
++			return -EINVAL;
+ 
+ 		dig = amdgpu_encoder->enc_priv;
+ 		new_coherent_mode = val ? true : false;
+@@ -494,7 +494,7 @@ static int amdgpu_connector_set_property(struct drm_connector *connector,
+ 		/* need to find digital encoder on connector */
+ 		encoder = amdgpu_connector_find_encoder(connector, DRM_MODE_ENCODER_TMDS);
+ 		if (!encoder)
+-			return 0;
++			return -EINVAL;
+ 
+ 		amdgpu_encoder = to_amdgpu_encoder(encoder);
+ 
+@@ -509,7 +509,7 @@ static int amdgpu_connector_set_property(struct drm_connector *connector,
+ 		/* need to find digital encoder on connector */
+ 		encoder = amdgpu_connector_find_encoder(connector, DRM_MODE_ENCODER_TMDS);
+ 		if (!encoder)
+-			return 0;
++			return -EINVAL;
+ 
+ 		amdgpu_encoder = to_amdgpu_encoder(encoder);
+ 
+@@ -523,7 +523,7 @@ static int amdgpu_connector_set_property(struct drm_connector *connector,
+ 		/* need to find digital encoder on connector */
+ 		encoder = amdgpu_connector_find_encoder(connector, DRM_MODE_ENCODER_TMDS);
+ 		if (!encoder)
+-			return 0;
++			return -EINVAL;
+ 
+ 		amdgpu_encoder = to_amdgpu_encoder(encoder);
+ 
+@@ -537,7 +537,7 @@ static int amdgpu_connector_set_property(struct drm_connector *connector,
+ 		/* need to find digital encoder on connector */
+ 		encoder = amdgpu_connector_find_encoder(connector, DRM_MODE_ENCODER_TMDS);
+ 		if (!encoder)
+-			return 0;
++			return -EINVAL;
+ 
+ 		amdgpu_encoder = to_amdgpu_encoder(encoder);
+ 
+@@ -551,7 +551,7 @@ static int amdgpu_connector_set_property(struct drm_connector *connector,
+ 		/* need to find digital encoder on connector */
+ 		encoder = amdgpu_connector_find_encoder(connector, DRM_MODE_ENCODER_TMDS);
+ 		if (!encoder)
+-			return 0;
++			return -EINVAL;
+ 
+ 		amdgpu_encoder = to_amdgpu_encoder(encoder);
+ 
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1875992960==--
