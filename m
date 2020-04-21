@@ -1,66 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC6E1B29E9
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 16:33:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 016221B29EB
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 16:33:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B39D6E994;
-	Tue, 21 Apr 2020 14:33:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E73C46E999;
+	Tue, 21 Apr 2020 14:33:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4DC66E994
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 14:33:13 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id u15so14235508ljd.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 07:33:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=n2Enz+qkiWfSIjuQiWp5VZaOPu5Co+Ge7Wyk9JqMlOA=;
- b=KY4skzPgsXZxF6fC/TnollEnsqwNds4X+kg17WrGTZ+SKwmVOJZ6nuV/6o9joZfa7P
- CHmfjCHLv8U7EZS775mSvrQ/lV4M2XK6HpogXchi9Wpjd70gD8raDgUYH1M40yMc68k9
- vD+YN/HBUX4w2fp0kGsW7oHKXyVd8DN2uf4tzsd8FMS2xc+Uhu0Opc2IcWBss6MvMi2D
- 4W/0IkJwby8mSuzEHgkJ4xmcR+y12H3s6yD6JsYw80Q8k8fjJGDl29q9EpIDPigi7jH3
- tBZae6hSL5obvIEXWywtI7RBFHLjaxVl7bA/GtATIZNiEMnFWQTa3qDXCd6WUVVIGSaH
- K5vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=n2Enz+qkiWfSIjuQiWp5VZaOPu5Co+Ge7Wyk9JqMlOA=;
- b=e6s4vlRdH/R4p1A7EkVRSGOsynErR0b26f0oWK61AZ0cmT4oPHvFsqnwkuXFE7aW//
- FTp+uBpzfLZ5X0d4tF8JDY4Qmksm65zAh0g0kRqDb57LVAELhqNYKXkhK9Nb0Q7wsbZk
- Rf39L9R29z22KzCN0K29/KZGuFaAh9pbEjBDZ8O+Yf0hfJeqSby+NqnE5LXFCqhCRfoD
- YcGvF7SsfGX0qy/BSxTl1k4GoXCw9nFSiDwfK1KICg8GhpptmqXR95gik+t0vdxmgC6W
- 3AcER7cPuMh8dDRTve4Tar48xUeWmjdrjnGAlX2qlNvI1abU9TncRILdZgFo1u+BS7NQ
- lniw==
-X-Gm-Message-State: AGi0PuZmpRL5BXbWJZh/oeHukiFUgVMtfTSnPj7nqJZOJZ0Txi7t3xB8
- bJJhMWiyiN6ayaV9M+WLkg4=
-X-Google-Smtp-Source: APiQypKiIgB7waLOabr+u9W6gTw7chyNE+Wlv8KeRCE96at1VDZamwp3rGB7ruOARhzuiYUpPB9DWA==
-X-Received: by 2002:a05:651c:8a:: with SMTP id 10mr13597892ljq.6.1587479592041; 
- Tue, 21 Apr 2020 07:33:12 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id x11sm2067684ljj.15.2020.04.21.07.33.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 07:33:11 -0700 (PDT)
-Date: Tue, 21 Apr 2020 17:33:00 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: Operating KMS UAPI (Re: RFC: Drm-connector properties managed
- by another driver / privacy screen support)
-Message-ID: <20200421173300.3cd078f4@eldfell.localdomain>
-In-Reply-To: <20200421121552.GT3456981@phenom.ffwll.local>
-References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
- <87tv1k4vl6.fsf@intel.com>
- <d47ba6ef-efd0-9f28-1ae4-b971b95a8f8b@redhat.com>
- <20200417120226.0cd6bc21@eldfell.localdomain>
- <CAKMK7uEv_khNFC=JUyuQgDZp1p5eudDCrH0we+UdEdTV3H=Tsg@mail.gmail.com>
- <20200420112704.68d02472@eldfell.localdomain>
- <20200420130420.1a24197e@eldfell.localdomain>
- <20200421121552.GT3456981@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2060.outbound.protection.outlook.com [40.107.93.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 684F96E998;
+ Tue, 21 Apr 2020 14:33:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Oo6o0dB7K7E51Xn9niJ8rM1u1Cvt0C8GOlSF6kAVPE4MPu4dYP6g7M/pfCqoLAliISDQpnCfef42KzbeBeUj2FNaAxlG0aMudU4kujgpgPQtfHxQB4eEKPhMqenkWs8TLWP9+sadtpNNMCQa+szY6ixAAh/Wwfalstp6r0DLlUPqV46qPlBZ/j3gwtTxClBDcEnVgwcEdGcbgAJNWCb1yRePPbGLOqTzlTVIJVl0iVNOjB9Tm6fUYyPzNNLKwYyC40S5m/g55zsijEPYA2gJoJpNQaSHvKcM4jeuvZjeGmvI6Evq+Hgpg631lWG1fjkUJcP7NWRWFwBiUgDijP3yLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jk8SnTOMuCtDyziCXVsLuYdKX2mvWN7mhwxtsad9YQc=;
+ b=Q5phmUjVjU9hhCY96jxnVKXMEsot7vA1iWzVlIzI++yekWHrRc8Q8piCPxXwbKZCYXmAAZQVlUQ9yrZf9OydT1SYAn2b2fI4um0EVC2ju+s3+LF8zgEgYFIKanRoXJoeMveFbj/qOpOqv1e98QSVjDl7tL6kpKpOugE1n94iS8jZhuosqnfcKBKwudB2Q3BIN3g5ODk8a4PSCuTJnCCcMkPy/3K/mhCPBHBHUWx//XUFtFlbx1RKufjYr88iTtCgU1nHSTqUKmZYuK52gQzzpUZKRnjXLhgouLS/uLxCOGJ696D38HWjADexTJJuKi0MEXW2kSUGwRFrag6e/BZ2pg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jk8SnTOMuCtDyziCXVsLuYdKX2mvWN7mhwxtsad9YQc=;
+ b=zutJaPvKGMBlcdOz3GGmqVQnhQSIXGpBARndySgsADP6f0jUJsRAVexzkMSAn4ClDew5vfU14FqaQdzjfWpfrL4gGDKDWhdZ11qTlkWzv2aiiWx9GfJe+KJ0XItFSsWBLvjYWY0HfwV/txcCTu7ZOdA2mSQS7yaswA2TMD2gg38=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Christian.Koenig@amd.com; 
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
+ by DM6PR12MB3051.namprd12.prod.outlook.com (2603:10b6:5:119::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Tue, 21 Apr
+ 2020 14:33:25 +0000
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::7949:b580:a2d5:f766]) by DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::7949:b580:a2d5:f766%3]) with mapi id 15.20.2921.030; Tue, 21 Apr 2020
+ 14:33:23 +0000
+Subject: Re: [PATCH] drm: amdgpu: fix kernel-doc struct warning
+To: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org
+References: <20200420015015.27991-1-rdunlap@infradead.org>
+ <20200420015015.27991-2-rdunlap@infradead.org>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <128ebc30-e62b-b928-cf92-9ca331bfb6b5@amd.com>
+Date: Tue, 21 Apr 2020 16:33:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+In-Reply-To: <20200420015015.27991-2-rdunlap@infradead.org>
+Content-Language: en-US
+X-ClientProxiedBy: AM0PR10CA0004.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:17c::14) To DM6PR12MB4401.namprd12.prod.outlook.com
+ (2603:10b6:5:2a9::15)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR10CA0004.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend
+ Transport; Tue, 21 Apr 2020 14:33:21 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3357091b-17d5-45c9-f331-08d7e600f201
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3051:|DM6PR12MB3051:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB30518681A2C8A995543337DC83D50@DM6PR12MB3051.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 038002787A
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4401.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10009020)(4636009)(376002)(136003)(366004)(346002)(39860400002)(396003)(4326008)(16526019)(6666004)(31696002)(86362001)(6486002)(36756003)(478600001)(66476007)(2616005)(5660300002)(8676002)(2906002)(52116002)(81156014)(66946007)(66556008)(31686004)(186003)(8936002)(54906003)(66574012)(316002);
+ DIR:OUT; SFP:1101; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pf1VOIJwfAlBcYic+BzWWKfsz4EMfl5V+EF6sLv4XzslkbDYGZtsFiE3Ell+rB+/xgJkXXdvHUiVyeqngLS0A5zAIRlRhXayMYNAnKNeVzBArGHLowTYd0f1koBI4a3+2IJF6M3xftF4/sa6G9OiWSKWN1bY6XQuIiT1nz6aTTBmo9w4/mJDX+XCVK2RpUrjhiQBoxXCNuxhlu6fA9qXGlLa/urEFrj70FIprFcPfHZDhFvZy30Ack+rpegeICF+hffHlHeFpTPtPoOs6BTnYZSQEnG6NmdbsjNqH8ccehGjsJcIuZLZj1TkimtZqdBjPtUYwbQ8DQDsMbNsQfx88oSaVr6OMzKkWoxyYVm0rxrnFozZY5QaEXTwyFis5+9jxZMjhtlbae5XAUMKHFvlGuDNx6iMefUovLOnn6Le7KVdVqnjHx7RfW8lgGOiotxQ
+X-MS-Exchange-AntiSpam-MessageData: 1x8DA54TZ0RYpwvm0/a07JJb4htIfWOvvU2BcjR0krtKnEc/RlBg1oco/wzfCxihrmwZS9gh0rWbUgtTcsWXJFBkZ+/zLC7GYQafnr+0ByLmZ2FeitR9rVA7qfCrDTuyPgcTKsVjBNMqFKV2NNzUs5WkxezBiVnAqW1hYsR5yQoORYeD3tbl+mt2Lbcg0cSrSuEDAa6vXcUFVJ42KlxIyRDil4q/BmuSfnTd2M8Fb9sj+XLJxJquHiG8ihTw5mm4VQlx65GSpKpB+Nio6XUDZMJEVNojXdq19yx/1pLw6ozvKo/ByfSBwkOh/VvV8iJRLeaVnLqYndZbxP1APYnPvhay/MgmDFkEC6RHpIz7+qeyHFMjJtdyzU+LlBEM+QQzviEIiz2ah4VmUQP8iPY+y2CL5f3o3nkUxJYhBxnPHQW+KCY5r2l9nB+j3IhjsYyODJ44CP9tRp6AoJH9k1udLC7tiAj2gqnt2pHX1r15PK2wuXw5w8L2mq25aEnlkcYMsL8nPQxF9NoHED++CXofBynhrI6AJqqzHqATOjW5N87f9nV5Hsr4UAlgnyWLAm4W1u8mEhnPNaDo9uNoT7ftXMSxUx6OphZSG/wBFiEjzHWoefuzOrE+VxvA/vPCBXbVoV9hmFwxCDjS98QHjP2NCv2aw8jlK1UxdmU5ZX7uGHKWBOShbasdY2XYnwwV4aFAR+3S32HowPNrrXY4njJGqX7D7fZ4mnteXVjY+CxL9cqlNSsX4tRFn0NadmJnu8f8r7JR7M++CjSppA85L0E5xaqGLyts4oyf5gaNT4yGWo2HjFIhXTU2lI9UuT5rW5tMh/MaW9NQyIRtyv0K89jMVlgS9SHIgsT3utu7hYQWAI4=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3357091b-17d5-45c9-f331-08d7e600f201
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 14:33:23.3634 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MiHiWuqMiQGBKQyJ0Gh4g4cEFGOXBUWhN6s9KnvtnyPEI0QbBvoocJ4JfeLzqT45
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3051
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,266 +101,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Berg <bberg@redhat.com>, David Airlie <airlied@linux.ie>,
- Christian Kellner <ckellner@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Nitin Joshi1 <njoshi1@lenovo.com>, Rajat Jain <rajatja@google.com>,
- Mark Pearson <mpearson@lenovo.com>
-Content-Type: multipart/mixed; boundary="===============0382221639=="
+Cc: "Signed-off-by : Alex Sierra" <alex.sierra@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0382221639==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/aCZHHtoUqUcA6lNSfp/dkhV"; protocol="application/pgp-signature"
-
---Sig_/aCZHHtoUqUcA6lNSfp/dkhV
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 21 Apr 2020 14:15:52 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
-
-> On Mon, Apr 20, 2020 at 01:04:20PM +0300, Pekka Paalanen wrote:
-> > On Mon, 20 Apr 2020 11:27:04 +0300
-> > Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> >  =20
-> > > On Fri, 17 Apr 2020 16:17:18 +0200
-> > > Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >  =20
-> > > > On Fri, Apr 17, 2020 at 11:02 AM Pekka Paalanen <ppaalanen@gmail.co=
-m> wrote:   =20
-> > > > >
-> > > > > Hi,
-> > > > >
-> > > > > let's think about how userspace uses atomic KMS UAPI. The simples=
-t way
-> > > > > to use atomic correctly is that userspace will for every update s=
-end the
-> > > > > full, complete set of all properties that exist, both known and u=
-nknown
-> > > > > to userspace (to recover from temporarily VT-switching to another=
- KMS
-> > > > > program that changes unknown properties). Attempting to track whi=
-ch
-> > > > > properties already have their correct values in the kernel is ext=
-ra
-> > > > > work for just extra bugs.     =20
-> > > >=20
-> > > > Uh if you do that you'll get random surprising failures if you don't
-> > > > also set ALLOW_MODESET, because that way you'll automatically repair
-> > > > link failures and stuff like that. I'm assuming your userspace only
-> > > > supplies all the properties for crtc and planes, and leaves connect=
-ors
-> > > > as-is? Otherwise you already have some fun bugs.
-> > > >=20
-> > > > In general I'd say userspace shouldn't write stuff it doesn't
-> > > > understand. If you limit yourself to just the properties you do want
-> > > > to (re)set, that's safe. But if you just blindly write everything a=
-ll
-> > > > the time, random modesets, and hence random failures if you don't s=
-et
-> > > > ALLOW_MODESET.   =20
-> > >=20
-> > > Hi,
-> > >=20
-> > > how should userspace KMS program A recover from the situation when
-> > > switching the VT back from KMS program B who changed properties that
-> > > program A does not recognise? (I believe Weston does not recover at
-> > > the moment.) This is very important for getting e.g. reliable color
-> > > reproduction, since not all KMS programs are always up-to-date with
-> > > everything the kernel exposes and people may switch between them. Not
-> > > resetting everything may even encourage people to write hacks where y=
-ou
-> > > temporarily VT-switch away, run a KMS program to set one property, and
-> > > then switch back assuming the property remains set. I have already se=
-en
-> > > someone mention they can enable VRR behind the display server's back
-> > > like this.
-> > >=20
-> > > I don't think Weston records and re-sets unknown properties yet, but I
-> > > assumed it is what it needs to do to be able to reliably recover from
-> > > VT-switches. In that case ALLOW_MODESET is of course set since all
-> > > state is unknown and assumed bad.
-> > >=20
-> > > I do believe Weston re-submits *everything* it knows about every
-> > > update, except for CRTCs and connectors it has already disabled and
-> > > knows are in disabled state (this could change though).
-> > >=20
-> > > However, during steady-state operation when ALLOW_MODESET should not =
-be
-> > > necessary, is it still harmful to re-program *all* properties on every
-> > > update?
-> > >=20
-> > > After all, the kernel will just no-op all property setting where the
-> > > value is already the right one, does it not?
-> > >=20
-> > > The only "random" KMS state is the properties the userspace KMS
-> > > program does not know that are set on start-up. I have been assuming
-> > > that as long as you had fbdev active before the KMS program started,
-> > > the unknown properties have "harmless" default values. And maybe even=
- at
-> > > driver device init if fbdev does not exist?
-> > >=20
-> > > Is there something more up-to-date than
-> > > https://blog.ffwll.ch/2016/01/vt-switching-with-atomic-modeset.html ?=
- =20
->=20
-> Sadly, nothing changed since then.
->=20
-> > Thinking more, would the below work? =20
->=20
-> Yup, this would somewhat work. Except not always, I've found one case
-> where even this goes wrong:
->=20
-> - Content-protection property, if enabled, has the kernel automatically
->   switch to enabled if hdcp is actually on and authenticated and all that.
->   Writing back that enabled value will fail. But there's good chances that
->   at boot-up content protection isn't enabled, so should work out nicely.
->=20
-> - We could fix this by silently downcasting enabled to requested, but
->   might still lead to surprises since it makes hdcp rather more sticky
->   than some users might like.
-
-The fix doesn't make HDCP any more or less sticky, it just makes it
-possible to not fail a resetting atomic commit. Without a resetting
-commit, it will remain DESIRED/ENABLED.
-
-If "Content Protection" reads back as DESIRED, userspace that relies on
-read-back for reset will reset it to DESIRED. Could as well be ENABLED
-that the kernel just takes as DESIRED when written.
-
-> > Actor: a KMS userspace program, e.g. a display server
-> >=20
-> > - On start-up, read all KMS properties and their values. The properties
-> >   that are not recognised are saved in a set called "reset unknowns"
-> >   with their current values.
-> >=20
-> >   Optional: The program commits the "reset unknown" state to KMS with
-> >   ALLOW_MODESET to ensure it all is writable as is; if that fails,
-> >   there is no guarantee that the program could recover later, so it's
-> >   best to abort in that case. This could be part of the initial
-> >   modeset, too.
-> >=20
-> > - When the program has lost and regained DRM master status, meaning
-> >   that (unrecognised) KMS state is potentially incorrect, prepare an
-> >   atomic commit with "reset unknowns" set and add all the recognised
-> >   state the program knows of on top. This resets everything to like it
-> >   was, with ALLOW_MODESET.
-> >=20
-> > - At any other time, do not use the "reset unknowns" set.
-> >=20
-> > The final point is the important one. I have assumed it would be safe
-> > to use always, but apparently not? Good thing I haven't yet written
-> > code to do that.
-> >=20
-> > You have to recognise the property to know if it is safe to set
-> > needlessly (for convenience in both code simplicity and ease of
-> > debugging)?
-> >=20
-> > Also, when using "reset unknowns" set, it actually has to be
-> > partitioned by KMS objects (CRTC, connector, plane...) so if e.g. a
-> > connector no longer exist, you don't attempt to set it.
-> >=20
-> > However, this still leaves writable properties whose value read is not
-> > legal to write as broken. Let's pray that fbcon or a system compositor
-> > will never succeed in enabling HDCP... =20
->=20
-> Note that the kernel isn't entire consistent on this. I've looked a bit
-> more closely at stuff. Ignoring content protection I've found following
-> approaches things:
->=20
-> - self refresh helpers, which are entirely transparent. Therefore we do a
->   hack to set allow_modeset when the self-refresh helpers need to do a
->   modeset, to avoid total surprise for userspace. I think this is only ok
->   for these kind of behind-the-scenes helpers like self-refresh.
->=20
-> - link-status is always reset to "good" when you include any connector,
->   which might force a modeset. Even when allow_modeset isn't set by
->   userspace. Maybe we should fix that, but we've discussed forever how to
->   make sure a bad link isn't ever stuck at "bad" for old userspace, so
->   we've gone with this. But maybe limiting to only allow_modeset cases
->   would also work.
-
-Wait, what do you mean "include any connector"?
-
-What exactly could cause a modeset instead of failure when
-ALLOW_MODESET is not set?
-
-Does that mean that I'll never need to implement link-status handling
-in Weston, because the kernel will recover the link anyway? If the
-kernel does that, then what's the point of having a link-status
-property to begin with?
-
-> - I guess we could do stuff that only fires off when allow_modeset is set,
->   but I haven't found some examples. I thought we've had some outside of
->   self-refresh helpers already. The closest I've found is again
->   link-status, which never allows userspace to set BAD, and silently
->   upgrades to GOOD. So that userspace doing a blind safe/restore can't
->   wreak stuff permanently.
-
-Sounds like link-status was designed with a blind save/restore in mind.
-
-> It's all a bit nasty :-/
->=20
-> I think we should at least allow userspace to do a blind restore with
-> allow_modeset and not expect bad side-effects. That would mean fixing at
-> least the content protection stuff.
->=20
-> Plus documenting this in the kernel somewhere. As the official thing to
-> do. But maybe we want some actual userspace doing this before we enshrine
-> it as official policy. The content protection fix is a one-liner and can
-> be cc'ed stable.
-
-I'd probably not go there, a blind save does not guarantee a good
-state. The fix to "Content Protection" is not necessary (as long as
-userspace does not do a blind save/restore) if we can get the default
-state from the kernel. If we get the default state from the kernel,
-then userspace would be doing a blind restore but not save, meaning
-that the state actually is sane and writable.
-
-I'd love to volunteer for writing the Weston code to make use of "get me
-sane default state" UAPI, but I'm afraid I'm not in that much control
-of my time.
-
-
-Thanks,
-pq
-
---Sig_/aCZHHtoUqUcA6lNSfp/dkhV
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl6fBBwACgkQI1/ltBGq
-qqdBDxAAoLTGTFT/FpcsMttX7fy1/kmaoX1gEckSy5hxBQz+ilnyL3pWdjKf8Xez
-mi5dZrhq5dcBe3cy0sQ8JKVneU0r6fPRtHZIqprhdzT/fs0D80OHm4aDQY5V7VR7
-nkob2yV6DK8UXP+hI/rXmKYL9PkExCMRlW/5RyPWlzqkXXyOU8+KhzXsKyK9HVAs
-oc1JIVatuWPzBSkCZABoTujZv5W7ue57IFOkTd7SiR+7f4TgDHjHyTpzk0GRvJHf
-4E4kj6B5bKy5rCby/rPfNrhQwuYH+7vcMKpB5ZwEqMXCABH8b03HW/TL0jFFHw6Q
-mpKyoNrK6G/mwGklfDOqBYwoPK/QylDGr4PZs48cwDleV/o9aPXZU4Hpb62uzfOV
-GYAIEzqKY1+HzKpZS0w2tg7bmFu5pSZLIXkq+cJkmISQLVbtdvdVIawEdtC74iwg
-IRGc1V7RcTt6mwsVRZMpZ4xtx0zZt66XQ4QoT2COnpMEatYLbxFdJj5+NOVBoKck
-oP0jCz6safP6tXPiS/h3jG5RELTY2TU2FXwRUVTpeaOaALWDvezOBuEXv5p2A94h
-Ea3tSGhg1i7/lVLByk9IJUY6y8XGJGtZSwjDhlJLmrwjUMG3XCp1e4dbGmqgRxg2
-TWuRTOK5XtZFnBvQmDzbTX2oRl6hsA1sQYBJeAry17x4Uy21my0=
-=8ZgB
------END PGP SIGNATURE-----
-
---Sig_/aCZHHtoUqUcA6lNSfp/dkhV--
-
---===============0382221639==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0382221639==--
+QW0gMjAuMDQuMjAgdW0gMDM6NTAgc2NocmllYiBSYW5keSBEdW5sYXA6Cj4gRml4IGEga2VybmVs
+LWRvYyB3YXJuaW5nIG9mIG1pc3Npbmcgc3RydWN0IGZpZWxkIGRlc3JpcHRpb246Cj4KPiAuLi9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm0uYzo5Mjogd2FybmluZzogRnVuY3Rp
+b24gcGFyYW1ldGVyIG9yIG1lbWJlciAndm0nIG5vdCBkZXNjcmliZWQgaW4gJ2FtZGdwdV92bV9l
+dmljdGlvbl9sb2NrJwoKQ2FuJ3Qgd2UganVzdCBkb2N1bWVudCB0aGUgZnVuY3Rpb24gcGFyYW1l
+dGVyIGluc3RlYWQ/IFNob3VsZCBvbmx5IGJlIApvbmUgSUlSQy4KClRoYW5rcywKQ2hyaXN0aWFu
+LgoKPgo+IEZpeGVzOiBhMjY5ZTQ0OTg5ZjMgKCJkcm0vYW1kZ3B1OiBBdm9pZCByZWNsYWltIGZz
+IHdoaWxlIGV2aWN0aW9uIGxvY2siKQo+IFNpZ25lZC1vZmYtYnk6IFJhbmR5IER1bmxhcCA8cmR1
+bmxhcEBpbmZyYWRlYWQub3JnPgo+IENjOiBTaWduZWQtb2ZmLWJ5OiBBbGV4IFNpZXJyYSA8YWxl
+eC5zaWVycmFAYW1kLmNvbT4KPiBDYzogRmVsaXggS3VlaGxpbmcgPEZlbGl4Lkt1ZWhsaW5nQGFt
+ZC5jb20+Cj4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4K
+PiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgo+IENjOiBEYXZp
+ZCAoQ2h1bk1pbmcpIFpob3UgPERhdmlkMS5aaG91QGFtZC5jb20+Cj4gQ2M6IGFtZC1nZnhAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
+bWRncHVfdm0uYyB8ICAgIDIgKy0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwg
+MSBkZWxldGlvbigtKQo+Cj4gLS0tIGxueC01Ny1yYzIub3JpZy9kcml2ZXJzL2dwdS9kcm0vYW1k
+L2FtZGdwdS9hbWRncHVfdm0uYwo+ICsrKyBsbngtNTctcmMyL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L2FtZGdwdV92bS5jCj4gQEAgLTgyLDcgKzgyLDcgQEAgc3RydWN0IGFtZGdwdV9wcnRf
+Y2Igewo+ICAgCXN0cnVjdCBkbWFfZmVuY2VfY2IgY2I7Cj4gICB9Owo+ICAgCj4gLS8qKgo+ICsv
+Kgo+ICAgICogdm0gZXZpY3Rpb25fbG9jayBjYW4gYmUgdGFrZW4gaW4gTU1VIG5vdGlmaWVycy4g
+TWFrZSBzdXJlIG5vIHJlY2xhaW0tRlMKPiAgICAqIGhhcHBlbnMgd2hpbGUgaG9sZGluZyB0aGlz
+IGxvY2sgYW55d2hlcmUgdG8gcHJldmVudCBkZWFkbG9ja3Mgd2hlbgo+ICAgICogYW4gTU1VIG5v
+dGlmaWVyIHJ1bnMgaW4gcmVjbGFpbS1GUyBjb250ZXh0LgoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
