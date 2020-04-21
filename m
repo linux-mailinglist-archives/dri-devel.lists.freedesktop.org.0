@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A011B2923
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 16:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65FFB1B2927
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 16:13:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0E656E062;
-	Tue, 21 Apr 2020 14:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E01626E128;
+	Tue, 21 Apr 2020 14:13:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2077.outbound.protection.outlook.com [40.107.236.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F000F6E062;
- Tue, 21 Apr 2020 14:13:03 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on20613.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eaa::613])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA876E0FA;
+ Tue, 21 Apr 2020 14:13:12 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gNWClvSo1YgWexuI5VqggvB52bMw591lZpJlk9BtX7dYUEem8FLxt7JnhTQ5D6hnyxcml3Dfc7UaHMf8r/+OGmcyu1v6nBp7dTfYLK3aq2eG9rOsv9mQ7+YarE6RkwNfflOeSIV1lEtE2wsSLmws+YLNc7Vpc/U0fs1Ywt0aEs5IZEWajQYESLuuv5ErU/ePQTzCC6WlO6VUI2biuUtmkZMWeIfJAQ275+Hq4r3cgEg8gc7dvqE+HOjNDL6xNwiPk6FsoM05Oa7WAXJCidjeperLfYeZuptgIf7+V9UbuFG804aVuPIf2MtT2RX8J3tr0PF5AmEwyDXvQoMzRim4DA==
+ b=JLn+pGC0dIUWCawZ4KF6N/gKnc2XgWNrkB8FFrtKJoCctheqUplqhiCaPJQAItCvzU2cFYJKKpMI+6shF0XH7oBqCcYP/P3t63JsyXCxxRmmfP5bsNOXkjnao+FmKOD1SavpKmy01q0B4AiKU0yXqJeSTefuAhwPc1VX9pc3TWbYcj5Lq4xGQ6j/fyGak1kIpfjEqGH3+f+qY1SGiDNFuMSSH1sL16+mqvKn/OLI/sSePMSKkWdgvKD7sYp219rggvg+J+KJfLffLCo/xhHDQg6rYBPxmv1cz45ehq6OLuIVxIes99ARRi/Z2jwOhoV0aDTXDF31jvhp5BdidBngQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AkQXj9ndoJW9vv0hh4Rw5QbWkey+1e0BNV7hyR+TEHk=;
- b=ablPE7rIirKSVpbsML374D6Ryzp7ERxWBht8NyGz8SU8onHbQeWGsW/cZRkCdM1JIELk5Ps4zqlvVidaop0VpkddQF49nJeeT9R11Nqq3VPKL2sg7jseCdXtYcjkm416dqLpI5bsP9FvsERrMjjTYbYx7M3b/4bRRfMK4nvlAMmjtwpVRo8vQQZqLI3o4vIV54Dy+ltdFi619PGevAz5QAmBwJqp2KQAaQTWRPBR0bajQRHDotLr2q/Yf3kHv8Si0YqwPuQ3vlrhlhhKSR70GRO+NFYgC20E5UL2/HFdwuuYs+5XH5gKvVSUNprHcbZNeg9Gbg1vHFpWzIXBFn9zCw==
+ bh=OFOn4OZ2J8xVrWXKi8Ajlav00HH6XbticLiAp29FsCU=;
+ b=IEkUzAMbha5uYgS+sgdA3iDS7Gi7np55q/6sBokGbJ/QBfI8mb4LEgsl3uYlpUe6kknJYP+Tkb6knhyX8B4er3bxx7RBnkKsd1W6ybR3KPDY/eViOXwL+wbC5CClocpGYqmP3liJwYrKxhTPTGM1NE0S9AKxmIdDjSZqDAk67rfxhi1roHuIrnBXU/sHzwlUk4jJuWoJUqPPUNDUyLkEibDvEwjYWg4By5CcayjgZCsGrmXSjSwyKzicyrgRWuC+Uj0tiKbBXwkGw1BIaPtEjzabMimQJGvlXxnB1u21NiDapkZUeZE9RndbWhxugeJq3w3f4HyWyb01zH94eMVvCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AkQXj9ndoJW9vv0hh4Rw5QbWkey+1e0BNV7hyR+TEHk=;
- b=mpdq20DTVbPBcJXKvzv5uL9fLGp8f/GNwE4pXR5VbwkDtW0/6bLOhiyfqBZBEpAYrN/02bFwR/yZl75lCdHC2xM6j7tC+THs4sUSE2xdNMdBG59e5lbqHJnVP3j+WlF7GZxvQJ9yHh030C6pZo4UmhAILiecrbkhm9ZMt7+/AMo=
+ bh=OFOn4OZ2J8xVrWXKi8Ajlav00HH6XbticLiAp29FsCU=;
+ b=SnC9O2u0hlSFu9AruT7CK8Z5nmTfFUffdUYiDJcfokwcoOCOtgvtidUBSmTiepIR57jHaYT6ail9JMTaB5sGvYBJ9TRlZuhTPB1TBhdFxdRkTlpZIPyAn5QhaqEvQQNfF7cfag7eecslZnn1EvE136efVtvFDAg1R9YuyhQwF8U=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Harry.Wentland@amd.com; 
 Received: from MW3PR12MB4379.namprd12.prod.outlook.com (2603:10b6:303:5e::11)
  by MW3PR12MB4537.namprd12.prod.outlook.com (2603:10b6:303:5b::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.27; Tue, 21 Apr
- 2020 14:13:02 +0000
+ 2020 14:13:10 +0000
 Received: from MW3PR12MB4379.namprd12.prod.outlook.com
  ([fe80::31b7:9b4e:3f37:5e97]) by MW3PR12MB4379.namprd12.prod.outlook.com
  ([fe80::31b7:9b4e:3f37:5e97%6]) with mapi id 15.20.2921.030; Tue, 21 Apr 2020
- 14:13:00 +0000
-Subject: Re: [PATCH] drm: amd: display: fix kernel-doc struct warning
+ 14:13:10 +0000
+Subject: Re: [PATCH] drm: amdgpu: fix kernel-doc struct warning
 To: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org
 References: <20200420015015.27991-1-rdunlap@infradead.org>
+ <20200420015015.27991-2-rdunlap@infradead.org>
 From: Harry Wentland <hwentlan@amd.com>
 Autocrypt: addr=hwentlan@amd.com; keydata=
  mQENBFhb4C8BCADhHHUNoBQ7K7LupCP0FsUb443Vuqq+dH0uo4A3lnPkMF6FJmGcJ9Sbx1C6
@@ -66,48 +68,48 @@ Autocrypt: addr=hwentlan@amd.com; keydata=
  T5ASJ97G4XvQNO+XXGY55MrmhoNqMaeIa/3Jas54fPVd5olcnUAyDty29/VWXNllUq38iBCX
  /0tTF7oav1lzPGfeW2c6B700FFZMTR4YBVSGE8jPIzu2Fj0E8EkDmsgS+nibqSvWXfo1v231
  410h35CjbYDlYQO7Z1YD7asqbaOnF0As+rckyRMweQ9CxZn5+YBijtPJA3x5ldbCfQ9rWiTu XQ==
-Message-ID: <dd6889d6-b27b-e4a8-4d5a-9a65b46d7f7a@amd.com>
-Date: Tue, 21 Apr 2020 10:12:56 -0400
+Message-ID: <769d317c-e838-a218-c434-6c011fd1a730@amd.com>
+Date: Tue, 21 Apr 2020 10:13:04 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
-In-Reply-To: <20200420015015.27991-1-rdunlap@infradead.org>
+In-Reply-To: <20200420015015.27991-2-rdunlap@infradead.org>
 Content-Language: en-US
-X-ClientProxiedBy: BN3PR03CA0105.namprd03.prod.outlook.com
- (2603:10b6:400:4::23) To MW3PR12MB4379.namprd12.prod.outlook.com
+X-ClientProxiedBy: BN3PR03CA0116.namprd03.prod.outlook.com
+ (2603:10b6:400:4::34) To MW3PR12MB4379.namprd12.prod.outlook.com
  (2603:10b6:303:5e::11)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [IPv6:2607:fea8:9240:c66::6] (2607:fea8:9240:c66::6) by
- BN3PR03CA0105.namprd03.prod.outlook.com (2603:10b6:400:4::23) with Microsoft
+ BN3PR03CA0116.namprd03.prod.outlook.com (2603:10b6:400:4::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2921.25 via Frontend Transport; Tue, 21 Apr 2020 14:12:58 +0000
+ 15.20.2937.13 via Frontend Transport; Tue, 21 Apr 2020 14:13:07 +0000
 X-Originating-IP: [2607:fea8:9240:c66::6]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 2a5f16e4-907a-4a9d-8b1c-08d7e5fe18ff
+X-MS-Office365-Filtering-Correlation-Id: 885ceff8-d6e1-45e8-6f97-08d7e5fe1eb2
 X-MS-TrafficTypeDiagnostic: MW3PR12MB4537:|MW3PR12MB4537:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MW3PR12MB45379726744F72AE06CCBB358CD50@MW3PR12MB4537.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Microsoft-Antispam-PRVS: <MW3PR12MB4537286098220DEB1A2214BA8CD50@MW3PR12MB4537.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
 X-Forefront-PRVS: 038002787A
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MW3PR12MB4379.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(10009020)(4636009)(366004)(39860400002)(396003)(136003)(376002)(346002)(36756003)(8936002)(2906002)(66946007)(66476007)(66556008)(316002)(6486002)(31696002)(53546011)(5660300002)(478600001)(4326008)(2616005)(8676002)(81156014)(52116002)(186003)(54906003)(16526019)(31686004);
+ SFS:(10009020)(4636009)(366004)(39860400002)(396003)(136003)(376002)(346002)(36756003)(8936002)(2906002)(66946007)(66476007)(66556008)(316002)(6486002)(31696002)(53546011)(66574012)(5660300002)(478600001)(4326008)(6666004)(2616005)(8676002)(81156014)(52116002)(186003)(54906003)(16526019)(31686004);
  DIR:OUT; SFP:1101; 
 Received-SPF: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: trjkC6R2tVKVxMQcmdSIw6AZd7eUhRwb9QfykNtVeJ0f6n491ORVT1PpdCaRpTtGxvu6ulJR0IODP+Rx/d3z7NIdhOnFx81r7AwLETe137Cm7l0qNi88MK6eldms6e5lQxRgLYaTmvcmO8mjcxRDoTolkooLruDGPNDeef5sJtGLfLy97JMiTBMoDpVdJwr/my8Eu4FzTrOxqErbGMSBF/+i+4JmZ218lEdbAD8oFIk1NhwQQto0A0Q6rW3pUunZPkHurPgvUE+/vS5UkKh6B42Iah8o3yEBka0XCvrKaJmLqqbo2Djwtdd6fG0i7J4RJ1IUDSY6DeXeA7BGX1Y8gljWqbeChZn3fDuybvMaFiqGsltV3tl4d+pf6JCdCD+PE/iN01/9cXjIuFwBOXQDsIBPsNQ1B6AlOYP2k1mxLn4BCuxyAgVw5U27PahPFr5R
-X-MS-Exchange-AntiSpam-MessageData: 62bGAypomIy9iKWm8dBOGo/Jf0mFcKpnSYZSWj1zHi0hkHxrYGLc4wSWvMmNnc3j/5b/vM1jpqZN2Cwuq28rFuPhtwfsQqPgCXzMGuhbbH8INFP7GkX4YUPXqktDAuDmqeQGCba102KmSh10A6DpH7Wvl8pNsbnjngKzIlJwlhI=
+X-Microsoft-Antispam-Message-Info: /B21CcjG98FVjkTK4p9627b7QDzCN7cI1FUGaNwjUgWqKfpWZHkaXQ8cLbVvgkcV+foxvUSR0a7zIxor4xOAs4f+PhLyvA1T6duQ8+oUEmrJEF9pmQLHeLv7DyNGCwYVqoG+GzTnLju94UZZjid4QiWYGKaPIdGhb5IFLxaQ7bJzaSrOOIQ1nhsrw0kq210wkXEqWc+9SPH9JuIetrlJinPi2HKbU6nhGWI3xsrCfGWJr8OCIqbEscOJZJECmz8IlF1Md4bx0MyNVGAJo+hdVu3K75yR1/AqguHAwacREcCQriAUQjulVRX3yllKzuNSOZU6r7CrjqkL8wQ75Ft4Ya7Cy0If5C8ScOj8j4h9uqhKgREcGWS3iZQFNeAwEodFS48RBXLWLOU0Yp4YYs+mtaljJiMJF68kpZygdqUB58T8b3pKm0sSudZSe3e6nnkx
+X-MS-Exchange-AntiSpam-MessageData: zbHFQKvRDhb7iNmT9gmBwf95Iuv1uvDDreX/NU/XRnGz7TSUx4EdeDmhccr3y72eqtnyxsjCH7NzLrecEoqyHZg54P51n/ZtGCe068Sq2a7/mefrJg+N9OQJWe5jhm2DmGXuNocni0S6k0t16+UCTx2mLWiMF8/B8kPJyx4qwBY=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a5f16e4-907a-4a9d-8b1c-08d7e5fe18ff
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 14:13:00.7575 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 885ceff8-d6e1-45e8-6f97-08d7e5fe1eb2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 14:13:10.2956 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x+TAQ3VXg40M9hl0vAag3EoU4SlHRE6lig4G6dzwswA5+sik9Opdf6QxKcT4gGChakkPO4p7kQTYsVjzjfSXtg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3T6wu798j0HAopOpv9rsKogQ6lg27yg1jOPolrQ96KXfn9DuZAyTuSyVpK0jT2FGc+ulQNeEwDVotSCWbNpfQw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4537
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -121,46 +123,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "Signed-off-by : Alex Sierra" <alex.sierra@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-04-19 9:50 p.m., Randy Dunlap wrote:
-> Fix a kernel-doc warning of missing struct field desription:
-> 
-> ../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:331: warning: Function parameter or member 'hdcp_workqueue' not described in 'amdgpu_display_manager'
-> 
-> Fixes: 52704fcaf74b ("drm/amd/display: Initialize HDCP work queue")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-
-Harry
-
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |    1 +
->  1 file changed, 1 insertion(+)
-> 
-> --- lnx-57-rc2.orig/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> +++ lnx-57-rc2/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> @@ -139,6 +139,7 @@ struct amdgpu_dm_backlight_caps {
->   * @backlight_link: Link on which to control backlight
->   * @backlight_caps: Capabilities of the backlight device
->   * @freesync_module: Module handling freesync calculations
-> + * @hdcp_workqueue: workqueue for display manager interaction with HDCP module
->   * @fw_dmcu: Reference to DMCU firmware
->   * @dmcu_fw_version: Version of the DMCU firmware
->   * @soc_bounding_box: SOC bounding box values provided by gpu_info FW
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0wNC0xOSA5OjUwIHAubS4sIFJhbmR5IER1bmxhcCB3cm90ZToKPiBGaXggYSBrZXJu
+ZWwtZG9jIHdhcm5pbmcgb2YgbWlzc2luZyBzdHJ1Y3QgZmllbGQgZGVzcmlwdGlvbjoKPiAKPiAu
+Li9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm0uYzo5Mjogd2FybmluZzogRnVu
+Y3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAndm0nIG5vdCBkZXNjcmliZWQgaW4gJ2FtZGdwdV92
+bV9ldmljdGlvbl9sb2NrJwo+IAo+IEZpeGVzOiBhMjY5ZTQ0OTg5ZjMgKCJkcm0vYW1kZ3B1OiBB
+dm9pZCByZWNsYWltIGZzIHdoaWxlIGV2aWN0aW9uIGxvY2siKQo+IFNpZ25lZC1vZmYtYnk6IFJh
+bmR5IER1bmxhcCA8cmR1bmxhcEBpbmZyYWRlYWQub3JnPgo+IENjOiBTaWduZWQtb2ZmLWJ5OiBB
+bGV4IFNpZXJyYSA8YWxleC5zaWVycmFAYW1kLmNvbT4KPiBDYzogRmVsaXggS3VlaGxpbmcgPEZl
+bGl4Lkt1ZWhsaW5nQGFtZC5jb20+Cj4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5r
+b2VuaWdAYW1kLmNvbT4KPiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQu
+Y29tPgo+IENjOiBEYXZpZCAoQ2h1bk1pbmcpIFpob3UgPERhdmlkMS5aaG91QGFtZC5jb20+Cj4g
+Q2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCgoKUmV2aWV3ZWQtYnk6IEhhcnJ5IFdl
+bnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPgoKSGFycnkKCj4gLS0tCj4gIGRyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92bS5jIHwgICAgMiArLQo+ICAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiAtLS0gbG54LTU3LXJjMi5vcmln
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92bS5jCj4gKysrIGxueC01Ny1yYzIv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZtLmMKPiBAQCAtODIsNyArODIsNyBA
+QCBzdHJ1Y3QgYW1kZ3B1X3BydF9jYiB7Cj4gIAlzdHJ1Y3QgZG1hX2ZlbmNlX2NiIGNiOwo+ICB9
+Owo+ICAKPiAtLyoqCj4gKy8qCj4gICAqIHZtIGV2aWN0aW9uX2xvY2sgY2FuIGJlIHRha2VuIGlu
+IE1NVSBub3RpZmllcnMuIE1ha2Ugc3VyZSBubyByZWNsYWltLUZTCj4gICAqIGhhcHBlbnMgd2hp
+bGUgaG9sZGluZyB0aGlzIGxvY2sgYW55d2hlcmUgdG8gcHJldmVudCBkZWFkbG9ja3Mgd2hlbgo+
+ICAgKiBhbiBNTVUgbm90aWZpZXIgcnVucyBpbiByZWNsYWltLUZTIGNvbnRleHQuCj4gCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
