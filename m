@@ -1,69 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A5F1B25B9
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 14:16:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E501B25CA
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 14:19:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2E686E2EC;
-	Tue, 21 Apr 2020 12:16:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6006E927;
+	Tue, 21 Apr 2020 12:19:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB58E6E2EC
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 12:16:44 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id y24so3411035wma.4
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 05:16:44 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40EE66E927
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 12:19:01 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id r26so3448256wmh.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 05:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=HlX9CDNaQn0ah+4R2AJ8wU9V1YmJ5LGY+YY4RdpAxCc=;
- b=kdV7+rdOTNmiPODp9VtKU4EpsM+j0zHeqYPxjmux0otaOS7b/KLp9tNgpGGH2KjNhE
- o1nuHapdqGwdeIK7l7EzC76Krca+ooeFj/9WU2im5j1/SdHjGluDrkALqRqWu/c7To61
- SbCPhDmUc+mKUw2JuqgyJ+cTndnRdCZ8LNAaE=
+ bh=RdYGArEdf7fNq4YWVNuWwxljCEjnbjIB59dLDp+tDME=;
+ b=YJOLdK2paZFgMhCZVABVVasiwBvfkEOoc1hrEQAvKPs5+Mg2P6LsSmj6BO40ycvFZE
+ 1lzUa5qItqZ2YXj6gK1ROdgDQiJBpKBYO8dbxP0ge1g5DaOfeZSR2z5FbAq/KILTaf8C
+ lOSRElIey3ImoIIKhGU/AvqunSIyPQvwlw6vI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=HlX9CDNaQn0ah+4R2AJ8wU9V1YmJ5LGY+YY4RdpAxCc=;
- b=gpwEnGoVHu62Ka/Y33NLB4AhIxsnvFx68z2MUbm8UCsfuQHZPhX/8SkuStvZXpcBOk
- 5lEmmPctspANCcvIpnhOFpBEqdJWF6RZanFr+OULMvxH79j5ZfloReUTaVYbd0cZL1yw
- eAIIno6FSqxptADyhdQ8k05ImXk9P6A1spsxjbUfwln95H1BPu/Lo9leJMjlMtMoAb/w
- IHBA5LuIyp6ebR0o7pcK9wiSe4zhVAakndluGJDnRPab3eSED5zsTrYexkN0XCHmtBcJ
- NQisXPl8lZdi7s2DpDF7YLwAJiKGoKZDfi8ykxFt6eUFnKwE0KZwW5VRkSwVpFyZy1YG
- tkLQ==
-X-Gm-Message-State: AGi0Pubv23bVlclHHCC6EtySc2gek745PhZKOnj7kq3hX41c3kt7OuCB
- 59fd5ACnwAsDEjfrb9ohayVevg==
-X-Google-Smtp-Source: APiQypLp+msXrwjQeDf59CmGpFmh2wKSOzgAEen1QE4ESErJgzU2kye0C9MqIxLWezadPjOfFk67bw==
-X-Received: by 2002:a1c:9dd1:: with SMTP id g200mr4976643wme.82.1587471403637; 
- Tue, 21 Apr 2020 05:16:43 -0700 (PDT)
+ bh=RdYGArEdf7fNq4YWVNuWwxljCEjnbjIB59dLDp+tDME=;
+ b=QmDFyvr//lISiSr9hOOlvlaC9wLU8EBAP8MOczGvW196SmdFpxViEmYB4MKaNAk/3R
+ X6Ow+SHnbHhYovebdbo0rWkA+xfB9zcGTpKpIBPACOk0yiQhrrATbO7T1T3VW8xs9JQW
+ 3UMWyXF3zr4OPH4Nq7aL8QwdKVBhxLqrtwOYud4dFaWKeiCamq7BD8TNSlIeDni1VzP7
+ rGrDZjI/28ipizRKYe5ceBneowUjgz+j+uPX+yDkUwDyTC8FbK+26VGiIBWFSYcZuEcE
+ WTCycYw9FC8rPbQwyJXtvM5HsjvjivcZrkg7Q56rwGqV6Y02pFpouygch6jQaa18zs+R
+ +mtg==
+X-Gm-Message-State: AGi0PuYrZyvxNXuLaxe9KuV+Vvy95RP7HsGHQNRAkJDaabeHZa8ebjps
+ hiJl2hlm1GYWSgHufdWmXVtrZLtVAAM=
+X-Google-Smtp-Source: APiQypJo1ryhFC8BXxo7eBvrM5Xp8MvpJyg2ajxfVjJl5qbaspVkvh4FIH8f6zeBALstF54m2xICYA==
+X-Received: by 2002:a1c:3c87:: with SMTP id j129mr4460861wma.157.1587471539888; 
+ Tue, 21 Apr 2020 05:18:59 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 91sm3728608wra.37.2020.04.21.05.16.42
+ by smtp.gmail.com with ESMTPSA id t67sm3584098wmg.40.2020.04.21.05.18.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 05:16:43 -0700 (PDT)
-Date: Tue, 21 Apr 2020 14:16:41 +0200
+ Tue, 21 Apr 2020 05:18:59 -0700 (PDT)
+Date: Tue, 21 Apr 2020 14:18:57 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH v5 1/8] drm/fourcc: Add modifier definitions for
- describing Amlogic Video Framebuffer Compression
-Message-ID: <20200421121641.GU3456981@phenom.ffwll.local>
-Mail-Followup-To: Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-amlogic@lists.infradead.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [drm:simple_bridge_attach [simple_bridge]] *ERROR* Fix bridge
+ driver to make connector optional!
+Message-ID: <20200421121857.GV3456981@phenom.ffwll.local>
+Mail-Followup-To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Maxime Ripard <maxime@cerno.tech>,
+ linux-omap <linux-omap@vger.kernel.org>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Kevin Hilman <khilman@baylibre.com>
-References: <20200416152500.29429-1-narmstrong@baylibre.com>
- <20200416152500.29429-2-narmstrong@baylibre.com>
- <20200417150729.GP3456981@phenom.ffwll.local>
- <65879a34-2e31-2908-3cc4-183f62c70ca0@baylibre.com>
- <CAKMK7uHXtcMFv6LpCEjTg5V-TXbkt2eLyitZoCfSc-nMnwJbuA@mail.gmail.com>
- <25f5ed14-2caf-6b2b-2cd4-3dbf0dd9a03c@baylibre.com>
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
+References: <CB5A5B81-F06C-4CBE-95DE-96C8723D2AC5@goldelico.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <25f5ed14-2caf-6b2b-2cd4-3dbf0dd9a03c@baylibre.com>
+In-Reply-To: <CB5A5B81-F06C-4CBE-95DE-96C8723D2AC5@goldelico.com>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,82 +72,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kevin Hilman <khilman@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-amlogic@lists.infradead.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ linux-omap <linux-omap@vger.kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 20, 2020 at 12:21:24PM +0200, Neil Armstrong wrote:
-> On 17/04/2020 20:14, Daniel Vetter wrote:
-> > On Fri, Apr 17, 2020 at 6:05 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
-> >>
-> >> On 17/04/2020 17:07, Daniel Vetter wrote:
+On Fri, Apr 17, 2020 at 02:18:11PM +0200, H. Nikolaus Schaller wrote:
+> Hi Maxime,
+> I have started to test v5.7-rc1 and can't fully boot the GTA04
+> device any more.
 > 
-> [...]
+> What I see in the log is:
 > 
-> > 
-> > Yup there's a number of parametried modifiers. As long as the stuff
-> > you get from a DRM_FORMAT_MOD_ ... macro is a full modifier with
-> > everything it should be all fine.
-> 
-> Would something like that be ok ?
-> 
-> #define __fourcc_mod_amlogic_layout_mask 0xf
-> #define __fourcc_mod_amlogic_options_shift 8
-> #define __fourcc_mod_amlogic_options_mask 0xf
-> 
-> #define DRM_FORMAT_MOD_AMLOGIC_FBC(__layout, __options) \
-> 	fourcc_mod_code(AMLOGIC, \
-> 			((__layout) & __fourcc_mod_amlogic_layout_mask) | \
-> 			((options) & __fourcc_mod_amlogic_options_mask \
-> 			 << __fourcc_mod_amlogic_options_shift))
-> 
-> /* Amlogic FBC Layouts */
-> 
-> /* bla */
-> #define AMLOGIC_FBC_LAYOUT_BASIC		(1ULL)
-> 
-> /* bla */
-> #define AMLOGIC_FBC_LAYOUT_SCATTER		(2ULL)
-> 
-> /* Amlogic FBC Layout Options Bit Mask */
-> 
-> /* bla */
-> #define AMLOGIC_FBC_OPTION_MEM_SAVING		(1ULL << 0)
+> [   28.567840] [drm:simple_bridge_attach [simple_bridge]] *ERROR* Fix bridge driver to make connector optional!
 
-lgtm.
+General PSA (and for Laurent et al, i.e. entire team of people working on all
+the varios bridge conversions):
+
+Please don't make something an error before all in-tree users are
+converted. Even an informational warning is often too much, even only very
+few drivers are left using an old pattern.
 -Daniel
 
+> [   28.567871] omapdrm omapdrm.0: unable to attach bridge /ocp@68000000/dss@48050000/encoder@48050c00
+> [   28.786529] omapdrm omapdrm.0: omap_modeset_init failed: ret=-22
+> [   28.841552] omapdrm: probe of omapdrm.0 failed with error -22
 > 
-> Neil
+> This device uses the ti,opa362 chip which did have a dedicated
+> omapdss driver before (which is removed now) and which seems to
+> be supported by the simple_bridge now.
 > 
-> > -Daniel
-> > 
-> >> Neil
-> >>
-> >>> -Daniel
-> >>>
-> >>>> +
-> >>>>  #if defined(__cplusplus)
-> >>>>  }
-> >>>>  #endif
-> >>>> --
-> >>>> 2.22.0
-> >>>>
-> >>>
-> >>
-> >> _______________________________________________
-> >> dri-devel mailing list
-> >> dri-devel@lists.freedesktop.org
-> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > 
-> > 
-> > 
+> The opa362 is sitting in the video out path from
 > 
+> 	omapdrm -> venc -> opa362 -> video-out-connector.
+> 
+> What does this error mean? How can it be fixed?
+> 
+> BR and thanks,
+> Nikolaus
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
 Daniel Vetter
