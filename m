@@ -1,56 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7421B269D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 14:46:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43AC51B3833
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:55:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9156E93E;
-	Tue, 21 Apr 2020 12:46:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22AE6E9BE;
+	Wed, 22 Apr 2020 06:54:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A23286E93E
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 12:46:44 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03LCkgta126600;
- Tue, 21 Apr 2020 07:46:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1587473202;
- bh=km8GOuXtSK2uVaZ02Woyvmud19wDYpD0cpRiTMtbJDM=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=rrjVtWtXRPXSmi3zX6MwVnDEH05p5WAfU0ExKmxw3k2MuwDINWHZ66/sKKIzznzAQ
- qenrpfSdzx9CxIoqWyLeCEp2jRAt25YqYWp9PvJyU7jmVMAACUvX6RWIM/PaqGGNAl
- 4RkP6Gmw1c97ccdoq6TUrQ5UjVhqgeB23hcJcVUU=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03LCkgHS027546
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 21 Apr 2020 07:46:42 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 21
- Apr 2020 07:46:41 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 21 Apr 2020 07:46:41 -0500
-Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03LCkVx7037462;
- Tue, 21 Apr 2020 07:46:40 -0500
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-To: Lee Jones <lee.jones@linaro.org>, Daniel Thompson
- <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>, Bartlomiej
- Zolnierkiewicz <b.zolnierkie@samsung.com>,
- <dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
-Subject: [PATCHv2 4/4] backlight: led_bl: fix led -> backlight brightness
- mapping
-Date: Tue, 21 Apr 2020 15:46:29 +0300
-Message-ID: <20200421124629.20977-5-tomi.valkeinen@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200421124629.20977-1-tomi.valkeinen@ti.com>
-References: <20200421124629.20977-1-tomi.valkeinen@ti.com>
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1E816E3EF
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 12:50:34 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id j3so13790490ljg.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 05:50:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=hardline-pl.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=31DLqDGppfY8uxFAvP53qi9Sl1vs7JVUgc/ygd71uoc=;
+ b=nQCr8/26WzE/vq5IepXYp5cSS9Ff8RHaUHv05pE9r8zoaryoqdzHpeWzxtqQY0WwkH
+ 5wFUG6QSlqaslIAhW3iwRcOCYQ/4zYuMc/WeSP5McqhLNX1MKrfOxBRwCTzObftpuJoZ
+ zP8NFpIiQf13WmEDlLgYS3yvsiptxKdCeYqByYBOfi29U3JdInX/pkHv8cqK+US+rx9U
+ BZpbd6SEZZHDvwtlkFJxmjasPfMgt3bUlK0iiPxYGdjX5rzFaNQDzVscHl0UQTIwbLr+
+ i6kuvC1QJWfu7t3hQDnMiILdfg2BQLlzK7A6HbRO70wZEVS+e0d6LR4mbkO3k5jyTUrH
+ Pv4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=31DLqDGppfY8uxFAvP53qi9Sl1vs7JVUgc/ygd71uoc=;
+ b=OKXmBEgKeeuM0nnhPzBAKKa1TDgvtSpNTNSqEVezi0J3JCysvJZDGehptzLWKARYtl
+ iAr+Rt0iOsjhxL61JzxQASSyQEthua9S/TuB9OHUcFqkPniow6l1cNs5ADsX8HdY5dwJ
+ cNxlY7QECzU15J04GK/pOIKIE9L+0nbYXI0yS8cU7C5EU1i7KzZLFENAaSmuVYc7Ppxd
+ igejhMYo+I+mmGSd8ZupHCyK8Fdz4zibh3P8TjxTCHnbFo+2mrfc3i5IpkZVPbCPn9M+
+ 23GBkeQstzGBPkdBU6ZMimf0cfDlikm5d6GorK8MmjjFCW9vSgoqpcAaeso1vox4Djqf
+ pZUg==
+X-Gm-Message-State: AGi0PubIs2OlQnXz5E1MzJ5k1Cv2o/awmozj9yIqrwKLyN2MOAMfm9PS
+ pSqz8d/DQ+uAEHNOqQnNdUy42+b2GgU=
+X-Google-Smtp-Source: APiQypIAT+CGJxZBQkOF71h3rApmbBPSfw/uauIwzXB1+7IQzI3zr6l7afcLsuizMpkERWQDdusdVQ==
+X-Received: by 2002:a2e:9bc3:: with SMTP id w3mr1533530ljj.170.1587473432841; 
+ Tue, 21 Apr 2020 05:50:32 -0700 (PDT)
+Received: from localhost (109241244009.gdansk.vectranet.pl. [109.241.244.9])
+ by smtp.gmail.com with ESMTPSA id c21sm2073528lfh.16.2020.04.21.05.50.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Apr 2020 05:50:32 -0700 (PDT)
+From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal@hardline.pl>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: Don't reserve minors for control nodes
+Date: Tue, 21 Apr 2020 14:49:22 +0200
+Message-Id: <20200421124922.136191-1-michal@hardline.pl>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Approved-At: Wed, 22 Apr 2020 06:54:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,48 +66,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Marcin Bernatowicz <marcin.bernatowicz@intel.com>,
+ =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The code that maps the LED default brightness to backlight levels has
-two issues: 1) if the default brightness is the first backlight level
-(usually 0), the code fails to find it, and 2) when the code fails to
-find a backlight level, it ends up using max_brightness + 1 as the
-default brightness.
-
-Fix these two issues.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
----
- drivers/video/backlight/led_bl.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
-index 63693c4f0883..43a5302f163a 100644
---- a/drivers/video/backlight/led_bl.c
-+++ b/drivers/video/backlight/led_bl.c
-@@ -159,10 +159,11 @@ static int led_bl_parse_levels(struct device *dev,
- 		 */
- 		db = priv->default_brightness;
- 		for (i = 0 ; i < num_levels; i++) {
--			if ((i && db > levels[i - 1]) && db <= levels[i])
-+			if ((i == 0 || db > levels[i - 1]) && db <= levels[i])
- 				break;
- 		}
--		priv->default_brightness = i;
-+
-+		priv->default_brightness = min(i, num_levels - 1);
- 		priv->max_brightness = num_levels - 1;
- 		priv->levels = levels;
- 	} else if (num_levels >= 0) {
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogTWljaGHFgiBXaW5pYXJza2kgPG1pY2hhbC53aW5pYXJza2lAaW50ZWwuY29tPgoKQ29u
+dHJvbCBub2RlcyBhcmUgbm8gbG9uZ2VyIHdpdGggdXMuCldoaWxlIHdlIHN0aWxsIG5lZWQgdG8g
+cHJlc2VydmUgcmVuZGVyIG5vZGVzIG51bWJlcmluZywgdGhlcmUncyBubyBuZWVkCnRvIHJlc2Vy
+dmUgdGhlIHJhbmdlIGZvcm1lcmx5IHVzZWQgZm9yIGNvbnRyb2wuIExldCdzIHJlcHVycG9zZSBp
+dCB0byBiZQp1c2VkIGJ5IHByaW1hcnkgYW5kIHJlbW92ZSBjb250cm9sIHJlbWFpbnMgZnJvbSB0
+aGUgY29kZSBlbnRpcmVseS4KClJlZmVyZW5jZXM6IDBkNDlmMzAzZThhNyAoImRybTogcmVtb3Zl
+IGFsbCBjb250cm9sIG5vZGUgY29kZSIpClJlZmVyZW5jZXM6IGM5YWMzNzFkNGI1OSAoImRybTog
+Rml4IHJlbmRlciBub2RlIG51bWJlcmluZyByZWdyZXNzaW9uIGZyb20gY29udHJvbCBub2RlIHJl
+bW92YWwuIikKU2lnbmVkLW9mZi1ieTogTWljaGHFgiBXaW5pYXJza2kgPG1pY2hhbC53aW5pYXJz
+a2lAaW50ZWwuY29tPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4K
+Q2M6IEVyaWMgQW5ob2x0IDxlcmljQGFuaG9sdC5uZXQ+CkNjOiBNYXJjaW4gQmVybmF0b3dpY3og
+PG1hcmNpbi5iZXJuYXRvd2ljekBpbnRlbC5jb20+CkNjOiBTZWFuIFBhdWwgPHNlYW5wYXVsQGNo
+cm9taXVtLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jIHwgNCArKy0tCiBpbmNs
+dWRlL2RybS9kcm1fZmlsZS5oICAgIHwgMSAtCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9u
+cygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Ry
+di5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYwppbmRleCBjMTVjOWI0NTQwZTEuLjM2NmE3
+NjBiYmMyOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYworKysgYi9kcml2
+ZXJzL2dwdS9kcm0vZHJtX2Rydi5jCkBAIC0xMjQsOCArMTI0LDggQEAgc3RhdGljIGludCBkcm1f
+bWlub3JfYWxsb2Moc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdW5zaWduZWQgaW50IHR5cGUpCiAJ
+c3Bpbl9sb2NrX2lycXNhdmUoJmRybV9taW5vcl9sb2NrLCBmbGFncyk7CiAJciA9IGlkcl9hbGxv
+YygmZHJtX21pbm9yc19pZHIsCiAJCSAgICAgIE5VTEwsCi0JCSAgICAgIDY0ICogdHlwZSwKLQkJ
+ICAgICAgNjQgKiAodHlwZSArIDEpLAorCQkgICAgICAxMjggKiB0eXBlLAorCQkgICAgICAxMjgg
+KiAodHlwZSArIDEpLAogCQkgICAgICBHRlBfTk9XQUlUKTsKIAlzcGluX3VubG9ja19pcnFyZXN0
+b3JlKCZkcm1fbWlub3JfbG9jaywgZmxhZ3MpOwogCWlkcl9wcmVsb2FkX2VuZCgpOwpkaWZmIC0t
+Z2l0IGEvaW5jbHVkZS9kcm0vZHJtX2ZpbGUuaCBiL2luY2x1ZGUvZHJtL2RybV9maWxlLmgKaW5k
+ZXggNzE2OTkwYmFjZTEwLi40NWU2ZGFlNjkyOTMgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL2Ry
+bV9maWxlLmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX2ZpbGUuaApAQCAtNTQsNyArNTQsNiBAQCBz
+dHJ1Y3QgZmlsZTsKICAqLwogZW51bSBkcm1fbWlub3JfdHlwZSB7CiAJRFJNX01JTk9SX1BSSU1B
+UlksCi0JRFJNX01JTk9SX0NPTlRST0wsCiAJRFJNX01JTk9SX1JFTkRFUiwKIH07CiAKLS0gCjIu
+MjYuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
