@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0951B2185
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 10:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A204B1B2189
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 10:26:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16A886E8A4;
-	Tue, 21 Apr 2020 08:24:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CFED89F92;
+	Tue, 21 Apr 2020 08:26:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A27576E897;
- Tue, 21 Apr 2020 08:24:45 +0000 (UTC)
-IronPort-SDR: BvG6Pi4BzYMp+OAKdrLLe62Zjzv7g8EzcuFFM/JYFP+vBwhEJyu8FyvLFME2koAUhOopifwzzK
- ebMbCM+/9zpA==
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B9D989F47;
+ Tue, 21 Apr 2020 08:26:30 +0000 (UTC)
+IronPort-SDR: v72buYbjRFzMCpZJ4llSoryI0sqS970UYqwrjT5+DNINs06i/a6qF203SsVKKMKYKbV5W2uxW/
+ bwSp2mtfkkvQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2020 01:24:45 -0700
-IronPort-SDR: H5mndwxhmC2bj+Hg8hCaz6DgGaCgB8vJcG2K97w7WIXG4F3KZ1q47xHNjTr8HQwGzzSreYcGj/
- qrQLqc+lBVbQ==
-X-IronPort-AV: E=Sophos;i="5.72,409,1580803200"; d="scan'208";a="429450840"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2020 01:26:29 -0700
+IronPort-SDR: H7UK2j3E+9YgMxNSKe8FYk6iiKnL5LnwaqeMgpuQHPUVq2FuCEwIVEO95YAQHyIMV2DhEoCRh2
+ Gh5PGRnr0f8Q==
+X-IronPort-AV: E=Sophos;i="5.72,409,1580803200"; d="scan'208";a="402119034"
 Received: from parkernx-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.46.80])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2020 01:24:42 -0700
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2020 01:26:25 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>
-Subject: Re: [PATCH 15/18] drm/i915/i915_drv: Prefer drm_WARN_ON over WARN_ON
-In-Reply-To: <20200406112800.23762-16-pankaj.laxminarayan.bharadiya@intel.com>
+Subject: Re: [PATCH 17/18] drm/i915/pm: Prefer drm_WARN_ON over WARN_ON
+In-Reply-To: <20200406112800.23762-18-pankaj.laxminarayan.bharadiya@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20200406112800.23762-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200406112800.23762-16-pankaj.laxminarayan.bharadiya@intel.com>
-Date: Tue, 21 Apr 2020 11:24:39 +0300
-Message-ID: <87o8rlz1o8.fsf@intel.com>
+ <20200406112800.23762-18-pankaj.laxminarayan.bharadiya@intel.com>
+Date: Tue, 21 Apr 2020 11:26:22 +0300
+Message-ID: <87lfmpz1ld.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,31 +63,162 @@ On Mon, 06 Apr 2020, Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com> 
 >
 > Prefer drm_WARN_ON over WARN_ON.
 >
+> Conversion is done with below sementic patch:
+>
+> @@
+> identifier func, T;
+> @@
+> func(...) {
+> ...
+> struct intel_crtc *T = ...;
+> <+...
+> -WARN_ON(
+> +drm_WARN_ON(T->base.dev,
+> ...)
+> ...+>
+>
+> }
+>
+> @@
+> identifier func, T;
+> @@
+> func(struct intel_crtc_state *T,...) {
+> <+...
+> -WARN_ON(
+> +drm_WARN_ON(T->uapi.crtc->dev,
+> ...)
+> ...+>
+>
+> }
+>
 > Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 > ---
->  drivers/gpu/drm/i915/i915_drv.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/i915/intel_pm.c | 57 ++++++++++++++++++---------------
+>  1 file changed, 32 insertions(+), 25 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index e9ee4daa9320..be33cab6403d 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1647,7 +1647,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->  #define HAS_DISPLAY(dev_priv) (INTEL_INFO(dev_priv)->pipe_mask != 0)
+> diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
+> index 8375054ba27d..b2d22fdaf3db 100644
+> --- a/drivers/gpu/drm/i915/intel_pm.c
+> +++ b/drivers/gpu/drm/i915/intel_pm.c
+> @@ -1464,8 +1464,8 @@ static int g4x_compute_intermediate_wm(struct intel_crtc_state *new_crtc_state)
+>  			max(optimal->wm.plane[plane_id],
+>  			    active->wm.plane[plane_id]);
 >  
->  /* Only valid when HAS_DISPLAY() is true */
-> -#define INTEL_DISPLAY_ENABLED(dev_priv) (WARN_ON(!HAS_DISPLAY(dev_priv)), !i915_modparams.disable_display)
-> +#define INTEL_DISPLAY_ENABLED(dev_priv) \
-> +		(drm_WARN_ON(&dev_priv->drm, !HAS_DISPLAY(dev_priv)), !i915_modparams.disable_display)
+> -		WARN_ON(intermediate->wm.plane[plane_id] >
+> -			g4x_plane_fifo_size(plane_id, G4X_WM_LEVEL_NORMAL));
+> +		drm_WARN_ON(crtc->base.dev, intermediate->wm.plane[plane_id] >
+> +			    g4x_plane_fifo_size(plane_id, G4X_WM_LEVEL_NORMAL));
+>  	}
+>  
+>  	intermediate->sr.plane = max(optimal->sr.plane,
+> @@ -1482,21 +1482,25 @@ static int g4x_compute_intermediate_wm(struct intel_crtc_state *new_crtc_state)
+>  	intermediate->hpll.fbc = max(optimal->hpll.fbc,
+>  				     active->hpll.fbc);
+>  
+> -	WARN_ON((intermediate->sr.plane >
+> -		 g4x_plane_fifo_size(PLANE_PRIMARY, G4X_WM_LEVEL_SR) ||
+> -		 intermediate->sr.cursor >
+> -		 g4x_plane_fifo_size(PLANE_CURSOR, G4X_WM_LEVEL_SR)) &&
+> -		intermediate->cxsr);
+> -	WARN_ON((intermediate->sr.plane >
+> -		 g4x_plane_fifo_size(PLANE_PRIMARY, G4X_WM_LEVEL_HPLL) ||
+> -		 intermediate->sr.cursor >
+> -		 g4x_plane_fifo_size(PLANE_CURSOR, G4X_WM_LEVEL_HPLL)) &&
+> -		intermediate->hpll_en);
+> -
+> -	WARN_ON(intermediate->sr.fbc > g4x_fbc_fifo_size(1) &&
+> -		intermediate->fbc_en && intermediate->cxsr);
+> -	WARN_ON(intermediate->hpll.fbc > g4x_fbc_fifo_size(2) &&
+> -		intermediate->fbc_en && intermediate->hpll_en);
+> +	drm_WARN_ON(crtc->base.dev,
+> +		    (intermediate->sr.plane >
+> +		     g4x_plane_fifo_size(PLANE_PRIMARY, G4X_WM_LEVEL_SR) ||
+> +		     intermediate->sr.cursor >
+> +		     g4x_plane_fifo_size(PLANE_CURSOR, G4X_WM_LEVEL_SR)) &&
+> +		    intermediate->cxsr);
+> +	drm_WARN_ON(crtc->base.dev,
+> +		    (intermediate->sr.plane >
+> +		     g4x_plane_fifo_size(PLANE_PRIMARY, G4X_WM_LEVEL_HPLL) ||
+> +		     intermediate->sr.cursor >
+> +		     g4x_plane_fifo_size(PLANE_CURSOR, G4X_WM_LEVEL_HPLL)) &&
+> +		    intermediate->hpll_en);
+> +
+> +	drm_WARN_ON(crtc->base.dev,
+> +		    intermediate->sr.fbc > g4x_fbc_fifo_size(1) &&
+> +		    intermediate->fbc_en && intermediate->cxsr);
+> +	drm_WARN_ON(crtc->base.dev,
+> +		    intermediate->hpll.fbc > g4x_fbc_fifo_size(2) &&
+> +		    intermediate->fbc_en && intermediate->hpll_en);
 
-Needs parens around the dev_priv macro argument.
+Please add a i915 local variable and use &i915->drm.
+
+>  
+>  out:
+>  	/*
+> @@ -1748,11 +1752,11 @@ static int vlv_compute_fifo(struct intel_crtc_state *crtc_state)
+>  		fifo_left -= plane_extra;
+>  	}
+>  
+> -	WARN_ON(active_planes != 0 && fifo_left != 0);
+> +	drm_WARN_ON(crtc->base.dev, active_planes != 0 && fifo_left != 0);
+>  
+>  	/* give it all to the first plane if none are active */
+>  	if (active_planes == 0) {
+> -		WARN_ON(fifo_left != fifo_size);
+> +		drm_WARN_ON(crtc->base.dev, fifo_left != fifo_size);
+>  		fifo_state->plane[PLANE_PRIMARY] = fifo_left;
+>  	}
+>  
+> @@ -4154,7 +4158,8 @@ skl_plane_downscale_amount(const struct intel_crtc_state *crtc_state,
+>  	uint_fixed_16_16_t fp_w_ratio, fp_h_ratio;
+>  	uint_fixed_16_16_t downscale_h, downscale_w;
+>  
+> -	if (WARN_ON(!intel_wm_plane_visible(crtc_state, plane_state)))
+> +	if (drm_WARN_ON(crtc_state->uapi.crtc->dev,
+> +			!intel_wm_plane_visible(crtc_state, plane_state)))
+>  		return u32_to_fixed16(0);
+>  
+>  	/*
+> @@ -4815,7 +4820,7 @@ intel_get_linetime_us(const struct intel_crtc_state *crtc_state)
+>  
+>  	pixel_rate = crtc_state->pixel_rate;
+>  
+> -	if (WARN_ON(pixel_rate == 0))
+> +	if (drm_WARN_ON(crtc_state->uapi.crtc->dev, pixel_rate == 0))
+>  		return u32_to_fixed16(0);
+>  
+>  	crtc_htotal = crtc_state->hw.adjusted_mode.crtc_htotal;
+> @@ -4832,7 +4837,8 @@ skl_adjusted_plane_pixel_rate(const struct intel_crtc_state *crtc_state,
+>  	uint_fixed_16_16_t downscale_amount;
+>  
+>  	/* Shouldn't reach here on disabled planes... */
+> -	if (WARN_ON(!intel_wm_plane_visible(crtc_state, plane_state)))
+> +	if (drm_WARN_ON(crtc_state->uapi.crtc->dev,
+> +			!intel_wm_plane_visible(crtc_state, plane_state)))
+>  		return 0;
+>  
+>  	/*
+> @@ -5261,9 +5267,10 @@ static int icl_build_plane_wm(struct intel_crtc_state *crtc_state,
+>  		const struct drm_framebuffer *fb = plane_state->hw.fb;
+>  		enum plane_id y_plane_id = plane_state->planar_linked_plane->id;
+>  
+> -		WARN_ON(!intel_wm_plane_visible(crtc_state, plane_state));
+> -		WARN_ON(!fb->format->is_yuv ||
+> -			fb->format->num_planes == 1);
+> +		drm_WARN_ON(crtc_state->uapi.crtc->dev,
+> +			    !intel_wm_plane_visible(crtc_state, plane_state));
+> +		drm_WARN_ON(crtc_state->uapi.crtc->dev, !fb->format->is_yuv ||
+> +			    fb->format->num_planes == 1);
+
+Ditto.
 
 BR,
 Jani.
 
+
 >  
->  static inline bool intel_vtd_active(void)
->  {
+>  		ret = skl_build_plane_wm_single(crtc_state, plane_state,
+>  						y_plane_id, 0);
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
