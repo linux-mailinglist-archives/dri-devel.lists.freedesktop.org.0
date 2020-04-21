@@ -1,41 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4C71B383F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:56:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7050B1B20EB
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 10:04:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDB066E9C0;
-	Wed, 22 Apr 2020 06:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CE3A89C51;
+	Tue, 21 Apr 2020 08:04:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m176115.mail.qiye.163.com (m176115.mail.qiye.163.com
- [59.111.176.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5892289C51
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 08:03:45 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.122])
- by m176115.mail.qiye.163.com (Hmail) with ESMTPA id EFA83665946;
- Tue, 21 Apr 2020 16:03:30 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH V3] amdgpu: remove unnecessary condition check
-Date: Tue, 21 Apr 2020 01:03:24 -0700
-Message-Id: <20200421080324.130104-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.26.2
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94CE089C51;
+ Tue, 21 Apr 2020 08:04:26 +0000 (UTC)
+IronPort-SDR: Q5VodBK95ngYoBehKOCsCAEUOSMZLHiX7q7ALsT1MCIOOd94yaxp6MgTgfqiRL8RuXTEstJGgn
+ wPlKYnHc3MpQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2020 01:04:25 -0700
+IronPort-SDR: IXYg6SSpX7hdQQVYD8yzR/2w4auXjkQzvqwIEzbZzpYPW8bvZRFwA/pTyh7Xua1RY7e4nWklLV
+ I+8o6hz+v5Eg==
+X-IronPort-AV: E=Sophos;i="5.72,409,1580803200"; d="scan'208";a="402113649"
+Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
+ ([10.214.210.219])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2020 01:04:17 -0700
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZTlVOTUhLS0tJS0lKTENCTVlXWShZQU
- hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PyI6UQw6ODgxAgNDMVEUIjMp
- SzAaChhVSlVKTkNMT05NSUpPSUNPVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSUlZV1kIAVlBSEtOQjcG
-X-HM-Tid: 0a719bc378d89373kuwsefa83665946
-X-Mailman-Approved-At: Wed, 22 Apr 2020 06:54:41 +0000
+In-Reply-To: <20200420154216.GA1963@sultan-box.localdomain>
+References: <20200407065210.GA263852@kroah.com>
+ <20200407071809.3148-1-sultan@kerneltoast.com>
+ <20200410090838.GD1691838@kroah.com>
+ <20200410141738.GB2025@sultan-box.localdomain>
+ <20200411113957.GB2606747@kroah.com>
+ <158685210730.16269.15932754047962572236@build.alporthouse.com>
+ <20200414082344.GA10645@kroah.com>
+ <158737335977.8380.15005528012712372014@jlahtine-desk.ger.corp.intel.com>
+ <20200420154216.GA1963@sultan-box.localdomain>
+Subject: Re: [PATCH v2] drm/i915: Fix ref->mutex deadlock in i915_active_wait()
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Sultan Alsawaf <sultan@kerneltoast.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Tue, 21 Apr 2020 11:04:13 +0300
+Message-ID: <158745625375.5265.15743487643543685929@jlahtine-desk.ger.corp.intel.com>
+User-Agent: alot/0.8.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,75 +56,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: 1587180037-113840-1-git-send-email-bernard@vivo.com
-Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Greg KH <gregkh@linuxfoundation.org>, intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, stable@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no need to if check again, maybe we could merge
-into the above else branch.
+Quoting Sultan Alsawaf (2020-04-20 18:42:16)
+> On Mon, Apr 20, 2020 at 12:02:39PM +0300, Joonas Lahtinen wrote:
+> > I think the the patch should be dropped for now before the issue is
+> > properly addressed. Either by backporting the mainline fixes or if
+> > those are too big and there indeed is a smaller alternative patch
+> > that is properly reviewed. But the above patch is not, at least yet.
+> 
+> Why should a fix for a bona-fide issue be dropped due to political reasons? This
+> doesn't make sense to me. This just hurts miserable i915 users even more. If my
+> patch is going to be dropped, it should be replaced by a different fix at the
+> same time.
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
+There's no politics involved. It's all about doing the due diligence
+that we're fixing upstream bugs, and we're fixing them in a way that
+does not cause regressions to other users.
 
-Changes since V1:
-*commit message improve
-*code style refactoring
+Without being able to reproduce a bug against vanilla kernel, there's
+too high of a risk that the patch that was developed will only work
+on the downstream kernel it was developed for. That happens for the
+best of the developers, and that is exactly why the process is in
+place, to avoid human error. So no politics, just due diligence.
 
-Changes since V2:
-*code style adjust
+If you could provide bug reproduction instructions by filing a bug,
+we can make forward progress in solving this issue. After assessing
+the severity of the bug and the amount of users involved, it will
+be prioritized accordingly. That is the most efficient way to get
+attention to a bug.
 
-Link for V1:
-*https://lore.kernel.org/patchwork/patch/1226587/
----
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+> Also, the mainline fixes just *happen* to fix this deadlock by removing the
+> mutex lock from the path in question and creating multiple other bugs in the
+> process that had to be addressed with "Fixes:" commits. The regression potential
+> was too high to include those patches for a "stable" kernel, so I made this
+> patch which fixes the issue in the simplest way possible.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 9dff792c9290..5424bd921a7b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -660,13 +660,12 @@ static int reserve_bo_and_vm(struct kgd_mem *mem,
- 
- 	ret = ttm_eu_reserve_buffers(&ctx->ticket, &ctx->list,
- 				     false, &ctx->duplicates);
--	if (!ret)
--		ctx->reserved = true;
--	else {
--		pr_err("Failed to reserve buffers in ttm\n");
-+	if (ret) {
-+		pr_err("Failed to reserve buffers in ttm.\n");
- 		kfree(ctx->vm_pd);
- 		ctx->vm_pd = NULL;
--	}
-+	} else
-+		ctx->reserved = true;
- 
- 	return ret;
- }
-@@ -733,15 +732,12 @@ static int reserve_bo_and_cond_vms(struct kgd_mem *mem,
- 
- 	ret = ttm_eu_reserve_buffers(&ctx->ticket, &ctx->list,
- 				     false, &ctx->duplicates);
--	if (!ret)
--		ctx->reserved = true;
--	else
--		pr_err("Failed to reserve buffers in ttm.\n");
--
- 	if (ret) {
-+		pr_err("Failed to reserve buffers in ttm.\n");
- 		kfree(ctx->vm_pd);
- 		ctx->vm_pd = NULL;
--	}
-+	} else
-+		ctx->reserved = true;
- 
- 	return ret;
- }
--- 
-2.26.2
+The thing is that it may be that the patch fixes the exact issue you
+have at hand in the downstream kernel you are testing against. But
+in doing so it may as well break other usecases for other users of
+vanilla kernel. That is what we're trying to avoid.
 
+With the reproduction instructions, it'll be possible to check which
+kernel versions are affected, and after applying a fix to make sure
+that the bug is gone from those version. And if the reproduction can
+be trivialized to a test, we can introduce a regression check to CI.
+
+A patch that claims to fix a deadlock in upstream kernel should
+include that splat from upstream kernel, not a speculated chain.
+Again, this is just the regular due diligence, because we have
+made errors in the past. It is for those self-made errors we
+know not to merge fixes too quickly before we are able to
+reproduce the error and make sure it is gone.
+
+It's not about where the patch came from, it's about avoiding
+errors.
+
+> We put this patch into
+> Ubuntu now as well, because praying for a response from i915 maintainers while
+> the 20.04 release was on the horizon was not an option.
+> 
+> > There is an another similar thread where there's jumping into
+> > conclusions and doing ad-hoc patches for already fixed issues:
+> > 
+> > https://lore.kernel.org/dri-devel/20200414144309.GB2082@sultan-box.localdomain/
+> 
+> Maybe this wouldn't have happened if I had received a proper response for that
+> issue on gitlab from the get-go... Instead I got the run-around from Chris
+> claiming that it wasn't an i915 bug:
+> 
+> https://gitlab.freedesktop.org/drm/intel/issues/1599
+> 
+> > I appreciate enthusiasm to provide fixes to i915 but we should
+> > continue do the regular due diligence to make sure we're properly
+> > fixing bugs in upstream kernels. And when fixing them, to make
+> > sure we're not simply papering over them for a single use case.
+> > 
+> > It would be preferred to file a bug for the seen issues,
+> > describing how to reproduce them with vanilla upstream kernels:
+> > 
+> > https://gitlab.freedesktop.org/drm/intel/-/wikis/How-to-file-i915-bugs
+> 
+> gitlab.freedesktop.org/drm/intel is where bugs go to be neglected, as noted
+> above. I really see no reason to send anything there anymore, when the vast
+> majority of community-sourced bug reports go ignored.
+
+In the above bug, you claim to be booting vanilla kernel but the splat
+clearly says "5.4.28-00007-g64bb42e80256-dirty", so the developer correctly
+requested to bisect the error between 5.4.27 and 5.4.28 vanilla kernels, which
+you seem to have ignored and simply jumped to provide a patch.
+
+Apologies if it feels like the bugs do not get enough attention, but we
+do our best to act on the reported bugs. You can best guarantee that
+your bug is getting the attention by providing all the details requested
+in the above link.
+
+Without that information, it'll be hard to assess the severity of the
+bug. Above bug is missing critical pieces of information which help us
+in assessing the severity: 1. Is the bug reproducible on drm-tip?
+2. How to reproduce? 3. How often does it reproduce? 4. Which hardware?
+
+If that information is missing, it means that that some of our
+developers needs to find out all those bits of information before
+we can even assess the severity of the bug. And as we also have
+bugs where the information is present, those are often acted on
+first.
+
+Again, no politics involved and no praying needed. We just have a
+process to follow to make sure we don't repeat our past mistakes
+as it's only humans who work on the bugs. At times it may feel
+rigid and not suited for the specific case where you feel there
+is a shorter route to produce a fix, but following the bug process
+helps us understand the problem and avoid trivial mistakes.
+
+Regards, Joonas
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
