@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127371B1F46
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:55:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A01FE1B1F48
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 08:56:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9283E6E8C9;
-	Tue, 21 Apr 2020 06:55:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 889CE6E8B5;
+	Tue, 21 Apr 2020 06:56:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 284D66E8C3;
- Tue, 21 Apr 2020 06:55:40 +0000 (UTC)
-IronPort-SDR: /uWrBlMaTMX6VDk7kLbGrrwt9OAkn+9poTQwNp7WEuadq7P/4XHCghXsSo65SOd/kv1CVTtJN5
- XpqW+qbHrvpg==
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 989986E8B5;
+ Tue, 21 Apr 2020 06:56:16 +0000 (UTC)
+IronPort-SDR: datjOjS49JFWLW7f4bc/Av6JuqanVN9W962hQKNM8uMmKaaFAESmezs7I6tc55CjMG7oiGjfmA
+ Dg1QPLm+yYkw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2020 23:55:39 -0700
-IronPort-SDR: 2JMRaGxKmaWAPRgifcZ7HiD+TsHeWZTAaIRRuwHP0upcg53a6diM8U+2/mwhhLm4NTEViizthj
- /ohuYMq9HK7Q==
-X-IronPort-AV: E=Sophos;i="5.72,409,1580803200"; d="scan'208";a="429422984"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2020 23:56:15 -0700
+IronPort-SDR: Nev4Z5qPr/VYcEOZvq4YeFa+9+e0AtjGhkEuvh1VxE6eCx83V1Rna7bJ2DpROWWM40fc+l5DYK
+ c6Q25N+gaZOw==
+X-IronPort-AV: E=Sophos;i="5.72,409,1580803200"; d="scan'208";a="402095723"
 Received: from parkernx-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.46.80])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2020 23:55:33 -0700
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2020 23:56:10 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
  daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
@@ -33,14 +33,15 @@ To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
  <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
  David Airlie <airlied@linux.ie>, Ville =?utf-8?B?U3lyasOkbMOk?=
  <ville.syrjala@linux.intel.com>, Chris Wilson <chris@chris-wilson.co.uk>,
- Imre Deak <imre.deak@intel.com>
-Subject: Re: [PATCH 11/18] drm/i915/display/sdvo: Prefer drm_WARN* over WARN*
-In-Reply-To: <20200406112800.23762-12-pankaj.laxminarayan.bharadiya@intel.com>
+ Manasi Navare <manasi.d.navare@intel.com>, Imre Deak
+ <imre.deak@intel.com>, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Subject: Re: [PATCH 06/18] drm/i915/display/dp: Prefer drm_WARN* over WARN*
+In-Reply-To: <20200406112800.23762-7-pankaj.laxminarayan.bharadiya@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20200406112800.23762-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200406112800.23762-12-pankaj.laxminarayan.bharadiya@intel.com>
-Date: Tue, 21 Apr 2020 09:55:30 +0300
-Message-ID: <875zdt1g65.fsf@intel.com>
+ <20200406112800.23762-7-pankaj.laxminarayan.bharadiya@intel.com>
+Date: Tue, 21 Apr 2020 09:56:08 +0300
+Message-ID: <87368x1g53.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,87 +64,172 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Mon, 06 Apr 2020, Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com> wrote:
 > struct drm_device specific drm_WARN* macros include device information
 > in the backtrace, so we know what device the warnings originate from.
+
+The patch no longer applies.
+
 >
-> Prefer drm_WARN* over WARN* calls.
+> Prefer drm_WARN* over WARN* at places where struct intel_dp struct
+> pointer is available.
+>
+> Conversion is done with below sementic patch:
+>
+> @@
+> identifier func, T;
+> @@
+> func(struct intel_dp *T,...) {
+> + struct drm_i915_private *i915 = dp_to_i915(T);
+> <+...
+> (
+> -WARN_ON(
+> +drm_WARN_ON(&i915->drm,
+> ...)
+> |
+> -WARN_ON_ONCE(
+> +drm_WARN_ON_ONCE(&i915->drm,
+> ...)
+> )
+> ...+>
+>
+> }
+>
+> @@
+> identifier func, T;
+> @@
+> func(...) {
+> ...
+> struct intel_dp *T = ...;
+> + struct drm_i915_private *i915 = dp_to_i915(T);
+> <+...
+> (
+> -WARN_ON(
+> +drm_WARN_ON(&i915->drm,
+> ...)
+> |
+> -WARN_ON_ONCE(
+> +drm_WARN_ON_ONCE(&i915->drm,
+> ...)
+> )
+> ...+>
+>
+> }
 >
 > Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_sdvo.c | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/i915/display/intel_dp.c | 26 ++++++++++++++++---------
+>  1 file changed, 17 insertions(+), 9 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
-> index e6306cbb7a3a..477465a9af90 100644
-> --- a/drivers/gpu/drm/i915/display/intel_sdvo.c
-> +++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
-> @@ -431,7 +431,7 @@ static void intel_sdvo_debug_write(struct intel_sdvo *intel_sdvo, u8 cmd,
->  	else
->  		BUF_PRINT("(%02X)", cmd);
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index db6ae8e9af6e..5076a7cfe0e5 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -410,7 +410,10 @@ static int intel_dp_rate_index(const int *rates, int len, int rate)
 >  
-> -	WARN_ON(pos >= sizeof(buffer) - 1);
-> +	drm_WARN_ON(intel_sdvo->base.base.dev, pos >= sizeof(buffer) - 1);
->  #undef BUF_PRINT
+>  static void intel_dp_set_common_rates(struct intel_dp *intel_dp)
+>  {
+> -	WARN_ON(!intel_dp->num_source_rates || !intel_dp->num_sink_rates);
+> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+> +
+> +	drm_WARN_ON(&i915->drm,
+> +		    !intel_dp->num_source_rates || !intel_dp->num_sink_rates);
 >  
->  	DRM_DEBUG_KMS("%s: W: %02X %s\n", SDVO_NAME(intel_sdvo), cmd, buffer);
-> @@ -597,7 +597,7 @@ static bool intel_sdvo_read_response(struct intel_sdvo *intel_sdvo,
->  		BUF_PRINT(" %02X", ((u8 *)response)[i]);
+>  	intel_dp->num_common_rates = intersect_rates(intel_dp->source_rates,
+>  						     intel_dp->num_source_rates,
+> @@ -419,7 +422,7 @@ static void intel_dp_set_common_rates(struct intel_dp *intel_dp)
+>  						     intel_dp->common_rates);
+>  
+>  	/* Paranoia, there should always be something in common. */
+> -	if (WARN_ON(intel_dp->num_common_rates == 0)) {
+> +	if (drm_WARN_ON(&i915->drm, intel_dp->num_common_rates == 0)) {
+>  		intel_dp->common_rates[0] = 162000;
+>  		intel_dp->num_common_rates = 1;
 >  	}
+> @@ -1549,6 +1552,7 @@ static ssize_t
+>  intel_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
+>  {
+>  	struct intel_dp *intel_dp = container_of(aux, struct intel_dp, aux);
+> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>  	u8 txbuf[20], rxbuf[20];
+>  	size_t txsize, rxsize;
+>  	int ret;
+> @@ -1562,10 +1566,10 @@ intel_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
+>  		txsize = msg->size ? HEADER_SIZE + msg->size : BARE_ADDRESS_SIZE;
+>  		rxsize = 2; /* 0 or 1 data bytes */
 >  
-> -	WARN_ON(pos >= sizeof(buffer) - 1);
-> +	drm_WARN_ON(intel_sdvo->base.base.dev, pos >= sizeof(buffer) - 1);
->  #undef BUF_PRINT
+> -		if (WARN_ON(txsize > 20))
+> +		if (drm_WARN_ON(&i915->drm, txsize > 20))
+>  			return -E2BIG;
 >  
->  	DRM_DEBUG_KMS("%s: R: %s\n", SDVO_NAME(intel_sdvo), buffer);
-> @@ -1106,7 +1106,7 @@ static bool intel_sdvo_compute_avi_infoframe(struct intel_sdvo *intel_sdvo,
->  					   HDMI_QUANTIZATION_RANGE_FULL);
+> -		WARN_ON(!msg->buffer != !msg->size);
+> +		drm_WARN_ON(&i915->drm, !msg->buffer != !msg->size);
 >  
->  	ret = hdmi_avi_infoframe_check(frame);
-> -	if (WARN_ON(ret))
-> +	if (drm_WARN_ON(intel_sdvo->base.base.dev, ret))
->  		return false;
+>  		if (msg->buffer)
+>  			memcpy(txbuf + HEADER_SIZE, msg->buffer, msg->size);
+> @@ -1590,7 +1594,7 @@ intel_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
+>  		txsize = msg->size ? HEADER_SIZE : BARE_ADDRESS_SIZE;
+>  		rxsize = msg->size + 1;
 >  
->  	return true;
-> @@ -1123,11 +1123,12 @@ static bool intel_sdvo_set_avi_infoframe(struct intel_sdvo *intel_sdvo,
->  	     intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_AVI)) == 0)
->  		return true;
+> -		if (WARN_ON(rxsize > 20))
+> +		if (drm_WARN_ON(&i915->drm, rxsize > 20))
+>  			return -E2BIG;
 >  
-> -	if (WARN_ON(frame->any.type != HDMI_INFOFRAME_TYPE_AVI))
-> +	if (drm_WARN_ON(intel_sdvo->base.base.dev,
-> +			frame->any.type != HDMI_INFOFRAME_TYPE_AVI))
->  		return false;
+>  		ret = intel_dp_aux_xfer(intel_dp, txbuf, txsize,
+> @@ -1864,10 +1868,11 @@ static void intel_dp_print_rates(struct intel_dp *intel_dp)
+>  int
+>  intel_dp_max_link_rate(struct intel_dp *intel_dp)
+>  {
+> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>  	int len;
 >  
->  	len = hdmi_infoframe_pack_only(frame, sdvo_data, sizeof(sdvo_data));
-> -	if (WARN_ON(len < 0))
-> +	if (drm_WARN_ON(intel_sdvo->base.base.dev, len < 0))
-
-For most places, but especially places like this, I'd rather you added a
-i915 local variable and used &i915->drm instead.
-
-BR,
-Jani.
-
-
->  		return false;
+>  	len = intel_dp_common_len_rate_limit(intel_dp, intel_dp->max_link_rate);
+> -	if (WARN_ON(len <= 0))
+> +	if (drm_WARN_ON(&i915->drm, len <= 0))
+>  		return 162000;
 >  
->  	return intel_sdvo_write_infoframe(intel_sdvo, SDVO_HBUF_INDEX_AVI_IF,
-> @@ -1257,7 +1258,8 @@ static void i9xx_adjust_sdvo_tv_clock(struct intel_crtc_state *pipe_config)
->  		clock->m1 = 12;
->  		clock->m2 = 8;
->  	} else {
-> -		WARN(1, "SDVO TV clock out of range: %i\n", dotclock);
-> +		drm_WARN(pipe_config->uapi.crtc->dev, 1,
-> +			 "SDVO TV clock out of range: %i\n", dotclock);
->  	}
+>  	return intel_dp->common_rates[len - 1];
+> @@ -1875,10 +1880,11 @@ intel_dp_max_link_rate(struct intel_dp *intel_dp)
 >  
->  	pipe_config->clock_set = true;
-> @@ -2294,7 +2296,7 @@ intel_sdvo_connector_atomic_get_property(struct drm_connector *connector,
->  				return 0;
->  			}
+>  int intel_dp_rate_select(struct intel_dp *intel_dp, int rate)
+>  {
+> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>  	int i = intel_dp_rate_index(intel_dp->sink_rates,
+>  				    intel_dp->num_sink_rates, rate);
 >  
-> -		WARN_ON(1);
-> +		drm_WARN_ON(connector->dev, 1);
->  		*val = 0;
->  	} else if (property == intel_sdvo_connector->top ||
->  		   property == intel_sdvo_connector->bottom)
+> -	if (WARN_ON(i < 0))
+> +	if (drm_WARN_ON(&i915->drm, i < 0))
+>  		i = 0;
+>  
+>  	return i;
+> @@ -5404,6 +5410,7 @@ static void intel_dp_handle_test_request(struct intel_dp *intel_dp)
+>  static int
+>  intel_dp_check_mst_status(struct intel_dp *intel_dp)
+>  {
+> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>  	bool bret;
+>  
+>  	if (intel_dp->is_mst) {
+> @@ -5412,7 +5419,7 @@ intel_dp_check_mst_status(struct intel_dp *intel_dp)
+>  		int retry;
+>  		bool handled;
+>  
+> -		WARN_ON_ONCE(intel_dp->active_mst_links < 0);
+> +		drm_WARN_ON_ONCE(&i915->drm, intel_dp->active_mst_links < 0);
+>  		bret = intel_dp_get_sink_irq_esi(intel_dp, esi);
+>  go_again:
+>  		if (bret == true) {
+> @@ -5695,11 +5702,12 @@ intel_dp_short_pulse(struct intel_dp *intel_dp)
+>  static enum drm_connector_status
+>  intel_dp_detect_dpcd(struct intel_dp *intel_dp)
+>  {
+> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>  	struct intel_lspcon *lspcon = dp_to_lspcon(intel_dp);
+>  	u8 *dpcd = intel_dp->dpcd;
+>  	u8 type;
+>  
+> -	if (WARN_ON(intel_dp_is_edp(intel_dp)))
+> +	if (drm_WARN_ON(&i915->drm, intel_dp_is_edp(intel_dp)))
+>  		return connector_status_connected;
+>  
+>  	if (lspcon->active)
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
