@@ -1,103 +1,146 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A871B211B
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 10:09:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC9A1B380B
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:54:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 182456E89E;
-	Tue, 21 Apr 2020 08:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59E8C6E83E;
+	Wed, 22 Apr 2020 06:54:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FA506E89E
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 08:09:33 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200421080929euoutp01275fb79fa1d7df9fbe8d4f4051967620~Hx1bTdIu90714407144euoutp01H
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 08:09:29 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200421080929euoutp01275fb79fa1d7df9fbe8d4f4051967620~Hx1bTdIu90714407144euoutp01H
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1587456569;
- bh=FCt71SEiI519fjradSUmj8Awr/xMxJ7GwNv2OpT0rYw=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=WMp9wzintspdJ3t2O13LELgLTKfFXk3k0sJfAKdsSQNvRwVQ7gwKA1kRjRbbA0CBf
- RQnzopEA/2g6TToh6my1V5pfPwviHkix0sUtHJlom1aWapd673bTO2xTdQXHG+Eb3X
- wVqDd1WOG2pC9HTbhZ7zmv9rW5WQwm+4Sq6UPnZ8=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200421080929eucas1p19646994bab12742d52528801e616d899~Hx1a-T7WL2150021500eucas1p1H;
- Tue, 21 Apr 2020 08:09:29 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 23.37.60679.83AAE9E5; Tue, 21
- Apr 2020 09:09:28 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200421080928eucas1p164c7148d7ff0e85ad9751fc89a1d45b3~Hx1amUDlj2149521495eucas1p1X;
- Tue, 21 Apr 2020 08:09:28 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200421080928eusmtrp26f53e863422d737e6f8b33aa5811a0bd~Hx1aluwzk2810628106eusmtrp2u;
- Tue, 21 Apr 2020 08:09:28 +0000 (GMT)
-X-AuditID: cbfec7f4-0cbff7000001ed07-1b-5e9eaa385884
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 1A.A2.07950.83AAE9E5; Tue, 21
- Apr 2020 09:09:28 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200421080928eusmtip13945b7bfcf9bf1dad8bd27c320511410~Hx1aKXjAa2484924849eusmtip1b;
- Tue, 21 Apr 2020 08:09:28 +0000 (GMT)
-Subject: Re: [PATCH 2/3] drm/exynos: gem: Rework scatter-list contiguity
- check on Prime import
-To: Inki Dae <inki.dae@samsung.com>, dri-devel@lists.freedesktop.org,
- linux-samsung-soc@vger.kernel.org
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <40285486-be0a-1e7b-6fd9-2c821bd537f9@samsung.com>
-Date: Tue, 21 Apr 2020 10:09:28 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <92cffe01-7a14-8fbd-90a3-dc171884c26d@samsung.com>
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr130079.outbound.protection.outlook.com [40.107.13.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E84786E029;
+ Tue, 21 Apr 2020 08:17:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jv2cPQm7xH+KZ+EotFKKCWV9YAf81JfV2itsl+KgvyM=;
+ b=FcAn67wK1Dt5zectlDP7f24o+nGgDk2Xef3+kdB1ihgsHvpfx32/KSD5kJqDBZlcYBwNWX6rKyB9zuZDlXwuxXDdLu8urey2kysyl8bYL5d1LwUeuZswkCGhoSWGYlqIG9RIUeDyaug0y3iV+sxnmLE+PjDa/xmtoMwcTpkoysc=
+Received: from AM6P191CA0078.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:8a::19)
+ by DB8PR08MB5532.eurprd08.prod.outlook.com (2603:10a6:10:f8::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Tue, 21 Apr
+ 2020 08:16:59 +0000
+Received: from AM5EUR03FT063.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:209:8a:cafe::71) by AM6P191CA0078.outlook.office365.com
+ (2603:10a6:209:8a::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
+ Transport; Tue, 21 Apr 2020 08:16:59 +0000
+Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
+ dmarc=bestguesspass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM5EUR03FT063.mail.protection.outlook.com (10.152.16.226) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2900.18 via Frontend Transport; Tue, 21 Apr 2020 08:16:59 +0000
+Received: ("Tessian outbound 3a3e6dcbad0e:v53");
+ Tue, 21 Apr 2020 08:16:57 +0000
+X-CR-MTA-TID: 64aa7808
+Received: from c473cb8e1070.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 4F2A79AA-FCDC-4567-836C-979C2DD3AD75.1; 
+ Tue, 21 Apr 2020 08:16:57 +0000
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id c473cb8e1070.1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Tue, 21 Apr 2020 08:16:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ID3X4ixCak+CD7BfX9fYWdPZOeDaOc7Jv8OUmRofedRDDM5wxM8ApFTid1S4MMMrRcsDcsbmb3XruSonp4gHVvTi9PoGv3kXegUuhf/aFeuEYbCgrW0JUYjiE4oLDJozoWn0pUFkJIimIsxkyrNPwUMS1jS4D7OHLvCPv2hlRvXE0XMjg/sWJLN1Xl+brmAFbVr6mcF7uh4yBlbefYSfphSR4uC2O1NX35z6sVPoZiRbSBEgXTgG6m5bA39cUCJqdyHQfNuLVOPTI07tm6dxqfMkArkTK+ESOOdOLeAZvIJfjQQA7p5iJJhjHaamSz9WWLLgUhHHFk6yu8vgNdG9lA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jv2cPQm7xH+KZ+EotFKKCWV9YAf81JfV2itsl+KgvyM=;
+ b=LiqdAGp3SP6W/wCG1EtiXOJiiqRAhEIRg2QSffBayUH/EMZHZKj+CiGK9gaIHxza9oB1y3M0IFiDMiXQj6M2rU9Vf0jcFAMM4MuohwgyhWImOnecSWqMqPigsB4On4qzrylXav55YjOizeXR5l8Us47h2BctKG3hISboBB1RBgrP5NaeXcR0RjMOsm8NZN1zktVVnnSupo4mJ9TMdQAmUMyk0+mSYU1GbislxvzCNxIH5XEtCXaPQ6kmnKyA0Ur/DW6cIt+voXM/nhO97TPea8UXO3Ywpjr+mLp9EZR8l7ye+2QT8Whq4cXuCyilUNth0SEwfz4UixuwLHZd/1p3+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jv2cPQm7xH+KZ+EotFKKCWV9YAf81JfV2itsl+KgvyM=;
+ b=FcAn67wK1Dt5zectlDP7f24o+nGgDk2Xef3+kdB1ihgsHvpfx32/KSD5kJqDBZlcYBwNWX6rKyB9zuZDlXwuxXDdLu8urey2kysyl8bYL5d1LwUeuZswkCGhoSWGYlqIG9RIUeDyaug0y3iV+sxnmLE+PjDa/xmtoMwcTpkoysc=
+Received: from DB6PR0802MB2533.eurprd08.prod.outlook.com (2603:10a6:4:a0::12)
+ by DB6PR0802MB2438.eurprd08.prod.outlook.com (2603:10a6:4:a2::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Tue, 21 Apr
+ 2020 08:16:49 +0000
+Received: from DB6PR0802MB2533.eurprd08.prod.outlook.com
+ ([fe80::b959:1879:c050:3117]) by DB6PR0802MB2533.eurprd08.prod.outlook.com
+ ([fe80::b959:1879:c050:3117%8]) with mapi id 15.20.2921.027; Tue, 21 Apr 2020
+ 08:16:49 +0000
+From: Hadar Gat <Hadar.Gat@arm.com>
+To: Rob Herring <robh@kernel.org>
+Subject: RE: [PATCH] of_device: removed #include that caused a recursion in
+ included headers
+Thread-Topic: [PATCH] of_device: removed #include that caused a recursion in
+ included headers
+Thread-Index: AQHWEZiY+abZp/0PVkOqsiba5LEPaqiCg6GAgAC++lA=
+Date: Tue, 21 Apr 2020 08:16:48 +0000
+Message-ID: <DB6PR0802MB2533545239D9A51DC529F241E9D50@DB6PR0802MB2533.eurprd08.prod.outlook.com>
+References: <1586784960-22692-1-git-send-email-hadar.gat@arm.com>
+ <20200420203647.GA23189@bogus>
+In-Reply-To: <20200420203647.GA23189@bogus>
+Accept-Language: en-US
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBKsWRmVeSWpSXmKPExsWy7djPc7oWq+bFGbRMsrG4te4cq8XGGetZ
- La58fc9mMen+BBaLGef3MVnMmPySzYHN4373cSaPvi2rGD0+b5ILYI7isklJzcksSy3St0vg
- yvj9bipLwUGBiil/L7I2MG7l7WLk5JAQMJF4ufIIexcjF4eQwApGibeXd7JCOF8YJVYc+swI
- 4XxmlDh7bhc7TMv5DxuZIRLLGSX2LN7LAuG8Z5RYuO4AUxcjB4ewQILEid06IA0iApkSB55M
- ZwSxmQXaGSXWHo8HsdkEDCW63naxgZTzCthJfJ0pCxJmEVCV+PpiPjNIWFQgVmL6tRCQMK+A
- oMTJmU9YQGxOAXuJJUt2sUJMlJdo3jqbGcIWl7j1ZD4TxJnz2CWWd3JD2C4S/67fgYoLS7w6
- vgXqFRmJ/ztB6rmA7GZGiYfn1rJDOD2MEpebZjBCVFlL3Dn3C+xOZgFNifW79EFMCQFHib79
- YhAmn8SNt4IQJ/BJTNo2nRkizCvR0SYEMUNNYtbxdXBbD164xDyBUWkWksdmIXlmFpJnZiGs
- XcDIsopRPLW0ODc9tdgoL7Vcrzgxt7g0L10vOT93EyMwvZz+d/zLDsZdf5IOMQpwMCrx8G4Q
- mxcnxJpYVlyZe4hRgoNZSYTXQgsoxJuSWFmVWpQfX1Sak1p8iFGag0VJnNd40ctYIYH0xJLU
- 7NTUgtQimCwTB6dUA2P4NSa3E5d+HLWQLniTJnUnveXeAamvq4wOfbwZdTp1FZ/FDq2OjiOF
- M3/vvt3h/D+0Y5ZQ04WVmVmBX35P/PiLUeCHmXVn024+vsNmzcZ7sh/dO/xCWHt30rkw9yva
- y7k4MvdMbnr4Tnhahf6z5lefT33Iv/DeNHeFp3Dv+7qK6B07d9UtEputxFKckWioxVxUnAgA
- vqS6FSsDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHIsWRmVeSWpSXmKPExsVy+t/xu7oWq+bFGVyYrWhxa905VouNM9az
- Wlz5+p7NYtL9CSwWM87vY7KYMfklmwObx/3u40wefVtWMXp83iQXwBylZ1OUX1qSqpCRX1xi
- qxRtaGGkZ2hpoWdkYqlnaGwea2VkqqRvZ5OSmpNZllqkb5egl/H73VSWgoMCFVP+XmRtYNzK
- 28XIySEhYCJx/sNG5i5GLg4hgaWMEusub2CESMhInJzWwAphC0v8udbFBlH0llHi8oz9zCAJ
- YYEEicmnboE1iAhkSrxsXg82iVmgnVHiyL4OdoiOH4wSB9pfglWxCRhKdL0FGcXBwStgJ/F1
- pixImEVAVeLri/nMIGFRgViJlouaIGFeAUGJkzOfsIDYnAL2EkuW7AI7iFnATGLe5ofMELa8
- RPPW2VC2uMStJ/OZJjAKzULSPgtJyywkLbOQtCxgZFnFKJJaWpybnltspFecmFtcmpeul5yf
- u4kRGFfbjv3csoOx613wIUYBDkYlHt4NYvPihFgTy4orcw8xSnAwK4nwWmgBhXhTEiurUovy
- 44tKc1KLDzGaAv02kVlKNDkfGPN5JfGGpobmFpaG5sbmxmYWSuK8HQIHY4QE0hNLUrNTUwtS
- i2D6mDg4pYCR9MTrg88Hbo6PsttPiBz8tyhvw8FqgVe7gmNKTTKEf7BpyU4UtNn6zU1m7628
- 2Lz+svvvY3RK2LeK7fz3wGH3+3V//Od4v4u6b3PlwxmXLz1by1X5U8UYDxz21NL6sb1i4o7X
- FpHJGXopBVO2/0594fr96+a+rFvbf79b1hmvt3eeWou3nfdxJZbijERDLeai4kQARebNN8EC
- AAA=
-X-CMS-MailID: 20200421080928eucas1p164c7148d7ff0e85ad9751fc89a1d45b3
-X-Msg-Generator: CA
-X-RootMTR: 20200407134314eucas1p1bfe654163e093db30c4a31bd9e1ccada
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200407134314eucas1p1bfe654163e093db30c4a31bd9e1ccada
-References: <20200407134256.9129-1-m.szyprowski@samsung.com>
- <CGME20200407134314eucas1p1bfe654163e093db30c4a31bd9e1ccada@eucas1p1.samsung.com>
- <20200407134256.9129-3-m.szyprowski@samsung.com>
- <92cffe01-7a14-8fbd-90a3-dc171884c26d@samsung.com>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ts-tracking-id: 9a0da84f-3d62-4600-86ab-07dcd4a991da.1
+x-checkrecipientchecked: true
+Authentication-Results-Original: spf=none (sender IP is )
+ smtp.mailfrom=Hadar.Gat@arm.com; 
+x-originating-ip: [84.109.179.203]
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: a9b9b139-6e51-4f62-d100-08d7e5cc5d0d
+x-ms-traffictypediagnostic: DB6PR0802MB2438:|DB6PR0802MB2438:|DB8PR08MB5532:
+x-ms-exchange-transport-forked: True
+X-Microsoft-Antispam-PRVS: <DB8PR08MB5532AED700565EF00576A133E9D50@DB8PR08MB5532.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+nodisclaimer: true
+x-ms-oob-tlc-oobclassifiers: OLM:6430;OLM:6430;
+x-forefront-prvs: 038002787A
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:DB6PR0802MB2533.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE; SFTY:;
+ SFS:(10009020)(4636009)(396003)(346002)(376002)(366004)(39860400002)(136003)(7416002)(7366002)(81156014)(6916009)(86362001)(7406005)(76116006)(2906002)(8676002)(8936002)(186003)(33656002)(4326008)(478600001)(71200400001)(66946007)(6506007)(26005)(54906003)(7696005)(316002)(66446008)(64756008)(66556008)(66476007)(5660300002)(52536014)(9686003)(55016002);
+ DIR:OUT; SFP:1101; 
+received-spf: None (protection.outlook.com: arm.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 1vi2oe8bj4TtbAYqnunSAAlFl5kY/+nhuGxMZFk+jPEGxchcUVbVRrQS7iIkaWRpL+OR71ZPCgyKUXiV//WriqboJueXVjacj/+2tKjlzs3mvznHNu9i1m1cc/vobc2lwyBreoPqu+xDYRQbutz09sCB8+rrb0pvHtXPdWo29aJthiXqZzXtAW9Sk75MSQuDXpFOmqlFxwSVMzVjQlLiFOnbvmjCZGe8aWRfSwQ3NaFoy6mcP13ZHqS99mExEdCk+GjkyqMyEWdgdUtoIY3dnh+RgYaWk7ZbDYchePh1IX0zMVID1LocPipNGljTbNtq2sUXR1xSU+tQZwvmFy9Nxd9x4cwGjVsrE6wArvIB2Q6lwUMiWNBPi6/a7xfw2rcojHyk1SHRHCCABbhj1rfy4OcCx3M31ksg5qG7tiwBlmM15n+jNWkbObmEr67F/l4g
+x-ms-exchange-antispam-messagedata: It7fEWIhcyCA8ZERRU1O40KTe+7UKv14dghrMOFOhIusVL4DzkGQlupZq08vqBVlKmSeVEuHN9raviiWA4C4EqIOmt0TDUKwqEIUg4ZxwxdaBAwiu32G8FqKzxwKnV3lQzhceIuDPfIDxdf46AxnGA==
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0802MB2438
+Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Hadar.Gat@arm.com; 
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT063.eop-EUR03.prod.protection.outlook.com
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE; SFTY:;
+ SFS:(10009020)(4636009)(396003)(136003)(376002)(39860400002)(346002)(46966005)(336012)(186003)(6506007)(450100002)(8676002)(7696005)(2906002)(4326008)(81156014)(5660300002)(36906005)(8936002)(70206006)(316002)(26005)(356005)(6862004)(70586007)(52536014)(478600001)(47076004)(86362001)(82740400003)(81166007)(33656002)(55016002)(54906003)(9686003);
+ DIR:OUT; SFP:1101; 
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 0c4cf79d-e522-47e4-0483-08d7e5cc56eb
+X-Forefront-PRVS: 038002787A
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: L/5GrdEXgo328hpGak4orcwRk5muR6UX/VQhyNMHYRfJr05DoGFfWp5wlwTLUiAUzPuCyEbc534S4pjY5yAHHIxnZFEWKEPjRkG2CX4oWfHUZZAgPwhI7UrOCdx8Yx5CTQkA7tkN720op0JCre7MgFClZ3QCdDzRTBr8dJEJnnbnncyAkeiiKzk+dyeYE37cdWfciMJT5zhTT40LVfkk/WnKtwByXspEpq4+al25K0w0Ow6sr4rPQVR/jIuOPXvVXivtbp4h3+FxRNTC/R8uXtbC/3koLYO66W0s4wVMiGljqA1tpWjX6+FrTkrPcTBEBICsQVV2cRdv4WraAaMavs3Y9W9BPGaO0PboP9fGTr3JkdkyG3sj8o+d2VyUvV9UySgFN1RO9DvY9yWKYsqq7+Xu8YVB/R9SHwl3nwnF1vdIVJZ1Itf0vVWdLZDUim2Re628iw0SpsWJP3N/NkuIyUnArDpp9PvdSPeMj1Fk9smSGNZExGnu3RC8wEnIveKYpgrTP6ZmVTNRqr4eFWft1w==
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 08:16:59.2719 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9b9b139-6e51-4f62-d100-08d7e5cc5d0d
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5532
+X-Mailman-Approved-At: Wed, 22 Apr 2020 06:54:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,49 +153,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <a.hajda@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jose Abreu <joabreu@synopsys.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, nd <nd@arm.com>,
+ Liviu Dudau <Liviu.Dudau@arm.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Sandy Huang <hjc@rock-chips.com>, Thierry Reding <thierry.reding@gmail.com>,
+ "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>, Lee Jones <lee.jones@linaro.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ Lorenzo Pieralisi <Lorenzo.Pieralisi@arm.com>,
+ Frank Rowand <frowand.list@gmail.com>,
+ "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
+ Richard Weinberger <richard@nod.at>, Joerg Roedel <joro@8bytes.org>,
+ Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Tony Lindgren <tony@atomide.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Andy Gross <agross@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ Gilad Ben-Yossef <gilad@benyossef.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Ofir Drang <Ofir.Drang@arm.com>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ JC Kuo <jckuo@nvidia.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Kukjin Kim <kgene@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Sudeep Holla <Sudeep.Holla@arm.com>,
+ "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSW5raSwKCk9uIDIxLjA0LjIwMjAgMDk6MzgsIElua2kgRGFlIHdyb3RlOgo+IDIwLiA0LiA3
-LiDsmKTtm4QgMTA6NDLsl5AgTWFyZWsgU3p5cHJvd3NraSDsnbQo6rCAKSDsk7Qg6riAOgo+PiBF
-eHBsaWNpdGx5IGNoZWNrIGlmIHRoZSBpbXBvcnRlZCBidWZmZXIgaGFzIGJlZW4gbWFwcGVkIGFz
-IGNvbnRpZ3VvdXMgaW4KPj4gdGhlIERNQSBhZGRyZXNzIHNwYWNlLCB3aGF0IGlzIHJlcXVpcmVk
-IGJ5IGFsbCBFeHlub3MgRFJNIENSVEMgZHJpdmVycy4KPj4gV2hpbGUgdG91Y2hpbmcgdGhpcywg
-c2V0IGJ1ZmZlciBmbGFncyBkZXBlbmRpbmcgb24gdGhlIGF2YWlsYWJpbGl0eSBvZgo+PiB0aGUg
-SU9NTVUuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IE1hcmVrIFN6eXByb3dza2kgPG0uc3p5cHJvd3Nr
-aUBzYW1zdW5nLmNvbT4KPj4gLS0tCj4+ICAgZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3Nf
-ZHJtX2dlbS5jIHwgMzYgKysrKysrKysrKysrKysrKystLS0tLS0tLQo+PiAgIDEgZmlsZSBjaGFu
-Z2VkLCAyNSBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkKPj4KPj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9nZW0uYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9leHlub3MvZXh5bm9zX2RybV9nZW0uYwo+PiBpbmRleCA0MDUxNGQzZGNmNjAuLjlkNGU0ZDMy
-MWJkYSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2dl
-bS5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9nZW0uYwo+PiBA
-QCAtNDU4LDYgKzQ1OCwyMyBAQCBleHlub3NfZHJtX2dlbV9wcmltZV9pbXBvcnRfc2dfdGFibGUo
-c3RydWN0IGRybV9kZXZpY2UgKmRldiwKPj4gICAJaW50IG5wYWdlczsKPj4gICAJaW50IHJldDsK
-Pj4gICAKPiAoT3B0aW9uYWwpIGNvdWxkIHlvdSBsZWF2ZSBvbmUgY29tbWVudCBoZXJlPwo+IGku
-ZS4sIC8qIENoZWNrIGlmIERNQSBtZW1vcnkgcmVnaW9uIGZyb20gYSBleHBvcnRlciBhcmUgbWFw
-cGVkIGNvbnRpZ3VvdXNseSBvciBub3QuICovCgpPa2F5LgoKPj4gKwlpZiAoc2d0LT5uZW50cyAh
-PSAxKSB7Cj4gSG93IGFib3V0IHVzaW5nIGJlbG93IGNvbmRpdGlvbiBpbnN0ZWFkPwo+IGlmIChz
-Z3QtPm5lbnRzID4gMCkgewoKVGhpcyBpcyBub3QgdGhlIHNhbWUuIE15IGNoZWNrIGZvciAhPSAx
-IGlzIGludGVuZGVkLiBDaGVja2luZyBjb250aWd1aXR5IApvZiB0aGUgc2NhdHRlcmxpc3QgaWYg
-aXQgaGFzIG9ubHkgMSBlbGVtZW50IGRvZXNuJ3QgaGF2ZSBtdWNoIHNlbnNlLgoKPj4gKwkJZG1h
-X2FkZHJfdCBuZXh0X2FkZHIgPSBzZ19kbWFfYWRkcmVzcyhzZ3QtPnNnbCk7Cj4+ICsJCXN0cnVj
-dCBzY2F0dGVybGlzdCAqczsKPj4gKwkJdW5zaWduZWQgaW50IGk7Cj4+ICsKPj4gKwkJZm9yX2Vh
-Y2hfc2coc2d0LT5zZ2wsIHMsIHNndC0+bmVudHMsIGkpIHsKPj4gKwkJCWlmICghc2dfZG1hX2xl
-bihzKSkKPj4gKwkJCQljb250aW51ZTsKPiBJc24ndCBpdCBhbiBlcnJvciBjYXNlIGlmIHNnX2Rt
-YV9sZW4ocykgaXMgMD8gSSB0aGluayBsZW5ndGggb2YgcyBpcyAwIHRoZW4gaXQgd291bGQgYmUg
-aW52YWxpZCBiZWNhdXNlIGFsbCBlbnRyaWVzIG9mIHNndCBzaG91bGQgYmUgbWFwcGVkIGJlZm9y
-ZSBzZ19kbWFfbGVuKCkgaXMgY2FsbGVkLgoKV2VsbCwgaXQgaXMgYSBncmV5IGFyZWEuIFNvbWUg
-Y29kZSBpbmNvcnJlY3RseSBzZXRzIG5lbnRzIGFzIG9yaWdfbmVudHMsIAp0aHVzIHRoaXMgdmVy
-c2lvbiBpcyBzaW1wbHkgc2FmZSBmb3IgYm90aCBhcHByb2FjaGVzLiBzZyBlbnRyaWVzIHVudXNl
-ZCAKZm9yIERNQSBjaHVua3MgaGF2ZSBzZ19kbWFfbGVuKCkgPT0gMC4KClRoZSBhYm92ZSBjaGVj
-ayBpcyBtb3JlIG9yIGxlc3MgY29waWVkIGZyb20gCmRybV9nZW1fY21hX3ByaW1lX2ltcG9ydF9z
-Z190YWJsZSgpIChkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9jbWFfaGVscGVyLmMpLgoKQmVzdCBy
-ZWdhcmRzCi0tIApNYXJlayBTenlwcm93c2tpLCBQaEQKU2Ftc3VuZyBSJkQgSW5zdGl0dXRlIFBv
-bGFuZAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+> -----Original Message-----
+> From: Rob Herring <robh@kernel.org>
+> Sent: Monday, 20 April 2020 23:37
+> 
+> On Mon, Apr 13, 2020 at 04:35:53PM +0300, Hadar Gat wrote:
+> > Both of_platform.h and of_device.h were included each other.
+> > In of_device.h, removed unneeded #include to of_platform.h and added
+> > include to of_platform.h in the files that needs it.
+> 
+> Guess we forgot about that temporary comment!
+> 
+> Both of these headers have a lot of things we don't want 'normal'
+> drivers calling. The most common thing needed from of_device.h is
+> of_match_device/of_device_get_match_data. A good number are only for
+> ibmebus. Maybe the header should be split or the former just moved to of.h.
+> 
+> For of_platform.h, it seems we have a bunch of unneeded includes:
+> 
+> $ git grep 'of_platform\.h' drivers/ | wc
+>     560    1120   36049
+> $ git grep -E 'of_(platform_(pop|def)|find_device)' drivers/ | wc
+>     248    1215   20630
+> 
+> Would nice to drop those (or switch to of_device.h?) too.
+> 
+> Be sure to build on Sparc. It's the oddball.
+
+Hi Rob and thanks for your inputs.
+Unfortunately I cannot continue to work on this patch at the moment since it is not as small as I expected and I have limited resources for that.
+So anyone can take it and continue from here.
+Thanks,
+Hadar
+
+> > Signed-off-by: Hadar Gat <hadar.gat@arm.com>
+> > ---
+> >  drivers/base/platform.c                           | 1 +
+> >  drivers/bus/vexpress-config.c                     | 1 +
+> >  drivers/dma/at_hdmac.c                            | 1 +
+> >  drivers/dma/stm32-dmamux.c                        | 1 +
+> >  drivers/dma/ti/dma-crossbar.c                     | 1 +
+> >  drivers/gpu/drm/msm/adreno/a6xx_gmu.c             | 1 +
+> >  drivers/gpu/drm/msm/hdmi/hdmi.c                   | 1 +
+> >  drivers/gpu/drm/msm/msm_drv.c                     | 1 +
+> >  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 1 +
+> >  drivers/gpu/drm/sun4i/sun4i_tcon.c                | 1 +
+> >  drivers/iio/adc/stm32-adc-core.c                  | 1 +
+> >  drivers/iio/adc/stm32-dfsdm-adc.c                 | 1 +
+> >  drivers/iio/adc/stm32-dfsdm-core.c                | 1 +
+> >  drivers/iommu/tegra-smmu.c                        | 1 +
+> >  drivers/memory/atmel-ebi.c                        | 1 +
+> >  drivers/mfd/palmas.c                              | 1 +
+> >  drivers/mfd/ssbi.c                                | 1 +
+> >  drivers/mtd/nand/raw/omap2.c                      | 1 +
+> >  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
+> >  drivers/net/ethernet/ti/cpsw.c                    | 1 +
+> >  drivers/phy/tegra/xusb.c                          | 1 +
+> >  drivers/pinctrl/nomadik/pinctrl-nomadik.c         | 1 +
+> >  drivers/soc/samsung/exynos-pmu.c                  | 1 +
+> >  drivers/soc/sunxi/sunxi_sram.c                    | 1 +
+> >  include/linux/of_device.h                         | 2 --
+> >  lib/genalloc.c                                    | 1 +
+> >  26 files changed, 25 insertions(+), 2 deletions(-)
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
