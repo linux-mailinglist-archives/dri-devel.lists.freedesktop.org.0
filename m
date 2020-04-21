@@ -2,45 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC62E1B27A1
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 15:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E7B1B2813
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 15:37:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F26296E0C9;
-	Tue, 21 Apr 2020 13:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96E1D6E0CB;
+	Tue, 21 Apr 2020 13:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DCD16E0C9
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 13:25:21 +0000 (UTC)
-IronPort-SDR: EqvxL1XSdZTzaxWSeykM5IR6gDOiror6OlI3iXcCo+ExonYBZ6C7YyN8wwvkJdZwgzD93GvQs0
- XEpAJIXuJbWw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2020 06:25:20 -0700
-IronPort-SDR: Pxwk5F1PYhQkqNU/uoogRvppqsRUhmVhKkJjfu2H8Ed6nQ0Mx8DgDU3PKrjQOHXJK0ImGAfP4z
- hO+lxJVr2a8Q==
-X-IronPort-AV: E=Sophos;i="5.72,410,1580803200"; d="scan'208";a="429528579"
-Received: from parkernx-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.46.80])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2020 06:25:12 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 0/8] drm, fbdev: rework dependencies
-In-Reply-To: <CAKMK7uE7y8TVbZ8ExpDEA2MuvhSDxKQ6y=eDXSbwgjUzsbm44A@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200417155553.675905-1-arnd@arndb.de>
- <20200417171453.GS3456981@phenom.ffwll.local>
- <20200417190854.GI26002@ziepe.ca> <87y2qq1smt.fsf@intel.com>
- <CAK8P3a0eSHg6Hx-FqpEF-N4LhZjv4o3PooK2eKw7KTntoKKckQ@mail.gmail.com>
- <20200421122726.GW3456981@phenom.ffwll.local> <87a735yp0f.fsf@intel.com>
- <CAMuHMdXRwRe5p65+YM69HDM4BhW+ZuHUju9B9083+=HdCotsqw@mail.gmail.com>
- <CAKMK7uE7y8TVbZ8ExpDEA2MuvhSDxKQ6y=eDXSbwgjUzsbm44A@mail.gmail.com>
-Date: Tue, 21 Apr 2020 16:25:09 +0300
-Message-ID: <877dy9ynre.fsf@intel.com>
-MIME-Version: 1.0
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
+ [IPv6:2607:f8b0:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 095626E0CB;
+ Tue, 21 Apr 2020 13:37:02 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id p8so6764228pgi.5;
+ Tue, 21 Apr 2020 06:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=EfV5lUR/cm42cpj8d7UKraNpmNLRtUjwYvtnqzSIGtI=;
+ b=JVv6+HkWnBXsPUFZk3/H7kzkllExKUoTw+EWy7Mzkn/x7H2RuGKYY0+IEGaiJyixp4
+ qRCTmc2LSxjNPCi/1cEpAp28duWvo9LVOmcmae2JMaPxiR7fSEOMMTLXkARWroXO6q/+
+ cfuIWuoNOyEz8TjV+A+eYAQc2ei5YcZUajFdFjx+J17Xck/dCzy32/dk2QiAez87u9Hq
+ JBMMDRIkm/r3o0oQ+S7ZAppK05ui5AFPMrhCNUP8rUphb1e4yAi9IXgd3ECdhXYpm+ya
+ TN62zTAOPWMg9QCXKnPhcC/AUaqcTlD6Yi984wSBkN4NeX6r9oKbJO9HQJ9+W7XK9FGJ
+ ENig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=EfV5lUR/cm42cpj8d7UKraNpmNLRtUjwYvtnqzSIGtI=;
+ b=SYo7QOIoHtqnr4P7Ovwi3dyvQBpkmGSsIVdTVO3AXpxbf+lpGAj5aAYfrHSX2LdeUj
+ v2mfpKlWcCf7DxXvW8ykn2uqY3YO9qVkXApG3DFsbVRaFvNfRYQ9GfcLmopQxX1fxa6v
+ A52Ks0eH6mRTayPqWmCxfHwtqI3kWuN6xZiAVyU0FM94nO6FRGGRjLy/K8GYZ1H/0Kjj
+ QukAKvrbhQzZRs385UWXX+VyL4TqSDhZ3PLXw13X0Rl+NpFbFn78fOux9OuuiqyyOoFk
+ VS/cxN8zBSC5D+lMu7SclwZBixtT4rrlSIO2ShfVZx3LCgA1jgsvV/GyPBtUVR/P1Q/Z
+ hV+A==
+X-Gm-Message-State: AGi0PuZLO0cBPUXBrW5z4/PQ3ILu6usxVoN1jc0t3gO+iIFCe7Fzamqn
+ qA7BwlxGzV+fcWyNb+gvJ6Kdip1J8x4=
+X-Google-Smtp-Source: APiQypJswNGsTcF/MnOPeEaotUgYvlZ6iLD7nLtaMNrvzGvI9tDf4DvCcHLRjGGNBbKvaRPcyKyoPA==
+X-Received: by 2002:aa7:819a:: with SMTP id g26mr7243456pfi.193.1587476222258; 
+ Tue, 21 Apr 2020 06:37:02 -0700 (PDT)
+Received: from yuq-Aspire-4738G.lan (li2017-195.members.linode.com.
+ [172.105.124.195])
+ by smtp.gmail.com with ESMTPSA id r23sm2551327pfr.64.2020.04.21.06.36.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Apr 2020 06:37:01 -0700 (PDT)
+From: Qiang Yu <yuq825@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 00/10] drm/lima: add suspend/resume support
+Date: Tue, 21 Apr 2020 21:35:41 +0800
+Message-Id: <20200421133551.31481-1-yuq825@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,47 +62,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Daniel Drake <dsd@laptop.org>, Arnd Bergmann <arnd@arndb.de>,
- Jason Gunthorpe <jgg@ziepe.ca>, David Airlie <airlied@linux.ie>,
- Masahiro Yamada <masahiroy@kernel.org>, Nicolas Pitre <nico@fluxnic.net>,
- Saeed Mahameed <saeedm@mellanox.com>, Thomas Hellstrom <thellstrom@vmware.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- Jens Frederich <jfrederich@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Daniel Mack <daniel@zonque.org>
+Cc: lima@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Bhushan Shah <bshah@kde.org>, Vasily Khoruzhick <anarsoul@gmail.com>,
+ Andreas Baierl <ichgeh@imkreisrum.de>, Qiang Yu <yuq825@gmail.com>,
+ Erico Nunes <nunes.erico@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 21 Apr 2020, Daniel Vetter <daniel@ffwll.ch> wrote:
-> To clarify what I was aiming for with my mail: I'm not worried about
-> fbdev here, I'm just worried that this will come back, and we'll grow
-> select somewhere else until it's become a big & totally horrible mess.
-> I think a lot of the backlight selects have also grown because of
-> this, so this isn't just a one-off I think.
->
-> If Arnd is happy to play "Kconfig select" whack-a-mole ever once in a
-> while (and deal with the intermediate compile horrors while everyone
-> upgrades) I'm ok with this landing. Just not terribly happy if the
-> underlying issue isn't fixed.
+Suspend need to wait running jobs finish and put hardware in
+poweroff state. Resume need to re-init hardware.
 
-And I'll keep ignoring the IS_REACHABLE() patches that make i915 build
-with a config that should not exist. ;)
+v2:
+1. add misc patches to prepare enable runtime pm
+2. fix pmu command wait time out on mali400 gpu
+3. do power and clock gating when suspend
+4. do runtime pm
 
-BR,
-Jani.
+Qiang Yu (10):
+  drm/lima: use module_platform_driver helper
+  drm/lima: print process name and pid when task error
+  drm/lima: check vm != NULL in lima_vm_put
+  drm/lima: always set page directory when switch vm
+  drm/lima: add lima_devfreq_resume/suspend
+  drm/lima: power down ip blocks when pmu exit
+  drm/lima: add resume/suspend callback for each ip
+  drm/lima: seperate clk/regulator enable/disable function
+  drm/lima: add pm resume/suspend ops
+  drm/lima: enable runtime pm
 
+ drivers/gpu/drm/lima/lima_bcast.c    |  25 +++-
+ drivers/gpu/drm/lima/lima_bcast.h    |   2 +
+ drivers/gpu/drm/lima/lima_devfreq.c  |  24 ++++
+ drivers/gpu/drm/lima/lima_devfreq.h  |   3 +
+ drivers/gpu/drm/lima/lima_device.c   | 199 ++++++++++++++++++++++-----
+ drivers/gpu/drm/lima/lima_device.h   |   5 +
+ drivers/gpu/drm/lima/lima_dlbu.c     |  17 ++-
+ drivers/gpu/drm/lima/lima_dlbu.h     |   2 +
+ drivers/gpu/drm/lima/lima_drv.c      |  40 +++---
+ drivers/gpu/drm/lima/lima_gp.c       |  21 ++-
+ drivers/gpu/drm/lima/lima_gp.h       |   2 +
+ drivers/gpu/drm/lima/lima_l2_cache.c |  37 +++--
+ drivers/gpu/drm/lima/lima_l2_cache.h |   2 +
+ drivers/gpu/drm/lima/lima_mmu.c      |  48 +++++--
+ drivers/gpu/drm/lima/lima_mmu.h      |   2 +
+ drivers/gpu/drm/lima/lima_pmu.c      |  77 ++++++++++-
+ drivers/gpu/drm/lima/lima_pmu.h      |   2 +
+ drivers/gpu/drm/lima/lima_pp.c       |  31 ++++-
+ drivers/gpu/drm/lima/lima_pp.h       |   4 +
+ drivers/gpu/drm/lima/lima_sched.c    |  63 ++++++---
+ drivers/gpu/drm/lima/lima_vm.h       |   3 +-
+ 21 files changed, 496 insertions(+), 113 deletions(-)
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
