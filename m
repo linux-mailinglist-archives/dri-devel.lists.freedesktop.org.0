@@ -2,58 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A19B1B30DE
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 22:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3EA71B313F
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 22:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 821FE6E32F;
-	Tue, 21 Apr 2020 20:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2266C6E0D2;
+	Tue, 21 Apr 2020 20:32:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13FC56E32F
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 20:00:18 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id t11so7288307pgg.2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 13:00:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=eeH8yF/9tBuR9rIX99kSA4M4GEOU6qH/i5bCQV5HD3o=;
- b=YWDFSsi9ryGa8bDJzYeDNw+vx+TvNzV2BxgbgfORIvrP64vyZ1imeGOhyAgmGNngvm
- eCYaSD73vnaoGoKUeQgCKH+Hr66n7gWLTjfCaUfz+rjOnTy5EdTl9YkbziW6tCDs5Jff
- 8eLrKW28QiInsEbBv0ijdwTtski0qBKHoilQo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=eeH8yF/9tBuR9rIX99kSA4M4GEOU6qH/i5bCQV5HD3o=;
- b=p0ml1x5y+0IM4InK2HSkv2qKQiwUOk8vZE9WF/jYuwkDjoKgu4vtBUVeibFTfj4Fhi
- EJ3DG9n49Bb+AHvwl4K6Sgyl8Ai5hZf7IJnEtY9/fL7F5a9nYteW+VQvqlOA/H0/Ww6t
- Dl+UNjSCVWrBfZsv9/TDUxVMVnMdhUZIlzsaDNnzK6piJlRBxTvc4Y2K74NHZVtKj1jF
- 0+Dx/e6zdYpHt3yjUA7ci263jKlXuBPHKRA4BK7gOREBQNoOizOmDo1TybYHchPLhx/P
- ORTlZzLRM4hSTaJacfk2mhEVc4ytBJ8MoYh3jVeShHVwVWsg9RbCa28kr5+9Kq6P8dmc
- 4GoA==
-X-Gm-Message-State: AGi0PuYP3TKbW7bRY34gJ47Xjwc+jVwLE7uzS+lHtwSupmEDjxzn24kz
- 0pmlAvogXy6mebJjFU+acnuup3aGrjo=
-X-Google-Smtp-Source: APiQypIRuEpl74OEh/r7qvhYCkgt2cE/s/0bvJj5YQ7FRv0j5NRQrJj0QGCAqQNBlGDnOqKGb1/peQ==
-X-Received: by 2002:a63:f14b:: with SMTP id o11mr23894600pgk.429.1587499217639; 
- Tue, 21 Apr 2020 13:00:17 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
- by smtp.gmail.com with ESMTPSA id 20sm2423112pfx.116.2020.04.21.13.00.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Apr 2020 13:00:16 -0700 (PDT)
-Date: Tue, 21 Apr 2020 13:00:15 -0700
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Harigovindan P <harigovi@codeaurora.org>
-Subject: Re: [PATCH v11 1/2] drm/panel: add support for rm69299 visionox
- panel driver
-Message-ID: <20200421200015.GH199755@google.com>
-References: <20200421045508.21137-1-harigovi@codeaurora.org>
- <20200421045508.21137-2-harigovi@codeaurora.org>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0E4F6E0D2;
+ Tue, 21 Apr 2020 20:32:52 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id DA4F980472;
+ Tue, 21 Apr 2020 22:32:46 +0200 (CEST)
+Date: Tue, 21 Apr 2020 22:32:45 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 01/59] drm: Add devm_drm_dev_alloc macro
+Message-ID: <20200421203245.GA25673@ravnborg.org>
+References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
+ <20200415074034.175360-2-daniel.vetter@ffwll.ch>
+ <4d5229c2-acb4-b76f-13c7-88a5f3de4760@suse.de>
+ <CAKMK7uH2vhrQ7eTTF1B+==UJS9ZxhDv2RDvR0ct4P0vVJobf=w@mail.gmail.com>
+ <ea9c5a37-118f-1243-26f7-f03a3068dfeb@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200421045508.21137-2-harigovi@codeaurora.org>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <ea9c5a37-118f-1243-26f7-f03a3068dfeb@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=T6N2gumegzX6L0F5R2IA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,49 +47,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
- freedreno@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi
 
-On Tue, Apr 21, 2020 at 10:25:07AM +0530, Harigovindan P wrote:
-> Add support for Visionox panel driver.
+> > Hm, I see the point of this (and the dev_field below, although I'd go
+> > with dev_member there for some consistency with other macros using
+> > offset_of or container_of), but I'm not sure about the dev_ prefix.
+> > Drivers use that sometimes for the struct device *, and usage for
+> > struct drm_device * is also very inconsistent. I've seen ddev, drm,
+> > dev and base (that one only for embedded structs ofc). So not sure
+> > which prefix to pick, aside from dev_ seems the most confusing. Got
+> > ideas?
 > 
-> Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
+> We have pdev for the PCI device, dev for the abstract device, and things
+> like mdev for struct mga_device in mgag200. So I'd go with ddev. I don't
+> like drm, because it could be anything in DRM. I guess struct drm_driver
+> is more 'drm' than struct drm_device.
+> 
+> But all of this is bikeshedding. It's probably best to keep the patch
+> as-is, and maybe rename variables later if we ever find consent on the
+> naming.
 
-Please keep tags from previous versions (like my Reviewed-by from v7)
-when making minimal changes.
+bikeshedding - I know.
+But reading code is is quite natural for me that drm equals the central
+drm_device data structure. Maybe thats because this was is in the code
+I started looking at.
 
-Also there is no need to keep sending the bindings patch, it already
-landed in drm-misc.
+So as an example:
 
-> diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> new file mode 100644
-> index 000000000000..3ef4cc80044a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+	drm_err(drm, "bla bla\n");
 
-...
+This parses nicely and is easy to type and get right.
+And matches nicely that drm_device => drm.
+But bikeshedding  - I will go to bed...
+(Whatever is the conclusion we should not hold back the patch in
+questions).
 
-> +MODULE_DESCRIPTION("Visionox RM69299 DSI Panel Driver");
-> -- 
-> 2.25.1
-
-The last two lines break the patch:
-
-git am /tmp/v11-1-2-drm-panel-add-support-for-rm69299-visionox-panel-driver.patch
-Applying: drm/panel: add support for rm69299 visionox panel driver
-error: corrupt patch at line 379
-Patch failed at 0001 drm/panel: add support for rm69299 visionox panel driver
-
-Besides the broken format:
-
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
