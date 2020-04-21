@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4BE1B1E5B
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 07:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F10C01B1E69
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 07:57:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F148B89FA9;
-	Tue, 21 Apr 2020 05:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41BD56E876;
+	Tue, 21 Apr 2020 05:57:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADD5789FA9
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 05:52:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 684E36E876
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 05:57:06 +0000 (UTC)
 Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03L5q5tI022869;
- Tue, 21 Apr 2020 00:52:05 -0500
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03L5v4Oi024178;
+ Tue, 21 Apr 2020 00:57:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1587448325;
- bh=PmuR6BJKwcLG9x5ikzLU67xqNt5W5WSyJdrYIgpZ5Nk=;
+ s=ti-com-17Q1; t=1587448625;
+ bh=lEPFY3sdNt+zO3O+OUJhUYR9jmgRloBcGSEbsMTsgZM=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=vN6nNbal1T91mKtG0oPg82ShW2RdFekTpRyzpmAd6lgFtdULO8dOSjcnfNszoSYV4
- rrwR3UG1ixMT9Vnt7MfFWIHk29WKqv5OyuyvMoqoLKjH8S3IoMLXUVTbXwccB0E87T
- OgS2nO+G9inRhfj0DSaBLkUiNUb1DM0zA+/sBCpw=
+ b=bKJhu38sj4KLljzyigvb1UiT3Qbizn561QC5niwZdyH6LfoDkwgZvYJw18MkVhD1z
+ UymbNwXYvXyshP9rWbl1LeLVA19PmFbhPvbPJgzF1RuT8i8Ljm2M6aYdfTgzMvmQwI
+ MBIZrWZtbR0uj0i+zj7bWL2Uo6DNPQP2zUhE0fbU=
 Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03L5q5PZ104491;
- Tue, 21 Apr 2020 00:52:05 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE108.ent.ti.com
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03L5v4GM110696;
+ Tue, 21 Apr 2020 00:57:04 -0500
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE108.ent.ti.com
  (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 21
- Apr 2020 00:52:04 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ Apr 2020 00:57:03 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 21 Apr 2020 00:52:04 -0500
+ Frontend Transport; Tue, 21 Apr 2020 00:57:03 -0500
 Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03L5q2bk101041;
- Tue, 21 Apr 2020 00:52:03 -0500
-Subject: Re: [PATCH 5/5] backlight: led_bl: rewrite led_bl_parse_levels()
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03L5v2fq040981;
+ Tue, 21 Apr 2020 00:57:02 -0500
+Subject: Re: [PATCH 4/5] backlight: led_bl: fix led -> backlight brightness
+ mapping
 To: Daniel Thompson <daniel.thompson@linaro.org>
 References: <20200417113312.24340-1-tomi.valkeinen@ti.com>
- <20200417113312.24340-5-tomi.valkeinen@ti.com>
- <20200420160154.4xxv37fofx37ow7q@holly.lan>
+ <20200417113312.24340-4-tomi.valkeinen@ti.com>
+ <20200420155514.lyb73ujf5fzgpvp4@holly.lan>
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <2233a194-bc8e-99ba-d302-edd087a3adfa@ti.com>
-Date: Tue, 21 Apr 2020 08:52:02 +0300
+Message-ID: <f1d217f3-96bf-d24c-43b0-cc98115eae8e@ti.com>
+Date: Tue, 21 Apr 2020 08:57:01 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200420160154.4xxv37fofx37ow7q@holly.lan>
+In-Reply-To: <20200420155514.lyb73ujf5fzgpvp4@holly.lan>
 Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,30 +71,42 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/04/2020 19:01, Daniel Thompson wrote:
-> On Fri, Apr 17, 2020 at 02:33:12PM +0300, Tomi Valkeinen wrote:
->> led_bl_parse_levels() is rather difficult to follow. Rewrite it with a
->> more obvious code flow.
+On 20/04/2020 18:55, Daniel Thompson wrote:
+> On Fri, Apr 17, 2020 at 02:33:11PM +0300, Tomi Valkeinen wrote:
+>> The code that maps the LED default brightness to backlight levels has
+>> two issues: 1) if the default brightness is the first backlight level
+>> (usually 0), the code fails to find it, and 2) when the code fails to
+>> find a backlight level, it ends up using max_brightness + 1 as the
+>> default brightness.
+>>
+>> Fix these two issues.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>> ---
+>>   drivers/video/backlight/led_bl.c | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
+>> index 63693c4f0883..021b5edd895c 100644
+>> --- a/drivers/video/backlight/led_bl.c
+>> +++ b/drivers/video/backlight/led_bl.c
+>> @@ -159,10 +159,11 @@ static int led_bl_parse_levels(struct device *dev,
+>>   		 */
+>>   		db = priv->default_brightness;
+>>   		for (i = 0 ; i < num_levels; i++) {
+>> -			if ((i && db > levels[i - 1]) && db <= levels[i])
+>> +			if ((i == 0 || db > levels[i - 1]) && db <= levels[i])
+>>   				break;
+>>   		}
+>> -		priv->default_brightness = i;
+>> +
+>> +		priv->default_brightness = i < num_levels ? i : 0;
 > 
-> ... that introduces new behaviour.
-> 
-> There's a couple of new behaviours here but the one that particular
-> attracted my attention is the disregarding the "default-brightness-level" if
-> there is no table. That looks like a bug to me.
+> This seems a bit odd. If the LED is currently set to brighter than the
+> maximum brightness level why would we choose a default brightness of
+> zero?
 
-I think the previous behavior was a (minor) bug: how can there be default brightness level if there 
-are no brightness levels? The led-backlight.txt is a bit lacking (another thing to improve...) but 
-led-backlight mimics pwm-backlight, and pwm-backlight.txt says
-
-default-brightness-level: The default brightness level (index into the array defined by the 
-"brightness-levels" property)
-
-But I agree, it's a change, so good to mention.
-
-> Please can you add any intended changes of behaviour in the patch
-> header?
-
-Ok.
+Indeed, better to set it to max.
 
   Tomi
 
