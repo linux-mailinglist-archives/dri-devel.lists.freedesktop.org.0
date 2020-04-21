@@ -2,53 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A7F1B21E3
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 10:43:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A5C1B3808
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:54:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7570889DFB;
-	Tue, 21 Apr 2020 08:43:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 253B26E83B;
+	Wed, 22 Apr 2020 06:54:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 296B889DFB
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 08:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587458588;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9iDz7iWPK0i9U6uK8B+Kq/VOxGdFwzyl3Psdz4sCMdw=;
- b=a4DvaxSgObrQLeudG3vniZ9F/+GbrmPNqrSZQ3zqIy+y6bbWx1t4EwzsPmM2NhNZKwQwca
- 1TMp/oY9HW/lOZTWhLe8xn0HCzVg4MPbCRfo5GpV2TTLGmHuTz/SlEWvgINwcd8VzpFry+
- Wcv+LjvBZkipW6nKkzAcMoOmnNbOKIc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-2FtRnLJzNz2bXqouSQxh6Q-1; Tue, 21 Apr 2020 04:43:04 -0400
-X-MC-Unique: 2FtRnLJzNz2bXqouSQxh6Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DD0F190B2A0;
- Tue, 21 Apr 2020 08:43:02 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
- [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D5A351001B30;
- Tue, 21 Apr 2020 08:43:01 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AB34016E16; Tue, 21 Apr 2020 10:43:00 +0200 (CEST)
-Date: Tue, 21 Apr 2020 10:43:00 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Caicai <caizhaopeng@uniontech.com>
-Subject: Re: [PATCH 1/1] drm/qxl: add mutex_lock/mutex_unlock to ensure the
- order in which resources are released.
-Message-ID: <20200421084300.zggroiptwbrblzqy@sirius.home.kraxel.org>
-References: <20200418063917.26278-1-caizhaopeng@uniontech.com>
+Received: from m176149.mail.qiye.163.com (m176149.mail.qiye.163.com
+ [59.111.176.149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 834C66E8F3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 08:45:19 +0000 (UTC)
+Received: from vivo.com (wm-9.qy.internal [127.0.0.1])
+ by m176149.mail.qiye.163.com (Hmail) with ESMTP id E5B7F282304;
+ Tue, 21 Apr 2020 16:44:43 +0800 (CST)
+Message-ID: <AIsA-wCZCFCxiq0WKb3WjKr*.3.1587458683834.Hmail.bernard@vivo.com>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSCBWM10gYW1kZ3B1OiByZW1vdmUgdW5uZWNlc3NhcnkgY29uZGl0aW9uIGNoZWNr?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
+X-Originating-IP: 157.0.31.122
+In-Reply-To: <4c027bd0-c2ff-b587-6389-62a3d25dec1b@amd.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200418063917.26278-1-caizhaopeng@uniontech.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received: from bernard@vivo.com( [157.0.31.122) ] by ajax-webmail (
+ [127.0.0.1] ) ; Tue, 21 Apr 2020 16:44:43 +0800 (GMT+08:00)
+From: =?UTF-8?B?6LW15Yab5aWO?= <bernard@vivo.com>
+Date: Tue, 21 Apr 2020 16:44:43 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSFVJQ0tCQkJNTUtPQkpCT1lXWShZQU
+ hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
+X-HM-Sender-Digest: e1kJHlYWEh9ZQUhMSEhCTUJOSUNLN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
+ WUc6Mgg6Vgw4ITg9OAMSCkssMBlILBEwCVFVSFVKTkNMT05DTUNMS0pKVTMWGhIXVRkeCRUaCR87
+ DRINFFUYFBZFWVdZEgtZQVlKTkxVS1VISlVKSUlZV1kIAVlBTE9DTjcG
+X-HM-Tid: 0a719be934309395kuwse5b7f282304
+X-Mailman-Approved-At: Wed, 22 Apr 2020 06:54:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,54 +47,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Zhangshuang <zhangshuang@uniontech.com>,
- Zhangyueqian <zhangyueqian@uniontech.com>, Dave Airlie <airlied@redhat.com>,
- Zhangshiwen <zhangshiwen@uniontech.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Elfring <Markus.Elfring@web.de>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 18, 2020 at 02:39:17PM +0800, Caicai wrote:
-> When a qxl resource is released, the list that needs to be released is
-> fetched from the linked list ring and cleared. When you empty the list,
-> instead of trying to determine whether the ttm buffer object for each
-> qxl in the list is locked, you release the qxl object and remove the
-> element from the list until the list is empty. It was found that the
-> linked list was cleared first, and that the lock on the corresponding
-> ttm Bo for the QXL had not been released, so that the new qxl could not
-> be locked when it used the TTM.
-
-So the dma_resv_reserve_shared() call in qxl_release_validate_bo() is
-unbalanced?  Because the dma_resv_unlock() call in
-qxl_release_fence_buffer_objects() never happens due to
-qxl_release_free_list() clearing the list beforehand?  Is that correct?
-
-The only way I see for this to happen is that the guest is preempted
-between qxl_push_{cursor,command}_ring_release() and
-qxl_release_fence_buffer_objects() calls.  The host can complete the qxl
-command then, signal the guest, and the IRQ handler calls
-qxl_release_free_list() before qxl_release_fence_buffer_objects() runs.
-
-Looking through the code I think it should be safe to simply swap the
-qxl_release_fence_buffer_objects() +
-qxl_push_{cursor,command}_ring_release() calls to close that race
-window.  Can you try that and see if it fixes the bug for you?
-
->  		if (flush)
-> -			flush_work(&qdev->gc_work);
-> +			//can't flush work, it may lead to deadlock
-> +			usleep_range(500, 1000);
-> +
-
-The commit message doesn't explain this chunk.
-
-take care,
-  Gerd
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpGcm9tOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KRGF0
+ZTogMjAyMC0wNC0yMSAxNjowNjowMwpUbzogIDE1ODcxODAwMzctMTEzODQwLTEtZ2l0LXNlbmQt
+ZW1haWwtYmVybmFyZEB2aXZvLmNvbSxGZWxpeCBLdWVobGluZyA8RmVsaXguS3VlaGxpbmdAYW1k
+LmNvbT4sQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPiwiRGF2aWQgKENo
+dW5NaW5nKSBaaG91IiA8RGF2aWQxLlpob3VAYW1kLmNvbT4sRGF2aWQgQWlybGllIDxhaXJsaWVk
+QGxpbnV4LmllPixEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+LGFtZC1nZnhAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnLGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcsbGludXgta2Vy
+bmVsQHZnZXIua2VybmVsLm9yZwpDYzogIG9wZW5zb3VyY2Uua2VybmVsQHZpdm8uY29tLEJlcm5h
+cmQgWmhhbyA8YmVybmFyZEB2aXZvLmNvbT4KU3ViamVjdDogUmU6IFtQQVRDSCBWM10gYW1kZ3B1
+OiByZW1vdmUgdW5uZWNlc3NhcnkgY29uZGl0aW9uIGNoZWNrPkFtIDIxLjA0LjIwIHVtIDEwOjAz
+IHNjaHJpZWIgQmVybmFyZCBaaGFvOgo+PiBUaGVyZSBpcyBubyBuZWVkIHRvIGlmIGNoZWNrIGFn
+YWluLCBtYXliZSB3ZSBjb3VsZCBtZXJnZQo+PiBpbnRvIHRoZSBhYm92ZSBlbHNlIGJyYW5jaC4K
+Pj4KPj4gU2lnbmVkLW9mZi1ieTogQmVybmFyZCBaaGFvIDxiZXJuYXJkQHZpdm8uY29tPgo+Pgo+
+PiBDaGFuZ2VzIHNpbmNlIFYxOgo+PiAqY29tbWl0IG1lc3NhZ2UgaW1wcm92ZQo+PiAqY29kZSBz
+dHlsZSByZWZhY3RvcmluZwo+Pgo+PiBDaGFuZ2VzIHNpbmNlIFYyOgo+PiAqY29kZSBzdHlsZSBh
+ZGp1c3QKPj4KPj4gTGluayBmb3IgVjE6Cj4+ICpodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90
+ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZsb3JlLmtlcm5lbC5vcmclMkZw
+YXRjaHdvcmslMkZwYXRjaCUyRjEyMjY1ODclMkYmYW1wO2RhdGE9MDIlN0MwMSU3Q2NocmlzdGlh
+bi5rb2VuaWclNDBhbWQuY29tJTdDMGI4ZmZmYWZiNzE1NDc0Mjg5YjIwOGQ3ZTVjYTdmNmMlN0Mz
+ZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3MjMwNTMwMjAxMjgw
+MzUwJmFtcDtzZGF0YT1TZXd2NUVTWCUyQjBCNERiRmJFMDN1TTVzaWZyRWNtSmxsQzhwdDdKNDJJ
+N00lM0QmYW1wO3Jlc2VydmVkPTAKPj4gLS0tCj4+ICAgLi4uL2dwdS9kcm0vYW1kL2FtZGdwdS9h
+bWRncHVfYW1ka2ZkX2dwdXZtLmMgICB8IDE4ICsrKysrKystLS0tLS0tLS0tLQo+PiAgIDEgZmls
+ZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQo+Pgo+PiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2FtZGtmZF9ncHV2bS5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2FtZGtmZF9ncHV2bS5jCj4+IGluZGV4
+IDlkZmY3OTJjOTI5MC4uNTQyNGJkOTIxYTdiIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfYW1ka2ZkX2dwdXZtLmMKPj4gKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2FtZGtmZF9ncHV2bS5jCj4+IEBAIC02NjAsMTMgKzY2MCwx
+MiBAQCBzdGF0aWMgaW50IHJlc2VydmVfYm9fYW5kX3ZtKHN0cnVjdCBrZ2RfbWVtICptZW0sCj4+
+ICAgCj4+ICAgCXJldCA9IHR0bV9ldV9yZXNlcnZlX2J1ZmZlcnMoJmN0eC0+dGlja2V0LCAmY3R4
+LT5saXN0LAo+PiAgIAkJCQkgICAgIGZhbHNlLCAmY3R4LT5kdXBsaWNhdGVzKTsKPj4gLQlpZiAo
+IXJldCkKPj4gLQkJY3R4LT5yZXNlcnZlZCA9IHRydWU7Cj4+IC0JZWxzZSB7Cj4+IC0JCXByX2Vy
+cigiRmFpbGVkIHRvIHJlc2VydmUgYnVmZmVycyBpbiB0dG1cbiIpOwo+PiArCWlmIChyZXQpIHsK
+Pj4gKwkJcHJfZXJyKCJGYWlsZWQgdG8gcmVzZXJ2ZSBidWZmZXJzIGluIHR0bS5cbiIpOwo+PiAg
+IAkJa2ZyZWUoY3R4LT52bV9wZCk7Cj4+ICAgCQljdHgtPnZtX3BkID0gTlVMTDsKPj4gLQl9Cj4+
+ICsJfSBlbHNlCj4+ICsJCWN0eC0+cmVzZXJ2ZWQgPSB0cnVlOwo+Cj5UaGF0IGlzIHN0aWxsIG5v
+dCBjb3JyZWN0IGNvZGluZyBzdHlsZS4gSW4gZ2VuZXJhbCB3aGVuIG9uZSBicmFuY2ggb2YgYW4g
+Cj5pZi9lbHNlIHVzZXMge30gdGhlIG90aGVyIG9uZSBzaG91bGQgdXNlIGl0IGFzIHdlbGwuCj4K
+PkJ1dCBJIGFncmVlIHdpdGggRmVsaXggdGhhdCB0aGlzIGNoYW5nZSBsb29rcyByYXRoZXIgc3Vw
+ZXJmbHVvdXMgdG8gbWUgCj5hcyB3ZWxsLgo+Cj5SZWdhcmRzLAo+Q2hyaXN0aWFuLgoKQWJvdXQg
+dGhlIGNvZGUgc3R5bGUsIHlvdSBhcmUgcmlnaHQsIEkgY2hlY2tlZCB0aGUgcmVmZXJzOgpodHRw
+czovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC90b3J2YWxkcy9saW51
+eC5naXQvdHJlZS9Eb2N1bWVudGF0aW9uL3Byb2Nlc3MvY29kaW5nLXN0eWxlLnJzdD9pZD05MDI4
+MGVhYTg4YWMxYTkxNDBkYzc1OTk0MTEyMzUzMGQ1NTQ1YmI2I24xOTEKVGhlIGlmIGFuZCBlbHNl
+IHNob3VsZCB1c2UgdGhlIHNhbWUgc3R5bGUuCkJ1dCBpIGhhdmUgdG8gc2F5IHRoZXJlIGFyZSBz
+byBtYW55IGNvZGUgbm90IGZvbGxvdyB0aGUga2VybmVsIGNvZGUtc3R5bGUgaW4gYW1kZ3B1IG1v
+ZHVsZS4KQW5kIGFsc28gdGhlIC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGRpZCBub3QgdGhyb3cg
+YW55IHdhcm5pbmcgb3IgZXJyb3IuCgpJZiB0aGlzIGNoYW5nZSBsb29rcyByYXRoZXIgc3VwZXJm
+bHVvdXMgdG8gYWxsIG9mIHlvdSwgc2hvdWxkIGkgY2hhbmdlIHRvIHRoZSBWMSBjaGFuZ2U/CkFm
+dGVyIGFsbCBpIGRvbmB0IHRoaW5rIHRoZXJlIGlzIGFueSBuZWNlc3NhcnkgdG8gY2hlY2sgInJl
+dCIgYWdhaW4sIG1lcmdlIHRoZSA8ZWxzZSBhbmQgaWYgKHJldCk+Cm1heWJlIGJldHRlci4KT3Jp
+Z2luYWwgY29kZToKc3RhdGljIGludCByZXNlcnZlX2JvX2FuZF9jb25kX3ZtcyhzdHJ1Y3Qga2dk
+X21lbSAqbWVtLC4uLi4uCglpZiAoIXJldCkKCQljdHgtPnJlc2VydmVkID0gdHJ1ZTsKCWVsc2UK
+CQlwcl9lcnIoIkZhaWxlZCB0byByZXNlcnZlIGJ1ZmZlcnMgaW4gdHRtLlxuIik7CgoJaWYgKHJl
+dCkgewoJCWtmcmVlKGN0eC0+dm1fcGQpOwoJCWN0eC0+dm1fcGQgPSBOVUxMOwoJfQoKQlIvL2Jl
+cm5hcmQKCj4+ICAgCj4+ICAgCXJldHVybiByZXQ7Cj4+ICAgfQo+PiBAQCAtNzMzLDE1ICs3MzIs
+MTIgQEAgc3RhdGljIGludCByZXNlcnZlX2JvX2FuZF9jb25kX3ZtcyhzdHJ1Y3Qga2dkX21lbSAq
+bWVtLAo+PiAgIAo+PiAgIAlyZXQgPSB0dG1fZXVfcmVzZXJ2ZV9idWZmZXJzKCZjdHgtPnRpY2tl
+dCwgJmN0eC0+bGlzdCwKPj4gICAJCQkJICAgICBmYWxzZSwgJmN0eC0+ZHVwbGljYXRlcyk7Cj4+
+IC0JaWYgKCFyZXQpCj4+IC0JCWN0eC0+cmVzZXJ2ZWQgPSB0cnVlOwo+PiAtCWVsc2UKPj4gLQkJ
+cHJfZXJyKCJGYWlsZWQgdG8gcmVzZXJ2ZSBidWZmZXJzIGluIHR0bS5cbiIpOwo+PiAtCj4+ICAg
+CWlmIChyZXQpIHsKPj4gKwkJcHJfZXJyKCJGYWlsZWQgdG8gcmVzZXJ2ZSBidWZmZXJzIGluIHR0
+bS5cbiIpOwo+PiAgIAkJa2ZyZWUoY3R4LT52bV9wZCk7Cj4+ICAgCQljdHgtPnZtX3BkID0gTlVM
+TDsKPj4gLQl9Cj4+ICsJfSBlbHNlCj4+ICsJCWN0eC0+cmVzZXJ2ZWQgPSB0cnVlOwo+PiAgIAo+
+PiAgIAlyZXR1cm4gcmV0Owo+PiAgIH0KPgoNCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
