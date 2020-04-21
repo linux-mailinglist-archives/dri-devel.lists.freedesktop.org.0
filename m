@@ -1,39 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9854E1B3811
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:55:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 382921B3819
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:55:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49D006E935;
-	Wed, 22 Apr 2020 06:54:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DAE86E9A4;
+	Wed, 22 Apr 2020 06:54:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m176149.mail.qiye.163.com (m176149.mail.qiye.163.com
- [59.111.176.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26429899DB
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 09:11:32 +0000 (UTC)
-Received: from vivo.com (wm-9.qy.internal [127.0.0.1])
- by m176149.mail.qiye.163.com (Hmail) with ESMTP id CC777282498;
- Tue, 21 Apr 2020 17:10:56 +0800 (CST)
-Message-ID: <ALgArQDtCHCxPLhUuTZH6KrL.3.1587460256823.Hmail.bernard@vivo.com>
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: =?UTF-8?B?W2FkZCBNYXJrdXMuRWxmcmluZyBpbiBtYWlsIGxpc3QgXVJlOlJlOiBbUEFUQ0ggVjRdIGFtZGdwdTogcmVkdWNlIG5vIG5lZWQgbXV0ZXhfbG9jayBhcmVh?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
-X-Originating-IP: 157.0.31.122
-In-Reply-To: <ad7af827-7e62-3493-ddfb-443e7f091118@amd.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7506189EBD
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 09:31:55 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id DBF64AE53;
+ Tue, 21 Apr 2020 09:31:51 +0000 (UTC)
+Subject: Re: [PATCH v12 4/5] soc / drm: mediatek: Move routing control to
+ mmsys device
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20200311165322.1594233-1-enric.balletbo@collabora.com>
+ <20200311165322.1594233-5-enric.balletbo@collabora.com>
+ <02290a21-7392-a2cf-576c-215091ec05e8@suse.com>
+ <1585177534.26117.4.camel@mtksdaap41>
+ <f3c2926a-ef92-b004-9786-5be1645af497@suse.com>
+ <1585234277.12089.3.camel@mtksdaap41>
+ <73ef0b8e-2802-a047-2a56-936b63d264cb@suse.com>
+ <CAAOTY__EV8PHau9CzSiA8up1QAmZxfK2QnaTid0WrNOsn2Xcag@mail.gmail.com>
+From: Matthias Brugger <mbrugger@suse.com>
+X-Pep-Version: 2.0
+Message-ID: <c809233f-6d96-8871-e6a4-b66ed5cc535f@suse.com>
+Date: Tue, 21 Apr 2020 11:31:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Received: from bernard@vivo.com( [157.0.31.122) ] by ajax-webmail (
- [127.0.0.1] ) ; Tue, 21 Apr 2020 17:10:56 +0800 (GMT+08:00)
-From: =?UTF-8?B?6LW15Yab5aWO?= <bernard@vivo.com>
-Date: Tue, 21 Apr 2020 17:10:56 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSFVCQ0lCQkJDS0pNSE5MT1lXWShZQU
- hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kJHlYWEh9ZQUhMSEhCS09JSklNN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
- WUc6Nxw6CSo*DzgzOAMrNxMuDi8hM00wCTdVSFVKTkNMT01LSU5NQ0JMVTMWGhIXVRkeCRUaCR87
- DRINFFUYFBZFWVdZEgtZQVlKTkxVS1VISlVKSUlZV1kIAVlBTk1PTjcG
-X-HM-Tid: 0a719c01344d9395kuwscc777282498
+In-Reply-To: <CAAOTY__EV8PHau9CzSiA8up1QAmZxfK2QnaTid0WrNOsn2Xcag@mail.gmail.com>
+Content-Type: multipart/mixed; boundary="------------4BB1865ABCAB0DB18962FA15"
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 22 Apr 2020 06:54:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,57 +50,262 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
- Felix Kuehling <Felix.Kuehling@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, markus.elfring@web.de,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>, matthias.bgg@kernel.org,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>, Weiyi Lu <weiyi.lu@mediatek.com>,
+ devicetree@vger.kernel.org, Seiya Wang <seiya.wang@mediatek.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>, sean.wang@mediatek.com,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Houlong Wei <houlong.wei@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ mtk01761 <wendell.lin@mediatek.com>,
+ Collabora Kernel ML <kernel@collabora.com>, linux-clk@vger.kernel.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpGcm9tOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KRGF0
-ZTogMjAyMC0wNC0yMSAxNTo0MToyNwpUbzogIDE1ODcxODE0NjQtMTE0MjE1LTEtZ2l0LXNlbmQt
-ZW1haWwtYmVybmFyZEB2aXZvLmNvbSxGZWxpeCBLdWVobGluZyA8RmVsaXguS3VlaGxpbmdAYW1k
-LmNvbT4sQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPiwiRGF2aWQgKENo
-dW5NaW5nKSBaaG91IiA8RGF2aWQxLlpob3VAYW1kLmNvbT4sRGF2aWQgQWlybGllIDxhaXJsaWVk
-QGxpbnV4LmllPixEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+LGFtZC1nZnhAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnLGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcsbGludXgta2Vy
-bmVsQHZnZXIua2VybmVsLm9yZwpDYzogIG9wZW5zb3VyY2Uua2VybmVsQHZpdm8uY29tLEJlcm5h
-cmQgWmhhbyA8YmVybmFyZEB2aXZvLmNvbT4KU3ViamVjdDogUmU6IFtQQVRDSCBWNF0gYW1kZ3B1
-OiByZWR1Y2Ugbm8gbmVlZCBtdXRleF9sb2NrIGFyZWE+QW0gMjEuMDQuMjAgdW0gMDk6MzYgc2No
-cmllYiBCZXJuYXJkIFpoYW86Cj4+IE1heWJlIHdlIGNvdWxkIHJlZHVjZSB0aGUgbXV0ZXhfbG9j
-aygmbWVtLT5sb2NrKWBzIHByb3RlY3RlZCBjb2RlIGFyZWEsCj4+IGFuZCBubyBuZWVkIHRvIHBy
-b3RlY3QgcHJfZGVidWcuCj4KPldlbGwgdGhhdCBjaGFuZ2UgbG9va3MgcmF0aGVyIHN1cGVyZmx1
-b3VzIHRvIG1lLgo+Cj5UaGlzIGlzIGZvciBmcmVlaW5nIG1lbW9yeSB3aGljaCBieSBkZWZpbml0
-aW9uIGNhbiBvbmx5IGJlIGRvbmUgb25jZSBhbmQgCj5zbyB0aGUgc2hvdWxkIGJlIGV4YWN0bHkg
-emVybyBjb250ZW50aW9uIG9uIHRoZSBsb2NrIGV4Y2VwdCBpbiBhIGNhc2Ugb2YgCj5hbiBlcnJv
-ci4KPgo+UmVnYXJkcywKPkNocmlzdGlhbi4KPgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBCZXJuYXJk
-IFpoYW8gPGJlcm5hcmRAdml2by5jb20+Cj4+Cj4+IENoYW5nZXMgc2luY2UgVjE6Cj4+ICpjb21t
-aXQgbWVzc2FnZSBpbXByb3ZlCj4+Cj4+IENoYW5nZXMgc2luY2UgVjI6Cj4+ICptb3ZlIGNvbW1l
-bnQgYWxvbmcgd2l0aCB0aGUgbXV0ZXhfdW5sb2NrCj4+Cj4+IENoYW5nZXMgc2luY2UgVjM6Cj4+
-ICpsb2NrIHByb3RlY3QgdGhlIGlmIGNoZWNrLCB0aGVyZSBpcyBzb21lIHBvc3NpYmlsaXR5IG9m
-IG11bHRpLXRocmVhZGVkCj4+ICAgcmFjaW5nIG1vZGlmeS4KPj4KPj4gTGluayBmb3IgVjE6Cj4+
-ICpodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0
-cHMlM0ElMkYlMkZsb3JlLmtlcm5lbC5vcmclMkZwYXRjaHdvcmslMkZwYXRjaCUyRjEyMjY1ODgl
-MkYmYW1wO2RhdGE9MDIlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDOWYyYjIw
-ODBmNDE3NGM0MjFlNGYwOGQ3ZTVjNmI4OTklN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRl
-MTgzZCU3QzAlN0MwJTdDNjM3MjMwNTEzOTc2MTMzNDI0JmFtcDtzZGF0YT02d2V6TSUyRiUyRmpN
-NXV1TGJsSmVqUzlYRmxFOURqV1E1elN0NVBzcXJmdkNWbyUzRCZhbXA7cmVzZXJ2ZWQ9MAo+PiAt
-LS0KPj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYW1ka2ZkX2dwdXZtLmMg
-fCAyICstCj4+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-Cj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYW1k
-a2ZkX2dwdXZtLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYW1ka2ZkX2dw
-dXZtLmMKPj4gaW5kZXggMzI3MzE3YzU0ZjdjLi41NDliZGI0Mjk4ODMgMTAwNjQ0Cj4+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9hbWRrZmRfZ3B1dm0uYwo+PiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYW1ka2ZkX2dwdXZtLmMKPj4gQEAg
-LTEyODksOSArMTI4OSw5IEBAIGludCBhbWRncHVfYW1ka2ZkX2dwdXZtX2ZyZWVfbWVtb3J5X29m
-X2dwdSgKPj4gICAJbXV0ZXhfbG9jaygmbWVtLT5sb2NrKTsKPj4gICAKPj4gICAJaWYgKG1lbS0+
-bWFwcGVkX3RvX2dwdV9tZW1vcnkgPiAwKSB7Cj4+ICsJCW11dGV4X3VubG9jaygmbWVtLT5sb2Nr
-KTsKPj4gICAJCXByX2RlYnVnKCJCTyBWQSAweCVsbHggc2l6ZSAweCVseCBpcyBzdGlsbCBtYXBw
-ZWQuXG4iLAo+PiAgIAkJCQltZW0tPnZhLCBib19zaXplKTsKPj4gLQkJbXV0ZXhfdW5sb2NrKCZt
-ZW0tPmxvY2spOwo+PiAgIAkJcmV0dXJuIC1FQlVTWTsKPj4gICAJfQo+PiAgIAo+CgphZGQgTWFy
-a3VzLkVsZnJpbmcgaW4gbWFpbCBsaXN0IApSZWdhcmRzLApCZXJuYXJkCg0KDQpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This is a multi-part message in MIME format.
+--------------4BB1865ABCAB0DB18962FA15
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+
+On 4/16/20 6:22 PM, Chun-Kuang Hu wrote:
+> Hi, Matthias:
+>=20
+> Matthias Brugger <mbrugger@suse.com> =E6=96=BC 2020=E5=B9=B43=E6=9C=882=
+6=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8811:45=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>>
+>>
+>>
+>> On 26/03/2020 15:51, CK Hu wrote:
+>>> Hi, Matthias:
+>>>
+>>> On Thu, 2020-03-26 at 12:54 +0100, Matthias Brugger wrote:
+>>>> Hi CK,
+>>>>
+>>>> On 26/03/2020 00:05, CK Hu wrote:
+>>>>> Hi, Matthias:
+>>>>>
+>>>>> On Wed, 2020-03-25 at 17:16 +0100, Matthias Brugger wrote:
+>>>>>>
+>>>>>> On 11/03/2020 17:53, Enric Balletbo i Serra wrote:
+>>>>>>> Provide a mtk_mmsys_ddp_connect() and mtk_mmsys_disconnect() func=
+tions to
+>>>>>>> replace mtk_ddp_add_comp_to_path() and mtk_ddp_remove_comp_from_p=
+ath().
+>>>>>>> Those functions will allow DRM driver and others to control the d=
+ata
+>>>>>>> path routing.
+>>>>>>>
+>>>>>>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.c=
+om>
+>>>>>>> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+>>>>>>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+>>>>>>> Acked-by: CK Hu <ck.hu@mediatek.com>
+>>>>>>
+>>>>>> This patch does not apply against v5.6-rc1.
+>>>>>> Please rebase as this is a quite big patch and it won't be easy to=
+ do that by hand.
+>>>>>
+>>>>> I think this patch depends on [1] which has been acked by me and I =
+have
+>>>>> not picked it. The simple way is that you pick [1] first and then p=
+ick
+>>>>> this series.
+>>>>>
+>>>>> [1]
+>>>>> https://patchwork.kernel.org/patch/11406227/
+>>>>>
+>>>>
+>>>> You would need to provide a stable tag for me that I can merge into =
+my tree. You
+>>>> can also try to merge my for-next [1] which has the newest version f=
+rom Enric.
+>>>> If you see any merge conflict, then we have to do something about it=
+ :)
+>>>>
+>>>> Regards,
+>>>> Matthias
+>>>>
+>>>> [1]
+>>>> https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.g=
+it/log/?h=3Dfor-next
+>>>>
+>>>
+>>> You have applied this series, so I would not apply other patches whic=
+h
+>>> would conflict with this series. After this series land on main strea=
+m
+>>> (wish it happen in this merge window), I would rebase other patch on
+>>> main stream.
+>>>
+>>
+>> I haven't (yet) send the pull request. If you want to bring in your pa=
+tches in
+>> v5.7 as well we can find a solution to that. Shall I provide you with =
+a stable
+>> branch which you can merge? This way you can add all your patches in t=
+he pull
+>> request as well and we don't have to wait for v5.8 to get things into =
+mainline.
+>>
+>> Let me know and I'll provide you with a stable branch.
+>=20
+> This series is in linux-next but does not in main stream. So would you
+> please provide a stable branch so I could pull this series?
+>=20
+
+Please find the pull request below:
+
+The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f31=
+36:
+
+  Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
+
+are available in the Git repository at:
+
+
+https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/
+tags/v5.7-next-drm-stable
+
+for you to fetch changes up to 667c769246b01c53ad0925d603d2a2531abd3ef2:
+
+  soc / drm: mediatek: Fix mediatek-drm device probing (2020-04-13
+13:01:16 +0200)
+
+----------------------------------------------------------------
+Enric Balletbo i Serra (3):
+      dt-bindings: mediatek: Update mmsys binding to reflect it is a
+system controller
+      soc / drm: mediatek: Move routing control to mmsys device
+      soc / drm: mediatek: Fix mediatek-drm device probing
+
+Matthias Brugger (2):
+      drm/mediatek: Omit warning on probe defers
+      clk / soc: mediatek: Move mt8173 MMSYS to platform driver
+
+ Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt |   7 =
++--
+ drivers/clk/mediatek/Kconfig                                      |   7 =
++++
+ drivers/clk/mediatek/Makefile                                     |   1 =
++
+ drivers/clk/mediatek/clk-mt8173-mm.c                              | 146
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/clk/mediatek/clk-mt8173.c                                 | 104
+------------------------------------------
+ drivers/gpu/drm/mediatek/Kconfig                                  |   1 =
++
+ drivers/gpu/drm/mediatek/mtk_disp_color.c                         |   5 =
+++-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c                           |   5 =
+++-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c                          |   5 =
+++-
+ drivers/gpu/drm/mediatek/mtk_dpi.c                                |  12
++++--
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c                           |  19
+++++----
+ drivers/gpu/drm/mediatek/mtk_drm_ddp.c                            | 259
++------------------------------------------------------------------------=
+--------------------------------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp.h                            |   7 =
+---
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c                            |  45
+++++++++++---------
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h                            |   2 =
++-
+ drivers/gpu/drm/mediatek/mtk_dsi.c                                |   8
++++-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                               |   4 =
++-
+ drivers/soc/mediatek/Kconfig                                      |   8
+++++
+ drivers/soc/mediatek/Makefile                                     |   1 =
++
+ drivers/soc/mediatek/mtk-mmsys.c                                  | 337
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/soc/mediatek/mtk-mmsys.h                            |  20
++++++++++
+ 21 files changed, 592 insertions(+), 411 deletions(-)
+ create mode 100644 drivers/clk/mediatek/clk-mt8173-mm.c
+ create mode 100644 drivers/soc/mediatek/mtk-mmsys.c
+ create mode 100644 include/linux/soc/mediatek/mtk-mmsys.h
+
+
+
+> Regards,
+> Chun-Kuang.
+>=20
+>>
+>> Regards,
+>> Matthias
+>>
+>>> Regards,
+>>> CK
+>>>
+>>>>> Regards,
+>>>>> CK
+>>>>>
+>>>>>>
+>>>>>> Regards,
+>>>>>> Matthias
+>>>>>>
+>>>>>>> ---
+>>>>>>>
+
+--------------4BB1865ABCAB0DB18962FA15
+Content-Type: application/pgp-keys;
+ name="pEpkey.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="pEpkey.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+mQENBFuECLQBCAD66PIehgR5YGIOhLIDfubGmBbktra7Ix4c0uMShRkv05ZfJmPK
+N50OrIm4gaQ25RMDrZd6X3RU35IsoflqTSBGoiMQmC9TklVsAfIObuNkvDMJEDXd
+pvbIuYyj9QcSysHvTW9GrU/hF3uFqoPlaDmQy9TBMDDtJu8CPYVpyVnmXJvyoYa2
+KE77LYXORs+eArKR8dqOK/z3zzHWMq8IieiASRcFfDZBx4fPHRZaOYkFGaLpQPfF
+/bCwWWX6O6bRvx5KOWTQzt2Hp/6ZzHX+A7XY6yLY9bM18/70NICZNF8oaDN6/i/K
+nMoGcugqE2Kk66hLeybFWVmFjppRt7zh6GaVABEBAAG0JE1hdHRoaWFzIEJydWdn
+ZXIgPG1icnVnZ2VyQHN1c2UuY29tPokBVAQTAQgAPgIbAwULCQgHAgYVCgkICwIE
+FgIDAQIeAQIXgBYhBA1mtM782M72qvgLxkP54a369LqrBQJdZ/80BQkDxMzsAAoJ
+EEP54a369LqrBxsH/jOEmKlthbUCWFmvNZyPl8VCqVNRQdVOBlg7JzjYtGPMukdv
+aGMFDTbn9f7RpVdVasnjwta2rAuPxYGT2SajccSqIUnjlyxOXjdWgahfvS1bLfIh
+QW3F3r5P6Sc1hVkSAYB+IKgEHoRl09fcVfxDR4i7xuGP8lvaG5087u7hHiqAXAmL
+gInuY2QA8MkgxLOie6HOavSEG58Car5EBOZOuIzg7lnL0cyYv/nx6kopNuJXAaum
+tsk2xwuNqz8Ny5AYTowyuasaZchEeJpc3su+yoZvOrc/UVgcCmcT7GUnMaTQGc4I
+bVWWK7762RB++hLaDiFVXRJZr6jfIU2X3VrsxOO5AQ0EW4QItQEIAMrwGOUXVhVE
+kl6+IXCnD2TPqdGiuv/aKZ8yIvvD1VPw8j0kRdbsha1sIxE7cKvHcnRqKuLW6w9s
+FCNaXoJBPysVDWhVdT4drpr8WtwZQG4Lqa86t5Ndz14lG3Vr/lFs07BpVbxZj2/k
+RqXNZbAmCmZfZbtR55XyUz20uJxoQ0ckXOUxLA2ye0bF9DOt4SwgNgSdp668YFep
+sTBPR0wRLQQpL/00z+S7fiULzUqzUq4cQPpZt7YALJ2iQoUQ93G3t95DMwdt5/tT
+mnFMt8ruyP45oHO+8X6RDRSR31G34YzLWGinXPMDYZ+kjhFg3yv5m5+V6Lc2+APN
+PbouD/9LEXUAEQEAAYkBPAQYAQgAJgIbDBYhBA1mtM782M72qvgLxkP54a369Lqr
+BQJdZ/80BQkDxMzrAAoJEEP54a369LqrjYAH/iSIrw1ROtd+uPupqwttF9IfG3Na
+O1u/6Sk9nKRa2P0SaxYh7ZF8foUs5m0M9mPrAQwAFMRSuu3KQPKQM6vIJR2dRmET
+G9zkyV6FBfoPaodSo8ovv8qi3XCoJxuaF3/+Fes6DPGjk8zCyCy7h+te06s5H8w1
+HZc7YepyOrgdaVMqG6j4c44epLHQ/xtbHQ6Y4Zbb43RBeyYhcRpBgkB/LWuKCbqm
+3AcVMmhcgns86U8jI1VkYzjuvwt9DNJgFgPpyynqfWKl9N0u7aik7ByYYUeK8tZI
+1rwTZ+CdzOq4YRIVWqoG6eLHd1qf2mCuCqiz9TZnDWXPad5ghdzWiX1Mg44=3D
+=3D3czs
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------4BB1865ABCAB0DB18962FA15
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--------------4BB1865ABCAB0DB18962FA15--
