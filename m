@@ -1,35 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF3D1B381B
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:55:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CF51B2FB7
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 21:03:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3ABD6E9AD;
-	Wed, 22 Apr 2020 06:54:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4496E6E2F9;
+	Tue, 21 Apr 2020 19:03:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail3-relais-sop.national.inria.fr
- (mail3-relais-sop.national.inria.fr [192.134.164.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 326586E2F9
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 18:59:12 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.72,411,1580770800"; d="scan'208";a="346583965"
-Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
- by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2020 20:59:10 +0200
-Date: Tue, 21 Apr 2020 20:59:09 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [bug report] drm/xen-front: Add support for Xen PV display
- frontend
-In-Reply-To: <20200421175220.GE2659@kadam>
-Message-ID: <alpine.DEB.2.21.2004212057070.3118@hadrien>
-References: <20200421104522.GA86681@mwanda>
- <alpine.DEB.2.21.2004211728360.3118@hadrien> <20200421175220.GE2659@kadam>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 431666E2F9
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 19:03:10 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id D43DD20747
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 19:03:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1587495790;
+ bh=zzuxna0xb8Q1TdC2MB2c2yaiRdzpJ1eGR8Ub8HY5Gd8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=dlSItZt7NEZM/Xhn8o9UdDSbcwlgfVb8ydhF3rGtNtQmdEl+H3O9net1gHmR12AQ3
+ G+nGtdiWxr7TRRdz25FX0gFyjfRRj2d0d3nAZzfKyyacT1RN+gE1xH2EmseDfJahAO
+ HBJFoVO2yOmbas1tl76zAhDEBOt9TVZISj3h9NsE=
+Received: by mail-qk1-f177.google.com with SMTP id j4so15648587qkc.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 12:03:09 -0700 (PDT)
+X-Gm-Message-State: AGi0PubxfZam2eeaBUEDnkxjXiVwhQslRePvWClrXJcWqT15tKsGXqxR
+ wSbxqDmvSNgNRc+WI4RvoPhpT//UenXvxf/yhg==
+X-Google-Smtp-Source: APiQypK4Yv9pvWyQXJx3JdeSn124hpxtt1JLCDuQWjVYKhF0tbCsvIrqP7V2PBuV1TcfREEdndVuo0ZBbnynFvkhgvg=
+X-Received: by 2002:a37:4a85:: with SMTP id
+ x127mr23060837qka.152.1587495788872; 
+ Tue, 21 Apr 2020 12:03:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 22 Apr 2020 06:54:41 +0000
+References: <cover.1586939718.git.hns@goldelico.com>
+ <06fb6569259bb9183d0a0d0fe70ec4f3033b8aab.1586939718.git.hns@goldelico.com>
+ <20200416204158.GA1006@bogus>
+ <C7C58E41-99CB-49F6-934E-68FA458CB8B1@goldelico.com>
+In-Reply-To: <C7C58E41-99CB-49F6-934E-68FA458CB8B1@goldelico.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 21 Apr 2020 14:02:56 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLfamBLVus65GUzq9DUu0VcK=p_7KkHbKvnLc=0uhsVvg@mail.gmail.com>
+Message-ID: <CAL_JsqLfamBLVus65GUzq9DUu0VcK=p_7KkHbKvnLc=0uhsVvg@mail.gmail.com>
+Subject: Re: [PATCH v6 01/12] dt-bindings: add img, pvrsgx.yaml for
+ Imagination GPUs
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,78 +58,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xen-devel@lists.xenproject.org, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, oleksandr_andrushchenko@epam.com
+Cc: devicetree@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Philipp Rossak <embed3d@gmail.com>, linux-omap <linux-omap@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ OpenPVRSGX Linux Driver Group <openpvrsgx-devgroup@letux.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:MIPS" <linux-mips@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ kernel@pyra-handheld.com,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On Tue, 21 Apr 2020, Dan Carpenter wrote:
-
-> On Tue, Apr 21, 2020 at 05:29:02PM +0200, Julia Lawall wrote:
+On Fri, Apr 17, 2020 at 7:16 AM H. Nikolaus Schaller <hns@goldelico.com> wrote:
+>
+> Hi Rob,
+>
+> > Am 16.04.2020 um 22:41 schrieb Rob Herring <robh@kernel.org>:
 > >
+> > On Wed, 15 Apr 2020 10:35:08 +0200, "H. Nikolaus Schaller" wrote:
+> >> The Imagination PVR/SGX GPU is part of several SoC from
+> >> multiple vendors, e.g. TI OMAP, Ingenic JZ4780, Intel Poulsbo,
+> >> Allwinner A83 and others.
+> >>
+> >> With this binding, we describe how the SGX processor is
+> >> interfaced to the SoC (registers, interrupt etc.).
+> >>
+> >> In most cases, Clock, Reset and power management is handled
+> >> by a parent node or elsewhere (e.g. code in the driver).
+> >>
+> >> Tested by make dt_binding_check dtbs_check
+> >>
+> >> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> >> ---
+> >> .../devicetree/bindings/gpu/img,pvrsgx.yaml   | 122 ++++++++++++++++++
+> >> 1 file changed, 122 insertions(+)
+> >> create mode 100644 Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
+> >>
 > >
-> > On Tue, 21 Apr 2020, Dan Carpenter wrote:
+> > My bot found errors running 'make dt_binding_check' on your patch:
 > >
-> > > Hi Kernel Janitors,
-> > >
-> > > Here is another idea that someone could work on, fixing the
-> > > IS_ERR_OR_NULL() checks in the xen driver.
-> > >
-> > > The patch c575b7eeb89f: "drm/xen-front: Add support for Xen PV
-> > > display frontend" from Apr 3, 2018, leads to the following static
-> > > checker warning:
-> > >
-> > > 	drivers/gpu/drm/xen/xen_drm_front_gem.c:140 xen_drm_front_gem_create()
-> > > 	warn: passing zero to 'ERR_CAST'
-> > >
-> > > drivers/gpu/drm/xen/xen_drm_front_gem.c
-> > >    133  struct drm_gem_object *xen_drm_front_gem_create(struct drm_device *dev,
-> > >    134                                                  size_t size)
-> > >    135  {
-> > >    136          struct xen_gem_object *xen_obj;
-> > >    137
-> > >    138          xen_obj = gem_create(dev, size);
-> > >    139          if (IS_ERR_OR_NULL(xen_obj))
-> > >    140                  return ERR_CAST(xen_obj);
-> >
-> > Are the other occurrences of this also a possible problem?  There are a
-> > few others outside of xen.
+> > Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml:  while parsing a block mapping
+> >  in "<unicode string>", line 74, column 13
 >
-> We sometimes check a parameter for IS_ERR_OR_NULL().
+> It turned out that there was a stray " in line 74 from the last editing phase.
+> Will be fixed in v7.
 >
-> void free_function(struct something *p)
-> {
-> 	if (IS_ERR_OR_NULL(p))
-> 		return;
-> }
->
-> That's fine, absolutely harmless and not a bug.  But if we are checking
-> a return value like this then probably most of the time it's invalid
-> code.  Normally it's again like this code where we're dealing with an
-> impossible thing because the return is never NULL.  The common bugs are
-> that it returns NULL to a caller which only expects error pointers or it
-> returns success instead of failure.  But sometimes returning success can
-> be valid:
->
-> 	obj = get_feature(dev);
-> 	if (IS_ERR_OR_NULL(obj))
-> 		return PTR_ERR(obj);
->
-> It deliberately returns success because the rest of the function is
-> useless when we don't have the feature.
+> Would it be possible to make dt_binding_check not only report line/column but the
+> contents of the line instead of "<unicode string>"?
 
-The other cases are also with ERR_CAST:
+This comes from ruamel.yaml module. I believe "<unicode string>" is
+supposed to be the type of the data, not what it is. However, it is
+possible to get something a bit more helpful, but it depends on which
+parser is used. By default we use the C based parser (aka 'safe'). If
+we use the round trip parser, we get this:
 
-drivers/infiniband/hw/usnic/usnic_ib_qp_grp.c in create_udp_flow
-fs/overlayfs/namei.c in ovl_index_upper
-sound/soc/qcom/qdsp6/q6adm.c in q6adm_open
-drivers/clk/clk.c in clk_hw_create_clk
+ruamel.yaml.scanner.ScannerError: while scanning a simple key
+  in "<unicode string>", line 84, column 5:
+        maxItems
+        ^ (line: 84)
 
-julia
+This can be enabled by passing '-n' (line numbers) to dt-doc-validate.
+Currently, you have have to edit the Makefile to do this. The C parser
+is a big difference in speed, so I don't want to change the default.
+
+I can probably work around this and dump the erroring line, but I'm
+not sure that's always useful. Many errors are indentation related and
+those need some context. Plus just dumping the line can be done easily
+with sed:
+
+sed -n ${LINE}p <file>
+
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
