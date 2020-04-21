@@ -2,48 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7050B1B20EB
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 10:04:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211591B2104
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 10:05:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CE3A89C51;
-	Tue, 21 Apr 2020 08:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27C2489CE2;
+	Tue, 21 Apr 2020 08:05:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94CE089C51;
- Tue, 21 Apr 2020 08:04:26 +0000 (UTC)
-IronPort-SDR: Q5VodBK95ngYoBehKOCsCAEUOSMZLHiX7q7ALsT1MCIOOd94yaxp6MgTgfqiRL8RuXTEstJGgn
- wPlKYnHc3MpQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2020 01:04:25 -0700
-IronPort-SDR: IXYg6SSpX7hdQQVYD8yzR/2w4auXjkQzvqwIEzbZzpYPW8bvZRFwA/pTyh7Xua1RY7e4nWklLV
- I+8o6hz+v5Eg==
-X-IronPort-AV: E=Sophos;i="5.72,409,1580803200"; d="scan'208";a="402113649"
-Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
- ([10.214.210.219])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2020 01:04:17 -0700
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFF1989C86
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 08:05:46 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 557F32071C;
+ Tue, 21 Apr 2020 08:05:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1587456346;
+ bh=MIsMOSthC5x1b/v9D2P+kZ/IzkE0C1W/5y/jCBKmXJE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=yu5yyQyNv4XIUAiv3IrPdT9binnqLDUcLtF7ShkV4r61pPbSv6Au4+iJXCqCjh/fi
+ tiP+gTI/LQ36uKxAfSnU3sqBXrqR2nA9HcuR6BUtj+q2brAM+lrlX6zkJZbvB/18Vw
+ jcZFKMEUb0ULBEhzpnRvj1BNYgQDXY0zSfDsD9ng=
+Date: Tue, 21 Apr 2020 10:05:44 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: John Stultz <john.stultz@linaro.org>
+Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
+Message-ID: <20200421080544.GA611314@kroah.com>
+References: <20200414134629.54567-1-orjan.eide@arm.com>
+ <20200414141849.55654-1-orjan.eide@arm.com>
+ <20200414142810.GA958163@kroah.com>
+ <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
+ <20200416102508.GA820251@kroah.com>
+ <20200420082207.ui7iyg7dsnred2vv@wittgenstein>
+ <CALAqxLW-txNEqW=P_9VTxvOVu_fgpjzHHDbR5BhtpYwhg1SXgw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200420154216.GA1963@sultan-box.localdomain>
-References: <20200407065210.GA263852@kroah.com>
- <20200407071809.3148-1-sultan@kerneltoast.com>
- <20200410090838.GD1691838@kroah.com>
- <20200410141738.GB2025@sultan-box.localdomain>
- <20200411113957.GB2606747@kroah.com>
- <158685210730.16269.15932754047962572236@build.alporthouse.com>
- <20200414082344.GA10645@kroah.com>
- <158737335977.8380.15005528012712372014@jlahtine-desk.ger.corp.intel.com>
- <20200420154216.GA1963@sultan-box.localdomain>
-Subject: Re: [PATCH v2] drm/i915: Fix ref->mutex deadlock in i915_active_wait()
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Sultan Alsawaf <sultan@kerneltoast.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Tue, 21 Apr 2020 11:04:13 +0300
-Message-ID: <158745625375.5265.15743487643543685929@jlahtine-desk.ger.corp.intel.com>
-User-Agent: alot/0.8.1
+Content-Disposition: inline
+In-Reply-To: <CALAqxLW-txNEqW=P_9VTxvOVu_fgpjzHHDbR5BhtpYwhg1SXgw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,127 +52,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Greg KH <gregkh@linuxfoundation.org>, intel-gfx@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, stable@vger.kernel.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: driverdevel <devel@driverdev.osuosl.org>,
+ =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+ Todd Kjos <tkjos@android.com>, Lecopzer Chen <lecopzer.chen@mediatek.com>,
+ Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Laura Abbott <labbott@redhat.com>, Anders Pedersen <anders.pedersen@arm.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ "Darren Hart \(VMware\)" <dvhart@infradead.org>,
+ Christian Brauner <christian.brauner@ubuntu.com>, nd <nd@arm.com>,
+ Martijn Coenen <maco@android.com>, Laura Abbott <laura@labbott.name>,
+ Christian Brauner <christian@brauner.io>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Sultan Alsawaf (2020-04-20 18:42:16)
-> On Mon, Apr 20, 2020 at 12:02:39PM +0300, Joonas Lahtinen wrote:
-> > I think the the patch should be dropped for now before the issue is
-> > properly addressed. Either by backporting the mainline fixes or if
-> > those are too big and there indeed is a smaller alternative patch
-> > that is properly reviewed. But the above patch is not, at least yet.
+On Mon, Apr 20, 2020 at 01:03:39PM -0700, John Stultz wrote:
+> On Mon, Apr 20, 2020 at 1:22 AM Christian Brauner
+> <christian.brauner@ubuntu.com> wrote:
+> > On Thu, Apr 16, 2020 at 12:25:08PM +0200, Greg Kroah-Hartman wrote:
+> > > On Tue, Apr 14, 2020 at 09:41:31PM -0700, John Stultz wrote:
+> > > > But I do think we can mark it as deprecated and let folks know that
+> > > > around the end of the year it will be deleted.
+> > >
+> > > No one ever notices "depreciated" things, they only notice if the code
+> > > is no longer there :)
+> > >
+> > > So I'm all for just deleting it and seeing who even notices...
+> >
+> > Agreed.
 > 
-> Why should a fix for a bona-fide issue be dropped due to political reasons? This
-> doesn't make sense to me. This just hurts miserable i915 users even more. If my
-> patch is going to be dropped, it should be replaced by a different fix at the
-> same time.
-
-There's no politics involved. It's all about doing the due diligence
-that we're fixing upstream bugs, and we're fixing them in a way that
-does not cause regressions to other users.
-
-Without being able to reproduce a bug against vanilla kernel, there's
-too high of a risk that the patch that was developed will only work
-on the downstream kernel it was developed for. That happens for the
-best of the developers, and that is exactly why the process is in
-place, to avoid human error. So no politics, just due diligence.
-
-If you could provide bug reproduction instructions by filing a bug,
-we can make forward progress in solving this issue. After assessing
-the severity of the bug and the amount of users involved, it will
-be prioritized accordingly. That is the most efficient way to get
-attention to a bug.
-
-> Also, the mainline fixes just *happen* to fix this deadlock by removing the
-> mutex lock from the path in question and creating multiple other bugs in the
-> process that had to be addressed with "Fixes:" commits. The regression potential
-> was too high to include those patches for a "stable" kernel, so I made this
-> patch which fixes the issue in the simplest way possible.
-
-The thing is that it may be that the patch fixes the exact issue you
-have at hand in the downstream kernel you are testing against. But
-in doing so it may as well break other usecases for other users of
-vanilla kernel. That is what we're trying to avoid.
-
-With the reproduction instructions, it'll be possible to check which
-kernel versions are affected, and after applying a fix to make sure
-that the bug is gone from those version. And if the reproduction can
-be trivialized to a test, we can introduce a regression check to CI.
-
-A patch that claims to fix a deadlock in upstream kernel should
-include that splat from upstream kernel, not a speculated chain.
-Again, this is just the regular due diligence, because we have
-made errors in the past. It is for those self-made errors we
-know not to merge fixes too quickly before we are able to
-reproduce the error and make sure it is gone.
-
-It's not about where the patch came from, it's about avoiding
-errors.
-
-> We put this patch into
-> Ubuntu now as well, because praying for a response from i915 maintainers while
-> the 20.04 release was on the horizon was not an option.
+> I mean, I get there's not much love for ION in staging, and I too am
+> eager to see it go, but I also feel like in the discussions around
+> submitting the dmabuf heaps at talks, etc, that there was clear value
+> in removing ION after a short time so that folks could transition
+> being able to test both implementations against the same kernel so
+> performance regressions, etc could be worked out.
 > 
-> > There is an another similar thread where there's jumping into
-> > conclusions and doing ad-hoc patches for already fixed issues:
-> > 
-> > https://lore.kernel.org/dri-devel/20200414144309.GB2082@sultan-box.localdomain/
-> 
-> Maybe this wouldn't have happened if I had received a proper response for that
-> issue on gitlab from the get-go... Instead I got the run-around from Chris
-> claiming that it wasn't an i915 bug:
-> 
-> https://gitlab.freedesktop.org/drm/intel/issues/1599
-> 
-> > I appreciate enthusiasm to provide fixes to i915 but we should
-> > continue do the regular due diligence to make sure we're properly
-> > fixing bugs in upstream kernels. And when fixing them, to make
-> > sure we're not simply papering over them for a single use case.
-> > 
-> > It would be preferred to file a bug for the seen issues,
-> > describing how to reproduce them with vanilla upstream kernels:
-> > 
-> > https://gitlab.freedesktop.org/drm/intel/-/wikis/How-to-file-i915-bugs
-> 
-> gitlab.freedesktop.org/drm/intel is where bugs go to be neglected, as noted
-> above. I really see no reason to send anything there anymore, when the vast
-> majority of community-sourced bug reports go ignored.
+> I am actively getting many requests for help for vendors who are
+> looking at dmabuf heaps and are starting the transition process, and
+> I'm trying my best to motivate them to directly work within the
+> community so their needed heap functionality can go upstream. But it's
+> going to be a process, and their first attempts aren't going to
+> magically land upstream.  I think being able to really compare their
+> implementations as they iterate and push things upstream will help in
+> order to be able to have upstream solutions that are also properly
+> functional for production usage.
 
-In the above bug, you claim to be booting vanilla kernel but the splat
-clearly says "5.4.28-00007-g64bb42e80256-dirty", so the developer correctly
-requested to bisect the error between 5.4.27 and 5.4.28 vanilla kernels, which
-you seem to have ignored and simply jumped to provide a patch.
+But we are not accepting any new ion allocators or changes at the
+moment, so I don't see how the ion code in the kernel is helping/hurting
+anything here.
 
-Apologies if it feels like the bugs do not get enough attention, but we
-do our best to act on the reported bugs. You can best guarantee that
-your bug is getting the attention by providing all the details requested
-in the above link.
+There has been a bunch of changes to the ion code recently, in the
+Android kernel trees, in order to get a lot of the different
+manufacturer "forks" of ion back together into one place.  But again,
+those patches are not going to be sent upstream for merging so how is
+ion affecting the dmabuf code at all here?
 
-Without that information, it'll be hard to assess the severity of the
-bug. Above bug is missing critical pieces of information which help us
-in assessing the severity: 1. Is the bug reproducible on drm-tip?
-2. How to reproduce? 3. How often does it reproduce? 4. Which hardware?
+> The dmabuf heaps have been in an official kernel now for all of three
+> weeks. So yea, we can "delete [ION] and see who even notices", but I
+> worry that may seem a bit like contempt for the folks doing the work
+> on transitioning over, which doesn't help getting them to participate
+> within the community.
 
-If that information is missing, it means that that some of our
-developers needs to find out all those bits of information before
-we can even assess the severity of the bug. And as we also have
-bugs where the information is present, those are often acted on
-first.
+But they aren't participating in the community today as no one is
+touching the ion code.  So I fail to see how keeping a dead-end-version
+of ion in the kernel tree really affects anyone these days.
 
-Again, no politics involved and no praying needed. We just have a
-process to follow to make sure we don't repeat our past mistakes
-as it's only humans who work on the bugs. At times it may feel
-rigid and not suited for the specific case where you feel there
-is a shorter route to produce a fix, but following the bug process
-helps us understand the problem and avoid trivial mistakes.
+thanks,
 
-Regards, Joonas
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
