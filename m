@@ -2,29 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5501B32C8
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 00:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B36EF1B32C7
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 00:51:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 162CC6E10E;
-	Tue, 21 Apr 2020 22:51:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E16BB6E0E0;
+	Tue, 21 Apr 2020 22:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 336336E0E0;
+ by gabe.freedesktop.org (Postfix) with ESMTP id CF1776E0E0;
  Tue, 21 Apr 2020 22:51:48 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E48731B;
- Tue, 21 Apr 2020 15:51:47 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 607BB31B;
+ Tue, 21 Apr 2020 15:51:48 -0700 (PDT)
 Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
  [10.1.196.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id EA42B3F73D;
- Tue, 21 Apr 2020 15:51:46 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C1CD33F73D;
+ Tue, 21 Apr 2020 15:51:47 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: yuq825@gmail.com
-Subject: [PATCH 1/2] drm/lima: Clean up IRQ warnings
-Date: Tue, 21 Apr 2020 23:51:36 +0100
-Message-Id: <de475904091400ef6c123285f221094654d96d35.1587509150.git.robin.murphy@arm.com>
+Subject: [PATCH 2/2] drm/lima: Clean up redundant pdev pointer
+Date: Tue, 21 Apr 2020 23:51:37 +0100
+Message-Id: <8d9073cc91c10fc70910587fd1794e0e8f32b467.1587509150.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.23.0.dirty
+In-Reply-To: <de475904091400ef6c123285f221094654d96d35.1587509150.git.robin.murphy@arm.com>
+References: <de475904091400ef6c123285f221094654d96d35.1587509150.git.robin.murphy@arm.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,42 +46,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the optional form of platform_get_irq() for blocks that legitimately
-may not be present, to avoid getting an annoying barrage of spurious
-warnings for non-existent PPs on configurations like Mali-450 MP2.
+There's no point explicitly tracking the platform device when it can be
+trivially derived from the regular device pointer in the couple of
+places it's ever used.
 
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/gpu/drm/lima/lima_device.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/lima/lima_devfreq.c | 7 +++----
+ drivers/gpu/drm/lima/lima_device.c  | 5 ++---
+ drivers/gpu/drm/lima/lima_device.h  | 1 -
+ drivers/gpu/drm/lima/lima_drv.c     | 1 -
+ 4 files changed, 5 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
+index 8c4d21d07529..1d479b5924fe 100644
+--- a/drivers/gpu/drm/lima/lima_devfreq.c
++++ b/drivers/gpu/drm/lima/lima_devfreq.c
+@@ -101,13 +101,12 @@ void lima_devfreq_fini(struct lima_device *ldev)
+ 	}
+ 
+ 	if (devfreq->devfreq) {
+-		devm_devfreq_remove_device(&ldev->pdev->dev,
+-					   devfreq->devfreq);
++		devm_devfreq_remove_device(ldev->dev, devfreq->devfreq);
+ 		devfreq->devfreq = NULL;
+ 	}
+ 
+ 	if (devfreq->opp_of_table_added) {
+-		dev_pm_opp_of_remove_table(&ldev->pdev->dev);
++		dev_pm_opp_of_remove_table(ldev->dev);
+ 		devfreq->opp_of_table_added = false;
+ 	}
+ 
+@@ -125,7 +124,7 @@ void lima_devfreq_fini(struct lima_device *ldev)
+ int lima_devfreq_init(struct lima_device *ldev)
+ {
+ 	struct thermal_cooling_device *cooling;
+-	struct device *dev = &ldev->pdev->dev;
++	struct device *dev = ldev->dev;
+ 	struct opp_table *opp_table;
+ 	struct devfreq *devfreq;
+ 	struct lima_devfreq *ldevfreq = &ldev->devfreq;
 diff --git a/drivers/gpu/drm/lima/lima_device.c b/drivers/gpu/drm/lima/lima_device.c
-index 247f51fd40a2..c334d297796a 100644
+index c334d297796a..29285dedd124 100644
 --- a/drivers/gpu/drm/lima/lima_device.c
 +++ b/drivers/gpu/drm/lima/lima_device.c
-@@ -171,8 +171,10 @@ static void lima_regulator_fini(struct lima_device *dev)
+@@ -297,8 +297,8 @@ static void lima_fini_pp_pipe(struct lima_device *dev)
  
- static int lima_init_ip(struct lima_device *dev, int index)
+ int lima_device_init(struct lima_device *ldev)
  {
-+	struct platform_device *pdev = to_platform_device(dev->dev);
- 	struct lima_ip_desc *desc = lima_ip_desc + index;
- 	struct lima_ip *ip = dev->ip + index;
-+	const char *irq_name = desc->irq_name;
- 	int offset = desc->offset[dev->id];
- 	bool must = desc->must_have[dev->id];
- 	int err;
-@@ -183,8 +185,9 @@ static int lima_init_ip(struct lima_device *dev, int index)
- 	ip->dev = dev;
- 	ip->id = index;
- 	ip->iomem = dev->iomem + offset;
--	if (desc->irq_name) {
--		err = platform_get_irq_byname(dev->pdev, desc->irq_name);
-+	if (irq_name) {
-+		err = must ? platform_get_irq_byname(pdev, irq_name) :
-+			     platform_get_irq_byname_optional(pdev, irq_name);
- 		if (err < 0)
- 			goto out;
- 		ip->irq = err;
++	struct platform_device *pdev = to_platform_device(ldev->dev);
+ 	int err, i;
+-	struct resource *res;
+ 
+ 	dma_set_coherent_mask(ldev->dev, DMA_BIT_MASK(32));
+ 
+@@ -329,8 +329,7 @@ int lima_device_init(struct lima_device *ldev)
+ 	} else
+ 		ldev->va_end = LIMA_VA_RESERVE_END;
+ 
+-	res = platform_get_resource(ldev->pdev, IORESOURCE_MEM, 0);
+-	ldev->iomem = devm_ioremap_resource(ldev->dev, res);
++	ldev->iomem = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(ldev->iomem)) {
+ 		dev_err(ldev->dev, "fail to ioremap iomem\n");
+ 		err = PTR_ERR(ldev->iomem);
+diff --git a/drivers/gpu/drm/lima/lima_device.h b/drivers/gpu/drm/lima/lima_device.h
+index 06fd9636dd72..99b1fb147dad 100644
+--- a/drivers/gpu/drm/lima/lima_device.h
++++ b/drivers/gpu/drm/lima/lima_device.h
+@@ -76,7 +76,6 @@ enum lima_pipe_id {
+ struct lima_device {
+ 	struct device *dev;
+ 	struct drm_device *ddev;
+-	struct platform_device *pdev;
+ 
+ 	enum lima_gpu_id id;
+ 	u32 gp_version;
+diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
+index bbbdc8455e2f..4e5dd75822c0 100644
+--- a/drivers/gpu/drm/lima/lima_drv.c
++++ b/drivers/gpu/drm/lima/lima_drv.c
+@@ -380,7 +380,6 @@ static int lima_pdev_probe(struct platform_device *pdev)
+ 		goto err_out0;
+ 	}
+ 
+-	ldev->pdev = pdev;
+ 	ldev->dev = &pdev->dev;
+ 	ldev->id = (enum lima_gpu_id)of_device_get_match_data(&pdev->dev);
+ 
 -- 
 2.23.0.dirty
 
