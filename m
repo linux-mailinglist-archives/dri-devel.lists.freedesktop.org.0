@@ -1,60 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6931B2846
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 15:44:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 072D11B2870
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 15:51:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFBA16E970;
-	Tue, 21 Apr 2020 13:44:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F8096E97F;
+	Tue, 21 Apr 2020 13:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB056E970
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 13:44:18 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id x18so16565182wrq.2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 06:44:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dX9SsJrE5hBWZMCB/PsZv22atY0++ttj3tkMV3dDs0Q=;
- b=wAdOMM8Y4A0ygcev7r3LEJy6/ZEs7Rtg9U1GZXegnRmd37n2aFQq89ytgXuMqov+aY
- 8j4tKi0c6Ebm8QT9cSFKk60ivx+MNgflnxuoF+GESmrHlsGgE4Law9yevtLxqViztRl1
- xC7GyCZpBnX5loqzujb0MbfvwJqrtkN+ngJ9pnjgJ7Mcfg2cOkYFVJM42jR4bQBEbt2M
- GgwoIH8AYqJKG7RXPa0iicSVSnnyFZyYBbTswnfesr1hVaV8E2YWHcKPmm8OIV/AmVOz
- MQOR1azT28LRFB7UsSNtCGPn4xzxN+Ty7SN4oDi4jX2jzbuStybR3eKmQQ7HV9Ep/bZs
- Dtdg==
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E79186E97F
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 13:51:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587477104;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=P6M8RIkxrhewWamSGvitx0rzqPZ7fkCVr5z1emQQAj8=;
+ b=NavDfz3wLeImWy+vxcT7wNqKTpMLI0/WTswOvJfkGUlK3x8nVEAH93h5uun/wmA2OkOPuF
+ ZwU21PBTEd+4J0VzXygHTyXzfyqD6oj473Vlm4WRSuvWup/wxmnbXSFQLg0eOatMjT5iTT
+ EDJ/Ba/Kod8firpQTRt2aBmWQhZhBf0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-409-jZOZ8onPPp-2ITn2it27iA-1; Tue, 21 Apr 2020 09:51:42 -0400
+X-MC-Unique: jZOZ8onPPp-2ITn2it27iA-1
+Received: by mail-wm1-f71.google.com with SMTP id h22so1484671wml.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 06:51:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=dX9SsJrE5hBWZMCB/PsZv22atY0++ttj3tkMV3dDs0Q=;
- b=Dp9R34tZK8bf3LB5V7xQxdhtW9xBODLShmkH7b5C05LFKwTmjn1/G5uq9ncY8gNiT0
- s6vtjYHuPKGxOwn0bfzmsyHim2b+EbeGjdfmV+GhpDfHZhAAaZu02v0a4M1bWyLeP9aY
- xQgOcoNQWmfg1e7BwM+/xabGMoZE1lDH/sOkgBqldz6GmJqVyGQe0qZqegUq1c7dEtme
- BWP7SqzrgzxW0WMn8g3M5qKIPGGetvX75bX4Q0a47cw6vtnDWhDRugbCeojPOIQMmjoj
- ujoYCss2ggsVrZC0CoHkf6xp2QYvTIhKwUaUP/RVH9XdGvv8cKeiWAmQ1a6M4DkYXA62
- 92cw==
-X-Gm-Message-State: AGi0Pua2aMDBLYLwkxoFSH0UD80Nvhl6qf1IpzTOuJY65HN7ZUgu8aaD
- YD6G3ATtYkiG8SYyE45d7rUoemFHgIA=
-X-Google-Smtp-Source: APiQypIKm+M6SMpWmaYV4K+934zXv6wdnVmpZd13gbye74FjG+URTgYgVwpXyg3Nh+qlr1d4JJ5IOw==
-X-Received: by 2002:adf:f146:: with SMTP id y6mr25802017wro.132.1587476656747; 
- Tue, 21 Apr 2020 06:44:16 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e35:2ec0:82b0:39cc:a07:8b48:cc56])
- by smtp.gmail.com with ESMTPSA id
- a20sm4000854wra.26.2020.04.21.06.44.15
+ bh=IInilyB2ckeUfP1pJZsdQY8G2HWtqy1MvibEpjmv5kQ=;
+ b=XcUV1vlAIpoZkwnHXQ5LzbW7/sXKX3v6tfcFZgvGABs6l+AXYE5JSisrkg6GMWMDI3
+ uqp/irLXJn1KvZYz/cdGGw3ch40VwwMn63No6+J7KrT76sL9V2IY2ueAtTNCh1SanYhy
+ vHxmC+3bcTAmy8q4zGIfrbfyiDEJsptot0FjQvGRu8a42tpFBuMhckerTfiB1U5p9Lam
+ ESrcAPQOpYZfkthLM0Z+7W3W4CHSkVWXqEvoZwwTUXWM/oQ+KUvutI7lL/0Qook6vi7F
+ 3nHtPKiGbKBPKZd1PAb9L6gQjfTOYX2l1cA5FwB8xAQLMG0Y5f7mw/yd1UzeIZT4LtYp
+ EkOg==
+X-Gm-Message-State: AGi0PuZiZfcBKYlB8/PeyT7zjreyFjqh5+sSNuODCw2uenbHuZE96shh
+ opfJNj6KMTRj0eKAOx8z7C5ztNn0eIYtmm22d6q0z7+71cq91XkskIUsYA4UmCVV9zWUSIchpqB
+ 77EmzzagYUYmZkMPyc17pAm8PhE/X
+X-Received: by 2002:a1c:bd89:: with SMTP id n131mr4916129wmf.3.1587477100743; 
+ Tue, 21 Apr 2020 06:51:40 -0700 (PDT)
+X-Google-Smtp-Source: APiQypL9ml34u2SXsT4cym73Fj9YcZ5gNZl/Vlb+iTik+1IYxflheOGQshudBA/kLdh/qIi+ct+15w==
+X-Received: by 2002:a1c:bd89:: with SMTP id n131mr4916110wmf.3.1587477100572; 
+ Tue, 21 Apr 2020 06:51:40 -0700 (PDT)
+Received: from localhost.localdomain.com ([194.230.155.194])
+ by smtp.gmail.com with ESMTPSA id a187sm3565830wmh.40.2020.04.21.06.51.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 06:44:16 -0700 (PDT)
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/meson: add mode selection limits against specific SoC
- revisions
-Date: Tue, 21 Apr 2020 15:44:10 +0200
-Message-Id: <20200421134410.30603-1-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.22.0
+ Tue, 21 Apr 2020 06:51:40 -0700 (PDT)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: linux-fsdevel@vger.kernel.org
+Subject: [PATCH v2 0/7] libfs: group and simplify linux fs code
+Date: Tue, 21 Apr 2020 15:51:12 +0200
+Message-Id: <20200421135119.30007-1-eesposit@redhat.com>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,133 +72,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Neil Armstrong <narmstrong@baylibre.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>,
+ Andrew Donnellan <ajd@linux.ibm.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, linux-scsi@vger.kernel.org,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Arnd Bergmann <arnd@arndb.de>, "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Manoj N. Kumar" <manoj@linux.ibm.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ "Matthew R. Ochs" <mrochs@linux.ibm.com>, Uma Krishnan <ukrishn@linux.ibm.com>,
+ John Johansen <john.johansen@canonical.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-security-module@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ linuxppc-dev@lists.ozlabs.org, Joel Becker <jlbec@evilplan.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Amlogic S805X/Y uses the same die as the S905X, but with more
-limited graphics capabilities.
+libfs.c has many functions that are useful to implement dentry and inode
+operations, but not many at the filesystem level.  As a result, code to
+create files and inodes has a lot of duplication, to the point that
+tracefs has copied several hundred lines from debugfs.
 
-This adds a soc version detection adding specific limitations on the HDMI
-mode selections.
+The main two libfs.c functions for filesystems are simple_pin_fs and
+simple_release_fs, which hide a somewhat complicated locking sequence
+that is needed to serialize vfs_kern_mount and mntget.  In this series,
+my aim is to add functions that create dentries and inodes of various
+kinds (either anonymous inodes, or directory/file/symlink).  These
+functions take the code that was duplicated across debugfs and tracefs
+and move it to libfs.c.
 
-Here, we limit to HDMI 1.3a max HDMI PHY clock frequency.
+In order to limit the number of arguments to the new functions, the
+series first creates a data type that is passed to both
+simple_pin_fs/simple_release_fs and the new creation functions.  The new
+struct, introduced in patch 2, simply groups the "mount" and "count"
+arguments to simple_pin_fs and simple_release_fs.
 
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
----
- drivers/gpu/drm/meson/meson_drv.c     | 29 ++++++++++++++++++++++++++-
- drivers/gpu/drm/meson/meson_drv.h     |  6 ++++++
- drivers/gpu/drm/meson/meson_dw_hdmi.c |  7 +++++++
- 3 files changed, 41 insertions(+), 1 deletion(-)
+Patches 1-4 are preparations to introduce the new simple_fs struct and
+new functions that are useful in the remainder of the series.  Patch 5
+introduces the dentry and inode creation functions.  Patch 6-7 can then
+adopt them in debugfs and tracefs.
 
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 6f29fab79952..621f6de0f076 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -11,6 +11,7 @@
- #include <linux/component.h>
- #include <linux/module.h>
- #include <linux/of_graph.h>
-+#include <linux/sys_soc.h>
- #include <linux/platform_device.h>
- #include <linux/soc/amlogic/meson-canvas.h>
- 
-@@ -183,6 +184,24 @@ static void meson_remove_framebuffers(void)
- 	kfree(ap);
- }
- 
-+struct meson_drm_soc_attr {
-+	struct meson_drm_soc_limits limits;
-+	const struct soc_device_attribute *attrs;
-+};
-+
-+static const struct meson_drm_soc_attr meson_drm_soc_attrs[] = {
-+	/* S805X/S805Y HDMI PLL won't lock for HDMI PHY freq > 1,65GHz */
-+	{
-+		.limits = {
-+			.max_hdmi_phy_freq = 1650000,
-+		},
-+		.attrs = (const struct soc_device_attribute []) {
-+			{ .soc_id = "GXL (S805*)", },
-+			{ /* sentinel */ },
-+		}
-+	},
-+};
-+
- static int meson_drv_bind_master(struct device *dev, bool has_components)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-@@ -191,7 +210,7 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 	struct drm_device *drm;
- 	struct resource *res;
- 	void __iomem *regs;
--	int ret;
-+	int ret, i;
- 
- 	/* Checks if an output connector is available */
- 	if (!meson_vpu_has_available_connectors(dev)) {
-@@ -281,6 +300,14 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 	if (ret)
- 		goto free_drm;
- 
-+	/* Assign limits per soc revision/package */
-+	for (i = 0 ; i < ARRAY_SIZE(meson_drm_soc_attrs) ; ++i) {
-+		if (soc_device_match(meson_drm_soc_attrs[i].attrs)) {
-+			priv->limits = &meson_drm_soc_attrs[i].limits;
-+			break;
-+		}
-+	}
-+
- 	/* Remove early framebuffers (ie. simplefb) */
- 	meson_remove_framebuffers();
- 
-diff --git a/drivers/gpu/drm/meson/meson_drv.h b/drivers/gpu/drm/meson/meson_drv.h
-index 04fdf3826643..5b23704a80d6 100644
---- a/drivers/gpu/drm/meson/meson_drv.h
-+++ b/drivers/gpu/drm/meson/meson_drv.h
-@@ -30,6 +30,10 @@ struct meson_drm_match_data {
- 	struct meson_afbcd_ops *afbcd_ops;
- };
- 
-+struct meson_drm_soc_limits {
-+	unsigned int max_hdmi_phy_freq;
-+};
-+
- struct meson_drm {
- 	struct device *dev;
- 	enum vpu_compatible compat;
-@@ -48,6 +52,8 @@ struct meson_drm {
- 	struct drm_plane *primary_plane;
- 	struct drm_plane *overlay_plane;
- 
-+	const struct meson_drm_soc_limits *limits;
-+
- 	/* Components Data */
- 	struct {
- 		bool osd1_enabled;
-diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-index e8c94915a4fc..dc3d5122475a 100644
---- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-@@ -695,6 +695,13 @@ dw_hdmi_mode_valid(struct drm_connector *connector,
- 	dev_dbg(connector->dev->dev, "%s: vclk:%d phy=%d venc=%d hdmi=%d\n",
- 		__func__, phy_freq, vclk_freq, venc_freq, hdmi_freq);
- 
-+	/* Check against soc revision/package limits */
-+	if (priv->limits) {
-+		if (priv->limits->max_hdmi_phy_freq &&
-+		    phy_freq > priv->limits->max_hdmi_phy_freq)
-+			return MODE_CLOCK_HIGH;
-+	}
-+
- 	return meson_vclk_vic_supported_freq(phy_freq, vclk_freq);
- }
- 
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+
+v1->v2: rename simple_new_inode in new_inode_current_time,
+more detailed explanations, put all common code in fs/libfs.c
+
+Emanuele Giuseppe Esposito (7):
+  apparmor: just use vfs_kern_mount to make .null
+  libfs: wrap simple_pin_fs/simple_release_fs arguments in a struct
+  libfs: introduce new_inode_current_time
+  libfs: add alloc_anon_inode wrapper
+  libfs: add file creation functions
+  debugfs: switch to simplefs inode creation API
+  tracefs: switch to simplefs inode creation API
+
+ drivers/gpu/drm/drm_drv.c       |  11 +-
+ drivers/misc/cxl/api.c          |  13 +-
+ drivers/scsi/cxlflash/ocxl_hw.c |  14 +-
+ fs/binfmt_misc.c                |   9 +-
+ fs/configfs/mount.c             |  10 +-
+ fs/debugfs/inode.c              | 158 +++--------------
+ fs/libfs.c                      | 299 ++++++++++++++++++++++++++++++--
+ fs/tracefs/inode.c              |  96 ++--------
+ include/linux/fs.h              |  31 +++-
+ security/apparmor/apparmorfs.c  |  38 ++--
+ security/inode.c                |  11 +-
+ 11 files changed, 399 insertions(+), 291 deletions(-)
+
 -- 
-2.22.0
+2.25.2
 
 _______________________________________________
 dri-devel mailing list
