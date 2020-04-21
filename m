@@ -2,40 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5250D1B3812
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:55:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF9C1B1FF9
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Apr 2020 09:38:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEF4D6E842;
-	Wed, 22 Apr 2020 06:54:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 979976E8DF;
+	Tue, 21 Apr 2020 07:38:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m176115.mail.qiye.163.com (m176115.mail.qiye.163.com
- [59.111.176.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF1BB6E8DD
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 07:36:34 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.122])
- by m176115.mail.qiye.163.com (Hmail) with ESMTPA id 791136662A9;
- Tue, 21 Apr 2020 15:36:28 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH V4] amdgpu: reduce no need mutex_lock area
-Date: Tue, 21 Apr 2020 00:36:21 -0700
-Message-Id: <20200421073621.129690-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.26.2
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F18976E8DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 07:38:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587454681;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FSdpriCLurUHN3muAMSyOm9gjrjIPr8oUWWdKEfXfKU=;
+ b=ZqvOi8H0SdCdbn5JZXIDGUrtcBSeWkFkmSSw3G0t20q7nmh+NbFvMzCg7CfVCKFcPYbCWZ
+ nTu5fTx/MMInJtqyjPWvzWGrUaPifTGaVBzQrx8010bVh0TKy9EqtlwMMGP/xR2F6ZYRX1
+ Gc8qGNf0E7wTfpwM1jAWevPmv6OlIlk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-182-8iuJGEHRPyO5vG9VDFc6TQ-1; Tue, 21 Apr 2020 03:37:57 -0400
+X-MC-Unique: 8iuJGEHRPyO5vG9VDFc6TQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DB7A8017F3;
+ Tue, 21 Apr 2020 07:37:56 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
+ [10.36.113.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E805228980;
+ Tue, 21 Apr 2020 07:37:55 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id BEC4616E16; Tue, 21 Apr 2020 09:37:51 +0200 (CEST)
+Date: Tue, 21 Apr 2020 09:37:51 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 37/59] drm/cirrus: Move to drm/tiny
+Message-ID: <20200421073751.q6vxzt6pqwieihpw@sirius.home.kraxel.org>
+References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
+ <20200415074034.175360-38-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZTlVIS01LS0tJSElNQk1OSFlXWShZQU
- hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PyI6Fww6SDgrGgNPSDcpMAhO
- OA4wChZVSlVKTkNMT05PTkJKTE1JVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSUlZV1kIAVlBSU5MTzcG
-X-HM-Tid: 0a719baab7039373kuws791136662a9
-X-Mailman-Approved-At: Wed, 22 Apr 2020 06:54:41 +0000
+In-Reply-To: <20200415074034.175360-38-daniel.vetter@ffwll.ch>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,51 +64,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: 1587181464-114215-1-git-send-email-bernard@vivo.com
-Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ virtualization@lists.linux-foundation.org,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maybe we could reduce the mutex_lock(&mem->lock)`s protected code area,
-and no need to protect pr_debug.
+On Wed, Apr 15, 2020 at 09:40:12AM +0200, Daniel Vetter wrote:
+> Because it is.
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
+Indeed.
 
-Changes since V1:
-*commit message improve
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-Changes since V2:
-*move comment along with the mutex_unlock
-
-Changes since V3:
-*lock protect the if check, there is some possibility of multi-threaded
- racing modify.
-
-Link for V1:
-*https://lore.kernel.org/patchwork/patch/1226588/
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 327317c54f7c..549bdb429883 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -1289,9 +1289,9 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
- 	mutex_lock(&mem->lock);
- 
- 	if (mem->mapped_to_gpu_memory > 0) {
-+		mutex_unlock(&mem->lock);
- 		pr_debug("BO VA 0x%llx size 0x%lx is still mapped.\n",
- 				mem->va, bo_size);
--		mutex_unlock(&mem->lock);
- 		return -EBUSY;
- 	}
- 
--- 
-2.26.2
+take care,
+  Gerd
 
 _______________________________________________
 dri-devel mailing list
