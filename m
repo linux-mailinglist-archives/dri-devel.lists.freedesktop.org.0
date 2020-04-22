@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0781B37F8
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9CD1B37F5
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:51:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B24E26E5A1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF956E32B;
 	Wed, 22 Apr 2020 06:51:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 503F76E312
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A27516E32B
  for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 06:51:32 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03M6pTup049515;
- Wed, 22 Apr 2020 01:51:29 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03M6pUn3130148;
+ Wed, 22 Apr 2020 01:51:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1587538289;
- bh=LskT7Fluz1afemuppgQ3E8smEknLw7ty0G3qU//E2DU=;
+ s=ti-com-17Q1; t=1587538290;
+ bh=34pGNEIVX9mec7aDUBogd/7S0j9oPZJtVWJoDUjyq8A=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=CSfSi1e2omadz6STW3mIOTHuOExZA8JRd3dTbM2FLxp/79zIY5MGvasnIRMrio6c9
- IMaJkb+nQAYGqgqjRaHkmXzYol/uPu8TfgtTu8IhavtSib0u5F48syiRUwpZU+o5Xx
- s8n8qgm4/scOLFiEOiOqOUTB0fvmcaFQc3fjccEA=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03M6pT5V001135;
- Wed, 22 Apr 2020 01:51:29 -0500
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ b=ZPEj913Q6Ix4Ym9VAqlA0JUjWsjP9eO+UGbwskzLebtgjxVyb6o26O9Ka9+V3hfYz
+ sTw6FPVvB9mViKXjFFnLZxY6SBoWhnwNDAGiF8PwJNpNHvUtGSVQT8utE0+NDa1bw0
+ n+/fiF2lrdSW8WGF87PigzxcaVVRXZbUOi82j6zI=
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03M6pUAd099586
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 22 Apr 2020 01:51:30 -0500
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 22
- Apr 2020 01:51:28 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ Apr 2020 01:51:30 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 22 Apr 2020 01:51:28 -0500
+ Frontend Transport; Wed, 22 Apr 2020 01:51:30 -0500
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03M6pKUZ100224;
- Wed, 22 Apr 2020 01:51:26 -0500
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03M6pKUa100224;
+ Wed, 22 Apr 2020 01:51:28 -0500
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: Lee Jones <lee.jones@linaro.org>, Daniel Thompson
  <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>, Bartlomiej
  Zolnierkiewicz <b.zolnierkie@samsung.com>,
  <dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
-Subject: [PATCHv3 3/4] backlight: led_bl: add led_access locking
-Date: Wed, 22 Apr 2020 09:51:13 +0300
-Message-ID: <20200422065114.22164-4-tomi.valkeinen@ti.com>
+Subject: [PATCHv3 4/4] backlight: led_bl: fix led -> backlight brightness
+ mapping
+Date: Wed, 22 Apr 2020 09:51:14 +0300
+Message-ID: <20200422065114.22164-5-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200422065114.22164-1-tomi.valkeinen@ti.com>
 References: <20200422065114.22164-1-tomi.valkeinen@ti.com>
@@ -67,47 +69,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-led_bl does not lock 'led_access' when calling led_sysfs_disable and
-led_sysfs_enable, causing the below WARN. Add the locking.
+The code that maps the LED default brightness to backlight levels has
+two issues: 1) if the default brightness is the first backlight level
+(usually 0), the code fails to find it, and 2) when the code fails to
+find a backlight level, it ends up using max_brightness + 1 as the
+default brightness.
 
-WARNING: CPU: 0 PID: 223 at drivers/leds/led-core.c:353 led_sysfs_disable+0x4c/0x5c
+Fix these two issues.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 ---
- drivers/video/backlight/led_bl.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/video/backlight/led_bl.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
-index c46ecdfe8b0a..63693c4f0883 100644
+index 63693c4f0883..699424b111ec 100644
 --- a/drivers/video/backlight/led_bl.c
 +++ b/drivers/video/backlight/led_bl.c
-@@ -216,8 +216,11 @@ static int led_bl_probe(struct platform_device *pdev)
- 		return PTR_ERR(priv->bl_dev);
- 	}
+@@ -139,7 +139,6 @@ static int led_bl_parse_levels(struct device *dev,
+ 	num_levels = of_property_count_u32_elems(node, "brightness-levels");
+ 	if (num_levels > 1) {
+ 		int i;
+-		unsigned int db;
+ 		u32 *levels;
  
--	for (i = 0; i < priv->nb_leds; i++)
-+	for (i = 0; i < priv->nb_leds; i++) {
-+		mutex_lock(&priv->leds[i]->led_access);
- 		led_sysfs_disable(priv->leds[i]);
-+		mutex_unlock(&priv->leds[i]->led_access);
-+	}
+ 		levels = devm_kzalloc(dev, sizeof(u32) * num_levels,
+@@ -153,15 +152,11 @@ static int led_bl_parse_levels(struct device *dev,
+ 		if (ret < 0)
+ 			return ret;
  
- 	backlight_update_status(priv->bl_dev);
- 
-@@ -233,8 +236,11 @@ static int led_bl_remove(struct platform_device *pdev)
- 	backlight_device_unregister(bl);
- 
- 	led_bl_power_off(priv);
--	for (i = 0; i < priv->nb_leds; i++)
-+	for (i = 0; i < priv->nb_leds; i++) {
-+		mutex_lock(&priv->leds[i]->led_access);
- 		led_sysfs_enable(priv->leds[i]);
-+		mutex_unlock(&priv->leds[i]->led_access);
-+	}
- 
- 	return 0;
- }
+-		/*
+-		 * Try to map actual LED brightness to backlight brightness
+-		 * level
+-		 */
+-		db = priv->default_brightness;
+-		for (i = 0 ; i < num_levels; i++) {
+-			if ((i && db > levels[i - 1]) && db <= levels[i])
++		/* Map LED brightness to backlight brightness level */
++		for (i = 0; i < num_levels - 1; i++)
++			if (levels[i] >= priv->default_brightness)
+ 				break;
+-		}
++
+ 		priv->default_brightness = i;
+ 		priv->max_brightness = num_levels - 1;
+ 		priv->levels = levels;
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
