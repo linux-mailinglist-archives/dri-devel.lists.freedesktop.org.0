@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8123D1B3825
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:55:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B781B3441
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 02:58:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C495B6E9CD;
-	Wed, 22 Apr 2020 06:55:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96E9B6E122;
+	Wed, 22 Apr 2020 00:58:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m176150.mail.qiye.163.com (m176150.mail.qiye.163.com
- [59.111.176.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99E716E122
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 00:57:06 +0000 (UTC)
-Received: from vivo.com (wm-10.qy.internal [127.0.0.1])
- by m176150.mail.qiye.163.com (Hmail) with ESMTP id 373021A1513;
- Wed, 22 Apr 2020 08:56:27 +0800 (CST)
-Message-ID: <AKoA0wCVCNOygUrJso2wM4qv.3.1587516987209.Hmail.bernard@vivo.com>
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gYW1kZ3B1OiBmaXhlcyBtZW1sZWFrIGlzc3VlIHdoZW4gaW5pdCBmYWlsZWQ=?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
-X-Originating-IP: 157.0.31.122
-In-Reply-To: <7fdc9db9-f259-e0de-646f-863e438d68ed@amd.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4546E122
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 00:58:48 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED71C528;
+ Wed, 22 Apr 2020 02:58:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1587517126;
+ bh=GL4iZFSEcfpbOXWl+e6jnH7WplIr76A9hadrF+fnCks=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Nkp7AL3qf+WJ0/uiwRQyf5dErVbNJSKmwtqyJY4uzp+IuPnFMdXQ0vc5f51lrwBs9
+ cexIQuzE1gofUnKZs6vUAXExBIT2BsL4TL/0AzfOcA3aaqNTQw4Rw8gArr0mrlQP7u
+ rhC9X+pXLMTc+NkTvpx7e5xaD0UjXz9dJ/o9UeSY=
+Date: Wed, 22 Apr 2020 03:58:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Adrian Ratiu <adrian.ratiu@collabora.com>
+Subject: Re: [PATCH v7 5/8] dt-bindings: display: add i.MX6 MIPI DSI host
+ controller doc
+Message-ID: <20200422005832.GK5983@pendragon.ideasonboard.com>
+References: <20200421161610.1501827-1-adrian.ratiu@collabora.com>
+ <20200421161610.1501827-6-adrian.ratiu@collabora.com>
 MIME-Version: 1.0
-Received: from bernard@vivo.com( [157.0.31.122) ] by ajax-webmail (
- [127.0.0.1] ) ; Wed, 22 Apr 2020 08:56:27 +0800 (GMT+08:00)
-From: =?UTF-8?B?6LW15Yab5aWO?= <bernard@vivo.com>
-Date: Wed, 22 Apr 2020 08:56:27 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSFVNQk9LS0tJT09KT0tNSVlXWShZQU
- hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kJHlYWEh9ZQUhMSE9OQ0NCTUpKN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
- WUc6MBQ6Sww4LTg1NAIcLgkxCBRJDDZPCg1VSFVKTkNMTkpNQkNMSE9CVTMWGhIXVRkeCRUaCR87
- DRINFFUYFBZFWVdZEgtZQVlKTkxVS1VISlVKSUlZV1kIAVlBSktDTEo3Bg++
-X-HM-Tid: 0a719f62d76b93b4kuws373021a1513
-X-Mailman-Approved-At: Wed, 22 Apr 2020 06:54:41 +0000
+Content-Disposition: inline
+In-Reply-To: <20200421161610.1501827-6-adrian.ratiu@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,125 +47,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom St Denis <tom.stdenis@amd.com>, Ori Messinger <Ori.Messinger@amd.com>,
- opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Sjoerd Simons <sjoerd.simons@collabora.com>,
+ Adrian Pop <pop.adrian61@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Martyn Welch <martyn.welch@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ linux-rockchip@lists.infradead.org, linux-imx@nxp.com,
+ Arnaud Ferraris <arnaud.ferraris@collabora.com>, kernel@collabora.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CuWPkeS7tuS6uu+8miJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29t
-Pgrlj5HpgIHml6XmnJ/vvJoyMDIwLTA0LTIxIDIyOjUzOjQ3CuaUtuS7tuS6uu+8miLotbXlhpvl
-pY4iIDxiZXJuYXJkQHZpdm8uY29tPgrmioTpgIHkurrvvJpBbGV4IERldWNoZXIgPGFsZXhhbmRl
-ci5kZXVjaGVyQGFtZC5jb20+LCJEYXZpZCAoQ2h1bk1pbmcpIFpob3UiIDxEYXZpZDEuWmhvdUBh
-bWQuY29tPixEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+LERhbmllbCBWZXR0ZXIgPGRh
-bmllbEBmZndsbC5jaD4sVG9tIFN0IERlbmlzIDx0b20uc3RkZW5pc0BhbWQuY29tPixPcmkgTWVz
-c2luZ2VyIDxPcmkuTWVzc2luZ2VyQGFtZC5jb20+LFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3Jn
-Lm9yZz4sYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcsZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZyxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnLG9wZW5zb3VyY2Uua2VybmVs
-QHZpdm8uY29tCuS4u+mimO+8mlJlOiBbUEFUQ0hdIGFtZGdwdTogZml4ZXMgbWVtbGVhayBpc3N1
-ZSB3aGVuIGluaXQgZmFpbGVkPkFtIDIxLjA0LjIwIHVtIDE1OjM5IHNjaHJpZWIg6LW15Yab5aWO
-Ogo+PiDlj5Hku7bkurrvvJoiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2VuaWdAYW1k
-LmNvbT4KPj4g5Y+R6YCB5pel5pyf77yaMjAyMC0wNC0yMSAyMTowMjoyNwo+PiDmlLbku7bkurrv
-vJoi6LW15Yab5aWOIiA8YmVybmFyZEB2aXZvLmNvbT4KPj4g5oqE6YCB5Lq677yaQWxleCBEZXVj
-aGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPiwiRGF2aWQgKENodW5NaW5nKSBaaG91IiA8
-RGF2aWQxLlpob3VAYW1kLmNvbT4sRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPixEYW5p
-ZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+LFRvbSBTdCBEZW5pcyA8dG9tLnN0ZGVuaXNAYW1k
-LmNvbT4sT3JpIE1lc3NpbmdlciA8T3JpLk1lc3NpbmdlckBhbWQuY29tPixTYW0gUmF2bmJvcmcg
-PHNhbUByYXZuYm9yZy5vcmc+LGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnLGRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcsbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZyxvcGVu
-c291cmNlLmtlcm5lbEB2aXZvLmNvbQo+PiDkuLvpopjvvJpSZTogW1BBVENIXSBhbWRncHU6IGZp
-eGVzIG1lbWxlYWsgaXNzdWUgd2hlbiBpbml0IGZhaWxlZD5BbSAyMS4wNC4yMCB1bSAxNDowOSBz
-Y2hyaWViIOi1teWGm+WljjoKPj4+PiBGcm9tOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlh
-bi5rb2VuaWdAYW1kLmNvbT4KPj4+PiBEYXRlOiAyMDIwLTA0LTIxIDE5OjIyOjQ5Cj4+Pj4gVG86
-ICBCZXJuYXJkIFpoYW8gPGJlcm5hcmRAdml2by5jb20+LEFsZXggRGV1Y2hlciA8YWxleGFuZGVy
-LmRldWNoZXJAYW1kLmNvbT4sIkRhdmlkIChDaHVuTWluZykgWmhvdSIgPERhdmlkMS5aaG91QGFt
-ZC5jb20+LERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4sRGFuaWVsIFZldHRlciA8ZGFu
-aWVsQGZmd2xsLmNoPixUb20gU3QgRGVuaXMgPHRvbS5zdGRlbmlzQGFtZC5jb20+LE9yaSBNZXNz
-aW5nZXIgPE9yaS5NZXNzaW5nZXJAYW1kLmNvbT4sU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcu
-b3JnPixhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZyxkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnLGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcKPj4+PiBDYzogIG9wZW5zb3Vy
-Y2Uua2VybmVsQHZpdm8uY29tCj4+Pj4gU3ViamVjdDogUmU6IFtQQVRDSF0gYW1kZ3B1OiBmaXhl
-cyBtZW1sZWFrIGlzc3VlIHdoZW4gaW5pdCBmYWlsZWQ+QW0gMjEuMDQuMjAgdW0gMTM6MTcgc2No
-cmllYiBCZXJuYXJkIFpoYW86Cj4+Pj4+PiBWUkFNIG1hbmFnZXIgYW5kIERSTSBNTSB3aGVuIGlu
-aXQgZmFpbGVkLCB0aGVyZSBpcyBubyBvcGVyYWN0aW9uCj4+Pj4+PiB0byBmcmVlIGt6YWxsb2Mg
-bWVtb3J5ICYgcmVtb3ZlIGRldmljZSBmaWxlLgo+Pj4+Pj4gVGhpcyB3aWxsIGxlYWQgdG8gbWVt
-bGVhayAmIGNhdXNlIHN0YWJpbGl0eSBpc3N1ZS4KPj4+Pj4gTkFLLCBmYWlsdXJlIHRvIGNyZWF0
-ZSBzeXNmcyBub2RlcyBhcmUgbm90IGNyaXRpY2FsLgo+Pj4+Pgo+Pj4+PiBDaHJpc3RpYW4uCj4+
-Pj4+Cj4+Pj4gT0ssIGdldCBpdC4KPj4+PiBCeSB0aGUgd2F5LCBzaG91bGQgaSBtb2RpZnkgdGhp
-cyBwYXRjaCB0byBqdXN0IGhhbmRsZSA8a2ZyZWUobWdyKT4gaW4gZXJyb3IgYnJhbmNoLCBvciB0
-aGF0IGl0IGlzIGFsc28gdW5uZWNlc3Nhcnk/Cj4+PiBXaGF0IHlvdSBjYW4gZG8gaXMgdG8gZHJv
-cCB0aGUgInJldHVybiByZXQiIGlmIGFueXRoaW5nIHdpdGggdGhlIHN5c2ZzCj4+PiBub2RlcyBn
-b2VzIHdyb25nIGFuZCBpbnN0ZWFkIHByaW50IHRoZSBlcnJvciBjb2RlLgo+PiBFbW1tLCBmb3Ig
-dGhpcyBwYXJ0LCBpIGFtIG5vdCBzdXJlLCBteSBtb2RpZnkgZmlyc3QgcHJpbnQgdGhlIGVycm9y
-LCBzZWNvbmUgcmVsZWFzZSBub3QgZnJlZSBtZW1vcnksCj4+IGFuZCBsYXN0IHJldHVybiBlcnJv
-ciwgbWFrZSBldmVyeXRoaW5nIGNsZWFyIHRvIHRoZSBzeXN0ZW0uCj4+IEkgdGhpbmsgaXRgcyB0
-aGUgc2FtZSB3aXRoIHdoYXQgeW91IG1lbnRpb25lZCwgaXMgdGhlcmUgc29tZXRoaW5nIHRoYXQg
-SSBtaXN1bmRlcnN0b29kPwo+Cj5ZZXMsIG1heWJlIGFuIGV4YW1wbGUgbWFrZXMgaXQgbW9yZSBj
-bGVhciB3aGF0IHRvIGRvIGhlcmUuIEN1cnJlbnRseSB3ZSAKPnByaW50IGFuZCBlcnJvciBhbmQg
-cmV0dXJuIHdoZW4gc29tZXRoaW5nIHdpdGggdGhlIHN5c2ZzIGZpbGVzIGdvZXMgd3Jvbmc6Cj4K
-PmlmIChyZXQpIHsKPiDCoMKgwqAgRFJNX0VSUk9SKCJGYWlsZWQgdG8gY3JlYXRlIGRldmljZSBm
-aWxlIG1lbV9pbmZvX3ZyYW1fdG90YWxcbiIpOwo+IMKgwqDCoCByZXR1cm4gcmV0Owo+fQo+Cj5C
-dXQgd2hhdCB3ZSBzaG91bGQgZG8gaW5zdGVhZCBpcyBqdXN0IHRvIHByaW50IGFuIGVycm9yIGFu
-ZCBjb250aW51ZSBhbmQgCj5pbiB0aGUgZW5kIHJldHVybiBzdWNjZXNzIHN0YXR1czoKPgo+aWYg
-KHJldCkKPiDCoMKgwqAgRFJNX0VSUk9SKCJGYWlsZWQgdG8gY3JlYXRlIGRldmljZSBmaWxlIG1l
-bV9pbmZvX3ZyYW1fdG90YWwgCj4oJWQpXG4iLCByKTsKPgo+Li4uCj5yZXR1cm4gMDsKPgo+UmVn
-YXJkcywKPkNocmlzdGlhbi4KPgoKRW1tbSwgIGkgYW0gc3RpbGwgY29uZnVzZWQgYWJvdXQgdHdv
-IHBvaW50czoKMSBEb2VzIHRoYXQgbWVhbiB0aGVyZSBpcyBubyBmYWlsZWQgY2FzZSBpbiB0aGlz
-IGZ1bmN0aW9uPwoyIFRoZXJlIGlzIG5vIG5lZWQgdG8gZnJlZSB0aGUga3ptYWxsb2Mgc3BhY2Uo
-bm8gcG9zc2liaWxpdHkgb2YgbWVtb3J5IGxlYWsgKT8KClJlZ2FyZHMsCkJlcm5hcmQKCj4+Cj4+
-PiBJdCdzIHJlYWxseSBhbm5veWluZyB0aGF0IGxvYWRpbmcsIHVubG9hZGluZyBhbmQgbG9hZGlu
-ZyB0aGUgZHJpdmVyCj4+PiBhZ2FpbiBzb21ldGltZXMgZmFpbHMgYmVjYXVzZSB3ZSBoYXZlIGEg
-YnVnIGluIHRoZSBzeXNmcyBmaWxlcyBjbGVhbnVwLgo+Pj4KPj4+IFdlIGNlcnRhaW5seSBzaG91
-bGQgZml4IHRob3NlIGJ1Z3MgYXMgd2VsbCwgYnV0IHRoZXkgYXJlIGp1c3Qgbm90Cj4+PiBjcml0
-aWNhbCBmb3IgY29ycmVjdCBkcml2ZXIgZnVuY3Rpb25hbGl0eS4KPj4+Cj4+PiBSZWdhcmRzLAo+
-Pj4gQ2hyaXN0aWFuLgo+Pgo+Pj4+IFJlZ2FyZHMsCj4+Pj4gQmVybmFyZAo+Pj4+Cj4+Pj4+PiBT
-aWduZWQtb2ZmLWJ5OiBCZXJuYXJkIFpoYW8gPGJlcm5hcmRAdml2by5jb20+Cj4+Pj4+PiAtLS0K
-Pj4+Pj4+ICAgICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdnJhbV9tZ3IuYyB8
-IDI0ICsrKysrKysrKysrKysrKystLS0tCj4+Pj4+PiAgICAgMSBmaWxlIGNoYW5nZWQsIDE5IGlu
-c2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCj4+Pj4+Pgo+Pj4+Pj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92cmFtX21nci5jIGIvZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZyYW1fbWdyLmMKPj4+Pj4+IGluZGV4IDgyYTMyOTllNTNj
-MC4uNGM1ZmIxNTNlNmI0IDEwMDY0NAo+Pj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRncHUvYW1kZ3B1X3ZyYW1fbWdyLmMKPj4+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV92cmFtX21nci5jCj4+Pj4+PiBAQCAtMTc1LDMwICsxNzUsNDQgQEAgc3Rh
-dGljIGludCBhbWRncHVfdnJhbV9tZ3JfaW5pdChzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIg
-Km1hbiwKPj4+Pj4+ICAgICAJcmV0ID0gZGV2aWNlX2NyZWF0ZV9maWxlKGFkZXYtPmRldiwgJmRl
-dl9hdHRyX21lbV9pbmZvX3ZyYW1fdG90YWwpOwo+Pj4+Pj4gICAgIAlpZiAocmV0KSB7Cj4+Pj4+
-PiAgICAgCQlEUk1fRVJST1IoIkZhaWxlZCB0byBjcmVhdGUgZGV2aWNlIGZpbGUgbWVtX2luZm9f
-dnJhbV90b3RhbFxuIik7Cj4+Pj4+PiAtCQlyZXR1cm4gcmV0Owo+Pj4+Pj4gKwkJZ290byBWUkFN
-X1RPVEFMX0ZBSUw7Cj4+Pj4+PiAgICAgCX0KPj4+Pj4+ICAgICAJcmV0ID0gZGV2aWNlX2NyZWF0
-ZV9maWxlKGFkZXYtPmRldiwgJmRldl9hdHRyX21lbV9pbmZvX3Zpc192cmFtX3RvdGFsKTsKPj4+
-Pj4+ICAgICAJaWYgKHJldCkgewo+Pj4+Pj4gICAgIAkJRFJNX0VSUk9SKCJGYWlsZWQgdG8gY3Jl
-YXRlIGRldmljZSBmaWxlIG1lbV9pbmZvX3Zpc192cmFtX3RvdGFsXG4iKTsKPj4+Pj4+IC0JCXJl
-dHVybiByZXQ7Cj4+Pj4+PiArCQlnb3RvIFZJU19WUkFNX1RPVEFfRkFJTDsKPj4+Pj4+ICAgICAJ
-fQo+Pj4+Pj4gICAgIAlyZXQgPSBkZXZpY2VfY3JlYXRlX2ZpbGUoYWRldi0+ZGV2LCAmZGV2X2F0
-dHJfbWVtX2luZm9fdnJhbV91c2VkKTsKPj4+Pj4+ICAgICAJaWYgKHJldCkgewo+Pj4+Pj4gICAg
-IAkJRFJNX0VSUk9SKCJGYWlsZWQgdG8gY3JlYXRlIGRldmljZSBmaWxlIG1lbV9pbmZvX3ZyYW1f
-dXNlZFxuIik7Cj4+Pj4+PiAtCQlyZXR1cm4gcmV0Owo+Pj4+Pj4gKwkJZ290byBWUkFNX1VTRURf
-RkFJTDsKPj4+Pj4+ICAgICAJfQo+Pj4+Pj4gICAgIAlyZXQgPSBkZXZpY2VfY3JlYXRlX2ZpbGUo
-YWRldi0+ZGV2LCAmZGV2X2F0dHJfbWVtX2luZm9fdmlzX3ZyYW1fdXNlZCk7Cj4+Pj4+PiAgICAg
-CWlmIChyZXQpIHsKPj4+Pj4+ICAgICAJCURSTV9FUlJPUigiRmFpbGVkIHRvIGNyZWF0ZSBkZXZp
-Y2UgZmlsZSBtZW1faW5mb192aXNfdnJhbV91c2VkXG4iKTsKPj4+Pj4+IC0JCXJldHVybiByZXQ7
-Cj4+Pj4+PiArCQlnb3RvIFZJU19WUkFNX1VTRURfRkFJTDsKPj4+Pj4+ICAgICAJfQo+Pj4+Pj4g
-ICAgIAlyZXQgPSBkZXZpY2VfY3JlYXRlX2ZpbGUoYWRldi0+ZGV2LCAmZGV2X2F0dHJfbWVtX2lu
-Zm9fdnJhbV92ZW5kb3IpOwo+Pj4+Pj4gICAgIAlpZiAocmV0KSB7Cj4+Pj4+PiAgICAgCQlEUk1f
-RVJST1IoIkZhaWxlZCB0byBjcmVhdGUgZGV2aWNlIGZpbGUgbWVtX2luZm9fdnJhbV92ZW5kb3Jc
-biIpOwo+Pj4+Pj4gLQkJcmV0dXJuIHJldDsKPj4+Pj4+ICsJCWdvdG8gVlJBTV9WRVJET1JfRkFJ
-TDsKPj4+Pj4+ICAgICAJfQo+Pj4+Pj4gICAgIAo+Pj4+Pj4gICAgIAlyZXR1cm4gMDsKPj4+Pj4+
-ICsKPj4+Pj4+ICtWUkFNX1ZFUkRPUl9GQUlMOgo+Pj4+Pj4gKwlkZXZpY2VfcmVtb3ZlX2ZpbGUo
-YWRldi0+ZGV2LCAmZGV2X2F0dHJfbWVtX2luZm9fdmlzX3ZyYW1fdXNlZCk7Cj4+Pj4+PiArVklT
-X1ZSQU1fVVNFRF9GQUlMOgo+Pj4+Pj4gKwlkZXZpY2VfcmVtb3ZlX2ZpbGUoYWRldi0+ZGV2LCAm
-ZGV2X2F0dHJfbWVtX2luZm9fdnJhbV91c2VkKTsKPj4+Pj4+ICtSVkFNX1VTRURfRkFJTDoKPj4+
-Pj4+ICsJZGV2aWNlX3JlbW92ZV9maWxlKGFkZXYtPmRldiwgJmRldl9hdHRyX21lbV9pbmZvX3Zp
-c192cmFtX3RvdGFsKTsKPj4+Pj4+ICtWSVNfVlJBTV9UT1RBX0ZBSUw6Cj4+Pj4+PiArCWRldmlj
-ZV9yZW1vdmVfZmlsZShhZGV2LT5kZXYsICZkZXZfYXR0cl9tZW1faW5mb192cmFtX3RvdGFsKTsK
-Pj4+Pj4+ICtWUkFNX1RPVEFMX0ZBSUw6Cj4+Pj4+PiArCWtmcmVlKG1ncik7Cj4+Pj4+PiArCW1h
-bi0+cHJpdiA9IE5VTEw7Cj4+Pj4+PiArCj4+Pj4+PiArCXJldHVybiByZXQ7Cj4+Pj4+PiAgICAg
-fQo+Pj4+Pj4gICAgIAo+Pj4+Pj4gICAgIC8qKgo+Pgo+Cg0KDQpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Adrian,
+
+Thank you for the patch.
+
+On Tue, Apr 21, 2020 at 07:16:07PM +0300, Adrian Ratiu wrote:
+> This provides an example DT binding for the MIPI DSI host controller
+> present on the i.MX6 SoC based on Synopsis DesignWare v1.01 IP.
+> 
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: devicetree@vger.kernel.org
+> Tested-by: Adrian Pop <pop.adrian61@gmail.com>
+> Tested-by: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+> Signed-off-by: Sjoerd Simons <sjoerd.simons@collabora.com>
+> Signed-off-by: Martyn Welch <martyn.welch@collabora.com>
+> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> ---
+> Changes since v6:
+>   - Added ref to the newly created snps,dw-mipi-dsi.yaml (Laurent)
+>   - Moved *-cells properties outside patternProperties (Laurent)
+>   - Removed the panel port documentation (Laurent)
+>   - Wrapped lines at 80 chars, typo fixes, sort includes (Laurent)
+> 
+> Changes since v5:
+>   - Fixed missing reg warning (Fabio)
+>   - Updated dt-schema and fixed warnings (Rob)
+> 
+> Changes since v4:
+>   - Fixed yaml binding to pass `make dt_binding_check dtbs_check`
+>   and addressed received binding feedback (Rob)
+> 
+> Changes since v3:
+>   - Added commit message (Neil)
+>   - Converted to yaml format (Neil)
+>   - Minor dt node + driver fixes (Rob)
+>   - Added small panel example to the host controller binding
+> 
+> Changes since v2:
+>   - Fixed commit tags (Emil)
+> ---
+>  .../display/imx/fsl,mipi-dsi-imx6.yaml        | 135 ++++++++++++++++++
+>  1 file changed, 135 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml b/Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+> new file mode 100644
+> index 0000000000000..b73e3ae33a852
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+> @@ -0,0 +1,135 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,mipi-dsi-imx6.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX6 DW MIPI DSI Host Controller
+> +
+> +maintainers:
+> +  - Adrian Ratiu <adrian.ratiu@collabora.com>
+> +
+> +description: |
+> +  The i.MX6 DSI host controller is a Synopsys DesignWare MIPI DSI v1.01
+> +  IP block with a companion PHY IP.
+> +
+> +  These DT bindings follow the Synopsys DW MIPI DSI bindings defined in
+> +  Documentation/devicetree/bindings/display/bridge/dw_mipi_dsi.txt with
+> +  the following device-specific properties.
+> +
+> +allOf:
+> +  - $ref: ../bridge/snps,dw-mipi-dsi.yaml#
+> +
+> +properties:
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  compatible:
+> +    items:
+> +      - const: fsl,imx6q-mipi-dsi
+> +      - const: snps,dw-mipi-dsi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Module Clock
+> +      - description: DSI bus clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: ref
+> +      - const: pclk
+> +
+> +  fsl,gpr:
+> +    description:
+> +      Phandle to the iomuxc-gpr region containing the multiplexer ctrl register.
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +  ports:
+> +    type: object
+> +    description: |
+> +      A node containing DSI input & output port nodes with endpoint
+> +      definitions as documented in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +      Documentation/devicetree/bindings/graph.txt
+> +    properties:
+> +      port@0:
+> +        type: object
+> +        description:
+> +          DSI input port node, connected to the ltdc rgb output port.
+> +
+> +      port@1:
+> +        type: object
+> +        description:
+> +          RGB output port node, connected to a panel or a bridge input port.
+
+Isn't it the other way around, doesn't the bridge take RGB input and
+output DSI ? And to be precise, it's not about RGB, but about the input
+being parallel interface (DSI will also carry RGB).
+
+I would add
+
+    required:
+      - port@0
+      - port@1
+
+
+> +
+> +additionalProperties: false
+> +
+> +patternProperties:
+> +  "^panel@[0-3]$":
+> +    type: object
+> +
+> +required:
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - ports
+> +
+> +examples:
+> +  - |+
+> +    #include <dt-bindings/clock/imx6qdl-clock.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    dsi: dsi@21e0000 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        compatible = "fsl,imx6q-mipi-dsi", "snps,dw-mipi-dsi";
+> +        reg = <0x021e0000 0x4000>;
+> +        interrupts = <0 102 IRQ_TYPE_LEVEL_HIGH>;
+> +        fsl,gpr = <&gpr>;
+> +        clocks = <&clks IMX6QDL_CLK_MIPI_CORE_CFG>,
+> +                 <&clks IMX6QDL_CLK_MIPI_IPG>;
+> +        clock-names = "ref", "pclk";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+
+port@0 is missing.
+
+> +            port@1 {
+> +                reg = <1>;
+> +                dsi_out: endpoint {
+> +                    remote-endpoint = <&panel_in>;
+> +                };
+> +            };
+> +        };
+> +
+> +        panel@0 {
+> +            compatible = "sharp,ls032b3sx01";
+> +            reg = <0>;
+> +            reset-gpios = <&gpio6 8 GPIO_ACTIVE_LOW>;
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                port@0 {
+> +                    reg = <0>;
+> +                    panel_in: endpoint {
+> +                        remote-endpoint = <&dsi_out>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
