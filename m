@@ -1,64 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 327E21B55D1
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 09:37:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BB91B42F7
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 13:18:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 600506E258;
-	Thu, 23 Apr 2020 07:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1CF86E3DA;
+	Wed, 22 Apr 2020 11:18:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 244716E3C7
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 10:26:58 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id v2so751123plp.9
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 03:26:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=6gdINTWw5qbNqv+goCkAx9WxOclB6kfMGhupWamyF/Q=;
- b=XNRaT88T1nqiUZ51J9UejP6i7hnQv7eU7Uue7ieUv0Az3LPOAyUC97V8zUzOY7UV3P
- 7vS9knLlETaJKXjxoJO5Nd29sCjQR0b5lVKY+ZUpsO/rQYe7B0eMZZ9OhMsOoHv7AAnO
- lj7bnr88UGowfAV2pYpeiEXswsaPg8GYpgJOo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=6gdINTWw5qbNqv+goCkAx9WxOclB6kfMGhupWamyF/Q=;
- b=bss+oWZI0vUpxmrYnAD3tjyHu27VxqrdnSOvUTU9bRkupa9nYuv2Ra8IAPsr934QCr
- 9fPgowHf1/aZJ7X5YDrMowSA+i/PXKRHTPazdI9FfclcVOoD42xLd7LIK7AepBlvomMN
- Cb3LNWfPjyr5Iqb68KblGGcAVTvAGcQbGtw5A9imBL03yquHrSX8EESHyAxhRYwHNmzh
- iArM9vJC0WCMHVummC3QbS45Pdn3eQ6vMYjF1tUHGFCOFwNRYLTq8tc+eeCGq4sB/XnQ
- HlrMw/p0IrjddHl5AUIXumIoSJbWT6cdLl6uxL7ZAo3vxFqbc3iSbv5uL/CYjz1WbYFP
- urIQ==
-X-Gm-Message-State: AGi0PuZZYIlnk3ElkUELbK0FUvyWteGf4gyjSXZm6QQs3USpXwvndsIc
- asjuD5r/K1z9Dw9QmKGdzqpsQw==
-X-Google-Smtp-Source: APiQypIskeEJItuLaEBjMhbnRTsFEb0DYilPaPMtUzz55q/ztGTMyUgTbonADiaJsrnVUd76J6a9Uw==
-X-Received: by 2002:a17:90a:cb09:: with SMTP id
- z9mr11612172pjt.120.1587551217755; 
- Wed, 22 Apr 2020 03:26:57 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
- by smtp.gmail.com with ESMTPSA id p2sm3994378pgh.25.2020.04.22.03.26.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Apr 2020 03:26:57 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 718A56E3D8;
+ Wed, 22 Apr 2020 11:18:49 +0000 (UTC)
+IronPort-SDR: kZt/ijs8qFkAf0vubZuI8SUetKZZpVyX4x3mQhPhVCa0klQsl37MSbtk6kRVpclp9xP3Vk7T+d
+ +/gUKAjCYCWQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2020 04:18:49 -0700
+IronPort-SDR: /jqUTqnqK3c4puUTlk0AnVdbaHjSvxjcPaFWe+mgJoEnIZ05MZOwvIC8grbuGTz+VlyXIAcL80
+ XVAGnRSji6pQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,414,1580803200"; d="scan'208";a="456469528"
+Received: from bhanu-ubuntu.iind.intel.com ([10.145.162.51])
+ by fmsmga005.fm.intel.com with ESMTP; 22 Apr 2020 04:18:46 -0700
+From: bhanuprakash.modem@intel.com
+To: bhanuprakash.modem@intel.com, manasi.d.navare@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [v5, 1/3] drm/dp: DRM DP helper for reading Ignore MSA from DPCD
+Date: Wed, 22 Apr 2020 16:37:31 +0530
+Message-Id: <20200422110733.28635-1-bhanuprakash.modem@intel.com>
+X-Mailer: git-send-email 2.24.1.1.gb6d4d82bd5
 MIME-Version: 1.0
-In-Reply-To: <20200420220458.v2.6.I89df9b6094549b8149aa8b8347f7401c678055b0@changeid>
-References: <20200421050622.8113-1-dianders@chromium.org>
- <20200420220458.v2.6.I89df9b6094549b8149aa8b8347f7401c678055b0@changeid>
-Subject: Re: [PATCH v2 6/6] arm64: dts: sdm845: Add "no-hpd" to sn65dsi86 on
- cheza
-From: Stephen Boyd <swboyd@chromium.org>
-To: Douglas Anderson <dianders@chromium.org>, Laurent.pinchart@ideasonboard.com,
- a.hajda@samsung.com, airlied@linux.ie, bgolaszewski@baylibre.com,
- daniel@ffwll.ch, linus.walleij@linaro.org, narmstrong@baylibre.com,
- robh+dt@kernel.org, spanda@codeaurora.org
-Date: Wed, 22 Apr 2020 03:26:56 -0700
-Message-ID: <158755121629.159702.14849607096816306080@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
-X-Mailman-Approved-At: Thu, 23 Apr 2020 07:36:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,31 +45,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- jeffrey.l.hugo@gmail.com, linux-arm-msm@vger.kernel.org, jonas@kwiboo.se,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, linux-gpio@vger.kernel.org,
- Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Douglas Anderson (2020-04-20 22:06:22)
-> We don't have the HPD line hooked up to the bridge chip.  Add it as
-> suggested in the patch ("dt-bindings: drm/bridge: ti-sn65dsi86:
-> Document no-hpd").
-> 
-> NOTE: this patch isn't expected to have any effect but just keeps us
-> cleaner for the future.  Currently the driver in Linux just assumes
-> that nobody has HPD hooked up.  This change allows us to later
-> implement HPD support in the driver without messing up sdm845-cheza.
-> 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogTWFuYXNpIE5hdmFyZSA8bWFuYXNpLmQubmF2YXJlQGludGVsLmNvbT4KCkZyb206IE1h
+bmFzaSBOYXZhcmUgPG1hbmFzaS5kLm5hdmFyZUBpbnRlbC5jb20+CgpEUCBzaW5rIGRldmljZSBz
+ZXRzIHRoZSBJZ25vcmUgTVNBIGJpdCBpbiBpdHMKRFBfRE9XTlNUUkVBTV9QT1JUX0NPVU5UIHJl
+Z2lzdGVyIHRvIGluZGljYXRlIGl0cyBhYmlsaXR5IHRvCmlnbm9yZSB0aGUgTVNBIHZpZGVvIHRp
+bWluZyBwYXJhbWV0ZXJzIGFuZCBpdHMgYWJpbGl0eSB0byBzdXBwb3J0CnNlYW1sZXNzIHZpZGVv
+IHRpbWluZyBjaGFuZ2Ugb3ZlciBhIHJhbmdlIG9mIHRpbWluZyBleHBvc2VkIGJ5CkRpc3BsYXlJ
+RCBhbmQgRURJRC4KVGhpcyBpcyByZXF1aXJlZCBmb3IgdGhlIHNpbmsgdG8gaW5kaWNhdGUgdGhh
+dCBpdCBpcyBBZGFwdGl2ZSBzeW5jCmNhcGFibGUuCgp2MzoKKiBGaSB0aGUgdHlwbyBpbiBjb21t
+aXQgbWVzc2FnZSAoTWFuYXNpKQp2MjoKKiBSZW5hbWUgdG8gZGVzY3JpYmUgd2hhdCB0aGUgZnVu
+Y3Rpb24gZG9lcyAoSmFuaSBOaWt1bGEpCgpDYzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGxp
+bnV4LmludGVsLmNvbT4KQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5p
+bnRlbC5jb20+CkNjOiBIYXJyeSBXZW50bGFuZCA8aGFycnkud2VudGxhbmRAYW1kLmNvbT4KQ2M6
+IE5pY2hvbGFzIEthemxhdXNrYXMgPE5pY2hvbGFzLkthemxhdXNrYXNAYW1kLmNvbT4KU2lnbmVk
+LW9mZi1ieTogTWFuYXNpIE5hdmFyZSA8bWFuYXNpLmQubmF2YXJlQGludGVsLmNvbT4KUmV2aWV3
+ZWQtYnk6IEhhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPgotLS0KIGluY2x1
+ZGUvZHJtL2RybV9kcF9oZWxwZXIuaCB8IDggKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA4IGlu
+c2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZHBfaGVscGVyLmggYi9p
+bmNsdWRlL2RybS9kcm1fZHBfaGVscGVyLmgKaW5kZXggM2JlYjJhYWM4YzRjLi44NzI2NGI1NjE2
+MzIgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAorKysgYi9pbmNsdWRl
+L2RybS9kcm1fZHBfaGVscGVyLmgKQEAgLTE0NTQsNiArMTQ1NCwxNCBAQCBkcm1fZHBfYWx0ZXJu
+YXRlX3NjcmFtYmxlcl9yZXNldF9jYXAoY29uc3QgdTggZHBjZFtEUF9SRUNFSVZFUl9DQVBfU0la
+RV0pCiAJCQlEUF9BTFRFUk5BVEVfU0NSQU1CTEVSX1JFU0VUX0NBUDsKIH0KIAorLyogSWdub3Jl
+IE1TQSB0aW1pbmcgZm9yIEFkYXB0aXZlIFN5bmMgc3VwcG9ydCBvbiBEUCAxLjQgKi8KK3N0YXRp
+YyBpbmxpbmUgYm9vbAorZHJtX2RwX3NpbmtfY2FuX2RvX3ZpZGVvX3dpdGhvdXRfdGltaW5nX21z
+YShjb25zdCB1OCBkcGNkW0RQX1JFQ0VJVkVSX0NBUF9TSVpFXSkKK3sKKwlyZXR1cm4gZHBjZFtE
+UF9ET1dOX1NUUkVBTV9QT1JUX0NPVU5UXSAmCisJCURQX01TQV9USU1JTkdfUEFSX0lHTk9SRUQ7
+Cit9CisKIC8qCiAgKiBEaXNwbGF5UG9ydCBBVVggY2hhbm5lbAogICovCi0tIAoyLjI0LjEuMS5n
+YjZkNGQ4MmJkNQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Cg==
