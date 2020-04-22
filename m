@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2541B55C7
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 09:36:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 653DE1B55D6
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 09:37:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3FBE6E1F4;
-	Thu, 23 Apr 2020 07:36:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7E3B6E25F;
+	Thu, 23 Apr 2020 07:36:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
  [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C11796EA21
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 15:53:37 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id r14so1303610pfg.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 08:53:37 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11C946EA25
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 16:07:28 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id y25so1317484pfn.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 09:07:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8DXOAVnHR/JBy0Y4uPJ7GHHi938/y6M1uaE+uBo8UB4=;
- b=p37iL8woIBWNU97EnJMT9VwP7l2RKgc8soMSx4IV+IX62SYlHIqQdpGySbCjARcv7D
- qDHkwJRGOOhe5LB/rrzCnEOCGZrjk8QWB0EE52Sp0aHSY13nrTMj3aX4A59ll4UidDsO
- IVGCKAZ/VSuHoDsim1ZSp1O8r3x7kkkFQIfiWPsMLYHAOwAEQw9dfuBPZLQXeLe8OxBB
- AfAEET9OzEtDYHMI5c5tecVubReXE3btLphVRcTBTOxwA362MdDP7/LsMtArPvYySZxp
- vB4ufq7h+xTpZmo3zmohx4Efzthsovh+DjhsL4tZIvQKPeCoevAXisI2BmTEHKgrR+l4
- 1DFg==
+ bh=m5xEoHET9vfaEq5LIR2V1cy0U7HP7GDZ0ojpw/b8noo=;
+ b=op9xXMUQE7+eoyEI/3bjdKIOPzkykzXpyT3jwTtohkIl/ROFGP/BywJFuagmDWuwpE
+ Pm5ctXySjJG9ycaY6+T7WIubSLShz3za1aa2QQQP2EWNTUevUAcBRBQWqzsiYJ1BJKu7
+ xy9YWh4AxbbdlChIZ8hlpmnFtegES9UKefSEfv0DtRS5RB3l1JV6s1Sfc0CgakQkl929
+ JJjZKyNRND5IAl/p9dFWBZv7zrgLmldP7Bm1ACO7tqLlvaZvwOyrsXQtqf39Q9laMd4L
+ 2VgpBRjFkOlqvJcgJ/lym5BH+kMH9uN3kZdLbzSsn4XisvPqq0VHigRydEu2zxmhl9YN
+ goXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8DXOAVnHR/JBy0Y4uPJ7GHHi938/y6M1uaE+uBo8UB4=;
- b=r3IRuKzGc8Agr4HpA8guO2XtulF2F7RFIBn9D1IKWTxJa08qp2nTZJP3os+cn3hgzk
- b09mJOlROcqX6ttq6frZ4ukMb8DjX+hEKM/2OYEljxCe12we/c67rtbtJxUn1OtP16BA
- skalpvxCpdU9F7ldvFQaKfu90U2JCvloHSCuZFocBIbez3O/EavEV2iSN3G45szyXGis
- 5GACm0sSv2FFOP4+iXsfxb6PpLJxec+4Oz5UAZSnXUwOW5jdlSWTMQYPCWNbUkNYdk2+
- SOVKykPJoywWh7aECHs6LbseFQa2zcMZN1KJpze93SItU/PK493dxnOHcLLNkduabU6r
- 0Clg==
-X-Gm-Message-State: AGi0PuZCFN5ThTa917tiVzEEGK+nrnX5GDuTE+x145zmEUS4hGW2pH4Z
- noH2oOHKIlJ6CM4ea1fpaaQ=
-X-Google-Smtp-Source: APiQypLhyEB4b+85IkZPJo2ASXh+Y/49d68Z1e97PBFqQn5TiO1hKIDkGgZIzkquqVbKKzf4UK/c8g==
-X-Received: by 2002:a63:594:: with SMTP id 142mr26040751pgf.418.1587570817396; 
- Wed, 22 Apr 2020 08:53:37 -0700 (PDT)
+ bh=m5xEoHET9vfaEq5LIR2V1cy0U7HP7GDZ0ojpw/b8noo=;
+ b=cRLC0LmQ8dQf3omv+3Y5DDIRsh7HGowpCM/fDm2bjLR1Ojm32kEcdBZYNZfmsQ4EGD
+ 4svtxhxC6FblwfRrqbIP4a23vLyl9nfoq4wmlk2Iw2WFJ84ywSLYQxcrlcmUUhm1xPTo
+ pPPLD0sFWwWkGQu+LzHn4PwS/yXWe11HUTo1wz9I4aK/gxJsrF98BYUNr215jnnR2qyM
+ m3P07n6JGBei8uMq9OaYXbFpiodG+xHIs8H2qAwu/SiGFcoZcB+l7KA8ZHdB4QB9TTXK
+ J976TgfWvzXZ6NzaOHpR8VCYXkb/rTdTf86GmuxK0tEKQUWWj1XoRjPeIYIbjeiQM288
+ YSHg==
+X-Gm-Message-State: AGi0PubN69Ff1gycKniTFGrqEGdAIXEEvHinc/CWfv4S9sbu1j0ICS4T
+ g6n95HwvJDdLVGfLQ6vnJs8=
+X-Google-Smtp-Source: APiQypIKUZKH++J4SaK/mpXI+7xB04AVhcJdfDXy62fFLjyb3yakjYt0JDm/ostuKjQSOUQvZvH34g==
+X-Received: by 2002:a63:df42:: with SMTP id h2mr27572335pgj.216.1587571647496; 
+ Wed, 22 Apr 2020 09:07:27 -0700 (PDT)
 Received: from localhost ([89.208.244.140])
- by smtp.gmail.com with ESMTPSA id 36sm5529103pgs.70.2020.04.22.08.53.36
+ by smtp.gmail.com with ESMTPSA id p190sm4179323pfp.207.2020.04.22.09.07.25
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 22 Apr 2020 08:53:36 -0700 (PDT)
+ Wed, 22 Apr 2020 09:07:26 -0700 (PDT)
 From: Dejin Zheng <zhengdejin5@gmail.com>
-To: b.zolnierkie@samsung.com, tglx@linutronix.de, gregkh@linuxfoundation.org,
- tsbogend@alpha.franken.de, FlorianSchandinat@gmx.de, ralf@linux-mips.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH v1] console: fix an issue about ioremap leak.
-Date: Wed, 22 Apr 2020 23:53:28 +0800
-Message-Id: <20200422155328.27473-1-zhengdejin5@gmail.com>
+To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+ b.zolnierkie@samsung.com, gregkh@linuxfoundation.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH v1] video: fbdev: sm712fb: fix an issue about iounmap for a
+ wrong address
+Date: Thu, 23 Apr 2020 00:07:19 +0800
+Message-Id: <20200422160719.27763-1-zhengdejin5@gmail.com>
 X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 23 Apr 2020 07:36:39 +0000
@@ -74,30 +75,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-if do_take_over_console() return an error in the newport_probe(),
-due to the io virtual address is not released, it will cause a leak.
+the sfb->fb->screen_base is not save the value get by iounmap() when
+the chip id is 0x720. so iounmap() for address sfb->fb->screen_base
+is not right.
 
-Fixes: e84de0c6190503 ("MIPS: GIO bus support for SGI IP22/28")
+Fixes: 1461d6672864854 ("staging: sm7xxfb: merge sm712fb with fbdev")
 CC: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
 ---
- drivers/video/console/newport_con.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/video/fbdev/sm712fb.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/video/console/newport_con.c b/drivers/video/console/newport_con.c
-index 00dddf6e08b0..6bfc8e3ffd4a 100644
---- a/drivers/video/console/newport_con.c
-+++ b/drivers/video/console/newport_con.c
-@@ -720,6 +720,9 @@ static int newport_probe(struct gio_device *dev,
- 	console_lock();
- 	err = do_take_over_console(&newport_con, 0, MAX_NR_CONSOLES - 1, 1);
- 	console_unlock();
-+
-+	if (err)
-+		iounmap((void *)npregs);
- 	return err;
- }
- 
+diff --git a/drivers/video/fbdev/sm712fb.c b/drivers/video/fbdev/sm712fb.c
+index 6a1b4a853d9e..8cd655d6d628 100644
+--- a/drivers/video/fbdev/sm712fb.c
++++ b/drivers/video/fbdev/sm712fb.c
+@@ -1429,6 +1429,8 @@ static int smtc_map_smem(struct smtcfb_info *sfb,
+ static void smtc_unmap_smem(struct smtcfb_info *sfb)
+ {
+ 	if (sfb && sfb->fb->screen_base) {
++		if (sfb->chip_id == 0x720)
++			sfb->fb->screen_base -= 0x00200000;
+ 		iounmap(sfb->fb->screen_base);
+ 		sfb->fb->screen_base = NULL;
+ 	}
 -- 
 2.25.0
 
