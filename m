@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817F11B3851
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:56:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B98C1B3820
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:55:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEBE86E9E1;
-	Wed, 22 Apr 2020 06:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 261DA6E9B7;
+	Wed, 22 Apr 2020 06:54:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com
- [IPv6:2607:f8b0:4864:20::f43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D52D56E3F7
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 23:42:22 +0000 (UTC)
-Received: by mail-qv1-xf43.google.com with SMTP id t8so65958qvw.5
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 16:42:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=19iG/yACSonzsO8vO7FObgRGDUOJ9AtxmYB1RErPuPs=;
- b=HkvRfb0MpfG0U053mY7Zd3gM4fIa2kscD5ve2SvXPYgzqUVt0yazshg3s0shuP+ZSB
- LMk50VfUGfC3YXvi/pkqj9pdgFTEwmOabdP6aBax/zReF7ptRSzXEmgMxqYmzphj3HLH
- 8REtqIQshVqE/ELzxW/Xts627H4ASkUzzkqqKcVe4lhWTqjUJQAmky0Qns7xPozSOJoA
- qnFqm0PlXwyg6hPb2EMBbBQOfSsRGxLQjW6McZI8ddvbSD6x5SMq90dvyAZRhAHxqU2j
- s6bGm0zjbXg0NOHWN0Ve23mEd0A4thbVj2s2rgkAc3w/MqXygX9ajB4zjlGP/u5VGGXU
- 7+1w==
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
+ [IPv6:2607:f8b0:4864:20::843])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED00899A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 00:21:48 +0000 (UTC)
+Received: by mail-qt1-x843.google.com with SMTP id z90so311038qtd.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 17:21:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DOrXrBA8QTub/2t4P8iuXJjEm4ygMvU/FqA4XiW8uMI=;
+ b=QqRL1zP89wuwpYO4tjdu5tQyhiJKZz+123CtN7/lSOHBgi0BEsWgVLQtWqFkF0Hxyv
+ i3YnSB79YQLqZfUqs5VQ7ORnBAyiLhFYAln1p5Tnm/66Ok8O2embqN8L6iR1Sj0Ort0y
+ NiL7//AOzryih+UFlmGnfx6bobjRIrul/aI3C+e5/SiAT+H7LGnV5wHUTpPuLEv055M1
+ uMHLaK7/BuqPaleUtPgV4/1Ef1uoO3rlJPwt0B/OnMxSwsCx6SyQqweIoXubAzBYVdiU
+ hAM6PcjZ4PVCa1LC7dZTxqVcSv+QUxA3OnGMRz1ddHlWleWeR0SrIXcEJ0Gh53ILWxgL
+ YmMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=19iG/yACSonzsO8vO7FObgRGDUOJ9AtxmYB1RErPuPs=;
- b=rSZMp+KJr+Kb2Kr1csw93YqpU5mnh3HFxfQ114BZkNm3hdIEphN3PN4F3pXOhBc54s
- mcn82CEP1QwnW+HhBf+O3M+RrwI57fz/p+px/CcyOCscyucQ8PNoYux7I2WXOxYGKqSY
- xYr5tsXympGoVhTVXgQh9+oaEiqa3sXryrTAKDHmp/e5PJDPZwKiAwGD/EA92qaJmucx
- 0DsGwF4JaOn147vEyySi0KPzcofj4mqtN0qadHUtlapNdWBkogncxW78Axf9WIjBaSXP
- w6iHtpcUnztqwxml0S1r5WbYAFcPGLJz3uJzgGGPoT6Iz3pbH+c/tSHCE6x4sa5LdlYU
- b+tA==
-X-Gm-Message-State: AGi0PuaBRAu00w9bDLR5drXvY3laNbW8hKlk7YOg6q+kHbEdQ7kzVk89
- +qKf/Fd1qmamxgcLRW9V/X6kKnyyVPhnIg==
-X-Google-Smtp-Source: APiQypJ7xLpgA2fs5jFQEvaVnw4vhUqESLQXOCvR6dP5UKkaD9KJId/bfRKC+1ZG0jQztDpyaY0p0w==
-X-Received: by 2002:a0c:a225:: with SMTP id f34mr22425301qva.179.1587512542003; 
- Tue, 21 Apr 2020 16:42:22 -0700 (PDT)
-Received: from localhost.localdomain ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id y17sm2664010qky.33.2020.04.21.16.42.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 16:42:21 -0700 (PDT)
-From: Jonathan Marek <jonathan@marek.ca>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH v2 9/9] drm/msm/a6xx: update a6xx_hw_init for A640 and A650
-Date: Tue, 21 Apr 2020 19:41:27 -0400
-Message-Id: <20200421234127.27965-10-jonathan@marek.ca>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200421234127.27965-1-jonathan@marek.ca>
-References: <20200421234127.27965-1-jonathan@marek.ca>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DOrXrBA8QTub/2t4P8iuXJjEm4ygMvU/FqA4XiW8uMI=;
+ b=J2tcQlVp4tITi8opVcV/lWd+kw+mVY6hkEZR0a03+vaKXtU7oIGzCJGw5lOs3u/zNz
+ mcAgnsAkc8yohDlLZbNDbp6Qw0wZW2O79dUq17lm2680oS1lT6b6zLqTOU/8gMDrycuV
+ XlsCMQRVwMSQbPIch3aY4qmNGyalGM3bXD+21HEN+IxR5jKWvpEX3+7IavZ/A8MkmgCq
+ xJ9ABFUk9auKPfMJXzAJPwkB6wEeOwJatg8B4KbEPPbQzpuFaPKi4f5cl6TDftPu6lhC
+ a5tWJofz3kY4rpiSpN1fDcz2yNlXkDF/0jV1IfUErl7TTNlOXp5k9jG1SSGmgZvHTv0e
+ mSpA==
+X-Gm-Message-State: AGi0PuZOQhZz8PetIa0DWuh262v0/QqrnF3kOsU4t7iMBY3ZU2ccCCrM
+ Uy9x4t2nz8Jia9eDP/+v/WPHLA==
+X-Google-Smtp-Source: APiQypI+VXdJnBmgFU/RD6dwwKcyUmh89IKsfPkwPYI8eruL612VHTCsM8nTWqECUcuFa61w7n1eEg==
+X-Received: by 2002:ac8:31e1:: with SMTP id i30mr23775526qte.74.1587514907550; 
+ Tue, 21 Apr 2020 17:21:47 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.57.212])
+ by smtp.gmail.com with ESMTPSA id u190sm2815110qkb.102.2020.04.21.17.21.46
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 21 Apr 2020 17:21:46 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1jR398-0000As-9O; Tue, 21 Apr 2020 21:21:46 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: linux-mm@kvack.org,
+	Ralph Campbell <rcampbell@nvidia.com>
+Subject: [PATCH hmm 0/5] Adjust hmm_range_fault() API
+Date: Tue, 21 Apr 2020 21:21:41 -0300
+Message-Id: <0-v1-4eb72686de3c+5062-hmm_no_flags_jgg@mellanox.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 22 Apr 2020 06:54:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,165 +70,266 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>
+Cc: amd-gfx@lists.freedesktop.org, John Hubbard <jhubbard@nvidia.com>,
+ "Kuehling, Felix" <Felix.Kuehling@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>,
+ =?utf-8?b?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adreno 640 and 650 GPUs need some registers set differently.
+From: Jason Gunthorpe <jgg@mellanox.com>
 
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
----
- drivers/gpu/drm/msm/adreno/a6xx.xml.h | 14 +++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 56 ++++++++++++++++++++++-----
- 2 files changed, 61 insertions(+), 9 deletions(-)
+The API is a bit complicated for the uses we actually have, and
+disucssions for simplifying have come up a number of times.
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx.xml.h b/drivers/gpu/drm/msm/adreno/a6xx.xml.h
-index ed78fee2a262..47840b73cdda 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx.xml.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx.xml.h
-@@ -1047,6 +1047,8 @@ enum a6xx_tex_type {
+This small series removes the customizable pfn format and simplifies the
+return code of hmm_range_fault()
+
+All the drivers are adjusted to process in the simplified format.
+I would appreciated tested-by's for the two drivers, thanks!
+
+This passes the hmm tester with the following diff:
+
+diff --git a/lib/test_hmm.c b/lib/test_hmm.c
+index d75e18f2ffd245..a2442efa038c41 100644
+--- a/lib/test_hmm.c
++++ b/lib/test_hmm.c
+@@ -47,23 +47,8 @@ struct dmirror_bounce {
+ 	unsigned long		cpages;
+ };
  
- #define REG_A6XX_CP_MISC_CNTL					0x00000840
+-#define DPT_SHIFT PAGE_SHIFT
+-#define DPT_VALID (1UL << 0)
+-#define DPT_WRITE (1UL << 1)
+-
+ #define DPT_XA_TAG_WRITE 3UL
  
-+#define REG_A6XX_CP_APRIV_CNTL					0x00000844
+-static const uint64_t dmirror_hmm_flags[HMM_PFN_FLAG_MAX] = {
+-	[HMM_PFN_VALID] = DPT_VALID,
+-	[HMM_PFN_WRITE] = DPT_WRITE,
+-};
+-
+-static const uint64_t dmirror_hmm_values[HMM_PFN_VALUE_MAX] = {
+-	[HMM_PFN_NONE]    = 0,
+-	[HMM_PFN_ERROR]   = 0x10,
+-	[HMM_PFN_SPECIAL] = 0x10,
+-};
+-
+ /*
+  * Data structure to track address ranges and register for mmu interval
+  * notifier updates.
+@@ -175,7 +160,7 @@ static inline struct dmirror_device *dmirror_page_to_device(struct page *page)
+ 
+ static int dmirror_do_fault(struct dmirror *dmirror, struct hmm_range *range)
+ {
+-	uint64_t *pfns = range->pfns;
++	unsigned long *pfns = range->hmm_pfns;
+ 	unsigned long pfn;
+ 
+ 	for (pfn = (range->start >> PAGE_SHIFT);
+@@ -188,15 +173,16 @@ static int dmirror_do_fault(struct dmirror *dmirror, struct hmm_range *range)
+ 		 * Since we asked for hmm_range_fault() to populate pages,
+ 		 * it shouldn't return an error entry on success.
+ 		 */
+-		WARN_ON(*pfns == range->values[HMM_PFN_ERROR]);
++		WARN_ON(*pfns & HMM_PFN_ERROR);
++		WARN_ON(!(*pfns & HMM_PFN_VALID));
+ 
+-		page = hmm_device_entry_to_page(range, *pfns);
++		page = hmm_pfn_to_page(*pfns);
+ 		WARN_ON(!page);
+ 
+ 		entry = page;
+-		if (*pfns & range->flags[HMM_PFN_WRITE])
++		if (*pfns & HMM_PFN_WRITE)
+ 			entry = xa_tag_pointer(entry, DPT_XA_TAG_WRITE);
+-		else if (range->default_flags & range->flags[HMM_PFN_WRITE])
++		else if (WARN_ON(range->default_flags & HMM_PFN_WRITE))
+ 			return -EFAULT;
+ 		entry = xa_store(&dmirror->pt, pfn, entry, GFP_ATOMIC);
+ 		if (xa_is_err(entry))
+@@ -260,8 +246,6 @@ static int dmirror_range_fault(struct dmirror *dmirror,
+ 	int ret;
+ 
+ 	while (true) {
+-		long count;
+-
+ 		if (time_after(jiffies, timeout)) {
+ 			ret = -EBUSY;
+ 			goto out;
+@@ -269,12 +253,11 @@ static int dmirror_range_fault(struct dmirror *dmirror,
+ 
+ 		range->notifier_seq = mmu_interval_read_begin(range->notifier);
+ 		down_read(&mm->mmap_sem);
+-		count = hmm_range_fault(range);
++		ret = hmm_range_fault(range);
+ 		up_read(&mm->mmap_sem);
+-		if (count <= 0) {
+-			if (count == 0 || count == -EBUSY)
++		if (ret) {
++			if (ret == -EBUSY)
+ 				continue;
+-			ret = count;
+ 			goto out;
+ 		}
+ 
+@@ -299,16 +282,13 @@ static int dmirror_fault(struct dmirror *dmirror, unsigned long start,
+ {
+ 	struct mm_struct *mm = dmirror->notifier.mm;
+ 	unsigned long addr;
+-	uint64_t pfns[64];
++	unsigned long pfns[64];
+ 	struct hmm_range range = {
+ 		.notifier = &dmirror->notifier,
+-		.pfns = pfns,
+-		.flags = dmirror_hmm_flags,
+-		.values = dmirror_hmm_values,
+-		.pfn_shift = DPT_SHIFT,
++		.hmm_pfns = pfns,
+ 		.pfn_flags_mask = 0,
+-		.default_flags = dmirror_hmm_flags[HMM_PFN_VALID] |
+-				(write ? dmirror_hmm_flags[HMM_PFN_WRITE] : 0),
++		.default_flags =
++			HMM_PFN_REQ_FAULT | (write ? HMM_PFN_REQ_WRITE : 0),
+ 		.dev_private_owner = dmirror->mdevice,
+ 	};
+ 	int ret = 0;
+@@ -754,19 +734,20 @@ static int dmirror_migrate(struct dmirror *dmirror,
+ }
+ 
+ static void dmirror_mkentry(struct dmirror *dmirror, struct hmm_range *range,
+-			    unsigned char *perm, uint64_t entry)
++			    unsigned char *perm, unsigned long entry)
+ {
+ 	struct page *page;
+ 
+-	if (entry == range->values[HMM_PFN_ERROR]) {
++	if (entry & HMM_PFN_ERROR) {
+ 		*perm = HMM_DMIRROR_PROT_ERROR;
+ 		return;
+ 	}
+-	page = hmm_device_entry_to_page(range, entry);
+-	if (!page) {
++	if (!(entry & HMM_PFN_VALID)) {
+ 		*perm = HMM_DMIRROR_PROT_NONE;
+ 		return;
+ 	}
 +
- #define REG_A6XX_CP_ROQ_THRESHOLDS_1				0x000008c1
++	page = hmm_pfn_to_page(entry);
+ 	if (is_device_private_page(page)) {
+ 		/* Is the page migrated to this device or some other? */
+ 		if (dmirror->mdevice == dmirror_page_to_device(page))
+@@ -777,7 +758,7 @@ static void dmirror_mkentry(struct dmirror *dmirror, struct hmm_range *range,
+ 		*perm = HMM_DMIRROR_PROT_ZERO;
+ 	else
+ 		*perm = HMM_DMIRROR_PROT_NONE;
+-	if (entry & range->flags[HMM_PFN_WRITE])
++	if (entry & HMM_PFN_WRITE)
+ 		*perm |= HMM_DMIRROR_PROT_WRITE;
+ 	else
+ 		*perm |= HMM_DMIRROR_PROT_READ;
+@@ -832,8 +813,6 @@ static int dmirror_range_snapshot(struct dmirror *dmirror,
+ 		return ret;
  
- #define REG_A6XX_CP_ROQ_THRESHOLDS_2				0x000008c2
-@@ -1764,6 +1766,8 @@ static inline uint32_t A6XX_CP_PROTECT_REG_MASK_LEN(uint32_t val)
+ 	while (true) {
+-		long count;
+-
+ 		if (time_after(jiffies, timeout)) {
+ 			ret = -EBUSY;
+ 			goto out;
+@@ -842,12 +821,11 @@ static int dmirror_range_snapshot(struct dmirror *dmirror,
+ 		range->notifier_seq = mmu_interval_read_begin(range->notifier);
  
- #define REG_A6XX_RBBM_VBIF_CLIENT_QOS_CNTL			0x00000010
+ 		down_read(&mm->mmap_sem);
+-		count = hmm_range_fault(range);
++		ret = hmm_range_fault(range);
+ 		up_read(&mm->mmap_sem);
+-		if (count <= 0) {
+-			if (count == 0 || count == -EBUSY)
++		if (ret) {
++			if (ret == -EBUSY)
+ 				continue;
+-			ret = count;
+ 			goto out;
+ 		}
  
-+#define REG_A6XX_RBBM_GBIF_CLIENT_QOS_CNTL			0x00000011
-+
- #define REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL			0x0000001f
+@@ -862,7 +840,7 @@ static int dmirror_range_snapshot(struct dmirror *dmirror,
  
- #define REG_A6XX_RBBM_INT_CLEAR_CMD				0x00000037
-@@ -2418,6 +2422,16 @@ static inline uint32_t A6XX_UCHE_CLIENT_PF_PERFSEL(uint32_t val)
+ 	n = (range->end - range->start) >> PAGE_SHIFT;
+ 	for (i = 0; i < n; i++)
+-		dmirror_mkentry(dmirror, range, perm + i, range->pfns[i]);
++		dmirror_mkentry(dmirror, range, perm + i, range->hmm_pfns[i]);
  
- #define REG_A6XX_TPL1_NC_MODE_CNTL				0x0000b604
+ 	mutex_unlock(&dmirror->mutex);
+ out:
+@@ -878,15 +856,11 @@ static int dmirror_snapshot(struct dmirror *dmirror,
+ 	unsigned long size = cmd->npages << PAGE_SHIFT;
+ 	unsigned long addr;
+ 	unsigned long next;
+-	uint64_t pfns[64];
++	unsigned long pfns[64];
+ 	unsigned char perm[64];
+ 	char __user *uptr;
+ 	struct hmm_range range = {
+-		.pfns = pfns,
+-		.flags = dmirror_hmm_flags,
+-		.values = dmirror_hmm_values,
+-		.pfn_shift = DPT_SHIFT,
+-		.pfn_flags_mask = 0,
++		.hmm_pfns = pfns,
+ 		.dev_private_owner = dmirror->mdevice,
+ 	};
+ 	int ret = 0;
+@@ -1097,6 +1071,7 @@ static int dmirror_device_init(struct dmirror_device *mdevice, int id)
+ 	spin_lock_init(&mdevice->lock);
  
-+#define REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_0			0x0000b608
-+
-+#define REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_1			0x0000b609
-+
-+#define REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_2			0x0000b60a
-+
-+#define REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_3			0x0000b60b
-+
-+#define REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_4			0x0000b60c
-+
- #define REG_A6XX_TPL1_PERFCTR_TP_SEL_0				0x0000b610
- 
- #define REG_A6XX_TPL1_PERFCTR_TP_SEL_1				0x0000b611
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index a860d4970e10..e1eb34fa3a99 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -414,7 +414,17 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 		a6xx_set_hwcg(gpu, true);
- 
- 	/* VBIF/GBIF start*/
--	gpu_write(gpu, REG_A6XX_RBBM_VBIF_CLIENT_QOS_CNTL, 0x3);
-+	if (adreno_is_a640(adreno_gpu) || adreno_is_a650(adreno_gpu)) {
-+		gpu_write(gpu, REG_A6XX_GBIF_QSB_SIDE0, 0x00071620);
-+		gpu_write(gpu, REG_A6XX_GBIF_QSB_SIDE1, 0x00071620);
-+		gpu_write(gpu, REG_A6XX_GBIF_QSB_SIDE2, 0x00071620);
-+		gpu_write(gpu, REG_A6XX_GBIF_QSB_SIDE3, 0x00071620);
-+		gpu_write(gpu, REG_A6XX_GBIF_QSB_SIDE3, 0x00071620);
-+		gpu_write(gpu, REG_A6XX_RBBM_GBIF_CLIENT_QOS_CNTL, 0x3);
-+	} else {
-+		gpu_write(gpu, REG_A6XX_RBBM_VBIF_CLIENT_QOS_CNTL, 0x3);
-+	}
-+
- 	if (adreno_is_a630(adreno_gpu))
- 		gpu_write(gpu, REG_A6XX_VBIF_GATE_OFF_WRREQ_EN, 0x00000009);
- 
-@@ -429,25 +439,35 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 	gpu_write(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE_LO, 0xfffff000);
- 	gpu_write(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE_HI, 0x0001ffff);
- 
--	/* Set the GMEM VA range [0x100000:0x100000 + gpu->gmem - 1] */
--	gpu_write64(gpu, REG_A6XX_UCHE_GMEM_RANGE_MIN_LO,
--		REG_A6XX_UCHE_GMEM_RANGE_MIN_HI, 0x00100000);
-+	if (!adreno_is_a650(adreno_gpu)) {
-+		/* Set the GMEM VA range [0x100000:0x100000 + gpu->gmem - 1] */
-+		gpu_write64(gpu, REG_A6XX_UCHE_GMEM_RANGE_MIN_LO,
-+			REG_A6XX_UCHE_GMEM_RANGE_MIN_HI, 0x00100000);
- 
--	gpu_write64(gpu, REG_A6XX_UCHE_GMEM_RANGE_MAX_LO,
--		REG_A6XX_UCHE_GMEM_RANGE_MAX_HI,
--		0x00100000 + adreno_gpu->gmem - 1);
-+		gpu_write64(gpu, REG_A6XX_UCHE_GMEM_RANGE_MAX_LO,
-+			REG_A6XX_UCHE_GMEM_RANGE_MAX_HI,
-+			0x00100000 + adreno_gpu->gmem - 1);
-+	}
- 
- 	gpu_write(gpu, REG_A6XX_UCHE_FILTER_CNTL, 0x804);
- 	gpu_write(gpu, REG_A6XX_UCHE_CACHE_WAYS, 0x4);
- 
--	gpu_write(gpu, REG_A6XX_CP_ROQ_THRESHOLDS_2, 0x010000c0);
-+	if (adreno_is_a640(adreno_gpu) || adreno_is_a650(adreno_gpu))
-+		gpu_write(gpu, REG_A6XX_CP_ROQ_THRESHOLDS_2, 0x02000140);
-+	else
-+		gpu_write(gpu, REG_A6XX_CP_ROQ_THRESHOLDS_2, 0x010000c0);
- 	gpu_write(gpu, REG_A6XX_CP_ROQ_THRESHOLDS_1, 0x8040362c);
- 
- 	/* Setting the mem pool size */
- 	gpu_write(gpu, REG_A6XX_CP_MEM_POOL_SIZE, 128);
- 
- 	/* Setting the primFifo thresholds default values */
--	gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, (0x300 << 11));
-+	if (adreno_is_a650(adreno_gpu))
-+		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00300000);
-+	else if (adreno_is_a640(adreno_gpu))
-+		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00200000);
-+	else
-+		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, (0x300 << 11));
- 
- 	/* Set the AHB default slave response to "ERROR" */
- 	gpu_write(gpu, REG_A6XX_CP_AHB_CNTL, 0x1);
-@@ -471,6 +491,19 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 
- 	gpu_write(gpu, REG_A6XX_UCHE_CLIENT_PF, 1);
- 
-+	/* Set weights for bicubic filtering */
-+	if (adreno_is_a650(adreno_gpu)) {
-+		gpu_write(gpu, REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_0, 0);
-+		gpu_write(gpu, REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_1,
-+			0x3fe05ff4);
-+		gpu_write(gpu, REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_2,
-+			0x3fa0ebee);
-+		gpu_write(gpu, REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_3,
-+			0x3f5193ed);
-+		gpu_write(gpu, REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_4,
-+			0x3f0243f0);
-+	}
-+
- 	/* Protect registers from the CP */
- 	gpu_write(gpu, REG_A6XX_CP_PROTECT_CNTL, 0x00000003);
- 
-@@ -508,6 +541,11 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 			A6XX_PROTECT_RDONLY(0x980, 0x4));
- 	gpu_write(gpu, REG_A6XX_CP_PROTECT(25), A6XX_PROTECT_RW(0xa630, 0x0));
- 
-+	if (adreno_is_a650(adreno_gpu)) {
-+		gpu_write(gpu, REG_A6XX_CP_APRIV_CNTL,
-+			(1 << 6) | (1 << 5) | (1 << 3) | (1 << 2) | (1 << 1));
-+	}
-+
- 	/* Enable interrupts */
- 	gpu_write(gpu, REG_A6XX_RBBM_INT_0_MASK, A6XX_INT_MASK);
- 
+ 	cdev_init(&mdevice->cdevice, &dmirror_fops);
++	mdevice->cdevice.owner = THIS_MODULE;
+ 	ret = cdev_add(&mdevice->cdevice, dev, 1);
+ 	if (ret)
+ 		return ret;
+diff --git a/tools/testing/selftests/vm/hmm-tests.c b/tools/testing/selftests/vm/hmm-tests.c
+index 033a12c7ab5b6d..da15471a2bbf9a 100644
+--- a/tools/testing/selftests/vm/hmm-tests.c
++++ b/tools/testing/selftests/vm/hmm-tests.c
+@@ -1274,7 +1274,7 @@ TEST_F(hmm2, snapshot)
+ 	/* Check what the device saw. */
+ 	m = buffer->mirror;
+ 	ASSERT_EQ(m[0], HMM_DMIRROR_PROT_ERROR);
+-	ASSERT_EQ(m[1], HMM_DMIRROR_PROT_NONE);
++	ASSERT_EQ(m[1], HMM_DMIRROR_PROT_ERROR);
+ 	ASSERT_EQ(m[2], HMM_DMIRROR_PROT_ZERO | HMM_DMIRROR_PROT_READ);
+ 	ASSERT_EQ(m[3], HMM_DMIRROR_PROT_READ);
+ 	ASSERT_EQ(m[4], HMM_DMIRROR_PROT_WRITE);
+
+Jason Gunthorpe (5):
+  mm/hmm: make CONFIG_DEVICE_PRIVATE into a select
+  mm/hmm: make hmm_range_fault return 0 or -1
+  drm/amdgpu: remove dead code after hmm_range_fault()
+  mm/hmm: remove HMM_PFN_SPECIAL
+  mm/hmm: remove the customizable pfn format from hmm_range_fault
+
+ Documentation/vm/hmm.rst                |  28 ++--
+ arch/powerpc/Kconfig                    |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  56 +++----
+ drivers/gpu/drm/nouveau/Kconfig         |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_dmem.c  |  60 ++++++--
+ drivers/gpu/drm/nouveau/nouveau_dmem.h  |   4 +-
+ drivers/gpu/drm/nouveau/nouveau_svm.c   |  59 ++++----
+ include/linux/hmm.h                     | 109 +++++---------
+ mm/Kconfig                              |   7 +-
+ mm/hmm.c                                | 185 +++++++++++-------------
+ 10 files changed, 229 insertions(+), 283 deletions(-)
+
 -- 
-2.26.1
+2.26.0
 
 _______________________________________________
 dri-devel mailing list
