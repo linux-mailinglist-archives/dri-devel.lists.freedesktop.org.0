@@ -2,105 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259EC1B39D7
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 10:16:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8A31B3A1A
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 10:30:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA0646E362;
-	Wed, 22 Apr 2020 08:16:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A5BA6E359;
+	Wed, 22 Apr 2020 08:30:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECAC6E362
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 08:16:53 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200422081651euoutp0122a0b75425d2899a3a31387bb48086a1~IFlJxUXMl0264902649euoutp01_
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 08:16:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200422081651euoutp0122a0b75425d2899a3a31387bb48086a1~IFlJxUXMl0264902649euoutp01_
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1587543412;
- bh=qahajO8EdLEFPsOsPmNrRVSa3WWajVJaiWJFPW87fo4=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=RJ95rCSOneItgliu0K+oj071gx/AHzGTq+yyoLaZu59e5sQH4LLnB7jTyyOOhtTHt
- nLBfwC/+9QnEsYKEA/KWNlsSqN6HbY2o+lXyiJpDqpW0GBOS7akguh4Gy8XoCEQTbZ
- r3v7X+fvUVQy4LGVz6C7a7aeWxAducG9t90SPXxY=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200422081651eucas1p2779ad0b3d7d74ec9ea56df2b87da918d~IFlJbOgxK0355403554eucas1p2e;
- Wed, 22 Apr 2020 08:16:51 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 65.1F.60698.37DFF9E5; Wed, 22
- Apr 2020 09:16:51 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200422081650eucas1p1203eea2dfe72cdc8563902dd63804857~IFlIoP9FQ0595005950eucas1p1Y;
- Wed, 22 Apr 2020 08:16:50 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200422081650eusmtrp1c96beec388babe11c1636513ce407f92~IFlInnGQ51509315093eusmtrp1u;
- Wed, 22 Apr 2020 08:16:50 +0000 (GMT)
-X-AuditID: cbfec7f5-a0fff7000001ed1a-32-5e9ffd73177a
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 80.0C.08375.27DFF9E5; Wed, 22
- Apr 2020 09:16:50 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200422081650eusmtip1fc8ddcc541383103498af7bafa5f43df~IFlIL0Gx60889208892eusmtip1v;
- Wed, 22 Apr 2020 08:16:50 +0000 (GMT)
-Subject: Re: [PATCH 2/3] drm/exynos: gem: Rework scatter-list contiguity
- check on Prime import
-To: Inki Dae <inki.dae@samsung.com>, dri-devel@lists.freedesktop.org,
- linux-samsung-soc@vger.kernel.org
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <4cfed490-e45c-e559-bfa3-c616e3c00029@samsung.com>
-Date: Wed, 22 Apr 2020 10:16:50 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA426E359
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 08:30:39 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id k13so1314414wrw.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 01:30:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=N198uR7DHjzE6ifgeJ0vSDotBvsASzMwI3aPwyINxz8=;
+ b=OOdahWIVeJP86hKdDj+G+A4SUywqZHOA9g2/p2WSYlkN/b3XF/jhbWsKiAo8q5cuI3
+ a9Tuo5VujiToojBzvN6J2ib1eZyZc7RhxrkwygQ3WdAHKksC5twnENsK3+j4HOAEmFdf
+ KkduORTEnAXCmHj717psnhxt/iRMMkuRAf/is4BXVzzW38BF24/NDAhK++JE0GNnwQgl
+ gjDB3bp+aUbmkSgTdUZg8eVHe86xt4NdwbMzX8zDiyAaAskV5InUIPVVCIlSXx5xDaxS
+ Bf0NCpWD4FaKvMY8bXyR7Ptr2k9PVADSXEXHdmQUV8VYtHJoumLwgXzH1ZJPS1PLUiHZ
+ 3DnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=N198uR7DHjzE6ifgeJ0vSDotBvsASzMwI3aPwyINxz8=;
+ b=NaXTFnQub0PM8CTS3IiYwCDPmHi2JX58Io7cALSrys9ueBCzzXBBdPfHdZfA+Pb3dU
+ q6hahlBlZYhsaQcD+/+lMqG5fV9NjxZm781tYiFbr5v1xM41825mmLplaOfo71+yIm4g
+ HzN1PCV9TuoWFHArUK7ds5ofsAk0yXsnr/nY3RZ2iDWiMk3IQHQb+W6L0972KAbsDfXK
+ g3zIMcu+1trdKcmQSuxnXH0P7orDHj7wfL9CRK88o3CGB1pFH+e5dokgbSD/BePBEKrb
+ VvMo9cr1AP0G9QVldeBUSDRmZyvlMMdZa174plMX6SXLMHhwjzflhDFThlzRmvGPeJCL
+ rxAQ==
+X-Gm-Message-State: AGi0PuamswSCqsb6dyhGwfiQZvT8YCDZC95JzS1oXPqxy87jlwgMGuK/
+ YA6UMk+Txb9I1WqijWaFeT82Kw==
+X-Google-Smtp-Source: APiQypJGdzse3wJsfuMTdqC+mxzZ6VnuBuO5qZKa8jUH1hHazlsfCuwyDvd2tOAPfdYzma2kYhOO3w==
+X-Received: by 2002:adf:9564:: with SMTP id 91mr29278554wrs.246.1587544237873; 
+ Wed, 22 Apr 2020 01:30:37 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id 36sm7374394wrc.35.2020.04.22.01.30.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Apr 2020 01:30:37 -0700 (PDT)
+Date: Wed, 22 Apr 2020 09:30:35 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCHv3 4/4] backlight: led_bl: fix led -> backlight brightness
+ mapping
+Message-ID: <20200422083035.wiujphrt5k7o244v@holly.lan>
+References: <20200422065114.22164-1-tomi.valkeinen@ti.com>
+ <20200422065114.22164-5-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <d37e223f-d62e-f711-2ce1-9bc69537d38f@samsung.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJKsWRmVeSWpSXmKPExsWy7djPc7rFf+fHGex4r2hxa905VouNM9az
- Wlz5+p7NYtL9CSwWM87vY7KYMfklmwObx/3u40wefVtWMXp83iQXwBzFZZOSmpNZllqkb5fA
- lfHg7W/Wgt3KFet/7GBuYFwm08XIySEhYCJxetU6li5GLg4hgRWMEteffWeDcL4wSmz88wkq
- 85lRYs2BdlaYlrcf70BVLWeU6Fo7jxXCec8osWvtdqAMB4ewQILEid06IA0iApkSB55MZwSx
- mQXaGSXWHo8HsdkEDCW63naBlfMK2EmceRkHEmYRUJXYvmUbO0hYVCBWYvq1EJAwr4CgxMmZ
- T1hAbE4Be4mpTbvYISbKSzRvnc0MYYtL3HoynwnkGgmBRewS/25fYIe42UWio+ssG4QtLPHq
- +BaouIzE6ck9LBANzYwSD8+tZYdwehglLjfNYISospa4c+4X2KHMApoS63fpg5gSAo4SffvF
- IEw+iRtvBSFu4JOYtG06M0SYV6KjTQhihprErOPr4LYevHCJeQKj0iwkn81C8s0sJN/MQli7
- gJFlFaN4amlxbnpqsXFearlecWJucWleul5yfu4mRmCCOf3v+NcdjPv+JB1iFOBgVOLhvXF+
- XpwQa2JZcWXuIUYJDmYlEd4ND4FCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeY0XvYwVEkhPLEnN
- Tk0tSC2CyTJxcEo1MPLpFb7/97qQZ1san2O63QSL52dPiB15eaTjgv/VXXW6UlG3/aSq9Ze0
- Llnc8OqJ4do3u66ELL8gxnXhHPevN61zcpOOTIwVWfoz+ZhqxM25Zr8bmzq2mH74eaXGQNpA
- MLPPwuF5qrtcdb7ntM2Hb79NKtaVrK+UcQnRL3vdfXzZkavsZTty+JRYijMSDbWYi4oTAVji
- mG4sAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHIsWRmVeSWpSXmKPExsVy+t/xu7pFf+fHGew+pWFxa905VouNM9az
- Wlz5+p7NYtL9CSwWM87vY7KYMfklmwObx/3u40wefVtWMXp83iQXwBylZ1OUX1qSqpCRX1xi
- qxRtaGGkZ2hpoWdkYqlnaGwea2VkqqRvZ5OSmpNZllqkb5egl/Hg7W/Wgt3KFet/7GBuYFwm
- 08XIySEhYCLx9uMdti5GLg4hgaWMEicv32WHSMhInJzWwAphC0v8udYFVfSWUeL6nNnMIAlh
- gQSJyaduMYLYIgKZEi+b1zODFDELtDNKHNnXwQ7RMZ1ZYtftQ0wgVWwChhJdb0FGcXDwCthJ
- nHkZBxJmEVCV2L5lGztIWFQgVqLloiZImFdAUOLkzCcsIDangL3E1KZdYMcxC5hJzNv8kBnC
- lpdo3jobyhaXuPVkPtMERqFZSNpnIWmZhaRlFpKWBYwsqxhFUkuLc9Nziw31ihNzi0vz0vWS
- 83M3MQLjatuxn5t3MF7aGHyIUYCDUYmH98b5eXFCrIllxZW5hxglOJiVRHg3PAQK8aYkVlal
- FuXHF5XmpBYfYjQF+m0is5Rocj4w5vNK4g1NDc0tLA3Njc2NzSyUxHk7BA7GCAmkJ5akZqem
- FqQWwfQxcXBKNTA2uF3wrRcsE0n9H3G+s+Xc7YTHZiKro5e8fjpx/r/iC3xJr+p9t7KkFsyL
- Dqg6HFVansidXf3Wf+rPF9wZK89/XW/h6/LUb1qagOtuM2UeVv+ZbiUtD2ZVyj5++v1IReVm
- no+fe7Y68ETwrCr0L53wXa/+wSJt2bwlfluPFGnN/DlfZI9de7YSS3FGoqEWc1FxIgBPeNKU
- wQIAAA==
-X-CMS-MailID: 20200422081650eucas1p1203eea2dfe72cdc8563902dd63804857
-X-Msg-Generator: CA
-X-RootMTR: 20200407134314eucas1p1bfe654163e093db30c4a31bd9e1ccada
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200407134314eucas1p1bfe654163e093db30c4a31bd9e1ccada
-References: <20200407134256.9129-1-m.szyprowski@samsung.com>
- <CGME20200407134314eucas1p1bfe654163e093db30c4a31bd9e1ccada@eucas1p1.samsung.com>
- <20200407134256.9129-3-m.szyprowski@samsung.com>
- <92cffe01-7a14-8fbd-90a3-dc171884c26d@samsung.com>
- <40285486-be0a-1e7b-6fd9-2c821bd537f9@samsung.com>
- <a268d606-b387-beeb-362f-07ae89a23ce7@samsung.com>
- <d37e223f-d62e-f711-2ce1-9bc69537d38f@samsung.com>
+Content-Disposition: inline
+In-Reply-To: <20200422065114.22164-5-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,91 +69,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <a.hajda@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+Cc: Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>, dri-devel@lists.freedesktop.org,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSW5raSwKCk9uIDIyLjA0LjIwMjAgMDY6MzYsIElua2kgRGFlIHdyb3RlOgo+IDIwLiA0LiAy
-Mi4g7Jik7ZuEIDEyOjM37JeQIElua2kgRGFlIOydtCjqsIApIOyTtCDquIA6Cj4+IDIwLiA0LiAy
-MS4g7Jik7ZuEIDU6MDnsl5AgTWFyZWsgU3p5cHJvd3NraSDsnbQo6rCAKSDsk7Qg6riAOgo+Pj4g
-T24gMjEuMDQuMjAyMCAwOTozOCwgSW5raSBEYWUgd3JvdGU6Cj4+Pj4gMjAuIDQuIDcuIOyYpO2b
-hCAxMDo0MuyXkCBNYXJlayBTenlwcm93c2tpIOydtCjqsIApIOyTtCDquIA6Cj4+Pj4+IEV4cGxp
-Y2l0bHkgY2hlY2sgaWYgdGhlIGltcG9ydGVkIGJ1ZmZlciBoYXMgYmVlbiBtYXBwZWQgYXMgY29u
-dGlndW91cyBpbgo+Pj4+PiB0aGUgRE1BIGFkZHJlc3Mgc3BhY2UsIHdoYXQgaXMgcmVxdWlyZWQg
-YnkgYWxsIEV4eW5vcyBEUk0gQ1JUQyBkcml2ZXJzLgo+Pj4+PiBXaGlsZSB0b3VjaGluZyB0aGlz
-LCBzZXQgYnVmZmVyIGZsYWdzIGRlcGVuZGluZyBvbiB0aGUgYXZhaWxhYmlsaXR5IG9mCj4+Pj4+
-IHRoZSBJT01NVS4KPj4+Pj4KPj4+Pj4gU2lnbmVkLW9mZi1ieTogTWFyZWsgU3p5cHJvd3NraSA8
-bS5zenlwcm93c2tpQHNhbXN1bmcuY29tPgo+Pj4+PiAtLS0KPj4+Pj4gICAgZHJpdmVycy9ncHUv
-ZHJtL2V4eW5vcy9leHlub3NfZHJtX2dlbS5jIHwgMzYgKysrKysrKysrKysrKysrKystLS0tLS0t
-LQo+Pj4+PiAgICAxIGZpbGUgY2hhbmdlZCwgMjUgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25z
-KC0pCj4+Pj4+Cj4+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5v
-c19kcm1fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZ2VtLmMKPj4+
-Pj4gaW5kZXggNDA1MTRkM2RjZjYwLi45ZDRlNGQzMjFiZGEgMTAwNjQ0Cj4+Pj4+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9nZW0uYwo+Pj4+PiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZ2VtLmMKPj4+Pj4gQEAgLTQ1OCw2ICs0NTgsMjMg
-QEAgZXh5bm9zX2RybV9nZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlKHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYsCj4+Pj4+ICAgIAlpbnQgbnBhZ2VzOwo+Pj4+PiAgICAJaW50IHJldDsKPj4+Pj4gICAg
-Cj4+Pj4gKE9wdGlvbmFsKSBjb3VsZCB5b3UgbGVhdmUgb25lIGNvbW1lbnQgaGVyZT8KPj4+PiBp
-LmUuLCAvKiBDaGVjayBpZiBETUEgbWVtb3J5IHJlZ2lvbiBmcm9tIGEgZXhwb3J0ZXIgYXJlIG1h
-cHBlZCBjb250aWd1b3VzbHkgb3Igbm90LiAqLwo+Pj4gT2theS4KPj4+Cj4+Pj4+ICsJaWYgKHNn
-dC0+bmVudHMgIT0gMSkgewo+Pj4+IEhvdyBhYm91dCB1c2luZyBiZWxvdyBjb25kaXRpb24gaW5z
-dGVhZD8KPj4+PiBpZiAoc2d0LT5uZW50cyA+IDApIHsKPj4+IFRoaXMgaXMgbm90IHRoZSBzYW1l
-LiBNeSBjaGVjayBmb3IgIT0gMSBpcyBpbnRlbmRlZC4gQ2hlY2tpbmcgY29udGlndWl0eQo+Pj4g
-b2YgdGhlIHNjYXR0ZXJsaXN0IGlmIGl0IGhhcyBvbmx5IDEgZWxlbWVudCBkb2Vzbid0IGhhdmUg
-bXVjaCBzZW5zZS4KPj4gT29wcyBzb3JyeS4gTXkgaW50ZW50aW9uIHdhcyAnaWYgKHNndC0+bmVu
-dHMgPiAxKScgYmVjYXVzZSBpZiAoc2d0LT5uZW50cyAhPSAxKSBhbGxvd3MKPj4gLSBzZ3QtPm5l
-bnRzIDwgMQo+PiAtIHNndC0+bmVudHMgPiAxCj4+Cj4+IEkgdGhpbmsgdGhlIGNoZWNraW5nIHdv
-dWxkIGJlIHZhbGlkIG9ubHkgaW4gY2FzZSBvZiBoYXZpbmcgbXVsdGlwbGUgZW50cmllcyAtIHNn
-dC0+bmVudHMgPiAxLgoKT2theSwgSSBjYW4gY2hhbmdlIHRoZSBjaGVjayB0b8KgIHNndC0+bmVu
-dHMgPiAxLgoKPj4+Pj4gKwkJZG1hX2FkZHJfdCBuZXh0X2FkZHIgPSBzZ19kbWFfYWRkcmVzcyhz
-Z3QtPnNnbCk7Cj4+Pj4+ICsJCXN0cnVjdCBzY2F0dGVybGlzdCAqczsKPj4+Pj4gKwkJdW5zaWdu
-ZWQgaW50IGk7Cj4+Pj4+ICsKPj4+Pj4gKwkJZm9yX2VhY2hfc2coc2d0LT5zZ2wsIHMsIHNndC0+
-bmVudHMsIGkpIHsKPj4+Pj4gKwkJCWlmICghc2dfZG1hX2xlbihzKSkKPj4+Pj4gKwkJCQljb250
-aW51ZTsKPj4+PiBJc24ndCBpdCBhbiBlcnJvciBjYXNlIGlmIHNnX2RtYV9sZW4ocykgaXMgMD8g
-SSB0aGluayBsZW5ndGggb2YgcyBpcyAwIHRoZW4gaXQgd291bGQgYmUgaW52YWxpZCBiZWNhdXNl
-IGFsbCBlbnRyaWVzIG9mIHNndCBzaG91bGQgYmUgbWFwcGVkIGJlZm9yZSBzZ19kbWFfbGVuKCkg
-aXMgY2FsbGVkLgo+Pj4gV2VsbCwgaXQgaXMgYSBncmV5IGFyZWEuIFNvbWUgY29kZSBpbmNvcnJl
-Y3RseSBzZXRzIG5lbnRzIGFzIG9yaWdfbmVudHMsCj4+PiB0aHVzIHRoaXMgdmVyc2lvbiBpcyBz
-aW1wbHkgc2FmZSBmb3IgYm90aCBhcHByb2FjaGVzLiBzZyBlbnRyaWVzIHVudXNlZAo+Pj4gZm9y
-IERNQSBjaHVua3MgaGF2ZSBzZ19kbWFfbGVuKCkgPT0gMC4KPj4+Cj4+PiBUaGUgYWJvdmUgY2hl
-Y2sgaXMgbW9yZSBvciBsZXNzIGNvcGllZCBmcm9tCj4+PiBkcm1fZ2VtX2NtYV9wcmltZV9pbXBv
-cnRfc2dfdGFibGUoKSAoZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fY21hX2hlbHBlci5jKS4KPiBJ
-IGxvb2tlZCBpbnRvIGFib3ZlIG9yaWdpbmFsIGNvZGUgYnV0IGl0IHNlZW1zIHRoYXQgaXQgYWxs
-b3dzIHNndC0+bmVudHMgdG8gaGF2ZSBuZWdhdGl2ZSB2YWx1ZSwgJ3NndC0+bmVudHMgPCAxJywg
-d2hpY2ggY291bGQgaW5jdXIgc29tZSBidWdzLgoKT2theSwgSSB3aWxsIGFkZCBhIGNoZWNrIGZv
-ciBuZWdhdGl2ZSBvciB6ZXJvIG5lbnRzLgoKPiBTbyBJIHRoaW5rIHRoZSBvcmlnaW5hbCBjb2Rl
-IGNhbiBiZSBmaXhlZCBsaWtlIGJlbG93LAo+IAlpZiAoc2d0LT5uZW50cyA+IDEpIHsgIC8vIDwt
-IGhlcmUKPiAJCS8qIGNoZWNrIGlmIHRoZSBlbnRyaWVzIGluIHRoZSBzZ190YWJsZSBhcmUgY29u
-dGlndW91cyAqLwo+IAkJZG1hX2FkZHJfdCBuZXh0X2FkZHIgPSBzZ19kbWFfYWRkcmVzcyhzZ3Qt
-PnNnbCk7Cj4gCQlzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnM7Cj4gCQl1bnNpZ25lZCBpbnQgaTsKPgo+
-IAkJZm9yX2VhY2hfc2coc2d0LT5zZ2wsIHMsIHNndC0+bmVudHMsIGkpIHsKPiAJCQkvKgo+IAkJ
-CSAqIHNnX2RtYV9hZGRyZXNzKHMpIGlzIG9ubHkgdmFsaWQgZm9yIGVudHJpZXMKPiAJCQkgKiB0
-aGF0IGhhdmUgc2dfZG1hX2xlbihzKSA+IDAgLy8gPC0gaGVyZQo+IAkJCSAqLwo+IAkJCWlmICgh
-c2dfZG1hX2xlbihzKSkKPiAJCQkJY29udGludWU7Cj4KPiAJCQlpZiAoc2dfZG1hX2FkZHJlc3Mo
-cykgIT0gbmV4dF9hZGRyKQo+IAkJCQlyZXR1cm4gRVJSX1BUUigtRUlOVkFMKTsKPgo+IAkJCW5l
-eHRfYWRkciA9IHNnX2RtYV9hZGRyZXNzKHMpICsgc2dfZG1hX2xlbihzKTsKPiAJCX0KPiAJfQo+
-Cj4gU28gaWYgeW91IGFncmVlIHdpdGggbWUgdGhlbiB3ZSBkb24ndCBoYXZlIHRvIGNvcHkgYW5k
-IHBhc3RlIHRoaXMgY29kZSBhcy1pcy4KPgo+IFJlZ2FyZGluZyAnaWYgKCFzZ19kbWFfbGVuKHMp
-KScgY29uZGl0aW9uIGhlcmUsIEknbSBub3QgY2xlYXIgd2hldGhlciB3ZSBhcmUgdXNpbmcgaXQg
-Y29ycmVjdGx5IGJlY2F1c2Ugc2NhdHRlcmxpc3QuaCBoZWFkZXIgZGVzY3JpcHRpb24gc2F5cywK
-PiAvKgo+ICAgKiBUaGVzZSBtYWNyb3Mgc2hvdWxkIGJlIHVzZWQgYWZ0ZXIgYSBkbWFfbWFwX3Nn
-IGNhbGwgaGFzIGJlZW4gZG9uZQo+ICAgKiB0byBnZXQgYnVzIGFkZHJlc3NlcyBvZiBlYWNoIG9m
-IHRoZSBTRyBlbnRyaWVzIGFuZCB0aGVpciBsZW5ndGhzLgo+ICAgKiBZb3Ugc2hvdWxkIG9ubHkg
-d29yayB3aXRoIHRoZSBudW1iZXIgb2Ygc2cgZW50cmllcyBkbWFfbWFwX3NnCj4gICAqIHJldHVy
-bnMsIG9yIGFsdGVybmF0aXZlbHkgc3RvcCBvbiB0aGUgZmlyc3Qgc2dfZG1hX2xlbihzZykgd2hp
-Y2gKPiAgICogaXMgMC4KPiAgICovCj4KPiBBY2NvcmRpbmcgdG8gYWJvdmUgZGVzY3JpcHRpb24s
-IHNnX2RtYV9sZW4oKSBzaG91bGQgYmUgY2FsbGVkIGFmdGVyIGRtYV9tYXBfc2coKSBjYWxsLiBF
-dmVuIGl0IHNheXMgdG8gc3RvcCBvbiB0aGUgZmlyc3Qgc2dfZG1hX2xlbihzZykgd2hpY2ggaXMg
-MC4KPiBBbmQgd2UgY291bGQgYXZvaWQgdGhlIGNoZWNraW5nIGZ1bmN0aW9uIGNvZGUgZnJvbSBi
-ZWluZyBkdXBsaWNhdGVkIGJ5IGludHJvZHVjaW5nIG9uZSBmdW5jdGlvbiB3aGljaCBjaGVja3Mg
-aWYgdGhlIGVudHJpZXMgaW4gdGhlIHNnX3RhYmxlIGFyZSBjb250aWd1b3VzIG9yIG5vdCBhcyBh
-IHNlcGFyYXRlIHBhdGNoIGxhdGVyLgoKT2theSwgSSB3aWxsIHJld29yayB0aGlzLCB0aGVuIEkg
-d2lsbCBwcmVwYXJlIGEgcGF0Y2ggd2hpY2ggd2lsbCB1bmlmeSAKc2NhdHRlcmxpc3QgY29udGln
-dWl0eSBjaGVja3MgZm9yIGFsbCBEUk0gZHJpdmVycy4KCkJlc3QgcmVnYXJkcwotLSAKTWFyZWsg
-U3p5cHJvd3NraSwgUGhEClNhbXN1bmcgUiZEIEluc3RpdHV0ZSBQb2xhbmQKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Apr 22, 2020 at 09:51:14AM +0300, Tomi Valkeinen wrote:
+> The code that maps the LED default brightness to backlight levels has
+> two issues: 1) if the default brightness is the first backlight level
+> (usually 0), the code fails to find it, and 2) when the code fails to
+> find a backlight level, it ends up using max_brightness + 1 as the
+> default brightness.
+> 
+> Fix these two issues.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+
+
+Daniel.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
