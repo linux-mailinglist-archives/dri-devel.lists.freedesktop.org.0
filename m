@@ -1,26 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E703C1B4C56
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 19:59:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 878D41B4C55
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 19:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4536E2AF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F0436E2A8;
 	Wed, 22 Apr 2020 17:59:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB2B6E2A8
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41AB46E2AF
  for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 17:59:30 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: aratiu) with ESMTPSA id 40BC7260F31
+ (Authenticated sender: aratiu) with ESMTPSA id A265B2A1F12
 From: Adrian Ratiu <adrian.ratiu@collabora.com>
 To: devicetree@vger.kernel.org
 Subject: [PATCH v3] dt-bindings: display: dw_mipi_dsi.txt: convert to yaml
-Date: Wed, 22 Apr 2020 21:00:27 +0300
-Message-Id: <20200422180028.1702996-1-adrian.ratiu@collabora.com>
+Date: Wed, 22 Apr 2020 21:00:28 +0300
+Message-Id: <20200422180028.1702996-2-adrian.ratiu@collabora.com>
 X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200422180028.1702996-1-adrian.ratiu@collabora.com>
+References: <20200422180028.1702996-1-adrian.ratiu@collabora.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
