@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FA71B3855
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:56:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6032E1B3844
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:56:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 825FA6E9DC;
-	Wed, 22 Apr 2020 06:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89ADE6E9D9;
+	Wed, 22 Apr 2020 06:55:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F7E989971
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 00:21:48 +0000 (UTC)
-Received: by mail-qk1-x744.google.com with SMTP id m67so694899qke.12
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 17:21:47 -0700 (PDT)
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 609C789C1C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 00:21:49 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id n143so730073qkn.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 17:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3AJD6Oyv0KkjbAk8YeqvLT90vRQu+LIvDFZSopXsRbA=;
- b=eoFRErMA4gp+OK9MtuQ4K4bjXWkeBBeQPbFumCt3H5LHNkqaTX6DBvgor6rkgnO1M7
- rT91T1rPd+vUOAuTDV3NLDyP9NSb9xUHfuPuy1IbETv5fwpEBXwKwar5O8GmjdAlhT1f
- EvU1RP/AaSISFodw/P7iQGUHxtiRd4g80nJIOANv8h9J5b8JidJW1h1FPkCoaZFW2ORG
- wSaif0wopRKyY4vU/o1KkYbu9U/APRXAoQ94U4hSff0L7IxLBX6DYBR7aagLMjZCu1TV
- Wi64MfEMrxnx21mOo5TUh76Znt2Ow3oyfXWzQh+PxqT1pTzAI+rGR4eUGUNVXiIu6XsH
- MOpg==
+ bh=dXUNQISf0T88Bj6Lj8KEYM0L0EwolOgRaHpyefYtmUk=;
+ b=gIWP5ilmkmnLh/9NQ4YyFacAf5kT+bxEXkMSwIe/v0D2Ic/uYFKO3FaPeBpefOaLjP
+ 0WP4+VmSjV3Sf/jbcpkqFE+5CiDA2aMMdwfCGoFtIG1TLq3gdTwID80fz7GAZpFzfm+P
+ 3B1k0kODSc2crx4cbT2UNyZuA8iWvN2EBSF1KyPCpMrVWbJZBAL3QO5rMaD9RaiAiKVx
+ MrGa53XEdZgZtT8fmp1PHyQUs81fwhw6ONIUu7XQ9wFZOZ2jNhdPzhvzaK8drXk5SDsm
+ WOdpsQlR3Gp50p9NNVM8d1R506OI/BYArmq58KUhXYb1oCPDRv97xODXd3cpwxJr0E5d
+ FmGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3AJD6Oyv0KkjbAk8YeqvLT90vRQu+LIvDFZSopXsRbA=;
- b=trhUqAOkJ0/sHJWZHIjiXaReF8kMEsvfEuKIVjoGciTT7tgTigQXwY4C1g3g5buBG+
- jia5iaaL6H1iRaVOkRzRCsjXvkcU59bvKthRmmZkfiwGWwxUNnDlVKIR8ojYFNsIs0WI
- wi2+OjBepZlgWRg78nJgKFZMaWD3MD64wzFWEBaudLTODddKS1KYO25ShBrUTv6coCLE
- 3QQOf1jEJt9rYsNBc/qaeJOrFkHpvhpRxh0uCWcIbVUs66RZMznPpIwdob3MXV7otkRW
- 2LiEe/8WqdBVHtzt/IBLwd45X3Yc94tyiH8NtSb5Rp3TgE+RCMK+AHHeQXj88XSlV1y3
- f/Yg==
-X-Gm-Message-State: AGi0PuZJkUZ/9lMimxe4pTDUMW4FIqF3VS3/rdVtdvQ6DWulWnjFG3Sh
- JfZU0VTHnfsJYGynilvOMR3ZPg==
-X-Google-Smtp-Source: APiQypL7V4/8cAx/9ZlxeBiNsXj+Qtd7NYDaEN35jT+/a0xFMxv1zWFbIOqW9KBRUrqtUtHkDyTw4A==
-X-Received: by 2002:a05:620a:249:: with SMTP id
- q9mr9360042qkn.389.1587514907240; 
- Tue, 21 Apr 2020 17:21:47 -0700 (PDT)
+ bh=dXUNQISf0T88Bj6Lj8KEYM0L0EwolOgRaHpyefYtmUk=;
+ b=ezGedz1ukUZjxfEUrGh3Jp0jRywu1+e3sOCrqyJ+SW7f2XjYnqLAAviheQUAffwMLT
+ LKhmudBuhrbHf3yHWFW+Wo5pFNQkDXZ8fys73r1ietv9B9vp+vBFnAc0571EyZhQIT6e
+ Qm4007Pv17eUZ5myxPUl66ZgwNJ7OC82IbreAsTIX+hbra6GT2W7D1P0GcwM4ERL0hHp
+ xjSfTn9aTNtETK/eSQ/+fkWZrIkL917E5x4Ndh50OSWCHZQCPW7rbCqzz4YxEd3RO+/F
+ CdKew7ggK+x0u9ahFQlMPNAsAZ/KhjWaitu0o+GguoJzYjadRU/H2vrFMbatpWdxMpSC
+ gyhg==
+X-Gm-Message-State: AGi0PuauE+I0c1ewO9Jkwqj8Xj569HsgDIXO+PdomuFUVpy8rI840Pld
+ vl160kSqHWx7Pgi9MvkjB8G82g==
+X-Google-Smtp-Source: APiQypKXSZmOfI1ovmhCRa4BWx0ruNS7ifeofBzvyBvIZ85CC1GrC+lD+aCIj59iOvBapC96nnzX1A==
+X-Received: by 2002:a37:68cd:: with SMTP id
+ d196mr23995404qkc.188.1587514908479; 
+ Tue, 21 Apr 2020 17:21:48 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id 18sm2866823qks.98.2020.04.21.17.21.46
+ by smtp.gmail.com with ESMTPSA id p10sm2821195qtu.14.2020.04.21.17.21.46
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 21 Apr 2020 17:21:46 -0700 (PDT)
+ Tue, 21 Apr 2020 17:21:47 -0700 (PDT)
 Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
  (envelope-from <jgg@ziepe.ca>)
- id 1jR398-0000Az-C2; Tue, 21 Apr 2020 21:21:46 -0300
+ id 1jR398-0000B6-EG; Tue, 21 Apr 2020 21:21:46 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: linux-mm@kvack.org,
 	Ralph Campbell <rcampbell@nvidia.com>
-Subject: [PATCH hmm 1/5] mm/hmm: make CONFIG_DEVICE_PRIVATE into a select
-Date: Tue, 21 Apr 2020 21:21:42 -0300
-Message-Id: <1-v1-4eb72686de3c+5062-hmm_no_flags_jgg@mellanox.com>
+Subject: [PATCH hmm 2/5] mm/hmm: make hmm_range_fault return 0 or -1
+Date: Tue, 21 Apr 2020 21:21:43 -0300
+Message-Id: <2-v1-4eb72686de3c+5062-hmm_no_flags_jgg@mellanox.com>
 In-Reply-To: <0-v1-4eb72686de3c+5062-hmm_no_flags_jgg@mellanox.com>
 References: 
 MIME-Version: 1.0
@@ -89,71 +89,191 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jason Gunthorpe <jgg@mellanox.com>
 
-There is no reason for a user to select this or not directly - it should
-be selected by drivers that are going to use the feature, similar to how
-CONFIG_HMM_MIRROR works.
+hmm_vma_walk->last is supposed to be updated after every write to the
+pfns, so that it can be returned by hmm_range_fault(). However, this is
+not done consistently. Fortunately nothing checks the return code of
+hmm_range_fault() for anything other than error.
 
-Currently all drivers provide a feature kconfig that will disable use of
-DEVICE_PRIVATE in that driver, allowing users to avoid enabling this if
-they don't want the overhead.
+More importantly last must be set before returning -EBUSY as it is used to
+prevent reading an output pfn as an input flags when the loop restarts.
+
+For clarity and simplicity make hmm_range_fault() return 0 or -ERRNO. Only
+set last when returning -EBUSY.
 
 Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
 ---
- arch/powerpc/Kconfig            | 2 +-
- drivers/gpu/drm/nouveau/Kconfig | 2 +-
- mm/Kconfig                      | 7 +------
- 3 files changed, 3 insertions(+), 8 deletions(-)
+ Documentation/vm/hmm.rst                |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  4 ++--
+ drivers/gpu/drm/nouveau/nouveau_svm.c   |  6 +++---
+ include/linux/hmm.h                     |  2 +-
+ mm/hmm.c                                | 25 +++++++++----------------
+ 5 files changed, 16 insertions(+), 23 deletions(-)
 
-diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-index 924c541a926008..8de52aefdc74cc 100644
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -455,7 +455,7 @@ config PPC_TRANSACTIONAL_MEM
- config PPC_UV
- 	bool "Ultravisor support"
- 	depends on KVM_BOOK3S_HV_POSSIBLE
--	depends on DEVICE_PRIVATE
-+	select DEVICE_PRIVATE
- 	default n
- 	help
- 	  This option paravirtualizes the kernel to run in POWER platforms that
-diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kconfig
-index d6e4ae1ef7053a..af5793f3e7c2cf 100644
---- a/drivers/gpu/drm/nouveau/Kconfig
-+++ b/drivers/gpu/drm/nouveau/Kconfig
-@@ -86,10 +86,10 @@ config DRM_NOUVEAU_BACKLIGHT
+diff --git a/Documentation/vm/hmm.rst b/Documentation/vm/hmm.rst
+index 4e3e9362afeb10..9924f2caa0184c 100644
+--- a/Documentation/vm/hmm.rst
++++ b/Documentation/vm/hmm.rst
+@@ -161,7 +161,7 @@ device must complete the update before the driver callback returns.
+ When the device driver wants to populate a range of virtual addresses, it can
+ use::
  
- config DRM_NOUVEAU_SVM
- 	bool "(EXPERIMENTAL) Enable SVM (Shared Virtual Memory) support"
--	depends on DEVICE_PRIVATE
- 	depends on DRM_NOUVEAU
- 	depends on MMU
- 	depends on STAGING
-+	select DEVICE_PRIVATE
- 	select HMM_MIRROR
- 	select MMU_NOTIFIER
- 	default n
-diff --git a/mm/Kconfig b/mm/Kconfig
-index c1acc34c1c358c..7ca36bf5f5058e 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -805,15 +805,10 @@ config HMM_MIRROR
- 	depends on MMU
+-  long hmm_range_fault(struct hmm_range *range);
++  int hmm_range_fault(struct hmm_range *range);
  
- config DEVICE_PRIVATE
--	bool "Unaddressable device memory (GPU memory, ...)"
-+	bool
- 	depends on ZONE_DEVICE
- 	select DEV_PAGEMAP_OPS
+ It will trigger a page fault on missing or read-only entries if write access is
+ requested (see below). Page faults use the generic mm page fault code path just
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 6309ff72bd7876..efc1329a019127 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -852,12 +852,12 @@ int amdgpu_ttm_tt_get_user_pages(struct amdgpu_bo *bo, struct page **pages)
+ 	down_read(&mm->mmap_sem);
+ 	r = hmm_range_fault(range);
+ 	up_read(&mm->mmap_sem);
+-	if (unlikely(r <= 0)) {
++	if (unlikely(r)) {
+ 		/*
+ 		 * FIXME: This timeout should encompass the retry from
+ 		 * mmu_interval_read_retry() as well.
+ 		 */
+-		if ((r == 0 || r == -EBUSY) && !time_after(jiffies, timeout))
++		if ((r == -EBUSY) && !time_after(jiffies, timeout))
+ 			goto retry;
+ 		goto out_free_pfns;
+ 	}
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index 645fedd77e21b4..c68e9317cf0740 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -536,7 +536,7 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 		.pfn_shift = NVIF_VMM_PFNMAP_V0_ADDR_SHIFT,
+ 	};
+ 	struct mm_struct *mm = notifier->notifier.mm;
+-	long ret;
++	int ret;
  
--	help
--	  Allows creation of struct pages to represent unaddressable device
--	  memory; i.e., memory that is only accessible from the device (or
--	  group of devices). You likely also want to select HMM_MIRROR.
+ 	while (true) {
+ 		if (time_after(jiffies, timeout))
+@@ -548,8 +548,8 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 		down_read(&mm->mmap_sem);
+ 		ret = hmm_range_fault(&range);
+ 		up_read(&mm->mmap_sem);
+-		if (ret <= 0) {
+-			if (ret == 0 || ret == -EBUSY)
++		if (ret) {
++			if (ret == -EBUSY)
+ 				continue;
+ 			return ret;
+ 		}
+diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+index 7475051100c782..0df27dd03d53d7 100644
+--- a/include/linux/hmm.h
++++ b/include/linux/hmm.h
+@@ -120,7 +120,7 @@ static inline struct page *hmm_device_entry_to_page(const struct hmm_range *rang
+ /*
+  * Please see Documentation/vm/hmm.rst for how to use the range API.
+  */
+-long hmm_range_fault(struct hmm_range *range);
++int hmm_range_fault(struct hmm_range *range);
+ 
+ /*
+  * HMM_RANGE_DEFAULT_TIMEOUT - default timeout (ms) when waiting for a range
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 280585833adfc1..4c7c396655b528 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -174,7 +174,6 @@ static int hmm_vma_walk_hole(unsigned long addr, unsigned long end,
+ 	}
+ 	if (required_fault)
+ 		return hmm_vma_fault(addr, end, required_fault, walk);
+-	hmm_vma_walk->last = addr;
+ 	return hmm_pfns_fill(addr, end, range, HMM_PFN_NONE);
+ }
+ 
+@@ -207,7 +206,6 @@ static int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
+ 	pfn = pmd_pfn(pmd) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+ 	for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++)
+ 		pfns[i] = hmm_device_entry_from_pfn(range, pfn) | cpu_flags;
+-	hmm_vma_walk->last = end;
+ 	return 0;
+ }
+ #else /* CONFIG_TRANSPARENT_HUGEPAGE */
+@@ -386,13 +384,10 @@ static int hmm_vma_walk_pmd(pmd_t *pmdp,
+ 		r = hmm_vma_handle_pte(walk, addr, end, pmdp, ptep, pfns);
+ 		if (r) {
+ 			/* hmm_vma_handle_pte() did pte_unmap() */
+-			hmm_vma_walk->last = addr;
+ 			return r;
+ 		}
+ 	}
+ 	pte_unmap(ptep - 1);
 -
- config FRAME_VECTOR
- 	bool
+-	hmm_vma_walk->last = addr;
+ 	return 0;
+ }
  
+@@ -455,7 +450,6 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long start, unsigned long end,
+ 		for (i = 0; i < npages; ++i, ++pfn)
+ 			pfns[i] = hmm_device_entry_from_pfn(range, pfn) |
+ 				  cpu_flags;
+-		hmm_vma_walk->last = end;
+ 		goto out_unlock;
+ 	}
+ 
+@@ -500,7 +494,6 @@ static int hmm_vma_walk_hugetlb_entry(pte_t *pte, unsigned long hmask,
+ 	for (; addr < end; addr += PAGE_SIZE, i++, pfn++)
+ 		range->pfns[i] = hmm_device_entry_from_pfn(range, pfn) |
+ 				 cpu_flags;
+-	hmm_vma_walk->last = end;
+ 	spin_unlock(ptl);
+ 	return 0;
+ }
+@@ -537,7 +530,6 @@ static int hmm_vma_walk_test(unsigned long start, unsigned long end,
+ 		return -EFAULT;
+ 
+ 	hmm_pfns_fill(start, end, range, HMM_PFN_ERROR);
+-	hmm_vma_walk->last = end;
+ 
+ 	/* Skip this vma and continue processing the next vma. */
+ 	return 1;
+@@ -555,9 +547,7 @@ static const struct mm_walk_ops hmm_walk_ops = {
+  * hmm_range_fault - try to fault some address in a virtual address range
+  * @range:	argument structure
+  *
+- * Return: the number of valid pages in range->pfns[] (from range start
+- * address), which may be zero.  On error one of the following status codes
+- * can be returned:
++ * Return: 0 or -ERRNO with one of the following status codes:
+  *
+  * -EINVAL:	Invalid arguments or mm or virtual address is in an invalid vma
+  *		(e.g., device file vma).
+@@ -572,7 +562,7 @@ static const struct mm_walk_ops hmm_walk_ops = {
+  * This is similar to get_user_pages(), except that it can read the page tables
+  * without mutating them (ie causing faults).
+  */
+-long hmm_range_fault(struct hmm_range *range)
++int hmm_range_fault(struct hmm_range *range)
+ {
+ 	struct hmm_vma_walk hmm_vma_walk = {
+ 		.range = range,
+@@ -590,10 +580,13 @@ long hmm_range_fault(struct hmm_range *range)
+ 			return -EBUSY;
+ 		ret = walk_page_range(mm, hmm_vma_walk.last, range->end,
+ 				      &hmm_walk_ops, &hmm_vma_walk);
++		/*
++		 * When -EBUSY is returned the loop restarts with
++		 * hmm_vma_walk.last set to an address that has not been stored
++		 * in pfns. All entries < last in the pfn array are set to their
++		 * output, and all >= are still at their input values.
++		 */
+ 	} while (ret == -EBUSY);
+-
+-	if (ret)
+-		return ret;
+-	return (hmm_vma_walk.last - range->start) >> PAGE_SHIFT;
++	return ret;
+ }
+ EXPORT_SYMBOL(hmm_range_fault);
 -- 
 2.26.0
 
