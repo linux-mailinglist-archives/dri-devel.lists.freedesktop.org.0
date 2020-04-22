@@ -2,67 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC991B4A60
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 18:22:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243D41B55D4
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 09:37:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F261F6E83A;
-	Wed, 22 Apr 2020 16:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3AB6E282;
+	Thu, 23 Apr 2020 07:36:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
- [IPv6:2607:f8b0:4864:20::f2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1523A6E83A
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 16:22:42 +0000 (UTC)
-Received: by mail-qv1-xf2d.google.com with SMTP id p13so1135062qvt.12
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 09:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=EjNhcH/bXfvIZUzEIVKgOCJoMZqdaN2tqLtyNe1ZM7c=;
- b=DTRIJ8iviVnMVICbRDafDZ0ZzbTidI7VRE4I8aJhBLYyvYSzst1rQtmNc8SIu2mR5S
- +OsIC9oE1hLB9e8G6GB9r7LP37oeG8bt5D12jMhzfWUYny1mM4Ospo9TbkRL3W0g9m2U
- ENNiGMWwdGxlHA+HzA//YNhNriKkqhHBiodwIO9I/wsig9loxKVhKqIxVc2v64543C/G
- 1K/z4Duh8+B9n2Kvnq5AzY5KKaMyJ2qKPyttM26pFyOiSPPptiz4GrGVl5APASoKpPtL
- sl7ODCd1JmhGb8Dv5DyK6SMgVCoFGwk2cUFXZ9eEVzxZt2DA0eEdzu8hyt6g4dnSOBFU
- sRAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=EjNhcH/bXfvIZUzEIVKgOCJoMZqdaN2tqLtyNe1ZM7c=;
- b=L5Uw3m1guf8J8bWj7Xm9zlycbowN1SbyiZbltOR33TXTlO7SfZtzcKWMthmTOS8Dzk
- GwTBc1k5i7QevcVD9bHZa2hDbKUBQoWb+sZDDrdl3VitVG0f1LyGkVu+olG97HiiyyNR
- iMp/b9HnTqTbDOk5wg6ijfekBeyUD8QwDwh31MiiSYrviQKvMIU3b9BtDN/XqxRGNoy8
- rGsT1Y43+VrnHBhrQQLuHhh/2qYcsYAjF3PAMVjC2KMcx0scxGbqyXOzSN7HEeLb9zrR
- gtmqaZz3lfSlASPgyytzbZAMiSHNu057NXFefTuSOoNxz7NyP4s0B3JbJGg47EG2eAkG
- K3yw==
-X-Gm-Message-State: AGi0PuZ4/yVUzAI0b6MLS5Lx+hpQmnTc7n3rEi00LTlXDMyv9gnmvWuM
- gKc9MT5wt50EpQQAosZ2FVhdEtdN1/k=
-X-Google-Smtp-Source: APiQypLIRBkrRvorZmQzP9AyOatxObc8z0ffbAJgLwrskkjNJkq9DGhP7FwWpCURk/qaK3ZekGrgqQ==
-X-Received: by 2002:a0c:ba2e:: with SMTP id w46mr24906882qvf.97.1587572560936; 
- Wed, 22 Apr 2020 09:22:40 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:480::1:6260])
- by smtp.gmail.com with ESMTPSA id o201sm4228901qke.31.2020.04.22.09.22.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Apr 2020 09:22:39 -0700 (PDT)
-Date: Wed, 22 Apr 2020 12:22:38 -0400
-From: Tejun Heo <tj@kernel.org>
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org
-Subject: Re: [Poke: Tejun] Re: [RFC v3 03/11] drm/vblank: Add vblank works
-Message-ID: <20200422162238.GC5462@mtj.thefacebook.com>
-References: <20200417194145.36350-1-lyude@redhat.com>
- <20200417194145.36350-4-lyude@redhat.com>
- <ef9da9d93022822fe4bec7e906540fcc9852ce59.camel@redhat.com>
- <20200417210356.GD43469@mtj.thefacebook.com>
- <20200421123459.GY3456981@phenom.ffwll.local>
+X-Greylist: delayed 1148 seconds by postgrey-1.36 at gabe;
+ Wed, 22 Apr 2020 17:09:49 UTC
+Received: from namei.org (namei.org [65.99.196.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1E26E0E6
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 17:09:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by namei.org (8.14.4/8.14.4) with ESMTP id 03MGo4UJ013061;
+ Wed, 22 Apr 2020 16:50:04 GMT
+Date: Thu, 23 Apr 2020 02:50:04 +1000 (AEST)
+From: James Morris <jmorris@namei.org>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v2 2/7] libfs: wrap simple_pin_fs/simple_release_fs
+ arguments in a struct
+In-Reply-To: <20200421135119.30007-3-eesposit@redhat.com>
+Message-ID: <alpine.LRH.2.21.2004230246380.12318@namei.org>
+References: <20200421135119.30007-1-eesposit@redhat.com>
+ <20200421135119.30007-3-eesposit@redhat.com>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200421123459.GY3456981@phenom.ffwll.local>
+X-Mailman-Approved-At: Thu, 23 Apr 2020 07:36:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,33 +41,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>,
+ Andrew Donnellan <ajd@linux.ibm.com>, linux-scsi@vger.kernel.org,
+ "Serge E. Hallyn" <serge@hallyn.com>, Arnd Bergmann <arnd@arndb.de>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, linux-fsdevel@vger.kernel.org,
+ "Manoj N. Kumar" <manoj@linux.ibm.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ "Matthew R. Ochs" <mrochs@linux.ibm.com>, Uma Krishnan <ukrishn@linux.ibm.com>,
+ John Johansen <john.johansen@canonical.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-security-module@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ linuxppc-dev@lists.ozlabs.org, Joel Becker <jlbec@evilplan.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Tue, 21 Apr 2020, Emanuele Giuseppe Esposito wrote:
 
-On Tue, Apr 21, 2020 at 02:34:59PM +0200, Daniel Vetter wrote:
-> > > Also, of course, let me know if yu're not happy with the
-> > > __kthread_queue_work() changes/kthread_worker usage in drm_vblank_work as well
-> > 
-> > Just glanced over it and I still wonder whether it needs to be that tightly
-> > integrated, but we can look into that once we settle on whether this is the
-> > right direction.
+> Simplify passing the count and mount to simple_pin_fs and
+> simple_release_fs by wrapping them in the simple_fs struct,
+> in preparation for adding more high level operations to
+> fs/libfs.c
 > 
-> I don't think we absolutely have to do this, simply means some nested
-> irq-safe spinlock. One in vblank_work, other in kthread_worker. Since the
-> delayed work doesn't do that I think it'd be nice if the drm_vblank
-> (instead of timer) delayed work could use the same pattern.
+> There is no functional change intended.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-I'd prefer if they were two separate locks unless that makes practical
-difference, but if it does, please go ahead.
 
-Thanks.
+Reviewed-by: James Morris <jamorris@linux.microsoft.com>
+
 
 -- 
-tejun
+James Morris
+<jmorris@namei.org>
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
