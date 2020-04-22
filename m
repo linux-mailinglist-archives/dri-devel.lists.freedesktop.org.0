@@ -1,108 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730F21B365A
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 06:31:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D7D1B36F2
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 07:51:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2641689D39;
-	Wed, 22 Apr 2020 04:31:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EE8D6E215;
+	Wed, 22 Apr 2020 05:51:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83CA989D39
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 04:31:23 +0000 (UTC)
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20200422043121epoutp04da4005aa6ef48f674f84798c866795d8~ICgQgIpCj2664526645epoutp04H
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 04:31:21 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20200422043121epoutp04da4005aa6ef48f674f84798c866795d8~ICgQgIpCj2664526645epoutp04H
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1587529881;
- bh=PvRu+TZQUg81qzuR02dRwIL5Xd+kRYKkrn1KisdSUO0=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=vb+yg1qYtuJ0Sy+cI0WHqf6ezccdV1b3wdgbvFq0ALnSkbI7n2DO8zwf/KJZrYo+G
- 4JSpENU7O6P8BgAEb3GONnFFwrh7OLU+vZnTKFi6mXCwDPQ5u3XWO4tKalZ8HzWIv4
- aQsgufak5KWZBtMRXwJPFJeJGS4Znj2Ju3IB73qY=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200422043121epcas1p242c31e232f03d50c9798e9335dd08f84~ICgQMXn2K2213522135epcas1p23;
- Wed, 22 Apr 2020 04:31:21 +0000 (GMT)
-Received: from epsmges1p2.samsung.com (unknown [182.195.40.154]) by
- epsnrtp4.localdomain (Postfix) with ESMTP id 496SDk18bJzMqYkr; Wed, 22 Apr
- 2020 04:31:18 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
- epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 40.BD.04544.298CF9E5; Wed, 22 Apr 2020 13:31:14 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
- 20200422043113epcas1p3855ddbbca01634d55fd6df12fd9cee9d~ICgJHFJ1Z3057030570epcas1p3j;
- Wed, 22 Apr 2020 04:31:13 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200422043113epsmtrp1d997ad77ec38c6ecca397f851a52c93e~ICgJGbIZE0675406754epsmtrp1c;
- Wed, 22 Apr 2020 04:31:13 +0000 (GMT)
-X-AuditID: b6c32a36-7e7ff700000011c0-80-5e9fc892edd9
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 7F.34.04024.198CF9E5; Wed, 22 Apr 2020 13:31:13 +0900 (KST)
-Received: from [10.113.221.211] (unknown [10.113.221.211]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200422043113epsmtip21e21e59ffb381794b22de8d3f72457ca~ICgI8CxiY2724727247epsmtip2d;
- Wed, 22 Apr 2020 04:31:13 +0000 (GMT)
-Subject: Re: [PATCH 2/3] drm/exynos: gem: Rework scatter-list contiguity
- check on Prime import
-From: Inki Dae <inki.dae@samsung.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
-Message-ID: <d37e223f-d62e-f711-2ce1-9bc69537d38f@samsung.com>
-Date: Wed, 22 Apr 2020 13:36:14 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
+ [IPv6:2607:f8b0:4864:20::f42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF1616E215;
+ Wed, 22 Apr 2020 05:51:54 +0000 (UTC)
+Received: by mail-qv1-xf42.google.com with SMTP id q31so296318qvf.11;
+ Tue, 21 Apr 2020 22:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YA9H2oMhqWVUhj44XPFSqUHe31PZ4JbN6bsP7nMhgPE=;
+ b=O9yt4bJSLqk25Ud5fJDyBpQ4R+71xjGF229VG/2eoeIhAEQu+2Igl4DJznfuQ7vWRb
+ bBpQAWEtm0Y89gMywKlvLLROPAJmK5+5/uZQCESP2AOS4unmrfrbdWwh5hy+hSs0g1g9
+ bT3f0sDNK49DUQxrbgNjPYKhLYO7tYjPAmnCDond1yVDbwhbixQiX1KEchbpktEc1nEA
+ KiAwU7TnEc0qM8FZFPlaHi6OaciTe+4FAlGCr+x5DbR9Jw+oVlZFfClLteq0UkCHlFi9
+ 8Xsv2EmAwH3LbXSxyWrbIDyVo1CE1LKbgp93FaJFnEfd0nmVj7NeLowtj1zt+gQNiohy
+ MsEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YA9H2oMhqWVUhj44XPFSqUHe31PZ4JbN6bsP7nMhgPE=;
+ b=q32SYKkE86JPM+gFo1CN/5zatfHDDe8x7e9b5OOtvwgDmtEvmVxgvMJKuleGyG/42D
+ RsxcDS6KP1Ayo4ZWchVygJ1+CuTqFMORjYP8fZCg/BeBnHMM5WvolHHcLpsnQ94ntK1i
+ vAztzagoB6vyN6XWbpjn/Mnqeerc3Mp0IpjVpKOSAeuogyReESpPdJA12ecWMn0I1BIb
+ Q8DFiz7ekENCk2CPbdMhkFcDWM0kNM7tVNCS8uawtbSOHGfmVX78YMy0LrYIBhYPWDUB
+ DkVz91qKZQnzktt+lIOc8spK8Gxmdbpo51P6NOd5IRWtWk7PskU7omWRx6UW/vT20SAO
+ fciA==
+X-Gm-Message-State: AGi0PuaEdOQeO7VrujkWrUho24VECIkRLlxhDRMyOdkCyKIxbMl7ytod
+ xjbiFlCTeA/CxDZjw1s8hQgQeiNZSiSszVdW2Pc=
+X-Google-Smtp-Source: APiQypLSyuUTytxsXXPtyp7mT+L+5KiKnDoKOEIkQL0/+1yE1O9CRMFs2FEdmkhLPCsiwvrUHofEAdC0RRVAmCjPfPE=
+X-Received: by 2002:a0c:c190:: with SMTP id n16mr9990733qvh.107.1587534713900; 
+ Tue, 21 Apr 2020 22:51:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a268d606-b387-beeb-362f-07ae89a23ce7@samsung.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUhTYRTHeXbv7q7S6rZKD6NsXupDkrqrzm6SFiRiZCD0oTJwXtzNyV7Z
- 3aRZiGGZqJnLjLnQRu8YlUmJGhWZOCuzxGJqqGRG2ZtlGZFFbV4lv/3Oef7nnOf/PIfEFLWE
- ksw323mbmTPSRCje8mCdOvpE95lsdfclKTt0rVfK3nBfl7LPpycJ1v30roS92jksY901E8QW
- In20widJr7rZiNK/NUdkYlmGTXqe0/E2FW/OtejyzXnJ9Pad2q1aTaKaiWY2shtolZkz8cl0
- akZmdFq+MTCXVhVwRkcglckJAh2bsslmcdh5ld4i2JNp3qozWjdaYwTOJDjMeTG5FlMSo1bH
- aQLCHIO+qaIPWZvp/R/7/2LFqEJZjkJIoBKgpbQTK0ehpIJqRTBT5sPFYApBg/+FVAx+IGj5
- cEU6XzLy9pRMPLiDYPjj2OyBgppEMO1TlSOSXEblQPft9cE0Qa0F1+VRIsjLKQfU/+2SBRmj
- jiK46tMGWU6lwLvK8lkNHtD3vPyOB9usoHbD42lOlCyFh3XjeJBDqM3Q09WPi23CYWj8jETk
- 1VBy6/SsG6B6CJj6VT1351S42Do2x8vgve+mTGQlTBwvlYkFJQhc7scSMSgLGHvtx0VVPNy7
- UCMJ3gij1sH19lgxHQltM/VInLwYPk9XSoMSoORQVqoQJTR09Q0gkQGenXcRIqfD/doqvBpF
- ehZ48yzw41ngx/N/sBfhjSiMtwqmPF5grHELP7sZza5kVGIrOtub0YEoEtGL5ANPG7IVUq5A
- cJo6EJAYvVze9CqQkus4ZyFvs2htDiMvdCBN4OVdmHJFriWw4Ga7ltHExcfHswlMooZh6HB5
- rd+YraDyODtv4Hkrb5uvk5AhymJ01Fs80XWk6NDDw5Ps75gZ2YGUpM4U5EobZM/tCCkoXOWv
- Hx9xHrQUvlP3Ot2574umvMcMEeFvCvxffXs6lFUnw5r/xD7x+EYjf8bsqyvF2rfpyAb9J1Bl
- DYb9qRxasmuvd7Tt0Rqv4c7BpO7hmhJmbVvWG+fK+sbhL8kyuFX0gMYFPcdEYTaB+wfWALJA
- qAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKLMWRmVeSWpSXmKPExsWy7bCSvO7EE/PjDHbOlbW4te4cq8XGGetZ
- La58fc9mMeP8PiaLtUfuslvMmPySzYHN4373cSaPvi2rGD0+b5ILYI7isklJzcksSy3St0vg
- ytjQfZGxYJNSxZvL/5kbGLuluhg5OSQETCTuPZ/G3sXIxSEksJtR4sPcJ6xdjBxACQmJLVs5
- IExhicOHiyFK3jJKfNmwhBmkV1ggQWLyqVuMIDabgKrExBX32UBsEYFSiVf99xlBGpgF2hkl
- juzrgFrwiEniw6atrCBVvAJ2Ei96usA6WIC6z9z+wgJiiwpESDzffoMRokZQ4uTMJ2BxTgF7
- iTPHLoPZzALqEn/mXWKGsMUlbj2ZzwRhy0s0b53NPIFRaBaS9llIWmYhaZmFpGUBI8sqRsnU
- guLc9NxiwwLDvNRyveLE3OLSvHS95PzcTYzgyNDS3MF4eUn8IUYBDkYlHt4b5+fFCbEmlhVX
- 5h5ilOBgVhLh3fAQKMSbklhZlVqUH19UmpNafIhRmoNFSZz3ad6xSCGB9MSS1OzU1ILUIpgs
- EwenVAMjzyZ9+769bmy8/yZlr6jd0JabarbHvKFVR6B7BnvvTvZgqdllgbcVuh32z/1iN+Xi
- 3diHjbYfxC4f28h6NyM2+33cLdUZ9V01R+1eCUZoT8i0rCnaNeHRX8NTP3bUPD6l+/Hh7F23
- NA9ERMoKndg2l3HO1zkO3/ZMWi564fiSmQ83vOD7U23XpMRSnJFoqMVcVJwIAIBLwV+IAgAA
-X-CMS-MailID: 20200422043113epcas1p3855ddbbca01634d55fd6df12fd9cee9d
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200407134314eucas1p1bfe654163e093db30c4a31bd9e1ccada
-References: <20200407134256.9129-1-m.szyprowski@samsung.com>
- <CGME20200407134314eucas1p1bfe654163e093db30c4a31bd9e1ccada@eucas1p1.samsung.com>
- <20200407134256.9129-3-m.szyprowski@samsung.com>
- <92cffe01-7a14-8fbd-90a3-dc171884c26d@samsung.com>
- <40285486-be0a-1e7b-6fd9-2c821bd537f9@samsung.com>
- <a268d606-b387-beeb-362f-07ae89a23ce7@samsung.com>
+References: <20200421133551.31481-1-yuq825@gmail.com>
+In-Reply-To: <20200421133551.31481-1-yuq825@gmail.com>
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+Date: Tue, 21 Apr 2020 22:51:27 -0700
+Message-ID: <CA+E=qVeokdECv-bmw1Nsne88xV53W-xGzL22mRs2zy301is77g@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] drm/lima: add suspend/resume support
+To: Qiang Yu <yuq825@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,89 +60,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <a.hajda@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: lima@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Bhushan Shah <bshah@kde.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Andreas Baierl <ichgeh@imkreisrum.de>, Erico Nunes <nunes.erico@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgoyMC4gNC4gMjIuIOyYpO2bhCAxMjozN+yXkCBJbmtpIERhZSDsnbQo6rCAKSDsk7Qg6riAOgo+
-IEhpIE1hcmVrLAo+IAo+IDIwLiA0LiAyMS4g7Jik7ZuEIDU6MDnsl5AgTWFyZWsgU3p5cHJvd3Nr
-aSDsnbQo6rCAKSDsk7Qg6riAOgo+PiBIaSBJbmtpLAo+Pgo+PiBPbiAyMS4wNC4yMDIwIDA5OjM4
-LCBJbmtpIERhZSB3cm90ZToKPj4+IDIwLiA0LiA3LiDsmKTtm4QgMTA6NDLsl5AgTWFyZWsgU3p5
-cHJvd3NraSDsnbQo6rCAKSDsk7Qg6riAOgo+Pj4+IEV4cGxpY2l0bHkgY2hlY2sgaWYgdGhlIGlt
-cG9ydGVkIGJ1ZmZlciBoYXMgYmVlbiBtYXBwZWQgYXMgY29udGlndW91cyBpbgo+Pj4+IHRoZSBE
-TUEgYWRkcmVzcyBzcGFjZSwgd2hhdCBpcyByZXF1aXJlZCBieSBhbGwgRXh5bm9zIERSTSBDUlRD
-IGRyaXZlcnMuCj4+Pj4gV2hpbGUgdG91Y2hpbmcgdGhpcywgc2V0IGJ1ZmZlciBmbGFncyBkZXBl
-bmRpbmcgb24gdGhlIGF2YWlsYWJpbGl0eSBvZgo+Pj4+IHRoZSBJT01NVS4KPj4+Pgo+Pj4+IFNp
-Z25lZC1vZmYtYnk6IE1hcmVrIFN6eXByb3dza2kgPG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbT4K
-Pj4+PiAtLS0KPj4+PiAgIGRyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9nZW0uYyB8
-IDM2ICsrKysrKysrKysrKysrKysrLS0tLS0tLS0KPj4+PiAgIDEgZmlsZSBjaGFuZ2VkLCAyNSBp
-bnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkKPj4+Pgo+Pj4+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXh5
-bm9zL2V4eW5vc19kcm1fZ2VtLmMKPj4+PiBpbmRleCA0MDUxNGQzZGNmNjAuLjlkNGU0ZDMyMWJk
-YSAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZ2Vt
-LmMKPj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZ2VtLmMKPj4+
-PiBAQCAtNDU4LDYgKzQ1OCwyMyBAQCBleHlub3NfZHJtX2dlbV9wcmltZV9pbXBvcnRfc2dfdGFi
-bGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPj4+PiAgIAlpbnQgbnBhZ2VzOwo+Pj4+ICAgCWlu
-dCByZXQ7Cj4+Pj4gICAKPj4+IChPcHRpb25hbCkgY291bGQgeW91IGxlYXZlIG9uZSBjb21tZW50
-IGhlcmU/Cj4+PiBpLmUuLCAvKiBDaGVjayBpZiBETUEgbWVtb3J5IHJlZ2lvbiBmcm9tIGEgZXhw
-b3J0ZXIgYXJlIG1hcHBlZCBjb250aWd1b3VzbHkgb3Igbm90LiAqLwo+Pgo+PiBPa2F5Lgo+Pgo+
-Pj4+ICsJaWYgKHNndC0+bmVudHMgIT0gMSkgewo+Pj4gSG93IGFib3V0IHVzaW5nIGJlbG93IGNv
-bmRpdGlvbiBpbnN0ZWFkPwo+Pj4gaWYgKHNndC0+bmVudHMgPiAwKSB7Cj4+Cj4+IFRoaXMgaXMg
-bm90IHRoZSBzYW1lLiBNeSBjaGVjayBmb3IgIT0gMSBpcyBpbnRlbmRlZC4gQ2hlY2tpbmcgY29u
-dGlndWl0eSAKPj4gb2YgdGhlIHNjYXR0ZXJsaXN0IGlmIGl0IGhhcyBvbmx5IDEgZWxlbWVudCBk
-b2Vzbid0IGhhdmUgbXVjaCBzZW5zZS4KPiAKPiBPb3BzIHNvcnJ5LiBNeSBpbnRlbnRpb24gd2Fz
-ICdpZiAoc2d0LT5uZW50cyA+IDEpJyBiZWNhdXNlIGlmIChzZ3QtPm5lbnRzICE9IDEpIGFsbG93
-cwo+IC0gc2d0LT5uZW50cyA8IDEKPiAtIHNndC0+bmVudHMgPiAxCj4gCj4gSSB0aGluayB0aGUg
-Y2hlY2tpbmcgd291bGQgYmUgdmFsaWQgb25seSBpbiBjYXNlIG9mIGhhdmluZyBtdWx0aXBsZSBl
-bnRyaWVzIC0gc2d0LT5uZW50cyA+IDEuCj4gCj4gVGhhbmtzLAo+IElua2kgRGFlCj4gCj4+Cj4+
-Pj4gKwkJZG1hX2FkZHJfdCBuZXh0X2FkZHIgPSBzZ19kbWFfYWRkcmVzcyhzZ3QtPnNnbCk7Cj4+
-Pj4gKwkJc3RydWN0IHNjYXR0ZXJsaXN0ICpzOwo+Pj4+ICsJCXVuc2lnbmVkIGludCBpOwo+Pj4+
-ICsKPj4+PiArCQlmb3JfZWFjaF9zZyhzZ3QtPnNnbCwgcywgc2d0LT5uZW50cywgaSkgewo+Pj4+
-ICsJCQlpZiAoIXNnX2RtYV9sZW4ocykpCj4+Pj4gKwkJCQljb250aW51ZTsKPj4+IElzbid0IGl0
-IGFuIGVycm9yIGNhc2UgaWYgc2dfZG1hX2xlbihzKSBpcyAwPyBJIHRoaW5rIGxlbmd0aCBvZiBz
-IGlzIDAgdGhlbiBpdCB3b3VsZCBiZSBpbnZhbGlkIGJlY2F1c2UgYWxsIGVudHJpZXMgb2Ygc2d0
-IHNob3VsZCBiZSBtYXBwZWQgYmVmb3JlIHNnX2RtYV9sZW4oKSBpcyBjYWxsZWQuCj4+Cj4+IFdl
-bGwsIGl0IGlzIGEgZ3JleSBhcmVhLiBTb21lIGNvZGUgaW5jb3JyZWN0bHkgc2V0cyBuZW50cyBh
-cyBvcmlnX25lbnRzLCAKPj4gdGh1cyB0aGlzIHZlcnNpb24gaXMgc2ltcGx5IHNhZmUgZm9yIGJv
-dGggYXBwcm9hY2hlcy4gc2cgZW50cmllcyB1bnVzZWQgCj4+IGZvciBETUEgY2h1bmtzIGhhdmUg
-c2dfZG1hX2xlbigpID09IDAuCj4+Cj4+IFRoZSBhYm92ZSBjaGVjayBpcyBtb3JlIG9yIGxlc3Mg
-Y29waWVkIGZyb20gCj4+IGRybV9nZW1fY21hX3ByaW1lX2ltcG9ydF9zZ190YWJsZSgpIChkcml2
-ZXJzL2dwdS9kcm0vZHJtX2dlbV9jbWFfaGVscGVyLmMpLgoKSSBsb29rZWQgaW50byBhYm92ZSBv
-cmlnaW5hbCBjb2RlIGJ1dCBpdCBzZWVtcyB0aGF0IGl0IGFsbG93cyBzZ3QtPm5lbnRzIHRvIGhh
-dmUgbmVnYXRpdmUgdmFsdWUsICdzZ3QtPm5lbnRzIDwgMScsIHdoaWNoIGNvdWxkIGluY3VyIHNv
-bWUgYnVncy4KU28gSSB0aGluayB0aGUgb3JpZ2luYWwgY29kZSBjYW4gYmUgZml4ZWQgbGlrZSBi
-ZWxvdywKCWlmIChzZ3QtPm5lbnRzID4gMSkgeyAgLy8gPC0gaGVyZQoJCS8qIGNoZWNrIGlmIHRo
-ZSBlbnRyaWVzIGluIHRoZSBzZ190YWJsZSBhcmUgY29udGlndW91cyAqLwoJCWRtYV9hZGRyX3Qg
-bmV4dF9hZGRyID0gc2dfZG1hX2FkZHJlc3Moc2d0LT5zZ2wpOwoJCXN0cnVjdCBzY2F0dGVybGlz
-dCAqczsKCQl1bnNpZ25lZCBpbnQgaTsKCgkJZm9yX2VhY2hfc2coc2d0LT5zZ2wsIHMsIHNndC0+
-bmVudHMsIGkpIHsKCQkJLyoKCQkJICogc2dfZG1hX2FkZHJlc3MocykgaXMgb25seSB2YWxpZCBm
-b3IgZW50cmllcwoJCQkgKiB0aGF0IGhhdmUgc2dfZG1hX2xlbihzKSA+IDAgLy8gPC0gaGVyZQoJ
-CQkgKi8KCQkJaWYgKCFzZ19kbWFfbGVuKHMpKQoJCQkJY29udGludWU7CgoJCQlpZiAoc2dfZG1h
-X2FkZHJlc3MocykgIT0gbmV4dF9hZGRyKQoJCQkJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7CgoJ
-CQluZXh0X2FkZHIgPSBzZ19kbWFfYWRkcmVzcyhzKSArIHNnX2RtYV9sZW4ocyk7CgkJfQoJfQoK
-U28gaWYgeW91IGFncmVlIHdpdGggbWUgdGhlbiB3ZSBkb24ndCBoYXZlIHRvIGNvcHkgYW5kIHBh
-c3RlIHRoaXMgY29kZSBhcy1pcy4KClJlZ2FyZGluZyAnaWYgKCFzZ19kbWFfbGVuKHMpKScgY29u
-ZGl0aW9uIGhlcmUsIEknbSBub3QgY2xlYXIgd2hldGhlciB3ZSBhcmUgdXNpbmcgaXQgY29ycmVj
-dGx5IGJlY2F1c2Ugc2NhdHRlcmxpc3QuaCBoZWFkZXIgZGVzY3JpcHRpb24gc2F5cywKLyogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAKICogVGhlc2UgbWFjcm9zIHNob3VsZCBiZSB1c2VkIGFmdGVyIGEg
-ZG1hX21hcF9zZyBjYWxsIGhhcyBiZWVuIGRvbmUgICAgICAgICAgICAKICogdG8gZ2V0IGJ1cyBh
-ZGRyZXNzZXMgb2YgZWFjaCBvZiB0aGUgU0cgZW50cmllcyBhbmQgdGhlaXIgbGVuZ3Rocy4gICAg
-ICAgICAgICAKICogWW91IHNob3VsZCBvbmx5IHdvcmsgd2l0aCB0aGUgbnVtYmVyIG9mIHNnIGVu
-dHJpZXMgZG1hX21hcF9zZyAgICAgICAgICAgICAgICAKICogcmV0dXJucywgb3IgYWx0ZXJuYXRp
-dmVseSBzdG9wIG9uIHRoZSBmaXJzdCBzZ19kbWFfbGVuKHNnKSB3aGljaCAgICAgICAgICAgICAK
-ICogaXMgMC4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAKICovICAgICAgCgpBY2NvcmRpbmcgdG8gYWJvdmUgZGVz
-Y3JpcHRpb24sIHNnX2RtYV9sZW4oKSBzaG91bGQgYmUgY2FsbGVkIGFmdGVyIGRtYV9tYXBfc2co
-KSBjYWxsLiBFdmVuIGl0IHNheXMgdG8gc3RvcCBvbiB0aGUgZmlyc3Qgc2dfZG1hX2xlbihzZykg
-d2hpY2ggaXMgMC4KQW5kIHdlIGNvdWxkIGF2b2lkIHRoZSBjaGVja2luZyBmdW5jdGlvbiBjb2Rl
-IGZyb20gYmVpbmcgZHVwbGljYXRlZCBieSBpbnRyb2R1Y2luZyBvbmUgZnVuY3Rpb24gd2hpY2gg
-Y2hlY2tzIGlmIHRoZSBlbnRyaWVzIGluIHRoZSBzZ190YWJsZSBhcmUgY29udGlndW91cyBvciBu
-b3QgYXMgYSBzZXBhcmF0ZSBwYXRjaCBsYXRlci4KClRoYW5rcywKSW5raSBEYWUKCj4+Cj4+IEJl
-c3QgcmVnYXJkcwo+Pgo+IAo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwK
+On Tue, Apr 21, 2020 at 6:37 AM Qiang Yu <yuq825@gmail.com> wrote:
+>
+> Suspend need to wait running jobs finish and put hardware in
+> poweroff state. Resume need to re-init hardware.
+>
+> v2:
+> 1. add misc patches to prepare enable runtime pm
+> 2. fix pmu command wait time out on mali400 gpu
+> 3. do power and clock gating when suspend
+> 4. do runtime pm
+>
+> Qiang Yu (10):
+>   drm/lima: use module_platform_driver helper
+>   drm/lima: print process name and pid when task error
+>   drm/lima: check vm != NULL in lima_vm_put
+>   drm/lima: always set page directory when switch vm
+>   drm/lima: add lima_devfreq_resume/suspend
+>   drm/lima: power down ip blocks when pmu exit
+>   drm/lima: add resume/suspend callback for each ip
+>   drm/lima: seperate clk/regulator enable/disable function
+
+s/seperate/separate
+
+I guess you can fix it before merging into drm-misc-next, no need to
+respin whole patchset
+
+>   drm/lima: add pm resume/suspend ops
+>   drm/lima: enable runtime pm
+
+Besides that, series is:
+
+Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
+
+>  drivers/gpu/drm/lima/lima_bcast.c    |  25 +++-
+>  drivers/gpu/drm/lima/lima_bcast.h    |   2 +
+>  drivers/gpu/drm/lima/lima_devfreq.c  |  24 ++++
+>  drivers/gpu/drm/lima/lima_devfreq.h  |   3 +
+>  drivers/gpu/drm/lima/lima_device.c   | 199 ++++++++++++++++++++++-----
+>  drivers/gpu/drm/lima/lima_device.h   |   5 +
+>  drivers/gpu/drm/lima/lima_dlbu.c     |  17 ++-
+>  drivers/gpu/drm/lima/lima_dlbu.h     |   2 +
+>  drivers/gpu/drm/lima/lima_drv.c      |  40 +++---
+>  drivers/gpu/drm/lima/lima_gp.c       |  21 ++-
+>  drivers/gpu/drm/lima/lima_gp.h       |   2 +
+>  drivers/gpu/drm/lima/lima_l2_cache.c |  37 +++--
+>  drivers/gpu/drm/lima/lima_l2_cache.h |   2 +
+>  drivers/gpu/drm/lima/lima_mmu.c      |  48 +++++--
+>  drivers/gpu/drm/lima/lima_mmu.h      |   2 +
+>  drivers/gpu/drm/lima/lima_pmu.c      |  77 ++++++++++-
+>  drivers/gpu/drm/lima/lima_pmu.h      |   2 +
+>  drivers/gpu/drm/lima/lima_pp.c       |  31 ++++-
+>  drivers/gpu/drm/lima/lima_pp.h       |   4 +
+>  drivers/gpu/drm/lima/lima_sched.c    |  63 ++++++---
+>  drivers/gpu/drm/lima/lima_vm.h       |   3 +-
+>  21 files changed, 496 insertions(+), 113 deletions(-)
+>
+> --
+> 2.17.1
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
