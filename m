@@ -2,53 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC3D1B4E04
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 22:10:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D111B55CB
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 09:37:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D6CF6E0FA;
-	Wed, 22 Apr 2020 20:10:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 822CB6E25C;
+	Thu, 23 Apr 2020 07:36:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 289BF6E0A5;
- Wed, 22 Apr 2020 20:10:37 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id b11so4079390wrs.6;
- Wed, 22 Apr 2020 13:10:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EYPgCi27/F4VFJ0fVbYclymxsaTwLLVyxkWf2iEDCjA=;
- b=P08swTQtVS6HPrdNN30bYAKa9o8FsGmOzgIcxi9sV6RXkMXq6A9NqGvXaf2dpCE7ud
- EO5vAWIPPrkXpy8l5IgcRXkJIVhfgr9YeNKAckhJjuuFDFB9lDgZ2VwQVWpWTeBT+bDX
- 73niYrDHAv8FdgxOT3lKOlPRwtYlyCwqqirchRTHGjqxSEBlpxk+puV20SjvF5hhA771
- 9hAwWIIgWzUAsZf1lVWRz2+uifUALLwtXjfnetlmG7P+a4IkCJqYy4BDQHYGebOHmRxk
- jLoJd0JrZ0F/i6BciboDCYz7VqYvdeTylhNISEANfkpOzdYHtKo7SxvbN1Ad2E9IXQw7
- fTBQ==
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B79E6E064
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 21:07:16 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id o10so1721848pgb.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 14:07:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=yYFgm6k+SKz3ejYj+FYyDA7g39gAXfrn+kXnE9ATOmU=;
+ b=WnuOsK8R6ZcVNEH9RpDrL19IbsTKzx70PWR1cPT3mt/v2D5lrZ/sZAT7i11g4LxQyM
+ tEc5rzj5dmkRNFX0AzYwfg7kBEQt6G5pQJi5LC91dNX2GL6Ytpeohz8de5n0j20nOSbB
+ gaq98qoI0gc0RLhzhG+O//dnBphWj6EkcUcdY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EYPgCi27/F4VFJ0fVbYclymxsaTwLLVyxkWf2iEDCjA=;
- b=mh+uREXM0mJVLIh7kppk7Ozg6+VteUJpZDZoZPnaW+jSjxKgpxnPnqyR3X47bHRME2
- IY97Jwln2c6P9k9SbVQX2aKWUyVdAzwY92kQwHoXUi8JCADfhAPvpU8E9yMiLND+lkbN
- 2b1PA/T4D2dH/Gz7Y0VDgyeV+TGpiFbjOEqPef3DKPUvx9MdEnPGgJzVXO01nOvPQpjU
- KsLAbd8qlA1kLngtKCE6DDaZHYCQjPHrnBPhPb+kNN+QLd1TLd2vxBZieklYVDPJcm3M
- D1SuNd4X5KeFD+pCzkN45StOrqNjdlVb9lBHQr2f+GySDcfcC+VtNZcB0AL9AjGtKLzr
- APsw==
-X-Gm-Message-State: AGi0PuaaIFcjIj7w05y+Lmynya9PGLJjmvEbEgzbcBaJhtb7hRyaqZzQ
- WYvIMbMu6ooCIz1Qf3dXpvWeY7GyLE7qsCw9n+o=
-X-Google-Smtp-Source: APiQypKAx7mjSk6h51s0V+wPHbMKWtlL1uikOzw0j4g8Kmzhi77TJWhfyxDqjiibfPdnac3YdwiuiYirc/HR7q+c46Q=
-X-Received: by 2002:adf:fe45:: with SMTP id m5mr915243wrs.124.1587586235645;
- Wed, 22 Apr 2020 13:10:35 -0700 (PDT)
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=yYFgm6k+SKz3ejYj+FYyDA7g39gAXfrn+kXnE9ATOmU=;
+ b=TlAk1rZZiVc9X2T/ycNAZHUq+k6fm6d2Y5vOLLt45RPJYNbAYSLEKxJBYZzPu3XTXh
+ iMCFg1zrzgamjENxrP3p84DatptNZw3fG/RH8bSi5fEZMRdxhf4mm5wkleMFea7rVPwh
+ 8i9mWDHrB9xCeEK17+CfUI9aenX8T7O98rU+f9cf/98WjnTwKGGNSG5am/s7AHLDxTJw
+ qZHY12h+CXJIp25nSjSjgu/hAvU2mmE0dSEc/8j0j71eHCB10QXyDZxKL7tCXP7vZTdI
+ OXJBdjU9MYQgTbkqhyLBbmQsMpNvyuBvKXOSfFZ6pr1QJWa3wws4m//lLXIbY6h5TUjT
+ rIlg==
+X-Gm-Message-State: AGi0PuawlaKI1LMket3qskq5PGvNfOg95R1KoZ9AtOZIkgzdLHcUYg3/
+ OLFlel8rywtxhXdrMZ3DyMFGhA==
+X-Google-Smtp-Source: APiQypLCjp0MO+pB/OKNlDsxnnqLf9QDC9zcE5mnr5BitNxIRpRJvo6QBMrvhjpg03twkwQtwXmq8Q==
+X-Received: by 2002:a63:f703:: with SMTP id x3mr920352pgh.11.1587589635649;
+ Wed, 22 Apr 2020 14:07:15 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+ by smtp.gmail.com with ESMTPSA id nm22sm144879pjb.38.2020.04.22.14.07.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Apr 2020 14:07:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <1888197.j9z7NJ8yPn@kreacher> <5673945.BT02kTCndr@kreacher>
- <2011970.oZpq0QmfcQ@kreacher>
-In-Reply-To: <2011970.oZpq0QmfcQ@kreacher>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 22 Apr 2020 16:10:24 -0400
-Message-ID: <CADnq5_Nm1mzdwb3iSQWwSj-8dUfbT7U1vf51yPMrtuSCvq+JLg@mail.gmail.com>
-Subject: Re: [PATCH v2 7/9] PM: sleep: core: Rename DPM_FLAG_NEVER_SKIP
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+In-Reply-To: <CAD=FV=WJONhm4ukwZa2vGtozrz_SmLuTCLxVimnGba7wRPPzgQ@mail.gmail.com>
+References: <20200421050622.8113-1-dianders@chromium.org>
+ <20200420220458.v2.1.Ia50267a5549392af8b37e67092ca653a59c95886@changeid>
+ <158755100643.159702.17904334834962681759@swboyd.mtv.corp.google.com>
+ <CAD=FV=WJONhm4ukwZa2vGtozrz_SmLuTCLxVimnGba7wRPPzgQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] drm/bridge: ti-sn65dsi86: Export bridge GPIOs to
+ Linux
+From: Stephen Boyd <swboyd@chromium.org>
+To: Doug Anderson <dianders@chromium.org>
+Date: Wed, 22 Apr 2020 14:07:13 -0700
+Message-ID: <158758963395.230545.16210525372433383386@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
+X-Mailman-Approved-At: Thu, 23 Apr 2020 07:36:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,270 +69,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI-devel <dri-devel@lists.freedesktop.org>,
- Hans De Goede <hdegoede@redhat.com>, Alan Stern <stern@rowland.harvard.edu>,
- Linux PCI <linux-pci@vger.kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
- intel-wired-lan@lists.osuosl.org,
- Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ bgolaszewski@baylibre.com, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, Sandeep Panda <spanda@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ GPIO SUBSYSTEM <linux-gpio@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 18, 2020 at 1:11 PM Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
->
-> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
->
-> Rename DPM_FLAG_NEVER_SKIP to DPM_FLAG_NO_DIRECT_COMPLETE which
-> matches its purpose more closely.
->
-> No functional impact.
->
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com> # for PCI parts
-> Acked-by: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+Quoting Doug Anderson (2020-04-22 09:09:17)
+> Hi,
+> 
+> On Wed, Apr 22, 2020 at 3:23 AM Stephen Boyd <swboyd@chromium.org> wrote:
+> >
+> > Quoting Douglas Anderson (2020-04-20 22:06:17)
+> >
+> > > Changes in v2:
+> > > - ("Export...GPIOs") is 1/2 of replacement for ("Allow...bridge GPIOs")
+> > >
+> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 165 ++++++++++++++++++++++++++
+> > >  1 file changed, 165 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > index 6ad688b320ae..d04c2b83d699 100644
+> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > @@ -874,6 +886,153 @@ static int ti_sn_bridge_parse_dsi_host(struct ti_sn_bridge *pdata)
+> > >         return 0;
+> > >  }
+> > >
+> > > +static struct ti_sn_bridge *gchip_to_pdata(struct gpio_chip *chip)
+> > > +{
+> > > +       return container_of(chip, struct ti_sn_bridge, gchip);
+> > > +}
+> > > +
+> > > +static int ti_sn_bridge_gpio_get_direction(struct gpio_chip *chip,
+> > > +                                          unsigned int offset)
+> > > +{
+> > > +       struct ti_sn_bridge *pdata = gchip_to_pdata(chip);
+> > > +
+> > > +       return (atomic_read(&pdata->gchip_output) & BIT(offset)) ?
+> >
+> > Any reason this isn't a bitmap?
+> 
+> Don't bitmaps need an external lock to protect against concurrent
+> access? 
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-for radeon and amdgpu
+Bitmaps are sometimes atomic. See Documentation/atomic_bitops.txt for
+more info. From what I see here it looks like we can have a bitmap for
+this and then use set_bit(), test_and_set_bit(), etc. and it will be the
+same and easier to read.
 
-Alex
+> When I looked I wasn't convinced that the GPIO subsystem
+> prevented two callers from changing two GPIOs at the same time.  See
+> below for a bigger discussion.
+> 
+> 
+> > > +               GPIOF_DIR_OUT : GPIOF_DIR_IN;
+> >
+> > And why can't we read the hardware to figure out if it's in output or
+> > input mode?
+> 
+[...]
+> 
+> In the next version of the patch I'll plan to add a kerneldoc comment
+> to "struct ti_sn_bridge" and add a summary of the above for
+> "gchip_output".
 
-> ---
->
-> -> v2:
->    * Rebased.
->    * Added tags received so far.
->
-> ---
->  Documentation/driver-api/pm/devices.rst    |  6 +++---
->  Documentation/power/pci.rst                | 10 +++++-----
->  drivers/base/power/main.c                  |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    |  2 +-
->  drivers/gpu/drm/i915/intel_runtime_pm.c    |  2 +-
->  drivers/gpu/drm/radeon/radeon_kms.c        |  2 +-
->  drivers/misc/mei/pci-me.c                  |  2 +-
->  drivers/misc/mei/pci-txe.c                 |  2 +-
->  drivers/net/ethernet/intel/e1000e/netdev.c |  2 +-
->  drivers/net/ethernet/intel/igb/igb_main.c  |  2 +-
->  drivers/net/ethernet/intel/igc/igc_main.c  |  2 +-
->  drivers/pci/pcie/portdrv_pci.c             |  2 +-
->  include/linux/pm.h                         |  6 +++---
->  13 files changed, 21 insertions(+), 21 deletions(-)
->
-> diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
-> index f66c7b9126ea..4ace0eba4506 100644
-> --- a/Documentation/driver-api/pm/devices.rst
-> +++ b/Documentation/driver-api/pm/devices.rst
-> @@ -361,9 +361,9 @@ the phases are: ``prepare``, ``suspend``, ``suspend_late``, ``suspend_noirq``.
->         runtime PM disabled.
->
->         This feature also can be controlled by device drivers by using the
-> -       ``DPM_FLAG_NEVER_SKIP`` and ``DPM_FLAG_SMART_PREPARE`` driver power
-> -       management flags.  [Typically, they are set at the time the driver is
-> -       probed against the device in question by passing them to the
-> +       ``DPM_FLAG_NO_DIRECT_COMPLETE`` and ``DPM_FLAG_SMART_PREPARE`` driver
-> +       power management flags.  [Typically, they are set at the time the driver
-> +       is probed against the device in question by passing them to the
->         :c:func:`dev_pm_set_driver_flags` helper function.]  If the first of
->         these flags is set, the PM core will not apply the direct-complete
->         procedure described above to the given device and, consequenty, to any
-> diff --git a/Documentation/power/pci.rst b/Documentation/power/pci.rst
-> index aa1c7fce6cd0..9e1408121bea 100644
-> --- a/Documentation/power/pci.rst
-> +++ b/Documentation/power/pci.rst
-> @@ -1004,11 +1004,11 @@ including the PCI bus type.  The flags should be set once at the driver probe
->  time with the help of the dev_pm_set_driver_flags() function and they should not
->  be updated directly afterwards.
->
-> -The DPM_FLAG_NEVER_SKIP flag prevents the PM core from using the direct-complete
-> -mechanism allowing device suspend/resume callbacks to be skipped if the device
-> -is in runtime suspend when the system suspend starts.  That also affects all of
-> -the ancestors of the device, so this flag should only be used if absolutely
-> -necessary.
-> +The DPM_FLAG_NO_DIRECT_COMPLETE flag prevents the PM core from using the
-> +direct-complete mechanism allowing device suspend/resume callbacks to be skipped
-> +if the device is in runtime suspend when the system suspend starts.  That also
-> +affects all of the ancestors of the device, so this flag should only be used if
-> +absolutely necessary.
->
->  The DPM_FLAG_SMART_PREPARE flag instructs the PCI bus type to only return a
->  positive value from pci_pm_prepare() if the ->prepare callback provided by the
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index 3170d93e29f9..dbc1e5e7346b 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -1844,7 +1844,7 @@ static int device_prepare(struct device *dev, pm_message_t state)
->         spin_lock_irq(&dev->power.lock);
->         dev->power.direct_complete = state.event == PM_EVENT_SUSPEND &&
->                 (ret > 0 || dev->power.no_pm_callbacks) &&
-> -               !dev_pm_test_driver_flags(dev, DPM_FLAG_NEVER_SKIP);
-> +               !dev_pm_test_driver_flags(dev, DPM_FLAG_NO_DIRECT_COMPLETE);
->         spin_unlock_irq(&dev->power.lock);
->         return 0;
->  }
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> index fd1dc3236eca..a9086ea1ab60 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> @@ -191,7 +191,7 @@ int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
->         }
->
->         if (adev->runpm) {
-> -               dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
-> +               dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
->                 pm_runtime_use_autosuspend(dev->dev);
->                 pm_runtime_set_autosuspend_delay(dev->dev, 5000);
->                 pm_runtime_set_active(dev->dev);
-> diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
-> index ad719c9602af..9cb2d7548daa 100644
-> --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-> @@ -549,7 +549,7 @@ void intel_runtime_pm_enable(struct intel_runtime_pm *rpm)
->          * becaue the HDA driver may require us to enable the audio power
->          * domain during system suspend.
->          */
-> -       dev_pm_set_driver_flags(kdev, DPM_FLAG_NEVER_SKIP);
-> +       dev_pm_set_driver_flags(kdev, DPM_FLAG_NO_DIRECT_COMPLETE);
->
->         pm_runtime_set_autosuspend_delay(kdev, 10000); /* 10s */
->         pm_runtime_mark_last_busy(kdev);
-> diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
-> index 58176db85952..372962358a18 100644
-> --- a/drivers/gpu/drm/radeon/radeon_kms.c
-> +++ b/drivers/gpu/drm/radeon/radeon_kms.c
-> @@ -158,7 +158,7 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
->         }
->
->         if (radeon_is_px(dev)) {
-> -               dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
-> +               dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
->                 pm_runtime_use_autosuspend(dev->dev);
->                 pm_runtime_set_autosuspend_delay(dev->dev, 5000);
->                 pm_runtime_set_active(dev->dev);
-> diff --git a/drivers/misc/mei/pci-me.c b/drivers/misc/mei/pci-me.c
-> index 3d21c38e2dbb..53f16f3bd091 100644
-> --- a/drivers/misc/mei/pci-me.c
-> +++ b/drivers/misc/mei/pci-me.c
-> @@ -240,7 +240,7 @@ static int mei_me_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->          * MEI requires to resume from runtime suspend mode
->          * in order to perform link reset flow upon system suspend.
->          */
-> -       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
-> +       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
->
->         /*
->          * ME maps runtime suspend/resume to D0i states,
-> diff --git a/drivers/misc/mei/pci-txe.c b/drivers/misc/mei/pci-txe.c
-> index beacf2a2f2b5..4bf26ce61044 100644
-> --- a/drivers/misc/mei/pci-txe.c
-> +++ b/drivers/misc/mei/pci-txe.c
-> @@ -128,7 +128,7 @@ static int mei_txe_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->          * MEI requires to resume from runtime suspend mode
->          * in order to perform link reset flow upon system suspend.
->          */
-> -       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
-> +       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
->
->         /*
->          * TXE maps runtime suspend/resume to own power gating states,
-> diff --git a/drivers/net/ethernet/intel/e1000e/netdev.c b/drivers/net/ethernet/intel/e1000e/netdev.c
-> index 177c6da80c57..2730b1c7dddb 100644
-> --- a/drivers/net/ethernet/intel/e1000e/netdev.c
-> +++ b/drivers/net/ethernet/intel/e1000e/netdev.c
-> @@ -7549,7 +7549,7 @@ static int e1000_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->
->         e1000_print_device_info(adapter);
->
-> -       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
-> +       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
->
->         if (pci_dev_run_wake(pdev) && hw->mac.type < e1000_pch_cnp)
->                 pm_runtime_put_noidle(&pdev->dev);
-> diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
-> index b46bff8fe056..8bb3db2cbd41 100644
-> --- a/drivers/net/ethernet/intel/igb/igb_main.c
-> +++ b/drivers/net/ethernet/intel/igb/igb_main.c
-> @@ -3445,7 +3445,7 @@ static int igb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->                 }
->         }
->
-> -       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
-> +       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
->
->         pm_runtime_put_noidle(&pdev->dev);
->         return 0;
-> diff --git a/drivers/net/ethernet/intel/igc/igc_main.c b/drivers/net/ethernet/intel/igc/igc_main.c
-> index 69fa1ce1f927..59fc0097438f 100644
-> --- a/drivers/net/ethernet/intel/igc/igc_main.c
-> +++ b/drivers/net/ethernet/intel/igc/igc_main.c
-> @@ -4825,7 +4825,7 @@ static int igc_probe(struct pci_dev *pdev,
->         pcie_print_link_status(pdev);
->         netdev_info(netdev, "MAC: %pM\n", netdev->dev_addr);
->
-> -       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
-> +       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
->
->         pm_runtime_put_noidle(&pdev->dev);
->
-> diff --git a/drivers/pci/pcie/portdrv_pci.c b/drivers/pci/pcie/portdrv_pci.c
-> index 160d67c59310..3acf151ae015 100644
-> --- a/drivers/pci/pcie/portdrv_pci.c
-> +++ b/drivers/pci/pcie/portdrv_pci.c
-> @@ -115,7 +115,7 @@ static int pcie_portdrv_probe(struct pci_dev *dev,
->
->         pci_save_state(dev);
->
-> -       dev_pm_set_driver_flags(&dev->dev, DPM_FLAG_NEVER_SKIP |
-> +       dev_pm_set_driver_flags(&dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE |
->                                            DPM_FLAG_SMART_SUSPEND);
->
->         if (pci_bridge_d3_possible(dev)) {
-> diff --git a/include/linux/pm.h b/include/linux/pm.h
-> index 8c59a7f0bcf4..cdb8fbd6ab18 100644
-> --- a/include/linux/pm.h
-> +++ b/include/linux/pm.h
-> @@ -544,7 +544,7 @@ struct pm_subsys_data {
->   * These flags can be set by device drivers at the probe time.  They need not be
->   * cleared by the drivers as the driver core will take care of that.
->   *
-> - * NEVER_SKIP: Do not skip all system suspend/resume callbacks for the device.
-> + * NO_DIRECT_COMPLETE: Do not apply direct-complete optimization to the device.
->   * SMART_PREPARE: Check the return value of the driver's ->prepare callback.
->   * SMART_SUSPEND: No need to resume the device from runtime suspend.
->   * LEAVE_SUSPENDED: Avoid resuming the device during system resume if possible.
-> @@ -554,7 +554,7 @@ struct pm_subsys_data {
->   * their ->prepare callbacks if the driver's ->prepare callback returns 0 (in
->   * other words, the system suspend/resume callbacks can only be skipped for the
->   * device if its driver doesn't object against that).  This flag has no effect
-> - * if NEVER_SKIP is set.
-> + * if NO_DIRECT_COMPLETE is set.
->   *
->   * Setting SMART_SUSPEND instructs bus types and PM domains which may want to
->   * runtime resume the device upfront during system suspend that doing so is not
-> @@ -565,7 +565,7 @@ struct pm_subsys_data {
->   * Setting LEAVE_SUSPENDED informs the PM core and middle-layer code that the
->   * driver prefers the device to be left in suspend after system resume.
->   */
-> -#define DPM_FLAG_NEVER_SKIP            BIT(0)
-> +#define DPM_FLAG_NO_DIRECT_COMPLETE    BIT(0)
->  #define DPM_FLAG_SMART_PREPARE         BIT(1)
->  #define DPM_FLAG_SMART_SUSPEND         BIT(2)
->  #define DPM_FLAG_LEAVE_SUSPENDED       BIT(3)
-> --
-> 2.16.4
->
->
->
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Yeah it deserves a comment in the code indicating why it doesn't read
+the hardware.
+
+> 
+> 
+> > > +}
+> > > +
+> > [...]
+> > > +static int ti_sn_bridge_gpio_direction_output(struct gpio_chip *chip,
+> > > +                                             unsigned int offset, int val)
+> > > +{
+> > > +       struct ti_sn_bridge *pdata = gchip_to_pdata(chip);
+> > > +       int shift = offset * 2;
+> > > +       int old_gchip_output;
+> > > +       int ret;
+> > > +
+> > > +       old_gchip_output = atomic_fetch_or(BIT(offset), &pdata->gchip_output);
+> >
+> > I presume gpiolib is already preventing a gpio from being modified twice
+> > at the same time. So is this atomic stuff really necessary?
+[...]
+> None of these appear to do any locking.  There's sorta an implicit
+> lock in that only one client can "request" a given GPIO at the same
+> time so the assumption that we're somewhat protected against two
+> concurrent accesses of the exact same GPIO is a bit justified.  ...but
+> nothing appears to protect us from concurrent accesses of different
+> GPIOs.
+> 
+> I also notice that other GPIO drivers seem to grab their own locks.
+> If it makes the patch more palatable, I can get rid of all the atomic
+> stuff and put in a big mutex?
+
+No. I'd rather see the bitmap APIs used instead of a custom bitmap
+overlaid on an atomic_t. Otherwise it seems fine to assume a GPIO can't
+be touched by two entities at once and thus nothing to worry about for
+locking at the driver level for that.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
