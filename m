@@ -2,46 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9337B1B4DFB
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 22:06:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC3D1B4E04
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 22:10:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02BBA6E02A;
-	Wed, 22 Apr 2020 20:06:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D6CF6E0FA;
+	Wed, 22 Apr 2020 20:10:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CFD06E02A
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 20:06:40 +0000 (UTC)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
- [209.85.160.180])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D4D2D20882
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 20:06:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587586000;
- bh=0FtickJH33zo7rOmBxZNOUqSRmWNX5fCBm5T7vBhBIg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Kb6M6AIP8ct0iTwv2H3tS5+ebMIxiobxs7wxUIkiiZsqaZ3umuPBsBLh4t/IUUd+9
- ct7SHi4j/NRRBIPZbH+duQKEc52rF3Y9ZOuBs6GVodnpZp0Pxz0Q23LC1Jzk+DEMrh
- nb72MMy288E8YhPOneWVyVMwqApuko+8BOmv1ES4=
-Received: by mail-qt1-f180.google.com with SMTP id c16so2861414qtv.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 13:06:39 -0700 (PDT)
-X-Gm-Message-State: AGi0Puadozm7S5Svw1u3zsEsn1GG06Y8VFzZ+blAdjo3L1500xMHfAcy
- NPkA3I21aIyLV5yuhe2G+HwGpzAgk9npXbI2vA==
-X-Google-Smtp-Source: APiQypKpZC5oYh4Day8VRkXcMufLykh0niakd6Sp2Y1oKVuyJtTvKSG6ZMl+i+p7SSsWpFF/vaqrhy6wuszJO5mDHik=
-X-Received: by 2002:ac8:4907:: with SMTP id e7mr395174qtq.300.1587585998943;
- Wed, 22 Apr 2020 13:06:38 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 289BF6E0A5;
+ Wed, 22 Apr 2020 20:10:37 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id b11so4079390wrs.6;
+ Wed, 22 Apr 2020 13:10:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EYPgCi27/F4VFJ0fVbYclymxsaTwLLVyxkWf2iEDCjA=;
+ b=P08swTQtVS6HPrdNN30bYAKa9o8FsGmOzgIcxi9sV6RXkMXq6A9NqGvXaf2dpCE7ud
+ EO5vAWIPPrkXpy8l5IgcRXkJIVhfgr9YeNKAckhJjuuFDFB9lDgZ2VwQVWpWTeBT+bDX
+ 73niYrDHAv8FdgxOT3lKOlPRwtYlyCwqqirchRTHGjqxSEBlpxk+puV20SjvF5hhA771
+ 9hAwWIIgWzUAsZf1lVWRz2+uifUALLwtXjfnetlmG7P+a4IkCJqYy4BDQHYGebOHmRxk
+ jLoJd0JrZ0F/i6BciboDCYz7VqYvdeTylhNISEANfkpOzdYHtKo7SxvbN1Ad2E9IXQw7
+ fTBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EYPgCi27/F4VFJ0fVbYclymxsaTwLLVyxkWf2iEDCjA=;
+ b=mh+uREXM0mJVLIh7kppk7Ozg6+VteUJpZDZoZPnaW+jSjxKgpxnPnqyR3X47bHRME2
+ IY97Jwln2c6P9k9SbVQX2aKWUyVdAzwY92kQwHoXUi8JCADfhAPvpU8E9yMiLND+lkbN
+ 2b1PA/T4D2dH/Gz7Y0VDgyeV+TGpiFbjOEqPef3DKPUvx9MdEnPGgJzVXO01nOvPQpjU
+ KsLAbd8qlA1kLngtKCE6DDaZHYCQjPHrnBPhPb+kNN+QLd1TLd2vxBZieklYVDPJcm3M
+ D1SuNd4X5KeFD+pCzkN45StOrqNjdlVb9lBHQr2f+GySDcfcC+VtNZcB0AL9AjGtKLzr
+ APsw==
+X-Gm-Message-State: AGi0PuaaIFcjIj7w05y+Lmynya9PGLJjmvEbEgzbcBaJhtb7hRyaqZzQ
+ WYvIMbMu6ooCIz1Qf3dXpvWeY7GyLE7qsCw9n+o=
+X-Google-Smtp-Source: APiQypKAx7mjSk6h51s0V+wPHbMKWtlL1uikOzw0j4g8Kmzhi77TJWhfyxDqjiibfPdnac3YdwiuiYirc/HR7q+c46Q=
+X-Received: by 2002:adf:fe45:: with SMTP id m5mr915243wrs.124.1587586235645;
+ Wed, 22 Apr 2020 13:10:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200422180028.1702996-1-adrian.ratiu@collabora.com>
- <20200422180028.1702996-2-adrian.ratiu@collabora.com>
-In-Reply-To: <20200422180028.1702996-2-adrian.ratiu@collabora.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 22 Apr 2020 15:06:27 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKdDgjNahrcRhxLcMXy+8GR3P6v2OXiEtrA-1Uia-XXRA@mail.gmail.com>
-Message-ID: <CAL_JsqKdDgjNahrcRhxLcMXy+8GR3P6v2OXiEtrA-1Uia-XXRA@mail.gmail.com>
-Subject: Re: [PATCH v3] dt-bindings: display: dw_mipi_dsi.txt: convert to yaml
-To: Adrian Ratiu <adrian.ratiu@collabora.com>
+References: <1888197.j9z7NJ8yPn@kreacher> <5673945.BT02kTCndr@kreacher>
+ <2011970.oZpq0QmfcQ@kreacher>
+In-Reply-To: <2011970.oZpq0QmfcQ@kreacher>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 22 Apr 2020 16:10:24 -0400
+Message-ID: <CADnq5_Nm1mzdwb3iSQWwSj-8dUfbT7U1vf51yPMrtuSCvq+JLg@mail.gmail.com>
+Subject: Re: [PATCH v2 7/9] PM: sleep: core: Rename DPM_FLAG_NEVER_SKIP
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,171 +61,270 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Collabora Kernel ML <kernel@collabora.com>,
- Philippe CORNU <philippe.cornu@st.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI-devel <dri-devel@lists.freedesktop.org>,
+ Hans De Goede <hdegoede@redhat.com>, Alan Stern <stern@rowland.harvard.edu>,
+ Linux PCI <linux-pci@vger.kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+ intel-wired-lan@lists.osuosl.org,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 22, 2020 at 12:59 PM Adrian Ratiu
-<adrian.ratiu@collabora.com> wrote:
+On Sat, Apr 18, 2020 at 1:11 PM Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
 >
-> This converts the Synopsis MIPI DSI binding documentation to yaml and
-> should be quite straightforward. I've added a missing ref clk and also
-> added Philippe as maintainer b/c he's the original txt author following
-> the algorithm provided in Message-ID 20200420175909.GA5810@ravnborg.org.
+> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 >
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Philippe CORNU <philippe.cornu@st.com>
-> Cc: devicetree@vger.kernel.org
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> Rename DPM_FLAG_NEVER_SKIP to DPM_FLAG_NO_DIRECT_COMPLETE which
+> matches its purpose more closely.
+>
+> No functional impact.
+>
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com> # for PCI parts
+> Acked-by: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+for radeon and amdgpu
+
+Alex
+
 > ---
-> Changes in v3:
->   - Added ports property and its children which are required (Laurent)
->   - Sorted required list alphabetically
 >
-> Changes in v2:
->   - Removed unnecessary descriptions and maxItems (Rob)
->   - Changed maintainers entry / dropped Mark (Rob)
->   - Added dsi-controller.yaml ref (Rob)
+> -> v2:
+>    * Rebased.
+>    * Added tags received so far.
+>
 > ---
->  .../bindings/display/bridge/dw_mipi_dsi.txt   | 32 ---------
->  .../display/bridge/snps,dw-mipi-dsi.yaml      | 72 +++++++++++++++++++
->  2 files changed, 72 insertions(+), 32 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/dw_mipi_dsi.txt
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/snps,dw-mipi-dsi.yaml
+>  Documentation/driver-api/pm/devices.rst    |  6 +++---
+>  Documentation/power/pci.rst                | 10 +++++-----
+>  drivers/base/power/main.c                  |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    |  2 +-
+>  drivers/gpu/drm/i915/intel_runtime_pm.c    |  2 +-
+>  drivers/gpu/drm/radeon/radeon_kms.c        |  2 +-
+>  drivers/misc/mei/pci-me.c                  |  2 +-
+>  drivers/misc/mei/pci-txe.c                 |  2 +-
+>  drivers/net/ethernet/intel/e1000e/netdev.c |  2 +-
+>  drivers/net/ethernet/intel/igb/igb_main.c  |  2 +-
+>  drivers/net/ethernet/intel/igc/igc_main.c  |  2 +-
+>  drivers/pci/pcie/portdrv_pci.c             |  2 +-
+>  include/linux/pm.h                         |  6 +++---
+>  13 files changed, 21 insertions(+), 21 deletions(-)
 >
-> diff --git a/Documentation/devicetree/bindings/display/bridge/dw_mipi_dsi.txt b/Documentation/devicetree/bindings/display/bridge/dw_mipi_dsi.txt
-> deleted file mode 100644
-> index b13adf30b8d3b..0000000000000
-> --- a/Documentation/devicetree/bindings/display/bridge/dw_mipi_dsi.txt
-> +++ /dev/null
-> @@ -1,32 +0,0 @@
-> -Synopsys DesignWare MIPI DSI host controller
-> -============================================
-> -
-> -This document defines device tree properties for the Synopsys DesignWare MIPI
-> -DSI host controller. It doesn't constitue a device tree binding specification
-> -by itself but is meant to be referenced by platform-specific device tree
-> -bindings.
-> -
-> -When referenced from platform device tree bindings the properties defined in
-> -this document are defined as follows. The platform device tree bindings are
-> -responsible for defining whether each optional property is used or not.
-> -
-> -- reg: Memory mapped base address and length of the DesignWare MIPI DSI
-> -  host controller registers. (mandatory)
-> -
-> -- clocks: References to all the clocks specified in the clock-names property
-> -  as specified in [1]. (mandatory)
-> -
-> -- clock-names:
-> -  - "pclk" is the peripheral clock for either AHB and APB. (mandatory)
-> -  - "px_clk" is the pixel clock for the DPI/RGB input. (optional)
-> -
-> -- resets: References to all the resets specified in the reset-names property
-> -  as specified in [2]. (optional)
-> -
-> -- reset-names: string reset name, must be "apb" if used. (optional)
-> -
-> -- panel or bridge node: see [3]. (mandatory)
-> -
-> -[1] Documentation/devicetree/bindings/clock/clock-bindings.txt
-> -[2] Documentation/devicetree/bindings/reset/reset.txt
-> -[3] Documentation/devicetree/bindings/display/mipi-dsi-bus.txt
-> diff --git a/Documentation/devicetree/bindings/display/bridge/snps,dw-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/snps,dw-mipi-dsi.yaml
-> new file mode 100644
-> index 0000000000000..076567d8d8ec1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/snps,dw-mipi-dsi.yaml
-> @@ -0,0 +1,72 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/snps,dw-mipi-dsi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Synopsys DesignWare MIPI DSI host controller
-> +
-> +maintainers:
-> +  - Philippe CORNU <philippe.cornu@st.com>
-> +
-> +description: |
-> +  This document defines device tree properties for the Synopsys DesignWare MIPI
-> +  DSI host controller. It doesn't constitue a device tree binding specification
-> +  by itself but is meant to be referenced by platform-specific device tree
-> +  bindings.
-> +
-> +  When referenced from platform device tree bindings the properties defined in
-> +  this document are defined as follows. The platform device tree bindings are
-> +  responsible for defining whether each property is required or optional.
-> +
-> +allOf:
-> +  - $ref: ../dsi-controller.yaml#
-> +
-> +properties:
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Module clock
-> +      - description: DSI bus clock for either AHB and APB
-> +      - description: Pixel clock for the DPI/RGB input
-> +    minItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: ref
-> +      - const: pclk
-> +      - const: px_clk
-> +    minItems: 2
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  reset-names:
-> +    const: apb
-> +
-> +  ports:
-> +    type: object
-> +
-> +    properties:
-> +      port@0:
-> +        type: object
-> +        description: Input node to receive pixel data.
-> +      port@1:
-> +        type: object
-> +        description: DSI output node to panel.
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +patternProperties:
-> +  "^panel@[0-3]$":
-
-It's not always a panel attached. dsi-controller.yaml covers child
-nodes anyways, so you can just drop this.
-
-With that,
-
-Reviewed-by: Rob Herring <robh@kernel.org>
-
-> +    type: object
-> +
-> +required:
-> +  - clock-names
-> +  - clocks
-> +  - ports
-> +  - reg
+> diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
+> index f66c7b9126ea..4ace0eba4506 100644
+> --- a/Documentation/driver-api/pm/devices.rst
+> +++ b/Documentation/driver-api/pm/devices.rst
+> @@ -361,9 +361,9 @@ the phases are: ``prepare``, ``suspend``, ``suspend_late``, ``suspend_noirq``.
+>         runtime PM disabled.
+>
+>         This feature also can be controlled by device drivers by using the
+> -       ``DPM_FLAG_NEVER_SKIP`` and ``DPM_FLAG_SMART_PREPARE`` driver power
+> -       management flags.  [Typically, they are set at the time the driver is
+> -       probed against the device in question by passing them to the
+> +       ``DPM_FLAG_NO_DIRECT_COMPLETE`` and ``DPM_FLAG_SMART_PREPARE`` driver
+> +       power management flags.  [Typically, they are set at the time the driver
+> +       is probed against the device in question by passing them to the
+>         :c:func:`dev_pm_set_driver_flags` helper function.]  If the first of
+>         these flags is set, the PM core will not apply the direct-complete
+>         procedure described above to the given device and, consequenty, to any
+> diff --git a/Documentation/power/pci.rst b/Documentation/power/pci.rst
+> index aa1c7fce6cd0..9e1408121bea 100644
+> --- a/Documentation/power/pci.rst
+> +++ b/Documentation/power/pci.rst
+> @@ -1004,11 +1004,11 @@ including the PCI bus type.  The flags should be set once at the driver probe
+>  time with the help of the dev_pm_set_driver_flags() function and they should not
+>  be updated directly afterwards.
+>
+> -The DPM_FLAG_NEVER_SKIP flag prevents the PM core from using the direct-complete
+> -mechanism allowing device suspend/resume callbacks to be skipped if the device
+> -is in runtime suspend when the system suspend starts.  That also affects all of
+> -the ancestors of the device, so this flag should only be used if absolutely
+> -necessary.
+> +The DPM_FLAG_NO_DIRECT_COMPLETE flag prevents the PM core from using the
+> +direct-complete mechanism allowing device suspend/resume callbacks to be skipped
+> +if the device is in runtime suspend when the system suspend starts.  That also
+> +affects all of the ancestors of the device, so this flag should only be used if
+> +absolutely necessary.
+>
+>  The DPM_FLAG_SMART_PREPARE flag instructs the PCI bus type to only return a
+>  positive value from pci_pm_prepare() if the ->prepare callback provided by the
+> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> index 3170d93e29f9..dbc1e5e7346b 100644
+> --- a/drivers/base/power/main.c
+> +++ b/drivers/base/power/main.c
+> @@ -1844,7 +1844,7 @@ static int device_prepare(struct device *dev, pm_message_t state)
+>         spin_lock_irq(&dev->power.lock);
+>         dev->power.direct_complete = state.event == PM_EVENT_SUSPEND &&
+>                 (ret > 0 || dev->power.no_pm_callbacks) &&
+> -               !dev_pm_test_driver_flags(dev, DPM_FLAG_NEVER_SKIP);
+> +               !dev_pm_test_driver_flags(dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+>         spin_unlock_irq(&dev->power.lock);
+>         return 0;
+>  }
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> index fd1dc3236eca..a9086ea1ab60 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> @@ -191,7 +191,7 @@ int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
+>         }
+>
+>         if (adev->runpm) {
+> -               dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
+> +               dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+>                 pm_runtime_use_autosuspend(dev->dev);
+>                 pm_runtime_set_autosuspend_delay(dev->dev, 5000);
+>                 pm_runtime_set_active(dev->dev);
+> diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> index ad719c9602af..9cb2d7548daa 100644
+> --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
+> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> @@ -549,7 +549,7 @@ void intel_runtime_pm_enable(struct intel_runtime_pm *rpm)
+>          * becaue the HDA driver may require us to enable the audio power
+>          * domain during system suspend.
+>          */
+> -       dev_pm_set_driver_flags(kdev, DPM_FLAG_NEVER_SKIP);
+> +       dev_pm_set_driver_flags(kdev, DPM_FLAG_NO_DIRECT_COMPLETE);
+>
+>         pm_runtime_set_autosuspend_delay(kdev, 10000); /* 10s */
+>         pm_runtime_mark_last_busy(kdev);
+> diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
+> index 58176db85952..372962358a18 100644
+> --- a/drivers/gpu/drm/radeon/radeon_kms.c
+> +++ b/drivers/gpu/drm/radeon/radeon_kms.c
+> @@ -158,7 +158,7 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
+>         }
+>
+>         if (radeon_is_px(dev)) {
+> -               dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
+> +               dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+>                 pm_runtime_use_autosuspend(dev->dev);
+>                 pm_runtime_set_autosuspend_delay(dev->dev, 5000);
+>                 pm_runtime_set_active(dev->dev);
+> diff --git a/drivers/misc/mei/pci-me.c b/drivers/misc/mei/pci-me.c
+> index 3d21c38e2dbb..53f16f3bd091 100644
+> --- a/drivers/misc/mei/pci-me.c
+> +++ b/drivers/misc/mei/pci-me.c
+> @@ -240,7 +240,7 @@ static int mei_me_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>          * MEI requires to resume from runtime suspend mode
+>          * in order to perform link reset flow upon system suspend.
+>          */
+> -       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
+> +       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+>
+>         /*
+>          * ME maps runtime suspend/resume to D0i states,
+> diff --git a/drivers/misc/mei/pci-txe.c b/drivers/misc/mei/pci-txe.c
+> index beacf2a2f2b5..4bf26ce61044 100644
+> --- a/drivers/misc/mei/pci-txe.c
+> +++ b/drivers/misc/mei/pci-txe.c
+> @@ -128,7 +128,7 @@ static int mei_txe_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>          * MEI requires to resume from runtime suspend mode
+>          * in order to perform link reset flow upon system suspend.
+>          */
+> -       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
+> +       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+>
+>         /*
+>          * TXE maps runtime suspend/resume to own power gating states,
+> diff --git a/drivers/net/ethernet/intel/e1000e/netdev.c b/drivers/net/ethernet/intel/e1000e/netdev.c
+> index 177c6da80c57..2730b1c7dddb 100644
+> --- a/drivers/net/ethernet/intel/e1000e/netdev.c
+> +++ b/drivers/net/ethernet/intel/e1000e/netdev.c
+> @@ -7549,7 +7549,7 @@ static int e1000_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>
+>         e1000_print_device_info(adapter);
+>
+> -       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
+> +       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+>
+>         if (pci_dev_run_wake(pdev) && hw->mac.type < e1000_pch_cnp)
+>                 pm_runtime_put_noidle(&pdev->dev);
+> diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
+> index b46bff8fe056..8bb3db2cbd41 100644
+> --- a/drivers/net/ethernet/intel/igb/igb_main.c
+> +++ b/drivers/net/ethernet/intel/igb/igb_main.c
+> @@ -3445,7 +3445,7 @@ static int igb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>                 }
+>         }
+>
+> -       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
+> +       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+>
+>         pm_runtime_put_noidle(&pdev->dev);
+>         return 0;
+> diff --git a/drivers/net/ethernet/intel/igc/igc_main.c b/drivers/net/ethernet/intel/igc/igc_main.c
+> index 69fa1ce1f927..59fc0097438f 100644
+> --- a/drivers/net/ethernet/intel/igc/igc_main.c
+> +++ b/drivers/net/ethernet/intel/igc/igc_main.c
+> @@ -4825,7 +4825,7 @@ static int igc_probe(struct pci_dev *pdev,
+>         pcie_print_link_status(pdev);
+>         netdev_info(netdev, "MAC: %pM\n", netdev->dev_addr);
+>
+> -       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NEVER_SKIP);
+> +       dev_pm_set_driver_flags(&pdev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
+>
+>         pm_runtime_put_noidle(&pdev->dev);
+>
+> diff --git a/drivers/pci/pcie/portdrv_pci.c b/drivers/pci/pcie/portdrv_pci.c
+> index 160d67c59310..3acf151ae015 100644
+> --- a/drivers/pci/pcie/portdrv_pci.c
+> +++ b/drivers/pci/pcie/portdrv_pci.c
+> @@ -115,7 +115,7 @@ static int pcie_portdrv_probe(struct pci_dev *dev,
+>
+>         pci_save_state(dev);
+>
+> -       dev_pm_set_driver_flags(&dev->dev, DPM_FLAG_NEVER_SKIP |
+> +       dev_pm_set_driver_flags(&dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE |
+>                                            DPM_FLAG_SMART_SUSPEND);
+>
+>         if (pci_bridge_d3_possible(dev)) {
+> diff --git a/include/linux/pm.h b/include/linux/pm.h
+> index 8c59a7f0bcf4..cdb8fbd6ab18 100644
+> --- a/include/linux/pm.h
+> +++ b/include/linux/pm.h
+> @@ -544,7 +544,7 @@ struct pm_subsys_data {
+>   * These flags can be set by device drivers at the probe time.  They need not be
+>   * cleared by the drivers as the driver core will take care of that.
+>   *
+> - * NEVER_SKIP: Do not skip all system suspend/resume callbacks for the device.
+> + * NO_DIRECT_COMPLETE: Do not apply direct-complete optimization to the device.
+>   * SMART_PREPARE: Check the return value of the driver's ->prepare callback.
+>   * SMART_SUSPEND: No need to resume the device from runtime suspend.
+>   * LEAVE_SUSPENDED: Avoid resuming the device during system resume if possible.
+> @@ -554,7 +554,7 @@ struct pm_subsys_data {
+>   * their ->prepare callbacks if the driver's ->prepare callback returns 0 (in
+>   * other words, the system suspend/resume callbacks can only be skipped for the
+>   * device if its driver doesn't object against that).  This flag has no effect
+> - * if NEVER_SKIP is set.
+> + * if NO_DIRECT_COMPLETE is set.
+>   *
+>   * Setting SMART_SUSPEND instructs bus types and PM domains which may want to
+>   * runtime resume the device upfront during system suspend that doing so is not
+> @@ -565,7 +565,7 @@ struct pm_subsys_data {
+>   * Setting LEAVE_SUSPENDED informs the PM core and middle-layer code that the
+>   * driver prefers the device to be left in suspend after system resume.
+>   */
+> -#define DPM_FLAG_NEVER_SKIP            BIT(0)
+> +#define DPM_FLAG_NO_DIRECT_COMPLETE    BIT(0)
+>  #define DPM_FLAG_SMART_PREPARE         BIT(1)
+>  #define DPM_FLAG_SMART_SUSPEND         BIT(2)
+>  #define DPM_FLAG_LEAVE_SUSPENDED       BIT(3)
 > --
-> 2.26.0
+> 2.16.4
 >
+>
+>
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
