@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6BC1B3836
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:55:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E5C1B3834
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 08:55:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 059366E9AE;
-	Wed, 22 Apr 2020 06:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95BD26E9BB;
+	Wed, 22 Apr 2020 06:54:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
  [IPv6:2607:f8b0:4864:20::743])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C53C189AEB
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 00:21:48 +0000 (UTC)
-Received: by mail-qk1-x743.google.com with SMTP id s63so753361qke.4
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 17:21:48 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2EC589D84
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 00:21:49 +0000 (UTC)
+Received: by mail-qk1-x743.google.com with SMTP id n143so730083qkn.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Apr 2020 17:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hEPIJxk11M+bwls0ktX3yeu2tCbVhvYKkshsYLxwJ44=;
- b=PJU8eX+3xC4GFafdKdc5DzhySnCpoyt7nJs8v67HgDINaqKjejFlIyZkRz1SMGAhw7
- s7uCk6tfphwUwyiPpH9jqN9ymuNDMYIObXz70LxBi9HaysQdWxohkFGXN0RvWIlTxp/O
- tk8seckt54OXGh2bDVptRn4OT4fWVGdecI9gba+EmxFSinr4oBL1z6hGl1wB3yCT077w
- vbR/HQjg0rmYIXBXC6owWBUrSADfN+E7jMfKwzS6l5twx5JuWUw+KuKPdYjUryqiun37
- eUhKmuvUjIJxADNxWm6SAsdm2PXKSRXA+mhtSiWZ4LdaaJW+8+0i0QIXND3fe1+0a2J9
- rdgA==
+ bh=nTTGkCmPNBNLfBeKlL5KhUg/wYh+8kbFb/bZ+rQv6GY=;
+ b=Y9ADKn94L03XU1WeAr1BxOt1n9SMwpaUA2kh4P9ChqBAdUSD+fcEFuqyvQgMnUBT5K
+ TBVzLC1fdZAXyDHYmaR4eSl4pkcikTQ2p6vftD66fKGi3itp/bh+mnTy9HWICDa/87cG
+ wSZ7VOj95q27lOa9SkMVfa+qyx0nNQ6ChLwa5xXqahDBS+eX+6110M1DMBZzjfo1G84x
+ JdgwQtnf/1Yz0i+eERnmyM0pFCNErIgH65QoZ0wCZzqypVBly7kQn/XCDR6Y0Zo9352H
+ 0SruN8Hct3GkG5DW69G9uyplLEKr3n/7toee+QwA5bt1D6p96wXvbGK1WSnslJJT5OBW
+ lKNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hEPIJxk11M+bwls0ktX3yeu2tCbVhvYKkshsYLxwJ44=;
- b=E2zYQCeEuFn/5xdKEsLk2F9W7xUWR1thttKzfYgxfSEoy/Z/00Vi0bmZDTL2AbeFcW
- 2/XjZlgHI0jEDMEfsX7/IYuRhwXfN+r8V1PK/ulBskTCsz8rJJwHUSIZNPyJdP0e9XTx
- AiyQl1H1SUJSk5hVNf4WHvrblMihsv8uTV9mPO7USnjvdBxXkn+ZOepeLSXd35ox37A6
- k4ZsssDNh3+mLTO7WAjQokHWIQ7NhV1tiuCbkBactUm7Uc7ssxUOPxAc+fYHBa2P/Wdf
- i1Qfm69wwpNg6HsiLqAuqm+Z3MnRrEv8fzi6QNnpohdCj8gCnfshoq6QqabzxHdM2ApI
- Pl5g==
-X-Gm-Message-State: AGi0Pub/QFmYgZOcwmWBy+zV1wqdjtYsG6DzkKGmZls7Zjt8tVpHVZ2N
- ut9tQHw8abvnr8Da1Gz/SlfPXg==
-X-Google-Smtp-Source: APiQypKNqeVCSfFJPwxNHCrvjHy0VYH6Avw8SVeDX8eOa+urgHv9P1i8eAZ64MakyRhzM6BfopRBjw==
-X-Received: by 2002:a37:8781:: with SMTP id
- j123mr24068830qkd.308.1587514908014; 
+ bh=nTTGkCmPNBNLfBeKlL5KhUg/wYh+8kbFb/bZ+rQv6GY=;
+ b=mbudEnW4p/5N7rUK5aExJZj+You+88PG9p/+mZC9YecenywC6w85aSBX1l5zUkNKmI
+ ZNtZjt9OqUb+AxGgKJxSLFAkR+jdWX6ZxVowqpNob2DGOyxoppeRz5y7A+I0BF+B9zp9
+ kSuixyqQc3Fb4C5ysncZxX0Ze2EHc7L1oxwTDzqvBb1UpWc1IOk67C8o/hi4jSc5VB0g
+ qUWqZj28ErWJ7zFbVl7AjqdwU5f9ICwMPCGuCxnhnrO4TlPjQjHW36xZaompazF9Bqj/
+ 0y2mTxeqcK/ecSoh6DxJ/nLvjXI/K0Z4nLiVZtjd2pkLjtmgC5gBaxVmLSXHOrbjThZk
+ 8+fA==
+X-Gm-Message-State: AGi0PuaKOidyzn5aAZYUUKZpb1V7DBI+u1zEMFPL3LLOlFtV/ie4Ie9+
+ Y98iwaZ5n4CIM7ie2JjjgKKaCA==
+X-Google-Smtp-Source: APiQypLsWIwk2GzyDvAQhKyc5Ai1EdwHafbJ+aT9TsesWr9n3rkGOuvpeUzjUFzVSJOlWwn/eV0NvQ==
+X-Received: by 2002:ae9:e8c2:: with SMTP id a185mr23357780qkg.72.1587514908893; 
  Tue, 21 Apr 2020 17:21:48 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id u27sm2859237qtc.73.2020.04.21.17.21.46
+ by smtp.gmail.com with ESMTPSA id e8sm2758708qkl.57.2020.04.21.17.21.46
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
  Tue, 21 Apr 2020 17:21:47 -0700 (PDT)
 Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
  (envelope-from <jgg@ziepe.ca>)
- id 1jR398-0000BE-Gp; Tue, 21 Apr 2020 21:21:46 -0300
+ id 1jR398-0000BR-IN; Tue, 21 Apr 2020 21:21:46 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: linux-mm@kvack.org,
 	Ralph Campbell <rcampbell@nvidia.com>
-Subject: [PATCH hmm 3/5] drm/amdgpu: remove dead code after hmm_range_fault()
-Date: Tue, 21 Apr 2020 21:21:44 -0300
-Message-Id: <3-v1-4eb72686de3c+5062-hmm_no_flags_jgg@mellanox.com>
+Subject: [PATCH hmm 4/5] mm/hmm: remove HMM_PFN_SPECIAL
+Date: Tue, 21 Apr 2020 21:21:45 -0300
+Message-Id: <4-v1-4eb72686de3c+5062-hmm_no_flags_jgg@mellanox.com>
 In-Reply-To: <0-v1-4eb72686de3c+5062-hmm_no_flags_jgg@mellanox.com>
 References: 
 MIME-Version: 1.0
@@ -89,44 +88,91 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jason Gunthorpe <jgg@mellanox.com>
 
-Since amdgpu does not use the snapshot mode of hmm_range_fault() a
-successful return already proves that all entries in the pfns are
-HMM_PFN_VALID, there is no need to check the return result of
-hmm_device_entry_to_page().
+This is just an alias for HMM_PFN_ERROR, nothing cares that the error was
+because of a special page vs any other error case.
 
 Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 1 -
+ drivers/gpu/drm/nouveau/nouveau_svm.c   | 1 -
+ include/linux/hmm.h                     | 8 --------
+ mm/hmm.c                                | 2 +-
+ 4 files changed, 1 insertion(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index efc1329a019127..bff8e64701a547 100644
+index bff8e64701a547..449083f9f8a2bf 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -862,17 +862,13 @@ int amdgpu_ttm_tt_get_user_pages(struct amdgpu_bo *bo, struct page **pages)
- 		goto out_free_pfns;
+@@ -775,7 +775,6 @@ static const uint64_t hmm_range_flags[HMM_PFN_FLAG_MAX] = {
+ static const uint64_t hmm_range_values[HMM_PFN_VALUE_MAX] = {
+ 	0xfffffffffffffffeUL, /* HMM_PFN_ERROR */
+ 	0, /* HMM_PFN_NONE */
+-	0xfffffffffffffffcUL /* HMM_PFN_SPECIAL */
+ };
+ 
+ /**
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index c68e9317cf0740..cf0d9bd61bebf9 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -379,7 +379,6 @@ static const u64
+ nouveau_svm_pfn_values[HMM_PFN_VALUE_MAX] = {
+ 	[HMM_PFN_ERROR  ] = ~NVIF_VMM_PFNMAP_V0_V,
+ 	[HMM_PFN_NONE   ] =  NVIF_VMM_PFNMAP_V0_NONE,
+-	[HMM_PFN_SPECIAL] = ~NVIF_VMM_PFNMAP_V0_V,
+ };
+ 
+ /* Issue fault replay for GPU to retry accesses that faulted previously. */
+diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+index 0df27dd03d53d7..81c302c884c0e3 100644
+--- a/include/linux/hmm.h
++++ b/include/linux/hmm.h
+@@ -44,10 +44,6 @@ enum hmm_pfn_flag_e {
+  * Flags:
+  * HMM_PFN_ERROR: corresponding CPU page table entry points to poisoned memory
+  * HMM_PFN_NONE: corresponding CPU page table entry is pte_none()
+- * HMM_PFN_SPECIAL: corresponding CPU page table entry is special; i.e., the
+- *      result of vmf_insert_pfn() or vm_insert_page(). Therefore, it should not
+- *      be mirrored by a device, because the entry will never have HMM_PFN_VALID
+- *      set and the pfn value is undefined.
+  *
+  * Driver provides values for none entry, error entry, and special entry.
+  * Driver can alias (i.e., use same value) error and special, but
+@@ -56,12 +52,10 @@ enum hmm_pfn_flag_e {
+  * HMM pfn value returned by hmm_vma_get_pfns() or hmm_vma_fault() will be:
+  * hmm_range.values[HMM_PFN_ERROR] if CPU page table entry is poisonous,
+  * hmm_range.values[HMM_PFN_NONE] if there is no CPU page table entry,
+- * hmm_range.values[HMM_PFN_SPECIAL] if CPU page table entry is a special one
+  */
+ enum hmm_pfn_value_e {
+ 	HMM_PFN_ERROR,
+ 	HMM_PFN_NONE,
+-	HMM_PFN_SPECIAL,
+ 	HMM_PFN_VALUE_MAX
+ };
+ 
+@@ -110,8 +104,6 @@ static inline struct page *hmm_device_entry_to_page(const struct hmm_range *rang
+ 		return NULL;
+ 	if (entry == range->values[HMM_PFN_ERROR])
+ 		return NULL;
+-	if (entry == range->values[HMM_PFN_SPECIAL])
+-		return NULL;
+ 	if (!(entry & range->flags[HMM_PFN_VALID]))
+ 		return NULL;
+ 	return pfn_to_page(entry >> range->pfn_shift);
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 4c7c396655b528..2693393dc14b30 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -301,7 +301,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			pte_unmap(ptep);
+ 			return -EFAULT;
+ 		}
+-		*pfn = range->values[HMM_PFN_SPECIAL];
++		*pfn = range->values[HMM_PFN_ERROR];
+ 		return 0;
  	}
  
--	for (i = 0; i < ttm->num_pages; i++) {
--		/* FIXME: The pages cannot be touched outside the notifier_lock */
-+	/*
-+	 * Due to default_flags, all pages are HMM_PFN_VALID or
-+	 * hmm_range_fault() fails. FIXME: The pages cannot be touched outside
-+	 * the notifier_lock, and mmu_interval_read_retry() must be done first.
-+	 */
-+	for (i = 0; i < ttm->num_pages; i++)
- 		pages[i] = hmm_device_entry_to_page(range, range->pfns[i]);
--		if (unlikely(!pages[i])) {
--			pr_err("Page fault failed for pfn[%lu] = 0x%llx\n",
--			       i, range->pfns[i]);
--			r = -ENOMEM;
--
--			goto out_free_pfns;
--		}
--	}
- 
- 	gtt->range = range;
- 	mmput(mm);
 -- 
 2.26.0
 
