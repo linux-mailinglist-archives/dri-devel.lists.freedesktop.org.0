@@ -1,58 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3C81B55D8
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 09:37:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E72D81B49C3
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 18:09:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09E2C6E378;
-	Thu, 23 Apr 2020 07:36:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 017BC6EA28;
+	Wed, 22 Apr 2020 16:09:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A38D16EA28
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 16:09:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587571764;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=ceaM0Q57EWu8SAKxL8w74OvIguml9sO5tkQvRprE6B8=;
- b=httnAG1Ebs2pMNJiQtjRYlKxPo/k0f+V6QTUrdVbSFTAvxFg8wwMWsFcp2j/suzm2G
- et0nUFLe2L88svNUwn9xutYdn9XN+5UiX3YkehIxev0Q29ShK2ZQVRjSi3zz6xQLniEA
- PzsD5QewGEzdr/2BmHu+gJlxczcOQG77hFKVAn0jxNq5A6nojiNIrlhM3dc56S78/5w2
- IxrPSSVQknoK62ZaQQe9winlt+weQ/OJJ0HEV4NlpIPpP/Ox8Oz+JfCepC22imrpCkQv
- BmTjvw70jkZa+ezKBGYLPzeyoq/Jk+puota8GCP4wDaR3EHLJy+3kq2mXNv9R0hYY8T7
- 0PXQ==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmMiw43tskc="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.6.2 DYNA|AUTH)
- with ESMTPSA id R0acebw3MG923NL
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 22 Apr 2020 18:09:02 +0200 (CEST)
-Subject: Re: [PATCH v6 00/12] ARM/MIPS: DTS: add child nodes describing the
- PVRSGX GPU present in some OMAP SoC and JZ4780 (and many more)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20200422151328.2oyqz7gqkbunmd6o@gilmour.lan>
-Date: Wed, 22 Apr 2020 18:09:01 +0200
-Message-Id: <07923B6C-4CCD-4B81-A98F-E19C43412A89@goldelico.com>
-References: <20200415130233.rgn7xrtwqicptke2@gilmour.lan>
- <C589D06E-435E-4316-AD0A-8498325039E3@goldelico.com>
- <10969e64-fe1f-d692-4984-4ba916bd2161@gmail.com>
- <20200420073842.nx4xb3zqvu23arkc@gilmour.lan>
- <b5a06c19-7a3e-bcb8-5ae3-76901b9c6c35@gmail.com>
- <20200421112129.zjmkmzo3aftksgka@gilmour.lan>
- <20200421141543.GU37466@atomide.com>
- <D9D4D057-A73D-485F-898D-5C05E89C16B7@goldelico.com>
- <20200422065859.quy6ane5v7vsy5tf@gilmour.lan>
- <1AA57A0C-48E6-49BB-BB9A-2AAFFB371BCD@goldelico.com>
- <20200422151328.2oyqz7gqkbunmd6o@gilmour.lan>
-To: Maxime Ripard <maxime@cerno.tech>
-X-Mailer: Apple Mail (2.3124)
-X-Mailman-Approved-At: Thu, 23 Apr 2020 07:36:39 +0000
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
+ [IPv6:2607:f8b0:4864:20::944])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5357D6EA28
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 16:09:32 +0000 (UTC)
+Received: by mail-ua1-x944.google.com with SMTP id g10so2223175uae.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 09:09:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=T7WB2HoF0WdrIBv4ktK6B9A0gQgQTPn58z8FyVNp2Jo=;
+ b=YUweHA8CPztpA/loYxHMeUD6/w6PlfE/ulWxFTAqTelrd/PSlWYfc59LLKgL0oup6K
+ Wzp8tzuL9Y46ob+y6q3r39I+vyASikO8AKSyHcHHm+6yF1JC7x79QyduJb7BeQXAdP36
+ +G9cFYFIEVSpCrwxqE2aTcNw0iAIiuBDIQHVU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=T7WB2HoF0WdrIBv4ktK6B9A0gQgQTPn58z8FyVNp2Jo=;
+ b=RD0ExAFyLqhTI7de6C9GILMnRgflvhRBK8sZZH/AqZ9aS1DAofnu2NFWer8nyRLtNp
+ xMZxPPM5AU0bLhRX2719jbRtS5qAngCv5RbYtFDtA6ZuRiYAC4892KG7pOWAMta2tBZ4
+ lvhvc8XCZi7aqNaAbthFzsVB8Bv2ozIe5KNmeyu6ytAbpwNYD9tzFOj2NdzrodgF2NdS
+ fPsCjCB8bUIXL/vykB65RIt0D3fSj8MtYLnjw7iyy49Mh1o6gPb++UUQMKf9+0mNnkZm
+ PNzcxObGQf/NaLNMbRPibMnYXvVVompDIf9ekhbxarethM5nd0wn9PL5uGQP5SOxDkwu
+ qiWw==
+X-Gm-Message-State: AGi0PuZeyuYK05CEvvW35kJ/IHpqyGa69e+y/gPtFq1fkEeRY5P6UC3k
+ acJoTNn3jT/a7QbtgFqHc1EXjVrvL/8=
+X-Google-Smtp-Source: APiQypL7qZRFS1VNgowiKN6GiSn32wNrkcbu970TmaFUhOy47Ky92tLKHowMQae+ZYoXVd+IH6gseg==
+X-Received: by 2002:a67:edd8:: with SMTP id e24mr5086439vsp.46.1587571770656; 
+ Wed, 22 Apr 2020 09:09:30 -0700 (PDT)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com.
+ [209.85.222.43])
+ by smtp.gmail.com with ESMTPSA id s9sm1709915vkl.21.2020.04.22.09.09.29
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Apr 2020 09:09:30 -0700 (PDT)
+Received: by mail-ua1-f43.google.com with SMTP id a6so2234789uao.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 09:09:29 -0700 (PDT)
+X-Received: by 2002:ab0:375a:: with SMTP id i26mr16701248uat.120.1587571768922; 
+ Wed, 22 Apr 2020 09:09:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200421050622.8113-1-dianders@chromium.org>
+ <20200420220458.v2.1.Ia50267a5549392af8b37e67092ca653a59c95886@changeid>
+ <158755100643.159702.17904334834962681759@swboyd.mtv.corp.google.com>
+In-Reply-To: <158755100643.159702.17904334834962681759@swboyd.mtv.corp.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 22 Apr 2020 09:09:17 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WJONhm4ukwZa2vGtozrz_SmLuTCLxVimnGba7wRPPzgQ@mail.gmail.com>
+Message-ID: <CAD=FV=WJONhm4ukwZa2vGtozrz_SmLuTCLxVimnGba7wRPPzgQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] drm/bridge: ti-sn65dsi86: Export bridge GPIOs to
+ Linux
+To: Stephen Boyd <swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,84 +71,206 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Tony Lindgren <tony@atomide.com>,
- James Hogan <jhogan@kernel.org>, Jonathan Bakker <xc-racer2@live.ca>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- linux-samsung-soc@vger.kernel.org,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>,
+Cc: Rob Clark <robdclark@chromium.org>,
  "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- linux-omap <linux-omap@vger.kernel.org>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Philipp Rossak <embed3d@gmail.com>,
- OpenPVRSGX Linux Driver Group <openpvrsgx-devgroup@letux.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>,
- =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- kernel@pyra-handheld.com
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ bgolaszewski@baylibre.com, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, Sandeep Panda <spanda@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi,
 
-> Am 22.04.2020 um 17:13 schrieb Maxime Ripard <maxime@cerno.tech>:
-> 
-> On Wed, Apr 22, 2020 at 09:10:57AM +0200, H. Nikolaus Schaller wrote:
->>> Am 22.04.2020 um 08:58 schrieb Maxime Ripard <maxime@cerno.tech>:
->>>> 
->>>> It also allows to handle different number of clocks (A31 seems to
->>>> need 4, Samsung, A83 and JZ4780 one) without changing the sgx bindings
->>>> or making big lists of conditionals. This variance would be handled
->>>> outside the sgx core bindings and driver.
->>> 
->>> I disagree. Every other GPU binding and driver is handling that just fine, and
->>> the SGX is not special in any case here.
->> 
->> Can you please better explain this? With example or a description
->> or a proposal?
-> 
-> I can't, I don't have any knowledge about this GPU.
+On Wed, Apr 22, 2020 at 3:23 AM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Douglas Anderson (2020-04-20 22:06:17)
+> > The ti-sn65dsi86 MIPI DSI to eDP bridge chip has 4 pins on it that can
+> > be used as GPIOs in a system.  Each pin can be configured as input,
+> > output, or a special function for the bridge chip.  These are:
+> > - GPIO1: SUSPEND Input
+> > - GPIO2: DSIA VSYNC
+> > - GPIO3: DSIA HSYNC or VSYNC
+> > - GPIO4: PWM
+> >
+> > Let's expose these pins as GPIOs.  A few notes:
+> > - Access to ti-sn65dsi86 is via i2c so we set "can_sleep".
+> > - These pins can't be configured for IRQ.
+> > - There are no programmable pulls or other fancy features.
+> > - Keeping the bridge chip powered might be expensive.  The driver is
+> >   setup such that if all used GPIOs are only inputs we'll power the
+> >   bridge chip on just long enough to read the GPIO and then power it
+> >   off again.  Setting a GPIO as output will keep the bridge powered.
+> > - If someone releases a GPIO we'll implicitly switch it to an input so
+> >   we no longer need to keep the bridge powered for it.
+> >
+> > Becaue of all of the above limitations we just need to implement a
+>
+> Because
+>
+> > bare-bones GPIO driver.  The device tree bindings already account for
+> > this device being a GPIO controller so we only need the driver changes
+> > for it.
+> >
+> > NOTE: Despite the fact that these pins are nominally muxable I don't
+> > believe it makes sense to expose them through the pinctrl interface as
+> > well as the GPIO interface.  The special functions are things that the
+> > bridge chip driver itself would care about and it can just configure
+> > the pins as needed.
+> >
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > ---
+> >
+>
+> Cool patch.
+>
+> > Changes in v2:
+> > - ("Export...GPIOs") is 1/2 of replacement for ("Allow...bridge GPIOs")
+> >
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 165 ++++++++++++++++++++++++++
+> >  1 file changed, 165 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > index 6ad688b320ae..d04c2b83d699 100644
+> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > @@ -874,6 +886,153 @@ static int ti_sn_bridge_parse_dsi_host(struct ti_sn_bridge *pdata)
+> >         return 0;
+> >  }
+> >
+> > +static struct ti_sn_bridge *gchip_to_pdata(struct gpio_chip *chip)
+> > +{
+> > +       return container_of(chip, struct ti_sn_bridge, gchip);
+> > +}
+> > +
+> > +static int ti_sn_bridge_gpio_get_direction(struct gpio_chip *chip,
+> > +                                          unsigned int offset)
+> > +{
+> > +       struct ti_sn_bridge *pdata = gchip_to_pdata(chip);
+> > +
+> > +       return (atomic_read(&pdata->gchip_output) & BIT(offset)) ?
+>
+> Any reason this isn't a bitmap?
 
-Hm. Now I am fully puzzled.
-You have no knowledge about this GPU but disagree with our proposal?
-Is it just gut feeling?
+Don't bitmaps need an external lock to protect against concurrent
+access?  When I looked I wasn't convinced that the GPIO subsystem
+prevented two callers from changing two GPIOs at the same time.  See
+below for a bigger discussion.
 
-Anyways, we need to find a solution. Together.
 
-> 
->> I simply do not have your experience with "every other GPU" as you have.
->> And I admit that I can't read from your statement what we should do
->> to bring this topic forward.
->> 
->> So please make a proposal how it should be in your view.
-> 
-> If you need some inspiration, I guess you could look at the mali and vivante
-> bindings once you have an idea of what the GPU needs across the SoCs it's
-> integrated in.
+> > +               GPIOF_DIR_OUT : GPIOF_DIR_IN;
+>
+> And why can't we read the hardware to figure out if it's in output or
+> input mode?
 
-Well, I do not need inspiration, we need to come to an agreement about
-img,pvrsgx.yaml and we need some maintainer to finally pick it up.
+A few reasons:
 
-I wonder how we can come to this stage.
+1. If nobody else had the bridge powered on this would be a slow
+operation involving powering the bridge on, querying via i2c, and then
+powering the bridge off.  Not only would it be slow but you'd be
+powering the chip up for no really good reason.  You didn't need to
+know anything that only the chip could tell you.
 
-If I look at vivante,gc.yaml or arm,mali-utgard.yaml I don't
-see big differences to what we propose and those I see seem to come
-from technical differences between sgx, vivante, mali etc. So there
-is no single scheme that fits all different gpu types.
+2. If nobody else had the bridge powered on then the bridge loses
+state and resets to defaults (everything resets to "input").  Yes, we
+could still power the bridge up and confirm this, but...
 
-One thing we can learn is that "core" seems to be a de facto standard 
-for the core clock-name. An alternative "gpu" is used by nvidia,gk20a.txt.
+3. This bitmap does double-duty of not only knowing whether a pin is
+input or output but also whether we've incremented the "pm_runtime"
+refcount in order to keep the output driven.  Knowing whether we've
+already incremented the "pm_runtime" refcount can simplify a bit of
+the code because we know whether it's powered without having to power
+it on and query.  If we didn't have a cache, then when we changed a
+pin to input we'd do:
 
-BR and thanks,
-Nikolaus
+pm_runtime_get() // Make sure we can access
+if dir_was_output:
+  pm_runtime_put() // Not driving anymore
+set_to_input();
+pm_runtime_put()  // Done with access
 
+...basically in some cases we'd do pm_runtime_put() twice in the same
+function.  It'd work, but feels like a worse solution than the one in
+my patch.
+
+4. When I bootup I see that this call gets made once per GPIO in
+gpiochip_add_data_with_key().  There's no reason to go through all the
+slowness when we know these pins are inputs.
+
+
+In the next version of the patch I'll plan to add a kerneldoc comment
+to "struct ti_sn_bridge" and add a summary of the above for
+"gchip_output".
+
+
+> > +}
+> > +
+> [...]
+> > +static int ti_sn_bridge_gpio_direction_output(struct gpio_chip *chip,
+> > +                                             unsigned int offset, int val)
+> > +{
+> > +       struct ti_sn_bridge *pdata = gchip_to_pdata(chip);
+> > +       int shift = offset * 2;
+> > +       int old_gchip_output;
+> > +       int ret;
+> > +
+> > +       old_gchip_output = atomic_fetch_or(BIT(offset), &pdata->gchip_output);
+>
+> I presume gpiolib is already preventing a gpio from being modified twice
+> at the same time. So is this atomic stuff really necessary?
+
+Right.  I've assumed that we're not running two of these functions at
+the same time for the same GPIO.  I'm not convinced that the GPIO core
+enforces this but it seems like it'd be undefined behavior for a
+client to be, for instance, setting and changing direction for the
+same GPIO in two threads at the same time.  Where simple I've tried to
+make it so it wouldn't horribly break if someone did some amount of
+concurrent access of the same pin but not every corner case is
+handled.  Mostly I focused on making sure that I could never mess up
+keeping track of whether I incremented the "pm_runtime" refcount for a
+pin.  One thing specifically I didn't handle: if we were midway
+through ti_sn_bridge_gpio_set(), we context switched out and someone
+changed us to an input, then we'd possibly do an unpowered
+regmap_update_bits() and timeout.
+
+What I do think is a sensible case to handle, though, is someone
+working with two different GPIOs exported by this controller at the
+same time.  IIUC atomic_t allows me to only spend 1 bit per pin, have
+no lock, and still make sure these different consumers don't stomp on
+each other.
+
+NOTE: I did a quick trace for the call chain when using the "gpioget"
+command-line tool.  I saw:
+
+- ti_sn_bridge_gpio_get()
+- gpio_chip_get_multiple()
+- gpiod_get_array_value_complex()
+- linehandle_ioctl()
+
+None of these appear to do any locking.  There's sorta an implicit
+lock in that only one client can "request" a given GPIO at the same
+time so the assumption that we're somewhat protected against two
+concurrent accesses of the exact same GPIO is a bit justified.  ...but
+nothing appears to protect us from concurrent accesses of different
+GPIOs.
+
+I also notice that other GPIO drivers seem to grab their own locks.
+If it makes the patch more palatable, I can get rid of all the atomic
+stuff and put in a big mutex?
+
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
