@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16231B3E16
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 12:25:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4001B3DC9
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 12:19:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED6B89F24;
-	Wed, 22 Apr 2020 10:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF87E6E3BB;
+	Wed, 22 Apr 2020 10:19:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9438689F24;
- Wed, 22 Apr 2020 10:25:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42D526E3B7;
+ Wed, 22 Apr 2020 10:19:11 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E97482071E;
- Wed, 22 Apr 2020 10:25:22 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 98CB12070B;
+ Wed, 22 Apr 2020 10:19:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587551123;
- bh=uzrTWlHs53ZPHHMtK8nctjkf4SsWJpLaX73oQPd1U6o=;
+ s=default; t=1587550751;
+ bh=+J1rnpev1mWG2DjbDUlUXV/sV3CYW4t3iOt9gosTfsA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FKO36OlYPqqPun1A4G0pY3KrD9niXvdFtqnoh7OXVD8EGRZdTOLWXUX3oEIpWBt/i
- aUm9Dq6t/52WkWcNZ6bTtQVJXYgDYCFcdxnSO7nqLnqw7bODGGG8BbfCiyKT7NWE5F
- DvUwvrDEeeorIdnASWGM/VPqmX5LugdOHssyFPBc=
+ b=LmYJTWyV8KQG90fkevdc8GdAXrrkBOPNj9szUH9r8x4/Yf2JJZMDT1BELNWPaC5V6
+ CsGthyZ3eJzJcm93RL3xsIols94xnJwAuhL2YH8rMLU4MleMfKQ6+2tbN29V63v+BQ
+ qLPhKnEx05iEFlYXe8ih0ZkBi3a802pWaB8sFbsk=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.6 108/166] drm/nouveau: workaround runpm fail by disabling
+Subject: [PATCH 5.4 076/118] drm/nouveau: workaround runpm fail by disabling
  PCI power management on certain intel bridges
-Date: Wed, 22 Apr 2020 11:57:15 +0200
-Message-Id: <20200422095100.404318585@linuxfoundation.org>
+Date: Wed, 22 Apr 2020 11:57:17 +0200
+Message-Id: <20200422095044.161891152@linuxfoundation.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200422095047.669225321@linuxfoundation.org>
-References: <20200422095047.669225321@linuxfoundation.org>
+In-Reply-To: <20200422095031.522502705@linuxfoundation.org>
+References: <20200422095031.522502705@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,8 +86,8 @@ ZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJtLmMgfCA2
 MyArKysrKysrKysrKysrKysrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25v
 dXZlYXVfZHJ2LmggfCAgMiArCiAyIGZpbGVzIGNoYW5nZWQsIDY1IGluc2VydGlvbnMoKykKCmRp
 ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RybS5jIGIvZHJpdmVy
-cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcm0uYwppbmRleCBiNjVhZTgxN2VhYmY1Li4yZDRj
-ODk5ZTFmOGI5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Ry
+cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcm0uYwppbmRleCAyY2Q4Mzg0OTYwMGYzLi5iMWJl
+ZWQ0MGU3NDZhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Ry
 bS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJtLmMKQEAgLTYxOCw2
 ICs2MTgsNjQgQEAgbm91dmVhdV9kcm1fZGV2aWNlX2Zpbmkoc3RydWN0IGRybV9kZXZpY2UgKmRl
 dikKIAlrZnJlZShkcm0pOwogfQogCisvKgorICogT24gc29tZSBJbnRlbCBQQ0llIGJyaWRnZSBj
@@ -141,19 +141,19 @@ KHN0cnVjdCBwY2lfZGV2ICpwZGV2LAogCQkJICAgICBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9p
 ZCAqcGVudCkKIHsKQEAgLTY5OSw2ICs3NTcsNyBAQCBzdGF0aWMgaW50IG5vdXZlYXVfZHJtX3By
 b2JlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LAogCWlmIChyZXQpCiAJCWdvdG8gZmFpbF9kcm1fZGV2
 X2luaXQ7CiAKKwlxdWlya19icm9rZW5fbnZfcnVucG0ocGRldik7CiAJcmV0dXJuIDA7CiAKIGZh
-aWxfZHJtX2Rldl9pbml0OgpAQCAtNzM0LDcgKzc5MywxMSBAQCBzdGF0aWMgdm9pZAogbm91dmVh
+aWxfZHJtX2Rldl9pbml0OgpAQCAtNzM2LDcgKzc5NSwxMSBAQCBzdGF0aWMgdm9pZAogbm91dmVh
 dV9kcm1fcmVtb3ZlKHN0cnVjdCBwY2lfZGV2ICpwZGV2KQogewogCXN0cnVjdCBkcm1fZGV2aWNl
 ICpkZXYgPSBwY2lfZ2V0X2RydmRhdGEocGRldik7CisJc3RydWN0IG5vdXZlYXVfZHJtICpkcm0g
 PSBub3V2ZWF1X2RybShkZXYpOwogCisJLyogcmV2ZXJ0IG91ciB3b3JrYXJvdW5kICovCisJaWYg
 KGRybS0+b2xkX3BtX2NhcCkKKwkJcGRldi0+cG1fY2FwID0gZHJtLT5vbGRfcG1fY2FwOwogCW5v
-dXZlYXVfZHJtX2RldmljZV9yZW1vdmUoZGV2KTsKIAlwY2lfZGlzYWJsZV9kZXZpY2UocGRldik7
-CiB9CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Rydi5oIGIv
-ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcnYuaAppbmRleCBjMmMzMzJmYmRlOTc5
-Li4yYTY1MTk3Mzc4MDBjIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2
-ZWF1X2Rydi5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJ2LmgKQEAg
-LTE0MCw2ICsxNDAsOCBAQCBzdHJ1Y3Qgbm91dmVhdV9kcm0gewogCiAJc3RydWN0IGxpc3RfaGVh
-ZCBjbGllbnRzOwogCisJdTggb2xkX3BtX2NhcDsKKwogCXN0cnVjdCB7CiAJCXN0cnVjdCBhZ3Bf
-YnJpZGdlX2RhdGEgKmJyaWRnZTsKIAkJdTMyIGJhc2U7Ci0tIAoyLjIwLjEKCgoKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+dXZlYXVfZHJtX2RldmljZV9yZW1vdmUoZGV2KTsKIH0KIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25v
+dXZlYXVfZHJ2LmgKaW5kZXggNzBmMzRjYWNjNTUyYy4uODEwNGUzODA2NDk5ZCAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcnYuaAorKysgYi9kcml2ZXJzL2dw
+dS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Rydi5oCkBAIC0xMzgsNiArMTM4LDggQEAgc3RydWN0IG5v
+dXZlYXVfZHJtIHsKIAogCXN0cnVjdCBsaXN0X2hlYWQgY2xpZW50czsKIAorCXU4IG9sZF9wbV9j
+YXA7CisKIAlzdHJ1Y3QgewogCQlzdHJ1Y3QgYWdwX2JyaWRnZV9kYXRhICpicmlkZ2U7CiAJCXUz
+MiBiYXNlOwotLSAKMi4yMC4xCgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
