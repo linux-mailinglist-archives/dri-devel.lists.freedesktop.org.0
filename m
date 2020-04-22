@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F39DE1B437E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 13:46:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1108B1B4384
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Apr 2020 13:49:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE486E424;
-	Wed, 22 Apr 2020 11:46:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50C396E438;
+	Wed, 22 Apr 2020 11:49:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF426E424
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 11:46:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F225A6E436
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 11:49:32 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205291] Cannot switch off Radeon HD 4330/4350/4550 with
  vgaswitcheroo
-Date: Wed, 22 Apr 2020 11:46:51 +0000
+Date: Wed, 22 Apr 2020 11:49:32 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205291-2300-DOBmZhPeMk@https.bugzilla.kernel.org/>
+Message-ID: <bug-205291-2300-3gH7CwnLhU@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205291-2300@https.bugzilla.kernel.org/>
 References: <bug-205291-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,37 +59,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=205291
 
---- Comment #9 from K J Petrie (kernel.bugs@kjpetrie.co.uk) ---
-Well, it'll take time to patch and recompile the kernel, but in the meantime
-here is all the contents of the power directories:
-
-AMD Radeon GPU
-cat /sys/bus/pci/devices/0000\:01\:00.0/power/runtime_status 
-active
-cat /sys/bus/pci/devices/0000\:01\:00.0/power/control 
-auto
-cat /sys/bus/pci/devices/0000\:01\:00.0/power/autosuspend_delay_ms 
-5000
-cat /sys/bus/pci/devices/0000\:01\:00.0/power/runtime_active_time 
-1744516
-cat /sys/bus/pci/devices/0000\:01\:00.0/power/runtime_suspended_time 
-184197
-
-AMD HDA
-cat /sys/bus/pci/devices/0000\:01\:00.1/power/runtime_status 
-active
-cat /sys/bus/pci/devices/0000\:01\:00.1/power/control 
-auto
-cat /sys/bus/pci/devices/0000\:01\:00.1/power/autosuspend_delay_ms 
-cat: '/sys/bus/pci/devices/0000:01:00.1/power/autosuspend_delay_ms':
-Input/output error
-cat /sys/bus/pci/devices/0000\:01\:00.1/power/runtime_active_time 
-2415454
-cat /sys/bus/pci/devices/0000\:01\:00.1/power/runtime_suspended_time 
-214644
-
-I double-checked that IO error, in case it was just a fluke, but it's
-consistent.
+--- Comment #10 from K J Petrie (kernel.bugs@kjpetrie.co.uk) ---
+Looks like I need to recompile with CONFIG_PM_ADVANCED_DEBUG, I suspect.
 
 -- 
 You are receiving this mail because:
