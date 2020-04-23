@@ -1,62 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D03D1B5800
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 11:20:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5B01B6716
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:51:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 694BA6E486;
-	Thu, 23 Apr 2020 09:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 264636EA42;
+	Thu, 23 Apr 2020 22:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E945B6E486
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 09:20:38 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id r26so5766217wmh.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 02:20:38 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 755DC6E580
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 09:55:19 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id r26so5875941wmh.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 02:55:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=YlakRXlVVbSOqCFC3kOOGCPGNfzSZXjoj0rNmgz6JGM=;
- b=U1qjm/QVHI2Y9dwiNoTJmKsb9YPhRYHXTAWLYLkGIH/SzTUHXhbhd14spJ/p+AT+Kz
- 1Y3UiQNE/wP3N7RTf4ky5usp+Z+mzVCP190WHmnxktH3svJLYkjaL3DnqcnYWyn+tTES
- aNp7OWzhG5ks/pe0LW9zyWINJtLQI4MlevZfR0iXD9/OAKd+w09KY8drrZYOsVUqflLD
- FUNx2smvIqNEyt9TfZ71n4B2ItG2+PhQqtMo15ebAvjQ3N8DWLA6fftKBFjKruiHCrrq
- e7dZjCRRvXZ2OBVmaDRK4zx1pLfBAUHhRG9DKAM3T4DhG5QlNb++e1QX45/61gr8REDD
- uuAw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CNZHIzr/sBiOQMg4o7SLifEDxLKhTFFCAk3xHKq/Wkk=;
+ b=DsyXxkNH0btzVamhIFYzv5e350yw7X/w1LKFwogh0iIwGOZ96kVPXuXkDX32LZlwAC
+ 94fwg0MWeHie4nOwR95Jrn7cRtHYa60rXz9VOiMSFM/iKMyymQip57NZrPEQTg9A9yrb
+ sU1IjCQpH+9HLWLKs738y4q6R63guG/pQy4hAMFfXU/FaxMDYHU6DOWGVn+x2CbWEpkx
+ Vo5zrIPAcwf72RxKvq889DHMx7Sv/eAARH47GGoJKHa8+8uB7M208Vnt1tgwYaqBlp/v
+ 5UkeF6iEQSn2bZD9AtRien1PivU6B7DVufUotKDoDbqTxnfNsCAXWKrMdChEeIIErbT7
+ 0RBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YlakRXlVVbSOqCFC3kOOGCPGNfzSZXjoj0rNmgz6JGM=;
- b=gg6a4WEF+QTwWujm8exReeHUwTxLggoZOMVR3IUW27azvdcj+x/Hs7PTAa+Rdikadu
- 8Mkoq9CB10ILvq1AAETPYhWk+xQ3UBE9cvYGNo33+8+fRvjaGVezStTIh6F47T1j7B+s
- pxGf6t22Wo1H7oGvLRXxS44/Jp513CCLhN56wRAzsMwfAy2oqdLUOdl/jD+Bf+DPHcaZ
- kau1rQAHaraWhuhab3smD1g3G2o9cQhYuNH2q50NMVB3ub0icBmg5lKhKJra9Hei1Ine
- E7q5ExrtGxW25WazT2ibojWo7wickH6RJ/5FwosZh1xziQDC8Nh6nO89+BlAC2fRIpPT
- eWeA==
-X-Gm-Message-State: AGi0PubfulSFtk6S1Edi+UFdnTSIUkBEv8BdJmg2Xv4ldW7T3bmRariK
- xzaQo+BUFykTWOkFyosxPeOgcw==
-X-Google-Smtp-Source: APiQypKxzJUFiraEGAMa9DKmpYFhbShKwe/xf4XMAY+FxNiGq6f3nSom2gJQinfqyhDKdWHVW8Vq7Q==
-X-Received: by 2002:a1c:678a:: with SMTP id b132mr3112235wmc.107.1587633637495; 
- Thu, 23 Apr 2020 02:20:37 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id h10sm2738108wrq.33.2020.04.23.02.20.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 02:20:36 -0700 (PDT)
-Date: Thu, 23 Apr 2020 10:20:34 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Guru Das Srinagesh <gurus@codeaurora.org>
-Subject: Re: [PATCH v13 00/11] Convert PWM period and duty cycle to u64
-Message-ID: <20200423092034.2yrzbuiay66fizkx@holly.lan>
-References: <cover.1587523702.git.gurus@codeaurora.org>
- <20200422084934.ajh6yzs5mkzzvop4@holly.lan>
- <20200422233755.GA11597@codeaurora.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CNZHIzr/sBiOQMg4o7SLifEDxLKhTFFCAk3xHKq/Wkk=;
+ b=p2acHESVxkqItOHHeB+prajw9PKnpDA893cEj61Nyq663SBckM78Hx3C1CLfU0heAD
+ ZqxKXO2mg2USrJ+mjlitPVxSKVlmoBQfcWQnGCdrJe9c0wA31cOI2Kj7PSAE/Jgnl6zZ
+ vGEEkgYgMlRQnZ28dTrb/FXXuK9emypEj/tfUVPph8DJFd7Xzd88gjC2IMyLIuYTV4YJ
+ QPLg/W68b7HabHBQmwncc8MRhNfEl6uhwInu8EXbF9y3OMi7wexPzLjysFfc4vElhxUa
+ SM20cb7/SiKuyzNfQAgFqJa45pz2XPaWOCcb0FkawxjxuZTkMieuT0b87YI73kJw2I9/
+ emBw==
+X-Gm-Message-State: AGi0PuZnsZ1abwXgC8M25KNY91/HN/9tYaZR5D53SpzhmaAi+EdzfGKV
+ pek/qjoLKOfwworUsDSF4K9amw==
+X-Google-Smtp-Source: APiQypL6ZyvDfFcOWCfVXnw6SXTOR2+Oss71maaUGGL6LrnXJ7de4PKprtb6zu5/4UALDKzAFGgGXw==
+X-Received: by 2002:a05:600c:2112:: with SMTP id
+ u18mr3386058wml.112.1587635717910; 
+ Thu, 23 Apr 2020 02:55:17 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:75d8:694c:3b71:4e43?
+ ([2a01:e34:ed2f:f020:75d8:694c:3b71:4e43])
+ by smtp.googlemail.com with ESMTPSA id i17sm2997016wml.23.2020.04.23.02.55.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Apr 2020 02:55:17 -0700 (PDT)
+Subject: Re: [PATCH v6 01/10] PM / EM: change naming convention from
+ 'capacity' to 'performance'
+To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-imx@nxp.com
+References: <20200410084210.24932-1-lukasz.luba@arm.com>
+ <20200410084210.24932-2-lukasz.luba@arm.com>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <3f764593-99fa-bce3-3630-ce16101df536@linaro.org>
+Date: Thu, 23 Apr 2020 11:55:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200422233755.GA11597@codeaurora.org>
+In-Reply-To: <20200410084210.24932-2-lukasz.luba@arm.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,65 +78,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
- David Collins <collinsd@codeaurora.org>, Liam Girdwood <lgirdwood@gmail.com>,
- David Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>,
- Kamil Debski <kamil@wypas.org>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Atish Patra <atish.patra@wdc.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-riscv@lists.infradead.org,
- linux-clk@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alexander Shiyan <shc_work@mail.ru>, Lee Jones <lee.jones@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, NXP Linux Team <linux-imx@nxp.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Guenter Roeck <linux@roeck-us.net>,
- linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- Jean Delvare <jdelvare@suse.com>, Alexandre Torgue <alexandre.torgue@st.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- intel-gfx@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
- Thomas Gleixner <tglx@linutronix.de>, Fabrice Gasnier <fabrice.gasnier@st.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Allison Randal <allison@lohutok.net>, linux-hwmon@vger.kernel.org,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Richard Fontana <rfontana@redhat.com>, Stephen Boyd <sboyd@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- Yash Shah <yash.shah@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, Joe Perches <joe@perches.com>,
- Shawn Guo <shawnguo@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, bjorn.andersson@linaro.org,
+ bsegall@google.com, mka@chromium.org, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ steven.price@arm.com, cw00.choi@samsung.com, mingo@redhat.com, mgorman@suse.de,
+ rui.zhang@intel.com, alyssa.rosenzweig@collabora.com, orjan.eide@arm.com,
+ b.zolnierkie@samsung.com, s.hauer@pengutronix.de, rostedt@goodmis.org,
+ matthias.bgg@gmail.com, Dietmar.Eggemann@arm.com, airlied@linux.ie,
+ tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
+ rdunlap@infradead.org, rjw@rjwysocki.net, agross@kernel.org,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ shawnguo@kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 22, 2020 at 04:37:55PM -0700, Guru Das Srinagesh wrote:
-> On Wed, Apr 22, 2020 at 09:49:34AM +0100, Daniel Thompson wrote:
-> > On Tue, Apr 21, 2020 at 07:57:12PM -0700, Guru Das Srinagesh wrote:
-> > > [REQUEST]
-> > > 
-> > > Would it be possible for the patches that have already received Acked-by's in
-> > > this series to be accepted and applied to the tree? I lost an Acked-by (in
-> > > intel-panel.c) because it had a merge conflict with a new change that came in
-> > > after I rebased to tip. I wasn't sure earlier about accepting single patches as
-> > > opposed to the entire series en masse, but this event has got me thinking.
-> > 
-> > Has there been a positive maintainer review of patch 11 at any point in
-> > the thread (most of the people you are asking to commit patches have
-> > not been able to see the discussion about the actual feature these
-> > patches are preparing for)?
-> 
-> Yes. Uwe had this to say [1] about a previous patchset (v5) of patch 11
-> which is essentially unchanged in this patchset save the dropping of the
-> pwm_capture change.
-> 
-> [1] https://www.spinics.net/lists/linux-pwm/msg11536.html
-
-Excellent. Thanks!
-
-
-Daniel.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMTAvMDQvMjAyMCAxMDo0MiwgTHVrYXN6IEx1YmEgd3JvdGU6Cj4gVGhlIEVuZXJneSBNb2Rl
+bCB1c2VzIGNvbmNlcHQgb2YgcGVyZm9ybWFuY2UgZG9tYWluIGFuZCBjYXBhY2l0eSBzdGF0ZXMg
+aW4KPiBvcmRlciB0byBjYWxjdWxhdGUgcG93ZXIgdXNlZCBieSBDUFVzLiBDaGFuZ2UgbmFtaW5n
+IGNvbnZlbnRpb24gZnJvbQo+IGNhcGFjaXR5IHRvIHBlcmZvcm1hbmNlIHN0YXRlIHdvdWxkIGVu
+YWJsZSB3aWRlciB1c2FnZSBpbiBmdXR1cmUsIGUuZy4KPiB1cGNvbWluZyBzdXBwb3J0IGZvciBv
+dGhlciBkZXZpY2VzIG90aGVyIHRoYW4gQ1BVcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBMdWthc3og
+THViYSA8bHVrYXN6Lmx1YmFAYXJtLmNvbT4KPiAtLS0KCkFja2VkLWJ5OiBEYW5pZWwgTGV6Y2Fu
+byA8ZGFuaWVsLmxlemNhbm9AbGluYXJvLm9yZz4KCgotLSAKPGh0dHA6Ly93d3cubGluYXJvLm9y
+Zy8+IExpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBUk0gU29DcwoKRm9s
+bG93IExpbmFybzogIDxodHRwOi8vd3d3LmZhY2Vib29rLmNvbS9wYWdlcy9MaW5hcm8+IEZhY2Vi
+b29rIHwKPGh0dHA6Ly90d2l0dGVyLmNvbS8jIS9saW5hcm9vcmc+IFR3aXR0ZXIgfAo8aHR0cDov
+L3d3dy5saW5hcm8ub3JnL2xpbmFyby1ibG9nLz4gQmxvZwpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
