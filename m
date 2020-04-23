@@ -2,68 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 748111B5F1B
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 17:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0B81B672D
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6DB26E8D5;
-	Thu, 23 Apr 2020 15:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 889326EA51;
+	Thu, 23 Apr 2020 22:52:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B9FC6E8D5
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 15:26:12 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1587655573; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=9wQ2DyfHn0zQSPKWH0MRTyykuPGkgNXnO6TKfK9XPEc=;
- b=YxnO/k4ybIiOflJnqaqIRrL3msww9tc/RfCqFD9tE64PbEPCix5Pd0MQId9kDV3iiUcO5q8g
- 1kebsFjpjrBTLjg5T50UkqP2hhn03SQMByhmk+arWiv8lWqmxn7u87zfuoAcf/XORU02/MBx
- GTRa8i+qzynQbiAMnYxD+VJP8Qw=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5ea1b387.7fe426464b58-smtp-out-n01;
- Thu, 23 Apr 2020 15:25:59 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 81425C433D2; Thu, 23 Apr 2020 15:25:58 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 04D96C433F2;
- Thu, 23 Apr 2020 15:25:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 04D96C433F2
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Thu, 23 Apr 2020 09:25:55 -0600
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Jonathan Marek <jonathan@marek.ca>
-Subject: Re: [Freedreno] [PATCH v2 2/9] drm/msm: add internal MSM_BO_MAP_PRIV
- flag
-Message-ID: <20200423152555.GA32401@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Jonathan Marek <jonathan@marek.ca>,
- freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Rob Clark <robdclark@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sean Paul <sean@poorly.run>
-References: <20200421234127.27965-1-jonathan@marek.ca>
- <20200421234127.27965-3-jonathan@marek.ca>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F411F6E8D6
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 15:28:46 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3B5E031B;
+ Thu, 23 Apr 2020 08:28:46 -0700 (PDT)
+Received: from [10.37.12.89] (unknown [10.37.12.89])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7E87B3F6CF;
+ Thu, 23 Apr 2020 08:28:21 -0700 (PDT)
+Subject: Re: [PATCH v6 03/10] PM / EM: update callback structure and add
+ device pointer
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+References: <20200410084210.24932-1-lukasz.luba@arm.com>
+ <20200410084210.24932-4-lukasz.luba@arm.com>
+ <20200423132243.GA65632@linaro.org>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <245720a0-c812-ccc8-235e-6eed6f216e4b@arm.com>
+Date: Thu, 23 Apr 2020 16:28:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200421234127.27965-3-jonathan@marek.ca>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20200423132243.GA65632@linaro.org>
+Content-Language: en-US
+X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,69 +45,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, bsegall@google.com,
+ alyssa.rosenzweig@collabora.com, mka@chromium.org, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ agross@kernel.org, b.zolnierkie@samsung.com, steven.price@arm.com,
+ cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
+ rui.zhang@intel.com, mgorman@suse.de, orjan.eide@arm.com,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ s.hauer@pengutronix.de, rostedt@goodmis.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
+ linux-arm-kernel@lists.infradead.org, airlied@linux.ie,
+ tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
+ rdunlap@infradead.org, rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ shawnguo@kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 21, 2020 at 07:41:20PM -0400, Jonathan Marek wrote:
-> This flag sets IOMMU_PRIV, which is required for some a6xx GMU objects.
+Hi Daniel,
 
-The GMU doesn't _need_  privileged surfaces, but it sure is a good idea.
-As a bonus with the APRIV bit on some a6xx targets we can set all of the
-global buffers as privileged so people can't go out and overwrite the memstore
-any more.
-
-Reviewed-by: Jordan Crouse <jcrouse@codeauorora.org>
-
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> ---
->  drivers/gpu/drm/msm/msm_gem.c | 3 +++
->  drivers/gpu/drm/msm/msm_gem.h | 1 +
->  2 files changed, 4 insertions(+)
+On 4/23/20 2:22 PM, Daniel Lezcano wrote:
+> On Fri, Apr 10, 2020 at 09:42:03AM +0100, Lukasz Luba wrote:
+>> The Energy Model framework is going to support devices other that CPUs. In
+>> order to make this happen change the callback function and add pointer to
+>> a device as an argument.
+>>
+>> Update the related users to use new function and new callback from the
+>> Energy Model.
+>>
+>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+>> ---
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> index d8f56a34c117..6277fde13df9 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.c
-> +++ b/drivers/gpu/drm/msm/msm_gem.c
-> @@ -428,6 +428,9 @@ static int msm_gem_pin_iova(struct drm_gem_object *obj,
->  	if (!(msm_obj->flags & MSM_BO_GPU_READONLY))
->  		prot |= IOMMU_WRITE;
->  
-> +	if (msm_obj->flags & MSM_BO_MAP_PRIV)
-> +		prot |= IOMMU_PRIV;
-> +
->  	WARN_ON(!mutex_is_locked(&msm_obj->lock));
->  
->  	if (WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED))
-> diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-> index 30584eaf8cc8..972490b14ba5 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.h
-> +++ b/drivers/gpu/drm/msm/msm_gem.h
-> @@ -13,6 +13,7 @@
->  
->  /* Additional internal-use only BO flags: */
->  #define MSM_BO_STOLEN        0x10000000    /* try to use stolen/splash memory */
-> +#define MSM_BO_MAP_PRIV      0x20000000    /* use IOMMU_PRIV when mapping */
->  
->  struct msm_gem_address_space {
->  	const char *name;
-> -- 
-> 2.26.1
+> [ ... ]
 > 
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
+>> +static struct em_perf_domain *
+>> +em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
+>> +	     cpumask_t *span)
+>>   {
+>>   	unsigned long opp_eff, prev_opp_eff = ULONG_MAX;
+>>   	unsigned long power, freq, prev_freq = 0;
+>> @@ -106,7 +107,7 @@ static struct em_perf_domain *em_create_pd(cpumask_t *span, int nr_states,
+>>   		 * lowest performance state of 'cpu' above 'freq' and updates
+>>   		 * 'power' and 'freq' accordingly.
+>>   		 */
+>> -		ret = cb->active_power(&power, &freq, cpu);
+>> +		ret = cb->active_power(&power, &freq, dev);
+>>   		if (ret) {
+>>   			pr_err("pd%d: invalid perf. state: %d\n", cpu, ret);
+>>   			goto free_ps_table;
+> 
+> Why are the changes 'cpu' to 'dev' in the patch 4/10 instead of this one ?
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+The patch 4/10 is quite big and I didn't want to put also this change in
+there. I thought for readability it would be better to have a separate
+patch with self-contained change (or I got your suggestion too strict).
+
+In this patch I just wanted to show more precisely that this function
+callback 'active_power' which is used by 2 users (currently):
+cpufreq/scmi-cpufreq.c and opp/of.c
+is going to change an argument and these files are affected.
+
+The 4/10 changes a lot lines, while first 3 patches can be treated as
+a preparation for the upcoming major change (4/10).
+
+Thank you for the review.
+
+Regards,
+Lukasz
+
+> 
+>> @@ -237,7 +238,7 @@ int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+>>   	}
+>>   
+>>   	/* Create the performance domain and add it to the Energy Model. */
+>> -	pd = em_create_pd(span, nr_states, cb);
+>> +	pd = em_create_pd(dev, nr_states, cb, span);
+>>   	if (!pd) {
+>>   		ret = -EINVAL;
+>>   		goto unlock;
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
