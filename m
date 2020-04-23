@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0BC1B6726
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6181B6730
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2729E6EA20;
-	Thu, 23 Apr 2020 22:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E865A6EA60;
+	Thu, 23 Apr 2020 22:52:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2222F6E8F1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 16:04:01 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id f7so3160434pfa.9
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 09:04:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B08F6E8F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 16:07:30 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id b11so7488442wrs.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 09:07:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=QRRSRzv3ELZyPDBdtIE45poUqjMQaq7ox4Jm7P7/zG8=;
- b=R1yAor3At9e+xtBhUr6dlgl7zNXUVenScXyHMgcn6IEG2US+/UvODrE8lbtPt/gLs/
- fbWEVj/JWvpO34kH3WTmFqm02fkOHuQ7PhIiONd8EUu3SW3XtYCNPbk92Xa4fdfbrRE1
- PXQd0r0F2W4Fp10i4ld1cmfne4gSHWf8NyMjtGLwvuq4GJmQJABiDyvshdytsc4Dk0Rx
- e//SCLAP6/rdoNEqY0IdCqIT3FibTx1vI72kTE3eLnhpUYI2ZreFg08S9YtkGEs0zhOt
- WX9FXySSlDXshp0yLq17w2rYTW0o1mmx/y55DH11xOJlY8NmfYyv7tfqjERP5kVDnBrD
- Eccw==
+ :content-disposition:in-reply-to;
+ bh=JilRdq2BDhA1AKoin3Th54s1noQnrS50Fz/y17AV1jA=;
+ b=mu5AJ++cQsxccfAWV5JOLI/SgRQB86tng7pTsdRiA0kz/jrOGnc32OzFYt/7FPwzzB
+ +RKxvAWyG3Fhb/LTxr6iLFG7Fqd7cKZchlM4nPOFnCKoCRxMGn7M5oQDMCMFbxxLhDGe
+ 5X2igq6lLyFRp4YnVVxEseuIDVoFkyq+mdHi+Zisfd8Pp3LapzbK+KzPaARkQ4AAAyz7
+ bNs+1FaBot8KfjfQNqxRFuFjrp9Rx7gmbOUG0SjUisIrkJPmKAomEWKkRNJRPC7bZciu
+ H7JBYPscd6A7+6TIJnHQSIdrfBlMdUZgWFGabEUO3JDAeXaryLKlgvKAiL43TvO8v1SR
+ jQPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=QRRSRzv3ELZyPDBdtIE45poUqjMQaq7ox4Jm7P7/zG8=;
- b=gSelEToUZTeMkvw3AQfKBpXSVZYKBh1DhZkD0DPrf0/bb8r1hWLaF0ndnO/eGhkCdj
- VRLwpriJdE+aH7UGEtCjWvRclFFYnCdiZqYZp8vua+WZYHe/GaOP/7qOawAe4B/Pwudf
- LHJgY/qg7gjeUMr/RgU3tZM6UM42ULEQ5nxLDPTS4V3O3DBOIIlCmC2RdKwnCTtP0+BE
- CRAOIDpLQwO38W1RJBcRrQmi3UA4x5lvUa6gcBZb7tViy6WFSHTQ2V1i0+86Pv7z52jw
- KDi3X8kq85IdOQrt7pq48yRbpQJEruM8U4VVTCSJJoc9ifsfLGi2Y2RNgXtvmxojCU8q
- dBVg==
-X-Gm-Message-State: AGi0PubMgYDOPLU56htJY5dIg5bsGlARxnyZiHgefQobwneou+iQT4pT
- ckWUhkTQxCUPU00e+M7mQ00=
-X-Google-Smtp-Source: APiQypJNoUyWvf19ibvNaStq1WA8/4V2tFh9qQrvtbqG8Us89/iEAV2d0p9Nj6pt/PJyn6r+TTHe8Q==
-X-Received: by 2002:aa7:82d4:: with SMTP id f20mr4501737pfn.253.1587657840767; 
- Thu, 23 Apr 2020 09:04:00 -0700 (PDT)
-Received: from localhost (176.122.158.71.16clouds.com. [176.122.158.71])
- by smtp.gmail.com with ESMTPSA id a200sm2867954pfa.201.2020.04.23.09.03.59
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 23 Apr 2020 09:04:00 -0700 (PDT)
-Date: Fri, 24 Apr 2020 00:03:56 +0800
-From: Dejin Zheng <zhengdejin5@gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v2] console: console: Complete exception handling in
- newport_probe()
-Message-ID: <20200423160356.GA2538@nuc8i5>
-References: <20200423142627.1820-1-zhengdejin5@gmail.com>
- <CAHp75Vf1_SMk=_WDUrB97BGR6K6EXOdtgQ92=hTyMdVUoyWQiw@mail.gmail.com>
+ :mime-version:content-disposition:in-reply-to;
+ bh=JilRdq2BDhA1AKoin3Th54s1noQnrS50Fz/y17AV1jA=;
+ b=hYpErz+I1FwjQr6Wj814omxRuLeqzmdPL6HNhCNDHVQ8Mj4dhOZ7BeD3stCbDynt4V
+ UyFk+zXNrrwlhTbWQy2RniFZNq4FpumNXj5b2a3zVWeEv4rl08oyYR6wfhHhl6Ax5ro0
+ 22WEVmf32nBjpQ+tUa3TNF75cGEbNKsrxSO/C2Mz5PhB0RIN7aadFtAd9YrNuLjuzRlz
+ 9wCfN8LJfXgEDq2qx/cRJ6/nQRcfFvZe92FQ8Va33mrDk4R55YUxcmAX5y7E5R1Tuw2s
+ 9+AFCCbKRI1IeDvoJZ5cXfvHw83DJIj169OB6byfExyZ67M+IZAisblPNr7AJ+Jqd/vK
+ 64xA==
+X-Gm-Message-State: AGi0PuY252KtppiUbehcQAKvrZCICsS2jitnz/Q2j9P/j87bQyxHpTV4
+ 3RcGeRF6DmPdu6ZIJ3Rn8BXXUQ==
+X-Google-Smtp-Source: APiQypLW+PKkIM2+wwd4rW8a0Cu+5yfXB9aOs7exzbNq/9IiN/eo7uFJ35wUPd5bS6ATZyaoXdBIzg==
+X-Received: by 2002:a5d:49c7:: with SMTP id t7mr5482028wrs.22.1587658048446;
+ Thu, 23 Apr 2020 09:07:28 -0700 (PDT)
+Received: from linaro.org ([37.167.216.250])
+ by smtp.gmail.com with ESMTPSA id g74sm4308279wme.44.2020.04.23.09.07.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Apr 2020 09:07:27 -0700 (PDT)
+Date: Thu, 23 Apr 2020 18:07:23 +0200
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+To: Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH v6 07/10] Documentation: power: update Energy Model
+ description
+Message-ID: <20200423160723.GE65632@linaro.org>
+References: <20200410084210.24932-1-lukasz.luba@arm.com>
+ <20200410084210.24932-8-lukasz.luba@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAHp75Vf1_SMk=_WDUrB97BGR6K6EXOdtgQ92=hTyMdVUoyWQiw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200410084210.24932-8-lukasz.luba@arm.com>
 X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,70 +69,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, FlorianSchandinat@gmx.de,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Ralf Baechle <ralf@linux-mips.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Gleixner <tglx@linutronix.de>
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, bsegall@google.com,
+ alyssa.rosenzweig@collabora.com, mka@chromium.org, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ agross@kernel.org, b.zolnierkie@samsung.com, steven.price@arm.com,
+ cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
+ rui.zhang@intel.com, mgorman@suse.de, orjan.eide@arm.com,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ s.hauer@pengutronix.de, rostedt@goodmis.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
+ linux-arm-kernel@lists.infradead.org, airlied@linux.ie,
+ tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
+ rdunlap@infradead.org, rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ shawnguo@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 23, 2020 at 05:52:09PM +0300, Andy Shevchenko wrote:
-> On Thu, Apr 23, 2020 at 5:26 PM Dejin Zheng <zhengdejin5@gmail.com> wrote:
-> >
-> > A call of the function do_take_over_console() can fail here.
-> > The corresponding system resources were not released then.
-> > Thus add a call of the function iounmap() together with the check
-> > of a failure predicate.
+On Fri, Apr 10, 2020 at 09:42:07AM +0100, Lukasz Luba wrote:
+> The Energy Model framework supports also other devices than CPUs. Update
+> related information and add description for the new usage.
 > 
-> ...
-> 
-> > CC: Andy Shevchenko <andy.shevchenko@gmail.com>
-> 
-> Use Cc: Better to read.
->
-I will pay attention to the next submission, thanks.
+> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+> ---
 
-> ...
-> 
-> > v1 -> v2:
-> >         - modify the commit comments by Markus'suggestion.
-> 
-> What suggestion? You need to be clear in changelog what exactly has
-> been done without looking to any previous mail.
->
-The commit comments have some more appropriate instructions by
-Markus'suggestion. here is my first version commit comments:
-
-if do_take_over_console() return an error in the newport_probe(),
-due to the io virtual address is not released, it will cause a leak.
-
-Thnaks!
-
-> ...
-> 
-> >         console_lock();
-> >         err = do_take_over_console(&newport_con, 0, MAX_NR_CONSOLES - 1, 1);
-> >         console_unlock();
-> > +
-> > +       if (err)
-> > +               iounmap((void *)npregs);
-> >         return err;
-> >  }
-> 
-> I have briefly looked at the code (it is actually quite old one!), and
-> I think this is half-baked solution, besides the fact of missed
-> __iomem annotation and useless explicit casting.
-> The proper one seems to switch to memremap() and do memunmap() here.
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
+Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
