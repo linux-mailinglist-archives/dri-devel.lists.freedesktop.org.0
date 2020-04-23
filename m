@@ -1,59 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1EEB1B6736
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F4A1B6717
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:51:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB1366EA56;
-	Thu, 23 Apr 2020 22:52:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 947BB6EA44;
+	Thu, 23 Apr 2020 22:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D146E8F1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 15:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587656804;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=ybxxfVp12h/EJrmfUJdRJSGTmKH3W7lZYEApLFlERWY=;
- b=X6FvU/DBtmsYsWLS0vmyaEkxyhP9m+VEIVCCHmi+QH1En22qd1T7bYRtQezoBZ6QAa
- 2S0rKR6nfCFeq6Lu5kQBTuL1RotC7ZaD8iLxWNfqqJ+J902bRxsdcnnMngHEpAP4WKtb
- fZxrgDlPWWEMbrcuVE+H2SKrRABfmMo3v0TR/b4WvEdq22Dtmx2SfJuG/L2KupTm7nZk
- SKRM2vanuq3GPQ7x5ZfUFJ9jKlrGz6vkBOAHKvoUBWSIA2fN9b81DUsdohEwVdlA65pd
- FU7q+61m9pDG1zZE1o3wXWgnC+ifr3/I8NwcobgpDjnxA5xDTYozRAqVLGnYc4SEUoqN
- Qhgw==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBp5hRw/qOxWRk4dCysOfl5tOw33QtdTbGcCRJGxnkq3ByzlXOnoXby"
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2001:16b8:2692:1500:61a3:e550:2224:7950]
- by smtp.strato.de (RZmta 46.6.2 AUTH) with ESMTPSA id R0acebw3NFjv7lw
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Thu, 23 Apr 2020 17:45:57 +0200 (CEST)
-Subject: Re: [PATCH v6 00/12] ARM/MIPS: DTS: add child nodes describing the
- PVRSGX GPU present in some OMAP SoC and JZ4780 (and many more)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <43688597-4b99-8f4d-9ad5-548ddff07f52@baylibre.com>
-Date: Thu, 23 Apr 2020 17:45:55 +0200
-Message-Id: <71F2F964-32C7-41E6-8F1A-A73161EA1BB3@goldelico.com>
-References: <20200415130233.rgn7xrtwqicptke2@gilmour.lan>
- <C589D06E-435E-4316-AD0A-8498325039E3@goldelico.com>
- <10969e64-fe1f-d692-4984-4ba916bd2161@gmail.com>
- <20200420073842.nx4xb3zqvu23arkc@gilmour.lan>
- <b5a06c19-7a3e-bcb8-5ae3-76901b9c6c35@gmail.com>
- <20200421112129.zjmkmzo3aftksgka@gilmour.lan>
- <20200421141543.GU37466@atomide.com>
- <D9D4D057-A73D-485F-898D-5C05E89C16B7@goldelico.com>
- <20200422065859.quy6ane5v7vsy5tf@gilmour.lan>
- <1AA57A0C-48E6-49BB-BB9A-2AAFFB371BCD@goldelico.com>
- <20200422151328.2oyqz7gqkbunmd6o@gilmour.lan>
- <07923B6C-4CCD-4B81-A98F-E19C43412A89@goldelico.com>
- <43688597-4b99-8f4d-9ad5-548ddff07f52@baylibre.com>
-To: Neil Armstrong <narmstrong@baylibre.com>
-X-Mailer: Apple Mail (2.3124)
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF12E89D1D
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 15:51:24 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id o15so3100579pgi.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 08:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=+Lpx84ybnP3CbGO9+hIlMb8pKZvpHlBUCvuaUaL2gSc=;
+ b=siyn8fn9dgNTeY0PFfNmf3LQOi0S4q18gLuG/8tqxoJ2xhYIUJtylgFoSPsgXvC62U
+ 13PR7A6ZHoCHxk6J5LGWsHxwmqAbc9fAL3QpZTmQHXf9lND8mWx5WZsepUSTtHf9ilO7
+ iYoWUINohBd88hEZk/vniNzaVSpxQQlBxTzTUaUQwdFnNk1BX0IqjmE0DXZjEPE+BFO4
+ o+TOxBANszxYwZg9ETuztp4Z1kS2iy8RSSXxvZKe5QHPZYDg2RfNblXS9svfX0sneC3Q
+ Ap0U76J8jIoXqnEHpcJQWa7SFgJBTPm73RPp2csNvjdfbyUffI3AeCGPC6DWelbU6sFA
+ eVVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=+Lpx84ybnP3CbGO9+hIlMb8pKZvpHlBUCvuaUaL2gSc=;
+ b=W6RVI6lfekFvfOwoIHZnVtb8F5apQ1cLjEJjmL6yexi+HXe1HFfZH6lTXMy2y+td6H
+ Im+MSM8nZAMu/hBbMBlbjmRShmIdNd644SPCIkHJbdXJfxTNYMb9MJSu085HZNiDM2k/
+ 5v9Ryv3fnRlcqbZcnL9U6FKYSxnAoJKy53em7fFvFODclh04Yqc2cvtdcVrd4z+14we4
+ 6QSsS7bzLfeQjnNwV1OXQIIRH/lTkDq4VntCXI7TT0M3+6i3Q8x3G/K7TkBf7KX2IG0a
+ BwOlQNkQLcrL+o3vf9mc77M0rgFpLi1TQldtbn7Pm1GAXxGzTA1TuekC4Ly0bzHjqWlT
+ 6sKg==
+X-Gm-Message-State: AGi0PubgZHd1+hCFBBPThCU6Pm6fUcl9prPQO2mJ0VEf3kblgUSwCM4t
+ s2k60tSoImdFpvZCdJx8p30=
+X-Google-Smtp-Source: APiQypIz/YwOugDPJn9jgplod/vw/LcRDTS+6PH+rgJgIUALhMFb4iU4bXeGzUzz1cPDhS+gji1UoA==
+X-Received: by 2002:a05:6a00:d:: with SMTP id
+ h13mr4466425pfk.254.1587657084207; 
+ Thu, 23 Apr 2020 08:51:24 -0700 (PDT)
+Received: from localhost (176.122.158.71.16clouds.com. [176.122.158.71])
+ by smtp.gmail.com with ESMTPSA id h17sm2931338pfk.13.2020.04.23.08.51.22
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 23 Apr 2020 08:51:23 -0700 (PDT)
+Date: Thu, 23 Apr 2020 23:51:16 +0800
+From: Dejin Zheng <zhengdejin5@gmail.com>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: Re: [PATCH v2] console: console: Complete exception handling in
+ newport_probe()
+Message-ID: <20200423155116.GA2247@nuc8i5>
+References: <CGME20200423142637eucas1p2ea543e281d96c75aa4292b49756f2146@eucas1p2.samsung.com>
+ <20200423142627.1820-1-zhengdejin5@gmail.com>
+ <081f8192-1708-80ff-6eef-885d72bdf5c5@samsung.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <081f8192-1708-80ff-6eef-885d72bdf5c5@samsung.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,78 +73,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Tony Lindgren <tony@atomide.com>,
- James Hogan <jhogan@kernel.org>, Jonathan Bakker <xc-racer2@live.ca>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Paul Cercueil <paul@crapouillou.net>, linux-samsung-soc@vger.kernel.org,
- Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- linux-omap <linux-omap@vger.kernel.org>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Philipp Rossak <embed3d@gmail.com>,
- OpenPVRSGX Linux Driver Group <openpvrsgx-devgroup@letux.org>,
- linux-mips@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
- kernel@pyra-handheld.com,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org, tsbogend@alpha.franken.de,
+ FlorianSchandinat@gmx.de, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, ralf@linux-mips.org,
+ tglx@linutronix.de
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
-
-> Am 23.04.2020 um 17:00 schrieb Neil Armstrong <narmstrong@baylibre.com>:
->> One thing we can learn is that "core" seems to be a de facto standard 
->> for the core clock-name. An alternative "gpu" is used by nvidia,gk20a.txt.
-> 
-> Usually IPs needs a few clocks:
-> - pclk or apb or reg: the clock clocking the "slave" bus to serve the registers
-> - axi or bus or ahb: the bus clocking the the "master" bus to get data from system memory
-> - core: the actual clock feeding the GPU logic
-
-And the sgx544 seems to have two such clocks.
-
-> Sometimes you have a single clock for slave and master bus.
-> 
-> But you can also have separate clocks for shader cores, .. this depends on the IP and it's architecture.
-> The IP can also have memories with separate clocks, etc...
-
-Indeed.
-
-> But all these clocks can be source by an unique clock on a SoC, but different on another
-> SoC, this is why it's important to list them all, even optional.
-> 
-> You'll certainly have at least a reset signal, and a power domain, these should exist and be optional.
-
-Well, they exist only as hints in block diagrams of some SoC data sheets
-(so we do not know if they represent the imagination definitions) and the
-current driver code doesn't make use of it. Still the gpu core works.
-
-So I do not see any urgent need to add a complete list to the bindings now.
-
-Unless some special SoC integration makes use of them. Then it is IMHO easier
-to extend the bindings by a follow-up patch than now thinking about all
-potential options and bloating the bindings with things we (the open source
-community) doesn't and can't know.
-
-My goal is to keep the bindings as minimalistic as possible. And reset lines
-and power domains are (at least for those we have in the works) not needed
-to make working systems.
-
-Therefore, for clocks I also would start with a minimalistic approach for
-a single optional GPU core clock and leave out reset and power completely.
-
-BR and thanks,
-Nikolaus
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBBcHIgMjMsIDIwMjAgYXQgMDQ6NTU6MzVQTSArMDIwMCwgQmFydGxvbWllaiBab2xu
+aWVya2lld2ljeiB3cm90ZToKPiAKPiBIaSwKPiAKPiBJIGJlbGlldmUgdGhhdCB0aGUgcGF0Y2gg
+c3VtbWFyeSBsaW5lIHNob3VsZCBiZToKPiAKPiAiW1BBVENIIHYyXSBjb25zb2xlOiBuZXdwb3J0
+X2NvbjogLi4uIgo+Ck9LLCB0aGFua3MhCgo+IE9uIDQvMjMvMjAgNDoyNiBQTSwgRGVqaW4gWmhl
+bmcgd3JvdGU6Cj4gPiBBIGNhbGwgb2YgdGhlIGZ1bmN0aW9uIMKhwrBkb190YWtlX292ZXJfY29u
+c29sZcKhwrEgY2FuIGZhaWwgaGVyZS4KPiA+IFRoZSBjb3JyZXNwb25kaW5nIHN5c3RlbSByZXNv
+dXJjZXMgd2VyZSBub3QgcmVsZWFzZWQgdGhlbi4KPiA+IFRodXMgYWRkIGEgY2FsbCBvZiB0aGUg
+ZnVuY3Rpb24gwqHCsGlvdW5tYXDCocKxIHRvZ2V0aGVyIHdpdGggdGhlIGNoZWNrCj4gPiBvZiBh
+IGZhaWx1cmUgcHJlZGljYXRlLgo+ID4gCj4gPiBGaXhlczogZTg0ZGUwYzYxOTA1MDMgKCJNSVBT
+OiBHSU8gYnVzIHN1cHBvcnQgZm9yIFNHSSBJUDIyLzI4IikKPgo+IEkgY2Fubm90IHNlZSBob3cg
+dGhpcyBwYXRjaCBmaXhlcyBjb21taXQgZTg0ZGUwYzYxOTA1MDMKPiAoQUZBSUNTIG5wcmVncyBo
+YXMgYWxzbyBiZWVuIGxlYWtlZCBvbiBlcnJvciBiZWZvcmUpPwo+CnllcywgeW91IGFyZSByaWdo
+dCwgdGhlIGNvbW1pdCBzaG91bGQgYmUgZTg2YmI4YWNjMGZkY2E4MmQyCigiW1BBVENIXSBWVCBi
+aW5kaW5nOiBNYWtlIG5ld3BvcnRfY29uIHN1cHBvcnQgYmluZGluZyIpCgotIG1vdmUgcmVnaXN0
+ZXIgaW9yZW1hcCBmcm9tIG5ld3BvcnRfc3RhcnR1cCgpIHRvIG5ld3BvcnRfY29uc29sZV9pbml0
+KCkKCj4gPiBDQzogQW5keSBTaGV2Y2hlbmtvIDxhbmR5LnNoZXZjaGVua29AZ21haWwuY29tPgo+
+ID4gU2lnbmVkLW9mZi1ieTogRGVqaW4gWmhlbmcgPHpoZW5nZGVqaW41QGdtYWlsLmNvbT4KPiA+
+IC0tLQo+ID4gdjEgLT4gdjI6Cj4gPiAJLSBtb2RpZnkgdGhlIGNvbW1pdCBjb21tZW50cyBieSBN
+YXJrdXMnc3VnZ2VzdGlvbi4KPiA+IAo+ID4gIGRyaXZlcnMvdmlkZW8vY29uc29sZS9uZXdwb3J0
+X2Nvbi5jIHwgMyArKysKPiA+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCj4gPiAK
+PiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvbmV3cG9ydF9jb24uYyBiL2Ry
+aXZlcnMvdmlkZW8vY29uc29sZS9uZXdwb3J0X2Nvbi5jCj4gPiBpbmRleCAwMGRkZGY2ZTA4YjAu
+LjZiZmM4ZTNmZmQ0YSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvdmlkZW8vY29uc29sZS9uZXdw
+b3J0X2Nvbi5jCj4gPiArKysgYi9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvbmV3cG9ydF9jb24uYwo+
+ID4gQEAgLTcyMCw2ICs3MjAsOSBAQCBzdGF0aWMgaW50IG5ld3BvcnRfcHJvYmUoc3RydWN0IGdp
+b19kZXZpY2UgKmRldiwKPiA+ICAJY29uc29sZV9sb2NrKCk7Cj4gPiAgCWVyciA9IGRvX3Rha2Vf
+b3Zlcl9jb25zb2xlKCZuZXdwb3J0X2NvbiwgMCwgTUFYX05SX0NPTlNPTEVTIC0gMSwgMSk7Cj4g
+PiAgCWNvbnNvbGVfdW5sb2NrKCk7Cj4gPiArCj4gPiArCWlmIChlcnIpCj4gPiArCQlpb3VubWFw
+KCh2b2lkICopbnByZWdzKTsKPiAKPiBMb29rcyBPSyBidXQgd2hpbGUgeW91IGFyZSBhdCBpdCwg
+Y291bGQgeW91IHBsZWFzZSBhbHNvIGFkZCBtaXNzaW5nCj4gcmVsZWFzZV9tZW1fcmVnaW9uKCkg
+b24gZXJyb3IgYW5kIG9uIGRldmljZSByZW1vdmFsOgo+Ck9rLCBUaGFua3MsIEkgd2lsbCBzZW5k
+IHRoZSBwYXRjaCB2MyBmb3IgaXQuCgo+IAluZXdwb3J0X2FkZHIgPSBkZXYtPnJlc291cmNlLnN0
+YXJ0ICsgMHhGMDAwMDsKPiAJaWYgKCFyZXF1ZXN0X21lbV9yZWdpb24obmV3cG9ydF9hZGRyLCAw
+eDEwMDAwLCAiTmV3cG9ydCIpKQo+IAkJcmV0dXJuIC1FTk9ERVY7Cj4gCj4gCW5wcmVncyA9IChz
+dHJ1Y3QgbmV3cG9ydF9yZWdzICopLyogaW9yZW1hcCBjYW5ub3QgZmFpbCAqLwo+IAkJaW9yZW1h
+cChuZXdwb3J0X2FkZHIsIHNpemVvZihzdHJ1Y3QgbmV3cG9ydF9yZWdzKSk7Cj4gCWNvbnNvbGVf
+bG9jaygpOwo+IAllcnIgPSBkb190YWtlX292ZXJfY29uc29sZSgmbmV3cG9ydF9jb24sIDAsIE1B
+WF9OUl9DT05TT0xFUyAtIDEsIDEpOwo+IAljb25zb2xlX3VubG9jaygpOwo+IAlyZXR1cm4gZXJy
+Owo+IH0KPiAKPiBzdGF0aWMgdm9pZCBuZXdwb3J0X3JlbW92ZShzdHJ1Y3QgZ2lvX2RldmljZSAq
+ZGV2KQo+IHsKPiAJZ2l2ZV91cF9jb25zb2xlKCZuZXdwb3J0X2Nvbik7Cj4gCWlvdW5tYXAoKHZv
+aWQgKilucHJlZ3MpOwo+IH0KPiAKPiA/Cj4gCj4gPiAgCXJldHVybiBlcnI7Cj4gPiAgfQo+ID4g
+IAo+IAo+IEJlc3QgcmVnYXJkcywKPiAtLQo+IEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3oKPiBT
+YW1zdW5nIFImRCBJbnN0aXR1dGUgUG9sYW5kCj4gU2Ftc3VuZyBFbGVjdHJvbmljcwpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
