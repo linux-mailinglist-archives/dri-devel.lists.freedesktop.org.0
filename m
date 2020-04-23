@@ -2,57 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB481B5A4A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 13:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2063E1B5AB7
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 13:46:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7376E417;
-	Thu, 23 Apr 2020 11:18:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC2DC6E250;
+	Thu, 23 Apr 2020 11:46:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46BD26E417
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 11:18:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587640694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iTeCVFGaNrjlWImxUn9OdQ72/+Scj8kDooRDhWIxaB4=;
- b=gy8+MjWCqDGMd+Np/jcr7mcje488mEZ1rsqBd7ghadtz7kcQEoh9Xp6ipO8ruLs6c5ApHl
- GVu4ZQ9SlMt5qg/EwbKfvwQfQAfEgjfx+AhUg3vcSconXJEvJDlx3bKlwJXb4i33dnJaB/
- YF0zdR+VLKV5O5wLAonNdTrkdQ0x1qc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-uIVxnMIaNfqGahaCNDL2tQ-1; Thu, 23 Apr 2020 07:18:12 -0400
-X-MC-Unique: uIVxnMIaNfqGahaCNDL2tQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5343B107ACCA;
- Thu, 23 Apr 2020 11:18:11 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
- [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83A9763B86;
- Thu, 23 Apr 2020 11:18:09 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AD8C21753B; Thu, 23 Apr 2020 13:18:08 +0200 (CEST)
-Date: Thu, 23 Apr 2020 13:18:08 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/2] drm/vram-helper: Alternate between bottom-up and
- top-down placement
-Message-ID: <20200423111808.fbh23br7jrkte3ih@sirius.home.kraxel.org>
-References: <20200422144055.27801-1-tzimmermann@suse.de>
- <20200422144055.27801-3-tzimmermann@suse.de>
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E63F66E250
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 11:46:46 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id e20so5433598otk.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 04:46:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=soBENWxtv1Jx6Q4M8NjC2VsgjFKXOfQejEBroBd8f4g=;
+ b=NXx4YPgvtOlyiKjB650mQVqamk7mwKi2f5oD1cAMtY5EWRnaThyz0h+QPOfwI1jQ9w
+ 6Nx1NeQyKFKmVdgwiYV71tS6SUDsNJ+4BS5yWOt41z7u06V3K9qAR9zAsV0eciBZ82NB
+ MVwTigSQtl3NWsR6OlpVgGl3p8JXDydOI5XDQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=soBENWxtv1Jx6Q4M8NjC2VsgjFKXOfQejEBroBd8f4g=;
+ b=L5hdnEZnH+3AR1PPmLffmKp1GJpApExj9iUoELmVY3muedyw4EPcwUBHgmwYFVjxJo
+ lRmUhDYkEbPzvLqE4FyW/bs+/bUFN8k4wHWrZ1rmuSKvx/vVpRdRGNAJaLq41DN5Z2zd
+ 8cBlO2hg4ngn5PDGCBUwSA+cprlptbjUvcbOc/rVHNgd/BqOjQJRwjvisvnLsh/423w+
+ yHEGT6Vk2Gr7c18M4PA9UT27HFrTNGA3yKhTOFpsTD9tPFJKSQrlGuL14iidQKwZ0usk
+ RJp1vn7rSaVeeDweLfGmp6D8/QSH/lFfILvSXYBlsJ9wx6exfns4ix8evFbnP50U9a9j
+ jmeg==
+X-Gm-Message-State: AGi0Pua66lqd+qZceFgXO8Bw/QgFusMWcgLzyNb5ZIUGLO9mmZJVacfe
+ GFzeH4HkUMJMwrryarRm5gyecStaLThBdm/OQQYGVBOe0lA=
+X-Google-Smtp-Source: APiQypKhOGBw+yldUeb3d73cJTyCIRTooxDShKtfsXpDubxWoQUNatT4V7/wpGHO6fgRNhipZQ5IOE3srpPVZe4TbtA=
+X-Received: by 2002:a9d:2056:: with SMTP id n80mr3147281ota.281.1587642406180; 
+ Thu, 23 Apr 2020 04:46:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200422144055.27801-3-tzimmermann@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+References: <20200420074115.23931-1-galpress@amazon.com>
+ <20200420170059.5a42693e@lwn.net>
+ <20200421123837.GZ3456981@phenom.ffwll.local>
+ <20200421103236.4b64155c@lwn.net>
+In-Reply-To: <20200421103236.4b64155c@lwn.net>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 23 Apr 2020 13:46:35 +0200
+Message-ID: <CAKMK7uGTP93tbpsZhc1On2ka+YiVhwHk32cWHEdvS5O5DGODTg@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Couple of documentation typo fixes
+To: Jonathan Corbet <corbet@lwn.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,62 +60,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, sam@ravnborg.org,
- christian.koenig@amd.com
+Cc: "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Gal Pressman <galpress@amazon.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 22, 2020 at 04:40:55PM +0200, Thomas Zimmermann wrote:
-> With limited VRAM available, fragmentation can lead to OOM errors.
-> Alternating between bottom-up and top-down placement keeps BOs near the
-> ends of the VRAM and the available pages consecutively near the middle.
-> 
-> A real-world example with 16 MiB of VRAM is shown below.
-> 
->   > cat /sys/kernel/debug/dri/0/vram-mm
->   0x0000000000000000-0x000000000000057f: 1407: free
->   0x000000000000057f-0x0000000000000b5b: 1500: used
->   0x0000000000000b5b-0x0000000000000ff0: 1173: free
-> 
-> The first free area was the location of the fbdev framebuffer. The used
-> area is Weston's current framebuffer of 1500 pages. Weston now cannot
-> do a pageflip to another 1500 page-wide framebuffer, even though enough
-> pages are available. The patch resolves this problem to
-> 
->   > cat /sys/kernel/debug/dri/0/vram-mm
->   0x0000000000000000-0x00000000000005dc: 1500: used
->   0x00000000000005dc-0x0000000000000a14: 1080: free
->   0x0000000000000a14-0x0000000000000ff0: 1500: used
-> 
-> with both of Weston's framebuffers located near the ends of the VRAM
-> memory.
+On Tue, Apr 21, 2020 at 6:32 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Tue, 21 Apr 2020 14:38:37 +0200
+> Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> > On Mon, Apr 20, 2020 at 05:00:59PM -0600, Jonathan Corbet wrote:
+> > > On Mon, 20 Apr 2020 10:41:15 +0300
+> > > Gal Pressman <galpress@amazon.com> wrote:
+> > >
+> > > > Fix a couple of typos: "as" -> "has" and "int" -> "in".
+> > > >
+> > > > Signed-off-by: Gal Pressman <galpress@amazon.com>
+> > >
+> > > Applied, thanks.
+> >
+> > Also applied to drm-misc-next, the dma-buf stuff is maintained as part of
+> > drm. And maybe I actually get around to doing the doc polish for all
+> > things dma-buf that I've been promised to do since months :-)
+>
+> I actually looked for it in linux-next before applying, but didn't (and
+> don't) see it there...?
 
-I don't think it is that simple.
+I only spotted the patch after I've seen your notification, so it was
+indeed not there back then. But now it should be there:
 
-First:  How will that interact with cursor bo allocations?  IIRC the
-strategy for them is to allocate top-down, for similar reasons (avoid
-small cursor bo allocs fragment vram memory).
+commit 776d58823a60c689816972b51100cb322a0834ce (HEAD ->
+drm-misc-next, drm-misc/for-linux-next, drm-misc/drm-misc-next)
+Author: Gal Pressman <galpress@amazon.com>
+Date:   Mon Apr 20 10:41:15 2020 +0300
 
-Second:  I think ttm will move bo's from vram to system only on memory
-pressure.  So you can still end up with fragmented memory.  To make the
-scheme with one fb @ top and one @ bottom work reliable you have to be
-more aggressive on pushing out framebuffers.
+    dma-buf: Couple of documentation typo fixes
 
-Third:  I'd suggest make topdown allocations depending on current state
-instead of simply alternating, i.e. if there is a pinned framebuffer @
-offset 0, then go for top-down.
+drm-misc/for-linux-next is included in linux-next (we have some
+special branches for linux-next because of some different rules than
+usual for our committers). Latest linux-next also seems to have it by
+now.
+-Daniel
 
-I also think using this scheme should be optional.  In the simplest case
-we can allow drivers opt-in.  Or we try do to something clever
-automatically: using the strategy only for framebuffers larger than 1/4
-or 1/3 of total vram memory (which makes alloc failures due to
-fragmentation much more likely).
 
-cheers,
-  Gerd
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
