@@ -2,52 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F3F11B61A1
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 19:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3491B61AA
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 19:14:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBA756E95B;
-	Thu, 23 Apr 2020 17:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75ABB6E4F3;
+	Thu, 23 Apr 2020 17:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
- [IPv6:2607:f8b0:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2436E5D4
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 17:10:24 +0000 (UTC)
-Received: by mail-il1-x143.google.com with SMTP id b18so6269775ilf.2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 10:10:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EDZIPCWX04Rv+fQmlklcXypovzaN+rHOhRlSd4PpxpA=;
- b=J2cpulx9oZ2gZmglxutj3TyqQ8tuAOLt1ykp7NvCjHhmH64qa0lhr0WOvIg5r1AqTH
- JT40RG45msOHeSLfTCdmJ//Nf55FVKLudexF7d5Fw9QnGiCcYlEOPszkruT1F57qk/du
- 22oBjDZxiXwwbQ5abxX2Wk93IRNiqbOAsqRUR0PcjBx08EAo0YLLLjYV8S/tDotWTqvA
- Kcb3O/7b/PaJOmA39pt3Gs6aypz3hotCogXg8aN9l0mVS+d2yPGQCX7Gxw4wHzWgNrB6
- 3DPzOZOFIsp3ek79oXYfupdk7+dpg/S2FXphszTTXwWhVWhpVy6Rvlz3v4b0HcPBg+/g
- iZ6A==
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A50D36E4F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 17:14:38 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id t16so2601912plo.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 10:14:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ImuquuX0o7pPZ9bGea3cOCMdcWyQffNkeX4qWUmGnVg=;
+ b=Fh0fZr67sNv4FZXbdb2Lcuj0w/6m5469ARU5b3Jv/J3awFsgvnHW3GBDZFtirwtTBQ
+ VEnYdEMOXA7GOEJ772QwCTyKtnMRkhQGc274PhNw5eueSePwxSpYDaiovIpiQwbjJpk7
+ A+JstF5rX7YaXE7oR/EIxsG2+WhCAhxk2uvkY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EDZIPCWX04Rv+fQmlklcXypovzaN+rHOhRlSd4PpxpA=;
- b=SJ8GB4dyd4TWmTudj/y0ZyTwF9vWuyatazM6+D2tEc9+Mb4AAByUfK/Vjo5xJT6zDm
- QGhAXJweh5jE9xxEtyqj1EuvcADp8qeO+ud5ODEaf1s2eYSyr8gGQUsnxp7193EBYy9l
- be6pj2Bh0Z9woFKjKlBdcYJ0pkMZ2f12ZBT35whhNDh7IU4fIvWV+MgfcaKw25h1+UoR
- I/27ZKgDRER353dydTXuPEko8Jq/ykGPaz93J9eQxk+bndsko3YAkRqcv+6U33VWFTom
- ozm1WWw/Gg0GqxK7kzWSaHBYVrdftLInzzbfWUyby0mt6nY+gts9FsPBLHM+AHqZ9EWj
- TGrg==
-X-Gm-Message-State: AGi0PuYvteL4eOdIDgm7Gx3KkmlRAEiNdKN2T3S7ADNYqpas+QmF1ZPh
- Y1VfgbitZzydOnfhtNVSVjDkrunfoY67ZrWP3QCoLNbY
-X-Google-Smtp-Source: APiQypIo3mex+K2fC8WKDWJ+oW+1j5+G8dhUV5kVlwhJ8MrS4yMIIlw6dA5ap2Q8FuRB6t/4/Nm+mAmwN5y4P/oschg=
-X-Received: by 2002:a92:5f17:: with SMTP id t23mr4493221ilb.2.1587661823557;
- Thu, 23 Apr 2020 10:10:23 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ImuquuX0o7pPZ9bGea3cOCMdcWyQffNkeX4qWUmGnVg=;
+ b=YdHCfcUj1b7+zpx0D3z+ZfFGBnnpR5Rc9Sh3bTRWe4WISHit94jIoUYTNTvbtEO+VT
+ u/gaWO6pQlP5Kq00+C5DenJWrOWz2bJdypKlbH15BDd+zQajF1HSuM8DDGxrrp/0EwqS
+ jH0P6bnGgP5qDEizb3udTfouWct8HjsplxZ1GwOwMw1VPj8k1HXMjPMBeo8r473LIbB9
+ N8YJuUXo3cCMHtlV+B6oSqu7cupddlB960NYfTOvxfaA5kc5qtMjf7zUxia5p2pzO39Z
+ Rfcl8MW7L/2MytCOEIlKDeLvjNTSpqBPpnQuH/W2VQa4l2CnYWuHtSF8MOTbbVGHGM/j
+ l6Ng==
+X-Gm-Message-State: AGi0PubYIs5En7M5MFLH6ZSfJdVVva2p9GlZujvSHrSMMV5P7KjUyAdg
+ bVLmJ1j9mTAxTa9TFFKSew1kFQ==
+X-Google-Smtp-Source: APiQypIk9MvasGQWk+XnO6jWjIG+YouGIGQ62gjIE7RPw9r/JY+62QVCBe9Tpk5sU4R2pFA0IkyAPQ==
+X-Received: by 2002:a17:902:70c1:: with SMTP id
+ l1mr4519146plt.298.1587662078207; 
+ Thu, 23 Apr 2020 10:14:38 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
+ by smtp.gmail.com with ESMTPSA id d12sm2950227pfq.36.2020.04.23.10.14.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Apr 2020 10:14:37 -0700 (PDT)
+Date: Thu, 23 Apr 2020 10:14:36 -0700
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v5 1/3] dt-bindings: phy: qcom,qmp: Convert QMP PHY
+ bindings to yaml
+Message-ID: <20200423171436.GJ199755@google.com>
+References: <1585809534-11244-1-git-send-email-sanm@codeaurora.org>
+ <1585809534-11244-2-git-send-email-sanm@codeaurora.org>
+ <158689927748.105027.5367465616284167712@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
-References: <20200423164225.680178-1-lyude@redhat.com>
-In-Reply-To: <20200423164225.680178-1-lyude@redhat.com>
-From: Sean Paul <sean@poorly.run>
-Date: Thu, 23 Apr 2020 13:09:46 -0400
-Message-ID: <CAMavQKJf9aXnUcK83ZXhinJcK+ttDrscnNCyXGMZWqspG1681w@mail.gmail.com>
-Subject: Re: [PATCH] Revert "drm/dp_mst: Remove single tx msg restriction."
-To: Lyude Paul <lyude@redhat.com>
+Content-Disposition: inline
+In-Reply-To: <158689927748.105027.5367465616284167712@swboyd.mtv.corp.google.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,164 +68,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Wayne Lin <Wayne.Lin@amd.com>,
- Wayne Lin <waynelin@amd.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ aravindh@codeaurora.org, Sandeep Maheswaram <sanm@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, abhinavk@codeaurora.org,
+ Doug Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>, Manu Gautam <mgautam@codeaurora.org>,
+ Andy Gross <agross@kernel.org>, hoegsberg@google.com,
+ Tanmay Shah <tanmay@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 23, 2020 at 12:42 PM Lyude Paul <lyude@redhat.com> wrote:
->
-> This reverts commit 6bb0942e8f46863a745489cce27efe5be2a3885e.
->
-> Unfortunately it would appear that the rumors we've heard of sideband
-> message interleaving not being very well supported are true. On the
-> Lenovo ThinkPad Thunderbolt 3 dock that I have, interleaved messages
-> appear to just get dropped:
->
->   [drm:drm_dp_mst_wait_tx_reply [drm_kms_helper]] timedout msg send
->   00000000571ddfd0 2 1
->   [dp_mst] txmsg cur_offset=2 cur_len=2 seqno=1 state=SENT path_msg=1 dst=00
->   [dp_mst]      type=ENUM_PATH_RESOURCES contents:
->   [dp_mst]              port=2
->
-> DP descriptor for this hub:
->   OUI 90-cc-24 dev-ID SYNA3  HW-rev 1.0 SW-rev 3.12 quirks 0x0008
->
-> It would seem like as well that this is a somewhat well known issue in
-> the field. From section 5.4.2 of the DisplayPort 2.0 specification:
->
->   There are MST Sink/Branch devices in the field that do not handle
->   interleaved message transactions.
->
->   To facilitate message transaction handling by downstream devices, an
->   MST Source device shall generate message transactions in an atomic
->   manner (i.e., the MST Source device shall not concurrently interleave
->   multiple message transactions). Therefore, an MST Source device shall
->   clear the Message_Sequence_No value in the Sideband_MSG_Header to 0.
->
->   MST Source devices that support field policy updates by way of
->   software should update the policy to forego the generation of
->   interleaved message transactions.
->
-> This is a bit disappointing, as features like HDCP require that we send
-> a sideband request every ~2 seconds for each active stream. However,
-> there isn't really anything in the specification that allows us to
-> accurately probe for interleaved messages.
->
-> If it ends up being that we -really- need this in the future, we might
-> be able to whitelist hubs where interleaving is known to work-or maybe
-> try some sort of heuristics. But for now, let's just play it safe and
-> not use it.
->
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Fixes: 6bb0942e8f46 ("drm/dp_mst: Remove single tx msg restriction.")
-> Cc: Wayne Lin <Wayne.Lin@amd.com>
-> Cc: Sean Paul <seanpaul@chromium.org>
+Hi Sandeep,
 
-Bummer :-(
+On Tue, Apr 14, 2020 at 02:21:17PM -0700, Stephen Boyd wrote:
+> Quoting Sandeep Maheswaram (2020-04-01 23:38:52)
+> > Convert QMP PHY bindings to DT schema format using json-schema.
+> > 
+> > Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
+> > ---
+> >  .../devicetree/bindings/phy/qcom,qmp-phy.yaml      | 332 +++++++++++++++++++++
+> >  .../devicetree/bindings/phy/qcom-qmp-phy.txt       | 242 ---------------
+> >  2 files changed, 332 insertions(+), 242 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/phy/qcom-qmp-phy.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml
+> > new file mode 100644
+> > index 0000000..18a8985
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml
+> > @@ -0,0 +1,332 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +
+> > +%YAML 1.2
+> > +---
+> > +$id: "http://devicetree.org/schemas/phy/qcom,qmp-phy.yaml#"
+> > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> > +
+> > +title: Qualcomm QMP PHY controller
+> > +
+> > +maintainers:
+> > +  - Manu Gautam <mgautam@codeaurora.org>
+> > +
+> > +description:
+> > +  QMP phy controller supports physical layer functionality for a number of
+> > +  controllers on Qualcomm chipsets, such as, PCIe, UFS, and USB.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - qcom,ipq8074-qmp-pcie-phy
+> > +      - qcom,msm8996-qmp-pcie-phy
+> > +      - qcom,msm8996-qmp-ufs-phy
+> > +      - qcom,msm8996-qmp-usb3-phy
+> > +      - qcom,msm8998-qmp-pcie-phy
+> > +      - qcom,msm8998-qmp-ufs-phy
+> > +      - qcom,msm8998-qmp-usb3-phy
+> > +      - qcom,sdm845-qhp-pcie-phy
+> > +      - qcom,sdm845-qmp-pcie-phy
+> > +      - qcom,sdm845-qmp-ufs-phy
+> > +      - qcom,sdm845-qmp-usb3-phy
+> > +      - qcom,sdm845-qmp-usb3-uni-phy
+> > +      - qcom,sm8150-qmp-ufs-phy
+> > +
+> > +  reg:
+> > +    minItems: 1
+> > +    items:
+> > +      - description: Address and length of PHY's common serdes block.
+> > +      - description: Address and length of the DP_COM control block.
+> 
+> This DP_COM block is only for one compatible. Is it possible to split
+> that compatible out of this binding so we can enforce the reg property
+> being either one or two items?
+> 
+> In addition, I don't quite understand how this binding is supposed to
+> work with the DP phy that sits inside qcom,sdm845-qmp-usb3-phy and then
+> gets muxed out on the USB pins on sdm845 and sc7180 SoCs. Can you fill
+> me in on how we plan to share the pins between the two phys so that all
+> the combinations of DP and USB over the type-c pins will work here? My
+> understanding is that the pins that are controlled by this hardware
+> block are basically a full USB type-c connector pinout[1] (except that
+> D+/D- isn't there and the VBUS and CC lines go to the PMIC). Either way,
+> we get the TX1/2 and RX1/2 pins to use, so we can do 4x lanes of DP or
+> 2x lanes DP and 2x lanes of USB. There's also a type-c orientation
+> flipper bit that can flip the DP and USB phy lanes to the correct TX/RX
+> pins on the SoC. And then the DP phy has a lane remapper to change the
+> logical DP lane to the physical DP lane. It's a complex piece of
+> hardware that isn't fully represented by this binding.
+> 
+> [1] https://en.wikipedia.org/wiki/USB-C#/media/File:USB_Type-C_Receptacle_Pinout.svg
 
-Thanks for digging into this!
-
-Reviewed-by: Sean Paul <sean@poorly.run>
-
-> ---
->  drivers/gpu/drm/drm_dp_mst_topology.c | 14 ++++++++++++--
->  include/drm/drm_dp_mst_helper.h       |  5 +++++
->  2 files changed, 17 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index 21f10ceb3d6c..03a1496f6120 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -1205,6 +1205,8 @@ static int drm_dp_mst_wait_tx_reply(struct drm_dp_mst_branch *mstb,
->                     txmsg->state == DRM_DP_SIDEBAND_TX_SENT) {
->                         mstb->tx_slots[txmsg->seqno] = NULL;
->                 }
-> +               mgr->is_waiting_for_dwn_reply = false;
-> +
->         }
->  out:
->         if (unlikely(ret == -EIO) && drm_debug_enabled(DRM_UT_DP)) {
-> @@ -1214,6 +1216,7 @@ static int drm_dp_mst_wait_tx_reply(struct drm_dp_mst_branch *mstb,
->         }
->         mutex_unlock(&mgr->qlock);
->
-> +       drm_dp_mst_kick_tx(mgr);
->         return ret;
->  }
->
-> @@ -2789,9 +2792,11 @@ static void process_single_down_tx_qlock(struct drm_dp_mst_topology_mgr *mgr)
->         ret = process_single_tx_qlock(mgr, txmsg, false);
->         if (ret == 1) {
->                 /* txmsg is sent it should be in the slots now */
-> +               mgr->is_waiting_for_dwn_reply = true;
->                 list_del(&txmsg->next);
->         } else if (ret) {
->                 DRM_DEBUG_KMS("failed to send msg in q %d\n", ret);
-> +               mgr->is_waiting_for_dwn_reply = false;
->                 list_del(&txmsg->next);
->                 if (txmsg->seqno != -1)
->                         txmsg->dst->tx_slots[txmsg->seqno] = NULL;
-> @@ -2831,7 +2836,8 @@ static void drm_dp_queue_down_tx(struct drm_dp_mst_topology_mgr *mgr,
->                 drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
->         }
->
-> -       if (list_is_singular(&mgr->tx_msg_downq))
-> +       if (list_is_singular(&mgr->tx_msg_downq) &&
-> +           !mgr->is_waiting_for_dwn_reply)
->                 process_single_down_tx_qlock(mgr);
->         mutex_unlock(&mgr->qlock);
->  }
-> @@ -3823,6 +3829,7 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
->         mutex_lock(&mgr->qlock);
->         txmsg->state = DRM_DP_SIDEBAND_TX_RX;
->         mstb->tx_slots[seqno] = NULL;
-> +       mgr->is_waiting_for_dwn_reply = false;
->         mutex_unlock(&mgr->qlock);
->
->         wake_up_all(&mgr->tx_waitq);
-> @@ -3830,6 +3837,9 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
->         return 0;
->
->  out_clear_reply:
-> +       mutex_lock(&mgr->qlock);
-> +       mgr->is_waiting_for_dwn_reply = false;
-> +       mutex_unlock(&mgr->qlock);
->         if (msg)
->                 memset(msg, 0, sizeof(struct drm_dp_sideband_msg_rx));
->  out:
-> @@ -4683,7 +4693,7 @@ static void drm_dp_tx_work(struct work_struct *work)
->         struct drm_dp_mst_topology_mgr *mgr = container_of(work, struct drm_dp_mst_topology_mgr, tx_work);
->
->         mutex_lock(&mgr->qlock);
-> -       if (!list_empty(&mgr->tx_msg_downq))
-> +       if (!list_empty(&mgr->tx_msg_downq) && !mgr->is_waiting_for_dwn_reply)
->                 process_single_down_tx_qlock(mgr);
->         mutex_unlock(&mgr->qlock);
->  }
-> diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
-> index 2d7c26592c05..96bcf33c03d3 100644
-> --- a/include/drm/drm_dp_mst_helper.h
-> +++ b/include/drm/drm_dp_mst_helper.h
-> @@ -592,6 +592,11 @@ struct drm_dp_mst_topology_mgr {
->          */
->         bool payload_id_table_cleared : 1;
->
-> +       /**
-> +        * @is_waiting_for_dwn_reply: whether we're waiting for a down reply.
-> +        */
-> +       bool is_waiting_for_dwn_reply : 1;
-> +
->         /**
->          * @mst_primary: Pointer to the primary/first branch device.
->          */
-> --
-> 2.25.3
->
+Could you please answer Stephen's questions? It would be great to move
+forward and get support for SC7180 landed.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
