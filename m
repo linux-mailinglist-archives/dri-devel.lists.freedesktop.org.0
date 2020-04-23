@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454D01B6719
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:51:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD031B6722
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:51:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B13966EA24;
-	Thu, 23 Apr 2020 22:50:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 382666EA52;
+	Thu, 23 Apr 2020 22:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1479A6E9D0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 21:10:46 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id j4so8026553qkc.11
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 14:10:46 -0700 (PDT)
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3E976E9DA
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 21:10:50 +0000 (UTC)
+Received: by mail-qk1-x744.google.com with SMTP id b62so8065346qkf.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 14:10:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marek-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U8pnL5RF9+BKS0yCU4wzwUQVaNhGA3Xq25e2RnEtDMc=;
- b=2QU121b68L7lpzX+l+3y7kAhCVzc3En5QepfgmLDxyCreLPPd6Kzehaf27ABlew1vF
- +yIBscG9f8fIvng9pGoh4DRAl5XjEmuZQPXAXF0WF+P45c/+amQr8dwd9uPtivKr8b0c
- AKOhEgKA0EoyaObi4FRywzFy5m6raNbUAmF5hge2IZ3pjJ4V4HogEwsHl3rtUBo26RQM
- N8LKJYmTfzAPF/Oin6B/WuRhC/ypEXd/uoPmclxgh1otVA5feDyC3aCF/OgegPe4kPn2
- +h7+4C3bwjY/DqZ37H4QygLfzfiC9zs2Wqn7IZ+HYW2UKtVCTHZIBDR7vSoRYq6lfasl
- NvQw==
+ bh=atMoZqiGfGrOmGKY/I2+PhQMlSiQYlmQolz8HyR0yj4=;
+ b=KE0N8Dvr/hsd0qy+xqs/9QKLKEjofnqm7An5nc7MLkRpzlG5Jb+3hr1JQXvddcJIgU
+ e8PKHy+wJGjEjrhdrJcdg9fg/hgFsVGge4otL5O4jaLwvaa2Qg4KUoU1rup0PNA7mA7Y
+ dGis0YGp93VAxVYD51oDm4fpOPBSrP1kMHhxi6/TGqn2kAY4qZFKkTBidg4T03GvnSxp
+ wBjq5uPWmA0M87KWqdMobWLsGHYDGqL/ZH2a8Fc3muQevhQGXpHWipJOAAOqT7Z4VT/X
+ 9hejIZMPhk0KUJk3P2uKlsSwoY4NbyWguUjOwPrNf2UQH3A9YE49Km9i38RUECoUBbJu
+ WS0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U8pnL5RF9+BKS0yCU4wzwUQVaNhGA3Xq25e2RnEtDMc=;
- b=RwLoEnrFIh6PfHWAQqznDxYU5F5Zjuz61q3WNZHuxUteiadAY3aAskhc2BqRzwyG4n
- 7SIcHz3/YVMabwOm+SBIaJ3vYul0+8AE7tW7mmwrYB9Iu4LtZiLRvl4EA4YXuyvL5t8l
- xCsCi3+WGeAJYQjpAVTOsMrxnEVqO6rHEBCme7rEsPb9NbethVxK4zSCNVG4uEfwJaLu
- hJiSblqn32DKRNbL850PEGB33hN6IeYBxdvnPTMBda8+mTfjBkf3uQ6MnOdYiiszQ3iU
- msT/Ypzo1fPhC5aSKJZ6TgC5H2aF6GdYqez9H2EMpR6pqqsvej0equ1N/oWhzeaWX7FR
- YY1Q==
-X-Gm-Message-State: AGi0PuaOMviTxEbi9JT068msS2TdeAuqrfxTRtEv1i82ej2hSP3w/3Gh
- keV+wBtWy8VR+HmjL4u9POBMdw==
-X-Google-Smtp-Source: APiQypIjk0W9KFW29ZFFFx1CfQEYyAvCRaEn9LezdI/ZWAZLar0mJVG729+qaT3zhXcgoIztuX3o8A==
-X-Received: by 2002:a05:620a:1395:: with SMTP id
- k21mr5752299qki.120.1587676245130; 
- Thu, 23 Apr 2020 14:10:45 -0700 (PDT)
+ bh=atMoZqiGfGrOmGKY/I2+PhQMlSiQYlmQolz8HyR0yj4=;
+ b=Y3tD9MF/VIq5EE3QzyQzJ6EI2Uu3+cYB+XC9azXvDsfHM4yO//+JsFfK3Uw3O9C+aQ
+ pYpvcZ/QpNVcdo7Fpy9pG7p4cogYqSvR8PGgsgJCB5oZZgMVYt9P5kOxHy72U6U/f7qg
+ jwoHaYFtf9buwlW+h+sRpOrG7Lb/vooLLxFJ61zInMvkOEa+jPRcN0HdfQz1VB5qzXDS
+ xl3iMlFqYgKLQhq3nhCJeczhjoAl2ZtRfFdPrCRS7kpiE2Y+0+tSAQUTCNh0Codimxcf
+ aTSXyEl+nfSH7gdaek4NfYWAxRg/CIKL6Mdiv9vjYb+MqIHUaiFk/y1hlfuVdb02M2Wj
+ zeSw==
+X-Gm-Message-State: AGi0PuaZdniSND2p4hsIAaxbnCu0Fl3auvpGgxQWVdoEiEXBpdCCPOo4
+ GJQytjzFoDsoktuu2yKKf8CKKA==
+X-Google-Smtp-Source: APiQypJEx+5TfCLSHzzBs2QROMWQNQDAfRhgP2tKOaI50DxwTLNcB+MCBpDBxM6CFiJVyfJtIGPXAA==
+X-Received: by 2002:a37:9105:: with SMTP id t5mr6030530qkd.202.1587676249701; 
+ Thu, 23 Apr 2020 14:10:49 -0700 (PDT)
 Received: from localhost.localdomain ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id n4sm2341495qkh.38.2020.04.23.14.10.43
+ by smtp.gmail.com with ESMTPSA id n4sm2341495qkh.38.2020.04.23.14.10.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 14:10:44 -0700 (PDT)
+ Thu, 23 Apr 2020 14:10:49 -0700 (PDT)
 From: Jonathan Marek <jonathan@marek.ca>
 To: freedreno@lists.freedesktop.org
-Subject: [PATCH v3 6/9] drm/msm/a6xx: A640/A650 GMU firmware path
-Date: Thu, 23 Apr 2020 17:09:18 -0400
-Message-Id: <20200423210946.28867-7-jonathan@marek.ca>
+Subject: [PATCH v3 7/9] drm/msm/a6xx: update pdc/rscc GMU registers for
+ A640/A650
+Date: Thu, 23 Apr 2020 17:09:19 -0400
+Message-Id: <20200423210946.28867-8-jonathan@marek.ca>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200423210946.28867-1-jonathan@marek.ca>
 References: <20200423210946.28867-1-jonathan@marek.ca>
@@ -80,279 +80,308 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Newer GPUs have different GMU firmware path.
+Update the gmu_pdc registers for A640 and A650.
 
-v3: updated a6xx_gmu_fw_load based on feedback, including gmu_write_bulk,
-and removed extra whitespace change
+Some of the RSCC registers on A650 are in a separate region.
+
+Note this also changes the address of these registers:
+
+RSCC_TCS1_DRV0_STATUS
+RSCC_TCS2_DRV0_STATUS
+RSCC_TCS3_DRV0_STATUS
+
+Based on the values in msm-4.14 and msm-4.19 kernels.
+
+v3: replaced adreno_is_a650 around ->rscc with checks for "rscc" resource
 
 Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c     | 138 +++++++++++++++++++---
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h     |  10 ++
- drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h |   6 +
- 3 files changed, 138 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c     | 90 ++++++++++++++---------
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h     | 10 +++
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h | 38 +++++-----
+ 3 files changed, 85 insertions(+), 53 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index b22a69e2f4b0..988575fc8e71 100644
+index 988575fc8e71..c6fce994194d 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -571,6 +571,8 @@ static void a6xx_gmu_power_config(struct a6xx_gmu *gmu)
- {
- 	/* Disable GMU WB/RB buffer */
- 	gmu_write(gmu, REG_A6XX_GMU_SYS_BUS_CONFIG, 0x1);
-+	gmu_write(gmu, REG_A6XX_GMU_ICACHE_CONFIG, 0x1);
-+	gmu_write(gmu, REG_A6XX_GMU_DCACHE_CONFIG, 0x1);
+@@ -421,7 +421,7 @@ static int a6xx_rpmh_start(struct a6xx_gmu *gmu)
+ 		return ret;
+ 	}
  
- 	gmu_write(gmu, REG_A6XX_GMU_PWR_COL_INTER_FRAME_CTRL, 0x9c40400);
+-	ret = gmu_poll_timeout(gmu, REG_A6XX_RSCC_SEQ_BUSY_DRV0, val,
++	ret = gmu_poll_timeout_rscc(gmu, REG_A6XX_RSCC_SEQ_BUSY_DRV0, val,
+ 		!val, 100, 10000);
  
-@@ -600,14 +602,95 @@ static void a6xx_gmu_power_config(struct a6xx_gmu *gmu)
- 		A6XX_GMU_RPMH_CTRL_GFX_VOTE_ENABLE);
+ 	if (ret) {
+@@ -447,7 +447,7 @@ static void a6xx_rpmh_stop(struct a6xx_gmu *gmu)
+ 
+ 	gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, 1);
+ 
+-	ret = gmu_poll_timeout(gmu, REG_A6XX_GPU_RSCC_RSC_STATUS0_DRV0,
++	ret = gmu_poll_timeout_rscc(gmu, REG_A6XX_GPU_RSCC_RSC_STATUS0_DRV0,
+ 		val, val & (1 << 16), 100, 10000);
+ 	if (ret)
+ 		DRM_DEV_ERROR(gmu->dev, "Unable to power off the GPU RSC\n");
+@@ -470,32 +470,48 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
+ 	struct platform_device *pdev = to_platform_device(gmu->dev);
+ 	void __iomem *pdcptr = a6xx_gmu_get_mmio(pdev, "gmu_pdc");
+ 	void __iomem *seqptr = a6xx_gmu_get_mmio(pdev, "gmu_pdc_seq");
++	uint32_t pdc_address_offset;
+ 
+ 	if (!pdcptr || !seqptr)
+ 		goto err;
+ 
++	if (adreno_is_a618(adreno_gpu) || adreno_is_a640(adreno_gpu))
++		pdc_address_offset = 0x30090;
++	else if (adreno_is_a650(adreno_gpu))
++		pdc_address_offset = 0x300a0;
++	else
++		pdc_address_offset = 0x30080;
++
+ 	/* Disable SDE clock gating */
+-	gmu_write(gmu, REG_A6XX_GPU_RSCC_RSC_STATUS0_DRV0, BIT(24));
++	gmu_write_rscc(gmu, REG_A6XX_GPU_RSCC_RSC_STATUS0_DRV0, BIT(24));
+ 
+ 	/* Setup RSC PDC handshake for sleep and wakeup */
+-	gmu_write(gmu, REG_A6XX_RSCC_PDC_SLAVE_ID_DRV0, 1);
+-	gmu_write(gmu, REG_A6XX_RSCC_HIDDEN_TCS_CMD0_DATA, 0);
+-	gmu_write(gmu, REG_A6XX_RSCC_HIDDEN_TCS_CMD0_ADDR, 0);
+-	gmu_write(gmu, REG_A6XX_RSCC_HIDDEN_TCS_CMD0_DATA + 2, 0);
+-	gmu_write(gmu, REG_A6XX_RSCC_HIDDEN_TCS_CMD0_ADDR + 2, 0);
+-	gmu_write(gmu, REG_A6XX_RSCC_HIDDEN_TCS_CMD0_DATA + 4, 0x80000000);
+-	gmu_write(gmu, REG_A6XX_RSCC_HIDDEN_TCS_CMD0_ADDR + 4, 0);
+-	gmu_write(gmu, REG_A6XX_RSCC_OVERRIDE_START_ADDR, 0);
+-	gmu_write(gmu, REG_A6XX_RSCC_PDC_SEQ_START_ADDR, 0x4520);
+-	gmu_write(gmu, REG_A6XX_RSCC_PDC_MATCH_VALUE_LO, 0x4510);
+-	gmu_write(gmu, REG_A6XX_RSCC_PDC_MATCH_VALUE_HI, 0x4514);
++	gmu_write_rscc(gmu, REG_A6XX_RSCC_PDC_SLAVE_ID_DRV0, 1);
++	gmu_write_rscc(gmu, REG_A6XX_RSCC_HIDDEN_TCS_CMD0_DATA, 0);
++	gmu_write_rscc(gmu, REG_A6XX_RSCC_HIDDEN_TCS_CMD0_ADDR, 0);
++	gmu_write_rscc(gmu, REG_A6XX_RSCC_HIDDEN_TCS_CMD0_DATA + 2, 0);
++	gmu_write_rscc(gmu, REG_A6XX_RSCC_HIDDEN_TCS_CMD0_ADDR + 2, 0);
++	gmu_write_rscc(gmu, REG_A6XX_RSCC_HIDDEN_TCS_CMD0_DATA + 4, 0x80000000);
++	gmu_write_rscc(gmu, REG_A6XX_RSCC_HIDDEN_TCS_CMD0_ADDR + 4, 0);
++	gmu_write_rscc(gmu, REG_A6XX_RSCC_OVERRIDE_START_ADDR, 0);
++	gmu_write_rscc(gmu, REG_A6XX_RSCC_PDC_SEQ_START_ADDR, 0x4520);
++	gmu_write_rscc(gmu, REG_A6XX_RSCC_PDC_MATCH_VALUE_LO, 0x4510);
++	gmu_write_rscc(gmu, REG_A6XX_RSCC_PDC_MATCH_VALUE_HI, 0x4514);
+ 
+ 	/* Load RSC sequencer uCode for sleep and wakeup */
+-	gmu_write(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0, 0xa7a506a0);
+-	gmu_write(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 1, 0xa1e6a6e7);
+-	gmu_write(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 2, 0xa2e081e1);
+-	gmu_write(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 3, 0xe9a982e2);
+-	gmu_write(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 4, 0x0020e8a8);
++	if (adreno_is_a650(adreno_gpu)) {
++		gmu_write_rscc(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0, 0xeaaae5a0);
++		gmu_write_rscc(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 1, 0xe1a1ebab);
++		gmu_write_rscc(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 2, 0xa2e0a581);
++		gmu_write_rscc(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 3, 0xecac82e2);
++		gmu_write_rscc(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 4, 0x0020edad);
++	} else {
++		gmu_write_rscc(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0, 0xa7a506a0);
++		gmu_write_rscc(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 1, 0xa1e6a6e7);
++		gmu_write_rscc(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 2, 0xa2e081e1);
++		gmu_write_rscc(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 3, 0xe9a982e2);
++		gmu_write_rscc(gmu, REG_A6XX_RSCC_SEQ_MEM_0_DRV0 + 4, 0x0020e8a8);
++	}
+ 
+ 	/* Load PDC sequencer uCode for power up and power down sequence */
+ 	pdc_write(seqptr, REG_A6XX_PDC_GPU_SEQ_MEM_0, 0xfebea1e1);
+@@ -516,10 +532,7 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
+ 	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS1_CMD0_DATA + 4, 0x0);
+ 
+ 	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS1_CMD0_MSGID + 8, 0x10108);
+-	if (adreno_is_a618(adreno_gpu))
+-		pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS1_CMD0_ADDR + 8, 0x30090);
+-	else
+-		pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS1_CMD0_ADDR + 8, 0x30080);
++	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS1_CMD0_ADDR + 8, pdc_address_offset);
+ 	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS1_CMD0_DATA + 8, 0x0);
+ 
+ 	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD_ENABLE_BANK, 7);
+@@ -531,17 +544,12 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
+ 
+ 	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_MSGID + 4, 0x10108);
+ 	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_ADDR + 4, 0x30000);
+-	if (adreno_is_a618(adreno_gpu))
++	if (adreno_is_a618(adreno_gpu) || adreno_is_a650(adreno_gpu))
+ 		pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_DATA + 4, 0x2);
+ 	else
+ 		pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_DATA + 4, 0x3);
+-
+-
+ 	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_MSGID + 8, 0x10108);
+-	if (adreno_is_a618(adreno_gpu))
+-		pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_ADDR + 8, 0x30090);
+-	else
+-		pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_ADDR + 8, 0x30080);
++	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_ADDR + 8, pdc_address_offset);
+ 	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_DATA + 8, 0x3);
+ 
+ 	/* Setup GPU PDC */
+@@ -788,13 +796,13 @@ static void a6xx_gmu_rpmh_off(struct a6xx_gmu *gmu)
+ 	u32 val;
+ 
+ 	/* Make sure there are no outstanding RPMh votes */
+-	gmu_poll_timeout(gmu, REG_A6XX_RSCC_TCS0_DRV0_STATUS, val,
++	gmu_poll_timeout_rscc(gmu, REG_A6XX_RSCC_TCS0_DRV0_STATUS, val,
+ 		(val & 1), 100, 10000);
+-	gmu_poll_timeout(gmu, REG_A6XX_RSCC_TCS1_DRV0_STATUS, val,
++	gmu_poll_timeout_rscc(gmu, REG_A6XX_RSCC_TCS1_DRV0_STATUS, val,
+ 		(val & 1), 100, 10000);
+-	gmu_poll_timeout(gmu, REG_A6XX_RSCC_TCS2_DRV0_STATUS, val,
++	gmu_poll_timeout_rscc(gmu, REG_A6XX_RSCC_TCS2_DRV0_STATUS, val,
+ 		(val & 1), 100, 10000);
+-	gmu_poll_timeout(gmu, REG_A6XX_RSCC_TCS3_DRV0_STATUS, val,
++	gmu_poll_timeout_rscc(gmu, REG_A6XX_RSCC_TCS3_DRV0_STATUS, val,
+ 		(val & 1), 100, 1000);
  }
  
-+struct block_header {
-+	u32 addr;
-+	u32 size;
-+	u32 type;
-+	u32 value;
-+	u32 data[];
-+};
-+
-+/* this should be a general kernel helper */
-+static int in_range(u32 addr, u32 start, u32 size)
-+{
-+	return addr >= start && addr < start + size;
-+}
-+
-+static bool fw_block_mem(struct a6xx_gmu_bo *bo, const struct block_header *blk)
-+{
-+	if (!in_range(blk->addr, bo->iova, bo->size))
-+		return false;
-+
-+	memcpy(bo->virt + blk->addr - bo->iova, blk->data, blk->size);
-+	return true;
-+}
-+
-+static int a6xx_gmu_fw_load(struct a6xx_gmu *gmu)
-+{
-+	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
-+	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
-+	const struct firmware *fw_image = adreno_gpu->fw[ADRENO_FW_GMU];
-+	const struct block_header *blk;
-+	u32 reg_offset;
-+
-+	u32 itcm_base = 0x00000000;
-+	u32 dtcm_base = 0x00040000;
-+
-+	if (adreno_is_a650(adreno_gpu))
-+		dtcm_base = 0x10004000;
-+
-+	if (gmu->legacy) {
-+		/* Sanity check the size of the firmware that was loaded */
-+		if (fw_image->size > 0x8000) {
-+			DRM_DEV_ERROR(gmu->dev,
-+				"GMU firmware is bigger than the available region\n");
-+			return -EINVAL;
-+		}
-+
-+		gmu_write_bulk(gmu, REG_A6XX_GMU_CM3_ITCM_START,
-+			       (u32*) fw_image->data, fw_image->size);
-+		return 0;
-+	}
-+
-+
-+	for (blk = (const struct block_header *) fw_image->data;
-+	     (const u8*) blk < fw_image->data + fw_image->size;
-+	     blk = (const struct block_header *) &blk->data[blk->size >> 2]) {
-+		if (blk->size == 0)
-+			continue;
-+
-+		if (in_range(blk->addr, itcm_base, SZ_16K)) {
-+			reg_offset = (blk->addr - itcm_base) >> 2;
-+			gmu_write_bulk(gmu,
-+				REG_A6XX_GMU_CM3_ITCM_START + reg_offset,
-+				blk->data, blk->size);
-+		} else if (in_range(blk->addr, dtcm_base, SZ_16K)) {
-+			reg_offset = (blk->addr - dtcm_base) >> 2;
-+			gmu_write_bulk(gmu,
-+				REG_A6XX_GMU_CM3_DTCM_START + reg_offset,
-+				blk->data, blk->size);
-+		} else if (!fw_block_mem(&gmu->icache, blk) &&
-+			   !fw_block_mem(&gmu->dcache, blk) &&
-+			   !fw_block_mem(&gmu->dummy, blk)) {
-+			DRM_DEV_ERROR(gmu->dev,
-+				"failed to match fw block (addr=%.8x size=%d data[0]=%.8x)\n",
-+				blk->addr, blk->size, blk->data[0]);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
+@@ -1353,6 +1361,7 @@ static int a6xx_gmu_get_irq(struct a6xx_gmu *gmu, struct platform_device *pdev,
+ void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
  {
- 	static bool rpmh_init;
- 	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
- 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
--	int i, ret;
-+	int ret;
- 	u32 chipid;
--	u32 *image;
-+
-+	if (adreno_is_a650(adreno_gpu))
-+		gmu_write(gmu, REG_A6XX_GPU_GMU_CX_GMU_CX_FAL_INTF, 1);
+ 	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
++	struct platform_device *pdev = to_platform_device(gmu->dev);
  
- 	if (state == GMU_WARM_BOOT) {
- 		ret = a6xx_rpmh_start(gmu);
-@@ -618,13 +701,6 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
- 			"GMU firmware is not loaded\n"))
- 			return -ENOENT;
- 
--		/* Sanity check the size of the firmware that was loaded */
--		if (adreno_gpu->fw[ADRENO_FW_GMU]->size > 0x8000) {
--			DRM_DEV_ERROR(gmu->dev,
--				"GMU firmware is bigger than the available region\n");
--			return -EINVAL;
--		}
--
- 		/* Turn on register retention */
- 		gmu_write(gmu, REG_A6XX_GMU_GENERAL_7, 1);
- 
-@@ -638,11 +714,9 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
- 				return ret;
- 		}
- 
--		image = (u32 *) adreno_gpu->fw[ADRENO_FW_GMU]->data;
--
--		for (i = 0; i < adreno_gpu->fw[ADRENO_FW_GMU]->size >> 2; i++)
--			gmu_write(gmu, REG_A6XX_GMU_CM3_ITCM_START + i,
--				image[i]);
-+		ret = a6xx_gmu_fw_load(gmu);
-+		if (ret)
-+			return ret;
+ 	if (!gmu->initialized)
+ 		return;
+@@ -1365,7 +1374,10 @@ void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
  	}
  
- 	gmu_write(gmu, REG_A6XX_GMU_CM3_FW_INIT_RESULT, 0);
-@@ -775,6 +849,13 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
- 	status = gmu_read(gmu, REG_A6XX_GMU_GENERAL_7) == 1 ?
- 		GMU_WARM_BOOT : GMU_COLD_BOOT;
+ 	iounmap(gmu->mmio);
++	if (platform_get_resource_byname(pdev, IORESOURCE_MEM, "rscc"))
++		iounmap(gmu->rscc);
+ 	gmu->mmio = NULL;
++	gmu->rscc = NULL;
  
-+	/*
-+	 * Warm boot path does not work on newer GPUs
-+	 * Presumably this is because icache/dcache regions must be restored
-+	 */
-+	if (!gmu->legacy)
-+		status = GMU_COLD_BOOT;
-+
- 	ret = a6xx_gmu_fw_start(gmu, status);
- 	if (ret)
- 		goto out;
-@@ -957,6 +1038,9 @@ static void a6xx_gmu_memory_free(struct a6xx_gmu *gmu)
- {
- 	msm_gem_kernel_put(gmu->hfi.obj, gmu->aspace, false);
- 	msm_gem_kernel_put(gmu->debug.obj, gmu->aspace, false);
-+	msm_gem_kernel_put(gmu->icache.obj, gmu->aspace, false);
-+	msm_gem_kernel_put(gmu->dcache.obj, gmu->aspace, false);
-+	msm_gem_kernel_put(gmu->dummy.obj, gmu->aspace, false);
+ 	a6xx_gmu_memory_free(gmu);
  
- 	gmu->aspace->mmu->funcs->detach(gmu->aspace->mmu);
- 	msm_gem_address_space_put(gmu->aspace);
-@@ -974,12 +1058,14 @@ static int a6xx_gmu_memory_alloc(struct a6xx_gmu *gmu, struct a6xx_gmu_bo *bo,
- 	size = PAGE_ALIGN(size);
- 	if (!iova) {
- 		/* no fixed address - use GMU's uncached range */
--		range_start = 0x60000000;
-+		range_start = 0x60000000 + PAGE_SIZE; /* skip dummy page */
- 		range_end = 0x80000000;
- 	} else {
- 		/* range for fixed address */
- 		range_start = iova;
- 		range_end = iova + size;
-+		/* use IOMMU_PRIV for icache/dcache */
-+		flags |= MSM_BO_MAP_PRIV;
+@@ -1448,6 +1460,14 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 		goto err_memory;
  	}
  
- 	bo->obj = msm_gem_new(dev, size, flags);
-@@ -1320,7 +1406,27 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 	if (ret)
- 		goto err_put_device;
- 
--	if (!adreno_is_a640(adreno_gpu) && !adreno_is_a650(adreno_gpu)) {
-+	/* Allocate memory for the GMU dummy page */
-+	ret = a6xx_gmu_memory_alloc(gmu, &gmu->dummy, SZ_4K, 0x60000000);
-+	if (ret)
-+		goto err_memory;
-+
 +	if (adreno_is_a650(adreno_gpu)) {
-+		ret = a6xx_gmu_memory_alloc(gmu, &gmu->icache,
-+			SZ_16M - SZ_16K, 0x04000);
-+		if (ret)
-+			goto err_memory;
-+	} else if (adreno_is_a640(adreno_gpu)) {
-+		ret = a6xx_gmu_memory_alloc(gmu, &gmu->icache,
-+			SZ_256K - SZ_16K, 0x04000);
-+		if (ret)
-+			goto err_memory;
-+
-+		ret = a6xx_gmu_memory_alloc(gmu, &gmu->dcache,
-+			SZ_256K - SZ_16K, 0x44000);
-+		if (ret)
-+			goto err_memory;
++		gmu->rscc = a6xx_gmu_get_mmio(pdev, "rscc");
++		if (IS_ERR(gmu->rscc))
++			goto err_mmio;
 +	} else {
- 		/* HFI v1, has sptprac */
- 		gmu->legacy = true;
++		gmu->rscc = gmu->mmio + 0x23000;
++	}
++
+ 	/* Get the HFI and GMU interrupts */
+ 	gmu->hfi_irq = a6xx_gmu_get_irq(gmu, pdev, "hfi", a6xx_hfi_irq);
+ 	gmu->gmu_irq = a6xx_gmu_get_irq(gmu, pdev, "gmu", a6xx_gmu_irq);
+@@ -1473,6 +1493,8 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 
+ err_mmio:
+ 	iounmap(gmu->mmio);
++	if (platform_get_resource_byname(pdev, IORESOURCE_MEM, "rscc"))
++		iounmap(gmu->rscc);
+ 	free_irq(gmu->gmu_irq, gmu);
+ 	free_irq(gmu->hfi_irq, gmu);
  
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-index 463e2d5f2bb9..c6d8c0d1f90b 100644
+index c6d8c0d1f90b..e16c16bb65bf 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-@@ -57,6 +57,9 @@ struct a6xx_gmu {
+@@ -47,6 +47,7 @@ struct a6xx_gmu {
+ 	struct msm_gem_address_space *aspace;
  
- 	struct a6xx_gmu_bo hfi;
- 	struct a6xx_gmu_bo debug;
-+	struct a6xx_gmu_bo icache;
-+	struct a6xx_gmu_bo dcache;
-+	struct a6xx_gmu_bo dummy;
+ 	void * __iomem mmio;
++	void * __iomem rscc;
  
- 	int nr_clocks;
- 	struct clk_bulk_data *clocks;
-@@ -92,6 +95,13 @@ static inline void gmu_write(struct a6xx_gmu *gmu, u32 offset, u32 value)
- 	return msm_writel(value, gmu->mmio + (offset << 2));
- }
+ 	int hfi_irq;
+ 	int gmu_irq;
+@@ -125,6 +126,15 @@ static inline u64 gmu_read64(struct a6xx_gmu *gmu, u32 lo, u32 hi)
+ 	readl_poll_timeout((gmu)->mmio + ((addr) << 2), val, cond, \
+ 		interval, timeout)
  
-+static inline void
-+gmu_write_bulk(struct a6xx_gmu *gmu, u32 offset, const u32 *data, u32 size)
++static inline void gmu_write_rscc(struct a6xx_gmu *gmu, u32 offset, u32 value)
 +{
-+	memcpy_toio(gmu->mmio + (offset << 2), data, size);
-+	wmb();
++	return msm_writel(value, gmu->rscc + (offset << 2));
 +}
 +
- static inline void gmu_rmw(struct a6xx_gmu *gmu, u32 reg, u32 mask, u32 or)
- {
- 	u32 val = gmu_read(gmu, reg);
++#define gmu_poll_timeout_rscc(gmu, addr, val, cond, interval, timeout) \
++	readl_poll_timeout((gmu)->rscc + ((addr) << 2), val, cond, \
++		interval, timeout)
++
+ /*
+  * These are the available OOB (out of band requests) to the GMU where "out of
+  * band" means that the CPU talks to the GMU directly and not through HFI.
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
-index 1cc1c135236b..eb2cd41dae6e 100644
+index eb2cd41dae6e..b4357ea550ec 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
-@@ -101,6 +101,10 @@ static inline uint32_t A6XX_HFI_IRQ_OOB_MASK(uint32_t val)
+@@ -336,8 +336,6 @@ static inline uint32_t A6XX_GMU_GPU_NAP_CTRL_SID(uint32_t val)
  
- #define REG_A6XX_GMU_DCVS_RETURN				0x000023ff
+ #define REG_A6XX_GMU_AO_SPARE_CNTL				0x00009316
  
-+#define REG_A6XX_GMU_ICACHE_CONFIG				0x00004c00
+-#define REG_A6XX_GPU_RSCC_RSC_STATUS0_DRV0			0x00008c04
+-
+ #define REG_A6XX_GMU_RSCC_CONTROL_REQ				0x00009307
+ 
+ #define REG_A6XX_GMU_RSCC_CONTROL_ACK				0x00009308
+@@ -350,39 +348,41 @@ static inline uint32_t A6XX_GMU_GPU_NAP_CTRL_SID(uint32_t val)
+ 
+ #define REG_A6XX_GPU_CC_GX_DOMAIN_MISC				0x00009d42
+ 
+-#define REG_A6XX_RSCC_PDC_SEQ_START_ADDR			0x00008c08
++#define REG_A6XX_GPU_RSCC_RSC_STATUS0_DRV0			0x00000004
 +
-+#define REG_A6XX_GMU_DCACHE_CONFIG				0x00004c01
-+
- #define REG_A6XX_GMU_SYS_BUS_CONFIG				0x00004c0f
++#define REG_A6XX_RSCC_PDC_SEQ_START_ADDR			0x00000008
  
- #define REG_A6XX_GMU_CM3_SYSRESET				0x00005000
-@@ -199,6 +203,8 @@ static inline uint32_t A6XX_GMU_GPU_NAP_CTRL_SID(uint32_t val)
+-#define REG_A6XX_RSCC_PDC_MATCH_VALUE_LO			0x00008c09
++#define REG_A6XX_RSCC_PDC_MATCH_VALUE_LO			0x00000009
  
- #define REG_A6XX_GPU_GMU_CX_GMU_RPMH_POWER_STATE		0x000050ec
+-#define REG_A6XX_RSCC_PDC_MATCH_VALUE_HI			0x00008c0a
++#define REG_A6XX_RSCC_PDC_MATCH_VALUE_HI			0x0000000a
  
-+#define REG_A6XX_GPU_GMU_CX_GMU_CX_FAL_INTF			0x000050f0
-+
- #define REG_A6XX_GMU_BOOT_KMD_LM_HANDSHAKE			0x000051f0
+-#define REG_A6XX_RSCC_PDC_SLAVE_ID_DRV0				0x00008c0b
++#define REG_A6XX_RSCC_PDC_SLAVE_ID_DRV0				0x0000000b
  
- #define REG_A6XX_GMU_LLM_GLM_SLEEP_CTRL				0x00005157
+-#define REG_A6XX_RSCC_HIDDEN_TCS_CMD0_ADDR			0x00008c0d
++#define REG_A6XX_RSCC_HIDDEN_TCS_CMD0_ADDR			0x0000000d
+ 
+-#define REG_A6XX_RSCC_HIDDEN_TCS_CMD0_DATA			0x00008c0e
++#define REG_A6XX_RSCC_HIDDEN_TCS_CMD0_DATA			0x0000000e
+ 
+-#define REG_A6XX_RSCC_TIMESTAMP_UNIT0_TIMESTAMP_L_DRV0		0x00008c82
++#define REG_A6XX_RSCC_TIMESTAMP_UNIT0_TIMESTAMP_L_DRV0		0x00000082
+ 
+-#define REG_A6XX_RSCC_TIMESTAMP_UNIT0_TIMESTAMP_H_DRV0		0x00008c83
++#define REG_A6XX_RSCC_TIMESTAMP_UNIT0_TIMESTAMP_H_DRV0		0x00000083
+ 
+-#define REG_A6XX_RSCC_TIMESTAMP_UNIT1_EN_DRV0			0x00008c89
++#define REG_A6XX_RSCC_TIMESTAMP_UNIT1_EN_DRV0			0x00000089
+ 
+-#define REG_A6XX_RSCC_TIMESTAMP_UNIT1_OUTPUT_DRV0		0x00008c8c
++#define REG_A6XX_RSCC_TIMESTAMP_UNIT1_OUTPUT_DRV0		0x0000008c
+ 
+-#define REG_A6XX_RSCC_OVERRIDE_START_ADDR			0x00008d00
++#define REG_A6XX_RSCC_OVERRIDE_START_ADDR			0x00000100
+ 
+-#define REG_A6XX_RSCC_SEQ_BUSY_DRV0				0x00008d01
++#define REG_A6XX_RSCC_SEQ_BUSY_DRV0				0x00000101
+ 
+-#define REG_A6XX_RSCC_SEQ_MEM_0_DRV0				0x00008d80
++#define REG_A6XX_RSCC_SEQ_MEM_0_DRV0				0x00000180
+ 
+-#define REG_A6XX_RSCC_TCS0_DRV0_STATUS				0x00008f46
++#define REG_A6XX_RSCC_TCS0_DRV0_STATUS				0x00000346
+ 
+-#define REG_A6XX_RSCC_TCS1_DRV0_STATUS				0x000090ae
++#define REG_A6XX_RSCC_TCS1_DRV0_STATUS				0x000003ee
+ 
+-#define REG_A6XX_RSCC_TCS2_DRV0_STATUS				0x00009216
++#define REG_A6XX_RSCC_TCS2_DRV0_STATUS				0x00000496
+ 
+-#define REG_A6XX_RSCC_TCS3_DRV0_STATUS				0x0000937e
++#define REG_A6XX_RSCC_TCS3_DRV0_STATUS				0x0000053e
+ 
+ 
+ #endif /* A6XX_GMU_XML */
 -- 
 2.26.1
 
