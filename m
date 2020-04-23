@@ -2,127 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01651B5E7D
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 17:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4CE81B5E86
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 17:02:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F95B6E885;
-	Thu, 23 Apr 2020 15:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E121489503;
+	Thu, 23 Apr 2020 15:02:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA7016E885
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 15:00:53 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id u16so6893542wmc.5
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 08:00:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=x7NZn7nlpSOqnkIXT5l3jRVWmAs32CPHZtB2TMxSM3g=;
- b=ansPsNh2nSLy7gZmpFMCDAWeF79eT5FadJke44IlCFoAGYSy7QyCyXSfQ41d8/jCMM
- rxEU0s78dHA+EWfp7Bpn4UhJeQsVa6JijFp+/eILBca3pRE7AcRXcu6ufX3yjGYhKoL/
- PABBChMmhsG6JDYyqslPrf8TdMVeEl2v/oy29vFkNJTKbfzIsq/s0uHm/lQbbtODl2H5
- ZnY730s9WMWD08jD1GATvoP1VHO6E1UvdTLPj4xcPS+iAmwPdSUjc9dAtnayothl44gV
- goatioRxz2VnpJ58YipqdCtnWI1+Li+R+UTG2oFiF5OEJD5HpafREm2kJN50UqxDIT8J
- +FJg==
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6887089503
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 15:02:01 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id 72so6574473otu.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 08:02:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yWfVXVMfohtKmS5kEYQbuc4s2lSqYqmsBZir4Cme++w=;
+ b=JYiyFA4IQjbeUG+MORhSdJtmNYvAza08QoA+y9XZimDHUcIHhs94B2Ff/YXjIggLHe
+ R+vzJvVXTSWHX0HXrTv+m8ZupTqb2tr6cnGKvBIxK7E44ZlSg+s5ZLxdod6ZTEyoRWf0
+ 9JTov4ksChcw7vLHf7TZjkqoSy7JWhPCEGh1c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=x7NZn7nlpSOqnkIXT5l3jRVWmAs32CPHZtB2TMxSM3g=;
- b=I9koGGDagzPnZIo8WrFTRalR1vfZRmGc2NW3o7vjEIbdznhhoXypgVxKfdwvfIRLbt
- SFg4WVRA2zJeOOS+3T2P0tMBts0veA8iixmDTLKgYtSpNRfkoDUjvXv7V8OW78OqJRpM
- iUnXOXaAvHPrI+qRU5k06Gjcl9Uuo6tpK8O+7mCUT5MVpd8n+Unb7gMt/7578NW2sd19
- QAEtErDnfnxAyyP5YohhSGlvV7lYmMpWDKRZssCMqLVD+Bn0L07sdvZVdkNTJ/v3xRMf
- yA42csVA+iY8/ICRORmPqe6lGSZUsyW/yLE+RxKhxwqIcCg6SwlEilB2drez1lq3U1or
- mJyA==
-X-Gm-Message-State: AGi0PubJKgPjpXTy2kuRb2jnJ0K7zvT1JC9ws6SeKR5TPYybxJEBdkY4
- +Y1u63MROUTH3ZSMIzGh8lrVYA==
-X-Google-Smtp-Source: APiQypIYBC1vkZGlUmKk4RSHgb1OGl008wycUJ2gnA+uYh+hSUCwcQn24FHKdNWDf/TB/+juWIrx8w==
-X-Received: by 2002:a1c:3c87:: with SMTP id j129mr4437294wma.157.1587654052295; 
- Thu, 23 Apr 2020 08:00:52 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:39cc:a07:8b48:cc56?
- ([2a01:e35:2ec0:82b0:39cc:a07:8b48:cc56])
- by smtp.gmail.com with ESMTPSA id s17sm3717429wmc.48.2020.04.23.08.00.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Apr 2020 08:00:51 -0700 (PDT)
-Subject: Re: [PATCH v6 00/12] ARM/MIPS: DTS: add child nodes describing the
- PVRSGX GPU present in some OMAP SoC and JZ4780 (and many more)
-To: "H. Nikolaus Schaller" <hns@goldelico.com>,
- Maxime Ripard <maxime@cerno.tech>
-References: <20200415130233.rgn7xrtwqicptke2@gilmour.lan>
- <C589D06E-435E-4316-AD0A-8498325039E3@goldelico.com>
- <10969e64-fe1f-d692-4984-4ba916bd2161@gmail.com>
- <20200420073842.nx4xb3zqvu23arkc@gilmour.lan>
- <b5a06c19-7a3e-bcb8-5ae3-76901b9c6c35@gmail.com>
- <20200421112129.zjmkmzo3aftksgka@gilmour.lan>
- <20200421141543.GU37466@atomide.com>
- <D9D4D057-A73D-485F-898D-5C05E89C16B7@goldelico.com>
- <20200422065859.quy6ane5v7vsy5tf@gilmour.lan>
- <1AA57A0C-48E6-49BB-BB9A-2AAFFB371BCD@goldelico.com>
- <20200422151328.2oyqz7gqkbunmd6o@gilmour.lan>
- <07923B6C-4CCD-4B81-A98F-E19C43412A89@goldelico.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <43688597-4b99-8f4d-9ad5-548ddff07f52@baylibre.com>
-Date: Thu, 23 Apr 2020 17:00:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yWfVXVMfohtKmS5kEYQbuc4s2lSqYqmsBZir4Cme++w=;
+ b=baIWyZwrZ/QAEtZ8r5eQYKeQrH4FUcG+pjjua9S/E6PK1AZn9m2BHapOhaxLcXSRkx
+ eyC/1xJNd9uiOnc1y0u1ujiFeJ1LBOjgp1XxgRAUtf6w0/BxEnks0579GAwIE9h3ViKA
+ cwHpvzv3wMsn98SWkBNqIRX7XrQ1OQxBYFUpjRSni19o8MpjF0UQDv+Osv7/A1GTga9O
+ 9cL8IxXdTC7D7nSLAOZuWpGvbsy80mlJn+yXnJ+yUKC2f2Zvxuqb1OR7xKx/jjr5oaTv
+ fZyCLKzKL5guu5LCkGn/NlcJsy7hzd5YZfFH0k0nb9OMcCmeq+euIPQMkYeG3RLcCcPd
+ DqKg==
+X-Gm-Message-State: AGi0PuZQWCRrfL0TwoOmCtU6YM37mlvXGxUrzKY8NdZVPRK3+X7ouir7
+ MJP85Ujegl7vDSuvzJ2dyAeCzw9ChXiZcyDoNMr4eQ==
+X-Google-Smtp-Source: APiQypIi4NvEujQ6GqgHBdhD2VzV+/9kkECNIWJ+/FW3mTfJCV/9yMWEbOibQVDBzE62eHWJl5ANcWLj62O6QRZ+NEA=
+X-Received: by 2002:aca:2113:: with SMTP id 19mr3322578oiz.128.1587654120165; 
+ Thu, 23 Apr 2020 08:02:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <07923B6C-4CCD-4B81-A98F-E19C43412A89@goldelico.com>
-Content-Language: en-US
+References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
+ <87tv1k4vl6.fsf@intel.com> <d47ba6ef-efd0-9f28-1ae4-b971b95a8f8b@redhat.com>
+ <20200417120226.0cd6bc21@eldfell.localdomain>
+ <CAKMK7uEv_khNFC=JUyuQgDZp1p5eudDCrH0we+UdEdTV3H=Tsg@mail.gmail.com>
+ <20200420112704.68d02472@eldfell.localdomain>
+ <20200420130420.1a24197e@eldfell.localdomain>
+ <20200421121552.GT3456981@phenom.ffwll.local>
+ <20200421173300.3cd078f4@eldfell.localdomain>
+In-Reply-To: <20200421173300.3cd078f4@eldfell.localdomain>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 23 Apr 2020 17:01:49 +0200
+Message-ID: <CAKMK7uEr6eHfEuGfLU_JTk=fbo=FBcU_aasGwUTRACny7WeojQ@mail.gmail.com>
+Subject: Re: Operating KMS UAPI (Re: RFC: Drm-connector properties managed by
+ another driver / privacy screen support)
+To: Pekka Paalanen <ppaalanen@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,109 +65,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Tony Lindgren <tony@atomide.com>,
- James Hogan <jhogan@kernel.org>, Jonathan Bakker <xc-racer2@live.ca>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Paul Cercueil <paul@crapouillou.net>, linux-samsung-soc@vger.kernel.org,
- Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, linux-omap <linux-omap@vger.kernel.org>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Philipp Rossak <embed3d@gmail.com>,
- OpenPVRSGX Linux Driver Group <openpvrsgx-devgroup@letux.org>,
- linux-mips@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
- kernel@pyra-handheld.com,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
+Cc: Benjamin Berg <bberg@redhat.com>, David Airlie <airlied@linux.ie>,
+ Christian Kellner <ckellner@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Nitin Joshi1 <njoshi1@lenovo.com>, Rajat Jain <rajatja@google.com>,
+ Mark Pearson <mpearson@lenovo.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/04/2020 18:09, H. Nikolaus Schaller wrote:
-> Hi Maxime,
-> 
->> Am 22.04.2020 um 17:13 schrieb Maxime Ripard <maxime@cerno.tech>:
->>
->> On Wed, Apr 22, 2020 at 09:10:57AM +0200, H. Nikolaus Schaller wrote:
->>>> Am 22.04.2020 um 08:58 schrieb Maxime Ripard <maxime@cerno.tech>:
->>>>>
->>>>> It also allows to handle different number of clocks (A31 seems to
->>>>> need 4, Samsung, A83 and JZ4780 one) without changing the sgx bindings
->>>>> or making big lists of conditionals. This variance would be handled
->>>>> outside the sgx core bindings and driver.
->>>>
->>>> I disagree. Every other GPU binding and driver is handling that just fine, and
->>>> the SGX is not special in any case here.
->>>
->>> Can you please better explain this? With example or a description
->>> or a proposal?
->>
->> I can't, I don't have any knowledge about this GPU.
-> 
-> Hm. Now I am fully puzzled.
-> You have no knowledge about this GPU but disagree with our proposal?
-> Is it just gut feeling?
-> 
-> Anyways, we need to find a solution. Together.
-> 
->>
->>> I simply do not have your experience with "every other GPU" as you have.
->>> And I admit that I can't read from your statement what we should do
->>> to bring this topic forward.
->>>
->>> So please make a proposal how it should be in your view.
->>
->> If you need some inspiration, I guess you could look at the mali and vivante
->> bindings once you have an idea of what the GPU needs across the SoCs it's
->> integrated in.
-> 
-> Well, I do not need inspiration, we need to come to an agreement about
-> img,pvrsgx.yaml and we need some maintainer to finally pick it up.
-> 
-> I wonder how we can come to this stage.
-> 
-> If I look at vivante,gc.yaml or arm,mali-utgard.yaml I don't
-> see big differences to what we propose and those I see seem to come
-> from technical differences between sgx, vivante, mali etc. So there
-> is no single scheme that fits all different gpu types.
-> 
-> One thing we can learn is that "core" seems to be a de facto standard 
-> for the core clock-name. An alternative "gpu" is used by nvidia,gk20a.txt.
+On Tue, Apr 21, 2020 at 4:33 PM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Tue, 21 Apr 2020 14:15:52 +0200
+> Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> > On Mon, Apr 20, 2020 at 01:04:20PM +0300, Pekka Paalanen wrote:
+> > > On Mon, 20 Apr 2020 11:27:04 +0300
+> > > Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > >
+> > > > On Fri, 17 Apr 2020 16:17:18 +0200
+> > > > Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > >
+> > > > > On Fri, Apr 17, 2020 at 11:02 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > > > > >
+> > > > > > Hi,
+> > > > > >
+> > > > > > let's think about how userspace uses atomic KMS UAPI. The simplest way
+> > > > > > to use atomic correctly is that userspace will for every update send the
+> > > > > > full, complete set of all properties that exist, both known and unknown
+> > > > > > to userspace (to recover from temporarily VT-switching to another KMS
+> > > > > > program that changes unknown properties). Attempting to track which
+> > > > > > properties already have their correct values in the kernel is extra
+> > > > > > work for just extra bugs.
+> > > > >
+> > > > > Uh if you do that you'll get random surprising failures if you don't
+> > > > > also set ALLOW_MODESET, because that way you'll automatically repair
+> > > > > link failures and stuff like that. I'm assuming your userspace only
+> > > > > supplies all the properties for crtc and planes, and leaves connectors
+> > > > > as-is? Otherwise you already have some fun bugs.
+> > > > >
+> > > > > In general I'd say userspace shouldn't write stuff it doesn't
+> > > > > understand. If you limit yourself to just the properties you do want
+> > > > > to (re)set, that's safe. But if you just blindly write everything all
+> > > > > the time, random modesets, and hence random failures if you don't set
+> > > > > ALLOW_MODESET.
+> > > >
+> > > > Hi,
+> > > >
+> > > > how should userspace KMS program A recover from the situation when
+> > > > switching the VT back from KMS program B who changed properties that
+> > > > program A does not recognise? (I believe Weston does not recover at
+> > > > the moment.) This is very important for getting e.g. reliable color
+> > > > reproduction, since not all KMS programs are always up-to-date with
+> > > > everything the kernel exposes and people may switch between them. Not
+> > > > resetting everything may even encourage people to write hacks where you
+> > > > temporarily VT-switch away, run a KMS program to set one property, and
+> > > > then switch back assuming the property remains set. I have already seen
+> > > > someone mention they can enable VRR behind the display server's back
+> > > > like this.
+> > > >
+> > > > I don't think Weston records and re-sets unknown properties yet, but I
+> > > > assumed it is what it needs to do to be able to reliably recover from
+> > > > VT-switches. In that case ALLOW_MODESET is of course set since all
+> > > > state is unknown and assumed bad.
+> > > >
+> > > > I do believe Weston re-submits *everything* it knows about every
+> > > > update, except for CRTCs and connectors it has already disabled and
+> > > > knows are in disabled state (this could change though).
+> > > >
+> > > > However, during steady-state operation when ALLOW_MODESET should not be
+> > > > necessary, is it still harmful to re-program *all* properties on every
+> > > > update?
+> > > >
+> > > > After all, the kernel will just no-op all property setting where the
+> > > > value is already the right one, does it not?
+> > > >
+> > > > The only "random" KMS state is the properties the userspace KMS
+> > > > program does not know that are set on start-up. I have been assuming
+> > > > that as long as you had fbdev active before the KMS program started,
+> > > > the unknown properties have "harmless" default values. And maybe even at
+> > > > driver device init if fbdev does not exist?
+> > > >
+> > > > Is there something more up-to-date than
+> > > > https://blog.ffwll.ch/2016/01/vt-switching-with-atomic-modeset.html ?
+> >
+> > Sadly, nothing changed since then.
+> >
+> > > Thinking more, would the below work?
+> >
+> > Yup, this would somewhat work. Except not always, I've found one case
+> > where even this goes wrong:
+> >
+> > - Content-protection property, if enabled, has the kernel automatically
+> >   switch to enabled if hdcp is actually on and authenticated and all that.
+> >   Writing back that enabled value will fail. But there's good chances that
+> >   at boot-up content protection isn't enabled, so should work out nicely.
+> >
+> > - We could fix this by silently downcasting enabled to requested, but
+> >   might still lead to surprises since it makes hdcp rather more sticky
+> >   than some users might like.
+>
+> The fix doesn't make HDCP any more or less sticky, it just makes it
+> possible to not fail a resetting atomic commit. Without a resetting
+> commit, it will remain DESIRED/ENABLED.
+>
+> If "Content Protection" reads back as DESIRED, userspace that relies on
+> read-back for reset will reset it to DESIRED. Could as well be ENABLED
+> that the kernel just takes as DESIRED when written.
+>
+> > > Actor: a KMS userspace program, e.g. a display server
+> > >
+> > > - On start-up, read all KMS properties and their values. The properties
+> > >   that are not recognised are saved in a set called "reset unknowns"
+> > >   with their current values.
+> > >
+> > >   Optional: The program commits the "reset unknown" state to KMS with
+> > >   ALLOW_MODESET to ensure it all is writable as is; if that fails,
+> > >   there is no guarantee that the program could recover later, so it's
+> > >   best to abort in that case. This could be part of the initial
+> > >   modeset, too.
+> > >
+> > > - When the program has lost and regained DRM master status, meaning
+> > >   that (unrecognised) KMS state is potentially incorrect, prepare an
+> > >   atomic commit with "reset unknowns" set and add all the recognised
+> > >   state the program knows of on top. This resets everything to like it
+> > >   was, with ALLOW_MODESET.
+> > >
+> > > - At any other time, do not use the "reset unknowns" set.
+> > >
+> > > The final point is the important one. I have assumed it would be safe
+> > > to use always, but apparently not? Good thing I haven't yet written
+> > > code to do that.
+> > >
+> > > You have to recognise the property to know if it is safe to set
+> > > needlessly (for convenience in both code simplicity and ease of
+> > > debugging)?
+> > >
+> > > Also, when using "reset unknowns" set, it actually has to be
+> > > partitioned by KMS objects (CRTC, connector, plane...) so if e.g. a
+> > > connector no longer exist, you don't attempt to set it.
+> > >
+> > > However, this still leaves writable properties whose value read is not
+> > > legal to write as broken. Let's pray that fbcon or a system compositor
+> > > will never succeed in enabling HDCP...
+> >
+> > Note that the kernel isn't entire consistent on this. I've looked a bit
+> > more closely at stuff. Ignoring content protection I've found following
+> > approaches things:
+> >
+> > - self refresh helpers, which are entirely transparent. Therefore we do a
+> >   hack to set allow_modeset when the self-refresh helpers need to do a
+> >   modeset, to avoid total surprise for userspace. I think this is only ok
+> >   for these kind of behind-the-scenes helpers like self-refresh.
+> >
+> > - link-status is always reset to "good" when you include any connector,
+> >   which might force a modeset. Even when allow_modeset isn't set by
+> >   userspace. Maybe we should fix that, but we've discussed forever how to
+> >   make sure a bad link isn't ever stuck at "bad" for old userspace, so
+> >   we've gone with this. But maybe limiting to only allow_modeset cases
+> >   would also work.
+>
+> Wait, what do you mean "include any connector"?
+>
+> What exactly could cause a modeset instead of failure when
+> ALLOW_MODESET is not set?
 
-Usually IPs needs a few clocks:
-- pclk or apb or reg: the clock clocking the "slave" bus to serve the registers
-- axi or bus or ahb: the bus clocking the the "master" bus to get data from system memory
-- core: the actual clock feeding the GPU logic
+If you do an atomic commit with the connector included that has the
+bad link status, then it'll reset it to Good to try to get a full
+modeset to restore stuff. If you don't also have ALLOW_MODESET set,
+it'll fail and userspace might be sad and not understand what's going
+on. We can easily fix this by only forcing the link training to be
+fixed if userspace has set ALLOW_MODESET.
 
-Sometimes you have a single clock for slave and master bus.
+> Does that mean that I'll never need to implement link-status handling
+> in Weston, because the kernel will recover the link anyway? If the
+> kernel does that, then what's the point of having a link-status
+> property to begin with?
 
-But you can also have separate clocks for shader cores, .. this depends on the IP and it's architecture.
-The IP can also have memories with separate clocks, etc...
+Well generally all your compositor does all day long is flip buffers.
+So you'll never get the kernel into restoring the link. Hence the
+uevent, so that the compositor can a) update the mode list, which
+might have changed b) do the modeset to restore stuff. The
+auto-fallback is so that stuff like users manually
+disabling/re-enabling an output actually helps with fixing stuff.
 
-But all these clocks can be source by an unique clock on a SoC, but different on another
-SoC, this is why it's important to list them all, even optional.
+> > - I guess we could do stuff that only fires off when allow_modeset is set,
+> >   but I haven't found some examples. I thought we've had some outside of
+> >   self-refresh helpers already. The closest I've found is again
+> >   link-status, which never allows userspace to set BAD, and silently
+> >   upgrades to GOOD. So that userspace doing a blind safe/restore can't
+> >   wreak stuff permanently.
+>
+> Sounds like link-status was designed with a blind save/restore in mind.
 
-You'll certainly have at least a reset signal, and a power domain, these should exist and be optional.
+Yeah that part we didn't screw up.
 
-Neil
+> > It's all a bit nasty :-/
+> >
+> > I think we should at least allow userspace to do a blind restore with
+> > allow_modeset and not expect bad side-effects. That would mean fixing at
+> > least the content protection stuff.
+> >
+> > Plus documenting this in the kernel somewhere. As the official thing to
+> > do. But maybe we want some actual userspace doing this before we enshrine
+> > it as official policy. The content protection fix is a one-liner and can
+> > be cc'ed stable.
+>
+> I'd probably not go there, a blind save does not guarantee a good
+> state. The fix to "Content Protection" is not necessary (as long as
+> userspace does not do a blind save/restore) if we can get the default
+> state from the kernel. If we get the default state from the kernel,
+> then userspace would be doing a blind restore but not save, meaning
+> that the state actually is sane and writable.
+>
+> I'd love to volunteer for writing the Weston code to make use of "get me
+> sane default state" UAPI, but I'm afraid I'm not in that much control
+> of my time.
 
-> 
-> BR and thanks,
-> Nikolaus
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
+The problem is, what is your default state? Driver defaults (generally
+fairly random and mostly everything is off)? After fbcon has done
+it's, which might never happen when you've disabling fbdev/fbcon?
+Boot-up state from the firmware for drivers like i915 that support
+fastboot (and what if that's garbage)? These can all be different too.
 
+The hard part isn't the uapi, it's the implementation and defining
+what you mean. Generally everyone wants their own version of default
+value semantics, so this a) encodes policy, which we try to avoid in
+the kernel and b) will be epic amounts of endless bikeshedding and
+fighting between use-cases.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
