@@ -2,36 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D0B81B672D
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4AD61B671A
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:51:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 889326EA51;
-	Thu, 23 Apr 2020 22:52:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3206A6EA48;
+	Thu, 23 Apr 2020 22:50:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id F411F6E8D6
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 15:28:46 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3B5E031B;
- Thu, 23 Apr 2020 08:28:46 -0700 (PDT)
-Received: from [10.37.12.89] (unknown [10.37.12.89])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7E87B3F6CF;
- Thu, 23 Apr 2020 08:28:21 -0700 (PDT)
-Subject: Re: [PATCH v6 03/10] PM / EM: update callback structure and add
- device pointer
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18AEC6E8D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 15:29:03 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id z6so7016154wml.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 08:29:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=K0XwhvnZ5fHku+zX8bB/tqMgI8KM65JG7UKJ1LIe+hw=;
+ b=f3HaI4v7q0s0ma9brDtDfqbZ273js/4jOfpcLSe86Rdc4863/LFECt156kdpFRFuFU
+ /qAg5B9O+PLzlWP3310ATVRODsMIrhzfM6FRjI2ZfFrQh4TULq2AHJGPyPOzharxZjGs
+ 7nU7Xz0r39aTzO4K1n1DPslhQOZhvyuKKyIbf0lq4Ckrwalxc66TSGtchPiX+in6/vCG
+ TN+C9llUiHzgI7809zQxurlbhQHWjyyCzDT1ymd5TPr0DGAHiwg0sY3T6f3iwZEMaYMz
+ GyZiPpsxXPYpGo5h9qA9IliuLqsreuoUyXoDk50xYzX1M3L64josfqN4NbTZNRwbZFey
+ lCWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=K0XwhvnZ5fHku+zX8bB/tqMgI8KM65JG7UKJ1LIe+hw=;
+ b=ZMy6PbPsaFwbJuNUkzKo58O+d+HBTh+589tK5BFwwmo4IbC/MpM9XsBFCzWKsF5aPi
+ PqEHC1sDBj4HItDkQ3/AIjAl4ULz7/b9HvADZIMybkWqvgMjZ5zZFopfvtJF53Ifhkje
+ 44GmSQlYY535g0vza3PEVPM3JNeKfGeC8CtqUYZ2fGZg4Sf0BCwykWD54QYq1+eE4qg4
+ 2j8mdPXyD0nYGL7uxvedmHlJg3nqAOgsceodYzp9wK//QfGu9MtnJO6LQ9q3ZFmmCQJ2
+ //IFKRmoE3PDW5epICwU33Su3vBFhV7PRpr2remg/dFWPkAP2xeiPo/A8Vtd3Lkf2Zak
+ e8Ug==
+X-Gm-Message-State: AGi0PuascON8uzxhvq9AqfW24u3Uc7onrcKiJ/UjdzxD09HTe0K4XxxS
+ 7pKkUBknasRj7DvCJGX4NFfXog==
+X-Google-Smtp-Source: APiQypJgzi6SD42pIpK5DubH9kPf+0CuGHiKBJHzVOd+VDHdvOQf8wEqsCDznBChQjiLenoFM3eaig==
+X-Received: by 2002:a1c:a794:: with SMTP id q142mr4732427wme.4.1587655741551; 
+ Thu, 23 Apr 2020 08:29:01 -0700 (PDT)
+Received: from linaro.org ([37.167.216.250])
+ by smtp.gmail.com with ESMTPSA id j13sm4361278wrq.24.2020.04.23.08.28.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Apr 2020 08:29:00 -0700 (PDT)
+Date: Thu, 23 Apr 2020 17:28:54 +0200
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+To: Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH v6 06/10] PM / EM: change name of em_pd_energy to
+ em_cpu_energy
+Message-ID: <20200423152854.GD65632@linaro.org>
 References: <20200410084210.24932-1-lukasz.luba@arm.com>
- <20200410084210.24932-4-lukasz.luba@arm.com>
- <20200423132243.GA65632@linaro.org>
-From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <245720a0-c812-ccc8-235e-6eed6f216e4b@arm.com>
-Date: Thu, 23 Apr 2020 16:28:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <20200410084210.24932-7-lukasz.luba@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200423132243.GA65632@linaro.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200410084210.24932-7-lukasz.luba@arm.com>
 X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,73 +86,22 @@ Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
  rdunlap@infradead.org, rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
  kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
  shawnguo@kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
-
-On 4/23/20 2:22 PM, Daniel Lezcano wrote:
-> On Fri, Apr 10, 2020 at 09:42:03AM +0100, Lukasz Luba wrote:
->> The Energy Model framework is going to support devices other that CPUs. In
->> order to make this happen change the callback function and add pointer to
->> a device as an argument.
->>
->> Update the related users to use new function and new callback from the
->> Energy Model.
->>
->> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
->> ---
+On Fri, Apr 10, 2020 at 09:42:06AM +0100, Lukasz Luba wrote:
+> Energy Model framework supports now other devices than CPUs. Refactor some
+> of the functions in order to prevent wrong usage. The old function
+> em_pd_energy has to generic name. It must not be used without proper
+> cpumask pointer, which is possible only for CPU devices. Thus, rename it
+> and add proper description to warn of potential wrong usage for other
+> devices.
 > 
-> [ ... ]
-> 
->> +static struct em_perf_domain *
->> +em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
->> +	     cpumask_t *span)
->>   {
->>   	unsigned long opp_eff, prev_opp_eff = ULONG_MAX;
->>   	unsigned long power, freq, prev_freq = 0;
->> @@ -106,7 +107,7 @@ static struct em_perf_domain *em_create_pd(cpumask_t *span, int nr_states,
->>   		 * lowest performance state of 'cpu' above 'freq' and updates
->>   		 * 'power' and 'freq' accordingly.
->>   		 */
->> -		ret = cb->active_power(&power, &freq, cpu);
->> +		ret = cb->active_power(&power, &freq, dev);
->>   		if (ret) {
->>   			pr_err("pd%d: invalid perf. state: %d\n", cpu, ret);
->>   			goto free_ps_table;
-> 
-> Why are the changes 'cpu' to 'dev' in the patch 4/10 instead of this one ?
+> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
 
-The patch 4/10 is quite big and I didn't want to put also this change in
-there. I thought for readability it would be better to have a separate
-patch with self-contained change (or I got your suggestion too strict).
-
-In this patch I just wanted to show more precisely that this function
-callback 'active_power' which is used by 2 users (currently):
-cpufreq/scmi-cpufreq.c and opp/of.c
-is going to change an argument and these files are affected.
-
-The 4/10 changes a lot lines, while first 3 patches can be treated as
-a preparation for the upcoming major change (4/10).
-
-Thank you for the review.
-
-Regards,
-Lukasz
-
-> 
->> @@ -237,7 +238,7 @@ int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
->>   	}
->>   
->>   	/* Create the performance domain and add it to the Energy Model. */
->> -	pd = em_create_pd(span, nr_states, cb);
->> +	pd = em_create_pd(dev, nr_states, cb, span);
->>   	if (!pd) {
->>   		ret = -EINVAL;
->>   		goto unlock;
-> 
+Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
