@@ -2,188 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599791B6728
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF5C1B670B
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:51:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B06376EA49;
-	Thu, 23 Apr 2020 22:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B8BB6EA1C;
+	Thu, 23 Apr 2020 22:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
- [149.117.73.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 011F36E250
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 11:13:40 +0000 (UTC)
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
- [10.192.0.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id E253540192;
- Thu, 23 Apr 2020 11:13:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1587640420; bh=onUaFDs6wYSISeP1mdP9QC/AaUBejHVUCP9yF5h/ajc=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=imEy6icKcQ1SQGcZxdD93yKfSxv0+ub50lCZFBB0G8D8GHQ9LxipvkI6Kj0dIH+lc
- bGFBYbP8MSvtaiZp8zoD1SdFuONVyBG5uHXPfPGxJF7G72EMpC9eF2ZH+h2qqN6oua
- /IQGAZnCPY9fb7OHix95FBxqeZwlRnAMF4VmFI1v1OwiCz1vojBq8QjNb98LTKq8RO
- jMqPD5ThJvra4vPrgD17CcT0fihDdxTTwtwa/Mv3rJzvcbWlFrlNkKcD2HcD6/eUnx
- iRFd2YfcEJT7UG/VHNUgNMlhrWPJL8+rMhOD8ibn64iNRaTGK1Ltbi9eVB39D7cEzT
- 9okBG5Mf03New==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 14E62A0083;
- Thu, 23 Apr 2020 11:13:37 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 23 Apr 2020 04:12:43 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.487.0; Thu, 23 Apr 2020 04:12:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YUTesgvs48zVctQAcwrMWCqlRAlxmjgwec6tZ12BAvetsWTYJZHhDZuA19MCw0797s75BTOKSf86Jx58B2stXmFTaM6TDX4/C9AATZOc9afDow/eniAPQ5bn2EfycCkwyQOuyv9McAbho6rXkVWx5H95ALr4QaT6u5kYK/KgClHsc57j1nPWc2NfJ77wmCj+XTiEy5rAR4DFT0+95PkMOsy+KJ96Ib5Xm2FiaJQ2/eDZJzN5qkk3KkJotqmKRUURoYX1R9L+L8n4UqcqrwVY5psxv1SqpJ+32+mJZekGmtRCooIUDLMdzYuprz5uZS+daIWe7qoW/O1CRq7P2WtXlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xmgp9cXic+fgTwUQ0cUjGGHcqKTBI407RrOxZ8RLyLg=;
- b=IPz2Hrl7XB41apDz+xpLhzrhffrxkxFuQfe3pbJrd9z30lBpJDnmEfM5VWadDIan5i1NknkzeybN0XBFti6a6k0uEfOtGQYOQhgTqL383xHtgRFPADoiKq8fShz1BZGyhdGwBfA8nZgVLD3CzMszb76QHv3+gmOFWnPQQcHPSSvRq6zPUKbiD2jqk1qxqymt0KhhmE6aAlilmjhowAGDFRGmG5TZbCSZaJ8tOsbWaT/qK15zD5Y39GoRK5F0fJrErUPyv6r8KaV7Nh7BExu1oQg44soaJ9ARtfCuW89mnXnY9XMEfTxOBwz4oMfhIrNaUlyef46xQcjX0PXSveLJIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xmgp9cXic+fgTwUQ0cUjGGHcqKTBI407RrOxZ8RLyLg=;
- b=Hu7Bar96oG9sbsq5/OQcNVESC2intVRMq1/T/cXDTYQFFGt3nIlEeGycZw8GwZCEw5E7o0ov+RaO4fmpdEi3cgY4Ku1+54jClbDB+kxvrEtOpZDxaA01KBJ7uIvsTctJrQLpGibDIVkwfzRRNbnUWceGd4B6yv1nYY1hYeS3YVU=
-Received: from MN2PR12MB3789.namprd12.prod.outlook.com (2603:10b6:208:16a::20)
- by MN2SPR01MB0020.namprd12.prod.outlook.com (2603:10b6:208:184::32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Thu, 23 Apr
- 2020 11:12:40 +0000
-Received: from MN2PR12MB3789.namprd12.prod.outlook.com
- ([fe80::8d9c:955:1a7b:29c6]) by MN2PR12MB3789.namprd12.prod.outlook.com
- ([fe80::8d9c:955:1a7b:29c6%4]) with mapi id 15.20.2937.012; Thu, 23 Apr 2020
- 11:12:40 +0000
-From: Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>
-To: Adrian Ratiu <adrian.ratiu@collabora.com>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>
-Subject: RE: [PATCH v4] dt-bindings: display: dw_mipi_dsi.txt: convert to yaml
-Thread-Topic: [PATCH v4] dt-bindings: display: dw_mipi_dsi.txt: convert to yaml
-Thread-Index: AQHWGVYkS0wcFeXtGEmdc/0ooO7336iGggXQ
-Date: Thu, 23 Apr 2020 11:12:40 +0000
-Message-ID: <MN2PR12MB378964868D3C1241FC649100CBD30@MN2PR12MB3789.namprd12.prod.outlook.com>
-References: <20200423100058.1734009-1-adrian.ratiu@collabora.com>
-In-Reply-To: <20200423100058.1734009-1-adrian.ratiu@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYW5nZWxvclxh?=
- =?us-ascii?Q?cHBkYXRhXHJvYW1pbmdcMDlkODQ5YjYtMzJkMy00YTQwLTg1ZWUtNmI4NGJh?=
- =?us-ascii?Q?MjllMzViXG1zZ3NcbXNnLTU2ZjkxOWE4LTg1NTMtMTFlYS05ZDcyLWZjNzc3?=
- =?us-ascii?Q?NGVlZGMyZVxhbWUtdGVzdFw1NmY5MTlhOS04NTUzLTExZWEtOWQ3Mi1mYzc3?=
- =?us-ascii?Q?NzRlZWRjMmVib2R5LnR4dCIgc3o9IjYxNzkiIHQ9IjEzMjMyMTEzOTU5MDMy?=
- =?us-ascii?Q?MTQwMSIgaD0ib1EwOGR3SlVxVlJBWm5kY3BqQWgzZWtxcmxrPSIgaWQ9IiIg?=
- =?us-ascii?Q?Ymw9IjAiIGJvPSIxIiBjaT0iY0FBQUFFUkhVMVJTUlVGTkNnVUFBQlFKQUFE?=
- =?us-ascii?Q?NVZJNFpZQm5XQVQxYTUzVUxvdmVQUFZybmRRdWk5NDhPQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUhBQUFBQ2tDQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUVBQVFBQkFBQUFIYVd5TkFBQUFBQUFBQUFBQUFBQUFKNEFBQUJtQUdrQWJn?=
- =?us-ascii?Q?QmhBRzRBWXdCbEFGOEFjQUJzQUdFQWJnQnVBR2tBYmdCbkFGOEFkd0JoQUhR?=
- =?us-ascii?Q?QVpRQnlBRzBBWVFCeUFHc0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?RUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHWUFid0IxQUc0QVpBQnlBSGtBWHdC?=
- =?us-ascii?Q?d0FHRUFjZ0IwQUc0QVpRQnlBSE1BWHdCbkFHWUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFDQUFB?=
- =?us-ascii?Q?QUFBQ2VBQUFBWmdCdkFIVUFiZ0JrQUhJQWVRQmZBSEFBWVFCeUFIUUFiZ0Js?=
- =?us-ascii?Q?QUhJQWN3QmZBSE1BWVFCdEFITUFkUUJ1QUdjQVh3QmpBRzhBYmdCbUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQm1BRzhB?=
- =?us-ascii?Q?ZFFCdUFHUUFjZ0I1QUY4QWNBQmhBSElBZEFCdUFHVUFjZ0J6QUY4QWN3QmhB?=
- =?us-ascii?Q?RzBBY3dCMUFHNEFad0JmQUhJQVpRQnpBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdZQWJ3QjFBRzRBWkFCeUFIa0FY?=
- =?us-ascii?Q?d0J3QUdFQWNnQjBBRzRBWlFCeUFITUFYd0J6QUcwQWFRQmpBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUNB?=
- =?us-ascii?Q?QUFBQUFDZUFBQUFaZ0J2QUhVQWJnQmtBSElBZVFCZkFIQUFZUUJ5QUhRQWJn?=
- =?us-ascii?Q?QmxBSElBY3dCZkFITUFkQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFCbUFH?=
- =?us-ascii?Q?OEFkUUJ1QUdRQWNnQjVBRjhBY0FCaEFISUFkQUJ1QUdVQWNnQnpBRjhBZEFC?=
- =?us-ascii?Q?ekFHMEFZd0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR1lBYndCMUFHNEFaQUJ5QUhr?=
- =?us-ascii?Q?QVh3QndBR0VBY2dCMEFHNEFaUUJ5QUhNQVh3QjFBRzBBWXdBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFB?=
- =?us-ascii?Q?Q0FBQUFBQUNlQUFBQVp3QjBBSE1BWHdCd0FISUFid0JrQUhVQVl3QjBBRjhB?=
- =?us-ascii?Q?ZEFCeUFHRUFhUUJ1QUdrQWJnQm5BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJ6?=
- =?us-ascii?Q?QUdFQWJBQmxBSE1BWHdCaEFHTUFZd0J2QUhVQWJnQjBBRjhBY0FCc0FHRUFi?=
- =?us-ascii?Q?Z0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFITUFZUUJzQUdVQWN3QmZB?=
- =?us-ascii?Q?SEVBZFFCdkFIUUFaUUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFB?=
- =?us-ascii?Q?QUFDQUFBQUFBQ2VBQUFBY3dCdUFIQUFjd0JmQUd3QWFRQmpBR1VBYmdCekFH?=
- =?us-ascii?Q?VUFYd0IwQUdVQWNnQnRBRjhBTVFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFB?=
- =?us-ascii?Q?QnpBRzRBY0FCekFGOEFiQUJwQUdNQVpRQnVBSE1BWlFCZkFIUUFaUUJ5QUcw?=
- =?us-ascii?Q?QVh3QnpBSFFBZFFCa0FHVUFiZ0IwQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUhZQVp3QmZBR3NBWlFC?=
- =?us-ascii?Q?NUFIY0Fid0J5QUdRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFB?=
- =?us-ascii?Q?QUFBQUNBQUFBQUFBPSIvPjwvbWV0YT4=3D?=
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=angelor@synopsys.com; 
-x-originating-ip: [83.174.63.141]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ee9c0481-aafd-4687-4c0b-08d7e7773d14
-x-ms-traffictypediagnostic: MN2SPR01MB0020:
-x-microsoft-antispam-prvs: <MN2SPR01MB0020C3D6582E003955653943CBD30@MN2SPR01MB0020.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 03827AF76E
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3789.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(346002)(376002)(396003)(39860400002)(366004)(136003)(478600001)(52536014)(76116006)(110136005)(66946007)(8936002)(6506007)(966005)(54906003)(33656002)(86362001)(66446008)(64756008)(7696005)(66556008)(316002)(2906002)(26005)(66476007)(186003)(4326008)(81156014)(8676002)(71200400001)(9686003)(55016002)(5660300002);
- DIR:OUT; SFP:1102; 
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7fS3vNr4+1AhGv5oUPqdllRvPrZsZKYV50O3IbSRHFo4DPyh1wcTiO4/aK3jl9hKsRvyznwrSFOCDu816cZTdN79OgnQ7h6SIYAcX+o2l0qYHHoWEtf4BQQ1JoIKwgwS31RODsI+y2747AcGzCus7d4THXYhoE+Fr0P10KMm86rhTySJTmcs+B+owwjknHqX+fENPphOMYEQnwUCWW7FUtU3m2JxyFl5zfOzWopmMws+05iXIuxCXplFY17ZRBs8826ZEZ/OcVRaPGjezvKb0Y5lEvW0cKlmb/qX/Gk62EpHxxH5onp95TX1QGZqeb7qlyYLVYnWLHLobzOADWNq+UJgD1AKnkXhf4LwcLqeXrWZfkWO7TwLpTvWbeJVF0AmXauzwsn2/txbmyIh+9QbtPqpIm0lLvdlFoeBaeqN2GXzyS9nDKUl61kUCWRn4+ogMJtqBl5JhXN6NvoUKkYX0k6YDAPkrlOoav0cI5LCl52JXlKAGuLN2UqqTVzm1yZc8TuXHRo2Fpui13Hv1EVhsQ==
-x-ms-exchange-antispam-messagedata: M6ANK394R6/iukj+pwCu6lfyyWL7qqtDXX1jzTObGroa3rqXLxQmRRM8NwamyZaZTAJ87ppzMPFpDE/oPA2hlBVFY5QxdZjId4Tu52k6Gcgx0fu1+KJqMFbQs7uJlkRlfEhVuuby+k0ProBtb1qfiw==
-x-ms-exchange-transport-forked: True
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 960C26E417
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 11:17:24 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id f18so5741280lja.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 04:17:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=oAZ3axSS566ERI69yTRudA5pk37T198UyezMCJFyqg0=;
+ b=KSgfMoObN3NHkidu9iYPdBnmPp3engyij0Ehfav1N/WhjTgeC0WAEqV4PiK/2se+vh
+ 02HoWakOzVncGdusZNQ8ZY+F4fGiQeQp11DgqhFA6LRJS/KpLsNb/rZLlt7C9BbjD2TH
+ yoXItbqJBSgTggjo6BLsrgNnlCAbD96MbZpV9SlalV5NLuUMbH7QF8llxpE4PTExVmbw
+ d5LdA6pZenEYzRWH599sjZKGNxJ9Yx61SR1VALDpJCDfcBh55QcXhxJE1GvV7OKHQjyy
+ aghumRr0w+KpFu9by9ZQSRdUYR2Hxj4B30onoIvzgWmUdZgQn0CuWqW0NiJ9Mre70Wyh
+ JqXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=oAZ3axSS566ERI69yTRudA5pk37T198UyezMCJFyqg0=;
+ b=AX7RnQPfe1QeYwv3HYb8xqO4Oto5o87feIhqJSxlZazRWwyizhxqOrw1Xg8vFy/s2U
+ poVaL5lTF65+1WcfxVQP8fCM7TznFdFsNSb40c0/GC8yYC6x49rnouS14XuNzcqCzMpz
+ njohhRgC8eQoPuIyRSlpDJLoZCKwhRTCjVf9o81ZYjUZ3/helnzorGPBSYYHsSRGvafJ
+ XN/iZwKeuydnIVSLfpuAGGRIx67BnXWZ4aWQspJxLRYIYn2iaXgLJd6iHv48lUIPmeN/
+ Vw+WoaJl8aqUM8VW5eCBZUso1QO+SEYqlcD/djPuL33zPVs5KC3rvTgPxQPmcJ8yn6SY
+ E5tg==
+X-Gm-Message-State: AGi0PuY/YfrBrk2wWCVqT25Zpscc1/hSRWFRAvdkc2ZNRg0HFGqspax5
+ K/JTfmecuoBSBsDIiretEDFa5BoFAOGUHjGZjo0H+g==
+X-Google-Smtp-Source: APiQypK0Re1sUKs5qj9tLUP4qPP1QkFHT2aHcKdugHwEJw1KaZvbC8SiMNOvF4Qprdlmol4eRp7pXa/xXuHF+2LAOi8=
+X-Received: by 2002:a2e:9496:: with SMTP id c22mr1938373ljh.165.1587640642860; 
+ Thu, 23 Apr 2020 04:17:22 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee9c0481-aafd-4687-4c0b-08d7e7773d14
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Apr 2020 11:12:40.5860 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VpDwGVyBRvEwmf7/kzlB2V5hk6h2Xs9BxyZrcaPJ0BF890QcmZXPnj/32Wc76Px6XVzIrRULxbBSGM893rvjfw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2SPR01MB0020
-X-OriginatorOrg: synopsys.com
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Thu, 23 Apr 2020 16:47:11 +0530
+Message-ID: <CA+G9fYtoYzRbrUVhboUgOOqEC2xt_i4ZmYb9yq33fRmf653_pQ@mail.gmail.com>
+Subject: stable-rc 4.14: Internal error: Oops: 96000004 - pc :
+ __pi_strcmp+0x18/0x154
+To: linux- stable <stable@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Sasha Levin <sashal@kernel.org>
 X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -197,176 +61,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kernel@collabora.com" <kernel@collabora.com>,
- Philippe CORNU <philippe.cornu@st.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ "rafael.j.wysocki" <rafael.j.wysocki@intel.com>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Hans Verkuil <hans.verkuil@cisco.com>, lkft-triage@lists.linaro.org,
+ colin.king@canonical.com, freedreno@lists.freedesktop.org,
+ Brian Masney <masneyb@onstation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adrian,
+We still notice kernel warnings while booting stable rc 4.14.177-rc1 kernel
+on qualcomm dragonboard 410c development board.
 
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
-Date: Thu, Apr 23, 2020 at 11:00:58
+[    7.760140] msm_dsi_host_set_src_pll: can't set parent to
+byte_clk_src. ret=-22
+[    7.763963] msm_dsi_manager_register: failed to register mipi dsi
+host for DSI 0
+[    7.772434]   EA = 0, S1PTW = 0
+[    7.774344] msm 1a00000.mdss: failed to bind 1a98000.dsi (ops
+dsi_ops [msm]): -22
+[    7.779241] Data abort info:
+[    7.789056] msm 1a00000.mdss: master bind failed: -22
+[    7.792091] msm_dsi: probe of 1a98000.dsi failed with error -22
+[    7.794132]   ISV = 0, ISS = 0x00000004
+[    7.802783]   CM = 0, WnR = 0
+[    7.809436] user pgtable: 4k pages, 48-bit VAs, pgd = ffff80003b1d7000
+[    7.809660] [0000000000000000] *pgd=0000000000000000
+[    7.825466] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+[    7.825498] Modules linked in: rfkill crc32_ce adv7511 msm(+)
+msm_rng mdt_loader drm_kms_helper rng_core drm fuse
+[    7.829847] Process systemd-udevd (pid: 2635, stack limit =
+0xffff00000f3c0000)
+[    7.840261] CPU: 1 PID: 2635 Comm: systemd-udevd Not tainted 4.14.177-rc1 #1
+[    7.847391] Hardware name: Qualcomm Technologies, Inc. APQ 8016 SBC (DT)
+[    7.847397] task: ffff80003b279780 task.stack: ffff00000f3c0000
+[    7.847410] pc : __pi_strcmp+0x18/0x154
+[    7.866993] lr : platform_match+0xc8/0xe8
+[    7.870809] sp : ffff00000f3c3b10 pstate : 40000145
+[    7.874975] x29: ffff00000f3c3b10 x28: ffff80003a56a000
+[    7.879663] x27: ffff0000081a0578 x26: ffff000000ef98d0
+[    7.885219] x25: ffff00000f3c3e50 x24: ffff00000f515000
+[    7.890514] x23: ffff0000095c8000 x22: 0000000000000000
+[    7.895809] x21: 0000000000000000 x20: ffff000000ef8648
+[    7.901104] x19: ffff80003d1998d0 x18: 0000ffff9a0bf0b0
+[    7.906398] x17: 0000ffff9a06b6d0 x16: ffff000008160330
+[    7.911694] x15: 000000002810bf43 x14: 0000000000000043
+[    7.916990] x13: 3a6c6c7030697364 x12: 00000000bcc77e12
+[    7.922283] x11: ffff80003b279fb8 x10: 0101010101010101
+[    7.927581] x9 : 8efefeff06fefeff x8 : 0000000000000000
+[    7.932874] x7 : 0000000000000000 x6 : 0000000000000000
+[    7.938172] x5 : 0000000000000100 x4 : 0000000000000000
+[    7.943466] x3 : 0000000000000000 x2 : ffff0000087be348
+[    7.948761] x1 : ffff000000eed688 x0 : 0000000000000000
+[    7.954056] Call trace:
+[    7.959354]  __pi_strcmp+0x18/0x154
+[    7.970033]  bus_for_each_dev+0x5c/0xa8
+[    7.970056]  driver_attach+0x30/0x
+[    7.972665]  bus_add_driver+0x1d0/0x240
+[    7.976484]  driver_register+0x6c/0x118
+[    7.980044]  __platform_driver_register+0x54/0x60
+[    7.984103]  msm_drm_register+0x48/0x80 [msm]
+[    7.988728]  do_one_initcall+0x44/0x138
+[    7.993065]  do_init_module+0x64/0x1d0
+[    7.996710]  load_module+0x1d48/0x2518
+[    8.000530]  SyS_finit_module+0xb0/0xc8
+[    8.004263]  __sys_trace_return+0x0/0x4
+[    8.007998] Code: f24008ff 540002e1 f2400807 54000141 (f8408402)
+[    8.011820] ---[ end trace 7d6fc616cc3d45e7 ]---
 
-> This converts the Synopsis MIPI DSI binding documentation to yaml and
-> should be quite straightforward. I've added a missing ref clk and also
-> added Philippe as maintainer b/c he's the original txt author following
-> the algorithm provided in Message-ID 20200420175909.GA5810@ravnborg.org.
-> 
-> Cc: Philippe CORNU <philippe.cornu@st.com>
-> Cc: devicetree@vger.kernel.org
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
-> ---
-> Changes in v4:
->   - Dropped panel patternProperties (Rob)
-> 
-> Changes in v3:
->   - Added ports property and its children which are required (Laurent)
->   - Sorted required list alphabetically
-> 
-> Changes in v2:
->   - Removed unnecessary descriptions and maxItems (Rob)
->   - Changed maintainers entry / dropped Mark (Rob)
->   - Added dsi-controller.yaml ref (Rob)
-> ---
->  .../bindings/display/bridge/dw_mipi_dsi.txt   | 32 ---------
->  .../display/bridge/snps,dw-mipi-dsi.yaml      | 68 +++++++++++++++++++
->  2 files changed, 68 insertions(+), 32 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/dw_mipi_dsi.txt
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/snps,dw-mipi-dsi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/dw_mipi_dsi.txt b/Documentation/devicetree/bindings/display/bridge/dw_mipi_dsi.txt
-> deleted file mode 100644
-> index b13adf30b8d3b..0000000000000
-> --- a/Documentation/devicetree/bindings/display/bridge/dw_mipi_dsi.txt
-> +++ /dev/null
-> @@ -1,32 +0,0 @@
-> -Synopsys DesignWare MIPI DSI host controller
-> -============================================
-> -
-> -This document defines device tree properties for the Synopsys DesignWare MIPI
-> -DSI host controller. It doesn't constitue a device tree binding specification
-> -by itself but is meant to be referenced by platform-specific device tree
-> -bindings.
-> -
-> -When referenced from platform device tree bindings the properties defined in
-> -this document are defined as follows. The platform device tree bindings are
-> -responsible for defining whether each optional property is used or not.
-> -
-> -- reg: Memory mapped base address and length of the DesignWare MIPI DSI
-> -  host controller registers. (mandatory)
-> -
-> -- clocks: References to all the clocks specified in the clock-names property
-> -  as specified in [1]. (mandatory)
-> -
-> -- clock-names:
-> -  - "pclk" is the peripheral clock for either AHB and APB. (mandatory)
-> -  - "px_clk" is the pixel clock for the DPI/RGB input. (optional)
-> -
-> -- resets: References to all the resets specified in the reset-names property
-> -  as specified in [2]. (optional)
-> -
-> -- reset-names: string reset name, must be "apb" if used. (optional)
-> -
-> -- panel or bridge node: see [3]. (mandatory)
-> -
-> -[1] Documentation/devicetree/bindings/clock/clock-bindings.txt
-> -[2] Documentation/devicetree/bindings/reset/reset.txt
-> -[3] Documentation/devicetree/bindings/display/mipi-dsi-bus.txt
-> diff --git a/Documentation/devicetree/bindings/display/bridge/snps,dw-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/snps,dw-mipi-dsi.yaml
-> new file mode 100644
-> index 0000000000000..012aa8e7cb8cd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/snps,dw-mipi-dsi.yaml
-> @@ -0,0 +1,68 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: https://urldefense.com/v3/__http://devicetree.org/schemas/display/bridge/snps,dw-mipi-dsi.yaml*__;Iw!!A4F2R9G_pg!Pn0TP0h4QkEcILgH_xBqMjSM4dJxlyU3iCvF4FSbmdQOSIV309ngWu8EKCpP901d$ 
-> +$schema: https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!A4F2R9G_pg!Pn0TP0h4QkEcILgH_xBqMjSM4dJxlyU3iCvF4FSbmdQOSIV309ngWu8EKPfhyNgW$ 
-> +
-> +title: Synopsys DesignWare MIPI DSI host controller
-> +
-> +maintainers:
-> +  - Philippe CORNU <philippe.cornu@st.com>
-> +
-> +description: |
-> +  This document defines device tree properties for the Synopsys DesignWare MIPI
-> +  DSI host controller. It doesn't constitue a device tree binding specification
-> +  by itself but is meant to be referenced by platform-specific device tree
-> +  bindings.
-> +
-> +  When referenced from platform device tree bindings the properties defined in
-> +  this document are defined as follows. The platform device tree bindings are
-> +  responsible for defining whether each property is required or optional.
-> +
-> +allOf:
-> +  - $ref: ../dsi-controller.yaml#
-> +
-> +properties:
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Module clock
-> +      - description: DSI bus clock for either AHB and APB
-> +      - description: Pixel clock for the DPI/RGB input
-> +    minItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: ref
-> +      - const: pclk
-> +      - const: px_clk
-> +    minItems: 2
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  reset-names:
-> +    const: apb
-> +
-> +  ports:
-> +    type: object
-> +
-> +    properties:
-> +      port@0:
-> +        type: object
-> +        description: Input node to receive pixel data.
-> +      port@1:
-> +        type: object
-> +        description: DSI output node to panel.
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - clock-names
-> +  - clocks
-> +  - ports
-> +  - reg
+full test log,
+https://qa-reports.linaro.org/lkft/linux-stable-rc-4.14-oe/build/v4.14.176-200-gcebd79de8787/testrun/1389032/log
+https://qa-reports.linaro.org/lkft/linux-stable-rc-4.14-oe/build/v4.14.176-200-gcebd79de8787/testrun/1389032/
+https://lkft.validation.linaro.org/scheduler/job/1389032#L3519
 
-Shouldn't the reset and reset-names be stated as required?
-From what I understand the driver will return if the reset is not 
-available.
+Kernel config:
+http://snapshots.linaro.org/openembedded/lkft/lkft/sumo/dragonboard-410c/lkft/linux-stable-rc-4.14/817/config
 
-> -- 
-> 2.26.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://urldefense.com/v3/__https://lists.freedesktop.org/mailman/listinfo/dri-devel__;!!A4F2R9G_pg!Pn0TP0h4QkEcILgH_xBqMjSM4dJxlyU3iCvF4FSbmdQOSIV309ngWu8EKDNeA2R5$ 
-
-Thanks,
-Angelo
+-- 
+Linaro LKFT
+https://lkft.linaro.org
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
