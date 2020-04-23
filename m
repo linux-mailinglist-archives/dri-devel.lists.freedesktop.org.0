@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF5C1B670B
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB481B5A4A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 13:18:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B8BB6EA1C;
-	Thu, 23 Apr 2020 22:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7376E417;
+	Thu, 23 Apr 2020 11:18:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 960C26E417
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 11:17:24 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id f18so5741280lja.13
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 04:17:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=oAZ3axSS566ERI69yTRudA5pk37T198UyezMCJFyqg0=;
- b=KSgfMoObN3NHkidu9iYPdBnmPp3engyij0Ehfav1N/WhjTgeC0WAEqV4PiK/2se+vh
- 02HoWakOzVncGdusZNQ8ZY+F4fGiQeQp11DgqhFA6LRJS/KpLsNb/rZLlt7C9BbjD2TH
- yoXItbqJBSgTggjo6BLsrgNnlCAbD96MbZpV9SlalV5NLuUMbH7QF8llxpE4PTExVmbw
- d5LdA6pZenEYzRWH599sjZKGNxJ9Yx61SR1VALDpJCDfcBh55QcXhxJE1GvV7OKHQjyy
- aghumRr0w+KpFu9by9ZQSRdUYR2Hxj4B30onoIvzgWmUdZgQn0CuWqW0NiJ9Mre70Wyh
- JqXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=oAZ3axSS566ERI69yTRudA5pk37T198UyezMCJFyqg0=;
- b=AX7RnQPfe1QeYwv3HYb8xqO4Oto5o87feIhqJSxlZazRWwyizhxqOrw1Xg8vFy/s2U
- poVaL5lTF65+1WcfxVQP8fCM7TznFdFsNSb40c0/GC8yYC6x49rnouS14XuNzcqCzMpz
- njohhRgC8eQoPuIyRSlpDJLoZCKwhRTCjVf9o81ZYjUZ3/helnzorGPBSYYHsSRGvafJ
- XN/iZwKeuydnIVSLfpuAGGRIx67BnXWZ4aWQspJxLRYIYn2iaXgLJd6iHv48lUIPmeN/
- Vw+WoaJl8aqUM8VW5eCBZUso1QO+SEYqlcD/djPuL33zPVs5KC3rvTgPxQPmcJ8yn6SY
- E5tg==
-X-Gm-Message-State: AGi0PuY/YfrBrk2wWCVqT25Zpscc1/hSRWFRAvdkc2ZNRg0HFGqspax5
- K/JTfmecuoBSBsDIiretEDFa5BoFAOGUHjGZjo0H+g==
-X-Google-Smtp-Source: APiQypK0Re1sUKs5qj9tLUP4qPP1QkFHT2aHcKdugHwEJw1KaZvbC8SiMNOvF4Qprdlmol4eRp7pXa/xXuHF+2LAOi8=
-X-Received: by 2002:a2e:9496:: with SMTP id c22mr1938373ljh.165.1587640642860; 
- Thu, 23 Apr 2020 04:17:22 -0700 (PDT)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46BD26E417
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 11:18:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587640694;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iTeCVFGaNrjlWImxUn9OdQ72/+Scj8kDooRDhWIxaB4=;
+ b=gy8+MjWCqDGMd+Np/jcr7mcje488mEZ1rsqBd7ghadtz7kcQEoh9Xp6ipO8ruLs6c5ApHl
+ GVu4ZQ9SlMt5qg/EwbKfvwQfQAfEgjfx+AhUg3vcSconXJEvJDlx3bKlwJXb4i33dnJaB/
+ YF0zdR+VLKV5O5wLAonNdTrkdQ0x1qc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-uIVxnMIaNfqGahaCNDL2tQ-1; Thu, 23 Apr 2020 07:18:12 -0400
+X-MC-Unique: uIVxnMIaNfqGahaCNDL2tQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5343B107ACCA;
+ Thu, 23 Apr 2020 11:18:11 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
+ [10.36.113.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83A9763B86;
+ Thu, 23 Apr 2020 11:18:09 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id AD8C21753B; Thu, 23 Apr 2020 13:18:08 +0200 (CEST)
+Date: Thu, 23 Apr 2020 13:18:08 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/2] drm/vram-helper: Alternate between bottom-up and
+ top-down placement
+Message-ID: <20200423111808.fbh23br7jrkte3ih@sirius.home.kraxel.org>
+References: <20200422144055.27801-1-tzimmermann@suse.de>
+ <20200422144055.27801-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Thu, 23 Apr 2020 16:47:11 +0530
-Message-ID: <CA+G9fYtoYzRbrUVhboUgOOqEC2xt_i4ZmYb9yq33fRmf653_pQ@mail.gmail.com>
-Subject: stable-rc 4.14: Internal error: Oops: 96000004 - pc :
- __pi_strcmp+0x18/0x154
-To: linux- stable <stable@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Sasha Levin <sashal@kernel.org>
-X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
+In-Reply-To: <20200422144055.27801-3-tzimmermann@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,89 +65,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- "rafael.j.wysocki" <rafael.j.wysocki@intel.com>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Hans Verkuil <hans.verkuil@cisco.com>, lkft-triage@lists.linaro.org,
- colin.king@canonical.com, freedreno@lists.freedesktop.org,
- Brian Masney <masneyb@onstation.org>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, sam@ravnborg.org,
+ christian.koenig@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We still notice kernel warnings while booting stable rc 4.14.177-rc1 kernel
-on qualcomm dragonboard 410c development board.
+On Wed, Apr 22, 2020 at 04:40:55PM +0200, Thomas Zimmermann wrote:
+> With limited VRAM available, fragmentation can lead to OOM errors.
+> Alternating between bottom-up and top-down placement keeps BOs near the
+> ends of the VRAM and the available pages consecutively near the middle.
+> 
+> A real-world example with 16 MiB of VRAM is shown below.
+> 
+>   > cat /sys/kernel/debug/dri/0/vram-mm
+>   0x0000000000000000-0x000000000000057f: 1407: free
+>   0x000000000000057f-0x0000000000000b5b: 1500: used
+>   0x0000000000000b5b-0x0000000000000ff0: 1173: free
+> 
+> The first free area was the location of the fbdev framebuffer. The used
+> area is Weston's current framebuffer of 1500 pages. Weston now cannot
+> do a pageflip to another 1500 page-wide framebuffer, even though enough
+> pages are available. The patch resolves this problem to
+> 
+>   > cat /sys/kernel/debug/dri/0/vram-mm
+>   0x0000000000000000-0x00000000000005dc: 1500: used
+>   0x00000000000005dc-0x0000000000000a14: 1080: free
+>   0x0000000000000a14-0x0000000000000ff0: 1500: used
+> 
+> with both of Weston's framebuffers located near the ends of the VRAM
+> memory.
 
-[    7.760140] msm_dsi_host_set_src_pll: can't set parent to
-byte_clk_src. ret=-22
-[    7.763963] msm_dsi_manager_register: failed to register mipi dsi
-host for DSI 0
-[    7.772434]   EA = 0, S1PTW = 0
-[    7.774344] msm 1a00000.mdss: failed to bind 1a98000.dsi (ops
-dsi_ops [msm]): -22
-[    7.779241] Data abort info:
-[    7.789056] msm 1a00000.mdss: master bind failed: -22
-[    7.792091] msm_dsi: probe of 1a98000.dsi failed with error -22
-[    7.794132]   ISV = 0, ISS = 0x00000004
-[    7.802783]   CM = 0, WnR = 0
-[    7.809436] user pgtable: 4k pages, 48-bit VAs, pgd = ffff80003b1d7000
-[    7.809660] [0000000000000000] *pgd=0000000000000000
-[    7.825466] Internal error: Oops: 96000004 [#1] PREEMPT SMP
-[    7.825498] Modules linked in: rfkill crc32_ce adv7511 msm(+)
-msm_rng mdt_loader drm_kms_helper rng_core drm fuse
-[    7.829847] Process systemd-udevd (pid: 2635, stack limit =
-0xffff00000f3c0000)
-[    7.840261] CPU: 1 PID: 2635 Comm: systemd-udevd Not tainted 4.14.177-rc1 #1
-[    7.847391] Hardware name: Qualcomm Technologies, Inc. APQ 8016 SBC (DT)
-[    7.847397] task: ffff80003b279780 task.stack: ffff00000f3c0000
-[    7.847410] pc : __pi_strcmp+0x18/0x154
-[    7.866993] lr : platform_match+0xc8/0xe8
-[    7.870809] sp : ffff00000f3c3b10 pstate : 40000145
-[    7.874975] x29: ffff00000f3c3b10 x28: ffff80003a56a000
-[    7.879663] x27: ffff0000081a0578 x26: ffff000000ef98d0
-[    7.885219] x25: ffff00000f3c3e50 x24: ffff00000f515000
-[    7.890514] x23: ffff0000095c8000 x22: 0000000000000000
-[    7.895809] x21: 0000000000000000 x20: ffff000000ef8648
-[    7.901104] x19: ffff80003d1998d0 x18: 0000ffff9a0bf0b0
-[    7.906398] x17: 0000ffff9a06b6d0 x16: ffff000008160330
-[    7.911694] x15: 000000002810bf43 x14: 0000000000000043
-[    7.916990] x13: 3a6c6c7030697364 x12: 00000000bcc77e12
-[    7.922283] x11: ffff80003b279fb8 x10: 0101010101010101
-[    7.927581] x9 : 8efefeff06fefeff x8 : 0000000000000000
-[    7.932874] x7 : 0000000000000000 x6 : 0000000000000000
-[    7.938172] x5 : 0000000000000100 x4 : 0000000000000000
-[    7.943466] x3 : 0000000000000000 x2 : ffff0000087be348
-[    7.948761] x1 : ffff000000eed688 x0 : 0000000000000000
-[    7.954056] Call trace:
-[    7.959354]  __pi_strcmp+0x18/0x154
-[    7.970033]  bus_for_each_dev+0x5c/0xa8
-[    7.970056]  driver_attach+0x30/0x
-[    7.972665]  bus_add_driver+0x1d0/0x240
-[    7.976484]  driver_register+0x6c/0x118
-[    7.980044]  __platform_driver_register+0x54/0x60
-[    7.984103]  msm_drm_register+0x48/0x80 [msm]
-[    7.988728]  do_one_initcall+0x44/0x138
-[    7.993065]  do_init_module+0x64/0x1d0
-[    7.996710]  load_module+0x1d48/0x2518
-[    8.000530]  SyS_finit_module+0xb0/0xc8
-[    8.004263]  __sys_trace_return+0x0/0x4
-[    8.007998] Code: f24008ff 540002e1 f2400807 54000141 (f8408402)
-[    8.011820] ---[ end trace 7d6fc616cc3d45e7 ]---
+I don't think it is that simple.
 
-full test log,
-https://qa-reports.linaro.org/lkft/linux-stable-rc-4.14-oe/build/v4.14.176-200-gcebd79de8787/testrun/1389032/log
-https://qa-reports.linaro.org/lkft/linux-stable-rc-4.14-oe/build/v4.14.176-200-gcebd79de8787/testrun/1389032/
-https://lkft.validation.linaro.org/scheduler/job/1389032#L3519
+First:  How will that interact with cursor bo allocations?  IIRC the
+strategy for them is to allocate top-down, for similar reasons (avoid
+small cursor bo allocs fragment vram memory).
 
-Kernel config:
-http://snapshots.linaro.org/openembedded/lkft/lkft/sumo/dragonboard-410c/lkft/linux-stable-rc-4.14/817/config
+Second:  I think ttm will move bo's from vram to system only on memory
+pressure.  So you can still end up with fragmented memory.  To make the
+scheme with one fb @ top and one @ bottom work reliable you have to be
+more aggressive on pushing out framebuffers.
 
--- 
-Linaro LKFT
-https://lkft.linaro.org
+Third:  I'd suggest make topdown allocations depending on current state
+instead of simply alternating, i.e. if there is a pinned framebuffer @
+offset 0, then go for top-down.
+
+I also think using this scheme should be optional.  In the simplest case
+we can allow drivers opt-in.  Or we try do to something clever
+automatically: using the strategy only for framebuffers larger than 1/4
+or 1/3 of total vram memory (which makes alloc failures due to
+fragmentation much more likely).
+
+cheers,
+  Gerd
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
