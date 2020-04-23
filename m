@@ -1,77 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6ED1B6739
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E17C21B6732
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A5336EA53;
-	Thu, 23 Apr 2020 22:52:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 082996EA59;
+	Thu, 23 Apr 2020 22:52:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B9616E9BF
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 20:36:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1347D6E9BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 20:37:43 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 4725158030B;
- Thu, 23 Apr 2020 16:36:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 23 Apr 2020 16:36:49 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 69404580311;
+ Thu, 23 Apr 2020 16:37:42 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 23 Apr 2020 16:37:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=Iubs+KISuHQ9VGeGg+cCp2xJSoU
- PuYVrphsLXiw5SFg=; b=Fn2d1x+/36iC3PGOTy5Cp2hHxpxTsbZXqEhCoWSU6fC
- Bh2uGjm8NzjGSIGOhUdI6jIFnaNlWlK/KNK0SO5YgDVKAzn9T8T4ClUJFkXWcI/L
- SrSHQwn+ywvkFIfMqeLT0tGOBnOJCf3GhECZDwsJXcOOkFJEZ5PO3Hg2TEHxt0Ji
- XXCiuCgBhfrNpF+Q4qgbmo0zisCBtKA1VkhzWKnI3UD+PuwtHOjrTI/5OtSrja0W
- 0xNGXCJ8ebZmLgh5iBcj0TUAG6xzsfP58vDHg4dtrP2Je050KddpO2V/+DEw4INi
- HTrBFJ8cS/EHw4cjf9yqCM3mqKMdTGT34HW7z+GoIEQ==
+ :content-type:in-reply-to; s=fm2; bh=1rgoWEglUTjk3ArPIIoAl+30lpL
+ 4idh7C80OCTHpmUw=; b=SAJTsuiPodXPJOLPlP7oomUce1KO9HgLp4LSXSG2q9V
+ k99XrTsnVoZPCz2XKjQKD/wUosuK8MuRP1DWKzbl17A0aD9dPIcfL5Yv29wTyk/s
+ MxPtd1I8auIbqrXO6sX44R4LiutPyRWiA1ti78y/EUTrpxEy1duwnEXz88RMu+Wa
+ 29LJ8E+3FKB4mPDCcNdNCTFAYCSjWqg98NxjT/PmRIX9XZYcDg8HGlb8Ek85mB+Y
+ afP7G0NWuBm2SWYwZUxi54SkwGeEkgnt8e2iIWKGi/rdjHY2FkoWTUfZma4E6I7p
+ 8zBHjptMWfRwKtt/h5nnvYAnwr/EisDPFqpP7SVY4ew==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Iubs+K
- ISuHQ9VGeGg+cCp2xJSoUPuYVrphsLXiw5SFg=; b=X5O3GV4KFSkNBZXwi0gXe/
- Az/rwjNsPXRiOZeR/DIobQrkLfux9vKSBPW2Q7Wch/uG7VG9fPmUEU8Kyi30iPJx
- 6rZFq866Z4AieJ/VQuUcLR0mV0pZLLxlv3ciLBDB/NhY/AvDjNVAvMjJxXjdCS6K
- u41z1fKpjs0erRbydhTf6J8lDzfZB7FSCFB8idsmUzAcZtLjWHuo6bbN3Dpzw+lv
- Xc1y1zz0vGYrNGmVPq0/4/8tCV+p/V1vxI12KqIjNELt9KhmHqpZLjuh1WSuMbeZ
- mWk/VcSn4C4MRsWk0RVAApy8MoL8ZK52EhiDYG9eBvoyLIChI6lqSRyqMDdlQG7g
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=1rgoWE
+ glUTjk3ArPIIoAl+30lpL4idh7C80OCTHpmUw=; b=FjH1HHY1SYTP/zk1w/wFGD
+ SQJkRMnQfaPNqbJSWS0avw2d6sCE0ifpDAK6vqra+AzCyPNpF/s1rZ1bEwox4Tgp
+ 5pRbjM7eb2MuhvBXHwujlGQ6qpYXKeyP1LJNg4R8oz82cnPqnDpTB2nCKi/DI/YA
+ Ks5K8dR7ic8gJjYBr7a9npZnjiKmlpoGay9ZCGbr3KF+su+cblWqDQPKYrSD3IR/
+ kCSbFXIEV+Qjgu2OS5YFstcNjXDXy6Fnc7738GUpuHwryUCudVJ5gHwjTV5IveLR
+ qiGMtBCk9VdHZ3Y9yphlb5ppjnApd7jwJ+f9+lE0RQcS4Xdz9gzelpUkfHYLOJ8g
  ==
-X-ME-Sender: <xms:XfyhXtOzOOFFqaB2EmGtuUz4AXihlYYhfPH3NPly7o2BbKivw_911Q>
+X-ME-Sender: <xms:kfyhXuV9_lOcQCaGhKDLNNqO3cyD3i3DpEf_1MWSOGICGvB7_Q4laA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrgeelgdduudejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
- drkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+ drkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghi
  lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:XfyhXkMYXTgP_dAi3mHrR2OLJMQgltfV-ZrcUbSZbYi-eyL9XqlWvQ>
- <xmx:XfyhXnRz3tzFqWtdmt2KW_Iy-oRzKWX5FUFdLIFvNbNly0q4eowTmw>
- <xmx:XfyhXuBpYPyCR1QitUY5OuM1TQtkKBdD8mz-YseHbvORsD3x-nC7Qg>
- <xmx:YfyhXklTjVJsrJRboZpeYnKPAGn0Xr4Sox5XlaeG8MS2WPQdNjQpdg>
+X-ME-Proxy: <xmx:kfyhXhJGup0irbSm7vO_9T0yPLxTEYhpuZ2E8oHhgz9vj5BJ3Cw0kg>
+ <xmx:kfyhXvKW36ehC4KYnTQbBDBeA-onlsefkaFfDRE0si9E8P2EW3ls3g>
+ <xmx:kfyhXt-bSwETRMJWIWQ8-fwwZs4BZXSea5_ChbcjuZeeIB-CsnZ1CA>
+ <xmx:lvyhXvcpdjm9Gmks9Zw2iUnYhWgzea6einYlDWRsnbwdwAEZC9o6sA>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id CD893328005E;
- Thu, 23 Apr 2020 16:36:44 -0400 (EDT)
-Date: Thu, 23 Apr 2020 22:36:42 +0200
+ by mail.messagingengine.com (Postfix) with ESMTPA id 632923065D59;
+ Thu, 23 Apr 2020 16:37:37 -0400 (EDT)
+Date: Thu, 23 Apr 2020 22:37:35 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
+To: Philipp Rossak <embed3d@gmail.com>
 Subject: Re: [PATCH v6 00/12] ARM/MIPS: DTS: add child nodes describing the
  PVRSGX GPU present in some OMAP SoC and JZ4780 (and many more)
-Message-ID: <20200423203642.35ms4aarnv65tfp5@gilmour.lan>
-References: <b5a06c19-7a3e-bcb8-5ae3-76901b9c6c35@gmail.com>
+Message-ID: <20200423203735.imlafyw6oz6dspev@gilmour.lan>
+References: <cover.1586939718.git.hns@goldelico.com>
+ <20200415101008.zxzxca2vlfsefpdv@gilmour.lan>
+ <2E3401F1-A106-4396-8FE6-51CAB72926A4@goldelico.com>
+ <20200415130233.rgn7xrtwqicptke2@gilmour.lan>
+ <C589D06E-435E-4316-AD0A-8498325039E3@goldelico.com>
+ <10969e64-fe1f-d692-4984-4ba916bd2161@gmail.com>
+ <20200420073842.nx4xb3zqvu23arkc@gilmour.lan>
+ <b5a06c19-7a3e-bcb8-5ae3-76901b9c6c35@gmail.com>
  <20200421112129.zjmkmzo3aftksgka@gilmour.lan>
- <20200421141543.GU37466@atomide.com>
- <D9D4D057-A73D-485F-898D-5C05E89C16B7@goldelico.com>
- <20200422065859.quy6ane5v7vsy5tf@gilmour.lan>
- <1AA57A0C-48E6-49BB-BB9A-2AAFFB371BCD@goldelico.com>
- <20200422151328.2oyqz7gqkbunmd6o@gilmour.lan>
- <07923B6C-4CCD-4B81-A98F-E19C43412A89@goldelico.com>
- <43688597-4b99-8f4d-9ad5-548ddff07f52@baylibre.com>
- <71F2F964-32C7-41E6-8F1A-A73161EA1BB3@goldelico.com>
+ <5749af21-e707-c998-c83b-50c48867c9e8@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <71F2F964-32C7-41E6-8F1A-A73161EA1BB3@goldelico.com>
+In-Reply-To: <5749af21-e707-c998-c83b-50c48867c9e8@gmail.com>
 X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,120 +85,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Tony Lindgren <tony@atomide.com>,
- James Hogan <jhogan@kernel.org>, Jonathan Bakker <xc-racer2@live.ca>,
+Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>,
  "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Paul Cercueil <paul@crapouillou.net>, linux-samsung-soc@vger.kernel.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ linux-samsung-soc@vger.kernel.org,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
  Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>,
+ Tony Lindgren <tony@atomide.com>, Chen-Yu Tsai <wens@csie.org>,
+ Kukjin Kim <kgene@kernel.org>, James Hogan <jhogan@kernel.org>,
  "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>,
  =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
  Rob Herring <robh+dt@kernel.org>, linux-omap <linux-omap@vger.kernel.org>,
  arm-soc <linux-arm-kernel@lists.infradead.org>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Philipp Rossak <embed3d@gmail.com>,
  OpenPVRSGX Linux Driver Group <openpvrsgx-devgroup@letux.org>,
- linux-mips@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
- kernel@pyra-handheld.com,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
-Content-Type: multipart/mixed; boundary="===============0196083609=="
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Ralf Baechle <ralf@linux-mips.org>, kernel@pyra-handheld.com
+Content-Type: multipart/mixed; boundary="===============1047080317=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0196083609==
+--===============1047080317==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="goo77pyirkr5psgn"
+	protocol="application/pgp-signature"; boundary="uldmalad7cdsj5zk"
 Content-Disposition: inline
 
 
---goo77pyirkr5psgn
+--uldmalad7cdsj5zk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 23, 2020 at 05:45:55PM +0200, H. Nikolaus Schaller wrote:
-> > Am 23.04.2020 um 17:00 schrieb Neil Armstrong <narmstrong@baylibre.com>:
-> >> One thing we can learn is that "core" seems to be a de facto standard=
-=20
-> >> for the core clock-name. An alternative "gpu" is used by nvidia,gk20a.=
-txt.
+On Tue, Apr 21, 2020 at 06:42:17PM +0200, Philipp Rossak wrote:
+> Hi,
+>=20
+> On 21.04.20 13:21, Maxime Ripard wrote:
+> > Hi,
 > >=20
-> > Usually IPs needs a few clocks:
-> > - pclk or apb or reg: the clock clocking the "slave" bus to serve the r=
-egisters
-> > - axi or bus or ahb: the bus clocking the the "master" bus to get data =
-=66rom system memory
-> > - core: the actual clock feeding the GPU logic
->=20
-> And the sgx544 seems to have two such clocks.
->=20
-> > Sometimes you have a single clock for slave and master bus.
+> > On Tue, Apr 21, 2020 at 11:57:33AM +0200, Philipp Rossak wrote:
+> > > On 20.04.20 09:38, Maxime Ripard wrote:
+> > > > Hi,
+> > > >=20
+> > > > On Fri, Apr 17, 2020 at 02:09:06PM +0200, Philipp Rossak wrote:
+> > > > > > > I'm a bit skeptical on that one since it doesn't even list the
+> > > > > > > interrupts connected to the GPU that the binding mandates.
+> > > > > >=20
+> > > > > > I think he left it out for a future update.
+> > > > > > But best he comments himself.
+> > > > >=20
+> > > > > I'm currently working on those bindings. They are now 90% done, b=
+ut they are
+> > > > > not finished till now. Currently there is some mainline support m=
+issing to
+> > > > > add the full binding. The A83T and also the A31/A31s have a GPU P=
+ower Off
+> > > > > Gating Register in the R_PRCM module, that is not supported right=
+ now in
+> > > > > Mainline. The Register need to be written when the GPU is powered=
+ on and
+> > > > > off.
+> > > > >=20
+> > > > > @Maxime: I totally agree on your point that a demo needs to be pr=
+ovided
+> > > > > before the related DTS patches should be provided. That's the rea=
+son why I
+> > > > > added the gpu placeholder patches.
+> > > > > Do you have an idea how a driver for the R_PRCM stuff can look li=
+ke? I'm not
+> > > > > that experienced with the clock driver framework.
+> > > >=20
+> > > > It looks like a power-domain to me, so you'd rather plug that into =
+the genpd
+> > > > framework.
+> > >=20
+> > > I had a look on genpd and I'm not really sure if that fits.
+> > >=20
+> > > It is basically some bit that verify that the clocks should be enable=
+d or
+> > > disabled.
 > >=20
-> > But you can also have separate clocks for shader cores, .. this depends=
- on the IP and it's architecture.
-> > The IP can also have memories with separate clocks, etc...
->=20
-> Indeed.
->=20
-> > But all these clocks can be source by an unique clock on a SoC, but dif=
-ferent on another
-> > SoC, this is why it's important to list them all, even optional.
+> > No, it can do much more than that. It's a framework to control the SoCs=
+ power
+> > domains, so clocks might be a part of it, but most of the time it's goi=
+ng to be
+> > about powering up a particular device.
 > >=20
-> > You'll certainly have at least a reset signal, and a power domain, thes=
-e should exist and be optional.
+> So I think I've found now the right piece of documentation and a driver t=
+hat
+> implements something similar [1].
 >=20
-> Well, they exist only as hints in block diagrams of some SoC data
-> sheets (so we do not know if they represent the imagination
-> definitions) and the current driver code doesn't make use of it. Still
-> the gpu core works.
->=20
-> So I do not see any urgent need to add a complete list to the bindings
-> now.
->=20
-> Unless some special SoC integration makes use of them. Then it is IMHO
-> easier to extend the bindings by a follow-up patch than now thinking
-> about all potential options and bloating the bindings with things we
-> (the open source community) doesn't and can't know.
->=20
-> My goal is to keep the bindings as minimalistic as possible. And reset
-> lines and power domains are (at least for those we have in the works)
-> not needed to make working systems.
->=20
-> Therefore, for clocks I also would start with a minimalistic approach
-> for a single optional GPU core clock and leave out reset and power
-> completely.
+> So I will write a similar driver like linked above that only sets the rig=
+ht
+> bits for A83T and A31/A31s.
+> Do you think this is the right approach?
 
-Like I said above, the DT is considered an ABI and you'll have to
-maintain backward compatibility (ie, newer kernel running with older
-DT). Therefore, you won't be able to require a new clock, reset or
-power-domain later on for example.
-
-I guess the question I'm really asking is: since you don't really know
-how the hardware is integrated at the moment, why should we have that
-discussion *now*. It's really not suprising that you don't know yet, so
-I'm not sure why we need to rush in the bindings.
+That sounds about right yes
 
 Maxime
 
---goo77pyirkr5psgn
+--uldmalad7cdsj5zk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXqH8WgAKCRDj7w1vZxhR
-xevnAQDosUT6nmUX0+zNQOj7IKsbVGpyycJhdLX1FoaJiEMTHgD/SWTr0aPp/w2C
-TCfnfiPupaeG8u9JV8QMCk/a58o6Xw8=
-=ygqv
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXqH8jwAKCRDj7w1vZxhR
+xa6OAPsG0hWkJM/X3rADW428/4uNb7tDwdYNFydI9sbl6UhzkAEAxIit7pCZ/iLs
+0cgwkg9mtFDlpNF5/GCnOiGoztgoNAU=
+=F7xP
 -----END PGP SIGNATURE-----
 
---goo77pyirkr5psgn--
+--uldmalad7cdsj5zk--
 
---===============0196083609==
+--===============1047080317==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -209,4 +210,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0196083609==--
+--===============1047080317==--
