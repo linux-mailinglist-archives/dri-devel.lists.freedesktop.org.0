@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6401B60C7
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 18:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C74C1B60CC
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 18:26:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB286E948;
-	Thu, 23 Apr 2020 16:26:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B16AF6E953;
+	Thu, 23 Apr 2020 16:26:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48BEC6E948
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 16:26:17 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id t4so2533918plq.12
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 09:26:17 -0700 (PDT)
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C086D6E953
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 16:26:18 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id c21so1726938plz.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 09:26:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/4hIQYv+cnSS5EBGhZrnbHDmqNcfJlnFh0NWx4Ib4eI=;
- b=EN7xq6iEwFMMRDScYJX4R/Ta53ZSC0FDklRkZeKgCHMZvUgbMxutCRrbtadKrJvM/z
- V4O4a+547nJUceAip8Ffs7+bp3mh3Ot8sBYwbabojDLrAIsAQj5UuGYhKtYeLh1FHR/0
- 4mhWoHHnc19bzVnX9m7V0zR5d7pG+Q71Hk0AE=
+ bh=0pFOeS/sccEGP8eQs3DCcfXA0C9Qzm+B0/uziitxo7M=;
+ b=PZJbeComGG7JDFOB1vq0Jdn+qnhdYrSl+H4jkTL11L9tYn72mUi7nGkoVSNEeSsD0g
+ 027EsBScgUtwPBDQUwrSSERa/J98e9K2LZccHBgJsVTEnustjW2Ah+SmFQ0DuvzLwCdO
+ f4jxVcisWbddJDGpXHycgtzYGooB/8jVRMDj4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/4hIQYv+cnSS5EBGhZrnbHDmqNcfJlnFh0NWx4Ib4eI=;
- b=K7NjqTiSKk1j8qfjJRphShP7hqslGtVDHiT4srw7H3Q83DwJc+w6T3T6mrj4bpzfSG
- y5wU/pkZS3TKTNWvDpxWlsGUHvDbdInGT8papH0ROmffNRo4WFnPR/giJeQD/GkKYT8g
- X3NEMGJcgO4JaP/p48EKxhWegxYEnlTLTpFqVe7Ql3XgVZTKKZ+ZF+ZDehPo+8tyuOxW
- jN9QB/uxyhvUF8h842yUM1MqdmnSg+b6XQh2yrQ1eMnlqHFFId7s+WspnMv8KAYGVsgu
- /XHVz7zhUVcBy7PXvB0odOeeBPXVxBIIhXfhZ7Y1/BT+MzIExgIJuE8FHlflPCgg6O+T
- 21TA==
-X-Gm-Message-State: AGi0PubRtii2ZcQNu5P+o0x3j5wYHuZc1r2SqYkTl5pXKlTenc11N9WW
- 24B9fnVQgtAafWbMvddsGKoZPw==
-X-Google-Smtp-Source: APiQypKJqc/xWptDnPAfXZkkwjKZxi26AxbtpB+sJapp1IZZIOoie02b5zsLDEMW2wO9+x8m0NYkqA==
-X-Received: by 2002:a17:902:7148:: with SMTP id
- u8mr4269899plm.13.1587659176752; 
- Thu, 23 Apr 2020 09:26:16 -0700 (PDT)
+ bh=0pFOeS/sccEGP8eQs3DCcfXA0C9Qzm+B0/uziitxo7M=;
+ b=a6DdTUK9Xu35ny3u446eLZB7rjrecqyBgucbX20yDH/OMF3Xcc2FX4ifpgkZj/REfG
+ Ob2a9xpio06ju1pDEZhTe+a2fDHB2Vw2knSco4L0GjRHIFKADAFxoF2k0S2x3t/D1M4r
+ QiD8N7MXeSwomRh6CCtgXNjp+72cALz6GzY2opIDBlhtnNfANiHd+GhrNXCKtiuEzOQ1
+ 3ytwIl8OXGnwma4PixobwrQB4Q9MWLSvxaMUxKxPUA68pnKHPzu8UL+8NrtAwCKnaA4+
+ jGGQDFGTP3XAB9nYkLkcgGa1K+rDHPu7olHQIFoDZcj/VfyTJYqkWAFLakPr8k3eeTUu
+ GzHw==
+X-Gm-Message-State: AGi0Pua8bDXbcLzUMb4rmkQlWDphk0GiI1iAJDM+0a//UE2gSHEgop98
+ f5aEgF02m5d2mGfcvWmPBUu2OA==
+X-Google-Smtp-Source: APiQypKCbPFY+Q4sglYBstzKdPED0nN/sooISbAltNPO+XiIHqjiLYy5Y1KMaCJ8PsAcOItdpeGcfg==
+X-Received: by 2002:a17:902:8eca:: with SMTP id
+ x10mr4668468plo.60.1587659178165; 
+ Thu, 23 Apr 2020 09:26:18 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:1:24fa:e766:52c9:e3b2])
- by smtp.gmail.com with ESMTPSA id d12sm2841927pfq.36.2020.04.23.09.26.15
+ by smtp.gmail.com with ESMTPSA id d12sm2841927pfq.36.2020.04.23.09.26.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 09:26:16 -0700 (PDT)
+ Thu, 23 Apr 2020 09:26:17 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: linus.walleij@linaro.org, bgolaszewski@baylibre.com, airlied@linux.ie,
  daniel@ffwll.ch, robh+dt@kernel.org, narmstrong@baylibre.com,
  a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com,
  spanda@codeaurora.org
-Subject: [PATCH v3 4/6] dt-bindings: drm/bridge: ti-sn65dsi86: Convert to yaml
-Date: Thu, 23 Apr 2020 09:25:46 -0700
-Message-Id: <20200423092431.v3.4.Ifcdc4ecb12742a27862744ee1e8753cb95a38a7f@changeid>
+Subject: [PATCH v3 5/6] dt-bindings: drm/bridge: ti-sn65dsi86: Document no-hpd
+Date: Thu, 23 Apr 2020 09:25:47 -0700
+Message-Id: <20200423092431.v3.5.I72892d485088e57378a4748c86bc0f6c2494d807@changeid>
 X-Mailer: git-send-email 2.26.1.301.g55bc3eb7cb9-goog
 In-Reply-To: <20200423162548.129661-1-dianders@chromium.org>
 References: <20200423162548.129661-1-dianders@chromium.org>
@@ -69,420 +69,86 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: robdclark@chromium.org, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- jeffrey.l.hugo@gmail.com, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, jonas@kwiboo.se,
+ jeffrey.l.hugo@gmail.com, linux-arm-msm@vger.kernel.org, jonas@kwiboo.se,
  Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, linux-gpio@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, bjorn.andersson@linaro.org,
+ swboyd@chromium.org, linux-gpio@vger.kernel.org, bjorn.andersson@linaro.org,
  linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This moves the bindings over, based a lot on toshiba,tc358768.yaml.
-Unless there's someone known to be better, I've set the maintainer in
-the yaml as the first person to submit bindings.
+The ti-sn65dsi86 MIPI DSI to eDP bridge chip has a dedicated hardware
+HPD (Hot Plug Detect) pin on it, but it's mostly useless for eDP
+because of excessive debouncing in hardware.  Specifically there is no
+way to disable the debouncing and for eDP debouncing hurts you because
+HPD is just used for knowing when the panel is ready, not for
+detecting physical plug events.
+
+Currently the driver in Linux just assumes that nobody has HPD hooked
+up.  It relies on folks setting the "no-hpd" property in the panel
+node to specify that HPD isn't hooked up and then the panel driver
+using this to add some worst case delays when turning on the panel.
+
+Apparently it's also useful to specify "no-hpd" in the bridge node so
+that the bridge driver can make sure it's doing the right thing
+without peeking into the panel [1].  This would be used if anyone ever
+found it useful to implement support for the HW HPD pin on the bridge.
+Let's add this property to the bindings.
+
+NOTES:
+- This is somewhat of a backward-incompatible change.  All current
+  known users of ti-sn65dsi86 didn't have "no-hpd" specified in the
+  bridge node yet none of them had HPD hooked up.  This worked because
+  the current Linux driver just assumed that HPD was never hooked up.
+  We could make it less incompatible by saying that for this bridge
+  it's assumed HPD isn't hooked up _unless_ a property is defined, but
+  "no-hpd" is much more standard and it's unlikely to matter unless
+  someone quickly goes and implements HPD in the driver.
+- It is sensible to specify "no-hpd" at the bridge chip level and
+  specify "hpd-gpios" at the panel level.  That would mean HPD is
+  hooked up to some other GPIO in the system, just not the hardware
+  HPD pin on the bridge chip.
+
+[1] https://lore.kernel.org/r/20200417180819.GE5861@pendragon.ideasonboard.com
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 ---
 
-Changes in v3: None
+Changes in v3:
+- useful implement => useful to implement
+
 Changes in v2:
-- specification => specifier.
-- power up => power.
-- Added back missing suspend-gpios.
-- data-lanes and lane-polarities are are the right place now.
-- endpoints don't need to be patternProperties.
-- Specified more details for data-lanes and lane-polarities.
-- Added old example back in, fixing bugs in it.
-- Example i2c bus is just called "i2c", not "i2c1" now.
+- ("dt-bindings: drm/bridge: ti-sn65dsi86: Document no-hpd") new for v2.
 
- .../bindings/display/bridge/ti,sn65dsi86.txt  |  87 ------
- .../bindings/display/bridge/ti,sn65dsi86.yaml | 279 ++++++++++++++++++
- 2 files changed, 279 insertions(+), 87 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.txt
- create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+ .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml    | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.txt b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.txt
-deleted file mode 100644
-index 8ec4a7f2623a..000000000000
---- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.txt
-+++ /dev/null
-@@ -1,87 +0,0 @@
--SN65DSI86 DSI to eDP bridge chip
----------------------------------
--
--This is the binding for Texas Instruments SN65DSI86 bridge.
--http://www.ti.com/general/docs/lit/getliterature.tsp?genericPartNumber=sn65dsi86&fileType=pdf
--
--Required properties:
--- compatible: Must be "ti,sn65dsi86"
--- reg: i2c address of the chip, 0x2d as per datasheet
--- enable-gpios: gpio specification for bridge_en pin (active high)
--
--- vccio-supply: A 1.8V supply that powers up the digital IOs.
--- vpll-supply: A 1.8V supply that powers up the displayport PLL.
--- vcca-supply: A 1.2V supply that powers up the analog circuits.
--- vcc-supply: A 1.2V supply that powers up the digital core.
--
--Optional properties:
--- interrupts-extended: Specifier for the SN65DSI86 interrupt line.
--
--- gpio-controller: Marks the device has a GPIO controller.
--- #gpio-cells    : Should be two. The first cell is the pin number and
--                   the second cell is used to specify flags.
--                   See ../../gpio/gpio.txt for more information.
--- #pwm-cells : Should be one. See ../../pwm/pwm.yaml for description of
--               the cell formats.
--
--- clock-names: should be "refclk"
--- clocks: Specification for input reference clock. The reference
--	  clock rate must be 12 MHz, 19.2 MHz, 26 MHz, 27 MHz or 38.4 MHz.
--
--- data-lanes: See ../../media/video-interface.txt
--- lane-polarities: See ../../media/video-interface.txt
--
--- suspend-gpios: specification for GPIO1 pin on bridge (active low)
--
--Required nodes:
--This device has two video ports. Their connections are modelled using the
--OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
--
--- Video port 0 for DSI input
--- Video port 1 for eDP output
--
--Example
---------
--
--edp-bridge@2d {
--	compatible = "ti,sn65dsi86";
--	#address-cells = <1>;
--	#size-cells = <0>;
--	reg = <0x2d>;
--
--	enable-gpios = <&msmgpio 33 GPIO_ACTIVE_HIGH>;
--	suspend-gpios = <&msmgpio 34 GPIO_ACTIVE_LOW>;
--
--	interrupts-extended = <&gpio3 4 IRQ_TYPE_EDGE_FALLING>;
--
--	vccio-supply = <&pm8916_l17>;
--	vcca-supply = <&pm8916_l6>;
--	vpll-supply = <&pm8916_l17>;
--	vcc-supply = <&pm8916_l6>;
--
--	clock-names = "refclk";
--	clocks = <&input_refclk>;
--
--	ports {
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		port@0 {
--			reg = <0>;
--
--			edp_bridge_in: endpoint {
--				remote-endpoint = <&dsi_out>;
--			};
--		};
--
--		port@1 {
--			reg = <1>;
--
--			edp_bridge_out: endpoint {
--				data-lanes = <2 1 3 0>;
--				lane-polarities = <0 1 0 1>;
--				remote-endpoint = <&edp_panel_in>;
--			};
--		};
--	};
--}
 diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-new file mode 100644
-index 000000000000..6d7d40ad45ac
---- /dev/null
+index 6d7d40ad45ac..5746416b0f73 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
 +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-@@ -0,0 +1,279 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi86.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+@@ -28,6 +28,10 @@ properties:
+     maxItems: 1
+     description: GPIO specifier for GPIO1 pin on bridge (active low).
+ 
++  no-hpd:
++    type: boolean
++    description: Set if the HPD line on the bridge isn't hooked up to anything.
 +
-+title: SN65DSI86 DSI to eDP bridge chip
+   vccio-supply:
+     description: A 1.8V supply that powers the digital IOs.
+ 
+@@ -207,6 +211,8 @@ examples:
+         clocks = <&rpmhcc RPMH_LN_BB_CLK2>;
+         clock-names = "refclk";
+ 
++        no-hpd;
 +
-+maintainers:
-+  - Sandeep Panda <spanda@codeaurora.org>
-+
-+description: |
-+  The Texas Instruments SN65DSI86 bridge takes MIPI DSI in and outputs eDP.
-+  http://www.ti.com/general/docs/lit/getliterature.tsp?genericPartNumber=sn65dsi86&fileType=pdf
-+
-+properties:
-+  compatible:
-+    const: ti,sn65dsi86
-+
-+  reg:
-+    const: 0x2d
-+
-+  enable-gpios:
-+    maxItems: 1
-+    description: GPIO specifier for bridge_en pin (active high).
-+
-+  suspend-gpios:
-+    maxItems: 1
-+    description: GPIO specifier for GPIO1 pin on bridge (active low).
-+
-+  vccio-supply:
-+    description: A 1.8V supply that powers the digital IOs.
-+
-+  vpll-supply:
-+    description: A 1.8V supply that powers the DisplayPort PLL.
-+
-+  vcca-supply:
-+    description: A 1.2V supply that powers the analog circuits.
-+
-+  vcc-supply:
-+    description: A 1.2V supply that powers the digital core.
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+    description:
-+      Clock specifier for input reference clock. The reference clock rate must
-+      be 12 MHz, 19.2 MHz, 26 MHz, 27 MHz or 38.4 MHz.
-+
-+  clock-names:
-+    const: refclk
-+
-+  gpio-controller: true
-+  '#gpio-cells':
-+    const: 2
-+    description:
-+      First cell is pin number, second cell is flags.  GPIO pin numbers are
-+      1-based to match the datasheet.  See ../../gpio/gpio.txt for more
-+      information.
-+
-+  '#pwm-cells':
-+    const: 1
-+    description: See ../../pwm/pwm.yaml for description of the cell formats.
-+
-+  ports:
-+    type: object
-+
-+    properties:
-+      "#address-cells":
-+        const: 1
-+
-+      "#size-cells":
-+        const: 0
-+
-+      port@0:
-+        type: object
-+        additionalProperties: false
-+
-+        description:
-+          Video port for MIPI DSI input
-+
-+        properties:
-+          reg:
-+            const: 0
-+
-+          endpoint:
-+            type: object
-+            additionalProperties: false
-+
-+            properties:
-+              remote-endpoint: true
-+
-+              data-lanes:
-+                minItems: 1
-+                maxItems: 4
-+                items:
-+                  enum:
-+                    - 0
-+                    - 1
-+                    - 2
-+                    - 3
-+                description: See ../../media/video-interface.txt
-+
-+              lane-polarities:
-+                minItems: 1
-+                maxItems: 4
-+                items:
-+                  enum:
-+                    - 0
-+                    - 1
-+                description: See ../../media/video-interface.txt
-+
-+            dependencies:
-+              data-lanes: [lane-polarities]
-+
-+        required:
-+          - reg
-+
-+      port@1:
-+        type: object
-+        additionalProperties: false
-+
-+        description:
-+          Video port for eDP output (panel or connector).
-+
-+        properties:
-+          reg:
-+            const: 1
-+
-+          endpoint:
-+            type: object
-+            additionalProperties: false
-+
-+            properties:
-+              remote-endpoint: true
-+
-+              data-lanes:
-+                minItems: 1
-+                maxItems: 4
-+                items:
-+                  enum:
-+                    - 0
-+                    - 1
-+                    - 2
-+                    - 3
-+                description: See ../../media/video-interface.txt
-+
-+              lane-polarities:
-+                minItems: 1
-+                maxItems: 4
-+                items:
-+                  enum:
-+                    - 0
-+                    - 1
-+                description: See ../../media/video-interface.txt
-+
-+            dependencies:
-+              data-lanes: [lane-polarities]
-+
-+        required:
-+          - reg
-+
-+    required:
-+      - "#address-cells"
-+      - "#size-cells"
-+      - port@0
-+      - port@1
-+
-+required:
-+  - compatible
-+  - reg
-+  - enable-gpios
-+  - vccio-supply
-+  - vpll-supply
-+  - vcca-supply
-+  - vcc-supply
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,rpmh.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      bridge@2d {
-+        compatible = "ti,sn65dsi86";
-+        reg = <0x2d>;
-+
-+        interrupt-parent = <&tlmm>;
-+        interrupts = <10 IRQ_TYPE_LEVEL_HIGH>;
-+
-+        enable-gpios = <&tlmm 102 GPIO_ACTIVE_HIGH>;
-+
-+        vpll-supply = <&src_pp1800_s4a>;
-+        vccio-supply = <&src_pp1800_s4a>;
-+        vcca-supply = <&src_pp1200_l2a>;
-+        vcc-supply = <&src_pp1200_l2a>;
-+
-+        clocks = <&rpmhcc RPMH_LN_BB_CLK2>;
-+        clock-names = "refclk";
-+
-+        ports {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          port@0 {
-+            reg = <0>;
-+            endpoint {
-+              remote-endpoint = <&dsi0_out>;
-+            };
-+          };
-+
-+          port@1 {
-+            reg = <1>;
-+            endpoint {
-+              remote-endpoint = <&panel_in_edp>;
-+            };
-+          };
-+        };
-+      };
-+    };
-+  - |
-+    #include <dt-bindings/clock/qcom,rpmh.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      bridge@2d {
-+        compatible = "ti,sn65dsi86";
-+        reg = <0x2d>;
-+
-+        enable-gpios = <&msmgpio 33 GPIO_ACTIVE_HIGH>;
-+        suspend-gpios = <&msmgpio 34 GPIO_ACTIVE_LOW>;
-+
-+        interrupts-extended = <&gpio3 4 IRQ_TYPE_EDGE_FALLING>;
-+
-+        vccio-supply = <&pm8916_l17>;
-+        vcca-supply = <&pm8916_l6>;
-+        vpll-supply = <&pm8916_l17>;
-+        vcc-supply = <&pm8916_l6>;
-+
-+        clock-names = "refclk";
-+        clocks = <&input_refclk>;
-+
-+        ports {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          port@0 {
-+            reg = <0>;
-+
-+            edp_bridge_in: endpoint {
-+              remote-endpoint = <&dsi_out>;
-+            };
-+          };
-+
-+          port@1 {
-+            reg = <1>;
-+
-+            edp_bridge_out: endpoint {
-+              data-lanes = <2 1 3 0>;
-+              lane-polarities = <0 1 0 1>;
-+              remote-endpoint = <&edp_panel_in>;
-+            };
-+          };
-+        };
-+      };
-+    };
+         ports {
+           #address-cells = <1>;
+           #size-cells = <0>;
 -- 
 2.26.1.301.g55bc3eb7cb9-goog
 
