@@ -2,36 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660DC1B6734
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7231B673A
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0714F6EA61;
-	Thu, 23 Apr 2020 22:52:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8A3C6EA6E;
+	Thu, 23 Apr 2020 22:52:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2AEB56E5D4
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 16:58:23 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 85EE330E;
- Thu, 23 Apr 2020 09:58:22 -0700 (PDT)
-Received: from [10.37.12.89] (unknown [10.37.12.89])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8B9B73F68F;
- Thu, 23 Apr 2020 09:57:48 -0700 (PDT)
-Subject: Re: [PATCH v6 04/10] PM / EM: add support for other devices than CPUs
- in Energy Model
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-References: <20200410084210.24932-1-lukasz.luba@arm.com>
- <20200410084210.24932-5-lukasz.luba@arm.com>
- <20200423151250.GB65632@linaro.org>
-From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <ff1c8cc5-f64d-6156-7d30-97b8426c6f99@arm.com>
-Date: Thu, 23 Apr 2020 17:57:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D99EC6E5C8
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 17:02:51 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id g6so3176201pgs.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 10:02:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=BdjmbukyN93EyhI1DSTNcyhVrYjSoObY8SQv9ckT3OI=;
+ b=vXhJEFPxCQwVoQXSTNO7YMg1HIyKEpV6lC+8pPWILrho1vIrTYf7UoAtU9MirtLHZe
+ i6KIAsnQK7M9f/BFnt5/Y/yopgyslrJalNcovo0+uJBc1yu1OTt8V5/wn1qPIHDQKp82
+ DVcB8mHqkVdvrwJ9AODqJAc4JXSSUGkpwH+pWtj1dj+qrhXUlF8RYRQXG4FYjWkyvDfa
+ 4UtchUVnEcSAc31X4mLxPHPY1uWi7U2ZcJpagDCh7QFHJiA6x0d3VS4QxxgxyTJ0w5os
+ KAhYbfPZR82MsC+AF9VB7T+ByJwLrc+3wWRv4++vLdCNdV1CFjuGjDn375prp2Uw9Wp0
+ m/Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=BdjmbukyN93EyhI1DSTNcyhVrYjSoObY8SQv9ckT3OI=;
+ b=og04d/cfZFfd8eJLbZIv8++dA5eoPsg6zY58f+h8+M28M4AsBG1lFGKZwpEifIPpMZ
+ ulq9D13hx3Y4JMI48/sTD/h3nfh55ETfykpuuAINJ4pRAfGTykIvWTH4BcAhniDTejoa
+ oyWALA6iUw3hTMUgv7XXDLiZhnymedWixdWcRZSPlm9KmANpcJ84g/JqIrOM4OAZsXPi
+ mvsgu0upUgQTfktgikJQxQg/wNSKr2kfVkYZsRh6VFZIEeKwwjCDHKwh+vCIQIS1OBfS
+ iS28c5o41J2fG71r3Dnqw4qsyoj9n3jjklY8rkFRNchIl0zJhI2scpLLE97l3hWixmJ4
+ G5mQ==
+X-Gm-Message-State: AGi0PuZwowevjzDrmttgIfm+H0P1G30CD6Mq9v6Dv8RF9jXcSDZdb1GN
+ DSJMz/SiWYVUf37SX99WtuI=
+X-Google-Smtp-Source: APiQypJWSjA7CCiMuitdqpKx5L1KTkJAM/q32nofaJP3XA57AQ41nGcVcHpg1zkfSbrYj7gWzJBy1g==
+X-Received: by 2002:a63:1d08:: with SMTP id d8mr4797010pgd.306.1587661371447; 
+ Thu, 23 Apr 2020 10:02:51 -0700 (PDT)
+Received: from localhost (176.122.158.71.16clouds.com. [176.122.158.71])
+ by smtp.gmail.com with ESMTPSA id o198sm3105112pfg.183.2020.04.23.10.02.49
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 23 Apr 2020 10:02:50 -0700 (PDT)
+Date: Fri, 24 Apr 2020 01:02:45 +0800
+From: Dejin Zheng <zhengdejin5@gmail.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Subject: Re: console: Complete exception handling in newport_probe()
+Message-ID: <20200423170245.GA3417@nuc8i5>
+References: <c62ec54f-348b-2eae-59eb-374dde4d49ad@web.de>
+ <20200423142909.GB1562@nuc8i5>
+ <f054f00c-b813-e0c2-fe2e-30ccdec1ff46@web.de>
 MIME-Version: 1.0
-In-Reply-To: <20200423151250.GB65632@linaro.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <f054f00c-b813-e0c2-fe2e-30ccdec1ff46@web.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,90 +70,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
- viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, bsegall@google.com,
- alyssa.rosenzweig@collabora.com, mka@chromium.org, amit.kucheria@verdurent.com,
- lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
- agross@kernel.org, b.zolnierkie@samsung.com, steven.price@arm.com,
- cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
- rui.zhang@intel.com, mgorman@suse.de, orjan.eide@arm.com,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- s.hauer@pengutronix.de, rostedt@goodmis.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
- linux-arm-kernel@lists.infradead.org, airlied@linux.ie,
- tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
- rdunlap@infradead.org, rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
- kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
- shawnguo@kernel.org
+Cc: linux-fbdev@vger.kernel.org,
+ Thomas =?utf-8?Q?Bogend=C3=B6rfer?= <tsbogend@alpha.franken.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Ralf =?utf-8?Q?B=C3=A4chle?= <ralf@linux-mips.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Coccinelle <cocci@systeme.lip6.fr>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/23/20 4:12 PM, Daniel Lezcano wrote:
-> On Fri, Apr 10, 2020 at 09:42:04AM +0100, Lukasz Luba wrote:
->> Add support for other devices that CPUs. The registration function
->> does not require a valid cpumask pointer and is ready to handle new
->> devices. Some of the internal structures has been reorganized in order to
->> keep consistent view (like removing per_cpu pd pointers). To track usage
->> of the Energy Model structures, they are protected with kref.
+On Thu, Apr 23, 2020 at 05:23:29PM +0200, Markus Elfring wrote:
+> >> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/scripts/coccinelle/free/iounmap.cocci
+> >>
+> >> How do you think about to extend presented software analysis approaches?
+> >>
+> > Sorry, I am not familiar with it, I don't know.
 > 
-> Why not add the energy model structure in the struct device directly?
+> Do you find the comments helpful at the beginning of this SmPL script?
+>
+Sorry, I do not know how to use the SmPL script. 
 
-Do you mean this structure?
-https://elixir.bootlin.com/linux/latest/source/include/linux/device.h#L537
+> Would you like to let any more source code analysis tools help you
+> to find remaining update candidates?
+>
+yes, but I think the source code analysis tools only can found the simple
+repetitive issue. and need spend some time learning to use it. at different
+stages, it should have different methods for me. now, I think the best for
+me may be that read and check the source code. Thanks!
 
-and to put something like:
-struct device {
-...
-	struct dev_pm_domain	*pm_domain;
-#ifdef CONFIG_ENERGY_MODEL
-	struct em_perf_domain	*em_pd;
-#endif
-...
-};
+BR,
+Dejin
 
-> 
-> For instance for the em_cpu_get() function, the cpu id allows to retrieve the
-> cpu device and then from there, the energy model instead of browsing another
-> list. The em_device life cycle will be tied to the struct device.
-
-That would be perfect.
-
-> 
-> Then when the struct device and the em_device are connected, add the debugfs
-> with a struct device list for those which are energy aware, so you end up with
-> a structure:
-> 
-> struct em_device {
-> 	struct device *dev;
-> 	struct list_head em_dev_list;
-> };
-> 
-> (a global single dentry for debugfs to do a recursive delete is enough).
-> 
-> Locks when inspecting and add/removal called from the struct device release
-> function. So no need of an extra refcounting.
-> 
-> Does it make sense?
-> 
-
-Indeed it looks much cleaner/simpler.
-
-I will try to address this idea and get rid of refcounting.
-
-This should be doable in this patch (4/10). In the v7 I will keep your
-ACKs for other patches that you have already commented.
-
-Thank you for your suggestions and review.
-
-Regards,
-Lukasz
-
+> Regards,
+> Markus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
