@@ -2,64 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC0A1B6710
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:51:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C3941B672F
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 641436EA1B;
-	Thu, 23 Apr 2020 22:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71D336EA50;
+	Thu, 23 Apr 2020 22:52:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 192C26E183;
- Thu, 23 Apr 2020 10:32:29 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id D514A77B;
- Thu, 23 Apr 2020 06:32:26 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 23 Apr 2020 06:32:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm2; bh=YTqkbA+gunNzREuXuxfuTFdHYCTe/NL4zm46YcGOOfM=; b=mRhVymiz
- 8w5gHRPezGxOxFRarUTi2r6QIkxiNTCrNn7rNBCnGzV6G2zwuZlHORBmQ4/npQ04
- cVu+Z3r+ZrW8jwohfwUf5xbjgoqXGCwu8hbb3m21PPTgxrBz9/Ezaf3vvULQP5eK
- TUVYP/UIgf49W458ggc2nfrTHdx472gcA0/mzVMHsLpU7y4sYAkchfxF5OZTmBcD
- DNjq0jZLWbwF00FVsnAG7wv1ivnpyNPnB3SqF/yiTolH2mVG4wGjEZtHwUd3cDyY
- AFm2kd5Npp6TiAWMCc2/ZWNiA6Slbcvs8vtS0D42S9w9VmiAlWoYQWNO3Ni85iRs
- ztviMcM58w/gpw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm2; bh=YTqkbA+gunNzREuXuxfuTFdHYCTe/
- NL4zm46YcGOOfM=; b=Y74CihfjBpBFZaUNjssyZM/XcMaKhHuA08FQopLHi8/bO
- H1jW0t/a3hvbMTRJt1ebf8sz6X9RXLcsfiiXHka1I8vMDredDBfBAFSZ98rG6SKC
- uCSj50Sdf39j6ZzOOBb256pDfeMaCRvbQUJpGWpWKXwYWX0Hs0FJWqrr6BisfbWr
- FlZjcjKyHPkL4cOSMw8GIylNHnHq/Z7Dlw01x0xpFl6S7sk3C2EEfUENNydIfJiX
- JUvoluNP53cGkx+fnMPEg3zQ0lSES6b5czqM7w2eMUPJTPQ+pwPvwS/m6k+BlRvY
- c6QXAslrKnJwfZUn/GYASbtvSXd+9C5nXzyip5UQA==
-X-ME-Sender: <xms:uW6hXqexzonmUPFEJwim1G3y4xfoHmybBOZh21o0k8TmNySS-xHxtg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrgeelgddvlecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkgggtugesghdtreertddtudenucfhrhhomhepofgrgihimhgvucft
- ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinhepfh
- hrvggvuggvshhkthhophdrohhrghenucfkphepledtrdekledrieekrdejieenucevlhhu
- shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestg
- gvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:uW6hXjSp-oYE4nfPVcXYNTAtnVwAEVECe-ZmHfcjuWLOrMoQiDKoMw>
- <xmx:uW6hXhuBO1QaqgnBH55018Eku5kqWvzS5ckSW9mUJw_6y1hxeJnLVQ>
- <xmx:uW6hXkdYITf2Edb6QF-4vQ6RNR-QSTPQRYV5gMPcdlfeSn96Tbr11A>
- <xmx:um6hXtXTxgKcxpGDrLq7lCo34bjFhoQsTv6z9nv94j8BUD1fGfqhAyeU6AQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7DB303280067;
- Thu, 23 Apr 2020 06:32:25 -0400 (EDT)
-Date: Thu, 23 Apr 2020 12:32:24 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20200423103224.7hvyr3v7dmuny2bz@gilmour.lan>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E01B6E185
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 10:46:53 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id d17so6252963wrg.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 03:46:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=B1TBwFKRribKH6U+f2YHZKct8m6eaNTnkPh6s+3we4I=;
+ b=LZH+oOofFZ6HTrIFYsXaoNlGuvZDH5TfmDKrwIVEwXATLJ/gyO7J7sHyrTD+/agh8O
+ wWiBCM0FAZhVUMCrQXO7MVYC4rLCk7VA2qyt9dIa3ZKfWghqzp+RuJgis10Fj5K0M5sO
+ pglrlJg6UBZe/QVph5+sbzAlxLr83iDJkP8jfFart0ffS4ED2ONJgo/X5zGpe2mTItrI
+ D2/MiHPJ0/UjxCcnfxINq0p8TeK/xKrdedYUGtckd19yz7WTCbDj+abPTK1xTbstCekz
+ /PV4W/s0wv/F/z6wBMYDWjuOGUjW1Zj5Ma6SnFE3rWo5uuxGnWI5vpdvebrxZVskGRg4
+ Iiag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=B1TBwFKRribKH6U+f2YHZKct8m6eaNTnkPh6s+3we4I=;
+ b=E6ywcqIKzEC4LkD/ZcxQGxJkzGpMZOT57VfVfqx+UEgIkgnXIP64g0eoboY5UheN9M
+ q5PQOs0ry28/1cbEaKJfWbRldpE/EA6hqhbNZq8vyp5VCkYBF87sOAc8kA37dHaI4Ed5
+ ZjlTEEjZJEoktwabmm8VCccKxPOjISvNmNUv0xLbU4yna5iLEsbwLUck2hqa0iSqEQTQ
+ y36llaVWLIODpVdpQ+bFVLs4NXtOfMukBFDVViSEGpgHAE05Pri+8vMC28TC/9S4t2kS
+ cjlFn6cjElFOElaMW2gWuJJ2V8tr+5VSsDV90/ivLxOGEcA3uKfPCqy6cOKxc7VJtNJG
+ ixhw==
+X-Gm-Message-State: AGi0PuZSahf15Lp+PEe6mBe4+GlJKvxoi89toMJ3NKys90Eoa2V3cfbP
+ 9DYRtSkfDvnomFf7yLG1xmhRxQ==
+X-Google-Smtp-Source: APiQypKk6XUIzuutA3wLhgUEchycCeMPsBVS0IXvX9Ni7yK3fu/lKAGauoLlCdpwWe5IfJMCbOUR+w==
+X-Received: by 2002:a5d:5652:: with SMTP id j18mr4521872wrw.40.1587638812041; 
+ Thu, 23 Apr 2020 03:46:52 -0700 (PDT)
+Received: from [192.168.43.23] ([37.167.216.250])
+ by smtp.googlemail.com with ESMTPSA id 17sm3087293wmo.2.2020.04.23.03.46.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Apr 2020 03:46:51 -0700 (PDT)
+Subject: Re: [PATCH v6 02/10] PM / EM: introduce em_dev_register_perf_domain
+ function
+To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-imx@nxp.com
+References: <20200410084210.24932-1-lukasz.luba@arm.com>
+ <20200410084210.24932-3-lukasz.luba@arm.com>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <4a1d8d5b-84f2-46b7-00ce-03178d7df72f@linaro.org>
+Date: Thu, 23 Apr 2020 12:46:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200410084210.24932-3-lukasz.luba@arm.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,115 +76,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1976174416=="
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, bjorn.andersson@linaro.org,
+ bsegall@google.com, mka@chromium.org, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ steven.price@arm.com, cw00.choi@samsung.com, mingo@redhat.com, mgorman@suse.de,
+ rui.zhang@intel.com, alyssa.rosenzweig@collabora.com, orjan.eide@arm.com,
+ b.zolnierkie@samsung.com, s.hauer@pengutronix.de, rostedt@goodmis.org,
+ matthias.bgg@gmail.com, Dietmar.Eggemann@arm.com, airlied@linux.ie,
+ tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
+ rdunlap@infradead.org, rjw@rjwysocki.net, agross@kernel.org,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ shawnguo@kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1976174416==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gsjnbpjy3pkk4dou"
-Content-Disposition: inline
-
-
---gsjnbpjy3pkk4dou
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-Here is this week (and the first) drm-misc-fixes PR.
-
-Maxime
-
-drm-misc-fixes-2020-04-23:
-A few resources-related fixes (tidss, dp_mst, scheduler), probe fixes and
-DT bindings adjustments.
-The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
-
-  Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2020-04-23
-
-for you to fetch changes up to 9da67433f64eb89e5a7b47977507806c6ea026e7:
-
-  drm/tidss: fix crash related to accessing freed memory (2020-04-20 10:07:=
-35 +0300)
-
-----------------------------------------------------------------
-A few resources-related fixes (tidss, dp_mst, scheduler), probe fixes and
-DT bindings adjustments.
-
-----------------------------------------------------------------
-Christian K=F6nig (1):
-      drm/scheduler: fix drm_sched_get_cleanup_job
-
-Fabio Estevam (2):
-      dt-bindings: display: ltk500hd1829: Remove the reg property
-      dt-bindings: display: xpp055c272: Remove the reg property
-
-Marek Szyprowski (1):
-      drm/bridge: analogix_dp: Split bind() into probe() and real bind()
-
-Markus Elfring (1):
-      drm/meson: Delete an error message in meson_dw_hdmi_bind()
-
-Maxime Ripard (1):
-      Merge v5.7-rc1 into drm-misc-fixes
-
-Mikita Lipski (1):
-      drm/dp_mst: Zero assigned PBN when releasing VCPI slots
-
-Sam Ravnborg (1):
-      dt-bindings: display: allow port and ports in panel-lvds
-
-Tomi Valkeinen (1):
-      drm/tidss: fix crash related to accessing freed memory
-
-Vasily Khoruzhick (1):
-      drm/bridge: anx6345: set correct BPC for display_info of connector
-
- .../display/panel/leadtek,ltk500hd1829.yaml        |  1 -
- .../devicetree/bindings/display/panel/lvds.yaml    | 10 ++++++++-
- .../bindings/display/panel/xinpeng,xpp055c272.yaml |  1 -
- drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |  3 +++
- drivers/gpu/drm/drm_dp_mst_topology.c              |  1 +
- drivers/gpu/drm/meson/meson_dw_hdmi.c              |  4 +---
- drivers/gpu/drm/scheduler/sched_main.c             |  2 +-
- drivers/gpu/drm/tidss/tidss_crtc.c                 | 16 ++++++++++++---
- drivers/gpu/drm/tidss/tidss_encoder.c              | 14 ++++++++++---
- drivers/gpu/drm/tidss/tidss_plane.c                | 24 ++++++++++++++++--=
-----
- 10 files changed, 57 insertions(+), 19 deletions(-)
-
---gsjnbpjy3pkk4dou
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXqFuuAAKCRDj7w1vZxhR
-xSi8AP0R02mkWzUUOl4WBCqHG1PIwxHXDLZcRvZHcgQZchMD5gD/QUE3lidGxgY1
-zK2ZOqZuCRuxt8rMx3E4pfwDkLPACAo=
-=Z0h2
------END PGP SIGNATURE-----
-
---gsjnbpjy3pkk4dou--
-
---===============1976174416==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1976174416==--
+T24gMTAvMDQvMjAyMCAxMDo0MiwgTHVrYXN6IEx1YmEgd3JvdGU6Cj4gQWRkIG5vdyBmdW5jdGlv
+biBpbiB0aGUgRW5lcmd5IE1vZGVsIGZyYW1ld29yayB3aGljaCBpcyBnb2luZyB0byBzdXBwb3J0
+Cj4gbmV3IGRldmljZXMuIFRoaXMgZnVuY3Rpb24gd2lsbCBoZWxwIGluIHRyYW5zaXRpb24gYW5k
+IG1ha2UgaXQgc21vb3RoZXIuCj4gRm9yIG5vdyBpdCBzdGlsbCBjaGVja3MgaWYgdGhlIGNwdW1h
+c2sgaXMgYSB2YWxpZCBwb2ludGVyLCB3aGljaCB3aWxsIGJlCj4gcmVtb3ZlZCBsYXRlciB3aGVu
+IHRoZSBuZXcgc3RydWN0dXJlcyBhbmQgaW5mcmFzdHJ1Y3R1cmUgd2lsbCBiZSByZWFkeS4KPiAK
+PiBTaWduZWQtb2ZmLWJ5OiBMdWthc3ogTHViYSA8bHVrYXN6Lmx1YmFAYXJtLmNvbT4KPiAtLS0K
+CkFja2VkLWJ5OiBEYW5pZWwgTGV6Y2FubyA8ZGFuaWVsLmxlemNhbm9AbGluYXJvLm9yZz4KCgoK
+LS0gCjxodHRwOi8vd3d3LmxpbmFyby5vcmcvPiBMaW5hcm8ub3JnIOKUgiBPcGVuIHNvdXJjZSBz
+b2Z0d2FyZSBmb3IgQVJNIFNvQ3MKCkZvbGxvdyBMaW5hcm86ICA8aHR0cDovL3d3dy5mYWNlYm9v
+ay5jb20vcGFnZXMvTGluYXJvPiBGYWNlYm9vayB8CjxodHRwOi8vdHdpdHRlci5jb20vIyEvbGlu
+YXJvb3JnPiBUd2l0dGVyIHwKPGh0dHA6Ly93d3cubGluYXJvLm9yZy9saW5hcm8tYmxvZy8+IEJs
+b2cKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
