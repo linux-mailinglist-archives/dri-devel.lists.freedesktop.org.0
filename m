@@ -2,58 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 237DB1B5BA9
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 14:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA701B5BC0
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 14:50:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 180E86E580;
-	Thu, 23 Apr 2020 12:44:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3436E454;
+	Thu, 23 Apr 2020 12:50:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32C4C6E580
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 12:44:34 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 012BDAB5C;
- Thu, 23 Apr 2020 12:44:31 +0000 (UTC)
-Subject: Re: [PATCH 2/2] drm/vram-helper: Alternate between bottom-up and
- top-down placement
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20200422144055.27801-1-tzimmermann@suse.de>
- <20200422144055.27801-3-tzimmermann@suse.de>
- <20200423111808.fbh23br7jrkte3ih@sirius.home.kraxel.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <da7bb4d1-852e-6372-cc2a-938561220483@suse.de>
-Date: Thu, 23 Apr 2020 14:44:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5EF3E6E454
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 12:50:09 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D73AD31B;
+ Thu, 23 Apr 2020 05:50:08 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B7E223F6CF;
+ Thu, 23 Apr 2020 05:50:08 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id 767A4682F3D; Thu, 23 Apr 2020 13:50:07 +0100 (BST)
+Date: Thu, 23 Apr 2020 13:50:07 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Bernard Zhao <bernard@vivo.com>
+Subject: Re: [PATCH] drm/arm: cleanup coding style in arm a bit
+Message-ID: <20200423125007.GG364558@e110455-lin.cambridge.arm.com>
+References: <20200422021046.4375-1-bernard@vivo.com>
 MIME-Version: 1.0
-In-Reply-To: <20200423111808.fbh23br7jrkte3ih@sirius.home.kraxel.org>
+Content-Disposition: inline
+In-Reply-To: <20200422021046.4375-1-bernard@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,195 +42,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, sam@ravnborg.org,
- christian.koenig@amd.com
-Content-Type: multipart/mixed; boundary="===============0481539637=="
+Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0481539637==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="7zmAVXGkDuUYA0rkKCJ7bnDe872lVJqha"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---7zmAVXGkDuUYA0rkKCJ7bnDe872lVJqha
-Content-Type: multipart/mixed; boundary="glBbSd7hio7Px8ccVt8Vd4nsBmvvABrbD";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org
-Message-ID: <da7bb4d1-852e-6372-cc2a-938561220483@suse.de>
-Subject: Re: [PATCH 2/2] drm/vram-helper: Alternate between bottom-up and
- top-down placement
-References: <20200422144055.27801-1-tzimmermann@suse.de>
- <20200422144055.27801-3-tzimmermann@suse.de>
- <20200423111808.fbh23br7jrkte3ih@sirius.home.kraxel.org>
-In-Reply-To: <20200423111808.fbh23br7jrkte3ih@sirius.home.kraxel.org>
-
---glBbSd7hio7Px8ccVt8Vd4nsBmvvABrbD
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Gerd,
-
-thanks for the feedback.
-
-Am 23.04.20 um 13:18 schrieb Gerd Hoffmann:
-> On Wed, Apr 22, 2020 at 04:40:55PM +0200, Thomas Zimmermann wrote:
->> With limited VRAM available, fragmentation can lead to OOM errors.
->> Alternating between bottom-up and top-down placement keeps BOs near th=
-e
->> ends of the VRAM and the available pages consecutively near the middle=
-=2E
->>
->> A real-world example with 16 MiB of VRAM is shown below.
->>
->>   > cat /sys/kernel/debug/dri/0/vram-mm
->>   0x0000000000000000-0x000000000000057f: 1407: free
->>   0x000000000000057f-0x0000000000000b5b: 1500: used
->>   0x0000000000000b5b-0x0000000000000ff0: 1173: free
->>
->> The first free area was the location of the fbdev framebuffer. The use=
-d
->> area is Weston's current framebuffer of 1500 pages. Weston now cannot
->> do a pageflip to another 1500 page-wide framebuffer, even though enoug=
-h
->> pages are available. The patch resolves this problem to
->>
->>   > cat /sys/kernel/debug/dri/0/vram-mm
->>   0x0000000000000000-0x00000000000005dc: 1500: used
->>   0x00000000000005dc-0x0000000000000a14: 1080: free
->>   0x0000000000000a14-0x0000000000000ff0: 1500: used
->>
->> with both of Weston's framebuffers located near the ends of the VRAM
->> memory.
->=20
-> I don't think it is that simple.
->=20
-> First:  How will that interact with cursor bo allocations?  IIRC the
-> strategy for them is to allocate top-down, for similar reasons (avoid
-> small cursor bo allocs fragment vram memory).
-
-In ast, 2 cursor BOs are allocated during driver initialization and kept
-permanently at the vram's top end. I don't know about other drivers.
-
-But cursor BOs are small, so they don't make much of a difference. What
-is needed is space for 2 primary framebuffers during pageflips, with one
-of them pinned. The other framebuffer can be located anywhere.
-
-
->=20
-> Second:  I think ttm will move bo's from vram to system only on memory
-> pressure.  So you can still end up with fragmented memory.  To make the=
-
-> scheme with one fb @ top and one @ bottom work reliable you have to be
-> more aggressive on pushing out framebuffers.
-
-I'm the process of converting mgag200 to atomic modesetting. The given
-example is what I observed. I'm not claiming that the placement scheme
-is perfect, but it is required to get mgag200 working with atomic
-modesetting's pageflip logic. So we're solving a real problem here.
-
-The bug comes from Weston's allocation strategy. Looking at the debug
-output:
-
->>   0x0000000000000000-0x000000000000057f: 1407: free
-
-This was fbdev's framebuffer with 1600x900@32bpp
-
->>   0x000000000000057f-0x0000000000000b5b: 1500: used
-
-This is Weston's framebuffer also with 1600x900@32bpp. But Weston
-allocates an additional, unused 60 scanlines. That is to render with
-tiles of 64x64px, I suppose. fbdev doesn't do that, hence Weston's
-second framebuffer doesn't fit into the free location of the fbdev
-framebuffer.
-
-The other drivers with a small amount of vram are also prone to this
-problem. They simply have not yet encountered such a setup.
-
-
->=20
-> Third:  I'd suggest make topdown allocations depending on current state=
-
-> instead of simply alternating, i.e. if there is a pinned framebuffer @
-> offset 0, then go for top-down.
-
-That's what the current patch does. If the last pin was at the bottom,
-the next goes to the top. And then the other way around. Without
-alternating between both end of vram, the problem would occur again when
-fragmentation happens near the top end.
-
-
->=20
-> I also think using this scheme should be optional.  In the simplest cas=
-e
-> we can allow drivers opt-in.  Or we try do to something clever
-> automatically: using the strategy only for framebuffers larger than 1/4=
-
-> or 1/3 of total vram memory (which makes alloc failures due to
-> fragmentation much more likely).
-
-I'd like to not change behavior automatically, but we can surely make
-this optional.
-
-Looking again at the vram helpers, this functionality could be
-implemented in drm_gem_vram_plane_helper_prepare_fb(). Drivers with
-other placement strategies could implement their own helper for prepare_f=
-b.
-
-Best regards
-Thomas
-
-
->=20
-> cheers,
->   Gerd
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---glBbSd7hio7Px8ccVt8Vd4nsBmvvABrbD--
-
---7zmAVXGkDuUYA0rkKCJ7bnDe872lVJqha
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6hja8ACgkQaA3BHVML
-eiN1rgf+Lrxqrpmktp3KoExFz8Jr8AuDQSpVmFet5zFP1rIYiODg6X/sT92kjlWc
-XR683p9e13YEIJUy7H4akKW8JBJOlH5V+cKGlqbAuwVw635Prrchf1k+xPbQt/cd
-exxeQSFC0Lh1Xe+3w1Tw20e+tOK4gBqw/BVksSORvVMqaCNq8b+pzTmdWZgnpbJE
-UeLCv7z6FphJ9cP7UIS77r+/fEAlVrwZSfpA9iRP8C8hPUDkN2j4zIL4ifmi/+/S
-gpuFSx6svIMotwGD+5jogvqscXwG5vt/62dzh/T++q25PGIiUnskoYrwFhrK4cj2
-isv9TipkCyqiNtysUS3Tf6mYVU1B4w==
-=P7wn
------END PGP SIGNATURE-----
-
---7zmAVXGkDuUYA0rkKCJ7bnDe872lVJqha--
-
---===============0481539637==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0481539637==--
+SGkgQmVybmFyZCwKCk9uIFR1ZSwgQXByIDIxLCAyMDIwIGF0IDA3OjEwOjQ2UE0gLTA3MDAsIEJl
+cm5hcmQgWmhhbyB3cm90ZToKPiBGb3IgdGhlIGNvZGUgbG9naWMsIGFuIGFsYXJtIGlzIHRocm93
+biBhZnRlciBmYWlsdXJlLCBidXQgdGhlCj4gY29kZSBjb250aW51ZXMgdG8gcnVuIGFuZCByZXR1
+cm5zIHN1Y2Nlc3NmdWxseSwgc28gdG8gdGhlIGNhbGxlcgo+IHRoZSBpZiBjaGVjayBhbmQgcmV0
+dXJuIGJyYW5jaCB3aWxsIG5ldmVyIHJ1bi4KPiBUaGUgY2hhbmdlIGlzIHRvIG1ha2UgdGhlIGNv
+ZGUgYSBiaXQgbW9yZSByZWFkYWJsZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBCZXJuYXJkIFpoYW8g
+PGJlcm5hcmRAdml2by5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfY3J0
+Yy5jIHwgNCArLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMyBkZWxldGlv
+bnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9oZGxjZF9jcnRjLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2NydGMuYwo+IGluZGV4IGFmNjdmZWZlZDM4ZC4u
+MzJiZGExMzI1MGY1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfY3J0
+Yy5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FybS9oZGxjZF9jcnRjLmMKPiBAQCAtMTYwLDkg
+KzE2MCw3IEBAIHN0YXRpYyB2b2lkIGhkbGNkX2NydGNfbW9kZV9zZXRfbm9mYihzdHJ1Y3QgZHJt
+X2NydGMgKmNydGMpCj4gIAloZGxjZF93cml0ZShoZGxjZCwgSERMQ0RfUkVHX0hfU1lOQywgdm0u
+aHN5bmNfbGVuIC0gMSk7Cj4gIAloZGxjZF93cml0ZShoZGxjZCwgSERMQ0RfUkVHX1BPTEFSSVRJ
+RVMsIHBvbGFyaXRpZXMpOwo+ICAKPiAtCWVyciA9IGhkbGNkX3NldF9weGxfZm10KGNydGMpOwo+
+IC0JaWYgKGVycikKPiAtCQlyZXR1cm47Cj4gKwloZGxjZF9zZXRfcHhsX2ZtdChjcnRjKTsKCkkg
+dGhpbmsgeW91IGZvdW5kIGEgcmVhbCBidWcuIGhkbGNkX3NldF9weGxfZm10KCkgaXMgbm90IHN1
+cHBvc2VkIHRvIHJldHVybiB6ZXJvIGlmCnRoZSBmb3JtYXQgaXMgbm90IHN1cHBvcnRlZCBhbmQg
+aGVyZSB3ZSB3b3VsZCBzdG9wIGVuYWJsaW5nIHRoZSBwaXhlbCBjbG9jay4KCkRvIHlvdSBjYXJl
+IHRvIHNlbmQgYSBwYXRjaCBmb3IgZml4aW5nIHRoZSBidWcsIHJhdGhlciB0aGFuIHRoaXMgb25l
+PwoKQmVzdCByZWdhcmRzLApMaXZpdQoKPiAgCj4gIAljbGtfc2V0X3JhdGUoaGRsY2QtPmNsaywg
+bS0+Y3J0Y19jbG9jayAqIDEwMDApOwo+ICB9Cj4gLS0gCj4gMi4yNi4yCj4gCgotLSAKPT09PT09
+PT09PT09PT09PT09PT0KfCBJIHdvdWxkIGxpa2UgdG8gfAp8IGZpeCB0aGUgd29ybGQsICB8Cnwg
+YnV0IHRoZXkncmUgbm90IHwKfCBnaXZpbmcgbWUgdGhlICAgfAogXCBzb3VyY2UgY29kZSEgIC8K
+ICAtLS0tLS0tLS0tLS0tLS0KICAgIMKvXF8o44OEKV8vwq8KX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
