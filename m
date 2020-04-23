@@ -1,61 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939EE1B6721
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:51:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D51B31B5EED
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 17:17:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86D4A6EA22;
-	Thu, 23 Apr 2020 22:50:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED5ED6E88D;
+	Thu, 23 Apr 2020 15:17:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D5CA6E88C
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 15:14:08 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id r26so6970248wmh.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 08:14:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=v46Ikk3Jz0r+b0XX/bOEpsMp0yxP+bghxd3vH+HYhPc=;
- b=MIWxKE/qjLCX/xGHYA9pPPU0BNfKH43CNGFsg6DeK/Mru9tvWVDKwiaZOn1XHjMoVE
- i4PYlH8O7bplYaTQeMICT+fzY8fnWvVzPWCE5yQuez2xPFjAeqSQYiNf0Uh7R/Wo38Lg
- Z6hX1p59FRmd8cXRcaKNBTpSFrbXarSJk9IonBz+osP259UyeH0oOSynqm+2NZi2Ahkn
- mHD1tRQfsYU56pVs27oV5Y7kgyFt8LHsXNWTr7pGFlFyAJIxKMc0HJpPsylF6zrtlQY4
- 5pwVLUZ8W5eDfGynjFnJROYgC6aT3odwPB41c02RsLfkH8QAoKuW6rYRcLWEg9G1cGkc
- OQaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=v46Ikk3Jz0r+b0XX/bOEpsMp0yxP+bghxd3vH+HYhPc=;
- b=JhmdS2T8UwtihB75xJ8gZiIjkRN47fG71M7p/zlqd1OLqXEuMO9fWUzfwR4m724ed9
- 3QgTYvyJcHv+O5HRKebIcMJG7buVYebf9j3PEx9gh5iPKukMENOpsUOZVp7AhKIQxk9A
- 1sAOinzr3C1+xpcc2JKnT4mM6CCUhkHjys/8AkeWHrrSEXDeQpS2ZI/t4GcNxukQrnxk
- 6qxw+0J1YTnR4H3Weer6gLECIbDFANIqb100jVfw3pDyTrk4bejZjwNBnU05nRExKNoE
- EaE5eGVOHqRrT6C9eHJv9x3KwC1E+FOF8b1J4eFvotF8Rc0tcpem2DTRJINKqTgvyDqI
- /DNw==
-X-Gm-Message-State: AGi0PuaRlyLCV5ojPwL0vQwCPSHrqwo1cHB0aBbxc/saYursnzlXL1vc
- I5ko8aNpIVNF4h51LeUdCgdAWA==
-X-Google-Smtp-Source: APiQypKEu5s0OhD4gtUwKlNwoPw/ork7gNul9QoWfqC2s5n+wpnmvRh1OKW8lXO0WhhFY70e5NcqhA==
-X-Received: by 2002:a1c:64c5:: with SMTP id y188mr4587343wmb.130.1587654846044; 
- Thu, 23 Apr 2020 08:14:06 -0700 (PDT)
-Received: from linaro.org ([37.167.216.250])
- by smtp.gmail.com with ESMTPSA id x18sm4083518wrs.11.2020.04.23.08.14.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 08:14:05 -0700 (PDT)
-Date: Thu, 23 Apr 2020 17:14:00 +0200
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-To: Lukasz Luba <lukasz.luba@arm.com>
-Subject: Re: [PATCH v6 05/10] PM / EM: remove em_register_perf_domain
-Message-ID: <20200423151400.GC65632@linaro.org>
-References: <20200410084210.24932-1-lukasz.luba@arm.com>
- <20200410084210.24932-6-lukasz.luba@arm.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 762D16E88D;
+ Thu, 23 Apr 2020 15:17:47 +0000 (UTC)
+IronPort-SDR: VSj4dTBGTJgXuWLNk9s3dSS0ep65B12GNw/gXi4ajA8Fld/WSjH2suI1x5suqyV/aS983zubX2
+ 0S+F0+TVdtlg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2020 08:17:47 -0700
+IronPort-SDR: fy7yKvh7T2zNzZNCVaQq2XQHqN9fxWosy5gium/Inm9vptlj2UhOGg1ng+p0Ifj2mcXyt5m0T8
+ 0kPhmGDSrXXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,307,1583222400"; d="scan'208";a="244896817"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga007.jf.intel.com with SMTP; 23 Apr 2020 08:17:44 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 23 Apr 2020 18:17:43 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/edid: Fix off-by-one in DispID DTD pixel clock
+Date: Thu, 23 Apr 2020 18:17:43 +0300
+Message-Id: <20200423151743.18767-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200410084210.24932-6-lukasz.luba@arm.com>
-X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,37 +46,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
- viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, bsegall@google.com,
- alyssa.rosenzweig@collabora.com, mka@chromium.org, amit.kucheria@verdurent.com,
- lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
- agross@kernel.org, b.zolnierkie@samsung.com, steven.price@arm.com,
- cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
- rui.zhang@intel.com, mgorman@suse.de, orjan.eide@arm.com,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- s.hauer@pengutronix.de, rostedt@goodmis.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
- linux-arm-kernel@lists.infradead.org, airlied@linux.ie,
- tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
- rdunlap@infradead.org, rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
- kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
- shawnguo@kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 10, 2020 at 09:42:05AM +0100, Lukasz Luba wrote:
-> Remove old function em_register_perf_domain which is no longer needed.
-> There is em_dev_register_perf_domain that covers old use cases and new as
-> well.
-> 
-> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
-
-Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClRo
+ZSBEaXNwSUQgRFREIHBpeGVsIGNsb2NrIGlzIGRvY3VtZW50ZWQgYXM6CiIwMCAwMCAwMCBoIOKG
+kiBGRiBGRiBGRiBoIHwgUGl4ZWwgY2xvY2sgw7cgMTAsMDAwIDAuMDEg4oaSIDE2Nyw3NzIuMTYg
+TWVnYSBQaXhlbHMgcGVyIFNlYyIKV2hpY2ggc2VlbXMgdG8gaW1wbHkgdGhhdCB3ZSB0byBhZGQg
+b25lIHRvIHRoZSByYXcgdmFsdWUuCgpSZWFsaXR5IHNlZW1zIHRvIGFncmVlIGFzIHRoZXJlIGFy
+ZSB0aWxlZCBkaXNwbGF5cyBpbiB0aGUgd2lsZAp3aGljaCBjdXJyZW50bHkgc2hvdyBhIDEwa0h6
+IGRpZmZlcmVuY2UgaW4gdGhlIHBpeGVsIGNsb2NrCmJldHdlZW4gdGhlIHRpbGVzIChvbmUgdGls
+ZSBnZXRzIGl0cyBtb2RlIGZyb20gdGhlIGJhc2UgRURJRCwKdGhlIG90aGVyIGZyb20gdGhlIERp
+c3BJRCBibG9jaykuCgpDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwpSZWZlcmVuY2VzOiBodHRw
+czovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvZHJtL2ludGVsLy0vaXNzdWVzLzI3ClNpZ25lZC1v
+ZmYtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Ci0t
+LQogZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBp
+bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2VkaWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCmluZGV4IDQzYjZjYTM2NGRh
+YS4uNTQ0ZDI2MDNmNWZjIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwor
+KysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwpAQCAtNTEyMCw3ICs1MTIwLDcgQEAgc3Rh
+dGljIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICpkcm1fbW9kZV9kaXNwbGF5aWRfZGV0YWlsZWQo
+c3RydWN0IGRybV9kZXZpY2UgKmQKIAlzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZTsKIAl1
+bnNpZ25lZCBwaXhlbF9jbG9jayA9ICh0aW1pbmdzLT5waXhlbF9jbG9ja1swXSB8CiAJCQkJKHRp
+bWluZ3MtPnBpeGVsX2Nsb2NrWzFdIDw8IDgpIHwKLQkJCQkodGltaW5ncy0+cGl4ZWxfY2xvY2tb
+Ml0gPDwgMTYpKTsKKwkJCQkodGltaW5ncy0+cGl4ZWxfY2xvY2tbMl0gPDwgMTYpKSArIDE7CiAJ
+dW5zaWduZWQgaGFjdGl2ZSA9ICh0aW1pbmdzLT5oYWN0aXZlWzBdIHwgdGltaW5ncy0+aGFjdGl2
+ZVsxXSA8PCA4KSArIDE7CiAJdW5zaWduZWQgaGJsYW5rID0gKHRpbWluZ3MtPmhibGFua1swXSB8
+IHRpbWluZ3MtPmhibGFua1sxXSA8PCA4KSArIDE7CiAJdW5zaWduZWQgaHN5bmMgPSAodGltaW5n
+cy0+aHN5bmNbMF0gfCAodGltaW5ncy0+aHN5bmNbMV0gJiAweDdmKSA8PCA4KSArIDE7Ci0tIAoy
+LjI0LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
