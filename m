@@ -2,58 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F571B671C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2839F1B63EF
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 20:43:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BADE6EA3C;
-	Thu, 23 Apr 2020 22:50:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7D7C89B69;
+	Thu, 23 Apr 2020 18:43:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B75D6E96C
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 18:22:26 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id a21so4372540ljj.11
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 11:22:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SyntY4ihtgwRKYcY/fS0VkFBQ+EsKbXW8mdTDYFHVRY=;
- b=XuX01O+6dLsCQ2wHBfT/Md5wMEKIs4x+9FDt5znXkVYXwA9L6jh5PTYk7ElRxRtiOZ
- WnaFE3eQO694zdBROxNdrjYIR04/XCrUzS08U/t+yVSDi1mxMIphgDRbkZBzVvJE5dqJ
- 2YggHL4f/DH+ajJVGkn9ooipwH0cyLUT/5uKH64IrypYLsmQpUq7PY54HS8MxzYmI1Db
- AwK6kct0oI42RU1EKeBu+qMixnzKRmpfrJbsaXdTcG9AthswEJr3302yEC+pt/RASRzz
- xoWFaDI6WKMAkMM1QtuAfB4d4oJbHeiDj4GdVz4QTxbzaXp5IvhGGusbqJbszbEbNYO+
- MH1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SyntY4ihtgwRKYcY/fS0VkFBQ+EsKbXW8mdTDYFHVRY=;
- b=cj1XyDwrzFVMxuXU8u1PiE3UvpE1Ugh8FyVG9W6ATEH/HzINTls08XGAshs9oH9/Q5
- ity0tWxqFq8941/zSpSZv19KKns4TJrYs9xQhvkNaVrIsSJkqPPNh0V6Og+Nefs3k+a6
- /ephgJDJcLWRYTdIVtBDZkgXBrySz7+8IT5ggKZD0NTeVuVv74QzV7dFiLoRsjl2oCCA
- PGh+5V6JvdZr9DA945UMKztBJiKh4t8I5/YxZHQyPNy95CcN+GAd5s0g9kHnixcN9GeC
- US5cuWpJRUyt9unfH9x8Lsp+T0mpg/CJn/vYl0nZHA8Lj3rLj6XYFQDfqBWCjfq6c7Db
- 2/Dg==
-X-Gm-Message-State: AGi0PuYSBSc/BlW+ISqsnN8Oc7x724VNqyRPUV4raJ1OZQE/l9oT9Kh+
- kk+yoUkinW1a3fKGBSatj+ehTwT/jXrTFK8DlzB64g==
-X-Google-Smtp-Source: APiQypJTlzDaEDtPbrHT6c3dPUnTRa2WqGnDESm8sW7oyUka/0bnqAldjdZfM2B5z9ASrfNekd5cCddE2z21ojYztrU=
-X-Received: by 2002:a2e:9dcd:: with SMTP id x13mr2971981ljj.120.1587666144250; 
- Thu, 23 Apr 2020 11:22:24 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B86C989B69;
+ Thu, 23 Apr 2020 18:43:50 +0000 (UTC)
+IronPort-SDR: jp7WE8HumXYuUqCuDluGOuN7LYvBLVFQFdfr7AjWDkKWH4xr9rWynxz/xFgies/5TvzxLxKMUp
+ +UVGKGowAY/g==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2020 11:43:50 -0700
+IronPort-SDR: r3VcBlY1YZ6yROw9g3qjdqBgL4ReksCCyx/SDb2A9lP/FAOUo0Dasvh52GBfXqwgRhMf0eTuy4
+ Sbi6dqqlV0ow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,307,1583222400"; d="scan'208";a="457013796"
+Received: from unknown (HELO intel.com) ([10.165.21.211])
+ by fmsmga005.fm.intel.com with ESMTP; 23 Apr 2020 11:43:50 -0700
+Date: Thu, 23 Apr 2020 11:45:11 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/edid: Fix off-by-one in DispID DTD pixel
+ clock
+Message-ID: <20200423184510.GA12177@intel.com>
+References: <20200423151743.18767-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
- <87tv1k4vl6.fsf@intel.com> <d47ba6ef-efd0-9f28-1ae4-b971b95a8f8b@redhat.com>
- <20200417120226.0cd6bc21@eldfell.localdomain> <87k12e2uoa.fsf@intel.com>
- <e8da46f8-ebe4-aee4-31c8-229d06fa7430@redhat.com>
- <20200421174613.139991ed@eldfell.localdomain>
-In-Reply-To: <20200421174613.139991ed@eldfell.localdomain>
-From: Rajat Jain <rajatja@google.com>
-Date: Thu, 23 Apr 2020 11:21:47 -0700
-Message-ID: <CACK8Z6Hwg132K3TwsX6Bjx-2KG0HywrP=PnMMegdp7jqeU__1A@mail.gmail.com>
-Subject: Re: RFC: Drm-connector properties managed by another driver / privacy
- screen support
-To: Pekka Paalanen <ppaalanen@gmail.com>
-X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
+Content-Disposition: inline
+In-Reply-To: <20200423151743.18767-1-ville.syrjala@linux.intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,114 +48,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Christian Kellner <ckellner@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Nitin Joshi1 <njoshi1@lenovo.com>, Mark Pearson <mpearson@lenovo.com>,
- Benjamin Berg <bberg@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 21, 2020 at 7:46 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->
-> On Tue, 21 Apr 2020 14:37:41 +0200
-> Hans de Goede <hdegoede@redhat.com> wrote:
->
-> > TL;DR: Yes there will be races, because of both userspace +
-> > the firmware having; and potentially using r/w access to
-> > the privacy-screen state. But in practice I expect these
-> > to not really be an issue. Important here is that userspace
-> > only commits the property in a transaction to commit if
-> > it actually intends to change the property so as to not
-> > needlessly create a situation where we might hit the race.
-> >
-> > As for 1 vs 2 properties for this I guess that in preparation
-> > for potential devices where the state is locked, having a
-> > r/w sw-state + a ro hw-state property makes sense.
-> >
-> > So I suggest that we replace the current "privacy-screen" property
-> > from Rajat's patch-set with 2 props named:
-> >
-> > "privacy-screen-sw-state" (r/w)
-> > "privacy-screen-hw-state" (ro)
-> >
-> > Where for current gen hardware the privacy-screen-hw-state is
-> > just a mirror of the sw-state.
-
-Just to make sure I understand the semantics correctly:
-
-- The  "privacy-screen-hw-state" shall be read-only, and can be modified by:
-      - Hardware (e.g. HW kill switch).
-      - Firmware.
-      - (Potentially) needs a notification/irq to the kernel when this
-changes (or may be kernel can read it only when userspace queries for
-it).
-
-- The "privacy-screen-sw-state" shall be read-write, and can only be
-modified by user space.
-        - If user space toggles it, the kernel will attempt to
-"request" the change to hardware.
-        - Whether the request to hardware was successful or not, the
-"privacy-screen-sw-state" will always reflect the latest value
-userspace wrote.
-        - If the request to hardware was successful, the
-"privacy-screen-hw-state" will also change (probably via a separate
-notification/irq from HW).
-        - We expect the user space to write to
-"privacy-screen-sw-state" only if it really wants to toggle the value.
-
-What is not clear to me is if any change to"privacy-screen-hw-state"
-shall be propagated to "privacy-screen-sw-state"?
- - If yes, then I think we are not solving any problems of single property.
- - If no, then why do we require userspace to write to sw state only
-if something has changed?
-
-Also, it seems to me that in my current patchset, the property I have
-already behaves like "privacy-screen-sw-state". Do I just need to
-rename it?
-
-Thanks,
-
-Rajat
-
->
-> Hi,
->
-> this sounds like a good plan to me, assuming the kernel writes only to
-> the ro property and never to the r/w property.
->
-> I understand that as long as firmware hotkeys will toggle actual state,
-> there is no design that could work reliably if userspace will always
-> commit all KMS state even when it is not necessary. But not committing
-> KMS state unless it is actually necessary is really For implementing the "privacy-screen-sw-state".a new requirement on
-> userspace, so that needs to be documented before it's too late.
->
-> It's not enough to document "don't set it unless you want to
-> overwrite/change it" for privacy screen properties. It needs to be
-> documented as a general rule that userspace must follow with *unknown*
-> properties as well. "Do not restore unrecognized properties unless the
-> kernel KMS state might be incorrect compared to what you used to have."
->
-> This means that with a display server that does not understand privacy
-> screen properties, the end user will lose the privacy screen state on
-> every VT-switch back to the display server.
->
-> However, if we had a way to query the kernel for the default state to
-> reset unknown properties to, the kernel implementation could return the
-> current value of the privacy screen property instead of "off" to not
-> lose the firmware state. Assuming firmware hotkeys exist, but if they
-> don't then return just "off". The point is that the kernel who knows
-> all the properties makes the decision what a sane reset value is.
-> Userspace can always override the reset value for the properties
-> it recognizes.
->
->
-> Thanks,For implementing the "privacy-screen-sw-state".
-> pq
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBBcHIgMjMsIDIwMjAgYXQgMDY6MTc6NDNQTSArMDMwMCwgVmlsbGUgU3lyamFsYSB3
+cm90ZToKPiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwu
+Y29tPgo+IAo+IFRoZSBEaXNwSUQgRFREIHBpeGVsIGNsb2NrIGlzIGRvY3VtZW50ZWQgYXM6Cj4g
+IjAwIDAwIDAwIGgg4oaSIEZGIEZGIEZGIGggfCBQaXhlbCBjbG9jayDDtyAxMCwwMDAgMC4wMSDi
+hpIgMTY3LDc3Mi4xNiBNZWdhIFBpeGVscyBwZXIgU2VjIgo+IFdoaWNoIHNlZW1zIHRvIGltcGx5
+IHRoYXQgd2UgdG8gYWRkIG9uZSB0byB0aGUgcmF3IHZhbHVlLgo+IAo+IFJlYWxpdHkgc2VlbXMg
+dG8gYWdyZWUgYXMgdGhlcmUgYXJlIHRpbGVkIGRpc3BsYXlzIGluIHRoZSB3aWxkCj4gd2hpY2gg
+Y3VycmVudGx5IHNob3cgYSAxMGtIeiBkaWZmZXJlbmNlIGluIHRoZSBwaXhlbCBjbG9jawo+IGJl
+dHdlZW4gdGhlIHRpbGVzIChvbmUgdGlsZSBnZXRzIGl0cyBtb2RlIGZyb20gdGhlIGJhc2UgRURJ
+RCwKPiB0aGUgb3RoZXIgZnJvbSB0aGUgRGlzcElEIGJsb2NrKS4KPiAKPiBDYzogc3RhYmxlQHZn
+ZXIua2VybmVsLm9yZwo+IFJlZmVyZW5jZXM6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9y
+Zy9kcm0vaW50ZWwvLS9pc3N1ZXMvMjcKPiBTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6Qg
+PHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgoKTWFrZXMgdG90YWwgc2Vuc2UsCgpSZXZp
+ZXdlZC1ieTogTWFuYXNpIE5hdmFyZSA8bWFuYXNpLmQubmF2YXJlQGludGVsLmNvbT4KCk1hbmFz
+aQoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgfCAyICstCj4gIDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCj4g
+aW5kZXggNDNiNmNhMzY0ZGFhLi41NDRkMjYwM2Y1ZmMgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2RybV9lZGlkLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwo+IEBA
+IC01MTIwLDcgKzUxMjAsNyBAQCBzdGF0aWMgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKmRybV9t
+b2RlX2Rpc3BsYXlpZF9kZXRhaWxlZChzdHJ1Y3QgZHJtX2RldmljZSAqZAo+ICAJc3RydWN0IGRy
+bV9kaXNwbGF5X21vZGUgKm1vZGU7Cj4gIAl1bnNpZ25lZCBwaXhlbF9jbG9jayA9ICh0aW1pbmdz
+LT5waXhlbF9jbG9ja1swXSB8Cj4gIAkJCQkodGltaW5ncy0+cGl4ZWxfY2xvY2tbMV0gPDwgOCkg
+fAo+IC0JCQkJKHRpbWluZ3MtPnBpeGVsX2Nsb2NrWzJdIDw8IDE2KSk7Cj4gKwkJCQkodGltaW5n
+cy0+cGl4ZWxfY2xvY2tbMl0gPDwgMTYpKSArIDE7Cj4gIAl1bnNpZ25lZCBoYWN0aXZlID0gKHRp
+bWluZ3MtPmhhY3RpdmVbMF0gfCB0aW1pbmdzLT5oYWN0aXZlWzFdIDw8IDgpICsgMTsKPiAgCXVu
+c2lnbmVkIGhibGFuayA9ICh0aW1pbmdzLT5oYmxhbmtbMF0gfCB0aW1pbmdzLT5oYmxhbmtbMV0g
+PDwgOCkgKyAxOwo+ICAJdW5zaWduZWQgaHN5bmMgPSAodGltaW5ncy0+aHN5bmNbMF0gfCAodGlt
+aW5ncy0+aHN5bmNbMV0gJiAweDdmKSA8PCA4KSArIDE7Cj4gLS0gCj4gMi4yNC4xCj4gCj4gX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBJbnRlbC1nZngg
+bWFpbGluZyBsaXN0Cj4gSW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vaW50ZWwtZ2Z4Cl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
