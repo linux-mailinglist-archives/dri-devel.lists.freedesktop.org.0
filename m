@@ -2,42 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331AA1B50FB
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 01:45:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A525D1B5250
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 04:13:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5DED89FD4;
-	Wed, 22 Apr 2020 23:45:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD4C189FAD;
+	Thu, 23 Apr 2020 02:13:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0251.hostedemail.com
- [216.40.44.251])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C385789FD4
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Apr 2020 23:45:24 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay08.hostedemail.com (Postfix) with ESMTP id 4BDCF182CED2A;
- Wed, 22 Apr 2020 23:45:22 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:305:355:379:599:800:960:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1535:1543:1593:1594:1605:1711:1730:1747:1777:1792:2393:2553:2559:2562:2827:2828:2911:3138:3139:3140:3141:3142:3622:3653:3865:3866:3867:3868:3870:3871:3872:3873:3874:4250:4321:4425:5007:6119:6299:6691:7875:7901:7903:7974:8531:8660:10004:10400:10848:11026:11232:11658:11914:12043:12295:12296:12297:12346:12555:12740:12895:13019:13138:13148:13230:13231:13439:13894:14180:14181:14659:14721:21060:21080:21324:21325:21433:21611:21627:21740:21819:21939:21990:30022:30029:30054:30069:30070:30075:30090:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:17, LUA_SUMMARY:none
-X-HE-Tag: slope31_118e74ec0bf03
-X-Filterd-Recvd-Size: 5035
-Received: from XPS-9350.home (unknown [47.151.136.130])
- (Authenticated sender: joe@perches.com)
- by omf06.hostedemail.com (Postfix) with ESMTPA;
- Wed, 22 Apr 2020 23:45:20 +0000 (UTC)
-Message-ID: <9a32f150f85f851d04afd148b2a9a5cf203f7ce1.camel@perches.com>
-Subject: Re: Rule for bridge yaml dt binding maintainers?
-From: Joe Perches <joe@perches.com>
-To: Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
-Date: Wed, 22 Apr 2020 16:43:03 -0700
-In-Reply-To: <CAL_JsqJXa8QxQmLfkCO8_SSsgYm2nTFW1J6wx4bGbZgAy8Sxog@mail.gmail.com>
-References: <87d082jtfn.fsf@collabora.com> <20200420175909.GA5810@ravnborg.org>
- <CAL_JsqJXa8QxQmLfkCO8_SSsgYm2nTFW1J6wx4bGbZgAy8Sxog@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD4FD89FA7
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 02:13:55 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 49717g1mmRz9sSd;
+ Thu, 23 Apr 2020 12:13:51 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1587608033;
+ bh=xVuTqNfiwREg9OUyvTo3nmF/OVJaGHdlQk6JpY9joko=;
+ h=Date:From:To:Cc:Subject:From;
+ b=mExy4KoWKorVGiMLvmJogm4dmaC3orsjrkDTll7uYDL9ExSd4FzUL95NnerdYMOtE
+ YOgfvsKn4+Hjuv4FVF7M2MnSGeGamBXGCcYhRzh5oVRQk0DjmcktND8lgVT7QMYpib
+ g1LNv2zcPmhvkSofRFZjCGpoMFIflrXrRYArAEglieecKwfdqJHF+OtByZQBF0kr/F
+ BxcMre6kPlKIxFvrpI4EfXvmsiMBVrUu9gBrOH8HmGeCsQrvbSNHJwkHltpPPxfE6L
+ upKPJZjul49PjHPRWDmfH+QRjXbgMGHRTFK9nQZWe0s5Ro96q3WEgZqW2AAxJ3ZUyZ
+ czivDrn3coC/w==
+Date: Thu, 23 Apr 2020 12:13:46 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Alex Deucher <alexdeucher@gmail.com>, Dave Airlie <airlied@linux.ie>,
+ DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the amdgpu tree with the drm tree
+Message-ID: <20200423121346.42e35467@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,147 +47,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Adrian Ratiu <adrian.ratiu@collabora.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Collabora Kernel ML <kernel@collabora.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0307353143=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2020-04-22 at 15:02 -0500, Rob Herring wrote:
-> On Mon, Apr 20, 2020 at 12:59 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > Hi Adrian
-> > =
+--===============0307353143==
+Content-Type: multipart/signed; boundary="Sig_/+aoijb5RJMBtS7MePMMZmj8";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-> > On Mon, Apr 20, 2020 at 02:19:24PM +0300, Adrian Ratiu wrote:
-> > > Hello,
-> > > =
+--Sig_/+aoijb5RJMBtS7MePMMZmj8
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> > > I got confused while doing the txt -> yaml conversion at [1] and it's=
- still
-> > > not clear to me who should be added in the "maintainers" field.  Clea=
-rly not
-> > > the maintainers as returned by get_maintainer.pl. :)
-> > > =
+Hi all,
 
-> > > Rob mentioned that "owners" should be manintainers but I also have tr=
-ouble
-> > > picking the persons who should be owners / yaml maintainers.
-> > > =
+Today's linux-next merge of the amdgpu tree got a conflict in:
 
-> > > Looking at the completed bridge conversions in the latest linux-next,=
- I
-> > > couldn't find a rule and the majority of bindings are still txt:
-> > > =
+  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
 
-> > > $ find ./devicetree/bindings/display/bridge/ -name *txt | wc -l
-> > > 23
-> > > $ find ./devicetree/bindings/display/bridge/ -name *yaml | wc -l
-> > > 5
-> > > =
+between commit:
 
-> > > So my questions are:
-> > > 1. Is there a general rule for assigning yaml file owners/maintainers?
-> > > =
+  09b974e8983a ("drm/amd/amdgpu_dm/mst: Remove ->destroy_connector() callba=
+ck")
 
-> > > 2. Is this vagueness specific to the bridge dt bindings only?
-> > > =
+from the drm tree and commit:
 
-> > > 3. Who should step up and maintain these bindings? Original/new autho=
-rs,
-> > > SoC, bridge, DRM maintainers etc.?
-> > > =
+  c33f212c0c92 ("drm/amdgpu/display: create fake mst encoders ahead of time=
+")
 
-> > > It would be useful to have a rule to make it easier to do these conve=
-rsions.
-> > > We (Collabora) are considering doing the conversion work.
-> > =
+from the amdgpu tree.
 
-> > For the panel conversion I did recently it was simple:
-> > 1) If listed in MAINTAINERS - use this info
-> > 2) Otherwise use the person(s) that authored the original .txt file.
-> >    Using git log --follow foo.txt
-> > 3) In a few cases I may have decided otherwise, but the above covers the
-> >    majority.
-> =
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
 
-> Yes.
-> =
+--=20
+Cheers,
+Stephen Rothwell
 
-> > I would also be great if you or someone else could:
-> > - teach get_maintainers about .yaml file listed maintainers
-> =
+diff --cc drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index 3db1ec35d2b4,4f0072a9396b..000000000000
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@@ -136,23 -93,14 +93,20 @@@ static ssize_t dm_dp_aux_transfer(struc
+  static void
+  dm_dp_mst_connector_destroy(struct drm_connector *connector)
+  {
+ -	struct amdgpu_dm_connector *amdgpu_dm_connector =3D to_amdgpu_dm_connect=
+or(connector);
+ +	struct amdgpu_dm_connector *aconnector =3D
+ +		to_amdgpu_dm_connector(connector);
+- 	struct amdgpu_encoder *amdgpu_encoder =3D aconnector->mst_encoder;
+ +
+ +	if (aconnector->dc_sink) {
+ +		dc_link_remove_remote_sink(aconnector->dc_link,
+ +					   aconnector->dc_sink);
+ +		dc_sink_release(aconnector->dc_sink);
+ +	}
+ =20
+ -	kfree(amdgpu_dm_connector->edid);
+ -	amdgpu_dm_connector->edid =3D NULL;
+ +	kfree(aconnector->edid);
+ =20
+- 	drm_encoder_cleanup(&amdgpu_encoder->base);
+- 	kfree(amdgpu_encoder);
+  	drm_connector_cleanup(connector);
+ -	drm_dp_mst_put_port_malloc(amdgpu_dm_connector->port);
+ -	kfree(amdgpu_dm_connector);
+ +	drm_dp_mst_put_port_malloc(aconnector->port);
+ +	kfree(aconnector);
+  }
+ =20
+  static int
+@@@ -412,10 -358,11 +364,19 @@@ dm_dp_add_mst_connector(struct drm_dp_m
+  		master->dc_link,
+  		master->connector_id);
+ =20
+- 	aconnector->mst_encoder =3D dm_dp_create_fake_mst_encoder(master);
+- 	drm_connector_attach_encoder(&aconnector->base,
+- 				     &aconnector->mst_encoder->base);
++ 	for (i =3D 0; i < AMDGPU_DM_MAX_CRTC; i++) {
++ 		drm_connector_attach_encoder(&aconnector->base,
++ 					     &aconnector->mst_encoders[i].base);
++ 	}
++=20
+++	connector->max_bpc_property =3D master->base.max_bpc_property;
+++	if (connector->max_bpc_property)
+++		drm_connector_attach_max_bpc_property(connector, 8, 16);
+++
+++	connector->vrr_capable_property =3D master->base.vrr_capable_property;
+++	if (connector->vrr_capable_property)
+++		drm_connector_attach_vrr_capable_property(connector);
+ +
+  	connector->max_bpc_property =3D master->base.max_bpc_property;
+  	if (connector->max_bpc_property)
+  		drm_connector_attach_max_bpc_property(connector, 8, 16);
 
-> It already does to some extent. IIRC, there's a mode to extract email
-> addresses from files.
+--Sig_/+aoijb5RJMBtS7MePMMZmj8
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
---file-emails
+-----BEGIN PGP SIGNATURE-----
 
-> I was hoping that the MAINTAINERS file split happens sometime and we
-> can just generate a MAINTAINERS file for bindings.
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl6g+doACgkQAVBC80lX
+0GzYsgf9HPCUYzxjIj08o53T96k048Rm4Ej9PAukiAH3p53qvOcyKzcQVuZQP8JB
+uxZkddWLjhkzV3JLfdchTyV/e4UWkF+v8GaUfOYzPWwde94LkmMtDGiPtD8uCen0
+61/wCiLg1XbjiuQJtmtRdAEiK3elwI2OKtK/yNvq0Ue9Vau2OpqozKjqeE+pH+xc
+RP4m72sCXJ6ntOKyT14aKyZGpEZ29zBwN+mnoEoyg0DZVfS4SQcnjuzgQSYKBUdT
+Fg9WUq61pUCz7+dpJpeprZA5QsQR2I0xtt4O5F/kFdG7GVPd+4YlT+763rF0G9q0
+lriWtDXPBTtwGwjB3bXmXCghrc5l4A==
+=MkmL
+-----END PGP SIGNATURE-----
 
-I don't see the value really.
+--Sig_/+aoijb5RJMBtS7MePMMZmj8--
 
-> > - teach checkpatch that it is OK to convert .txt to .yaml
-
-I suppose that get_maintainer _could_ enable --file-emails
-for .yaml files.
-
-something like this (more comments below too)
----
- scripts/get_maintainer.pl | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
-index 6cbcd1..9d947a0 100755
---- a/scripts/get_maintainer.pl
-+++ b/scripts/get_maintainer.pl
-@@ -527,7 +527,7 @@ foreach my $file (@ARGV) {
- 	$file =3D~ s/^\Q${cur_path}\E//;	#strip any absolute path
- 	$file =3D~ s/^\Q${lk_path}\E//;	#or the path to the lk tree
- 	push(@files, $file);
--	if ($file ne "MAINTAINERS" && -f $file && ($keywords || $file_emails)) {
-+	if ($file ne "MAINTAINERS" && -f $file && ($keywords || $file_emails || $=
-file =3D~ /\.yaml$/)) {
- 	    open(my $f, '<', $file)
- 		or die "$P: Can't open $file: $!\n";
- 	    my $text =3D do { local($/) ; <$f> };
-@@ -539,7 +539,7 @@ foreach my $file (@ARGV) {
- 		    }
- 		}
- 	    }
--	    if ($file_emails) {
-+	    if ($file_emails || $file =3D~ /\.yaml$/) {
- 		my @poss_addr =3D $text =3D~ m$[A-Za-z=C0-=FF\"\' \,\.\+-]*\s*[\,]*\s*[\=
-(\<\{]{0,1}[A-Za-z0-9_\.\+-]+\@[A-Za-z0-9\.-]+\.[A-Za-z0-9]+[\)\>\}]{0,1}$g;
- 		push(@file_emails, clean_file_emails(@poss_addr));
- 	    }
-
----
-
-> Yeah, I should fix my bug.
-> =
-
-> > - teach checkpatch about some simple yaml validation (maybe)
-> =
-
-> I don't see checkpatch being able to check much of what comes up in
-> review. Maybe indentation.
-
-Likely better done with another external tool.
-
-Could be added to checkpatch as an external
-call like spdxcheck.py
-
-
+--===============0307353143==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0307353143==--
