@@ -1,61 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401521B673D
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 660DC1B6734
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:52:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3815D6EA63;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0714F6EA61;
 	Thu, 23 Apr 2020 22:52:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B05C56E95A
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 16:48:06 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id g12so7272184wmh.3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 09:48:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=oeW7DpwK6OFjCBKNQLrqnMbfGJLDE0OYjEBqgEog0ow=;
- b=BZAU2ZE5Ne/lQJ9uzrq8Y6uSMWk2RcQiCd+b+CVY3yzxGoOUoDmU1pFRzaKcLc3JOA
- hb9PbGSk3EG61c2VuKMh6n9nVdeCeKdREDewxGx/cfMu7d/fdgQ5NJjOQfO8cyEYmuWy
- Ck60HvH+uctNWqEGuN32PGsDQZnbPrP5HSsiWC+kJeuFNkdgdMmQ3iqrZGNADnBi2Mo8
- MfqCco6iumadOLg9jIS/GhZufVO/mUhu+P3cgkrAhO/w96tB6Yvmf7fIEbLSelHxAs4q
- RM24gcZ/PnV/LQr9mWTKhfYKOuDyTFtT3m0wjORsqAndwMtN7yTnUaW/M18X37gEhghl
- oEGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=oeW7DpwK6OFjCBKNQLrqnMbfGJLDE0OYjEBqgEog0ow=;
- b=IvmxxfzscIv7BSM7Q9Qial5XAgqALw5/9CDXNq7lhkzvi9u1+0ULb/Zki0XbaMhZvw
- gg8GviGrVurJY7R8Y7lBftbFRAd9Tbd7XYtqaLAxXFsqpZumFeUwVavYOffPtGb/hDzz
- qTr9DiwMQMI3xJkw1roLrz/K3CeZX2FNbXKI0733fiT9K96V4cEBQFE2YU+MYqa5ZYiY
- oYGmIRbMOq8zDaK3FRieBP8nz6cesB75QdhxSp4SZmTerHiNrZzR1Xnl8FLkU+XCxshu
- WsJz6//TzXAF+oUHGe5AXqCCgL0PS5EeI5Kvl+mzSEIm5kaUwOB0sska3+hoA+zTa7ce
- U/JA==
-X-Gm-Message-State: AGi0PuZC2LKoC/fgKc9Lc9OMZBavZSvAGs5TKzm1nRVmxwqie5Vhckkb
- kRHlcrEeGGEjtOHI4yRvZ8EwGg==
-X-Google-Smtp-Source: APiQypL1N3VJZzRRWP+PtS/fdnZb1T66+D/zjqtbVIUR8pO7XtbEvjwXmID9KnBgg0fgEaDYfwzw+Q==
-X-Received: by 2002:a1c:ac44:: with SMTP id v65mr5176929wme.33.1587660485234; 
- Thu, 23 Apr 2020 09:48:05 -0700 (PDT)
-Received: from linaro.org ([37.167.216.250])
- by smtp.gmail.com with ESMTPSA id a20sm4857880wra.26.2020.04.23.09.48.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 09:48:04 -0700 (PDT)
-Date: Thu, 23 Apr 2020 18:47:59 +0200
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-To: Lukasz Luba <lukasz.luba@arm.com>
-Subject: Re: [PATCH v6 08/10] OPP: refactor dev_pm_opp_of_register_em() and
- update related drivers
-Message-ID: <20200423164759.GF65632@linaro.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2AEB56E5D4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 16:58:23 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 85EE330E;
+ Thu, 23 Apr 2020 09:58:22 -0700 (PDT)
+Received: from [10.37.12.89] (unknown [10.37.12.89])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8B9B73F68F;
+ Thu, 23 Apr 2020 09:57:48 -0700 (PDT)
+Subject: Re: [PATCH v6 04/10] PM / EM: add support for other devices than CPUs
+ in Energy Model
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
 References: <20200410084210.24932-1-lukasz.luba@arm.com>
- <20200410084210.24932-9-lukasz.luba@arm.com>
+ <20200410084210.24932-5-lukasz.luba@arm.com>
+ <20200423151250.GB65632@linaro.org>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <ff1c8cc5-f64d-6156-7d30-97b8426c6f99@arm.com>
+Date: Thu, 23 Apr 2020 17:57:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200410084210.24932-9-lukasz.luba@arm.com>
+In-Reply-To: <20200423151250.GB65632@linaro.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,20 +62,72 @@ Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
  rdunlap@infradead.org, rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
  kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
  shawnguo@kernel.org
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 10, 2020 at 09:42:08AM +0100, Lukasz Luba wrote:
-> The Energy Model framework supports not only CPU devices. Drop the CPU
-> specific interface with cpumask and add struct device. Add also a return
-> value, user might use it. This new interface provides easy way to create
-> a simple Energy Model, which then might be used by e.g. thermal subsystem.
->
-> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
 
-Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+
+On 4/23/20 4:12 PM, Daniel Lezcano wrote:
+> On Fri, Apr 10, 2020 at 09:42:04AM +0100, Lukasz Luba wrote:
+>> Add support for other devices that CPUs. The registration function
+>> does not require a valid cpumask pointer and is ready to handle new
+>> devices. Some of the internal structures has been reorganized in order to
+>> keep consistent view (like removing per_cpu pd pointers). To track usage
+>> of the Energy Model structures, they are protected with kref.
+> 
+> Why not add the energy model structure in the struct device directly?
+
+Do you mean this structure?
+https://elixir.bootlin.com/linux/latest/source/include/linux/device.h#L537
+
+and to put something like:
+struct device {
+...
+	struct dev_pm_domain	*pm_domain;
+#ifdef CONFIG_ENERGY_MODEL
+	struct em_perf_domain	*em_pd;
+#endif
+...
+};
+
+> 
+> For instance for the em_cpu_get() function, the cpu id allows to retrieve the
+> cpu device and then from there, the energy model instead of browsing another
+> list. The em_device life cycle will be tied to the struct device.
+
+That would be perfect.
+
+> 
+> Then when the struct device and the em_device are connected, add the debugfs
+> with a struct device list for those which are energy aware, so you end up with
+> a structure:
+> 
+> struct em_device {
+> 	struct device *dev;
+> 	struct list_head em_dev_list;
+> };
+> 
+> (a global single dentry for debugfs to do a recursive delete is enough).
+> 
+> Locks when inspecting and add/removal called from the struct device release
+> function. So no need of an extra refcounting.
+> 
+> Does it make sense?
+> 
+
+Indeed it looks much cleaner/simpler.
+
+I will try to address this idea and get rid of refcounting.
+
+This should be doable in this patch (4/10). In the v7 I will keep your
+ACKs for other patches that you have already commented.
+
+Thank you for your suggestions and review.
+
+Regards,
+Lukasz
 
 _______________________________________________
 dri-devel mailing list
