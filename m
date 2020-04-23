@@ -1,53 +1,110 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477FE1B5AD2
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 13:55:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E67F91B671E
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:51:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 612E86E50E;
-	Thu, 23 Apr 2020 11:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7E746EA2E;
+	Thu, 23 Apr 2020 22:50:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com
- [IPv6:2607:f8b0:4864:20::942])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CD196E4F9
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 11:55:27 +0000 (UTC)
-Received: by mail-ua1-x942.google.com with SMTP id i5so5374473uaq.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 04:55:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EsVqTT5wXXhdTLsomAwxroQ1T+w0e7VVQswoorQRWuI=;
- b=ijFQI1cUWrlnvFTSLmAmYANFQVYYT0KLtxIWD4KQV76dY3HQy5sXwhskWitkENgJUk
- FRJcj876X/B2f8QB/wEo76RAmYiaCyHuFafl3aMhOy5qhbMbaoXj4+aN5L7HBP44LxbZ
- MOKv7xfXQ2BiOXG2HXichEwQ0IHnAODo3VpkI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EsVqTT5wXXhdTLsomAwxroQ1T+w0e7VVQswoorQRWuI=;
- b=QECJcc5HVI46i8xmaPPvH8nN7f2HsvcyAQI9FrW+Kv/Sd94zGqbxWXbpuCDv/APc5F
- D7HpQ1fb3G4ycxRrDP2GEECD+GJ88qLmG+8AD21lu0Ou3ePuVaALG7pf5dED5U8wiS4w
- xvvIpwePR0qvyakaMoiZbx7qi9xDe8uJAtOFCIf4Yw5kWtQ94KJ1wji55VQlvOZTcCEd
- cGrWBN2b0kb7o4edEbAOQ0rusyHBAzz4tc3fF+L7FnBr9Al9tGD8ih9Ojltppyx5gv2C
- KUoClBfcSADW4DFxqGENOnQR/8ThKL3WwQ6nK+R509pC8DdU+QHa/kLNDVCT+qMMJFim
- PR4g==
-X-Gm-Message-State: AGi0PuZUuvYXhZcagz2uvNrauuUidt0VRaBZOJH2eOorHvqoA85stfUZ
- V5dVuzGmDZc4ti96fDPE/ZeywwQRiWV81x5HQSB0XQ==
-X-Google-Smtp-Source: APiQypLuW645Sg7+l9AH4kIkM3J8fzdluHvCEFm1pFoq/7YjpI/mbTanqNvaw/UbOaEPxD+LGY9qmP//QPp/Bzlw/sw=
-X-Received: by 2002:a05:6102:308b:: with SMTP id
- l11mr2597359vsb.14.1587642926008; 
- Thu, 23 Apr 2020 04:55:26 -0700 (PDT)
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 272266E4F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 12:15:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1587644090;
+ bh=1SKzE4Q2FpgGEwUDDVzFQzRLWubTgqwnZLfvXfb0+ZQ=;
+ h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
+ b=hXFnrrmBdJKOhkCU+WE8reYaNWVDUVxsvvUp3pSIEKiLZ7C5xhuw3DX0lkvZZEOFk
+ blvnEHLdZv38q6W/xWdis4zfObjS/B6/BYwcQybTMSCGsbkqUqsBnjIr6bnbgcZA5h
+ A7CGF/hVQCNsMI30Hd9p4gGSEtY1EZ7mmnksqrhA=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([78.49.69.235]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0Llncm-1isFw13qW8-00ZMyt; Thu, 23
+ Apr 2020 14:14:50 +0200
+To: Dejin Zheng <zhengdejin5@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Teddy Wang <teddy.wang@siliconmotion.com>
+Subject: Re: [PATCH v1] fbdev: sm712fb: fix an issue about iounmap for a wrong
+ address
+From: Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <bb6ba7c9-ad92-9c54-e1c4-91d2f7d0f5f8@web.de>
+Date: Thu, 23 Apr 2020 14:14:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <cover.1582529411.git.xji@analogixsemi.com>
- <a81adcf2e79d440edcb7b3989f31efcb80a6e9ff.1582529411.git.xji@analogixsemi.com>
-In-Reply-To: <a81adcf2e79d440edcb7b3989f31efcb80a6e9ff.1582529411.git.xji@analogixsemi.com>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Thu, 23 Apr 2020 19:55:15 +0800
-Message-ID: <CANMq1KBfB6tXFqYGvr=8fV_bpCV5GbVHeEbRs+fuaZba65-OPw@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to
- DP bridge driver
-To: Xin Ji <xji@analogixsemi.com>
+Content-Language: en-GB
+X-Provags-ID: V03:K1:fNl1cgofnTwAo5SJnX+oCy/NEF1B/UCFW519u4Hpg0ptC1sJLg2
+ Lgj12RzQSsSjYV5m1/DHaJzegclx/eSNoh1r5k//wRS5zMUgC9Lrt2HJs/fTqwOLs13QgbT
+ 2n0nkbFV5jiGwI3L/xUbZrEPLuluP8Fky8h39z9rIqSrLn+xkuDJ47lSEpS/HcclvwrYm9O
+ aLXNjNhlma/j5HSigomOw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZKe2MMTCh5s=:TvG8BqpKT2GzCaKluhcfSy
+ kB41QablcGOHx7krOy1EAlWK3bb+35IcWpQLqSgrS/JTIsh2oga1Zh0Ml/A0TjIFTRPlSZKkk
+ ACd88BRBqnwsxCdTaqPtjrRzub+ug1qWae7hlkdsfG3vLbCN4I0igyKuFJHRE/dbjxM+pPbUm
+ aEkgcoVb6xhkx3sEVY+NlZTtfobK5b3bkC47Dgu8OMnsQb+M+Md28w9Lh80/DhiaBgkhZv+jD
+ Kiy8g5zuAafBU+SuyQJSFjYp72b7L8TkdK6CI0vQrOEDr4NWyEgwViDUmQYHZ8AqrsbVRS92+
+ Z7vus94bMvaJNV0OCcZhJEQ+GfRAYTAstLP4RcEvQRaSsXQ5sCCgIKNqYApEMy5h169xBjSBH
+ iy19lAZSl296Qswm3+n9TOrgVaDVpGCDO91LydWcjHbwB0xHQf0jIYWZNcDi5Cvitp7Vi4zRl
+ xp4JlWz3K3HGD5SIFuSbtVNVaF196JRuYL4HnqLiz5i8vuRB4tTQEPAgQczNRyl6k0nuojWv3
+ og/F2xr3f49ORUhlnNo/EWpqz3mf/VYIosYcPdABIlimywt+RAne0plOfuO8euRp/pD5cFlqk
+ hYH99n/wLbZRgH00vxyPOyGvi4wv7Z2cZErrTGmGg3FyzUzMZv49YE8J2CrXvYSZGdTu7ASzr
+ QJnKXrZIT+9ar0whJZavRB7fMH4M6MbGEMK2MrTmU+dVV8PFB2t3IZ7Pa0uIZJ0QjxTNWxoJk
+ O/EAfi7Z5dhtlS6Jb1Rb4XAgp/nWDAfUaDx6aWC3AQDJn2OTFqr8rx2MiUvqAh634mg4Lv+80
+ 6NAC8HKVOBvxhQ5kfxaby+afxo1sKsoWfn6UuYnxxynVc0hDTeXtP3ObhtCDuFXYzHYp06o2S
+ wGaAP4cvCkCMh0GythDdhbYNQfv6y6xTDHi1CB/4c7G0Kx3HFPMBrEzVZXe+Uu3vWV1PqcARt
+ 5pbm3UAgYdJybfVd9Sjw0NVzjMXVbQqosx6ynbyyEFl7BRP8F5DDr3WKpR8fFQSAO0GYSQkh5
+ e7gi/Co3W5Nbf8OOyQTljy+3h1g/ZdWGdR2bnMaH1aTPlppbz+TfLVSSs/7qXEFfzfDBzgCk6
+ Ekr8V+4vQHVWxLSDwoJ6CUTJ+mdvIyB17RyHndMfps6OqCPU0ATm5GM41rYn7Y8UxB8xIVluM
+ xjqzG9HgjVhr/3uDBV14MA3qwJGrA8Y6a5as6qcRNLtxooMxS6XACtzjl3iOGR6vQcKgD46VJ
+ veHKKNSOE/9WfqMKQ
+X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,216 +117,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Pi-Hsun Shih <pihsun@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, Sheng Pan <span@analogixsemi.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-Just commenting on the mode_fixup function that was added in v7.
-
-On Tue, Feb 25, 2020 at 2:15 PM Xin Ji <xji@analogixsemi.com> wrote:
->
-> The ANX7625 is an ultra-low power 4K Mobile HD Transmitter designed
-> for portable device. It converts MIPI DSI/DPI to DisplayPort 1.3 4K.
->
-> The ANX7625 can support both USB Type-C PD feature and MIPI DSI/DPI
-> to DP feature. This driver only enabled MIPI DSI/DPI to DP feature.
->
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  drivers/gpu/drm/bridge/Makefile           |    2 +-
->  drivers/gpu/drm/bridge/analogix/Kconfig   |    6 +
->  drivers/gpu/drm/bridge/analogix/Makefile  |    1 +
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 2172 +++++++++++++++++++++++++++++
->  drivers/gpu/drm/bridge/analogix/anx7625.h |  410 ++++++
->  5 files changed, 2590 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.c
->  create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.h
->
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 4934fcf..bcd388a 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-[snip]
-> +static bool anx7625_bridge_mode_fixup(struct drm_bridge *bridge,
-> +                                     const struct drm_display_mode *mode,
-> +                                     struct drm_display_mode *adj)
-> +{
-> +       struct anx7625_data *ctx = bridge_to_anx7625(bridge);
-> +       struct device *dev = &ctx->client->dev;
-> +       u32 hsync, hfp, hbp, hactive, hblanking;
-> +       u32 adj_hsync, adj_hfp, adj_hbp, adj_hblanking, delta_adj;
-> +       u32 vref, adj_clock;
-> +
-> +       DRM_DEV_DEBUG_DRIVER(dev, "drm mode fixup set\n");
-> +
-> +       mutex_lock(&ctx->lock);
-
-Why do you need this lock?
-
-> +
-> +       hactive = mode->hdisplay;
-
-This is never used, drop it?
-
-> +       hsync = mode->hsync_end - mode->hsync_start;
-> +       hfp = mode->hsync_start - mode->hdisplay;
-> +       hbp = mode->htotal - mode->hsync_end;
-> +       hblanking = mode->htotal - mode->hdisplay;
-> +
-> +       DRM_DEV_DEBUG_DRIVER(dev, "before mode fixup\n");
-> +       DRM_DEV_DEBUG_DRIVER(dev, "hsync(%d),hfp(%d),hbp(%d),clock(%d)\n",
-> +                            hsync,
-> +                            hfp,
-> +                            hbp,
-> +                            adj->clock);
-> +       DRM_DEV_DEBUG_DRIVER(dev, "hsync_start(%d),hsync_end(%d),htotal(%d)\n",
-> +                            adj->hsync_start,
-> +                            adj->hsync_end,
-> +                            adj->htotal);
-> +
-> +       adj_hfp = hfp;
-> +       adj_hsync = hsync;
-> +       adj_hbp = hbp;
-> +       adj_hblanking = hblanking;
-> +
-> +       /* plus 1 if hfp is odd */
-
-A better way to word these comments is to say "hfp needs to be even",
-otherwise, you're just repeating what we can already see in the code.
-
-> +       if (hfp & 0x1) {
-> +               adj_hfp = hfp + 1;
-
-adj_hfp -= 1 for consistency?
-
-> +               adj_hblanking += 1;
-> +       }
-> +
-> +       /* minus 1 if hbp is odd */
-> +       if (hbp & 0x1) {
-> +               adj_hbp = hbp - 1;
-
-ditto, adj_hbp -= 1;
-
-> +               adj_hblanking -= 1;
-> +       }
-> +
-> +       /* plus 1 if hsync is odd */
-> +       if (hsync & 0x1) {
-> +               if (adj_hblanking < hblanking)
-> +                       adj_hsync = hsync + 1;
-
-ditto
-
-> +               else
-> +                       adj_hsync = hsync - 1;
-
-ditto
-
-> +       }
-> +
-> +       /*
-> +        * once illegal timing detected, use default HFP, HSYNC, HBP
-> +        */
-> +       if (hblanking < HBLANKING_MIN || (hfp < HP_MIN && hbp < HP_MIN)) {
-
-should this be adj_hblanking/adj_hfp/adj_hbp?
-
-> +               adj_hsync = SYNC_LEN_DEF;
-> +               adj_hfp = HFP_HBP_DEF;
-> +               adj_hbp = HFP_HBP_DEF;
-> +               vref = adj->clock * 1000 / (adj->htotal * adj->vtotal);
-> +               if (hblanking < HBLANKING_MIN) {
-> +                       delta_adj = HBLANKING_MIN - hblanking;
-> +                       adj_clock = vref * delta_adj * adj->vtotal;
-> +                       adj->clock += DIV_ROUND_UP(adj_clock, 1000);
-> +               } else {
-> +                       delta_adj = hblanking - HBLANKING_MIN;
-> +                       adj_clock = vref * delta_adj * adj->vtotal;
-> +                       adj->clock -= DIV_ROUND_UP(adj_clock, 1000);
-> +               }
-> +
-> +               DRM_WARN("illegal hblanking timing, use default.\n");
-> +               DRM_WARN("hfp(%d),hbp(%d),hsync(%d).\n", hfp, hbp, hsync);
-
-How likely is it that this mode is going to work? Can you just return
-false here to reject the mode?
-
-> +       } else if (adj_hfp < HP_MIN) {
-> +               /* adjust hfp if hfp less than HP_MIN */
-> +               delta_adj = HP_MIN - adj_hfp;
-> +               adj_hfp = HP_MIN;
-> +
-> +               /*
-> +                * balance total HBlanking pixel, if HBP hasn't enough space,
-
-"does not have enough space"
-
-> +                * adjust HSYNC length, otherwize adjust HBP
-
-otherwise
-
-> +                */
-> +               if ((adj_hbp - delta_adj) < HP_MIN)
-> +                       /* hbp not enough space */
-> +                       adj_hsync -= delta_adj;
-> +               else
-> +                       adj_hbp -= delta_adj;
-> +       } else if (adj_hbp < HP_MIN) {
-> +               delta_adj = HP_MIN - adj_hbp;
-> +               adj_hbp = HP_MIN;
-> +
-> +               /*
-> +                * balance total HBlanking pixel, if HBP hasn't enough space,
-> +                * adjust HSYNC length, otherwize adjust HBP
-> +                */
-> +               if ((adj_hfp - delta_adj) < HP_MIN)
-> +                       /* hbp not enough space */
-> +                       adj_hsync -= delta_adj;
-> +               else
-> +                       adj_hfp -= delta_adj;
-> +       }
-> +
-> +       DRM_DEV_DEBUG_DRIVER(dev, "after mode fixup\n");
-> +       DRM_DEV_DEBUG_DRIVER(dev, "hsync(%d),hfp(%d),hbp(%d),clock(%d)\n",
-
-Add spaces after commas in your debug strings (same above and below).
-
-> +                            adj_hsync,
-> +                            adj_hfp,
-> +                            adj_hbp,
-> +                            adj->clock);
-
-Put these 4 on a single line.
-
-> +
-> +       /* reconstruct timing */
-> +       adj->hsync_start = adj->hdisplay + adj_hfp;
-> +       adj->hsync_end = adj->hsync_start + adj_hsync;
-> +       adj->htotal = adj->hsync_end + adj_hbp;
-> +       DRM_DEV_DEBUG_DRIVER(dev, "hsync_start(%d),hsync_end(%d),htotal(%d)\n",
-> +                            adj->hsync_start,
-> +                            adj->hsync_end,
-> +                            adj->htotal);
-> +
-> +       mutex_unlock(&ctx->lock);
-> +
-> +       return true;
-> +}
-> +
-> [snip]
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+PiB0aGUgc2ZiLT5mYi0+c2NyZWVuX2Jhc2UgaXMgbm90IHNhdmUgdGhlIHZhbHVlIGdldCBieSBp
+b3VubWFwKCkgd2hlbgo+IHRoZSBjaGlwIGlkIGlzIDB4NzIwLgoKSSBzdWdnZXN0IHRvIGltcHJv
+dmUgdGhpcyBjaGFuZ2UgZGVzY3JpcHRpb24uCkhvdyBkaWQgeW91IGRldGVybWluZSByZWxldmFu
+dCBkaWZmZXJlbmNlcyBmb3IgdGhlIG1lbnRpb25lZCBjaGlwIG1vZGVsPwoKCj4gc28gaW91bm1h
+cCgpIGZvciBhZGRyZXNzIHNmYi0+ZmItPnNjcmVlbl9iYXNlIGlzIG5vdCByaWdodC4KCldpbGwg
+YW5vdGhlciBpbXBlcmF0aXZlIHdvcmRpbmcgYmVjb21lIGhlbHBmdWwgaGVyZT8KCgrigKYKPiAr
+KysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3NtNzEyZmIuYwo+IEBAIC0xNDI5LDYgKzE0MjksOCBA
+QCAgc3RhdGljIGludCBzbXRjX21hcF9zbWVtKHN0cnVjdCBzbXRjZmJfaW5mbyAqc2ZiLAo+ICBz
+dGF0aWMgdm9pZCBzbXRjX3VubWFwX3NtZW0oc3RydWN0IHNtdGNmYl9pbmZvICpzZmIpCj4gIHsK
+PiAgCWlmIChzZmIgJiYgc2ZiLT5mYi0+c2NyZWVuX2Jhc2UpIHsKPiArCQlpZiAoc2ZiLT5jaGlw
+X2lkID09IDB4NzIwKQo+ICsJCQlzZmItPmZiLT5zY3JlZW5fYmFzZSAtPSAweDAwMjAwMDAwOwo+
+ICAJCWlvdW5tYXAoc2ZiLT5mYi0+c2NyZWVuX2Jhc2UpOwoKSG93IGRvIHlvdSB0aGluayBhYm91
+dCB0byB1c2UgZGVzY3JpcHRpdmUgaWRlbnRpZmllcnMgZm9yCnRoZSBzaG93biBjb25zdGFudHM/
+CgpXb3VsZCB5b3UgbGlrZSB0byBjbGFyaWZ5IGFueSByZWxhdGVkIHNvZnR3YXJlIGFuYWx5c2lz
+IGFwcHJvYWNoZXM/CgpSZWdhcmRzLApNYXJrdXMKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
