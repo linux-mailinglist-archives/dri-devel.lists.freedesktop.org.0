@@ -1,62 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE2B1B6715
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 00:51:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C50F1B5E58
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Apr 2020 16:52:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3ABB6EA46;
-	Thu, 23 Apr 2020 22:50:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1B86E877;
+	Thu, 23 Apr 2020 14:52:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA0789D8D
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 14:51:33 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id a7so2610180pju.2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 07:51:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=n9579OtTCLif5IsmjfaMugY+P4SRRpDn94COWW+rKC8=;
- b=Dta1r0S+h83gJZETxTuyaZcdtvwtvSMGYQIGZAa5p9AhAeqWF9hi/95cNnPMUf9qdT
- YJ0iWpHfyS5L+KMY6SPuWSUjXrgjDGHfm+CQWuLWQRuXNz0jzQhq1fbj/Ud0WWev9Tmg
- FuRU7zZEZf1Uy7eoByc2VxOi+r3Ai9ZrKPxNqzsqt7faxTeriSXl8+L2s6vXsagGow5w
- wRisB3CT37V8JbkM8Rd+9wJptjaQapNWPG1mRJGeQ2aowpVEP/tiwlX8BCZHWv5KMNRf
- NpcryrWTjP0ofsKoTuqRMOON+ZrJC0w8xyXfGAf0hV/gQNaozihip7ENc9DMBkCscmaa
- hT6g==
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8793A6E877
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 14:52:16 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id x77so3073656pfc.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 07:52:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/sb3dlUj5FrGwmCMaw1i7cs39EU8HrExHVtJsyVG3VY=;
+ b=oyIVHUIMteQ+Jyujbx3EDLFuw+ISWFk6HIHSvS6fYlUsxnyisljN8Ia6w8b2XrbWI5
+ kn/ZnFcbY+qdKeF4vLEem6y/yZrATTRtLYUbkbxX3dq1jQP4X9U7bqOquWVm5PQ58wIk
+ zQFJtrba2s5XmQtB/1CUeF+UNtgy0Yi8WYrsAzHDHbkhJbbtS8LHnkI2ZWLBtfq8FGl7
+ n/e8I9fe0HozYBhAYBxbmkzDW7MPkIPONX9Wc16T4KH3D7OeN4TJyax0hcFB6T5/cnEQ
+ PMi7d1gyQRk9aDLupdLrXQo4rLNH0emHJrkAKy0ai5BJJ6Z8/NjsAqq8kSnh0lLmjYHd
+ d3Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=n9579OtTCLif5IsmjfaMugY+P4SRRpDn94COWW+rKC8=;
- b=h9VS+4ssC9DiHoilsfnRvZDxhqZ7jblfrDP/lhnlSbMHzG1nQFtv0OncpM8Bl2k70X
- JH/HABZfYl2uLC1FVfNOj4lH6tH76p1uirvyAOHGjh3CG81ynnlVXbWjJtwxfOr0/lZz
- yChQE2vBiuvbjuc+tOiXTICoVDdx6gDT9cIUnSFBJGwNrhE3z12SNMPB3G7omVn9PgBS
- 9s8jhj3XoQbBT2bU9P9aK1+6sH8B06ztfAJy+AtmPLbFIkk5ZmloVKJPOkAvDGtd+F8j
- B3cN4YJYJ1bSRqwhI1en1mHJWnw4W/kjEzn9hNhfO9xeCW8SKauBTEGGwnvnbyqrex2a
- yGuw==
-X-Gm-Message-State: AGi0Pua1YfVucL/WrNYHy8jjhvJBsllAs33ZfTjQkXDeGBEcjsXiwJT8
- 7C7vrNevPUUrMKG0C9fxSYnBXA==
-X-Google-Smtp-Source: APiQypIJPerMho/SwnFvX4bBmyPrOipYJLcCQKHKClc0G3/oxnjytm19nNfUINndfzodE7hR9nqT/w==
-X-Received: by 2002:a17:90a:6fe4:: with SMTP id
- e91mr1116823pjk.28.1587653492470; 
- Thu, 23 Apr 2020 07:51:32 -0700 (PDT)
-Received: from google.com ([2401:fa00:fc:1:28b:9f23:d296:c845])
- by smtp.gmail.com with ESMTPSA id p189sm2835561pfp.135.2020.04.23.07.51.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 07:51:31 -0700 (PDT)
-Date: Thu, 23 Apr 2020 22:51:22 +0800
-From: Martin Liu <liumartin@google.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH] dma-buf: Fix SET_NAME ioctl uapi
-Message-ID: <20200423145122.GA17542@google.com>
-References: <20200407133002.3486387-1-daniel.vetter@ffwll.ch>
- <CAO_48GF5jM-L7bqnfvXSvbugAjYsYnE7rGokO7_LWQxHua0=wQ@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/sb3dlUj5FrGwmCMaw1i7cs39EU8HrExHVtJsyVG3VY=;
+ b=Z01bkWDILesUuDUW5849FF1juxDTzmF5+hparAagmTu1XPGb9+8inv+lRANCGkJnNE
+ 9c7Qw0bJxhumgSt+180CtRTwoBiAAw1iJVkHygWxkfM6V9WZWtYrLe6O2r2pSWc3ynF4
+ QylPPILU658WJ+G2E9S0xlQ7LNvbB+dcDXHWOZzZaZHADMedrR/r+WZ3DLXEaoYlCPy5
+ xQssiV0IOFURzMR44eCqgIxU414QyplcOaeEegUvyBTKx5HVIa7VFY1FlOQe0NFgNIX0
+ 3XHf3/5ysdNUb8opvXO0rIJY30xqayrVN/4VmGEcD04RZnYSLqgSvCWU3m2d6v0Fho1h
+ 6UrA==
+X-Gm-Message-State: AGi0PuYjd4PzpixoRgktuUnewigGLxoLd+A1+obQi+Hdh4pv9WItGNBl
+ Zqgt3AP3Hv1fA0c2e1Zhg1xcTQ6uPSNbQ8Cvc5o=
+X-Google-Smtp-Source: APiQypJYkHlH+G01ukIQTIcX4mw/JbzhQZYKNM2IW0V/S/oVOVH5kXUElwv3U/VvSlsvXAXK2gyRX1QXlKVJiRNAlsI=
+X-Received: by 2002:a62:5ec7:: with SMTP id s190mr3964136pfb.130.1587653536121; 
+ Thu, 23 Apr 2020 07:52:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAO_48GF5jM-L7bqnfvXSvbugAjYsYnE7rGokO7_LWQxHua0=wQ@mail.gmail.com>
-X-Mailman-Approved-At: Thu, 23 Apr 2020 22:50:35 +0000
+References: <20200423142627.1820-1-zhengdejin5@gmail.com>
+In-Reply-To: <20200423142627.1820-1-zhengdejin5@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 23 Apr 2020 17:52:09 +0300
+Message-ID: <CAHp75Vf1_SMk=_WDUrB97BGR6K6EXOdtgQ92=hTyMdVUoyWQiw@mail.gmail.com>
+Subject: Re: [PATCH v2] console: console: Complete exception handling in
+ newport_probe()
+To: Dejin Zheng <zhengdejin5@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,104 +62,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Todd Kjos <tkjos@android.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Chenbo Feng <fengc@google.com>, Greg Hackmann <ghackmann@google.com>,
- Linaro MM SIG <linaro-mm-sig@lists.linaro.org>, minchan@kernel.org,
- Jenhao Chen <jenhaochen@google.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Suren Baghdasaryan <surenb@google.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, FlorianSchandinat@gmx.de,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Ralf Baechle <ralf@linux-mips.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 09, 2020 at 09:28:16AM +0530, Sumit Semwal wrote:
-> Thanks for the patch, Daniel!
-> 
-> 
-> On Tue, 7 Apr 2020 at 19:00, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >
-> > The uapi is the same on 32 and 64 bit, but the number isnt. Everyone
-> > who botched this please re-read:
-> >
-> > https://www.kernel.org/doc/html/v5.4-preprc-cpu/ioctl/botching-up-ioctls.html
-> >
-> > Also, the type argument for the ioctl macros is for the type the void
-> > __user *arg pointer points at, which in this case would be the
-> > variable-sized char[] of a 0 terminated string. So this was botched in
-> > more than just the usual ways.
-> 
-> Yes, it shouldn't have passed through the cracks; my apologies!
-> 
-> >
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: Chenbo Feng <fengc@google.com>
-> > Cc: Greg Hackmann <ghackmann@google.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > Cc: minchan@kernel.org
-> > Cc: surenb@google.com
-> > Cc: jenhaochen@google.com
-> > Cc: Martin Liu <liumartin@google.com>
-> 
-> Martin,
-> Could I request you to test this one with the 4 combinations of 32-bit
-> / 64-bit userspace and kernel, and let us know that all 4 are working
-> alright? If yes, please consider giving your tested-by here.
->
-Hi Sumit, Daniel,
-Sorry for being late to the tests. I finished the tests on 32/64 apps
-with 64 bit kernel and they were fine. Unfortunately, I couldn't have a 32
-bit kernel to run the tests somehow. However, this should work from the
-code logic. Hope this is okay to you and thanks for Todd's help.
-
-Tested-by: Martin Liu <liumartin@google.com>
-Reviewed-by: Martin Liu <liumartin@google.com>
-
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >  drivers/dma-buf/dma-buf.c    | 3 ++-
-> >  include/uapi/linux/dma-buf.h | 4 ++++
-> >  2 files changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index 570c923023e6..1d923b8e4c59 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -388,7 +388,8 @@ static long dma_buf_ioctl(struct file *file,
-> >
-> >                 return ret;
-> >
-> > -       case DMA_BUF_SET_NAME:
-> > +       case DMA_BUF_SET_NAME_A:
-> > +       case DMA_BUF_SET_NAME_B:
-> >                 return dma_buf_set_name(dmabuf, (const char __user *)arg);
-> >
-> >         default:
-> > diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-> > index dbc7092e04b5..21dfac815dc0 100644
-> > --- a/include/uapi/linux/dma-buf.h
-> > +++ b/include/uapi/linux/dma-buf.h
-> > @@ -39,6 +39,10 @@ struct dma_buf_sync {
-> >
-> >  #define DMA_BUF_BASE           'b'
-> >  #define DMA_BUF_IOCTL_SYNC     _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
-> > +/* 32/64bitness of this uapi was botched in android, there's no difference
-> > + * between them in actual uapi, they're just different numbers. */
-> >  #define DMA_BUF_SET_NAME       _IOW(DMA_BUF_BASE, 1, const char *)
-> > +#define DMA_BUF_SET_NAME_A     _IOW(DMA_BUF_BASE, 1, u32)
-> > +#define DMA_BUF_SET_NAME_B     _IOW(DMA_BUF_BASE, 1, u64)
-> >
-> >  #endif
-> > --
-> > 2.25.1
-> >
-> Best,
-> Sumit.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBBcHIgMjMsIDIwMjAgYXQgNToyNiBQTSBEZWppbiBaaGVuZyA8emhlbmdkZWppbjVA
+Z21haWwuY29tPiB3cm90ZToKPgo+IEEgY2FsbCBvZiB0aGUgZnVuY3Rpb24gwqHCsGRvX3Rha2Vf
+b3Zlcl9jb25zb2xlwqHCsSBjYW4gZmFpbCBoZXJlLgo+IFRoZSBjb3JyZXNwb25kaW5nIHN5c3Rl
+bSByZXNvdXJjZXMgd2VyZSBub3QgcmVsZWFzZWQgdGhlbi4KPiBUaHVzIGFkZCBhIGNhbGwgb2Yg
+dGhlIGZ1bmN0aW9uIMKhwrBpb3VubWFwwqHCsSB0b2dldGhlciB3aXRoIHRoZSBjaGVjawo+IG9m
+IGEgZmFpbHVyZSBwcmVkaWNhdGUuCgouLi4KCj4gQ0M6IEFuZHkgU2hldmNoZW5rbyA8YW5keS5z
+aGV2Y2hlbmtvQGdtYWlsLmNvbT4KClVzZSBDYzogQmV0dGVyIHRvIHJlYWQuCgouLi4KCj4gdjEg
+LT4gdjI6Cj4gICAgICAgICAtIG1vZGlmeSB0aGUgY29tbWl0IGNvbW1lbnRzIGJ5IE1hcmt1cydz
+dWdnZXN0aW9uLgoKV2hhdCBzdWdnZXN0aW9uPyBZb3UgbmVlZCB0byBiZSBjbGVhciBpbiBjaGFu
+Z2Vsb2cgd2hhdCBleGFjdGx5IGhhcwpiZWVuIGRvbmUgd2l0aG91dCBsb29raW5nIHRvIGFueSBw
+cmV2aW91cyBtYWlsLgoKLi4uCgo+ICAgICAgICAgY29uc29sZV9sb2NrKCk7Cj4gICAgICAgICBl
+cnIgPSBkb190YWtlX292ZXJfY29uc29sZSgmbmV3cG9ydF9jb24sIDAsIE1BWF9OUl9DT05TT0xF
+UyAtIDEsIDEpOwo+ICAgICAgICAgY29uc29sZV91bmxvY2soKTsKPiArCj4gKyAgICAgICBpZiAo
+ZXJyKQo+ICsgICAgICAgICAgICAgICBpb3VubWFwKCh2b2lkICopbnByZWdzKTsKPiAgICAgICAg
+IHJldHVybiBlcnI7Cj4gIH0KCkkgaGF2ZSBicmllZmx5IGxvb2tlZCBhdCB0aGUgY29kZSAoaXQg
+aXMgYWN0dWFsbHkgcXVpdGUgb2xkIG9uZSEpLCBhbmQKSSB0aGluayB0aGlzIGlzIGhhbGYtYmFr
+ZWQgc29sdXRpb24sIGJlc2lkZXMgdGhlIGZhY3Qgb2YgbWlzc2VkCl9faW9tZW0gYW5ub3RhdGlv
+biBhbmQgdXNlbGVzcyBleHBsaWNpdCBjYXN0aW5nLgpUaGUgcHJvcGVyIG9uZSBzZWVtcyB0byBz
+d2l0Y2ggdG8gbWVtcmVtYXAoKSBhbmQgZG8gbWVtdW5tYXAoKSBoZXJlLgoKLS0gCldpdGggQmVz
+dCBSZWdhcmRzLApBbmR5IFNoZXZjaGVua28KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
