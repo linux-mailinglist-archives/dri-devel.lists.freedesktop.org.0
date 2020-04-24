@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57001B8039
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:11:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E331B8008
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:10:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 279E46EB8F;
-	Fri, 24 Apr 2020 20:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B7786EB49;
+	Fri, 24 Apr 2020 20:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A64198916B
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:36:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0567489B78
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:36:24 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id A53A91450;
- Fri, 24 Apr 2020 11:36:21 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:36:22 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 0EC6D144E;
+ Fri, 24 Apr 2020 11:36:22 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:36:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=fse909+Uy/SxW
- fg4vh9c6yKXmMtSynUFNN2rQ9mVfiM=; b=hYg3l6fdlAFrgZSWEPIjkWIcnwxha
- Qag9Q+JwYNlM7yuaeHtnZkjWUgobDiHdDkUEDifCesulStvhzgToa2V7xDR8Enhu
- eHpW4umfiDGwfsnkpa8A/T43CgzS1Uya7KSPlFMp9YuradUY8FZOF4rCpCLQ0ag2
- 4DiCCkJf2/UwbQzlRt8DstlVP6bA6OIIsp68or4K7o8Ypqdi1/2H7NXgkV8RVt+/
- M/MAMmNMUHydEjCRIN69GOYp9KEFcQjINNfMZlyJxgv+fRXCzvIDAMC6lR2DdcGX
- orm/YIaunefNoCJfaaki7WCouxZ5SdfK7emE6Y5hjSDvPKn6GbfAkCieQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=JNjtzlAqDA9+g
+ wfnpcyHMYWUnTOc/3kzSZCf4w6U+OU=; b=TPANBAfETOT2h3oOong+BLrk8KY+b
+ CnGjzxLnIkIw22U0zKGIo65vT8aT8Tz9SmIZk8uqrXalX/rhC97y9r6Fz+/QFOII
+ n/6BugrDOQ4G+7MyfNnkdHaGhjPhwS3gGI27kgld3e80jORHEwmmNTO+T4ZNNUPL
+ JVgiA8gaw1Vsr6OlX9dH8IvGGvRFgq3UiU/TinomGrTK++rx1MjY7/EzAl2IdNXb
+ 9mhv9c0alK9cfRqXfPlecVf4It0XI8OUJL3YZLOUKtHT/mD9elz7hAsyosmfR3Vr
+ oPd3dZDUz9ioOB+o1PCB9seiqvfVHoMM+cd9zPDm34AhpgCNTrCx4EvXw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=fse909+Uy/SxWfg4vh9c6yKXmMtSynUFNN2rQ9mVfiM=; b=3dbYHeoB
- vE8Rep/MlLNAwsRAjDoVCQieqM6vDGvn0dJIRRkSY7IW6x91Rc3yHESjkQ3uf0MU
- AhbkIQHLzRgaAN2PG8Pum9HPxPw6JW7xMszdecVOyFVdFwhpXprNL4D9hxYZXXkE
- c4NIyLJxZPE475AN5A88ceWCpOgYOsUE7+0CWdS3hyuACrr9lo0qXUU4B//iUva4
- u1OjoU/5lTblc5BbTsJD3+GR6oAXknFvNRiNGseQS3bJGaf3VgIN7B0gty1KF8Ek
- 8BuYAaFOwOE1u3rWoNxhBnmVkx2EnnP1PrmAcBrneL06xYcsPRoPpFPYrBZsjm51
- q2eIoyTEaH+0iQ==
-X-ME-Sender: <xms:dQejXrnq73nQPyNZoLBmnICCDNsSUX8uT1GXm1tU89F3kW7TJcYjDg>
+ fm2; bh=JNjtzlAqDA9+gwfnpcyHMYWUnTOc/3kzSZCf4w6U+OU=; b=K2LORPcj
+ Lre8C0ysdK2c9Ya5lTwcwUSlYvr/m5ULCYtuQark64ZHQ1MsYe7IntA7gEY5Hs4S
+ zI0rutJfvdfFmaC18p6L5OxqAVyk8Qo81aREyVj5ZMK1/f6o/PcrRoWCvNtzUTqd
+ 5iUJ2eoRyZs0p5EhJ/8PUzqpnZpUaP0H/QyNj5na3Tp60+iDIcIFDC0zElZHgmmA
+ QVflBI1OJnAXo22HIxBCRM+tUQaXplAg4mB2y3DuFB6W6gzvObR0tUfC/bthcoML
+ 2zSikw0se47dSIacjSUWKIv86jKPXaLqWZUKMwJpSqiX7Y2pXVurs8+yq0LSyOT3
+ gua+M6FB++HEHQ==
+X-ME-Sender: <xms:dgejXir_nbk6kf7mD4TSFkc2bFOW4LgTcRvGsz5rfRYwebGr2P41Ag>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrhedugdekiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
- ekledrieekrdejieenucevlhhushhtvghrufhiiigvpeefgeenucfrrghrrghmpehmrghi
+ ekledrieekrdejieenucevlhhushhtvghrufhiiigvpeefkeenucfrrghrrghmpehmrghi
  lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:dQejXsMdFZ8tNIdtV4geE6mfEWw6_JKnV6e1eN0VLLmpciUQsqM7WA>
- <xmx:dQejXtrSYBNBw1oYoxWmXk3MjnxdC7DMKm-Kz3RdXlR24lq0VlxAqg>
- <xmx:dQejXnQlbEycIu-6U53_z58JBTO6WH2cy4j4qFK9_0WS0ics_iTiaA>
- <xmx:dQejXgydEpi0GVzKuAAWdKn2qwzECNW4rKUG7luDWnkkQ1RXIzBYGdrCWZk>
+X-ME-Proxy: <xmx:dgejXr1UWDKtDVJcot0RQoNdxUfQbHuvERKw_8fPiJG2KKBkaG4VLQ>
+ <xmx:dgejXmU9EOQGzXB1l4-PKgV-XAGpfSKjybmZeSmLtjVH3m5zEHGLZg>
+ <xmx:dgejXiKgxq4kmkH9XCPmKtFq9_jPddKb1zxvF4ndwwzM0wNdvHdW-w>
+ <xmx:dgejXjIiqJYNEp5Erv_DFD9clt_MMrtTA86G8LQfSIv0MFptbBC_8_sS4g0>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id DC519328006A;
- Fri, 24 Apr 2020 11:36:20 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 4DFD33065DA3;
+ Fri, 24 Apr 2020 11:36:22 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v2 42/91] drm/vc4: plane: Create more planes
-Date: Fri, 24 Apr 2020 17:34:23 +0200
-Message-Id: <3f6e92b101bee5fc8609c41440d9fc81f69a6704.1587742492.git-series.maxime@cerno.tech>
+Subject: [PATCH v2 43/91] drm/vc4: crtc: Rename SoC data structures
+Date: Fri, 24 Apr 2020 17:34:24 +0200
+Message-Id: <56fcb796f96befc5fe024a50520718a1cc76900c.1587742492.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
 References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
@@ -87,34 +87,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's now create more planes that can be affected to all the CRTCs.
-
-vc4 has 3 CRTCs, 1 primary and 1 cursor each, and was having 24 (8
-planes per CRTC) overlays.
-
-However, vc5 has 5 CRTCs, so keeping the same logic would put us at 50
-planes which is well above the 32 planes limit imposed by DRM.
-
-Using 16 seems like a good tradeoff between staying under 32 and yet
-providing enough planes.
+Since we're going to introduce pixelvalve data structures for other SoCs
+than the BCM2835, let's rename the structures defined in the code to
+make it obvious which SoC we're targeting.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 5335123ae2a0..c190ccc42c51 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -1387,7 +1387,7 @@ int vc4_plane_create_additional_planes(struct drm_device *drm)
- 	 * modest number of planes to expose, that should hopefully
- 	 * still cover any sane usecase.
- 	 */
--	for (i = 0; i < 8; i++) {
-+	for (i = 0; i < 16; i++) {
- 		struct drm_plane *plane =
- 			vc4_plane_init(drm, DRM_PLANE_TYPE_OVERLAY);
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index 2131164779dd..9fdb0ccc4a28 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -1058,7 +1058,7 @@ static const struct drm_crtc_helper_funcs vc4_crtc_helper_funcs = {
+ 	.get_scanout_position = vc4_crtc_get_scanout_position,
+ };
+ 
+-static const struct vc4_crtc_data pv0_data = {
++static const struct vc4_crtc_data bcm2835_pv0_data = {
+ 	.hvs_channel = 0,
+ 	.debugfs_name = "crtc0_regs",
+ 	.encoder_types = {
+@@ -1067,7 +1067,7 @@ static const struct vc4_crtc_data pv0_data = {
+ 	},
+ };
+ 
+-static const struct vc4_crtc_data pv1_data = {
++static const struct vc4_crtc_data bcm2835_pv1_data = {
+ 	.hvs_channel = 2,
+ 	.debugfs_name = "crtc1_regs",
+ 	.encoder_types = {
+@@ -1076,7 +1076,7 @@ static const struct vc4_crtc_data pv1_data = {
+ 	},
+ };
+ 
+-static const struct vc4_crtc_data pv2_data = {
++static const struct vc4_crtc_data bcm2835_pv2_data = {
+ 	.hvs_channel = 1,
+ 	.debugfs_name = "crtc2_regs",
+ 	.encoder_types = {
+@@ -1086,9 +1086,9 @@ static const struct vc4_crtc_data pv2_data = {
+ };
+ 
+ static const struct of_device_id vc4_crtc_dt_match[] = {
+-	{ .compatible = "brcm,bcm2835-pixelvalve0", .data = &pv0_data },
+-	{ .compatible = "brcm,bcm2835-pixelvalve1", .data = &pv1_data },
+-	{ .compatible = "brcm,bcm2835-pixelvalve2", .data = &pv2_data },
++	{ .compatible = "brcm,bcm2835-pixelvalve0", .data = &bcm2835_pv0_data },
++	{ .compatible = "brcm,bcm2835-pixelvalve1", .data = &bcm2835_pv1_data },
++	{ .compatible = "brcm,bcm2835-pixelvalve2", .data = &bcm2835_pv2_data },
+ 	{}
+ };
  
 -- 
 git-series 0.9.1
