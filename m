@@ -2,52 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2E81B72C1
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 13:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE52D1B72B6
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 13:09:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACD676E45D;
-	Fri, 24 Apr 2020 11:11:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C37816E45E;
+	Fri, 24 Apr 2020 11:09:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com
- [IPv6:2607:f8b0:4864:20::941])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7424F6E45D
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 11:11:50 +0000 (UTC)
-Received: by mail-ua1-x941.google.com with SMTP id c24so8994452uap.13
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 04:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Qjs5SC/3OnMCT6KC0dOpblQw7o0Gfu6LYx4LNPfqDeQ=;
- b=kk6vKPCT0U+lCJmzvCBuFSTU8m6sx+jEc9evMPuDaxj7y0nPObSBVGcUFmLMLc86xn
- 6EQ33RjBypidxKCzZE0LXs0arU94ZJnOxolT0BbAllpl4hezJRoXpnKSKz4+6gvYkNGv
- HtgLhda4a8zpbahAIzMCOmdmRcKMWOfYystxxDNI+3W46hLQlP1NPVwkympKnk6As6tH
- tS0TVyVfGsu+seVGpcc/See+xdqtmBrI/QSULtScBiXbKI572iUPpa/NBRNsbcNC/U1s
- OTxIz+U9oYcrRSUGQDF2hJ9ESO/wByXMDfgR6Hn5yiBpsjlvSxDYTBPXrj5Y7Lg0YeXr
- FrCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Qjs5SC/3OnMCT6KC0dOpblQw7o0Gfu6LYx4LNPfqDeQ=;
- b=AaQ+Glr+3KOalhPNQ7N3rtXaPYtotrE+XE0IoHiEfvCiRlqm/rY2xK6V1EptNeKCQP
- tu+Cz9rF/J+YPeFtASBZ8mfAbGLnTea5Cntz9TjozZByYjpfT8X/b2oXtGaa0NpictjM
- VrukhbNhetnbARaYqvmOwyDPIafKEGy7Nj3W6DNbrQ8260nRwUMXYaYr+vknRlOmonGz
- /kzlKrp9rv8Tov5LDYqc2hechYIigHao1hHN/Ulo9CTok2QP6u0VGquzbajAT0VBy8nZ
- Jx1z8MgS6YMhDy+UblB5QXr9bpMpvrqfOSOLyMPsI5xSw1/oGAtaaEBKV10Om2koZ5F1
- vc4g==
-X-Gm-Message-State: AGi0PuZ2qgm8+UsFdVwOyMbwG7Js5wqlw4VamXIU/Zde5KOUhzH8Wtfl
- IqU1RkZgdGR6lvcqYDqK6jNbV1dLnBTNwsd8p2N0w6JU
-X-Google-Smtp-Source: APiQypLVxoOL52vQCtNnXTAYp5PBdjYmQHaGv6I3Gr4TcphIqobH5Fkp8cyHImKSYv/zGf7+JpYlM+qePYnWjSNabaY=
-X-Received: by 2002:ab0:1ea:: with SMTP id 97mr4866245ual.106.1587726709518;
- Fri, 24 Apr 2020 04:11:49 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D533D6E45E
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 11:09:52 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 50FD41FB;
+ Fri, 24 Apr 2020 04:09:52 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 314BC3F6CF;
+ Fri, 24 Apr 2020 04:09:52 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id EC473682B6C; Fri, 24 Apr 2020 12:09:50 +0100 (BST)
+Date: Fri, 24 Apr 2020 12:09:50 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Bernard Zhao <bernard@vivo.com>
+Subject: Re: [PATCH v2] drm/arm: fixes pixel clock enabled with wrong format
+Message-ID: <20200424110950.GC1985@e110455-lin.cambridge.arm.com>
+References: <20200424063551.14336-1-bernard@vivo.com>
 MIME-Version: 1.0
-References: <20200423223459.200858-1-pcc@google.com>
-In-Reply-To: <20200423223459.200858-1-pcc@google.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Fri, 24 Apr 2020 12:09:42 +0100
-Message-ID: <CACvgo50xnz9g8PE6+4FxHr=NJ4sWd1no4erFBJ2RY2msE12PYA@mail.gmail.com>
-Subject: Re: [PATCH] drm: pl111: enable render node
-To: Peter Collingbourne <pcc@google.com>
+Content-Disposition: inline
+In-Reply-To: <20200424063551.14336-1-bernard@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,34 +42,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 Apr 2020 at 23:51, Peter Collingbourne <pcc@google.com> wrote:
->
-> The render node is required by Android which does not support the legacy
-> drmAuth authentication process.
->
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
-> ---
->  drivers/gpu/drm/pl111/pl111_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-The summary talks about drmAuth, yet exposes a render node. Even
-through there's no rendering engine in the HW, as mentioned by Eric.
-
-AFAICT the only way drmAuth is relevant with pl111 is when you want to
-export/import dma bufs.
-Although that is handled in core and the artificial DRM_AUTH
-restriction has been lifted with commit [1].
-
--Emil
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.7-rc2&id=30a958526d2cc6df38347336a602479d048d92e7
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQmVybmFuZCwKCk9uIFRodSwgQXByIDIzLCAyMDIwIGF0IDExOjM1OjUxUE0gLTA3MDAsIEJl
+cm5hcmQgWmhhbyB3cm90ZToKPiBUaGUgcGl4ZWwgY2xvY2sgaXMgc3RpbGwgZW5hYmxlZCB3aGVu
+IHRoZSBmb3JtYXQgaXMgd3JvbmcuCj4gbm8gZXJyb3IgYnJhbmNoIGhhbmRsZSwgYW5kIGFsc28g
+c29tZSByZWdpc3RlciBpcyBub3Qgc2V0Cj4gaW4gdGhpcyBjYXNlLCBlLmc6IEhETENEX1JFR188
+Y29sb3I+X1NFTEVDVC4gTWF5YmUgd2UKPiBzaG91bGQgZGlzYWJsZSB0aGlzIGNsb2NrIGFuZCB0
+aHJvdyBhbiB3YXJuIG1lc3NhZ2Ugd2hlbgo+IHRoaXMgaGFwcGVuZWQuCj4gV2l0aCB0aGlzIGNo
+YW5nZSwgdGhlIGNvZGUgbWF5YmUgYSBiaXQgbW9yZSByZWFkYWJsZS4KPiAKPiBTaWduZWQtb2Zm
+LWJ5OiBCZXJuYXJkIFpoYW8gPGJlcm5hcmRAdml2by5jb20+Cj4gCj4gQ2hhbmdlcyBzaW5jZSBW
+MToKPiAqYWRkIGZvcm1hdCBlcnJvciBoYW5kbGUsIGlmIGZvcm1hdCBpcyBub3QgY29ycmVjdCwg
+dGhyb3cKPiBhbiB3YXJuaW5nIG1lc3NhZ2UgYW5kIGRpc2FibGUgdGhpcyBjbG9jay4KPiAKPiBM
+aW5rIGZvciBWMToKPiAqaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvcGF0Y2h3b3JrL3BhdGNoLzEy
+Mjg1MDEvCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfY3J0Yy5jIHwgMTMgKysr
+KysrKysrLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9u
+cygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2NydGMuYyBi
+L2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfY3J0Yy5jCj4gaW5kZXggYWY2N2ZlZmVkMzhkLi5m
+Mzk0NWRlZTJiN2QgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FybS9oZGxjZF9jcnRj
+LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2NydGMuYwo+IEBAIC05Niw3ICs5
+Niw3IEBAIHN0YXRpYyBpbnQgaGRsY2Rfc2V0X3B4bF9mbXQoc3RydWN0IGRybV9jcnRjICpjcnRj
+KQo+ICAJfQo+ICAKPiAgCWlmIChXQVJOX09OKCFmb3JtYXQpKQo+IC0JCXJldHVybiAwOwo+ICsJ
+CXJldHVybiAtRUlOVkFMOwoKVGhhdCBpcyB0aGUgcmlnaHQgZml4IQoKPiAgCj4gIAkvKiBIRExD
+RCB1c2VzICdieXRlcyBwZXIgcGl4ZWwnLCB6ZXJvIG1lYW5zIDEgYnl0ZSAqLwo+ICAJYnRwcCA9
+IChmb3JtYXQtPmJpdHNfcGVyX3BpeGVsICsgNykgLyA4Owo+IEBAIC0xMjUsNyArMTI1LDcgQEAg
+c3RhdGljIGludCBoZGxjZF9zZXRfcHhsX2ZtdChzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCj4gIAly
+ZXR1cm4gMDsKPiAgfQo+ICAKPiAtc3RhdGljIHZvaWQgaGRsY2RfY3J0Y19tb2RlX3NldF9ub2Zi
+KHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKPiArc3RhdGljIGludCBoZGxjZF9jcnRjX21vZGVfc2V0
+X25vZmIoc3RydWN0IGRybV9jcnRjICpjcnRjKQoKQnV0IHRoaXMgaXMgbm90LiBXZSBkb24ndCBu
+ZWVkIHRvIHByb3BhZ2F0ZSB0aGUgZXJyb3IgZnVydGhlciwganVzdCAuLi4uCgo+ICB7Cj4gIAlz
+dHJ1Y3QgaGRsY2RfZHJtX3ByaXZhdGUgKmhkbGNkID0gY3J0Y190b19oZGxjZF9wcml2KGNydGMp
+Owo+ICAJc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm0gPSAmY3J0Yy0+c3RhdGUtPmFkanVzdGVk
+X21vZGU7Cj4gQEAgLTE2Miw5ICsxNjIsMTAgQEAgc3RhdGljIHZvaWQgaGRsY2RfY3J0Y19tb2Rl
+X3NldF9ub2ZiKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKPiAgCj4gIAllcnIgPSBoZGxjZF9zZXRf
+cHhsX2ZtdChjcnRjKTsKPiAgCWlmIChlcnIpCj4gLQkJcmV0dXJuOwoKLi4uIHJldHVybiBoZXJl
+IHNvIHRoYXQgd2UgZG9uJ3QgY2FsbCBjbGtfc2V0X3JhdGUoKTsKCkJlc3QgcmVnYXJkcywKTGl2
+aXUKCj4gKwkJcmV0dXJuIGVycjsKPiAgCj4gIAljbGtfc2V0X3JhdGUoaGRsY2QtPmNsaywgbS0+
+Y3J0Y19jbG9jayAqIDEwMDApOwo+ICsJcmV0dXJuIDA7Cj4gIH0KPiAgCj4gIHN0YXRpYyB2b2lk
+IGhkbGNkX2NydGNfYXRvbWljX2VuYWJsZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCj4gQEAgLTE3
+Myw3ICsxNzQsMTEgQEAgc3RhdGljIHZvaWQgaGRsY2RfY3J0Y19hdG9taWNfZW5hYmxlKHN0cnVj
+dCBkcm1fY3J0YyAqY3J0YywKPiAgCXN0cnVjdCBoZGxjZF9kcm1fcHJpdmF0ZSAqaGRsY2QgPSBj
+cnRjX3RvX2hkbGNkX3ByaXYoY3J0Yyk7Cj4gIAo+ICAJY2xrX3ByZXBhcmVfZW5hYmxlKGhkbGNk
+LT5jbGspOwo+IC0JaGRsY2RfY3J0Y19tb2RlX3NldF9ub2ZiKGNydGMpOwo+ICsJaWYgKGhkbGNk
+X2NydGNfbW9kZV9zZXRfbm9mYihjcnRjKSkgewo+ICsJCURSTV9ERUJVR19LTVMoIkludmFsaWQg
+Zm9ybWF0LCBwaXhlbCBjbG9jayBlbmFibGUgZmFpbGVkIVxuIik7Cj4gKwkJY2xrX2Rpc2FibGVf
+dW5wcmVwYXJlKGhkbGNkLT5jbGspOwo+ICsJCXJldHVybjsKPiArCX0KPiAgCWhkbGNkX3dyaXRl
+KGhkbGNkLCBIRExDRF9SRUdfQ09NTUFORCwgMSk7Cj4gIAlkcm1fY3J0Y192Ymxhbmtfb24oY3J0
+Yyk7Cj4gIH0KPiAtLSAKPiAyLjI2LjIKPiAKCi0tIAo9PT09PT09PT09PT09PT09PT09PQp8IEkg
+d291bGQgbGlrZSB0byB8CnwgZml4IHRoZSB3b3JsZCwgIHwKfCBidXQgdGhleSdyZSBub3QgfAp8
+IGdpdmluZyBtZSB0aGUgICB8CiBcIHNvdXJjZSBjb2RlISAgLwogIC0tLS0tLS0tLS0tLS0tLQog
+ICAgwq9cXyjjg4QpXy/CrwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
