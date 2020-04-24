@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2CF01B8059
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD181B84BB
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:42:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 644A66EB3D;
-	Fri, 24 Apr 2020 20:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B41576E177;
+	Sat, 25 Apr 2020 08:42:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D88D86EB86;
- Fri, 24 Apr 2020 20:16:34 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id k13so12534626wrw.7;
- Fri, 24 Apr 2020 13:16:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=s2Kqcd847642kR70JpEfV+P8d3XYHEMIIpz5tgu/YCI=;
- b=o6UCsamzx09ft7cbYz5b/vP6s1unQr8As1dEWNnIpLlOb0YnHzbEjwZuNijpmtuS5S
- yh0Opu3rFREorI9oYM7kEw5YSzqeCSVJaKAfNz6a0l68tDZPFAh5S/rMxo8+MWujW/0V
- 1csafg+gkSFwQLluOZMR3zXhMRAySX6+JFnefhb1vcoi6iRVZ+DTTz/8+0qwZzhySMik
- CpgXXLY16uIHCxd62tdURrZAcknbgTL2odARhPap021Zf8SuYzi6PRpiW1LUg9E8TYUk
- 04pHQqDIjD00wndkEFvh9ZduQ37ThH9pDp3NIx5bhMsQMvy8M7BiK/DNHp4tAl3BszZM
- XNeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=s2Kqcd847642kR70JpEfV+P8d3XYHEMIIpz5tgu/YCI=;
- b=g5fvlW3mz9ZpHCSnemL6yhCoe6zLofxtFdzOgTbfYfkAexne8SSS1MUUboUIjDBn2j
- Z4mmhqF7Oi6tqXhpV4EJocwMj1Dn4BxjV7YaGybidS27Xr5OnbY5hp5FHOCdICgylyZh
- QpMPSxG2kMoQns7a3L9SK8Jhi0xS1XKr7jjKL0lGicNxmZlUHgsV2l5r9yPTX9SI26kP
- 0IUwjkuSq3dihuIXjnbA80xL/cToYcSCG7cIVSjxM5/PZyqCmE+qarN/Kz4473HcHN9e
- 1uWhl1JFjCnJ8oRN0LNj1J3btY3UsnOQjKMmX+6Z1azU1caF3TmcPPRtWUZ6GP/QIJIL
- PyUA==
-X-Gm-Message-State: AGi0PuZQ7zX1751Jxj38C6B0a4BrXXTchDDTlc4nL7F6hZo39u83H3oS
- jK98Pm0dJqU5TFuRB+Ud9jxxkSgN9JjsFj6Vlcs=
-X-Google-Smtp-Source: APiQypKd9+AHmK/fDx+LGJLOZOAyeNpYq05LFze2JpMkv+P2DLetcDU9gQomu7057aUNA0WoC5Hlm8wr3Z5R9ajrR2s=
-X-Received: by 2002:adf:f844:: with SMTP id d4mr12853029wrq.362.1587759393501; 
- Fri, 24 Apr 2020 13:16:33 -0700 (PDT)
+Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5302::11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 140066EB58
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 20:34:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587760490;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+ Subject:Sender;
+ bh=JoQS5+/VnNzq1zyY0Zv12jz5vpTnfpwyE6okWTWlNgs=;
+ b=MVD766TriTogBzMep6J1hI2Y8phsAiSFta9KmBNBbREBfPLpPqN1lOGFujYM1OAp1X
+ oWyb692fNYST5v9e9QCqFZET/UDMbpkO6WYJwe/bSHVHjCUstTYOoOvcuyCMyInsTyvE
+ 5ngSm0+zq8LYu1O9a3T009feLq8poSNv/Rufbw581eTDI6VW8I0EFT5bZ1BZ7D85HBFW
+ P5amadNmwOFH65ygxNvZvXAm/YTgCgJcsjqAtyDg8oMrb2IogAEWwkRYS5vkwz0YgUq9
+ moSpBbTR66Ldro8S934PdoUP2eGAwj7DijyXDU96s6LTlASpMFjeq3kaqdLB+ai2B2py
+ cnrA==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1mfYzBGHXH6GK44R2FE"
+X-RZG-CLASS-ID: mo00
+Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.6.2 DYNA|AUTH)
+ with ESMTPSA id R0acebw3OKYHEV8
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Fri, 24 Apr 2020 22:34:17 +0200 (CEST)
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+ Tony Lindgren <tony@atomide.com>, Paul Cercueil <paul@crapouillou.net>,
+ Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paulburton@kernel.org>,
+ James Hogan <jhogan@kernel.org>, Kukjin Kim <kgene@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: [PATCH v7 00/12] ARM/MIPS: DTS: add child nodes describing the PVRSGX
+ GPU present in some OMAP SoC and JZ4780 (and many more)
+Date: Fri, 24 Apr 2020 22:34:03 +0200
+Message-Id: <cover.1587760454.git.hns@goldelico.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200424075620.22364-1-zhengbin13@huawei.com>
- <2ebe7c66-0562-b61d-bf36-278a52590ce7@amd.com>
-In-Reply-To: <2ebe7c66-0562-b61d-bf36-278a52590ce7@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 24 Apr 2020 16:16:21 -0400
-Message-ID: <CADnq5_O+jpdSwBB47zdepqG=wJQWWYbBH1DnyPDFBa96H8kkGw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Remove unneeded semicolon
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+X-Mailman-Approved-At: Sat, 25 Apr 2020 08:42:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,38 +60,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Zheng Bin <zhengbin13@huawei.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, letux-kernel@openphoenux.org,
+ Philipp Rossak <embed3d@gmail.com>, "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Jonathan Bakker <xc-racer2@live.ca>, openpvrsgx-devgroup@letux.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ kernel@pyra-handheld.com, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCk9uIEZyaSwgQXByIDI0LCAyMDIwIGF0IDM6NTYgQU0g
-Q2hyaXN0aWFuIEvDtm5pZwo8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFt
-IDI0LjA0LjIwIHVtIDA5OjU2IHNjaHJpZWIgWmhlbmcgQmluOgo+ID4gRml4ZXMgY29jY2ljaGVj
-ayB3YXJuaW5nOgo+ID4KPiA+IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92OV8wLmM6
-MjUzNDoyLTM6IFVubmVlZGVkIHNlbWljb2xvbgo+ID4KPiA+IFJlcG9ydGVkLWJ5OiBIdWxrIFJv
-Ym90IDxodWxrY2lAaHVhd2VpLmNvbT4KPiA+IFNpZ25lZC1vZmYtYnk6IFpoZW5nIEJpbiA8emhl
-bmdiaW4xM0BodWF3ZWkuY29tPgo+Cj4gUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNo
-cmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPgo+ID4gLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2dmeF92OV8wLmMgfCAyICstCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9nZnhfdjlfMC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4
-X3Y5XzAuYwo+ID4gaW5kZXggMDlhYTVmNTA5YmQyLi40M2Q4NDIxNDk5NWMgMTAwNjQ0Cj4gPiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhfdjlfMC5jCj4gPiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhfdjlfMC5jCj4gPiBAQCAtMjUzMSw3ICsyNTMxLDcg
-QEAgc3RhdGljIHZvaWQgZ2Z4X3Y5XzBfaW5pdF9zcV9jb25maWcoc3RydWN0IGFtZGdwdV9kZXZp
-Y2UgKmFkZXYpCj4gPiAgICAgICAgICAgICAgIGJyZWFrOwo+ID4gICAgICAgZGVmYXVsdDoKPiA+
-ICAgICAgICAgICAgICAgYnJlYWs7Cj4gPiAtICAgICB9Owo+ID4gKyAgICAgfQo+ID4gICB9Cj4g
-Pgo+ID4gICBzdGF0aWMgdm9pZCBnZnhfdjlfMF9jb25zdGFudHNfaW5pdChzdHJ1Y3QgYW1kZ3B1
-X2RldmljZSAqYWRldikKPiA+IC0tCj4gPiAyLjI2LjAuMTA2Lmc5ZmFkZWRkCj4gPgo+Cj4gX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBhbWQtZ2Z4IG1h
-aWxpbmcgbGlzdAo+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9hbWQtZ2Z4Cl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+* changed commit message for the dt-bindings to better describe latest situation
+* added properties for up to 4 clocks, reset, power-domains, sgx-supply - proposed by Maxime Ripard <maxime@cerno.tech>
+* fixed jz4780 and s5pv210 to use "core" clock name
+* simplified example
+* update for arm: dts: s5pv210 - by Jonathan Bakker <xc-racer2@live.ca>
+* removed a stray " from binding which had creeped in through copy&paste 
+* fixed commit / tested-by messages and some not well formed commit messages - suggested by Krzysztof Kozlowski <krzk@kernel.org>
+* added a $nodename: pattern: to enforce "gpu" nodenames - inspired by Neil Armstrong <narmstrong@baylibre.com>
+* fixed node name for s5pv210 - suggested by Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+
+PATCH V6 2020-04-15 10:35:31:
+* rebased to v5.7-rc1
+* added DTS for for a31, a31s, a83t - by Philipp Rossak <embed3d@gmail.com>
+* added DTS for "samsung,s5pv210-sgx540-120" - by Jonathan Bakker <xc-racer2@live.ca>
+* bindings.yaml fixes:
+  - added a31, a31
+  - fixes for omap4470
+  - jz4780 contains an sgx540-130 and not -120
+  - a83t contains an sgx544-115 and not -116
+  - removed "additionalProperties: false" because some SoC may need additional properties
+
+PATCH V5 2020-03-29 19:38:32:
+* reworked YAML bindings to pass dt_binding_check and be better grouped
+* rename all nodes to "gpu: gpu@<address>"
+* removed "img,sgx5" from example - suggested by Rob Herring <robh+dt@kernel.org>
+
+PATCH V4 2019-12-17 19:02:11:
+* MIPS: DTS: jz4780: removed "img,sgx5" from bindings
+* YAML bindings: updated according to suggestions by Rob Herring
+* MIPS: DTS: jz4780: insert-sorted gpu node by register address - suggested by Paul Cercueil
+
+PATCH V3 2019-11-24 12:40:33:
+* reworked YAML format with help by Rob Herring
+* removed .txt binding document
+* change compatible "ti,am335x-sgx" to "ti,am3352-sgx" - suggested by Tony Lindgren
+
+PATCH V2 2019-11-07 12:06:17:
+* tried to convert bindings to YAML format - suggested by Rob Herring
+* added JZ4780 DTS node (proven to load the driver)
+* removed timer and img,cores properties until we know we really need them - suggested by Rob Herring
+
+PATCH V1 2019-10-18 20:46:35:
+
+This patch series defines child nodes for the SGX5xx interface inside
+different SoC so that a driver can be found and probed by the compatible
+strings and can retrieve information about the SGX revision that is
+included in a specific SoC. It also defines the interrupt number
+to be used by the SGX driver, and optionally clocks, power, resets
+depending on how the SoC integration is done.
+
+There is currently no mainline driver for these GPUs, but a project [1]
+is ongoing with the goal to get the open-source part as provided by TI/IMG
+and others into drivers/gpu/drm/pvrsgx in the future. So this patch series
+is the basis.
+
+The kernel modules built from this project have successfully demonstrated
+to work with the DTS definitions from this patch set on AM335x BeagleBone
+Black, DM3730 and OMAP5 Pyra and Droid 4. They partially work on OMAP3530 and
+PandaBoard ES but that is likely a problem in the kernel driver or the
+(non-free) user-space libraries and binaries. The driver works on jz4780
+but user-space could not yet be tested.
+
+[1]: https://github.com/openpvrsgx-devgroup
+
+
+H. Nikolaus Schaller (8):
+  dt-bindings: add img,pvrsgx.yaml for Imagination GPUs
+  ARM: DTS: am33xx: add sgx gpu child node
+  ARM: DTS: am3517: add sgx gpu child node
+  ARM: DTS: omap34xx: add sgx gpu child node
+  ARM: DTS: omap36xx: add sgx gpu child node
+  ARM: DTS: omap4: add sgx gpu child node
+  ARM: DTS: omap5: add sgx gpu child node
+  MIPS: DTS: jz4780: add sgx gpu node
+
+Jonathan Bakker (1):
+  arm: dts: s5pv210: Add node for SGX 540
+
+Philipp Rossak (3):
+  ARM: dts: sun6i: a31: add sgx gpu child node
+  ARM: dts: sun6i: a31s: add sgx gpu child node
+  ARM: dts: sun8i: a83t: add sgx gpu child node
+
+ .../devicetree/bindings/gpu/img,pvrsgx.yaml   | 150 ++++++++++++++++++
+ arch/arm/boot/dts/am33xx.dtsi                 |  11 +-
+ arch/arm/boot/dts/am3517.dtsi                 |   9 +-
+ arch/arm/boot/dts/omap34xx.dtsi               |  11 +-
+ arch/arm/boot/dts/omap36xx.dtsi               |   9 +-
+ arch/arm/boot/dts/omap4.dtsi                  |  11 +-
+ arch/arm/boot/dts/omap4470.dts                |  15 ++
+ arch/arm/boot/dts/omap5.dtsi                  |  11 +-
+ arch/arm/boot/dts/s5pv210.dtsi                |  13 ++
+ arch/arm/boot/dts/sun6i-a31.dtsi              |  11 ++
+ arch/arm/boot/dts/sun6i-a31s.dtsi             |  10 ++
+ arch/arm/boot/dts/sun8i-a83t.dtsi             |  11 ++
+ arch/mips/boot/dts/ingenic/jz4780.dtsi        |  11 ++
+ 13 files changed, 255 insertions(+), 28 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
+ create mode 100644 arch/arm/boot/dts/omap4470.dts
+
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
