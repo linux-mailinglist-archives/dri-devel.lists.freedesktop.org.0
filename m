@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA1E1B8035
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:11:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E5B51B7FFA
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:09:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F36746EB43;
-	Fri, 24 Apr 2020 20:08:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09C826EB61;
+	Fri, 24 Apr 2020 20:08:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEB006EAAE
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:36:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E55C6EAAE
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:36:14 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 081F711F1;
- Fri, 24 Apr 2020 11:36:11 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:36:12 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 5C246144D;
+ Fri, 24 Apr 2020 11:36:13 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:36:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=/aSkAgJPxGu9V
- VRopKJxNOyQcJbRGNTDx7PUivgMCU0=; b=YmFhQkbmyaQU/rjLZos+4I0/mptzq
- lUt2Jq98L+cidbPNvrWM5Sl3sAq9rTL+5MCW6CAiMBLrNYqUi1LoBVBFuT6gp/09
- +C+FjqLeOuIaCwaaPXOOAY6wLkz1k9UiQu54keT81DXAFUR2rLjQEX6LPzgm+scX
- pSyeVx9Q8e3DO6IVDi1C8AsrMe111PPsCtIU4fJ0Aez2dFluAYjVYPCU9rnr+M/g
- 52uLL/X7/dM5PenxMPkforjC1/5mZxOY7LvtDnkRHI/nTnNha7WOe1Pt2KUU0zjk
- ZnCgAH1A/ylmAXTxC5xUpVhX1oKR37pW6p4yXEtzZRd4YaLh0FYA179oQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=DDQ/otaSac56i
+ RPoiWof2TO+uS7QGjui1Jou2UPbw4k=; b=b3d1ztNGvQYiYrzy71PSaCDRiwmKo
+ KEUQqU5As8v990P+3wa7DyWBC8Do6cHJI5X/2b9BZQz0CIX8lr2F2n+fvj7PWy3/
+ FrUoPPTxdxImVt5kTkfpLCC7Ls2troocbNxj528K1/cZCB/p++bneols5qPpuAHf
+ xo8qwFJSX2XVEGIr8actzARgLJE7AikfE+p+qbascov+ByUpu3P4ptHPF0MC4GbG
+ Pv6z265Fvj3O/XzwALJjHIPm3Tfdr+3ZP4HnhgjA27o6eP/8kyS6Uzj0jJ5WyCqO
+ oc6fz+JVYzvFxqDOThu2R/85mHEq9TjAxsoRQj5JRfXEKEeobtYGZMqIA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=/aSkAgJPxGu9VVRopKJxNOyQcJbRGNTDx7PUivgMCU0=; b=zQcKS36n
- KCUfnqtRlnkgAQrgf1daz5JEtK811DtpZMTBNB9xZs/zEjnf21wE4RdYvmDQp4dF
- rYaoO9xT70GbepajBGFBKt0POPe9faNdGjVAMcgRn9vauMKvjIwpW+SfUyE1z7+G
- FCkwsZrBtRMoHJbxecrw0/QDJFR7kOY1IWpkc3hoH759/VAc7BP0ZoRhJiPT7GF9
- W4ay2tvpDBTVjOaRXcwq3K7NyrubnghzhPcQ7Dbudq1KS3IBfH6jE1G2sY91uyo4
- jF/mpWT20hcKkynNTElW7vRdGjebEbUSBw39oMOUxzc6bmISURN+mkOIKW/cRmQv
- DIF7aBhdoIdwnA==
-X-ME-Sender: <xms:awejXqyZ8RGngol3blfd1eFBvSQUlrRN5Zv6nargG-LiZYmrxbqh1Q>
+ fm2; bh=DDQ/otaSac56iRPoiWof2TO+uS7QGjui1Jou2UPbw4k=; b=kkghyNB0
+ PnyXof+QVjsCWDz/luNPb1QeR8ce43Zb5oLatpUVCiPQau0rUMmTxRbD874xPgi5
+ 0khcVHLdEl79oITRiCwwP+fgxQRYYVGvxXmSmd9n9rb7UXC26UKcPOw4kADjrzoT
+ 5obL8K5j/oBuUwx5zdC+iCSTSwGhCUluhBaiWw9l1sqEwGYUqafkqTq74JtyKooY
+ B7F7NjrSz9emgjJI6tPhuoq8PNakvcQ7TOVque21DCNB3Wjvb7bSlDUf/hVnyiZy
+ 8Xzo5S2uOw5LoqlCWwjFa1vCdDhpheRKdbP9O9Bu41bV+xZS88wJGZUajyqUcvHh
+ NkgrQeIFzYDszw==
+X-ME-Sender: <xms:bAejXviguTbO3jIIaa2S4IwJGtsN_Ko74x5qgzNoW82-bnUgL7K5AA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrhedugdekiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -46,20 +46,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrhedugdekiecutefuodetggdote
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
  ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedvleenucfrrghrrghmpehmrghi
  lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:awejXiDg5p8qo-so-IPPAw-lHeyivMsaQlXy6ZX19SD9jjpTkB0TFQ>
- <xmx:awejXv5iy3IbmYQoDAcrfaTula5SjNbM7n0yidRVewyt4RaVF2BW9w>
- <xmx:awejXsPv2FZnRgQo1mclSe7krReI-hl6Q_rShrZOdG2mSMZaiZGq-Q>
- <xmx:awejXnwza7zWMntMZ8-U-7DEGB_65ReTN76Zd_fqrpO8zU75XnW2qJAbwK8>
+X-ME-Proxy: <xmx:bAejXgRPbSkVWjwtc_0B1fnHisSnqwVw5akBMogeUf8lGQU6hC4Dlw>
+ <xmx:bAejXqEp4-l9o_ghcOONv1Qf265on5FWlltMKcq2kXHSVdsbD7RvYw>
+ <xmx:bAejXglpirrtWsgAKFMV2WrzScoJ1FNzRrW4ey0NQxHLbSr5TNO5wA>
+ <xmx:bAejXvM8Wn-zBHmavSNbpMYCHZvdRMEfteyLa1n_Kh0hJ3wiRgzSIYmmfSo>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 38C5F3065D93;
- Fri, 24 Apr 2020 11:36:11 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8FCBF328005E;
+ Fri, 24 Apr 2020 11:36:12 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v2 35/91] drm/vc4: Add support for the BCM2711 HVS5
-Date: Fri, 24 Apr 2020 17:34:16 +0200
-Message-Id: <ec5044d3762da564028a54c9fb0c3e0328c3c1e5.1587742492.git-series.maxime@cerno.tech>
+Subject: [PATCH v2 36/91] drm/vc4: hvs: Boost the core clock during modeset
+Date: Fri, 24 Apr 2020 17:34:17 +0200
+Message-Id: <679dca5ae8e93eb994bbbae63d77588d3c3bf2ec.1587742492.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
 References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
@@ -87,516 +87,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+In order to prevent timeouts and stalls in the pipeline, the core clock
+needs to be maxed at 500MHz during a modeset on the BCM2711.
 
-The HVS found in the BCM2711 is slightly different from the previous
-generations.
-
-Most notably, the display list layout changes a bit, the LBM doesn't have
-the same size and the formats ordering for some formats is swapped.
-
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c  |  24 +++-
- drivers/gpu/drm/vc4/vc4_drv.h   |   4 +-
- drivers/gpu/drm/vc4/vc4_hvs.c   |  16 ++-
- drivers/gpu/drm/vc4/vc4_plane.c | 194 ++++++++++++++++++++++++---------
- drivers/gpu/drm/vc4/vc4_regs.h  |  67 +++++++++++-
- 5 files changed, 246 insertions(+), 59 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.h |  2 ++
+ drivers/gpu/drm/vc4/vc4_hvs.c |  9 +++++++++
+ drivers/gpu/drm/vc4/vc4_kms.c |  7 +++++++
+ 3 files changed, 18 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 1208258ad3b2..591a10ae1950 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -551,6 +551,7 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
- 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
- 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
- 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
-+	u32 dispctrl;
- 
- 	require_hvs_enabled(dev);
- 
-@@ -565,11 +566,24 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
- 	 * When feeding the transposer, we should operate in oneshot
- 	 * mode.
- 	 */
--	HVS_WRITE(SCALER_DISPCTRLX(vc4_crtc->channel),
--		  VC4_SET_FIELD(mode->hdisplay, SCALER_DISPCTRLX_WIDTH) |
--		  VC4_SET_FIELD(mode->vdisplay, SCALER_DISPCTRLX_HEIGHT) |
--		  SCALER_DISPCTRLX_ENABLE |
--		  (vc4_state->feed_txp ? SCALER_DISPCTRLX_ONESHOT : 0));
-+	dispctrl = SCALER_DISPCTRLX_ENABLE;
-+
-+	if (!vc4->hvs->hvs5)
-+		dispctrl |= VC4_SET_FIELD(mode->hdisplay,
-+					  SCALER_DISPCTRLX_WIDTH) |
-+			    VC4_SET_FIELD(mode->vdisplay,
-+					  SCALER_DISPCTRLX_HEIGHT) |
-+			    (vc4_state->feed_txp ?
-+					SCALER_DISPCTRLX_ONESHOT : 0);
-+	else
-+		dispctrl |= VC4_SET_FIELD(mode->hdisplay,
-+					  SCALER5_DISPCTRLX_WIDTH) |
-+			    VC4_SET_FIELD(mode->vdisplay,
-+					  SCALER5_DISPCTRLX_HEIGHT) |
-+			    (vc4_state->feed_txp ?
-+					SCALER5_DISPCTRLX_ONESHOT : 0);
-+
-+	HVS_WRITE(SCALER_DISPCTRLX(vc4_crtc->channel), dispctrl);
- 
- 	/* When feeding the transposer block the pixelvalve is unneeded and
- 	 * should not be enabled.
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 6024de9ecd35..7da417feff5a 100644
+index 7da417feff5a..4fd6f72dec56 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -332,7 +332,11 @@ struct vc4_hvs {
- 	spinlock_t mm_lock;
+@@ -323,6 +323,8 @@ struct vc4_hvs {
+ 	void __iomem *regs;
+ 	u32 __iomem *dlist;
  
- 	struct drm_mm_node mitchell_netravali_filter;
++	struct clk *core_clk;
 +
- 	struct debugfs_regset32 regset;
-+
-+	/* HVS version 5 flag, therefore requires updated dlist structures */
-+	bool hvs5;
- };
- 
- struct vc4_plane {
+ 	/* Memory manager for CRTCs to allocate space in the display
+ 	 * list.  Units are dwords.
+ 	 */
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 5a43659da319..0fe4758de03a 100644
+index 0fe4758de03a..f4942667355b 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -230,6 +230,9 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+@@ -19,6 +19,7 @@
+  * each CRTC.
+  */
  
- 	hvs->pdev = pdev;
++#include <linux/clk.h>
+ #include <linux/component.h>
+ #include <linux/platform_device.h>
  
-+	if (of_device_is_compatible(pdev->dev.of_node, "brcm,bcm2711-hvs"))
-+		hvs->hvs5 = true;
-+
- 	hvs->regs = vc4_ioremap_regs(pdev, 0);
- 	if (IS_ERR(hvs->regs))
- 		return PTR_ERR(hvs->regs);
-@@ -238,7 +241,10 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+@@ -241,6 +242,14 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
  	hvs->regset.regs = hvs_regs;
  	hvs->regset.nregs = ARRAY_SIZE(hvs_regs);
  
--	hvs->dlist = hvs->regs + SCALER_DLIST_START;
-+	if (!hvs->hvs5)
-+		hvs->dlist = hvs->regs + SCALER_DLIST_START;
-+	else
-+		hvs->dlist = hvs->regs + SCALER5_DLIST_START;
++	if (hvs->hvs5) {
++		hvs->core_clk = devm_clk_get(&pdev->dev, NULL);
++		if (IS_ERR(hvs->core_clk)) {
++			dev_err(&pdev->dev, "Couldn't get core clock\n");
++			return PTR_ERR(hvs->core_clk);
++		}
++	}
++
+ 	if (!hvs->hvs5)
+ 		hvs->dlist = hvs->regs + SCALER_DLIST_START;
+ 	else
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index 71e7211a5fb9..851f0740b260 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -11,6 +11,8 @@
+  * crtc, HDMI encoder).
+  */
  
- 	spin_lock_init(&hvs->mm_lock);
++#include <linux/clk.h>
++
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc.h>
+@@ -149,6 +151,7 @@ vc4_atomic_complete_commit(struct drm_atomic_state *state)
+ {
+ 	struct drm_device *dev = state->dev;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
++	struct vc4_hvs *hvs = vc4->hvs;
+ 	struct vc4_crtc *vc4_crtc;
+ 	int i;
  
-@@ -256,7 +262,12 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 	 * between planes when they don't overlap on the screen, but
- 	 * for now we just allocate globally.
- 	 */
--	drm_mm_init(&hvs->lbm_mm, 0, 96 * 1024);
-+	if (!hvs->hvs5)
-+		/* 96kB */
-+		drm_mm_init(&hvs->lbm_mm, 0, 96 * 1024);
-+	else
-+		/* 70k words */
-+		drm_mm_init(&hvs->lbm_mm, 0, 70 * 2 * 1024);
- 
- 	/* Upload filter kernels.  We only have the one for now, so we
- 	 * keep it around for the lifetime of the driver.
-@@ -341,6 +352,7 @@ static int vc4_hvs_dev_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id vc4_hvs_dt_match[] = {
-+	{ .compatible = "brcm,bcm2711-hvs" },
- 	{ .compatible = "brcm,bcm2835-hvs" },
- 	{}
- };
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 57a73a2e2e5c..1575c05e3106 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -32,45 +32,60 @@ static const struct hvs_format {
- 	u32 drm; /* DRM_FORMAT_* */
- 	u32 hvs; /* HVS_FORMAT_* */
- 	u32 pixel_order;
-+	u32 pixel_order_hvs5;
- } hvs_formats[] = {
- 	{
--		.drm = DRM_FORMAT_XRGB8888, .hvs = HVS_PIXEL_FORMAT_RGBA8888,
-+		.drm = DRM_FORMAT_XRGB8888,
-+		.hvs = HVS_PIXEL_FORMAT_RGBA8888,
- 		.pixel_order = HVS_PIXEL_ORDER_ABGR,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ARGB,
- 	},
- 	{
--		.drm = DRM_FORMAT_ARGB8888, .hvs = HVS_PIXEL_FORMAT_RGBA8888,
-+		.drm = DRM_FORMAT_ARGB8888,
-+		.hvs = HVS_PIXEL_FORMAT_RGBA8888,
- 		.pixel_order = HVS_PIXEL_ORDER_ABGR,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ARGB,
- 	},
- 	{
--		.drm = DRM_FORMAT_ABGR8888, .hvs = HVS_PIXEL_FORMAT_RGBA8888,
-+		.drm = DRM_FORMAT_ABGR8888,
-+		.hvs = HVS_PIXEL_FORMAT_RGBA8888,
- 		.pixel_order = HVS_PIXEL_ORDER_ARGB,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ABGR,
- 	},
- 	{
--		.drm = DRM_FORMAT_XBGR8888, .hvs = HVS_PIXEL_FORMAT_RGBA8888,
-+		.drm = DRM_FORMAT_XBGR8888,
-+		.hvs = HVS_PIXEL_FORMAT_RGBA8888,
- 		.pixel_order = HVS_PIXEL_ORDER_ARGB,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ABGR,
- 	},
- 	{
--		.drm = DRM_FORMAT_RGB565, .hvs = HVS_PIXEL_FORMAT_RGB565,
-+		.drm = DRM_FORMAT_RGB565,
-+		.hvs = HVS_PIXEL_FORMAT_RGB565,
- 		.pixel_order = HVS_PIXEL_ORDER_XRGB,
- 	},
- 	{
--		.drm = DRM_FORMAT_BGR565, .hvs = HVS_PIXEL_FORMAT_RGB565,
-+		.drm = DRM_FORMAT_BGR565,
-+		.hvs = HVS_PIXEL_FORMAT_RGB565,
- 		.pixel_order = HVS_PIXEL_ORDER_XBGR,
- 	},
- 	{
--		.drm = DRM_FORMAT_ARGB1555, .hvs = HVS_PIXEL_FORMAT_RGBA5551,
-+		.drm = DRM_FORMAT_ARGB1555,
-+		.hvs = HVS_PIXEL_FORMAT_RGBA5551,
- 		.pixel_order = HVS_PIXEL_ORDER_ABGR,
- 	},
- 	{
--		.drm = DRM_FORMAT_XRGB1555, .hvs = HVS_PIXEL_FORMAT_RGBA5551,
-+		.drm = DRM_FORMAT_XRGB1555,
-+		.hvs = HVS_PIXEL_FORMAT_RGBA5551,
- 		.pixel_order = HVS_PIXEL_ORDER_ABGR,
- 	},
- 	{
--		.drm = DRM_FORMAT_RGB888, .hvs = HVS_PIXEL_FORMAT_RGB888,
-+		.drm = DRM_FORMAT_RGB888,
-+		.hvs = HVS_PIXEL_FORMAT_RGB888,
- 		.pixel_order = HVS_PIXEL_ORDER_XRGB,
- 	},
- 	{
--		.drm = DRM_FORMAT_BGR888, .hvs = HVS_PIXEL_FORMAT_RGB888,
-+		.drm = DRM_FORMAT_BGR888,
-+		.hvs = HVS_PIXEL_FORMAT_RGB888,
- 		.pixel_order = HVS_PIXEL_ORDER_XBGR,
- 	},
- 	{
-@@ -781,35 +796,6 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
- 		return -EINVAL;
+@@ -160,6 +163,8 @@ vc4_atomic_complete_commit(struct drm_atomic_state *state)
+ 		vc4_hvs_mask_underrun(dev, vc4_crtc->channel);
  	}
  
--	/* Control word */
--	vc4_dlist_write(vc4_state,
--			SCALER_CTL0_VALID |
--			(rotation & DRM_MODE_REFLECT_X ? SCALER_CTL0_HFLIP : 0) |
--			(rotation & DRM_MODE_REFLECT_Y ? SCALER_CTL0_VFLIP : 0) |
--			VC4_SET_FIELD(SCALER_CTL0_RGBA_EXPAND_ROUND, SCALER_CTL0_RGBA_EXPAND) |
--			(format->pixel_order << SCALER_CTL0_ORDER_SHIFT) |
--			(hvs_format << SCALER_CTL0_PIXEL_FORMAT_SHIFT) |
--			VC4_SET_FIELD(tiling, SCALER_CTL0_TILING) |
--			(vc4_state->is_unity ? SCALER_CTL0_UNITY : 0) |
--			VC4_SET_FIELD(scl0, SCALER_CTL0_SCL0) |
--			VC4_SET_FIELD(scl1, SCALER_CTL0_SCL1));
--
--	/* Position Word 0: Image Positions and Alpha Value */
--	vc4_state->pos0_offset = vc4_state->dlist_count;
--	vc4_dlist_write(vc4_state,
--			VC4_SET_FIELD(state->alpha >> 8, SCALER_POS0_FIXED_ALPHA) |
--			VC4_SET_FIELD(vc4_state->crtc_x, SCALER_POS0_START_X) |
--			VC4_SET_FIELD(vc4_state->crtc_y, SCALER_POS0_START_Y));
--
--	/* Position Word 1: Scaled Image Dimensions. */
--	if (!vc4_state->is_unity) {
--		vc4_dlist_write(vc4_state,
--				VC4_SET_FIELD(vc4_state->crtc_w,
--					      SCALER_POS1_SCL_WIDTH) |
--				VC4_SET_FIELD(vc4_state->crtc_h,
--					      SCALER_POS1_SCL_HEIGHT));
--	}
--
- 	/* Don't waste cycles mixing with plane alpha if the set alpha
- 	 * is opaque or there is no per-pixel alpha information.
- 	 * In any case we use the alpha property value as the fixed alpha.
-@@ -817,20 +803,120 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
- 	mix_plane_alpha = state->alpha != DRM_BLEND_ALPHA_OPAQUE &&
- 			  fb->format->has_alpha;
++	clk_set_rate(hvs->core_clk, 500000000);
++
+ 	drm_atomic_helper_wait_for_fences(dev, state, false);
  
--	/* Position Word 2: Source Image Size, Alpha */
--	vc4_state->pos2_offset = vc4_state->dlist_count;
--	vc4_dlist_write(vc4_state,
--			VC4_SET_FIELD(fb->format->has_alpha ?
--				      SCALER_POS2_ALPHA_MODE_PIPELINE :
--				      SCALER_POS2_ALPHA_MODE_FIXED,
--				      SCALER_POS2_ALPHA_MODE) |
--			(mix_plane_alpha ? SCALER_POS2_ALPHA_MIX : 0) |
--			(fb->format->has_alpha ? SCALER_POS2_ALPHA_PREMULT : 0) |
--			VC4_SET_FIELD(vc4_state->src_w[0], SCALER_POS2_WIDTH) |
--			VC4_SET_FIELD(vc4_state->src_h[0], SCALER_POS2_HEIGHT));
-+	if (!vc4->hvs->hvs5) {
-+	/* Control word */
-+		vc4_dlist_write(vc4_state,
-+				SCALER_CTL0_VALID |
-+				(rotation & DRM_MODE_REFLECT_X ? SCALER_CTL0_HFLIP : 0) |
-+				(rotation & DRM_MODE_REFLECT_Y ? SCALER_CTL0_VFLIP : 0) |
-+				VC4_SET_FIELD(SCALER_CTL0_RGBA_EXPAND_ROUND, SCALER_CTL0_RGBA_EXPAND) |
-+				(format->pixel_order << SCALER_CTL0_ORDER_SHIFT) |
-+				(hvs_format << SCALER_CTL0_PIXEL_FORMAT_SHIFT) |
-+				VC4_SET_FIELD(tiling, SCALER_CTL0_TILING) |
-+				(vc4_state->is_unity ? SCALER_CTL0_UNITY : 0) |
-+				VC4_SET_FIELD(scl0, SCALER_CTL0_SCL0) |
-+				VC4_SET_FIELD(scl1, SCALER_CTL0_SCL1));
-+
-+		/* Position Word 0: Image Positions and Alpha Value */
-+		vc4_state->pos0_offset = vc4_state->dlist_count;
-+		vc4_dlist_write(vc4_state,
-+				VC4_SET_FIELD(state->alpha >> 8, SCALER_POS0_FIXED_ALPHA) |
-+				VC4_SET_FIELD(vc4_state->crtc_x, SCALER_POS0_START_X) |
-+				VC4_SET_FIELD(vc4_state->crtc_y, SCALER_POS0_START_Y));
-+
-+		/* Position Word 1: Scaled Image Dimensions. */
-+		if (!vc4_state->is_unity) {
-+			vc4_dlist_write(vc4_state,
-+					VC4_SET_FIELD(vc4_state->crtc_w,
-+						      SCALER_POS1_SCL_WIDTH) |
-+					VC4_SET_FIELD(vc4_state->crtc_h,
-+						      SCALER_POS1_SCL_HEIGHT));
-+		}
-+
-+		/* Position Word 2: Source Image Size, Alpha */
-+		vc4_state->pos2_offset = vc4_state->dlist_count;
-+		vc4_dlist_write(vc4_state,
-+				VC4_SET_FIELD(fb->format->has_alpha ?
-+					      SCALER_POS2_ALPHA_MODE_PIPELINE :
-+					      SCALER_POS2_ALPHA_MODE_FIXED,
-+					      SCALER_POS2_ALPHA_MODE) |
-+				(mix_plane_alpha ? SCALER_POS2_ALPHA_MIX : 0) |
-+				(fb->format->has_alpha ?
-+						SCALER_POS2_ALPHA_PREMULT : 0) |
-+				VC4_SET_FIELD(vc4_state->src_w[0],
-+					      SCALER_POS2_WIDTH) |
-+				VC4_SET_FIELD(vc4_state->src_h[0],
-+					      SCALER_POS2_HEIGHT));
-+
-+		/* Position Word 3: Context.  Written by the HVS. */
-+		vc4_dlist_write(vc4_state, 0xc0c0c0c0);
-+
-+	} else {
-+		u32 hvs_pixel_order = format->pixel_order;
+ 	drm_atomic_helper_wait_for_dependencies(state);
+@@ -182,6 +187,8 @@ vc4_atomic_complete_commit(struct drm_atomic_state *state)
  
--	/* Position Word 3: Context.  Written by the HVS. */
--	vc4_dlist_write(vc4_state, 0xc0c0c0c0);
-+		if (format->pixel_order_hvs5)
-+			hvs_pixel_order = format->pixel_order_hvs5;
-+
-+		/* Control word */
-+		vc4_dlist_write(vc4_state,
-+				SCALER_CTL0_VALID |
-+				(hvs_pixel_order << SCALER_CTL0_ORDER_SHIFT) |
-+				(hvs_format << SCALER_CTL0_PIXEL_FORMAT_SHIFT) |
-+				VC4_SET_FIELD(tiling, SCALER_CTL0_TILING) |
-+				(vc4_state->is_unity ?
-+						SCALER5_CTL0_UNITY : 0) |
-+				VC4_SET_FIELD(scl0, SCALER_CTL0_SCL0) |
-+				VC4_SET_FIELD(scl1, SCALER_CTL0_SCL1) |
-+				SCALER5_CTL0_ALPHA_EXPAND |
-+				SCALER5_CTL0_RGB_EXPAND);
-+
-+		/* Position Word 0: Image Positions and Alpha Value */
-+		vc4_state->pos0_offset = vc4_state->dlist_count;
-+		vc4_dlist_write(vc4_state,
-+				(rotation & DRM_MODE_REFLECT_Y ?
-+						SCALER5_POS0_VFLIP : 0) |
-+				VC4_SET_FIELD(vc4_state->crtc_x,
-+					      SCALER_POS0_START_X) |
-+				(rotation & DRM_MODE_REFLECT_X ?
-+					      SCALER5_POS0_HFLIP : 0) |
-+				VC4_SET_FIELD(vc4_state->crtc_y,
-+					      SCALER5_POS0_START_Y)
-+			       );
-+
-+		/* Control Word 2 */
-+		vc4_dlist_write(vc4_state,
-+				VC4_SET_FIELD(state->alpha >> 4,
-+					      SCALER5_CTL2_ALPHA) |
-+				fb->format->has_alpha ?
-+					SCALER5_CTL2_ALPHA_PREMULT : 0 |
-+				(mix_plane_alpha ?
-+					SCALER5_CTL2_ALPHA_MIX : 0) |
-+				VC4_SET_FIELD(fb->format->has_alpha ?
-+				      SCALER5_CTL2_ALPHA_MODE_PIPELINE :
-+				      SCALER5_CTL2_ALPHA_MODE_FIXED,
-+				      SCALER5_CTL2_ALPHA_MODE)
-+			       );
-+
-+		/* Position Word 1: Scaled Image Dimensions. */
-+		if (!vc4_state->is_unity) {
-+			vc4_dlist_write(vc4_state,
-+					VC4_SET_FIELD(vc4_state->crtc_w,
-+						      SCALER_POS1_SCL_WIDTH) |
-+					VC4_SET_FIELD(vc4_state->crtc_h,
-+						      SCALER_POS1_SCL_HEIGHT));
-+		}
-+
-+		/* Position Word 2: Source Image Size */
-+		vc4_state->pos2_offset = vc4_state->dlist_count;
-+		vc4_dlist_write(vc4_state,
-+				VC4_SET_FIELD(vc4_state->src_w[0],
-+					      SCALER5_POS2_WIDTH) |
-+				VC4_SET_FIELD(vc4_state->src_h[0],
-+					      SCALER5_POS2_HEIGHT));
-+
-+		/* Position Word 3: Context.  Written by the HVS. */
-+		vc4_dlist_write(vc4_state, 0xc0c0c0c0);
-+	}
+ 	drm_atomic_helper_commit_cleanup_done(state);
  
++	clk_set_rate(hvs->core_clk, 200000000);
++
+ 	drm_atomic_state_put(state);
  
- 	/* Pointer Word 0/1/2: RGB / Y / Cb / Cr Pointers
-@@ -1208,6 +1294,10 @@ static bool vc4_format_mod_supported(struct drm_plane *plane,
- 		default:
- 			return false;
- 		}
-+	case DRM_FORMAT_RGBX1010102:
-+	case DRM_FORMAT_BGRX1010102:
-+	case DRM_FORMAT_RGBA1010102:
-+	case DRM_FORMAT_BGRA1010102:
- 	case DRM_FORMAT_YUV422:
- 	case DRM_FORMAT_YVU422:
- 	case DRM_FORMAT_YUV420:
-diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
-index b5a6b4cdd332..8a51baf681fe 100644
---- a/drivers/gpu/drm/vc4/vc4_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_regs.h
-@@ -328,6 +328,20 @@
- # define SCALER_DISPCTRLX_HEIGHT_MASK		VC4_MASK(11, 0)
- # define SCALER_DISPCTRLX_HEIGHT_SHIFT		0
- 
-+# define SCALER5_DISPCTRLX_WIDTH_MASK		VC4_MASK(28, 16)
-+# define SCALER5_DISPCTRLX_WIDTH_SHIFT		16
-+/* Generates a single frame when VSTART is seen and stops at the last
-+ * pixel read from the FIFO.
-+ */
-+# define SCALER5_DISPCTRLX_ONESHOT		BIT(15)
-+/* Processes a single context in the dlist and then task switch,
-+ * instead of an entire line.
-+ */
-+# define SCALER5_DISPCTRLX_ONECTX_MASK		VC4_MASK(14, 13)
-+# define SCALER5_DISPCTRLX_ONECTX_SHIFT		13
-+# define SCALER5_DISPCTRLX_HEIGHT_MASK		VC4_MASK(12, 0)
-+# define SCALER5_DISPCTRLX_HEIGHT_SHIFT		0
-+
- #define SCALER_DISPBKGND0                       0x00000044
- # define SCALER_DISPBKGND_AUTOHS		BIT(31)
- # define SCALER_DISPBKGND_INTERLACE		BIT(30)
-@@ -461,6 +475,8 @@
- #define SCALER_DLIST_START                      0x00002000
- #define SCALER_DLIST_SIZE                       0x00004000
- 
-+#define SCALER5_DLIST_START			0x00004000
-+
- #define VC4_HDMI_CORE_REV			0x000
- 
- #define VC4_HDMI_SW_RESET_CONTROL		0x004
-@@ -826,6 +842,8 @@ enum hvs_pixel_format {
- 	HVS_PIXEL_FORMAT_PALETTE = 13,
- 	HVS_PIXEL_FORMAT_YUV444_RGB = 14,
- 	HVS_PIXEL_FORMAT_AYUV444_RGB = 15,
-+	HVS_PIXEL_FORMAT_RGBA1010102 = 16,
-+	HVS_PIXEL_FORMAT_YCBCR_10BIT = 17,
- };
- 
- /* Note: the LSB is the rightmost character shown.  Only valid for
-@@ -880,6 +898,10 @@ enum hvs_pixel_format {
- #define SCALER_CTL0_RGBA_EXPAND_MSB		2
- #define SCALER_CTL0_RGBA_EXPAND_ROUND		3
- 
-+#define SCALER5_CTL0_ALPHA_EXPAND		BIT(12)
-+
-+#define SCALER5_CTL0_RGB_EXPAND			BIT(11)
-+
- #define SCALER_CTL0_SCL1_MASK			VC4_MASK(10, 8)
- #define SCALER_CTL0_SCL1_SHIFT			8
- 
-@@ -897,10 +919,13 @@ enum hvs_pixel_format {
- 
- /* Set to indicate no scaling. */
- #define SCALER_CTL0_UNITY			BIT(4)
-+#define SCALER5_CTL0_UNITY			BIT(15)
- 
- #define SCALER_CTL0_PIXEL_FORMAT_MASK		VC4_MASK(3, 0)
- #define SCALER_CTL0_PIXEL_FORMAT_SHIFT		0
- 
-+#define SCALER5_CTL0_PIXEL_FORMAT_MASK		VC4_MASK(4, 0)
-+
- #define SCALER_POS0_FIXED_ALPHA_MASK		VC4_MASK(31, 24)
- #define SCALER_POS0_FIXED_ALPHA_SHIFT		24
- 
-@@ -910,12 +935,48 @@ enum hvs_pixel_format {
- #define SCALER_POS0_START_X_MASK		VC4_MASK(11, 0)
- #define SCALER_POS0_START_X_SHIFT		0
- 
-+#define SCALER5_POS0_START_Y_MASK		VC4_MASK(27, 16)
-+#define SCALER5_POS0_START_Y_SHIFT		16
-+
-+#define SCALER5_POS0_START_X_MASK		VC4_MASK(13, 0)
-+#define SCALER5_POS0_START_X_SHIFT		0
-+
-+#define SCALER5_POS0_VFLIP			BIT(31)
-+#define SCALER5_POS0_HFLIP			BIT(15)
-+
-+#define SCALER5_CTL2_ALPHA_MODE_MASK		VC4_MASK(31, 30)
-+#define SCALER5_CTL2_ALPHA_MODE_SHIFT		30
-+#define SCALER5_CTL2_ALPHA_MODE_PIPELINE		0
-+#define SCALER5_CTL2_ALPHA_MODE_FIXED		1
-+#define SCALER5_CTL2_ALPHA_MODE_FIXED_NONZERO	2
-+#define SCALER5_CTL2_ALPHA_MODE_FIXED_OVER_0x07	3
-+
-+#define SCALER5_CTL2_ALPHA_PREMULT		BIT(29)
-+
-+#define SCALER5_CTL2_ALPHA_MIX			BIT(28)
-+
-+#define SCALER5_CTL2_ALPHA_LOC			BIT(25)
-+
-+#define SCALER5_CTL2_MAP_SEL_MASK		VC4_MASK(18, 17)
-+#define SCALER5_CTL2_MAP_SEL_SHIFT		17
-+
-+#define SCALER5_CTL2_GAMMA			BIT(16)
-+
-+#define SCALER5_CTL2_ALPHA_MASK			VC4_MASK(15, 4)
-+#define SCALER5_CTL2_ALPHA_SHIFT		4
-+
- #define SCALER_POS1_SCL_HEIGHT_MASK		VC4_MASK(27, 16)
- #define SCALER_POS1_SCL_HEIGHT_SHIFT		16
- 
- #define SCALER_POS1_SCL_WIDTH_MASK		VC4_MASK(11, 0)
- #define SCALER_POS1_SCL_WIDTH_SHIFT		0
- 
-+#define SCALER5_POS1_SCL_HEIGHT_MASK		VC4_MASK(28, 16)
-+#define SCALER5_POS1_SCL_HEIGHT_SHIFT		16
-+
-+#define SCALER5_POS1_SCL_WIDTH_MASK		VC4_MASK(12, 0)
-+#define SCALER5_POS1_SCL_WIDTH_SHIFT		0
-+
- #define SCALER_POS2_ALPHA_MODE_MASK		VC4_MASK(31, 30)
- #define SCALER_POS2_ALPHA_MODE_SHIFT		30
- #define SCALER_POS2_ALPHA_MODE_PIPELINE		0
-@@ -931,6 +992,12 @@ enum hvs_pixel_format {
- #define SCALER_POS2_WIDTH_MASK			VC4_MASK(11, 0)
- #define SCALER_POS2_WIDTH_SHIFT			0
- 
-+#define SCALER5_POS2_HEIGHT_MASK		VC4_MASK(28, 16)
-+#define SCALER5_POS2_HEIGHT_SHIFT		16
-+
-+#define SCALER5_POS2_WIDTH_MASK			VC4_MASK(12, 0)
-+#define SCALER5_POS2_WIDTH_SHIFT		0
-+
- /* Color Space Conversion words.  Some values are S2.8 signed
-  * integers, except that the 2 integer bits map as {0x0: 0, 0x1: 1,
-  * 0x2: 2, 0x3: -1}
+ 	up(&vc4->async_modeset);
 -- 
 git-series 0.9.1
 _______________________________________________
