@@ -2,106 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F243F1B6F92
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 10:10:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADDC31B6FB2
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 10:24:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1D376EA8B;
-	Fri, 24 Apr 2020 08:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BFA86EA8D;
+	Fri, 24 Apr 2020 08:24:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB9BD6EA8B
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 08:10:15 +0000 (UTC)
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20200424081013epoutp041a97ea6f39d6e4791382788633039e36~Isx65kXDA0617206172epoutp04G
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 08:10:13 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20200424081013epoutp041a97ea6f39d6e4791382788633039e36~Isx65kXDA0617206172epoutp04G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1587715813;
- bh=5Ng/1VW1yRyT5A/c2cIXa36LGrnoU4U90U/nSaZLs6E=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=qFgwSYSPCBThXBbK3mj3uQE6GUK0Y1ej3YvGMlHoa3I0iWW1y0BUuVHQkEAhwZckp
- QlZyddY+JxMkMpKDmcul1fAL3fnUesmj+u/qY1+cBbPwj9wcoB3XYLSGr6L28DsKJD
- WaZ+98tGtPbdVC+B6kmdaBVseGoH6t/TlKDYFVbE=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200424081012epcas1p2272218fb749ee40ce1ce90b1d29e8ad8~Isx6LxI2S3172031720epcas1p2Z;
- Fri, 24 Apr 2020 08:10:12 +0000 (GMT)
-Received: from epsmges1p3.samsung.com (unknown [182.195.40.152]) by
- epsnrtp2.localdomain (Postfix) with ESMTP id 497n0L0M2LzMqYkZ; Fri, 24 Apr
- 2020 08:10:10 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
- epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
- 8D.E7.04648.1EE92AE5; Fri, 24 Apr 2020 17:10:09 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
- 20200424081009epcas1p3df0b090309c76db0206951e8a6ce9ae1~Isx3Fic1h2434624346epcas1p3J;
- Fri, 24 Apr 2020 08:10:09 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200424081009epsmtrp2fa9febad8cd6c67ca5999dd8e84027a9~Isx3EwBJx1853618536epsmtrp21;
- Fri, 24 Apr 2020 08:10:09 +0000 (GMT)
-X-AuditID: b6c32a37-1f3ff70000001228-a3-5ea29ee13662
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 85.7A.25866.0EE92AE5; Fri, 24 Apr 2020 17:10:09 +0900 (KST)
-Received: from [10.113.221.211] (unknown [10.113.221.211]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200424081008epsmtip28cb561614f176a880eb5f18236c63932~Isx25CNpT2402224022epsmtip2D;
- Fri, 24 Apr 2020 08:10:08 +0000 (GMT)
-Subject: Re: [PATCH 3/3] drm/exynos: gem: Get rid of the internal 'pages' array
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
-From: Inki Dae <inki.dae@samsung.com>
-Message-ID: <2dba3dbf-7399-c2bf-267e-0cce4e407617@samsung.com>
-Date: Fri, 24 Apr 2020 17:15:11 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42B276EA8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 08:24:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587716678;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6i9rBPD0BiOTNPJWFr9rt+Eih/dVyMQhyMUgIAY/N54=;
+ b=KpvnmfdvRau0j327uQ/GJaxDJSRxuKQh4izQF4GU7GjNQti9+OrMpmmmFwDyjzECfvsrwA
+ CB0zO/oUwd/lRf0tZJGUXMdTG/DoUHR5fcF63SHMDOdi4/gLTOCuP7RugfdWvAGlNpGW77
+ LIJqON8M0ravpM9u6aVs9vqYL1mOgHI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-sSpR1GGWPUKpLhzyniN52Q-1; Fri, 24 Apr 2020 04:24:35 -0400
+X-MC-Unique: sSpR1GGWPUKpLhzyniN52Q-1
+Received: by mail-wr1-f72.google.com with SMTP id r11so4397240wrx.21
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 01:24:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6i9rBPD0BiOTNPJWFr9rt+Eih/dVyMQhyMUgIAY/N54=;
+ b=tUSXMDQReITkwZVtT00c9RnubiondO/gsO4hzmZwmRYxY2W5+XBDVhTDp39sc5LtYw
+ 4Oxcx+YN8xjh0CPRg0t+dRKVZZ4B0Hs3Bn/oltZ3C6N9NCEbm9p49rNMQRXgTlZXQyCp
+ 1VABxhHcHPDdRVD5GvBs6kQR2yEBivX2tiV8ZyyQdTHZqpVLlN10uRyr1Ti/dbV+GJUk
+ E12VhU0Hgia0goQkBKkoAKyegvpKSI4t/zVXM2TgXltCUgeIHISN3cMZ74XsazoKvjIw
+ GopVmH3xw2xk3CZXQa1msONSMFsmdkxsAELM3EYJ3mWp9Ck5naZenxvPbGOpZF191cWE
+ SeDQ==
+X-Gm-Message-State: AGi0PuY4+xa7QAmz58CT5fChnJM9us0aAxt7DiHolUmub9w4cjH1+8Yj
+ 1MAZxgnp3cFKSwSUOO9NNXlqjrVk3PXWRHAPE9ltaivoLlkbDwru9T9FpQpRQbQJK7VYAB7Yvxy
+ SyhiMSjoDBs5X2d1oETOiDEgMn779
+X-Received: by 2002:a05:6000:12c5:: with SMTP id
+ l5mr9948884wrx.185.1587716673880; 
+ Fri, 24 Apr 2020 01:24:33 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIyIqivbWgamPFre+uJ6/bQbu2XPb201m0UImdS8x58S+WKeGhVkwDd77gj/J25CSchOljUrg==
+X-Received: by 2002:a05:6000:12c5:: with SMTP id
+ l5mr9948857wrx.185.1587716673526; 
+ Fri, 24 Apr 2020 01:24:33 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id s14sm1910568wme.33.2020.04.24.01.24.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Apr 2020 01:24:32 -0700 (PDT)
+Subject: Re: RFC: Drm-connector properties managed by another driver / privacy
+ screen support
+To: Pekka Paalanen <ppaalanen@gmail.com>, Rajat Jain <rajatja@google.com>
+References: <783240e9-e8d1-fc28-6c11-14c8f8e35cfa@redhat.com>
+ <87tv1k4vl6.fsf@intel.com> <d47ba6ef-efd0-9f28-1ae4-b971b95a8f8b@redhat.com>
+ <20200417120226.0cd6bc21@eldfell.localdomain> <87k12e2uoa.fsf@intel.com>
+ <e8da46f8-ebe4-aee4-31c8-229d06fa7430@redhat.com>
+ <20200421174613.139991ed@eldfell.localdomain>
+ <CACK8Z6Hwg132K3TwsX6Bjx-2KG0HywrP=PnMMegdp7jqeU__1A@mail.gmail.com>
+ <20200424104024.4cdb0d40@eldfell.localdomain>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <caa677d0-bc43-5045-f4bb-1b762fafc870@redhat.com>
+Date: Fri, 24 Apr 2020 10:24:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200407134256.9129-4-m.szyprowski@samsung.com>
+In-Reply-To: <20200424104024.4cdb0d40@eldfell.localdomain>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprMJsWRmVeSWpSXmKPExsWy7bCmru7DeYviDJo+WlrcWneO1WLjjPWs
- Fle+vmezmHF+H5PF2iN32S1mTH7J5sDmcb/7OJNH35ZVjB6fN8kFMEdl22SkJqakFimk5iXn
- p2TmpdsqeQfHO8ebmhkY6hpaWpgrKeQl5qbaKrn4BOi6ZeYA7VVSKEvMKQUKBSQWFyvp29kU
- 5ZeWpCpk5BeX2CqlFqTkFFgW6BUn5haX5qXrJefnWhkaGBiZAhUmZGfM+LeAveByesWUBdYN
- jAuDuxg5OCQETCS2LGTsYuTiEBLYwShxrfE7C4TziVHi3Y69bF2MnEDOZ0aJnvtaIDZIw7oX
- 36A6djFKfDt9gBnCec8o0XB+BQtIlbBAoMSV1sVMILaIQKnE3P/H2EFsZoF2Rom1x+NBbDYB
- VYmJK+6zgZzBK2AnMX29OkiYBSjctKeTGSQsKhAhcfprIkiYV0BQ4uTMJ2DTOQVsJRpuPGOF
- mCgucevJfCYIW16ieetssHMkBH6yS8yaMZMN4mgXiYtfTkHZwhKvjm9hh7ClJD6/A3kSpKGZ
- UWLijNNMEE4Ho8Tdx9dZIKqMJfYvncwEchGzgKbE+l36EGFFiZ2/5zJCbOaTePe1hxUSpLwS
- HW1CECVKEscu3mCEsCUkLiyZCHWDh8TRZ/tYJzAqzkLy2ywk/8xC8s8shMULGFlWMYqlFhTn
- pqcWGxYYI0f1JkZwgtQy38G44ZzPIUYBDkYlHt4bRQvjhFgTy4orcw8xSnAwK4nwxpQsihPi
- TUmsrEotyo8vKs1JLT7EaAoM+YnMUqLJ+cDknVcSb2hqZGxsbGFiaGZqaKgkzjv1ek6ckEB6
- YklqdmpqQWoRTB8TB6dUA6PxTb4q+QrtCzt3bT3n9CXswNm+tQf8+j9t+zRzhgkrj9GLNu5/
- /aEyYTf7bY6IB/0uzPjYvUny7BmGpLOS70WWlcvUhnGptG7Nnni82k/mptjk+OR3yxe+fFH1
- c8rDmc2RfhtOvJW/cuX2cpnZpS9a3lzbfE3Aq+Zfb4qR8NxNWlz1C/o+zPRSYinOSDTUYi4q
- TgQAuKrgPKYDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrGLMWRmVeSWpSXmKPExsWy7bCSvO7DeYviDK6dZbS4te4cq8XGGetZ
- La58fc9mMeP8PiaLtUfuslvMmPySzYHN4373cSaPvi2rGD0+b5ILYI7isklJzcksSy3St0vg
- ypjxbwF7weX0iikLrBsYFwZ3MXJySAiYSKx78Y2xi5GLQ0hgB6PEs6NfgRwOoISExJatHBCm
- sMThw8UQJW8ZJc7vXc8I0issEChxpXUxE4gtIlAq8ar/PtgcZoF2Rokj+zrYIToOM0qca7oO
- VsUmoCoxccV9NpCpvAJ2EtPXq4OEWYDCTXs6mUFsUYEIiefbb4At4BUQlDg58wkLiM0pYCvR
- cOMZK4jNLKAu8WfeJWYIW1zi1pP5TBC2vETz1tnMExiFZiFpn4WkZRaSlllIWhYwsqxilEwt
- KM5Nzy02LDDKSy3XK07MLS7NS9dLzs/dxAiOCi2tHYx7Vn3QO8TIxMF4iFGCg1lJhDemZFGc
- EG9KYmVValF+fFFpTmrxIUZpDhYlcd6vsxbGCQmkJ5akZqemFqQWwWSZODilGphOyC9d0HmJ
- /8Ar2YJJ/ArxX17OdZzzydnjAUcB57I9Jl8PRehIZrt4K/sft681kTnWNeXpMp9/WmZPdz2w
- uvw9/fmutSFXnG3WdzG1NjTw6c6SeWXy82rwH2bDS1tiXP99bVmZatct9un8Hue8OxfkP0Xo
- 5m0yKZ4482mwpuKst53xG7xXbO/4bZqxfLF02T9P3y3eEcF3p8Q+el+2I7Du84YjkqdWTiuX
- C9OtEdCz38DxKFLbKXEV968fcwtY936pnxltu6+00zVeuYh12SeH0mUzbT+8uyK2PvyVhOHs
- T6Exp0t8BDwsbRtZ3v4WuRx4UMyY7fN/vqNn6l153tZ9arA4zrhPxLus6eq67WuVWIozEg21
- mIuKEwE7nhxf+QIAAA==
-X-CMS-MailID: 20200424081009epcas1p3df0b090309c76db0206951e8a6ce9ae1
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200407134314eucas1p1895d868d9dbf5eee08c675dd10266d81
-References: <20200407134256.9129-1-m.szyprowski@samsung.com>
- <CGME20200407134314eucas1p1895d868d9dbf5eee08c675dd10266d81@eucas1p1.samsung.com>
- <20200407134256.9129-4-m.szyprowski@samsung.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,240 +89,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <a.hajda@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Christian Kellner <ckellner@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Nitin Joshi1 <njoshi1@lenovo.com>,
+ Mark Pearson <mpearson@lenovo.com>, Benjamin Berg <bberg@redhat.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgoyMC4gNC4gNy4g7Jik7ZuEIDEwOjQy7JeQIE1hcmVrIFN6eXByb3dza2kg7J20KOqwgCkg7JO0
-IOq4gDoKPiBJbnRlcm5hbCBwYWdlcyBhcnJheSBhbmQgc2NhdHRlci1saXN0IGZvciB0aGVtIGlz
-IG5vdCByZWFsbHkgbmVlZGVkIGZvcgo+IGFueXRoaW5nLiBGQkRldiBlbXVsYXRpb24gY2FuIHNp
-bXBseSByZWx5IG9uIHRoZSBETUEtbWFwcGluZyBmcmFtZXdvcmsKPiB0byBjcmVhdGUgYSBwcm9w
-ZXIga2VybmVsIG1hcHBpbmcgZm9yIHRoZSBidWZmZXIsIHdoaWxlIGFsbCBvdGhlciBidWZmZXIK
-PiB1c2UgY2FzZXMgZG9uJ3QgcmVhbGx5IG5lZWQgdGhhdCBhcnJheSBhdCBhbGwuCgpQaWNrZWQg
-aXQgdXAuCgpUaGFua3MsCklua2kgRGFlCgo+IAo+IFN1Z2dlc3RlZC1ieTogQ2hyaXN0aWFuIEvD
-tm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IFNpZ25lZC1vZmYtYnk6IE1hcmVrIFN6
-eXByb3dza2kgPG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUv
-ZHJtL2V4eW5vcy9leHlub3NfZHJtX2ZiZGV2LmMgfCAgMjggKy0tLS0KPiAgZHJpdmVycy9ncHUv
-ZHJtL2V4eW5vcy9leHlub3NfZHJtX2dlbS5jICAgfCAxMjQgKysrKysrKy0tLS0tLS0tLS0tLS0t
-LQo+ICBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZ2VtLmggICB8ICAxMyArLS0K
-PiAgMyBmaWxlcyBjaGFuZ2VkLCA0MiBpbnNlcnRpb25zKCspLCAxMjMgZGVsZXRpb25zKC0pCj4g
-Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9mYmRldi5j
-IGIvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2ZiZGV2LmMKPiBpbmRleCBlNmNl
-YWYzNmZiMDQuLjU2YTJiNDdlMWFmNyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5
-bm9zL2V4eW5vc19kcm1fZmJkZXYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5
-bm9zX2RybV9mYmRldi5jCj4gQEAgLTc2LDcgKzc2LDYgQEAgc3RhdGljIGludCBleHlub3NfZHJt
-X2ZiZGV2X3VwZGF0ZShzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqaGVscGVyLAo+ICAJc3RydWN0IGZi
-X2luZm8gKmZiaTsKPiAgCXN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiID0gaGVscGVyLT5mYjsK
-PiAgCXVuc2lnbmVkIGludCBzaXplID0gZmItPndpZHRoICogZmItPmhlaWdodCAqIGZiLT5mb3Jt
-YXQtPmNwcFswXTsKPiAtCXVuc2lnbmVkIGludCBucl9wYWdlczsKPiAgCXVuc2lnbmVkIGxvbmcg
-b2Zmc2V0Owo+ICAKPiAgCWZiaSA9IGRybV9mYl9oZWxwZXJfYWxsb2NfZmJpKGhlbHBlcik7Cj4g
-QEAgLTkwLDE2ICs4OSw2IEBAIHN0YXRpYyBpbnQgZXh5bm9zX2RybV9mYmRldl91cGRhdGUoc3Ry
-dWN0IGRybV9mYl9oZWxwZXIgKmhlbHBlciwKPiAgCj4gIAlkcm1fZmJfaGVscGVyX2ZpbGxfaW5m
-byhmYmksIGhlbHBlciwgc2l6ZXMpOwo+ICAKPiAtCW5yX3BhZ2VzID0gZXh5bm9zX2dlbS0+c2l6
-ZSA+PiBQQUdFX1NISUZUOwo+IC0KPiAtCWV4eW5vc19nZW0tPmt2YWRkciA9ICh2b2lkIF9faW9t
-ZW0gKikgdm1hcChleHlub3NfZ2VtLT5wYWdlcywgbnJfcGFnZXMsCj4gLQkJCQlWTV9NQVAsIHBn
-cHJvdF93cml0ZWNvbWJpbmUoUEFHRV9LRVJORUwpKTsKPiAtCWlmICghZXh5bm9zX2dlbS0+a3Zh
-ZGRyKSB7Cj4gLQkJRFJNX0RFVl9FUlJPUih0b19kbWFfZGV2KGhlbHBlci0+ZGV2KSwKPiAtCQkJ
-ICAgICAgImZhaWxlZCB0byBtYXAgcGFnZXMgdG8ga2VybmVsIHNwYWNlLlxuIik7Cj4gLQkJcmV0
-dXJuIC1FSU87Cj4gLQl9Cj4gLQo+ICAJb2Zmc2V0ID0gZmJpLT52YXIueG9mZnNldCAqIGZiLT5m
-b3JtYXQtPmNwcFswXTsKPiAgCW9mZnNldCArPSBmYmktPnZhci55b2Zmc2V0ICogZmItPnBpdGNo
-ZXNbMF07Cj4gIAo+IEBAIC0xMzMsMTggKzEyMiw3IEBAIHN0YXRpYyBpbnQgZXh5bm9zX2RybV9m
-YmRldl9jcmVhdGUoc3RydWN0IGRybV9mYl9oZWxwZXIgKmhlbHBlciwKPiAgCj4gIAlzaXplID0g
-bW9kZV9jbWQucGl0Y2hlc1swXSAqIG1vZGVfY21kLmhlaWdodDsKPiAgCj4gLQlleHlub3NfZ2Vt
-ID0gZXh5bm9zX2RybV9nZW1fY3JlYXRlKGRldiwgRVhZTk9TX0JPX0NPTlRJRywgc2l6ZSk7Cj4g
-LQkvKgo+IC0JICogSWYgcGh5c2ljYWxseSBjb250aWd1b3VzIG1lbW9yeSBhbGxvY2F0aW9uIGZh
-aWxzIGFuZCBpZiBJT01NVSBpcwo+IC0JICogc3VwcG9ydGVkIHRoZW4gdHJ5IHRvIGdldCBidWZm
-ZXIgZnJvbSBub24gcGh5c2ljYWxseSBjb250aWd1b3VzCj4gLQkgKiBtZW1vcnkgYXJlYS4KPiAt
-CSAqLwo+IC0JaWYgKElTX0VSUihleHlub3NfZ2VtKSAmJiBpc19kcm1faW9tbXVfc3VwcG9ydGVk
-KGRldikpIHsKPiAtCQlkZXZfd2FybihkZXYtPmRldiwgImNvbnRpZ3VvdXMgRkIgYWxsb2NhdGlv
-biBmYWlsZWQsIGZhbGxpbmcgYmFjayB0byBub24tY29udGlndW91c1xuIik7Cj4gLQkJZXh5bm9z
-X2dlbSA9IGV4eW5vc19kcm1fZ2VtX2NyZWF0ZShkZXYsIEVYWU5PU19CT19OT05DT05USUcsCj4g
-LQkJCQkJCSAgIHNpemUpOwo+IC0JfQo+IC0KPiArCWV4eW5vc19nZW0gPSBleHlub3NfZHJtX2dl
-bV9jcmVhdGUoZGV2LCBFWFlOT1NfQk9fV0MsIHNpemUsIHRydWUpOwo+ICAJaWYgKElTX0VSUihl
-eHlub3NfZ2VtKSkKPiAgCQlyZXR1cm4gUFRSX0VSUihleHlub3NfZ2VtKTsKPiAgCj4gQEAgLTIy
-OSwxMiArMjA3LDggQEAgaW50IGV4eW5vc19kcm1fZmJkZXZfaW5pdChzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZGV2KQo+ICBzdGF0aWMgdm9pZCBleHlub3NfZHJtX2ZiZGV2X2Rlc3Ryb3koc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiwKPiAgCQkJCSAgICAgIHN0cnVjdCBkcm1fZmJfaGVscGVyICpmYl9oZWxw
-ZXIpCj4gIHsKPiAtCXN0cnVjdCBleHlub3NfZHJtX2ZiZGV2ICpleHlub3NfZmJkID0gdG9fZXh5
-bm9zX2ZiZGV2KGZiX2hlbHBlcik7Cj4gLQlzdHJ1Y3QgZXh5bm9zX2RybV9nZW0gKmV4eW5vc19n
-ZW0gPSBleHlub3NfZmJkLT5leHlub3NfZ2VtOwo+ICAJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAq
-ZmI7Cj4gIAo+IC0JdnVubWFwKGV4eW5vc19nZW0tPmt2YWRkcik7Cj4gLQo+ICAJLyogcmVsZWFz
-ZSBkcm0gZnJhbWVidWZmZXIgYW5kIHJlYWwgYnVmZmVyICovCj4gIAlpZiAoZmJfaGVscGVyLT5m
-YiAmJiBmYl9oZWxwZXItPmZiLT5mdW5jcykgewo+ICAJCWZiID0gZmJfaGVscGVyLT5mYjsKPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2dlbS5jIGIvZHJp
-dmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2dlbS5jCj4gaW5kZXggOWQ0ZTRkMzIxYmRh
-Li4zYzI3MzIzODA1MTcgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlu
-b3NfZHJtX2dlbS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2dl
-bS5jCj4gQEAgLTE3LDI4ICsxNywyMyBAQAo+ICAjaW5jbHVkZSAiZXh5bm9zX2RybV9kcnYuaCIK
-PiAgI2luY2x1ZGUgImV4eW5vc19kcm1fZ2VtLmgiCj4gIAo+IC1zdGF0aWMgaW50IGV4eW5vc19k
-cm1fYWxsb2NfYnVmKHN0cnVjdCBleHlub3NfZHJtX2dlbSAqZXh5bm9zX2dlbSkKPiArc3RhdGlj
-IGludCBleHlub3NfZHJtX2FsbG9jX2J1ZihzdHJ1Y3QgZXh5bm9zX2RybV9nZW0gKmV4eW5vc19n
-ZW0sIGJvb2wga3ZtYXApCj4gIHsKPiAgCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBleHlub3Nf
-Z2VtLT5iYXNlLmRldjsKPiAtCXVuc2lnbmVkIGxvbmcgYXR0cjsKPiAtCXVuc2lnbmVkIGludCBu
-cl9wYWdlczsKPiAtCXN0cnVjdCBzZ190YWJsZSBzZ3Q7Cj4gLQlpbnQgcmV0ID0gLUVOT01FTTsK
-PiArCXVuc2lnbmVkIGxvbmcgYXR0ciA9IDA7Cj4gIAo+ICAJaWYgKGV4eW5vc19nZW0tPmRtYV9h
-ZGRyKSB7Cj4gIAkJRFJNX0RFVl9ERUJVR19LTVModG9fZG1hX2RldihkZXYpLCAiYWxyZWFkeSBh
-bGxvY2F0ZWQuXG4iKTsKPiAgCQlyZXR1cm4gMDsKPiAgCX0KPiAgCj4gLQlleHlub3NfZ2VtLT5k
-bWFfYXR0cnMgPSAwOwo+IC0KPiAgCS8qCj4gIAkgKiBpZiBFWFlOT1NfQk9fQ09OVElHLCBmdWxs
-eSBwaHlzaWNhbGx5IGNvbnRpZ3VvdXMgbWVtb3J5Cj4gIAkgKiByZWdpb24gd2lsbCBiZSBhbGxv
-Y2F0ZWQgZWxzZSBwaHlzaWNhbGx5IGNvbnRpZ3VvdXMKPiAgCSAqIGFzIHBvc3NpYmxlLgo+ICAJ
-ICovCj4gIAlpZiAoIShleHlub3NfZ2VtLT5mbGFncyAmIEVYWU5PU19CT19OT05DT05USUcpKQo+
-IC0JCWV4eW5vc19nZW0tPmRtYV9hdHRycyB8PSBETUFfQVRUUl9GT1JDRV9DT05USUdVT1VTOwo+
-ICsJCWF0dHIgfD0gRE1BX0FUVFJfRk9SQ0VfQ09OVElHVU9VUzsKPiAgCj4gIAkvKgo+ICAJICog
-aWYgRVhZTk9TX0JPX1dDIG9yIEVYWU5PU19CT19OT05DQUNIQUJMRSwgd3JpdGVjb21iaW5lIG1h
-cHBpbmcKPiBAQCAtNDYsNjEgKzQxLDI5IEBAIHN0YXRpYyBpbnQgZXh5bm9zX2RybV9hbGxvY19i
-dWYoc3RydWN0IGV4eW5vc19kcm1fZ2VtICpleHlub3NfZ2VtKQo+ICAJICovCj4gIAlpZiAoZXh5
-bm9zX2dlbS0+ZmxhZ3MgJiBFWFlOT1NfQk9fV0MgfHwKPiAgCQkJIShleHlub3NfZ2VtLT5mbGFn
-cyAmIEVYWU5PU19CT19DQUNIQUJMRSkpCj4gLQkJYXR0ciA9IERNQV9BVFRSX1dSSVRFX0NPTUJJ
-TkU7Cj4gKwkJYXR0ciB8PSBETUFfQVRUUl9XUklURV9DT01CSU5FOwo+ICAJZWxzZQo+IC0JCWF0
-dHIgPSBETUFfQVRUUl9OT05fQ09OU0lTVEVOVDsKPiAtCj4gLQlleHlub3NfZ2VtLT5kbWFfYXR0
-cnMgfD0gYXR0cjsKPiAtCWV4eW5vc19nZW0tPmRtYV9hdHRycyB8PSBETUFfQVRUUl9OT19LRVJO
-RUxfTUFQUElORzsKPiAtCj4gLQlucl9wYWdlcyA9IGV4eW5vc19nZW0tPnNpemUgPj4gUEFHRV9T
-SElGVDsKPiArCQlhdHRyIHw9IERNQV9BVFRSX05PTl9DT05TSVNURU5UOwo+ICAKPiAtCWV4eW5v
-c19nZW0tPnBhZ2VzID0ga3ZtYWxsb2NfYXJyYXkobnJfcGFnZXMsIHNpemVvZihzdHJ1Y3QgcGFn
-ZSAqKSwKPiAtCQkJR0ZQX0tFUk5FTCB8IF9fR0ZQX1pFUk8pOwo+IC0JaWYgKCFleHlub3NfZ2Vt
-LT5wYWdlcykgewo+IC0JCURSTV9ERVZfRVJST1IodG9fZG1hX2RldihkZXYpLCAiZmFpbGVkIHRv
-IGFsbG9jYXRlIHBhZ2VzLlxuIik7Cj4gLQkJcmV0dXJuIC1FTk9NRU07Cj4gLQl9Cj4gKwkvKiBG
-QkRldiBlbXVsYXRpb24gcmVxdWlyZXMga2VybmVsIG1hcHBpbmcgKi8KPiArCWlmICgha3ZtYXAp
-Cj4gKwkJYXR0ciB8PSBETUFfQVRUUl9OT19LRVJORUxfTUFQUElORzsKPiAgCj4gKwlleHlub3Nf
-Z2VtLT5kbWFfYXR0cnMgPSBhdHRyOwo+ICAJZXh5bm9zX2dlbS0+Y29va2llID0gZG1hX2FsbG9j
-X2F0dHJzKHRvX2RtYV9kZXYoZGV2KSwgZXh5bm9zX2dlbS0+c2l6ZSwKPiAgCQkJCQkgICAgICZl
-eHlub3NfZ2VtLT5kbWFfYWRkciwgR0ZQX0tFUk5FTCwKPiAgCQkJCQkgICAgIGV4eW5vc19nZW0t
-PmRtYV9hdHRycyk7Cj4gIAlpZiAoIWV4eW5vc19nZW0tPmNvb2tpZSkgewo+ICAJCURSTV9ERVZf
-RVJST1IodG9fZG1hX2RldihkZXYpLCAiZmFpbGVkIHRvIGFsbG9jYXRlIGJ1ZmZlci5cbiIpOwo+
-IC0JCWdvdG8gZXJyX2ZyZWU7Cj4gLQl9Cj4gLQo+IC0JcmV0ID0gZG1hX2dldF9zZ3RhYmxlX2F0
-dHJzKHRvX2RtYV9kZXYoZGV2KSwgJnNndCwgZXh5bm9zX2dlbS0+Y29va2llLAo+IC0JCQkJICAg
-IGV4eW5vc19nZW0tPmRtYV9hZGRyLCBleHlub3NfZ2VtLT5zaXplLAo+IC0JCQkJICAgIGV4eW5v
-c19nZW0tPmRtYV9hdHRycyk7Cj4gLQlpZiAocmV0IDwgMCkgewo+IC0JCURSTV9ERVZfRVJST1Io
-dG9fZG1hX2RldihkZXYpLCAiZmFpbGVkIHRvIGdldCBzZ3RhYmxlLlxuIik7Cj4gLQkJZ290byBl
-cnJfZG1hX2ZyZWU7Cj4gLQl9Cj4gLQo+IC0JaWYgKGRybV9wcmltZV9zZ190b19wYWdlX2FkZHJf
-YXJyYXlzKCZzZ3QsIGV4eW5vc19nZW0tPnBhZ2VzLCBOVUxMLAo+IC0JCQkJCSAgICAgbnJfcGFn
-ZXMpKSB7Cj4gLQkJRFJNX0RFVl9FUlJPUih0b19kbWFfZGV2KGRldiksICJpbnZhbGlkIHNndGFi
-bGUuXG4iKTsKPiAtCQlyZXQgPSAtRUlOVkFMOwo+IC0JCWdvdG8gZXJyX3NndF9mcmVlOwo+ICsJ
-CXJldHVybiAtRU5PTUVNOwo+ICAJfQo+ICAKPiAtCXNnX2ZyZWVfdGFibGUoJnNndCk7Cj4gKwlp
-ZiAoa3ZtYXApCj4gKwkJZXh5bm9zX2dlbS0+a3ZhZGRyID0gZXh5bm9zX2dlbS0+Y29va2llOwo+
-ICAKPiAgCURSTV9ERVZfREVCVUdfS01TKHRvX2RtYV9kZXYoZGV2KSwgImRtYV9hZGRyKDB4JWx4
-KSwgc2l6ZSgweCVseClcbiIsCj4gIAkJCSh1bnNpZ25lZCBsb25nKWV4eW5vc19nZW0tPmRtYV9h
-ZGRyLCBleHlub3NfZ2VtLT5zaXplKTsKPiAtCj4gIAlyZXR1cm4gMDsKPiAtCj4gLWVycl9zZ3Rf
-ZnJlZToKPiAtCXNnX2ZyZWVfdGFibGUoJnNndCk7Cj4gLWVycl9kbWFfZnJlZToKPiAtCWRtYV9m
-cmVlX2F0dHJzKHRvX2RtYV9kZXYoZGV2KSwgZXh5bm9zX2dlbS0+c2l6ZSwgZXh5bm9zX2dlbS0+
-Y29va2llLAo+IC0JCSAgICAgICBleHlub3NfZ2VtLT5kbWFfYWRkciwgZXh5bm9zX2dlbS0+ZG1h
-X2F0dHJzKTsKPiAtZXJyX2ZyZWU6Cj4gLQlrdmZyZWUoZXh5bm9zX2dlbS0+cGFnZXMpOwo+IC0K
-PiAtCXJldHVybiByZXQ7Cj4gIH0KPiAgCj4gIHN0YXRpYyB2b2lkIGV4eW5vc19kcm1fZnJlZV9i
-dWYoc3RydWN0IGV4eW5vc19kcm1fZ2VtICpleHlub3NfZ2VtKQo+IEBAIC0xMTgsOCArODEsNiBA
-QCBzdGF0aWMgdm9pZCBleHlub3NfZHJtX2ZyZWVfYnVmKHN0cnVjdCBleHlub3NfZHJtX2dlbSAq
-ZXh5bm9zX2dlbSkKPiAgCWRtYV9mcmVlX2F0dHJzKHRvX2RtYV9kZXYoZGV2KSwgZXh5bm9zX2dl
-bS0+c2l6ZSwgZXh5bm9zX2dlbS0+Y29va2llLAo+ICAJCQkoZG1hX2FkZHJfdClleHlub3NfZ2Vt
-LT5kbWFfYWRkciwKPiAgCQkJZXh5bm9zX2dlbS0+ZG1hX2F0dHJzKTsKPiAtCj4gLQlrdmZyZWUo
-ZXh5bm9zX2dlbS0+cGFnZXMpOwo+ICB9Cj4gIAo+ICBzdGF0aWMgaW50IGV4eW5vc19kcm1fZ2Vt
-X2hhbmRsZV9jcmVhdGUoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosCj4gQEAgLTIwMyw3ICsx
-NjQsOCBAQCBzdGF0aWMgc3RydWN0IGV4eW5vc19kcm1fZ2VtICpleHlub3NfZHJtX2dlbV9pbml0
-KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gIAo+ICBzdHJ1Y3QgZXh5bm9zX2RybV9nZW0gKmV4
-eW5vc19kcm1fZ2VtX2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICAJCQkJCSAgICAg
-dW5zaWduZWQgaW50IGZsYWdzLAo+IC0JCQkJCSAgICAgdW5zaWduZWQgbG9uZyBzaXplKQo+ICsJ
-CQkJCSAgICAgdW5zaWduZWQgbG9uZyBzaXplLAo+ICsJCQkJCSAgICAgYm9vbCBrdm1hcCkKPiAg
-ewo+ICAJc3RydWN0IGV4eW5vc19kcm1fZ2VtICpleHlub3NfZ2VtOwo+ICAJaW50IHJldDsKPiBA
-QCAtMjM3LDcgKzE5OSw3IEBAIHN0cnVjdCBleHlub3NfZHJtX2dlbSAqZXh5bm9zX2RybV9nZW1f
-Y3JlYXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gIAkvKiBzZXQgbWVtb3J5IHR5cGUgYW5k
-IGNhY2hlIGF0dHJpYnV0ZSBmcm9tIHVzZXIgc2lkZS4gKi8KPiAgCWV4eW5vc19nZW0tPmZsYWdz
-ID0gZmxhZ3M7Cj4gIAo+IC0JcmV0ID0gZXh5bm9zX2RybV9hbGxvY19idWYoZXh5bm9zX2dlbSk7
-Cj4gKwlyZXQgPSBleHlub3NfZHJtX2FsbG9jX2J1ZihleHlub3NfZ2VtLCBrdm1hcCk7Cj4gIAlp
-ZiAocmV0IDwgMCkgewo+ICAJCWRybV9nZW1fb2JqZWN0X3JlbGVhc2UoJmV4eW5vc19nZW0tPmJh
-c2UpOwo+ICAJCWtmcmVlKGV4eW5vc19nZW0pOwo+IEBAIC0yNTQsNyArMjE2LDcgQEAgaW50IGV4
-eW5vc19kcm1fZ2VtX2NyZWF0ZV9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpk
-YXRhLAo+ICAJc3RydWN0IGV4eW5vc19kcm1fZ2VtICpleHlub3NfZ2VtOwo+ICAJaW50IHJldDsK
-PiAgCj4gLQlleHlub3NfZ2VtID0gZXh5bm9zX2RybV9nZW1fY3JlYXRlKGRldiwgYXJncy0+Zmxh
-Z3MsIGFyZ3MtPnNpemUpOwo+ICsJZXh5bm9zX2dlbSA9IGV4eW5vc19kcm1fZ2VtX2NyZWF0ZShk
-ZXYsIGFyZ3MtPmZsYWdzLCBhcmdzLT5zaXplLCBmYWxzZSk7Cj4gIAlpZiAoSVNfRVJSKGV4eW5v
-c19nZW0pKQo+ICAJCXJldHVybiBQVFJfRVJSKGV4eW5vc19nZW0pOwo+ICAKPiBAQCAtMzY1LDcg
-KzMyNyw3IEBAIGludCBleHlub3NfZHJtX2dlbV9kdW1iX2NyZWF0ZShzdHJ1Y3QgZHJtX2ZpbGUg
-KmZpbGVfcHJpdiwKPiAgCWVsc2UKPiAgCQlmbGFncyA9IEVYWU5PU19CT19DT05USUcgfCBFWFlO
-T1NfQk9fV0M7Cj4gIAo+IC0JZXh5bm9zX2dlbSA9IGV4eW5vc19kcm1fZ2VtX2NyZWF0ZShkZXYs
-IGZsYWdzLCBhcmdzLT5zaXplKTsKPiArCWV4eW5vc19nZW0gPSBleHlub3NfZHJtX2dlbV9jcmVh
-dGUoZGV2LCBmbGFncywgYXJncy0+c2l6ZSwgZmFsc2UpOwo+ICAJaWYgKElTX0VSUihleHlub3Nf
-Z2VtKSkgewo+ICAJCWRldl93YXJuKGRldi0+ZGV2LCAiRkIgYWxsb2NhdGlvbiBmYWlsZWQuXG4i
-KTsKPiAgCQlyZXR1cm4gUFRSX0VSUihleHlub3NfZ2VtKTsKPiBAQCAtNDQyLDExICs0MDQsMjQg
-QEAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICpleHlub3NfZHJtX2dlbV9wcmltZV9pbXBvcnQoc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldiwKPiAgc3RydWN0IHNnX3RhYmxlICpleHlub3NfZHJtX2dlbV9w
-cmltZV9nZXRfc2dfdGFibGUoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopCj4gIHsKPiAgCXN0
-cnVjdCBleHlub3NfZHJtX2dlbSAqZXh5bm9zX2dlbSA9IHRvX2V4eW5vc19nZW0ob2JqKTsKPiAt
-CWludCBucGFnZXM7Cj4gKwlzdHJ1Y3QgZHJtX2RldmljZSAqZHJtX2RldiA9IG9iai0+ZGV2Owo+
-ICsJc3RydWN0IHNnX3RhYmxlICpzZ3Q7Cj4gKwlpbnQgcmV0Owo+ICsKPiArCXNndCA9IGt6YWxs
-b2Moc2l6ZW9mKCpzZ3QpLCBHRlBfS0VSTkVMKTsKPiArCWlmICghc2d0KQo+ICsJCXJldHVybiBF
-UlJfUFRSKC1FTk9NRU0pOwo+ICAKPiAtCW5wYWdlcyA9IGV4eW5vc19nZW0tPnNpemUgPj4gUEFH
-RV9TSElGVDsKPiArCXJldCA9IGRtYV9nZXRfc2d0YWJsZV9hdHRycyh0b19kbWFfZGV2KGRybV9k
-ZXYpLCBzZ3QsIGV4eW5vc19nZW0tPmNvb2tpZSwKPiArCQkJCSAgICBleHlub3NfZ2VtLT5kbWFf
-YWRkciwgZXh5bm9zX2dlbS0+c2l6ZSwKPiArCQkJCSAgICBleHlub3NfZ2VtLT5kbWFfYXR0cnMp
-Owo+ICsJaWYgKHJldCkgewo+ICsJCURSTV9FUlJPUigiZmFpbGVkIHRvIGdldCBzZ3RhYmxlLCAl
-ZFxuIiwgcmV0KTsKPiArCQlrZnJlZShzZ3QpOwo+ICsJCXJldHVybiBFUlJfUFRSKHJldCk7Cj4g
-Kwl9Cj4gIAo+IC0JcmV0dXJuIGRybV9wcmltZV9wYWdlc190b19zZyhleHlub3NfZ2VtLT5wYWdl
-cywgbnBhZ2VzKTsKPiArCXJldHVybiBzZ3Q7Cj4gIH0KPiAgCj4gIHN0cnVjdCBkcm1fZ2VtX29i
-amVjdCAqCj4gQEAgLTQ1NSw4ICs0MzAsNiBAQCBleHlub3NfZHJtX2dlbV9wcmltZV9pbXBvcnRf
-c2dfdGFibGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiAgCQkJCSAgICAgc3RydWN0IHNnX3Rh
-YmxlICpzZ3QpCj4gIHsKPiAgCXN0cnVjdCBleHlub3NfZHJtX2dlbSAqZXh5bm9zX2dlbTsKPiAt
-CWludCBucGFnZXM7Cj4gLQlpbnQgcmV0Owo+ICAKPiAgCWlmIChzZ3QtPm5lbnRzICE9IDEpIHsK
-PiAgCQlkbWFfYWRkcl90IG5leHRfYWRkciA9IHNnX2RtYV9hZGRyZXNzKHNndC0+c2dsKTsKPiBA
-QCAtNDc2LDI2ICs0NDksOCBAQCBleHlub3NfZHJtX2dlbV9wcmltZV9pbXBvcnRfc2dfdGFibGUo
-c3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiAgCX0KPiAgCj4gIAlleHlub3NfZ2VtID0gZXh5bm9z
-X2RybV9nZW1faW5pdChkZXYsIGF0dGFjaC0+ZG1hYnVmLT5zaXplKTsKPiAtCWlmIChJU19FUlIo
-ZXh5bm9zX2dlbSkpIHsKPiAtCQlyZXQgPSBQVFJfRVJSKGV4eW5vc19nZW0pOwo+IC0JCXJldHVy
-biBFUlJfUFRSKHJldCk7Cj4gLQl9Cj4gLQo+IC0JZXh5bm9zX2dlbS0+ZG1hX2FkZHIgPSBzZ19k
-bWFfYWRkcmVzcyhzZ3QtPnNnbCk7Cj4gLQo+IC0JbnBhZ2VzID0gZXh5bm9zX2dlbS0+c2l6ZSA+
-PiBQQUdFX1NISUZUOwo+IC0JZXh5bm9zX2dlbS0+cGFnZXMgPSBrdm1hbGxvY19hcnJheShucGFn
-ZXMsIHNpemVvZihzdHJ1Y3QgcGFnZSAqKSwgR0ZQX0tFUk5FTCk7Cj4gLQlpZiAoIWV4eW5vc19n
-ZW0tPnBhZ2VzKSB7Cj4gLQkJcmV0ID0gLUVOT01FTTsKPiAtCQlnb3RvIGVycjsKPiAtCX0KPiAt
-Cj4gLQlyZXQgPSBkcm1fcHJpbWVfc2dfdG9fcGFnZV9hZGRyX2FycmF5cyhzZ3QsIGV4eW5vc19n
-ZW0tPnBhZ2VzLCBOVUxMLAo+IC0JCQkJCSAgICAgICBucGFnZXMpOwo+IC0JaWYgKHJldCA8IDAp
-Cj4gLQkJZ290byBlcnJfZnJlZV9sYXJnZTsKPiAtCj4gLQlleHlub3NfZ2VtLT5zZ3QgPSBzZ3Q7
-Cj4gKwlpZiAoSVNfRVJSKGV4eW5vc19nZW0pKQo+ICsJCXJldHVybiBFUlJfQ0FTVChleHlub3Nf
-Z2VtKTsKPiAgCj4gIAkvKgo+ICAJICogQnVmZmVyIGhhcyBiZWVuIG1hcHBlZCBhcyBjb250aWd1
-b3VzIGludG8gRE1BIGFkZHJlc3Mgc3BhY2UsCj4gQEAgLTUwNywxNCArNDYyLDkgQEAgZXh5bm9z
-X2RybV9nZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4g
-IAllbHNlCj4gIAkJZXh5bm9zX2dlbS0+ZmxhZ3MgfD0gRVhZTk9TX0JPX0NPTlRJRzsKPiAgCj4g
-KwlleHlub3NfZ2VtLT5kbWFfYWRkciA9IHNnX2RtYV9hZGRyZXNzKHNndC0+c2dsKTsKPiArCWV4
-eW5vc19nZW0tPnNndCA9IHNndDsKPiAgCXJldHVybiAmZXh5bm9zX2dlbS0+YmFzZTsKPiAtCj4g
-LWVycl9mcmVlX2xhcmdlOgo+IC0Ja3ZmcmVlKGV4eW5vc19nZW0tPnBhZ2VzKTsKPiAtZXJyOgo+
-IC0JZHJtX2dlbV9vYmplY3RfcmVsZWFzZSgmZXh5bm9zX2dlbS0+YmFzZSk7Cj4gLQlrZnJlZShl
-eHlub3NfZ2VtKTsKPiAtCXJldHVybiBFUlJfUFRSKHJldCk7Cj4gIH0KPiAgCj4gIHZvaWQgKmV4
-eW5vc19kcm1fZ2VtX3ByaW1lX3ZtYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopCj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9nZW0uaCBiL2RyaXZl
-cnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9nZW0uaAo+IGluZGV4IGYwMDA0NGMwYjY4OC4u
-NmVmMDAxZjg5MGFhIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9z
-X2RybV9nZW0uaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9nZW0u
-aAo+IEBAIC0yMSwyMCArMjEsMTUgQEAKPiAgICogQGJhc2U6IGEgZ2VtIG9iamVjdC4KPiAgICoJ
-LSBhIG5ldyBoYW5kbGUgdG8gdGhpcyBnZW0gb2JqZWN0IHdvdWxkIGJlIGNyZWF0ZWQKPiAgICoJ
-YnkgZHJtX2dlbV9oYW5kbGVfY3JlYXRlKCkuCj4gLSAqIEBidWZmZXI6IGEgcG9pbnRlciB0byBl
-eHlub3NfZHJtX2dlbV9idWZmZXIgb2JqZWN0Lgo+IC0gKgktIGNvbnRhaW4gdGhlIGluZm9ybWF0
-aW9uIHRvIG1lbW9yeSByZWdpb24gYWxsb2NhdGVkCj4gLSAqCWJ5IHVzZXIgcmVxdWVzdCBvciBh
-dCBmcmFtZWJ1ZmZlciBjcmVhdGlvbi4KPiAtICoJY29udGludW91cyBtZW1vcnkgcmVnaW9uIGFs
-bG9jYXRlZCBieSB1c2VyIHJlcXVlc3QKPiAtICoJb3IgYXQgZnJhbWVidWZmZXIgY3JlYXRpb24u
-Cj4gICAqIEBmbGFnczogaW5kaWNhdGUgbWVtb3J5IHR5cGUgdG8gYWxsb2NhdGVkIGJ1ZmZlciBh
-bmQgY2FjaGUgYXR0cnVpYnV0ZS4KPiAgICogQHNpemU6IHNpemUgcmVxdWVzdGVkIGZyb20gdXNl
-ciwgaW4gYnl0ZXMgYW5kIHRoaXMgc2l6ZSBpcyBhbGlnbmVkCj4gICAqCWluIHBhZ2UgdW5pdC4K
-PiAgICogQGNvb2tpZTogY29va2llIHJldHVybmVkIGJ5IGRtYV9hbGxvY19hdHRycwo+IC0gKiBA
-a3ZhZGRyOiBrZXJuZWwgdmlydHVhbCBhZGRyZXNzIHRvIGFsbG9jYXRlZCBtZW1vcnkgcmVnaW9u
-Lgo+ICsgKiBAa3ZhZGRyOiBrZXJuZWwgdmlydHVhbCBhZGRyZXNzIHRvIGFsbG9jYXRlZCBtZW1v
-cnkgcmVnaW9uIChmb3IgZmJkZXYpCj4gICAqIEBkbWFfYWRkcjogYnVzIGFkZHJlc3MoYWNjZXNz
-ZWQgYnkgZG1hKSB0byBhbGxvY2F0ZWQgbWVtb3J5IHJlZ2lvbi4KPiAgICoJLSB0aGlzIGFkZHJl
-c3MgY291bGQgYmUgcGh5c2ljYWwgYWRkcmVzcyB3aXRob3V0IElPTU1VIGFuZAo+ICAgKglkZXZp
-Y2UgYWRkcmVzcyB3aXRoIElPTU1VLgo+IC0gKiBAcGFnZXM6IEFycmF5IG9mIGJhY2tpbmcgcGFn
-ZXMuCj4gKyAqIEBkbWFfYXR0cnM6IGF0dHJzIHBhc3NlZCBkbWEgbWFwcGluZyBmcmFtZXdvcmsK
-PiAgICogQHNndDogSW1wb3J0ZWQgc2dfdGFibGUuCj4gICAqCj4gICAqIFAuUy4gdGhpcyBvYmpl
-Y3Qgd291bGQgYmUgdHJhbnNmZXJyZWQgdG8gdXNlciBhcyBrbXNfYm8uaGFuZGxlIHNvCj4gQEAg
-LTQ4LDcgKzQzLDYgQEAgc3RydWN0IGV4eW5vc19kcm1fZ2VtIHsKPiAgCXZvaWQgX19pb21lbQkJ
-Kmt2YWRkcjsKPiAgCWRtYV9hZGRyX3QJCWRtYV9hZGRyOwo+ICAJdW5zaWduZWQgbG9uZwkJZG1h
-X2F0dHJzOwo+IC0Jc3RydWN0IHBhZ2UJCSoqcGFnZXM7Cj4gIAlzdHJ1Y3Qgc2dfdGFibGUJCSpz
-Z3Q7Cj4gIH07Cj4gIAo+IEBAIC01OCw3ICs1Miw4IEBAIHZvaWQgZXh5bm9zX2RybV9nZW1fZGVz
-dHJveShzdHJ1Y3QgZXh5bm9zX2RybV9nZW0gKmV4eW5vc19nZW0pOwo+ICAvKiBjcmVhdGUgYSBu
-ZXcgYnVmZmVyIHdpdGggZ2VtIG9iamVjdCAqLwo+ICBzdHJ1Y3QgZXh5bm9zX2RybV9nZW0gKmV4
-eW5vc19kcm1fZ2VtX2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICAJCQkJCSAgICAg
-dW5zaWduZWQgaW50IGZsYWdzLAo+IC0JCQkJCSAgICAgdW5zaWduZWQgbG9uZyBzaXplKTsKPiAr
-CQkJCQkgICAgIHVuc2lnbmVkIGxvbmcgc2l6ZSwKPiArCQkJCQkgICAgIGJvb2wga3ZtYXApOwo+
-ICAKPiAgLyoKPiAgICogcmVxdWVzdCBnZW0gb2JqZWN0IGNyZWF0aW9uIGFuZCBidWZmZXIgYWxs
-b2NhdGlvbiBhcyB0aGUgc2l6ZQo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+Hi all,
+
+Pekka, Rajat,
+
+Thank you for your input in this.
+
+On 4/24/20 9:40 AM, Pekka Paalanen wrote:
+> On Thu, 23 Apr 2020 11:21:47 -0700
+> Rajat Jain <rajatja@google.com> wrote:
+> 
+>> On Tue, Apr 21, 2020 at 7:46 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>>>
+>>> On Tue, 21 Apr 2020 14:37:41 +0200
+>>> Hans de Goede <hdegoede@redhat.com> wrote:
+>>>   
+>>>> TL;DR: Yes there will be races, because of both userspace +
+>>>> the firmware having; and potentially using r/w access to
+>>>> the privacy-screen state. But in practice I expect these
+>>>> to not really be an issue. Important here is that userspace
+>>>> only commits the property in a transaction to commit if
+>>>> it actually intends to change the property so as to not
+>>>> needlessly create a situation where we might hit the race.
+>>>>
+>>>> As for 1 vs 2 properties for this I guess that in preparation
+>>>> for potential devices where the state is locked, having a
+>>>> r/w sw-state + a ro hw-state property makes sense.
+>>>>
+>>>> So I suggest that we replace the current "privacy-screen" property
+>>>> from Rajat's patch-set with 2 props named:
+>>>>
+>>>> "privacy-screen-sw-state" (r/w)
+>>>> "privacy-screen-hw-state" (ro)
+>>>>
+>>>> Where for current gen hardware the privacy-screen-hw-state is
+>>>> just a mirror of the sw-state.
+>>
+>> Just to make sure I understand the semantics correctly:
+>>
+>> - The  "privacy-screen-hw-state" shall be read-only, and can be modified by:
+>>        - Hardware (e.g. HW kill switch).
+>>        - Firmware.
+>>        - (Potentially) needs a notification/irq to the kernel when this
+>> changes (or may be kernel can read it only when userspace queries for
+>> it).
+>>
+>> - The "privacy-screen-sw-state" shall be read-write, and can only be
+>> modified by user space.
+>>          - If user space toggles it, the kernel will attempt to
+>> "request" the change to hardware.
+>>          - Whether the request to hardware was successful or not, the
+>> "privacy-screen-sw-state" will always reflect the latest value
+>> userspace wrote.
+>>          - If the request to hardware was successful, the
+>> "privacy-screen-hw-state" will also change (probably via a separate
+>> notification/irq from HW).
+>>          - We expect the user space to write to
+>> "privacy-screen-sw-state" only if it really wants to toggle the value.
+> 
+> Hi,
+> 
+> yes, to my understanding, that seems to be the correct idea from this
+> thread. The hw-state property must reflect the actual hardware state at
+> all times.
+
+Agree on the hw-state prop reflecting the actual hardware state at
+all times, that one is easy.
+
+> However, when userspace sets "privacy-screen-sw-state", the driver
+> should attempt to change hardware state regardless of whether the
+> "privacy-screen-sw-state" value changes compared to its old value or
+> not. Otherwise userspace cannot intentionally override a hardware
+> hotkey setting if possible (or would need two atomic commits to do it).
+
+Ack / agreed.
+
+> Mind, the above paragraph is only what I interpreted from this email
+> thread here. Previously I did not think that with atomic KMS, setting a
+> property to a value it already has could trigger anything. But I guess
+> it can?
+
+In a way. My idea for the "privacy-screen-sw-state" is for it to reflect
+the last requested value, where the request could come from either a
+firmware controlled hotkey; or from userspace (this seems to be where
+our ideas of how to handle this diverts).
+
+So what can happen is (with both props being always in sync)
+-userspace reads privacy screen being off
+-user toggles privacy screen on through firmware controlled hotkey
+-kernel gets notified about state toggle, updates both property
+  states to on
+-userspace commits its old knowledge of the property (off), thereby
+  triggering the kernel to turn the privacy screen back off
+
+So in this case from the kernel pov the property is actually set
+to a new value, not to "a value it already has".
+
+Note there can be races here of course, but lets ignore those (for now).
+Both the hotkey event as well as userspace changing the setting will be
+end-user triggered events and will not happen at high frequency.
+Also I see no way to completely eliminate racing here. Luckily the side
+effects of the race or pretty harmless (annoying maybe, but not causing
+crashes, etc).
+
+> This design is based on that it can.
+> 
+>> What is not clear to me is if any change to"privacy-screen-hw-state"
+>> shall be propagated to "privacy-screen-sw-state"?
+>>   - If yes, then I think we are not solving any problems of single property.
+>>   - If no, then why do we require userspace to write to sw state only
+>> if something has changed?
+>
+> No. As already written, the kernel must not change the value of
+> "privacy-screen-sw-state", only userspace can.
+
+So this is where out view of how to handle this differs, I do
+not see the hotkey changing the state as different from userspace
+changing it. The reason for me to have both a sw- and a hw-state
+is in case there is a physical switch (typically a slider style
+switch) which forces the state to on / off. In this case userspace
+could still set the "privacy-screen-sw-state" prop and then
+the 2 could differ.
+
+Lets add one more complication to this, which I think helps.
+Currently the thinkpad_acpi driver exports the privacy screen as:
+
+/proc/acpi/ibm/lcdshadow
+
+Userspace can write this and then change the privacy-screen
+setting, this is in shipped kernels and cannot be dropped
+because it is part if the kernel's uABI now.
+This means that another userspace process can change the
+property underneath a kms client. I do not see how this is
+different from the firmware changing the setting based on
+a hotkey press. Yet if we stick with your "only userspace can"
+change the sw-state setting, then does this count as userspace,
+or do you mean only a kms client can ?  And then how is
+another kms-client changing the setting different ?
+
+So to me to avoid confusion the only valid case where the
+hw- and sw-state can differ is if userspace requests
+say "off" as state while the privacy screen is forced on
+by say a physical switch (or e.g. a BIOS option to lock it?).
+
+Then we would remember the off in sw-state but hw-state would
+still be on.
+
+I guess that maybe for the enum of the hw-state we need 4 values
+instead of 2:
+
+Enabled
+Disabled
+Enabled, locked
+Disabled, locked
+
+To indicate to userspace that atm the state cannot be changed.
+
+If userspace then still changes sw-state we cache it and apply
+this if the privacy screen control gets unlocked.
+
+On hardware where there is no "lock" the 2 properties will simply
+always be the same.
+
+> Let's assume that you have a firmware-implemented hardware hotkey for
+> toggling the shield. The driver also successfully implements
+> "privacy-screen-sw-state" meaning that writing to it will set the
+> hardware shield state. If userspace was writing
+> "privacy-screen-sw-state" even when it does not intend to change
+> hardware state, it would almost immediately override any state set by
+> the hardware hotkey, making the hardware hotkey (randomly) not work.
+
+Right, this is why userspace should not set the property unless
+it really means to change it, even then things could still race,
+but as explained above that should normally never happen and luckily
+the side-effects of hitting the race somehow are not that bad.
+
+> This assumes that the hardware hotkey is a momentary switch that does
+> not stop software from controlling the shield too.
+
+This is correct for the Lenovo / thinkpad_acpi case.
+
+> If the hardware hotkey can stop software from changing the shield
+> state, then it might not be necessary for userspace to avoid unneeded
+> setting of the property. But that depends on which way the hotkey works
+> and which way users want to use it, so it's still best for userspace to
+> not set the property unless it really intends to apply a change.
+
+Ack.
+
+> If possible, it would be good to make this case the prime example of
+> how to correctly implement KMS properties for a hardware feature that
+> can be controlled (and fought over) by both userspace and
+> hardware/firmware. It seems like the same design can also work with
+> hardware switches that force the hardware state to be one or the other,
+> stopping userspace from changing it. Therefore I'd avoid incorporating
+> any specific shield use cases in the design, e.g. "if hw switch is set
+> to shield-on, userspace cannot turn shield off".
+
+I agree that it would be good to make this the prime example of
+how to deal with similar cases.
+
+>> Also, it seems to me that in my current patchset, the property I have
+>> already behaves like "privacy-screen-sw-state". Do I just need to
+>> rename it?
+
+Maybe, it looks like we first need to figure out the exact semantics
+of all this.
+
+Regards,
+
+Hans
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
