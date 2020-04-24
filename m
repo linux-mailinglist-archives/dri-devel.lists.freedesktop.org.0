@@ -1,98 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE4F1B6E8D
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 08:56:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 813BF1B6E93
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 08:59:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EABE66EA76;
-	Fri, 24 Apr 2020 06:56:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 762EE88065;
+	Fri, 24 Apr 2020 06:59:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2072.outbound.protection.outlook.com [40.107.93.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14C176EA75
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 06:56:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JBzETgUxAzA3FPwUvg87Jrd81K1DCYW7hc5xVIGqqMiTCNKVqO9Byn5swexl6JnyfnVtVYBWotgNyWdMW+nefWdg6Z0vMIBJVSaYhZD7sGc/iHOD5xGqz7z9UyHFupyvUb4oWSdkJLbyVVwpqZBYb5RFOKWgzEkoY8E8opP8ovVEj1hSBm9nurY9yENMZOal0DI0afVqIGICyNLtHgPES/wUE3uFQUyZAoH1uQTHm0bI384ss7DxPfATF5w/PfkD2JzJy6DO1f0eNI/KhCuFvx/4bWAdmGT1UxxMbzcAph5wsCZWqRreCxi/dW2/t47ECFpSoxwWgaMpB6ROuwBX9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QH7dgSPwED6FG0iaisW0tDJIY4kukVdXVsRTA3s4Kdo=;
- b=mhCd7qIh3vsJQhv4z5IVp4UDmkqB8pjXKBdWmlA3W+14nnZXt49sb/30F9sTzJ48I519uN6E2sUO+tSnmlFmpGYNXy6g1DJGmvRqbAGwQ9TzFxe38PzuRaeONr1zjLkxyDpb3bbQJQM8+9SB6BPWzRY7fA6CQ9S+9tLmK/UEj03nHu2SY/JMGrOT2a4TrXTAYRnxsfRfRAeG956SISmApjgj9Za6VTw+OSUaTKEieEwCBUsdww58b/SDYS+iuZ9UYDDk2gnajYHNvWbOYpJUnM+WmufHczOZ22iZbadeHqhiJac05WEU/VSgQuBPtBS679AXBDkyFksUElTn4DwOpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QH7dgSPwED6FG0iaisW0tDJIY4kukVdXVsRTA3s4Kdo=;
- b=LeE6BFVAVN3hhVMzTzJwvtQV8fU/PgIjKo4SmE2ACU1R51WUeb0FMANDR0sRLEKz6Vfd8JThxtanXBENnLiqpsbMCDHivogeyEAHLPI7T5O4+VDGtiPABfunoP7gK8Qs9DsDr2bKIqTvc4Pb2OyD4RxAlDP/iC0Fl1EqsnkS5NU=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
- by DM6PR12MB3721.namprd12.prod.outlook.com (2603:10b6:5:1c2::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Fri, 24 Apr
- 2020 06:56:20 +0000
-Received: from DM6PR12MB4401.namprd12.prod.outlook.com
- ([fe80::7949:b580:a2d5:f766]) by DM6PR12MB4401.namprd12.prod.outlook.com
- ([fe80::7949:b580:a2d5:f766%3]) with mapi id 15.20.2937.020; Fri, 24 Apr 2020
- 06:56:20 +0000
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6340388065
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 06:59:14 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 540F3AC6E;
+ Fri, 24 Apr 2020 06:59:12 +0000 (UTC)
 Subject: Re: [PATCH 2/2] drm/vram-helper: Alternate between bottom-up and
  top-down placement
-To: Thomas Zimmermann <tzimmermann@suse.de>, Gerd Hoffmann <kraxel@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
 References: <20200422144055.27801-1-tzimmermann@suse.de>
  <20200422144055.27801-3-tzimmermann@suse.de>
  <20200423111808.fbh23br7jrkte3ih@sirius.home.kraxel.org>
  <da7bb4d1-852e-6372-cc2a-938561220483@suse.de>
  <20200423135709.3yuafqt3xouka4jp@sirius.home.kraxel.org>
- <c592baa1-7e0f-688e-1e31-bb7c8c28d8fa@amd.com>
- <abd885fb-39e3-35e6-9104-2298ad73c2c6@suse.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <d5c457e6-6808-2a00-fa21-65601abc00cf@amd.com>
-Date: Fri, 24 Apr 2020 08:56:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <abd885fb-39e3-35e6-9104-2298ad73c2c6@suse.de>
-Content-Language: en-US
-X-ClientProxiedBy: AM3PR05CA0117.eurprd05.prod.outlook.com
- (2603:10a6:207:2::19) To DM6PR12MB4401.namprd12.prod.outlook.com
- (2603:10b6:5:2a9::15)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <b9315d4b-0f3e-712b-8a26-0ed5e3ac6f68@suse.de>
+Date: Fri, 24 Apr 2020 08:59:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM3PR05CA0117.eurprd05.prod.outlook.com (2603:10a6:207:2::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13 via Frontend Transport; Fri, 24 Apr 2020 06:56:15 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 38eebfce-d8e0-4bde-dd85-08d7e81c97fe
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3721:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB372137C2CC2A3B1ED4EC7FB683D00@DM6PR12MB3721.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 03838E948C
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4401.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10009020)(4636009)(136003)(366004)(39860400002)(346002)(396003)(376002)(66556008)(31686004)(4326008)(110136005)(478600001)(66946007)(66476007)(52116002)(36756003)(86362001)(316002)(966005)(6486002)(2906002)(81156014)(31696002)(8676002)(16526019)(186003)(5660300002)(8936002)(2616005)(6666004);
- DIR:OUT; SFP:1101; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: H/FNVz3qoKXdIeErA2hlwtnFyP40NpxPhHNcrxjldjh9CneMG348DqzJ6ZEBRjE+9VDe94IOFIp9QjG1ZN0osnIg2jIlMYrGqOB02othkht8z3gItrOlwk3205F8NW3Lfozon4AMoJ+m7rKpqInCi9+uoi/b5OSlWWn+sd6R9zEY8CxmlFegCdQv8GNKsT64YPljRP2tEskRbfIWpppPTa3QlTvuxUsXgSVR3ugNSyeBkD225mcs7TXJGBL/KFH1JgQaSrPkxXDLQsrBDL5wUw7P/F3ioUdaF216FPiyHQOOcUyBSU0/iLpAH5cqX7HsLO/eNdstZEMcP1p+DQ/gP4QMbyx7CoZGvoucA/ucuUM5xtGRdVpmJvPEmQcZEnOdUXlR6yqa89k3hrMk8BYv5Ts2z3cdIh2npMDye/AKI3cNUncsBPeRB9jB+5JOXdHIlzwWlnYCEe8Hsd1sxp3uEsoUGB9jD4/IwMyrxvBKAag=
-X-MS-Exchange-AntiSpam-MessageData: oDkU4d+6ArtiVyPcM5giCXOGKHw7hqnvx8eXZN4h+V65le+oJjuNufVIwkk9SICA4YeiftE4TASXorRHE5plYczEggQh5EVQKZ9md5UCk3SbIN2sDRIL1n+Ijswk/Lm06jcOf6oBJyXwk8I6+fu1LK4UaCMKs7Vh4lxIKjVNXIQkGFihcpMp7/xS8eeEnjQw4MbcRr74ADadRkXXbgRt/zYWkINTEze0s9L866mv5V0mAwcIwTzyq82zu1rbPQ7z3N9wT3p4rz47p2uw8oJylrawNDcwi66d7EFW2PudjkTfFQiXdcjbj2IEuMtSb156n5+DMVSrpcwLXi0aVCe0loAT4I3RYgrxDxlTHtcS3p1qffJ+XsAfzYMRiuSp7nPfHxAGCSOMyn+mcY5Lvj5DYlNZ9XQ9oAQXPRsFHkKNTjdFA5ZvqGfojACgYlBZDQkQZYSkCs3fQtQuHB0p5kLMJdG8NhAwZfZUuMTbDAtmQ84rFfHBrmurkw2VJRGkVW4GXWpwsuI1wiamDJzWUzDyDYUdsWth2J6voswc968slCQv+z0ZmvGhC0pgapsA+T0xUaNamlMZ7iKjX9iJVtiUFvu118+xZF1Wr+3MTzCKYgdWfImxgrQk8uBmQm2xsO6WM9cRqCdXqayfs0OGOaP6KubxMAuSKOzSmXewp4M+kRjCNn3NashsocFBvaCMZB4eowtM8CFINNidoPwqSnA5XU6yS2pugyJn+3+9DaKo59a6BTE9W9YhIqwe4NrDRQmXbB/hR2SVd80YPdir//gAM4y0dU3opQr6WBFs+1+QUD7ecQQX9gFGWr8FQRmjcKktU2jZyeQRdbhBGaSBRIXMvYtD02pzbkNkRPfx6NtyXsA=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38eebfce-d8e0-4bde-dd85-08d7e81c97fe
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2020 06:56:20.6888 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nyRQVxFi9iy0Kaf9QN/0ae01D5euF1RnONDb+nErKGJSa1gac2r1jce30bYVrY2k
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3721
+In-Reply-To: <20200423135709.3yuafqt3xouka4jp@sirius.home.kraxel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,50 +68,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, sam@ravnborg.org, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: airlied@linux.ie, sam@ravnborg.org, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0511474532=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjQuMDQuMjAgdW0gMDg6Mjcgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoKPiBIaSBDaHJp
-c3RpYW4KPgo+IEFtIDIzLjA0LjIwIHVtIDE3OjA0IHNjaHJpZWIgQ2hyaXN0aWFuIEvDtm5pZzoK
-Pj4gSGkgZ3V5cywKPj4KPj4gb25lIHRoaW5nIHlvdSBkb24ndCBzZWVtIHRvIGhhdmUgY29uc2lk
-ZXJlZCB5ZXQgaXMgdGhhdCBub3Qgc2V0dGluZyB0aGUKPj4gdG9wLWRvd24gZmxhZyBhbHNvIHdv
-bid0IGdldCB5b3UgdGhlIGJvdHRvbS11cCBhcHByb2FjaCwgYnV0IHJhdGhlciB0aGUKPj4gYmVz
-dCBmaXQuCj4gS2luZCBvZiB1bnJlbGF0ZWQ6IFdvdWxkIGl0IHBpY2sgdGhlIHNtYWxsZXN0IGZy
-ZWUgYXJlYSB0aGF0IGNhbiBob2xkIGEKPiBCTz8gSU9XLCB3b3VsZCBhIHNtYWxsIGN1cnNvciBC
-TyBmaWxsIHVwIGEgc21hbGwgZnJlZSBhcmVhIGV2ZW4gaWYKPiB0aGVyZSdzIGEgbXVjaCBsYXJn
-ZXIgZnJlZSBhcmVhIHNvbWV3aGVyZT8KClllcywgZXhhY3RseSB0aGF0LgoKVGhlIGJvdHRvbS11
-cCBtZXRob2Qgc2VhcmNoZXMgZm9yIHRoZSBsb3dlc3QgaG9sZSB3aGljaCBjYW4gZml0IHRoZSAK
-cmVxdWlyZW1lbnRzLgoKVGhlIHRvcC1kb3duIG1ldGhvZCBzZWFyY2hlcyBmb3IgdGhlIGhpZ2hl
-c3QgaG9sZSB3aGljaCBjYW4gZml0IHRoZSAKcmVxdWlyZW1lbnRzLgoKQm90aCBvZiB0aG9zZSB3
-YWxrIHRoZSBob2xlcyBieSB0aGUgYWRkcmVzcyBpbmRleCB0cmVlLCBidXQgdGhlcmUgaXMgCmFs
-c28gdGhlIGJlc3QgbWV0aG9kIHdoaWNoIGxvb2tzIGF0IHRoZSBob2xlcyBieSB0aGVpciBzaXpl
-IGFuZCB0cmllcyB0byAKZmluZCB0aGUgYmVzdCBmaXQuCgpUaGUgYmVzdCBtZXRob2QgdXN1YWxs
-eSBvbmx5IG5lZWRzIGEgc2luZ2xlIHRyZWUgd2FsayBpbnN0ZWFkIG9mIGEgCmxpbmVhciBzZWFy
-Y2guCgo+PiBBbSAyMy4wNC4yMCB1bSAxNTo1NyBzY2hyaWViIEdlcmQgSG9mZm1hbm46Cj4+Pj4g
-QnV0IGN1cnNvciBCT3MgYXJlIHNtYWxsLCBzbyB0aGV5IGRvbid0IG1ha2UgbXVjaCBvZiBhIGRp
-ZmZlcmVuY2UuIFdoYXQKPj4+PiBpcyBuZWVkZWQgaXMgc3BhY2UgZm9yIDIgcHJpbWFyeSBmcmFt
-ZWJ1ZmZlcnMgZHVyaW5nIHBhZ2VmbGlwcywgd2l0aCBvbmUKPj4+PiBvZiB0aGVtIHBpbm5lZC4g
-VGhlIG90aGVyIGZyYW1lYnVmZmVyIGNhbiBiZSBsb2NhdGVkIGFueXdoZXJlLgo+Pj4gVGhlIHBy
-b2JsZW0gaXNuJ3QgdGhlIHNpemUuwqAgVGhlIHByb2JsZW0gaXMgZHluYW1pY2FsbHkgYWxsb2Nh
-dGVkIGN1cnNvcgo+Pj4gQk9zIGNhbiBhbHNvIGZyYWdtZW50IHZyYW0sIGVzcGVjaWFsbHkgaWYg
-dG9wLWJvdHRvbSBhbGxvY2F0aW9uIGlzIGFsc28KPj4+IHVzZWQgZm9yIGxhcmdlIGZyYW1lYnVm
-ZmVycyBzbyBjdXJzb3IgQk9zIGNhbiBlbmQgdXAgc29tZXdoZXJlIGluIHRoZQo+Pj4gbWlkZGxl
-IG9mIHZyYW0uCj4+IFdlbGwgbWF5YmUgaW5zdGVhZCBvZiBhIHBpbmcvcG9uZyBhcHByb2FjaCBi
-ZXR3ZWVuIHRvcCBhbmQgYm90dG9tIHVzZSBhCj4+IHNpemUgYmFzZWQgYXBwcm9hY2ggdG8gcGxh
-Y2Ugc21hbGwgQk9zIGF0IHRoZSB0b3AgYW5kIG9ubHkgdGhlIGxhcmdlcgo+PiBvbmVzIGF0IHRo
-ZSBib3R0b20gKG9yIHRoZSBvdGhlciB3YXkgYXJvdW5kKS4KPiBUaGF0J3Mgd2hhdCB0aGUgY3Vy
-cmVudCBjb2RlIGRvZXMgYW5kIGl0IHJlc3VsdHMgaW4gdGhlIE9PTS4gQmFzaWNhbGx5LAo+IHRo
-ZXJlJ3MgYSBsYXJnZSBCTyBpbiB0aGUgbWlkZGxlIG9mIHZyYW0gYW5kIHRoZSBwYWdlZmxpcCdz
-IGRlc3RpbmF0aW9uCj4gQk8gZG9lcyBub3QgZml0IGJlZm9yZSBvciBhZnRlciB0aGUgbGFyZ2Ug
-b25lLgoKVG91Z2ggcHJvYmxlbS4gTm8gaWRlYSBob3cgdG8gb3RoZXJ3aXNlIGZpeCB0aGlzIHdp
-dGhvdXQgbWFraW5nIHRoZSAKbGFyZ2UgQk8gbW92ZWFibGUgc29tZWhvdy4KCkNocmlzdGlhbi4K
-Cj4KPiBCZXN0IHJlZ2FyZHMKPiBUaG9tYXMKPgo+PiBDaGVlcnMsCj4+IENocmlzdGlhbi4KPj4g
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4gZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdAo+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4+IGh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0511474532==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="7R9s6AEHh2Or138iVCbhuwQ4mOG4KOZjx"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--7R9s6AEHh2Or138iVCbhuwQ4mOG4KOZjx
+Content-Type: multipart/mixed; boundary="zXwVrdScneIParpLSmZ5SPAgFS9eaot1r";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, sam@ravnborg.org,
+ christian.koenig@amd.com
+Message-ID: <b9315d4b-0f3e-712b-8a26-0ed5e3ac6f68@suse.de>
+Subject: Re: [PATCH 2/2] drm/vram-helper: Alternate between bottom-up and
+ top-down placement
+References: <20200422144055.27801-1-tzimmermann@suse.de>
+ <20200422144055.27801-3-tzimmermann@suse.de>
+ <20200423111808.fbh23br7jrkte3ih@sirius.home.kraxel.org>
+ <da7bb4d1-852e-6372-cc2a-938561220483@suse.de>
+ <20200423135709.3yuafqt3xouka4jp@sirius.home.kraxel.org>
+In-Reply-To: <20200423135709.3yuafqt3xouka4jp@sirius.home.kraxel.org>
+
+--zXwVrdScneIParpLSmZ5SPAgFS9eaot1r
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi Gerd
+
+Am 23.04.20 um 15:57 schrieb Gerd Hoffmann:
+>>> I don't think it is that simple.
+>>>
+>>> First:  How will that interact with cursor bo allocations?  IIRC the
+>>> strategy for them is to allocate top-down, for similar reasons (avoid=
+
+>>> small cursor bo allocs fragment vram memory).
+>>
+>> In ast, 2 cursor BOs are allocated during driver initialization and ke=
+pt
+>> permanently at the vram's top end. I don't know about other drivers.
+>=20
+> One-time allocation at init time shouldn't be a problem.
+>=20
+>> But cursor BOs are small, so they don't make much of a difference. Wha=
+t
+>> is needed is space for 2 primary framebuffers during pageflips, with o=
+ne
+>> of them pinned. The other framebuffer can be located anywhere.
+>=20
+> The problem isn't the size.  The problem is dynamically allocated curso=
+r
+> BOs can also fragment vram, especially if top-bottom allocation is also=
+
+> used for large framebuffers so cursor BOs can end up somewhere in the
+> middle of vram.
+
+But the problem is the size. Cursor BOs are unrelated. Of the
+vram-helper-based drivers, only ast and mgag200 use cursors, and both
+perma-pin them to the end of vram.
+
+
+>=20
+>>> Second:  I think ttm will move bo's from vram to system only on memor=
+y
+>>> pressure.  So you can still end up with fragmented memory.  To make t=
+he
+>>> scheme with one fb @ top and one @ bottom work reliable you have to b=
+e
+>>> more aggressive on pushing out framebuffers.
+>>
+>> I'm the process of converting mgag200 to atomic modesetting. The given=
+
+>> example is what I observed. I'm not claiming that the placement scheme=
+
+>> is perfect, but it is required to get mgag200 working with atomic
+>> modesetting's pageflip logic. So we're solving a real problem here.
+>=20
+> I don't doubt this is a real problem.
+>=20
+>> The bug comes from Weston's allocation strategy. Looking at the debug
+>> output:
+>>
+>>>>   0x0000000000000000-0x000000000000057f: 1407: free
+>>
+>> This was fbdev's framebuffer with 1600x900@32bpp
+>>
+>>>>   0x000000000000057f-0x0000000000000b5b: 1500: used
+>>
+>> This is Weston's framebuffer also with 1600x900@32bpp. But Weston
+>> allocates an additional, unused 60 scanlines. That is to render with
+>> tiles of 64x64px, I suppose. fbdev doesn't do that, hence Weston's
+>> second framebuffer doesn't fit into the free location of the fbdev
+>> framebuffer.
+>=20
+> Sure.  Assume there is just enough vram to fit in fbdev and two weston
+> framebuffers.  fbdev is allocated from bottom, first weston fb from top=
+,
+> second weston fb from bottom again.  fbdev is not pushed out (no memory=
+
+> pressure yet) so the second weston fb ends up in the middle of vram
+> fragmenting things.  And now you are again in the situation where you
+> might have enough free vram for an allocation but can't use it due to
+> fragmention (probably harder to trigger in practice though).
+
+Not quite. Framebuffer BOs of the current or smaller size will fit into
+vram. It's only a problem if the size of the new framebuffer BO
+increases. And that is exactly what currently happens with mgag200.
+
+That aside, it's not a fair point, as you constructed an example that no
+memory manager can resolve.
+
+>=20
+> That's why I would suggest to explicitly move out unpinned framebuffers=
+
+> (aka fbdev) before pinning a new one (second weston fb) instead of
+> depending on ttm moving things out on OOM, to make sure you never
+> allocate something in the middle of vram.
+
+We cannot do that. Evicting BOs from vram involves an unmap operation.
+We did that in an earlier version of the code and received reports about
+performance regressions and CPU cycles in TLB update.
+
+So we added the lazy-unmap feature, where BOs are only unmapped and
+evicted when necessary. I think it was even you who suggested this idea. =
+:)
+
+>=20
+>>> Third:  I'd suggest make topdown allocations depending on current sta=
+te
+>>> instead of simply alternating, i.e. if there is a pinned framebuffer =
+@
+>>> offset 0, then go for top-down.
+>>
+>> That's what the current patch does. If the last pin was at the bottom,=
+
+>> the next goes to the top. And then the other way around. Without
+>> alternating between both end of vram, the problem would occur again wh=
+en
+>> fragmentation happens near the top end.
+>=20
+> I'd feel better when checking the state of my current pins to figure
+> whenever I should alloc top-bottom or not, for robustness reasons.
+
+I don't understand why this is more robust. For example, if you pin a
+larger number of BOs, and than evict every other BO, there will always
+be free areas among the remaining BOs. All that changes is the location
+of those areas.
+
+For a strategy, one cannot look at the BO size alone. In my initial
+example, BOs are ~6 MiB and vram is 16 MiB. So any strategy ala 'choose
+top-bottom for BOs >1/3 of vram' selects top-bottom for all framebuffer
+BOs. This would result in the same OOM, but from top to bottom.
+
+At some point one has to choose to switch to top-down, and then back
+again at one of the next BOs. So the current patch effectively splits
+vram into a lower half and an upper half and puts BOs in alternating halv=
+es.
+
+Best regards
+Thomas
+
+>=20
+>> Looking again at the vram helpers, this functionality could be
+>> implemented in drm_gem_vram_plane_helper_prepare_fb(). Drivers with
+>> other placement strategies could implement their own helper for prepar=
+e_fb.
+>=20
+> vram helpers could also simply offer two prepare_fb variants.
+>=20
+> cheers,
+>   Gerd
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--zXwVrdScneIParpLSmZ5SPAgFS9eaot1r--
+
+--7R9s6AEHh2Or138iVCbhuwQ4mOG4KOZjx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6ijj0ACgkQaA3BHVML
+eiPegwf+OnfoZbvVFxeRP3dv7NFk9NKhQnXsCmdXyqDM0bIXlHnc68hbWzN7bO7B
+T1FKchRQR57IwN7t90CkO6pNMl0YMxVauvdmucdVzkDnUtkjbbYhvrtVzAvVrQUl
+dCyEw19D56NrcunlsBqJ4EyMSPYHN9HGP5CEW8ednk1T5BNSfH9dtTutNz+Tkgoh
+ARcV9Gg8b5lVtmRcOm4b+0nXFX9UFZbsfw27MpUJGoBMOfbCCYu8Rv9aKdIifAIq
+8isUY/SWhkf11TBxMY7/UbeFfODYWIYvMf9wYCH2VPLwBlq/HHod9IYhifYyISWI
+zpto9ll8SY+c+SVEBWeuqyyIBkFDxw==
+=V2sc
+-----END PGP SIGNATURE-----
+
+--7R9s6AEHh2Or138iVCbhuwQ4mOG4KOZjx--
+
+--===============0511474532==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0511474532==--
