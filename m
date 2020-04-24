@@ -1,55 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB37D1B6CAF
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 06:30:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCAF11B6DF9
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 08:18:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 495776E42C;
-	Fri, 24 Apr 2020 04:30:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1469C6E43F;
+	Fri, 24 Apr 2020 06:18:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E35DA6E430
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 04:30:04 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id n4so6476128ejs.11
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Apr 2020 21:30:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e/H74K9N2PKSeZfWU1nS1ZZfEYq52PzInjDdDIoTUeY=;
- b=KHD202xKRIJUGpWC5e5FWnwsi5K/U47xdnQ9YiRe29d/TpUugTwMx6FZ5ODFmnqmDV
- WAq1XWEYa+RrB7qaBN42zJqtMdJ4lzvkSakTopZzSC6sSKpAZ5TBHnN/AQenIcXFZQKf
- VhH7GGynTUJ4EdIIBugSiRXAqGacGkp1BJZ7vtVAN5cAFKBXwtgTYTc4CqqoS0KlI2T/
- Uk0GvUCTQG/b18t4uTUeG43RGWz2vBB3ZjqAFEgN2JEuuMoxGFyEAK80TtFovqo4w220
- nJH1FdXmVzp0NUAGQUsJQbyr6e+VaTVnRmDWgUbSnweeNPyuCtbADx5I78XRLn0jjCLO
- aXLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=e/H74K9N2PKSeZfWU1nS1ZZfEYq52PzInjDdDIoTUeY=;
- b=c6RERwwcEWPERB4NGsi9ccoa1z9FXYifoblN7isW6h7AYixKdrPSLzr3wzeOPr4G0K
- UkY7RxCxQ2+qbAghRZpwhNjSE/8sgPJXV/tAEsiq05q4+IEAkMHxwKCdl4qU825Xb4MG
- XOAUIXWKuSWXaFhqUrzSQ9C/hnRTjMEUj1yx2bn/3wr5NvrBj69AJIyszC5NA7S2cqnJ
- 7ynUonLje7y15zuxYjbIADeXjyFMSxAIuWxV8gd5Ssqy5EReXHipzKQ77iwwrtZAgc66
- kBCCYlcZ4+1u/ZNA3Y6GFVMzcJRRsQGrKnHWbOaC15NXVTvVklL8GRuW7Is/bwFNSkxc
- CxVg==
-X-Gm-Message-State: AGi0PuZqFu/VLS0fUwNvN3XI9o6cUTSQ3QuzqhoIRBRhs28IyHp+nQLJ
- T7YV/P9YdjGq9c7BJuJUky7FV3G4uJCuCQEaTlj3Gjmu
-X-Google-Smtp-Source: APiQypJCn/Q5rOwR2GHX/FobuRVaZrlJzB1Vrd0DoeiUXMRAu+YKRmePqbCsNa/J+ghiQzFQHWC+SZtrZ0sgNtl2R2M=
-X-Received: by 2002:a17:906:b7da:: with SMTP id
- fy26mr5695837ejb.327.1587702603441; 
- Thu, 23 Apr 2020 21:30:03 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B1436E42F;
+ Fri, 24 Apr 2020 06:18:06 +0000 (UTC)
+IronPort-SDR: IUbAsSqGloiCzdYb4mIfBDQXbJ8yDBm+AkZ01n34GoS4g0hNPzeS3EeDwyJ4BE5xCPWRw7Qa1o
+ OjJ7ASSSZm8g==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2020 23:18:05 -0700
+IronPort-SDR: CMMh7MOlW2PHOf69i2rCxZUoGQjBYXzGWUKRrghXshWnbMa4J890SrsF0POzKmQwBnpobtHclZ
+ 6P4wnWvYB6hA==
+X-IronPort-AV: E=Sophos;i="5.73,310,1583222400"; d="scan'208";a="430652200"
+Received: from khelzel-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.52.65])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2020 23:18:00 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Guru Das Srinagesh <gurus@codeaurora.org>, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v13 01/11] drm/i915: Use 64-bit division macro
+In-Reply-To: <4a3acf8673c08308848fb7ae73d992b6feb758d3.1587523702.git.gurus@codeaurora.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1587523702.git.gurus@codeaurora.org>
+ <4a3acf8673c08308848fb7ae73d992b6feb758d3.1587523702.git.gurus@codeaurora.org>
+Date: Fri, 24 Apr 2020 09:17:58 +0300
+Message-ID: <87ftctbe5l.fsf@intel.com>
 MIME-Version: 1.0
-References: <20200423223459.200858-1-pcc@google.com>
-In-Reply-To: <20200423223459.200858-1-pcc@google.com>
-From: Eric Anholt <eric@anholt.net>
-Date: Thu, 23 Apr 2020 21:29:52 -0700
-Message-ID: <CADaigPUXqcWcZmvWyZM_FSw5cdTuYeyUwpcjmCawYwTXgYONtQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: pl111: enable render node
-To: Peter Collingbourne <pcc@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,21 +48,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Guru Das Srinagesh <gurus@codeaurora.org>,
+ David Collins <collinsd@codeaurora.org>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6ni?= =?utf-8?Q?g?=
+ <u.kleine-koenig@pengutronix.de>,
+ Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 23, 2020 at 3:35 PM Peter Collingbourne <pcc@google.com> wrote:
->
-> The render node is required by Android which does not support the legacy
-> drmAuth authentication process.
-
-There's no rendering engine on pl111, so only the control node makes
-sense for this HW since all this driver does is display.  Can you
-clarify what you're trying to do with pl111?
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAyMSBBcHIgMjAyMCwgR3VydSBEYXMgU3JpbmFnZXNoIDxndXJ1c0Bjb2RlYXVyb3Jh
+Lm9yZz4gd3JvdGU6Cj4gU2luY2UgdGhlIFBXTSBmcmFtZXdvcmsgaXMgc3dpdGNoaW5nIHN0cnVj
+dCBwd21fc3RhdGUuZHV0eV9jeWNsZSdzCj4gZGF0YXR5cGUgdG8gdTY0LCBwcmVwYXJlIGZvciB0
+aGlzIHRyYW5zaXRpb24gYnkgdXNpbmcgRElWX1JPVU5EX1VQX1VMTAo+IHRvIGhhbmRsZSBhIDY0
+LWJpdCBkaXZpZGVuZC4KPgo+IFRvOiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAbGludXguaW50
+ZWwuY29tPgo+IENjOiBKb29uYXMgTGFodGluZW4gPGpvb25hcy5sYWh0aW5lbkBsaW51eC5pbnRl
+bC5jb20+Cj4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBDYzogRGFuaWVs
+IFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+IENjOiBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlz
+LXdpbHNvbi5jby51az4KPiBDYzogIlZpbGxlIFN5cmrDpGzDpCIgPHZpbGxlLnN5cmphbGFAbGlu
+dXguaW50ZWwuY29tPgo+IENjOiBpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQ2M6
+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPgoKU3VwZXJmbHVvdXMgYmxhbmsgbGlu
+ZS4KCkFueXdheSwgcGxlYXNlIHByZXNlcnZlIHRoZSBleGlzdGluZyBhY2tzIGFuZCByZXZpZXdz
+IFsxXSBzbyBwZW9wbGUKZG9uJ3QgaGF2ZSB0byBkbyBpdCBhZ2Fpbi4KCkJSLApKYW5pLgoKWzFd
+IGh0dHA6Ly9sb3JlLmtlcm5lbC5vcmcvci84N2g3eWxlYjBpLmZzZkBpbnRlbC5jb20KCj4gU2ln
+bmVkLW9mZi1ieTogR3VydSBEYXMgU3JpbmFnZXNoIDxndXJ1c0Bjb2RlYXVyb3JhLm9yZz4KPiAt
+LS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9wYW5lbC5jIHwgMiArLQo+
+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPgo+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3BhbmVsLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3BhbmVsLmMKPiBpbmRleCAyNzZmNDM4Li44
+MTU0N2EwIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
+cGFuZWwuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfcGFuZWwu
+Ywo+IEBAIC0xOTIwLDcgKzE5MjAsNyBAQCBzdGF0aWMgaW50IHB3bV9zZXR1cF9iYWNrbGlnaHQo
+c3RydWN0IGludGVsX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+ICAJCXJldHVybiByZXR2YWw7Cj4g
+IAl9Cj4gIAo+IC0JbGV2ZWwgPSBESVZfUk9VTkRfVVAocHdtX2dldF9kdXR5X2N5Y2xlKHBhbmVs
+LT5iYWNrbGlnaHQucHdtKSAqIDEwMCwKPiArCWxldmVsID0gRElWX1JPVU5EX1VQX1VMTChwd21f
+Z2V0X2R1dHlfY3ljbGUocGFuZWwtPmJhY2tsaWdodC5wd20pICogMTAwLAo+ICAJCQkgICAgIENS
+Q19QTUlDX1BXTV9QRVJJT0RfTlMpOwo+ICAJcGFuZWwtPmJhY2tsaWdodC5sZXZlbCA9Cj4gIAkJ
+aW50ZWxfcGFuZWxfY29tcHV0ZV9icmlnaHRuZXNzKGNvbm5lY3RvciwgbGV2ZWwpOwoKLS0gCkph
+bmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
