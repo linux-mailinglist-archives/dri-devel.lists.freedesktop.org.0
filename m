@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE4D1B84C6
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:43:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 554151B84C1
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:42:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D55F6E1CD;
-	Sat, 25 Apr 2020 08:42:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DACBF6E1B7;
+	Sat, 25 Apr 2020 08:42:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
  [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 741A96E0DA;
- Fri, 24 Apr 2020 22:14:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6577E6E0DA;
+ Fri, 24 Apr 2020 22:17:57 +0000 (UTC)
 Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 24 Apr 2020 15:14:23 -0700
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 24 Apr 2020 15:17:56 -0700
 Received: from gurus-linux.qualcomm.com ([10.46.162.81])
- by ironmsg01-sd.qualcomm.com with ESMTP; 24 Apr 2020 15:14:22 -0700
+ by ironmsg01-sd.qualcomm.com with ESMTP; 24 Apr 2020 15:17:56 -0700
 Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
- id 9498C4C8D; Fri, 24 Apr 2020 15:14:22 -0700 (PDT)
-Date: Fri, 24 Apr 2020 15:14:22 -0700
+ id D1A8C4C90; Fri, 24 Apr 2020 15:17:56 -0700 (PDT)
+Date: Fri, 24 Apr 2020 15:17:56 -0700
 From: Guru Das Srinagesh <gurus@codeaurora.org>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH v13 00/11] Convert PWM period and duty cycle to u64
-Message-ID: <20200424221422.GA31118@codeaurora.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v13 01/11] drm/i915: Use 64-bit division macro
+Message-ID: <20200424221756.GB31118@codeaurora.org>
 References: <cover.1587523702.git.gurus@codeaurora.org>
- <20200423114857.GG3612@dell> <20200423215306.GA8670@codeaurora.org>
- <20200424064303.GJ3612@dell>
+ <4a3acf8673c08308848fb7ae73d992b6feb758d3.1587523702.git.gurus@codeaurora.org>
+ <87ftctbe5l.fsf@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200424064303.GJ3612@dell>
+In-Reply-To: <87ftctbe5l.fsf@intel.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Mailman-Approved-At: Sat, 25 Apr 2020 08:42:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -44,72 +44,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
- David Collins <collinsd@codeaurora.org>, Liam Girdwood <lgirdwood@gmail.com>,
- David Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>,
- Kamil Debski <kamil@wypas.org>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Atish Patra <atish.patra@wdc.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-riscv@lists.infradead.org,
- linux-clk@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alexander Shiyan <shc_work@mail.ru>, Chen-Yu Tsai <wens@csie.org>,
- NXP Linux Team <linux-imx@nxp.com>,
+Cc: linux-pwm@vger.kernel.org, David Collins <collinsd@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Guenter Roeck <linux@roeck-us.net>,
- linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- Jean Delvare <jdelvare@suse.com>, Alexandre Torgue <alexandre.torgue@st.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- intel-gfx@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
- Thomas Gleixner <tglx@linutronix.de>, Fabrice Gasnier <fabrice.gasnier@st.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Allison Randal <allison@lohutok.net>, linux-hwmon@vger.kernel.org,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Richard Fontana <rfontana@redhat.com>, Stephen Boyd <sboyd@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- Yash Shah <yash.shah@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, Joe Perches <joe@perches.com>,
- Shawn Guo <shawnguo@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 24, 2020 at 07:43:03AM +0100, Lee Jones wrote:
-> A great deal of mailing lists contain numerous protections against
-> things like flooding and spamming.  One of those protections is a
-> check for "Too many recipients to the message".  Most of the time this
-> simply requires moderator intervention by way of review and approval,
-> but this ultimately depends on the ML's configuration.
-> 
-> The first thing to ascertain is why your recipients list is so large.
-> Have you added every reviewer, subsystem-maintainer, maintainer and
-> contributor suggested by get-maintainer.pl?  If so, consider pruning
-> that a little.  Contributors do not tend to care about subsequent
-> changes to a file.  As someone who receives a lot of patches, I tend
-> to get fed-up when receiving patches simply because I made a change X
-> years ago.  Stick to listed maintainers/reviewers in the first
-> instance and see how far that takes you.
-
-Thank you for the detailed reply. I did this in the first few patchsets
-and then when a few patches didn't get any attention, expanded the
-audience thus. Still, around 50% of the patches in this series remain
-unreviewed by anyone.
-
-> If your recipients list is as succinct as reasonably possible, maybe
-> just accept that every version isn't going to be archived by every
-> ML.  It's still much more useful for the correct people to have
-> visibility into the set than for it to be archived multiple times.
-
-Thank you, will prune the list and remove past contributors from the
-Cc-list and add all parties to all patches.
-
-Thank you.
-
-Guru Das.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBBcHIgMjQsIDIwMjAgYXQgMDk6MTc6NThBTSArMDMwMCwgSmFuaSBOaWt1bGEgd3Jv
+dGU6Cj4gT24gVHVlLCAyMSBBcHIgMjAyMCwgR3VydSBEYXMgU3JpbmFnZXNoIDxndXJ1c0Bjb2Rl
+YXVyb3JhLm9yZz4gd3JvdGU6Cj4gPiBTaW5jZSB0aGUgUFdNIGZyYW1ld29yayBpcyBzd2l0Y2hp
+bmcgc3RydWN0IHB3bV9zdGF0ZS5kdXR5X2N5Y2xlJ3MKPiA+IGRhdGF0eXBlIHRvIHU2NCwgcHJl
+cGFyZSBmb3IgdGhpcyB0cmFuc2l0aW9uIGJ5IHVzaW5nIERJVl9ST1VORF9VUF9VTEwKPiA+IHRv
+IGhhbmRsZSBhIDY0LWJpdCBkaXZpZGVuZC4KPiA+Cj4gPiBUbzogSmFuaSBOaWt1bGEgPGphbmku
+bmlrdWxhQGxpbnV4LmludGVsLmNvbT4KPiA+IENjOiBKb29uYXMgTGFodGluZW4gPGpvb25hcy5s
+YWh0aW5lbkBsaW51eC5pbnRlbC5jb20+Cj4gPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxp
+bnV4LmllPgo+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiA+IENjOiBD
+aHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KPiA+IENjOiAiVmlsbGUgU3ly
+asOkbMOkIiA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cj4gPiBDYzogaW50ZWwtZ2Z4
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKPiA+Cj4gCj4gU3VwZXJmbHVvdXMgYmxhbmsgbGluZS4KCldpbGwgcmVtb3ZlLgoKPiAK
+PiBBbnl3YXksIHBsZWFzZSBwcmVzZXJ2ZSB0aGUgZXhpc3RpbmcgYWNrcyBhbmQgcmV2aWV3cyBb
+MV0gc28gcGVvcGxlCj4gZG9uJ3QgaGF2ZSB0byBkbyBpdCBhZ2Fpbi4KPiAKPiBCUiwKPiBKYW5p
+Lgo+IAo+IFsxXSBodHRwOi8vbG9yZS5rZXJuZWwub3JnL3IvODdoN3lsZWIwaS5mc2ZAaW50ZWwu
+Y29tCgpJIGRyb3BwZWQgeW91ciBBY2tlZC1ieSBhcyB0aGUgcGF0Y2ggaGFkIHRvIGNoYW5nZWQg
+dG8gcmVzb2x2ZSBhIG1lcmdlCmNvbmZsaWN0IHdoZW4gSSByZWJhc2VkIHRvIHRpcC4gQ291bGQg
+eW91IHBsZWFzZSByZS1yZXZpZXcgdGhpcyBwYXRjaD8KClRoYW5rIHlvdS4KCkd1cnUgRGFzLgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
