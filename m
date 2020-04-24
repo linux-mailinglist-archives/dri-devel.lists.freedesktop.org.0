@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFA11B84C3
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:43:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A51B1B84B8
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFFA16E190;
-	Sat, 25 Apr 2020 08:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EABB26E17A;
+	Sat, 25 Apr 2020 08:42:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5304::12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13DB16EB35
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 20:34:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587760490;
+ [IPv6:2a01:238:20a:202:5304::5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9F546EB58
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 20:35:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587760501;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=aeLQCupRaiUXbpss4HFlekm68gu+EZORgbPWCj4bUNQ=;
- b=ZVurPae7uvUuec9bBOUxJgwL6zQmdWFFSr769xb72e//HorqzRlshlxpGzDzGlLZA/
- IDVMneePDUmpCtHar2ngTtHdkvwc9as43Xn2tR4IeYNJX9AiBVW3mNa/ayuQ/RswL8hd
- RKy1wbsIhawF6ABxjxLkCV4LaZhl7iG9rUce1Sciv5fqg3KMMsOEwKj38VFO3bhsTuK3
- QYubzOk8bjkTbGe+SIVr8yo8GXlrlLMPKNnhteljQbsa5x7vX+vc/QlDuheI/GhChA8W
- CWIJDOsHPXydTRuT/GcNgigECTjVBodi00xYLRWIT7YiyQTKy2wLhRvufsdlTgCvaumY
- kD0Q==
+ bh=urc2KwT6CTpps7J1q4E2AK0qOM+8Jk0H0NWeScBSbMI=;
+ b=J7N7kT0koDT4XgSpxcamZquSW/1kqQ81DVJnv+YHnsxB5HEocLLL0DKqlPyjrO+lsx
+ /Ki02cXqDCA4eYVHuOY0bVcJRlNfpLtLaidR2KondCek1Ue9rrc2G10wFrpmt9ArMCpY
+ sSEWKaVaHxtPnsR2Qcl23aER4SlOpkV3IkvUFyuIpg9/ZQEczIvoTWsPcDAPkQmnJyS7
+ LBq3CxkDwKQfvokohzTUfQrHX2mYCxpvLTGbjUuVQW/gEXOWD+xUvRAw4EhKNcW9ILR4
+ ht/S9DUBTCusQl/m4Rxguf8csbkgJAWsuv520+OW6HH/a86WpbR6b8OEzujroe25RLHI
+ esvg==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1mfYzBGHXH6GK44R2FE"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.6.2 DYNA|AUTH)
- with ESMTPSA id R0acebw3OKYNEVF
+ with ESMTPSA id R0acebw3OKYOEVG
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Fri, 24 Apr 2020 22:34:23 +0200 (CEST)
+ Fri, 24 Apr 2020 22:34:24 +0200 (CEST)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
@@ -41,9 +41,9 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Krzysztof Kozlowski <krzk@kernel.org>, Maxime Ripard <mripard@kernel.org>,
  Chen-Yu Tsai <wens@csie.org>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: [PATCH v7 07/12] ARM: DTS: omap5: add sgx gpu child node
-Date: Fri, 24 Apr 2020 22:34:10 +0200
-Message-Id: <5840297da588ba37f65a2a4f4f1421922fe28a06.1587760454.git.hns@goldelico.com>
+Subject: [PATCH v7 08/12] arm: dts: s5pv210: Add node for SGX 540
+Date: Fri, 24 Apr 2020 22:34:11 +0200
+Message-Id: <3fd18c747426e15fd1f3500b9c4adce2db9ddd0c.1587760454.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1587760454.git.hns@goldelico.com>
 References: <cover.1587760454.git.hns@goldelico.com>
@@ -62,7 +62,8 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, letux-kernel@openphoenux.org,
- Philipp Rossak <embed3d@gmail.com>, "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Philipp Rossak <embed3d@gmail.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>,
  Jonathan Bakker <xc-racer2@live.ca>, openpvrsgx-devgroup@letux.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-mips@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
@@ -73,42 +74,42 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add SGX GPU node with interrupt. Tested on Pyra-Handheld.
+From: Jonathan Bakker <xc-racer2@live.ca>
 
+All s5pv210 devices have a PowerVR SGX 540 (revision 120) attached.
+
+There is no external regulator for it so it can be enabled by default.
+
+Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- arch/arm/boot/dts/omap5.dtsi | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ arch/arm/boot/dts/s5pv210.dtsi | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/arch/arm/boot/dts/omap5.dtsi b/arch/arm/boot/dts/omap5.dtsi
-index 2ac7f021c284..1cf41664fd00 100644
---- a/arch/arm/boot/dts/omap5.dtsi
-+++ b/arch/arm/boot/dts/omap5.dtsi
-@@ -270,7 +270,7 @@ sata: sata@4a141100 {
- 			ports-implemented = <0x1>;
+diff --git a/arch/arm/boot/dts/s5pv210.dtsi b/arch/arm/boot/dts/s5pv210.dtsi
+index 2ad642f51fd9..abbdda205c1b 100644
+--- a/arch/arm/boot/dts/s5pv210.dtsi
++++ b/arch/arm/boot/dts/s5pv210.dtsi
+@@ -512,6 +512,19 @@ vic3: interrupt-controller@f2300000 {
+ 			#interrupt-cells = <1>;
  		};
  
--		target-module@56000000 {
-+		sgx_module: target-module@56000000 {
- 			compatible = "ti,sysc-omap4", "ti,sysc";
- 			reg = <0x5600fe00 0x4>,
- 			      <0x5600fe10 0x4>;
-@@ -287,10 +287,11 @@ target-module@56000000 {
- 			#size-cells = <1>;
- 			ranges = <0 0x56000000 0x2000000>;
- 
--			/*
--			 * Closed source PowerVR driver, no child device
--			 * binding or driver in mainline
--			 */
-+			gpu: gpu@0 {
-+				compatible = "ti,omap5-sgx544-116", "img,sgx544-116", "img,sgx544";
-+				reg = <0x0 0x10000>;
-+				interrupts = <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
-+			};
- 		};
- 
- 		target-module@58000000 {
++		gpu: gpu@f3000000 {
++			compatible = "samsung,s5pv210-sgx540-120";
++			reg = <0xf3000000 0x10000>;
++			interrupt-parent = <&vic2>;
++			interrupts = <10>;
++			clock-names = "core";
++			clocks = <&clocks CLK_G3D>;
++
++			assigned-clocks = <&clocks MOUT_G3D>, <&clocks DOUT_G3D>;
++			assigned-clock-rates = <0>, <66700000>;
++			assigned-clock-parents = <&clocks MOUT_MPLL>;
++		};
++
+ 		fimd: fimd@f8000000 {
+ 			compatible = "samsung,s5pv210-fimd";
+ 			interrupt-parent = <&vic2>;
 -- 
 2.25.1
 
