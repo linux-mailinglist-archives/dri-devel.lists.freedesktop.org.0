@@ -1,26 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118C21B84B5
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:42:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B37BE1B84BF
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:42:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA7A6E15A;
-	Sat, 25 Apr 2020 08:42:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 190DB6E1A4;
+	Sat, 25 Apr 2020 08:42:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from v6.sk (v6.sk [167.172.42.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10FEF6E111
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 21:35:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9707E6E111
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 21:35:54 +0000 (UTC)
 Received: from localhost (v6.sk [IPv6:::1])
- by v6.sk (Postfix) with ESMTP id 524F3610A8;
- Fri, 24 Apr 2020 21:35:48 +0000 (UTC)
+ by v6.sk (Postfix) with ESMTP id 5CE07610AF;
+ Fri, 24 Apr 2020 21:35:53 +0000 (UTC)
 From: Lubomir Rintel <lkundrak@v3.sk>
 To: Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v5 0/3] drm: Add support for Chrontel CH7033 VGA/DVI Encoder
-Date: Fri, 24 Apr 2020 23:35:36 +0200
-Message-Id: <20200424213539.93157-1-lkundrak@v3.sk>
+Subject: [PATCH v5 1/3] dt-bindings: Add vendor prefix for Chrontel, Inc.
+Date: Fri, 24 Apr 2020 23:35:37 +0200
+Message-Id: <20200424213539.93157-2-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200424213539.93157-1-lkundrak@v3.sk>
+References: <20200424213539.93157-1-lkundrak@v3.sk>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sat, 25 Apr 2020 08:42:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -39,7 +41,8 @@ Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
@@ -47,19 +50,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
- 
-chained to this message is another spin of a driver for CH7033.
+Chrontel makes encoders for video displays and perhaps other stuff.
+Their web site is http://www.chrontel.com/.
 
-Compared to the previous submission, the integration with device
-component framework and creation of an encoder on component bind has
-been removed. This means that until the Armada driver won't work with
-this driver until it's adjusted to look up the bridges like the other
-drivers do.
+Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+Acked-by: Rob Herring <robh@kernel.org>
 
-Thanks,
-Lubo
+---
+Changes since v1:
+- Collect Rob's ack
 
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index d3891386d671..7794ffccd325 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -187,6 +187,8 @@ patternProperties:
+     description: ChipOne
+   "^chipspark,.*":
+     description: ChipSPARK
++  "^chrontel,.*":
++    description: Chrontel, Inc.
+   "^chrp,.*":
+     description: Common Hardware Reference Platform
+   "^chunghwa,.*":
+-- 
+2.26.0
 
 _______________________________________________
 dri-devel mailing list
