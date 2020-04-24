@@ -2,108 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99C51B7FF6
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 915481B7FD0
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:08:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D79966EB78;
-	Fri, 24 Apr 2020 20:08:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97C546EB14;
+	Fri, 24 Apr 2020 20:08:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34DFF6EA87
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 07:47:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1587714414;
- bh=xMCKGIWSWfZDkzyNaAqTW8yUMH7LZKEPhEgmsf9ck/Y=;
- h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=QXTjb2m0xdxAYX9eu3Galz/MTQkGEO6bmMiYS3pbobkOBO1Twi1f54BWJ2HLAUknf
- Mqzn9a6VB1yRr6i8DW/tHgv/2wyBZKeya1Z7gM9xnLMbyEll1zD+pzkUxksRTgZ9so
- KyYe5JthYbBAC8kx274rI/mDFpEwqR7gOOvVC5lE=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([78.48.129.82]) by smtp.web.de (mrweb001
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MKr7w-1jRt3009WS-0002Bf; Fri, 24
- Apr 2020 09:46:54 +0200
-Subject: Re: console: Complete exception handling in newport_probe()
-To: Dejin Zheng <zhengdejin5@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, Coccinelle <cocci@systeme.lip6.fr>
-References: <c62ec54f-348b-2eae-59eb-374dde4d49ad@web.de>
- <20200423142909.GB1562@nuc8i5> <f054f00c-b813-e0c2-fe2e-30ccdec1ff46@web.de>
- <20200423170245.GA3417@nuc8i5>
-From: Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <f1d27f1b-d822-3457-7ca9-c4c5a8b98365@web.de>
-Date: Fri, 24 Apr 2020 09:46:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68D3189F8B
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 07:42:48 +0000 (UTC)
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id DD4E8F3C12E3208A491F;
+ Fri, 24 Apr 2020 15:42:46 +0800 (CST)
+Received: from huawei.com (10.90.53.225) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Fri, 24 Apr 2020
+ 15:42:39 +0800
+From: Zheng Bin <zhengbin13@huawei.com>
+To: <narmstrong@baylibre.com>, <khilman@baylibre.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-amlogic@lists.infradead.org>
+Subject: [PATCH] drm/meson: Remove unneeded semicolon
+Date: Fri, 24 Apr 2020 15:49:49 +0800
+Message-ID: <20200424074949.12309-1-zhengbin13@huawei.com>
+X-Mailer: git-send-email 2.26.0.106.g9fadedd
 MIME-Version: 1.0
-In-Reply-To: <20200423170245.GA3417@nuc8i5>
-Content-Language: en-GB
-X-Provags-ID: V03:K1:Ff0orYrWO/G7vUnpE7QCfce/w01wByslkpPcrPrWkiDMpjXAbz9
- qgKmu/4GRKvxhETQ/A1BZsm+7OfvCytJ6Sb/eJZXcnp+iPO9E1voPdLfUuG8UVRZDMhVBd5
- diucdn0b4QbNb0ZTvMirvrsgIbSEJxEIL5lQUXCM5m1VmZoY1Akde182rL1zVEA4rXDYqD8
- apIuShZ9RJpY9cVQlL7HQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:J/+QIqeL3YE=:6lDLKSVKrIEOPNGdSfZgda
- FHPC/UFeCrD4kyHj/h0FGXXfNWNWhDn+yEeVqfop7VlNsRfkIfZ00VUa6Iya71XN03+54RsQa
- uKBW+rWqP12RG6DusANz8zXvtLHR7V4zP69RjYCs8o6YnUCUlHXpowcXDcyt2WP6LnkqH/D6A
- kkOI5GfNzZN/CqGJ7F8kANpQeo9k1cs3g+bEuSTxiZJSB3QwpKCTjZNsY50LrrLgoS4Hd/yjk
- 8zTACZ6HuXJT1iYRI5xhw74OsPC3z3zXlTjG11VmshP1uPDaWeE3LN+lLVDMP8BaHhK5h9Ry3
- CaBk5xftjl033jr/QhTZ2ob4yxTaBJzeRhg9bfwqTZipBSOBK3109r9WvcT02daAVJka8nrzc
- KRMUa0htK6W7ZFc7KGP4ey1rOn5BbosRRuu3O9ebhQFOOKUxZhVQuVTHc1FxaOywsv7eo9jFf
- dDnRyWnUB7DIkwHpx2gqIJqqguN1MrHXbI69TP6YVo8QnqTAsLHroLcn3TJBkf6l2irU7p4Js
- 9YqfhmI7Um47f4glaIdj7C2h67KWX0U72cgePbCuY+eQj09a8PmjDs+vmRMLitfiBRbYTMyak
- J6r9euiaq4BIz06+T5RSreCPc5fyN3h/bgxTKQIFzaJpU9b6Q4Dpxc6Vks2ooftQM1uhRHq0k
- DzK0Uu6jVkh025AoJLeyVl978NCcRxmJmiZUdtXdObnaBcZPmb601HHK5h7svT0wLohUjjPq1
- nwwBb/TXrojSH1LfvUGwnYw7uRLyIRrvUBUKo0/64tnxhew88XKFD2paqoGTxp7HrCFHxBxnP
- mFmjx77gQTKCEtx5VMhnTKeEnIgYZK9ezLey9vPTSZAHvLlBHQ0rQISU2Oyra8WOWmqYnpXFF
- bWczvn5ybf4Xii2lvDMN7U89VSHSF4d7byRJv5IcPBNwjIPfsNOUo37Z6UDFh4zK+nvl9Us3O
- 1TvGgQ/noqqp62pZKDiQYAAVHczhsbFBOAWZgH7n42cbCf0I2HAWR2v9JWmMk3fqGtYJlesJ7
- 8vBrAYwIOPhxyyeqG2S5SeGZqihkkaRqxx5HGRCes88Mph9KUzLGu2rZkWn/ensUcQS+A3Q3u
- PbtvEH5ytknb6UT2BdXQawL/k9blP6P/52padooVatmgEcnhvWy7uzc8o3RW4+gIFC8U/ghmP
- Vfirbswt2rNST+U8AdzbW23XxXioxdjXYg07fitM77Hgi2N76z4AC45QBN3Cr7i/F7woHZv0X
- Um9HtbwcALfuCxbI7
+X-Originating-IP: [10.90.53.225]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 24 Apr 2020 20:08:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -117,54 +42,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Bogend=c3=b6rfer?= <tsbogend@alpha.franken.de>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Ralf_B=c3=a4chle?= <ralf@linux-mips.org>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: zhengbin13@huawei.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiBTb3JyeSwgSSBkbyBub3Qga25vdyBob3cgdG8gdXNlIHRoZSBTbVBMIHNjcmlwdC4KCkkgd291
-bGQgbGlrZSB0byB0cnkgYWdhaW4gdG8gbWFrZSB5b3UgbW9yZSBmYW1pbGlhciB3aXRoIGFwcGxp
-Y2F0aW9ucwpvZiB0aGUgQ29jY2luZWxsZSBzb2Z0d2FyZS4KaHR0cHM6Ly9naXQua2VybmVsLm9y
-Zy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L3RyZWUvRG9jdW1l
-bnRhdGlvbi9kZXYtdG9vbHMvY29jY2luZWxsZS5yc3Q/aWQ9YjRmNjMzMjIxZjBhZWFjMTAyZTQ2
-M2E0YmU0NmE2NDNiMmUzYjgxOSNuOQoKQW5vdGhlciBzbWFsbCBleGFtcGxlIGFjY29yZGluZyB0
-byBhIHNjcmlwdCBmb3IgdGhlIHNlbWFudGljIHBhdGNoIGxhbmd1YWdlOgpAZGlzcGxheUAKZXhw
-cmVzc2lvbiBlLCB4OwpzdGF0ZW1lbnQgaXMsIGVzOwp0eXBlIHQ7CkBACiplID0gKHQpIGlvcmVt
-YXAoLi4uKQogLi4uIHdoZW4gIT0gaWYoIFwoICFlIFx8IGUgPT0gTlVMTCBcfCB1bmxpa2VseSgg
-XCggIWUgXHwgZSA9PSBOVUxMIFwpICkgXHwgV0FSTl9PTiggXCggIWUgXHwgZSA9PSBOVUxMIFwp
-ICkgXCkgKSBpcyBlbHNlIGVzCiAgICAgd2hlbiAhPSBpb3VubWFwKGUpCiByZXR1cm4geDsKCgoK
-Pj4gV291bGQgeW91IGxpa2UgdG8gbGV0IGFueSBtb3JlIHNvdXJjZSBjb2RlIGFuYWx5c2lzIHRv
-b2xzIGhlbHAgeW91Cj4+IHRvIGZpbmQgcmVtYWluaW5nIHVwZGF0ZSBjYW5kaWRhdGVzPwo+Pgo+
-IHllcywgYnV0IEkgdGhpbmsgdGhlIHNvdXJjZSBjb2RlIGFuYWx5c2lzIHRvb2xzIG9ubHkgY2Fu
-IGZvdW5kIHRoZSBzaW1wbGUKPiByZXBldGl0aXZlIGlzc3VlLgoKVGhlIHNob3duIGFuYWx5c2lz
-IGFwcHJvYWNoIGNhbiBwb2ludCAxMjcgc291cmNlIGZpbGVzIG91dCBmcm9tCnRoZSBzb2Z0d2Fy
-ZSDigJxMaW51eCBuZXh0LTIwMjAwNDIz4oCdLiBUaGVzZSBmaWxlcyBjb250YWluIGZ1bmN0aW9u
-IGltcGxlbWVudGF0aW9ucwp3aGljaCBtaWdodCBuZWVkIGZ1cnRoZXIgZGV2ZWxvcG1lbnQgY29u
-c2lkZXJhdGlvbnMuCgoKPiBhbmQgbmVlZCBzcGVuZCBzb21lIHRpbWUgbGVhcm5pbmcgdG8gdXNl
-IGl0LgoKWW91IGNhbWUgYWxvbmcgYSBmZXcgZmlsZXMgd2hlcmUgeW91IG5vdGljZWQgcXVlc3Rp
-b25hYmxlIHNvdXJjZSBjb2RlLgpXb3VsZCB5b3UgYmVjb21lIGludGVyZXN0ZWQgdG8gZmluZCBz
-aW1pbGFyIHBsYWNlcyBmb3IgYW5vdGhlciBjaGVjaz8KCgplbGZyaW5nQFNvbm5lOn4vUHJvamVr
-dGUvTGludXgvbmV4dC1wYXRjaGVkPiBYWD0kKGRhdGUpICYmIHNwYXRjaCAtLW5vLWxvb3BzIC0t
-dGltZW91dCAxMiAtaiA0IC0tY2h1bmtzaXplIDEgLWRpciB+L1Byb2pla3RlL0xpbnV4L25leHQt
-cGF0Y2hlZCB+L1Byb2pla3RlL0NvY2NpbmVsbGUvamFuaXRvci9zaG93X3F1ZXN0aW9uYWJsZV9p
-b3JlbWFwX3VzYWdlMy5jb2NjaSA+IH4vUHJvamVrdGUvQmF1L0xpbnV4L3NjcmlwdHMvQ29jY2lu
-ZWxsZS9pb3JlbWFwLzIwMjAwNDIzL3Nob3dfcXVlc3Rpb25hYmxlX2lvcmVtYXBfdXNhZ2UzLmRp
-ZmYgMj4gfi9Qcm9qZWt0ZS9CYXUvTGludXgvc2NyaXB0cy9Db2NjaW5lbGxlL2lvcmVtYXAvMjAy
-MDA0MjMvc2hvd19xdWVzdGlvbmFibGVfaW9yZW1hcF91c2FnZTMtZXJyb3JzLnR4dDsgWVk9JChk
-YXRlKSAmJiBlY2hvICIkWFggfCAkWVkiCkZyIDI0LiBBcHIgMDk6MDg6NDQgQ0VTVCAyMDIwIHwg
-RnIgMjQuIEFwciAwOToxMDozNyBDRVNUIDIwMjAKCldvdWxkIHlvdSBsaWtlIHRvIGV4dGVuZCB5
-b3VyIGxlYXJuaW5nIGV4cGVyaWVuY2VzIGFjY29yZGluZ2x5PwoKCj4gbm93LCBJIHRoaW5rIHRo
-ZSBiZXN0IGZvciBtZSBtYXkgYmUgdGhhdCByZWFkIGFuZCBjaGVjayB0aGUgc291cmNlIGNvZGUu
-CgpIb3cgZG8geW91IHRoaW5rIGFib3V0IHRvIHJlZHVjZSBlZmZvcnRzIGZvciBtYW51YWwgY29k
-ZSBpbnNwZWN0aW9uPwoKUmVnYXJkcywKTWFya3VzCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Fixes coccicheck warning:
+
+drivers/gpu/drm/meson/meson_plane.c:226:3-4: Unneeded semicolon
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zheng Bin <zhengbin13@huawei.com>
+---
+ drivers/gpu/drm/meson/meson_plane.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
+index d5cbc47835bf..35338ed18209 100644
+--- a/drivers/gpu/drm/meson/meson_plane.c
++++ b/drivers/gpu/drm/meson/meson_plane.c
+@@ -223,7 +223,7 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
+ 			priv->viu.osd1_blk0_cfg[0] |= OSD_BLK_MODE_16 |
+ 						OSD_COLOR_MATRIX_16_RGB565;
+ 			break;
+-		};
++		}
+ 	}
+
+ 	switch (fb->format->format) {
+--
+2.26.0.106.g9fadedd
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
