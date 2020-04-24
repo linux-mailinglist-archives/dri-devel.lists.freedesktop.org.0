@@ -1,33 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FE21B7FF4
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:09:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5511B7824
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 16:16:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3018C6EB37;
-	Fri, 24 Apr 2020 20:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DEF06E0C1;
+	Fri, 24 Apr 2020 14:16:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51AF06E0C1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 14:08:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id AAA372A2D55
-Subject: Re: [PATCH] dt-bindings: display: anx7814.txt: convert to yaml
-To: =?UTF-8?Q?Ricardo_Ca=c3=b1uelo?= <ricardo.canuelo@collabora.com>,
- devicetree@vger.kernel.org
-References: <20200424065354.23781-1-ricardo.canuelo@collabora.com>
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <481401ed-93a4-6918-3d8b-6c769d8c7617@collabora.com>
-Date: Fri, 24 Apr 2020 16:08:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79CBB6E0C1;
+ Fri, 24 Apr 2020 14:16:00 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id h2so10632832wmb.4;
+ Fri, 24 Apr 2020 07:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8w7+uCUhpHYzbGOZ01QDp28us1IRO4sOqHhMEDTp6HU=;
+ b=BiYJa3L1GcSsLCZerQTAWPtUGBFNe3HAGW+NlURNhdrUIHx5elsf6OKXLm9Pd8Qhyz
+ SHsVP0xONFLTM0+8MEQTudYClzAUc0NAVzG/NuAgOYVpCaN6Xb7/Y5KKQ34m0jCnVJYR
+ K+3WDdXRQ4M7Jnu3w8hl/XSkLFdp/sWxUydnF5mdRUQV4eEhIbyvFYHcwAwjPQ4KUOL1
+ jdSRa7oO5bjwZNmgWqNsxhxSRu5DKThAKFe3PU+pijmgadH5BEj/UQLbc833T6GU2D3S
+ tebRFoUOq9csCYKkH1F2n/ddySjJYAT6aRG98nfYpSLfVPp462kyWdugchTc7KdbNeNe
+ qDQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8w7+uCUhpHYzbGOZ01QDp28us1IRO4sOqHhMEDTp6HU=;
+ b=bGjbMhoUM3i7x0oh3urd7xzVBpYjpYa8tKfb+kMfQv/6O5yRzf2xzfAGJdKHzRPyP0
+ XV6YCZHI875eimzpsURGAWC83+YJI32W9ZshCxnfeSjFoouPpFDQBX0l3BKw9oaQyHeh
+ sIikGoV2+B9oIiRNKjf7Ij5v8FkrkWM/zVaZbSEX0pAt/K+xk3o9Le+DwyNwoEzJqSVW
+ fF0RK6v1FukiNZoLdnXBwNuGtglVZ7JIAHK+LIRhpYFHHefolTcTFCfFukSayR8ZT6SW
+ kCV99IhbWq38bs8iEBHRPvd+JzuZqeMB/kdJ3oi201vPt8Tj/TS1zhAL+o0sy7PXqWnd
+ I7nQ==
+X-Gm-Message-State: AGi0PuZ3SImn1/SNZBiBeM3B90aqh38tmDyxDMzvFqVYsTRMQLd/6NaZ
+ BXDxFRox27+oJC2y7vd1OZpEzYE0xVSaqSmwXDQ=
+X-Google-Smtp-Source: APiQypJxpZVUieBMlP6z0fAEtLmFyuOe11V+/kd2k3pWQy9UVGsp+SwtFgmr/+ixgaFFx8G3scEDN72dvcJ81EwgYIU=
+X-Received: by 2002:a1c:6344:: with SMTP id x65mr10535226wmb.56.1587737759026; 
+ Fri, 24 Apr 2020 07:15:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200424065354.23781-1-ricardo.canuelo@collabora.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Fri, 24 Apr 2020 20:08:26 +0000
+References: <20200424125640.22656-1-colin.king@canonical.com>
+In-Reply-To: <20200424125640.22656-1-colin.king@canonical.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 24 Apr 2020 10:15:48 -0400
+Message-ID: <CADnq5_OXYD0bkLZtfQeL0+B6RrcWjEn2yrAPRANpx0HAtEREEg@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amdgpu: fix unlocks on error return path
+To: Colin King <colin.king@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,129 +60,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robh+dt@kernel.org, kernel@collabora.com, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUmljYXJkbywKClRoYW5rIHlvdSBmb3IgeW91ciBwYXRjaC4KCk9uIDI0LzQvMjAgODo1Mywg
-UmljYXJkbyBDYcOxdWVsbyB3cm90ZToKPiBUaGlzIGNvbnZlcnRzIHRoZSBBbmFsb2dpeCBBTlg3
-ODE0IGJyaWRnZSBEVCBiaW5kaW5nIHRvIHlhbWwuIFBvcnQKPiBkZWZpbml0aW9ucyBhbmQgZGVz
-Y3JpcHRpb25zIHdlcmUgZXhwYW5kZWQsIGFwYXJ0IGZyb20gdGhhdCBpdCdzIGEKPiBkaXJlY3Qg
-dHJhbnNsYXRpb24gZnJvbSB0aGUgb3JpZ2luYWwgYmluZGluZy4KPiAKPiBTaWduZWQtb2ZmLWJ5
-OiBSaWNhcmRvIENhw7F1ZWxvIDxyaWNhcmRvLmNhbnVlbG9AY29sbGFib3JhLmNvbT4KPiAtLS0K
-PiBUZXN0ZWQgd2l0aDoKPiBtYWtlIGR0X2JpbmRpbmdfY2hlY2sgQVJDSD1hcm02NCBEVF9TQ0hF
-TUFfRklMRVM9PC4uLi9hbng3ODE0LnlhbWw+Cj4gbWFrZSBkdGJzX2NoZWNrIEFSQ0g9YXJtNjQg
-RFRfU0NIRU1BX0ZJTEVTPTwuLi4vYW54NzgxNC55YW1sPgo+IAo+ICAuLi4vYmluZGluZ3MvZGlz
-cGxheS9icmlkZ2UvYW54NzgxNC50eHQgICAgICAgfCAgNDIgLS0tLS0tCj4gIC4uLi9iaW5kaW5n
-cy9kaXNwbGF5L2JyaWRnZS9hbng3ODE0LnlhbWwgICAgICB8IDEzMyArKysrKysrKysrKysrKysr
-KysKPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMzMgaW5zZXJ0aW9ucygrKSwgNDIgZGVsZXRpb25zKC0p
-Cj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
-ZGlzcGxheS9icmlkZ2UvYW54NzgxNC50eHQKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50
-YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbng3ODE0LnlhbWwKClVz
-ZSB0aGUgZnVsbCBjb21wYXRpYmxlIHN0cmluZzogYW5hbG9naXgsYW54NzgxNC55YW1sCgo+IAo+
-IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9i
-cmlkZ2UvYW54NzgxNC50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
-cGxheS9icmlkZ2UvYW54NzgxNC50eHQKPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRl
-eCAxNzI1ODc0N2ZmZjYuLjAwMDAwMDAwMDAwMAo+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbng3ODE0LnR4dAo+ICsrKyAvZGV2L251bGwK
-PiBAQCAtMSw0MiArMCwwIEBACj4gLUFuYWxvZ2l4IEFOWDc4MTQgU2xpbVBvcnQgKEZ1bGwtSEQg
-VHJhbnNtaXR0ZXIpCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tCj4gLQo+IC1UaGUgQU5YNzgxNCBpcyBhbiB1bHRyYS1sb3cgcG93ZXIgRnVsbC1IRCAo
-MTA4MHA2MCkgU2xpbVBvcnQgdHJhbnNtaXR0ZXIKPiAtZGVzaWduZWQgZm9yIHBvcnRhYmxlIGRl
-dmljZXMuCj4gLQo+IC1SZXF1aXJlZCBwcm9wZXJ0aWVzOgo+IC0KPiAtIC0gY29tcGF0aWJsZQkJ
-OiBNdXN0IGJlIG9uZSBvZjoKPiAtCQkJICAiYW5hbG9naXgsYW54NzgwOCIKPiAtCQkJICAiYW5h
-bG9naXgsYW54NzgxMiIKPiAtCQkJICAiYW5hbG9naXgsYW54NzgxNCIKPiAtCQkJICAiYW5hbG9n
-aXgsYW54NzgxOCIKPiAtIC0gcmVnCQkJOiBJMkMgYWRkcmVzcyBvZiB0aGUgZGV2aWNlCj4gLSAt
-IGludGVycnVwdHMJCTogU2hvdWxkIGNvbnRhaW4gdGhlIElOVFAgaW50ZXJydXB0Cj4gLSAtIGhw
-ZC1ncGlvcwkJOiBXaGljaCBHUElPIHRvIHVzZSBmb3IgaHBkCj4gLSAtIHBkLWdwaW9zCQk6IFdo
-aWNoIEdQSU8gdG8gdXNlIGZvciBwb3dlciBkb3duCj4gLSAtIHJlc2V0LWdwaW9zCQk6IFdoaWNo
-IEdQSU8gdG8gdXNlIGZvciByZXNldAo+IC0KPiAtT3B0aW9uYWwgcHJvcGVydGllczoKPiAtCj4g
-LSAtIGR2ZGQxMC1zdXBwbHkJOiBSZWd1bGF0b3IgZm9yIDEuMFYgZGlnaXRhbCBjb3JlIHBvd2Vy
-Lgo+IC0gLSBWaWRlbyBwb3J0IGZvciBIRE1JIGlucHV0LCB1c2luZyB0aGUgRFQgYmluZGluZ3Mg
-ZGVmaW5lZCBpbiBbMV0uCj4gLQo+IC1bMV06IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
-aW5ncy9tZWRpYS92aWRlby1pbnRlcmZhY2VzLnR4dAo+IC0KPiAtRXhhbXBsZToKPiAtCj4gLQlh
-bng3ODE0OiBhbng3ODE0QDM4IHsKPiAtCQljb21wYXRpYmxlID0gImFuYWxvZ2l4LGFueDc4MTQi
-Owo+IC0JCXJlZyA9IDwweDM4PjsKPiAtCQlpbnRlcnJ1cHQtcGFyZW50ID0gPCZncGlvMD47Cj4g
-LQkJaW50ZXJydXB0cyA9IDw5OSBJUlFfVFlQRV9MRVZFTF9MT1c+OyAgIC8qIElOVFAgKi8KPiAt
-CQlocGQtZ3Bpb3MgPSA8JnBpbyAzNiBHUElPX0FDVElWRV9ISUdIPjsKPiAtCQlwZC1ncGlvcyA9
-IDwmcGlvIDMzIEdQSU9fQUNUSVZFX0hJR0g+Owo+IC0JCXJlc2V0LWdwaW9zID0gPCZwaW8gOTgg
-R1BJT19BQ1RJVkVfSElHSD47Cj4gLQkJcG9ydCB7Cj4gLQkJCWFueDc4MTRfaW46IGVuZHBvaW50
-IHsKPiAtCQkJCXJlbW90ZS1lbmRwb2ludCA9IDwmaGRtaTBfb3V0PjsKPiAtCQkJfTsKPiAtCQl9
-Owo+IC0JfTsKPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L2Rpc3BsYXkvYnJpZGdlL2FueDc4MTQueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
-aW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbng3ODE0LnlhbWwKPiBuZXcgZmlsZSBtb2RlIDEwMDY0
-NAo+IGluZGV4IDAwMDAwMDAwMDAwMC4uNTNkM2M3NzhjODkzCj4gLS0tIC9kZXYvbnVsbAo+ICsr
-KyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbng3
-ODE0LnlhbWwKPiBAQCAtMCwwICsxLDEzMyBAQAo+ICsjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVy
-OiAoR1BMLTIuMC1vbmx5IE9SIEJTRC0yLUNsYXVzZSkKPiArJVlBTUwgMS4yCj4gKy0tLQo+ICsk
-aWQ6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9zY2hlbWFzL2Rpc3BsYXkvYnJpZGdlL2FueDc4MTQu
-eWFtbCMKCkRvbid0IGZvcmdldCB0byB1cGRhdGUgdGhpcyB0b28uCgoKPiArJHNjaGVtYTogaHR0
-cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjCj4gKwo+ICt0aXRsZTog
-QW5hbG9naXggQU5YNzgxNCBTbGltUG9ydCAoRnVsbC1IRCBUcmFuc21pdHRlcikKPiArCj4gK21h
-aW50YWluZXJzOgo+ICsgIC0gRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMuYmFsbGV0Ym9A
-Y29sbGFib3JhLmNvbT4KPiArCj4gK2Rlc2NyaXB0aW9uOiB8Cj4gKyAgVGhlIEFOWDc4MTQgaXMg
-YW4gdWx0cmEtbG93IHBvd2VyIEZ1bGwtSEQgKDEwODBwNjApIFNsaW1Qb3J0IHRyYW5zbWl0dGVy
-Cj4gKyAgZGVzaWduZWQgZm9yIHBvcnRhYmxlIGRldmljZXMuCj4gKwo+ICtwcm9wZXJ0aWVzOgo+
-ICsgIGNvbXBhdGlibGU6Cj4gKyAgICBlbnVtOgo+ICsgICAgICAtIGFuYWxvZ2l4LGFueDc4MDgK
-PiArICAgICAgLSBhbmFsb2dpeCxhbng3ODEyCj4gKyAgICAgIC0gYW5hbG9naXgsYW54NzgxNAo+
-ICsgICAgICAtIGFuYWxvZ2l4LGFueDc4MTgKPiArCj4gKyAgcmVnOgo+ICsgICAgbWF4SXRlbXM6
-IDEKPiArICAgIGRlc2NyaXB0aW9uOiBJMkMgYWRkcmVzcyBvZiB0aGUgZGV2aWNlLgo+ICsKCkNh
-biBkcm9wIHRoZSBkZXNjcmlwdGlvbiBhcyB0aGVyZSdzIG5vdGhpbmcgc3BlY2lmaWMgdG8gdGhp
-cyBkZXZpY2UuCgo+ICsgIGludGVycnVwdHM6Cj4gKyAgICBtYXhJdGVtczogMQo+ICsgICAgZGVz
-Y3JpcHRpb246IFNob3VsZCBjb250YWluIHRoZSBJTlRQIGludGVycnVwdC4KPiArCj4gKyAgaHBk
-LWdwaW9zOgo+ICsgICAgbWF4SXRlbXM6IDEKPiArICAgIGRlc2NyaXB0aW9uOiBXaGljaCBHUElP
-IHRvIHVzZSBmb3IgaHBkLgo+ICsKPiArICBwZC1ncGlvczoKPiArICAgIG1heEl0ZW1zOiAxCj4g
-KyAgICBkZXNjcmlwdGlvbjogV2hpY2ggR1BJTyB0byB1c2UgZm9yIHBvd2VyIGRvd24uCj4gKwo+
-ICsgIHJlc2V0LWdwaW9zOgo+ICsgICAgbWF4SXRlbXM6IDEKPiArICAgIGRlc2NyaXB0aW9uOiBX
-aGljaCBHUElPIHRvIHVzZSBmb3IgcmVzZXQuCj4gKwo+ICsgIGR2ZGQxMC1zdXBwbHk6Cj4gKyAg
-ICBtYXhJdGVtczogMQo+ICsgICAgZGVzY3JpcHRpb246IFJlZ3VsYXRvciBmb3IgMS4wViBkaWdp
-dGFsIGNvcmUgcG93ZXIuCj4gKwo+ICsgIHBvcnRzOgo+ICsgICAgdHlwZTogb2JqZWN0Cj4gKyAg
-ICBkZXNjcmlwdGlvbjoKPiArICAgICAgQSBub2RlIGNvbnRhaW5pbmcgaW5wdXQgYW5kIG91dHB1
-dCBwb3J0IG5vZGVzIHdpdGggZW5kcG9pbnQKPiArICAgICAgZGVmaW5pdGlvbnMgYXMgZG9jdW1l
-bnRlZCBpbgo+ICsgICAgICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEv
-dmlkZW8taW50ZXJmYWNlcy50eHQKPiArICAgICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2dyYXBoLnR4dAo+ICsKPiArICAgIHByb3BlcnRpZXM6Cj4gKyAgICAgICIjYWRkcmVz
-cy1jZWxscyI6Cj4gKyAgICAgICAgY29uc3Q6IDEKPiArCgpJIGRvbid0JyB0aGluayB5b3UgbmVl
-ZCB0byBzcGVjaWZ5IHRoaXMuIFlvdSBjYW4gZHJvcCBpdCAoYmV0dGVyIGRvdWJsZSBjaGVjawp3
-aXRoIFJvYiwgdGhvdWdoKQoKPiArICAgICAgIiNzaXplLWNlbGxzIjoKPiArICAgICAgICBjb25z
-dDogMAo+ICsKCkkgZG9uJ3QnIHRoaW5rIHlvdSBuZWVkIHRvIHNwZWNpZnkgdGhpcy4gWW91IGNh
-biBkcm9wIGl0IChiZXR0ZXIgZG91YmxlIGNoZWNrCndpdGggUm9iLCB0aG91Z2gpCgo+ICsgICAg
-ICBwb3J0QDA6Cj4gKyAgICAgICAgdHlwZTogb2JqZWN0Cj4gKyAgICAgICAgZGVzY3JpcHRpb246
-IFZpZGVvIHBvcnQgZm9yIEhETUkgaW5wdXQuCj4gKwo+ICsgICAgICAgIHByb3BlcnRpZXM6Cj4g
-KyAgICAgICAgICByZWc6Cj4gKyAgICAgICAgICAgIGNvbnN0OiAwCj4gKwo+ICsgICAgICBwb3J0
-QDE6Cj4gKyAgICAgICAgdHlwZTogb2JqZWN0Cj4gKyAgICAgICAgZGVzY3JpcHRpb246Cj4gKyAg
-ICAgICAgICBWaWRlbyBwb3J0IGZvciBTbGltUG9ydCwgRGlzcGxheVBvcnQsIGVEUCBvciBNeURQ
-IG91dHB1dC4KPiArCj4gKyAgICAgICAgcHJvcGVydGllczoKPiArICAgICAgICAgIHJlZzoKPiAr
-ICAgICAgICAgICAgY29uc3Q6IDEKPiArCj4gKyAgICByZXF1aXJlZDoKPiArICAgICAgLSBwb3J0
-QDAKPiArICAgICAgLSBwb3J0QDEKPiArCj4gK3JlcXVpcmVkOgo+ICsgIC0gY29tcGF0aWJsZQo+
-ICsgIC0gcmVnCj4gKyAgLSBpbnRlcnJ1cHRzCj4gKyAgLSBocGQtZ3Bpb3MKPiArICAtIHBkLWdw
-aW9zCj4gKyAgLSByZXNldC1ncGlvcwo+ICsgIC0gcG9ydHMKPiArCj4gK2FkZGl0aW9uYWxQcm9w
-ZXJ0aWVzOiBmYWxzZQo+ICsKPiArZXhhbXBsZXM6Cj4gKyAgLSB8Cj4gKyAgICAjaW5jbHVkZSA8
-ZHQtYmluZGluZ3MvaW50ZXJydXB0LWNvbnRyb2xsZXIvYXJtLWdpYy5oPgo+ICsgICAgI2luY2x1
-ZGUgPGR0LWJpbmRpbmdzL2dwaW8vZ3Bpby5oPgo+ICsKPiArICAgIGkyYzAgewo+ICsgICAgICAg
-ICNhZGRyZXNzLWNlbGxzID0gPDE+Owo+ICsgICAgICAgICNzaXplLWNlbGxzID0gPDA+Owo+ICsK
-PiArICAgICAgICBhbng3ODE0OiBhbng3ODE0QDM4IHsKClRoaXMgc2hvdWxkIGJlICJicmlkZ2VA
-MzggeyIsIHNpbmNlIG5vZGUgbmFtZXMgYXJlIHN1cHBvc2VkIHRvCm1hdGNoIHRoZSBjbGFzcyBv
-ZiB0aGUgZGV2aWNlIGluc3RlYWQgb2YgdGhlIG5hbWUgb2YgdGhlIGRldmljZS4gSSBndWVzcy4K
-Cj4gKyAgICAgICAgICAgIGNvbXBhdGlibGUgPSAiYW5hbG9naXgsYW54NzgxNCI7Cj4gKyAgICAg
-ICAgICAgIHJlZyA9IDwweDM4PjsKPiArICAgICAgICAgICAgaW50ZXJydXB0LXBhcmVudCA9IDwm
-Z3BpbzA+Owo+ICsgICAgICAgICAgICBpbnRlcnJ1cHRzID0gPDk5IElSUV9UWVBFX0xFVkVMX0xP
-Vz47ICAgLyogSU5UUCAqLwo+ICsgICAgICAgICAgICBocGQtZ3Bpb3MgPSA8JnBpbyAzNiBHUElP
-X0FDVElWRV9ISUdIPjsKPiArICAgICAgICAgICAgcGQtZ3Bpb3MgPSA8JnBpbyAzMyBHUElPX0FD
-VElWRV9ISUdIPjsKPiArICAgICAgICAgICAgcmVzZXQtZ3Bpb3MgPSA8JnBpbyA5OCBHUElPX0FD
-VElWRV9ISUdIPjsKPiArCj4gKyAgICAgICAgICAgIHBvcnRzIHsKPiArICAgICAgICAgICAgICAg
-ICNhZGRyZXNzLWNlbGxzID0gPDE+Owo+ICsgICAgICAgICAgICAgICAgI3NpemUtY2VsbHMgPSA8
-MD47Cj4gKwo+ICsgICAgICAgICAgICAgICAgcG9ydEAwIHsKPiArICAgICAgICAgICAgICAgICAg
-ICByZWcgPSA8MD47Cj4gKyAgICAgICAgICAgICAgICAgICAgYW54NzgxNF9pbjogZW5kcG9pbnQg
-ewo+ICsgICAgICAgICAgICAgICAgICAgICAgICByZW1vdGUtZW5kcG9pbnQgPSA8JmhkbWkwX291
-dD47Cj4gKyAgICAgICAgICAgICAgICAgICAgfTsKPiArICAgICAgICAgICAgICAgIH07Cj4gKwo+
-ICsgICAgICAgICAgICAgICAgcG9ydEAxIHsKPiArICAgICAgICAgICAgICAgICAgICByZWcgPSA8
-MT47Cj4gKyAgICAgICAgICAgICAgICAgICAgYW54NzgxNF9vdXQ6IGVuZHBvaW50IHsKPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZlZHBfb3V0PjsKPiArICAg
-ICAgICAgICAgICAgICAgICB9Owo+ICsgICAgICAgICAgICAgICAgfTsKPiArICAgICAgICAgICAg
-fTsKPiArICAgICAgICB9Owo+ICsgICAgfTsKPiArLi4uCj4gCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, Apr 24, 2020 at 8:56 AM Colin King <colin.king@canonical.com> wrote:
+>
+> From: Colin Ian King <colin.king@canonical.com>
+>
+> Currently the error returns paths are unlocking lock kiq->ring_lock
+> however it seems this should be dev->gfx.kiq.ring_lock as this
+> is the lock that is being locked and unlocked around the ring
+> operations.  This looks like a bug, fix it by unlocking the
+> correct lock.
+>
+> [ Note: untested ]
+>
+> Addresses-Coverity: ("Missing unlock")
+> Fixes: 82478876eaac ("drm/amdgpu: protect ring overrun")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+
+It's the same lock, just accessed via a local pointer.  I'll take the
+patch and update the commit message when I apply it to avoid confusion
+in the future.
+
+Alex
+
+> ---
+>  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c  | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+> index b120f9160f13..edaa50d850a6 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+> @@ -430,7 +430,7 @@ static int gmc_v10_0_flush_gpu_tlb_pasid(struct amdgpu_device *adev,
+>                 r = amdgpu_fence_emit_polling(ring, &seq, MAX_KIQ_REG_WAIT);
+>                 if (r) {
+>                         amdgpu_ring_undo(ring);
+> -                       spin_unlock(&kiq->ring_lock);
+> +                       spin_unlock(&adev->gfx.kiq.ring_lock);
+>                         return -ETIME;
+>                 }
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+> index 0a6026308343..055ecba754ff 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+> @@ -624,7 +624,7 @@ static int gmc_v9_0_flush_gpu_tlb_pasid(struct amdgpu_device *adev,
+>                 r = amdgpu_fence_emit_polling(ring, &seq, MAX_KIQ_REG_WAIT);
+>                 if (r) {
+>                         amdgpu_ring_undo(ring);
+> -                       spin_unlock(&kiq->ring_lock);
+> +                       spin_unlock(&adev->gfx.kiq.ring_lock);
+>                         return -ETIME;
+>                 }
+>
+> --
+> 2.25.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
