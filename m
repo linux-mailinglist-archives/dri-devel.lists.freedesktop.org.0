@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F051B801E
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:10:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1C21B7FF3
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:09:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B79616EB4E;
-	Fri, 24 Apr 2020 20:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E1236EB5D;
+	Fri, 24 Apr 2020 20:08:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7D1896C4
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:36:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99473896C4
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:36:29 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 34747143F;
- Fri, 24 Apr 2020 11:36:27 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:36:27 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 9B85F1458;
+ Fri, 24 Apr 2020 11:36:28 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:36:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=chTEdfP/TGVQC
- B89hyBYCnukgHUPmk0+Fjf1O1Hfcig=; b=wfmZEBx8vrwcs/BGGRHW2Wa8fFn7Q
- u9nR5EOL8JWpIBypP0t3Kqzr2jj4d3LynyrESahg7u2x9fn3/LtTQdudkk+JSTCk
- kD3RWKjCYW/aZG8hvN7z3/t0DhPpP91NkN1h1oA8ziVv3Np7/8hblc0eo0mAqmd2
- A7X/w5PlV8QPqZLLAPpdQVVdeNdEiUw3w6eSmaQ6aqjiKtphhvahFWzcoxmcAUxW
- 3ImkemQ+IZTooPOSjCjjadll94RF7PpoSSReP4Gs2LPHTfq8q9WtevCA3FRTSoPC
- oxNMLsPlPqY4a3RBz34fzKV6/VpiZDwuOQTYzYjUxXoVpUO/9pIAQx9IQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=RZBN3MbgcEFAH
+ BaADdNdwB2P6fayKSZ6ak4G/krg+rk=; b=idrkZXnUF+NCbQssNUAmhs4NcSJtJ
+ qXmqiZvI8E570cGKis1DsgYwBhxDV56Zl8GENyFX7V82HeObWMOo6feXvJeltbc3
+ 7u0fm4gC7bg+906JE51INK6mffyUZQXZ5nUYJT5/yDfks/8OjcrX3qUv+oixO7DL
+ DVd7J3q59f6ZqjASbMsZV0q1JQ+2QExWFZqNRp7asvjWBYcNBZYaGJkBy3V0c+AQ
+ 3KiPrZzGAHncDwXHMTmNXvp6kUa6qURzUcR6xWo9okttEn8Ooq3ZRxIn6c77Udxf
+ CYXea00Jf6yu4+J0uaF94+w6ZRugsGhkVFIYRKTB/vam0G91z7G8YJ7RA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=chTEdfP/TGVQCB89hyBYCnukgHUPmk0+Fjf1O1Hfcig=; b=0xGpL6Dq
- 4PfZ/F+hBdLcEbO7CAUveW8KzMsRRcICDhSO6qMMaG8tk7oElMeV/H6KD9E9Qn2M
- LwtVvjsgp1RhTfSv5gsd5OMMn1g1VKwch1m3RmuADDaehC932+4j7SAHK/18apCK
- BnvDLU+ymw3lQ8IdIv1iA4tSIsKkqvxXQvX0ctuYWthlPgYgS/dZV07L20yXfG1P
- +Z9lxnT8inLP2Gw16l+g4cTOq/DWGe7lEgl7dJesYw8hkBdNv/JLnCujANRwxUSB
- vx9pnkcvvyvqglTvWP3mfQR6NC5lwFsQPsbSfbg9PZ6dd4auWIpgGLax4uun9nMA
- 2n2VAjC+LG+lcw==
-X-ME-Sender: <xms:egejXtkkYhbb1LlfqJNeVB2269X8vSG--b6pX_UdSCE2rbPEmICn1A>
+ fm2; bh=RZBN3MbgcEFAHBaADdNdwB2P6fayKSZ6ak4G/krg+rk=; b=UwaWsHSI
+ KH0guK4v9aITs1UqQ79TgAM1c+C7YLJmmi8eo29qDwlKZzCEDQw2vCv8YqzpWtwa
+ AboEbmpsMWJvQAopVCQ4hL4N0wLHlskqnje8iU1+FIp6SRRDh3+vqzK4zvy6Ukjf
+ vvTUPhzbw1aN7CCgoTSDqU6TbmiXBGOW49NjB9bEAy07wj+8pxk5b4K7VxTc14bZ
+ GREnzmG1BzUPYLfPzBmN5IBQ7vBzeKfbT1NgPR+yJM9bqsCYLCa+Dsfarg4zjC5L
+ J4nLQOGgpZtlzjHYvOMhRW3OyTX6qcaLk9CdI/pU4WDqX9YSjkkcNzZ+AK23SYGA
+ TD1gj5HT4j6G6A==
+X-ME-Sender: <xms:fAejXpRsWpGDiT68WIJuALPPiPK9aoKRvWojcDxg9TN2RFngg28iag>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrhedugdekiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
- ekledrieekrdejieenucevlhhushhtvghrufhiiigvpeefkeenucfrrghrrghmpehmrghi
+ ekledrieekrdejieenucevlhhushhtvghrufhiiigvpeegvdenucfrrghrrghmpehmrghi
  lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:egejXgAWrRFnCfGyE0oaohVPqsJMQUVTlA-dPu-1Wp0lvONlECYMAg>
- <xmx:egejXi2-wjLbLXoXTtxGU6U42cHTbQC_F5Jfk8ym1n4KJtHLXLd0Xw>
- <xmx:egejXvCHD9WZhCfjFodjYrcSZlR96peVILVdQW-onlv6ntsyYbrp5w>
- <xmx:egejXqOHaw1NfuNaZzHo5zPjQlL7dh9rVQ6E1VmbnEsLwUAXiDo_pKyeh7Q>
+X-ME-Proxy: <xmx:fAejXnJszll0Nj_a4rT1c2K0s18cgllovCD0gwNKhlDQm2jTdivOPg>
+ <xmx:fAejXsvVGLrdSAODNVSjpfO9X_SuT2jYulya_H6dlZOj434mLE19xA>
+ <xmx:fAejXu__VfQguBPGw2suiW3Q8Ye1uNcMlb_q-3IRfv6NHRRwhTiYmw>
+ <xmx:fAejXg1L1v3ACvYyWhbbIcShpfuxK6VfyPQIlaSwRKMgUL0Lw6_hHXCXT38>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7171E328005A;
- Fri, 24 Apr 2020 11:36:26 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id D3F923065D97;
+ Fri, 24 Apr 2020 11:36:27 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v2 46/91] drm/vc4: crtc: Use a shared interrupt
-Date: Fri, 24 Apr 2020 17:34:27 +0200
-Message-Id: <941aa091135806b802969346125faa449fb281d2.1587742492.git-series.maxime@cerno.tech>
+Subject: [PATCH v2 47/91] drm/vc4: crtc: Turn static const variable into a
+ define
+Date: Fri, 24 Apr 2020 17:34:28 +0200
+Message-Id: <153ceee1cd4823d03e5c64c95be15b03208e45f6.1587742492.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
 References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
@@ -87,28 +88,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some pixelvalves in vc5 use the same interrupt line so let's register our
-interrupt handler as a shared one.
+The hvs_latency_pix variable doesn't need to be a variable and can just be
+defined.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index be264da1a13f..5d713fbae139 100644
+index 5d713fbae139..06bda23cd560 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -1179,7 +1179,9 @@ static int vc4_crtc_bind(struct device *dev, struct device *master, void *data)
- 	CRTC_WRITE(PV_INTEN, 0);
- 	CRTC_WRITE(PV_INTSTAT, PV_INT_VFP_START);
- 	ret = devm_request_irq(dev, platform_get_irq(pdev, 0),
--			       vc4_crtc_irq_handler, 0, "vc4 crtc", vc4_crtc);
-+			       vc4_crtc_irq_handler,
-+			       IRQF_SHARED,
-+			       "vc4 crtc", vc4_crtc);
- 	if (ret)
- 		goto err_destroy_planes;
+@@ -44,6 +44,8 @@
+ #include "vc4_drv.h"
+ #include "vc4_regs.h"
+ 
++#define HVS_FIFO_LATENCY_PIX	6
++
+ #define CRTC_WRITE(offset, val) writel(val, vc4_crtc->regs + (offset))
+ #define CRTC_READ(offset) readl(vc4_crtc->regs + (offset))
+ 
+@@ -231,18 +233,17 @@ vc4_crtc_update_gamma_lut(struct drm_crtc *crtc)
+ static u32 vc4_get_fifo_full_level(u32 format)
+ {
+ 	static const u32 fifo_len_bytes = 64;
+-	static const u32 hvs_latency_pix = 6;
+ 
+ 	switch (format) {
+ 	case PV_CONTROL_FORMAT_DSIV_16:
+ 	case PV_CONTROL_FORMAT_DSIC_16:
+-		return fifo_len_bytes - 2 * hvs_latency_pix;
++		return fifo_len_bytes - 2 * HVS_FIFO_LATENCY_PIX;
+ 	case PV_CONTROL_FORMAT_DSIV_18:
+ 		return fifo_len_bytes - 14;
+ 	case PV_CONTROL_FORMAT_24:
+ 	case PV_CONTROL_FORMAT_DSIV_24:
+ 	default:
+-		return fifo_len_bytes - 3 * hvs_latency_pix;
++		return fifo_len_bytes - 3 * HVS_FIFO_LATENCY_PIX;
+ 	}
+ }
  
 -- 
 git-series 0.9.1
