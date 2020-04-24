@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5161B84BC
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:42:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B6C81B84BD
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:42:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7DE46E198;
-	Sat, 25 Apr 2020 08:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1DC6E199;
+	Sat, 25 Apr 2020 08:42:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5304::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD0226EB35
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 20:34:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587760491;
+ [IPv6:2a01:238:20a:202:5304::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA726EB35
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 20:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587760492;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=iwq6f4uxoyZcQOQDzwMpNIO6Xy6nAFRtGvlqeQKWcIs=;
- b=CTMexKKizHhpCXA/jQUY9TRpUdWTOYF72g7hO9vNfCcs3PMBPPO0Z0UZqaJuROfk2H
- OIfNtpNHWUinU74qHtSNVCexhgx/Ya/iGB3pcHU8vcZ4LUe0ONtWgI+89HZFvaFrazOx
- g7DZutMmQe2OGn35274ruWwKogMf00Qg6B6MuH+nQMpnviQhVFWiT2GLcnEit5oR8b/l
- qwYR0fC+7NmfCbKrQcDHLwgzNXG3o7Ur+uORPA/HA9qkwOalSxM8PGVO2QH3+o9So/Dc
- 1yU/52n1ixvT4SDvN4B9IaNfOIZW7eWL1jnQNo98HOIOjwaGzNKrZ80ofWhaWyNrxyCH
- uXMA==
+ bh=fsIHgrJ2055pXXkZWP5JYdd7EoHmHevxMLsBqOhoJOE=;
+ b=FqWgcif5rFqtRiwLBZBez/wVCIXx3vuU5XYMD7oFKDZTZjaxiHUzm9kEiBwrH2wZcy
+ mp/wccpVmBmAko4jgE7wtMczmNYehc4N26+mwrX/bwafBMJQHlY++JSTZFrQBFUsOVNn
+ 4y1rTZxF6yU6FzlNel6s7Y/rQR6+IN1uNvgRc+vQMhZkYed24U2p2plpkB+b/77SReh7
+ 8lnjChVi5SSOAofWAtMZcRpUO6ag5tbEKskJeKG2XxCOIvmyDb+ZjY1GZSzN76i8veVY
+ 7sHltLDO7KLr+j7nv4Wnx/UXs4drSp//VL0p/IvVgoafVn2fy5RuGylrWLPjL50jvfA5
+ GdnQ==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1mfYzBGHXH6GK44R2FE"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.6.2 DYNA|AUTH)
- with ESMTPSA id R0acebw3OKYPEVI
+ with ESMTPSA id R0acebw3OKYQEVJ
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Fri, 24 Apr 2020 22:34:25 +0200 (CEST)
+ Fri, 24 Apr 2020 22:34:26 +0200 (CEST)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
@@ -41,9 +41,9 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Krzysztof Kozlowski <krzk@kernel.org>, Maxime Ripard <mripard@kernel.org>,
  Chen-Yu Tsai <wens@csie.org>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: [PATCH v7 10/12] ARM: dts: sun6i: a31s: add sgx gpu child node
-Date: Fri, 24 Apr 2020 22:34:13 +0200
-Message-Id: <1b0bd980347024c4b598fb89a32a55321d2eebd0.1587760454.git.hns@goldelico.com>
+Subject: [PATCH v7 11/12] ARM: dts: sun8i: a83t: add sgx gpu child node
+Date: Fri, 24 Apr 2020 22:34:14 +0200
+Message-Id: <cef56936f1999570ebfd9859126d0bb0b124b311.1587760454.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1587760454.git.hns@goldelico.com>
 References: <cover.1587760454.git.hns@goldelico.com>
@@ -88,27 +88,31 @@ complete and was already verifyed by loading the kernelmodule successful.
 Signed-off-by: Philipp Rossak <embed3d@gmail.com>
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- arch/arm/boot/dts/sun6i-a31s.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ arch/arm/boot/dts/sun8i-a83t.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/arch/arm/boot/dts/sun6i-a31s.dtsi b/arch/arm/boot/dts/sun6i-a31s.dtsi
-index 97e2c51d0aea..669770d2934a 100644
---- a/arch/arm/boot/dts/sun6i-a31s.dtsi
-+++ b/arch/arm/boot/dts/sun6i-a31s.dtsi
-@@ -59,3 +59,13 @@ &pio {
- &tcon0 {
- 	compatible = "allwinner,sun6i-a31s-tcon";
- };
+diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
+index 655404d6d3a3..bfb900622bf6 100644
+--- a/arch/arm/boot/dts/sun8i-a83t.dtsi
++++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
+@@ -1192,6 +1192,17 @@ ths: thermal-sensor@1f04000 {
+ 			nvmem-cell-names = "calibration";
+ 			#thermal-sensor-cells = <1>;
+ 		};
 +
-+&gpu {
-+	compatible = "allwinner,sun8i-a31s-sgx544-115",
-+		     "img,sgx544-115", "img,sgx544";
-+	/*
-+	 * This node is currently a placeholder for the gpu.
-+	 * This will be completed when a full demonstration
-+	 * of the openpvrsgx driver is available for this board.
-+	 */
-+};
++		gpu: gpu@1c400000 {
++			compatible = "allwinner,sun8i-a83t-sgx544-115",
++				     "img,sgx544-115", "img,sgx544";
++			reg = <0x01c40000 0x10000>;
++			/*
++			 * This node is currently a placeholder for the gpu.
++			 * This will be completed when a full demonstration
++			 * of the openpvrsgx driver is available for this board.
++			 */
++		};
+ 	};
+ 
+ 	thermal-zones {
 -- 
 2.25.1
 
