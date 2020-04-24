@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD181B84BB
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:42:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0607F1B84C0
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:42:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B41576E177;
-	Sat, 25 Apr 2020 08:42:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 280EC6E1A5;
+	Sat, 25 Apr 2020 08:42:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 140066EB58
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 20:34:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587760490;
+ [IPv6:2a01:238:20a:202:5302::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFC1D6EB6F
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 20:34:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587760498;
  s=strato-dkim-0002; d=goldelico.com;
- h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
- Subject:Sender;
- bh=JoQS5+/VnNzq1zyY0Zv12jz5vpTnfpwyE6okWTWlNgs=;
- b=MVD766TriTogBzMep6J1hI2Y8phsAiSFta9KmBNBbREBfPLpPqN1lOGFujYM1OAp1X
- oWyb692fNYST5v9e9QCqFZET/UDMbpkO6WYJwe/bSHVHjCUstTYOoOvcuyCMyInsTyvE
- 5ngSm0+zq8LYu1O9a3T009feLq8poSNv/Rufbw581eTDI6VW8I0EFT5bZ1BZ7D85HBFW
- P5amadNmwOFH65ygxNvZvXAm/YTgCgJcsjqAtyDg8oMrb2IogAEWwkRYS5vkwz0YgUq9
- moSpBbTR66Ldro8S934PdoUP2eGAwj7DijyXDU96s6LTlASpMFjeq3kaqdLB+ai2B2py
- cnrA==
+ h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=29yW4jl8Gijq7hbCacHTWUb9S7HTZuMHUBBgy2QivvI=;
+ b=XHI8tjjhXM0fGBAUfrWvOcif1ix/HxwjUpLk5pnVLvcgDv/nTi/OpoKrJBzJhV5N7j
+ Mand6cRQ9qmn6X13zzNVBvGS7vRm//q4ARrRAa4PxDrQk0qc4ODHxBdQZ3Qob92TmKw1
+ 4FdQllgjWMW5qm9xZ8R1yh6Z9yLT4GfEPZfbGTIa/V5hBbgHKpVWXB3dnkQrRCKFjJ6V
+ O0D1jvRfgfmXMDlT/T3UWM1yXLkOSmBxD7yR7snIwDTP0X0Hxi3w/soTW0au2UE1UkVY
+ ta9CUeP+UP7WMoqQHh1CzBUWbWTxsOZ6XsUqqxBjdFjQPrazkGQDMpQNrSr1YIFa/VcV
+ SRDw==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1mfYzBGHXH6GK44R2FE"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 46.6.2 DYNA|AUTH)
- with ESMTPSA id R0acebw3OKYHEV8
+ with ESMTPSA id R0acebw3OKYJEV9
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Fri, 24 Apr 2020 22:34:17 +0200 (CEST)
+ Fri, 24 Apr 2020 22:34:19 +0200 (CEST)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
@@ -41,11 +41,13 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Krzysztof Kozlowski <krzk@kernel.org>, Maxime Ripard <mripard@kernel.org>,
  Chen-Yu Tsai <wens@csie.org>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: [PATCH v7 00/12] ARM/MIPS: DTS: add child nodes describing the PVRSGX
- GPU present in some OMAP SoC and JZ4780 (and many more)
-Date: Fri, 24 Apr 2020 22:34:03 +0200
-Message-Id: <cover.1587760454.git.hns@goldelico.com>
+Subject: [PATCH v7 01/12] dt-bindings: add img,
+ pvrsgx.yaml for Imagination GPUs
+Date: Fri, 24 Apr 2020 22:34:04 +0200
+Message-Id: <3a451e360fed84bc40287678b4d6be13821cfbc0.1587760454.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1587760454.git.hns@goldelico.com>
+References: <cover.1587760454.git.hns@goldelico.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sat, 25 Apr 2020 08:42:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,106 +74,185 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* changed commit message for the dt-bindings to better describe latest situation
-* added properties for up to 4 clocks, reset, power-domains, sgx-supply - proposed by Maxime Ripard <maxime@cerno.tech>
-* fixed jz4780 and s5pv210 to use "core" clock name
-* simplified example
-* update for arm: dts: s5pv210 - by Jonathan Bakker <xc-racer2@live.ca>
-* removed a stray " from binding which had creeped in through copy&paste 
-* fixed commit / tested-by messages and some not well formed commit messages - suggested by Krzysztof Kozlowski <krzk@kernel.org>
-* added a $nodename: pattern: to enforce "gpu" nodenames - inspired by Neil Armstrong <narmstrong@baylibre.com>
-* fixed node name for s5pv210 - suggested by Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+The Imagination PVR/SGX GPU is part of several SoC from
+multiple vendors, e.g. TI OMAP, Ingenic JZ4780, Intel Poulsbo,
+Allwinner A83 and others.
 
-PATCH V6 2020-04-15 10:35:31:
-* rebased to v5.7-rc1
-* added DTS for for a31, a31s, a83t - by Philipp Rossak <embed3d@gmail.com>
-* added DTS for "samsung,s5pv210-sgx540-120" - by Jonathan Bakker <xc-racer2@live.ca>
-* bindings.yaml fixes:
-  - added a31, a31
-  - fixes for omap4470
-  - jz4780 contains an sgx540-130 and not -120
-  - a83t contains an sgx544-115 and not -116
-  - removed "additionalProperties: false" because some SoC may need additional properties
+With this binding, we describe how the SGX processor is
+interfaced to the SoC (registers and interrupt).
 
-PATCH V5 2020-03-29 19:38:32:
-* reworked YAML bindings to pass dt_binding_check and be better grouped
-* rename all nodes to "gpu: gpu@<address>"
-* removed "img,sgx5" from example - suggested by Rob Herring <robh+dt@kernel.org>
+The interface also consists of clocks, reset, power but
+information from data sheets is vague and some SoC integrators
+(TI) deciced to use a PRCM wrapper (ti,sysc) which does
+all clock, reset and power-management through registers
+outside of the sgx register block.
 
-PATCH V4 2019-12-17 19:02:11:
-* MIPS: DTS: jz4780: removed "img,sgx5" from bindings
-* YAML bindings: updated according to suggestions by Rob Herring
-* MIPS: DTS: jz4780: insert-sorted gpu node by register address - suggested by Paul Cercueil
+Therefore all these properties are optional.
 
-PATCH V3 2019-11-24 12:40:33:
-* reworked YAML format with help by Rob Herring
-* removed .txt binding document
-* change compatible "ti,am335x-sgx" to "ti,am3352-sgx" - suggested by Tony Lindgren
+Tested by make dt_binding_check
 
-PATCH V2 2019-11-07 12:06:17:
-* tried to convert bindings to YAML format - suggested by Rob Herring
-* added JZ4780 DTS node (proven to load the driver)
-* removed timer and img,cores properties until we know we really need them - suggested by Rob Herring
-
-PATCH V1 2019-10-18 20:46:35:
-
-This patch series defines child nodes for the SGX5xx interface inside
-different SoC so that a driver can be found and probed by the compatible
-strings and can retrieve information about the SGX revision that is
-included in a specific SoC. It also defines the interrupt number
-to be used by the SGX driver, and optionally clocks, power, resets
-depending on how the SoC integration is done.
-
-There is currently no mainline driver for these GPUs, but a project [1]
-is ongoing with the goal to get the open-source part as provided by TI/IMG
-and others into drivers/gpu/drm/pvrsgx in the future. So this patch series
-is the basis.
-
-The kernel modules built from this project have successfully demonstrated
-to work with the DTS definitions from this patch set on AM335x BeagleBone
-Black, DM3730 and OMAP5 Pyra and Droid 4. They partially work on OMAP3530 and
-PandaBoard ES but that is likely a problem in the kernel driver or the
-(non-free) user-space libraries and binaries. The driver works on jz4780
-but user-space could not yet be tested.
-
-[1]: https://github.com/openpvrsgx-devgroup
-
-
-H. Nikolaus Schaller (8):
-  dt-bindings: add img,pvrsgx.yaml for Imagination GPUs
-  ARM: DTS: am33xx: add sgx gpu child node
-  ARM: DTS: am3517: add sgx gpu child node
-  ARM: DTS: omap34xx: add sgx gpu child node
-  ARM: DTS: omap36xx: add sgx gpu child node
-  ARM: DTS: omap4: add sgx gpu child node
-  ARM: DTS: omap5: add sgx gpu child node
-  MIPS: DTS: jz4780: add sgx gpu node
-
-Jonathan Bakker (1):
-  arm: dts: s5pv210: Add node for SGX 540
-
-Philipp Rossak (3):
-  ARM: dts: sun6i: a31: add sgx gpu child node
-  ARM: dts: sun6i: a31s: add sgx gpu child node
-  ARM: dts: sun8i: a83t: add sgx gpu child node
-
+Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+---
  .../devicetree/bindings/gpu/img,pvrsgx.yaml   | 150 ++++++++++++++++++
- arch/arm/boot/dts/am33xx.dtsi                 |  11 +-
- arch/arm/boot/dts/am3517.dtsi                 |   9 +-
- arch/arm/boot/dts/omap34xx.dtsi               |  11 +-
- arch/arm/boot/dts/omap36xx.dtsi               |   9 +-
- arch/arm/boot/dts/omap4.dtsi                  |  11 +-
- arch/arm/boot/dts/omap4470.dts                |  15 ++
- arch/arm/boot/dts/omap5.dtsi                  |  11 +-
- arch/arm/boot/dts/s5pv210.dtsi                |  13 ++
- arch/arm/boot/dts/sun6i-a31.dtsi              |  11 ++
- arch/arm/boot/dts/sun6i-a31s.dtsi             |  10 ++
- arch/arm/boot/dts/sun8i-a83t.dtsi             |  11 ++
- arch/mips/boot/dts/ingenic/jz4780.dtsi        |  11 ++
- 13 files changed, 255 insertions(+), 28 deletions(-)
+ 1 file changed, 150 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
- create mode 100644 arch/arm/boot/dts/omap4470.dts
 
+diff --git a/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml b/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
+new file mode 100644
+index 000000000000..33a9c4c6e784
+--- /dev/null
++++ b/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
+@@ -0,0 +1,150 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/gpu/img,pvrsgx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Imagination PVR/SGX GPU
++
++maintainers:
++  - H. Nikolaus Schaller <hns@goldelico.com>
++
++description: |+
++  This binding describes the Imagination SGX5 series of 3D accelerators which
++  are found in several different SoC like TI OMAP, Sitara, Ingenic JZ4780,
++  Allwinner A83, and Intel Poulsbo and CedarView and more.
++
++  For an extensive list see: https://en.wikipedia.org/wiki/PowerVR#Implementations
++
++  The SGX node is usually a child node of some DT node belonging to the SoC
++  which handles clocks, reset and general address space mapping of the SGX
++  register area. If not, an optional clock can be specified here.
++
++properties:
++  $nodename:
++    pattern: '^gpu@[a-f0-9]+$'
++  compatible:
++    oneOf:
++      - description: SGX530-121 based SoC
++        items:
++          - enum:
++            - ti,omap3-sgx530-121 # BeagleBoard A/B/C, OpenPandora 600MHz and similar
++          - const: img,sgx530-121
++          - const: img,sgx530
++
++      - description: SGX530-125 based SoC
++        items:
++          - enum:
++            - ti,am3352-sgx530-125 # BeagleBone Black
++            - ti,am3517-sgx530-125
++            - ti,am4-sgx530-125
++            - ti,omap3-sgx530-125 # BeagleBoard XM, GTA04, OpenPandora 1GHz and similar
++            - ti,ti81xx-sgx530-125
++          - const: ti,omap3-sgx530-125
++          - const: img,sgx530-125
++          - const: img,sgx530
++
++      - description: SGX535-116 based SoC
++        items:
++          - const: intel,poulsbo-gma500-sgx535 # Atom Z5xx
++          - const: img,sgx535-116
++          - const: img,sgx535
++
++      - description: SGX540-116 based SoC
++        items:
++          - const: intel,medfield-gma-sgx540 # Atom Z24xx
++          - const: img,sgx540-116
++          - const: img,sgx540
++
++      - description: SGX540-120 based SoC
++        items:
++          - enum:
++            - samsung,s5pv210-sgx540-120
++            - ti,omap4-sgx540-120 # Pandaboard, Pandaboard ES and similar
++          - const: img,sgx540-120
++          - const: img,sgx540
++
++      - description: SGX540-130 based SoC
++        items:
++          - enum:
++            - ingenic,jz4780-sgx540-130 # CI20
++          - const: img,sgx540-130
++          - const: img,sgx540
++
++      - description: SGX544-112 based SoC
++        items:
++          - const: ti,omap4470-sgx544-112
++          - const: img,sgx544-112
++          - const: img,sgx544
++
++      - description: SGX544-115 based SoC
++        items:
++          - enum:
++            - allwinner,sun8i-a31-sgx544-115
++            - allwinner,sun8i-a31s-sgx544-115
++            - allwinner,sun8i-a83t-sgx544-115 # Banana-Pi-M3 (Allwinner A83T) and similar
++          - const: img,sgx544-115
++          - const: img,sgx544
++
++      - description: SGX544-116 based SoC
++        items:
++          - enum:
++            - ti,dra7-sgx544-116 # DRA7
++            - ti,omap5-sgx544-116 # OMAP5 UEVM, Pyra Handheld and similar
++          - const: img,sgx544-116
++          - const: img,sgx544
++
++      - description: SGX545 based SoC
++        items:
++          - const: intel,cedarview-gma3600-sgx545 # Atom N2600, D2500
++          - const: img,sgx545-116
++          - const: img,sgx545
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  interrupt-names:
++    maxItems: 1
++    items:
++      - const: sgx
++
++  clocks:
++    maxItems: 4
++
++  clock-names:
++    maxItems: 4
++    items:
++      - const: core
++      - const: sys
++      - const: mem
++      - const: hyd
++
++  sgx-supply: true
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |+
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    gpu: gpu@fe00 {
++      compatible = "ti,omap5-sgx544-116", "img,sgx544-116", "img,sgx544";
++      reg = <0xfe00 0x200>;
++      interrupts = <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
++    };
++
++...
 -- 
 2.25.1
 
