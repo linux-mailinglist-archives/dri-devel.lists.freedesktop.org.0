@@ -2,39 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26BB1B7602
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 14:54:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752F31B760C
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 14:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71F3689D61;
-	Fri, 24 Apr 2020 12:54:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ADA66E03E;
+	Fri, 24 Apr 2020 12:56:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CFF489D61;
- Fri, 24 Apr 2020 12:54:36 +0000 (UTC)
-IronPort-SDR: V9bOmVvRXgRMiJE6XXqLBpVtFwpx/g/xaU67G97iUro6XMr3UpKSMANQSdM+ierLpQK0UZRCE5
- JuPE8c1DbgKQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2020 05:54:36 -0700
-IronPort-SDR: IBFKPeggB47KEztWHUdnUuQXWw7InypRYE04p19H+DUGnNGko3kxj4yRXbgaWqO1ezp0iTq34z
- 4rrvd4OAwzDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,311,1583222400"; d="scan'208";a="430756396"
-Received: from unknown (HELO jeevan-desktop.iind.intel.com) ([10.223.74.85])
- by orsmga005.jf.intel.com with ESMTP; 24 Apr 2020 05:54:33 -0700
-From: Jeevan B <jeevan.b@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 5/5] drm/amdgpu: utilize subconnector property for DP through
- DisplayManager
-Date: Fri, 24 Apr 2020 18:20:55 +0530
-Message-Id: <1587732655-17544-5-git-send-email-jeevan.b@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1587732655-17544-1-git-send-email-jeevan.b@intel.com>
-References: <1587732655-17544-1-git-send-email-jeevan.b@intel.com>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6295A6E03E;
+ Fri, 24 Apr 2020 12:56:43 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1jRxsm-0006eo-Rx; Fri, 24 Apr 2020 12:56:40 +0000
+From: Colin King <colin.king@canonical.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amdgpu: fix unlocks on error return path
+Date: Fri, 24 Apr 2020 13:56:40 +0100
+Message-Id: <20200424125640.22656-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,88 +41,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, Oleg Vasilev <oleg.vasilev@intel.com>,
- amd-gfx@lists.freedesktop.org, Jeevan B <jeevan.b@intel.com>,
- uma.shankar@intel.com, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogT2xlZyBWYXNpbGV2IDxvbGVnLnZhc2lsZXZAaW50ZWwuY29tPgoKU2luY2UgRFAtc3Bl
-Y2lmaWMgaW5mb3JtYXRpb24gaXMgc3RvcmVkIGluIGRyaXZlcidzIHN0cnVjdHVyZXMsIGV2ZXJ5
-CmRyaXZlciBuZWVkcyB0byBpbXBsZW1lbnQgc3ViY29ubmVjdG9yIHByb3BlcnR5IGJ5IGl0c2Vs
-Zi4gRGlzcGxheQpDb3JlIGFscmVhZHkgaGFzIHRoZSBzdWJjb25uZWN0b3IgaW5mb3JtYXRpb24s
-IHdlIG9ubHkgbmVlZCB0bwpleHBvc2UgaXQgdGhyb3VnaCBEUk0gcHJvcGVydHkuCgp2MjpyZWJh
-c2UKCnYzOiByZW5hbWVkIGEgZnVuY3Rpb24gY2FsbAoKQ2M6IEFsZXggRGV1Y2hlciA8YWxleGFu
-ZGVyLmRldWNoZXJAYW1kLmNvbT4KQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2Vu
-aWdAYW1kLmNvbT4KQ2M6IERhdmlkIChDaHVuTWluZykgWmhvdSA8RGF2aWQxLlpob3VAYW1kLmNv
-bT4KQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnClNpZ25lZC1vZmYtYnk6IEplZXZh
-biBCIDxqZWV2YW4uYkBpbnRlbC5jb20+ClNpZ25lZC1vZmYtYnk6IE9sZWcgVmFzaWxldiA8b2xl
-Zy52YXNpbGV2QGludGVsLmNvbT4KVGVzdGVkLWJ5OiBPbGVnIFZhc2lsZXYgPG9sZWcudmFzaWxl
-dkBpbnRlbC5jb20+CkFja2VkLWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFt
-ZC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVf
-ZG0uYyAgfCA0MSArKysrKysrKysrKysrKysrKysrKystCiAuLi4vYW1kL2Rpc3BsYXkvYW1kZ3B1
-X2RtL2FtZGdwdV9kbV9tc3RfdHlwZXMuYyAgICB8ICAzICsrCiAyIGZpbGVzIGNoYW5nZWQsIDQz
-IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jIGIvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYwppbmRleCBmN2M1Y2RjLi4xNmJkZDIwIDEw
-MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9k
-bS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2Rt
-LmMKQEAgLTEyMSw2ICsxMjEsNDIgQEAgTU9EVUxFX0ZJUk1XQVJFKEZJUk1XQVJFX05BVkkxMl9E
-TUNVKTsKIHN0YXRpYyBpbnQgYW1kZ3B1X2RtX2luaXQoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFk
-ZXYpOwogc3RhdGljIHZvaWQgYW1kZ3B1X2RtX2Zpbmkoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFk
-ZXYpOwogCitzdGF0aWMgZW51bSBkcm1fbW9kZV9zdWJjb25uZWN0b3IgZ2V0X3N1YmNvbm5lY3Rv
-cl90eXBlKHN0cnVjdCBkY19saW5rICpsaW5rKQoreworCXN3aXRjaCAobGluay0+ZHBjZF9jYXBz
-LmRvbmdsZV90eXBlKSB7CisJY2FzZSBESVNQTEFZX0RPTkdMRV9OT05FOgorCQlyZXR1cm4gRFJN
-X01PREVfU1VCQ09OTkVDVE9SX05hdGl2ZTsKKwljYXNlIERJU1BMQVlfRE9OR0xFX0RQX1ZHQV9D
-T05WRVJURVI6CisJCXJldHVybiBEUk1fTU9ERV9TVUJDT05ORUNUT1JfVkdBOworCWNhc2UgRElT
-UExBWV9ET05HTEVfRFBfRFZJX0NPTlZFUlRFUjoKKwljYXNlIERJU1BMQVlfRE9OR0xFX0RQX0RW
-SV9ET05HTEU6CisJCXJldHVybiBEUk1fTU9ERV9TVUJDT05ORUNUT1JfRFZJRDsKKwljYXNlIERJ
-U1BMQVlfRE9OR0xFX0RQX0hETUlfQ09OVkVSVEVSOgorCWNhc2UgRElTUExBWV9ET05HTEVfRFBf
-SERNSV9ET05HTEU6CisJCXJldHVybiBEUk1fTU9ERV9TVUJDT05ORUNUT1JfSERNSUE7CisJY2Fz
-ZSBESVNQTEFZX0RPTkdMRV9EUF9IRE1JX01JU01BVENIRURfRE9OR0xFOgorCWRlZmF1bHQ6CisJ
-CXJldHVybiBEUk1fTU9ERV9TVUJDT05ORUNUT1JfVW5rbm93bjsKKwl9Cit9CisKK3N0YXRpYyB2
-b2lkIHVwZGF0ZV9zdWJjb25uZWN0b3JfcHJvcGVydHkoc3RydWN0IGFtZGdwdV9kbV9jb25uZWN0
-b3IgKmFjb25uZWN0b3IpCit7CisJc3RydWN0IGRjX2xpbmsgKmxpbmsgPSBhY29ubmVjdG9yLT5k
-Y19saW5rOworCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IgPSAmYWNvbm5lY3Rvci0+
-YmFzZTsKKwllbnVtIGRybV9tb2RlX3N1YmNvbm5lY3RvciBzdWJjb25uZWN0b3IgPSBEUk1fTU9E
-RV9TVUJDT05ORUNUT1JfVW5rbm93bjsKKworCWlmIChjb25uZWN0b3ItPmNvbm5lY3Rvcl90eXBl
-ICE9IERSTV9NT0RFX0NPTk5FQ1RPUl9EaXNwbGF5UG9ydCkKKwkJcmV0dXJuOworCisJaWYgKGFj
-b25uZWN0b3ItPmRjX3NpbmspCisJCXN1YmNvbm5lY3RvciA9IGdldF9zdWJjb25uZWN0b3JfdHlw
-ZShsaW5rKTsKKworCWRybV9vYmplY3RfcHJvcGVydHlfc2V0X3ZhbHVlKCZjb25uZWN0b3ItPmJh
-c2UsCisJCQljb25uZWN0b3ItPmRldi0+bW9kZV9jb25maWcuZHBfc3ViY29ubmVjdG9yX3Byb3Bl
-cnR5LAorCQkJc3ViY29ubmVjdG9yKTsKK30KKwogLyoKICAqIGluaXRpYWxpemVzIGRybV9kZXZp
-Y2UgZGlzcGxheSByZWxhdGVkIHN0cnVjdHVyZXMsIGJhc2VkIG9uIHRoZSBpbmZvcm1hdGlvbgog
-ICogcHJvdmlkZWQgYnkgREFMLiBUaGUgZHJtIHN0cmN1dHVyZXMgYXJlOiBkcm1fY3J0YywgZHJt
-X2Nvbm5lY3RvciwKQEAgLTE5MTcsNyArMTk1Myw2IEBAIHZvaWQgYW1kZ3B1X2RtX3VwZGF0ZV9j
-b25uZWN0b3JfYWZ0ZXJfZGV0ZWN0KAogCWlmIChhY29ubmVjdG9yLT5tc3RfbWdyLm1zdF9zdGF0
-ZSA9PSB0cnVlKQogCQlyZXR1cm47CiAKLQogCXNpbmsgPSBhY29ubmVjdG9yLT5kY19saW5rLT5s
-b2NhbF9zaW5rOwogCWlmIChzaW5rKQogCQlkY19zaW5rX3JldGFpbihzaW5rKTsKQEAgLTIwMzgs
-NiArMjA3Myw4IEBAIHZvaWQgYW1kZ3B1X2RtX3VwZGF0ZV9jb25uZWN0b3JfYWZ0ZXJfZGV0ZWN0
-KAogCiAJbXV0ZXhfdW5sb2NrKCZkZXYtPm1vZGVfY29uZmlnLm11dGV4KTsKIAorCXVwZGF0ZV9z
-dWJjb25uZWN0b3JfcHJvcGVydHkoYWNvbm5lY3Rvcik7CisKIAlpZiAoc2luaykKIAkJZGNfc2lu
-a19yZWxlYXNlKHNpbmspOwogfQpAQCAtNDUyMSw2ICs0NTU4LDggQEAgYW1kZ3B1X2RtX2Nvbm5l
-Y3Rvcl9kZXRlY3Qoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwgYm9vbCBmb3JjZSkK
-IAllbHNlCiAJCWNvbm5lY3RlZCA9IChhY29ubmVjdG9yLT5iYXNlLmZvcmNlID09IERSTV9GT1JD
-RV9PTik7CiAKKwl1cGRhdGVfc3ViY29ubmVjdG9yX3Byb3BlcnR5KGFjb25uZWN0b3IpOworCiAJ
-cmV0dXJuIChjb25uZWN0ZWQgPyBjb25uZWN0b3Jfc3RhdHVzX2Nvbm5lY3RlZCA6CiAJCQljb25u
-ZWN0b3Jfc3RhdHVzX2Rpc2Nvbm5lY3RlZCk7CiB9CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbV9tc3RfdHlwZXMuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtX21zdF90eXBlcy5jCmluZGV4
-IDNkYjFlYzMuLjZhMjU2MmQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxh
-eS9hbWRncHVfZG0vYW1kZ3B1X2RtX21zdF90eXBlcy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9h
-bWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtX21zdF90eXBlcy5jCkBAIC0yNiw2ICsyNiw3
-IEBACiAjaW5jbHVkZSA8bGludXgvdmVyc2lvbi5oPgogI2luY2x1ZGUgPGRybS9kcm1fYXRvbWlj
-X2hlbHBlci5oPgogI2luY2x1ZGUgPGRybS9kcm1fZHBfbXN0X2hlbHBlci5oPgorI2luY2x1ZGUg
-PGRybS9kcm1fZHBfaGVscGVyLmg+CiAjaW5jbHVkZSAiZG1fc2VydmljZXMuaCIKICNpbmNsdWRl
-ICJhbWRncHUuaCIKICNpbmNsdWRlICJhbWRncHVfZG0uaCIKQEAgLTQ3Miw2ICs0NzMsOCBAQCB2
-b2lkIGFtZGdwdV9kbV9pbml0aWFsaXplX2RwX2Nvbm5lY3RvcihzdHJ1Y3QgYW1kZ3B1X2Rpc3Bs
-YXlfbWFuYWdlciAqZG0sCiAJCTE2LAogCQk0LAogCQlhY29ubmVjdG9yLT5jb25uZWN0b3JfaWQp
-OworCisJZHJtX2Nvbm5lY3Rvcl9hdHRhY2hfZHBfc3ViY29ubmVjdG9yX3Byb3BlcnR5KCZhY29u
-bmVjdG9yLT5iYXNlKTsKIH0KIAogaW50IGRtX21zdF9nZXRfcGJuX2RpdmlkZXIoc3RydWN0IGRj
-X2xpbmsgKmxpbmspCi0tIAoyLjcuNAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+From: Colin Ian King <colin.king@canonical.com>
+
+Currently the error returns paths are unlocking lock kiq->ring_lock
+however it seems this should be dev->gfx.kiq.ring_lock as this
+is the lock that is being locked and unlocked around the ring
+operations.  This looks like a bug, fix it by unlocking the
+correct lock.
+
+[ Note: untested ]
+
+Addresses-Coverity: ("Missing unlock")
+Fixes: 82478876eaac ("drm/amdgpu: protect ring overrun")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+index b120f9160f13..edaa50d850a6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+@@ -430,7 +430,7 @@ static int gmc_v10_0_flush_gpu_tlb_pasid(struct amdgpu_device *adev,
+ 		r = amdgpu_fence_emit_polling(ring, &seq, MAX_KIQ_REG_WAIT);
+ 		if (r) {
+ 			amdgpu_ring_undo(ring);
+-			spin_unlock(&kiq->ring_lock);
++			spin_unlock(&adev->gfx.kiq.ring_lock);
+ 			return -ETIME;
+ 		}
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+index 0a6026308343..055ecba754ff 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+@@ -624,7 +624,7 @@ static int gmc_v9_0_flush_gpu_tlb_pasid(struct amdgpu_device *adev,
+ 		r = amdgpu_fence_emit_polling(ring, &seq, MAX_KIQ_REG_WAIT);
+ 		if (r) {
+ 			amdgpu_ring_undo(ring);
+-			spin_unlock(&kiq->ring_lock);
++			spin_unlock(&adev->gfx.kiq.ring_lock);
+ 			return -ETIME;
+ 		}
+ 
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
