@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5611B7FEA
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:09:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2900E1B7FFC
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:09:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6D446EB5F;
-	Fri, 24 Apr 2020 20:08:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC5F6EB42;
+	Fri, 24 Apr 2020 20:08:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D3C88961D
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:36:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6C10896B5
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:36:26 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 641D11455;
- Fri, 24 Apr 2020 11:36:24 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:36:25 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id CDD4A145B;
+ Fri, 24 Apr 2020 11:36:25 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:36:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=LUAe46DKtlxCq
- U2VS2C+5d/PvMZLtRpuEhcOyjk+c30=; b=RwVX+1B9OA/srJw37QJB3iiXChfuM
- asx8fXht1FiowpngTs6ODwRvpDjIwkaULvBqF/yCGReqo7om3mUOXH7pOrC66AoJ
- 45AZP74X9yYTAQNGRLRLs7NSoTc2/cIoFYHNXcRKcsNWj4B9TaZVgoe9AeafL/6D
- Lcr46bKmNwr27/7oGoR2TGo8tgCI4v2sxUDYE4KOSaSrdLQV9sA4A3tUTiSGeT35
- B3idDAAixVeHaVC+HVRAKRKRuM0LPj82vBuEJgOHBDENqg1JaEoYW5WUG6L4N/5b
- tEsabNYeROYQIKDNaFD6kl/+i/Q/7sJQ8aTmUayhwi60C2ldVTkDPcnGw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=vdM/4XaeVSUc3
+ VqHyRlaM8vqrseDJanMHFILNJC9PX0=; b=x8B2LxEAMRZyXWK99Sk1PTBTza0SD
+ 83wuoOqnQFNtnXxKA16H7UMcxEi1kjGqVK4+bVBJgpB+lDlUUhBIUt6liQCn/nJ5
+ 57sb3R9gqk+gStMtkLpXrkM2FOpK8qVKJjHBWii1iprx7KDC7sj8OlpFNx8xsdk5
+ sf94eICOB1+5uXAr7FXoTnU7wYzt6Mfr42KUTX5kEy9gAD/X2lgWh5zkcFcUJj0P
+ 1J5IEuYx7c6WdINdM3pXMfCpnZNbsmaKUlA3IWSt47Pf+1tH5Tgj03yJEKGgyFks
+ OBHZ/+zgh6Ut5QVTgrvgFG8P36vn4SZMylK25aW94tckwIRB3WW8OmJnw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=LUAe46DKtlxCqU2VS2C+5d/PvMZLtRpuEhcOyjk+c30=; b=vzRELBnH
- 0G9CZAvV+IOE7HtqvkHvEL1xK9xzfojsxjBFGzkNY/CoNRBy0amSneXM5k363aRs
- 75WeGE/HWm52UaH2F0oyBtYADqpozbDuKZUdRVdVol+OxNOsiq7AAvXWRUsoZOWR
- osLecQrFTdnmnl8Ek3mrQ2MZsdI3KW/uhMc/DgCeji/cwPmUUnuk3bKr/d/P2BSE
- q3zkuEPhBfjP8HtaOpPEqjCP1E2wEVS08AfX2jrX3d6nZsQhFELMc0H0B2HIdGtq
- PycoFfY/vde1GzmfUWy3BCQhTZ/K4wHKw4yOtpLMU9+YaFV4XAp079FqjulpRdo+
- J6jmqIGC/QCUBA==
-X-ME-Sender: <xms:dwejXqEQPyqJ_Alwe_T5jhc_TbStR12Uk6gA0DrwSDjKv4z8opvjHg>
+ fm2; bh=vdM/4XaeVSUc3VqHyRlaM8vqrseDJanMHFILNJC9PX0=; b=pWGWRSth
+ oBGfTXWypP+i+f1aeAP9zjRMmhKLym6dndfru4+pEk/p2/Ien6t1AqiSHTZcrmsu
+ c+FvoXC1lNCXHoFYCikUgSILXWdPItve3qjsuISm1jApIXdRhtXipy1/mY+wiVxp
+ l6gHyhAQocUEyY3eW9288pCQ3ogjpcbTB4hQKJ/nn3YAYFvM8rWAOmQFRsETJ8PA
+ LjX1VOaMcqapMMG5NZIJEsMkOE/ajgAE9z6LKgqBVwwcCTwhyrMI1iuVItggUc2y
+ ofasyXXT4Yn7xLqCfVnCGt8Owp/laiO9cDQZBfcVNu+hXg4DfVZrYG/TsErfZ471
+ 490lUB0RQMvetg==
+X-ME-Sender: <xms:eQejXjSR-oMqdDc7vQp4VkkE8SljBPjNTJQlBnaeiLlfapv_AQOdvg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrhedugdekiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -46,20 +46,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrhedugdekiecutefuodetggdote
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
  ekledrieekrdejieenucevlhhushhtvghrufhiiigvpeefkeenucfrrghrrghmpehmrghi
  lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:dwejXq6k8XxBiWqlr6_XvwMMH63jyHJtUNnbxXfDxEPzIe_eyXgqmw>
- <xmx:dwejXtj1in1d-mnb1vzMmcqXs1JKbdcuwC4vGyXBCMWDe6ByLklyiA>
- <xmx:dwejXs4kkGwxRrAVklFJ68i9b27IPPGH1qKxQWpXCwHut4kQmAMYFQ>
- <xmx:eAejXu14tXKiIAyLPkOTWpZ3s9pvUgO8QVxVZDwxuAqv2Erzk3UtS-nZvMA>
+X-ME-Proxy: <xmx:eQejXmAQtflvpsSQJh4ROot4_j8HXJ_z5q6Sn4ElqF8rpxTUUCpEug>
+ <xmx:eQejXqndF_5bkkKXC_hAWoNRKVrbaY1nAf4WYxSlqvLD3AaGw50vAA>
+ <xmx:eQejXsePmNfhCLedZdRMwc7FR3SyNHH7rvJCUbi5hxSr79FoBCoGaw>
+ <xmx:eQejXhAij-H5vRmxP8D-WPeggIkfA14B7ahxgeAarE0dW_PxJYHlYN-1tdQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id A5005328006D;
- Fri, 24 Apr 2020 11:36:23 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 18C933065D93;
+ Fri, 24 Apr 2020 11:36:25 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v2 44/91] drm/vc4: crtc: Move crtc state to common header
-Date: Fri, 24 Apr 2020 17:34:25 +0200
-Message-Id: <f35f7b428667252f35bc4a96e7dc08da3732bcf2.1587742492.git-series.maxime@cerno.tech>
+Subject: [PATCH v2 45/91] drm/vc4: crtc: Deal with different number of pixel
+ per clock
+Date: Fri, 24 Apr 2020 17:34:26 +0200
+Message-Id: <52788447bf78006f79bdf365ec152db4c838abe4.1587742492.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
 References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
@@ -87,79 +88,90 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'll need to access the crtc_state from outside of vc4_crtc.c, so let's
-move it to vc4_drv.h
+Some of the HDMI pixelvalves in vc5 output two pixels per clock cycle.
+Let's put the number of pixel output per clock cycle in the CRTC data and
+update the various calculations to reflect that.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 21 ---------------------
- drivers/gpu/drm/vc4/vc4_drv.h  | 21 +++++++++++++++++++++
- 2 files changed, 21 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 17 ++++++++++-------
+ drivers/gpu/drm/vc4/vc4_drv.h  |  3 +++
+ 2 files changed, 13 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 9fdb0ccc4a28..9718df881fab 100644
+index 9718df881fab..be264da1a13f 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -44,27 +44,6 @@
- #include "vc4_drv.h"
- #include "vc4_regs.h"
+@@ -282,6 +282,7 @@ static void vc4_crtc_config_pv(struct drm_crtc *crtc)
+ 	bool is_dsi = (vc4_encoder->type == VC4_ENCODER_TYPE_DSI0 ||
+ 		       vc4_encoder->type == VC4_ENCODER_TYPE_DSI1);
+ 	u32 format = is_dsi ? PV_CONTROL_FORMAT_DSIV_24 : PV_CONTROL_FORMAT_24;
++	u8 ppc = vc4_crtc->data->pixels_per_clock;
  
--struct vc4_crtc_state {
--	struct drm_crtc_state base;
--	/* Dlist area for this CRTC configuration. */
--	struct drm_mm_node mm;
--	bool feed_txp;
--	bool txp_armed;
--
--	struct {
--		unsigned int left;
--		unsigned int right;
--		unsigned int top;
--		unsigned int bottom;
--	} margins;
--};
--
--static inline struct vc4_crtc_state *
--to_vc4_crtc_state(struct drm_crtc_state *crtc_state)
--{
--	return (struct vc4_crtc_state *)crtc_state;
--}
--
- #define CRTC_WRITE(offset, val) writel(val, vc4_crtc->regs + (offset))
- #define CRTC_READ(offset) readl(vc4_crtc->regs + (offset))
+ 	/* Reset the PV fifo. */
+ 	CRTC_WRITE(PV_CONTROL, 0);
+@@ -289,17 +290,16 @@ static void vc4_crtc_config_pv(struct drm_crtc *crtc)
+ 	CRTC_WRITE(PV_CONTROL, 0);
  
+ 	CRTC_WRITE(PV_HORZA,
+-		   VC4_SET_FIELD((mode->htotal -
+-				  mode->hsync_end) * pixel_rep,
++		   VC4_SET_FIELD((mode->htotal - mode->hsync_end) * pixel_rep / ppc,
+ 				 PV_HORZA_HBP) |
+-		   VC4_SET_FIELD((mode->hsync_end -
+-				  mode->hsync_start) * pixel_rep,
++		   VC4_SET_FIELD((mode->hsync_end - mode->hsync_start) * pixel_rep / ppc,
+ 				 PV_HORZA_HSYNC));
++
+ 	CRTC_WRITE(PV_HORZB,
+-		   VC4_SET_FIELD((mode->hsync_start -
+-				  mode->hdisplay) * pixel_rep,
++		   VC4_SET_FIELD((mode->hsync_start - mode->hdisplay) * pixel_rep / ppc,
+ 				 PV_HORZB_HFP) |
+-		   VC4_SET_FIELD(mode->hdisplay * pixel_rep, PV_HORZB_HACTIVE));
++		   VC4_SET_FIELD(mode->hdisplay * pixel_rep / ppc,
++				 PV_HORZB_HACTIVE));
+ 
+ 	CRTC_WRITE(PV_VERTA,
+ 		   VC4_SET_FIELD(mode->crtc_vtotal - mode->crtc_vsync_end,
+@@ -1040,6 +1040,7 @@ static const struct drm_crtc_helper_funcs vc4_crtc_helper_funcs = {
+ static const struct vc4_crtc_data bcm2835_pv0_data = {
+ 	.hvs_channel = 0,
+ 	.debugfs_name = "crtc0_regs",
++	.pixels_per_clock = 1,
+ 	.encoder_types = {
+ 		[PV_CONTROL_CLK_SELECT_DSI] = VC4_ENCODER_TYPE_DSI0,
+ 		[PV_CONTROL_CLK_SELECT_DPI_SMI_HDMI] = VC4_ENCODER_TYPE_DPI,
+@@ -1049,6 +1050,7 @@ static const struct vc4_crtc_data bcm2835_pv0_data = {
+ static const struct vc4_crtc_data bcm2835_pv1_data = {
+ 	.hvs_channel = 2,
+ 	.debugfs_name = "crtc1_regs",
++	.pixels_per_clock = 1,
+ 	.encoder_types = {
+ 		[PV_CONTROL_CLK_SELECT_DSI] = VC4_ENCODER_TYPE_DSI1,
+ 		[PV_CONTROL_CLK_SELECT_DPI_SMI_HDMI] = VC4_ENCODER_TYPE_SMI,
+@@ -1058,6 +1060,7 @@ static const struct vc4_crtc_data bcm2835_pv1_data = {
+ static const struct vc4_crtc_data bcm2835_pv2_data = {
+ 	.hvs_channel = 1,
+ 	.debugfs_name = "crtc2_regs",
++	.pixels_per_clock = 1,
+ 	.encoder_types = {
+ 		[PV_CONTROL_CLK_SELECT_DPI_SMI_HDMI] = VC4_ENCODER_TYPE_HDMI,
+ 		[PV_CONTROL_CLK_SELECT_VEC] = VC4_ENCODER_TYPE_VEC,
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 25466aa9dceb..487ad72c284d 100644
+index 487ad72c284d..cda738dbd6c1 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -486,6 +486,27 @@ to_vc4_crtc(struct drm_crtc *crtc)
- 	return (struct vc4_crtc *)crtc;
- }
+@@ -453,6 +453,9 @@ struct vc4_crtc_data {
+ 	/* Which channel of the HVS this pixelvalve sources from. */
+ 	int hvs_channel;
  
-+struct vc4_crtc_state {
-+	struct drm_crtc_state base;
-+	/* Dlist area for this CRTC configuration. */
-+	struct drm_mm_node mm;
-+	bool feed_txp;
-+	bool txp_armed;
++	/* Number of pixels output per clock period */
++	u8 pixels_per_clock;
 +
-+	struct {
-+		unsigned int left;
-+		unsigned int right;
-+		unsigned int top;
-+		unsigned int bottom;
-+	} margins;
-+};
-+
-+static inline struct vc4_crtc_state *
-+to_vc4_crtc_state(struct drm_crtc_state *crtc_state)
-+{
-+	return (struct vc4_crtc_state *)crtc_state;
-+}
-+
- #define V3D_READ(offset) readl(vc4->v3d->regs + offset)
- #define V3D_WRITE(offset, val) writel(val, vc4->v3d->regs + offset)
- #define HVS_READ(offset) readl(vc4->hvs->regs + offset)
+ 	enum vc4_encoder_type encoder_types[4];
+ 	const char *debugfs_name;
+ };
 -- 
 git-series 0.9.1
 _______________________________________________
