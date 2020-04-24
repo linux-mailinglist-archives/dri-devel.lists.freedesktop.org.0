@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A5A1B8028
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:11:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F451B8002
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:10:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 006656EB93;
-	Fri, 24 Apr 2020 20:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BA696EB74;
+	Fri, 24 Apr 2020 20:08:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91A7989F38
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:37:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0A696E081
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:37:16 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 9327710AA;
- Fri, 24 Apr 2020 11:37:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:37:15 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id F38EB1455;
+ Fri, 24 Apr 2020 11:37:15 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:37:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=v0wT99TRG4A07
- CiLRgiNJop5CNO/2rg6M7E82BWYHLU=; b=YKrze/7plwHLwACpj24dyp2L9+FfA
- PBIkH+/g60+68fh4KNV5CXnxb3lJQJ6ReZcnlcozbPBcXH8CE4Rd3/ghdGEqcTCh
- YCWSXIpbMUl9xrluRAm5iJapg0aVv7RydHL6p3w2TY0ggbKlkMEN4B7su+Ct1Y1R
- 2Surnu/J20oKt9UEPgyFH0P2jqEYcnRQUJxOtvsq63rns/XcYoBxI5SPS71Wkvfc
- anjD0ifw+8rbrqqlvTnVyk1VQTUfh+mNTfeYjIhj418q90wMxcCYjOJF2cG2Zsmk
- yBmxUt+sB8fi753Wdtln7Jc07uq0ac0YUKEuh62hA/i/j+eY1+qH+RuBA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=BcKDLGebR5uRx
+ 0RzJYXWe29sQcio0KLwjb/aib1L50Y=; b=SeUpHJ1ENfN1PiQgDE0FHuXhRh7jm
+ 72psZbJlCYR/9l7zl5Y/ZarNjJdbG46uYP6NMUSyoS4mC983KOXx8VRN2H46Kin/
+ bhSuZe8Wk2UmDifyZNF3B+4oZ1TllGkn0fHCuBt3f77cF3ByB3xIMgkGmTuTdnnS
+ Ww3Jg6Nl5JiDpMTmyR0C0gnKJyS3vgfhebPIKGWxAm8+l0mmJVUWyOm2j8UlfBgs
+ 99/JP2m1lsD+UWmXwfYtBk7aQdsBxEp3S+H85fFIqoXC4G9KkmtFXTmaTdHDrTj+
+ 5FBGMQQDdZqbErE1ogtJBCnJKI7rCF5Be/klzK7qox6LH0n+0w2O+XaFg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=v0wT99TRG4A07CiLRgiNJop5CNO/2rg6M7E82BWYHLU=; b=Pn9zzOM6
- iBvBLlsXaxT7ZCQMMMB8tF4yJ7txV0YT71fbyKVC+Di04LfNQOdnjkXGLw0ZP7H/
- 0sUmmkib0ca0gf7GkXbtBs8B7c/w6fEMoHm2hjRWkEEpAD1Hij80NemBB3RVwU06
- Oahp2y40zPs0FwpSbnz0FASI8oLC8F2hJEFtIPfwi7nuC3UZPzcPbS/p1/H0RV3M
- 9gS1EtpVYcDzI7xvw0CV3xDbXNMH/dYBNr/OPQ78cg/C5V5s70Tv+KSGwD2UTpKN
- uKeqgvcFvj68QObnHvVutnu212var7nHhU/tFy9hLSAiGuv9Q3raMa0RvdNyourR
- b89BLF5u0fxR9Q==
-X-ME-Sender: <xms:qgejXvNFYpmqDlm6gH4L1BGeRe4gQd4HEUWHELwWPManjWIPkCOOrw>
+ fm2; bh=BcKDLGebR5uRx0RzJYXWe29sQcio0KLwjb/aib1L50Y=; b=w0wKUfE1
+ 6eN6eS8IGfrugZjgEpVLgXNYw6DzNMIYIInu6w0TQQawXoPs9/jp6hQ2k2Dj4LUR
+ RxbzCqxAHm94iEGP9MQfpW71XAeLK1qbvpYVXa4f6vm9t2i6QGS2kxMcISlpCiTi
+ CTEpqpRvXkI6TjP/LsbAsYuYf0nbM+bvuEumamIKSMDqcV4t/K+AprH13q952k1X
+ SbmdLM1HX7eF9JdiUDaBBurovMHjKPqa1INxBuKxt3HTPKQ8BYu4vJ+dYGVloxjG
+ GL/HY2glI4cAukKfHnmu2rxA9/C9CCXGlLCitkOfWCsPF1DH6xTxNXEORl8Az2rj
+ Rgfovxp7PwmHXw==
+X-ME-Sender: <xms:qwejXqLcnq9mRyyyCUbSbUz555-ceszgLgckXqUWoi57rgsDf6qhzA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrhedugdekiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -46,20 +46,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrhedugdekiecutefuodetggdote
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
  ekledrieekrdejieenucevlhhushhtvghrufhiiigvpeejtdenucfrrghrrghmpehmrghi
  lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:qgejXuMP2XCDuNAxgGBjcnUlQdmOiULAfm5mYngk5eTr1CTq-jZB3w>
- <xmx:qgejXpSioFEa9WjTEIdXBV3FD6C09EiAQ79FBBNgQlyYQmDouJhuqA>
- <xmx:qgejXoA65VpA33Rg1XLvlFxRPaGnd39C1w8VnSX6Q-fQWkhZFu1OXA>
- <xmx:qgejXpLzQ35NbXvkoRWqkqu3Hy84VAerf56va_oNJ_9j6JhvssddbKLDmc8>
+X-ME-Proxy: <xmx:qwejXmZyWgMtCBmemDJ0_sFRTbLhoWmn4u4_XW1Xe9ym6mt9yFqU-g>
+ <xmx:qwejXltG_VvrGqsKRcxhtuQRKXhhEu0xgWLERVm-4o30Qx2rvl9mBw>
+ <xmx:qwejXjvA74yMipWtODx1Esz5BkGmTLmuGu9hMKBzFuGXB6EXgNhJ9Q>
+ <xmx:qwejXtX8Pnfb4vnJNh7FpqfzSoPCZoNuF5NDQxBmEoN9CpJD74hx8WeFkfM>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id CCFD23280063;
- Fri, 24 Apr 2020 11:37:13 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3C27C3065D9A;
+ Fri, 24 Apr 2020 11:37:15 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v2 80/91] drm/vc4: hdmi: Move CEC init to its own function
-Date: Fri, 24 Apr 2020 17:35:01 +0200
-Message-Id: <8485077451e339cbb491746ae98980f76eedc754.1587742492.git-series.maxime@cerno.tech>
+Subject: [PATCH v2 81/91] drm/vc4: hdmi: Add CEC support flag
+Date: Fri, 24 Apr 2020 17:35:02 +0200
+Message-Id: <985fee99e85cc6816f1500504d47f5cde8b6e32e.1587742492.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
 References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
@@ -87,167 +87,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The CEC init code was put directly into the bind function, which was quite
-inconsistent with how the audio support was done, and would prevent us from
-further changes to skip that initialisation entirely.
+Similarly to the audio support, CEC support is not there yet for the
+BCM2711, so let's skip entirely the CEC initialization through a variant
+flag.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 108 +++++++++++++++++++++-------------
- 1 file changed, 67 insertions(+), 41 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++++
+ drivers/gpu/drm/vc4/vc4_hdmi.h | 3 +++
+ 2 files changed, 7 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index aae5b10a2d11..1c612db1d22c 100644
+index 1c612db1d22c..20b6af98abad 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1172,6 +1172,67 @@ static const struct cec_adap_ops vc4_hdmi_cec_adap_ops = {
- 	.adap_log_addr = vc4_hdmi_cec_adap_log_addr,
- 	.adap_transmit = vc4_hdmi_cec_adap_transmit,
- };
-+
-+static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
-+{
-+	struct cec_connector_info conn_info;
-+	struct platform_device *pdev = vc4_hdmi->pdev;
-+	u32 value;
-+	int ret;
-+
-+	vc4_hdmi->cec_adap = cec_allocate_adapter(&vc4_hdmi_cec_adap_ops,
-+						  vc4_hdmi, "vc4",
-+						  CEC_CAP_DEFAULTS |
-+						  CEC_CAP_CONNECTOR_INFO, 1);
-+	ret = PTR_ERR_OR_ZERO(vc4_hdmi->cec_adap);
-+	if (ret < 0)
-+		return ret;
-+
-+	cec_fill_conn_info_from_drm(&conn_info, &vc4_hdmi->connector);
-+	cec_s_conn_info(vc4_hdmi->cec_adap, &conn_info);
-+
-+	HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, 0xffffffff);
-+	value = HDMI_READ(HDMI_CEC_CNTRL_1);
-+	value &= ~VC4_HDMI_CEC_DIV_CLK_CNT_MASK;
-+	/*
-+	 * Set the logical address to Unregistered and set the clock
-+	 * divider: the hsm_clock rate and this divider setting will
-+	 * give a 40 kHz CEC clock.
-+	 */
-+	value |= VC4_HDMI_CEC_ADDR_MASK |
-+		 (4091 << VC4_HDMI_CEC_DIV_CLK_CNT_SHIFT);
-+	HDMI_WRITE(HDMI_CEC_CNTRL_1, value);
-+	ret = devm_request_threaded_irq(&pdev->dev, platform_get_irq(pdev, 0),
-+					vc4_cec_irq_handler,
-+					vc4_cec_irq_handler_thread, 0,
-+					"vc4 hdmi cec", vc4_hdmi);
-+	if (ret)
-+		goto err_delete_cec_adap;
-+
-+	ret = cec_register_adapter(vc4_hdmi->cec_adap, &pdev->dev);
-+	if (ret < 0)
-+		goto err_delete_cec_adap;
-+
-+	return 0;
-+
-+err_delete_cec_adap:
-+	cec_delete_adapter(vc4_hdmi->cec_adap);
-+
-+	return ret;
-+}
-+
-+static void vc4_hdmi_cec_exit(struct vc4_hdmi *vc4_hdmi)
-+{
-+	cec_unregister_adapter(vc4_hdmi->cec_adap);
-+}
-+#else
-+static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
-+{
-+	return 0;
-+}
-+
-+static void vc4_hdmi_cec_exit(struct vc4_hdmi *vc4_hdmi) {};
-+
- #endif
+@@ -1180,6 +1180,9 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
+ 	u32 value;
+ 	int ret;
  
- static int vc4_hdmi_build_regset(struct vc4_hdmi *vc4_hdmi,
-@@ -1249,9 +1310,6 @@ static int vc4_hdmi_init_resources(struct vc4_hdmi *vc4_hdmi)
++	if (!vc4_hdmi->variant->cec_available)
++		return 0;
++
+ 	vc4_hdmi->cec_adap = cec_allocate_adapter(&vc4_hdmi_cec_adap_ops,
+ 						  vc4_hdmi, "vc4",
+ 						  CEC_CAP_DEFAULTS |
+@@ -1468,6 +1471,7 @@ static int vc4_hdmi_dev_remove(struct platform_device *pdev)
+ static const struct vc4_hdmi_variant bcm2835_variant = {
+ 	.encoder_type		= VC4_ENCODER_TYPE_HDMI0,
+ 	.debugfs_name		= "hdmi_regs",
++	.cec_available		= true,
+ 	.registers		= vc4_hdmi_fields,
+ 	.num_registers		= ARRAY_SIZE(vc4_hdmi_fields),
  
- static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- {
--#ifdef CONFIG_DRM_VC4_HDMI_CEC
--	struct cec_connector_info conn_info;
--#endif
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct drm_device *drm = dev_get_drvdata(master);
- 	const struct vc4_hdmi_variant *variant;
-@@ -1339,43 +1397,13 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		goto err_destroy_encoder;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+index 22100820c81b..20e0f5498f1e 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -33,6 +33,9 @@ struct vc4_hdmi_variant {
+ 	/* Filename to expose the registers in debugfs */
+ 	const char *debugfs_name;
  
--#ifdef CONFIG_DRM_VC4_HDMI_CEC
--	vc4_hdmi->cec_adap = cec_allocate_adapter(&vc4_hdmi_cec_adap_ops,
--						  vc4_hdmi, "vc4",
--						  CEC_CAP_DEFAULTS |
--						  CEC_CAP_CONNECTOR_INFO, 1);
--	ret = PTR_ERR_OR_ZERO(vc4_hdmi->cec_adap);
--	if (ret < 0)
--		goto err_destroy_conn;
--
--	cec_fill_conn_info_from_drm(&conn_info, &vc4_hdmi->connector);
--	cec_s_conn_info(vc4_hdmi->cec_adap, &conn_info);
--
--	HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, 0xffffffff);
--	value = HDMI_READ(HDMI_CEC_CNTRL_1);
--	value &= ~VC4_HDMI_CEC_DIV_CLK_CNT_MASK;
--	/*
--	 * Set the logical address to Unregistered and set the clock
--	 * divider: the hsm_clock rate and this divider setting will
--	 * give a 40 kHz CEC clock.
--	 */
--	value |= VC4_HDMI_CEC_ADDR_MASK |
--		 (4091 << VC4_HDMI_CEC_DIV_CLK_CNT_SHIFT);
--	HDMI_WRITE(HDMI_CEC_CNTRL_1, value);
--	ret = devm_request_threaded_irq(dev, platform_get_irq(pdev, 0),
--					vc4_cec_irq_handler,
--					vc4_cec_irq_handler_thread, 0,
--					"vc4 hdmi cec", vc4_hdmi);
-+	ret = vc4_hdmi_cec_init(vc4_hdmi);
- 	if (ret)
--		goto err_delete_cec_adap;
--	ret = cec_register_adapter(vc4_hdmi->cec_adap, dev);
--	if (ret < 0)
--		goto err_delete_cec_adap;
--#endif
-+		goto err_destroy_conn;
- 
- 	ret = vc4_hdmi_audio_init(vc4_hdmi);
- 	if (ret)
--		goto err_destroy_encoder;
-+		goto err_free_cec;
- 
- 	vc4_debugfs_add_file(drm, variant->debugfs_name,
- 			     vc4_hdmi_debugfs_regs,
-@@ -1383,12 +1411,10 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 
- 	return 0;
- 
--#ifdef CONFIG_DRM_VC4_HDMI_CEC
--err_delete_cec_adap:
--	cec_delete_adapter(vc4_hdmi->cec_adap);
-+err_free_cec:
-+	vc4_hdmi_cec_exit(vc4_hdmi);
- err_destroy_conn:
- 	vc4_hdmi_connector_destroy(&vc4_hdmi->connector);
--#endif
- err_destroy_encoder:
- 	vc4_hdmi_encoder_destroy(encoder);
- err_unprepare_hsm:
-@@ -1413,7 +1439,7 @@ static void vc4_hdmi_unbind(struct device *dev, struct device *master,
- 	kfree(vc4_hdmi->hdmi_regset.regs);
- 	kfree(vc4_hdmi->hd_regset.regs);
- 
--	cec_unregister_adapter(vc4_hdmi->cec_adap);
-+	vc4_hdmi_cec_exit(vc4_hdmi);
- 	vc4_hdmi_connector_destroy(&vc4_hdmi->connector);
- 	vc4_hdmi_encoder_destroy(&vc4_hdmi->encoder.base.base);
++	/* Set to true when the CEC support is available */
++	bool cec_available;
++
+ 	/* List of the registers available on that variant */
+ 	const struct vc4_hdmi_register *registers;
  
 -- 
 git-series 0.9.1
