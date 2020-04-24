@@ -1,41 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBFB1B790C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 17:13:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A6B1B8007
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:10:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 468BB89CBA;
-	Fri, 24 Apr 2020 15:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 961A86EB4D;
+	Fri, 24 Apr 2020 20:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2057D89C6E;
- Fri, 24 Apr 2020 15:12:59 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id EDDE7804C8;
- Fri, 24 Apr 2020 17:12:56 +0200 (CEST)
-Date: Fri, 24 Apr 2020 17:12:55 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 27/59] drm/qxl: Don't use drm_device->dev_private
-Message-ID: <20200424151255.GC20856@ravnborg.org>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-28-daniel.vetter@ffwll.ch>
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09EFC6EAAB
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:35:29 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 9CAB9FDA;
+ Fri, 24 Apr 2020 11:35:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:35:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=SjPxpBg04ATGSZdAKkAXPSZsAf
+ VM7yh1JfLe0zEl7+g=; b=hXx0pIW5H8BKgxYN5+QEQdnnjQ5VQEwDdfb6ZhEByP
+ GKZ9hwUMYt7pqdLXhch+mA9jgB3Adrv/HyDlNuCgUq72qQvz8yz5XwwETqvWdyyN
+ ZVuUbiWmlarvOILFIQ1RBq3DR57O1YRXxzZQlfkMrvagjeLUCFofh6XLHYxMIgot
+ 4jMLccyBWEZKoCWsxN7TxlqbS7bB/Rd5YdaLVTAqXb6JCkYIASpzKlpG/5ftDlGW
+ hTlYYnrFzeDV0SG66oXCEfVXtTJ3SolcTuy+qHUPL7KXgcH9FAos87+Cma0q3dBs
+ paxKMjqcVpxJ7HVpdBLjvTALLY/llROoP7KpzTtR5wNw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=SjPxpBg04ATGSZdAK
+ kAXPSZsAfVM7yh1JfLe0zEl7+g=; b=Mlb9b22bSR7Hde/F/dOJZYLIEqC89YPy3
+ dxlDHjk7qb0FbxPg4LmdM+oiYQEXossulDcC154qk3ECA7hMlWXRUBr/MTuOlsQJ
+ fR1cRUKfBRpkXuK8XIWmU8pbzu9mAQHrYuIQ2Cr5j5QrUU/HsZiEZdsECd3J8as0
+ pl6OQ4CySam4FBpmwnjdw2x0N0O16W1jYT+tjwo3KWW3qZmX/u4DWaSInv+S3PsY
+ wMuB+HcolHeWv+OHBerU6xxC21MwzGD9VfhshMW99kjCWVol/dpNXIYum6jy614p
+ 4sxf/+nFaIOxthKOW779h+4Mo+Rh5S88eT2OH+65zyxuw750tpPqg==
+X-ME-Sender: <xms:OgejXng3eLL_lDWBqPLpVmVs2cTZr39H-QT5GgRdtVGtdm3jJ9jmDA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrhedugdekiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinheprh
+ grshhpsggvrhhrhihpihdrtghomhenucfkphepledtrdekledrieekrdejieenucevlhhu
+ shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestg
+ gvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:OgejXipiVaI7spi09qsLQMin7WBpub62cpnO2n3mrOkGglQ5ioWJmA>
+ <xmx:OgejXmsX_wOFi4OGojKhqp6TWt2fCp_nJCpTOn2an_XIUoVRNOMQ-w>
+ <xmx:OgejXqd71MPEuP8txaD7HtZ3liViey1zYrLn74ra2OcSfegPQ12_UQ>
+ <xmx:PQejXqJX5YvWCjTyhOqakzdwR0PWNv5-nqyFbsuYDZpJzIieOPEdpCpBkmQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id F1F24328006C;
+ Fri, 24 Apr 2020 11:35:21 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Eric Anholt <eric@anholt.net>
+Subject: [PATCH v2 00/91] drm/vc4: Support BCM2711 Display Pipeline
+Date: Fri, 24 Apr 2020 17:33:41 +0200
+Message-Id: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200415074034.175360-28-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=20KFwNOVAAAA:8 a=QyXUC8HyAAAA:8 a=Z4Rwk6OoAAAA:8
- a=e5mUnYsNAAAA:8 a=7gkXJVJtAAAA:8 a=K0AROGcU_1zAwnmKjJgA:9
- a=8YiIes2jcBVFeZ1E:21 a=nfBfXPOhjualJiQB:21 a=CjuIK1q_8ugA:10
- a=HkZW87K1Qel5hWWM3VKY:22 a=Vxmtnl_E_bksehYqCbjh:22
- a=E9Po1WZjFZOl8hwRPBS3:22
+X-Mailman-Approved-At: Fri, 24 Apr 2020 20:08:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,449 +75,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- spice-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Kamal Dasu <kdasu.kdev@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ linux-i2c@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Wolfram Sang <wsa@the-dreams.de>, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 15, 2020 at 09:40:02AM +0200, Daniel Vetter wrote:
-> Upcasting using a container_of macro is more typesafe, faster and
-> easier for the compiler to optimize.
-> 
-> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: virtualization@lists.linux-foundation.org
-> Cc: spice-devel@lists.freedesktop.org
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Hi everyone,
 
-> ---
->  drivers/gpu/drm/qxl/qxl_debugfs.c |  7 +++----
->  drivers/gpu/drm/qxl/qxl_display.c | 32 +++++++++++++++----------------
->  drivers/gpu/drm/qxl/qxl_drv.c     |  8 ++++----
->  drivers/gpu/drm/qxl/qxl_drv.h     |  4 ++--
->  drivers/gpu/drm/qxl/qxl_dumb.c    |  2 +-
->  drivers/gpu/drm/qxl/qxl_gem.c     |  2 +-
->  drivers/gpu/drm/qxl/qxl_ioctl.c   | 14 +++++++-------
->  drivers/gpu/drm/qxl/qxl_irq.c     |  2 +-
->  drivers/gpu/drm/qxl/qxl_kms.c     |  1 -
->  drivers/gpu/drm/qxl/qxl_object.c  |  2 +-
->  drivers/gpu/drm/qxl/qxl_release.c |  2 +-
->  drivers/gpu/drm/qxl/qxl_ttm.c     |  2 +-
->  12 files changed, 38 insertions(+), 40 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/qxl/qxl_debugfs.c b/drivers/gpu/drm/qxl/qxl_debugfs.c
-> index 88123047fdd4..524d35b648d8 100644
-> --- a/drivers/gpu/drm/qxl/qxl_debugfs.c
-> +++ b/drivers/gpu/drm/qxl/qxl_debugfs.c
-> @@ -39,7 +39,7 @@ static int
->  qxl_debugfs_irq_received(struct seq_file *m, void *data)
->  {
->  	struct drm_info_node *node = (struct drm_info_node *) m->private;
-> -	struct qxl_device *qdev = node->minor->dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(node->minor->dev);
->  
->  	seq_printf(m, "%d\n", atomic_read(&qdev->irq_received));
->  	seq_printf(m, "%d\n", atomic_read(&qdev->irq_received_display));
-> @@ -53,7 +53,7 @@ static int
->  qxl_debugfs_buffers_info(struct seq_file *m, void *data)
->  {
->  	struct drm_info_node *node = (struct drm_info_node *) m->private;
-> -	struct qxl_device *qdev = node->minor->dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(node->minor->dev);
->  	struct qxl_bo *bo;
->  
->  	list_for_each_entry(bo, &qdev->gem.objects, list) {
-> @@ -83,8 +83,7 @@ void
->  qxl_debugfs_init(struct drm_minor *minor)
->  {
->  #if defined(CONFIG_DEBUG_FS)
-> -	struct qxl_device *dev =
-> -		(struct qxl_device *) minor->dev->dev_private;
-> +	struct qxl_device *dev = to_qxl(minor->dev);
->  
->  	drm_debugfs_create_files(qxl_debugfs_list, QXL_DEBUGFS_ENTRIES,
->  				 minor->debugfs_root, minor);
-> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-> index 09583a08e141..1082cd5d2fd4 100644
-> --- a/drivers/gpu/drm/qxl/qxl_display.c
-> +++ b/drivers/gpu/drm/qxl/qxl_display.c
-> @@ -221,7 +221,7 @@ static int qxl_add_mode(struct drm_connector *connector,
->  			bool preferred)
->  {
->  	struct drm_device *dev = connector->dev;
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct drm_display_mode *mode = NULL;
->  	int rc;
->  
-> @@ -242,7 +242,7 @@ static int qxl_add_mode(struct drm_connector *connector,
->  static int qxl_add_monitors_config_modes(struct drm_connector *connector)
->  {
->  	struct drm_device *dev = connector->dev;
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct qxl_output *output = drm_connector_to_qxl_output(connector);
->  	int h = output->index;
->  	struct qxl_head *head;
-> @@ -310,7 +310,7 @@ static void qxl_crtc_update_monitors_config(struct drm_crtc *crtc,
->  					    const char *reason)
->  {
->  	struct drm_device *dev = crtc->dev;
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct qxl_crtc *qcrtc = to_qxl_crtc(crtc);
->  	struct qxl_head head;
->  	int oldcount, i = qcrtc->index;
-> @@ -400,7 +400,7 @@ static int qxl_framebuffer_surface_dirty(struct drm_framebuffer *fb,
->  					 unsigned int num_clips)
->  {
->  	/* TODO: vmwgfx where this was cribbed from had locking. Why? */
-> -	struct qxl_device *qdev = fb->dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(fb->dev);
->  	struct drm_clip_rect norect;
->  	struct qxl_bo *qobj;
->  	bool is_primary;
-> @@ -462,7 +462,7 @@ static const struct drm_crtc_helper_funcs qxl_crtc_helper_funcs = {
->  static int qxl_primary_atomic_check(struct drm_plane *plane,
->  				    struct drm_plane_state *state)
->  {
-> -	struct qxl_device *qdev = plane->dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(plane->dev);
->  	struct qxl_bo *bo;
->  
->  	if (!state->crtc || !state->fb)
-> @@ -476,7 +476,7 @@ static int qxl_primary_atomic_check(struct drm_plane *plane,
->  static int qxl_primary_apply_cursor(struct drm_plane *plane)
->  {
->  	struct drm_device *dev = plane->dev;
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct drm_framebuffer *fb = plane->state->fb;
->  	struct qxl_crtc *qcrtc = to_qxl_crtc(plane->state->crtc);
->  	struct qxl_cursor_cmd *cmd;
-> @@ -523,7 +523,7 @@ static int qxl_primary_apply_cursor(struct drm_plane *plane)
->  static void qxl_primary_atomic_update(struct drm_plane *plane,
->  				      struct drm_plane_state *old_state)
->  {
-> -	struct qxl_device *qdev = plane->dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(plane->dev);
->  	struct qxl_bo *bo = gem_to_qxl_bo(plane->state->fb->obj[0]);
->  	struct qxl_bo *primary;
->  	struct drm_clip_rect norect = {
-> @@ -554,7 +554,7 @@ static void qxl_primary_atomic_update(struct drm_plane *plane,
->  static void qxl_primary_atomic_disable(struct drm_plane *plane,
->  				       struct drm_plane_state *old_state)
->  {
-> -	struct qxl_device *qdev = plane->dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(plane->dev);
->  
->  	if (old_state->fb) {
->  		struct qxl_bo *bo = gem_to_qxl_bo(old_state->fb->obj[0]);
-> @@ -570,7 +570,7 @@ static void qxl_cursor_atomic_update(struct drm_plane *plane,
->  				     struct drm_plane_state *old_state)
->  {
->  	struct drm_device *dev = plane->dev;
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct drm_framebuffer *fb = plane->state->fb;
->  	struct qxl_crtc *qcrtc = to_qxl_crtc(plane->state->crtc);
->  	struct qxl_release *release;
-> @@ -679,7 +679,7 @@ static void qxl_cursor_atomic_update(struct drm_plane *plane,
->  static void qxl_cursor_atomic_disable(struct drm_plane *plane,
->  				      struct drm_plane_state *old_state)
->  {
-> -	struct qxl_device *qdev = plane->dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(plane->dev);
->  	struct qxl_release *release;
->  	struct qxl_cursor_cmd *cmd;
->  	int ret;
-> @@ -762,7 +762,7 @@ static void qxl_calc_dumb_shadow(struct qxl_device *qdev,
->  static int qxl_plane_prepare_fb(struct drm_plane *plane,
->  				struct drm_plane_state *new_state)
->  {
-> -	struct qxl_device *qdev = plane->dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(plane->dev);
->  	struct drm_gem_object *obj;
->  	struct qxl_bo *user_bo;
->  	struct qxl_surface surf;
-> @@ -923,7 +923,7 @@ static int qdev_crtc_init(struct drm_device *dev, int crtc_id)
->  {
->  	struct qxl_crtc *qxl_crtc;
->  	struct drm_plane *primary, *cursor;
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	int r;
->  
->  	qxl_crtc = kzalloc(sizeof(struct qxl_crtc), GFP_KERNEL);
-> @@ -965,7 +965,7 @@ static int qdev_crtc_init(struct drm_device *dev, int crtc_id)
->  static int qxl_conn_get_modes(struct drm_connector *connector)
->  {
->  	struct drm_device *dev = connector->dev;
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct qxl_output *output = drm_connector_to_qxl_output(connector);
->  	unsigned int pwidth = 1024;
->  	unsigned int pheight = 768;
-> @@ -991,7 +991,7 @@ static enum drm_mode_status qxl_conn_mode_valid(struct drm_connector *connector,
->  			       struct drm_display_mode *mode)
->  {
->  	struct drm_device *ddev = connector->dev;
-> -	struct qxl_device *qdev = ddev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(ddev);
->  
->  	if (qxl_check_mode(qdev, mode->hdisplay, mode->vdisplay) != 0)
->  		return MODE_BAD;
-> @@ -1021,7 +1021,7 @@ static enum drm_connector_status qxl_conn_detect(
->  	struct qxl_output *output =
->  		drm_connector_to_qxl_output(connector);
->  	struct drm_device *ddev = connector->dev;
-> -	struct qxl_device *qdev = ddev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(ddev);
->  	bool connected = false;
->  
->  	/* The first monitor is always connected */
-> @@ -1071,7 +1071,7 @@ static int qxl_mode_create_hotplug_mode_update_property(struct qxl_device *qdev)
->  
->  static int qdev_output_init(struct drm_device *dev, int num_output)
->  {
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct qxl_output *qxl_output;
->  	struct drm_connector *connector;
->  	struct drm_encoder *encoder;
-> diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
-> index 6b4ae4c5fb76..13872b882775 100644
-> --- a/drivers/gpu/drm/qxl/qxl_drv.c
-> +++ b/drivers/gpu/drm/qxl/qxl_drv.c
-> @@ -137,7 +137,7 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  
->  static void qxl_drm_release(struct drm_device *dev)
->  {
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  
->  	/*
->  	 * TODO: qxl_device_fini() call should be in qxl_pci_remove(),
-> @@ -164,7 +164,7 @@ DEFINE_DRM_GEM_FOPS(qxl_fops);
->  static int qxl_drm_freeze(struct drm_device *dev)
->  {
->  	struct pci_dev *pdev = dev->pdev;
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	int ret;
->  
->  	ret = drm_mode_config_helper_suspend(dev);
-> @@ -186,7 +186,7 @@ static int qxl_drm_freeze(struct drm_device *dev)
->  
->  static int qxl_drm_resume(struct drm_device *dev, bool thaw)
->  {
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  
->  	qdev->ram_header->int_mask = QXL_INTERRUPT_MASK;
->  	if (!thaw) {
-> @@ -245,7 +245,7 @@ static int qxl_pm_restore(struct device *dev)
->  {
->  	struct pci_dev *pdev = to_pci_dev(dev);
->  	struct drm_device *drm_dev = pci_get_drvdata(pdev);
-> -	struct qxl_device *qdev = drm_dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(drm_dev);
->  
->  	qxl_io_reset(qdev);
->  	return qxl_drm_resume(drm_dev, false);
-> diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
-> index 86ac191d9205..31e35f787df2 100644
-> --- a/drivers/gpu/drm/qxl/qxl_drv.h
-> +++ b/drivers/gpu/drm/qxl/qxl_drv.h
-> @@ -192,8 +192,6 @@ struct qxl_debugfs {
->  
->  int qxl_debugfs_fence_init(struct qxl_device *rdev);
->  
-> -struct qxl_device;
-> -
->  struct qxl_device {
->  	struct drm_device ddev;
->  
-> @@ -273,6 +271,8 @@ struct qxl_device {
->  	int monitors_config_height;
->  };
->  
-> +#define to_qxl(dev) container_of(dev, struct qxl_device, ddev)
-> +
->  extern const struct drm_ioctl_desc qxl_ioctls[];
->  extern int qxl_max_ioctl;
->  
-> diff --git a/drivers/gpu/drm/qxl/qxl_dumb.c b/drivers/gpu/drm/qxl/qxl_dumb.c
-> index 272d19b677d8..24e903383aa1 100644
-> --- a/drivers/gpu/drm/qxl/qxl_dumb.c
-> +++ b/drivers/gpu/drm/qxl/qxl_dumb.c
-> @@ -32,7 +32,7 @@ int qxl_mode_dumb_create(struct drm_file *file_priv,
->  			    struct drm_device *dev,
->  			    struct drm_mode_create_dumb *args)
->  {
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct qxl_bo *qobj;
->  	uint32_t handle;
->  	int r;
-> diff --git a/drivers/gpu/drm/qxl/qxl_gem.c b/drivers/gpu/drm/qxl/qxl_gem.c
-> index 69f37db1027a..5ff6fa9b799c 100644
-> --- a/drivers/gpu/drm/qxl/qxl_gem.c
-> +++ b/drivers/gpu/drm/qxl/qxl_gem.c
-> @@ -34,7 +34,7 @@ void qxl_gem_object_free(struct drm_gem_object *gobj)
->  	struct qxl_device *qdev;
->  	struct ttm_buffer_object *tbo;
->  
-> -	qdev = (struct qxl_device *)gobj->dev->dev_private;
-> +	qdev = to_qxl(gobj->dev);
->  
->  	qxl_surface_evict(qdev, qobj, false);
->  
-> diff --git a/drivers/gpu/drm/qxl/qxl_ioctl.c b/drivers/gpu/drm/qxl/qxl_ioctl.c
-> index 8117a45b3610..d9a583966949 100644
-> --- a/drivers/gpu/drm/qxl/qxl_ioctl.c
-> +++ b/drivers/gpu/drm/qxl/qxl_ioctl.c
-> @@ -36,7 +36,7 @@
->  static int qxl_alloc_ioctl(struct drm_device *dev, void *data,
->  			   struct drm_file *file_priv)
->  {
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct drm_qxl_alloc *qxl_alloc = data;
->  	int ret;
->  	struct qxl_bo *qobj;
-> @@ -64,7 +64,7 @@ static int qxl_alloc_ioctl(struct drm_device *dev, void *data,
->  static int qxl_map_ioctl(struct drm_device *dev, void *data,
->  			 struct drm_file *file_priv)
->  {
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct drm_qxl_map *qxl_map = data;
->  
->  	return qxl_mode_dumb_mmap(file_priv, &qdev->ddev, qxl_map->handle,
-> @@ -279,7 +279,7 @@ static int qxl_process_single_command(struct qxl_device *qdev,
->  static int qxl_execbuffer_ioctl(struct drm_device *dev, void *data,
->  				struct drm_file *file_priv)
->  {
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct drm_qxl_execbuffer *execbuffer = data;
->  	struct drm_qxl_command user_cmd;
->  	int cmd_num;
-> @@ -304,7 +304,7 @@ static int qxl_execbuffer_ioctl(struct drm_device *dev, void *data,
->  static int qxl_update_area_ioctl(struct drm_device *dev, void *data,
->  				 struct drm_file *file)
->  {
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct drm_qxl_update_area *update_area = data;
->  	struct qxl_rect area = {.left = update_area->left,
->  				.top = update_area->top,
-> @@ -354,7 +354,7 @@ static int qxl_update_area_ioctl(struct drm_device *dev, void *data,
->  static int qxl_getparam_ioctl(struct drm_device *dev, void *data,
->  		       struct drm_file *file_priv)
->  {
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct drm_qxl_getparam *param = data;
->  
->  	switch (param->param) {
-> @@ -373,7 +373,7 @@ static int qxl_getparam_ioctl(struct drm_device *dev, void *data,
->  static int qxl_clientcap_ioctl(struct drm_device *dev, void *data,
->  				  struct drm_file *file_priv)
->  {
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct drm_qxl_clientcap *param = data;
->  	int byte, idx;
->  
-> @@ -394,7 +394,7 @@ static int qxl_clientcap_ioctl(struct drm_device *dev, void *data,
->  static int qxl_alloc_surf_ioctl(struct drm_device *dev, void *data,
->  				struct drm_file *file)
->  {
-> -	struct qxl_device *qdev = dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	struct drm_qxl_alloc_surf *param = data;
->  	struct qxl_bo *qobj;
->  	int handle;
-> diff --git a/drivers/gpu/drm/qxl/qxl_irq.c b/drivers/gpu/drm/qxl/qxl_irq.c
-> index 8435af108632..1ba5a702d763 100644
-> --- a/drivers/gpu/drm/qxl/qxl_irq.c
-> +++ b/drivers/gpu/drm/qxl/qxl_irq.c
-> @@ -32,7 +32,7 @@
->  irqreturn_t qxl_irq_handler(int irq, void *arg)
->  {
->  	struct drm_device *dev = (struct drm_device *) arg;
-> -	struct qxl_device *qdev = (struct qxl_device *)dev->dev_private;
-> +	struct qxl_device *qdev = to_qxl(dev);
->  	uint32_t pending;
->  
->  	pending = xchg(&qdev->ram_header->int_pending, 0);
-> diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
-> index 91a34dd835d7..a6d873052cd4 100644
-> --- a/drivers/gpu/drm/qxl/qxl_kms.c
-> +++ b/drivers/gpu/drm/qxl/qxl_kms.c
-> @@ -114,7 +114,6 @@ int qxl_device_init(struct qxl_device *qdev,
->  
->  	qdev->ddev.pdev = pdev;
->  	pci_set_drvdata(pdev, &qdev->ddev);
-> -	qdev->ddev.dev_private = qdev;
->  
->  	mutex_init(&qdev->gem.mutex);
->  	mutex_init(&qdev->update_area_mutex);
-> diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
-> index ab72dc3476e9..edc8a9916872 100644
-> --- a/drivers/gpu/drm/qxl/qxl_object.c
-> +++ b/drivers/gpu/drm/qxl/qxl_object.c
-> @@ -33,7 +33,7 @@ static void qxl_ttm_bo_destroy(struct ttm_buffer_object *tbo)
->  	struct qxl_device *qdev;
->  
->  	bo = to_qxl_bo(tbo);
-> -	qdev = (struct qxl_device *)bo->tbo.base.dev->dev_private;
-> +	qdev = to_qxl(bo->tbo.base.dev);
->  
->  	qxl_surface_evict(qdev, bo, false);
->  	WARN_ON_ONCE(bo->map_count > 0);
-> diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_release.c
-> index 2feca734c7b1..4fae3e393da1 100644
-> --- a/drivers/gpu/drm/qxl/qxl_release.c
-> +++ b/drivers/gpu/drm/qxl/qxl_release.c
-> @@ -243,7 +243,7 @@ static int qxl_release_validate_bo(struct qxl_bo *bo)
->  		return ret;
->  
->  	/* allocate a surface for reserved + validated buffers */
-> -	ret = qxl_bo_check_id(bo->tbo.base.dev->dev_private, bo);
-> +	ret = qxl_bo_check_id(to_qxl(bo->tbo.base.dev), bo);
->  	if (ret)
->  		return ret;
->  	return 0;
-> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-> index 93a2eb14844b..f09a712b1ed2 100644
-> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
-> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-> @@ -243,7 +243,7 @@ static void qxl_bo_move_notify(struct ttm_buffer_object *bo,
->  	if (!qxl_ttm_bo_is_qxl_bo(bo))
->  		return;
->  	qbo = to_qxl_bo(bo);
-> -	qdev = qbo->tbo.base.dev->dev_private;
-> +	qdev = to_qxl(qbo->tbo.base.dev);
->  
->  	if (bo->mem.mem_type == TTM_PL_PRIV && qbo->surface_id)
->  		qxl_surface_evict(qdev, qbo, new_mem ? true : false);
-> -- 
-> 2.25.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Here's a (pretty long) series to introduce support in the VC4 DRM driver
+for the display pipeline found in the BCM2711 (and thus the RaspberryPi 4).
+
+The main differences are that there's two HDMI controllers and that there's
+more pixelvalve now. Those pixelvalve come with a mux in the HVS that still
+have only 3 FIFOs. Both of those differences are breaking a bunch of
+expectations in the driver, so we first need a good bunch of cleanup and
+reworks to introduce support for the new controllers.
+
+Similarly, the HDMI controller has all its registers shuffled and split in
+multiple controllers now, so we need a bunch of changes to support this as
+well.
+
+Only the HDMI support is enabled for now (even though the DPI output has
+been tested too). There's a couple of rough edges still that should be
+addressed in the next versions:
+  - After a modeset, it's likely that the pixels will be shifted by one.
+  - Dual output doesn't work
+  - The transposer (and thus writeback) doesn't work either and conflicts
+    with the output mux too.
+
+Let me know if you have any comments
+Maxime
+
+Cc: bcm-kernel-feedback-list@broadcom.com
+Cc: devicetree@vger.kernel.org
+Cc: Kamal Dasu <kdasu.kdev@gmail.com>
+Cc: linux-clk@vger.kernel.org
+Cc: linux-i2c@vger.kernel.org
+Cc: Michael Turquette <mturquette@baylibre.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+
+Changes from v1:
+  - Rebased on top of 5.7-rc1
+  - Run checkpatch
+  - Added audio support
+  - Fixed some HDMI timeouts
+  - Swiched to clk_hw_register_gate_parent_data
+  - Reorder Kconfig symbols in drivers/i2c/busses
+  - Make the firmware clocks a child of the firmware node
+  - Switch DVP clock driver to clk_hw interface
+  - constify raspberrypi_clk_data in raspberrypi_clock_property
+  - Don't mark firmware clocks as IGNORE_UNUSED
+  - Change from reset_ms to reset_us in reset-simple, and add a bit more
+    comments
+  - Remove generic clk patch to test if a NULL pointer is returned
+  - Removed misleading message in the is_prepared renaming patch commit
+    message
+  - Constify HDMI controller variants
+  - Fix a bug in the allocation size of the clk data array
+  - Added a mention in the DT binding conversion patches about the breakage
+  - Merged a few fixes from kbuild
+  - Fixed a few bisection and CEC build issues
+  - Collected Acked-by and Reviewed-by
+  - Change Dave email address to raspberrypi.com
+
+Dave Stevenson (6):
+  drm/vc4: Add support for the BCM2711 HVS5
+  drm/vc4: plane: Improve LBM usage
+  drm/vc4: hdmi: Use reg-names to retrieve the HDMI audio registers
+  drm/vc4: hdmi: Reset audio infoframe on encoder_enable if previously streaming
+  drm/vc4: hdmi: Set the b-frame marker to the match ALSA's default.
+  drm/vc4: hdmi: Add audio-related callbacks
+
+Florian Fainelli (1):
+  dt-bindings: arm: bcm: Convert BCM2835 firmware binding to YAML
+
+Maxime Ripard (84):
+  i2c: brcmstb: Allow to compile it on BCM2835
+  dt-bindings: clock: Add a binding for the RPi Firmware clocks
+  firmware: rpi: Only create clocks device if we don't have a node for it
+  clk: bcm: rpi: Allow the driver to be probed by DT
+  clk: bcm: rpi: Statically init clk_init_data
+  clk: bcm: rpi: Use clk_hw_register for pllb_arm
+  clk: bcm: rpi: Remove global pllb_arm clock pointer
+  clk: bcm: rpi: Make sure pllb_arm is removed
+  clk: bcm: rpi: Remove pllb_arm_lookup global pointer
+  clk: bcm: rpi: Switch to clk_hw_register_clkdev
+  clk: bcm: rpi: Make sure the clkdev lookup is removed
+  clk: bcm: rpi: Create a data structure for the clocks
+  clk: bcm: rpi: Add clock id to data
+  clk: bcm: rpi: Pass the clocks data to the firmware function
+  clk: bcm: rpi: Rename is_prepared function
+  clk: bcm: rpi: Split pllb clock hooks
+  clk: bcm: rpi: Make the PLLB registration function return a clk_hw
+  clk: bcm: rpi: Add DT provider for the clocks
+  clk: bcm: rpi: Discover the firmware clocks
+  ARM: dts: bcm2711: Add firmware clocks node
+  reset: Move reset-simple header out of drivers/reset
+  reset: simple: Add reset callback
+  dt-bindings: clock: Add BCM2711 DVP binding
+  clk: bcm: Add BCM2711 DVP driver
+  ARM: dts: bcm2711: Add HDMI DVP
+  dt-bindings: display: Convert VC4 bindings to schemas
+  dt-bindings: display: vc4: dpi: Add missing clock-names property
+  dt-bindings: display: vc4: dsi: Add missing clock properties
+  dt-bindings: display: vc4: hdmi: Add missing clock-names property
+  dt-bindings: display: vc4: Document BCM2711 VC5
+  drm/vc4: drv: Add include guards
+  drm/vc4: drv: Support BCM2711
+  dt-bindings: display: Add support for the BCM2711 HVS
+  drm/vc4: hvs: Boost the core clock during modeset
+  drm/vc4: plane: Move planes creation to its own function
+  drm/vc4: plane: Move additional planes creation to driver
+  drm/vc4: plane: Register all the planes at once
+  drm/vc4: plane: Create overlays for any CRTC
+  drm/vc4: plane: Create more planes
+  drm/vc4: crtc: Rename SoC data structures
+  drm/vc4: crtc: Move crtc state to common header
+  drm/vc4: crtc: Deal with different number of pixel per clock
+  drm/vc4: crtc: Use a shared interrupt
+  drm/vc4: crtc: Turn static const variable into a define
+  drm/vc4: crtc: Move the cob allocation outside of bind
+  drm/vc4: crtc: Rename HVS channel to output
+  drm/vc4: crtc: Use local chan variable
+  drm/vc4: crtc: Enable and disable the PV in atomic_enable / disable
+  drm/vc4: crtc: Assign output to channel automatically
+  drm/vc4: crtc: Add FIFO depth to vc4_crtc_data
+  drm/vc4: crtc: Add function to compute FIFO level bits
+  drm/vc4: crtc: Rename HDMI encoder type to HDMI0
+  drm/vc4: crtc: Add HDMI1 encoder type
+  drm/vc4: crtc: Remove redundant call to drm_crtc_enable_color_mgmt
+  drm/vc4: crtc: Disable color management for HVS5
+  dt-bindings: display: vc4: pv: Add BCM2711 pixel valves
+  drm/vc4: crtc: Add BCM2711 pixelvalves
+  drm/vc4: hdmi: Use debugfs private field
+  drm/vc4: hdmi: Move structure to header
+  drm/vc4: hdmi: rework connectors and encoders
+  drm/vc4: hdmi: Remove DDC argument to connector_init
+  drm/vc4: hdmi: Rename hdmi to vc4_hdmi
+  drm/vc4: hdmi: Move accessors to vc4_hdmi
+  drm/vc4: hdmi: Use local vc4_hdmi directly
+  drm/vc4: hdmi: Add container_of macros for encoders and connectors
+  drm/vc4: hdmi: Pass vc4_hdmi to CEC code
+  drm/vc4: hdmi: Remove vc4_dev hdmi pointer
+  drm/vc4: hdmi: Remove vc4_hdmi_connector
+  drm/vc4: hdmi: Introduce resource init and variant
+  drm/vc4: hdmi: Implement a register layout abstraction
+  drm/vc4: hdmi: Add reset callback
+  drm/vc4: hdmi: Add PHY init and disable function
+  drm/vc4: hdmi: Add PHY RNG enable / disable function
+  drm/vc4: hdmi: Add a CSC setup callback
+  drm/vc4: hdmi: Store the encoder type in the variant structure
+  drm/vc4: hdmi: Deal with multiple debugfs files
+  drm/vc4: hdmi: Move CEC init to its own function
+  drm/vc4: hdmi: Add CEC support flag
+  drm/vc4: hdmi: Remove unused CEC_CLOCK_DIV define
+  drm/vc4: hdmi: Rename drm_encoder pointer in mode_valid
+  drm/vc4: hdmi: Adjust HSM clock rate depending on pixel rate
+  drm/vc4: hdmi: Support the BCM2711 HDMI controllers
+  dt-bindings: display: vc4: hdmi: Add BCM2711 HDMI controllers bindings
+  ARM: dts: bcm2711: Enable the display pipeline
+
+ Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.txt  |   14 +-
+ Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml |   59 +++-
+ Documentation/devicetree/bindings/clock/brcm,bcm2711-dvp.yaml               |   47 ++-
+ Documentation/devicetree/bindings/display/brcm,bcm-vc4.txt                  |  174 +--------
+ Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml            |  109 +++++-
+ Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml             |   72 +++-
+ Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml            |   84 ++++-
+ Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml            |   80 ++++-
+ Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml             |   53 ++-
+ Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml     |   45 ++-
+ Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml             |   37 ++-
+ Documentation/devicetree/bindings/display/brcm,bcm2835-v3d.yaml             |   42 ++-
+ Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml             |   35 ++-
+ Documentation/devicetree/bindings/display/brcm,bcm2835-vec.yaml             |   44 ++-
+ MAINTAINERS                                                                 |    2 +-
+ arch/arm/boot/dts/bcm2711-rpi-4-b.dts                                       |   51 ++-
+ arch/arm/boot/dts/bcm2711.dtsi                                              |  130 +++++-
+ drivers/clk/bcm/Kconfig                                                     |    1 +-
+ drivers/clk/bcm/Makefile                                                    |    1 +-
+ drivers/clk/bcm/clk-bcm2711-dvp.c                                           |  127 ++++++-
+ drivers/clk/bcm/clk-raspberrypi.c                                           |  280 +++++++++----
+ drivers/firmware/raspberrypi.c                                              |   17 +-
+ drivers/gpu/drm/vc4/Makefile                                                |    1 +-
+ drivers/gpu/drm/vc4/vc4_crtc.c                                              |  328 +++++++++------
+ drivers/gpu/drm/vc4/vc4_drv.c                                               |    5 +-
+ drivers/gpu/drm/vc4/vc4_drv.h                                               |   58 ++-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                                              | 1536 ++++++++++++++++++++++++++++++++++++++++++------------------------------
+ drivers/gpu/drm/vc4/vc4_hdmi.h                                              |  179 ++++++++-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c                                          |  508 ++++++++++++++++++++++++-
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h                                         |  451 +++++++++++++++++++++-
+ drivers/gpu/drm/vc4/vc4_hvs.c                                               |   25 +-
+ drivers/gpu/drm/vc4/vc4_kms.c                                               |  181 +++++++-
+ drivers/gpu/drm/vc4/vc4_plane.c                                             |  271 +++++++++----
+ drivers/gpu/drm/vc4/vc4_regs.h                                              |  173 +++-----
+ drivers/i2c/busses/Kconfig                                                  |    4 +-
+ drivers/reset/reset-simple.c                                                |   27 +-
+ drivers/reset/reset-simple.h                                                |   41 +--
+ drivers/reset/reset-socfpga.c                                               |    3 +-
+ drivers/reset/reset-sunxi.c                                                 |    3 +-
+ drivers/reset/reset-uniphier-glue.c                                         |    3 +-
+ include/linux/reset/reset-simple.h                                          |   47 ++-
+ include/soc/bcm2835/raspberrypi-firmware.h                                  |    5 +-
+ 42 files changed, 4109 insertions(+), 1244 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.txt
+ create mode 100644 Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml
+ create mode 100644 Documentation/devicetree/bindings/clock/brcm,bcm2711-dvp.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/brcm,bcm-vc4.txt
+ create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-v3d.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-vec.yaml
+ create mode 100644 drivers/clk/bcm/clk-bcm2711-dvp.c
+ create mode 100644 drivers/gpu/drm/vc4/vc4_hdmi.h
+ create mode 100644 drivers/gpu/drm/vc4/vc4_hdmi_phy.c
+ create mode 100644 drivers/gpu/drm/vc4/vc4_hdmi_regs.h
+ delete mode 100644 drivers/reset/reset-simple.h
+ create mode 100644 include/linux/reset/reset-simple.h
+
+base-commit: cb3692197b5da2fb898335eec1640db14d92e52e
+-- 
+git-series 0.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
