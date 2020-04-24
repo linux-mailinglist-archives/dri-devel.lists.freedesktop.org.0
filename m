@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827B31B7FE2
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:09:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9B81B7FF1
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:09:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45BEE6EB1F;
-	Fri, 24 Apr 2020 20:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71BF86EB54;
+	Fri, 24 Apr 2020 20:08:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A80906EABA
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:35:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FDFC6EAB5
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:35:48 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 790AD21A;
- Fri, 24 Apr 2020 11:35:45 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:35:46 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 02EFA78A;
+ Fri, 24 Apr 2020 11:35:46 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:35:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=oZbHyorDMwxbH
- Trhcz5bQgGX8lBzLk2euuxNjsSWUtU=; b=de+tScs0+fH3Dvipipex7eR5MnhKh
- whu/s+v+bx6eyycWJEpLX2U9rR1LqBKTipXQKVOJAbsvfPpm/kan34eYFxjBvChq
- QWaNt1BVOzgEMdNhGZ9Dgnww1lG4MKmCj5XecBEiqGGe4H0q5txJuum1vxjHheNS
- s2c7JoQ9gbIeWnVFmKWGzuo1zKaMSDTuFFIuZHCZF5R+AoMVD/CcNBVZQ7Q087ee
- aKUWgdiFa4lK1lA704pEhuFQgm1XEv8uYRk8l3JqLsPsCceOfGpWjthr0783ySfL
- ZOEcRFxebYKrq0vXDsjbmKUY70OLV2PGlArTLPh2HFhBxPKpSd1ot6Y0Q==
+ :mime-version:content-transfer-encoding; s=fm2; bh=ZdIMVuaI5X+yV
+ vOOZqTMD5DMxXePRS3/PCZ/VRVYuh8=; b=ItnRwx0v/OChcH/nX4ATo2d2FY066
+ NB+2B5cwO5pWz7+wJDrAhf/e6/X9pDdti3OlflsEAbHLcVjf7yk0rniNSqxxzy1/
+ ORi4/qdimuHXvYfs60s+/mex87VqnjloN2m/jJ6/NADQ1dw0WhPyVzYYYPW8u+O/
+ 7ztwmV3B7+b5jvfHPqtW/SU0mhQzq76Iw9erFzecpsqwTwkMcTJJqkkfDQ6+kNSz
+ 9xd3nWO07jw5hSnFxRXETW4RAf1W9dGJxxkB1n5hDJW2V4w+AFKNNTUP/ND8y0J3
+ pF5Yzdxb3EViv83CDCMNeC5Am+VY7ae3gljrMmDmonQqxQYOAlxMqK9/g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=oZbHyorDMwxbHTrhcz5bQgGX8lBzLk2euuxNjsSWUtU=; b=mSURwmqm
- rc6YByRngmj4OpQsKVqjwqg0DhMBMcIfVPHb0Z26k2MTXZf1LdRiPQQVUlmIWu2K
- 5Qu+Mt7a5urUl5zIp5xJD4Ssq5d8pGJCjp7raC2T1tLVHfftkFNieGfXAfIwJWcu
- C9qD+Ep1V4RaSzRDO/UWe/O0nh4/uwVCkk78NLfviZgYMnKS6WMh1ZHz06SWYO+3
- xkBAIiTdimJDbtfMIyHIB7udlkGZZBrkBIzo4STTiNSma/qJEu5QlIbVOjGSu1Rk
- w6gz1A7dNQGpNAJWkXmhV8NGpK3bc5WO3GqKVaRwyPR9HkdBibYF7k6jTUfALwzL
- aE6uRCPuR3ozPg==
-X-ME-Sender: <xms:UAejXrRO2JOI4Drncsl8BVXW3EOjiwjlYn_up4i1umjEs6eCjGLUEg>
+ fm2; bh=ZdIMVuaI5X+yVvOOZqTMD5DMxXePRS3/PCZ/VRVYuh8=; b=DXNUFmKg
+ 2kN/LZC1T+OkvjU+nTFgzGi2U5SYBMk529tPEXNCHPz/pNXaC6IZT4tKxFJRSmko
+ CJiBBiUMs+cglGUh2x+o6ZSnJhwS7mvjUmW0BstrJYzwAEn4yfZvYhVebJ23TSRV
+ Bi5Eqse/9y0elys/LAbtqUSEIhGlzwxTZNeJkNCLkyi9X7gEryKeFJfXfvccLtuA
+ MG0GyCvINkBoNp7+9AkF+7tjvVamqb1RXxfX2Pj6MOrppbv5fGk0fVqOw4objw31
+ TLzlrnagfcUx0kQj+B8DBvjGnTJtIKNqkzATp6F+RKQPRx0vzJIZccqxFiZdNM1K
+ MJ1rJolU109a/w==
+X-ME-Sender: <xms:UgejXlAtlUspUg6vzakjQ8sI7qMLhtmAEUezNtch8UrYjFoa-X3opA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrhedugdekiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
- ekledrieekrdejieenucevlhhushhtvghrufhiiigvpeduudenucfrrghrrghmpehmrghi
+ ekledrieekrdejieenucevlhhushhtvghrufhiiigvpeduheenucfrrghrrghmpehmrghi
  lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:UQejXhUGwQdkOMa4L61hlUmmpFOV9OXeJb2KQ5I4aMwg3KOpC1_EMA>
- <xmx:UQejXmT4sqmTZ8aa_Q8LLMKUrvWqWlsl9qJ0Y5z0oXDJ4nmPa9sGgg>
- <xmx:UQejXtoCfCNzaSDIZZ_eg5iL8lPhR7fxFH3s5PcDDIHakyuE8eMUWw>
- <xmx:UQejXs9Uybv06yOeISYAJ5lvEW8UlMkinjr8HzEnirPe5IKNDaglnwnfYTw>
+X-ME-Proxy: <xmx:UgejXvJhG1h4Bbh9VOqcFFruZLLQauio3_U2PEaVWlKWogdam0SyoQ>
+ <xmx:UgejXrCWot_G4y1UUkjkYCRAJ9CeMXwxbBq-LAlPk72EHoNBK7vMcQ>
+ <xmx:UgejXtphSzmEbx95HFuHH95vo0okp7oh9c0RazGFiZuK2qRhL7AaIw>
+ <xmx:UgejXrV1lDAIexg8LB_YGZUB1KD5SH0HIXRV0sKZlQqROD9jYegTJ1vYKCU>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id B518B328005A;
- Fri, 24 Apr 2020 11:35:44 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 29C393065D9A;
+ Fri, 24 Apr 2020 11:35:46 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v2 16/91] clk: bcm: rpi: Rename is_prepared function
-Date: Fri, 24 Apr 2020 17:33:57 +0200
-Message-Id: <1ec4bbfd15358c85f076ea3d0670747bfa62796a.1587742492.git-series.maxime@cerno.tech>
+Subject: [PATCH v2 17/91] clk: bcm: rpi: Split pllb clock hooks
+Date: Fri, 24 Apr 2020 17:33:58 +0200
+Message-Id: <5edf9c08556c083421f2fe1b2625fb5ab143ed83.1587742492.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
 References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
@@ -89,43 +89,83 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The raspberrypi_fw_pll_is_on function doesn't only apply to PLL
-registered in the driver, but any clock exposed by the firmware.
-
-Since we also implement the is_prepared hook, make the function
-consistent with the other function names.
+The driver only supports the pllb for now and all the clock framework hooks
+are a mix of the generic firmware interface and the specifics of the pllb.
+Since we will support more clocks in the future let's split the generic and
+specific hooks
 
 Cc: Michael Turquette <mturquette@baylibre.com>
 Cc: linux-clk@vger.kernel.org
-Acked-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Reviewed-by: Stephen Boyd <sboyd@kernel.org>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/bcm/clk-raspberrypi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/clk/bcm/clk-raspberrypi.c | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
-index 6e8977b70e38..99201f58a609 100644
+index 99201f58a609..8c88d2ea1d67 100644
 --- a/drivers/clk/bcm/clk-raspberrypi.c
 +++ b/drivers/clk/bcm/clk-raspberrypi.c
-@@ -87,7 +87,7 @@ static int raspberrypi_clock_property(struct rpi_firmware *firmware,
- 	return 0;
+@@ -104,8 +104,8 @@ static int raspberrypi_fw_is_prepared(struct clk_hw *hw)
  }
  
--static int raspberrypi_fw_pll_is_on(struct clk_hw *hw)
-+static int raspberrypi_fw_is_prepared(struct clk_hw *hw)
+ 
+-static unsigned long raspberrypi_fw_pll_get_rate(struct clk_hw *hw,
+-						 unsigned long parent_rate)
++static unsigned long raspberrypi_fw_get_rate(struct clk_hw *hw,
++					     unsigned long parent_rate)
  {
  	struct raspberrypi_clk_data *data =
  		container_of(hw, struct raspberrypi_clk_data, hw);
-@@ -170,7 +170,7 @@ static int raspberrypi_pll_determine_rate(struct clk_hw *hw,
+@@ -118,21 +118,27 @@ static unsigned long raspberrypi_fw_pll_get_rate(struct clk_hw *hw,
+ 	if (ret)
+ 		return ret;
+ 
+-	return val * RPI_FIRMWARE_PLLB_ARM_DIV_RATE;
++	return val;
  }
  
- static const struct clk_ops raspberrypi_firmware_pll_clk_ops = {
--	.is_prepared = raspberrypi_fw_pll_is_on,
-+	.is_prepared = raspberrypi_fw_is_prepared,
- 	.recalc_rate = raspberrypi_fw_pll_get_rate,
- 	.set_rate = raspberrypi_fw_pll_set_rate,
- 	.determine_rate = raspberrypi_pll_determine_rate,
+-static int raspberrypi_fw_pll_set_rate(struct clk_hw *hw, unsigned long rate,
+-				       unsigned long parent_rate)
++static unsigned long raspberrypi_fw_pll_get_rate(struct clk_hw *hw,
++						 unsigned long parent_rate)
++{
++	return raspberrypi_fw_get_rate(hw, parent_rate) *
++		RPI_FIRMWARE_PLLB_ARM_DIV_RATE;
++}
++
++static int raspberrypi_fw_set_rate(struct clk_hw *hw, unsigned long rate,
++				   unsigned long parent_rate)
+ {
+ 	struct raspberrypi_clk_data *data =
+ 		container_of(hw, struct raspberrypi_clk_data, hw);
+ 	struct raspberrypi_clk *rpi = data->rpi;
+-	u32 new_rate = rate / RPI_FIRMWARE_PLLB_ARM_DIV_RATE;
++	u32 _rate = rate;
+ 	int ret;
+ 
+ 	ret = raspberrypi_clock_property(rpi->firmware, data,
+-					 RPI_FIRMWARE_SET_CLOCK_RATE,
+-					 &new_rate);
++					 RPI_FIRMWARE_SET_CLOCK_RATE, &_rate);
+ 	if (ret)
+ 		dev_err_ratelimited(rpi->dev, "Failed to change %s frequency: %d",
+ 				    clk_hw_get_name(hw), ret);
+@@ -140,6 +146,14 @@ static int raspberrypi_fw_pll_set_rate(struct clk_hw *hw, unsigned long rate,
+ 	return ret;
+ }
+ 
++static int raspberrypi_fw_pll_set_rate(struct clk_hw *hw, unsigned long rate,
++				       unsigned long parent_rate)
++{
++	u32 new_rate = rate / RPI_FIRMWARE_PLLB_ARM_DIV_RATE;
++
++	return raspberrypi_fw_set_rate(hw, new_rate, parent_rate);
++}
++
+ /*
+  * Sadly there is no firmware rate rounding interface. We borrowed it from
+  * clk-bcm2835.
 -- 
 git-series 0.9.1
 _______________________________________________
