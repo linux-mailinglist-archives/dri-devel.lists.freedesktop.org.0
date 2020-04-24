@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117BD1B6EB9
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 09:15:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA751B6A48
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 02:26:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AF906EA7E;
-	Fri, 24 Apr 2020 07:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA9926E14F;
+	Fri, 24 Apr 2020 00:26:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 311 seconds by postgrey-1.36 at gabe;
- Fri, 24 Apr 2020 00:26:22 UTC
-Received: from m142-177.yeah.net (m142-177.yeah.net [123.58.177.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1813889E36
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 00:26:22 +0000 (UTC)
-Received: from vivo.com (localhost [127.0.0.1])
- by m142-177.yeah.net (Hmail) with ESMTP id 30EF8643DCF;
- Fri, 24 Apr 2020 08:20:34 +0800 (CST)
-Message-ID: <APUAbgC8CDi*auuSjFr7jKrI.3.1587687634093.Hmail.bernard@vivo.com>
-To: Liviu Dudau <liviu.dudau@arm.com>
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gZHJtL2FybTogY2xlYW51cCBjb2Rpbmcgc3R5bGUgaW4gYXJtIGEgYml0?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
-X-Originating-IP: 157.0.31.122
-In-Reply-To: <20200423125007.GG364558@e110455-lin.cambridge.arm.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A42566E14F;
+ Fri, 24 Apr 2020 00:26:33 +0000 (UTC)
+Received: from kernel.org (unknown [104.132.0.74])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6325C2071E;
+ Fri, 24 Apr 2020 00:26:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1587687993;
+ bh=NxMTrUOdvV7ZvTYEex9pK6ErvaWkea7ib48OAgesRuA=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=x0NYW9jEt3g4C1uG3LIO3OrkmklNXAf1co2XxoHUhe2Jv4OngttmxuUsVuloNSi0M
+ wnqo3yjfuh0q62d8PdyRqKrEeYDw/5B8Z6Wvh876Yyp5M6Lm0hQt+GOSc29atTzXDY
+ PLYuedekuD9DZyQBpUjBRlpjrBzrusb6XBVvCtfA=
 MIME-Version: 1.0
-Received: from bernard@vivo.com( [157.0.31.122) ] by ajax-webmail (
- [127.0.0.1] ) ; Fri, 24 Apr 2020 08:20:34 +0800 (GMT+08:00)
-From: =?UTF-8?B?6LW15Yab5aWO?= <bernard@vivo.com>
-Date: Fri, 24 Apr 2020 08:20:34 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSFVNQ05CQkJDTEtIS0tJQllXWShZQU
- hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kJHlYWEh9ZQUhMSEJLSU5KTktPN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
- WUc6Ky46GRw4Qzg*ElEaDg4oET0JTBEwCTJVSFVKTkNMTUNMTUhPSUxJVTMWGhIXVRkeCRUaCR87
- DRINFFUYFBZFWVdZEgtZQVlKTkxVS1VISlVKSUlZV1kIAVlBT01MTjcG
-X-HM-Tid: 0a71a98eb51f6473kurs30ef8643dcf
-X-Mailman-Approved-At: Fri, 24 Apr 2020 07:15:40 +0000
+In-Reply-To: <1585701031-28871-5-git-send-email-tanmay@codeaurora.org>
+References: <1585701031-28871-1-git-send-email-tanmay@codeaurora.org>
+ <1585701031-28871-5-git-send-email-tanmay@codeaurora.org>
+Subject: Re: [DPU PATCH v5 4/5] drm/msm/dp: add support for DP PLL driver
+From: Stephen Boyd <sboyd@kernel.org>
+To: Tanmay Shah <tanmay@codeaurora.org>, devicetree@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ seanpaul@chromium.org
+Date: Thu, 23 Apr 2020 17:26:32 -0700
+Message-ID: <158768799258.135303.4148133179625718198@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,48 +48,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: abhinavk@codeaurora.org, swboyd@chromium.org, hoegsberg@google.com,
+ dri-devel@lists.freedesktop.org, Vara Reddy <varar@codeaurora.org>,
+ aravindh@codeaurora.org, linux-clk@vger.kernel.org,
+ Chandan Uddaraju <chandanu@codeaurora.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkZyb206IExpdml1IER1ZGF1IDxsaXZpdS5kdWRhdUBhcm0uY29tPgpEYXRlOiAyMDIwLTA0LTIz
-IDIwOjUwOjA3ClRvOiAgQmVybmFyZCBaaGFvIDxiZXJuYXJkQHZpdm8uY29tPgpDYzogIEJyaWFu
-IFN0YXJrZXkgPGJyaWFuLnN0YXJrZXlAYXJtLmNvbT4sRGF2aWQgQWlybGllIDxhaXJsaWVkQGxp
-bnV4LmllPixEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+LGRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcsbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZyxvcGVuc291cmNlLmtl
-cm5lbEB2aXZvLmNvbQpTdWJqZWN0OiBSZTogW1BBVENIXSBkcm0vYXJtOiBjbGVhbnVwIGNvZGlu
-ZyBzdHlsZSBpbiBhcm0gYSBiaXQ+SGkgQmVybmFyZCwKPgo+T24gVHVlLCBBcHIgMjEsIDIwMjAg
-YXQgMDc6MTA6NDZQTSAtMDcwMCwgQmVybmFyZCBaaGFvIHdyb3RlOgo+PiBGb3IgdGhlIGNvZGUg
-bG9naWMsIGFuIGFsYXJtIGlzIHRocm93biBhZnRlciBmYWlsdXJlLCBidXQgdGhlCj4+IGNvZGUg
-Y29udGludWVzIHRvIHJ1biBhbmQgcmV0dXJucyBzdWNjZXNzZnVsbHksIHNvIHRvIHRoZSBjYWxs
-ZXIKPj4gdGhlIGlmIGNoZWNrIGFuZCByZXR1cm4gYnJhbmNoIHdpbGwgbmV2ZXIgcnVuLgo+PiBU
-aGUgY2hhbmdlIGlzIHRvIG1ha2UgdGhlIGNvZGUgYSBiaXQgbW9yZSByZWFkYWJsZS4KPj4gCj4+
-IFNpZ25lZC1vZmYtYnk6IEJlcm5hcmQgWmhhbyA8YmVybmFyZEB2aXZvLmNvbT4KPj4gLS0tCj4+
-ICBkcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2NydGMuYyB8IDQgKy0tLQo+PiAgMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAzIGRlbGV0aW9ucygtKQo+PiAKPj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfY3J0Yy5jIGIvZHJpdmVycy9ncHUvZHJtL2FybS9o
-ZGxjZF9jcnRjLmMKPj4gaW5kZXggYWY2N2ZlZmVkMzhkLi4zMmJkYTEzMjUwZjUgMTAwNjQ0Cj4+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfY3J0Yy5jCj4+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9hcm0vaGRsY2RfY3J0Yy5jCj4+IEBAIC0xNjAsOSArMTYwLDcgQEAgc3RhdGljIHZv
-aWQgaGRsY2RfY3J0Y19tb2RlX3NldF9ub2ZiKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKPj4gIAlo
-ZGxjZF93cml0ZShoZGxjZCwgSERMQ0RfUkVHX0hfU1lOQywgdm0uaHN5bmNfbGVuIC0gMSk7Cj4+
-ICAJaGRsY2Rfd3JpdGUoaGRsY2QsIEhETENEX1JFR19QT0xBUklUSUVTLCBwb2xhcml0aWVzKTsK
-Pj4gIAo+PiAtCWVyciA9IGhkbGNkX3NldF9weGxfZm10KGNydGMpOwo+PiAtCWlmIChlcnIpCj4+
-IC0JCXJldHVybjsKPj4gKwloZGxjZF9zZXRfcHhsX2ZtdChjcnRjKTsKPgo+SSB0aGluayB5b3Ug
-Zm91bmQgYSByZWFsIGJ1Zy4gaGRsY2Rfc2V0X3B4bF9mbXQoKSBpcyBub3Qgc3VwcG9zZWQgdG8g
-cmV0dXJuIHplcm8gaWYKPnRoZSBmb3JtYXQgaXMgbm90IHN1cHBvcnRlZCBhbmQgaGVyZSB3ZSB3
-b3VsZCBzdG9wIGVuYWJsaW5nIHRoZSBwaXhlbCBjbG9jay4KPgo+RG8geW91IGNhcmUgdG8gc2Vu
-ZCBhIHBhdGNoIGZvciBmaXhpbmcgdGhlIGJ1ZywgcmF0aGVyIHRoYW4gdGhpcyBvbmU/Cj4KPkJl
-c3QgcmVnYXJkcywKPkxpdml1Cj4KClN1cmUsIEkgZG8gaGF2ZSBhIGJpdCBjb25mdXNpbmcgYWJv
-dXQgdGhpcyBjb2RlLCBJIHdpbGwgcmVzdWJtaXQgYSBwYXRjaCBhbmQgdHJ5IHRvIGZpeCBpdC4K
-ClJlZ2FyZHMsCkJlcm5hcmQKCj4+ICAKPj4gIAljbGtfc2V0X3JhdGUoaGRsY2QtPmNsaywgbS0+
-Y3J0Y19jbG9jayAqIDEwMDApOwo+PiAgfQo+PiAtLSAKPj4gMi4yNi4yCj4+IAo+Cj4tLSAKPj09
-PT09PT09PT09PT09PT09PT09Cj58IEkgd291bGQgbGlrZSB0byB8Cj58IGZpeCB0aGUgd29ybGQs
-ICB8Cj58IGJ1dCB0aGV5J3JlIG5vdCB8Cj58IGdpdmluZyBtZSB0aGUgICB8Cj4gXCBzb3VyY2Ug
-Y29kZSEgIC8KPiAgLS0tLS0tLS0tLS0tLS0tCj4gICAgwq9cXyjjg4QpXy/CrwoNCg0KX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Quoting Tanmay Shah (2020-03-31 17:30:30)
+> diff --git a/drivers/gpu/drm/msm/dp/pll/dp_pll_10nm.c b/drivers/gpu/drm/msm/dp/pll/dp_pll_10nm.c
+> new file mode 100644
+> index 0000000..aa845d0
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/dp/pll/dp_pll_10nm.c
+> @@ -0,0 +1,401 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2016-2020, The Linux Foundation. All rights reserved.
+> + */
+> +
+> +/*
+> + * Display Port PLL driver block diagram for branch clocks
+> + *
+> + *              +------------------------------+
+> + *              |         DP_VCO_CLK           |
+> + *              |                              |
+> + *              |    +-------------------+     |
+> + *              |    |   (DP PLL/VCO)    |     |
+> + *              |    +---------+---------+     |
+> + *              |              v               |
+> + *              |   +----------+-----------+   |
+> + *              |   | hsclk_divsel_clk_src |   |
+> + *              |   +----------+-----------+   |
+> + *              +------------------------------+
+> + *                              |
+> + *          +---------<---------v------------>----------+
+> + *          |                                           |
+> + * +--------v---------+                                 |
+> + * |    dp_phy_pll    |                                 |
+> + * |     link_clk     |                                 |
+> + * +--------+---------+                                 |
+> + *          |                                           |
+> + *          |                                           |
+> + *          v                                           v
+> + * Input to DISPCC block                                |
+> + * for link clk, crypto clk                             |
+> + * and interface clock                                  |
+> + *                                                      |
+> + *                                                      |
+> + *      +--------<------------+-----------------+---<---+
+> + *      |                     |                 |
+> + * +----v---------+  +--------v-----+  +--------v------+
+> + * | vco_divided  |  | vco_divided  |  | vco_divided   |
+> + * |    _clk_src  |  |    _clk_src  |  |    _clk_src   |
+> + * |              |  |              |  |               |
+> + * |divsel_six    |  |  divsel_two  |  |  divsel_four  |
+> + * +-------+------+  +-----+--------+  +--------+------+
+> + *         |                 |                  |
+> + *         v---->----------v-------------<------v
+> + *                         |
+> + *              +----------+---------+
+> + *              |   dp_phy_pll_vco   |
+> + *              |       div_clk      |
+> + *              +---------+----------+
+> + *                        |
+> + *                        v
+> + *              Input to DISPCC block
+> + *              for DP pixel clock
+
+I suspect this shouldn't be a complicated clk provider at all. Take a
+look at commit 42d068472ddf ("phy: Add DisplayPort configuration
+options") for how the phy should manage the link rate, etc. If the
+dispcc pixel clock needs to know what rate is coming in, then a single
+clk_hw can be implemented here that tells the consumer (i.e. dispcc) the
+rate that it will see at the output of this node. Otherwise, modeling
+the clk tree inside this PLL block like this is super overly complicated
+and wasteful. Don't do it.
+
+> + *
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/err.h>
+> +#include <linux/kernel.h>
+> +#include <linux/regmap.h>
+> +
+> +#include "dp_pll_10nm.h"
+> +
+> +#define NUM_PROVIDED_CLKS              2
+> +
+> +#define DP_LINK_CLK_SRC                        0
+> +#define DP_PIXEL_CLK_SRC               1
+> +
+[...]
+> diff --git a/drivers/gpu/drm/msm/dp/pll/dp_pll_10nm_util.c b/drivers/gpu/drm/msm/dp/pll/dp_pll_10nm_util.c
+> new file mode 100644
+> index 0000000..fff2e8d
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/dp/pll/dp_pll_10nm_util.c
+> @@ -0,0 +1,524 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2016-2020, The Linux Foundation. All rights reserved.
+> + */
+> +
+> +#define pr_fmt(fmt)    "%s: " fmt, __func__
+> +
+> +#include <linux/delay.h>
+> +#include <linux/err.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/kernel.h>
+> +
+> +#include "dp_hpd.h"
+> +#include "dp_pll.h"
+> +#include "dp_pll_10nm.h"
+> +
+[...]
+> +
+> +static int dp_config_vco_rate_10nm(struct msm_dp_pll *pll,
+> +               unsigned long rate)
+> +{
+> +       u32 res = 0;
+> +       struct dp_pll_10nm *dp_res = to_dp_pll_10nm(pll);
+> +
+> +       res = dp_vco_pll_init_db_10nm(pll, rate);
+> +       if (res) {
+> +               DRM_ERROR("VCO Init DB failed\n");
+> +               return res;
+> +       }
+> +
+> +       if (dp_res->lane_cnt != 4) {
+> +               if (dp_res->orientation == ORIENTATION_CC2)
+> +                       PLL_REG_W(dp_res->phy_base, REG_DP_PHY_PD_CTL, 0x6d);
+> +               else
+> +                       PLL_REG_W(dp_res->phy_base, REG_DP_PHY_PD_CTL, 0x75);
+> +       } else {
+> +               PLL_REG_W(dp_res->phy_base, REG_DP_PHY_PD_CTL, 0x7d);
+> +       }
+
+For example, this part here can be done through the phy configuration
+ops. A lane count check in the set rate clk op is quite odd!
+
+> +
+> +long dp_vco_round_rate_10nm(struct clk_hw *hw, unsigned long rate,
+> +                       unsigned long *parent_rate)
+> +{
+> +       unsigned long rrate = rate;
+> +       struct msm_dp_pll *pll = to_msm_dp_pll(hw);
+> +
+> +       if (rate <= pll->min_rate)
+> +               rrate = pll->min_rate;
+> +       else if (rate <= DP_VCO_HSCLK_RATE_2700MHZDIV1000)
+> +               rrate = DP_VCO_HSCLK_RATE_2700MHZDIV1000;
+> +       else if (rate <= DP_VCO_HSCLK_RATE_5400MHZDIV1000)
+> +               rrate = DP_VCO_HSCLK_RATE_5400MHZDIV1000;
+> +       else
+> +               rrate = pll->max_rate;
+
+This is basically link rate setting through the clk framework. Calling
+clk_set_rate() on the pixel clk is complicated and opaque. I'd expect to
+see the DP controller driver set the link rate on the phy with
+phy_configure(), and then that can change the rate that is seen
+downstream at the pixel clk. Does the pixel clk need to do anything with
+the rate? Probably not? I suspect it can just enable the pixel clk when
+it needs to and disable it when it doesn't need it.
+
+> +
+> +       DRM_DEBUG_DP("%s: rrate=%ld\n", __func__, rrate);
+> +
+> +       *parent_rate = rrate;
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
