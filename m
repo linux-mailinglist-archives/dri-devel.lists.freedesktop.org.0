@@ -1,54 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5132D1B783C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 16:22:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B92051B78A4
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 16:56:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 296AF6E069;
-	Fri, 24 Apr 2020 14:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D0176E958;
+	Fri, 24 Apr 2020 14:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06F5B6E053;
- Fri, 24 Apr 2020 14:22:00 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id i10so11045339wrv.10;
- Fri, 24 Apr 2020 07:21:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=P42ksOlVF/AdmvKPsOuYxhpgfKkeJHhYzXzUH8TEKYo=;
- b=RkZKXWojYgferx/UFn3wqIaV79UGDDSZqOrwzdw9IHGFm7l0weOYBhCmmwwSvlHkLj
- kU6gF8Dk8HA23Oi2gld3VpUdUisrwLGjo/rqjhtgQUCqwiAO6FDHMe4COyCATjWwZchU
- ZZEsN1V1cwmzkDLWOmQaW4zspyCQ548/BugXGLRp08CI7MNsAnC7Iol4+5CI6DF7TuOq
- Apl6adE9NKHH419sEN8v2HTquualX/4hTw9CkKLGy+lsMBUkxhIVDAzMMhwd60/WCflz
- WQ01F3qb6x9/zgSB73A6xupsAmBajt2q5AAML1r/SPdEn7yC2QPmVhiFWVsKwwoT4RjD
- onDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=P42ksOlVF/AdmvKPsOuYxhpgfKkeJHhYzXzUH8TEKYo=;
- b=aG2L4VOgVjG46PenkQruAQDd9uFwB0l3yuLfKf2FWtH2A3K9ihaNO7Kg/Zy57BUNvA
- hCgdzLl/m/CRH3IgYyv6qc9cQPFFhdE5Xw+CpjschjHMzvqYwienHbYNNlvLWF9XTGFe
- 2rl6QKozO8rLMY0M1pMQbCjz0m2xhODQ4HgyHL+BK+ehxfjePCxfv/xzO/nSnWLQVSmj
- UBqzGMffQ/eIDfLpYwYHy8JNF9Y4nKY4EV/OZMrf82jiQUBd0wN4vo6MkOHJucXfCYHC
- 0CCzuoW6hRDP4N7V7+9Uh4RtxnxM/PWQ40BlYclnSbCaXr5ePpKv/gyGKs/w0IQT4u+d
- a5Fw==
-X-Gm-Message-State: AGi0PuabAXEkKqNWTcTNT5gOoDhfOA11MgLU81YYoyOK8Uj2Gfk4aKqZ
- fRT41qjXMhqMBjY+BuEN9u42C5tHRFrvhQAXQt8=
-X-Google-Smtp-Source: APiQypJJ0vGexcoNVu6n5gVmRGV7DqLLurzwRE2ERIyibjQ6iAJM4ySCD/yDHkJDU7tOoJXeG2AM97nay1AkBBxdGDE=
-X-Received: by 2002:adf:cd8c:: with SMTP id q12mr12059598wrj.419.1587738118671; 
- Fri, 24 Apr 2020 07:21:58 -0700 (PDT)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4457F6E471;
+ Fri, 24 Apr 2020 14:56:07 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 0815420035;
+ Fri, 24 Apr 2020 16:56:02 +0200 (CEST)
+Date: Fri, 24 Apr 2020 16:55:56 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 11/59] drm/udl: Use devm_drm_dev_alloc
+Message-ID: <20200424145556.GA20856@ravnborg.org>
+References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
+ <20200415074034.175360-12-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-References: <20200424111226.11796-1-colin.king@canonical.com>
-In-Reply-To: <20200424111226.11796-1-colin.king@canonical.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 24 Apr 2020 10:21:47 -0400
-Message-ID: <CADnq5_NcPBfRTgVTAb8D+x+_HB6dJ1wE8_PLUup+iR3nP+2NuQ@mail.gmail.com>
-Subject: Re: [PATCH] amdgpu/dc: remove redundant assignment to variable
- 'option'
-To: Colin King <colin.king@canonical.com>
+Content-Disposition: inline
+In-Reply-To: <20200415074034.175360-12-daniel.vetter@ffwll.ch>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=8nJEP1OIZ-IA:10 a=7gkXJVJtAAAA:8 a=QyXUC8HyAAAA:8 a=SJz97ENfAAAA:8
+ a=20KFwNOVAAAA:8 a=pGLkceISAAAA:8 a=e5mUnYsNAAAA:8 a=2YAvaSaLqpQgbBnbYXwA:9
+ a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=vFet0B0WnEQeilDPIY6i:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,53 +47,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, kernel-janitors@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 24, 2020 at 7:12 AM Colin King <colin.king@canonical.com> wrote:
->
-> From: Colin Ian King <colin.king@canonical.com>
->
-> The variable option is being initialized with a value that is
-> never read and it is being updated later with a new value.  The
-> initialization is redundant and can be removed.
->
-> Addresses-Coverity: ("Unused value")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Hi Daniel.
 
-Applied.  Thanks!
+On Wed, Apr 15, 2020 at 09:39:46AM +0200, Daniel Vetter wrote:
+> Also init the fbdev emulation before we register the device, that way
+> we can rely on the auto-cleanup and simplify the probe error code even
+> more.
+> =
 
-Alex
+> v2: Rebase on top of Thomas' patches to remove the return value from
+> drm_fbdev_generic_setup()
 
+with the rebase the changelog in confusing as this patch does nothing of
+what is described in the changelog.
+Only the title (that is in convinently not available when replying to
+email) describes what this patch does.
+
+With the changelog properly adjusted:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+> =
+
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Emil Velikov <emil.l.velikov@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
 > ---
->  drivers/gpu/drm/amd/display/dc/dce110/dce110_opp_csc_v.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_opp_csc_v.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_opp_csc_v.c
-> index 4245e1f818a3..e096d2b95ef9 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_opp_csc_v.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_opp_csc_v.c
-> @@ -679,8 +679,7 @@ void dce110_opp_v_set_csc_default(
->         if (default_adjust->force_hw_default == false) {
->                 const struct out_csc_color_matrix *elm;
->                 /* currently parameter not in use */
-> -               enum grph_color_adjust_option option =
-> -                       GRPH_COLOR_MATRIX_HW_DEFAULT;
-> +               enum grph_color_adjust_option option;
->                 uint32_t i;
->                 /*
->                  * HW default false we program locally defined matrix
-> --
+>  drivers/gpu/drm/udl/udl_drv.c | 26 +++++++-------------------
+>  1 file changed, 7 insertions(+), 19 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
+> index 9cc6d075cb40..523f60e02a85 100644
+> --- a/drivers/gpu/drm/udl/udl_drv.c
+> +++ b/drivers/gpu/drm/udl/udl_drv.c
+> @@ -57,27 +57,20 @@ static struct udl_device *udl_driver_create(struct us=
+b_interface *interface)
+>  	struct udl_device *udl;
+>  	int r;
+>  =
+
+> -	udl =3D kzalloc(sizeof(*udl), GFP_KERNEL);
+> -	if (!udl)
+> -		return ERR_PTR(-ENOMEM);
+> -
+> -	r =3D drm_dev_init(&udl->drm, &driver, &interface->dev);
+> -	if (r) {
+> -		kfree(udl);
+> -		return ERR_PTR(r);
+> -	}
+> +	udl =3D devm_drm_dev_alloc(&interface->dev, &driver,
+> +				 struct udl_device, drm);
+> +	if (IS_ERR(udl))
+> +		return udl;
+>  =
+
+>  	udl->udev =3D udev;
+>  	udl->drm.dev_private =3D udl;
+> -	drmm_add_final_kfree(&udl->drm, udl);
+>  =
+
+>  	r =3D udl_init(udl);
+> -	if (r) {
+> -		drm_dev_put(&udl->drm);
+> +	if (r)
+>  		return ERR_PTR(r);
+> -	}
+>  =
+
+>  	usb_set_intfdata(interface, udl);
+> +
+>  	return udl;
+>  }
+>  =
+
+> @@ -93,17 +86,13 @@ static int udl_usb_probe(struct usb_interface *interf=
+ace,
+>  =
+
+>  	r =3D drm_dev_register(&udl->drm, 0);
+>  	if (r)
+> -		goto err_free;
+> +		return r;
+>  =
+
+>  	DRM_INFO("Initialized udl on minor %d\n", udl->drm.primary->index);
+>  =
+
+>  	drm_fbdev_generic_setup(&udl->drm, 0);
+>  =
+
+>  	return 0;
+> -
+> -err_free:
+> -	drm_dev_put(&udl->drm);
+> -	return r;
+>  }
+>  =
+
+>  static void udl_usb_disconnect(struct usb_interface *interface)
+> @@ -113,7 +102,6 @@ static void udl_usb_disconnect(struct usb_interface *=
+interface)
+>  	drm_kms_helper_poll_fini(dev);
+>  	udl_drop_usb(dev);
+>  	drm_dev_unplug(dev);
+> -	drm_dev_put(dev);
+>  }
+>  =
+
+>  /*
+> -- =
+
 > 2.25.1
->
+> =
+
 > _______________________________________________
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
