@@ -1,55 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2939D1B7FD6
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:09:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 493FA1B7E7C
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 21:04:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0667E6EB21;
-	Fri, 24 Apr 2020 20:08:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 601DA6EB07;
+	Fri, 24 Apr 2020 19:04:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 578806EB07
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 18:54:09 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id g13so12207831wrb.8
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 11:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/fa1lIdPjeBael8cMEhc7IuBn0JvLE/K0WBOBkkjajE=;
- b=cDdCHgQ0oyn8ld2w4vSKA5KrJOwPIZ8HOdv39BGqbVr2KomUN3LesnYwcauNFI4nWU
- Ori/1jWxRqTF6Wsq4H4By9IgDciMJtkAgvZXcdcjqKIWWnq5zYAlJiSw+ouwEejpzjXQ
- pzCbNKNJTgX76ZN5xXZ4AwTNTdnfipNKtYNYLrfyJlDmgD7oG83NOj/ELbnYwafOnHM4
- HO3NmvkjkLE45jP3XqTzcD3iH0Hhlt2BtHYpb83WGugsxMhfxqMohaWem82n60TA1P2B
- KpK0bNwZU587W035JrYaKidCk2plpT1L7QYC/Qex5XJnIJiG1g9irlOZUvqJc9HDhQk0
- 0+KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/fa1lIdPjeBael8cMEhc7IuBn0JvLE/K0WBOBkkjajE=;
- b=gRWYgFjq89scNEAe0fVwjio2ABu9+ipngrWlfDVfpQ7ZB93HJ34hDlva9A/IYg/i0T
- hvQ4wni09zMhEPx88+AzmVWFX25GCMEkVhYCc8KfiQd4Wd926RJnAOzt/Zw8P93vUeg0
- xWfwNMWvVnKtUSv2DiLHgQxFGMSdhZGmXxnm0yGNPxlZtOlK3NJgUlsinUTKC6zVNCez
- qUd3cXoH0ZVO0qZs6h11x4wdqcelFeTgKaTuYHEF6yEdog7IaQsRJT0y6J71/8vicr2p
- U/ZUkHuGzev6wmIktP3D7w3M8edZQM0HrXncn14MN2i8gM3qThzmIp348aZsDNEjij0T
- 7nhw==
-X-Gm-Message-State: AGi0PuYFFTBI0H+Q4hgFbs0Km19V28ZENOIpKgaAsgydmPDXxEbSt0Q1
- EAuVhxiAjUvlFIsgi8tj/YUDah6ykqpHAmpgg1ReGQ==
-X-Google-Smtp-Source: APiQypKKx0TRp2i5DhYOsD8tUAAQe75oUvoFuDNZwPO551ezSE2ihJzaD9gTXha+PHvYon9oiBQhBTYBKCvHgADtHl8=
-X-Received: by 2002:a5d:6acc:: with SMTP id u12mr13737704wrw.198.1587754447542; 
- Fri, 24 Apr 2020 11:54:07 -0700 (PDT)
+Received: from pokefinder.org (sauhun.de [88.99.104.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8E17C6EB07
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 19:04:24 +0000 (UTC)
+Received: from localhost (p5486CE62.dip0.t-ipconnect.de [84.134.206.98])
+ by pokefinder.org (Postfix) with ESMTPSA id E69B42C2019;
+ Fri, 24 Apr 2020 21:04:23 +0200 (CEST)
+Date: Fri, 24 Apr 2020 21:04:22 +0200
+From: Wolfram Sang <wsa@the-dreams.de>
+To: Florian Fainelli <f.fainelli@gmail.com>
+Subject: Re: [PATCH v2 01/91] i2c: brcmstb: Allow to compile it on BCM2835
+Message-ID: <20200424190422.GA5220@kunai>
+References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
+ <c8c666eb5c82dcb73621930b3fedf5814792bf1a.1587742492.git-series.maxime@cerno.tech>
+ <20200424161353.GA4487@kunai>
+ <bedfe073-6ff4-69ee-fe39-d5802cc3ecfd@gmail.com>
 MIME-Version: 1.0
-References: <20200423223459.200858-1-pcc@google.com>
- <CACvgo50xnz9g8PE6+4FxHr=NJ4sWd1no4erFBJ2RY2msE12PYA@mail.gmail.com>
-In-Reply-To: <CACvgo50xnz9g8PE6+4FxHr=NJ4sWd1no4erFBJ2RY2msE12PYA@mail.gmail.com>
-From: Peter Collingbourne <pcc@google.com>
-Date: Fri, 24 Apr 2020 11:53:55 -0700
-Message-ID: <CAMn1gO5i-nBU_S-U896qrYYOUU6W4yD=KG8KTwijUOF62ts36g@mail.gmail.com>
-Subject: Re: [PATCH] drm: pl111: enable render node
-To: Emil Velikov <emil.l.velikov@gmail.com>
-X-Mailman-Approved-At: Fri, 24 Apr 2020 20:08:26 +0000
+In-Reply-To: <bedfe073-6ff4-69ee-fe39-d5802cc3ecfd@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,61 +39,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-arm-kernel@lists.infradead.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kamal Dasu <kdasu.kdev@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, Maxime Ripard <maxime@cerno.tech>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ linux-rpi-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1819759057=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 24, 2020 at 4:11 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
->
-> On Thu, 23 Apr 2020 at 23:51, Peter Collingbourne <pcc@google.com> wrote:
-> >
-> > The render node is required by Android which does not support the legacy
-> > drmAuth authentication process.
-> >
-> > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> > ---
-> >  drivers/gpu/drm/pl111/pl111_drv.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> The summary talks about drmAuth, yet exposes a render node. Even
-> through there's no rendering engine in the HW, as mentioned by Eric.
->
-> AFAICT the only way drmAuth is relevant with pl111 is when you want to
-> export/import dma bufs.
-> Although that is handled in core and the artificial DRM_AUTH
-> restriction has been lifted with commit [1].
->
-> -Emil
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.7-rc2&id=30a958526d2cc6df38347336a602479d048d92e7
 
-Okay, most likely drmAuth is irrelevant here (I don't know much about
-it to be honest; I know that Android uses render nodes, so I figured
-that drmAuth must therefore be the thing that it doesn't use). Sorry
-for the confusion. Here is a better explanation of why I needed this
-change.
+--===============1819759057==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rwEMma7ioTxnRzrJ"
+Content-Disposition: inline
 
-Android has a composer process that opens the primary node and uses
-DRM_IOCTL_MODE_ATOMIC to switch between frame buffers, and a renderer
-process (surfaceflinger) that opens the render node, prepares frame
-buffers and sends them to the composer. One idea for adapting this
-architecture to devices without render nodes is to have the renderer
-process open the primary node instead. But this runs into a problem:
-suppose that the renderer process starts before the composer process.
-In this case, the kernel makes the renderer the DRM master, so the
-composer can't change the frame buffer. Render nodes don't have this
-problem because opening them doesn't affect the master.
 
-I considered fixing this by having the composer issue
-DRM_IOCTL_SET_MASTER, but this requires root privileges. If we require
-drivers to provide render nodes and control access to the primary node
-while opening up the render node, we can ensure that only authorized
-processes can become the master without requiring them to be root.
+--rwEMma7ioTxnRzrJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Peter
+On Fri, Apr 24, 2020 at 10:07:25AM -0700, Florian Fainelli wrote:
+>=20
+>=20
+> On 4/24/2020 9:13 AM, Wolfram Sang wrote:
+> >=20
+> >>  config I2C_BRCMSTB
+> >>  	tristate "BRCM Settop/DSL I2C controller"
+> >> -	depends on ARCH_BRCMSTB || BMIPS_GENERIC || ARCH_BCM_63XX || \
+> >> -		   COMPILE_TEST
+> >> +	depends on ARCH_BCM2835 || ARCH_BRCMSTB || BMIPS_GENERIC || \
+> >> +		   ARCH_BCM_63XX || COMPILE_TEST
+> >=20
+> > Isn't there something like ARCH_BROADCOM which we could use here instead
+> > of adding each and every SoC?
+>=20
+> If you are worried about this list growing bigger, I do not think this
+> is going to happen beyond this changeset (famous last words).
+
+Okay, thanks for the heads up.
+
+I wonder, then, if the description after 'tristate' is still accurate?
+
+But that withstanding, I am fine with this patch:
+
+Acked-by: Wolfram Sang <wsa@the-dreams.de>
+
+Let me know if I shall take this via I2C.
+
+
+--rwEMma7ioTxnRzrJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6jODIACgkQFA3kzBSg
+KbYN+Q//SQP+Vpeh1qTzUNAUeo0heLgu/UyeswoGy/XX0fkPi1VnjHdErSP3hI5i
+qDLv1Xsz6XsjjlNPIIjMyisPgLT1blkvBicJnfNcjh+6ztSQaO1TqUscpgxxxG6f
+n4Dk+CRwVEgmbYI3B/CAxxLSV+ulKl4l6/QSHoDXEdlNcpnQVYqB9noyJh9DJenG
+MUb3zxOoJSDvuNVftZg1Pc07yexfFgRvix0JYC41z9A/bD3yrw/apd4omkuzpojG
+dqEg+xeqCCg6kC4TozKlcqi7Zq4n+pjO0M5crP9U1jllCxgo0pMDbdF7QSXnWuiC
+GVToAKqKWMZbnm4h05ZrGt7IujJExmpRIj6tr6TySvyMpGM3h3EGGjebLFhvRJ2q
+AdRodX9+cAnIQl9HP+eXFHuvp/VzPY8RPgSK3XjAogMNgIQqTTa8L4a6rfNOz83F
+yI0nf2ftcX+7ukUGmtWzL7XT9njqBNhNgTUOXMQ7ccFTe9bpxQxcukYYM/3asi14
+DrcWVHQ6VRbjHvn52lRqfw0rKMaCLGSPgsSd9wXA9OiHCexTDjP7LMdzLKW+QgJq
+1CCCwRvvct6pMvLsHnEhCdwC11ZIHnVOagtvt6p9YrOJOjBSBak3+/IpXaVQ/eSY
+F5UsPOi0nuo0ZLmBLnn/uU4/yK4ciPgZRdX/pe9iRlkSY0V5STo=
+=kdd5
+-----END PGP SIGNATURE-----
+
+--rwEMma7ioTxnRzrJ--
+
+--===============1819759057==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1819759057==--
