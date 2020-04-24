@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54281B8015
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 394BD1B8000
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 22:10:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72EEA6EB4B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7C606EB4F;
 	Fri, 24 Apr 2020 20:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30EAA6EAA6
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:36:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 914DB6EAAB
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 15:36:18 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 299CC10AA;
- Fri, 24 Apr 2020 11:36:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:36:16 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 96908143F;
+ Fri, 24 Apr 2020 11:36:17 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 24 Apr 2020 11:36:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=pnZ3mgpaIO6iV
- y4XLi2/ge60zj86iy21qSwo/YutQY0=; b=lLhL3PEV1QMONd0+YlvnbHKBhl1lR
- tByunTAYhlcb3clzK6kqZDNmeiKIjD8twFQ/6o3Dhj9dXiUHVJp+UdfynJUcrINe
- sZ300MW6HDKTfrYKeSyyEJXELG0hCQbuVmENo8dq/NCM9LqRjJalNez5jTdAHEio
- Wp2PvhtlmWWx0gpywlPBy0GBVVWTKggClCt8h7+dBCnoFAo0GT42Tuf6fINd1lJE
- VKrAg/kaXt611MKd9dScc2YpkJJRYcDdimhmyBdYHXSWGPJ9kaMY9YOq8l00j4/C
- l3kkEJvMe6vdLgph6/f94kVTJ9jyFx3NBz9mWizYrxOPeGmGb0gt2McnQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=oSQosAw4Q7vGc
+ L01pDAaCeuv0svJvci7XNfnDxhY4go=; b=oSXFSYjQObu3vcNrYbR+Dk5ILlF+k
+ pMt/BaE4vJ/DNZ/aEFjg33T6IIUcdLmIsnq3ZzjBWSoe1vyheouMB+VUHiRxRtJ2
+ ewcQX/iqaTQSfe36F+h/KYQgpCyRaOR2HyxF4m/hiF/Hvn4cSKGzL/YmV/Gy5oSM
+ 5xM3CxkofxB1Sn6Y3e9sngNyftfcy4/5aYm4kO/r/SiznHXEk9X8lo1g2y0BZIVs
+ fdEdrgb63EnzJr3ce1GCy+1f5ouDtbxws7VGQrhW3w16uDuyGei+4a9LvJLfgcea
+ 5Hx1OnC5lD/C8kuBbncCpIuZWacsRKllzWEQbHIWAM82f9TV0L1OdIKfw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=pnZ3mgpaIO6iVy4XLi2/ge60zj86iy21qSwo/YutQY0=; b=XDtKritB
- azud3rZLIdwR+4f2majaxF/A72hnx4wPg7xnL9QkHj9oIKyZQ78GrD571DEq8oWw
- YF+bRgEMEpCG8IE1Brm5SO5f0iz57af7U1bB4aKYmLH8+6ZkKzFLeQ7MLpmCBJDx
- DG7NZGYPHZpJvbKb/nbsYfnug7yJmbY8QS8mFRf/nFyunOfiz4D+MqEeNORKjCIa
- ieRzcLX4fjRgKT8BHjdQCYgM6lIbyyHKTpN/BclHL1pbYgc8vvd0mxvJ7cJ+QQ/y
- 7qPv2stKsFf/HJvFwVWP1OmBsEtnVVbjW0T/UGg0Bapne/QQhTCyQOpZmBb5wzBM
- VKc811yqF/Zs4g==
-X-ME-Sender: <xms:bwejXhLmwX9_DK8bT0jgvPdQ1ZN1xgyyihQt6T4v3B232AtGSTN57A>
+ fm2; bh=oSQosAw4Q7vGcL01pDAaCeuv0svJvci7XNfnDxhY4go=; b=I7NTrXbJ
+ 7Yhoea9zCVQaHEl+KonYaR7neXCWL29lbC/PfrcD6ErwHow+ISehQtbA/Edht8QD
+ 38dWwuV1rmh4e1zluzhu0YAG6dMrkCitfginyb3Hnc0WOS57qh9+OcUHRPpQLiPs
+ tlCCiumbNQG/JGpgQLK45q8Tiurj/hn6oMc6ND2mF0J66j0jhcw2lvH/x6NM5za5
+ EawPhcjVMyDV011BiLcmFhyAiWA5RdKyRC+vm4Fh+0q/5fsSx6GSWeBLX8E27fy1
+ Wxf/SiOxz6GIM1usMvWwpp5X/+BuCFKB7l1LCKedBNzKbHyjYYKRPi/+ekoNJuVo
+ bAcx1YBsm0378Q==
+X-ME-Sender: <xms:cQejXsalXkeVkG9HYuoR4t9yB1BtRL8_QwkioJoW0G1kFHl9AKwgAg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrhedugdekiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
- ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedvleenucfrrghrrghmpehmrghi
+ ekledrieekrdejieenucevlhhushhtvghrufhiiigvpeefgeenucfrrghrrghmpehmrghi
  lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:bwejXhsDEFyGCksvtIwU5Y-vxdeogYIy4L05C24UzarASrhyfS0d5g>
- <xmx:bwejXlmFZlNlmQjIFS1NUA02evt9LAImrISyS6gH9Kb2MTUK7Ncjvw>
- <xmx:bwejXvHs9JHQYmT8LZ2GEYCfVl9pxsnZ9Z-V8WJaT315maDxcf4OIg>
- <xmx:bwejXpVMramIrK23oqKw98KkA43pFCZk9-s97I0UACZpnAyOqAZloY5VG3E>
+X-ME-Proxy: <xmx:cQejXv1wjZHPFFahpv51lcH-rntfd2IAyuUU9I9hSNqWBxNvok8z3A>
+ <xmx:cQejXsmTjSmrpzgmOpY0kI9zAOncc98kscwPpV09F477PYzvFJBmDw>
+ <xmx:cQejXqupynLWV0KUiPmiC7aPlXk2yBk02xVUfIJaRNP7Vqtaw8YjPw>
+ <xmx:cQejXiSXuMtNzB97TkhEGd9DeqchlKbFmqjk8l5SG-8lNyYgV7W1jAa5zog>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 5D28A328005A;
- Fri, 24 Apr 2020 11:36:15 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id C12DD3065DA3;
+ Fri, 24 Apr 2020 11:36:16 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v2 38/91] drm/vc4: plane: Move planes creation to its own
- function
-Date: Fri, 24 Apr 2020 17:34:19 +0200
-Message-Id: <52b7591887d3bbf8e1354b5cd2cbfa6ca98fd4bf.1587742492.git-series.maxime@cerno.tech>
+Subject: [PATCH v2 39/91] drm/vc4: plane: Move additional planes creation to
+ driver
+Date: Fri, 24 Apr 2020 17:34:20 +0200
+Message-Id: <6ea3f6cad2d8e64a6b7c3294505839b4e5c8b9d2.1587742492.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
 References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
@@ -88,131 +88,79 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The planes so far were created as part of the CRTC binding code with
-each planes created associated only to one CRTC. However, the hardware
-in the vc4 doesn't really have such constraint and can be used with any
-CRTC.
+So far the plane creation was done when each CRTC was bound, and those
+planes were only tied to the CRTC that was registering them.
 
-In order to rework this, let's first move the overlay and cursor planes
-creation to a function of its own.
+This causes two main issues:
+  - The planes in the vc4 hardware are actually not tied to any CRTC, but
+    can be used with every combination
+
+  - More importantly, so far, we allocate 10 planes per CRTC, with 3 CRTCs.
+    However, the next generation of hardware will have 5 CRTCs, putting us
+    well above the maximum of 32 planes currently allowed by DRM.
+
+This patch is the first one in a series of patches that will take down both
+of these issues so that we can support the next generation of hardware
+while keeping a good amount of planes.
+
+We start by changing the way the planes are registered to first registering
+the primary planes for each CRTC in the CRTC bind function as we used to,
+but moving the overlay and cursor creation to the main driver bind
+function, after all the CRTCs have been bound.
+
+This will slightly change the ID order of the planes, since the primary
+planes of all CRTCs will be first, and then a pattern of 8 overlays, 1
+cursor plane for each CRTC.
+
+This shouldn't cause any trouble since the ordering between the planes is
+preserved though.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c  | 33 +++---------------------------
- drivers/gpu/drm/vc4/vc4_drv.h   |  2 ++-
- drivers/gpu/drm/vc4/vc4_plane.c | 38 ++++++++++++++++++++++++++++++++++-
- 3 files changed, 44 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 4 ----
+ drivers/gpu/drm/vc4/vc4_drv.c  | 7 +++++++
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 591a10ae1950..29c72c322c6b 100644
+index 29c72c322c6b..2131164779dd 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -1144,7 +1144,7 @@ static int vc4_crtc_bind(struct device *dev, struct device *master, void *data)
- 	struct drm_device *drm = dev_get_drvdata(master);
- 	struct vc4_crtc *vc4_crtc;
- 	struct drm_crtc *crtc;
--	struct drm_plane *primary_plane, *cursor_plane, *destroy_plane, *temp;
-+	struct drm_plane *primary_plane, *destroy_plane, *temp;
- 	const struct of_device_id *match;
- 	int ret, i;
- 
-@@ -1192,34 +1192,9 @@ static int vc4_crtc_bind(struct device *dev, struct device *master, void *data)
+@@ -1192,10 +1192,6 @@ static int vc4_crtc_bind(struct device *dev, struct device *master, void *data)
  	 */
  	drm_crtc_enable_color_mgmt(crtc, 0, true, crtc->gamma_size);
  
--	/* Set up some arbitrary number of planes.  We're not limited
--	 * by a set number of physical registers, just the space in
--	 * the HVS (16k) and how small an plane can be (28 bytes).
--	 * However, each plane we set up takes up some memory, and
--	 * increases the cost of looping over planes, which atomic
--	 * modesetting does quite a bit.  As a result, we pick a
--	 * modest number of planes to expose, that should hopefully
--	 * still cover any sane usecase.
--	 */
--	for (i = 0; i < 8; i++) {
--		struct drm_plane *plane =
--			vc4_plane_init(drm, DRM_PLANE_TYPE_OVERLAY);
+-	ret = vc4_plane_create_additional_planes(drm, crtc);
+-	if (ret)
+-		goto err_destroy_planes;
 -
--		if (IS_ERR(plane))
--			continue;
--
--		plane->possible_crtcs = drm_crtc_mask(crtc);
--	}
--
--	/* Set up the legacy cursor after overlay initialization,
--	 * since we overlay planes on the CRTC in the order they were
--	 * initialized.
--	 */
--	cursor_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_CURSOR);
--	if (!IS_ERR(cursor_plane)) {
--		cursor_plane->possible_crtcs = drm_crtc_mask(crtc);
--		crtc->cursor = cursor_plane;
--	}
-+	ret = vc4_plane_create_additional_planes(drm, crtc);
-+	if (ret)
-+		goto err_destroy_planes;
- 
  	vc4_crtc_get_cob_allocation(vc4_crtc);
  
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 4fd6f72dec56..0875d29a0cee 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -855,6 +855,8 @@ int vc4_kms_load(struct drm_device *dev);
- /* vc4_plane.c */
- struct drm_plane *vc4_plane_init(struct drm_device *dev,
- 				 enum drm_plane_type type);
-+int vc4_plane_create_additional_planes(struct drm_device *dev,
-+				       struct drm_crtc *crtc);
- u32 vc4_plane_write_dlist(struct drm_plane *plane, u32 __iomem *dlist);
- u32 vc4_plane_dlist_size(const struct drm_plane_state *state);
- void vc4_plane_async_set_fb(struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 602927745f84..89d03605332e 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -1371,3 +1371,41 @@ struct drm_plane *vc4_plane_init(struct drm_device *dev,
+ 	CRTC_WRITE(PV_INTEN, 0);
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index d7f554a6f0ed..daf07a61a7b5 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -250,6 +250,7 @@ static int vc4_drm_bind(struct device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct drm_device *drm;
++	struct drm_crtc *crtc;
+ 	struct vc4_dev *vc4;
+ 	struct device_node *node;
+ 	int ret = 0;
+@@ -288,6 +289,12 @@ static int vc4_drm_bind(struct device *dev)
+ 	if (ret)
+ 		goto gem_destroy;
  
- 	return plane;
- }
-+
-+int vc4_plane_create_additional_planes(struct drm_device *drm,
-+				       struct drm_crtc *crtc)
-+{
-+	struct drm_plane *cursor_plane;
-+	unsigned int i;
-+
-+	/* Set up some arbitrary number of planes.  We're not limited
-+	 * by a set number of physical registers, just the space in
-+	 * the HVS (16k) and how small an plane can be (28 bytes).
-+	 * However, each plane we set up takes up some memory, and
-+	 * increases the cost of looping over planes, which atomic
-+	 * modesetting does quite a bit.  As a result, we pick a
-+	 * modest number of planes to expose, that should hopefully
-+	 * still cover any sane usecase.
-+	 */
-+	for (i = 0; i < 8; i++) {
-+		struct drm_plane *plane =
-+			vc4_plane_init(drm, DRM_PLANE_TYPE_OVERLAY);
-+
-+		if (IS_ERR(plane))
++	drm_for_each_crtc(crtc, drm) {
++		ret = vc4_plane_create_additional_planes(drm, crtc);
++		if (ret)
 +			continue;
-+
-+		plane->possible_crtcs = drm_crtc_mask(crtc);
 +	}
 +
-+	/* Set up the legacy cursor after overlay initialization,
-+	 * since we overlay planes on the CRTC in the order they were
-+	 * initialized.
-+	 */
-+	cursor_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_CURSOR);
-+	if (!IS_ERR(cursor_plane)) {
-+		cursor_plane->possible_crtcs = drm_crtc_mask(crtc);
-+		crtc->cursor = cursor_plane;
-+	}
-+
-+	return 0;
-+}
+ 	drm_fb_helper_remove_conflicting_framebuffers(NULL, "vc4drmfb", false);
+ 
+ 	ret = vc4_kms_load(drm);
 -- 
 git-series 0.9.1
 _______________________________________________
