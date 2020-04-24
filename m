@@ -1,32 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493FA1B7E7C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 21:04:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5378C1B7E91
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 21:07:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 601DA6EB07;
-	Fri, 24 Apr 2020 19:04:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B7FF6E0C5;
+	Fri, 24 Apr 2020 19:07:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pokefinder.org (sauhun.de [88.99.104.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8E17C6EB07
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 19:04:24 +0000 (UTC)
-Received: from localhost (p5486CE62.dip0.t-ipconnect.de [84.134.206.98])
- by pokefinder.org (Postfix) with ESMTPSA id E69B42C2019;
- Fri, 24 Apr 2020 21:04:23 +0200 (CEST)
-Date: Fri, 24 Apr 2020 21:04:22 +0200
-From: Wolfram Sang <wsa@the-dreams.de>
-To: Florian Fainelli <f.fainelli@gmail.com>
-Subject: Re: [PATCH v2 01/91] i2c: brcmstb: Allow to compile it on BCM2835
-Message-ID: <20200424190422.GA5220@kunai>
-References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
- <c8c666eb5c82dcb73621930b3fedf5814792bf1a.1587742492.git-series.maxime@cerno.tech>
- <20200424161353.GA4487@kunai>
- <bedfe073-6ff4-69ee-fe39-d5802cc3ecfd@gmail.com>
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D8436E0C5
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 19:07:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587755254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2jnvEsORNgR7b9vWe7xevtJyvEa+IeRDZ+hvY7I0CUI=;
+ b=gXjbajg8xa69l9wooLFWutYsq+lxWzi5kHqL9/iXaHV/HdR/NJtAA9Z/N+5BXSsIu27d1l
+ ekik7Zwn749hq1Ylcvs9yUeoCmU6sarjNGi9LBiUq9YZU6DkxeCPrj1QtCBI6R/ZbXdggl
+ v0ls8qDpEkuJ9xe/Lm3SMtlYMAZP1A0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-419-RATWQOPrMG61uMefhhjxoA-1; Fri, 24 Apr 2020 15:07:30 -0400
+X-MC-Unique: RATWQOPrMG61uMefhhjxoA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A487800C78;
+ Fri, 24 Apr 2020 19:07:28 +0000 (UTC)
+Received: from Ruby.redhat.com (ovpn-115-210.rdu2.redhat.com [10.10.115.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A7A8460F8D;
+ Fri, 24 Apr 2020 19:07:26 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/dp_mst: Fix drm_dp_send_dpcd_write() return code
+Date: Fri, 24 Apr 2020 15:07:22 -0400
+Message-Id: <20200424190722.775284-1-lyude@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <bedfe073-6ff4-69ee-fe39-d5802cc3ecfd@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,90 +54,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kamal Dasu <kdasu.kdev@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
- bcm-kernel-feedback-list@broadcom.com, Maxime Ripard <maxime@cerno.tech>,
- Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- linux-rpi-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1819759057=="
+Cc: Benjamin Gaignard <benjamin.gaignard@st.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+drm_dp_mst_wait_tx_reply() returns > 1 if time elapsed in
+wait_event_timeout() before check_txmsg_state(mgr, txmsg) evaluated to
+true. However, we make the mistake of returning this time from
+drm_dp_send_dpcd_write() on success instead of returning the number of
+bytes written - causing spontaneous failures during link probing:
 
---===============1819759057==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rwEMma7ioTxnRzrJ"
-Content-Disposition: inline
+[drm:drm_dp_send_link_address [drm_kms_helper]] *ERROR* GUID check on
+10:01 failed: 3975
 
+Yikes! So, fix this by returning the number of bytes written on success
+instead.
 
---rwEMma7ioTxnRzrJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: cb897542c6d2 ("drm/dp_mst: Fix W=1 warnings")
+Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
+Cc: Sean Paul <sean@poorly.run>
+---
+ drivers/gpu/drm/drm_dp_mst_topology.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-On Fri, Apr 24, 2020 at 10:07:25AM -0700, Florian Fainelli wrote:
->=20
->=20
-> On 4/24/2020 9:13 AM, Wolfram Sang wrote:
-> >=20
-> >>  config I2C_BRCMSTB
-> >>  	tristate "BRCM Settop/DSL I2C controller"
-> >> -	depends on ARCH_BRCMSTB || BMIPS_GENERIC || ARCH_BCM_63XX || \
-> >> -		   COMPILE_TEST
-> >> +	depends on ARCH_BCM2835 || ARCH_BRCMSTB || BMIPS_GENERIC || \
-> >> +		   ARCH_BCM_63XX || COMPILE_TEST
-> >=20
-> > Isn't there something like ARCH_BROADCOM which we could use here instead
-> > of adding each and every SoC?
->=20
-> If you are worried about this list growing bigger, I do not think this
-> is going to happen beyond this changeset (famous last words).
-
-Okay, thanks for the heads up.
-
-I wonder, then, if the description after 'tristate' is still accurate?
-
-But that withstanding, I am fine with this patch:
-
-Acked-by: Wolfram Sang <wsa@the-dreams.de>
-
-Let me know if I shall take this via I2C.
-
-
---rwEMma7ioTxnRzrJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6jODIACgkQFA3kzBSg
-KbYN+Q//SQP+Vpeh1qTzUNAUeo0heLgu/UyeswoGy/XX0fkPi1VnjHdErSP3hI5i
-qDLv1Xsz6XsjjlNPIIjMyisPgLT1blkvBicJnfNcjh+6ztSQaO1TqUscpgxxxG6f
-n4Dk+CRwVEgmbYI3B/CAxxLSV+ulKl4l6/QSHoDXEdlNcpnQVYqB9noyJh9DJenG
-MUb3zxOoJSDvuNVftZg1Pc07yexfFgRvix0JYC41z9A/bD3yrw/apd4omkuzpojG
-dqEg+xeqCCg6kC4TozKlcqi7Zq4n+pjO0M5crP9U1jllCxgo0pMDbdF7QSXnWuiC
-GVToAKqKWMZbnm4h05ZrGt7IujJExmpRIj6tr6TySvyMpGM3h3EGGjebLFhvRJ2q
-AdRodX9+cAnIQl9HP+eXFHuvp/VzPY8RPgSK3XjAogMNgIQqTTa8L4a6rfNOz83F
-yI0nf2ftcX+7ukUGmtWzL7XT9njqBNhNgTUOXMQ7ccFTe9bpxQxcukYYM/3asi14
-DrcWVHQ6VRbjHvn52lRqfw0rKMaCLGSPgsSd9wXA9OiHCexTDjP7LMdzLKW+QgJq
-1CCCwRvvct6pMvLsHnEhCdwC11ZIHnVOagtvt6p9YrOJOjBSBak3+/IpXaVQ/eSY
-F5UsPOi0nuo0ZLmBLnn/uU4/yK4ciPgZRdX/pe9iRlkSY0V5STo=
-=kdd5
------END PGP SIGNATURE-----
-
---rwEMma7ioTxnRzrJ--
-
---===============1819759057==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 03a1496f6120..21dc78cb4ba6 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -3436,8 +3436,12 @@ static int drm_dp_send_dpcd_write(struct drm_dp_mst_topology_mgr *mgr,
+ 	drm_dp_queue_down_tx(mgr, txmsg);
+ 
+ 	ret = drm_dp_mst_wait_tx_reply(mstb, txmsg);
+-	if (ret > 0 && txmsg->reply.reply_type == DP_SIDEBAND_REPLY_NAK)
+-		ret = -EIO;
++	if (ret > 0) {
++		if (txmsg->reply.reply_type == DP_SIDEBAND_REPLY_NAK)
++			ret = -EIO;
++		else
++			ret = size;
++	}
+ 
+ 	kfree(txmsg);
+ fail_put:
+-- 
+2.25.3
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1819759057==--
