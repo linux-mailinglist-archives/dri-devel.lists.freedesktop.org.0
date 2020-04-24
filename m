@@ -2,92 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B1C1B6EBB
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 09:15:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02CB1B6E89
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Apr 2020 08:54:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFE906EA82;
-	Fri, 24 Apr 2020 07:15:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7634B6EA71;
+	Fri, 24 Apr 2020 06:54:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2099.outbound.protection.outlook.com [40.107.92.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46DE86EA71
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 06:51:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kyj0OEqJld9fxHTYwAxeN/i6O17nUPWE58XPXl6Ms8/1AfdgBCYnyYGW6e1ZMkZ8mzu4U+aXhV7IvYEgX0e9Bwv0yTd8ow/m2Wy7QFaKXUwSkkq+KHQSZjemBx6/TUeXqA3L4TOlYVtinsqWmegINW5Pkk/7cYye6EtC/CjjolJm5ByyR4Fj+pqkHFUE5c/7SLsQpfpRE5iGgdhYmtUvQTjpKr7EMXoDOtiobvdL3MuMlIU+a+EG1Kgcp7jDG26aHwv+0LAdz0qJ5DtNedbRUhtZpYL4P3ZQxTQ4nqKGDIQt+2VxR65lXhx8VJRcwhGeh9Kkh6DTGd62Qen0OUzPRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5+K/zYEtWLLkYt899xdr3onmc+0JXgF4WWsPpVU9VTg=;
- b=hSXCyzO02VuyIy1N+/kDoPzwjsdVz05ESQJJNce/rv7psIl1MoleP51Hg9rhCFEfFwBMh0NoW+A/uv6sdMzJS558bGgYDimZi8Fzsf7bvtNGEQr8DT4z6Ku1+gRa9r3rTkDx374LYY9vQXSwESHzl55yFEHDiB11RWJBstI8bN/r+Fty+tM+vRIRGTY8PEbBw60REdaTvH4yCvaKOjfyeIk3tBEi6PRBjTaQua0FdIuf1f7/08Vatyul/++8mD44mpyOPFwCfMQgl5ZyHQuQePkIfMArZpo0m4VP3mmcVNCD2ktmoonRTiGc7lwpiPfzx/wYk65erdqXYapXbn1xJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
- header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5+K/zYEtWLLkYt899xdr3onmc+0JXgF4WWsPpVU9VTg=;
- b=ARLOFE8mpaLHhN1C6r48TU3yZc8DNeX/1uId0zrO+dPFItuJxk30Ma86t8eDAaG33EdJJ0letuA88cBEj+L9tVic8zxdPKBa+YC3+UXvqSEjhH6iqFAtVfm9EWYZmi+txw3MAF/UcOFQ1pDSAPEQMVF71BQneKPxO4zNIxOTWPg=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=xji@analogixsemi.com; 
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
- by BY5PR04MB7107.namprd04.prod.outlook.com (2603:10b6:a03:22f::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.27; Fri, 24 Apr
- 2020 06:51:33 +0000
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::4517:bcc8:a3bd:407f]) by BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::4517:bcc8:a3bd:407f%6]) with mapi id 15.20.2921.030; Fri, 24 Apr 2020
- 06:51:33 +0000
-Date: Fri, 24 Apr 2020 14:51:25 +0800
-From: Xin Ji <xji@analogixsemi.com>
-To: Nicolas Boichat <drinkcat@chromium.org>
-Subject: Re: [PATCH v7 2/2] drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to
- DP bridge driver
-Message-ID: <20200424065124.GA31922@xin-VirtualBox>
-References: <cover.1582529411.git.xji@analogixsemi.com>
- <a81adcf2e79d440edcb7b3989f31efcb80a6e9ff.1582529411.git.xji@analogixsemi.com>
- <CANMq1KBfB6tXFqYGvr=8fV_bpCV5GbVHeEbRs+fuaZba65-OPw@mail.gmail.com>
-Content-Disposition: inline
-In-Reply-To: <CANMq1KBfB6tXFqYGvr=8fV_bpCV5GbVHeEbRs+fuaZba65-OPw@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-ClientProxiedBy: HK2PR02CA0194.apcprd02.prod.outlook.com
- (2603:1096:201:21::30) To BY5PR04MB6739.namprd04.prod.outlook.com
- (2603:10b6:a03:229::8)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99F596EA71
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Apr 2020 06:54:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: rcn)
+ with ESMTPSA id D08062A2A5E
+From: =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+To: devicetree@vger.kernel.org
+Subject: [PATCH] dt-bindings: display: anx7814.txt: convert to yaml
+Date: Fri, 24 Apr 2020 08:53:54 +0200
+Message-Id: <20200424065354.23781-1-ricardo.canuelo@collabora.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from xin-VirtualBox (114.247.245.254) by
- HK2PR02CA0194.apcprd02.prod.outlook.com (2603:1096:201:21::30) with Microsoft
- SMTP Server (version=TLS1_0, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id
- 15.20.2937.13 via Frontend Transport; Fri, 24 Apr 2020 06:51:32 +0000
-X-Originating-IP: [114.247.245.254]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ed264fab-2b30-4a02-6b2b-08d7e81beced
-X-MS-TrafficTypeDiagnostic: BY5PR04MB7107:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BY5PR04MB710786FED4BB327686FFCAF5C7D00@BY5PR04MB7107.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-Forefront-PRVS: 03838E948C
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(39840400004)(366004)(396003)(136003)(346002)(376002)(2906002)(478600001)(6496006)(16526019)(186003)(66556008)(33716001)(54906003)(107886003)(26005)(316002)(66946007)(66476007)(86362001)(52116002)(4326008)(53546011)(9686003)(8676002)(1076003)(8936002)(55016002)(33656002)(5660300002)(6666004)(81156014)(956004)(7416002)(6916009);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: analogixsemi.com does not
- designate permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dbY7EGESs+tn09HUp2sN8PPgwYlku1KP7aFBdwU+tApM16rrFwQemUhUC9Ir+elbzAU2x0MAAkIYKI6aG3Tk4IwH9VTyIhUPCkC+ocWzfq2y9Ol1+H4UjROfVdZ7ZzrUHk79rk0xLa8bV2WmncWI68z63IgHKckY461grJY9nQ2z6yLJFYzM6UiyLAS7Yh4WXCIadCZ2kK5RcnL0h0CWKYhP7LbWEJR1cUTBJpQGkjsl0eeA3lKxfDkx+Y037ODZ/UMiEbedKu4vgUuro0W/me70/7OCWBo1nXo3bGKASZBqzqZ5ZXIpflmRScDaHoGqzu8yOA86rqhmE3jsliB/hDdTW5KBdE4DJQdePfL7WyJrv6/mefP9MPU3vvs2s98K1Jvt5WrGHY8DL97YLM3Fkz2XEiUan2Ahsjeewh/U/w/gu+2OpxcGw2qa3vjp+Y6n
-X-MS-Exchange-AntiSpam-MessageData: 41Esy56dCLI+1vaQ5wrReK5u2kT7ZJgNlTuarADgQIOfQ4Vj/osKy/yySe5pz8SSZSFF1bvlK3EzbwLnTADPbiND2Lguk5BKI4c5zF5oav0V1cMGjLo5KzZcsWLSe+bCYcOz6703Hxu1CCa+iRwMiQ==
-X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed264fab-2b30-4a02-6b2b-08d7e81beced
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2020 06:51:33.5745 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jPOzm+3x85Jm8M+E65WQnCj7ZCkIpB856jJxpBp18e28XjkBALQdOe4cO9+e+DOZn7avOkh3CED+vae5QcwLIg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB7107
-X-Mailman-Approved-At: Fri, 24 Apr 2020 07:15:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,231 +33,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Pi-Hsun Shih <pihsun@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, Sheng Pan <span@analogixsemi.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: enric.balletbo@collabora.com, robh+dt@kernel.org, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 23, 2020 at 07:55:15PM +0800, Nicolas Boichat wrote:
-> Hi,
-> 
-> Just commenting on the mode_fixup function that was added in v7.
-> 
-> On Tue, Feb 25, 2020 at 2:15 PM Xin Ji <xji@analogixsemi.com> wrote:
-> >
-> > The ANX7625 is an ultra-low power 4K Mobile HD Transmitter designed
-> > for portable device. It converts MIPI DSI/DPI to DisplayPort 1.3 4K.
-> >
-> > The ANX7625 can support both USB Type-C PD feature and MIPI DSI/DPI
-> > to DP feature. This driver only enabled MIPI DSI/DPI to DP feature.
-> >
-> > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > ---
-> >  drivers/gpu/drm/bridge/Makefile           |    2 +-
-> >  drivers/gpu/drm/bridge/analogix/Kconfig   |    6 +
-> >  drivers/gpu/drm/bridge/analogix/Makefile  |    1 +
-> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 2172 +++++++++++++++++++++++++++++
-> >  drivers/gpu/drm/bridge/analogix/anx7625.h |  410 ++++++
-> >  5 files changed, 2590 insertions(+), 1 deletion(-)
-> >  create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.c
-> >  create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.h
-> >
-> > diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> > index 4934fcf..bcd388a 100644
-> > --- a/drivers/gpu/drm/bridge/Makefile
-> > +++ b/drivers/gpu/drm/bridge/Makefile
-> [snip]
-> > +static bool anx7625_bridge_mode_fixup(struct drm_bridge *bridge,
-> > +                                     const struct drm_display_mode *mode,
-> > +                                     struct drm_display_mode *adj)
-> > +{
-> > +       struct anx7625_data *ctx = bridge_to_anx7625(bridge);
-> > +       struct device *dev = &ctx->client->dev;
-> > +       u32 hsync, hfp, hbp, hactive, hblanking;
-> > +       u32 adj_hsync, adj_hfp, adj_hbp, adj_hblanking, delta_adj;
-> > +       u32 vref, adj_clock;
-> > +
-> > +       DRM_DEV_DEBUG_DRIVER(dev, "drm mode fixup set\n");
-> > +
-> > +       mutex_lock(&ctx->lock);
-> 
-> Why do you need this lock?
-Seems no need this lock, I'll remove it.
-> 
-> > +
-> > +       hactive = mode->hdisplay;
-> 
-> This is never used, drop it?
-OK, I'll drop it.
-> 
-> > +       hsync = mode->hsync_end - mode->hsync_start;
-> > +       hfp = mode->hsync_start - mode->hdisplay;
-> > +       hbp = mode->htotal - mode->hsync_end;
-> > +       hblanking = mode->htotal - mode->hdisplay;
-> > +
-> > +       DRM_DEV_DEBUG_DRIVER(dev, "before mode fixup\n");
-> > +       DRM_DEV_DEBUG_DRIVER(dev, "hsync(%d),hfp(%d),hbp(%d),clock(%d)\n",
-> > +                            hsync,
-> > +                            hfp,
-> > +                            hbp,
-> > +                            adj->clock);
-> > +       DRM_DEV_DEBUG_DRIVER(dev, "hsync_start(%d),hsync_end(%d),htotal(%d)\n",
-> > +                            adj->hsync_start,
-> > +                            adj->hsync_end,
-> > +                            adj->htotal);
-> > +
-> > +       adj_hfp = hfp;
-> > +       adj_hsync = hsync;
-> > +       adj_hbp = hbp;
-> > +       adj_hblanking = hblanking;
-> > +
-> > +       /* plus 1 if hfp is odd */
-> 
-> A better way to word these comments is to say "hfp needs to be even",
-> otherwise, you're just repeating what we can already see in the code.
-OK
-> 
-> > +       if (hfp & 0x1) {
-> > +               adj_hfp = hfp + 1;
-> 
-> adj_hfp -= 1 for consistency?
-OK
-> 
-> > +               adj_hblanking += 1;
-> > +       }
-> > +
-> > +       /* minus 1 if hbp is odd */
-> > +       if (hbp & 0x1) {
-> > +               adj_hbp = hbp - 1;
-> 
-> ditto, adj_hbp -= 1;
-OK
-> 
-> > +               adj_hblanking -= 1;
-> > +       }
-> > +
-> > +       /* plus 1 if hsync is odd */
-> > +       if (hsync & 0x1) {
-> > +               if (adj_hblanking < hblanking)
-> > +                       adj_hsync = hsync + 1;
-> 
-> ditto
-OK
-> 
-> > +               else
-> > +                       adj_hsync = hsync - 1;
-> 
-> ditto
-OK
-> 
-> > +       }
-> > +
-> > +       /*
-> > +        * once illegal timing detected, use default HFP, HSYNC, HBP
-> > +        */
-> > +       if (hblanking < HBLANKING_MIN || (hfp < HP_MIN && hbp < HP_MIN)) {
-> 
-> should this be adj_hblanking/adj_hfp/adj_hbp?
-NO, need check original HFP and HBP, if they are not legal, driver need
-set default value to adj_hsync, adj_hfp, adj_hbp.
-> 
-> > +               adj_hsync = SYNC_LEN_DEF;
-> > +               adj_hfp = HFP_HBP_DEF;
-> > +               adj_hbp = HFP_HBP_DEF;
-> > +               vref = adj->clock * 1000 / (adj->htotal * adj->vtotal);
-> > +               if (hblanking < HBLANKING_MIN) {
-> > +                       delta_adj = HBLANKING_MIN - hblanking;
-> > +                       adj_clock = vref * delta_adj * adj->vtotal;
-> > +                       adj->clock += DIV_ROUND_UP(adj_clock, 1000);
-> > +               } else {
-> > +                       delta_adj = hblanking - HBLANKING_MIN;
-> > +                       adj_clock = vref * delta_adj * adj->vtotal;
-> > +                       adj->clock -= DIV_ROUND_UP(adj_clock, 1000);
-> > +               }
-> > +
-> > +               DRM_WARN("illegal hblanking timing, use default.\n");
-> > +               DRM_WARN("hfp(%d),hbp(%d),hsync(%d).\n", hfp, hbp, hsync);
-> 
-> How likely is it that this mode is going to work? Can you just return
-> false here to reject the mode?
-We want to set the default minimal Hblancking value, then it may display,
-otherwise. If we just return false, there is no display for sure.
-> 
-> > +       } else if (adj_hfp < HP_MIN) {
-> > +               /* adjust hfp if hfp less than HP_MIN */
-> > +               delta_adj = HP_MIN - adj_hfp;
-> > +               adj_hfp = HP_MIN;
-> > +
-> > +               /*
-> > +                * balance total HBlanking pixel, if HBP hasn't enough space,
-> 
-> "does not have enough space"
-OK
-> 
-> > +                * adjust HSYNC length, otherwize adjust HBP
-> 
-> otherwise
-OK
-> 
-> > +                */
-> > +               if ((adj_hbp - delta_adj) < HP_MIN)
-> > +                       /* hbp not enough space */
-> > +                       adj_hsync -= delta_adj;
-> > +               else
-> > +                       adj_hbp -= delta_adj;
-> > +       } else if (adj_hbp < HP_MIN) {
-> > +               delta_adj = HP_MIN - adj_hbp;
-> > +               adj_hbp = HP_MIN;
-> > +
-> > +               /*
-> > +                * balance total HBlanking pixel, if HBP hasn't enough space,
-> > +                * adjust HSYNC length, otherwize adjust HBP
-> > +                */
-> > +               if ((adj_hfp - delta_adj) < HP_MIN)
-> > +                       /* hbp not enough space */
-> > +                       adj_hsync -= delta_adj;
-> > +               else
-> > +                       adj_hfp -= delta_adj;
-> > +       }
-> > +
-> > +       DRM_DEV_DEBUG_DRIVER(dev, "after mode fixup\n");
-> > +       DRM_DEV_DEBUG_DRIVER(dev, "hsync(%d),hfp(%d),hbp(%d),clock(%d)\n",
-> 
-> Add spaces after commas in your debug strings (same above and below).
-OK
-> 
-> > +                            adj_hsync,
-> > +                            adj_hfp,
-> > +                            adj_hbp,
-> > +                            adj->clock);
-> 
-> Put these 4 on a single line.
-OK
-> 
-> > +
-> > +       /* reconstruct timing */
-> > +       adj->hsync_start = adj->hdisplay + adj_hfp;
-> > +       adj->hsync_end = adj->hsync_start + adj_hsync;
-> > +       adj->htotal = adj->hsync_end + adj_hbp;
-> > +       DRM_DEV_DEBUG_DRIVER(dev, "hsync_start(%d),hsync_end(%d),htotal(%d)\n",
-> > +                            adj->hsync_start,
-> > +                            adj->hsync_end,
-> > +                            adj->htotal);
-> > +
-> > +       mutex_unlock(&ctx->lock);
-> > +
-> > +       return true;
-> > +}
-> > +
-> > [snip]
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBjb252ZXJ0cyB0aGUgQW5hbG9naXggQU5YNzgxNCBicmlkZ2UgRFQgYmluZGluZyB0byB5
+YW1sLiBQb3J0CmRlZmluaXRpb25zIGFuZCBkZXNjcmlwdGlvbnMgd2VyZSBleHBhbmRlZCwgYXBh
+cnQgZnJvbSB0aGF0IGl0J3MgYQpkaXJlY3QgdHJhbnNsYXRpb24gZnJvbSB0aGUgb3JpZ2luYWwg
+YmluZGluZy4KClNpZ25lZC1vZmYtYnk6IFJpY2FyZG8gQ2HDsXVlbG8gPHJpY2FyZG8uY2FudWVs
+b0Bjb2xsYWJvcmEuY29tPgotLS0KVGVzdGVkIHdpdGg6Cm1ha2UgZHRfYmluZGluZ19jaGVjayBB
+UkNIPWFybTY0IERUX1NDSEVNQV9GSUxFUz08Li4uL2FueDc4MTQueWFtbD4KbWFrZSBkdGJzX2No
+ZWNrIEFSQ0g9YXJtNjQgRFRfU0NIRU1BX0ZJTEVTPTwuLi4vYW54NzgxNC55YW1sPgoKIC4uLi9i
+aW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbng3ODE0LnR4dCAgICAgICB8ICA0MiAtLS0tLS0KIC4u
+Li9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbng3ODE0LnlhbWwgICAgICB8IDEzMyArKysrKysr
+KysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgMTMzIGluc2VydGlvbnMoKyksIDQyIGRlbGV0
+aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9kaXNwbGF5L2JyaWRnZS9hbng3ODE0LnR4dAogY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbng3ODE0LnlhbWwK
+CmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9i
+cmlkZ2UvYW54NzgxNC50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
+cGxheS9icmlkZ2UvYW54NzgxNC50eHQKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDE3
+MjU4NzQ3ZmZmNi4uMDAwMDAwMDAwMDAwCi0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbng3ODE0LnR4dAorKysgL2Rldi9udWxsCkBAIC0xLDQy
+ICswLDAgQEAKLUFuYWxvZ2l4IEFOWDc4MTQgU2xpbVBvcnQgKEZ1bGwtSEQgVHJhbnNtaXR0ZXIp
+Ci0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQotCi1UaGUg
+QU5YNzgxNCBpcyBhbiB1bHRyYS1sb3cgcG93ZXIgRnVsbC1IRCAoMTA4MHA2MCkgU2xpbVBvcnQg
+dHJhbnNtaXR0ZXIKLWRlc2lnbmVkIGZvciBwb3J0YWJsZSBkZXZpY2VzLgotCi1SZXF1aXJlZCBw
+cm9wZXJ0aWVzOgotCi0gLSBjb21wYXRpYmxlCQk6IE11c3QgYmUgb25lIG9mOgotCQkJICAiYW5h
+bG9naXgsYW54NzgwOCIKLQkJCSAgImFuYWxvZ2l4LGFueDc4MTIiCi0JCQkgICJhbmFsb2dpeCxh
+bng3ODE0IgotCQkJICAiYW5hbG9naXgsYW54NzgxOCIKLSAtIHJlZwkJCTogSTJDIGFkZHJlc3Mg
+b2YgdGhlIGRldmljZQotIC0gaW50ZXJydXB0cwkJOiBTaG91bGQgY29udGFpbiB0aGUgSU5UUCBp
+bnRlcnJ1cHQKLSAtIGhwZC1ncGlvcwkJOiBXaGljaCBHUElPIHRvIHVzZSBmb3IgaHBkCi0gLSBw
+ZC1ncGlvcwkJOiBXaGljaCBHUElPIHRvIHVzZSBmb3IgcG93ZXIgZG93bgotIC0gcmVzZXQtZ3Bp
+b3MJCTogV2hpY2ggR1BJTyB0byB1c2UgZm9yIHJlc2V0Ci0KLU9wdGlvbmFsIHByb3BlcnRpZXM6
+Ci0KLSAtIGR2ZGQxMC1zdXBwbHkJOiBSZWd1bGF0b3IgZm9yIDEuMFYgZGlnaXRhbCBjb3JlIHBv
+d2VyLgotIC0gVmlkZW8gcG9ydCBmb3IgSERNSSBpbnB1dCwgdXNpbmcgdGhlIERUIGJpbmRpbmdz
+IGRlZmluZWQgaW4gWzFdLgotCi1bMV06IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy9tZWRpYS92aWRlby1pbnRlcmZhY2VzLnR4dAotCi1FeGFtcGxlOgotCi0JYW54NzgxNDogYW54
+NzgxNEAzOCB7Ci0JCWNvbXBhdGlibGUgPSAiYW5hbG9naXgsYW54NzgxNCI7Ci0JCXJlZyA9IDww
+eDM4PjsKLQkJaW50ZXJydXB0LXBhcmVudCA9IDwmZ3BpbzA+OwotCQlpbnRlcnJ1cHRzID0gPDk5
+IElSUV9UWVBFX0xFVkVMX0xPVz47ICAgLyogSU5UUCAqLwotCQlocGQtZ3Bpb3MgPSA8JnBpbyAz
+NiBHUElPX0FDVElWRV9ISUdIPjsKLQkJcGQtZ3Bpb3MgPSA8JnBpbyAzMyBHUElPX0FDVElWRV9I
+SUdIPjsKLQkJcmVzZXQtZ3Bpb3MgPSA8JnBpbyA5OCBHUElPX0FDVElWRV9ISUdIPjsKLQkJcG9y
+dCB7Ci0JCQlhbng3ODE0X2luOiBlbmRwb2ludCB7Ci0JCQkJcmVtb3RlLWVuZHBvaW50ID0gPCZo
+ZG1pMF9vdXQ+OwotCQkJfTsKLQkJfTsKLQl9OwpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2FueDc4MTQueWFtbCBiL0RvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbng3ODE0LnlhbWwKbmV3
+IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAwLi41M2QzYzc3OGM4OTMKLS0tIC9k
+ZXYvbnVsbAorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9i
+cmlkZ2UvYW54NzgxNC55YW1sCkBAIC0wLDAgKzEsMTMzIEBACisjIFNQRFgtTGljZW5zZS1JZGVu
+dGlmaWVyOiAoR1BMLTIuMC1vbmx5IE9SIEJTRC0yLUNsYXVzZSkKKyVZQU1MIDEuMgorLS0tCisk
+aWQ6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9zY2hlbWFzL2Rpc3BsYXkvYnJpZGdlL2FueDc4MTQu
+eWFtbCMKKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55
+YW1sIworCit0aXRsZTogQW5hbG9naXggQU5YNzgxNCBTbGltUG9ydCAoRnVsbC1IRCBUcmFuc21p
+dHRlcikKKworbWFpbnRhaW5lcnM6CisgIC0gRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMu
+YmFsbGV0Ym9AY29sbGFib3JhLmNvbT4KKworZGVzY3JpcHRpb246IHwKKyAgVGhlIEFOWDc4MTQg
+aXMgYW4gdWx0cmEtbG93IHBvd2VyIEZ1bGwtSEQgKDEwODBwNjApIFNsaW1Qb3J0IHRyYW5zbWl0
+dGVyCisgIGRlc2lnbmVkIGZvciBwb3J0YWJsZSBkZXZpY2VzLgorCitwcm9wZXJ0aWVzOgorICBj
+b21wYXRpYmxlOgorICAgIGVudW06CisgICAgICAtIGFuYWxvZ2l4LGFueDc4MDgKKyAgICAgIC0g
+YW5hbG9naXgsYW54NzgxMgorICAgICAgLSBhbmFsb2dpeCxhbng3ODE0CisgICAgICAtIGFuYWxv
+Z2l4LGFueDc4MTgKKworICByZWc6CisgICAgbWF4SXRlbXM6IDEKKyAgICBkZXNjcmlwdGlvbjog
+STJDIGFkZHJlc3Mgb2YgdGhlIGRldmljZS4KKworICBpbnRlcnJ1cHRzOgorICAgIG1heEl0ZW1z
+OiAxCisgICAgZGVzY3JpcHRpb246IFNob3VsZCBjb250YWluIHRoZSBJTlRQIGludGVycnVwdC4K
+KworICBocGQtZ3Bpb3M6CisgICAgbWF4SXRlbXM6IDEKKyAgICBkZXNjcmlwdGlvbjogV2hpY2gg
+R1BJTyB0byB1c2UgZm9yIGhwZC4KKworICBwZC1ncGlvczoKKyAgICBtYXhJdGVtczogMQorICAg
+IGRlc2NyaXB0aW9uOiBXaGljaCBHUElPIHRvIHVzZSBmb3IgcG93ZXIgZG93bi4KKworICByZXNl
+dC1ncGlvczoKKyAgICBtYXhJdGVtczogMQorICAgIGRlc2NyaXB0aW9uOiBXaGljaCBHUElPIHRv
+IHVzZSBmb3IgcmVzZXQuCisKKyAgZHZkZDEwLXN1cHBseToKKyAgICBtYXhJdGVtczogMQorICAg
+IGRlc2NyaXB0aW9uOiBSZWd1bGF0b3IgZm9yIDEuMFYgZGlnaXRhbCBjb3JlIHBvd2VyLgorCisg
+IHBvcnRzOgorICAgIHR5cGU6IG9iamVjdAorICAgIGRlc2NyaXB0aW9uOgorICAgICAgQSBub2Rl
+IGNvbnRhaW5pbmcgaW5wdXQgYW5kIG91dHB1dCBwb3J0IG5vZGVzIHdpdGggZW5kcG9pbnQKKyAg
+ICAgIGRlZmluaXRpb25zIGFzIGRvY3VtZW50ZWQgaW4KKyAgICAgIERvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9tZWRpYS92aWRlby1pbnRlcmZhY2VzLnR4dAorICAgICAgRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2dyYXBoLnR4dAorCisgICAgcHJvcGVydGllczoK
+KyAgICAgICIjYWRkcmVzcy1jZWxscyI6CisgICAgICAgIGNvbnN0OiAxCisKKyAgICAgICIjc2l6
+ZS1jZWxscyI6CisgICAgICAgIGNvbnN0OiAwCisKKyAgICAgIHBvcnRAMDoKKyAgICAgICAgdHlw
+ZTogb2JqZWN0CisgICAgICAgIGRlc2NyaXB0aW9uOiBWaWRlbyBwb3J0IGZvciBIRE1JIGlucHV0
+LgorCisgICAgICAgIHByb3BlcnRpZXM6CisgICAgICAgICAgcmVnOgorICAgICAgICAgICAgY29u
+c3Q6IDAKKworICAgICAgcG9ydEAxOgorICAgICAgICB0eXBlOiBvYmplY3QKKyAgICAgICAgZGVz
+Y3JpcHRpb246CisgICAgICAgICAgVmlkZW8gcG9ydCBmb3IgU2xpbVBvcnQsIERpc3BsYXlQb3J0
+LCBlRFAgb3IgTXlEUCBvdXRwdXQuCisKKyAgICAgICAgcHJvcGVydGllczoKKyAgICAgICAgICBy
+ZWc6CisgICAgICAgICAgICBjb25zdDogMQorCisgICAgcmVxdWlyZWQ6CisgICAgICAtIHBvcnRA
+MAorICAgICAgLSBwb3J0QDEKKworcmVxdWlyZWQ6CisgIC0gY29tcGF0aWJsZQorICAtIHJlZwor
+ICAtIGludGVycnVwdHMKKyAgLSBocGQtZ3Bpb3MKKyAgLSBwZC1ncGlvcworICAtIHJlc2V0LWdw
+aW9zCisgIC0gcG9ydHMKKworYWRkaXRpb25hbFByb3BlcnRpZXM6IGZhbHNlCisKK2V4YW1wbGVz
+OgorICAtIHwKKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvaW50ZXJydXB0LWNvbnRyb2xsZXIv
+YXJtLWdpYy5oPgorICAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9ncGlvL2dwaW8uaD4KKworICAg
+IGkyYzAgeworICAgICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsKKyAgICAgICAgI3NpemUtY2Vs
+bHMgPSA8MD47CisKKyAgICAgICAgYW54NzgxNDogYW54NzgxNEAzOCB7CisgICAgICAgICAgICBj
+b21wYXRpYmxlID0gImFuYWxvZ2l4LGFueDc4MTQiOworICAgICAgICAgICAgcmVnID0gPDB4Mzg+
+OworICAgICAgICAgICAgaW50ZXJydXB0LXBhcmVudCA9IDwmZ3BpbzA+OworICAgICAgICAgICAg
+aW50ZXJydXB0cyA9IDw5OSBJUlFfVFlQRV9MRVZFTF9MT1c+OyAgIC8qIElOVFAgKi8KKyAgICAg
+ICAgICAgIGhwZC1ncGlvcyA9IDwmcGlvIDM2IEdQSU9fQUNUSVZFX0hJR0g+OworICAgICAgICAg
+ICAgcGQtZ3Bpb3MgPSA8JnBpbyAzMyBHUElPX0FDVElWRV9ISUdIPjsKKyAgICAgICAgICAgIHJl
+c2V0LWdwaW9zID0gPCZwaW8gOTggR1BJT19BQ1RJVkVfSElHSD47CisKKyAgICAgICAgICAgIHBv
+cnRzIHsKKyAgICAgICAgICAgICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsKKyAgICAgICAgICAg
+ICAgICAjc2l6ZS1jZWxscyA9IDwwPjsKKworICAgICAgICAgICAgICAgIHBvcnRAMCB7CisgICAg
+ICAgICAgICAgICAgICAgIHJlZyA9IDwwPjsKKyAgICAgICAgICAgICAgICAgICAgYW54NzgxNF9p
+bjogZW5kcG9pbnQgeworICAgICAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0g
+PCZoZG1pMF9vdXQ+OworICAgICAgICAgICAgICAgICAgICB9OworICAgICAgICAgICAgICAgIH07
+CisKKyAgICAgICAgICAgICAgICBwb3J0QDEgeworICAgICAgICAgICAgICAgICAgICByZWcgPSA8
+MT47CisgICAgICAgICAgICAgICAgICAgIGFueDc4MTRfb3V0OiBlbmRwb2ludCB7CisgICAgICAg
+ICAgICAgICAgICAgICAgICByZW1vdGUtZW5kcG9pbnQgPSA8JmVkcF9vdXQ+OworICAgICAgICAg
+ICAgICAgICAgICB9OworICAgICAgICAgICAgICAgIH07CisgICAgICAgICAgICB9OworICAgICAg
+ICB9OworICAgIH07CisuLi4KLS0gCjIuMTguMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
