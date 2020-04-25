@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 388F81B84D1
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:44:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 572051B84D2
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 10:44:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA736E1A7;
-	Sat, 25 Apr 2020 08:44:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 717166E1BB;
+	Sat, 25 Apr 2020 08:44:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 933BB6E1A7
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Apr 2020 08:44:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE34B6E1BB
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Apr 2020 08:44:45 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206987] [drm] [amdgpu] Whole system crashes when the driver is
  in mode_support_and_system_configuration
-Date: Sat, 25 Apr 2020 08:44:00 +0000
+Date: Sat, 25 Apr 2020 08:44:45 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206987-2300-D8nmx7JWWM@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-206987-2300-0qEonQI5ZJ@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206987-2300@https.bugzilla.kernel.org/>
 References: <bug-206987-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,13 +59,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206987
 
---- Comment #10 from Cyrax (evvke@hotmail.com) ---
-Created attachment 288719
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288719&action=edit
-gdb disassembler dump around mode_support_and_system_configuration
+Cyrax (evvke@hotmail.com) changed:
 
-And it happened again. Looks like that something goes wrong after while when
-computer monitor is turned on.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.6.5                       |5.6.7
 
 -- 
 You are receiving this mail because:
