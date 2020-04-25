@@ -2,25 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1F31B8976
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 22:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFDF1B897F
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 23:07:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C66066E0BA;
-	Sat, 25 Apr 2020 20:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A75496E0B8;
+	Sat, 25 Apr 2020 21:07:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 767186E0BA
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Apr 2020 20:54:31 +0000 (UTC)
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED9FE6E0B8
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Apr 2020 21:07:00 +0000 (UTC)
 Received: from [192.168.1.183] ([37.4.249.134]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MdeKd-1itO2w3eCH-00Zezh; Sat, 25 Apr 2020 22:54:23 +0200
-Subject: Re: [PATCH v2 91/91] ARM: dts: bcm2711: Enable the display pipeline
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M6ltQ-1jYWHr3B4I-008Fcf; Sat, 25 Apr 2020 23:06:53 +0200
+Subject: Re: [PATCH v2 72/91] drm/vc4: hdmi: Introduce resource init and
+ variant
 To: Maxime Ripard <maxime@cerno.tech>,
  Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
 References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
- <7e7941611dad8106e5d9b03eeae06a6aefc0772c.1587742492.git-series.maxime@cerno.tech>
+ <bd51e33da59982e041b1e800d006cd7514b17bb8.1587742492.git-series.maxime@cerno.tech>
 From: Stefan Wahren <stefan.wahren@i2se.com>
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
@@ -152,31 +153,31 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
  bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
  LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <aba321ef-16fa-4f9b-a3a6-47b394daeac2@i2se.com>
-Date: Sat, 25 Apr 2020 22:54:22 +0200
+Message-ID: <43cca862-01cc-119d-4a1b-4aa31ec88a04@i2se.com>
+Date: Sat, 25 Apr 2020 23:06:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <7e7941611dad8106e5d9b03eeae06a6aefc0772c.1587742492.git-series.maxime@cerno.tech>
+In-Reply-To: <bd51e33da59982e041b1e800d006cd7514b17bb8.1587742492.git-series.maxime@cerno.tech>
 Content-Language: en-US
-X-Provags-ID: V03:K1:GDRbrGdJVY163F7fxNYuIluXEa17VcgTa6mejQjKbDsE5jXOpVY
- ENMlaupND2H6f9ciXRTV7AQ225sWWN+KIMjTiisPkcfrq1+rA609nMsQSdr1L2tplMo6+x7
- VbZpLyqGk1lXXRW51uWzuJt0cE4h2Q4rUJG3Wgd7rjYNVyYqKTjFmmGQEKPFZcXRSkKIam4
- fM3TH0UDbBaJZQPTK3qiQ==
+X-Provags-ID: V03:K1:bMs3TYKuxLxEURRo/UyHRWmEfYydckCtkUoN3hhpFznKNqplb5i
+ /qLeG/p/TWsM1kEN3tXq4tnZxoec0PujKLsD3saQMSRkLdBDhEkuuOyOz1jE2pHGd6cL4KR
+ TkTWjcXgt6GEKzxHV/mWFNSJqDPA/Kp+HJclO19WZDBVTnhgW6C5bH8/LUr0wszHu0toEJ4
+ 7NnPYyZExfRzv/z4Ir4Cw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:o3je6TsK+6E=:5i+SL8BAhtz7gc+qeV7ugg
- sFkhHzJtC+iBFqc2+/u2TKEEm/7QSz5jCLP5i/AtyAcgasMeAdSnmwekzoIcFIIFZg/7wB8PH
- aoOy06F/FGaoEIyFRsUwX2GAWIhob1q8sA68VdX+Zu51X2u5xe7Cx4pbjzXgig/EK4ngfTTxM
- mKD65pCdwG9S705kZY/fH/+91oINSvSyGjXIuwlveOETLDzl9LlSTrFOdGwjHJz46IxwmgGnd
- gddfw1lFEhiMjNLb96ZyuqP5vBxUiX/AV9pZ9lVFMg3KK7rToho7dotDrG1jLdXqMB+U5bHXk
- Rf+PZwCgK++aiuwwVkxzF55RJv3tpT3jj1v+YIMI9or8xP2CGgraJo5QVz1OSQ04LFP0py1dk
- IOS1rb6jTlKn1+UqwNJZU7n4R/IZpHK31waXiMgNs/mP7x9Osm3wTIMXdprSRwzpdCIPWMCo/
- LDv1ciWZLxb2qNdCtp+xv4HpO61nyyL3VYH8XMGTmShFYZsTVAgm+q7WRRFJ+Ln0YNOZrR7un
- s0NKQZnezixTleLFI+tf5Awk0eyanPjjuIIx4yJdqS9b/4CG5FA1PwgF1Mj9VrULyD2ICdrgq
- f+j5lpFsgp1/CI+/FD5cVtojFqv3XycuFcIvzMf+sCr2ePV/QmR5s3HTEWSVulqhF4mTKVhVV
- IOUfcxwLEbJj31DPK4mLYWVbDzSENiooWgK3i1lIUqk6kfTfYX91xvxj0xfns4KHhT8ea00wc
- 0kVT8dcvFVrrsHsRfayUtFqlGOFyG4dIf0tq9JPTZyqhpN/zwI91QvfBhip7u2IwXNjjP/CE7
- 4maAPIBjx/VUgTLwSnr/Aef89HsDNvSYw8zCxrhM74azDINFUw/L2da5/g5eqwLi/wlhtQo
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aHzAJcWt92M=:gjAiabGlO+6SlnxyXuVc3o
+ 8+inCETOYuoN84YTrgjrHndKvzu5BsOHNFJ8NIsRctId4X8gGgnqR5xWXom4x38elBlikWO3Y
+ 2MtwBirRY0HNs5nmAV9iN4m9amficmpgoB6VNj4NJwVZr1bfdva8bH0PaFCIRdGIpci+eYh2p
+ ToOFnLjEiLhjETbH4wfKmzHh89abN4Ngm+iluguE+EjdY9i/vrRWiajFJ6jeFdC/v8L7oHO0o
+ wYe3fK6l6u8oQiUYUxkhWgZbAE+/yLuMCmt1mYUuXMD6dnOO43fUKMXbDaWAgReOEKE+KJSmZ
+ Vmis5LMCpXA4GMAoMXVfk/Fv30XwMJ4lbeyXGELHb91AZZsrrzS/Bb6dNBPJtc/PJUpnlwVoG
+ kNbIOyXasL6su1oVveqtQnz5lpiBWTVhJTLeSN3Qdr9TW2acG5eJUViaWu6gSAzNHMmqLw0Br
+ trXKKM9GPVVlrV1VbWU1nd6FDIAS6TgoN2BHe7vTdECy4QUMjhPgDzUv5jY/Pke4O320ZaYwQ
+ QabBjtQxhdPq1lIufsW91ibtnodWhwUMNAhw6Wba3iQdAeV2jrxhUZhnfZ0BIti5eYH0Z+HYB
+ g5t/7t/exg+uQr2SldpF06odWf7ny0L6wlGI+ndSv3ljlub7SeOVVHunhWj4IR1ERSjt2vego
+ EcC843tLOTQe7shRfGRcoh+Ye45d1mmy10gLof11hokPRy4KeV0Nk5tolGhwZqdM0Rsh2zHla
+ OQyDkptETw72Gic9saz1goJv+fKniR4DFpJ7xtqy9yVY957A2uWl/7ebZYhnrTQvAXlTgvRS4
+ GV7wuW/pueBTSv1YcpgMcyejMd4wFh8eUZ3xJpecrMZM2YCpkVZlqx9xa/hZ4kka9F2ToLQ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -194,101 +195,73 @@ Cc: Tim Gover <tim.gover@raspberrypi.com>,
  dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
  linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
  linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-Am 24.04.20 um 17:35 schrieb Maxime Ripard:
-> Now that all the drivers have been adjusted for it, let's bring in the
-> necessary device tree changes.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  arch/arm/boot/dts/bcm2711-rpi-4-b.dts |  46 +++++++++++-
->  arch/arm/boot/dts/bcm2711.dtsi        | 115 ++++++++++++++++++++++++++-
->  2 files changed, 160 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-> index 3205d2dfa898..0efbc4412dc9 100644
-> --- a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-> +++ b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-> @@ -220,3 +220,49 @@
->  &vchiq {
->  	interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
->  };
-> +
-> +&vc4 {
-> +	status = "okay";
-> +};
-> +
-> +&pixelvalve0 {
-> +	status = "okay";
-> +};
-> +
-> +&pixelvalve1 {
-> +	status = "okay";
-> +};
-> +
-> +&pixelvalve2 {
-> +	status = "okay";
-> +};
-> +
-> +&pixelvalve3 {
-> +	status = "okay";
-> +};
-> +
-> +&pixelvalve4 {
-> +	status = "okay";
-> +};
-> +
-> +&hdmi0 {
-> +	clocks = <&firmware_clocks 13>, <&dvp 0>;
-> +	status = "okay";
-> +};
-> +
-> +&ddc0 {
-> +	status = "okay";
-> +};
-> +
-> +&hdmi1 {
-> +	clocks = <&firmware_clocks 13>, <&dvp 1>;
-> +	status = "okay";
-> +};
-> +
-> +&ddc1 {
-> +	status = "okay";
-> +};
-> +
-> +&hvs {
-> +	clocks = <&firmware_clocks 4>;
-> +};
-> diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-> index 00bcaed1be32..a6549fa6e62b 100644
-> --- a/arch/arm/boot/dts/bcm2711.dtsi
-> +++ b/arch/arm/boot/dts/bcm2711.dtsi
-> @@ -12,6 +12,11 @@
->  
->  	interrupt-parent = <&gicv2>;
->  
-...
-> +
-> +		ddc0: i2c@7ef04500 {
-> +			compatible = "brcm,bcm2711-hdmi-i2c";
-> +			reg = <0x7ef04500 0x100>, <0x7ef00b00 0x300>;
-> +			reg-names = "bsc", "auto-i2c";
-> +			clock-frequency = <390000>;
-
-according to a patch [1] from Dave Stevenson the i2c clock frequencies
-are too high.
-
-[1] -
-https://github.com/raspberrypi/linux/pull/3515/commits/c09f108de27e8bd1995e7713c6128fa79e69579a
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTWF4aW1lLAoKQW0gMjQuMDQuMjAgdW0gMTc6MzQgc2NocmllYiBNYXhpbWUgUmlwYXJkOgo+
+IFRoZSBIRE1JIGNvbnRyb2xsZXJzIGZvdW5kIGluIHRoZSBCQ00yNzExIGhhcyBhIHByZXR0eSBk
+aWZmZXJlbnQgY2xvY2sgYW5kCj4gcmVnaXN0ZXJzIGFyZWFzIHRoYW4gZm91bmQgaW4gdGhlIG9s
+ZGVyIEJDTTI4M3ggU29Dcy4KPgo+IExldCdzIGNyZWF0ZSBhIHZhcmlhbnQgc3RydWN0dXJlIHRv
+IHN0b3JlIHRoZSB2YXJpb3VzIGFkanVzdG1lbnRzIHdlJ2xsCj4gbmVlZCBsYXRlciBvbiwgYW5k
+IGEgZnVuY3Rpb24gdG8gZ2V0IHRoZSByZXNvdXJjZXMgbmVlZGVkIGZvciBvbmUKPiBwYXJ0aWN1
+bGFyIHZlcnNpb24uCj4KPiBTaWduZWQtb2ZmLWJ5OiBNYXhpbWUgUmlwYXJkIDxtYXhpbWVAY2Vy
+bm8udGVjaD4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jIHwgNjcgKysr
+KysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL3ZjNC92
+YzRfaGRtaS5oIHwgMTAgKysrKystCj4gIDIgZmlsZXMgY2hhbmdlZCwgNTQgaW5zZXJ0aW9ucygr
+KSwgMjMgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZjNC92
+YzRfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jCj4gaW5kZXggZWVhZWEy
+YWQ0NmZhLi41ZjU5NDMzNzA5ODIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZjNC92
+YzRfaGRtaS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jCj4gQEAgLTEx
+ODYsMzggKzExODYsMjMgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBjZWNfYWRhcF9vcHMgdmM0X2hk
+bWlfY2VjX2FkYXBfb3BzID0gewo+ICB9Owo+ICAjZW5kaWYKPiAgCj4gLXN0YXRpYyBpbnQgdmM0
+X2hkbWlfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3Rlciwgdm9p
+ZCAqZGF0YSkKPiArc3RhdGljIGludCB2YzRfaGRtaV9pbml0X3Jlc291cmNlcyhzdHJ1Y3QgdmM0
+X2hkbWkgKnZjNF9oZG1pKQo+ICB7Cj4gLSNpZmRlZiBDT05GSUdfRFJNX1ZDNF9IRE1JX0NFQwo+
+IC0Jc3RydWN0IGNlY19jb25uZWN0b3JfaW5mbyBjb25uX2luZm87Cj4gLSNlbmRpZgo+IC0Jc3Ry
+dWN0IHBsYXRmb3JtX2RldmljZSAqcGRldiA9IHRvX3BsYXRmb3JtX2RldmljZShkZXYpOwo+IC0J
+c3RydWN0IGRybV9kZXZpY2UgKmRybSA9IGRldl9nZXRfZHJ2ZGF0YShtYXN0ZXIpOwo+IC0Jc3Ry
+dWN0IHZjNF9oZG1pICp2YzRfaGRtaTsKPiAtCXN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlcjsK
+PiAtCXN0cnVjdCBkZXZpY2Vfbm9kZSAqZGRjX25vZGU7Cj4gLQl1MzIgdmFsdWU7Cj4gLQlpbnQg
+cmV0Owo+IC0KPiAtCXZjNF9oZG1pID0gZGV2bV9remFsbG9jKGRldiwgc2l6ZW9mKCp2YzRfaGRt
+aSksIEdGUF9LRVJORUwpOwo+IC0JaWYgKCF2YzRfaGRtaSkKPiAtCQlyZXR1cm4gLUVOT01FTTsK
+PiAtCj4gLQl2YzRfaGRtaS0+cGRldiA9IHBkZXY7Cj4gLQllbmNvZGVyID0gJnZjNF9oZG1pLT5l
+bmNvZGVyLmJhc2UuYmFzZTsKPiAtCWVuY29kZXItPmJhc2UudHlwZSA9IFZDNF9FTkNPREVSX1RZ
+UEVfSERNSTA7Cj4gKwlzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2ID0gdmM0X2hkbWktPnBk
+ZXY7Cj4gKwlzdHJ1Y3QgZGV2aWNlICpkZXYgPSAmcGRldi0+ZGV2Owo+ICAKPiAgCXZjNF9oZG1p
+LT5oZG1pY29yZV9yZWdzID0gdmM0X2lvcmVtYXBfcmVncyhwZGV2LCAwKTsKPiAgCWlmIChJU19F
+UlIodmM0X2hkbWktPmhkbWljb3JlX3JlZ3MpKQo+ICAJCXJldHVybiBQVFJfRVJSKHZjNF9oZG1p
+LT5oZG1pY29yZV9yZWdzKTsKPiAgCj4gKwl2YzRfaGRtaS0+aGRtaV9yZWdzZXQuYmFzZSA9IHZj
+NF9oZG1pLT5oZG1pY29yZV9yZWdzOwo+ICsJdmM0X2hkbWktPmhkbWlfcmVnc2V0LnJlZ3MgPSBo
+ZG1pX3JlZ3M7Cj4gKwl2YzRfaGRtaS0+aGRtaV9yZWdzZXQubnJlZ3MgPSBBUlJBWV9TSVpFKGhk
+bWlfcmVncyk7Cj4gKwo+ICAJdmM0X2hkbWktPmhkX3JlZ3MgPSB2YzRfaW9yZW1hcF9yZWdzKHBk
+ZXYsIDEpOwo+ICAJaWYgKElTX0VSUih2YzRfaGRtaS0+aGRfcmVncykpCj4gIAkJcmV0dXJuIFBU
+Ul9FUlIodmM0X2hkbWktPmhkX3JlZ3MpOwo+ICAKPiAtCXZjNF9oZG1pLT5oZG1pX3JlZ3NldC5i
+YXNlID0gdmM0X2hkbWktPmhkbWljb3JlX3JlZ3M7Cj4gLQl2YzRfaGRtaS0+aGRtaV9yZWdzZXQu
+cmVncyA9IGhkbWlfcmVnczsKPiAtCXZjNF9oZG1pLT5oZG1pX3JlZ3NldC5ucmVncyA9IEFSUkFZ
+X1NJWkUoaGRtaV9yZWdzKTsKPiAgCXZjNF9oZG1pLT5oZF9yZWdzZXQuYmFzZSA9IHZjNF9oZG1p
+LT5oZF9yZWdzOwo+ICAJdmM0X2hkbWktPmhkX3JlZ3NldC5yZWdzID0gaGRfcmVnczsKPiAgCXZj
+NF9oZG1pLT5oZF9yZWdzZXQubnJlZ3MgPSBBUlJBWV9TSVpFKGhkX3JlZ3MpOwo+IEBAIC0xMjI3
+LDEyICsxMjEyLDQ0IEBAIHN0YXRpYyBpbnQgdmM0X2hkbWlfYmluZChzdHJ1Y3QgZGV2aWNlICpk
+ZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3Rlciwgdm9pZCAqZGF0YSkKPiAgCQlEUk1fRVJST1IoIkZh
+aWxlZCB0byBnZXQgcGl4ZWwgY2xvY2tcbiIpOwo+ICAJCXJldHVybiBQVFJfRVJSKHZjNF9oZG1p
+LT5waXhlbF9jbG9jayk7Cj4gIAl9Cj4gKwo+ICAJdmM0X2hkbWktPmhzbV9jbG9jayA9IGRldm1f
+Y2xrX2dldChkZXYsICJoZG1pIik7Cj4gIAlpZiAoSVNfRVJSKHZjNF9oZG1pLT5oc21fY2xvY2sp
+KSB7Cj4gIAkJRFJNX0VSUk9SKCJGYWlsZWQgdG8gZ2V0IEhETUkgc3RhdGUgbWFjaGluZSBjbG9j
+a1xuIik7Cj4gIAkJcmV0dXJuIFBUUl9FUlIodmM0X2hkbWktPmhzbV9jbG9jayk7Cj4gIAl9Cgpt
+b3ZpbmcgdGhlIFZDNCBzcGVjaWZpYyBIRE1JIGNvcmUgZW5hYmxpbmcgYXQgdGhpcyBwbGFjZSwg
+YXZvaWQgdGhlCndhcm5pbmcgInZjNF9oZG1pIGZlZjAwNzAwLmhkbWk6IFVua25vd24gcmVnaXN0
+ZXIgSUQgNDYiIG9uIHRoZSBCQ00yNzExClsxXS4gTm90IHN1cmUgdGhpcyBpcyBzYWZlLgoKK8Kg
+wqDCoMKgwqDCoCAvKiBIRE1JIGNvcmUgbXVzdCBiZSBlbmFibGVkLiAqLworwqDCoMKgwqDCoMKg
+IGlmICghKEhETUlfUkVBRChIRE1JX01fQ1RMKSAmIFZDNF9IRF9NX0VOQUJMRSkpIHsKK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgSERNSV9XUklURShIRE1JX01fQ1RMLCBWQzRfSERfTV9T
+V19SU1QpOworwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1ZGVsYXkoMSk7CivCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIEhETUlfV1JJVEUoSERNSV9NX0NUTCwgMCk7CisKK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgSERNSV9XUklURShIRE1JX01fQ1RMLCBWQzRfSERfTV9F
+TkFCTEUpOworwqDCoMKgwqDCoMKgIH0KClsxXSAtIGh0dHBzOi8vZ2l0aHViLmNvbS9yYXNwYmVy
+cnlwaS9saW51eC9wdWxsLzM1MTUjaXNzdWVjb21tZW50LTYwNjYyMzY1OAoKPiAgCj4gKwlyZXR1
+cm4gMDsKPiArfQo+ICsKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
