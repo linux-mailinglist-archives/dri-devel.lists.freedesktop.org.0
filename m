@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE381B871A
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 16:39:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 937F81B871D
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Apr 2020 16:40:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E9826E1DE;
-	Sat, 25 Apr 2020 14:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AAB06E1B9;
+	Sat, 25 Apr 2020 14:40:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F00D6E1DE
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Apr 2020 14:39:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 695516E1B9
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Apr 2020 14:40:11 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 71B2720070;
- Sat, 25 Apr 2020 16:39:15 +0200 (CEST)
-Date: Sat, 25 Apr 2020 16:39:13 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 67C242007C;
+ Sat, 25 Apr 2020 16:40:08 +0200 (CEST)
+Date: Sat, 25 Apr 2020 16:40:06 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Zheng Bin <zhengbin13@huawei.com>
-Subject: Re: [PATCH] drm/panel: Remove unneeded semicolon
-Message-ID: <20200425143913.GA32235@ravnborg.org>
-References: <20200424080224.30763-1-zhengbin13@huawei.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCHv2 0/3] Add multiple AUO panels
+Message-ID: <20200425144006.GB32235@ravnborg.org>
+References: <20200415172725.84257-1-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200424080224.30763-1-zhengbin13@huawei.com>
+In-Reply-To: <20200415172725.84257-1-sebastian.reichel@collabora.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=i0EeH86SAAAA:8 a=e5mUnYsNAAAA:8
- a=hZ2jxDHrqJRjTNfcFRUA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=KIFCHchCShzuCEW-doMA:9
+ a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,57 +44,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, thierry.reding@gmail.com, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ kernel@collabora.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zheng
+Hi Sebastian.
 
-On Fri, Apr 24, 2020 at 04:02:24PM +0800, Zheng Bin wrote:
-> Fixes coccicheck warning:
+On Wed, Apr 15, 2020 at 07:27:22PM +0200, Sebastian Reichel wrote:
+> Hi,
 > 
-> drivers/gpu/drm/panel/panel-ilitek-ili9322.c:382:2-3: Unneeded semicolon
-> drivers/gpu/drm/panel/panel-ilitek-ili9322.c:391:2-3: Unneeded semicolon
+> Patches are more or less independent of each other. There
+> was a previous version for the 12" and 15" panels, which
+> was missing the DT binding update. The 19" patch is new,
+> for the previous 10" panel a different patch has been merged
+> in the meantime.
 > 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zheng Bin <zhengbin13@huawei.com>
+> -- Sebastian
+> 
+> Sebastian Reichel (3):
+>   drm/panel: simple: Add support for AUO G190EAN01 panel
+>   drm/panel: simple: Add support for AUO G156XTN01.0 panel
+>   drm/panel: simple: Add support for AUO G121EAN01.4 panel
 
-Applied to drm-misc-next, so it will be included in the mainline
-kernel in the next merge window.
+Applied to drm-misc-next.
 
-Thanks,
 	Sam
 
-> ---
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-> index 09935520e606..873b1c7059bd 100644
-> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-> @@ -379,7 +379,7 @@ static int ili9322_init(struct drm_panel *panel, struct ili9322 *ili)
->  				"can't set up VCOM amplitude (%d)\n", ret);
->  			return ret;
->  		}
-> -	};
-> +	}
+>  .../bindings/display/panel/panel-simple.yaml  |  6 ++
+>  drivers/gpu/drm/panel/panel-simple.c          | 89 +++++++++++++++++++
+>  2 files changed, 95 insertions(+)
 > 
->  	if (ili->vcom_high != U8_MAX) {
->  		ret = regmap_write(ili->regmap, ILI9322_VCOM_HIGH,
-> @@ -388,7 +388,7 @@ static int ili9322_init(struct drm_panel *panel, struct ili9322 *ili)
->  			dev_err(ili->dev, "can't set up VCOM high (%d)\n", ret);
->  			return ret;
->  		}
-> -	};
-> +	}
-> 
->  	/* Set up gamma correction */
->  	for (i = 0; i < ARRAY_SIZE(ili->gamma); i++) {
-> --
-> 2.26.0.106.g9fadedd
+> -- 
+> 2.25.1
 > 
 > _______________________________________________
 > dri-devel mailing list
