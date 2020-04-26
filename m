@@ -1,33 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3651B984B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 09:22:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 830A41B9867
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 09:22:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5930789CC1;
-	Mon, 27 Apr 2020 07:21:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6066E0BE;
+	Mon, 27 Apr 2020 07:22:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7240F89E98
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 18:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1587927554; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lozQm5cUkRzX/D1RhqthQ7AWiCa273YjHW3E+nR6jsg=;
- b=vSPLGrslCbSH7fxxJOBgw8RSrDw5vKfyWZZT1Kmj2ygGh2g0ssvW60J8xqVN5HdVI31Uqd
- HEw0PZ0VI2xNa8hOnYoljwGsrPfXVdDqqxq6NAVGayyep9litDT7N3YSWrhSbQULBktX6p
- Y8t+pvrKjD7VKryZ5eF3cY5DY93rmIU=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 8/8] dt-bindings: display: Convert ingenic,lcd.txt to YAML
-Date: Sun, 26 Apr 2020 20:58:56 +0200
-Message-Id: <20200426185856.38826-8-paul@crapouillou.net>
-In-Reply-To: <20200426185856.38826-1-paul@crapouillou.net>
-References: <20200426185856.38826-1-paul@crapouillou.net>
+Received: from smtp.smtpout.orange.fr (smtp06.smtpout.orange.fr
+ [80.12.242.128])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28A8E89CAA
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 19:16:36 +0000 (UTC)
+Received: from localhost.localdomain ([93.23.12.11]) by mwinf5d64 with ME
+ id XXGZ220060EJ3pp03XGZe2; Sun, 26 Apr 2020 21:16:34 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 26 Apr 2020 21:16:34 +0200
+X-ME-IP: 93.23.12.11
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: thierry.reding@gmail.com
+Subject: [PATCH] gpu: host1x: Clean up debugfs in error handling path in
+ 'host1x_probe()'
+Date: Sun, 26 Apr 2020 21:16:30 +0200
+Message-Id: <20200426191630.41290-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 27 Apr 2020 07:21:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -42,203 +40,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?=E5=91=A8=E7=90=B0=E6=9D=B0?= <zhouyanjie@wanyeetech.com>,
- Paul Cercueil <paul@crapouillou.net>, linux-gpio@vger.kernel.org, od@zcrc.me,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-clk@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the ingenic,lcd.txt to a new ingenic,lcd.yaml file.
+'host1x_debug_init()' must be reverted in an error handling path.
 
-In the process, the new ingenic,jz4780-lcd compatible string has been
-added.
+This is already fixed in the remove function since commit 44156eee91ba
+("gpu: host1x: Clean up debugfs on removal")
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- .../bindings/display/ingenic,lcd.txt          |  45 -------
- .../bindings/display/ingenic,lcd.yaml         | 113 ++++++++++++++++++
- 2 files changed, 113 insertions(+), 45 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/ingenic,lcd.txt
- create mode 100644 Documentation/devicetree/bindings/display/ingenic,lcd.yaml
+ drivers/gpu/host1x/dev.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/ingenic,lcd.txt b/Documentation/devicetree/bindings/display/ingenic,lcd.txt
-deleted file mode 100644
-index 01e3261defb6..000000000000
---- a/Documentation/devicetree/bindings/display/ingenic,lcd.txt
-+++ /dev/null
-@@ -1,45 +0,0 @@
--Ingenic JZ47xx LCD driver
--
--Required properties:
--- compatible: one of:
--  * ingenic,jz4740-lcd
--  * ingenic,jz4725b-lcd
--  * ingenic,jz4770-lcd
--- reg: LCD registers location and length
--- clocks: LCD pixclock and device clock specifiers.
--	   The device clock is only required on the JZ4740.
--- clock-names: "lcd_pclk" and "lcd"
--- interrupts: Specifies the interrupt line the LCD controller is connected to.
--
--Example:
--
--panel {
--	compatible = "sharp,ls020b1dd01d";
--
--	backlight = <&backlight>;
--	power-supply = <&vcc>;
--
--	port {
--		panel_input: endpoint {
--			remote-endpoint = <&panel_output>;
--		};
--	};
--};
--
--
--lcd: lcd-controller@13050000 {
--	compatible = "ingenic,jz4725b-lcd";
--	reg = <0x13050000 0x1000>;
--
--	interrupt-parent = <&intc>;
--	interrupts = <31>;
--
--	clocks = <&cgu JZ4725B_CLK_LCD>;
--	clock-names = "lcd";
--
--	port {
--		panel_output: endpoint {
--			remote-endpoint = <&panel_input>;
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/display/ingenic,lcd.yaml b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
-new file mode 100644
-index 000000000000..8e9c851dc7c5
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
-@@ -0,0 +1,113 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/ingenic,lcd.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Ingenic SoCs LCD controller devicetree bindings
-+
-+maintainers:
-+  - Paul Cercueil <paul@crapouillou.net>
-+
-+properties:
-+  $nodename:
-+    pattern: "^lcd-controller@[0-9a-f]+$"
-+
-+  compatible:
-+    enum:
-+      - ingenic,jz4740-lcd
-+      - ingenic,jz4725b-lcd
-+      - ingenic,jz4770-lcd
-+      - ingenic,jz4780-lcd
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Module clock
-+      - description: Pixel clock
-+    minItems: 1
-+
-+  clock-names:
-+    items:
-+      - const: lcd
-+      - const: lcd_pclk
-+    minItems: 1
-+
-+  port:
-+    type: object
-+    description:
-+      A port node with endpoint definitions as defined in
-+      Documentation/devicetree/bindings/media/video-interfaces.txt
-+
-+required:
-+    - compatible
-+    - reg
-+    - interrupts
-+    - clocks
-+    - clock-names
-+
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - ingenic,jz4740-lcd
-+          - ingenic,jz4780-lcd
-+then:
-+  properties:
-+    clocks:
-+      minItems: 2
-+    clock-names:
-+      minItems: 2
-+else:
-+  properties:
-+    clocks:
-+      maxItems: 1
-+    clock-names:
-+      maxItems: 1
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/jz4740-cgu.h>
-+    lcd-controller@13050000 {
-+      compatible = "ingenic,jz4740-lcd";
-+      reg = <0x13050000 0x1000>;
-+
-+      interrupt-parent = <&intc>;
-+      interrupts = <30>;
-+
-+      clocks = <&cgu JZ4740_CLK_LCD>, <&cgu JZ4740_CLK_LCD_PCLK>;
-+      clock-names = "lcd", "lcd_pclk";
-+
-+      port {
-+        endpoint {
-+          remote-endpoint = <&panel_input>;
-+        };
-+      };
-+    };
-+
-+  - |
-+    #include <dt-bindings/clock/jz4725b-cgu.h>
-+    lcd-controller@13050000 {
-+      compatible = "ingenic,jz4725b-lcd";
-+      reg = <0x13050000 0x1000>;
-+
-+      interrupt-parent = <&intc>;
-+      interrupts = <31>;
-+
-+      clocks = <&cgu JZ4725B_CLK_LCD>;
-+      clock-names = "lcd";
-+
-+      port {
-+        endpoint {
-+          remote-endpoint = <&panel_input>;
-+        };
-+      };
-+    };
+diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+index 388bcc2889aa..be46554968af 100644
+--- a/drivers/gpu/host1x/dev.c
++++ b/drivers/gpu/host1x/dev.c
+@@ -435,6 +435,7 @@ static int host1x_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ deinit_intr:
++	host1x_debug_deinit(host);
+ 	host1x_intr_deinit(host);
+ deinit_syncpt:
+ 	host1x_syncpt_deinit(host);
 -- 
-2.26.2
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
