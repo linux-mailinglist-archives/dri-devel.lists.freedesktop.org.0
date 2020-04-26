@@ -2,39 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED98A1B910C
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Apr 2020 17:03:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A3B1B985F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 09:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F47D89C83;
-	Sun, 26 Apr 2020 15:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76C3889F31;
+	Mon, 27 Apr 2020 07:21:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A39489C61;
- Sun, 26 Apr 2020 15:03:45 +0000 (UTC)
-Received: from localhost (unknown [137.135.114.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 83D41206D4;
- Sun, 26 Apr 2020 15:03:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587913424;
- bh=OYn9EWDsVU0Gxpi78Ra8Eo9cK7lzLOzy03OcHbfFtnQ=;
- h=Date:From:To:To:To:To:Cc:Cc:Cc:Subject:In-Reply-To:References:
- From;
- b=NtpEXsYMmivgdHCEOTZCHgD7mE0XdzGYDOC9R298tbghWRP+yS+3qGjxHJjW7UaIK
- nmfK4B6dBDhFSW43zuRyPJkH2jPSeUKPtUSIKAM8xOZrPChtKzyEDwRQz9CltKYQ/9
- QNud9WCKM+4w7m6KJZAdlhAAZoxWGfJxp4TonIn4=
-Date: Sun, 26 Apr 2020 15:03:43 +0000
-From: Sasha Levin <sashal@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: Ville Syrjälä <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/edid: Fix off-by-one in DispID DTD pixel clock
-In-Reply-To: <20200423151743.18767-1-ville.syrjala@linux.intel.com>
-References: <20200423151743.18767-1-ville.syrjala@linux.intel.com>
-Message-Id: <20200426150344.83D41206D4@mail.kernel.org>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51B3989C33
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 16:17:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 6771C2612F5
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/rockchip: cdn-dp-core: Make cdn_dp_core_suspend/resume
+ static
+Date: Sun, 26 Apr 2020 18:16:53 +0200
+Message-Id: <20200426161653.7710-1-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+X-Mailman-Approved-At: Mon, 27 Apr 2020 07:21:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,42 +36,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-[This is an automated email]
-
-This commit has been processed because it contains a -stable tag.
-The stable tag indicates that it's relevant for the following trees: all
-
-The bot has tested the following trees: v5.6.7, v5.4.35, v4.19.118, v4.14.177, v4.9.220, v4.4.220.
-
-v5.6.7: Build OK!
-v5.4.35: Build OK!
-v4.19.118: Build OK!
-v4.14.177: Build OK!
-v4.9.220: Build OK!
-v4.4.220: Failed to apply! Possible dependencies:
-    3a4a2ea39f86 ("drm/displayid: Iterate over all DisplayID blocks")
-    5e546cd5b3bc ("drm/edid: move displayid tiled block parsing into separate function.")
-    a39ed680bddb ("drm/edid: add displayid detailed 1 timings to the modelist. (v1.1)")
-    c97291774c1b ("drm/edid: move displayid validation to it's own function.")
-
-
-NOTE: The patch will not be queued to stable trees until it is upstream.
-
-How should we proceed with this patch?
-
--- 
-Thanks
-Sasha
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBmaXhlcyB0aGUgZm9sbG93aW5nIHdhcm5pbmcgZGV0ZWN0ZWQgd2hlbiBydW5uaW5nIG1h
+a2Ugd2l0aCBXPTEKCiAgICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvL2Nkbi1kcC1jb3JlLmM6
+MTExMjo1OiB3YXJuaW5nOiBubyBwcmV2aW91cwogICAgcHJvdG90eXBlIGZvciDigJhjZG5fZHBf
+c3VzcGVuZOKAmSBbLVdtaXNzaW5nLXByb3RvdHlwZXNdCgogICAgZHJpdmVycy9ncHUvZHJtL3Jv
+Y2tjaGlwLy9jZG4tZHAtY29yZS5jOjExMjY6NTogd2FybmluZzogbm8gcHJldmlvdXMKICAgIHBy
+b3RvdHlwZSBmb3Ig4oCYY2RuX2RwX3Jlc3VtZeKAmSBbLVdtaXNzaW5nLXByb3RvdHlwZXNdCgpT
+aWduZWQtb2ZmLWJ5OiBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIDxlbnJpYy5iYWxsZXRib0Bjb2xs
+YWJvcmEuY29tPgotLS0KCiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvY2RuLWRwLWNvcmUuYyB8
+IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkK
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvY2RuLWRwLWNvcmUuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9jZG4tZHAtY29yZS5jCmluZGV4IGVlZDU5NGJkMzhkMy4u
+NGZhMDBhZjg5Y2NhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvY2RuLWRw
+LWNvcmUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvY2RuLWRwLWNvcmUuYwpAQCAt
+MTEwOSw3ICsxMTA5LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBjb21wb25lbnRfb3BzIGNkbl9k
+cF9jb21wb25lbnRfb3BzID0gewogCS51bmJpbmQgPSBjZG5fZHBfdW5iaW5kLAogfTsKIAotaW50
+IGNkbl9kcF9zdXNwZW5kKHN0cnVjdCBkZXZpY2UgKmRldikKK3N0YXRpYyBpbnQgY2RuX2RwX3N1
+c3BlbmQoc3RydWN0IGRldmljZSAqZGV2KQogewogCXN0cnVjdCBjZG5fZHBfZGV2aWNlICpkcCA9
+IGRldl9nZXRfZHJ2ZGF0YShkZXYpOwogCWludCByZXQgPSAwOwpAQCAtMTEyMyw3ICsxMTIzLDcg
+QEAgaW50IGNkbl9kcF9zdXNwZW5kKHN0cnVjdCBkZXZpY2UgKmRldikKIAlyZXR1cm4gcmV0Owog
+fQogCi1pbnQgY2RuX2RwX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpkZXYpCitzdGF0aWMgaW50IGNk
+bl9kcF9yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQogewogCXN0cnVjdCBjZG5fZHBfZGV2aWNl
+ICpkcCA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOwogCi0tIAoyLjI2LjIKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
