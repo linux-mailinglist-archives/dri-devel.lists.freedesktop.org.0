@@ -2,62 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C8A1B8FE3
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Apr 2020 14:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2ACD1B8B99
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Apr 2020 05:11:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 805966E2C7;
-	Sun, 26 Apr 2020 12:35:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C98B6E4AA;
+	Sun, 26 Apr 2020 03:11:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D0526E49B
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 02:55:39 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id c21so4658170plz.4
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Apr 2020 19:55:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=asnsPXdyirP9oS05sJeDQpJdG3Yhu+JHcjQarVbK0gk=;
- b=m/42paNYk4bTJSAgkYwKRquaje4aOyqgds2AflCUcNPSom+nmtRb/rohJdbkyrAZ4j
- a/l5Y+caMeCjIuX8q3HTHuO9b3BvriFmpwynhXu3NQF9jj0We7IQyTxjFay4RnVe7V7N
- i+YDgva5XOg2biHHGXlRV4FhkmvzojIDkj4DPNKiji/EIIMl8aw7Tq9PWMW621z/RLsS
- 5pMr9tQOILDYQYcetoAwwQtza6Dyjr6geiaoh4grKc1QmGUWa0P3QZhQfWa7k3txGhZR
- 5xSMr7ts/QnFBm8Q9QNmM5L6GSWn+GzJurQPoSJCRna2qxlW5aSzFIYKR9BcS6xODzGH
- TzxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=asnsPXdyirP9oS05sJeDQpJdG3Yhu+JHcjQarVbK0gk=;
- b=mEF0P/GLLFIC7+CZQkQQYm2EkTUXsUILmq+LRWfTFktGo7YDVx1aXzz71YKBCBU6PN
- biHsUnMkWZvQwQTT1ZK/YBUW2BIrwgsQVLjyhSf0T1VdFO89J4+9Zj5uYm3ontc5PeoZ
- UuTOXyC4Paf/GYW/xnAzCkl9fhSjT+DI5mvQYNQs8s7DElMnlEm+U/DYvizecLTn8HV4
- aLymAmdkBqSn7cq2zVwWBK+W0tbZv164S8fqr46PBuh+0QF/Ni6xw/4iN55xpT/p8Qdy
- 7Fek75ZVEuNUjBv8OrzHaPjXNA916JlHA7d9Es9uOaatCHAlpSUCwqRa7OEcLB1BuiSt
- +LlQ==
-X-Gm-Message-State: AGi0PuYaLGzU8g1RpGAP3zKFFpPm7f20U458w2sgEuQ4oP+YmwKbgFNN
- xcAq4XnxAOVfrMlpK7wPiTs=
-X-Google-Smtp-Source: APiQypK1GdDBLwOHRoHmSNhagXQufrO/V6jYWukUGGNElpFTa7XzOuwPiJ8w5GPxjpgKb04FkBxlKg==
-X-Received: by 2002:a17:90a:a40e:: with SMTP id
- y14mr16047402pjp.101.1587869739112; 
- Sat, 25 Apr 2020 19:55:39 -0700 (PDT)
-Received: from localhost ([176.122.158.64])
- by smtp.gmail.com with ESMTPSA id 79sm8037252pgd.62.2020.04.25.19.55.38
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sat, 25 Apr 2020 19:55:38 -0700 (PDT)
-Date: Sun, 26 Apr 2020 10:55:34 +0800
-From: Dejin Zheng <zhengdejin5@gmail.com>
-To: Markus Elfring <Markus.Elfring@web.de>
-Subject: Re: [PATCH v3] console: newport_con: fix an issue about leak related
- system resources
-Message-ID: <20200426025534.GA19252@nuc8i5>
-References: <20f37865-5af3-5fb9-8b8f-91f9464e4af3@web.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 712AC6E4AA
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 03:11:01 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 007602173E
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 03:11:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1587870661;
+ bh=5ufY2WNf1d+9zTXd2f3aMGdsxjO3ggnK7WB1Ct27mWo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=AoOgEJ/PCHpNCNceEnPC+l4jFraujO8GwZ54QALOYlUi1eslUYlJQgZFhAtDYYnI0
+ bCvLruNMB2ngmXYg3t5f5++qHEQG0q1JS7kqvHCkKNSF2AF2Vnr8A183mi/bzybxgf
+ /DcO8p2mpk5dVMyUGCfO9UZ3/lOPIOwXq7BD7iNk=
+Received: by mail-ed1-f50.google.com with SMTP id g16so10788261eds.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Apr 2020 20:11:00 -0700 (PDT)
+X-Gm-Message-State: AGi0PuY0qoftqODPGgQowLbQEB9QpoBEiFcXdBo/zDC0KkdR2Mn0XSx2
+ 0fPG8nz2aDGvdZvYMxI0LeWMgIfKPqkU1JyCmw==
+X-Google-Smtp-Source: APiQypKzGcK+rktzR+tfPW/JO9EwaomlqVHqX5FQ7TR3YoCZvSXlsx8Rq/Mgm42CxzCH2NCu/qfo70XhLlXeJ46XxG8=
+X-Received: by 2002:aa7:c649:: with SMTP id z9mr14002618edr.288.1587870659255; 
+ Sat, 25 Apr 2020 20:10:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20f37865-5af3-5fb9-8b8f-91f9464e4af3@web.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Sun, 26 Apr 2020 12:35:16 +0000
+References: <20200226112723.649954-1-enric.balletbo@collabora.com>
+In-Reply-To: <20200226112723.649954-1-enric.balletbo@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sun, 26 Apr 2020 11:10:48 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9tfwd-cqxkwUWXM-B7vuLZoKjF6DhFgZZM3QZp1pmCAg@mail.gmail.com>
+Message-ID: <CAAOTY_9tfwd-cqxkwUWXM-B7vuLZoKjF6DhFgZZM3QZp1pmCAg@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: Remove debug messages for function calls
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,49 +53,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Morton <akpm@osdl.org>, linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Collabora Kernel ML <kernel@collabora.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 24, 2020 at 06:54:41PM +0200, Markus Elfring wrote:
-> > The corresponding system resources were not released then.
-> 
-> How do you think about a wording variant like the following?
->
-Markus, I think my commit comments is a sufficiently clear description
-for this patch. Someone has told me not to send commit comments again
-and again when it is enough clear. Because it only wastes the precious
-time of the maintainer and very very little help for patch improvement.
-
-BTW, In the past week, you asked me to change the commit comments in my
-6 patches like this one. Let me return to the essence of patch, point
-out the code problems and better solutions will be more popular.
-
->    Subject:
->    [PATCH v4] console: newport_con: Fix incomplete releasing of system resources
-> 
->    Change description:
->    * A call of the function do_take_over_console() can fail here.
->      The corresponding system resources were not released then.
->      Thus add a call of iounmap() and release_mem_region()
->      together with the check of a failure predicate.
-> 
->    * Add also a call of release_mem_region() for the completion
->      of resource clean-up on device removal.
-> 
-> 
-> It can be nicer if all patch reviewers (including me) will be explicitly specified
-> as recipients for such messages, can't it?
-> 
-> Regards,
-> Markus
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEVucmljOgoKRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMuYmFsbGV0Ym9AY29sbGFi
+b3JhLmNvbT4g5pa8IDIwMjDlubQy5pyIMjbml6Ug6YCx5LiJIOS4i+WNiDc6Mjflr6vpgZPvvJoK
+Pgo+IEVxdWl2YWxlbnQgaW5mb3JtYXRpb24gY2FuIGJlIG5vd2FkYXlzIG9idGFpbmVkIHVzaW5n
+IGZ1bmN0aW9uIHRyYWNlci4KCkFwcGxpZWQgdG8gbWVkaWF0ZWstZHJtLW5leHQgWzFdLCB0aGFu
+a3MuCgpbMV0gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQv
+Y2h1bmt1YW5nLmh1L2xpbnV4LmdpdC9sb2cvP2g9bWVkaWF0ZWstZHJtLW5leHQKClJlZ2FyZHMs
+CkNodW4tS3VhbmcuCgo+Cj4gU2lnbmVkLW9mZi1ieTogRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8
+ZW5yaWMuYmFsbGV0Ym9AY29sbGFib3JhLmNvbT4KPiAtLS0KPgo+ICBkcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMgfCA1IC0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRp
+YXRlay9tdGtfZHJtX2Rydi5jICB8IDIgLS0KPiAgMiBmaWxlcyBjaGFuZ2VkLCA3IGRlbGV0aW9u
+cygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Ny
+dGMuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYwo+IGluZGV4IGEy
+MzY0OTkxMjNhYS4uODgyYzY5MGQzZjEzIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9t
+ZWRpYXRlay9tdGtfZHJtX2NydGMuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
+dGtfZHJtX2NydGMuYwo+IEBAIC0xOTIsNyArMTkyLDYgQEAgc3RhdGljIGludCBtdGtfY3J0Y19k
+ZHBfY2xrX2VuYWJsZShzdHJ1Y3QgbXRrX2RybV9jcnRjICptdGtfY3J0YykKPiAgICAgICAgIGlu
+dCByZXQ7Cj4gICAgICAgICBpbnQgaTsKPgo+IC0gICAgICAgRFJNX0RFQlVHX0RSSVZFUigiJXNc
+biIsIF9fZnVuY19fKTsKPiAgICAgICAgIGZvciAoaSA9IDA7IGkgPCBtdGtfY3J0Yy0+ZGRwX2Nv
+bXBfbnI7IGkrKykgewo+ICAgICAgICAgICAgICAgICByZXQgPSBjbGtfcHJlcGFyZV9lbmFibGUo
+bXRrX2NydGMtPmRkcF9jb21wW2ldLT5jbGspOwo+ICAgICAgICAgICAgICAgICBpZiAocmV0KSB7
+Cj4gQEAgLTIxMiw3ICsyMTEsNiBAQCBzdGF0aWMgdm9pZCBtdGtfY3J0Y19kZHBfY2xrX2Rpc2Fi
+bGUoc3RydWN0IG10a19kcm1fY3J0YyAqbXRrX2NydGMpCj4gIHsKPiAgICAgICAgIGludCBpOwo+
+Cj4gLSAgICAgICBEUk1fREVCVUdfRFJJVkVSKCIlc1xuIiwgX19mdW5jX18pOwo+ICAgICAgICAg
+Zm9yIChpID0gMDsgaSA8IG10a19jcnRjLT5kZHBfY29tcF9ucjsgaSsrKQo+ICAgICAgICAgICAg
+ICAgICBjbGtfZGlzYWJsZV91bnByZXBhcmUobXRrX2NydGMtPmRkcF9jb21wW2ldLT5jbGspOwo+
+ICB9Cj4gQEAgLTI1Nyw3ICsyNTUsNiBAQCBzdGF0aWMgaW50IG10a19jcnRjX2RkcF9od19pbml0
+KHN0cnVjdCBtdGtfZHJtX2NydGMgKm10a19jcnRjKQo+ICAgICAgICAgaW50IHJldDsKPiAgICAg
+ICAgIGludCBpOwo+Cj4gLSAgICAgICBEUk1fREVCVUdfRFJJVkVSKCIlc1xuIiwgX19mdW5jX18p
+Owo+ICAgICAgICAgaWYgKFdBUk5fT04oIWNydGMtPnN0YXRlKSkKPiAgICAgICAgICAgICAgICAg
+cmV0dXJuIC1FSU5WQUw7Cj4KPiBAQCAtMjk4LDcgKzI5NSw2IEBAIHN0YXRpYyBpbnQgbXRrX2Ny
+dGNfZGRwX2h3X2luaXQoc3RydWN0IG10a19kcm1fY3J0YyAqbXRrX2NydGMpCj4gICAgICAgICAg
+ICAgICAgIGdvdG8gZXJyX211dGV4X3VucHJlcGFyZTsKPiAgICAgICAgIH0KPgo+IC0gICAgICAg
+RFJNX0RFQlVHX0RSSVZFUigibWVkaWF0ZWtfZGRwX2RkcF9wYXRoX3NldHVwXG4iKTsKPiAgICAg
+ICAgIGZvciAoaSA9IDA7IGkgPCBtdGtfY3J0Yy0+ZGRwX2NvbXBfbnIgLSAxOyBpKyspIHsKPiAg
+ICAgICAgICAgICAgICAgbXRrX2RkcF9hZGRfY29tcF90b19wYXRoKG10a19jcnRjLT5jb25maWdf
+cmVncywKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG10a19jcnRj
+LT5kZHBfY29tcFtpXS0+aWQsCj4gQEAgLTM0OCw3ICszNDQsNiBAQCBzdGF0aWMgdm9pZCBtdGtf
+Y3J0Y19kZHBfaHdfZmluaShzdHJ1Y3QgbXRrX2RybV9jcnRjICptdGtfY3J0YykKPiAgICAgICAg
+IHN0cnVjdCBkcm1fY3J0YyAqY3J0YyA9ICZtdGtfY3J0Yy0+YmFzZTsKPiAgICAgICAgIGludCBp
+Owo+Cj4gLSAgICAgICBEUk1fREVCVUdfRFJJVkVSKCIlc1xuIiwgX19mdW5jX18pOwo+ICAgICAg
+ICAgZm9yIChpID0gMDsgaSA8IG10a19jcnRjLT5kZHBfY29tcF9ucjsgaSsrKSB7Cj4gICAgICAg
+ICAgICAgICAgIG10a19kZHBfY29tcF9zdG9wKG10a19jcnRjLT5kZHBfY29tcFtpXSk7Cj4gICAg
+ICAgICAgICAgICAgIGlmIChpID09IDEpCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9t
+ZWRpYXRlay9tdGtfZHJtX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1f
+ZHJ2LmMKPiBpbmRleCAxN2YxMThlZTBlNTcuLjQ5MzQ4MzQ5NzdiMyAxMDA2NDQKPiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jCj4gQEAgLTU3MCw3ICs1NzAsNiBAQCBzdGF0aWMg
+aW50IG10a19kcm1fc3lzX3N1c3BlbmQoc3RydWN0IGRldmljZSAqZGV2KQo+ICAgICAgICAgaW50
+IHJldDsKPgo+ICAgICAgICAgcmV0ID0gZHJtX21vZGVfY29uZmlnX2hlbHBlcl9zdXNwZW5kKGRy
+bSk7Cj4gLSAgICAgICBEUk1fREVCVUdfRFJJVkVSKCJtdGtfZHJtX3N5c19zdXNwZW5kXG4iKTsK
+Pgo+ICAgICAgICAgcmV0dXJuIHJldDsKPiAgfQo+IEBAIC01ODIsNyArNTgxLDYgQEAgc3RhdGlj
+IGludCBtdGtfZHJtX3N5c19yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQo+ICAgICAgICAgaW50
+IHJldDsKPgo+ICAgICAgICAgcmV0ID0gZHJtX21vZGVfY29uZmlnX2hlbHBlcl9yZXN1bWUoZHJt
+KTsKPiAtICAgICAgIERSTV9ERUJVR19EUklWRVIoIm10a19kcm1fc3lzX3Jlc3VtZVxuIik7Cj4K
+PiAgICAgICAgIHJldHVybiByZXQ7Cj4gIH0KPiAtLQo+IDIuMjUuMAo+Cj4KPiBfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IExpbnV4LW1lZGlhdGVrIG1h
+aWxpbmcgbGlzdAo+IExpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVhZC5vcmcKPiBodHRwOi8v
+bGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW1lZGlhdGVrCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
