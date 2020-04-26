@@ -1,31 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9C21B8FDE
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Apr 2020 14:35:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D2D1B8FE2
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Apr 2020 14:35:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA0AC6E2BD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 780166E2B6;
 	Sun, 26 Apr 2020 12:35:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C50156E029;
- Sun, 26 Apr 2020 09:40:43 +0000 (UTC)
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 8E6F3CA1E8DB84816E46;
- Sun, 26 Apr 2020 17:40:40 +0800 (CST)
-Received: from huawei.com (10.175.124.28) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Sun, 26 Apr 2020
- 17:40:31 +0800
+X-Greylist: delayed 914 seconds by postgrey-1.36 at gabe;
+ Sun, 26 Apr 2020 09:56:23 UTC
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB0D689D00;
+ Sun, 26 Apr 2020 09:56:23 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 396F241F3037E3850052;
+ Sun, 26 Apr 2020 17:41:06 +0800 (CST)
+Received: from huawei.com (10.175.124.28) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Sun, 26 Apr 2020
+ 17:40:59 +0800
 From: Jason Yan <yanaijie@huawei.com>
-To: <evan.quan@amd.com>, <alexander.deucher@amd.com>,
- <christian.koenig@amd.com>, <David1.Zhou@amd.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <kevin1.wang@amd.com>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/amd/powerplay: remove conversion to bool in navi10_ppt.c
-Date: Sun, 26 Apr 2020 17:39:58 +0800
-Message-ID: <20200426093958.22875-1-yanaijie@huawei.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/amd/display: remove conversion to bool amdgpu_dm.c
+Date: Sun, 26 Apr 2020 17:40:26 +0800
+Message-ID: <20200426094026.22962-1-yanaijie@huawei.com>
 X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
 X-Originating-IP: [10.175.124.28]
@@ -52,27 +55,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 The '==' expression itself is bool, no need to convert it to bool again.
 This fixes the following coccicheck warning:
 
-drivers/gpu/drm/amd/powerplay/navi10_ppt.c:698:47-52: WARNING:
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:7230:16-21: WARNING:
 conversion to bool not needed here
 
 Signed-off-by: Jason Yan <yanaijie@huawei.com>
 ---
- drivers/gpu/drm/amd/powerplay/navi10_ppt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/powerplay/navi10_ppt.c b/drivers/gpu/drm/amd/powerplay/navi10_ppt.c
-index 2184d247a9f7..135442c36273 100644
---- a/drivers/gpu/drm/amd/powerplay/navi10_ppt.c
-+++ b/drivers/gpu/drm/amd/powerplay/navi10_ppt.c
-@@ -695,7 +695,7 @@ static bool navi10_is_support_fine_grained_dpm(struct smu_context *smu, enum smu
- 	dpm_desc = &pptable->DpmDescriptor[clk_index];
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 71309ee3aca3..4051eee86d43 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7242,8 +7242,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 			hdcp_update_display(
+ 				adev->dm.hdcp_workqueue, aconnector->dc_link->link_index, aconnector,
+ 				new_con_state->hdcp_content_type,
+-				new_con_state->content_protection == DRM_MODE_CONTENT_PROTECTION_DESIRED ? true
+-													 : false);
++				new_con_state->content_protection == DRM_MODE_CONTENT_PROTECTION_DESIRED);
+ 	}
+ #endif
  
- 	/* 0 - Fine grained DPM, 1 - Discrete DPM */
--	return dpm_desc->SnapToDiscrete == 0 ? true : false;
-+	return dpm_desc->SnapToDiscrete == 0;
- }
- 
- static inline bool navi10_od_feature_is_supported(struct smu_11_0_overdrive_table *od_table, enum SMU_11_0_ODFEATURE_CAP cap)
 -- 
 2.21.1
 
