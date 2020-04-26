@@ -2,72 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A24D1B9853
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 09:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2BDF1B9852
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 09:22:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B063789F85;
-	Mon, 27 Apr 2020 07:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A707F89CDF;
+	Mon, 27 Apr 2020 07:21:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B563889B03
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 19:37:21 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id g12so17925617wmh.3
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 12:37:21 -0700 (PDT)
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
+ [IPv6:2a00:1450:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D475E89B03
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 19:37:53 +0000 (UTC)
+Received: by mail-ej1-x644.google.com with SMTP id s3so12274087eji.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 12:37:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gynnlawwP2L58lK7U6nOs2p5nD3J7jQ46S/46O9Sglk=;
- b=N9KWcFUX8Mo/Kasy1wW9DyZlzZceVD/CE6XLQh316tO+ezDNx6lxerDWRM/EUjewsb
- 4J6UUjQVwoQZoMogoMySyTkErWUdm6SGsSbkDApKXQgCp2pamxe0toej7Q9ucGa5Gnm+
- eyeiVusmZD1eHS0aHgb+8Vd//q3bCIKayqqkJfAniMmlEtfl8hi8vOsomkq+Z51LPgD6
- 42K5gO6TEH+vJnmiIm9m1+lLbqOQOEigtxE9AsFksajKLQtUPtFpwqYx2WEqqcMq2ps5
- ugdFvLiH4WejoukGnW7oEvK94R4t7p3Mv082cGW82m+xC2av6Qby6gQLO/lQbETB7Iy4
- VC6Q==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=R9qhFKNvyeEzz8TPH6ygzBfIVBj7AV+4Hl7jwvPbCn4=;
+ b=ixXWwwuONa9meNH3UEAvEg841bYnD4Gcoj+ZbAmOhSem3ho4okfcBDoelcqd65YkF0
+ FnTrkx48HqVsYAP9b10H3yIjf8i6JaPW6tVRA5rzyUBPGSC8jX/Wosu4qY0GvakRBjAB
+ eHDRmdAmz4isHxdbrSQD0Zuhvuj1kfKJnfcInWafsOiBhZB9twgGPfJiNjyLZQEcnju+
+ brEWPdvotiDRVt69kxnyYG3fQ+jhqbgfIHFskaQWiD8D7YM8sxMw8Z/HStxlUf6zpyia
+ 02e2eUN/GzTG1WyrTSD3WTCMALyUzdyNvlLo0eQYv30Q55pAjn54BbCyZ28TVQvkJzA2
+ /RCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gynnlawwP2L58lK7U6nOs2p5nD3J7jQ46S/46O9Sglk=;
- b=Iw6yOnUCfO7WQkn77zbaa4rY5v8NtgJ4WHIfdEewqp7mdNoHEwVGU6b6Qe2Ry6M5jD
- zG3+mjrniwX9oAf+hDIrD4E6pqea6GHhMt+HhIK80iMEsz9hnctt/hS5bRjPV/dXml89
- CT2RChxxncDVaclv5oC4FOd/T4QKU9OF68PVq3obNOpi1wOl7kgLD/uYc5Ibp36TB5jH
- Kn+lvqiEqYSuxIEpMgX6CY/Mdm0lpD7V0cz/7VY5cbIJEQxSYwqXw9MEU/G9tUjjuaBC
- EQx9w2sBZ1MTnKGqUlP/eCIE7L2qB219ZvmOAzvEX0bCCMqjsuSep5RBvLFSJ+8k6Xq1
- RlGg==
-X-Gm-Message-State: AGi0PuaGBkiN28hUTvSH8vkWJNvuKPYS8y1j+ulv+0hkt6O+b+Zl/96d
- WK1aUwbV8NfjEGIKgHM321Y=
-X-Google-Smtp-Source: APiQypJ4XTrddxqN2RyHulQ7/hn1xjaKln3zjHBlhZG5Q7i33l263UZT1BbEIAIIf8Ni9zos7CKCXg==
-X-Received: by 2002:a1c:6241:: with SMTP id w62mr21919075wmb.27.1587929840265; 
- Sun, 26 Apr 2020 12:37:20 -0700 (PDT)
-Received: from ?IPv6:2a02:810d:340:2e50:10d8:ba05:5002:2dff?
- ([2a02:810d:340:2e50:10d8:ba05:5002:2dff])
- by smtp.gmail.com with ESMTPSA id y10sm12138259wma.5.2020.04.26.12.37.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Apr 2020 12:37:19 -0700 (PDT)
-Subject: Re: [PATCH v7 01/12] dt-bindings: add img, pvrsgx.yaml for Imagination
- GPUs
-To: "H. Nikolaus Schaller" <hns@goldelico.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>, Paul Cercueil <paul@crapouillou.net>,
- Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paulburton@kernel.org>,
- James Hogan <jhogan@kernel.org>, Kukjin Kim <kgene@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-References: <cover.1587760454.git.hns@goldelico.com>
- <3a451e360fed84bc40287678b4d6be13821cfbc0.1587760454.git.hns@goldelico.com>
-From: Philipp Rossak <embed3d@gmail.com>
-Message-ID: <9d9998cc-33bf-7d8f-658b-8d6218338135@gmail.com>
-Date: Sun, 26 Apr 2020 21:36:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=R9qhFKNvyeEzz8TPH6ygzBfIVBj7AV+4Hl7jwvPbCn4=;
+ b=a+ttnaUClxarLRkBl7sewI4lPglNGUT223D0jb70g7Ym32BQw5CPIy9gRcplj6X5Oh
+ 7tL0Ws8JTXp9DoinYFQ30QamCHl/51YOCq62hJnBGNlFtWyNpvBb8ZEtR5O8C7KgduUl
+ wvfTHPlhhXMxrtNvBVdaB2L4p65zzxRe7i7uI7qp0dD928wtOWCjaycQGwIwhfTJxWut
+ HdPbKCMs5F7cTj51WwLtJoUTbo5sMt/Bvp5tuinDmGLOniMRKxEaTDS67X6ocnSjB0eB
+ DPvRkseyaivebZKk64TCPl5EJRB1eh59Qq1ToFLDb+JL77HE7yzwNkV634ijrz5p8Nz6
+ Qcsg==
+X-Gm-Message-State: AGi0PuakefivGLuVCCBBMexYbOXCygJ3ZBxvkZTTG5jxzlmnlfVj985F
+ 72zATbNbY6rX13mQlE6jjv4tNTsidW8EPgpiyUqgkXqEtE4PNQ==
+X-Google-Smtp-Source: APiQypIePIOvoJe5SvBFmXHB6Lfwlh38FcRqil07FcE5NVJtp401/2hgMa7qFLgOiD/rVGm65458lZAJZFmAMfOWkFQ=
+X-Received: by 2002:a17:906:7c11:: with SMTP id
+ t17mr17152366ejo.73.1587929872467; 
+ Sun, 26 Apr 2020 12:37:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3a451e360fed84bc40287678b4d6be13821cfbc0.1587760454.git.hns@goldelico.com>
-Content-Language: en-US
+References: <20190730194911.28453-1-howl.nsp@gmail.com>
+ <CAD4j4=AdUtyoiwenzT5moAdHcR_maM91kJfDQM0AuT2bnM=D9Q@mail.gmail.com>
+ <87lfngfp8q.fsf@intel.com> <6df6072e-d0dd-c5f3-57b0-1992bba78541@redhat.com>
+ <CAD4j4=DOQV3fYxo=jwXtENONy4dPoqr+8N54JqZfQmmbkJw09A@mail.gmail.com>
+In-Reply-To: <CAD4j4=DOQV3fYxo=jwXtENONy4dPoqr+8N54JqZfQmmbkJw09A@mail.gmail.com>
+From: =?UTF-8?Q?David_Santamar=C3=ADa_Rogado?= <howl.nsp@gmail.com>
+Date: Sun, 26 Apr 2020 21:37:41 +0200
+Message-ID: <CAD4j4=BSBOiS0xpz6nTMhAA9LeS5_oxFj=Q7iMGGpb8itA4rTw@mail.gmail.com>
+Subject: Re: [PATCH] drm: panel-orientation-quirks: 320 FHD and D330 HD
+To: Hans de Goede <hdegoede@redhat.com>
 X-Mailman-Approved-At: Mon, 27 Apr 2020 07:21:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,142 +66,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, letux-kernel@openphoenux.org,
- Jonathan Bakker <xc-racer2@live.ca>, openpvrsgx-devgroup@letux.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- kernel@pyra-handheld.com, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus,
-
-On 24.04.20 22:34, H. Nikolaus Schaller wrote:
-> The Imagination PVR/SGX GPU is part of several SoC from
-> multiple vendors, e.g. TI OMAP, Ingenic JZ4780, Intel Poulsbo,
-> Allwinner A83 and others.
-> 
-> With this binding, we describe how the SGX processor is
-> interfaced to the SoC (registers and interrupt).
-> 
-> The interface also consists of clocks, reset, power but
-> information from data sheets is vague and some SoC integrators
-> (TI) deciced to use a PRCM wrapper (ti,sysc) which does
-> all clock, reset and power-management through registers
-> outside of the sgx register block.
-> 
-> Therefore all these properties are optional.
-> 
-> Tested by make dt_binding_check
-> 
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> ---
->   .../devicetree/bindings/gpu/img,pvrsgx.yaml   | 150 ++++++++++++++++++
->   1 file changed, 150 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml b/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
-> new file mode 100644
-> index 000000000000..33a9c4c6e784
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
-> @@ -0,0 +1,150 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/gpu/img,pvrsgx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Imagination PVR/SGX GPU
-> +
-> +maintainers:
-> +  - H. Nikolaus Schaller <hns@goldelico.com>
-> +
-> +description: |+
-> +  This binding describes the Imagination SGX5 series of 3D accelerators which
-> +  are found in several different SoC like TI OMAP, Sitara, Ingenic JZ4780,
-> +  Allwinner A83, and Intel Poulsbo and CedarView and more.
-> +
-> +  For an extensive list see: https://en.wikipedia.org/wiki/PowerVR#Implementations
-> +
-> +  The SGX node is usually a child node of some DT node belonging to the SoC
-> +  which handles clocks, reset and general address space mapping of the SGX
-> +  register area. If not, an optional clock can be specified here.
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: '^gpu@[a-f0-9]+$'
-> +  compatible:
-> +    oneOf:
-> +      - description: SGX530-121 based SoC
-> +        items:
-> +          - enum:
-> +            - ti,omap3-sgx530-121 # BeagleBoard A/B/C, OpenPandora 600MHz and similar
-> +          - const: img,sgx530-121
-> +          - const: img,sgx530
-> +
-> +      - description: SGX530-125 based SoC
-> +        items:
-> +          - enum:
-> +            - ti,am3352-sgx530-125 # BeagleBone Black
-> +            - ti,am3517-sgx530-125
-> +            - ti,am4-sgx530-125
-> +            - ti,omap3-sgx530-125 # BeagleBoard XM, GTA04, OpenPandora 1GHz and similar
-> +            - ti,ti81xx-sgx530-125
-> +          - const: ti,omap3-sgx530-125
-> +          - const: img,sgx530-125
-> +          - const: img,sgx530
-> +
-> +      - description: SGX535-116 based SoC
-> +        items:
-> +          - const: intel,poulsbo-gma500-sgx535 # Atom Z5xx
-> +          - const: img,sgx535-116
-> +          - const: img,sgx535
-> +
-> +      - description: SGX540-116 based SoC
-> +        items:
-> +          - const: intel,medfield-gma-sgx540 # Atom Z24xx
-> +          - const: img,sgx540-116
-> +          - const: img,sgx540
-> +
-> +      - description: SGX540-120 based SoC
-> +        items:
-> +          - enum:
-> +            - samsung,s5pv210-sgx540-120
-> +            - ti,omap4-sgx540-120 # Pandaboard, Pandaboard ES and similar
-> +          - const: img,sgx540-120
-> +          - const: img,sgx540
-> +
-> +      - description: SGX540-130 based SoC
-> +        items:
-> +          - enum:
-> +            - ingenic,jz4780-sgx540-130 # CI20
-> +          - const: img,sgx540-130
-> +          - const: img,sgx540
-> +
-> +      - description: SGX544-112 based SoC
-> +        items:
-> +          - const: ti,omap4470-sgx544-112
-> +          - const: img,sgx544-112
-> +          - const: img,sgx544
-> +
-> +      - description: SGX544-115 based SoC
-> +        items:
-> +          - enum:
-> +            - allwinner,sun8i-a31-sgx544-115
-> +            - allwinner,sun8i-a31s-sgx544-115
-those two bindings are wrong.
-It should be allwinner,sun6i-a31-sgx544-115 and 
-allwinner,sun6i-a31s-sgx544-115. I did a copy paste error in the patches 
-that I provided for this series.
-
-
-Cheers,
-Philipp
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UGVyaGFwcyB0aGUgV2luZG93cyBJbnRlbCB2aWRlbyBkcml2ZXIgZG9lc24ndCB0cnkgdGhlIGhp
+Z2hlc3QKYXZhaWxhYmxlIG1vZGUgcmVwb3J0ZWQgYnkgR09QIGluIHNvbWUgY2lyY3Vtc3RhbmNl
+cz8gU2VlbXMgdGhhdCB0aGUKcmlnaHQgcGFuZWwgb3JpZW50YXRpb24gYXBwZWFyIGFzIGEgbGVz
+cyBtb2RlIHRoYW4gdGhlIHdyb25nIG9uZS4KCkVsIGRvbS4sIDI2IGFici4gMjAyMCBhIGxhcyAy
+MTozNSwgRGF2aWQgU2FudGFtYXLDrWEgUm9nYWRvCig8aG93bC5uc3BAZ21haWwuY29tPikgZXNj
+cmliacOzOgo+Cj4gSGksIEphbmkgZG9uJ3QgZm9yZ2V0IGFib3V0IG1lLCBJIGhhdmUgaW4gbWlu
+ZCB0byBhZmZvcmQgdGhlIDggR0IgUkFNCj4gdmVyc2lvbiBhbmQgd2lsbCBuZWVkIG1vcmUgb3Jp
+ZW50YXRpb24gaW5jbHVzaW9ucyA6KQo+Cj4gSSBoYXZlIGV2ZW4gbG9va2luZyBhdCB0aGlzIGlz
+c3VlIHdpdGggVUVGSSBTaGVsbCwgY291bGQgYmUgcG9zc2libGUKPiB0aGF0IHRoZSBJbnRlbCB2
+aWRlbyBkcml2ZXIgY2FuIGdldCB0aGUgY29ycmVjdCBwYW5lbCBsb2NhdGlvbiBiYXNlZAo+IGlu
+IGFub3RoZXIgdGhpbmc/IFRoZSBVRUZJIFNoZWxsIGNhbiBnZXQgYm90aCBvcmllbnRhdGlvbnMg
+YnkganVzdAo+IGNoYW5naW5nIHRoZSBtb2RlLCB0aGVyZSBhcmUgbW9kZXMgZm9yIHBvcnRyYWl0
+IGFuZCBsYW5kc2NhcGUsIGJ1dCBpZgo+IHRoZXJlIGlzIG5vIG90aGVyIHdheSB0aGVzZSBxdWly
+a3MgYXJlIHRoZSBvbmx5IHdheSB0byBnZXQgdGhlc2UKPiBtYWNoaW5lIHByb3Blcmx5IGZvciBu
+b3cuCj4KPiBFbCBtYXIuLCAzMSBtYXIuIDIwMjAgYSBsYXMgMTk6MDcsIEhhbnMgZGUgR29lZGUK
+PiAoPGhkZWdvZWRlQHJlZGhhdC5jb20+KSBlc2NyaWJpw7M6Cj4gPgo+ID4gSGksCj4gPgo+ID4g
+T24gMy8zMS8yMCA2OjQ0IFBNLCBKYW5pIE5pa3VsYSB3cm90ZToKPiA+ID4gT24gRnJpLCAyNyBN
+YXIgMjAyMCwgRGF2aWQgU2FudGFtYXLDrWEgUm9nYWRvIDxob3dsLm5zcEBnbWFpbC5jb20+IHdy
+b3RlOgo+ID4gPj4gVGhpcyBwYXRjaCBpcyBzdGlsbCB2YWxpZCBhcyBubyBjaGFuZ2VzIHRvIHBh
+bmVsIG9yaWVudGF0aW9uIHF1aXJrcwo+ID4gPj4gaGF2ZSBiZWVuIGRvbmUuIFNvbWVvbmUgY2Fu
+IHJldmlldyB0aGlzIHRvIG1lcmdlPwo+ID4gPgo+ID4gPiBDYzogSGFucy4KPiA+Cj4gPiBMb29r
+cyBnb29kIHRvIG1lOgo+ID4KPiA+IFJldmlld2VkLWJ5OiBIYW5zIGRlIEdvZWRlIDxoZGVnb2Vk
+ZUByZWRoYXQuY29tPgo+ID4KPiA+IFJlZ2FyZHMsCj4gPgo+ID4gSGFucwo+ID4KPiA+Cj4gPgo+
+ID4KPiA+ID4+IEVsIG1hci4sIDMwIGp1bC4gMjAxOSBhIGxhcyAyMTo0OSwgRGF2aWQgU2FudGFt
+YXLDrWEgUm9nYWRvCj4gPiA+PiAoPGhvd2wubnNwQGdtYWlsLmNvbT4pIGVzY3JpYmnDszoKPiA+
+ID4+Pgo+ID4gPj4+IFRoaXMgYWRkcyB0aGUgSEQgdmVyc2lvbiBvZiBMZW5vdm8gSWRlYXBhZCBE
+MzMwCj4gPiA+Pj4gYW5kIEZIRCB2ZXJzaW9uIG9mIExlbm92byBJZGVhcGFkIE1paXggMzIwLgo+
+ID4gPj4+Cj4gPiA+Pj4gVGhpcyBzaG91bGQgd29yayBkZXNwaXRlIHRoZSBkbWkgZGF0YSBpcyB0
+aGUgc2FtZSBiZWNhdXNlCj4gPiA+Pj4gdGhlIHJlc29sdXRpb24gY2hlY2tzLgo+ID4gPj4+Cj4g
+PiA+Pj4gU2lnbmVkLW9mZi1ieTogRGF2aWQgU2FudGFtYXLDrWEgUm9nYWRvIDxob3dsLm5zcEBn
+bWFpbC5jb20+Cj4gPiA+Pj4gLS0tCj4gPiA+Pj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVs
+X29yaWVudGF0aW9uX3F1aXJrcy5jIHwgMTggKysrKysrKysrKysrKysrKy0tCj4gPiA+Pj4gICAx
+IGZpbGUgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiA+ID4+Pgo+
+ID4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVsX29yaWVudGF0aW9u
+X3F1aXJrcy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wYW5lbF9vcmllbnRhdGlvbl9xdWlya3Mu
+Ywo+ID4gPj4+IGluZGV4IGZmZDk1YmZlYWE5NC4uODk2Yzc4M2NlMTM1IDEwMDY0NAo+ID4gPj4+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWxfb3JpZW50YXRpb25fcXVpcmtzLmMKPiA+
+ID4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVsX29yaWVudGF0aW9uX3F1aXJrcy5j
+Cj4gPiA+Pj4gQEAgLTE5MSwxNCArMTkxLDI4IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZG1pX3N5
+c3RlbV9pZCBvcmllbnRhdGlvbl9kYXRhW10gPSB7Cj4gPiA+Pj4gICAgICAgICAgICAgICAgICAg
+IERNSV9FWEFDVF9NQVRDSChETUlfUFJPRFVDVF9WRVJTSU9OLCAiTUlJWCAzMTAtMTBJQ1IiKSwK
+PiA+ID4+PiAgICAgICAgICAgICAgICAgIH0sCj4gPiA+Pj4gICAgICAgICAgICAgICAgICAuZHJp
+dmVyX2RhdGEgPSAodm9pZCAqKSZsY2Q4MDB4MTI4MF9yaWdodHNpZGVfdXAsCj4gPiA+Pj4gLSAg
+ICAgICB9LCB7ICAgIC8qIExlbm92byBJZGVhcGFkIE1paXggMzIwICovCj4gPiA+Pj4gKyAgICAg
+ICB9LCB7ICAgIC8qIExlbm92byBJZGVhcGFkIE1paXggMzIwIChIRCkgKi8KPiA+ID4+PiAgICAg
+ICAgICAgICAgICAgIC5tYXRjaGVzID0gewo+ID4gPj4+ICAgICAgICAgICAgICAgICAgICBETUlf
+RVhBQ1RfTUFUQ0goRE1JX1NZU19WRU5ET1IsICJMRU5PVk8iKSwKPiA+ID4+PiAgICAgICAgICAg
+ICAgICAgICAgRE1JX0VYQUNUX01BVENIKERNSV9QUk9EVUNUX05BTUUsICI4MFhGIiksCj4gPiA+
+Pj4gICAgICAgICAgICAgICAgICAgIERNSV9FWEFDVF9NQVRDSChETUlfUFJPRFVDVF9WRVJTSU9O
+LCAiTGVub3ZvIE1JSVggMzIwLTEwSUNSIiksCj4gPiA+Pj4gICAgICAgICAgICAgICAgICB9LAo+
+ID4gPj4+ICAgICAgICAgICAgICAgICAgLmRyaXZlcl9kYXRhID0gKHZvaWQgKikmbGNkODAweDEy
+ODBfcmlnaHRzaWRlX3VwLAo+ID4gPj4+IC0gICAgICAgfSwgeyAgICAvKiBMZW5vdm8gSWRlYXBh
+ZCBEMzMwICovCj4gPiA+Pj4gKyAgICAgICB9LCB7ICAgIC8qIExlbm92byBJZGVhcGFkIE1paXgg
+MzIwIChGSEQpICovCj4gPiA+Pj4gKyAgICAgICAgICAgICAgIC5tYXRjaGVzID0gewo+ID4gPj4+
+ICsgICAgICAgICAgICAgICAgIERNSV9FWEFDVF9NQVRDSChETUlfU1lTX1ZFTkRPUiwgIkxFTk9W
+TyIpLAo+ID4gPj4+ICsgICAgICAgICAgICAgICAgIERNSV9FWEFDVF9NQVRDSChETUlfUFJPRFVD
+VF9OQU1FLCAiODBYRiIpLAo+ID4gPj4+ICsgICAgICAgICAgICAgICAgIERNSV9FWEFDVF9NQVRD
+SChETUlfUFJPRFVDVF9WRVJTSU9OLCAiTGVub3ZvIE1JSVggMzIwLTEwSUNSIiksCj4gPiA+Pj4g
+KyAgICAgICAgICAgICAgIH0sCj4gPiA+Pj4gKyAgICAgICAgICAgICAgIC5kcml2ZXJfZGF0YSA9
+ICh2b2lkICopJmxjZDEyMDB4MTkyMF9yaWdodHNpZGVfdXAsCj4gPiA+Pj4gKyAgICAgICB9LCB7
+ICAgIC8qIExlbm92byBJZGVhcGFkIEQzMzAgKEhEKSAqLwo+ID4gPj4+ICsgICAgICAgICAgICAg
+ICAubWF0Y2hlcyA9IHsKPiA+ID4+PiArICAgICAgICAgICAgICAgICBETUlfRVhBQ1RfTUFUQ0go
+RE1JX1NZU19WRU5ET1IsICJMRU5PVk8iKSwKPiA+ID4+PiArICAgICAgICAgICAgICAgICBETUlf
+RVhBQ1RfTUFUQ0goRE1JX1BST0RVQ1RfTkFNRSwgIjgxSDMiKSwKPiA+ID4+PiArICAgICAgICAg
+ICAgICAgICBETUlfRVhBQ1RfTUFUQ0goRE1JX1BST0RVQ1RfVkVSU0lPTiwgIkxlbm92byBpZGVh
+cGFkIEQzMzAtMTBJR00iKSwKPiA+ID4+PiArICAgICAgICAgICAgICAgfSwKPiA+ID4+PiArICAg
+ICAgICAgICAgICAgLmRyaXZlcl9kYXRhID0gKHZvaWQgKikmbGNkODAweDEyODBfcmlnaHRzaWRl
+X3VwLAo+ID4gPj4+ICsgICAgICAgfSwgeyAgICAvKiBMZW5vdm8gSWRlYXBhZCBEMzMwIChGSEQp
+ICovCj4gPiA+Pj4gICAgICAgICAgICAgICAgICAubWF0Y2hlcyA9IHsKPiA+ID4+PiAgICAgICAg
+ICAgICAgICAgICAgRE1JX0VYQUNUX01BVENIKERNSV9TWVNfVkVORE9SLCAiTEVOT1ZPIiksCj4g
+PiA+Pj4gICAgICAgICAgICAgICAgICAgIERNSV9FWEFDVF9NQVRDSChETUlfUFJPRFVDVF9OQU1F
+LCAiODFIMyIpLAo+ID4gPj4+IC0tCj4gPiA+Pj4gMi4yMS4wCj4gPiA+Pj4KPiA+ID4KPiA+Cl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
