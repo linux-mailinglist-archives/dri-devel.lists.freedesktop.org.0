@@ -1,40 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B11F1B8FDB
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Apr 2020 14:35:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A9C21B8FDE
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Apr 2020 14:35:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D32336E2A9;
-	Sun, 26 Apr 2020 12:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA0AC6E2BD;
+	Sun, 26 Apr 2020 12:35:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
- [59.111.176.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E13B6E029
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 09:01:55 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.122])
- by mail-m17613.qiye.163.com (Hmail) with ESMTPA id 89EBD48263D;
- Sun, 26 Apr 2020 17:01:48 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Kukjin Kim <kgene@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/exynos: make pointer to const data const type
-Date: Sun, 26 Apr 2020 02:01:42 -0700
-Message-Id: <20200426090142.21251-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.26.2
+Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C50156E029;
+ Sun, 26 Apr 2020 09:40:43 +0000 (UTC)
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 8E6F3CA1E8DB84816E46;
+ Sun, 26 Apr 2020 17:40:40 +0800 (CST)
+Received: from huawei.com (10.175.124.28) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Sun, 26 Apr 2020
+ 17:40:31 +0800
+From: Jason Yan <yanaijie@huawei.com>
+To: <evan.quan@amd.com>, <alexander.deucher@amd.com>,
+ <christian.koenig@amd.com>, <David1.Zhou@amd.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <kevin1.wang@amd.com>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/amd/powerplay: remove conversion to bool in navi10_ppt.c
+Date: Sun, 26 Apr 2020 17:39:58 +0800
+Message-ID: <20200426093958.22875-1-yanaijie@huawei.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZT1VLTEhCQkJDQ0pMT09IQ1lXWShZQU
- hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6ODI6Aww4ITg#LEkeKRwqLgwO
- NREaFBFVSlVKTkNMQ0JKTEtDQ01DVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSUlZV1kIAVlBSUNDSTcG
-X-HM-Tid: 0a71b5b8a36f93bakuws89ebd48263d
+X-Originating-IP: [10.175.124.28]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sun, 26 Apr 2020 12:35:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,49 +43,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
+Cc: Jason Yan <yanaijie@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maybe keep pointer which points to global const string data
-in const type is better, make sure not change const data.
+The '==' expression itself is bool, no need to convert it to bool again.
+This fixes the following coccicheck warning:
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
+drivers/gpu/drm/amd/powerplay/navi10_ppt.c:698:47-52: WARNING:
+conversion to bool not needed here
+
+Signed-off-by: Jason Yan <yanaijie@huawei.com>
 ---
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 2 +-
- drivers/gpu/drm/exynos/exynos_drm_mic.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/powerplay/navi10_ppt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index e080aa92338c..f60d99c85ac9 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -211,7 +211,7 @@
+diff --git a/drivers/gpu/drm/amd/powerplay/navi10_ppt.c b/drivers/gpu/drm/amd/powerplay/navi10_ppt.c
+index 2184d247a9f7..135442c36273 100644
+--- a/drivers/gpu/drm/amd/powerplay/navi10_ppt.c
++++ b/drivers/gpu/drm/amd/powerplay/navi10_ppt.c
+@@ -695,7 +695,7 @@ static bool navi10_is_support_fine_grained_dpm(struct smu_context *smu, enum smu
+ 	dpm_desc = &pptable->DpmDescriptor[clk_index];
  
- #define OLD_SCLK_MIPI_CLK_NAME "pll_clk"
+ 	/* 0 - Fine grained DPM, 1 - Discrete DPM */
+-	return dpm_desc->SnapToDiscrete == 0 ? true : false;
++	return dpm_desc->SnapToDiscrete == 0;
+ }
  
--static char *clk_names[5] = { "bus_clk", "sclk_mipi",
-+static const char *const clk_names[5] = { "bus_clk", "sclk_mipi",
- 	"phyclk_mipidphy0_bitclkdiv8", "phyclk_mipidphy0_rxclkesc0",
- 	"sclk_rgb_vclk_to_dsim0" };
- 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c b/drivers/gpu/drm/exynos/exynos_drm_mic.c
-index f41d75923557..a86abc173605 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_mic.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c
-@@ -88,7 +88,7 @@
- 
- #define MIC_BS_SIZE_2D(x)	((x) & 0x3fff)
- 
--static char *clk_names[] = { "pclk_mic0", "sclk_rgb_vclk_to_mic0" };
-+static const char *const clk_names[] = { "pclk_mic0", "sclk_rgb_vclk_to_mic0" };
- #define NUM_CLKS		ARRAY_SIZE(clk_names)
- static DEFINE_MUTEX(mic_mutex);
- 
+ static inline bool navi10_od_feature_is_supported(struct smu_11_0_overdrive_table *od_table, enum SMU_11_0_ODFEATURE_CAP cap)
 -- 
-2.26.2
+2.21.1
 
 _______________________________________________
 dri-devel mailing list
