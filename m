@@ -2,57 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2BDF1B9852
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 09:22:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E871B984D
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 09:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A707F89CDF;
-	Mon, 27 Apr 2020 07:21:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CDF089DF7;
+	Mon, 27 Apr 2020 07:21:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D475E89B03
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 19:37:53 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id s3so12274087eji.6
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 12:37:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=R9qhFKNvyeEzz8TPH6ygzBfIVBj7AV+4Hl7jwvPbCn4=;
- b=ixXWwwuONa9meNH3UEAvEg841bYnD4Gcoj+ZbAmOhSem3ho4okfcBDoelcqd65YkF0
- FnTrkx48HqVsYAP9b10H3yIjf8i6JaPW6tVRA5rzyUBPGSC8jX/Wosu4qY0GvakRBjAB
- eHDRmdAmz4isHxdbrSQD0Zuhvuj1kfKJnfcInWafsOiBhZB9twgGPfJiNjyLZQEcnju+
- brEWPdvotiDRVt69kxnyYG3fQ+jhqbgfIHFskaQWiD8D7YM8sxMw8Z/HStxlUf6zpyia
- 02e2eUN/GzTG1WyrTSD3WTCMALyUzdyNvlLo0eQYv30Q55pAjn54BbCyZ28TVQvkJzA2
- /RCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=R9qhFKNvyeEzz8TPH6ygzBfIVBj7AV+4Hl7jwvPbCn4=;
- b=a+ttnaUClxarLRkBl7sewI4lPglNGUT223D0jb70g7Ym32BQw5CPIy9gRcplj6X5Oh
- 7tL0Ws8JTXp9DoinYFQ30QamCHl/51YOCq62hJnBGNlFtWyNpvBb8ZEtR5O8C7KgduUl
- wvfTHPlhhXMxrtNvBVdaB2L4p65zzxRe7i7uI7qp0dD928wtOWCjaycQGwIwhfTJxWut
- HdPbKCMs5F7cTj51WwLtJoUTbo5sMt/Bvp5tuinDmGLOniMRKxEaTDS67X6ocnSjB0eB
- DPvRkseyaivebZKk64TCPl5EJRB1eh59Qq1ToFLDb+JL77HE7yzwNkV634ijrz5p8Nz6
- Qcsg==
-X-Gm-Message-State: AGi0PuakefivGLuVCCBBMexYbOXCygJ3ZBxvkZTTG5jxzlmnlfVj985F
- 72zATbNbY6rX13mQlE6jjv4tNTsidW8EPgpiyUqgkXqEtE4PNQ==
-X-Google-Smtp-Source: APiQypIePIOvoJe5SvBFmXHB6Lfwlh38FcRqil07FcE5NVJtp401/2hgMa7qFLgOiD/rVGm65458lZAJZFmAMfOWkFQ=
-X-Received: by 2002:a17:906:7c11:: with SMTP id
- t17mr17152366ejo.73.1587929872467; 
- Sun, 26 Apr 2020 12:37:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190730194911.28453-1-howl.nsp@gmail.com>
- <CAD4j4=AdUtyoiwenzT5moAdHcR_maM91kJfDQM0AuT2bnM=D9Q@mail.gmail.com>
- <87lfngfp8q.fsf@intel.com> <6df6072e-d0dd-c5f3-57b0-1992bba78541@redhat.com>
- <CAD4j4=DOQV3fYxo=jwXtENONy4dPoqr+8N54JqZfQmmbkJw09A@mail.gmail.com>
-In-Reply-To: <CAD4j4=DOQV3fYxo=jwXtENONy4dPoqr+8N54JqZfQmmbkJw09A@mail.gmail.com>
-From: =?UTF-8?Q?David_Santamar=C3=ADa_Rogado?= <howl.nsp@gmail.com>
-Date: Sun, 26 Apr 2020 21:37:41 +0200
-Message-ID: <CAD4j4=BSBOiS0xpz6nTMhAA9LeS5_oxFj=Q7iMGGpb8itA4rTw@mail.gmail.com>
-Subject: Re: [PATCH] drm: panel-orientation-quirks: 320 FHD and D330 HD
-To: Hans de Goede <hdegoede@redhat.com>
+Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5302::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 088AB8972D
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 21:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1587934813;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=tBYDlL7NzsOjZoE8VbUARgLNfJnA9ln8lbc1BWfhqMY=;
+ b=GMV85j5wsFhA02SvPSdsCvhRky9AYyt+R0dKQYZCHTmzHl6Ov67n8X1aqxp5ptknfX
+ wrGpMjUEblWrIfVHa02HyUIGv71ehAV3WlltBP3+XnSwIo5QQ1JZvgA7lhWC8TXz3cWW
+ W4Q8dewCWOnlZs9p1DyoRKXha8nU/Cbz+MhAlyvOqztAypFeIx46wZ/iP8wbFsTjyIE7
+ 54NZkhL7WA2wd10bFD5/CA6iZ1OBO8WQQvW2Rzl3tv565hrUlclwunOjmHCxDO3U9Wbs
+ NvpC1zW3elfnduhAHK7zIPWpRea1Xmfej6/80w1SOluIDv1RnPNYD16xncCQvjDO5DaB
+ qS7w==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGH/PtwDOjwps="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 46.6.2 DYNA|AUTH)
+ with ESMTPSA id R0acebw3QKxSHt5
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Sun, 26 Apr 2020 22:59:28 +0200 (CEST)
+Subject: Re: [PATCH v7 01/12] dt-bindings: add img,
+ pvrsgx.yaml for Imagination GPUs
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <9d9998cc-33bf-7d8f-658b-8d6218338135@gmail.com>
+Date: Sun, 26 Apr 2020 22:59:28 +0200
+Message-Id: <0D48517E-8F66-4B27-953B-1C27F8A8DE0A@goldelico.com>
+References: <cover.1587760454.git.hns@goldelico.com>
+ <3a451e360fed84bc40287678b4d6be13821cfbc0.1587760454.git.hns@goldelico.com>
+ <9d9998cc-33bf-7d8f-658b-8d6218338135@gmail.com>
+To: Philipp Rossak <embed3d@gmail.com>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Mon, 27 Apr 2020 07:21:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,85 +57,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
+ James Hogan <jhogan@kernel.org>, Jonathan Bakker <xc-racer2@live.ca>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>, linux-samsung-soc@vger.kernel.org,
+ letux-kernel@openphoenux.org, Paul Burton <paulburton@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Tony Lindgren <tony@atomide.com>,
+ Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+ devicetree@vger.kernel.org,
+ =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, openpvrsgx-devgroup@letux.org,
+ linux-kernel@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+ kernel@pyra-handheld.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UGVyaGFwcyB0aGUgV2luZG93cyBJbnRlbCB2aWRlbyBkcml2ZXIgZG9lc24ndCB0cnkgdGhlIGhp
-Z2hlc3QKYXZhaWxhYmxlIG1vZGUgcmVwb3J0ZWQgYnkgR09QIGluIHNvbWUgY2lyY3Vtc3RhbmNl
-cz8gU2VlbXMgdGhhdCB0aGUKcmlnaHQgcGFuZWwgb3JpZW50YXRpb24gYXBwZWFyIGFzIGEgbGVz
-cyBtb2RlIHRoYW4gdGhlIHdyb25nIG9uZS4KCkVsIGRvbS4sIDI2IGFici4gMjAyMCBhIGxhcyAy
-MTozNSwgRGF2aWQgU2FudGFtYXLDrWEgUm9nYWRvCig8aG93bC5uc3BAZ21haWwuY29tPikgZXNj
-cmliacOzOgo+Cj4gSGksIEphbmkgZG9uJ3QgZm9yZ2V0IGFib3V0IG1lLCBJIGhhdmUgaW4gbWlu
-ZCB0byBhZmZvcmQgdGhlIDggR0IgUkFNCj4gdmVyc2lvbiBhbmQgd2lsbCBuZWVkIG1vcmUgb3Jp
-ZW50YXRpb24gaW5jbHVzaW9ucyA6KQo+Cj4gSSBoYXZlIGV2ZW4gbG9va2luZyBhdCB0aGlzIGlz
-c3VlIHdpdGggVUVGSSBTaGVsbCwgY291bGQgYmUgcG9zc2libGUKPiB0aGF0IHRoZSBJbnRlbCB2
-aWRlbyBkcml2ZXIgY2FuIGdldCB0aGUgY29ycmVjdCBwYW5lbCBsb2NhdGlvbiBiYXNlZAo+IGlu
-IGFub3RoZXIgdGhpbmc/IFRoZSBVRUZJIFNoZWxsIGNhbiBnZXQgYm90aCBvcmllbnRhdGlvbnMg
-YnkganVzdAo+IGNoYW5naW5nIHRoZSBtb2RlLCB0aGVyZSBhcmUgbW9kZXMgZm9yIHBvcnRyYWl0
-IGFuZCBsYW5kc2NhcGUsIGJ1dCBpZgo+IHRoZXJlIGlzIG5vIG90aGVyIHdheSB0aGVzZSBxdWly
-a3MgYXJlIHRoZSBvbmx5IHdheSB0byBnZXQgdGhlc2UKPiBtYWNoaW5lIHByb3Blcmx5IGZvciBu
-b3cuCj4KPiBFbCBtYXIuLCAzMSBtYXIuIDIwMjAgYSBsYXMgMTk6MDcsIEhhbnMgZGUgR29lZGUK
-PiAoPGhkZWdvZWRlQHJlZGhhdC5jb20+KSBlc2NyaWJpw7M6Cj4gPgo+ID4gSGksCj4gPgo+ID4g
-T24gMy8zMS8yMCA2OjQ0IFBNLCBKYW5pIE5pa3VsYSB3cm90ZToKPiA+ID4gT24gRnJpLCAyNyBN
-YXIgMjAyMCwgRGF2aWQgU2FudGFtYXLDrWEgUm9nYWRvIDxob3dsLm5zcEBnbWFpbC5jb20+IHdy
-b3RlOgo+ID4gPj4gVGhpcyBwYXRjaCBpcyBzdGlsbCB2YWxpZCBhcyBubyBjaGFuZ2VzIHRvIHBh
-bmVsIG9yaWVudGF0aW9uIHF1aXJrcwo+ID4gPj4gaGF2ZSBiZWVuIGRvbmUuIFNvbWVvbmUgY2Fu
-IHJldmlldyB0aGlzIHRvIG1lcmdlPwo+ID4gPgo+ID4gPiBDYzogSGFucy4KPiA+Cj4gPiBMb29r
-cyBnb29kIHRvIG1lOgo+ID4KPiA+IFJldmlld2VkLWJ5OiBIYW5zIGRlIEdvZWRlIDxoZGVnb2Vk
-ZUByZWRoYXQuY29tPgo+ID4KPiA+IFJlZ2FyZHMsCj4gPgo+ID4gSGFucwo+ID4KPiA+Cj4gPgo+
-ID4KPiA+ID4+IEVsIG1hci4sIDMwIGp1bC4gMjAxOSBhIGxhcyAyMTo0OSwgRGF2aWQgU2FudGFt
-YXLDrWEgUm9nYWRvCj4gPiA+PiAoPGhvd2wubnNwQGdtYWlsLmNvbT4pIGVzY3JpYmnDszoKPiA+
-ID4+Pgo+ID4gPj4+IFRoaXMgYWRkcyB0aGUgSEQgdmVyc2lvbiBvZiBMZW5vdm8gSWRlYXBhZCBE
-MzMwCj4gPiA+Pj4gYW5kIEZIRCB2ZXJzaW9uIG9mIExlbm92byBJZGVhcGFkIE1paXggMzIwLgo+
-ID4gPj4+Cj4gPiA+Pj4gVGhpcyBzaG91bGQgd29yayBkZXNwaXRlIHRoZSBkbWkgZGF0YSBpcyB0
-aGUgc2FtZSBiZWNhdXNlCj4gPiA+Pj4gdGhlIHJlc29sdXRpb24gY2hlY2tzLgo+ID4gPj4+Cj4g
-PiA+Pj4gU2lnbmVkLW9mZi1ieTogRGF2aWQgU2FudGFtYXLDrWEgUm9nYWRvIDxob3dsLm5zcEBn
-bWFpbC5jb20+Cj4gPiA+Pj4gLS0tCj4gPiA+Pj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVs
-X29yaWVudGF0aW9uX3F1aXJrcy5jIHwgMTggKysrKysrKysrKysrKysrKy0tCj4gPiA+Pj4gICAx
-IGZpbGUgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiA+ID4+Pgo+
-ID4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVsX29yaWVudGF0aW9u
-X3F1aXJrcy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wYW5lbF9vcmllbnRhdGlvbl9xdWlya3Mu
-Ywo+ID4gPj4+IGluZGV4IGZmZDk1YmZlYWE5NC4uODk2Yzc4M2NlMTM1IDEwMDY0NAo+ID4gPj4+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWxfb3JpZW50YXRpb25fcXVpcmtzLmMKPiA+
-ID4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVsX29yaWVudGF0aW9uX3F1aXJrcy5j
-Cj4gPiA+Pj4gQEAgLTE5MSwxNCArMTkxLDI4IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZG1pX3N5
-c3RlbV9pZCBvcmllbnRhdGlvbl9kYXRhW10gPSB7Cj4gPiA+Pj4gICAgICAgICAgICAgICAgICAg
-IERNSV9FWEFDVF9NQVRDSChETUlfUFJPRFVDVF9WRVJTSU9OLCAiTUlJWCAzMTAtMTBJQ1IiKSwK
-PiA+ID4+PiAgICAgICAgICAgICAgICAgIH0sCj4gPiA+Pj4gICAgICAgICAgICAgICAgICAuZHJp
-dmVyX2RhdGEgPSAodm9pZCAqKSZsY2Q4MDB4MTI4MF9yaWdodHNpZGVfdXAsCj4gPiA+Pj4gLSAg
-ICAgICB9LCB7ICAgIC8qIExlbm92byBJZGVhcGFkIE1paXggMzIwICovCj4gPiA+Pj4gKyAgICAg
-ICB9LCB7ICAgIC8qIExlbm92byBJZGVhcGFkIE1paXggMzIwIChIRCkgKi8KPiA+ID4+PiAgICAg
-ICAgICAgICAgICAgIC5tYXRjaGVzID0gewo+ID4gPj4+ICAgICAgICAgICAgICAgICAgICBETUlf
-RVhBQ1RfTUFUQ0goRE1JX1NZU19WRU5ET1IsICJMRU5PVk8iKSwKPiA+ID4+PiAgICAgICAgICAg
-ICAgICAgICAgRE1JX0VYQUNUX01BVENIKERNSV9QUk9EVUNUX05BTUUsICI4MFhGIiksCj4gPiA+
-Pj4gICAgICAgICAgICAgICAgICAgIERNSV9FWEFDVF9NQVRDSChETUlfUFJPRFVDVF9WRVJTSU9O
-LCAiTGVub3ZvIE1JSVggMzIwLTEwSUNSIiksCj4gPiA+Pj4gICAgICAgICAgICAgICAgICB9LAo+
-ID4gPj4+ICAgICAgICAgICAgICAgICAgLmRyaXZlcl9kYXRhID0gKHZvaWQgKikmbGNkODAweDEy
-ODBfcmlnaHRzaWRlX3VwLAo+ID4gPj4+IC0gICAgICAgfSwgeyAgICAvKiBMZW5vdm8gSWRlYXBh
-ZCBEMzMwICovCj4gPiA+Pj4gKyAgICAgICB9LCB7ICAgIC8qIExlbm92byBJZGVhcGFkIE1paXgg
-MzIwIChGSEQpICovCj4gPiA+Pj4gKyAgICAgICAgICAgICAgIC5tYXRjaGVzID0gewo+ID4gPj4+
-ICsgICAgICAgICAgICAgICAgIERNSV9FWEFDVF9NQVRDSChETUlfU1lTX1ZFTkRPUiwgIkxFTk9W
-TyIpLAo+ID4gPj4+ICsgICAgICAgICAgICAgICAgIERNSV9FWEFDVF9NQVRDSChETUlfUFJPRFVD
-VF9OQU1FLCAiODBYRiIpLAo+ID4gPj4+ICsgICAgICAgICAgICAgICAgIERNSV9FWEFDVF9NQVRD
-SChETUlfUFJPRFVDVF9WRVJTSU9OLCAiTGVub3ZvIE1JSVggMzIwLTEwSUNSIiksCj4gPiA+Pj4g
-KyAgICAgICAgICAgICAgIH0sCj4gPiA+Pj4gKyAgICAgICAgICAgICAgIC5kcml2ZXJfZGF0YSA9
-ICh2b2lkICopJmxjZDEyMDB4MTkyMF9yaWdodHNpZGVfdXAsCj4gPiA+Pj4gKyAgICAgICB9LCB7
-ICAgIC8qIExlbm92byBJZGVhcGFkIEQzMzAgKEhEKSAqLwo+ID4gPj4+ICsgICAgICAgICAgICAg
-ICAubWF0Y2hlcyA9IHsKPiA+ID4+PiArICAgICAgICAgICAgICAgICBETUlfRVhBQ1RfTUFUQ0go
-RE1JX1NZU19WRU5ET1IsICJMRU5PVk8iKSwKPiA+ID4+PiArICAgICAgICAgICAgICAgICBETUlf
-RVhBQ1RfTUFUQ0goRE1JX1BST0RVQ1RfTkFNRSwgIjgxSDMiKSwKPiA+ID4+PiArICAgICAgICAg
-ICAgICAgICBETUlfRVhBQ1RfTUFUQ0goRE1JX1BST0RVQ1RfVkVSU0lPTiwgIkxlbm92byBpZGVh
-cGFkIEQzMzAtMTBJR00iKSwKPiA+ID4+PiArICAgICAgICAgICAgICAgfSwKPiA+ID4+PiArICAg
-ICAgICAgICAgICAgLmRyaXZlcl9kYXRhID0gKHZvaWQgKikmbGNkODAweDEyODBfcmlnaHRzaWRl
-X3VwLAo+ID4gPj4+ICsgICAgICAgfSwgeyAgICAvKiBMZW5vdm8gSWRlYXBhZCBEMzMwIChGSEQp
-ICovCj4gPiA+Pj4gICAgICAgICAgICAgICAgICAubWF0Y2hlcyA9IHsKPiA+ID4+PiAgICAgICAg
-ICAgICAgICAgICAgRE1JX0VYQUNUX01BVENIKERNSV9TWVNfVkVORE9SLCAiTEVOT1ZPIiksCj4g
-PiA+Pj4gICAgICAgICAgICAgICAgICAgIERNSV9FWEFDVF9NQVRDSChETUlfUFJPRFVDVF9OQU1F
-LCAiODFIMyIpLAo+ID4gPj4+IC0tCj4gPiA+Pj4gMi4yMS4wCj4gPiA+Pj4KPiA+ID4KPiA+Cl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Philipp,
+
+> Am 26.04.2020 um 21:36 schrieb Philipp Rossak <embed3d@gmail.com>:
+> 
+> Hi Nikolaus,
+> 
+> On 24.04.20 22:34, H. Nikolaus Schaller wrote:
+>> The Imagination PVR/SGX GPU is part of several SoC from
+>> multiple vendors, e.g. TI OMAP, Ingenic JZ4780, Intel Poulsbo,
+>> Allwinner A83 and others.
+>> With this binding, we describe how the SGX processor is
+>> interfaced to the SoC (registers and interrupt).
+>> The interface also consists of clocks, reset, power but
+>> information from data sheets is vague and some SoC integrators
+>> (TI) deciced to use a PRCM wrapper (ti,sysc) which does
+>> all clock, reset and power-management through registers
+>> outside of the sgx register block.
+>> Therefore all these properties are optional.
+>> Tested by make dt_binding_check
+>> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+>> ---
+>>  .../devicetree/bindings/gpu/img,pvrsgx.yaml   | 150 ++++++++++++++++++
+>>  1 file changed, 150 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
+>> diff --git a/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml b/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
+>> new file mode 100644
+>> index 000000000000..33a9c4c6e784
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
+>> @@ -0,0 +1,150 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/gpu/img,pvrsgx.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Imagination PVR/SGX GPU
+>> +
+
+...
+
+>> +      - description: SGX544-112 based SoC
+>> +        items:
+>> +          - const: ti,omap4470-sgx544-112
+>> +          - const: img,sgx544-112
+>> +          - const: img,sgx544
+>> +
+>> +      - description: SGX544-115 based SoC
+>> +        items:
+>> +          - enum:
+>> +            - allwinner,sun8i-a31-sgx544-115
+>> +            - allwinner,sun8i-a31s-sgx544-115
+> those two bindings are wrong.
+> It should be allwinner,sun6i-a31-sgx544-115 and allwinner,sun6i-a31s-sgx544-115. I did a copy paste error in the patches that I provided for this series.
+
+Ok, noted for v8.
+
+BR and thanks,
+Nikolaus
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
