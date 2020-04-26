@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F013E1B9845
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 09:21:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD8E1B984F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 09:22:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02B478930A;
-	Mon, 27 Apr 2020 07:21:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1F3789DBC;
+	Mon, 27 Apr 2020 07:21:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1202D6E29B
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 12:54:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8485D89B05
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Apr 2020 12:57:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1587905650; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1587905821; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QGs1VbCXpq3w2bD385Ag0nyW5WilZcot3VZIcHvBKBA=;
- b=WgSWzgZ1oOoj+AbGcqvEGtTfzTVBQzFedGQ2dDOe/N42jNpWaMGtbZ3E/vaikqD/2rDXMX
- hI+YRAoyaapaSEK8YkTDlcs5PrVwEmccrvT5wN9dnpAtejFz81BMJMROx42MAEjI5115H4
- Ljp1howOILhfEB60hF1DGes1umRV6U4=
-Date: Sun, 26 Apr 2020 14:53:55 +0200
+ bh=VP/mAC4xwNDT9V91K8RLHYB6nE7AooWd1wTlk6uRfp4=;
+ b=AbMvu2fRXjCFm6r4XAiK02os0W+/STwoQ44/jocLsIYNNVAtsKI7bA90aQ74cVvhs5lLan
+ y4d+F5TbWTAuE/jofT7aZmiSn7uZjLRQedgWMMNrNJZDpCXraPxAcOa+Dvq1A+6VE+7OU/
+ EEEX6kOGv5zhpzoTKdy5z9BpNqSjfRo=
+Date: Sun, 26 Apr 2020 14:56:47 +0200
 From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v7 09/12] ARM: dts: sun6i: a31: add sgx gpu child node
+Subject: Re: [PATCH v7 08/12] arm: dts: s5pv210: Add node for SGX 540
 To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <VTBE9Q.B8A32JWI2Q9V3@crapouillou.net>
-In-Reply-To: <47740d708e00632735a8c1957109ca349029c716.1587760454.git.hns@goldelico.com>
+Message-Id: <NYBE9Q.YH08US7A7DC3@crapouillou.net>
+In-Reply-To: <3fd18c747426e15fd1f3500b9c4adce2db9ddd0c.1587760454.git.hns@goldelico.com>
 References: <cover.1587760454.git.hns@goldelico.com>
- <47740d708e00632735a8c1957109ca349029c716.1587760454.git.hns@goldelico.com>
+ <3fd18c747426e15fd1f3500b9c4adce2db9ddd0c.1587760454.git.hns@goldelico.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 27 Apr 2020 07:21:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,64 +68,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Le ven. 24 avril 2020 =E0 22:34, H. Nikolaus Schaller =
 
 <hns@goldelico.com> a =E9crit :
-> From: Philipp Rossak <embed3d@gmail.com>
+> From: Jonathan Bakker <xc-racer2@live.ca>
 > =
 
-> We are adding the devicetree binding for the PVR-SGX-544-115 gpu.
+> All s5pv210 devices have a PowerVR SGX 540 (revision 120) attached.
 > =
 
-> This driver is currently under development in the openpvrsgx-devgroup.
-> Right now the full binding is not figured out, so we provide here a
-> placeholder. It will be completed as soon as there is a demo =
-
-> available.
+> There is no external regulator for it so it can be enabled by default.
 > =
 
-> The currently used binding that is used during development is more
-> complete and was already verifyed by loading the kernelmodule =
-
-> successful.
-> =
-
-> Signed-off-by: Philipp Rossak <embed3d@gmail.com>
+> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
 > Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 > ---
->  arch/arm/boot/dts/sun6i-a31.dtsi | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  arch/arm/boot/dts/s5pv210.dtsi | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > =
 
-> diff --git a/arch/arm/boot/dts/sun6i-a31.dtsi =
+> diff --git a/arch/arm/boot/dts/s5pv210.dtsi =
 
-> b/arch/arm/boot/dts/sun6i-a31.dtsi
-> index f3425a66fc0a..933a825bf460 100644
-> --- a/arch/arm/boot/dts/sun6i-a31.dtsi
-> +++ b/arch/arm/boot/dts/sun6i-a31.dtsi
-> @@ -1417,5 +1417,16 @@ p2wi: i2c@1f03400 {
->  			#address-cells =3D <1>;
->  			#size-cells =3D <0>;
+> b/arch/arm/boot/dts/s5pv210.dtsi
+> index 2ad642f51fd9..abbdda205c1b 100644
+> --- a/arch/arm/boot/dts/s5pv210.dtsi
+> +++ b/arch/arm/boot/dts/s5pv210.dtsi
+> @@ -512,6 +512,19 @@ vic3: interrupt-controller@f2300000 {
+>  			#interrupt-cells =3D <1>;
 >  		};
+> =
+
+> +		gpu: gpu@f3000000 {
+> +			compatible =3D "samsung,s5pv210-sgx540-120";
+> +			reg =3D <0xf3000000 0x10000>;
+> +			interrupt-parent =3D <&vic2>;
+> +			interrupts =3D <10>;
+> +			clock-names =3D "core";
+> +			clocks =3D <&clocks CLK_G3D>;
 > +
-> +		gpu: gpu@1c400000 {
-> +			compatible =3D "allwinner,sun8i-a31-sgx544-115",
-> +				     "img,sgx544-115", "img,sgx544";
-> +			reg =3D <0x01c40000 0x10000>;
-> +			/*
-> +			 * This node is currently a placeholder for the gpu.
-> +			 * This will be completed when a full demonstration
-> +			 * of the openpvrsgx driver is available for this board.
-> +			 */
+> +			assigned-clocks =3D <&clocks MOUT_G3D>, <&clocks DOUT_G3D>;
+> +			assigned-clock-rates =3D <0>, <66700000>;
+> +			assigned-clock-parents =3D <&clocks MOUT_MPLL>;
 
-This node doesn't have clocks, so I don't see how it'd work.
+What are these clocks for, and why are they reparented / reclocked?
 
-Better delay the introduction of the GPU node for this board until you =
-
-know it works.
+Shouldn't they be passed to 'clocks' as well?
 
 -Paul
 
 > +		};
->  	};
->  };
+> +
+>  		fimd: fimd@f8000000 {
+>  			compatible =3D "samsung,s5pv210-fimd";
+>  			interrupt-parent =3D <&vic2>;
 > --
 > 2.25.1
 > =
