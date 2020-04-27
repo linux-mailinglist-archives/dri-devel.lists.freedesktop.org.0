@@ -2,26 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300EA1B9A9F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 10:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0938B1B9F62
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 11:09:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B4326E114;
-	Mon, 27 Apr 2020 08:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AA776E159;
+	Mon, 27 Apr 2020 09:09:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92D6D6E114
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:47:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: rcn)
- with ESMTPSA id 0ABB82A0832
-From: =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
-To: devicetree@vger.kernel.org
-Subject: [PATCH v2] dt-bindings: display: anx7814.txt: convert to yaml
-Date: Mon, 27 Apr 2020 10:46:58 +0200
-Message-Id: <20200427084658.27962-1-ricardo.canuelo@collabora.com>
-X-Mailer: git-send-email 2.18.0
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34A3A6E159
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 09:09:04 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 1762580618;
+ Mon, 27 Apr 2020 11:09:01 +0200 (CEST)
+Date: Mon, 27 Apr 2020 11:09:00 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
+Subject: Re: [PATCH v2] dt-bindings: display: anx7814.txt: convert to yaml
+Message-ID: <20200427090900.GA25058@ravnborg.org>
+References: <20200427084658.27962-1-ricardo.canuelo@collabora.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200427084658.27962-1-ricardo.canuelo@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=8nJEP1OIZ-IA:10 a=QX4gbG5DAAAA:8 a=7gkXJVJtAAAA:8 a=gEfo2CItAAAA:8
+ a=e5mUnYsNAAAA:8 a=9PyzFoNYW9ryUBNcHcwA:9 a=Ngot1CxQ-7BNPHMX:21
+ a=ceCSG8EcjXA1U1zs:21 a=wPNLvfGTeEIA:10 a=AbAUZ8qAyYyZVLSsDulk:22
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=sptkURWiP4Gy88Gu7hUp:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -34,114 +47,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: enric.balletbo@collabora.com, robh+dt@kernel.org, kernel@collabora.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: enric.balletbo@collabora.com, devicetree@vger.kernel.org,
+ robh+dt@kernel.org, kernel@collabora.com, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBjb252ZXJ0cyB0aGUgQW5hbG9naXggQU5YNzgxNCBicmlkZ2UgRFQgYmluZGluZyB0byB5
-YW1sLiBQb3J0CmRlZmluaXRpb25zIGFuZCBkZXNjcmlwdGlvbnMgd2VyZSBleHBhbmRlZCwgYXBh
-cnQgZnJvbSB0aGF0IGl0J3MgYQpkaXJlY3QgdHJhbnNsYXRpb24gZnJvbSB0aGUgb3JpZ2luYWwg
-YmluZGluZy4KClNpZ25lZC1vZmYtYnk6IFJpY2FyZG8gQ2HDsXVlbG8gPHJpY2FyZG8uY2FudWVs
-b0Bjb2xsYWJvcmEuY29tPgotLS0KQ2hhbmdlcyBpbiB2MiAoc3VnZ2VzdGVkIGJ5IEVucmljIEJh
-bGxldGJvKToKCiAgLSBGaWxlIG5hbWUgY2hhbmdlOiB1c2UgZnVsbCBjb21wYXRpYmxlIHN0cmlu
-Zy4KICAtIEJpbmRpbmcgZGVzY3JpcHRpb24gcmVtb3ZlZC4KICAtICNhZGRyZXNzLWNlbGxzIGFu
-ZCAjc2l6ZS1jZWxscyBwcm9wZXJ0aWVzIHJlbW92ZWQgZnJvbSBwb3J0cyBub2RlLgogIC0gRXhh
-bXBsZSBub2RlIHJlbmFtZWQ6IGFueDc4MTQgLT4gYnJpZGdlLgoKVGVzdGVkIHdpdGg6Cm1ha2Ug
-ZHRfYmluZGluZ19jaGVjayBBUkNIPWFybTY0IERUX1NDSEVNQV9GSUxFUz08Li4uL2FuYWxvZ2l4
-LGFueDc4MTQueWFtbD4KbWFrZSBkdGJzX2NoZWNrIEFSQ0g9YXJtNjQgRFRfU0NIRU1BX0ZJTEVT
-PTwuLi4vYW5hbG9naXgsYW54NzgxNC55YW1sPgoKIC4uLi9kaXNwbGF5L2JyaWRnZS9hbmFsb2dp
-eCxhbng3ODE0LnlhbWwgICAgICB8IDEyNCArKysrKysrKysrKysrKysrKysKIC4uLi9iaW5kaW5n
-cy9kaXNwbGF5L2JyaWRnZS9hbng3ODE0LnR4dCAgICAgICB8ICA0MiAtLS0tLS0KIDIgZmlsZXMg
-Y2hhbmdlZCwgMTI0IGluc2VydGlvbnMoKyksIDQyIGRlbGV0aW9ucygtKQogY3JlYXRlIG1vZGUg
-MTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9h
-bmFsb2dpeCxhbng3ODE0LnlhbWwKIGRlbGV0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYW54NzgxNC50eHQKCmRpZmYgLS1naXQg
-YS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYW5hbG9n
-aXgsYW54NzgxNC55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3Bs
-YXkvYnJpZGdlL2FuYWxvZ2l4LGFueDc4MTQueWFtbApuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRl
-eCAwMDAwMDAwMDAwMDAuLjU0NTkzMzZhYzJmNQotLS0gL2Rldi9udWxsCisrKyBiL0RvY3VtZW50
-YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbmFsb2dpeCxhbng3ODE0
-LnlhbWwKQEAgLTAsMCArMSwxMjQgQEAKKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwt
-Mi4wLW9ubHkgT1IgQlNELTItQ2xhdXNlKQorJVlBTUwgMS4yCistLS0KKyRpZDogaHR0cDovL2Rl
-dmljZXRyZWUub3JnL3NjaGVtYXMvZGlzcGxheS9icmlkZ2UvYW5hbG9naXgsYW54NzgxNC55YW1s
-IworJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwj
-CisKK3RpdGxlOiBBbmFsb2dpeCBBTlg3ODE0IFNsaW1Qb3J0IChGdWxsLUhEIFRyYW5zbWl0dGVy
-KQorCittYWludGFpbmVyczoKKyAgLSBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIDxlbnJpYy5iYWxs
-ZXRib0Bjb2xsYWJvcmEuY29tPgorCitwcm9wZXJ0aWVzOgorICBjb21wYXRpYmxlOgorICAgIGVu
-dW06CisgICAgICAtIGFuYWxvZ2l4LGFueDc4MDgKKyAgICAgIC0gYW5hbG9naXgsYW54NzgxMgor
-ICAgICAgLSBhbmFsb2dpeCxhbng3ODE0CisgICAgICAtIGFuYWxvZ2l4LGFueDc4MTgKKworICBy
-ZWc6CisgICAgbWF4SXRlbXM6IDEKKyAgICBkZXNjcmlwdGlvbjogSTJDIGFkZHJlc3Mgb2YgdGhl
-IGRldmljZS4KKworICBpbnRlcnJ1cHRzOgorICAgIG1heEl0ZW1zOiAxCisgICAgZGVzY3JpcHRp
-b246IFNob3VsZCBjb250YWluIHRoZSBJTlRQIGludGVycnVwdC4KKworICBocGQtZ3Bpb3M6Cisg
-ICAgbWF4SXRlbXM6IDEKKyAgICBkZXNjcmlwdGlvbjogV2hpY2ggR1BJTyB0byB1c2UgZm9yIGhw
-ZC4KKworICBwZC1ncGlvczoKKyAgICBtYXhJdGVtczogMQorICAgIGRlc2NyaXB0aW9uOiBXaGlj
-aCBHUElPIHRvIHVzZSBmb3IgcG93ZXIgZG93bi4KKworICByZXNldC1ncGlvczoKKyAgICBtYXhJ
-dGVtczogMQorICAgIGRlc2NyaXB0aW9uOiBXaGljaCBHUElPIHRvIHVzZSBmb3IgcmVzZXQuCisK
-KyAgZHZkZDEwLXN1cHBseToKKyAgICBtYXhJdGVtczogMQorICAgIGRlc2NyaXB0aW9uOiBSZWd1
-bGF0b3IgZm9yIDEuMFYgZGlnaXRhbCBjb3JlIHBvd2VyLgorCisgIHBvcnRzOgorICAgIHR5cGU6
-IG9iamVjdAorICAgIGRlc2NyaXB0aW9uOgorICAgICAgQSBub2RlIGNvbnRhaW5pbmcgaW5wdXQg
-YW5kIG91dHB1dCBwb3J0IG5vZGVzIHdpdGggZW5kcG9pbnQKKyAgICAgIGRlZmluaXRpb25zIGFz
-IGRvY3VtZW50ZWQgaW4KKyAgICAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9t
-ZWRpYS92aWRlby1pbnRlcmZhY2VzLnR4dAorICAgICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL2dyYXBoLnR4dAorCisgICAgcHJvcGVydGllczoKKyAgICAgIHBvcnRAMDoKKyAg
-ICAgICAgdHlwZTogb2JqZWN0CisgICAgICAgIGRlc2NyaXB0aW9uOiBWaWRlbyBwb3J0IGZvciBI
-RE1JIGlucHV0LgorCisgICAgICAgIHByb3BlcnRpZXM6CisgICAgICAgICAgcmVnOgorICAgICAg
-ICAgICAgY29uc3Q6IDAKKworICAgICAgcG9ydEAxOgorICAgICAgICB0eXBlOiBvYmplY3QKKyAg
-ICAgICAgZGVzY3JpcHRpb246CisgICAgICAgICAgVmlkZW8gcG9ydCBmb3IgU2xpbVBvcnQsIERp
-c3BsYXlQb3J0LCBlRFAgb3IgTXlEUCBvdXRwdXQuCisKKyAgICAgICAgcHJvcGVydGllczoKKyAg
-ICAgICAgICByZWc6CisgICAgICAgICAgICBjb25zdDogMQorCisgICAgcmVxdWlyZWQ6CisgICAg
-ICAtIHBvcnRAMAorICAgICAgLSBwb3J0QDEKKworcmVxdWlyZWQ6CisgIC0gY29tcGF0aWJsZQor
-ICAtIHJlZworICAtIGludGVycnVwdHMKKyAgLSBocGQtZ3Bpb3MKKyAgLSBwZC1ncGlvcworICAt
-IHJlc2V0LWdwaW9zCisgIC0gcG9ydHMKKworYWRkaXRpb25hbFByb3BlcnRpZXM6IGZhbHNlCisK
-K2V4YW1wbGVzOgorICAtIHwKKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvaW50ZXJydXB0LWNv
-bnRyb2xsZXIvYXJtLWdpYy5oPgorICAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9ncGlvL2dwaW8u
-aD4KKworICAgIGkyYzAgeworICAgICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsKKyAgICAgICAg
-I3NpemUtY2VsbHMgPSA8MD47CisKKyAgICAgICAgYW54NzgxNDogYnJpZGdlQDM4IHsKKyAgICAg
-ICAgICAgIGNvbXBhdGlibGUgPSAiYW5hbG9naXgsYW54NzgxNCI7CisgICAgICAgICAgICByZWcg
-PSA8MHgzOD47CisgICAgICAgICAgICBpbnRlcnJ1cHQtcGFyZW50ID0gPCZncGlvMD47CisgICAg
-ICAgICAgICBpbnRlcnJ1cHRzID0gPDk5IElSUV9UWVBFX0xFVkVMX0xPVz47ICAgLyogSU5UUCAq
-LworICAgICAgICAgICAgaHBkLWdwaW9zID0gPCZwaW8gMzYgR1BJT19BQ1RJVkVfSElHSD47Cisg
-ICAgICAgICAgICBwZC1ncGlvcyA9IDwmcGlvIDMzIEdQSU9fQUNUSVZFX0hJR0g+OworICAgICAg
-ICAgICAgcmVzZXQtZ3Bpb3MgPSA8JnBpbyA5OCBHUElPX0FDVElWRV9ISUdIPjsKKworICAgICAg
-ICAgICAgcG9ydHMgeworICAgICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+OworICAg
-ICAgICAgICAgICAgICNzaXplLWNlbGxzID0gPDA+OworCisgICAgICAgICAgICAgICAgcG9ydEAw
-IHsKKyAgICAgICAgICAgICAgICAgICAgcmVnID0gPDA+OworICAgICAgICAgICAgICAgICAgICBh
-bng3ODE0X2luOiBlbmRwb2ludCB7CisgICAgICAgICAgICAgICAgICAgICAgICByZW1vdGUtZW5k
-cG9pbnQgPSA8JmhkbWkwX291dD47CisgICAgICAgICAgICAgICAgICAgIH07CisgICAgICAgICAg
-ICAgICAgfTsKKworICAgICAgICAgICAgICAgIHBvcnRAMSB7CisgICAgICAgICAgICAgICAgICAg
-IHJlZyA9IDwxPjsKKyAgICAgICAgICAgICAgICAgICAgYW54NzgxNF9vdXQ6IGVuZHBvaW50IHsK
-KyAgICAgICAgICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmZWRwX291dD47Cisg
-ICAgICAgICAgICAgICAgICAgIH07CisgICAgICAgICAgICAgICAgfTsKKyAgICAgICAgICAgIH07
-CisgICAgICAgIH07CisgICAgfTsKKworLi4uCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYW54NzgxNC50eHQgYi9Eb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYW54NzgxNC50eHQKZGVsZXRl
-ZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDE3MjU4NzQ3ZmZmNi4uMDAwMDAwMDAwMDAwCi0tLSBh
-L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbng3ODE0
-LnR4dAorKysgL2Rldi9udWxsCkBAIC0xLDQyICswLDAgQEAKLUFuYWxvZ2l4IEFOWDc4MTQgU2xp
-bVBvcnQgKEZ1bGwtSEQgVHJhbnNtaXR0ZXIpCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLQotCi1UaGUgQU5YNzgxNCBpcyBhbiB1bHRyYS1sb3cgcG93ZXIg
-RnVsbC1IRCAoMTA4MHA2MCkgU2xpbVBvcnQgdHJhbnNtaXR0ZXIKLWRlc2lnbmVkIGZvciBwb3J0
-YWJsZSBkZXZpY2VzLgotCi1SZXF1aXJlZCBwcm9wZXJ0aWVzOgotCi0gLSBjb21wYXRpYmxlCQk6
-IE11c3QgYmUgb25lIG9mOgotCQkJICAiYW5hbG9naXgsYW54NzgwOCIKLQkJCSAgImFuYWxvZ2l4
-LGFueDc4MTIiCi0JCQkgICJhbmFsb2dpeCxhbng3ODE0IgotCQkJICAiYW5hbG9naXgsYW54Nzgx
-OCIKLSAtIHJlZwkJCTogSTJDIGFkZHJlc3Mgb2YgdGhlIGRldmljZQotIC0gaW50ZXJydXB0cwkJ
-OiBTaG91bGQgY29udGFpbiB0aGUgSU5UUCBpbnRlcnJ1cHQKLSAtIGhwZC1ncGlvcwkJOiBXaGlj
-aCBHUElPIHRvIHVzZSBmb3IgaHBkCi0gLSBwZC1ncGlvcwkJOiBXaGljaCBHUElPIHRvIHVzZSBm
-b3IgcG93ZXIgZG93bgotIC0gcmVzZXQtZ3Bpb3MJCTogV2hpY2ggR1BJTyB0byB1c2UgZm9yIHJl
-c2V0Ci0KLU9wdGlvbmFsIHByb3BlcnRpZXM6Ci0KLSAtIGR2ZGQxMC1zdXBwbHkJOiBSZWd1bGF0
-b3IgZm9yIDEuMFYgZGlnaXRhbCBjb3JlIHBvd2VyLgotIC0gVmlkZW8gcG9ydCBmb3IgSERNSSBp
-bnB1dCwgdXNpbmcgdGhlIERUIGJpbmRpbmdzIGRlZmluZWQgaW4gWzFdLgotCi1bMV06IERvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS92aWRlby1pbnRlcmZhY2VzLnR4dAot
-Ci1FeGFtcGxlOgotCi0JYW54NzgxNDogYW54NzgxNEAzOCB7Ci0JCWNvbXBhdGlibGUgPSAiYW5h
-bG9naXgsYW54NzgxNCI7Ci0JCXJlZyA9IDwweDM4PjsKLQkJaW50ZXJydXB0LXBhcmVudCA9IDwm
-Z3BpbzA+OwotCQlpbnRlcnJ1cHRzID0gPDk5IElSUV9UWVBFX0xFVkVMX0xPVz47ICAgLyogSU5U
-UCAqLwotCQlocGQtZ3Bpb3MgPSA8JnBpbyAzNiBHUElPX0FDVElWRV9ISUdIPjsKLQkJcGQtZ3Bp
-b3MgPSA8JnBpbyAzMyBHUElPX0FDVElWRV9ISUdIPjsKLQkJcmVzZXQtZ3Bpb3MgPSA8JnBpbyA5
-OCBHUElPX0FDVElWRV9ISUdIPjsKLQkJcG9ydCB7Ci0JCQlhbng3ODE0X2luOiBlbmRwb2ludCB7
-Ci0JCQkJcmVtb3RlLWVuZHBvaW50ID0gPCZoZG1pMF9vdXQ+OwotCQkJfTsKLQkJfTsKLQl9Owot
-LSAKMi4xOC4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Ricardo.
+
+On Mon, Apr 27, 2020 at 10:46:58AM +0200, Ricardo Ca=F1uelo wrote:
+> This converts the Analogix ANX7814 bridge DT binding to yaml. Port
+> definitions and descriptions were expanded, apart from that it's a
+> direct translation from the original binding.
+> =
+
+> Signed-off-by: Ricardo Ca=F1uelo <ricardo.canuelo@collabora.com>
+
+One comment below, with that fixed:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+> ---
+> Changes in v2 (suggested by Enric Balletbo):
+> =
+
+>   - File name change: use full compatible string.
+>   - Binding description removed.
+>   - #address-cells and #size-cells properties removed from ports node.
+>   - Example node renamed: anx7814 -> bridge.
+> =
+
+> Tested with:
+> make dt_binding_check ARCH=3Darm64 DT_SCHEMA_FILES=3D<.../analogix,anx781=
+4.yaml>
+> make dtbs_check ARCH=3Darm64 DT_SCHEMA_FILES=3D<.../analogix,anx7814.yaml>
+> =
+
+>  .../display/bridge/analogix,anx7814.yaml      | 124 ++++++++++++++++++
+>  .../bindings/display/bridge/anx7814.txt       |  42 ------
+>  2 files changed, 124 insertions(+), 42 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/anal=
+ogix,anx7814.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/anx7=
+814.txt
+> =
+
+> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,an=
+x7814.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7=
+814.yaml
+> new file mode 100644
+> index 000000000000..5459336ac2f5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.y=
+aml
+> @@ -0,0 +1,124 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/analogix,anx7814.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analogix ANX7814 SlimPort (Full-HD Transmitter)
+> +
+> +maintainers:
+> +  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - analogix,anx7808
+> +      - analogix,anx7812
+> +      - analogix,anx7814
+> +      - analogix,anx7818
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: I2C address of the device.
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: Should contain the INTP interrupt.
+> +
+> +  hpd-gpios:
+> +    maxItems: 1
+> +    description: Which GPIO to use for hpd.
+> +
+> +  pd-gpios:
+> +    maxItems: 1
+> +    description: Which GPIO to use for power down.
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: Which GPIO to use for reset.
+> +
+> +  dvdd10-supply:
+> +    maxItems: 1
+> +    description: Regulator for 1.0V digital core power.
+> +
+> +  ports:
+> +    type: object
+> +    description:
+> +      A node containing input and output port nodes with endpoint
+> +      definitions as documented in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +      Documentation/devicetree/bindings/graph.txt
+> +
+> +    properties:
+> +      port@0:
+> +        type: object
+> +        description: Video port for HDMI input.
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +      port@1:
+> +        type: object
+> +        description:
+> +          Video port for SlimPort, DisplayPort, eDP or MyDP output.
+> +
+> +        properties:
+> +          reg:
+> +            const: 1
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - hpd-gpios
+> +  - pd-gpios
+> +  - reset-gpios
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c0 {
+Name this i2c
+
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        anx7814: bridge@38 {
+> +            compatible =3D "analogix,anx7814";
+> +            reg =3D <0x38>;
+> +            interrupt-parent =3D <&gpio0>;
+> +            interrupts =3D <99 IRQ_TYPE_LEVEL_LOW>;   /* INTP */
+> +            hpd-gpios =3D <&pio 36 GPIO_ACTIVE_HIGH>;
+> +            pd-gpios =3D <&pio 33 GPIO_ACTIVE_HIGH>;
+> +            reset-gpios =3D <&pio 98 GPIO_ACTIVE_HIGH>;
+> +
+> +            ports {
+> +                #address-cells =3D <1>;
+> +                #size-cells =3D <0>;
+> +
+> +                port@0 {
+> +                    reg =3D <0>;
+> +                    anx7814_in: endpoint {
+> +                        remote-endpoint =3D <&hdmi0_out>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg =3D <1>;
+> +                    anx7814_out: endpoint {
+> +                        remote-endpoint =3D <&edp_out>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/display/bridge/anx7814.txt=
+ b/Documentation/devicetree/bindings/display/bridge/anx7814.txt
+> deleted file mode 100644
+> index 17258747fff6..000000000000
+> --- a/Documentation/devicetree/bindings/display/bridge/anx7814.txt
+> +++ /dev/null
+> @@ -1,42 +0,0 @@
+> -Analogix ANX7814 SlimPort (Full-HD Transmitter)
+> ------------------------------------------------
+> -
+> -The ANX7814 is an ultra-low power Full-HD (1080p60) SlimPort transmitter
+> -designed for portable devices.
+> -
+> -Required properties:
+> -
+> - - compatible		: Must be one of:
+> -			  "analogix,anx7808"
+> -			  "analogix,anx7812"
+> -			  "analogix,anx7814"
+> -			  "analogix,anx7818"
+> - - reg			: I2C address of the device
+> - - interrupts		: Should contain the INTP interrupt
+> - - hpd-gpios		: Which GPIO to use for hpd
+> - - pd-gpios		: Which GPIO to use for power down
+> - - reset-gpios		: Which GPIO to use for reset
+> -
+> -Optional properties:
+> -
+> - - dvdd10-supply	: Regulator for 1.0V digital core power.
+> - - Video port for HDMI input, using the DT bindings defined in [1].
+> -
+> -[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
+> -
+> -Example:
+> -
+> -	anx7814: anx7814@38 {
+> -		compatible =3D "analogix,anx7814";
+> -		reg =3D <0x38>;
+> -		interrupt-parent =3D <&gpio0>;
+> -		interrupts =3D <99 IRQ_TYPE_LEVEL_LOW>;   /* INTP */
+> -		hpd-gpios =3D <&pio 36 GPIO_ACTIVE_HIGH>;
+> -		pd-gpios =3D <&pio 33 GPIO_ACTIVE_HIGH>;
+> -		reset-gpios =3D <&pio 98 GPIO_ACTIVE_HIGH>;
+> -		port {
+> -			anx7814_in: endpoint {
+> -				remote-endpoint =3D <&hdmi0_out>;
+> -			};
+> -		};
+> -	};
+> -- =
+
+> 2.18.0
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
