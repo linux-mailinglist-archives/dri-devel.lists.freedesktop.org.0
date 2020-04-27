@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C4971BA84A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 17:46:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2093A1BBDFD
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:47:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D18F88930C;
-	Mon, 27 Apr 2020 15:46:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 517416E3BC;
+	Tue, 28 Apr 2020 12:46:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69C31892EF
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 15:46:22 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id gr25so14477245ejb.10
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:46:22 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E222A89D79
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 15:58:15 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id u16so174174wmc.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:58:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ucyhLHGk3/IBIP9DFH/8nWihui5Fg9a2ClyF0ieNkv0=;
+ b=ZLfg8VfqCtcH5sM8mGCJAMImRQB2JEP7GQHQoYq918VxqT1mGYmEdUFFpVNh0SuO38
+ E7l7VgIXqI4nKBV2ECQkl+02rnltgsAkxzY8A4uG8JUS+jUohuMBg3isOHGHDkFo4jfL
+ LNOWpP/mwbnO5rZ9BZGAoD6hp4CWFPwjIFHiu/aBlbmZzJtr1BuZvb+LG2b4KchOKuFr
+ 76yXbiqlJRzT00bM47OnDJPtTioVMI1OfjFDJsEQOTG5iDux2f5frWD/UNA8gXU+1AEV
+ QWwOC3y1z2k2PAGT/sGw3M0ZGxa0NkPqI9qbqrLNyOlpaNdei1M1UwOMroMVg2/t7eW+
+ +nvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=vN8ZtTEMOm40Zgoqr2j2go1H/JlhYwioxL2VoPsyXMo=;
- b=ttj6lh9DKFqI6FCAfkt78mAg+UHT9NdzDneoNhGeUX98lZIbzCMB3AwAnA/VWc2pGW
- Oxwa0CgFYqKy5nMhWi4/FmI2OFKhOkIHllLS4KA9nWHjN08q3FbXOO2CWpU5PK2hS7EO
- ZWwTkvEfaiBsLfV/w3qAgvdvTip312fz7nYSo2i7iVjnikOV5gRV+I4cRTpScXPRTC9+
- VcXW57x/+Wshi1zR6nAf1RJ4CsyDN0zyyXbq52nPCtPfsmBze3oFa5L0wLecUzXaLPAC
- uxdJ64J+efBc2367ojznxevEq0XjGMoX8L1EemUUTgca39Vp+gNcD8v3mtOpd4Jfc3xd
- z7yw==
-X-Gm-Message-State: AGi0PubZ0pae94oLOOUljN1nGmUqKM0O40WWXAlXWBtlzU1kA3tvfbfm
- V3N3IDBUc5WjXr64KFt9LpY=
-X-Google-Smtp-Source: APiQypJaGHIqdott9ULGc1vIvIC2hB4wMVjvSOJwybdeeq2XFdtUhgVC8YxEO2xmFZWEXRWg3+ZkRg==
-X-Received: by 2002:a17:906:3713:: with SMTP id
- d19mr19332049ejc.111.1588002380871; 
- Mon, 27 Apr 2020 08:46:20 -0700 (PDT)
-Received: from pi3 ([194.230.155.237])
- by smtp.googlemail.com with ESMTPSA id v14sm1947180edx.67.2020.04.27.08.46.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 08:46:20 -0700 (PDT)
-Date: Mon, 27 Apr 2020 17:46:17 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Jonathan Bakker <xc-racer2@live.ca>
-Subject: Re: [PATCH v7 08/12] arm: dts: s5pv210: Add node for SGX 540
-Message-ID: <20200427154617.GA1798@pi3>
-References: <cover.1587760454.git.hns@goldelico.com>
- <3fd18c747426e15fd1f3500b9c4adce2db9ddd0c.1587760454.git.hns@goldelico.com>
- <NYBE9Q.YH08US7A7DC3@crapouillou.net>
- <BN6PR04MB0660A180D2069848E5C03D7EA3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ucyhLHGk3/IBIP9DFH/8nWihui5Fg9a2ClyF0ieNkv0=;
+ b=ghM+r4izQ3zBH55cG0jG/J62dwVrnob/Nyj23TsX7Y1hV6wnmEvgs/MNZ8bCO+8wKU
+ +YY7uylZx/wyTfg8TdJHSftd/g/uRSO4aNKIm8+i+94PrYRSoHySGru2w3uwanwYEce0
+ iBpngDfWfFfw7pJFvs+X6LvkNAGyI0g5ahN/SGfZcdpb6h3yd+O7i+mdfDcKRMVk4c5B
+ e+Z+7AVLHz1wD7EFLKwrsbBS9j23JCWsJUPBKwnulQq3QfXdOj/Ys5om1SBWjK3DNLr1
+ nUd5ll5eJ38k9e9HBgIJ6Z1Rfv5OvG07OwY/djjVCSED9SqUQnLptukhtnnp7bDKSgr0
+ MF/Q==
+X-Gm-Message-State: AGi0PuYjStTmr5mVjkb9/ZldNLJuWgA1QCHr5Xi1W1dbv/zMrLUIiuUV
+ wPNuFieB8L6yGWa4x5o7nX6DmE0lYKQOTNklLxD4cQ==
+X-Google-Smtp-Source: APiQypJ8vVdXhaAqNlpCOvaZeyN16waXIFw4+irR6mxT6w4/fq6+fK5cPoZBvQI8skXgqGv3YkUxZ2ONfIBpS3EVweQ=
+X-Received: by 2002:a1c:384:: with SMTP id 126mr183852wmd.58.1588003094230;
+ Mon, 27 Apr 2020 08:58:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <BN6PR04MB0660A180D2069848E5C03D7EA3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
+References: <20200423223459.200858-1-pcc@google.com>
+ <CACvgo50xnz9g8PE6+4FxHr=NJ4sWd1no4erFBJ2RY2msE12PYA@mail.gmail.com>
+ <CAMn1gO5i-nBU_S-U896qrYYOUU6W4yD=KG8KTwijUOF62ts36g@mail.gmail.com>
+ <CACvgo53CGO-gM8xEyP92La+3KEPWGGy3V1+YsQ2hrCt+atMnLA@mail.gmail.com>
+In-Reply-To: <CACvgo53CGO-gM8xEyP92La+3KEPWGGy3V1+YsQ2hrCt+atMnLA@mail.gmail.com>
+From: Peter Collingbourne <pcc@google.com>
+Date: Mon, 27 Apr 2020 08:58:03 -0700
+Message-ID: <CAMn1gO7Q1C-aGwHQCyfzzVQORWsAcYb=Q8xkMm_5+504Cdbpig@mail.gmail.com>
+Subject: Re: [PATCH] drm: pl111: enable render node
+To: Emil Velikov <emil.l.velikov@gmail.com>
+X-Mailman-Approved-At: Tue, 28 Apr 2020 12:46:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,67 +64,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
- "H. Nikolaus Schaller" <hns@goldelico.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
- Paul Burton <paulburton@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
- James Hogan <jhogan@kernel.org>, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, letux-kernel@openphoenux.org,
- linux-arm-kernel@lists.infradead.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
- linux-kernel@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
- =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
- kernel@pyra-handheld.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Liviu Dudau <Liviu.Dudau@arm.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCBBcHIgMjYsIDIwMjAgYXQgMDc6NTc6MTJBTSAtMDcwMCwgSm9uYXRoYW4gQmFra2Vy
-IHdyb3RlOgo+IEhpIFBhdWwsCj4gCj4gT24gMjAyMC0wNC0yNiA1OjU2IGEubS4sIFBhdWwgQ2Vy
-Y3VlaWwgd3JvdGU6Cj4gPiAKPiA+IAo+ID4gTGUgdmVuLiAyNCBhdnJpbCAyMDIwIMOgIDIyOjM0
-LCBILiBOaWtvbGF1cyBTY2hhbGxlciA8aG5zQGdvbGRlbGljby5jb20+IGEgw6ljcml0IDoKPiA+
-PiBGcm9tOiBKb25hdGhhbiBCYWtrZXIgPHhjLXJhY2VyMkBsaXZlLmNhPgo+ID4+Cj4gPj4gQWxs
-IHM1cHYyMTAgZGV2aWNlcyBoYXZlIGEgUG93ZXJWUiBTR1ggNTQwIChyZXZpc2lvbiAxMjApIGF0
-dGFjaGVkLgo+ID4+Cj4gPj4gVGhlcmUgaXMgbm8gZXh0ZXJuYWwgcmVndWxhdG9yIGZvciBpdCBz
-byBpdCBjYW4gYmUgZW5hYmxlZCBieSBkZWZhdWx0Lgo+ID4+Cj4gPj4gU2lnbmVkLW9mZi1ieTog
-Sm9uYXRoYW4gQmFra2VyIDx4Yy1yYWNlcjJAbGl2ZS5jYT4KPiA+PiBTaWduZWQtb2ZmLWJ5OiBI
-LiBOaWtvbGF1cyBTY2hhbGxlciA8aG5zQGdvbGRlbGljby5jb20+Cj4gPj4gLS0tCj4gPj4gwqBh
-cmNoL2FybS9ib290L2R0cy9zNXB2MjEwLmR0c2kgfCAxMyArKysrKysrKysrKysrCj4gPj4gwqAx
-IGZpbGUgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKQo+ID4+Cj4gPj4gZGlmZiAtLWdpdCBhL2Fy
-Y2gvYXJtL2Jvb3QvZHRzL3M1cHYyMTAuZHRzaSBiL2FyY2gvYXJtL2Jvb3QvZHRzL3M1cHYyMTAu
-ZHRzaQo+ID4+IGluZGV4IDJhZDY0MmY1MWZkOS4uYWJiZGRhMjA1YzFiIDEwMDY0NAo+ID4+IC0t
-LSBhL2FyY2gvYXJtL2Jvb3QvZHRzL3M1cHYyMTAuZHRzaQo+ID4+ICsrKyBiL2FyY2gvYXJtL2Jv
-b3QvZHRzL3M1cHYyMTAuZHRzaQo+ID4+IEBAIC01MTIsNiArNTEyLDE5IEBAIHZpYzM6IGludGVy
-cnVwdC1jb250cm9sbGVyQGYyMzAwMDAwIHsKPiA+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-I2ludGVycnVwdC1jZWxscyA9IDwxPjsKPiA+PiDCoMKgwqDCoMKgwqDCoMKgIH07Cj4gPj4KPiA+
-PiArwqDCoMKgwqDCoMKgwqAgZ3B1OiBncHVAZjMwMDAwMDAgewo+ID4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIGNvbXBhdGlibGUgPSAic2Ftc3VuZyxzNXB2MjEwLXNneDU0MC0xMjAiOwoKVGhp
-cyBzaG91bGQgbm90IHBhc3MgdGhlIGJpbmRpbmdzIGNoZWNrIGJlY2F1c2UgeW91IG1pc3NlZCBs
-YXN0CmNvbXBhdGlibGVzLgoKPiA+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZWcgPSA8MHhm
-MzAwMDAwMCAweDEwMDAwPjsKPiA+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnRlcnJ1cHQt
-cGFyZW50ID0gPCZ2aWMyPjsKPiA+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnRlcnJ1cHRz
-ID0gPDEwPjsKPiA+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjbG9jay1uYW1lcyA9ICJjb3Jl
-IjsKPiA+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjbG9ja3MgPSA8JmNsb2NrcyBDTEtfRzNE
-PjsKPiA+PiArCj4gPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYXNzaWduZWQtY2xvY2tzID0g
-PCZjbG9ja3MgTU9VVF9HM0Q+LCA8JmNsb2NrcyBET1VUX0czRD47Cj4gPj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgYXNzaWduZWQtY2xvY2stcmF0ZXMgPSA8MD4sIDw2NjcwMDAwMD47Cj4gPj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYXNzaWduZWQtY2xvY2stcGFyZW50cyA9IDwmY2xvY2tz
-IE1PVVRfTVBMTD47Cj4gPiAKPiA+IFdoYXQgYXJlIHRoZXNlIGNsb2NrcyBmb3IsIGFuZCB3aHkg
-YXJlIHRoZXkgcmVwYXJlbnRlZCAvIHJlY2xvY2tlZD8KPiA+IAo+ID4gU2hvdWxkbid0IHRoZXkg
-YmUgcGFzc2VkIHRvICdjbG9ja3MnIGFzIHdlbGw/Cj4gPiAKPiA+IC1QYXVsCj4gPiAKPiAKPiBU
-aGUgRzNEIGNsb2NrIHN5c3RlbSBjYW4gaGF2ZSBtdWx0aXBsZSBwYXJlbnRzLCBhbmQgZm9yIHN0
-YWJsZSBvcGVyYXRpb24KPiBpdCdzIHJlY29tbWVuZGVkIHRvIHVzZSB0aGUgTVBMTCBjbG9jayBh
-cyB0aGUgcGFyZW50ICh3aGljaCBpbiB0dXJuCj4gaXMgYWN0dWFsbHkgYSBtdXggYXMgd2VsbCku
-ICBNT1VUX0czRCBpcyBzaW1wbHkgdGhlIG11eCBmb3IgQ0xLX0czRAo+IChTR1ggY29yZSBjbG9j
-ayksIERPVVRfRzNEIGlzIHRoZSBkaXZpZGVyLiAgRE9VVF9HM0QgY291bGQgZXF1YWxseSBiZSBD
-TEtfRzNECj4gKGFuZCBwcm9iYWJseSBzaG91bGQgYmUsIGZvciByZWFkYWJpbGl0eSkgYXMgQ0xL
-X0czRCBpcyBzaW1wbHkgdGhlIGdhdGUgYW5kCj4gRE9VVF9HM0QgaXMgdGhlIGRpdmlkZXIgZm9y
-IGl0LgoKR29vZCBwb2ludCwgaXQgc2hvdWxkIGJlIENMS19HM0QgaW5zdGVhZCBvZiBET1VULiAg
-Q2FuIHlvdSBmaXggdGhpcyBhcwp3ZWxsPwoKQmVzdCByZWdhcmRzLApLcnp5c3p0b2YKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Apr 27, 2020 at 7:45 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+>
+> On Fri, 24 Apr 2020 at 19:54, Peter Collingbourne <pcc@google.com> wrote:
+> >
+> > On Fri, Apr 24, 2020 at 4:11 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+> > >
+> > > On Thu, 23 Apr 2020 at 23:51, Peter Collingbourne <pcc@google.com> wrote:
+> > > >
+> > > > The render node is required by Android which does not support the legacy
+> > > > drmAuth authentication process.
+> > > >
+> > > > Signed-off-by: Peter Collingbourne <pcc@google.com>
+> > > > ---
+> > > >  drivers/gpu/drm/pl111/pl111_drv.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > The summary talks about drmAuth, yet exposes a render node. Even
+> > > through there's no rendering engine in the HW, as mentioned by Eric.
+> > >
+> > > AFAICT the only way drmAuth is relevant with pl111 is when you want to
+> > > export/import dma bufs.
+> > > Although that is handled in core and the artificial DRM_AUTH
+> > > restriction has been lifted with commit [1].
+> > >
+> > > -Emil
+> > >
+> > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.7-rc2&id=30a958526d2cc6df38347336a602479d048d92e7
+> >
+> > Okay, most likely drmAuth is irrelevant here (I don't know much about
+> > it to be honest; I know that Android uses render nodes, so I figured
+> > that drmAuth must therefore be the thing that it doesn't use). Sorry
+> > for the confusion. Here is a better explanation of why I needed this
+> > change.
+> >
+> > Android has a composer process that opens the primary node and uses
+> > DRM_IOCTL_MODE_ATOMIC to switch between frame buffers, and a renderer
+> > process (surfaceflinger) that opens the render node, prepares frame
+> > buffers and sends them to the composer. One idea for adapting this
+> > architecture to devices without render nodes is to have the renderer
+> > process open the primary node instead. But this runs into a problem:
+> > suppose that the renderer process starts before the composer process.
+> > In this case, the kernel makes the renderer the DRM master, so the
+> > composer can't change the frame buffer. Render nodes don't have this
+> > problem because opening them doesn't affect the master.
+> >
+> > I considered fixing this by having the composer issue
+> > DRM_IOCTL_SET_MASTER, but this requires root privileges. If we require
+> > drivers to provide render nodes and control access to the primary node
+> > while opening up the render node, we can ensure that only authorized
+> > processes can become the master without requiring them to be root.
+> >
+> I think that the crux, is trying to open a _primary_ node for
+> _rendering_ purposes.
+> While that may work - as you outline above - it's usually a bad idea.
+>
+> To step back a bit, in practise we have three SoC combinations:
+>  - complete lack of render device - then you default to software rendering [1]
+>  - display and render device are one and the same - no change needed,
+> things should just work
+>  - display and render devices are separate - surfaceflinger should
+> open the correct _rendering_ device node.
+>
+> [1] Mesa's libEGL (don't recall exact name on Android) can open VGEM
+
+(Android uses SwiftShader for software rendering, not Mesa, FWIW.)
+
+> render node, to work with the kms-swrast_dri.so software rasteriser
+> module.
+>
+> While I did not try [1] with Android, it was working fine with CrOS. I
+> suggest giving it a try and reporting bugs.
+
+I'm not sure I understand your suggestion, or at least how it would
+work on Android. The composer process wouldn't be able to use
+DRM_IOCTL_MODE_ATOMIC to display a frame buffer produced by the
+surfaceflinger process using a vgem render node, would it? It's a
+different driver so the memory region used for the frame buffer
+wouldn't necessarily be compatible with the pl111 device. As far as I
+know, the frame buffer would need to be produced using a pl111 render
+node.
+
+Peter
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
