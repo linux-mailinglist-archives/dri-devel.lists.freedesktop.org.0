@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810EA1BB088
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 23:32:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 762251BB093
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 23:33:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A33389E65;
-	Mon, 27 Apr 2020 21:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1C856E06B;
+	Mon, 27 Apr 2020 21:33:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f68.google.com (mail-oo1-f68.google.com
- [209.85.161.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEBBB89E65
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 21:32:02 +0000 (UTC)
-Received: by mail-oo1-f68.google.com with SMTP id g14so4218345ooa.4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 14:32:02 -0700 (PDT)
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2ED8A6E06B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 21:33:32 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id g14so28920011otg.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 14:33:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=w1uDZO2LdODIUIXzVhRK1SKj6P79fg3brB4R+H6ilss=;
- b=N+k2mGrkrRr5JO0y+/r5+lc8Gd43NIVcz6u+wo2WoxLYgTSd0xtHrvWYQLhzyltUuD
- xdQhhhOMZYttSxkl4iXlkbxYNjmfoKKTZrJMZFPJROzJwPOVPtBt2I9tplMkWecq7uDf
- 6SGXBHm5iqo9WJ3EwG1EhjOV5bO63/S0wWuXHp0ghomBQ5u4MoiwekMs2rGT2UdDUh3r
- lfiYCtYaxHRWXHMC5Cq1P8f18QpnlElxb5xYpLi8dzuQblJv6a1Q2Z60UXkhc/rvAoPJ
- M3+iFwCYvWHl2TUXOmEoT3o6Y4SiOmtj4Z13EfpTDZu87egEpvqpJEo5tKWZxp9mVri+
- tBqA==
-X-Gm-Message-State: AGi0PuanSZVPn9G7rAMnGH4gzPguyLmcKQo9CIxq+sehNXn3GbFZ0/X3
- Ck0PxgLlip4adEn1J37cAQ==
-X-Google-Smtp-Source: APiQypJf8rbZu6QH32eGiwrCo4i51dejGBYEAQsVJu6W92eQMIOBXv+t0wckN+3tyVZcrQoflUHTxw==
-X-Received: by 2002:a4a:3e8b:: with SMTP id t133mr20894000oot.52.1588023122070; 
- Mon, 27 Apr 2020 14:32:02 -0700 (PDT)
+ bh=obA990z8OJleBnpKtdw+eeF7m9Ujcg/6PH3LdKUCACk=;
+ b=csDCY4cffE+k1qXJ5JRe0m97pBWDkumm4YxaMtlmShD48r1ABlTYpVD7e2/QX4zXD3
+ 20TSF9yHg8o7KgD9LB/tJD6UfhCMdCl9W8BRaPxwwYgICLpnP/oLomv8ZMDgCXqHXYSe
+ JTJJBW9u1meetzdauAYXUWZVpxy3sC0B4EtJBSxHP3hLKkAf9KGJU5Wc6Q371ftiYdZ4
+ 1f6gj0SPoRvBBWtC1BCeFPdboAwh3zwIDFIXysOv6QymbynhGp285msUvgeOduDPvlPj
+ ZZ0if24SkavTzkeA53yRpnKfHloQikys2ONXRQ/qqayDipCKzTyprcpwsahBuMzzvEFF
+ kn7g==
+X-Gm-Message-State: AGi0PuYtmEW2+3yrxu1bQn2aZnoCM+qtGgkx7ICm/iWf1isWgvTYmeXo
+ 0spGdnkxW3IBVk7Fyyerfr4bvgE=
+X-Google-Smtp-Source: APiQypKzJKtr9ww00Gp25Z/3kTPkp/Xy6KxA4pc69SBeGjzz5+ZOtZDiTRA3EvrAU8JA4MmlxGOexw==
+X-Received: by 2002:a05:6830:2317:: with SMTP id
+ u23mr21214818ote.203.1588023211391; 
+ Mon, 27 Apr 2020 14:33:31 -0700 (PDT)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id u1sm2015687oif.54.2020.04.27.14.32.00
+ by smtp.gmail.com with ESMTPSA id d18sm4364822otk.63.2020.04.27.14.33.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 14:32:01 -0700 (PDT)
-Received: (nullmailer pid 31301 invoked by uid 1000);
- Mon, 27 Apr 2020 21:32:00 -0000
-Date: Mon, 27 Apr 2020 16:32:00 -0500
+ Mon, 27 Apr 2020 14:33:30 -0700 (PDT)
+Received: (nullmailer pid 1330 invoked by uid 1000);
+ Mon, 27 Apr 2020 21:33:29 -0000
+Date: Mon, 27 Apr 2020 16:33:29 -0500
 From: Rob Herring <robh@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 27/91] dt-bindings: display: Convert VC4 bindings to
- schemas
-Message-ID: <20200427213200.GA30618@bogus>
-References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
- <abfe72e59b796c86820d933bd81ba5ae0699e5b6.1587742492.git-series.maxime@cerno.tech>
+To: Gareth Williams <gareth.williams.jx@renesas.com>
+Subject: Re: [PATCH 2/3] drm/db9000: Add bindings documentation for LCD
+ controller
+Message-ID: <20200427213329.GA651@bogus>
+References: <1587975709-2092-1-git-send-email-gareth.williams.jx@renesas.com>
+ <1587975709-2092-3-git-send-email-gareth.williams.jx@renesas.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <abfe72e59b796c86820d933bd81ba5ae0699e5b6.1587742492.git-series.maxime@cerno.tech>
+In-Reply-To: <1587975709-2092-3-git-send-email-gareth.williams.jx@renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,67 +63,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Maxime Ripard <maxime@cerno.tech>, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Phil Edworthy <phil.edworthy@renesas.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Gareth Williams <gareth.williams.jx@renesas.com>,
+ Vivek Unune <npcomplete13@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 24 Apr 2020 17:34:08 +0200, Maxime Ripard wrote:
-> The BCM283x SoCs have a display pipeline composed of several controllers
-> with device tree bindings that are supported by Linux.
+On Mon, 27 Apr 2020 09:21:48 +0100, Gareth Williams wrote:
+> Add the DT bindings information for the Digital Blocks DB9000 LCD
+> controller. Also include documentation for the Renesas RZN1 specific
+> compatible string.
 > 
-> Now that we have the DT validation in place, let's split into separate
-> files and convert the device tree bindings for those controllers to
-> schemas.
-> 
-> This is just a 1:1 conversion though, and some bindings were incomplete so
-> it results in example validation warnings that are going to be addressed in
-> the following patches.
-> 
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> Signed-off-by: Gareth Williams <gareth.williams.jx@renesas.com>
 > ---
->  Documentation/devicetree/bindings/display/brcm,bcm-vc4.txt              | 174 +------------------------------------------------------------------------
->  Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml         |  66 +++++++++++++++++++++++++++-
->  Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml        |  73 ++++++++++++++++++++++++++++++-
->  Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml        |  75 +++++++++++++++++++++++++++++++-
->  Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml         |  37 +++++++++++++++-
->  Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml |  40 +++++++++++++++++-
->  Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml         |  37 +++++++++++++++-
->  Documentation/devicetree/bindings/display/brcm,bcm2835-v3d.yaml         |  42 +++++++++++++++++-
->  Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml         |  34 ++++++++++++++-
->  Documentation/devicetree/bindings/display/brcm,bcm2835-vec.yaml         |  44 ++++++++++++++++++-
->  MAINTAINERS                                                             |   2 +-
->  11 files changed, 449 insertions(+), 175 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/brcm,bcm-vc4.txt
->  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-v3d.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-vec.yaml
+>  .../devicetree/bindings/display/db9000,du.yaml     | 87 ++++++++++++++++++++++
+>  .../devicetree/bindings/vendor-prefixes.yaml       |  2 +
+>  2 files changed, 89 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/db9000,du.yaml
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
 
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml: properties: '#clock-cells' is a dependency of 'clock-output-names'
-Documentation/devicetree/bindings/Makefile:11: recipe for target 'Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.example.dts' failed
-make[1]: *** [Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.example.dts] Error 1
-make[1]: *** Waiting for unfinished jobs....
-Makefile:1300: recipe for target 'dt_binding_check' failed
-make: *** [dt_binding_check] Error 2
+Documentation/devicetree/bindings/display/db9000,du.example.dts:28.35-30.15: Warning (unit_address_vs_reg): /example-0/drm@53004000/port/endpoint@0: node has a unit name, but no reg or ranges property
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/db9000,du.example.dt.yaml: drm@53004000: clock-names:0: 'lcd_eclk' was expected
 
-See https://patchwork.ozlabs.org/patch/1276439
+See https://patchwork.ozlabs.org/patch/1277401
 
 If you already ran 'make dt_binding_check' and didn't see the above
 error(s), then make sure dt-schema is up to date:
