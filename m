@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA3F1BBDE1
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:46:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 493DD1BBE0A
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:47:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 637066E354;
-	Tue, 28 Apr 2020 12:46:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EC1B6E3F7;
+	Tue, 28 Apr 2020 12:46:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
- [149.117.87.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94DC96E2DF
+ [149.117.73.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5FD76E2E0
  for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 14:00:48 +0000 (UTC)
 Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
  [10.225.0.210])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 7F010C0341;
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 0EB5B40216;
  Mon, 27 Apr 2020 14:00:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1587996048; bh=UCMLWfN5C9w1mGSx3E4j3bVLT7LwXe2DGiVPSwkAs/w=;
+ t=1587996048; bh=OMUm9oUj6exviV94c+1DzYj85Ju6/SuvbzNjc27vPHk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
  References:From;
- b=QV8TO4a2U2ao0BqiDYqgQTdTuFU4iNU5kNWrUgOptD6OLmmAohE0MZ2OVkdj9Uwss
- NdAN5fwUUyGDw9nh8cqyrRmqJ+ZK3XFdwsZtKS2zvtYgIWcJc+0zGKyXsrYQ3NjfE4
- 6zLg2ljAJmkt62DrQVT15SMG70AbEEXVPnvV7u5RSVGVmsQCsEwO+AMKt5gtHmsSGf
- wPm3oMNOvtOTWV45uz8jEcVFmve7aNBpfxt5WeNvKOkOaZxrX/Cy1YD5Wa/OqIGqwV
- 40pkIfW+d5UtrO1qXgjgm5TFE6BHtRLgw244JuMqcCuL3K+EOvfy3vB5WDUwH6jX8M
- j7IuK9e8aEywg==
+ b=D30c8ehsSglTRqMTjW+6knFFbUHtyX9ZxudpzlPHQOEJviujGOpT9FyeDD9rJMcMp
+ Q0FdxKxvt5bahmGb72NBSHG/ocd7ntd7sGYJDjcMqUjeo1FElHTS4u7SyBde74irse
+ yUhu/F8jsRoDLyNSmqrzfX9UgjitQVLkhUT/AuhpCeXG3rTdhTfCRL23RzZrO9WRv7
+ rH1RUP7t0NdNmk128RlW6+EWQlmTVmKBJe2JviuZeBcGzUgVXXogH21DTuE10G/pq6
+ /xDgRYuCi3Cel6x6ryoAMZejjG0HS2d54/tFTKXzcQ25Gp9kM8gk4+BL27y0V3H4IM
+ /h9cnngpwGn4g==
 Received: from de02dwia024.internal.synopsys.com
  (de02dwia024.internal.synopsys.com [10.225.19.81])
- by mailhost.synopsys.com (Postfix) with ESMTP id E9D2FA0063;
- Mon, 27 Apr 2020 14:00:44 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id 52027A0069;
+ Mon, 27 Apr 2020 14:00:45 +0000 (UTC)
 From: Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/4] drm: ipk: Add DRM driver for DesignWare IPK DSI
-Date: Mon, 27 Apr 2020 16:00:34 +0200
-Message-Id: <a26d3d452468e8db9fa06e7d78e5bd1d546a174f.1587992776.git.angelo.ribeiro@synopsys.com>
+Subject: [PATCH v3 3/4] drm: ipk: Add extensions for DW MIPI DSI Host driver
+Date: Mon, 27 Apr 2020 16:00:35 +0200
+Message-Id: <24372475c0afe1e88f323efec16300903d1c6294.1587992776.git.angelo.ribeiro@synopsys.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1587992776.git.angelo.ribeiro@synopsys.com>
 References: <cover.1587992776.git.angelo.ribeiro@synopsys.com>
@@ -66,11 +66,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for Synopsys DesignWare VPG (Video Pattern Generator)
-and DRM driver for Synopsys DesignWare DSI Host IPK solution.
-
-This patch has to be applied on top of Daniel Vetter's implementation -
-devm_drm_dev_alloc https://patchwork.freedesktop.org/patch/359897/ .
+Add Synopsys DesignWare IPK specific extensions for Synopsys DesignWare
+MIPI DSI Host driver.
 
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Maxime Ripard <mripard@kernel.org>
@@ -82,760 +79,604 @@ Cc: Joao Pinto <jpinto@synopsys.com>
 Signed-off-by: Angelo Ribeiro <angelo.ribeiro@synopsys.com>
 ---
 Changes since v3:
-  - Changed Makefile to use '+=' instead of '\'.
   - Rearranged headers.
-  - Replaced drm_mode_config_init by drmm_mode_config_init.
-  - Droped DRM legacy functions.
-  - Replaced DRM_xxx by drm_xxx.
-  - Changed load function to devm_drm_dev_alloc.
-  - Implemented pipeline as a drm_simple_display_pipe.
 ---
- drivers/gpu/drm/Kconfig      |   2 +
- drivers/gpu/drm/Makefile     |   1 +
- drivers/gpu/drm/ipk/Kconfig  |  13 ++
- drivers/gpu/drm/ipk/Makefile |   4 +
- drivers/gpu/drm/ipk/dw-drv.c | 169 ++++++++++++++++++
- drivers/gpu/drm/ipk/dw-ipk.h |  26 +++
- drivers/gpu/drm/ipk/dw-vpg.c | 412 +++++++++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/ipk/dw-vpg.h |  48 +++++
- 8 files changed, 675 insertions(+)
- create mode 100644 drivers/gpu/drm/ipk/Kconfig
- create mode 100644 drivers/gpu/drm/ipk/Makefile
- create mode 100644 drivers/gpu/drm/ipk/dw-drv.c
- create mode 100644 drivers/gpu/drm/ipk/dw-ipk.h
- create mode 100644 drivers/gpu/drm/ipk/dw-vpg.c
- create mode 100644 drivers/gpu/drm/ipk/dw-vpg.h
+ drivers/gpu/drm/ipk/Kconfig           |   9 +
+ drivers/gpu/drm/ipk/Makefile          |   2 +
+ drivers/gpu/drm/ipk/dw-mipi-dsi-ipk.c | 557 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 568 insertions(+)
+ create mode 100644 drivers/gpu/drm/ipk/dw-mipi-dsi-ipk.c
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 4359497..29ea1d1 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -388,6 +388,8 @@ source "drivers/gpu/drm/mcde/Kconfig"
- 
- source "drivers/gpu/drm/tidss/Kconfig"
- 
-+source "drivers/gpu/drm/ipk/Kconfig"
-+
- # Keep legacy drivers last
- 
- menuconfig DRM_LEGACY
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index f34d08c..b15f2ea 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -124,3 +124,4 @@ obj-$(CONFIG_DRM_PANFROST) += panfrost/
- obj-$(CONFIG_DRM_ASPEED_GFX) += aspeed/
- obj-$(CONFIG_DRM_MCDE) += mcde/
- obj-$(CONFIG_DRM_TIDSS) += tidss/
-+obj-$(CONFIG_DRM_IPK) += ipk/
 diff --git a/drivers/gpu/drm/ipk/Kconfig b/drivers/gpu/drm/ipk/Kconfig
-new file mode 100644
-index 0000000..1f87444
---- /dev/null
+index 1f87444..49819e5 100644
+--- a/drivers/gpu/drm/ipk/Kconfig
 +++ b/drivers/gpu/drm/ipk/Kconfig
-@@ -0,0 +1,13 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+config DRM_IPK
-+	tristate "DRM Support for Synopsys DesignWare IPK DSI"
-+	depends on DRM
-+	select DRM_KMS_HELPER
-+	select DRM_GEM_CMA_HELPER
-+	select DRM_KMS_CMA_HELPER
-+	select DRM_PANEL_BRIDGE
-+	select VIDEOMODE_HELPERS
-+	help
-+	  Enable support for the Synopsys DesignWare DRM DSI.
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called ipk-drm.
-diff --git a/drivers/gpu/drm/ipk/Makefile b/drivers/gpu/drm/ipk/Makefile
-new file mode 100644
-index 0000000..6a1a911
---- /dev/null
-+++ b/drivers/gpu/drm/ipk/Makefile
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+ipk-drm-y := dw-drv.o dw-vpg.o
+@@ -11,3 +11,12 @@ config DRM_IPK
+ 	  Enable support for the Synopsys DesignWare DRM DSI.
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called ipk-drm.
 +
-+obj-$(CONFIG_DRM_IPK) += ipk-drm.o
-diff --git a/drivers/gpu/drm/ipk/dw-drv.c b/drivers/gpu/drm/ipk/dw-drv.c
++config DRM_IPK_DSI
++	tristate "Synopsys DesignWare IPK specific extensions for MIPI DSI"
++	depends on DRM_IPK
++	select DRM_DW_MIPI_DSI
++	help
++	  Choose this option for Synopsys DesignWare IPK MIPI DSI support.
++	  To compile this driver as a module, choose M here: the module
++	  will be called dw-mipi-dsi-ipk.
+diff --git a/drivers/gpu/drm/ipk/Makefile b/drivers/gpu/drm/ipk/Makefile
+index 6a1a911..f22d590 100644
+--- a/drivers/gpu/drm/ipk/Makefile
++++ b/drivers/gpu/drm/ipk/Makefile
+@@ -2,3 +2,5 @@
+ ipk-drm-y := dw-drv.o dw-vpg.o
+ 
+ obj-$(CONFIG_DRM_IPK) += ipk-drm.o
++
++obj-$(CONFIG_DRM_IPK_DSI) += dw-mipi-dsi-ipk.o
+diff --git a/drivers/gpu/drm/ipk/dw-mipi-dsi-ipk.c b/drivers/gpu/drm/ipk/dw-mipi-dsi-ipk.c
 new file mode 100644
-index 0000000..5ff6cbf
+index 0000000..f8ac4ca
 --- /dev/null
-+++ b/drivers/gpu/drm/ipk/dw-drv.c
-@@ -0,0 +1,169 @@
++++ b/drivers/gpu/drm/ipk/dw-mipi-dsi-ipk.c
+@@ -0,0 +1,557 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (c) 2019-2020 Synopsys, Inc. and/or its affiliates.
-+ * Synopsys DesignWare MIPI DSI DRM driver
++ * Synopsys DesignWare MIPI DSI solution driver
 + *
 + * Author: Angelo Ribeiro <angelo.ribeiro@synopsys.com>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/component.h>
-+#include <linux/module.h>
-+#include <linux/of_platform.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fb_cma_helper.h>
-+#include <drm/drm_fb_helper.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+
-+#include "dw-ipk.h"
-+#include "dw-vpg.h"
-+
-+static const struct drm_mode_config_funcs dw_ipk_drm_modecfg_funcs = {
-+	.fb_create = drm_gem_fb_create_with_dirty,
-+	.atomic_check = drm_atomic_helper_check,
-+	.atomic_commit = drm_atomic_helper_commit,
-+};
-+
-+static int dw_ipk_load(struct drm_device *drm)
-+{
-+	int ret;
-+
-+	ret = drmm_mode_config_init(drm);
-+	if (ret)
-+		return ret;
-+
-+	drm->mode_config.min_width = 0;
-+	drm->mode_config.min_height = 0;
-+
-+	/* To handle orientation */
-+	drm->mode_config.max_width = 2048;
-+	drm->mode_config.max_height = 2048;
-+
-+	drm->mode_config.funcs = &dw_ipk_drm_modecfg_funcs;
-+
-+	/* TODO
-+	 * Optional framebuffer memory resources allocation
-+	 */
-+
-+	ret = vpg_load(drm);
-+	if (ret)
-+		return ret;
-+
-+	/* Calls all the crtc's, encoder's and connector's reset */
-+	drm_mode_config_reset(drm);
-+
-+	return ret;
-+}
-+
-+static void dw_ipk_unload(struct drm_device *drm)
-+{
-+	drm_dbg(drm, "\n");
-+	vpg_unload(drm);
-+}
-+
-+DEFINE_DRM_GEM_CMA_FOPS(ipk_drm_driver_fops);
-+
-+static int dw_ipk_gem_cma_dumb_create(struct drm_file *file,
-+				      struct drm_device *dev,
-+				      struct drm_mode_create_dumb *args)
-+{
-+	unsigned int min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
-+	int err;
-+
-+	/*
-+	 * In order to optimize data transfer, pitch is aligned on
-+	 * 128 bytes, height is aligned on 4 bytes
-+	 */
-+	args->pitch = roundup(min_pitch, 128);
-+	args->height = roundup(args->height, 4);
-+
-+	err = drm_gem_cma_dumb_create_internal(file, dev, args);
-+	if (err)
-+		drm_err(dev, "dumb_create failed %d\n", err);
-+
-+	return err;
-+}
-+
-+static struct drm_driver dw_ipk_drm_driver = {
-+	.gem_create_object = drm_cma_gem_create_object_default_funcs,
-+	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-+	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-+	.dumb_create = dw_ipk_gem_cma_dumb_create,
-+
-+	.major = 1,
-+	.minor = 0,
-+	.patchlevel = 0,
-+	.name = "dw_ipk",
-+	.desc = "DW IPK DSI Host Controller",
-+	.date = "20190725",
-+
-+	.driver_features = DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
-+
-+	.fops = &ipk_drm_driver_fops,
-+};
-+
-+static int dw_ipk_drm_platform_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct drm_device *drm;
-+	struct ipk_device *ipk;
-+	int ret;
-+
-+	ipk = devm_drm_dev_alloc(dev, &dw_ipk_drm_driver,
-+				 struct ipk_device, drm);
-+	if (IS_ERR(ipk))
-+		return PTR_ERR(ipk);
-+
-+	ipk->platform = pdev;
-+	drm = &ipk->drm;
-+
-+	platform_set_drvdata(pdev, drm);
-+
-+	ret = dw_ipk_load(drm);
-+	if (ret)
-+		return ret;
-+
-+	ret = drm_dev_register(drm, 0);
-+	if (ret)
-+		return ret;
-+
-+	drm_fbdev_generic_setup(drm, 24);
-+
-+	return ret;
-+}
-+
-+static int dw_ipk_drm_platform_remove(struct platform_device *pdev)
-+{
-+	struct drm_device *drm = platform_get_drvdata(pdev);
-+
-+	drm_dev_unregister(drm);
-+	dw_ipk_unload(drm);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id dw_ipk_dt_ids[] = {
-+	{.compatible = "snps,dw-ipk-vpg"},
-+	{ /* sentinel */ }
-+};
-+
-+MODULE_DEVICE_TABLE(of, dw_ipk_dt_ids);
-+
-+static struct platform_driver dw_ipk_drm_platform_driver = {
-+	.probe = dw_ipk_drm_platform_probe,
-+	.remove = dw_ipk_drm_platform_remove,
-+	.driver = {
-+		.name = "dw-ipk-drm",
-+		.of_match_table = dw_ipk_dt_ids,
-+	},
-+};
-+
-+module_platform_driver(dw_ipk_drm_platform_driver);
-+
-+MODULE_DESCRIPTION("Synopsys DesignWare IPK DRM driver");
-+MODULE_LICENSE("GPL v2");
-+MODULE_AUTHOR("Angelo Ribeiro <angelo.ribeiro@synopsys.com>");
-diff --git a/drivers/gpu/drm/ipk/dw-ipk.h b/drivers/gpu/drm/ipk/dw-ipk.h
-new file mode 100644
-index 0000000..8d3fd12
---- /dev/null
-+++ b/drivers/gpu/drm/ipk/dw-ipk.h
-@@ -0,0 +1,26 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2019-2020 Synopsys, Inc. and/or its affiliates.
-+ * Synopsys DesignWare IPK MIPI DSI DRM Driver
-+ */
-+
-+#ifndef _DW_IPK_H
-+#define _DW_IPK_H
-+
-+#include <drm/drm_simple_kms_helper.h>
-+
-+struct vpg_device;
-+
-+struct ipk_device {
-+	struct drm_device drm;
-+	struct platform_device *platform;
-+	struct drm_simple_display_pipe pipe;
-+	struct vpg_device *vpg;
-+};
-+
-+#define drm_dev_to_ipk_dev(target) \
-+	container_of(target, struct ipk_device, drm)
-+#define display_pipe_to_ipk_dev(target) \
-+	container_of(target, struct ipk_device, pipe)
-+
-+#endif /* _DW_IPK_H */
-diff --git a/drivers/gpu/drm/ipk/dw-vpg.c b/drivers/gpu/drm/ipk/dw-vpg.c
-new file mode 100644
-index 0000000..b7575fa
---- /dev/null
-+++ b/drivers/gpu/drm/ipk/dw-vpg.c
-@@ -0,0 +1,412 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2019-2020 Synopsys, Inc. and/or its affiliates.
-+ * Synopsys DesignWare MIPI DSI controller
-+ *
-+ * Author: Angelo Ribeiro <angelor@synopsys.com>
 + * Author: Luis Oliveira <luis.oliveira@synopsys.com>
 + */
 +
 +#include <linux/clk.h>
-+#include <linux/component.h>
-+#include <linux/delay.h>
-+#include <linux/interrupt.h>
++#include <linux/iopoll.h>
 +#include <linux/module.h>
-+#include <linux/of_address.h>
-+#include <linux/of_graph.h>
-+#include <linux/platform_data/simplefb.h>
++#include <linux/of.h>
 +#include <linux/platform_device.h>
-+#include <linux/reset.h>
 +
-+#include <video/videomode.h>
++#include <video/mipi_display.h>
 +
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
++#include <drm/bridge/dw_mipi_dsi.h>
++#include <drm/drm_crtc.h>
 +#include <drm/drm_device.h>
-+#include <drm/drm_fb_cma_helper.h>
-+#include <drm/drm_fourcc.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_simple_kms_helper.h>
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_print.h>
 +
-+#include "dw-ipk.h"
-+#include "dw-vpg.h"
++#define DW_DPHY_LPCLK_CTRL	0x94
++#define DW_DPHY_RSTZ		0xA0
++#define DW_DPHY_IF_CFG		0xA4
++#define DW_DPHY_ULPS_CTRL	0xA8
++#define DW_DPHY_TX_TRIGGERS	0xAC
++#define DW_DPHY_STATUS		0xB0
++#define DW_DPHY_TST_CTRL0	0xB4
++#define DW_DPHY_TST_CTRL1	0xB8
++#define DW_GEN3_IF_TESTER	0x3c
++#define DW_GEN3_IF_SOC_PLL	0x48
++#define DW_GEN3_IF_SOC_PLL_EN	0x4C
 +
-+struct vpg_device {
++#define DW_12BITS_DPHY_RDY_L0	0x507
++#define DW_12BITS_DPHY_RDY_L1	0x707
++#define DW_12BITS_DPHY_RDY_L2	0x907
++#define DW_12BITS_DPHY_RDY_L3	0xB07
++
++#define DW_LANE_MIN_KBPS	80000
++#define DW_LANE_MAX_KBPS	2500000000
++#define DW_DPHY_DIV_UPPER_LIMIT	8000
++#define DW_DPHY_DIV_LOWER_LIMIT	2000
++#define DW_MIN_OUTPUT_FREQ	80
++#define DW_LPHS_TIM_TRANSIONS	0x40
++
++enum dw_glueiftester {
++	GLUE_LOGIC = 0x4,
++	RX_PHY = 0x2,
++	TX_PHY = 0x1,
++	RESET = 0x0,
++};
++
++struct dw_range_dphy {
++	u32 freq;
++	u8 hs_freq_range;
++	u32 osc_freq_target;
++} dw_range_gen3[] = {
++	{ 80, 0x00, 0x3f }, { 90, 0x10, 0x3f }, { 100, 0x20, 0x3f },
++	{ 110, 0x30, 0x39 }, { 120, 0x01, 0x39 }, { 130, 0x11, 0x39 },
++	{ 140, 0x21, 0x39 }, { 150, 0x31, 0x39 }, { 160, 0x02, 0x39 },
++	{ 170, 0x12, 0x2f }, { 180, 0x22, 0x2f }, { 190, 0x32, 0x2f },
++	{ 205, 0x03, 0x2f }, { 220, 0x13, 0x29 }, { 235, 0x23, 0x29 },
++	{ 250, 0x33, 0x29 }, { 275, 0x04, 0x29 }, { 300, 0x14, 0x29 },
++	{ 325, 0x25, 0x29 }, { 350, 0x35, 0x1f }, { 400, 0x05, 0x1f },
++	{ 450, 0x16, 0x19 }, { 500, 0x26, 0x19 }, { 550, 0x37, 0x19 },
++	{ 600, 0x07, 0x19 }, { 650, 0x18, 0x19 }, { 700, 0x28, 0x0f },
++	{ 750, 0x39, 0x0f }, { 800, 0x09, 0x0f }, { 850, 0x19, 0x0f },
++	{ 900, 0x29, 0x09 }, { 950, 0x3a, 0x09 }, { 1000, 0x0a, 0x09 },
++	{ 1050, 0x1a, 0x09 }, { 1100, 0x2a, 0x09 }, { 1150, 0x3b, 0x09 },
++	{ 1200, 0x0b, 0x09 }, { 1250, 0x1b, 0x09 }, { 1300, 0x2b, 0x09 },
++	{ 1350, 0x3c, 0x03 }, { 1400, 0x0c, 0x03 }, { 1450, 0x1c, 0x03 },
++	{ 1500, 0x2c, 0x03 }, { 1550, 0x3d, 0x03 }, { 1600, 0x0d, 0x03 },
++	{ 1650, 0x1d, 0x03 }, { 1700, 0x2e, 0x03 }, { 1750, 0x3e, 0x03 },
++	{ 1800, 0x0e, 0x03 }, { 1850, 0x1e, 0x03 }, { 1900, 0x2f, 0x03 },
++	{ 1950, 0x3f, 0x03 }, { 2000, 0x0f, 0x03 }, { 2050, 0x40, 0x03 },
++	{ 2100, 0x41, 0x03 }, { 2150, 0x42, 0x03 }, { 2200, 0x43, 0x03 },
++	{ 2250, 0x44, 0x03 }, {  2300, 0x45, 0x01 }, { 2350, 0x46, 0x01 },
++	{ 2400, 0x47, 0x01 }, {  2450, 0x48, 0x01 }, { 2500, 0x49, 0x01 }
++};
++
++struct dw_dsi_ipk {
 +	void __iomem *base;
-+	void __iomem *base_mmcm;
++	void __iomem *base_phy;
++	struct clk *pllref_clk;
++	struct dw_mipi_dsi *dsi;
++	u32 lane_min_kbps;
++	u32 lane_max_kbps;
++	int range;
++	int in_div;
++	int loop_div;
 +};
 +
-+enum vpg_pixel_fmt {
-+	VIF_COLOR_CODE_16BIT_CONFIG1 = 0,
-+	VIF_COLOR_CODE_16BIT_CONFIG2,
-+	VIF_COLOR_CODE_16BIT_CONFIG3,
-+	VIF_COLOR_CODE_18BIT_CONFIG1,
-+	VIF_COLOR_CODE_18BIT_CONFIG2,
-+	VIF_COLOR_CODE_24BIT,
-+	VIF_COLOR_CODE_MAX
-+};
++#define dw_mipi_dsi_to_dw_dsi_ipk(target) \
++	container_of(target, struct dw_dsi_ipk, dsi)
 +
-+static enum vpg_pixel_fmt to_vpg_pixel_format(u32 drm_fmt)
++static void dw_dsi_write(struct dw_dsi_ipk *dsi, u32 reg, u32 val)
 +{
-+	enum vpg_pixel_fmt pf;
-+
-+	switch (drm_fmt) {
-+	case DRM_FORMAT_RGB888:
-+		pf = VIF_COLOR_CODE_24BIT;
-+		break;
-+	case DRM_FORMAT_RGB565:
-+		pf = VIF_COLOR_CODE_16BIT_CONFIG1;
-+		break;
-+	default:
-+		pf = VIF_COLOR_CODE_MAX;
-+		break;
-+	}
-+	return pf;
++	writel(val, dsi->base + reg);
 +}
 +
-+static u32 vpg_read(struct vpg_device *dev, u32 reg)
++static u32 dw_dsi_read(struct dw_dsi_ipk *dsi, u32 reg)
 +{
-+	return readl(dev->base + reg);
++	return readl(dsi->base + reg);
 +}
 +
-+static void vpg_write(struct vpg_device *dev, u32 reg, u32 val)
++static void dw_phy_write(struct dw_dsi_ipk *dsi, u32 reg, u32 val)
 +{
-+	writel(val, dev->base + reg);
++	writel(val, dsi->base_phy + reg);
 +}
 +
-+static void vpg_write_part(struct vpg_device *dev, u32 reg,
-+			   u32 val, u8 shift, u8 width)
++static void dw_dsi_phy_write_part(struct dw_dsi_ipk *dsi, u32 reg_address,
++				  u32 data, u8 shift, u8 width)
 +{
++	u32 temp = dw_dsi_read(dsi, reg_address);
 +	u32 mask = (1 << width) - 1;
 +
-+	vpg_write(dev, reg, (vpg_read(dev, reg) &
-+		  ~(mask << shift)) | ((val & mask) << shift));
++	temp &= ~(mask << shift);
++	temp |= (data & mask) << shift;
++	dw_dsi_write(dsi, reg_address, temp);
 +}
 +
-+static u32 mmcm_read(struct vpg_device *dev, u32 reg)
++static void dw_dsi_phy_test_data_in(struct dw_dsi_ipk *dsi, u8 test_data)
 +{
-+	return readl(dev->base_mmcm + reg);
++	dw_dsi_phy_write_part(dsi, DW_DPHY_TST_CTRL1, test_data, 0, 8);
 +}
 +
-+static void mmcm_write(struct vpg_device *dev, u32 reg, u32 value)
++static void dw_dsi_phy_test_clock(struct dw_dsi_ipk *dsi, int value)
 +{
-+	writel(value, dev->base_mmcm + reg);
++	dw_dsi_phy_write_part(dsi, DW_DPHY_TST_CTRL0, value, 1, 1);
 +}
 +
-+static void mmcm_configure(struct drm_device *drm,
-+			   struct drm_display_mode *mode)
++static void dw_dsi_phy_test_en(struct dw_dsi_ipk *dsi, u8 on_falling_edge)
 +{
-+	struct ipk_device *ipk = drm_dev_to_ipk_dev(drm);
-+	int div,  mul, cur_freq, cur_deviat, temp;
-+	struct vpg_device *vpg = ipk->vpg;
-+	int out_freq = mode->clock;
-+	int in_freq = 100000;
-+	int deviat = 1000;	/* Deviation from desired master clock */
-+	int best_div = 0;	/* Divider for PLL */
-+	int best_mul = 0;	/* Multiplier for PLL */
++	dw_dsi_phy_write_part(dsi, DW_DPHY_TST_CTRL1, on_falling_edge, 16, 1);
++}
 +
-+	drm_dbg(drm, "out_freq = %d\n", out_freq);
++static void dw_dsi_phy_test_clear(struct dw_dsi_ipk *dsi, int value)
++{
++	dw_dsi_phy_write_part(dsi, DW_DPHY_TST_CTRL0, value, 0, 1);
++}
 +
-+	for (div = 1; div < 150 && deviat > 50; div++) {
-+		for (mul = 1; mul <= 10 && deviat > 50; mul++) {
-+			cur_freq = in_freq * mul / div;
-+			cur_deviat = abs(out_freq - cur_freq);
-+			if (cur_deviat < deviat) {
-+				best_div = div;
-+				best_mul = mul;
-+				deviat = cur_deviat;
++static void dw_dsi_phy_write(struct dw_dsi_ipk *dsi, u16 address,
++			     u32 value, u8 data_length)
++{
++	u8 data[4];
++	int i;
++
++	data[0] = value;
++
++	dw_dsi_write(dsi, DW_DPHY_TST_CTRL0, 0);
++	dw_dsi_write(dsi, DW_DPHY_TST_CTRL1, 0);
++
++	dw_dsi_phy_test_en(dsi, 1);
++	dw_dsi_phy_test_clock(dsi, 1);
++	dw_dsi_phy_test_data_in(dsi, 0x00);
++	dw_dsi_phy_test_clock(dsi, 0);
++	dw_dsi_write(dsi, DW_DPHY_TST_CTRL1, 0);
++	dw_dsi_write(dsi, DW_DPHY_TST_CTRL1, (u8)(address >> 8));
++	dw_dsi_phy_test_clock(dsi, 1);
++	dw_dsi_phy_test_clock(dsi, 0);
++	dw_dsi_phy_test_en(dsi, 1);
++	dw_dsi_phy_test_clock(dsi, 1);
++	dw_dsi_phy_test_data_in(dsi, ((u8)address));
++	dw_dsi_phy_test_clock(dsi, 0);
++	dw_dsi_phy_test_en(dsi, 0);
++
++	for (i = data_length; i > 0; i--) {
++		dw_dsi_phy_test_data_in(dsi, ((u8)data[i - 1]));
++		dw_dsi_phy_test_clock(dsi, 1);
++		dw_dsi_phy_test_clock(dsi, 0);
++	}
++}
++
++static void dw_dsi_phy_delay(struct dw_dsi_ipk *dsi, int value)
++{
++	u32 data = value << 2;
++
++	dw_dsi_phy_write(dsi, DW_12BITS_DPHY_RDY_L0, data, 1);
++	dw_dsi_phy_write(dsi, DW_12BITS_DPHY_RDY_L1, data, 1);
++	dw_dsi_phy_write(dsi, DW_12BITS_DPHY_RDY_L2, data, 1);
++	dw_dsi_phy_write(dsi, DW_12BITS_DPHY_RDY_L3, data, 1);
++}
++
++static int dsi_pll_get_clkout_khz(int clkin_khz, int idf, int ndiv, int odf)
++{
++	int divisor = idf * odf;
++
++	/* prevent from division by 0 */
++	if (!divisor)
++		return 0;
++
++	return DIV_ROUND_CLOSEST(clkin_khz * ndiv, divisor);
++}
++
++static int dsi_pll_get_params(struct dw_dsi_ipk *dsi, int in_freq,
++			      int out_freq, int *idf, int *ndiv, int *odf)
++{
++	int range, tmp_loop_div, tmp_in_freq, delta, step = 0, flag = 0;
++	int out_data_rate = out_freq * 2;
++	int loop_div = 0; /* M */
++	int out_div; /* VCO */
++	int in_div; /* N */
++
++	/* Find ranges */
++	for (range = 0; ARRAY_SIZE(dw_range_gen3) &&
++	     (out_data_rate / 1000) > dw_range_gen3[range].freq; range++)
++		;
++
++	if (range >= ARRAY_SIZE(dw_range_gen3))
++		return -EINVAL;
++
++	if ((dw_range_gen3[range].osc_freq_target >> 4) == 3)
++		out_div = 8;
++	else if ((dw_range_gen3[range].osc_freq_target >> 4) == 2)
++		out_div = 4;
++	else
++		out_div = 2;
++
++	if (dw_range_gen3[range].freq > 640)
++		out_div = 1;
++
++	out_freq = out_freq * out_div;
++
++	loop_div = (out_freq * (in_freq / DW_DPHY_DIV_LOWER_LIMIT)) / in_freq;
++
++	/* here delta will account for the rounding */
++	delta = (loop_div * in_freq) / (in_freq / DW_DPHY_DIV_LOWER_LIMIT) -
++		out_freq;
++
++	for (in_div = 1 + in_freq / DW_DPHY_DIV_UPPER_LIMIT;
++	     (in_freq / in_div >= DW_DPHY_DIV_LOWER_LIMIT) && !flag; in_div++) {
++		tmp_loop_div = out_freq * in_div / in_freq;
++		tmp_in_freq = in_freq / in_div;
++		if (tmp_loop_div % 2) {
++			tmp_loop_div += 1;
++			if (out_freq == tmp_loop_div * tmp_in_freq) {
++				/* Exact values found */
++				flag = 1;
++				loop_div = tmp_loop_div;
++				delta = tmp_loop_div * tmp_in_freq - out_freq;
++				in_div--;
++			} else if (tmp_loop_div * tmp_in_freq - out_freq <
++				   delta) {
++				/* Values found with smaller delta */
++				loop_div = tmp_loop_div;
++				delta = tmp_loop_div * tmp_in_freq - out_freq;
++				step = 0;
 +			}
++		} else if (out_freq == tmp_loop_div * tmp_in_freq) {
++			/* Exact values found */
++			flag = 1;
++			loop_div = tmp_loop_div;
++			delta = out_freq - tmp_loop_div * tmp_in_freq;
++			in_div--;
++		} else if (out_freq - tmp_loop_div * tmp_in_freq < delta) {
++			/* Values found with smaller delta */
++			loop_div = tmp_loop_div;
++			delta = out_freq - tmp_loop_div * tmp_in_freq;
++			step = 1;
 +		}
 +	}
 +
-+	drm_dbg(drm, "deviat = %d\n best_div = %d\n best_mul = %d\n",
-+		deviat, best_div, best_mul);
++	if (!flag)
++		in_div = step + loop_div * in_freq / out_freq;
 +
-+	temp = mmcm_read(vpg, DW_MMCM_CLKOUT0_REG_1) & DW_MMCM_MASK;
-+	mmcm_write(vpg, DW_MMCM_CLKOUT0_REG_1, temp | (best_div << 6) |
-+		   best_div);
++	*idf = in_div;
++	*ndiv = loop_div;
++	*odf = out_div;
 +
-+	temp = mmcm_read(vpg, DW_MMCM_CLKFBOUT_REG_1) & DW_MMCM_MASK;
-+	mmcm_write(vpg, DW_MMCM_CLKFBOUT_REG_1, temp | (best_mul << 6) |
-+		   best_mul);
++	dsi->range = range;
++	dsi->in_div = in_div;
++	dsi->loop_div = loop_div;
++
++	return 0;
 +}
 +
-+static void vpg_set_fps(struct vpg_device *vpg,
-+			const struct drm_display_mode *mode)
++/* DPHY GEN 3 12 bits */
++static void dw_phy_init_gen3_128(void *priv_data)
 +{
-+	/* DW_VPG_FREQ is in KHz */
-+	u32 line_time = (1000 * DW_VPG_FREQ) / (mode->vrefresh * mode->vtotal);
++	struct dw_dsi_ipk *dsi = priv_data;
++	int loop_div = dsi->loop_div;
++	int in_div = dsi->in_div;
++	int range = dsi->range;
++	u32 data;
 +
-+	vpg_write(vpg, DW_VPG_LINE_TIME, line_time);
++	/* hs frequency range [6:0] */
++	data = dw_range_gen3[range].hs_freq_range;
++	dw_dsi_phy_write(dsi, 0x02, data, 1);
++
++	/* [7:6] reserved | [5] hsfreqrange_ovr_en_rw |
++	 * [4:1] target_state_rw | [0] force_state_rw
++	 */
++	dw_dsi_phy_write(dsi, 0x01, 0x20, 1);
++
++	/* PLL Lock Configurations */
++	dw_dsi_phy_write(dsi, 0x173, 0x02, 1);
++	dw_dsi_phy_write(dsi, 0x174, 0x00, 1);
++	dw_dsi_phy_write(dsi, 0x175, 0x60, 1);
++	dw_dsi_phy_write(dsi, 0x176, 0x03, 1);
++	dw_dsi_phy_write(dsi, 0x166, 0x01, 1);
++
++	/* Charge-pump Programmability */
++	/* [7] pll_vco_cntrl_ovr_en |
++	 * [6:1] pll_vco_cntrl_ovr | [0] pll_m_ovr_en
++	 */
++	if (dw_range_gen3[range].freq > 640)
++		data = 1 | (dw_range_gen3[range].osc_freq_target << 1);
++	else
++		data = 1 | (1 << 7) |
++			  (dw_range_gen3[range].osc_freq_target << 1);
++
++	dw_dsi_phy_write(dsi, 0x17b, data, 1);
++	dw_dsi_phy_write(dsi, 0x15e, 0x10, 1);
++	dw_dsi_phy_write(dsi, 0x162, 0x04, 1);
++	dw_dsi_phy_write(dsi, 0x16e, 0x0c, 1);
++
++	/* Slew-Rate */
++	dw_dsi_phy_write(dsi, 0x26b, 0x04, 1);
++
++	/* pll_n_ovr_en_rw | PLL input divider ratio [6:3] |
++	 * pll_tstplldig_rw
++	 */
++	data = (1 << 7) | (in_div - 1) << 3;
++	dw_dsi_phy_write(dsi, 0x178, data, 1);
++
++	/* PLL loop divider ratio [7:0] */
++	data = loop_div - 2;
++	dw_dsi_phy_write(dsi, 0x179, data, 1);
++
++	/* PLL loop divider ratio [9:8] */
++	data = (loop_div - 2) >> 8;
++	dw_dsi_phy_write(dsi, 0x17a, data, 1);
++
++	if (dw_range_gen3[range].freq < 450)
++		dw_dsi_phy_write(dsi, 0x1ac, 0x1b, 1);
++	else
++		dw_dsi_phy_write(dsi, 0x1ac, 0x0b, 1);
 +}
 +
-+static void vpg_select_pattern(struct vpg_device *vpg, unsigned int value)
++static int dw_mipi_dsi_phy_init(void *priv_data)
 +{
-+	vpg_write(vpg, DW_VPG_TESTMODE, value);
++	struct dw_dsi_ipk *dsi = priv_data;
++	int range = dsi->range;
++	unsigned int in_freq;
++	u32 data;
++
++	in_freq = (unsigned int)(clk_get_rate(dsi->pllref_clk) / 1000);
++
++	dw_phy_write(dsi, DW_GEN3_IF_TESTER, RESET);
++	dw_phy_write(dsi, DW_GEN3_IF_TESTER, GLUE_LOGIC);
++	dw_dsi_phy_test_clear(dsi, 1);
++	dw_dsi_phy_test_clear(dsi, 0);
++
++	dw_dsi_phy_write(dsi, 0x30, 0x0f, 1);
++
++	data = ((in_freq / 1000) - 17) * 4;
++	dw_dsi_phy_write(dsi, 0x02, data, 1);
++
++	dw_dsi_phy_write(dsi, 0x20, 0x3f, 1);
++
++	/* RESET RX */
++	dw_phy_write(dsi, DW_GEN3_IF_TESTER, RESET);
++	dw_phy_write(dsi, DW_GEN3_IF_TESTER, RX_PHY);
++	dw_dsi_phy_test_clear(dsi, 1);
++	dw_dsi_phy_test_clear(dsi, 0);
++
++	/* RESET TX */
++	dw_phy_write(dsi, DW_GEN3_IF_TESTER, RESET);
++	dw_phy_write(dsi, DW_GEN3_IF_TESTER, TX_PHY);
++	dw_dsi_phy_test_clear(dsi, 1);
++	dw_dsi_phy_test_clear(dsi, 0);
++
++	dw_phy_init_gen3_128(priv_data);
++
++	if (dw_range_gen3[range].freq > 648)
++		dw_dsi_phy_delay(dsi, 5);
++	else
++		dw_dsi_phy_delay(dsi, 4);
++
++	DRM_DEBUG_DRIVER("Phy configured\n");
++
++	return 0;
 +}
 +
-+static void vpg_vertical_set(struct vpg_device *vpg,
-+			     struct drm_display_mode *mode)
++static int
++dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
++			  unsigned long mode_flags, u32 lanes, u32 format,
++			  unsigned int *lane_mbps)
 +{
-+	u32 v_sync = mode->vsync_end - mode->vsync_start;
-+	u32 v_back_porch = mode->vtotal - mode->vsync_end;
-+	u32 v_front_porch = mode->vsync_start - mode->vdisplay;
++	int idf = 0, ndiv = 0, odf = 0, pll_in_khz, pll_out_khz, ret, bpp;
++	struct dw_dsi_ipk *dsi = priv_data;
 +
-+	vpg_write_part(vpg, DW_VPG_CANVAS, mode->vdisplay, 16, 16);
-+	vpg_write_part(vpg, DW_VPG_VBP_VFP_VSA, v_sync, 0, 8);
-+	vpg_write_part(vpg, DW_VPG_VBP_VFP_VSA, v_back_porch, 20, 12);
-+	vpg_write_part(vpg, DW_VPG_VBP_VFP_VSA, v_front_porch, 8, 11);
-+}
++	DRM_DEBUG_DRIVER("\n");
 +
-+static void vpg_horizontal_set(struct vpg_device *vpg,
-+			       struct drm_display_mode *mode)
-+{
-+	u32 h_sync = mode->hsync_end - mode->hsync_start;
-+	u32 h_back_porch = mode->htotal - mode->hsync_end;
++	dsi->lane_min_kbps = (unsigned int)DW_LANE_MIN_KBPS;
++	dsi->lane_max_kbps = (unsigned int)DW_LANE_MAX_KBPS;
 +
-+	vpg_write_part(vpg, DW_VPG_CANVAS, mode->hdisplay, 0, 16);
-+	vpg_write_part(vpg, DW_VPG_HBP_HSA, h_sync, 0, 16);
-+	vpg_write_part(vpg, DW_VPG_HBP_HSA, h_back_porch, 16, 16);
-+}
++	pll_in_khz = (unsigned int)(clk_get_rate(dsi->pllref_clk) / 1000);
 +
-+static ssize_t show_pattern(struct device *dev,
-+			    struct device_attribute *attr, char *buf)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct ipk_device *ipk = drm_dev_to_ipk_dev(drm);
-+	struct vpg_device *vpg = ipk->vpg;
++	/* Compute requested pll out */
++	bpp = mipi_dsi_pixel_format_to_bpp((enum mipi_dsi_pixel_format)format);
++	pll_out_khz = ((mode->clock * bpp) / lanes) / 2;
 +
-+	return sprintf(buf, "%d\n", vpg_read(vpg, DW_VPG_TESTMODE));
-+}
-+
-+static ssize_t store_pattern(struct device *dev, struct device_attribute *attr,
-+			     const char *buf, size_t count)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct ipk_device *ipk = drm_dev_to_ipk_dev(drm);
-+	struct vpg_device *vpg = ipk->vpg;
-+	long pattern;
-+	int ret;
-+
-+	ret = kstrtol(buf, 0, &pattern);
-+	if (ret < 0)
-+		return ret;
-+
-+	vpg_select_pattern(vpg, pattern);
-+
-+	return count;
-+}
-+
-+static struct kobj_attribute vpg_pattern = __ATTR(pattern, 0660,
-+						  (void *)show_pattern,
-+						  (void *)store_pattern);
-+
-+static struct attribute *vpg_attr[] = {
-+	&vpg_pattern.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group vpg_attr_group = {
-+	.attrs = vpg_attr,
-+};
-+
-+static int vpg_sysfs_register(struct ipk_device *ipk)
-+{
-+	struct platform_device *pdev = ipk->platform;
-+	int ret;
-+
-+	ret = sysfs_create_group(&pdev->dev.kobj, &vpg_attr_group);
-+	if (ret)
-+		drm_err(&ipk->drm, "Failed to create sysfs entries");
-+
-+	return ret;
-+}
-+
-+static void vpg_sysfs_remove(struct ipk_device *ipk)
-+{
-+	struct platform_device *pdev = ipk->platform;
-+
-+	sysfs_remove_group(&pdev->dev.kobj, &vpg_attr_group);
-+}
-+
-+static void vpg_pipe_update(struct drm_simple_display_pipe *pipe,
-+			    struct drm_plane_state *old_state)
-+{
-+	struct ipk_device *ipk = display_pipe_to_ipk_dev(pipe);
-+	struct drm_plane_state *state = pipe->plane.state;
-+	struct drm_framebuffer *fb = state->fb;
-+	struct vpg_device *vpg = ipk->vpg;
-+	enum vpg_pixel_fmt pixel_format;
-+
-+	if (!fb)
-+		return;
-+
-+	pixel_format = to_vpg_pixel_format(fb->format->format);
-+
-+	vpg_write(vpg, DW_VPG_DPICOLORMODE, pixel_format);
-+}
-+
-+static void vpg_pipe_enable(struct drm_simple_display_pipe *pipe,
-+			    struct drm_crtc_state *crtc_state,
-+			    struct drm_plane_state *plane_state)
-+{
-+	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-+	struct ipk_device *ipk = display_pipe_to_ipk_dev(pipe);
-+	struct drm_device *drm = &ipk->drm;
-+	struct vpg_device *vpg = ipk->vpg;
-+
-+	drm_dbg(drm, "Video mode: %dx%d\n", mode->hdisplay, mode->vdisplay);
-+
-+	mmcm_configure(drm, mode);
-+
-+	vpg_write(vpg, DW_VPG_SEL_DATA, 0x01);
-+	vpg_write(vpg, DW_VPG_SEL_DATA, 0x03);
-+
-+	vpg_horizontal_set(vpg, mode);
-+
-+	vpg_vertical_set(vpg, mode);
-+
-+	vpg_set_fps(vpg, mode);
-+
-+	vpg_select_pattern(vpg, 0);
-+}
-+
-+static const struct drm_simple_display_pipe_funcs drm_display_pipe = {
-+	.enable = vpg_pipe_enable,
-+	.update = vpg_pipe_update,
-+};
-+
-+static int vpg_init_pipe(struct drm_device *drm, struct drm_panel *panel,
-+			 struct drm_bridge *bridge)
-+{
-+	struct ipk_device *ipk = drm_dev_to_ipk_dev(drm);
-+	static const u64 modifiers[] = {
-+		DRM_FORMAT_MOD_LINEAR,
-+		DRM_FORMAT_MOD_INVALID,
-+	};
-+	static const u32 formats[] = {
-+		DRM_FORMAT_RGB565,
-+		DRM_FORMAT_RGB888,
-+	};
-+	int ret;
-+
-+	ret = drm_simple_display_pipe_init(drm, &ipk->pipe, &drm_display_pipe,
-+					   formats, ARRAY_SIZE(formats),
-+					   modifiers, NULL);
-+	if (ret)
-+		return ret;
-+
-+	if (panel) {
-+		bridge = devm_drm_panel_bridge_add_typed(&ipk->platform->dev,
-+						 panel, DRM_MODE_CONNECTOR_DSI);
-+		if (IS_ERR(bridge))
-+			return PTR_ERR(bridge);
++	if (pll_out_khz > dsi->lane_max_kbps) {
++		pll_out_khz = dsi->lane_max_kbps;
++		DRM_WARN("Warning max phy mbps is used\n");
 +	}
 +
-+	ret = drm_simple_display_pipe_attach_bridge(&ipk->pipe, bridge);
-+	if (ret)
-+		return ret;
++	if (pll_out_khz < dsi->lane_min_kbps) {
++		pll_out_khz = dsi->lane_min_kbps;
++		DRM_WARN("Warning min phy mbps is used\n");
++	}
 +
-+	ret = vpg_sysfs_register(ipk);
++	ret = dsi_pll_get_params(dsi, pll_in_khz, pll_out_khz,
++				 &idf, &ndiv, &odf);
++	if (ret)
++		DRM_WARN("Warning dsi_pll_get_params(): bad params\n");
++
++	/* Get the adjusted pll out value */
++	pll_out_khz = dsi_pll_get_clkout_khz(pll_in_khz, idf, ndiv, odf);
++
++	*lane_mbps = (pll_out_khz / 1000) * 2;
++
++	DRM_DEBUG_DRIVER("pll_in %ukHz pll_out %ukHz lane_mbps %uMHz\n",
++			 pll_in_khz, pll_out_khz, *lane_mbps);
 +
 +	return ret;
 +}
 +
-+int vpg_load(struct drm_device *drm)
++static int
++dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
++			   struct dw_mipi_dsi_dphy_timing *timing)
 +{
-+	struct ipk_device *ipk = drm_dev_to_ipk_dev(drm);
-+	struct platform_device *pdev = ipk->platform;
-+	struct device_node *np = drm->dev->of_node;
-+	int ret, endpoint_not_ready = -ENODEV;
-+	struct reset_control *vpg_rst, *mmcm_rst;
-+	struct drm_bridge *bridge = NULL;
-+	struct drm_panel *panel = NULL;
-+	struct device *dev = drm->dev;
-+	struct vpg_device *vpg;
++	timing->clk_hs2lp = DW_LPHS_TIM_TRANSIONS;
++	timing->clk_lp2hs = DW_LPHS_TIM_TRANSIONS;
++	timing->data_hs2lp = DW_LPHS_TIM_TRANSIONS;
++	timing->data_lp2hs = DW_LPHS_TIM_TRANSIONS;
++
++	return 0;
++}
++
++static const struct dw_mipi_dsi_phy_ops dw_dsi_ipk_phy_ops = {
++	.init = dw_mipi_dsi_phy_init,
++	.get_lane_mbps = dw_mipi_dsi_get_lane_mbps,
++	.get_timing = dw_mipi_dsi_phy_get_timing,
++};
++
++static struct dw_mipi_dsi_plat_data dw_dsi_ipk_plat_data = {
++	.max_data_lanes = 4,
++	.phy_ops = &dw_dsi_ipk_phy_ops,
++};
++
++static const struct of_device_id dw_ipk_dt_ids[] = {
++	{.compatible = "snps,dw-ipk-dsi",
++	 .data = &dw_dsi_ipk_plat_data,},
++	{ },
++};
++
++MODULE_DEVICE_TABLE(of, dw_ipk_dt_ids);
++
++static int dw_dsi_ipk_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct dw_dsi_ipk *dsi;
 +	struct resource *res;
++	struct clk *pclk;
++	int ret;
 +
-+	drm_dbg(drm, "\n");
++	DRM_DEBUG_DRIVER("\n");
 +
-+	vpg = devm_kzalloc(&pdev->dev, sizeof(*vpg), GFP_KERNEL);
-+	if (!vpg)
++	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
++	if (!dsi)
 +		return -ENOMEM;
 +
-+	ipk->vpg = vpg;
-+
-+	/* Get endpoints if any */
-+	ret = drm_of_find_panel_or_bridge(np, 0, 0, &panel, &bridge);
-+	if (ret == -EPROBE_DEFER)
++	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dsi");
++	dsi->base = devm_ioremap_resource(dev, res);
++	if (IS_ERR(dsi->base)) {
++		ret = PTR_ERR(dsi->base);
++		DRM_ERROR("Unable to get dsi registers %d\n", ret);
 +		return ret;
-+	else if (!ret)
-+		endpoint_not_ready = 0;
-+
-+	if (endpoint_not_ready)
-+		return endpoint_not_ready;
-+
-+	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "vpg");
-+	vpg->base = devm_ioremap_resource(dev, res);
-+	if (IS_ERR(vpg->base)) {
-+		drm_err(drm, "Unable to get VPG registers\n");
-+		ret = PTR_ERR(vpg->base);
-+		goto err;
 +	}
 +
-+	vpg_rst = devm_reset_control_get_optional_exclusive(dev, "vpg");
-+	if (IS_ERR(vpg_rst)) {
-+		ret = PTR_ERR(vpg_rst);
-+		if (ret != -EPROBE_DEFER)
-+			drm_err(drm, "Unable to get reset control: %d\n", ret);
-+		goto err;
++	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "phy");
++	dsi->base_phy = devm_ioremap_resource(dev, res);
++	if (IS_ERR(dsi->base_phy)) {
++		ret = PTR_ERR(dsi->base_phy);
++		DRM_ERROR("Unable to get PHY registers %d\n", ret);
++		return ret;
 +	}
 +
-+	if (vpg_rst) {
-+		reset_control_assert(vpg_rst);
-+		usleep_range(10, 20);
-+		reset_control_deassert(vpg_rst);
++	pclk = devm_clk_get(dev, "pclk");
++	if (IS_ERR(pclk)) {
++		ret = PTR_ERR(pclk);
++		DRM_ERROR("Unable to get peripheral clock: %d\n", ret);
++		goto err_dsi_probe;
 +	}
 +
-+	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mmcm");
-+	vpg->base_mmcm = devm_ioremap_resource(dev, res);
-+	if (IS_ERR(vpg->base)) {
-+		ret = PTR_ERR(vpg->base);
-+		goto err;
++	ret = clk_prepare_enable(pclk);
++	if (ret)
++		goto err_dsi_probe;
++
++	dsi->pllref_clk = devm_clk_get(dev, "ref");
++	if (IS_ERR(dsi->pllref_clk)) {
++		ret = PTR_ERR(dsi->pllref_clk);
++		DRM_ERROR("Unable to get pll reference clock: %d\n", ret);
++		return ret;
 +	}
 +
-+	mmcm_rst = devm_reset_control_get_optional_exclusive(dev, "mmcm");
-+	if (IS_ERR(mmcm_rst)) {
-+		ret = PTR_ERR(mmcm_rst);
-+		if (ret != -EPROBE_DEFER)
-+			drm_err(drm, "Unable to get reset control: %d\n", ret);
-+		goto err;
-+	}
++	ret = clk_prepare_enable(dsi->pllref_clk);
++	if (ret)
++		return ret;
 +
-+	if (mmcm_rst) {
-+		reset_control_assert(mmcm_rst);
-+		usleep_range(10, 20);
-+		reset_control_deassert(mmcm_rst);
-+	}
++	dw_dsi_ipk_plat_data.base = dsi->base;
++	dw_dsi_ipk_plat_data.priv_data = dsi;
 +
-+	/* Init DRM Simple Pipeline */
-+	ret = vpg_init_pipe(drm, panel, bridge);
-+	if (ret) {
-+		drm_err(drm, "Failed to init simple pipe\n");
-+		goto err;
++	platform_set_drvdata(pdev, dsi);
++
++	dsi->dsi = dw_mipi_dsi_probe(pdev, &dw_dsi_ipk_plat_data);
++	if (IS_ERR(dsi->dsi)) {
++		ret = PTR_ERR(dsi->dsi);
++		DRM_ERROR("Failed to initialize mipi dsi host: %d\n", ret);
++		goto err_dsi_probe;
 +	}
 +
 +	return ret;
 +
-+err:
-+	drm_panel_bridge_remove(bridge);
++err_dsi_probe:
++	clk_disable_unprepare(dsi->pllref_clk);
 +	return ret;
 +}
 +
-+void vpg_unload(struct drm_device *drm)
++static int dw_dsi_ipk_remove(struct platform_device *pdev)
 +{
-+	struct ipk_device *ipk = drm_dev_to_ipk_dev(drm);
++	struct dw_dsi_ipk *dsi = platform_get_drvdata(pdev);
 +
-+	drm_dbg(drm, "\n");
-+	vpg_sysfs_remove(ipk);
-+	drm_of_panel_bridge_remove(drm->dev->of_node, 0, 0);
++	dw_mipi_dsi_remove(dsi->dsi);
++
++	return 0;
 +}
-diff --git a/drivers/gpu/drm/ipk/dw-vpg.h b/drivers/gpu/drm/ipk/dw-vpg.h
-new file mode 100644
-index 0000000..bd1969e
---- /dev/null
-+++ b/drivers/gpu/drm/ipk/dw-vpg.h
-@@ -0,0 +1,48 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2019-2020 Synopsys, Inc. and/or its affiliates.
-+ * Synopsys DesignWare VPG
-+ */
 +
-+#ifndef _VPG_H_
-+#define _VPG_H_
++struct platform_driver dw_mipi_dsi_ipk_driver = {
++	.probe		= dw_dsi_ipk_probe,
++	.remove		= dw_dsi_ipk_remove,
++	.driver		= {
++		.name	= "ipk-dw-mipi-dsi",
++		.of_match_table = dw_ipk_dt_ids,
++	},
++};
 +
-+#define DW_VPG_PANX				0x00
-+#define DW_VPG_PANY				0x04
-+#define DW_VPG_PHASE_SEL			0x08
-+#define DW_VPG_SEL_DATA				0x0C
-+#define DW_VPG_SWAP_BAY				0x10
-+#define DW_VPG_TESTMODE				0x14
-+#define DW_VPG_ZOOM_OUT				0x18
-+#define DW_VPG_EDPICTRL				0x1C
-+#define DW_VPG_CANVAS				0x20
-+#define DW_VPG_HBP_HSA				0x24
-+#define DW_VPG_LINE_TIME			0x28
-+#define DW_VPG_VBP_VFP_VSA			0x2C
-+#define DW_VPG_DPICOLORMODE			0x30
-+#define DW_VPG_VERSION				0x34
-+#define DW_VPG_EXTRNAL_EDPI			0x38
-+#define DW_VPG_PVO_CEAVID			0x3C
-+#define DW_VPG_PAN_VALID			0x40
-+#define DW_VPG_TECONTROL			0x44
-+#define DW_VPG_IMAGE_START_POSITION_X		0x4C
-+#define DW_VPG_IMAGE_START_POSITION_Y		0x50
-+#define DW_VPG_IMAGE_Y				0x54
-+#define DW_VPG_IMAGE_WORD_COUNT			0x58
-+#define DW_VPG_IMAGE_DATA_TYPE			0x5C
-+#define DW_VPG_LINE_PIXS_CNT			0x60
-+#define DW_VPG_FRAME_LINES_CNT			0x64
++module_platform_driver(dw_mipi_dsi_ipk_driver);
 +
-+#define DW_MMCM_MASK				0x1000
-+#define DW_MMCM_CLKOUT0_REG_1			0x20
-+#define DW_MMCM_CLKOUT0_REG_2			0x24
-+#define DW_MMCM_CLKFBOUT_REG_1			0x50
-+#define DW_MMCM_CLKFBOUT_REG_2			0x54
-+#define DW_MMCM_POWER_REG			0xA0
-+
-+#define DW_VPG_FREQ	25000	/* [KHz] */
-+
-+int vpg_load(struct drm_device *drm);
-+void vpg_unload(struct drm_device *drm);
-+
-+#endif /* _VPG_H_ */
++MODULE_AUTHOR("Angelo Ribeiro <angelo.ribeiro@synopsys.com>");
++MODULE_AUTHOR("Luis Oliveira <luis.oliveira@synopsys.com>");
++MODULE_DESCRIPTION("Synopsys IPK DW MIPI DSI host controller driver");
++MODULE_LICENSE("GPL v2");
 -- 
 2.7.4
 
