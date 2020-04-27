@@ -2,49 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9331BBDFB
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C48E1BA5A3
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 16:01:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54B6D6E3B0;
-	Tue, 28 Apr 2020 12:46:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2CE48938B;
+	Mon, 27 Apr 2020 14:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
- [149.117.73.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A2FD6E2DE
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 14:00:48 +0000 (UTC)
-Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com
- [10.225.0.210])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 0EB2F401B3;
- Mon, 27 Apr 2020 14:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1587996048; bh=TvL6zgUoy3Ma93zOu8++mMy1EHgdvRORz8x84bfFDmM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
- References:From;
- b=Y2BXpQb1pNCWanopEuRgGyuC9Hyv3CNXzfHVjFMXgxbZq181l13fJ1mPrZY3nX+v/
- caPdSdCuzMyF7ubAkxexP5q9nQ1VMu1dBeQi/Pmqe9Vwy+6Vg3HK+fqdBT5mRvnecV
- nXhBtQ/UTN1Tv3d4c2d9+qvZOTlUr2dXfJ/6nbjmY34Twmbd1OVWC9VXR4sQ4pGl1i
- 4vNTDqY3eMalrNEVz9U7ndbWfBHd/UC1DLWchVrqr/UnWZ08hPlE3TnVVLyDhSqq8n
- gsqhWb4lvi94BeZHzofioQb5bIZwKYwfvKinVHcFZmvcUk93MvUk0+t4AT9qzyBg3+
- G5ogLAeTtLsjQ==
-Received: from de02dwia024.internal.synopsys.com
- (de02dwia024.internal.synopsys.com [10.225.19.81])
- by mailhost.synopsys.com (Postfix) with ESMTP id 6B4D8A006D;
- Mon, 27 Apr 2020 14:00:45 +0000 (UTC)
-From: Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/4] MAINTAINERS: Add IPK MIPI DSI Host driver entry
-Date: Mon, 27 Apr 2020 16:00:36 +0200
-Message-Id: <abe4ca0b0662c17212fc5107080e949f1d3377c1.1587992776.git.angelo.ribeiro@synopsys.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1587992776.git.angelo.ribeiro@synopsys.com>
-References: <cover.1587992776.git.angelo.ribeiro@synopsys.com>
-In-Reply-To: <cover.1587992776.git.angelo.ribeiro@synopsys.com>
-References: <cover.1587992776.git.angelo.ribeiro@synopsys.com>
-X-Mailman-Approved-At: Tue, 28 Apr 2020 12:46:22 +0000
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F0868938B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 14:01:36 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207463] [amdgpu] System freeze / corrupted graphics
+Date: Mon, 27 Apr 2020 14:01:36 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: rokups+kernel-bugs@zoho.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207463-2300-b5Bm4EEula@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207463-2300@https.bugzilla.kernel.org/>
+References: <bug-207463-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,52 +51,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joao Pinto <Joao.Pinto@synopsys.com>, David Airlie <airlied@linux.ie>,
- Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
- Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>, Sam Ravnborg <sam@ravnborg.org>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Creates entry for Synopsys DesignWare IPK DRM driver and
-adds myself as maintainer.
+https://bugzilla.kernel.org/show_bug.cgi?id=207463
 
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Cc: Joao Pinto <jpinto@synopsys.com>
-Signed-off-by: Angelo Ribeiro <angelo.ribeiro@synopsys.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+--- Comment #1 from Rokas Kupstys (rokups+kernel-bugs@zoho.com) ---
+Tested 5.4.35-1-lts kernel as well, corruption does happen, but looks bit
+different visually. Also i can access another VT without issues, rendering is
+ok there. Restarting X11 does not help to recover system, reboot is still
+needed.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ad29107..9f4ee9c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5507,6 +5507,14 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/ste,mcde.txt
- F:	drivers/gpu/drm/mcde/
- 
-+DRM DRIVER FOR SYNOPSYS DESIGNWARE IPK
-+M:	Angelo Ribeiro <angelo.ribeiro@synopsys.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	drivers/gpu/drm/ipk/
-+F:	Documentation/devicetree/bindings/display/ipk/
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+
- DRM DRIVER FOR TDFX VIDEO CARDS
- S:	Orphan / Obsolete
- F:	drivers/gpu/drm/tdfx/
+I also forgot to specify my GPU: AMD RX 580
+
+Kernel command line: initrd=\amd-ucode.img initrd=\initramfs-linux-lts.img
+rd.luks.name=<...>=cryptolvm rd.luks.options=discard,keyfile-timeout=10s
+rd.luks.key=<...>=/keys/root.key:UUID=<...> root=/dev/mapper/system-root
+resume=/dev/mapper/system-swap fastboot rw amd_iommu=on amd_iommu=pt
+nohz_full=8-15,24-31 rcu_nocbs=8-15,24-31 rcu_nocb_poll user_namespace.enable=1
+
+And some info from early boot, should it be useful:
+
+bal. 27 15:46:49 archlinux kernel: [drm] amdgpu kernel modesetting enabled.
+bal. 27 15:46:49 archlinux kernel: fb0: switching to amdgpudrmfb from EFI VGA
+bal. 27 15:46:49 archlinux kernel: amdgpu 0000:08:00.0: vgaarb: deactivate vga
+console
+bal. 27 15:46:49 archlinux kernel: [drm] initializing kernel modesetting
+(POLARIS10 0x1002:0x67DF 0x1462:0x3417 0xE7).
+bal. 27 15:46:49 archlinux kernel: [drm] register mmio base: 0xF7C00000
+bal. 27 15:46:49 archlinux kernel: [drm] register mmio size: 262144
+bal. 27 15:46:49 archlinux kernel: [drm] add ip block number 0 <vi_common>
+bal. 27 15:46:49 archlinux kernel: [drm] add ip block number 1 <gmc_v8_0>
+bal. 27 15:46:49 archlinux kernel: [drm] add ip block number 2 <tonga_ih>
+bal. 27 15:46:49 archlinux kernel: [drm] add ip block number 3 <gfx_v8_0>
+bal. 27 15:46:49 archlinux kernel: [drm] add ip block number 4 <sdma_v3_0>
+bal. 27 15:46:49 archlinux kernel: [drm] add ip block number 5 <powerplay>
+bal. 27 15:46:49 archlinux kernel: [drm] add ip block number 6 <dm>
+bal. 27 15:46:49 archlinux kernel: [drm] add ip block number 7 <uvd_v6_0>
+bal. 27 15:46:49 archlinux kernel: [drm] add ip block number 8 <vce_v3_0>
+bal. 27 15:46:49 archlinux kernel: amdgpu 0000:08:00.0: No more image in the
+PCI ROM
+bal. 27 15:46:49 archlinux kernel: [drm] UVD is enabled in VM mode
+bal. 27 15:46:49 archlinux kernel: [drm] UVD ENC is enabled in VM mode
+bal. 27 15:46:49 archlinux kernel: [drm] VCE enabled in VM mode
+bal. 27 15:46:49 archlinux kernel: [drm] vm size is 512 GB, 2 levels, block
+size is 10-bit, fragment size is 9-bit
+bal. 27 15:46:49 archlinux kernel: amdgpu 0000:08:00.0: VRAM: 8192M
+0x000000F400000000 - 0x000000F5FFFFFFFF (8192M used)
+bal. 27 15:46:49 archlinux kernel: amdgpu 0000:08:00.0: GART: 256M
+0x000000FF00000000 - 0x000000FF0FFFFFFF
+bal. 27 15:46:49 archlinux kernel: [drm] Detected VRAM RAM=8192M, BAR=256M
+bal. 27 15:46:49 archlinux kernel: [drm] RAM width 256bits GDDR5
+bal. 27 15:46:49 archlinux kernel: [drm] amdgpu: 8192M of VRAM memory ready
+bal. 27 15:46:49 archlinux kernel: [drm] amdgpu: 8192M of GTT memory ready.
+bal. 27 15:46:49 archlinux kernel: [drm] GART: num cpu pages 65536, num gpu
+pages 65536
+bal. 27 15:46:49 archlinux kernel: [drm] PCIE GART of 256M enabled (table at
+0x000000F400300000).
+bal. 27 15:46:49 archlinux kernel: [drm] Chained IB support enabled!
+bal. 27 15:46:49 archlinux kernel: amdgpu: [powerplay] hwmgr_sw_init smu backed
+is polaris10_smu
+bal. 27 15:46:49 archlinux kernel: [drm] Found UVD firmware Version: 1.130
+Family ID: 16
+bal. 27 15:46:49 archlinux kernel: [drm] Found VCE firmware Version: 53.26
+Binary ID: 3
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB: values for Engine clock
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:         300000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:         600000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:         927000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:         1179000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:         1251000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:         1294000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:         1339000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:         1380000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB: Validation clocks:
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:    engine_max_clock: 138000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:    memory_max_clock: 200000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:    level           : 8
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB: values for Memory clock
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:         300000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:         1000000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:         2000000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB: Validation clocks:
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:    engine_max_clock: 138000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:    memory_max_clock: 200000
+bal. 27 15:46:49 archlinux kernel: [drm] DM_PPLIB:    level           : 8
+bal. 27 15:46:49 archlinux kernel: [drm] Display Core initialized with v3.2.69!
+bal. 27 15:46:49 archlinux kernel: [drm] Supports vblank timestamp caching Rev
+2 (21.10.2013).
+bal. 27 15:46:49 archlinux kernel: [drm] Driver supports precise vblank
+timestamp query.
+bal. 27 15:46:49 archlinux kernel: [drm] UVD and UVD ENC initialized
+successfully.
+bal. 27 15:46:49 archlinux kernel: [drm] VCE initialized successfully.
+bal. 27 15:46:49 archlinux kernel: [drm] fb mappable at 0xE0830000
+bal. 27 15:46:49 archlinux kernel: [drm] vram apper at 0xE0000000
+bal. 27 15:46:49 archlinux kernel: [drm] size 14745600
+bal. 27 15:46:49 archlinux kernel: [drm] fb depth is 24
+bal. 27 15:46:49 archlinux kernel: [drm]    pitch is 10240
+bal. 27 15:46:49 archlinux kernel: fbcon: amdgpudrmfb (fb0) is primary device
+bal. 27 15:46:49 archlinux kernel: amdgpu 0000:08:00.0: fb0: amdgpudrmfb frame
+buffer device
+bal. 27 15:46:49 archlinux systemd-modules-load[471]: Inserted module 'amdgpu'
+bal. 27 15:46:49 archlinux kernel: [drm] Initialized amdgpu 3.36.0 20150101 for
+0000:08:00.0 on minor 0
+bal. 27 15:46:54 rk-PC systemd[1]: Condition check resulted in Load Kernel
+Module drm being skipped.
+bal. 27 15:46:55 rk-PC kernel: snd_hda_intel 0000:08:00.1: bound 0000:08:00.0
+(ops amdgpu_dm_audio_component_bind_ops [amdgpu])
+bal. 27 15:46:58 rk-PC kernel: amdgpu 0000:08:00.0: vgaarb: changed VGA
+decodes: olddecodes=io+mem,decodes=none:owns=io+mem
+
 -- 
-2.7.4
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
