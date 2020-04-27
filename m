@@ -2,31 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2431BBDF3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1691BA586
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 15:57:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E8D16E3A2;
-	Tue, 28 Apr 2020 12:46:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7546E2D5;
+	Mon, 27 Apr 2020 13:57:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9BA86E2D5
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 13:52:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 35BC626AE01
-Subject: Re: [PATCH v3] dt-bindings: display: anx7814.txt: convert to yaml
-To: =?UTF-8?Q?Ricardo_Ca=c3=b1uelo?= <ricardo.canuelo@collabora.com>,
- devicetree@vger.kernel.org
-References: <20200427100908.11809-1-ricardo.canuelo@collabora.com>
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <676aaa45-b4cb-104e-de37-2508f0ab634d@collabora.com>
-Date: Mon, 27 Apr 2020 15:52:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
+ [IPv6:2607:f8b0:4864:20::d41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53C4C6E2D5
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 13:57:35 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id k23so3628792ios.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 06:57:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LTTvKZfCiwrDKfifESYhTeX6mqxC+h8YHU3E6XuId8Y=;
+ b=SYIvUpHt1nxjLVHpWehlpyClkl8w6DmlYlInuGJF0hSSYNHvSs92iWLLKJ56Vvopd9
+ Rp9q0TRjuEfvg7OJXAxjManWj/N7ngrtldkbOMOGuryUGRpwjveXk5gZQKPoROvZy/t2
+ 8OYubonvMroBZyyQAak/ACn8klvS+iZa4NceuFsdELgrXXxTDivrL8hfNf052TMvpR4m
+ ycm4ZcTG8EwpFOrHVJ16PIMheLOEyGbpXLmagYegxhnPrlc4HEgeJDNCK0Aman3sLg8k
+ AJ5tHJJT0CD9wrisrzrRgmfimAh7jcr9Byn1w1VhRV6vkgsF8mGEb8JBsZ1fSf8ekKa1
+ 2I9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LTTvKZfCiwrDKfifESYhTeX6mqxC+h8YHU3E6XuId8Y=;
+ b=r7JzYjxJg39uSBR2fr+yea7it9Y/IasRJHJrZf7BYM1AJaTJCZAVX0ZBb1R7kl0MZ5
+ Xu1KtEaOW3i6d+QxH5z/XZS/Jc2BgbLxqH9uyvsBgfEvEaF0XFREivtbmkSeOBPIpEaX
+ ESLOzw9Xuqi9MttEzs8Hk3mm43Wi//Hue1ZkfLlbC5NHJFQy2zCPPseDU+povDEbDSQk
+ BZejD+j7s4FAZYyyJV9lBf6Ky3HAfrJlgdxi2VS2dWkOkG0A5yA+q4rFY0r8tQJaA2Vr
+ zCL/twT8nkFJznJgFNAkFnrkz3lcp1RuQJE0CquqQO8lwXWpnkaIbgS/ZLlr/mxo295p
+ wofQ==
+X-Gm-Message-State: AGi0PubkzyEfEEIQRGGA8sbDlSsYQAFI0/yrM2svIarlRg//JNgPnlMW
+ oEmQXevB1rU5/NJwALRbcfYgYNgiRj3t1GWf62a/Pg==
+X-Google-Smtp-Source: APiQypIHKnZUWFfEh4Ri6+LlmH1IuQU9xN8gcpDaoRnPmAQ36cUv+rx7+RJX+00jQETpcyAO7LhVQMZM1kX3BY7S45s=
+X-Received: by 2002:a5e:d506:: with SMTP id e6mr8158225iom.184.1587995854450; 
+ Mon, 27 Apr 2020 06:57:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200427100908.11809-1-ricardo.canuelo@collabora.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Tue, 28 Apr 2020 12:46:22 +0000
+References: <20200424181308.770749-1-lyude@redhat.com>
+In-Reply-To: <20200424181308.770749-1-lyude@redhat.com>
+From: Sean Paul <sean@poorly.run>
+Date: Mon, 27 Apr 2020 09:56:58 -0400
+Message-ID: <CAMavQKLV31k=ePGCq2pc+QonyWcw6a9YvAPhR_+f-Q3TLjPyYg@mail.gmail.com>
+Subject: Re: [PATCH] drm/dp_mst: Kill the second sideband tx slot,
+ save the world
+To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,134 +61,488 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robh+dt@kernel.org, kernel@collabora.com, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Todd Previte <tprevite@gmail.com>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, stable <stable@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, "Lin, Wayne" <Wayne.Lin@amd.com>,
+ Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUmljYXJkbywKClRoYW5rIHlvdSBmb3IgeW91ciBwYXRjaC4KCk9uIDI3LzQvMjAgMTI6MDks
-IFJpY2FyZG8gQ2HDsXVlbG8gd3JvdGU6Cj4gVGhpcyBjb252ZXJ0cyB0aGUgQW5hbG9naXggQU5Y
-NzgxNCBicmlkZ2UgRFQgYmluZGluZyB0byB5YW1sLiBQb3J0Cj4gZGVmaW5pdGlvbnMgYW5kIGRl
-c2NyaXB0aW9ucyB3ZXJlIGV4cGFuZGVkLCBhcGFydCBmcm9tIHRoYXQgaXQncyBhCj4gZGlyZWN0
-IHRyYW5zbGF0aW9uIGZyb20gdGhlIG9yaWdpbmFsIGJpbmRpbmcuCj4gCj4gU2lnbmVkLW9mZi1i
-eTogUmljYXJkbyBDYcOxdWVsbyA8cmljYXJkby5jYW51ZWxvQGNvbGxhYm9yYS5jb20+Cj4gQWNr
-ZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiAtLS0KPiBDaGFuZ2VzIGlu
-IHYzIChzdWdnZXN0ZWQgYnkgU2FtIFJhdm5ib3JnKToKPiAgIC0gUmVuYW1lIGV4YW1wbGUgbm9k
-ZSBpMmMwIHRvIGkyYy4KPiAKPiBDaGFuZ2VzIGluIHYyIChzdWdnZXN0ZWQgYnkgRW5yaWMgQmFs
-bGV0Ym8pOgo+ICAgLSBGaWxlIG5hbWUgY2hhbmdlOiB1c2UgZnVsbCBjb21wYXRpYmxlIHN0cmlu
-Zy4KPiAgIC0gQmluZGluZyBkZXNjcmlwdGlvbiByZW1vdmVkLgo+ICAgLSAjYWRkcmVzcy1jZWxs
-cyBhbmQgI3NpemUtY2VsbHMgcHJvcGVydGllcyByZW1vdmVkIGZyb20gcG9ydHMgbm9kZS4KPiAg
-IC0gRXhhbXBsZSBub2RlIHJlbmFtZWQ6IGFueDc4MTQgLT4gYnJpZGdlLgo+IAo+IFRlc3RlZCB3
-aXRoOgo+IG1ha2UgZHRfYmluZGluZ19jaGVjayBBUkNIPWFybTY0IERUX1NDSEVNQV9GSUxFUz08
-Li4uL2FuYWxvZ2l4LGFueDc4MTQueWFtbD4KPiBtYWtlIGR0YnNfY2hlY2sgQVJDSD1hcm02NCBE
-VF9TQ0hFTUFfRklMRVM9PC4uLi9hbmFsb2dpeCxhbng3ODE0LnlhbWw+Cj4gCj4gIC4uLi9kaXNw
-bGF5L2JyaWRnZS9hbmFsb2dpeCxhbng3ODE0LnlhbWwgICAgICB8IDEyNCArKysrKysrKysrKysr
-KysrKysKPiAgLi4uL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2FueDc4MTQudHh0ICAgICAgIHwg
-IDQyIC0tLS0tLQo+ICAyIGZpbGVzIGNoYW5nZWQsIDEyNCBpbnNlcnRpb25zKCspLCA0MiBkZWxl
-dGlvbnMoLSkKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
-aW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbmFsb2dpeCxhbng3ODE0LnlhbWwKPiAgZGVsZXRlIG1v
-ZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRn
-ZS9hbng3ODE0LnR4dAo+IAo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
-YmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYW5hbG9naXgsYW54NzgxNC55YW1sIGIvRG9jdW1lbnRh
-dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2FuYWxvZ2l4LGFueDc4MTQu
-eWFtbAo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi4xM2YwYjUy
-ZWRlZmQKPiAtLS0gL2Rldi9udWxsCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2FuYWxvZ2l4LGFueDc4MTQueWFtbAo+IEBAIC0wLDAgKzEs
-MTI0IEBACj4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wLW9ubHkgT1IgQlNE
-LTItQ2xhdXNlKQo+ICslWUFNTCAxLjIKPiArLS0tCj4gKyRpZDogaHR0cDovL2RldmljZXRyZWUu
-b3JnL3NjaGVtYXMvZGlzcGxheS9icmlkZ2UvYW5hbG9naXgsYW54NzgxNC55YW1sIwo+ICskc2No
-ZW1hOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUueWFtbCMKPiArCj4g
-K3RpdGxlOiBBbmFsb2dpeCBBTlg3ODE0IFNsaW1Qb3J0IChGdWxsLUhEIFRyYW5zbWl0dGVyKQo+
-ICsKPiArbWFpbnRhaW5lcnM6Cj4gKyAgLSBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIDxlbnJpYy5i
-YWxsZXRib0Bjb2xsYWJvcmEuY29tPgo+ICsKPiArcHJvcGVydGllczoKPiArICBjb21wYXRpYmxl
-Ogo+ICsgICAgZW51bToKPiArICAgICAgLSBhbmFsb2dpeCxhbng3ODA4Cj4gKyAgICAgIC0gYW5h
-bG9naXgsYW54NzgxMgo+ICsgICAgICAtIGFuYWxvZ2l4LGFueDc4MTQKPiArICAgICAgLSBhbmFs
-b2dpeCxhbng3ODE4Cj4gKwo+ICsgIHJlZzoKPiArICAgIG1heEl0ZW1zOiAxCj4gKyAgICBkZXNj
-cmlwdGlvbjogSTJDIGFkZHJlc3Mgb2YgdGhlIGRldmljZS4KPiArCj4gKyAgaW50ZXJydXB0czoK
-PiArICAgIG1heEl0ZW1zOiAxCj4gKyAgICBkZXNjcmlwdGlvbjogU2hvdWxkIGNvbnRhaW4gdGhl
-IElOVFAgaW50ZXJydXB0Lgo+ICsKPiArICBocGQtZ3Bpb3M6Cj4gKyAgICBtYXhJdGVtczogMQo+
-ICsgICAgZGVzY3JpcHRpb246IFdoaWNoIEdQSU8gdG8gdXNlIGZvciBocGQuCj4gKwo+ICsgIHBk
-LWdwaW9zOgo+ICsgICAgbWF4SXRlbXM6IDEKPiArICAgIGRlc2NyaXB0aW9uOiBXaGljaCBHUElP
-IHRvIHVzZSBmb3IgcG93ZXIgZG93bi4KPiArCj4gKyAgcmVzZXQtZ3Bpb3M6Cj4gKyAgICBtYXhJ
-dGVtczogMQo+ICsgICAgZGVzY3JpcHRpb246IFdoaWNoIEdQSU8gdG8gdXNlIGZvciByZXNldC4K
-PiArCj4gKyAgZHZkZDEwLXN1cHBseToKPiArICAgIG1heEl0ZW1zOiAxCj4gKyAgICBkZXNjcmlw
-dGlvbjogUmVndWxhdG9yIGZvciAxLjBWIGRpZ2l0YWwgY29yZSBwb3dlci4KPiArCj4gKyAgcG9y
-dHM6Cj4gKyAgICB0eXBlOiBvYmplY3QKPiArICAgIGRlc2NyaXB0aW9uOgo+ICsgICAgICBBIG5v
-ZGUgY29udGFpbmluZyBpbnB1dCBhbmQgb3V0cHV0IHBvcnQgbm9kZXMgd2l0aCBlbmRwb2ludAo+
-ICsgICAgICBkZWZpbml0aW9ucyBhcyBkb2N1bWVudGVkIGluCj4gKyAgICAgIERvY3VtZW50YXRp
-b24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS92aWRlby1pbnRlcmZhY2VzLnR4dAo+ICsgICAg
-ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZ3JhcGgudHh0Cj4gKwo+ICsgICAg
-cHJvcGVydGllczoKPiArICAgICAgcG9ydEAwOgo+ICsgICAgICAgIHR5cGU6IG9iamVjdAo+ICsg
-ICAgICAgIGRlc2NyaXB0aW9uOiBWaWRlbyBwb3J0IGZvciBIRE1JIGlucHV0Lgo+ICsKPiArICAg
-ICAgICBwcm9wZXJ0aWVzOgo+ICsgICAgICAgICAgcmVnOgo+ICsgICAgICAgICAgICBjb25zdDog
-MAo+ICsKPiArICAgICAgcG9ydEAxOgo+ICsgICAgICAgIHR5cGU6IG9iamVjdAo+ICsgICAgICAg
-IGRlc2NyaXB0aW9uOgo+ICsgICAgICAgICAgVmlkZW8gcG9ydCBmb3IgU2xpbVBvcnQsIERpc3Bs
-YXlQb3J0LCBlRFAgb3IgTXlEUCBvdXRwdXQuCj4gKwo+ICsgICAgICAgIHByb3BlcnRpZXM6Cj4g
-KyAgICAgICAgICByZWc6Cj4gKyAgICAgICAgICAgIGNvbnN0OiAxCj4gKwo+ICsgICAgcmVxdWly
-ZWQ6Cj4gKyAgICAgIC0gcG9ydEAwCj4gKyAgICAgIC0gcG9ydEAxCj4gKwo+ICtyZXF1aXJlZDoK
-PiArICAtIGNvbXBhdGlibGUKPiArICAtIHJlZwo+ICsgIC0gaW50ZXJydXB0cwoKU2VlIGJlbG93
-IC4uLgoKPiArICAtIGhwZC1ncGlvcwo+ICsgIC0gcGQtZ3Bpb3MKPiArICAtIHJlc2V0LWdwaW9z
-CgpJIGtub3cgdGhhdCB0aGVzZSBncGlvIGF0dHJpYnV0ZXMgd2VyZSByZXF1aXJlZCBpbiB0aGUg
-b2xkIGJpbmRpbmcgYW5kIHRoZQpkcml2ZXIgaGFuZGxlcyB0aGVzZSBncGlvcyBhcyByZXF1aXJl
-ZCwgYnV0IGFzc3VtaW5nIHRoYXQgd2Ugc2hvdWxkIHJlYWxseQpkZXNjcmliZSB0aGUgaGFyZHdh
-cmUgX25vdF8gdGhlIGRyaXZlciwgc3RyaWN0bHkgdGFsa2luZywgbm9uZSBvZiB0aGVzZSBncGlv
-cwphcmUgcmVhbGx5IHJlcXVpcmVkLiBUaGUgc2FtZSBoYXBwZW5zIHdpdGggdGhlIGludGVycnVw
-dCwgeW91IGNhbiBsZWZ0IHRoZSBwaW4KZmxvYXRpbmcgYW5kIHBvbGwgdGhlIHJlZ2lzdGVycy4K
-ClNvIEkgYW0gd29uZGVyaW5nIGlmIHlvdSBzaG91bGQgcmVtb3ZlIGludGVycnVwdHMsICotZ3Bp
-b3MgZnJvbSByZXF1aXJlZC4gTWF5YmUKUm9iIEhlcnJpbmcgY2FuIGdpdmUgdXMgbW9yZSBsaWdo
-dCBvbiB0aGlzPwoKT3RoZXIgdGhhbiB0aGF0OgoKUmV2aWV3ZWQtYnk6IEVucmljIEJhbGxldGJv
-IGkgU2VycmEgPGVucmljLmJhbGxldGJvQGNvbGxhYm9yYS5jb20+CgpUaGFua3MsCiBFbnJpYwoK
-PiArICAtIHBvcnRzCj4gKwo+ICthZGRpdGlvbmFsUHJvcGVydGllczogZmFsc2UKPiArCj4gK2V4
-YW1wbGVzOgo+ICsgIC0gfAo+ICsgICAgI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2ludGVycnVwdC1j
-b250cm9sbGVyL2FybS1naWMuaD4KPiArICAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9ncGlvL2dw
-aW8uaD4KPiArCj4gKyAgICBpMmMgewo+ICsgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Owo+
-ICsgICAgICAgICNzaXplLWNlbGxzID0gPDA+Owo+ICsKPiArICAgICAgICBhbng3ODE0OiBicmlk
-Z2VAMzggewo+ICsgICAgICAgICAgICBjb21wYXRpYmxlID0gImFuYWxvZ2l4LGFueDc4MTQiOwo+
-ICsgICAgICAgICAgICByZWcgPSA8MHgzOD47Cj4gKyAgICAgICAgICAgIGludGVycnVwdC1wYXJl
-bnQgPSA8JmdwaW8wPjsKPiArICAgICAgICAgICAgaW50ZXJydXB0cyA9IDw5OSBJUlFfVFlQRV9M
-RVZFTF9MT1c+OyAgIC8qIElOVFAgKi8KPiArICAgICAgICAgICAgaHBkLWdwaW9zID0gPCZwaW8g
-MzYgR1BJT19BQ1RJVkVfSElHSD47Cj4gKyAgICAgICAgICAgIHBkLWdwaW9zID0gPCZwaW8gMzMg
-R1BJT19BQ1RJVkVfSElHSD47Cj4gKyAgICAgICAgICAgIHJlc2V0LWdwaW9zID0gPCZwaW8gOTgg
-R1BJT19BQ1RJVkVfSElHSD47Cj4gKwo+ICsgICAgICAgICAgICBwb3J0cyB7Cj4gKyAgICAgICAg
-ICAgICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsKPiArICAgICAgICAgICAgICAgICNzaXplLWNl
-bGxzID0gPDA+Owo+ICsKPiArICAgICAgICAgICAgICAgIHBvcnRAMCB7Cj4gKyAgICAgICAgICAg
-ICAgICAgICAgcmVnID0gPDA+Owo+ICsgICAgICAgICAgICAgICAgICAgIGFueDc4MTRfaW46IGVu
-ZHBvaW50IHsKPiArICAgICAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZo
-ZG1pMF9vdXQ+Owo+ICsgICAgICAgICAgICAgICAgICAgIH07Cj4gKyAgICAgICAgICAgICAgICB9
-Owo+ICsKPiArICAgICAgICAgICAgICAgIHBvcnRAMSB7Cj4gKyAgICAgICAgICAgICAgICAgICAg
-cmVnID0gPDE+Owo+ICsgICAgICAgICAgICAgICAgICAgIGFueDc4MTRfb3V0OiBlbmRwb2ludCB7
-Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmZWRwX291dD47
-Cj4gKyAgICAgICAgICAgICAgICAgICAgfTsKPiArICAgICAgICAgICAgICAgIH07Cj4gKyAgICAg
-ICAgICAgIH07Cj4gKyAgICAgICAgfTsKPiArICAgIH07Cj4gKwo+ICsuLi4KPiBkaWZmIC0tZ2l0
-IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2FueDc4
-MTQudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdl
-L2FueDc4MTQudHh0Cj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMTcyNTg3NDdm
-ZmY2Li4wMDAwMDAwMDAwMDAKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvZGlzcGxheS9icmlkZ2UvYW54NzgxNC50eHQKPiArKysgL2Rldi9udWxsCj4gQEAgLTEsNDIg
-KzAsMCBAQAo+IC1BbmFsb2dpeCBBTlg3ODE0IFNsaW1Qb3J0IChGdWxsLUhEIFRyYW5zbWl0dGVy
-KQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+IC0K
-PiAtVGhlIEFOWDc4MTQgaXMgYW4gdWx0cmEtbG93IHBvd2VyIEZ1bGwtSEQgKDEwODBwNjApIFNs
-aW1Qb3J0IHRyYW5zbWl0dGVyCj4gLWRlc2lnbmVkIGZvciBwb3J0YWJsZSBkZXZpY2VzLgo+IC0K
-PiAtUmVxdWlyZWQgcHJvcGVydGllczoKPiAtCj4gLSAtIGNvbXBhdGlibGUJCTogTXVzdCBiZSBv
-bmUgb2Y6Cj4gLQkJCSAgImFuYWxvZ2l4LGFueDc4MDgiCj4gLQkJCSAgImFuYWxvZ2l4LGFueDc4
-MTIiCj4gLQkJCSAgImFuYWxvZ2l4LGFueDc4MTQiCj4gLQkJCSAgImFuYWxvZ2l4LGFueDc4MTgi
-Cj4gLSAtIHJlZwkJCTogSTJDIGFkZHJlc3Mgb2YgdGhlIGRldmljZQo+IC0gLSBpbnRlcnJ1cHRz
-CQk6IFNob3VsZCBjb250YWluIHRoZSBJTlRQIGludGVycnVwdAo+IC0gLSBocGQtZ3Bpb3MJCTog
-V2hpY2ggR1BJTyB0byB1c2UgZm9yIGhwZAo+IC0gLSBwZC1ncGlvcwkJOiBXaGljaCBHUElPIHRv
-IHVzZSBmb3IgcG93ZXIgZG93bgo+IC0gLSByZXNldC1ncGlvcwkJOiBXaGljaCBHUElPIHRvIHVz
-ZSBmb3IgcmVzZXQKPiAtCj4gLU9wdGlvbmFsIHByb3BlcnRpZXM6Cj4gLQo+IC0gLSBkdmRkMTAt
-c3VwcGx5CTogUmVndWxhdG9yIGZvciAxLjBWIGRpZ2l0YWwgY29yZSBwb3dlci4KPiAtIC0gVmlk
-ZW8gcG9ydCBmb3IgSERNSSBpbnB1dCwgdXNpbmcgdGhlIERUIGJpbmRpbmdzIGRlZmluZWQgaW4g
-WzFdLgo+IC0KPiAtWzFdOiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEv
-dmlkZW8taW50ZXJmYWNlcy50eHQKPiAtCj4gLUV4YW1wbGU6Cj4gLQo+IC0JYW54NzgxNDogYW54
-NzgxNEAzOCB7Cj4gLQkJY29tcGF0aWJsZSA9ICJhbmFsb2dpeCxhbng3ODE0IjsKPiAtCQlyZWcg
-PSA8MHgzOD47Cj4gLQkJaW50ZXJydXB0LXBhcmVudCA9IDwmZ3BpbzA+Owo+IC0JCWludGVycnVw
-dHMgPSA8OTkgSVJRX1RZUEVfTEVWRUxfTE9XPjsgICAvKiBJTlRQICovCj4gLQkJaHBkLWdwaW9z
-ID0gPCZwaW8gMzYgR1BJT19BQ1RJVkVfSElHSD47Cj4gLQkJcGQtZ3Bpb3MgPSA8JnBpbyAzMyBH
-UElPX0FDVElWRV9ISUdIPjsKPiAtCQlyZXNldC1ncGlvcyA9IDwmcGlvIDk4IEdQSU9fQUNUSVZF
-X0hJR0g+Owo+IC0JCXBvcnQgewo+IC0JCQlhbng3ODE0X2luOiBlbmRwb2ludCB7Cj4gLQkJCQly
-ZW1vdGUtZW5kcG9pbnQgPSA8JmhkbWkwX291dD47Cj4gLQkJCX07Cj4gLQkJfTsKPiAtCX07Cj4g
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, Apr 24, 2020 at 2:13 PM Lyude Paul <lyude@redhat.com> wrote:
+>
+> While we support using both tx slots for sideband transmissions, it
+> appears that DisplayPort devices in the field didn't end up doing a very
+> good job of supporting it. From section 5.2.1 of the DP 2.0
+> specification:
+>
+>   There are MST Sink/Branch devices in the field that do not handle
+>   interleaved message transactions.
+>
+>   To facilitate message transaction handling by downstream devices, an
+>   MST Source device shall generate message transactions in an atomic
+>   manner (i.e., the MST Source device shall not concurrently interleave
+>   multiple message transactions). Therefore, an MST Source device shall
+>   clear the Message_Sequence_No value in the Sideband_MSG_Header to 0.
+>
+> This might come as a bit of a surprise since the vast majority of hubs
+> will support using both tx slots even if they don't support interleaved
+> message transactions, and we've also been using both tx slots since MST
+> was introduced into the kernel.
+>
+> However, there is one device we've had trouble getting working
+> consistently with MST for so long that we actually assumed it was just
+> broken: the infamous Dell P2415Qb. Previously this monitor would appear
+> to work sometimes, but in most situations would end up timing out
+> LINK_ADDRESS messages almost at random until you power cycled the whole
+> display. After reading section 5.2.1 in the DP 2.0 spec, some closer
+> investigation into this infamous display revealed it was only ever
+> timing out on sideband messages in the second TX slot.
+>
+> Sure enough, avoiding the second TX slot has suddenly made this monitor
+> function perfectly for the first time in five years. And since they
+> explicitly mention this in the specification, I doubt this is the only
+> monitor out there with this issue. This might even explain explain the
+> seemingly harmless garbage sideband responses we would occasionally see
+> with MST hubs!
+>
+> So - rewrite our sideband TX handlers to only support one TX slot. In
+> order to simplify our sideband handling now that we don't support
+> transmitting to multiple MSTBs at once, we also move all state tracking
+> for down replies from mstbs to the topology manager.
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Fixes: ad7f8a1f9ced ("drm/helper: add Displayport multi-stream helper (v0.6)")
+> Cc: Sean Paul <sean@poorly.run>
+
+Reviewed-by: Sean Paul <sean@poorly.run>
+
+> Cc: "Lin, Wayne" <Wayne.Lin@amd.com>
+> Cc: <stable@vger.kernel.org> # v3.17+
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 149 ++++++++------------------
+>  include/drm/drm_dp_mst_helper.h       |  29 ++---
+>  2 files changed, 50 insertions(+), 128 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 03a1496f6120..dec5df82eef4 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -1197,16 +1197,8 @@ static int drm_dp_mst_wait_tx_reply(struct drm_dp_mst_branch *mstb,
+>
+>                 /* remove from q */
+>                 if (txmsg->state == DRM_DP_SIDEBAND_TX_QUEUED ||
+> -                   txmsg->state == DRM_DP_SIDEBAND_TX_START_SEND) {
+> +                   txmsg->state == DRM_DP_SIDEBAND_TX_START_SEND)
+>                         list_del(&txmsg->next);
+> -               }
+> -
+> -               if (txmsg->state == DRM_DP_SIDEBAND_TX_START_SEND ||
+> -                   txmsg->state == DRM_DP_SIDEBAND_TX_SENT) {
+> -                       mstb->tx_slots[txmsg->seqno] = NULL;
+> -               }
+> -               mgr->is_waiting_for_dwn_reply = false;
+> -
+>         }
+>  out:
+>         if (unlikely(ret == -EIO) && drm_debug_enabled(DRM_UT_DP)) {
+> @@ -2685,22 +2677,6 @@ static int set_hdr_from_dst_qlock(struct drm_dp_sideband_msg_hdr *hdr,
+>         struct drm_dp_mst_branch *mstb = txmsg->dst;
+>         u8 req_type;
+>
+> -       /* both msg slots are full */
+> -       if (txmsg->seqno == -1) {
+> -               if (mstb->tx_slots[0] && mstb->tx_slots[1]) {
+> -                       DRM_DEBUG_KMS("%s: failed to find slot\n", __func__);
+> -                       return -EAGAIN;
+> -               }
+> -               if (mstb->tx_slots[0] == NULL && mstb->tx_slots[1] == NULL) {
+> -                       txmsg->seqno = mstb->last_seqno;
+> -                       mstb->last_seqno ^= 1;
+> -               } else if (mstb->tx_slots[0] == NULL)
+> -                       txmsg->seqno = 0;
+> -               else
+> -                       txmsg->seqno = 1;
+> -               mstb->tx_slots[txmsg->seqno] = txmsg;
+> -       }
+> -
+>         req_type = txmsg->msg[0] & 0x7f;
+>         if (req_type == DP_CONNECTION_STATUS_NOTIFY ||
+>                 req_type == DP_RESOURCE_STATUS_NOTIFY)
+> @@ -2712,7 +2688,7 @@ static int set_hdr_from_dst_qlock(struct drm_dp_sideband_msg_hdr *hdr,
+>         hdr->lcr = mstb->lct - 1;
+>         if (mstb->lct > 1)
+>                 memcpy(hdr->rad, mstb->rad, mstb->lct / 2);
+> -       hdr->seqno = txmsg->seqno;
+> +
+>         return 0;
+>  }
+>  /*
+> @@ -2727,15 +2703,15 @@ static int process_single_tx_qlock(struct drm_dp_mst_topology_mgr *mgr,
+>         int len, space, idx, tosend;
+>         int ret;
+>
+> +       if (txmsg->state == DRM_DP_SIDEBAND_TX_SENT)
+> +               return 0;
+> +
+>         memset(&hdr, 0, sizeof(struct drm_dp_sideband_msg_hdr));
+>
+> -       if (txmsg->state == DRM_DP_SIDEBAND_TX_QUEUED) {
+> -               txmsg->seqno = -1;
+> +       if (txmsg->state == DRM_DP_SIDEBAND_TX_QUEUED)
+>                 txmsg->state = DRM_DP_SIDEBAND_TX_START_SEND;
+> -       }
+>
+> -       /* make hdr from dst mst - for replies use seqno
+> -          otherwise assign one */
+> +       /* make hdr from dst mst */
+>         ret = set_hdr_from_dst_qlock(&hdr, txmsg);
+>         if (ret < 0)
+>                 return ret;
+> @@ -2788,42 +2764,17 @@ static void process_single_down_tx_qlock(struct drm_dp_mst_topology_mgr *mgr)
+>         if (list_empty(&mgr->tx_msg_downq))
+>                 return;
+>
+> -       txmsg = list_first_entry(&mgr->tx_msg_downq, struct drm_dp_sideband_msg_tx, next);
+> +       txmsg = list_first_entry(&mgr->tx_msg_downq,
+> +                                struct drm_dp_sideband_msg_tx, next);
+>         ret = process_single_tx_qlock(mgr, txmsg, false);
+> -       if (ret == 1) {
+> -               /* txmsg is sent it should be in the slots now */
+> -               mgr->is_waiting_for_dwn_reply = true;
+> -               list_del(&txmsg->next);
+> -       } else if (ret) {
+> +       if (ret < 0) {
+>                 DRM_DEBUG_KMS("failed to send msg in q %d\n", ret);
+> -               mgr->is_waiting_for_dwn_reply = false;
+>                 list_del(&txmsg->next);
+> -               if (txmsg->seqno != -1)
+> -                       txmsg->dst->tx_slots[txmsg->seqno] = NULL;
+>                 txmsg->state = DRM_DP_SIDEBAND_TX_TIMEOUT;
+>                 wake_up_all(&mgr->tx_waitq);
+>         }
+>  }
+>
+> -/* called holding qlock */
+> -static void process_single_up_tx_qlock(struct drm_dp_mst_topology_mgr *mgr,
+> -                                      struct drm_dp_sideband_msg_tx *txmsg)
+> -{
+> -       int ret;
+> -
+> -       /* construct a chunk from the first msg in the tx_msg queue */
+> -       ret = process_single_tx_qlock(mgr, txmsg, true);
+> -
+> -       if (ret != 1)
+> -               DRM_DEBUG_KMS("failed to send msg in q %d\n", ret);
+> -
+> -       if (txmsg->seqno != -1) {
+> -               WARN_ON((unsigned int)txmsg->seqno >
+> -                       ARRAY_SIZE(txmsg->dst->tx_slots));
+> -               txmsg->dst->tx_slots[txmsg->seqno] = NULL;
+> -       }
+> -}
+> -
+>  static void drm_dp_queue_down_tx(struct drm_dp_mst_topology_mgr *mgr,
+>                                  struct drm_dp_sideband_msg_tx *txmsg)
+>  {
+> @@ -2836,8 +2787,7 @@ static void drm_dp_queue_down_tx(struct drm_dp_mst_topology_mgr *mgr,
+>                 drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
+>         }
+>
+> -       if (list_is_singular(&mgr->tx_msg_downq) &&
+> -           !mgr->is_waiting_for_dwn_reply)
+> +       if (list_is_singular(&mgr->tx_msg_downq))
+>                 process_single_down_tx_qlock(mgr);
+>         mutex_unlock(&mgr->qlock);
+>  }
+> @@ -3457,7 +3407,7 @@ static int drm_dp_encode_up_ack_reply(struct drm_dp_sideband_msg_tx *msg, u8 req
+>
+>  static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
+>                                     struct drm_dp_mst_branch *mstb,
+> -                                   int req_type, int seqno, bool broadcast)
+> +                                   int req_type, bool broadcast)
+>  {
+>         struct drm_dp_sideband_msg_tx *txmsg;
+>
+> @@ -3466,13 +3416,11 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
+>                 return -ENOMEM;
+>
+>         txmsg->dst = mstb;
+> -       txmsg->seqno = seqno;
+>         drm_dp_encode_up_ack_reply(txmsg, req_type);
+>
+>         mutex_lock(&mgr->qlock);
+> -
+> -       process_single_up_tx_qlock(mgr, txmsg);
+> -
+> +       /* construct a chunk from the first msg in the tx_msg queue */
+> +       process_single_tx_qlock(mgr, txmsg, true);
+>         mutex_unlock(&mgr->qlock);
+>
+>         kfree(txmsg);
+> @@ -3697,8 +3645,9 @@ int drm_dp_mst_topology_mgr_resume(struct drm_dp_mst_topology_mgr *mgr,
+>  }
+>  EXPORT_SYMBOL(drm_dp_mst_topology_mgr_resume);
+>
+> -static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up,
+> -                                 struct drm_dp_mst_branch **mstb, int *seqno)
+> +static bool
+> +drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up,
+> +                     struct drm_dp_mst_branch **mstb)
+>  {
+>         int len;
+>         u8 replyblock[32];
+> @@ -3706,13 +3655,13 @@ static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up,
+>         int ret;
+>         u8 hdrlen;
+>         struct drm_dp_sideband_msg_hdr hdr;
+> -       struct drm_dp_sideband_msg_rx *msg;
+> +       struct drm_dp_sideband_msg_rx *msg =
+> +               up ? &mgr->up_req_recv : &mgr->down_rep_recv;
+>         int basereg = up ? DP_SIDEBAND_MSG_UP_REQ_BASE :
+>                            DP_SIDEBAND_MSG_DOWN_REP_BASE;
+>
+>         if (!up)
+>                 *mstb = NULL;
+> -       *seqno = -1;
+>
+>         len = min(mgr->max_dpcd_transaction_bytes, 16);
+>         ret = drm_dp_dpcd_read(mgr->aux, basereg, replyblock, len);
+> @@ -3729,11 +3678,7 @@ static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up,
+>                 return false;
+>         }
+>
+> -       *seqno = hdr.seqno;
+> -
+> -       if (up) {
+> -               msg = &mgr->up_req_recv;
+> -       } else {
+> +       if (!up) {
+>                 /* Caller is responsible for giving back this reference */
+>                 *mstb = drm_dp_get_mst_branch_device(mgr, hdr.lct, hdr.rad);
+>                 if (!*mstb) {
+> @@ -3741,7 +3686,6 @@ static bool drm_dp_get_one_sb_msg(struct drm_dp_mst_topology_mgr *mgr, bool up,
+>                                       hdr.lct);
+>                         return false;
+>                 }
+> -               msg = &(*mstb)->down_rep_recv[hdr.seqno];
+>         }
+>
+>         if (!drm_dp_sideband_msg_set_header(msg, &hdr, hdrlen)) {
+> @@ -3785,13 +3729,10 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
+>  {
+>         struct drm_dp_sideband_msg_tx *txmsg;
+>         struct drm_dp_mst_branch *mstb = NULL;
+> -       struct drm_dp_sideband_msg_rx *msg = NULL;
+> -       int seqno = -1;
+> -
+> -       if (!drm_dp_get_one_sb_msg(mgr, false, &mstb, &seqno))
+> -               goto out_clear_reply;
+> +       struct drm_dp_sideband_msg_rx *msg = &mgr->down_rep_recv;
+>
+> -       msg = &mstb->down_rep_recv[seqno];
+> +       if (!drm_dp_get_one_sb_msg(mgr, false, &mstb))
+> +               goto out;
+>
+>         /* Multi-packet message transmission, don't clear the reply */
+>         if (!msg->have_eomt)
+> @@ -3799,11 +3740,12 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
+>
+>         /* find the message */
+>         mutex_lock(&mgr->qlock);
+> -       txmsg = mstb->tx_slots[seqno];
+> -       /* remove from slots */
+> +       txmsg = list_first_entry_or_null(&mgr->tx_msg_downq,
+> +                                        struct drm_dp_sideband_msg_tx, next);
+>         mutex_unlock(&mgr->qlock);
+>
+> -       if (!txmsg) {
+> +       /* Were we actually expecting a response, and from this mstb? */
+> +       if (!txmsg || txmsg->dst != mstb) {
+>                 struct drm_dp_sideband_msg_hdr *hdr;
+>                 hdr = &msg->initial_hdr;
+>                 DRM_DEBUG_KMS("Got MST reply with no msg %p %d %d %02x %02x\n",
+> @@ -3828,8 +3770,7 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
+>
+>         mutex_lock(&mgr->qlock);
+>         txmsg->state = DRM_DP_SIDEBAND_TX_RX;
+> -       mstb->tx_slots[seqno] = NULL;
+> -       mgr->is_waiting_for_dwn_reply = false;
+> +       list_del(&txmsg->next);
+>         mutex_unlock(&mgr->qlock);
+>
+>         wake_up_all(&mgr->tx_waitq);
+> @@ -3837,11 +3778,7 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
+>         return 0;
+>
+>  out_clear_reply:
+> -       mutex_lock(&mgr->qlock);
+> -       mgr->is_waiting_for_dwn_reply = false;
+> -       mutex_unlock(&mgr->qlock);
+> -       if (msg)
+> -               memset(msg, 0, sizeof(struct drm_dp_sideband_msg_rx));
+> +       memset(msg, 0, sizeof(struct drm_dp_sideband_msg_rx));
+>  out:
+>         if (mstb)
+>                 drm_dp_mst_topology_put_mstb(mstb);
+> @@ -3921,9 +3858,8 @@ static void drm_dp_mst_up_req_work(struct work_struct *work)
+>  static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+>  {
+>         struct drm_dp_pending_up_req *up_req;
+> -       int seqno;
+>
+> -       if (!drm_dp_get_one_sb_msg(mgr, true, NULL, &seqno))
+> +       if (!drm_dp_get_one_sb_msg(mgr, true, NULL))
+>                 goto out;
+>
+>         if (!mgr->up_req_recv.have_eomt)
+> @@ -3947,7 +3883,7 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+>         }
+>
+>         drm_dp_send_up_ack_reply(mgr, mgr->mst_primary, up_req->msg.req_type,
+> -                                seqno, false);
+> +                                false);
+>
+>         if (up_req->msg.req_type == DP_CONNECTION_STATUS_NOTIFY) {
+>                 const struct drm_dp_connection_status_notify *conn_stat =
+> @@ -4693,7 +4629,7 @@ static void drm_dp_tx_work(struct work_struct *work)
+>         struct drm_dp_mst_topology_mgr *mgr = container_of(work, struct drm_dp_mst_topology_mgr, tx_work);
+>
+>         mutex_lock(&mgr->qlock);
+> -       if (!list_empty(&mgr->tx_msg_downq) && !mgr->is_waiting_for_dwn_reply)
+> +       if (!list_empty(&mgr->tx_msg_downq))
+>                 process_single_down_tx_qlock(mgr);
+>         mutex_unlock(&mgr->qlock);
+>  }
+> @@ -4714,26 +4650,25 @@ static inline void
+>  drm_dp_delayed_destroy_mstb(struct drm_dp_mst_branch *mstb)
+>  {
+>         struct drm_dp_mst_topology_mgr *mgr = mstb->mgr;
+> -       struct drm_dp_mst_port *port, *tmp;
+> +       struct drm_dp_mst_port *port, *port_tmp;
+> +       struct drm_dp_sideband_msg_tx *txmsg, *txmsg_tmp;
+>         bool wake_tx = false;
+>
+>         mutex_lock(&mgr->lock);
+> -       list_for_each_entry_safe(port, tmp, &mstb->ports, next) {
+> +       list_for_each_entry_safe(port, port_tmp, &mstb->ports, next) {
+>                 list_del(&port->next);
+>                 drm_dp_mst_topology_put_port(port);
+>         }
+>         mutex_unlock(&mgr->lock);
+>
+> -       /* drop any tx slots msg */
+> +       /* drop any tx slot msg */
+>         mutex_lock(&mstb->mgr->qlock);
+> -       if (mstb->tx_slots[0]) {
+> -               mstb->tx_slots[0]->state = DRM_DP_SIDEBAND_TX_TIMEOUT;
+> -               mstb->tx_slots[0] = NULL;
+> -               wake_tx = true;
+> -       }
+> -       if (mstb->tx_slots[1]) {
+> -               mstb->tx_slots[1]->state = DRM_DP_SIDEBAND_TX_TIMEOUT;
+> -               mstb->tx_slots[1] = NULL;
+> +       list_for_each_entry_safe(txmsg, txmsg_tmp, &mgr->tx_msg_downq, next) {
+> +               if (txmsg->dst != mstb)
+> +                       continue;
+> +
+> +               txmsg->state = DRM_DP_SIDEBAND_TX_TIMEOUT;
+> +               list_del(&txmsg->next);
+>                 wake_tx = true;
+>         }
+>         mutex_unlock(&mstb->mgr->qlock);
+> diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+> index 96bcf33c03d3..9e1ffcd7cb68 100644
+> --- a/include/drm/drm_dp_mst_helper.h
+> +++ b/include/drm/drm_dp_mst_helper.h
+> @@ -194,11 +194,8 @@ struct drm_dp_sideband_msg_rx {
+>   * @rad: Relative Address to talk to this branch device.
+>   * @lct: Link count total to talk to this branch device.
+>   * @num_ports: number of ports on the branch.
+> - * @msg_slots: one bit per transmitted msg slot.
+>   * @port_parent: pointer to the port parent, NULL if toplevel.
+>   * @mgr: topology manager for this branch device.
+> - * @tx_slots: transmission slots for this device.
+> - * @last_seqno: last sequence number used to talk to this.
+>   * @link_address_sent: if a link address message has been sent to this device yet.
+>   * @guid: guid for DP 1.2 branch device. port under this branch can be
+>   * identified by port #.
+> @@ -239,7 +236,6 @@ struct drm_dp_mst_branch {
+>         u8 lct;
+>         int num_ports;
+>
+> -       int msg_slots;
+>         /**
+>          * @ports: the list of ports on this branch device. This should be
+>          * considered protected for reading by &drm_dp_mst_topology_mgr.lock.
+> @@ -252,20 +248,11 @@ struct drm_dp_mst_branch {
+>          */
+>         struct list_head ports;
+>
+> -       /* list of tx ops queue for this port */
+>         struct drm_dp_mst_port *port_parent;
+>         struct drm_dp_mst_topology_mgr *mgr;
+>
+> -       /* slots are protected by mstb->mgr->qlock */
+> -       struct drm_dp_sideband_msg_tx *tx_slots[2];
+> -       int last_seqno;
+>         bool link_address_sent;
+>
+> -       /**
+> -        * @down_rep_recv: Message receiver state for down replies.
+> -        */
+> -       struct drm_dp_sideband_msg_rx down_rep_recv[2];
+> -
+>         /* global unique identifier to identify branch devices */
+>         u8 guid[16];
+>  };
+> @@ -567,6 +554,12 @@ struct drm_dp_mst_topology_mgr {
+>          */
+>         struct drm_dp_sideband_msg_rx up_req_recv;
+>
+> +       /**
+> +        * @down_rep_recv: Message receiver state for replies to down
+> +        * requests.
+> +        */
+> +       struct drm_dp_sideband_msg_rx down_rep_recv;
+> +
+>         /**
+>          * @lock: protects @mst_state, @mst_primary, @dpcd, and
+>          * @payload_id_table_cleared.
+> @@ -592,11 +585,6 @@ struct drm_dp_mst_topology_mgr {
+>          */
+>         bool payload_id_table_cleared : 1;
+>
+> -       /**
+> -        * @is_waiting_for_dwn_reply: whether we're waiting for a down reply.
+> -        */
+> -       bool is_waiting_for_dwn_reply : 1;
+> -
+>         /**
+>          * @mst_primary: Pointer to the primary/first branch device.
+>          */
+> @@ -621,13 +609,12 @@ struct drm_dp_mst_topology_mgr {
+>         const struct drm_private_state_funcs *funcs;
+>
+>         /**
+> -        * @qlock: protects @tx_msg_downq, the &drm_dp_mst_branch.txslost and
+> -        * &drm_dp_sideband_msg_tx.state once they are queued
+> +        * @qlock: protects @tx_msg_downq and &drm_dp_sideband_msg_tx.state
+>          */
+>         struct mutex qlock;
+>
+>         /**
+> -        * @tx_msg_downq: List of pending down replies.
+> +        * @tx_msg_downq: List of pending down requests
+>          */
+>         struct list_head tx_msg_downq;
+>
+> --
+> 2.25.3
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
