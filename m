@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE6D1BADC7
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 21:20:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C4E1BADD7
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 21:24:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB7C76E11C;
-	Mon, 27 Apr 2020 19:20:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 632436E123;
+	Mon, 27 Apr 2020 19:24:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B45DF6E11C
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 19:20:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56AE46E123
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 19:24:55 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206987] [drm] [amdgpu] Whole system crashes when the driver is
- in mode_support_and_system_configuration
-Date: Mon, 27 Apr 2020 19:20:53 +0000
+Subject: [Bug 207383] [Regression] 5.7-rc: amdgpu/polaris11 gpf:
+ amdgpu_atomic_commit_tail
+Date: Mon, 27 Apr 2020 19:24:54 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -27,16 +27,16 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: evvke@hotmail.com
+X-Bugzilla-Who: 1i5t5.duncan@cox.net
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-206987-2300-CoHDqakwCr@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206987-2300@https.bugzilla.kernel.org/>
-References: <bug-206987-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-207383-2300-tMWMylrWcV@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
+References: <bug-207383-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -57,13 +57,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206987
+https://bugzilla.kernel.org/show_bug.cgi?id=207383
 
-Cyrax (evvke@hotmail.com) changed:
+Duncan (1i5t5.duncan@cox.net) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-     Kernel Version|5.6.7                       |5.7.0-rc3
+     Kernel Version|5.7-rc1, 5.7-rc2            |5.7-rc1, 5.7-rc2, 5.7-rc3
+
+--- Comment #4 from Duncan (1i5t5.duncan@cox.net) ---
+Still there with 5.7-rc3, altho /maybe/ it's not triggering as quickly.  Took
+13 hours to trigger this time and I'd almost decided it was fixed as it had
+been triggering sooner than that, but could simply be luck.  Rebooted to rc3
+again.  We'll see...
 
 -- 
 You are receiving this mail because:
