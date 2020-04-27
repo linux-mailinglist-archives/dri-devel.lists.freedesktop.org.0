@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F021B99DC
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 10:20:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7321B99C4
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 10:19:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF47E6E0FB;
-	Mon, 27 Apr 2020 08:20:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 412A96E0D4;
+	Mon, 27 Apr 2020 08:19:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB05C6E0A1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:19:26 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id t11so13030734lfe.4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 01:19:26 -0700 (PDT)
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D72406E0A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:19:27 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id g10so12985244lfj.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 01:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=o5DJmdQFZpMVKr/FQEUxXPMg63d8Tk7lytsgMLwwR3s=;
- b=dSKE53MZfVaKlP7T5UuteccYi9Mxj3V9rpmMOAGuyGTp9mAHpebXts8J3jOzM9syEd
- e1VPJNz401DjJKV+0rw0ayFa7+xuxYCLIKkqs/BlaE1tb+TeIxlzTYYCTdln6UF84Dst
- P4IDY3Oz1sk3dfcv1dMCsmdoYm2Isc2v8nQ4ejwJUx9MQIIcp1XflulCiefWRxg0U3pZ
- +1rzK440kaLcC3t5hsA5nr4J29AqHab/lHgYnKSwKKdNvxfjp23b5EsqfOxXBUhMGime
- +p4NbhH4ny1m69Ze9S/Oz4vxX1SXiXE4KlPZ5TopIWswv8jwIEz4aGqlDx2F64Vjqz7f
- ZXHA==
+ bh=7s05XMTYcFfENek8PsGO4hs1bY+4uIGfZAp5xveEl4A=;
+ b=WaPDs1bg3Poh/6oyeL1gtfefhhVeBACY2UtNFjfEkoUh2duRZFDSCUqoS0XK9gw6GG
+ Yy77WqhsE0W76xIquxttdAIdiPTpcy9oNBCGdXbo6NC2M3u6t/gwcU2c6kp6xR9U1cuD
+ e8TtpSdpc4qVKwjSpFgqDU0VOA++yPfNQx7dXAistwHQaTEeOtsPrisGJ6mpphqNj/m5
+ hLTLiT/Ce1XLAandpjToqteAv+wDc3zW5Di0G6Pp3/5SaNh94O2Kq/i2c6mgwrlwLqrh
+ 5vFHvyY1DU1ibB11cpnnFNQ9O1Xmkx2dU7CW5JV1v9bJywuUuHbQHSmF3scol5XycjhF
+ bCeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=o5DJmdQFZpMVKr/FQEUxXPMg63d8Tk7lytsgMLwwR3s=;
- b=CfDzUwqVxxFpgalzAqvvtvvi6hT0suczFhXLhMB1361pcqkUC/ehz0+y2bRS5Gxfay
- MpfkcVW+zj+ip7mbLUHpmgZ3Jc0c8Oc+1sftxCtTnrloaJb1sEPFb+U7aBZU/ajOP/2B
- FQrlXoOOpxNmeIwu88M8tKr+GNheLLJaY4M8oTWjiXgwi+PxCMQasdptr0c2OOCy+Lfw
- 8S5glbcUN7NQqhkzRfYIbSmnzLbP7/wmPbjNI2rAzDurqTyIAwPO88q80yA4nOHh0E0B
- CAhk3RtJs8UdQUUWY/mmrkCCczSRKlWGEYCCtx6gR6/m/XfDyY7uhLC1foZHQlTOdjfx
- 7usA==
-X-Gm-Message-State: AGi0PubdwB5eUCig6ZHnrQuAxCMnFR5X0RuWles1zf76W8vUjK2f56hi
- aiXIJ+eYOe6fWR7qnPg2vymxkjb2
-X-Google-Smtp-Source: APiQypIuKuAgR+jezkYXHdlW7DQEQcK2psqgGs7oNqrV/Hh5eN6CwFMRt/erKiJdYaNlkyIM7zZxtg==
-X-Received: by 2002:ac2:4a76:: with SMTP id q22mr14737001lfp.157.1587975564890; 
- Mon, 27 Apr 2020 01:19:24 -0700 (PDT)
+ bh=7s05XMTYcFfENek8PsGO4hs1bY+4uIGfZAp5xveEl4A=;
+ b=A5dPSFJOjS363ID5qw7Y754xbp7Q2mHhJKBjvZYKC5VVyb7SKR6bfUOlGcLZ0cvRXL
+ zmSkWkPsIoV6L0CqFHmNnBu0uY2b0FIYdmVDxkIgowog0qYZs2l90YvDsqJNV+sj8cmw
+ 74QlusCpWY36YZeYvvXSKpSt/jxtAuCetUqEcC6o7GqrEjGB3VY+2vgR+y+Uxan2gOgi
+ s2mnMLhJMZxyJlenxvSwSJsUar+NYh+wz89K/sEgiOaJlKAPVnZ7dtsZ9Ogalt1YmRWA
+ Pe5frQTpsdUv2LK8lwUGG510Pw+CbvFz+uBByc7MXSwKkzFBg4n72b4Kkgy4UAlNzaHU
+ OnXQ==
+X-Gm-Message-State: AGi0PubK9O6ozL1bLazQpzWarKIw8bvZw/zo8wwYa4m3j0dJBSxcSwgT
+ Quc+HtXtBk27h0mCTCK9yW1IQfwK
+X-Google-Smtp-Source: APiQypLchTDsch3VlYxoKPd8hHqKmZ1fSD86nVzyDaZx7Z9Li1s0kBXhpmMSlLQWguhx9S8ypObZFA==
+X-Received: by 2002:a19:f518:: with SMTP id j24mr14989307lfb.205.1587975565953; 
+ Mon, 27 Apr 2020 01:19:25 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- c20sm9846301ljk.59.2020.04.27.01.19.22
+ c20sm9846301ljk.59.2020.04.27.01.19.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 01:19:23 -0700 (PDT)
+ Mon, 27 Apr 2020 01:19:25 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH v2 18/21] drm/bridge: nxp-ptn3460: add drm_panel_bridge support
-Date: Mon, 27 Apr 2020 10:18:47 +0200
-Message-Id: <20200427081850.17512-19-sam@ravnborg.org>
+Subject: [PATCH v2 19/21] drm/bridge: nxp-ptn3460: add get_modes bridge
+ operation
+Date: Mon, 27 Apr 2020 10:18:48 +0200
+Message-Id: <20200427081850.17512-20-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200427081850.17512-1-sam@ravnborg.org>
 References: <20200427081850.17512-1-sam@ravnborg.org>
@@ -79,10 +80,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare the bridge driver for use in a chained setup by
-replacing direct use of drm_panel with drm_panel_bridge support.
-
-Note: the bridge panel will use the connector type from the panel.
+Add the get_modes() bridge operation to prepare for
+use as a chained bridge.
+Add helper function that is also used by the connector.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Andrzej Hajda <a.hajda@samsung.com>
@@ -91,135 +91,109 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: Jonas Karlman <jonas@kwiboo.se>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- drivers/gpu/drm/bridge/nxp-ptn3460.c | 51 ++++++++--------------------
- 1 file changed, 14 insertions(+), 37 deletions(-)
+ drivers/gpu/drm/bridge/nxp-ptn3460.c | 52 ++++++++++++++++++----------
+ 1 file changed, 33 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-index 438e566ce0a4..0bd9f0e451b3 100644
+index 0bd9f0e451b3..e253c185f94c 100644
 --- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
 +++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-@@ -30,7 +30,7 @@ struct ptn3460_bridge {
- 	struct i2c_client *client;
- 	struct drm_bridge bridge;
- 	struct edid *edid;
--	struct drm_panel *panel;
-+	struct drm_bridge *panel_bridge;
- 	struct gpio_desc *gpio_pd_n;
- 	struct gpio_desc *gpio_rst_n;
- 	u32 edid_emulation;
-@@ -127,11 +127,6 @@ static void ptn3460_pre_enable(struct drm_bridge *bridge)
- 	usleep_range(10, 20);
- 	gpiod_set_value(ptn_bridge->gpio_rst_n, 1);
- 
--	if (drm_panel_prepare(ptn_bridge->panel)) {
--		DRM_ERROR("failed to prepare panel\n");
--		return;
--	}
--
- 	/*
- 	 * There's a bug in the PTN chip where it falsely asserts hotplug before
- 	 * it is fully functional. We're forced to wait for the maximum start up
-@@ -146,16 +141,6 @@ static void ptn3460_pre_enable(struct drm_bridge *bridge)
- 	ptn_bridge->enabled = true;
- }
- 
--static void ptn3460_enable(struct drm_bridge *bridge)
--{
--	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
--
--	if (drm_panel_enable(ptn_bridge->panel)) {
--		DRM_ERROR("failed to enable panel\n");
--		return;
--	}
--}
--
- static void ptn3460_disable(struct drm_bridge *bridge)
- {
- 	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
-@@ -165,25 +150,10 @@ static void ptn3460_disable(struct drm_bridge *bridge)
- 
- 	ptn_bridge->enabled = false;
- 
--	if (drm_panel_disable(ptn_bridge->panel)) {
--		DRM_ERROR("failed to disable panel\n");
--		return;
--	}
--
- 	gpiod_set_value(ptn_bridge->gpio_rst_n, 1);
+@@ -154,17 +154,13 @@ static void ptn3460_disable(struct drm_bridge *bridge)
  	gpiod_set_value(ptn_bridge->gpio_pd_n, 0);
  }
  
--static void ptn3460_post_disable(struct drm_bridge *bridge)
--{
--	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
--
--	if (drm_panel_unprepare(ptn_bridge->panel)) {
--		DRM_ERROR("failed to unprepare panel\n");
--		return;
--	}
--}
--
- static int ptn3460_get_modes(struct drm_connector *connector)
+-static int ptn3460_get_modes(struct drm_connector *connector)
++static struct edid *ptn3460_get_edid(struct drm_bridge *bridge,
++				     struct drm_connector *connector)
  {
- 	struct ptn3460_bridge *ptn_bridge;
-@@ -242,6 +212,11 @@ static int ptn3460_bridge_attach(struct drm_bridge *bridge,
- 	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
- 	int ret;
- 
-+	ret = drm_bridge_attach(bridge->encoder, ptn_bridge->panel_bridge,
-+				bridge, flags);
-+	if (ret < 0)
-+		return ret;
-+
- 	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
- 		DRM_ERROR("Fix bridge driver to make connector optional!");
- 		return -EINVAL;
-@@ -265,9 +240,6 @@ static int ptn3460_bridge_attach(struct drm_bridge *bridge,
- 	drm_connector_attach_encoder(&ptn_bridge->connector,
- 							bridge->encoder);
- 
--	if (ptn_bridge->panel)
--		drm_panel_attach(ptn_bridge->panel, &ptn_bridge->connector);
+-	struct ptn3460_bridge *ptn_bridge;
+-	u8 *edid;
+-	int ret, num_modes = 0;
++	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
+ 	bool power_off;
 -
- 	drm_helper_hpd_irq_event(ptn_bridge->connector.dev);
+-	ptn_bridge = connector_to_ptn3460(connector);
+-
+-	if (ptn_bridge->edid)
+-		return drm_add_edid_modes(connector, ptn_bridge->edid);
++	u8 *edid;
++	int ret;
  
- 	return ret;
-@@ -275,9 +247,7 @@ static int ptn3460_bridge_attach(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs ptn3460_bridge_funcs = {
- 	.pre_enable = ptn3460_pre_enable,
--	.enable = ptn3460_enable,
- 	.disable = ptn3460_disable,
--	.post_disable = ptn3460_post_disable,
- 	.attach = ptn3460_bridge_attach,
- };
- 
-@@ -286,6 +256,8 @@ static int ptn3460_probe(struct i2c_client *client,
- {
- 	struct device *dev = &client->dev;
- 	struct ptn3460_bridge *ptn_bridge;
-+	struct drm_bridge *pbridge;
-+	struct drm_panel *panel;
- 	int ret;
- 
- 	ptn_bridge = devm_kzalloc(dev, sizeof(*ptn_bridge), GFP_KERNEL);
-@@ -293,10 +265,15 @@ static int ptn3460_probe(struct i2c_client *client,
- 		return -ENOMEM;
+ 	power_off = !ptn_bridge->enabled;
+ 	ptn3460_pre_enable(&ptn_bridge->bridge);
+@@ -172,30 +168,46 @@ static int ptn3460_get_modes(struct drm_connector *connector)
+ 	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
+ 	if (!edid) {
+ 		DRM_ERROR("Failed to allocate EDID\n");
+-		return 0;
++		return NULL;
  	}
  
--	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &ptn_bridge->panel, NULL);
-+	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &panel, NULL);
- 	if (ret)
- 		return ret;
+ 	ret = ptn3460_read_bytes(ptn_bridge, PTN3460_EDID_ADDR, edid,
+-			EDID_LENGTH);
++				 EDID_LENGTH);
+ 	if (ret) {
+ 		kfree(edid);
+-		goto out;
++		return NULL;
+ 	}
  
-+	pbridge = devm_drm_panel_bridge_add(dev, panel);
-+	if (IS_ERR(pbridge))
-+		return PTR_ERR(pbridge);
++	if (power_off)
++		ptn3460_disable(&ptn_bridge->bridge);
 +
-+	ptn_bridge->panel_bridge = pbridge;
- 	ptn_bridge->client = client;
++	kfree(ptn_bridge->edid);
+ 	ptn_bridge->edid = (struct edid *)edid;
+-	drm_connector_update_edid_property(connector, ptn_bridge->edid);
  
- 	ptn_bridge->gpio_pd_n = devm_gpiod_get(&client->dev, "powerdown",
+-	num_modes = drm_add_edid_modes(connector, ptn_bridge->edid);
++	return ptn_bridge->edid;
++}
+ 
+-out:
+-	if (power_off)
+-		ptn3460_disable(&ptn_bridge->bridge);
++static int ptn3460_connector_get_modes(struct drm_connector *connector)
++{
++	struct ptn3460_bridge *ptn_bridge;
++	struct edid *edid;
++
++	ptn_bridge = connector_to_ptn3460(connector);
++
++	if (ptn_bridge->edid)
++		return drm_add_edid_modes(connector, ptn_bridge->edid);
++
++	edid = ptn3460_get_edid(&ptn_bridge->bridge, connector);
++	if (!edid)
++		return 0;
++
++	drm_connector_update_edid_property(connector, edid);
+ 
+-	return num_modes;
++	return drm_add_edid_modes(connector, edid);
+ }
+ 
+ static const struct drm_connector_helper_funcs ptn3460_connector_helper_funcs = {
+-	.get_modes = ptn3460_get_modes,
++	.get_modes = ptn3460_connector_get_modes,
+ };
+ 
+ static const struct drm_connector_funcs ptn3460_connector_funcs = {
+@@ -249,6 +261,7 @@ static const struct drm_bridge_funcs ptn3460_bridge_funcs = {
+ 	.pre_enable = ptn3460_pre_enable,
+ 	.disable = ptn3460_disable,
+ 	.attach = ptn3460_bridge_attach,
++	.get_edid = ptn3460_get_edid,
+ };
+ 
+ static int ptn3460_probe(struct i2c_client *client,
+@@ -304,6 +317,7 @@ static int ptn3460_probe(struct i2c_client *client,
+ 	}
+ 
+ 	ptn_bridge->bridge.funcs = &ptn3460_bridge_funcs;
++	ptn_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
+ 	ptn_bridge->bridge.of_node = dev->of_node;
+ 	drm_bridge_add(&ptn_bridge->bridge);
+ 
 -- 
 2.20.1
 
