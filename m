@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5B81BADC3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 21:20:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE6D1BADC7
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 21:20:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4DD66E124;
-	Mon, 27 Apr 2020 19:20:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB7C76E11C;
+	Mon, 27 Apr 2020 19:20:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 622D76E124
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 19:20:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B45DF6E11C
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 19:20:53 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206987] [drm] [amdgpu] Whole system crashes when the driver is
  in mode_support_and_system_configuration
-Date: Mon, 27 Apr 2020 19:20:31 +0000
+Date: Mon, 27 Apr 2020 19:20:53 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206987-2300-psdDkhTsDW@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-206987-2300-CoHDqakwCr@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206987-2300@https.bugzilla.kernel.org/>
 References: <bug-206987-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,21 +59,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206987
 
---- Comment #11 from Cyrax (evvke@hotmail.com) ---
-Created attachment 288781
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288781&action=edit
-dmesg output from Linux 5.7-rc3
+Cyrax (evvke@hotmail.com) changed:
 
-This is starting to be real problem, I can't do anything remotely productive.
-Crash will happen in just 12 hours (give or take) when system is rebooted from
-previous one.
-
-I'm running four LXC containers which I have setup to run GUI programs in hosts
-system by following this help :
-https://wiki.archlinux.org/index.php/Linux_Containers#Xorg_program_considerations_(optional)
-
-Also I have running VirtualBox but its VM's aren't accessing 3D functions from
-host at all.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.6.7                       |5.7.0-rc3
 
 -- 
 You are receiving this mail because:
