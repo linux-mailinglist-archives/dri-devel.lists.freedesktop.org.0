@@ -1,41 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17FD61BB06C
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 23:22:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 810EA1BB088
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 23:32:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E632D6E02A;
-	Mon, 27 Apr 2020 21:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A33389E65;
+	Mon, 27 Apr 2020 21:32:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0248.hostedemail.com
- [216.40.44.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83FFA6E02A
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 21:22:11 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay04.hostedemail.com (Postfix) with ESMTP id 138E81800293A;
- Mon, 27 Apr 2020 21:22:09 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 30, 2, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:69:152:305:355:379:541:800:960:968:973:982:988:989:1260:1277:1311:1313:1314:1345:1437:1515:1516:1518:1535:1544:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2693:2827:3138:3139:3140:3141:3142:3354:3653:3865:3867:3868:3870:3872:3874:4250:4605:5007:6261:6299:7903:7904:8957:9010:9040:9592:10004:11026:11232:11658:11914:12043:12291:12296:12297:12346:12438:12555:12679:12683:12895:13161:13229:13894:14181:14394:14659:14721:21080:21324:21433:21451:21505:21627:21660:21819:21939:21990:30003:30022:30026:30046:30054:30062:30070,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:1, LUA_SUMMARY:none
-X-HE-Tag: kiss59_4cd4c705e0726
-X-Filterd-Recvd-Size: 5239
-Received: from joe-laptop.perches.com (unknown [47.151.136.130])
- (Authenticated sender: joe@perches.com)
- by omf01.hostedemail.com (Postfix) with ESMTPA;
- Mon, 27 Apr 2020 21:22:07 +0000 (UTC)
-From: Joe Perches <joe@perches.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH V2] get_maintainer: Add email addresses from .yaml files
-Date: Mon, 27 Apr 2020 14:22:06 -0700
-Message-Id: <e85006456d9dbae55286c67ac5263668a72f5b58.1588022228.git.joe@perches.com>
-X-Mailer: git-send-email 2.26.0
+Received: from mail-oo1-f68.google.com (mail-oo1-f68.google.com
+ [209.85.161.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEBBB89E65
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 21:32:02 +0000 (UTC)
+Received: by mail-oo1-f68.google.com with SMTP id g14so4218345ooa.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 14:32:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=w1uDZO2LdODIUIXzVhRK1SKj6P79fg3brB4R+H6ilss=;
+ b=N+k2mGrkrRr5JO0y+/r5+lc8Gd43NIVcz6u+wo2WoxLYgTSd0xtHrvWYQLhzyltUuD
+ xdQhhhOMZYttSxkl4iXlkbxYNjmfoKKTZrJMZFPJROzJwPOVPtBt2I9tplMkWecq7uDf
+ 6SGXBHm5iqo9WJ3EwG1EhjOV5bO63/S0wWuXHp0ghomBQ5u4MoiwekMs2rGT2UdDUh3r
+ lfiYCtYaxHRWXHMC5Cq1P8f18QpnlElxb5xYpLi8dzuQblJv6a1Q2Z60UXkhc/rvAoPJ
+ M3+iFwCYvWHl2TUXOmEoT3o6Y4SiOmtj4Z13EfpTDZu87egEpvqpJEo5tKWZxp9mVri+
+ tBqA==
+X-Gm-Message-State: AGi0PuanSZVPn9G7rAMnGH4gzPguyLmcKQo9CIxq+sehNXn3GbFZ0/X3
+ Ck0PxgLlip4adEn1J37cAQ==
+X-Google-Smtp-Source: APiQypJf8rbZu6QH32eGiwrCo4i51dejGBYEAQsVJu6W92eQMIOBXv+t0wckN+3tyVZcrQoflUHTxw==
+X-Received: by 2002:a4a:3e8b:: with SMTP id t133mr20894000oot.52.1588023122070; 
+ Mon, 27 Apr 2020 14:32:02 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id u1sm2015687oif.54.2020.04.27.14.32.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Apr 2020 14:32:01 -0700 (PDT)
+Received: (nullmailer pid 31301 invoked by uid 1000);
+ Mon, 27 Apr 2020 21:32:00 -0000
+Date: Mon, 27 Apr 2020 16:32:00 -0500
+From: Rob Herring <robh@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2 27/91] dt-bindings: display: Convert VC4 bindings to
+ schemas
+Message-ID: <20200427213200.GA30618@bogus>
+References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
+ <abfe72e59b796c86820d933bd81ba5ae0699e5b6.1587742492.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <abfe72e59b796c86820d933bd81ba5ae0699e5b6.1587742492.git-series.maxime@cerno.tech>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,90 +62,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Maxime Ripard <maxime@cerno.tech>, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LnlhbWwgZmlsZXMgY2FuIGNvbnRhaW4gbWFpbnRhaW5lci9hdXRob3IgYWRkcmVzc2VzIGFuZCBp
-dCBzZWVtcwp1bmxpa2VseSBvciB1bm5lY2Vzc2FyeSB0aGF0IGluZGl2aWR1YWwgTUFJTlRBSU5F
-UiBmaWxlIHNlY3Rpb24KZW50cmllcyBmb3IgZWFjaCAueWFtbCBmaWxlIHdpbGwgYmUgY3JlYXRl
-ZC4KClNvIGFkZCB0aGUgZW1haWwgYWRkcmVzc2VzIGZvdW5kIGluIC55YW1sIGZpbGVzIHRvIHRo
-ZSBkZWZhdWx0CmdldF9tYWludGFpbmVyIG91dHB1dC4KClRoZSBlbWFpbCBhZGRyZXNzZXMgYXJl
-IG1hcmtlZCB3aXRoICIoaW4gZmlsZSkiIHdoZW4gdXNpbmcgdGhlCiItLXJvbGVzIiBvciAiLS1y
-b2xlc3RhdHMiIG9wdGlvbnMuCgpNaXNjZWxsYW5lYToKCm8gQ2hhbmdlICRmaWxlX2VtYWlscyB0
-byAkZW1haWxfZmlsZV9lbWFpbHMgdG8gYXZvaWQgdmlzdWFsCiAgbmFtaW5nIGNvbmZsaWN0cyB3
-aXRoIEBmaWxlX2VtYWlscwoKU2lnbmVkLW9mZi1ieTogSm9lIFBlcmNoZXMgPGpvZUBwZXJjaGVz
-LmNvbT4KQWNrZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KVGVzdGVkLWJ5
-OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Ci0tLQoKVjI6IEZpeCBkZC9hZGQgdHlw
-bwogICAgQWRkIFNhbSdzIHNpZ24tb2ZmcwogICAgUmVzZW5kIHVzaW5nIGdpdCBmb3JtYXQtcGF0
-Y2ggZ2l0IHNlbmQtZW1haWwgYW5kIFVURi04IG5vdCA4LWJpdAoKIHNjcmlwdHMvZ2V0X21haW50
-YWluZXIucGwgfCA0NCArKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0KIDEg
-ZmlsZSBjaGFuZ2VkLCAyOSBpbnNlcnRpb25zKCspLCAxNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
-aXQgYS9zY3JpcHRzL2dldF9tYWludGFpbmVyLnBsIGIvc2NyaXB0cy9nZXRfbWFpbnRhaW5lci5w
-bAppbmRleCA2Y2JjZDEuLjZkOTczZiAxMDA3NTUKLS0tIGEvc2NyaXB0cy9nZXRfbWFpbnRhaW5l
-ci5wbAorKysgYi9zY3JpcHRzL2dldF9tYWludGFpbmVyLnBsCkBAIC01Nyw3ICs1Nyw3IEBAIG15
-ICRzdGF0dXMgPSAwOwogbXkgJGxldHRlcnMgPSAiIjsKIG15ICRrZXl3b3JkcyA9IDE7CiBteSAk
-c2VjdGlvbnMgPSAwOwotbXkgJGZpbGVfZW1haWxzID0gMDsKK215ICRlbWFpbF9maWxlX2VtYWls
-cyA9IDA7CiBteSAkZnJvbV9maWxlbmFtZSA9IDA7CiBteSAkcGF0dGVybl9kZXB0aCA9IDA7CiBt
-eSAkc2VsZl90ZXN0ID0gdW5kZWY7CkBAIC02OSw2ICs2OSwxMiBAQCBteSAkdmNzX3VzZWQgPSAw
-OwogCiBteSAkZXhpdCA9IDA7CiAKK215IEBmaWxlcyA9ICgpOworbXkgQGZpeGVzID0gKCk7CQkJ
-IyBJZiBhIHBhdGNoIGRlc2NyaXB0aW9uIGluY2x1ZGVzIEZpeGVzOiBsaW5lcworbXkgQHJhbmdl
-ID0gKCk7CitteSBAa2V5d29yZF90dmkgPSAoKTsKK215IEBmaWxlX2VtYWlscyA9ICgpOworCiBt
-eSAlY29tbWl0X2F1dGhvcl9oYXNoOwogbXkgJWNvbW1pdF9zaWduZXJfaGFzaDsKIApAQCAtMjY2
-LDcgKzI3Miw3IEBAIGlmICghR2V0T3B0aW9ucygKIAkJJ3BhdHRlcm4tZGVwdGg9aScgPT4gXCRw
-YXR0ZXJuX2RlcHRoLAogCQkna3xrZXl3b3JkcyEnID0+IFwka2V5d29yZHMsCiAJCSdzZWN0aW9u
-cyEnID0+IFwkc2VjdGlvbnMsCi0JCSdmZXxmaWxlLWVtYWlscyEnID0+IFwkZmlsZV9lbWFpbHMs
-CisJCSdmZXxmaWxlLWVtYWlscyEnID0+IFwkZW1haWxfZmlsZV9lbWFpbHMsCiAJCSdmfGZpbGUn
-ID0+IFwkZnJvbV9maWxlbmFtZSwKIAkJJ2ZpbmQtbWFpbnRhaW5lci1maWxlcycgPT4gXCRmaW5k
-X21haW50YWluZXJfZmlsZXMsCiAJCSdtcGF0aHxtYWludGFpbmVyLXBhdGg9cycgPT4gXCRtYWlu
-dGFpbmVyX3BhdGgsCkBAIC00MjQsNiArNDMwLDIyIEBAIHN1YiByZWFkX2FsbF9tYWludGFpbmVy
-X2ZpbGVzIHsKICAgICB9CiB9CiAKK3N1YiBtYWludGFpbmVyc19pbl9maWxlIHsKKyAgICBteSAo
-JGZpbGUpID0gQF87CisKKyAgICByZXR1cm4gaWYgKCRmaWxlID1+IG1AXGJNQUlOVEFJTkVSUyRA
-KTsKKworICAgIGlmICgtZiAkZmlsZSAmJiAoJGVtYWlsX2ZpbGVfZW1haWxzIHx8ICRmaWxlID1+
-IC9cLnlhbWwkLykpIHsKKwlvcGVuKG15ICRmLCAnPCcsICRmaWxlKQorCSAgICBvciBkaWUgIiRQ
-OiBDYW4ndCBvcGVuICRmaWxlOiAkIVxuIjsKKwlteSAkdGV4dCA9IGRvIHsgbG9jYWwoJC8pIDsg
-PCRmPiB9OworCWNsb3NlKCRmKTsKKworCW15IEBwb3NzX2FkZHIgPSAkdGV4dCA9fiBtJFtBLVph
-LXrDgC3Dv1wiXCcgXCxcLlwrLV0qXHMqW1wsXSpccypbXChcPFx7XXswLDF9W0EtWmEtejAtOV9c
-LlwrLV0rXEBbQS1aYS16MC05XC4tXStcLltBLVphLXowLTldK1tcKVw+XH1dezAsMX0kZzsKKwlw
-dXNoKEBmaWxlX2VtYWlscywgY2xlYW5fZmlsZV9lbWFpbHMoQHBvc3NfYWRkcikpOworICAgIH0K
-K30KKwogIwogIyBSZWFkIG1haWwgYWRkcmVzcyBtYXAKICMKQEAgLTUwNCwxMiArNTI2LDYgQEAg
-c3ViIHJlYWRfbWFpbG1hcCB7CiAKICMjIHVzZSB0aGUgZmlsZW5hbWVzIG9uIHRoZSBjb21tYW5k
-IGxpbmUgb3IgZmluZCB0aGUgZmlsZW5hbWVzIGluIHRoZSBwYXRjaGZpbGVzCiAKLW15IEBmaWxl
-cyA9ICgpOwotbXkgQGZpeGVzID0gKCk7CQkJIyBJZiBhIHBhdGNoIGRlc2NyaXB0aW9uIGluY2x1
-ZGVzIEZpeGVzOiBsaW5lcwotbXkgQHJhbmdlID0gKCk7Ci1teSBAa2V5d29yZF90dmkgPSAoKTsK
-LW15IEBmaWxlX2VtYWlscyA9ICgpOwotCiBpZiAoIUBBUkdWKSB7CiAgICAgcHVzaChAQVJHViwg
-IiZTVERJTiIpOwogfQpAQCAtNTI3LDcgKzU0Myw3IEBAIGZvcmVhY2ggbXkgJGZpbGUgKEBBUkdW
-KSB7CiAJJGZpbGUgPX4gcy9eXFEke2N1cl9wYXRofVxFLy87CSNzdHJpcCBhbnkgYWJzb2x1dGUg
-cGF0aAogCSRmaWxlID1+IHMvXlxRJHtsa19wYXRofVxFLy87CSNvciB0aGUgcGF0aCB0byB0aGUg
-bGsgdHJlZQogCXB1c2goQGZpbGVzLCAkZmlsZSk7Ci0JaWYgKCRmaWxlIG5lICJNQUlOVEFJTkVS
-UyIgJiYgLWYgJGZpbGUgJiYgKCRrZXl3b3JkcyB8fCAkZmlsZV9lbWFpbHMpKSB7CisJaWYgKCRm
-aWxlIG5lICJNQUlOVEFJTkVSUyIgJiYgLWYgJGZpbGUgJiYgJGtleXdvcmRzKSB7CiAJICAgIG9w
-ZW4obXkgJGYsICc8JywgJGZpbGUpCiAJCW9yIGRpZSAiJFA6IENhbid0IG9wZW4gJGZpbGU6ICQh
-XG4iOwogCSAgICBteSAkdGV4dCA9IGRvIHsgbG9jYWwoJC8pIDsgPCRmPiB9OwpAQCAtNTM5LDEw
-ICs1NTUsNiBAQCBmb3JlYWNoIG15ICRmaWxlIChAQVJHVikgewogCQkgICAgfQogCQl9CiAJICAg
-IH0KLQkgICAgaWYgKCRmaWxlX2VtYWlscykgewotCQlteSBAcG9zc19hZGRyID0gJHRleHQgPX4g
-bSRbQS1aYS16w4Atw79cIlwnIFwsXC5cKy1dKlxzKltcLF0qXHMqW1woXDxce117MCwxfVtBLVph
-LXowLTlfXC5cKy1dK1xAW0EtWmEtejAtOVwuLV0rXC5bQS1aYS16MC05XStbXClcPlx9XXswLDF9
-JGc7Ci0JCXB1c2goQGZpbGVfZW1haWxzLCBjbGVhbl9maWxlX2VtYWlscyhAcG9zc19hZGRyKSk7
-Ci0JICAgIH0KIAl9CiAgICAgfSBlbHNlIHsKIAlteSAkZmlsZV9jbnQgPSBAZmlsZXM7CkBAIC05
-MjMsNiArOTM1LDggQEAgc3ViIGdldF9tYWludGFpbmVycyB7CiAJCXByaW50KCJcbiIpOwogCSAg
-ICB9CiAJfQorCisJbWFpbnRhaW5lcnNfaW5fZmlsZSgkZmlsZSk7CiAgICAgfQogCiAgICAgaWYg
-KCRrZXl3b3JkcykgewpAQCAtMTgzNSw3ICsxODQ5LDcgQEAgdG0gdG9nZ2xlIG1haW50YWluZXJz
-CiB0ZyB0b2dnbGUgZ2l0IGVudHJpZXMKIHRsIHRvZ2dsZSBvcGVuIGxpc3QgZW50cmllcwogdHMg
-dG9nZ2xlIHN1YnNjcmliZXIgbGlzdCBlbnRyaWVzCi1mICBlbWFpbHMgaW4gZmlsZSAgICAgICBb
-JGZpbGVfZW1haWxzXQorZiAgZW1haWxzIGluIGZpbGUgICAgICAgWyRlbWFpbF9maWxlX2VtYWls
-c10KIGsgIGtleXdvcmRzIGluIGZpbGUgICAgIFska2V5d29yZHNdCiByICByZW1vdmUgZHVwbGlj
-YXRlcyAgICBbJGVtYWlsX3JlbW92ZV9kdXBsaWNhdGVzXQogcCMgcGF0dGVybiBtYXRjaCBkZXB0
-aCAgWyRwYXR0ZXJuX2RlcHRoXQpAQCAtMTk2MCw3ICsxOTc0LDcgQEAgRU9UCiAJCWJvb2xfaW52
-ZXJ0KFwkZW1haWxfZ2l0X2FsbF9zaWduYXR1cmVfdHlwZXMpOwogCQkkcmVydW4gPSAxOwogCSAg
-ICB9IGVsc2lmICgkc2VsIGVxICJmIikgewotCQlib29sX2ludmVydChcJGZpbGVfZW1haWxzKTsK
-KwkJYm9vbF9pbnZlcnQoXCRlbWFpbF9maWxlX2VtYWlscyk7CiAJCSRyZXJ1biA9IDE7CiAJICAg
-IH0gZWxzaWYgKCRzZWwgZXEgInIiKSB7CiAJCWJvb2xfaW52ZXJ0KFwkZW1haWxfcmVtb3ZlX2R1
-cGxpY2F0ZXMpOwotLSAKMi4yNi4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+On Fri, 24 Apr 2020 17:34:08 +0200, Maxime Ripard wrote:
+> The BCM283x SoCs have a display pipeline composed of several controllers
+> with device tree bindings that are supported by Linux.
+> 
+> Now that we have the DT validation in place, let's split into separate
+> files and convert the device tree bindings for those controllers to
+> schemas.
+> 
+> This is just a 1:1 conversion though, and some bindings were incomplete so
+> it results in example validation warnings that are going to be addressed in
+> the following patches.
+> 
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  Documentation/devicetree/bindings/display/brcm,bcm-vc4.txt              | 174 +------------------------------------------------------------------------
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml         |  66 +++++++++++++++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml        |  73 ++++++++++++++++++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml        |  75 +++++++++++++++++++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml         |  37 +++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml |  40 +++++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml         |  37 +++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-v3d.yaml         |  42 +++++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml         |  34 ++++++++++++++-
+>  Documentation/devicetree/bindings/display/brcm,bcm2835-vec.yaml         |  44 ++++++++++++++++++-
+>  MAINTAINERS                                                             |   2 +-
+>  11 files changed, 449 insertions(+), 175 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/brcm,bcm-vc4.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-hdmi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-v3d.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2835-vec.yaml
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.yaml: properties: '#clock-cells' is a dependency of 'clock-output-names'
+Documentation/devicetree/bindings/Makefile:11: recipe for target 'Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.example.dts' failed
+make[1]: *** [Documentation/devicetree/bindings/display/brcm,bcm2835-dsi0.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+Makefile:1300: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
+
+See https://patchwork.ozlabs.org/patch/1276439
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
