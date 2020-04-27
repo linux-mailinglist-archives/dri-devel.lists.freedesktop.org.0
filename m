@@ -2,86 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BEF1BBE12
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F189A1BBE16
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:47:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 016B76E3F4;
-	Tue, 28 Apr 2020 12:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FBF86E3EB;
+	Tue, 28 Apr 2020 12:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-PU1-obe.outbound.protection.outlook.com
- (mail-eopbgr1320121.outbound.protection.outlook.com [40.107.132.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1332A6E223
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 11:04:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R//XPh7VtNuLc/oqRqIQvth9vgM9BQaR1GST6AND1VWFI4k2rw9GykptU+STBguIB4dKcUhv1+5TrqjrYNFQho/dEAxLC/ezCE+A9BVsViSvCZ1Q+ZoIg7NST67YrvBqoTQ41cKhAC9Aoavf1QG6o8rJgh4jRDKeWFFwPDU3MiT3b9kCpMxxFjQtCDJqWvrULkqvRjOQjg0Wv2jMCMyiYPKwLdufMbd+npe+0QeIjaXyoJnWy8Nio8QDRKd67cV1fN+j7EuBUNli78gWfL541WWQiBcspOV3+wmOUf1dwRzgj+3l7rfNuP6bAfn1FUYxDHDLzegrRgDzVGOV4O8+cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wMddxCQ+4LqSk65dktj/74Jd/mz+bPz17lgnjD5fDDo=;
- b=d3lpibSkxhvjTyrtKQjUP8jMBwVuTCybvsrJPqeKIxRVfp+9nq6emXTGlm5CxyMMm6KCUCR7itHgvcoa2GW+t77Kg/QWbod2Q1xbtF7Vz9Pxe334ognG3qcul0DdEpLv5UYpUBkeYKiJyDxOyUZx6qymbIgXllQ0+kn2Ol4jk+cErJMKFuDS7qoraFbUOTogMWFL6jDBcRoLZVgkkL2+P/+nwAHWzjohNMxgyASzn60hC6z7r9TY0gcfDRINkBwtVfbX/4WT5T3PKbghTjxM5ovDEEgYR8i5O3FdnJUjxNdvgR957FHPjvo6EwWybJa/ah6T/ccTO99YfZHr6XSFaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wMddxCQ+4LqSk65dktj/74Jd/mz+bPz17lgnjD5fDDo=;
- b=VjHrfyok7mmUyHBAvbZ//kolXPRz4afKx8lnMc8Drnyrny1nBbA0m4xHOUeg2XCZ5srMclcHsRYMujd2jYYBsuC/TneqKlRhZeMeUNWGZc4kGHGsicQDPSh93DIAX8kJbQN6ctO8SkAq3b+ZkMSu8IZCEtMg5iakgRNF/m5+t5M=
-Received: from TY2PR01MB2924.jpnprd01.prod.outlook.com (20.177.98.81) by
- TY2PR01MB4585.jpnprd01.prod.outlook.com (20.179.170.150) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13; Mon, 27 Apr 2020 11:03:58 +0000
-Received: from TY2PR01MB2924.jpnprd01.prod.outlook.com
- ([fe80::15c5:58a4:5913:d859]) by TY2PR01MB2924.jpnprd01.prod.outlook.com
- ([fe80::15c5:58a4:5913:d859%7]) with mapi id 15.20.2937.023; Mon, 27 Apr 2020
- 11:03:58 +0000
-From: Gareth Williams <gareth.williams.jx@renesas.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: RE: [PATCH 3/3] drm/panel: simple: Add Newhaven ATXL#-CTP panel
-Thread-Topic: [PATCH 3/3] drm/panel: simple: Add Newhaven ATXL#-CTP panel
-Thread-Index: AQHWHG0QohXUe8Vg/0OYS6a4UMIWGaiMplYAgAAKxkA=
-Date: Mon, 27 Apr 2020 11:03:58 +0000
-Message-ID: <TY2PR01MB29248DC3123F2AFAE80005F2DFAF0@TY2PR01MB2924.jpnprd01.prod.outlook.com>
-References: <1587975709-2092-1-git-send-email-gareth.williams.jx@renesas.com>
- <1587975709-2092-4-git-send-email-gareth.williams.jx@renesas.com>
- <20200427084108.GA21216@ravnborg.org>
-In-Reply-To: <20200427084108.GA21216@ravnborg.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=gareth.williams.jx@renesas.com; 
-x-originating-ip: [79.64.184.175]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: f6b195e1-0b1a-45f0-c201-08d7ea9aaf80
-x-ms-traffictypediagnostic: TY2PR01MB4585:|TY2PR01MB4585:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY2PR01MB4585BCB2119C9E0E23333148DFAF0@TY2PR01MB4585.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1850;
-x-forefront-prvs: 0386B406AA
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY2PR01MB2924.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39860400002)(396003)(376002)(136003)(346002)(366004)(26005)(4326008)(316002)(54906003)(71200400001)(8936002)(6916009)(33656002)(186003)(9686003)(81156014)(2906002)(8676002)(55016002)(86362001)(6506007)(52536014)(5660300002)(7696005)(478600001)(76116006)(66946007)(66446008)(66476007)(66556008)(64756008);
- DIR:OUT; SFP:1102; 
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0ql7LY9kMVYkBamB6r2vB0PvBczP/HbosXzdFyjppmpmLCbTAHoSodx1XkI4is5/mrtBe+T71IQl1XJqvu0wjshlbWmZT8ELr6bHoh4dfSF47Mkp5SCic0ge5qFBUN2Y3sbeW8iC9AnBsCR/2q5a7QdUzpQ7wEIw7ArvA+/iyzIan0P8V6zTCHGY6NmyTti3zmj3EVjCRv6unrKg7Drq4/3H0blbYyfI112m1ijCXGIbZiNTlIJ42jBPs8HdF34TX0R6EK1EjC3paNRoiuSBtt00/G9CqFSdAo2DYTp6M59Vca/Kzp7b8sB+dlt5aJ+pvEjNZ/YfYMCEUpV2DuLQShSogKMlIe246ymSzVZ8vJlQq6M+pQ5EqT+XQhEhgrjIwZ/pVPWngaKyc8w7ARlca+LnMek01e14g9KYFQBht4yAuTlm7zeU4t7h/5xmiyw0
-x-ms-exchange-antispam-messagedata: g1d+iGzwMmfp1d64yFshE2WFAjpoeawRfr82QnFYdGlz7JJXdTg69E8ckZWZB4BRAowmIJs6qas6HyFst4N8mGlPe5qqY+z73Lg9AX0/3pomn4iZn85dfT6AVx56k8qb7WU3yKVSUegM9av4MbOyZ8aimxtjV7jnHHAhJh1roAXixC3b+2OMrftBmzpddaV0h47QqOLAoTxd8Wpxrt4CnLYcVenJGAsmYY7+PD+MB8tpivbyRNGL46ngg9vNcABUaOucpj/7KpNK4h1qS72xhYzaAlWEoyo8kzeVgJsfOSWhN1GOR3Rp3X9ocMQLtbeY3rQjoTwITr+JkCu9NinN9aX3qAf1bwRgGkbWdx5NBKbnZM4igqz8VHpuMzia40h5d3QphEFhGerAqqNggqM3WFC+6LTxbVOIBm2R3GfJIF3aHNsW/tAQXl/MvKZ2KpxoxPpjUvsn00+BAycJkN8dXTqnOK7a9/XERg83j9tRAQoyYrWF8ABwW8nIo0nSxD9h0RB4dTitEN2oCBm72nmvF4tZIzTxkcrERqnRmKyJTAyB9NH++Xf2Ufkv5KSwveBYzius6HTlodrGFy9LOlfzy0Q3o5Mhn/+I+WPX5g4jtfHOxAhYYpup2SiQrbAdZEX3x14Lr33UX/4WuyzL/s40UOeRPK6TjxPmqa15eeGMmqa0yG+ar18nBCYZuDr6weNb+TLq+qyQeOY0jlPnsaTnS23PzyXNqjtnn4ZydgoXFIl4qOGUq675mBcQNwOV8fHoRwUnM6U+d+wn77tkRTYgEkdcUXt0H4t1CCqxPjvXUSk=
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 505816E109
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 11:24:18 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id BADA4ABC2;
+ Mon, 27 Apr 2020 11:24:15 +0000 (UTC)
+Message-ID: <4842d1b72192bb7c461a2d50c8798f178da964e0.camel@suse.de>
+Subject: Re: [PATCH v2 04/91] firmware: rpi: Only create clocks device if we
+ don't have a node for it
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>
+Date: Mon, 27 Apr 2020 13:24:14 +0200
+In-Reply-To: <b181d867cb9523e1877a3dfd258bafde2988024f.1587742492.git-series.maxime@cerno.tech>
+References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
+ <b181d867cb9523e1877a3dfd258bafde2988024f.1587742492.git-series.maxime@cerno.tech>
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6b195e1-0b1a-45f0-c201-08d7ea9aaf80
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Apr 2020 11:03:58.4729 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UcG++FN05950SV8hA2IbwyjBKHO0pSEDTOzj/dQmT2txCG9QydLPoR2VDbSIXRRzYGUuAZh/YX0oQ+AJ+HVy/WpRqGIfLosLOTFtWwZJiTY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB4585
 X-Mailman-Approved-At: Tue, 28 Apr 2020 12:46:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,117 +40,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Phil Edworthy <phil.edworthy@renesas.com>, David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0065676404=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
 
-Thanks for giving feedback. When I send out v2 I'll CC you on the rest of the series
-to be sure you have visibility. My responses are below.
-
-> On Mon, Apr 27, 2020 at 09:41:49AM +0100, Sam Ravnborg wrote:
-> Hi Gareth.
-> 
-> Looking forward to see the other patches - they seem to be stuck awaiting
-> approval.
-> 
-> A few comments in the following.
-> 
-> 	Sam
-> 
-> On Mon, Apr 27, 2020 at 09:21:49AM +0100, Gareth Williams wrote:
-> > This commit adds support for the Newhaven ATXL#-CTP panel used by the
-> > Renesas RZ/N1 Demo Board.
-> >
-> > Signed-off-by: Gareth Williams <gareth.williams.jx@renesas.com>
-> > ---
-> >  drivers/gpu/drm/panel/panel-simple.c | 27
-> +++++++++++++++++++++++++++
-> >  1 file changed, 27 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/panel/panel-simple.c
-> > b/drivers/gpu/drm/panel/panel-simple.c
-> > index 5a93c4e..0b57b0e 100644
-> > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > @@ -2021,6 +2021,30 @@ static const struct panel_desc
-> newhaven_nhd_43_480272ef_atxl = {
-> >  		     DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,  };
-> >
-> > +static const struct display_timing
-> newhaven_nhd_50_800480tf_atxl_timing = {
-> > +	.pixelclock = { 33300000, 33400000, 33500000 },
-> > +	.hactive = { 800, 800, 800 },
-> > +	.hfront_porch = { 40, 40, 40 },
-> > +	.hback_porch = { 88, 88, 88 },
-> > +	.hsync_len = { 1, 1, 1 },
-> > +	.vactive = { 480, 480, 480 },
-> > +	.vfront_porch = { 13, 13, 13 },
-> > +	.vback_porch = { 32, 32, 32 },
-> > +	.vsync_len = { 3, 3, 3 },
-> > +	.flags = DISPLAY_FLAGS_HSYNC_HIGH |
-> DISPLAY_FLAGS_VSYNC_HIGH, };
-> > +
-> > +static const struct panel_desc newhaven_nhd_50_800480tf_atxl = {
-> > +		.timings = &newhaven_nhd_50_800480tf_atxl_timing,
-> > +		.num_timings = 1,
-> > +		.bpc = 8,
-> > +		.size = {
-> > +			.width = 400,
-> > +			.height = 300,
-> > +		},
-> > +		.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-> Please add DRM_BUS_FLAG_PIXDATA too - as I assume this is an LVDS panel.
-
-This is an RGB interface, however the manual lists that the rising edge is
-being used so I will include the DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE
-flag.
-
-> 
-> > +};
-> For new panels .connector_type is mandatory.
-Okay, I will include this in v2 of the series.
-
-> 
-> 
-> > +
-> >  static const struct display_timing nlt_nl192108ac18_02d_timing = {
-> >  	.pixelclock = { 130000000, 148350000, 163000000 },
-> >  	.hactive = { 1920, 1920, 1920 },
-> > @@ -2964,6 +2988,9 @@ static const struct of_device_id
-> platform_of_match[] = {
-> >  		.compatible = "newhaven,nhd-4.3-480272ef-atxl",
-> >  		.data = &newhaven_nhd_43_480272ef_atxl,
-> >  	}, {
-> > +		.compatible = "newhaven,nhd-5.0-800480tf-atxl",
-> > +		.data = &newhaven_nhd_50_800480tf_atxl,
-> > +	}, {
-> 
-> I did not see the other patches - so this is maybe covered.
-> But newhaven,nhd-5.0-800480tf-atxl must be documented in panel-
-> simple.yaml before we can apply this.
-
-I will include a separate documentation patch in v2 with you
-on CC for this.
+--===============0065676404==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-t2CrNR4eS4OpaMihaaXw"
 
 
-> 
-> 	Sam
-> 
-> >  		.compatible = "nlt,nl192108ac18-02d",
-> >  		.data = &nlt_nl192108ac18_02d,
-> >  	}, {
-> > --
-> > 2.7.4
+--=-t2CrNR4eS4OpaMihaaXw
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-	Gareth
+Hi Maxime,
+
+On Fri, 2020-04-24 at 17:33 +0200, Maxime Ripard wrote:
+> The firmware clocks driver was previously probed through a platform_devic=
+e
+> created by the firmware driver.
+>=20
+> Since we will now have a node for that clocks driver, we need to create t=
+he
+> device only in the case where there's no node for it already.
+>=20
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/firmware/raspberrypi.c | 17 +++++++++++++++--
+>  1 file changed, 15 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/firmware/raspberrypi.c b/drivers/firmware/raspberryp=
+i.c
+> index da26a584dca0..1874f41b007c 100644
+> --- a/drivers/firmware/raspberrypi.c
+> +++ b/drivers/firmware/raspberrypi.c
+> @@ -210,6 +210,15 @@ rpi_register_hwmon_driver(struct device *dev, struct
+> rpi_firmware *fw)
+> =20
+>  static void rpi_register_clk_driver(struct device *dev)
+>  {
+> +	/*
+> +	 * Earlier DTs don't have a node for the firmware clocks but
+> +	 * rely on us creating a platform device by hand. If we do
+> +	 * have a node for the firmware clocks, just bail out here.
+> +	 */
+> +	if (of_get_compatible_child(dev->of_node,
+> +				    "raspberrypi,firmware-clocks"))
+> +		return;
+> +
+>  	rpi_clk =3D platform_device_register_data(dev, "raspberrypi-clk",
+>  						-1, NULL, 0);
+>  }
+> @@ -262,8 +271,12 @@ static int rpi_firmware_remove(struct platform_devic=
+e
+> *pdev)
+> =20
+>  	platform_device_unregister(rpi_hwmon);
+>  	rpi_hwmon =3D NULL;
+> -	platform_device_unregister(rpi_clk);
+> -	rpi_clk =3D NULL;
+> +
+> +	if (rpi_clk) {
+
+rpi_clk, being a static global variable, will be zeroed by default. So, if =
+you
+don't register the platform device, rpi_clk is going to be NULL, which you'=
+re
+allowed to feed platform_device_unregister(), so no need to be extra carefu=
+l.
+
+Regards,
+Nicolas
+
+> +		platform_device_unregister(rpi_clk);
+> +		rpi_clk =3D NULL;
+> +	}
+> +
+>  	mbox_free_channel(fw->chan);
+> =20
+>  	return 0;
+
+
+--=-t2CrNR4eS4OpaMihaaXw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl6mwN4ACgkQlfZmHno8
+x/5xXAf+Ng2E3SKjoUMbR1+VP/yWSENtjk2GqBEMGPPIZYYmsbkt9al9HYQZJ5C3
+nwOXe0b3145xT5Von1/JrpzL3sPIp29cbA9zYKU+7x+WpZtSctau+dkeM5VpTPdw
+hHu01BPVOX2KJERjvB8u4y25U2Xpm1LzosEf9CFGDxng3LDaBrgP4j779Oq9sbq3
+0pfATYlX1KFsMwbN3twlsShGwuokSb6kdcrKj53kBP2alNxL2dGpre4COea33YAx
+Ro1hGda3eGhqBndalntUHQ0MsSiKIwdkQP4H287W+D7UPb46ee0GdRcoVohqQadY
+W9mJfQMFIP2MiJ/tYqxOUPFqBrJi7A==
+=fYAz
+-----END PGP SIGNATURE-----
+
+--=-t2CrNR4eS4OpaMihaaXw--
+
+
+--===============0065676404==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0065676404==--
+
