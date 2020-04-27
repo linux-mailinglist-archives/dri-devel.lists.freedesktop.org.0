@@ -2,64 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44DE1BBDE4
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:46:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32EC1B9A73
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 10:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB196E3B7;
-	Tue, 28 Apr 2020 12:46:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28C566E0E8;
+	Mon, 27 Apr 2020 08:41:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A7896E0CB
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:36:46 +0000 (UTC)
-Received: by mail-ej1-x642.google.com with SMTP id re23so13437087ejb.4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 01:36:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=vQTluHrFlTPouGYN0L8RFSa0ut56oC/RfYr17kNASok=;
- b=meKAh8FbBdII7WfsflAdIDuNSKAWExOwNGTQONordCK+iMffZUBH4QRLKIj9g3hUAn
- YdV1IZ903/Ia+CRl7z1QLOG/iAvLvkeIL46dC+N8HcIA085a47xkeVd/d8bh4ILznfGK
- mYG0TqRV+AdXCoDveEOkLJcaLWYYbpZaf7DWgkpl3d7DEzkPG7MzqxCPG++2mTyCXzBB
- hn2CMjRyBXSOLouKFBFwh/GBKSrvfsJlTDDekvK5NO2FzQWaOyfa9p1QwBfW9k21v7U5
- PCHOoFKOplRT4+78hCu4tj17YMcjc4ZIs+YJhSOwjlxGEh0trr1ZwuzG8JMqICaBTnqK
- TpeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=vQTluHrFlTPouGYN0L8RFSa0ut56oC/RfYr17kNASok=;
- b=ODk3XXaOAU9WtxcOhRqkWTwMlzbQ982neItgMnMK1QFB3lxNe/BbvrOog5KyJCGkz8
- ysX2gijLNKZ+40qpCPixSfbmDT37UE32Nyx6bovSUCq+HcUWNV1zFHOVymC2vfyAlAuA
- Wju4hNpDsANQ6tEkTxx+sHZVpOb/uGbKmpIoAGZziOPflzpWuWnI9yG3oLtBFGv5YMD9
- cXxc5WlM9IUtaRbUSkVsMxqEpwG7E8sPSRSMm1aqVSLkpKIbk+Wyhtb38D2lO2QEoHXz
- JPxeMgEH1UkCjiR0Yrwwrl3ER3Ur/DzVGK6NMrbK0jyoH/XlopZw/C8wrD5SDVcfGb0y
- n5Fg==
-X-Gm-Message-State: AGi0PuaEJpioxyz/sqQxtp3L1Pqq4qwTTLtcOSHwPs3+QdddHfrcFjIP
- CM3kAfRk3pzodOQWUYA2XHY=
-X-Google-Smtp-Source: APiQypIRUAnXaWz08Q8liiasN60ylITxEvvKR+QbUyjJant5k2FUB9f77S8t1viHZzIbcdXyf4L9nA==
-X-Received: by 2002:a17:906:496:: with SMTP id
- f22mr18305568eja.311.1587976604820; 
- Mon, 27 Apr 2020 01:36:44 -0700 (PDT)
-Received: from localhost
- (ipv6-80adf4751ff4da96.ost.clients.hamburg.freifunk.net.
- [2a03:2267:4:0:80ad:f475:1ff4:da96])
- by smtp.gmail.com with ESMTPSA id s18sm2810366ejm.63.2020.04.27.01.36.43
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 27 Apr 2020 01:36:44 -0700 (PDT)
-Date: Mon, 27 Apr 2020 10:36:42 +0200
-From: Oliver Graute <oliver.graute@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v1] staging: fbtft: fb_st7789v: Initialize the Display
-Message-ID: <20200427083642.GD18436@portage>
-References: <1586424337-26602-1-git-send-email-oliver.graute@gmail.com>
- <20200409102013.GP2001@kadam>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B83076E0E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:41:18 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 23D6720037;
+ Mon, 27 Apr 2020 10:41:14 +0200 (CEST)
+Date: Mon, 27 Apr 2020 10:41:08 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Gareth Williams <gareth.williams.jx@renesas.com>
+Subject: Re: [PATCH 3/3] drm/panel: simple: Add Newhaven ATXL#-CTP panel
+Message-ID: <20200427084108.GA21216@ravnborg.org>
+References: <1587975709-2092-1-git-send-email-gareth.williams.jx@renesas.com>
+ <1587975709-2092-4-git-send-email-gareth.williams.jx@renesas.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200409102013.GP2001@kadam>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Mailman-Approved-At: Tue, 28 Apr 2020 12:46:22 +0000
+In-Reply-To: <1587975709-2092-4-git-send-email-gareth.williams.jx@renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=yC-0_ovQAAAA:8 a=MtrMpk1ate3mC_r31NwA:9
+ a=CjuIK1q_8ugA:10 a=QsnFDINu91a9xkgZirup:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,60 +45,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
- gregkh@linuxfoundation.org, Oliver Graute <oliver.graute@kococonnector.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Phil Edworthy <phil.edworthy@renesas.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/04/20, Dan Carpenter wrote:
-> On Thu, Apr 09, 2020 at 11:25:32AM +0200, Oliver Graute wrote:
-> > From: Oliver Graute <oliver.graute@kococonnector.com>
-> > 
-> > Set Gamma Values and Register Values for the HSD20_IPS
-> > 
-> > Signed-off-by: Oliver Graute <oliver.graute@kococonnector.com>
-> > ---
-> >  drivers/staging/fbtft/fb_st7789v.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-> > index 84c5af2dc9a0..b0aa96b703a8 100644
-> > --- a/drivers/staging/fbtft/fb_st7789v.c
-> > +++ b/drivers/staging/fbtft/fb_st7789v.c
-> > @@ -17,8 +17,8 @@
-> >  #define DRVNAME "fb_st7789v"
-> >  
-> >  #define DEFAULT_GAMMA \
-> > -	"70 2C 2E 15 10 09 48 33 53 0B 19 18 20 25\n" \
-> > -	"70 2C 2E 15 10 09 48 33 53 0B 19 18 20 25"
-> > +	"D0 05 0A 09 08 05 2E 44 45 0F 17 16 2B 33\n" \
-> > +	"D0 05 0A 09 08 05 2E 43 45 0F 16 16 2B 33"
+Hi Gareth.
+
+Looking forward to see the other patches - they seem to be stuck
+awaiting approval.
+
+A few comments in the following.
+
+	Sam
+
+On Mon, Apr 27, 2020 at 09:21:49AM +0100, Gareth Williams wrote:
+> This commit adds support for the Newhaven ATXL#-CTP panel used by the
+> Renesas RZ/N1 Demo Board.
 > 
-> How do you know this won't break someone else's setup?
-
-Should I declare an extra define for my values?
-
-+#define HSD20_IPS_GAMMA \
-+	"D0 05 0A 09 08 05 2E 44 45 0F 17 16 2B 33\n" \
-+	"D0 05 0A 09 08 05 2E 43 45 0F 16 16 2B 33"
-
+> Signed-off-by: Gareth Williams <gareth.williams.jx@renesas.com>
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
 > 
-> Without knowing anything at all about this driver, it feels like this
-> should be:
-> 
-> 	if (new_hardware)
-> 		write_reg(par, PORCTRL, 0x05, 0x05, 0x00, 0x33, 0x33);
-> 	else
-> 		write_reg(par, PORCTRL, 0x08, 0x08, 0x00, 0x22, 0x22);
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 5a93c4e..0b57b0e 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -2021,6 +2021,30 @@ static const struct panel_desc newhaven_nhd_43_480272ef_atxl = {
+>  		     DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,
+>  };
+>  
+> +static const struct display_timing newhaven_nhd_50_800480tf_atxl_timing = {
+> +	.pixelclock = { 33300000, 33400000, 33500000 },
+> +	.hactive = { 800, 800, 800 },
+> +	.hfront_porch = { 40, 40, 40 },
+> +	.hback_porch = { 88, 88, 88 },
+> +	.hsync_len = { 1, 1, 1 },
+> +	.vactive = { 480, 480, 480 },
+> +	.vfront_porch = { 13, 13, 13 },
+> +	.vback_porch = { 32, 32, 32 },
+> +	.vsync_len = { 3, 3, 3 },
+> +	.flags = DISPLAY_FLAGS_HSYNC_HIGH | DISPLAY_FLAGS_VSYNC_HIGH,
+> +};
+> +
+> +static const struct panel_desc newhaven_nhd_50_800480tf_atxl = {
+> +		.timings = &newhaven_nhd_50_800480tf_atxl_timing,
+> +		.num_timings = 1,
+> +		.bpc = 8,
+> +		.size = {
+> +			.width = 400,
+> +			.height = 300,
+> +		},
+> +		.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+Please add DRM_BUS_FLAG_PIXDATA too - as I assume this is an LVDS panel.
 
-ok, I'll update this.
+> +};
+For new panels .connector_type is mandatory.
 
-Best regards,
 
-Oliver
+> +
+>  static const struct display_timing nlt_nl192108ac18_02d_timing = {
+>  	.pixelclock = { 130000000, 148350000, 163000000 },
+>  	.hactive = { 1920, 1920, 1920 },
+> @@ -2964,6 +2988,9 @@ static const struct of_device_id platform_of_match[] = {
+>  		.compatible = "newhaven,nhd-4.3-480272ef-atxl",
+>  		.data = &newhaven_nhd_43_480272ef_atxl,
+>  	}, {
+> +		.compatible = "newhaven,nhd-5.0-800480tf-atxl",
+> +		.data = &newhaven_nhd_50_800480tf_atxl,
+> +	}, {
+
+I did not see the other patches - so this is maybe covered.
+But newhaven,nhd-5.0-800480tf-atxl must be documented in
+panel-simple.yaml before we can apply this.
+
+	Sam
+
+>  		.compatible = "nlt,nl192108ac18-02d",
+>  		.data = &nlt_nl192108ac18_02d,
+>  	}, {
+> -- 
+> 2.7.4
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
