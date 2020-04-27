@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E161B99E2
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 10:20:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D1E1B99D5
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 10:20:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1B166E11D;
-	Mon, 27 Apr 2020 08:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 792876E0E9;
+	Mon, 27 Apr 2020 08:19:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDF9C6E0CB
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:19:13 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id f11so12000049ljp.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 01:19:13 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D238E6E0A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:19:14 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id u6so16570907ljl.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 01:19:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ALkfhn3QaNrniNePVGIjgtDOKGkOGwVOHVa32KEOksM=;
- b=t+8b7WNBct1FDvleiNrbZ4p1S7WPMzxxlY/yghR0Pt8rNy2nZKYF6r03bQFRWTuRnI
- SmsHI//TtmmtdjQwqIDsOTKhswsHh5M7B43zLGDSJfengmwdsbHYJf8SQC6HZoeHKv/+
- 0pjXLTvTpldpIPnu53u8v79Aixtvb64sTMEF9F+dDg3lc++nZwVx/k93EWY2ivxXoJAZ
- 3Tu5hwJwp9vDU2qJbR7fjHn2caci3kZIKtxTygBFJ6cjldubO9OUdf5lzdb8jhkpnW5/
- LSlBb6AtFKiQiHSNbF0EJCElbYhRVY3q5C+VL+++wKIbUTg96tzW3hMWOTyO+OXuJNvb
- FBDw==
+ bh=pZep/jY/+EyVfLfw+h1sXnkYCb03QU2cHUNH9eRWjGo=;
+ b=doMLDeyc0qTYyRN3nrWhLDiOppXdoPIoXkMcMDCOrKcLXiBBFHTBP7m2+76Q0Upb/m
+ IGzt2Ke7oBNLtIZMLAbsGZ6B0UT16X8jpKqLhhxeaqWKlVeKR4UHbdQLc9DXWD5NydTu
+ 6Nr0eTAVUqYskOaqizmmwynK6ZCcIZFpkfDeE0QxKEC2lqIYcLQZgZQDuzNl5R3yWkfQ
+ i+Q5bsPMfy0pkH8XnqHuSEFIHAruLwMtvDWidooDtO5QlPKmGC451SF7kT92mWK1H7Nq
+ JWvXlvdWo8s9jTxap/+MqSfxb2/9j+ZcmHdI2UEVpJC2RJTLieY67loPRrlavFnS9Z93
+ v4MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ALkfhn3QaNrniNePVGIjgtDOKGkOGwVOHVa32KEOksM=;
- b=nBbI//YRWONZi4Exar6xol64cHZGaOTvj/uOMrV4vulTRPeaeFvkWnTh9WVCD4/eTY
- mCwMyGYincrrpqMAaBuonyxIH2nA9EqQbXyYx+pYLUT5ZX+qCbYSvFmoNEaeZPh/o3sB
- NVlEp+iUr0gutUGSzeCoCmgAg+gEwOAtZqTdUKWDytl3tCes6QcOiL+n5/S+wbjn7Ebt
- 0zLZt7b/cWAs8H7V25XA01JFpssRAEsK46OEToLKILlHNk+AWY3QZnfZjtWto4ma1uS+
- 2yLVuS5iLbXtxoXVZXLsm87TLalOXinH6NVJ8n8kyYYx8vAhxp2v9CkCpIq7ATA/MMqo
- 6zTw==
-X-Gm-Message-State: AGi0PuboMKCJhD3tqk+2bG2XmbItdpCdRoKusvEGIJbqyFnN/yza8WPV
- ZznIfGb2OeQEibASqvGJ5K5mLYom
-X-Google-Smtp-Source: APiQypJ0hbH2WmhCkeZX11BVg7+7yMl66mUbCyzIK55wvEioyePz5+DiUZc6ndCkrvtGpX+R4YKadw==
-X-Received: by 2002:a2e:7610:: with SMTP id r16mr13946768ljc.156.1587975551930; 
- Mon, 27 Apr 2020 01:19:11 -0700 (PDT)
+ bh=pZep/jY/+EyVfLfw+h1sXnkYCb03QU2cHUNH9eRWjGo=;
+ b=UtQiNtZCbNDiiN+zoErfAmRXGY+D3O5mJxcrPXbYOWHux21tsQ8mcD6x01fdse72xA
+ GxlmNtGgVqHygaKWoupD8uxO/OFwyxDvapFp1K2889xRaIpFU78u5eo/l5ss7ZyvpFLp
+ rA44/jCRePwayjKBrZRNcCHwrCTfKTkITu5gZCflMOokw/4VhUAmAGHyGpiR/KbTGVUS
+ DD5Klr56qnRddWCSEaczJqikh73IOUU0gVHs3JxYJh35VyTuNJTMqI/g6GrFjXoYk7iX
+ +wy4wSplJXCJ1Auu25bVU2bMVSn0PMKzrUdRvTHL+qOHoT9kbm6yiXLOXuAASRJGJHgi
+ fNmQ==
+X-Gm-Message-State: AGi0Puac+iw/w+4PBEudUb9OuC8RRy1pqW4NYRBefQxuqzDnnFiUPt0e
+ wlBOsaYMywLiMtqQJmhGidvrrZXr
+X-Google-Smtp-Source: APiQypJfAzHdNPxxayGFz8rgIM2UIvosJ8obtm4ukMNyp4uBEQq4XNcKVeia35Qg34I0HJ6MIYMzwA==
+X-Received: by 2002:a2e:9255:: with SMTP id v21mr13607178ljg.222.1587975552955; 
+ Mon, 27 Apr 2020 01:19:12 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- c20sm9846301ljk.59.2020.04.27.01.19.10
+ c20sm9846301ljk.59.2020.04.27.01.19.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 01:19:11 -0700 (PDT)
+ Mon, 27 Apr 2020 01:19:12 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH v2 09/21] drm/bridge: tc358767: make connector creation
+Subject: [PATCH v2 10/21] drm/bridge: ti-tpd12s015: make connector creation
  optional
-Date: Mon, 27 Apr 2020 10:18:38 +0200
-Message-Id: <20200427081850.17512-10-sam@ravnborg.org>
+Date: Mon, 27 Apr 2020 10:18:39 +0200
+Message-Id: <20200427081850.17512-11-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200427081850.17512-1-sam@ravnborg.org>
 References: <20200427081850.17512-1-sam@ravnborg.org>
@@ -80,10 +80,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Display drivers are in the new model expected to create
-the connector using drm_bridge_connector_init().
-Allow users of this bridge driver to support the new
-model by introducing support for optional connector creation.
+The ti-tpd12s015 do not create any connector, so ignore
+the flags argument, just pass it on to the next bridge
+in the chain.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Andrzej Hajda <a.hajda@samsung.com>
@@ -92,23 +91,23 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: Jonas Karlman <jonas@kwiboo.se>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- drivers/gpu/drm/bridge/tc358767.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/ti-tpd12s015.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 42a153bcde64..991e7d67b692 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1420,8 +1420,7 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
- 	}
+diff --git a/drivers/gpu/drm/bridge/ti-tpd12s015.c b/drivers/gpu/drm/bridge/ti-tpd12s015.c
+index 514cbf0eac75..4f1666422ab2 100644
+--- a/drivers/gpu/drm/bridge/ti-tpd12s015.c
++++ b/drivers/gpu/drm/bridge/ti-tpd12s015.c
+@@ -43,9 +43,6 @@ static int tpd12s015_attach(struct drm_bridge *bridge,
+ 	struct tpd12s015_device *tpd = to_tpd12s015(bridge);
+ 	int ret;
  
- 	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
--		DRM_ERROR("Fix bridge driver to make connector optional!");
+-	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
 -		return -EINVAL;
-+		return 0;
- 	}
- 
- 	/* Create DP/eDP connector */
+-
+ 	ret = drm_bridge_attach(bridge->encoder, tpd->next_bridge,
+ 				bridge, flags);
+ 	if (ret < 0)
 -- 
 2.20.1
 
