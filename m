@@ -1,57 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A1B1BAFB6
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 22:47:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17FD61BB06C
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 23:22:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8290189CF9;
-	Mon, 27 Apr 2020 20:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E632D6E02A;
+	Mon, 27 Apr 2020 21:22:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D86A189CF9
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 20:47:13 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id w2so14608398edx.4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 13:47:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ohkGtfGENaaLH1p+LuB5iTKDRuTnJqaCWLKDZs3R4dA=;
- b=1xKgKW0XL3jsYDOP4UT/GMCGQTMBVedtUbhH0nh/tiMPdWdYnWKdRHqP04P3eXYUTp
- gGCkHQKfRCHIIXtSTyq10vpl1wD7hC9k3fybaYzvICeZ7Zx+C11Ydb3WlmqGH8MlvlTZ
- Sb9wM1/9CLLaTttu6WXlvA7joL9C7aQH+wYJpWTKQq7UsxM3GUY5URg/rN6iSHBCzZHD
- g9IXgEG7e2mMil2dvzVKQnVmPt2rhx2GJ45sdWoHdqYBuUTgZbixGAlE8kebeo9km/oO
- NO53SCbSwTn6fhra7HUlmHeiMyHW6BvuMJa1ykx8j4Rfy1skeXk//UpC51a78YjedoBa
- BkaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ohkGtfGENaaLH1p+LuB5iTKDRuTnJqaCWLKDZs3R4dA=;
- b=S7Pn4w7wp7L88e6fyrDSbNzg3y1MrJ9q3He9Cw4mWGPqOSsTcAKZmiAXoSQtUWAXDO
- NsR3vlqz+DbIWqHFYpzS1cxEVgOi4nMBdZ4XVXY05BgQNlPvjdgoKomhXHejnEpw92b8
- lz/qGgCq3nbtXGxPwdTyvDhHvvFZCCQvX4RE5fEgNm/heEpAUx0hTT4K6Qpvsbs2KsxD
- 8FvB1/cm338+9/ctLbpYaC6C+rSydzT7CKa4mkeBZRvIAJb7ixCcMDBEhyk0j0i/6lIf
- 38qE6eXDfobPYbgahOqmfuiuBqEnJB/cJW3otEycX6XIQtdrkENEM4/FcJRV97PS/7OE
- 4V9Q==
-X-Gm-Message-State: AGi0PuarU+B3lRds2AkLo7jPHfke6UqZmcE8bcZMegWznMVAJy80H0ig
- yj3cvStOFd71/SKyUfkuQBsCRftG/Iypclyap9wXXw==
-X-Google-Smtp-Source: APiQypLgkDrIaqDwFd9GHRXWJQn+DI5W7iN8ZBzqhG2Ay0KuMlGlzoPgyapYQI//N/0E/6MkLFMydb1NZF2GQxAAbc0=
-X-Received: by 2002:a05:6402:1b91:: with SMTP id
- cc17mr19367330edb.46.1588020432504; 
- Mon, 27 Apr 2020 13:47:12 -0700 (PDT)
+Received: from smtprelay.hostedemail.com (smtprelay0248.hostedemail.com
+ [216.40.44.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83FFA6E02A
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 21:22:11 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay04.hostedemail.com (Postfix) with ESMTP id 138E81800293A;
+ Mon, 27 Apr 2020 21:22:09 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 30, 2, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:69:152:305:355:379:541:800:960:968:973:982:988:989:1260:1277:1311:1313:1314:1345:1437:1515:1516:1518:1535:1544:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2693:2827:3138:3139:3140:3141:3142:3354:3653:3865:3867:3868:3870:3872:3874:4250:4605:5007:6261:6299:7903:7904:8957:9010:9040:9592:10004:11026:11232:11658:11914:12043:12291:12296:12297:12346:12438:12555:12679:12683:12895:13161:13229:13894:14181:14394:14659:14721:21080:21324:21433:21451:21505:21627:21660:21819:21939:21990:30003:30022:30026:30046:30054:30062:30070,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: kiss59_4cd4c705e0726
+X-Filterd-Recvd-Size: 5239
+Received: from joe-laptop.perches.com (unknown [47.151.136.130])
+ (Authenticated sender: joe@perches.com)
+ by omf01.hostedemail.com (Postfix) with ESMTPA;
+ Mon, 27 Apr 2020 21:22:07 +0000 (UTC)
+From: Joe Perches <joe@perches.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH V2] get_maintainer: Add email addresses from .yaml files
+Date: Mon, 27 Apr 2020 14:22:06 -0700
+Message-Id: <e85006456d9dbae55286c67ac5263668a72f5b58.1588022228.git.joe@perches.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-References: <CAMn1gO4NsAoBUN4VFntB+pZK=cVCmwxBGUyipLPYYWFvpH1Z+A@mail.gmail.com>
- <20200427200513.36328-1-pcc@google.com>
-In-Reply-To: <20200427200513.36328-1-pcc@google.com>
-From: Eric Anholt <eric@anholt.net>
-Date: Mon, 27 Apr 2020 13:47:01 -0700
-Message-ID: <CADaigPViPMOsHA2FtjL4BJ0YdbYm0L7AKC_tgiRXVrU6Zh5YEA@mail.gmail.com>
-Subject: Re: [PATCH] drm: enable render nodes wherever buffer sharing is
- supported
-To: Peter Collingbourne <pcc@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,70 +48,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liviu Dudau <Liviu.Dudau@arm.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 27, 2020 at 1:05 PM Peter Collingbourne <pcc@google.com> wrote:
->
-> Render nodes are not just useful for devices supporting GPU hardware
-> acceleration. Even on devices that only support dumb frame buffers,
-> they are useful in situations where composition (using software
-> rasterization) and KMS are done in different processes with buffer
-> sharing being used to send frame buffers between them. This is the
-> situation on Android, where surfaceflinger is the compositor and the
-> composer HAL uses KMS to display the buffers. Thus it is beneficial
-> to expose render nodes on all devices that support buffer sharing.
->
-> Because all drivers that currently support render nodes also support
-> buffer sharing, the DRIVER_RENDER flag is no longer necessary to mark
-> devices as supporting render nodes, so remove it and just rely on
-> the presence of a prime_handle_to_fd function pointer to determine
-> whether buffer sharing is supported.
-
-I'm definitely interested in seeing a patch like this land, as I think
-the current state is an ugly historical artifact.  We just have to be
-careful.
-
-Were there any instances of drivers with render engines exposing PRIME
-but not RENDER?  We should be careful to make sure that we're not
-exposing new privileges for those through adding render nodes.
-
-There's a UAPI risk I see here.  Right now, on a system with a single
-renderer GPU, we can just open /dev/dri/renderD128 and get the GPU for
-rendering, and various things are relying on that (such as libwaffle,
-used in piglit among other things)   Adding render nodes for kms-only
-drivers could displace the actual GPU to 129, and the question is
-whether this will be disruptive.  For Mesa, I think this works out,
-because kmsro should load on the kms device's node and then share
-buffers over to the real GPU that it digs around to find at init time.
-Just saying, I'm not sure I know all of the userspace well enough to
-say "this should be safe despite that"
-
-(And, maybe, if we decide that it's not safe enough, we could punt
-kms-only drivers to a higher starting number?)
-
-> @@ -260,12 +258,6 @@ static int vc4_drm_bind(struct device *dev)
->         if (!vc4)
->                 return -ENOMEM;
->
-> -       /* If VC4 V3D is missing, don't advertise render nodes. */
-> -       node = of_find_matching_node_and_match(NULL, vc4_v3d_dt_match, NULL);
-> -       if (!node || !of_device_is_available(node))
-> -               vc4_drm_driver.driver_features &= ~DRIVER_RENDER;
-> -       of_node_put(node);
-> -
->         drm = drm_dev_alloc(&vc4_drm_driver, dev);
->         if (IS_ERR(drm))
->                 return PTR_ERR(drm);
-
-Looks like dropping this code from vc4 should be fine -- kmsro looks
-for a render node from each driver name it supports in turn, so even
-if v3d moves from renderD128 to renderD129, things should still work.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+LnlhbWwgZmlsZXMgY2FuIGNvbnRhaW4gbWFpbnRhaW5lci9hdXRob3IgYWRkcmVzc2VzIGFuZCBp
+dCBzZWVtcwp1bmxpa2VseSBvciB1bm5lY2Vzc2FyeSB0aGF0IGluZGl2aWR1YWwgTUFJTlRBSU5F
+UiBmaWxlIHNlY3Rpb24KZW50cmllcyBmb3IgZWFjaCAueWFtbCBmaWxlIHdpbGwgYmUgY3JlYXRl
+ZC4KClNvIGFkZCB0aGUgZW1haWwgYWRkcmVzc2VzIGZvdW5kIGluIC55YW1sIGZpbGVzIHRvIHRo
+ZSBkZWZhdWx0CmdldF9tYWludGFpbmVyIG91dHB1dC4KClRoZSBlbWFpbCBhZGRyZXNzZXMgYXJl
+IG1hcmtlZCB3aXRoICIoaW4gZmlsZSkiIHdoZW4gdXNpbmcgdGhlCiItLXJvbGVzIiBvciAiLS1y
+b2xlc3RhdHMiIG9wdGlvbnMuCgpNaXNjZWxsYW5lYToKCm8gQ2hhbmdlICRmaWxlX2VtYWlscyB0
+byAkZW1haWxfZmlsZV9lbWFpbHMgdG8gYXZvaWQgdmlzdWFsCiAgbmFtaW5nIGNvbmZsaWN0cyB3
+aXRoIEBmaWxlX2VtYWlscwoKU2lnbmVkLW9mZi1ieTogSm9lIFBlcmNoZXMgPGpvZUBwZXJjaGVz
+LmNvbT4KQWNrZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KVGVzdGVkLWJ5
+OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Ci0tLQoKVjI6IEZpeCBkZC9hZGQgdHlw
+bwogICAgQWRkIFNhbSdzIHNpZ24tb2ZmcwogICAgUmVzZW5kIHVzaW5nIGdpdCBmb3JtYXQtcGF0
+Y2ggZ2l0IHNlbmQtZW1haWwgYW5kIFVURi04IG5vdCA4LWJpdAoKIHNjcmlwdHMvZ2V0X21haW50
+YWluZXIucGwgfCA0NCArKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0KIDEg
+ZmlsZSBjaGFuZ2VkLCAyOSBpbnNlcnRpb25zKCspLCAxNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
+aXQgYS9zY3JpcHRzL2dldF9tYWludGFpbmVyLnBsIGIvc2NyaXB0cy9nZXRfbWFpbnRhaW5lci5w
+bAppbmRleCA2Y2JjZDEuLjZkOTczZiAxMDA3NTUKLS0tIGEvc2NyaXB0cy9nZXRfbWFpbnRhaW5l
+ci5wbAorKysgYi9zY3JpcHRzL2dldF9tYWludGFpbmVyLnBsCkBAIC01Nyw3ICs1Nyw3IEBAIG15
+ICRzdGF0dXMgPSAwOwogbXkgJGxldHRlcnMgPSAiIjsKIG15ICRrZXl3b3JkcyA9IDE7CiBteSAk
+c2VjdGlvbnMgPSAwOwotbXkgJGZpbGVfZW1haWxzID0gMDsKK215ICRlbWFpbF9maWxlX2VtYWls
+cyA9IDA7CiBteSAkZnJvbV9maWxlbmFtZSA9IDA7CiBteSAkcGF0dGVybl9kZXB0aCA9IDA7CiBt
+eSAkc2VsZl90ZXN0ID0gdW5kZWY7CkBAIC02OSw2ICs2OSwxMiBAQCBteSAkdmNzX3VzZWQgPSAw
+OwogCiBteSAkZXhpdCA9IDA7CiAKK215IEBmaWxlcyA9ICgpOworbXkgQGZpeGVzID0gKCk7CQkJ
+IyBJZiBhIHBhdGNoIGRlc2NyaXB0aW9uIGluY2x1ZGVzIEZpeGVzOiBsaW5lcworbXkgQHJhbmdl
+ID0gKCk7CitteSBAa2V5d29yZF90dmkgPSAoKTsKK215IEBmaWxlX2VtYWlscyA9ICgpOworCiBt
+eSAlY29tbWl0X2F1dGhvcl9oYXNoOwogbXkgJWNvbW1pdF9zaWduZXJfaGFzaDsKIApAQCAtMjY2
+LDcgKzI3Miw3IEBAIGlmICghR2V0T3B0aW9ucygKIAkJJ3BhdHRlcm4tZGVwdGg9aScgPT4gXCRw
+YXR0ZXJuX2RlcHRoLAogCQkna3xrZXl3b3JkcyEnID0+IFwka2V5d29yZHMsCiAJCSdzZWN0aW9u
+cyEnID0+IFwkc2VjdGlvbnMsCi0JCSdmZXxmaWxlLWVtYWlscyEnID0+IFwkZmlsZV9lbWFpbHMs
+CisJCSdmZXxmaWxlLWVtYWlscyEnID0+IFwkZW1haWxfZmlsZV9lbWFpbHMsCiAJCSdmfGZpbGUn
+ID0+IFwkZnJvbV9maWxlbmFtZSwKIAkJJ2ZpbmQtbWFpbnRhaW5lci1maWxlcycgPT4gXCRmaW5k
+X21haW50YWluZXJfZmlsZXMsCiAJCSdtcGF0aHxtYWludGFpbmVyLXBhdGg9cycgPT4gXCRtYWlu
+dGFpbmVyX3BhdGgsCkBAIC00MjQsNiArNDMwLDIyIEBAIHN1YiByZWFkX2FsbF9tYWludGFpbmVy
+X2ZpbGVzIHsKICAgICB9CiB9CiAKK3N1YiBtYWludGFpbmVyc19pbl9maWxlIHsKKyAgICBteSAo
+JGZpbGUpID0gQF87CisKKyAgICByZXR1cm4gaWYgKCRmaWxlID1+IG1AXGJNQUlOVEFJTkVSUyRA
+KTsKKworICAgIGlmICgtZiAkZmlsZSAmJiAoJGVtYWlsX2ZpbGVfZW1haWxzIHx8ICRmaWxlID1+
+IC9cLnlhbWwkLykpIHsKKwlvcGVuKG15ICRmLCAnPCcsICRmaWxlKQorCSAgICBvciBkaWUgIiRQ
+OiBDYW4ndCBvcGVuICRmaWxlOiAkIVxuIjsKKwlteSAkdGV4dCA9IGRvIHsgbG9jYWwoJC8pIDsg
+PCRmPiB9OworCWNsb3NlKCRmKTsKKworCW15IEBwb3NzX2FkZHIgPSAkdGV4dCA9fiBtJFtBLVph
+LXrDgC3Dv1wiXCcgXCxcLlwrLV0qXHMqW1wsXSpccypbXChcPFx7XXswLDF9W0EtWmEtejAtOV9c
+LlwrLV0rXEBbQS1aYS16MC05XC4tXStcLltBLVphLXowLTldK1tcKVw+XH1dezAsMX0kZzsKKwlw
+dXNoKEBmaWxlX2VtYWlscywgY2xlYW5fZmlsZV9lbWFpbHMoQHBvc3NfYWRkcikpOworICAgIH0K
+K30KKwogIwogIyBSZWFkIG1haWwgYWRkcmVzcyBtYXAKICMKQEAgLTUwNCwxMiArNTI2LDYgQEAg
+c3ViIHJlYWRfbWFpbG1hcCB7CiAKICMjIHVzZSB0aGUgZmlsZW5hbWVzIG9uIHRoZSBjb21tYW5k
+IGxpbmUgb3IgZmluZCB0aGUgZmlsZW5hbWVzIGluIHRoZSBwYXRjaGZpbGVzCiAKLW15IEBmaWxl
+cyA9ICgpOwotbXkgQGZpeGVzID0gKCk7CQkJIyBJZiBhIHBhdGNoIGRlc2NyaXB0aW9uIGluY2x1
+ZGVzIEZpeGVzOiBsaW5lcwotbXkgQHJhbmdlID0gKCk7Ci1teSBAa2V5d29yZF90dmkgPSAoKTsK
+LW15IEBmaWxlX2VtYWlscyA9ICgpOwotCiBpZiAoIUBBUkdWKSB7CiAgICAgcHVzaChAQVJHViwg
+IiZTVERJTiIpOwogfQpAQCAtNTI3LDcgKzU0Myw3IEBAIGZvcmVhY2ggbXkgJGZpbGUgKEBBUkdW
+KSB7CiAJJGZpbGUgPX4gcy9eXFEke2N1cl9wYXRofVxFLy87CSNzdHJpcCBhbnkgYWJzb2x1dGUg
+cGF0aAogCSRmaWxlID1+IHMvXlxRJHtsa19wYXRofVxFLy87CSNvciB0aGUgcGF0aCB0byB0aGUg
+bGsgdHJlZQogCXB1c2goQGZpbGVzLCAkZmlsZSk7Ci0JaWYgKCRmaWxlIG5lICJNQUlOVEFJTkVS
+UyIgJiYgLWYgJGZpbGUgJiYgKCRrZXl3b3JkcyB8fCAkZmlsZV9lbWFpbHMpKSB7CisJaWYgKCRm
+aWxlIG5lICJNQUlOVEFJTkVSUyIgJiYgLWYgJGZpbGUgJiYgJGtleXdvcmRzKSB7CiAJICAgIG9w
+ZW4obXkgJGYsICc8JywgJGZpbGUpCiAJCW9yIGRpZSAiJFA6IENhbid0IG9wZW4gJGZpbGU6ICQh
+XG4iOwogCSAgICBteSAkdGV4dCA9IGRvIHsgbG9jYWwoJC8pIDsgPCRmPiB9OwpAQCAtNTM5LDEw
+ICs1NTUsNiBAQCBmb3JlYWNoIG15ICRmaWxlIChAQVJHVikgewogCQkgICAgfQogCQl9CiAJICAg
+IH0KLQkgICAgaWYgKCRmaWxlX2VtYWlscykgewotCQlteSBAcG9zc19hZGRyID0gJHRleHQgPX4g
+bSRbQS1aYS16w4Atw79cIlwnIFwsXC5cKy1dKlxzKltcLF0qXHMqW1woXDxce117MCwxfVtBLVph
+LXowLTlfXC5cKy1dK1xAW0EtWmEtejAtOVwuLV0rXC5bQS1aYS16MC05XStbXClcPlx9XXswLDF9
+JGc7Ci0JCXB1c2goQGZpbGVfZW1haWxzLCBjbGVhbl9maWxlX2VtYWlscyhAcG9zc19hZGRyKSk7
+Ci0JICAgIH0KIAl9CiAgICAgfSBlbHNlIHsKIAlteSAkZmlsZV9jbnQgPSBAZmlsZXM7CkBAIC05
+MjMsNiArOTM1LDggQEAgc3ViIGdldF9tYWludGFpbmVycyB7CiAJCXByaW50KCJcbiIpOwogCSAg
+ICB9CiAJfQorCisJbWFpbnRhaW5lcnNfaW5fZmlsZSgkZmlsZSk7CiAgICAgfQogCiAgICAgaWYg
+KCRrZXl3b3JkcykgewpAQCAtMTgzNSw3ICsxODQ5LDcgQEAgdG0gdG9nZ2xlIG1haW50YWluZXJz
+CiB0ZyB0b2dnbGUgZ2l0IGVudHJpZXMKIHRsIHRvZ2dsZSBvcGVuIGxpc3QgZW50cmllcwogdHMg
+dG9nZ2xlIHN1YnNjcmliZXIgbGlzdCBlbnRyaWVzCi1mICBlbWFpbHMgaW4gZmlsZSAgICAgICBb
+JGZpbGVfZW1haWxzXQorZiAgZW1haWxzIGluIGZpbGUgICAgICAgWyRlbWFpbF9maWxlX2VtYWls
+c10KIGsgIGtleXdvcmRzIGluIGZpbGUgICAgIFska2V5d29yZHNdCiByICByZW1vdmUgZHVwbGlj
+YXRlcyAgICBbJGVtYWlsX3JlbW92ZV9kdXBsaWNhdGVzXQogcCMgcGF0dGVybiBtYXRjaCBkZXB0
+aCAgWyRwYXR0ZXJuX2RlcHRoXQpAQCAtMTk2MCw3ICsxOTc0LDcgQEAgRU9UCiAJCWJvb2xfaW52
+ZXJ0KFwkZW1haWxfZ2l0X2FsbF9zaWduYXR1cmVfdHlwZXMpOwogCQkkcmVydW4gPSAxOwogCSAg
+ICB9IGVsc2lmICgkc2VsIGVxICJmIikgewotCQlib29sX2ludmVydChcJGZpbGVfZW1haWxzKTsK
+KwkJYm9vbF9pbnZlcnQoXCRlbWFpbF9maWxlX2VtYWlscyk7CiAJCSRyZXJ1biA9IDE7CiAJICAg
+IH0gZWxzaWYgKCRzZWwgZXEgInIiKSB7CiAJCWJvb2xfaW52ZXJ0KFwkZW1haWxfcmVtb3ZlX2R1
+cGxpY2F0ZXMpOwotLSAKMi4yNi4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWwK
