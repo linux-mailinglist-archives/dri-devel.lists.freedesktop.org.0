@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31551B99C2
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 10:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E96D1B99C7
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 10:19:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C30DF6E0E2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92FE26E0DF;
 	Mon, 27 Apr 2020 08:19:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8A856E0A1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:19:15 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id a21so13706912ljj.11
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 01:19:15 -0700 (PDT)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68C6A6E0A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:19:17 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id h6so13099929lfc.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 01:19:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Bt7QLXi92zUNaN3f6b0hoOVKRdATOXUeHv3J3k12mc8=;
- b=vg0Ly9eZybytYRwUereJlSxiVw/LwHnCm/AgIlqHzidqNxKyplJP1aq2QT+W3/xxQc
- qwuM/YKqJ1h2LHLx56kO6cjb4nK8OgPWWFqRMMls64EFTWxX0oCAoydVVup4X/fK3lLs
- Nq8KD/fBZsUWowQ0VyNILoFh27YReU6ZL5EBLnKRs6dt5BMCASKhlpCMIrO5b0D7syEn
- +xA7jgySbqnAG7dLtjT3wBNx/qPJuuK9k1Dy6xroVHjptACAp0dyJ9OR0CiIF5jvuvcK
- P1MhWuS7yIBeBeoKn7hfAYJ4ZlNPlBaUXOZtUkqEFxlwKrWwExVD7TNsix9IMHvhBw/p
- v2pw==
+ bh=JbnoAHGZaTXqPBiG5vvO2Tfv7AKD99Fb4s4aJXa+MvA=;
+ b=jsEFbxONISQUV0yZTKa6zckhW+uRy3lhW6a6UJ74lBNlcFJ6vgEjOuP2puIJBkDIhS
+ Ti3pftPDRQsUysm3Y2g/R0k6zRPEqiF2i1mjUZo6k/zNwVbAQyHCFjEmGPaVRvec6Zkb
+ aU8zfA/S/NsebXqxAtjbp79voBqPliyeVM3fVF49kyOLM1j8kJUU1T0LHLHWJWqo8ZGP
+ TrjYA2m2DiDqde8L10Y6OuLq6srfFiqhUirGbcJiHCnXv0XUXOaiopuJxrfcuXLqlZrJ
+ h4uotWmzcuJgxc8+fPPhaq/69uuXlV2Oteb1bNPL0xWE7+w9Eoa/ByevMes5izhuCkVh
+ 0UxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Bt7QLXi92zUNaN3f6b0hoOVKRdATOXUeHv3J3k12mc8=;
- b=hc+WLcJuNkZApBCctpYLtw9eT+k7PDrvwQ/tVdyVSZK9rZhUEXxPpwa1lagHtSOOnC
- v2GVmRQZnvtCcTxPXqXs+xJD2FyupwVad+XoqPro2YgnNEgM1bNANq3ZT0vre8nuYY1U
- i1TV5TcWQTzwYWbDCQLMBdUPl1JCVKnEceRxwF1Tx0BZCnU+78cw8wfLa/FIA7eb+H4p
- iNmlUcyDkTeNJWD8aU/slCg92TX51HGsZ/S936QSpERtukG+2xjdCVsKQRKFDNUr3oNE
- TW5PmA0+uZNivI287mgxIMa1zOPU/NadzAvVV8ECahTLXFscWi4PlSWuSOr8BH2YLOqJ
- fvew==
-X-Gm-Message-State: AGi0Pubh/9tVDd7fhfQ3xp8SuIWMLtC2sNT80vTP407K89ZZk6f+CYs2
- eG61zLgtVNTJ45iQcquWm1kSwrcc
-X-Google-Smtp-Source: APiQypL59dPmXD8K0UE4UFImvYoAXQSDDUqKAnJ4rB5xq+/Y83TJcJpSJHLGheQbL8hq7w19J1dQIQ==
-X-Received: by 2002:a05:651c:48a:: with SMTP id
- s10mr12869944ljc.226.1587975553960; 
- Mon, 27 Apr 2020 01:19:13 -0700 (PDT)
+ bh=JbnoAHGZaTXqPBiG5vvO2Tfv7AKD99Fb4s4aJXa+MvA=;
+ b=uoA0LESOQTsA9rIGrrpGDH07RqJMjsforKKLd47DkruDCguHDisazT082yFNe//Vyk
+ O+cn0yfaQgsuuJH7b1R0S8dbTxTMuhIC4cFm1YEYEjFTRgVpI0FgnFKTpljZpnwwH8T9
+ vxIA7ZvYzICtEK3Pjpi1uMt97iibhV3SSC1zsXCEpE9Z9gJsi/tOzMxs67YRz/NBA07j
+ 4kNNcseG6Y9nYdgJmKd34NnJvhMriWBr9gnoMZoJRs1Ns737NhiPovER7SCeoQw3nRe9
+ JvD83o15krsV/4UUFViixFX6RXvtZQTnUl55EiTo5ET9cCw4HvOgSIvk8IT4SacK+HBW
+ zyKA==
+X-Gm-Message-State: AGi0PuZF0dWzXQrr0umTDijrvhx/YcxR1DNIfZAgUWARztdWDTZ0kX7I
+ GUnkrxp4llciM548eJddTX4gvVyt
+X-Google-Smtp-Source: APiQypIYD7kMtP2IMoYmK89KfZ/Fx1Yqv+ir7gglTryc5Cep5qcRhJds2IEuwUJfiB6Ewt1lZBUm3Q==
+X-Received: by 2002:a19:f806:: with SMTP id a6mr14846036lff.201.1587975555566; 
+ Mon, 27 Apr 2020 01:19:15 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- c20sm9846301ljk.59.2020.04.27.01.19.13
+ c20sm9846301ljk.59.2020.04.27.01.19.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 01:19:13 -0700 (PDT)
+ Mon, 27 Apr 2020 01:19:15 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH v2 11/21] drm/bridge: parade-ps8622: add drm_panel_bridge
- support
-Date: Mon, 27 Apr 2020 10:18:40 +0200
-Message-Id: <20200427081850.17512-12-sam@ravnborg.org>
+Subject: [PATCH v2 12/21] drm/bridge: parade-ps8622: make connector creation
+ optional
+Date: Mon, 27 Apr 2020 10:18:41 +0200
+Message-Id: <20200427081850.17512-13-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200427081850.17512-1-sam@ravnborg.org>
 References: <20200427081850.17512-1-sam@ravnborg.org>
@@ -81,10 +80,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare the bridge driver for use in a chained setup by
-replacing direct use of drm_panel with drm_panel_bridge support.
+Make the connector creation optional to enable usage of the
+parade-ps8622 bridge with the DRM bridge connector helper.
 
-Note: the bridge panel will use the connector type from the panel.
+This change moves drm_helper_hpd_irq_event() call in the attach
+function up before the connector creation.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Andrzej Hajda <a.hajda@samsung.com>
@@ -93,133 +93,35 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: Jonas Karlman <jonas@kwiboo.se>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- drivers/gpu/drm/bridge/parade-ps8622.c | 46 ++++++++------------------
- 1 file changed, 13 insertions(+), 33 deletions(-)
+ drivers/gpu/drm/bridge/parade-ps8622.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/parade-ps8622.c b/drivers/gpu/drm/bridge/parade-ps8622.c
-index d789ea2a7fb9..6ab6f60b9091 100644
+index 6ab6f60b9091..54aa5270d2c9 100644
 --- a/drivers/gpu/drm/bridge/parade-ps8622.c
 +++ b/drivers/gpu/drm/bridge/parade-ps8622.c
-@@ -45,7 +45,7 @@ struct ps8622_bridge {
- 	struct drm_connector connector;
- 	struct i2c_client *client;
- 	struct drm_bridge bridge;
--	struct drm_panel *panel;
-+	struct drm_bridge *panel_bridge;
- 	struct regulator *v12;
- 	struct backlight_device *bl;
+@@ -459,10 +459,8 @@ static int ps8622_attach(struct drm_bridge *bridge,
+ 	ret = drm_bridge_attach(ps8622->bridge.encoder, ps8622->panel_bridge,
+ 				&ps8622->bridge, flags);
  
-@@ -365,11 +365,6 @@ static void ps8622_pre_enable(struct drm_bridge *bridge)
- 			DRM_ERROR("fails to enable ps8622->v12");
- 	}
- 
--	if (drm_panel_prepare(ps8622->panel)) {
--		DRM_ERROR("failed to prepare panel\n");
--		return;
+-	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+-		DRM_ERROR("Fix bridge driver to make connector optional!");
+-		return -EINVAL;
 -	}
--
- 	gpiod_set_value(ps8622->gpio_slp, 1);
++	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
++		return 0;
  
- 	/*
-@@ -399,24 +394,8 @@ static void ps8622_pre_enable(struct drm_bridge *bridge)
- 	ps8622->enabled = true;
- }
- 
--static void ps8622_enable(struct drm_bridge *bridge)
--{
--	struct ps8622_bridge *ps8622 = bridge_to_ps8622(bridge);
--
--	if (drm_panel_enable(ps8622->panel)) {
--		DRM_ERROR("failed to enable panel\n");
--		return;
--	}
--}
--
- static void ps8622_disable(struct drm_bridge *bridge)
- {
--	struct ps8622_bridge *ps8622 = bridge_to_ps8622(bridge);
--
--	if (drm_panel_disable(ps8622->panel)) {
--		DRM_ERROR("failed to disable panel\n");
--		return;
--	}
- 	msleep(PS8622_PWMO_END_T12_MS);
- }
- 
-@@ -436,11 +415,6 @@ static void ps8622_post_disable(struct drm_bridge *bridge)
- 	 */
- 	gpiod_set_value(ps8622->gpio_slp, 0);
- 
--	if (drm_panel_unprepare(ps8622->panel)) {
--		DRM_ERROR("failed to unprepare panel\n");
--		return;
--	}
--
- 	if (ps8622->v12)
- 		regulator_disable(ps8622->v12);
- 
-@@ -461,7 +435,7 @@ static int ps8622_get_modes(struct drm_connector *connector)
- 
- 	ps8622 = connector_to_ps8622(connector);
- 
--	return drm_panel_get_modes(ps8622->panel, connector);
-+	return drm_bridge_get_modes(ps8622->panel_bridge, connector);
- }
- 
- static const struct drm_connector_helper_funcs ps8622_connector_helper_funcs = {
-@@ -482,6 +456,9 @@ static int ps8622_attach(struct drm_bridge *bridge,
- 	struct ps8622_bridge *ps8622 = bridge_to_ps8622(bridge);
- 	int ret;
- 
-+	ret = drm_bridge_attach(ps8622->bridge.encoder, ps8622->panel_bridge,
-+				&ps8622->bridge, flags);
-+
- 	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
- 		DRM_ERROR("Fix bridge driver to make connector optional!");
- 		return -EINVAL;
-@@ -505,9 +482,6 @@ static int ps8622_attach(struct drm_bridge *bridge,
+ 	if (!bridge->encoder) {
+ 		DRM_ERROR("Parent encoder object not found");
+@@ -482,7 +480,7 @@ static int ps8622_attach(struct drm_bridge *bridge,
  	drm_connector_attach_encoder(&ps8622->connector,
  							bridge->encoder);
  
--	if (ps8622->panel)
--		drm_panel_attach(ps8622->panel, &ps8622->connector);
--
- 	drm_helper_hpd_irq_event(ps8622->connector.dev);
+-	drm_helper_hpd_irq_event(ps8622->connector.dev);
++	drm_helper_hpd_irq_event(ps8622->bridge.dev);
  
  	return ret;
-@@ -515,7 +489,6 @@ static int ps8622_attach(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs ps8622_bridge_funcs = {
- 	.pre_enable = ps8622_pre_enable,
--	.enable = ps8622_enable,
- 	.disable = ps8622_disable,
- 	.post_disable = ps8622_post_disable,
- 	.attach = ps8622_attach,
-@@ -533,16 +506,23 @@ static int ps8622_probe(struct i2c_client *client,
- {
- 	struct device *dev = &client->dev;
- 	struct ps8622_bridge *ps8622;
-+	struct drm_bridge *pbridge;
-+	struct drm_panel *panel;
- 	int ret;
- 
- 	ps8622 = devm_kzalloc(dev, sizeof(*ps8622), GFP_KERNEL);
- 	if (!ps8622)
- 		return -ENOMEM;
- 
--	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &ps8622->panel, NULL);
-+	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &panel, NULL);
- 	if (ret)
- 		return ret;
- 
-+	pbridge = devm_drm_panel_bridge_add(dev, panel);
-+	if (IS_ERR(pbridge))
-+		return PTR_ERR(pbridge);
-+
-+	ps8622->panel_bridge = pbridge;
- 	ps8622->client = client;
- 
- 	ps8622->v12 = devm_regulator_get(dev, "vdd12");
+ }
 -- 
 2.20.1
 
