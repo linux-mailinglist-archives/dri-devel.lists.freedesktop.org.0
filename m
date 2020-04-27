@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7321B99C4
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 10:19:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF9A1B99C9
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 10:19:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 412A96E0D4;
-	Mon, 27 Apr 2020 08:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABA666E0E6;
+	Mon, 27 Apr 2020 08:19:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D72406E0A1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:19:27 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id g10so12985244lfj.13
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 01:19:27 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DED096E0A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 08:19:28 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id j3so16559982ljg.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 01:19:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7s05XMTYcFfENek8PsGO4hs1bY+4uIGfZAp5xveEl4A=;
- b=WaPDs1bg3Poh/6oyeL1gtfefhhVeBACY2UtNFjfEkoUh2duRZFDSCUqoS0XK9gw6GG
- Yy77WqhsE0W76xIquxttdAIdiPTpcy9oNBCGdXbo6NC2M3u6t/gwcU2c6kp6xR9U1cuD
- e8TtpSdpc4qVKwjSpFgqDU0VOA++yPfNQx7dXAistwHQaTEeOtsPrisGJ6mpphqNj/m5
- hLTLiT/Ce1XLAandpjToqteAv+wDc3zW5Di0G6Pp3/5SaNh94O2Kq/i2c6mgwrlwLqrh
- 5vFHvyY1DU1ibB11cpnnFNQ9O1Xmkx2dU7CW5JV1v9bJywuUuHbQHSmF3scol5XycjhF
- bCeQ==
+ bh=QfDnC/975rlfCbjADEMfc9RfcMZxiMjnJ1FwoN1pIaw=;
+ b=Y+VCrmeiZ2jmM3OhszHVJvbp76bmwxmRZKnIWg9C0NpYYcSYKbOcMjVa3hAZDJJB+c
+ FHeumPFbaYsloZfvNYqUGLq3ebhsytZ848M5pa20j89r+WdufGrijqCh+GJ/4Grrreyb
+ YHmmVE1+bHYw/STqjzbwX00Q4bLZjjqnz/TYWDgmTMjkiUH+rKcg/cHjJbquqrsV/JqH
+ dhe5Was18Ck8dp7iTtZgwgmM7OYI0lIBcsNrbYNsvy9RWRrBuuDWu5EsKszDjPpWji+6
+ u0Hx0Iv3qrg8R2KQamppyiMCddYY9sv4w48Bf1VdW0Aqnu65MEWa5M3k9OgwSX+pLhCI
+ znqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7s05XMTYcFfENek8PsGO4hs1bY+4uIGfZAp5xveEl4A=;
- b=A5dPSFJOjS363ID5qw7Y754xbp7Q2mHhJKBjvZYKC5VVyb7SKR6bfUOlGcLZ0cvRXL
- zmSkWkPsIoV6L0CqFHmNnBu0uY2b0FIYdmVDxkIgowog0qYZs2l90YvDsqJNV+sj8cmw
- 74QlusCpWY36YZeYvvXSKpSt/jxtAuCetUqEcC6o7GqrEjGB3VY+2vgR+y+Uxan2gOgi
- s2mnMLhJMZxyJlenxvSwSJsUar+NYh+wz89K/sEgiOaJlKAPVnZ7dtsZ9Ogalt1YmRWA
- Pe5frQTpsdUv2LK8lwUGG510Pw+CbvFz+uBByc7MXSwKkzFBg4n72b4Kkgy4UAlNzaHU
- OnXQ==
-X-Gm-Message-State: AGi0PubK9O6ozL1bLazQpzWarKIw8bvZw/zo8wwYa4m3j0dJBSxcSwgT
- Quc+HtXtBk27h0mCTCK9yW1IQfwK
-X-Google-Smtp-Source: APiQypLchTDsch3VlYxoKPd8hHqKmZ1fSD86nVzyDaZx7Z9Li1s0kBXhpmMSlLQWguhx9S8ypObZFA==
-X-Received: by 2002:a19:f518:: with SMTP id j24mr14989307lfb.205.1587975565953; 
- Mon, 27 Apr 2020 01:19:25 -0700 (PDT)
+ bh=QfDnC/975rlfCbjADEMfc9RfcMZxiMjnJ1FwoN1pIaw=;
+ b=ieNHOGHQMB3jCdazsKgJAWtbE526Qdb5zkNqOBFcL+gcdk0YhDW0mQE6B1UDk7cDEs
+ DXL+V9rrB7MZT0ARhhxB2VlryThNUKfODxFkHpcAUySPPQ7Pa7E+erQxduimskCSkuE1
+ qJi67o6cWk87OU9rxoeCus/o2KSpJU7kQghgbUBBMgh5OOvBAWBv1JKoI9tmLV+cRR6+
+ GiNn1kymDMtNArvrbfuYEW9PoF8h8r1rC/nOzYXSAvRcE/pMhCcUEECebS0zKY5C8wRm
+ LjT12G+OunBpb8D3mUOofYxsI8JerlSuHDie+MI+9kq25flovWtvxq8B5kEkqx5bBSH2
+ qtqw==
+X-Gm-Message-State: AGi0PuZDuGb82Qnh/s5I99kmqCn5UIwvkRZ0EpRD+w2qLa4xgliMeiNa
+ lrhTxEqrVQiHBYApOeD8ylNmhhRy
+X-Google-Smtp-Source: APiQypKr9YrT2I6gRGVcKAknhWnwS9ipPj+2G/YCTbXGTD3J58tEt+QMV6/RHkHYBXYl/ftuHn37Mw==
+X-Received: by 2002:a2e:9084:: with SMTP id l4mr14159506ljg.132.1587975567063; 
+ Mon, 27 Apr 2020 01:19:27 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- c20sm9846301ljk.59.2020.04.27.01.19.24
+ c20sm9846301ljk.59.2020.04.27.01.19.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 01:19:25 -0700 (PDT)
+ Mon, 27 Apr 2020 01:19:26 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH v2 19/21] drm/bridge: nxp-ptn3460: add get_modes bridge
- operation
-Date: Mon, 27 Apr 2020 10:18:48 +0200
-Message-Id: <20200427081850.17512-20-sam@ravnborg.org>
+Subject: [PATCH v2 20/21] drm/bridge: nxp-ptn3460: make connector creation
+ optional
+Date: Mon, 27 Apr 2020 10:18:49 +0200
+Message-Id: <20200427081850.17512-21-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200427081850.17512-1-sam@ravnborg.org>
 References: <20200427081850.17512-1-sam@ravnborg.org>
@@ -80,9 +80,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the get_modes() bridge operation to prepare for
-use as a chained bridge.
-Add helper function that is also used by the connector.
+Make the connector creation optional to enable usage of the
+nxp-ptn3460 bridge with the DRM bridge connector helper.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Andrzej Hajda <a.hajda@samsung.com>
@@ -91,109 +90,26 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: Jonas Karlman <jonas@kwiboo.se>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- drivers/gpu/drm/bridge/nxp-ptn3460.c | 52 ++++++++++++++++++----------
- 1 file changed, 33 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/bridge/nxp-ptn3460.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-index 0bd9f0e451b3..e253c185f94c 100644
+index e253c185f94c..6a65657087f9 100644
 --- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
 +++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-@@ -154,17 +154,13 @@ static void ptn3460_disable(struct drm_bridge *bridge)
- 	gpiod_set_value(ptn_bridge->gpio_pd_n, 0);
- }
+@@ -229,10 +229,8 @@ static int ptn3460_bridge_attach(struct drm_bridge *bridge,
+ 	if (ret < 0)
+ 		return ret;
  
--static int ptn3460_get_modes(struct drm_connector *connector)
-+static struct edid *ptn3460_get_edid(struct drm_bridge *bridge,
-+				     struct drm_connector *connector)
- {
--	struct ptn3460_bridge *ptn_bridge;
--	u8 *edid;
--	int ret, num_modes = 0;
-+	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
- 	bool power_off;
--
--	ptn_bridge = connector_to_ptn3460(connector);
--
--	if (ptn_bridge->edid)
--		return drm_add_edid_modes(connector, ptn_bridge->edid);
-+	u8 *edid;
-+	int ret;
- 
- 	power_off = !ptn_bridge->enabled;
- 	ptn3460_pre_enable(&ptn_bridge->bridge);
-@@ -172,30 +168,46 @@ static int ptn3460_get_modes(struct drm_connector *connector)
- 	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
- 	if (!edid) {
- 		DRM_ERROR("Failed to allocate EDID\n");
--		return 0;
-+		return NULL;
- 	}
- 
- 	ret = ptn3460_read_bytes(ptn_bridge, PTN3460_EDID_ADDR, edid,
--			EDID_LENGTH);
-+				 EDID_LENGTH);
- 	if (ret) {
- 		kfree(edid);
--		goto out;
-+		return NULL;
- 	}
- 
-+	if (power_off)
-+		ptn3460_disable(&ptn_bridge->bridge);
-+
-+	kfree(ptn_bridge->edid);
- 	ptn_bridge->edid = (struct edid *)edid;
--	drm_connector_update_edid_property(connector, ptn_bridge->edid);
- 
--	num_modes = drm_add_edid_modes(connector, ptn_bridge->edid);
-+	return ptn_bridge->edid;
-+}
- 
--out:
--	if (power_off)
--		ptn3460_disable(&ptn_bridge->bridge);
-+static int ptn3460_connector_get_modes(struct drm_connector *connector)
-+{
-+	struct ptn3460_bridge *ptn_bridge;
-+	struct edid *edid;
-+
-+	ptn_bridge = connector_to_ptn3460(connector);
-+
-+	if (ptn_bridge->edid)
-+		return drm_add_edid_modes(connector, ptn_bridge->edid);
-+
-+	edid = ptn3460_get_edid(&ptn_bridge->bridge, connector);
-+	if (!edid)
+-	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+-		DRM_ERROR("Fix bridge driver to make connector optional!");
+-		return -EINVAL;
+-	}
++	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
 +		return 0;
-+
-+	drm_connector_update_edid_property(connector, edid);
  
--	return num_modes;
-+	return drm_add_edid_modes(connector, edid);
- }
- 
- static const struct drm_connector_helper_funcs ptn3460_connector_helper_funcs = {
--	.get_modes = ptn3460_get_modes,
-+	.get_modes = ptn3460_connector_get_modes,
- };
- 
- static const struct drm_connector_funcs ptn3460_connector_funcs = {
-@@ -249,6 +261,7 @@ static const struct drm_bridge_funcs ptn3460_bridge_funcs = {
- 	.pre_enable = ptn3460_pre_enable,
- 	.disable = ptn3460_disable,
- 	.attach = ptn3460_bridge_attach,
-+	.get_edid = ptn3460_get_edid,
- };
- 
- static int ptn3460_probe(struct i2c_client *client,
-@@ -304,6 +317,7 @@ static int ptn3460_probe(struct i2c_client *client,
- 	}
- 
- 	ptn_bridge->bridge.funcs = &ptn3460_bridge_funcs;
-+	ptn_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
- 	ptn_bridge->bridge.of_node = dev->of_node;
- 	drm_bridge_add(&ptn_bridge->bridge);
- 
+ 	if (!bridge->encoder) {
+ 		DRM_ERROR("Parent encoder object not found");
 -- 
 2.20.1
 
