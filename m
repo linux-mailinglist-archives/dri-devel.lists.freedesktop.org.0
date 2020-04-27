@@ -1,44 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400001BA9AD
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 18:02:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EBFA1BAA52
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Apr 2020 18:48:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB9D6E32C;
-	Mon, 27 Apr 2020 16:02:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D797B6E33E;
+	Mon, 27 Apr 2020 16:48:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0127.hostedemail.com
- [216.40.44.127])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABCFE6E32C
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 16:02:38 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay05.hostedemail.com (Postfix) with ESMTP id CE7BD18029587;
- Mon, 27 Apr 2020 16:02:37 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:599:960:968:973:981:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1535:1544:1593:1594:1605:1711:1730:1747:1777:1792:2393:2538:2559:2562:2689:2691:2692:2828:2898:3138:3139:3140:3141:3142:3622:3865:3866:3867:3868:3870:3871:3872:3873:4321:4605:5007:6119:6120:6742:7875:7901:7903:7904:7974:8603:8784:9036:10004:11026:11232:11473:11658:11914:12043:12296:12297:12438:12555:12740:12760:12895:12986:13160:13161:13229:13255:13439:14659:14721:21080:21220:21451:21627:21990:30030:30034:30054:30070:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:2, LUA_SUMMARY:none
-X-HE-Tag: ship96_33c1d1869b436
-X-Filterd-Recvd-Size: 5476
-Received: from XPS-9350.home (unknown [47.151.136.130])
- (Authenticated sender: joe@perches.com)
- by omf18.hostedemail.com (Postfix) with ESMTPA;
- Mon, 27 Apr 2020 16:02:35 +0000 (UTC)
-Message-ID: <0c487ba493f4b4c0f68b3dfd23f14a080e4fb0c2.camel@perches.com>
-Subject: Re: [RESEND PATCH v3 1/1] lib/vsprintf: Add support for printing
- V4L2 and DRM fourccs
-From: Joe Perches <joe@perches.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, Petr Mladek <pmladek@suse.com>
-Date: Mon, 27 Apr 2020 09:02:34 -0700
-In-Reply-To: <20200427145303.29943-1-sakari.ailus@linux.intel.com>
-References: <20200427145303.29943-1-sakari.ailus@linux.intel.com>
-User-Agent: Evolution 3.36.1-2 
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A9356E33E
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 16:48:12 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id f12so13956389edn.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 09:48:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anholt-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9lKZKzvhkJ6C/OLWRsSrl7Dq/abBXyDMmXLU6ao2xM8=;
+ b=hGxul0hlbJVd60Q0+rHh426OHVi9i+fKviMOR8xs8dwjinEDtYiB9XeCc6nxDn9KhT
+ 7Y2hxVAIXfd/D1miJNCVhx7Qn23An3qNgyyGtebJ3o+ttAytkBg6MSNK7Grw3/nbLdni
+ cdaHy5VoSDueQvMr5Ak00Dlr+wZEjuXKminXqjn6gcmyoF3fTNbGkYrWl5TfVloK3Xd0
+ Jl71giNB9KntY0QVhDIeNlRJ4iOH74ift5EqlgUI3js7NaEx9qDu8xdPIpMp7iymXVk+
+ HVdkHFHEljJMVXiQCXiC2GUuvHPetD2GHRgwE9/mEoV5LEQR8D20DVn6u+1bC500qfjC
+ zjKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9lKZKzvhkJ6C/OLWRsSrl7Dq/abBXyDMmXLU6ao2xM8=;
+ b=Cxz929wBIP+rnhZcTrbnqKnHxV6KqSTrygHx7Q4FiHOgI86s03ZL0bxsS3GJ2uE/Na
+ BLOI1o+ljAtVmjrBrrL/jP25uo+1asdUlzpzWA/Z8fpa8YS5XgVt5YWdkxpa1ofnLX+C
+ LqfQLURCn50SlrfRKUMD99IO2vJPrgHTAJiOXCJHdcFzSKVBlnWIUq8MS7edc11AZzYU
+ XrtIeH+z0fM0Z3mcKQzHKmGsFuE/uxx0cDwCN0T4KfqGf3FALFtW6JJ73bsSHftHpN53
+ H6AVnuucnkWw8HAhmbAwdYvTVJ7GCdWDhVMMpljEQfzzkjAOVrviMTeI3pWoHKvCBkf3
+ TcNw==
+X-Gm-Message-State: AGi0Puatp6llEfGA01qyGoBBPXC4oNobY3f7EMpYCzOWD3BUkeEcFjmT
+ y7ABj3/Uzhj/cJxiMQ3hyU3YT4NRboCLkXvkEFmDSofjr3Y=
+X-Google-Smtp-Source: APiQypJLAXpR4UYVu85aKQoLSFStXTzLBmlYK6SJrHuaZylJZlTnbjGD7ZOeBfnAC6ilExfBFuZpC0qd4SwTLSsCbb8=
+X-Received: by 2002:a05:6402:1d15:: with SMTP id
+ dg21mr19945360edb.13.1588006089234; 
+ Mon, 27 Apr 2020 09:48:09 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200423223459.200858-1-pcc@google.com>
+ <CACvgo50xnz9g8PE6+4FxHr=NJ4sWd1no4erFBJ2RY2msE12PYA@mail.gmail.com>
+ <CAMn1gO5i-nBU_S-U896qrYYOUU6W4yD=KG8KTwijUOF62ts36g@mail.gmail.com>
+ <CACvgo53CGO-gM8xEyP92La+3KEPWGGy3V1+YsQ2hrCt+atMnLA@mail.gmail.com>
+In-Reply-To: <CACvgo53CGO-gM8xEyP92La+3KEPWGGy3V1+YsQ2hrCt+atMnLA@mail.gmail.com>
+From: Eric Anholt <eric@anholt.net>
+Date: Mon, 27 Apr 2020 09:47:57 -0700
+Message-ID: <CADaigPXW-2+YPfW8mayJPo8OoRB2j+VN=q6zu-cs0gmpXtjang@mail.gmail.com>
+Subject: Re: [PATCH] drm: pl111: enable render node
+To: Emil Velikov <emil.l.velikov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,185 +65,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mchehab@kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hverkuil@xs4all.nl, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>, laurent.pinchart@ideasonboard.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-media@vger.kernel.org
+Cc: Peter Collingbourne <pcc@google.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2020-04-27 at 17:53 +0300, Sakari Ailus wrote:
-> Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
-> pixel formats denoted by fourccs. The fourcc encoding is the same for both
-> so the same implementation can be used.
-[]
-> - Added WARN_ON_ONCE() sanity checks. Comments on these are welcome; I'd
->   expect them mostly be covered by the tests.
+On Mon, Apr 27, 2020 at 7:45 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+>
+> On Fri, 24 Apr 2020 at 19:54, Peter Collingbourne <pcc@google.com> wrote:
+> >
+> > On Fri, Apr 24, 2020 at 4:11 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+> > >
+> > > On Thu, 23 Apr 2020 at 23:51, Peter Collingbourne <pcc@google.com> wrote:
+> > > >
+> > > > The render node is required by Android which does not support the legacy
+> > > > drmAuth authentication process.
+> > > >
+> > > > Signed-off-by: Peter Collingbourne <pcc@google.com>
+> > > > ---
+> > > >  drivers/gpu/drm/pl111/pl111_drv.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > The summary talks about drmAuth, yet exposes a render node. Even
+> > > through there's no rendering engine in the HW, as mentioned by Eric.
+> > >
+> > > AFAICT the only way drmAuth is relevant with pl111 is when you want to
+> > > export/import dma bufs.
+> > > Although that is handled in core and the artificial DRM_AUTH
+> > > restriction has been lifted with commit [1].
+> > >
+> > > -Emil
+> > >
+> > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.7-rc2&id=30a958526d2cc6df38347336a602479d048d92e7
+> >
+> > Okay, most likely drmAuth is irrelevant here (I don't know much about
+> > it to be honest; I know that Android uses render nodes, so I figured
+> > that drmAuth must therefore be the thing that it doesn't use). Sorry
+> > for the confusion. Here is a better explanation of why I needed this
+> > change.
+> >
+> > Android has a composer process that opens the primary node and uses
+> > DRM_IOCTL_MODE_ATOMIC to switch between frame buffers, and a renderer
+> > process (surfaceflinger) that opens the render node, prepares frame
+> > buffers and sends them to the composer. One idea for adapting this
+> > architecture to devices without render nodes is to have the renderer
+> > process open the primary node instead. But this runs into a problem:
+> > suppose that the renderer process starts before the composer process.
+> > In this case, the kernel makes the renderer the DRM master, so the
+> > composer can't change the frame buffer. Render nodes don't have this
+> > problem because opening them doesn't affect the master.
+> >
+> > I considered fixing this by having the composer issue
+> > DRM_IOCTL_SET_MASTER, but this requires root privileges. If we require
+> > drivers to provide render nodes and control access to the primary node
+> > while opening up the render node, we can ensure that only authorized
+> > processes can become the master without requiring them to be root.
+> >
+> I think that the crux, is trying to open a _primary_ node for
+> _rendering_ purposes.
+> While that may work - as you outline above - it's usually a bad idea.
+>
+> To step back a bit, in practise we have three SoC combinations:
+>  - complete lack of render device - then you default to software rendering [1]
+>  - display and render device are one and the same - no change needed,
+> things should just work
+>  - display and render devices are separate - surfaceflinger should
+> open the correct _rendering_ device node.
+>
+> [1] Mesa's libEGL (don't recall exact name on Android) can open VGEM
+> render node, to work with the kms-swrast_dri.so software rasteriser
+> module.
+>
+> While I did not try [1] with Android, it was working fine with CrOS. I
+> suggest giving it a try and reporting bugs.
 
-All the WARN_ON_ONCE uses are not necessary.
+VGEM is not a solution, because it doesn't coordinate caching behavior
+with your display node and so you get corruption if you try to to
+share dma-bufs between them.  In cros it's used only for some tests as
+far as I've heard, and it's been a source of pain.
 
-> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-[]
-> @@ -1721,6 +1721,89 @@ char *netdev_bits(char *buf, char *end, const void *addr,
->  	return special_hex_number(buf, end, num, size);
->  }
->  
-> +static noinline_for_stack
-> +char *fourcc_string(char *buf, char *end, const u32 *__fourcc,
-> +		    struct printf_spec spec, const char *fmt)
-
-There's no reason to use __ prefixed argument names here.
-
-> +{
-> +#define FOURCC_HEX_CHAR_STR		"(xx)"
-> +#define FOURCC_BIG_ENDIAN_STR		" big-endian"
-> +#define FOURCC_LITTLE_ENDIAN_STR	" little-endian"
-
-I don't believe used-once macro defines are useful.
-
-> +#define FOURCC_HEX_NUMBER		" (0x01234567)"
-
-> +#define FOURCC_STRING_MAX						\
-> +	FOURCC_HEX_CHAR_STR FOURCC_HEX_CHAR_STR FOURCC_HEX_CHAR_STR	\
-> +	FOURCC_HEX_CHAR_STR FOURCC_LITTLE_ENDIAN_STR FOURCC_HEX_NUMBER
-
-This is very difficult to read and is size dependent on
-the size of little-endian > big_endian
-
-I'd write it out
-
-	FOURCC_STRING_MAX	sizeof("(xx)(xx)(xx)(xx) little-endian (0x01234567)")
-
-and then not have the define at all but use
-the written out string in the declaration.
-
-> +	struct printf_spec my_spec = {
-> +		.type = FORMAT_TYPE_UINT,
-> +		.field_width = 2,
-> +		.flags = SMALL,
-> +		.base = 16,
-> +		.precision = -1,
-> +	};
-
-my_spec isn't usefully named, likely not necessary at all,
-and if really necessary, it should be static const
-
-> +	char __s[sizeof(FOURCC_STRING_MAX)];
-
-I'd declare the buffer
-
-	char fourcc[sizeof("(xx)(xx)(xx)(xx) little-endian (0x01234567)"];
-
-like all the other specialty functions do.
-
-> +	char *s = __s;
-
-There's no reason to use __ prefixed variable names here either.
-All the other specialty function use:
-
-	char *p = <output_buffer_name>;
-
-> +	unsigned int i;
-
-just int i; is typical
-
-> +	/*
-> +	 * The 31st bit defines the endianness of the data, so save its printing
-> +	 * for later.
-> +	 */
-> +	u32 fourcc = *__fourcc & ~BIT(31);
-
-	bool be = fourcc & BIT(31);
-
-> +	int ret;
-> +
-> +	if (check_pointer(&buf, end, __fourcc, spec))
-> +		return buf;
-> +
-> +	if (fmt[1] != 'c' || fmt[2] != 'c')
-> +		return error_string(buf, end, "(%p4?)", spec);
-> +
-> +	for (i = 0; i < sizeof(fourcc); i++, fourcc >>= 8) {
-> +		unsigned char c = fourcc >> (i*8);
-
-Please remove the fourcc >>= 8 from the loop and use
-
-		unsigned char c = fourcc >> (i*8);
-
-If I understand this correctly, I think this is simpler:
-
-		if (isascii(c) && isprint(c)) {
-			*s++ = c;
-		} else {
-			*s++ = '(';
-			s = hex_byte_pack(s, c);
-			*s++ = ')';
-		}
-
-> +
-> +		/* Weed out spaces */
-> +		if (c == ' ')
-> +			continue;
-> +
-> +		/* Print non-control characters as-is */
-> +		if (c > ' ') {
-> +			*s = c;
-> +			s++;
-> +			continue;
-> +		}
-> +
-> +		if (WARN_ON_ONCE(sizeof(__s) <
-> +				 (s - __s) + sizeof(FOURCC_HEX_CHAR_STR)))
-> +			break;
-> +
-> +		*s = '(';
-> +		s++;
-> +		s = number(s, s + 2, c, my_spec);
-> +		*s = ')';
-> +		s++;
-> +	}
-> +
-> +	ret = strscpy(s, *__fourcc & BIT(31) ? FOURCC_BIG_ENDIAN_STR
-> +					     : FOURCC_LITTLE_ENDIAN_STR,
-> +		      sizeof(__s) - (s - __s));
-
-If you size the initial buffer correctly, strscpy is unnecessary.
-
-	strcpy(s, <bit31> ? "big endian" : "little endian");
-	s += strlen(s);
-
-> +	if (!WARN_ON_ONCE(ret < 0))
-> +		s += ret;
-> +
-> +	if (!WARN_ON_ONCE(sizeof(__s) <
-> +			  (s - __s) + sizeof(FOURCC_HEX_NUMBER))) {
-> +		*s = ' ';
-> +		s++;
-> +		*s = '(';
-> +		s++;
-
-		*s++ = ' ';
-		*s++ = '(';
-
-+		/* subtract parentheses and the space from the size */
-> +		special_hex_number(s, s + sizeof(FOURCC_HEX_NUMBER) - 3,
-> +				   *__fourcc, sizeof(u32));
-> +		s += sizeof(u32) * 2 + 2 /* 0x */;
-> +		*s = ')';
-> +		s++;
-		*s++ = ')';
-
-> +		*s = '\0';
-> +	}
-> +
-> +	return string(buf, end, __s, spec);
-> +}
-> 
-
+If we want to go the route of "kms-only nodes also provide a render
+node interface for doing swrast on", I think that would be a good
+idea, but we should do this at a core DRM level (probably "does this
+driver expose dma-buf? then also expose render nodes") rather than per
+kms driver.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
