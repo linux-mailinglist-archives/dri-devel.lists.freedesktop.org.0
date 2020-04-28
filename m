@@ -2,66 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644321BBAD0
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 12:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B0DB1BBAE8
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 12:14:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44B0E6E282;
-	Tue, 28 Apr 2020 10:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3A16E340;
+	Tue, 28 Apr 2020 10:14:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE6216E27F
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 10:09:12 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id i10so23927783wrv.10
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 03:09:12 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF5F46E340
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 10:14:17 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id u127so2210000wmg.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 03:14:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=JBjx7NtBurMmrjlIu5vW/j7By757Qlu3Jya2ObCQzQg=;
- b=VhAhYK/jB4ypxqEnt/p6SVnP14G0TTL+3i6F8IDFF3dCPDQnEZrbzdH0lBky5quLTd
- MCsBrdf4bpShHUb77YroyTUa2zFaXoqqV8XFyZSsFABJFuTaHg1+JHXM//tyYuAzFe8R
- 63Q31DZF295SG/cuGCMRe9oMgNWL0X+Wc0Pos=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=cwTEP8dRDJnd5aOSclTVuMkCYpPNbqBYa5kz3pYXqeI=;
+ b=fUQvxLwYmKVpecVtRmtg3ClFDzO2LDIBVMh3KCy8M52RZkf7L6D/cacidGkI24GIvp
+ 1emDJCSa8UrzEAaLLSXfCGkEM3zMBo0u3xYV7596/ZOgOJxyHczjcHE+ZCE+97ygZDAm
+ DIv0ySru/9ozlVG45r2RdFI2P419KP9Igr9Lk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=JBjx7NtBurMmrjlIu5vW/j7By757Qlu3Jya2ObCQzQg=;
- b=BkEhZGfzWAtExqC2yW6CEsw+TTZYbzyGNa+YLJUCsSAbIxpkJxvX5NlwHzhdgoyuJZ
- 3AmkxjzAOLIwGaCe6XR/S7ljcRHDG3OFSdp4V/cBSINtM6j5YhvdB03zZlXaZh/EHb1e
- pX6pSTbv+c9LTDosXb53jO3lNe3eRSWCvLlNAzx5wUdLKDbLqMvMKNV7XgpC9aVypKYy
- lOPYr2PQdX5wFDj/CoUelCqzFBp4ivt51bxVATd07vnGgsF/zTZBjrVS2aCXH4U/f9Dk
- KmkgMJToMuGLvIWTBOeCBxqJXg/aQM/Pgzz3nAS6unrrtujC4ixGfdIM5ymjR9aKMe+H
- FWlA==
-X-Gm-Message-State: AGi0PualYVaAXSV1c4xXKf7485DS9kRMVsIIHamphxybmIGZzyPwD/Xz
- NwhaQt+aLYHWG8QPKZK4U6RhRQ==
-X-Google-Smtp-Source: APiQypJ7dJCJ11LWRwD/mm7dh1J0wDEtCw6jwbJzoU3HQrzOsBUIpe8bPC/Q/KIozztDcnSLyVaRZw==
-X-Received: by 2002:adf:ca0e:: with SMTP id o14mr34734276wrh.254.1588068551197; 
- Tue, 28 Apr 2020 03:09:11 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cwTEP8dRDJnd5aOSclTVuMkCYpPNbqBYa5kz3pYXqeI=;
+ b=NNs5eCN1GuGGfGCK2XQH9+k0iEpPcK/q3zldmJ1wjuELGo2Wfut2a2a+ER8GtgLP6O
+ w+0gUw37hxMOwc3WgqQeh83LpWlQDwDYD0d76haMOHHNCOEKe5PpUKFsrgHrIXi2QePm
+ qxSi50B7nThT4rehp0hnVs1KeL9D705SvtUjaNwtJ75YIlN0e+/+tvYJkdH0bUhDKrEv
+ f5TFhQ5/fnCt5dITSOHWORhh3j04SYLLrLqJ3jyt4+vM2InlhY3swLop0EhdanjPiKqD
+ qQovrb+Q1/TeEFlBW/S/AUwqQNfShf2LOsG91zOuOo55v7F62hrzLCXhv6JsoLib2d+3
+ rb4g==
+X-Gm-Message-State: AGi0PuYE38DaJUVZ4PV9pl0MeSv/bj2NBEwuHGDG2qX2xpkjzATMUX/A
+ D5XQ3/R1dLYimID7lTheaSHWGw==
+X-Google-Smtp-Source: APiQypK602BqXRMuTJ9cLoFQHXVucGJmpXWQJbXBSmwgCshlpZmpglfOExMi6y9n2Te80D2WLVZQyQ==
+X-Received: by 2002:a05:600c:1008:: with SMTP id
+ c8mr3642949wmc.14.1588068855993; 
+ Tue, 28 Apr 2020 03:14:15 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a125sm2562081wme.3.2020.04.28.03.09.09
+ by smtp.gmail.com with ESMTPSA id l5sm2561384wmi.22.2020.04.28.03.14.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Apr 2020 03:09:10 -0700 (PDT)
-Date: Tue, 28 Apr 2020 12:09:08 +0200
+ Tue, 28 Apr 2020 03:14:14 -0700 (PDT)
+Date: Tue, 28 Apr 2020 12:14:13 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Lubomir Rintel <lkundrak@v3.sk>
-Subject: Re: [PATCH v4 3/3] drm/bridge: chrontel-ch7033: Add a new driver
-Message-ID: <20200428100908.GE3456981@phenom.ffwll.local>
-Mail-Followup-To: Lubomir Rintel <lkundrak@v3.sk>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20200324151931.449985-1-lkundrak@v3.sk>
- <20200324151931.449985-4-lkundrak@v3.sk>
- <20200421125412.GB3456981@phenom.ffwll.local>
- <20200423211845.GC18262@furthur.local>
+To: Daniel Dadap <ddadap@nvidia.com>
+Subject: Re: How to handle disconnection of eDP panels due to dynamic display
+ mux switches
+Message-ID: <20200428101413.GF3456981@phenom.ffwll.local>
+References: <956fd624-e1f5-e2a0-90de-9a5f2934547d@nvidia.com>
+ <20200402113925.2zvatduiyqld7pj2@wunner.de>
+ <fafd3a20-7da4-f370-0356-576bca565bd1@nvidia.com>
+ <CAKMK7uEx3YTVNryAcJii67YdtyJOpzh+h-Sg1XD1sqpaVOPcJA@mail.gmail.com>
+ <2634a841-a114-c65f-1dab-30deedb0fa05@nvidia.com>
+ <CAKMK7uGBZdFoUGDR3c_+xPoo4fOzvSJ03md3ej6g91hbdV41kg@mail.gmail.com>
+ <51fe5d97-1482-c93a-5b6f-04e2f6ccad78@nvidia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200423211845.GC18262@furthur.local>
+In-Reply-To: <51fe5d97-1482-c93a-5b6f-04e2f6ccad78@nvidia.com>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,846 +72,302 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 23, 2020 at 11:18:45PM +0200, Lubomir Rintel wrote:
-> On Tue, Apr 21, 2020 at 02:54:12PM +0200, Daniel Vetter wrote:
-> > On Tue, Mar 24, 2020 at 04:19:31PM +0100, Lubomir Rintel wrote:
-> > > This is a driver for video encoder with VGA and DVI/HDMI outputs.
+On Wed, Apr 22, 2020 at 05:04:54PM -0500, Daniel Dadap wrote:
+> On 4/3/20 2:59 PM, Daniel Vetter wrote:
+> > On Fri, Apr 3, 2020 at 8:06 PM Daniel Dadap <ddadap@nvidia.com> wrote:
 > > > 
-> > > There is no documentation for the chip -- the operation was guessed from
-> > > what was sniffed on a Dell Wyse 3020 ThinOS terminal, the register names
-> > > come from the ch7035 driver in Mediatek's GPL code dump.
+> > > On 4/3/20 2:16 AM, Daniel Vetter wrote:
+> > > > On Fri, Apr 3, 2020 at 8:54 AM Daniel Dadap <ddadap@nvidia.com> wrote:
+> > > > > On 4/2/20 6:39 AM, Lukas Wunner wrote:
+> > > > > 
+> > > > > 
+> > > > > On Fri, Mar 27, 2020 at 04:25:19PM -0500, Daniel Dadap wrote:
+> > > > > > > A number of hybrid GPU notebook computer designs with dual (integrated plus
+> > > > > > > discrete) GPUs are equipped with multiplexers (muxes) that allow display
+> > > > > > > panels to be driven by either the integrated GPU or the discrete GPU.
+> > > > > > > Typically, this is a selection that can be made at boot time as a menu
+> > > > > > > option in the system firmware's setup screen, and the mux selection stays
+> > > > > > > fixed for as long as the system is running and persists across reboots until
+> > > > > > > it is explicitly changed. However, some muxed hybrid GPU systems have
+> > > > > > > dynamically switchable muxes which can be switched while the system is
+> > > > > > > running.
+> > > > > > As you may be aware, there's drivers/gpu/vga/vga_switcheroo.c (of which
+> > > > > > I'm listed as a reviewer in MAINTAINERS) to support such hardware.
+> > > > > > 
+> > > > > > It also supports muxed configurations, including those that support
+> > > > > > switching at runtime (and not only at boot) such as the MacBook Pro,
+> > > > > > which uses drivers/platform/x86/apple-gmux.c to interface between
+> > > > > > vga_switcheroo and the hardware mux.
+> > > > > > 
+> > > > > > However, so far switching only actually works on LVDS-based MacBook Pros,
+> > > > > > i.e. all pre-retina machines introduced between Late 2008 and Mid 2012,
+> > > > > > because that hardware is capable of switching the DDC pins separately
+> > > > > > from the display, so we lock and switch them when probing the EDID.
+> > > > > I have observed that on at least some systems, the EDID for the internal
+> > > > > panel can be read via the ACPI _DDC method regardless of whether it's
+> > > > > actively muxed in. I don't know whether that's true for all systems
+> > > > > where the DDC line can't be switched independently, but maybe
+> > > > > vga_switcheroo could also export an interface for GPU drivers to cache
+> > > > > EDIDs so that a muxed-away GPU can read an EDID that was previously read
+> > > > > by another GPU? I guess the utility of that would depend on how
+> > > > > prevalent the combination of no DDC muxing + no ACPI EDID reads turns
+> > > > > out to be.
+> > > > > 
+> > > > > 
+> > > > > > The retina machines introduced from Mid 2012 onward use eDP and run
+> > > > > > into the issues you're describing:  The AUX channel cannot be switched
+> > > > > > separately from the display, so link training fails unless the entire
+> > > > > > display is switched.  Nevertheless macOS can switch the panel seamlessly.
+> > > > > > So how are they doing it?
+> > > > > > 
+> > > > > > Well, I don't own a retina MacBook Pro, hence never got very far with
+> > > > > > supporting them, but I did some research and experiments in the 2015/2016
+> > > > > > time frame which a colleague, Bruno Bierbaumer, tested on his machine:
+> > > > > > 
+> > > > > > First of all, there's DPCD byte 3 bit 6 (NO_AUX_HANDSHAKE_LINK_TRAINING)
+> > > > > > which is documented as follows:
+> > > > > > 
+> > > > > >        Does not require AUX CH handshake when the link configuration is
+> > > > > >        already known. [...] The known-good drive current and pre-emphasis
+> > > > > >        level (or those used in the last "full" link training with AUX CH
+> > > > > >        handshake) must be used when the link training is performed without
+> > > > > >        AUX CH handshake.
+> > > > > > 
+> > > > > > That bit is set on the MacBook Pros in question.
+> > > > > I'll check one of the eDP-based systems I've been experimenting on to
+> > > > > see if setting the VGA_SWITCHER_NEEDS_EDP_CONFIG capability in the
+> > > > > handler is sufficient to make i915 avoid poking the AUX channel when
+> > > > > it's mux-switched away. (This would be in addition to hacking the
+> > > > > can_switch() callback in the GPU drivers to allow switching while there
+> > > > > are still active KMS clients for the purposes of this experiment, unless
+> > > > > somebody can point me to a tree with the WIP per-output switching Daniel
+> > > > > Vetter mentioned.
+> > > > Two things: I thought (but not sure) that for the output switching
+> > > > muxes we'd run vgaswitcheroo in a different mode, where it doesn't
+> > > > check whether whether the driver can be killed. Because it wont. On a
+> > > > quick search only thing I've found is the ddc-only switching done by
+> > > > vga_switcheroo_lock/unlock_ddc. Maybe misremembering, but I thought
+> > > > there was more. But been a while I last looked at this all in detail.
+> > > > 
+> > > > Wrt per-output switching WIP branch. That would be something you'd
+> > > > need to type ofc, I was just laying out what I think would make sense
+> > > > as a possible path to integrate this into upstream.
+> > > > -Daniel
 > > > 
-> > > Only bare minimum is implemented -- no fancy stuff, such as scaling. That
-> > > would only worsen our misery. We don't load the firmware and we don't need
-> > > to even bother enabling the MCU.  There are probably no distributable
-> > > firmware images anyway.
-> > > 
-> > > Just like the tda998x driver, this one uses the component framework and
-> > > adds an encoder on component bind, so that it works with the Armada DRM
-> > > driver.
+> > > Okay. I misunderstood. When you said that vga-switcheroo could switch
+> > > individual outputs and do so without powering down the
+> > > switched-away-from GPU, I took that to mean that this feature had
+> > > already been implemented somewhere, despite appearances to the contrary
+> > > upstream. I agree that adding per-output switching support to
+> > > vga-switcheroo would be a sensible path.
+> > So I looked again, and maybe another clarification. What I think is
+> > already there is the use-case of switching one integrated panel. I
+> > checked the code now, this is supported with
+> > DRM_SWITCH_POWER_DYNAMIC_OFF. Essentially this allows you to always
+> > open the gpu cdev node, no matter the vgaswitcheroo state. And the
+> > vgaswitcheroo only controls where the outputs are connected (and most
+> > designs only switch the integrated panel, external outputs go to the
+> > discrete gpu).
 > 
-> Thank you for your response.
 > 
-> > Uh, can we instead pls land the patches for armada to switch over to of
-> > bridge helpers.
-> 
-> I honestly don't know -- it's not something I can do anything about.
-> 
-> I didn't have any luck getting responses to my other patches for the
-> Armada driver.
+> Okay, it looks like you're talking about the support for "mux-only"
+> switching (MIGD/MDIS). It seems that this doesn't touch any of the driver
+> callbacks, though, and it would be nice to at least hit reprobe(). Would it
+> make sense to implement another switch type that switches without checking
+> can_switch(), but still hits the driver callbacks? I switched my PoC to do
+> this and it seems to work so far.
 
-If it's just a case of unresponsive maintainer, we can take over with the
-drm-misc group maintained fallback in drm. Still need someone to
-review/ack patches ofc, but usually there's room for that in the drm-misc
-group.
+->can_switch has the most questionable of locking, so reworking that
+sounds like a good idea I'd say. I thought for the dynamic case we already
+skip checking that ...
 
-> > Iirc the big hold-up was that with direct bridge usage
-> > instead of component framework, the drm driver wouldn't unload. But core
-> > pm maintainers fixed device links to include driver unloading, and there
-> > was a drm_bridge patch including armada patches to do all that.
+> > The ddc switching is so that the external gpu can still probe the
+> > panel when it's connected to the integrated gpu.
 > > 
-> > But somehow it didn't land. Iirc because Russell couldn't test them on
-> > upstream somehow.
+> > What's not there is switching for outputs indivually.
+> > 
+> > Note that's at least my understanding, I dont have a system supporting this.
+> > 
+> > So my suggestio would be:
+> > - mayke the nvidia blob work with the current stuff first. I assume
+> > you'll need that :-)
+> > - look into fixing the locking and refcounting bugs. There's FIXME's
+> > all over the code, and we kinda need to address this before we make
+> > everything worse.
+> > 
+> > That gets us a baseline. Next up I think enabling the seamless edp
+> > switching would be nice. For that we don't really need any per-output
+> > switching yet, the current vgaswitcheroo model still works. But what
+> > we probably need:
+> > - some coordination between drm drivers, probably going through
+> > userspace so we follow the sequence correctly
+> > - a new uapi which userspace can use without going into debugfs (which
+> > is a no-go really for shipping to enduser). Probably something that's
+> > tied to drm_connectors so we can extend it later on
+> > - the userspace which makes this work seamlessly, if you want this
+> > with X that probably means -modesetting.
+> > 
+> > > Does this sound like a sensible high-level design?
+> > > 
+> > > 
+> > > * vga-switcheroo-capable GPU drivers can register muxable outputs.
+> > > * Each GPU driver must register each unique muxable output with the same
+> > > identifier. The outputs will be registered together with individual
+> > > devices they can be muxed to, in order to support e.g. muxing between
+> > > different GPU devices driven by the same vendor. (I'm not aware of any
+> > > designs that actually support this, but it seems reasonable to design
+> > > for.) The output identifier may be platform-specific (e.g. ACPI handle,
+> > > simple index). For example, two GPU drivers may each register an
+> > > internal panel with identifier "0" and an external port with identifier "1".
+> > > * For each output that was registered with more than one device,
+> > > vga-switcheroo will expose a sysfs file listing the devices that output
+> > > can be muxed to, and a sysfs file allowing the selection of a particular
+> > > device. Perhaps these could be the same file (e.g., on reading it prints
+> > > a list with an indicator to mark the currently selected device, write a
+> > > device ID to switch to that device).
+> > With my plan the above isn't needed, at least not at first. Naming and
+> > identifying stuff is a really hard problem, so probably best we delay
+> > it so we have more time to figure this out.
+> > 
+> > > I think this would allow flexibility across N muxable outputs that can
+> > > each be switched to one of M GPU devices, without requiring that each of
+> > > the outputs be switchable to all M possible GPUs.
+> > > 
+> > > 
+> > > In addition to the above mechanism for advertising the switchability of
+> > > individual outputs and providing an interface, the following would also
+> > > be needed to support PSR:
+> > > 
+> > > 
+> > > * A new callback for GPU drivers so vga-switcheroo can tell them an
+> > > output is being switched to a GPU.
+> > > * vga-switcheroo can call this callback for all devices once before
+> > > switching the mux, and then again after the mux switch is complete. A
+> > > parameter of the callback would indicate whether the mux switch is
+> > > pending, completed, or failed, allowing GPU drivers to do any necessary
+> > > pre-switch setup, post-switch cleanup, or failed-switch recovery in
+> > > response to events from vga-switcheroo.
+> > > * Maybe a similar callback for mux handlers so vga-switcheroo can signal
+> > > pre- and post-switch events to the handler driver. The PSR designs I'm
+> > > aware of are GPU-driven, but I can imagine a design that is driven by
+> > > some component other than a GPU, in which case it would make sense for
+> > > the mux handler to drive PSR. I suppose this could be left out for now
+> > > and then added later if such a design emerges.
+> > > * It would probably be good to let userspace drive the pre/switch/post
+> > > operations independently, e.g. so that userspace can prepare the first
+> > > frame for presentation on the switched-to GPU before PSR is disabled.
+> > This more or less matches what I'm suggesting too. Except no new
+> > callbacks just because we might need them, we're only going to add
+> > what the drivers actually need to orchestrate a given use case. The
+> > drivers = i915 + nouveau + whatever vgaswitcheroo mux driver you have,
+> > all in upstream.
+> > 
+> > > Now, I'm not sure if it makes more sense to also implement the AUX
+> > > channel proxying that Lukas had prototyped a while back, or to update
+> > > i915 and any other vga-switcheroo-compatible drivers that assume that
+> > > eDP is always connected to allow for the possibility of eDP being
+> > > disconnected due to being muxed away. I personally think disconnecting
+> > > the eDP output makes more sense, since it more accurately reflects
+> > > reality than proxying the AUX channel through to the GPU that's muxed
+> > > in, but if there's another reason the AUX proxying makes more sense, we
+> > > could plan on making that work (on a per-output basis, since I think
+> > > e.g. regular DP for external connectors wouldn't need this) as well.
+> > I think if we expect userspace to drive the seamless edp transition,
+> > then probably a disconnected state that reflects reality is needed.
+> > 
+> > otoh, and I think that's the driver behind Lukas' work: Current
+> > drivers need the edp state to set everything up at driver load. If
+> > they can only fully probe the features of the integrated panel later
+> > on it's too late. That's also why we have the ddx mux, so that drivers
+> > can load as if they're connected to the panel.
+> > 
+> > So I think we still need Lukas' edp proxying patches most likely. What
+> > the userspace visible connection_status will be like needs to be
+> > figured out with how exactly we're going to drive the switchover.
 > 
-> This is what I've found [1]. It seems to include the device links work and
-> switches over the komeda driver, not armada, from components to drm_bridge:
 > 
-> [1] https://patchwork.kernel.org/cover/11262351/
-> 
-> I'm wondering if this is the patch set you're referring to?
+> What exactly do the drivers need to probe? Is there more than just the
+> panel's EDID involved? Many systems implement a _DDC method in ACPI which
+> allows retrieving the internal panel's EDID via ACPI, which on muxed
+> systems, is especially useful, as it will work regardless of which driver
+> needs it or what the current mux state is.
 
-Yup that was one part. Maybe ping on that thread, if Mihail still is
-interested in this you could cross-review each another's stuff and then
-land it in drm-misc.
+Edid, but also dp aux register values (since almost everything is edp
+nowadays, at least on laptops). Especially for edp panels there's a lot of
+dpcd for all the fancy features.
 
-> > Adding more special cases and bridge drivers that we have to convert isn't
-> > going to make this any easier.
-> 
-> No conversion would be necessary -- merely stripping the
-> component/encoder parts once they're no longer necessary. The driver
-> would still work just fine with drivers that don't utilize the component
-> framework, juts as tda998x does.
+> Lukas suggested caching "the required portions of the DPCD", so it sounds
+> like it might be more than just the EDID, though. I was looking at plumbing
+> through our DP AUX code to the DRM DP helpers so I could try testing that,
+> but it wasn't as trivial as I had hoped, so I want to be sure that it's
+> really needed before going further down that path. I'm also a bit nervous
+> about giving drivers access to other drivers' DP AUX channels. Limiting it
+> to reading DPCD is possibly okay, but even then, there may be registers with
+> read side effects.
 
-Hm I was pretty sure it (series to convert to armada) existed by someone,
-but I can't find it anymore. Anyway if all we need is to remove a bunch
-of stuff, then even better.
+Yeah I think some dpcd cache could be all we need.
+
+dp aux itself is exposed through debugfs, so handing out access like that
+to other parties should be fine. dp aux is also exposed through the i2c
+layer to userspace (and there's actually tools using it, for stuff like
+ddc), so if there's bugs in the locking for concurrent access, they're
+already a problem. Only thing to avoid here is a midlayer taste, but I
+think that should be doable. Unfortunately the current vga_switcheroo is
+quite a bit a midlayer, and e.g. locking rules around ->can_switch make
+that design mistake quite clear.
 -Daniel
 
-> > This entire discussion happened in
-> > 
-> > https://www.spinics.net/lists/dri-devel/msg201927.html
-> > 
-> > Can't find the armada patches real quick, nor the drm_bridge patch. But
-> > the core infrastructure hides behind. The core pm change has been added in
-> > 
-> > commit e7dd40105aac9ba051e44ad711123bc53a5e4c71
-> > Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > Date:   Fri Feb 1 01:59:42 2019 +0100
-> > 
-> >     driver core: Add device link flag DL_FLAG_AUTOPROBE_CONSUMER
 > 
-> Thank you
-> Lubo
 > 
+> > -Daniel
 > > 
-> > Thanks, Daniel
-> > > 
-> > > Tested with a handful of monitors ranging from 1024x768@75 to 1400x1050@60,
-> > > with VGA as well as DVI.
-> > > 
-> > > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> > > 
-> > > ---
-> > > Changes since v3:
-> > > - Cosmetic changes; drop ch7033_encoder_destroy() and use
-> > >   drm_encoder_cleanup() for drm_encoder_funcs.destroy callback
-> > >   directly.
-> > > 
-> > > Changes since v1:
-> > > - Sort the includes
-> > > - Drop a useless model id read
-> > > - Chain to the bridge-connector instead of dealing with the HPD/EDID
-> > >   readout machinery ourselves
-> > > - Utilize regmap to access the registers
-> > > 
-> > >  drivers/gpu/drm/bridge/Kconfig           |  10 +
-> > >  drivers/gpu/drm/bridge/Makefile          |   1 +
-> > >  drivers/gpu/drm/bridge/chrontel-ch7033.c | 669 +++++++++++++++++++++++
-> > >  3 files changed, 680 insertions(+)
-> > >  create mode 100644 drivers/gpu/drm/bridge/chrontel-ch7033.c
-> > > 
-> > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> > > index aaed2347ace9d..0ebc72d62a5b2 100644
-> > > --- a/drivers/gpu/drm/bridge/Kconfig
-> > > +++ b/drivers/gpu/drm/bridge/Kconfig
-> > > @@ -27,6 +27,16 @@ config DRM_CDNS_DSI
-> > >  	  Support Cadence DPI to DSI bridge. This is an internal
-> > >  	  bridge and is meant to be directly embedded in a SoC.
-> > >  
-> > > +config DRM_CHRONTEL_CH7033
-> > > +	tristate "Chrontel CH7033 Video Encoder"
-> > > +	depends on OF
-> > > +	select DRM_KMS_HELPER
-> > > +	help
-> > > +	  Enable support for the Chrontel CH7033 VGA/DVI/HDMI Encoder, as
-> > > +	  found in the Dell Wyse 3020 thin client.
-> > > +
-> > > +	  If in doubt, say "N".
-> > > +
-> > >  config DRM_DISPLAY_CONNECTOR
-> > >  	tristate "Display connector support"
-> > >  	depends on OF
-> > > diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> > > index 6fb062b5b0f04..a844315feddb4 100644
-> > > --- a/drivers/gpu/drm/bridge/Makefile
-> > > +++ b/drivers/gpu/drm/bridge/Makefile
-> > > @@ -1,5 +1,6 @@
-> > >  # SPDX-License-Identifier: GPL-2.0
-> > >  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
-> > > +obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
-> > >  obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
-> > >  obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
-> > >  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
-> > > diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-> > > new file mode 100644
-> > > index 0000000000000..f5cb2130684f7
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-> > > @@ -0,0 +1,669 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * Chrontel CH7033 Video Encoder Driver
-> > > + *
-> > > + * Copyright (C) 2019,2020 Lubomir Rintel
-> > > + */
-> > > +
-> > > +#include <linux/component.h>
-> > > +#include <linux/gpio/consumer.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/regmap.h>
-> > > +
-> > > +#include <drm/drm_atomic_helper.h>
-> > > +#include <drm/drm_bridge.h>
-> > > +#include <drm/drm_edid.h>
-> > > +#include <drm/drm_of.h>
-> > > +#include <drm/drm_print.h>
-> > > +#include <drm/drm_probe_helper.h>
-> > > +
-> > > +/* Page 0, Register 0x07 */
-> > > +enum {
-> > > +	DRI_PD		= BIT(3),
-> > > +	IO_PD		= BIT(5),
-> > > +};
-> > > +
-> > > +/* Page 0, Register 0x08 */
-> > > +enum {
-> > > +	DRI_PDDRI	= GENMASK(7, 4),
-> > > +	PDDAC		= GENMASK(3, 1),
-> > > +	PANEN		= BIT(0),
-> > > +};
-> > > +
-> > > +/* Page 0, Register 0x09 */
-> > > +enum {
-> > > +	DPD		= BIT(7),
-> > > +	GCKOFF		= BIT(6),
-> > > +	TV_BP		= BIT(5),
-> > > +	SCLPD		= BIT(4),
-> > > +	SDPD		= BIT(3),
-> > > +	VGA_PD		= BIT(2),
-> > > +	HDBKPD		= BIT(1),
-> > > +	HDMI_PD		= BIT(0),
-> > > +};
-> > > +
-> > > +/* Page 0, Register 0x0a */
-> > > +enum {
-> > > +	MEMINIT		= BIT(7),
-> > > +	MEMIDLE		= BIT(6),
-> > > +	MEMPD		= BIT(5),
-> > > +	STOP		= BIT(4),
-> > > +	LVDS_PD		= BIT(3),
-> > > +	HD_DVIB		= BIT(2),
-> > > +	HDCP_PD		= BIT(1),
-> > > +	MCU_PD		= BIT(0),
-> > > +};
-> > > +
-> > > +/* Page 0, Register 0x18 */
-> > > +enum {
-> > > +	IDF		= GENMASK(7, 4),
-> > > +	INTEN		= BIT(3),
-> > > +	SWAP		= GENMASK(2, 0),
-> > > +};
-> > > +
-> > > +enum {
-> > > +	BYTE_SWAP_RGB	= 0,
-> > > +	BYTE_SWAP_RBG	= 1,
-> > > +	BYTE_SWAP_GRB	= 2,
-> > > +	BYTE_SWAP_GBR	= 3,
-> > > +	BYTE_SWAP_BRG	= 4,
-> > > +	BYTE_SWAP_BGR	= 5,
-> > > +};
-> > > +
-> > > +/* Page 0, Register 0x19 */
-> > > +enum {
-> > > +	HPO_I		= BIT(5),
-> > > +	VPO_I		= BIT(4),
-> > > +	DEPO_I		= BIT(3),
-> > > +	CRYS_EN		= BIT(2),
-> > > +	GCLKFREQ	= GENMASK(2, 0),
-> > > +};
-> > > +
-> > > +/* Page 0, Register 0x2e */
-> > > +enum {
-> > > +	HFLIP		= BIT(7),
-> > > +	VFLIP		= BIT(6),
-> > > +	DEPO_O		= BIT(5),
-> > > +	HPO_O		= BIT(4),
-> > > +	VPO_O		= BIT(3),
-> > > +	TE		= GENMASK(2, 0),
-> > > +};
-> > > +
-> > > +/* Page 0, Register 0x2b */
-> > > +enum {
-> > > +	SWAPS		= GENMASK(7, 4),
-> > > +	VFMT		= GENMASK(3, 0),
-> > > +};
-> > > +
-> > > +/* Page 0, Register 0x54 */
-> > > +enum {
-> > > +	COMP_BP		= BIT(7),
-> > > +	DAC_EN_T	= BIT(6),
-> > > +	HWO_HDMI_HI	= GENMASK(5, 3),
-> > > +	HOO_HDMI_HI	= GENMASK(2, 0),
-> > > +};
-> > > +
-> > > +/* Page 0, Register 0x57 */
-> > > +enum {
-> > > +	FLDSEN		= BIT(7),
-> > > +	VWO_HDMI_HI	= GENMASK(5, 3),
-> > > +	VOO_HDMI_HI	= GENMASK(2, 0),
-> > > +};
-> > > +
-> > > +/* Page 0, Register 0x7e */
-> > > +enum {
-> > > +	HDMI_LVDS_SEL	= BIT(7),
-> > > +	DE_GEN		= BIT(6),
-> > > +	PWM_INDEX_HI	= BIT(5),
-> > > +	USE_DE		= BIT(4),
-> > > +	R_INT		= GENMASK(3, 0),
-> > > +};
-> > > +
-> > > +/* Page 1, Register 0x07 */
-> > > +enum {
-> > > +	BPCKSEL		= BIT(7),
-> > > +	DRI_CMFB_EN	= BIT(6),
-> > > +	CEC_PUEN	= BIT(5),
-> > > +	CEC_T		= BIT(3),
-> > > +	CKINV		= BIT(2),
-> > > +	CK_TVINV	= BIT(1),
-> > > +	DRI_CKS2	= BIT(0),
-> > > +};
-> > > +
-> > > +/* Page 1, Register 0x08 */
-> > > +enum {
-> > > +	DACG		= BIT(6),
-> > > +	DACKTST		= BIT(5),
-> > > +	DEDGEB		= BIT(4),
-> > > +	SYO		= BIT(3),
-> > > +	DRI_IT_LVDS	= GENMASK(2, 1),
-> > > +	DISPON		= BIT(0),
-> > > +};
-> > > +
-> > > +/* Page 1, Register 0x0c */
-> > > +enum {
-> > > +	DRI_PLL_CP	= GENMASK(7, 6),
-> > > +	DRI_PLL_DIVSEL	= BIT(5),
-> > > +	DRI_PLL_N1_1	= BIT(4),
-> > > +	DRI_PLL_N1_0	= BIT(3),
-> > > +	DRI_PLL_N3_1	= BIT(2),
-> > > +	DRI_PLL_N3_0	= BIT(1),
-> > > +	DRI_PLL_CKTSTEN = BIT(0),
-> > > +};
-> > > +
-> > > +/* Page 1, Register 0x6b */
-> > > +enum {
-> > > +	VCO3CS		= GENMASK(7, 6),
-> > > +	ICPGBK2_0	= GENMASK(5, 3),
-> > > +	DRI_VCO357SC	= BIT(2),
-> > > +	PDPLL2		= BIT(1),
-> > > +	DRI_PD_SER	= BIT(0),
-> > > +};
-> > > +
-> > > +/* Page 1, Register 0x6c */
-> > > +enum {
-> > > +	PLL2N11		= GENMASK(7, 4),
-> > > +	PLL2N5_4	= BIT(3),
-> > > +	PLL2N5_TOP	= BIT(2),
-> > > +	DRI_PLL_PD	= BIT(1),
-> > > +	PD_I2CM		= BIT(0),
-> > > +};
-> > > +
-> > > +/* Page 3, Register 0x28 */
-> > > +enum {
-> > > +	DIFF_EN		= GENMASK(7, 6),
-> > > +	CORREC_EN	= GENMASK(5, 4),
-> > > +	VGACLK_BP	= BIT(3),
-> > > +	HM_LV_SEL	= BIT(2),
-> > > +	HD_VGA_SEL	= BIT(1),
-> > > +};
-> > > +
-> > > +/* Page 3, Register 0x2a */
-> > > +enum {
-> > > +	LVDSCLK_BP	= BIT(7),
-> > > +	HDTVCLK_BP	= BIT(6),
-> > > +	HDMICLK_BP	= BIT(5),
-> > > +	HDTV_BP		= BIT(4),
-> > > +	HDMI_BP		= BIT(3),
-> > > +	THRWL		= GENMASK(2, 0),
-> > > +};
-> > > +
-> > > +/* Page 4, Register 0x52 */
-> > > +enum {
-> > > +	PGM_ARSTB	= BIT(7),
-> > > +	MCU_ARSTB	= BIT(6),
-> > > +	MCU_RETB	= BIT(2),
-> > > +	RESETIB		= BIT(1),
-> > > +	RESETDB		= BIT(0),
-> > > +};
-> > > +
-> > > +struct ch7033_priv {
-> > > +	struct regmap *regmap;
-> > > +	struct drm_bridge *next_bridge;
-> > > +	struct drm_encoder encoder;
-> > > +	struct drm_bridge bridge;
-> > > +	struct drm_connector connector;
-> > > +};
-> > > +
-> > > +#define conn_to_ch7033_priv(x) \
-> > > +	container_of(x, struct ch7033_priv, connector)
-> > > +#define bridge_to_ch7033_priv(x) \
-> > > +	container_of(x, struct ch7033_priv, bridge)
-> > > +
-> > > +
-> > > +static enum drm_connector_status ch7033_connector_detect(
-> > > +	struct drm_connector *connector, bool force)
-> > > +{
-> > > +	struct ch7033_priv *priv = conn_to_ch7033_priv(connector);
-> > > +
-> > > +	return drm_bridge_detect(priv->next_bridge);
-> > > +}
-> > > +
-> > > +static const struct drm_connector_funcs ch7033_connector_funcs = {
-> > > +	.reset = drm_atomic_helper_connector_reset,
-> > > +	.fill_modes = drm_helper_probe_single_connector_modes,
-> > > +	.detect = ch7033_connector_detect,
-> > > +	.destroy = drm_connector_cleanup,
-> > > +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> > > +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> > > +};
-> > > +
-> > > +static int ch7033_connector_get_modes(struct drm_connector *connector)
-> > > +{
-> > > +	struct ch7033_priv *priv = conn_to_ch7033_priv(connector);
-> > > +	struct edid *edid;
-> > > +	int ret;
-> > > +
-> > > +	edid = drm_bridge_get_edid(priv->next_bridge, connector);
-> > > +	drm_connector_update_edid_property(connector, edid);
-> > > +	if (edid) {
-> > > +		ret = drm_add_edid_modes(connector, edid);
-> > > +		kfree(edid);
-> > > +	} else {
-> > > +		ret = drm_add_modes_noedid(connector, 1920, 1080);
-> > > +		drm_set_preferred_mode(connector, 1024, 768);
-> > > +	}
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static struct drm_encoder *ch7033_connector_best_encoder(
-> > > +			struct drm_connector *connector)
-> > > +{
-> > > +	struct ch7033_priv *priv = conn_to_ch7033_priv(connector);
-> > > +
-> > > +	return priv->bridge.encoder;
-> > > +}
-> > > +
-> > > +static const struct drm_connector_helper_funcs ch7033_connector_helper_funcs = {
-> > > +	.get_modes = ch7033_connector_get_modes,
-> > > +	.best_encoder = ch7033_connector_best_encoder,
-> > > +};
-> > > +
-> > > +static void ch7033_hpd_event(void *arg, enum drm_connector_status status)
-> > > +{
-> > > +	struct ch7033_priv *priv = arg;
-> > > +
-> > > +	if (priv->bridge.dev)
-> > > +		drm_helper_hpd_irq_event(priv->connector.dev);
-> > > +}
-> > > +
-> > > +static int ch7033_bridge_attach(struct drm_bridge *bridge,
-> > > +				enum drm_bridge_attach_flags flags)
-> > > +{
-> > > +	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-> > > +	struct drm_connector *connector = &priv->connector;
-> > > +	int ret;
-> > > +
-> > > +	ret = drm_bridge_attach(bridge->encoder, priv->next_bridge, bridge,
-> > > +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-> > > +		return 0;
-> > > +
-> > > +	if (priv->next_bridge->ops & DRM_BRIDGE_OP_DETECT) {
-> > > +		connector->polled = DRM_CONNECTOR_POLL_HPD;
-> > > +	} else {
-> > > +		connector->polled = DRM_CONNECTOR_POLL_CONNECT |
-> > > +				    DRM_CONNECTOR_POLL_DISCONNECT;
-> > > +	}
-> > > +
-> > > +	if (priv->next_bridge->ops & DRM_BRIDGE_OP_HPD) {
-> > > +		drm_bridge_hpd_enable(priv->next_bridge, ch7033_hpd_event,
-> > > +				      priv);
-> > > +	}
-> > > +
-> > > +	drm_connector_helper_add(connector,
-> > > +				 &ch7033_connector_helper_funcs);
-> > > +	ret = drm_connector_init_with_ddc(bridge->dev, &priv->connector,
-> > > +					  &ch7033_connector_funcs,
-> > > +					  priv->next_bridge->type,
-> > > +					  priv->next_bridge->ddc);
-> > > +	if (ret) {
-> > > +		DRM_ERROR("Failed to initialize connector\n");
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	return drm_connector_attach_encoder(&priv->connector, bridge->encoder);
-> > > +}
-> > > +
-> > > +static void ch7033_bridge_detach(struct drm_bridge *bridge)
-> > > +{
-> > > +	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-> > > +
-> > > +	if (priv->next_bridge->ops & DRM_BRIDGE_OP_HPD)
-> > > +		drm_bridge_hpd_disable(priv->next_bridge);
-> > > +	drm_connector_cleanup(&priv->connector);
-> > > +}
-> > > +
-> > > +static enum drm_mode_status ch7033_bridge_mode_valid(struct drm_bridge *bridge,
-> > > +				     const struct drm_display_mode *mode)
-> > > +{
-> > > +	if (mode->clock > 165000)
-> > > +		return MODE_CLOCK_HIGH;
-> > > +	if (mode->hdisplay >= 1920)
-> > > +		return MODE_BAD_HVALUE;
-> > > +	if (mode->vdisplay >= 1080)
-> > > +		return MODE_BAD_VVALUE;
-> > > +	return MODE_OK;
-> > > +}
-> > > +
-> > > +static void ch7033_bridge_disable(struct drm_bridge *bridge)
-> > > +{
-> > > +	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-> > > +
-> > > +	regmap_write(priv->regmap, 0x03, 0x04);
-> > > +	regmap_update_bits(priv->regmap, 0x52, RESETDB, 0x00);
-> > > +}
-> > > +
-> > > +static void ch7033_bridge_enable(struct drm_bridge *bridge)
-> > > +{
-> > > +	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-> > > +
-> > > +	regmap_write(priv->regmap, 0x03, 0x04);
-> > > +	regmap_update_bits(priv->regmap, 0x52, RESETDB, RESETDB);
-> > > +}
-> > > +
-> > > +static void ch7033_bridge_mode_set(struct drm_bridge *bridge,
-> > > +				   const struct drm_display_mode *mode,
-> > > +				   const struct drm_display_mode *adjusted_mode)
-> > > +{
-> > > +	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-> > > +	int hbporch = mode->hsync_start - mode->hdisplay;
-> > > +	int hsynclen = mode->hsync_end - mode->hsync_start;
-> > > +	int vbporch = mode->vsync_start - mode->vdisplay;
-> > > +	int vsynclen = mode->vsync_end - mode->vsync_start;
-> > > +
-> > > +	/*
-> > > +	 * Page 4
-> > > +	 */
-> > > +	regmap_write(priv->regmap, 0x03, 0x04);
-> > > +
-> > > +	/* Turn everything off to set all the registers to their defaults. */
-> > > +	regmap_write(priv->regmap, 0x52, 0x00);
-> > > +	/* Bring I/O block up. */
-> > > +	regmap_write(priv->regmap, 0x52, RESETIB);
-> > > +
-> > > +	/*
-> > > +	 * Page 0
-> > > +	 */
-> > > +	regmap_write(priv->regmap, 0x03, 0x00);
-> > > +
-> > > +	/* Bring up parts we need from the power down. */
-> > > +	regmap_update_bits(priv->regmap, 0x07, DRI_PD | IO_PD, 0);
-> > > +	regmap_update_bits(priv->regmap, 0x08, DRI_PDDRI | PDDAC | PANEN, 0);
-> > > +	regmap_update_bits(priv->regmap, 0x09, DPD | GCKOFF |
-> > > +					       HDMI_PD | VGA_PD, 0);
-> > > +	regmap_update_bits(priv->regmap, 0x0a, HD_DVIB, 0);
-> > > +
-> > > +	/* Horizontal input timing. */
-> > > +	regmap_write(priv->regmap, 0x0b, (mode->htotal >> 8) << 3 |
-> > > +					 (mode->hdisplay >> 8));
-> > > +	regmap_write(priv->regmap, 0x0c, mode->hdisplay);
-> > > +	regmap_write(priv->regmap, 0x0d, mode->htotal);
-> > > +	regmap_write(priv->regmap, 0x0e, (hsynclen >> 8) << 3 |
-> > > +					 (hbporch >> 8));
-> > > +	regmap_write(priv->regmap, 0x0f, hbporch);
-> > > +	regmap_write(priv->regmap, 0x10, hsynclen);
-> > > +
-> > > +	/* Vertical input timing. */
-> > > +	regmap_write(priv->regmap, 0x11, (mode->vtotal >> 8) << 3 |
-> > > +					 (mode->vdisplay >> 8));
-> > > +	regmap_write(priv->regmap, 0x12, mode->vdisplay);
-> > > +	regmap_write(priv->regmap, 0x13, mode->vtotal);
-> > > +	regmap_write(priv->regmap, 0x14, ((vsynclen >> 8) << 3) |
-> > > +					 (vbporch >> 8));
-> > > +	regmap_write(priv->regmap, 0x15, vbporch);
-> > > +	regmap_write(priv->regmap, 0x16, vsynclen);
-> > > +
-> > > +	/* Input color swap. */
-> > > +	regmap_update_bits(priv->regmap, 0x18, SWAP, BYTE_SWAP_BGR);
-> > > +
-> > > +	/* Input clock and sync polarity. */
-> > > +	regmap_update_bits(priv->regmap, 0x19, 0x1, mode->clock >> 16);
-> > > +	regmap_update_bits(priv->regmap, 0x19, HPO_I | VPO_I | GCLKFREQ,
-> > > +			   (mode->flags & DRM_MODE_FLAG_PHSYNC) ? HPO_I : 0 |
-> > > +			   (mode->flags & DRM_MODE_FLAG_PVSYNC) ? VPO_I : 0 |
-> > > +			   mode->clock >> 16);
-> > > +	regmap_write(priv->regmap, 0x1a, mode->clock >> 8);
-> > > +	regmap_write(priv->regmap, 0x1b, mode->clock);
-> > > +
-> > > +	/* Horizontal output timing. */
-> > > +	regmap_write(priv->regmap, 0x1f, (mode->htotal >> 8) << 3 |
-> > > +					 (mode->hdisplay >> 8));
-> > > +	regmap_write(priv->regmap, 0x20, mode->hdisplay);
-> > > +	regmap_write(priv->regmap, 0x21, mode->htotal);
-> > > +
-> > > +	/* Vertical output timing. */
-> > > +	regmap_write(priv->regmap, 0x25, (mode->vtotal >> 8) << 3 |
-> > > +					 (mode->vdisplay >> 8));
-> > > +	regmap_write(priv->regmap, 0x26, mode->vdisplay);
-> > > +	regmap_write(priv->regmap, 0x27, mode->vtotal);
-> > > +
-> > > +	/* VGA channel bypass */
-> > > +	regmap_update_bits(priv->regmap, 0x2b, VFMT, 9);
-> > > +
-> > > +	/* Output sync polarity. */
-> > > +	regmap_update_bits(priv->regmap, 0x2e, HPO_O | VPO_O,
-> > > +			   (mode->flags & DRM_MODE_FLAG_PHSYNC) ? HPO_O : 0 |
-> > > +			   (mode->flags & DRM_MODE_FLAG_PVSYNC) ? VPO_O : 0);
-> > > +
-> > > +	/* HDMI horizontal output timing. */
-> > > +	regmap_update_bits(priv->regmap, 0x54, HWO_HDMI_HI | HOO_HDMI_HI,
-> > > +					       (hsynclen >> 8) << 3 |
-> > > +					       (hbporch >> 8));
-> > > +	regmap_write(priv->regmap, 0x55, hbporch);
-> > > +	regmap_write(priv->regmap, 0x56, hsynclen);
-> > > +
-> > > +	/* HDMI vertical output timing. */
-> > > +	regmap_update_bits(priv->regmap, 0x57, VWO_HDMI_HI | VOO_HDMI_HI,
-> > > +					       (vsynclen >> 8) << 3 |
-> > > +					       (vbporch >> 8));
-> > > +	regmap_write(priv->regmap, 0x58, vbporch);
-> > > +	regmap_write(priv->regmap, 0x59, vsynclen);
-> > > +
-> > > +	/* Pick HDMI, not LVDS. */
-> > > +	regmap_update_bits(priv->regmap, 0x7e, HDMI_LVDS_SEL, HDMI_LVDS_SEL);
-> > > +
-> > > +	/*
-> > > +	 * Page 1
-> > > +	 */
-> > > +	regmap_write(priv->regmap, 0x03, 0x01);
-> > > +
-> > > +	/* No idea what these do, but VGA is wobbly and blinky without them. */
-> > > +	regmap_update_bits(priv->regmap, 0x07, CKINV, CKINV);
-> > > +	regmap_update_bits(priv->regmap, 0x08, DISPON, DISPON);
-> > > +
-> > > +	/* DRI PLL */
-> > > +	regmap_update_bits(priv->regmap, 0x0c, DRI_PLL_DIVSEL, DRI_PLL_DIVSEL);
-> > > +	if (mode->clock <= 40000) {
-> > > +		regmap_update_bits(priv->regmap, 0x0c, DRI_PLL_N1_1 |
-> > > +						       DRI_PLL_N1_0 |
-> > > +						       DRI_PLL_N3_1 |
-> > > +						       DRI_PLL_N3_0,
-> > > +						       0);
-> > > +	} else if (mode->clock < 80000) {
-> > > +		regmap_update_bits(priv->regmap, 0x0c, DRI_PLL_N1_1 |
-> > > +						       DRI_PLL_N1_0 |
-> > > +						       DRI_PLL_N3_1 |
-> > > +						       DRI_PLL_N3_0,
-> > > +						       DRI_PLL_N3_0 |
-> > > +						       DRI_PLL_N1_0);
-> > > +	} else {
-> > > +		regmap_update_bits(priv->regmap, 0x0c, DRI_PLL_N1_1 |
-> > > +						       DRI_PLL_N1_0 |
-> > > +						       DRI_PLL_N3_1 |
-> > > +						       DRI_PLL_N3_0,
-> > > +						       DRI_PLL_N3_1 |
-> > > +						       DRI_PLL_N1_1);
-> > > +	}
-> > > +
-> > > +	/* This seems to be color calibration for VGA. */
-> > > +	regmap_write(priv->regmap, 0x64, 0x29); /* LSB Blue */
-> > > +	regmap_write(priv->regmap, 0x65, 0x29); /* LSB Green */
-> > > +	regmap_write(priv->regmap, 0x66, 0x29); /* LSB Red */
-> > > +	regmap_write(priv->regmap, 0x67, 0x00); /* MSB Blue */
-> > > +	regmap_write(priv->regmap, 0x68, 0x00); /* MSB Green */
-> > > +	regmap_write(priv->regmap, 0x69, 0x00); /* MSB Red */
-> > > +
-> > > +	regmap_update_bits(priv->regmap, 0x6b, DRI_PD_SER, 0x00);
-> > > +	regmap_update_bits(priv->regmap, 0x6c, DRI_PLL_PD, 0x00);
-> > > +
-> > > +	/*
-> > > +	 * Page 3
-> > > +	 */
-> > > +	regmap_write(priv->regmap, 0x03, 0x03);
-> > > +
-> > > +	/* More bypasses and apparently another HDMI/LVDS selector. */
-> > > +	regmap_update_bits(priv->regmap, 0x28, VGACLK_BP | HM_LV_SEL,
-> > > +					       VGACLK_BP | HM_LV_SEL);
-> > > +	regmap_update_bits(priv->regmap, 0x2a, HDMICLK_BP | HDMI_BP,
-> > > +					       HDMICLK_BP | HDMI_BP);
-> > > +
-> > > +	/*
-> > > +	 * Page 4
-> > > +	 */
-> > > +	regmap_write(priv->regmap, 0x03, 0x04);
-> > > +
-> > > +	/* Output clock. */
-> > > +	regmap_write(priv->regmap, 0x10, mode->clock >> 16);
-> > > +	regmap_write(priv->regmap, 0x11, mode->clock >> 8);
-> > > +	regmap_write(priv->regmap, 0x12, mode->clock);
-> > > +}
-> > > +
-> > > +static const struct drm_bridge_funcs ch7033_bridge_funcs = {
-> > > +	.attach = ch7033_bridge_attach,
-> > > +	.detach = ch7033_bridge_detach,
-> > > +	.mode_valid = ch7033_bridge_mode_valid,
-> > > +	.disable = ch7033_bridge_disable,
-> > > +	.enable = ch7033_bridge_enable,
-> > > +	.mode_set = ch7033_bridge_mode_set,
-> > > +};
-> > > +
-> > > +static const struct drm_encoder_funcs ch7033_encoder_funcs = {
-> > > +	.destroy = drm_encoder_cleanup,
-> > > +};
-> > > +
-> > > +static int ch7033_bind(struct device *dev, struct device *master,
-> > > +		       void *data)
-> > > +{
-> > > +	struct drm_device *drm = data;
-> > > +	struct ch7033_priv *priv = dev_get_drvdata(dev);
-> > > +	uint32_t crtcs;
-> > > +	int ret;
-> > > +
-> > > +	crtcs = drm_of_find_possible_crtcs(drm, dev->of_node);
-> > > +	priv->encoder.possible_crtcs = crtcs;
-> > > +
-> > > +	ret = drm_encoder_init(drm, &priv->encoder, &ch7033_encoder_funcs,
-> > > +			       DRM_MODE_ENCODER_TMDS, NULL);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	ret = drm_bridge_attach(&priv->encoder, &priv->bridge, NULL, 0);
-> > > +	if (ret)
-> > > +		drm_encoder_cleanup(&priv->encoder);
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static void ch7033_unbind(struct device *dev, struct device *master,
-> > > +			  void *data)
-> > > +{
-> > > +	struct ch7033_priv *priv = dev_get_drvdata(dev);
-> > > +
-> > > +	drm_encoder_cleanup(&priv->encoder);
-> > > +}
-> > > +
-> > > +static const struct regmap_config ch7033_regmap_config = {
-> > > +	.reg_bits = 8,
-> > > +	.val_bits = 8,
-> > > +	.max_register = 0x7f,
-> > > +};
-> > > +
-> > > +static const struct component_ops ch7033_ops = {
-> > > +	.bind = ch7033_bind,
-> > > +	.unbind = ch7033_unbind,
-> > > +};
-> > > +
-> > > +static int ch7033_probe(struct i2c_client *client,
-> > > +			const struct i2c_device_id *id)
-> > > +{
-> > > +	struct device *dev = &client->dev;
-> > > +	struct ch7033_priv *priv;
-> > > +	unsigned int val;
-> > > +	int ret;
-> > > +
-> > > +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> > > +	if (!priv)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	dev_set_drvdata(dev, priv);
-> > > +
-> > > +	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, -1, NULL,
-> > > +					  &priv->next_bridge);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	priv->regmap = devm_regmap_init_i2c(client, &ch7033_regmap_config);
-> > > +	if (IS_ERR(priv->regmap)) {
-> > > +		dev_err(&client->dev, "regmap init failed\n");
-> > > +		return PTR_ERR(priv->regmap);
-> > > +	}
-> > > +
-> > > +	ret = regmap_read(priv->regmap, 0x00, &val);
-> > > +	if (ret < 0) {
-> > > +		dev_err(&client->dev, "error reading the model id: %d\n", ret);
-> > > +		return ret;
-> > > +	}
-> > > +	if ((val & 0xf7) != 0x56) {
-> > > +		dev_err(&client->dev, "the device is not a ch7033\n");
-> > > +		return -ENODEV;
-> > > +	}
-> > > +
-> > > +	regmap_write(priv->regmap, 0x03, 0x04);
-> > > +	ret = regmap_read(priv->regmap, 0x51, &val);
-> > > +	if (ret < 0) {
-> > > +		dev_err(&client->dev, "error reading the model id: %d\n", ret);
-> > > +		return ret;
-> > > +	}
-> > > +	if ((val & 0x0f) != 3) {
-> > > +		dev_err(&client->dev, "unknown revision %u\n", val);
-> > > +		return -ENODEV;
-> > > +	}
-> > > +
-> > > +	INIT_LIST_HEAD(&priv->bridge.list);
-> > > +	priv->bridge.funcs = &ch7033_bridge_funcs;
-> > > +	priv->bridge.of_node = dev->of_node;
-> > > +	drm_bridge_add(&priv->bridge);
-> > > +
-> > > +	ret = component_add(dev, &ch7033_ops);
-> > > +	if (ret) {
-> > > +		drm_bridge_remove(&priv->bridge);
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	dev_info(dev, "Chrontel CH7033 Video Encoder\n");
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int ch7033_remove(struct i2c_client *client)
-> > > +{
-> > > +	struct device *dev = &client->dev;
-> > > +	struct ch7033_priv *priv = dev_get_drvdata(dev);
-> > > +
-> > > +	component_del(dev, &ch7033_ops);
-> > > +	drm_bridge_remove(&priv->bridge);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static const struct of_device_id ch7033_dt_ids[] = {
-> > > +	{ .compatible = "chrontel,ch7033", },
-> > > +	{ }
-> > > +};
-> > > +MODULE_DEVICE_TABLE(of, ch7033_dt_ids);
-> > > +
-> > > +static const struct i2c_device_id ch7033_ids[] = {
-> > > +	{ "ch7033", 0 },
-> > > +	{ }
-> > > +};
-> > > +MODULE_DEVICE_TABLE(i2c, ch7033_ids);
-> > > +
-> > > +static struct i2c_driver ch7033_driver = {
-> > > +	.probe = ch7033_probe,
-> > > +	.remove = ch7033_remove,
-> > > +	.driver = {
-> > > +		.name = "ch7033",
-> > > +		.of_match_table = of_match_ptr(ch7033_dt_ids),
-> > > +	},
-> > > +	.id_table = ch7033_ids,
-> > > +};
-> > > +
-> > > +module_i2c_driver(ch7033_driver);
-> > > +
-> > > +MODULE_AUTHOR("Lubomir Rintel <lkundrak@v3.sk>");
-> > > +MODULE_DESCRIPTION("Chrontel CH7033 Video Encoder Driver");
-> > > +MODULE_LICENSE("GPL v2");
-> > > -- 
-> > > 2.26.0.rc2
-> > > 
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > > > > > So I think what we should be doing here is that the DRM driver which
+> > > > > > happens to be muxed to the panel on boot performs link training and
+> > > > > > informs vga_switcheroo of the drive current, pre-emph level, etc.
+> > > > > > The other DRM driver is notified when that information is available
+> > > > > > and uses it to set up its eDP output, skipping an actual AUX CH
+> > > > > > handshake.
+> > > > > > 
+> > > > > > At least i915 probes various capabilities in the DPCD without any
+> > > > > > consideration that the AUX channel may currently not be available.
+> > > > > > Back in the day I experimented with a read-only proxy mechanism
+> > > > > > to make that work, whereby the inactive DRM driver uses the active
+> > > > > > DRM driver to access the DPCD:
+> > > > > > 
+> > > > > > https://patchwork.kernel.org/patch/7000591/
+> > > > > > 
+> > > > > > An alternative would be to have the active DRM driver cache the
+> > > > > > required portions of the DPCD for use by the inactive DRM driver.
+> > > > > > 
+> > > > > > Note that vga_switcheroo is currently controlled via debugfs.
+> > > > > > That is a historic artefact.  The kernel has since gained a
+> > > > > > mux subsystem in drivers/mux/ which could be used to represent
+> > > > > > the display mux in a standardized way in regular sysfs.
+> > > > > > 
+> > > > > > Thanks,
+> > > > > > 
+> > > > > > Lukas
+> > > > > _______________________________________________
+> > > > > dri-devel mailing list
+> > > > > dri-devel@lists.freedesktop.org
+> > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > > > 
+> > > > --
+> > > > Daniel Vetter
+> > > > Software Engineer, Intel Corporation
+> > > > +41 (0) 79 365 57 48 - http://blog.ffwll.ch
 > > 
-> > -- 
+> > 
+> > --
 > > Daniel Vetter
 > > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > +41 (0) 79 365 57 48 - http://blog.ffwll.ch
 
 -- 
 Daniel Vetter
