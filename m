@@ -2,59 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0431BBEDE
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 15:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5A71BBEEA
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 15:20:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5A676E394;
-	Tue, 28 Apr 2020 13:18:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21ACF6E3EC;
+	Tue, 28 Apr 2020 13:20:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A5146E3AE
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 13:18:16 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id g12so2811009wmh.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 06:18:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=llbzA7ECh9uaJN0zbhsknBn/XwuYSTfq4MrVVcdpgiQ=;
- b=Z505emclDYGPgv8Eq67u/hLKqdL6DLAlYp3V5yGxyKDsTt6+OVI4XdVFIg9jY1PF54
- o6S+dVB5Mx/ymFrzY+6nOWAGxoBKuXwaJ6bkwXtXi3yo+ta6toV8tALjJahV0hoSEEj9
- 8Xlmt0y1IUIAQM3eZppCvMnORDykp3NsKQrRI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=llbzA7ECh9uaJN0zbhsknBn/XwuYSTfq4MrVVcdpgiQ=;
- b=aIwFMLnAg/VyPS3fKfVRbt+Nkb6HS6DD6+sgya602MwBLRn9y/KEFKBvN87IlT6L0J
- L7NaYjw7qbArf3mq6FqGr5d5DPySbstK7rdE9ElAshU73hvVbM/T7N1b9qgSbE3+LhqA
- F/ITrvl5wrQDiNYN3U8AebPprUTsBxXEKwSWCfXBXWx99rFG6oJOWFscINqCjZBAwxnv
- jNOAHQ+O8PQgmw2LzsaEp8Km9qMNTn5J5cqE7UjLjtyqGMxma0DgB3SkwYNHOdyDqfyl
- 5kyfEQo1t6Jh35l83jJCVcZd3xoIXhgeF2PxR1NEtp92XqVegp0XI0wTKJmdf4OUCPcy
- oCnQ==
-X-Gm-Message-State: AGi0PubmYV7Udqaa9I0piI+awzMSZuI7r7eKLJ/RIfzRlhw+I3uwbU4L
- S/M6CVGO4DW9nXNak/+RFMnTRw==
-X-Google-Smtp-Source: APiQypLNxk3d2cp5V0sNW/NpTOnI+ScdS7pTtFWmSrNXZ4ddlhYFM6EsIt5YLOHMt3ViZhxZ0j6RTg==
-X-Received: by 2002:a1c:a7c2:: with SMTP id q185mr4675938wme.42.1588079895134; 
- Tue, 28 Apr 2020 06:18:15 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f23sm3208059wml.4.2020.04.28.06.18.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Apr 2020 06:18:14 -0700 (PDT)
-Date: Tue, 28 Apr 2020 15:18:12 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 11/59] drm/udl: Use devm_drm_dev_alloc
-Message-ID: <20200428131812.GJ3456981@phenom.ffwll.local>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-12-daniel.vetter@ffwll.ch>
- <20200424145556.GA20856@ravnborg.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200424145556.GA20856@ravnborg.org>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05A8B6E3DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 13:20:24 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200428132022euoutp01f13395df9411b20e8e3669f0bccf412a~J-l3l_rCd1812618126euoutp01M
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 13:20:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200428132022euoutp01f13395df9411b20e8e3669f0bccf412a~J-l3l_rCd1812618126euoutp01M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1588080022;
+ bh=M+a2IJHYb0toPVb1vAnuWVCTaP9GKRurjtQwh8AYvLw=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=q18JgevKqhOJFVQbq854H7EZCG5G834Ju2OsSoTZ6Bnetp9hSuSml1XgbTuO7TgP4
+ R5AsmC7f+5FBYPH96fNBvK8niWEZSnBsTkYTk4AwGipw8rtIwP1p5At68Edy0CqVed
+ 3WAneSpyCm6lxuYsAezA6HhFWzXMWhbZPqCd2+ac=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200428132022eucas1p197a0e0088bb95f4bbe04e9e58b9ec827~J-l3P0VJS1366113661eucas1p1C;
+ Tue, 28 Apr 2020 13:20:22 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id CE.16.60698.69D28AE5; Tue, 28
+ Apr 2020 14:20:22 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200428132022eucas1p2aa4716cbaca61c432ee8028be15fef7a~J-l2zrH2Z2655426554eucas1p2J;
+ Tue, 28 Apr 2020 13:20:22 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200428132022eusmtrp180c18efbf17c909e49ded70dd6d7a26d~J-l2y51qv1743317433eusmtrp1s;
+ Tue, 28 Apr 2020 13:20:22 +0000 (GMT)
+X-AuditID: cbfec7f5-a0fff7000001ed1a-6e-5ea82d96013d
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 67.D3.07950.59D28AE5; Tue, 28
+ Apr 2020 14:20:21 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200428132021eusmtip254bc6d36e65ea6888afab346da0ccde0~J-l2NHB3X1062310623eusmtip2h;
+ Tue, 28 Apr 2020 13:20:21 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: [RFC 00/17] DRM: fix struct sg_table nents vs. orig_nents misuse
+Date: Tue, 28 Apr 2020 15:19:48 +0200
+Message-Id: <20200428132005.21424-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSWUwTURSGc2emM8NSHKcI17qmiSSSsAWIExGiBM3gg+HJByLVCiOLtJCW
+ RfBBQBQsS1AiIBJTkX0rAlYERahAESISQECWsMYEApGEVUNQhgF9+85//nP+k5tLonSdSEqG
+ qqI4tUoRLsPNMUPnr68OOQ5lcufkXCmT0fsZYYr1iQTzOk8vYpKM3Tjzx/AYZQbXfuJMeWUH
+ wjzPqkcY3UcPZnVwGmHqZodEzEBTAc5Ut08QTNvynIjpnlghzh9gq15UAfbDug5jx4fe4+zb
+ 9SkRO5lmQtj6onvs2PYsymaPlAK2+XsCzmY2VAB2pe64n4W/+bkgLjw0hlM7ed0wDykq7EEi
+ k13uDBXOYgmgyE4LzEhIucGx/BVMC8xJmioD0PhoFhWKVQCHsox7xQqAqYvfsP2RjvVJlGea
+ KgUwbeGQwDsTZVoLnnHKBWqXtDjP1tQDALsyLPlFKGVA4VxpO6EFJCmhfGGrPp73YNQpmF77
+ cnenmPKErz5t4kLWCVhZ27p7BKRaCFi1mYgIDR+o69bumSRwwdRACHwU9mSnY8LAfQCne6sJ
+ oUgHcCApDwguDzje+xvnr0Cp01Df5CTIF2BOQS3Gy5CygiNLB3kZ3cEnhlxUkMUw9SEtuO1g
+ vqnmX2xbXz8qMAufjS4TwpsEwOnBEiILHM//n6UDoALYctEaZTCncVVxsY4ahVITrQp2DIxQ
+ 1oGdn9SzbVprBC1bN42AIoHMUlxrWSanRYoYTZzSCCCJyqzFMyElclocpIiL59QR19XR4ZzG
+ CI6QmMxW7Fo4H0BTwYoo7jbHRXLq/S5CmkkTQIh4o4S2Kj0sc8+9eKbHOXu+3vdppn/K0pbS
+ cbJ4Tu1ZEPbGxn7LK7B907lruKV1uDPli6vU52SjW4mNt859yl3S94472xzWu2RdnuZ3q1ke
+ TM94XzGz4DInG9hjFRvXoMSrryY+1q8x7cfiaMp4R//VhEvyZWlozl1baaXDZb0M04QoXOxR
+ tUbxF8W9urRFAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeLIzCtJLcpLzFFi42I5/e/4Pd2puiviDLZPtrboPXeSyWLp+kZ2
+ i40z1rNaNB06xWbxf9tEZosrX9+zWaxcfZTJYvaEzUwWC/ZbW3y58pDJYtPja6wWl3fNYbNY
+ e+Quu8XBD09YLU7d/czuwO+xZt4aRo+93xaweNy5tofNY/u3B6we97uPM3lsXlLvcfvfY2aP
+ yTeWM3rsvtnA5tG3ZRWjx+dNcgHcUXo2RfmlJakKGfnFJbZK0YYWRnqGlhZ6RiaWeobG5rFW
+ RqZK+nY2Kak5mWWpRfp2CXoZSxadZipoMay4tugxSwPjErUuRk4OCQETiaPf7jN3MXJxCAks
+ ZZQ4MGU5E0RCRuLktAZWCFtY4s+1LjaIok+MErsPvmQHSbAJGEp0vYVIiAh0MkpM6/7IDuIw
+ Cxxglug+fxJoFAeHsICnxIH1VSANLAKqEj0bFjKD2LwCthKLD/9gg9ggL7F6wwHmCYw8CxgZ
+ VjGKpJYW56bnFhvpFSfmFpfmpesl5+duYgTGw7ZjP7fsYOx6F3yIUYCDUYmHdwPPijgh1sSy
+ 4srcQ4wSHMxKIryPMpbFCfGmJFZWpRblxxeV5qQWH2I0BVo+kVlKNDkfGKt5JfGGpobmFpaG
+ 5sbmxmYWSuK8HQIHY4QE0hNLUrNTUwtSi2D6mDg4pRoYhXk/zvWJKDx1vkLkWfHZ818iX3NW
+ ZKbWSza8WzYh/4KNtC+z/4bQzU9msTd9msDdGH70I4vtD82ZP/fYT5ptVexQyRVSK9l54VrY
+ VJGpzts6z9zh6l3cuU1XX7N3vqn6jJb9C1k/vuJ3kHsjsnUO27OTMjtsW2784ngufm3TxguO
+ 0y/ZWP5hVWIpzkg01GIuKk4EAF3VAt+dAgAA
+X-CMS-MailID: 20200428132022eucas1p2aa4716cbaca61c432ee8028be15fef7a
+X-Msg-Generator: CA
+X-RootMTR: 20200428132022eucas1p2aa4716cbaca61c432ee8028be15fef7a
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200428132022eucas1p2aa4716cbaca61c432ee8028be15fef7a
+References: <CGME20200428132022eucas1p2aa4716cbaca61c432ee8028be15fef7a@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,157 +103,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 24, 2020 at 04:55:56PM +0200, Sam Ravnborg wrote:
-> Hi Daniel.
-> =
+Dear All,
 
-> On Wed, Apr 15, 2020 at 09:39:46AM +0200, Daniel Vetter wrote:
-> > Also init the fbdev emulation before we register the device, that way
-> > we can rely on the auto-cleanup and simplify the probe error code even
-> > more.
-> > =
+During the Exynos DRM GEM rework and fixing the issues in the 
+drm_prime_sg_to_page_addr_arrays() function [1] I've noticed that most
+drivers in DRM framework incorrectly use nents and orig_nents entries of
+the struct sg_table.
 
-> > v2: Rebase on top of Thomas' patches to remove the return value from
-> > drm_fbdev_generic_setup()
-> =
+In case of the most DMA-mapping implementations exchanging those two
+entries or using nents for all loops on the scatterlist is harmless,
+because they both have the same value. There exists however a DMA-mapping
+implementations, for which such incorrect usage breaks things. The nents
+returned by dma_map_sg() might be lower than the nents passed as its
+parameter and this is perfectly fine. DMA framework or IOMMU is allowed
+to join consecutive chunks while mapping if such operation is supported
+by the underlying HW (bus, bridge, IOMMU, etc). Example of the case
+where dma_map_sg() might return 1 'DMA' chunk for the 4 'physical' pages
+is described here [2]
 
-> with the rebase the changelog in confusing as this patch does nothing of
-> what is described in the changelog.
-> Only the title (that is in convinently not available when replying to
-> email) describes what this patch does.
+The DMA-mapping framework documentation [3] states that dma_map_sg()
+returns the numer of the created entries in the DMA address space.
+However the subsequent calls to dma_sync_sg_for_{device,cpu} and
+dma_unmap_sg must be called with the original number of entries passed to
+dma_map_sg. The common pattern in DRM drivers were to assign the
+dma_map_sg() return value to sg_table->nents and use that value for
+the subsequent calls to dma_sync_sg_* or dma_unmap_sg functions. Also
+the code iterated over nents times to access the pages stored in the
+processed scatterlist, while it should use orig_nents as the numer of
+the page entries.
 
-Good point, I fixed that up while applying, thanks for taking a look.
--Daniel
+I've tried to identify all such incorrect usage of sg_table->nents in the
+DRM subsystem and this is a result of my research. It looks that the
+incorrect pattern has been copied over the many drivers. Too bad in most
+cases it even worked correctly if the system used simple, linear
+DMA-mapping implementation, for which swapping nents and orig_nents
+doesn't make any difference.
 
-> =
+I wonder what to do to avoid such misuse in the future, as this case
+clearly shows that the current sg_table structure is a bit hard to
+understand. I have the following ideas and I would like to know your
+opinion before I prepare more patches and check sg_table usage all over
+the kernel:
 
-> With the changelog properly adjusted:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> =
+1. introduce a dma_{map,sync,unmap}_sgtable() wrappers, which will use
+   a proper sg_table entries and call respective DMA-mapping functions
+   and adapt current code to it
 
-> > =
+2. rename nents and orig_nents to nr_pages, nr_dmas to clearly state
+   which one refers to which part of the scatterlist; I'm open for
+   other names for those entries
 
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
-> > Cc: Dave Airlie <airlied@redhat.com>
-> > Cc: Sean Paul <sean@poorly.run>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Emil Velikov <emil.l.velikov@gmail.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > ---
-> >  drivers/gpu/drm/udl/udl_drv.c | 26 +++++++-------------------
-> >  1 file changed, 7 insertions(+), 19 deletions(-)
-> > =
+I will appreciate your comments.
 
-> > diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_dr=
-v.c
-> > index 9cc6d075cb40..523f60e02a85 100644
-> > --- a/drivers/gpu/drm/udl/udl_drv.c
-> > +++ b/drivers/gpu/drm/udl/udl_drv.c
-> > @@ -57,27 +57,20 @@ static struct udl_device *udl_driver_create(struct =
-usb_interface *interface)
-> >  	struct udl_device *udl;
-> >  	int r;
-> >  =
+Patches are based on top of Linux next-20200428. I've reduced the
+recipients list mainly to mailing lists, the next version I will try to
+send to the maintainers of the respective drivers.
 
-> > -	udl =3D kzalloc(sizeof(*udl), GFP_KERNEL);
-> > -	if (!udl)
-> > -		return ERR_PTR(-ENOMEM);
-> > -
-> > -	r =3D drm_dev_init(&udl->drm, &driver, &interface->dev);
-> > -	if (r) {
-> > -		kfree(udl);
-> > -		return ERR_PTR(r);
-> > -	}
-> > +	udl =3D devm_drm_dev_alloc(&interface->dev, &driver,
-> > +				 struct udl_device, drm);
-> > +	if (IS_ERR(udl))
-> > +		return udl;
-> >  =
+Best regards,
+Marek Szyprowski
 
-> >  	udl->udev =3D udev;
-> >  	udl->drm.dev_private =3D udl;
-> > -	drmm_add_final_kfree(&udl->drm, udl);
-> >  =
 
-> >  	r =3D udl_init(udl);
-> > -	if (r) {
-> > -		drm_dev_put(&udl->drm);
-> > +	if (r)
-> >  		return ERR_PTR(r);
-> > -	}
-> >  =
+References:
 
-> >  	usb_set_intfdata(interface, udl);
-> > +
-> >  	return udl;
-> >  }
-> >  =
+[1] https://lkml.org/lkml/2020/3/27/555 
+[2] https://lkml.org/lkml/2020/3/29/65
+[3] Documentation/DMA-API-HOWTO.txt
 
-> > @@ -93,17 +86,13 @@ static int udl_usb_probe(struct usb_interface *inte=
-rface,
-> >  =
 
-> >  	r =3D drm_dev_register(&udl->drm, 0);
-> >  	if (r)
-> > -		goto err_free;
-> > +		return r;
-> >  =
+Patch summary:
 
-> >  	DRM_INFO("Initialized udl on minor %d\n", udl->drm.primary->index);
-> >  =
+Marek Szyprowski (17):
+  drm: core: fix sg_table nents vs. orig_nents usage
+  drm: amdgpu: fix sg_table nents vs. orig_nents usage
+  drm: armada: fix sg_table nents vs. orig_nents usage
+  drm: etnaviv: fix sg_table nents vs. orig_nents usage
+  drm: exynos: fix sg_table nents vs. orig_nents usage
+  drm: i915: fix sg_table nents vs. orig_nents usage
+  drm: lima: fix sg_table nents vs. orig_nents usage
+  drm: msm: fix sg_table nents vs. orig_nents usage
+  drm: panfrost: fix sg_table nents vs. orig_nents usage
+  drm: radeon: fix sg_table nents vs. orig_nents usage
+  drm: rockchip: fix sg_table nents vs. orig_nents usage
+  drm: tegra: fix sg_table nents vs. orig_nents usage
+  drm: virtio: fix sg_table nents vs. orig_nents usage
+  drm: vmwgfx: fix sg_table nents vs. orig_nents usage
+  drm: xen: fix sg_table nents vs. orig_nents usage
+  drm: host1x: fix sg_table nents vs. orig_nents usage
+  dmabuf: fix sg_table nents vs. orig_nents usage
 
-> >  	drm_fbdev_generic_setup(&udl->drm, 0);
-> >  =
+ drivers/dma-buf/heaps/heap-helpers.c             |  7 ++++---
+ drivers/dma-buf/udmabuf.c                        |  5 +++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c      |  7 ++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c          |  8 ++++----
+ drivers/gpu/drm/armada/armada_gem.c              | 14 ++++++++-----
+ drivers/gpu/drm/drm_cache.c                      |  2 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c           |  7 ++++---
+ drivers/gpu/drm/drm_prime.c                      |  9 +++++----
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c            | 10 ++++++----
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c          |  7 ++++---
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c       | 13 ++++++------
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c     |  4 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_region.c       |  4 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c        |  5 +++--
+ drivers/gpu/drm/i915/gem/selftests/huge_pages.c  | 10 +++++-----
+ drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c |  5 +++--
+ drivers/gpu/drm/i915/gt/intel_ggtt.c             | 12 ++++++------
+ drivers/gpu/drm/i915/i915_gem_gtt.c              | 12 +++++++-----
+ drivers/gpu/drm/i915/i915_scatterlist.c          |  4 ++--
+ drivers/gpu/drm/i915/selftests/scatterlist.c     |  8 ++++----
+ drivers/gpu/drm/lima/lima_gem.c                  |  4 ++--
+ drivers/gpu/drm/msm/msm_gem.c                    |  8 ++++----
+ drivers/gpu/drm/msm/msm_iommu.c                  |  3 ++-
+ drivers/gpu/drm/panfrost/panfrost_gem.c          |  3 ++-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c          |  4 +++-
+ drivers/gpu/drm/radeon/radeon_ttm.c              | 10 +++++-----
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c      | 15 +++++++-------
+ drivers/gpu/drm/tegra/gem.c                      | 25 ++++++++++++------------
+ drivers/gpu/drm/tegra/plane.c                    | 13 ++++++------
+ drivers/gpu/drm/virtio/virtgpu_object.c          | 11 ++++++-----
+ drivers/gpu/drm/virtio/virtgpu_vq.c              |  8 ++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c       |  6 +++---
+ drivers/gpu/drm/xen/xen_drm_front_gem.c          |  2 +-
+ drivers/gpu/host1x/job.c                         | 17 ++++++++--------
+ 34 files changed, 154 insertions(+), 128 deletions(-)
 
-> >  	return 0;
-> > -
-> > -err_free:
-> > -	drm_dev_put(&udl->drm);
-> > -	return r;
-> >  }
-> >  =
+-- 
+1.9.1
 
-> >  static void udl_usb_disconnect(struct usb_interface *interface)
-> > @@ -113,7 +102,6 @@ static void udl_usb_disconnect(struct usb_interface=
- *interface)
-> >  	drm_kms_helper_poll_fini(dev);
-> >  	udl_drop_usb(dev);
-> >  	drm_dev_unplug(dev);
-> > -	drm_dev_put(dev);
-> >  }
-> >  =
-
-> >  /*
-> > -- =
-
-> > 2.25.1
-> > =
-
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
