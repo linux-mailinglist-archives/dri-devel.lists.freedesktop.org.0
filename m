@@ -2,31 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D701BC4F0
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 18:18:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658BC1BC4F7
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 18:19:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97EFA6E85B;
-	Tue, 28 Apr 2020 16:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E5C46E854;
+	Tue, 28 Apr 2020 16:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A546E6E85B
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 16:18:46 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 21049063-1500050 for multiple; Tue, 28 Apr 2020 17:18:37 +0100
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 957D16E852
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 16:19:55 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id h4so3472716wmb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 09:19:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NopApeXh01c7L2Io03QMx8cqkS9YkQo3viws4wlNnSg=;
+ b=PryLDU8fNN6N3kbaEKSnFW3ZljxLU0aEKb/QT9PXimf+nSVuMU7ucP99uGmeVTuXFL
+ 0p/ee18S1smX9x1e3ceylcDz2SWJwa72ZTbsMwetmBYWEVX4cF27O41AGTzVcwrn8u5g
+ PbIsYOtqM23NIaTvc9y3sESXaAwIbJCxITZ2P2HQx3/XwghUA3gnM5d5HELhhFuWkpcF
+ jsrnu3vL/GB66Xo166FKKryG/ir7ksho4hffwu3LLfhCcE98upCyoVzWUi8wsLFGyxd+
+ bjwNjleFhAVyz2XyiubXZlKf1ikUnHD9bAdfHhukEalyqgFJiEGxZrgQIzqPY+WYytnp
+ esGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NopApeXh01c7L2Io03QMx8cqkS9YkQo3viws4wlNnSg=;
+ b=NQMUulLnxqpGhWn+lrGVJrxBGq0DAspMSV5YOR2H4bAIxZ1DmrxEnbBmOlNbH/hBXx
+ 470bdc9cunr8DedHiWaKSUwlNdsMmmJDLyYbk6tfDDCnLSKSy7iik7yJmNy2E5UnHmGq
+ /ODRxvwWNKOs5KwEkG62Ad+J4kTV+jVtqE2VbAHlUc9UBK9AMfGDaPlYS735g6lYpVuE
+ HdNXDVv8mH+R4kiO2BZVMA0umnURHqeDFK16Z4yuFkyZc6gmm+iK6v8tbUHErqWu2zLQ
+ 4/tmYTNld37OeVPsUbFMSBrXq1UOf1XC1tnJ2MHVantk+9lidTUqL71GCHeTJ+dfEds3
+ Z3Lw==
+X-Gm-Message-State: AGi0PubKyeVAWFP0iBzAhzWGr/Uh96+cxEd1xx7u44glr/272GSQtoPy
+ Z3TbEcauYUrdNAc7YY2WunswMOoZKHEPAqKYFU2hBA==
+X-Google-Smtp-Source: APiQypL3EsQ0jh1kA70/8Mgecdub3pq/2jqTXvhu/nseZ/tzt8oMEkOy7SFss8lrIFNxrKhvMfuy0TfvWG9Tvdn0UgM=
+X-Received: by 2002:a1c:2457:: with SMTP id k84mr5090599wmk.96.1588090793272; 
+ Tue, 28 Apr 2020 09:19:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200428160423.4402-1-nirmoy.das@amd.com>
-References: <20200428160423.4402-1-nirmoy.das@amd.com>
-Subject: Re: [PATCH 1/1] drm/mm: optimize rb_hole_addr rbtree search in high
- addr mode
-To: Nirmoy Das <nirmoy.aiemd@gmail.com>, dri-devel@lists.freedesktop.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-Message-ID: <158809071622.24122.16400979345123305890@build.alporthouse.com>
-User-Agent: alot/0.8.1
-Date: Tue, 28 Apr 2020 17:18:36 +0100
+References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
+ <4cd617827cc28875ef36f3632122a83cff2ea4a7.1587742492.git-series.maxime@cerno.tech>
+ <63f9e71a-1beb-7a67-ea48-dbc579fa3161@i2se.com>
+ <20200428155711.efpq6vbqcq52gjk5@gilmour.lan>
+In-Reply-To: <20200428155711.efpq6vbqcq52gjk5@gilmour.lan>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 28 Apr 2020 17:19:38 +0100
+Message-ID: <CAPY8ntBkKebzCM8uG0=YN_XngWS=Kgmgs_LBXmJb1nY3uPEWUw@mail.gmail.com>
+Subject: Re: [PATCH v2 79/91] drm/vc4: hdmi: Deal with multiple debugfs files
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,63 +64,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nirmoy.das@amd.com, christian.koenig@amd.com
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+ Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Nirmoy Das (2020-04-28 17:04:23)
-> Userspace can severely fragment rb_hole_addr rbtree by manipulating
-> alignment while allocating buffers. Fragmented rb_hole_addr rbtree would
-> result in large delays while allocating buffer object for a userspace
-> application. It takes long time to find suitable hole because if we fail
-> to find a suitable hole in the first attempt then we look for neighbouring
-> nodes using rb_prev(). Traversing rbtree using rb_prev() can take really
-> long time if the tree is fragmented.
-> 
-> This patch improves searches in fragmented rb_hole_addr rbtree by storing
-> an extra field in drm_mm_node, max_hole_size. Each drm_mm_node now stores
-> maximum hole size for its subtree in drm_mm_node->max_hole_size. Using
-> drm_mm_node->max_hole_size, it is possible to eliminate complete
-> subtree if that subtree is unable to serve a request hence reducing number
-> of rb_prev() used.
-> 
-> Note: Implementation details of rb_hole_addr rbtree updates after a node
-> removal and addition is borrowed from block/bfq-wf2q.c which is trying to
-> achieve a similar goal.
+Hi Stefan and Maxime
 
-Feels like it is an augmented rbtree?
+On Tue, 28 Apr 2020 at 16:57, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> Hi Stefan,
+>
+> On Sat, Apr 25, 2020 at 11:26:31PM +0200, Stefan Wahren wrote:
+> > Am 24.04.20 um 17:35 schrieb Maxime Ripard:
+> > > The HDMI driver was registering a single debugfs file so far with the name
+> > > hdmi_regs.
+> > >
+> > > Obviously, this is not going to work anymore when will have multiple HDMI
+> > > controllers since we will end up trying to register two files with the same
+> > > name.
+> > >
+> > > Let's use the ID to avoid that name conflict.
+> >
+> > even with this patch there is a name conflict in debugfs using Linux
+> > 5.7-rc1. Dave Stevenson addressed this by using different card names
+> > [1]. Since this patch won't apply anymore here is my suggestion:
+> >
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > index 29287ab..7209397 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > @@ -1181,9 +1181,14 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi
+> > *vc4_hdmi)
+> >
+> >      card->dai_link = dai_link;
+> >      card->num_links = 1;
+> > -    card->name = "vc4-hdmi";
+> >      card->dev = dev;
+> >
+> > +    if (vc4_hdmi->variant->encoder_type == VC4_ENCODER_TYPE_HDMI1) {
+> > +        card->name = "vc4-hdmi1";
+> > +    } else {
+> > +        card->name = "vc4-hdmi";
+> > +    }
+> > +
+>
+> Thinking about this some more, we don't really need VC4_ENCODER_TYPE_HDMI0 and
+> HDMI1, and it can all work with the same encoder type for both, so I'll drop
+> them.
+>
+> To address this issue though, we can add a card name string to the variant, like
+> I did for debugfs. Is that alright for you?
 
-> +static struct drm_mm_node *
-> +next_hole_high_addr(struct drm_mm_node *entry, u64 size)
-> +{
-> +       struct rb_node *rb_node, *left_rb_node, *parent_rb_node;
-> +       struct drm_mm_node *left_node;
-> +
-> +       if (!entry)
-> +               return false;
-> +
-> +       rb_node = &entry->rb_hole_addr;
-> +       if (rb_node->rb_left) {
-> +               left_rb_node = rb_node->rb_left;
-> +               parent_rb_node = rb_parent(rb_node);
-> +               left_node = rb_entry(left_rb_node,
-> +                                    struct drm_mm_node, rb_hole_addr);
-> +               if ((left_node->max_hole_size < size ||
-> +                    entry->size == entry->max_hole_size) &&
-> +                   parent_rb_node && parent_rb_node->rb_left != rb_node)
-> +                       return rb_hole_addr_to_node(parent_rb_node);
-> +       }
-> +
-> +       return rb_hole_addr_to_node(rb_prev(rb_node));
-> +}
+My patch doesn't fix everything with the audio debugfs entries anyway.
+I'm working against 5.4 on our downstream tree, and even with my patch
+I get
+[    7.459508] debugfs: Directory 'fef00700.hdmi' with parent
+'vc4-hdmi' already present!
+[    7.511017] debugfs: Directory 'fef05700.hdmi' with parent
+'vc4-hdmi1' already present!
+I seem to recall I reduced the number of complaints over 'vc4-hdmi',
+but internal to sound/soc-core the node is still registered twice.
 
-The max_hole_size would equally apply to next_hole_low_addr(), right?
+There was discussion about this a few months back.
+https://lore.kernel.org/lkml/1jblpvraho.fsf@starbuckisacylon.baylibre.com/
+seemed to conclude that it wasn't totally trivial to solve.
 
-Sadly, I did not explore the fragmented search LOW/HIGH in test-drm_mm.c.
-That would be a useful addition as well.
--Chris
+Regards,
+  Dave
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
