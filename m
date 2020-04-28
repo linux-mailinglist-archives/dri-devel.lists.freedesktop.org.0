@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6F31BBDED
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:47:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4E11BBDE9
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:46:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB1589F4F;
-	Tue, 28 Apr 2020 12:46:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 866756E3C6;
+	Tue, 28 Apr 2020 12:46:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com
- [IPv6:2607:f8b0:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E160089E5B
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 01:54:41 +0000 (UTC)
-Received: by mail-il1-x141.google.com with SMTP id x2so18769346ilp.13
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 18:54:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1432C6E143
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 02:22:16 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id j2so22809108wrs.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 19:22:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Dn5FsFHXDoP63PfOK+hSyyadWEoDt1vFl68jXDW6Zcs=;
- b=DIysdPazFDSPjWrk9J98X+PHbjtukRlthArlsiKuuAdwBzWfCicMgBuJ0xfyvX7NQA
- OWgWZ8KUgpqJQgeK8x61TqtaPo+WcfYOyCM+yzAW3UUIRconylO19z25qm6WYlx0mmM1
- sbTETGjjaQ0hsRQFPAGzSo/6+tDT7W0hc+/uk=
+ :cc; bh=cK42YsoCHoKXjpCmRhqXAw95n8cgsE4LeJGPKxc2b6M=;
+ b=K+VHeAvkBsC/2rCL59eFVMSyX0fFHJZk4Q/ucDxhSTSYczM4xUtCRtghKPCcsLd+UN
+ szR+UTeqNNkyaC+jKd/ipr5t2m/As6aVq0pNQcRm2F3dRquZUa5nez2Xp2b/63U4L9oh
+ qAkWvC7qk15CHUwrZPbfXJEpN13tY1PfecFnOaK+ykivFQevR3NQ1S5t0OcNWLDKp1Pw
+ zPFv8UsPT/5saCaNHgN7WrYeMx1lX7ncvzXGHDthV1J+GHuItptl5lMkWUVJShxHe7/3
+ Zm2DL8ncA9gG0IuxTLuMGzOIHvt4hx15PAiyFjsAPumB4e8vdxV0Vfg+9qGZ/ODrpaBl
+ XsbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Dn5FsFHXDoP63PfOK+hSyyadWEoDt1vFl68jXDW6Zcs=;
- b=QLhMx5Vs9bD6FuZXEXvDNz8QOKW/ND0WvVDjIsRXw3JynLFCYtlLiXPY/TOVud9tMP
- MYqkuUonPkz+2Lr/QtzHOTYZjtH7UnKhkv6tDrDR7E7EJvVBcxrwNRQiyRFgGtbxJwh9
- H5Ew62b1xLhOYRiLJFYaEbj4huzeRjBgWSrr36iTRIP+a7NkPkkogL4ZnSd5LGXe1Ls9
- 2MjYg5EbnYIRtuIAdO7xanqezP3Iwo7ojY/KO1ZJd7kTz5JD0h4cwAdOlAp8tKAOEeFa
- SQ0hl5HgGVIvLnKyP0s0xaGOyWa9dCb5mz+jxt/bvBUJwoDOS/WVhbnJoDGdw0QfjtYU
- l/Xg==
-X-Gm-Message-State: AGi0PuY+eLHM5FT3B9obMUjlbepFDfk5id/xBzETjx6Jks/DHVi4mRK/
- pa3ZezgCg3cAyGybWrCJjN3LqmL5ogZpxg9I
-X-Google-Smtp-Source: APiQypLo0JwQJjPLDun3PRPfaJF/xnJ1viK7UqlB3ox14VpMg4VECz9FkCSmJr80p1ORfBNvjW1drA==
-X-Received: by 2002:a92:c6c4:: with SMTP id v4mr22110715ilm.18.1588038880816; 
- Mon, 27 Apr 2020 18:54:40 -0700 (PDT)
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com.
- [209.85.166.42])
- by smtp.gmail.com with ESMTPSA id f1sm5522876iog.46.2020.04.27.18.54.39
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Apr 2020 18:54:39 -0700 (PDT)
-Received: by mail-io1-f42.google.com with SMTP id z2so21127559iol.11
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 18:54:39 -0700 (PDT)
-X-Received: by 2002:a6b:9088:: with SMTP id
- s130mr23613954iod.122.1588038879127; 
- Mon, 27 Apr 2020 18:54:39 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=cK42YsoCHoKXjpCmRhqXAw95n8cgsE4LeJGPKxc2b6M=;
+ b=J9ovb6bCshh4k6mN5tKI231Oa4mpXxaL95BPOJs2T0MLs2bwi/YC1qvBlZEIe825S9
+ wnJ51DJb69NWxI+SlpApx9ZOtsj5lStSVHnzVHeqTTFAOdOsZC9cuaqu0sxWhmaacolY
+ prOM+EoS+mxscj5BCKzEdII8les35zF9DT1tqJZXSJQSAdC3Pufp3YeB9pYekMrvXjGy
+ uyoJ/Dafy32qE7jwjsNHGvNUUhp4D2Zynbv4AwVGtqGn6L0aS60rWWC7LOIKSvGIbUVc
+ uMhv0kYjavzRFl2MlPVggtFJvBe2xfC7RHuLOr9Wt3TyMwFyojbHN6hdcaSJTcQyP50u
+ YtFw==
+X-Gm-Message-State: AGi0PuYzW1f6DvHg1FzwZAXRLL5g2yCbnk8awaJINF2n5MTMyk7Fw8To
+ hJA4jhDBNMrfJTHUF6rn+3wwHdfa+hU0Ut8OLTy0kw==
+X-Google-Smtp-Source: APiQypIHQ/3J7TJjBcYUWnzpuJ6FiR+nFMS7ri57Ar8Tuaz+/p1BIMgdJqzao6BPUMxmN432dSplVYvQlg1LV85FXoM=
+X-Received: by 2002:adf:eec8:: with SMTP id a8mr29022945wrp.28.1588040534102; 
+ Mon, 27 Apr 2020 19:22:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200420060834.44461-1-amistry@google.com>
- <CAAOTY_81qB+WJN_2-ZNqM63NOp+Es1qEmsp2qje2bfePg1O5Vw@mail.gmail.com>
-In-Reply-To: <CAAOTY_81qB+WJN_2-ZNqM63NOp+Es1qEmsp2qje2bfePg1O5Vw@mail.gmail.com>
-From: "Anand K. Mistry" <amistry@chromium.org>
-Date: Tue, 28 Apr 2020 11:54:28 +1000
-X-Gmail-Original-Message-ID: <CAATStaNwCyveF-fmrT=1m-BJh=8WOyaffFzVsC_Lo_rFkm6Z=Q@mail.gmail.com>
-Message-ID: <CAATStaNwCyveF-fmrT=1m-BJh=8WOyaffFzVsC_Lo_rFkm6Z=Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: stop iterating dma addresses when
- sg_dma_len() == 0
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <CAMn1gO4NsAoBUN4VFntB+pZK=cVCmwxBGUyipLPYYWFvpH1Z+A@mail.gmail.com>
+ <20200427200513.36328-1-pcc@google.com>
+ <CADaigPViPMOsHA2FtjL4BJ0YdbYm0L7AKC_tgiRXVrU6Zh5YEA@mail.gmail.com>
+In-Reply-To: <CADaigPViPMOsHA2FtjL4BJ0YdbYm0L7AKC_tgiRXVrU6Zh5YEA@mail.gmail.com>
+From: Peter Collingbourne <pcc@google.com>
+Date: Mon, 27 Apr 2020 19:22:02 -0700
+Message-ID: <CAMn1gO4gmH4mAY54mkqQgz1CureRRQ1cVRZrbOx69J7zNeJj2w@mail.gmail.com>
+Subject: Re: [PATCH] drm: enable render nodes wherever buffer sharing is
+ supported
+To: Eric Anholt <eric@anholt.net>
 X-Mailman-Approved-At: Tue, 28 Apr 2020 12:46:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,50 +64,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
+Cc: Liviu Dudau <Liviu.Dudau@arm.com>, Emil Velikov <emil.l.velikov@gmail.com>,
  DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCAyNiBBcHIgMjAyMCBhdCAxODowNCwgQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1
-QGtlcm5lbC5vcmc+IHdyb3RlOgo+Cj4gSGksIEFuYW5kOgo+Cj4gQW5hbmQgSyBNaXN0cnkgPGFt
-aXN0cnlAY2hyb21pdW0ub3JnPiDmlrwgMjAyMOW5tDTmnIgyMOaXpSDpgLHkuIAg5LiL5Y2IMjow
-OeWvq+mBk++8mgo+ID4KPiA+IElmIGRtYV9tYXBfc2coKSBtZXJnZXMgcGFnZXMgd2hlbiBjcmVh
-dGluZyB0aGUgbWFwcGluZywgb25seSB0aGUgZmlyc3QKPiA+IGVudHJpZXMgd2lsbCBoYXZlIGEg
-dmFsaWQgc2dfZG1hX2FkZHJlc3MoKSBhbmQgc2dfZG1hX2xlbigpLCBmb2xsb3dlZCBieQo+ID4g
-ZW50cmllcyB3aXRoIHNnX2RtYV9sZW4oKSA9PSAwLgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IEFu
-YW5kIEsgTWlzdHJ5IDxhbWlzdHJ5QGdvb2dsZS5jb20+Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dw
-dS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYyB8IDMgKysrCj4gPiAgMSBmaWxlIGNoYW5nZWQs
-IDMgaW5zZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVk
-aWF0ZWsvbXRrX2RybV9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dl
-bS5jCj4gPiBpbmRleCBiMDRhM2MyYjExMWUwOS4uZjhmZDhiOThjMzBlM2QgMTAwNjQ0Cj4gPiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYwo+ID4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmMKPiA+IEBAIC0yMjQsNiArMjI0LDkg
-QEAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICptdGtfZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZShz
-dHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4KPiA+ICAgICAgICAgZXhwZWN0ZWQgPSBzZ19kbWFf
-YWRkcmVzcyhzZy0+c2dsKTsKPiA+ICAgICAgICAgZm9yX2VhY2hfc2coc2ctPnNnbCwgcywgc2ct
-Pm5lbnRzLCBpKSB7Cj4gPiArICAgICAgICAgICAgICAgaWYgKCFzZ19kbWFfbGVuKHMpKQo+ID4g
-KyAgICAgICAgICAgICAgICAgICAgICAgYnJlYWs7Cj4KPiBJIHRoaW5rIHRoaXMgc2hvdWxkIGJl
-ICdjb250aW51ZScKCnNjYXR0ZXJsaXN0LmggaGFzIHRoZSBjb21tZW50OgovKgogKiBUaGVzZSBt
-YWNyb3Mgc2hvdWxkIGJlIHVzZWQgYWZ0ZXIgYSBkbWFfbWFwX3NnIGNhbGwgaGFzIGJlZW4gZG9u
-ZQogKiB0byBnZXQgYnVzIGFkZHJlc3NlcyBvZiBlYWNoIG9mIHRoZSBTRyBlbnRyaWVzIGFuZCB0
-aGVpciBsZW5ndGhzLgogKiBZb3Ugc2hvdWxkIG9ubHkgd29yayB3aXRoIHRoZSBudW1iZXIgb2Yg
-c2cgZW50cmllcyBkbWFfbWFwX3NnCiAqIHJldHVybnMsIG9yIGFsdGVybmF0aXZlbHkgc3RvcCBv
-biB0aGUgZmlyc3Qgc2dfZG1hX2xlbihzZykgd2hpY2gKICogaXMgMC4KICovCgpTbyBicmVha2lu
-ZyBvbiB0aGUgZmlyc3Qgc2dfZG1hX2xlbihzZykgPT0gMCBhcHBlYXJzIHRvIGJlIChvbmUgb2Yp
-CnRoZSBkb2N1bWVudGVkIGFwcHJvYWNoLgoKPgo+IFJlZ2FyZHMsCj4gQ2h1bi1LdWFuZy4KPgo+
-ID4gKwo+ID4gICAgICAgICAgICAgICAgIGlmIChzZ19kbWFfYWRkcmVzcyhzKSAhPSBleHBlY3Rl
-ZCkgewo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgRFJNX0VSUk9SKCJzZ190YWJsZSBpcyBu
-b3QgY29udGlndW91cyIpOwo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgcmV0ID0gLUVJTlZB
-TDsKPiA+IC0tCj4gPiAyLjI2LjEuMzAxLmc1NWJjM2ViN2NiOS1nb29nCj4gPgo+ID4KPiA+IF9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPiBMaW51eC1t
-ZWRpYXRlayBtYWlsaW5nIGxpc3QKPiA+IExpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVhZC5v
-cmcKPiA+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgt
-bWVkaWF0ZWsKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Apr 27, 2020 at 1:47 PM Eric Anholt <eric@anholt.net> wrote:
+>
+> On Mon, Apr 27, 2020 at 1:05 PM Peter Collingbourne <pcc@google.com> wrote:
+> >
+> > Render nodes are not just useful for devices supporting GPU hardware
+> > acceleration. Even on devices that only support dumb frame buffers,
+> > they are useful in situations where composition (using software
+> > rasterization) and KMS are done in different processes with buffer
+> > sharing being used to send frame buffers between them. This is the
+> > situation on Android, where surfaceflinger is the compositor and the
+> > composer HAL uses KMS to display the buffers. Thus it is beneficial
+> > to expose render nodes on all devices that support buffer sharing.
+> >
+> > Because all drivers that currently support render nodes also support
+> > buffer sharing, the DRIVER_RENDER flag is no longer necessary to mark
+> > devices as supporting render nodes, so remove it and just rely on
+> > the presence of a prime_handle_to_fd function pointer to determine
+> > whether buffer sharing is supported.
+>
+> I'm definitely interested in seeing a patch like this land, as I think
+> the current state is an ugly historical artifact.  We just have to be
+> careful.
+>
+> Were there any instances of drivers with render engines exposing PRIME
+> but not RENDER?  We should be careful to make sure that we're not
+> exposing new privileges for those through adding render nodes.
+
+These are the drivers that we'd be adding render nodes for with this change:
+
+$ git grep -l prime_handle_to_fd (git grep -L DRIVER_RENDER (git grep
+-l '\.driver_features'))
+drivers/gpu/drm/arc/arcpgu_drv.c
+drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+drivers/gpu/drm/arm/hdlcd_drv.c
+drivers/gpu/drm/arm/malidp_drv.c
+drivers/gpu/drm/armada/armada_drv.c
+drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+drivers/gpu/drm/imx/imx-drm-core.c
+drivers/gpu/drm/ingenic/ingenic-drm.c
+drivers/gpu/drm/mcde/mcde_drv.c
+drivers/gpu/drm/mediatek/mtk_drm_drv.c
+drivers/gpu/drm/meson/meson_drv.c
+drivers/gpu/drm/mxsfb/mxsfb_drv.c
+drivers/gpu/drm/pl111/pl111_drv.c
+drivers/gpu/drm/qxl/qxl_drv.c
+drivers/gpu/drm/rcar-du/rcar_du_drv.c
+drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+drivers/gpu/drm/shmobile/shmob_drm_drv.c
+drivers/gpu/drm/sti/sti_drv.c
+drivers/gpu/drm/stm/drv.c
+drivers/gpu/drm/tilcdc/tilcdc_drv.c
+drivers/gpu/drm/tve200/tve200_drv.c
+drivers/gpu/drm/xen/xen_drm_front.c
+drivers/gpu/drm/zte/zx_drm_drv.c
+
+Some of the drivers provide custom ioctls but they are already
+protected from render nodes by not setting DRM_RENDER_ALLOW. Another
+thing to check for is drivers providing custom fops that might expose
+something undesirable in the render node:
+
+$ git grep -L 'DEFINE_DRM_GEM_CMA_FOPS\|DEFINE_DRM_GEM_FOPS' (git grep
+-l prime_handle_to_fd (git grep -L DRIVER_RENDER (git grep -l
+'\.driver_features')))
+drivers/gpu/drm/mediatek/mtk_drm_drv.c
+drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+drivers/gpu/drm/xen/xen_drm_front.c
+
+But looking at those drivers in detail, I see that each of them is
+using the standard DRM fops handlers (which presumably already handle
+render nodes correctly) with the exception of mmap, which they provide
+wrappers for that mostly just wrap drm_gem_mmap.
+
+So unless I'm missing something significant (which seems likely -- I'm
+not a DRM expert), I don't see a problem so far.
+
+> There's a UAPI risk I see here.  Right now, on a system with a single
+> renderer GPU, we can just open /dev/dri/renderD128 and get the GPU for
+> rendering, and various things are relying on that (such as libwaffle,
+> used in piglit among other things)   Adding render nodes for kms-only
+> drivers could displace the actual GPU to 129, and the question is
+> whether this will be disruptive.  For Mesa, I think this works out,
+> because kmsro should load on the kms device's node and then share
+> buffers over to the real GPU that it digs around to find at init time.
+> Just saying, I'm not sure I know all of the userspace well enough to
+> say "this should be safe despite that"
+>
+> (And, maybe, if we decide that it's not safe enough, we could punt
+> kms-only drivers to a higher starting number?)
+
+Android (minigbm) similarly tries to open /dev/dri/renderD$N in a loop
+with 128 <= N < 192 and assumes that the first non-blacklisted (i.e.
+not vgem) one that it can open corresponds to the real GPU [1]. I
+think that the risk of breaking something on Android is low since
+Android's architecture basically already depends on there being a
+render node, and it seems unlikely for a device to have more than one
+GPU, one of which would be non-functional.
+
+It's also worth bearing in mind that render nodes were added to vgem
+in commit 3a6eb795 from 2018. To the extent that exposing additional
+render nodes would lead to widespread breakage, this would seem to me
+to be a likely way in which it could have happened (since I would
+expect that it could cause many machines to go from having one render
+node to having more than one), so perhaps the argument can be made
+that if we hadn't seen widespread breakage as a result of that change,
+we'd be unlikely to see it as a result of this one.
+
+This would be conditional on the userspace code not blacklisting the
+vgem render node like minigbm does -- at a glance I couldn't find such
+code in Mesa (there does appear to be some code that looks for the
+vgem driver name, but it seems to only be used on primary nodes, not
+render nodes) or libwaffle.
+
+Peter
+
+[1] https://cs.android.com/android/platform/superproject/+/master:external/minigbm/cros_gralloc/cros_gralloc_driver.cc;l=48
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
