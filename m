@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F391BBE86
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 15:06:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A7BF1BBEBD
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 15:15:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93A2B89E06;
-	Tue, 28 Apr 2020 13:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45DAF6E3DA;
+	Tue, 28 Apr 2020 13:15:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E472D897D7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 13:06:32 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id y24so2779337wma.4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 06:06:32 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6FAA6E3DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 13:15:16 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id v4so2347339wme.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 06:15:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=GvCnubnVKmIVoSEYhFz+uK0U01NbdfHDTxNrt/s7zTM=;
- b=IT2kqtnhvzGdmdz5+97kbMxrBEF3M23KSFOw84igRCF3reesSLpKPRVaP0rO5e+YpD
- 7giH92phiSHnd0MIfLWlZQTTN718o9kErQ+uFjDvIjJ6BzXHWxsIr4sdHfHc1ctTNmSE
- P0ivJas4Ds9oQCPzSsU0874DgbD0BsJwV4V7Q=
+ bh=qu+YLjAYyKKO4RRqfcjXeHbvdOpcS07kI3bbbobblu0=;
+ b=cmKTgIKBshIycEbuPaCVOHOFBZ94kRfz8dP6g15sIKfUBWwomX6SWqYh5CerbiZ9Ge
+ t81AsRrouzkR9g6W/gu9D6Lty4SE5ygE/r9Xy78yRMF65mUZEVl7U7wIYpNztPP1AJ0D
+ u1wovDXMPvvFpPBaCnXIsiUw1iO30Id+EoWAg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=GvCnubnVKmIVoSEYhFz+uK0U01NbdfHDTxNrt/s7zTM=;
- b=sU2Rbp2rs/yhR6qNESrnk1XpnFhGWBA1a0KqC0RN3v2yOs7HwW2qnmQuz3LosTk6+0
- z6EzKG7e7fVohpIgyc3NgQxdHTAl4el0wvizP//F6TQYJq4YJaKJ8U2SoFyC+BmoY7Jd
- UrOyJ+byQlrVtUVCCii6ymcXtf6LGiAvRytNHMYm77ETPVDrQuBG2QXqSNaVfnj88bje
- MXdMOeRQAgyp7SgiihaeXAzgsGTDviXRYXP+I5Z30TmiKYyH+72MmcpDKW56CnFvoygY
- +B+PR1WPsPQCV9sP+97If20bsS1KpvPkmFhTBejEgba8MD2YdsHnUSC9q71T3BKZjxTE
- G5rg==
-X-Gm-Message-State: AGi0Pua21N8o247GfPiXejR/vZNX8ac5Ef5Xu4bNHVDFqG+1f/4iOAcs
- YUgOloOqjyBkiyiIGeBGKHemxw==
-X-Google-Smtp-Source: APiQypJ9VrKGxZIPeEzgKtRg4Q1iG6C8ah9yulx2Kv2AdGFCAMOR++Kr7Z0rzxXagK+HWbpFMRQfpg==
-X-Received: by 2002:a1c:a58b:: with SMTP id o133mr4445404wme.5.1588079191545; 
- Tue, 28 Apr 2020 06:06:31 -0700 (PDT)
+ bh=qu+YLjAYyKKO4RRqfcjXeHbvdOpcS07kI3bbbobblu0=;
+ b=Zo/TGY417j6c60psuvVNi4lEPKSU++KWrPM7aYpOFjB1msgsg0o2ZhDHGHhZo5tZPk
+ ZzJ1G5uV8jMw7PaeA9s78BzbbUCraJgKq+32u4xM7lWXKWcn/xMjzeVD2rXKByXb+1jL
+ R21pvK0xwdSAbIWEL0GI1t1rgRu7iuTQhpu0qHzj6B7tM4526nD1rXvF1AK0nnVNQfNQ
+ osiFCjUkyib/+1rbjCMKnMJx3RKRGHwLFKZKM1qtZvY3Ql6dUrxNekolv14gJdOPihCP
+ ahFk9KSx2ikfody8A8wp7i+bH+4US9mqywtL9Q3uyz0BTHGaC47BWAvtMWBMBV4cD+Yv
+ VvqA==
+X-Gm-Message-State: AGi0PuY5b8NstjFDU11qi+UM16+KRYFi4hOa+gadHLTXp+FI9d4G/WVQ
+ +/o99ak6CVKOqYVavEUY7xKzew==
+X-Google-Smtp-Source: APiQypJZsnbgp2WMXkjGVelC7UI5vc0/WfYROoOvvy/HClKK8Wjq9YU0/HU45MiRGegbLL7YYCf2tw==
+X-Received: by 2002:a1c:4956:: with SMTP id w83mr4406440wma.43.1588079715236; 
+ Tue, 28 Apr 2020 06:15:15 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h5sm26169744wrp.97.2020.04.28.06.06.29
+ by smtp.gmail.com with ESMTPSA id 62sm16297221wro.65.2020.04.28.06.15.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Apr 2020 06:06:30 -0700 (PDT)
-Date: Tue, 28 Apr 2020 15:06:28 +0200
+ Tue, 28 Apr 2020 06:15:14 -0700 (PDT)
+Date: Tue, 28 Apr 2020 15:15:12 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 01/59] drm: Add devm_drm_dev_alloc macro
-Message-ID: <20200428130628.GH3456981@phenom.ffwll.local>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-2-daniel.vetter@ffwll.ch>
- <4d5229c2-acb4-b76f-13c7-88a5f3de4760@suse.de>
- <CAKMK7uH2vhrQ7eTTF1B+==UJS9ZxhDv2RDvR0ct4P0vVJobf=w@mail.gmail.com>
- <ea9c5a37-118f-1243-26f7-f03a3068dfeb@suse.de>
- <20200421203245.GA25673@ravnborg.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 01/44] drivers/base: Always release devres on device_del
+Message-ID: <20200428131512.GI3456981@phenom.ffwll.local>
+References: <20200403135828.2542770-1-daniel.vetter@ffwll.ch>
+ <20200403135828.2542770-2-daniel.vetter@ffwll.ch>
+ <CAKMK7uEEi8NMCopSd+7LqmhaqW0U4ZMif7YLgYQZ58fD7jRfzA@mail.gmail.com>
+ <20200406133835.GA24355@kroah.com>
+ <CAKMK7uG25kTY9iSyz7A-rxD+wMc4Y0NzuQ288Q51KR-sG0KNzQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200421203245.GA25673@ravnborg.org>
+In-Reply-To: <CAKMK7uG25kTY9iSyz7A-rxD+wMc4Y0NzuQ288Q51KR-sG0KNzQ@mail.gmail.com>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,59 +68,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+ "Rafael J. Wysocki" <rafael@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 21, 2020 at 10:32:45PM +0200, Sam Ravnborg wrote:
-> Hi
+On Mon, Apr 06, 2020 at 03:55:28PM +0200, Daniel Vetter wrote:
+> On Mon, Apr 6, 2020 at 3:38 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Mon, Apr 06, 2020 at 02:32:51PM +0200, Daniel Vetter wrote:
+> > > On Fri, Apr 3, 2020 at 3:58 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > > >
+> > > > In drm we've added nice drm_device (the main gpu driver thing, which
+> > > > also represents the userspace interfaces and has everything else
+> > > > dangling off it) init functions using devres, devm_drm_dev_init and
+> > > > soon devm_drm_dev_alloc (this patch series adds that).
+> > > >
+> > > > A slight trouble is that drm_device itself holds a reference on the
+> > > > struct device it's sitting on top (for sysfs links and dmesg debug and
+> > > > lots of other things), so there's a reference loop. For real drivers
+> > > > this is broken at remove/unplug time, where all devres resources are
+> > > > released device_release_driver(), before the final device reference is
+> > > > dropped. So far so good.
+> > > >
+> > > > There's 2 exceptions:
+> > > > - drm/vkms|vgem: Virtual drivers for which we create a fake/virtual
+> > > >   platform device to make them look more like normal devices to
+> > > >   userspace. These aren't drivers in the driver model sense, we simple
+> > > >   create a platform_device and register it.
+> > > >
+> > > > - drm/i915/selftests, where we create minimal mock devices, and again
+> > > >   the selftests aren't proper drivers in the driver model sense.
+> > > >
+> > > > For these two cases the reference loop isn't broken, because devres is
+> > > > only cleaned up when the last device reference is dropped. But that's
+> > > > not happening, because the drm_device holds that last struct device
+> > > > reference.
+> > > >
+> > > > Thus far this wasn't a problem since the above cases simply
+> > > > hand-rolled their cleanup code. But I want to convert all drivers over
+> > > > to the devm_ versions, hence it would be really nice if these
+> > > > virtual/fake/mock uses-cases could also be managed with devres
+> > > > cleanup.
+> > > >
+> > > > I see three possible approaches:
+> > >
+> > > Restarting this at the top level, because the discussion thus far just
+> > > ended in a long "you're doing it wrong", despite that I think we're
+> > > doing what v4l is doing (plus/minus that we can't do an exact matching
+> > > handling in drm because our uapi has a lot more warts, which we can't
+> > > change because no breaking userspace).
+> > >
+> > > So which one of the three below is the right approach?
+> > >
+> > > Aside, looking at the v4l solution I think there's also a confusion
+> > > about struct device representing a char device (which v4l directly
+> > > uses as its userspace interface refcounted thing, and which drm does
+> > > _not_ directly). And a struct device embedded into something like
+> > > platform_device or a virtual device, where a driver can bind to. My
+> > > question here is about the former, I don't care how cdev struct device
+> > > are cleaned up one bit. Now if other subsystems relies on the devres
+> > > cleanup behaviour we currently have because of such cdev usage, then
+> > > yeah first approach doesn't work (and I have a big surprised that use
+> > > case, but hey would actually learn something).
+> > >
+> > > End of aside, since again I want to figure out which of the tree
+> > > approaches it the right one. Not about how wrong one of them is,
+> > > ignoring the other three I laid out. And maybe there's even more
+> > > options for this.
+> >
+> > Sorry, been swamped with other things, give me a few days to get back to
+> > this, I need to dig into how you all are dealing with the virtual
+> > drivers.
 > 
-> > > Hm, I see the point of this (and the dev_field below, although I'd go
-> > > with dev_member there for some consistency with other macros using
-> > > offset_of or container_of), but I'm not sure about the dev_ prefix.
-> > > Drivers use that sometimes for the struct device *, and usage for
-> > > struct drm_device * is also very inconsistent. I've seen ddev, drm,
-> > > dev and base (that one only for embedded structs ofc). So not sure
-> > > which prefix to pick, aside from dev_ seems the most confusing. Got
-> > > ideas?
-> > 
-> > We have pdev for the PCI device, dev for the abstract device, and things
-> > like mdev for struct mga_device in mgag200. So I'd go with ddev. I don't
-> > like drm, because it could be anything in DRM. I guess struct drm_driver
-> > is more 'drm' than struct drm_device.
-> > 
-> > But all of this is bikeshedding. It's probably best to keep the patch
-> > as-is, and maybe rename variables later if we ever find consent on the
-> > naming.
+> Sure, no problem.
 > 
-> bikeshedding - I know.
-> But reading code is is quite natural for me that drm equals the central
-> drm_device data structure. Maybe thats because this was is in the code
-> I started looking at.
+> > Doing this in the middle of the merge window is a bit rough :)
 > 
-> So as an example:
-> 
-> 	drm_err(drm, "bla bla\n");
-> 
-> This parses nicely and is easy to type and get right.
-> And matches nicely that drm_device => drm.
-> But bikeshedding  - I will go to bed...
-> (Whatever is the conclusion we should not hold back the patch in
-> questions).
+> Ah I always forget ... we freeze drm at -rc6, so merge window is
+> actually my most relaxed time since everyone is busy and no one has
+> time to report drm bugs :-)
 
-Ok, since we can't agree on dev vs ddev vs drm vs something else I just
-left it as-is. We can always repaint this later on.
+Hi Greg,
 
-Thanks everyone for comments and review.
--Daniel
+Since -rc3 is out, had any to ponder this? Otherwise we'll be right back
+in the next merge window ...
+
+Cheers, Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
