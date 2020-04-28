@@ -1,31 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEF811BCC14
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 21:07:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F92C1BCC3A
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 21:21:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD82E6EBD4;
-	Tue, 28 Apr 2020 19:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EEEA6E83C;
+	Tue, 28 Apr 2020 19:21:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AB236EBD4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 19:07:06 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: aratiu) with ESMTPSA id 16BD82A1F7E
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v7 4/8] drm: imx: Add i.MX 6 MIPI DSI host platform driver
-In-Reply-To: <20200428143030.GN3456981@phenom.ffwll.local>
-References: <20200421161610.1501827-1-adrian.ratiu@collabora.com>
- <20200421161610.1501827-5-adrian.ratiu@collabora.com>
- <20200422010727.GM5983@pendragon.ideasonboard.com>
- <20200428143030.GN3456981@phenom.ffwll.local>
-Date: Tue, 28 Apr 2020 22:08:04 +0300
-Message-ID: <87pnbrig2z.fsf@collabora.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F31DE890C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 19:21:21 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id B949680441;
+ Tue, 28 Apr 2020 21:21:18 +0200 (CEST)
+Date: Tue, 28 Apr 2020 21:21:17 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
+Subject: Re: [RFC PATCH] dt-bindings: display: ti,tfp410.txt: convert to yaml
+Message-ID: <20200428192117.GA13894@ravnborg.org>
+References: <20200428092048.14939-1-ricardo.canuelo@collabora.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200428092048.14939-1-ricardo.canuelo@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=8nJEP1OIZ-IA:10 a=QX4gbG5DAAAA:8 a=gEfo2CItAAAA:8 a=sozttTNsAAAA:8
+ a=e5mUnYsNAAAA:8 a=5Q1QhKhd6o2KWyfzDbIA:9 a=FI4-JCA4KLYWKuIK:21
+ a=vwSoZJe330k_mNyO:21 a=wPNLvfGTeEIA:10 a=AbAUZ8qAyYyZVLSsDulk:22
+ a=sptkURWiP4Gy88Gu7hUp:22 a=aeg5Gbbo78KNqacMgKqU:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,535 +47,361 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@siol.net>, Adrian Pop <pop.adrian61@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>, Martyn Welch <martyn.welch@collabora.com>,
- Sjoerd Simons <sjoerd.simons@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- linux-imx@nxp.com, linux-rockchip@lists.infradead.org, kernel@collabora.com,
- linux-stm32@st-md-mailman.stormreply.com,
- Arnaud Ferraris <arnaud.ferraris@collabora.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: devicetree@vger.kernel.org, jason@lakedaemon.net, robh+dt@kernel.org,
+ tomi.valkeinen@ti.com, dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+Hi Ricardo.
 
-On Tue, 28 Apr 2020, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Wed, Apr 22, 2020 at 04:07:27AM +0300, Laurent Pinchart 
-> wrote: 
->> Hi Adrian,  On Tue, Apr 21, 2020 at 07:16:06PM +0300, Adrian 
->> Ratiu wrote: 
->> > This adds support for the Synopsis DesignWare MIPI DSI v1.01 
->> > host controller which is embedded in i.MX 6 SoCs.   Based on 
->> > following patches, but updated/extended to work with existing 
->> > support found in the kernel:  - drm: imx: Support Synopsys 
->> > DesignWare MIPI DSI host controller 
->> >   Signed-off-by: Liu Ying <Ying.Liu@freescale.com> 
->> >  Cc: Fabio Estevam <festevam@gmail.com> Cc: Enric Balletbo 
->> > Serra <eballetbo@gmail.com> Reviewed-by: Emil Velikov 
->> > <emil.velikov@collabora.com> Tested-by: Adrian Pop 
->> > <pop.adrian61@gmail.com> Tested-by: Arnaud Ferraris 
->> > <arnaud.ferraris@collabora.com> Signed-off-by: Sjoerd Simons 
->> > <sjoerd.simons@collabora.com> Signed-off-by: Martyn Welch 
->> > <martyn.welch@collabora.com> Signed-off-by: Adrian Ratiu 
->> > <adrian.ratiu@collabora.com> --- Changes since v6: 
->> >   - Replaced custom noop encoder with the simple drm encoder 
->> >   (Enric) - Added CONFIG_DRM_IMX6_MIPI_DSI depends on 
->> >   CONFIG_OF (Enric) - Dropped imx_mipi_dsi_register() because 
->> >   now it only creates the dummy encoder which can easily be 
->> >   done directly in imx_dsi_bind() 
->> >  Changes since v5: 
->> >   - Reword to remove unrelated device tree patch mention 
->> >   (Fabio) - Move pllref_clk enable/disable to bind/unbind 
->> >   (Ezequiel) - Fix freescale.com -> nxp.com email addresses 
->> >   (Fabio) - Also added myself as module author (Fabio) - Use 
->> >   DRM_DEV_* macros for consistency, print more error msg 
->> >  Changes since v4: 
->> >   - Split off driver-specific configuration of phy timings 
->> >   due to new upstream API.  - Move regmap infrastructure 
->> >   logic to separate commit (Ezequiel) - Move dsi v1.01 layout 
->> >   addition to a separate commit (Ezequiel) - Minor warnings 
->> >   and driver name fixes 
->> >  Changes since v3: 
->> >   - Renamed platform driver to reflect it's i.MX6 
->> >   only. (Fabio) 
->> >  Changes since v2: 
->> >   - Fixed commit tags. (Emil) 
->> >  Changes since v1: 
->> >   - Moved register definitions & regmap initialization into 
->> >   bridge module. Platform drivers get the regmap via 
->> >   plat_data after calling the bridge probe. (Emil) 
->> > --- 
->> >  drivers/gpu/drm/imx/Kconfig            |   8 + 
->> >  drivers/gpu/drm/imx/Makefile           |   1 + 
->> >  drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c | 391 
->> >  +++++++++++++++++++++++++ 3 files changed, 400 insertions(+) 
->> >  create mode 100644 drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c 
->> >  diff --git a/drivers/gpu/drm/imx/Kconfig 
->> > b/drivers/gpu/drm/imx/Kconfig index 
->> > 207bf7409dfba..0dffc72df7922 100644 --- 
->> > a/drivers/gpu/drm/imx/Kconfig +++ 
->> > b/drivers/gpu/drm/imx/Kconfig @@ -39,3 +39,11 @@ config 
->> > DRM_IMX_HDMI 
->> >  	depends on DRM_IMX help Choose this if you want to use 
->> >  HDMI on i.MX6. 
->> > + +config DRM_IMX6_MIPI_DSI +	tristate "Freescale i.MX6 
->> > DRM MIPI DSI" +	select DRM_DW_MIPI_DSI +	depends on 
->> > DRM_IMX +	depends on OF +	help +	  Choose this if you want 
->> > to use MIPI DSI on i.MX6.  diff --git 
->> > a/drivers/gpu/drm/imx/Makefile b/drivers/gpu/drm/imx/Makefile 
->> > index 21cdcc2faabc8..9a7843c593478 100644 --- 
->> > a/drivers/gpu/drm/imx/Makefile +++ 
->> > b/drivers/gpu/drm/imx/Makefile @@ -9,3 +9,4 @@ 
->> > obj-$(CONFIG_DRM_IMX_TVE) += imx-tve.o 
->> >  obj-$(CONFIG_DRM_IMX_LDB) += imx-ldb.o 
->> >  obj-$(CONFIG_DRM_IMX_HDMI) += dw_hdmi-imx.o 
->> > +obj-$(CONFIG_DRM_IMX6_MIPI_DSI) += dw_mipi_dsi-imx6.o diff 
->> > --git a/drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c 
->> > b/drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c new file mode 100644 
->> > index 0000000000000..f8a0a4fe16e21 --- /dev/null +++ 
->> > b/drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c @@ -0,0 +1,391 @@ 
->> > +// SPDX-License-Identifier: GPL-2.0+ +/* + * i.MX6 drm 
->> > driver - MIPI DSI Host Controller + * + * Copyright (C) 
->> > 2011-2015 Freescale Semiconductor, Inc.  + * Copyright (C) 
->> > 2019-2020 Collabora, Ltd.  + */ + +#include <linux/clk.h> 
->> > +#include <linux/component.h> +#include <linux/mfd/syscon.h> 
->> > +#include <linux/mfd/syscon/imx6q-iomuxc-gpr.h> +#include 
->> > <linux/module.h> +#include <linux/of_device.h> +#include 
->> > <linux/regmap.h> +#include <linux/videodev2.h> +#include 
->> > <drm/bridge/dw_mipi_dsi.h> +#include <drm/drm_crtc_helper.h> 
->> > +#include <drm/drm_mipi_dsi.h> +#include <drm/drm_of.h> 
->> > +#include <drm/drm_print.h> + +#include "imx-drm.h" + 
->> > +#define DSI_PWR_UP			0x04 +#define 
->> > RESET				0 +#define POWERUP 
->> > BIT(0) + +#define DSI_PHY_IF_CTRL			0x5c 
->> > +#define PHY_IF_CTRL_RESET		0x0 + +#define 
->> > DSI_PHY_TST_CTRL0		0x64 +#define PHY_TESTCLK 
->> > BIT(1) +#define PHY_UNTESTCLK			0 +#define 
->> > PHY_TESTCLR			BIT(0) +#define 
->> > PHY_UNTESTCLR			0 + +#define 
->> > DSI_PHY_TST_CTRL1		0x68 +#define PHY_TESTEN 
->> > BIT(16) +#define PHY_UNTESTEN			0 +#define 
->> > PHY_TESTDOUT(n)			(((n) & 0xff) << 8) 
->> > +#define PHY_TESTDIN(n)			(((n) & 0xff) << 
->> > 0) + +struct imx_mipi_dsi { +	struct drm_encoder 
->> > encoder; +	struct device *dev; +	struct regmap *mux_sel; + 
->> > struct dw_mipi_dsi *mipi_dsi; +	struct clk *pllref_clk; + 
->> > +	void __iomem *base; +	unsigned int lane_mbps; +}; + 
->> > +struct dphy_pll_testdin_map { +	unsigned int max_mbps; + 
->> > u8 testdin; +}; + +/* The table is based on 27MHz DPHY pll 
->> > reference clock. */ +static const struct dphy_pll_testdin_map 
->> > dptdin_map[] = { +	{160, 0x04}, {180, 0x24}, {200, 0x44}, 
->> > {210, 0x06}, +	{240, 0x26}, {250, 0x46}, {270, 0x08}, 
->> > {300, 0x28}, +	{330, 0x48}, {360, 0x2a}, {400, 0x4a}, 
->> > {450, 0x0c}, +	{500, 0x2c}, {550, 0x0e}, {600, 0x2e}, 
->> > {650, 0x10}, +	{700, 0x30}, {750, 0x12}, {800, 0x32}, 
->> > {850, 0x14}, +	{900, 0x34}, {950, 0x54}, {1000, 0x74} +}; 
->> > + +static inline struct imx_mipi_dsi *enc_to_dsi(struct 
->> > drm_encoder *enc) +{ +	return container_of(enc, struct 
->> > imx_mipi_dsi, encoder); +} + +static void 
->> > imx_mipi_dsi_set_ipu_di_mux(struct imx_mipi_dsi *dsi, int 
->> > ipu_di) +{ +	regmap_update_bits(dsi->mux_sel, 
->> > IOMUXC_GPR3, + 
->> > IMX6Q_GPR3_MIPI_MUX_CTL_MASK, +			   ipu_di 
->> > << IMX6Q_GPR3_MIPI_MUX_CTL_SHIFT); +} + +static bool 
->> > imx_mipi_dsi_encoder_mode_fixup(struct drm_encoder *encoder, 
->> > +					    const struct 
->> > drm_display_mode *mode, + 
->> > struct drm_display_mode *adj_mode) +{ +	return true; +} + 
->> > +static int imx_mipi_dsi_encoder_atomic_check(struct 
->> > drm_encoder *encoder, + 
->> > struct drm_crtc_state *crtc_state, + 
->> > struct drm_connector_state *conn) +{ +	struct 
->> > imx_crtc_state *imx_crtc_state = 
->> > to_imx_crtc_state(crtc_state); + +	/* The following values 
->> > are taken from dw_hdmi_imx_atomic_check */ + 
->> > imx_crtc_state->bus_format = MEDIA_BUS_FMT_RGB888_1X24; + 
->> > imx_crtc_state->di_hsync_pin = 2; + 
->> > imx_crtc_state->di_vsync_pin = 3; + +	return 0; +} 
->>  No encoder functions please. This should be a bridge driver, 
->> the encoder should be created by the i.MX display controller 
->> driver itself. As that would require quite a bit of refactoring 
->> I'm OK having an encoder here for the meantime, but it should 
->> be a dummy one, without any operation. 
-> 
-> +1 on this, came to say the same. This seems to duplicate the 
-> dw-hdmi design, where the code organization is a bit a mess, 
-> with some parts in drm/bridge, and some parts in each drm_device 
-> driver. Plus drm_encoder in there on top. 
-> 
-> If we want to continue with the drm_bridge abstraction for these 
-> kind of drivers then imo we need: 
-> 
-> - to make drm_bridge the actual abstraction, no leaking 
-> back&forth between 
->   the bridge chip and the overall drm_device side of things. 
-> 
-> - move _all_ dw-mipi-dsi related code into drm/bridge 
-> 
-> - for the platform specific binding stuff I think 
-> drm/bridge/dw-mipi-dsi 
->   directory, which contains the main driver, plus a file each 
->   for the imx/stm/whatever platform bindings sounds like a 
->   reasonable layout. 
-> 
-> If that doesn't work, then I think dw-mipi-dsi isn't really a 
-> bridge driver with clear encapsulation, but instead should be 
-> structured as a helper library to implement a drm_encoder. And 
-> no drm_bridge. 
-> 
-> And yes the exact same problem exists with dw-hdmi. That's the 
-> reason why I've started to look into these, it's not really a 
-> code pattern we should repeat imo.
+Thanks for looking into this bridge binding.
+Some comments in the following.
 
-The code structure you propose should be doable and I was actually 
-thinking of something like it when writing the cover letter for v8 
-of this series, about how to consolidate the Synopsis DW MIPI DSI 
-logic at the same time while consolidating the rest of imx drivers 
-to unify their simple encoder management.
+	Sam
 
-Thank you for fleshing it out! It's very helpful :)
+On Tue, Apr 28, 2020 at 11:20:48AM +0200, Ricardo Ca=F1uelo wrote:
+> Convert the DT binding documentation for the TI TFP410 DPI-to-DVI
+> encoder to json-schema.
+> =
 
-BTW have you seen what I did with the bridge in v8 for the imx6 
-driver?  [1]
+> Signed-off-by: Ricardo Ca=F1uelo <ricardo.canuelo@collabora.com>
+> ---
+> Hi all,
+> =
 
-What I'd like to avoid is feature creep in this patch series which 
-is about adding the imx6 driver, because I think moving the logic 
-and refactoring all the drivers is a separate issue and already 
-this series is big and increasing.
+> I found some issues while converting this binding and I'd like to know
+> your opinions on how to tackle them.
+> =
 
-So would you be ok with merging the imx6 mipi dsi driver with its 
-dw-mipi-dsi regamp rework and doing the refactoring to consolidate 
-all the bridge logic in a separate patch series which also 
-includes moving the rockchip and stm encoder logic to a 
-drm_bridge?
+> 1) dtbs_check fails for arch/arm/boot/dts/dove-sbc-a510.dts
+> =
 
-Or would you like me to do this consolidation rework in advance 
-just for the new imx6 mipi-dsi driver in this series and tackle 
-the rest of drivers in a separate patch series?
+>   This board uses the TFP410 encoder but it doesn't define any ports for
+>   it. I can't find any suitable remote endpoints in its description
+>   either. Maybe this board description should be reworked? The current
+>   driver won't handle the device if it doesn't define any ports or
+>   endpoints anyway.
+> =
 
-@Laurent, do you also have suggestions how to proceed?
 
-[1] 
-https://lore.kernel.org/linux-arm-kernel/20200427081952.3536741-1-adrian.ratiu@collabora.com/
+It is expected that there are a few DT files that will need an update
+when they are checked more fomally.
+So post a sepearate patch to fix it - preferably before the
+conversion.
 
-Thank you,
-Adrian
+>   It also uses the 'powerdown-gpio' property instead of
+>   'powerdown-gpios'. AFAICT this shouldn't be a problem from the driver
+>   point of view, but the general standard in DT bindings is to use the
+>   plural. This is trivial to fix.
+Use the plural form as everyone else.
 
->
-> Cheers, Daniel
->
->> 
->> > +
->> > +static void imx_mipi_dsi_encoder_commit(struct drm_encoder *encoder)
->> > +{
->> > +	struct imx_mipi_dsi *dsi = enc_to_dsi(encoder);
->> > +	int mux = drm_of_encoder_active_port_id(dsi->dev->of_node, encoder);
->> > +
->> > +	imx_mipi_dsi_set_ipu_di_mux(dsi, mux);
->> > +}
->> > +
->> > +static void imx_mipi_dsi_encoder_disable(struct drm_encoder *encoder)
->> > +{
->> > +}
->> > +
->> > +static const struct drm_encoder_helper_funcs imx_mipi_dsi_encoder_helpers = {
->> > +	.mode_fixup = imx_mipi_dsi_encoder_mode_fixup,
->> > +	.commit = imx_mipi_dsi_encoder_commit,
->> > +	.disable = imx_mipi_dsi_encoder_disable,
->> > +	.atomic_check = imx_mipi_dsi_encoder_atomic_check,
->> > +};
->> > +
->> > +static enum drm_mode_status imx_mipi_dsi_mode_valid(void *priv_data,
->> > +					const struct drm_display_mode *mode)
->> > +{
->> > +	/*
->> > +	 * The VID_PKT_SIZE field in the DSI_VID_PKT_CFG
->> > +	 * register is 11-bit.
->> > +	 */
->> > +	if (mode->hdisplay > 0x7ff)
->> > +		return MODE_BAD_HVALUE;
->> > +
->> > +	/*
->> > +	 * The V_ACTIVE_LINES field in the DSI_VTIMING_CFG
->> > +	 * register is 11-bit.
->> > +	 */
->> > +	if (mode->vdisplay > 0x7ff)
->> > +		return MODE_BAD_VVALUE;
->> > +
->> > +	return MODE_OK;
->> > +}
->> > +
->> > +
->> > +static unsigned int max_mbps_to_testdin(unsigned int max_mbps)
->> > +{
->> > +	unsigned int i;
->> > +
->> > +	for (i = 0; i < ARRAY_SIZE(dptdin_map); i++)
->> > +		if (dptdin_map[i].max_mbps == max_mbps)
->> > +			return dptdin_map[i].testdin;
->> > +
->> > +	return -EINVAL;
->> > +}
->> > +
->> > +static inline void dsi_write(struct imx_mipi_dsi *dsi, u32 reg, u32 val)
->> > +{
->> > +	writel(val, dsi->base + reg);
->> > +}
->> > +
->> > +static int imx_mipi_dsi_phy_init(void *priv_data)
->> > +{
->> > +	struct imx_mipi_dsi *dsi = priv_data;
->> > +	int testdin;
->> > +
->> > +	testdin = max_mbps_to_testdin(dsi->lane_mbps);
->> > +	if (testdin < 0) {
->> > +		DRM_DEV_ERROR(dsi->dev,
->> > +			      "failed to get testdin for %dmbps lane clock\n",
->> > +			      dsi->lane_mbps);
->> > +		return testdin;
->> > +	}
->> > +
->> > +	dsi_write(dsi, DSI_PHY_IF_CTRL, PHY_IF_CTRL_RESET);
->> > +	dsi_write(dsi, DSI_PWR_UP, POWERUP);
->> > +
->> > +	dsi_write(dsi, DSI_PHY_TST_CTRL0, PHY_UNTESTCLK | PHY_UNTESTCLR);
->> > +	dsi_write(dsi, DSI_PHY_TST_CTRL1, PHY_TESTEN | PHY_TESTDOUT(0) |
->> > +		  PHY_TESTDIN(0x44));
->> > +	dsi_write(dsi, DSI_PHY_TST_CTRL0, PHY_TESTCLK | PHY_UNTESTCLR);
->> > +	dsi_write(dsi, DSI_PHY_TST_CTRL0, PHY_UNTESTCLK | PHY_UNTESTCLR);
->> > +	dsi_write(dsi, DSI_PHY_TST_CTRL1, PHY_UNTESTEN | PHY_TESTDOUT(0) |
->> > +		  PHY_TESTDIN(testdin));
->> > +	dsi_write(dsi, DSI_PHY_TST_CTRL0, PHY_TESTCLK | PHY_UNTESTCLR);
->> > +	dsi_write(dsi, DSI_PHY_TST_CTRL0, PHY_UNTESTCLK | PHY_UNTESTCLR);
->> > +
->> > +	return 0;
->> > +}
->> > +
->> > +static int imx_mipi_dsi_get_lane_mbps(void *priv_data,
->> > +				      const struct drm_display_mode *mode,
->> > +				      unsigned long mode_flags, u32 lanes,
->> > +				      u32 format, unsigned int *lane_mbps)
->> > +{
->> > +	struct imx_mipi_dsi *dsi = priv_data;
->> > +	int bpp;
->> > +	unsigned int i, target_mbps, mpclk;
->> > +	unsigned long pllref;
->> > +
->> > +	bpp = mipi_dsi_pixel_format_to_bpp(format);
->> > +	if (bpp < 0) {
->> > +		DRM_DEV_ERROR(dsi->dev, "failed to get bpp for format %d: %d\n",
->> > +			      format, bpp);
->> > +		return bpp;
->> > +	}
->> > +
->> > +	pllref = clk_get_rate(dsi->pllref_clk);
->> > +	if (pllref != 27000000)
->> > +		DRM_WARN("DSI pllref_clk not set to 27Mhz\n");
->> > +
->> > +	mpclk = DIV_ROUND_UP(mode->clock, MSEC_PER_SEC);
->> > +	if (mpclk) {
->> > +		/* take 1/0.7 blanking overhead into consideration */
->> > +		target_mbps = (mpclk * (bpp / lanes) * 10) / 7;
->> > +	} else {
->> > +		DRM_DEV_ERROR(dsi->dev, "use default 1Gbps DPHY pll clock\n");
->> > +		target_mbps = 1000;
->> > +	}
->> > +
->> > +	DRM_DEV_DEBUG(dsi->dev, "target pllref_clk frequency is %uMbps\n",
->> > +		      target_mbps);
->> > +
->> > +	for (i = 0; i < ARRAY_SIZE(dptdin_map); i++) {
->> > +		if (target_mbps < dptdin_map[i].max_mbps) {
->> > +			*lane_mbps = dptdin_map[i].max_mbps;
->> > +			dsi->lane_mbps = *lane_mbps;
->> > +			DRM_DEV_DEBUG(dsi->dev,
->> > +				      "real pllref_clk frequency is %uMbps\n",
->> > +				      *lane_mbps);
->> > +			return 0;
->> > +		}
->> > +	}
->> > +
->> > +	DRM_DEV_ERROR(dsi->dev, "DPHY clock frequency %uMbps is out of range\n",
->> > +		      target_mbps);
->> > +
->> > +	return -EINVAL;
->> > +}
->> > +
->> > +static int
->> > +dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
->> > +			   struct dw_mipi_dsi_dphy_timing *timing)
->> > +{
->> > +	timing->clk_hs2lp = 0x40;
->> > +	timing->clk_lp2hs = 0x40;
->> > +	timing->data_hs2lp = 0x40;
->> > +	timing->data_lp2hs = 0x40;
->> > +
->> > +	return 0;
->> > +}
->> > +
->> > +static const struct dw_mipi_dsi_phy_ops dw_mipi_dsi_imx6_phy_ops = {
->> > +	.init = imx_mipi_dsi_phy_init,
->> > +	.get_lane_mbps = imx_mipi_dsi_get_lane_mbps,
->> > +	.get_timing = dw_mipi_dsi_phy_get_timing,
->> > +};
->> > +
->> > +static struct dw_mipi_dsi_plat_data imx6q_mipi_dsi_drv_data = {
->> > +	.max_data_lanes = 2,
->> > +	.mode_valid = imx_mipi_dsi_mode_valid,
->> > +	.phy_ops = &dw_mipi_dsi_imx6_phy_ops,
->> > +};
->> > +
->> > +static const struct of_device_id imx_dsi_dt_ids[] = {
->> > +	{
->> > +		.compatible = "fsl,imx6q-mipi-dsi",
->> > +		.data = &imx6q_mipi_dsi_drv_data,
->> > +	},
->> > +	{ /* sentinel */ }
->> > +};
->> > +MODULE_DEVICE_TABLE(of, imx_dsi_dt_ids);
->> > +
->> > +static int imx_mipi_dsi_bind(struct device *dev, struct device *master,
->> > +			     void *data)
->> > +{
->> > +	struct imx_mipi_dsi *dsi = dev_get_drvdata(dev);
->> > +	struct drm_device *drm = data;
->> > +	int ret;
->> > +
->> > +	ret = clk_prepare_enable(dsi->pllref_clk);
->> > +	if (ret) {
->> > +		DRM_DEV_ERROR(dev, "Failed to enable pllref_clk: %d\n", ret);
->> > +		return ret;
->> > +	}
->> > +
->> > +	ret = imx_drm_create_encoder(drm, &dsi->encoder, dsi->dev->of_node);
->> > +	if (ret) {
->> > +		DRM_DEV_ERROR(dsi->dev, "failed to create drm encoder\n");
->> > +		return ret;
->> > +	}
->> > +
->> > +	drm_encoder_helper_add(&dsi->encoder, &imx_mipi_dsi_encoder_helpers);
->> > +
->> > +	ret = dw_mipi_dsi_bind(dsi->mipi_dsi, &dsi->encoder);
->> > +	if (ret) {
->> > +		DRM_DEV_ERROR(dev, "Failed to bind: %d\n", ret);
->> > +		return ret;
->> > +	}
->> > +
->> > +	return 0;
->> > +}
->> > +
->> > +static void imx_mipi_dsi_unbind(struct device *dev, struct device *master,
->> > +				void *data)
->> > +{
->> > +	struct imx_mipi_dsi *dsi = dev_get_drvdata(dev);
->> > +
->> > +	dw_mipi_dsi_unbind(dsi->mipi_dsi);
->> > +
->> > +	clk_disable_unprepare(dsi->pllref_clk);
->> > +}
->> > +
->> > +static const struct component_ops imx_mipi_dsi_ops = {
->> > +	.bind	= imx_mipi_dsi_bind,
->> > +	.unbind	= imx_mipi_dsi_unbind,
->> > +};
->> > +
->> > +static int imx_mipi_dsi_probe(struct platform_device *pdev)
->> > +{
->> > +	struct device *dev = &pdev->dev;
->> > +	const struct of_device_id *of_id = of_match_device(imx_dsi_dt_ids, dev);
->> > +	struct dw_mipi_dsi_plat_data *pdata = (struct dw_mipi_dsi_plat_data *) of_id->data;
->> > +	struct imx_mipi_dsi *dsi;
->> > +	struct resource *res;
->> > +	int ret;
->> > +
->> > +	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
->> > +	if (!dsi)
->> > +		return -ENOMEM;
->> > +
->> > +	dsi->dev = dev;
->> > +
->> > +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->> > +	dsi->base = devm_ioremap_resource(dev, res);
->> > +	if (IS_ERR(dsi->base)) {
->> > +		ret = PTR_ERR(dsi->base);
->> > +		DRM_DEV_ERROR(dev, "Unable to get dsi registers: %d\n", ret);
->> > +		return ret;
->> > +	}
->> > +
->> > +	dsi->pllref_clk = devm_clk_get(dev, "ref");
->> > +	if (IS_ERR(dsi->pllref_clk)) {
->> > +		ret = PTR_ERR(dsi->pllref_clk);
->> > +		DRM_DEV_ERROR(dev, "Unable to get pllref_clk: %d\n", ret);
->> > +		return ret;
->> > +	}
->> > +
->> > +	dsi->mux_sel = syscon_regmap_lookup_by_phandle(dev->of_node, "fsl,gpr");
->> > +	if (IS_ERR(dsi->mux_sel)) {
->> > +		ret = PTR_ERR(dsi->mux_sel);
->> > +		DRM_DEV_ERROR(dev, "Failed to get GPR regmap: %d\n", ret);
->> > +		return ret;
->> > +	}
->> > +
->> > +	dev_set_drvdata(dev, dsi);
->> > +
->> > +	imx6q_mipi_dsi_drv_data.base = dsi->base;
->> > +	imx6q_mipi_dsi_drv_data.priv_data = dsi;
->> > +
->> > +	dsi->mipi_dsi = dw_mipi_dsi_probe(pdev, pdata);
->> > +	if (IS_ERR(dsi->mipi_dsi)) {
->> > +		ret = PTR_ERR(dsi->mipi_dsi);
->> > +		DRM_DEV_ERROR(dev, "Failed to probe DW DSI host: %d\n", ret);
->> > +		goto err_clkdisable;
->> > +	}
->> > +
->> > +	return component_add(&pdev->dev, &imx_mipi_dsi_ops);
->> > +
->> > +err_clkdisable:
->> > +	clk_disable_unprepare(dsi->pllref_clk);
->> > +	return ret;
->> > +}
->> > +
->> > +static int imx_mipi_dsi_remove(struct platform_device *pdev)
->> > +{
->> > +	component_del(&pdev->dev, &imx_mipi_dsi_ops);
->> > +	return 0;
->> > +}
->> > +
->> > +static struct platform_driver imx_mipi_dsi_driver = {
->> > +	.probe		= imx_mipi_dsi_probe,
->> > +	.remove		= imx_mipi_dsi_remove,
->> > +	.driver		= {
->> > +		.of_match_table = imx_dsi_dt_ids,
->> > +		.name	= "dw-mipi-dsi-imx6",
->> > +	},
->> > +};
->> > +module_platform_driver(imx_mipi_dsi_driver);
->> > +
->> > +MODULE_DESCRIPTION("i.MX6 MIPI DSI host controller driver");
->> > +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
->> > +MODULE_AUTHOR("Adrian Ratiu <adrian.ratiu@collabora.com>");
->> > +MODULE_LICENSE("GPL");
->> > -- 
->> > 2.26.0
->> > 
->> 
->> -- 
->> Regards,
->> 
->> Laurent Pinchart
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> 2) The definition of ti,deskew in the original binding seems to be
+> tailored to the current driver and the way it's defined may not be very
+> DT-friendly.
+> =
+
+>   This parameter maps to a 3-bit field in a hardware register that takes
+>   a value from 0 to 7, so the [-4, 3] range described for this would map
+>   to [000, 111]: -4 -> 000, -3 -> 001, -2 -> 010, ... 3 -> 111.
+> =
+
+>   Then, the driver parses the parameter (unsigned) and casts it to a
+>   signed integer to get a number in the [-4, 3] range.
+> =
+
+>   A vendor-specific property must have a type definition in json-schema,
+>   so if I translate the original bindings semantics directly, I should
+>   define ti,deskew as an int32, but this makes dt_binding_check fail if
+>   the property has a negative value in the example because of the
+>   internal representation of cells as unsigned integers:
+> =
+
+>      ti,deskew:0:0: 4294967293 is greater than the maximum of 2147483647
+
+Can you define it as an enum like this:
+
+	enum: [-4, -3, -2, -1, 0, 1, 2, 3]
+
+And then maybe in the descrition describe how they map to 0..7.
+The problem is that the binding is an API so we cannot just change
+the interpretation of the value 0 etc.
+
+
+> =
+
+>   So I can think of two solutions to this:
+> =
+
+>   a) Keep the ti,deskew property as an uint32 and document the valid
+>   range ([-4, 3]) in the property description (this is what this patch
+>   does currently).
+> =
+
+>   b) Redefine this property to be closer to the datasheet description
+>   (ie. unsigned integers from 0 to 7) and adapt the driver accordingly.
+>   This would also let us define its range properly using minimum and
+>   maximum properties for it.
+> =
+
+>   I think (b) is the right thing to do but I want to know your
+>   opinion. Besides, I don't have this hardware at hand and if I updated
+>   the driver I wouldn't be able to test it.
+> =
+
+> Thanks.
+> =
+
+> Patch tested with:
+> =
+
+> make dt_binding_check ARCH=3Darm DT_SCHEMA_FILES=3D<.../ti,tfp410.yaml>
+> make dtbs_check ARCH=3Darm DT_SCHEMA_FILES=3D<.../ti,tfp410.yaml>
+> =
+
+>  .../bindings/display/bridge/ti,tfp410.txt     |  66 ----------
+>  .../bindings/display/bridge/ti,tfp410.yaml    | 121 ++++++++++++++++++
+>  2 files changed, 121 insertions(+), 66 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/ti,t=
+fp410.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,t=
+fp410.yaml
+> =
+
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.t=
+xt b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.txt
+> deleted file mode 100644
+> index 5ff4f64ef8e8..000000000000
+> --- a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.txt
+> +++ /dev/null
+> @@ -1,66 +0,0 @@
+> -TFP410 DPI to DVI encoder
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> -
+> -Required properties:
+> -- compatible: "ti,tfp410"
+> -
+> -Optional properties:
+> -- powerdown-gpios: power-down gpio
+> -- reg: I2C address. If and only if present the device node should be pla=
+ced
+> -  into the I2C controller node where the TFP410 I2C is connected to.
+> -- ti,deskew: data de-skew in 350ps increments, from -4 to +3, as configu=
+red
+> -  through th DK[3:1] pins. This property shall be present only if the TF=
+P410
+> -  is not connected through I2C.
+> -
+> -Required nodes:
+> -
+> -This device has two video ports. Their connections are modeled using the=
+ OF
+> -graph bindings specified in [1]. Each port node shall have a single endp=
+oint.
+> -
+> -- Port 0 is the DPI input port. Its endpoint subnode shall contain a
+> -  pclk-sample and bus-width property and a remote-endpoint property as s=
+pecified
+> -  in [1].
+
+> -  - If pclk-sample is not defined, pclk-sample =3D 0 should be assumed f=
+or
+> -    backward compatibility.
+> -  - If bus-width is not defined then bus-width =3D 24 should be assumed =
+for
+> -    backward compatibility.
+> -    bus-width =3D 24: 24 data lines are connected and single-edge mode
+> -    bus-width =3D 12: 12 data lines are connected and dual-edge mode
+These comments are missing in the new binding.
+
+
+> -
+> -- Port 1 is the DVI output port. Its endpoint subnode shall contain a
+> -  remote-endpoint property is specified in [1].
+> -
+> -[1] Documentation/devicetree/bindings/media/video-interfaces.txt
+> -
+> -
+> -Example
+> --------
+> -
+> -tfp410: encoder@0 {
+> -	compatible =3D "ti,tfp410";
+> -	powerdown-gpios =3D <&twl_gpio 2 GPIO_ACTIVE_LOW>;
+> -	ti,deskew =3D <4>;
+> -
+> -	ports {
+> -		#address-cells =3D <1>;
+> -		#size-cells =3D <0>;
+> -
+> -		port@0 {
+> -			reg =3D <0>;
+> -
+> -			tfp410_in: endpoint@0 {
+> -				pclk-sample =3D <1>;
+> -				bus-width =3D <24>;
+> -				remote-endpoint =3D <&dpi_out>;
+> -			};
+> -		};
+> -
+> -		port@1 {
+> -			reg =3D <1>;
+> -
+> -			tfp410_out: endpoint@0 {
+> -				remote-endpoint =3D <&dvi_connector_in>;
+> -			};
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.y=
+aml b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
+> new file mode 100644
+> index 000000000000..79666ee540f9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
+> @@ -0,0 +1,121 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+You need to obtain approval to change the license to include BSD.
+The current binfing is GPL-2-0-only as it is default in the tree.
+
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/ti,tfp410.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TFP410 DPI to DVI encoder
+> +
+> +maintainers:
+> +  - Tomi Valkeinen <tomi.valkeinen@ti.com>
+> +  - Jyri Sarha <jsarha@ti.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: "ti,tfp410"
+No "" around the compatible name
+
+> +
+> +  reg:
+> +    description: I2C address of the device.
+> +    maxItems: 1
+> +
+> +  powerdown-gpios:
+> +    maxItems: 1
+> +
+> +  ti,deskew:
+> +    description:
+> +      Data de-skew in 350ps increments, from -4 to +3, as configured
+> +      through the DK[3:1] pins. This property shall be present only if
+> +      the TFP410 is not connected through I2C.
+> +    maxItems: 1
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+No need for the allOf: - $ref.
+Just use a plain $ref
+
+
+> +
+> +  ports:
+> +    description:
+> +      A node containing input and output port nodes with endpoint
+> +      definitions as documented in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +    type: object
+> +
+> +    properties:
+> +      port@0:
+> +        description: DPI input port.
+> +        type: object
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +          endpoint:
+> +            type: object
+> +
+> +            properties:
+> +              pclk-sample:
+> +                description: Endpoint sampling edge.
+> +                enum:
+> +                  - 0  # Falling edge
+> +                  - 1  # Rising edge
+> +
+> +              bus-width:
+> +                description: Endpoint bus width.
+> +                enum: [ 12, 24 ]
+> +
+> +        required:
+> +          - endpoint
+> +
+> +      port@1:
+> +        description: DVI output port.
+> +        type: object
+> +
+> +        properties:
+> +          reg:
+> +            const: 1
+> +
+> +          endpoint:
+> +            type: object
+> +
+> +        required:
+> +          - endpoint
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    tfp410: encoder {
+> +        compatible =3D "ti,tfp410";
+> +        powerdown-gpios =3D <&twl_gpio 2 GPIO_ACTIVE_LOW>;
+> +        ti,deskew =3D <3>;
+> +
+> +        ports {
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            port@0 {
+> +                reg =3D <0>;
+> +                tfp410_in: endpoint {
+> +                    pclk-sample =3D <1>;
+> +                    bus-width =3D <24>;
+> +                    remote-endpoint =3D <&dpi_out>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg =3D <1>;
+> +                tfp410_out: endpoint {
+> +                    remote-endpoint =3D <&dvi_connector_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> -- =
+
+> 2.18.0
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
