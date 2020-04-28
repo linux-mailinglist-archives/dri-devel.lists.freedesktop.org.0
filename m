@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC4D1BBDEB
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:46:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB6A1BBE19
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:47:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8C2A6E397;
-	Tue, 28 Apr 2020 12:46:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C59046E41A;
+	Tue, 28 Apr 2020 12:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07D27894E0;
- Tue, 28 Apr 2020 06:31:48 +0000 (UTC)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id EFF1AB7B043C4871D755;
- Tue, 28 Apr 2020 14:31:44 +0800 (CST)
-Received: from huawei.com (10.175.124.28) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Tue, 28 Apr 2020
- 14:31:35 +0800
-From: Jason Yan <yanaijie@huawei.com>
-To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
- <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <Anthony.Koo@amd.com>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/amd/display: remove duplicate assignment of dcn21_funcs
- members
-Date: Tue, 28 Apr 2020 14:31:01 +0800
-Message-ID: <20200428063101.25556-1-yanaijie@huawei.com>
-X-Mailer: git-send-email 2.21.1
-MIME-Version: 1.0
-X-Originating-IP: [10.175.124.28]
-X-CFilter-Loop: Reflected
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF0389E32
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 06:45:58 +0000 (UTC)
+X-QQ-mid: bizesmtp19t1588056327tj8asepz
+Received: from localhost.localdomain (unknown [210.242.163.205])
+ by esmtp10.qq.com (ESMTP) with 
+ id ; Tue, 28 Apr 2020 14:45:25 +0800 (CST)
+X-QQ-SSF: 01400000002000K0SF10000A0000000
+X-QQ-FEAT: BeVngaJjHKNREsd38tLYUW5E6j6WMHissM/1ue54eYCf8aHjE4UxLKGmn1Vod
+ lmEUl2MIRuslkRXPkpYO2cDTpAplgnYG0kuwF2jMPbZshcSme4KCW02ELBphqD/gEei+OaQ
+ Nq/h3VgipEqZDeBx4ebGggIcXaPk1yY9wto9J7Mnf8ZJSOD+XOOsvcWIp5CPpYtalgi2srX
+ nHRwja9X8EWtLMAu+9/J31AtgzhHxRMyYkB4xs1dcU2IGq/03lCEYu1lejbqq/3Ev0pPXH2
+ /VW9XUH+D0wF3swIKtIqp/VgO462aODaYw29LWpOvjtRFMXgTxPgEIbfaUwxLFt8ogbRuqm
+ tG0v7p7KszR22JL4MPelrgyO4UewRe0ydL4Wfrt
+X-QQ-GoodBg: 2
+From: David Lu <david.lu@bitland.com.cn>
+To: scott.chao@bitland.com.cn
+Subject: [PATCH] drm/panel: boe-tv101wum-n16: fine tune clock
+Date: Tue, 28 Apr 2020 14:45:21 +0800
+Message-Id: <20200428064521.21511-1-david.lu@bitland.com.cn>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:bitland.com.cn:qybgforeign:qybgforeign6
+X-QQ-Bgrelay: 1
 X-Mailman-Approved-At: Tue, 28 Apr 2020 12:46:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,51 +46,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Yan <yanaijie@huawei.com>
+Cc: David Lu <david.lu@bitland.com.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Thierry Reding <thierry.reding@gmail.com>, casper.chang@bitland.com.cn,
+ Sam Ravnborg <sam@ravnborg.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following coccicheck warning:
+fix boe_tv105wum_nw0 display shift.
 
-drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c:31:51-52:
-exit_optimized_pwr_state: first occurrence line 86, second occurrence
-line 92
-drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c:31:51-52:
-optimize_pwr_state: first occurrence line 85, second occurrence line 91
-drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c:31:51-52:
-set_cursor_attribute: first occurrence line 71, second occurrence line
-89
-drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c:31:51-52:
-set_cursor_position: first occurrence line 70, second occurrence line 88
-drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c:31:51-52:
-set_cursor_sdr_white_level: first occurrence line 72, second occurrence
-line 90
-
-Signed-off-by: Jason Yan <yanaijie@huawei.com>
+Signed-off-by: David Lu <david.lu@bitland.com.cn>
 ---
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c
-index 8410a6305a9a..fe64bcb49456 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c
-@@ -85,11 +85,6 @@ static const struct hw_sequencer_funcs dcn21_funcs = {
- 	.optimize_pwr_state = dcn21_optimize_pwr_state,
- 	.exit_optimized_pwr_state = dcn21_exit_optimized_pwr_state,
- 	.get_vupdate_offset_from_vsync = dcn10_get_vupdate_offset_from_vsync,
--	.set_cursor_position = dcn10_set_cursor_position,
--	.set_cursor_attribute = dcn10_set_cursor_attribute,
--	.set_cursor_sdr_white_level = dcn10_set_cursor_sdr_white_level,
--	.optimize_pwr_state = dcn21_optimize_pwr_state,
--	.exit_optimized_pwr_state = dcn21_exit_optimized_pwr_state,
- 	.power_down = dce110_power_down,
+diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+index f89861c8598a..46fe1805c588 100644
+--- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
++++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+@@ -697,15 +697,15 @@ static const struct panel_desc auo_b101uan08_3_desc = {
  };
  
+ static const struct drm_display_mode boe_tv105wum_nw0_default_mode = {
+-	.clock = 159260,
++	.clock = 159916,
+ 	.hdisplay = 1200,
+ 	.hsync_start = 1200 + 80,
+ 	.hsync_end = 1200 + 80 + 24,
+ 	.htotal = 1200 + 80 + 24 + 60,
+ 	.vdisplay = 1920,
+-	.vsync_start = 1920 + 10,
+-	.vsync_end = 1920 + 10 + 2,
+-	.vtotal = 1920 + 10 + 2 + 14,
++	.vsync_start = 1920 + 20,
++	.vsync_end = 1920 + 20 + 4,
++	.vtotal = 1920 + 20 + 4 + 10,
+ 	.vrefresh = 60,
+ 	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+ };
 -- 
-2.21.1
+2.17.1
+
+
 
 _______________________________________________
 dri-devel mailing list
