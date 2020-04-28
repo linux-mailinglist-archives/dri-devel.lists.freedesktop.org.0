@@ -2,37 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB541BD4E5
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 08:45:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0431BBEDE
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 15:18:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 142AF6ECAB;
-	Wed, 29 Apr 2020 06:45:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5A676E394;
+	Tue, 28 Apr 2020 13:18:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
- [59.111.176.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3EE6E3AE
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 13:18:02 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.122])
- by mail-m17613.qiye.163.com (Hmail) with ESMTPA id 8F1184829C3;
- Tue, 28 Apr 2020 21:17:55 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Kevin Hilman <khilman@baylibre.com>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/meson: pm resume add return errno branch
-Date: Tue, 28 Apr 2020 06:17:47 -0700
-Message-Id: <20200428131747.2099-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.26.2
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A5146E3AE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 13:18:16 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id g12so2811009wmh.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 06:18:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=llbzA7ECh9uaJN0zbhsknBn/XwuYSTfq4MrVVcdpgiQ=;
+ b=Z505emclDYGPgv8Eq67u/hLKqdL6DLAlYp3V5yGxyKDsTt6+OVI4XdVFIg9jY1PF54
+ o6S+dVB5Mx/ymFrzY+6nOWAGxoBKuXwaJ6bkwXtXi3yo+ta6toV8tALjJahV0hoSEEj9
+ 8Xlmt0y1IUIAQM3eZppCvMnORDykp3NsKQrRI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=llbzA7ECh9uaJN0zbhsknBn/XwuYSTfq4MrVVcdpgiQ=;
+ b=aIwFMLnAg/VyPS3fKfVRbt+Nkb6HS6DD6+sgya602MwBLRn9y/KEFKBvN87IlT6L0J
+ L7NaYjw7qbArf3mq6FqGr5d5DPySbstK7rdE9ElAshU73hvVbM/T7N1b9qgSbE3+LhqA
+ F/ITrvl5wrQDiNYN3U8AebPprUTsBxXEKwSWCfXBXWx99rFG6oJOWFscINqCjZBAwxnv
+ jNOAHQ+O8PQgmw2LzsaEp8Km9qMNTn5J5cqE7UjLjtyqGMxma0DgB3SkwYNHOdyDqfyl
+ 5kyfEQo1t6Jh35l83jJCVcZd3xoIXhgeF2PxR1NEtp92XqVegp0XI0wTKJmdf4OUCPcy
+ oCnQ==
+X-Gm-Message-State: AGi0PubmYV7Udqaa9I0piI+awzMSZuI7r7eKLJ/RIfzRlhw+I3uwbU4L
+ S/M6CVGO4DW9nXNak/+RFMnTRw==
+X-Google-Smtp-Source: APiQypLNxk3d2cp5V0sNW/NpTOnI+ScdS7pTtFWmSrNXZ4ddlhYFM6EsIt5YLOHMt3ViZhxZ0j6RTg==
+X-Received: by 2002:a1c:a7c2:: with SMTP id q185mr4675938wme.42.1588079895134; 
+ Tue, 28 Apr 2020 06:18:15 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f23sm3208059wml.4.2020.04.28.06.18.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Apr 2020 06:18:14 -0700 (PDT)
+Date: Tue, 28 Apr 2020 15:18:12 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 11/59] drm/udl: Use devm_drm_dev_alloc
+Message-ID: <20200428131812.GJ3456981@phenom.ffwll.local>
+References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
+ <20200415074034.175360-12-daniel.vetter@ffwll.ch>
+ <20200424145556.GA20856@ravnborg.org>
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSFVMSU5CQkJDSElKTkhISVlXWShZQU
- hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OSo6Kio*DDgrLE4BVk83MQgt
- KzYwCzpVSlVKTkNDS0xCQ0xOQ0lOVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSUlZV1kIAVlBSUpKSjcG
-X-HM-Tid: 0a71c0efd6a593bakuws8f1184829c3
-X-Mailman-Approved-At: Wed, 29 Apr 2020 06:45:00 +0000
+Content-Disposition: inline
+In-Reply-To: <20200424145556.GA20856@ravnborg.org>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,40 +67,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-pm_resump api did not handle drm_mode_config_helper_resume error.
-This change add handle to return drm_mode_config_helper_resume`s
-error number. This code logic is aligned with api pm_suspend.
-After this change, the code maybe a bit readable.
+On Fri, Apr 24, 2020 at 04:55:56PM +0200, Sam Ravnborg wrote:
+> Hi Daniel.
+> =
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
----
- drivers/gpu/drm/meson/meson_drv.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+> On Wed, Apr 15, 2020 at 09:39:46AM +0200, Daniel Vetter wrote:
+> > Also init the fbdev emulation before we register the device, that way
+> > we can rely on the auto-cleanup and simplify the probe error code even
+> > more.
+> > =
 
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index b5f5eb7b4bb9..8c2e1b47e81a 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -412,9 +412,7 @@ static int __maybe_unused meson_drv_pm_resume(struct device *dev)
- 	if (priv->afbcd.ops)
- 		priv->afbcd.ops->init(priv);
- 
--	drm_mode_config_helper_resume(priv->drm);
--
--	return 0;
-+	return drm_mode_config_helper_resume(priv->drm);
- }
- 
- static int compare_of(struct device *dev, void *data)
--- 
-2.26.2
+> > v2: Rebase on top of Thomas' patches to remove the return value from
+> > drm_fbdev_generic_setup()
+> =
 
+> with the rebase the changelog in confusing as this patch does nothing of
+> what is described in the changelog.
+> Only the title (that is in convinently not available when replying to
+> email) describes what this patch does.
+
+Good point, I fixed that up while applying, thanks for taking a look.
+-Daniel
+
+> =
+
+> With the changelog properly adjusted:
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> =
+
+> > =
+
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Cc: Sean Paul <sean@poorly.run>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: Emil Velikov <emil.l.velikov@gmail.com>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > ---
+> >  drivers/gpu/drm/udl/udl_drv.c | 26 +++++++-------------------
+> >  1 file changed, 7 insertions(+), 19 deletions(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_dr=
+v.c
+> > index 9cc6d075cb40..523f60e02a85 100644
+> > --- a/drivers/gpu/drm/udl/udl_drv.c
+> > +++ b/drivers/gpu/drm/udl/udl_drv.c
+> > @@ -57,27 +57,20 @@ static struct udl_device *udl_driver_create(struct =
+usb_interface *interface)
+> >  	struct udl_device *udl;
+> >  	int r;
+> >  =
+
+> > -	udl =3D kzalloc(sizeof(*udl), GFP_KERNEL);
+> > -	if (!udl)
+> > -		return ERR_PTR(-ENOMEM);
+> > -
+> > -	r =3D drm_dev_init(&udl->drm, &driver, &interface->dev);
+> > -	if (r) {
+> > -		kfree(udl);
+> > -		return ERR_PTR(r);
+> > -	}
+> > +	udl =3D devm_drm_dev_alloc(&interface->dev, &driver,
+> > +				 struct udl_device, drm);
+> > +	if (IS_ERR(udl))
+> > +		return udl;
+> >  =
+
+> >  	udl->udev =3D udev;
+> >  	udl->drm.dev_private =3D udl;
+> > -	drmm_add_final_kfree(&udl->drm, udl);
+> >  =
+
+> >  	r =3D udl_init(udl);
+> > -	if (r) {
+> > -		drm_dev_put(&udl->drm);
+> > +	if (r)
+> >  		return ERR_PTR(r);
+> > -	}
+> >  =
+
+> >  	usb_set_intfdata(interface, udl);
+> > +
+> >  	return udl;
+> >  }
+> >  =
+
+> > @@ -93,17 +86,13 @@ static int udl_usb_probe(struct usb_interface *inte=
+rface,
+> >  =
+
+> >  	r =3D drm_dev_register(&udl->drm, 0);
+> >  	if (r)
+> > -		goto err_free;
+> > +		return r;
+> >  =
+
+> >  	DRM_INFO("Initialized udl on minor %d\n", udl->drm.primary->index);
+> >  =
+
+> >  	drm_fbdev_generic_setup(&udl->drm, 0);
+> >  =
+
+> >  	return 0;
+> > -
+> > -err_free:
+> > -	drm_dev_put(&udl->drm);
+> > -	return r;
+> >  }
+> >  =
+
+> >  static void udl_usb_disconnect(struct usb_interface *interface)
+> > @@ -113,7 +102,6 @@ static void udl_usb_disconnect(struct usb_interface=
+ *interface)
+> >  	drm_kms_helper_poll_fini(dev);
+> >  	udl_drop_usb(dev);
+> >  	drm_dev_unplug(dev);
+> > -	drm_dev_put(dev);
+> >  }
+> >  =
+
+> >  /*
+> > -- =
+
+> > 2.25.1
+> > =
+
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
