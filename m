@@ -1,71 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A80C1BC3C5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 17:32:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 288BF1BC3F8
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 17:45:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD526E83D;
-	Tue, 28 Apr 2020 15:32:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27C616E840;
+	Tue, 28 Apr 2020 15:45:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC1A56E838
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 15:32:06 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id k12so3275274wmj.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 08:32:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=fyTgxWA2/HoMwR8ETQ07Hg4eZzNMuWdW9xEgr0yJj2c=;
- b=JnahAMhEEz80r2yHKCjybbTF6t6+SIYUFMUPAtQp+GL3mUUzkfUaqp5KTHLcTJv+bq
- P81fy3Eh2D06/VO0ChUgMzUqlCQznBNcz0ezSC/Grx8Mg9Ct3d9vHUd1Fi4rVLtYvIEe
- M0+tdFHnDzbT2poSNgYQX/Eonc2j0jEST5fYI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=fyTgxWA2/HoMwR8ETQ07Hg4eZzNMuWdW9xEgr0yJj2c=;
- b=dNWlRwE6coLaiMW4+yXhPoQ13wwlanj0KwXYr1vuqduB4ho3iI176sHB+vCBeD+bdi
- GCC06ezOEtA8gbI761lTNZGS27H0SBhdHXE8ip8YcwyuwznF9pz3RGP9TabkbpNLvza/
- kX27TQNAN1PpJfwg/EJ48UPdhfRuhuqO/B4O6YRI+cGawB16wqWWi38UXYj2UPErB28i
- 8g4QIh4XACqDSgo8gWNKIa7G1udayVkDeT0FKubce3cMtxEfZP2SmwdxdOYHCX7glooB
- Z9proglyCf+JdWIGVpr4jT8DO3SPxaGOoRV1pbxvzn9p0BWCZr6pL1AB3EGd/n3M/EoE
- j8mg==
-X-Gm-Message-State: AGi0PuYgcZsZ6S7GOJcTT6hJEPxF5T5xquLlJl46nKlZvtsaILvd80iy
- bCDKVNuo8B9mZcViXIdJtj/6Fw==
-X-Google-Smtp-Source: APiQypK6liIbViG0xJy6SG6E2JLUCRqc/Rd4DEdt0buwtJigcJZRTqgPIaD55s8f3mCsTYZkcr3q5w==
-X-Received: by 2002:a1c:4b0a:: with SMTP id y10mr5073523wma.24.1588087925505; 
- Tue, 28 Apr 2020 08:32:05 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p7sm27283944wrf.31.2020.04.28.08.32.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Apr 2020 08:32:04 -0700 (PDT)
-Date: Tue, 28 Apr 2020 17:32:02 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [RFC 00/17] DRM: fix struct sg_table nents vs. orig_nents misuse
-Message-ID: <20200428153202.GY3456981@phenom.ffwll.local>
-Mail-Followup-To: Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- intel-gfx@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>
-References: <CGME20200428132022eucas1p2aa4716cbaca61c432ee8028be15fef7a@eucas1p2.samsung.com>
- <20200428132005.21424-1-m.szyprowski@samsung.com>
- <20200428140257.GA3433@lst.de>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D1106E840;
+ Tue, 28 Apr 2020 15:45:10 +0000 (UTC)
+IronPort-SDR: J/QgJ4GZeo/6B37melZREH59U31kWu4mrosLaIh/00dCmbhgPwB+oi+/6YwFB0X9DOwcypcASb
+ q+Qm/8e1JNfg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2020 08:45:10 -0700
+IronPort-SDR: Y2jjpeQRyMamyyeeqnfCuhoebJpgL2SUnnbusXiXSvRFa4VFWEOKkf6mvdtj8n9SuU5rKO1IT3
+ kYAuCADvdMlQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,328,1583222400"; d="scan'208";a="302740823"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by FMSMGA003.fm.intel.com with SMTP; 28 Apr 2020 08:45:05 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 28 Apr 2020 18:45:05 +0300
+Date: Tue, 28 Apr 2020 18:45:05 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Michal Orzel <michalorzel.eng@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ chris@chris-wilson.co.uk, jose.souza@intel.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] Remove drm_display_mode.hsync
+Message-ID: <20200428154505.GK6112@intel.com>
+References: <1587974717-14599-1-git-send-email-michalorzel.eng@gmail.com>
+ <20200428151813.GW3456981@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200428140257.GA3433@lst.de>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <20200428151813.GW3456981@phenom.ffwll.local>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,46 +57,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, iommu@lists.linux-foundation.org,
- amd-gfx@lists.freedesktop.org, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 28, 2020 at 04:02:57PM +0200, Christoph Hellwig wrote:
-> On Tue, Apr 28, 2020 at 03:19:48PM +0200, Marek Szyprowski wrote:
-> > 1. introduce a dma_{map,sync,unmap}_sgtable() wrappers, which will use
-> >    a proper sg_table entries and call respective DMA-mapping functions
-> >    and adapt current code to it
-> 
-> That sounds reasonable to me.  Those could be pretty trivial wrappers.
-> 
-> >
-> > 
-> > 2. rename nents and orig_nents to nr_pages, nr_dmas to clearly state
-> >    which one refers to which part of the scatterlist; I'm open for
-> >    other names for those entries
-> 
-> nr_cpu_ents and nr_dma_ents might be better names, but it still would be
-> a whole lot of churn for little gain.  I think just good wrappers like
-> suggested above might be more helpful.
+On Tue, Apr 28, 2020 at 05:18:13PM +0200, Daniel Vetter wrote:
+> On Mon, Apr 27, 2020 at 10:05:17AM +0200, Michal Orzel wrote:
+> > As suggested by the TODO list of DRM subsystem:
+> > -remove the member hsync of drm_display_mode
+> > -convert code using hsync member to use drm_mode_hsync()
+> > =
 
-I guess long-term we could aim for both? I.e. roll out better wrappers
-first, once that's soaked through the tree, rename the last offenders.
+> > Signed-off-by: Michal Orzel <michalorzel.eng@gmail.com>
+> =
 
-Personally I like nr_cpu_ents and nr_dma_ents, that's about as clear as it
-gets.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> I think Ville has a bunch of patches doing this, we might have some
+> overlap :-/ Adding Ville.
+> =
+
+> Please sync with him and get either of these patches reviewed.
+
+Yeah, I have the same thing (+ making the function static). I think
+my series is sufficiently reviewed to get most of it pushed. Just need
+to get it past the ci... which apparently means I get to do another
+rebase.
+
+> =
+
+> Thanks, Daniel
+> =
+
+> > ---
+> >  drivers/gpu/drm/drm_modes.c                  |  6 +-----
+> >  drivers/gpu/drm/i915/display/intel_display.c |  1 -
+> >  include/drm/drm_modes.h                      | 10 ----------
+> >  3 files changed, 1 insertion(+), 16 deletions(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> > index d4d6451..0340079 100644
+> > --- a/drivers/gpu/drm/drm_modes.c
+> > +++ b/drivers/gpu/drm/drm_modes.c
+> > @@ -752,16 +752,12 @@ EXPORT_SYMBOL(drm_mode_set_name);
+> >   * @mode: mode
+> >   *
+> >   * Returns:
+> > - * @modes's hsync rate in kHz, rounded to the nearest integer. Calcula=
+tes the
+> > - * value first if it is not yet set.
+> > + * @modes's hsync rate in kHz, rounded to the nearest integer.
+> >   */
+> >  int drm_mode_hsync(const struct drm_display_mode *mode)
+> >  {
+> >  	unsigned int calc_val;
+> >  =
+
+> > -	if (mode->hsync)
+> > -		return mode->hsync;
+> > -
+> >  	if (mode->htotal <=3D 0)
+> >  		return 0;
+> >  =
+
+> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu=
+/drm/i915/display/intel_display.c
+> > index 3468466..ec7e943 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_display.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> > @@ -8891,7 +8891,6 @@ void intel_mode_from_pipe_config(struct drm_displ=
+ay_mode *mode,
+> >  =
+
+> >  	mode->clock =3D pipe_config->hw.adjusted_mode.crtc_clock;
+> >  =
+
+> > -	mode->hsync =3D drm_mode_hsync(mode);
+> >  	mode->vrefresh =3D drm_mode_vrefresh(mode);
+> >  	drm_mode_set_name(mode);
+> >  }
+> > diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
+> > index 99134d4..7dab7f1 100644
+> > --- a/include/drm/drm_modes.h
+> > +++ b/include/drm/drm_modes.h
+> > @@ -391,16 +391,6 @@ struct drm_display_mode {
+> >  	int vrefresh;
+> >  =
+
+> >  	/**
+> > -	 * @hsync:
+> > -	 *
+> > -	 * Horizontal refresh rate, for debug output in human readable form. =
+Not
+> > -	 * used in a functional way.
+> > -	 *
+> > -	 * This value is in kHz.
+> > -	 */
+> > -	int hsync;
+> > -
+> > -	/**
+> >  	 * @picture_aspect_ratio:
+> >  	 *
+> >  	 * Field for setting the HDMI picture aspect ratio of a mode.
+> > -- =
+
+> > 2.7.4
+> > =
+
+> =
+
+> -- =
+
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
