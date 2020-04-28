@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60131BC6E1
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 19:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 746A71BD4D8
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 08:45:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71C9F6E894;
-	Tue, 28 Apr 2020 17:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66AF76EC9D;
+	Wed, 29 Apr 2020 06:45:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 520F36E894
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 17:36:16 +0000 (UTC)
-IronPort-SDR: kgnZpgnmRHiNlLTHKyO20zX07YzOdBBy8uvei7grXaSsi+Xm1+vMJNMX6rQqBE5+KLpNzBDt/P
- M/KQqk2j5Ukg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2020 10:36:15 -0700
-IronPort-SDR: tVmqUai7rbrtrLINlFz58ia2ISjKWdVo8rUGJI1hUglyOaYeHPFBrbk5TMaO7ZorjL5TUa+iCP
- w1fGNPIoBJaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,328,1583222400"; d="scan'208";a="336697627"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
- by orsmga001.jf.intel.com with ESMTP; 28 Apr 2020 10:36:15 -0700
-Received: from fmsmsx112.amr.corp.intel.com (10.18.116.6) by
- FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 28 Apr 2020 10:36:04 -0700
-Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.13]) by
- FMSMSX112.amr.corp.intel.com ([169.254.5.239]) with mapi id 14.03.0439.000;
- Tue, 28 Apr 2020 10:36:03 -0700
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: RE: [PATCH 3/5] drm/i915/dmabuf: Add LMEM knowledge to dmabuf map
- handler
-Thread-Topic: [PATCH 3/5] drm/i915/dmabuf: Add LMEM knowledge to dmabuf map
- handler
-Thread-Index: AQHWGOyY+CqeFhPsj0ezedLSdHy0HqiPH1cA//+znnA=
-Date: Tue, 28 Apr 2020 17:36:03 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E866301021346F5@FMSMSX108.amr.corp.intel.com>
-References: <20200422212519.36276-1-michael.j.ruhl@intel.com>
- <20200422212519.36276-4-michael.j.ruhl@intel.com>
- <20200428150140.GR3456981@phenom.ffwll.local>
-In-Reply-To: <20200428150140.GR3456981@phenom.ffwll.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.107]
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19B236E8B2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 18:02:42 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id 145so11045411pfw.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 11:02:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=mENmQ6Pb7H8tmR1MjtMLs0ubXE4BKzkIreYYg9JTmwQ=;
+ b=fYgGHly79Oyel+aDS8shmE3wA06fO5kZLL/u3s85DS992pSDgr08Jx2wajFH7j1jHC
+ Dm1K5xERcf6FhGPMuwNcv14JeebOPQZorvUlcLz9r0RxfDLF+gRc1j1BvIQq3RNpOm6Q
+ 9EMp+/yW1t/Q54ZgaBMcfsk1FEOfsZMCpkjScN0nwNDQzMFzUhf4HwlvdsjFpCVrgXEi
+ EYB+aGQalOJeufMo73XeoDc9GtUPILpD4ag+vQctucSuvpTuQySVWKSYNmE/AT+LcaHE
+ kI7bunItPbbWP55YlZJPCWyIY1A8G2+MqmrVUznPsc3Sd/HNKegH3CuGA+CTuEFt/kBt
+ Fmrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=mENmQ6Pb7H8tmR1MjtMLs0ubXE4BKzkIreYYg9JTmwQ=;
+ b=RpZOUmDmQnpcxQrdJsfZbVNF+MY/F7Hj6lR2V+ymy23Z9HMnB05OZeQGHrVclwRQwh
+ zQHsPSpyYQSzdkTSpHdLxGZ/gtWNwgmB7wd7fMSoj3huaeUyYVIKOjDS8JO/ILBpYdsi
+ v1K384JCDPqNEkL2nwjaNikLStv3FL9AQv1aMNQXVoI7spJ6rqEw+YffwQR1pPo9hVju
+ NXbgBKnuK2HfjSKUWbXBhzSLqL+n5gnsIv64b8Z7JaYlFKEcYj5BC3FavNeiisoXH329
+ h6nFK0qOZdyfa9/loHlWwTV0yD6tukQdaCcPSPkOHE0j58k5r3uUBHyKHxC+la9BHB4i
+ JwPQ==
+X-Gm-Message-State: AGi0Pub9GBn36DUMXqwaGBNni9rJHmOxn/bpZCApJXpG/vaISitYN8FQ
+ /A96dGUI4tH/w4AhEoJ2Ga2E7w==
+X-Google-Smtp-Source: APiQypJTI6DwHabWRQCA/LwS+jwG4QtUCwBuv+PQUF/I35yfyK+EKVAsd6jfQyV+7Qv9CI1ziwgX/w==
+X-Received: by 2002:aa7:8593:: with SMTP id w19mr30860532pfn.97.1588096961545; 
+ Tue, 28 Apr 2020 11:02:41 -0700 (PDT)
+Received: from yoga (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
+ [104.188.17.28])
+ by smtp.gmail.com with ESMTPSA id h197sm16248994pfe.208.2020.04.28.11.02.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Apr 2020 11:02:40 -0700 (PDT)
+Date: Tue, 28 Apr 2020 11:02:38 -0700
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: simple: Add IVO M133NWF4 R0
+Message-ID: <20200428180238.GK987656@yoga>
+References: <20200420215728.1927434-1-bjorn.andersson@linaro.org>
+ <20200425175842.GA3773@ravnborg.org>
+ <CAL_JsqL6bMwrXZqvGz_H_aJi+EeoikBwKznLP2VomJ=Wn822Rg@mail.gmail.com>
+ <20200428170559.GC27234@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200428170559.GC27234@ravnborg.org>
+X-Mailman-Approved-At: Wed, 29 Apr 2020 06:45:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,212 +72,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Xiong, Jianxin" <jianxin.xiong@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->-----Original Message-----
->From: Daniel Vetter <daniel@ffwll.ch>
->Sent: Tuesday, April 28, 2020 11:02 AM
->To: Ruhl, Michael J <michael.j.ruhl@intel.com>
->Cc: dri-devel@lists.freedesktop.org; daniel@ffwll.ch; Xiong, Jianxin
-><jianxin.xiong@intel.com>
->Subject: Re: [PATCH 3/5] drm/i915/dmabuf: Add LMEM knowledge to dmabuf
->map handler
->
->On Wed, Apr 22, 2020 at 05:25:17PM -0400, Michael J. Ruhl wrote:
->> LMEM backed buffer objects do not have struct page information.
->> Instead the dma_address of the struct sg is used to store the
->> LMEM address information (relative to the device, this is not
->> the CPU physical address).
->>
->> The dmabuf map handler requires pages to do a dma_map_xx.
->>
->> Add new mapping/unmapping functions, based on the LMEM usage
->> of the dma_address to allow LMEM backed buffer objects to be
->> mapped.
->>
->> Before mapping check the peer2peer distance to verify that P2P
->> dma can occur.
->
->So this is supposed to check the importer's allow_peer2peer flag, and that
->one is supposed to require the implementation of ->move_notify. Which
->requires a pile of locking changes to align with dma_resv.
+On Tue 28 Apr 10:05 PDT 2020, Sam Ravnborg wrote:
 
-Yeah, I was avoiding that step for the moment.  I am not completely
-comfortable with the how and why of how the move_notify is supposed
-to work, so I  left the current mechanism "as is", and am planning on
-adding the move_notify part as a next step.
+> Hi Rob.
+> =
 
->By not doing all that you avoid the lockdep splats, but you're also
->breaking the peer2peer dma-buf contract big time :-)
+> On Tue, Apr 28, 2020 at 09:27:51AM -0500, Rob Herring wrote:
+> > On Sat, Apr 25, 2020 at 12:58 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+> > >
+> > > Hi Bj=F6rn.
+> > >
+> > > On Mon, Apr 20, 2020 at 02:57:27PM -0700, Bjorn Andersson wrote:
+> > > > Define the vendor prefix for InfoVision Optoelectronics and add the=
+ir
+> > > > M133NWF4 R0 13.3" FHD (1920x1080) TFT LCD panel to the compatible l=
+ist
+> > > > of panel-simple.
+> > > >
+> > > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > >
+> > > I got OK for the vendor prefix on irc so patch is now added to
+> > > drm-misc-next.
+> > > Another time please use a dedicated patch for vendor-prefix
+> > > so it is not hidden with other stuff. This way the chance
+> > > to get the attention of the right people is better.
+> > =
 
-OK.   I have some concerns because of the differences between the
-AMD and i915 implementations.  It is not clear to me how compatible
-they currently are, and if "matched" the implementation how that would
-affect the i915 driver.
+> > I should have mentioned there's basically one thing to check:
+> > alphabetical order.
+> I thought I checked that, but obviously not - hrmpf..
 
->I think this needs more work, or I need better glasses in case I'm not
->spotting where this is all done.
+Sorry about that, I thought I did double check that before posting it...
 
-Nope, your glasses are good.  
-
-I will take a close look at how to incorporate the peer2peer stuff.
-
-Mike
+> I will post a follow-up patch for drm-misc-next to fix it.
+> =
 
 
->-Daniel
->
->>
->> Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
->> ---
->>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 82
->++++++++++++++++++++--
->>  1 file changed, 76 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> index 7ea4abb6a896..402c989cc23d 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> @@ -7,6 +7,7 @@
->>  #include <linux/dma-buf.h>
->>  #include <linux/highmem.h>
->>  #include <linux/dma-resv.h>
->> +#include <linux/pci-p2pdma.h>
->>  #include <linux/scatterlist.h>
->>
->>  #include "i915_drv.h"
->> @@ -18,6 +19,67 @@ static struct drm_i915_gem_object
->*dma_buf_to_obj(struct dma_buf *buf)
->>  	return to_intel_bo(buf->priv);
->>  }
->>
->> +static void dmabuf_unmap_addr(struct device *dev, struct scatterlist *sgl,
->> +			      int nents, enum dma_data_direction dir)
->> +{
->> +	struct scatterlist *sg;
->> +	int i;
->> +
->> +	for_each_sg(sgl, sg, nents, i)
->> +		dma_unmap_resource(dev, sg_dma_address(sg),
->sg_dma_len(sg),
->> +				   dir, 0);
->> +}
->> +
->> +/**
->> + * dmabuf_map_addr - Update LMEM address to a physical address and
->map the
->> + * resource.
->> + * @dev: valid device
->> + * @obj: valid i915 GEM object
->> + * @sg: scatter list to appy mapping to
->> + * @nents: number of entries in the scatter list
->> + * @dir: DMA direction
->> + *
->> + * The dma_address of the scatter list is the LMEM "address".  From this
->the
->> + * actual physical address can be determined.
->> + *
->> + * Return of 0 means error.
->> + *
->> + */
->> +static int dmabuf_map_addr(struct device *dev, struct
->drm_i915_gem_object *obj,
->> +			   struct scatterlist *sgl, int nents,
->> +			   enum dma_data_direction dir)
->> +{
->> +	struct scatterlist *sg;
->> +	phys_addr_t addr;
->> +	int distance;
->> +	int i;
->> +
->> +	distance = pci_p2pdma_distance_many(obj->base.dev->pdev, &dev,
->1,
->> +					    true);
->> +	if (distance < 0) {
->> +		pr_info("%s: from: %s  to: %s  distance: %d\n", __func__,
->> +			pci_name(obj->base.dev->pdev), dev_name(dev),
->> +			distance);
->> +		return 0;
->> +	}
->> +
->> +	for_each_sg(sgl, sg, nents, i) {
->> +		addr = sg_dma_address(sg) + obj->mm.region->io_start;
->> +
->> +		sg->dma_address = dma_map_resource(dev, addr, sg-
->>length, dir,
->> +						   0);
->> +		if (dma_mapping_error(dev, sg->dma_address))
->> +			goto unmap;
->> +		sg->dma_length = sg->length;
->> +	}
->> +
->> +	return nents;
->> +
->> +unmap:
->> +	dmabuf_unmap_addr(dev, sgl, i, dir);
->> +	return 0;
->> +}
->> +
->>  static struct sg_table *i915_gem_map_dma_buf(struct
->dma_buf_attachment *attach,
->>  					     enum dma_data_direction dir)
->>  {
->> @@ -44,12 +106,17 @@ static struct sg_table
->*i915_gem_map_dma_buf(struct dma_buf_attachment *attach,
->>  	dst = sgt->sgl;
->>  	for_each_sg(obj->mm.pages->sgl, src, obj->mm.pages->nents, i) {
->>  		sg_set_page(dst, sg_page(src), src->length, 0);
->> +		sg_dma_address(dst) = sg_dma_address(src);
->>  		dst = sg_next(dst);
->>  	}
->>
->> -	if (!dma_map_sg_attrs(attach->dev,
->> -			      sgt->sgl, sgt->nents, dir,
->> -			      DMA_ATTR_SKIP_CPU_SYNC)) {
->> +	if (i915_gem_object_has_struct_page(obj))
->> +		ret = dma_map_sg_attrs(attach->dev, sgt->sgl, sgt->nents,
->dir,
->> +				       DMA_ATTR_SKIP_CPU_SYNC);
->> +	else
->> +		ret = dmabuf_map_addr(attach->dev, obj, sgt->sgl, sgt-
->>nents,
->> +				      dir);
->> +	if (!ret) {
->>  		ret = -ENOMEM;
->>  		goto err_free_sg;
->>  	}
->> @@ -72,9 +139,12 @@ static void i915_gem_unmap_dma_buf(struct
->dma_buf_attachment *attach,
->>  {
->>  	struct drm_i915_gem_object *obj = dma_buf_to_obj(attach-
->>dmabuf);
->>
->> -	dma_unmap_sg_attrs(attach->dev,
->> -			   sgt->sgl, sgt->nents, dir,
->> -			   DMA_ATTR_SKIP_CPU_SYNC);
->> +	if (i915_gem_object_has_struct_page(obj))
->> +		dma_unmap_sg_attrs(attach->dev, sgt->sgl, sgt->nents, dir,
->> +				   DMA_ATTR_SKIP_CPU_SYNC);
->> +	else
->> +		dmabuf_unmap_addr(attach->dev, sgt->sgl, sgt->nents, dir);
->> +
->>  	sg_free_table(sgt);
->>  	kfree(sgt);
->>
->> --
->> 2.21.0
->>
->
->--
->Daniel Vetter
->Software Engineer, Intel Corporation
->http://blog.ffwll.ch
+Thank you,
+Bjorn
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
