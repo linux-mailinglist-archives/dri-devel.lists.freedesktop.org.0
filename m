@@ -1,40 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC3D1BC67C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 19:20:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B60131BC6E1
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 19:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 490DB6E887;
-	Tue, 28 Apr 2020 17:20:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71C9F6E894;
+	Tue, 28 Apr 2020 17:36:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED636E887;
- Tue, 28 Apr 2020 17:20:49 +0000 (UTC)
-IronPort-SDR: pl1x8XCM4SbX3TMR6mufkBDJmUT55uTUAPg39riBwS6vTuD8i4jlD3kLKMnTFMHbzQPznwtrPM
- dWQdJheMbV7A==
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 520F36E894
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 17:36:16 +0000 (UTC)
+IronPort-SDR: kgnZpgnmRHiNlLTHKyO20zX07YzOdBBy8uvei7grXaSsi+Xm1+vMJNMX6rQqBE5+KLpNzBDt/P
+ M/KQqk2j5Ukg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2020 10:20:48 -0700
-IronPort-SDR: HK/UTZ8dPToClZi55Qqe3vPaIetJ+SPs4kANYYHFhXTJOAjySQoQsXWa/a5IhtO+DmJJp6BdBm
- heiwXWrOT83g==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2020 10:36:15 -0700
+IronPort-SDR: tVmqUai7rbrtrLINlFz58ia2ISjKWdVo8rUGJI1hUglyOaYeHPFBrbk5TMaO7ZorjL5TUa+iCP
+ w1fGNPIoBJaw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,328,1583222400"; d="scan'208";a="293926097"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga008.jf.intel.com with SMTP; 28 Apr 2020 10:20:45 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 28 Apr 2020 20:20:44 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 16/16] drm: Replace mode->export_head with a boolean
-Date: Tue, 28 Apr 2020 20:19:40 +0300
-Message-Id: <20200428171940.19552-17-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200428171940.19552-1-ville.syrjala@linux.intel.com>
-References: <20200428171940.19552-1-ville.syrjala@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.73,328,1583222400"; d="scan'208";a="336697627"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+ by orsmga001.jf.intel.com with ESMTP; 28 Apr 2020 10:36:15 -0700
+Received: from fmsmsx112.amr.corp.intel.com (10.18.116.6) by
+ FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 28 Apr 2020 10:36:04 -0700
+Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.13]) by
+ FMSMSX112.amr.corp.intel.com ([169.254.5.239]) with mapi id 14.03.0439.000;
+ Tue, 28 Apr 2020 10:36:03 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: RE: [PATCH 3/5] drm/i915/dmabuf: Add LMEM knowledge to dmabuf map
+ handler
+Thread-Topic: [PATCH 3/5] drm/i915/dmabuf: Add LMEM knowledge to dmabuf map
+ handler
+Thread-Index: AQHWGOyY+CqeFhPsj0ezedLSdHy0HqiPH1cA//+znnA=
+Date: Tue, 28 Apr 2020 17:36:03 +0000
+Message-ID: <14063C7AD467DE4B82DEDB5C278E866301021346F5@FMSMSX108.amr.corp.intel.com>
+References: <20200422212519.36276-1-michael.j.ruhl@intel.com>
+ <20200422212519.36276-4-michael.j.ruhl@intel.com>
+ <20200428150140.GR3456981@phenom.ffwll.local>
+In-Reply-To: <20200428150140.GR3456981@phenom.ffwll.local>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.107]
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,131 +65,213 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.l.velikov@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Xiong, Jianxin" <jianxin.xiong@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KCklu
-IG9yZGVyIHRvIHNocmluayBkcm1fZGlzcGxheV9tb2RlIGJlbG93IHRoZSBtYWdpYyB0d28gY2Fj
-aGVsaW5lCm1hcmsgaW4gNjRiaXQgd2UgbmVlZCB0byBzaHJpbmsgaXQgYnkgYW5vdGhlciA4IGJ5
-dGVzLiBUaGUgZWFzaWVzdAp0aGluZyB0byBlbGltaW5hdGUgaXMgdGhlICdleHBvcnRfaGVhZCcg
-bGlzdCBoZWFkIHdoaWNoIGlzIG9ubHkKdXNlZCBkdXJpbmcgdGhlIGdldGNvbm5lY3RvciBpb2N0
-bCB0byB0ZW1wb3Jhcmx5IHRyYWNrIHdoaWNoIG1vZGVzCm9uIHRoZSBjb25uZWN0b3IncyBtb2Rl
-IGxpc3QgYXJlIHRvIGJlIGV4cG9zZWQgYW5kIHdoaWNoIGFyZSB0bwpyZW1haW4gaGlkZGVuLgoK
-V2UgY2FuIHNpbXBseSByZXBsYWNlIHRoZSBsaXN0IGhlYWQgd2l0aCBhIGJvb2xlYW4gd2hpY2gg
-d2UgdXNlCnRvIHRhZyB0aGUgbW9kZXMgdGhhdCBhcmUgdG8gYmUgZXhwb3NlZC4gSWYgd2UgbWFr
-ZSBzdXJlIHRvIGNsZWFyCnRoZSB0YWdzIGFmdGVyIHdlJ3JlIGRvbmUgd2l0aCB0aGVtIHdlIGRv
-bid0IGV2ZW4gbmVlZCBhbiBleHRyYQpsb29wIG92ZXIgdGhlIG1vZGVzIHRvIHJlc2V0IHRoZSB0
-YWdzIGF0IHRoZSBzdGFydCBvZiB0aGUKZ2V0Y29ubmVjdG9yIGlvY3RsLgoKQ29udmVuaWVudGx5
-IHdlIGFscmVhZHkgaGF2ZSBhIGhvbGUgZm9yIHRoZSBib29sZWFuIGxlZnQKYmVoaW5kIGJ5IHRo
-ZSByZW1vdmFsIG9mIG1vZGUtPnByaXZhdGVfZmxhZ3MuIFRoZSBmaW5hbCBzaXplCm9mIHRoZSBz
-dHJ1Y3QgaXMgbm93IDExMiBieXRlcyBvbiAzMmJpdCBhbmQgMTIwIGJ5dGVzIG9uIDY0Yml0LgoK
-VGhlIGRvd25zaWRlIGlzIHRoYXQgZHJtX21vZGVfZXhwb3NlX3RvX3VzZXJzcGFjZSgpIGdldHMg
-dG8KaXRlcmF0ZSBhIGZldyBtb3JlIG1vZGVzLiBJdCBhbHJlYWR5IHdhcyBPKG5eMiksIG5vdyBp
-dCdzCmEgc2xpZ2h0bHkgd29yc2UgTyhuXjIpLgoKQW5vdGhlciBhbHRlcm5hdGl2ZSB3b3VsZCBi
-ZSBhIHRlbXAgYml0bWFzayBzbyB3ZSB3b3VsZG4ndCBoYXZlCnRvIGhhdmUgYW55dGhpbmcgaW4g
-dGhlIG1vZGUgc3RydWN0IGl0c2VsZi4gVGhlIG1haW4gaXNzdWUgaXMKaG93IGxhcmdlIG9mIGEg
-Yml0bWFzayBkbyB3ZSBuZWVkPyBJIGd1ZXNzIHdlIGNvdWxkIGFsbG9jYXRlCml0IGR5bmFtaWNh
-bGx5IGJ1dCB0aGF0IG1lYW5zIGFuIGV4dHJhIGtjYWxsb2MoKSBhbmQgYW4gZXh0cmEKbG9vcCB0
-aHJvdWdoIHRoZSBtb2RlcyB0byBjb3VudCB0aGVtIGZpcnN0IChvciBncm93IHRoZSBiaXRtYXNr
-CndpdGgga3JlYWxsb2MoKSBhcyBuZWVkZWQpLgoKQ0M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5i
-b3JnLm9yZz4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkNjOiBF
-bWlsIFZlbGlrb3YgPGVtaWwubC52ZWxpa292QGdtYWlsLmNvbT4KU2lnbmVkLW9mZi1ieTogVmls
-bGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KLS0tCiBkcml2ZXJz
-L2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jIHwgNDUgKysrKysrKysrKysrKysrKysrKysrKystLS0t
-LS0tLS0tCiBpbmNsdWRlL2RybS9kcm1fbW9kZXMuaCAgICAgICAgIHwgMjQgKysrKysrKystLS0t
-LS0tLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDQzIGluc2VydGlvbnMoKyksIDI2IGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jCmluZGV4IGIxMDk5ZTEyNTFhMi4uN2U3MTliMDg1NjRk
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jCisrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMKQEAgLTIxOTgsNyArMjE5OCw3IEBAIHN0YXRpYyBz
-dHJ1Y3QgZHJtX2VuY29kZXIgKmRybV9jb25uZWN0b3JfZ2V0X2VuY29kZXIoc3RydWN0IGRybV9j
-b25uZWN0b3IgKmNvbm5lCiAKIHN0YXRpYyBib29sCiBkcm1fbW9kZV9leHBvc2VfdG9fdXNlcnNw
-YWNlKGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlLAotCQkJICAgICBjb25zdCBz
-dHJ1Y3QgbGlzdF9oZWFkICpleHBvcnRfbGlzdCwKKwkJCSAgICAgY29uc3Qgc3RydWN0IGxpc3Rf
-aGVhZCAqbW9kZXMsCiAJCQkgICAgIGNvbnN0IHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2KQog
-ewogCS8qCkBAIC0yMjE0LDE1ICsyMjE0LDE3IEBAIGRybV9tb2RlX2V4cG9zZV90b191c2Vyc3Bh
-Y2UoY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUsCiAJICogd2hpbGUgcHJlcGFy
-aW5nIHRoZSBsaXN0IG9mIHVzZXItbW9kZXMuCiAJICovCiAJaWYgKCFmaWxlX3ByaXYtPmFzcGVj
-dF9yYXRpb19hbGxvd2VkKSB7Ci0JCXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlX2l0cjsK
-KwkJY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGVfaXRyOwogCi0JCWxpc3RfZm9y
-X2VhY2hfZW50cnkobW9kZV9pdHIsIGV4cG9ydF9saXN0LCBleHBvcnRfaGVhZCkKLQkJCWlmIChk
-cm1fbW9kZV9tYXRjaChtb2RlX2l0ciwgbW9kZSwKKwkJbGlzdF9mb3JfZWFjaF9lbnRyeShtb2Rl
-X2l0ciwgbW9kZXMsIGhlYWQpIHsKKwkJCWlmIChtb2RlX2l0ci0+ZXhwb3NlX3RvX3VzZXJzcGFj
-ZSAmJgorCQkJICAgIGRybV9tb2RlX21hdGNoKG1vZGVfaXRyLCBtb2RlLAogCQkJCQkgICBEUk1f
-TU9ERV9NQVRDSF9USU1JTkdTIHwKIAkJCQkJICAgRFJNX01PREVfTUFUQ0hfQ0xPQ0sgfAogCQkJ
-CQkgICBEUk1fTU9ERV9NQVRDSF9GTEFHUyB8CiAJCQkJCSAgIERSTV9NT0RFX01BVENIXzNEX0ZM
-QUdTKSkKIAkJCQlyZXR1cm4gZmFsc2U7CisJCX0KIAl9CiAKIAlyZXR1cm4gdHJ1ZTsKQEAgLTIy
-NDIsNyArMjI0NCw2IEBAIGludCBkcm1fbW9kZV9nZXRjb25uZWN0b3Ioc3RydWN0IGRybV9kZXZp
-Y2UgKmRldiwgdm9pZCAqZGF0YSwKIAlzdHJ1Y3QgZHJtX21vZGVfbW9kZWluZm8gdV9tb2RlOwog
-CXN0cnVjdCBkcm1fbW9kZV9tb2RlaW5mbyBfX3VzZXIgKm1vZGVfcHRyOwogCXVpbnQzMl90IF9f
-dXNlciAqZW5jb2Rlcl9wdHI7Ci0JTElTVF9IRUFEKGV4cG9ydF9saXN0KTsKIAogCWlmICghZHJt
-X2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9NT0RFU0VUKSkKIAkJcmV0dXJuIC1FT1BO
-T1RTVVBQOwpAQCAtMjI4NiwyNSArMjI4NywzMCBAQCBpbnQgZHJtX21vZGVfZ2V0Y29ubmVjdG9y
-KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAJb3V0X3Jlc3AtPmNvbm5lY3Rp
-b24gPSBjb25uZWN0b3ItPnN0YXR1czsKIAogCS8qIGRlbGF5ZWQgc28gd2UgZ2V0IG1vZGVzIHJl
-Z2FyZGxlc3Mgb2YgcHJlLWZpbGxfbW9kZXMgc3RhdGUgKi8KLQlsaXN0X2Zvcl9lYWNoX2VudHJ5
-KG1vZGUsICZjb25uZWN0b3ItPm1vZGVzLCBoZWFkKQotCQlpZiAoZHJtX21vZGVfZXhwb3NlX3Rv
-X3VzZXJzcGFjZShtb2RlLCAmZXhwb3J0X2xpc3QsCisJbGlzdF9mb3JfZWFjaF9lbnRyeShtb2Rl
-LCAmY29ubmVjdG9yLT5tb2RlcywgaGVhZCkgeworCQlXQVJOX09OKG1vZGUtPmV4cG9zZV90b191
-c2Vyc3BhY2UpOworCisJCWlmIChkcm1fbW9kZV9leHBvc2VfdG9fdXNlcnNwYWNlKG1vZGUsICZj
-b25uZWN0b3ItPm1vZGVzLAogCQkJCQkJIGZpbGVfcHJpdikpIHsKLQkJCWxpc3RfYWRkX3RhaWwo
-Jm1vZGUtPmV4cG9ydF9oZWFkLCAmZXhwb3J0X2xpc3QpOworCQkJbW9kZS0+ZXhwb3NlX3RvX3Vz
-ZXJzcGFjZSA9IHRydWU7CiAJCQltb2RlX2NvdW50Kys7CiAJCX0KKwl9CiAKIAkvKgogCSAqIFRo
-aXMgaW9jdGwgaXMgY2FsbGVkIHR3aWNlLCBvbmNlIHRvIGRldGVybWluZSBob3cgbXVjaCBzcGFj
-ZSBpcwogCSAqIG5lZWRlZCwgYW5kIHRoZSAybmQgdGltZSB0byBmaWxsIGl0LgotCSAqIFRoZSBt
-b2RlcyB0aGF0IG5lZWQgdG8gYmUgZXhwb3NlZCB0byB0aGUgdXNlciBhcmUgbWFpbnRhaW5lZCBp
-biB0aGUKLQkgKiAnZXhwb3J0X2xpc3QnLiBXaGVuIHRoZSBpb2N0bCBpcyBjYWxsZWQgZmlyc3Qg
-dGltZSB0byBkZXRlcm1pbmUgdGhlLAotCSAqIHNwYWNlLCB0aGUgZXhwb3J0X2xpc3QgZ2V0cyBm
-aWxsZWQsIHRvIGZpbmQgdGhlIG5vLm9mIG1vZGVzLiBJbiB0aGUKLQkgKiAybmQgdGltZSwgdGhl
-IHVzZXIgbW9kZXMgYXJlIGZpbGxlZCwgb25lIGJ5IG9uZSBmcm9tIHRoZSBleHBvcnRfbGlzdC4K
-IAkgKi8KIAlpZiAoKG91dF9yZXNwLT5jb3VudF9tb2RlcyA+PSBtb2RlX2NvdW50KSAmJiBtb2Rl
-X2NvdW50KSB7CiAJCWNvcGllZCA9IDA7CiAJCW1vZGVfcHRyID0gKHN0cnVjdCBkcm1fbW9kZV9t
-b2RlaW5mbyBfX3VzZXIgKikodW5zaWduZWQgbG9uZylvdXRfcmVzcC0+bW9kZXNfcHRyOwotCQls
-aXN0X2Zvcl9lYWNoX2VudHJ5KG1vZGUsICZleHBvcnRfbGlzdCwgZXhwb3J0X2hlYWQpIHsKKwkJ
-bGlzdF9mb3JfZWFjaF9lbnRyeShtb2RlLCAmY29ubmVjdG9yLT5tb2RlcywgaGVhZCkgeworCQkJ
-aWYgKCFtb2RlLT5leHBvc2VfdG9fdXNlcnNwYWNlKQorCQkJCWNvbnRpbnVlOworCisJCQkvKiBD
-bGVhciB0aGUgdGFnIGZvciB0aGUgbmV4dCB0aW1lIGFyb3VuZCAqLworCQkJbW9kZS0+ZXhwb3Nl
-X3RvX3VzZXJzcGFjZSA9IGZhbHNlOworCiAJCQlkcm1fbW9kZV9jb252ZXJ0X3RvX3Vtb2RlKCZ1
-X21vZGUsIG1vZGUpOwogCQkJLyoKIAkJCSAqIFJlc2V0IGFzcGVjdCByYXRpbyBmbGFncyBvZiB1
-c2VyLW1vZGUsIGlmIG1vZGVzIHdpdGgKQEAgLTIzMTUsMTMgKzIzMjEsMjYgQEAgaW50IGRybV9t
-b2RlX2dldGNvbm5lY3RvcihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogCQkJ
-aWYgKGNvcHlfdG9fdXNlcihtb2RlX3B0ciArIGNvcGllZCwKIAkJCQkJICZ1X21vZGUsIHNpemVv
-Zih1X21vZGUpKSkgewogCQkJCXJldCA9IC1FRkFVTFQ7CisKKwkJCQkvKgorCQkJCSAqIENsZWFy
-IHRoZSB0YWcgZm9yIHRoZSByZXN0IG9mCisJCQkJICogdGhlIG1vZGVzIGZvciB0aGUgbmV4dCB0
-aW1lIGFyb3VuZC4KKwkJCQkgKi8KKwkJCQlsaXN0X2Zvcl9lYWNoX2VudHJ5X2NvbnRpbnVlKG1v
-ZGUsICZjb25uZWN0b3ItPm1vZGVzLCBoZWFkKQorCQkJCQltb2RlLT5leHBvc2VfdG9fdXNlcnNw
-YWNlID0gZmFsc2U7CisKIAkJCQltdXRleF91bmxvY2soJmRldi0+bW9kZV9jb25maWcubXV0ZXgp
-OwogCiAJCQkJZ290byBvdXQ7CiAJCQl9CiAJCQljb3BpZWQrKzsKIAkJfQorCX0gZWxzZSB7CisJ
-CS8qIENsZWFyIHRoZSB0YWcgZm9yIHRoZSBuZXh0IHRpbWUgYXJvdW5kICovCisJCWxpc3RfZm9y
-X2VhY2hfZW50cnkobW9kZSwgJmNvbm5lY3Rvci0+bW9kZXMsIGhlYWQpCisJCQltb2RlLT5leHBv
-c2VfdG9fdXNlcnNwYWNlID0gZmFsc2U7CiAJfQorCiAJb3V0X3Jlc3AtPmNvdW50X21vZGVzID0g
-bW9kZV9jb3VudDsKIAltdXRleF91bmxvY2soJmRldi0+bW9kZV9jb25maWcubXV0ZXgpOwogCmRp
-ZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fbW9kZXMuaCBiL2luY2x1ZGUvZHJtL2RybV9tb2Rl
-cy5oCmluZGV4IDFlOTcxMzhhOWI4Yy4uYWMwNTg5YWFiMjNlIDEwMDY0NAotLS0gYS9pbmNsdWRl
-L2RybS9kcm1fbW9kZXMuaAorKysgYi9pbmNsdWRlL2RybS9kcm1fbW9kZXMuaApAQCAtMzQ4LDYg
-KzM0OCwxNyBAQCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSB7CiAJICovCiAJdTggdHlwZTsKIAor
-CS8qKgorCSAqIEBleHBvc2VfdG9fdXNlcnNwYWNlOgorCSAqCisJICogSW5kaWNhdGVzIHdoZXRo
-ZXIgdGhlIG1vZGUgaXMgdG8gYmUgZXhwb3NlZCB0byB0aGUgdXNlcnNwYWNlLgorCSAqIFRoaXMg
-aXMgdG8gbWFpbnRhaW4gYSBzZXQgb2YgZXhwb3NlZCBtb2RlcyB3aGlsZSBwcmVwYXJpbmcKKwkg
-KiB1c2VyLW1vZGUncyBsaXN0IGluIGRybV9tb2RlX2dldGNvbm5lY3RvciBpb2N0bC4gVGhlIHB1
-cnBvc2Ugb2YKKwkgKiB0aGlzIG9ubHkgbGllcyBpbiB0aGUgaW9jdGwgZnVuY3Rpb24sIGFuZCBp
-cyBub3QgdG8gYmUgdXNlZAorCSAqIG91dHNpZGUgdGhlIGZ1bmN0aW9uLgorCSAqLworCWJvb2wg
-ZXhwb3NlX3RvX3VzZXJzcGFjZTsKKwogCS8qKgogCSAqIEBoZWFkOgogCSAqCkBAIC0zNTUsMTkg
-KzM2Niw2IEBAIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIHsKIAkgKi8KIAlzdHJ1Y3QgbGlzdF9o
-ZWFkIGhlYWQ7CiAKLQkvKioKLQkgKiBAZXhwb3J0X2hlYWQ6Ci0JICoKLQkgKiBzdHJ1Y3QgbGlz
-dF9oZWFkIGZvciBtb2RlcyB0byBiZSBleHBvc2VkIHRvIHRoZSB1c2Vyc3BhY2UuCi0JICogVGhp
-cyBpcyB0byBtYWludGFpbiBhIGxpc3Qgb2YgZXhwb3NlZCBtb2RlcyB3aGlsZSBwcmVwYXJpbmcK
-LQkgKiB1c2VyLW1vZGUncyBsaXN0IGluIGRybV9tb2RlX2dldGNvbm5lY3RvciBpb2N0bC4gVGhl
-IHB1cnBvc2Ugb2YgdGhpcwotCSAqIGxpc3RfaGVhZCBvbmx5IGxpZXMgaW4gdGhlIGlvY3RsIGZ1
-bmN0aW9uLCBhbmQgaXMgbm90IGV4cGVjdGVkIHRvIGJlCi0JICogdXNlZCBvdXRzaWRlIHRoZSBm
-dW5jdGlvbi4KLQkgKiBPbmNlIHVzZWQsIHRoZSBzdGFsZSBwb2ludGVycyBhcmUgbm90IHJlc2V0
-LCBidXQgbGVmdCBhcyBpdCBpcywgdG8KLQkgKiBhdm9pZCBvdmVyaGVhZCBvZiBwcm90ZWN0aW5n
-IGl0IGJ5IG1vZGVfY29uZmlnLm11dGV4LgotCSAqLwotCXN0cnVjdCBsaXN0X2hlYWQgZXhwb3J0
-X2hlYWQ7Ci0KIAkvKioKIAkgKiBAbmFtZToKIAkgKgotLSAKMi4yNC4xCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+>-----Original Message-----
+>From: Daniel Vetter <daniel@ffwll.ch>
+>Sent: Tuesday, April 28, 2020 11:02 AM
+>To: Ruhl, Michael J <michael.j.ruhl@intel.com>
+>Cc: dri-devel@lists.freedesktop.org; daniel@ffwll.ch; Xiong, Jianxin
+><jianxin.xiong@intel.com>
+>Subject: Re: [PATCH 3/5] drm/i915/dmabuf: Add LMEM knowledge to dmabuf
+>map handler
+>
+>On Wed, Apr 22, 2020 at 05:25:17PM -0400, Michael J. Ruhl wrote:
+>> LMEM backed buffer objects do not have struct page information.
+>> Instead the dma_address of the struct sg is used to store the
+>> LMEM address information (relative to the device, this is not
+>> the CPU physical address).
+>>
+>> The dmabuf map handler requires pages to do a dma_map_xx.
+>>
+>> Add new mapping/unmapping functions, based on the LMEM usage
+>> of the dma_address to allow LMEM backed buffer objects to be
+>> mapped.
+>>
+>> Before mapping check the peer2peer distance to verify that P2P
+>> dma can occur.
+>
+>So this is supposed to check the importer's allow_peer2peer flag, and that
+>one is supposed to require the implementation of ->move_notify. Which
+>requires a pile of locking changes to align with dma_resv.
+
+Yeah, I was avoiding that step for the moment.  I am not completely
+comfortable with the how and why of how the move_notify is supposed
+to work, so I  left the current mechanism "as is", and am planning on
+adding the move_notify part as a next step.
+
+>By not doing all that you avoid the lockdep splats, but you're also
+>breaking the peer2peer dma-buf contract big time :-)
+
+OK.   I have some concerns because of the differences between the
+AMD and i915 implementations.  It is not clear to me how compatible
+they currently are, and if "matched" the implementation how that would
+affect the i915 driver.
+
+>I think this needs more work, or I need better glasses in case I'm not
+>spotting where this is all done.
+
+Nope, your glasses are good.  
+
+I will take a close look at how to incorporate the peer2peer stuff.
+
+Mike
+
+
+>-Daniel
+>
+>>
+>> Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+>> ---
+>>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 82
+>++++++++++++++++++++--
+>>  1 file changed, 76 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>> index 7ea4abb6a896..402c989cc23d 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>> @@ -7,6 +7,7 @@
+>>  #include <linux/dma-buf.h>
+>>  #include <linux/highmem.h>
+>>  #include <linux/dma-resv.h>
+>> +#include <linux/pci-p2pdma.h>
+>>  #include <linux/scatterlist.h>
+>>
+>>  #include "i915_drv.h"
+>> @@ -18,6 +19,67 @@ static struct drm_i915_gem_object
+>*dma_buf_to_obj(struct dma_buf *buf)
+>>  	return to_intel_bo(buf->priv);
+>>  }
+>>
+>> +static void dmabuf_unmap_addr(struct device *dev, struct scatterlist *sgl,
+>> +			      int nents, enum dma_data_direction dir)
+>> +{
+>> +	struct scatterlist *sg;
+>> +	int i;
+>> +
+>> +	for_each_sg(sgl, sg, nents, i)
+>> +		dma_unmap_resource(dev, sg_dma_address(sg),
+>sg_dma_len(sg),
+>> +				   dir, 0);
+>> +}
+>> +
+>> +/**
+>> + * dmabuf_map_addr - Update LMEM address to a physical address and
+>map the
+>> + * resource.
+>> + * @dev: valid device
+>> + * @obj: valid i915 GEM object
+>> + * @sg: scatter list to appy mapping to
+>> + * @nents: number of entries in the scatter list
+>> + * @dir: DMA direction
+>> + *
+>> + * The dma_address of the scatter list is the LMEM "address".  From this
+>the
+>> + * actual physical address can be determined.
+>> + *
+>> + * Return of 0 means error.
+>> + *
+>> + */
+>> +static int dmabuf_map_addr(struct device *dev, struct
+>drm_i915_gem_object *obj,
+>> +			   struct scatterlist *sgl, int nents,
+>> +			   enum dma_data_direction dir)
+>> +{
+>> +	struct scatterlist *sg;
+>> +	phys_addr_t addr;
+>> +	int distance;
+>> +	int i;
+>> +
+>> +	distance = pci_p2pdma_distance_many(obj->base.dev->pdev, &dev,
+>1,
+>> +					    true);
+>> +	if (distance < 0) {
+>> +		pr_info("%s: from: %s  to: %s  distance: %d\n", __func__,
+>> +			pci_name(obj->base.dev->pdev), dev_name(dev),
+>> +			distance);
+>> +		return 0;
+>> +	}
+>> +
+>> +	for_each_sg(sgl, sg, nents, i) {
+>> +		addr = sg_dma_address(sg) + obj->mm.region->io_start;
+>> +
+>> +		sg->dma_address = dma_map_resource(dev, addr, sg-
+>>length, dir,
+>> +						   0);
+>> +		if (dma_mapping_error(dev, sg->dma_address))
+>> +			goto unmap;
+>> +		sg->dma_length = sg->length;
+>> +	}
+>> +
+>> +	return nents;
+>> +
+>> +unmap:
+>> +	dmabuf_unmap_addr(dev, sgl, i, dir);
+>> +	return 0;
+>> +}
+>> +
+>>  static struct sg_table *i915_gem_map_dma_buf(struct
+>dma_buf_attachment *attach,
+>>  					     enum dma_data_direction dir)
+>>  {
+>> @@ -44,12 +106,17 @@ static struct sg_table
+>*i915_gem_map_dma_buf(struct dma_buf_attachment *attach,
+>>  	dst = sgt->sgl;
+>>  	for_each_sg(obj->mm.pages->sgl, src, obj->mm.pages->nents, i) {
+>>  		sg_set_page(dst, sg_page(src), src->length, 0);
+>> +		sg_dma_address(dst) = sg_dma_address(src);
+>>  		dst = sg_next(dst);
+>>  	}
+>>
+>> -	if (!dma_map_sg_attrs(attach->dev,
+>> -			      sgt->sgl, sgt->nents, dir,
+>> -			      DMA_ATTR_SKIP_CPU_SYNC)) {
+>> +	if (i915_gem_object_has_struct_page(obj))
+>> +		ret = dma_map_sg_attrs(attach->dev, sgt->sgl, sgt->nents,
+>dir,
+>> +				       DMA_ATTR_SKIP_CPU_SYNC);
+>> +	else
+>> +		ret = dmabuf_map_addr(attach->dev, obj, sgt->sgl, sgt-
+>>nents,
+>> +				      dir);
+>> +	if (!ret) {
+>>  		ret = -ENOMEM;
+>>  		goto err_free_sg;
+>>  	}
+>> @@ -72,9 +139,12 @@ static void i915_gem_unmap_dma_buf(struct
+>dma_buf_attachment *attach,
+>>  {
+>>  	struct drm_i915_gem_object *obj = dma_buf_to_obj(attach-
+>>dmabuf);
+>>
+>> -	dma_unmap_sg_attrs(attach->dev,
+>> -			   sgt->sgl, sgt->nents, dir,
+>> -			   DMA_ATTR_SKIP_CPU_SYNC);
+>> +	if (i915_gem_object_has_struct_page(obj))
+>> +		dma_unmap_sg_attrs(attach->dev, sgt->sgl, sgt->nents, dir,
+>> +				   DMA_ATTR_SKIP_CPU_SYNC);
+>> +	else
+>> +		dmabuf_unmap_addr(attach->dev, sgt->sgl, sgt->nents, dir);
+>> +
+>>  	sg_free_table(sgt);
+>>  	kfree(sgt);
+>>
+>> --
+>> 2.21.0
+>>
+>
+>--
+>Daniel Vetter
+>Software Engineer, Intel Corporation
+>http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
