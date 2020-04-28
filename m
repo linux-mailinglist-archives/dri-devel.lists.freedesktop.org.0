@@ -2,54 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61C91BC541
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 18:32:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4BD1BC55A
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 18:37:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8E996E171;
-	Tue, 28 Apr 2020 16:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 676086E84D;
+	Tue, 28 Apr 2020 16:37:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A105D6E171
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 16:32:49 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id k22so16907343eds.6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 09:32:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2qqW799+HyF2Wu1dNjLV/flMm63iL6Ca6J7Iog3lLWc=;
- b=Kq3im6G2fM6gJlqVbnR7mFw3MsPG03Yyop9QuNdzkCmIpo1BTfus/PBvM8dD3EBeFp
- 9mptje/OKsZ+kLHmfaXvQLR90ERhU++VjWtcLv3noHdXgySzrqOMh3FUTpi0CUlWoK/8
- 9lmY3/c+SaegTnTYbU0Ij9uQXN2KmS2V9uUH11ZoknM8vVX0dGm7hWb2FOq4Blb3EEr4
- dNwbaL2mebMqTFRp4VOeyQCxHZdhJS0roycBBZ0wlCcO/FPWT1QJ6kaBPJ8iDvZA0Sfr
- GHv/8qNMGEeo43u/fw8QjotCwf1N+K3IF5ZErmPYBheqcTqGezVVsrlobB/iVvaO5uuD
- QueQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2qqW799+HyF2Wu1dNjLV/flMm63iL6Ca6J7Iog3lLWc=;
- b=pwovYxii804rMb49052eNKsWW4wmMyIxuIzTLjSvG050D8XpeztdDoggb1EYIV9exE
- TOHg/XR2iiInYseWAz/LaBWSLmHRLtHbqgICxBLU3nNerb4xcphU3HiRwtxQ+zEhM/gO
- vNBQa2zELGUdE04ubM2uLfCdd/vFZro7IPUJEARjRKILPkq8EZjthDLDDM+fGProjtWj
- vXgSHAoqPzDgvw54oiNoMHN/zJgJiahaYCYT+VEUoUBq7EOTZNh3WU30KqhwmHJGIyRH
- bzAWctoBxgoecrRpduyjafvf5XgCdL+2hi06t1B+bpAIRLUAF9U1Kc1smJuvmmygkBzM
- rRmA==
-X-Gm-Message-State: AGi0PuYKDtWrtECjjrI2n5CrvODpSrDiNlvSUMfPpFawbda9vBzaVl0w
- H4/9TrRrlYBCe4biUM6hcrpgypWJVqM+rfktEWk=
-X-Google-Smtp-Source: APiQypKVOWS0ju9saQ65COkWMwGdZrVXzxnXC6xYv19adm5Pgg9snY4hju2y8SnJwZR+KZM4j2KGIJYSM8xx21EjpU8=
-X-Received: by 2002:a05:6402:22ea:: with SMTP id
- dn10mr23067239edb.70.1588091568165; 
- Tue, 28 Apr 2020 09:32:48 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11B206E84D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 16:37:52 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A494C20B80
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 16:37:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588091871;
+ bh=Uoj0BjFq988E2mLhmcNcRR/H4Wi47KHjYkGY/1y8N1k=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=rPd+xC9fjkBMimGCmyES96/SSKnGhQt9LI0DwdlzEPnKu5+Rlskf57JyKAuOOXnpx
+ 5FsUAe5BAtykiTvEIcBRv3rBQJhd66yhN57zAp0f+R6nm67lyZ64f3ZZQoh4Es+7bE
+ kajz13CkD7WmQTXJ67ZSmIID9M0W4BqqXRZWkp+M=
+Received: by mail-ej1-f49.google.com with SMTP id n17so17745957ejh.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 09:37:51 -0700 (PDT)
+X-Gm-Message-State: AGi0PubwkpwgzIxo6Z8w8StUzDtynel030p8qYcXGZK3VNHuHqjU4jpZ
+ nzZ5dQZ4nPtj/iedTKAVa4mpm65ZKqnS2z97kw==
+X-Google-Smtp-Source: APiQypJjv9YpvCUB7C9FT396wARQtk3fMbL/djWYavK0MUAWkXioud021aPhjbo3X2S0bPMMCv25azvwtbxKAXhAqrs=
+X-Received: by 2002:a17:907:2168:: with SMTP id
+ rl8mr24379159ejb.360.1588091870050; 
+ Tue, 28 Apr 2020 09:37:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <1588080785-6812-1-git-send-email-rnayak@codeaurora.org>
- <1588080785-6812-6-git-send-email-rnayak@codeaurora.org>
-In-Reply-To: <1588080785-6812-6-git-send-email-rnayak@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 28 Apr 2020 09:32:36 -0700
-Message-ID: <CAF6AEGsEgZc=NehvFH2bRfHxcM1uR6s3sLLhk-cQPXM0SXw6Lw@mail.gmail.com>
-Subject: Re: [PATCH v3 05/17] drm/msm/dpu: Use OPP API to set clk/perf state
-To: Rajendra Nayak <rnayak@codeaurora.org>
+References: <20200420060834.44461-1-amistry@google.com>
+ <CAAOTY_81qB+WJN_2-ZNqM63NOp+Es1qEmsp2qje2bfePg1O5Vw@mail.gmail.com>
+ <CAATStaNwCyveF-fmrT=1m-BJh=8WOyaffFzVsC_Lo_rFkm6Z=Q@mail.gmail.com>
+In-Reply-To: <CAATStaNwCyveF-fmrT=1m-BJh=8WOyaffFzVsC_Lo_rFkm6Z=Q@mail.gmail.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 29 Apr 2020 00:37:38 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9HQTiywgzGrefDHromhXtLPyWeYUyxFU8+h8sN_fo9xw@mail.gmail.com>
+Message-ID: <CAAOTY_9HQTiywgzGrefDHromhXtLPyWeYUyxFU8+h8sN_fo9xw@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: stop iterating dma addresses when
+ sg_dma_len() == 0
+To: "Anand K. Mistry" <amistry@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,158 +57,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Matthias Kaehlcke <mka@chromium.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 28, 2020 at 6:39 AM Rajendra Nayak <rnayak@codeaurora.org> wrote:
->
-> On some qualcomm platforms DPU needs to express a perforamnce state
-
-s/perforamnce/performance/
-
-> requirement on a power domain depennding on the clock rates.
-
-s/depennding/depending/
-
-> Use OPP table from DT to register with OPP framework and use
-> dev_pm_opp_set_rate() to set the clk/perf state.
->
-> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c |  3 ++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 25 ++++++++++++++++++++++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  4 ++++
->  3 files changed, 30 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> index 11f2beb..fe5717df 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> @@ -7,6 +7,7 @@
->  #include <linux/debugfs.h>
->  #include <linux/errno.h>
->  #include <linux/mutex.h>
-> +#include <linux/pm_opp.h>
->  #include <linux/sort.h>
->  #include <linux/clk.h>
->  #include <linux/bitmap.h>
-> @@ -239,7 +240,7 @@ static int _dpu_core_perf_set_core_clk_rate(struct dpu_kms *kms, u64 rate)
->                 rate = core_clk->max_rate;
->
->         core_clk->rate = rate;
-> -       return msm_dss_clk_set_rate(core_clk, 1);
-> +       return dev_pm_opp_set_rate(&kms->pdev->dev, core_clk->rate);
-
-I think this leaves msm_dss_clk_set_rate() unused now?
-
-
-Other than that,
-
-Reviewed-by: Rob Clark <robdclark@chromium.org>
-
->  }
->
->  static u64 _dpu_core_perf_get_core_clk_rate(struct dpu_kms *kms)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index ce19f1d..2f53bbf 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -10,6 +10,7 @@
->  #include <linux/debugfs.h>
->  #include <linux/dma-buf.h>
->  #include <linux/of_irq.h>
-> +#include <linux/pm_opp.h>
->
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_file.h>
-> @@ -1033,11 +1034,23 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->         if (!dpu_kms)
->                 return -ENOMEM;
->
-> +       dpu_kms->opp_table = dev_pm_opp_set_clkname(dev, "core");
-> +       if (IS_ERR(dpu_kms->opp_table))
-> +               return PTR_ERR(dpu_kms->opp_table);
-> +       /* OPP table is optional */
-> +       ret = dev_pm_opp_of_add_table(dev);
-> +       if (!ret) {
-> +               dpu_kms->has_opp_table = true;
-> +       } else if (ret != -ENODEV) {
-> +               dev_err(dev, "Invalid OPP table in Device tree\n");
-> +               return ret;
-> +       }
-> +
->         mp = &dpu_kms->mp;
->         ret = msm_dss_parse_clock(pdev, mp);
->         if (ret) {
->                 DPU_ERROR("failed to parse clocks, ret=%d\n", ret);
-> -               return ret;
-> +               goto err;
->         }
->
->         platform_set_drvdata(pdev, dpu_kms);
-> @@ -1051,6 +1064,11 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->
->         priv->kms = &dpu_kms->base;
->         return ret;
-> +err:
-> +       if (dpu_kms->has_opp_table)
-> +               dev_pm_opp_of_remove_table(dev);
-> +       dev_pm_opp_put_clkname(dpu_kms->opp_table);
-> +       return ret;
->  }
->
->  static void dpu_unbind(struct device *dev, struct device *master, void *data)
-> @@ -1059,6 +1077,9 @@ static void dpu_unbind(struct device *dev, struct device *master, void *data)
->         struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
->         struct dss_module_power *mp = &dpu_kms->mp;
->
-> +       if (dpu_kms->has_opp_table)
-> +               dev_pm_opp_of_remove_table(dev);
-> +       dev_pm_opp_put_clkname(dpu_kms->opp_table);
->         msm_dss_put_clk(mp->clk_config, mp->num_clk);
->         devm_kfree(&pdev->dev, mp->clk_config);
->         mp->num_clk = 0;
-> @@ -1090,6 +1111,8 @@ static int __maybe_unused dpu_runtime_suspend(struct device *dev)
->         struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
->         struct dss_module_power *mp = &dpu_kms->mp;
->
-> +       /* Drop the performance state vote */
-> +       dev_pm_opp_set_rate(dev, 0);
->         rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, false);
->         if (rc)
->                 DPU_ERROR("clock disable failed rc:%d\n", rc);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index 211f5de9..2a52e4e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -128,6 +128,10 @@ struct dpu_kms {
->
->         struct platform_device *pdev;
->         bool rpm_enabled;
-> +
-> +       struct opp_table *opp_table;
-> +       bool has_opp_table;
-> +
->         struct dss_module_power mp;
->
->         /* reference count bandwidth requests, so we know when we can
-> --
-> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-> of Code Aurora Forum, hosted by The Linux Foundation
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEFuYW5kLAoKQW5hbmQgSy4gTWlzdHJ5IDxhbWlzdHJ5QGNocm9taXVtLm9yZz4g5pa8IDIw
+MjDlubQ05pyIMjjml6Ug6YCx5LqMIOS4iuWNiDk6NTTlr6vpgZPvvJoKPgo+IE9uIFN1biwgMjYg
+QXByIDIwMjAgYXQgMTg6MDQsIENodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3Jn
+PiB3cm90ZToKPiA+Cj4gPiBIaSwgQW5hbmQ6Cj4gPgo+ID4gQW5hbmQgSyBNaXN0cnkgPGFtaXN0
+cnlAY2hyb21pdW0ub3JnPiDmlrwgMjAyMOW5tDTmnIgyMOaXpSDpgLHkuIAg5LiL5Y2IMjowOeWv
+q+mBk++8mgo+ID4gPgo+ID4gPiBJZiBkbWFfbWFwX3NnKCkgbWVyZ2VzIHBhZ2VzIHdoZW4gY3Jl
+YXRpbmcgdGhlIG1hcHBpbmcsIG9ubHkgdGhlIGZpcnN0Cj4gPiA+IGVudHJpZXMgd2lsbCBoYXZl
+IGEgdmFsaWQgc2dfZG1hX2FkZHJlc3MoKSBhbmQgc2dfZG1hX2xlbigpLCBmb2xsb3dlZCBieQo+
+ID4gPiBlbnRyaWVzIHdpdGggc2dfZG1hX2xlbigpID09IDAuCj4gPiA+Cj4gPiA+IFNpZ25lZC1v
+ZmYtYnk6IEFuYW5kIEsgTWlzdHJ5IDxhbWlzdHJ5QGdvb2dsZS5jb20+Cj4gPiA+IC0tLQo+ID4g
+PiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmMgfCAzICsrKwo+ID4gPiAg
+MSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+ID4gPgo+ID4gPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX2RybV9nZW0uYwo+ID4gPiBpbmRleCBiMDRhM2MyYjExMWUwOS4uZjhmZDhi
+OThjMzBlM2QgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
+ZHJtX2dlbS5jCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dl
+bS5jCj4gPiA+IEBAIC0yMjQsNiArMjI0LDkgQEAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICptdGtf
+Z2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4gPgo+
+ID4gPiAgICAgICAgIGV4cGVjdGVkID0gc2dfZG1hX2FkZHJlc3Moc2ctPnNnbCk7Cj4gPiA+ICAg
+ICAgICAgZm9yX2VhY2hfc2coc2ctPnNnbCwgcywgc2ctPm5lbnRzLCBpKSB7Cj4gPiA+ICsgICAg
+ICAgICAgICAgICBpZiAoIXNnX2RtYV9sZW4ocykpCj4gPiA+ICsgICAgICAgICAgICAgICAgICAg
+ICAgIGJyZWFrOwo+ID4KPiA+IEkgdGhpbmsgdGhpcyBzaG91bGQgYmUgJ2NvbnRpbnVlJwo+Cj4g
+c2NhdHRlcmxpc3QuaCBoYXMgdGhlIGNvbW1lbnQ6Cj4gLyoKPiAgKiBUaGVzZSBtYWNyb3Mgc2hv
+dWxkIGJlIHVzZWQgYWZ0ZXIgYSBkbWFfbWFwX3NnIGNhbGwgaGFzIGJlZW4gZG9uZQo+ICAqIHRv
+IGdldCBidXMgYWRkcmVzc2VzIG9mIGVhY2ggb2YgdGhlIFNHIGVudHJpZXMgYW5kIHRoZWlyIGxl
+bmd0aHMuCj4gICogWW91IHNob3VsZCBvbmx5IHdvcmsgd2l0aCB0aGUgbnVtYmVyIG9mIHNnIGVu
+dHJpZXMgZG1hX21hcF9zZwo+ICAqIHJldHVybnMsIG9yIGFsdGVybmF0aXZlbHkgc3RvcCBvbiB0
+aGUgZmlyc3Qgc2dfZG1hX2xlbihzZykgd2hpY2gKPiAgKiBpcyAwLgo+ICAqLwo+Cj4gU28gYnJl
+YWtpbmcgb24gdGhlIGZpcnN0IHNnX2RtYV9sZW4oc2cpID09IDAgYXBwZWFycyB0byBiZSAob25l
+IG9mKQo+IHRoZSBkb2N1bWVudGVkIGFwcHJvYWNoLgo+CgpPa2F5LCB5b3UncmUgcmlnaHQuIFNv
+CgpSZXZpZXdlZC1ieTogQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+Cgo+
+ID4KPiA+IFJlZ2FyZHMsCj4gPiBDaHVuLUt1YW5nLgo+ID4KPiA+ID4gKwo+ID4gPiAgICAgICAg
+ICAgICAgICAgaWYgKHNnX2RtYV9hZGRyZXNzKHMpICE9IGV4cGVjdGVkKSB7Cj4gPiA+ICAgICAg
+ICAgICAgICAgICAgICAgICAgIERSTV9FUlJPUigic2dfdGFibGUgaXMgbm90IGNvbnRpZ3VvdXMi
+KTsKPiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgcmV0ID0gLUVJTlZBTDsKPiA+ID4gLS0K
+PiA+ID4gMi4yNi4xLjMwMS5nNTViYzNlYjdjYjktZ29vZwo+ID4gPgo+ID4gPgo+ID4gPiBfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gPiBMaW51eC1t
+ZWRpYXRlayBtYWlsaW5nIGxpc3QKPiA+ID4gTGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFk
+Lm9yZwo+ID4gPiBodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xp
+bnV4LW1lZGlhdGVrCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
