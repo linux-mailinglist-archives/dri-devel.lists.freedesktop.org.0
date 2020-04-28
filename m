@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A811BBE0D
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:47:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6F31BBDED
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:47:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7B526E3DB;
-	Tue, 28 Apr 2020 12:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB1589F4F;
+	Tue, 28 Apr 2020 12:46:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-il1-x141.google.com (mail-il1-x141.google.com
  [IPv6:2607:f8b0:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F57889E1A
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 01:50:13 +0000 (UTC)
-Received: by mail-il1-x141.google.com with SMTP id c16so18732150ilr.3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 18:50:13 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E160089E5B
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 01:54:41 +0000 (UTC)
+Received: by mail-il1-x141.google.com with SMTP id x2so18769346ilp.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 18:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YaU2/bqOvJmu7nLilC8+VupwXIvHjzZj2IVAUbftdD4=;
- b=LTmjYe+3f178ZF4clJJuPpBT7YtcpC7y5+2/uzqzQk/G8phBpOZffIcitsRVkfIOKz
- Q+0HU9FejJxbnVW/51H8EKzj8xiheF6sNol3rwcl6rgaj7SepAvQJDSAbWRLjjLITmf3
- 0py8OO9jNrVSn0kxsr544EA238G/OdWPX+w/A=
+ :cc:content-transfer-encoding;
+ bh=Dn5FsFHXDoP63PfOK+hSyyadWEoDt1vFl68jXDW6Zcs=;
+ b=DIysdPazFDSPjWrk9J98X+PHbjtukRlthArlsiKuuAdwBzWfCicMgBuJ0xfyvX7NQA
+ OWgWZ8KUgpqJQgeK8x61TqtaPo+WcfYOyCM+yzAW3UUIRconylO19z25qm6WYlx0mmM1
+ sbTETGjjaQ0hsRQFPAGzSo/6+tDT7W0hc+/uk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YaU2/bqOvJmu7nLilC8+VupwXIvHjzZj2IVAUbftdD4=;
- b=KGOWTxmZ6MoJmDstbTtYQiODUptSkEtLxqnzVm2PtOHXrgXaaYvWozOvYtle6Hg0Kb
- 6M/irz4rEJrs+2A0g2X6NA0BIvIURD5QLRdBIxcgTVf7sz1OJSEynnT/tRUBMrxeCsJb
- Cz97/rLcUSFaQhHw/2m0ItikCSJ762j4duK2x07DouwJkAr43X5n2av+Pt+17HRJQQ3M
- np0ofZzuX/ljzq9s2q+V1Fa4Hin9rBgKALxS8vTQHnCAhw88AC/yyZzNBWIod/UDe74B
- LQIQgPZmgbMADn+DlwWqDlrFPDFSVim+/T6UN2mcAqcVVx6WWVGZud+Q/k4l33nX0dGi
- DFFg==
-X-Gm-Message-State: AGi0PuYXNlv6DuqvM5KS8BCwJS+SjjCNgTbzTVQgwicbS7NcrqMmVbci
- aoq06viSzo1JJiVbgacZpd4BaTSyCRI=
-X-Google-Smtp-Source: APiQypJy6H5hxU3adIx9DhAopD1s9ObvOGOzNEMjvPXRtBxeCq2EVnlSbll+RnCTfc7XAAEM9wbgrA==
-X-Received: by 2002:a92:5c57:: with SMTP id q84mr24508823ilb.203.1588038611614; 
- Mon, 27 Apr 2020 18:50:11 -0700 (PDT)
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com.
- [209.85.166.169])
- by smtp.gmail.com with ESMTPSA id y15sm6041306ilg.21.2020.04.27.18.50.10
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Dn5FsFHXDoP63PfOK+hSyyadWEoDt1vFl68jXDW6Zcs=;
+ b=QLhMx5Vs9bD6FuZXEXvDNz8QOKW/ND0WvVDjIsRXw3JynLFCYtlLiXPY/TOVud9tMP
+ MYqkuUonPkz+2Lr/QtzHOTYZjtH7UnKhkv6tDrDR7E7EJvVBcxrwNRQiyRFgGtbxJwh9
+ H5Ew62b1xLhOYRiLJFYaEbj4huzeRjBgWSrr36iTRIP+a7NkPkkogL4ZnSd5LGXe1Ls9
+ 2MjYg5EbnYIRtuIAdO7xanqezP3Iwo7ojY/KO1ZJd7kTz5JD0h4cwAdOlAp8tKAOEeFa
+ SQ0hl5HgGVIvLnKyP0s0xaGOyWa9dCb5mz+jxt/bvBUJwoDOS/WVhbnJoDGdw0QfjtYU
+ l/Xg==
+X-Gm-Message-State: AGi0PuY+eLHM5FT3B9obMUjlbepFDfk5id/xBzETjx6Jks/DHVi4mRK/
+ pa3ZezgCg3cAyGybWrCJjN3LqmL5ogZpxg9I
+X-Google-Smtp-Source: APiQypLo0JwQJjPLDun3PRPfaJF/xnJ1viK7UqlB3ox14VpMg4VECz9FkCSmJr80p1ORfBNvjW1drA==
+X-Received: by 2002:a92:c6c4:: with SMTP id v4mr22110715ilm.18.1588038880816; 
+ Mon, 27 Apr 2020 18:54:40 -0700 (PDT)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com.
+ [209.85.166.42])
+ by smtp.gmail.com with ESMTPSA id f1sm5522876iog.46.2020.04.27.18.54.39
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Apr 2020 18:50:10 -0700 (PDT)
-Received: by mail-il1-f169.google.com with SMTP id r2so18743069ilo.6
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 18:50:10 -0700 (PDT)
-X-Received: by 2002:a05:6e02:68e:: with SMTP id
- o14mr22143273ils.33.1588038610055; 
- Mon, 27 Apr 2020 18:50:10 -0700 (PDT)
+ Mon, 27 Apr 2020 18:54:39 -0700 (PDT)
+Received: by mail-io1-f42.google.com with SMTP id z2so21127559iol.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Apr 2020 18:54:39 -0700 (PDT)
+X-Received: by 2002:a6b:9088:: with SMTP id
+ s130mr23613954iod.122.1588038879127; 
+ Mon, 27 Apr 2020 18:54:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200420060834.44461-1-amistry@google.com>
  <CAAOTY_81qB+WJN_2-ZNqM63NOp+Es1qEmsp2qje2bfePg1O5Vw@mail.gmail.com>
 In-Reply-To: <CAAOTY_81qB+WJN_2-ZNqM63NOp+Es1qEmsp2qje2bfePg1O5Vw@mail.gmail.com>
 From: "Anand K. Mistry" <amistry@chromium.org>
-Date: Tue, 28 Apr 2020 11:49:59 +1000
-X-Gmail-Original-Message-ID: <CAATStaOR6UcXFsYD8zmbmAyVGYctDEqzJiuhtE-_vi_1PdBKqQ@mail.gmail.com>
-Message-ID: <CAATStaOR6UcXFsYD8zmbmAyVGYctDEqzJiuhtE-_vi_1PdBKqQ@mail.gmail.com>
+Date: Tue, 28 Apr 2020 11:54:28 +1000
+X-Gmail-Original-Message-ID: <CAATStaNwCyveF-fmrT=1m-BJh=8WOyaffFzVsC_Lo_rFkm6Z=Q@mail.gmail.com>
+Message-ID: <CAATStaNwCyveF-fmrT=1m-BJh=8WOyaffFzVsC_Lo_rFkm6Z=Q@mail.gmail.com>
 Subject: Re: [PATCH] drm/mediatek: stop iterating dma addresses when
  sg_dma_len() == 0
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
@@ -77,170 +78,45 @@ Cc: Matthias Brugger <matthias.bgg@gmail.com>,
  <linux-mediatek@lists.infradead.org>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>,
  DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1097220324=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1097220324==
-Content-Type: multipart/alternative; boundary="0000000000003e780205a4500d5c"
-
---0000000000003e780205a4500d5c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, 26 Apr 2020 at 18:04, Chun-Kuang Hu <chunkuang.hu@kernel.org> wrote=
-:
-
-> Hi, Anand:
->
-> Anand K Mistry <amistry@chromium.org> =E6=96=BC 2020=E5=B9=B44=E6=9C=8820=
-=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=882:09=E5=AF=AB=E9=81=93=EF=BC=
-=9A
-> >
-> > If dma_map_sg() merges pages when creating the mapping, only the first
-> > entries will have a valid sg_dma_address() and sg_dma_len(), followed b=
-y
-> > entries with sg_dma_len() =3D=3D 0.
-> >
-> > Signed-off-by: Anand K Mistry <amistry@google.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_drm_gem.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> > index b04a3c2b111e09..f8fd8b98c30e3d 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> > @@ -224,6 +224,9 @@ struct drm_gem_object
-> *mtk_gem_prime_import_sg_table(struct drm_device *dev,
-> >
-> >         expected =3D sg_dma_address(sg->sgl);
-> >         for_each_sg(sg->sgl, s, sg->nents, i) {
-> > +               if (!sg_dma_len(s))
-> > +                       break;
->
-> I think this should be 'continue'
->
-
-scatterlist.h has the comment:
-/*
- * These macros should be used after a dma_map_sg call has been done
- * to get bus addresses of each of the SG entries and their lengths.
- * You should only work with the number of sg entries dma_map_sg
- * returns, or alternatively stop on the first sg_dma_len(sg) which
- * is 0.
- */
-
-So breaking on the first sg_dma_len(sg) =3D=3D 0 appears to be (one of) the
-documented approach.
-
-
-> Regards,
-> Chun-Kuang.
->
-> > +
-> >                 if (sg_dma_address(s) !=3D expected) {
-> >                         DRM_ERROR("sg_table is not contiguous");
-> >                         ret =3D -EINVAL;
-> > --
-> > 2.26.1.301.g55bc3eb7cb9-goog
-> >
-> >
-> > _______________________________________________
-> > Linux-mediatek mailing list
-> > Linux-mediatek@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-mediatek
->
-
---0000000000003e780205a4500d5c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Sun, 26 Apr 2020 at 18:04, Chun-Kuang =
-Hu &lt;<a href=3D"mailto:chunkuang.hu@kernel.org">chunkuang.hu@kernel.org</=
-a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">Hi, Anand:<br>
-<br>
-Anand K Mistry &lt;<a href=3D"mailto:amistry@chromium.org" target=3D"_blank=
-">amistry@chromium.org</a>&gt; =E6=96=BC 2020=E5=B9=B44=E6=9C=8820=E6=97=A5=
- =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=882:09=E5=AF=AB=E9=81=93=EF=BC=9A<br>
-&gt;<br>
-&gt; If dma_map_sg() merges pages when creating the mapping, only the first=
-<br>
-&gt; entries will have a valid sg_dma_address() and sg_dma_len(), followed =
-by<br>
-&gt; entries with sg_dma_len() =3D=3D 0.<br>
-&gt;<br>
-&gt; Signed-off-by: Anand K Mistry &lt;<a href=3D"mailto:amistry@google.com=
-" target=3D"_blank">amistry@google.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 drivers/gpu/drm/mediatek/mtk_drm_gem.c | 3 +++<br>
-&gt;=C2=A0 1 file changed, 3 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/=
-mediatek/mtk_drm_gem.c<br>
-&gt; index b04a3c2b111e09..f8fd8b98c30e3d 100644<br>
-&gt; --- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c<br>
-&gt; +++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c<br>
-&gt; @@ -224,6 +224,9 @@ struct drm_gem_object *mtk_gem_prime_import_sg_tab=
-le(struct drm_device *dev,<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0expected =3D sg_dma_address(sg-&gt;sg=
-l);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for_each_sg(sg-&gt;sgl, s, sg-&gt;nen=
-ts, i) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!sg_dma_le=
-n(s))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0break;<br>
-<br>
-I think this should be &#39;continue&#39;<br></blockquote><div><br></div>sc=
-atterlist.h has the comment:<br>/*<br>=C2=A0* These macros should be used a=
-fter a dma_map_sg call has been done<br>=C2=A0* to get bus addresses of eac=
-h of the SG entries and their lengths.<br>=C2=A0* You should only work with=
- the number of sg entries dma_map_sg<br>=C2=A0* returns, or alternatively s=
-top on the first sg_dma_len(sg) which<br>=C2=A0* is 0.<br>=C2=A0*/<div>=C2=
-=A0</div><div>So breaking on the first=C2=A0sg_dma_len(sg) =3D=3D 0 appears=
- to be (one of) the documented approach.</div><div><br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">
-<br>
-Regards,<br>
-Chun-Kuang.<br>
-<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (sg_dm=
-a_address(s) !=3D expected) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quot;sg_table is not contiguous&quot;);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0ret =3D -EINVAL;<br>
-&gt; --<br>
-&gt; 2.26.1.301.g55bc3eb7cb9-goog<br>
-&gt;<br>
-&gt;<br>
-&gt; _______________________________________________<br>
-&gt; Linux-mediatek mailing list<br>
-&gt; <a href=3D"mailto:Linux-mediatek@lists.infradead.org" target=3D"_blank=
-">Linux-mediatek@lists.infradead.org</a><br>
-&gt; <a href=3D"http://lists.infradead.org/mailman/listinfo/linux-mediatek"=
- rel=3D"noreferrer" target=3D"_blank">http://lists.infradead.org/mailman/li=
-stinfo/linux-mediatek</a><br>
-</blockquote></div></div>
-
---0000000000003e780205a4500d5c--
-
---===============1097220324==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1097220324==--
+T24gU3VuLCAyNiBBcHIgMjAyMCBhdCAxODowNCwgQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1
+QGtlcm5lbC5vcmc+IHdyb3RlOgo+Cj4gSGksIEFuYW5kOgo+Cj4gQW5hbmQgSyBNaXN0cnkgPGFt
+aXN0cnlAY2hyb21pdW0ub3JnPiDmlrwgMjAyMOW5tDTmnIgyMOaXpSDpgLHkuIAg5LiL5Y2IMjow
+OeWvq+mBk++8mgo+ID4KPiA+IElmIGRtYV9tYXBfc2coKSBtZXJnZXMgcGFnZXMgd2hlbiBjcmVh
+dGluZyB0aGUgbWFwcGluZywgb25seSB0aGUgZmlyc3QKPiA+IGVudHJpZXMgd2lsbCBoYXZlIGEg
+dmFsaWQgc2dfZG1hX2FkZHJlc3MoKSBhbmQgc2dfZG1hX2xlbigpLCBmb2xsb3dlZCBieQo+ID4g
+ZW50cmllcyB3aXRoIHNnX2RtYV9sZW4oKSA9PSAwLgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IEFu
+YW5kIEsgTWlzdHJ5IDxhbWlzdHJ5QGdvb2dsZS5jb20+Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dw
+dS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYyB8IDMgKysrCj4gPiAgMSBmaWxlIGNoYW5nZWQs
+IDMgaW5zZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvbXRrX2RybV9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dl
+bS5jCj4gPiBpbmRleCBiMDRhM2MyYjExMWUwOS4uZjhmZDhiOThjMzBlM2QgMTAwNjQ0Cj4gPiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYwo+ID4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmMKPiA+IEBAIC0yMjQsNiArMjI0LDkg
+QEAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICptdGtfZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZShz
+dHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4KPiA+ICAgICAgICAgZXhwZWN0ZWQgPSBzZ19kbWFf
+YWRkcmVzcyhzZy0+c2dsKTsKPiA+ICAgICAgICAgZm9yX2VhY2hfc2coc2ctPnNnbCwgcywgc2ct
+Pm5lbnRzLCBpKSB7Cj4gPiArICAgICAgICAgICAgICAgaWYgKCFzZ19kbWFfbGVuKHMpKQo+ID4g
+KyAgICAgICAgICAgICAgICAgICAgICAgYnJlYWs7Cj4KPiBJIHRoaW5rIHRoaXMgc2hvdWxkIGJl
+ICdjb250aW51ZScKCnNjYXR0ZXJsaXN0LmggaGFzIHRoZSBjb21tZW50OgovKgogKiBUaGVzZSBt
+YWNyb3Mgc2hvdWxkIGJlIHVzZWQgYWZ0ZXIgYSBkbWFfbWFwX3NnIGNhbGwgaGFzIGJlZW4gZG9u
+ZQogKiB0byBnZXQgYnVzIGFkZHJlc3NlcyBvZiBlYWNoIG9mIHRoZSBTRyBlbnRyaWVzIGFuZCB0
+aGVpciBsZW5ndGhzLgogKiBZb3Ugc2hvdWxkIG9ubHkgd29yayB3aXRoIHRoZSBudW1iZXIgb2Yg
+c2cgZW50cmllcyBkbWFfbWFwX3NnCiAqIHJldHVybnMsIG9yIGFsdGVybmF0aXZlbHkgc3RvcCBv
+biB0aGUgZmlyc3Qgc2dfZG1hX2xlbihzZykgd2hpY2gKICogaXMgMC4KICovCgpTbyBicmVha2lu
+ZyBvbiB0aGUgZmlyc3Qgc2dfZG1hX2xlbihzZykgPT0gMCBhcHBlYXJzIHRvIGJlIChvbmUgb2Yp
+CnRoZSBkb2N1bWVudGVkIGFwcHJvYWNoLgoKPgo+IFJlZ2FyZHMsCj4gQ2h1bi1LdWFuZy4KPgo+
+ID4gKwo+ID4gICAgICAgICAgICAgICAgIGlmIChzZ19kbWFfYWRkcmVzcyhzKSAhPSBleHBlY3Rl
+ZCkgewo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgRFJNX0VSUk9SKCJzZ190YWJsZSBpcyBu
+b3QgY29udGlndW91cyIpOwo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgcmV0ID0gLUVJTlZB
+TDsKPiA+IC0tCj4gPiAyLjI2LjEuMzAxLmc1NWJjM2ViN2NiOS1nb29nCj4gPgo+ID4KPiA+IF9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPiBMaW51eC1t
+ZWRpYXRlayBtYWlsaW5nIGxpc3QKPiA+IExpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVhZC5v
+cmcKPiA+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgt
+bWVkaWF0ZWsKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
