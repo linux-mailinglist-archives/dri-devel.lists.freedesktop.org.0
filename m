@@ -2,72 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AFF1BCC03
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 21:02:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A90A01BCBB4
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 21:00:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B187A6EA32;
-	Tue, 28 Apr 2020 19:02:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3BCE6EA13;
+	Tue, 28 Apr 2020 19:00:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7D806EA32
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 19:02:14 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03SIxHSA091425;
- Tue, 28 Apr 2020 19:02:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=+5iXYoqsuyxXZ24Vp+LdjRiIUsJCP86KqCL8PYesp/w=;
- b=umkbl7GvWWTOdwT/RqYhC/dBjta460HKqs/eqkjEg2nXysNvtKNYE6xA4VVhcOLvf7Mk
- hO0Du1BmMf+KBFoLJQS0fz/7Tgpbc07hqJ4n4DjerHGWrUyiUKzpxZDv+11y2i9J8k4u
- qSgnEEFUBrB9iiHtwfk+ylq++IHECXmP0jhY0BsJmI780PPmZqc0nv8kRGghsc6slK0y
- chRsuUoJYrMEgPSec7WsIwXhKzrIVgjKaGMKNUYI6dkjLpN0E8ceOVU5XR47iJ1Hyhkw
- d1JQn7FpZdX4NzACpSIlZvrTSf9rbpaKw2pR23ibHQWO4JdOVqSLLiE8XSEpmnqBL4Wq XQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 30p2p0780j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Apr 2020 19:02:08 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03SIufcA157860;
- Tue, 28 Apr 2020 19:00:07 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 30mxpgqsff-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Apr 2020 19:00:07 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03SJ05pw019518;
- Tue, 28 Apr 2020 19:00:05 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 28 Apr 2020 12:00:04 -0700
-Date: Tue, 28 Apr 2020 21:59:57 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Oliver Graute <oliver.graute@gmail.com>
-Subject: Re: [PATCH v1] staging: fbtft: fb_st7789v: Initialize the Display
-Message-ID: <20200428185957.GL2014@kadam>
-References: <1586424337-26602-1-git-send-email-oliver.graute@gmail.com>
- <20200409102013.GP2001@kadam> <20200427083642.GD18436@portage>
- <20200427093306.GU2682@kadam> <20200427123625.GE18436@portage>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EDBA6EA13
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 19:00:12 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id v8so3082921wma.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 12:00:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=mY24f7xBl26TmYlxn3t1q4X4+4CUlBUp+Rl/LFTIwrw=;
+ b=MLyBKs+NAuGwe92aVjh4XFlhTReQbGJQEYwTma8vETdXwHk0xLF9Cz2Alj4KQgvGZx
+ kXBSYPhUTGTIXcAREQfuBTS7uswQm7AYLOsX2eiPt5CKXHOTuaVLwsVVFR1hcerP8lPn
+ bbfW+SMEf86y02aXilTZN4hqh7mmw9/s8Kza8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mY24f7xBl26TmYlxn3t1q4X4+4CUlBUp+Rl/LFTIwrw=;
+ b=bSQ/sS8on0MOCZd4uUL0d/UeUlVrD7l25wAnroXeTZcD9XoPRwpMHxxUBgLogXu2CG
+ s5v8Ta7Be/r1QeLaTVmlLEG5ocl4k2v98MvwqT9JGoYkFyVlz3SJSv3eOSr0AyvvMYdz
+ 2XKWGCNVFVICHtre0+mv3XAf3V3qM2PI4tgBV11BZiMZcXD2wqukWgdzGhjmWNt1/BPD
+ 4kc7XLNsE1I+XSU6rGydFCJ2njBDmUDymvjYhrwkcdJugWtqMw+MnqeOz0Dwoa5pJgnX
+ 5FcCq47WmHeZnSRW/oFbmFTGsOS7u5WJNV3HWMEtZfkekdQ4MEdLHu+yPErg/5ubs79g
+ wcbw==
+X-Gm-Message-State: AGi0Pua7GmAb/zVsUhe//RTGoJQvLukr/7AXjZjYZv8PMcavxVdcREk5
+ s3o0ToP4GKFxwTJkijl0wWKKCw==
+X-Google-Smtp-Source: APiQypK0ZjaW+YEw6GxBs5oFHFzqJjhtHStKtrSAExvB3p8y8jELGHDZLTxjGvw08UTq9l7yjf+JkQ==
+X-Received: by 2002:a1c:5446:: with SMTP id p6mr6018262wmi.172.1588100411176; 
+ Tue, 28 Apr 2020 12:00:11 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id g15sm27359240wrp.96.2020.04.28.12.00.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Apr 2020 12:00:10 -0700 (PDT)
+Date: Tue, 28 Apr 2020 21:00:08 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+Subject: Re: [PATCH 3/5] drm/i915/dmabuf: Add LMEM knowledge to dmabuf map
+ handler
+Message-ID: <20200428190008.GB3456981@phenom.ffwll.local>
+References: <20200422212519.36276-1-michael.j.ruhl@intel.com>
+ <20200422212519.36276-4-michael.j.ruhl@intel.com>
+ <20200428150140.GR3456981@phenom.ffwll.local>
+ <14063C7AD467DE4B82DEDB5C278E866301021346F5@FMSMSX108.amr.corp.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200427123625.GE18436@portage>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9605
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- malwarescore=0
- mlxscore=0 bulkscore=0 adultscore=0 phishscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004280150
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9605
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- phishscore=0 clxscore=1015
- bulkscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
- mlxscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004280150
+In-Reply-To: <14063C7AD467DE4B82DEDB5C278E866301021346F5@FMSMSX108.amr.corp.intel.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,61 +68,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
- gregkh@linuxfoundation.org, Oliver Graute <oliver.graute@kococonnector.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "Xiong, Jianxin" <jianxin.xiong@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 27, 2020 at 02:36:25PM +0200, Oliver Graute wrote:
-> On 27/04/20, Dan Carpenter wrote:
-> > On Mon, Apr 27, 2020 at 10:36:42AM +0200, Oliver Graute wrote:
-> > > On 09/04/20, Dan Carpenter wrote:
-> > > > On Thu, Apr 09, 2020 at 11:25:32AM +0200, Oliver Graute wrote:
-> > > > > From: Oliver Graute <oliver.graute@kococonnector.com>
-> > > > > 
-> > > > > Set Gamma Values and Register Values for the HSD20_IPS
-> > > > > 
-> > > > > Signed-off-by: Oliver Graute <oliver.graute@kococonnector.com>
-> > > > > ---
-> > > > >  drivers/staging/fbtft/fb_st7789v.c | 12 ++++++------
-> > > > >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-> > > > > index 84c5af2dc9a0..b0aa96b703a8 100644
-> > > > > --- a/drivers/staging/fbtft/fb_st7789v.c
-> > > > > +++ b/drivers/staging/fbtft/fb_st7789v.c
-> > > > > @@ -17,8 +17,8 @@
-> > > > >  #define DRVNAME "fb_st7789v"
-> > > > >  
-> > > > >  #define DEFAULT_GAMMA \
-> > > > > -	"70 2C 2E 15 10 09 48 33 53 0B 19 18 20 25\n" \
-> > > > > -	"70 2C 2E 15 10 09 48 33 53 0B 19 18 20 25"
-> > > > > +	"D0 05 0A 09 08 05 2E 44 45 0F 17 16 2B 33\n" \
-> > > > > +	"D0 05 0A 09 08 05 2E 43 45 0F 16 16 2B 33"
-> > > > 
-> > > > How do you know this won't break someone else's setup?
-> > > 
-> > > Should I declare an extra define for my values?
-> > > 
-> > > +#define HSD20_IPS_GAMMA \
-> > > +	"D0 05 0A 09 08 05 2E 44 45 0F 17 16 2B 33\n" \
-> > > +	"D0 05 0A 09 08 05 2E 43 45 0F 16 16 2B 33"
-> > > 
-> > 
-> > That's fine, but it can't be a compile time thing.  Both types of
-> > hardware have to be working/available at run time.
+On Tue, Apr 28, 2020 at 05:36:03PM +0000, Ruhl, Michael J wrote:
+> >-----Original Message-----
+> >From: Daniel Vetter <daniel@ffwll.ch>
+> >Sent: Tuesday, April 28, 2020 11:02 AM
+> >To: Ruhl, Michael J <michael.j.ruhl@intel.com>
+> >Cc: dri-devel@lists.freedesktop.org; daniel@ffwll.ch; Xiong, Jianxin
+> ><jianxin.xiong@intel.com>
+> >Subject: Re: [PATCH 3/5] drm/i915/dmabuf: Add LMEM knowledge to dmabuf
+> >map handler
+> >
+> >On Wed, Apr 22, 2020 at 05:25:17PM -0400, Michael J. Ruhl wrote:
+> >> LMEM backed buffer objects do not have struct page information.
+> >> Instead the dma_address of the struct sg is used to store the
+> >> LMEM address information (relative to the device, this is not
+> >> the CPU physical address).
+> >>
+> >> The dmabuf map handler requires pages to do a dma_map_xx.
+> >>
+> >> Add new mapping/unmapping functions, based on the LMEM usage
+> >> of the dma_address to allow LMEM backed buffer objects to be
+> >> mapped.
+> >>
+> >> Before mapping check the peer2peer distance to verify that P2P
+> >> dma can occur.
+> >
+> >So this is supposed to check the importer's allow_peer2peer flag, and that
+> >one is supposed to require the implementation of ->move_notify. Which
+> >requires a pile of locking changes to align with dma_resv.
 > 
-> ok, what is the proper way to handover the gamma values during run time?
+> Yeah, I was avoiding that step for the moment.  I am not completely
+> comfortable with the how and why of how the move_notify is supposed
+> to work, so I  left the current mechanism "as is", and am planning on
+> adding the move_notify part as a next step.
+> 
+> >By not doing all that you avoid the lockdep splats, but you're also
+> >breaking the peer2peer dma-buf contract big time :-)
+> 
+> OK.   I have some concerns because of the differences between the
+> AMD and i915 implementations.  It is not clear to me how compatible
+> they currently are, and if "matched" the implementation how that would
+> affect the i915 driver.
 
-Can you detect which are appropriate and set that in the probe()
-function?
+That's kinda the problem. They're not compatible :-/
 
-regards,
-dan carpenter
+I'm also pretty sure that we'll discover a bunch of places where the
+current debug checks and lockdep annotations we have are insufficient, and
+we'll need to add more to lock down this cross driver interface.
+-Daniel
 
+> >I think this needs more work, or I need better glasses in case I'm not
+> >spotting where this is all done.
+> 
+> Nope, your glasses are good.  
+> 
+> I will take a close look at how to incorporate the peer2peer stuff.
+> 
+> Mike
+> 
+> 
+> >-Daniel
+> >
+> >>
+> >> Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+> >> ---
+> >>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 82
+> >++++++++++++++++++++--
+> >>  1 file changed, 76 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> >b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> >> index 7ea4abb6a896..402c989cc23d 100644
+> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> >> @@ -7,6 +7,7 @@
+> >>  #include <linux/dma-buf.h>
+> >>  #include <linux/highmem.h>
+> >>  #include <linux/dma-resv.h>
+> >> +#include <linux/pci-p2pdma.h>
+> >>  #include <linux/scatterlist.h>
+> >>
+> >>  #include "i915_drv.h"
+> >> @@ -18,6 +19,67 @@ static struct drm_i915_gem_object
+> >*dma_buf_to_obj(struct dma_buf *buf)
+> >>  	return to_intel_bo(buf->priv);
+> >>  }
+> >>
+> >> +static void dmabuf_unmap_addr(struct device *dev, struct scatterlist *sgl,
+> >> +			      int nents, enum dma_data_direction dir)
+> >> +{
+> >> +	struct scatterlist *sg;
+> >> +	int i;
+> >> +
+> >> +	for_each_sg(sgl, sg, nents, i)
+> >> +		dma_unmap_resource(dev, sg_dma_address(sg),
+> >sg_dma_len(sg),
+> >> +				   dir, 0);
+> >> +}
+> >> +
+> >> +/**
+> >> + * dmabuf_map_addr - Update LMEM address to a physical address and
+> >map the
+> >> + * resource.
+> >> + * @dev: valid device
+> >> + * @obj: valid i915 GEM object
+> >> + * @sg: scatter list to appy mapping to
+> >> + * @nents: number of entries in the scatter list
+> >> + * @dir: DMA direction
+> >> + *
+> >> + * The dma_address of the scatter list is the LMEM "address".  From this
+> >the
+> >> + * actual physical address can be determined.
+> >> + *
+> >> + * Return of 0 means error.
+> >> + *
+> >> + */
+> >> +static int dmabuf_map_addr(struct device *dev, struct
+> >drm_i915_gem_object *obj,
+> >> +			   struct scatterlist *sgl, int nents,
+> >> +			   enum dma_data_direction dir)
+> >> +{
+> >> +	struct scatterlist *sg;
+> >> +	phys_addr_t addr;
+> >> +	int distance;
+> >> +	int i;
+> >> +
+> >> +	distance = pci_p2pdma_distance_many(obj->base.dev->pdev, &dev,
+> >1,
+> >> +					    true);
+> >> +	if (distance < 0) {
+> >> +		pr_info("%s: from: %s  to: %s  distance: %d\n", __func__,
+> >> +			pci_name(obj->base.dev->pdev), dev_name(dev),
+> >> +			distance);
+> >> +		return 0;
+> >> +	}
+> >> +
+> >> +	for_each_sg(sgl, sg, nents, i) {
+> >> +		addr = sg_dma_address(sg) + obj->mm.region->io_start;
+> >> +
+> >> +		sg->dma_address = dma_map_resource(dev, addr, sg-
+> >>length, dir,
+> >> +						   0);
+> >> +		if (dma_mapping_error(dev, sg->dma_address))
+> >> +			goto unmap;
+> >> +		sg->dma_length = sg->length;
+> >> +	}
+> >> +
+> >> +	return nents;
+> >> +
+> >> +unmap:
+> >> +	dmabuf_unmap_addr(dev, sgl, i, dir);
+> >> +	return 0;
+> >> +}
+> >> +
+> >>  static struct sg_table *i915_gem_map_dma_buf(struct
+> >dma_buf_attachment *attach,
+> >>  					     enum dma_data_direction dir)
+> >>  {
+> >> @@ -44,12 +106,17 @@ static struct sg_table
+> >*i915_gem_map_dma_buf(struct dma_buf_attachment *attach,
+> >>  	dst = sgt->sgl;
+> >>  	for_each_sg(obj->mm.pages->sgl, src, obj->mm.pages->nents, i) {
+> >>  		sg_set_page(dst, sg_page(src), src->length, 0);
+> >> +		sg_dma_address(dst) = sg_dma_address(src);
+> >>  		dst = sg_next(dst);
+> >>  	}
+> >>
+> >> -	if (!dma_map_sg_attrs(attach->dev,
+> >> -			      sgt->sgl, sgt->nents, dir,
+> >> -			      DMA_ATTR_SKIP_CPU_SYNC)) {
+> >> +	if (i915_gem_object_has_struct_page(obj))
+> >> +		ret = dma_map_sg_attrs(attach->dev, sgt->sgl, sgt->nents,
+> >dir,
+> >> +				       DMA_ATTR_SKIP_CPU_SYNC);
+> >> +	else
+> >> +		ret = dmabuf_map_addr(attach->dev, obj, sgt->sgl, sgt-
+> >>nents,
+> >> +				      dir);
+> >> +	if (!ret) {
+> >>  		ret = -ENOMEM;
+> >>  		goto err_free_sg;
+> >>  	}
+> >> @@ -72,9 +139,12 @@ static void i915_gem_unmap_dma_buf(struct
+> >dma_buf_attachment *attach,
+> >>  {
+> >>  	struct drm_i915_gem_object *obj = dma_buf_to_obj(attach-
+> >>dmabuf);
+> >>
+> >> -	dma_unmap_sg_attrs(attach->dev,
+> >> -			   sgt->sgl, sgt->nents, dir,
+> >> -			   DMA_ATTR_SKIP_CPU_SYNC);
+> >> +	if (i915_gem_object_has_struct_page(obj))
+> >> +		dma_unmap_sg_attrs(attach->dev, sgt->sgl, sgt->nents, dir,
+> >> +				   DMA_ATTR_SKIP_CPU_SYNC);
+> >> +	else
+> >> +		dmabuf_unmap_addr(attach->dev, sgt->sgl, sgt->nents, dir);
+> >> +
+> >>  	sg_free_table(sgt);
+> >>  	kfree(sgt);
+> >>
+> >> --
+> >> 2.21.0
+> >>
+> >
+> >--
+> >Daniel Vetter
+> >Software Engineer, Intel Corporation
+> >http://blog.ffwll.ch
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
