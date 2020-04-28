@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48D21BC161
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 16:33:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524301BC16E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 16:36:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2C166E7EF;
-	Tue, 28 Apr 2020 14:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26BB389BAF;
+	Tue, 28 Apr 2020 14:36:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 699DA6E7EF
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 14:33:39 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id k13so24944137wrw.7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 07:33:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=AjieViA3rnxqYDhF0kJNrJxehbwh0Gzk+1e36Gl2Pak=;
- b=NtgeuWKqE8X8T1xWg2iWqWjvywaHyu3n1L4Ws6gzNcDukV8UildbmlpdQ2V4jvrff9
- iqYGuPQqN1zUhYNJ0ukcqLruOyfKNLdU0ZM0A0aC+z9CHDFjmX0Dff0FE1cA49zICt9w
- cr09OpX2CVF7njP6JJ5vYKHaAwf0G8xa/TrsE=
+Received: from mail-oo1-f67.google.com (mail-oo1-f67.google.com
+ [209.85.161.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A79FC89BAF
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 14:36:32 +0000 (UTC)
+Received: by mail-oo1-f67.google.com with SMTP id x17so4719412ooa.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 07:36:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=AjieViA3rnxqYDhF0kJNrJxehbwh0Gzk+1e36Gl2Pak=;
- b=eAx1cX9zFrviK1DeX5R4ckfj15qu5AKLnvGp+Wai646VlH3AkPw+eH3HTqcfv2DjtG
- o4z7KAV/JF0gf8DHZ2hOQVtSERTtLK8HKIm3QkiVf98yA1ld/U6/4X1k9MHOnDb05qHy
- yc2uaBMCrtsrqZKF6ettrVNOM04NfNqF/qHb4hHu+Oh3U0TNd9wTl9lKj8CSikj5i/5p
- gkWL8PYl8ltYkPaLStoQ/F7fKaI1Zhvk3nt7qYrpICe+GrL0BcjAV2bjVUMRSBY+HscE
- nxDDypFNR1wyGCyFHShm4SjyDoHMI41Kfzxi8ckw7LNJQVpSXUFz1qL5zzxjYEz9+yZP
- l73A==
-X-Gm-Message-State: AGi0PubdrcmZSPsNH3JD6tLAiZaBbAWAxHdOQmL+SV6C0YATJxMtbba5
- RczaQdDqWKo+RvVHDfsAD3TwH4vIgqU=
-X-Google-Smtp-Source: APiQypI50Y/dMBlhnWNbEi1tbW+JJ68XwuNtliiwfdwdiAw1WYUWnB3DameCvp4r6I0/G7PXZZx2VQ==
-X-Received: by 2002:adf:ea44:: with SMTP id j4mr36157713wrn.38.1588084418072; 
- Tue, 28 Apr 2020 07:33:38 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l19sm3580012wmj.14.2020.04.28.07.33.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Apr 2020 07:33:37 -0700 (PDT)
-Date: Tue, 28 Apr 2020 16:33:35 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Ben Davis <ben.davis@arm.com>
-Subject: Re: [PATCH] drm: drm_fourcc: Add uncompressed AFBC modifier
-Message-ID: <20200428143335.GO3456981@phenom.ffwll.local>
-References: <20200422111758.1787-1-ben.davis@arm.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xxIKi5iDI55wdhi1KIGfVexmNRIE3bS131i3YZ1d/2M=;
+ b=MxgwGsC4gBapDuHZWb1rJTYsavcW4wJ9VZM5tJ/PknU8vdMciw3eXs6P90bH0FDe7P
+ JdHhJn/wmSQeG4TifZKYXNOTV4RRbPg9qjl53ScRvh0NPuXC110eY5TxPoMbPuDu6/ev
+ iwKGDyWOfZiGFRh+UBadJuT5byS4oQ0TVGXXcqMr6ZQx36yP0X5fZ8Qth7jkLiT0vHPX
+ JmJQrAMjvnIu0Lzm44R24lUWuH2085swny69qrukqKP4hkUWgMLBMitfrQeRluEYFAAa
+ YB5YrL9szVfPJJcU7egi1zzdPBXfUNhYg/9561QrrRoc6PPQc03G6OVkO6lJNWA43Bf9
+ eIsA==
+X-Gm-Message-State: AGi0PuYjHd+SoqphAY6LN1f/QQEnVrB9tdvgZO4WNo9v+oZk2nO6iIVU
+ qi8PTG406WzinyxAItDNYrN0KOqu+mBoxLb33q8=
+X-Google-Smtp-Source: APiQypJJHE4iw9q62VxVYdpxPzCPkCktSHmeW9ThpyTpTlpnife/ElAKMojM9kIW5+D41AjYKimV3ZBswLAT6J+OPlU=
+X-Received: by 2002:a4a:eb08:: with SMTP id f8mr23328962ooj.1.1588084591983;
+ Tue, 28 Apr 2020 07:36:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200422111758.1787-1-ben.davis@arm.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+References: <20200428141716.87958-1-weiyongjun1@huawei.com>
+In-Reply-To: <20200428141716.87958-1-weiyongjun1@huawei.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 28 Apr 2020 16:36:19 +0200
+Message-ID: <CAMuHMdU0Chy6vmHBc6xqKZ3uQ=3NxZeZ7gt7FvCOLWh--Gcxdg@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/rcar-du: Fix return value check in
+ rcar_du_cmm_init()
+To: Wei Yongjun <weiyongjun1@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,55 +52,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, liviu.dudau@arm.com, matteo.franchin@arm.com,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, nd@arm.com
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 22, 2020 at 12:17:58PM +0100, Ben Davis wrote:
-> AFBC has a mode that allows use of AFBC with an uncompressed buffer,
-> we add a new modifier to support this mode.
-> 
-> Signed-off-by: Ben Davis <ben.davis@arm.com>
-> ---
->  include/uapi/drm/drm_fourcc.h | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index 8bc0b31597d8..97c47baef7fc 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -780,6 +780,12 @@ extern "C" {
->   */
->  #define AFBC_FORMAT_MOD_BCH     (1ULL << 11)
->  
-> +/* AFBC uncompressed storage mode
-> + *
-> + * Indicates that the buffer is using uncompressed AFBC mode.
+On Tue, Apr 28, 2020 at 4:16 PM Wei Yongjun <weiyongjun1@huawei.com> wrote:
+> In case of error, the function of_parse_phandle()/of_find_device_by_node()
+> returns NULL pointer not ERR_PTR(). The IS_ERR() test in the return value
+> check should be replaced with NULL test
+>
+> Fixes: 8de707aeb452 ("drm: rcar-du: kms: Initialize CMM instances")
+> Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
 
-Since this sounds a bit baffling, might be good to spend a few more words
-on what exactly this means. If it's just a fancy way of saying
-linear/untiled, then this shouldn't be a modifier. If it's some kind of
-specific tiling layout, then I think that should be specified (we've been
-a bit more lax with the compressor magic soup, but tiled formats are
-generally fully specced).
--Daniel
-> + */
-> +#define AFBC_FORMAT_MOD_USM	(1ULL << 12)
-> +
->  /*
->   * Arm 16x16 Block U-Interleaved modifier
->   *
-> -- 
-> 2.24.0
-> 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
