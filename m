@@ -2,58 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A451BC0D6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 16:12:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1075F1BF168
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:32:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09AFF6E50B;
-	Tue, 28 Apr 2020 14:12:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B469E6EB4F;
+	Thu, 30 Apr 2020 07:31:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B9C06E500
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 14:12:25 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id y24so3035596wma.4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 07:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=YsD7GjwZh2xdJ3wMaC19FB+yUQls1ObZL8q+/TqZPaI=;
- b=K5fJIDkt6Nm8nqxpnj2sj9apyTV1p/vWTeB4os0Sv3i6GExhsJCwJqdvEh7yjJ0KT1
- ieHVuuujb8rPee1NzLN1x/mbJ8mJ0Kv+LjXXmT34crv1Oaez2A8mQVAMMXFHv9ehZtYu
- Z/QVYtYFtRbA7o5XyBCK4NNUPMpQ5ZBTA1j0o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YsD7GjwZh2xdJ3wMaC19FB+yUQls1ObZL8q+/TqZPaI=;
- b=KihcdKgyZMoeLrFY02BBRIhZ3UF5pGBr1uYKligdkb38c1yn0f/pdYdBEO3cfTCW/I
- w1JjUSLcWLTSGuLbqkVvKsY9iekv4rfHDkgZd4iiNEax0lAnfDv/01vdSK3brIKmSg5U
- gC4FSmBVL4v7VacvXK0hNxbL06BMEC8lVjkBnJsW3OYGgzrf7+tEtCGWe1pTFNGFC0lN
- xfDRBk+VNNw8nAgoDI2ge0gkXEZwnQRXfX19SB53QpQKsj1Z/fL4LRbpKPifGSMvjtq9
- MOBB8xjJwKUHfZuKnEjbDcm99Z8tjV/xIQ9kCFYj6w7itwQDWZFVMf5oaRTKHdP1EL0c
- 2FZg==
-X-Gm-Message-State: AGi0PuYem5+LODUPlGWYzkl2k0IO2Mr2f6N0ju7XfKROjEUcoEtZWPHO
- vkxN1s0C17C3oc8ILxOC01DsNQ==
-X-Google-Smtp-Source: APiQypKEM1Oo8wUtGkwt4tUTGbBDhF4duM1wEmCSJuoJRgt815cei21omhnSwJlWEA3iCo1wmfevbQ==
-X-Received: by 2002:a1c:1d92:: with SMTP id d140mr4758593wmd.67.1588083144107; 
- Tue, 28 Apr 2020 07:12:24 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 185sm4020627wmc.32.2020.04.28.07.12.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Apr 2020 07:12:23 -0700 (PDT)
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D89CB6E853
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 12:21:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1588162894; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FKkgFmxpN+MKyPoHJp2q8jKr/zPjuo5QgcSt5/FFYlM=;
+ b=BJYD6VCvJr5NwVsS7cOFPVRIp+PL1rfh/JKRMIwhc70MxSxy6RmNeVJyTjDxI2otmwhfoF
+ 5QbtopHXuozSQsDjZN9F9OWwYTZd5UwfXQ0K+IvDlG+ysvlppxwmEpMfsvZG77b8cbJhN1
+ I+8+e8MCoetpBc/ro4H5h+TdvwLBKYA=
 Date: Tue, 28 Apr 2020 16:12:21 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 56/59] drm/aspeed: Use managed drmm_mode_config_cleanup
-Message-ID: <20200428141221.GM3456981@phenom.ffwll.local>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-57-daniel.vetter@ffwll.ch>
- <20200424181002.GL7074@ravnborg.org>
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 8/8] dt-bindings: display: Convert ingenic, lcd.txt to YAML
+To: Rob Herring <robh+dt@kernel.org>
+Message-Id: <LS4I9Q.A1ZGRSEVADNN1@crapouillou.net>
+In-Reply-To: <20200426185856.38826-8-paul@crapouillou.net>
+References: <20200426185856.38826-1-paul@crapouillou.net>
+ <20200426185856.38826-8-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200424181002.GL7074@ravnborg.org>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+X-Mailman-Approved-At: Thu, 30 Apr 2020 07:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,120 +44,233 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Andrew Jeffery <andrew@aj.id.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Joel Stanley <joel@jms.id.au>, Daniel Vetter <daniel.vetter@intel.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?b?5ZGo55Cw5p2w?= <zhouyanjie@wanyeetech.com>,
+ linux-gpio@vger.kernel.org, od@zcrc.me, linux-mtd@lists.infradead.org,
+ linux-i2c@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-clk@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 24, 2020 at 08:10:02PM +0200, Sam Ravnborg wrote:
-> On Wed, Apr 15, 2020 at 09:40:31AM +0200, Daniel Vetter wrote:
-> > Since aspeed doesn't use devm_kzalloc anymore we can use the managed
-> > mode config cleanup.
-> > 
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Joel Stanley <joel@jms.id.au>
-> > Cc: Andrew Jeffery <andrew@aj.id.au>
-> > Cc: linux-aspeed@lists.ozlabs.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> 
-> Hmm, the helper function makes no sense, maybe embed it?
-> 
-> One Q below. Whith Q addressed:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> 
-> > ---
-> >  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 11 ++++++-----
-> >  1 file changed, 6 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> > index 6b27242b9ee3..6e464b84a256 100644
-> > --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> > +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> > @@ -63,15 +63,15 @@ static const struct drm_mode_config_funcs aspeed_gfx_mode_config_funcs = {
-> >  	.atomic_commit		= drm_atomic_helper_commit,
-> >  };
-> >  
-> > -static void aspeed_gfx_setup_mode_config(struct drm_device *drm)
-> > +static int aspeed_gfx_setup_mode_config(struct drm_device *drm)
-> >  {
-> > -	drm_mode_config_init(drm);
-> > -
-> >  	drm->mode_config.min_width = 0;
-> >  	drm->mode_config.min_height = 0;
-> >  	drm->mode_config.max_width = 800;
-> >  	drm->mode_config.max_height = 600;
-> >  	drm->mode_config.funcs = &aspeed_gfx_mode_config_funcs;
-> > +
-> > +	return drmm_mode_config_init(drm);
-> 
-> I do not see anything that documents that it is OK to init min/max
-> width/heigh not funcs before drmm_mode_config_init() is called.
-> Maybe drmm_mode_config_init() gain an memset(drm->mode_config),
-> and we loose all the assingments from before the call to init().
-> 
-> Also most (all?) other users of drmm_mode_config_init()
-> set them after the call to drmm_mode_config_init().
-> So re-order here and then embed while you are touching the code again.
+This one patch will need a V2, I messed up with the clocks.
 
-Only reason I've done it like this is that it saves a few lines of diff
-compared to other options.
+-Paul
 
-Wrt calling stuff the wrong way round: We pretty much assume throughout
-that structures are allocated with kzalloc, none of our _init() functions
-in drm have a memset. We'd break the world if we start doing memset() in
-random _init() functions I think.
 
-Also the main aspeed_gfx_load() function is quite long already, smashing
-more random stuff in there won't help it's readability.
+Le dim. 26 avril 2020 =E0 20:58, Paul Cercueil <paul@crapouillou.net> a =
 
-Anyway I don't care, if you insist I'm happy to repaint this in whatever
-color choice you deem best :-)
+=E9crit :
+> Convert the ingenic,lcd.txt to a new ingenic,lcd.yaml file.
+> =
 
-Cheers, Daniel
+> In the process, the new ingenic,jz4780-lcd compatible string has been
+> added.
+> =
 
-> 
-> 	Sam
-> 
-> >  }
-> >  
-> >  static irqreturn_t aspeed_gfx_irq_handler(int irq, void *data)
-> > @@ -144,7 +144,9 @@ static int aspeed_gfx_load(struct drm_device *drm)
-> >  	writel(0, priv->base + CRT_CTRL1);
-> >  	writel(0, priv->base + CRT_CTRL2);
-> >  
-> > -	aspeed_gfx_setup_mode_config(drm);
-> > +	ret = aspeed_gfx_setup_mode_config(drm);
-> > +	if (ret < 0)
-> > +		return ret;
-> >  
-> >  	ret = drm_vblank_init(drm, 1);
-> >  	if (ret < 0) {
-> > @@ -181,7 +183,6 @@ static int aspeed_gfx_load(struct drm_device *drm)
-> >  static void aspeed_gfx_unload(struct drm_device *drm)
-> >  {
-> >  	drm_kms_helper_poll_fini(drm);
-> > -	drm_mode_config_cleanup(drm);
-> >  }
-> >  
-> >  DEFINE_DRM_GEM_CMA_FOPS(fops);
-> > -- 
-> > 2.25.1
-> > 
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>  .../bindings/display/ingenic,lcd.txt          |  45 -------
+>  .../bindings/display/ingenic,lcd.yaml         | 113 =
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> ++++++++++++++++++
+>  2 files changed, 113 insertions(+), 45 deletions(-)
+>  delete mode 100644 =
+
+> Documentation/devicetree/bindings/display/ingenic,lcd.txt
+>  create mode 100644 =
+
+> Documentation/devicetree/bindings/display/ingenic,lcd.yaml
+> =
+
+> diff --git =
+
+> a/Documentation/devicetree/bindings/display/ingenic,lcd.txt =
+
+> b/Documentation/devicetree/bindings/display/ingenic,lcd.txt
+> deleted file mode 100644
+> index 01e3261defb6..000000000000
+> --- a/Documentation/devicetree/bindings/display/ingenic,lcd.txt
+> +++ /dev/null
+> @@ -1,45 +0,0 @@
+> -Ingenic JZ47xx LCD driver
+> -
+> -Required properties:
+> -- compatible: one of:
+> -  * ingenic,jz4740-lcd
+> -  * ingenic,jz4725b-lcd
+> -  * ingenic,jz4770-lcd
+> -- reg: LCD registers location and length
+> -- clocks: LCD pixclock and device clock specifiers.
+> -	   The device clock is only required on the JZ4740.
+> -- clock-names: "lcd_pclk" and "lcd"
+> -- interrupts: Specifies the interrupt line the LCD controller is =
+
+> connected to.
+> -
+> -Example:
+> -
+> -panel {
+> -	compatible =3D "sharp,ls020b1dd01d";
+> -
+> -	backlight =3D <&backlight>;
+> -	power-supply =3D <&vcc>;
+> -
+> -	port {
+> -		panel_input: endpoint {
+> -			remote-endpoint =3D <&panel_output>;
+> -		};
+> -	};
+> -};
+> -
+> -
+> -lcd: lcd-controller@13050000 {
+> -	compatible =3D "ingenic,jz4725b-lcd";
+> -	reg =3D <0x13050000 0x1000>;
+> -
+> -	interrupt-parent =3D <&intc>;
+> -	interrupts =3D <31>;
+> -
+> -	clocks =3D <&cgu JZ4725B_CLK_LCD>;
+> -	clock-names =3D "lcd";
+> -
+> -	port {
+> -		panel_output: endpoint {
+> -			remote-endpoint =3D <&panel_input>;
+> -		};
+> -	};
+> -};
+> diff --git =
+
+> a/Documentation/devicetree/bindings/display/ingenic,lcd.yaml =
+
+> b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
+> new file mode 100644
+> index 000000000000..8e9c851dc7c5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
+> @@ -0,0 +1,113 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/ingenic,lcd.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Ingenic SoCs LCD controller devicetree bindings
+> +
+> +maintainers:
+> +  - Paul Cercueil <paul@crapouillou.net>
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^lcd-controller@[0-9a-f]+$"
+> +
+> +  compatible:
+> +    enum:
+> +      - ingenic,jz4740-lcd
+> +      - ingenic,jz4725b-lcd
+> +      - ingenic,jz4770-lcd
+> +      - ingenic,jz4780-lcd
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Module clock
+> +      - description: Pixel clock
+> +    minItems: 1
+> +
+> +  clock-names:
+> +    items:
+> +      - const: lcd
+> +      - const: lcd_pclk
+> +    minItems: 1
+> +
+> +  port:
+> +    type: object
+> +    description:
+> +      A port node with endpoint definitions as defined in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +
+> +required:
+> +    - compatible
+> +    - reg
+> +    - interrupts
+> +    - clocks
+> +    - clock-names
+> +
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - ingenic,jz4740-lcd
+> +          - ingenic,jz4780-lcd
+> +then:
+> +  properties:
+> +    clocks:
+> +      minItems: 2
+> +    clock-names:
+> +      minItems: 2
+> +else:
+> +  properties:
+> +    clocks:
+> +      maxItems: 1
+> +    clock-names:
+> +      maxItems: 1
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/jz4740-cgu.h>
+> +    lcd-controller@13050000 {
+> +      compatible =3D "ingenic,jz4740-lcd";
+> +      reg =3D <0x13050000 0x1000>;
+> +
+> +      interrupt-parent =3D <&intc>;
+> +      interrupts =3D <30>;
+> +
+> +      clocks =3D <&cgu JZ4740_CLK_LCD>, <&cgu JZ4740_CLK_LCD_PCLK>;
+> +      clock-names =3D "lcd", "lcd_pclk";
+> +
+> +      port {
+> +        endpoint {
+> +          remote-endpoint =3D <&panel_input>;
+> +        };
+> +      };
+> +    };
+> +
+> +  - |
+> +    #include <dt-bindings/clock/jz4725b-cgu.h>
+> +    lcd-controller@13050000 {
+> +      compatible =3D "ingenic,jz4725b-lcd";
+> +      reg =3D <0x13050000 0x1000>;
+> +
+> +      interrupt-parent =3D <&intc>;
+> +      interrupts =3D <31>;
+> +
+> +      clocks =3D <&cgu JZ4725B_CLK_LCD>;
+> +      clock-names =3D "lcd";
+> +
+> +      port {
+> +        endpoint {
+> +          remote-endpoint =3D <&panel_input>;
+> +        };
+> +      };
+> +    };
+> --
+> 2.26.2
+> =
+
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
