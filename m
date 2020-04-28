@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6181BBDE6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:46:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0DB1BBDF2
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:47:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7FD86E3CE;
-	Tue, 28 Apr 2020 12:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E51E46E3AA;
+	Tue, 28 Apr 2020 12:46:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CED66E063
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 03:17:52 +0000 (UTC)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id A4163CD85AA8205E4AD0;
- Tue, 28 Apr 2020 11:17:50 +0800 (CST)
-Received: from localhost (10.166.215.154) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Tue, 28 Apr 2020
- 11:17:41 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <matthias.bgg@gmail.com>, <ck.hu@mediatek.com>,
- <enric.balletbo@collabora.com>, <yuehaibing@huawei.com>
-Subject: [PATCH v2 -next] soc: mediatek: Fix Kconfig warning
-Date: Tue, 28 Apr 2020 11:17:29 +0800
-Message-ID: <20200428031729.49372-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
-In-Reply-To: <CAAOTY__km=QZQACp8g-Qr+aWZ4r0Yp7O5j7u8ZTpDpTXXfUdNw@mail.gmail.com>
-References: <CAAOTY__km=QZQACp8g-Qr+aWZ4r0Yp7O5j7u8ZTpDpTXXfUdNw@mail.gmail.com>
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 352F46E134;
+ Tue, 28 Apr 2020 06:30:53 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id AB858D75664823F5A24B;
+ Tue, 28 Apr 2020 14:30:49 +0800 (CST)
+Received: from huawei.com (10.175.124.28) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Tue, 28 Apr 2020
+ 14:30:39 +0800
+From: Jason Yan <yanaijie@huawei.com>
+To: <evan.quan@amd.com>, <alexander.deucher@amd.com>,
+ <christian.koenig@amd.com>, <David1.Zhou@amd.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/amdgpu/smu10: remove duplicate assignment of
+ smu10_hwmgr_funcs members
+Date: Tue, 28 Apr 2020 14:30:03 +0800
+Message-ID: <20200428063003.24687-1-yanaijie@huawei.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-X-Originating-IP: [10.166.215.154]
+X-Originating-IP: [10.175.124.28]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 28 Apr 2020 12:46:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -44,45 +44,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Jason Yan <yanaijie@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-WARNING: unmet direct dependencies detected for MTK_MMSYS
-  Depends on [n]: (ARCH_MEDIATEK [=y] || COMPILE_TEST [=n]) && COMMON_CLK_MT8173_MMSYS [=n]
-  Selected by [y]:
-  - DRM_MEDIATEK [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_MEDIATEK [=y] || ARM && COMPILE_TEST [=n]) && COMMON_CLK [=y] && HAVE_ARM_SMCCC [=y] && OF [=y]
+The struct member 'asic_setup' was assigned twice, let's remove one:
 
-Make MTK_MMSYS select COMMON_CLK_MT8173_MMSYS to fix this.
+static const struct pp_hwmgr_func smu10_hwmgr_funcs = {
+	......
+	.asic_setup = NULL,
+	......
+	.asic_setup = smu10_setup_asic_task,
+	......
+};
 
-Fixes: 2c758e301ed9 ("soc / drm: mediatek: Move routing control to mmsys device")
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+This fixes the following coccicheck warning:
+
+drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c:1357:52-53:
+asic_setup: first occurrence line 1360, second occurrence line 1388
+
+Signed-off-by: Jason Yan <yanaijie@huawei.com>
 ---
-v2: select COMMON_CLK_MT8173_MMSYS instead of adding DRM_MEDIATEK dependency  
----
- drivers/soc/mediatek/Kconfig | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/soc/mediatek/Kconfig b/drivers/soc/mediatek/Kconfig
-index e84513318725..7f9da11e1a50 100644
---- a/drivers/soc/mediatek/Kconfig
-+++ b/drivers/soc/mediatek/Kconfig
-@@ -46,8 +46,7 @@ config MTK_SCPSYS
- 
- config MTK_MMSYS
- 	bool "MediaTek MMSYS Support"
--	depends on COMMON_CLK_MT8173_MMSYS
--	default COMMON_CLK_MT8173_MMSYS
-+	select COMMON_CLK_MT8173_MMSYS
- 	help
- 	  Say yes here to add support for the MediaTek Multimedia
- 	  Subsystem (MMSYS).
+diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c
+index 1cc30f750c26..4f8c1b85e688 100644
+--- a/drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c
++++ b/drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c
+@@ -1357,7 +1357,6 @@ static int smu10_asic_reset(struct pp_hwmgr *hwmgr, enum SMU_ASIC_RESET_MODE mod
+ static const struct pp_hwmgr_func smu10_hwmgr_funcs = {
+ 	.backend_init = smu10_hwmgr_backend_init,
+ 	.backend_fini = smu10_hwmgr_backend_fini,
+-	.asic_setup = NULL,
+ 	.apply_state_adjust_rules = smu10_apply_state_adjust_rules,
+ 	.force_dpm_level = smu10_dpm_force_dpm_level,
+ 	.get_power_state_size = smu10_get_power_state_size,
 -- 
-2.17.1
-
+2.21.1
 
 _______________________________________________
 dri-devel mailing list
