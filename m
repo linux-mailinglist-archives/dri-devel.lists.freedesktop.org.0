@@ -1,55 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1711BBA4F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 11:49:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A97D1BBAAA
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 12:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 721F86E25D;
-	Tue, 28 Apr 2020 09:49:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 796AF6E15B;
+	Tue, 28 Apr 2020 10:05:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A42F06E258
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 09:49:40 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03S9nVvV082105;
- Tue, 28 Apr 2020 04:49:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1588067371;
- bh=vi0lak+PESiDwZ0/mkWQsOclkMxH3g4XyeOihRduJy0=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=BV2Zxe4iPkNu9gqmZtuR65pMPOlIdfT97ro6vS3YbgPm2ft2TJUXz7uNUjFjrMRQC
- bsuhpdiehprVO7oAn7t1LvTtcfkfzR6Ob62FFWFZes+xUeE2O97t3nlCpHbVi83wMH
- HblNblvH7SfOJO0jzx3pMKO4p0Wu6nP+1TWjcxLc=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03S9nVL8026251
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 28 Apr 2020 04:49:31 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 28
- Apr 2020 04:49:31 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 28 Apr 2020 04:49:31 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03S9nS0F037890;
- Tue, 28 Apr 2020 04:49:29 -0500
-Subject: Re: [RFC PATCH] dt-bindings: display: ti,tfp410.txt: convert to yaml
-To: =?UTF-8?Q?Ricardo_Ca=c3=b1uelo?= <ricardo.canuelo@collabora.com>,
- <robh+dt@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-References: <20200428092048.14939-1-ricardo.canuelo@collabora.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <3e377c73-25a3-a7b3-0604-41c54d70039e@ti.com>
-Date: Tue, 28 Apr 2020 12:49:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5DC86E1D8
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 10:05:12 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id z6so2184110wml.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 03:05:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=l+k7yFMhMisNWSRZhvrwWfroBahbWYYcttXSTYKeIwQ=;
+ b=jibHKywqEOHP7s5Uq17E8ygefJpPB+KB36cR9akz/wwH6GF74Ovy8y7nrJQgKD/v86
+ +ADgY4xegjPKGLTcL6BJ0oyxEBc/3ebLDa6cz/R1bKVedxmKa2fGhgObMZIWZ0aSYDV9
+ qIlGzv7MRvovl3lA5TeZpfsQe5hz34ij7dOQw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=l+k7yFMhMisNWSRZhvrwWfroBahbWYYcttXSTYKeIwQ=;
+ b=WqvHcwItwJXsqSn4PJ2BU1H97HCq6W+1yoOAkc78j5EOIyLm+oabO0y0U6iWEeUCpQ
+ 0IQcVZDDj7t9ZKY4WoDGVH0gLgeRtegkrbh0J77oighVLuOozHGattjKlQn6pfyB0uBJ
+ aiiAmAd5zL4a8UWU9ncViJxOBQUY+M2iVnOcLD0Wo/SL+QoiyXFwaYHPa9u+l0tTQ8mp
+ Adq13zYmwpAvdKVn6HpcoL1GuDinJHrLvBccHrGvdQAh9jGpgPVzWesONJ00f+tdBKag
+ PLhxWZCmjAmoWfNdk+dn53N3pGKXf7vPYVMko/uD29xIRMzWVuYc/UtsyEZpWiHZJCZh
+ 0Fzw==
+X-Gm-Message-State: AGi0PuZMwLMwJUOnAlldSLPKVV8PElr/fXmevFDU46CHUV9fxzQiKGNu
+ VyjMghCYGXMm28OuLvIIp+RWdA==
+X-Google-Smtp-Source: APiQypKQTCBtHEwl9qfvTCZEBaYghpXpXAL7yjy18ziiEevrdg+jQUjp5/w1QV7rvuqsCLOMh3LRRQ==
+X-Received: by 2002:a1c:dc8b:: with SMTP id t133mr3745031wmg.117.1588068311327; 
+ Tue, 28 Apr 2020 03:05:11 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 138sm2786040wmb.14.2020.04.28.03.05.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Apr 2020 03:05:10 -0700 (PDT)
+Date: Tue, 28 Apr 2020 12:05:08 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Nicolas Boichat <drinkcat@chromium.org>
+Subject: Re: [PATCH v7 2/2] drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to
+ DP bridge driver
+Message-ID: <20200428100508.GD3456981@phenom.ffwll.local>
+Mail-Followup-To: Nicolas Boichat <drinkcat@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>, devel@driverdev.osuosl.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ David Airlie <airlied@linux.ie>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Pi-Hsun Shih <pihsun@chromium.org>,
+ Sheng Pan <span@analogixsemi.com>
+References: <cover.1582529411.git.xji@analogixsemi.com>
+ <a81adcf2e79d440edcb7b3989f31efcb80a6e9ff.1582529411.git.xji@analogixsemi.com>
+ <CANMq1KBfB6tXFqYGvr=8fV_bpCV5GbVHeEbRs+fuaZba65-OPw@mail.gmail.com>
+ <20200424065124.GA31922@xin-VirtualBox>
+ <CANMq1KBJ6f74aNAr8BwC3wz8MEeJzwXOQE44gv6C=DNzYmUWCQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200428092048.14939-1-ricardo.canuelo@collabora.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <CANMq1KBJ6f74aNAr8BwC3wz8MEeJzwXOQE44gv6C=DNzYmUWCQ@mail.gmail.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,53 +83,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- jason@lakedaemon.net
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: devel@driverdev.osuosl.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Pi-Hsun Shih <pihsun@chromium.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Xin Ji <xji@analogixsemi.com>, Dan Carpenter <dan.carpenter@oracle.com>,
+ Sheng Pan <span@analogixsemi.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjgvMDQvMjAyMCAxMjoyMCwgUmljYXJkbyBDYcOxdWVsbyB3cm90ZToKCj4gMikgVGhlIGRl
-ZmluaXRpb24gb2YgdGksZGVza2V3IGluIHRoZSBvcmlnaW5hbCBiaW5kaW5nIHNlZW1zIHRvIGJl
-Cj4gdGFpbG9yZWQgdG8gdGhlIGN1cnJlbnQgZHJpdmVyIGFuZCB0aGUgd2F5IGl0J3MgZGVmaW5l
-ZCBtYXkgbm90IGJlIHZlcnkKPiBEVC1mcmllbmRseS4KPiAKPiAgICBUaGlzIHBhcmFtZXRlciBt
-YXBzIHRvIGEgMy1iaXQgZmllbGQgaW4gYSBoYXJkd2FyZSByZWdpc3RlciB0aGF0IHRha2VzCj4g
-ICAgYSB2YWx1ZSBmcm9tIDAgdG8gNywgc28gdGhlIFstNCwgM10gcmFuZ2UgZGVzY3JpYmVkIGZv
-ciB0aGlzIHdvdWxkIG1hcAo+ICAgIHRvIFswMDAsIDExMV06IC00IC0+IDAwMCwgLTMgLT4gMDAx
-LCAtMiAtPiAwMTAsIC4uLiAzIC0+IDExMS4KPiAKPiAgICBUaGVuLCB0aGUgZHJpdmVyIHBhcnNl
-cyB0aGUgcGFyYW1ldGVyICh1bnNpZ25lZCkgYW5kIGNhc3RzIGl0IHRvIGEKPiAgICBzaWduZWQg
-aW50ZWdlciB0byBnZXQgYSBudW1iZXIgaW4gdGhlIFstNCwgM10gcmFuZ2UuCgpJbnRlcmVzdGlu
-Z2x5IHRoZSBjdXJyZW50IGV4YW1wbGUgaGFzIHRpLGRlc2tldyA9IDw0Pi4uLgoKPiAgICBBIHZl
-bmRvci1zcGVjaWZpYyBwcm9wZXJ0eSBtdXN0IGhhdmUgYSB0eXBlIGRlZmluaXRpb24gaW4ganNv
-bi1zY2hlbWEsCj4gICAgc28gaWYgSSB0cmFuc2xhdGUgdGhlIG9yaWdpbmFsIGJpbmRpbmdzIHNl
-bWFudGljcyBkaXJlY3RseSwgSSBzaG91bGQKPiAgICBkZWZpbmUgdGksZGVza2V3IGFzIGFuIGlu
-dDMyLCBidXQgdGhpcyBtYWtlcyBkdF9iaW5kaW5nX2NoZWNrIGZhaWwgaWYKPiAgICB0aGUgcHJv
-cGVydHkgaGFzIGEgbmVnYXRpdmUgdmFsdWUgaW4gdGhlIGV4YW1wbGUgYmVjYXVzZSBvZiB0aGUK
-PiAgICBpbnRlcm5hbCByZXByZXNlbnRhdGlvbiBvZiBjZWxscyBhcyB1bnNpZ25lZCBpbnRlZ2Vy
-czoKPiAKPiAgICAgICB0aSxkZXNrZXc6MDowOiA0Mjk0OTY3MjkzIGlzIGdyZWF0ZXIgdGhhbiB0
-aGUgbWF4aW11bSBvZiAyMTQ3NDgzNjQ3CgpJIGRvbid0IHF1aXRlIHVuZGVyc3RhbmQgdGhpcy4g
-V2UgY2Fubm90IGhhdmUgbmVnYXRpdmUgbnVtYmVycyBpbiBkdHMgZmlsZXM/IE9yIHdlIGNhbiwg
-YnV0IApkdF9iaW5kaW5nX2NoZWNrIGRvZXNuJ3QgaGFuZGxlIHRoZW0gY29ycmVjdGx5PyBPciB0
-aGF0IGludDMyIGlzIG5vdCBzdXBwb3J0ZWQgaW4geWFtbCBiaW5kaW5ncz8KCj4gICAgU28gSSBj
-YW4gdGhpbmsgb2YgdHdvIHNvbHV0aW9ucyB0byB0aGlzOgo+IAo+ICAgIGEpIEtlZXAgdGhlIHRp
-LGRlc2tldyBwcm9wZXJ0eSBhcyBhbiB1aW50MzIgYW5kIGRvY3VtZW50IHRoZSB2YWxpZAo+ICAg
-IHJhbmdlIChbLTQsIDNdKSBpbiB0aGUgcHJvcGVydHkgZGVzY3JpcHRpb24gKHRoaXMgaXMgd2hh
-dCB0aGlzIHBhdGNoCj4gICAgZG9lcyBjdXJyZW50bHkpLgo+IAo+ICAgIGIpIFJlZGVmaW5lIHRo
-aXMgcHJvcGVydHkgdG8gYmUgY2xvc2VyIHRvIHRoZSBkYXRhc2hlZXQgZGVzY3JpcHRpb24KPiAg
-ICAoaWUuIHVuc2lnbmVkIGludGVnZXJzIGZyb20gMCB0byA3KSBhbmQgYWRhcHQgdGhlIGRyaXZl
-ciBhY2NvcmRpbmdseS4KPiAgICBUaGlzIHdvdWxkIGFsc28gbGV0IHVzIGRlZmluZSBpdHMgcmFu
-Z2UgcHJvcGVybHkgdXNpbmcgbWluaW11bSBhbmQKPiAgICBtYXhpbXVtIHByb3BlcnRpZXMgZm9y
-IGl0Lgo+IAo+ICAgIEkgdGhpbmsgKGIpIGlzIHRoZSByaWdodCB0aGluZyB0byBkbyBidXQgSSB3
-YW50IHRvIGtub3cgeW91cgo+ICAgIG9waW5pb24uIEJlc2lkZXMsIEkgZG9uJ3QgaGF2ZSB0aGlz
-IGhhcmR3YXJlIGF0IGhhbmQgYW5kIGlmIEkgdXBkYXRlZAo+ICAgIHRoZSBkcml2ZXIgSSB3b3Vs
-ZG4ndCBiZSBhYmxlIHRvIHRlc3QgaXQuCgpJIGRvbid0IHRoaW5rIGFueW9uZSBoYXMgdXNlZCBk
-ZXNrZXcgcHJvcGVydHksIHNvIEkgZ3Vlc3MgY2hhbmdpbmcgaXQgaXMgbm90IG91dCBvZiB0aGUg
-cXVlc3Rpb24uCgpMYXVyZW50LCBkaWQgeW91IGhhdmUgYSBib2FyZCB0aGF0IG5lZWRzIGRlc2tl
-dyB3aGVuIHlvdSBhZGRlZCBpdCB0byB0ZnA0MTA/CgogIFRvbWkKCi0tIApUZXhhcyBJbnN0cnVt
-ZW50cyBGaW5sYW5kIE95LCBQb3Jra2FsYW5rYXR1IDIyLCAwMDE4MCBIZWxzaW5raS4KWS10dW5u
-dXMvQnVzaW5lc3MgSUQ6IDA2MTU1MjEtNC4gS290aXBhaWtrYS9Eb21pY2lsZTogSGVsc2lua2kK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Fri, Apr 24, 2020 at 08:12:04PM +0800, Nicolas Boichat wrote:
+> On Fri, Apr 24, 2020 at 2:51 PM Xin Ji <xji@analogixsemi.com> wrote:
+> >
+> > On Thu, Apr 23, 2020 at 07:55:15PM +0800, Nicolas Boichat wrote:
+> > > Hi,
+> > >
+> > > Just commenting on the mode_fixup function that was added in v7.
+> > >
+> > [snip]
+> > > > +       /*
+> > > > +        * once illegal timing detected, use default HFP, HSYNC, HBP
+> > > > +        */
+> > > > +       if (hblanking < HBLANKING_MIN || (hfp < HP_MIN && hbp < HP_MIN)) {
+> > >
+> > > should this be adj_hblanking/adj_hfp/adj_hbp?
+> > NO, need check original HFP and HBP, if they are not legal, driver need
+> > set default value to adj_hsync, adj_hfp, adj_hbp.
+> > >
+> > > > +               adj_hsync = SYNC_LEN_DEF;
+> > > > +               adj_hfp = HFP_HBP_DEF;
+> > > > +               adj_hbp = HFP_HBP_DEF;
+> > > > +               vref = adj->clock * 1000 / (adj->htotal * adj->vtotal);
+> > > > +               if (hblanking < HBLANKING_MIN) {
+> > > > +                       delta_adj = HBLANKING_MIN - hblanking;
+> > > > +                       adj_clock = vref * delta_adj * adj->vtotal;
+> > > > +                       adj->clock += DIV_ROUND_UP(adj_clock, 1000);
+> > > > +               } else {
+> > > > +                       delta_adj = hblanking - HBLANKING_MIN;
+> > > > +                       adj_clock = vref * delta_adj * adj->vtotal;
+> > > > +                       adj->clock -= DIV_ROUND_UP(adj_clock, 1000);
+> > > > +               }
+> > > > +
+> > > > +               DRM_WARN("illegal hblanking timing, use default.\n");
+> > > > +               DRM_WARN("hfp(%d),hbp(%d),hsync(%d).\n", hfp, hbp, hsync);
+> > >
+> > > How likely is it that this mode is going to work? Can you just return
+> > > false here to reject the mode?
+> > We want to set the default minimal Hblancking value, then it may display,
+> > otherwise. If we just return false, there is no display for sure.
+> 
+> Right, understand your argument. I'm pondering if it's not just better
+> to reject the mode rather than trying a timing that is definitely
+> quite different from what the monitor was asking for. No super strong
+> opinion, I'll let other people on the list weigh in.
+
+Yeah mode_fixup is supposed to be used to adjust the mode in intermediate
+stages (e.g. if you go from progressive to interlaced only at the end of
+your pipeline or something like that). It's not meant for adjusting the
+mode yout actually put out through a hdmi or dp connector. For fixed
+panels adjusting modes to fit the panel is also fairly common, but not for
+external outputs.
+
+Since this is a DP bridge I'd say no adjusting, just reject what doesn't
+fit.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
