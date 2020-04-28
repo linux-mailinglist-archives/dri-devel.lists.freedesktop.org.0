@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267781BC27E
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 17:15:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B4E1BC283
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 17:16:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 657946E826;
-	Tue, 28 Apr 2020 15:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F6C089B96;
+	Tue, 28 Apr 2020 15:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2D3C6E826
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 15:15:42 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id v4so2607579wme.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 08:15:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=Yn8M6g86OIpdWY0eWe5/lYcoIX+3NTjGSgF/ptBwm/o=;
- b=H6SSYjBwPWWXBB+0KzyoILouyMyDgGP9+FYTr8CMUDXP6C1qvRnD3rAzz7JrynNNb2
- zfQFn2TUJd4H5r/y8X4bJ2P2CdDKq6CuWHM9nLjY7XNYAzBfTAfXyD0D+k1Z2kL80FB8
- VCe6GNM5SqtLRv79fcmUAT4YRYKzewnb+mnKE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=Yn8M6g86OIpdWY0eWe5/lYcoIX+3NTjGSgF/ptBwm/o=;
- b=mA3Zoj8sO8WT6owTSFCOc0PdUCRqvGz6SNNBXMwQasu+F2wdKOEmUdfvY2In7Qzbvl
- TGdNcPc9NVxzrPD5o+kh4U8nurKNYSA1z3ckBUJu6hbfd4oOEDY2ZrEddasJUMmD5Gq7
- SdMce1g8Xv9djVisCWdk22kCRIB/rLxGTN6AkUt/lJ+HQ0pdZuICMdF3EMLzc+e+NPvq
- 9iCJTaEQA53xU+3X9TuAZI4YfSkSRsmVTFPPr5LsrVptdqHQejH4OAiQdZx3qBb9hai6
- 8VSRK6wC0pICBk8EpdZC6QlMfipRJz7SCYlX+SRg5dcHgQBNUuBX0Tm/fAMH2mN+WRFh
- /wRw==
-X-Gm-Message-State: AGi0PuZV5OYKIMZCQxJkHE9F6CjVmCfqrnYIbM9tlYAnXqGfaOUEZYOg
- G+9h70T2vihF2Lv81gWMB3V2IA==
-X-Google-Smtp-Source: APiQypLan+NIXwt1O7aY8prkzguSWZNpvGFzg72miI7QE6xRrwrxztj6bOJextickiVknRj1I2zyYA==
-X-Received: by 2002:a7b:c104:: with SMTP id w4mr5112868wmi.8.1588086941313;
- Tue, 28 Apr 2020 08:15:41 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s12sm3531003wmc.7.2020.04.28.08.15.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Apr 2020 08:15:40 -0700 (PDT)
-Date: Tue, 28 Apr 2020 17:15:38 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Michal Orzel <michalorzel.eng@gmail.com>
-Subject: Re: [PATCH] drm: Replace drm_modeset_lock/unlock_all with
- DRM_MODESET_LOCK_ALL_* helpers
-Message-ID: <20200428151538.GV3456981@phenom.ffwll.local>
-Mail-Followup-To: Michal Orzel <michalorzel.eng@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <1587895282-2808-1-git-send-email-michalorzel.eng@gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C57E89B96
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 15:16:23 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 48175AFD7;
+ Tue, 28 Apr 2020 15:16:21 +0000 (UTC)
+Subject: Re: [PATCH 2/2] drm/vram-helper: Alternate between bottom-up and
+ top-down placement
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20200422144055.27801-1-tzimmermann@suse.de>
+ <20200422144055.27801-3-tzimmermann@suse.de>
+ <20200423111808.fbh23br7jrkte3ih@sirius.home.kraxel.org>
+ <da7bb4d1-852e-6372-cc2a-938561220483@suse.de>
+ <20200423135709.3yuafqt3xouka4jp@sirius.home.kraxel.org>
+ <b9315d4b-0f3e-712b-8a26-0ed5e3ac6f68@suse.de>
+ <20200424093849.tiyukod37qeztaxb@sirius.home.kraxel.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <2cbafd95-22cf-5471-9ee4-807b152828ec@suse.de>
+Date: Tue, 28 Apr 2020 17:16:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1587895282-2808-1-git-send-email-michalorzel.eng@gmail.com>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <20200424093849.tiyukod37qeztaxb@sirius.home.kraxel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,89 +70,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
+Cc: airlied@linux.ie, sam@ravnborg.org, christian.koenig@amd.com,
  dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0328631931=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 26, 2020 at 12:01:22PM +0200, Michal Orzel wrote:
-> As suggested by the TODO list for the kernel DRM subsystem, replace
-> the deprecated functions that take/drop modeset locks with new helpers.
-> 
-> Signed-off-by: Michal Orzel <michalorzel.eng@gmail.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0328631931==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="CGswBPRlNc5cq1KsEFBVByH9CUFRkVNTD"
 
-Hm can you pls resubmit with intel-gfx mailing list cc'ed? There's a CI
-bot there for checking stuff. Patch looks good, thanks a lot for doing
-this.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--CGswBPRlNc5cq1KsEFBVByH9CUFRkVNTD
+Content-Type: multipart/mixed; boundary="kps4CHfwvGbcRcudRPmLLdRu10ZidTnDk";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, sam@ravnborg.org,
+ christian.koenig@amd.com
+Message-ID: <2cbafd95-22cf-5471-9ee4-807b152828ec@suse.de>
+Subject: Re: [PATCH 2/2] drm/vram-helper: Alternate between bottom-up and
+ top-down placement
+References: <20200422144055.27801-1-tzimmermann@suse.de>
+ <20200422144055.27801-3-tzimmermann@suse.de>
+ <20200423111808.fbh23br7jrkte3ih@sirius.home.kraxel.org>
+ <da7bb4d1-852e-6372-cc2a-938561220483@suse.de>
+ <20200423135709.3yuafqt3xouka4jp@sirius.home.kraxel.org>
+ <b9315d4b-0f3e-712b-8a26-0ed5e3ac6f68@suse.de>
+ <20200424093849.tiyukod37qeztaxb@sirius.home.kraxel.org>
+In-Reply-To: <20200424093849.tiyukod37qeztaxb@sirius.home.kraxel.org>
 
-Thanks, Daniel
-> ---
->  drivers/gpu/drm/drm_mode_object.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-> index 35c2719..901b078 100644
-> --- a/drivers/gpu/drm/drm_mode_object.c
-> +++ b/drivers/gpu/drm/drm_mode_object.c
-> @@ -402,12 +402,13 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
->  {
->  	struct drm_mode_obj_get_properties *arg = data;
->  	struct drm_mode_object *obj;
-> +	struct drm_modeset_acquire_ctx ctx;
->  	int ret = 0;
->  
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> -	drm_modeset_lock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
->  
->  	obj = drm_mode_object_find(dev, file_priv, arg->obj_id, arg->obj_type);
->  	if (!obj) {
-> @@ -427,7 +428,7 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
->  out_unref:
->  	drm_mode_object_put(obj);
->  out:
-> -	drm_modeset_unlock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_END(ctx, ret);
->  	return ret;
->  }
->  
-> @@ -449,12 +450,13 @@ static int set_property_legacy(struct drm_mode_object *obj,
->  {
->  	struct drm_device *dev = prop->dev;
->  	struct drm_mode_object *ref;
-> +	struct drm_modeset_acquire_ctx ctx;
->  	int ret = -EINVAL;
->  
->  	if (!drm_property_change_valid_get(prop, prop_value, &ref))
->  		return -EINVAL;
->  
-> -	drm_modeset_lock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
->  	switch (obj->type) {
->  	case DRM_MODE_OBJECT_CONNECTOR:
->  		ret = drm_connector_set_obj_prop(obj, prop, prop_value);
-> @@ -468,7 +470,7 @@ static int set_property_legacy(struct drm_mode_object *obj,
->  		break;
->  	}
->  	drm_property_change_valid_put(prop, ref);
-> -	drm_modeset_unlock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_END(ctx, ret);
->  
->  	return ret;
->  }
-> -- 
-> 2.7.4
-> 
+--kps4CHfwvGbcRcudRPmLLdRu10ZidTnDk
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Hi Gerd
+
+Am 24.04.20 um 11:38 schrieb Gerd Hoffmann:
+>   Hi,
+>=20
+>> At some point one has to choose to switch to top-down, and then back
+>> again at one of the next BOs. So the current patch effectively splits
+>> vram into a lower half and an upper half and puts BOs in alternating h=
+alves.
+>=20
+> Hmm, so maybe just make the split explicit instead of playing tricks
+> with top_bottom?  Register the lower vram half as TT_VRAM, register the=
+
+> upper half as TT_PRIV.  That'll make sure you never have a big
+> allocation in the middle blocking things.  Or maybe add a allocation
+> strategy flag to ttm which effectively does the same.
+
+It's not that easy. Current cursors n ast are statically allocated. As
+soon as you add dynamic cursors into the mix, you'd get OOMs. If the
+framebuffer BO goes into VRAM and the cursor BO goes into PRIV, pinning
+the next framebuffer BO during a pageflip would send it to VRAM. But
+VRAM is still filled with the first framebuffer BO. So the memory
+manager needs some flexibility with the placement. Handling all that is
+already TTM's job.
+
+I'm preparing v2 of this patch set. It'll get static cursors out of the
+way and make the feature opt-in.
+
+Best regards
+Thomas
+
+>=20
+> take care,
+>   Gerd
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--kps4CHfwvGbcRcudRPmLLdRu10ZidTnDk--
+
+--CGswBPRlNc5cq1KsEFBVByH9CUFRkVNTD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6oSMQACgkQaA3BHVML
+eiOmSgf/Xey4hWpFk4bwfrZqdWuvOHKHA6tMn4TknQlMy0SKKRI2oOjWuo+qg0wt
+cL7NlOrCnG1MkKMsm1DodttE3vp1m4AxRKxht1dX7C5i/jhsPESnxhQooVdV85Si
+Rm2jlCLEHNYVbQXSlR6xbCjLD6+XEOeE4b/j1LFg+rMga5+auNfA2tKuJytv/ZFT
+HykYkJWJNWGndRTAjUUbZR2h9hWj5UIxhGYon+vWyQi8rBjEeQaBeR1yorzY0FFp
+Gi9CSsM7sMprE93iaH6WQOEUdAQkjakni8K9Rq9WuVn32ndIVYZEIZz9MJ2dyGF4
+lsnGVq/CE60EbHbEkWz2Bc3eaf4Onw==
+=YFWO
+-----END PGP SIGNATURE-----
+
+--CGswBPRlNc5cq1KsEFBVByH9CUFRkVNTD--
+
+--===============0328631931==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0328631931==--
