@@ -2,70 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC351BD4DA
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 08:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A451BC0D6
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 16:12:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 552B16EC9C;
-	Wed, 29 Apr 2020 06:45:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09AFF6E50B;
+	Tue, 28 Apr 2020 14:12:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0491F6E4FE
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 14:11:59 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id EFC1A537;
- Tue, 28 Apr 2020 10:11:57 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 28 Apr 2020 10:11:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=0KxVBVYs0AHv0VR+aaPL51bJk2Z
- WuGKpm7rDGF8ENwE=; b=kkAfDby8QBaDdrJ1JRkLM/F29ZwOJzwSujk6jFkoXmK
- +JWMFoK9WBDj7xOwbZKgqb/Fju1dSU11CZhAq52yKoxalEb8KKoZQdcfmUISVt6X
- fx7s879sWd5J8bmToMA9NkZHJoZaZXwssls/Fbw5sKwBHqMMm54LcBJwPgLnoIGr
- OJtvYyOkVHO6EJATQvi5I7tGkqOY1Q44z6ITVeeaBYwOV+WsHeUT7WtA7+3vY+JJ
- iL6okA2iVaN2lzxwdote8eyfApTznZ4PjPsr/uDgr4+ZD+9rCleri0+m5B+rbAy0
- WCLSxOPxJOuvc3c41zBREU8Qd4acVN+j+Waf8qujdGg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=0KxVBV
- Ys0AHv0VR+aaPL51bJk2ZWuGKpm7rDGF8ENwE=; b=bBHd/JsDzd6U6Jj2pk7r7s
- 9adptEPJ8bYklmwPx6yoQQ/ryib1GSykxnuaWNnExFhquvkshGFntpl6bHUJNvdt
- WgbH1K8p5Lua1RkzMUuavW2cYU6lLqnJA+lBnDvy//kvkflb8xac3R/YM/eK6RZ4
- Gxc/ONbNv2xZupjyAJS+WY7KPu/HFMUiIHITfbPKUw59g+J/aDrZ1zxJAPIvweBv
- YJwoWpQvvZiPbeXqCMYOAur3cmRVVKqF2Btgfz9yhrm5FWgfXgAZRla9QdSzg+CU
- 8a7fZ7Qp7TUKZdnjPPOB8YI/naft2DZy70hhutGFGbVW6RzoIQ5eQ0VNKOXJZkDA
- ==
-X-ME-Sender: <xms:qjmoXngQ8rthCZWjGsXrGgb9BU3wlMpYgnW19yBbuUdNu-Gp-hyAeQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedriedugdejfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinh
- epghhithhhuhgsrdgtohhmnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgv
- rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnh
- hordhtvggthh
-X-ME-Proxy: <xmx:qjmoXia97xJ_LAD6HQ2iwwEZv8R9l0WbUjJHriZj3eb9E9axqhz_0w>
- <xmx:qjmoXjFmd0IAb6sxOvQHrwfq2RtQHVkpXeXPe6H_e2pKJX9zp9-iIw>
- <xmx:qjmoXnYfLgaSFWDw2vxpO7O7Vo87vq-osznzrGEZ8q58YO_BLeFzGA>
- <xmx:rTmoXgf2m6B-6uM1t3STX1ynXZnyhixiG59_yF8LDNvM0l47f7i3TUCQZ4U>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2CDE9328005A;
- Tue, 28 Apr 2020 10:11:54 -0400 (EDT)
-Date: Tue, 28 Apr 2020 16:11:49 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Subject: Re: [PATCH v2 91/91] ARM: dts: bcm2711: Enable the display pipeline
-Message-ID: <20200428141149.22n24halgw3p3qa6@gilmour.lan>
-References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
- <7e7941611dad8106e5d9b03eeae06a6aefc0772c.1587742492.git-series.maxime@cerno.tech>
- <aba321ef-16fa-4f9b-a3a6-47b394daeac2@i2se.com>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B9C06E500
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 14:12:25 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id y24so3035596wma.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 07:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=YsD7GjwZh2xdJ3wMaC19FB+yUQls1ObZL8q+/TqZPaI=;
+ b=K5fJIDkt6Nm8nqxpnj2sj9apyTV1p/vWTeB4os0Sv3i6GExhsJCwJqdvEh7yjJ0KT1
+ ieHVuuujb8rPee1NzLN1x/mbJ8mJ0Kv+LjXXmT34crv1Oaez2A8mQVAMMXFHv9ehZtYu
+ Z/QVYtYFtRbA7o5XyBCK4NNUPMpQ5ZBTA1j0o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=YsD7GjwZh2xdJ3wMaC19FB+yUQls1ObZL8q+/TqZPaI=;
+ b=KihcdKgyZMoeLrFY02BBRIhZ3UF5pGBr1uYKligdkb38c1yn0f/pdYdBEO3cfTCW/I
+ w1JjUSLcWLTSGuLbqkVvKsY9iekv4rfHDkgZd4iiNEax0lAnfDv/01vdSK3brIKmSg5U
+ gC4FSmBVL4v7VacvXK0hNxbL06BMEC8lVjkBnJsW3OYGgzrf7+tEtCGWe1pTFNGFC0lN
+ xfDRBk+VNNw8nAgoDI2ge0gkXEZwnQRXfX19SB53QpQKsj1Z/fL4LRbpKPifGSMvjtq9
+ MOBB8xjJwKUHfZuKnEjbDcm99Z8tjV/xIQ9kCFYj6w7itwQDWZFVMf5oaRTKHdP1EL0c
+ 2FZg==
+X-Gm-Message-State: AGi0PuYem5+LODUPlGWYzkl2k0IO2Mr2f6N0ju7XfKROjEUcoEtZWPHO
+ vkxN1s0C17C3oc8ILxOC01DsNQ==
+X-Google-Smtp-Source: APiQypKEM1Oo8wUtGkwt4tUTGbBDhF4duM1wEmCSJuoJRgt815cei21omhnSwJlWEA3iCo1wmfevbQ==
+X-Received: by 2002:a1c:1d92:: with SMTP id d140mr4758593wmd.67.1588083144107; 
+ Tue, 28 Apr 2020 07:12:24 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 185sm4020627wmc.32.2020.04.28.07.12.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Apr 2020 07:12:23 -0700 (PDT)
+Date: Tue, 28 Apr 2020 16:12:21 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 56/59] drm/aspeed: Use managed drmm_mode_config_cleanup
+Message-ID: <20200428141221.GM3456981@phenom.ffwll.local>
+References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
+ <20200415074034.175360-57-daniel.vetter@ffwll.ch>
+ <20200424181002.GL7074@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <aba321ef-16fa-4f9b-a3a6-47b394daeac2@i2se.com>
-X-Mailman-Approved-At: Wed, 29 Apr 2020 06:45:00 +0000
+Content-Disposition: inline
+In-Reply-To: <20200424181002.GL7074@ravnborg.org>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,147 +66,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: multipart/mixed; boundary="===============0511113669=="
+Cc: linux-aspeed@lists.ozlabs.org, Andrew Jeffery <andrew@aj.id.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Joel Stanley <joel@jms.id.au>, Daniel Vetter <daniel.vetter@intel.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0511113669==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="2uzyukowame55xt3"
-Content-Disposition: inline
-
-
---2uzyukowame55xt3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Stefan,
-
-On Sat, Apr 25, 2020 at 10:54:22PM +0200, Stefan Wahren wrote:
-> Hi Maxime,
->=20
-> Am 24.04.20 um 17:35 schrieb Maxime Ripard:
-> > Now that all the drivers have been adjusted for it, let's bring in the
-> > necessary device tree changes.
-> >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+On Fri, Apr 24, 2020 at 08:10:02PM +0200, Sam Ravnborg wrote:
+> On Wed, Apr 15, 2020 at 09:40:31AM +0200, Daniel Vetter wrote:
+> > Since aspeed doesn't use devm_kzalloc anymore we can use the managed
+> > mode config cleanup.
+> > 
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Joel Stanley <joel@jms.id.au>
+> > Cc: Andrew Jeffery <andrew@aj.id.au>
+> > Cc: linux-aspeed@lists.ozlabs.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> 
+> Hmm, the helper function makes no sense, maybe embed it?
+> 
+> One Q below. Whith Q addressed:
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> 
 > > ---
-> >  arch/arm/boot/dts/bcm2711-rpi-4-b.dts |  46 +++++++++++-
-> >  arch/arm/boot/dts/bcm2711.dtsi        | 115 ++++++++++++++++++++++++++-
-> >  2 files changed, 160 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts b/arch/arm/boot/dts/=
-bcm2711-rpi-4-b.dts
-> > index 3205d2dfa898..0efbc4412dc9 100644
-> > --- a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-> > +++ b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-> > @@ -220,3 +220,49 @@
-> >  &vchiq {
-> >  	interrupts =3D <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
+> >  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 11 ++++++-----
+> >  1 file changed, 6 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > index 6b27242b9ee3..6e464b84a256 100644
+> > --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > @@ -63,15 +63,15 @@ static const struct drm_mode_config_funcs aspeed_gfx_mode_config_funcs = {
+> >  	.atomic_commit		= drm_atomic_helper_commit,
 > >  };
+> >  
+> > -static void aspeed_gfx_setup_mode_config(struct drm_device *drm)
+> > +static int aspeed_gfx_setup_mode_config(struct drm_device *drm)
+> >  {
+> > -	drm_mode_config_init(drm);
+> > -
+> >  	drm->mode_config.min_width = 0;
+> >  	drm->mode_config.min_height = 0;
+> >  	drm->mode_config.max_width = 800;
+> >  	drm->mode_config.max_height = 600;
+> >  	drm->mode_config.funcs = &aspeed_gfx_mode_config_funcs;
 > > +
-> > +&vc4 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&pixelvalve0 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&pixelvalve1 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&pixelvalve2 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&pixelvalve3 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&pixelvalve4 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&hdmi0 {
-> > +	clocks =3D <&firmware_clocks 13>, <&dvp 0>;
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&ddc0 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&hdmi1 {
-> > +	clocks =3D <&firmware_clocks 13>, <&dvp 1>;
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&ddc1 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> > +&hvs {
-> > +	clocks =3D <&firmware_clocks 4>;
-> > +};
-> > diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711=
-=2Edtsi
-> > index 00bcaed1be32..a6549fa6e62b 100644
-> > --- a/arch/arm/boot/dts/bcm2711.dtsi
-> > +++ b/arch/arm/boot/dts/bcm2711.dtsi
-> > @@ -12,6 +12,11 @@
-> > =20
-> >  	interrupt-parent =3D <&gicv2>;
-> > =20
-> ...
-> > +
-> > +		ddc0: i2c@7ef04500 {
-> > +			compatible =3D "brcm,bcm2711-hdmi-i2c";
-> > +			reg =3D <0x7ef04500 0x100>, <0x7ef00b00 0x300>;
-> > +			reg-names =3D "bsc", "auto-i2c";
-> > +			clock-frequency =3D <390000>;
->=20
-> according to a patch [1] from Dave Stevenson the i2c clock frequencies
-> are too high.
->=20
-> [1] -
-> https://github.com/raspberrypi/linux/pull/3515/commits/c09f108de27e8bd199=
-5e7713c6128fa79e69579a
+> > +	return drmm_mode_config_init(drm);
+> 
+> I do not see anything that documents that it is OK to init min/max
+> width/heigh not funcs before drmm_mode_config_init() is called.
+> Maybe drmm_mode_config_init() gain an memset(drm->mode_config),
+> and we loose all the assingments from before the call to init().
+> 
+> Also most (all?) other users of drmm_mode_config_init()
+> set them after the call to drmm_mode_config_init().
+> So re-order here and then embed while you are touching the code again.
 
-Good catch, I'll merge it in my next round of changes
+Only reason I've done it like this is that it saves a few lines of diff
+compared to other options.
 
-Maxime
+Wrt calling stuff the wrong way round: We pretty much assume throughout
+that structures are allocated with kzalloc, none of our _init() functions
+in drm have a memset. We'd break the world if we start doing memset() in
+random _init() functions I think.
 
---2uzyukowame55xt3
-Content-Type: application/pgp-signature; name="signature.asc"
+Also the main aspeed_gfx_load() function is quite long already, smashing
+more random stuff in there won't help it's readability.
 
------BEGIN PGP SIGNATURE-----
+Anyway I don't care, if you insist I'm happy to repaint this in whatever
+color choice you deem best :-)
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXqg5pQAKCRDj7w1vZxhR
-xQ1LAP91xvr/EAIzvWK5E+bjOZazwPcp4DpONK5z9Xr2cRoGMgD/dGYehbr08g+i
-YgQKRp6pnmAlE6W5yIlpR5WwrJ2vSwQ=
-=6BJB
------END PGP SIGNATURE-----
+Cheers, Daniel
 
---2uzyukowame55xt3--
+> 
+> 	Sam
+> 
+> >  }
+> >  
+> >  static irqreturn_t aspeed_gfx_irq_handler(int irq, void *data)
+> > @@ -144,7 +144,9 @@ static int aspeed_gfx_load(struct drm_device *drm)
+> >  	writel(0, priv->base + CRT_CTRL1);
+> >  	writel(0, priv->base + CRT_CTRL2);
+> >  
+> > -	aspeed_gfx_setup_mode_config(drm);
+> > +	ret = aspeed_gfx_setup_mode_config(drm);
+> > +	if (ret < 0)
+> > +		return ret;
+> >  
+> >  	ret = drm_vblank_init(drm, 1);
+> >  	if (ret < 0) {
+> > @@ -181,7 +183,6 @@ static int aspeed_gfx_load(struct drm_device *drm)
+> >  static void aspeed_gfx_unload(struct drm_device *drm)
+> >  {
+> >  	drm_kms_helper_poll_fini(drm);
+> > -	drm_mode_config_cleanup(drm);
+> >  }
+> >  
+> >  DEFINE_DRM_GEM_CMA_FOPS(fops);
+> > -- 
+> > 2.25.1
+> > 
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0511113669==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0511113669==--
