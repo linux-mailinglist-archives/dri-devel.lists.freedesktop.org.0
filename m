@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494AD1BB9A3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 11:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8F81BB9A7
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 11:18:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 218416E175;
-	Tue, 28 Apr 2020 09:17:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04AC56E217;
+	Tue, 28 Apr 2020 09:18:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 845F86E175
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 09:17:24 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id y24so2009110wma.4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 02:17:24 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E3936E217
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 09:18:05 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id t14so23722919wrw.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 02:18:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:references:from:autocrypt:organization:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hxRFxgzfbY4fG5zDG8kNf2BxkovyUOAXka3Z/9SntaM=;
- b=cPgE9XU5NTlXVKzcxihqA8wMrM8wexyi92a9ojbpLwGUQ+cDbI1kovQcsaLK5IeqmP
- Iom9EvUPI57FF/b4rPheQX1njMKgxORbAbnfqGQivoV9F8ZhQr+C3Q46WCoAKmTvSF8M
- jwRbMmhzShCNGiy7KBDeNRoJCLTMK4V43dntY3B1z9NNaUXCD+QvExkb8aTa4fhUI8pg
- jg0OhqjVd7USvXsG4KXpw71i5FS4st0ZtWbwP8KU0Z49Ib1XnSqOIkRBpJBNVDOIzrOT
- 69inrkF080vjkomyKpkQQmYY2ewf7R4JteQERJFheFel2x3KlV/hAQ0Yw/Kc6Wkcom5z
- u7Hw==
+ bh=iP8Gqu6pUGGGOlIHJ9NtxKdj7vpj5Mjw7h1t/BfyRls=;
+ b=Axa0zTFE0gOShxiDjNrI1Qoux2ujDamYP2BRgnpdVD0EReYnjpdoUjqRRmvDW6YaKU
+ nsyqolwloVt+6wEMob8ap4zBKpzx6lX0e/wjj2pTQu1Wp87nJeuWm2X4nY13zMYb3c4k
+ Mmc7Q6y3NTVvhpBRpx0ploXPM7BhWUxq67UR+NSf7ah+tGY1Z2sfLfawbqu2/7Oym0qV
+ 1GhY8ae9VOM5RrsSXUKHJ3Tw+j3fpyCNVlzxgF27arJQ2cYcV39J6w+1pYYQZt5TAPbY
+ lwiiBIYZyxFpRwfDd5EOWbKCu9al/GTzs6V4Ip+lw4F3d0jvL9RKe7yUb1fQt1+S2Cqe
+ sxLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=hxRFxgzfbY4fG5zDG8kNf2BxkovyUOAXka3Z/9SntaM=;
- b=B0sEMAJoRz2dvz0wNkGOEl/4rzil+OT8/4adZNR30po7pw0JfiKhGMMjYMXoQi4B+m
- CryHi/FGHDsqABk5Af2/KHTph/Esaiwc6zxoEHTUbIMLDYPkLTKlAHj8OPdsO9iVXTax
- z0l13Zqw+pIfGiN15zQ+oC1kBwm+0InOEttP3hbVQPfmvx7qVNasdhpL1ybhdoxH1S2h
- DecD9MlwLNrLsj/Wq0Ajl5IBbBM/vx6hpvONhHHsr7bv9wi9/OImCzRS0vy8SnXzdEzK
- pMK7sSsPKeul6ksZUVBlfDgkeS9ymDryOXbhmQjuBvgPntrhoBSRtBnHXyQ4H6phawDY
- D0XQ==
-X-Gm-Message-State: AGi0PubdSSX5UnmpAVxcOCfIZj8DUvSPO6IBwleL6ZW9pRvdXRyOeaew
- RjIQJ0putbu0c52rplUYs3GEUQ==
-X-Google-Smtp-Source: APiQypJz/ci6GTN3Orxmj45mS0Ksldxcq/H7zWBpjyovDf8f8smhU98Y03YsqpcEtYChC6mYm/MUVQ==
-X-Received: by 2002:a7b:c5d4:: with SMTP id n20mr3650389wmk.92.1588065443027; 
- Tue, 28 Apr 2020 02:17:23 -0700 (PDT)
+ bh=iP8Gqu6pUGGGOlIHJ9NtxKdj7vpj5Mjw7h1t/BfyRls=;
+ b=Uwph5kYfvlTy3DLXvlU0gYBbngb5Dixx7hoOa5UFmdgiXJVSTHyfWUo65alnV/RG9Y
+ 6Fryd23pBY9aevP2OEKvo6EalRnW1P/q98Zwcdd+J0wJ9Gsm2fG3fJbBRFA4GwoNNyqB
+ aNWtKVJqyI/G89nOMIYiAgR/ckjDjFae2/2x9hLIyKWKVlY3yi00kdzagwJPgeCQ9qV1
+ jZrt7Y/ZX3U2ZhLghI+6iKEKQqFColUg1CcxjuuCJP0N8Xd4qt0VvhzBAYxnx0toh6h3
+ TFEo/x5e0BVeK/Jkaz53WL7beWh/xZ2RbMNc1AqmlTjUr4YhhmrqekgiQf0KMoui7Yg5
+ Ao8Q==
+X-Gm-Message-State: AGi0PuY8JHx0mGe5jIVKOVHRlTdzD7RBgodnM5GOKa1IR4MuVgq/V9NB
+ YKzJUFFPn1IvexboSwTuneQDjqINtQ5JfA==
+X-Google-Smtp-Source: APiQypJ/dlK2v3uHfy2WC21n1pbr1jSVMF6xKfJa5E0dOoaoZFv3TXeOzu25/z1o34BuS5IcL0PSBw==
+X-Received: by 2002:a05:6000:12c5:: with SMTP id
+ l5mr33178827wrx.185.1588065483943; 
+ Tue, 28 Apr 2020 02:18:03 -0700 (PDT)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:4460:3fd3:382:4a71?
  ([2a01:e35:2ec0:82b0:4460:3fd3:382:4a71])
- by smtp.gmail.com with ESMTPSA id y7sm2596132wmb.43.2020.04.28.02.17.21
+ by smtp.gmail.com with ESMTPSA id g25sm2433513wmh.24.2020.04.28.02.18.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Apr 2020 02:17:22 -0700 (PDT)
+ Tue, 28 Apr 2020 02:18:03 -0700 (PDT)
 Subject: Re: [PATCH] drm/meson: Remove unneeded semicolon
 To: Zheng Bin <zhengbin13@huawei.com>, khilman@baylibre.com,
  airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
@@ -105,8 +106,8 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <e02655f4-1fed-3c13-2355-2dea7f0fbed7@baylibre.com>
-Date: Tue, 28 Apr 2020 11:17:21 +0200
+Message-ID: <45523b6f-4cd5-3f13-782f-d23d284fea1f@baylibre.com>
+Date: Tue, 28 Apr 2020 11:18:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
@@ -157,7 +158,7 @@ On 24/04/2020 09:49, Zheng Bin wrote:
 > 2.26.0.106.g9fadedd
 > 
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+Applied to drm-misc-next
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
