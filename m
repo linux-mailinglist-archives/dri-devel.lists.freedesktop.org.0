@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC871BBD70
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:21:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B48491BBD86
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Apr 2020 14:26:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49415895C8;
-	Tue, 28 Apr 2020 12:21:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1498089BB3;
+	Tue, 28 Apr 2020 12:25:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0F29895C8
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 12:21:34 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id e25so21244927ljg.5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 05:21:34 -0700 (PDT)
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31ADC89BB3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 12:25:55 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id w145so16732653lff.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Apr 2020 05:25:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=66PEvgq166rYm5NNqO/K4FUqV5SVNdU/W11wcLnh4KU=;
- b=gESl0rihIt+DG1G40TUmI/KlPAmkk1+4Aiwp1MDMPvqaBcQyaLgL0tP2AHgbZg5nk0
- Zpdq1rk6wT2WQ+bLxj3SVmtk9lXfualx8/Cw8wEteyO31K3kSq/vUb86877Of6KdH0io
- f2COEG+8BhNtvaxctV6KpKzRKGo/JVpELc5SyrcjWxVrbK+uiUKLtkQXzxgTWv2WgMiG
- Qiz0ZwMhbhudDACBVjvsTLMiMV8Sf0tjqm4cdShDq0oNkVfXuXFN6tDh9kF34y0SLf6s
- MzV7Ht5jWfSj0hMkPlHRIvJQX83Mdi5vEpjcfQ1aZMcZ/HOCfb2pg8UsWyQjOj1fdaUH
- 4Uyg==
+ :cc; bh=y3CrBoDpzGJjyKIi+DpjYHt2NK5y8m5CojptJRFb0pU=;
+ b=FQrwhGKLvaQDgj3OcQS2/tAhntXv2Kzc5Rg7N9I4UbMU7paoSFg+yWGK06VYXhk/1o
+ UwCdQZj3Rd67ss3sinoBLCJy2qr7lmIyRw7vsb68gstUo6s2Tfc5KoG7Dt5BC8e7kcs3
+ HECCE/eK6Ck9uQMuTnEx+SKE3hwkXSzz5QDl8PcB7GQe6LlgLtHpBeRXZEvuau2/jvln
+ E8cQEmyO6jGOLaD2MTc6nOrs/AJ5el8oWlAnxoCF1nEhqYdoQKWTszF3dV096mo1IRMa
+ jlxA1WJb4+Gkzm6GmWEs8cxFcyRseknKOUsSh6cTxq9cKWqEbEkr1vIRntp4Anapy6pO
+ Hgzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=66PEvgq166rYm5NNqO/K4FUqV5SVNdU/W11wcLnh4KU=;
- b=hIQAGPiioteFwN+ZPnj+k0Xl+du0yFip7g0b9PxUwHa4bP9xtATOeTpX8ZDDGIiD+f
- lEi/0DvW68y43W3eggs/v/+A8agaa7wlVcAQNSrhGLHSTDZx2n1BrDRrSFJ1pJCP+bGu
- adSmHwObZHSP+mwJ7H2pptvCthvD0VazcfBnVbi9b/HyHVtyRhANEvF901nqcDXc8RUD
- 3NPpIgla1qeNi6nNg0N/Zwt2bFXKXyjpl+ZRipJ4BFLGbD0Sfvgpf3ey1jCORL3Ni6ei
- +kKrxMXkDm1G6PbnTirOEWvDEwxpC2faGKY46YRtMP0AXg2qGSVNMuornyJgxqQsP4cb
- trhg==
-X-Gm-Message-State: AGi0Puaxe6Ies3/4uTR66yaGh4kG+jzGFnSY+KCsmwp0RliGZv9C2fn/
- wiXaT1zpkTWsuOozfqhaKl2jPxGhk3dukILSo6Zd+w==
-X-Google-Smtp-Source: APiQypLFGrgmnKJg9/f+LHPrCacUiDgVAehn8XuE+AFvss3TzqvRIrzE2HTQI0KghqzPidyFO40ACxVTMr2WJwrJBP0=
-X-Received: by 2002:a05:651c:32e:: with SMTP id
- b14mr17558469ljp.277.1588076493277; 
- Tue, 28 Apr 2020 05:21:33 -0700 (PDT)
+ bh=y3CrBoDpzGJjyKIi+DpjYHt2NK5y8m5CojptJRFb0pU=;
+ b=ULou/DnigGY2Sgrs9cf/BeCeuuc8j5zl0VmvB4mWbKkJG6Abb8p/jIfe2eBh0ay5sN
+ PLu4R321W8CdD6pWK8QS1prr5cVYILTeDFvyX7vgtVzgfDUGHvggBIWR3TIKZtsIvnU5
+ fy62uxxADl5Kyd2sanQD8U32ALEA/nEk9JVE/t2M6dQrfTq/jg2ENfcIT+MiXhgDP033
+ NpJyUGUBBBVIAOWz5k4FxOz01Vxd1YIu78qieLE2B3SZwpWg1ew6q7m29mmQDLsm7t7q
+ xDkVQm4o5PUqgs/ysFKMX2VaIjdnrZ4bPH1K4J/GosLQKfNy1MawqfAGsy7JPoRav6OF
+ qZ4g==
+X-Gm-Message-State: AGi0PuadT9gCVQ0ylC6QuUpYFoKJku6Ahm9LC9sw99h4mfKdLcrETtkY
+ WYRfFVsTe9Pw97CVm2kWhVrYgJK35vybI1TRR3FvQg==
+X-Google-Smtp-Source: APiQypLPb2mAHpSsIdPNB3D7OVgcTv0eVuKODtDnL03qMl/e3W2QqNgeTth6RsbPQYrzCLTfa1qEof/jAdPKF+ud1Kg=
+X-Received: by 2002:ac2:5c4e:: with SMTP id s14mr19280291lfp.77.1588076753555; 
+ Tue, 28 Apr 2020 05:25:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200423162548.129661-1-dianders@chromium.org>
- <20200423092431.v3.3.I53fed5b501a31e7a7fa13268ebcdd6b77bd0cadd@changeid>
-In-Reply-To: <20200423092431.v3.3.I53fed5b501a31e7a7fa13268ebcdd6b77bd0cadd@changeid>
+ <20200423092431.v3.5.I72892d485088e57378a4748c86bc0f6c2494d807@changeid>
+In-Reply-To: <20200423092431.v3.5.I72892d485088e57378a4748c86bc0f6c2494d807@changeid>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 28 Apr 2020 14:21:22 +0200
-Message-ID: <CACRpkdZEhqaiStFPdg3VOamKnCMjMsj+MMXimqmHW6eSGah+nQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/6] drm/panel-simple: Support hpd-gpios for delaying
- prepare()
+Date: Tue, 28 Apr 2020 14:25:42 +0200
+Message-ID: <CACRpkdZkRKgRo2-pxiyoz-3W_aoR+qb+AA-4+ZaPtt2Ykecs0w@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] dt-bindings: drm/bridge: ti-sn65dsi86: Document
+ no-hpd
 To: Douglas Anderson <dianders@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,9 +74,8 @@ Cc: Rob Clark <robdclark@chromium.org>,
  Stephen Boyd <swboyd@chromium.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
  Jonas Karlman <jonas@kwiboo.se>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -86,41 +84,52 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, Apr 23, 2020 at 6:26 PM Douglas Anderson <dianders@chromium.org> wrote:
 
-> People use panel-simple when they have panels that are builtin to
-> their device.  In these cases the HPD (Hot Plug Detect) signal isn't
-> really used for hotplugging devices but instead is used for power
-> sequencing.  Panel timing diagrams (especially for eDP panels) usually
-> have the HPD signal in them and it acts as an indicator that the panel
-> is ready for us to talk to it.
+> The ti-sn65dsi86 MIPI DSI to eDP bridge chip has a dedicated hardware
+> HPD (Hot Plug Detect) pin on it, but it's mostly useless for eDP
+> because of excessive debouncing in hardware.  Specifically there is no
+> way to disable the debouncing and for eDP debouncing hurts you because
+> HPD is just used for knowing when the panel is ready, not for
+> detecting physical plug events.
 >
-> Sometimes the HPD signal is hooked up to a normal GPIO on a system.
-> In this case we need to poll it in the correct place to know that the
-> panel is ready for us.  In some system designs the right place for
-> this is panel-simple.
+> Currently the driver in Linux just assumes that nobody has HPD hooked
+> up.  It relies on folks setting the "no-hpd" property in the panel
+> node to specify that HPD isn't hooked up and then the panel driver
+> using this to add some worst case delays when turning on the panel.
 >
-> When adding this support, we'll account for the case that there might
-> be a circular dependency between panel-simple and the provider of the
-> GPIO.  The case this was designed for was for the "ti-sn65dsi86"
-> bridge chip.  If HPD is hooked up to one of the GPIOs provided by the
-> bridge chip then in our probe function we'll always get back
-> -EPROBE_DEFER.  Let's handle this by allowing this GPIO to show up
-> late if we saw -EPROBE_DEFER during probe.  NOTE: since the
-> gpio_get_optional() is used, if the "hpd-gpios" isn't there our
-> variable will just be NULL and we won't do anything in prepare().
+> Apparently it's also useful to specify "no-hpd" in the bridge node so
+> that the bridge driver can make sure it's doing the right thing
+> without peeking into the panel [1].  This would be used if anyone ever
+> found it useful to implement support for the HW HPD pin on the bridge.
+> Let's add this property to the bindings.
+>
+> NOTES:
+> - This is somewhat of a backward-incompatible change.  All current
+>   known users of ti-sn65dsi86 didn't have "no-hpd" specified in the
+>   bridge node yet none of them had HPD hooked up.  This worked because
+>   the current Linux driver just assumed that HPD was never hooked up.
+>   We could make it less incompatible by saying that for this bridge
+>   it's assumed HPD isn't hooked up _unless_ a property is defined, but
+>   "no-hpd" is much more standard and it's unlikely to matter unless
+>   someone quickly goes and implements HPD in the driver.
+> - It is sensible to specify "no-hpd" at the bridge chip level and
+>   specify "hpd-gpios" at the panel level.  That would mean HPD is
+>   hooked up to some other GPIO in the system, just not the hardware
+>   HPD pin on the bridge chip.
+>
+> [1] https://lore.kernel.org/r/20200417180819.GE5861@pendragon.ideasonboard.com
 >
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->
-> Changes in v3:
-> - Remind how gpio_get_optional() works in the commit message.
 
+Makes sense to me so:
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-I have a small inkling to protest against calling this driver "panel-simple"
-as we tend to stockpile things like this.
+> +  no-hpd:
+> +    type: boolean
+> +    description: Set if the HPD line on the bridge isn't hooked up to anything.
 
-I suppose panel-panacea.c is a better name at this point :/
+I would perhaps tag on:
+... or is otherwise unusable?
 
 Yours,
 Linus Walleij
