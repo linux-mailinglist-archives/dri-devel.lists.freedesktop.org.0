@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF601BE106
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 16:32:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 320961BE108
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 16:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 603796ECB6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C72186EEAA;
 	Wed, 29 Apr 2020 14:32:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4F386E04E
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 14:32:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9C296EEA8
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 14:32:43 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 82F4AAF73;
+ by mx2.suse.de (Postfix) with ESMTP id C278AABD7;
  Wed, 29 Apr 2020 14:32:40 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com, noralf@tronnes.org,
  sam@ravnborg.org, john.p.donnelly@oracle.com
-Subject: [PATCH 04/17] drm/mgag200: Use managed mode-config initialization
-Date: Wed, 29 Apr 2020 16:32:25 +0200
-Message-Id: <20200429143238.10115-5-tzimmermann@suse.de>
+Subject: [PATCH 05/17] drm/mgag200: Clean up mga_set_start_address()
+Date: Wed, 29 Apr 2020 16:32:26 +0200
+Message-Id: <20200429143238.10115-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200429143238.10115-1-tzimmermann@suse.de>
 References: <20200429143238.10115-1-tzimmermann@suse.de>
@@ -44,143 +44,150 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+All register names and fields are now named according to the
+MGA programming manuals. The function doesn't need the CRTC, so
+callers pass in the device structure directly. The logging now
+uses device-specific macros.
+
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.h  |  1 -
- drivers/gpu/drm/mgag200/mgag200_main.c | 18 -------------
- drivers/gpu/drm/mgag200/mgag200_mode.c | 37 ++++++++++++++++++++------
- 3 files changed, 29 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_drv.h  |  5 ++
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 82 +++++++++++++++-----------
+ 2 files changed, 53 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 09b43a0ff6bbf..4403145e3593c 100644
+index 4403145e3593c..9b957d9fc7e04 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
 +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -182,7 +182,6 @@ mgag200_flags_from_driver_data(kernel_ulong_t driver_data)
+@@ -61,6 +61,11 @@
+ 		WREG8(MGAREG_CRTC_DATA, v);			\
+ 	} while (0)						\
  
- 				/* mgag200_mode.c */
- int mgag200_modeset_init(struct mga_device *mdev);
--void mgag200_modeset_fini(struct mga_device *mdev);
++#define RREG_ECRT(reg, v)					\
++	do {							\
++		WREG8(MGAREG_CRTCEXT_INDEX, reg);		\
++		v = RREG8(MGAREG_CRTCEXT_DATA);			\
++	} while (0)						\
  
- 				/* mgag200_main.c */
- int mgag200_driver_load(struct drm_device *dev, unsigned long flags);
-diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/mgag200/mgag200_main.c
-index 698fbf31337d4..cf25012f9b6ec 100644
---- a/drivers/gpu/drm/mgag200/mgag200_main.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_main.c
-@@ -10,15 +10,8 @@
- 
- #include <linux/pci.h>
- 
--#include <drm/drm_crtc_helper.h>
--#include <drm/drm_gem_framebuffer_helper.h>
--
- #include "mgag200_drv.h"
- 
--static const struct drm_mode_config_funcs mga_mode_funcs = {
--	.fb_create = drm_gem_fb_create
--};
--
- static int mga_probe_vram(struct mga_device *mdev, void __iomem *mem)
- {
- 	int offset;
-@@ -159,14 +152,6 @@ int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
- 	if (r)
- 		goto err_mm;
- 
--	drm_mode_config_init(dev);
--	dev->mode_config.funcs = (void *)&mga_mode_funcs;
--	if (IS_G200_SE(mdev) && mdev->vram_fb_available < (2048*1024))
--		dev->mode_config.preferred_depth = 16;
--	else
--		dev->mode_config.preferred_depth = 32;
--	dev->mode_config.prefer_shadow = 1;
--
- 	r = mgag200_modeset_init(mdev);
- 	if (r) {
- 		dev_err(&dev->pdev->dev, "Fatal error during modeset init: %d\n", r);
-@@ -176,7 +161,6 @@ int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
- 	return 0;
- 
- err_modeset:
--	drm_mode_config_cleanup(dev);
- 	mgag200_mm_fini(mdev);
- err_mm:
- 	dev->dev_private = NULL;
-@@ -190,8 +174,6 @@ void mgag200_driver_unload(struct drm_device *dev)
- 
- 	if (mdev == NULL)
- 		return;
--	mgag200_modeset_fini(mdev);
--	drm_mode_config_cleanup(dev);
- 	mgag200_mm_fini(mdev);
- 	dev->dev_private = NULL;
- }
+ #define WREG_ECRT(reg, v)					\
+ 	do {							\
 diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index eaa3fca7216ac..3d894b37a0812 100644
+index 3d894b37a0812..b16a73c8617d6 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -13,6 +13,7 @@
- 
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
-@@ -1614,16 +1615,41 @@ static int mgag200_vga_connector_init(struct mga_device *mdev)
- 	return ret;
+@@ -819,49 +819,53 @@ static void mga_g200wb_commit(struct drm_crtc *crtc)
  }
  
-+static const struct drm_mode_config_funcs mgag200_mode_config_funcs = {
-+	.fb_create = drm_gem_fb_create
-+};
-+
-+static unsigned int mgag200_preferred_depth(struct mga_device *mdev)
-+{
-+	if (IS_G200_SE(mdev) && mdev->vram_fb_available < (2048*1024))
-+		return 16;
-+	else
-+		return 32;
-+}
-+
- int mgag200_modeset_init(struct mga_device *mdev)
+ /*
+-   This is how the framebuffer base address is stored in g200 cards:
+-   * Assume @offset is the gpu_addr variable of the framebuffer object
+-   * Then addr is the number of _pixels_ (not bytes) from the start of
+-     VRAM to the first pixel we want to display. (divided by 2 for 32bit
+-     framebuffers)
+-   * addr is stored in the CRTCEXT0, CRTCC and CRTCD registers
+-   addr<20> -> CRTCEXT0<6>
+-   addr<19-16> -> CRTCEXT0<3-0>
+-   addr<15-8> -> CRTCC<7-0>
+-   addr<7-0> -> CRTCD<7-0>
+-   CRTCEXT0 has to be programmed last to trigger an update and make the
+-   new addr variable take effect.
++ * This is how the framebuffer base address is stored in g200 cards:
++ *   * Assume @offset is the gpu_addr variable of the framebuffer object
++ *   * Then addr is the number of _pixels_ (not bytes) from the start of
++ *     VRAM to the first pixel we want to display. (divided by 2 for 32bit
++ *     framebuffers)
++ *   * addr is stored in the CRTCEXT0, CRTCC and CRTCD registers
++ *      addr<20> -> CRTCEXT0<6>
++ *      addr<19-16> -> CRTCEXT0<3-0>
++ *      addr<15-8> -> CRTCC<7-0>
++ *      addr<7-0> -> CRTCD<7-0>
++ *
++ *  CRTCEXT0 has to be programmed last to trigger an update and make the
++ *  new addr variable take effect.
+  */
+-static void mga_set_start_address(struct drm_crtc *crtc, unsigned offset)
++static void mgag200_set_startadd(struct mga_device *mdev,
++				 unsigned long offset)
  {
+-	struct mga_device *mdev = crtc->dev->dev_private;
+-	u32 addr;
+-	int count;
+-	u8 crtcext0;
 +	struct drm_device *dev = mdev->dev;
- 	struct drm_encoder *encoder = &mdev->encoder;
- 	struct drm_connector *connector = &mdev->connector.base;
++	uint32_t startadd;
++	uint8_t crtcc, crtcd, crtcext0;
+ 
+-	while (RREG8(0x1fda) & 0x08);
+-	while (!(RREG8(0x1fda) & 0x08));
++	startadd = offset / 8;
+ 
+-	count = RREG8(MGAREG_VCOUNT) + 2;
+-	while (RREG8(MGAREG_VCOUNT) < count);
+-
+-	WREG8(MGAREG_CRTCEXT_INDEX, 0);
+-	crtcext0 = RREG8(MGAREG_CRTCEXT_DATA);
+-	crtcext0 &= 0xB0;
+-	addr = offset / 8;
+-	/* Can't store addresses any higher than that...
+-	   but we also don't have more than 16MB of memory, so it should be fine. */
+-	WARN_ON(addr > 0x1fffff);
+-	crtcext0 |= (!!(addr & (1<<20)))<<6;
+-	WREG_CRT(0x0d, (u8)(addr & 0xff));
+-	WREG_CRT(0x0c, (u8)(addr >> 8) & 0xff);
+-	WREG_ECRT(0x0, ((u8)(addr >> 16) & 0xf) | crtcext0);
++	/*
++	 * Can't store addresses any higher than that, but we also
++	 * don't have more than 16MB of memory, so it should be fine.
++	 */
++	drm_WARN_ON(dev, startadd > 0x1fffff);
++
++	RREG_ECRT(0x00, crtcext0);
++
++	crtcc = (startadd >> 8) & 0xff;
++	crtcd = startadd & 0xff;
++	crtcext0 &= 0xb0;
++	crtcext0 |= ((startadd >> 14) & BIT(6)) |
++		    ((startadd >> 16) & 0x0f);
++
++	WREG_CRT(0x0c, crtcc);
++	WREG_CRT(0x0d, crtcd);
++	WREG_ECRT(0x00, crtcext0);
+ }
+ 
+ static int mga_crtc_do_set_base(struct drm_crtc *crtc,
+ 				struct drm_framebuffer *fb,
+ 				int x, int y, int atomic)
+ {
++	struct mga_device *mdev = crtc->dev->dev_private;
+ 	struct drm_gem_vram_object *gbo;
  	int ret;
+ 	s64 gpu_addr;
+@@ -882,7 +886,7 @@ static int mga_crtc_do_set_base(struct drm_crtc *crtc,
+ 		goto err_drm_gem_vram_unpin;
+ 	}
  
--	mdev->dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
--	mdev->dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
-+	ret = drmm_mode_config_init(dev);
-+	if (ret) {
-+		drm_err(dev, "drmm_mode_config_init() failed, error %d\n",
-+			ret);
-+		return ret;
-+	}
-+
-+	dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
-+	dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
-+
-+	dev->mode_config.preferred_depth = mgag200_preferred_depth(mdev);
-+	dev->mode_config.prefer_shadow = 1;
-+
-+	dev->mode_config.fb_base = mdev->mc.vram_base;
- 
--	mdev->dev->mode_config.fb_base = mdev->mc.vram_base;
-+	dev->mode_config.funcs = &mgag200_mode_config_funcs;
- 
- 	mga_crtc_init(mdev);
- 
-@@ -1648,8 +1674,3 @@ int mgag200_modeset_init(struct mga_device *mdev)
+-	mga_set_start_address(crtc, (u32)gpu_addr);
++	mgag200_set_startadd(mdev, (unsigned long)gpu_addr);
  
  	return 0;
+ 
+@@ -894,6 +898,16 @@ static int mga_crtc_do_set_base(struct drm_crtc *crtc,
+ static int mga_crtc_mode_set_base(struct drm_crtc *crtc, int x, int y,
+ 				  struct drm_framebuffer *old_fb)
+ {
++	struct drm_device *dev = crtc->dev;
++	struct mga_device *mdev = dev->dev_private;
++	unsigned int count;
++
++	while (RREG8(0x1fda) & 0x08) { }
++	while (!(RREG8(0x1fda) & 0x08)) { }
++
++	count = RREG8(MGAREG_VCOUNT) + 2;
++	while (RREG8(MGAREG_VCOUNT) < count) { }
++
+ 	return mga_crtc_do_set_base(crtc, old_fb, x, y, 0);
  }
--
--void mgag200_modeset_fini(struct mga_device *mdev)
--{
--
--}
+ 
 -- 
 2.26.0
 
