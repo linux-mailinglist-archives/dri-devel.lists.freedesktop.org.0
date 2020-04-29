@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD3E1BDFC4
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 15:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC3D1BDFCD
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 15:58:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 834156EE93;
-	Wed, 29 Apr 2020 13:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF6896EE99;
+	Wed, 29 Apr 2020 13:58:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA0A6EE93
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 13:58:04 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id 188so2139985wmc.2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 06:58:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=3JWN8PCbkw11lHqpu69GaINuVt5HXdjUFCbeunE7xjs=;
- b=YneZ+oUDARxNn93Id7QGdgE86PDCupMMSOmZXYuGzy3brWVGqNetDD1ACJpsMiNCIh
- 0eBXtQRdmmoRRKifRXw0FKXFQI/QX0njmFpxz0nrpzOO0Z3rBGlgsx8OQx4a7NJmr82X
- xvdpSBKaFXvpmQygIYcUYfFEqW79dB0THKAAWqc+qIRtTPLpF37O2+EkKOOy6h8csh43
- 4j5Yut5jKCDVbL/0+o7CjXkXebpQv6aY2XQwJkCyDC+DQmWmly3r3PSbzg4+sTnjl3v+
- I5qUWvC+hlJQ3EaFMS8ymhBbrfO8vP9ORJJDabdxRCGo4pubhiwggEH46amfZLCKyMBa
- w4cw==
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA15F6EE99
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 13:58:52 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id x2so2430875ilp.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 06:58:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1O7PosLz4mRDhGws3L+X1MUCZvuGxL4YzOJRVMpkTaQ=;
+ b=eHymAAQ8uzRRFuwbAgXByowyQhoNtG23MGeOnSLTjl2/c8/JVe4ByL+NwJ6d0kH2WZ
+ cH9imCbJQlTtVEumzMzfu3Vmg4bscDair4bddYL3PX8zQTs9xjtntzNwMU+vGKKce8mm
+ 5tAzVF6M08PS+9lhmgMVNTF+CIWcaeUKT8jxSxFn+YW3/g522mEad+pYfkp8JY8jiJ/U
+ Hyj1xYGuKuBX6spzc/xvgWwJ3tYSexAD59kI31CNFXRYk3TTnWBm7ZDx4DC4iKDjesn1
+ 372V+x3eNygxbsJEBk3AGHxmYeA2VWFWvaO2TG9E4ppTN31egitIgZvUWRTH5QQ1Ywi9
+ 0Row==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3JWN8PCbkw11lHqpu69GaINuVt5HXdjUFCbeunE7xjs=;
- b=ESwoUPo24iY1dXrY2jNHF8kkxZamP4vmOQGTJMkIn6fpYp/TRQS8sBZ4/pShiaBOu4
- nZXoq2qe7G+vA9GNhHhr4b/fO9SIsPyhL9kVfmTWP00hJjtFUJ/XB371zGOCck+luWeA
- FuGtDHSI0JyNE8pecZBydpicLJEHrd71Jo0o2b+BU66HOHgRIxxX6jwKCJ+UAPEghh4N
- PAqcPCqu8ANkgE5agBiE72CHqjKj+pHcn1BncEEY+gW4u/QV035zna9UjSQ8KXBmxvg/
- NHScyg2xTccGng04sP/nycdM9BhngSw58EaFUSTFWAYeCItBXEibSp3sR+lifp+KpbKl
- 3qCQ==
-X-Gm-Message-State: AGi0PuYes/f8TbSYuF3P6GSsjj8j2ZmquyIYfqeJU1XI3t2y3YM90lr6
- mh+wtaohADm5UccD1r6Zx0jGYA==
-X-Google-Smtp-Source: APiQypJcg90MGK+tvvRopWdw4GEAi76fq3kdqs2d8ZfONqkMOcQi1qYRwtAvAmLheNgtseOw7mPmHg==
-X-Received: by 2002:a1c:2d0e:: with SMTP id t14mr3457177wmt.153.1588168683069; 
- Wed, 29 Apr 2020 06:58:03 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id n9sm30158965wrx.61.2020.04.29.06.58.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Apr 2020 06:58:02 -0700 (PDT)
-Date: Wed, 29 Apr 2020 14:58:00 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v3] backlight: lms283gf05: Convert to GPIO descriptors
-Message-ID: <20200429135800.eys7yanmv6v7es2s@holly.lan>
-References: <20200429124354.946167-1-linus.walleij@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1O7PosLz4mRDhGws3L+X1MUCZvuGxL4YzOJRVMpkTaQ=;
+ b=Bv1DeH8WR7o9IM6m3KscX5auSwHoXyXANEtxAiIREwcjuiPblaP2OTFIvMDWkIDWDb
+ Y9oBpgYbFo3BDTr8Ud/vscQuTT4j99W0GVnw7dqXvtLPlXOss20Q0sGC8OW/rOwINrYg
+ ED4iVVHcf/LOA8rx9lyYh9tzl54gXZk6VsMwwZecRmVS7qS4an50Snz5HPQnWVch9I+8
+ 3Lv3LeEvf+yuRYLSCHZYx/nCqeUCrvug8uQcspKU45wapNmBNAP3BW/Zn6XaZlCheFCQ
+ /KqkQeOOem7ePky2My9yebHeBD5OHNF7AljHzyVNDSJNxfJ19jo6stj35cTu2aCe7WWr
+ /YIw==
+X-Gm-Message-State: AGi0PuZEoXEXX8SruEV7nQYvGDRVTy15g/ar7QyajguhZLihhwSuMUvi
+ G7D2jGJZqNeSBxA1mGvodmz9ngHrbrkvI1YayaWs3g==
+X-Google-Smtp-Source: APiQypLvPs4AHWI9ET+b6eQtMWEOQRdpthQqZ/tzDRlMHD81VYVlfhcADQ6lPbGU3Ksruzumm/5mxiNG1yL3fqgBikU=
+X-Received: by 2002:a92:dd0e:: with SMTP id n14mr31447370ilm.71.1588168732168; 
+ Wed, 29 Apr 2020 06:58:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200429124354.946167-1-linus.walleij@linaro.org>
+References: <20200414184835.2878-1-sean@poorly.run>
+ <20200414190258.38873-1-sean@poorly.run>
+ <20200429135037.GF22816@intel.com>
+In-Reply-To: <20200429135037.GF22816@intel.com>
+From: Sean Paul <sean@poorly.run>
+Date: Wed, 29 Apr 2020 09:58:16 -0400
+Message-ID: <CAMavQKKOKfcJSN1GjKctQp4qw6LyP6WNE9Q3Y4LedkjzcvPXxA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: Fix HDCP failures when SRM fw is missing
+To: Ramalingam C <ramalingam.c@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,100 +62,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jingoo Han <jingoohan1@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, dri-devel@lists.freedesktop.org,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Daniel Mack <daniel@zonque.org>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>, stable <stable@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 29, 2020 at 02:43:54PM +0200, Linus Walleij wrote:
-> This converts the lms283gf05 backlight driver to use GPIO
-> descriptors and switches the single PXA Palm Z2 device
-> over to defining these.
-> 
-> Since the platform data was only used to convey GPIO
-> information we can delete the platform data header.
-> 
-> Notice that we define the proper active low semantics in
-> the board file GPIO descriptor table (active low) and
-> assert the reset line by bringing it to "1" (asserted).
-> 
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Daniel Mack <daniel@zonque.org>
-> Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
-> Cc: Robert Jarzmik <robert.jarzmik@free.fr>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> ChangeLog v2->v3:
-> - Fix a use-before-allocated bug discovered by compile tests.
-> - Remove unused ret variable as autobuilders complained.
-> ChangeLog v1->v2:
-> - Bring up the GPIO de-asserted in probe()
-> 
-> Marek: I saw this was written by you, are you regularly
-> testing the Z2 device?
-> ---
->  arch/arm/mach-pxa/z2.c               | 12 +++++---
->  drivers/video/backlight/lms283gf05.c | 42 +++++++++++-----------------
->  include/linux/spi/lms283gf05.h       | 16 -----------
->  3 files changed, 24 insertions(+), 46 deletions(-)
->  delete mode 100644 include/linux/spi/lms283gf05.h
-> 
-> diff --git a/drivers/video/backlight/lms283gf05.c b/drivers/video/backlight/lms283gf05.c
-> index 0e45685bcc1c..529c415eb03b 100644
-> --- a/drivers/video/backlight/lms283gf05.c
-> +++ b/drivers/video/backlight/lms283gf05.c
-> @@ -150,24 +147,17 @@ static struct lcd_ops lms_ops = {
->  static int lms283gf05_probe(struct spi_device *spi)
->  {
->  	struct lms283gf05_state *st;
-> -	struct lms283gf05_pdata *pdata = dev_get_platdata(&spi->dev);
->  	struct lcd_device *ld;
-> -	int ret = 0;
-> -
-> -	if (pdata != NULL) {
-> -		ret = devm_gpio_request_one(&spi->dev, pdata->reset_gpio,
-> -				GPIOF_DIR_OUT | (!pdata->reset_inverted ?
-> -				GPIOF_INIT_HIGH : GPIOF_INIT_LOW),
-> -				"LMS283GF05 RESET");
-> -		if (ret)
-> -			return ret;
-> -	}
->  
->  	st = devm_kzalloc(&spi->dev, sizeof(struct lms283gf05_state),
->  				GFP_KERNEL);
->  	if (st == NULL)
->  		return -ENOMEM;
->  
-> +	st->reset = gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_LOW);
-> +	if (st->reset)
-> +		gpiod_set_consumer_name(st->reset, "LMS283GF05 RESET");
-> +
+On Wed, Apr 29, 2020 at 9:50 AM Ramalingam C <ramalingam.c@intel.com> wrote:
+>
+> On 2020-04-14 at 15:02:55 -0400, Sean Paul wrote:
+> > From: Sean Paul <seanpaul@chromium.org>
+> >
+> > The SRM cleanup in 79643fddd6eb2 ("drm/hdcp: optimizing the srm
+> > handling") inadvertently altered the behavior of HDCP auth when
+> > the SRM firmware is missing. Before that patch, missing SRM was
+> > interpreted as the device having no revoked keys. With that patch,
+> > if the SRM fw file is missing we reject _all_ keys.
+> >
+> > This patch fixes that regression by returning success if the file
+> > cannot be found. It also checks the return value from request_srm such
+> > that we won't end up trying to parse the ksv list if there is an error
+> > fetching it.
+> >
+> > Fixes: 79643fddd6eb ("drm/hdcp: optimizing the srm handling")
+> > Cc: stable@vger.kernel.org
+> > Cc: Ramalingam C <ramalingam.c@intel.com>
+> > Cc: Sean Paul <sean@poorly.run>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> >
+> > Changes in v2:
+> > -Noticed a couple other things to clean up
+> > ---
+> >
+> > Sorry for the quick rev, noticed a couple other loose ends that should
+> > be cleaned up.
+> >
+> >  drivers/gpu/drm/drm_hdcp.c | 8 +++++++-
+> >  1 file changed, 7 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
+> > index 7f386adcf872..910108ccaae1 100644
+> > --- a/drivers/gpu/drm/drm_hdcp.c
+> > +++ b/drivers/gpu/drm/drm_hdcp.c
+> > @@ -241,8 +241,12 @@ static int drm_hdcp_request_srm(struct drm_device *drm_dev,
+> >
+> >       ret = request_firmware_direct(&fw, (const char *)fw_name,
+> >                                     drm_dev->dev);
+> > -     if (ret < 0)
+> > +     if (ret < 0) {
+> > +             *revoked_ksv_cnt = 0;
+> > +             *revoked_ksv_list = NULL;
+> These two variables are already initialized by the caller.
+
+Right now it is, but that's not guaranteed. In the ret == 0 case, it's
+pretty common for a caller to assume the called function has
+validated/assigned all the function output.
+
+> > +             ret = 0;
+> Missing of this should have been caught by CI. May be CI system always
+> having the SRM file from previous execution. Never been removed. IGT
+> need a fix to clean the prior SRM files before execution.
+>
+> CI fix shouldn't block this fix.
+> >               goto exit;
+> > +     }
+> >
+> >       if (fw->size && fw->data)
+> >               ret = drm_hdcp_srm_update(fw->data, fw->size, revoked_ksv_list,
+> > @@ -287,6 +291,8 @@ int drm_hdcp_check_ksvs_revoked(struct drm_device *drm_dev, u8 *ksvs,
+> >
+> >       ret = drm_hdcp_request_srm(drm_dev, &revoked_ksv_list,
+> >                                  &revoked_ksv_cnt);
+> > +     if (ret)
+> > +             return ret;
+> This error code also shouldn't effect the caller(i915)
+
+Why not? I'd assume an invalid SRM revocation list should probably be
+treated as failure?
 
 
-Sorry, I should have picked this up before but shouldn't st->reset have
-an IS_ERR() check. There are certainly no other examples of this API
-within the kernel that are not followed by an IS_ERR() check!
-
-In fact I understood that the gpiod API is intended to tolerate NULLs
-so I would have expected this code to be:
-
-	st->reset = gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_LOW);
-	if (IS_ERR(st->reset))
-		return PTR_ERR(st->reset);
-	gpiod_set_consumer_name(st->reset, "LMS283GF05 RESET");
-
-
->  	ld = devm_lcd_device_register(&spi->dev, "lms283gf05", &spi->dev, st,
->  					&lms_ops);
->  	if (IS_ERR(ld))
-
-
-Daniel.
-> 
+> hence pushed a
+> change https://patchwork.freedesktop.org/series/76730/
+>
+> With these addresed.
+>
+> LGTM.
+>
+> Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
+> >
+> >       /* revoked_ksv_cnt will be zero when above function failed */
+> >       for (i = 0; i < revoked_ksv_cnt; i++)
+> > --
+> > Sean Paul, Software Engineer, Google / Chromium OS
+> >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
