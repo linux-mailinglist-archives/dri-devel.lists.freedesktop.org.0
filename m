@@ -2,62 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6967D1BD4E7
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 08:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA4E1BD2C9
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 05:09:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E0296ECAC;
-	Wed, 29 Apr 2020 06:45:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 045E16E39E;
+	Wed, 29 Apr 2020 03:09:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD8986E0D8;
- Wed, 29 Apr 2020 03:02:15 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id k133so495865oih.12;
- Tue, 28 Apr 2020 20:02:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vat/A+5wAq17/5/tk88DCdniaj1GWzYrag6w3vBmDBk=;
- b=MXsmR3gGPgc/++kp1hntr5cCxudY82uhEJERwYydQonzsULfllXVQPX6adl0wfHxCR
- hN6XVdnbVjjxXY2qQZMkskbIdxMo0H0h1Vdo0c8HFek4FtH+stf1cTeAGtt1XayCTVNS
- ymmyBQaT50MAq2bWzATfqIlepoWQDKOQp5XpiaFvtzaIaeNw5AcFve7Heu0cL/JSsInO
- bzcbGgJDT2SChMtGsLWO3JK8QxWlImqiVnHx4o5mHnWuBZiBXVBxy4TJ9JEXWSXwKzPr
- +xrDm+pvPlYWWfdzamcZHFa1yGp89tCY6y86l7biE2VA4VAE+/znnWga31lPSHWhQQcf
- PI2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vat/A+5wAq17/5/tk88DCdniaj1GWzYrag6w3vBmDBk=;
- b=sheahZuUhYy7bAZGeX3M4wDzA6cJGNInw1D59kMeTKnfZojkbMMMWifePFzXSFrG6V
- vjTNhcY7ayvw8BCJpqwelzicQqq3dhZmhay8HZ/gz5q2/uDDj6ZwnO5GgF6ufcpSHo1c
- 8aoiaqDurgMzcR10nVsWcsJ5k7QlmLw0/nvbjmLpSEJ/lnI0DyS1liEfE/DdetlHH6sC
- vimPbmcsY/BD5d8MMkK1C3EEQgIPRJ8Ju6Sxi4pTw3/ftBoTtDDk6YtbxKmSLX1BvT3j
- fT66o6zWl1FYmJB4NX2ybpefjDpTFGufweNfVVG3gbVaCHtaCHCDZS5eMi6iMpY2rjaK
- W1Qw==
-X-Gm-Message-State: AGi0PuZ+wB51XoO0mnrGW8x659GoK9zXEjZtTNHRWlqvpiUKDDU/Xo+c
- Oq9P0VIkftHYz8zv/zoH6pg=
-X-Google-Smtp-Source: APiQypK+U07j9oOnyToDeRg0xLGngsqomu6PGJKgQyDCGupw7N9RnvAMb2gAndIHHsn3o5VFfOujVg==
-X-Received: by 2002:aca:fc0a:: with SMTP id a10mr323869oii.77.1588129335074;
- Tue, 28 Apr 2020 20:02:15 -0700 (PDT)
-Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
- by smtp.gmail.com with ESMTPSA id m189sm4262046oig.12.2020.04.28.20.02.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Apr 2020 20:02:14 -0700 (PDT)
-From: Nathan Chancellor <natechancellor@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Subject: [PATCH] drm/i915/gt: Avoid uninitialized use of rpcurupei in
- frequency_show
-Date: Tue, 28 Apr 2020 20:00:52 -0700
-Message-Id: <20200429030051.920203-1-natechancellor@gmail.com>
-X-Mailer: git-send-email 2.26.2
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B4EA6E161
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 03:09:18 +0000 (UTC)
+IronPort-SDR: ataNqBujAskin/sHVgV7YrALqLwV4bdvp8BY5N+X129zaEIfZ5QfwSl0H9P8lXdRs5dA2zCxIi
+ SD/i6MnAu5tA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2020 20:09:17 -0700
+IronPort-SDR: DaKXGBIveGJe4rZL/RULsQwrSIeyBuPLeBQpOaDdIlrRMd/ewj0GDqfEhI1JIy4r3YIgPolZ2/
+ ywuUGiw1g6RQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,329,1583222400"; d="scan'208";a="293071323"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 28 Apr 2020 20:09:15 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+ (envelope-from <lkp@intel.com>)
+ id 1jTd62-000DB9-H4; Wed, 29 Apr 2020 11:09:14 +0800
+Date: Wed, 29 Apr 2020 11:08:12 +0800
+From: kbuild test robot <lkp@intel.com>
+To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: [PATCH v2 04/21] drm/bridge: tc358764: add drm_panel_bridge
+ support
+Message-ID: <202004291030.WJ7JVFOw%lkp@intel.com>
+References: <20200427081850.17512-5-sam@ravnborg.org>
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
-X-Mailman-Approved-At: Wed, 29 Apr 2020 06:45:00 +0000
+Content-Disposition: inline
+In-Reply-To: <20200427081850.17512-5-sam@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,56 +53,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Chancellor <natechancellor@gmail.com>,
- clang-built-linux@googlegroups.com, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, kbuild-all@lists.01.org,
+ Martyn Welch <martyn.welch@collabora.co.uk>, Jonas Karlman <jonas@kwiboo.se>,
+ Peter Senna Tschudin <peter.senna@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Martin Donnelly <martin.donnelly@ge.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When building with clang + -Wuninitialized:
+Hi Sam,
 
-drivers/gpu/drm/i915/gt/debugfs_gt_pm.c:407:7: warning: variable
-'rpcurupei' is uninitialized when used here [-Wuninitialized]
-                           rpcurupei,
-                           ^~~~~~~~~
-drivers/gpu/drm/i915/gt/debugfs_gt_pm.c:304:16: note: initialize the
-variable 'rpcurupei' to silence this warning
-                u32 rpcurupei, rpcurup, rpprevup;
-                             ^
-                              = 0
-1 warning generated.
+I love your patch! Perhaps something to improve:
 
-rpupei is assigned twice; based on the second argument to
-intel_uncore_read, it seems this one should have been assigned to
-rpcurupei.
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next drm-tip/drm-tip linus/master v5.7-rc3 next-20200428]
+[cannot apply to drm/drm-next]
+[if your patch is applied to the wrong git tree, please drop us a note to help
+improve the system. BTW, we also suggest to use '--base' option to specify the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
 
-Fixes: 9c878557b1eb ("drm/i915/gt: Use the RPM config register to determine clk frequencies")
-Link: https://github.com/ClangBuiltLinux/linux/issues/1016
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+url:    https://github.com/0day-ci/linux/commits/Sam-Ravnborg/drm-bridge-support-drm-bridge-connector-helper-panel-updates/20200428-060830
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kbuild test robot <lkp@intel.com>
+
+
+coccinelle warnings: (new ones prefixed by >>)
+
+>> drivers/gpu/drm/bridge/tc358764.c:385:1-3: WARNING: PTR_ERR_OR_ZERO can be used
+
+Please review and possibly fold the followup patch.
+
 ---
- drivers/gpu/drm/i915/gt/debugfs_gt_pm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c b/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
-index 3d3ef62ed89f..f6ba66206273 100644
---- a/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
-+++ b/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
-@@ -336,7 +336,7 @@ static int frequency_show(struct seq_file *m, void *unused)
- 		rpdeclimit = intel_uncore_read(uncore, GEN6_RP_DOWN_THRESHOLD);
- 
- 		rpstat = intel_uncore_read(uncore, GEN6_RPSTAT1);
--		rpupei = intel_uncore_read(uncore, GEN6_RP_CUR_UP_EI) & GEN6_CURICONT_MASK;
-+		rpcurupei = intel_uncore_read(uncore, GEN6_RP_CUR_UP_EI) & GEN6_CURICONT_MASK;
- 		rpcurup = intel_uncore_read(uncore, GEN6_RP_CUR_UP) & GEN6_CURBSYTAVG_MASK;
- 		rpprevup = intel_uncore_read(uncore, GEN6_RP_PREV_UP) & GEN6_CURBSYTAVG_MASK;
- 		rpcurdownei = intel_uncore_read(uncore, GEN6_RP_CUR_DOWN_EI) & GEN6_CURIAVG_MASK;
-
-base-commit: 0fd02a5d3eb7020a7e1801f8d7f01891071c85e4
--- 
-2.26.2
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
