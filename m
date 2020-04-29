@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378921BF170
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:32:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B6D1BE59C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 19:49:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81D636EB56;
-	Thu, 30 Apr 2020 07:32:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC1F86EAB7;
+	Wed, 29 Apr 2020 17:49:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr
- [80.12.242.125])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C669A897D0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 17:42:50 +0000 (UTC)
-Received: from [192.168.42.210] ([93.22.38.239]) by mwinf5d58 with ME
- id Yhig2200R59bE5H03hig2Q; Wed, 29 Apr 2020 19:42:48 +0200
-X-ME-Helo: [192.168.42.210]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Wed, 29 Apr 2020 19:42:48 +0200
-X-ME-IP: 93.22.38.239
-Subject: Re: [PATCH] video: fbdev: pxa3xx_gcu: Fix some resource leak in an
- error handling path in 'pxa3xx_gcu_probe()'
-To: Dan Carpenter <dan.carpenter@oracle.com>
-References: <20200429043438.96212-1-christophe.jaillet@wanadoo.fr>
- <20200429122538.GO2014@kadam>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Message-ID: <0db91149-fa85-6ec3-1787-d5effd41a1b9@wanadoo.fr>
-Date: Wed, 29 Apr 2020 19:42:40 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5896C6EAB7
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 17:49:23 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 3487B804E7;
+ Wed, 29 Apr 2020 19:49:20 +0200 (CEST)
+Date: Wed, 29 Apr 2020 19:49:18 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 03/17] drm/mgag200: Embed connector instance in struct
+ mga_device
+Message-ID: <20200429174918.GA31071@ravnborg.org>
+References: <20200429143238.10115-1-tzimmermann@suse.de>
+ <20200429143238.10115-4-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20200429122538.GO2014@kadam>
-Content-Language: en-US
-X-Mailman-Approved-At: Thu, 30 Apr 2020 07:31:56 +0000
+Content-Disposition: inline
+In-Reply-To: <20200429143238.10115-4-tzimmermann@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=T4VA1Ah5300dP-xGqlsA:9
+ a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,52 +46,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, eric.y.miao@gmail.com, arnd@arndb.de,
- b.zolnierkie@samsung.com, gregkh@linuxfoundation.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, zhenzhong.duan@gmail.com, daniel@caiaq.de,
- mpe@ellerman.id.au, tglx@linutronix.de
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: john.p.donnelly@oracle.com, dri-devel@lists.freedesktop.org,
+ kraxel@redhat.com, airlied@redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGUgMjkvMDQvMjAyMCDDoCAxNDoyNSwgRGFuIENhcnBlbnRlciBhIMOpY3JpdMKgOgo+IE9uIFdl
-ZCwgQXByIDI5LCAyMDIwIGF0IDA2OjM0OjM4QU0gKzAyMDAsIENocmlzdG9waGUgSkFJTExFVCB3
-cm90ZToKPj4gSWYgYW4gZXJyb3Igb2NjdXJzIGluIHRoZSBsb29wIHdoZXJlIHdlIGNhbGwgJ3B4
-YTN4eF9nY3VfYWRkX2J1ZmZlcigpJywKPj4gYW55IHJlc291cmNlIGFscmVhZHkgYWxsb2NhdGVk
-IHNob3VsZCBiZSBmcmVlZC4KPj4KPj4gSW4gb3JkZXIgdG8gZml4IGl0LCBhZGQgYSBjYWxsIHRv
-ICdweGEzeHhfZ2N1X2ZyZWVfYnVmZmVycygpJyBpbiB0aGUgZXJyb3IKPj4gaGFuZGxpbmcgcGF0
-aCwgYXMgYWxyZWFkeSBkb25lIGluIHRoZSByZW1vdmUgZnVuY3Rpb24uCj4+Cj4+IEZpeGVzOiAz
-NjRkYmRmM2I2YzMgKCJ2aWRlbzogYWRkIGRyaXZlciBmb3IgUFhBM3h4IDJEIGdyYXBoaWNzIGFj
-Y2VsZXJhdG9yIikKPj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoZSBKQUlMTEVUIDxjaHJpc3Rv
-cGhlLmphaWxsZXRAd2FuYWRvby5mcj4KPj4gLS0tCj4+ICAgZHJpdmVycy92aWRlby9mYmRldi9w
-eGEzeHgtZ2N1LmMgfCAxICsKPj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPj4K
-Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvcHhhM3h4LWdjdS5jIGIvZHJpdmVy
-cy92aWRlby9mYmRldi9weGEzeHgtZ2N1LmMKPj4gaW5kZXggNDI3OWUxM2EzYjU4Li42OGQ5Yzdh
-NjgxZDQgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvcHhhM3h4LWdjdS5jCj4+
-ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvcHhhM3h4LWdjdS5jCj4+IEBAIC02NzUsNiArNjc1
-LDcgQEAgc3RhdGljIGludCBweGEzeHhfZ2N1X3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2Ug
-KnBkZXYpCj4+ICAgCj4+ICAgZXJyX2Rpc2FibGVfY2xrOgo+PiAgIAljbGtfZGlzYWJsZV91bnBy
-ZXBhcmUocHJpdi0+Y2xrKTsKPj4gKwlweGEzeHhfZ2N1X2ZyZWVfYnVmZmVycyhkZXYsIHByaXYp
-Owo+IFRoZSBlcnJvciBoYW5kbGluZyBpbiB0aGlzIGZ1bmN0aW9uIG1ha2VzIG5vIHNlbnNlIGFu
-ZCBpcyBidWdneS4gIEl0Cj4gc2hvdWxkIGJlIHRoYXQgaXQgdW53aW5kcyBpbiB0aGUgcmV2ZXJz
-ZSBvcmRlciBmcm9tIHRoZSBhbGxvY2F0aW9uLiAgVGhlCj4gZ290byBzaG91bGQgYmUgImdvdG8g
-ZnJlZV9tb3N0X3JlY2VudGx5X2FsbG9jYXRlZF9yZXNvdXJjZTsiLiAgU2luY2UgdGhlCj4gdW53
-aW5kIGlzIGRvbmUgaW4gdGhlIHdyb25nIG9yZGVyIGl0IGNhdXNlcyBhIGNvdXBsZSBidWdzLgo+
-Cj4gVGhlc2UgYnVmZmVycyBhcmUgdGhlIGxhc3QgdGhpbmcgd2hpY2ggd2UgYWxsb2NhdGVkIHNv
-IHRoZXkgc2hvdWxkIGJlCj4gdGhlIGZpcnN0IHRoaW5nIHdoaWNoIHdlIGZyZWUuICBJbiB0aGlz
-IGNhc2UsIGNhbGxpbmcKPiBweGEzeHhfZ2N1X2ZyZWVfYnVmZmVycygpIGJlZm9yZSB0aGUgYnVm
-ZmVycyBhcmUgYWxsb2NhdGVkIGlzIGNvbmZ1c2luZwo+IGJ1dCBoYXJtbGVzcy4gIFRoZSBjbGtf
-ZGlzYWJsZV91bnByZXBhcmUoKSBpcyBkb25lIG9uIHNvbWUgcGF0aHMgd2hlcmUKPiB0aGUgY2xv
-Y2sgd2FzIG5vdCBlbmFibGVkIGFuZCB0aGF0IHdpbGwgdHJpZ2dlciBhIFdBUk4oKSBzbyB0aGF0
-J3MgYQo+IGJ1Zy4gIFN5emNhbGxlciB3aWxsIGNvbXBsYWluIGFuZCBpZiB5b3UgaGF2ZSByZWJv
-b3Qgb24gV0FSTiB0aGVuIGl0J3MKPiBhbm5veWluZy4KPgo+IFRoZSBzZWNvbmQgYnVnIGlzIHRo
-YXQgd2UgZG9uJ3QgZGVyZWdpc3RlciB0aGUgbWlzYyBkZXZpY2Ugb3IgcmVsZWFzZQo+IHRoZSBE
-TUEgbWVtb3J5IG9uIGZhaWx1cmUgd2hlbiB3ZSBhbGxvY2F0ZSB0aGUgYnVmZmVycyBpbiB0aGUg
-bG9vcC4KPgo+IHJlZ2FyZHMsCj4gZGFuIGNhcnBlbnRlcgo+CkFncmVlZC4gSSd2ZSBiZWVuIGEg
-bGl0dGxlIHRvbyBmYXN0IG9uIHRoaXMgb25lLgpJJ2xsIHVwZGF0ZSBpdC4KClRoeCBmb3IgdGhl
-IHJldmlldy4KCkNKCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+Hi Thomas.
+
+On Wed, Apr 29, 2020 at 04:32:24PM +0200, Thomas Zimmermann wrote:
+> Storing the connector instance in struct mga_device avoids some
+> dynamic memory allocation. Done im preparation of converting
+> mgag200 to simple-KMS helpers.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+One nit below, with that fixed:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+I expect to see mga_i2c_chan embedded in a later patch...
+
+	Sam
+
+
+> ---
+>  drivers/gpu/drm/mgag200/mgag200_drv.h  |  1 +
+>  drivers/gpu/drm/mgag200/mgag200_mode.c | 54 ++++++++++++++------------
+>  2 files changed, 31 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> index de3181bd63ca0..09b43a0ff6bbf 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> @@ -164,6 +164,7 @@ struct mga_device {
+>  	/* SE model number stored in reg 0x1e24 */
+>  	u32 unique_rev_id;
+>  
+> +	struct mga_connector connector;
+>  	struct drm_encoder encoder;
+>  };
+>  
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> index ce41bebfdd1a2..eaa3fca7216ac 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> @@ -1444,6 +1444,10 @@ static void mga_crtc_init(struct mga_device *mdev)
+>  	drm_crtc_helper_add(&mga_crtc->base, &mga_helper_funcs);
+>  }
+>  
+> +/*
+> + * Connector
+> + */
+> +
+>  static int mga_vga_get_modes(struct drm_connector *connector)
+>  {
+>  	struct mga_connector *mga_connector = to_mga_connector(connector);
+> @@ -1568,7 +1572,6 @@ static void mga_connector_destroy(struct drm_connector *connector)
+>  	struct mga_connector *mga_connector = to_mga_connector(connector);
+>  	mgag200_i2c_destroy(mga_connector->i2c);
+>  	drm_connector_cleanup(connector);
+> -	kfree(connector);
+>  }
+>  
+>  static const struct drm_connector_helper_funcs mga_vga_connector_helper_funcs = {
+> @@ -1582,37 +1585,39 @@ static const struct drm_connector_funcs mga_vga_connector_funcs = {
+>  	.destroy = mga_connector_destroy,
+>  };
+>  
+> -static struct drm_connector *mga_vga_init(struct drm_device *dev)
+> +static int mgag200_vga_connector_init(struct mga_device *mdev)
+>  {
+> -	struct drm_connector *connector;
+> -	struct mga_connector *mga_connector;
+> -
+> -	mga_connector = kzalloc(sizeof(struct mga_connector), GFP_KERNEL);
+> -	if (!mga_connector)
+> -		return NULL;
+> -
+> -	connector = &mga_connector->base;
+> -	mga_connector->i2c = mgag200_i2c_create(dev);
+> -	if (!mga_connector->i2c)
+> -		DRM_ERROR("failed to add ddc bus\n");
+> +	struct drm_device *dev = mdev->dev;
+> +	struct mga_connector *mconnector = &mdev->connector;
+> +	struct drm_connector *connector = &mconnector->base;
+> +	struct mga_i2c_chan *i2c;
+> +	int ret;
+>  
+> -	drm_connector_init_with_ddc(dev, connector,
+> -				    &mga_vga_connector_funcs,
+> -				    DRM_MODE_CONNECTOR_VGA,
+> -				    &mga_connector->i2c->adapter);
+> +	i2c = mgag200_i2c_create(dev);
+> +	if (!i2c)
+> +		drm_warn(dev, "failed to add DDC bus\n");
+>  
+> +	ret = drm_connector_init_with_ddc(dev, connector,
+> +					  &mga_vga_connector_funcs,
+> +					  DRM_MODE_CONNECTOR_VGA,
+> +					  &i2c->adapter);
+> +	if (ret)
+> +		goto err_mgag200_i2c_destroy;
+>  	drm_connector_helper_add(connector, &mga_vga_connector_helper_funcs);
+>  
+> -	drm_connector_register(connector);
+> +	mconnector->i2c = i2c;
+>  
+> -	return connector;
+> -}
+> +	return 0;
+>  
+> +err_mgag200_i2c_destroy:
+> +	mgag200_i2c_destroy(i2c);
+> +	return ret;
+> +}
+>  
+>  int mgag200_modeset_init(struct mga_device *mdev)
+>  {
+>  	struct drm_encoder *encoder = &mdev->encoder;
+> -	struct drm_connector *connector;
+> +	struct drm_connector *connector = &mdev->connector.base;
+>  	int ret;
+>  
+>  	mdev->dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
+> @@ -1632,9 +1637,10 @@ int mgag200_modeset_init(struct mga_device *mdev)
+>  	}
+>  	encoder->possible_crtcs = 0x1;
+>  
+> -	connector = mga_vga_init(mdev->dev);
+> -	if (!connector) {
+> -		DRM_ERROR("mga_vga_init failed\n");
+> +	ret = mgag200_vga_connector_init(mdev);
+> +	if (ret) {
+> +		drm_err(mdev->dev,
+> +			"mga_vga_connector_init() failed, error %d\n", ret);
+s/mga_vga_connector_init/mgag200_vga_connector_init/
+
+>  		return -1;
+>  	}
+>  
+> -- 
+> 2.26.0
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
