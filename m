@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801351BE61F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 20:20:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABACF1BE631
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 20:23:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8413D6EACA;
-	Wed, 29 Apr 2020 18:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C705C6EACC;
+	Wed, 29 Apr 2020 18:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8E56EACA
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 18:20:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD16A6EACC
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 18:23:21 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 2C3E080501;
- Wed, 29 Apr 2020 20:20:25 +0200 (CEST)
-Date: Wed, 29 Apr 2020 20:20:23 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id C61D280503;
+ Wed, 29 Apr 2020 20:23:19 +0200 (CEST)
+Date: Wed, 29 Apr 2020 20:23:18 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 05/17] drm/mgag200: Clean up mga_set_start_address()
-Message-ID: <20200429182023.GE31071@ravnborg.org>
+Subject: Re: [PATCH 06/17] drm/mgag200: Clean up mga_crtc_do_set_base()
+Message-ID: <20200429182318.GF31071@ravnborg.org>
 References: <20200429143238.10115-1-tzimmermann@suse.de>
- <20200429143238.10115-6-tzimmermann@suse.de>
+ <20200429143238.10115-7-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200429143238.10115-6-tzimmermann@suse.de>
+In-Reply-To: <20200429143238.10115-7-tzimmermann@suse.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=YQsfXfx1z09tR1mvT_EA:9 a=jtOJdYK6FfMevUmv:21
- a=YRQFSeOSUbnFXKh4:21 a=CjuIK1q_8ugA:10
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=IaetqKenMiM3g_OWcZsA:9
+ a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,179 +52,74 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-On Wed, Apr 29, 2020 at 04:32:26PM +0200, Thomas Zimmermann wrote:
-> All register names and fields are now named according to the
-> MGA programming manuals. The function doesn't need the CRTC, so
-> callers pass in the device structure directly. The logging now
-> uses device-specific macros.
+On Wed, Apr 29, 2020 at 04:32:27PM +0200, Thomas Zimmermann wrote:
+> The function now only takes the device structure, and the old and new
+> framebuffers.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  drivers/gpu/drm/mgag200/mgag200_drv.h  |  5 ++
->  drivers/gpu/drm/mgag200/mgag200_mode.c | 82 +++++++++++++++-----------
->  2 files changed, 53 insertions(+), 34 deletions(-)
+>  drivers/gpu/drm/mgag200/mgag200_mode.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> index 4403145e3593c..9b957d9fc7e04 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> @@ -61,6 +61,11 @@
->  		WREG8(MGAREG_CRTC_DATA, v);			\
->  	} while (0)						\
->  
-> +#define RREG_ECRT(reg, v)					\
-> +	do {							\
-> +		WREG8(MGAREG_CRTCEXT_INDEX, reg);		\
-> +		v = RREG8(MGAREG_CRTCEXT_DATA);			\
-> +	} while (0)						\
->  
->  #define WREG_ECRT(reg, v)					\
->  	do {							\
 > diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> index 3d894b37a0812..b16a73c8617d6 100644
+> index b16a73c8617d6..12df809d64f7c 100644
 > --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 > +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> @@ -819,49 +819,53 @@ static void mga_g200wb_commit(struct drm_crtc *crtc)
+> @@ -861,21 +861,20 @@ static void mgag200_set_startadd(struct mga_device *mdev,
+>  	WREG_ECRT(0x00, crtcext0);
 >  }
 >  
->  /*
-> -   This is how the framebuffer base address is stored in g200 cards:
-> -   * Assume @offset is the gpu_addr variable of the framebuffer object
-> -   * Then addr is the number of _pixels_ (not bytes) from the start of
-> -     VRAM to the first pixel we want to display. (divided by 2 for 32bit
-> -     framebuffers)
-> -   * addr is stored in the CRTCEXT0, CRTCC and CRTCD registers
-> -   addr<20> -> CRTCEXT0<6>
-> -   addr<19-16> -> CRTCEXT0<3-0>
-> -   addr<15-8> -> CRTCC<7-0>
-> -   addr<7-0> -> CRTCD<7-0>
-> -   CRTCEXT0 has to be programmed last to trigger an update and make the
-> -   new addr variable take effect.
-> + * This is how the framebuffer base address is stored in g200 cards:
-> + *   * Assume @offset is the gpu_addr variable of the framebuffer object
-> + *   * Then addr is the number of _pixels_ (not bytes) from the start of
-> + *     VRAM to the first pixel we want to display. (divided by 2 for 32bit
-> + *     framebuffers)
-> + *   * addr is stored in the CRTCEXT0, CRTCC and CRTCD registers
-> + *      addr<20> -> CRTCEXT0<6>
-> + *      addr<19-16> -> CRTCEXT0<3-0>
-> + *      addr<15-8> -> CRTCC<7-0>
-> + *      addr<7-0> -> CRTCD<7-0>
-> + *
-> + *  CRTCEXT0 has to be programmed last to trigger an update and make the
-> + *  new addr variable take effect.
->   */
-> -static void mga_set_start_address(struct drm_crtc *crtc, unsigned offset)
-> +static void mgag200_set_startadd(struct mga_device *mdev,
-> +				 unsigned long offset)
+> -static int mga_crtc_do_set_base(struct drm_crtc *crtc,
+> -				struct drm_framebuffer *fb,
+> -				int x, int y, int atomic)
+> +static int mga_crtc_do_set_base(struct mga_device *mdev,
+> +				const struct drm_framebuffer *fb,
+> +				const struct drm_framebuffer *old_fb)
 >  {
 > -	struct mga_device *mdev = crtc->dev->dev_private;
-> -	u32 addr;
-> -	int count;
-> -	u8 crtcext0;
-> +	struct drm_device *dev = mdev->dev;
-> +	uint32_t startadd;
-> +	uint8_t crtcc, crtcd, crtcext0;
->  
-> -	while (RREG8(0x1fda) & 0x08);
-> -	while (!(RREG8(0x1fda) & 0x08));
-> +	startadd = offset / 8;
->  
-> -	count = RREG8(MGAREG_VCOUNT) + 2;
-> -	while (RREG8(MGAREG_VCOUNT) < count);
-> -
-> -	WREG8(MGAREG_CRTCEXT_INDEX, 0);
-> -	crtcext0 = RREG8(MGAREG_CRTCEXT_DATA);
-> -	crtcext0 &= 0xB0;
-> -	addr = offset / 8;
-> -	/* Can't store addresses any higher than that...
-> -	   but we also don't have more than 16MB of memory, so it should be fine. */
-> -	WARN_ON(addr > 0x1fffff);
-> -	crtcext0 |= (!!(addr & (1<<20)))<<6;
-> -	WREG_CRT(0x0d, (u8)(addr & 0xff));
-> -	WREG_CRT(0x0c, (u8)(addr >> 8) & 0xff);
-> -	WREG_ECRT(0x0, ((u8)(addr >> 16) & 0xf) | crtcext0);
-> +	/*
-> +	 * Can't store addresses any higher than that, but we also
-> +	 * don't have more than 16MB of memory, so it should be fine.
-> +	 */
-> +	drm_WARN_ON(dev, startadd > 0x1fffff);
-> +
-> +	RREG_ECRT(0x00, crtcext0);
-> +
-> +	crtcc = (startadd >> 8) & 0xff;
-> +	crtcd = startadd & 0xff;
-> +	crtcext0 &= 0xb0;
-
-> +	crtcext0 |= ((startadd >> 14) & BIT(6)) |
-It is not so obvious that the value of bit 20 is stored in bit 6 here.
-
-Maybe:
-	crtcext0 |= ((startadd & BIT(20) >> 14) |
-
-I would find the above easier to parse.
-
-> +		    ((startadd >> 16) & 0x0f);
-
-> +
-> +	WREG_CRT(0x0c, crtcc);
-> +	WREG_CRT(0x0d, crtcd);
-> +	WREG_ECRT(0x00, crtcext0);
->  }
->  
->  static int mga_crtc_do_set_base(struct drm_crtc *crtc,
->  				struct drm_framebuffer *fb,
->  				int x, int y, int atomic)
->  {
-> +	struct mga_device *mdev = crtc->dev->dev_private;
-Could you use a crtc_to_mdev() macro here.
-So we avoid adding new users of dev_private?
-
 >  	struct drm_gem_vram_object *gbo;
 >  	int ret;
 >  	s64 gpu_addr;
-Make this unsigned long and..
-
-> @@ -882,7 +886,7 @@ static int mga_crtc_do_set_base(struct drm_crtc *crtc,
->  		goto err_drm_gem_vram_unpin;
+>  
+> -	if (!atomic && fb) {
+> -		gbo = drm_gem_vram_of_gem(fb->obj[0]);
+> +	if (old_fb) {
+> +		gbo = drm_gem_vram_of_gem(old_fb->obj[0]);
+>  		drm_gem_vram_unpin(gbo);
 >  	}
 >  
-> -	mga_set_start_address(crtc, (u32)gpu_addr);
-> +	mgag200_set_startadd(mdev, (unsigned long)gpu_addr);
-drop this cast.
-
-
+> -	gbo = drm_gem_vram_of_gem(crtc->primary->fb->obj[0]);
+> +	gbo = drm_gem_vram_of_gem(fb->obj[0]);
 >  
->  	return 0;
->  
-> @@ -894,6 +898,16 @@ static int mga_crtc_do_set_base(struct drm_crtc *crtc,
->  static int mga_crtc_mode_set_base(struct drm_crtc *crtc, int x, int y,
->  				  struct drm_framebuffer *old_fb)
+>  	ret = drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM);
+>  	if (ret)
+> @@ -900,6 +899,7 @@ static int mga_crtc_mode_set_base(struct drm_crtc *crtc, int x, int y,
 >  {
-> +	struct drm_device *dev = crtc->dev;
-> +	struct mga_device *mdev = dev->dev_private;
-> +	unsigned int count;
-> +
-> +	while (RREG8(0x1fda) & 0x08) { }
-> +	while (!(RREG8(0x1fda) & 0x08)) { }
-> +
-> +	count = RREG8(MGAREG_VCOUNT) + 2;
-> +	while (RREG8(MGAREG_VCOUNT) < count) { }
-> +
->  	return mga_crtc_do_set_base(crtc, old_fb, x, y, 0);
->  }
-I do not really see why this code was lifter two functions up.
-Before is was deep in mga_set_start_address(), now it is in
-mga_crtc_mode_set_base().
-Puzzeled?
-
-	Sam
-
-
-
+>  	struct drm_device *dev = crtc->dev;
+>  	struct mga_device *mdev = dev->dev_private;
+> +	struct drm_framebuffer *fb = crtc->primary->fb;
+>  	unsigned int count;
 >  
+>  	while (RREG8(0x1fda) & 0x08) { }
+> @@ -908,7 +908,7 @@ static int mga_crtc_mode_set_base(struct drm_crtc *crtc, int x, int y,
+>  	count = RREG8(MGAREG_VCOUNT) + 2;
+>  	while (RREG8(MGAREG_VCOUNT) < count) { }
+>  
+> -	return mga_crtc_do_set_base(crtc, old_fb, x, y, 0);
+> +	return mga_crtc_do_set_base(mdev, fb, old_fb);
+>  }
+>  
+>  static int mga_crtc_mode_set(struct drm_crtc *crtc,
+> @@ -1150,7 +1150,7 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
+>  
+>  	WREG8(MGA_MISC_OUT, misc);
+>  
+> -	mga_crtc_do_set_base(crtc, old_fb, x, y, 0);
+> +	mga_crtc_do_set_base(mdev, fb, old_fb);
+>  
+>  	/* reset tagfifo */
+>  	if (mdev->type == G200_ER) {
 > -- 
 > 2.26.0
 _______________________________________________
