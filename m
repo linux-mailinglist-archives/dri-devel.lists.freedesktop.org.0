@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133A21BD4D6
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 08:45:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 633F21BD4E0
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 08:45:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 375836EC9A;
-	Wed, 29 Apr 2020 06:45:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 172D06ECA4;
+	Wed, 29 Apr 2020 06:45:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp13.smtpout.orange.fr
- [80.12.242.135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE2E6EC29
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 04:34:53 +0000 (UTC)
-Received: from localhost.localdomain ([92.148.159.11]) by mwinf5d72 with ME
- id YUak220030F2omL03UalTv; Wed, 29 Apr 2020 06:34:51 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Wed, 29 Apr 2020 06:34:51 +0200
-X-ME-IP: 92.148.159.11
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: b.zolnierkie@samsung.com, gregkh@linuxfoundation.org, mpe@ellerman.id.au,
- zhenzhong.duan@gmail.com, arnd@arndb.de, tglx@linutronix.de,
- eric.y.miao@gmail.com, daniel@caiaq.de
-Subject: [PATCH] video: fbdev: pxa3xx_gcu: Fix some resource leak in an error
- handling path in 'pxa3xx_gcu_probe()'
-Date: Wed, 29 Apr 2020 06:34:38 +0200
-Message-Id: <20200429043438.96212-1-christophe.jaillet@wanadoo.fr>
+Received: from alexa-out-blr-01.qualcomm.com (alexa-out-blr-01.qualcomm.com
+ [103.229.18.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5B426E9C3;
+ Wed, 29 Apr 2020 05:45:37 +0000 (UTC)
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 29 Apr 2020 11:15:32 +0530
+Received: from harigovi-linux.qualcomm.com ([10.204.66.157])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 29 Apr 2020 11:15:18 +0530
+Received: by harigovi-linux.qualcomm.com (Postfix, from userid 2332695)
+ id 8F41E29E2; Wed, 29 Apr 2020 11:15:17 +0530 (IST)
+From: Harigovindan P <harigovi@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [PATCH v12 0/2] Add support for rm69299 Visionox panel driver and add
+ devicetree bindings for visionox panel
+Date: Wed, 29 Apr 2020 11:15:13 +0530
+Message-Id: <20200429054515.4976-1-harigovi@codeaurora.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 29 Apr 2020 06:45:00 +0000
@@ -42,38 +42,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: sean@poorly.run, seanpaul@chromium.org,
+ Harigovindan P <harigovi@codeaurora.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If an error occurs in the loop where we call 'pxa3xx_gcu_add_buffer()',
-any resource already allocated should be freed.
+Adding support for visionox rm69299 panel driver and adding bindings for the same panel.
+https://patchwork.kernel.org/patch/11461943/ has already been added to drm-misc-next.
 
-In order to fix it, add a call to 'pxa3xx_gcu_free_buffers()' in the error
-handling path, as already done in the remove function.
+Harigovindan P (2):
+  drm/panel: add support for rm69299 visionox panel driver
+  dt-bindings: documenting compatible string vendor "visionox"
 
-Fixes: 364dbdf3b6c3 ("video: add driver for PXA3xx 2D graphics accelerator")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/video/fbdev/pxa3xx-gcu.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/gpu/drm/panel/Kconfig                 |   8 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-visionox-rm69299.c    | 304 ++++++++++++++++++
+ 4 files changed, 315 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-visionox-rm69299.c
 
-diff --git a/drivers/video/fbdev/pxa3xx-gcu.c b/drivers/video/fbdev/pxa3xx-gcu.c
-index 4279e13a3b58..68d9c7a681d4 100644
---- a/drivers/video/fbdev/pxa3xx-gcu.c
-+++ b/drivers/video/fbdev/pxa3xx-gcu.c
-@@ -675,6 +675,7 @@ static int pxa3xx_gcu_probe(struct platform_device *pdev)
- 
- err_disable_clk:
- 	clk_disable_unprepare(priv->clk);
-+	pxa3xx_gcu_free_buffers(dev, priv);
- 
- 	return ret;
- }
 -- 
 2.25.1
 
