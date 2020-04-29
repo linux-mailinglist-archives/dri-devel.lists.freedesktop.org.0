@@ -1,55 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC3D1BDFCD
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 15:58:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C3F1BF189
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:33:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF6896EE99;
-	Wed, 29 Apr 2020 13:58:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 845216EB61;
+	Thu, 30 Apr 2020 07:33:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
- [IPv6:2607:f8b0:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA15F6EE99
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 13:58:52 +0000 (UTC)
-Received: by mail-il1-x142.google.com with SMTP id x2so2430875ilp.13
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 06:58:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1O7PosLz4mRDhGws3L+X1MUCZvuGxL4YzOJRVMpkTaQ=;
- b=eHymAAQ8uzRRFuwbAgXByowyQhoNtG23MGeOnSLTjl2/c8/JVe4ByL+NwJ6d0kH2WZ
- cH9imCbJQlTtVEumzMzfu3Vmg4bscDair4bddYL3PX8zQTs9xjtntzNwMU+vGKKce8mm
- 5tAzVF6M08PS+9lhmgMVNTF+CIWcaeUKT8jxSxFn+YW3/g522mEad+pYfkp8JY8jiJ/U
- Hyj1xYGuKuBX6spzc/xvgWwJ3tYSexAD59kI31CNFXRYk3TTnWBm7ZDx4DC4iKDjesn1
- 372V+x3eNygxbsJEBk3AGHxmYeA2VWFWvaO2TG9E4ppTN31egitIgZvUWRTH5QQ1Ywi9
- 0Row==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1O7PosLz4mRDhGws3L+X1MUCZvuGxL4YzOJRVMpkTaQ=;
- b=Bv1DeH8WR7o9IM6m3KscX5auSwHoXyXANEtxAiIREwcjuiPblaP2OTFIvMDWkIDWDb
- Y9oBpgYbFo3BDTr8Ud/vscQuTT4j99W0GVnw7dqXvtLPlXOss20Q0sGC8OW/rOwINrYg
- ED4iVVHcf/LOA8rx9lyYh9tzl54gXZk6VsMwwZecRmVS7qS4an50Snz5HPQnWVch9I+8
- 3Lv3LeEvf+yuRYLSCHZYx/nCqeUCrvug8uQcspKU45wapNmBNAP3BW/Zn6XaZlCheFCQ
- /KqkQeOOem7ePky2My9yebHeBD5OHNF7AljHzyVNDSJNxfJ19jo6stj35cTu2aCe7WWr
- /YIw==
-X-Gm-Message-State: AGi0PuZEoXEXX8SruEV7nQYvGDRVTy15g/ar7QyajguhZLihhwSuMUvi
- G7D2jGJZqNeSBxA1mGvodmz9ngHrbrkvI1YayaWs3g==
-X-Google-Smtp-Source: APiQypLvPs4AHWI9ET+b6eQtMWEOQRdpthQqZ/tzDRlMHD81VYVlfhcADQ6lPbGU3Ksruzumm/5mxiNG1yL3fqgBikU=
-X-Received: by 2002:a92:dd0e:: with SMTP id n14mr31447370ilm.71.1588168732168; 
- Wed, 29 Apr 2020 06:58:52 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02B776ED6A
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 14:02:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id CB2E32A05D5
+Subject: Re: [PATCH v3 -next] drm/mediatek: Fix Kconfig warning
+To: YueHaibing <yuehaibing@huawei.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch,
+ matthias.bgg@gmail.com, ck.hu@mediatek.com
+References: <20200420135045.27984-1-yuehaibing@huawei.com>
+ <20200429071337.49528-1-yuehaibing@huawei.com>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <178db061-7068-e688-dd5a-0d767e57c22c@collabora.com>
+Date: Wed, 29 Apr 2020 16:02:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200414184835.2878-1-sean@poorly.run>
- <20200414190258.38873-1-sean@poorly.run>
- <20200429135037.GF22816@intel.com>
-In-Reply-To: <20200429135037.GF22816@intel.com>
-From: Sean Paul <sean@poorly.run>
-Date: Wed, 29 Apr 2020 09:58:16 -0400
-Message-ID: <CAMavQKKOKfcJSN1GjKctQp4qw6LyP6WNE9Q3Y4LedkjzcvPXxA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm: Fix HDCP failures when SRM fw is missing
-To: Ramalingam C <ramalingam.c@intel.com>
+In-Reply-To: <20200429071337.49528-1-yuehaibing@huawei.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Thu, 30 Apr 2020 07:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,109 +41,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, stable <stable@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.orc,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 29, 2020 at 9:50 AM Ramalingam C <ramalingam.c@intel.com> wrote:
->
-> On 2020-04-14 at 15:02:55 -0400, Sean Paul wrote:
-> > From: Sean Paul <seanpaul@chromium.org>
-> >
-> > The SRM cleanup in 79643fddd6eb2 ("drm/hdcp: optimizing the srm
-> > handling") inadvertently altered the behavior of HDCP auth when
-> > the SRM firmware is missing. Before that patch, missing SRM was
-> > interpreted as the device having no revoked keys. With that patch,
-> > if the SRM fw file is missing we reject _all_ keys.
-> >
-> > This patch fixes that regression by returning success if the file
-> > cannot be found. It also checks the return value from request_srm such
-> > that we won't end up trying to parse the ksv list if there is an error
-> > fetching it.
-> >
-> > Fixes: 79643fddd6eb ("drm/hdcp: optimizing the srm handling")
-> > Cc: stable@vger.kernel.org
-> > Cc: Ramalingam C <ramalingam.c@intel.com>
-> > Cc: Sean Paul <sean@poorly.run>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> >
-> > Changes in v2:
-> > -Noticed a couple other things to clean up
-> > ---
-> >
-> > Sorry for the quick rev, noticed a couple other loose ends that should
-> > be cleaned up.
-> >
-> >  drivers/gpu/drm/drm_hdcp.c | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
-> > index 7f386adcf872..910108ccaae1 100644
-> > --- a/drivers/gpu/drm/drm_hdcp.c
-> > +++ b/drivers/gpu/drm/drm_hdcp.c
-> > @@ -241,8 +241,12 @@ static int drm_hdcp_request_srm(struct drm_device *drm_dev,
-> >
-> >       ret = request_firmware_direct(&fw, (const char *)fw_name,
-> >                                     drm_dev->dev);
-> > -     if (ret < 0)
-> > +     if (ret < 0) {
-> > +             *revoked_ksv_cnt = 0;
-> > +             *revoked_ksv_list = NULL;
-> These two variables are already initialized by the caller.
+Hi YueHaibing,
 
-Right now it is, but that's not guaranteed. In the ret == 0 case, it's
-pretty common for a caller to assume the called function has
-validated/assigned all the function output.
+Thank you for your patch.
 
-> > +             ret = 0;
-> Missing of this should have been caught by CI. May be CI system always
-> having the SRM file from previous execution. Never been removed. IGT
-> need a fix to clean the prior SRM files before execution.
->
-> CI fix shouldn't block this fix.
-> >               goto exit;
-> > +     }
-> >
-> >       if (fw->size && fw->data)
-> >               ret = drm_hdcp_srm_update(fw->data, fw->size, revoked_ksv_list,
-> > @@ -287,6 +291,8 @@ int drm_hdcp_check_ksvs_revoked(struct drm_device *drm_dev, u8 *ksvs,
-> >
-> >       ret = drm_hdcp_request_srm(drm_dev, &revoked_ksv_list,
-> >                                  &revoked_ksv_cnt);
-> > +     if (ret)
-> > +             return ret;
-> This error code also shouldn't effect the caller(i915)
+On 29/4/20 9:13, YueHaibing wrote:
+> WARNING: unmet direct dependencies detected for MTK_MMSYS
+>   Depends on [n]: (ARCH_MEDIATEK [=y] || COMPILE_TEST [=n]) && COMMON_CLK_MT8173_MMSYS [=n]
+>   Selected by [y]:
+>   - DRM_MEDIATEK [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_MEDIATEK [=y] || ARM && COMPILE_TEST [=n]) && COMMON_CLK [=y] && HAVE_ARM_SMCCC [=y] && OF [=y]
+> 
+> Make DRM_MEDIATEK depend on MTK_MMSYS to fix this.
+> 
+> Fixes: 2c758e301ed9 ("soc / drm: mediatek: Move routing control to mmsys device")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 
-Why not? I'd assume an invalid SRM revocation list should probably be
-treated as failure?
+Definitively we shouldn't select the MTK_MMSYS and we should depend on MTK_MMSYS
+instead, so
 
+Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 
-> hence pushed a
-> change https://patchwork.freedesktop.org/series/76730/
->
-> With these addresed.
->
-> LGTM.
->
-> Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
-> >
-> >       /* revoked_ksv_cnt will be zero when above function failed */
-> >       for (i = 0; i < revoked_ksv_cnt; i++)
-> > --
-> > Sean Paul, Software Engineer, Google / Chromium OS
-> >
+> ---
+> v3: make DRM_MEDIATEK depends on MTK_MMSYS
+> v2: select COMMON_CLK_MT8173_MMSYS instead of adding DRM_MEDIATEK dependency  
+> ---
+>  drivers/gpu/drm/mediatek/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
+> index c420f5a3d33b..aa74aac3cbcc 100644
+> --- a/drivers/gpu/drm/mediatek/Kconfig
+> +++ b/drivers/gpu/drm/mediatek/Kconfig
+> @@ -6,12 +6,12 @@ config DRM_MEDIATEK
+>  	depends on COMMON_CLK
+>  	depends on HAVE_ARM_SMCCC
+>  	depends on OF
+> +	depends on MTK_MMSYS
+>  	select DRM_GEM_CMA_HELPER
+>  	select DRM_KMS_HELPER
+>  	select DRM_MIPI_DSI
+>  	select DRM_PANEL
+>  	select MEMORY
+> -	select MTK_MMSYS
+>  	select MTK_SMI
+>  	select VIDEOMODE_HELPERS
+>  	help
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
