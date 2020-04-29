@@ -2,42 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D271BE0B7
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 16:22:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE081BE0C4
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 16:23:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC8316EE78;
-	Wed, 29 Apr 2020 14:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ACE36EEA6;
+	Wed, 29 Apr 2020 14:23:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D23686EE78;
- Wed, 29 Apr 2020 14:22:34 +0000 (UTC)
-IronPort-SDR: Io+Y1yfvmiM4Vx8xTvsJeTv4/C1wy1VxEnXsVZEzJA/IggwNivFFfx01LPqQahznJhNT0wuo3s
- Utz/w4Ew7R1w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2020 07:22:34 -0700
-IronPort-SDR: +Hzi2eWgB5BczDeFvRtdJiKTAFNYW4m37DwADTTV7oXwq8PbysNUU2zLXAmW0o8u9wkSGCazjN
- pq8Aga9fthow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,332,1583222400"; d="scan'208";a="405051026"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
- by orsmga004.jf.intel.com with ESMTP; 29 Apr 2020 07:22:30 -0700
-Date: Wed, 29 Apr 2020 19:52:21 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH v2] drm: Fix HDCP failures when SRM fw is missing
-Message-ID: <20200429142221.GG22816@intel.com>
-References: <20200414184835.2878-1-sean@poorly.run>
- <20200414190258.38873-1-sean@poorly.run>
- <20200429135037.GF22816@intel.com>
- <CAMavQKKOKfcJSN1GjKctQp4qw6LyP6WNE9Q3Y4LedkjzcvPXxA@mail.gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEE3B6EEA6
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 14:23:04 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5AEC421775
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 14:23:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588170184;
+ bh=G66dtQxbgcy1h44rcbSXdxCegSH9fBKXU5OqSZIxS8g=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=PetStyHLEV2lrSXAVs6D/TdlIhWhS1z8l9Gl+vM/4MNdlQd4o+6yNZktsNtNHZQU6
+ YIHcHaxmLo83AxCXmV1gKViG3iVFBBJBxN8LECtjbSqWDS7oeQIrFEsrWRfIgb3q0s
+ Ur2XeOWeKdtohhLwNWX4xkXhaSx8gpjuNR5Cl7aI=
+Received: by mail-ej1-f54.google.com with SMTP id e2so1676149eje.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 07:23:04 -0700 (PDT)
+X-Gm-Message-State: AGi0PuY4mCP9CYziieczNzqdFAHW3SFkO/noyleS0VhPkm0rlj9z4sBQ
+ U7JDCty9FfvP/huTCwTLWWq/hvDcfTUNnB8EWA==
+X-Google-Smtp-Source: APiQypLbNUZaUbxOeAGl/VOSrDJwW0j3YRXLPpsXVC1sG9OeMKULA8AD+Z6wkppmAOEICwk03bQFeR9oFWYM3/4XLAs=
+X-Received: by 2002:a17:906:2ad4:: with SMTP id
+ m20mr2875207eje.324.1588170182786; 
+ Wed, 29 Apr 2020 07:23:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAMavQKKOKfcJSN1GjKctQp4qw6LyP6WNE9Q3Y4LedkjzcvPXxA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200427075238.2828-1-bernard@vivo.com>
+In-Reply-To: <20200427075238.2828-1-bernard@vivo.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 29 Apr 2020 22:22:50 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_86d-UryKQrLy8-zjTbrTRrHL4k3x=bx1KqvWxPL5jj2Q@mail.gmail.com>
+Message-ID: <CAAOTY_86d-UryKQrLy8-zjTbrTRrHL4k3x=bx1KqvWxPL5jj2Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: cleanup coding style in mediatek a bit
+To: Bernard Zhao <bernard@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,123 +54,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, stable <stable@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, opensource.kernel@vivo.com,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-04-29 at 09:58:16 -0400, Sean Paul wrote:
-> On Wed, Apr 29, 2020 at 9:50 AM Ramalingam C <ramalingam.c@intel.com> wrote:
-> >
-> > On 2020-04-14 at 15:02:55 -0400, Sean Paul wrote:
-> > > From: Sean Paul <seanpaul@chromium.org>
-> > >
-> > > The SRM cleanup in 79643fddd6eb2 ("drm/hdcp: optimizing the srm
-> > > handling") inadvertently altered the behavior of HDCP auth when
-> > > the SRM firmware is missing. Before that patch, missing SRM was
-> > > interpreted as the device having no revoked keys. With that patch,
-> > > if the SRM fw file is missing we reject _all_ keys.
-> > >
-> > > This patch fixes that regression by returning success if the file
-> > > cannot be found. It also checks the return value from request_srm such
-> > > that we won't end up trying to parse the ksv list if there is an error
-> > > fetching it.
-> > >
-> > > Fixes: 79643fddd6eb ("drm/hdcp: optimizing the srm handling")
-> > > Cc: stable@vger.kernel.org
-> > > Cc: Ramalingam C <ramalingam.c@intel.com>
-> > > Cc: Sean Paul <sean@poorly.run>
-> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > Cc: David Airlie <airlied@linux.ie>
-> > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > Cc: dri-devel@lists.freedesktop.org
-> > > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> > >
-> > > Changes in v2:
-> > > -Noticed a couple other things to clean up
-> > > ---
-> > >
-> > > Sorry for the quick rev, noticed a couple other loose ends that should
-> > > be cleaned up.
-> > >
-> > >  drivers/gpu/drm/drm_hdcp.c | 8 +++++++-
-> > >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
-> > > index 7f386adcf872..910108ccaae1 100644
-> > > --- a/drivers/gpu/drm/drm_hdcp.c
-> > > +++ b/drivers/gpu/drm/drm_hdcp.c
-> > > @@ -241,8 +241,12 @@ static int drm_hdcp_request_srm(struct drm_device *drm_dev,
-> > >
-> > >       ret = request_firmware_direct(&fw, (const char *)fw_name,
-> > >                                     drm_dev->dev);
-> > > -     if (ret < 0)
-> > > +     if (ret < 0) {
-> > > +             *revoked_ksv_cnt = 0;
-> > > +             *revoked_ksv_list = NULL;
-> > These two variables are already initialized by the caller.
-> 
-> Right now it is, but that's not guaranteed. In the ret == 0 case, it's
-> pretty common for a caller to assume the called function has
-> validated/assigned all the function output.
-Ok.
-> 
-> > > +             ret = 0;
-> > Missing of this should have been caught by CI. May be CI system always
-> > having the SRM file from previous execution. Never been removed. IGT
-> > need a fix to clean the prior SRM files before execution.
-> >
-> > CI fix shouldn't block this fix.
-> > >               goto exit;
-> > > +     }
-> > >
-> > >       if (fw->size && fw->data)
-> > >               ret = drm_hdcp_srm_update(fw->data, fw->size, revoked_ksv_list,
-> > > @@ -287,6 +291,8 @@ int drm_hdcp_check_ksvs_revoked(struct drm_device *drm_dev, u8 *ksvs,
-> > >
-> > >       ret = drm_hdcp_request_srm(drm_dev, &revoked_ksv_list,
-> > >                                  &revoked_ksv_cnt);
-> > > +     if (ret)
-> > > +             return ret;
-> > This error code also shouldn't effect the caller(i915)
-> 
-> Why not? I'd assume an invalid SRM revocation list should probably be
-> treated as failure?
-IMHO invalid SRM revocation need not be treated as HDCP authentication
-failure.
-
-First of all SRM need not supplied by all players. and incase, supplied
-SRM is not as per the spec, then we dont have any list of revoked ID.
-with this I dont think we need to fail the HDCP authentication. Until we
-have valid list of revoked IDs from SRM, and the receiver ID is matching
-to one of the revoked IDs, I wouldn't want to fail the HDCP
-authentication. 
-
--Ram
-> 
-> 
-> > hence pushed a
-> > change https://patchwork.freedesktop.org/series/76730/
-> >
-> > With these addresed.
-> >
-> > LGTM.
-> >
-> > Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
-> > >
-> > >       /* revoked_ksv_cnt will be zero when above function failed */
-> > >       for (i = 0; i < revoked_ksv_cnt; i++)
-> > > --
-> > > Sean Paul, Software Engineer, Google / Chromium OS
-> > >
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEJlcm5hcmQ6CgpCZXJuYXJkIFpoYW8gPGJlcm5hcmRAdml2by5jb20+IOaWvCAyMDIw5bm0
+NOaciDI35pelIOmAseS4gCDkuIvljYgzOjUz5a+r6YGT77yaCj4KPiBUaGlzIGNvZGUgY2hhbmdl
+IGlzIHRvIG1ha2UgY29kZSBiaXQgbW9yZSByZWFkYWJsZS4KPiBPcHRpbWlzZSBhcnJheSBzaXpl
+IGFsaWduIHRvIEhETUkgbWFjcm8gZGVmaW5lLgo+IEFkZCBjaGVjayBpZiBsZW4gaXMgb3ZlcmFu
+Z2UuCgpPbmUgcGF0Y2ggc2hvdWxkIGp1c3QgZG8gb25lIHRoaW5nLCBidXQgdGhpcyBkbyB0aHJl
+ZSB0aGluZ3MuClNvIGJyZWFrIHRoaXMgaW50byB0aHJlZSBwYXRjaGVzLgoKUmVnYXJkcywKQ2h1
+bi1LdWFuZy4KCj4KPiBTaWduZWQtb2ZmLWJ5OiBCZXJuYXJkIFpoYW8gPGJlcm5hcmRAdml2by5j
+b20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jIHwgMjIgKysr
+KysrKysrKystLS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwg
+MTEgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
+L210a19oZG1pLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWkuYwo+IGluZGV4
+IGZmNDNhM2Q4MDQxMC4uNDBmYjUxNTRlZDVkIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9tZWRpYXRlay9tdGtfaGRtaS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19oZG1pLmMKPiBAQCAtMzExLDE1ICszMTEsMTUgQEAgc3RhdGljIHZvaWQgbXRrX2hkbWlfaHdf
+c2VuZF9pbmZvX2ZyYW1lKHN0cnVjdCBtdGtfaGRtaSAqaGRtaSwgdTggKmJ1ZmZlciwKPiAgICAg
+ICAgIHU4IGNoZWNrc3VtOwo+ICAgICAgICAgaW50IGN0cmxfZnJhbWVfZW4gPSAwOwo+Cj4gLSAg
+ICAgICBmcmFtZV90eXBlID0gKmJ1ZmZlcjsKPiAtICAgICAgIGJ1ZmZlciArPSAxOwo+IC0gICAg
+ICAgZnJhbWVfdmVyID0gKmJ1ZmZlcjsKPiAtICAgICAgIGJ1ZmZlciArPSAxOwo+IC0gICAgICAg
+ZnJhbWVfbGVuID0gKmJ1ZmZlcjsKPiAtICAgICAgIGJ1ZmZlciArPSAxOwo+IC0gICAgICAgY2hl
+Y2tzdW0gPSAqYnVmZmVyOwo+IC0gICAgICAgYnVmZmVyICs9IDE7Cj4gKyAgICAgICBmcmFtZV90
+eXBlID0gKmJ1ZmZlcisrOwo+ICsgICAgICAgZnJhbWVfdmVyID0gKmJ1ZmZlcisrOwo+ICsgICAg
+ICAgZnJhbWVfbGVuID0gKmJ1ZmZlcisrOwo+ICsgICAgICAgY2hlY2tzdW0gPSAqYnVmZmVyKys7
+Cj4gICAgICAgICBmcmFtZV9kYXRhID0gYnVmZmVyOwo+ICsgICAgICAgaWYgKChmcmFtZV9sZW4g
+KyBIRE1JX0lORk9GUkFNRV9IRUFERVJfU0laRSkgPiBsZW4pIHsKPiArICAgICAgICAgICAgICAg
+ZGV2X2VycihoZG1pLT5kZXYsICJXcm9uZyBmcmFtZSBsZW46ICVkXG4iLCBmcmFtZV9sZW47Cj4g
+KyAgICAgICAgICAgICAgIHJldHVybjsKPiArICAgICAgIH0KPgo+ICAgICAgICAgZGV2X2RiZyho
+ZG1pLT5kZXYsCj4gICAgICAgICAgICAgICAgICJmcmFtZV90eXBlOjB4JXgsZnJhbWVfdmVyOjB4
+JXgsZnJhbWVfbGVuOjB4JXgsY2hlY2tzdW06MHgleFxuIiwKPiBAQCAtOTgyLDcgKzk4Miw3IEBA
+IHN0YXRpYyBpbnQgbXRrX2hkbWlfc2V0dXBfYXZpX2luZm9mcmFtZShzdHJ1Y3QgbXRrX2hkbWkg
+KmhkbWksCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBk
+cm1fZGlzcGxheV9tb2RlICptb2RlKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgaGRtaV9hdmlfaW5m
+b2ZyYW1lIGZyYW1lOwo+IC0gICAgICAgdTggYnVmZmVyWzE3XTsKPiArICAgICAgIHU4IGJ1ZmZl
+cltIRE1JX0lORk9GUkFNRV9IRUFERVJfU0laRSArIEhETUlfQVZJX0lORk9GUkFNRV9TSVpFXTsK
+PiAgICAgICAgIHNzaXplX3QgZXJyOwo+Cj4gICAgICAgICBlcnIgPSBkcm1faGRtaV9hdmlfaW5m
+b2ZyYW1lX2Zyb21fZGlzcGxheV9tb2RlKCZmcmFtZSwKPiBAQCAtMTAwOCw3ICsxMDA4LDcgQEAg
+c3RhdGljIGludCBtdGtfaGRtaV9zZXR1cF9zcGRfaW5mb2ZyYW1lKHN0cnVjdCBtdGtfaGRtaSAq
+aGRtaSwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uc3QgY2hh
+ciAqcHJvZHVjdCkKPiAgewo+ICAgICAgICAgc3RydWN0IGhkbWlfc3BkX2luZm9mcmFtZSBmcmFt
+ZTsKPiAtICAgICAgIHU4IGJ1ZmZlclsyOV07Cj4gKyAgICAgICB1OCBidWZmZXJbSERNSV9JTkZP
+RlJBTUVfSEVBREVSX1NJWkUgKyBIRE1JX1NQRF9JTkZPRlJBTUVfU0laRV07Cj4gICAgICAgICBz
+c2l6ZV90IGVycjsKPgo+ICAgICAgICAgZXJyID0gaGRtaV9zcGRfaW5mb2ZyYW1lX2luaXQoJmZy
+YW1lLCB2ZW5kb3IsIHByb2R1Y3QpOwo+IEBAIC0xMDMxLDcgKzEwMzEsNyBAQCBzdGF0aWMgaW50
+IG10a19oZG1pX3NldHVwX3NwZF9pbmZvZnJhbWUoc3RydWN0IG10a19oZG1pICpoZG1pLAo+ICBz
+dGF0aWMgaW50IG10a19oZG1pX3NldHVwX2F1ZGlvX2luZm9mcmFtZShzdHJ1Y3QgbXRrX2hkbWkg
+KmhkbWkpCj4gIHsKPiAgICAgICAgIHN0cnVjdCBoZG1pX2F1ZGlvX2luZm9mcmFtZSBmcmFtZTsK
+PiAtICAgICAgIHU4IGJ1ZmZlclsxNF07Cj4gKyAgICAgICB1OCBidWZmZXJbSERNSV9JTkZPRlJB
+TUVfSEVBREVSX1NJWkUgKyBIRE1JX0FVRElPX0lORk9GUkFNRV9TSVpFXTsKPiAgICAgICAgIHNz
+aXplX3QgZXJyOwo+Cj4gICAgICAgICBlcnIgPSBoZG1pX2F1ZGlvX2luZm9mcmFtZV9pbml0KCZm
+cmFtZSk7Cj4gLS0KPiAyLjI2LjIKPgo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KPiBMaW51eC1tZWRpYXRlayBtYWlsaW5nIGxpc3QKPiBMaW51eC1t
+ZWRpYXRla0BsaXN0cy5pbmZyYWRlYWQub3JnCj4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9saW51eC1tZWRpYXRlawpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwK
