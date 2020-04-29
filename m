@@ -1,60 +1,101 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B8A31BDB47
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 14:02:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4041BDB64
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 14:07:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C17C6E42D;
-	Wed, 29 Apr 2020 12:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73D766E45E;
+	Wed, 29 Apr 2020 12:07:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 186966E42D
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 12:02:28 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id f11so2338456ljp.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 05:02:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3S3sDO+JdEWJmlIrh0oj7PmpqtwsBbrJFzVkLXKqRVw=;
- b=oBE/4KLW4JucZjFeZhkwzKyXZtOe/PpZmEIJYdu8tp5jzwBAoMNcX0S/DQAG4sMB+M
- DjLPkYLPjYSL5DKEQOmsokkn+jBHPeFfIA0L/vP8gI396ai+xaE2I7n7MBwoGc74dXb2
- zlzxsojFUhM6J1PaD4/qum1ikvMrTGlTK4RVAQSzexqJPloIJGm5KKDxJBmly0qKYjRG
- 4tirXLt01NKbfNieE0mq50MU8u65QVsT9z7DvhSIG7nrWS483zhC0VsCUSn+sXVVdbqV
- wPJ/7l/tXlxxiaihNgjJ+zPATB+R3Dix2roaV9nImf8zaF35VcscVeJzYhi0xInbb0Ti
- s3iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3S3sDO+JdEWJmlIrh0oj7PmpqtwsBbrJFzVkLXKqRVw=;
- b=pBI2B1MGkwkgg5zBhLqmFCsmPt0MR0cXjiMO5QKhYghLoVvPIpTD4f2rfPAolUEPim
- ok+ecW+9JFW0HYI46iSk2TY4S4DpOwRKyEwy6V7eyTZnXnJMHtKbGeIfFk9AF2dfiQil
- bWh2B3Wa90Mb8jcySm45OTbhdbsLAUzF9j/cMdLULxj0QzGIcW4EvJ+qThPp+Oai6+ZU
- vCXI5bvFYwzDrJwuoTsuF9Tdpc3siEzA8RhrZlkUyqPa1J0XB1KqXV2tHxJN+g/6261s
- F9mFb2lYlGJmewReNl1m8v0kK5Ueh/U7JWr6D+48/xToHjWYuYF1ce6vkEwqIXOGllW0
- SjYw==
-X-Gm-Message-State: AGi0PuZS5UEw9HkXZ4PQthHbpghX4B0NVyHqNk8JQT+wl7MOADpuUCN7
- 66b9yxFR3fITvex5VPLsQW0/dQ==
-X-Google-Smtp-Source: APiQypLidFrZKy3FXpTq2jq9PPS0cJmzIWbkHwh1alLBTZnIECOKkxW40oEYx6aKS4x3le+Wdx2GrQ==
-X-Received: by 2002:a2e:9011:: with SMTP id h17mr21365482ljg.138.1588161746378; 
- Wed, 29 Apr 2020 05:02:26 -0700 (PDT)
-Received: from localhost.localdomain
- (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
- by smtp.gmail.com with ESMTPSA id g10sm1891283lfc.95.2020.04.29.05.02.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Apr 2020 05:02:25 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] backlight: lms283gf05: Convert to GPIO descriptors
-Date: Wed, 29 Apr 2020 14:00:20 +0200
-Message-Id: <20200429120020.932421-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.25.2
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 133016E45E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 12:07:01 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200429120700euoutp02d3d06b0035e3b52189fe4f0a0932378d~KSPFjS8362332823328euoutp02J
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 12:07:00 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200429120700euoutp02d3d06b0035e3b52189fe4f0a0932378d~KSPFjS8362332823328euoutp02J
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1588162020;
+ bh=dTge4FnxGdh1JeaXARxbuwKGOvOSz9PCdZUO8KY3UGo=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=TaxHKdPuhqZIrBXc7TfeZCHU83ET8Ok5USossb7so4fZfgD9ryHCq+l4AyzkHZ7Q5
+ k8ks3yE/YntD8jDZvaok6bMrzpCQKC0jxMVBZRPcmR9HnaVwDS+dlPy6l+b1nuGd5S
+ f92LkZi9dwVqJyx91dcmAT7qN+ukuxGfAQYy42YU=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200429120659eucas1p2814adf32c85b42359a578eb93250a675~KSPFSnpKZ1690316903eucas1p2G;
+ Wed, 29 Apr 2020 12:06:59 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 4D.76.60679.3ED69AE5; Wed, 29
+ Apr 2020 13:06:59 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200429120659eucas1p22ddcaa5cd23afc8c10a331d868c40d00~KSPFBP46e1690316903eucas1p2F;
+ Wed, 29 Apr 2020 12:06:59 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200429120659eusmtrp1f3533d40502dcc33366a10d13d5ce8bc~KSPFAeTjm2302523025eusmtrp1p;
+ Wed, 29 Apr 2020 12:06:59 +0000 (GMT)
+X-AuditID: cbfec7f4-0cbff7000001ed07-f7-5ea96de3beea
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 45.F4.08375.3ED69AE5; Wed, 29
+ Apr 2020 13:06:59 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200429120659eusmtip2b424af4cf97043f61fa0d99f98445859~KSPEmClnN0848208482eusmtip2a;
+ Wed, 29 Apr 2020 12:06:59 +0000 (GMT)
+Subject: Re: [PATCH v2] video: fbdev: controlfb: fix build for
+ COMPILE_TEST=y && PPC_PMAC=y && PPC32=n
+To: Sam Ravnborg <sam@ravnborg.org>
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <28839ddd-36bb-3a69-b3dc-9dc14ac7eaee@samsung.com>
+Date: Wed, 29 Apr 2020 14:06:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200429115417.GA12801@ravnborg.org>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNKsWRmVeSWpSXmKPExsWy7djPc7qPc1fGGfR2mVosfHiX2eLK1/ds
+ FqcnLGKyONH3gdXi8q45bBavmh+xWaz4uZXRYuveq+wOHB6NN26weez9toDFY/MKLY/Fe14y
+ edzvPs7ksWTaVTaPz5vkAtijuGxSUnMyy1KL9O0SuDIOzvzIUrBQpOL//QNsDYwbBboYOTkk
+ BEwkeua/Yu9i5OIQEljBKHFxXh8rhPOFUeLe5x1Qmc+MElvX/WWHafm1byUbRGI5o8SBG/ug
+ Wt4ySvS+f8YKUiUskCHxueMfG4gtIqAscfz8NbAiZoH/jBIfe38xgSTYBKwkJravYgSxeQXs
+ JD4f3ssCYrMIqEqcnnsSrEZUIELi04PDrBA1ghInZz4Bq+EUMJI4c3QV2EnMAuISt57MZ4Kw
+ 5SW2v53DDLJMQuAcu8T226tZIe52kfh38h3UD8ISr45vgbJlJE5P7mGBaFjHKPG34wVU93ZG
+ ieWTIX6QELCWuHPuF5DNAbRCU2L9Ln2IsKPEp60f2UHCEgJ8EjfeCkIcwScxadt0Zogwr0RH
+ mxBEtZrEhmUb2GDWdu1cyTyBUWkWktdmIXlnFpJ3ZiHsXcDIsopRPLW0ODc9tdgoL7Vcrzgx
+ t7g0L10vOT93EyMwSZ3+d/zLDsZdf5IOMQpwMCrx8FqkrowTYk0sK67MPcQowcGsJML7KGNZ
+ nBBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFe40UvY4UE0hNLUrNTUwtSi2CyTBycUg2MomnsaWsZ
+ jppZ8k1ZdlPfJ/TdpsI5muk3QkUv5J+z4bzzfIMyyynefXLFO7In+zyb6sKzpbEsumfeX6mr
+ z6/2Ccm0iB28vWZ+2INf29+/XLzlx96bE3mNGdY6cBncy7G2KgzcXhMiKxSgW2C+o+5S7Tur
+ xa/YtT/+veC79NCSo/ceaJ+6cOdUthJLcUaioRZzUXEiAMI2UllOAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFIsWRmVeSWpSXmKPExsVy+t/xe7qPc1fGGdy9q2Sx8OFdZosrX9+z
+ WZyesIjJ4kTfB1aLy7vmsFm8an7EZrHi51ZGi617r7I7cHg03rjB5rH32wIWj80rtDwW73nJ
+ 5HG/+ziTx5JpV9k8Pm+SC2CP0rMpyi8tSVXIyC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXS
+ t7NJSc3JLEst0rdL0Ms4OPMjS8FCkYr/9w+wNTBuFOhi5OSQEDCR+LVvJVsXIxeHkMBSRonu
+ q2/Zuxg5gBIyEsfXl0HUCEv8udbFBmILCbxmlJjX7QBSIiyQIfH7XTFIWERAWeL4+WusIGOY
+ Bf4zSjw5MZUVYuYuRoljc+eBNbMJWElMbF/FCGLzCthJfD68lwXEZhFQlTg99yQTiC0qECFx
+ eMcsqBpBiZMzn4DVcAoYSZw5uoodxGYWUJf4M+8SM4QtLnHryXwmCFteYvvbOcwTGIVmIWmf
+ haRlFpKWWUhaFjCyrGIUSS0tzk3PLTbUK07MLS7NS9dLzs/dxAiMx23Hfm7ewXhpY/AhRgEO
+ RiUeXovUlXFCrIllxZW5hxglOJiVRHgfZSyLE+JNSaysSi3Kjy8qzUktPsRoCvTcRGYp0eR8
+ YKrIK4k3NDU0t7A0NDc2NzazUBLn7RA4GCMkkJ5YkpqdmlqQWgTTx8TBKdXAqHyip/8ko5mK
+ ZFjYr/7zhT4ONVy69S6nZx5a2GNxc17C7K+3bU4Ut78Oe/Y99Q1bd+KL33aHfH8nh3MyXnm0
+ VqhfccWBq2fXMpe+nZRy4VZT/Xet3T6qD9ZsfGc/84VJmsNBtqUrfJ1fTeIxcZVSmfE5f9Uv
+ 6/fH3eX3JTlfsXbpVwuqv8drq8RSnJFoqMVcVJwIAKusk8/dAgAA
+X-CMS-MailID: 20200429120659eucas1p22ddcaa5cd23afc8c10a331d868c40d00
+X-Msg-Generator: CA
+X-RootMTR: 20200429104825eucas1p16bf37b71a3ab3a768d1eff6c48eb61dd
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200429104825eucas1p16bf37b71a3ab3a768d1eff6c48eb61dd
+References: <CGME20200429104825eucas1p16bf37b71a3ab3a768d1eff6c48eb61dd@eucas1p1.samsung.com>
+ <fe520316-3863-e6c4-9581-5d709f49e906@samsung.com>
+ <20200429115417.GA12801@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,208 +108,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Daniel Mack <daniel@zonque.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-fbdev@vger.kernel.org,
+ kbuild test robot <lkp@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christoph Hellwig <hch@infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This converts the lms283gf05 backlight driver to use GPIO
-descriptors and switches the single PXA Palm Z2 device
-over to defining these.
 
-Since the platform data was only used to convey GPIO
-information we can delete the platform data header.
+On 4/29/20 1:54 PM, Sam Ravnborg wrote:
+> Hi Bartlomiej.
+> 
+> On Wed, Apr 29, 2020 at 12:48:24PM +0200, Bartlomiej Zolnierkiewicz wrote:
+>>
+>> powerpc allyesconfig fails like this:
+>>
+>> drivers/video/fbdev/controlfb.c: In function 'controlfb_mmap':
+>> drivers/video/fbdev/controlfb.c:756:23: error: implicit declaration of function 'pgprot_cached_wthru'; did you mean 'pgprot_cached'? [-Werror=implicit-function-declaration]
+>>   756 |   vma->vm_page_prot = pgprot_cached_wthru(vma->vm_page_prot);
+>>       |                       ^~~~~~~~~~~~~~~~~~~
+>>       |                       pgprot_cached
+>> drivers/video/fbdev/controlfb.c:756:23: error: incompatible types when assigning to type 'pgprot_t' {aka 'struct <anonymous>'} from type 'int'
+>>
+>> Fix it by adding missing PPC32 dependency.
+> 
+> Is this really the right fix?
 
-Notice that we define the proper active low semantics in
-the board file GPIO descriptor table (active low) and
-assert the reset line by bringing it to "1" (asserted).
+Yes, ifdef in the code should match driver dependencies in Kconfig:
 
-Cc: Marek Vasut <marex@denx.de>
-Cc: Daniel Mack <daniel@zonque.org>
-Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
-Cc: Robert Jarzmik <robert.jarzmik@free.fr>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v1->v2:
-- Bring up the GPIO de-asserted in probe()
+config FB_CONTROL
+        bool "Apple \"control\" display support"
+        depends on (FB = y) && ((PPC_PMAC && PPC32) || COMPILE_TEST)
 
-Marek: I saw this was written by you, are you regularly
-testing the Z2 device?
----
- arch/arm/mach-pxa/z2.c               | 12 ++++++---
- drivers/video/backlight/lms283gf05.c | 39 +++++++++++-----------------
- include/linux/spi/lms283gf05.h       | 16 ------------
- 3 files changed, 23 insertions(+), 44 deletions(-)
- delete mode 100644 include/linux/spi/lms283gf05.h
+> Short term I htink it is OK, but I think there should be a common way
+> to do the same for all archtectures so no conditional compilation is
+> needed. In other words the use of pgprot_cached_wthru looks like we
+> need a better abstraction.
 
-diff --git a/arch/arm/mach-pxa/z2.c b/arch/arm/mach-pxa/z2.c
-index 21fd76bb09cd..89eb5243c85f 100644
---- a/arch/arm/mach-pxa/z2.c
-+++ b/arch/arm/mach-pxa/z2.c
-@@ -20,7 +20,6 @@
- #include <linux/spi/spi.h>
- #include <linux/spi/pxa2xx_spi.h>
- #include <linux/spi/libertas_spi.h>
--#include <linux/spi/lms283gf05.h>
- #include <linux/power_supply.h>
- #include <linux/mtd/physmap.h>
- #include <linux/gpio.h>
-@@ -578,8 +577,13 @@ static struct pxa2xx_spi_chip lms283_chip_info = {
- 	.gpio_cs	= GPIO88_ZIPITZ2_LCD_CS,
- };
- 
--static const struct lms283gf05_pdata lms283_pdata = {
--	.reset_gpio	= GPIO19_ZIPITZ2_LCD_RESET,
-+static struct gpiod_lookup_table lms283_gpio_table = {
-+	.dev_id = "spi2.0", /* SPI bus 2 chip select 0 */
-+	.table = {
-+		GPIO_LOOKUP("gpio-pxa", GPIO19_ZIPITZ2_LCD_RESET,
-+			    "reset", GPIO_ACTIVE_LOW),
-+		{ },
-+	},
- };
- 
- static struct spi_board_info spi_board_info[] __initdata = {
-@@ -595,7 +599,6 @@ static struct spi_board_info spi_board_info[] __initdata = {
- {
- 	.modalias		= "lms283gf05",
- 	.controller_data	= &lms283_chip_info,
--	.platform_data		= &lms283_pdata,
- 	.max_speed_hz		= 400000,
- 	.bus_num		= 2,
- 	.chip_select		= 0,
-@@ -615,6 +618,7 @@ static void __init z2_spi_init(void)
- {
- 	pxa2xx_set_spi_info(1, &pxa_ssp1_master_info);
- 	pxa2xx_set_spi_info(2, &pxa_ssp2_master_info);
-+	gpiod_add_lookup_table(&lms283_gpio_table);
- 	spi_register_board_info(spi_board_info, ARRAY_SIZE(spi_board_info));
- }
- #else
-diff --git a/drivers/video/backlight/lms283gf05.c b/drivers/video/backlight/lms283gf05.c
-index 0e45685bcc1c..b749ea71e0d1 100644
---- a/drivers/video/backlight/lms283gf05.c
-+++ b/drivers/video/backlight/lms283gf05.c
-@@ -9,16 +9,16 @@
- #include <linux/kernel.h>
- #include <linux/delay.h>
- #include <linux/slab.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/lcd.h>
- 
- #include <linux/spi/spi.h>
--#include <linux/spi/lms283gf05.h>
- #include <linux/module.h>
- 
- struct lms283gf05_state {
- 	struct spi_device	*spi;
- 	struct lcd_device	*ld;
-+	struct gpio_desc	*reset;
- };
- 
- struct lms283gf05_seq {
-@@ -90,13 +90,13 @@ static const struct lms283gf05_seq disp_pdwnseq[] = {
- };
- 
- 
--static void lms283gf05_reset(unsigned long gpio, bool inverted)
-+static void lms283gf05_reset(struct gpio_desc *gpiod)
- {
--	gpio_set_value(gpio, !inverted);
-+	gpiod_set_value(gpiod, 0); /* De-asserted */
- 	mdelay(100);
--	gpio_set_value(gpio, inverted);
-+	gpiod_set_value(gpiod, 1); /* Asserted */
- 	mdelay(20);
--	gpio_set_value(gpio, !inverted);
-+	gpiod_set_value(gpiod, 0); /* De-asserted */
- 	mdelay(20);
- }
- 
-@@ -125,18 +125,15 @@ static int lms283gf05_power_set(struct lcd_device *ld, int power)
- {
- 	struct lms283gf05_state *st = lcd_get_data(ld);
- 	struct spi_device *spi = st->spi;
--	struct lms283gf05_pdata *pdata = dev_get_platdata(&spi->dev);
- 
- 	if (power <= FB_BLANK_NORMAL) {
--		if (pdata)
--			lms283gf05_reset(pdata->reset_gpio,
--					pdata->reset_inverted);
-+		if (st->reset)
-+			lms283gf05_reset(st->reset);
- 		lms283gf05_toggle(spi, disp_initseq, ARRAY_SIZE(disp_initseq));
- 	} else {
- 		lms283gf05_toggle(spi, disp_pdwnseq, ARRAY_SIZE(disp_pdwnseq));
--		if (pdata)
--			gpio_set_value(pdata->reset_gpio,
--					pdata->reset_inverted);
-+		if (st->reset)
-+			gpiod_set_value(st->reset, 1); /* Asserted */
- 	}
- 
- 	return 0;
-@@ -150,18 +147,12 @@ static struct lcd_ops lms_ops = {
- static int lms283gf05_probe(struct spi_device *spi)
- {
- 	struct lms283gf05_state *st;
--	struct lms283gf05_pdata *pdata = dev_get_platdata(&spi->dev);
- 	struct lcd_device *ld;
- 	int ret = 0;
- 
--	if (pdata != NULL) {
--		ret = devm_gpio_request_one(&spi->dev, pdata->reset_gpio,
--				GPIOF_DIR_OUT | (!pdata->reset_inverted ?
--				GPIOF_INIT_HIGH : GPIOF_INIT_LOW),
--				"LMS283GF05 RESET");
--		if (ret)
--			return ret;
--	}
-+	st->reset = gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_LOW);
-+	if (st->reset)
-+		gpiod_set_consumer_name(st->reset, "LMS283GF05 RESET");
- 
- 	st = devm_kzalloc(&spi->dev, sizeof(struct lms283gf05_state),
- 				GFP_KERNEL);
-@@ -179,8 +170,8 @@ static int lms283gf05_probe(struct spi_device *spi)
- 	spi_set_drvdata(spi, st);
- 
- 	/* kick in the LCD */
--	if (pdata)
--		lms283gf05_reset(pdata->reset_gpio, pdata->reset_inverted);
-+	if (st->reset)
-+		lms283gf05_reset(st->reset);
- 	lms283gf05_toggle(spi, disp_initseq, ARRAY_SIZE(disp_initseq));
- 
- 	return 0;
-diff --git a/include/linux/spi/lms283gf05.h b/include/linux/spi/lms283gf05.h
-deleted file mode 100644
-index f237b2d062e9..000000000000
---- a/include/linux/spi/lms283gf05.h
-+++ /dev/null
-@@ -1,16 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * lms283gf05.h - Platform glue for Samsung LMS283GF05 LCD
-- *
-- * Copyright (C) 2009 Marek Vasut <marek.vasut@gmail.com>
--*/
--
--#ifndef _INCLUDE_LINUX_SPI_LMS283GF05_H_
--#define _INCLUDE_LINUX_SPI_LMS283GF05_H_
--
--struct lms283gf05_pdata {
--	unsigned long	reset_gpio;
--	bool		reset_inverted;
--};
--
--#endif /* _INCLUDE_LINUX_SPI_LMS283GF05_H_ */
--- 
-2.25.2
+This would be of course nice to have but won't be enough to remove
+the ifdef in this particular driver.
 
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
+
+> Added Christoph to the mail as he has a good overview of the area.
+> 
+> 	Sam
+> 
+> 
+>>
+>> Fixes: a07a63b0e24d ("video: fbdev: controlfb: add COMPILE_TEST support")
+>> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+>> Reported-by: kbuild test robot <lkp@intel.com>
+>> Cc: Sam Ravnborg <sam@ravnborg.org>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+>> ---
+>> v2: fix implicit btext_update_display() function declaration error
+>>
+>>  drivers/video/fbdev/controlfb.c |    2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> Index: b/drivers/video/fbdev/controlfb.c
+>> ===================================================================
+>> --- a/drivers/video/fbdev/controlfb.c
+>> +++ b/drivers/video/fbdev/controlfb.c
+>> @@ -55,7 +55,7 @@
+>>  #include "macmodes.h"
+>>  #include "controlfb.h"
+>>  
+>> -#ifndef CONFIG_PPC_PMAC
+>> +#if !defined(CONFIG_PPC_PMAC) || !defined(CONFIG_PPC32)
+>>  #define invalid_vram_cache(addr)
+>>  #undef in_8
+>>  #undef out_8
+> 
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
