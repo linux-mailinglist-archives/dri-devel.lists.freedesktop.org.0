@@ -1,72 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3A71BDC10
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 14:26:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 706381BF195
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:33:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAABF8994D;
-	Wed, 29 Apr 2020 12:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83AB6EB80;
+	Thu, 30 Apr 2020 07:33:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD006EAA3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 12:26:21 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03TCJg04100013;
- Wed, 29 Apr 2020 12:25:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=G4T1e0Zu5w17lAkgEzo9mQq+TIDEuIlWIBxxTVixN+0=;
- b=mrEkFjIN2dsubqvlOyU9teA2iauOOA1kWYCl/UD12g5OblLFdVciyoDXOkGZN5ZaWQnV
- KC80T8wDmrH9jQNU3Lw9Il7BYApSGpdYYqNkO1llGWgAEszEtwNhky4hEZmBT7vKARi+
- uxpAwvmjwCJFTpoEnv+tcQuhIPCdlDsKxZ1adAs7ha1sgzn4Cn39OKxn5qIXOrpWoIDx
- HnwSU5WY4NrDVsGYep9Qnn5qFUWyXkYCYC+TgEw9zIB6nxRsJf5NbXqrraz6E/kK9LIO
- iYiQYyvpW+89DXkkH+6ipAbYG3pixgOMhSX97DaUbgQfAX3IcVlf0Ic2uutg8EI0L1XH Zg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 30p01nuwqc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Apr 2020 12:25:55 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03TCGj3w058297;
- Wed, 29 Apr 2020 12:25:55 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 30mxpjw1q6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Apr 2020 12:25:54 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03TCPlRN013991;
- Wed, 29 Apr 2020 12:25:47 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 29 Apr 2020 05:25:47 -0700
-Date: Wed, 29 Apr 2020 15:25:38 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] video: fbdev: pxa3xx_gcu: Fix some resource leak in an
- error handling path in 'pxa3xx_gcu_probe()'
-Message-ID: <20200429122538.GO2014@kadam>
-References: <20200429043438.96212-1-christophe.jaillet@wanadoo.fr>
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 837956EAA3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 12:27:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1588163225; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UB85kJRWkAnE/ldP2rd2WB1otm7LsPHBG/QdCMbeTtw=;
+ b=Y7SJJo7sZnaAuNIPATy0AiHIaWVsd2iyJrs83ZKmUFLR4e0sPDVaCrXhPJh3FdwWeKj5+B
+ ymuqI/fKXp9dnLKIal7QsfsqkUT5AoaSpooZL4M9yoymur1N6pMByU7yw/6mHtmHFpYRn4
+ m+cKuE3cU7bSMeleVwTgsV9u39AqbSE=
+Date: Wed, 29 Apr 2020 14:26:46 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v7 08/12] arm: dts: s5pv210: Add node for SGX 540
+To: Jonathan Bakker <xc-racer2@live.ca>
+Message-Id: <MKUJ9Q.OQG3OJ6IYGUE3@crapouillou.net>
+In-Reply-To: <BN6PR04MB0660044B5B1D45BE4CBCD2AAA3AC0@BN6PR04MB0660.namprd04.prod.outlook.com>
+References: <cover.1587760454.git.hns@goldelico.com>
+ <3fd18c747426e15fd1f3500b9c4adce2db9ddd0c.1587760454.git.hns@goldelico.com>
+ <NYBE9Q.YH08US7A7DC3@crapouillou.net>
+ <BN6PR04MB0660A180D2069848E5C03D7EA3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
+ <20200427154617.GA1798@pi3>
+ <BN6PR04MB06605F014024061C894AFBA4A3AC0@BN6PR04MB0660.namprd04.prod.outlook.com>
+ <BN6PR04MB0660044B5B1D45BE4CBCD2AAA3AC0@BN6PR04MB0660.namprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200429043438.96212-1-christophe.jaillet@wanadoo.fr>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9605
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- malwarescore=0
- mlxscore=0 bulkscore=0 adultscore=0 phishscore=0 suspectscore=2
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004290105
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9605
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- spamscore=0 clxscore=1011
- phishscore=0 mlxlogscore=999 adultscore=0 priorityscore=1501 mlxscore=0
- suspectscore=2 malwarescore=0 lowpriorityscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004290105
+X-Mailman-Approved-At: Thu, 30 Apr 2020 07:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,57 +49,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, eric.y.miao@gmail.com, arnd@arndb.de,
- b.zolnierkie@samsung.com, gregkh@linuxfoundation.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, zhenzhong.duan@gmail.com, daniel@caiaq.de,
- mpe@ellerman.id.au, tglx@linutronix.de
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-omap@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Tony Lindgren <tony@atomide.com>,
+ Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+ James Hogan <jhogan@kernel.org>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, letux-kernel@openphoenux.org,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
+ linux-kernel@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+ =?iso-8859-1?q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+ kernel@pyra-handheld.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 29, 2020 at 06:34:38AM +0200, Christophe JAILLET wrote:
-> If an error occurs in the loop where we call 'pxa3xx_gcu_add_buffer()',
-> any resource already allocated should be freed.
-> 
-> In order to fix it, add a call to 'pxa3xx_gcu_free_buffers()' in the error
-> handling path, as already done in the remove function.
-> 
-> Fixes: 364dbdf3b6c3 ("video: add driver for PXA3xx 2D graphics accelerator")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  drivers/video/fbdev/pxa3xx-gcu.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/video/fbdev/pxa3xx-gcu.c b/drivers/video/fbdev/pxa3xx-gcu.c
-> index 4279e13a3b58..68d9c7a681d4 100644
-> --- a/drivers/video/fbdev/pxa3xx-gcu.c
-> +++ b/drivers/video/fbdev/pxa3xx-gcu.c
-> @@ -675,6 +675,7 @@ static int pxa3xx_gcu_probe(struct platform_device *pdev)
->  
->  err_disable_clk:
->  	clk_disable_unprepare(priv->clk);
-> +	pxa3xx_gcu_free_buffers(dev, priv);
+Hi Jonathan,
 
-The error handling in this function makes no sense and is buggy.  It
-should be that it unwinds in the reverse order from the allocation.  The
-goto should be "goto free_most_recently_allocated_resource;".  Since the
-unwind is done in the wrong order it causes a couple bugs.
+Le mar. 28 avril 2020 =E0 15:58, Jonathan Bakker <xc-racer2@live.ca> a =
 
-These buffers are the last thing which we allocated so they should be
-the first thing which we free.  In this case, calling
-pxa3xx_gcu_free_buffers() before the buffers are allocated is confusing
-but harmless.  The clk_disable_unprepare() is done on some paths where
-the clock was not enabled and that will trigger a WARN() so that's a
-bug.  Syzcaller will complain and if you have reboot on WARN then it's
-annoying.
+=E9crit :
+> Hi all,
+> =
 
-The second bug is that we don't deregister the misc device or release
-the DMA memory on failure when we allocate the buffers in the loop.
+> On 2020-04-28 2:39 p.m., Jonathan Bakker wrote:
+>>  Hi Krzysztof,
+>> =
 
-regards,
-dan carpenter
+>>  On 2020-04-27 8:46 a.m., Krzysztof Kozlowski wrote:
+>>>  On Sun, Apr 26, 2020 at 07:57:12AM -0700, Jonathan Bakker wrote:
+>>>>  Hi Paul,
+>>>> =
+
+>>>>  On 2020-04-26 5:56 a.m., Paul Cercueil wrote:
+>>>>> =
+
+>>>>> =
+
+>>>>>  Le ven. 24 avril 2020 =E0 22:34, H. Nikolaus Schaller =
+
+>>>>> <hns@goldelico.com> a =E9crit :
+>>>>>>  From: Jonathan Bakker <xc-racer2@live.ca>
+>>>>>> =
+
+>>>>>>  All s5pv210 devices have a PowerVR SGX 540 (revision 120) =
+
+>>>>>> attached.
+>>>>>> =
+
+>>>>>>  There is no external regulator for it so it can be enabled by =
+
+>>>>>> default.
+>>>>>> =
+
+>>>>>>  Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
+>>>>>>  Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+>>>>>>  ---
+>>>>>>   arch/arm/boot/dts/s5pv210.dtsi | 13 +++++++++++++
+>>>>>>   1 file changed, 13 insertions(+)
+>>>>>> =
+
+>>>>>>  diff --git a/arch/arm/boot/dts/s5pv210.dtsi =
+
+>>>>>> b/arch/arm/boot/dts/s5pv210.dtsi
+>>>>>>  index 2ad642f51fd9..abbdda205c1b 100644
+>>>>>>  --- a/arch/arm/boot/dts/s5pv210.dtsi
+>>>>>>  +++ b/arch/arm/boot/dts/s5pv210.dtsi
+>>>>>>  @@ -512,6 +512,19 @@ vic3: interrupt-controller@f2300000 {
+>>>>>>               #interrupt-cells =3D <1>;
+>>>>>>           };
+>>>>>> =
+
+>>>>>>  +        gpu: gpu@f3000000 {
+>>>>>>  +            compatible =3D "samsung,s5pv210-sgx540-120";
+>>> =
+
+>>>  This should not pass the bindings check because you missed last
+>>>  compatibles.
+>>> =
+
+>> =
+
+>>  Thanks for pointing that out, I'll add it and make sure it passes =
+
+>> the bindings check.
+>> =
+
+>>>>>>  +            reg =3D <0xf3000000 0x10000>;
+>>>>>>  +            interrupt-parent =3D <&vic2>;
+>>>>>>  +            interrupts =3D <10>;
+>>>>>>  +            clock-names =3D "core";
+>>>>>>  +            clocks =3D <&clocks CLK_G3D>;
+>>>>>>  +
+>>>>>>  +            assigned-clocks =3D <&clocks MOUT_G3D>, <&clocks =
+
+>>>>>> DOUT_G3D>;
+>>>>>>  +            assigned-clock-rates =3D <0>, <66700000>;
+>>>>>>  +            assigned-clock-parents =3D <&clocks MOUT_MPLL>;
+>>>>> =
+
+>>>>>  What are these clocks for, and why are they reparented / =
+
+>>>>> reclocked?
+>>>>> =
+
+>>>>>  Shouldn't they be passed to 'clocks' as well?
+>>>>> =
+
+>>>>>  -Paul
+>>>>> =
+
+>>>> =
+
+>>>>  The G3D clock system can have multiple parents, and for stable =
+
+>>>> operation
+>>>>  it's recommended to use the MPLL clock as the parent (which in =
+
+>>>> turn
+>>>>  is actually a mux as well).  MOUT_G3D is simply the mux for =
+
+>>>> CLK_G3D
+>>>>  (SGX core clock), DOUT_G3D is the divider.  DOUT_G3D could =
+
+>>>> equally be CLK_G3D
+>>>>  (and probably should be, for readability) as CLK_G3D is simply =
+
+>>>> the gate and
+>>>>  DOUT_G3D is the divider for it.
+>>> =
+
+>>>  Good point, it should be CLK_G3D instead of DOUT.  Can you fix =
+
+>>> this as
+>>>  well?
+>> =
+
+>>  Yep, will do.  Nikolaus, I'll send you an updated patch to include.
+>> =
+
+> =
+
+> How are assigned-clocks handled in the yaml DT schema?  When running =
+
+> make dtbs_check,
+> I end up with messages such as
+> =
+
+> arch/arm/boot/dts/s5pv210-aquila.dt.yaml: gpu@f3000000: =
+
+> 'assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' =
+
+> do not match any of the regexes: 'pinctrl-[0-9]+'
+> =
+
+> Do they need to explicitly be listed as valid entries?
+
+The assigned-* can also be moved inside the node of the clocks =
+
+provider. I would say it makes more sense to have them there.
+
+-Paul
+
 
 _______________________________________________
 dri-devel mailing list
