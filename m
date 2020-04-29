@@ -1,63 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05071BE082
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 16:16:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D271BE0B7
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 16:22:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6F996E14F;
-	Wed, 29 Apr 2020 14:16:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC8316EE78;
+	Wed, 29 Apr 2020 14:22:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A7326E14F
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 14:16:46 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1588169806; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=nnaIfrV4qLeRSIGOFX1I6F/ufbM8nw9ujY7Wju+a3ug=;
- b=k+wqhMDtTUuF9a5Wvd6/tz0jfaLOWtlWrZJp0H4jTQFz0IQ5rKahN8h6wlplub2cWqZCsV3d
- vBE4L6GAcdl0klMHCnd+jz51ipp4jQc29061v34bZKy/gc/uMBwtWXgP1VQBvAz/urbLK3v9
- 3SQpQ02feMSj2JmLI5T+DY2o0/c=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5ea98c4d.7fc2fc8cbed8-smtp-out-n05;
- Wed, 29 Apr 2020 14:16:45 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 0E2B8C43637; Wed, 29 Apr 2020 14:16:44 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [10.131.182.194]
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: rnayak)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id D3419C433CB;
- Wed, 29 Apr 2020 14:16:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D3419C433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=rnayak@codeaurora.org
-Subject: Re: [PATCH v3 05/17] drm/msm/dpu: Use OPP API to set clk/perf state
-To: Matthias Kaehlcke <mka@chromium.org>
-References: <1588080785-6812-1-git-send-email-rnayak@codeaurora.org>
- <1588080785-6812-6-git-send-email-rnayak@codeaurora.org>
- <20200429001425.GL4525@google.com>
-From: Rajendra Nayak <rnayak@codeaurora.org>
-Message-ID: <92892448-c10c-4440-4933-17706d46ef93@codeaurora.org>
-Date: Wed, 29 Apr 2020 19:46:27 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D23686EE78;
+ Wed, 29 Apr 2020 14:22:34 +0000 (UTC)
+IronPort-SDR: Io+Y1yfvmiM4Vx8xTvsJeTv4/C1wy1VxEnXsVZEzJA/IggwNivFFfx01LPqQahznJhNT0wuo3s
+ Utz/w4Ew7R1w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2020 07:22:34 -0700
+IronPort-SDR: +Hzi2eWgB5BczDeFvRtdJiKTAFNYW4m37DwADTTV7oXwq8PbysNUU2zLXAmW0o8u9wkSGCazjN
+ pq8Aga9fthow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,332,1583222400"; d="scan'208";a="405051026"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
+ by orsmga004.jf.intel.com with ESMTP; 29 Apr 2020 07:22:30 -0700
+Date: Wed, 29 Apr 2020 19:52:21 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH v2] drm: Fix HDCP failures when SRM fw is missing
+Message-ID: <20200429142221.GG22816@intel.com>
+References: <20200414184835.2878-1-sean@poorly.run>
+ <20200414190258.38873-1-sean@poorly.run>
+ <20200429135037.GF22816@intel.com>
+ <CAMavQKKOKfcJSN1GjKctQp4qw6LyP6WNE9Q3Y4LedkjzcvPXxA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200429001425.GL4525@google.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <CAMavQKKOKfcJSN1GjKctQp4qw6LyP6WNE9Q3Y4LedkjzcvPXxA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,157 +50,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, sboyd@kernel.org, viresh.kumar@linaro.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, agross@kernel.org, linux-arm-msm@vger.kernel.org,
- Sean Paul <sean@poorly.run>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>, stable <stable@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2020-04-29 at 09:58:16 -0400, Sean Paul wrote:
+> On Wed, Apr 29, 2020 at 9:50 AM Ramalingam C <ramalingam.c@intel.com> wrote:
+> >
+> > On 2020-04-14 at 15:02:55 -0400, Sean Paul wrote:
+> > > From: Sean Paul <seanpaul@chromium.org>
+> > >
+> > > The SRM cleanup in 79643fddd6eb2 ("drm/hdcp: optimizing the srm
+> > > handling") inadvertently altered the behavior of HDCP auth when
+> > > the SRM firmware is missing. Before that patch, missing SRM was
+> > > interpreted as the device having no revoked keys. With that patch,
+> > > if the SRM fw file is missing we reject _all_ keys.
+> > >
+> > > This patch fixes that regression by returning success if the file
+> > > cannot be found. It also checks the return value from request_srm such
+> > > that we won't end up trying to parse the ksv list if there is an error
+> > > fetching it.
+> > >
+> > > Fixes: 79643fddd6eb ("drm/hdcp: optimizing the srm handling")
+> > > Cc: stable@vger.kernel.org
+> > > Cc: Ramalingam C <ramalingam.c@intel.com>
+> > > Cc: Sean Paul <sean@poorly.run>
+> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Cc: David Airlie <airlied@linux.ie>
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> > >
+> > > Changes in v2:
+> > > -Noticed a couple other things to clean up
+> > > ---
+> > >
+> > > Sorry for the quick rev, noticed a couple other loose ends that should
+> > > be cleaned up.
+> > >
+> > >  drivers/gpu/drm/drm_hdcp.c | 8 +++++++-
+> > >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
+> > > index 7f386adcf872..910108ccaae1 100644
+> > > --- a/drivers/gpu/drm/drm_hdcp.c
+> > > +++ b/drivers/gpu/drm/drm_hdcp.c
+> > > @@ -241,8 +241,12 @@ static int drm_hdcp_request_srm(struct drm_device *drm_dev,
+> > >
+> > >       ret = request_firmware_direct(&fw, (const char *)fw_name,
+> > >                                     drm_dev->dev);
+> > > -     if (ret < 0)
+> > > +     if (ret < 0) {
+> > > +             *revoked_ksv_cnt = 0;
+> > > +             *revoked_ksv_list = NULL;
+> > These two variables are already initialized by the caller.
+> 
+> Right now it is, but that's not guaranteed. In the ret == 0 case, it's
+> pretty common for a caller to assume the called function has
+> validated/assigned all the function output.
+Ok.
+> 
+> > > +             ret = 0;
+> > Missing of this should have been caught by CI. May be CI system always
+> > having the SRM file from previous execution. Never been removed. IGT
+> > need a fix to clean the prior SRM files before execution.
+> >
+> > CI fix shouldn't block this fix.
+> > >               goto exit;
+> > > +     }
+> > >
+> > >       if (fw->size && fw->data)
+> > >               ret = drm_hdcp_srm_update(fw->data, fw->size, revoked_ksv_list,
+> > > @@ -287,6 +291,8 @@ int drm_hdcp_check_ksvs_revoked(struct drm_device *drm_dev, u8 *ksvs,
+> > >
+> > >       ret = drm_hdcp_request_srm(drm_dev, &revoked_ksv_list,
+> > >                                  &revoked_ksv_cnt);
+> > > +     if (ret)
+> > > +             return ret;
+> > This error code also shouldn't effect the caller(i915)
+> 
+> Why not? I'd assume an invalid SRM revocation list should probably be
+> treated as failure?
+IMHO invalid SRM revocation need not be treated as HDCP authentication
+failure.
 
-On 4/29/2020 5:44 AM, Matthias Kaehlcke wrote:
-> On Tue, Apr 28, 2020 at 07:02:53PM +0530, Rajendra Nayak wrote:
->> On some qualcomm platforms DPU needs to express a perforamnce state
->> requirement on a power domain depennding on the clock rates.
->> Use OPP table from DT to register with OPP framework and use
->> dev_pm_opp_set_rate() to set the clk/perf state.
->>
->> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
->> Cc: Rob Clark <robdclark@gmail.com>
->> Cc: Sean Paul <sean@poorly.run>
->> Cc: dri-devel@lists.freedesktop.org
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c |  3 ++-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 25 ++++++++++++++++++++++++-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  4 ++++
->>   3 files changed, 30 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->> index 11f2beb..fe5717df 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->> @@ -7,6 +7,7 @@
->>   #include <linux/debugfs.h>
->>   #include <linux/errno.h>
->>   #include <linux/mutex.h>
->> +#include <linux/pm_opp.h>
->>   #include <linux/sort.h>
->>   #include <linux/clk.h>
->>   #include <linux/bitmap.h>
->> @@ -239,7 +240,7 @@ static int _dpu_core_perf_set_core_clk_rate(struct dpu_kms *kms, u64 rate)
->>   		rate = core_clk->max_rate;
->>   
->>   	core_clk->rate = rate;
->> -	return msm_dss_clk_set_rate(core_clk, 1);
->> +	return dev_pm_opp_set_rate(&kms->pdev->dev, core_clk->rate);
->>   }
->>   
->>   static u64 _dpu_core_perf_get_core_clk_rate(struct dpu_kms *kms)
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> index ce19f1d..2f53bbf 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> @@ -10,6 +10,7 @@
->>   #include <linux/debugfs.h>
->>   #include <linux/dma-buf.h>
->>   #include <linux/of_irq.h>
->> +#include <linux/pm_opp.h>
->>   
->>   #include <drm/drm_crtc.h>
->>   #include <drm/drm_file.h>
->> @@ -1033,11 +1034,23 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->>   	if (!dpu_kms)
->>   		return -ENOMEM;
->>   
->> +	dpu_kms->opp_table = dev_pm_opp_set_clkname(dev, "core");
->> +	if (IS_ERR(dpu_kms->opp_table))
->> +		return PTR_ERR(dpu_kms->opp_table);
->> +	/* OPP table is optional */
->> +	ret = dev_pm_opp_of_add_table(dev);
->> +	if (!ret) {
->> +		dpu_kms->has_opp_table = true;
->> +	} else if (ret != -ENODEV) {
->> +		dev_err(dev, "Invalid OPP table in Device tree\n");
-> 
-> nit: s/Device/device/ ?
-> 
-> uber-nit: s/Invalid/invalid/
-> 
->    most log messages in this file start with a lower case letter, except
->    for acronyms/register names
-> 
-> please also change it in the other drivers unless you disagree.
+First of all SRM need not supplied by all players. and incase, supplied
+SRM is not as per the spec, then we dont have any list of revoked ID.
+with this I dont think we need to fail the HDCP authentication. Until we
+have valid list of revoked IDs from SRM, and the receiver ID is matching
+to one of the revoked IDs, I wouldn't want to fail the HDCP
+authentication. 
 
-Sure, will do. Thanks.
-
+-Ram
 > 
->> +		return ret;
->> +	}
->> +
->>   	mp = &dpu_kms->mp;
->>   	ret = msm_dss_parse_clock(pdev, mp);
->>   	if (ret) {
->>   		DPU_ERROR("failed to parse clocks, ret=%d\n", ret);
->> -		return ret;
->> +		goto err;
->>   	}
->>   
->>   	platform_set_drvdata(pdev, dpu_kms);
->> @@ -1051,6 +1064,11 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->>   
->>   	priv->kms = &dpu_kms->base;
->>   	return ret;
->> +err:
->> +	if (dpu_kms->has_opp_table)
->> +		dev_pm_opp_of_remove_table(dev);
->> +	dev_pm_opp_put_clkname(dpu_kms->opp_table);
->> +	return ret;
->>   }
->>   
->>   static void dpu_unbind(struct device *dev, struct device *master, void *data)
->> @@ -1059,6 +1077,9 @@ static void dpu_unbind(struct device *dev, struct device *master, void *data)
->>   	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
->>   	struct dss_module_power *mp = &dpu_kms->mp;
->>   
->> +	if (dpu_kms->has_opp_table)
->> +		dev_pm_opp_of_remove_table(dev);
->> +	dev_pm_opp_put_clkname(dpu_kms->opp_table);
->>   	msm_dss_put_clk(mp->clk_config, mp->num_clk);
->>   	devm_kfree(&pdev->dev, mp->clk_config);
->>   	mp->num_clk = 0;
->> @@ -1090,6 +1111,8 @@ static int __maybe_unused dpu_runtime_suspend(struct device *dev)
->>   	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
->>   	struct dss_module_power *mp = &dpu_kms->mp;
->>   
->> +	/* Drop the performance state vote */
->> +	dev_pm_opp_set_rate(dev, 0);
->>   	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, false);
->>   	if (rc)
->>   		DPU_ERROR("clock disable failed rc:%d\n", rc);
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
->> index 211f5de9..2a52e4e 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
->> @@ -128,6 +128,10 @@ struct dpu_kms {
->>   
->>   	struct platform_device *pdev;
->>   	bool rpm_enabled;
->> +
->> +	struct opp_table *opp_table;
->> +	bool has_opp_table;
->> +
->>   	struct dss_module_power mp;
->>   
->>   	/* reference count bandwidth requests, so we know when we can
 > 
-> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
-> 
-
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+> > hence pushed a
+> > change https://patchwork.freedesktop.org/series/76730/
+> >
+> > With these addresed.
+> >
+> > LGTM.
+> >
+> > Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
+> > >
+> > >       /* revoked_ksv_cnt will be zero when above function failed */
+> > >       for (i = 0; i < revoked_ksv_cnt; i++)
+> > > --
+> > > Sean Paul, Software Engineer, Google / Chromium OS
+> > >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
