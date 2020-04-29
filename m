@@ -2,54 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB271BE887
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 22:29:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CD2F1BE66F
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 20:42:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFE426EB14;
-	Wed, 29 Apr 2020 20:29:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC0AA6EAD7;
+	Wed, 29 Apr 2020 18:42:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D64D6EB22
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 20:29:17 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03TIeoga091804;
- Wed, 29 Apr 2020 13:40:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1588185650;
- bh=dq76WnL2o1kKDFvoA+0ex1cWV/7t1++4WeJwqpEBuYs=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=A71DgmKpz66UQoMu0+smwV8D6pK5Tok3K1A2GNCxwCkCU9GB9VXsIm8xgWkGZEWfV
- XaPbegGCGQuUzGz/Qek0QzNl+BUL1ENTgKPL06ZUwioBwdHyVNI1czlkG+QdxLgFI9
- igrSHyXU1KRkiK7+2+QGewXA5t8Cb09P2jy639bs=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03TIeoT6036326
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 29 Apr 2020 13:40:50 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 29
- Apr 2020 13:40:49 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 29 Apr 2020 13:40:49 -0500
-Received: from [10.250.87.22] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03TIelWk012216;
- Wed, 29 Apr 2020 13:40:48 -0500
-Subject: Re: [PATCH] misc: sram: Add dma-heap-export reserved SRAM area type
-To: John Stultz <john.stultz@linaro.org>
-References: <20200424222740.16259-1-afd@ti.com>
- <CALAqxLWcUkESyqVL1=Jzn_qOayohSvZe9008HGsSZ6+6AXaRXA@mail.gmail.com>
-From: "Andrew F. Davis" <afd@ti.com>
-Message-ID: <0b8a1d9a-463f-e1c6-9e4e-e07926cbafb0@ti.com>
-Date: Wed, 29 Apr 2020 14:40:46 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2042.outbound.protection.outlook.com [40.107.92.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 749366EAD7;
+ Wed, 29 Apr 2020 18:42:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SytmeJVEIaIEGy0cinG8OAeoPAtyn3UmVUEp1NJ/E9ZC16Y7sUqSbwS0EApuBbK+qQ/Yx9PnlpS9sjOHehP00YKQ65x+C7QsncznEM7x0ChsMD2cEgsEweoVkBBqxEI0X28QTZ39bLXu/7TB/OTiOcECCOxtiw/a25bm0axPmjiEh2vnayiyZShkOf5aM9iOt3zIZTrJEs4bwONi4y53J21JmLwTZhB/vF9yv8SQtfhr95XmNtSuZWBszNZQjy1eopXUtypXxkuykLsEea/tcBU16tmW7oMFWRxQTi0ZcsLY1wZJRBWvBS5rHP/Hz2J6PTJW3WTMh44/qz2TuvRQTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DkMilKffDzwBWt2oeS3f7TAArpUUFzbCKt3W68dmhEg=;
+ b=DYHo/NeM1bC3BqOx7pn4Gu/vdBn3GP9nQdZcTKBCs3HZZ5BJqC8wXtDtSBes0OmrwwURrPgRYlnK3N+8nubq9OgPGmHK59zY0St5Uvo4+Uhys12bzm2X7c7YmZLAa1n2hHY+zhipwXJBqWfCLWC++Dn2suSisCHcfkl5TfREUQtaP8TFQYID5tVEc0S2nXfNZge4nqq4vK+hWqBd1po1Uu6UbvCq9uLOu8iY179NxaklxjWuG4L7x4tDDJlhNQ56CqEME0P4wL3S6VA2QenHtj2ZgaQefUwVzjrrSEKeDkM/SEGhj9yQlt4sNiEijVKU12W9oEXt5LAV9L8cbV32fw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DkMilKffDzwBWt2oeS3f7TAArpUUFzbCKt3W68dmhEg=;
+ b=MwFASJhHFxLNtWRi1bWlZlW+izaEpZevwgVbr+mDvO7RjSP8dGqdkZdXVf6lC7/SMlLzmVCcWZ6mPSdJ+7i4XaObjPvr4wRID4HEpA3Xji8qwFV6FbA3Wz4RFux2sY4KyyH2+uuFeMuo62xDyhvvbJVTyAexXJgd7ddyb5tw8PU=
+Authentication-Results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none header.from=amd.com;
+Received: from MW2PR12MB2524.namprd12.prod.outlook.com (2603:10b6:907:9::27)
+ by MW2PR12MB2508.namprd12.prod.outlook.com (2603:10b6:907:9::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Wed, 29 Apr
+ 2020 18:41:59 +0000
+Received: from MW2PR12MB2524.namprd12.prod.outlook.com
+ ([fe80::21c8:9f4e:c412:dfbe]) by MW2PR12MB2524.namprd12.prod.outlook.com
+ ([fe80::21c8:9f4e:c412:dfbe%3]) with mapi id 15.20.2937.023; Wed, 29 Apr 2020
+ 18:41:59 +0000
+From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Subject: [PATCH] drm: Correct DP DSC macro typo
+Date: Wed, 29 Apr 2020 14:41:42 -0400
+Message-Id: <20200429184142.1867987-1-Rodrigo.Siqueira@amd.com>
+X-Mailer: git-send-email 2.26.2
+X-ClientProxiedBy: BN6PR18CA0006.namprd18.prod.outlook.com
+ (2603:10b6:404:121::16) To MW2PR12MB2524.namprd12.prod.outlook.com
+ (2603:10b6:907:9::27)
 MIME-Version: 1.0
-In-Reply-To: <CALAqxLWcUkESyqVL1=Jzn_qOayohSvZe9008HGsSZ6+6AXaRXA@mail.gmail.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from atma2.hitronhub.home (2607:fea8:56a0:11a1::4) by
+ BN6PR18CA0006.namprd18.prod.outlook.com (2603:10b6:404:121::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19 via Frontend
+ Transport; Wed, 29 Apr 2020 18:41:57 +0000
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [2607:fea8:56a0:11a1::4]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 60e6bd8b-0d16-4022-c9da-08d7ec6cffef
+X-MS-TrafficTypeDiagnostic: MW2PR12MB2508:|MW2PR12MB2508:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MW2PR12MB25080018E0224AE9DFB7831A98AD0@MW2PR12MB2508.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Forefront-PRVS: 03883BD916
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR12MB2524.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(366004)(136003)(396003)(39860400002)(376002)(316002)(8676002)(2616005)(6636002)(6666004)(1076003)(4326008)(8936002)(478600001)(16526019)(36756003)(6486002)(186003)(86362001)(110136005)(5660300002)(66476007)(6512007)(6506007)(66556008)(52116002)(66946007)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MrUozZXWiL1aH9CKHtJDovnG+wFWAWAbJ27ZGqx6R0RyI8OjqYmFCTLciY3quIQ9mPj8CYlnzoyJ9uhQ3+2zciYK0ljzsac1DJwKgtbyPLZi6SXY40Xhic2dv62ZKDB1sRR5hvlyQKx7m1PZH7cJg71soWZ3+Z+gfX1GSR6IZahVnJPBqXd+US4pNJKPXzmqHpNMDS0BHwghWKQk2sdu/hRkEYVNnT+ItGKxMvIZtAZ5FV14C6CMjEDFLQSILPJTIpYzyhfqi8b+JuealG5aK/Cwnu2HhhIwLoinUeFjuXaSNRPlE8jPDD2KJubW3VfesMgPYN6mgMBS93ddKx4Vnmhu7InW0Q5Hwy8Z0dKkHYMP3pDN9pQPtxT+7U2PgzYTPGKQ6TEZjg4ZS7cWa06Jx3zrpJDLT8JSGeDQD3UZ0kbACcvbjNlbcGvuuj6DOpvS
+X-MS-Exchange-AntiSpam-MessageData: HcY/NUX87S4VNaFKTw4cDWsca3uF0GAbRqjZk9EHcWM0ucypcqnYdyjnPVVURdg1WNtcAqEJtKWR4VCLJOLglV8uRJjbopnM+QZp1BToyQiLxnEP86S+ajYPOGyX0HNqKtwacVbpTD1qVnTzatmirSYQZ7aPtrCumMkKMNEnGUtACnJg9avbxg3GwFJHwBNYeUIPpTAt792rI5zp6JtXehBcKUNMlp8lExg9k91RjPID1vH6+utsDsRgKKVxlGjHKtze3HgjN9yHe1yHhWcK41ZCzwZk0CN212nQ14RQpqwQ6S/GorrRluDg9lP2xYYUPmSu+KlU5npgzMwMoXn27If7v4V9cXe5VIu4fQ+JHdaozoi7ko/Gf49A3crtmiZzNY0PcydABTlSWMITqcUGrhNHtjRVlLmKfXji2PQAAmStedVHFAD/8V4j++oQOecVJyTXPgysu2TkZuCj/eGsc7vqM9x5rGurjz8+9eWGq+6FobSJF/FdtLg1bOY2KXZryqWp2uRSXfQ4So0c3iHF6hVO+gkKfbywEit/ePu/w3CXHk/ipO8FzBq8is2lHBZ0A3y+xlrKacf0duuo61Mwl7kHFGu6m5yDJ2v1vWTqqoG+jT1F2cfFvPKNKImQ1lFAJ3ZJxI5U4q4UGHk3eIsxYVBcDrx5b6ctekKR0BNhaf90VIcfJqr8CNzo9JVQXOlq9KMiw/t+6NN/0FUOjeObWBehm2IURNsRbE9MHXUcmjL92/ujUohpag/z8I+/eTzjx5T7s3OdpavD7E//3iK/AYqUQ6bD3vD0nxJnmMgkk/ocsOMJnPKa1ZxSZ7KZYifQ
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60e6bd8b-0d16-4022-c9da-08d7ec6cffef
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2020 18:41:59.2431 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8WsKqhkT6JbxAfCqKJ7XJLye+QX9xuepflqgFzxo/k6tT476e/o0mL1ms1IqWYXEE80TYr3B4jcBB+e+j8vs1Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2508
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,314 +99,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "moderated list:DMA BUFFER
- SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Rob Herring <robh+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/24/20 8:44 PM, John Stultz wrote:
-> On Fri, Apr 24, 2020 at 3:27 PM Andrew F. Davis <afd@ti.com> wrote:
->> This new export type exposes to userspace the SRAM area as a DMA-Heap,
->> this allows for allocations as DMA-BUFs that can be consumed by various
->> DMA-BUF supporting devices.
->>
->> Signed-off-by: Andrew F. Davis <afd@ti.com>
-> 
-> Nice! Very excited to have the first new heap (that didn't come with
-> the initial patchset)!
-> 
-> Overall looks good! I don't have any comment on the SRAM side of
-> things, but a few minor questions/nits below.
-> 
->> diff --git a/drivers/misc/sram-dma-heap.c b/drivers/misc/sram-dma-heap.c
->> new file mode 100644
->> index 000000000000..38df0397f294
->> --- /dev/null
->> +++ b/drivers/misc/sram-dma-heap.c
->> @@ -0,0 +1,243 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * SRAM DMA-Heap userspace exporter
->> + *
->> + * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
->> + *     Andrew F. Davis <afd@ti.com>
->> + */
->> +
->> +#include <linux/dma-mapping.h>
->> +#include <linux/err.h>
->> +#include <linux/genalloc.h>
->> +#include <linux/io.h>
->> +#include <linux/mm.h>
->> +#include <linux/scatterlist.h>
->> +#include <linux/slab.h>
->> +#include <linux/dma-buf.h>
->> +#include <linux/dma-heap.h>
->> +
->> +#include "sram.h"
->> +
->> +struct sram_dma_heap {
->> +       struct dma_heap *heap;
->> +       struct gen_pool *pool;
->> +};
->> +
->> +struct sram_dma_heap_buffer {
->> +       struct gen_pool *pool;
->> +       struct list_head attachments;
->> +       struct mutex attachments_lock;
->> +       unsigned long len;
->> +       void *vaddr;
->> +       phys_addr_t paddr;
->> +};
->> +
->> +struct dma_heap_attachment {
->> +       struct device *dev;
->> +       struct sg_table *table;
->> +       struct list_head list;
->> +};
->> +
->> +static int dma_heap_attach(struct dma_buf *dmabuf,
->> +                          struct dma_buf_attachment *attachment)
->> +{
->> +       struct sram_dma_heap_buffer *buffer = dmabuf->priv;
->> +       struct dma_heap_attachment *a;
->> +       struct sg_table *table;
->> +
->> +       a = kzalloc(sizeof(*a), GFP_KERNEL);
->> +       if (!a)
->> +               return -ENOMEM;
->> +
->> +       table = kmalloc(sizeof(*table), GFP_KERNEL);
->> +       if (!table) {
->> +               kfree(a);
->> +               return -ENOMEM;
->> +       }
->> +       if (sg_alloc_table(table, 1, GFP_KERNEL)) {
->> +               kfree(table);
->> +               kfree(a);
->> +               return -ENOMEM;
->> +       }
->> +       sg_set_page(table->sgl, pfn_to_page(PFN_DOWN(buffer->paddr)), buffer->len, 0);
->> +
->> +       a->table = table;
->> +       a->dev = attachment->dev;
->> +       INIT_LIST_HEAD(&a->list);
->> +
->> +       attachment->priv = a;
->> +
->> +       mutex_lock(&buffer->attachments_lock);
->> +       list_add(&a->list, &buffer->attachments);
->> +       mutex_unlock(&buffer->attachments_lock);
->> +
->> +       return 0;
->> +}
->> +
->> +static void dma_heap_detatch(struct dma_buf *dmabuf,
->> +                            struct dma_buf_attachment *attachment)
->> +{
->> +       struct sram_dma_heap_buffer *buffer = dmabuf->priv;
->> +       struct dma_heap_attachment *a = attachment->priv;
->> +
->> +       mutex_lock(&buffer->attachments_lock);
->> +       list_del(&a->list);
->> +       mutex_unlock(&buffer->attachments_lock);
->> +
->> +       sg_free_table(a->table);
->> +       kfree(a->table);
->> +       kfree(a);
->> +}
->> +
->> +static struct sg_table *dma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
->> +                                            enum dma_data_direction direction)
->> +{
->> +       struct dma_heap_attachment *a = attachment->priv;
->> +       struct sg_table *table = a->table;
->> +
->> +       if (!dma_map_sg_attrs(attachment->dev, table->sgl, table->nents,
->> +                             direction, DMA_ATTR_SKIP_CPU_SYNC))
-> 
-> Might be nice to have a comment as to why you're using SKIP_CPU_SYNC
-> and why it's safe.
-> 
+In the file drm_dp_helper.h we have a macro named
+DP_DSC_THROUGHPUT_MODE_{0,1}_UPSUPPORTED, the correct name should be
+DP_DSC_THROUGHPUT_MODE_{0,1}_UNSUPPORTED. This commits adjusts this typo
+in the header file and in other places that attempt to access this
+macro.
 
+Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+---
+ drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c | 2 +-
+ include/drm/drm_dp_helper.h                 | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Ack, should be simple enough to explain that SRAM is non-cached and so
-this sync is not needed (and may not work either given the SRAM region
-does not have valid page structures assdociated).
+diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+index 87d682d25278..0ea6662a1563 100644
+--- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
++++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+@@ -129,7 +129,7 @@ static bool dsc_line_buff_depth_from_dpcd(int dpcd_line_buff_bit_depth, int *lin
+ static bool dsc_throughput_from_dpcd(int dpcd_throughput, int *throughput)
+ {
+ 	switch (dpcd_throughput) {
+-	case DP_DSC_THROUGHPUT_MODE_0_UPSUPPORTED:
++	case DP_DSC_THROUGHPUT_MODE_0_UNSUPPORTED:
+ 		*throughput = 0;
+ 		break;
+ 	case DP_DSC_THROUGHPUT_MODE_0_170:
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index c6119e4c169a..fd7ac8f15004 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -292,7 +292,7 @@
+ #define DP_DSC_PEAK_THROUGHPUT              0x06B
+ # define DP_DSC_THROUGHPUT_MODE_0_MASK      (0xf << 0)
+ # define DP_DSC_THROUGHPUT_MODE_0_SHIFT     0
+-# define DP_DSC_THROUGHPUT_MODE_0_UPSUPPORTED 0
++# define DP_DSC_THROUGHPUT_MODE_0_UNSUPPORTED 0
+ # define DP_DSC_THROUGHPUT_MODE_0_340       (1 << 0)
+ # define DP_DSC_THROUGHPUT_MODE_0_400       (2 << 0)
+ # define DP_DSC_THROUGHPUT_MODE_0_450       (3 << 0)
+@@ -310,7 +310,7 @@
+ # define DP_DSC_THROUGHPUT_MODE_0_170       (15 << 0) /* 1.4a */
+ # define DP_DSC_THROUGHPUT_MODE_1_MASK      (0xf << 4)
+ # define DP_DSC_THROUGHPUT_MODE_1_SHIFT     4
+-# define DP_DSC_THROUGHPUT_MODE_1_UPSUPPORTED 0
++# define DP_DSC_THROUGHPUT_MODE_1_UNSUPPORTED 0
+ # define DP_DSC_THROUGHPUT_MODE_1_340       (1 << 4)
+ # define DP_DSC_THROUGHPUT_MODE_1_400       (2 << 4)
+ # define DP_DSC_THROUGHPUT_MODE_1_450       (3 << 4)
+-- 
+2.26.2
 
-
->> +               return ERR_PTR(-ENOMEM);
->> +
->> +       return table;
->> +}
->> +
->> +static void dma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
->> +                                  struct sg_table *table,
->> +                                  enum dma_data_direction direction)
->> +{
->> +       dma_unmap_sg_attrs(attachment->dev, table->sgl, table->nents,
->> +                          direction, DMA_ATTR_SKIP_CPU_SYNC);
->> +}
->> +
->> +static void dma_heap_dma_buf_release(struct dma_buf *dmabuf)
->> +{
->> +       struct sram_dma_heap_buffer *buffer = dmabuf->priv;
->> +
->> +       gen_pool_free(buffer->pool, (unsigned long)buffer->vaddr, buffer->len);
->> +       kfree(buffer);
->> +}
->> +
->> +static int dma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
->> +{
->> +       struct sram_dma_heap_buffer *buffer = dmabuf->priv;
->> +       int ret;
->> +
->> +       /* SRAM mappings are not cached */
->> +       vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
->> +
->> +       ret = vm_iomap_memory(vma, buffer->paddr, buffer->len);
->> +       if (ret)
->> +               pr_err("Could not map buffer to userspace\n");
->> +
->> +       return ret;
->> +}
->> +
->> +static void *dma_heap_vmap(struct dma_buf *dmabuf)
->> +{
->> +       struct sram_dma_heap_buffer *buffer = dmabuf->priv;
->> +
->> +       return buffer->vaddr;
->> +}
->> +
->> +const struct dma_buf_ops sram_dma_heap_buf_ops = {
->> +       .attach = dma_heap_attach,
->> +       .detach = dma_heap_detatch,
->> +       .map_dma_buf = dma_heap_map_dma_buf,
->> +       .unmap_dma_buf = dma_heap_unmap_dma_buf,
->> +       .release = dma_heap_dma_buf_release,
->> +       .mmap = dma_heap_mmap,
->> +       .vmap = dma_heap_vmap,
->> +};
-> 
-> No begin/end_cpu_access functions here? I'm guessing it's because
-> you're always using SKIP_CPU_SYNC so it wouldn't do anything? A small
-> comment in the code might help.
-> 
-
-
-Yes, same idea, non-cached/coherent means the access does not need to be
-bracketed by *_cpu_access functions. Will comment.
-
-
-> 
->> +
->> +static int sram_dma_heap_allocate(struct dma_heap *heap,
->> +                                 unsigned long len,
->> +                                 unsigned long fd_flags,
->> +                                 unsigned long heap_flags)
->> +{
->> +       struct sram_dma_heap *sram_dma_heap = dma_heap_get_drvdata(heap);
->> +       struct sram_dma_heap_buffer *buffer;
->> +
->> +       DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
->> +       struct dma_buf *dmabuf;
->> +       int ret;
->> +
->> +       buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
->> +       if (!buffer)
->> +               return -ENOMEM;
->> +       buffer->pool = sram_dma_heap->pool;
->> +       INIT_LIST_HEAD(&buffer->attachments);
->> +       mutex_init(&buffer->attachments_lock);
->> +       buffer->len = len;
->> +
->> +       buffer->vaddr = (void *)gen_pool_alloc(buffer->pool, buffer->len);
->> +       if (!buffer->vaddr) {
->> +               ret = -ENOMEM;
->> +               goto free_buffer;
->> +       }
->> +
->> +       buffer->paddr = gen_pool_virt_to_phys(buffer->pool, (unsigned long)buffer->vaddr);
->> +       if (buffer->paddr == -1) {
->> +               ret = -ENOMEM;
->> +               goto free_pool;
->> +       }
->> +
->> +       /* create the dmabuf */
->> +       exp_info.ops = &sram_dma_heap_buf_ops;
->> +       exp_info.size = buffer->len;
->> +       exp_info.flags = fd_flags;
->> +       exp_info.priv = buffer;
->> +       dmabuf = dma_buf_export(&exp_info);
->> +       if (IS_ERR(dmabuf)) {
->> +               ret = PTR_ERR(dmabuf);
->> +               goto free_pool;
->> +       }
->> +
->> +       ret = dma_buf_fd(dmabuf, fd_flags);
->> +       if (ret < 0) {
->> +               dma_buf_put(dmabuf);
->> +               /* just return, as put will call release and that will free */
->> +               return ret;
->> +       }
->> +
->> +       return ret;
->> +
->> +free_pool:
->> +       gen_pool_free(buffer->pool, (unsigned long)buffer->vaddr, buffer->len);
->> +free_buffer:
->> +       kfree(buffer);
->> +
->> +       return ret;
->> +}
->> +
->> +static struct dma_heap_ops sram_dma_heap_ops = {
->> +       .allocate = sram_dma_heap_allocate,
->> +};
->> +
->> +int sram_dma_heap_export(struct sram_dev *sram,
-> 
-> This is totally a bikeshed thing (feel free to ignore), but maybe
-> sram_dma_heap_create()  or _add() would be a better name to avoid
-> folks mixing it up with the dmabuf exporter?
-> 
-
-
-Maybe sram_add_dma_heap() which will match up better with the other SRAM
-functions, will change.
-
-
->> +                        struct sram_reserve *block,
->> +                        phys_addr_t start,
->> +                        struct sram_partition *part)
->> +{
->> +       struct sram_dma_heap *sram_dma_heap;
->> +       struct dma_heap_export_info exp_info;
->> +
->> +       dev_info(sram->dev, "Exporting SRAM pool '%s'\n", block->label);
-> 
-> Again, shed issue: but for terminology consistency (at least in the
-> dmabuf heaps space), maybe heap instead of pool?
-> 
-
-
-Ack, s/pool/heap.
-
-
-> Thanks so much again for submitting this!
-
-
-Thanks for the review,
-Andrew
-
-
-> -john
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
