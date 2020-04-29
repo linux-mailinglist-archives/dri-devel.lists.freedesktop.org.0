@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B431BE103
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 16:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D411BE114
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 16:33:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04C7389359;
-	Wed, 29 Apr 2020 14:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4C506EEBA;
+	Wed, 29 Apr 2020 14:32:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5973089359
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59B1E6E04E
  for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 14:32:42 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 1911EAC92;
+ by mx2.suse.de (Postfix) with ESMTP id 1896CAC11;
  Wed, 29 Apr 2020 14:32:40 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com, noralf@tronnes.org,
  sam@ravnborg.org, john.p.donnelly@oracle.com
-Subject: [PATCH 01/17] drm/mgag200: Remove HW cursor
-Date: Wed, 29 Apr 2020 16:32:22 +0200
-Message-Id: <20200429143238.10115-2-tzimmermann@suse.de>
+Subject: [PATCH 02/17] drm/mgag200: Remove unused fields from struct mga_device
+Date: Wed, 29 Apr 2020 16:32:23 +0200
+Message-Id: <20200429143238.10115-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200429143238.10115-1-tzimmermann@suse.de>
 References: <20200429143238.10115-1-tzimmermann@suse.de>
@@ -44,435 +44,93 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HW cursor of Matrox G200 cards only supports a 16-color palette
-format. Univeral planes require at least ARGB or a similar component-
-based format. Converting a cursor image from ARGB to 16 colors does not
-produce pleasent-looking results in general, so remove the HW cursor.
+The fields mode_info, num_crtcs and mode in struct mga_device serve
+no purpose. Remove them.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/Makefile         |   2 +-
- drivers/gpu/drm/mgag200/mgag200_cursor.c | 319 -----------------------
- drivers/gpu/drm/mgag200/mgag200_drv.h    |  13 -
- drivers/gpu/drm/mgag200/mgag200_main.c   |   7 -
- drivers/gpu/drm/mgag200/mgag200_mode.c   |   2 -
- 5 files changed, 1 insertion(+), 342 deletions(-)
- delete mode 100644 drivers/gpu/drm/mgag200/mgag200_cursor.c
+ drivers/gpu/drm/mgag200/mgag200_drv.h  | 8 --------
+ drivers/gpu/drm/mgag200/mgag200_main.c | 3 ---
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 6 ------
+ 3 files changed, 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/Makefile b/drivers/gpu/drm/mgag200/Makefile
-index 04b281bcf6558..63403133638a3 100644
---- a/drivers/gpu/drm/mgag200/Makefile
-+++ b/drivers/gpu/drm/mgag200/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
--mgag200-y   := mgag200_main.o mgag200_mode.o mgag200_cursor.o \
-+mgag200-y   := mgag200_main.o mgag200_mode.o \
- 	mgag200_drv.o mgag200_i2c.o mgag200_ttm.o
- 
- obj-$(CONFIG_DRM_MGAG200) += mgag200.o
-diff --git a/drivers/gpu/drm/mgag200/mgag200_cursor.c b/drivers/gpu/drm/mgag200/mgag200_cursor.c
-deleted file mode 100644
-index d491edd317ff3..0000000000000
---- a/drivers/gpu/drm/mgag200/mgag200_cursor.c
-+++ /dev/null
-@@ -1,319 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * Copyright 2013 Matrox Graphics
-- *
-- * Author: Christopher Harvey <charvey@matrox.com>
-- */
--
--#include <linux/pci.h>
--
--#include "mgag200_drv.h"
--
--static bool warn_transparent = true;
--static bool warn_palette = true;
--
--static int mgag200_cursor_update(struct mga_device *mdev, void *dst, void *src,
--				 unsigned int width, unsigned int height)
--{
--	struct drm_device *dev = mdev->dev;
--	unsigned int i, row, col;
--	uint32_t colour_set[16];
--	uint32_t *next_space = &colour_set[0];
--	uint32_t *palette_iter;
--	uint32_t this_colour;
--	bool found = false;
--	int colour_count = 0;
--	u8 reg_index;
--	u8 this_row[48];
--
--	memset(&colour_set[0], 0, sizeof(uint32_t)*16);
--	/* width*height*4 = 16384 */
--	for (i = 0; i < 16384; i += 4) {
--		this_colour = ioread32(src + i);
--		/* No transparency */
--		if (this_colour>>24 != 0xff &&
--			this_colour>>24 != 0x0) {
--			if (warn_transparent) {
--				dev_info(&dev->pdev->dev, "Video card doesn't support cursors with partial transparency.\n");
--				dev_info(&dev->pdev->dev, "Not enabling hardware cursor.\n");
--				warn_transparent = false; /* Only tell the user once. */
--			}
--			return -EINVAL;
--		}
--		/* Don't need to store transparent pixels as colours */
--		if (this_colour>>24 == 0x0)
--			continue;
--		found = false;
--		for (palette_iter = &colour_set[0]; palette_iter != next_space; palette_iter++) {
--			if (*palette_iter == this_colour) {
--				found = true;
--				break;
--			}
--		}
--		if (found)
--			continue;
--		/* We only support 4bit paletted cursors */
--		if (colour_count >= 16) {
--			if (warn_palette) {
--				dev_info(&dev->pdev->dev, "Video card only supports cursors with up to 16 colours.\n");
--				dev_info(&dev->pdev->dev, "Not enabling hardware cursor.\n");
--				warn_palette = false; /* Only tell the user once. */
--			}
--			return -EINVAL;
--		}
--		*next_space = this_colour;
--		next_space++;
--		colour_count++;
--	}
--
--	/* Program colours from cursor icon into palette */
--	for (i = 0; i < colour_count; i++) {
--		if (i <= 2)
--			reg_index = 0x8 + i*0x4;
--		else
--			reg_index = 0x60 + i*0x3;
--		WREG_DAC(reg_index, colour_set[i] & 0xff);
--		WREG_DAC(reg_index+1, colour_set[i]>>8 & 0xff);
--		WREG_DAC(reg_index+2, colour_set[i]>>16 & 0xff);
--		BUG_ON((colour_set[i]>>24 & 0xff) != 0xff);
--	}
--
--	/* now write colour indices into hardware cursor buffer */
--	for (row = 0; row < 64; row++) {
--		memset(&this_row[0], 0, 48);
--		for (col = 0; col < 64; col++) {
--			this_colour = ioread32(src + 4*(col + 64*row));
--			/* write transparent pixels */
--			if (this_colour>>24 == 0x0) {
--				this_row[47 - col/8] |= 0x80>>(col%8);
--				continue;
--			}
--
--			/* write colour index here */
--			for (i = 0; i < colour_count; i++) {
--				if (colour_set[i] == this_colour) {
--					if (col % 2)
--						this_row[col/2] |= i<<4;
--					else
--						this_row[col/2] |= i;
--					break;
--				}
--			}
--		}
--		memcpy_toio(dst + row*48, &this_row[0], 48);
--	}
--
--	return 0;
--}
--
--static void mgag200_cursor_set_base(struct mga_device *mdev, u64 address)
--{
--	u8 addrl = (address >> 10) & 0xff;
--	u8 addrh = (address >> 18) & 0x3f;
--
--	/* Program gpu address of cursor buffer */
--	WREG_DAC(MGA1064_CURSOR_BASE_ADR_LOW, addrl);
--	WREG_DAC(MGA1064_CURSOR_BASE_ADR_HI, addrh);
--}
--
--static int mgag200_show_cursor(struct mga_device *mdev, void *src,
--			       unsigned int width, unsigned int height)
--{
--	struct drm_device *dev = mdev->dev;
--	struct drm_gem_vram_object *gbo;
--	void *dst;
--	s64 off;
--	int ret;
--
--	gbo = mdev->cursor.gbo[mdev->cursor.next_index];
--	if (!gbo) {
--		WREG8(MGA_CURPOSXL, 0);
--		WREG8(MGA_CURPOSXH, 0);
--		return -ENOTSUPP; /* Didn't allocate space for cursors */
--	}
--	dst = drm_gem_vram_vmap(gbo);
--	if (IS_ERR(dst)) {
--		ret = PTR_ERR(dst);
--		dev_err(&dev->pdev->dev,
--			"failed to map cursor updates: %d\n", ret);
--		return ret;
--	}
--	off = drm_gem_vram_offset(gbo);
--	if (off < 0) {
--		ret = (int)off;
--		dev_err(&dev->pdev->dev,
--			"failed to get cursor scanout address: %d\n", ret);
--		goto err_drm_gem_vram_vunmap;
--	}
--
--	ret = mgag200_cursor_update(mdev, dst, src, width, height);
--	if (ret)
--		goto err_drm_gem_vram_vunmap;
--	mgag200_cursor_set_base(mdev, off);
--
--	/* Adjust cursor control register to turn on the cursor */
--	WREG_DAC(MGA1064_CURSOR_CTL, 4); /* 16-colour palletized cursor mode */
--
--	drm_gem_vram_vunmap(gbo, dst);
--
--	++mdev->cursor.next_index;
--	mdev->cursor.next_index %= ARRAY_SIZE(mdev->cursor.gbo);
--
--	return 0;
--
--err_drm_gem_vram_vunmap:
--	drm_gem_vram_vunmap(gbo, dst);
--	return ret;
--}
--
--/*
-- * Hide the cursor off screen. We can't disable the cursor hardware because
-- * it takes too long to re-activate and causes momentary corruption.
-- */
--static void mgag200_hide_cursor(struct mga_device *mdev)
--{
--	WREG8(MGA_CURPOSXL, 0);
--	WREG8(MGA_CURPOSXH, 0);
--}
--
--static void mgag200_move_cursor(struct mga_device *mdev, int x, int y)
--{
--	if (WARN_ON(x <= 0))
--		return;
--	if (WARN_ON(y <= 0))
--		return;
--	if (WARN_ON(x & ~0xffff))
--		return;
--	if (WARN_ON(y & ~0xffff))
--		return;
--
--	WREG8(MGA_CURPOSXL, x & 0xff);
--	WREG8(MGA_CURPOSXH, (x>>8) & 0xff);
--
--	WREG8(MGA_CURPOSYL, y & 0xff);
--	WREG8(MGA_CURPOSYH, (y>>8) & 0xff);
--}
--
--int mgag200_cursor_init(struct mga_device *mdev)
--{
--	struct drm_device *dev = mdev->dev;
--	size_t ncursors = ARRAY_SIZE(mdev->cursor.gbo);
--	size_t size;
--	int ret;
--	size_t i;
--	struct drm_gem_vram_object *gbo;
--
--	size = roundup(64 * 48, PAGE_SIZE);
--	if (size * ncursors > mdev->vram_fb_available)
--		return -ENOMEM;
--
--	for (i = 0; i < ncursors; ++i) {
--		gbo = drm_gem_vram_create(dev, size, 0);
--		if (IS_ERR(gbo)) {
--			ret = PTR_ERR(gbo);
--			goto err_drm_gem_vram_put;
--		}
--		ret = drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM |
--					    DRM_GEM_VRAM_PL_FLAG_TOPDOWN);
--		if (ret) {
--			drm_gem_vram_put(gbo);
--			goto err_drm_gem_vram_put;
--		}
--
--		mdev->cursor.gbo[i] = gbo;
--	}
--
--	/*
--	 * At the high end of video memory, we reserve space for
--	 * buffer objects. The cursor plane uses this memory to store
--	 * a double-buffered image of the current cursor. Hence, it's
--	 * not available for framebuffers.
--	 */
--	mdev->vram_fb_available -= ncursors * size;
--
--	return 0;
--
--err_drm_gem_vram_put:
--	while (i) {
--		--i;
--		gbo = mdev->cursor.gbo[i];
--		drm_gem_vram_unpin(gbo);
--		drm_gem_vram_put(gbo);
--		mdev->cursor.gbo[i] = NULL;
--	}
--	return ret;
--}
--
--void mgag200_cursor_fini(struct mga_device *mdev)
--{
--	size_t i;
--	struct drm_gem_vram_object *gbo;
--
--	for (i = 0; i < ARRAY_SIZE(mdev->cursor.gbo); ++i) {
--		gbo = mdev->cursor.gbo[i];
--		drm_gem_vram_unpin(gbo);
--		drm_gem_vram_put(gbo);
--	}
--}
--
--int mgag200_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
--			    uint32_t handle, uint32_t width, uint32_t height)
--{
--	struct drm_device *dev = crtc->dev;
--	struct mga_device *mdev = (struct mga_device *)dev->dev_private;
--	struct drm_gem_object *obj;
--	struct drm_gem_vram_object *gbo = NULL;
--	int ret;
--	u8 *src;
--
--	if (!handle || !file_priv) {
--		mgag200_hide_cursor(mdev);
--		return 0;
--	}
--
--	if (width != 64 || height != 64) {
--		WREG8(MGA_CURPOSXL, 0);
--		WREG8(MGA_CURPOSXH, 0);
--		return -EINVAL;
--	}
--
--	obj = drm_gem_object_lookup(file_priv, handle);
--	if (!obj)
--		return -ENOENT;
--	gbo = drm_gem_vram_of_gem(obj);
--	src = drm_gem_vram_vmap(gbo);
--	if (IS_ERR(src)) {
--		ret = PTR_ERR(src);
--		dev_err(&dev->pdev->dev,
--			"failed to map user buffer updates\n");
--		goto err_drm_gem_object_put_unlocked;
--	}
--
--	ret = mgag200_show_cursor(mdev, src, width, height);
--	if (ret)
--		goto err_drm_gem_vram_vunmap;
--
--	/* Now update internal buffer pointers */
--	drm_gem_vram_vunmap(gbo, src);
--	drm_gem_object_put_unlocked(obj);
--
--	return 0;
--err_drm_gem_vram_vunmap:
--	drm_gem_vram_vunmap(gbo, src);
--err_drm_gem_object_put_unlocked:
--	drm_gem_object_put_unlocked(obj);
--	return ret;
--}
--
--int mgag200_crtc_cursor_move(struct drm_crtc *crtc, int x, int y)
--{
--	struct mga_device *mdev = (struct mga_device *)crtc->dev->dev_private;
--
--	/* Our origin is at (64,64) */
--	x += 64;
--	y += 64;
--
--	mgag200_move_cursor(mdev, x, y);
--
--	return 0;
--}
 diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 9691252d6233f..c7f2000d46fce 100644
+index c7f2000d46fce..de3181bd63ca0 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
 +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -121,11 +121,6 @@ struct mga_connector {
- 	struct mga_i2c_chan *i2c;
+@@ -104,11 +104,6 @@ struct mga_crtc {
+ 	bool enabled;
  };
  
--struct mga_cursor {
--	struct drm_gem_vram_object *gbo[2];
--	unsigned int next_index;
+-struct mga_mode_info {
+-	bool mode_config_initialized;
+-	struct mga_crtc *crtc;
 -};
 -
- struct mga_mc {
- 	resource_size_t			vram_size;
- 	resource_size_t			vram_base;
-@@ -162,8 +157,6 @@ struct mga_device {
- 	struct mga_mc			mc;
- 	struct mga_mode_info		mode_info;
+ struct mga_i2c_chan {
+ 	struct i2c_adapter adapter;
+ 	struct drm_device *dev;
+@@ -155,15 +150,12 @@ struct mga_device {
+ 	void __iomem			*rmmio;
  
--	struct mga_cursor cursor;
--
+ 	struct mga_mc			mc;
+-	struct mga_mode_info		mode_info;
+ 
  	size_t vram_fb_available;
  
  	bool				suspended;
-@@ -210,10 +203,4 @@ int mgag200_mm_init(struct mga_device *mdev);
- void mgag200_mm_fini(struct mga_device *mdev);
- int mgag200_mmap(struct file *filp, struct vm_area_struct *vma);
+-	int				num_crtc;
+ 	enum mga_type			type;
+ 	int				has_sdram;
+-	struct drm_display_mode		mode;
  
--int mgag200_cursor_init(struct mga_device *mdev);
--void mgag200_cursor_fini(struct mga_device *mdev);
--int mgag200_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
--			    uint32_t handle, uint32_t width, uint32_t height);
--int mgag200_crtc_cursor_move(struct drm_crtc *crtc, int x, int y);
--
- #endif				/* __MGAG200_DRV_H__ */
+ 	int bpp_shifts[4];
+ 
 diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/mgag200/mgag200_main.c
-index b680cf47cbb94..46cc32816f1e1 100644
+index 46cc32816f1e1..698fbf31337d4 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_main.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_main.c
-@@ -176,16 +176,10 @@ int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
- 		goto err_modeset;
- 	}
+@@ -98,9 +98,6 @@ static int mgag200_device_init(struct drm_device *dev,
+ 	mdev->flags = mgag200_flags_from_driver_data(flags);
+ 	mdev->type = mgag200_type_from_driver_data(flags);
  
--	r = mgag200_cursor_init(mdev);
--	if (r)
--		dev_warn(&dev->pdev->dev,
--			"Could not initialize cursors. Not doing hardware cursors.\n");
+-	/* Hardcode the number of CRTCs to 1 */
+-	mdev->num_crtc = 1;
 -
- 	return 0;
+ 	pci_read_config_dword(dev->pdev, PCI_MGA_OPTION, &option);
+ 	mdev->has_sdram = !(option & (1 << 14));
  
- err_modeset:
- 	drm_mode_config_cleanup(dev);
--	mgag200_cursor_fini(mdev);
- 	mgag200_mm_fini(mdev);
- err_mm:
- 	dev->dev_private = NULL;
-@@ -201,7 +195,6 @@ void mgag200_driver_unload(struct drm_device *dev)
- 		return;
- 	mgag200_modeset_fini(mdev);
- 	drm_mode_config_cleanup(dev);
--	mgag200_cursor_fini(mdev);
- 	mgag200_mm_fini(mdev);
- 	dev->dev_private = NULL;
- }
 diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index d90e83959fca1..c9d120b019649 100644
+index c9d120b019649..ce41bebfdd1a2 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -1414,8 +1414,6 @@ static void mga_crtc_disable(struct drm_crtc *crtc)
+@@ -1135,9 +1135,6 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
  
- /* These provide the minimum set of functions required to handle a CRTC */
- static const struct drm_crtc_funcs mga_crtc_funcs = {
--	.cursor_set = mgag200_crtc_cursor_set,
--	.cursor_move = mgag200_crtc_cursor_move,
- 	.gamma_set = mga_crtc_gamma_set,
- 	.set_config = drm_crtc_helper_set_config,
- 	.destroy = mga_crtc_destroy,
+ 	WREG8(MGA_MISC_OUT, misc);
+ 
+-	if (adjusted_mode)
+-		memcpy(&mdev->mode, mode, sizeof(struct drm_display_mode));
+-
+ 	mga_crtc_do_set_base(crtc, old_fb, x, y, 0);
+ 
+ 	/* reset tagfifo */
+@@ -1443,7 +1440,6 @@ static void mga_crtc_init(struct mga_device *mdev)
+ 	drm_crtc_init(mdev->dev, &mga_crtc->base, &mga_crtc_funcs);
+ 
+ 	drm_mode_crtc_set_gamma_size(&mga_crtc->base, MGAG200_LUT_SIZE);
+-	mdev->mode_info.crtc = mga_crtc;
+ 
+ 	drm_crtc_helper_add(&mga_crtc->base, &mga_helper_funcs);
+ }
+@@ -1619,8 +1615,6 @@ int mgag200_modeset_init(struct mga_device *mdev)
+ 	struct drm_connector *connector;
+ 	int ret;
+ 
+-	mdev->mode_info.mode_config_initialized = true;
+-
+ 	mdev->dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
+ 	mdev->dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
+ 
 -- 
 2.26.0
 
