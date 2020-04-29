@@ -2,53 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E15D1BE194
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 16:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D9021BE1DA
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 16:57:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE09C6EEBB;
-	Wed, 29 Apr 2020 14:49:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B486EEC4;
+	Wed, 29 Apr 2020 14:57:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
- [IPv6:2607:f8b0:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47C516EEB7
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 14:49:22 +0000 (UTC)
-Received: by mail-il1-x144.google.com with SMTP id r2so2656306ilo.6
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 07:49:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=E3q9UoM8m/D9x3nFHOBda8L7e9ddolWLFubeepmQ98o=;
- b=Hz7CaKBlz0uEkPolkcIz9uYPvaCAz5oxEh97JbFSdqkJlPZTiyNR8nYSBaZISafaZj
- gLxHv2WPz3C+xLRlIk+rukUtwBA8lDXTelCPzUHEwZbhEcF2LcTGC4PcI2kZ/yGYOgnJ
- G9rTuia9CHGFW2i9pfsnetkEaAIRMiwh/vRYnNlTXwbuk0s5Skn+7MTSWsGsx9gnqUoC
- YdFfjlZlnbf0otmxNENA5OIZNCtP31ulbrXwFXUjE4RjrL84UOUqN25cHhtKw9Wj2bJB
- Ub7uRsgu96A1Zu77qPIAdWxkxv5f8rghmAl5ZSGG6PxcY5V/yFuazUeqt623cmNVXhoa
- AmTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=E3q9UoM8m/D9x3nFHOBda8L7e9ddolWLFubeepmQ98o=;
- b=PBfRXZ1hyy3bgmcZJ052Q45uKwD1O6Gac7YKZ19u+YSPjl7XPCImuZeT7Ypfr7OUDq
- B3U+HETcZ+R3I3xFJ8h+fWWgsQcj6od0dEiAbyzqHkncaq8SGXoJQjJR/DYXA/6WChba
- eaD/tVz5aD0d+XOv3ytCzhrPCP2gRMjyIzVMYT1UJWDEUQQPZJDYBrCy0h4+C6s0jCIZ
- wQ9b5av6JpMlXn7AmLtRzdK+YHb8HeLR6KJVexoIXWkxb8LknBN0YPgXhBqvwHdUmfss
- urGnyBaJCiLWakGetUzzCn5I2YpuxSWl9mFkPsoiJSdfItf2gwyMC1hJAXS7G//Z+VY5
- x6Bw==
-X-Gm-Message-State: AGi0PuYUKXfvRh7RmDUbZaRhIwz7FWHVlqx/qgVcXi+rQgkekeM2AxKS
- ta1o60ttko8BrfwL25f4+/zs/A9bXKANBjbQfIMSYx1Z
-X-Google-Smtp-Source: APiQypIRnrtEoyn9ViNN0j/fNJzxxyZ5JZc2fvSVIFULxAt8Dwu42Il3kANf3bSOC9Z3Ts637y6ZuAs/G6RZvuYKbus=
-X-Received: by 2002:a92:3603:: with SMTP id d3mr32307350ila.264.1588171761539; 
- Wed, 29 Apr 2020 07:49:21 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 965886EF20
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 14:57:49 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 622A8ABD7;
+ Wed, 29 Apr 2020 14:57:47 +0000 (UTC)
+Subject: Re: [PATCH] drm/ast: remove duplicate assignment of ast_crtc_funcs
+ member
+To: Jason Yan <yanaijie@huawei.com>, airlied@redhat.com, airlied@linux.ie,
+ daniel@ffwll.ch, kraxel@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20200429141010.8445-1-yanaijie@huawei.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <43183725-a490-611d-bf4d-fc23cfca44d9@suse.de>
+Date: Wed, 29 Apr 2020 16:57:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200429134555.22106-1-ramalingam.c@intel.com>
-In-Reply-To: <20200429134555.22106-1-ramalingam.c@intel.com>
-From: Sean Paul <sean@poorly.run>
-Date: Wed, 29 Apr 2020 10:48:45 -0400
-Message-ID: <CAMavQKKW2K76CwUYe2PoMjQb7wKvT-8GESDqj_2jj9XuftubJA@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915/hdcp: Fix the return handling of
- drm_hdcp_check_ksvs_revoked
-To: Ramalingam C <ramalingam.c@intel.com>
+In-Reply-To: <20200429141010.8445-1-yanaijie@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,78 +66,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0393803478=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 29, 2020 at 9:46 AM Ramalingam C <ramalingam.c@intel.com> wrote:
->
-> drm_hdcp_check_ksvs_revoked() returns the number of revoked keys and
-> error codes when the SRM parsing is failed.
->
-> Errors in SRM parsing can't affect the HDCP auth, hence with this patch,
-> I915 will look out for revoked key count alone.
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0393803478==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="q3NSRBFoOQ5Q44HGU4NspjrfPrqs2jjCe"
 
-Reviewed-by: Sean Paul <sean@poorly.run>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--q3NSRBFoOQ5Q44HGU4NspjrfPrqs2jjCe
+Content-Type: multipart/mixed; boundary="PdHyAhPwIUQwBcMYmwi3tyjBpfBzIKV1b";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jason Yan <yanaijie@huawei.com>, airlied@redhat.com, airlied@linux.ie,
+ daniel@ffwll.ch, kraxel@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <43183725-a490-611d-bf4d-fc23cfca44d9@suse.de>
+Subject: Re: [PATCH] drm/ast: remove duplicate assignment of ast_crtc_funcs
+ member
+References: <20200429141010.8445-1-yanaijie@huawei.com>
+In-Reply-To: <20200429141010.8445-1-yanaijie@huawei.com>
 
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> cc: Sean Paul <seanpaul@chromium.org>
+--PdHyAhPwIUQwBcMYmwi3tyjBpfBzIKV1b
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 29.04.20 um 16:10 schrieb Jason Yan:
+> The struct member 'set_config' was assigned twice:
+>=20
+> static const struct drm_crtc_funcs ast_crtc_funcs =3D {
+> 	.reset =3D ast_crtc_reset,
+> 	.set_config =3D drm_crtc_helper_set_config,
+> 	......
+> 	.set_config =3D drm_atomic_helper_set_config,
+> 	......
+> };
+>=20
+> Since the second one is which we use now in fact, we can remove the
+> first one.
+>=20
+> This fixes the following coccicheck warning:
+>=20
+> drivers/gpu/drm/ast/ast_mode.c:932:50-51: set_config: first occurrence
+> line 934, second occurrence line 937
+>=20
+> Signed-off-by: Jason Yan <yanaijie@huawei.com>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Thanks! I'll apply the patch to drm-misc-next soonish.
+
+Best regards
+Thomas
+
 > ---
->  drivers/gpu/drm/i915/display/intel_hdcp.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index 2cbc4619b4ce..96bf6def9830 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -576,7 +576,7 @@ int intel_hdcp_auth_downstream(struct intel_connector *connector)
->                 goto err;
->
->         if (drm_hdcp_check_ksvs_revoked(&dev_priv->drm, ksv_fifo,
-> -                                       num_downstream)) {
-> +                                       num_downstream) > 0) {
->                 drm_err(&dev_priv->drm, "Revoked Ksv(s) in ksv_fifo\n");
->                 ret = -EPERM;
->                 goto err;
-> @@ -682,7 +682,7 @@ static int intel_hdcp_auth(struct intel_connector *connector)
->         if (ret < 0)
->                 return ret;
->
-> -       if (drm_hdcp_check_ksvs_revoked(&dev_priv->drm, bksv.shim, 1)) {
-> +       if (drm_hdcp_check_ksvs_revoked(&dev_priv->drm, bksv.shim, 1) > 0) {
->                 drm_err(&dev_priv->drm, "BKSV is revoked\n");
->                 return -EPERM;
->         }
-> @@ -1283,7 +1283,7 @@ static int hdcp2_authentication_key_exchange(struct intel_connector *connector)
->
->         if (drm_hdcp_check_ksvs_revoked(&dev_priv->drm,
->                                         msgs.send_cert.cert_rx.receiver_id,
-> -                                       1)) {
-> +                                       1) > 0) {
->                 drm_err(&dev_priv->drm, "Receiver ID is revoked\n");
->                 return -EPERM;
->         }
-> @@ -1484,7 +1484,7 @@ int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
->                       HDCP_2_2_DEV_COUNT_LO(rx_info[1]));
->         if (drm_hdcp_check_ksvs_revoked(&dev_priv->drm,
->                                         msgs.recvid_list.receiver_ids,
-> -                                       device_cnt)) {
-> +                                       device_cnt) > 0) {
->                 drm_err(&dev_priv->drm, "Revoked receiver ID(s) is in list\n");
->                 return -EPERM;
->         }
-> --
-> 2.20.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>  drivers/gpu/drm/ast/ast_mode.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_m=
+ode.c
+> index d2ab81f9c498..7062bcd78740 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -931,7 +931,6 @@ static void ast_crtc_atomic_destroy_state(struct dr=
+m_crtc *crtc,
+> =20
+>  static const struct drm_crtc_funcs ast_crtc_funcs =3D {
+>  	.reset =3D ast_crtc_reset,
+> -	.set_config =3D drm_crtc_helper_set_config,
+>  	.gamma_set =3D drm_atomic_helper_legacy_gamma_set,
+>  	.destroy =3D ast_crtc_destroy,
+>  	.set_config =3D drm_atomic_helper_set_config,
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--PdHyAhPwIUQwBcMYmwi3tyjBpfBzIKV1b--
+
+--q3NSRBFoOQ5Q44HGU4NspjrfPrqs2jjCe
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6plegACgkQaA3BHVML
+eiNUrwf7BzNxEOCYMo4loRRgbH3ob+BUDTqm98C5VqTDbVmHz+XnRQ56D6b72ic0
+JRBWAxfjOKPAQOAmA8+qKFKFCeQ16wvnYD1n4E+OHfoBd53iHDqHkkSd99ll0Erf
+76IlFp1PQ3WgjCC56BjbqbKYX3VbvD7fjarFRrRfK4tzEp5+B31WdHzsMGoRcopU
+Q3ac8fzAXEhLlLM6AOnhtEovYvVz4YVqVXQEgvEwI1GLbUDu78TeJc1FQckcL9Am
+4ogiZ4oAtTt5nQYKq6zDtlD5jI3hnIoIlTj8KHX/m5BNEIQXN2LM+Iq1mG7n3Gag
+9V9n6YX0md0K365JIjrNxo93uyVNPQ==
+=ciLe
+-----END PGP SIGNATURE-----
+
+--q3NSRBFoOQ5Q44HGU4NspjrfPrqs2jjCe--
+
+--===============0393803478==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0393803478==--
