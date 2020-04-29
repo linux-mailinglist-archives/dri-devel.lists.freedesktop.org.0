@@ -2,66 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF251BF176
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6CC1BF17C
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:32:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 301176EB60;
-	Thu, 30 Apr 2020 07:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 144F56EB5E;
+	Thu, 30 Apr 2020 07:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 158A56EB0C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 19:38:52 +0000 (UTC)
-Received: by mail-qt1-x843.google.com with SMTP id i68so2957875qtb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 12:38:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=wSYESb9Z3lobUMcKhRgLVx/Jnc91KqPEgi7fezuq0cw=;
- b=NfXC63zzpf/8TqXiV12LVXGiDGkba+94lBawHeUu83K8kLO8LRDgkxz43bWbbguQFH
- aCgsfAqUHnw9A7jIE+4yQDpSBQ9ejSEwi62fbLyNgrZQF6E45SKOlcrZpp3ZA+x+T81t
- 05c9+uMkRiw5dJ58ysX0oVJvqft33g+XCuCp2l8cUvJI6iP1S8Vujxgbk5X6fDpsk2TX
- Vd6i5AIIK/Oyu4Q/ttB0qTWO+51Joo3U4fWF4Lkf2S6hLdFNWplzSuZgTs6i+e6rfv//
- X3HxIzTHtwQ7e5jBUgRqMi3T5DsoKatOu2U5HWkn6PujV760l328OCDPIQi8nYsNU/Lp
- pAyg==
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 830726EB0B
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 19:40:57 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id pg17so2593608ejb.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 12:40:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zo2OZZ4MTbOvnXTYPTAc/hvQTjNd3qSE3kcs//0TgAc=;
+ b=TY+qADAXjAKh8mFAlcDZLB7telHiik6jVje42QtqW2mLw1q8/KPEzgEvmvJZv9RXL0
+ gxmBlc/nQ6ZevNOzVSo8iwfqjcRt+0Nym+sqmBlJMK55l1xVw2x4/3SJVkgWlCIzr8px
+ W8la5ISfDl4fGGcoHNcomZSf87znM4xXg9Q0KDRBa4zWRUOfkAC7GGNg9iPJ5QMEO0Sn
+ +0uAsNP7YzSbAeWKZcOV0IV3jHx2epZhAUzA4nhQZIW9PbwE9osM3hHJsSsofFszeezA
+ Zmg5OcF1oZx5MgyQXcyMC37sCIdIccS9KJdQZuHCSVBTgw89DQziS/MUnImknDFzc74w
+ J6tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=wSYESb9Z3lobUMcKhRgLVx/Jnc91KqPEgi7fezuq0cw=;
- b=aLeG0Z/ClrM5xorX6QueTFA0+q/sRih8fBa2T2DUdWLlA1aBnRH5E1GBscrBpZm/pl
- ULVY894ULukjDxMyHMqStT4WTIfck0dm53Wtj+V8+gdTQxx7Tk2jtpg2cDwnyWi0v+ku
- rhOIaDvWDmsfrvSVb8w86liWb7gYrXehz9sAaRsm+bkUjUnhsDo1whDaTlMZfkxAErOZ
- PYPW4zj1SNR6HFejjHqzyppVI08a5zQPFvuNQ8NaR+f38RgWw/+on5h/1Ig+kOOCLxrx
- MPTCjdpboYXSRkfXAFHqTZPHeFs1EWWz/c55H5VO2A+J9xOfsoc9bD1QXBaSbvBXw1fH
- YvRw==
-X-Gm-Message-State: AGi0PuZjx0wQcsTk4HiT2T/1DINJtnUgRXxeV7cznMBKqpcrz+yK3AcJ
- +y9p/RZ2Za4TzIWvz8gzcV58bA==
-X-Google-Smtp-Source: APiQypKXiOYH85US8Z7h6G2+cqWcYKpnBdMFUGM9XeOFtVhWzW/P0ELjxN2G8888g6EU3/+MJwFu8g==
-X-Received: by 2002:ac8:3a83:: with SMTP id x3mr24832605qte.44.1588189131135; 
- Wed, 29 Apr 2020 12:38:51 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id m12sm92419qki.75.2020.04.29.12.38.49
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 29 Apr 2020 12:38:50 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1jTsXh-0005C7-Ba; Wed, 29 Apr 2020 16:38:49 -0300
-Date: Wed, 29 Apr 2020 16:38:49 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH hmm 2/5] mm/hmm: make hmm_range_fault return 0 or -1
-Message-ID: <20200429193849.GA3824@ziepe.ca>
-References: <0-v1-4eb72686de3c+5062-hmm_no_flags_jgg@mellanox.com>
- <2-v1-4eb72686de3c+5062-hmm_no_flags_jgg@mellanox.com>
- <20200422055229.GB22366@lst.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zo2OZZ4MTbOvnXTYPTAc/hvQTjNd3qSE3kcs//0TgAc=;
+ b=WLaFu7c3M3AQxFibZ5EdiB0gIz8t93un8gQ4knuT4sPxtMgkQd3X04GwDQUGrfXn6+
+ Fl5j16MUpIYt0J2Ldi1WbTYK3SWo3QRaqlfqg87PNgwhYSe4e93LL4VbLiM6ORDCEYNR
+ FHmB2fhJFP6434x/SYummoVHTodrIeSWCYKuzATSrGuHRNnhF2Lk1UOCmF79XRjml19W
+ dEixMzIgk0iDDQElLdrLguBt8buJEQAcPpnW/sVCtpEyRz6hY6gNXlLH4JhpReRtrG5f
+ 1T7GsPbwRNhJygrQha37Xf4yPKc+bayvbAKruKrfKswufNNy5knIDuebM8o3affrWgtI
+ ZX3g==
+X-Gm-Message-State: AGi0PuYcWoR1OzhFUOvIBTiZIxOQK2kuRVaRN0ENdjKVNB8E7Le5zYMw
+ sZPI5IusSqll/3RtQRqC7XEg3SMMctLpo3Q5tI8=
+X-Google-Smtp-Source: APiQypLXlJpki10pS2NQAdHfOgaAP0ziLlF5W87SYbp1Kg4HQgGrTZs2TWrWWBdWxPuvm1eLheiknQpZGOsQZ7527SE=
+X-Received: by 2002:a17:906:1804:: with SMTP id
+ v4mr4350531eje.104.1588189256001; 
+ Wed, 29 Apr 2020 12:40:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200422055229.GB22366@lst.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <CAD4j4=CYvr8nAZ8H4U=-XP125oOWJdO1bsxdsYpoJya0RrtB6Q@mail.gmail.com>
+ <fc57479f-f9eb-e517-5fec-feb235d9e907@redhat.com>
+In-Reply-To: <fc57479f-f9eb-e517-5fec-feb235d9e907@redhat.com>
+From: =?UTF-8?Q?David_Santamar=C3=ADa_Rogado?= <howl.nsp@gmail.com>
+Date: Wed, 29 Apr 2020 21:40:43 +0200
+Message-ID: <CAD4j4=B3jmPd16KtbkLrj1DNdAR6+tJQWda_W=z0xN+-OheunA@mail.gmail.com>
+Subject: Re: Linux GOP initialization is wrong
+To: Hans de Goede <hdegoede@redhat.com>
 X-Mailman-Approved-At: Thu, 30 Apr 2020 07:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,86 +64,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ralph Campbell <rcampbell@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, "Kuehling,
- Felix" <Felix.Kuehling@amd.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 22, 2020 at 07:52:29AM +0200, Christoph Hellwig wrote:
-> On Tue, Apr 21, 2020 at 09:21:43PM -0300, Jason Gunthorpe wrote:
-> > From: Jason Gunthorpe <jgg@mellanox.com>
-> > 
-> > hmm_vma_walk->last is supposed to be updated after every write to the
-> > pfns, so that it can be returned by hmm_range_fault(). However, this is
-> > not done consistently. Fortunately nothing checks the return code of
-> > hmm_range_fault() for anything other than error.
-> > 
-> > More importantly last must be set before returning -EBUSY as it is used to
-> > prevent reading an output pfn as an input flags when the loop restarts.
-> > 
-> > For clarity and simplicity make hmm_range_fault() return 0 or -ERRNO. Only
-> > set last when returning -EBUSY.
-> > 
-> > Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
-> >  Documentation/vm/hmm.rst                |  2 +-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  4 ++--
-> >  drivers/gpu/drm/nouveau/nouveau_svm.c   |  6 +++---
-> >  include/linux/hmm.h                     |  2 +-
-> >  mm/hmm.c                                | 25 +++++++++----------------
-> >  5 files changed, 16 insertions(+), 23 deletions(-)
-> > 
-> > diff --git a/Documentation/vm/hmm.rst b/Documentation/vm/hmm.rst
-> > index 4e3e9362afeb10..9924f2caa0184c 100644
-> > +++ b/Documentation/vm/hmm.rst
-> > @@ -161,7 +161,7 @@ device must complete the update before the driver callback returns.
-> >  When the device driver wants to populate a range of virtual addresses, it can
-> >  use::
-> >  
-> > -  long hmm_range_fault(struct hmm_range *range);
-> > +  int hmm_range_fault(struct hmm_range *range);
-> >  
-> >  It will trigger a page fault on missing or read-only entries if write access is
-> >  requested (see below). Page faults use the generic mm page fault code path just
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > index 6309ff72bd7876..efc1329a019127 100644
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > @@ -852,12 +852,12 @@ int amdgpu_ttm_tt_get_user_pages(struct amdgpu_bo *bo, struct page **pages)
-> >  	down_read(&mm->mmap_sem);
-> >  	r = hmm_range_fault(range);
-> >  	up_read(&mm->mmap_sem);
-> > -	if (unlikely(r <= 0)) {
-> > +	if (unlikely(r)) {
-> >  		/*
-> >  		 * FIXME: This timeout should encompass the retry from
-> >  		 * mmu_interval_read_retry() as well.
-> >  		 */
-> > -		if ((r == 0 || r == -EBUSY) && !time_after(jiffies, timeout))
-> > +		if ((r == -EBUSY) && !time_after(jiffies, timeout))
-> 
-> Please also kill the superflous inner braces here.
-> 
-> > + * Return: 0 or -ERRNO with one of the following status codes:
-> 
-> Maybe say something like:
-> 
->     * Returns 0 on success or one of the following error codes:
-> 
-> Otherwise this looks good:
-
-Got it, thanks
-
-Jason
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgSGFucywKCkkgYWxzbyBmb3VuZCBzb21ldGhpbmcgaW50ZXJlc3Rpbmcgd2l0aCB0aGF0IHRl
+c3RzLCB0aGUgYmdydCBpcyBub3QKcGFpbnRlZCBpbiB0aGUgc2FtZSBwb3NpdGlvbiB3aGVuIGRv
+aW5nIHRoZSBFRkkgU2hlbGwgcm90YXRpb24sIHRoZQpmaXJtd2FyZSBzZWVtcyB0byB0YWtlIGlu
+dG8gYWNjb3VudCB0byBwb3NpdGlvbiBpdC4gVGhhdCBzb2x2ZWQgbWUgb25lCnRoaW5nIEkgY291
+bGQgbm90IHVuZGVyc3RhbmQsIFdpbmRvd3MgcmVjb3Zlcnkgc3lzdGVtIHVzZXMgdGhlCmluY29y
+cmVjdCBvcmllbnRhdGlvbiBidXQgaGFuZGxlcyBpdCB3ZWxsIGFuZCBhbHNvIHRoZSBwb3NpdGlv
+biBvZiB0aGUKYmdydC4gV2hlbiBib290aW5nIHdpdGggdGhlIFNoZWxsIHJvdGF0ZWQgcGx5bW91
+dGggcGFpbnRzIHRoZSBsb2dvIGhvdwppcyBpbiB0aGUgV2luZG93cyByZWNvdmVyeS4KCldoZW4g
+Ym9vdGluZyBXaW5kb3dzIGV2ZW4gcm90YXRlZCwgSSBjYW5ub3QgYmUgMTAwJSBzdXJlIGlmIGl0
+IGRvZXMgYQptb2Rlc2V0dGluZyBjaGFuZ2UgbGlrZSB3aXRoIGFuIG9sZCBjcnQgYmVjYXVzZSB0
+aGUgZmxpY2tzIGFuZCB0aGUKY2F0aG9kZSBzb3VuZCBidXQgSSB0aGluayB3aGVuIHRoZSBkcml2
+ZXJzIGFyZSBzZXQgdXAgaXQgZG9lcyBhIGdvcAptb2RlIHNldHRpbmcgY2hhbmdlLgoKVGhlIHZu
+YyBpc3N1ZSBJIGZvdW5kIGl0IGp1c3QgYmVjYXVzZSBJIHN0YXJ0ZWQgcGxheWluZyBhcm91bmQg
+d2l0aApnbm9tZSBib3hlcywgdGhlIGRpc3BsYXkgc2VuZCBoYXZlIHRoZSBzYW1lIGVmZmVjdHMg
+YXMgaXQgaGF2ZSBhbgppbmNvcnJlY3QgcGl0Y2guCgpJIHdpbGwgdHJ5IHRvIGtub3cgdG8gY29t
+cGlsZSBteSBvd24gZmVkb3JhIGtlcm5lbCB0byB0cnkgdG8gdGVzdApzb21ldGhpbmcgYWJvdXQg
+dGhpcy4gRXZlbiBpZiB0aGVyZSBhcmUgcHJvYmxlbXMgd2l0aCBvdGhlciBkZXZpY2VzLApjb3Vs
+ZCBiZSBwb3NzaWJsZSB0byBkbyBzb21ldGhpbmcgbGlrZSB0aGUgZG1pIHRhYmxlcyBmb3IgdGhl
+IGdvcCBwYXJ0CmluIHRoZSBrZXJuZWwgdG8gYXBwbHkgbW9kZXMgZm9yIHNwZWNpZmljIGRldmlj
+ZXMgaWYgaXQgd29ya3M/CgpFbCBtYXIuLCAyOCBhYnIuIDIwMjAgYSBsYXMgMTA6NDUsIEhhbnMg
+ZGUgR29lZGUKKDxoZGVnb2VkZUByZWRoYXQuY29tPikgZXNjcmliacOzOgo+Cj4gSGkgRGF2aWQs
+Cj4KPiBPbiA0LzI4LzIwIDE6NTggQU0sIERhdmlkIFNhbnRhbWFyw61hIFJvZ2FkbyB3cm90ZToK
+PiA+IFRoaXMgaXMgcmVsYXRlZCB0byB0aGUgaXNzdWVzIGF0IGxlYXN0IG9uIHNvbWUgZGV2aWNl
+cyBmb3IgcGFuZWwKPiA+IG9yaWVudGF0aW9uIHF1aXJrcyB3aGVyZSBhZGRlZC4KPgo+IFRoYW5r
+IHlvdSBmb3IgbG9va2luZyBpbnRvIHRoaXMuCj4KPiA+IE15IHRlc3RzIGhhdmUgYmVlbiBkb25l
+IG92ZXIgYSBMZW5vdm8gaWRlYXBhZCBEMzMwLgo+ID4KPiA+IFRoaXMgZGV2aWNlcyBsaWtlIHRo
+ZSBvdGhlciBvbmVzIHRoYXQgbmVlZCBwYW5lbCBvcmllbnRhdGlvbiBxdWlya3MsCj4gPiBzaG93
+cyB0aGUgaW5pdHJhbWZzIHdpdGggd3Jvbmcgc3RyaWRlIGFuZCB4IGFuZCB5IHN3YXBwZWQuIEJ5
+IGFwcGx5aW5nCj4gPiB0aGUgcGFuZWwgb3JpZW50YXRpb24gcXVpcmtzIHRoaXMgZ2V0cyBzb2x2
+ZWQgYnV0IG1hbnkgcGFydHMgb2YgdGhlCj4gPiBzeXN0ZW1zIGNvbXBvbmVudHMgbmVlZHMgdG8g
+YmUgcGF0Y2hlZC4gSGFucyBoYXMgZG9uZSBhIGdyZWF0IGpvYiB3aXRoCj4gPiBwbHltb3V0aCwg
+bXV0dGVyLi4uIGJ1dCBhbHdheXMgYXBwZWFycyBhIG5ldyBwcm9ibGVtIGRlcml2ZWQgYXMgZm9y
+Cj4gPiBleGFtcGxlIHZuYyBkZXNrdG9wIHNoYXJpbmcgd2l0aCB0aGlzIGRldmljZXMgZG9lc24n
+dCB3b3JrIGFuZCB0aGUKPiA+IG91dHB1dCBpcyBzZW5kIG1lc3NlZCB1cC4KPgo+IFdoZW4gSSBm
+aXJzdCBzdGFydGVkIGFkZGluZyBzdXBwb3J0IGZvciBkZXZpY2VzIHdoaWNoIGhhdmUgdGhlaXIK
+PiBzY3JlZW4gbW91bnRlZCA5MCBkZWdyZWVzIHJvdGF0ZWQgbXkgZmlyc3QgYXR0ZW1wdHMgd2hl
+cmUgYWltZWQKPiBhdCBzb2x2aW5nIHRoaXMgdHJhbnNwYXJlbnRseSBpbiB0aGUga2VybmVsLgo+
+Cj4gVW5mb3J0dW5hdGVseSB0aGlzIGlzIG5vdCBwb3NzaWJsZS4gT24gbW9zdCBhZmZlY3RlZCBk
+ZXZpY2VzCj4gdGhlIGhhcmR3YXJlIGRvZXMgbm90IHN1cHBvcnQgOTAgZGVncmVlcyByb3RhdGlv
+biBmb3IgdGhlCj4gcHJpbWFyeSBkaXNwbGF5IGxheWVyOyBvciBpZiBpdCBkb2VzIHRoaXMgcmVx
+dWlyZXMgdGhlIGZyYW1lYnVmZmVyCj4gYmVpbmcgaW4gYSBoYXJkd2FyZS1zcGVjaWZpYyB0aWxl
+ZCBmb3JtYXQgcmF0aGVyIHRoZW4gYmVpbmcgYQo+IGxpbmVhciBmcmFtZWJ1ZmZlci4gVXNpbmcg
+dGhlc2UgdGlsZWQgZm9ybWF0cyByZXF1aXJlcyB1c2Vyc3BhY2UKPiB0byBiZSBhd2FyZSBvZiB0
+aGlzLCB3aGljaCBydWxlcyBvdXQgdHJhbnNwYXJlbnRseSBoYW5kbGluZyB0aGlzCj4gaW4gdGhl
+IGtlcm5lbC4KPgo+IE90aGVyIGxheWVycyAoY3Vyc29yIGxheWVyLCB2aWRlbyBvdmVybGF5IGxh
+eWVycykgaGF2ZSBzaW1pbGFyCj4gaXNzdWVzIHdoaWNoIHJlcXVpcmUgdXNlcnNwYWNlIHRvIGJl
+IGF3YXJlIG9mIHdoYXQgaXMgaGFwcGVuaW5nLAo+IHNvIHVuZm9ydHVuYXRlbHkgdGhlcmUgaXMg
+bm8gb3RoZXIgd2F5IHRvIGRlYWwgd2l0aCB0aGlzIHRoZW4KPiBmaXhpbmcgaW52b2x2ZWQgdXNl
+cnNwYWNlIGNvbXBvbmVudHMuCj4KPiBJJ20gYSBiaXQgc3VycHJpc2VkIHRoYXQgeW91IHNhdCB0
+aGF0IHZuYyBkZXNrdG9wIHNoYXJpbmcgZG9lcwo+IG5vdCB3b3JrLCBJIGd1ZXNzIHRoYXQgYWxz
+byBkZXBlbmRzIG9uIGhvdyB0aGUgZGVza3RvcCBzaGFyaW5nCj4gd29ya3MuIElmIGl0IHBva2Vz
+IGRpcmVjdGx5IGF0IHRoZSBmcmFtZWJ1ZmZlciBzb21laG93LCB0aGVuIHllcwo+IGl0IHdpbGwg
+YmUgbWVzc2VkIHVwLiBCdXQgaWYgaXQgZ29lcyB0aHJvdWdoIHRoZSBkaXNwbGF5IHNlcnZlcgo+
+IHRoZW4gdGhpbmdzIG1pZ2h0IHdvcmsuIEkgZ3Vlc3MgdGhhdCBpdCBpcyBwb3NzaWJsZSB0aGF0
+IHRoZQo+IGNvZGUgZG9pbmcgdGhpcyBjYW5ub3QgZGVhbCB3aXRoIFhyYW5kciBvdXRwdXQgcm90
+YXRpb24gLi4uCj4KPiA+IFRoZSBzdHJhbmdlIHRoaW5nIGlzIHRoYXQgYm9vdGxvYWRlcnMgbGlr
+ZSBHUlVCIG9yIHJFRkluZCBzZWVtcyB0byBiZQo+ID4gYWJsZSB0byBoYW5kbGUgdGhpcyBhbmQg
+dGhleSBwYWludCB0aGVtc2VsdmVzIHJpZ2h0LCBkZXNwaXRlIHdoZW4KPiA+IGJvb3RpbmcgV2lu
+ZG93cyBkaXJlY3RseSBXaW5kb3dzIHBhaW50cyBpdHNlbGYgcmlnaHQgYW5kIGJvb3RlZCB3aXRo
+Cj4gPiBHUlVCIG9yIHJFRkluZCB0aGUgZmlyc3Qgc2Vjb25kIGFsc28gcGFpbnQgaXRzZWxmIHdy
+b25nLiBIYXZlbid0Cj4gPiB0ZXN0ZWQgdGhpcyB0b28gbXVjaCBidXQgdGhlIGludGVyZXN0aW5n
+IHRoaW5nIGlzIGluIHRoZSBuZXh0Cj4gPiBwYXJhZ3JhcGguCj4KPiBNeSBleHBlcmllbmNlIHdp
+dGggYm9vdGxvYWRlcnMgc2hvd2luZyB0aGVtc2VsdmVzIHRoZSByaWdodCB3YXkKPiB1cCBpcyBt
+aXhlZC4gSXQgc2VlbXMgdGhhdCB0aGUgZmlybXdhcmUgaXMgZG9pbmcgc29tZSBoYWNrcyBmb3IK
+PiB0aGlzIG9uIHNvbWUgZGV2aWNlcywgYXQgbGVhc3QgZm9yIHRoZSBFRkkgdGV4dCBjb25zb2xl
+Lgo+Cj4gRnVubmlseSBlbm91Z2ggKGZvciBzb21lIGRlZmluaXRpb24gb2YgZnVuKSBvbiBhdCBs
+ZWFzdCBvbmUgb2YKPiB0aGUgZGV2aWNlcyB3aGVyZSB0aGUgZmlybXdhcmUgaXMgcGxheWluZyB0
+cmlja3MgKEFzdXMgVDEwMEhBIElJUkMpCj4gdGhlIHBvc2l0aW9uIG9mIHRoZSBjYXJyZXQgZm9y
+IHRleHQtZWRpdGluZyBpcyBvZmYgYnkgb25lLCB3aGljaAo+IGlzIHZlcnkgYW5ub3lpbmcgd2hl
+biBlZGl0aW5nIHRoZSBrZXJuZWwgY29tbWFuZGxpbmUgYW5kIHdoaWNoCj4gY2xlYXJseSBzaG93
+cyB0aGF0IHRoaW5ncyBhcmUgYmVpbmcgZW11bGF0ZWQgaW4gc29mdHdhcmUgaGVyZS4KPgo+ID4g
+SSBkZWNpZGVkIHRvIGdldCB0aGUgVUVGSSBHT1AgdmlkZW8gbW9kZXMgYW5kIGZvdW5kIHRoYXQg
+dGhlIEQzMzAgaGF2ZQo+ID4gdGhlc2Ugb25lczoKPiA+IE1vZGUgMDogMTIwMHgxOTIwCj4gPiBN
+b2RlIDE6IDY0MHg0ODAKPiA+IE1vZGUgMjogODAweDYwMAo+ID4gTW9kZSAzOiAxMDI0eDc2OAo+
+ID4gTW9kZSA0OiAxOTIweDEyMDAgKHRoaXMgaXMgdGhlIGRlZmF1bHQgb25lIHN0YXJ0ZWQgYnkg
+dGhlIGZpcm13YXJlKQo+ID4gTW9kZSA1OiA0ODB4NjQwCj4gPiBNb2RlIDY6IDYwMHg4MDAKPiA+
+IE1vZGUgNzogNzY4eDEwMjQKPiA+Cj4gPiBTbyBJIHRob3VnaHQgdGhhdCBMaW51eCBpcyB0YWtp
+bmcgdGhlIGZpcnN0IG1vZGUgZGVzcGl0ZSBpcyBub3QgdGhlCj4gPiBhY3RpdmUgb25lIGFuZCB0
+aGF0J3Mgd2h5IHRoZSBkaXNwbGF5IGlzIG1lc3NlZCB1cC4KPgo+IE5vcGUsIExpbnV4IGRvZXMg
+bm90IHRvdWNoIHRoZSBtb2RlIGF0IGFsbCAobm9yIGRvZXMgZ3J1YiBieSBkZWZhdWx0KS4KPiBE
+b2luZyBhIEVGSS9HT1AgbW9kZXNldCBoYXMgdGhlIHJpc2sgb2YgdHJpZ2dlcmluZyBhbGwgc29y
+dCBvZiBmaXJtd2FyZQo+IGJ1Z3MuIFNvIHdlIHN0aWNrIHdpdGggd2hhdCB3ZSBnZXQuIFRoaXMg
+aGFzIGludGVyZXN0aW5nIHNpZGUgZWZmZWN0cwo+IHdoZXJlIG9uIHNvbWUgc3lzdGVtcyB5b3Ug
+Z2V0IGEgZGlmZmVyZW50IG1vZGUgd2hlbiB0dXJuaW5nIG9uIHRoZQo+IG1hY2hpbmUgYW5kIGxl
+dHRpbmcgaXQgYm9vdCwgdnMgdHVybmluZyBpdCBvbiwgcHJlc3NpbmcgZS5nLiBGMTIgdG8gZ2V0
+Cj4gdGhlIGJvb3QgbWVudSBhbmQgdGhlbiBib290IExpbnV4Lgo+Cj4gPiBQbGF5aW5nIGEgbGl0
+dGxlIEkgY291bGQgbW9kaWZ5IHRoZSBHT1AgdmlkZW8gbW9kZSBiZWZvcmUgYm9vdGluZyB3aXRo
+Cj4gPiB0aGUgVUVGSSBTaGVsbCBieSBzaW1wbGUgdXNpbmcgdGhlIG1vZGUgMTUwIDEwMS4gVGhp
+cyBjYXVzZXMgR09QIHZpZGVvCj4gPiBtb2RlIDUgdG8gYmUgc3dpdGNoZWQgdG8gdmlkZW8gbW9k
+ZSAwLCB0aGUgZmlyc3Qgb25lLiBCb290aW5nIG5vdwo+ID4gbWFrZXMgaW5pdHJhbWZzIG1lc3Nh
+Z2VzIHRvIGJlIGNvcnJlY3RseSByZW5kZXJlZCBidXQgaW4gdGhlIHdyb25nCj4gPiBvcmllbnRh
+dGlvbi4KPgo+IFJpZ2h0LCB0aGUgcmVuZGVyaW5nIG9uIHRoZSBzaWRlIHRoaW5nIGlzIGV4cGVj
+dGVkLiBBcyBzYWlkIHRoZSBoYXJkd2FyZQo+IGNhbm5vdCBkbyA5MCBkZWdyZWVzIHJvdGF0aW9u
+IHdpdGggYSBsaW5lYXIgZnJhbWVidWZmZXIgYW5kIHRoZSBHT1AKPiBwcm92aWRlZCBlZmlmYiBp
+cyBhIGxpbmVhciBmcmFtZWJ1ZmZlci4gU28gd2l0aG91dCB0ZWxsaW5nIHRoZSBrZXJuZWwKPiB0
+byBzb2Z0d2FyZSByb3RhdGUgaXRzIHRleHQgY29uc29sZSB0aGUgdGV4dCB3aWxsIGFsd2F5cyBi
+ZSBvbiBpdHMgc2lkZS4KPgo+IFdoYXQgeW91ciBsaXR0bGUgRUZJIHNoZWxsIGhhY2sgaXMgZG9p
+bmcgaXMgd29ya2luZyBhcm91bmQgd2hhdCBzZWVtcyB0bwo+IGJlIGEgYnVnIG9uIHRoZXNlIExl
+bm92byBkZXZpY2VzIGdpdmVzIHVzIHRoZSB3cm9uZyBzdHJpZGUgYW5kIGRpbWVuc2lvbnMKPiBm
+b3IgdGhlIEVGSSBmcmFtZWJ1ZmZlci4KPgo+IE5vdGUgdGhhdCB0aGlzIHZlcnkgbXVjaCBpcyBh
+IExlbm92byBidWcsIGFsbCB0aGUgb3RoZXIgZGV2aWNlcwo+IHdpdGggOTAgZGVncmVlIHJvdGF0
+ZWQgc2NyZWVucyBsZXQgdXMgcmVuZGVyIHRoZSB0ZXh0IGNvbnNvbGUKPiBvbiBpdHMgc2lkZSBq
+dXN0IGZpbmUuIFRoZXkgY29ycmVjdGx5IHRlbGxzIHVzIHRoZSByZWFsIHNpemUKPiBhbmQgc3Ry
+aWRlIG9mIHRoZSBzY3JlZW4gKHNvIGl0cyBwb3J0cmFpdCBkaW1lbnNpb25zIHNpbmNlIGl0Cj4g
+aXMgYSBwb3J0cmFpdCBzY3JlZW4pLgo+Cj4gRXZlbiB0aG91Z2ggdGhpcyBpcyBhIExlbm92byBi
+dWcgd2Ugc2hvdWxkIHByb2JhYmx5IHN0aWxsIHRyeSB0bwo+IGZpbmQgYSB3YXkgdG8gZGVhbCB3
+aXRoIHRoaXMgdGhvdWdoLCBzbyB0aGF0IHRoZSBlZmlmYiB3b3Jrcwo+IGNvcnJlY3RseSBvbiB0
+aGVzZSBkZXZpY2VzLi4uCj4KPiA+IEEgbG9vayBhdCBkcml2ZXJzL2Zpcm13YXJlL2VmaS9saWJz
+dHViL2dvcC5jIHNlZW1zIHRvIGJlIHdoYXQgaXMKPiA+IGhhcHBlbmluZywgdGhlIGZpcnN0IGF2
+YWlsYWJsZSB2aWRlbyBtb2RlIGlzIHVzZWQgZGVzcGl0ZSBpdCBjb3VsZCBub3QKPiA+IGJlIHRo
+ZSBhY3RpdmUgb25lIGluIEdPUCBhbmQgdGhlIGFjdGl2ZSBtb2RlIGlzIG5vdCBzd2l0Y2hlZCB0
+byB0aGUKPiA+IGRpc2NvdmVyZWQgb25lIGJ5IExpbnV4LiBCb3RoIEdSVUIgYW5kIHJFRkluZCBh
+cmUgYWJsZSB0byByZXNwZWN0IHRoZQo+ID4gdmlkZW8gbW9kZSB0aGF0IEdPUCBoYXMgYWN0aXZl
+IHNvIGl0J3MgcG9zc2libGUgdG8gYm9vdCB0aGVtIGxhbmRzY2FwZQo+ID4gYW5kIHBvcnRyYWl0
+IHdoaWxlIGJlaW5nIGNvcnJlY3RseSByZW5kZXJlZC4KPiA+Cj4gPiBJIHRoaW5rIHRoZSB2aWRl
+byBtb2RlIHNob3VsZCBub3QgYmUgdGhlIGZpcnN0IGRpc2NvdmVyZWQgb25lIGJ1dCB0aGUKPiA+
+IGFjdGl2ZSBvbmUsIG9yIGF0IGxlYXN0LCB0aGUgaGlnaGVzdCByZXNvbHV0aW9uIHZpZGVvIG1v
+ZGUgdGhhdAo+ID4gcmVzcGVjdHMgdGhlIG9yaWVudGF0aW9uLgo+Cj4gQWdhaW4sIExpbnV4IGRv
+ZXMgbm90IHVzZSB0aGUgR09QIGNvbmNlcHQgb2YgdmlkZW8gbW9kZXMgYXQgYWxsLAo+IGl0IHNp
+bXBseSB0YWtlcyB0aGUgYWN0aXZlIG1vZGUgYXMgcmVwb3J0ZWQgYnkgdGhlIFVFRkkgYW5kIHVz
+ZXMKPiB0aGF0IHRvIHNob3cgbWVzc2FnZXMgZHVyaW5nIGVhcmx5IGJvb3QuCj4KPiBBbHNvIG5v
+dGUgdGhhdCBmaXhpbmcgdGhlIGVmaWZiIGlzIG9mIGxpdHRsZSB2YWx1ZSBlYXJseSBkdXJpbmcK
+PiBib290IHRoZSBrZXJuZWwgd2lsbCBsb2FkIHRoZSBpOTE1IGRyaXZlciBzbyB0aGF0IHdlIGNh
+biBoYXZlCj4gaGFyZHdhcmUgcmVuZGVyZWQgM0QsIHN1cHBvcnQgZm9yIG11bHRpcGxlIG1vbml0
+b3JzLCBldGMuIGFuZCBhcwo+IHNvb24gYXMgdGhhdCBpcyBsb2FkZWQgdGhlIGVmaWZiIHNldHRp
+bmdzIG5vIGxvbmdlciBtYXR0ZXIuCj4KPiBUaGUgaTkxNSBkcml2ZXIgZG9lcyBub3QgY2FyZSBh
+Ym91dCB0aGUgR09QIHNldHRpbmdzIGF0IGFsbDsKPiBhbmQgd2l0aG91dCBhIHF1aXJrIGl0IHRv
+byB3aWxsIGNhdXNlIGV2ZXJ5dGhpbmcgdG8gYmUgcmVuZGVyZWQKPiBvbiBpdHMgc2lkZS4KPgo+
+IFJlZ2FyZHMsCj4KPiBIYW5zCj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCg==
