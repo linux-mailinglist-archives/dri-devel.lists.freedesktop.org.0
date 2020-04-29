@@ -1,42 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77981BD7B9
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 10:57:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1886E1BF172
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:32:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6A006EA6D;
-	Wed, 29 Apr 2020 08:57:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D54706EB59;
+	Thu, 30 Apr 2020 07:32:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 732EE6EA6D;
- Wed, 29 Apr 2020 08:57:12 +0000 (UTC)
-IronPort-SDR: VqYSwjKsHDjWyAqt9e/OJUJfLZbl5aEft62HTRQXPLV3g3q6PPvfsDbRjq+yHGBjCYQBsh3yER
- QOj2gR5Rwuug==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2020 01:57:11 -0700
-IronPort-SDR: G4/d0UbJqdjex9NZ6XaktL1Z/yKFjmRFbM2as3Tz/2G6uUXxKSC069rzY+LenK12JSxhW/Cwv9
- wGjUWjT7kvVg==
-X-IronPort-AV: E=Sophos;i="5.73,331,1583222400"; d="scan'208";a="432490237"
-Received: from jwerner6-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.249.46.246])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2020 01:57:08 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Michal Orzel <michalorzel.eng@gmail.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch
-Subject: Re: [PATCH] drm: Replace drm_modeset_lock/unlock_all with
- DRM_MODESET_LOCK_ALL_* helpers
-In-Reply-To: <1588093804-30446-1-git-send-email-michalorzel.eng@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <1588093804-30446-1-git-send-email-michalorzel.eng@gmail.com>
-Date: Wed, 29 Apr 2020 11:57:05 +0300
-Message-ID: <875zdiacv2.fsf@intel.com>
+Received: from relay.sw.ru (relay.sw.ru [185.231.240.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66CA16EC48;
+ Wed, 29 Apr 2020 09:01:41 +0000 (UTC)
+Received: from vvs-ws.sw.ru ([172.16.24.21])
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <vvs@virtuozzo.com>)
+ id 1jTiaq-0006Vl-RD; Wed, 29 Apr 2020 12:01:25 +0300
+From: Vasily Averin <vvs@virtuozzo.com>
+Subject: [PATCH] drm/qxl: qxl_release use after free
+To: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20200429082837.uedcapxmennuc5a2@sirius.home.kraxel.org>
+Message-ID: <fa17b338-66ae-f299-68fe-8d32419d9071@virtuozzo.com>
+Date: Wed, 29 Apr 2020 12:01:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200429082837.uedcapxmennuc5a2@sirius.home.kraxel.org>
+Content-Language: en-US
+X-Mailman-Approved-At: Thu, 30 Apr 2020 07:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,89 +40,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Michal Orzel <michalorzel.eng@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, spice-devel@lists.freedesktop.org,
+ Caicai <caizhaopeng@uniontech.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Apr 2020, Michal Orzel <michalorzel.eng@gmail.com> wrote:
-> As suggested by the TODO list for the kernel DRM subsystem, replace
-> the deprecated functions that take/drop modeset locks with new helpers.
->
-> Signed-off-by: Michal Orzel <michalorzel.eng@gmail.com>
-> ---
->  drivers/gpu/drm/drm_mode_object.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-> index 35c2719..901b078 100644
-> --- a/drivers/gpu/drm/drm_mode_object.c
-> +++ b/drivers/gpu/drm/drm_mode_object.c
-> @@ -402,12 +402,13 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
->  {
->  	struct drm_mode_obj_get_properties *arg = data;
->  	struct drm_mode_object *obj;
-> +	struct drm_modeset_acquire_ctx ctx;
->  	int ret = 0;
->  
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> -	drm_modeset_lock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+qxl_release should not be accesses after qxl_push_*_ring_release() calls:
+userspace driver can process submitted command quickly, move qxl_release
+into release_ring, generate interrupt and trigger garbage collector.
 
-I cry a little every time I look at the DRM_MODESET_LOCK_ALL_BEGIN and
-DRM_MODESET_LOCK_ALL_END macros. :(
+It can lead to crashes in qxl driver or trigger memory corruption
+in some kmalloc-192 slab object
 
-Currently only six users... but there are ~60 calls to
-drm_modeset_lock_all{,_ctx} that I presume are to be replaced. I wonder
-if this will come back and haunt us.
+Gerd Hoffmann proposes to swap the qxl_release_fence_buffer_objects() +
+qxl_push_{cursor,command}_ring_release() calls to close that race window.
 
-BR,
-Jani.
+cc: stable@vger.kernel.org
+Fixes: f64122c1f6ad ("drm: add new QXL driver. (v1.4)")
+Signed-off-by: Vasily Averin <vvs@virtuozzo.com>
+---
+ drivers/gpu/drm/qxl/qxl_cmd.c     | 5 ++---
+ drivers/gpu/drm/qxl/qxl_display.c | 6 +++---
+ drivers/gpu/drm/qxl/qxl_draw.c    | 2 +-
+ drivers/gpu/drm/qxl/qxl_ioctl.c   | 5 +----
+ 4 files changed, 7 insertions(+), 11 deletions(-)
 
-
->  
->  	obj = drm_mode_object_find(dev, file_priv, arg->obj_id, arg->obj_type);
->  	if (!obj) {
-> @@ -427,7 +428,7 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
->  out_unref:
->  	drm_mode_object_put(obj);
->  out:
-> -	drm_modeset_unlock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_END(ctx, ret);
->  	return ret;
->  }
->  
-> @@ -449,12 +450,13 @@ static int set_property_legacy(struct drm_mode_object *obj,
->  {
->  	struct drm_device *dev = prop->dev;
->  	struct drm_mode_object *ref;
-> +	struct drm_modeset_acquire_ctx ctx;
->  	int ret = -EINVAL;
->  
->  	if (!drm_property_change_valid_get(prop, prop_value, &ref))
->  		return -EINVAL;
->  
-> -	drm_modeset_lock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
->  	switch (obj->type) {
->  	case DRM_MODE_OBJECT_CONNECTOR:
->  		ret = drm_connector_set_obj_prop(obj, prop, prop_value);
-> @@ -468,7 +470,7 @@ static int set_property_legacy(struct drm_mode_object *obj,
->  		break;
->  	}
->  	drm_property_change_valid_put(prop, ref);
-> -	drm_modeset_unlock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_END(ctx, ret);
->  
->  	return ret;
->  }
-
+diff --git a/drivers/gpu/drm/qxl/qxl_cmd.c b/drivers/gpu/drm/qxl/qxl_cmd.c
+index fa8762d15d0f..05863b253d68 100644
+--- a/drivers/gpu/drm/qxl/qxl_cmd.c
++++ b/drivers/gpu/drm/qxl/qxl_cmd.c
+@@ -500,8 +500,8 @@ int qxl_hw_surface_alloc(struct qxl_device *qdev,
+ 	/* no need to add a release to the fence for this surface bo,
+ 	   since it is only released when we ask to destroy the surface
+ 	   and it would never signal otherwise */
+-	qxl_push_command_ring_release(qdev, release, QXL_CMD_SURFACE, false);
+ 	qxl_release_fence_buffer_objects(release);
++	qxl_push_command_ring_release(qdev, release, QXL_CMD_SURFACE, false);
+ 
+ 	surf->hw_surf_alloc = true;
+ 	spin_lock(&qdev->surf_id_idr_lock);
+@@ -543,9 +543,8 @@ int qxl_hw_surface_dealloc(struct qxl_device *qdev,
+ 	cmd->surface_id = id;
+ 	qxl_release_unmap(qdev, release, &cmd->release_info);
+ 
+-	qxl_push_command_ring_release(qdev, release, QXL_CMD_SURFACE, false);
+-
+ 	qxl_release_fence_buffer_objects(release);
++	qxl_push_command_ring_release(qdev, release, QXL_CMD_SURFACE, false);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+index 09583a08e141..91f398d51cfa 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -510,8 +510,8 @@ static int qxl_primary_apply_cursor(struct drm_plane *plane)
+ 	cmd->u.set.visible = 1;
+ 	qxl_release_unmap(qdev, release, &cmd->release_info);
+ 
+-	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
+ 	qxl_release_fence_buffer_objects(release);
++	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
+ 
+ 	return ret;
+ 
+@@ -652,8 +652,8 @@ static void qxl_cursor_atomic_update(struct drm_plane *plane,
+ 	cmd->u.position.y = plane->state->crtc_y + fb->hot_y;
+ 
+ 	qxl_release_unmap(qdev, release, &cmd->release_info);
+-	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
+ 	qxl_release_fence_buffer_objects(release);
++	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
+ 
+ 	if (old_cursor_bo != NULL)
+ 		qxl_bo_unpin(old_cursor_bo);
+@@ -700,8 +700,8 @@ static void qxl_cursor_atomic_disable(struct drm_plane *plane,
+ 	cmd->type = QXL_CURSOR_HIDE;
+ 	qxl_release_unmap(qdev, release, &cmd->release_info);
+ 
+-	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
+ 	qxl_release_fence_buffer_objects(release);
++	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
+ }
+ 
+ static void qxl_update_dumb_head(struct qxl_device *qdev,
+diff --git a/drivers/gpu/drm/qxl/qxl_draw.c b/drivers/gpu/drm/qxl/qxl_draw.c
+index f8776d60d08e..3599db096973 100644
+--- a/drivers/gpu/drm/qxl/qxl_draw.c
++++ b/drivers/gpu/drm/qxl/qxl_draw.c
+@@ -243,8 +243,8 @@ void qxl_draw_dirty_fb(struct qxl_device *qdev,
+ 	}
+ 	qxl_bo_kunmap(clips_bo);
+ 
+-	qxl_push_command_ring_release(qdev, release, QXL_CMD_DRAW, false);
+ 	qxl_release_fence_buffer_objects(release);
++	qxl_push_command_ring_release(qdev, release, QXL_CMD_DRAW, false);
+ 
+ out_release_backoff:
+ 	if (ret)
+diff --git a/drivers/gpu/drm/qxl/qxl_ioctl.c b/drivers/gpu/drm/qxl/qxl_ioctl.c
+index 8117a45b3610..72f3f1bbb40c 100644
+--- a/drivers/gpu/drm/qxl/qxl_ioctl.c
++++ b/drivers/gpu/drm/qxl/qxl_ioctl.c
+@@ -261,11 +261,8 @@ static int qxl_process_single_command(struct qxl_device *qdev,
+ 			apply_surf_reloc(qdev, &reloc_info[i]);
+ 	}
+ 
++	qxl_release_fence_buffer_objects(release);
+ 	ret = qxl_push_command_ring_release(qdev, release, cmd->type, true);
+-	if (ret)
+-		qxl_release_backoff_reserve_list(release);
+-	else
+-		qxl_release_fence_buffer_objects(release);
+ 
+ out_free_bos:
+ out_free_release:
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
