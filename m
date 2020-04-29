@@ -1,68 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59CF91BD914
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 12:08:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F6A1BD9CC
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 12:39:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9B246E180;
-	Wed, 29 Apr 2020 10:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70C646EE67;
+	Wed, 29 Apr 2020 10:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 685576E180
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 10:08:09 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id h6so1174745lfc.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 03:08:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=jDwW43sCFinv1sir0fZo0uxS6kBRjy7RtEDIzDWbFKw=;
- b=ti1JPfBjwppfqnVsLQJt+C4+bP6ZtBgX0z0RxgI4z+DqDo8xBVQw6EaQXAJXBfHI3f
- YZ2JH/1ft9t8kOBdAdvuJwjQb42fU2JunEEeAiqpnRGN9o1ZWGyp/jCIyqXKMbYFV52I
- XTIDXTbWhd52SSC8dvcIoU18gZ/oy5CEFBeiCpQF6KC9xZ5ygXCklwyqpTNAUzY64ll5
- STqi7hPCM/sSz3qYZFWJA0+sVmKTljV1JJUuU8LNuEwrjUrGEe4BHN+JLeuO2ntM/2CP
- AmtPQKqd/OdaXpCb3PkurWIbvLwp/KS9hoMrjJCf4ALGyHorqQ3lX4RpYxLKn/ocMflU
- hmWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=jDwW43sCFinv1sir0fZo0uxS6kBRjy7RtEDIzDWbFKw=;
- b=KuKB8tXBaYqgHMKi8KC9IshN4iMmHKXBt7uVgqJMNP62vHcYriH/uBZU923OZM76AH
- qh7wj2CzDeZGChRmqNslgLTSm+/uv1qcTjnXxUnf3Uj7IwKdML9sxM+Dce7MkVOpXrpO
- OUMtSmppbDD3W3uGm8GrzAEVZhxiFXOXKxJ2jodozPo+dJXztS23d52gD3oiu9Wt2Bxi
- GiDiORNHESVr9NOAkKIgcZtdpcXmb5TUq+0he+zyzTHKFgQCyQ71jfxLeBeDCWokld3j
- KESb4DcFEZOKYSujjUtwFDOOToaGussw5zs01p5l4Q5ql9lueKAvuHwve3BRQ4sesFJd
- Wrvg==
-X-Gm-Message-State: AGi0PubTGk2ZdhQE3myxOymTsv/6EEkkTZvYTbe1FLB2/Wbo03jeEWUL
- CCkhbMPgpChGg3y3vWIXD6E=
-X-Google-Smtp-Source: APiQypJCtmiEaWI2Ps/nWSNWlPA8Jn0G6+EmXxKNo3y7gCXZhXnp4DtYWxCT2ritGdwUSje/n6ldRw==
-X-Received: by 2002:ac2:5ccf:: with SMTP id f15mr5428574lfq.216.1588154887480; 
- Wed, 29 Apr 2020 03:08:07 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id d22sm2310270lfe.75.2020.04.29.03.08.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Apr 2020 03:08:06 -0700 (PDT)
-Date: Wed, 29 Apr 2020 13:07:54 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: Operating KMS UAPI (Re: RFC: Drm-connector properties managed
- by another driver / privacy screen support)
-Message-ID: <20200429130754.311d7178@eldfell.localdomain>
-In-Reply-To: <20200428145157.GP3456981@phenom.ffwll.local>
-References: <87tv1k4vl6.fsf@intel.com>
- <d47ba6ef-efd0-9f28-1ae4-b971b95a8f8b@redhat.com>
- <20200417120226.0cd6bc21@eldfell.localdomain>
- <CAKMK7uEv_khNFC=JUyuQgDZp1p5eudDCrH0we+UdEdTV3H=Tsg@mail.gmail.com>
- <20200420112704.68d02472@eldfell.localdomain>
- <20200420130420.1a24197e@eldfell.localdomain>
- <20200421121552.GT3456981@phenom.ffwll.local>
- <20200421173300.3cd078f4@eldfell.localdomain>
- <CAKMK7uEr6eHfEuGfLU_JTk=fbo=FBcU_aasGwUTRACny7WeojQ@mail.gmail.com>
- <20200424113216.3b5d4e90@eldfell.localdomain>
- <20200428145157.GP3456981@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 356716EE67;
+ Wed, 29 Apr 2020 10:39:09 +0000 (UTC)
+IronPort-SDR: 9wLcpmV8hPWkr9sg60s5uH23x3EcrEoLtA9SXOXkLtiEmhIWQmUJbFUuvVw6Nk95DQ5er6gpxC
+ SOuZevNZ+lLg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2020 03:39:08 -0700
+IronPort-SDR: kocZ+wrtluuu+n8iVT0/XYXClBDwo7CuCLvYtLKdhIdHL6eW1bMlu7+GemOY1sLtdejxspp0FE
+ h4v5UkeiRxQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,331,1583222400"; d="scan'208";a="276131884"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga002.jf.intel.com with SMTP; 29 Apr 2020 03:39:05 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 29 Apr 2020 13:39:04 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 12/16] drm/i915: Stop using mode->private_flags
+Date: Wed, 29 Apr 2020 13:39:04 +0300
+Message-Id: <20200429103904.11727-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200428171940.19552-13-ville.syrjala@linux.intel.com>
+References: <20200428171940.19552-13-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,388 +48,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Berg <bberg@redhat.com>, David Airlie <airlied@linux.ie>,
- Christian Kellner <ckellner@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Nitin Joshi1 <njoshi1@lenovo.com>, Rajat Jain <rajatja@google.com>,
- Mark Pearson <mpearson@lenovo.com>
-Content-Type: multipart/mixed; boundary="===============0523573747=="
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.l.velikov@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0523573747==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/06Mkxp+neyeDv0NS_W8QLnQ"; protocol="application/pgp-signature"
-
---Sig_/06Mkxp+neyeDv0NS_W8QLnQ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 28 Apr 2020 16:51:57 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
-
-> On Fri, Apr 24, 2020 at 11:32:16AM +0300, Pekka Paalanen wrote:
-> > On Thu, 23 Apr 2020 17:01:49 +0200
-> > Daniel Vetter <daniel@ffwll.ch> wrote:
-> >  =20
-> > > On Tue, Apr 21, 2020 at 4:33 PM Pekka Paalanen <ppaalanen@gmail.com> =
-wrote: =20
-> > > >
-> > > > On Tue, 21 Apr 2020 14:15:52 +0200
-> > > > Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >   =20
-> >=20
-> > ...
-
-Hi,
-
-please skip to the TL;DR at the bottom, the rest is just how I ended up
-there.
-
-> >  =20
-> > > > > Note that the kernel isn't entire consistent on this. I've looked=
- a bit
-> > > > > more closely at stuff. Ignoring content protection I've found fol=
-lowing
-> > > > > approaches things:
-> > > > >
-> > > > > - self refresh helpers, which are entirely transparent. Therefore=
- we do a
-> > > > >   hack to set allow_modeset when the self-refresh helpers need to=
- do a
-> > > > >   modeset, to avoid total surprise for userspace. I think this is=
- only ok
-> > > > >   for these kind of behind-the-scenes helpers like self-refresh.
-> > > > >
-> > > > > - link-status is always reset to "good" when you include any conn=
-ector,
-> > > > >   which might force a modeset. Even when allow_modeset isn't set =
-by
-> > > > >   userspace. Maybe we should fix that, but we've discussed foreve=
-r how to
-> > > > >   make sure a bad link isn't ever stuck at "bad" for old userspac=
-e, so
-> > > > >   we've gone with this. But maybe limiting to only allow_modeset =
-cases
-> > > > >   would also work.   =20
-> > > >
-> > > > Wait, what do you mean "include any connector"?
-> > > >
-> > > > What exactly could cause a modeset instead of failure when
-> > > > ALLOW_MODESET is not set?   =20
-> > >=20
-> > > If you do an atomic commit with the connector included that has the
-> > > bad link status, then it'll reset it to Good to try to get a full
-> > > modeset to restore stuff. If you don't also have ALLOW_MODESET set,
-> > > it'll fail and userspace might be sad and not understand what's going
-> > > on. We can easily fix this by only forcing the link training to be
-> > > fixed if userspace has set ALLOW_MODESET. =20
-> >=20
-> > Hi,
-> >=20
-> > oh, that's ok, the fail case is there like it should.
-> >=20
-> > It sounded like even if userspace does not set ALLOW_MODESET, the
-> > kernel would still do a modeset in come cases. I'm happy to have
-> > misunderstood. =20
->=20
-> Well currently that can go wrong, if you include a connector and a
-> link-status is bad. But could be fixed fairly easily.
-
-What do you mean by "include a connector"? Which property on which
-object?
-
-Weston always submits more or less full KMS state (known properties on
-intended-active outputs) on all updates, on simple pageflips too, so I
-am worried that the connector is "included", leading to automatic
-papering over link-status failures, and Weston doesn't handle
-link-status yet.
-
-Weston does this, because it is the easy thing to do and debug. You
-don't have to track back thousands of frames to figure out what the
-mode or the connectors are, when something doesn't work like it should.
-Or to figure out why some state wasn't emitted when it was supposed to.
-
-
-> > > > I'd probably not go there, a blind save does not guarantee a good
-> > > > state. The fix to "Content Protection" is not necessary (as long as
-> > > > userspace does not do a blind save/restore) if we can get the defau=
-lt
-> > > > state from the kernel. If we get the default state from the kernel,
-> > > > then userspace would be doing a blind restore but not save, meaning
-> > > > that the state actually is sane and writable.
-> > > >
-> > > > I'd love to volunteer for writing the Weston code to make use of "g=
-et me
-> > > > sane default state" UAPI, but I'm afraid I'm not in that much contr=
-ol
-> > > > of my time.   =20
-> > >=20
-> > > The problem is, what is your default state? Driver defaults (generally
-> > > fairly random and mostly everything is off)? After fbcon has done
-> > > it's, which might never happen when you've disabling fbdev/fbcon?
-> > > Boot-up state from the firmware for drivers like i915 that support
-> > > fastboot (and what if that's garbage)? These can all be different too=
-. =20
-> >=20
-> > I believe what I want is more or less the driver defaults, or DRM core
-> > defaults for common KMS properties. It does not matter if they are
-> > arbitrary, as long as they remain the same across kernel versions. They
-> > need to be constants, so that I can rely on always getting to the same
-> > state on the same piece of hardware when I use the "default state"
-> > regardless of what might be happening software wise.
-> >=20
-> > But of course the defaults must be legal values and they should make
-> > some sense. I'd consider "neutral", "identity", and "off" to be
-> > sensible values, but what that means for each property depends on the
-> > exact property. So there may be work to be done to unify the default
-> > values across drivers for driver-specific properties.
-> >=20
-> > Having stuff off by default is ok. If that makes things not work, then
-> > we'll fix userspace to understand the new properties that are
-> > necessary. At no point it can be said to be a kernel regression - at
-> > least I very much hope and intend so.
-> >=20
-> > There is always the problem of someone using new userspace first on old
-> > kernel that does not expose "default state" so userspace doesn't use
-> > "default state". Then upgrading to new kernel that has "default state"
-> > that is not good for making things work, but userspace starts using it
-> > because it becomes available and fails. Is there any way we can stop
-> > that from being seen as a kernel regression? =20
->=20
-> If you upgrade the kernel and existing userspace breaks, it's a
-> regression.
->=20
-> There's no wiggle room in this, the only wiggle room is that sometimes
-> people don't report issues, and eventually all affected hw is dead.
-
-Then the only possibility is that the transition from not using default
-state to using default state does not change anything. Which means that
-the default state must be the state the KMS program would normally
-inherit, so, fbcon state?
-
-> > Fbcon has exactly the problem that fbcon might not exist, so we cannot
-> > rely on that. Is fbcon even reliable enough to offer constant defaults
-> > that could be relied upon to stay the same across kernel versions and
-> > software configurations? =20
->=20
-> It's getting hacked on quite a bit, in a fairly ad-hoc fashion. So
-> "defaults as fbcon sets them" is something that's under fair bit of
-> change.
-
-Yet, it seems to be the only "sane state" defined so far. Maybe we have
-to live with it changing from boot to boot.
-
-We also cannot ever have anything better, because of the above issue
-"new userspace, old kernel, then upgrade kernel", can we? It doesn't
-"break" userspace but it could be a regression for the end user,
-because upgrading the kernel changes something that is visible and no
-longer the same as before, e.g. breaking monitor calibration or profile
-because suddenly some color related property is set differently.
-
-When new KMS properties are introduced, how do people pick their
-default values in the kernel when no userspace sets them yet? Are those
-defaults immutable for eternity afterwards?
-
-> > State from firmware I would not trust at all, who knows when a firmware
-> > upgrade changes things.
-> >=20
-> > What I'm saying is, the "default state" would very much be UABI. Not
-> > just how to access it, but the exact values of it for all existing
-> > properties. The important invariant is: for the same piece of hardware,
-> > I always get the same defaults (if any), regardless of any software or
-> > firmware versions. =20
->=20
-> Yup, that's why default state exposed by the kernel is such a pain: It's
-> uapi. If we change it, we can break something somewhere. And the problem
-> is complex enough that there's going to be lots of opinions about what
-> the default should be.
-
-I think the current situation is just *hoping* that kernel doesn't
-change its defaults when they are not even defined in any one place.
-The defaults userspace currently gets in most cases is whatever it
-inherits from fbcon. And you said fbcon changes ad-hoc.
-
-> fbcon is a lot easier here, since there there's at least some agreement
-> that a working console should be visible and preferrably right side up and
-> all that.
-
-Yeah, but what about gamma, color and other details that the console
-usually doesn't care about as long as e.g. red is somewhat reddish?
-
-I remember someone telling me, that fbcon does not reset gamma tables,
-which means any gamma using KMS app can mess up the console and all
-other KMS apps that don't use gamma.
-
-> > This invariant should guarantee that e.g. measured monitor color
-> > profiles stay valid across kernel upgrades. I know, people who actually
-> > care about color do not trust even reboots, but if we can let them get
-> > away with just verifying the profile instead of wasting hours in
-> > re-measuring the profile, that would be good.
-> >=20
-> > When a driver starts supporting a new property, it must set the default
-> > value of the property to the value it has been using implicitly before.
-> > But if that implicit value was not hardcoded and depends on variable
-> > factors, then we probably cannot avoid a change in behaviour when
-> > introducing the property or "default values". =20
->=20
-> The problem is in figuring out that implicit value. In some cases I think
-> it's even "whatever the hw booted with", but I've tried to handle these
-> kinds of issues with atomic at least.
->=20
-> > > The hard part isn't the uapi, it's the implementation and defining
-> > > what you mean. Generally everyone wants their own version of default
-> > > value semantics, so this a) encodes policy, which we try to avoid in
-> > > the kernel and b) will be epic amounts of endless bikeshedding and
-> > > fighting between use-cases. =20
-> >=20
-> > It's a policy, yes. But we need a single source of arbitrary default
-> > values, so that we have a strategy for achieving the same hardware
-> > state even when userspace does not understand all KMS properties:
-> >=20
-> > - after losing and re-gaining DRM master status (e.g. temporary
-> >   VT-switch to another KMS program that modifies state I don't
-> >   understand), and
-> >=20
-> > - across changes in the software stack.
-> >=20
-> > The former is the most important point, the latter would be good to
-> > have. =20
->=20
-> But you can fix the above use-case also with save&restore. Which we're
-> trying to support (but even that has bugs).
-
-Ok, so we're back to blind save & restore with undefined default state,
-that depends not only on the hardware, the firmware, the kernel and
-drivers, but also what was the previous KMS client doing before you
-took over.
-
-The only way to avoid undefined state is for all KMS programs to learn
-to know all existing properties, and maybe warn the user if any
-unrecognised properties appear. If KMS programs refuse to work when
-unrecognised properties appear, that means you will never be able to
-add anything to the properties again. Then you probably add caps for
-new properties and we are back to square one except the UAPI is a lot
-more complicated and userspace can longer warn the end user about
-potentially bad KMS state.
-
-Since the kernel refuses to provide a constant default state, maybe we
-need a userspace library for that - one that *must* be updated for
-every new property added to the kernel. Then we could circumvent the
-kernel stable UAPI rules to provide predictable behaviour for userspace
-that wants it.
-
-Except, that too, would hit the "new userspace, old kernel, then
-upgrade kernel" scenario where a kernel upgrade breaks userspace
-because it allows userspace to start using new properties with legal
-and working but different values from what it had before.
-
-Are we really in a dead end with this?
-
-> > We already have a policy in the kernel: fbcon KMS state. If everyone
-> > can agree to that state, it's fine by me, but it also needs to be
-> > available when fbcon support is disabled. Maybe this could be a path
-> > forward? Expose what state fbcon would use, regardless of whether fbcon
-> > exists. It would probably miss the latter point, though, but that could
-> > be acceptable.
-> >=20
-> > If we could trust that the KMS state is "sane" when any KMS program
-> > starts, then this problem doesn't exist: just read out the KMS state on
-> > start-up and use that. But since we don't know where the existing KMS
-> > state comes from, it could be anything. And for smooth hand-off between
-> > display servers, we can't have per DRM file description KMS state
-> > either. =20
->=20
-> You can assume that boot-up state is about as "sane" as it gets. So a
-> system compositor (in logind or whatever, it already deals with this
-> stuff) can reset the screen.
-
-System compositors largely do not exist, the whole concept has been
-dismissed. If logind would reset the screen, we would no longer have
-seamless hand-off between any display servers and anything. Logind
-could hand off the state for others to use as default state though.
-
-How would one get the boot-up state?
-
-Why do we need a userspace daemon to record KMS boot-up state instead
-of the kernel giving it to userspace? How would that daemon itself get
-the boot-up state if it has already been modified by fbcon?
-
-> For everything else I'm not sure kernel defaults actually fixes anything.
-> It just gives everyont the illusion that now the problem is fixed, except
-> the fix is now kernel uapi, which means we can never change it.
-
-If we want constant defaults, then by definition they cannot ever be
-changed. It doesn't matter where it comes from.
-
-I suppose the conclusion is that we cannot have constant defaults at
-all. The only defaults we can have are undefined. If someone does not
-like it, he needs to implement unrecognised properties in whatever
-userspace he cares about.
-
-> The upshot of doing the exact same as a logind request along the lines of
-> "pls reset display to sane state, thx" is that logind can be changed much
-> easier than kernel uapi in case we get this wrong. Which we will.
-
-Sorry, I don't see the difference if the goal is to have fixed
-defaults. The only difference with logind is that there is no angry
-Linus.
-
-
-TL;DR:
-
-If blind save & restore (but restricted only to cases where KMS state
-may have been lost!) works, it will ensure that a running userspace
-program has what it was started with, but it does not guarantee that
-the state is the same between restarts of the program.
-
-It seems that the default state is always undefined, and cannot be
-defined because whatever one defines might not always result in a
-picture on screen. Bugs in defined default state cannot be fixed, by
-definition as the default state is immutable once defined.
-
-Ensuring consistent state between restarts is the responsibility of
-userspace and each KMS program individually. They might attempt to
-blindly save KMS state in a file to be re-used on the next start.
-
-
-Thanks,
-pq
-
---Sig_/06Mkxp+neyeDv0NS_W8QLnQ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl6pUfoACgkQI1/ltBGq
-qqfcbw/8CwFT7cgv4xe1Ic/X+qQEPmeykYyfeXYzB5YxW246ak2QZkYWjSRf20Lv
-yyGviIxqlA+7Q/oNLjS9wm/ajiQac5v82A7duvtQ1gthqhEjMX3NSqhEdgEJDBAi
-nobAfBlDzAkAG0VTxwPpf/mWfbheaK3mslv32fryYmXd2m1/EeFMrzDfSvpM3D9k
-nXZVgaA8hOM2JmHDIWeLsRZuvnmpz5Dhl7bwch/zdA5fG2KpNturR5yobrRevbUE
-Sq2LOe599V/M2cWUvR5d9xH40M+p0YLO3H+2LpqA7rL8e6mnAI9NqGjET+T8NSNu
-mYk7KjRsROzLibHI0mZh/NzImw5722qSqLlC3G3emDsesrCe0uK3HZO70L709EKM
-lOa+yeQZl1ri05j85AZmaosumEm93HmPs5NyUaRYbwMRpoV3vKZkwKlfq3fripXE
-U1xiDRzmKFNyRgp+n1CO6qpVEhYjK+kwXV5o2tcvIA/sWU9caeUOWRnzmThbf0g7
-2Pw7DPAR7y49UhJ6J8eo6DuRGen7cycaFZODfOayB+A7tmqbO3pyRImj8dIrUoI/
-q6iAxFY7fVZxw1UgeU3I62wN6/i5JFDlHCDDpFKZJEWekhCUNv6CgsGH2gQLRcWs
-d1a387zAJrySDUEwVEpx/QxHviLybpUxV4kCdIc/+HJo4dFcjJs=
-=wLoj
------END PGP SIGNATURE-----
-
---Sig_/06Mkxp+neyeDv0NS_W8QLnQ--
-
---===============0523573747==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0523573747==--
+RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClJl
+cGxhY2UgdGhlIHVzZSBvZiBtb2RlLT5wcml2YXRlX2ZsYWdzIHdpdGggYSB0cnVseSBwcml2YXRl
+IGJpdG1ha3MKaW4gb3VyIG93biBjcnRjIHN0YXRlLiBXZSBhbHNvIG5lZWQgYSBjb3B5IGluIHRo
+ZSBjcnRjIGl0c2VsZiBzbyB0aGUKdmJsYW5rIGNvZGUgY2FuIGdldCBhdCBpdC4gV2UgYWxyZWFk
+eSBoYXZlIHNjYW5saW5lX29mZnNldCBpbiB0aGVyZQpmb3IgYSBzaW1pbGFyIHJlYXNvbiwgYXMg
+d2VsbCBhcyB0aGUgdmJsYW5rLT5od21vZGUgd2hpY2ggaXMgYXNzaWduZWQKdmlhIGRybV9jYWxj
+X3RpbWVzdGFtcGluZ19jb25zdGFudHMoKS4gRm9ydHVuYXRlbHkgd2Ugbm93IGhhdmUgYQpuaWNl
+IHBsYWNlIGZvciBkb2luZyB0aGUgY3J0Y19zdGF0ZS0+Y3J0YyBjb3B5IGluCmludGVsX2NydGNf
+dXBkYXRlX2FjdGl2ZV90aW1pbmdzKCkgd2hpY2ggZ2V0cyBjYWxsZWQgYm90aCBmb3IKbW9kZXNl
+dHMgYW5kIGluaXQvcmVzdW1lIHJlYWRvdXQuCgpUaGUgb25lIHNsaWdodGx5IGlmZnkgc3BvdCBp
+cyB0aGUgSU5IRVJJVEVEIGZsYWcgd2hpY2ggd2Ugd2FudCB0bwpwcmVzZXJ2ZSB1bnRpbCB1c2Vy
+c3BhY2UvZmJfaGVscGVyIGRvZXMgdGhlIGZpcnN0IHByb3BlciBjb21taXQgYWZ0ZXIKYWN0dWFs
+bHkgY2FsbGluZyAuZGV0ZWN0aSgpIG9uIHRoZSBjb25uZWN0b3JzLiBPdGhlcndpc2Ugd2UgZG9u
+J3QgaGF2ZQp0aGUgZnVsbCBzaW5rIGNhcGFiaWxpdGllcyAoYXVkaW8saW5mb2ZyYW1lcyxldGMu
+KSB3aGVuIC5jb21wdXRlX2NvbmZpZygpCmdldHMgY2FsbGVkIGFuZCB0aHVzIHdlIHdpbGwgZmFp
+bCB0byBlbmFibGUgdGhvc2UgZmVhdHVyZXMgd2hlbiB0aGUKZmlyc3QgdXNlcnNwYWNlIGNvbW1p
+dCBoYXBwZW5zLiBUaGUgb25seSBpbnRlcm5hbCBjb21taXQgd2UgZG8gcHJpb3IgdG8KdGhhdCBz
+aG91bGQgYmUgZnJvbSBpbnRlbF9pbml0aWFsX2NvbW1pdCgpIGFuZCB0aGVyZSB3ZSBjYW4gc2lt
+cGx5CnByZXNlcnZlIHRoZSBJTkhFUklURUQgZmxhZyBmcm9tIHRoZSByZWFkb3V0LgoKdjI6IERl
+YWwgd2l0aCBJTkhFUklURUQgaW4gc2FuaXRpemVfd2F0ZXJtYXJrcygpIGFzIHdlbGwKCkNDOiBT
+YW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
+dmV0dGVyQGZmd2xsLmNoPgpDYzogRW1pbCBWZWxpa292IDxlbWlsLmwudmVsaWtvdkBnbWFpbC5j
+b20+ClJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpT
+aWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwu
+Y29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaWNsX2RzaS5jICAgICAgICB8
+IDEzICsrLS0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hdG9taWMuYyAg
+IHwgIDEgKwogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMgIHwg
+NDAgKysrKysrKysrKysrKystLS0tLQogLi4uL2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxh
+eV90eXBlcy5oICAgIHwgIDkgKysrKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
+ZWxfdHYuYyAgICAgICB8ICA0ICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L3Zsdl9k
+c2kuYyAgICAgICAgfCAgNiArLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfaXJxLmMgICAg
+ICAgICAgICAgICB8ICA0ICstCiA3IGZpbGVzIGNoYW5nZWQsIDQ5IGluc2VydGlvbnMoKyksIDI4
+IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
+aWNsX2RzaS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pY2xfZHNpLmMKaW5kZXgg
+NGZlYzViZDY0OTIwLi4yNTIwMGYyODllNmUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9p
+OTE1L2Rpc3BsYXkvaWNsX2RzaS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
+aWNsX2RzaS5jCkBAIC0xNDY5LDggKzE0NjksNyBAQCBzdGF0aWMgdm9pZCBnZW4xMV9kc2lfZ2V0
+X2NvbmZpZyhzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwKIAlwaXBlX2NvbmZpZy0+cGlw
+ZV9icHAgPSBiZHdfZ2V0X3BpcGVtaXNjX2JwcChjcnRjKTsKIAogCWlmIChnZW4xMV9kc2lfaXNf
+cGVyaW9kaWNfY21kX21vZGUoaW50ZWxfZHNpKSkKLQkJcGlwZV9jb25maWctPmh3LmFkanVzdGVk
+X21vZGUucHJpdmF0ZV9mbGFncyB8PQotCQkJCQlJOTE1X01PREVfRkxBR19EU0lfUEVSSU9ESUNf
+Q01EX01PREU7CisJCXBpcGVfY29uZmlnLT5tb2RlX2ZsYWdzIHw9IEk5MTVfTU9ERV9GTEFHX0RT
+SV9QRVJJT0RJQ19DTURfTU9ERTsKIH0KIAogc3RhdGljIGludCBnZW4xMV9kc2lfZHNjX2NvbXB1
+dGVfY29uZmlnKHN0cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVyLApAQCAtMTU1OCwxMCArMTU1
+Nyw2IEBAIHN0YXRpYyBpbnQgZ2VuMTFfZHNpX2NvbXB1dGVfY29uZmlnKHN0cnVjdCBpbnRlbF9l
+bmNvZGVyICplbmNvZGVyLAogCiAJcGlwZV9jb25maWctPnBvcnRfY2xvY2sgPSBhZmVfY2xrKGVu
+Y29kZXIsIHBpcGVfY29uZmlnKSAvIDU7CiAKLQkvKiBXZSB3b3VsZCBub3Qgb3BlcmF0ZSBpbiBw
+ZXJpb2RpYyBjb21tYW5kIG1vZGUgKi8KLQlwaXBlX2NvbmZpZy0+aHcuYWRqdXN0ZWRfbW9kZS5w
+cml2YXRlX2ZsYWdzICY9Ci0JCQkJCX5JOTE1X01PREVfRkxBR19EU0lfUEVSSU9ESUNfQ01EX01P
+REU7Ci0KIAkvKgogCSAqIEluIGNhc2Ugb2YgVEUgR0FURSBjbWQgbW9kZSwgd2UKIAkgKiByZWNl
+aXZlIFRFIGZyb20gdGhlIHNsYXZlIGlmCkBAIC0xNTY5LDE0ICsxNTY0LDE0IEBAIHN0YXRpYyBp
+bnQgZ2VuMTFfZHNpX2NvbXB1dGVfY29uZmlnKHN0cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVy
+LAogCSAqLwogCWlmIChpc19jbWRfbW9kZShpbnRlbF9kc2kpKSB7CiAJCWlmIChpbnRlbF9kc2kt
+PnBvcnRzID09IChCSVQoUE9SVF9CKSB8IEJJVChQT1JUX0EpKSkKLQkJCXBpcGVfY29uZmlnLT5o
+dy5hZGp1c3RlZF9tb2RlLnByaXZhdGVfZmxhZ3MgfD0KKwkJCXBpcGVfY29uZmlnLT5tb2RlX2Zs
+YWdzIHw9CiAJCQkJCQlJOTE1X01PREVfRkxBR19EU0lfVVNFX1RFMSB8CiAJCQkJCQlJOTE1X01P
+REVfRkxBR19EU0lfVVNFX1RFMDsKIAkJZWxzZSBpZiAoaW50ZWxfZHNpLT5wb3J0cyA9PSBCSVQo
+UE9SVF9CKSkKLQkJCXBpcGVfY29uZmlnLT5ody5hZGp1c3RlZF9tb2RlLnByaXZhdGVfZmxhZ3Mg
+fD0KKwkJCXBpcGVfY29uZmlnLT5tb2RlX2ZsYWdzIHw9CiAJCQkJCQlJOTE1X01PREVfRkxBR19E
+U0lfVVNFX1RFMTsKIAkJZWxzZQotCQkJcGlwZV9jb25maWctPmh3LmFkanVzdGVkX21vZGUucHJp
+dmF0ZV9mbGFncyB8PQorCQkJcGlwZV9jb25maWctPm1vZGVfZmxhZ3MgfD0KIAkJCQkJCUk5MTVf
+TU9ERV9GTEFHX0RTSV9VU0VfVEUwOwogCX0KIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvZGlzcGxheS9pbnRlbF9hdG9taWMuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
+YXkvaW50ZWxfYXRvbWljLmMKaW5kZXggZDA0MzA1N2QyZmEwLi41ODYzZTMzOWE0MjYgMTAwNjQ0
+Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYXRvbWljLmMKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hdG9taWMuYwpAQCAtMjUyLDYgKzI1
+Miw3IEBAIGludGVsX2NydGNfZHVwbGljYXRlX3N0YXRlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykK
+IAljcnRjX3N0YXRlLT53bS5uZWVkX3Bvc3R2YmxfdXBkYXRlID0gZmFsc2U7CiAJY3J0Y19zdGF0
+ZS0+ZmJfYml0cyA9IDA7CiAJY3J0Y19zdGF0ZS0+dXBkYXRlX3BsYW5lcyA9IDA7CisJY3J0Y19z
+dGF0ZS0+bW9kZV9mbGFncyAmPSB+STkxNV9NT0RFX0ZMQUdfSU5IRVJJVEVEOwogCiAJcmV0dXJu
+ICZjcnRjX3N0YXRlLT51YXBpOwogfQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUv
+ZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
+dGVsX2Rpc3BsYXkuYwppbmRleCA5ZjQ2NWVkZjQwNjMuLjhhMmMwNjg2ZWViMiAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMKKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMKQEAgLTY0MjUsNyArNjQy
+NSw3IEBAIHN0YXRpYyBib29sIGhzd19wb3N0X3VwZGF0ZV9lbmFibGVfaXBzKGNvbnN0IHN0cnVj
+dCBpbnRlbF9jcnRjX3N0YXRlICpvbGRfY3J0Y19zCiAJICogZm9yY2libHkgZW5hYmxlIElQUyBv
+biB0aGUgZmlyc3QgZmFzdHNldC4KIAkgKi8KIAlpZiAobmV3X2NydGNfc3RhdGUtPnVwZGF0ZV9w
+aXBlICYmCi0JICAgIG9sZF9jcnRjX3N0YXRlLT5ody5hZGp1c3RlZF9tb2RlLnByaXZhdGVfZmxh
+Z3MgJiBJOTE1X01PREVfRkxBR19JTkhFUklURUQpCisJICAgIG9sZF9jcnRjX3N0YXRlLT5tb2Rl
+X2ZsYWdzICYgSTkxNV9NT0RFX0ZMQUdfSU5IRVJJVEVEKQogCQlyZXR1cm4gdHJ1ZTsKIAogCXJl
+dHVybiAhb2xkX2NydGNfc3RhdGUtPmlwc19lbmFibGVkOwpAQCAtMTM1NDQsOCArMTM1NDQsOCBA
+QCBpbnRlbF9waXBlX2NvbmZpZ19jb21wYXJlKGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRl
+ICpjdXJyZW50X2NvbmZpZywKIAlib29sIHJldCA9IHRydWU7CiAJdTMyIGJwX2dhbW1hID0gMDsK
+IAlib29sIGZpeHVwX2luaGVyaXRlZCA9IGZhc3RzZXQgJiYKLQkJKGN1cnJlbnRfY29uZmlnLT5o
+dy5tb2RlLnByaXZhdGVfZmxhZ3MgJiBJOTE1X01PREVfRkxBR19JTkhFUklURUQpICYmCi0JCSEo
+cGlwZV9jb25maWctPmh3Lm1vZGUucHJpdmF0ZV9mbGFncyAmIEk5MTVfTU9ERV9GTEFHX0lOSEVS
+SVRFRCk7CisJCShjdXJyZW50X2NvbmZpZy0+bW9kZV9mbGFncyAmIEk5MTVfTU9ERV9GTEFHX0lO
+SEVSSVRFRCkgJiYKKwkJIShwaXBlX2NvbmZpZy0+bW9kZV9mbGFncyAmIEk5MTVfTU9ERV9GTEFH
+X0lOSEVSSVRFRCk7CiAKIAlpZiAoZml4dXBfaW5oZXJpdGVkICYmICFmYXN0Ym9vdF9lbmFibGVk
+KGRldl9wcml2KSkgewogCQlkcm1fZGJnX2ttcygmZGV2X3ByaXYtPmRybSwKQEAgLTE0MzM3LDYg
+KzE0MzM3LDggQEAgaW50ZWxfY3J0Y191cGRhdGVfYWN0aXZlX3RpbWluZ3MoY29uc3Qgc3RydWN0
+IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3RhdGUpCiAKIAlkcm1fY2FsY190aW1lc3RhbXBpbmdf
+Y29uc3RhbnRzKCZjcnRjLT5iYXNlLCBhZGp1c3RlZF9tb2RlKTsKIAorCWNydGMtPm1vZGVfZmxh
+Z3MgPSBjcnRjX3N0YXRlLT5tb2RlX2ZsYWdzOworCiAJLyoKIAkgKiBUaGUgc2NhbmxpbmUgY291
+bnRlciBpbmNyZW1lbnRzIGF0IHRoZSBsZWFkaW5nIGVkZ2Ugb2YgaHN5bmMuCiAJICoKQEAgLTE0
+Njk4LDggKzE0NzAwLDcgQEAgc3RhdGljIGludCBpbnRlbF9hdG9taWNfY2hlY2soc3RydWN0IGRy
+bV9kZXZpY2UgKmRldiwKIAkvKiBDYXRjaCBJOTE1X01PREVfRkxBR19JTkhFUklURUQgKi8KIAlm
+b3JfZWFjaF9vbGRuZXdfaW50ZWxfY3J0Y19pbl9zdGF0ZShzdGF0ZSwgY3J0Yywgb2xkX2NydGNf
+c3RhdGUsCiAJCQkJCSAgICBuZXdfY3J0Y19zdGF0ZSwgaSkgewotCQlpZiAobmV3X2NydGNfc3Rh
+dGUtPnVhcGkubW9kZS5wcml2YXRlX2ZsYWdzICE9Ci0JCSAgICBvbGRfY3J0Y19zdGF0ZS0+dWFw
+aS5tb2RlLnByaXZhdGVfZmxhZ3MpCisJCWlmIChuZXdfY3J0Y19zdGF0ZS0+bW9kZV9mbGFncyAh
+PSBvbGRfY3J0Y19zdGF0ZS0+bW9kZV9mbGFncykKIAkJCW5ld19jcnRjX3N0YXRlLT51YXBpLm1v
+ZGVfY2hhbmdlZCA9IHRydWU7CiAJfQogCkBAIC0xNTA0NSw3ICsxNTA0Niw3IEBAIHN0YXRpYyB2
+b2lkIGludGVsX3VwZGF0ZV9jcnRjKHN0cnVjdCBpbnRlbF9hdG9taWNfc3RhdGUgKnN0YXRlLAog
+CSAqIG9mIGVuYWJsaW5nIHRoZW0gb24gdGhlIENSVEMncyBmaXJzdCBmYXN0c2V0LgogCSAqLwog
+CWlmIChuZXdfY3J0Y19zdGF0ZS0+dXBkYXRlX3BpcGUgJiYgIW1vZGVzZXQgJiYKLQkgICAgb2xk
+X2NydGNfc3RhdGUtPmh3Lm1vZGUucHJpdmF0ZV9mbGFncyAmIEk5MTVfTU9ERV9GTEFHX0lOSEVS
+SVRFRCkKKwkgICAgb2xkX2NydGNfc3RhdGUtPm1vZGVfZmxhZ3MgJiBJOTE1X01PREVfRkxBR19J
+TkhFUklURUQpCiAJCWludGVsX2NydGNfYXJtX2ZpZm9fdW5kZXJydW4oY3J0YywgbmV3X2NydGNf
+c3RhdGUpOwogfQogCkBAIC0xNzM2MiwxNCArMTczNjMsMjIgQEAgdm9pZCBpbnRlbF9tb2Rlc2V0
+X2luaXRfaHcoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmk5MTUpCiBzdGF0aWMgaW50IHNhbml0
+aXplX3dhdGVybWFya3NfYWRkX2FmZmVjdGVkKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0
+ZSkKIHsKIAlzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZTsKLQlzdHJ1Y3QgZHJtX2NydGMgKmNydGM7
+CisJc3RydWN0IGludGVsX2NydGMgKmNydGM7CiAKLQlkcm1fZm9yX2VhY2hfY3J0YyhjcnRjLCBz
+dGF0ZS0+ZGV2KSB7Ci0JCXN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZTsKKwlmb3Jf
+ZWFjaF9pbnRlbF9jcnRjKHN0YXRlLT5kZXYsIGNydGMpIHsKKwkJc3RydWN0IGludGVsX2NydGNf
+c3RhdGUgKmNydGNfc3RhdGU7CiAKLQkJY3J0Y19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X2NydGNf
+c3RhdGUoc3RhdGUsIGNydGMpOworCQljcnRjX3N0YXRlID0gaW50ZWxfYXRvbWljX2dldF9jcnRj
+X3N0YXRlKHN0YXRlLCBjcnRjKTsKIAkJaWYgKElTX0VSUihjcnRjX3N0YXRlKSkKIAkJCXJldHVy
+biBQVFJfRVJSKGNydGNfc3RhdGUpOworCisJCWlmIChjcnRjX3N0YXRlLT5ody5hY3RpdmUpIHsK
+KwkJCS8qCisJCQkgKiBQcmVzZXJ2ZSB0aGUgaW5oZXJpdGVkIGZsYWcgdG8gYXZvaWQKKwkJCSAq
+IHRha2luZyB0aGUgZnVsbCBtb2Rlc2V0IHBhdGguCisJCQkgKi8KKwkJCWNydGNfc3RhdGUtPm1v
+ZGVfZmxhZ3MgfD0gSTkxNV9NT0RFX0ZMQUdfSU5IRVJJVEVEOworCQl9CiAJfQogCiAJZHJtX2Zv
+cl9lYWNoX3BsYW5lKHBsYW5lLCBzdGF0ZS0+ZGV2KSB7CkBAIC0xNzUxMSw2ICsxNzUyMCwxNSBA
+QCBzdGF0aWMgaW50IGludGVsX2luaXRpYWxfY29tbWl0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYp
+CiAJCX0KIAogCQlpZiAoY3J0Y19zdGF0ZS0+aHcuYWN0aXZlKSB7CisJCQkvKgorCQkJICogV2Un
+dmUgbm90IHlldCBkZXRlY3RlZCBzaW5rIGNhcGFiaWxpdGllcworCQkJICogKGF1ZGlvLGluZm9m
+cmFtZXMsZXRjLikgYW5kIHRodXMgd2UgZG9uJ3Qgd2FudCB0bworCQkJICogZm9yY2UgYSBmdWxs
+IHN0YXRlIHJlY29tcHV0YXRpb24geWV0LiBXZSB3YW50IHRoYXQgdG8KKwkJCSAqIGhhcHBlbiBv
+bmx5IGZvciB0aGUgZmlyc3QgcmVhbCBjb21taXQgZnJvbSB1c2Vyc3BhY2UuCisJCQkgKiBTbyBw
+cmVzZXJ2ZSB0aGUgaW5oZXJpdGVkIGZsYWcgZm9yIHRoZSB0aW1lIGJlaW5nLgorCQkJICovCisJ
+CQljcnRjX3N0YXRlLT5tb2RlX2ZsYWdzIHw9IEk5MTVfTU9ERV9GTEFHX0lOSEVSSVRFRDsKKwog
+CQkJcmV0ID0gZHJtX2F0b21pY19hZGRfYWZmZWN0ZWRfcGxhbmVzKHN0YXRlLCAmY3J0Yy0+YmFz
+ZSk7CiAJCQlpZiAocmV0KQogCQkJCWdvdG8gb3V0OwpAQCAtMTgyODEsNyArMTgyOTksNyBAQCBz
+dGF0aWMgdm9pZCBpbnRlbF9tb2Rlc2V0X3JlYWRvdXRfaHdfc3RhdGUoc3RydWN0IGRybV9kZXZp
+Y2UgKmRldikKIAkJCSAqIHNldCBhIGZsYWcgdG8gaW5kaWNhdGUgdGhhdCBhIGZ1bGwgcmVjYWxj
+dWxhdGlvbiBpcwogCQkJICogbmVlZGVkIG9uIHRoZSBuZXh0IGNvbW1pdC4KIAkJCSAqLwotCQkJ
+bW9kZS0+cHJpdmF0ZV9mbGFncyA9IEk5MTVfTU9ERV9GTEFHX0lOSEVSSVRFRDsKKwkJCWNydGNf
+c3RhdGUtPm1vZGVfZmxhZ3MgfD0gSTkxNV9NT0RFX0ZMQUdfSU5IRVJJVEVEOwogCiAJCQlpbnRl
+bF9jcnRjX2NvbXB1dGVfcGl4ZWxfcmF0ZShjcnRjX3N0YXRlKTsKIApkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmggYi9kcml2ZXJz
+L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXlfdHlwZXMuaAppbmRleCA5NDg4NDQ5
+ZTRiOTQuLjQwYzY1Mjc0MjEwYiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
+cGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
+cGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmgKQEAgLTY0Myw3ICs2NDMsNyBAQCBzdHJ1Y3QgaW50
+ZWxfY3J0Y19zY2FsZXJfc3RhdGUgewogCWludCBzY2FsZXJfaWQ7CiB9OwogCi0vKiBkcm1fbW9k
+ZS0+cHJpdmF0ZV9mbGFncyAqLworLyoge2NydGMsY3J0Y19zdGF0ZX0tPm1vZGVfZmxhZ3MgKi8K
+ICNkZWZpbmUgSTkxNV9NT0RFX0ZMQUdfSU5IRVJJVEVEICgxPDwwKQogLyogRmxhZyB0byBnZXQg
+c2NhbmxpbmUgdXNpbmcgZnJhbWUgdGltZSBzdGFtcHMgKi8KICNkZWZpbmUgSTkxNV9NT0RFX0ZM
+QUdfR0VUX1NDQU5MSU5FX0ZST01fVElNRVNUQU1QICgxPDwxKQpAQCAtOTU0LDYgKzk1NCw5IEBA
+IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlIHsKIAkvKiBVc2VkIGJ5IFNEVk8gKGFuZCBpZiB3ZSBl
+dmVyIGZpeCBpdCwgSERNSSkuICovCiAJdW5zaWduZWQgcGl4ZWxfbXVsdGlwbGllcjsKIAorCS8q
+IEk5MTVfTU9ERV9GTEFHXyogKi8KKwl1OCBtb2RlX2ZsYWdzOworCiAJdTggbGFuZV9jb3VudDsK
+IAogCS8qCkBAIC0xMTE2LDYgKzExMTksMTAgQEAgc3RydWN0IGludGVsX2NydGMgewogCSAqLwog
+CWJvb2wgYWN0aXZlOwogCXU4IHBsYW5lX2lkc19tYXNrOworCisJLyogSTkxNV9NT0RFX0ZMQUdf
+KiAqLworCXU4IG1vZGVfZmxhZ3M7CisKIAl1bnNpZ25lZCBsb25nIGxvbmcgZW5hYmxlZF9wb3dl
+cl9kb21haW5zOwogCXN0cnVjdCBpbnRlbF9vdmVybGF5ICpvdmVybGF5OwogCmRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3R2LmMgYi9kcml2ZXJzL2dwdS9k
+cm0vaTkxNS9kaXNwbGF5L2ludGVsX3R2LmMKaW5kZXggYWJjNjcyMDdmMmYzLi43NzcwMzJkOTY5
+N2IgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfdHYuYwor
+KysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3R2LmMKQEAgLTExNTgsNyAr
+MTE1OCw3IEBAIGludGVsX3R2X2dldF9jb25maWcoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29k
+ZXIsCiAKIAkvKiBwaXhlbCBjb3VudGVyIGRvZXNuJ3Qgd29yayBvbiBpOTY1Z20gVFYgb3V0cHV0
+ICovCiAJaWYgKElTX0k5NjVHTShkZXZfcHJpdikpCi0JCWFkanVzdGVkX21vZGUtPnByaXZhdGVf
+ZmxhZ3MgfD0KKwkJcGlwZV9jb25maWctPm1vZGVfZmxhZ3MgfD0KIAkJCUk5MTVfTU9ERV9GTEFH
+X1VTRV9TQ0FOTElORV9DT1VOVEVSOwogfQogCkBAIC0xMzI4LDcgKzEzMjgsNyBAQCBpbnRlbF90
+dl9jb21wdXRlX2NvbmZpZyhzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwKIAogCS8qIHBp
+eGVsIGNvdW50ZXIgZG9lc24ndCB3b3JrIG9uIGk5NjVnbSBUViBvdXRwdXQgKi8KIAlpZiAoSVNf
+STk2NUdNKGRldl9wcml2KSkKLQkJYWRqdXN0ZWRfbW9kZS0+cHJpdmF0ZV9mbGFncyB8PQorCQlw
+aXBlX2NvbmZpZy0+bW9kZV9mbGFncyB8PQogCQkJSTkxNV9NT0RFX0ZMQUdfVVNFX1NDQU5MSU5F
+X0NPVU5URVI7CiAKIAlyZXR1cm4gMDsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2Rpc3BsYXkvdmx2X2RzaS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS92bHZfZHNp
+LmMKaW5kZXggZjU4MmFiNTJmMGIwLi4wNTJlMGIzMWEyZGEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2Rpc3BsYXkvdmx2X2RzaS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2Rpc3BsYXkvdmx2X2RzaS5jCkBAIC0yOTgsNyArMjk4LDcgQEAgc3RhdGljIGludCBpbnRlbF9k
+c2lfY29tcHV0ZV9jb25maWcoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIsCiAKIAlpZiAo
+SVNfR0VOOV9MUChkZXZfcHJpdikpIHsKIAkJLyogRW5hYmxlIEZyYW1lIHRpbWUgc3RhbXAgYmFz
+ZWQgc2NhbmxpbmUgcmVwb3J0aW5nICovCi0JCWFkanVzdGVkX21vZGUtPnByaXZhdGVfZmxhZ3Mg
+fD0KKwkJcGlwZV9jb25maWctPm1vZGVfZmxhZ3MgfD0KIAkJCUk5MTVfTU9ERV9GTEFHX0dFVF9T
+Q0FOTElORV9GUk9NX1RJTUVTVEFNUDsKIAogCQkvKiBEdWFsIGxpbmsgZ29lcyB0byBEU0kgdHJh
+bnNjb2RlciBBLiAqLwpAQCAtMTA5Nyw4ICsxMDk3LDggQEAgc3RhdGljIHZvaWQgYnh0X2RzaV9n
+ZXRfcGlwZV9jb25maWcoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIsCiAJcGlwZV9jb25m
+aWctPnBpcGVfYnBwID0gYmR3X2dldF9waXBlbWlzY19icHAoY3J0Yyk7CiAKIAkvKiBFbmFibGUg
+RnJhbWUgdGltZSBzdGFtbyBiYXNlZCBzY2FubGluZSByZXBvcnRpbmcgKi8KLQlhZGp1c3RlZF9t
+b2RlLT5wcml2YXRlX2ZsYWdzIHw9Ci0JCQlJOTE1X01PREVfRkxBR19HRVRfU0NBTkxJTkVfRlJP
+TV9USU1FU1RBTVA7CisJcGlwZV9jb25maWctPm1vZGVfZmxhZ3MgfD0KKwkJSTkxNV9NT0RFX0ZM
+QUdfR0VUX1NDQU5MSU5FX0ZST01fVElNRVNUQU1QOwogCiAJLyogSW4gdGVybXMgb2YgcGl4ZWxz
+ICovCiAJYWRqdXN0ZWRfbW9kZS0+Y3J0Y19oZGlzcGxheSA9CmRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vaTkxNS9pOTE1X2lycS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9pcnEu
+YwppbmRleCBiZDcyMmQwNjUwYzguLmU1ZDFlYjAxODhhNiAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2k5MTUvaTkxNV9pcnEuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2ly
+cS5jCkBAIC03MzUsNyArNzM1LDcgQEAgc3RhdGljIGludCBfX2ludGVsX2dldF9jcnRjX3NjYW5s
+aW5lKHN0cnVjdCBpbnRlbF9jcnRjICpjcnRjKQogCXZibGFuayA9ICZjcnRjLT5iYXNlLmRldi0+
+dmJsYW5rW2RybV9jcnRjX2luZGV4KCZjcnRjLT5iYXNlKV07CiAJbW9kZSA9ICZ2YmxhbmstPmh3
+bW9kZTsKIAotCWlmIChtb2RlLT5wcml2YXRlX2ZsYWdzICYgSTkxNV9NT0RFX0ZMQUdfR0VUX1ND
+QU5MSU5FX0ZST01fVElNRVNUQU1QKQorCWlmIChjcnRjLT5tb2RlX2ZsYWdzICYgSTkxNV9NT0RF
+X0ZMQUdfR0VUX1NDQU5MSU5FX0ZST01fVElNRVNUQU1QKQogCQlyZXR1cm4gX19pbnRlbF9nZXRf
+Y3J0Y19zY2FubGluZV9mcm9tX3RpbWVzdGFtcChjcnRjKTsKIAogCXZ0b3RhbCA9IG1vZGUtPmNy
+dGNfdnRvdGFsOwpAQCAtNzk0LDcgKzc5NCw3IEBAIHN0YXRpYyBib29sIGk5MTVfZ2V0X2NydGNf
+c2Nhbm91dHBvcyhzdHJ1Y3QgZHJtX2NydGMgKl9jcnRjLAogCXVuc2lnbmVkIGxvbmcgaXJxZmxh
+Z3M7CiAJYm9vbCB1c2Vfc2NhbmxpbmVfY291bnRlciA9IElOVEVMX0dFTihkZXZfcHJpdikgPj0g
+NSB8fAogCQlJU19HNFgoZGV2X3ByaXYpIHx8IElTX0dFTihkZXZfcHJpdiwgMikgfHwKLQkJbW9k
+ZS0+cHJpdmF0ZV9mbGFncyAmIEk5MTVfTU9ERV9GTEFHX1VTRV9TQ0FOTElORV9DT1VOVEVSOwor
+CQljcnRjLT5tb2RlX2ZsYWdzICYgSTkxNV9NT0RFX0ZMQUdfVVNFX1NDQU5MSU5FX0NPVU5URVI7
+CiAKIAlpZiAoZHJtX1dBUk5fT04oJmRldl9wcml2LT5kcm0sICFtb2RlLT5jcnRjX2Nsb2NrKSkg
+ewogCQlkcm1fZGJnKCZkZXZfcHJpdi0+ZHJtLAotLSAKMi4yNC4xCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
