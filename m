@@ -1,54 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4351BE278
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 17:23:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB04C1BE283
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 17:24:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 897EB6E47A;
-	Wed, 29 Apr 2020 15:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC4616EF2E;
+	Wed, 29 Apr 2020 15:24:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F28416E47A;
- Wed, 29 Apr 2020 15:23:26 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id k12so2483680wmj.3;
- Wed, 29 Apr 2020 08:23:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ty18jkh7zkBHOD6czGW8SkI58aj/+4PBnyEc+GD/orI=;
- b=tus7bxqLbV6hNyOMoOR6rWwDXhsBMRK+6jioSAfK0KlwrSwSOr0fmUyBIRvGaBMJ3D
- J+JlxtgqA3bkzn5APaglpsmiIS6twFCJ3AGHR5NZDxsBKV4m7NcmKV4qvCZkCiCLHj0F
- wVoQWAC+k03amUFqge3cecu7wfI7kFyy9QCAe9F0i/n0P6dtZnLi+UdaSFW/3XXvzdXs
- TUbRmLQoCXCdOo1JndE/p4Fgcxzj2LoOcuMtDw1VvF15eL/AOqIuI98VYfVmRkbb39Db
- n62qJSCybrymus8vXGkZZxI/36eSFoxKIoJO96tDCyBieKuVk79quKpuUGc0iTWLojHU
- Mn8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ty18jkh7zkBHOD6czGW8SkI58aj/+4PBnyEc+GD/orI=;
- b=bo3zIxYjSAHJuVryfhjJMx81B+/fGwwMWdRFMd4YTD6H9/vZFbN01lrsZGPyCCJvEm
- 1Np9qrTlVtvyOSicMnjS+vACz5GC5eYGFTU+zfAwprM+iPlDVOvDHVUtZmqpOdSMODHj
- toSUdD55cY7A7DxHuCXX72pbWWGqsLxBJiXEG0mJUu5yMcRXTKk+5e7ocaDUTXmB5ppQ
- tj6O8vIAWk5YZ6LKJ4sLclS7QweM14Nyfu2zMcEDqjA8VR6ck/s8U55/dcJg+ZVVO3nO
- 9UOuqer/THQvOBu88PkspuOBh+J0cflLsAle8R56lb5Yj+SvR4KX5wbrtcRA/N6wCl0U
- yfTA==
-X-Gm-Message-State: AGi0PuaL8lzOQY+iJOHZS8+Hkn4JX5u1j/YZnUm5A3v6uBxLEaHW5gVC
- 56CzICtxMDmCsTyc2SUataGeiFvjViUnFxtmKcM=
-X-Google-Smtp-Source: APiQypIiNPHG4tyU4vIdIHmmJj7Iq3g5WXyRokunvJVlTuVMH/ieeXBCWNyF731wp2ksSFgu4BuTKHLynCFHmZpLiIs=
-X-Received: by 2002:a7b:cc8e:: with SMTP id p14mr3795755wma.70.1588173804710; 
- Wed, 29 Apr 2020 08:23:24 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 730636EF2E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 15:24:02 +0000 (UTC)
+IronPort-SDR: Ifo5tT+2fZ94vJVLzzmlL8mbvQ8E6S3LfC9n4NXe4xp6U8wedCG9KOsQoQS7JNMlLKgghR3ZXJ
+ /CRpGgR/c0oQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2020 08:24:01 -0700
+IronPort-SDR: nzjsFNvyy0S34GwpF+Xrz29llLwpQocp/mXmhP+dHU8ltQNSUMd1DID1/PelAguNsVyShwFMEp
+ 7TuvsaWEtEqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,332,1583222400"; d="scan'208";a="367837819"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+ by fmsmga001.fm.intel.com with ESMTP; 29 Apr 2020 08:24:00 -0700
+Received: from fmsmsx126.amr.corp.intel.com (10.18.125.43) by
+ fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 29 Apr 2020 08:24:00 -0700
+Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.13]) by
+ FMSMSX126.amr.corp.intel.com ([169.254.1.251]) with mapi id 14.03.0439.000;
+ Wed, 29 Apr 2020 08:24:00 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, "airlied@redhat.com"
+ <airlied@redhat.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "kraxel@redhat.com" <kraxel@redhat.com>, "noralf@tronnes.org"
+ <noralf@tronnes.org>, "sam@ravnborg.org" <sam@ravnborg.org>,
+ "john.p.donnelly@oracle.com" <john.p.donnelly@oracle.com>
+Subject: RE: [PATCH 03/17] drm/mgag200: Embed connector instance in struct
+ mga_device
+Thread-Topic: [PATCH 03/17] drm/mgag200: Embed connector instance in struct
+ mga_device
+Thread-Index: AQHWHjMWQFnzS05a7Uq9hitlU0zHwKiQNgQA
+Date: Wed, 29 Apr 2020 15:24:00 +0000
+Message-ID: <14063C7AD467DE4B82DEDB5C278E86630102137539@FMSMSX108.amr.corp.intel.com>
+References: <20200429143238.10115-1-tzimmermann@suse.de>
+ <20200429143238.10115-4-tzimmermann@suse.de>
+In-Reply-To: <20200429143238.10115-4-tzimmermann@suse.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.106]
 MIME-Version: 1.0
-References: <20200428063101.25556-1-yanaijie@huawei.com>
-In-Reply-To: <20200428063101.25556-1-yanaijie@huawei.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 29 Apr 2020 11:23:13 -0400
-Message-ID: <CADnq5_MR5ZmcGXi70KAoqpHthhzCsyJfH4ZaXvjVDO5z9CLD3Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: remove duplicate assignment of
- dcn21_funcs members
-To: Jason Yan <yanaijie@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,68 +68,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
- Anthony Koo <Anthony.Koo@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 28, 2020 at 8:46 AM Jason Yan <yanaijie@huawei.com> wrote:
+>-----Original Message-----
+>From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>Thomas Zimmermann
+>Sent: Wednesday, April 29, 2020 10:32 AM
+>To: airlied@redhat.com; daniel@ffwll.ch; kraxel@redhat.com;
+>noralf@tronnes.org; sam@ravnborg.org; john.p.donnelly@oracle.com
+>Cc: Thomas Zimmermann <tzimmermann@suse.de>; dri-
+>devel@lists.freedesktop.org
+>Subject: [PATCH 03/17] drm/mgag200: Embed connector instance in struct
+>mga_device
 >
-> Fix the following coccicheck warning:
->
-> drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c:31:51-52:
-> exit_optimized_pwr_state: first occurrence line 86, second occurrence
-> line 92
-> drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c:31:51-52:
-> optimize_pwr_state: first occurrence line 85, second occurrence line 91
-> drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c:31:51-52:
-> set_cursor_attribute: first occurrence line 71, second occurrence line
-> 89
-> drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c:31:51-52:
-> set_cursor_position: first occurrence line 70, second occurrence line 88
-> drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c:31:51-52:
-> set_cursor_sdr_white_level: first occurrence line 72, second occurrence
-> line 90
->
-> Signed-off-by: Jason Yan <yanaijie@huawei.com>
+>Storing the connector instance in struct mga_device avoids some
+>dynamic memory allocation. Done im preparation of converting
 
-Applied.  Thanks!
+s/im/in/
 
-Alex
+You might also want to comment that you clean up the i2c info on
+error.
 
-> ---
->  drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c | 5 -----
->  1 file changed, 5 deletions(-)
+Straight forward replacement of pointer with an embedded data structure:
+
+Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+
+M
+
+>mgag200 to simple-KMS helpers.
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c
-> index 8410a6305a9a..fe64bcb49456 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c
-> @@ -85,11 +85,6 @@ static const struct hw_sequencer_funcs dcn21_funcs = {
->         .optimize_pwr_state = dcn21_optimize_pwr_state,
->         .exit_optimized_pwr_state = dcn21_exit_optimized_pwr_state,
->         .get_vupdate_offset_from_vsync = dcn10_get_vupdate_offset_from_vsync,
-> -       .set_cursor_position = dcn10_set_cursor_position,
-> -       .set_cursor_attribute = dcn10_set_cursor_attribute,
-> -       .set_cursor_sdr_white_level = dcn10_set_cursor_sdr_white_level,
-> -       .optimize_pwr_state = dcn21_optimize_pwr_state,
-> -       .exit_optimized_pwr_state = dcn21_exit_optimized_pwr_state,
->         .power_down = dce110_power_down,
->  };
+>Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>---
+> drivers/gpu/drm/mgag200/mgag200_drv.h  |  1 +
+> drivers/gpu/drm/mgag200/mgag200_mode.c | 54 ++++++++++++++-----------
+>-
+> 2 files changed, 31 insertions(+), 24 deletions(-)
 >
-> --
-> 2.21.1
+>diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h
+>b/drivers/gpu/drm/mgag200/mgag200_drv.h
+>index de3181bd63ca0..09b43a0ff6bbf 100644
+>--- a/drivers/gpu/drm/mgag200/mgag200_drv.h
+>+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+>@@ -164,6 +164,7 @@ struct mga_device {
+> 	/* SE model number stored in reg 0x1e24 */
+> 	u32 unique_rev_id;
 >
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>+	struct mga_connector connector;
+> 	struct drm_encoder encoder;
+> };
+>
+>diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c
+>b/drivers/gpu/drm/mgag200/mgag200_mode.c
+>index ce41bebfdd1a2..eaa3fca7216ac 100644
+>--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+>+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+>@@ -1444,6 +1444,10 @@ static void mga_crtc_init(struct mga_device
+>*mdev)
+> 	drm_crtc_helper_add(&mga_crtc->base, &mga_helper_funcs);
+> }
+>
+>+/*
+>+ * Connector
+>+ */
+>+
+> static int mga_vga_get_modes(struct drm_connector *connector)
+> {
+> 	struct mga_connector *mga_connector =
+>to_mga_connector(connector);
+>@@ -1568,7 +1572,6 @@ static void mga_connector_destroy(struct
+>drm_connector *connector)
+> 	struct mga_connector *mga_connector =
+>to_mga_connector(connector);
+> 	mgag200_i2c_destroy(mga_connector->i2c);
+> 	drm_connector_cleanup(connector);
+>-	kfree(connector);
+> }
+>
+> static const struct drm_connector_helper_funcs
+>mga_vga_connector_helper_funcs = {
+>@@ -1582,37 +1585,39 @@ static const struct drm_connector_funcs
+>mga_vga_connector_funcs = {
+> 	.destroy = mga_connector_destroy,
+> };
+>
+>-static struct drm_connector *mga_vga_init(struct drm_device *dev)
+>+static int mgag200_vga_connector_init(struct mga_device *mdev)
+> {
+>-	struct drm_connector *connector;
+>-	struct mga_connector *mga_connector;
+>-
+>-	mga_connector = kzalloc(sizeof(struct mga_connector),
+>GFP_KERNEL);
+>-	if (!mga_connector)
+>-		return NULL;
+>-
+>-	connector = &mga_connector->base;
+>-	mga_connector->i2c = mgag200_i2c_create(dev);
+>-	if (!mga_connector->i2c)
+>-		DRM_ERROR("failed to add ddc bus\n");
+>+	struct drm_device *dev = mdev->dev;
+>+	struct mga_connector *mconnector = &mdev->connector;
+>+	struct drm_connector *connector = &mconnector->base;
+>+	struct mga_i2c_chan *i2c;
+>+	int ret;
+>
+>-	drm_connector_init_with_ddc(dev, connector,
+>-				    &mga_vga_connector_funcs,
+>-				    DRM_MODE_CONNECTOR_VGA,
+>-				    &mga_connector->i2c->adapter);
+>+	i2c = mgag200_i2c_create(dev);
+>+	if (!i2c)
+>+		drm_warn(dev, "failed to add DDC bus\n");
+>
+>+	ret = drm_connector_init_with_ddc(dev, connector,
+>+					  &mga_vga_connector_funcs,
+>+					  DRM_MODE_CONNECTOR_VGA,
+>+					  &i2c->adapter);
+>+	if (ret)
+>+		goto err_mgag200_i2c_destroy;
+> 	drm_connector_helper_add(connector,
+>&mga_vga_connector_helper_funcs);
+>
+>-	drm_connector_register(connector);
+>+	mconnector->i2c = i2c;
+>
+>-	return connector;
+>-}
+>+	return 0;
+>
+>+err_mgag200_i2c_destroy:
+>+	mgag200_i2c_destroy(i2c);
+>+	return ret;
+>+}
+>
+> int mgag200_modeset_init(struct mga_device *mdev)
+> {
+> 	struct drm_encoder *encoder = &mdev->encoder;
+>-	struct drm_connector *connector;
+>+	struct drm_connector *connector = &mdev->connector.base;
+> 	int ret;
+>
+> 	mdev->dev->mode_config.max_width =
+>MGAG200_MAX_FB_WIDTH;
+>@@ -1632,9 +1637,10 @@ int mgag200_modeset_init(struct mga_device
+>*mdev)
+> 	}
+> 	encoder->possible_crtcs = 0x1;
+>
+>-	connector = mga_vga_init(mdev->dev);
+>-	if (!connector) {
+>-		DRM_ERROR("mga_vga_init failed\n");
+>+	ret = mgag200_vga_connector_init(mdev);
+>+	if (ret) {
+>+		drm_err(mdev->dev,
+>+			"mga_vga_connector_init() failed, error %d\n", ret);
+> 		return -1;
+> 	}
+>
+>--
+>2.26.0
+>
+>_______________________________________________
+>dri-devel mailing list
+>dri-devel@lists.freedesktop.org
+>https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
