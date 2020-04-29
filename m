@@ -1,31 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C311BE10A
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 16:33:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD15A1BE181
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 16:47:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2DDE6EEAC;
-	Wed, 29 Apr 2020 14:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB8C6EEB9;
+	Wed, 29 Apr 2020 14:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72B896ECB6
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 14:32:46 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 418BDAFA7;
- Wed, 29 Apr 2020 14:32:44 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com, noralf@tronnes.org,
- sam@ravnborg.org, john.p.donnelly@oracle.com
-Subject: [PATCH 17/17] drm/mgag200: Replace VRAM helpers with SHMEM helpers
-Date: Wed, 29 Apr 2020 16:32:38 +0200
-Message-Id: <20200429143238.10115-18-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200429143238.10115-1-tzimmermann@suse.de>
-References: <20200429143238.10115-1-tzimmermann@suse.de>
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C5316EEB7
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 14:47:06 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id b18so2677174ilf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 07:47:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=w4nb5OSoAN8ie6yt2r0ePywGsKLoArLLEE62l01Mqvg=;
+ b=Fp0DHCe6K5WKfN59LJatWyE7iNJhL8Nx+3lOkEc3rg72r8WLyTIaTgBh6uyPXpHyva
+ jbgQH1gNcIMsu2iECDOSUSi7YZ16Xt0luJFhizcDIOZXRGvnodWlEakexHwJ2GNcPYge
+ Aw8WKZcT51v+cbsBd+EFR3Ud3lI+nmpqEBHz9Lo5d5q2gv/X1dTq3hfnjSwi+PN/rAn1
+ F1L47U7kS6EgYMalfC/Vhf9mOfn3NZ6oTVWZhR34PwFO0Oa07fPJiT/+wMQ8+jzOacZb
+ yjU2qSEzcD7GjbbLjCALno6PYsG7/whvfT9myfP7Z6AIRrLD9fc0Nn7ZAfciwFZT0m5a
+ GKtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w4nb5OSoAN8ie6yt2r0ePywGsKLoArLLEE62l01Mqvg=;
+ b=lsOQta/jFPn8GzUYYBwy60C+C72f4ql/g8eOdmvib6xVdmgIcM45S7AQB68Acq4xQ7
+ aAsJsbxMy6AqH+eMEnH/9ju6kEkykhZNIMBWsTmV4YE+ZltIYgMeE0RsGV/OGlXjlT9R
+ vhgKN+4Jg/pb9EoErOcUINm3E1lYSz8knw0DHmoErywY2hqgfRJQU5+qWO831O0evgXG
+ B5LtRn3CgYbfbGZwLxOo3DD08coCA/NtYtw5KxwSEw74WKLOuVk8qyPVavQjCGBWHaKj
+ Sch73sGLT9736jd6OM4QVcl9mS3XSa9XwGjClwv2sFFpHY1ufm5jC5B11SN1oyvPNJ28
+ LcSg==
+X-Gm-Message-State: AGi0Pua+DIFTUd0Myzm0mMDpLgJJIhGQrhwKOPQC8z/m8cAdTUubMMbl
+ a6lY2JNCsrKtkyvGWw3476htIh141zrngWz9dbzyoA==
+X-Google-Smtp-Source: APiQypKYEBd5xzce8ioXbigLXIc5OyrjH0o4CugkDdZgYPSoQvTZW4JNssPdhH+Vqymnb/mGabCKnNQ87CLstZr3qf4=
+X-Received: by 2002:a92:3603:: with SMTP id d3mr32296601ila.264.1588171625584; 
+ Wed, 29 Apr 2020 07:47:05 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200414184835.2878-1-sean@poorly.run>
+ <20200414190258.38873-1-sean@poorly.run>
+ <20200429135037.GF22816@intel.com>
+ <CAMavQKKOKfcJSN1GjKctQp4qw6LyP6WNE9Q3Y4LedkjzcvPXxA@mail.gmail.com>
+ <20200429142221.GG22816@intel.com>
+In-Reply-To: <20200429142221.GG22816@intel.com>
+From: Sean Paul <sean@poorly.run>
+Date: Wed, 29 Apr 2020 10:46:29 -0400
+Message-ID: <CAMavQKJJ5h+v0_RQVh6Yanjsz=ZbDyo=5AFVgfrkJcTVjynz9A@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: Fix HDCP failures when SRM fw is missing
+To: Ramalingam C <ramalingam.c@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,336 +64,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>, stable <stable@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VRAM helpers managed the framebuffer memory for mgag200. This came
-with several problems, as some MGA device require the scanout address
-to be located at VRAM offset 0. It's incompatible with the page-flip
-semantics of DRM's atomic modesettting. With atomic modesetting, old and
-new framebuffers have to be located in VRAM at the same time. So at least
-one of them has to reside at a non-0 offset.
+On Wed, Apr 29, 2020 at 10:22 AM Ramalingam C <ramalingam.c@intel.com> wrote:
+>
+> On 2020-04-29 at 09:58:16 -0400, Sean Paul wrote:
+> > On Wed, Apr 29, 2020 at 9:50 AM Ramalingam C <ramalingam.c@intel.com> wrote:
+> > >
+> > > On 2020-04-14 at 15:02:55 -0400, Sean Paul wrote:
+> > > > From: Sean Paul <seanpaul@chromium.org>
+> > > >
+> > > > The SRM cleanup in 79643fddd6eb2 ("drm/hdcp: optimizing the srm
+> > > > handling") inadvertently altered the behavior of HDCP auth when
+> > > > the SRM firmware is missing. Before that patch, missing SRM was
+> > > > interpreted as the device having no revoked keys. With that patch,
+> > > > if the SRM fw file is missing we reject _all_ keys.
+> > > >
+> > > > This patch fixes that regression by returning success if the file
+> > > > cannot be found. It also checks the return value from request_srm such
+> > > > that we won't end up trying to parse the ksv list if there is an error
+> > > > fetching it.
+> > > >
+> > > > Fixes: 79643fddd6eb ("drm/hdcp: optimizing the srm handling")
+> > > > Cc: stable@vger.kernel.org
+> > > > Cc: Ramalingam C <ramalingam.c@intel.com>
+> > > > Cc: Sean Paul <sean@poorly.run>
+> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > Cc: David Airlie <airlied@linux.ie>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > Cc: dri-devel@lists.freedesktop.org
+> > > > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> > > >
+> > > > Changes in v2:
+> > > > -Noticed a couple other things to clean up
+> > > > ---
+> > > >
+> > > > Sorry for the quick rev, noticed a couple other loose ends that should
+> > > > be cleaned up.
+> > > >
+> > > >  drivers/gpu/drm/drm_hdcp.c | 8 +++++++-
+> > > >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
+> > > > index 7f386adcf872..910108ccaae1 100644
+> > > > --- a/drivers/gpu/drm/drm_hdcp.c
+> > > > +++ b/drivers/gpu/drm/drm_hdcp.c
+> > > > @@ -241,8 +241,12 @@ static int drm_hdcp_request_srm(struct drm_device *drm_dev,
+> > > >
+> > > >       ret = request_firmware_direct(&fw, (const char *)fw_name,
+> > > >                                     drm_dev->dev);
+> > > > -     if (ret < 0)
+> > > > +     if (ret < 0) {
+> > > > +             *revoked_ksv_cnt = 0;
+> > > > +             *revoked_ksv_list = NULL;
+> > > These two variables are already initialized by the caller.
+> >
+> > Right now it is, but that's not guaranteed. In the ret == 0 case, it's
+> > pretty common for a caller to assume the called function has
+> > validated/assigned all the function output.
+> Ok.
+> >
+> > > > +             ret = 0;
+> > > Missing of this should have been caught by CI. May be CI system always
+> > > having the SRM file from previous execution. Never been removed. IGT
+> > > need a fix to clean the prior SRM files before execution.
+> > >
+> > > CI fix shouldn't block this fix.
+> > > >               goto exit;
+> > > > +     }
+> > > >
+> > > >       if (fw->size && fw->data)
+> > > >               ret = drm_hdcp_srm_update(fw->data, fw->size, revoked_ksv_list,
+> > > > @@ -287,6 +291,8 @@ int drm_hdcp_check_ksvs_revoked(struct drm_device *drm_dev, u8 *ksvs,
+> > > >
+> > > >       ret = drm_hdcp_request_srm(drm_dev, &revoked_ksv_list,
+> > > >                                  &revoked_ksv_cnt);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > This error code also shouldn't effect the caller(i915)
+> >
+> > Why not? I'd assume an invalid SRM revocation list should probably be
+> > treated as failure?
+> IMHO invalid SRM revocation need not be treated as HDCP authentication
+> failure.
+>
+> First of all SRM need not supplied by all players. and incase, supplied
+> SRM is not as per the spec, then we dont have any list of revoked ID.
+> with this I dont think we need to fail the HDCP authentication. Until we
+> have valid list of revoked IDs from SRM, and the receiver ID is matching
+> to one of the revoked IDs, I wouldn't want to fail the HDCP
+> authentication.
+>
 
-This patch replaces VRAM helpers with SHMEM helpers. GEM SHMEM buffers
-reside in system memory, and are shadow-copied into VRAM during page
-flips. The shadow copy always starts at VRAM offset 0.
+Ok, thanks for the explanation. This all seems reasonable to me.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/mgag200/Kconfig        |  4 +-
- drivers/gpu/drm/mgag200/mgag200_drv.c  | 49 +--------------------
- drivers/gpu/drm/mgag200/mgag200_drv.h  |  5 ++-
- drivers/gpu/drm/mgag200/mgag200_mode.c | 59 +++++++++++++++-----------
- drivers/gpu/drm/mgag200/mgag200_ttm.c  | 35 ++++++++-------
- 5 files changed, 60 insertions(+), 92 deletions(-)
+Looks like this can be applied as-is, right? I'll review the patch you
+posted so we can ignore the -ve return values.
 
-diff --git a/drivers/gpu/drm/mgag200/Kconfig b/drivers/gpu/drm/mgag200/Kconfig
-index d60aa4b9ccd47..93be766715c9b 100644
---- a/drivers/gpu/drm/mgag200/Kconfig
-+++ b/drivers/gpu/drm/mgag200/Kconfig
-@@ -2,10 +2,8 @@
- config DRM_MGAG200
- 	tristate "Kernel modesetting driver for MGA G200 server engines"
- 	depends on DRM && PCI && MMU
-+	select DRM_GEM_SHMEM_HELPER
- 	select DRM_KMS_HELPER
--	select DRM_VRAM_HELPER
--	select DRM_TTM
--	select DRM_TTM_HELPER
- 	help
- 	 This is a KMS driver for the MGA G200 server chips, it
- 	 does not support the original MGA G200 or any of the desktop
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index b1272165621ed..00ddea7d7d270 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -22,15 +22,11 @@
-  * which then performs further device association and calls our graphics init
-  * functions
-  */
--int mgag200_modeset = -1;
- 
-+int mgag200_modeset = -1;
- MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
- module_param_named(modeset, mgag200_modeset, int, 0400);
- 
--int mgag200_hw_bug_no_startadd = -1;
--MODULE_PARM_DESC(modeset, "HW does not interpret scanout-buffer start address correctly");
--module_param_named(hw_bug_no_startadd, mgag200_hw_bug_no_startadd, int, 0400);
--
- static struct drm_driver driver;
- 
- static const struct pci_device_id pciidlist[] = {
-@@ -101,44 +97,6 @@ static void mga_pci_remove(struct pci_dev *pdev)
- 
- DEFINE_DRM_GEM_FOPS(mgag200_driver_fops);
- 
--static bool mgag200_pin_bo_at_0(const struct mga_device *mdev)
--{
--	if (mgag200_hw_bug_no_startadd > 0) {
--		DRM_WARN_ONCE("Option hw_bug_no_startradd is enabled. Please "
--			      "report the output of 'lspci -vvnn' to "
--			      "<dri-devel@lists.freedesktop.org> if this "
--			      "option is required to make mgag200 work "
--			      "correctly on your system.\n");
--		return true;
--	} else if (!mgag200_hw_bug_no_startadd) {
--		return false;
--	}
--	return mdev->flags & MGAG200_FLAG_HW_BUG_NO_STARTADD;
--}
--
--int mgag200_driver_dumb_create(struct drm_file *file,
--			       struct drm_device *dev,
--			       struct drm_mode_create_dumb *args)
--{
--	struct mga_device *mdev = dev->dev_private;
--	unsigned long pg_align;
--
--	if (WARN_ONCE(!dev->vram_mm, "VRAM MM not initialized"))
--		return -EINVAL;
--
--	pg_align = 0ul;
--
--	/*
--	 * Aligning scanout buffers to the size of the video ram forces
--	 * placement at offset 0. Works around a bug where HW does not
--	 * respect 'startadd' field.
--	 */
--	if (mgag200_pin_bo_at_0(mdev))
--		pg_align = PFN_UP(mdev->mc.vram_size);
--
--	return drm_gem_vram_fill_create_dumb(file, dev, pg_align, 0, args);
--}
--
- static struct drm_driver driver = {
- 	.driver_features = DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
- 	.fops = &mgag200_driver_fops,
-@@ -148,10 +106,7 @@ static struct drm_driver driver = {
- 	.major = DRIVER_MAJOR,
- 	.minor = DRIVER_MINOR,
- 	.patchlevel = DRIVER_PATCHLEVEL,
--	.debugfs_init = drm_vram_mm_debugfs_init,
--	.dumb_create = mgag200_driver_dumb_create,
--	.dumb_map_offset = drm_gem_vram_driver_dumb_mmap_offset,
--	.gem_prime_mmap = drm_gem_prime_mmap,
-+	DRM_GEM_SHMEM_DRIVER_OPS,
- };
- 
- static struct pci_driver mgag200_pci_driver = {
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 2e407508714c8..8c37177b8fa0c 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -18,7 +18,7 @@
- #include <drm/drm_encoder.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem.h>
--#include <drm/drm_gem_vram_helper.h>
-+#include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "mgag200_reg.h"
-@@ -164,7 +164,8 @@ struct mga_device {
- 
- 	struct mga_mc			mc;
- 
--	size_t vram_fb_available;
-+	void __iomem			*vram;
-+	size_t				vram_fb_available;
- 
- 	bool				suspended;
- 	enum mga_type			type;
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index d9b4055e38982..197735a36f333 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -14,6 +14,8 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_crtc_helper.h>
-+#include <drm/drm_damage_helper.h>
-+#include <drm/drm_format_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane_helper.h>
-@@ -1545,6 +1547,26 @@ mgag200_simple_display_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
- 	return MODE_OK;
- }
- 
-+static void
-+mgag200_handle_damage(struct mga_device *mdev, struct drm_framebuffer *fb,
-+		      struct drm_rect *clip)
-+{
-+	struct drm_device *dev = mdev->dev;
-+	void *vmap;
-+
-+	vmap = drm_gem_shmem_vmap(fb->obj[0]);
-+	if (drm_WARN_ON(dev, !vmap))
-+		return; /* BUG: SHMEM BO should always be vmapped */
-+
-+	drm_fb_memcpy_dstclip(mdev->vram, vmap, fb, clip);
-+
-+	drm_gem_shmem_vunmap(fb->obj[0], vmap);
-+
-+	/* Always scanout image at VRAM offset 0 */
-+	mgag200_set_startadd(mdev, (u32)0);
-+	mgag200_set_offset(mdev, fb);
-+}
-+
- static void
- mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 				   struct drm_crtc_state *crtc_state,
-@@ -1555,14 +1577,12 @@ mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	struct mga_device *mdev = to_mga_device(dev);
- 	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
- 	struct drm_framebuffer *fb = plane_state->fb;
--	struct drm_gem_vram_object *gbo;
--	s64 gpu_addr;
--
--	gbo = drm_gem_vram_of_gem(fb->obj[0]);
--
--	gpu_addr = drm_gem_vram_offset(gbo);
--	if (drm_WARN_ON_ONCE(dev, gpu_addr < 0))
--		return; /* BUG: BO should have been pinned to VRAM. */
-+	struct drm_rect fullscreen = {
-+		.x1 = 0,
-+		.x2 = fb->width,
-+		.y1 = 0,
-+		.y2 = fb->height,
-+	};
- 
- 	mga_crtc_prepare(crtc);
- 
-@@ -1578,6 +1598,8 @@ mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 		mgag200_g200ev_set_hiprilvl(mdev);
- 
- 	mga_crtc_commit(crtc);
-+
-+	mgag200_handle_damage(mdev, fb, &fullscreen);
- }
- 
- static void
-@@ -1618,21 +1640,13 @@ mgag200_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 	struct mga_device *mdev = to_mga_device(dev);
- 	struct drm_plane_state *state = plane->state;
- 	struct drm_framebuffer *fb = state->fb;
--	struct drm_gem_vram_object *gbo;
--	s64 gpu_addr;
-+	struct drm_rect damage;
- 
- 	if (!fb)
- 		return;
- 
--	gbo = drm_gem_vram_of_gem(fb->obj[0]);
--
--	gpu_addr = drm_gem_vram_offset(gbo);
--	if (drm_WARN_ON_ONCE(dev, gpu_addr < 0))
--		return; /* BUG: BO should have been pinned to VRAM. */
--
--	mgag200_set_format_regs(mdev, fb);
--	mgag200_set_startadd(mdev, (unsigned long)gpu_addr);
--	mgag200_set_offset(mdev, fb);
-+	if (drm_atomic_helper_damage_merged(old_state, state, &damage))
-+		mgag200_handle_damage(mdev, fb, &damage);
- }
- 
- static const struct drm_simple_display_pipe_funcs
-@@ -1642,8 +1656,7 @@ mgag200_simple_display_pipe_funcs = {
- 	.disable    = mgag200_simple_display_pipe_disable,
- 	.check	    = mgag200_simple_display_pipe_check,
- 	.update	    = mgag200_simple_display_pipe_update,
--	.prepare_fb = drm_gem_vram_simple_display_pipe_prepare_fb,
--	.cleanup_fb = drm_gem_vram_simple_display_pipe_cleanup_fb,
-+	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
- };
- 
- static const uint32_t mgag200_simple_display_pipe_formats[] = {
-@@ -1662,8 +1675,7 @@ static const uint64_t mgag200_simple_display_pipe_modifiers[] = {
-  */
- 
- static const struct drm_mode_config_funcs mgag200_mode_config_funcs = {
--	.fb_create     = drm_gem_fb_create,
--	.mode_valid    = drm_vram_helper_mode_valid,
-+	.fb_create     = drm_gem_fb_create_with_dirty,
- 	.atomic_check  = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
- };
-@@ -1697,7 +1709,6 @@ int mgag200_modeset_init(struct mga_device *mdev)
- 	dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
- 
- 	dev->mode_config.preferred_depth = mgag200_preferred_depth(mdev);
--	dev->mode_config.prefer_shadow = 1;
- 
- 	dev->mode_config.fb_base = mdev->mc.vram_base;
- 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_ttm.c b/drivers/gpu/drm/mgag200/mgag200_ttm.c
-index e89657630ea71..cdae3cd607b41 100644
---- a/drivers/gpu/drm/mgag200/mgag200_ttm.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_ttm.c
-@@ -32,27 +32,32 @@
- 
- int mgag200_mm_init(struct mga_device *mdev)
- {
--	struct drm_vram_mm *vmm;
--	int ret;
- 	struct drm_device *dev = mdev->dev;
-+	struct pci_dev *pdev = dev->pdev;
-+	int ret;
- 
--	vmm = drm_vram_helper_alloc_mm(dev, pci_resource_start(dev->pdev, 0),
--				       mdev->mc.vram_size);
--	if (IS_ERR(vmm)) {
--		ret = PTR_ERR(vmm);
--		DRM_ERROR("Error initializing VRAM MM; %d\n", ret);
--		return ret;
--	}
-+	arch_io_reserve_memtype_wc(pci_resource_start(pdev, 0),
-+				   pci_resource_len(pdev, 0));
- 
--	arch_io_reserve_memtype_wc(pci_resource_start(dev->pdev, 0),
--				   pci_resource_len(dev->pdev, 0));
-+	mdev->fb_mtrr = arch_phys_wc_add(pci_resource_start(pdev, 0),
-+					 pci_resource_len(pdev, 0));
- 
--	mdev->fb_mtrr = arch_phys_wc_add(pci_resource_start(dev->pdev, 0),
--					 pci_resource_len(dev->pdev, 0));
-+	mdev->vram = ioremap(pci_resource_start(pdev, 0),
-+			     pci_resource_len(pdev, 0));
-+	if (!mdev->vram) {
-+		ret = -ENOMEM;
-+		goto err_arch_phys_wc_del;
-+	}
- 
- 	mdev->vram_fb_available = mdev->mc.vram_size;
- 
- 	return 0;
-+
-+err_arch_phys_wc_del:
-+	arch_phys_wc_del(mdev->fb_mtrr);
-+	arch_io_free_memtype_wc(pci_resource_start(dev->pdev, 0),
-+				pci_resource_len(dev->pdev, 0));
-+	return ret;
- }
- 
- void mgag200_mm_fini(struct mga_device *mdev)
-@@ -60,9 +65,7 @@ void mgag200_mm_fini(struct mga_device *mdev)
- 	struct drm_device *dev = mdev->dev;
- 
- 	mdev->vram_fb_available = 0;
--
--	drm_vram_helper_release_mm(dev);
--
-+	iounmap(mdev->vram);
- 	arch_io_free_memtype_wc(pci_resource_start(dev->pdev, 0),
- 				pci_resource_len(dev->pdev, 0));
- 	arch_phys_wc_del(mdev->fb_mtrr);
--- 
-2.26.0
+Thanks for the review!
 
+Sean
+
+> -Ram
+> >
+> >
+> > > hence pushed a
+> > > change https://patchwork.freedesktop.org/series/76730/
+> > >
+> > > With these addresed.
+> > >
+> > > LGTM.
+> > >
+> > > Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
+> > > >
+> > > >       /* revoked_ksv_cnt will be zero when above function failed */
+> > > >       for (i = 0; i < revoked_ksv_cnt; i++)
+> > > > --
+> > > > Sean Paul, Software Engineer, Google / Chromium OS
+> > > >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
