@@ -1,33 +1,98 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1886E1BF172
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:32:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F251BD7F9
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 11:11:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D54706EB59;
-	Thu, 30 Apr 2020 07:32:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CFDF89C97;
+	Wed, 29 Apr 2020 09:11:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay.sw.ru (relay.sw.ru [185.231.240.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66CA16EC48;
- Wed, 29 Apr 2020 09:01:41 +0000 (UTC)
-Received: from vvs-ws.sw.ru ([172.16.24.21])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <vvs@virtuozzo.com>)
- id 1jTiaq-0006Vl-RD; Wed, 29 Apr 2020 12:01:25 +0300
-From: Vasily Averin <vvs@virtuozzo.com>
-Subject: [PATCH] drm/qxl: qxl_release use after free
-To: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20200429082837.uedcapxmennuc5a2@sirius.home.kraxel.org>
-Message-ID: <fa17b338-66ae-f299-68fe-8d32419d9071@virtuozzo.com>
-Date: Wed, 29 Apr 2020 12:01:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <20200429082837.uedcapxmennuc5a2@sirius.home.kraxel.org>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2087.outbound.protection.outlook.com [40.107.244.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD18E89C97
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 09:11:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jl6NWBfuYs7/w74QgPRWwOicT8ddnzgERtGFLHBPHd5HXLOZacrfAA3X5dkRmpHJdg0lk5EAvmuypzl8FIFHeEeP7LiPFYyLAYgXfSU7YC3pUYSUyRzqXHTVXsxGHcX21YnPABEFL1MwMdytgVwaN7iRxPjSsOskvhDOQLnzKTkzzofHE6Wa4LwORVQgJy43MIDXRWj5oZDSpb4WgfRNw3X6ARoqxvbpnCZlGvYsCXD+kEDSeRrqb1bug1Ie9oEWVfcyW0LlX1Yu0lrX4rkG0ueMnfNXzi1aqmOeLAF5af2VTLaA4qg+mlm2JlxfTrvhuzy7zY91Zi5iKilC8Kj27w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DRk1F9Q0L3SVa/MLXto56/8CnL30QmAaRZHwrSljUPc=;
+ b=WFKtL4lQ8s37wS8qlPcvJVHXaOpn8OlnhvaRX5ctaUhIZVkNWsN3Yyf2udkO6G4zh5mQlMvdBhiouKp7dIKdXXnNuMSWhgu5S9BRDKvC6yKD3FdMs/vVBFi5UheeKqhZGO/d39NVpD7E020mAQXbKPQKve7edFxVHWkbgXddN8c+w9sZfC/cV5kPNl3KYKdUrNYkqhXmTeX4aRyjOOpGGoB0gGuWnaW0fkt11kF72hsPa6ae8Cphk5n8TDle4VTL62+9KkR3/kjE5M3O9o3SkW60jANfiT5UIAZvPzquPmRQcmNBr+74s4WmixAwTSsxyUgmZiIkUWXa114nR/9+VA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DRk1F9Q0L3SVa/MLXto56/8CnL30QmAaRZHwrSljUPc=;
+ b=gr3kZsMIG+NLBsPCOEnu9DP6zvQDY+KNzAxI998OIG/pq0AB0uj4jCjI6hlnO3Za1LLXq7S3vjEs09rTQ7E/zAGldxJLHvsa9iRgXbGFmCRTtUjHBKQo3+HqNKN3BFI5iUZCgKEZwurSkV6iRXIa2foFk568huLDA/EfNEpV5DE=
+Authentication-Results: ravnborg.org; dkim=none (message not signed)
+ header.d=none;ravnborg.org; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
+ by DM6PR12MB3962.namprd12.prod.outlook.com (2603:10b6:5:1ce::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Wed, 29 Apr
+ 2020 09:11:26 +0000
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::7949:b580:a2d5:f766]) by DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::7949:b580:a2d5:f766%3]) with mapi id 15.20.2958.020; Wed, 29 Apr 2020
+ 09:11:26 +0000
+Subject: Re: [PATCH 2/2] drm/vram-helper: Alternate between bottom-up and
+ top-down placement
+To: Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20200422144055.27801-1-tzimmermann@suse.de>
+ <20200422144055.27801-3-tzimmermann@suse.de>
+ <20200423111808.fbh23br7jrkte3ih@sirius.home.kraxel.org>
+ <da7bb4d1-852e-6372-cc2a-938561220483@suse.de>
+ <20200423135709.3yuafqt3xouka4jp@sirius.home.kraxel.org>
+ <b9315d4b-0f3e-712b-8a26-0ed5e3ac6f68@suse.de>
+ <20200424093849.tiyukod37qeztaxb@sirius.home.kraxel.org>
+ <2cbafd95-22cf-5471-9ee4-807b152828ec@suse.de>
+ <20200429072500.bp5qkquyc2hc2emp@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <78c34d35-5760-8f69-f98c-bc34d52fbfc7@amd.com>
+Date: Wed, 29 Apr 2020 11:11:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+In-Reply-To: <20200429072500.bp5qkquyc2hc2emp@sirius.home.kraxel.org>
 Content-Language: en-US
-X-Mailman-Approved-At: Thu, 30 Apr 2020 07:31:56 +0000
+X-ClientProxiedBy: AM3PR07CA0065.eurprd07.prod.outlook.com
+ (2603:10a6:207:4::23) To DM6PR12MB4401.namprd12.prod.outlook.com
+ (2603:10b6:5:2a9::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM3PR07CA0065.eurprd07.prod.outlook.com (2603:10a6:207:4::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2958.10 via Frontend Transport; Wed, 29 Apr 2020 09:11:25 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 33fb4117-bd31-495d-bea2-08d7ec1d4b96
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3962:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3962A067B3E8EC06D9A55D4A83AD0@DM6PR12MB3962.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 03883BD916
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4401.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(346002)(39860400002)(136003)(396003)(366004)(478600001)(8936002)(31686004)(6666004)(186003)(316002)(2616005)(110136005)(86362001)(52116002)(66556008)(31696002)(2906002)(16526019)(36756003)(8676002)(6486002)(66946007)(4326008)(66476007)(5660300002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pT6a/Jnae1muLfy1WTEIXtJdJRaBcF7yIhfHaZ6uEU4jOsF3gaigaorBMAYW9lvXyY04GAC2mBvdZQeFLBYEfqr+c9J5VwcKpj68RFG4rGixA4YPotyRHdbNnlxdx6ZlQhS33ls2Y3ejxmxEiUlFRBTwvlAxtRM8fbLDInWO8pHRcGbToDjZEjcThFaGcGt58xqHC/91EJK/xcPk63MFlxxTiPlguMkVodP9403JN3KISIcSAho8Hs1ACmDkb70ojig5VC+8md10Txu2Deo61RSdfEcVwjKE6SVzM8B3SIkrohRXlrgVIJAsW6/vEfmn9SMxhk6uwr7W1k7ujraVm0spZkAmyFx+3HvIYORzZfI7WCPQtBxB5d5dPcTl1egm57sFmqUk9FNYTL6UX9Fm48gJtrVvKYBFnzrTcf2v7wiGT3FyGgxq+OLSruzctK0k
+X-MS-Exchange-AntiSpam-MessageData: 55voggnzf8CckOxgeKIhDjX+ZMgC/87XI1oZOSdb0+b/pVxY7tRee/s7piEaSTbR8OHqt8S2miqXSE31uxpP7jFeVyrJonmKAcdZR0kogb+pgScmIeV2X0CCUMUCEolTSsjlkJv1byU6O+tbeT88wztLDafB5kMRQRx40r9ZdWKiYZwHba7c9CpI/xMZEMVK/kQZt1s1ZpmjrxGFejm2iHo1y0j9EL8c6BAuAACSqmGj5WHCTH0vbpBn8EEuaqOMaNFFDywi2F/ijq4h1oZVt6+umOvSBz25uDazYjg6mBpCdRyRTR9I10XzaEw/W/tdOcvBp4yIX3pzl+tBJIJM11xAdZF0/R/eL3IibUrL2V8g55jkV3PfRfV3MzhXJLKji1RyV2vtTJPeMvctYQmAN0ZtKzNF6Z27t91OGypB+HBlASY7C+782QGGlBgqP3eaQ63SrGhbtushYMAHYmMJQz9oL2DaJpsMCeOdRxDiONE2I2S1gpTC7WQ1k2S0oWPLNQBSLIsfQTxI9eZOaDJdq6CVNhb1iF9NK8QbwEYac0ZNiSqEYkgQyH0mTYah0dTOLYrJQ1K3jOWvG3iBZ7/Jy+hXC2N1K8pkle2HqBWkIR+eHdIvBxhLy/hfjGE8G3pSXFjvIfdJYA9rNPPiCqqe+AXiCit+eSdwgKmVmTSa0gLAUFyoLHM3oK92Ctpq36SFjZjA1KkYRWTJ7DmdAczk8lnpJl9OYdPrSV4oLl6qwpZOTKbLXnz43o2HcdgQ+ZZPwvHc184By1+cDndw9ssP0SRRnCRoTxnN1OsZDYaBITSx2Z6iaN37fRKt2jD1LmN/7MDAcxx9vyw7XkoWsiOXWSPWXcWetm2rs4EjXyefsi4=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33fb4117-bd31-495d-bea2-08d7ec1d4b96
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2020 09:11:26.5628 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9Y+u31n6GcogCGIsNED/nKpR0N0Sg39Rh3j8fl6VkHRoGKJz0Hvb4QGITAaZa31V
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3962
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,126 +105,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, spice-devel@lists.freedesktop.org,
- Caicai <caizhaopeng@uniontech.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: airlied@linux.ie, sam@ravnborg.org, dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-qxl_release should not be accesses after qxl_push_*_ring_release() calls:
-userspace driver can process submitted command quickly, move qxl_release
-into release_ring, generate interrupt and trigger garbage collector.
+Am 29.04.20 um 09:25 schrieb Gerd Hoffmann:
+>    Hi,
+>
+>> It's not that easy. Current cursors n ast are statically allocated. As
+>> soon as you add dynamic cursors into the mix, you'd get OOMs.
+> Well, with the split you can simply allocate dynamic cursors with
+> top-bottom to keep them out of the way.  It's not 100% perfect, the area
+> where the cursors are allocated from has a bit less free vram, so the
+> split effectively isn't 50/50 but more like 49/51.  But hey, still alot
+> better than what we have today.
+>
+> With two static cursors you can allocate one from TT_VRAM and one from
+> TT_PRIV so the remaining free vram is the same in both regions.
+>
+>> If the framebuffer BO goes into VRAM and the cursor BO goes into PRIV,
+>> pinning the next framebuffer BO during a pageflip would send it to
+>> VRAM.
+> Oh, seems my idea outline was a bit to short.  The plan is *not* to
+> alternate between VRAM and PRIV on allocations.  The plan is to add both
+> PRIV and VRAM to the placement array when pinning the framebuffer.
+>
+> ttm can simply place the framebuffers as it pleases and where it wants.
+> Due to the split it can't do a big blocking allocation in the middle
+> of vram though.
 
-It can lead to crashes in qxl driver or trigger memory corruption
-in some kmalloc-192 slab object
+There is an easier and most likely less CPU intense way of doing this.
 
-Gerd Hoffmann proposes to swap the qxl_release_fence_buffer_objects() +
-qxl_push_{cursor,command}_ring_release() calls to close that race window.
+All you need to do is to make allocations which are below halve of your 
+address space allocate from the beginning of a hole and if they are 
+above halve of the address space from the end of a hole.
 
-cc: stable@vger.kernel.org
-Fixes: f64122c1f6ad ("drm: add new QXL driver. (v1.4)")
-Signed-off-by: Vasily Averin <vvs@virtuozzo.com>
----
- drivers/gpu/drm/qxl/qxl_cmd.c     | 5 ++---
- drivers/gpu/drm/qxl/qxl_display.c | 6 +++---
- drivers/gpu/drm/qxl/qxl_draw.c    | 2 +-
- drivers/gpu/drm/qxl/qxl_ioctl.c   | 5 +----
- 4 files changed, 7 insertions(+), 11 deletions(-)
+This way you should always keep the largest hole in the middle.
 
-diff --git a/drivers/gpu/drm/qxl/qxl_cmd.c b/drivers/gpu/drm/qxl/qxl_cmd.c
-index fa8762d15d0f..05863b253d68 100644
---- a/drivers/gpu/drm/qxl/qxl_cmd.c
-+++ b/drivers/gpu/drm/qxl/qxl_cmd.c
-@@ -500,8 +500,8 @@ int qxl_hw_surface_alloc(struct qxl_device *qdev,
- 	/* no need to add a release to the fence for this surface bo,
- 	   since it is only released when we ask to destroy the surface
- 	   and it would never signal otherwise */
--	qxl_push_command_ring_release(qdev, release, QXL_CMD_SURFACE, false);
- 	qxl_release_fence_buffer_objects(release);
-+	qxl_push_command_ring_release(qdev, release, QXL_CMD_SURFACE, false);
- 
- 	surf->hw_surf_alloc = true;
- 	spin_lock(&qdev->surf_id_idr_lock);
-@@ -543,9 +543,8 @@ int qxl_hw_surface_dealloc(struct qxl_device *qdev,
- 	cmd->surface_id = id;
- 	qxl_release_unmap(qdev, release, &cmd->release_info);
- 
--	qxl_push_command_ring_release(qdev, release, QXL_CMD_SURFACE, false);
--
- 	qxl_release_fence_buffer_objects(release);
-+	qxl_push_command_ring_release(qdev, release, QXL_CMD_SURFACE, false);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-index 09583a08e141..91f398d51cfa 100644
---- a/drivers/gpu/drm/qxl/qxl_display.c
-+++ b/drivers/gpu/drm/qxl/qxl_display.c
-@@ -510,8 +510,8 @@ static int qxl_primary_apply_cursor(struct drm_plane *plane)
- 	cmd->u.set.visible = 1;
- 	qxl_release_unmap(qdev, release, &cmd->release_info);
- 
--	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
- 	qxl_release_fence_buffer_objects(release);
-+	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
- 
- 	return ret;
- 
-@@ -652,8 +652,8 @@ static void qxl_cursor_atomic_update(struct drm_plane *plane,
- 	cmd->u.position.y = plane->state->crtc_y + fb->hot_y;
- 
- 	qxl_release_unmap(qdev, release, &cmd->release_info);
--	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
- 	qxl_release_fence_buffer_objects(release);
-+	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
- 
- 	if (old_cursor_bo != NULL)
- 		qxl_bo_unpin(old_cursor_bo);
-@@ -700,8 +700,8 @@ static void qxl_cursor_atomic_disable(struct drm_plane *plane,
- 	cmd->type = QXL_CURSOR_HIDE;
- 	qxl_release_unmap(qdev, release, &cmd->release_info);
- 
--	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
- 	qxl_release_fence_buffer_objects(release);
-+	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
- }
- 
- static void qxl_update_dumb_head(struct qxl_device *qdev,
-diff --git a/drivers/gpu/drm/qxl/qxl_draw.c b/drivers/gpu/drm/qxl/qxl_draw.c
-index f8776d60d08e..3599db096973 100644
---- a/drivers/gpu/drm/qxl/qxl_draw.c
-+++ b/drivers/gpu/drm/qxl/qxl_draw.c
-@@ -243,8 +243,8 @@ void qxl_draw_dirty_fb(struct qxl_device *qdev,
- 	}
- 	qxl_bo_kunmap(clips_bo);
- 
--	qxl_push_command_ring_release(qdev, release, QXL_CMD_DRAW, false);
- 	qxl_release_fence_buffer_objects(release);
-+	qxl_push_command_ring_release(qdev, release, QXL_CMD_DRAW, false);
- 
- out_release_backoff:
- 	if (ret)
-diff --git a/drivers/gpu/drm/qxl/qxl_ioctl.c b/drivers/gpu/drm/qxl/qxl_ioctl.c
-index 8117a45b3610..72f3f1bbb40c 100644
---- a/drivers/gpu/drm/qxl/qxl_ioctl.c
-+++ b/drivers/gpu/drm/qxl/qxl_ioctl.c
-@@ -261,11 +261,8 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 			apply_surf_reloc(qdev, &reloc_info[i]);
- 	}
- 
-+	qxl_release_fence_buffer_objects(release);
- 	ret = qxl_push_command_ring_release(qdev, release, cmd->type, true);
--	if (ret)
--		qxl_release_backoff_reserve_list(release);
--	else
--		qxl_release_fence_buffer_objects(release);
- 
- out_free_bos:
- out_free_release:
--- 
-2.17.1
+This can be done with another flag to drm_mm and would most likely would 
+be a nice addition to other drivers as well.
+
+Regards,
+Christian.
+
+>
+> If you are going to pageflip you should have one framebuffer already
+> pinned (the one currently displayed).  If that happens to live TT_VRAM
+> ttm should be able to make room in TT_PRIV to pin the new framebuffer
+> you want pageflip to, and visa-versa.
+>
+> ttm will only evict unpinned BOs if needed, when running with smaller
+> framebuffers ttm will happily keep more than two framebuffers in vram.
+> All fully automatic without vram helpers having to pay much attention
+> to the allocation strategy.
+>
+>> I'm preparing v2 of this patch set. It'll get static cursors out of the
+>> way and make the feature opt-in.
+> I think with the split model there is no need to make that optional.
+>
+> cheers,
+>    Gerd
+>
 
 _______________________________________________
 dri-devel mailing list
