@@ -2,53 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C2AB1BD745
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 10:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69811BF18C
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:33:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A9536ECE3;
-	Wed, 29 Apr 2020 08:28:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7089C6EB77;
+	Thu, 30 Apr 2020 07:33:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A00DB6ECE3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 08:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588148922;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=307isNnvbFBLVIHqWZVI02AT/E09cU5NkzO3QxAC0lI=;
- b=M9OcU9Unhp4Gve3yeLhAKkzbd8BsWhj8Q/56tXF7aJ/nXVcIGm0vHN2mhyoLER16woQctH
- wMnGMqrSdf2FRF4vk5yAOD4SCdz1k0vJLsDpRSsppLWst7pwCdtGHqt6rloY2eTcnopiU4
- MmbTwCfFWX2RNd3UwghNz0TbDCRc7MQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-ETodXgd1OBKAK3jUQcuNEw-1; Wed, 29 Apr 2020 04:28:41 -0400
-X-MC-Unique: ETodXgd1OBKAK3jUQcuNEw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81BFD45F;
- Wed, 29 Apr 2020 08:28:39 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
- [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 06B6F5D9E5;
- Wed, 29 Apr 2020 08:28:38 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BFF5E1753B; Wed, 29 Apr 2020 10:28:37 +0200 (CEST)
-Date: Wed, 29 Apr 2020 10:28:37 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Vasily Averin <vvs@virtuozzo.com>
-Subject: Re: [PATCH 1/1] drm/qxl: add mutex_lock/mutex_unlock to ensure the
- order in which resources are rele
-Message-ID: <20200429082837.uedcapxmennuc5a2@sirius.home.kraxel.org>
-References: <bc954de7-bfe0-8e0c-79d4-90d726a0ffa6@virtuozzo.com>
+Received: from smtp.smtpout.orange.fr (smtp02.smtpout.orange.fr
+ [80.12.242.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE5426EDAC
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 08:45:13 +0000 (UTC)
+Received: from localhost.localdomain ([92.148.159.11]) by mwinf5d03 with ME
+ id YYl72200G0F2omL03Yl75P; Wed, 29 Apr 2020 10:45:11 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Wed, 29 Apr 2020 10:45:11 +0200
+X-ME-IP: 92.148.159.11
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: b.zolnierkie@samsung.com, sumit.semwal@linaro.org,
+ rafael.j.wysocki@intel.com, corbet@lwn.net, viresh.kumar@linaro.org,
+ jani.nikula@intel.com, mchehab+samsung@kernel.org, eric.miao@marvell.com
+Subject: [PATCH] video: pxafb: Fix the function used to balance a
+ 'dma_alloc_coherent()' call
+Date: Wed, 29 Apr 2020 10:45:05 +0200
+Message-Id: <20200429084505.108897-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bc954de7-bfe0-8e0c-79d4-90d726a0ffa6@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mailman-Approved-At: Thu, 30 Apr 2020 07:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,67 +42,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Denis V. Lunev" <den@virtuozzo.com>, David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org\"" <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Zhangyueqian <zhangyueqian@uniontech.com>, Dave Airlie <airlied@redhat.com>,
- Caicai <caizhaopeng@uniontech.com>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+'dma_alloc_coherent()' must be balanced by a call to 'dma_free_coherent()'
+not 'dma_free_wc()'.
+The correct dma_free_ function is already used in the error handling path
+of the probe function.
 
-> > The only way I see for this to happen is that the guest is preempted
-> > between qxl_push_{cursor,command}_ring_release() and
-> > qxl_release_fence_buffer_objects() calls.  The host can complete the qxl
-> > command then, signal the guest, and the IRQ handler calls
-> > qxl_release_free_list() before qxl_release_fence_buffer_objects() runs.
-> 
-> We think the same: qxl_release was freed by garbage collector before
-> original thread had called qxl_release_fence_buffer_objects().
+Fixes: 77e196752bdd ("[ARM] pxafb: allow video memory size to be configurable")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/video/fbdev/pxafb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Ok, nice, I think we can consider the issue being analyzed then ;)
-
-> > Looking through the code I think it should be safe to simply swap the
-> > qxl_release_fence_buffer_objects() +
-> > qxl_push_{cursor,command}_ring_release() calls to close that race
-> > window.  Can you try that and see if it fixes the bug for you?
-> 
-> I'm going to prepare and test such patch but I have one question here:
-> qxl_push_*_ring_release can be called with  interruptible=true and fail
-> How to correctly handle this case? Is the hunk below correct from your POV?
-
-Oh, right, the error code path will be quite different, checking ...
-
-> --- a/drivers/gpu/drm/qxl/qxl_ioctl.c
-> +++ b/drivers/gpu/drm/qxl/qxl_ioctl.c
-> @@ -261,12 +261,8 @@ static int qxl_process_single_command(struct qxl_device *qdev,
->                         apply_surf_reloc(qdev, &reloc_info[i]);
->         }
->  
-> +       qxl_release_fence_buffer_objects(release);
->         ret = qxl_push_command_ring_release(qdev, release, cmd->type, true);
-> -       if (ret)
-> -               qxl_release_backoff_reserve_list(release);  <<<< ????
-> -       else
-> -               qxl_release_fence_buffer_objects(release);
-> -
->  out_free_bos:
->  out_free_release:
-	if (ret)
-		qxl_release_free(qdev, release);
-
-[ code context added ]
-
-qxl_release_free() checks whenever a release is fenced and signals the
-fence in case it is so it doesn't wait for the signal forever.  So, yes,
-I think qxl_release_free() should cleanup the release properly in any
-case and the patch chunk should be correct.
-
-take care,
-  Gerd
+diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
+index 00b96a78676e..6f972bed410a 100644
+--- a/drivers/video/fbdev/pxafb.c
++++ b/drivers/video/fbdev/pxafb.c
+@@ -2417,8 +2417,8 @@ static int pxafb_remove(struct platform_device *dev)
+ 
+ 	free_pages_exact(fbi->video_mem, fbi->video_mem_size);
+ 
+-	dma_free_wc(&dev->dev, fbi->dma_buff_size, fbi->dma_buff,
+-		    fbi->dma_buff_phys);
++	dma_free_coherent(&dev->dev, fbi->dma_buff_size, fbi->dma_buff,
++			  fbi->dma_buff_phys);
+ 
+ 	return 0;
+ }
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
