@@ -2,40 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B301BDB26
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 13:54:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9711BDB3B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 13:59:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE206EAA0;
-	Wed, 29 Apr 2020 11:54:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 028F36E03C;
+	Wed, 29 Apr 2020 11:59:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C22C6EA9F
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 11:54:26 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id AFEC4804EF;
- Wed, 29 Apr 2020 13:54:19 +0200 (CEST)
-Date: Wed, 29 Apr 2020 13:54:17 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH v2] video: fbdev: controlfb: fix build for COMPILE_TEST=y
- && PPC_PMAC=y && PPC32=n
-Message-ID: <20200429115417.GA12801@ravnborg.org>
-References: <CGME20200429104825eucas1p16bf37b71a3ab3a768d1eff6c48eb61dd@eucas1p1.samsung.com>
- <fe520316-3863-e6c4-9581-5d709f49e906@samsung.com>
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E41756E03C
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 11:59:05 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id u15so2319914ljd.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 04:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aVijcxkl8RFme68KtxGbh85pzIB5ijVxKk+a09Un+iw=;
+ b=IPeMj/JsiV4qquGk48mM7p/KuqRhbASEDpvvaKlgkEwerVBnGW4aqgA040wNnQ1r7e
+ W/vzybo4Jf3XD21y2f2kAZ/eDgn7Sdk9GRQ8GjesRxf0xdft/QebmpCP6CaXClCPux2l
+ 3S9RPqjykKQAkN1qszzCmnHdy2MUkT9lsSNI7iFOaWcojEE2UVolGAiGrz1O2W7hkjiK
+ mz8G/dF8OHL+EQUNVrH85bj1gZhsmHmKeOWxpbMPx/SKv1/KB/3YOLNmjxF6odJDSgsJ
+ ASJ68ORqoLvHJpH25ccvtqJJ9ZtLZNKWPSf5ko8ShsZQnNMm5I+3sh8S2/ZUG85o6m8i
+ MgyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aVijcxkl8RFme68KtxGbh85pzIB5ijVxKk+a09Un+iw=;
+ b=BudE/XkwsT40zSwhFAAvyXfjtc0DZVnY6xBkv31SV6DFK5JeoX7JDu3Jc53vQ80mQ5
+ c+omrlENN5pKtL9L3ZbOq612B+phRigubxozaALI7w4YcBwbfv1Rnpm94T1UUU538udL
+ vkmrbnrgC6MguqTkCj3rHQqCX4iyeZzvl8QAqDWauG3haw2ZWxWRoXmfTGaMiNJlMCQU
+ tZET+hdtW2tN6j0rU4L/k6Chxzyq1p2hPi/FM+eewbuRY7cFv/iEgxgpowWYbZOAGRes
+ qGI+VLIpTIa+umma5N/igcdWUPobhjENo5iDLpuESTUIuW6w/VVoZkoJc6aLmRnZNKR6
+ bh/A==
+X-Gm-Message-State: AGi0PuZFXLbBlsZGEsT1NHPc80s8reQpvZeapGnpez9nobI8CmknaIGe
+ ZXB3+LeiZTpR4tCkGeAO9Jkp6ZPAcfMYNSc0O8OChg==
+X-Google-Smtp-Source: APiQypJ0eCh+mVOekbEC0Cgc8V24te5/UeNEvaBTJ9GyT6+wXKvMtHnJPxbe0msg6agOBSnYW1BGf/tp2RvlmLmGsBE=
+X-Received: by 2002:a05:651c:1058:: with SMTP id
+ x24mr21524322ljm.39.1588161544192; 
+ Wed, 29 Apr 2020 04:59:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <fe520316-3863-e6c4-9581-5d709f49e906@samsung.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=rOUgymgbAAAA:8 a=QyXUC8HyAAAA:8 a=7gkXJVJtAAAA:8
- a=hD80L64hAAAA:8 a=TBqdQqTh5Vb_MQszC5cA:9 a=CjuIK1q_8ugA:10
- a=MP9ZtiD8KjrkvI0BhSjB:22 a=E9Po1WZjFZOl8hwRPBS3:22
+References: <20200429082631.925461-1-linus.walleij@linaro.org>
+ <20200429113305.tl35n2uws3hoxgvt@holly.lan>
+In-Reply-To: <20200429113305.tl35n2uws3hoxgvt@holly.lan>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 29 Apr 2020 13:58:53 +0200
+Message-ID: <CACRpkdZYMd+0aecr-NFGcJHyCdJoX0Bj+3eOyAPvZqENPC5rcw@mail.gmail.com>
+Subject: Re: [PATCH] backlight: lms283gf05: Convert to GPIO descriptors
+To: Daniel Thompson <daniel.thompson@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,66 +62,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-fbdev@vger.kernel.org,
- kbuild test robot <lkp@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Daniel Mack <daniel@zonque.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bartlomiej.
+On Wed, Apr 29, 2020 at 1:33 PM Daniel Thompson
+<daniel.thompson@linaro.org> wrote:
+> On Wed, Apr 29, 2020 at 10:26:31AM +0200, Linus Walleij wrote:
 
-On Wed, Apr 29, 2020 at 12:48:24PM +0200, Bartlomiej Zolnierkiewicz wrote:
-> 
-> powerpc allyesconfig fails like this:
-> 
-> drivers/video/fbdev/controlfb.c: In function 'controlfb_mmap':
-> drivers/video/fbdev/controlfb.c:756:23: error: implicit declaration of function 'pgprot_cached_wthru'; did you mean 'pgprot_cached'? [-Werror=implicit-function-declaration]
->   756 |   vma->vm_page_prot = pgprot_cached_wthru(vma->vm_page_prot);
->       |                       ^~~~~~~~~~~~~~~~~~~
->       |                       pgprot_cached
-> drivers/video/fbdev/controlfb.c:756:23: error: incompatible types when assigning to type 'pgprot_t' {aka 'struct <anonymous>'} from type 'int'
-> 
-> Fix it by adding missing PPC32 dependency.
+> > -     if (pdata != NULL) {
+> > -             ret = devm_gpio_request_one(&spi->dev, pdata->reset_gpio,
+> > -                             GPIOF_DIR_OUT | (!pdata->reset_inverted ?
+> > -                             GPIOF_INIT_HIGH : GPIOF_INIT_LOW),
+> > -                             "LMS283GF05 RESET");
+> > -             if (ret)
+> > -                     return ret;
+> > -     }
+> > +     st->reset = gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_HIGH);
+>
+> Isn't this a change of behaviour w.r.t. to the initial state of the pin?
 
-Is this really the right fix?
-Short term I htink it is OK, but I think there should be a common way
-to do the same for all archtectures so no conditional compilation is
-needed. In other words the use of pgprot_cached_wthru looks like we
-need a better abstraction.
+Yeah you're right. The original author intended reset to be
+de-asserted here so it should be GPIOD_OUT_LOW.
 
-Added Christoph to the mail as he has a good overview of the area.
+> To be honest I suspect it is harmless because we launch into the reset
+> sequence shortly after anyway. More that that I think I prefer it this
+> way since it is better aligned with the behaviour of
+> lms283gf05_power_set().
+>
+> However if it is an intentional change of behaviour then it would be
+> good to spell that out in the description for the benefit of future
+> archaeologists.
 
-	Sam
+Hm I'd rather not change semantics actually, you never know.
+I'll switch it back. If we decide to change it I'd use GPIOD_ASIS
+and not touch the hardware here.
 
-
-> 
-> Fixes: a07a63b0e24d ("video: fbdev: controlfb: add COMPILE_TEST support")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Reported-by: kbuild test robot <lkp@intel.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> ---
-> v2: fix implicit btext_update_display() function declaration error
-> 
->  drivers/video/fbdev/controlfb.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> Index: b/drivers/video/fbdev/controlfb.c
-> ===================================================================
-> --- a/drivers/video/fbdev/controlfb.c
-> +++ b/drivers/video/fbdev/controlfb.c
-> @@ -55,7 +55,7 @@
->  #include "macmodes.h"
->  #include "controlfb.h"
->  
-> -#ifndef CONFIG_PPC_PMAC
-> +#if !defined(CONFIG_PPC_PMAC) || !defined(CONFIG_PPC32)
->  #define invalid_vram_cache(addr)
->  #undef in_8
->  #undef out_8
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
