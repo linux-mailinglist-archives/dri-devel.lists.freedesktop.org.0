@@ -1,31 +1,101 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C241BDD49
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 15:14:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F531BDD4C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Apr 2020 15:14:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F21726E086;
-	Wed, 29 Apr 2020 13:14:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A00C6ECEF;
+	Wed, 29 Apr 2020 13:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07E2C6E086
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 13:14:09 +0000 (UTC)
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
- (Authenticated sender: paul.kocialkowski@bootlin.com)
- by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id F36E26000C;
- Wed, 29 Apr 2020 13:13:59 +0000 (UTC)
-Date: Wed, 29 Apr 2020 15:13:59 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH] sun6i: dsi: fix gcc-4.8
-Message-ID: <20200429131359.GJ610776@aptenodytes>
-References: <20200428215105.3928459-1-arnd@arndb.de>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4E96ECEF
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 13:14:44 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200429131442euoutp01d717667a777966525fdaa32735d7c833~KTKNNQjTG0898308983euoutp01M
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 13:14:42 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200429131442euoutp01d717667a777966525fdaa32735d7c833~KTKNNQjTG0898308983euoutp01M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1588166082;
+ bh=xbXjOd4CC2fPbn7brWYQ8iiw054MQqQZmXHRzua7a2E=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=J63kolCXnR5qEPx54Pukm8CYF+X1LdKV7Xum5udsJejt6tvlXZsbDJW2dOzhjAtFA
+ qQKSk+7DymWAfKLBa/e9p7V8TzsK8Fjm1iFZaD5j3sHuS0lZbV+siAhHG7UY4eyGdq
+ BFh8Wo/cIkkFcPpB0MQrYqLZXt00wuH+2vDsKLLY=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200429131442eucas1p206652f9c013176e156f411626f6a4c9f~KTKM-2WDs0260802608eucas1p2a;
+ Wed, 29 Apr 2020 13:14:42 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 5C.B2.61286.2CD79AE5; Wed, 29
+ Apr 2020 14:14:42 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200429131442eucas1p20eb0e32635db17674ba5f52a5eba806a~KTKMsJ9_A0257402574eucas1p2f;
+ Wed, 29 Apr 2020 13:14:42 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200429131442eusmtrp189793fd7b25b9c77ba414491fa3966a2~KTKMrhB2t0351603516eusmtrp1M;
+ Wed, 29 Apr 2020 13:14:42 +0000 (GMT)
+X-AuditID: cbfec7f2-ef1ff7000001ef66-a2-5ea97dc2baf5
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id CD.EB.07950.2CD79AE5; Wed, 29
+ Apr 2020 14:14:42 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200429131441eusmtip259f8d0241dffb4dea348af13384ab709~KTKMSEImI1160211602eusmtip2T;
+ Wed, 29 Apr 2020 13:14:41 +0000 (GMT)
+Subject: Re: [PATCH v2] video: fbdev: controlfb: fix build for
+ COMPILE_TEST=y && PPC_PMAC=y && PPC32=n
+To: Christoph Hellwig <hch@infradead.org>
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <3006e72e-fde0-127c-bd59-3902032a0c18@samsung.com>
+Date: Wed, 29 Apr 2020 15:14:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200428215105.3928459-1-arnd@arndb.de>
+In-Reply-To: <20200429125101.GA21275@infradead.org>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTYRjG/XbOzo7i7Dgt31QUBkUKaaLC8YKYFo6E6M8Isk55UGlT2dTU
+ CNRMZZlpgtUwMhV1QmbLO5q6wiukVl7y7jB1tnXxEk3JcjtK/vf7vvd5vvd9Xj4SE7Xwncm4
+ +CRWHs9IxYQN3tRjGjqpva2OOtX91Z1+vjCD0Z82vxP0YGE5j+4r+MGnP7aVEvTqHR1B15ga
+ Ed3YMSoIJSWZExOEpONXGS55XeMpqWjX8yRz93p5ksqSUUKyrnG7ILhkExzNSuNSWLl3yFWb
+ 2IWubH7iBp76ZiEtA21jSkSSQPnB0qpciWxIEVWDYGxYx+cOGwg6V14Q3GEdQUnDY6RE1hbH
+ 7IMiwswiqhpBgSGEExkRDGXoeeaCAxUL63k7FpEj5QGT1bmYWYRRJgSL20bLSwQVCEW5tRYW
+ UiEwvmHgmxmnjsHdrnHMzIepi7A2/5bPaeyh/8kibmZryhdymhssXoxygsnFZzyO3aHZWGpp
+ BtSAAAaGDTg39hl4asjlcewAq70NAo5dYbA4H+cMdQj+5K3suZsRVBdzGYAKgun3W4R5Zdhu
+ npdt3tz1aVhr/CngNmkHE0Z7bgg7eNj0aG/BQsjLEXHq41BfVU/st1W2qrFCJFYdiKY6EEd1
+ II7qf98yhNciJzZZIYthFT7x7E0vBSNTJMfHeF1PkGnQ7n8a3Olda0GbH65pEUUisa2QZtVR
+ Ij6TokiTaRGQmNhRqIutihIJo5m0dFaecEWeLGUVWuRC4mInoW+5/rKIimGS2Bssm8jK96s8
+ 0to5Ax3ReBAjI5GpZ2XtbsOB8zOVES7hpE7fH/bbs7vw1nndct3i54o+/d932f7BFaulXa73
+ RVZzyzGdk1nntrycVd2vQiO1jPRohVU5E/Alv7DXNUvjbu+GB5F9ftXfHA9pIiYy7aLdw6d6
+ ToSpTRdXXB38Z+tb0wOmp5RLXdO2Y/5iXBHL+HhicgXzD0XDNclLAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFIsWRmVeSWpSXmKPExsVy+t/xe7qHalfGGXydz2ex8OFdZosrX9+z
+ WZyesIjJ4kTfB1aLy7vmsFm8an7EZrHi51ZGi617r7I7cHg03rjB5rH32wIWj80rtDwW73nJ
+ 5HG/+ziTx5JpV9k8Pm+SC2CP0rMpyi8tSVXIyC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXS
+ t7NJSc3JLEst0rdL0Mt4eKCFteALS8W+h5UNjL+Zuxg5OSQETCTu9U9k62Lk4hASWMooseTy
+ eZYuRg6ghIzE8fVlEDXCEn+udUHVvGaUuLHpDCtIjbBAhsTvd8UgNSICmhK3lrczg9QwC/xk
+ lHi8ZAc7RMNuRomG4/dYQKrYBKwkJravYgSxeQXsJK5/ecMKYrMIqEq0HrgOdpGoQITE4R2z
+ oGoEJU7OfALWyylgLNG2fQtYnFlAXeLPvEvMELa4xK0n85kgbHmJ7W/nME9gFJqFpH0WkpZZ
+ SFpmIWlZwMiyilEktbQ4Nz232EivODG3uDQvXS85P3cTIzAetx37uWUHY9e74EOMAhyMSjy8
+ E9JXxgmxJpYVV+YeYpTgYFYS4X2UsSxOiDclsbIqtSg/vqg0J7X4EKMp0HMTmaVEk/OBqSKv
+ JN7Q1NDcwtLQ3Njc2MxCSZy3Q+BgjJBAemJJanZqakFqEUwfEwenVAPjxjnu0/emCjsdUetP
+ cWKaWHQi2uXoKs+/+Qb7vb8HJDBkeX92sub127PozftePaVzs/5+CT0ie+TfrQm3mK68zPy9
+ cOd+w2vvd1xZVSWwu0o1j1VIoPpLnGPw9j9pC8v3b+Fi+Hfxc07BVsZ6C3u/Oz9NPh6/cNCQ
+ Z3qj5M30ldL8/ff+r2kyUWIpzkg01GIuKk4EACnAEcvdAgAA
+X-CMS-MailID: 20200429131442eucas1p20eb0e32635db17674ba5f52a5eba806a
+X-Msg-Generator: CA
+X-RootMTR: 20200429104825eucas1p16bf37b71a3ab3a768d1eff6c48eb61dd
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200429104825eucas1p16bf37b71a3ab3a768d1eff6c48eb61dd
+References: <CGME20200429104825eucas1p16bf37b71a3ab3a768d1eff6c48eb61dd@eucas1p1.samsung.com>
+ <fe520316-3863-e6c4-9581-5d709f49e906@samsung.com>
+ <20200429125101.GA21275@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,111 +108,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <maxime.ripard@bootlin.com>, Chen-Yu Tsai <wens@csie.org>,
- Jagan Teki <jagan@amarulasolutions.com>, linux-arm-kernel@lists.infradead.org,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============1854675451=="
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-fbdev@vger.kernel.org,
+ kbuild test robot <lkp@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1854675451==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="yr/DzoowOgTDcSCF"
-Content-Disposition: inline
+On 4/29/20 2:51 PM, Christoph Hellwig wrote:
+> Why do we even bother allocing the driver to compile for !ppc32
+> given that it clearly needs ppc-specific infrastructure?  The whole
+> idea of needing magic stubs for the COMPILE_TEST case seems rather
+> counterproduction.
+Not a perfect solution but at the cost of 2 ifdefs it allows controlfb
+driver to be compile tested on any arch.
 
+Being able to compile test fbdev device drivers is really useful for
+me and saves me a lot of time when doing fbdev maintainer duties.
 
---yr/DzoowOgTDcSCF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Tue 28 Apr 20, 23:50, Arnd Bergmann wrote:
-> Older compilers warn about initializers with incorrect curly
-> braces:
->=20
-> drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c: In function 'sun6i_dsi_encoder_en=
-able':
-> drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c:720:8: error: missing braces aroun=
-d initializer [-Werror=3Dmissing-braces]
->   union phy_configure_opts opts =3D { 0 };
->         ^
-> drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c:720:8: error: (near initialization=
- for 'opts.mipi_dphy') [-Werror=3Dmissing-braces]
->=20
-> Use the GNU empty initializer extension to avoid this.
-
-Looks good to me:
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-But maybe use the drm/sun4i: dsi: prefix instead (granted, it wasn't used in
-the commit being fixed).
-
-Cheers,
-
-Paul
-
-> Fixes: bb3b6fcb6849 ("sun6i: dsi: Convert to generic phy handling")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun=
-4i/sun6i_mipi_dsi.c
-> index f6c67dd87a05..aa67cb037e9d 100644
-> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> @@ -718,7 +718,7 @@ static void sun6i_dsi_encoder_enable(struct drm_encod=
-er *encoder)
->  	struct drm_display_mode *mode =3D &encoder->crtc->state->adjusted_mode;
->  	struct sun6i_dsi *dsi =3D encoder_to_sun6i_dsi(encoder);
->  	struct mipi_dsi_device *device =3D dsi->device;
-> -	union phy_configure_opts opts =3D { 0 };
-> +	union phy_configure_opts opts =3D { };
->  	struct phy_configure_opts_mipi_dphy *cfg =3D &opts.mipi_dphy;
->  	u16 delay;
->  	int err;
-> --=20
-> 2.26.0
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---yr/DzoowOgTDcSCF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl6pfZcACgkQ3cLmz3+f
-v9EZuwf/c+11FwGVP8LmF3ZNopR32d3cDoA0mLr1vizGfseJVldesiJUy/VuZI7I
-ppIjTfjte/iBHuyGcv8oAc0GQfkJaCvLFlcSkDUGgH5UfPEqxCTGvPLvV0doT77g
-MAUZw1EnVM2zHZ9IvjLmmes2/nvRMs/knC4qf8H8VW2LcFbDqUt+P9SioDHMEOzz
-ZpKNqa7C6Ll/KK7RljKfhk/i1bzakwyEw5Mv31bMBjJ5QeiP+OnLBDBD6ltBfjM7
-f4ODxc85UpxYB9uoRfgQoE2Dk2aN2h2OMTGt7USnEA3HesH1oxRpP7xWpefwHGfY
-oHhO7JHJ8TOwoWS/iIN+wsbHxbDpWw==
-=QQXf
------END PGP SIGNATURE-----
-
---yr/DzoowOgTDcSCF--
-
---===============1854675451==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1854675451==--
