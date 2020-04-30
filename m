@@ -1,33 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB731C0ECB
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:24:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 786881C0292
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 18:32:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B62246EC1F;
-	Fri,  1 May 2020 07:23:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14FAC6E936;
+	Thu, 30 Apr 2020 16:32:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B6716E933
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 16:28:01 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 69D85AC92;
- Thu, 30 Apr 2020 16:27:59 +0000 (UTC)
-Message-ID: <affd68499ff843e8f3e0d18890699e18cde7582e.camel@suse.de>
-Subject: Re: [PATCH v2 04/91] firmware: rpi: Only create clocks device if we
- don't have a node for it
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>
-Date: Thu, 30 Apr 2020 18:27:58 +0200
-In-Reply-To: <b181d867cb9523e1877a3dfd258bafde2988024f.1587742492.git-series.maxime@cerno.tech>
-References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
- <b181d867cb9523e1877a3dfd258bafde2988024f.1587742492.git-series.maxime@cerno.tech>
-User-Agent: Evolution 3.36.2 
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45A8D6E937;
+ Thu, 30 Apr 2020 16:32:39 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id u16so2681775wmc.5;
+ Thu, 30 Apr 2020 09:32:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ugyb7Zb4Sysj1bxwGzOmKe/PaiDp8wxsBq9DmhoL44E=;
+ b=j6eTQuzQbAwpZE/KG4Vb3yRnsgDC26xftMT2jvjHHgv2Ry9OmS0pTf+OOaX89NT7xR
+ a6ye+t2bVtIHykJbMOPy5/zJM6YGO1023NU/VCkNr9A861zyXkMeCkiNnwU7yHmSKAmD
+ cBkNlVPk7QQbKMdbAd5LIvfvE3URtUsecxEIDZB9UMbeAn+lluUEzBc+m8U215//CGsG
+ Mje7KcnpQBmmm1f4M5+qYKrpGAwQ/nLtmFc4WgQbM2+oNW8Eaw4oxV8xLrOo3wkzHDDd
+ I8e3hdaH1py0yn6TeFgl1G2KLhNEZ9+QsoUQQ3PK0n6SrJ479pmtaX1QQm3DiT/LlhnY
+ wPHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ugyb7Zb4Sysj1bxwGzOmKe/PaiDp8wxsBq9DmhoL44E=;
+ b=uZjryBNT3fuBz2bY2k0WNZJzfbGIbOEIHdwRhZY/eFRFPJOXRyAE7gzlx6GCld0LwY
+ NEBSc+/VnijTcqkmSOfglVuwjasgzvYFGRW67ZKa+7VsGGttndPOx8fKGXTqzZ2ez8X3
+ fmAjn+dvElifomn5/emKJ92kTu49kmxHIi2wztJS5r/cbf7L59QtheON5JURX36SYihe
+ 2eroX9JqaUvCHF9mNIK0qcSH8GvTOaa3wY2Rv/JPRuzu9Jz9BUKAWl46csaS2LkqNjIn
+ 0+FCSWetr554+HBdzP8cU1R8uyaRxJ8BfeTyo/b+tXvv0DL4v576Q8RKL+sy3cWc6Asd
+ Y8sA==
+X-Gm-Message-State: AGi0PubsiP/0jDDZc7543brk1XMHfAxRHD45xntUGCeWNC9v3XzBmYMm
+ dFMOvy2Q4i/UjcYlPfIpbKdNzMPji14Zqiop5Is=
+X-Google-Smtp-Source: APiQypKrZHvtErC3cKfTsi/zEKLQ6xIA3UZ+0B7fI1AaibkS6bXo92M3dum2wwZ1ZNScd8GlY0v15RO8THKXaBE6uGQ=
+X-Received: by 2002:a1c:9d8c:: with SMTP id g134mr3960280wme.79.1588264357899; 
+ Thu, 30 Apr 2020 09:32:37 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 01 May 2020 07:22:25 +0000
+References: <1588218962-75747-1-git-send-email-zou_wei@huawei.com>
+In-Reply-To: <1588218962-75747-1-git-send-email-zou_wei@huawei.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 30 Apr 2020 12:32:26 -0400
+Message-ID: <CADnq5_Nawk027_tzc4WChRcPaZqJtorQTy=YrFFdKL-C7+ScKw@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amd/display: Fix unsigned comparison to zero
+To: Zou Wei <zou_wei@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,94 +60,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1865588302=="
+Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied.  Thanks!
 
---===============1865588302==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-8iAI6Ck2SuZD2phx19xp"
+Alex
 
-
---=-8iAI6Ck2SuZD2phx19xp
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 2020-04-24 at 17:33 +0200, Maxime Ripard wrote:
-> The firmware clocks driver was previously probed through a platform_devic=
-e
-> created by the firmware driver.
->=20
-> Since we will now have a node for that clocks driver, we need to create t=
-he
-> device only in the case where there's no node for it already.
->=20
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+On Thu, Apr 30, 2020 at 3:33 AM Zou Wei <zou_wei@huawei.com> wrote:
+>
+> Fixes coccicheck warning:
+>
+> drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c:1398:60-61:
+> WARNING: Unsigned expression compared with zero: j >= 0
+>
+> Fixes: 238387774232 ("drm/amd/display: fix rn soc bb update")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Zou Wei <zou_wei@huawei.com>
 > ---
->  drivers/firmware/raspberrypi.c | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/firmware/raspberrypi.c b/drivers/firmware/raspberryp=
-i.c
-> index da26a584dca0..1874f41b007c 100644
-> --- a/drivers/firmware/raspberrypi.c
-> +++ b/drivers/firmware/raspberrypi.c
-> @@ -210,6 +210,15 @@ rpi_register_hwmon_driver(struct device *dev, struct
-> rpi_firmware *fw)
-> =20
->  static void rpi_register_clk_driver(struct device *dev)
->  {
-> +	/*
-> +	 * Earlier DTs don't have a node for the firmware clocks but
-> +	 * rely on us creating a platform device by hand. If we do
-> +	 * have a node for the firmware clocks, just bail out here.
-> +	 */
-> +	if (of_get_compatible_child(dev->of_node,
-> +				    "raspberrypi,firmware-clocks"))
-
-In the case you find a compatible device node you have to decrement the
-refcount of_get_compatible_child() increased before leaving.
-
-Regards,
-Nicolas
-
-
---=-8iAI6Ck2SuZD2phx19xp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl6q/I4ACgkQlfZmHno8
-x/7lFAf/ZpNeGVs0IJARqWX4JgGzfAueqaUdKpDNTfmLeklqw80t61otAkXEg88E
-4MPVJnyIQvyPVDN0mgKg34bytiAYby8jadKUe9/H2e6eCkQ4+5XL2OiJBdsDZtrO
-61TiPBWTOLY4c6Kixyx+0zGElXfcvZF+RLN37NqZVKG0JAsebwUWIbCxLKuf9cWj
-KSMYL2iNFNs6RYVctEdLh5pFAnaEtA14Gg9sJlpXO718MS+UBsa5wRmlN973IWUO
-u8PqR317lotzyFeD1U5iuaWSBPsuZKbQYLhLh2/UXoCpBbLZeV/5wp64hxpBh1vF
-XU33W6eYeOM9fRbgMKq74VUDZlf1DA==
-=+5W0
------END PGP SIGNATURE-----
-
---=-8iAI6Ck2SuZD2phx19xp--
-
-
---===============1865588302==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>  drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+> index ceaf70a..419cdde 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+> @@ -1384,7 +1384,8 @@ static void update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw_param
+>         struct dcn21_resource_pool *pool = TO_DCN21_RES_POOL(dc->res_pool);
+>         struct clk_limit_table *clk_table = &bw_params->clk_table;
+>         struct _vcs_dpi_voltage_scaling_st clock_limits[DC__VOLTAGE_STATES];
+> -       unsigned int i, j, closest_clk_lvl;
+> +       unsigned int i, closest_clk_lvl;
+> +       int j;
+>
+>         // Default clock levels are used for diags, which may lead to overclocking.
+>         if (!IS_DIAG_DC(dc->ctx->dce_environment)) {
+> --
+> 2.6.2
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1865588302==--
-
