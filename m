@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 532FD1C0EC9
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:24:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60431C0EA3
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:23:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 093696EC12;
-	Fri,  1 May 2020 07:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C104C6EA6C;
+	Fri,  1 May 2020 07:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF5E86EA6A
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 11:56:35 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 994A26EA6A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 11:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
  s=dbaedf251592; t=1588247784;
  bh=VGV4Fw2sNEq8D8bF6x0dfHewG3Zs/VQNCW6HfTq7oas=;
@@ -20,8 +20,8 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
  YQjbXIUASjX6mioywyIoxm6LNfoDqJlbBidHJqKeeluAMwnHGNeji7J3z2t9HVLeRx
  0fZM2W+fcniXTuJ8ErOJL/+v2tGFT6RUvAUU5xQw=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.131.175.216]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MOAmi-1jZbS82lIC-005aTk; Thu, 30
+Received: from [192.168.1.2] ([93.131.175.216]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MfTx5-1jnh7j2qRH-00P6vk; Thu, 30
  Apr 2020 13:56:24 +0200
 To: Wei Yongjun <weiyongjun1@huawei.com>, dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH v2] drm/mcde: dsi: Fix return value check in
@@ -70,36 +70,36 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <7be53832-592b-7837-0688-0f1fb98673fb@web.de>
+Message-ID: <fa72cc36-0204-fb82-6c62-ae43cb13260f@web.de>
 Date: Thu, 30 Apr 2020 13:56:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
 Content-Language: en-GB
-X-Provags-ID: V03:K1:4J40lGAYvX/cTfCr1dsT0eIK1GlOrCIKAXj9itU3RAOIioP5XbD
- 4jFJOy2ZpHULqeuW5iN9hnGzP/lcHzAPKqlpnL0YuFjdKFUh25E4cYfmBvzbE+9wpYiHicR
- zUoaFWNwdpl8cuFDmC7MuDMn+qBe7YR3V9N+nhQtusfUfRk+wSwal4nduUEgfx2R24iF6mJ
- ArZBvbZJrpklK6NXY7z8w==
+X-Provags-ID: V03:K1:DEI4Ybf3QGbHW/g9A85zayyrGSS3EiwDmRWhy/cGQi/v71ixJv0
+ h/uIVuRARce4Y/Cu3ZMNS0x2Zcsa8ztjIESVy6ZTLJ+DE9t2OUSCXS2m50NYcu/HMcrLPtN
+ f4X3rD6heutw1MmSp3Pp1jadIO3YSMWtQOvPf2bD53dhbDGgLWKXw1mhg3kPOsErXuzXe+q
+ WNyQFPhUuLKlizJXkm9IQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JGOSLXAgGyU=:so3VXLOqyBtcHkr1e26Yr1
- ww/clhOLJCLxFFbX4coUnB5Z8zjijXCW/eE6AoPczB8hqDmUY25c8/ZbwKtbQ4kPvC0alEEUy
- ZKGtPc58+j00duflmc5DcYDCgeroGsR47Rp9GhYv74Ujv7Q9gpSrWLcTmHaYgNCFeMt8+9xrI
- lHqFviTsE1E6vFkY1kTAd4q9SgjKPjtWIId3SOIsZ4n9GroPjhjDvCdENbBk67Hbs2ppHyXWX
- cvMZdgumvrfOJ3peHpWdxXdR2HqWxTjeShwNsXNWqC3KNe2IbCd2NNfWKGKItMxHqEdVszkC2
- t5xtoW4rvsUMkbT0qIKISHasNPAOraledKZdFKjZ2xxdQVDagPordKvEZcReFJ1tJw5YSfX1c
- HVxSPRDo98S/nSj2EvtS+jAyk9HrK8V3vhklsdt3fEdwEOvLjVkSrjF/UtCjReFr1l5ZWfsEM
- 1Fmqo27FgpQy/WWRT26seg5sRYJoyomTr2xXCrlEAXWRsR3iqXvVYFSZYABJTtUraHFY7wPEH
- kIe7mdB4Vygxs5jTZlejoFOhnCFFtbQgZFM8MNtOjqYvwLbSKwI/VayHovdt0/vvCDnIYjwAS
- 2LV5GtPW4IvGjcMs7WjppET6TS9GU3DGFxrusF5OJOZ6qq6j2udk3j/IWGkP7yrr6mbK33M4Y
- phiRvhlqp/xMps3dB9lUhmfFc4AzBMEZ1sv+il4fFkYBW++5tXGiHxGLH5zWyd2AUpnjUkqRd
- JJWpmGBv5yk96n2IJbOeAcDDSPhFlfpGgDamqjym7etW5eSgutyHwGl3U+N2BF4QI4PVJHAyN
- EE9lJlZqxjkJ/S5+tt22RgjdwCkeZ4BHMliCwb5wJYH695OyO6tsOdp4YJB8eRjHl/kbiLOvU
- 67mjToIfEIbKKJUISMiey1t62eANlqDh8q20jfwuq14lCZvbeJrk12EDU15Pw8h1E3Xs7OgJu
- x5zSCSxR+9gEJJIddpWYvAgbYBA/i4SnVHMbAcnKRuGxExOa/c2pFKWJbhsGEXfsQ6MJBuRdX
- 6kmnSs3b7XOL4HBiRBQAc55vjbx+ShHG9xtFebXTFgRBNSKaohmwx+Rz/VTH84j7PUuK6rkoU
- fln4go6icsNGlavUnEIgFFx4Lhx4saHM9XPyKBNwpi2qpjmU5PKk7fAIr53iUHLPFq3+TlRwW
- LzU+RS75dPoQKX3kPzXNYInjxJyceTh7cURIQ8Ededbq0MZaHKmT7sjdlkYA2vb84WafXV3Ap
- eLfrSs9WzuoIdA/Xx
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xN50rvvqBe4=:HxdsD/5Nqi7bKsX4PBTDZA
+ +5PbDC4/+513BCUXDMJW5nZcBdC87JU40ASscwAOnNtEpxcaG7Khqg0eItCeeb1pNvO7o+HS7
+ Ugl5V/7EeJgN/0oCc6Ukfe8YubusxPeh9Jmv4vdUPBttPdoBb9FcIl2h0nu6u4JTsLNa6U/qn
+ RZfQBpcBCbNXsAwkDKnct2j91pL+h+hdvmi85kCYuFmciaoiGXmyz3xuzLFBvSrIEZRlVpSu1
+ 5s0PmWyuffEFVnKu1HjJpCs7/Uga0oiu7mHBf0GDE44YcBD/ZMFNg/Fqer9u3gyW2+xqIbbrY
+ u1LpX8pFxTN8xhaRSDepmg/FLvaqBW3H9zgDSTsmtic52+CmaadQ0YP8IEicmTgiST9zwg1q1
+ wex9dQPvZK5yHElXC/gPANNdqrwiNGE8lt0HchdwP0UfXY9lI+POhFGfMBHyMZrAc4RnVuRSV
+ xPEruE3RLyQ2ElL08VFkwr7H+uGLYcMSv8zgJXAZM/NcP/HEhXND6boeRAUQESHMAK5ItO7Ab
+ IGXrLyXi5ZwzrZMZuCblHx/xOia90uILxQIDCViMYEIUEsi3bm7qSTAwRN1wTEJozOd5qtQ5y
+ rol+CXKdd958IQrjscRjelnLK+7+wBF6grDgQh0JLMKHBcMJRpa6+lO8wImbppES4uWuW95t2
+ xDiXbOalOtIC8n5+10Lna3VXQaF2nf3deFcQWgoU+YC8A4MssRWqHtXfBikcxtU4EevvTQTUj
+ OH9F9PmxzOMaUeysbLMNO/Px+ctUBWIVq6l82SOqN7VpE66/S7CVPNbhR4xkffOYBDdpH3MvS
+ ttWfmfrGwwa3nHN+rOo5rPMqzGph+pdam9sfSIu4UIC50w3oD7Gdw10Yc+XO4RsWRj7p9gLc4
+ aQoGNvoQdlst9GzPeJIRR+JhBih7mX18I9Ak2qPG13Wf3L48lWYaG02KN23SzV4gfLUTT/HA1
+ A0UpbqsSxbJ1jEOjkCex2mxRay8iUtgjZciP93qDvM3eDGBs17qwozSSzRKr3pPBN9Ab48CGL
+ LYQztoxVh+K19KAR5wXbNcuq5SlIcWYxrRMWMWppHkCUTienCqaEZCCCX7t7hPeazrXpMRVM5
+ +s08nL5ZVMO2j8MP1qFSwkyjsMrKzeYIrXS0BHrBvfDytiFMDkU1CbWSZtYgG6jYaYc+FIpyX
+ 0MiIFV+ZAr8nIMseTYzbuvQj5cm3fk5e2LI8HV73SrV2qEVVaoqBfdI9p2ZjI0CUeEpabyCdb
+ Mo5oroFHyXKygpndD
 X-Mailman-Approved-At: Fri, 01 May 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
