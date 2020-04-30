@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF901BFE57
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 16:32:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A9141BFE6E
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 16:35:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B29886E914;
-	Thu, 30 Apr 2020 14:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEBCD6E915;
+	Thu, 30 Apr 2020 14:35:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4FD86E914
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 14:32:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88C926E915
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 14:35:16 +0000 (UTC)
 Received: from gallifrey.ext.pengutronix.de
  ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1jUAEo-0008MV-Bh; Thu, 30 Apr 2020 16:32:30 +0200
-Message-ID: <5e1f804c4c27927d10b2283747c1cae6606abe7c.camel@pengutronix.de>
-Subject: Re: [RFC PATCH 1/4] drm/etnaviv: Prevent IRQ triggering at probe
- time on i.MX8MM
+ id 1jUAHL-0000D2-Lw; Thu, 30 Apr 2020 16:35:07 +0200
+Message-ID: <3895f202cf5919e41a56878a62f6d5259dea12d3.camel@pengutronix.de>
+Subject: Re: [RFC PATCH 3/4] drm/etnaviv: Change order of enabling clocks to
+ fix boot on i.MX8MM
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Schrempf Frieder <frieder.schrempf@kontron.de>, Adam Ford
  <aford173@gmail.com>, Anson Huang <Anson.Huang@nxp.com>, Christian Gmeiner
@@ -32,10 +32,10 @@ To: Schrempf Frieder <frieder.schrempf@kontron.de>, Adam Ford
  Russell King <linux+etnaviv@armlinux.org.uk>, Sascha Hauer
  <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, "S.j. Wang"
  <shengjiu.wang@nxp.com>
-Date: Thu, 30 Apr 2020 16:32:27 +0200
-In-Reply-To: <20200430124602.14463-2-frieder.schrempf@kontron.de>
+Date: Thu, 30 Apr 2020 16:35:06 +0200
+In-Reply-To: <20200430124602.14463-4-frieder.schrempf@kontron.de>
 References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
- <20200430124602.14463-2-frieder.schrempf@kontron.de>
+ <20200430124602.14463-4-frieder.schrempf@kontron.de>
 User-Agent: Evolution 3.36.1 (3.36.1-1.fc32) 
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
@@ -66,92 +66,115 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Frieder,
-
 Am Donnerstag, den 30.04.2020, 12:46 +0000 schrieb Schrempf Frieder:
 > From: Frieder Schrempf <frieder.schrempf@kontron.de>
 > 
-> On i.MX8MM there is an interrupt getting triggered immediately after
-> requesting the IRQ, which leads to a stall as the handler accesses
-> the GPU registers whithout the clock being enabled.
+> On some i.MX8MM devices the boot hangs when enabling the GPU clocks.
+> Changing the order of clock initalization to
 > 
-> Enabling the clocks briefly seems to clear the IRQ state, so we do
-> this before requesting the IRQ.
+> core -> shader -> bus -> reg
+> 
+> fixes the issue. This is the same order used in the imx platform code
+> of the downstream GPU driver in the NXP kernel [1]. For the sake of
+> consistency we also adjust the order of disabling the clocks to the
+> reverse.
+> 
+> [1] https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c?h=imx_5.4.3_2.0.0#n1538
 
-This is most likely caused by improper power-up sequencing. Normally
-the GPC will trigger a hardware reset of the modules inside a power
-domain when the domain is powered on. This requires the clocks to be
-running at this point, as those resets are synchronous, so need clock
-pulses to propagate through the hardware.
-
-From what I see the i.MX8MM is still missing the power domain
-controller integration, but I'm pretty confident that this problem
-should be solved in the power domain code, instead of the GPU driver.
+I don't see why the order of the clocks is important. Is this really a
+GPU issue? As in: does a GPU access hang when enabling the clocks in
+the wrong order? Or is this a clock driver issue with a clock access
+hanging due to an upstream clock still being disabled?
 
 Regards,
 Lucas
 
 > Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 29 ++++++++++++++++++++-----
-> --
->  1 file changed, 22 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 42 +++++++++++++--------------
+>  1 file changed, 21 insertions(+), 21 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index a31eeff2b297..23877c1f150a 100644
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 7b138d4dd068..424b2e5951f0 100644
 > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1775,13 +1775,6 @@ static int etnaviv_gpu_platform_probe(struct
-> platform_device *pdev)
->  		return gpu->irq;
+> @@ -1487,55 +1487,55 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
+>  {
+>  	int ret;
+>  
+> -	if (gpu->clk_reg) {
+> -		ret = clk_prepare_enable(gpu->clk_reg);
+> +	if (gpu->clk_core) {
+> +		ret = clk_prepare_enable(gpu->clk_core);
+>  		if (ret)
+>  			return ret;
 >  	}
 >  
-> -	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
-> -			       dev_name(gpu->dev), gpu);
-> -	if (err) {
-> -		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, 
-> err);
-> -		return err;
-> -	}
-> -
->  	/* Get Clocks: */
->  	gpu->clk_reg = devm_clk_get(&pdev->dev, "reg");
->  	DBG("clk_reg: %p", gpu->clk_reg);
-> @@ -1805,6 +1798,28 @@ static int etnaviv_gpu_platform_probe(struct
-> platform_device *pdev)
->  		gpu->clk_shader = NULL;
->  	gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
+> -	if (gpu->clk_bus) {
+> -		ret = clk_prepare_enable(gpu->clk_bus);
+> +	if (gpu->clk_shader) {
+> +		ret = clk_prepare_enable(gpu->clk_shader);
+>  		if (ret)
+> -			goto disable_clk_reg;
+> +			goto disable_clk_core;
+>  	}
 >  
-> +	/*
-> +	 * On i.MX8MM there is an interrupt getting triggered
-> immediately
-> +	 * after requesting the IRQ, which leads to a stall as the
-> handler
-> +	 * accesses the GPU registers whithout the clock being enabled.
-> +	 * Enabling the clocks briefly seems to clear the IRQ state, so
-> we do
-> +	 * this here before requesting the IRQ.
-> +	 */
-> +	err = etnaviv_gpu_clk_enable(gpu);
-> +	if (err)
-> +		return err;
-> +
-> +	err = etnaviv_gpu_clk_disable(gpu);
-> +	if (err)
-> +		return err;
-> +
-> +	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
-> +			       dev_name(gpu->dev), gpu);
-> +	if (err) {
-> +		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, 
-> err);
-> +		return err;
-> +	}
-> +
->  	/* TODO: figure out max mapped size */
->  	dev_set_drvdata(dev, gpu);
+> -	if (gpu->clk_core) {
+> -		ret = clk_prepare_enable(gpu->clk_core);
+> +	if (gpu->clk_bus) {
+> +		ret = clk_prepare_enable(gpu->clk_bus);
+>  		if (ret)
+> -			goto disable_clk_bus;
+> +			goto disable_clk_shader;
+>  	}
 >  
+> -	if (gpu->clk_shader) {
+> -		ret = clk_prepare_enable(gpu->clk_shader);
+> +	if (gpu->clk_reg) {
+> +		ret = clk_prepare_enable(gpu->clk_reg);
+>  		if (ret)
+> -			goto disable_clk_core;
+> +			goto disable_clk_bus;
+>  	}
+>  
+>  	return 0;
+>  
+> -disable_clk_core:
+> -	if (gpu->clk_core)
+> -		clk_disable_unprepare(gpu->clk_core);
+>  disable_clk_bus:
+>  	if (gpu->clk_bus)
+>  		clk_disable_unprepare(gpu->clk_bus);
+> -disable_clk_reg:
+> -	if (gpu->clk_reg)
+> -		clk_disable_unprepare(gpu->clk_reg);
+> +disable_clk_shader:
+> +	if (gpu->clk_shader)
+> +		clk_disable_unprepare(gpu->clk_shader);
+> +disable_clk_core:
+> +	if (gpu->clk_core)
+> +		clk_disable_unprepare(gpu->clk_core);
+>  
+>  	return ret;
+>  }
+>  
+>  static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
+>  {
+> +	if (gpu->clk_reg)
+> +		clk_disable_unprepare(gpu->clk_reg);
+> +	if (gpu->clk_bus)
+> +		clk_disable_unprepare(gpu->clk_bus);
+>  	if (gpu->clk_shader)
+>  		clk_disable_unprepare(gpu->clk_shader);
+>  	if (gpu->clk_core)
+>  		clk_disable_unprepare(gpu->clk_core);
+> -	if (gpu->clk_bus)
+> -		clk_disable_unprepare(gpu->clk_bus);
+> -	if (gpu->clk_reg)
+> -		clk_disable_unprepare(gpu->clk_reg);
+>  
+>  	return 0;
+>  }
 
 _______________________________________________
 dri-devel mailing list
