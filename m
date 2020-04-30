@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887F21BF5CC
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 12:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781091BF5CD
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 12:44:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B9376E21E;
-	Thu, 30 Apr 2020 10:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 434FB6E228;
+	Thu, 30 Apr 2020 10:44:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0A2F6E21E
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 10:44:34 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id z25so4466052otq.13
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 03:44:34 -0700 (PDT)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA4D56E228
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 10:44:44 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id c3so4486692otp.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 03:44:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xYAbLRxd4Iir53nEgxiq7c1YknRV4i4x+58nOBWCPYo=;
- b=bvOwF3L4H8O7Iilgf3YHBd0sz91UbraBEWOKhO1zEz9cb2uur3ZBEi9yxKYhXqY3V9
- MHcW6XxbUZ0j4QR4yKRN6sBZt2b2qqCQkdvkDp2VI2Fbia7L8CCxZE3A7qoTdZOWUmX6
- dGON81jXKKdF4jSPUvjotrS8Z0FQeILNPfN3E=
+ :cc; bh=f2hMhFYqI0wUb5MBg4UkgpfFpBiRQWYcpjrnRHvkE7k=;
+ b=cXMJ/VVSzlPtH/kKQGSB0QOpm/4UPIeozqDCxQ5BvZ9tfpepcQ9/37dW4o97GPR+9y
+ Kw0yOvCNv1+iyoHAq1/Q/H24/7o9+qu6B7O/yyS7TuSgqbO73cg99MPYPbBICugs3o4r
+ 9GFSRRpgtexrvsxdwW3nM7VUdMXJN9Aypjt6I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xYAbLRxd4Iir53nEgxiq7c1YknRV4i4x+58nOBWCPYo=;
- b=I+0DNd6ox7a0i43jokzLC+wI9DQijZ5JlUVJZ3cZmgeY1dy5gYqGA8ukvADKeB94V2
- agHn/swgdHCi1O8WVgbSHj+1VDlv/VeZytRFd0ip2dkQkU0HJ87MamDBqRIOP4kd014V
- Vw29YFTuj99eZ/FiPhBDzxM6sMRK9KVAPxKCB/rr2twL231q8yYkTWCLVJuQx7UMnY+/
- IaCWYJeU6KVTjK5bk4oodUfa/yiQpIDhTEzlSpmBq9VjDB1ZVPyB720nVnCllr1yKNZ7
- gAevsuFA5V/ORSxWZpxnW8pZv72/87C+kt4pVwHf3Ub9ZbiAQ/uOTW9OL+eS5WSHY/+Z
- Wj2g==
-X-Gm-Message-State: AGi0Pua1UOGm02y/fUoEHvikNJb3YmsZS1Jv3QTqrG2XQ4j1A6oS17tY
- 4Y+Y29i0pBASurMe0fDi7wpVVzfpxH54N6RkLH2T9g==
-X-Google-Smtp-Source: APiQypIAS2wpH4cMG+ardnvhk00dJFDbjdMVbIvehU/g1YZ+mnC4bQp6EaiuJRku3YS2u84vDY023JNal2WknIVxkf0=
-X-Received: by 2002:a05:6830:1d0:: with SMTP id
- r16mr1883861ota.303.1588243473937; 
- Thu, 30 Apr 2020 03:44:33 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=f2hMhFYqI0wUb5MBg4UkgpfFpBiRQWYcpjrnRHvkE7k=;
+ b=CN4YS7YOvkbqpQKcVrHCQqtdogBzXGuLVIy07DWj4DzFpj7Dk4bRaIa70PmI9xCrNm
+ WpKZ+wiC7SbQHpUFa1DnhHzJTbL/hSr91ZYaiZloGhDcUoTMbJSLWFesRYAdm1NZWAeh
+ r3jCV1KAjCSo2igwHoag8fAjvONZxaBuhwArFDkUQcNRil2E+BiUJz+rWrBSuChrrqnM
+ l93ZBC1vjLpZ4phTBwzGB17vL0NI7NDPTB8B4qsnuEhjdmw6YKJaQdiFaPte8MxlAVzd
+ SO4hxoBUwF/xuWbKGmmydrohpSdNA2FsFwdrzMZ3J0qhgU68NEua/cWoCAM3kQiAlp5m
+ MYQw==
+X-Gm-Message-State: AGi0Pub7taZ5ms6lQ1h/Ws6GqHMME84NMd+oaGHgkCl+0cdPKRGmv872
+ mV2zAQ/JbPFyNqMo7o+chhSzqHOJW7pSIgBSIqOXf8Xp
+X-Google-Smtp-Source: APiQypIq4/+kjqzgITUJFSBI1YtgJYji4SHy8RMEZi71gXG233XX2oSFAOcZOSiO2+r8tHi4NPBaTD+8IFxVL9Dh9j4=
+X-Received: by 2002:a9d:d06:: with SMTP id 6mr2094066oti.188.1588243483830;
+ Thu, 30 Apr 2020 03:44:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAMn1gO4NsAoBUN4VFntB+pZK=cVCmwxBGUyipLPYYWFvpH1Z+A@mail.gmail.com>
  <20200427200513.36328-1-pcc@google.com>
- <20200429161650.65m37srq3sucbsit@DESKTOP-E1NTVVP.localdomain>
- <CAMn1gO4ozMZQk3jN7iNGH5Cq-3jQd=d4vgVj-Zr35u3YRsMG0Q@mail.gmail.com>
- <20200429173101.GI1985@e110455-lin.cambridge.arm.com>
- <20200430103009.37fetenhslc3xjnj@DESKTOP-E1NTVVP.localdomain>
-In-Reply-To: <20200430103009.37fetenhslc3xjnj@DESKTOP-E1NTVVP.localdomain>
+In-Reply-To: <20200427200513.36328-1-pcc@google.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 30 Apr 2020 12:44:22 +0200
-Message-ID: <CAKMK7uFkSKYUHNkszZ6O+AEC1hgma8FQm8S=W1if5SLZ6iS7WA@mail.gmail.com>
+Date: Thu, 30 Apr 2020 12:44:32 +0200
+Message-ID: <CAKMK7uE42AUZbqn4VhVjWaeUaoyhm+k5ZWUXjB576+7bWHfs2A@mail.gmail.com>
 Subject: Re: [PATCH] drm: enable render nodes wherever buffer sharing is
  supported
-To: Brian Starkey <brian.starkey@arm.com>
+To: Peter Collingbourne <pcc@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,104 +59,374 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Collingbourne <pcc@google.com>,
- Emil Velikov <emil.l.velikov@gmail.com>, nd <nd@arm.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Liviu Dudau <Liviu.Dudau@arm.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBcHIgMzAsIDIwMjAgYXQgMTI6MzAgUE0gQnJpYW4gU3RhcmtleSA8YnJpYW4uc3Rh
-cmtleUBhcm0uY29tPiB3cm90ZToKPgo+IE9uIFdlZCwgQXByIDI5LCAyMDIwIGF0IDA2OjMxOjAx
-UE0gKzAxMDAsIExpdml1IER1ZGF1IHdyb3RlOgo+ID4gT24gV2VkLCBBcHIgMjksIDIwMjAgYXQg
-MDk6NTE6MTlBTSAtMDcwMCwgUGV0ZXIgQ29sbGluZ2JvdXJuZSB3cm90ZToKPiA+ID4gT24gV2Vk
-LCBBcHIgMjksIDIwMjAgYXQgOToxNyBBTSBCcmlhbiBTdGFya2V5IDxicmlhbi5zdGFya2V5QGFy
-bS5jb20+IHdyb3RlOgo+ID4gPiA+Cj4gPiA+ID4gSGkgUGV0ZXIsCj4gPiA+ID4KPiA+ID4gPiBP
-biBNb24sIEFwciAyNywgMjAyMCBhdCAwMTowNToxM1BNIC0wNzAwLCBQZXRlciBDb2xsaW5nYm91
-cm5lIHdyb3RlOgo+ID4gPiA+ID4gUmVuZGVyIG5vZGVzIGFyZSBub3QganVzdCB1c2VmdWwgZm9y
-IGRldmljZXMgc3VwcG9ydGluZyBHUFUgaGFyZHdhcmUKPiA+ID4gPiA+IGFjY2VsZXJhdGlvbi4g
-RXZlbiBvbiBkZXZpY2VzIHRoYXQgb25seSBzdXBwb3J0IGR1bWIgZnJhbWUgYnVmZmVycywKPiA+
-ID4gPiA+IHRoZXkgYXJlIHVzZWZ1bCBpbiBzaXR1YXRpb25zIHdoZXJlIGNvbXBvc2l0aW9uICh1
-c2luZyBzb2Z0d2FyZQo+ID4gPiA+ID4gcmFzdGVyaXphdGlvbikgYW5kIEtNUyBhcmUgZG9uZSBp
-biBkaWZmZXJlbnQgcHJvY2Vzc2VzIHdpdGggYnVmZmVyCj4gPiA+ID4gPiBzaGFyaW5nIGJlaW5n
-IHVzZWQgdG8gc2VuZCBmcmFtZSBidWZmZXJzIGJldHdlZW4gdGhlbS4gVGhpcyBpcyB0aGUKPiA+
-ID4gPiA+IHNpdHVhdGlvbiBvbiBBbmRyb2lkLCB3aGVyZSBzdXJmYWNlZmxpbmdlciBpcyB0aGUg
-Y29tcG9zaXRvciBhbmQgdGhlCj4gPiA+ID4gPiBjb21wb3NlciBIQUwgdXNlcyBLTVMgdG8gZGlz
-cGxheSB0aGUgYnVmZmVycy4gVGh1cyBpdCBpcyBiZW5lZmljaWFsCj4gPiA+ID4gPiB0byBleHBv
-c2UgcmVuZGVyIG5vZGVzIG9uIGFsbCBkZXZpY2VzIHRoYXQgc3VwcG9ydCBidWZmZXIgc2hhcmlu
-Zy4KPiA+ID4gPgo+ID4gPiA+IElmIEkgdW5kZXJzdGFuZCB5b3VyIHByb2JsZW0gcmlnaHQsIHRo
-ZSBpc3N1ZSBpcyB0aGF0IHlvdSdyZSBnZXR0aW5nCj4gPiA+ID4geW91ciBidWZmZXJzIGluIG1p
-bmlnYm0gdmlhIHBsMTExLCB3aGljaCBtZWFucyB5b3Ugd2FudCBhIHJlbmRlciBub2RlCj4gPiA+
-ID4ganVzdCBmb3IgYnVmZmVyIGFsbG9jYXRpb24/IFRoZW4gSFdDb21wb3NlciB3aWxsIGltcG9y
-dCB0aG9zZSBvbiB0aGUKPiA+ID4gPiBwcmltYXJ5IG5vZGUgZm9yIGRpc3BsYXlpbmcuCj4gPiA+
-Cj4gPiA+IENvcnJlY3QuCj4gPiA+Cj4gPiA+ID4gSSdtIG5vdCBhdCBhbGwgZmFtaWxpYXIgd2l0
-aCBob3cgbWluaWdibSBzaXRzIGluIEFuZHJvaWQsIGJ1dCBvbiBvdXIKPiA+ID4gPiBwbGF0Zm9y
-bXMgd2hlcmUgdGhlIERpc3BsYXkgYW5kIEdQVSBkZXZpY2VzIGFyZSBkaWZmZXJlbnQsIHdlIGFs
-bG9jYXRlCj4gPiA+ID4gdmlhIGlvbiBpbiBHcmFsbG9jLCBhbmQgaW1wb3J0IHRob3NlIGludG8g
-Ym90aCB0aGUgR1BVIGFuZCBEaXNwbGF5Lgo+ID4gPiA+IEkgdGhpbmsgdGhhdCBzaG91bGQgd29y
-ayBvbiBwbDExMSB0b28gLSBpZiB5b3UgY2FuIGFsbG9jYXRlIGNvbnRpZ3VvdXMKPiA+ID4gPiBt
-ZW1vcnkgZnJvbSBpb24gKG9yIGRtYS1idWYgaGVhcHMpIGluIG1pbmlnYm0sIHRoZW4geW91IGRv
-bid0IG5lZWQgdGhlCj4gPiA+ID4gcmVuZGVyIG5vZGUuCj4gPiA+Cj4gPiA+IFRob3NlIGNvbnRp
-Z3VvdXMgbWVtb3J5IHJlZ2lvbnMgd291bGQgbm90IG5lY2Vzc2FyaWx5IGJlIGNvbXBhdGlibGUK
-PiA+ID4gd2l0aCB0aGUgcGwxMTEgZGV2aWNlIGFzIGZhciBhcyBJIGtub3cgLS0gYWNjb3JkaW5n
-IHRvIFsxXSwgb24gc29tZQo+ID4gPiBkZXZpY2VzLCBhIGRlc2lnbmF0ZWQgbWVtb3J5IHJlZ2lv
-biBtdXN0IGJlIHVzZWQgZm9yIHRoZSBmcmFtZWJ1ZmZlcgo+ID4gPiBhbmQgdGhlcmVmb3JlIHRo
-ZSBtZW1vcnkgcmVnaW9uIGFsbG9jYXRlZCBpbiBDTUEgd291bGQgbm90IGJlCj4gPiA+IGNvbXBh
-dGlibGUuIFRoYXQgYmVpbmcgc2FpZCwgRlZQIGRvZXNuJ3QgYXBwZWFyIHRvIGJlIG9uZSBvZiB0
-aG9zZQo+ID4gPiBkZXZpY2VzLCBzbyBpbiBwcmluY2lwbGUgdGhhdCBtaWdodCB3b3JrIGZvciBG
-VlAgKHByb3ZpZGVkIHRoYXQgdGhlCj4gPiA+IHVzZXIgcHJvdmlkZXMgYSBzdWZmaWNpZW50bHkg
-bGFyZ2UgY21hPVgga2VybmVsIGNvbW1hbmQgbGluZQo+ID4gPiBhcmd1bWVudCksIGJ1dCBub3Qg
-Zm9yIHRob3NlIG90aGVyIGRldmljZXMuCj4KPiBZZWFoIEknZCBiZSBzdXJwcmlzZWQgaWYgRlZQ
-IGNhcmVzIGFib3V0IGFueXRoaW5nIG90aGVyIHRoYW4gaXQgYmVpbmcKPiBjb250aWd1b3VzLgo+
-Cj4gTXkgdW5kZXJzdGFuZGluZyBvZiBob3cgIm1vc3QiIEFuZHJvaWQgZGV2aWNlcyBpbXBsZW1l
-bnQgdGhpcyBpcyB0bwo+IGhhdmUgaW9uIGhlYXBzIHJlcHJlc2VudGluZyB3aGF0ZXZlciBkZWRp
-Y2F0ZWQgbWVtb3J5IHJlZ2lvbnMgdGhlcmUKPiBhcmUuIEdyYWxsb2MgY2FuIHRoZW4gcGljayB0
-aGUgYXBwcm9wcmlhdGUgb25lIGJhc2VkIG9uIHRoZSBncmFsbG9jCj4gdXNhZ2UgZmxhZ3MuIFNv
-IGFsbG9jYXRpb25zIHdvdWxkbid0IGdvIHZpYSB0aGUgRFJNIGRyaXZlci4KPgo+IEl0IGxvb2tz
-IGxpa2UgdGhlIGNoZWNrcyBpbiBwbDExMSBjYW4ndCBzdXBwb3J0IHRoYXQgdXNhZ2UgbW9kZWwg
-aWYKPiB1c2VfZGV2aWNlX21lbW9yeSBpcyBzZXQgKHRob3VnaCB0aGF0IHdvdWxkbid0IG1hdHRl
-ciBvbiBGVlApLgo+Cj4gPgo+ID4gV2UgaGF2ZSBiZWVuIGRvaW5nIHRoYXQgd2l0aCBtYWxpLWRw
-IGRyaXZlcnMgZm9yIHllYXJzLiBCZWNhdXNlIG1vc3Qgb2YKPiA+IG91ciBkZXYgZW52aXJvbm1l
-bnRzIGFyZSBvbiBGUEdBcywgd2UgbmVlZGVkIHRvIHVzZSB0aGUgbG9jYWwgUkFNIG9uCj4gPiB0
-aG9zZSBib2FyZHMgc28gd2UndmUgaGFkIHRvIGFzc2lnbiBhIG1lbW9yeSByZWdpb24gdG8gdGhl
-IGRyaXZlciB0aGF0Cj4gPiBpbiB0dXJuIHdhcyB1c2luZyBDTUEuIFdlJ3ZlIG1hZGUgaGVhdnkg
-dXNlIG9mICdyZXNlcnZlZC1tZW1vcnknIGFuZAo+ID4gJ21lbW9yeS1yZWdpb24nIG5vZGVzIGlu
-IHRoZSBEVCB0byBsaW5rIHRoZSB0d28gdG9nZXRoZXIsIGJ1dCB0aGluZ3MKPiA+IHdvcmtlZCBv
-dXQgcXVpdGUgd2VsbC4gQmVjYXVzZSB0aGUgJ3Jlc2VydmVkLW1lbW9yeScgc3ViLW5vZGUgd2Fz
-IG1hcmtlZAo+ID4gYXMgJ2NvbXBhdGlibGU9InNoYXJlZC1kbWEtcG9vbCInLCBncmFsbG9jIGFu
-ZCBJT04gY291bGQgYmUgdXNlZCB0bwo+ID4gYWxsb2NhdGUgbWVtb3J5IGZyb20gaXQuCj4KPiBU
-aGlzIGlzIGEgbGl0dGxlIGltcGVyZmVjdCBiZWNhdXNlIGlvbiBkb2Vzbid0IGhhdmUgYSB3YXkg
-dG8gYWNjZXNzCj4gdGhlIGBkZXZgIHBvaW50ZXIgbmVlZGVkIHRvIGFsbG9jYXRlIGZyb20gZGV2
-aWNlLWF0dGFjaGVkIENNQSByZWdpb25zLAo+IHNvIHNvbWUgaGFja2VyeSBpcyByZXF1aXJlZC4K
-Pgo+IEkgdGhpbmsgZG1hLWhlYXBzIHdvdWxkIGxldCB5b3UgZXhwb3NlIGRldmljZS1zcGVjaWZp
-YyBDTUEgcmVnaW9ucy4KClRoZSBwbGFuIHdhcyB0aGF0IGVhY2ggZGV2aWNlIGluIHN5c2ZzIHdo
-aWNoIG5lZWRzIHNwZWNpYWwgZG1hIG1lbW9yeQp3b3VsZCBoYXZlIGEgcG9pbnRlciB0byB0aGUg
-Y29ycmVzcG9uZGluZyBkbWEtaGVhcC4gVGhhdCB3YXkgdXNlcnNwYWNlCmtub3dzIHdoZXJlIHRv
-IGFsbG9jYXRlLiBKdXN0IG5lZWQgc29tZSB1c2Vyc3BhY2UgdG8gdXNlIHRoZXNlLCBhbmQKa2Vy
-bmVsIHBhdGNoIHRvIGV4cG9zZSB0aG9zZSBsaW5rcy4gSSB0aGluayBpdCdzIGRlZmFjdG8gYWxy
-ZWFkeSB0aGVyZQp0aHJvdWdoIHRoZSBkbWEgcG9pbnRlcnMgb2Ygc3RydWN0IGRldmljZS4KLURh
-bmllbAoKPgo+IEV2ZW4gaWYgeW91IGRpZCB0aGF0IGFuZCBhbGxvY2F0ZWQgZnJvbSB0aGUgcmln
-aHQgcGxhY2UsIHRoZSBjaGVjawo+IGluIHBsMTExIHdvdWxkIHJlamVjdCBhbnkgYXR0ZW1wdCB0
-byBpbXBvcnQgaXQgaWYgaXQncyBzZXQgdG8KPiB1c2VfZGV2aWNlX21lbW9yeS4KPgo+IEkgZG9u
-J3Qga25vdyBpZiB0aGVyZSdzIGEgYmV0dGVyIHdheSB0byB0ZWxsIGlmIHRoZSBtZW1vcnkgaXMK
-PiBjb21wYXRpYmxlLCBidXQgdGhhdCBjaGVjayBzZWVtcyBsaWtlIGEgYml0IG9mIGEgc2xlZGdl
-aGFtbWVyLiBJdAo+IGxvb2tzIGxpa2UgaXQgbm90IG9ubHkgZm9yY2VzIHRoZSBtZW1vcnkgdG8g
-YmUgZnJvbSB0aGUgcmlnaHQgcGxhY2UsCj4gaXQgYWxzbyBmb3JjZXMgaXQgdG8gaGF2ZSBiZWVu
-IGFsbG9jYXRlZCB2aWEgcGwxMTEuCj4KPiBPbiBGVlAgdGhvdWdoLCBJIHJlY2tvbiBhbnkgb2xk
-IENNQSBtZW1vcnkgc2hvdWxkIGJlIGZpbmUuCj4KPiBDaGVlcnMsCj4gLUJyaWFuCj4KPiA+Cj4g
-PiBCZXN0IHJlZ2FyZHMsCj4gPiBMaXZpdQo+ID4KPiA+ID4KPiA+ID4gUGV0ZXIKPiA+ID4KPiA+
-ID4gWzFdIGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9kaXNwbGF5L2FybSUyQ3BsMTF4LnR4dAo+ID4KPiA+IC0tCj4gPiA9PT09PT09
-PT09PT09PT09PT09PQo+ID4gfCBJIHdvdWxkIGxpa2UgdG8gfAo+ID4gfCBmaXggdGhlIHdvcmxk
-LCAgfAo+ID4gfCBidXQgdGhleSdyZSBub3QgfAo+ID4gfCBnaXZpbmcgbWUgdGhlICAgfAo+ID4g
-IFwgc291cmNlIGNvZGUhICAvCj4gPiAgIC0tLS0tLS0tLS0tLS0tLQo+ID4gICAgIMKvXF8o44OE
-KV8vwq8KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
-IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
-aW9uCis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Tue, Apr 28, 2020 at 2:46 PM Peter Collingbourne <pcc@google.com> wrote:
+>
+> Render nodes are not just useful for devices supporting GPU hardware
+> acceleration. Even on devices that only support dumb frame buffers,
+> they are useful in situations where composition (using software
+> rasterization) and KMS are done in different processes with buffer
+> sharing being used to send frame buffers between them. This is the
+> situation on Android, where surfaceflinger is the compositor and the
+> composer HAL uses KMS to display the buffers. Thus it is beneficial
+> to expose render nodes on all devices that support buffer sharing.
+>
+> Because all drivers that currently support render nodes also support
+> buffer sharing, the DRIVER_RENDER flag is no longer necessary to mark
+> devices as supporting render nodes, so remove it and just rely on
+> the presence of a prime_handle_to_fd function pointer to determine
+> whether buffer sharing is supported.
+
+The idea behind render nodes is that you can freely pass these to
+unpriviledged users, and nothing bad happens. That's why we have gpu
+reset code in drivers, proper pagetables, and also (in at least the
+solid drivers) ban code so that repeat offenders from userspace who
+constantly submit endless batch buffers and funny stuff like that
+can't DOS the gpu.
+
+Ofc in practice there's hw issues and fun stuff like that sometimes,
+and driver bugs, and all that. But that's the aspiration.
+
+Now many of these display-only drivers need contiguous buffers, and
+there's not endless amounts of that around. So if you allow random
+clients to allocate buffers, they can easily exhaust that, and not
+just upset the render side of the gpu, but essentially make it
+impossible for a compositor to allocate more framebuffers. I don't
+think that's a good idea.
+
+I know there's hw like vc4 which needs contiguous buffers for
+everything, but that's kinda the places where aspiration falls a bit
+short.
+
+So from that pov I'm a rather worried with handing out render rights
+to everyone for these display-only buffers. It's not entirely
+harmless.
+-Daniel
+
+
+>
+> Signed-off-by: Peter Collingbourne <pcc@google.com>
+> ---
+>  Documentation/gpu/drm-uapi.rst          | 9 +++++----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 2 +-
+>  drivers/gpu/drm/drm_drv.c               | 2 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c   | 2 +-
+>  drivers/gpu/drm/exynos/exynos_drm_drv.c | 2 +-
+>  drivers/gpu/drm/i915/i915_drv.c         | 2 +-
+>  drivers/gpu/drm/lima/lima_drv.c         | 2 +-
+>  drivers/gpu/drm/msm/msm_drv.c           | 1 -
+>  drivers/gpu/drm/nouveau/nouveau_drm.c   | 2 +-
+>  drivers/gpu/drm/omapdrm/omap_drv.c      | 2 +-
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 2 +-
+>  drivers/gpu/drm/radeon/radeon_drv.c     | 3 +--
+>  drivers/gpu/drm/tegra/drm.c             | 2 +-
+>  drivers/gpu/drm/v3d/v3d_drv.c           | 1 -
+>  drivers/gpu/drm/vc4/vc4_drv.c           | 8 --------
+>  drivers/gpu/drm/vgem/vgem_drv.c         | 2 +-
+>  drivers/gpu/drm/virtio/virtgpu_drv.c    | 2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     | 2 +-
+>  include/drm/drm_drv.h                   | 7 -------
+>  19 files changed, 19 insertions(+), 36 deletions(-)
+>
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 56fec6ed1ad8..2769714ae75a 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -129,10 +129,11 @@ authenticate to a DRM-Master prior to getting GPU access. To avoid this
+>  step and to grant clients GPU access without authenticating, render
+>  nodes were introduced. Render nodes solely serve render clients, that
+>  is, no modesetting or privileged ioctls can be issued on render nodes.
+> -Only non-global rendering commands are allowed. If a driver supports
+> -render nodes, it must advertise it via the DRIVER_RENDER DRM driver
+> -capability. If not supported, the primary node must be used for render
+> -clients together with the legacy drmAuth authentication procedure.
+> +Only non-global rendering commands are allowed. Drivers that support
+> +:ref:`PRIME buffer sharing <prime_buffer_sharing>` automatically
+> +support render nodes. If a driver does not support render nodes,
+> +the primary node must be used for render clients together with the
+> +legacy drmAuth authentication procedure.
+>
+>  If a driver advertises render node support, DRM core will create a
+>  separate render node called renderD<num>. There will be one render node
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index 8ea86ffdea0d..46460620bc37 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -1426,7 +1426,7 @@ static struct drm_driver kms_driver = {
+>         .driver_features =
+>             DRIVER_ATOMIC |
+>             DRIVER_GEM |
+> -           DRIVER_RENDER | DRIVER_MODESET | DRIVER_SYNCOBJ |
+> +           DRIVER_MODESET | DRIVER_SYNCOBJ |
+>             DRIVER_SYNCOBJ_TIMELINE,
+>         .open = amdgpu_driver_open_kms,
+>         .postclose = amdgpu_driver_postclose_kms,
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 7b1a628d1f6e..8861a30920e5 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -651,7 +651,7 @@ int drm_dev_init(struct drm_device *dev,
+>                 goto err_free;
+>         }
+>
+> -       if (drm_core_check_feature(dev, DRIVER_RENDER)) {
+> +       if (driver->prime_handle_to_fd) {
+>                 ret = drm_minor_alloc(dev, DRM_MINOR_RENDER);
+>                 if (ret)
+>                         goto err_minors;
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index a8685b2e1803..abfb143334ac 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -497,7 +497,7 @@ static const struct file_operations fops = {
+>  };
+>
+>  static struct drm_driver etnaviv_drm_driver = {
+> -       .driver_features    = DRIVER_GEM | DRIVER_RENDER,
+> +       .driver_features    = DRIVER_GEM,
+>         .open               = etnaviv_open,
+>         .postclose           = etnaviv_postclose,
+>         .gem_free_object_unlocked = etnaviv_gem_free_object,
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> index 57defeb44522..834eb5713fe4 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> @@ -121,7 +121,7 @@ static const struct file_operations exynos_drm_driver_fops = {
+>
+>  static struct drm_driver exynos_drm_driver = {
+>         .driver_features        = DRIVER_MODESET | DRIVER_GEM
+> -                                 | DRIVER_ATOMIC | DRIVER_RENDER,
+> +                                 | DRIVER_ATOMIC,
+>         .open                   = exynos_drm_open,
+>         .lastclose              = drm_fb_helper_lastclose,
+>         .postclose              = exynos_drm_postclose,
+> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+> index 81a4621853db..b028a32fcac5 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.c
+> +++ b/drivers/gpu/drm/i915/i915_drv.c
+> @@ -1834,7 +1834,7 @@ static struct drm_driver driver = {
+>          */
+>         .driver_features =
+>             DRIVER_GEM |
+> -           DRIVER_RENDER | DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_SYNCOBJ,
+> +           DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_SYNCOBJ,
+>         .release = i915_driver_release,
+>         .open = i915_driver_open,
+>         .lastclose = i915_driver_lastclose,
+> diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
+> index 2daac64d8955..bd8b6ad25ac0 100644
+> --- a/drivers/gpu/drm/lima/lima_drv.c
+> +++ b/drivers/gpu/drm/lima/lima_drv.c
+> @@ -252,7 +252,7 @@ DEFINE_DRM_GEM_FOPS(lima_drm_driver_fops);
+>   */
+>
+>  static struct drm_driver lima_drm_driver = {
+> -       .driver_features    = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
+> +       .driver_features    = DRIVER_GEM | DRIVER_SYNCOBJ,
+>         .open               = lima_drm_driver_open,
+>         .postclose          = lima_drm_driver_postclose,
+>         .ioctls             = lima_drm_driver_ioctls,
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 29295dee2a2e..061e62d4b691 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -1000,7 +1000,6 @@ static const struct file_operations fops = {
+>
+>  static struct drm_driver msm_driver = {
+>         .driver_features    = DRIVER_GEM |
+> -                               DRIVER_RENDER |
+>                                 DRIVER_ATOMIC |
+>                                 DRIVER_MODESET,
+>         .open               = msm_open,
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> index ca4087f5a15b..3ba8c9789292 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> @@ -1169,7 +1169,7 @@ nouveau_driver_fops = {
+>  static struct drm_driver
+>  driver_stub = {
+>         .driver_features =
+> -               DRIVER_GEM | DRIVER_MODESET | DRIVER_RENDER
+> +               DRIVER_GEM | DRIVER_MODESET
+>  #if defined(CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT)
+>                 | DRIVER_KMS_LEGACY_CONTEXT
+>  #endif
+> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+> index cdafd7ef1c32..fe25b352a755 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+> @@ -558,7 +558,7 @@ static const struct file_operations omapdriver_fops = {
+>
+>  static struct drm_driver omap_drm_driver = {
+>         .driver_features = DRIVER_MODESET | DRIVER_GEM  |
+> -               DRIVER_ATOMIC | DRIVER_RENDER,
+> +               DRIVER_ATOMIC,
+>         .open = dev_open,
+>         .lastclose = drm_fb_helper_lastclose,
+>  #ifdef CONFIG_DEBUG_FS
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 882fecc33fdb..058765d5d5d5 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -550,7 +550,7 @@ DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
+>   * - 1.1 - adds HEAP and NOEXEC flags for CREATE_BO
+>   */
+>  static struct drm_driver panfrost_drm_driver = {
+> -       .driver_features        = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
+> +       .driver_features        = DRIVER_GEM | DRIVER_SYNCOBJ,
+>         .open                   = panfrost_open,
+>         .postclose              = panfrost_postclose,
+>         .ioctls                 = panfrost_drm_driver_ioctls,
+> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
+> index 59f8186a2415..9457b2f8f81e 100644
+> --- a/drivers/gpu/drm/radeon/radeon_drv.c
+> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
+> @@ -600,8 +600,7 @@ static const struct file_operations radeon_driver_kms_fops = {
+>  };
+>
+>  static struct drm_driver kms_driver = {
+> -       .driver_features =
+> -           DRIVER_GEM | DRIVER_RENDER,
+> +       .driver_features = DRIVER_GEM,
+>         .load = radeon_driver_load_kms,
+>         .open = radeon_driver_open_kms,
+>         .postclose = radeon_driver_postclose_kms,
+> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+> index bd268028fb3d..55190c582946 100644
+> --- a/drivers/gpu/drm/tegra/drm.c
+> +++ b/drivers/gpu/drm/tegra/drm.c
+> @@ -849,7 +849,7 @@ static int tegra_debugfs_init(struct drm_minor *minor)
+>
+>  static struct drm_driver tegra_drm_driver = {
+>         .driver_features = DRIVER_MODESET | DRIVER_GEM |
+> -                          DRIVER_ATOMIC | DRIVER_RENDER,
+> +                          DRIVER_ATOMIC,
+>         .open = tegra_drm_open,
+>         .postclose = tegra_drm_postclose,
+>         .lastclose = drm_fb_helper_lastclose,
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+> index eaa8e9682373..96db702fd648 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> @@ -195,7 +195,6 @@ static const struct drm_ioctl_desc v3d_drm_ioctls[] = {
+>
+>  static struct drm_driver v3d_drm_driver = {
+>         .driver_features = (DRIVER_GEM |
+> -                           DRIVER_RENDER |
+>                             DRIVER_SYNCOBJ),
+>
+>         .open = v3d_open,
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+> index 76f93b662766..bf143d1e0d2e 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.c
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
+> @@ -181,7 +181,6 @@ static struct drm_driver vc4_drm_driver = {
+>         .driver_features = (DRIVER_MODESET |
+>                             DRIVER_ATOMIC |
+>                             DRIVER_GEM |
+> -                           DRIVER_RENDER |
+>                             DRIVER_SYNCOBJ),
+>         .open = vc4_open,
+>         .postclose = vc4_close,
+> @@ -251,7 +250,6 @@ static int vc4_drm_bind(struct device *dev)
+>         struct platform_device *pdev = to_platform_device(dev);
+>         struct drm_device *drm;
+>         struct vc4_dev *vc4;
+> -       struct device_node *node;
+>         int ret = 0;
+>
+>         dev->coherent_dma_mask = DMA_BIT_MASK(32);
+> @@ -260,12 +258,6 @@ static int vc4_drm_bind(struct device *dev)
+>         if (!vc4)
+>                 return -ENOMEM;
+>
+> -       /* If VC4 V3D is missing, don't advertise render nodes. */
+> -       node = of_find_matching_node_and_match(NULL, vc4_v3d_dt_match, NULL);
+> -       if (!node || !of_device_is_available(node))
+> -               vc4_drm_driver.driver_features &= ~DRIVER_RENDER;
+> -       of_node_put(node);
+> -
+>         drm = drm_dev_alloc(&vc4_drm_driver, dev);
+>         if (IS_ERR(drm))
+>                 return PTR_ERR(drm);
+> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+> index 909eba43664a..abc7345a2e96 100644
+> --- a/drivers/gpu/drm/vgem/vgem_drv.c
+> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
+> @@ -437,7 +437,7 @@ static void vgem_release(struct drm_device *dev)
+>  }
+>
+>  static struct drm_driver vgem_driver = {
+> -       .driver_features                = DRIVER_GEM | DRIVER_RENDER,
+> +       .driver_features                = DRIVER_GEM,
+>         .release                        = vgem_release,
+>         .open                           = vgem_open,
+>         .postclose                      = vgem_postclose,
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> index ab4bed78e656..22195e008f0d 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> @@ -189,7 +189,7 @@ MODULE_AUTHOR("Alon Levy");
+>  DEFINE_DRM_GEM_FOPS(virtio_gpu_driver_fops);
+>
+>  static struct drm_driver driver = {
+> -       .driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER | DRIVER_ATOMIC,
+> +       .driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+>         .open = virtio_gpu_driver_open,
+>         .postclose = virtio_gpu_driver_postclose,
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> index c2247a893ed4..415c3f8ea907 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -1435,7 +1435,7 @@ static const struct file_operations vmwgfx_driver_fops = {
+>
+>  static struct drm_driver driver = {
+>         .driver_features =
+> -       DRIVER_MODESET | DRIVER_RENDER | DRIVER_ATOMIC,
+> +       DRIVER_MODESET | DRIVER_ATOMIC,
+>         .ioctls = vmw_ioctls,
+>         .num_ioctls = ARRAY_SIZE(vmw_ioctls),
+>         .master_set = vmw_master_set,
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index 97109df5beac..f0277d3f89fe 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -61,13 +61,6 @@ enum drm_driver_feature {
+>          * Driver supports mode setting interfaces (KMS).
+>          */
+>         DRIVER_MODESET                  = BIT(1),
+> -       /**
+> -        * @DRIVER_RENDER:
+> -        *
+> -        * Driver supports dedicated render nodes. See also the :ref:`section on
+> -        * render nodes <drm_render_node>` for details.
+> -        */
+> -       DRIVER_RENDER                   = BIT(3),
+>         /**
+>          * @DRIVER_ATOMIC:
+>          *
+> --
+> 2.26.2.303.gf8c07b1a785-goog
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
+--
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
