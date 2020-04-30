@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A531BFA13
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 15:51:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D736D1BFA14
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 15:51:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33B356E8AD;
-	Thu, 30 Apr 2020 13:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF77A6E8AE;
+	Thu, 30 Apr 2020 13:51:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C46986E8AD
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 13:51:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C84746E8AD
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 13:51:28 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D06BB2137B;
- Thu, 30 Apr 2020 13:51:26 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0A6CB20870;
+ Thu, 30 Apr 2020 13:51:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588254687;
- bh=1LZPEe39UMnjvcdUsIgtXXcaZV3h47Euw7lnX/jEmRk=;
+ s=default; t=1588254688;
+ bh=Cqr8eghnHCwYfy32Xoq0YNy2OmKR9+KhkhznVTmFUrU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j2V4ankSg1LXv2x+qjUkv3aFSLRX9KbEtHQlXnGY6AuUBvGXEJ5FdWjmutKUDz3uo
- J480RKbzpW4i33ufxdJOvXTaYq24Yoad3RlBSGGE90cAueWM6Z0i2kJDYHSkURtH+U
- C1Gx3Ng+AUslP65vq07jScIfvYh/1mAPT9FuBglE=
+ b=fMcubvc8GukPEp3T1mbZgM57bfT8h2QjojkAw64UCdEe+2pijxuptDsD2EySZIu5s
+ UBn9Z14lRJqXN24oA42qEGy2K0qGI08+F6bmti4P16yII2G2N7oXllOMgj1sTrZ+BJ
+ A9vlwlWCH/30klDSJ+7YeR+Hf6OYjSceQ0Bq76sM=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 38/79] drm/amd/powerplay: fix resume failed as smu
- table initialize early exit
-Date: Thu, 30 Apr 2020 09:50:02 -0400
-Message-Id: <20200430135043.19851-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 39/79] drm/amdgpu: Correctly initialize thermal
+ controller for GPUs with Powerplay table v0 (e.g Hawaii)
+Date: Thu, 30 Apr 2020 09:50:03 -0400
+Message-Id: <20200430135043.19851-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430135043.19851-1-sashal@kernel.org>
 References: <20200430135043.19851-1-sashal@kernel.org>
@@ -50,53 +50,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Prike Liang <Prike.Liang@amd.com>, Huang Rui <ray.huang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Mengbing Wang <Mengbing.Wang@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Sandeep Raghuraman <sandy.8925@gmail.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Prike Liang <Prike.Liang@amd.com>
+From: Sandeep Raghuraman <sandy.8925@gmail.com>
 
-[ Upstream commit 45a5e639548c459a5accebad340078e4e6e0e512 ]
+[ Upstream commit bbc25dadc7ed19f9d6b2e30980f0eb4c741bb8bf ]
 
-When the amdgpu in the suspend/resume loop need notify the dpm disabled,
-otherwise the smu table will be uninitialize and result in resume failed.
+Initialize thermal controller fields in the PowerPlay table for Hawaii
+GPUs, so that fan speeds are reported.
 
-Signed-off-by: Prike Liang <Prike.Liang@amd.com>
-Tested-by: Mengbing Wang <Mengbing.Wang@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-Reviewed-by: Huang Rui <ray.huang@amd.com>
+Signed-off-by: Sandeep Raghuraman <sandy.8925@gmail.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/powerplay/renoir_ppt.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ .../drm/amd/powerplay/hwmgr/processpptables.c | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/powerplay/renoir_ppt.c b/drivers/gpu/drm/amd/powerplay/renoir_ppt.c
-index f7a1ce37227cd..4a52c310058d1 100644
---- a/drivers/gpu/drm/amd/powerplay/renoir_ppt.c
-+++ b/drivers/gpu/drm/amd/powerplay/renoir_ppt.c
-@@ -889,12 +889,17 @@ static int renoir_read_sensor(struct smu_context *smu,
- 
- static bool renoir_is_dpm_running(struct smu_context *smu)
+diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c b/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
+index 77c14671866c0..719597c5d27d9 100644
+--- a/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
++++ b/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
+@@ -984,6 +984,32 @@ static int init_thermal_controller(
+ 			struct pp_hwmgr *hwmgr,
+ 			const ATOM_PPLIB_POWERPLAYTABLE *powerplay_table)
  {
-+	struct amdgpu_device *adev = smu->adev;
++	hwmgr->thermal_controller.ucType =
++			powerplay_table->sThermalController.ucType;
++	hwmgr->thermal_controller.ucI2cLine =
++			powerplay_table->sThermalController.ucI2cLine;
++	hwmgr->thermal_controller.ucI2cAddress =
++			powerplay_table->sThermalController.ucI2cAddress;
 +
- 	/*
- 	 * Util now, the pmfw hasn't exported the interface of SMU
- 	 * feature mask to APU SKU so just force on all the feature
- 	 * at early initial stage.
- 	 */
--	return true;
-+	if (adev->in_suspend)
-+		return false;
-+	else
-+		return true;
- 
++	hwmgr->thermal_controller.fanInfo.bNoFan =
++		(0 != (powerplay_table->sThermalController.ucFanParameters &
++			ATOM_PP_FANPARAMETERS_NOFAN));
++
++	hwmgr->thermal_controller.fanInfo.ucTachometerPulsesPerRevolution =
++		powerplay_table->sThermalController.ucFanParameters &
++		ATOM_PP_FANPARAMETERS_TACHOMETER_PULSES_PER_REVOLUTION_MASK;
++
++	hwmgr->thermal_controller.fanInfo.ulMinRPM
++		= powerplay_table->sThermalController.ucFanMinRPM * 100UL;
++	hwmgr->thermal_controller.fanInfo.ulMaxRPM
++		= powerplay_table->sThermalController.ucFanMaxRPM * 100UL;
++
++	set_hw_cap(hwmgr,
++		   ATOM_PP_THERMALCONTROLLER_NONE != hwmgr->thermal_controller.ucType,
++		   PHM_PlatformCaps_ThermalController);
++
++	hwmgr->thermal_controller.use_hw_fan_control = 1;
++
+ 	return 0;
  }
  
 -- 
