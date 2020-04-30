@@ -2,51 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B448B1C0EA8
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:23:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C3D1C0091
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 17:41:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5172A6EA97;
-	Fri,  1 May 2020 07:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 510DB6E924;
+	Thu, 30 Apr 2020 15:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.freebsd.org (mx2.freebsd.org [96.47.72.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E3C6E1F8
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 15:34:14 +0000 (UTC)
-Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client CN "mx1.freebsd.org",
- Issuer "Let's Encrypt Authority X3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id 51CD576FC3;
- Thu, 30 Apr 2020 15:34:14 +0000 (UTC)
- (envelope-from manu@FreeBSD.org)
-Received: from smtp.freebsd.org (smtp.freebsd.org
- [IPv6:2610:1c1:1:606c::24b:4])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- server-signature RSA-PSS (4096 bits)
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "smtp.freebsd.org",
- Issuer "Let's Encrypt Authority X3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 49CfYy0fXFz3DDK;
- Thu, 30 Apr 2020 15:34:14 +0000 (UTC)
- (envelope-from manu@FreeBSD.org)
+X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
+ Thu, 30 Apr 2020 15:41:22 UTC
+Received: from mx.blih.net (mx.blih.net [212.83.155.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 475776E924
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 15:41:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bidouilliste.com;
+ s=mx; t=1588260880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=siSc+wVCx92pO4nia33BDv08pe+zzvG5bnkde4Ef3hA=;
+ b=kcXfTlk8jeWIUSRjFrlM1hLlaNQ+UzY1clgxUrwxs77nW0P4bPIpQOiyS/Gq0/Q/ofMfZW
+ jSYNHrh0No9Ku3Og660SQ+pU3e4h5FM4vb2Zvkm1qylrZxk2pH/C28ywxDzg199NuECgTv
+ 5oBUbiuhidnkf8U/cMVTT4Iie8xbGjI=
 Received: from tails.home (lfbn-idf2-1-900-181.w86-238.abo.wanadoo.fr
- [86.238.131.181])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate) (Authenticated sender: manu)
- by smtp.freebsd.org (Postfix) with ESMTPSA id D97AB1A41E;
- Thu, 30 Apr 2020 15:34:12 +0000 (UTC)
- (envelope-from manu@FreeBSD.org)
-From: Emmanuel Vadot <manu@FreeBSD.org>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, matthew.d.roper@intel.com,
- noralf@tronnes.org, kraxel@redhat.com, tglx@linutronix.de
-Subject: [PATCH v2 2/2] drm/format_helper: Dual licence the header in GPL-2
- and MIT
-Date: Thu, 30 Apr 2020 17:34:06 +0200
-Message-Id: <20200430153406.85377-1-manu@FreeBSD.org>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 01 May 2020 07:22:25 +0000
+ [86.238.131.181]) by mx.blih.net (OpenSMTPD) with ESMTPSA id 9728d90d
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Thu, 30 Apr 2020 15:34:40 +0000 (UTC)
+Date: Thu, 30 Apr 2020 17:34:40 +0200
+From: Emmanuel Vadot <manu@bidouilliste.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [RESEND 2/2] drm/format_helper: Dual licence the header in
+ GPL-2 and MIT
+Message-Id: <20200430173440.c006bbf57e70671dc4c324db@bidouilliste.com>
+In-Reply-To: <20200430150634.42zna3xwhj4cwsnd@gilmour.lan>
+References: <20200430145537.31474-1-manu@FreeBSD.org>
+ <20200430150634.42zna3xwhj4cwsnd@gilmour.lan>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; amd64-portbld-freebsd13.0)
+Mime-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,29 +51,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emmanuel Vadot <manu@FreeBSD.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Emmanuel Vadot <manu@freebsd.org>,
+ kraxel@redhat.com, tglx@linutronix.de
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U291cmNlIGZpbGUgd2FzIGR1YWwgbGljZW5jZWQgYnV0IHRoZSBoZWFkZXIgd2FzIG9taXR0ZWQs
-IGZpeCB0aGF0LgpDb250cmlidXRvcnMgZm9yIHRoaXMgZmlsZSBhcmU6Ck5vcmFsZiBUcsO4bm5l
-cyA8bm9yYWxmQHRyb25uZXMub3JnPgpHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4K
-VGhvbWFzIEdsZWl4bmVyIDx0Z2x4QGxpbnV0cm9uaXguZGU+CgpBY2tlZC1ieTogR2VyZCBIb2Zm
-bWFubiA8a3JheGVsQHJlZGhhdC5jb20+CkFja2VkLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFs
-ZkB0cm9ubmVzLm9yZz4KU2lnbmVkLW9mZi1ieTogRW1tYW51ZWwgVmFkb3QgPG1hbnVARnJlZUJT
-RC5vcmc+Ci0tLQpDaGFuZ2UgaW4gdjI6ClJldGFpbiB0aGUgR1BMLTIuMC1vci1sYXRlciBTUERG
-IGlkZW50aWZpZXIuCgogaW5jbHVkZS9kcm0vZHJtX2Zvcm1hdF9oZWxwZXIuaCB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBh
-L2luY2x1ZGUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1fZm9ybWF0
-X2hlbHBlci5oCmluZGV4IGFjMjIwYWExYTI0NS4uYjhkZGY0NzNlZjc3IDEwMDY0NAotLS0gYS9p
-bmNsdWRlL2RybS9kcm1fZm9ybWF0X2hlbHBlci5oCisrKyBiL2luY2x1ZGUvZHJtL2RybV9mb3Jt
-YXRfaGVscGVyLmgKQEAgLTEsNCArMSw0IEBACi0vKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjog
-R1BMLTIuMC1vci1sYXRlciAqLworLyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAt
-b3ItbGF0ZXIgb3IgTUlUICovCiAvKgogICogQ29weXJpZ2h0IChDKSAyMDE2IE5vcmFsZiBUcsO4
-bm5lcwogICovCi0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+On Thu, 30 Apr 2020 17:06:34 +0200
+Maxime Ripard <maxime@cerno.tech> wrote:
+
+> On Thu, Apr 30, 2020 at 04:55:37PM +0200, Emmanuel Vadot wrote:
+> > Source file was dual licenced but the header was omitted, fix that.
+> > Contributors for this file are:
+> > Noralf Tr=F8nnes <noralf@tronnes.org>
+> > Gerd Hoffmann <kraxel@redhat.com>
+> > Thomas Gleixner <tglx@linutronix.de>
+> > =
+
+> > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> > Acked-by: Noralf Tr=F8nnes <noralf@tronnes.org>
+> > Signed-off-by: Emmanuel Vadot <manu@FreeBSD.org>
+> > ---
+> >  include/drm/drm_format_helper.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > =
+
+> > diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_h=
+elper.h
+> > index ac220aa1a245..7c5d4ffb2af2 100644
+> > --- a/include/drm/drm_format_helper.h
+> > +++ b/include/drm/drm_format_helper.h
+> > @@ -1,4 +1,4 @@
+> > -/* SPDX-License-Identifier: GPL-2.0-or-later */
+> > +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> =
+
+> You changed the GPL license there, was that intentional?
+> =
+
+> Maxime
+
+ No sorry, fixed in v2.
+ Thanks for noticing that.
+
+-- =
+
+Emmanuel Vadot <manu@bidouilliste.com>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
