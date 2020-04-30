@@ -2,54 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3101BFF48
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 16:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B031C0EBE
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:24:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1851A6E91D;
-	Thu, 30 Apr 2020 14:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3A796EBFF;
+	Fri,  1 May 2020 07:23:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0D26E91D;
- Thu, 30 Apr 2020 14:53:48 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id j2so7300786wrs.9;
- Thu, 30 Apr 2020 07:53:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+QmnvA5dChJIrax5V/yu0dUwTA3YT4Rbv3dYKbrlm30=;
- b=XMafNpnqZG9Xdd7UCHcbsV9f2c8cG/AAV3triecqXWg4KtluV8iWCXdtsAyYLBrbtS
- /ymgp1h6s/Ot7N+Pv/6/0QhvJ7iiu4tlLd36OgC0vSAuFTBU6qckF82f6ftOGqJXPKGv
- 4b8qCnS8WlMEfblgozRdx1BwqUACDuVSzQa/9KdqBjjkJesUjNtkZKXHEpCeutZ5Dux0
- bjz+gvYSj3qNbOYLsHZ99BVOxxrhkN5XGf3w1ewGboFLGsqOGzbuprjG8Jks8PK1X/Ki
- tePOZILA4bveKNlBTjMy6qWWOdhMAn+FQoGY2VUOLcVhMq8G3yuZ6KrHeaoO2r/bQSMF
- LOWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+QmnvA5dChJIrax5V/yu0dUwTA3YT4Rbv3dYKbrlm30=;
- b=e1f4+llpMLZkbiiLVTJSZEcSBW81DuY8eHA2HOWm7StPFKE4hvvJuelQKPakY+RVu0
- fP8KQYPBXDzpyVt3AkWkl7+IRGyZfHA6wMG7uIyMXDdVunkBrofiarAOa0ULLbCyHvcT
- pi07JUezz5kt0c9knGNdDho1hRI7udkvrguUxSCN6ouIpDMMVxxdudYAd5u0smKmw3LX
- Fzx4ZrOJ1q+2E7nx1qMx0DF2yG7gFajhqEv63AafCGEcMTl8Hf2aL4NhnGcNCd0dOr6i
- J+L7Mihqb9V9z4PT6hfwRG6lKZfDtuF2asY3gywjizI+KHZTbrPhMGmuUUd/2M0wQQRy
- 22Hg==
-X-Gm-Message-State: AGi0PuawkvtnwN111OgAmlEr9Iv7gQA5nNXTW+lzYytMnMSHcChtW+Nk
- 5iZhj1fzRM1XT77vQJEQcje1ZMFbIXcagEiBWvtYag==
-X-Google-Smtp-Source: APiQypKPNxr+JrUQbiF77qrXpEEmom/FKCXB3JuYSzSBbLwlnR1j6K3W+ykUs0PMmTzo2G0I3AwwMK53JhmZEivp4kM=
-X-Received: by 2002:adf:f844:: with SMTP id d4mr4292599wrq.362.1588258427244; 
- Thu, 30 Apr 2020 07:53:47 -0700 (PDT)
+Received: from mx2.freebsd.org (mx2.freebsd.org [96.47.72.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D42D96E91F
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 14:54:53 +0000 (UTC)
+Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client CN "mx1.freebsd.org",
+ Issuer "Let's Encrypt Authority X3" (verified OK))
+ by mx2.freebsd.org (Postfix) with ESMTPS id 84E9274D24;
+ Thu, 30 Apr 2020 14:54:50 +0000 (UTC)
+ (envelope-from manu@FreeBSD.org)
+Received: from smtp.freebsd.org (smtp.freebsd.org
+ [IPv6:2610:1c1:1:606c::24b:4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ server-signature RSA-PSS (4096 bits)
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "smtp.freebsd.org",
+ Issuer "Let's Encrypt Authority X3" (verified OK))
+ by mx1.freebsd.org (Postfix) with ESMTPS id 49CdhV2DKQz4tqj;
+ Thu, 30 Apr 2020 14:54:50 +0000 (UTC)
+ (envelope-from manu@FreeBSD.org)
+Received: from tails.home (lfbn-idf2-1-900-181.w86-238.abo.wanadoo.fr
+ [86.238.131.181])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client did not present a certificate) (Authenticated sender: manu)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id 0F97019F4D;
+ Thu, 30 Apr 2020 14:54:48 +0000 (UTC)
+ (envelope-from manu@FreeBSD.org)
+From: Emmanuel Vadot <manu@FreeBSD.org>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, matthew.d.roper@intel.com,
+ noralf@tronnes.org, kraxel@redhat.com, tglx@linutronix.de
+Subject: [RESEND 1/2] drm/client: Dual licence the header in GPL-2 and MIT
+Date: Thu, 30 Apr 2020 16:54:38 +0200
+Message-Id: <20200430145439.31257-1-manu@FreeBSD.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200426131244.22293-1-bernard@vivo.com>
- <2c67e29b-df17-6ae3-cb55-af950acc022c@amd.com>
-In-Reply-To: <2c67e29b-df17-6ae3-cb55-af950acc022c@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 30 Apr 2020 10:53:35 -0400
-Message-ID: <CADnq5_M-pZoFXeeULweXGkzDEvbBjoKm1ZBqAwn0S3J7iM18TA@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: cleanup coding style a bit
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+X-Mailman-Approved-At: Fri, 01 May 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,38 +58,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
- Bernard Zhao <bernard@vivo.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Emmanuel Vadot <manu@FreeBSD.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCk9uIFN1biwgQXByIDI2LCAyMDIwIGF0IDk6MTggQU0g
-Q2hyaXN0aWFuIEvDtm5pZwo8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFt
-IDI2LjA0LjIwIHVtIDE1OjEyIHNjaHJpZWIgQmVybmFyZCBaaGFvOgo+ID4gTWF5YmUgbm8gbmVl
-ZCB0byBjaGVjayB3cyBiZWZvcmUga21hbGxvYywga21hbGxvYyB3aWxsIGNoZWNrCj4gPiBpdHNl
-bGYsIGttYWxsb2NgcyBsb2dpYyBpcyBpZiBwdHIgaXMgTlVMTCwga21hbGxvYyB3aWxsIGp1c3QK
-PiA+IHJldHVybgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IEJlcm5hcmQgWmhhbyA8YmVybmFyZEB2
-aXZvLmNvbT4KPgo+IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29l
-bmlnQGFtZC5jb20+Cj4KPiBJJ20gd29uZGVyaW5nIHdoeSB0aGUgYXV0b21hdGVkIHNjcmlwdHMg
-aGF2ZW4ndCBmb3VuZCB0aGF0IG9uZSBiZWZvcmUuCj4KPiA+IC0tLQo+ID4gICBkcml2ZXJzL2dw
-dS9kcm0vcmFkZW9uL2F0b20uYyB8IDMgKy0tCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMiBkZWxldGlvbnMoLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL3JhZGVvbi9hdG9tLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL2F0b20uYwo+ID4gaW5k
-ZXggMmMyNzYyN2I2NjU5Li5mMTViMjBkYTUzMTUgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vcmFkZW9uL2F0b20uYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9hdG9t
-LmMKPiA+IEBAIC0xMjExLDggKzEyMTEsNyBAQCBzdGF0aWMgaW50IGF0b21fZXhlY3V0ZV90YWJs
-ZV9sb2NrZWQoc3RydWN0IGF0b21fY29udGV4dCAqY3R4LCBpbnQgaW5kZXgsIHVpbnQzMgo+ID4g
-ICAgICAgU0RFQlVHKCI8PFxuIik7Cj4gPgo+ID4gICBmcmVlOgo+ID4gLSAgICAgaWYgKHdzKQo+
-ID4gLSAgICAgICAgICAgICBrZnJlZShlY3R4LndzKTsKPiA+ICsgICAgIGtmcmVlKGVjdHgud3Mp
-Owo+ID4gICAgICAgcmV0dXJuIHJldDsKPiA+ICAgfQo+ID4KPgo+IF9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+
-IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+U291cmNlIGZpbGUgd2FzIGR1YWwgbGljZW5jZWQgYnV0IHRoZSBoZWFkZXIgd2FzIG9taXR0ZWQs
+IGZpeCB0aGF0LgpDb250cmlidXRvcnMgZm9yIHRoaXMgZmlsZSBhcmU6CkRhbmllbCBWZXR0ZXIg
+PGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Ck1hdHQgUm9wZXIgPG1hdHRoZXcuZC5yb3BlckBpbnRl
+bC5jb20+Ck1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4KTm9yYWxmIFRyw7hubmVz
+IDxub3JhbGZAdHJvbm5lcy5vcmc+ClRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNl
+LmRlPgoKQWNrZWQtYnk6IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3JnPgpBY2tl
+ZC1ieTogTWF0dCBSb3BlciA8bWF0dGhldy5kLnJvcGVyQGludGVsLmNvbT4KQWNrZWQtYnk6IERh
+bmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+ClNpZ25lZC1vZmYtYnk6IEVtbWFu
+dWVsIFZhZG90IDxtYW51QEZyZWVCU0Qub3JnPgotLS0KIGluY2x1ZGUvZHJtL2RybV9jbGllbnQu
+aCB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoK
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9jbGllbnQuaCBiL2luY2x1ZGUvZHJtL2RybV9j
+bGllbnQuaAppbmRleCA3NDAyZjg1MmQzYzQuLmViMjU5YzI1NDdhZiAxMDA2NDQKLS0tIGEvaW5j
+bHVkZS9kcm0vZHJtX2NsaWVudC5oCisrKyBiL2luY2x1ZGUvZHJtL2RybV9jbGllbnQuaApAQCAt
+MSw0ICsxLDQgQEAKLS8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wICovCisvKiBT
+UERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMCBvciBNSVQgKi8KIAogI2lmbmRlZiBfRFJN
+X0NMSUVOVF9IXwogI2RlZmluZSBfRFJNX0NMSUVOVF9IXwotLSAKMi4yNS4xCgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
