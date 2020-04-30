@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA4D1C06BB
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 21:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FAAF1C06BF
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 21:46:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDFAA6E94E;
-	Thu, 30 Apr 2020 19:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 098B46E952;
+	Thu, 30 Apr 2020 19:46:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B36006E94E
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 19:46:29 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id f8so2694358plt.2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 12:46:29 -0700 (PDT)
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38A956E94F
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 19:46:31 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id u22so2678482plq.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 12:46:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=69Vg9U3gBVUlkizCg48EDMT0ufV71AxAgwY37Mxv9RI=;
- b=Z+bKIp4ValF2xpimna9+2Wvkg/u4DEsTSNrLlwT6aivVRbhKKdgzGabovsdyTlg/69
- NmTZI1zkc/MfM85OdYnHp+oJxY9qD1946qXdgtwPHVuo9zs/v6RSG3B9Lux6QsKAsRh3
- 8nQIkhHi7qaoCP6AUaiPJNszq2B3CrY2EfYVs=
+ bh=18Forp5+g/d/pxVZSsn0tcdk9UfdWJp9klOtqj0eYRI=;
+ b=mr8nNlcKXcCEZnkHZiBZidBV3UR0TJqCPNQtGgh1fQWaNgl85dgxydxCoz+9L1gnVh
+ 2LNDZgHoAaTe8AHvtVJ4YRq6pEgMPId2Clwccx0CoPy5CTPfnEUZooODm35qX21xzB69
+ fR9dEgebGVLRbb1nDbdT27qFCYfKQV/OHsHvA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=69Vg9U3gBVUlkizCg48EDMT0ufV71AxAgwY37Mxv9RI=;
- b=IGEwwBU26itEcZuIix2HnVQO+fd4/yISZ8SyvaPZ6UrZ289C/W9IPOhSqvi+pUEYqW
- 1NNB+oMjakWOGioUM8XzHQumoDEZ/7rNV/9BrXCIyHQyf2QKJylk7Jfv6TeRoK707Cbz
- SFMl/WgSfkdP/lDuDLPkiotOph0k+QGXLYumJ95pGvJmx7yhFaSWUR5GGPUVofJq0ix5
- GoOSWV5QaHYWDMlf646Jt2bNbH34gC9NJ5hwETQv7WmFnHdsb+xfBfL3VHo3MRxRPN1c
- V/4c713frHd1GpX7J4JrrJrXwEpRpYbnggLPAUrWhLUcEXVYScl18tF8gEG6x9q5LgSV
- dS3g==
-X-Gm-Message-State: AGi0PuYozvLAhxwNodmWgXHOndu5LrlD+CfNx2azI0z0V3bKTmSc1/Vw
- /g8EWSPhhy/iYYZ1DFjfXVRnHQ==
-X-Google-Smtp-Source: APiQypLMm8BMm2i3v9zIi6LLFN1yz2hNg4Ay0PXQeF0bd8feavJN2Yy5iy7PQdAFV+JeZvO0jSoW7g==
-X-Received: by 2002:a17:90a:cb0b:: with SMTP id
- z11mr500642pjt.62.1588275989203; 
- Thu, 30 Apr 2020 12:46:29 -0700 (PDT)
+ bh=18Forp5+g/d/pxVZSsn0tcdk9UfdWJp9klOtqj0eYRI=;
+ b=Jp9CdgdCBCDEs1VVI6Kyy1R416IT+ZAw0SA0z+gUx6oLbHA8YZG3Os1L4INZIRP5wD
+ LTG5QlfhugTsO7AqCT/0GTcBMwGIcmw2LYKoXk7gPBGr8CGzQNcVfAcn6GF9eQGj9v6F
+ jLor+VT+ATdbcKtEOTK2wbeBwXWvI4mIILYrIItu6ByH8Umt2yr+UWTFEPtSjJ76+EvX
+ yuHSzN5mSVDV24tJOpciif+jBz4HP1cxqg9STpErIeq3SwwNRoTdzpZnpqeN5Aa4DSyK
+ AFwU0AHxkQvToB2A245LyRLkPuoa0wvLMBmyAMTFMHQ57hfk5hME21kF9cNg5QMK5qd1
+ 6rYw==
+X-Gm-Message-State: AGi0Pub2a9dhua9ZBj7hlzpXG5fzkboUK9jN9WplVa2VmAwaMaayw4Op
+ w8Wepb50sarJQYxQnevFC0VQwQ==
+X-Google-Smtp-Source: APiQypJiiPg0AHbv1LplSnQZRy3lAkJBvHGsUqdCPSJLVGyrcfUn4eezmereo9Kt5jX7p5OkOuJKlg==
+X-Received: by 2002:a17:90a:fb4e:: with SMTP id
+ iq14mr486978pjb.146.1588275990734; 
+ Thu, 30 Apr 2020 12:46:30 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:1:24fa:e766:52c9:e3b2])
- by smtp.gmail.com with ESMTPSA id u3sm495993pfb.105.2020.04.30.12.46.27
+ by smtp.gmail.com with ESMTPSA id u3sm495993pfb.105.2020.04.30.12.46.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 12:46:28 -0700 (PDT)
+ Thu, 30 Apr 2020 12:46:30 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: linus.walleij@linaro.org, bgolaszewski@baylibre.com, airlied@linux.ie,
  daniel@ffwll.ch, robh+dt@kernel.org, narmstrong@baylibre.com,
  a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com,
  spanda@codeaurora.org
-Subject: [PATCH v4 2/6] dt-bindings: display: Add hpd-gpios to panel-common
- bindings
-Date: Thu, 30 Apr 2020 12:46:13 -0700
-Message-Id: <20200430124442.v4.2.I1976736b400a3b30e46efa47782248b86b3bc627@changeid>
+Subject: [PATCH v4 3/6] drm/panel-simple: Support hpd-gpios for delaying
+ prepare()
+Date: Thu, 30 Apr 2020 12:46:14 -0700
+Message-Id: <20200430124442.v4.3.I53fed5b501a31e7a7fa13268ebcdd6b77bd0cadd@changeid>
 X-Mailer: git-send-email 2.26.2.526.g744177e7f7-goog
 In-Reply-To: <20200430194617.197510-1-dianders@chromium.org>
 References: <20200430194617.197510-1-dianders@chromium.org>
@@ -80,11 +80,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the cases where there is no connector in a system there's no great
-place to put "hpd-gpios".  As per discussion [1] the best place to put
-it is in the panel.  Add this to the device tree bindings.
+People use panel-simple when they have panels that are builtin to
+their device.  In these cases the HPD (Hot Plug Detect) signal isn't
+really used for hotplugging devices but instead is used for power
+sequencing.  Panel timing diagrams (especially for eDP panels) usually
+have the HPD signal in them and it acts as an indicator that the panel
+is ready for us to talk to it.
 
-[1] https://lore.kernel.org/r/20200417180819.GE5861@pendragon.ideasonboard.com
+Sometimes the HPD signal is hooked up to a normal GPIO on a system.
+In this case we need to poll it in the correct place to know that the
+panel is ready for us.  In some system designs the right place for
+this is panel-simple.
+
+When adding this support, we'll account for the case that there might
+be a circular dependency between panel-simple and the provider of the
+GPIO.  The case this was designed for was for the "ti-sn65dsi86"
+bridge chip.  If HPD is hooked up to one of the GPIOs provided by the
+bridge chip then in our probe function we'll always get back
+-EPROBE_DEFER.  Let's handle this by allowing this GPIO to show up
+late if we saw -EPROBE_DEFER during probe.  NOTE: since the
+gpio_get_optional() is used, if the "hpd-gpios" isn't there our
+variable will just be NULL and we won't do anything in prepare().
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
@@ -92,30 +108,112 @@ Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 ---
 
 Changes in v4: None
-Changes in v3: None
+Changes in v3:
+- Remind how gpio_get_optional() works in the commit message.
+
 Changes in v2:
-- ("dt-bindings: display: Add hpd-gpios to panel-common...") new for v2
+- ("simple...hpd-gpios") is 1/2 of replacement for ("Allow...bridge GPIOs")
 
- .../devicetree/bindings/display/panel/panel-common.yaml     | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 53 ++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-common.yaml b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-index ed051ba12084..e9a04a3a4f5f 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-@@ -96,6 +96,12 @@ properties:
-       (hot plug detect) signal, but the signal isn't hooked up so we should
-       hardcode the max delay from the panel spec when powering up the panel.
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 3ad828eaefe1..f816e2aa29cd 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -23,6 +23,7 @@
  
-+  hpd-gpios:
-+    maxItems: 1
-+    description:
-+      If Hot Plug Detect (HPD) is connected to a GPIO in the system rather
-+      than a dedicated HPD pin the pin can be specified here.
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
++#include <linux/iopoll.h>
+ #include <linux/module.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+@@ -108,6 +109,7 @@ struct panel_simple {
+ 	struct i2c_adapter *ddc;
+ 
+ 	struct gpio_desc *enable_gpio;
++	struct gpio_desc *hpd_gpio;
+ 
+ 	struct drm_display_mode override_mode;
+ };
+@@ -259,11 +261,37 @@ static int panel_simple_unprepare(struct drm_panel *panel)
+ 	return 0;
+ }
+ 
++static int panel_simple_get_hpd_gpio(struct device *dev,
++				     struct panel_simple *p, bool from_probe)
++{
++	int err;
 +
-   # Control I/Os
++	p->hpd_gpio = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
++	if (IS_ERR(p->hpd_gpio)) {
++		err = PTR_ERR(p->hpd_gpio);
++
++		/*
++		 * If we're called from probe we won't consider '-EPROBE_DEFER'
++		 * to be an error--we'll leave the error code in "hpd_gpio".
++		 * When we try to use it we'll try again.  This allows for
++		 * circular dependencies where the component providing the
++		 * hpd gpio needs the panel to init before probing.
++		 */
++		if (err != -EPROBE_DEFER || !from_probe) {
++			dev_err(dev, "failed to get 'hpd' GPIO: %d\n", err);
++			return err;
++		}
++	}
++
++	return 0;
++}
++
+ static int panel_simple_prepare(struct drm_panel *panel)
+ {
+ 	struct panel_simple *p = to_panel_simple(panel);
+ 	unsigned int delay;
+ 	int err;
++	int hpd_asserted;
  
-   # Many display panels can be controlled through pins driven by GPIOs. The nature
+ 	if (p->prepared)
+ 		return 0;
+@@ -282,6 +310,26 @@ static int panel_simple_prepare(struct drm_panel *panel)
+ 	if (delay)
+ 		msleep(delay);
+ 
++	if (p->hpd_gpio) {
++		if (IS_ERR(p->hpd_gpio)) {
++			err = panel_simple_get_hpd_gpio(panel->dev, p, false);
++			if (err)
++				return err;
++		}
++
++		err = readx_poll_timeout(gpiod_get_value_cansleep, p->hpd_gpio,
++					 hpd_asserted, hpd_asserted,
++					 1000, 2000000);
++		if (hpd_asserted < 0)
++			err = hpd_asserted;
++
++		if (err) {
++			dev_err(panel->dev,
++				"error waiting for hpd GPIO: %d\n", err);
++			return err;
++		}
++	}
++
+ 	p->prepared = true;
+ 
+ 	return 0;
+@@ -462,6 +510,11 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 	panel->desc = desc;
+ 
+ 	panel->no_hpd = of_property_read_bool(dev->of_node, "no-hpd");
++	if (!panel->no_hpd) {
++		err = panel_simple_get_hpd_gpio(dev, panel, true);
++		if (err)
++			return err;
++	}
+ 
+ 	panel->supply = devm_regulator_get(dev, "power");
+ 	if (IS_ERR(panel->supply))
 -- 
 2.26.2.526.g744177e7f7-goog
 
