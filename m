@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C411BF177
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:32:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9B51BF17A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:32:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9702D6EB63;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E943D6EB66;
 	Thu, 30 Apr 2020 07:32:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6D1A6EB23
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 00:11:19 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03TNxD7h124735;
- Thu, 30 Apr 2020 00:11:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=to : cc : references
- : from : subject : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=MLJR9DN4O/A/uFONXJl+Q439tVU3BgWi6zOSKZoQ45U=;
- b=l3sccS6jG58+jxKlpEQZ8SzJO0dEucT8SXZMhrFE0+UkVshm/rM48JtILHJVuOlXN4Wl
- O1UPKrl3hF13ucMgkDQVI26Im1vd4d1+eSSYQi3mdPx+M9Gc4Fql4fV3AzH3ds/Lboo7
- L1+L6pFP0lP9Sdok6XJm5G8yOLv63k0W5qpT1VhYh1ks8horT8B3oO6AtR5MWDK2+Ykl
- ltA/ZFpeBr9XN2ig1c/kOXebOrXqV+UbCI/V8ie0IB+iojfMB7UhH6gMEi9dPk3S48dm
- fp+bReXuBJKl/hDNtIQ49ynqe45SB1mmcedJ7fItlI5cL+XTfYjlRDIn/tWyTdVNRFL/ rQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 30nucg8n1e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Apr 2020 00:11:16 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03U08FVC155687;
- Thu, 30 Apr 2020 00:11:16 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 30mxrw71a8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Apr 2020 00:11:16 +0000
-Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03U0BBWx020739;
- Thu, 30 Apr 2020 00:11:11 GMT
-Received: from [192.168.1.126] (/47.220.71.223)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 29 Apr 2020 17:11:10 -0700
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- daniel@ffwll.ch, kraxel@redhat.com, noralf@tronnes.org, sam@ravnborg.org
-References: <20200429143238.10115-1-tzimmermann@suse.de>
-From: John Donnelly <John.P.Donnelly@Oracle.com>
-Subject: re: [PATCH 00/17] drm/mgag200: Convert to atomic modesetting
-Message-ID: <793986e2-eb08-db03-689f-db4442b0e872@Oracle.com>
-Date: Wed, 29 Apr 2020 19:11:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 236286EB2E
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 01:22:38 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id s10so3169343edy.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 18:22:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=JLjR8+NK59ErUfTQSn9/Vo1+6C3c1KeJsH7YpMnGOE4=;
+ b=bwNPnwuaaCHekPaK8MwJHBz0Ny6AqGbcJEAnC/HXRKmW+N74DCnpnuJKSZXB6mRAFA
+ JshgTanNUEeN03FZPXTpH5BiB3/US1y4X1sLfpYLknGOJLu2OhQ4b5dTB8tA1r2X2KGr
+ 6s7sEFhQHsZ1pIbXFufX8uXAXAbsOFGUGuQT4lMP3WanE0P8DwMO7JY18ohsQmTQLGVR
+ Hw1LvspTXfc+H4kewqDPdFrpUfvyZ/poXTF9kVvTxmmwafm4IUzdutHslDvGSpeZRZME
+ FkXnm4wZJyIu1H8VKxnMJOYkyhB83AyYZ2AYBGzQu3tyul9RhTQrYUELvIb38YdayjiZ
+ 2u7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=JLjR8+NK59ErUfTQSn9/Vo1+6C3c1KeJsH7YpMnGOE4=;
+ b=EkKt3YZt8sHD89QVi8WDOveSDR8K+zqXRQ1V2xyC5N5g03I4wdlsuZeZ8csP6EXQCF
+ 2kIIf1URMXtxXaGNXc35IH1D1T8E2pUiHPQOaPQTICuhPG6RBVBCS0hvJrFWf9LHzVvd
+ VWDq7virqFSZMSDijnB020gborn4bYBqqpJOfGgXEhZ25MfI5XK0mYiGsyFQObI9rss/
+ Kmy2Xx4XACjDthL2BjdN7q3uk9rTT4hXdUvF22hEPYFc9ydXJ03TYfI4OZ7gHjzeuScS
+ BtrMytrhNPj4kAk/6uGiOOSljrannFVPfiJjIjnrCVR002pMHUIczDACgwz6NUGPLuAD
+ +org==
+X-Gm-Message-State: AGi0PuavxaU+cvUp/iNTt6JEy6fY0YQXDAgy9xLmEHCcMoEEc6riIFL8
+ 63g8Z6FLpZ9Bi6BCiApNWUYtr8yPBz3Oi75De4Q=
+X-Google-Smtp-Source: APiQypIupfSbg9DD/DI6v6qKkjpZttKPJcSaAetDFmqkdq80ecY2bTHWi7RLknRKvg7Ejkftym5rHxlTfXeyN1Yni8Q=
+X-Received: by 2002:a50:d71e:: with SMTP id t30mr665818edi.246.1588209756610; 
+ Wed, 29 Apr 2020 18:22:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200429143238.10115-1-tzimmermann@suse.de>
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9606
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- phishscore=0 suspectscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 spamscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004290177
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9606
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011
- priorityscore=1501
- mlxlogscore=999 impostorscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 mlxscore=0 spamscore=0 adultscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004290177
+References: <CAD4j4=CYvr8nAZ8H4U=-XP125oOWJdO1bsxdsYpoJya0RrtB6Q@mail.gmail.com>
+ <fc57479f-f9eb-e517-5fec-feb235d9e907@redhat.com>
+In-Reply-To: <fc57479f-f9eb-e517-5fec-feb235d9e907@redhat.com>
+From: =?UTF-8?Q?David_Santamar=C3=ADa_Rogado?= <howl.nsp@gmail.com>
+Date: Thu, 30 Apr 2020 03:22:24 +0200
+Message-ID: <CAD4j4=AM-hCd+wBS88pQXwT-k3tsnScAh5WGJgzRMabr0q2n8g@mail.gmail.com>
+Subject: Re: Linux GOP initialization is wrong
+To: Hans de Goede <hdegoede@redhat.com>
 X-Mailman-Approved-At: Thu, 30 Apr 2020 07:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,90 +63,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Donnelly <john.p.donnelly@Oracle.com>, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/29/20 9:32 AM, Thomas Zimmermann wrote:
-> This patchset converts mgag200 to atomic modesetting. It uses simple
-> KMS helpers and SHMEM.
-> 
-> Patches 1 to 4 simplifies the driver before the conversion. For example,
-> the HW cursor is not usable with the way universal planes work. A few
-> data structures can be cleaned up.
-> 
-> Patches 5 to 15 untangle the existing modesetting code into smaller
-> functions. Specifically, mode setting and plane updates are being
-> separated from each other.
-> 
-> Patch 16 converts mgag200 to simple KMS helpers and enables atomic
-> mode setting.
-> 
-> As some HW seems to require a framebuffer offset of 0 within the video
-> memory, it does not work with atomic modesetting. Atomically switching
-> plane framebuffers, requires either source or target buffer to be located
-> at a non-0 offet. To resolve this problem, patch 17 converts mgag200 from
-> VRAM helpers to SHMEM helpers. During plane updates, the content of the
-> SHMEM BO is memcpy'd to VRAM. From my subjective obersation, performance
-> is not nuch different from the original code.
-> 
-> The patchset has been tested on MGA G200EH hardware.
-> 
-> Thomas Zimmermann (17):
->    drm/mgag200: Remove HW cursor
->    drm/mgag200: Remove unused fields from struct mga_device
->    drm/mgag200: Embed connector instance in struct mga_device
->    drm/mgag200: Use managed mode-config initialization
->    drm/mgag200: Clean up mga_set_start_address()
->    drm/mgag200: Clean up mga_crtc_do_set_base()
->    drm/mgag200: Move mode-setting code into separate helper function
->    drm/mgag200: Split MISC register update into PLL selection, SYNC and
->      I/O
->    drm/mgag200: Update mode registers after plane registers
->    drm/mgag200: Set pitch in a separate helper function
->    drm/mgag200: Set primary plane's format in separate helper function
->    drm/mgag200: Move TAGFIFO reset into separate function
->    drm/mgag200: Move hiprilvl setting into separate functions
->    drm/mgag200: Move register initialization into separate function
->    drm/mgag200: Remove waiting from DPMS code
->    drm/mgag200: Convert to simple KMS helper
->    drm/mgag200: Replace VRAM helpers with SHMEM helpers
-> 
->   drivers/gpu/drm/mgag200/Kconfig          |   4 +-
->   drivers/gpu/drm/mgag200/Makefile         |   2 +-
->   drivers/gpu/drm/mgag200/mgag200_cursor.c | 319 --------
->   drivers/gpu/drm/mgag200/mgag200_drv.c    |  51 +-
->   drivers/gpu/drm/mgag200/mgag200_drv.h    |  43 +-
->   drivers/gpu/drm/mgag200/mgag200_main.c   |  28 -
->   drivers/gpu/drm/mgag200/mgag200_mode.c   | 948 ++++++++++++-----------
->   drivers/gpu/drm/mgag200/mgag200_reg.h    |   5 +-
->   drivers/gpu/drm/mgag200/mgag200_ttm.c    |  35 +-
->   9 files changed, 563 insertions(+), 872 deletions(-)
->   delete mode 100644 drivers/gpu/drm/mgag200/mgag200_cursor.c
-> 
-> --
-> 2.26.0
-> 
-
-
-  Hi Thomas ,
-
-  I would like to test this on hardware that uses this device integrated 
-into as BMC  ( iLo ) that I have ran into problems before. Can you post 
-your staging URL so I can clone it ?
-
-
-( Thank you for CC'ing me. I removed my email from on dlist recently) .
-
-
-
-
--- 
-Thank You,
-John
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SSdtIHRoaW5raW5nIGFsc28gYWJvdXQgdGhlIGk5MTUgcGFydC4gQ291bGQgYmUgc29tZXRoaW5n
+IGRpZmZlcmVudAp0aGF0IEludGVsIGRvZXMgaW4gdGhlIFdpbmRvd3MgdmVyc2lvbiBvZiB0aGVp
+ciBkcml2ZXI/IFNlZW0gdmVyeQpzdHJhbmdlIHRoYXQgTWljcm9zb2Z0IGNvdWxkIHBhdGNoIHNv
+bWV0aGluZyBiZWNhdXNlIG9mIHRoaXMKcGFydGljdWxhciBoYXJkd2FyZXMuCgpFbCBtYXIuLCAy
+OCBhYnIuIDIwMjAgYSBsYXMgMTA6NDUsIEhhbnMgZGUgR29lZGUKKDxoZGVnb2VkZUByZWRoYXQu
+Y29tPikgZXNjcmliacOzOgo+Cj4gSGkgRGF2aWQsCj4KPiBPbiA0LzI4LzIwIDE6NTggQU0sIERh
+dmlkIFNhbnRhbWFyw61hIFJvZ2FkbyB3cm90ZToKPiA+IFRoaXMgaXMgcmVsYXRlZCB0byB0aGUg
+aXNzdWVzIGF0IGxlYXN0IG9uIHNvbWUgZGV2aWNlcyBmb3IgcGFuZWwKPiA+IG9yaWVudGF0aW9u
+IHF1aXJrcyB3aGVyZSBhZGRlZC4KPgo+IFRoYW5rIHlvdSBmb3IgbG9va2luZyBpbnRvIHRoaXMu
+Cj4KPiA+IE15IHRlc3RzIGhhdmUgYmVlbiBkb25lIG92ZXIgYSBMZW5vdm8gaWRlYXBhZCBEMzMw
+Lgo+ID4KPiA+IFRoaXMgZGV2aWNlcyBsaWtlIHRoZSBvdGhlciBvbmVzIHRoYXQgbmVlZCBwYW5l
+bCBvcmllbnRhdGlvbiBxdWlya3MsCj4gPiBzaG93cyB0aGUgaW5pdHJhbWZzIHdpdGggd3Jvbmcg
+c3RyaWRlIGFuZCB4IGFuZCB5IHN3YXBwZWQuIEJ5IGFwcGx5aW5nCj4gPiB0aGUgcGFuZWwgb3Jp
+ZW50YXRpb24gcXVpcmtzIHRoaXMgZ2V0cyBzb2x2ZWQgYnV0IG1hbnkgcGFydHMgb2YgdGhlCj4g
+PiBzeXN0ZW1zIGNvbXBvbmVudHMgbmVlZHMgdG8gYmUgcGF0Y2hlZC4gSGFucyBoYXMgZG9uZSBh
+IGdyZWF0IGpvYiB3aXRoCj4gPiBwbHltb3V0aCwgbXV0dGVyLi4uIGJ1dCBhbHdheXMgYXBwZWFy
+cyBhIG5ldyBwcm9ibGVtIGRlcml2ZWQgYXMgZm9yCj4gPiBleGFtcGxlIHZuYyBkZXNrdG9wIHNo
+YXJpbmcgd2l0aCB0aGlzIGRldmljZXMgZG9lc24ndCB3b3JrIGFuZCB0aGUKPiA+IG91dHB1dCBp
+cyBzZW5kIG1lc3NlZCB1cC4KPgo+IFdoZW4gSSBmaXJzdCBzdGFydGVkIGFkZGluZyBzdXBwb3J0
+IGZvciBkZXZpY2VzIHdoaWNoIGhhdmUgdGhlaXIKPiBzY3JlZW4gbW91bnRlZCA5MCBkZWdyZWVz
+IHJvdGF0ZWQgbXkgZmlyc3QgYXR0ZW1wdHMgd2hlcmUgYWltZWQKPiBhdCBzb2x2aW5nIHRoaXMg
+dHJhbnNwYXJlbnRseSBpbiB0aGUga2VybmVsLgo+Cj4gVW5mb3J0dW5hdGVseSB0aGlzIGlzIG5v
+dCBwb3NzaWJsZS4gT24gbW9zdCBhZmZlY3RlZCBkZXZpY2VzCj4gdGhlIGhhcmR3YXJlIGRvZXMg
+bm90IHN1cHBvcnQgOTAgZGVncmVlcyByb3RhdGlvbiBmb3IgdGhlCj4gcHJpbWFyeSBkaXNwbGF5
+IGxheWVyOyBvciBpZiBpdCBkb2VzIHRoaXMgcmVxdWlyZXMgdGhlIGZyYW1lYnVmZmVyCj4gYmVp
+bmcgaW4gYSBoYXJkd2FyZS1zcGVjaWZpYyB0aWxlZCBmb3JtYXQgcmF0aGVyIHRoZW4gYmVpbmcg
+YQo+IGxpbmVhciBmcmFtZWJ1ZmZlci4gVXNpbmcgdGhlc2UgdGlsZWQgZm9ybWF0cyByZXF1aXJl
+cyB1c2Vyc3BhY2UKPiB0byBiZSBhd2FyZSBvZiB0aGlzLCB3aGljaCBydWxlcyBvdXQgdHJhbnNw
+YXJlbnRseSBoYW5kbGluZyB0aGlzCj4gaW4gdGhlIGtlcm5lbC4KPgo+IE90aGVyIGxheWVycyAo
+Y3Vyc29yIGxheWVyLCB2aWRlbyBvdmVybGF5IGxheWVycykgaGF2ZSBzaW1pbGFyCj4gaXNzdWVz
+IHdoaWNoIHJlcXVpcmUgdXNlcnNwYWNlIHRvIGJlIGF3YXJlIG9mIHdoYXQgaXMgaGFwcGVuaW5n
+LAo+IHNvIHVuZm9ydHVuYXRlbHkgdGhlcmUgaXMgbm8gb3RoZXIgd2F5IHRvIGRlYWwgd2l0aCB0
+aGlzIHRoZW4KPiBmaXhpbmcgaW52b2x2ZWQgdXNlcnNwYWNlIGNvbXBvbmVudHMuCj4KPiBJJ20g
+YSBiaXQgc3VycHJpc2VkIHRoYXQgeW91IHNhdCB0aGF0IHZuYyBkZXNrdG9wIHNoYXJpbmcgZG9l
+cwo+IG5vdCB3b3JrLCBJIGd1ZXNzIHRoYXQgYWxzbyBkZXBlbmRzIG9uIGhvdyB0aGUgZGVza3Rv
+cCBzaGFyaW5nCj4gd29ya3MuIElmIGl0IHBva2VzIGRpcmVjdGx5IGF0IHRoZSBmcmFtZWJ1ZmZl
+ciBzb21laG93LCB0aGVuIHllcwo+IGl0IHdpbGwgYmUgbWVzc2VkIHVwLiBCdXQgaWYgaXQgZ29l
+cyB0aHJvdWdoIHRoZSBkaXNwbGF5IHNlcnZlcgo+IHRoZW4gdGhpbmdzIG1pZ2h0IHdvcmsuIEkg
+Z3Vlc3MgdGhhdCBpdCBpcyBwb3NzaWJsZSB0aGF0IHRoZQo+IGNvZGUgZG9pbmcgdGhpcyBjYW5u
+b3QgZGVhbCB3aXRoIFhyYW5kciBvdXRwdXQgcm90YXRpb24gLi4uCj4KPiA+IFRoZSBzdHJhbmdl
+IHRoaW5nIGlzIHRoYXQgYm9vdGxvYWRlcnMgbGlrZSBHUlVCIG9yIHJFRkluZCBzZWVtcyB0byBi
+ZQo+ID4gYWJsZSB0byBoYW5kbGUgdGhpcyBhbmQgdGhleSBwYWludCB0aGVtc2VsdmVzIHJpZ2h0
+LCBkZXNwaXRlIHdoZW4KPiA+IGJvb3RpbmcgV2luZG93cyBkaXJlY3RseSBXaW5kb3dzIHBhaW50
+cyBpdHNlbGYgcmlnaHQgYW5kIGJvb3RlZCB3aXRoCj4gPiBHUlVCIG9yIHJFRkluZCB0aGUgZmly
+c3Qgc2Vjb25kIGFsc28gcGFpbnQgaXRzZWxmIHdyb25nLiBIYXZlbid0Cj4gPiB0ZXN0ZWQgdGhp
+cyB0b28gbXVjaCBidXQgdGhlIGludGVyZXN0aW5nIHRoaW5nIGlzIGluIHRoZSBuZXh0Cj4gPiBw
+YXJhZ3JhcGguCj4KPiBNeSBleHBlcmllbmNlIHdpdGggYm9vdGxvYWRlcnMgc2hvd2luZyB0aGVt
+c2VsdmVzIHRoZSByaWdodCB3YXkKPiB1cCBpcyBtaXhlZC4gSXQgc2VlbXMgdGhhdCB0aGUgZmly
+bXdhcmUgaXMgZG9pbmcgc29tZSBoYWNrcyBmb3IKPiB0aGlzIG9uIHNvbWUgZGV2aWNlcywgYXQg
+bGVhc3QgZm9yIHRoZSBFRkkgdGV4dCBjb25zb2xlLgo+Cj4gRnVubmlseSBlbm91Z2ggKGZvciBz
+b21lIGRlZmluaXRpb24gb2YgZnVuKSBvbiBhdCBsZWFzdCBvbmUgb2YKPiB0aGUgZGV2aWNlcyB3
+aGVyZSB0aGUgZmlybXdhcmUgaXMgcGxheWluZyB0cmlja3MgKEFzdXMgVDEwMEhBIElJUkMpCj4g
+dGhlIHBvc2l0aW9uIG9mIHRoZSBjYXJyZXQgZm9yIHRleHQtZWRpdGluZyBpcyBvZmYgYnkgb25l
+LCB3aGljaAo+IGlzIHZlcnkgYW5ub3lpbmcgd2hlbiBlZGl0aW5nIHRoZSBrZXJuZWwgY29tbWFu
+ZGxpbmUgYW5kIHdoaWNoCj4gY2xlYXJseSBzaG93cyB0aGF0IHRoaW5ncyBhcmUgYmVpbmcgZW11
+bGF0ZWQgaW4gc29mdHdhcmUgaGVyZS4KPgo+ID4gSSBkZWNpZGVkIHRvIGdldCB0aGUgVUVGSSBH
+T1AgdmlkZW8gbW9kZXMgYW5kIGZvdW5kIHRoYXQgdGhlIEQzMzAgaGF2ZQo+ID4gdGhlc2Ugb25l
+czoKPiA+IE1vZGUgMDogMTIwMHgxOTIwCj4gPiBNb2RlIDE6IDY0MHg0ODAKPiA+IE1vZGUgMjog
+ODAweDYwMAo+ID4gTW9kZSAzOiAxMDI0eDc2OAo+ID4gTW9kZSA0OiAxOTIweDEyMDAgKHRoaXMg
+aXMgdGhlIGRlZmF1bHQgb25lIHN0YXJ0ZWQgYnkgdGhlIGZpcm13YXJlKQo+ID4gTW9kZSA1OiA0
+ODB4NjQwCj4gPiBNb2RlIDY6IDYwMHg4MDAKPiA+IE1vZGUgNzogNzY4eDEwMjQKPiA+Cj4gPiBT
+byBJIHRob3VnaHQgdGhhdCBMaW51eCBpcyB0YWtpbmcgdGhlIGZpcnN0IG1vZGUgZGVzcGl0ZSBp
+cyBub3QgdGhlCj4gPiBhY3RpdmUgb25lIGFuZCB0aGF0J3Mgd2h5IHRoZSBkaXNwbGF5IGlzIG1l
+c3NlZCB1cC4KPgo+IE5vcGUsIExpbnV4IGRvZXMgbm90IHRvdWNoIHRoZSBtb2RlIGF0IGFsbCAo
+bm9yIGRvZXMgZ3J1YiBieSBkZWZhdWx0KS4KPiBEb2luZyBhIEVGSS9HT1AgbW9kZXNldCBoYXMg
+dGhlIHJpc2sgb2YgdHJpZ2dlcmluZyBhbGwgc29ydCBvZiBmaXJtd2FyZQo+IGJ1Z3MuIFNvIHdl
+IHN0aWNrIHdpdGggd2hhdCB3ZSBnZXQuIFRoaXMgaGFzIGludGVyZXN0aW5nIHNpZGUgZWZmZWN0
+cwo+IHdoZXJlIG9uIHNvbWUgc3lzdGVtcyB5b3UgZ2V0IGEgZGlmZmVyZW50IG1vZGUgd2hlbiB0
+dXJuaW5nIG9uIHRoZQo+IG1hY2hpbmUgYW5kIGxldHRpbmcgaXQgYm9vdCwgdnMgdHVybmluZyBp
+dCBvbiwgcHJlc3NpbmcgZS5nLiBGMTIgdG8gZ2V0Cj4gdGhlIGJvb3QgbWVudSBhbmQgdGhlbiBi
+b290IExpbnV4Lgo+Cj4gPiBQbGF5aW5nIGEgbGl0dGxlIEkgY291bGQgbW9kaWZ5IHRoZSBHT1Ag
+dmlkZW8gbW9kZSBiZWZvcmUgYm9vdGluZyB3aXRoCj4gPiB0aGUgVUVGSSBTaGVsbCBieSBzaW1w
+bGUgdXNpbmcgdGhlIG1vZGUgMTUwIDEwMS4gVGhpcyBjYXVzZXMgR09QIHZpZGVvCj4gPiBtb2Rl
+IDUgdG8gYmUgc3dpdGNoZWQgdG8gdmlkZW8gbW9kZSAwLCB0aGUgZmlyc3Qgb25lLiBCb290aW5n
+IG5vdwo+ID4gbWFrZXMgaW5pdHJhbWZzIG1lc3NhZ2VzIHRvIGJlIGNvcnJlY3RseSByZW5kZXJl
+ZCBidXQgaW4gdGhlIHdyb25nCj4gPiBvcmllbnRhdGlvbi4KPgo+IFJpZ2h0LCB0aGUgcmVuZGVy
+aW5nIG9uIHRoZSBzaWRlIHRoaW5nIGlzIGV4cGVjdGVkLiBBcyBzYWlkIHRoZSBoYXJkd2FyZQo+
+IGNhbm5vdCBkbyA5MCBkZWdyZWVzIHJvdGF0aW9uIHdpdGggYSBsaW5lYXIgZnJhbWVidWZmZXIg
+YW5kIHRoZSBHT1AKPiBwcm92aWRlZCBlZmlmYiBpcyBhIGxpbmVhciBmcmFtZWJ1ZmZlci4gU28g
+d2l0aG91dCB0ZWxsaW5nIHRoZSBrZXJuZWwKPiB0byBzb2Z0d2FyZSByb3RhdGUgaXRzIHRleHQg
+Y29uc29sZSB0aGUgdGV4dCB3aWxsIGFsd2F5cyBiZSBvbiBpdHMgc2lkZS4KPgo+IFdoYXQgeW91
+ciBsaXR0bGUgRUZJIHNoZWxsIGhhY2sgaXMgZG9pbmcgaXMgd29ya2luZyBhcm91bmQgd2hhdCBz
+ZWVtcyB0bwo+IGJlIGEgYnVnIG9uIHRoZXNlIExlbm92byBkZXZpY2VzIGdpdmVzIHVzIHRoZSB3
+cm9uZyBzdHJpZGUgYW5kIGRpbWVuc2lvbnMKPiBmb3IgdGhlIEVGSSBmcmFtZWJ1ZmZlci4KPgo+
+IE5vdGUgdGhhdCB0aGlzIHZlcnkgbXVjaCBpcyBhIExlbm92byBidWcsIGFsbCB0aGUgb3RoZXIg
+ZGV2aWNlcwo+IHdpdGggOTAgZGVncmVlIHJvdGF0ZWQgc2NyZWVucyBsZXQgdXMgcmVuZGVyIHRo
+ZSB0ZXh0IGNvbnNvbGUKPiBvbiBpdHMgc2lkZSBqdXN0IGZpbmUuIFRoZXkgY29ycmVjdGx5IHRl
+bGxzIHVzIHRoZSByZWFsIHNpemUKPiBhbmQgc3RyaWRlIG9mIHRoZSBzY3JlZW4gKHNvIGl0cyBw
+b3J0cmFpdCBkaW1lbnNpb25zIHNpbmNlIGl0Cj4gaXMgYSBwb3J0cmFpdCBzY3JlZW4pLgo+Cj4g
+RXZlbiB0aG91Z2ggdGhpcyBpcyBhIExlbm92byBidWcgd2Ugc2hvdWxkIHByb2JhYmx5IHN0aWxs
+IHRyeSB0bwo+IGZpbmQgYSB3YXkgdG8gZGVhbCB3aXRoIHRoaXMgdGhvdWdoLCBzbyB0aGF0IHRo
+ZSBlZmlmYiB3b3Jrcwo+IGNvcnJlY3RseSBvbiB0aGVzZSBkZXZpY2VzLi4uCj4KPiA+IEEgbG9v
+ayBhdCBkcml2ZXJzL2Zpcm13YXJlL2VmaS9saWJzdHViL2dvcC5jIHNlZW1zIHRvIGJlIHdoYXQg
+aXMKPiA+IGhhcHBlbmluZywgdGhlIGZpcnN0IGF2YWlsYWJsZSB2aWRlbyBtb2RlIGlzIHVzZWQg
+ZGVzcGl0ZSBpdCBjb3VsZCBub3QKPiA+IGJlIHRoZSBhY3RpdmUgb25lIGluIEdPUCBhbmQgdGhl
+IGFjdGl2ZSBtb2RlIGlzIG5vdCBzd2l0Y2hlZCB0byB0aGUKPiA+IGRpc2NvdmVyZWQgb25lIGJ5
+IExpbnV4LiBCb3RoIEdSVUIgYW5kIHJFRkluZCBhcmUgYWJsZSB0byByZXNwZWN0IHRoZQo+ID4g
+dmlkZW8gbW9kZSB0aGF0IEdPUCBoYXMgYWN0aXZlIHNvIGl0J3MgcG9zc2libGUgdG8gYm9vdCB0
+aGVtIGxhbmRzY2FwZQo+ID4gYW5kIHBvcnRyYWl0IHdoaWxlIGJlaW5nIGNvcnJlY3RseSByZW5k
+ZXJlZC4KPiA+Cj4gPiBJIHRoaW5rIHRoZSB2aWRlbyBtb2RlIHNob3VsZCBub3QgYmUgdGhlIGZp
+cnN0IGRpc2NvdmVyZWQgb25lIGJ1dCB0aGUKPiA+IGFjdGl2ZSBvbmUsIG9yIGF0IGxlYXN0LCB0
+aGUgaGlnaGVzdCByZXNvbHV0aW9uIHZpZGVvIG1vZGUgdGhhdAo+ID4gcmVzcGVjdHMgdGhlIG9y
+aWVudGF0aW9uLgo+Cj4gQWdhaW4sIExpbnV4IGRvZXMgbm90IHVzZSB0aGUgR09QIGNvbmNlcHQg
+b2YgdmlkZW8gbW9kZXMgYXQgYWxsLAo+IGl0IHNpbXBseSB0YWtlcyB0aGUgYWN0aXZlIG1vZGUg
+YXMgcmVwb3J0ZWQgYnkgdGhlIFVFRkkgYW5kIHVzZXMKPiB0aGF0IHRvIHNob3cgbWVzc2FnZXMg
+ZHVyaW5nIGVhcmx5IGJvb3QuCj4KPiBBbHNvIG5vdGUgdGhhdCBmaXhpbmcgdGhlIGVmaWZiIGlz
+IG9mIGxpdHRsZSB2YWx1ZSBlYXJseSBkdXJpbmcKPiBib290IHRoZSBrZXJuZWwgd2lsbCBsb2Fk
+IHRoZSBpOTE1IGRyaXZlciBzbyB0aGF0IHdlIGNhbiBoYXZlCj4gaGFyZHdhcmUgcmVuZGVyZWQg
+M0QsIHN1cHBvcnQgZm9yIG11bHRpcGxlIG1vbml0b3JzLCBldGMuIGFuZCBhcwo+IHNvb24gYXMg
+dGhhdCBpcyBsb2FkZWQgdGhlIGVmaWZiIHNldHRpbmdzIG5vIGxvbmdlciBtYXR0ZXIuCj4KPiBU
+aGUgaTkxNSBkcml2ZXIgZG9lcyBub3QgY2FyZSBhYm91dCB0aGUgR09QIHNldHRpbmdzIGF0IGFs
+bDsKPiBhbmQgd2l0aG91dCBhIHF1aXJrIGl0IHRvbyB3aWxsIGNhdXNlIGV2ZXJ5dGhpbmcgdG8g
+YmUgcmVuZGVyZWQKPiBvbiBpdHMgc2lkZS4KPgo+IFJlZ2FyZHMsCj4KPiBIYW5zCj4KX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
