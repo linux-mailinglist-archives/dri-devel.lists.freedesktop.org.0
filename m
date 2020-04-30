@@ -1,58 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0EDC1BF0BB
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:04:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4461C0EC2
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:24:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D16326EB47;
-	Thu, 30 Apr 2020 07:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 757726EC09;
+	Fri,  1 May 2020 07:23:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 225566EB47
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 07:03:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588230236;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Dnqk8J4NZfmNbFklauTGOEtNDtalY1ujNiDhzXG401M=;
- b=AFoaNXkJaybUjXez2G4QI8H9Xh/mCy6KG1bnny7jipTq9DeI+c0GUeR+Aa5rCqZA+t/diz
- yWi3efec7CLGn/pOZIjjaWmgbP9HTSvJBFmY83gAbFfVvhEFv9WlUOewJca9GcjmUuKPjj
- k3orApnqYvooqh7836EHgy26bkJMHDM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-41ymztbLMd6tU_FrBK_QPg-1; Thu, 30 Apr 2020 03:03:50 -0400
-X-MC-Unique: 41ymztbLMd6tU_FrBK_QPg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09B77108BD0F;
- Thu, 30 Apr 2020 07:03:49 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
- [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A2D2C6153B;
- Thu, 30 Apr 2020 07:03:48 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 890139D98; Thu, 30 Apr 2020 09:03:47 +0200 (CEST)
-Date: Thu, 30 Apr 2020 09:03:47 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 01/17] drm/mgag200: Remove HW cursor
-Message-ID: <20200430070347.jahwjqwcm3kmspla@sirius.home.kraxel.org>
-References: <20200429143238.10115-1-tzimmermann@suse.de>
- <20200429143238.10115-2-tzimmermann@suse.de>
- <20200429175107.GC31071@ravnborg.org>
+Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3246EB48
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 07:04:25 +0000 (UTC)
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 75443E6259D20B6A35F4;
+ Thu, 30 Apr 2020 15:04:19 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 30 Apr 2020 15:04:13 +0800
+From: Wei Yongjun <weiyongjun1@huawei.com>
+To: Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH -next] drm/vboxvideo: Fix a NULL vs IS_ERR() check in
+ vbox_hw_init()
+Date: Thu, 30 Apr 2020 07:05:23 +0000
+Message-ID: <20200430070523.185584-1-weiyongjun1@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200429175107.GC31071@ravnborg.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Fri, 01 May 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,36 +42,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.p.donnelly@oracle.com, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, airlied@redhat.com
+Cc: kernel-janitors@vger.kernel.org, Wei Yongjun <weiyongjun1@huawei.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 29, 2020 at 07:51:07PM +0200, Sam Ravnborg wrote:
-> On Wed, Apr 29, 2020 at 04:32:22PM +0200, Thomas Zimmermann wrote:
-> > The HW cursor of Matrox G200 cards only supports a 16-color palette
-> > format. Univeral planes require at least ARGB or a similar component-
-> > based format. Converting a cursor image from ARGB to 16 colors does not
-> > produce pleasent-looking results in general, so remove the HW cursor.
-> 
-> What impact does this have in useability?
-> Does the cursor behaviour stay the same or?
+The devm_gen_pool_create() function returns ERR_PTR() on error, it
+doesn't return NULL so this check doesn't work.
 
-xorg/wayland switch to software cursor then.  Shouldn't be a big
-difference.  If you wanna check how userspace behaves without g200
-hardware you can try qemu.  stdvga (bochs-drm.ko) has no hardware
-cursor, virtio-vga (virtio-gpu.ko) has a hardware cursor.
+Fixes: 4cc9b565454b ("drm/vboxvideo: Use devm_gen_pool_create")
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+---
+ drivers/gpu/drm/vboxvideo/vbox_main.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> The patch looks fine, but it seems a bit gross ditching curcor support.
-> But maybe it is the right choice, I dunno.
+diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
+index d68d9bad7674..c5ea880d17b2 100644
+--- a/drivers/gpu/drm/vboxvideo/vbox_main.c
++++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
+@@ -123,8 +123,8 @@ int vbox_hw_init(struct vbox_private *vbox)
+ 	/* Create guest-heap mem-pool use 2^4 = 16 byte chunks */
+ 	vbox->guest_pool = devm_gen_pool_create(vbox->ddev.dev, 4, -1,
+ 						"vboxvideo-accel");
+-	if (!vbox->guest_pool)
+-		return -ENOMEM;
++	if (IS_ERR(vbox->guest_pool))
++		return PTR_ERR(vbox->guest_pool);
+ 
+ 	ret = gen_pool_add_virt(vbox->guest_pool,
+ 				(unsigned long)vbox->guest_heap,
 
-cirrus driver does the same.  The hardware has cursor support, but not
-rgba, and it is not used.
 
-take care,
-  Gerd
 
 _______________________________________________
 dri-devel mailing list
