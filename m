@@ -1,48 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1BD1C00C8
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 17:50:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C09441C01DE
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 18:14:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1560B6E267;
-	Thu, 30 Apr 2020 15:50:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B19706E93D;
+	Thu, 30 Apr 2020 16:14:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4306E267
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 15:50:51 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1E9D32076D
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 15:50:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588261851;
- bh=AWlUUUEQmtBP6tJdyVBdRVvYUBKUIGdA1MEl0dfcZ1c=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=blFWQQqDR5s9d3ZEJt7rWSG47Ui51YmWTKkh3itQ/Sp3SU0kVuXu63FPnOk2WS56J
- zW77QmZcKSZJszbq/CKFhEiS+PSGTxjHBYA2jEAYMkYU/coTMAB0qLBIOeZbeo9tlb
- 28HbThPQWnva6dMg986HdyvMzNJmd6p02ghaf77g=
-Received: by mail-ed1-f42.google.com with SMTP id d16so4933650edq.7
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 08:50:51 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYuhW8kA7gXHv6Y+PRNcvnH54pH++YaDwrATzApBNv6wYBo8bv9
- 3h/AoTqfLvrHmFLHr+hdVjZKn1P4MjaFGFmYdA==
-X-Google-Smtp-Source: APiQypLNtAe4WGt202vWspF3DK8VQGAkLi64NfyhwMTDL4r2HZtxav6S7QTWNUTBLfZims+Y6t3pKABbZl+n/V80byk=
-X-Received: by 2002:a05:6402:48b:: with SMTP id
- k11mr3417709edv.47.1588261849430; 
- Thu, 30 Apr 2020 08:50:49 -0700 (PDT)
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B20F6E935;
+ Thu, 30 Apr 2020 16:14:17 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id w4so2066052ioc.6;
+ Thu, 30 Apr 2020 09:14:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9tMKgUNiVkUhpbJNhAr0hm95irgxD28lhjeV8PkyOXw=;
+ b=lJBIxD+U8h9JNWqczpIHYOA2edcOylANhJNLxX7tesOutIKTPAgFimaA71Q4BN3lFt
+ CGdE71ndDyan0ElbnjdpXRfFAeM3FaoZUuZy4QwOiG6H2+Ms9wxfrmq86ne2Ncxduo2s
+ o3oH8+ZOcyM+mE6+HP4hWSsipRphFTDlHJjDks7AcSYXE7geDz7xu6toAZaAdZAWGs7u
+ doCtqwvkh1wxfWlI/hclqWa5WNI/PUHzg9W1oPax2zCgrBJN8THiWO9T/BRkfG7p5sQ6
+ 6byMtoOITdG3H87AkEiMJfkj6f+yvBrPZTtUnw30mdJTdGYwy75RtSWnREdZmACd4nAs
+ pzPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9tMKgUNiVkUhpbJNhAr0hm95irgxD28lhjeV8PkyOXw=;
+ b=bx0xbBUDlt3qErDrxnysfNwdZE+Nq7/r8Qtmskgm00JmBzeKCKkL/op5aE6mlGPB8D
+ /vTZOZ3B2nvQHF8se+i/sIzqMa+qq+KDyWAyGDSsqUFm+oEtCxTNP+Tpj1abohta1lWp
+ bSm4sTIzXewQ4M8wXNwBexifQdTDG2vDLCRGqepVsg/qIL3TbjsE2apAvdO8lfH5i+uD
+ 1qUXI9ozj4NHw2g9CKEK0RxCvCNIsd9o7WF2ApWdBzTv1gmsVoKKxME6IKSQMC5C1IVJ
+ fJhHHbsWEWX5gxlwG7rnu86VMOJyRsnQyj9stkPBB4v6UYGHwVn5vRs65vB05v3i5ner
+ DF/Q==
+X-Gm-Message-State: AGi0PuYRhkOcYwAHOjgH3x8v6ztVIZw5bqJ2OAIGgAjBXRvLCUGQtuU1
+ KchBQr67TooBDAPGbq4GiRJIoNNrtbzpLbUiHGo=
+X-Google-Smtp-Source: APiQypJNNe1JlSiWqNAvYCGbEyLo6QHM5ubwp0R2i0yMPOBM1qvYMgIWqO2AKVPK+ePUbVGYtX9sAhF9NavoFEScekM=
+X-Received: by 2002:a6b:5904:: with SMTP id n4mr2693593iob.142.1588263256671; 
+ Thu, 30 Apr 2020 09:14:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAAOTY_86d-UryKQrLy8-zjTbrTRrHL4k3x=bx1KqvWxPL5jj2Q@mail.gmail.com>
- <AOsApgASCAa7imxfuvZwXqq0.3.1588228291133.Hmail.bernard@vivo.com>
-In-Reply-To: <AOsApgASCAa7imxfuvZwXqq0.3.1588228291133.Hmail.bernard@vivo.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 30 Apr 2020 23:50:38 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8o239n_y4LJiyU5978e87knZmNRJwSHZbEDxLLasiJjw@mail.gmail.com>
-Message-ID: <CAAOTY_8o239n_y4LJiyU5978e87knZmNRJwSHZbEDxLLasiJjw@mail.gmail.com>
-Subject: Re: Re: [PATCH] drm/mediatek: cleanup coding style in mediatek a bit
-To: Bernard <bernard@vivo.com>
+References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
+ <20200430124602.14463-2-frieder.schrempf@kontron.de>
+ <5e1f804c4c27927d10b2283747c1cae6606abe7c.camel@pengutronix.de>
+ <6a5fbb8a-bf28-9c8e-53c7-7a3e5f338a2c@kontron.de>
+In-Reply-To: <6a5fbb8a-bf28-9c8e-53c7-7a3e5f338a2c@kontron.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Thu, 30 Apr 2020 11:14:02 -0500
+Message-ID: <CAHCN7x+sA9cGF6oqvZLKBdhRdZcxgW=U98uB81_R3iq_-Ok9=w@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/4] drm/etnaviv: Prevent IRQ triggering at probe time
+ on i.MX8MM
+To: Schrempf Frieder <frieder.schrempf@kontron.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,99 +64,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, opensource.kernel@vivo.com,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Peng Fan <peng.fan@nxp.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Anson Huang <Anson.Huang@nxp.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Li Jun <jun.li@nxp.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Shawn Guo <shawnguo@kernel.org>,
+ Leonard Crestez <leonard.crestez@nxp.com>, "S.j. Wang" <shengjiu.wang@nxp.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIEJlcm5hcmQ6CgpCZXJuYXJkIDxiZXJuYXJkQHZpdm8uY29tPiDmlrwgMjAyMOW5tDTmnIgz
-MOaXpSDpgLHlm5sg5LiL5Y2IMjozMuWvq+mBk++8mgo+Cj4KPgo+IOWPkeS7tuS6uu+8mkNodW4t
-S3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3JnPgo+IOWPkemAgeaXpeacn++8mjIwMjAt
-MDQtMjkgMjI6MjI6NTAKPiDmlLbku7bkurrvvJpCZXJuYXJkIFpoYW8gPGJlcm5hcmRAdml2by5j
-b20+Cj4g5oqE6YCB5Lq677yaQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+
-LFBoaWxpcHAgWmFiZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+LERhdmlkIEFpcmxpZSA8YWly
-bGllZEBsaW51eC5pZT4sRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPixNYXR0aGlhcyBC
-cnVnZ2VyIDxtYXR0aGlhcy5iZ2dAZ21haWwuY29tPixEUkkgRGV2ZWxvcG1lbnQgPGRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+LExpbnV4IEFSTSA8bGludXgtYXJtLWtlcm5lbEBsaXN0
-cy5pbmZyYWRlYWQub3JnPiwibW9kZXJhdGVkIGxpc3Q6QVJNL01lZGlhdGVrIFNvQyBzdXBwb3J0
-IiA8bGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFkLm9yZz4sbGludXgta2VybmVsIDxsaW51
-eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPixvcGVuc291cmNlLmtlcm5lbEB2aXZvLmNvbQo+IOS4
-u+mimO+8mlJlOiBbUEFUQ0hdIGRybS9tZWRpYXRlazogY2xlYW51cCBjb2Rpbmcgc3R5bGUgaW4g
-bWVkaWF0ZWsgYSBiaXQ+SGksIEJlcm5hcmQ6Cj4gPgo+ID5CZXJuYXJkIFpoYW8gPGJlcm5hcmRA
-dml2by5jb20+IOaWvCAyMDIw5bm0NOaciDI35pelIOmAseS4gCDkuIvljYgzOjUz5a+r6YGT77ya
-Cj4gPj4KPiA+PiBUaGlzIGNvZGUgY2hhbmdlIGlzIHRvIG1ha2UgY29kZSBiaXQgbW9yZSByZWFk
-YWJsZS4KPiA+PiBPcHRpbWlzZSBhcnJheSBzaXplIGFsaWduIHRvIEhETUkgbWFjcm8gZGVmaW5l
-Lgo+ID4+IEFkZCBjaGVjayBpZiBsZW4gaXMgb3ZlcmFuZ2UuCj4gPgo+ID5PbmUgcGF0Y2ggc2hv
-dWxkIGp1c3QgZG8gb25lIHRoaW5nLCBidXQgdGhpcyBkbyB0aHJlZSB0aGluZ3MuCj4gPlNvIGJy
-ZWFrIHRoaXMgaW50byB0aHJlZSBwYXRjaGVzLgo+ID4KPiA+UmVnYXJkcywKPiA+Q2h1bi1LdWFu
-Zy4KPgo+IEhpCj4gVGhpcyBvcHRpbWl6YXRpb24gaXMgbWFpbmx5IHRvIG1ha2UgdGhlIGNvZGUg
-YSBiaXQgcmVhZGFibGUuCj4gVGhlc2UgbW9kaWZpY2F0aW9ucyBhcmUgcmVsYXRlZCwgbWFpbiBp
-biBzZXZlcmFsIHJlbGF0ZWQgZnVuY3Rpb24gY2FsbHMgaW4gdGhlIHNhbWUgZmlsZS4KPiBJIHdh
-cyBhIGJpdCBjb25mdXNlZCB0aGF0IGlmIGl0IGlzIHJlYWxseSBuZWNlc3NhcnkgdG8gY2hhbmdl
-IHRvIHRocmVlIHNlcGFyYXRlIHBhdGNoIHN1Ym1pc3Npb25zPwo+Cj4gUmVnYXJkcwo+IEJlcm5h
-cmQKPgo+ID4+Cj4gPj4gU2lnbmVkLW9mZi1ieTogQmVybmFyZCBaaGFvIDxiZXJuYXJkQHZpdm8u
-Y29tPgo+ID4+IC0tLQo+ID4+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWkuYyB8
-IDIyICsrKysrKysrKysrLS0tLS0tLS0tLS0KPiA+PiAgMSBmaWxlIGNoYW5nZWQsIDExIGluc2Vy
-dGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQo+ID4+Cj4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
-a19oZG1pLmMKPiA+PiBpbmRleCBmZjQzYTNkODA0MTAuLjQwZmI1MTU0ZWQ1ZCAxMDA2NDQKPiA+
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWkuYwo+ID4+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jCj4gPj4gQEAgLTMxMSwxNSArMzExLDE1
-IEBAIHN0YXRpYyB2b2lkIG10a19oZG1pX2h3X3NlbmRfaW5mb19mcmFtZShzdHJ1Y3QgbXRrX2hk
-bWkgKmhkbWksIHU4ICpidWZmZXIsCj4gPj4gICAgICAgICB1OCBjaGVja3N1bTsKPiA+PiAgICAg
-ICAgIGludCBjdHJsX2ZyYW1lX2VuID0gMDsKPiA+Pgo+ID4+IC0gICAgICAgZnJhbWVfdHlwZSA9
-ICpidWZmZXI7Cj4gPj4gLSAgICAgICBidWZmZXIgKz0gMTsKPiA+PiAtICAgICAgIGZyYW1lX3Zl
-ciA9ICpidWZmZXI7Cj4gPj4gLSAgICAgICBidWZmZXIgKz0gMTsKPiA+PiAtICAgICAgIGZyYW1l
-X2xlbiA9ICpidWZmZXI7Cj4gPj4gLSAgICAgICBidWZmZXIgKz0gMTsKPiA+PiAtICAgICAgIGNo
-ZWNrc3VtID0gKmJ1ZmZlcjsKPiA+PiAtICAgICAgIGJ1ZmZlciArPSAxOwo+ID4+ICsgICAgICAg
-ZnJhbWVfdHlwZSA9ICpidWZmZXIrKzsKPiA+PiArICAgICAgIGZyYW1lX3ZlciA9ICpidWZmZXIr
-KzsKPiA+PiArICAgICAgIGZyYW1lX2xlbiA9ICpidWZmZXIrKzsKPiA+PiArICAgICAgIGNoZWNr
-c3VtID0gKmJ1ZmZlcisrOwoKVGhpcyBwYXJ0IGxvb2tzIGxpa2UgY2xlYW51cCwgc28ga2VlcCBp
-biB0aGlzIHBhdGNoLgoKPiA+PiAgICAgICAgIGZyYW1lX2RhdGEgPSBidWZmZXI7Cj4gPj4gKyAg
-ICAgICBpZiAoKGZyYW1lX2xlbiArIEhETUlfSU5GT0ZSQU1FX0hFQURFUl9TSVpFKSA+IGxlbikg
-ewo+ID4+ICsgICAgICAgICAgICAgICBkZXZfZXJyKGhkbWktPmRldiwgIldyb25nIGZyYW1lIGxl
-bjogJWRcbiIsIGZyYW1lX2xlbjsKPiA+PiArICAgICAgICAgICAgICAgcmV0dXJuOwoKVGhpcyBp
-cyBlcnJvciBjaGVja2luZywgbm90IGNsZWFudXAgdGhlIGNvZGluZyBzdHlsZSwgc28gbW92ZSB0
-aGlzIHRvCmFub3RoZXIgcGF0Y2guCgo+ID4+ICsgICAgICAgfQo+ID4+Cj4gPj4gICAgICAgICBk
-ZXZfZGJnKGhkbWktPmRldiwKPiA+PiAgICAgICAgICAgICAgICAgImZyYW1lX3R5cGU6MHgleCxm
-cmFtZV92ZXI6MHgleCxmcmFtZV9sZW46MHgleCxjaGVja3N1bToweCV4XG4iLAo+ID4+IEBAIC05
-ODIsNyArOTgyLDcgQEAgc3RhdGljIGludCBtdGtfaGRtaV9zZXR1cF9hdmlfaW5mb2ZyYW1lKHN0
-cnVjdCBtdGtfaGRtaSAqaGRtaSwKPiA+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUpCj4gPj4gIHsKPiA+PiAgICAg
-ICAgIHN0cnVjdCBoZG1pX2F2aV9pbmZvZnJhbWUgZnJhbWU7Cj4gPj4gLSAgICAgICB1OCBidWZm
-ZXJbMTddOwo+ID4+ICsgICAgICAgdTggYnVmZmVyW0hETUlfSU5GT0ZSQU1FX0hFQURFUl9TSVpF
-ICsgSERNSV9BVklfSU5GT0ZSQU1FX1NJWkVdOwoKVGhpcyBpcyB0byBzeW1ib2xpemUgdGhlIG51
-bWJlciwgc3ltYm9saXphdGlvbiBpcyBtb3JlIHRoYW4gY2xlYW51cC4KClJlZ2FyZHMsCkNodW4t
-S3VhbmcuCgo+ID4+ICAgICAgICAgc3NpemVfdCBlcnI7Cj4gPj4KPiA+PiAgICAgICAgIGVyciA9
-IGRybV9oZG1pX2F2aV9pbmZvZnJhbWVfZnJvbV9kaXNwbGF5X21vZGUoJmZyYW1lLAo+ID4+IEBA
-IC0xMDA4LDcgKzEwMDgsNyBAQCBzdGF0aWMgaW50IG10a19oZG1pX3NldHVwX3NwZF9pbmZvZnJh
-bWUoc3RydWN0IG10a19oZG1pICpoZG1pLAo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBjb25zdCBjaGFyICpwcm9kdWN0KQo+ID4+ICB7Cj4gPj4gICAgICAgICBz
-dHJ1Y3QgaGRtaV9zcGRfaW5mb2ZyYW1lIGZyYW1lOwo+ID4+IC0gICAgICAgdTggYnVmZmVyWzI5
-XTsKPiA+PiArICAgICAgIHU4IGJ1ZmZlcltIRE1JX0lORk9GUkFNRV9IRUFERVJfU0laRSArIEhE
-TUlfU1BEX0lORk9GUkFNRV9TSVpFXTsKPiA+PiAgICAgICAgIHNzaXplX3QgZXJyOwo+ID4+Cj4g
-Pj4gICAgICAgICBlcnIgPSBoZG1pX3NwZF9pbmZvZnJhbWVfaW5pdCgmZnJhbWUsIHZlbmRvciwg
-cHJvZHVjdCk7Cj4gPj4gQEAgLTEwMzEsNyArMTAzMSw3IEBAIHN0YXRpYyBpbnQgbXRrX2hkbWlf
-c2V0dXBfc3BkX2luZm9mcmFtZShzdHJ1Y3QgbXRrX2hkbWkgKmhkbWksCj4gPj4gIHN0YXRpYyBp
-bnQgbXRrX2hkbWlfc2V0dXBfYXVkaW9faW5mb2ZyYW1lKHN0cnVjdCBtdGtfaGRtaSAqaGRtaSkK
-PiA+PiAgewo+ID4+ICAgICAgICAgc3RydWN0IGhkbWlfYXVkaW9faW5mb2ZyYW1lIGZyYW1lOwo+
-ID4+IC0gICAgICAgdTggYnVmZmVyWzE0XTsKPiA+PiArICAgICAgIHU4IGJ1ZmZlcltIRE1JX0lO
-Rk9GUkFNRV9IRUFERVJfU0laRSArIEhETUlfQVVESU9fSU5GT0ZSQU1FX1NJWkVdOwo+ID4+ICAg
-ICAgICAgc3NpemVfdCBlcnI7Cj4gPj4KPiA+PiAgICAgICAgIGVyciA9IGhkbWlfYXVkaW9faW5m
-b2ZyYW1lX2luaXQoJmZyYW1lKTsKPiA+PiAtLQo+ID4+IDIuMjYuMgo+ID4+Cj4gPj4KPiA+PiBf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+IExpbnV4
-LW1lZGlhdGVrIG1haWxpbmcgbGlzdAo+ID4+IExpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVh
-ZC5vcmcKPiA+PiBodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xp
-bnV4LW1lZGlhdGVrCj4KPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCj4gTGludXgtbWVkaWF0ZWsgbWFpbGluZyBsaXN0Cj4gTGludXgtbWVkaWF0ZWtA
-bGlzdHMuaW5mcmFkZWFkLm9yZwo+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4v
-bGlzdGluZm8vbGludXgtbWVkaWF0ZWsKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+On Thu, Apr 30, 2020 at 10:31 AM Schrempf Frieder
+<frieder.schrempf@kontron.de> wrote:
+>
+> Hi Lucas,
+>
+> On 30.04.20 16:32, Lucas Stach wrote:
+> > Hi Frieder,
+> >
+> > Am Donnerstag, den 30.04.2020, 12:46 +0000 schrieb Schrempf Frieder:
+> >> From: Frieder Schrempf <frieder.schrempf@kontron.de>
+> >>
+> >> On i.MX8MM there is an interrupt getting triggered immediately after
+> >> requesting the IRQ, which leads to a stall as the handler accesses
+> >> the GPU registers whithout the clock being enabled.
+> >>
+> >> Enabling the clocks briefly seems to clear the IRQ state, so we do
+> >> this before requesting the IRQ.
+> >
+> > This is most likely caused by improper power-up sequencing. Normally
+> > the GPC will trigger a hardware reset of the modules inside a power
+> > domain when the domain is powered on. This requires the clocks to be
+> > running at this point, as those resets are synchronous, so need clock
+> > pulses to propagate through the hardware.
+>
+> Ok, I was suspecting something like that and your explanation makes
+> total sense to me.
+>
+> >
+> >  From what I see the i.MX8MM is still missing the power domain
+> > controller integration, but I'm pretty confident that this problem
+> > should be solved in the power domain code, instead of the GPU driver.
+>
+> Ok. I was hoping that GPU support could be added without power domain
+> control, but I now see that this is probably not reasonable at all.
+> So I will keep on hoping that NXP comes up with an upstreamable solution
+> for the power domain handling.
+
+
+There was a patch for upstream power-domain control from NXP a few days ago:
+
+https://patchwork.kernel.org/cover/10904511/
+
+Can these be somehow tested to see if it helps the issue with the GPU?
+
+adam
+>
+> Thanks,
+> Frieder
+>
+> >
+> > Regards,
+> > Lucas
+> >
+> >> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> >> ---
+> >>   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 29 ++++++++++++++++++++-----
+> >> --
+> >>   1 file changed, 22 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> >> b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> >> index a31eeff2b297..23877c1f150a 100644
+> >> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> >> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> >> @@ -1775,13 +1775,6 @@ static int etnaviv_gpu_platform_probe(struct
+> >> platform_device *pdev)
+> >>              return gpu->irq;
+> >>      }
+> >>
+> >> -    err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+> >> -                           dev_name(gpu->dev), gpu);
+> >> -    if (err) {
+> >> -            dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq,
+> >> err);
+> >> -            return err;
+> >> -    }
+> >> -
+> >>      /* Get Clocks: */
+> >>      gpu->clk_reg = devm_clk_get(&pdev->dev, "reg");
+> >>      DBG("clk_reg: %p", gpu->clk_reg);
+> >> @@ -1805,6 +1798,28 @@ static int etnaviv_gpu_platform_probe(struct
+> >> platform_device *pdev)
+> >>              gpu->clk_shader = NULL;
+> >>      gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
+> >>
+> >> +    /*
+> >> +     * On i.MX8MM there is an interrupt getting triggered
+> >> immediately
+> >> +     * after requesting the IRQ, which leads to a stall as the
+> >> handler
+> >> +     * accesses the GPU registers whithout the clock being enabled.
+> >> +     * Enabling the clocks briefly seems to clear the IRQ state, so
+> >> we do
+> >> +     * this here before requesting the IRQ.
+> >> +     */
+> >> +    err = etnaviv_gpu_clk_enable(gpu);
+> >> +    if (err)
+> >> +            return err;
+> >> +
+> >> +    err = etnaviv_gpu_clk_disable(gpu);
+> >> +    if (err)
+> >> +            return err;
+> >> +
+> >> +    err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+> >> +                           dev_name(gpu->dev), gpu);
+> >> +    if (err) {
+> >> +            dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq,
+> >> err);
+> >> +            return err;
+> >> +    }
+> >> +
+> >>      /* TODO: figure out max mapped size */
+> >>      dev_set_drvdata(dev, gpu);
+> >>
+> >
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
