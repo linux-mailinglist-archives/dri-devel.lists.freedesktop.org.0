@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CFA1BFA32
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 15:52:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7481BFA67
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 15:53:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BAFD6E8AF;
-	Thu, 30 Apr 2020 13:52:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6CCD6E8C3;
+	Thu, 30 Apr 2020 13:53:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57FD26E8AF
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 13:52:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 188AE6E8BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 13:53:42 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8D1BF208D5;
- Thu, 30 Apr 2020 13:52:46 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 50E62208DB;
+ Thu, 30 Apr 2020 13:53:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588254767;
- bh=Cqr8eghnHCwYfy32Xoq0YNy2OmKR9+KhkhznVTmFUrU=;
+ s=default; t=1588254822;
+ bh=zTXCidyF3h1FOA71xWqDYf/8fU7YbPSRgGWTDwl3/IU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tsvJIYm5bqW5nBUC6B2TbrwZxYvx5l8kTaPjSajNkwPRN6I1tSApNhtZ9gxs3j/Bj
- Tt+o4vG4u++/zUzIRn0OuXxJPf7EiQdlETC99uWRLInyLw1qqB5yTZsBqa9ypLfBkK
- nk5BnR3E5BDvcibu3G+JriJ2i5jVJs6mNyzqMj7k=
+ b=x80K6rWUNVPVVhzXUAfnsAbufMZMtsqgihKWVhmrSJIwMzPKzQgfr7jLl1X2Jal2g
+ SNy5qJN2xHHqYdcpXD3WizjQDpdGMCuInyrbo4PRk+XNnEqolHujLpOUMTRvxiA9yL
+ 5g7Uvu1DdZYk9K8BddEysuc8OcndJD/lxFnkW+EM=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 25/57] drm/amdgpu: Correctly initialize thermal
+Subject: [PATCH AUTOSEL 4.19 14/30] drm/amdgpu: Correctly initialize thermal
  controller for GPUs with Powerplay table v0 (e.g Hawaii)
-Date: Thu, 30 Apr 2020 09:51:46 -0400
-Message-Id: <20200430135218.20372-25-sashal@kernel.org>
+Date: Thu, 30 Apr 2020 09:53:09 -0400
+Message-Id: <20200430135325.20762-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200430135218.20372-1-sashal@kernel.org>
-References: <20200430135218.20372-1-sashal@kernel.org>
+In-Reply-To: <20200430135325.20762-1-sashal@kernel.org>
+References: <20200430135325.20762-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -72,10 +72,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 26 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c b/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
-index 77c14671866c0..719597c5d27d9 100644
+index 925e17104f909..b9e08b06ed5db 100644
 --- a/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
 +++ b/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
-@@ -984,6 +984,32 @@ static int init_thermal_controller(
+@@ -983,6 +983,32 @@ static int init_thermal_controller(
  			struct pp_hwmgr *hwmgr,
  			const ATOM_PPLIB_POWERPLAYTABLE *powerplay_table)
  {
