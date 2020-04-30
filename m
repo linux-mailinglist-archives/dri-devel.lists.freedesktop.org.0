@@ -1,60 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E881C06BC
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 21:46:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCA2A1C0729
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 21:57:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C405C6E94F;
-	Thu, 30 Apr 2020 19:46:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8AD6E42E;
+	Thu, 30 Apr 2020 19:57:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 683E16E94F
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 19:46:35 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id w65so362664pfc.12
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 12:46:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=CNXt2FmO52CndewwhPBTf6I3mlSfjDZ6zV6z3LcD0VE=;
- b=EeP8tZraylGTLmSTJH6KQFW78ibPGi/n6VR3j90ey0lht5hgmByF7Ag8EXQRMbYY57
- IlG5tDXde2JUI0MV5tWKn0bOMGytiYol6M1pGGnhyrNAPTxlRKSNOdzzdJxAJ4f2sMAH
- 03lRzJvQy2wVsDVtMwt8z0cb7Mlulvu7VFMf4=
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB836E42E
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 19:57:52 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id q8so5721479eja.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 12:57:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anholt-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sf4o7mpfsIW2p37ahDieiOuWLKAFwSGBAAlKSdh9MOY=;
+ b=Un8z4LLS9bMGDJ9Fu8wWHQ95ThUZm76Ya6tyIlmjz0HZNoSXfNY3ZH1vIixddxgFVW
+ Q34veuKAkRIRSf10WKZkNIvzChQ4Xa87EbhN3pSmlWGZdfPOqbTHx0mnK0n5g7zZvkh/
+ 9VkVveF3Y00KP8UJzhj7a0tsVzqSQkllu4ffRuoy92N9Ky9jI4lhpjko70ghYUYzgRIh
+ N29GOPDkmA5x6zEDHX+teTJ8kwFkCqjiUic6o1eXsbDF8bngDH8I5KC9pjssNoxJdhXP
+ MsmzzFKK2Mp7CxBGe8Hmi9bc5YLHJdU8ZZQfG4azNrKoHJdqxtFT1VQEveXSwcV/xBiM
+ 9Lsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=CNXt2FmO52CndewwhPBTf6I3mlSfjDZ6zV6z3LcD0VE=;
- b=pG/MPSD4tVeXP/eHTMiFyYKMByn6zVJyBGiBgOmjUtHbXzmJM/rjfGbPr33cKlItQ1
- OmqaZN5TRi+lfCh2jVmqxEZWZZvT/svlwVA+ZPB4QbluaEFLk0yiUcUV5za4e9CN+iDC
- MqCMrAJ2VG4CWxLq47agkap4iu65FLFNegkw+0hzDKDEy4yLg1qGm1wRbaIU7pKQXx6Y
- 0AJ0xnK+ABWDEhJJQMVTBmOtJiYQznVfNfKMbgtqsuye5CMUJ5F25+5Viv28UqFC4dBx
- HN8wQkywCUPggnXacl08FjzDDYt595oecIwItj28reVwUnAOyBQnngsID4yB9fXOI2P2
- uVng==
-X-Gm-Message-State: AGi0Pubt2XHar1GrEUFKJno9HCMIy3F9MbaJ2RcGZqJE+nGNvGOQbL1A
- Hx2D43hogUZFJ+MwA7GCj7qDUA==
-X-Google-Smtp-Source: APiQypJ5w6J53xRub/aTQzetgTJoWBXw5Zybbw7vRWEji/fczl1ZvQQJUx093mXZMrARd9s0cFlHQQ==
-X-Received: by 2002:a63:8ac3:: with SMTP id y186mr506112pgd.277.1588275994930; 
- Thu, 30 Apr 2020 12:46:34 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:1:24fa:e766:52c9:e3b2])
- by smtp.gmail.com with ESMTPSA id u3sm495993pfb.105.2020.04.30.12.46.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 12:46:34 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: linus.walleij@linaro.org, bgolaszewski@baylibre.com, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org, narmstrong@baylibre.com,
- a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com,
- spanda@codeaurora.org
-Subject: [PATCH v4 6/6] arm64: dts: sdm845: Add "no-hpd" to sn65dsi86 on cheza
-Date: Thu, 30 Apr 2020 12:46:17 -0700
-Message-Id: <20200430124442.v4.6.I89df9b6094549b8149aa8b8347f7401c678055b0@changeid>
-X-Mailer: git-send-email 2.26.2.526.g744177e7f7-goog
-In-Reply-To: <20200430194617.197510-1-dianders@chromium.org>
-References: <20200430194617.197510-1-dianders@chromium.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sf4o7mpfsIW2p37ahDieiOuWLKAFwSGBAAlKSdh9MOY=;
+ b=ULOLLabZfQudrufVjE803aAX5LMEkRvew4hHz1xq8dcRHPWlSJWQyhtJQiAQSNaem2
+ 9IWi2GwCPVKajwmUyHrjah41AFn6GN/bZ4WSJHQz6XAKBxq+QAP80RYZSRFaLwCRaWGp
+ nL/M7Hdi32vzrVk8+tP/wx71y0Ywb8pDqIrM1zv5CyibgCr0Pv+PMLQq5w2ht5fHCvLz
+ H/dceCiOllAQ8msj4B2Lp8juD7AksNzaE7Cn+pbvMMcBFQVxEwtzvGEMk+ZVGatbcl6S
+ /EJQSDWfVtc85h3S5Lq78fC63fW6GjJ252lp0zQ5Eh7qGOINwfRJiZTh/pDlXpVjzUrA
+ eo8A==
+X-Gm-Message-State: AGi0PuZCZZCmEeHNA3JK1zZrME4107q2eNJVak1DqoLJbJG4zbNGF8Zf
+ 0yxFIE/Iuf0mq/nxvya8+C/+51zsOEPeJHvz8ASGiQ==
+X-Google-Smtp-Source: APiQypKOXaE3DYjFDEXLTTGQwDCN/utfQsA/Jq0o+wDiVMI/8Zv0nR8I//OGRpyKSFVXTwr3buhsSNKoQwXTW0ZLDYs=
+X-Received: by 2002:a17:906:9494:: with SMTP id t20mr72699ejx.51.1588276671059; 
+ Thu, 30 Apr 2020 12:57:51 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAMn1gO4NsAoBUN4VFntB+pZK=cVCmwxBGUyipLPYYWFvpH1Z+A@mail.gmail.com>
+ <20200427200513.36328-1-pcc@google.com>
+ <CAKMK7uE42AUZbqn4VhVjWaeUaoyhm+k5ZWUXjB576+7bWHfs2A@mail.gmail.com>
+In-Reply-To: <CAKMK7uE42AUZbqn4VhVjWaeUaoyhm+k5ZWUXjB576+7bWHfs2A@mail.gmail.com>
+From: Eric Anholt <eric@anholt.net>
+Date: Thu, 30 Apr 2020 12:57:40 -0700
+Message-ID: <CADaigPXx+iDd6Duqi+FqAsxLCP5EWhweNN8UwKBVOqYVaQD=8A@mail.gmail.com>
+Subject: Re: [PATCH] drm: enable render nodes wherever buffer sharing is
+ supported
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,54 +64,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- jeffrey.l.hugo@gmail.com, linux-arm-msm@vger.kernel.org, jonas@kwiboo.se,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, linux-gpio@vger.kernel.org,
- Andy Gross <agross@kernel.org>, swboyd@chromium.org,
- linux-kernel@vger.kernel.org
+Cc: Emil Velikov <emil.l.velikov@gmail.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Peter Collingbourne <pcc@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We don't have the HPD line hooked up to the bridge chip.  Add it as
-suggested in the patch ("dt-bindings: drm/bridge: ti-sn65dsi86:
-Document no-hpd").
+On Thu, Apr 30, 2020 at 3:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Tue, Apr 28, 2020 at 2:46 PM Peter Collingbourne <pcc@google.com> wrote:
+> >
+> > Render nodes are not just useful for devices supporting GPU hardware
+> > acceleration. Even on devices that only support dumb frame buffers,
+> > they are useful in situations where composition (using software
+> > rasterization) and KMS are done in different processes with buffer
+> > sharing being used to send frame buffers between them. This is the
+> > situation on Android, where surfaceflinger is the compositor and the
+> > composer HAL uses KMS to display the buffers. Thus it is beneficial
+> > to expose render nodes on all devices that support buffer sharing.
+> >
+> > Because all drivers that currently support render nodes also support
+> > buffer sharing, the DRIVER_RENDER flag is no longer necessary to mark
+> > devices as supporting render nodes, so remove it and just rely on
+> > the presence of a prime_handle_to_fd function pointer to determine
+> > whether buffer sharing is supported.
+>
+> The idea behind render nodes is that you can freely pass these to
+> unpriviledged users, and nothing bad happens. That's why we have gpu
+> reset code in drivers, proper pagetables, and also (in at least the
+> solid drivers) ban code so that repeat offenders from userspace who
+> constantly submit endless batch buffers and funny stuff like that
+> can't DOS the gpu.
+>
+> Ofc in practice there's hw issues and fun stuff like that sometimes,
+> and driver bugs, and all that. But that's the aspiration.
+>
+> Now many of these display-only drivers need contiguous buffers, and
+> there's not endless amounts of that around. So if you allow random
+> clients to allocate buffers, they can easily exhaust that, and not
+> just upset the render side of the gpu, but essentially make it
+> impossible for a compositor to allocate more framebuffers. I don't
+> think that's a good idea.
+>
+> I know there's hw like vc4 which needs contiguous buffers for
+> everything, but that's kinda the places where aspiration falls a bit
+> short.
+>
+> So from that pov I'm a rather worried with handing out render rights
+> to everyone for these display-only buffers. It's not entirely
+> harmless.
 
-NOTE: this patch isn't expected to have any effect but just keeps us
-cleaner for the future.  Currently the driver in Linux just assumes
-that nobody has HPD hooked up.  This change allows us to later
-implement HPD support in the driver without messing up sdm845-cheza.
+This doesn't feel like a contiguous-mem-specific concern to me.  We
+don't have resource limits on renderer GPU nodes today, you can
+allocate memory there to fill up and DOS the system, and unless
+something changed since last time I was looking, we don't even tell
+the OOM killer about our allocations so they can kill the right app!
+(my compositor always got picked, in my experience)
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
----
-
-Changes in v4: None
-Changes in v3: None
-Changes in v2:
-- ("arm64: dts: sdm845: Add "no-hpd" to sn65dsi86 on cheza") new for v2.
-
- arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
-index 9070be43a309..5938f8b2aa2f 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
-@@ -548,6 +548,8 @@ sn65dsi86_bridge: bridge@2d {
- 		clocks = <&rpmhcc RPMH_LN_BB_CLK2>;
- 		clock-names = "refclk";
- 
-+		no-hpd;
-+
- 		ports {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
--- 
-2.26.2.526.g744177e7f7-goog
-
+And, keep in mind what we're fixing at a system level here: the
+current workaround is you either get your compositor to hand you a GPU
+fd, at which point you can DOS the system, or you open the master node
+yourself and try to drop master before the compositor comes up, then
+DOS the system. "But there are access controls for the compositor or
+the card node!" you say: yes, but there are for render nodes too.  I
+know my distro doesn't default to open access to /dev/dri/render*
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
