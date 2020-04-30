@@ -2,26 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539F11BF2BE
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 10:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A131E1BF2C9
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 10:29:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 820006EB6E;
-	Thu, 30 Apr 2020 08:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7C386EB7A;
+	Thu, 30 Apr 2020 08:29:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F2C16EB6E
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 08:27:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D10196EB7A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 08:29:10 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 15D9DAE5E;
- Thu, 30 Apr 2020 08:27:03 +0000 (UTC)
-Subject: Re: [PATCH 07/17] drm/mgag200: Move mode-setting code into separate
- helper function
-To: Sam Ravnborg <sam@ravnborg.org>
+ by mx2.suse.de (Postfix) with ESMTP id 6F55AAB7F;
+ Thu, 30 Apr 2020 08:29:08 +0000 (UTC)
+Subject: Re: [PATCH 00/17] drm/mgag200: Convert to atomic modesetting
+To: John Donnelly <John.P.Donnelly@Oracle.com>, airlied@redhat.com,
+ daniel@ffwll.ch, kraxel@redhat.com, noralf@tronnes.org, sam@ravnborg.org
 References: <20200429143238.10115-1-tzimmermann@suse.de>
- <20200429143238.10115-8-tzimmermann@suse.de>
- <20200429182433.GG31071@ravnborg.org>
+ <793986e2-eb08-db03-689f-db4442b0e872@Oracle.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -48,12 +47,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <95218b8c-03c1-cff4-34be-507acb9ca91c@suse.de>
-Date: Thu, 30 Apr 2020 10:27:02 +0200
+Message-ID: <8bef6904-8026-fd09-3950-d5fdfcd31bee@suse.de>
+Date: Thu, 30 Apr 2020 10:29:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200429182433.GG31071@ravnborg.org>
+In-Reply-To: <793986e2-eb08-db03-689f-db4442b0e872@Oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,281 +65,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.p.donnelly@oracle.com, dri-devel@lists.freedesktop.org,
- kraxel@redhat.com, airlied@redhat.com
-Content-Type: multipart/mixed; boundary="===============1238167832=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0955174209=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1238167832==
+--===============0955174209==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="ab85xA8ok01oQW57sZDQJPKz6LHm31Hdn"
+ boundary="7rfgTAV6ZlIVX0ly8OV2EYaZAzUKq6UTT"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ab85xA8ok01oQW57sZDQJPKz6LHm31Hdn
-Content-Type: multipart/mixed; boundary="A4faY4sbv0RksEEHk5EYnUudBu8XhBtZz";
+--7rfgTAV6ZlIVX0ly8OV2EYaZAzUKq6UTT
+Content-Type: multipart/mixed; boundary="JsGaUXTSu2F68PITeuMFZT9YeVmcDoWtS";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com,
- noralf@tronnes.org, john.p.donnelly@oracle.com,
- dri-devel@lists.freedesktop.org
-Message-ID: <95218b8c-03c1-cff4-34be-507acb9ca91c@suse.de>
-Subject: Re: [PATCH 07/17] drm/mgag200: Move mode-setting code into separate
- helper function
+To: John Donnelly <John.P.Donnelly@Oracle.com>, airlied@redhat.com,
+ daniel@ffwll.ch, kraxel@redhat.com, noralf@tronnes.org, sam@ravnborg.org
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <8bef6904-8026-fd09-3950-d5fdfcd31bee@suse.de>
+Subject: Re: [PATCH 00/17] drm/mgag200: Convert to atomic modesetting
 References: <20200429143238.10115-1-tzimmermann@suse.de>
- <20200429143238.10115-8-tzimmermann@suse.de>
- <20200429182433.GG31071@ravnborg.org>
-In-Reply-To: <20200429182433.GG31071@ravnborg.org>
+ <793986e2-eb08-db03-689f-db4442b0e872@Oracle.com>
+In-Reply-To: <793986e2-eb08-db03-689f-db4442b0e872@Oracle.com>
 
---A4faY4sbv0RksEEHk5EYnUudBu8XhBtZz
+--JsGaUXTSu2F68PITeuMFZT9YeVmcDoWtS
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+Hi John
 
-Am 29.04.20 um 20:24 schrieb Sam Ravnborg:
-> On Wed, Apr 29, 2020 at 04:32:28PM +0200, Thomas Zimmermann wrote:
->> The mode-setting code is now located in mgag200_set_mode_regs(), sans
->> a few flags that will be moved in a later patch for clarity.
+Am 30.04.20 um 02:11 schrieb John Donnelly:
+> On 4/29/20 9:32 AM, Thomas Zimmermann wrote:
+>> This patchset converts mgag200 to atomic modesetting. It uses simple
+>> KMS helpers and SHMEM.
 >>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Looked like trivial code movements, did not look carefully.
+>> Patches 1 to 4 simplifies the driver before the conversion. For exampl=
+e,
+>> the HW cursor is not usable with the way universal planes work. A few
+>> data structures can be cleaned up.
+>>
+>> Patches 5 to 15 untangle the existing modesetting code into smaller
+>> functions. Specifically, mode setting and plane updates are being
+>> separated from each other.
+>>
+>> Patch 16 converts mgag200 to simple KMS helpers and enables atomic
+>> mode setting.
+>>
+>> As some HW seems to require a framebuffer offset of 0 within the video=
 
-It's often not that trivial.
+>> memory, it does not work with atomic modesetting. Atomically switching=
 
-The complicated thing about these functions is to not override bits that
-have been set by another functions already. For example, MISC has a
-number of bits that control PLL, mode, and hsync/vsync. Each is set in a
-different place. I've been careful to read-back MISC each time and
-update each setting individually.
+>> plane framebuffers, requires either source or target buffer to be loca=
+ted
+>> at a non-0 offet. To resolve this problem, patch 17 converts mgag200 f=
+rom
+>> VRAM helpers to SHMEM helpers. During plane updates, the content of th=
+e
+>> SHMEM BO is memcpy'd to VRAM. From my subjective obersation, performan=
+ce
+>> is not nuch different from the original code.
+>>
+>> The patchset has been tested on MGA G200EH hardware.
+>>
+>> Thomas Zimmermann (17):
+>> =C2=A0=C2=A0 drm/mgag200: Remove HW cursor
+>> =C2=A0=C2=A0 drm/mgag200: Remove unused fields from struct mga_device
+>> =C2=A0=C2=A0 drm/mgag200: Embed connector instance in struct mga_devic=
+e
+>> =C2=A0=C2=A0 drm/mgag200: Use managed mode-config initialization
+>> =C2=A0=C2=A0 drm/mgag200: Clean up mga_set_start_address()
+>> =C2=A0=C2=A0 drm/mgag200: Clean up mga_crtc_do_set_base()
+>> =C2=A0=C2=A0 drm/mgag200: Move mode-setting code into separate helper =
+function
+>> =C2=A0=C2=A0 drm/mgag200: Split MISC register update into PLL selectio=
+n, SYNC and
+>> =C2=A0=C2=A0=C2=A0=C2=A0 I/O
+>> =C2=A0=C2=A0 drm/mgag200: Update mode registers after plane registers
+>> =C2=A0=C2=A0 drm/mgag200: Set pitch in a separate helper function
+>> =C2=A0=C2=A0 drm/mgag200: Set primary plane's format in separate helpe=
+r function
+>> =C2=A0=C2=A0 drm/mgag200: Move TAGFIFO reset into separate function
+>> =C2=A0=C2=A0 drm/mgag200: Move hiprilvl setting into separate function=
+s
+>> =C2=A0=C2=A0 drm/mgag200: Move register initialization into separate f=
+unction
+>> =C2=A0=C2=A0 drm/mgag200: Remove waiting from DPMS code
+>> =C2=A0=C2=A0 drm/mgag200: Convert to simple KMS helper
+>> =C2=A0=C2=A0 drm/mgag200: Replace VRAM helpers with SHMEM helpers
+>>
+>> =C2=A0 drivers/gpu/drm/mgag200/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
+>> =C2=A0 drivers/gpu/drm/mgag200/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
+>> =C2=A0 drivers/gpu/drm/mgag200/mgag200_cursor.c | 319 --------
+>> =C2=A0 drivers/gpu/drm/mgag200/mgag200_drv.c=C2=A0=C2=A0=C2=A0 |=C2=A0=
+ 51 +-
+>> =C2=A0 drivers/gpu/drm/mgag200/mgag200_drv.h=C2=A0=C2=A0=C2=A0 |=C2=A0=
+ 43 +-
+>> =C2=A0 drivers/gpu/drm/mgag200/mgag200_main.c=C2=A0=C2=A0 |=C2=A0 28 -=
+
+>> =C2=A0 drivers/gpu/drm/mgag200/mgag200_mode.c=C2=A0=C2=A0 | 948 ++++++=
+++++++-----------
+>> =C2=A0 drivers/gpu/drm/mgag200/mgag200_reg.h=C2=A0=C2=A0=C2=A0 |=C2=A0=
+=C2=A0 5 +-
+>> =C2=A0 drivers/gpu/drm/mgag200/mgag200_ttm.c=C2=A0=C2=A0=C2=A0 |=C2=A0=
+ 35 +-
+>> =C2=A0 9 files changed, 563 insertions(+), 872 deletions(-)
+>> =C2=A0 delete mode 100644 drivers/gpu/drm/mgag200/mgag200_cursor.c
+>>
+>> --=20
+>> 2.26.0
+>>
+>=20
+>=20
+> =C2=A0Hi Thomas ,
+>=20
+> =C2=A0I would like to test this on hardware that uses this device integ=
+rated
+> into as BMC=C2=A0 ( iLo ) that I have ran into problems before. Can you=
+ post
+> your staging URL so I can clone it ?
+
+Sure, I'll set something up for you. But it could take until next week.
+I promise not to merge the patches before you had a chance to test them.
 
 Best regards
 Thomas
 
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 >=20
->> ---
->>  drivers/gpu/drm/mgag200/mgag200_mode.c | 140 ++++++++++++++----------=
--
->>  1 file changed, 78 insertions(+), 62 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/=
-mgag200/mgag200_mode.c
->> index 12df809d64f7c..749ba6e420ac7 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> @@ -911,6 +911,79 @@ static int mga_crtc_mode_set_base(struct drm_crtc=
- *crtc, int x, int y,
->>  	return mga_crtc_do_set_base(mdev, fb, old_fb);
->>  }
->> =20
->> +static void mgag200_set_mode_regs(struct mga_device *mdev,
->> +				  const struct drm_display_mode *mode)
->> +{
->> +	unsigned int hdisplay, hsyncstart, hsyncend, htotal;
->> +	unsigned int vdisplay, vsyncstart, vsyncend, vtotal;
->> +	uint8_t misc =3D 0;
->> +	uint8_t crtcext1, crtcext2, crtcext5;
->> +
->> +	hdisplay =3D mode->hdisplay / 8 - 1;
->> +	hsyncstart =3D mode->hsync_start / 8 - 1;
->> +	hsyncend =3D mode->hsync_end / 8 - 1;
->> +	htotal =3D mode->htotal / 8 - 1;
->> +
->> +	/* Work around hardware quirk */
->> +	if ((htotal & 0x07) =3D=3D 0x06 || (htotal & 0x07) =3D=3D 0x04)
->> +		htotal++;
->> +
->> +	vdisplay =3D mode->vdisplay - 1;
->> +	vsyncstart =3D mode->vsync_start - 1;
->> +	vsyncend =3D mode->vsync_end - 1;
->> +	vtotal =3D mode->vtotal - 2;
->> +
->> +	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
->> +		misc |=3D 0x40;
->> +	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
->> +		misc |=3D 0x80;
->> +
->> +	crtcext1 =3D (((htotal - 4) & 0x100) >> 8) |
->> +		   ((hdisplay & 0x100) >> 7) |
->> +		   ((hsyncstart & 0x100) >> 6) |
->> +		    (htotal & 0x40);
->> +	if (mdev->type =3D=3D G200_WB || mdev->type =3D=3D G200_EW3)
->> +		crtcext1 |=3D BIT(7) | /* vrsten */
->> +			    BIT(3); /* hrsten */
->> +
->> +	crtcext2 =3D ((vtotal & 0xc00) >> 10) |
->> +		   ((vdisplay & 0x400) >> 8) |
->> +		   ((vdisplay & 0xc00) >> 7) |
->> +		   ((vsyncstart & 0xc00) >> 5) |
->> +		   ((vdisplay & 0x400) >> 3);
->> +	crtcext5 =3D 0x00;
->> +
->> +	WREG_CRT(0, htotal - 4);
->> +	WREG_CRT(1, hdisplay);
->> +	WREG_CRT(2, hdisplay);
->> +	WREG_CRT(3, (htotal & 0x1F) | 0x80);
->> +	WREG_CRT(4, hsyncstart);
->> +	WREG_CRT(5, ((htotal & 0x20) << 2) | (hsyncend & 0x1F));
->> +	WREG_CRT(6, vtotal & 0xFF);
->> +	WREG_CRT(7, ((vtotal & 0x100) >> 8) |
->> +		 ((vdisplay & 0x100) >> 7) |
->> +		 ((vsyncstart & 0x100) >> 6) |
->> +		 ((vdisplay & 0x100) >> 5) |
->> +		 ((vdisplay & 0x100) >> 4) | /* linecomp */
->> +		 ((vtotal & 0x200) >> 4) |
->> +		 ((vdisplay & 0x200) >> 3) |
->> +		 ((vsyncstart & 0x200) >> 2));
->> +	WREG_CRT(9, ((vdisplay & 0x200) >> 4) |
->> +		 ((vdisplay & 0x200) >> 3));
->> +	WREG_CRT(16, vsyncstart & 0xFF);
->> +	WREG_CRT(17, (vsyncend & 0x0F) | 0x20);
->> +	WREG_CRT(18, vdisplay & 0xFF);
->> +	WREG_CRT(20, 0);
->> +	WREG_CRT(21, vdisplay & 0xFF);
->> +	WREG_CRT(22, (vtotal + 1) & 0xFF);
->> +	WREG_CRT(23, 0xc3);
->> +	WREG_CRT(24, vdisplay & 0xFF);
->> +
->> +	WREG_ECRT(0x01, crtcext1);
->> +	WREG_ECRT(0x02, crtcext2);
->> +	WREG_ECRT(0x05, crtcext5);
->> +}
->> +
->>  static int mga_crtc_mode_set(struct drm_crtc *crtc,
->>  				struct drm_display_mode *mode,
->>  				struct drm_display_mode *adjusted_mode,
->> @@ -919,8 +992,6 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc=
-,
->>  	struct drm_device *dev =3D crtc->dev;
->>  	struct mga_device *mdev =3D dev->dev_private;
->>  	const struct drm_framebuffer *fb =3D crtc->primary->fb;
->> -	int hdisplay, hsyncstart, hsyncend, htotal;
->> -	int vdisplay, vsyncstart, vsyncend, vtotal;
->>  	int pitch;
->>  	int option =3D 0, option2 =3D 0;
->>  	int i;
->> @@ -999,12 +1070,6 @@ static int mga_crtc_mode_set(struct drm_crtc *cr=
-tc,
->>  		break;
->>  	}
->> =20
->> -	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
->> -		misc |=3D 0x40;
->> -	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
->> -		misc |=3D 0x80;
->> -
->> -
->>  	for (i =3D 0; i < sizeof(dacvalue); i++) {
->>  		if ((i <=3D 0x17) ||
->>  		    (i =3D=3D 0x1b) ||
->> @@ -1044,20 +1109,6 @@ static int mga_crtc_mode_set(struct drm_crtc *c=
-rtc,
->>  	else
->>  		pitch =3D pitch >> (4 - bppshift);
->> =20
->> -	hdisplay =3D mode->hdisplay / 8 - 1;
->> -	hsyncstart =3D mode->hsync_start / 8 - 1;
->> -	hsyncend =3D mode->hsync_end / 8 - 1;
->> -	htotal =3D mode->htotal / 8 - 1;
->> -
->> -	/* Work around hardware quirk */
->> -	if ((htotal & 0x07) =3D=3D 0x06 || (htotal & 0x07) =3D=3D 0x04)
->> -		htotal++;
->> -
->> -	vdisplay =3D mode->vdisplay - 1;
->> -	vsyncstart =3D mode->vsync_start - 1;
->> -	vsyncend =3D mode->vsync_end - 1;
->> -	vtotal =3D mode->vtotal - 2;
->> -
->>  	WREG_GFX(0, 0);
->>  	WREG_GFX(1, 0);
->>  	WREG_GFX(2, 0);
->> @@ -1068,61 +1119,26 @@ static int mga_crtc_mode_set(struct drm_crtc *=
-crtc,
->>  	WREG_GFX(7, 0xf);
->>  	WREG_GFX(8, 0xf);
->> =20
->> -	WREG_CRT(0, htotal - 4);
->> -	WREG_CRT(1, hdisplay);
->> -	WREG_CRT(2, hdisplay);
->> -	WREG_CRT(3, (htotal & 0x1F) | 0x80);
->> -	WREG_CRT(4, hsyncstart);
->> -	WREG_CRT(5, ((htotal & 0x20) << 2) | (hsyncend & 0x1F));
->> -	WREG_CRT(6, vtotal & 0xFF);
->> -	WREG_CRT(7, ((vtotal & 0x100) >> 8) |
->> -		 ((vdisplay & 0x100) >> 7) |
->> -		 ((vsyncstart & 0x100) >> 6) |
->> -		 ((vdisplay & 0x100) >> 5) |
->> -		 ((vdisplay & 0x100) >> 4) | /* linecomp */
->> -		 ((vtotal & 0x200) >> 4)|
->> -		 ((vdisplay & 0x200) >> 3) |
->> -		 ((vsyncstart & 0x200) >> 2));
->> -	WREG_CRT(9, ((vdisplay & 0x200) >> 4) |
->> -		 ((vdisplay & 0x200) >> 3));
->>  	WREG_CRT(10, 0);
->>  	WREG_CRT(11, 0);
->>  	WREG_CRT(12, 0);
->>  	WREG_CRT(13, 0);
->>  	WREG_CRT(14, 0);
->>  	WREG_CRT(15, 0);
->> -	WREG_CRT(16, vsyncstart & 0xFF);
->> -	WREG_CRT(17, (vsyncend & 0x0F) | 0x20);
->> -	WREG_CRT(18, vdisplay & 0xFF);
->>  	WREG_CRT(19, pitch & 0xFF);
->> -	WREG_CRT(20, 0);
->> -	WREG_CRT(21, vdisplay & 0xFF);
->> -	WREG_CRT(22, (vtotal + 1) & 0xFF);
->> -	WREG_CRT(23, 0xc3);
->> -	WREG_CRT(24, vdisplay & 0xFF);
->> +
->> +	mgag200_set_mode_regs(mdev, mode);
->> =20
->>  	ext_vga[0] =3D 0;
->> -	ext_vga[5] =3D 0;
->> =20
->>  	/* TODO interlace */
->> =20
->>  	ext_vga[0] |=3D (pitch & 0x300) >> 4;
->> -	ext_vga[1] =3D (((htotal - 4) & 0x100) >> 8) |
->> -		((hdisplay & 0x100) >> 7) |
->> -		((hsyncstart & 0x100) >> 6) |
->> -		(htotal & 0x40);
->> -	ext_vga[2] =3D ((vtotal & 0xc00) >> 10) |
->> -		((vdisplay & 0x400) >> 8) |
->> -		((vdisplay & 0xc00) >> 7) |
->> -		((vsyncstart & 0xc00) >> 5) |
->> -		((vdisplay & 0x400) >> 3);
->>  	if (fb->format->cpp[0] * 8 =3D=3D 24)
->>  		ext_vga[3] =3D (((1 << bppshift) * 3) - 1) | 0x80;
->>  	else
->>  		ext_vga[3] =3D ((1 << bppshift) - 1) | 0x80;
->>  	ext_vga[4] =3D 0;
->> -	if (mdev->type =3D=3D G200_WB || mdev->type =3D=3D G200_EW3)
->> -		ext_vga[1] |=3D 0x88;
->> =20
->>  	/* Set pixel clocks */
->>  	misc =3D 0x2d;
->> @@ -1130,9 +1146,9 @@ static int mga_crtc_mode_set(struct drm_crtc *cr=
-tc,
->> =20
->>  	mga_crtc_set_plls(mdev, mode->clock);
->> =20
->> -	for (i =3D 0; i < 6; i++) {
->> -		WREG_ECRT(i, ext_vga[i]);
->> -	}
->> +	WREG_ECRT(0, ext_vga[0]);
->> +	WREG_ECRT(3, ext_vga[3]);
->> +	WREG_ECRT(4, ext_vga[4]);
->> =20
->>  	if (mdev->type =3D=3D G200_ER)
->>  		WREG_ECRT(0x24, 0x5);
->> --=20
->> 2.26.0
+>=20
+> ( Thank you for CC'ing me. I removed my email from on dlist recently) .=
+
+>=20
+>=20
+>=20
+>=20
 
 --=20
 Thomas Zimmermann
@@ -351,28 +213,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---A4faY4sbv0RksEEHk5EYnUudBu8XhBtZz--
+--JsGaUXTSu2F68PITeuMFZT9YeVmcDoWtS--
 
---ab85xA8ok01oQW57sZDQJPKz6LHm31Hdn
+--7rfgTAV6ZlIVX0ly8OV2EYaZAzUKq6UTT
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6qi9YACgkQaA3BHVML
-eiOJtQgAqrD7KqQ82R6CQ8ZyHwh24UzsckewdWGocOOgs9HCIf2qsn3R1zPmT4Jq
-W6wnHrHJXBAdSpEr5A9TowUYqh/K+Tv9glLS8zNbxwRD9AVs+0lMSxQihvnc56yv
-xJuQZqrF53H6kmj6JXn+Lf8g6Fzsz3JkzNU7r4+EDey8oX2AJcdWDnkDkPlxJA+E
-i69zqro+OSW9oQussDUT9JSvsqCxLjY0Jyk3pzSo5KGLjiNG1UbtQiu/+L9ZIwE1
-8M0C1+Qk/v7Jfq5i9sOdBYeq0HaWNt5I3qEHxVyLMaXa7kNSKnqvB/3sHz+L3kAN
-oszghOYM2Aqh/g5Ucz9gv/8w2N6I6w==
-=NuRU
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6qjFQACgkQaA3BHVML
+eiOwuQf9F4KNfkF16peURkxQdpCNjaq9Og/k2qERMQZjRHRFStg/1TGzDpiCY0Ed
+t2KGSwM7UzCsbwA7Z8zi/eO9nZjukCPMJrOY1ChboXAI8RU3ivPWCwkmE0LgpElQ
+PfZvSZOC6lWA7oodOYCwA/Zhu2ur4VFEgPmgpWHLifL88SpU6DPeu/lrVQ+hJ7kP
+p6ZR+tF7/e6S6ZaKtfsVjq/Lw1IDHDB1L9/Q6isnkjHf1nlMn8nAploPtSk/kBuv
+z9dUUgB0LQp1G6XQDW21fOF5IgPmLZdJ94KjO4GzX6OYVhcUTb9WciqM2dD9uKrp
+SCyhE4KYmjgNODc+1yuu0DY775bl4g==
+=QFVY
 -----END PGP SIGNATURE-----
 
---ab85xA8ok01oQW57sZDQJPKz6LHm31Hdn--
+--7rfgTAV6ZlIVX0ly8OV2EYaZAzUKq6UTT--
 
---===============1238167832==
+--===============0955174209==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -383,4 +245,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1238167832==--
+--===============0955174209==--
