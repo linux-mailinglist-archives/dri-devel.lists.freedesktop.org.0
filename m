@@ -1,105 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5641C0E9D
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:23:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BED1C0EA5
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:23:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 425906EA67;
-	Fri,  1 May 2020 07:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58CCC6EAE2;
+	Fri,  1 May 2020 07:22:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2010C6E1A4
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 09:31:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1588239046;
- bh=Gowt2WfNNzEFY8LK5XA3ciQeDmvVC8xYBPqGGTuSPmo=;
- h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
- b=E82S3s+Os6LU5No7X++XAxkzOmtMbLFcCMKYj5H9TJzRlwonLTXPAUbllHnGrXWcW
- TrgMqDkU0pefrv/QvV+v9wfeo1CWAiO+5PoaRAJWVl9WpesGObPgmPcvlSN+kRaApX
- nuqvDJf5fAgYODFy16Dgi81xFH0YdWEeexRZzk4U=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.131.175.216]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MOAmi-1jZZi531oC-005b7b; Thu, 30
- Apr 2020 11:30:45 +0200
-To: Wei Yongjun <weiyongjun1@huawei.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/vboxvideo: Fix a NULL vs IS_ERR() check in
- vbox_hw_init()
-From: Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <32389e2b-50e8-8bd4-ee7c-5c6dfa273c00@web.de>
-Date: Thu, 30 Apr 2020 11:30:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2131.outbound.protection.outlook.com [40.107.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 198AE6E1A4
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 09:31:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ATpRf9wJ7xKwysWfc45YuFmLwb4XX5Dewt/DcbFPAdhqO1UDBennCNLNcFiEWluHViXHjD8tC1u68z1P3UOcC8pWEfMTEL2sx3v9dVJ7vsDeP5DT6l/IjBlCcxi5CL8IwHmfNXlB+COkmIlDBtnJjjSu16O2CWIyJTC2rN5Cbn91hQ52kWqrSWXtXdQjFygUnUEvRJVuluRjJNN6nhlQeEFek8C1oCg2WctI2JISqyxe+c+6gRStMxRTxbDGobUMDEK7sz2sTAL/ZM7Fx7Wxku5q1DfpN9Yfq3sbfPkRvVTRQTvxlsOi0FISD9ZuPxeUQxE8NY8O36mnZND+7XQoQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PjcputcpAVuejRSE+h+UbIwkTAKlbMOSs7rIgggz7jM=;
+ b=H7vbsL5I7lmWwn0+eBaPPerx7Jwf291KCQ6Og4rp5AIkVlJLrg0V7iJJcoJ/4ZDQXvjxZq5Y3OodsblXT/LHoip5C/c2yAFkKndkL/cxmwmwM3IO2yMI+DrAPWSF6V45uMAZ+QozU7IbBrKRqtGq2GL+9b9teQBL+VRtSLYLubHLydl+xgpaFJLwSi2KpkTkb1dZ+lgoDPAQflX9PslHkGY0iReLnatfYSt/vG90tFQYjLqqENHfnyHa9ZJ1nISGBoHjU6iO6syvcuZKwKrySwTCIa43uzu96dl4VIbVuyNWXLv9dk6oi/HR5a78aZJK/Pzh2VwpLKrbzsnS1/D3sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PjcputcpAVuejRSE+h+UbIwkTAKlbMOSs7rIgggz7jM=;
+ b=EcCinpGUCZSAbH0mArOawo0xEitT5exwza4JOZ6dWbPO6NXpH61bPu4lZ3nZciUtVvpURzAClKj/7Ywj8Ivfea4AcQ9EP9LVsx+QCyoJg407ITahLcVFAHwMyuMS1QH3PVxbcMRO4SmBV1nifbFBDsUHBkOl70MEp2qSPPM9gog=
+Authentication-Results: analogixsemi.com; dkim=none (message not signed)
+ header.d=none;analogixsemi.com; dmarc=none action=none
+ header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by BY5PR04MB6625.namprd04.prod.outlook.com (2603:10b6:a03:219::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Thu, 30 Apr
+ 2020 09:31:45 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::4517:bcc8:a3bd:407f]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::4517:bcc8:a3bd:407f%6]) with mapi id 15.20.2958.020; Thu, 30 Apr 2020
+ 09:31:44 +0000
+Date: Thu, 30 Apr 2020 17:31:36 +0800
+From: Xin Ji <xji@analogixsemi.com>
+To: devel@driverdev.osuosl.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Nicolas Boichat <drinkcat@google.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v9 0/2] Add initial support for slimport anx7625
+Message-ID: <cover.1588236052.git.xji@analogixsemi.com>
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-ClientProxiedBy: HK2PR02CA0206.apcprd02.prod.outlook.com
+ (2603:1096:201:20::18) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
 MIME-Version: 1.0
-Content-Language: en-GB
-X-Provags-ID: V03:K1:OOmFH7OKkOD10VY8UurnxMCvjed6yhA7Qs2jPdBp3QW2dtWjyQG
- UVN9n6jPeeuotoUny8XgKsrDZHW8dPSZodQ83UHSjIxM3A8cpsyg2fQM2/Qu+nM+s5okSSW
- /N7iQiWy4DLjVPqgG0UrPCiXaar4h0Ep5g20o0GVKfZXonJmWC9iLoAmnS+fDgKIerZcIs2
- lcXOpjDsRPTqPmTxdNCqA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:e3c94EA2XWI=:LQLQ7wJ0u811Xi78nhZi1z
- rn1yaDE5IwiWaXdB/yqYJ0M/Qu51tuIQiRnamgM30WWYZFbjqOTYCkLPdDpHdgQfQ7V5V+EGi
- I7iN3MAORQyVV4LIkzmsxH2O6vZ2S+k5ov5SEFH07J4xHfYTvW9+LT4XfM18mOMyt7jkkQMfm
- dw3hNUXgZUyEDpmBZizG72Q5Tb8RxE/9GVZ0BMpBt0amM9GtJpUltznNovaqq/y+2TM0cF1WZ
- hWw4mM76Ur5fHWq5YRLrwWUyGVke2UyFtJ6Ty9T9TQzRoukCDK5jh/ho449yWJ8fIMo3yLrHL
- /FJHqPN6GYxgyZobFhL/SoCMHia0Pgvl58B82GTP27CRZIw44Ep9oIesYcKXlN7VaoW0MBSkc
- dcUtnCpd6irwBxGhdHefkpjMR5kfgc5TbMLNOVrUaeSHVzYKEAmd04fR5h1eePNzzMHtqRitB
- 8dYqDHr/Lb6Q5SsILmYdcbVgRCvhBX2kvXZDjHtNDnnE1RLlymrMSfFOK+FZT+I5Bb0JfLmlC
- hNt1pS/1s3XSoTtdZksGeTy0ZGJv05iNsz8EA7McGHJLzCsPxNw8cYG2ATLbxquCNTptSoQz/
- B3z93SQ0SSrhekxkVhXxc6+jcSY8Hy4GDW0vn+8wuavlFqqaXHfK2xHbPY74vfp5f0DPGasZT
- GBQebAYUFXSRin4/2KkUE5GM2d4zbqPFkX/vl9ezw0VuGpvhAxxHJg0yW7NuRQAbusqVexjwx
- OWzOq/Xr74cCkIS8ePT5NCegw60RSmWMp0cAQsfvhdIcL20HQQBinJwQ13j8j8npRRGPyvu3o
- XqgEir1NUzvcpEqBbZxunwtOuKAWaqXmS3piPjCo9a6GItFS4b3ppsF5KRyl3tsTDbEThz/I9
- zjC9IRClXlnVaxZzdBF4kjxru++dw02Rc8Cpq35+s6b1I+u9nSh0ppkUhcAITb3QPxu77Ez/D
- MZX97Al4mYjwuHfp/t+IapHIL74hxVzkoOE7HKLylU+olgPCL1xqjXdGE1Ik+SopPH5lavIxP
- FQv33vfrcC7Vm6csYbXxDMRDp39YjqsJBzsxDFzCmwu72FZYbEH9U6HHnAEyqYnsDTVStj8L6
- 3JID8m0KKE+exhRgmVQu2/aVIQBT7pNcPsG/NevDqIlXqtfe5/35XdifMd36oWKPtkWBnoKCG
- adZpkvBpaSVugBzwP0NujZVxAq/xA1AHD8pRzb9U8op+5XqVCKfPjopQF/M3I40tKenL3HwsM
- quBaCU5c8Ew7ZbIsA
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from xin-VirtualBox (114.247.245.254) by
+ HK2PR02CA0206.apcprd02.prod.outlook.com (2603:1096:201:20::18) with Microsoft
+ SMTP Server (version=TLS1_0, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id
+ 15.20.2958.19 via Frontend Transport; Thu, 30 Apr 2020 09:31:44 +0000
+X-Originating-IP: [114.247.245.254]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 813215dc-d5f7-4de6-d1d4-08d7ece94c1d
+X-MS-TrafficTypeDiagnostic: BY5PR04MB6625:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BY5PR04MB6625230A8C5E304C1DB0F5CAC7AA0@BY5PR04MB6625.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 0389EDA07F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oHh5ZHcBhVY1LkzUt35CHsQF+drWUKmfGLxxDy4vYfGhYLtsttnOGrtnEd+9SMNXGRRtFd5I+6Yp0GuvxN7pN0TkcKi1vo23Afu1JE9h7hMbNvsBYi+OwQyy0zFxYTCMtsZs22yExeYv0vukdaXOFNk2mduldlMB+Sg6T1X13N3R0OnYCjbZ3KvlsM6Zf6y6Huk8MTWh1P/LyOQ1KEkau+nimkEDrWOh/B/Dewgj5Zh+PmFLgZKTdJTVii6gBnIPDYOQ9z5gIccGG8piBQhsZW1FnIG+ljmw1/jhNYZcjPq9Nudjw0vFbNGtpzUvG5xCIqWge2AHJNIbnJ85jS7sqv+GzAvdjLECGp9A80H6VDwuxS2/BodmjO2k/HMer8bAne06r1iQaXpdCrKTQ8nw0jAHZwVwVPwdTLcstF9DaUW+ifQIpiYYJTS0YmWRXBhI
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(136003)(376002)(346002)(396003)(366004)(39840400004)(26005)(7416002)(2906002)(16526019)(186003)(5660300002)(2616005)(86362001)(956004)(52116002)(478600001)(316002)(6496006)(6666004)(8676002)(8936002)(36756003)(4326008)(107886003)(54906003)(6486002)(66476007)(66946007)(66556008)(110136005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: gUYdRKjnIidZhk4/KobQo9qmzZKdTLMuNA+jKlY6Edu2PWighVmwNABYPEOhVSQAt5MMnJHQLhD/SMGjcYVJG9IQO85Nv/p7JfcA0uMHv/18Ovl3llD7Iag2FyNV7lwijFG1sGcZ1pbtHzYMGCxmWyrxdkR+xTzKSXA/pUNtBO+BMib6hoF9suuhPEbNL6OVgfiYUgLKY9hJXz/omyWSyTwhiUB0YOgKKgUKs8ajliHo1d7DLR9ilgnLnUlwQ+bTLeq8KljffTnfm5TQvYUt2LtoHLHCCiHFPfLBKz5pnNTBcfNXD0mLZK87HxXXiQ18WFf84IRXRln3q8KY+5X23V8HdmSeNnRTrlA2KXAIodRZjxNvfM/PT2m0KHMegSnl2txLREQtndAvf+tlp0q1uMeZTMD1hL005qTmOBlYlxxbeW+ysUxCEN6zm3FY/bXxRtyg2c6ThggO/r24sv4lZgdDjATz87L1wF9bGkCPyWVldIAszJG2G1U3Nk3ZAMkhK5FP7viJJscIWy+H/1HKAiGfbJcVqAu4YapPiCWgr7LDJBqcQPcw1Ktzcxn3Rl/9KhxYRzOsjqKa59xbZ2K54u3OP9Tv+VhVZbFgCgDhFCGoSjlJpIrfOBiUIWrYbhiDMXXZ0MgZb6rdZWPV96kehlMIBE215iz6vCnLsYbtQR3jIEs3f1cen0wAHA+1BNJFXL+1pJZVJn3OtyBQFsdlk7qzCyhDA1Ayv2nDIDSZgWKSXkIavxS3NHzDsFWBvJW/GOZSXakYpVb5lXW3Q84kucfzPXtBU9ts7SEDip8kY2jDfV6lUaKqT00X9Nl2sTtl
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 813215dc-d5f7-4de6-d1d4-08d7ece94c1d
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 09:31:44.6893 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KdZ9dOSajEN9oIiE78XWCnkgyzspLif2NVEVNKhbylvAQWC8hAuGw1sd+hYRK6WfnsQYuAkP7BWMT2r0erYGsQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6625
 X-Mailman-Approved-At: Fri, 01 May 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -113,23 +97,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>, Pi-Hsun Shih <pihsun@chromium.org>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sheng Pan <span@analogixsemi.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiBUaGUgZGV2bV9nZW5fcG9vbF9jcmVhdGUoKSBmdW5jdGlvbiByZXR1cm5zIEVSUl9QVFIoKSBv
-biBlcnJvciwgaXQKPiBkb2Vzbid0IHJldHVybiBOVUxMIHNvIHRoaXMgY2hlY2sgZG9lc24ndCB3
-b3JrLgoKSG93IGRvIHlvdSB0aGluayBhYm91dCBhIHdvcmRpbmcgdmFyaWFudCBsaWtlIHRoZSBm
-b2xsb3dpbmc/CgogICBDaGFuZ2UgZGVzY3JpcHRpb246CiAgIEEgbnVsbCBwb2ludGVyIGNoZWNr
-IHdhcyBwZXJmb3JtZWQgYWZ0ZXIgYSBjYWxsIG9mIHRoZQogICBmdW5jdGlvbiDigJxkZXZtX2dl
-bl9wb29sX2NyZWF0ZeKAnSBkZXNwaXRlIG9mIHRoZSBkZXRhaWwKICAgdGhhdCBmYWlsdXJlcyBh
-cmUgaW5kaWNhdGVkIGJ5IGVycm9yIHBvaW50ZXJzIGluc3RlYWQuCiAgIFRodXMgYWRqdXN0IGEg
-Y2hlY2sgZm9yIHRoZSBmYWlsdXJlIHByZWRpY2F0ZQogICBhbmQgcmV0dXJuIHRoZSBjb3JyZXNw
-b25kaW5nIGVycm9yIGNvZGUuCgoKUmVnYXJkcywKTWFya3VzCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi all,
+
+The following series add support for the Slimport ANX7625 transmitter, a
+ultra-low power Full-HD 4K MIPI to DP transmitter designed for portable device.
+
+
+This is the v9 version, any mistakes, please let me know, I will fix it in
+the next series.
+
+Change history:
+v9: Fix comments from Sam, Nicolas, Daniel
+ - Remove extcon interface.
+ - Remove DPI support.
+ - Fix dt_binding_check complains.
+ - Code clean up and update description.
+
+v8: Fix comments from Nicolas.
+ - Fix several coding format.
+ - Update description.
+
+v7:
+ - Fix critical timing(eg:odd hfp/hbp) in "mode_fixup" interface,
+   enhance MIPI RX tolerance by setting register MIPI_DIGITAL_ADJ_1 to 0x3D.
+
+
+Xin Ji (2):
+  dt-bindings: drm/bridge: anx7625: MIPI to DP transmitter binding
+  drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP bridge driver
+
+ .../bindings/display/bridge/analogix,anx7625.yaml  |   97 +
+ drivers/gpu/drm/bridge/Makefile                    |    2 +-
+ drivers/gpu/drm/bridge/analogix/Kconfig            |    8 +
+ drivers/gpu/drm/bridge/analogix/Makefile           |    1 +
+ drivers/gpu/drm/bridge/analogix/anx7625.c          | 1959 ++++++++++++++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.h          |  397 ++++
+ 6 files changed, 2463 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+ create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.c
+ create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.h
+
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
