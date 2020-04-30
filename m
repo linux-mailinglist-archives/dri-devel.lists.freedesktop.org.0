@@ -2,26 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDB91C0EA1
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:23:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C131C0EA6
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:23:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C1F06EA83;
-	Fri,  1 May 2020 07:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 878AB6EA65;
+	Fri,  1 May 2020 07:23:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from skedge04.snt-world.com (skedge04.snt-world.com [91.208.41.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C33826E867;
- Thu, 30 Apr 2020 12:52:11 +0000 (UTC)
-Received: from sntmail10s.snt-is.com (unknown [10.203.32.183])
- by skedge04.snt-world.com (Postfix) with ESMTP id 1011167A7D8;
- Thu, 30 Apr 2020 14:46:08 +0200 (CEST)
-Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail10s.snt-is.com
- (10.203.32.183) with Microsoft SMTP Server (version=TLS1_2,
+X-Greylist: delayed 358 seconds by postgrey-1.36 at gabe;
+ Thu, 30 Apr 2020 12:52:05 UTC
+Received: from skedge03.snt-world.com (skedge03.snt-world.com [91.208.41.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE4EF6E351;
+ Thu, 30 Apr 2020 12:52:05 +0000 (UTC)
+Received: from sntmail12r.snt-is.com (unknown [10.203.32.182])
+ by skedge03.snt-world.com (Postfix) with ESMTP id 59DFA67A902;
+ Thu, 30 Apr 2020 14:46:11 +0200 (CEST)
+Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail12r.snt-is.com
+ (10.203.32.182) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Thu, 30 Apr
- 2020 14:46:07 +0200
+ 2020 14:46:10 +0200
 Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
  sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
- 15.01.1913.007; Thu, 30 Apr 2020 14:46:07 +0200
+ 15.01.1913.007; Thu, 30 Apr 2020 14:46:10 +0200
 From: Schrempf Frieder <frieder.schrempf@kontron.de>
 To: Adam Ford <aford173@gmail.com>, Anson Huang <Anson.Huang@nxp.com>,
  Christian Gmeiner <christian.gmeiner@gmail.com>, Daniel Baluta
@@ -32,13 +34,13 @@ To: Adam Ford <aford173@gmail.com>, Anson Huang <Anson.Huang@nxp.com>,
  <kernel@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>,
  "Sascha Hauer" <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  "S.j. Wang" <shengjiu.wang@nxp.com>
-Subject: [RFC PATCH 1/4] drm/etnaviv: Prevent IRQ triggering at probe time on
- i.MX8MM
-Thread-Topic: [RFC PATCH 1/4] drm/etnaviv: Prevent IRQ triggering at probe
- time on i.MX8MM
-Thread-Index: AQHWHu1RaS/QCZFEh0aIMChy0QTuwg==
-Date: Thu, 30 Apr 2020 12:46:07 +0000
-Message-ID: <20200430124602.14463-2-frieder.schrempf@kontron.de>
+Subject: [RFC PATCH 2/4] drm/etnaviv: Fix error path in
+ etnaviv_gpu_clk_enable()
+Thread-Topic: [RFC PATCH 2/4] drm/etnaviv: Fix error path in
+ etnaviv_gpu_clk_enable()
+Thread-Index: AQHWHu1TJbmsdbRrokKu6860tWMz5w==
+Date: Thu, 30 Apr 2020 12:46:10 +0000
+Message-ID: <20200430124602.14463-3-frieder.schrempf@kontron.de>
 References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
 In-Reply-To: <20200430124602.14463-1-frieder.schrempf@kontron.de>
 Accept-Language: de-DE, en-US
@@ -50,7 +52,7 @@ x-originating-ip: [172.25.9.193]
 x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
 MIME-Version: 1.0
 X-SnT-MailScanner-Information: Please contact the ISP for more information
-X-SnT-MailScanner-ID: 1011167A7D8.A1C56
+X-SnT-MailScanner-ID: 59DFA67A902.A03A6
 X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
  Provider for details
 X-SnT-MailScanner-SpamCheck: 
@@ -91,65 +93,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Frieder Schrempf <frieder.schrempf@kontron.de>
 
-On i.MX8MM there is an interrupt getting triggered immediately after
-requesting the IRQ, which leads to a stall as the handler accesses
-the GPU registers whithout the clock being enabled.
+In case enabling of the bus clock fails etnaviv_gpu_clk_enable()
+returns without disabling the already enabled reg clock. Fix this.
 
-Enabling the clocks briefly seems to clear the IRQ state, so we do
-this before requesting the IRQ.
-
+Fixes: 65f037e8e908 ("drm/etnaviv: add support for slave interface clock")
 Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 29 ++++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index a31eeff2b297..23877c1f150a 100644
+index 23877c1f150a..7b138d4dd068 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1775,13 +1775,6 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 		return gpu->irq;
+@@ -1496,7 +1496,7 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
+ 	if (gpu->clk_bus) {
+ 		ret = clk_prepare_enable(gpu->clk_bus);
+ 		if (ret)
+-			return ret;
++			goto disable_clk_reg;
  	}
  
--	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
--			       dev_name(gpu->dev), gpu);
--	if (err) {
--		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
--		return err;
--	}
--
- 	/* Get Clocks: */
- 	gpu->clk_reg = devm_clk_get(&pdev->dev, "reg");
- 	DBG("clk_reg: %p", gpu->clk_reg);
-@@ -1805,6 +1798,28 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 		gpu->clk_shader = NULL;
- 	gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
+ 	if (gpu->clk_core) {
+@@ -1519,6 +1519,9 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
+ disable_clk_bus:
+ 	if (gpu->clk_bus)
+ 		clk_disable_unprepare(gpu->clk_bus);
++disable_clk_reg:
++	if (gpu->clk_reg)
++		clk_disable_unprepare(gpu->clk_reg);
  
-+	/*
-+	 * On i.MX8MM there is an interrupt getting triggered immediately
-+	 * after requesting the IRQ, which leads to a stall as the handler
-+	 * accesses the GPU registers whithout the clock being enabled.
-+	 * Enabling the clocks briefly seems to clear the IRQ state, so we do
-+	 * this here before requesting the IRQ.
-+	 */
-+	err = etnaviv_gpu_clk_enable(gpu);
-+	if (err)
-+		return err;
-+
-+	err = etnaviv_gpu_clk_disable(gpu);
-+	if (err)
-+		return err;
-+
-+	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
-+			       dev_name(gpu->dev), gpu);
-+	if (err) {
-+		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
-+		return err;
-+	}
-+
- 	/* TODO: figure out max mapped size */
- 	dev_set_drvdata(dev, gpu);
- 
+ 	return ret;
+ }
 -- 
 2.17.1
 _______________________________________________
