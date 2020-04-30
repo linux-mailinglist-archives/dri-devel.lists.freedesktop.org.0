@@ -1,57 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391EB1BF5E1
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 12:52:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B5A1C0EC6
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:24:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B83C6E245;
-	Thu, 30 Apr 2020 10:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3C3A6EC0D;
+	Fri,  1 May 2020 07:23:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com
- [IPv6:2607:f8b0:4864:20::a43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 369076E245
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 10:52:56 +0000 (UTC)
-Received: by mail-vk1-xa43.google.com with SMTP id w68so1566571vke.5
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 03:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jNiZlpXLQpEgkXLMjwFbZYd4n3tho7Yoq51PVomjfeg=;
- b=MxW2c4iljXRZ6kwzU/zC+isdU9ODT30BlkXD0EEbwnxa8X7FYSQ0NW3El9wz20fBbz
- WoAIaK3a+lsup55yzLyAc2Y8+wAQkeEkt8OZ6FiiOE4C/J75cjlHoscP6MSqPCcs2mSH
- vCUJ9+XRH5oWK2C3/5rEGKzu0oNgLvPcNZJKXvqK9XLgdksnrWMM5+SVcXTAH3q+Zl1e
- VeqmmNNR15UFeAmU0NpxUa/HMxR4TfAOmAajXeLvj1PXVjztKlKHm8P+dUwIHJBkFIi6
- yesE1UJOmZgmjZSawaHV9PmKekHgTd6cRlPqhMXuwEA7A5xoxmzokO9e1GCptDAQtpoo
- 2gJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jNiZlpXLQpEgkXLMjwFbZYd4n3tho7Yoq51PVomjfeg=;
- b=uQmxbGbgC2N2fbZ8TTJ2s6s74wkdgpNOSsosCeU3o9qUaSxZJ5/wfvv9ClEeMhUNGd
- Qes+p6lOQ9ksBNJqwvQXAX+pyZDQmPOAX6K8J6DVPgiROaANpx6p22dcTAyR3erWyPzn
- 9PjQYCIMtk8n8Hxum8h4L6M0fr/9MxW0v2xgsywo5rOzP6uZtNMirUNdrkwIM0nG303m
- WP+jBQrll79FEioSciAcYXJN1SsG4cNp9Y4Yu1HrP80jAwReq6Fai9H0ArjukGHf8oWT
- /5yskmNYymg8w8ikBnCdRPEWYphDG3SKl180ilkAj9nei1JKhPQxuDaXaBUDh2fWt38Z
- wxQg==
-X-Gm-Message-State: AGi0Pua7/WYxti2atUUcxYvEPhVPnsTUAFSqf5TCmHHe17yO6VtKJRew
- 0GT537+ZUhXDktcXVV8WaNePtNrgWjXUkiqEI2Y=
-X-Google-Smtp-Source: APiQypIjWK7b59i32I8wT8kDxro6WSMTZib7qXu4xjC3alBAqeGa80MXBlJByRM7LuWcPMfjTF5PsTw8Gob9bj9tQpo=
-X-Received: by 2002:a1f:9182:: with SMTP id t124mr1899412vkd.38.1588243975247; 
- Thu, 30 Apr 2020 03:52:55 -0700 (PDT)
+Received: from m176148.mail.qiye.163.com (m176148.mail.qiye.163.com
+ [59.111.176.148])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D785B6E22C
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 11:00:48 +0000 (UTC)
+Received: from vivo.com (wm-8.qy.internal [127.0.0.1])
+ by m176148.mail.qiye.163.com (Hmail) with ESMTP id B636B1A41B7;
+ Thu, 30 Apr 2020 19:00:11 +0800 (CST)
+Message-ID: <AO2AmAAQCPm7TNcK3aT264ov.3.1588244411605.Hmail.bernard@vivo.com>
+To: Joe Perches <joe@perches.com>
+Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gZHJtL3JhZGVvbjogY2xlYW51cCBjb2Rpbmcgc3R5bGUgYSBiaXQ=?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
+X-Originating-IP: 157.0.31.122
+In-Reply-To: <ae65a955251bd43ac71b7a162320bbc1fe220a67.camel@perches.com>
 MIME-Version: 1.0
-References: <20200423223459.200858-1-pcc@google.com>
- <CACvgo50xnz9g8PE6+4FxHr=NJ4sWd1no4erFBJ2RY2msE12PYA@mail.gmail.com>
- <CAMn1gO5i-nBU_S-U896qrYYOUU6W4yD=KG8KTwijUOF62ts36g@mail.gmail.com>
- <CACvgo53CGO-gM8xEyP92La+3KEPWGGy3V1+YsQ2hrCt+atMnLA@mail.gmail.com>
- <CADaigPXW-2+YPfW8mayJPo8OoRB2j+VN=q6zu-cs0gmpXtjang@mail.gmail.com>
-In-Reply-To: <CADaigPXW-2+YPfW8mayJPo8OoRB2j+VN=q6zu-cs0gmpXtjang@mail.gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Thu, 30 Apr 2020 11:50:38 +0100
-Message-ID: <CACvgo52fwBOXqh0bjCn0Q5OHfCc4owxRW=zc7sr+zAwvPDuuyQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: pl111: enable render node
-To: Eric Anholt <eric@anholt.net>
+Received: from bernard@vivo.com( [157.0.31.122) ] by ajax-webmail (
+ [127.0.0.1] ) ; Thu, 30 Apr 2020 19:00:11 +0800 (GMT+08:00)
+From: Bernard <bernard@vivo.com>
+Date: Thu, 30 Apr 2020 19:00:11 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSFVITktCQkJDSElKTkhISVlXWShZQU
+ hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
+X-HM-Sender-Digest: e1kJHlYWEh9ZQUhMT05IQ0hKQkpIN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
+ WUc6NEk6Fjo6KjgrFkwvNRgwSBovSU1PFA1VSFVKTkNDSU9PT0pKQ0tLVTMWGhIXVRkeCRUaCR87
+ DRINFFUYFBZFWVdZEgtZQVlKTkxVS1VISlVKSUlZV1kIAVlBT01DTjcG
+X-HM-Tid: 0a71cabe75699394kuwsb636b1a41b7
+X-Mailman-Approved-At: Fri, 01 May 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,108 +47,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Collingbourne <pcc@google.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Apr 2020 at 17:48, Eric Anholt <eric@anholt.net> wrote:
->
-> On Mon, Apr 27, 2020 at 7:45 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
-> >
-> > On Fri, 24 Apr 2020 at 19:54, Peter Collingbourne <pcc@google.com> wrote:
-> > >
-> > > On Fri, Apr 24, 2020 at 4:11 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
-> > > >
-> > > > On Thu, 23 Apr 2020 at 23:51, Peter Collingbourne <pcc@google.com> wrote:
-> > > > >
-> > > > > The render node is required by Android which does not support the legacy
-> > > > > drmAuth authentication process.
-> > > > >
-> > > > > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/pl111/pl111_drv.c | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > The summary talks about drmAuth, yet exposes a render node. Even
-> > > > through there's no rendering engine in the HW, as mentioned by Eric.
-> > > >
-> > > > AFAICT the only way drmAuth is relevant with pl111 is when you want to
-> > > > export/import dma bufs.
-> > > > Although that is handled in core and the artificial DRM_AUTH
-> > > > restriction has been lifted with commit [1].
-> > > >
-> > > > -Emil
-> > > >
-> > > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.7-rc2&id=30a958526d2cc6df38347336a602479d048d92e7
-> > >
-> > > Okay, most likely drmAuth is irrelevant here (I don't know much about
-> > > it to be honest; I know that Android uses render nodes, so I figured
-> > > that drmAuth must therefore be the thing that it doesn't use). Sorry
-> > > for the confusion. Here is a better explanation of why I needed this
-> > > change.
-> > >
-> > > Android has a composer process that opens the primary node and uses
-> > > DRM_IOCTL_MODE_ATOMIC to switch between frame buffers, and a renderer
-> > > process (surfaceflinger) that opens the render node, prepares frame
-> > > buffers and sends them to the composer. One idea for adapting this
-> > > architecture to devices without render nodes is to have the renderer
-> > > process open the primary node instead. But this runs into a problem:
-> > > suppose that the renderer process starts before the composer process.
-> > > In this case, the kernel makes the renderer the DRM master, so the
-> > > composer can't change the frame buffer. Render nodes don't have this
-> > > problem because opening them doesn't affect the master.
-> > >
-> > > I considered fixing this by having the composer issue
-> > > DRM_IOCTL_SET_MASTER, but this requires root privileges. If we require
-> > > drivers to provide render nodes and control access to the primary node
-> > > while opening up the render node, we can ensure that only authorized
-> > > processes can become the master without requiring them to be root.
-> > >
-> > I think that the crux, is trying to open a _primary_ node for
-> > _rendering_ purposes.
-> > While that may work - as you outline above - it's usually a bad idea.
-> >
-> > To step back a bit, in practise we have three SoC combinations:
-> >  - complete lack of render device - then you default to software rendering [1]
-> >  - display and render device are one and the same - no change needed,
-> > things should just work
-> >  - display and render devices are separate - surfaceflinger should
-> > open the correct _rendering_ device node.
-> >
-> > [1] Mesa's libEGL (don't recall exact name on Android) can open VGEM
-> > render node, to work with the kms-swrast_dri.so software rasteriser
-> > module.
-> >
-> > While I did not try [1] with Android, it was working fine with CrOS. I
-> > suggest giving it a try and reporting bugs.
->
-> VGEM is not a solution, because it doesn't coordinate caching behavior
-> with your display node and so you get corruption if you try to to
-> share dma-bufs between them.  In cros it's used only for some tests as
-> far as I've heard, and it's been a source of pain.
->
-My understanding is that dma_buf_{begin,end}_cpu_access should be used
-to handle the caching concerns.
-Perhaps we're missing some calls, apart from the wc mmap Daniel mentioned?
-
-Fwiw I've played around with CrOS for 30 minutes w/o any corruption.
-Mind you it was a boot + casual web browsing.
-
-> If we want to go the route of "kms-only nodes also provide a render
-> node interface for doing swrast on", I think that would be a good
-> idea, but we should do this at a core DRM level (probably "does this
-> driver expose dma-buf? then also expose render nodes") rather than per
-> kms driver.
-
-This sounds doable, although I'm concerned about existing
-applications, which do not expect this behaviour.
-Be that mesa, compositors or otherwise.
-
--Emil
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Cgrlj5Hku7bkurrvvJpKb2UgUGVyY2hlcyA8am9lQHBlcmNoZXMuY29tPgrlj5HpgIHml6XmnJ/v
+vJoyMDIwLTA0LTI3IDAxOjUzOjA2CuaUtuS7tuS6uu+8miJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hy
+aXN0aWFuLmtvZW5pZ0BhbWQuY29tPixCZXJuYXJkIFpoYW8gPGJlcm5hcmRAdml2by5jb20+LEFs
+ZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4sIkRhdmlkIChDaHVuTWluZykg
+WmhvdSIgPERhdmlkMS5aaG91QGFtZC5jb20+LERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5p
+ZT4sRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPixhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZyxkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnLGxpbnV4LWtlcm5lbEB2Z2Vy
+Lmtlcm5lbC5vcmcK5oqE6YCB5Lq677yab3BlbnNvdXJjZS5rZXJuZWxAdml2by5jb20K5Li76aKY
+77yaUmU6IFtQQVRDSF0gZHJtL3JhZGVvbjogY2xlYW51cCBjb2Rpbmcgc3R5bGUgYSBiaXQ+T24g
+U3VuLCAyMDIwLTA0LTI2IGF0IDE1OjE4ICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+
+PiBBbSAyNi4wNC4yMCB1bSAxNToxMiBzY2hyaWViIEJlcm5hcmQgWmhhbzoKPj4gPiBNYXliZSBu
+byBuZWVkIHRvIGNoZWNrIHdzIGJlZm9yZSBrbWFsbG9jLCBrbWFsbG9jIHdpbGwgY2hlY2sKPj4g
+PiBpdHNlbGYsIGttYWxsb2NgcyBsb2dpYyBpcyBpZiBwdHIgaXMgTlVMTCwga21hbGxvYyB3aWxs
+IGp1c3QKPj4gPiByZXR1cm4KPj4gPiAKPj4gPiBTaWduZWQtb2ZmLWJ5OiBCZXJuYXJkIFpoYW8g
+PGJlcm5hcmRAdml2by5jb20+Cj4+IAo+PiBSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8
+Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+PiAKPj4gSSdtIHdvbmRlcmluZyB3aHkgdGhlIGF1
+dG9tYXRlZCBzY3JpcHRzIGhhdmVuJ3QgZm91bmQgdGhhdCBvbmUgYmVmb3JlLgo+Cj5iZWNhdXNl
+IHRoaXMgcGF0dGVybiBpcwo+Cj4JaWYgKGZvbykKPgkJa2ZyZWUoYmFyKTsKPgo+YW5kIHRoZSBw
+YXR0ZXJuIGxvb2tlZCBmb3IgaXM6Cj4KPglpZiAoZm9vKQo+CQlrZnJlZShmb28pOwo+Cj4+ID4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vYXRvbS5jIGIvZHJpdmVycy9ncHUv
+ZHJtL3JhZGVvbi9hdG9tLmMKPltdCj4+ID4gQEAgLTEyMTEsOCArMTIxMSw3IEBAIHN0YXRpYyBp
+bnQgYXRvbV9leGVjdXRlX3RhYmxlX2xvY2tlZChzdHJ1Y3QgYXRvbV9jb250ZXh0ICpjdHgsIGlu
+dCBpbmRleCwgdWludDMyCj4+ID4gICAJU0RFQlVHKCI8PFxuIik7Cj4+ID4gICAKPj4gPiAgIGZy
+ZWU6Cj4+ID4gLQlpZiAod3MpCj4+ID4gLQkJa2ZyZWUoZWN0eC53cyk7Cj4+ID4gKwlrZnJlZShl
+Y3R4LndzKTsKPj4gPiAgIAlyZXR1cm4gcmV0Owo+PiA+ICAgfQo+Cj5JJ20gd29uZGVyaW5nIGlm
+IHRoaXMgcmVtb3ZhbCBpcyBjb3JyZWN0IGFzIHRoZSBmdW5jdGlvbgo+aXMgbmFtZWQgX2xvY2tl
+ZCBhbmQgaXQgbWF5IGJlIHJlY3Vyc2l2ZSBvciBjYWxsZWQgdW5kZXIKPnNvbWUgZXh0ZXJuYWwg
+bG9jay4KPgpIaQpJIGFtIGEgbGl0dGxlIGNvbmZ1c2VkIGFib3V0IHRoaXMuIEkgdW5kZXJzdGFu
+ZCB0aGF0IHRoZSBjYWxsZXIgZ3VhcmFudGVlcyB0aGUgbG9jayBwcm90ZWN0aW9uCnRoYXQgd2Ug
+d2lsbCBub3QgcmVsZWFzZSB0aGUgd3JvbmcgcG9pbnRlci4gQW5kIHRoZSBOVUxMIGNoZWNrIGlz
+IHRoZSBzYW1lIHdpdGggdGhlIGZpcnN0IGNoZWNrIGluIGtmcmVlPwpNYXliZSB3ZSBkbyBub3Qg
+bmVlZCBjaGVjayB0d2ljaC4KClJlZ2FyZHMsCkJlcm5hcmQKCg0KDQpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
