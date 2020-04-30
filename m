@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625621BF9FD
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 15:51:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B723A1BF9FE
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 15:51:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6209D6E8AC;
-	Thu, 30 Apr 2020 13:51:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 543B68973E;
+	Thu, 30 Apr 2020 13:51:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F08496E8AC
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 13:51:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 225596E8AD
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 13:51:11 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2B0562137B;
- Thu, 30 Apr 2020 13:51:07 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4554621775;
+ Thu, 30 Apr 2020 13:51:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588254667;
- bh=PQO2qszkR2ZOJGdXJ9WPdFL9T2v4oNVLb9SEfQ0GBfE=;
+ s=default; t=1588254671;
+ bh=UUerJjfHpwzmoAU169iQTTzVJIn8QWxF04p5YHMxj/4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LaVjopSsE41AZx8PuqKNVTBlNfy7BvBJFIcAw2sbOTRijv7IQvuqySAWal04CSaxH
- 1xvcKsNJrm6LhUER3goWj0BVw3xIgoMyMiR16kz7V3o9Bl0oWElMr5GNocnFOI28Y2
- FdTizDNNc2XEKVcz2OcysdZ+lPTccT4sduTeh05w=
+ b=rnMbCvu/rpeJ4MCupTQyBzL3lUCyoWwOVPRcPRAattMCrzHYPe3kIaxsjR+ZpGDir
+ 706txQbJ3BYB7GUqSM7pQxrYrj0bugHcqlanWV+7caLwPb1S5Oc0rmz9AaEJadSSHz
+ X+uY67Rhgs5qQrA2jVlWtXAqeugVZLC7Dz7ZgHMo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 20/79] drm/bridge: anx6345: set correct BPC for
- display_info of connector
-Date: Thu, 30 Apr 2020 09:49:44 -0400
-Message-Id: <20200430135043.19851-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 23/79] drm/scheduler: fix drm_sched_get_cleanup_job
+Date: Thu, 30 Apr 2020 09:49:47 -0400
+Message-Id: <20200430135043.19851-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430135043.19851-1-sashal@kernel.org>
 References: <20200430135043.19851-1-sashal@kernel.org>
@@ -50,52 +49,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Sasha Levin <sashal@kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sasha Levin <sashal@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, Kent Russell <kent.russell@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vasily Khoruzhick <anarsoul@gmail.com>
-
-[ Upstream commit 1e8a6ce9186dbf342eebc07cf14cae5e82164e03 ]
-
-Some drivers (e.g. sun4i-drm) need this info to decide whether they
-need to enable dithering. Currently driver reports what panel supports
-and if panel supports 8 we don't get dithering enabled.
-
-Hardcode BPC to 6 for now since that's the only BPC
-that driver supports.
-
-Fixes: 6aa192698089 ("drm/bridge: Add Analogix anx6345 support")
-Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@siol.net>
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200329222253.2941405-1-anarsoul@gmail.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-index 526507102c1ea..8d32fea84c75e 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-@@ -485,6 +485,9 @@ static int anx6345_get_modes(struct drm_connector *connector)
- 
- 	num_modes += drm_add_edid_modes(connector, anx6345->edid);
- 
-+	/* Driver currently supports only 6bpc */
-+	connector->display_info.bpc = 6;
-+
- unlock:
- 	if (power_off)
- 		anx6345_poweroff(anx6345);
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKWyBVcHN0
+cmVhbSBjb21taXQgODYyM2I1MjU1YWU3Y2NhZjI3NmFhYzM5MjA3ODdiZjU3NWZhNmIzNyBdCgpX
+ZSBhcmUgcmFjaW5nIHRvIGluaXRpYWxpemUgc2NoZWQtPnRocmVhZCBoZXJlLCBqdXN0IGFsd2F5
+cyBjaGVjayB0aGUKY3VycmVudCB0aHJlYWQuCgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2
+bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+ClJldmlld2VkLWJ5OiBBbmRyZXkgR3JvZHpv
+dnNreSA8YW5kcmV5Lmdyb2R6b3Zza3lAYW1kLmNvbT4KUmV2aWV3ZWQtYnk6IEtlbnQgUnVzc2Vs
+bCA8a2VudC5ydXNzZWxsQGFtZC5jb20+Ckxpbms6IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNr
+dG9wLm9yZy9wYXRjaC8zNjEzMDMvClNpZ25lZC1vZmYtYnk6IFNhc2hhIExldmluIDxzYXNoYWxA
+a2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jIGIvZHJpdmVy
+cy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKaW5kZXggNjBjNGM2YTFhYWM2OC4uNzU3
+MzdlYzU5NjE0MSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9t
+YWluLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKQEAgLTY4
+Nyw3ICs2ODcsNyBAQCBkcm1fc2NoZWRfZ2V0X2NsZWFudXBfam9iKHN0cnVjdCBkcm1fZ3B1X3Nj
+aGVkdWxlciAqc2NoZWQpCiAJICovCiAJaWYgKChzY2hlZC0+dGltZW91dCAhPSBNQVhfU0NIRURV
+TEVfVElNRU9VVCAmJgogCSAgICAhY2FuY2VsX2RlbGF5ZWRfd29yaygmc2NoZWQtPndvcmtfdGRy
+KSkgfHwKLQkgICAgX19rdGhyZWFkX3Nob3VsZF9wYXJrKHNjaGVkLT50aHJlYWQpKQorCSAgICBr
+dGhyZWFkX3Nob3VsZF9wYXJrKCkpCiAJCXJldHVybiBOVUxMOwogCiAJc3Bpbl9sb2NrX2lycXNh
+dmUoJnNjaGVkLT5qb2JfbGlzdF9sb2NrLCBmbGFncyk7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
