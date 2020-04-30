@@ -2,51 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781091BF5CD
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 12:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 391EB1BF5E1
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 12:52:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 434FB6E228;
-	Thu, 30 Apr 2020 10:44:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B83C6E245;
+	Thu, 30 Apr 2020 10:52:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA4D56E228
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 10:44:44 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id c3so4486692otp.8
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 03:44:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com
+ [IPv6:2607:f8b0:4864:20::a43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 369076E245
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 10:52:56 +0000 (UTC)
+Received: by mail-vk1-xa43.google.com with SMTP id w68so1566571vke.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 03:52:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f2hMhFYqI0wUb5MBg4UkgpfFpBiRQWYcpjrnRHvkE7k=;
- b=cXMJ/VVSzlPtH/kKQGSB0QOpm/4UPIeozqDCxQ5BvZ9tfpepcQ9/37dW4o97GPR+9y
- Kw0yOvCNv1+iyoHAq1/Q/H24/7o9+qu6B7O/yyS7TuSgqbO73cg99MPYPbBICugs3o4r
- 9GFSRRpgtexrvsxdwW3nM7VUdMXJN9Aypjt6I=
+ :cc; bh=jNiZlpXLQpEgkXLMjwFbZYd4n3tho7Yoq51PVomjfeg=;
+ b=MxW2c4iljXRZ6kwzU/zC+isdU9ODT30BlkXD0EEbwnxa8X7FYSQ0NW3El9wz20fBbz
+ WoAIaK3a+lsup55yzLyAc2Y8+wAQkeEkt8OZ6FiiOE4C/J75cjlHoscP6MSqPCcs2mSH
+ vCUJ9+XRH5oWK2C3/5rEGKzu0oNgLvPcNZJKXvqK9XLgdksnrWMM5+SVcXTAH3q+Zl1e
+ VeqmmNNR15UFeAmU0NpxUa/HMxR4TfAOmAajXeLvj1PXVjztKlKHm8P+dUwIHJBkFIi6
+ yesE1UJOmZgmjZSawaHV9PmKekHgTd6cRlPqhMXuwEA7A5xoxmzokO9e1GCptDAQtpoo
+ 2gJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=f2hMhFYqI0wUb5MBg4UkgpfFpBiRQWYcpjrnRHvkE7k=;
- b=CN4YS7YOvkbqpQKcVrHCQqtdogBzXGuLVIy07DWj4DzFpj7Dk4bRaIa70PmI9xCrNm
- WpKZ+wiC7SbQHpUFa1DnhHzJTbL/hSr91ZYaiZloGhDcUoTMbJSLWFesRYAdm1NZWAeh
- r3jCV1KAjCSo2igwHoag8fAjvONZxaBuhwArFDkUQcNRil2E+BiUJz+rWrBSuChrrqnM
- l93ZBC1vjLpZ4phTBwzGB17vL0NI7NDPTB8B4qsnuEhjdmw6YKJaQdiFaPte8MxlAVzd
- SO4hxoBUwF/xuWbKGmmydrohpSdNA2FsFwdrzMZ3J0qhgU68NEua/cWoCAM3kQiAlp5m
- MYQw==
-X-Gm-Message-State: AGi0Pub7taZ5ms6lQ1h/Ws6GqHMME84NMd+oaGHgkCl+0cdPKRGmv872
- mV2zAQ/JbPFyNqMo7o+chhSzqHOJW7pSIgBSIqOXf8Xp
-X-Google-Smtp-Source: APiQypIq4/+kjqzgITUJFSBI1YtgJYji4SHy8RMEZi71gXG233XX2oSFAOcZOSiO2+r8tHi4NPBaTD+8IFxVL9Dh9j4=
-X-Received: by 2002:a9d:d06:: with SMTP id 6mr2094066oti.188.1588243483830;
- Thu, 30 Apr 2020 03:44:43 -0700 (PDT)
+ bh=jNiZlpXLQpEgkXLMjwFbZYd4n3tho7Yoq51PVomjfeg=;
+ b=uQmxbGbgC2N2fbZ8TTJ2s6s74wkdgpNOSsosCeU3o9qUaSxZJ5/wfvv9ClEeMhUNGd
+ Qes+p6lOQ9ksBNJqwvQXAX+pyZDQmPOAX6K8J6DVPgiROaANpx6p22dcTAyR3erWyPzn
+ 9PjQYCIMtk8n8Hxum8h4L6M0fr/9MxW0v2xgsywo5rOzP6uZtNMirUNdrkwIM0nG303m
+ WP+jBQrll79FEioSciAcYXJN1SsG4cNp9Y4Yu1HrP80jAwReq6Fai9H0ArjukGHf8oWT
+ /5yskmNYymg8w8ikBnCdRPEWYphDG3SKl180ilkAj9nei1JKhPQxuDaXaBUDh2fWt38Z
+ wxQg==
+X-Gm-Message-State: AGi0Pua7/WYxti2atUUcxYvEPhVPnsTUAFSqf5TCmHHe17yO6VtKJRew
+ 0GT537+ZUhXDktcXVV8WaNePtNrgWjXUkiqEI2Y=
+X-Google-Smtp-Source: APiQypIjWK7b59i32I8wT8kDxro6WSMTZib7qXu4xjC3alBAqeGa80MXBlJByRM7LuWcPMfjTF5PsTw8Gob9bj9tQpo=
+X-Received: by 2002:a1f:9182:: with SMTP id t124mr1899412vkd.38.1588243975247; 
+ Thu, 30 Apr 2020 03:52:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAMn1gO4NsAoBUN4VFntB+pZK=cVCmwxBGUyipLPYYWFvpH1Z+A@mail.gmail.com>
- <20200427200513.36328-1-pcc@google.com>
-In-Reply-To: <20200427200513.36328-1-pcc@google.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 30 Apr 2020 12:44:32 +0200
-Message-ID: <CAKMK7uE42AUZbqn4VhVjWaeUaoyhm+k5ZWUXjB576+7bWHfs2A@mail.gmail.com>
-Subject: Re: [PATCH] drm: enable render nodes wherever buffer sharing is
- supported
-To: Peter Collingbourne <pcc@google.com>
+References: <20200423223459.200858-1-pcc@google.com>
+ <CACvgo50xnz9g8PE6+4FxHr=NJ4sWd1no4erFBJ2RY2msE12PYA@mail.gmail.com>
+ <CAMn1gO5i-nBU_S-U896qrYYOUU6W4yD=KG8KTwijUOF62ts36g@mail.gmail.com>
+ <CACvgo53CGO-gM8xEyP92La+3KEPWGGy3V1+YsQ2hrCt+atMnLA@mail.gmail.com>
+ <CADaigPXW-2+YPfW8mayJPo8OoRB2j+VN=q6zu-cs0gmpXtjang@mail.gmail.com>
+In-Reply-To: <CADaigPXW-2+YPfW8mayJPo8OoRB2j+VN=q6zu-cs0gmpXtjang@mail.gmail.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Thu, 30 Apr 2020 11:50:38 +0100
+Message-ID: <CACvgo52fwBOXqh0bjCn0Q5OHfCc4owxRW=zc7sr+zAwvPDuuyQ@mail.gmail.com>
+Subject: Re: [PATCH] drm: pl111: enable render node
+To: Eric Anholt <eric@anholt.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,373 +64,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liviu Dudau <Liviu.Dudau@arm.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Peter Collingbourne <pcc@google.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 28, 2020 at 2:46 PM Peter Collingbourne <pcc@google.com> wrote:
+On Mon, 27 Apr 2020 at 17:48, Eric Anholt <eric@anholt.net> wrote:
 >
-> Render nodes are not just useful for devices supporting GPU hardware
-> acceleration. Even on devices that only support dumb frame buffers,
-> they are useful in situations where composition (using software
-> rasterization) and KMS are done in different processes with buffer
-> sharing being used to send frame buffers between them. This is the
-> situation on Android, where surfaceflinger is the compositor and the
-> composer HAL uses KMS to display the buffers. Thus it is beneficial
-> to expose render nodes on all devices that support buffer sharing.
+> On Mon, Apr 27, 2020 at 7:45 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+> >
+> > On Fri, 24 Apr 2020 at 19:54, Peter Collingbourne <pcc@google.com> wrote:
+> > >
+> > > On Fri, Apr 24, 2020 at 4:11 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+> > > >
+> > > > On Thu, 23 Apr 2020 at 23:51, Peter Collingbourne <pcc@google.com> wrote:
+> > > > >
+> > > > > The render node is required by Android which does not support the legacy
+> > > > > drmAuth authentication process.
+> > > > >
+> > > > > Signed-off-by: Peter Collingbourne <pcc@google.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/pl111/pl111_drv.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > The summary talks about drmAuth, yet exposes a render node. Even
+> > > > through there's no rendering engine in the HW, as mentioned by Eric.
+> > > >
+> > > > AFAICT the only way drmAuth is relevant with pl111 is when you want to
+> > > > export/import dma bufs.
+> > > > Although that is handled in core and the artificial DRM_AUTH
+> > > > restriction has been lifted with commit [1].
+> > > >
+> > > > -Emil
+> > > >
+> > > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.7-rc2&id=30a958526d2cc6df38347336a602479d048d92e7
+> > >
+> > > Okay, most likely drmAuth is irrelevant here (I don't know much about
+> > > it to be honest; I know that Android uses render nodes, so I figured
+> > > that drmAuth must therefore be the thing that it doesn't use). Sorry
+> > > for the confusion. Here is a better explanation of why I needed this
+> > > change.
+> > >
+> > > Android has a composer process that opens the primary node and uses
+> > > DRM_IOCTL_MODE_ATOMIC to switch between frame buffers, and a renderer
+> > > process (surfaceflinger) that opens the render node, prepares frame
+> > > buffers and sends them to the composer. One idea for adapting this
+> > > architecture to devices without render nodes is to have the renderer
+> > > process open the primary node instead. But this runs into a problem:
+> > > suppose that the renderer process starts before the composer process.
+> > > In this case, the kernel makes the renderer the DRM master, so the
+> > > composer can't change the frame buffer. Render nodes don't have this
+> > > problem because opening them doesn't affect the master.
+> > >
+> > > I considered fixing this by having the composer issue
+> > > DRM_IOCTL_SET_MASTER, but this requires root privileges. If we require
+> > > drivers to provide render nodes and control access to the primary node
+> > > while opening up the render node, we can ensure that only authorized
+> > > processes can become the master without requiring them to be root.
+> > >
+> > I think that the crux, is trying to open a _primary_ node for
+> > _rendering_ purposes.
+> > While that may work - as you outline above - it's usually a bad idea.
+> >
+> > To step back a bit, in practise we have three SoC combinations:
+> >  - complete lack of render device - then you default to software rendering [1]
+> >  - display and render device are one and the same - no change needed,
+> > things should just work
+> >  - display and render devices are separate - surfaceflinger should
+> > open the correct _rendering_ device node.
+> >
+> > [1] Mesa's libEGL (don't recall exact name on Android) can open VGEM
+> > render node, to work with the kms-swrast_dri.so software rasteriser
+> > module.
+> >
+> > While I did not try [1] with Android, it was working fine with CrOS. I
+> > suggest giving it a try and reporting bugs.
 >
-> Because all drivers that currently support render nodes also support
-> buffer sharing, the DRIVER_RENDER flag is no longer necessary to mark
-> devices as supporting render nodes, so remove it and just rely on
-> the presence of a prime_handle_to_fd function pointer to determine
-> whether buffer sharing is supported.
+> VGEM is not a solution, because it doesn't coordinate caching behavior
+> with your display node and so you get corruption if you try to to
+> share dma-bufs between them.  In cros it's used only for some tests as
+> far as I've heard, and it's been a source of pain.
+>
+My understanding is that dma_buf_{begin,end}_cpu_access should be used
+to handle the caching concerns.
+Perhaps we're missing some calls, apart from the wc mmap Daniel mentioned?
 
-The idea behind render nodes is that you can freely pass these to
-unpriviledged users, and nothing bad happens. That's why we have gpu
-reset code in drivers, proper pagetables, and also (in at least the
-solid drivers) ban code so that repeat offenders from userspace who
-constantly submit endless batch buffers and funny stuff like that
-can't DOS the gpu.
+Fwiw I've played around with CrOS for 30 minutes w/o any corruption.
+Mind you it was a boot + casual web browsing.
 
-Ofc in practice there's hw issues and fun stuff like that sometimes,
-and driver bugs, and all that. But that's the aspiration.
+> If we want to go the route of "kms-only nodes also provide a render
+> node interface for doing swrast on", I think that would be a good
+> idea, but we should do this at a core DRM level (probably "does this
+> driver expose dma-buf? then also expose render nodes") rather than per
+> kms driver.
 
-Now many of these display-only drivers need contiguous buffers, and
-there's not endless amounts of that around. So if you allow random
-clients to allocate buffers, they can easily exhaust that, and not
-just upset the render side of the gpu, but essentially make it
-impossible for a compositor to allocate more framebuffers. I don't
-think that's a good idea.
+This sounds doable, although I'm concerned about existing
+applications, which do not expect this behaviour.
+Be that mesa, compositors or otherwise.
 
-I know there's hw like vc4 which needs contiguous buffers for
-everything, but that's kinda the places where aspiration falls a bit
-short.
-
-So from that pov I'm a rather worried with handing out render rights
-to everyone for these display-only buffers. It's not entirely
-harmless.
--Daniel
-
-
->
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
-> ---
->  Documentation/gpu/drm-uapi.rst          | 9 +++++----
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 2 +-
->  drivers/gpu/drm/drm_drv.c               | 2 +-
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c   | 2 +-
->  drivers/gpu/drm/exynos/exynos_drm_drv.c | 2 +-
->  drivers/gpu/drm/i915/i915_drv.c         | 2 +-
->  drivers/gpu/drm/lima/lima_drv.c         | 2 +-
->  drivers/gpu/drm/msm/msm_drv.c           | 1 -
->  drivers/gpu/drm/nouveau/nouveau_drm.c   | 2 +-
->  drivers/gpu/drm/omapdrm/omap_drv.c      | 2 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 2 +-
->  drivers/gpu/drm/radeon/radeon_drv.c     | 3 +--
->  drivers/gpu/drm/tegra/drm.c             | 2 +-
->  drivers/gpu/drm/v3d/v3d_drv.c           | 1 -
->  drivers/gpu/drm/vc4/vc4_drv.c           | 8 --------
->  drivers/gpu/drm/vgem/vgem_drv.c         | 2 +-
->  drivers/gpu/drm/virtio/virtgpu_drv.c    | 2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     | 2 +-
->  include/drm/drm_drv.h                   | 7 -------
->  19 files changed, 19 insertions(+), 36 deletions(-)
->
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 56fec6ed1ad8..2769714ae75a 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -129,10 +129,11 @@ authenticate to a DRM-Master prior to getting GPU access. To avoid this
->  step and to grant clients GPU access without authenticating, render
->  nodes were introduced. Render nodes solely serve render clients, that
->  is, no modesetting or privileged ioctls can be issued on render nodes.
-> -Only non-global rendering commands are allowed. If a driver supports
-> -render nodes, it must advertise it via the DRIVER_RENDER DRM driver
-> -capability. If not supported, the primary node must be used for render
-> -clients together with the legacy drmAuth authentication procedure.
-> +Only non-global rendering commands are allowed. Drivers that support
-> +:ref:`PRIME buffer sharing <prime_buffer_sharing>` automatically
-> +support render nodes. If a driver does not support render nodes,
-> +the primary node must be used for render clients together with the
-> +legacy drmAuth authentication procedure.
->
->  If a driver advertises render node support, DRM core will create a
->  separate render node called renderD<num>. There will be one render node
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 8ea86ffdea0d..46460620bc37 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -1426,7 +1426,7 @@ static struct drm_driver kms_driver = {
->         .driver_features =
->             DRIVER_ATOMIC |
->             DRIVER_GEM |
-> -           DRIVER_RENDER | DRIVER_MODESET | DRIVER_SYNCOBJ |
-> +           DRIVER_MODESET | DRIVER_SYNCOBJ |
->             DRIVER_SYNCOBJ_TIMELINE,
->         .open = amdgpu_driver_open_kms,
->         .postclose = amdgpu_driver_postclose_kms,
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 7b1a628d1f6e..8861a30920e5 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -651,7 +651,7 @@ int drm_dev_init(struct drm_device *dev,
->                 goto err_free;
->         }
->
-> -       if (drm_core_check_feature(dev, DRIVER_RENDER)) {
-> +       if (driver->prime_handle_to_fd) {
->                 ret = drm_minor_alloc(dev, DRM_MINOR_RENDER);
->                 if (ret)
->                         goto err_minors;
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index a8685b2e1803..abfb143334ac 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -497,7 +497,7 @@ static const struct file_operations fops = {
->  };
->
->  static struct drm_driver etnaviv_drm_driver = {
-> -       .driver_features    = DRIVER_GEM | DRIVER_RENDER,
-> +       .driver_features    = DRIVER_GEM,
->         .open               = etnaviv_open,
->         .postclose           = etnaviv_postclose,
->         .gem_free_object_unlocked = etnaviv_gem_free_object,
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> index 57defeb44522..834eb5713fe4 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> @@ -121,7 +121,7 @@ static const struct file_operations exynos_drm_driver_fops = {
->
->  static struct drm_driver exynos_drm_driver = {
->         .driver_features        = DRIVER_MODESET | DRIVER_GEM
-> -                                 | DRIVER_ATOMIC | DRIVER_RENDER,
-> +                                 | DRIVER_ATOMIC,
->         .open                   = exynos_drm_open,
->         .lastclose              = drm_fb_helper_lastclose,
->         .postclose              = exynos_drm_postclose,
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-> index 81a4621853db..b028a32fcac5 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -1834,7 +1834,7 @@ static struct drm_driver driver = {
->          */
->         .driver_features =
->             DRIVER_GEM |
-> -           DRIVER_RENDER | DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_SYNCOBJ,
-> +           DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_SYNCOBJ,
->         .release = i915_driver_release,
->         .open = i915_driver_open,
->         .lastclose = i915_driver_lastclose,
-> diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
-> index 2daac64d8955..bd8b6ad25ac0 100644
-> --- a/drivers/gpu/drm/lima/lima_drv.c
-> +++ b/drivers/gpu/drm/lima/lima_drv.c
-> @@ -252,7 +252,7 @@ DEFINE_DRM_GEM_FOPS(lima_drm_driver_fops);
->   */
->
->  static struct drm_driver lima_drm_driver = {
-> -       .driver_features    = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
-> +       .driver_features    = DRIVER_GEM | DRIVER_SYNCOBJ,
->         .open               = lima_drm_driver_open,
->         .postclose          = lima_drm_driver_postclose,
->         .ioctls             = lima_drm_driver_ioctls,
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 29295dee2a2e..061e62d4b691 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -1000,7 +1000,6 @@ static const struct file_operations fops = {
->
->  static struct drm_driver msm_driver = {
->         .driver_features    = DRIVER_GEM |
-> -                               DRIVER_RENDER |
->                                 DRIVER_ATOMIC |
->                                 DRIVER_MODESET,
->         .open               = msm_open,
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> index ca4087f5a15b..3ba8c9789292 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> @@ -1169,7 +1169,7 @@ nouveau_driver_fops = {
->  static struct drm_driver
->  driver_stub = {
->         .driver_features =
-> -               DRIVER_GEM | DRIVER_MODESET | DRIVER_RENDER
-> +               DRIVER_GEM | DRIVER_MODESET
->  #if defined(CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT)
->                 | DRIVER_KMS_LEGACY_CONTEXT
->  #endif
-> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-> index cdafd7ef1c32..fe25b352a755 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-> @@ -558,7 +558,7 @@ static const struct file_operations omapdriver_fops = {
->
->  static struct drm_driver omap_drm_driver = {
->         .driver_features = DRIVER_MODESET | DRIVER_GEM  |
-> -               DRIVER_ATOMIC | DRIVER_RENDER,
-> +               DRIVER_ATOMIC,
->         .open = dev_open,
->         .lastclose = drm_fb_helper_lastclose,
->  #ifdef CONFIG_DEBUG_FS
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 882fecc33fdb..058765d5d5d5 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -550,7 +550,7 @@ DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
->   * - 1.1 - adds HEAP and NOEXEC flags for CREATE_BO
->   */
->  static struct drm_driver panfrost_drm_driver = {
-> -       .driver_features        = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
-> +       .driver_features        = DRIVER_GEM | DRIVER_SYNCOBJ,
->         .open                   = panfrost_open,
->         .postclose              = panfrost_postclose,
->         .ioctls                 = panfrost_drm_driver_ioctls,
-> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-> index 59f8186a2415..9457b2f8f81e 100644
-> --- a/drivers/gpu/drm/radeon/radeon_drv.c
-> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
-> @@ -600,8 +600,7 @@ static const struct file_operations radeon_driver_kms_fops = {
->  };
->
->  static struct drm_driver kms_driver = {
-> -       .driver_features =
-> -           DRIVER_GEM | DRIVER_RENDER,
-> +       .driver_features = DRIVER_GEM,
->         .load = radeon_driver_load_kms,
->         .open = radeon_driver_open_kms,
->         .postclose = radeon_driver_postclose_kms,
-> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-> index bd268028fb3d..55190c582946 100644
-> --- a/drivers/gpu/drm/tegra/drm.c
-> +++ b/drivers/gpu/drm/tegra/drm.c
-> @@ -849,7 +849,7 @@ static int tegra_debugfs_init(struct drm_minor *minor)
->
->  static struct drm_driver tegra_drm_driver = {
->         .driver_features = DRIVER_MODESET | DRIVER_GEM |
-> -                          DRIVER_ATOMIC | DRIVER_RENDER,
-> +                          DRIVER_ATOMIC,
->         .open = tegra_drm_open,
->         .postclose = tegra_drm_postclose,
->         .lastclose = drm_fb_helper_lastclose,
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-> index eaa8e9682373..96db702fd648 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -195,7 +195,6 @@ static const struct drm_ioctl_desc v3d_drm_ioctls[] = {
->
->  static struct drm_driver v3d_drm_driver = {
->         .driver_features = (DRIVER_GEM |
-> -                           DRIVER_RENDER |
->                             DRIVER_SYNCOBJ),
->
->         .open = v3d_open,
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-> index 76f93b662766..bf143d1e0d2e 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.c
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-> @@ -181,7 +181,6 @@ static struct drm_driver vc4_drm_driver = {
->         .driver_features = (DRIVER_MODESET |
->                             DRIVER_ATOMIC |
->                             DRIVER_GEM |
-> -                           DRIVER_RENDER |
->                             DRIVER_SYNCOBJ),
->         .open = vc4_open,
->         .postclose = vc4_close,
-> @@ -251,7 +250,6 @@ static int vc4_drm_bind(struct device *dev)
->         struct platform_device *pdev = to_platform_device(dev);
->         struct drm_device *drm;
->         struct vc4_dev *vc4;
-> -       struct device_node *node;
->         int ret = 0;
->
->         dev->coherent_dma_mask = DMA_BIT_MASK(32);
-> @@ -260,12 +258,6 @@ static int vc4_drm_bind(struct device *dev)
->         if (!vc4)
->                 return -ENOMEM;
->
-> -       /* If VC4 V3D is missing, don't advertise render nodes. */
-> -       node = of_find_matching_node_and_match(NULL, vc4_v3d_dt_match, NULL);
-> -       if (!node || !of_device_is_available(node))
-> -               vc4_drm_driver.driver_features &= ~DRIVER_RENDER;
-> -       of_node_put(node);
-> -
->         drm = drm_dev_alloc(&vc4_drm_driver, dev);
->         if (IS_ERR(drm))
->                 return PTR_ERR(drm);
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-> index 909eba43664a..abc7345a2e96 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> @@ -437,7 +437,7 @@ static void vgem_release(struct drm_device *dev)
->  }
->
->  static struct drm_driver vgem_driver = {
-> -       .driver_features                = DRIVER_GEM | DRIVER_RENDER,
-> +       .driver_features                = DRIVER_GEM,
->         .release                        = vgem_release,
->         .open                           = vgem_open,
->         .postclose                      = vgem_postclose,
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> index ab4bed78e656..22195e008f0d 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> @@ -189,7 +189,7 @@ MODULE_AUTHOR("Alon Levy");
->  DEFINE_DRM_GEM_FOPS(virtio_gpu_driver_fops);
->
->  static struct drm_driver driver = {
-> -       .driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER | DRIVER_ATOMIC,
-> +       .driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->         .open = virtio_gpu_driver_open,
->         .postclose = virtio_gpu_driver_postclose,
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> index c2247a893ed4..415c3f8ea907 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -1435,7 +1435,7 @@ static const struct file_operations vmwgfx_driver_fops = {
->
->  static struct drm_driver driver = {
->         .driver_features =
-> -       DRIVER_MODESET | DRIVER_RENDER | DRIVER_ATOMIC,
-> +       DRIVER_MODESET | DRIVER_ATOMIC,
->         .ioctls = vmw_ioctls,
->         .num_ioctls = ARRAY_SIZE(vmw_ioctls),
->         .master_set = vmw_master_set,
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index 97109df5beac..f0277d3f89fe 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -61,13 +61,6 @@ enum drm_driver_feature {
->          * Driver supports mode setting interfaces (KMS).
->          */
->         DRIVER_MODESET                  = BIT(1),
-> -       /**
-> -        * @DRIVER_RENDER:
-> -        *
-> -        * Driver supports dedicated render nodes. See also the :ref:`section on
-> -        * render nodes <drm_render_node>` for details.
-> -        */
-> -       DRIVER_RENDER                   = BIT(3),
->         /**
->          * @DRIVER_ATOMIC:
->          *
-> --
-> 2.26.2.303.gf8c07b1a785-goog
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
-
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
