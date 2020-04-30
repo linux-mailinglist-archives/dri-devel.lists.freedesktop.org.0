@@ -1,42 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297FE1BEF4B
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 06:37:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1A01BEFEE
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 07:52:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCD226EB3F;
-	Thu, 30 Apr 2020 04:37:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E1D06EA8B;
+	Thu, 30 Apr 2020 05:52:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCEEF6EB3F
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 04:37:29 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 8A20620025;
- Thu, 30 Apr 2020 06:37:24 +0200 (CEST)
-Date: Thu, 30 Apr 2020 06:37:23 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Vitor Massaru Iha <vitor@massaru.org>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH] dma-buf: Documentation: fix: `make htmldocs` warnings
-Message-ID: <20200430043723.GA27272@ravnborg.org>
-References: <20200430015930.32224-1-vitor@massaru.org>
- <cb4d93a0-b967-f37d-ea01-0368c91b896e@infradead.org>
- <0463c90cfbe2036235010c5f8b92af6a96c20f74.camel@massaru.org>
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F99C6EA89;
+ Thu, 30 Apr 2020 05:52:51 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id l19so5100200lje.10;
+ Wed, 29 Apr 2020 22:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=RwmYZ3E2Cn3/mLXJyzZsWl6huqbPer1PdGV+pzidiwA=;
+ b=JMMsSbBY9Xotty3p1/IOhmUfb1M9vDuomzbNVK9plmB1y+RJx7utPY0/QRdMvEelOt
+ Xmr5Von19/WQmSodxjguM171c5DhGOJUwydRla7c3M8bFbTCtYkxg4q2V0wBtk2ywXJl
+ 4l1V1aBV2Gi9GOTd+e7FfmarOp83wiRuR5oOzpNagGS4VZjFFBwBl7KcN/WBXrgOieTH
+ YvgptMgduY0xTTXiFTE1bOqfrVsnVTTQ2tPw1XAkALs/EhJKQoicrWIPpjsab6B1/nG1
+ F/aa+7aPppsp5La/NvyuejWJOFIocwkPO807G/dXNYJYlVDzA4tGcBI6XIy0Uh784SRp
+ w8Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RwmYZ3E2Cn3/mLXJyzZsWl6huqbPer1PdGV+pzidiwA=;
+ b=knY8rolun3CG8xDV98C9AorjFXsO94n+H18qTz1SNCpp5XlmuzdGAjyrjdX6Xju1gC
+ GVXZ9RfznvRwvfoZcATxNjoO59OlFqTYzA/exyVln3ZbO9PsWnaWxy5CZNQ0RWx9fZ3t
+ 6RI8TqqySq38gMwpWKc/m4l1tC2RzqOg4myrsy4Vl/HY3Jjw5pByGlwbZRQ7aOqmNNGr
+ jdShDIdYwnMWk+eUVWVZtIwuwHDokcO2UOUxa2/xPb4XMbSQ/GQRSdwpCHoGnCHDXRt2
+ nBYXHe9LxT8N3yu4OMvX428irL2dIqClLV3tHwX8ZIcIKB9hCrUt4i6Pw6pOHf6+B3Mi
+ pLnw==
+X-Gm-Message-State: AGi0PuasrQqmSlbT4iqPie19aZnTeLJwro3oUcsVJuR9X3hE+2ryy5RP
+ w1Pq0rOtvroRv2kk2GLWuDLzJekahHn4ZQ==
+X-Google-Smtp-Source: APiQypLutdv0RfgCbbx60i8SZmUJ4DmZhZ2I+iHcCi1c66UJa9V3ha0BZI7e3IXSOgpcMDklzORucQ==
+X-Received: by 2002:a2e:9084:: with SMTP id l4mr1157836ljg.132.1588225969010; 
+ Wed, 29 Apr 2020 22:52:49 -0700 (PDT)
+Received: from [192.168.0.103] (static-91-225-135-18.devs.futuro.pl.
+ [91.225.135.18])
+ by smtp.gmail.com with ESMTPSA id k18sm4836849lfg.81.2020.04.29.22.52.47
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 29 Apr 2020 22:52:48 -0700 (PDT)
+Subject: Re: [PATCH] drm: Replace drm_modeset_lock/unlock_all with
+ DRM_MODESET_LOCK_ALL_* helpers
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <1588093804-30446-1-git-send-email-michalorzel.eng@gmail.com>
+ <875zdiacv2.fsf@intel.com>
+From: =?UTF-8?B?TWljaGHFgiBPcnplxYI=?= <michalorzel.eng@gmail.com>
+Message-ID: <dab8f564-d2b3-de19-f56d-f741046c39c6@gmail.com>
+Date: Thu, 30 Apr 2020 07:52:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0463c90cfbe2036235010c5f8b92af6a96c20f74.camel@massaru.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=DAf_8NmfAAAA:8 a=VwQbUJbxAAAA:8 a=JfrnYn6hAAAA:8
- a=NxUiqei-aeCDQRDTOOgA:9 a=CjuIK1q_8ugA:10 a=-sleECFk_mc0XVijyva9:22
- a=AjGcO6oz07-iQ99wixmX:22 a=1CNFftbPRP8L7MoqJWF3:22
- a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
+In-Reply-To: <875zdiacv2.fsf@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,66 +74,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Randy Dunlap <rdunlap@infradead.org>, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 29, 2020 at 11:27:22PM -0300, Vitor Massaru Iha wrote:
-> On Wed, 2020-04-29 at 19:06 -0700, Randy Dunlap wrote:
-> > On 4/29/20 6:59 PM, Vitor Massaru Iha wrote:
-> > > Add missed ":" on kernel-doc function parameter.
-> > > 
-> > > This patch fixes this warnings from `make htmldocs`:
-> > > ./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or
-> > > member 'importer_ops' not described in 'dma_buf_dynamic_attach'
-> > > ./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or
-> > > member 'importer_priv' not described in 'dma_buf_dynamic_attach'
-> > > 
-> > > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> > > ---
-> > >  drivers/dma-buf/dma-buf.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > > index ccc9eda1bc28..0756d2155745 100644
-> > > --- a/drivers/dma-buf/dma-buf.c
-> > > +++ b/drivers/dma-buf/dma-buf.c
-> > > @@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
-> > >   * calls attach() of dma_buf_ops to allow device-specific attach
-> > > functionality
-> > >   * @dmabuf:		[in]	buffer to attach device to.
-> > >   * @dev:		[in]	device to be attached.
-> > > - * @importer_ops	[in]	importer operations for the
-> > > attachment
-> > > - * @importer_priv	[in]	importer private pointer for the
-> > > attachment
-> > > + * @importer_ops:	[in]	importer operations for the
-> > > attachment
-> > > + * @importer_priv:	[in]	importer private pointer for the
-> > > attachment
-> > >   *
-> > >   * Returns struct dma_buf_attachment pointer for this attachment.
-> > > Attachments
-> > >   * must be cleaned up by calling dma_buf_detach().
-> > > 
-> > 
-> > Sumit said that he would be applying my patch from April 7:
-> > https://lore.kernel.org/linux-media/7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org/
-> > 
-> > thanks.
+
+
+On 29.04.2020 10:57, Jani Nikula wrote:
+> On Tue, 28 Apr 2020, Michal Orzel <michalorzel.eng@gmail.com> wrote:
+>> As suggested by the TODO list for the kernel DRM subsystem, replace
+>> the deprecated functions that take/drop modeset locks with new helpers.
+>>
+>> Signed-off-by: Michal Orzel <michalorzel.eng@gmail.com>
+>> ---
+>>  drivers/gpu/drm/drm_mode_object.c | 10 ++++++----
+>>  1 file changed, 6 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+>> index 35c2719..901b078 100644
+>> --- a/drivers/gpu/drm/drm_mode_object.c
+>> +++ b/drivers/gpu/drm/drm_mode_object.c
+>> @@ -402,12 +402,13 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
+>>  {
+>>  	struct drm_mode_obj_get_properties *arg = data;
+>>  	struct drm_mode_object *obj;
+>> +	struct drm_modeset_acquire_ctx ctx;
+>>  	int ret = 0;
+>>  
+>>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>>  		return -EOPNOTSUPP;
+>>  
+>> -	drm_modeset_lock_all(dev);
+>> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
 > 
-> Sorry. I didn't check if the patch has already been sent.
+> I cry a little every time I look at the DRM_MODESET_LOCK_ALL_BEGIN and
+> DRM_MODESET_LOCK_ALL_END macros. :(
+> 
+> Currently only six users... but there are ~60 calls to
+> drm_modeset_lock_all{,_ctx} that I presume are to be replaced. I wonder
+> if this will come back and haunt us.
+> 
+> BR,
+> Jani.
 
-Sumit - patch from Randy is neither applied to drm-misc-next nor
-drm-misc-fixes.
-A reminder in case it was lost somewhere.
+Hm, so we can either replace all of these calls(I think it's a better option) or abandon the idea of removing this deprecated function.
+In the latter scenario, it'd be beneficial to remove this from TODO.
 
-	Sam
+Best regards
+Michal
+
+> 
+> 
+>>  
+>>  	obj = drm_mode_object_find(dev, file_priv, arg->obj_id, arg->obj_type);
+>>  	if (!obj) {
+>> @@ -427,7 +428,7 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
+>>  out_unref:
+>>  	drm_mode_object_put(obj);
+>>  out:
+>> -	drm_modeset_unlock_all(dev);
+>> +	DRM_MODESET_LOCK_ALL_END(ctx, ret);
+>>  	return ret;
+>>  }
+>>  
+>> @@ -449,12 +450,13 @@ static int set_property_legacy(struct drm_mode_object *obj,
+>>  {
+>>  	struct drm_device *dev = prop->dev;
+>>  	struct drm_mode_object *ref;
+>> +	struct drm_modeset_acquire_ctx ctx;
+>>  	int ret = -EINVAL;
+>>  
+>>  	if (!drm_property_change_valid_get(prop, prop_value, &ref))
+>>  		return -EINVAL;
+>>  
+>> -	drm_modeset_lock_all(dev);
+>> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+>>  	switch (obj->type) {
+>>  	case DRM_MODE_OBJECT_CONNECTOR:
+>>  		ret = drm_connector_set_obj_prop(obj, prop, prop_value);
+>> @@ -468,7 +470,7 @@ static int set_property_legacy(struct drm_mode_object *obj,
+>>  		break;
+>>  	}
+>>  	drm_property_change_valid_put(prop, ref);
+>> -	drm_modeset_unlock_all(dev);
+>> +	DRM_MODESET_LOCK_ALL_END(ctx, ret);
+>>  
+>>  	return ret;
+>>  }
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
