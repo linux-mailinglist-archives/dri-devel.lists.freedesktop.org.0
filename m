@@ -1,58 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AEAF1BEDF7
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 03:59:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 115F31BF167
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 09:32:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FBDA6EB27;
-	Thu, 30 Apr 2020 01:59:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 554F76EB4D;
+	Thu, 30 Apr 2020 07:31:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D9286EB27
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 01:59:36 +0000 (UTC)
-Received: by mail-qt1-x843.google.com with SMTP id 71so3725084qtc.12
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Apr 2020 18:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fVFXHIsh0/YRSKtqr5ljSmMbeR52DAiwA44HTGSUEYs=;
- b=LxmFwU7TGw7y9TAZafLVzvatQZ0gZjRW65fHnG9mih+vMFlq42rxUunxAOoL/uGZwV
- b5K/FJ8TlMReE9NuZwdRSN6JlWVx8OuU2m6gEcAXGPHBij943y09p3qom6ajQqpAGCDL
- DkgvAmBO0xKju/EuTeKYhKvfU/Vh10jMxTnMlNsbKhjkRYiFRaS9DB/KBcYIG1mCBMbw
- C5iSVrlzItgv9jyBA+YiqNlUYGLVHSg4H1/08Bcf6R2/x3tcYJFHZ+r/5kUSPSwN+Wts
- /0wnxrhLKsD/Orm3kO/tYZVEOjnATZK4APJk6ZCQ2tof62k6ScOI5t0iHP4HngekMbhA
- fsCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fVFXHIsh0/YRSKtqr5ljSmMbeR52DAiwA44HTGSUEYs=;
- b=BNnZGDVBSmuuUEM5g/yRRObvXWOUmIx/LzqC1g+miDqTJgbo5Dhpenp8dOiiaoGFck
- pCW8Eb94RWdTZMuDUd5iyYYwKXSCnBZoDWcjLJ0lpaLFGhinVCO4ger1H212YRMDx1eY
- d/FTCsc/gfR/BIhTpx22khdRv9N8oq/0ZqrRy0DATzek/L6uzAZrvhk1iG4MTmQd4t0C
- B01MLIuGfzV8mcMuMfff2T4+ppG1pxcuUdxOzERa9pTpOzPpcmv861zfyndo/G7fu1WQ
- P+AoKA/BQRgWjWtH/skzC9DasAMheFBVRurcz9acl8A0ea50WL/YSEy/ACmFYieRHIfl
- T8yQ==
-X-Gm-Message-State: AGi0PuYZFmOHQQeWuXxh32QDcDENqy2kynoInBZtNgOjEDEv9HrA1nwx
- nyt3j+28C/VkJZXmHwlDlkv+gUKdBTg=
-X-Google-Smtp-Source: APiQypJoSfYUsyxQnQO9ATp9PPbiyFH/GL856p8ztpAhtz6K1Fy0hNXDM3D+1FjMDNceAVO1N+vsvA==
-X-Received: by 2002:ac8:51cb:: with SMTP id d11mr1332622qtn.370.1588211975468; 
- Wed, 29 Apr 2020 18:59:35 -0700 (PDT)
-Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id l24sm836378qtp.8.2020.04.29.18.59.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Apr 2020 18:59:35 -0700 (PDT)
-From: Vitor Massaru Iha <vitor@massaru.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] dma-buf: Documentation: fix: `make htmldocs` warnings
-Date: Wed, 29 Apr 2020 22:59:30 -0300
-Message-Id: <20200430015930.32224-1-vitor@massaru.org>
-X-Mailer: git-send-email 2.25.1
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4738B6EB2E
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 02:07:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=djVWTxQYfvvGPGVFEwE2B90kkenXlbJGcD+PszmK/2M=; b=JJMEwpVhbqEyGZO1pKvJpLnxth
+ l1dJJuerlo8k6yWXdJPNp+1kH1Oyo5kRouZLy3l789vCJ+vxL/gSEbyC4c3psSR8P804xeCogBX2M
+ VAFy1RSfIdypQziZGq1UySM3FMVxZQNei7JFpfQLE1Igoi0iJ2NA5A2aYquBMVVgSziPXEBh0Nxzh
+ ZQ1ZBIuytrhT8BzPQizoAO3nA+btm4GZ/nVBVBe4QpJL9PeIjnWfQTE2IJpOHKJIE1EEK4EtblaSf
+ Iyo2WHE0ul+UFfvw7T7QfY++MM7AdS2K1LNEiNmv6greKpZ2EmZjAmuvmMfT7lQbcW/C/mvBL8fe3
+ rZrXahig==;
+Received: from [2601:1c0:6280:3f0::19c2]
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jTybJ-0007Az-Jf; Thu, 30 Apr 2020 02:06:57 +0000
+Subject: Re: [PATCH] dma-buf: Documentation: fix: `make htmldocs` warnings
+To: Vitor Massaru Iha <vitor@massaru.org>, dri-devel@lists.freedesktop.org
+References: <20200430015930.32224-1-vitor@massaru.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <cb4d93a0-b967-f37d-ea01-0368c91b896e@infradead.org>
+Date: Wed, 29 Apr 2020 19:06:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200430015930.32224-1-vitor@massaru.org>
+Content-Language: en-US
+X-Mailman-Approved-At: Thu, 30 Apr 2020 07:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,34 +58,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add missed ":" on kernel-doc function parameter.
+On 4/29/20 6:59 PM, Vitor Massaru Iha wrote:
+> Add missed ":" on kernel-doc function parameter.
+> 
+> This patch fixes this warnings from `make htmldocs`:
+> ./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_ops' not described in 'dma_buf_dynamic_attach'
+> ./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_priv' not described in 'dma_buf_dynamic_attach'
+> 
+> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> ---
+>  drivers/dma-buf/dma-buf.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index ccc9eda1bc28..0756d2155745 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
+>   * calls attach() of dma_buf_ops to allow device-specific attach functionality
+>   * @dmabuf:		[in]	buffer to attach device to.
+>   * @dev:		[in]	device to be attached.
+> - * @importer_ops	[in]	importer operations for the attachment
+> - * @importer_priv	[in]	importer private pointer for the attachment
+> + * @importer_ops:	[in]	importer operations for the attachment
+> + * @importer_priv:	[in]	importer private pointer for the attachment
+>   *
+>   * Returns struct dma_buf_attachment pointer for this attachment. Attachments
+>   * must be cleaned up by calling dma_buf_detach().
+> 
 
-This patch fixes this warnings from `make htmldocs`:
-./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_ops' not described in 'dma_buf_dynamic_attach'
-./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_priv' not described in 'dma_buf_dynamic_attach'
+Sumit said that he would be applying my patch from April 7:
+https://lore.kernel.org/linux-media/7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org/
 
-Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
----
- drivers/dma-buf/dma-buf.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index ccc9eda1bc28..0756d2155745 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
-  * calls attach() of dma_buf_ops to allow device-specific attach functionality
-  * @dmabuf:		[in]	buffer to attach device to.
-  * @dev:		[in]	device to be attached.
-- * @importer_ops	[in]	importer operations for the attachment
-- * @importer_priv	[in]	importer private pointer for the attachment
-+ * @importer_ops:	[in]	importer operations for the attachment
-+ * @importer_priv:	[in]	importer private pointer for the attachment
-  *
-  * Returns struct dma_buf_attachment pointer for this attachment. Attachments
-  * must be cleaned up by calling dma_buf_detach().
+thanks.
 -- 
-2.25.1
+~Randy
 
 _______________________________________________
 dri-devel mailing list
