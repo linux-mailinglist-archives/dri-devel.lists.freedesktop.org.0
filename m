@@ -1,71 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B5A1C0497
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 20:21:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EEAD1C04D5
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 20:31:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B2A6E0DD;
-	Thu, 30 Apr 2020 18:21:37 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
- [IPv6:2607:f8b0:4864:20::a41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 497326E09F
- for <dri-devel@freedesktop.org>; Thu, 30 Apr 2020 18:21:36 +0000 (UTC)
-Received: by mail-vk1-xa41.google.com with SMTP id j127so118576vke.4
- for <dri-devel@freedesktop.org>; Thu, 30 Apr 2020 11:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=SR5cmb+TdKfA9P9unlHlcoWqQ+iFT2b4XsANwGqxz5Y=;
- b=Kt9s26Qov6Qn68/Pe3SRmeowZf7qJWgEO/1aiZYlcrWn/63/H0Mxf0JJVVMFh+pL7n
- K4YQd/0YimnlqtXjKhoN+B+6gQ/2W073uz2X5RxT5/69tfGQIiW/gnVrr3EHLGpP1Q86
- 2T/hEImFFlMGoRGn2f5o5tH6Ov3xB60rvdHTo=
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDE336E249;
+	Thu, 30 Apr 2020 18:31:08 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C425B6E249
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 18:31:07 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id z25so336794otq.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 11:31:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iMCD+Jo7E8IZbBxHKMYz3Qb/9HJIoY2bae742xpPUjY=;
+ b=aua11ZHUyJrWxfH/6aP8CrbZcJDCWjioXF2XxEBLB2ngHWepZw1xBuSZfnzrNfwzta
+ xUjumh+rBT00oWNzWYG66IRDKD4J8zWQqYylpHeFPUpc9QvQbSsyHakHoEu+dyjLRUc4
+ SFxbpETHruDT3zVej0CEUaXZc0FXxgtLEXrYU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=SR5cmb+TdKfA9P9unlHlcoWqQ+iFT2b4XsANwGqxz5Y=;
- b=gcwy8dys+tOZQyUXt9+sgATQHwnlit/r2qFEv0DnBv0HgBuN1sob7CvSfkKEdsYv5g
- tbt7hoTAvi2BjoiKsQKDE6zRniIbBpW//KY2cF3y5AngPGUdLY783LIiLOU2KEVL7aqa
- i7W3pC+A+ayWKCkqdM3UcuPS/tGhp9RxdgiG4VHxOZrNfYY9rh3GhGxeBAXmqfxTaHYG
- dIk5AhKoJf7MSU7hUuTvC4zYEZiQk9us9B5woU63InWkmYDUrbz8jySPyFdUtsnr7Z+I
- K4shxJnAH5sSVf0CtPAMneYZD2IG7RfKsvfn134mUB2AXPWUcHSU89foBknirUZAIhUe
- lBmw==
-X-Gm-Message-State: AGi0PuaNAFk+lNkJY024aPWdmE8jZIkXxjOlCmx9P93/MrUW0DxuQYJ9
- U7TL1xUjmTV+DiCix613NI4wfNbgH+k=
-X-Google-Smtp-Source: APiQypLufp1WaJr4wZ36kw/+Fya0bvVQIIB1CUxWP0t0CKS8WQd/DbNlklag1IMgoLQYXL9uNzEUlA==
-X-Received: by 2002:a1f:cd06:: with SMTP id d6mr4005106vkg.94.1588270894969;
- Thu, 30 Apr 2020 11:21:34 -0700 (PDT)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com.
- [209.85.217.41])
- by smtp.gmail.com with ESMTPSA id v3sm148686vka.45.2020.04.30.11.21.33
- for <dri-devel@freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Apr 2020 11:21:33 -0700 (PDT)
-Received: by mail-vs1-f41.google.com with SMTP id s11so4698571vsq.13
- for <dri-devel@freedesktop.org>; Thu, 30 Apr 2020 11:21:33 -0700 (PDT)
-X-Received: by 2002:a67:bd07:: with SMTP id y7mr112084vsq.109.1588270892989;
- Thu, 30 Apr 2020 11:21:32 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=iMCD+Jo7E8IZbBxHKMYz3Qb/9HJIoY2bae742xpPUjY=;
+ b=Hj/W4lK08wSkqBXSA5xaB6An/6ksNinIfNfShZm2Ac7OpNwXzRS91Y+eAAT1RARdRv
+ S9bMJKYC3quankEz4br43SzvoChhIQBTmyXKp+t5Or+RRuivYADccFo9MB47ofZknZF+
+ jjleDqIvzOeNg9T5o1fgiqYe4BJKengPk9x7tJ2RUUZnyvNOm+ct8R8jRCyG/8Il60TZ
+ tf77p0AJ0TWc6Orsw9+/qJpISZJdYGz6T3lx99lmpfwiXkau7mHKFp60kKW9XGs8ptaY
+ 9hB3aX55auX9XaIsf8ckdvMHSwn92eCvHTmDgT7wMPEBAzLPVisUpUtYOgPMO6opzfLW
+ NInQ==
+X-Gm-Message-State: AGi0PuZDKj39TgumSyx+VdoBZAGy8ej14TXK2FG86k/Zv0Iw3Zj5FNAk
+ 2jYpPGblXfZO1TPbXn4hWbBmdgpTDXFgLuhwzJJWFQ==
+X-Google-Smtp-Source: APiQypKyYOqC4tEmwwTS7QE+OtDLiAeWnwyyRNPl/roowM0owcKKaIbR2jDNbxulnsFh0+v9ggay3MC+vnWMcWGOKEk=
+X-Received: by 2002:a9d:d06:: with SMTP id 6mr405884oti.188.1588271466950;
+ Thu, 30 Apr 2020 11:31:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <1588219187-19295-1-git-send-email-smasetty@codeaurora.org>
- <20200430181233.GA21991@jcrouse1-lnx.qualcomm.com>
-In-Reply-To: <20200430181233.GA21991@jcrouse1-lnx.qualcomm.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 30 Apr 2020 11:21:21 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Usp5RxgXtjtgBe6jR3o=-+EXkYZuVzx_AF3=BsVu+OeA@mail.gmail.com>
-Message-ID: <CAD=FV=Usp5RxgXtjtgBe6jR3o=-+EXkYZuVzx_AF3=BsVu+OeA@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: arm-smmu: Add sc7180 compatible string
- and mem_iface clock
-To: Sharat Masetty <smasetty@codeaurora.org>,
- freedreno <freedreno@lists.freedesktop.org>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, dri-devel@freedesktop.org, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, 
- Matthias Kaehlcke <mka@chromium.org>, Doug Anderson <dianders@chromium.org>,
- Rob Herring <robh@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+References: <1588093804-30446-1-git-send-email-michalorzel.eng@gmail.com>
+ <875zdiacv2.fsf@intel.com>
+ <CAOw6vbK69aWzti9a7MXNmAfVfJXzzC5g74p4ukSE49MhaV_b3g@mail.gmail.com>
+In-Reply-To: <CAOw6vbK69aWzti9a7MXNmAfVfJXzzC5g74p4ukSE49MhaV_b3g@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 30 Apr 2020 20:30:53 +0200
+Message-ID: <CAKMK7uEzTn2nKyEaxMcd6602tprwkdnBrmrFYO+_Hi7FY39jAw@mail.gmail.com>
+Subject: Re: [PATCH] drm: Replace drm_modeset_lock/unlock_all with
+ DRM_MODESET_LOCK_ALL_* helpers
+To: Sean Paul <seanpaul@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,80 +60,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>,
+ Michal Orzel <michalorzel.eng@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Apr 30, 2020 at 5:38 PM Sean Paul <seanpaul@chromium.org> wrote:
+>
+> On Wed, Apr 29, 2020 at 4:57 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> >
+> > On Tue, 28 Apr 2020, Michal Orzel <michalorzel.eng@gmail.com> wrote:
+> > > As suggested by the TODO list for the kernel DRM subsystem, replace
+> > > the deprecated functions that take/drop modeset locks with new helpers.
+> > >
+> > > Signed-off-by: Michal Orzel <michalorzel.eng@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_mode_object.c | 10 ++++++----
+> > >  1 file changed, 6 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+> > > index 35c2719..901b078 100644
+> > > --- a/drivers/gpu/drm/drm_mode_object.c
+> > > +++ b/drivers/gpu/drm/drm_mode_object.c
+> > > @@ -402,12 +402,13 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
+> > >  {
+> > >       struct drm_mode_obj_get_properties *arg = data;
+> > >       struct drm_mode_object *obj;
+> > > +     struct drm_modeset_acquire_ctx ctx;
+> > >       int ret = 0;
+> > >
+> > >       if (!drm_core_check_feature(dev, DRIVER_MODESET))
+> > >               return -EOPNOTSUPP;
+> > >
+> > > -     drm_modeset_lock_all(dev);
+> > > +     DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+> >
+> > I cry a little every time I look at the DRM_MODESET_LOCK_ALL_BEGIN and
+> > DRM_MODESET_LOCK_ALL_END macros. :(
+> >
+> > Currently only six users... but there are ~60 calls to
+> > drm_modeset_lock_all{,_ctx} that I presume are to be replaced. I wonder
+> > if this will come back and haunt us.
+> >
+>
+> What's the alternative? Seems like the options without the macros is
+> to use incorrect scope or have a bunch of retry/backoff cargo-cult
+> everywhere (and hope the copy source is done correctly).
 
-On Thu, Apr 30, 2020 at 11:12 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
->
-> On Thu, Apr 30, 2020 at 09:29:47AM +0530, Sharat Masetty wrote:
-> > This patch adds a new compatible string for sc7180 and also an
-> > additional clock listing needed to power the TBUs and the TCU.
-> >
-> > Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-> > ---
-> > v2: Addressed review comments from Doug
-> >
-> >  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-> > index 6515dbe..ba5dba4 100644
-> > --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-> > +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-> > @@ -28,6 +28,7 @@ properties:
-> >            - enum:
-> >                - qcom,msm8996-smmu-v2
-> >                - qcom,msm8998-smmu-v2
-> > +              - qcom,sc7180-smmu-v2
-> >                - qcom,sdm845-smmu-v2
-> >            - const: qcom,smmu-v2
-> >
-> > @@ -113,16 +114,23 @@ properties:
-> >        present in such cases.
-> >
-> >    clock-names:
-> > +    minItems: 2
-> > +    maxItems: 3
-> >      items:
-> >        - const: bus
-> >        - const: iface
-> > +      - const: mem_iface
->
-> Hi Sharat -
->
-> I think there was a bit of confusion due to renaming between downstream and
-> upstream.  Currently for the sdm845 and friends we have:
->
->   clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
->      <&gcc GCC_GPU_CFG_AHB_CLK>;
->   clock-names = "bus", "iface";
->
-> Confusingly these same clocks downstream are "mem_iface_clk" and "iface_clk"
-> respectively.
->
-> It looks like you are trying to add GCC_DDRSS_GPU_AXI_CLK as "mem_iface" which
-> was formerly "mem_clk" downstream. I'm not sure if the naming change is
-> intentional or you were trying to make upstream and downstream match and didn't
-> realize that they were renamed.
->
-> I'm not sure if we need DDRSS_GPU_AXI_CLK or not. Empirically it works without
-> it for sdm845 (I don't have a sc7180 to test) but we should probably loop back
-> with either the clock team or the hardware designers to be sure there isn't a
-> corner case that is missing. I agree with Doug that its always best if we don't
-> need to add a clock.
+Yeah Sean & me had a bunch of bikesheds and this is the least worst
+option we could come up with. You can't make it a function because of
+the control flow. You don't want to open code this because it's tricky
+to get right, if all you want is to just grab all locks. But it is
+magic hidden behind a macro, which occasionally ends up hurting.
+-Daniel
 
-I can confirm that on sc7180 the GPU seems to come up just fine
-without the clock being specified in the iommu node.  Definitely would
-be good to know what's broken and if nothing is broken maybe we can
-change this patch to just add the sc7180 compatible string and drop
-the clock.  I do note that the GMU already has a reference to the same
-"GCC_DDRSS_GPU_AXI_CLK" clock.
+> Sean
+>
+> > BR,
+> > Jani.
+> >
+> >
+> > >
+> > >       obj = drm_mode_object_find(dev, file_priv, arg->obj_id, arg->obj_type);
+> > >       if (!obj) {
+> > > @@ -427,7 +428,7 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
+> > >  out_unref:
+> > >       drm_mode_object_put(obj);
+> > >  out:
+> > > -     drm_modeset_unlock_all(dev);
+> > > +     DRM_MODESET_LOCK_ALL_END(ctx, ret);
+> > >       return ret;
+> > >  }
+> > >
+> > > @@ -449,12 +450,13 @@ static int set_property_legacy(struct drm_mode_object *obj,
+> > >  {
+> > >       struct drm_device *dev = prop->dev;
+> > >       struct drm_mode_object *ref;
+> > > +     struct drm_modeset_acquire_ctx ctx;
+> > >       int ret = -EINVAL;
+> > >
+> > >       if (!drm_property_change_valid_get(prop, prop_value, &ref))
+> > >               return -EINVAL;
+> > >
+> > > -     drm_modeset_lock_all(dev);
+> > > +     DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+> > >       switch (obj->type) {
+> > >       case DRM_MODE_OBJECT_CONNECTOR:
+> > >               ret = drm_connector_set_obj_prop(obj, prop, prop_value);
+> > > @@ -468,7 +470,7 @@ static int set_property_legacy(struct drm_mode_object *obj,
+> > >               break;
+> > >       }
+> > >       drm_property_change_valid_put(prop, ref);
+> > > -     drm_modeset_unlock_all(dev);
+> > > +     DRM_MODESET_LOCK_ALL_END(ctx, ret);
+> > >
+> > >       return ret;
+> > >  }
+> >
+> > --
+> > Jani Nikula, Intel Open Source Graphics Center
 
--Doug
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
