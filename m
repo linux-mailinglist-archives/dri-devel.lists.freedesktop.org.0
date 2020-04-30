@@ -1,105 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60431C0EA3
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:23:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5831C0E9F
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:23:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C104C6EA6C;
-	Fri,  1 May 2020 07:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 678096EA76;
+	Fri,  1 May 2020 07:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 994A26EA6A
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 11:56:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1588247784;
- bh=VGV4Fw2sNEq8D8bF6x0dfHewG3Zs/VQNCW6HfTq7oas=;
- h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
- b=mhEJE/AaHsHvaVu9RVBT9dwFLjcJo5t6iZUYYxWJbGXHUH1zpxE91K8oHzdVMO7Jh
- YQjbXIUASjX6mioywyIoxm6LNfoDqJlbBidHJqKeeluAMwnHGNeji7J3z2t9HVLeRx
- 0fZM2W+fcniXTuJ8ErOJL/+v2tGFT6RUvAUU5xQw=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.131.175.216]) by smtp.web.de (mrweb004
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MfTx5-1jnh7j2qRH-00P6vk; Thu, 30
- Apr 2020 13:56:24 +0200
-To: Wei Yongjun <weiyongjun1@huawei.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/mcde: dsi: Fix return value check in
- mcde_dsi_bind()
-From: Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <fa72cc36-0204-fb82-6c62-ae43cb13260f@web.de>
-Date: Thu, 30 Apr 2020 13:56:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72CC36EBA3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 11:58:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=axis.com; l=1248; q=dns/txt; s=axis-central1;
+ t=1588247890; x=1619783890;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=xeu2yLcmB+sh3I1LTx2R30u4baBDODT4QX6tCHIsbmo=;
+ b=DTsL2pMXqjLcXybbVzphHpdpB807h1b1NEjbUi5XHXis3xUOALtVRde7
+ pjbUpjwXnAQmo1Jv4+x/ArWIdXuso1Ta9MKOlJfhH1SjdWzWBJR48Fs0j
+ xiKeXXn7skbInFHs1en+YqTa8ItUgGrIfc1jMxkd9sH0cVjOJg9r9auIu
+ uiVhBTcv0ns1ADScKqgF4OEd4h2CzSyew8RTeURf88eIBMYVMH5jHxX9b
+ koSfTfZDsfE+LOSsr/ohOhn0H4aneySibe4TXSb4qJExpcsplzq9QP0xN
+ ccqQmr9eI0AcmfLmUZXo2S36HU/UsWmE+Tk/nY+v8PeOR7H6emwQyedFH g==;
+IronPort-SDR: vBi6ivs5x8cPn8McbXbAGhDEwXyP6PZDhPwmsmgixZrR8UxlRgRK51iSlofJY1N/JAvhZTmKlq
+ t7OYkjXt2cwJRztL44cFYL2B0ywd0CIPfzpFzYXhBt7NWdcj0+aIG24gUhLy9pBkUzccYRICUt
+ gbt0MrIonKsggbWE5nuSyJHDjuWqaBpubxjH+CSk+d0oiERaI73gTvXoHB2KsnZdGr8VvQz3Gn
+ 9HbVNCDfjX16xc3jvrVEYXg8l7jdcWA+/hRKfo1i2dYuxVxoe+EaqLoIZ+Zmp4iLTM2L0Fa6wL
+ Mbo=
+X-IronPort-AV: E=Sophos;i="5.73,334,1583190000"; 
+   d="scan'208";a="8259281"
+Date: Thu, 30 Apr 2020 13:58:08 +0200
+From: Vincent Whitchurch <vincent.whitchurch@axis.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm/bridge: adv7511: Fix cec clock EPROBE_DEFER handling
+Message-ID: <20200430115808.km6cijnxfc3xtert@axis.com>
+References: <20200331141629.14047-1-vincent.whitchurch@axis.com>
+ <20200406005817.GA11665@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Language: en-GB
-X-Provags-ID: V03:K1:DEI4Ybf3QGbHW/g9A85zayyrGSS3EiwDmRWhy/cGQi/v71ixJv0
- h/uIVuRARce4Y/Cu3ZMNS0x2Zcsa8ztjIESVy6ZTLJ+DE9t2OUSCXS2m50NYcu/HMcrLPtN
- f4X3rD6heutw1MmSp3Pp1jadIO3YSMWtQOvPf2bD53dhbDGgLWKXw1mhg3kPOsErXuzXe+q
- WNyQFPhUuLKlizJXkm9IQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xN50rvvqBe4=:HxdsD/5Nqi7bKsX4PBTDZA
- +5PbDC4/+513BCUXDMJW5nZcBdC87JU40ASscwAOnNtEpxcaG7Khqg0eItCeeb1pNvO7o+HS7
- Ugl5V/7EeJgN/0oCc6Ukfe8YubusxPeh9Jmv4vdUPBttPdoBb9FcIl2h0nu6u4JTsLNa6U/qn
- RZfQBpcBCbNXsAwkDKnct2j91pL+h+hdvmi85kCYuFmciaoiGXmyz3xuzLFBvSrIEZRlVpSu1
- 5s0PmWyuffEFVnKu1HjJpCs7/Uga0oiu7mHBf0GDE44YcBD/ZMFNg/Fqer9u3gyW2+xqIbbrY
- u1LpX8pFxTN8xhaRSDepmg/FLvaqBW3H9zgDSTsmtic52+CmaadQ0YP8IEicmTgiST9zwg1q1
- wex9dQPvZK5yHElXC/gPANNdqrwiNGE8lt0HchdwP0UfXY9lI+POhFGfMBHyMZrAc4RnVuRSV
- xPEruE3RLyQ2ElL08VFkwr7H+uGLYcMSv8zgJXAZM/NcP/HEhXND6boeRAUQESHMAK5ItO7Ab
- IGXrLyXi5ZwzrZMZuCblHx/xOia90uILxQIDCViMYEIUEsi3bm7qSTAwRN1wTEJozOd5qtQ5y
- rol+CXKdd958IQrjscRjelnLK+7+wBF6grDgQh0JLMKHBcMJRpa6+lO8wImbppES4uWuW95t2
- xDiXbOalOtIC8n5+10Lna3VXQaF2nf3deFcQWgoU+YC8A4MssRWqHtXfBikcxtU4EevvTQTUj
- OH9F9PmxzOMaUeysbLMNO/Px+ctUBWIVq6l82SOqN7VpE66/S7CVPNbhR4xkffOYBDdpH3MvS
- ttWfmfrGwwa3nHN+rOo5rPMqzGph+pdam9sfSIu4UIC50w3oD7Gdw10Yc+XO4RsWRj7p9gLc4
- aQoGNvoQdlst9GzPeJIRR+JhBih7mX18I9Ak2qPG13Wf3L48lWYaG02KN23SzV4gfLUTT/HA1
- A0UpbqsSxbJ1jEOjkCex2mxRay8iUtgjZciP93qDvM3eDGBs17qwozSSzRKr3pPBN9Ab48CGL
- LYQztoxVh+K19KAR5wXbNcuq5SlIcWYxrRMWMWppHkCUTienCqaEZCCCX7t7hPeazrXpMRVM5
- +s08nL5ZVMO2j8MP1qFSwkyjsMrKzeYIrXS0BHrBvfDytiFMDkU1CbWSZtYgG6jYaYc+FIpyX
- 0MiIFV+ZAr8nIMseTYzbuvQj5cm3fk5e2LI8HV73SrV2qEVVaoqBfdI9p2ZjI0CUeEpabyCdb
- Mo5oroFHyXKygpndD
+Content-Disposition: inline
+In-Reply-To: <20200406005817.GA11665@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-Mailman-Approved-At: Fri, 01 May 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -113,22 +55,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+ "a.hajda@samsung.com" <a.hajda@samsung.com>, kernel <kernel@axis.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiBUaGUgb2ZfZHJtX2ZpbmRfYnJpZGdlKCkgZnVuY3Rpb24gcmV0dXJucyBOVUxMIG9uIGVycm9y
-LCBpdCBkb2Vzbid0IHJldHVybgo+IGVycm9yIHBvaW50ZXJzIHNvIHRoaXMgY2hlY2sgZG9lc24n
-dCB3b3JrLgoKSG93IGRvIHlvdSB0aGluayBhYm91dCBhIHdvcmRpbmcgdmFyaWFudCBsaWtlIHRo
-ZSBmb2xsb3dpbmc/CgogICBDaGFuZ2UgZGVzY3JpcHRpb246CiAgIEFuIGVycm9yIHBvaW50ZXIg
-Y2hlY2sgd2FzIHBlcmZvcm1lZCBhZnRlciBhIGNhbGwgb2YgdGhlCiAgIGZ1bmN0aW9uIOKAnG9m
-X2RybV9maW5kX2JyaWRnZeKAnSBkZXNwaXRlIG9mIHRoZSBkZXRhaWwKICAgdGhhdCBmYWlsdXJl
-cyBhcmUgaW5kaWNhdGVkIGZvciB0aGUgYnJpZGdlIHNlYXJjaAogICBieSBudWxsIHBvaW50ZXJz
-IGluc3RlYWQuCiAgIFRodXMgYWRqdXN0IGEgY2hlY2sgZm9yIHRoZSBmYWlsdXJlIHByZWRpY2F0
-ZQogICBhbmQgdGhlIGNvcnJlc3BvbmRpbmcgZXhjZXB0aW9uIGhhbmRsaW5nLgoKClJlZ2FyZHMs
-Ck1hcmt1cwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Apr 06, 2020 at 02:58:17AM +0200, Laurent Pinchart wrote:
+> On Tue, Mar 31, 2020 at 04:16:29PM +0200, Vincent Whitchurch wrote:
+> >  int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+> >  {
+> >  	unsigned int offset = adv7511->type == ADV7533 ?
+> >  						ADV7533_REG_CEC_OFFSET : 0;
+> > -	int ret = adv7511_cec_parse_dt(dev, adv7511);
+> > +	int ret;
+> >  
+> > -	if (ret)
+> > -		goto err_cec_parse_dt;
+> > +	if (!adv7511->cec_clk)
+> > +		goto err_cec_no_clock;
+> > +
+> > +	clk_prepare_enable(adv7511->cec_clk);
+> > +	adv7511->cec_clk_freq = clk_get_rate(adv7511->cec_clk);
+> >  
+> >  	adv7511->cec_adap = cec_allocate_adapter(&adv7511_cec_adap_ops,
+> >  		adv7511, dev_name(dev), CEC_CAP_DEFAULTS, ADV7511_MAX_ADDRS);
+> > @@ -342,8 +331,11 @@ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+> >  err_cec_alloc:
+> >  	dev_info(dev, "Initializing CEC failed with error %d, disabling CEC\n",
+> >  		 ret);
+> > -err_cec_parse_dt:
+> > +	clk_disable_unprepare(adv7511->cec_clk);
+> > +	/* Ensure that adv7511_remove() doesn't attempt to disable it again. */
+> 
+> Would it make sense to call devm_clk_put() here to already release the
+> clock ?
+
+I've just sent out a v2 with this added.  Thank you for the review!
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
