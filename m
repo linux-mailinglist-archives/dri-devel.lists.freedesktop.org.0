@@ -1,57 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09441C01DE
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 18:14:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C7B1C0ECD
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:24:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B19706E93D;
-	Thu, 30 Apr 2020 16:14:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AFE56EC15;
+	Fri,  1 May 2020 07:23:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
- [IPv6:2607:f8b0:4864:20::d44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B20F6E935;
- Thu, 30 Apr 2020 16:14:17 +0000 (UTC)
-Received: by mail-io1-xd44.google.com with SMTP id w4so2066052ioc.6;
- Thu, 30 Apr 2020 09:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9tMKgUNiVkUhpbJNhAr0hm95irgxD28lhjeV8PkyOXw=;
- b=lJBIxD+U8h9JNWqczpIHYOA2edcOylANhJNLxX7tesOutIKTPAgFimaA71Q4BN3lFt
- CGdE71ndDyan0ElbnjdpXRfFAeM3FaoZUuZy4QwOiG6H2+Ms9wxfrmq86ne2Ncxduo2s
- o3oH8+ZOcyM+mE6+HP4hWSsipRphFTDlHJjDks7AcSYXE7geDz7xu6toAZaAdZAWGs7u
- doCtqwvkh1wxfWlI/hclqWa5WNI/PUHzg9W1oPax2zCgrBJN8THiWO9T/BRkfG7p5sQ6
- 6byMtoOITdG3H87AkEiMJfkj6f+yvBrPZTtUnw30mdJTdGYwy75RtSWnREdZmACd4nAs
- pzPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9tMKgUNiVkUhpbJNhAr0hm95irgxD28lhjeV8PkyOXw=;
- b=bx0xbBUDlt3qErDrxnysfNwdZE+Nq7/r8Qtmskgm00JmBzeKCKkL/op5aE6mlGPB8D
- /vTZOZ3B2nvQHF8se+i/sIzqMa+qq+KDyWAyGDSsqUFm+oEtCxTNP+Tpj1abohta1lWp
- bSm4sTIzXewQ4M8wXNwBexifQdTDG2vDLCRGqepVsg/qIL3TbjsE2apAvdO8lfH5i+uD
- 1qUXI9ozj4NHw2g9CKEK0RxCvCNIsd9o7WF2ApWdBzTv1gmsVoKKxME6IKSQMC5C1IVJ
- fJhHHbsWEWX5gxlwG7rnu86VMOJyRsnQyj9stkPBB4v6UYGHwVn5vRs65vB05v3i5ner
- DF/Q==
-X-Gm-Message-State: AGi0PuYRhkOcYwAHOjgH3x8v6ztVIZw5bqJ2OAIGgAjBXRvLCUGQtuU1
- KchBQr67TooBDAPGbq4GiRJIoNNrtbzpLbUiHGo=
-X-Google-Smtp-Source: APiQypJNNe1JlSiWqNAvYCGbEyLo6QHM5ubwp0R2i0yMPOBM1qvYMgIWqO2AKVPK+ePUbVGYtX9sAhF9NavoFEScekM=
-X-Received: by 2002:a6b:5904:: with SMTP id n4mr2693593iob.142.1588263256671; 
- Thu, 30 Apr 2020 09:14:16 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B48126E406
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 16:19:45 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 68804ACC4;
+ Thu, 30 Apr 2020 16:19:43 +0000 (UTC)
+Message-ID: <0f7f2350cebdbd6904274e6a4e8da6e0a6c72102.camel@suse.de>
+Subject: Re: [PATCH v2 05/91] clk: bcm: rpi: Allow the driver to be probed
+ by DT
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>
+Date: Thu, 30 Apr 2020 18:19:41 +0200
+In-Reply-To: <0f5319caa4d1b9ba8a83a094abcb681d4be6eb1c.1587742492.git-series.maxime@cerno.tech>
+References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
+ <0f5319caa4d1b9ba8a83a094abcb681d4be6eb1c.1587742492.git-series.maxime@cerno.tech>
+User-Agent: Evolution 3.36.2 
 MIME-Version: 1.0
-References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
- <20200430124602.14463-2-frieder.schrempf@kontron.de>
- <5e1f804c4c27927d10b2283747c1cae6606abe7c.camel@pengutronix.de>
- <6a5fbb8a-bf28-9c8e-53c7-7a3e5f338a2c@kontron.de>
-In-Reply-To: <6a5fbb8a-bf28-9c8e-53c7-7a3e5f338a2c@kontron.de>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 30 Apr 2020 11:14:02 -0500
-Message-ID: <CAHCN7x+sA9cGF6oqvZLKBdhRdZcxgW=U98uB81_R3iq_-Ok9=w@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/4] drm/etnaviv: Prevent IRQ triggering at probe time
- on i.MX8MM
-To: Schrempf Frieder <frieder.schrempf@kontron.de>
+X-Mailman-Approved-At: Fri, 01 May 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,139 +40,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Peng Fan <peng.fan@nxp.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Anson Huang <Anson.Huang@nxp.com>, Daniel Baluta <daniel.baluta@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Li Jun <jun.li@nxp.com>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, Shawn Guo <shawnguo@kernel.org>,
- Leonard Crestez <leonard.crestez@nxp.com>, "S.j. Wang" <shengjiu.wang@nxp.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0360708308=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 30, 2020 at 10:31 AM Schrempf Frieder
-<frieder.schrempf@kontron.de> wrote:
->
-> Hi Lucas,
->
-> On 30.04.20 16:32, Lucas Stach wrote:
-> > Hi Frieder,
-> >
-> > Am Donnerstag, den 30.04.2020, 12:46 +0000 schrieb Schrempf Frieder:
-> >> From: Frieder Schrempf <frieder.schrempf@kontron.de>
-> >>
-> >> On i.MX8MM there is an interrupt getting triggered immediately after
-> >> requesting the IRQ, which leads to a stall as the handler accesses
-> >> the GPU registers whithout the clock being enabled.
-> >>
-> >> Enabling the clocks briefly seems to clear the IRQ state, so we do
-> >> this before requesting the IRQ.
-> >
-> > This is most likely caused by improper power-up sequencing. Normally
-> > the GPC will trigger a hardware reset of the modules inside a power
-> > domain when the domain is powered on. This requires the clocks to be
-> > running at this point, as those resets are synchronous, so need clock
-> > pulses to propagate through the hardware.
->
-> Ok, I was suspecting something like that and your explanation makes
-> total sense to me.
->
-> >
-> >  From what I see the i.MX8MM is still missing the power domain
-> > controller integration, but I'm pretty confident that this problem
-> > should be solved in the power domain code, instead of the GPU driver.
->
-> Ok. I was hoping that GPU support could be added without power domain
-> control, but I now see that this is probably not reasonable at all.
-> So I will keep on hoping that NXP comes up with an upstreamable solution
-> for the power domain handling.
+
+--===============0360708308==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-q7dZwA3wemW7oWhPS4wd"
 
 
-There was a patch for upstream power-domain control from NXP a few days ago:
+--=-q7dZwA3wemW7oWhPS4wd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://patchwork.kernel.org/cover/10904511/
+On Fri, 2020-04-24 at 17:33 +0200, Maxime Ripard wrote:
+> The current firmware clock driver for the RaspberryPi can only be probed =
+by
+> manually registering an associated platform_device.
+>=20
+> While this works fine for cpufreq where the device gets attached a clkdev
+> lookup, it would be tedious to maintain a table of all the devices using
+> one of the clocks exposed by the firmware.
+>=20
+> Since the DT on the other hand is the perfect place to store those
+> associations, make the firmware clocks driver probe-able through the devi=
+ce
+> tree so that we can represent it as a node.
+>=20
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: linux-clk@vger.kernel.org
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/clk/bcm/clk-raspberrypi.c | 20 +++++++++++++++++---
+>  1 file changed, 17 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-
+> raspberrypi.c
+> index 1654fd0eedc9..aedeaaf2f66b 100644
+> --- a/drivers/clk/bcm/clk-raspberrypi.c
+> +++ b/drivers/clk/bcm/clk-raspberrypi.c
+> @@ -255,15 +255,22 @@ static int raspberrypi_clk_probe(struct platform_de=
+vice
+> *pdev)
+>  	struct raspberrypi_clk *rpi;
+>  	int ret;
+> =20
+> -	firmware_node =3D of_find_compatible_node(NULL, NULL,
+> -					"raspberrypi,bcm2835-firmware");
+> +	/*
+> +	 * We can be probed either through the an old-fashioned
+> +	 * platform device registration or through a DT node that is a
+> +	 * child of the firmware node. Handle both cases.
+> +	 */
+> +	if (dev->of_node)
+> +		firmware_node =3D of_get_parent(dev->of_node);
+> +	else
+> +		firmware_node =3D of_find_compatible_node(NULL, NULL,
+> +							"raspberrypi,bcm2835-
+> firmware");
+>  	if (!firmware_node) {
+>  		dev_err(dev, "Missing firmware node\n");
+>  		return -ENOENT;
+>  	}
+> =20
+>  	firmware =3D rpi_firmware_get(firmware_node);
+> -	of_node_put(firmware_node);
 
-Can these be somehow tested to see if it helps the issue with the GPU?
+Why remove this? I think it's still needed after your changes.
 
-adam
->
-> Thanks,
-> Frieder
->
-> >
-> > Regards,
-> > Lucas
-> >
-> >> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> >> ---
-> >>   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 29 ++++++++++++++++++++-----
-> >> --
-> >>   1 file changed, 22 insertions(+), 7 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> >> b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> >> index a31eeff2b297..23877c1f150a 100644
-> >> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> >> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> >> @@ -1775,13 +1775,6 @@ static int etnaviv_gpu_platform_probe(struct
-> >> platform_device *pdev)
-> >>              return gpu->irq;
-> >>      }
-> >>
-> >> -    err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
-> >> -                           dev_name(gpu->dev), gpu);
-> >> -    if (err) {
-> >> -            dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq,
-> >> err);
-> >> -            return err;
-> >> -    }
-> >> -
-> >>      /* Get Clocks: */
-> >>      gpu->clk_reg = devm_clk_get(&pdev->dev, "reg");
-> >>      DBG("clk_reg: %p", gpu->clk_reg);
-> >> @@ -1805,6 +1798,28 @@ static int etnaviv_gpu_platform_probe(struct
-> >> platform_device *pdev)
-> >>              gpu->clk_shader = NULL;
-> >>      gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
-> >>
-> >> +    /*
-> >> +     * On i.MX8MM there is an interrupt getting triggered
-> >> immediately
-> >> +     * after requesting the IRQ, which leads to a stall as the
-> >> handler
-> >> +     * accesses the GPU registers whithout the clock being enabled.
-> >> +     * Enabling the clocks briefly seems to clear the IRQ state, so
-> >> we do
-> >> +     * this here before requesting the IRQ.
-> >> +     */
-> >> +    err = etnaviv_gpu_clk_enable(gpu);
-> >> +    if (err)
-> >> +            return err;
-> >> +
-> >> +    err = etnaviv_gpu_clk_disable(gpu);
-> >> +    if (err)
-> >> +            return err;
-> >> +
-> >> +    err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
-> >> +                           dev_name(gpu->dev), gpu);
-> >> +    if (err) {
-> >> +            dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq,
-> >> err);
-> >> +            return err;
-> >> +    }
-> >> +
-> >>      /* TODO: figure out max mapped size */
-> >>      dev_set_drvdata(dev, gpu);
-> >>
-> >
+Regards,
+Nicolas
+
+
+--=-q7dZwA3wemW7oWhPS4wd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl6q+p0ACgkQlfZmHno8
+x/5Aewf/fIRt353bQjRQPXHvnCWvme3juReNuol1emq3w4qxjIbYk/3z6mE5Xqik
+N6cAGO+Hf35L5nhpW9qXpVTT3vbylYXIZ/OW5weQzIN+oKmUvJh+7FUwzl790OiU
+y2LJVs53mnmGErmkoTOkyoJNmDeft+FMuQ+105YbheOsgDY3XKDscjlwQgsk/Vx7
+/ELAtNxaNwm0lU2V6TfIgDaIDysRbkao9DtA1c97wG1O6lZAanouAfuIFR+8+xrz
+AYKm8KnHJXi4wRSh2BAjm0e3qX+/RaI9RNeT7Xq68tsLl4jbz673IXTuyETjVc0s
+Csb4+I6CCUbczBNHzKUO2UntZvTpdQ==
+=fDu0
+-----END PGP SIGNATURE-----
+
+--=-q7dZwA3wemW7oWhPS4wd--
+
+
+--===============0360708308==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0360708308==--
+
