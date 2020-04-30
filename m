@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B521C1BFBDD
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 16:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D13751BFC30
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 16:04:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E63F66E906;
-	Thu, 30 Apr 2020 14:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 663F06E90A;
+	Thu, 30 Apr 2020 14:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B9BB6E906
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 14:02:47 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id d17so7022807wrg.11
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 07:02:47 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF706E90A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 14:04:20 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id d17so7030147wrg.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 07:04:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=jiIaYsggpBakhnnkVBGSz6hk94HlfiIOcAoKKv2Pdv4=;
- b=RaBbh1/74+THrE0I7GBYuCU2D2ZyTALWrtlCwS014vR9U2ZTQ2c+yuPlvOa4MW8so8
- pCUHC2hWjhKygyps53np8y5eQme6MKti7DOj+7vWSSaGv06YBGI6zeNNy9AA21lcwQPS
- XT7vKMpETh14bxqnDsLRarkk/S4hiEyCrfd7w=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nR/4l2ev7gj1d0NQKfg0sKi3r/8R1EfLq6ZSdokkti0=;
+ b=CLNLKg0o0uOpdjN9IbzQj/op7l2SGyu1cc9+t8YOcCk1v915ZlhWA/CqJ5FrIOiG9r
+ x6iCMk9QkUl0bbJXAotNzObLcKX0Xb3ptTEm9gq12jm1aK0xWqkRGR8AIgQ5zkHR/b8E
+ aBXt2CmDzyqI5yyv3UTaMogkUZixMnLM0gWzc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=jiIaYsggpBakhnnkVBGSz6hk94HlfiIOcAoKKv2Pdv4=;
- b=CQ/NLCNzcA7diqRIFOTmBR8mPco2p3O+349b72/6kliFCgfK0SSUK19TAAPXX7RUAn
- OQd4+VYMtXts1zNSOIisKd/tucYXrvRPFFJwImzwgz6/6SamaZayshY749vzvarxs7WB
- 94Vqar54IwJOQVi7ifg1b0Fr7fLBj0fB11Elvq/LQwrkaRL52IUfud0TuYAY0KTvCQgy
- nl0eQzdVUMqR3yNNexBut/iG5Y+5vH7jFbIwjeDzRvyZ151mnY8FMSiPAEO50dSkG/Zb
- J/eTavaAkDChxbeJDpSfrJ59cylpOECYorgs/38OqDuKvxreONsSDMxxTsFkfoZWkwYj
- 5u/Q==
-X-Gm-Message-State: AGi0PuYe58OtQCtBr2+MXmy0BEPXOdd4rlr6uSBpO0CPd0EvForKM84h
- qhNCL5+HuugzfCTUP5idQYavVlYN0QY=
-X-Google-Smtp-Source: APiQypJ7g1twD4Ui5as4s0fdrh+ixOi5o4hbJUSnpWbZlMn/6MkO+MKUQclqQkHP4kH2mil3JygLgQ==
-X-Received: by 2002:a5d:458a:: with SMTP id p10mr3991201wrq.273.1588255365830; 
- Thu, 30 Apr 2020 07:02:45 -0700 (PDT)
+ bh=nR/4l2ev7gj1d0NQKfg0sKi3r/8R1EfLq6ZSdokkti0=;
+ b=Xskl9EAe5Nmm6El+To7G6gKtH7bMTbiUnm3ahc5MVCkr8Z3+AUIZ4CAQpWtkEMqvy6
+ 4JT/y1vjPjatz/Gt+BIEe/UQY5N7brjqZchVNCelPe8z0vqG4hDngVgp3oS+8l2SP/+/
+ ZbWZ+vAy/YUv/+2Gc7gz/LScWHhESCTp3FDNWs4jNAF9i6eujX9sadrVQaTDlPyCYGuD
+ PUirY6AA/iFYyEhUI7RVvG2j4OiZnng3riW05pDpzmQv2wf9y4PNLI+sAwXgiw1SIPhX
+ phJkQoiY4o5j7ALdmTrkjLtXGBZA/aXOdW0fppQt4asYfjOXnxKyQeBKIaDTUoeqBw1m
+ 0ugw==
+X-Gm-Message-State: AGi0PuZziSqFdJkwkm4AeIXgFIRR2TSOUY1RDbtjXHT+EPbVGow7dMPG
+ /LtybMasogNd2UF3q8mpTHF8wQ==
+X-Google-Smtp-Source: APiQypL0M5PkdpQFdPq72B3lypEZHvVXpjNaTNIr5PylaMj7pL4X2pMbQKG6KnwJtFVUx+06kk8Dvg==
+X-Received: by 2002:adf:fc11:: with SMTP id i17mr4613274wrr.152.1588255459228; 
+ Thu, 30 Apr 2020 07:04:19 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id r18sm4133635wrj.70.2020.04.30.07.02.44
+ by smtp.gmail.com with ESMTPSA id 17sm12146575wmo.2.2020.04.30.07.04.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 07:02:44 -0700 (PDT)
-Date: Thu, 30 Apr 2020 16:02:42 +0200
+ Thu, 30 Apr 2020 07:04:18 -0700 (PDT)
+Date: Thu, 30 Apr 2020 16:04:16 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 01/10] backlight: Add backlight_device_get_by_name()
-Message-ID: <20200430140242.GF10381@phenom.ffwll.local>
-References: <20200429124830.27475-1-noralf@tronnes.org>
- <20200429124830.27475-2-noralf@tronnes.org>
- <20200430083219.GC3118@dell>
- <0fbc4eb5-cb39-5974-85bb-9f13278ecab4@tronnes.org>
- <20200430101529.GB298816@dell>
+To: kl@kl.wtf
+Subject: Re: [PATCH v2] drm: make drm_file use keyed wakeups
+Message-ID: <20200430140416.GG10381@phenom.ffwll.local>
+Mail-Followup-To: kl@kl.wtf, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, airlied@linux.ie,
+ tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, linux-kernel@vger.kernel.org
+References: <20200428151410.GU3456981@phenom.ffwll.local>
+ <20200424162615.10461-1-kl@kl.wtf>
+ <e8d385dbfbbb09acfe58d716c588722c@kl.wtf>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200430101529.GB298816@dell>
+In-Reply-To: <e8d385dbfbbb09acfe58d716c588722c@kl.wtf>
 X-Operating-System: Linux phenom 5.4.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,63 +71,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBcHIgMzAsIDIwMjAgYXQgMTE6MTU6MjlBTSArMDEwMCwgTGVlIEpvbmVzIHdyb3Rl
-Ogo+IE9uIFRodSwgMzAgQXByIDIwMjAsIE5vcmFsZiBUcsO4bm5lcyB3cm90ZToKPiAKPiA+IAo+
-ID4gCj4gPiBEZW4gMzAuMDQuMjAyMCAxMC4zMiwgc2tyZXYgTGVlIEpvbmVzOgo+ID4gPiBPbiBX
-ZWQsIDI5IEFwciAyMDIwLCBOb3JhbGYgVHLDuG5uZXMgd3JvdGU6Cj4gPiA+IAo+ID4gPj4gQWRk
-IGEgd2F5IHRvIGxvb2t1cCBhIGJhY2tsaWdodCBkZXZpY2UgYmFzZWQgb24gaXRzIG5hbWUuCj4g
-PiA+PiBXaWxsIGJlIHVzZWQgYnkgYSBVU0IgZGlzcGxheSBnYWRnZXQgZ2V0dGluZyB0aGUgbmFt
-ZSBmcm9tIGNvbmZpZ2ZzLgo+ID4gPj4KPiA+ID4+IENjOiBMZWUgSm9uZXMgPGxlZS5qb25lc0Bs
-aW5hcm8ub3JnPgo+ID4gPj4gQ2M6IERhbmllbCBUaG9tcHNvbiA8ZGFuaWVsLnRob21wc29uQGxp
-bmFyby5vcmc+Cj4gPiA+PiBDYzogSmluZ29vIEhhbiA8amluZ29vaGFuMUBnbWFpbC5jb20+Cj4g
-PiA+PiBTaWduZWQtb2ZmLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4K
-PiA+ID4+IC0tLQo+ID4gPj4gIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L2JhY2tsaWdodC5jIHwg
-MjEgKysrKysrKysrKysrKysrKysrKysrCj4gPiA+PiAgaW5jbHVkZS9saW51eC9iYWNrbGlnaHQu
-aCAgICAgICAgICAgfCAgMSArCj4gPiA+PiAgMiBmaWxlcyBjaGFuZ2VkLCAyMiBpbnNlcnRpb25z
-KCspCj4gPiA+IAo+ID4gPiBPbmNlIHJldmlld2VkLCBjYW4gdGhpcyBwYXRjaCBiZSBhcHBsaWVk
-IG9uIGl0cyBvd24/Cj4gPiA+IAo+ID4gCj4gPiBJZiB5b3UgY2FuIGFwcGx5IGl0IGZvciA1Ljgs
-IHRoZW4gd2UncmUgZ29vZC4gRFJNIGhhcyBjdXRvZmYgYXQgLXJjNSBhbmQKPiA+IHRoZSBkcml2
-ZXIgd29uJ3QgYmUgcmVhZHkgZm9yIHRoYXQuIFRoaXMgcGF0Y2ggaGFzIHRoaXMgZGVwZW5kZW5j
-eQo+ID4gY2hhaW46IHVzYiAtPiBkcm0gLT4gYmFja2xpZ2h0LiBTbyBpZiB5b3UgY2FuIGFwcGx5
-IGl0IGZvciA1LjgsIHRoaW5ncwo+ID4gZ2V0cyBlYXNpZXIuCj4gPiAKPiA+ID4gTXkgZ3Vlc3Mg
-aXMgdGhhdCBpdCBjYW4ndCwgYXMgdGhlIG90aGVyIHBhdGNoZXMgaW4gdGhpcyBzZXQgZGVwZW5k
-IG9uCj4gPiA+IGl0LCByaWdodD8gIElmIHRoaXMgYXNzdW1wdGlvbiBpcyB0cnVlLCB5b3UgbmVl
-ZCB0byBzZW5kIG1lIHRoZSByZXN0Cj4gPiA+IG9mIHRoZSBzZXQuCj4gPiA+IAo+ID4gPiBGWUk6
-IEl0J3Mgbm9ybWFsbHkgYmV0dGVyIHRvIHNlbmQgdGhlIHdob2xlIHNldCB0byBldmVyeW9uZSwg
-YXMgaXQKPiA+ID4gcHJvdmlkZXMgdmlzaWJpbGl0eSBvbiBjdXJyZW50IHJldmlldyAob3IgbGFj
-ayB0aGVyZSBvZikgc3RhdHVzIG9mIHRoZQo+ID4gPiBvdGhlciBwYXRjaGVzIGFuZCBhbGxvd3Mg
-ZWFjaCBvZiB0aGUgbWFpbnRhaW5lcnMgdG8gZGlzY3VzcyBwb3NzaWJsZQo+ID4gPiBtZXJnZSBz
-dHJhdGVnaWVzLgoKVW5mb3J0dW5hdGVseSB0aGlzIGRvZXNuJ3QgaG9sZCB1bml2ZXJzYWxseSwg
-c2luY2Ugb25jZSB5b3UgY2MgdG9vIG1hbnkKcGVvcGxlIHNtdHAgc2VydmVycyBzdGFydCB0aHJv
-d2luZyB5b3VyIG1haWxzIGF3YXkuIEdlbmVyYWxseSBvbmx5IGhhcHBlbnMKZm9yIGJpZ2dlciBy
-ZWZhY3RvcmluZ3MsIHNvIHByZXR0eSBtdWNoIGFueW9uZSB3b3JraW5nIGNyb3NzLXRyZWUgZG9l
-c24ndApkbyB0aGlzIGJlY2F1c2UgaXQgZG9lc24ndCB3b3JrLgoKPiA+IGRyaS1kZXZlbCBpcyB0
-aGUgTUwgZm9yIGJhY2tsaWdodCBzbyBJIGFzc3VtZWQgeW91IGdvdCB0aGUgZnVsbCBzZXQuCj4g
-Cj4gZHJpLWRldmVsIGlzbid0IHRoZSBNTCBmb3IgQmFja2xpZ2h0LiAgSXQncyBhbiBpbnRlcmVz
-dGVkIHBhcnR5Lgo+IAo+IEkgY2VydGFpbmx5IGhhdmUgbm8gaW50ZW50aW9uIG9mIHN1YnNjcmli
-aW5nIHRvIGl0LgoKZHJpLWRldmVsIGlzIG9uIGxvcmUgc28gdGhhdCB5b3UgY2FuIGdyYWIgbWlz
-c2luZyBwYXRjaGVzLiBObyBuZWVkIHRvCnN1YnNjcmliZS4gSSd2ZSBvbmx5IG1hbmdlZCB0byBn
-ZXQgdGhpcyBzb3J0ZWQgcmVjZW50bHkgKGxhc3QgYXV0dW1uIG9yCnNvKSwgYnV0IGl0J3MgZmlu
-YWxseSBkb25lLgotRGFuaWVsCgo+ID4gSSBoYXZlIGhhZCB0cm91YmxlIGluIHRoZSBwYXN0IHdp
-dGggbXkgZW1haWwgcHJvdmlkZXIgZHJvcHBpbmcgcGFydHMgb2YKPiA+IGEgc2VyaWVzIHdoZW4g
-SSBoYWQgdG8gbWFueSByZWNpcGllbnRzLgo+IAo+IFdpdGhvdXQgdmlzaWJpbGl0eSBpbnRvIHRo
-ZSBvdGhlciBwYXRjaGVzIGluIHRoZSBzZXQsIHRoaW5ncyBiZWNvbWUKPiBtb3JlIGRpZmZpY3Vs
-dC4gIE1heWJlIHVzZSBhIGRpZmZlcmVudC9iZXR0ZXIgZW1haWwgcHJvdmlkZXIuCj4gCj4gLS0g
-Cj4gTGVlIEpvbmVzIFvmnY7nkLzmlq9dCj4gTGluYXJvIFNlcnZpY2VzIFRlY2huaWNhbCBMZWFk
-Cj4gTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFSTSBTb0NzCj4gRm9s
-bG93IExpbmFybzogRmFjZWJvb2sgfCBUd2l0dGVyIHwgQmxvZwo+IF9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+
-IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKLS0gCkRhbmllbCBWZXR0ZXIKU29m
-dHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Apr 29, 2020 at 11:19:07AM +0000, kl@kl.wtf wrote:
+> April 28, 2020 5:14 PM, "Daniel Vetter" <daniel@ffwll.ch> wrote:
+> 
+> > On Fri, Apr 24, 2020 at 06:26:15PM +0200, Kenny Levinsen wrote:
+> > 
+> >> Some processes, such as systemd, are only polling for EPOLLERR|EPOLLHUP.
+> >> As drm_file uses unkeyed wakeups, such a poll can receive many spurious
+> >> wakeups from uninteresting events if, for example, the file description
+> >> is subscribed to vblank events. This is the case with systemd, as it
+> >> polls a file description from logind that is shared with the users'
+> >> compositor.
+> >> 
+> >> Use keyed wakeups to allow the wakeup target to more efficiently discard
+> >> these uninteresting events.
+> >> 
+> >> Signed-off-by: Kenny Levinsen <kl@kl.wtf>
+> > 
+> > Hm I applied v1 and I'm not spotting what's different here, and there's no
+> > changelog explaining what changed ...
+> > 
+> > Please send a fixup if there's anything important missing.
+> > -Daniel
+> >
+> 
+> It's only the summary that differed as you and sravn requested in #dri-devel, so it's probably fine.
+> 
+> I should have explained the change. I'm still trying to get the hang of the email-based workflow. :)
+
+Oops sorry, I generally run as a stateless maintainer so forgot :-/
+
+And yes email based workflow is full of warts, it's a pain.
+-Daniel
+
+> 
+> Best regards,
+> Kenny Levinsen
+> 
+> >> ---
+> >> drivers/gpu/drm/drm_file.c | 6 ++++--
+> >> 1 file changed, 4 insertions(+), 2 deletions(-)
+> >> 
+> >> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> >> index c4c704e01961..ec25b3d979d9 100644
+> >> --- a/drivers/gpu/drm/drm_file.c
+> >> +++ b/drivers/gpu/drm/drm_file.c
+> >> @@ -608,7 +608,8 @@ ssize_t drm_read(struct file *filp, char __user *buffer,
+> >> file_priv->event_space -= length;
+> >> list_add(&e->link, &file_priv->event_list);
+> >> spin_unlock_irq(&dev->event_lock);
+> >> - wake_up_interruptible(&file_priv->event_wait);
+> >> + wake_up_interruptible_poll(&file_priv->event_wait,
+> >> + EPOLLIN | EPOLLRDNORM);
+> >> break;
+> >> }
+> >> 
+> >> @@ -804,7 +805,8 @@ void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e)
+> >> list_del(&e->pending_link);
+> >> list_add_tail(&e->link,
+> >> &e->file_priv->event_list);
+> >> - wake_up_interruptible(&e->file_priv->event_wait);
+> >> + wake_up_interruptible_poll(&e->file_priv->event_wait,
+> >> + EPOLLIN | EPOLLRDNORM);
+> >> }
+> >> EXPORT_SYMBOL(drm_send_event_locked);
+> >> 
+> >> --
+> >> 2.26.1
+> > 
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
