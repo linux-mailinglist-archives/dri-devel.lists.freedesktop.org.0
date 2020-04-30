@@ -1,43 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D736D1BFA14
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 15:51:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8471BFA60
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 15:53:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF77A6E8AE;
-	Thu, 30 Apr 2020 13:51:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 860B56E8BC;
+	Thu, 30 Apr 2020 13:53:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C84746E8AD
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 13:51:28 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0A6CB20870;
- Thu, 30 Apr 2020 13:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588254688;
- bh=Cqr8eghnHCwYfy32Xoq0YNy2OmKR9+KhkhznVTmFUrU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fMcubvc8GukPEp3T1mbZgM57bfT8h2QjojkAw64UCdEe+2pijxuptDsD2EySZIu5s
- UBn9Z14lRJqXN24oA42qEGy2K0qGI08+F6bmti4P16yII2G2N7oXllOMgj1sTrZ+BJ
- A9vlwlWCH/30klDSJ+7YeR+Hf6OYjSceQ0Bq76sM=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 39/79] drm/amdgpu: Correctly initialize thermal
- controller for GPUs with Powerplay table v0 (e.g Hawaii)
-Date: Thu, 30 Apr 2020 09:50:03 -0400
-Message-Id: <20200430135043.19851-39-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200430135043.19851-1-sashal@kernel.org>
-References: <20200430135043.19851-1-sashal@kernel.org>
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
+ [IPv6:2607:f8b0:4864:20::a41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56F886E8B5;
+ Thu, 30 Apr 2020 13:53:10 +0000 (UTC)
+Received: by mail-vk1-xa41.google.com with SMTP id d6so1747594vko.4;
+ Thu, 30 Apr 2020 06:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xLM3Mk937Oh+kSeDjRFBcaol/6OjmOkPDKlDAfcwvms=;
+ b=d/0KYkPsRQZIFji7RHbv+zDuqMn9lY3U5VspdIt6/Qytf7FyHShQqWB5Jst04edgKY
+ MD+RBVoHPHClv0JwWjKokUQGkAQ2ShPGa9xRat0uuyao7ALfBcwH+oRgvFShjDeNH0wv
+ IGpqzWW212ZaEfDkdygW+IMIaKUoELVTjFT/B4JJ3XHvvRqKD4IvXG0JdZf84JTam1a5
+ KEiOEhxhcnmwDZwvn8SKjL7AsDje3FPgcLVFFyS+14DJUHu9oHZD2PDdmiBsz0Ku7eyt
+ A6BuwA2PFLzXUzDD5W7sYvZ2IGwCnFuVUbyFhKJLsZpslb4OeThDgMbViimbUu3RFaE3
+ Gu5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xLM3Mk937Oh+kSeDjRFBcaol/6OjmOkPDKlDAfcwvms=;
+ b=bshKgKUURwxuZnD+69YsfBxHbUPXZS3Xi7pBvk3/9WwjtU+wLfcqQyz8RRcFQFbpQT
+ sE/EAXVabmyoO2M8I4sL6dgbNJi/C4AKbLhqw68RSLzezdz60yFqw5+OneHyO7sMJvap
+ dvtF/JRlpN30YeYSbYQJhRWzu1TNGHGxch1enLkccjjaeZo6hPw1hbCJqtFNMwv5vCda
+ cN0ceMbMzLFDa5LDQeTPytdKjbmKj9bIGpWmOcqtvabJ3cfwuehYrhTqV9sfBspzZ4MZ
+ jc0XJRPGY6pO5vAcZt8jYQr191yhoijtpzXASufb4byMA43yURq+rTKb6JOM6/06ltDb
+ 20hQ==
+X-Gm-Message-State: AGi0PuYu+tSbtXdNPb+LarVPu4tDzqNO3DwVDqjUDkXe8ytWEI0hN0r8
+ maPorXhvk2oMsDuITM53m9y6T6wFD8TTVQLiLNLD9w==
+X-Google-Smtp-Source: APiQypL8FdYx+IepK+fZasytNcJzkFUdJwL9ep2fcm73mD4M8IUe//OPkYH2aip9Pf10044EI7pPLksy8fwXgwaaEB4=
+X-Received: by 2002:a05:6122:12a:: with SMTP id
+ a10mr2526587vko.51.1588254789448; 
+ Thu, 30 Apr 2020 06:53:09 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+References: <20200428171940.19552-1-ville.syrjala@linux.intel.com>
+ <20200428171940.19552-17-ville.syrjala@linux.intel.com>
+In-Reply-To: <20200428171940.19552-17-ville.syrjala@linux.intel.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Thu, 30 Apr 2020 14:50:52 +0100
+Message-ID: <CACvgo50i8sqhDAyWawcaPUSd=GkKLFWJ_DVSHeq8UvJBh3OwRQ@mail.gmail.com>
+Subject: Re: [PATCH v3 16/16] drm: Replace mode->export_head with a boolean
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,67 +62,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Sandeep Raghuraman <sandy.8925@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sandeep Raghuraman <sandy.8925@gmail.com>
+Hi Ville
 
-[ Upstream commit bbc25dadc7ed19f9d6b2e30980f0eb4c741bb8bf ]
+I don't fully grok the i915 changes to provide meaningful review.
+There are couple of small comments below, but regardless of those
 
-Initialize thermal controller fields in the PowerPlay table for Hawaii
-GPUs, so that fan speeds are reported.
+Patches 01-11 and 14-16 are:
+Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
 
-Signed-off-by: Sandeep Raghuraman <sandy.8925@gmail.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../drm/amd/powerplay/hwmgr/processpptables.c | 26 +++++++++++++++++++
- 1 file changed, 26 insertions(+)
+On Tue, 28 Apr 2020 at 18:20, Ville Syrjala
+<ville.syrjala@linux.intel.com> wrote:
 
-diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c b/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
-index 77c14671866c0..719597c5d27d9 100644
---- a/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
-+++ b/drivers/gpu/drm/amd/powerplay/hwmgr/processpptables.c
-@@ -984,6 +984,32 @@ static int init_thermal_controller(
- 			struct pp_hwmgr *hwmgr,
- 			const ATOM_PPLIB_POWERPLAYTABLE *powerplay_table)
- {
-+	hwmgr->thermal_controller.ucType =
-+			powerplay_table->sThermalController.ucType;
-+	hwmgr->thermal_controller.ucI2cLine =
-+			powerplay_table->sThermalController.ucI2cLine;
-+	hwmgr->thermal_controller.ucI2cAddress =
-+			powerplay_table->sThermalController.ucI2cAddress;
-+
-+	hwmgr->thermal_controller.fanInfo.bNoFan =
-+		(0 != (powerplay_table->sThermalController.ucFanParameters &
-+			ATOM_PP_FANPARAMETERS_NOFAN));
-+
-+	hwmgr->thermal_controller.fanInfo.ucTachometerPulsesPerRevolution =
-+		powerplay_table->sThermalController.ucFanParameters &
-+		ATOM_PP_FANPARAMETERS_TACHOMETER_PULSES_PER_REVOLUTION_MASK;
-+
-+	hwmgr->thermal_controller.fanInfo.ulMinRPM
-+		= powerplay_table->sThermalController.ucFanMinRPM * 100UL;
-+	hwmgr->thermal_controller.fanInfo.ulMaxRPM
-+		= powerplay_table->sThermalController.ucFanMaxRPM * 100UL;
-+
-+	set_hw_cap(hwmgr,
-+		   ATOM_PP_THERMALCONTROLLER_NONE != hwmgr->thermal_controller.ucType,
-+		   PHM_PlatformCaps_ThermalController);
-+
-+	hwmgr->thermal_controller.use_hw_fan_control = 1;
-+
- 	return 0;
- }
- 
--- 
-2.20.1
+> The downside is that drm_mode_expose_to_userspace() gets to
+> iterate a few more modes. It already was O(n^2), now it's
+> a slightly worse O(n^2).
+>
+Personally I'd drop the O() sentence, or change it to
+It already was O(n^2), now it's slightly worse O((n+y)^2).
 
+> Another alternative would be a temp bitmask so we wouldn't have
+> to have anything in the mode struct itself. The main issue is
+> how large of a bitmask do we need? I guess we could allocate
+> it dynamically but that means an extra kcalloc() and an extra
+> loop through the modes to count them first (or grow the bitmask
+> with krealloc() as needed).
+>
+If the walk is even remotely close to being an issue, we could
+consider the bitmask.
+I don't think that's the case yet.
+
+
+Hmm the original code never discards any entries from export_head.
+I wonder if there's some corner case where we could end with an "old"
+mode showing in the list?
+
+For example:
+- creates a user mode via drmModeCreatePropertyBlob()
+- calls drmModeGetConnector() and sees their mode
+- optional (?) does a modeset to and away from said mode
+- removes their blob drmModeDestroyPropertyBlob()
+- calls drmModeGetConnector() and still sees their removed mode.
+
+If this is a bug (?) that we care about, we might want to add an igt
+test for it.
+Conversely, if this is a behaviour we want to keep this patch needs some work.
+
+HTH
+
+Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
