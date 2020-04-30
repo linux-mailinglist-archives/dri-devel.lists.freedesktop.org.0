@@ -1,64 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E88401C0087
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 17:38:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D15131C00AC
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 17:43:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E41716E923;
-	Thu, 30 Apr 2020 15:38:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78C096E926;
+	Thu, 30 Apr 2020 15:43:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
- [IPv6:2607:f8b0:4864:20::f42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAD0F6E922
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 15:38:31 +0000 (UTC)
-Received: by mail-qv1-xf42.google.com with SMTP id di6so3193472qvb.10
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 08:38:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=P9HhjXHjgQ2uRdTOdCGFRzrISVJUe9hHihb1s6U+pG0=;
- b=EBCfRCyNsTlDJFaRQRt4ZOByXKwsez2d0WVoOUVj0uyzY2FQjjUArA4Cdr92cMp5yy
- 00zTxOzpBt6C0OXx4Ubu0BX+XEnhoymU29QAZiSeYC1TaiquQ6Guo8m/i8tGqEPIt2Yt
- upoTJJeeNPy2dAk4ETUD4kl9Dplk18J7ntJnI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=P9HhjXHjgQ2uRdTOdCGFRzrISVJUe9hHihb1s6U+pG0=;
- b=QAMNsm8m6sM+a/Db0z2jY73TPdcyS/Q/XG8aof1hG1NOWyjGg0rRIMuzjJexiQgWB8
- 8KZlAiQfiJ5Jhi0TuDFhDYckokXgmnfro+AWfWnaerlYqGyrIiwg91g8wN11nBLtNseY
- g7UnG1tpIcJC/xebN85aZ7S68IlYTXXNKMSubJyD4H7pXCk9vTBbKvStdjfIvhjch9Cv
- baXZ3WjTzwdrRC3lCYMTRslcNgWhVOLGJVG5bwG6abYNK0g8OXnz1RszCV9ivD0L5h6A
- XIEA4IPJIJYUuOaQzuVABw6J37CmmA1pJK0wEfIyLkDE/qEB+9p9HxbKCSXo//020FRY
- eAGw==
-X-Gm-Message-State: AGi0PuYr9oAe4RsEcGYDYWLMlky/uzHqDMttS+/FCiEca0FmBKv35J81
- YHAv+YL5GW4rItoZTh56EyB5B/donlE=
-X-Google-Smtp-Source: APiQypIlHgELMg3gI6v8wQcgLZ1t1xfv/i44Um2VWReKXr/8xTiog9B7j+zOe7rf9zL2+m4PdVUC4Q==
-X-Received: by 2002:a05:6214:9ce:: with SMTP id
- dp14mr3707262qvb.142.1588261109848; 
- Thu, 30 Apr 2020 08:38:29 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
- [209.85.219.174])
- by smtp.gmail.com with ESMTPSA id g133sm246102qke.73.2020.04.30.08.38.27
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Apr 2020 08:38:28 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id o139so3392499ybc.11
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 08:38:27 -0700 (PDT)
-X-Received: by 2002:a5b:483:: with SMTP id n3mr6464401ybp.519.1588261107424;
- Thu, 30 Apr 2020 08:38:27 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46BEF6E926
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 15:43:55 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E50CF321;
+ Thu, 30 Apr 2020 17:43:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1588261433;
+ bh=Do32UHrdQBqNNKFRv503Sk7LGrGsjlplh+T+mU5OPas=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Zlhsteij7qegRRtqdJjIZ/xX58tXpejHGAAliwDgoDvHlxNeCzN6FrTQZjBSoado0
+ c6s2hCl52MNylAnF7PfGA10K480U5oeauDy1BVp5M20gf2IRxupd+iuIfI8HSKB26Z
+ w61OeyTwMMiCEdjjCpzPKPafr3UNsdch8yHR8iH0=
+Date: Thu, 30 Apr 2020 18:43:51 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Vincent Whitchurch <vincent.whitchurch@axis.com>
+Subject: Re: [PATCH v2] drm/bridge: adv7511: Fix cec clock EPROBE_DEFER
+ handling
+Message-ID: <20200430154351.GN5856@pendragon.ideasonboard.com>
+References: <20200430115439.9649-1-vincent.whitchurch@axis.com>
 MIME-Version: 1.0
-References: <1588093804-30446-1-git-send-email-michalorzel.eng@gmail.com>
- <875zdiacv2.fsf@intel.com>
-In-Reply-To: <875zdiacv2.fsf@intel.com>
-From: Sean Paul <seanpaul@chromium.org>
-Date: Thu, 30 Apr 2020 11:37:49 -0400
-X-Gmail-Original-Message-ID: <CAOw6vbK69aWzti9a7MXNmAfVfJXzzC5g74p4ukSE49MhaV_b3g@mail.gmail.com>
-Message-ID: <CAOw6vbK69aWzti9a7MXNmAfVfJXzzC5g74p4ukSE49MhaV_b3g@mail.gmail.com>
-Subject: Re: [PATCH] drm: Replace drm_modeset_lock/unlock_all with
- DRM_MODESET_LOCK_ALL_* helpers
-To: Jani Nikula <jani.nikula@linux.intel.com>
+Content-Disposition: inline
+In-Reply-To: <20200430115439.9649-1-vincent.whitchurch@axis.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,101 +46,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, Dave Airlie <airlied@linux.ie>,
- Michal Orzel <michalorzel.eng@gmail.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, narmstrong@baylibre.com,
+ dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl, a.hajda@samsung.com,
+ kernel@axis.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 29, 2020 at 4:57 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
->
-> On Tue, 28 Apr 2020, Michal Orzel <michalorzel.eng@gmail.com> wrote:
-> > As suggested by the TODO list for the kernel DRM subsystem, replace
-> > the deprecated functions that take/drop modeset locks with new helpers.
-> >
-> > Signed-off-by: Michal Orzel <michalorzel.eng@gmail.com>
-> > ---
-> >  drivers/gpu/drm/drm_mode_object.c | 10 ++++++----
-> >  1 file changed, 6 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-> > index 35c2719..901b078 100644
-> > --- a/drivers/gpu/drm/drm_mode_object.c
-> > +++ b/drivers/gpu/drm/drm_mode_object.c
-> > @@ -402,12 +402,13 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
-> >  {
-> >       struct drm_mode_obj_get_properties *arg = data;
-> >       struct drm_mode_object *obj;
-> > +     struct drm_modeset_acquire_ctx ctx;
-> >       int ret = 0;
-> >
-> >       if (!drm_core_check_feature(dev, DRIVER_MODESET))
-> >               return -EOPNOTSUPP;
-> >
-> > -     drm_modeset_lock_all(dev);
-> > +     DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
->
-> I cry a little every time I look at the DRM_MODESET_LOCK_ALL_BEGIN and
-> DRM_MODESET_LOCK_ALL_END macros. :(
->
-> Currently only six users... but there are ~60 calls to
-> drm_modeset_lock_all{,_ctx} that I presume are to be replaced. I wonder
-> if this will come back and haunt us.
->
+Hi Vincent,
 
-What's the alternative? Seems like the options without the macros is
-to use incorrect scope or have a bunch of retry/backoff cargo-cult
-everywhere (and hope the copy source is done correctly).
+Thank you for the patch.
 
-Sean
+On Thu, Apr 30, 2020 at 01:54:39PM +0200, Vincent Whitchurch wrote:
+> If adv7511's devm_clk_get() for the cec clock returns -EPROBE_DEFER, we
+> end up in an infinite probe loop.  This happens:
+> 
+>  (1) adv7511's probe is called.
+> 
+>  (2) adv7511's probe adds some secondary i2c devices which bind to the
+>  dummy driver and thus call driver_deferred_probe_trigger() and
+>  increment deferred_trigger_count (see driver_bound()).
+> 
+>  (3) adv7511's probe returns -EPROBE_DEFER, and since the
+>  deferred_trigger_count has changed during the probe call,
+>  driver_deferred_probe_trigger() is called immediately (see
+>  really_probe()) and adv7511's probe is scheduled.
+> 
+>  (4) Goto step 1.
+> 
+> [   61.972915] really_probe: bus: 'i2c': really_probe: probing driver adv7511 with device 0-0039
+> [   61.992734] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-003f
+> [   61.993343] driver_bound: driver: 'dummy': driver_bound: bound to device '0-003f'
+> [   61.993626] really_probe: bus: 'i2c': really_probe: bound device 0-003f to driver dummy
+> [   61.995604] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-0038
+> [   61.996381] driver_bound: driver: 'dummy': driver_bound: bound to device '0-0038'
+> [   61.996663] really_probe: bus: 'i2c': really_probe: bound device 0-0038 to driver dummy
+> [   61.998651] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-003c
+> [   61.999222] driver_bound: driver: 'dummy': driver_bound: bound to device '0-003c'
+> [   61.999496] really_probe: bus: 'i2c': really_probe: bound device 0-003c to driver dummy
+> [   62.010050] really_probe: i2c 0-0039: Driver adv7511 requests probe deferral
+> [   62.011380] really_probe: bus: 'platform': really_probe: probing driver pwm-clock with device clock-cec
+> [   62.012812] really_probe: platform clock-cec: Driver pwm-clock requests probe deferral
+> [   62.024679] really_probe: bus: 'i2c': really_probe: probing driver adv7511 with device 0-0039
+> 
+> Fix this by calling devm_clk_get() before registering the secondary
+> devices.
+> 
+> Signed-off-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
+> ---
+> v2: Add devm_clk_put() in error path.
+> 
+>  drivers/gpu/drm/bridge/adv7511/adv7511_cec.c | 31 ++++++++------------
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 11 +++++--
+>  2 files changed, 21 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+> index a20a45c0b353..f5e9d0b238d2 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+> @@ -286,28 +286,17 @@ static const struct cec_adap_ops adv7511_cec_adap_ops = {
+>  	.adap_transmit = adv7511_cec_adap_transmit,
+>  };
+>  
+> -static int adv7511_cec_parse_dt(struct device *dev, struct adv7511 *adv7511)
+> -{
+> -	adv7511->cec_clk = devm_clk_get(dev, "cec");
+> -	if (IS_ERR(adv7511->cec_clk)) {
+> -		int ret = PTR_ERR(adv7511->cec_clk);
+> -
+> -		adv7511->cec_clk = NULL;
+> -		return ret;
+> -	}
+> -	clk_prepare_enable(adv7511->cec_clk);
+> -	adv7511->cec_clk_freq = clk_get_rate(adv7511->cec_clk);
+> -	return 0;
+> -}
+> -
+>  int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+>  {
+>  	unsigned int offset = adv7511->type == ADV7533 ?
+>  						ADV7533_REG_CEC_OFFSET : 0;
+> -	int ret = adv7511_cec_parse_dt(dev, adv7511);
+> +	int ret;
+>  
+> -	if (ret)
+> -		goto err_cec_parse_dt;
+> +	if (!adv7511->cec_clk)
+> +		goto err_cec_no_clock;
+> +
+> +	clk_prepare_enable(adv7511->cec_clk);
+> +	adv7511->cec_clk_freq = clk_get_rate(adv7511->cec_clk);
+>  
+>  	adv7511->cec_adap = cec_allocate_adapter(&adv7511_cec_adap_ops,
+>  		adv7511, dev_name(dev), CEC_CAP_DEFAULTS, ADV7511_MAX_ADDRS);
+> @@ -342,8 +331,12 @@ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+>  err_cec_alloc:
+>  	dev_info(dev, "Initializing CEC failed with error %d, disabling CEC\n",
+>  		 ret);
+> -err_cec_parse_dt:
+> +	clk_disable_unprepare(adv7511->cec_clk);
+> +	devm_clk_put(dev, adv7511->cec_clk);
+> +	/* Ensure that adv7511_remove() doesn't attempt to disable it again. */
+> +	adv7511->cec_clk = NULL;
+> +err_cec_no_clock:
+>  	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL + offset,
+>  		     ADV7511_CEC_CTRL_POWER_DOWN);
+> -	return ret == -EPROBE_DEFER ? ret : 0;
+> +	return 0;
 
-> BR,
-> Jani.
->
->
-> >
-> >       obj = drm_mode_object_find(dev, file_priv, arg->obj_id, arg->obj_type);
-> >       if (!obj) {
-> > @@ -427,7 +428,7 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
-> >  out_unref:
-> >       drm_mode_object_put(obj);
-> >  out:
-> > -     drm_modeset_unlock_all(dev);
-> > +     DRM_MODESET_LOCK_ALL_END(ctx, ret);
-> >       return ret;
-> >  }
-> >
-> > @@ -449,12 +450,13 @@ static int set_property_legacy(struct drm_mode_object *obj,
-> >  {
-> >       struct drm_device *dev = prop->dev;
-> >       struct drm_mode_object *ref;
-> > +     struct drm_modeset_acquire_ctx ctx;
-> >       int ret = -EINVAL;
-> >
-> >       if (!drm_property_change_valid_get(prop, prop_value, &ref))
-> >               return -EINVAL;
-> >
-> > -     drm_modeset_lock_all(dev);
-> > +     DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
-> >       switch (obj->type) {
-> >       case DRM_MODE_OBJECT_CONNECTOR:
-> >               ret = drm_connector_set_obj_prop(obj, prop, prop_value);
-> > @@ -468,7 +470,7 @@ static int set_property_legacy(struct drm_mode_object *obj,
-> >               break;
-> >       }
-> >       drm_property_change_valid_put(prop, ref);
-> > -     drm_modeset_unlock_all(dev);
-> > +     DRM_MODESET_LOCK_ALL_END(ctx, ret);
-> >
-> >       return ret;
-> >  }
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+If this function can't fail anymore, I would make it void. With that,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  }
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> index 9e13e466e72c..ebc548e23ece 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -1122,6 +1122,15 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+>  	if (ret)
+>  		return ret;
+>  
+> +	adv7511->cec_clk = devm_clk_get(dev, "cec");
+> +	if (IS_ERR(adv7511->cec_clk)) {
+> +		ret = PTR_ERR(adv7511->cec_clk);
+> +		if (ret == -EPROBE_DEFER)
+> +			return ret;
+> +
+> +		adv7511->cec_clk = NULL;
+> +	}
+> +
+>  	ret = adv7511_init_regulators(adv7511);
+>  	if (ret) {
+>  		dev_err(dev, "failed to init regulators\n");
+> @@ -1226,8 +1235,6 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+>  
+>  err_unregister_cec:
+>  	i2c_unregister_device(adv7511->i2c_cec);
+> -	if (adv7511->cec_clk)
+> -		clk_disable_unprepare(adv7511->cec_clk);
+>  err_i2c_unregister_packet:
+>  	i2c_unregister_device(adv7511->i2c_packet);
+>  err_i2c_unregister_edid:
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
